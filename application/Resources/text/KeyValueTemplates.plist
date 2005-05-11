@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>BBSList - IndentationPerLevel</key>
+	<integer>16</integer>
+	<key>BBSList - IntercellSpacing</key>
+	<string>{3.0, 2.0}</string>
+	<key>BBSList - RowHeight</key>
+	<integer>16</integer>
+	<key>BBSList - ShowsToolTip</key>
+	<integer>0</integer>
+	<key>Browser - BoardSheetMask</key>
+	<integer>524288</integer>
+	<key>Browser - ListViewAction</key>
+	<string>selectThread:</string>
+	<key>Browser - ListViewDoubleAction</key>
+	<string>openSelectedThreads:</string>
+	<key>Browser - UseIncrementalSearch</key>
+	<integer>1</integer>
+	<key>Browser - WindowTitleFormat</key>
+	<string>%%%BBSName%%% - %%%ThreadTitle%%%</string>
+	<key>Favorites - MaxCountForPool</key>
+	<integer>40</integer>
+	<key>History - Limit(Board)</key>
+	<integer>10</integer>
+	<key>History - Limit(SearchList)</key>
+	<integer>5</integer>
+	<key>History - Limit(Thread)</key>
+	<integer>20</integer>
+	<key>PopUp - BecomesKeyOnlyIfNeeded</key>
+	<integer>1</integer>
+	<key>PopUp - BorderType</key>
+	<integer>0</integer>
+	<key>PopUp - FloatingPanel</key>
+	<integer>1</integer>
+	<key>PopUp - HasShadow</key>
+	<integer>1</integer>
+	<key>PopUp - MaxWidthReductionRate</key>
+	<real>0.69999999999999996</real>
+	<key>PopUp - TextInset</key>
+	<string>{5, 5}</string>
+	<key>PopUp - TimeWeight</key>
+	<real>0.080000000000000002</real>
+	<key>PopUp - TrackingInsetWidth</key>
+	<integer>5</integer>
+	<key>PopUp - WindowAlphaValue</key>
+	<real>0.87</real>
+	<key>System - 2channel Auth URL</key>
+	<string>https://2chv.tora3.net/futen.cgi</string>
+	<key>System - 2channel Register URL</key>
+	<string>http://2ch.tora3.net/</string>
+	<key>System - AvailableURLCFEncodings</key>
+	<array>
+		<integer>1056</integer>
+		<integer>1</integer>
+		<integer>2561</integer>
+		<integer>2336</integer>
+	</array>
+	<key>System - be2ch Profile URL</key>
+	<string>http://be.2ch.net/test/p.php?i=%@&amp;u=d:%@</string>
+	<key>System - be2ch Register URL</key>
+	<string>http://be.2ch.net/</string>
+	<key>Thread - CopyThreadFormat</key>
+	<string>%%%ThreadTitle%%%
+%%%ThreadURL%%%
+</string>
+	<key>Thread - DateDescription</key>
+	<string>%y/%m/%d%a %H:%M:%S</string>
+	<key>Thread - FieldSeparater</key>
+	<string>：</string>
+	<key>Thread - FirstVisible</key>
+	<string>1</string>
+	<key>Thread - GoogleQuery</key>
+	<string>http://www.google.com/search?q=%%%Query%%%&amp;ie=UTF-8&amp;oe=UTF-8</string>
+	<key>Thread - Host Format</key>
+	<string>[ %@ ]</string>
+	<key>Thread - IndexFormat</key>
+	<string>%u</string>
+	<key>Thread - LastVisible</key>
+	<integer>50</integer>
+	<key>Thread - LaunchExternalProgramOnPreviewLink</key>
+	<integer>0</integer>
+	<key>Thread - MailIconAlignment</key>
+	<integer>5</integer>
+	<key>Thread - MessageFooter</key>
+	<string>
+</string>
+	<key>Thread - MessageHeader</key>
+	<string>
+</string>
+	<key>Thread - MouseDownTrackingTime</key>
+	<real>0.69999999999999996</real>
+	<key>Thread - On-The-Fly MessageCount</key>
+	<integer>20</integer>
+	<key>Thread - OpenLinkInBackGround</key>
+	<integer>0</integer>
+	<key>Thread - QuietDeletion</key>
+	<integer>0</integer>
+</dict>
+</plist>

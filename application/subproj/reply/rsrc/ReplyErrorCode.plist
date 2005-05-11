@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key></key>
+	<integer>2</integer>
+	<key>302 Found</key>
+	<integer>0</integer>
+	<key>check</key>
+	<integer>8</integer>
+	<key>cookie</key>
+	<integer>6</integer>
+	<key>error</key>
+	<integer>2</integer>
+	<key>false</key>
+	<integer>8</integer>
+	<key>クッキー確認！</key>
+	<integer>6</integer>
+	<key>データがありません。</key>
+	<integer>1</integer>
+	<key>二重書き込み</key>
+	<integer>7</integer>
+	<key>名前いれてちょ</key>
+	<integer>4</integer>
+	<key>投稿確認</key>
+	<integer>3</integer>
+	<key>書きこみました。</key>
+	<integer>0</integer>
+	<key>書きこみました。。。</key>
+	<integer>0</integer>
+	<key>本文がありません。</key>
+	<integer>5</integer>
+	<key>注意事項</key>
+	<integer>8</integer>
+	<key>ＥＲＲＯＲ！</key>
+	<integer>2</integer>
+</dict>
+</plist>

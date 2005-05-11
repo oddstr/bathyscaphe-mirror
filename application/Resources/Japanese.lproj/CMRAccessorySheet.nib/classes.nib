@@ -1,0 +1,14 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {close = id; }; 
+            CLASS = CMRBBSListSheetController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"m_closeButton" = NSButton; "m_contentView" = NSView; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }
+    ); 
+    IBVersion = 1; 
+}

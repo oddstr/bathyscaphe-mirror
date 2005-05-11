@@ -1,0 +1,20 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = SGBackgroundSurfaceView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {CLASS = SGPrivateClearTextButton; LANGUAGE = ObjC; SUPERCLASS = NSButton; }, 
+        {
+            ACTIONS = {clearText = id; }; 
+            CLASS = SGTextAccessoryFieldController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "m_backgroundView" = SGBackgroundSurfaceView; 
+                "m_clearButton" = NSButton; 
+                "m_componentView" = NSView; 
+                "m_textField" = NSTextField; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>Contents Alignment</key>
+		<integer>1</integer>
+		<key>Editable</key>
+		<false/>
+		<key>Identifier</key>
+		<string>Status</string>
+		<key>Max Width</key>
+		<integer>18</integer>
+		<key>Min Width</key>
+		<integer>18</integer>
+		<key>Resizable</key>
+		<false/>
+		<key>Title</key>
+		<string>ステータス</string>
+		<key>Title Alignment</key>
+		<integer>1</integer>
+		<key>Width</key>
+		<integer>18</integer>
+	</dict>
+	<dict>
+		<key>Contents Alignment</key>
+		<integer>1</integer>
+		<key>Editable</key>
+		<false/>
+		<key>Identifier</key>
+		<string>Number</string>
+		<key>Max Width</key>
+		<integer>40</integer>
+		<key>Min Width</key>
+		<integer>40</integer>
+		<key>Resizable</key>
+		<false/>
+		<key>Title</key>
+		<string>番号</string>
+		<key>Title Alignment</key>
+		<integer>1</integer>
+		<key>Width</key>
+		<integer>40</integer>
+	</dict>
+	<dict>
+		<key>Contents Alignment</key>
+		<integer>0</integer>
+		<key>Editable</key>
+		<false/>
+		<key>Identifier</key>
+		<string>Title</string>
+		<key>Max Width</key>
+		<integer>1000</integer>
+		<key>Min Width</key>
+		<integer>100</integer>
+		<key>Resizable</key>
+		<true/>
+		<key>Title</key>
+		<string>タイトル</string>
+		<key>Title Alignment</key>
+		<integer>0</integer>
+		<key>Width</key>
+		<integer>229</integer>
+	</dict>
+	<dict>
+		<key>Contents Alignment</key>
+		<integer>1</integer>
+		<key>Editable</key>
+		<false/>
+		<key>Identifier</key>
+		<string>Count</string>
+		<key>Max Width</key>
+		<integer>1000</integer>
+		<key>Min Width</key>
+		<integer>40</integer>
+		<key>Resizable</key>
+		<true/>
+		<key>Title</key>
+		<string>既得数</string>
+		<key>Title Alignment</key>
+		<integer>1</integer>
+		<key>Width</key>
+		<integer>60</integer>
+	</dict>
+	<dict>
+		<key>Contents Alignment</key>
+		<integer>1</integer>
+		<key>Editable</key>
+		<false/>
+		<key>Identifier</key>
+		<string>NewCount</string>
+		<key>Max Width</key>
+		<integer>1000</integer>
+		<key>Min Width</key>
+		<integer>40</integer>
+		<key>Resizable</key>
+		<true/>
+		<key>Title</key>
+		<string>レス数</string>
+		<key>Title Alignment</key>
+		<integer>1</integer>
+		<key>Width</key>
+		<integer>60</integer>
+	</dict>
+	<dict>
+		<key>Contents Alignment</key>
+		<integer>1</integer>
+		<key>Editable</key>
+		<false/>
+		<key>Identifier</key>
+		<string>Updated Count</string>
+		<key>Max Width</key>
+		<integer>1000</integer>
+		<key>Min Width</key>
+		<integer>30</integer>
+		<key>Resizable</key>
+		<true/>
+		<key>Title</key>
+		<string>差分</string>
+		<key>Title Alignment</key>
+		<integer>1</integer>
+		<key>Width</key>
+		<integer>60</integer>
+	</dict>
+	<dict>
+		<key>Contents Alignment</key>
+		<integer>0</integer>
+		<key>Editable</key>
+		<false/>
+		<key>Identifier</key>
+		<string>ModifiedDate</string>
+		<key>Max Width</key>
+		<integer>1000</integer>
+		<key>Min Width</key>
+		<integer>40</integer>
+		<key>Resizable</key>
+		<true/>
+		<key>Title</key>
+		<string>更新日</string>
+		<key>Title Alignment</key>
+		<integer>0</integer>
+		<key>Width</key>
+		<integer>98</integer>
+	</dict>
+</array>
+</plist>

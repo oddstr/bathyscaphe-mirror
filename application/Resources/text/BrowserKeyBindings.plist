@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>&lt;CarriageReturn&gt;</key>
+	<string>showSelectedThread:</string>
+	<key>&lt;Delete&gt;</key>
+	<string>deleteThread:</string>
+	<key>@&lt;DownArrow&gt;</key>
+	<string>scrollRowToEnd:</string>
+	<key>@&lt;UpArrow&gt;</key>
+	<string>scrollRowToTop:</string>
+</dict>
+</plist>

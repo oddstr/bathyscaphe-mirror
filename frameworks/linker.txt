@@ -1,0 +1,16 @@
+SGFoundation:
+-seg1addr 0x31000000
+
+SGNetwork:
+-seg1addr 0x31840000
+
+CocoMonar:
+-seg1addr 0x31900000
+
+SGAppKit:
+-seg1addr 0x31960000
+
+Aysle
+-seg1addr 0x31ab0000
+
+% libtool -dynamic -o libsqlite.dylib -prebind -seg1addr 0x31ab0000 -install_name "`echo "@executable_path/../Frameworks/libsqlite.dylib"`" -lgcc -lSystem *.o

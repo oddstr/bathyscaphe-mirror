@@ -1,0 +1,22 @@
+{
+    IBClasses = (
+        {
+            CLASS = CMXMenuHolder; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"_menu" = NSMenu; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                changeMessageAttributes = id; 
+                messageCopy = id; 
+                messageRegister = id; 
+                messageReply = id; 
+            }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

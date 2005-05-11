@@ -1,0 +1,32 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {
+                changeSpamFilterBehavior = id; 
+                changeSpamFilterEnabled = id; 
+                changeUsesSpamMessageCorpus = id; 
+                closeDetailSheet = id; 
+                openDetailSheet = id; 
+                resetSpamDB = id; 
+            }; 
+            CLASS = CMRFilterPrefController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_detailSheet" = NSWindow; 
+                "_spamFilterBehaviorMatrix" = NSMatrix; 
+                "_spamFilterEnabledCheckBox" = NSButton; 
+                "_spamMessageCorpusTextView" = NSTextView; 
+                "_usesSpamMessageCorpusCheckBox" = NSButton; 
+            }; 
+            SUPERCLASS = PreferencesController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = PreferencesController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"_contentView" = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

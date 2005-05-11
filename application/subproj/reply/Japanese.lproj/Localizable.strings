@@ -1,0 +1,29 @@
+"kSG2chErrorHandlerEmptyDataErrorType" = "データがありません。";
+"k2chEmptyDataErrorType" = "データがありません。";
+
+/* Localizable strings for English*/
+
+//OK
+"OKButton" = "OK";
+"RetryButton" = "書き込む";
+"CancelButton" = "キャンセル";
+"PostButton" = "送信";
+"BackButton" = "戻る";
+
+//サーバがエラーを返した
+"ERROR_NETWORK" = "ERROR:ネットワークエラー";
+"Error_Network_StatusCode" = "認証サーバがステータス 200 以外のコードを返しました。";
+
+//認証エラー
+"ERROR_LOGIN" = "ERROR:ログインに失敗";
+"Error_Couldnt_Login" = "ログインを試みましたが、認証されませんでした。不正IDかパスワードを使用している可能性があります。";
+
+//接続時のエラー
+"ERROR_CONNECTION" = "ERROR:認証サーバとの接続に失敗";
+"Error_Connection_Fail" = "サーバとの接続を確立できませんでした。ISP の設定を確認して、もう一度やり直してください。";
+
+
+"FailURLEncoding_title"	= "ERROR!";
+"FailURLEncoding_msg"	= "送信データの URL エンコーディングに失敗しました。書き直したうえで、もう一度送信してください。
+
+内容：%@";

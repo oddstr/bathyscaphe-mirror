@@ -1,0 +1,51 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {deleteMail = id; insertSage = id; pasteAsQuotation = id; }; 
+            CLASS = CMRReplyController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_deleteMailButton" = NSButton; 
+                "_mailField" = NSTextField; 
+                "_nameComboBox" = NSComboBox; 
+                "_sageButton" = NSButton; 
+                "_scrollView" = NSScrollView; 
+                "_textView" = NSTextView; 
+            }; 
+            SUPERCLASS = CMRStatusLineWindowController; 
+        }, 
+        {CLASS = CMRSplitView; LANGUAGE = ObjC; SUPERCLASS = NSSplitView; }, 
+        {
+            ACTIONS = {cancel = id; nextInfo = id; toggleStatusLineShown = id; updateInfo = id; }; 
+            CLASS = CMRStatusLine; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "m_cancelButton" = NSButton; 
+                "m_chasingArrows" = NSProgressIndicator; 
+                "m_delegate" = id; 
+                "m_infoTextField" = NSTextField; 
+                "m_informationFieldView" = NSView; 
+                "m_nextInfoButton" = NSButton; 
+                "m_progressIndicatorView" = NSView; 
+                "m_statusLineView" = NSView; 
+                "m_statusTextField" = NSTextField; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = CMRStatusLineWindowController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = CMRToolbarWindowController; 
+        }, 
+        {
+            CLASS = CMRToolbarWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"m_toolbarDelegateImp" = id; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = InfoContainerView; LANGUAGE = ObjC; SUPERCLASS = CMRSplitView; }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }
+    ); 
+    IBVersion = 1; 
+}

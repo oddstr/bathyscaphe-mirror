@@ -1,0 +1,25 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {stop = id; }; 
+            CLASS = CMRTaskItemController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_contentView" = NSView; 
+                "_indicator" = NSProgressIndicator; 
+                "_messageField" = NSTextField; 
+                "_stopButton" = NSButton; 
+                "_titleField" = NSTextField; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = CMRTaskManager; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"m_taskView" = NSView; "m_templateItemController" = CMRTaskItemController; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

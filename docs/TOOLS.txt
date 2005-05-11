@@ -1,0 +1,29 @@
+============================================================
+  OTHER TOOLS
+============================================================
+
+
+ObjcUnit
+--------------------------------
+　現時点では徹底しているとはいえませんが、CocoMonarと各種フレームワークを
+テストするときのテストフレームワークとしてObjcUnitを使っています。
+
+  ObjcUnitHomePage
+    http://oops.se/objcunit/
+
+もしも、テストを実行時にリンクエラーが起きる場合は
+「新規ビルド・フェーズ」→「新規コピーファイル・ビルドフェーズ」で
+場所「プロダクトディレクトリ」下位パス「../Frameworks」にフレームワークを
+コピーしてください。
+
+
+HeaderDoc
+--------------------------------
+　ヘッダファイルに記述された/*!...*/形式のコメントはAppleのDarwin Open 
+Source ProjectのひとつであるHeaderDocを使って、HTMLドキュメントを生成する
+ためのものです。
+
+  Apple - Darwin Open Source
+    http://developer.apple.com/darwin/
+  HeaderDoc
+    http://developer.apple.com/darwin/projects/headerdoc/

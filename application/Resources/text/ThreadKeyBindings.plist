@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key> </key>
+	<string>pageDown:</string>
+	<key>$ </key>
+	<string>pageUp:</string>
+	<key>$&lt;BackTab&gt;</key>
+	<string>selectPreviousKeyView:</string>
+	<key>&lt;Delete&gt;</key>
+	<string>deleteThread:</string>
+	<key>&lt;Tab&gt;</key>
+	<string>selectNextKeyView:</string>
+	<key>~&lt;DownArrow&gt;</key>
+	<string>scrollNextMessage:</string>
+	<key>~&lt;UpArrow&gt;</key>
+	<string>scrollPreviousMessage:</string>
+</dict>
+</plist>

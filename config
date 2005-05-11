@@ -1,0 +1,14 @@
+# configuration file for making CocoMonar
+
+PBXBUILD      = xcodebuild
+BUILD_OPTION  = -buildstyle Deployment
+BUILD_DIR     = build
+
+SGFOUNDATION_FRWK = SGFoundation
+SGAPPKIT_FRWK     = SGAppKit
+SGNETWORK_FRWK    = SGNetwork
+COCOMONAR_FRWK    = CocoMonar
+
+FRAMEWORK_DIR     = frameworks
+APPLICATION_DIR   = application
+

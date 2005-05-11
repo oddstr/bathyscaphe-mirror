@@ -1,0 +1,19 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {cancelLogin = id; changeShouldSavePW = id; okLogin = id; }; 
+            CLASS = LoginController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "m_cancelButton" = NSButton; 
+                "m_okButton" = NSButton; 
+                "m_passwordField" = NSTextField; 
+                "m_shouldSavePWBtn" = NSButton; 
+                "m_userIDField" = NSTextField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

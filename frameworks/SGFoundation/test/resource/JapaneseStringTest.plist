@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<!-- 0 -->
+	<dict>
+		<key>CaseInsensitive</key>
+		<integer>1</integer>
+		<key>Result</key>
+		<string>{0, 1}</string>
+		<key>String</key>
+		<string>A</string>
+		<key>SubString</key>
+		<string>a</string>
+	</dict>
+
+</array>
+</plist>

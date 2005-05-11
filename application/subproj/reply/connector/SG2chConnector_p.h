@@ -1,0 +1,1 @@
+//:SG2chConnector_p.h#import "SG2chConnector.h"#import "w2chAuthenticater.h"#import "URLConnector_Prefix.h"#import <AppKit/NSPanel.h>#import "SG2chErrorHandler.h"@interface SG2chConnector(RequestHeaders)- (NSDictionary *) requestHeaders;- (BOOL) isRequestHeadersComplete : (NSDictionary *) headers;@end

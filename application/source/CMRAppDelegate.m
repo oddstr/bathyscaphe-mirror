@@ -1,0 +1,156 @@
+/**
+ * $Id: CMRAppDelegate.m,v 1.1 2005/05/11 17:51:03 tsawada2 Exp $
+ * 
+ * CMRAppDelegate.m
+ *
+ * Copyright (c) 2004 Takanori Ishikawa, All rights reserved.
+ * See the file LICENSE for copying permission.
+ */
+#import "CMRAppDelegate_p.h"
+#import "CMRTaskManager.h"
+#import <SGAppKit/NSColor-SGExtensions.h>
+
+
+
+//:CMRAppDelegate+Menu.m
+@interface CMRAppDelegate(MenuSetup)
+- (void) setupMenu;
+@end
+
+
+@implementation CMRAppDelegate
+- (void) awakeFromNib
+{
+    [self setupMenu];
+}
+- (IBAction) showBoardListEditor : (id) sender
+{
+    [[CMRPref sharedBoardListEditor] showWindow : sender];
+}
+- (IBAction) showPreferencesPane : (id) sender
+{
+    [[CMRPref sharedPreferencesPane] showWindow : sender];
+}
+- (IBAction) showStandardFindPanel : (id) sender
+{
+    [[TextFinder standardTextFinder] showWindow : self];
+}
+- (IBAction) toggleOnlineMode : (id) sender
+{    
+    [NSApp sendAction : @selector(toggleOnlineMode:)
+                   to : CMRPref
+                 from : sender];
+}
+- (IBAction) showTaskInfoPanel : (id) sender
+{
+    [[CMRTaskManager defaultManager] showWindow : sender];
+}
+- (IBAction) openURL : (id) sender
+{
+    NSURL *url;
+    
+    UTILAssertRespondsTo(sender, @selector(representedObject));
+    if (url = [sender representedObject]) {
+        UTILAssertKindOfClass(url, NSURL);
+        [[NSWorkspace sharedWorkspace] openURL : url];
+    }
+}
+
+- (IBAction) resetApplication : (id) sender
+{
+    CMRApplicationReset();
+}
+
+- (IBAction) openURLPanel : (id) sender
+{
+    CMROpenURLManager    *mgr;
+    
+    mgr = [CMROpenURLManager defaultManager];
+    [mgr askUserURL];
+}
+
+- (IBAction)launchCMLF:(id)sender
+{
+    [[NSWorkspace sharedWorkspace] launchApplication:@"CMLogFinder.app"];
+}
+
+- (BOOL) isOnlineMode
+{
+	return [CMRPref isOnlineMode];
+}
+@end
+
+
+
+@implementation CMRAppDelegate(CMRLocalizableStringsOwner)
++ (NSString *) localizableStringsTableName
+{
+    return APP_MAINMENU_LOCALIZABLE_FILE_NAME;
+}
+@end
+
+
+
+@implementation CMRAppDelegate(NSApplicationNotifications)
+//- (void) applicationWillFinishLaunching : (NSNotification *)notification
+//{
+//}
+- (void) applicationDidFinishLaunching : (NSNotification *) aNotification
+{
+    /* Service menu */
+    [NSApp setServicesProvider : [CMROpenURLManager defaultManager]];
+
+	/* Remove 'Open Recent' menu */
+	int openURLMenuItemIndex = [fileMenu indexOfItemWithTarget:self andAction:@selector(openURLPanel:)];
+
+    if (openURLMenuItemIndex>=0 && [[fileMenu itemAtIndex:openURLMenuItemIndex+1] hasSubmenu])
+    {
+            [fileMenu removeItemAtIndex:openURLMenuItemIndex+1];
+    }
+}
+@end
+
+@implementation NSApplication(ScriptingSupport)
+- (BOOL) isOnlineMode
+{
+	return [CMRPref isOnlineMode];
+}
+- (void) setIsOnlineMode : (BOOL) flag
+{
+	[CMRPref setIsOnlineMode : flag];
+}
+- (BOOL) useiTunesColor
+{
+	/* dummy. always return YES... */
+	return YES;
+}
+- (void) setUseiTunesColor : (BOOL) flag
+{
+	if (flag) {
+		NSColor *color_ = [NSColor iTunesStripedColor];
+		[CMRPref setBrowserSTableDrawsStriped : YES];
+		[CMRPref setBrowserSTableBackgroundColor : [NSColor whiteColor]];
+		[CMRPref setBrowserStripedTableColor : color_];
+	} else {
+		[CMRPref setBrowserSTableDrawsStriped : NO];
+	}
+}
+
+- (void) handleOpenURLCommand : (NSScriptCommand *) command
+{
+	NSURL *url_;
+    CMROpenURLManager    *mgr;
+
+	NSString *urlstr_ = nil;
+	
+	if(!(urlstr_ = [command directParameter]) || [urlstr_ isEqualToString:@""]) {
+		return;
+	}
+	//NSLog(@"%@", urlstr_);
+	
+	url_ = [NSURL URLWithString : urlstr_];
+	
+    mgr = [CMROpenURLManager defaultManager];
+	[mgr openURL : url_];
+}
+@end

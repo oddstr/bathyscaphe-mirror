@@ -1,0 +1,15 @@
+
+[10.1.x compatibility version]
+
+otool -L SGNetwork
+----------------------------------------
+SGNetwork:
+        @executable_path/../Frameworks/SGNetwork.framework/Versions/A/SGNetwork (compatibility version 1.0.0, current version 1.0.0)
+        /usr/lib/libcrypto.0.9.dylib (compatibility version 0.9.0, current version 0.9.6)
+        /usr/lib/libssl.0.9.dylib (compatibility version 0.9.0, current version 0.9.6)
+        /System/Library/Frameworks/Cocoa.framework/Versions/A/Cocoa (compatibility version 1.0.0, current version 8.0.0)
+        @executable_path/../Frameworks/SGFoundation.framework/Versions/A/SGFoundation (compatibility version 1.0.0, current version 1.0.0)
+        /usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version
+
+
+You should link these version dynamic libraries...

@@ -1,0 +1,2227 @@
+2005-05-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/window/CMRBrowserTbDelegate.m
+	* application/src/v1/application/browser/CMRBrowser-ViewAccessor.m
+		Mac OS X 10.3 以降では、ツールバーの検索フィールドに NSSearchField を使うようにしてみた。
+		- Mac OS X 10.2 以前との互換性維持のため、NSSearchField は別の nib ファイルで用意。
+		　ツールバーの初期化時に、NSClassfromString(@"NSSearchField")の結果を見て、
+		NSSearchFieldを使うか、以前の独自の検索フィールドを使うか決める。
+	* application/src/v1/application/window/CMRNSSearchField.m
+	* application/src/v1/Japanese.lproj/PantherSearchField.nib
+		新規追加。検索フィールドの部品。
+	* application/CocoMonar.pbproj/project.pbxproj
+		Find.tiff がビルド時にコピーされていなかったのを修正
+		- 以前、未使用と勘違いして外したのだが、実は「検索フィールドがツールバーからはみ出しているときの
+		overflow menu のアイコン」で使用されているのだった。
+	* application/src/v1/application/window/CMRThreadViewerTbDelegate.m
+		「削除」「お気に入りに追加」ボタンのラベルがずれる問題に対処。
+		（その代償として、ドラッグ＆ドロップの受け入れ機能がなくなった。復活させるかどうかは未定）	
+	* application/src/v1/Japanese.lproj/ThreadViewerTbItems.strings
+		新規追加。ThreadWindowToolbarItems.strings の置き換え（しかし、意味はなかった）。
+	* application/src/v1/Japanese.lproj/ThreadWindowToolbarItems.strings
+		削除。
+2005-04-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/NG/layout/NSCursor+CMXAdditions.m
+	* application/src/v1/application/view/SGHTMLView.m
+		Mac OS X 10.3 以降では、「人差し指」と「手のひら」のカーソルは OS が用意しているものを使うようにした。
+	* application/src/v1/application/rsrc/image/StopSmall.tiff
+		StopSmall.png を StopSmall.tiff に置き換え。キレイになった。
+2005-04-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/window/CMRReplyMessenger.m
+		送信失敗後、「送信」ボタンが無効になったままになり、再送信できない問題を修正（>95,96@24th）
+	* application/src/v1/subproj/preference/Japanese.lproj/AccountPane.nib
+	* application/src/v1/application/window/CMRReplyMessenger.m
+	* application/src/v1/Japanese.lproj/Messenger.strings
+		ツールバーの beログイン／ログアウトボタンの挙動を改善した。アカウントを設定していないときや、
+		2ch 以外に書き込もうとしているときはボタンが使用不可になる（ツールチップに詳しい説明が表示される）。
+========================================================
+2005-04-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/window/CMRReplyControllerTbDelegate.m
+	* application/src/v1/application/window/CMRReplyMessenger.m
+	* application/src/v1/Japanese.lproj/ReplyWindowToolbarItems.strings
+	* application/src/v1/Japanese.lproj/Messenger.strings
+		ツールバーに beログイン／ログアウトを切り替えるボタンを追加した。
+		- このボタンを押すたびに、直接 CocoMonar のグローバルな環境設定「be カテゴリ以外の掲示板でもログインする」を
+		　切り替える（設定が板ごと／スレごとに保存される訳ではないので注意すること。それは将来の検討課題）。
+	* application/src/v1/application/rsrc/image/beDisabled.tiff
+	* application/src/v1/application/rsrc/image/beEnabled.tiff
+		beログイン／ログアウト切り替えボタンのツールバーアイコン（新規追加）。
+	* application/CocoMonar.pbproj/project.pbxproj
+		Info.plist のエントリに LSMinimumSystemVersion -> 10.2.0 を追加。
+	* application/src/NG/messaging/SGRunLoopMessenger.m
+	* application/src/v1/application/browser/CMRBrowser-ViewAccessor.m
+		Mac OS X 10.1.5 に気を使っていた部分を削除
+	- 下の修正に伴い、Mac OS X 10.1.5 への今後の対応を諦めようと思います。
+	* application/src/v1/application/bbs/BoardManager.m
+		鯖移転の自動追尾時にクラッシュする事がある問題を修正（Mac OS X 10.1.5 と互換性なし）
+		302 でリダイレクトされたときにクラッシュしていた。
+	* application/src/v1/application/rsrc/text/StyleTemplates.rtf
+		be プロフィールリンク文字列の書式を StyleTemplates.rtf の %%%beProfileLink%%% で設定可能にした。
+		なお、「リンク」なので、文字色と下線の有無は環境設定でのそれが反映される。
+	* application/src/v1/application/composer/CMRAttributedMessageComposer.m
+	* application/src/v1/application/thread/CMRThreadLinkProcessor.h
+	* application/src/v1/application/thread/CMRThreadLinkProcessor.m
+	* application/src/v1/application/thread/CMRThreadViewer-Link.m
+	* application/src/v1/application/rsrc/text/KeyValueTemplates.plist
+		be プロフィールリンクを表示し、クリックすると Web ブラウザでプロフィールを参照できるようにした。
+========================================================
+2005-04-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/rsrc/image/ReplyDocument.icns
+	* application/src/v1/application/rsrc/image/ThreadDocument.icns
+		書類アイコンをリニューアルしてみた（とくに.cmreply ファイルのアイコンが「浮いてる」感じがしていたので、
+		統一感を持たせてみた）
+	* application/src/v1/application/rsrc/image/showProfile.tiff
+	* application/src/v1/application/rsrc/image/showProfileDown.tiff
+	* application/src/v1/application/composer/CMRMessageAttributesStyling.m
+	* application/CocoMonar.pbproj/project.pbxproj
+		be プロフィールリンク表示の作業中。showProfile.tiff, showProfileDown.tiff は新規追加。
+	* application/src/v1/application/browser/CMRThreadsList.m
+		お気に入りをステータスでソートする際、同じステータスの項目同士を更にお気に入りの順番で正しくソート
+		するようにした。また、お気に入りの順番によるソートの方法を少し修正。
+	* application/src/v1/application/bbs/BoardManager.m
+		クラッシュを防止するため、したらばの場合は鯖移転の自動追尾を試みないようにした。
+	* application/src/NG/layout/data/CMRThreadMessage.m
+	* application/src/NG/utils/CMXTextParser.m
+	* application/src/v1/application/composer/CMRMessageComposer.m
+	* application/src/v1/application/composer/CMRThreadDictReader.m
+	* application/src/v1/application/composer/CMRThreadPlistComposer.m
+	* application/src/v1/application/composer/CMRAttributedMessageComposer.m
+	* frameworks/CocoMonar/framework/src/CMRPropertyKeys.m
+		be プロフィール表示のため、dat に埋め込まれている「BE:1234567-##」などの文字列を抜き出して
+		ログファイルに保存するようにした（表示はこれから）。
+		- ログファイルに array 型で BeProfileLink キーを追加。array の index:0 にはプロフィールリンク用の
+		　ランダムな数字列が（ただし、NSString で記録される）入り、index:1 にはポイント獲得数の目安（Lv.）を
+		　表す「#」などの文字列を格納する。be ログインしていない書き込みに対しては BeProfileLink キーは
+		　作成されない。
+2005-04-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/manager/CookieManager.m
+	* application/src/v1/subproj/preference/Japanese.lproj/AccountPane.nib
+		「be.2ch.net 以外の掲示板でも～」を「be カテゴリ以外の掲示板でも～」に変更。
+		be.2ch.net と qa.2ch.net には常に be ログインして書き込むようにした。
+	* application/src/v1/subproj/reply/connector/SG2chConnector.m
+	* application/src/v1/subproj/reply/w2chReply_be2ch.m
+	* application/src/v1/subproj/reply/rsrc/ReplyErrorCode.plist
+		be.2ch.net の板（ここのエンコーディングはEUC）に書き込めるようにした。
+		- w2chReply_be2ch.m は新規追加
+========================================================
+2005-04-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/subproj/preference/account/AccountController.m
+	* application/src/v1/subproj/preference/account/AccountController-ViewAccessor.m
+	* application/src/v1/subproj/preference/Japanese.lproj/AccountPane.nib
+	* application/src/v1/subproj/preference/rsrc/Help.png
+	* application/src/v1/subproj/preference/rsrc/HelpDown.png
+		Be アカウントの情報を設定するために、「環境設定」＞「アカウント」を変更。タブで●とBeの設定画面を
+		切り替えるようにした（今のところ、Be アカウントの情報は初期設定ファイルにそのまま保存され、キーチェーンは
+		利用していない）。
+		- Help.png, HelpDown.png は新規追加
+	* application/src/v1/application/preferences/AppDefaults-Account.m
+	* application/src/v1/application/manager/CookieManager.m
+	* application/src/v1/application/window/CMRReplyMessenger.m
+		Be ログインしての書き込みに対応。
+======================================================== 1.0.9.7
+2005-04-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Japanese.lproj/CocoMonarHelp/
+		ヘルプ更新 - 内容の小修正、索引更新
+	* application/src/NG/layout/data/CMRThreadMessage.m
+	* application/src/NG/utils/CMXTextParser.m
+	* application/src/v1/application/composer/CMRMessageComposer.m
+	* application/src/v1/application/composer/CMRThreadDictReader.m
+	* application/src/v1/application/composer/CMRThreadPlistComposer.m
+	* application/src/v1/application/composer/CMRAttributedMessageComposer.m
+	* frameworks/CocoMonar/framework/src/CMRPropertyKeys.m
+		変化日付表記への対応をさらに見直し。
+		- 「,」の前の独自表記をログファイルに保存（DatePrefixキー）。表示時にくっつけて表示。
+	* application/src/v1/application/window/CMRReplyController-ViewAccessor.m
+		書き込みウインドウ：名前欄コンボボックス関連のコードを少し修正。
+========================================================
+2005-04-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/composer/CMRAttributedMessageComposer.m
+	* application/src/NG/layout/data/CMRThreadMessage.m
+	* application/src/NG/utils/CMXTextParser.m
+		変な日付表記への対応を見直し。
+		- 「エロゲ暦24年,2005/04/02(土) 11:22:33」形式は「,」の前を捨てて、日付データに変換
+		　　「,」の前の独自表記は、表示しない＆保存しない。
+		- どうしても変換不能な表記は、NSString で保持するようにした（日付データとしての価値は失われる）。
+		　　これに伴い、CMRThreadMessage の date 変数の定義を NSDate 型から id 型に変更。
+		- 変な日付表記のせいで、普通のレスが「あぼーん」や「１００１」などの特殊なレスと区別できない問題を修正。
+2005-04-02 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRThreadsListReadFileTask.m
+	* application/src/v1/application/browser/CMRThreadsList-DataSource.m
+		古いお気に入りをインポートした後、お気に入りを表示させると「番号」が不正な値になってしまうことがある問題を解決。
+		ちなみに、「不正な値」というのは実のところ、NSNotFound 定数である。
+	* application/src/v1/application/browser/CMRFavoritesManager.m
+		内部の情報保持プールに項目が際限なく溜まって、全体のパフォーマンスが低下する問題に対処。
+		- 対処1：重複する情報は登録しない
+		- 対処2：情報数が一定の限界を超えた場合、一番古い情報から削除する（仕方ない）
+		　　（限界値は KeyValueTemplates.plist の "Favorites - MaxCountForPool" で設定可能。デフォルトは30。使い方に応じて
+		　　調節も出来るが、素人にはおすすめできない。0にすることも出来ない訳ではないが、まったくもっておすすめしない）
+		- どうしてもなかなか利用されないまま残り続ける情報もあるかもしれないが、2、3個程度なら影響ないので無視。
+	* application/src/v1/application/browser/CMRBrowser-Action.m
+		3ペインで、一覧で何も選択されておらず、確認シートありの設定のとき、スレッドを削除するとウインドウが
+		閉じてしまう問題を解決。
+========================================================
+2005-03-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/thread/CMRThreadViewer-Download.m
+	* application/src/v1/Japanese.lproj/ThreadViewer.strings
+		あぼーんなどがあった際のシートに「削除して再取得」ボタンを追加した。
+		- 削除直後に再取得動作を実行すると、とくに別ウインドウで開いているときに問題が発生するようだ。
+		　このため、削除→再取得の間に1秒ウェイトを入れてある。もう少し短くてもいいかもしれないが。
+		- 「削除して再取得」ボタンがデフォルトになり、「削除」ボタンは第三の選択肢として表示される。
+	* application/src/v1/application/browser/CMRBrowser-Delegate.m
+		ここ最近の SP で、不必要にやたらとスレッド一覧をソートし直していたのを以前と同程度まで簡略化した。
+	* application/src/v1/application/manager/CMRNoNameManager.m
+		ソートが昇順か降順かわからないときに、（デフォルト設定を無視して）常に降順を返してしまうことがあった問題を解決。
+========================================================
+2005-03-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRThreadsListReadFileTask.m
+		以下の条件を満たすとき、古いお気に入りを自動的にインポートするようにした：
+		1.新しいお気に入りにまだ一つも項目がない
+		2.初期設定ファイルの「Old Favorites Imported」 key の値が NO である
+		- インポート後は自動的に「Old Favorites Imported」が YES にセットされる。
+	* application/src/v1/application/manager/CMRNoNameManager.m
+		板の名無しさんが不明な状態で、ソート基準カラムの変更を保存できなかった問題を解決。
+2005-03-29 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/manager/CMRHistoryManager.m
+		CMRHistoryItem の配列を最終アクセス日時順でソートするようにした。
+	* application/src/v1/application/browser/CMRThreadsList-Filter.m
+		スレッド検索後などに、ソート基準カラムが予期せず変わってしまうことがある問題を修正した。
+	* application/src/v1/application/manager/CMRNoNameManager.m
+		板ごとのカラム設定が見つからない場合は、NoNameManager が責任を持ってデフォルト設定を返すようにした。
+2005-03-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRFavoritesManager.m
+		つーか、Favorites.plist に記録されているログファイルの絶対パスが変化していないかチェックし、修正する必要があるときは
+		自動的に修正するのをやめることにした（これをやらなくても他の部分で自動的に補正されると思う）。
+2005-03-27 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRFavoritesManager.m
+		お気に入りを内部で参照しようとすると例外が発生することがある問題を修正した。
+========================================================
+2005-03-26 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRFavoritesManager.m
+		Favorites.plist に記録されているログファイルの絶対パスが変化していないかチェックし、修正する必要があるときは
+		自動的に修正するようにした。
+	* application/src/v1/application/view/CMRStatusLine-Notification.m
+		履歴ポップアップメニューで、メニュー項目の表示順を常に最終アクセス順に並べるようにした。
+	* application/src/v1/application/thread/CMRThreadViewer-ViewAccessor.m
+	* application/src/v1/application/view/CMRThreadView.m
+		スレッドのコンテキストメニューを 1.0.9.5 とほぼ同様の形にいったん戻した。
+	* application/CocoMonar.pbproj/project.pbxproj
+		CFBundleIdentifier として jp.cocomonar.CocoMonar を付与した。
+		- 初期設定ファイルを引き継ぐには CocoMonar.plist を jp.cocomonar.CocoMonar.plist にリネームしておくこと
+	* application/src/v1/application/browser/CMRBrowser-Delegate.m
+	* application/src/v1/application/browser/CMRBrowser-List.m
+		板を切り替えたとき、ソート基準カラムを NoNameManager から調べて、適切に切り替えるようにした。
+		また、カラムのヘッダをクリックしたときは、変更内容を NoNameManager に渡して、板の設定として記憶させるようにした。
+		option キーを押しながらヘッダをクリックすると、今まで通り CocoMonar のデフォルト設定として記憶する。
+	* application/src/v1/application/manager/CMRNoNameManager.m
+		CMRNoNameManager を拡張し、板毎のソート基準カラムと、昇順／降順の設定を NoName.plist に記憶するようにした。
+		- 旧バージョンの NoName.plist はそのまま読み込めるが、新バージョンの NoName.plist は旧バージョンで使用できない。
+========================================================
+2005-03-22 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRFavoritesManager.m
+		お気に入りを追加した後、すぐに Favorites.plist を更新するようにした。
+	* application/src/NG/utils/CMXTextParser.m
+		22スレ200さんの patch を適用した。
+	* application/src/v1/application/composer/CMRAttributedMessageComposer.m
+		日付文字列の生成方法を見直した。日付文字列の書式をカスタマイズ可能にした。
+	* application/src/v1/application/rsrc/text/DateDescription.plist
+		（新規追加）日本語の曜日文字列（「（日）、（月）、...」）を実現するための locale dictionary。
+	* application/src/v1/application/rsrc/text/keyValueTemplates.plist
+		新しい key を追加："Thread -DateDescription" -- 日付文字列の書式を設定する。
+		デフォルトは "%y/%m/%d%a %H:%M:%S"。詳しくは以下を参照：
+		http://developer.apple.com/documentation/Cocoa/Conceptual/DataFormatting/Concepts/DateFormatters.html#//apple_ref/doc/uid/20000194/CJBFEHBD
+2005-03-21 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/view/ThreadsListTable.m
+		「項目数バッジ付きアイコン」の生成コードを微調整して見栄えを整えた。
+========================================================
+2005-03-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/view/ThreadsListTable.m
+	* application/src/v1/application/rsrc/image/DraggingBadge.tiff
+		スレッド一覧で複数項目をドラッグ＆ドロップしたときは、項目数をアイコンとともに表示するようにした。
+		DraggingBadge.tiff は新規追加。
+	* application/src/v1/application/browser/w2chFavoriteItemList.m
+	* application/src/v1/application/browser/CMRFavoritesManager.m
+		降順ソートのときにドラッグ＆ドロップでの並び替えが正しく動作しない問題を修正。
+		また、ドラッグ＆ドロップ後に不適切な項目が選択状態になることがある問題も修正。
+2005-03-19 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRThreadsList-Notification.m
+		お気に入りと、項目が属する板のスレ一覧の内容同期処理に於いて、差分がゼロなのに ThreadUpdatedStatus になってしまう
+		ことがある問題を修正。
+		- 既得数＞レス数 の場合に、ThreadUpdatedStatus ではなく ThreadLogCachedStatus を与えるようにした。
+	* application/src/v1/application/browser/CMRFavoritesManager.m
+		お気に入りを並び替えた後、スレッド一覧の更新ができなくなることがある問題を修正
+========================================================
+2005-03-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/browser/w2chFavoriteItemList.m
+		スレをお気に入りに追加した際、「お気に入り」一覧にすぐに反映されなかったのを修正
+2005-03-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/browser/w2chFavoriteItemList.m
+	* application/src/v1/application/browser/CMRFavoritesManager.m
+	* application/src/v1/application/view/ThreadsListTable.m
+		「お気に入り」スレッド一覧で、ドラッグ＆ドロップでの行の入れ替えができるようにした。
+		- 「番号」カラムでソートしているときのみ、ドロップを受け付ける
+	* application/src/v1/application/rsrc/text/BrowserKeyBindings.plist
+	* application/src/v1/application/view/ThreadsListTable.m
+		Command-↑／↓ で一覧の先頭／末尾にスクロールできるようにした。
+		- BrowserKeyBindings.plist で使用可能な新しい文字列（メソッド）として「scrollRowToTop:」「scrollRowToEnd:」を追加
+		- 調べた所、NSTableView では command-↑／↓ は無効なのが標準のようだ（一部、独自に先頭／末尾へのスクロールを
+		サポートするアプリもある）。
+2005-03-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* frameworks/CocoMonar/framework/src/CMRFiles.h
+		Favorites.plist, Favorites_Memo.plist ファイルの定義を追加
+	* application/src/v1/application/thread/CMRThreadViewer-Action.m
+		「お気に入りに追加」する際、スレッド一覧の保持している attribute が使えるときはそちらをお気に入りに登録するようにした。
+	* application/src/v1/application/browser/CMRThreadsList-DataSource.m
+	* application/src/v1/application/browser/CMRThreadsList.m
+		「お気に入り」を表示しているときは、「番号」カラムの内容を「お気に入りに登録されている順番」にすり替える。
+		（将来はこれを iTunes のプレイリストのようにドラッグ＆ドロップして入れ替えられるようにしたい）
+		そのままではソート時に不具合が出るのでソート用関数も追加。
+	* application/src/v1/application/browser/CMRThreadsUpdateListTask.m
+	* application/src/v1/application/browser/CMRThreadsListReadFileTask.m
+	* application/src/v1/application/browser/CMRThreadsList-listImport.m
+	* application/src/v1/application/browser/CMRThreadsList-Notification.m
+	* application/src/v1/application/browser/w2chFavoriteItemList.m
+		お気に入りリストを表示するための改造と、お気に入りリストとスレッド一覧の内容を正しく同期するための様々な改造。
+	* application/src/v1/application/browser/CMRFavoritesManager.m
+		CMRFavoritesManager は、お気に入りリストの管理を新たに担当することになった。メソッドをいくつか追加し、書き直した。
+		- Favorites.plist: お気に入りリストを記録したファイル。
+		　　アプリ起動時に読み込み→起動中はメモリ上で項目を追加／削除／更新→終了時に書き込み。
+		- Favorites_Memo.plist: お気に入り項目の attribute とスレッド一覧のそれの同期を、CocoMonar の終了／次回起動を
+		　　またいで行う必要がある際に、その情報を一時記録しておくファイル。今の実装では、情報が何も無くても空のファイルが作成される。
+		　　このへんは将来より良い方法を考えたら見直される可能性がある。
+======================================================== 1.0.9.6
+2005-02-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Japanese.lproj/CocoMonarHelp/CocoMonarHelp idx
+	* application/Japanese.lproj/CocoMonarHelp/pgs/
+		ヘルプ更新 - 内容追加、索引更新
+	* application/src/v1/application/browser/CMRBrowser-Action.m
+	* application/src/v1/application/browser/CMRBrowser-Validation.m
+		履歴ポップアップで他の板のスレッドに移動したとき、スレッド一覧の選択行を解除するようにした。
+		それに伴い、スレッド一覧で何も選択していないときにスレッドを削除しようとしたときは、3ペイン下部で
+		現在表示されているスレッドが削除されるようにした。
+	* application/src/v1/application/thread/TextFinder-ViewAccessor.m
+		検索パネルの位置とサイズを記憶するようにした（>>500@22th）。
+2005-02-19 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/subproj/preference/Japanese.lproj/GeneralPreferences.nib
+		「環境設定」＞「一般」：「選択項目まで自動スクロール」のチェックボックスを再び使用可能にした
+		（その機能の仕様を勘違いしていたため、未実装だと勘違いしてしまっていた）（>>517@22th)。
+	* application/Japanese.lproj/CMRThreadMenu.nib
+	* application/src/v1/application/view/CMRThreadView.m
+		テキスト選択時のコンテキストメニュー：「レスのアクション」を復活（>>509@22th）。
+======================================================== 1.0.9.6 Release Candidate 1
+2005-02-18 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/subproj/reply/connector/SG2chConnector.m
+	* application/src/v1/application/network/ThreadTextDownloader.m
+	* application/src/v1/application/network/ThreadsListDownloader.m
+		~/Library/Application Support/CocoMonar/Logs に作成されるデバッグログの出力関数をコメントアウト。
+	* application/src/NG/link/CMXPopUpWindowController.m
+		ポップアップ・ロック機能を不器用に実装。
+		 - ポップアップを key window にして（一度クリックして）、L キーを押すと、マウスが離れてもポップアップが消えなく
+		   なる。もう一度 L キーを押すとポップアップが消える。
+2005-02-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRThreadsList-Filter.m
+		デバッグ用のログ出力コードが残っていたので削除。
+	* application/src/v1/application/rsrc/text/KeyValueTemplates.plist
+        	"Browser - UseIncrementalSearch"の値をデフォルトで1（インクリメンタルサーチを使用する）に変えた。
+		 - これから CocoMonar に出会う人のために。もちろん、気に入らない人は各自の KeyValueTemplates.plist で
+		   設定しておけば良い。
+	* application/src/v1/application/thread/CMRThreadViewer-Find.m
+	* application/src/v1/application/thread/CMRThreadViewer-Validation.m
+		新規追加
+	* application/src/v1/application/thread/CMRThreadViewer-Action.m
+		CMRThreadViewer-Action.m の一部を -Find.m, -Validation.m に分割した。
+		※ 開発作業の効率化が目的で、本質的な意味は無い
+	* application/Japanese.lproj/CocoMonarHelp/CocoMonarHelp idx
+	* application/Japanese.lproj/CocoMonarHelp/pgs/
+	* application/Japanese.lproj/CocoMonarHelp/gfx/
+		ヘルプ更新 - 画像二枚差し替え、本文一部修正、索引更新。
+	* application/CocoMonar.pbproj/project.pbxproj
+	* frameworks/SGAppKit/SGAppKit.pbproj/project.pbproj
+		ネイティブターゲットにしなくても、うまくやれば -DPATCH=1 を付けてコンパイルできることが分かったので、
+		それを追加した。 （Thx to >>200@22th）
+	* application/src/v1/application/thread/CMRThreadViewer-ViewAccessor.m
+	* application/src/v1/application/view/CMRThreadView.m
+	* application/Japanese.lproj/CMRThreadMenu.nib
+	* application/Japanese.lproj/CMXMessageMenu.nib
+	* application/src/v1/Japanese.lproj/MainMenu.nib
+		スレッドのコンテキストメニューを思い切って整理した。
+		- より「コンテキスト」を明確に意識したメニューに…
+		   レス番クリック：「そのレスに対する」メニュー→現行通り（レスのコピー／返信／レス属性設定）
+		   選択されたテキスト上での control-クリック：「そのテキストに対する」メニュー→コピー／Google 検索
+		   その他の領域での control-クリック：「そのスレッドに対する」メニュー→「スレッド」メニューと同じメニュー
+	* application/src/v1/application/CMRAppDelegate.m
+	* application/src/v1/application/rsrc/CocoMonar.scriptSuite
+	* application/src/v1/application/rsrc/CocoMonar.scriptTerminology
+		AppleScript サポートの強化。新しい property "uses iTunes stripe color" を追加した。
+		書き込みウインドウの class を定義した（reply document）。
+	* application/src/v1/application/browser/Browser.m
+	* application/src/v1/application/browser/CMRBrowser-Validation.m
+		スレッド一覧で、一部メニュー項目が適切に選択不可状態にならない問題を修正。
+========================================================
+2005-02-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/browser/Browser.m
+	* application/src/v1/application/browser/CMRBrowser-Action.m
+		AppleScript 経由でスレッド一覧を他の板に切り替えたとき、掲示板リストの選択行が更新されない問題を修正。
+	* application/src/v1/application/composer/CMRMessageFilter.m
+		Host として「0」「o」を記録している板で、迷惑レスフィルタが誤動作する問題を修正（Thx to >>370@22th)。
+2005-02-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRThreadsList-Filter.m
+	* application/src/v1/application/browser/CMRThreadsList.m
+		検索結果が空のときは、スレッド一覧に何も表示しないことにした（>>398@22th)。
+	* application/src/v1/application/rsrc/CocoMonar.scriptSuite
+	* application/src/v1/application/rsrc/CocoMonar.scriptTerminology
+		AppleScript 用語辞書のアップデート。
+2005-02-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/datestamper.sh
+		Sneaky-Peak ビルド時に Info.plist が info.plist にリネームされてしまう問題を修正（>>311,313@22th）。
+	* application/src/v1/application/CMRAppDelegate.m
+	* application/src/v1/application/browser/Browser.m
+	* application/src/v1/application/thread/CMRAbstructThreadDocument.m
+	* application/src/v1/application/rsrc/CocoMonar.scriptSuite
+	* application/src/v1/application/rsrc/CocoMonar.scriptTerminology
+		AppleScript サポートの強化。
+	* application/src/NG/utils/CMXDateFormatter.m
+		200@22thさんの patch を適用その3。関数宣言を補って、コンパイル時に警告が出る問題を解決（>>326@22th）。
+========================================================
+2005-02-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/view/CMRThreadView.m
+	* frameworks/SGAppKit/framework/src/extensions/pasteboard/NSPasteboard-SGExtensions.m
+		200@22thさんの patch を適用その2。patch を有効にするには -DPATCH=1 を付けてコンパイルする必要がある。
+		>ログのテキストのコピー時に色情報を削除して，クラッシュを回避する。
+	* application/src/v1/application/browser/CMRThreadsList-DataSource.m
+	* application/src/v1/application/browser/CMRBrowser-Delegate.m
+	* application/src/NG/utils/CMXDateFormatter.m
+		200@22thさんの patch を適用。patch を有効にするには -DPATCH=1 を付けてコンパイルする必要がある。
+		>スレリストの今日昨日修正パッチ
+		>スレリスト更新, 新規ブラウザ, 別の板を表示して戻るときに基準になる日付を変更する。
+2005-02-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRBrowser-ViewAccessor.m
+	* application/src/v1/application/browser/CMRThreadsListSorter.m
+		検索フィールドのフォーカス移動と、フィールドの編集が終了したときの挙動を少し修正
+		- sendActionOnEndEditing:YES がいつのまにか NO になっていた。なぜそうした？12月4日の自分。
+2005-02-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/Japanese.lproj/MainMenu.nib
+		「掲示板」＞「一覧を更新」を「スレッド一覧を更新」に変更（>>45@22th）
+		- 冗長な気もするが…まぁ…一応…
+	* application/src/v1/Japanese.lproj/Browser.nib
+		スレッド一覧のコンテキストメニューの「書き込み...」を削除、項目の並び順を他のメニューにそろえた。
+		- 21スレでいらないのでは？と言われ、その後考えたが、確かにあまりメリットが無い。どうせ表示中でないスレには
+		  書き込みできないのだから。
+	* application/src/NG/utils/CMXTextParser.m
+		ID の無い板で、「0」「O」が表示されない問題を解決。
+		- ID の無い板では、「0」「O」は 時刻とスペースで区切られて記録されている。これを無視せず、
+		  Host の値としてログに記録、表示することにした。
+		- ID のある板では、「0」「O」は ID にくっついており、それを抽出するのは面倒／無駄なので、
+		  今まで通り ID の値の一部として記録、表示される。
+	* application/src/v1/application/rsrc/image/Configure.png
+		今後使う予定がないのでプロジェクトから削除
+2005-02-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/Japanese.lproj/MainMenu.nib
+		「編集」＞「検索」＞「スレッド一覧を検索...」の「...」を取り除き、配置を入れ替え、ショートカットキーを
+		command-shift-F から command-option-F に変更した（Mac OS X の最近の標準に準拠）。
+	* application/src/v1/application/browser/CMRBrowser-ViewAccessor.m
+	* application/src/v1/application/browser/CMRBrowser-Action.m
+		「編集」＞「検索」＞「スレッド一覧を検索...」を選んだときの動作を以下のように変更：
+		1.以下の条件をすべて満たすときは、単にツールバーの検索フィールドにフォーカスを移動するだけにした。
+		  - ツールバーが表示されている
+		  - ツールバーの表示モードが「アイコンとテキスト」または「アイコンのみ」
+		  - ツールバーに検索フィールドが置かれていて、かつ検索フィールドがツールバーからはみ出していない
+		2.上記以外のときは、今まで通り検索フィールドをシートで表示する。
+========================================================
+2005-02-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/window/CMRReplyMessenger.m
+		レスのアクションメニューから「レス...」を選んだとき、レスアンカーが余分に付加される問題を修正した。
+		- コンテキストメニューに「レスのアクション」＞「レス...」と「書き込み...」が併存するのも考え直すべき？
+2005-01-31 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/view/CMRStatusLine-Notification.m
+		- (void) synchronizeHistoryItemsWithManagerForType : (int) aType をいじる。
+		リセット時にクラッシュする場合がある問題の原因として一番疑わしい場所だが、よくわからん…
+	* application/src/v1/Japanese.lproj/MainMenu.nib
+		「ファイル」＞「下書きとして保存」を追加（復活）。書き込みウインドウ用。
+		※本当は「保存...」一つで使いまわしたいのだけど、とりあえず後回しで。
+2005-01-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRBrowser-Delegate.m
+		drawer の開閉に伴う自動ウインドウサイズ調整の際に、 split view の位置が
+		徐々にずれていく問題を修正（あまりいい方法ではないが）。
+2005-01-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/Japanese.lproj/ThreadViewer.strings
+		一部文字列を誤って削除していたのを修正（823@21th）
+========================================================
+2005-01-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/rsrc/text/BrowserKeyBindings.plist
+		懸案の、ブラウザウインドウで option-↑/↓ が pageDown:/pageUp: で上書きされている問題。
+		やっぱり標準の挙動（リストの先頭／末尾を選択）が否応無く奪われるのは良くないと信じて、デフォルトから削除。
+		今まで通りにしたい場合は各自で App Support に BrowserKeyBindings.plist をコピーしてカスタマイズを。
+2005-01-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/Japanese.lproj/Browser.nib
+	* application/src/v1/application/browser/CMRBrowser-Action.m
+	* application/src/v1/application/browser/CMRBrowser-ViewAccessor.m
+	* application/src/v1/application/browser/CMRBrowser-Validation.m
+		掲示板リストでのコンテキストメニューを強化し、ドロワー下部の小さなボタン（「アクションボタン」と呼ぶことにする）と
+		メニュー内容を統合。「掲示板の追加...」「カテゴリの追加...」を直接実行できる。
+		また、不要なアクセッサメソッド、アウトレットを削除した。
+	* application/src/v1/application/manager/CMRMainMenuManager.m
+		「オンラインモード」をファイルメニューからアプリケーションメニューに移動した。
+	* application/src/v1/Japanese.lproj/MainMenu.nib
+		「スレッド」＞「スレッドを削除...」を追加（今までメニューから削除ができなかった）
+		- ブラウザウインドウが key window のときは編集メニューの「削除」で削除できるのだが、
+		　別ウインドウで開いているときは使えなかったし、気づきにくいので。
+2005-01-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRBrowser-ViewAccessor.m
+	* application/src/v1/application/browser/CMRBrowser-Delegate.m
+	* application/src/v1/application/browser/CMRBrowser-Action.m
+	* application/src/v1/application/preferences/CMRPreferencesDefautValues.h
+		ドロワーの開く方向を「常に左」「常に右」「状況に応じて適切な方」に切り替えられるようにした。
+		- Preferences の「boardListDrawerEdge」に記録される値は、
+		0=常に左側、2=常に右側、3=自動（0,2はそれぞれNSMinXEdge,NSMaxXEdgeに対応しているので良い。
+		3はNSMaxYEdgeを意味するが、CocoMonar 内部では0,2以外の数字はすべて無視することにする。）
+		- デフォルトは「自動」（つまり、3）
+	* application/src/v1/subproj/preference/general/GeneralPrefController-View.m
+	* application/src/v1/subproj/preference/general/GeneralPrefController.m
+	* application/src/v1/subproj/preference/Japanese.lproj/GeneralPreferences.nib
+		ドロワーの開く方向の設定を「環境設定」＞「一般」からできるようにした。
+		また、「ログ・ファイルの保存場所」フィールドを廃止した。
+	* application/src/v1/subproj/preference/Japanese.lproj/FontsAndColors.nib
+		コントロール・サイズをすべて small に統一。
+	* application/src/v1/subproj/preference/Japanese.lproj/FilterPreferences.nib
+		「フィルタ」ペインだけ横幅が他と違っていたので統一。
+2005-01-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRBrowser-Delegate.m
+		自動的にブラウザウインドウを縮めるときのサイズ計算を少し修正した。
+	* application/src/v1/application/browser/CMRPullDownIconBtn.m
+		[self isHighlighted] を見ればよいとのアドバイスをいただいたので早速そのようにした。
+		(Thanks to 642@21th)
+2005-01-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRPullDownIconBtn.m
+		ボタンが押されたときは、Action_Pressed.tiff を被せ、押されていないときは、 Action.tiff を被せる。
+========================================================
+2005-01-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRPullDownIconBtn.m
+	* application/src/v1/application/rsrc/image/Action.tiff
+	* application/src/v1/application/rsrc/image/Action_Pressed.tiff
+		（新規追加）NSPopUpButtonCellにアイコンを被せるためのサブクラスと、アイコン画像。
+		Configure.png はいったん未使用になった。新しく Action.tiff が使用される。
+	* application/src/v1/application/browser/CMRBrowser-ViewAccessor.m
+		掲示板リスト・ドロワーの小さなボタンをポップアップメニューにした（Mail.app のように）。
+		- Mail.app のようにクリックしたらアイコンがハイライトして欲しいのだが、その方法が
+		　よくわからない。というか、今のコードもちょっとぐちゃぐちゃしている。 
+		（2005-01-10 追記：なんとかハイライトさせるようにした。）
+2005-01-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/Japanese.lproj/Browser.nib
+	* application/src/v1/application/browser/CMRBrowser-Action.m
+	* application/src/v1/application/browser/CMRBrowser-ViewAccessor.m
+	* application/src/v1/application/browser/CMRBrowser-Validation.m
+	* frameworks/SGAppKit/framework/src/custom/outlineview/SGOutlineView.m
+		掲示板リストでのコンテクストメニューをサポート。
+		とりあえず、「編集...」「削除...」「ブラウザで開く」を実装した。
+	* application/src/v1/application/browser/CMRBrowser.m
+	* application/src/v1/application/browser/CMRBrowser-Delegate.m
+		Drawer を表示するスペースが足りないときは自動的にブラウザウインドウを縮めるようにした。
+		Drawer を隠すと、以前のウインドウ幅に戻す。
+	* application/src/v1/application/preferences/CMRPreferencesDefautValues.h
+		初回起動時の Drawer の飛び出す方向を右側に変更（初回起動時、左側には余白がない）。
+2005-01-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* ほとんどの .strings ファイル
+		分かち書きになっていないところを修正
+2005-01-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/Japanese.lproj/MainMenu.nib
+		表記の統一と変更：
+		- 「ブラウザ」メニューを「表示」メニューに
+		　理由：ツールバーやステータス行の表示制御、停止などはすべて「ブラウザ」ウインドウに限らず、
+		　別ウインドウや書き込みウインドウ、環境設定パネルなどにも共通に作用するから。
+		- 「掲示板」＞「リストを更新」→「一覧を更新」
+		- 「編集」＞「検索」＞「リストを検索...」→「スレッド一覧を検索...」
+		　理由：ツールバーや環境設定などでは「（スレッド）一覧」が使われているのでそちらに統一すべきと思う。
+		　「検索」メニューでは直上に「一覧検索」があって少々紛らわしいのが苦しい所。
+		- 「検索パネル」→「検索」
+		- 「大文字・小文字を区別」「全角・半角を区別」→「・」を「／」に
+		　理由：Apple 純正アプリケーション／OS に従って。
+========================================================
+2005-01-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/preferences/CMRHostHTMLHandler.m
+	* application/src/v1/application/preferences/CMRHostHandler.m
+	* application/src/v1/application/rsrc/text/HostProperties.plist
+		したらばのPATHINFO形式への変更に対応
+	* application/src/v1/Japanese.lproj/InfoPlist.strings
+		(c)2001-2004 から (c)2001-2005 に
+========================================================
+2004-12-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/subproj/preference/font_color/FCController-ViewAccessor.m
+		カラーパネルで色の透明度を設定できるようにした。
+	* application/src/v1/application/window/CMRReplyController-ViewAccessor.m
+		書き込みウインドウの背景を透過できるようにした。「ウインドウの背景色」の透明度を設定すれば、
+		それに応じて背景が透けて見えるようになる（あまり意味のない機能だが）。
+		- 他のウインドウについては、スクロールさせると文字の残像がうっすら残ったりすることがあるので
+		　今回は見送った。
+	* application/src/v1/application/CMRAppDelegate.m
+	* application/src/v1/Japanese.lproj/MainMenu.nib
+		ファイルメニューの未使用項目を削除した。
+2004-12-19 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/preferences/AppDefaults.m
+	* application/src/v1/application/thread/CMRThreadViewer-Link.m
+	* application/src/v1/application/browser/CMRBrowser-Action.m
+	* application/src/v1/application/thread/CMRThreadViewer-Action.m
+	* application/src/v1/application/rsrc/text/KeyValueTemplates.plist
+        	"Thread - OpenLinkInBackGround"：外部リンクをバックグラウンドで開くか？（0=しない、1=する）
+		- 以下に適用：掲示板・スレッドメニューの「ブラウザで開く」、WWWブラウザに渡されるリンク
+		　（option+クリックやレス番号のクリックでそのレス番をブラウザで開く場合も含む）
+		- リンクのコンテキストメニューから「リンクをブラウザで開く」を選んだ場合は設定に関わらずいつもWWWブラウザが
+		　前面になる。そこだけまだ実装していないから。
+		- デフォルトは0
+	* frameworks/SGAppKit/framework/src/extensions/workspace/NSWorkspace-SGExtensions.m
+		URL をバックグラウンドで開くためのメソッドを用意した。
+2004-12-18 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/NG/link/CMXPopUpWindowController+View.m
+		「環境設定」＞「表示」＞「その他」＞「ポップアップ」＞「小さいサイズ」の設定に関係なくポップアップの
+		スクロールバーが小さいサイズで表示される問題を修正
+	* application/src/NG/layout/CMXScrollView.m
+		スクロールバー部に表示されるレス移動ボタンやポップアップボタンの描画開始位置を1ピクセル下げた。
+		よりスッキリと見える…はず。
+2004-12-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/Japanese.lproj/CMRReplyWindow.nib
+	* application/src/v1/Japanese.lproj/Browser.nib
+	* application/src/v1/Japanese.lproj/CMRThreadViewer.nib
+	* application/src/v1/application/view/CMRStatusLine.m
+		ステータス行を隠したときに、より美しく見えるように微調整
+		- ツールバー/タイトルバーとの境界線が重なって太く見えないように調整した。
+	* application/src/v1/Japanese.lproj/CMRStatusView.nib
+		ステータス行の高さを2ピクセル小さくした
+		- 今のところステータス行の高さはガイドラインなどで決められている訳ではないが、OmniWeb, Mail, Xcode
+		　などを参考に若干小さくすることにした。
+	* application/src/v1/application/browser/CMRBrowser-Validation.m
+		「スレッド」＞「ログを開く」が使えないときでも選択できてしまう問題を修正
+	* application/src/v1/application/browser/CMRBrowser-ViewAccessor.m
+		スレッド一覧で複数行選択を容易にするため、垂直方向へのマウス移動ではドラッグ＆ドロップの
+		開始を抑制するようにした。
+	* application/src/NG/manager/task/CMRTaskManager.m
+		「進行状況」パネルを開いたときは、常に最新の項目までスクロールするようにした。
+	* application/src/v1/application/rsrc/image/stopSign.tiff
+		「進行状況」バネルの停止アイコンをMac OS X 10.3 の標準アイコンに合わせた。
+========================================================		
+2004-12-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Japanese.lproj/CMROpenURL.nib
+		initialFirstResponder を URL フィールドにセットした。
+	* application/src/v1/Japanese.lproj/Browser.nib
+		「掲示板リストの編集」を開く小さなボタンが動作しなくなっていたのを修正
+	* application/src/v1/application/browser/CMRBrowser-Action.m
+		ダイアログなしで削除するように設定しているときに、ログファイルがゴミ箱に移動しないバグを修正
+========================================================		
+2004-12-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRThreadsList-DataSource.m
+	* application/src/v1/application/browser/CMRThreadsList-Remove.m
+	* application/src/v1/application/thread/CMRThreadViewer-Action.m
+	* application/src/v1/application/manager/CMRReplyDocumentFileManager.m
+		スレッドを削除するとき、対応する .cmreply ファイルを一緒に削除するための方法を見直した。
+		- あちこちでバラバラに処理していた部分を一部 CMRReplyDocumentFileManager にまとめた。
+		また、ゴミ箱やツールバーの「削除」アイコンにドラッグしたときも .cmreply ファイルが一緒に削除
+		されるようにした。
+	* application/src/v1/application/browser/CMRBrowser-Action.m
+	* application/src/v1/application/thread/CMRThreadViewer-Action.m
+		「スレッドの削除」ダイアログが消えない問題。原因が分からないので、いっそのことダイアログをやめて
+		シートで表示させることにした（シートが消えない、という問題が起こらないことを祈る）。
+2004-12-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRBrowser-Action.m
+		スレッド一覧で一つもスレッドが選択されていないと、「掲示板」＞「ブラウザで開く」が動作しない問題を解決した。
+	* application/src/v1/application/thread/CMRThreadViewer-Action.m
+	* application/src/v1/application/browser/CMRBrowser.m
+	* application/src/v1/Japanese.lproj/Browser.nib
+		スレッド一覧のコンテクストメニューで「情報をコピー」した場合は、真に選択されているスレッドのみ
+		情報をコピーするようにした（今までは、「選択されていないが、3ペイン下部に表示されているスレッド」も
+		含まれていた）。（20スレ818の指摘）
+2004-12-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/window/CMRReplyController-ViewAccessor.m
+		書き込みウインドウの本文欄で tab/shift-tab を押したときは、タブ文字を挿入するのではなく
+		名前欄／メール欄にフォーカスを移すようにした。
+	* frameworks/SGFoundation/framework/source/base/allocator/SGBaseObject.m
+		試験的にコメントアウト（20スレ642さんの指摘）
+========================================================		
+2004-12-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRThreadsList-DataSource.m
+	* application/src/v1/application/browser/CMRThreadsList-Remove.m
+	* application/src/v1/application/thread/CMRThreadViewer-Action.m
+		スレッドを削除するとき、対応する .cmreply ファイルがあれば一緒に削除する（ゴミ箱に入れる）ようにした。
+	* application/src/v1/application/browser/CMRBrowser-Action.m
+		一覧を更新したとき、先頭まで自動スクロール、または選択項目まで自動スクロール（「環境設定」でオンにしているとき）
+		するようにした。（20スレ579,584さんの要望）
+	* application/src/v1/Japanese.lproj/MainMenu.nib
+		「ほかを隠す」に command-option-H のショートカットを付加。（20スレ585さんの要望ないし指摘）
+	* application/src/v1/application/browser/CMRThreadsListSorter.m
+		インクリメンタルサーチ有効時は虫眼鏡アイコンのポップアップメニューに検索履歴を表示しないようにした。
+	* application/src/v1/application/browser/CMRThreadsList-Filter.m
+		下の「注意2」に記した課題を解決。即ち、検索結果を表示している状態から別の語句で検索する時、検索対象の配列を
+		きちんとリセットするようにした。
+========================================================		
+2004-12-04 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/rsrc/text/KeyValueTemplates.plist
+        	"Browser - UseIncrementalSearch"：スレッド一覧の検索でインクリメンタルサーチを使用するか？
+		    （0=しない、1=する）
+		- デフォルトは0（インクリメンタルサーチしない）（機能が安定したらデフォルトを1に変えようと思う）
+		- 注意1：　インクリメンタルサーチを有効にすると、検索語句の履歴を登録しないようになる。
+		- 注意2：たとえば"O"、"OS"、"OSX"とタイプして行くと順に絞り込まれるが、"OSX"から"OS"、と一文字削っても
+		    検索結果は"OSX"の結果のままになってしまう。次の課題である。
+	* application/src/v1/Japanese.lproj/ThreadViewer.strings
+		「件の検索結果を表示しています。」「検索の結果、一致するものは見つかりませんでした。」を
+		「件見つかりました」「見つかりません」に変更してみる（Pantherの検索パネルでも多くが単に「見つかりません」と表示する）
+	* application/src/v1/application/browser/CMRBrowser-List.m
+		TableColumnの昇順・降順を表す▼・▲は、OSが提供するものを使うようにした。
+		- これに伴いapplication/src/v1/application/rsrc/image/Ascending.png、Descending.png は
+		    未使用になる
+2004-12-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/preferences/CMRHostHandler.m
+	* application/src/v1/application/rsrc/text/HostProperties.plist
+	* frameworks/CocoMonar/framework/src/CMRHostTypes.m
+		Be@2ch掲示板（http://be.2ch.net/be/)を読み込めるようにしてみたつもり。
+	* frameworks/SGAppKit/framework/src/extensions/userdefaults/NSUserDefaults+SGAppKitExtensions.m
+		色データをNSStringではなくNSDataで保存するように変更。
+		- いくつかの特殊なカラー（カラーパネルの「デベロッパ」カラーリストなど）を指定・保存するのに必要だった。
+		    （20スレ24さんの指摘）
+2004-12-02 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/NG/layout/NSCursor+CMXAdditions.h
+		[Bugs: 5221]Import名不正：修正済み。
+	* application/src/v1/application/browser/CMRBrowser-ViewAccessor.m
+	* application/src/v1/Japanese.lproj/Browser.nib
+	* application/src/v1/Japanese.lproj/ThreadViewer.strings
+		スレッド一覧のフィルタリングに「新着／既得スレッド」を追加した。
+========================================================		
+2004-12-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* frameworks/SGFoundation/framework/source/extensions/string/NSString+TEC.m
+		Text Encoding Convertor が kTECPartialCharErr を返した時の処理を改善
+		- 以下のページに大感謝。
+		- http://homepage3.nifty.com/arai/Topics/SafariPatch/index.html
+		  http://homepage.mac.com/mkino2/safari/hmdt.html
+========================================================		
+2004-11-29 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/view/ThreadsListTable.m
+		スレッド一覧でコンテキストメニューを出す際に、ポインタの位置にある列が選択されていないときは
+		その列を選択状態にしてからコンテキストメニューを出すようにした。（20スレ134さんの指摘）
+		- どうやって実現すればいいか検索したら、2chのCocoaはさっぱり!!!スレに答えがあった。
+	* application/src/v1/subproj/preference/Japanese.lproj/GeneralPreferences.nib
+	* application/src/v1/subproj/preference/general/GeneralPrefController.m
+	* application/src/v1/subproj/preference/general/GeneralPrefController-View.m
+	* application/src/v1/application/preferences/AppDefaults-ThreadViewer.m
+	* application/src/v1/application/thread/CMRThreadViewer-Action.m
+		「ブラウザで開く」ときに、最新50レスで開くか、最初の100レスで開くか、全レス表示で開くか選べるようにした。
+		「環境設定」＞「一般」で設定する。
+2004-11-16 Minamie <minamie@po.twin.ne.jp>
+	* application/src/v1/Japanese.lproj/CMRIndexingStepper.nib
+	* application/src/v1/application/rsrc/image/moveUpdated.png
+	* application/src/v1/application/thread/CMRThreadViewer-MoveAction.m
+	* application/src/v1/application/view/CMRIndexingStepper-ViewAccessor.m
+	* application/src/v1/application/view/CMRIndexingStepper.h
+	* application/src/v1/application/view/CMRIndexingStepper.m
+	* application/src/v1/application/view/CMRIndexingStepper_p.h
+		右下のレス番号ナビゲーションに「新着レスに移動」用の「新」ボタンを追加
+2004-11-14 Minamie <minamie@po.twin.ne.jp>
+	* application/src/v1/application/thread/TextFinder.m
+		19スレ目597番のレスに対応(検索パネルを表示したら、常に「検索文字列」を選択状態にする）
+2004-11-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/Japanese.lproj/Browser.nib
+		掲示板リストの横スクロールバーをなくした（19スレ917の問題を回避するため）。
+========================================================		
+2004-11-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/subproj/preference/Japanese.lproj/ReplySetting.nib
+	* application/src/v1/subproj/preference/reply/CMRReplyDefaultsController.m
+		「環境設定」＞「書き込み」に名前リストの設定項目を追加。
+		まだ荒削りだが一応最低限のことは出来る、、、はず。
+2004-11-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/preferences/AppDefaults.m
+	* application/src/v1/application/window/CMRReplyController-ViewAccessor.m
+	* application/src/v1/Japanese.lproj/CMRReplyWindow.nib
+		書き込みウインドウ：名前欄のコンボボックスを使用可能にした。
+		コンボボックスのリストはすべての書き込みウインドウで共有され、「環境設定」＞「書き込み」
+		で内容を記述しておく（スレごとの名前、標準の名前などには影響を与えない）。
+	* application/src/v1/subproj/preference/pane/PreferencesPane-Toolbar.m
+		「環境設定」パネルではツールバーをカスタマイズできないようにした。
+	* application/src/v1/application/window/CMRReplyControllerTbDelegate.m
+		書き込みウインドウのツールバーにも「区切り線」が使えるようにした（19スレ866さんの要望）。
+2004-10-31 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/subproj/editor/BoardListEditor.m
+		「掲示板...」ボタンや「カテゴリ...」ボタンで追加したはずの項目がドロワーに表示されないことがある問題を修正
+2004-10-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/CocoMonar.pbproj/project.pbxproj
+	* application/src/v1/ChangeLog.txt
+		ChangeLog を ChangeLog.txt に変更（19スレ576さんの指摘）。プロジェクトファイルに登録し直した。
+========================================================		
+2004-10-27 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/thread/CMRThreadViewer-Action.m
+	* application/src/v1/application/thread/CMRThreadAttributes-Convert.m
+	* application/src/v1/application/preferences/CMRHostHandler.m
+		2ch及び互換掲示板では「ブラウザで開く」のURLに「l50」をくっつけるようにした。
+		将来どこかで他のパラメータ（「l200」とか、「-100」とか）をくっつけることも考慮した（つもり）。
+2004-10-26 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/CocoMonar.pbproj/project.pbxproj
+	* application/src/v1/datestamper.sh
+		Sneaky-Peakをビルドするとき、info.plistのCFBundleVersionを「%%%builddate%%%」という文字列にしておくと
+		ビルド時に自動的にdatestamper.sh（新規追加）がその部分をビルド日時（つまり、spバージョン）に書き換える。
+		この結果、「CocoMonar について」パネルでSneaky-Peakのバージョンがすぐに確認できるようになる。
+		- CFBundleVersion がこれ以外の文字列や数字だった時は何も変更されない。また、v1ターゲットをビルドした時も
+		  何も変更されない。
+2004-10-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+    * application/src/v1/subproj/editor/BoardListEditor.m
+	* application/src/v1/subproj/editor/BoardListEditor-ViewAccessor.m
+	* application/src/v1/subproj/editor/Japanese.lproj/BoardListEditor.nib
+	* application/src/v1/subproj/editor/Japanese.lproj/Localizable.strings
+		掲示板やカテゴリを追加／編集する際のインタフェースを改善した。エラー処理を強化した。使われていないメソッドを削除した。
+	* application/Japanese.lproj/CocoMonarHelp/CocoMonarHelp idx
+	* application/Japanese.lproj/CocoMonarHelp/pgs/
+		上記変更に合わせてヘルプの該当部の記述を修正した。
+2004-10-21 Minamie <minamie@po.twin.ne.jp>
+    * application/src/v1/application/bbs/BoardList.m
+        19スレ目405番のレスに対応
+        ところで「お気に入り」は一番上固定でいいのか。
+		移動できないなら、使えないボタンをディム表示した方がいいかもしれない。
+2004-10-19 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+    * application/src/v1/application/browser/CMRBrowser-Action.m
+		履歴ポップアップから板を選択したとき、掲示板リスト・ドロワーでもその板を選択状態にするようにした。
+		（メモ）その板が何かのカテゴリの中にあって、かつそのカテゴリが閉じている時は選択状態にならない。
+		「見えている」範囲しかスキャンしていないから。今後の課題。
+2004-10-18 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+    * application/src/v1/subproj/preference/Japanese.lproj/GeneralPreferences.nib
+		少しレイアウト／ツールチップを修正。
+2004-10-17 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/preferences/CMRHostHandler.m
+        レス番号を指定しての URL 生成が間違っていたのを修正
+    * application/src/v1/application/thread/CMRThreadViewer-Link.m
+        レスアンカーをクリックしたときの動作を実装してみるも、あまり実用的ではないようだ（リンクそのものがポップアップに隠れてしまう）。
+    * application/src/v1/subproj/preference/general/GeneralPrefController.m
+    * application/src/v1/subproj/preference/Japanese.lproj/GeneralPreferences.nib
+        一般：「レスへのリンクをクリックしたときの動作：」
+        - ポップアップボタンの方が適切に思われたので変更
+        - 場所も移動
+========================================================		
+2004-09-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Japanese.lproj/CocoMonarHelp/CocoMonarHelp idx
+	* application/Japanese.lproj/CocoMonarHelp/pgs/
+	* application/Japanese.lproj/CocoMonarHelp/pgs2/
+	* application/Japanese.lproj/CocoMonarHelp/gfx/
+	* application/Japanese.lproj/CocoMonarHelp/sty/
+		画像二枚差し替え、一枚追加、一枚削除。内容の全般的な修正。索引更新。スタイルシート導入（新しく sty ディレクトリ追加）。
+2004-09-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+    * frameworks/CocoMonar/framework/src/CMRHostTypes.m
+        JBBS したらば判定に jbbs.livedoor.jp を追加
+    * application/src/v1/application/composer/CMRAttributedMessageComposer.m
+        ログを読み込んでレンダリングする時も投稿時間の秒数を表示させるようにした。
+		ただし、秒数が0だったときは秒数を表示しない。
+========================================================		
+2004-09-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/NG/utils/CMXTextParser.m
+		18スレ210さんのpatch を緊急適用
+2004-08-22 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/rsrc/BWAgent.app
+		BWAgent を1.1.4 にアップデート
+========================================================		
+2004-08-22 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+    * application/src/v1/application/bbs/BoardManager.m
+        掲示板リストが変更されたときは、ファイルにもすぐ反映させるようにした。
+    * frameworks/CocoMonar/framework/src/CMRFileManager.m
+        ファイルの更新通知を何度も発行してしまうバグを修正
+======================================================== 1.0.9.5
+2004-08-07 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+    * application/src/v1/application/manager/CMRMainMenuListener.m
+        CMRMainMenuListener --> CMRAppDelegate
+    * application/src/v1/application/browser/CMRBrowser-ViewAccessor.m
+        最後に開いた掲示板の読み込みを、アプリケーション起動後に
+        行うようにした。
+======================================================== 1.0.9.5 preview2
+2004-08-06 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+    * application/src/v1/application/network/ThreadTextDownloader.m
+        レス取得のロックはスレッドの構築前ではなく、ファイルの保存
+        前にチェックするようにした。
+2004-08-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Japanese.lproj/CocoMonarHelp/pgs/t_updatebrd.html
+		ヘルプの文章に修正漏れがあった。
+2004-08-05 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+    * application/src/v1/application/bbs/BoardList.m
+        掲示板リスト変更の監視を、ファイルをない場合でも
+        動作するようにした。
+    * application/src/v1/application/composer/CMRAttributedMessageComposer-Anchor.m
+    URL のパスに 'www' が混じっていると間違ったリンクを張ること
+    があるのを修正
+2004-08-02 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Japanese.lproj/CocoMonarHelp/CocoMonarHelp idx
+	* application/Japanese.lproj/CocoMonarHelp/pgs/
+	* application/Japanese.lproj/CocoMonarHelp/gfx/
+		画像一枚差し替え、内容一部修正、索引更新。
+	* application/src/v1/application/rsrc/BWAgent.app
+		BoardWarrior のバンドル（名称はBWAgent.appになっている）
+	* application/src/v1/subproj/editor/BoardListEditor.m
+	* application/src/v1/subproj/editor/Japanese.lproj/BoardListEditor.nib
+	* application/src/v1/subproj/editor/rsrc/warrior.png
+	* application/src/v1/subproj/editor/rsrc/brdfile.png
+		BWAgent.app を起動するボタンを追加した。
+======================================================== 1.0.9.5 preview
+2004-08-01 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+    * application/src/v1/application/browser/CMRThreadsListSorter.m
+    * application/src/v1/application/rsrc/image/FindOptions.png
+    * frameworks/SGAppKit/framework/resource/images/background/RoundedTextFieldSurfaceLeft.png
+    * frameworks/SGAppKit/framework/resource/images/background/RoundedTextFieldSurfaceMiddle.png
+    * frameworks/SGAppKit/framework/resource/images/background/RoundedTextFieldSurfaceRight.png
+    * frameworks/SGAppKit/framework/src/custom/accessoryField/SGTextAccessoryFieldController.m
+        検索フィールドの概観を 10.3 Mail 風に更新
+2004-07-23 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+    * application/src/v1/application/view/CMRPullsDownButton.m
+        履歴ポップアップ・メニューのフォントが大きいまま
+        になってしまう対策
+========================================================
+2004-07-21 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+    * frameworks/CocoMonar/framework/src/CMRHostTypes.m
+        JBBS したらば判定に jbbs.livedoor.com を追加
+    * application/src/v1/subproj/reply/connector/SG2chConnector.m
+        書き込みをサポートしていない URL でも、2ch 互換とみなして
+        書き込んでみるよう変更
+========================================================
+2004-07-19 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+    * frameworks/SGNetwork/src/connector/SGHTTPStream.m
+        Mac OS X 10.1.x で動作していなかった部分を修正
+    * application/src/v1/application/window/CMRReplyMessenger.m
+        書き込み中のプログレス・バーが出ない問題を修正
+========================================================
+2004-07-18 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+    * application/src/v1/application/window/CMRReplyMessenger.m
+        本文のみ円記号とバッスラッシュを実体参照で置換するようにした。
+    * application/src/v1/application/browser/CMRThreadsUpdateListTask.m
+        一覧の読み込みで無駄な処理を省いた。
+    * application/src/v1/application/view/CMRStatusLine-ViewAccessor.m
+        履歴ポップアップメニューの出現位置を調整
+    * application/src/v1/application/thread/CMRThreadViewer-Action.m
+    * application/src/v1/application/browser/CMRBrowser-Action.m
+    * application/src/v1/application/view/CMRStatusLine-Notification.m
+        履歴ポップアップや戻る／進むボタンで掲示板／スレッドを切り替えた
+        ときはスレッド一覧／スレッドにフォーカスを移すようにした。
+2004-07-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Japanese.lproj/CMRNoNameInput.nib
+		板名が長いとダイアログの文章が途切れる問題を修正（ゆとりを持たせた）。
+		(Bug: 1088734067/173)
+========================================================
+2004-07-08 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+    * application/src/v1/application/view/CMRStatusLine-ViewAccessor.m
+        履歴ポップアップメニューが長すぎる場合は、ポップアップ・ボタン
+        の下側にメニューを出すようにした（ステータス行がウインドウ下部
+        にあるときは逆）
+        訂正：
+        上の方法だと、どうも上手くいかないので、単純にコンテキスト・メニュ－
+        と同じ要領でメニューを出すようにした。
+2004-07-07 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+    * application/src/v1/application/manager/CMRHistoryManager.m
+        履歴はもっとも以前に参照されたものから消すようにした。
+2004-06-29 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/Japanese.lproj/MainMenu.nib
+		「中止」は「ブラウザ」メニューへ移動。
+	* application/src/v1/application/manager/CMRMainMenuListener.m
+	* application/src/v1/application/window/CMRStatusLineWindowController.m
+		「中止」関連はStatusWindowControllerに移した。タスクがないときはメニュー項目が選択不可になるようになった。
+2004-06-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Japanese.lproj/CMRNoNameInput.nib
+	* application/Japanese.lproj/CMROpenURL.nib
+		レイアウトの微調整、メッセージの内容を少し親切にした。
+	* application/src/v1/Japanese.lproj/MainMenu.nib
+	* application/src/v1/application/manager/CMRMainMenuListener.m
+		「編集」メニューに「中止」を追加。CMRTaskManager のcancel:メソッドを呼び出す。ショートカットはCmd-. （ピリオド）。
+		タスクがなくてもメニューが選択可能なのは、手抜きです。。。
+	* application/Japanese.lproj/CocoMonarHelp/CocoMonarHelp idx
+	* application/Japanese.lproj/CocoMonarHelp/pgs2/
+		リンクミスがあったので修正
+	* application/src/v1/subproj/editor/Japanese.lproj/BoardListEditor.nib
+		「削除...」ボタンにdelete キーのショートカットを付与した。
+2004-06-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Japanese.lproj/CocoMonarHelp/CocoMonarHelp idx
+	* application/Japanese.lproj/CocoMonarHelp/pgs/
+		ちょっと修正
+2004-06-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/subproj/editor/BoardListEditor.m
+		掲示板リスト編集で掲示板を追加できるようにした（暫定）。カテゴリ追加のコードとほぼ同じ。
+========================================================
+2004-06-09 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/rsrc/text/KeyValueTemplates.plist
+        "Thread - LastVisible"   デフォルトの表示レス数（最初）
+        "Thread - FirstVisible"  デフォルトの表示レス数（最後）
+        "Thread - QuietDeletion" スレッドを削除するときに確認しない
+2004-06-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/rsrc/image/StopSmall.png
+		解像度を修正して、描画がずれる問題を解決。(1085252548/174さんの指摘)
+2004-06-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/thread/CMRThreadViewer-Action.m
+		削除してからウインドウを閉じるようにしていたが、そうすると削除に失敗することが多いようなので
+		ウインドウを閉じてから削除するようにした。
+	* application/src/v1/Japanese.lproj/TextFind.nib
+		レイアウトとリサイズの設定をちょっとだけ修整した。
+2004-06-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/thread/CMRThreadViewer-Action.m
+		別ウインドウで「スレッドを削除」したときにそのウインドウを閉じるようにした。
+	* application/src/v1/subproj/editor/Japanese.lproj/BoardListEditor.nib
+		レイアウトの修整、「カテゴリ...」を「カテゴリ」に、パネルを極端に小さくできないようにした。
+2004-06-02 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Japanese.lproj/CocoMonarHelp/CocoMonarHelp.html
+	* application/Japanese.lproj/CocoMonarHelp/pgs/
+	* application/Japanese.lproj/CocoMonarHelp/pgs2/
+	* application/Japanese.lproj/CocoMonarHelp/gfx/drawer.jpg
+	* application/Japanese.lproj/CocoMonarHelp/CocoMonarHelp idx
+		1.0.9.5に対応して一部記述を修正。画像を一枚差し替え。
+2004-05-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+    * application/src/v1/application/rsrc/text/KeyValueTemplates.plist
+        "System - 2channel Auth URL"を新しいURLに変更。
+2004-05-27 Minamie <minamie@po.twin.ne.jp>
+    * application/src/v1/application/composer/CMRAttributedMessageComposer-Anchor.m
+        URLの先頭が「ttps://」の場合に、「https://」と解釈してブラウザで開けるようにした。
+2004-05-21 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRBrowser-ViewAccessor.m
+        掲示板リスト・ドロワーの下部の小さなボタンの画像をカスタマイズ
+        可能にした。
+========================================================
+2004-05-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRBrowser-ViewAccessor.m
+	* application/src/v1/application/browser/CMRBrowser_p.h
+	* application/src/v1/application/thread/CMRThreadViewer-Action.m
+	* application/src/v1/application/rsrc/image/Configure.png
+		掲示板リスト・ドロワーの下部に小さなボタンを追加。「掲示板リストの編集」をすばやく開く。
+	* application/src/v1/subproj/editor/BoardListEditor-ViewAccessor.m
+		「編集...」「削除...」ボタンが使えなくなっていたのを修正
+    * application/src/v1/application/rsrc/text/URLBookmarks.plist
+        Unicode 関係でチルダが別の文字になっていたのを修正(Bug:1082119464/747-756)
+========================================================
+2004-05-16 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+    * frameworks/SGFoundation/framework/source/classes/files/SGFileLocation.m
+        SGFileLocation - 存在しないファイルでも参照できるオブジェクト
+    * application/src/v1/subproj/editor/BoardListEditor-ViewAccessor.m
+        掲示板リストの変更通知を受け取っていなかったため、不正な
+        メモリアクセスで落ちてたのを修正
+    * application/src/v1/application/bbs/BoardList.m
+        掲示板リストファイルが変更されたときに、標準リストをユーザーリスト
+        の内容で更新していたバグを修正 
+    * application/src/v1/application/rsrc/text/KeyValueTemplates.plist
+        "System - 2channel Auth URL"     パス認証 CGI
+        "System - 2channel Register URL" パス登録ページ
+========================================================
+2004-05-15 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* frameworks/CocoMonar/framework/src/CMRFileManager.m
+        エイリアスやファイル名が変わると上手くいかないのを修正
+
+========================================================
+2004-05-15 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* frameworks/CocoMonar/framework/src/CMRFileManager.m
+        board_default.plist, board.plist が変更された場合は
+        アプリケーションがアクティブ時に更新するようにした。
+    * application/src/v1/subproj/editor/BoardListEditor.m
+        読み込みのエンコーディングを指定
+    * application/src/v1/application/network/ThreadsListDownloader.m
+        鯖移動・自動追尾が成功したときは開いているスレッド一覧を
+        更新するようにした。
+========================================================
+2004-05-10 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+    * application/src/v1/application/thread/CMRThreadViewer.m
+        二重取得のチェックをもうすこし厳しくした
+    * application/src/v1/application/window/CMRReplyController.m
+        たとえレスを送信中でもショートカットで送信可能になっていたのを修正
+	* frameworks/SGNetwork/src/connector/SGHTTPStream.m
+        10.3 依存のデバッグ用コードが残っていた。
+======================================================== 1.0.9.4
+2004-05-10 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/bbs/BoardManager.m
+        鯖移転の自動追尾機能を実装してみた。
+2004-05-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/thread/CMRThreadViewer-Action.m
+		Property List Editor.appを絶対パスから単にアプリケーション名のみの指定に。
+		(1082119464/369さんの指摘)
+2004-04-24 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	*
+		バージョン 1.0.9.5 からは対応 OS を Mac OS X 10.2 以降に
+		しようと思います。
+2004-04-10 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/view/CMRStatusLine-Notification.m 
+		アプリケーションをリセットしたあとで別のスレッドを開くことが
+		できないのを修正
+	* application/src/v1/application/view/CMRStatusLine-Notification.m
+		アプリケーションをリセットしたときに履歴がひとつだけだと、履歴
+		のタイトルが消えてしまうバグを修正。NSPopUpButton が勝手に
+		タイトルを置き換えていたのが原因（以前からそうだったかは不明）
+	* application/src/v1/application/composer/CMRAttributedMessageComposer.m
+		アプリケーションをリセットしたときにスレッドを描画していると落ちる
+		のを修正
+2004-04-04 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* frameworks/SGNetwork/src/connector/SGHTTPStream.m
+		接続に失敗した場合はすぐダイアログを出すようになった。
+	*
+		移動した板の一覧をダウンロードしたときに「そんな板（ry」ダイアログ
+		が出ていなかったのを修正
+2004-03-22 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/subproj/editor/Japanese.lproj/BoardListEditor.nib
+		掲示板リストの編集画面での表示バグを修正
+2004-03-18 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/Japanese.lproj/CMRThreadMenu.nib
+		コンテキスト・メニューに「コピー」を追加
+======================================================== 1.0.9.4
+2004-03-17 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/network/CMRDATDownloader.m
+		スレに変更がなくても再取得ダイアログが出る問題。
+		原因不明です。これで治ってたらいいんだけど。
+		(Bug: 1077693166/775)
+	* application/src/v1/application/rsrc/text/URLBookmarks.plist
+		"BBS TABLE for 2ch" を「ヘルプ」メニューのブックマークに追加
+		(Feature: 1077693166/780)
+	* application/src/v1/application/manager/CMRMainMenuListener-MenuSetup.m
+		URLBookmarks.plist をカスタマイズ可能にした。
+		(Feature: 1077693166/784)
+========================================================
+2004-03-16 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/CMRNSObject.m
+		10.2 の判定がまた間違っていた。
+		(Bug: 1077693166/595)
+========================================================
+2004-03-15 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/preferences/CMRHostHandler.h
+		処理がひとつ抜けてたのを直した。
+		(Bug: 1077693166/661)
+	* application/src/v1/application/rsrc/image/moveEnd.png
+	* application/src/v1/application/rsrc/image/moveTop.png
+		レス移動ボタンの画像を修正。
+		(Bug: 1077693166/681)
+	* application/src/v1/application/view/CMRThreadView.m
+		レス番号指定フィールドのフォーカスが残るのを修正
+		(Bug: 1077693166/701)
+========================================================
+2004-03-14 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/CMRNSObject.m
+		10.2 の判定が間違っていた。
+		(Bug: 1077693166/595)
+	* application/src/v1/application/thread/CMRThreadLinkProcessor.m
+		">>1-2-3" のようなリンクは">>1,2,3" と解釈するようにした。
+		(Feature: 1077693166/598)
+	* application/src/v1/application/composer/CMRMessageFilter.m
+		「迷惑フィルタ」の「詳細...」で設定した語句は名前欄、
+		メール欄、および本文でチェックされるようにした。
+		(Feature: 1077693166/611)
+		
+	* application/src/v1/application/preferences/CMRHostHandler.h
+		板によって用いる文字エンコーディング・スキームを決定する
+		ルールを変更。詳細はヘッダファイルのコメントを参照。
+		＊これで以前報告のあった「ハロプロ＠2ch掲示板」のスレッド一覧
+		が文字化けする問題は解決。
+	
+2004-03-13 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/preferences/CMRHostHandler.m
+		スレッドの「情報をコピー」したときアドレスの最後に
+		スラッシュが入るようにした。
+		(Feature: 1077693166/535-536)
+		(Bug: nmatz)
+	* application/src/v1/subproj/editor/BoardListEditor.m
+		急遽必要になったので、掲示板編集でカテゴリ追加できるようにした。
+		適当な実装。
+========================================================
+2004-03-13 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/window/CMRReplyController.m
+		書き込みウインドウの位置とサイズを記憶しないバグを修正
+		(Bug: 1077693166/569)
+	* application/src/v1/application/thread/CMRThreadViewer.m
+		新しくスレを読み込んだときに表示しないことがあるバグを修正
+		(Bug: 1077693166/569)
+========================================================
+2004-03-11 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/subproj/preference/pane/PreferencesPane.m
+		環境設定でフォントの変更が反映されないのを修正
+		(Bug: 1077693166/477)
+	* application/src/v1/application/thread/CMRThreadViewer-Link.m
+		KeyValueTemplates: "Thread - LaunchExternalProgramOnPreviewLink"
+		option + リンクをクリックで、
+		Resources/Preview/preview を第１引数に URL 文字列を渡して
+		起動する。
+		(Patch: 1077693166/260)
+	* application/src/v1/application/thread/TextFinder.m
+		スレッド内検索のオプションがうまく記憶できていなかった。
+	
+========================================================
+2004-03-11 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/thread/TextFinder.m
+		スレッド内検索のオプションを記憶するようにした。
+		(Feature: 1077693166/209)
+	* application/src/v1/application/network/CMRDownloader.m
+		同じスレを二重にダウンロードしてしまうのに対処。
+		(Bug: 1077693166/387)
+	
+2004-03-06 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/thread/CMRThreadViewer-ViewAccessor.m
+		環境設定でフォントや色を変更すると、表示中のスレッドのフォントが
+		「標準のフォント」に変わってしまうのを修正。(Bug: 1077693166/271)
+	
+	* application/src/v1/subproj/preference/pane/PreferencesPane.m
+		環境設定で編集中にウインドウを閉じると、変更が反映されないのを
+		修正。(Bug: 1077693166/338)
+	* application/src/v1/application/preferences/AppDefaults.m 
+		プロキシの設定に「書き込むときのみ有効」を追加
+		(Feature: 1077693166/338)
+	* application/Japanese.lproj/CMRNoNameInput.nib 
+		「この板の名無しさんを設定」で出るダイアログのクローズボタンを
+		取り除いた。
+		(Bug: 1077693166/368)
+	
+	* application/CocoMonar.pbproj/project.pbxproj
+		Built-in AppleScript Support.
+	
+========================================================
+2004-02-29 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/NG/utils/CMXTextParser.m
+		タグ名が長すぎる、または ASCII 7bit 文字以外の場合は
+		削除せずに残すようにした。
+	* application/src/v1/application/browser/CMRBrowser-Action.m
+		スレッドをゴミ箱に捨てても、検索結果をクリアしないようにした。
+	* frameworks/SGNetwork/src/connector/SGHTTPStream.m
+		書き込み時、エラーをしらせるシートを開いたままフリーズ
+		するバグを修正
+	* application/src/v1/application/thread/CMRThreadViewer-Link.m
+		option + リンクをクリックで：
+		Resources/Preview/PreviewSource.html
+		の %%%ClickedLink%%% をURLで置き換え、それを開くようにした。
+		
+		(HTML, JavaScript by nmatz)
+========================================================
+2004-02-25 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/subproj/reply/error/SG2chErrorHandler.m
+		JBBS@したらば で書き込み時に「データがありません」エラーが
+		出るのを修正
+
+2004-02-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/subproj/preference/Japanese.lproj/GeneralPreferences.nib
+		ツールチップを修正、追加した。
+2004-02-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Japanese.lproj/CocoMonarHelp/CocoMonarHelp.html
+	* application/Japanese.lproj/CocoMonarHelp/pgs/
+	* application/Japanese.lproj/CocoMonarHelp/pgs2/
+	* application/Japanese.lproj/CocoMonarHelp/gfx/
+	* application/Japanese.lproj/CocoMonarHelp/CocoMonarHelp idx
+		1.0.9.4に対応した内容に更新。ファイル構成の大幅な変更。画像を一つ削除、二つ追加。
+	* application/src/v1/subproj/preference/Japanese.lproj/FilterPreferences.nib
+		ツールチップを追加した。
+2004-02-22 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/thread/CMRThreadLayout.m
+		スレッドのレイアウト中にウインドウを閉じると落ちるバグに対処
+========================================================
+2004-02-21 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/window/CMRReplyMessenger.m
+		「レス」アクションでの引用はそれまでの内容を上書きせず、追加するようにした。
+	* frameworks/SGNetwork/src/connector/SGHTTPStream.m
+		プロキシに対応。Mac OS X 10.2 以上。ログインでは効かない。
+	* application/src/v1/application/preferences/AppDefaults.m
+		プロキシの「システムの設定を使用」を追加
+========================================================
+2004-02-21 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/thread/CMRThreadViewer-Action.m
+		「すべて検索」「一覧検索」で対象が見つからないときは警告音を
+		出すようにした。
+	* application/src/v1/application/preferences/CMRHostHTMLHandler.m
+		まちBBS のスレッド読み込みに失敗するのを修正
+========================================================
+	* application/src/v1/application/network/ThreadsListDownloader.m
+		スレッド一覧を常に TEC で読み込むようにした
+	* application/src/v1/application/thread/CMRThreadViewer.m
+		ダウンロードしたスレッドを処理しているあいだはスレッドを更新できないようにした。
+	* application/src/v1/application/network/CMRDATDownloader.m
+		10.2 には strnstr() がなかった。
+========================================================
+2004-02-20 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/preferences/AppDefaults-FontColor.m
+		スレッドのフォントの設定が反映されないのを修正
+	* application/src/v1/application/preferences/CMRHostHandler.m
+		手抜きだが、未知のスレッドはとりあえず２ちゃんねる互換とみなすようにした。
+2004-02-18 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/subproj/preference/font_color/FCController-ViewAccessor.m
+		はじめて環境設定を開いたときに、チェックボックスと連動しているカラーウェル（グリッド、ポップアップのテキストカラー）
+		のカラーが正しく表示されない場合があるのを修正
+2004-02-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/util/CMRCMLFLauncher.h
+		削除（CMRMainMenuListenerに統合）
+	* application/src/v1/application/manager/CMRMainMenuListener.h
+		「ウインドウ」→「LogFinder」
+		CMRCMLFLauncherを統合
+	* application/src/v1/application/window/CMRBrowserTbDelegate.m
+	* application/src/v1/application/window/CMRThreadViewerTbDelegate.m
+	* application/src/v1/application/window/CMRThreadViewerTbDelegate_p.h
+	* application/src/v1/application/rsrc/image/cmlf_icon.png
+	* application/src/v1/Japanese.lproj/ThreadWindowToolbarItems.strings
+		ツールバーに「LogFinder」ボタンを追加可能にした。CMLogFinder を起動できる。
+		
+2004-02-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/subproj/preference/Japanase.lproj/FontsAndColors.nib
+		ツールチップの修正、追加とレイアウトの修整。
+========================================================
+2004-02-01 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/rsrc/text/KeyValueTemplates.plist
+		KeyValueTemplates.plist
+		"Thread - MessageHeader" --> 本文の前に挿入される文字列
+		"Thread - MessageFooter" --> 本文のあとに挿入される文字列
+	* application/src/NG/link/CMXPopUpWindowController+View.m
+		ポップアップで「スクロールバーを表示する」と「自動的に隠す」の
+		設定が逆になっていたのを修正
+		
+2004-02-01 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/preferences/AppDefaults-ThreadViewer.m
+		「ウインドウの位置と領域を記憶」を書き込みウインドウでも
+		動作するようにした。
+2004-01-27 Minamie <minamie@po.twin.ne.jp>
+    * application/Japanese.lproj/CMROpenURL.nib/
+	* application/src/v1/application/manager/CMROpenURLManager.h
+	* application/src/v1/Japanese.lproj/MainMenu.nib/
+	* application/src/v1/application/manager/CMRMainMenuListener.h
+		「ファイル」→「URLを開く...」
+		サービスメニューにも対応
+
+2004-01-24 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/thread/CMRThreadViewer.m
+		ＡＡスレを解除したときは、すべてのレスを非ＡＡに設定
+		するようにした。
+	* application/src/v1/application/thread/CMRThreadViewer-Action.m
+		「スレッド」→「レスに移動」に
+		「ひとつ前のブックマーク」「次のブックマーク」を追加
+========================================================
+2004-01-24 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/thread/CMRThreadViewer-Action.m
+		「一覧検索」で検索対象が見つからなかった場合でもポップアップ
+		してしまうバグを修正
+	* application/src/v1/application/view/SGHTMLView-Link.m
+		OS 10.2.x でポップアップが閉じないバグを修正
+	* application/src/v1/application/thread/CMRThreadViewer-Link.m
+		「レスのアクション」からレスすると二重書き込みに見えるバグを修正
+	* application/src/v1/application/thread/CMRThreadViewer-Action.m
+		一覧検索で名前、メール欄、ＩＤ、ホストも検索するようにした。
+========================================================
+2004-01-24 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/thread/CMRThreadViewer-Action.m
+		「スレッド」→「ＡＡスレッド」
+		スレッドをＡＡスレッドに設定。
+	* application/src/v1/application/thread/CMRThreadViewer-Action.m
+		「一覧検索」：検索条件に一致したものを強調し、ポップアップ表示
+		「すべて検索」検索条件に一致したものを強調
+		＊「リンクのみ検索」には未対応
+2004-01-24 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/preferences/AppDefaults-FontColor.m
+		ポップアップにスクロール・バーを表示するかどうか選択可能にした
+	
+2004-01-23 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/preferences/CMRHostHandler.m
+		スレッド一覧のエンコーディング候補を増やした
+	* application/src/v1/application/network/CMRDATDownloader.m
+		変換できないバイト列を含むスレも変換できるようにした。
+		http://ex2.2ch.net/test/read.cgi/ainotane/1066019735
+	
+2004-01-22 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/thread/CMRThreadViewer-Link.m
+		迷惑レスフィルタ
+	* application/src/v1/application/view/CMRThreadView.m
+		スレッド表示のコンテキスト・メニューを整理した。
+	* application/src/v1/application/view/CMRThreadView.m
+		スレッド表示のコンテキスト・メニューがポップアップでも
+		動作するようにした。
+	* application/src/v1/application/view/CMRThreadView.m
+		レスの属性変更が複数のレスにたいしても行えるようにした。
+	
+2004-01-22 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/thread/CMRThreadViewer-MoveAction.m
+		最初のレス、最後のレスに移動ボタンは、まず次のブックマークに移動する
+		ようにした。
+2004-01-22 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/Japanese.lproj/MainMenu.nib/
+		「スレッド」→「アクション」
+2004-01-21 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/subproj/preference/filter/CMRFilterPrefController.h
+	* application/src/v1/application/preferences/AppDefaults-Filter.m
+		「環境設定」→「フィルタ」
+	* application/src/v1/application/manager/CMRNoNameManager.h
+		「掲示板」→「名無しさんの設定」
+	* application/src/v1/application/composer/CMRSpamFilter.h
+		迷惑レスフィルタ
+2004-01-18 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* utilities/utilkit/UTILDebugging.h
+		デバッグ出力など。各ソースファイルで include する。
+	* application/src/NG/layout/data/CMRThreadMessage.h
+		レスオブジェクトのインデックスは 0-based なのに、1-based
+		で生成していた。そのため、最後に読んだレスに到達したときの通知を
+		スキップすることがあった。
+	
+======================================================== 1.0.9.3
+2004-01-15 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/rsrc/text/KeyValueTemplates.plist
+		１回の「オンザフライ読み込み」で読み込むレス数を設定できるようにした。
+		KeyValueTemplates.plist --> "Thread - On-The-Fly MessageCount"
+	
+	* application/src/v1/application/composer/CMRMessageAttributesTemplate.m
+		一時的に表示されていないレスがある部分にボタンを表示するようにした。
+		このボタンを押すと表示する。
+		ボタンの外観は以下の画像で設定
+		- EllipsisMouseDown.png
+		- EllipsisMouseOver.png
+		- EllipsisProxy.png
+
+2004-01-15 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/thread/CMRThreadLayout.m
+		表示されていないレスが１レスだけだと「オンザフライ読み込み」
+		が失敗するのを修正
+========================================================
+2004-01-14 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/composer/CMR2chDATReader.m
+		未取得スレッドを取得したときのレスの表示数
+2004-01-12 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/thread/CMRThreadLayout.m
+		「オンザフライ読み込み」
+2004-01-11 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/thread/CMRThreadViewer.m
+		スレッドの二重取得防止
+========================================================
+2003-12-15 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/main.m
+		「CocoMonar をリセット...」
+	* application/src/v1/application/thread/CMRThreadViewer-Action.m
+		「ウインドウの位置とサイズを記憶」
+	* application/src/v1/subproj/preference/Japanese.lproj/GeneralPreferences.nib
+		実装されていないオプションを無効にした
+	* application/src/v1/subproj/editor/BoardListEditor.m
+		掲示板リストで複数項目の削除が上手くいかないのを修正
+
+2003-12-06 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRThreadsList.m
+		レス数や差分などでソートしたとき、同値の場合はインデックスの
+		昇順で表示するようにした（前バージョンでは降順になっていた）。
+	
+========================================================
+2003-12-03 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/rsrc/text/HostProperties.plist
+		JBBS@したらばの書き込み規則が変わってる。
+		ついでに、書き込み時のパラメータをカスタマイズできるようにしておく。
+	* application/src/v1/application/browser/CMRThreadsList-DataSource.m
+		スレッド一覧の色を指定できるようにした。
+2003-12-02 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+        * application/src/v1/subproj/preference/pane/PreferencesPane-Toolbar.m
+                Pantherで、「カスタマイズ」ツールバーボタンはクリックしてもハイライトしないようにした。
+        * application/src/v1/subproj/preference/Resources/GeneralPreferences.nib
+                ツールチップの内容を修正。
+2003-12-02 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/thread/CMRThreadViewer-ViewAccessor.m
+		Application Support/ の first(or last)VisibleNumbers.plist が
+		反映されないのを修正。また、デフォルトの値を追加しないようにした。
+2003-11-26 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRThreadsList.m
+		ソート項目に関わらず、新着スレッドは上位に来るようにした。
+	* application/src/v1/application/preferences/AppDefaults.m
+		上の機能をON/OFFできるようにした
+2003-11-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/application/rsrc/Image/BackSmall.png
+	* application/src/v1/application/rsrc/Image/ForwardSmall.png
+		解像度を72dpiにした。表示が正しく行われるようになった。（10スレ784,786さんのパッチを適用）
+========================================================		
+2003-11-17 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/view/SGHTMLView-Link.m
+		ポップアップ処理の改善
+		[Tips] 
+		- [NSTextView mouseEntered:], [NSTextView mouseExited:]
+		は呼んではいけない。詳細はソースのコメント参照。
+	*
+		壊れたレスも一応表示することにした。
+	
+======================================================== 1.0.9.3 preview4
+2003-11-14 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/thread/CMRThreadComposingTask.m
+		レイアウト部分を書き直した。
+	* frameworks/SGFoundation/framework/source/extensions/string/NSCharacterSet-SGExtensions.m
+		URL文字列として","も含めるようにした。
+	* application/src/NG/link/CMXPopUpWindowController+View.m
+		行数が多いとポップアップが途切れるのを修正
+	* application/src/v1/application/view/SGHTMLView.m
+		リンクをマウスがポイントしたらすぐポップアップするように戻してみる
+2003-11-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+        * application/src/v1/application/util/CMRCMLFLauncher.h
+        * application/src/v1/application/util/CMRCMLFLauncher.m
+        * application/src/v1/Japanese.lproj/MainMenu.nib
+                「ウインドウ」メニューからCMLogFinderを起動できるようにしてみた :-)
+                CMLogFinderがインストールされていない場合は選択しても何も起きない（改善の余地あり）。
+        * application/src/v1/subproj/preference/pane/PreferencesPane-Toolbar.m
+                Pantherでツールバーのボタンが選択状態になるようにした。
+======================================================== 1.0.9.3 preview3
+=======
+2003-11-04 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/Japanese.lproj/MainMenu.nib
+		「環境設定...」にCommand-,のショートカットを付加（minamieさんの指摘）。
+2003-10-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/subproj/preference/Japanese.lproj/FontsAndColors.nib
+		Pantherでタブ領域の右上端が丸まってしまっていたのを修正。
+	* application/Japanese.lproj/CocoMonarHelp/pgs/MainWindow.html
+		Pantherのヘルプビューアで表示が崩れていたので修正。
+	* application/Japanese.lproj/CocoMonarHelp/CocoMonarHelp idx
+		内容検索用の索引ファイルも更新。
+2003-10-30 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/NG/link/CMXPopUpWindowController+View.m
+		ポップアップの幅を調整
+	* application/src/v1/Japanese.lproj/CMRStatusView.nib
+		履歴移動ボタンがずれてた --> 修正できず
+	* application/src/v1/application/view/SGHTMLView.m
+		マウス押しっぱなしでポップアップしないのを修正
+======================================================== 1.0.9.3 preview2
+2003-10-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Japanese.lproj/CocoMonarHelp/CocoMonarHelp.html
+		Pantherのヘルプビューアで見ると不細工さが際立つのでとりあえず修正。内容は変更なし。
+2003-10-30 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/view/CMRStatusLine-ViewAccessor.m
+		履歴ポップアップの初期化忘れバグを修正。+ [NSObject poseAsClass:] 万歳
+	* application/src/v1/application/network/ThreadsListDownloader.m
+		スレッド一覧もTECで変換
+		もしかして、NSString(CFString) のEncodingConverterが弱くなってる？
+		あるいはUnicodeのマッピングが変更されたせいか。。
+======================================================== 1.0.9.3 preview
+2003-10-29 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/view/SGHTMLView.m
+		[Panther:] リンクの色設定が無視されるのを修正
+	* application/src/v1/subproj/editor/BoardListEditor.m
+		2channel.brdが読み込めないのを修正
+	* application/src/NG/link/CMXPopUpWindowController+View.m
+		[Panther:] - [NSLayoutManager usedRectForTextContainer:] バグってるっぽい。
+		別の方法でポップアップのサイズを計算するようにした。
+2003-10-20 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* frameworks/SGAppKit/framework/src/event/SGKeyBindingSupport.m
+		キー・バインディング辞書読み込みを改良
+		マクロの展開は"<...>"形式のみにした。
+2003-10-17 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/view/CMRProgressIndicator.m
+		ステータス行のスピンをクリックして進捗状況を表示したときは
+		自動的に、最新の項目にスクロールするようにした。
+	* application/src/v1/application/view/CMRStatusLine-ViewAccessor.m
+		ステータス行の停止ボタンをバースタイルのときのみ復活
+2003-10-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/src/v1/subproj/editor/Japanese.lproj/BoardListEditor.nib
+		「掲示板リストの編集」ウインドウをリサイズ可能にした。
+		「カテゴリ...」「掲示板...」ボタンはまだ使えないので、常時disabledにした。
+========================================================		
+2003-10-10 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/thread/CMRThreadLinkProcessor.m
+		NSScannerは全角の混じった英数字を正しく処理できないようなので、
+		必ず全角 --> 半角に変換してから処理するようにした。
+	* application/src/v1/application/browser/CMRBrowser-List.m
+		検索結果を消去したあとも「○件の検索結果を表示しています」
+		が消えなかったのを修正
+	* application/src/v1/application/thread/CMRThreadViewer.m
+		削除したスレッドをもう一度開けなくなる場合があるのを修正
+2003-10-09 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/thread/CMRThreadViewer-Action.m
+		履歴でスレッドを移動すると書き込みウインドウが開かない場合が
+		あるのを修正
+2003-10-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Japanese.lproj/CocoMonarHelp/pgs/
+		図版は原寸大で表示するようにした。また、一部内容の充実を計った。
+	* application/Japanese.lproj/CocoMonarHelp/gfx/panepane.gif
+		新しい図版を一つ入れた。
+	* application/Japanese.lproj/CocoMonarHelp/CocoMonarHelp idx
+		内容検索用の索引ファイルも更新。
+========================================================		
+2003-10-07 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+		* application/src/v1/application/browser/CMRThreadsList-listImport.m
+		複数のブラウザを開いた状態で、一方のスレッド一覧を読み込むと、
+		もう一方の一覧も変更されてしまうバグを修正。
+		（原因についてはソースコードのコメント参照 - [CMRThreadsList threadsUpdateListTaskDidFinish:]）
+2003-10-06 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/view/CMRStatusLine-ViewAccessor.m
+		[ステータス行]検索結果のテキストがポップアップ・メニューと
+		重なってしまうのを修正
+========================================================
+2003-10-05 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/thread/CMRThreadViewer.m
+		未取得スレッドを別ウインドウで開き、もう一度更新するとタイトルが
+		消えるのを修正
+	* application/src/v1/application/browser/CMRThreadsList.m
+		既得数などでソートできなかったのを修正
+2003-10-03 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRThreadsList.m
+		スレッド一覧でソートした場合、新着スレッドは常に大きい方に
+		くるようにした。
+	* application/src/v1/application/rsrc/text/ThreadInfoTemplate.rtf
+		コンテキスト・メニューに「情報を表示」を追加。
+2003-10-02 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/thread/CMRThreadViewer-Action.m
+		コンテキスト・メニューに「選択したテキストをGoogleで検索」を追加。
+	* application/src/v1/application/view/SGHTMLView.m
+		リンクのコンテキスト・メニューを簡潔にした。
+	* http://cocomonar.sourceforge.jp/index.php?Tips
+		キー・バインディングの一覧を書いた。
+	* application/src/v1/application/browser/CMRBrowser-Action.m
+		削除するときにデフォルトで確認ダイアログを出すようにした。
+		ダイアログを出したくない場合は上のページを参考にキー・バインディング
+		をカスタマイズする。
+		deleteThread: --> forceDeleteThread:
+========================================================
+2003-10-01 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/manager/CMRDocumentFileManager.m
+		板のフォルダが作成されないのを修正
+	* application/src/NG/messaging/CMXWorkerContext.m
+		メモリリークしまくってたのを修正
+	* application/src/v1/application/browser/CMRThreadsList.m
+		スレッド一覧、差分や既得数が同じ項目同時は更にインデックスで
+		ソートするようにした。
+	* application/src/v1/application/bookmarks/CMRBookmarksButtonCell.m
+		「ブックマーク」ボタンをつけてみる。
+	* application/src/v1/application/window/CMRStatusLineWindowController.m
+		別ウィンドウで板の履歴を選択した場合は、ブラウザウィンドウを前面に
+		し、その板を表示するようにした。
+2003-09-27 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRThreadsList-DataSource.m
+		スレッド一覧から項目をFinderにドロップするときは「エイリアスの作成」
+		をデフォルトにした。
+	* application/src/v1/application/thread/CMRThreadViewer.m
+		ログファイルを作成したときに、ウインドウのタイトル・バーに
+		書類アイコンを表示するようにした。
+	* frameworks/CocoMonar/framework/src/CMRHostTypes.m
+		まちBSSとしてmachibbs.com, machi.to の判定
+	
+2003-09-21 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/rsrc/text/innerLinkPrefixCharacters.txt
+	* application/src/v1/application/rsrc/text/innerLinkRangeCharacters.txt
+	* application/src/v1/application/rsrc/text/innerLinkSeparaterCharacters.txt
+	* application/src/v1/application/rsrc/text/numericCharacters.txt
+		エンコーディングをUCS-2に変更
+	
+2003-09-18 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/composer/CMRAttributedMessageComposer-Anchor.m
+		"www."で始まるURLにもリンクを張るようにした。
+2003-09-15 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/thread/CMRThreadViewer.m
+		「戻る／進む」の履歴で連続したエントリは削除するようにした。
+	
+========================================================
+2003-09-15 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* frameworks/SGFoundation/framework/source/extensions/string/NSString+TEC.m
+		TEC
+	* application/src/v1/application/network/ThreadTextDownloader.m
+		NSStringでデコードに失敗した場合はTECを使うようにした。
+	* application/src/v1/application/network/ThreadsListDownloader.m
+		subject.txtで重複したスレッドは変換しない。
+	
+2003-09-13 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRBrowser.m
+		最後に開いていた板を次回起動時に開くとき、掲示板リストで
+		自動的に選択できなくても開くようにした。
+2003-09-11 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRThreadsList.m
+		はじめて訪れた板を読み込めないのを修正
+	
+========================================================1.0.9.2
+2003-09-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Japanese.lproj/CocoMonarHelp/pgs/
+		1.0.9.2に対応した内容に更新。
+	* application/Japanese.lproj/CocoMonarHelp/gfx/MainWindow.jpg
+		メインウインドウの図版は1.0.9.2のものに差し替えた。
+	* application/Japanese.lproj/CocoMonarHelp/CocoMonarHelp idx
+		内容検索用の索引ファイルも更新。
+	* application/src/v1/subproj/preference/Resources/GeneralPreferences.nib
+	* application/src/v1/subproj/preference/Resources/FontsAndColors.nib
+		表記の統一とツールチップの修正、追加を行った。
+	* application/src/v1/Japanese.lproj/Credits.rtf
+		全く些細なことだがtsawadaをtsawada2にした。
+2003-09-10 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	*application/src/v1/application/manager/CMRHistoryManager.m
+	*application/src/v1/application/thread/CMRSearchOptions.m
+		ツールバーのカスタマイズができないバグを修正
+	* application/src/v1/application/browser/CMRThreadsListSorter.m
+		検索履歴ポップアップの見た目を変更。
+		インデントを狭く、オプション項目との間に空白行を挿入。
+	* application/src/v1/application/rsrc/text/CMXPropertyListTemplate.plist
+		"PopUp - MaxWidthReductionRate"
+		スクリーンの幅 * この値 = ポップアップの最大幅
+	* application/src/v1/application/browser/CMRThreadsList-Notification.m
+		スレッド一覧で既得数がログと食い違っていた場合は読み込み時に
+		同期を取るようにした。
+	* application/src/v1/application/thread/CMRThreadViewer-Action.m
+		書き込みウィンドウはそのスレッドを表示している場合のみ開く
+========================================================
+2003-09-10 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRBrowser.m
+		削除ツールバー項目が効かないのを修正
+	* application/src/v1/application/window/CMRReplyController-ViewAccessor.m
+		名前欄のデフォルトが反映されないのを修正
+	* application/src/v1/application/window/CMRStatusLineWindowController.m
+		履歴を登録しようとして落ちるバグを修正
+	* application/src/v1/application/window/CMRReplyMessenger.m
+		書き込みウィンドウで履歴ポップアップが上手く動作していなかったを修正
+========================================================
+2003-09-08 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/rsrc/text/CMXPropertyListTemplate.plist
+		それぞれ、記録する履歴の上限数
+		History - Limit(Board)
+		History - Limit(SearchList) 
+		History - Limit(Thread)		
+	* application/src/v1/application/manager/CMRHistoryManager.m
+		「進む／戻る」ボタンも機能するようにした。
+	* application/src/v1/application/manager/CMRHistoryManager.m
+		履歴メニューをとりあえず動くようにした。
+	
+========================================================
+2003-09-08 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/preferences/AppDefaults-ThreadViewer.m
+		メールアイコンの表示／非表示を切り替える環境設定を追加
+	* application/src/v1/application/browser/CMRBrowser-Action.m
+		カラムをダブルクリックしてもアクションを起動しないようにした。
+	* application/src/v1/application/view/CMRProgressIndicator.m
+		プログレス・バーをクリックしたときに進行状況のウィンドウを開くようにした。
+	* application/src/NG/construct/NSCharacterSet+CMXAdditions.m
+		他言語環境でも全角数字などのポップアップが働くようにした。
+	* application/src/v1/application/rsrc/text/
+		テキスト書類のエンコーディングをUTF-8に変更
+2003-09-07 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRBrowser-Action.m
+		更新しても検索結果を表示したままにした。
+	* application/src/v1/application/rsrc/text/CMXAttributesTemplate.rtf
+		%%%Browser - SearchResult%%%
+		ステータス行に検索結果を表示するときのフォント、色。
+		%%%Browser - SearchNotFound%%%
+		ステータス行に検索結果（なし）を表示するときのフォント、色。
+2003-09-06 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/view/CMRStatusLine-ViewAccessor.m
+		ステータス行にテキストを表示するフィールドを追加
+	* application/src/v1/subproj/reply/error/SG2chErrorHandler.m
+		2ch以外の板でも書き込みエラーを表示するようにした
+	
+========================================================
+2003-09-06 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* frameworks/CocoMonar/framework/src/CMRHostTypes.m
+		まちBBSの新しいアドレスに対応
+	* application/src/v1/application/manager/CookieManager.m
+		Cookieを読み込んでいなかった
+	* application/src/v1/application/preferences/CMRHostHTMLHandler.m
+		JBBS@したらば、まちBBSを読めないのを修正
+	* application/src/v1/subproj/preference/general/GeneralPrefController-View.m
+		ログファイルの保存場所をFinderと同じ形式で表示するようにした。
+	* frameworks/CocoMonar/framework/src/CMRFileManager.m
+		ログファイルの保存場所が変更になりました。
+		新しい保存場所は
+		~/Library/Application Support/CocoMonar/Documents
+		です。
+	
+		また、この場所を変更することはできません。
+		場所を変えたい場合は上記の場所にエイリアスを置いてください。
+	
+	* application/src/v1/application/preferences/CMRHostHandler.m
+		2channel互換の掲示板ではread.cgiへのURLをパス形式で出すようにした
+	* application/src/v1/application/thread/CMRThreadViewer-Action.m
+		「選択レスへのリンクをコピー」が上手く動作していなかったのを修正
+	
+2003-09-05 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/preferences/CMRHostHandler.m
+		read.cgiのURLを解析するときにインデックス指定のデフォルト
+		を50にしていたのを修正
+	
+========================================================
+2003-09-05 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/NG/link/CMXPopUpWindowController.m
+		ポップアップしたときに以前のポップアップ内容が残っていて、
+		不正なぬるぽアクセスをしていたのを修正
+	* application/src/NG/link/CMXPopUpWindowController+View.m
+		ポップアップでアンチエイリアスをオフにしていなかったのを修正
+	
+========================================================
+2003-09-04 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/NG/link/CMXPopUpWindowController.m
+		ポップアップをアクティブにした状態で「最小化」や「閉じる」
+		を実行した場合は元のウィンドウを最小化／閉じるようにした。
+	
+	* application/src/v1/application/thread/CMRThreadLinkProcessor.m
+		ウィンドウを閉じたときは開いているポップアップも一緒に
+		閉じるようにした。
+		
+	* application/src/v1/application/rsrc/text/CMXAttributesTemplate.rtf
+		■掲示板リスト
+		"BBSList - BackgroundColor"	背景色
+		"BBSList - Text(Favorites)"	「お気に入り」テキスト
+		"BBSList - Text(Category)"	カテゴリのテキスト
+		"BBSList - Text(Default)"	項目のテキスト
+		
+	* application/src/v1/application/rsrc/text/CMXPropertyListTemplate.plist
+		■掲示板リスト
+		"BBSList - RowHeight"	行の高さ
+		"BBSList - IntercellSpacing"	項目間の空白（{幅, 高さ}）
+		"BBSList - IndentationPerLevel"	階層のインデント
+		"BBSList - ShowsToolTip"	ツールチップの表示
+
+	* application/src/NG/link/CMXPopUpWindowController.m
+		ポップアップ表示部分を書き換えた。
+		ポップアップの幅を一番長い行に合わせるようにした。
+		（最大幅はスクリーンの半分）
+		あと、消えやすくした。
+	* application/src/v1/application/view/SGHTMLView.m
+		前面のポップアップを無視して、CursorRectを作成してしまうのを修正。
+	* application/src/v1/application/rsrc/text/CMXPropertyListTemplate.plist
+		■ポップアップ関連
+		"PopUp - TrackingInsetWidth"
+			マウスを監視する領域をマウスが入るときはこの幅だけ拡げ、
+			マウスが離れるときは縮める。
+		"PopUp - TimeWeight"
+			秒数。この時間内にリンクからマウスが離れた場合はポップアップしない
+		
+========================================================
+2003-09-03 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/rsrc/text/CMXPropertyListTemplate.plist
+		■ポップアップ関連
+		"PopUp - WindowAlphaValue"	アルファ値
+		"PopUp - TextInset"	テキストの周囲のスペース
+	* application/src/v1/application/view/SGHTMLView.m
+		スレッド表示のキーバインディングもカスタマイズ可能にした
+		+ ThreadKeyBindings.plist
+	* framework/source/extensions/string/NSString-SGExtensions.m
+		- rangeOfCharacterSequenceFromSet:
+		- rangeOfCharacterSequenceFromSet:options:
+		- rangeOfCharacterSequenceFromSet:options:range
+		- componentsSeparatedByCharacterSequenceFromSet:
+		- componentsSeparatedByCharacterSequenceInString:
+	* application/src/v1/application/composer/CMRAttributedMessageComposer.m
+		メール欄が表示されないのを修正
+	* application/src/v1/application/rsrc/text/CMXPropertyListTemplate.plist
+		キーバインディング設定とプロバイダ関連の設定を別ファイルに移した。
+		+ BrowserKeyBindings.plist
+		+ HostProperties.plist
+	*
+		多くの画像ファイルを
+		~/Library/Application Support/CocoMonar/Resources
+		に置けるようにした。
+	
+========================================================
+2003-09-03 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/rsrc/text/CMXPropertyListTemplate.plist
+		■ポップアップ関連
+		"PopUp - FloatingPanel"	フローティングパネルかどうか
+		"PopUp - HasShadow"	ドロップシャドウの有無
+		"PopUp - BecomesKeyOnlyIfNeeded"	クリックしたときだけアクティブ
+		"PopUp - BorderType"		枠線の種類(0:なし 1-3:あり)
+	
+	基本的にフローティングパネルにしても違いはない。
+	ポップアップするたびにブラウザ画面が背面にまわるのがウザい場合は
+	"PopUp - BecomesKeyOnlyIfNeeded" = 1にしておく。
+	
+========================================================
+2003-09-02 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/preferences/CMRHostHandler.m
+		JBBS@したらばのリンク処理バグを修正
+	* application/src/v1/application/view/SGHTMLView.m
+		マウスがリンクをポイントし、停止した場合だけポップアップするようにした。
+	* application/src/v1/application/view/SGHTMLView.m
+		選択範囲の先頭が数字でない場合は、マウスを押しつづけてもポップアップ
+		するかどうかの判定をスキップするようにした。
+	* application/src/v1/application/view/SGHTMLView.m
+		複数行にまたがるリンクにカーソルを割り当てるときは、
+		正しく行の折り返しを処理するようにした。
+	* frameworks/SGFoundation/framework/source/classes/xml/SGXmlPullParser.m
+		属性に解決できないエンティティがあると、勝手にテキストと解釈していた
+		バグを修正。
+		
+	* application/src/NG/utils/CMXTextParser.m
+		"&amp" --> "&amp;"
+	
+========================================================
+2003-09-01 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/preferences/CMRHostHandler.m
+		JBBS@したらばも読み書きできるようにした
+	* application/src/v1/application/network/CMRThreadHTMLParser.m
+		まちBBSのホストも表示可能にした
+	* application/src/v1/application/rsrc/text/CMXAttributesTemplate.rtf
+		%%%Host%%%
+		ホストを表示する場合のフォント・色
+	* application/src/v1/application/rsrc/text/CMXPropertyListTemplate.plist
+		"Thread - Host Format"
+		ホストを表示する場合のフォーマット
+	
+	* application/src/v1/subproj/reply/error/SG2chErrorHandler.m
+		Samba24への対応含む、エラーメッセージ切り出し
+	
+	* application/src/v1/application/view/CMRStatusLine-ViewAccessor.m
+		ステータス行の配置を変更したときに画面を更新していなかった
+	
+========================================================
+2003-08-30 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* frameworks/SGFoundation/framework/source/extensions/string/NSMutableString-SGExtensions.m
+		実体参照の解決ができなかった場合は"&"の次から改めて、次の
+		実体参照を検索するようにした。
+	
+2003-08-30 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRBrowser.m
+		ウィンドウに表示する板名は実際に表示されているスレッドを反映する
+		ようにした。
+	* application/src/v1/Japanese.lproj/MessageComposer.strings
+		以下のキーが削除され、CMXPropertyListTemplate.plistに移動。
+		"Format of Index Field"
+		"Separetor of field"
+	
+	* application/src/v1/application/rsrc/text/whiteSpaceSeparater.rtf
+		なくなった
+	* application/src/v1/application/rsrc/text/CMXPropertyListTemplate.plist
+		"Thread - IndexFormat" --> レス番号のフォーマット
+		"Thread - FieldSeparater" --> 各フィールド区切り
+	* application/src/v1/application/rsrc/text/CMXAttributesTemplate.rtf
+		%%%WhiteSpaceSeparater%%%
+			本文に英字フォントを用いるときの、代替日本語フォント。
+			旧whiteSpaceSeparater.rtfの内容
+	
+2003-08-30 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/subproj/reply/rsrc/ReplyErrorCode.plist
+		<!--2ch_X:false>と<!--2ch_X:check>を追加
+		
+		参考：
+		http://members.jcom.home.ne.jp/monazilla/document/2ch_x.html
+		
+========================================================
+2003-08-29 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/network/CMRDATDownloader.m
+		改行(0x0a)の前の0x88は"?"で置き換えるようにした。
+	
+2003-08-27 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/subproj/preference/general
+		ステータス行の表示位置を変更可能にした。
+	
+2003-08-24 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/window/CMRReplyController-ViewAccessor.m
+		書き込みの下書きを読み込まないバグ。
+		NSTextViewの初期化が済む前に読み込んでいた。
+		
+2003-08-23 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/network/CMRKakoDATDownloader.m
+		過去ログの取得（実装途中）
+	
+2003-08-22 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/network/CMRDownloader.m
+	* application/src/v1/application/network/CMRMachiTextDownloader.m
+		HTML文書かどうかを判定するときのバグを修正
+		- [CMRDownloader shouldCancelWithFirstArrivalData:]
+	* frameworks/SGFoundation/framework/source/utilities/memcasestr.c
+		memcasestr
+	* frameworks/SGFoundation/framework/source/utilities/SGNSR.h
+		関数名を直接参照せずマクロ置換された名前を参照するように変更
+	
+2003-08-21 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/composer/CMRAttributedMessageComposer-Anchor.m
+		他レスへのリンクを張る場合に、末尾の空白とか余計なものを
+		リンクしないようにした。
+		たとえば、以前は以下のような文字列はすべてリンクが張られていた。
+		「>>688　　7　　8　　6　　5　　3　　2　　2　　4」
+		
+2003-08-19 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/NG/construct/CMXImageAttachmentCell.m
+		メール画像の表示位置を調節できるようにした。
+		下記参照
+	* application/src/v1/application/rsrc/text/CMXPropertyListTemplate.plist
+		"Thread - MailIconAlignment"
+		メール画像の表示位置（垂直位置のみ）。
+		値はNSImageAlignment(NSImageCell.h 参照)
+		0     = 中央
+		1 - 3 = 上つき
+		5 - 7 = 下つき
+	
+2003-08-19 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/subproj/preference/general/GeneralPrefController.m
+		環境設定にプロキシ設定のインターフェースなどを用意した
+	
+2003-08-19 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/bbs/BoardList.m
+		「掲示板の編集」ウィンドウで上下ボタンを有効にする
+		黒木さんのパッチを適用
+	
+2003-08-18 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/subproj/preferences
+		「環境設定」の整理
+	* application/src/v1/subproj/editor/BoardListEditor-ViewAccessor.m
+		「掲示板の編集」ウィンドウでドラッグ&ドロップを可能にした
+	
+2003-08-13 Minamie <minamie@po.twin.ne.jp>
+	* application/src/v1/application/preferences/CMRHostHandler.m
+		「>0」で落ちるバグを修正(黒木さんのパッチを反映)
+========================================================
+2003-08-04 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/thread/CMRThreadLinkProcessor.m
+		まちBBS -- リンクも開け
+	
+	* application/src/v1/application/network/CMRMachiTextDownloader.m
+	* application/src/v1/application/network/CMRThreadHTMLParser.m
+		まちBBS -- 不連続なレス番号も対処するようにした。
+	
+========================================================
+2003-08-04 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	
+	* application/src/v1/application/network/ThreadTextDownloader.m
+		まちBBS -- 保存できないバグを修正
+	* application/src/v1/application/preferences/AppDefaults-LibPath.m
+		まちBBS -- ブラウザで開けるようにした
+========================================================
+2003-08-04 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/rsrc/text/CMXPropertyListTemplate.plist
+		"BBS - machibbs" -- まちBBS用のパラメータ
+		
+	* application/src/v1/application/network/CMRMachiTextDownloader.m
+		まちBBSスレッド取得
+	* frameworks/SGFoundation/framework/source/classes/xml/SGXmlPullParser.m
+		変なコメントも許すオプション追加
+		例：<!--- こんなコメント使うな --->
+		HTMLでタグの最後に""で囲まれていない属性があるとパースできないのを修正
+	
+	* application/src/v1/application/network/CMRMachiListArchiver.m
+		まちBBSのスレッド一覧取得
+	* application/src/v1/application/composer
+		いろいろと無駄なクラスなど削除
+	
+2003-08-03 Minamie <minamie@po.twin.ne.jp>
+	* application/src/v1/application/thread/CMRThreadViewer-Action.m
+		- [CMRThreadViewer findTextInSelection:]
+		「選択部分を検索」の挙動を、TextEdit.appに合わせた。
+	* application/src/v1/application/thread/TextFinder.m
+		追加 - [TextFinder setFindString:]
+		「選択部分を検索」の挙動修正のため。
+========================================================
+2003-08-03 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* frameworks/SGAppKit/framework/resource/SGKeybindingMacros.plist
+		キーバインディングの設定に矢印キーなどはマクロで代用できるようになった。
+		
+		一覧はSGAppKitのSGKeybindingMacros.plistを参照
+		このファイルに登録されたキーを<...>または%%%...%%%で
+		囲んだものを使う。
+		
+		例：
+		<CarriageReturn>	return
+		@<DownArrow>		cmd + ↓
+		
+	* application/src/v1/application/view/ThreadsListTable.m
+		スレッド一覧のキーバインディングのアクションは
+		まず、自分のメソッド、次にターゲットのメソッド、
+		次にウィンドウのメソッドを探索
+2003-08-02 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* frameworks/SGAppKit/framework/src/event/SGKeyBindingSupport.m
+		キーバインディングで入力されたキーに'#' -- Numeric Keypadが
+		含まれている場合、次候補として含まれていないキーでも探す。
+		このやり方が一番簡単だったので。
+		
+	* application/src/v1/application/browser/CMRBrowser-Action.m
+		スレッドを削除したときに選択を外さないようにした
+	
+	* application/src/v1/application/rsrc/text/CMXPropertyListTemplate.plist
+		"Browser - ListViewAction"のデフォルトをselectThread:に変更
+		selectThread: -- option キーが押されておらず、
+						 表示する内容がありそうなら読み込む
+		
+========================================================
+2003-08-02 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRBrowser.m
+		ブラウザを開いたときにスレッド一覧にフォーカスが移るようにした。
+	* application/src/v1/application/browser/CMRBrowser-Action.m
+		スレッドを表示したときにスレッドにフォーカスが移るようにした。
+	* application/src/v1/application/rsrc/text/CMXPropertyListTemplate.plist
+		キー：Browser - ListViewKeyBindings
+		Browser - ListViewKeyBindings
+			スレッド一覧のキーバインディング定義（Dictionary）
+			辞書のキーがショートカットの組み合わせ、値がアクション
+			まず、ブラウザ(CMRBrowser)にアクションを送り、失敗した場合は
+			自分(ThreadsListTable)に送る。
+			
+		[KeyBinding]
+		実装はSGAppKit.frameworkのSGKeyBindingSupportクラス
+		ほぼ、Project BuilderのKeyBindingと同じ仕様
+		
+		"^" = Control Key
+		"~" = Alt Key
+		"$" = Shift Key
+		"#" = Numeric Keypad
+		"@" = Command Key
+		
+		- Shift Keyと組み合わせる場合、英字は大文字になる
+		- 正確に一致する組み合わせにのみ反応する
+		- 矢印キーなどの制御文字を簡単に入力する方法は知らない
+		  スレッド一覧で何かキーを押すと、文字列に変換したものが
+		  ~/Library/Application Support/CocoMonar/Logs/PressedKeyBinding.txt
+		  に出力されるようにしてある。TextEditで開いた方がいい。
+		- なぜかうちのキーボードだと矢印キーがNumeric Keypadだ
+		  
+		例：
+		$~A		Shit + Option + A
+		
+	* application/src/v1/application/rsrc/text/CMXPropertyListTemplate.plist
+		キー：
+		Browser - ListViewAction
+			スレッド一覧で項目をクリックしたときの動作
+		Browser - ListViewDoubleAction
+			スレッド一覧で項目をダブルクリックしたときの動作
+		
+		値：
+		showSelectedThread: 読み込む
+		openSelectedThreads: 別ウィンドウで開く
+		deleteThread: 削除
+		reloadThread: 更新
+		reply: レス
+
+	* application/src/v1/application/browser/CMRBrowser-Delegate.m
+		スレッド一覧の項目を上下キーで移動しても、スレッドを読み込まない
+		ようにした。
+	
+2003-08-01 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/CocoMonar.pbproj/project.pbxproj
+		Localizeされたlprojがバンドルに正しくコピーされないのを修正
+	
+========================================================
+2003-08-01 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/window/CMRReplyController-ViewAccessor.m
+		書き込みウィンドウの横幅が自動的にリサイズしない問題を修正
+	
+	* application/src/v1/application/thread/CMRThreadViewer-Action.m
+		スレッド「情報をコピー」- [CMRThreadViewer copyThreadAttributes]
+		フォーマットについては以下参照
+	* application/src/v1/application/rsrc/text/CMXPropertyListTemplate.plist
+		Thread - CopyThreadFormatを追加
+		%%%BBSName%%% = 掲示板名
+		%%%ThreadTitle%%% = スレッドのタイトル
+		%%%ThreadURL%%% = スレッドのURL
+		
+	* application/src/v1/Japanese.lproj/MainMenu.nib
+		編集／検索／選択部分を検索　を追加
+		編集／検索／前を検索　にcmd + Dのショートカット
+	* application/src/v1/application/thread/CMRThreadViewer-Action.m
+		追加- [CMRThreadViewer findTextInSelection:]
+
+	* application/src/v1/application/browser/CMRBrowser.m
+		- [NSWindowController windowTitleForDocumentDisplayName]
+		ブラウザのタイトルを変更
+		フォーマットについては以下参照
+	* application/src/v1/application/rsrc/text/CMXPropertyListTemplate.plist
+		Browser - WindowTitleFormatを追加
+		%%%BBSName%%% = 掲示板名
+		%%%ThreadTitle%%% = スレッドのタイトル
+========================================================1.0.9.1
+2003-08-01 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/rsrc/text/CMXPropertyListTemplate.plist
+		各項目の名前を変更。
+		AvailableURLCFEncodings --> System - AvailableURLCFEncodings
+		browser/boardSheetMask --> Browser - BoardSheetMask
+		text/mouseDown_tracking_timeInterval --> Thread - MouseDownTrackingTime
+2003-07-31 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/browser/CMRBrowser-Action.m
+		KUROKI Masayukiさんのpatch取り込み
+		ゴミ箱に捨てた直後のスレッドを取得できないバグを修正
+	
+	* application/src/v1/application/view/BrowserSplitView.m
+		ダブルクリックしたときの領域は別に保存するようにした。
+		これでアプリケーションを終了しても、ダブルクリックする前の
+		領域を覚えている。
+	
+	* application/src/v1/application/view/CMRSplitView.m
+		まあ、あまりに行き当たりばったりな対処法だと思われるだろうが、
+		5px以下の幅は強制的に0にするようにした
+		
+2003-07-31 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	*application/Japanese.lproj/CocoMonarHelp/CocoMonarHelp.html
+	*application/Japanese.lproj/CocoMonarHelp/pgs/
+	*application/Japanese.lproj/CocoMonarHelp/gfx/
+		1.0.7ベースだったヘルプの記述を1.0.9ベースに対応させるための修正と、
+		CocoMonarスレで比較的多い質問でヘルプになかった記述を少し追加。
+		また、デザインを最近のApple純正ヘルプを参考にリニューアル。
+	*application/Japanese.lproj/CocoMonarHelp/CocoMonarHelp idx
+		内容修正に伴いヘルプ検索用の索引ファイルも更新した。
+		
+========================================================
+2003-07-31 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* frameworks/SGFoundation/framework/source/protocols/SGComparableImp.m
+		- [id<SGComparable> compareTo:]
+		レシーバが引数オブジェクトのサブクラスだった場合に誤った値を
+		返していたのを修正
+		
+2003-07-30 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/NG/messaging/SGRunLoopMessenger.m
+		[NSData dataWithBytesNoCopy:length:freeWhenDane] --> CFDataCreateWithBytesNoCopy()
+		こんな基本的なものがMac OS X10.2以上とは。
+		
+========================================================
+	* application/src/v1/application/view/CMRTextView.m
+		poseAsClassするこの方法だとすべてのNSTextViewでmarkedTextAttributesが
+		有効になってしまいます（本当はこれが正しい挙動のはずですけど）。
+		すると、NSTextFieldはNSTextViewを使っていますから、たとえば検索フィールドで
+		日本語入力すると文字の背景がオレンジ（デフォルトのmarkedTextAttributes）
+		になってしまいます。きもい。
+		・・・ということで、poseAsClassしないようにした。
+
+========================================================
+2003-07-30 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/view/CMRTextView.m
+		NSTextViewにposeAsClassするクラス
+		テキスト入力中の下線の色を変えるために必要な変更。
+	
+	* application/src/v1/application/window/CMRReplyController-ViewAccessor.m
+	* application/src/v1/subproj/preference/font_color/FCController.h
+	* application/src/v1/application/preferences/AppDefaults-FontColor.m
+		キャレットの色をテキストの色と一緒にするオプションを追加
+		テキスト入力中の下線も同じ色になるはず。
+		「環境設定」→「フォントと色」→「その他」のキャレットうんたら
+		しかし、この糞つまらんコードの羅列はなんとかしないと。
+	
+2003-07-29 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/preferences/AppDefaults-FontColor.m
+		- [AppDefaults setTextDefaultsColor:forKey:]
+		白色を省いていたのを修正。たぶん、以前はNSColorはNSDataに変換して
+		保存していたので、無駄に思えたのだろう。
+		これで白色のテキスト色が保存されないバグは修正。
+		
+========================================================
+2003-07-29 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/thread/CMRThreadViewer.m
+		-[CMRThreadViewer loadFromContentsOfFile:]
+		自動リロードの後ですぐそれを取り消していたのを修正。
+		これはWorker threadの挙動がv1から変わったことによる副作用。
+		他にも関連したバグありそう。
+		
+	* Target Sneaky Peak v1:
+		Contents/SneakyPeakInfoにリリース日時を記載するようにした。
+	
+========================================================
+2003-07-29 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/Japanese.lproj/InfoPlist.strings
+		CFBundleHelpBookNameを追加
+		ヘルプ・ビューアにヘルプが表示されるになった。
+	
+	* frameworks/SGFoundation/framework/source/extensions/string/NSCharacterSet-SGExtensions.m
+		static const BOOL isURLCharactersASCII[ACCEPTABLE_ASCII_LENGTH]
+		URL文字として';'も許すようにした
+	
+========================================================
+2003-07-28 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* frameworks/CocoMonar/framework/src/base/common/CMRDocumentTypes.m
+		Debug用にファイルを書き込むAPI追加
+		void CMRDebugWriteObject(id obj, NSString *filename);
+	* application/src/v1/application/window/CMRReplyMessenger.m
+		・書き込み、クッキー確認では自動的に再試行するようにした。
+		・長すぎる（いまのとこ１０行以上の）エラーメッセージは切り詰める
+		・エラーをシート表示にした
+		* 二重書き込みに見えるバグ、通知を何度も登録していたのが原因、修正。
+		- [CMRReplyMessenger connector:resourceDidFailLoadingWithError:]
+	
+========================================================
+2003-07-28 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/rsrc/text/URLBookmarks.plist
+		なんとも今さらの感は拭えないのだが、tsawada2さんによる
+		「CocoMonar FAQ＆過去ログサイト」をヘルプメニューに追加
+	* application/src/v1/subproj/reply
+		無駄なクラス、無駄なファイル、無駄なコメント...etc
+	* application/src/v1/subproj/reply/rsrc/ReplyErrorCode.plist
+		書き込みエラーコードの対応表 SG2chErrorHandler.m
+	
+2003-07-28 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* application/src/v1/application/composer/CMRAttributedMessageComposer-Anchor.m
+		リンク中の全角チルダを半角チルダに変換（表示上はそのまま）
+		static BOOL scanURLCharactersFallDown(
+						NSScanner *scanner,
+						NSMutableString *stringBuffer);
+	* frameworks/SGFoundation/framework/source/extensions/string/String+Utils.h
+		 + [NSString yenmark]    円記号
+		 + [NSString backslash]  バックスラッシュ
+	
+	* application/src/v1/application/composer/CMRAttributedMessageComposer-Convert.m:
+		表示するときに「バックスラッシュ --> 円記号」と変換
+		
+	* application/src/v1/subproj/reply/connector/w2chMessenger.m:
+		書き込むときに「バックスラッシュ --> 円記号 --> @"&yen;"」と変換
+		するようにした。
+		- [w2chMessenger stringByReplacingYenBackslashToEntity:]
+	
+	* frameworks/SGAppKit/framework/src/extensions/color/NSColor- SGExtensions.m:
+		Color <--> String変換でRGBカラーしか対応していないのを修正。
+	
+2003-07-27 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* CMXWorkerContext.m:
+		[Bugs: 2641] 最後に読んだレス番号が記録されない
+		修正済み。
+	
+2003-07-17 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* CMRStatusLine-ViewAccessor.m:
+		プログレス・インディケーターの外観を変更したときに、
+		位置や大きさがおかしくなるのを修正
+	* CMRBrowser-ViewAccessor.m:
+		「リスト内を検索」シートでオプションを変更できなかった
+		のを修正

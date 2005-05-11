@@ -1,0 +1,6 @@
+/* Localized versions of Info.plist keys */
+
+CFBundleName = "Performance Test";
+CFBundleShortVersionString = "Performance Test version 0.1";
+CFBundleGetInfoString = "Performance Test version 0.1, Copyright 2003 __MyCompanyName__.";
+NSHumanReadableCopyright = "Copyright 2003 __MyCompanyName__.";

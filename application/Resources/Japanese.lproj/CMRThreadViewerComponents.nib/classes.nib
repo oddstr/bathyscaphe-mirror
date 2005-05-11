@@ -1,0 +1,61 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {collapseSecondView = id; expandSecondView = id; }; 
+            CLASS = BrowserSplitView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = CMRSplitView; 
+        }, 
+        {CLASS = CMRSplitView; LANGUAGE = ObjC; SUPERCLASS = NSSplitView; }, 
+        {
+            ACTIONS = {toggleStatusLineShown = id; }; 
+            CLASS = CMRStatusLineWindowController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = CMRToolbarWindowController; 
+        }, 
+        {
+            ACTIONS = {
+                addFavorites = id; 
+                deleteThread = id; 
+                findFirstText = id; 
+                findNextText = id; 
+                findPreviousText = id; 
+                openBBSInBrowser = id; 
+                openInBrowser = id; 
+                openLogfile = id; 
+                reloadThread = id; 
+                reply = id; 
+                scrollFirstMessage = id; 
+                scrollLastMessage = id; 
+                scrollNextMessage = id; 
+                scrollPrevMessage = id; 
+                scrollToLastReadedIndex = id; 
+                selectFirstVisibleRange = id; 
+                selectLastVisibleRange = id; 
+                toggleOnlineMode = id; 
+            }; 
+            CLASS = CMRThreadViewer; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "m_componentsView" = NSView; 
+                "m_containerView" = NSView; 
+                "m_firstVisibleRangePopUpButton" = NSPopUpButton; 
+                "m_lastVisibleRangePopUpButton" = NSPopUpButton; 
+                "m_scrollView" = SGScrollView; 
+                "m_textView" = NSTextView; 
+                "m_windowContentView" = NSView; 
+            }; 
+            SUPERCLASS = CMRStatusLineWindowController; 
+        }, 
+        {
+            CLASS = CMRToolbarWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"m_toolbarDelegateImp" = id; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = CMXScrollView; LANGUAGE = ObjC; SUPERCLASS = NSScrollView; }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = IndexField; LANGUAGE = ObjC; SUPERCLASS = NSTextField; }
+    ); 
+    IBVersion = 1; 
+}

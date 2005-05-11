@@ -1,0 +1,73 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {
+                changeColor = id; 
+                changeDrawStriped = id; 
+                changeDrawsGrid = id; 
+                changeHasAnchorUnderline = id; 
+                changePopUpScrollerSize = id; 
+                changeResPopUpSeeThrough = id; 
+                changeResPopUpUsesTextColor = id; 
+                changeShouldThreadAntialias = id; 
+                changeTableRowSpace = id; 
+                chooseProgressStyleRadioBotton = id; 
+                fixRowHeightToFont = id; 
+            }; 
+            CLASS = FCController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_alternateFontButton" = NSButton; 
+                "_hasAnchorULButton" = NSButton; 
+                "_itemTitleFontButton" = NSButton; 
+                "_messageAnchorColorWell" = NSColorWell; 
+                "_messageColorWell" = NSColorWell; 
+                "_messageFilteredColorWell" = NSColorWell; 
+                "_messageFontButton" = NSButton; 
+                "_messageNameColorWell" = NSColorWell; 
+                "_messageTextEnhancedColorWell" = NSColorWell; 
+                "_messageTitleColorWell" = NSColorWell; 
+                "_newThreadColorWell" = NSColorWell; 
+                "_newThreadFontButton" = NSButton; 
+                "_progressStyleRadioBotton" = NSMatrix; 
+                "_resPopUpBGColorWell" = NSColorWell; 
+                "_resPopUpIsSeeThroughButton" = NSButton; 
+                "_resPopUpScrollerIsSmall" = NSButton; 
+                "_resPopUpTextColorWell" = NSColorWell; 
+                "_resPopUpUsesTCButton" = NSButton; 
+                "_threadViewBGColorWell" = NSColorWell; 
+                "_threadViewColorWell" = NSColorWell; 
+                "_threadViewFontButton" = NSButton; 
+                "_threadsListColorWell" = NSColorWell; 
+                "_threadsListFontButton" = NSButton; 
+                "m_drawStripedCheckBox" = NSButton; 
+                "m_drawsGridCheckBox" = NSButton; 
+                "m_replyBackgroundColorWell" = NSColorWell; 
+                "m_replyFontButton" = NSButton; 
+                "m_replyTextColorWell" = NSColorWell; 
+                "m_rowHeightField" = NSTextField; 
+                "m_rowHeightStepper" = NSStepper; 
+                "m_shouldAntialiasButton" = NSButton; 
+                "m_spaceHeightField" = NSTextField; 
+                "m_spaceHeightStepper" = NSStepper; 
+                "m_spaceWidthField" = NSTextField; 
+                "m_spaceWidthStepper" = NSStepper; 
+            }; 
+            SUPERCLASS = PreferencesController; 
+        }, 
+        {
+            ACTIONS = {"" = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FontWell; LANGUAGE = ObjC; SUPERCLASS = NSButton; }, 
+        {
+            CLASS = PreferencesController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"_contentView" = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

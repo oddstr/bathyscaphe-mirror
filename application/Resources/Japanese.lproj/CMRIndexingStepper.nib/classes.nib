@@ -1,0 +1,24 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {decrement = id; increment = id; max = id; min = id; updated = id; }; 
+            CLASS = CMRIndexingStepper; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "m_delegate" = id; 
+                "m_frameView" = NSView; 
+                "m_indexField" = IndexField; 
+                "m_moveEndButton" = NSButton; 
+                "m_moveNextButton" = NSButton; 
+                "m_movePrevButton" = NSButton; 
+                "m_moveTopButton" = NSButton; 
+                "m_moveUpdatedButton" = NSButton; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = IndexField; LANGUAGE = ObjC; SUPERCLASS = NSTextField; }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }
+    ); 
+    IBVersion = 1; 
+}

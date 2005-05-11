@@ -1,0 +1,22 @@
+"Send Message to %@..." = "%@ に書き込み中...";
+"EndPost" = "終了";
+
+"ERROR Send Message"	= "送信に失敗";
+"Send Message"			= "送信";
+
+"Try Again"				= "書き込む";
+"Cancel"				= "キャンセル";
+
+"Window Title" = "Re: %@";
+"submit" = "書き込む";
+
+"quotation marks" = ">";
+
+"Be Login On" = "Be ログイン中";
+"Be Login Off" = "Be ログアウト中";
+
+"BeLoginOnToolTip" = "現在、Be ログインしています。クリックするとログアウトします。";
+"BeLoginOnNeededToolTip" = "現在、Be ログインしています。この掲示板では Be ログインが必須のため、ログアウトすることはできません。";
+"BeLoginOffToolTip" = "現在、Be ログインしていません。クリックすると Be ログインします。";
+"BeLoginOffTrivialToolTip" = "この掲示板は２ちゃんねるの掲示板ではないため、Be ログインは無効になっています。";
+"BeLoginOffCantLoginToolTip" = "環境設定で Be アカウントが設定されていないため、Be ログインは無効になっています。";

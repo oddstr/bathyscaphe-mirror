@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Classes</key>
+	<dict>
+		<key>Browser</key>
+		<dict>
+			<key>Attributes</key>
+			<dict>
+				<key>boardNameAsString</key>
+				<dict>
+					<key>Description</key>
+					<string>Current board name.</string>
+					<key>Name</key>
+					<string>boardname</string>
+				</dict>
+				<key>boardURLAsString</key>
+				<dict>
+					<key>Description</key>
+					<string>Current board URL.</string>
+					<key>Name</key>
+					<string>boardURL</string>
+				</dict>
+			</dict>
+			<key>Description</key>
+			<string>A CocoMonar browser (i.e. threads list) window.</string>
+			<key>Name</key>
+			<string>browser</string>
+			<key>PluralName</key>
+			<string>browsers</string>
+		</dict>
+		<key>CMRAbstructThreadDocument</key>
+		<dict>
+			<key>Attributes</key>
+			<dict>
+				<key>boardNameAsString</key>
+				<dict>
+					<key>Description</key>
+					<string>Current board name.</string>
+					<key>Name</key>
+					<string>boardname</string>
+				</dict>
+				<key>boardURLAsString</key>
+				<dict>
+					<key>Description</key>
+					<string>Current board URL.</string>
+					<key>Name</key>
+					<string>boardURL</string>
+				</dict>
+				<key>selectedText</key>
+				<dict>
+					<key>Description</key>
+					<string>A selected text.</string>
+					<key>Name</key>
+					<string>selected text</string>
+				</dict>
+				<key>textStorage</key>
+				<dict>
+					<key>Description</key>
+					<string>The text of the document.</string>
+					<key>Name</key>
+					<string>text</string>
+				</dict>
+				<key>threadAttrDict</key>
+				<dict>
+					<key>Description</key>
+					<string>Attributes of the thread which the document shows.</string>
+					<key>Name</key>
+					<string>thread attributes</string>
+				</dict>
+				<key>threadTitleAsString</key>
+				<dict>
+					<key>Description</key>
+					<string>Title of the thread which the document shows.</string>
+					<key>Name</key>
+					<string>title</string>
+				</dict>
+				<key>threadURLAsString</key>
+				<dict>
+					<key>Description</key>
+					<string>URL of the thread which the document shows.</string>
+					<key>Name</key>
+					<string>URL</string>
+				</dict>
+			</dict>
+			<key>Description</key>
+			<string>A CocoMonar thread document.</string>
+			<key>Name</key>
+			<string>document</string>
+			<key>PluralName</key>
+			<string>documents</string>
+		</dict>
+		<key>CMRReplyMessenger</key>
+		<dict>
+			<key>Attributes</key>
+			<dict>
+				<key>textStorage</key>
+				<dict>
+					<key>Description</key>
+					<string>The text to reply.</string>
+					<key>Name</key>
+					<string>text</string>
+				</dict>
+			</dict>
+			<key>Description</key>
+			<string>A CocoMonar reply document.</string>
+			<key>Name</key>
+			<string>reply document</string>
+			<key>PluralName</key>
+			<string>reply documents</string>
+		</dict>
+		<key>NSApplication</key>
+		<dict>
+			<key>Attributes</key>
+			<dict>
+				<key>isOnlineMode</key>
+				<dict>
+					<key>Description</key>
+					<string>Is online mode now?</string>
+					<key>Name</key>
+					<string>onlineMode</string>
+				</dict>
+				<key>useiTunesColor</key>
+				<dict>
+					<key>Description</key>
+					<string>Draws threads list table like iTunes.</string>
+					<key>Name</key>
+					<string>uses iTunes stripe color</string>
+				</dict>
+			</dict>
+			<key>Description</key>
+			<string>CocoMonar application.</string>
+			<key>Name</key>
+			<string>application</string>
+			<key>PluralName</key>
+			<string>applications</string>
+		</dict>
+	</dict>
+	<key>Commands</key>
+	<dict>
+		<key>openURL</key>
+		<dict>
+			<key>Description</key>
+			<string>Directly open the thread specified by URL.</string>
+			<key>IsVerb</key>
+			<string>YES</string>
+			<key>Name</key>
+			<string>openURL</string>
+			<key>UnnamedArgument</key>
+			<dict>
+				<key>Description</key>
+				<string>URL to open</string>
+			</dict>
+		</dict>
+		<key>reloadList</key>
+		<dict>
+			<key>Description</key>
+			<string>Reload current thread list.</string>
+			<key>IsVerb</key>
+			<string>YES</string>
+			<key>Name</key>
+			<string>reload list</string>
+			<key>UnnamedArgument</key>
+			<dict>
+				<key>Description</key>
+				<string>A reference to browser(s).</string>
+			</dict>
+		</dict>
+		<key>reloadThread</key>
+		<dict>
+			<key>Description</key>
+			<string>Reload current thread.</string>
+			<key>IsVerb</key>
+			<string>YES</string>
+			<key>Name</key>
+			<string>reload thread</string>
+		</dict>
+	</dict>
+	<key>Description</key>
+	<string>CocoMonar specific classes.</string>
+	<key>Name</key>
+	<string>CocoMonar suite</string>
+</dict>
+</plist>

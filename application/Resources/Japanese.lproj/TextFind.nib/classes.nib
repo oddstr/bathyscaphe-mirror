@@ -1,0 +1,28 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {
+                findAll = id; 
+                findAllByFilter = id; 
+                findFirstText = id; 
+                findNextText = id; 
+                findPreviousText = id; 
+            }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {optionChanged = id; updateComponents = id; }; 
+            CLASS = TextFinder; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_buttonMatrix" = NSMatrix; 
+                "_findTextField" = NSTextField; 
+                "_optionMatrix" = NSMatrix; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

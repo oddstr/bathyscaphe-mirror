@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<schema version="1.0" xmlns="http://www.apple.com/metadata"
+                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xsi:schemaLocation="http://www.apple.com/metadata file:///System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Resources/MetadataSchema.xsd">
+    <note>
+        Custom attributes that this metadata importer supports.  Below
+	is an example of a multivalued string attribute.  Other types
+	are CFNumber, CFDate, CFBoolean and CFData.		      
+    </note>
+    <attributes>
+        <attribute name="jp_tsawada2_bathyscaphe_thread_DatSize" multivalued="false" type="CFNumber"/>
+        <attribute name="jp_tsawada2_bathyscaphe_thread_BoardName" multivalued="false" type="CFString"/>
+        <attribute name="jp_tsawada2_bathyscaphe_thread_ResCount" multivalued="false" type="CFNumber"/>
+        <attribute name="jp_tsawada2_bathyscaphe_thread_DatNumber" multivalued="false" type="CFString"/>
+    </attributes>
+
+    <types>
+        <type name="jp.tsawada2.bathyscaphe.thread">
+            <note>
+		The keys that this metadata importer handles.
+            </note>
+            <allattrs>
+		jp_tsawada2_bathyscaphe_thread_BoardName
+		jp_tsawada2_bathyscaphe_thread_ResCount
+	    jp_tsawada2_bathyscaphe_thread_DatSize
+		jp_tsawada2_bathyscaphe_thread_DatNumber
+            </allattrs>
+            <displayattrs>
+		kMDItemTitle
+		jp_tsawada2_bathyscaphe_thread_BoardName
+		jp_tsawada2_bathyscaphe_thread_ResCount
+	    jp_tsawada2_bathyscaphe_thread_DatSize
+		kMDItemContentCreationDate
+            </displayattrs>
+        </type>
+    </types>
+</schema>
+

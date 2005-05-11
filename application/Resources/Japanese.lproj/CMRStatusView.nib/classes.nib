@@ -1,0 +1,45 @@
+{
+    IBClasses = (
+        {
+            CLASS = CMRProgressIndicator; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSProgressIndicator; 
+        }, 
+        {CLASS = CMRPullsDownButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
+        {
+            ACTIONS = {
+                cancel = id; 
+                historyBackward = id; 
+                historyForward = id; 
+                selectHistoryPopUpItem = id; 
+                toggleStatusLineShown = id; 
+            }; 
+            CLASS = CMRStatusLine; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_boardHistoryPopUp" = NSPopUpButton; 
+                "_bookmarksButton" = NSButton; 
+                "_forwardBackMatrix" = NSMatrix; 
+                "_indicatorView" = NSView; 
+                "_infoTextField" = NSTextField; 
+                "_progressIndicator" = NSProgressIndicator; 
+                "_statusLineView" = NSView; 
+                "_statusTextField" = NSTextField; 
+                "_stopButton" = NSButton; 
+                "_threadHistoryPopUp" = NSPopUpButton; 
+                "_toolbarItemMatrix" = NSMatrix; 
+                "_toolbarView" = NSView; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {
+            CLASS = SGContainerTableView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"m_dataSource" = id; }; 
+            SUPERCLASS = NSView; 
+        }
+    ); 
+    IBVersion = 1; 
+}

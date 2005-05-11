@@ -1,0 +1,59 @@
+========================================
+ HOW TO BUILD
+========================================
+
+
+
+■使用しているライブラリ
+
+[sqlite]
+--------------------------------
+http://www.hwaci.com/sw/sqlite/
+
+からダウンロードして、--enable-utf8でmakeし、スタティックライブラリにしたものを以下のディレクトリに置いてください。
+
+cocomonar/frameworks/sqlite
+
+
+[cURL]
+--------------------------------
+http://curl.haxx.se/libcurl/
+
+./configure --prefix=(BuildPath) --without-ssl --without-zlib 
+--disable-ipv6 --disable-shared --disable-thread --disable-nonblocking
+
+また、configureしたあとで、lib/setup.hの27行目
+#define HTTP_ONLY	
+のコメントアウトをとり、
+#include "config.h"したあとで、
+
+#undef HAVE_STRTOK_R
+#undef HAVE_STRLCAT
+
+しています。
+
+
+■ビルド
+
+* Terminal
+--------------------------------
+1. cd cocomonar/
+2. make
+
+
+* Project Builder
+--------------------------------
+1. まず、cocomonar/frameworks以下の各フレームワークをビルドする。
+2. いくつかのフレームワークはSGFoundation.frameworkをリンクしているため、最初にこれをビルドし、残りのフレームワークをビルドする。
+3. cocomonar/application/CocoMonar.pbprojを開き、ビルドする。
+
+
+2003-07-27 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* CocoMonar.pbproj:
+		「v1」ターゲットをビルドできるようにしました。
+		application/src/v1/BUILD.txt参照。
+	
+2003-07-23 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	* CocoMonar.pbproj:
+		version 1を改造しようとしたけど無理でした。
+		「v1」ターゲットはビルドできません。

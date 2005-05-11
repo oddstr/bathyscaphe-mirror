@@ -1,0 +1,5 @@
+"Not Found"		= "そんな板 or スレッドないです。";
+"Not Found %@"	= "スレッド一覧のダウンロードに失敗しました。%@";
+
+"Board Info Format" = "%u 件のスレッド";
+"Favorite Info Format" = "%u 件のお気に入りが登録されています";

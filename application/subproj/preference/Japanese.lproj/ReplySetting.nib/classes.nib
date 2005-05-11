@@ -1,0 +1,25 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {addRow = id; changeDefaultMail = id; changeDefaultName = id; removeRow = id; }; 
+            CLASS = CMRReplyDefaultsController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "m_addRowBtn" = NSButton; 
+                "m_defaultMailField" = NSTextField; 
+                "m_defaultNameField" = NSTextField; 
+                "m_nameListTable" = NSTableView; 
+                "m_removeRowBtn" = NSButton; 
+            }; 
+            SUPERCLASS = PreferencesController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = PreferencesController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"_contentView" = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

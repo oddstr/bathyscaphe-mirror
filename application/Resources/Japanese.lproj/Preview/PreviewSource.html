@@ -1,0 +1,108 @@
+<!--
+PreviewSource.html	2004-02-29
+Last Update 2005-02-17
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<meta name="generator" content="mi">
+<meta name="author" content="nmatz">
+<script type="text/javascript">
+<!-- //					*** カスタマイズ用設定値 ***
+var label_index = 1;				// デフォルトサイズ { 0:小 1:中 2:大 }
+var width_default = 60;				// デフォルトサイズの width
+var labels = new Array('小','中','大');
+var jump_confirm = 2;				// リンク先が画像でない時の動作 { 0:何もしない 1:飛ぶかどうか確認する 2:確認なしで飛ぶ }
+var jump_confirm_conditional = 1;	//リンク先URLに condition_url_array の要素が含まれていた場合に jump_confirm に代わる動作
+var condition_url_array = new Array('/img', '/upload');	//some strings 
+//						***       ここまで       ***
+
+var imgSrc = '%%%ClickedLink%%%';	// URL of target image
+var imgRatio = 0;
+if (!labels.length) { alert('check labels array.'); }
+if (label_index >= labels.length) { label_index = labels.length-1; }
+if (label_index < 0) { label_index = 0; }
+if (width_default < 0) { width_default = Math.abs(width_default); }
+labels = labels.concat(new Array('オリジナルサイズ'));
+
+//jump_comfirm_conditional
+var b = false;
+for (i=0; i<condition_url_array.length; i++) {
+	b = b || (imgSrc.indexOf(condition_url_array[i]) >= 0);
+}
+if (b) { jump_confirm = jump_confirm_conditional; }
+
+//title
+var paths = imgSrc.split('/');
+var c = paths.length-1;
+var imgFileName;
+if (c > 0) { imgFileName = (paths[c].length) ? paths[c] : paths[c-1]; }
+else { imgFileName = imgSrc; }
+document.write('<title>'+imgFileName+' : CocoMonar プレビュー</title>');
+
+
+function imgOnError() {
+	if (jump_confirm == 1 && !confirm('"'+imgSrc+'" は画像ファイルではないようです。ページに移動しますか?')) { jump_confirm = 0; }
+	if (jump_confirm) { location.href = imgSrc; }
+	document.images['i1'].title = "クリックするとリンク先のページを開きます。";
+}
+
+function imgWidth(v) { return width_default * Math.pow(2, v-label_index); }
+//function imgHeight(v) { return imgRatio * imgWidth(v); }
+
+function resize(v) {
+	var img = document.images['i1'];
+	if (!imgRatio) { imgRatio = img.height/img.width; }
+	if (0<=v && v<=labels.length-2) {
+		var w = imgWidth(v);
+		img.width = w;
+		img.height = w*imgRatio;
+	} else { location.href = imgSrc; }
+}
+//-->
+</script>
+<style type="text/css">
+<!--
+body		{margin-bottom: 0px; background-repeat: repeat-y; background-position: center;}
+label		{font-weight: bold; cursor: default;}
+#copyright	{font-size: 10px; font-family: "Lucida Grande"; line-height: 15px;}
+#message	{font-size: 12px; margin-top: 4px;}
+#dispsize	{background-color: #cccccc; border: 1px solid #666666; padding: 2px 40px; font-family: "Hiragino Kaku Gothic Pro"; white-space: nowrap;}
+#cmlogo		{font: normal bold 48px/100% Helvetica, Arial;}
+img.i1		{background-color: #ffffff;}
+-->
+</style>
+</head>
+<body text="#222222" link="#222222" vlink="#222222" alink="#dd2233" bgcolor="#ffffff" background="./PreviewBackGround.png">
+<table align="center" width="90%" height="99%" border="0" cellspacing="0" cellpadding="4">
+<tr><td align="center">
+<form action="#">
+<script type="text/javascript">
+<!--
+document.write('<span id="dispsize">表\示サイズ：');
+for (i=0; i<labels.length; i++) {
+	var c = (i == label_index) ? ' checked' : '';
+	document.write(' <label><input type="radio" name="r1" value="'+i+'" onclick="JavaScript:resize(this.value);"'+c+'>'+labels[i]+'</label>');}
+document.write('</span><br><div id="message">"'+imgSrc+'" のプレビューです。</div>');
+// -->
+</script>
+</form>
+</td></tr>
+<tr height="99%"><td align="center" valign="middle">
+<img src="./PreviewBackGround.png" width="0" height="200" align="left">
+<script type="text/javascript">
+<!--
+document.write('<a href="'+imgSrc+'"><img src="'+imgSrc+'" name="i1" class="i1" width="'+imgWidth(label_index)+'" border="1" title="クリックするとオリジナルサイズで表\示します。" onerror="JavaScript:imgOnError();"></a>');
+document.close();
+// -->
+</script>
+</td></tr>
+<tr><td align="right" valign="bottom">
+<span id="cmlogo">CocoMonar</span><br>
+<span id="copyright">2ch Browser for Mac OS X.<br>
+Copyright (c) 2001-2005 takanori_is.</span>
+</td></tr>
+</table>
+</body>
+</html>

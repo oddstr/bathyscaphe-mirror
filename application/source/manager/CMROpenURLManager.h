@@ -1,0 +1,26 @@
+//
+//  CMROpenURLManager.h
+//  CocoMonar
+//
+//  Created by minamie on Sun Jan 25 2004.
+//  Copyright (c) 2004 __MyCompanyName__. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
+
+
+@interface CMROpenURLManager : NSObject {
+
+}
++ (id) defaultManager;
+
+- (NSURL *) askUserURL;
+- (BOOL) openURL:(NSURL *)url;
+
+/* Support Service Menu */
+- (void)openURL:(NSPasteboard *)pboard
+	   userData:(NSString *)data
+		  error:(NSString **)error;
+
+@end

@@ -1,0 +1,184 @@
+/**
+ * $Id: CMRAppDelegate+Menu.m,v 1.1 2005/05/11 17:51:03 tsawada2 Exp $
+ * 
+ * CMRAppDelegate+Menu.m
+ *
+ * Copyright (c) 2004 Takanori Ishikawa, All rights reserved.
+ * See the file LICENSE for copying permission.
+ */
+#import "CMRAppDelegate_p.h"
+
+
+// ----------------------------------------
+// D e f i n e d
+// ----------------------------------------
+// Bookmark file
+#define kURLBookmarksPlist @"URLBookmarks.plist"
+// Elements name
+#define kCMRAppDelegateNameKey      @"Name"
+#define kCMRAppDelegateURLKey       @"URL"
+#define kCMRAppDelegateBookmarksKey @"Bookmarks"
+
+
+
+@implementation CMRAppDelegate(MenuSetup)
++ (NSString *) pathForURLBookmarkResource
+{
+    NSString    *path;
+    NSBundle    *bundle;
+    
+    bundle = [NSBundle applicationSpecificBundle];
+    path = [bundle pathForResourceWithName : kURLBookmarksPlist];
+    if (path != nil)
+        return path;
+    
+    bundle = [NSBundle mainBundle];
+    path = [bundle pathForResourceWithName : kURLBookmarksPlist];
+    
+    return path;
+}
++ (NSArray *) URLBookmarkArray
+{
+    return [NSArray arrayWithContentsOfFile : [self pathForURLBookmarkResource]];
+}
++ (BOOL) isCategoryWithDictionary : (NSDictionary *) item
+{
+    return ([item objectForKey : kCMRAppDelegateBookmarksKey] != nil);
+}
+
+
+- (void) setupURLBookmarksMenuWithMenu : (NSMenu  *) menu
+                             bookmarks : (NSArray *) bookmarks
+{
+    NSEnumerator    *iter_;
+    NSDictionary    *item_;
+    
+    if (nil == menu) return;
+    if (nil == bookmarks) return;
+    
+    iter_ = [bookmarks objectEnumerator];
+    while (item_ = [iter_ nextObject]) {
+        NSString        *title_;
+        NSMenuItem        *menuItem_;
+        
+        if (NO == [item_ isKindOfClass : [NSDictionary class]]) continue;
+        
+        title_ = [item_ objectForKey : kCMRAppDelegateNameKey];
+        if (nil == title_) continue;
+        
+        if (0 == [title_ length]) {
+            [menu addItem : [NSMenuItem separatorItem]];
+            continue;
+        }
+        
+        menuItem_ = [[NSMenuItem alloc]
+                        initWithTitle : title_
+                               action : NULL
+                        keyEquivalent : @""];
+        if ([[self class] isCategoryWithDictionary : item_]) {
+            NSMenu        *submenu_;
+            NSArray        *bookmarks_;
+            
+            bookmarks_ = [item_ objectForKey : kCMRAppDelegateBookmarksKey];
+            UTILAssertNotNil(bookmarks_);
+            
+            submenu_ = [[NSMenu allocWithZone : [NSMenu menuZone]]
+                            initWithTitle : title_];
+            [self setupURLBookmarksMenuWithMenu : submenu_
+                                      bookmarks : bookmarks_];
+            [menuItem_ setSubmenu : submenu_];
+        } else {
+            NSString        *URLString_;
+            NSURL            *URLToOpen_;
+            
+            URLString_ = [item_ objectForKey : kCMRAppDelegateURLKey];
+            if (nil == URLString_) {
+                [menuItem_ release];
+                continue;
+            }
+            URLToOpen_ = [NSURL URLWithString : URLString_];
+                            
+            [menuItem_ setTarget : self];
+            [menuItem_ setAction : @selector(openURL:)];
+            [menuItem_ setRepresentedObject : URLToOpen_];
+        }
+        [menu addItem : menuItem_];
+        [menuItem_ release];
+    }
+}
+- (void) setupBrowserArrangementMenuWithMenu : (NSMenu *) menu
+{
+    NSMenuItem        *menuItem_;
+    NSString        *title_;
+    id                representedObject_;
+    unsigned        index_, count_;
+    
+    // parameter tables...
+    NSString    *keys_[] =    {
+                                APP_MAINMENU_SPVIEW_HORIZONTAL,
+                                APP_MAINMENU_SPVIEW_VERTICAL
+                            };
+    BOOL        reps_[] =    {
+                                NO,
+                                YES
+                            };
+    
+    count_ = UTILNumberOfCArray(keys_);
+    NSAssert2(
+        count_ == [menu numberOfItems],
+        @"BrowserArrangement Menu Item expected (%u) but was (%u).",
+        count_,
+        [menu numberOfItems]);
+    
+    for (index_ = 0; index_ < count_; index_++) {
+        menuItem_ = (NSMenuItem*)[menu itemAtIndex : index_];
+        title_ = [self localizedString : keys_[index_]];
+        [menuItem_ setTitle : title_];
+        representedObject_ = [NSNumber numberWithBool : reps_[index_]];
+        [menuItem_ setRepresentedObject : representedObject_];
+    }
+}
+
+- (void) setupBrowserArrangementMenu
+{
+    NSMenuItem    *menuItem_;
+    
+    menuItem_ = [[CMRMainMenuManager defaultManager] browserArrangementMenuItem];
+    NSAssert(
+        [menuItem_ hasSubmenu],
+        @"menuItem must have submenu");
+    
+    [self setupBrowserArrangementMenuWithMenu : [menuItem_ submenu]];
+    [[CMRMainMenuManager defaultManager] 
+            synchronizeBrowserArrangementMenuItemState];
+}
+- (void) setupURLBookmarksMenuWithMenu : (NSMenu *) menu
+{
+    NSArray            *URLBookmarkArray_;
+    
+    UTILAssertNotNilArgument(menu, @"Menu");
+    URLBookmarkArray_ = [[self class] URLBookmarkArray];
+    if (nil == URLBookmarkArray_) return;
+    
+    [menu addItem : [NSMenuItem separatorItem]];
+    [self setupURLBookmarksMenuWithMenu : menu
+                              bookmarks : URLBookmarkArray_];
+}
+
+//
+// PUBLIC
+//
+- (void) setupMenu
+{
+    NSMenuItem    *menuItem_;
+    
+    menuItem_ = [[CMRMainMenuManager defaultManager] helpMenuItem];
+    NSAssert(
+        [menuItem_ hasSubmenu],
+        @"menuItem must have submenu");
+    [self setupURLBookmarksMenuWithMenu : [menuItem_ submenu]];
+    
+    [self setupBrowserArrangementMenu];
+    [[CMRMainMenuManager defaultManager] synchronizeIsOnlineModeMenuItemState];
+}
+@end

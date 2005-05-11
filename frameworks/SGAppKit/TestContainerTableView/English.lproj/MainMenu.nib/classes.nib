@@ -1,0 +1,21 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {addItem = id; removeItem = id; }; 
+            CLASS = Controller; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {m_tableView = SGContainerTableView; m_window = NSWindow; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {
+            CLASS = SGContainerTableView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {m_dataSource = id; }; 
+            SUPERCLASS = NSView; 
+        }, 
+        {CLASS = SGContainerView; LANGUAGE = ObjC; SUPERCLASS = NSView; }
+    ); 
+    IBVersion = 1; 
+}

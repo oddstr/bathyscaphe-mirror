@@ -1,0 +1,2 @@
+2005-05-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	*最初の bathyScaphe プロジェクトのインポート。

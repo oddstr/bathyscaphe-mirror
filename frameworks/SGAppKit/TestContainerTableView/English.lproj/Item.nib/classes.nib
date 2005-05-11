@@ -1,0 +1,13 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = ItemController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {m_itemView = SGContainerView; m_titleField = NSTextField; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = SGContainerView; LANGUAGE = ObjC; SUPERCLASS = NSView; }
+    ); 
+    IBVersion = 1; 
+}

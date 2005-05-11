@@ -1,0 +1,6 @@
+/* URLを開く */
+"Could Not Open Title"		= "URLを開く";
+"Could Not Open Message"	= "%@でURLを開けませんでした。"
+
+URL：%@";
+"Open in Web Browser"	= "Webブラウザで開く";
