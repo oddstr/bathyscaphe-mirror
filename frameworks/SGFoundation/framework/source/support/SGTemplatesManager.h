@@ -1,5 +1,5 @@
 /**
-  * $Id: SGTemplatesManager.h,v 1.1 2005/05/11 17:51:45 tsawada2 Exp $
+  * $Id: SGTemplatesManager.h,v 1.1.1.1 2005/05/11 17:51:45 tsawada2 Exp $
   * 
   * SGTemplatesManager.h
   *

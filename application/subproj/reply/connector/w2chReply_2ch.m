@@ -1,5 +1,5 @@
 /**
-  * $Id: w2chReply_2ch.m,v 1.1 2005/05/11 17:51:12 tsawada2 Exp $
+  * $Id: w2chReply_2ch.m,v 1.1.1.1 2005/05/11 17:51:12 tsawada2 Exp $
   * 
   * w2chReply_2ch.m
   *

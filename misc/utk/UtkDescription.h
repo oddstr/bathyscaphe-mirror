@@ -1,5 +1,5 @@
 /**
-  * $Id: UtkDescription.h,v 1.1 2005/05/11 17:51:55 tsawada2 Exp $
+  * $Id: UtkDescription.h,v 1.1.1.1 2005/05/11 17:51:55 tsawada2 Exp $
   * 
   * UtkDescription.h
   *

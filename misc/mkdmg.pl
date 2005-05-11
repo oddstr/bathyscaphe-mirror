@@ -2,7 +2,7 @@
 #
 # mkdmg.pl
 # Version 1.0
-# $Revision: 1.1 $
+# $Revision: 1.1.1.1 $
 # $Date: 2005/05/11 17:51:55 $
 #
 # Copyright 2002 Evan Jones <ejones@uwaterloo.ca>

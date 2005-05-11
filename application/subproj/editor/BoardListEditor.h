@@ -1,5 +1,5 @@
 /**
-  * $Id: BoardListEditor.h,v 1.1 2005/05/11 17:51:09 tsawada2 Exp $
+  * $Id: BoardListEditor.h,v 1.1.1.1 2005/05/11 17:51:09 tsawada2 Exp $
   * 
   * BoardListEditor.h
   *

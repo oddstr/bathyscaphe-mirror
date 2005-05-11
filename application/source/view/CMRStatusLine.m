@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRStatusLine.m,v 1.1 2005/05/11 17:51:08 tsawada2 Exp $
+  * $Id: CMRStatusLine.m,v 1.1.1.1 2005/05/11 17:51:08 tsawada2 Exp $
   * 
   * CMRStatusLine.m
   *

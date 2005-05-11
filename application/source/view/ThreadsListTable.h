@@ -1,5 +1,5 @@
 /**
-  * $Id: ThreadsListTable.h,v 1.1 2005/05/11 17:51:09 tsawada2 Exp $
+  * $Id: ThreadsListTable.h,v 1.1.1.1 2005/05/11 17:51:09 tsawada2 Exp $
   * 
   * ThreadsListTable.h
   * スレッド一覧を表示するテーブル

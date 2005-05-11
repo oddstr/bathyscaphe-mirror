@@ -1,6 +1,6 @@
 //: NSURL-SGExtensions_p.h
 /**
-  * $Id: NSURL-SGExtensions_p.h,v 1.1 2005/05/11 17:51:45 tsawada2 Exp $
+  * $Id: NSURL-SGExtensions_p.h,v 1.1.1.1 2005/05/11 17:51:45 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.

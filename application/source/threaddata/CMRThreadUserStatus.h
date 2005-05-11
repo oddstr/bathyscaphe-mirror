@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadUserStatus.h,v 1.1 2005/05/11 17:51:08 tsawada2 Exp $
+  * $Id: CMRThreadUserStatus.h,v 1.1.1.1 2005/05/11 17:51:08 tsawada2 Exp $
   * 
   * CMRThreadUserStatus.h
   *

@@ -1,6 +1,6 @@
 //: SGBaseRangeArray.m
 /**
-  * $Id: SGBaseRangeArray.m,v 1.1 2005/05/11 17:51:44 tsawada2 Exp $
+  * $Id: SGBaseRangeArray.m,v 1.1.1.1 2005/05/11 17:51:44 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.

@@ -1,6 +1,6 @@
 //: SGBaseFixedAllocator.m
 /**
-  * $Id: SGBaseFixedAllocator.m,v 1.1 2005/05/11 17:51:44 tsawada2 Exp $
+  * $Id: SGBaseFixedAllocator.m,v 1.1.1.1 2005/05/11 17:51:44 tsawada2 Exp $
   * 
   * Copyright (c) 2001 by Andrei Alexandrescu
   * Copyright (c) 2001-2003, Takanori Ishikawa.

@@ -1,5 +1,5 @@
 /**
-  * $Id: SGBaseCArray.h,v 1.1 2005/05/11 17:51:44 tsawada2 Exp $
+  * $Id: SGBaseCArray.h,v 1.1.1.1 2005/05/11 17:51:44 tsawada2 Exp $
   * 
   * SGBaseCArray.h
   *

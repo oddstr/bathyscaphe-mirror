@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesPane-PCManagement.m,v 1.1 2005/05/11 17:51:11 tsawada2 Exp $
+  * $Id: PreferencesPane-PCManagement.m,v 1.1.1.1 2005/05/11 17:51:11 tsawada2 Exp $
   * 
   * PreferencesPane-PCManagement.m
   *

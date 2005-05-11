@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-Remove.m,v 1.1 2005/05/11 17:51:04 tsawada2 Exp $
+  * $Id: CMRThreadsList-Remove.m,v 1.1.1.1 2005/05/11 17:51:04 tsawada2 Exp $
   * 
   * CMRThreadsList-Remove.m
   *

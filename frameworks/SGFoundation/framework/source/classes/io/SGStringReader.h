@@ -1,5 +1,5 @@
 /**
-  * $Id: SGStringReader.h,v 1.1 2005/05/11 17:51:44 tsawada2 Exp $
+  * $Id: SGStringReader.h,v 1.1.1.1 2005/05/11 17:51:44 tsawada2 Exp $
   * 
   * SGStringReader.h
   *

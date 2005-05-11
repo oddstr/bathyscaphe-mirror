@@ -1,5 +1,5 @@
 /**
-  * $Id: SGFoundationBase.m,v 1.1 2005/05/11 17:51:43 tsawada2 Exp $
+  * $Id: SGFoundationBase.m,v 1.1.1.1 2005/05/11 17:51:43 tsawada2 Exp $
   * 
   * SGFoundationBase.m
   *

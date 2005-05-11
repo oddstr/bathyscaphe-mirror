@@ -1,5 +1,5 @@
 /**
-  * $Id: SG2chErrorHandler.h,v 1.1 2005/05/11 17:51:12 tsawada2 Exp $
+  * $Id: SG2chErrorHandler.h,v 1.1.1.1 2005/05/11 17:51:12 tsawada2 Exp $
   * 
   * SG2chErrorHandler.h
   *

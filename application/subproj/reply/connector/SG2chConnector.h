@@ -1,5 +1,5 @@
 /**
-  * $Id: SG2chConnector.h,v 1.1 2005/05/11 17:51:12 tsawada2 Exp $
+  * $Id: SG2chConnector.h,v 1.1.1.1 2005/05/11 17:51:12 tsawada2 Exp $
   * 
   * SG2chConnector.h
   *

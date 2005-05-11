@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMainMenuManager.h,v 1.1 2005/05/11 17:51:05 tsawada2 Exp $
+  * $Id: CMRMainMenuManager.h,v 1.1.1.1 2005/05/11 17:51:05 tsawada2 Exp $
   * 
   * CMRMainMenuManager.h
   *

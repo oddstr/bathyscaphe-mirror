@@ -1,5 +1,5 @@
 /**
-  * $Id: SGHTTPResponse.m,v 1.1 2005/05/11 17:51:50 tsawada2 Exp $
+  * $Id: SGHTTPResponse.m,v 1.1.1.1 2005/05/11 17:51:50 tsawada2 Exp $
   * 
   * SGHTTPResponse.m
   *

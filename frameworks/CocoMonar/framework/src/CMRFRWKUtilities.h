@@ -1,6 +1,6 @@
 //: CMRFRWKUtilities.h
 /**
-  * $Id: CMRFRWKUtilities.h,v 1.1 2005/05/11 17:51:19 tsawada2 Exp $
+  * $Id: CMRFRWKUtilities.h,v 1.1.1.1 2005/05/11 17:51:19 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.

@@ -1,5 +1,5 @@
 /**
-  * $Id: NSBundle+CMRExtensions.m,v 1.1 2005/05/11 17:51:19 tsawada2 Exp $
+  * $Id: NSBundle+CMRExtensions.m,v 1.1.1.1 2005/05/11 17:51:19 tsawada2 Exp $
   * 
   * NSBundle+CMRExtensions.m
   *

@@ -1,5 +1,5 @@
 /**
-  * $Id: SGSplitView.m,v 1.1 2005/05/11 17:51:26 tsawada2 Exp $
+  * $Id: SGSplitView.m,v 1.1.1.1 2005/05/11 17:51:26 tsawada2 Exp $
   * 
   * SGSplitView.m
   *

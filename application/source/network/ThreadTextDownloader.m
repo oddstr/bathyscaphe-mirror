@@ -1,5 +1,5 @@
 /**
-  * $Id: ThreadTextDownloader.m,v 1.1 2005/05/11 17:51:06 tsawada2 Exp $
+  * $Id: ThreadTextDownloader.m,v 1.1.1.1 2005/05/11 17:51:06 tsawada2 Exp $
   * 
   * ThreadTextDownloader.m
   *

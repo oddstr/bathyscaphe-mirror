@@ -1,6 +1,6 @@
 //: CMRBBSAttributes.h
 /**
-  * $Id: CMRBBSAttributes.h,v 1.1 2005/05/11 17:51:03 tsawada2 Exp $
+  * $Id: CMRBBSAttributes.h,v 1.1.1.1 2005/05/11 17:51:03 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.

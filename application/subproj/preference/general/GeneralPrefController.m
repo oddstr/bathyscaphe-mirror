@@ -1,5 +1,5 @@
 /**
-  * $Id: GeneralPrefController.m,v 1.1 2005/05/11 17:51:10 tsawada2 Exp $
+  * $Id: GeneralPrefController.m,v 1.1.1.1 2005/05/11 17:51:10 tsawada2 Exp $
   * 
   * GeneralPrefController.m
   *

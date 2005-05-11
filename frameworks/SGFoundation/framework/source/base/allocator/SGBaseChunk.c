@@ -1,5 +1,5 @@
 /**
-  * $Id: SGBaseChunk.c,v 1.1 2005/05/11 17:51:43 tsawada2 Exp $
+  * $Id: SGBaseChunk.c,v 1.1.1.1 2005/05/11 17:51:43 tsawada2 Exp $
   * 
   * SGBaseChunk.c
   *

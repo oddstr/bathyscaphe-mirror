@@ -1,5 +1,5 @@
 /**
-  * $Id: SGBase.h,v 1.1 2005/05/11 17:51:43 tsawada2 Exp $
+  * $Id: SGBase.h,v 1.1.1.1 2005/05/11 17:51:43 tsawada2 Exp $
   * 
   * SGBase.h
   *
