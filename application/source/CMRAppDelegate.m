@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.1 2005/05/11 17:51:03 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.2 2005/05/12 15:20:25 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -118,22 +118,6 @@
 - (void) setIsOnlineMode : (BOOL) flag
 {
 	[CMRPref setIsOnlineMode : flag];
-}
-- (BOOL) useiTunesColor
-{
-	/* dummy. always return YES... */
-	return YES;
-}
-- (void) setUseiTunesColor : (BOOL) flag
-{
-	if (flag) {
-		NSColor *color_ = [NSColor iTunesStripedColor];
-		[CMRPref setBrowserSTableDrawsStriped : YES];
-		[CMRPref setBrowserSTableBackgroundColor : [NSColor whiteColor]];
-		[CMRPref setBrowserStripedTableColor : color_];
-	} else {
-		[CMRPref setBrowserSTableDrawsStriped : NO];
-	}
 }
 
 - (void) handleOpenURLCommand : (NSScriptCommand *) command

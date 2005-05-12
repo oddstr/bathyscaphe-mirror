@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>AppleEventCode</key>
-	<string>CcMR</string>
+	<string>BaSc</string>
 	<key>Classes</key>
 	<dict>
 		<key>Browser</key>
@@ -33,9 +33,9 @@
 			<string>NSCoreSuite.NSDocument</string>
 			<key>SupportedCommands</key>
 			<dict>
-				<key>CocoMonar.reloadList</key>
+				<key>BathyScaphe.reloadList</key>
 				<string>handleReloadListCommand:</string>
-				<key>CocoMonar.reloadThread</key>
+				<key>BathyScaphe.reloadThread</key>
 				<string>handleReloadThreadCommand:</string>
 			</dict>
 		</dict>
@@ -115,7 +115,7 @@
 			<string>NSCoreSuite.NSDocument</string>
 			<key>SupportedCommands</key>
 			<dict>
-				<key>CocoMonar.reloadThread</key>
+				<key>BathyScaphe.reloadThread</key>
 				<string>handleReloadThreadCommand:</string>
 			</dict>
 		</dict>
@@ -151,19 +151,12 @@
 					<key>Type</key>
 					<string>NSNumber&lt;Bool&gt;</string>
 				</dict>
-				<key>useiTunesColor</key>
-				<dict>
-					<key>AppleEventCode</key>
-					<string>iTcl</string>
-					<key>Type</key>
-					<string>NSNumber&lt;Bool&gt;</string>
-				</dict>
 			</dict>
 			<key>Superclass</key>
 			<string>NSCoreSuite.NSApplication</string>
 			<key>SupportedCommands</key>
 			<dict>
-				<key>CocoMonar.openURL</key>
+				<key>BathyScaphe.openURL</key>
 				<string>handleOpenURLCommand:</string>
 			</dict>
 		</dict>
@@ -173,7 +166,7 @@
 		<key>openURL</key>
 		<dict>
 			<key>AppleEventClassCode</key>
-			<string>CcMR</string>
+			<string>BaSc</string>
 			<key>AppleEventCode</key>
 			<string>opnU</string>
 			<key>CommandClass</key>
@@ -187,7 +180,7 @@
 		<key>reloadList</key>
 		<dict>
 			<key>AppleEventClassCode</key>
-			<string>CcMR</string>
+			<string>BaSc</string>
 			<key>AppleEventCode</key>
 			<string>rell</string>
 			<key>CommandClass</key>
@@ -195,13 +188,13 @@
 			<key>UnnamedArgument</key>
 			<dict>
 				<key>Type</key>
-				<string>CocoMonar.Browser</string>
+				<string>BathyScaphe.Browser</string>
 			</dict>
 		</dict>
 		<key>reloadThread</key>
 		<dict>
 			<key>AppleEventClassCode</key>
-			<string>CcMR</string>
+			<string>BaSc</string>
 			<key>AppleEventCode</key>
 			<string>relt</string>
 			<key>CommandClass</key>
@@ -209,7 +202,7 @@
 		</dict>
 	</dict>
 	<key>Name</key>
-	<string>CocoMonar</string>
+	<string>BathyScaphe</string>
 	<key>UsedFeatures</key>
 	<array>
 		<string>UnnamedArguments</string>

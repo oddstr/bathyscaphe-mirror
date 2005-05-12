@@ -1,6 +1,6 @@
 //: CMRHistoryManager.m
 /**
-  * $Id: CMRHistoryManager.m,v 1.1 2005/05/11 17:51:05 tsawada2 Exp $
+  * $Id: CMRHistoryManager.m,v 1.2 2005/05/12 15:20:25 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -108,6 +108,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
     next = NULL;
     
     [self clearHistoryItemsBacket];
+	[super dealloc];
 }
 
 #pragma mark -

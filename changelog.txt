@@ -1,3 +1,10 @@
+2005-05-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/BathyScaphe.scriptSuite
+	* application/Resources/BathyScaphe.scriptTerminology
+		AppleScript 用語辞書を CocoMonar 用から CathyScaphe 用に更新。
+		ファイル名変更のため、新規追加扱い（CocoMonar.scriptSuite/.scriptTerminology は削除）。
+	* application/source/manager/CMRHistoryManager.m
+		コンパイラのアドバイスに従って[super dealloc]を追加してみた :-)
 2005-05-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* frameworks/SGAppKit/framework/src/SGAppKit.h
 	* frameworks/SGAppKit/SGAppKit.pbproj/project.pbxproj

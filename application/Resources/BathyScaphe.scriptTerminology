@@ -24,7 +24,7 @@
 				</dict>
 			</dict>
 			<key>Description</key>
-			<string>A CocoMonar browser (i.e. threads list) window.</string>
+			<string>A BathyScaphe browser (i.e. threads list) window.</string>
 			<key>Name</key>
 			<string>browser</string>
 			<key>PluralName</key>
@@ -85,7 +85,7 @@
 				</dict>
 			</dict>
 			<key>Description</key>
-			<string>A CocoMonar thread document.</string>
+			<string>A BathyScaphe thread document.</string>
 			<key>Name</key>
 			<string>document</string>
 			<key>PluralName</key>
@@ -104,7 +104,7 @@
 				</dict>
 			</dict>
 			<key>Description</key>
-			<string>A CocoMonar reply document.</string>
+			<string>A BathyScaphe reply document.</string>
 			<key>Name</key>
 			<string>reply document</string>
 			<key>PluralName</key>
@@ -121,16 +121,9 @@
 					<key>Name</key>
 					<string>onlineMode</string>
 				</dict>
-				<key>useiTunesColor</key>
-				<dict>
-					<key>Description</key>
-					<string>Draws threads list table like iTunes.</string>
-					<key>Name</key>
-					<string>uses iTunes stripe color</string>
-				</dict>
 			</dict>
 			<key>Description</key>
-			<string>CocoMonar application.</string>
+			<string>BathyScaphe application.</string>
 			<key>Name</key>
 			<string>application</string>
 			<key>PluralName</key>
@@ -178,8 +171,8 @@
 		</dict>
 	</dict>
 	<key>Description</key>
-	<string>CocoMonar specific classes.</string>
+	<string>BathyScaphe specific classes.</string>
 	<key>Name</key>
-	<string>CocoMonar suite</string>
+	<string>BathyScaphe suite</string>
 </dict>
 </plist>
