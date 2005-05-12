@@ -97,18 +97,7 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 											   action : NULL
 											   target : wcontroller_];
 
-
-	//NSSFExist = objc_msgSend(objc_getClass("NSSuperSearchField"), @selector(class));
-	//NSSFExist = NSClassFromString(@"NSSearchField");
-
-	//if(NSSFExist){
-		//NSLog(@"There exists NSSearchField class, so we use NSSearchField... Yeah!");
-		[self setupSearchToolbarItem:item_];
-	/*
-	} else {
-		//NSLog(@"NSSearchField class not found.");
-		[self setupSearchToolbarItem:item_ itemView:[wcontroller_ searchToolbarItem]];
-	}*/
+	[self setupSearchToolbarItem:item_ itemView:[wcontroller_ searchToolbarItem]];
 }
 @end
 
@@ -152,6 +141,7 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 	
 	[anItem setMenuFormRepresentation : menuItem_];
 }
+/*
 - (void) setupSearchToolbarItem : (NSToolbarItem *) anItem
 {
 	id aView;
@@ -179,6 +169,7 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 	
 	[anItem setMenuFormRepresentation : menuItem_];
 }
+*/
 @end
 
 

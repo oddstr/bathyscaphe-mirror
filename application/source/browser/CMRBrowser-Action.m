@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.1 2005/05/11 17:51:03 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.2 2005/05/12 14:25:08 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -373,24 +373,17 @@ enum {
 		// ツールバーに検索フィールドが見えているときは、単にそこにフォーカスを移動するだけ（シートは表示しない）
 		[[self searchTextField] selectText : sender];
 	} else {
-		CMRAccessorySheetController	*controller_;
-		CMRThreadsListSorter		*sorter_;
-		NSView						*contentView_;
-		id							info_;
-	
-		controller_ = [self listSorterSheetController];
-		sorter_ = [self listSorterSub];
-		contentView_ = [sorter_ searchView];
+		id		contentView_;
+		id		info_;
+
+		contentView_ = [[self searchTextField] retain];
 		info_ = [NSNumber numberWithInt : kShowsSearchFieldInSheet];
-	
-		[contentView_ retain];
-		[controller_ beginSheetModalForWindow : [self window]
-								modalDelegate : self
-								  contentView : contentView_
-								  contextInfo : info_];
+
+		[[self listSorterSheetController] beginSheetModalForWindow : [self window]
+													 modalDelegate : self
+													   contentView : contentView_
+													   contextInfo : info_];
 		[contentView_ release];
-	
-		[[controller_ window] makeFirstResponder : [sorter_ searchTextField]];
 	}
 }
 
@@ -410,10 +403,6 @@ enum {
 		[self setupBoardDrawer];
 		break;
 	case kShowsSearchFieldInSheet :{
-		NSView		*cview_;
-		
-		cview_ = [[self listSorterSub] componentView];
-		[cview_ addSubview : contentView];
 		break;
 	}
 	default :
@@ -488,7 +477,6 @@ enum {
 	[[CMRMainMenuManager defaultManager] synchronizeBrowserArrangementMenuItemState];
 	
 	[self setupSplitView];
-	//[[self splitView] adjustSubviews];
 	[[self splitView] resizeSubviewsWithOldSize : [[self splitView] frame].size];
 }
 

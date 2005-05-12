@@ -12,8 +12,9 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "PATCH=1";
 				OPTIMIZATION_CFLAGS = "-O0";
-				OTHER_CFLAGS = "";
+				OTHER_CFLAGS = "DPATCH=1";
 				ZERO_LINK = YES;
 			};
 			isa = PBXBuildStyle;
@@ -208,12 +209,8 @@
 				F57D5E29037B6DE401A80002,
 				F57D5E2A037B6DE401A80002,
 				F57D5E2C037B6DE401A80002,
-				F57D5E43037B756101A80002,
-				F57D5E45037B756101A80002,
 				F57D6223037B875801A80002,
 				F581BD21037BA85D01A80002,
-				F581BD2A037BAA7201A80002,
-				F581BD2C037BAA7201A80002,
 				F5756975037BE86501A80002,
 				F523B0CA037C028C01A80002,
 				F523B0CC037C028C01A80002,
@@ -246,7 +243,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				089C1668FE841158C02AAC07,
-				F581BD2F037BAA9001A80002,
 				F581BD3B037BABD901A80002,
 				F3C928CE04DC0E5400A80005,
 			);
@@ -273,9 +269,7 @@
 				F57D5E25037B6DE401A80002,
 				F57D5E28037B6DE401A80002,
 				F57D5E2B037B6DE401A80002,
-				F57D5E44037B756101A80002,
 				F581BD22037BA85D01A80002,
-				F581BD2B037BAA7201A80002,
 				F523B0CB037C028C01A80002,
 				F5823B71037D2CC001A80002,
 				F5823B78037D2DCD01A80002,
@@ -319,7 +313,6 @@
 			children = (
 				F3C928CD04DC0E5400A80005,
 				F581BD30037BABD901A80002,
-				F581BD2D037BAA9001A80002,
 				089C1666FE841158C02AAC07,
 			);
 			isa = PBXGroup;
@@ -1884,9 +1877,6 @@
 			dstPath = background;
 			dstSubfolderSpec = 7;
 			files = (
-				F581BD38037BABD901A80002,
-				F581BD39037BABD901A80002,
-				F581BD3A037BABD901A80002,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1928,30 +1918,6 @@
 			path = SGBackgroundSurfaceView_p.h;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		F57D5E43037B756101A80002 = {
-			fileRef = F57D5E40037B756101A80002;
-			isa = PBXBuildFile;
-			settings = {
-				ATTRIBUTES = (
-					Public,
-				);
-			};
-		};
-		F57D5E44037B756101A80002 = {
-			fileRef = F57D5E41037B756101A80002;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		F57D5E45037B756101A80002 = {
-			fileRef = F57D5E42037B756101A80002;
-			isa = PBXBuildFile;
-			settings = {
-				ATTRIBUTES = (
-					Private,
-				);
-			};
 		};
 		F57D621F037B865801A80002 = {
 			children = (
@@ -2244,54 +2210,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		F581BD2A037BAA7201A80002 = {
-			fileRef = F581BD27037BAA7201A80002;
-			isa = PBXBuildFile;
-			settings = {
-				ATTRIBUTES = (
-					Public,
-				);
-			};
-		};
-		F581BD2B037BAA7201A80002 = {
-			fileRef = F581BD28037BAA7201A80002;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		F581BD2C037BAA7201A80002 = {
-			fileRef = F581BD29037BAA7201A80002;
-			isa = PBXBuildFile;
-			settings = {
-				ATTRIBUTES = (
-					Private,
-				);
-			};
-		};
-		F581BD2D037BAA9001A80002 = {
-			children = (
-				F581BD2E037BAA9001A80002,
-			);
-			isa = PBXVariantGroup;
-			name = SGTextAccessoryFieldComponents.nib;
-			path = "";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		F581BD2E037BAA9001A80002 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.nib;
-			name = English;
-			path = English.lproj/SGTextAccessoryFieldComponents.nib;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		F581BD2F037BAA9001A80002 = {
-			fileRef = F581BD2D037BAA9001A80002;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		F581BD30037BABD901A80002 = {
 			children = (
 				F581BD31037BABD901A80002,
@@ -2340,24 +2258,6 @@
 			path = clearInput.png;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		F581BD38037BABD901A80002 = {
-			fileRef = F581BD33037BABD901A80002;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		F581BD39037BABD901A80002 = {
-			fileRef = F581BD34037BABD901A80002;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		F581BD3A037BABD901A80002 = {
-			fileRef = F581BD35037BABD901A80002;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		F581BD3B037BABD901A80002 = {
 			fileRef = F581BD36037BABD901A80002;

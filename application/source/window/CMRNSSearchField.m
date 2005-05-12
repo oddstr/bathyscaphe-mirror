@@ -8,7 +8,7 @@
 #import "CMRNSSearchField.h"
 #import "CMRBrowser.h"
 #import "CMXPreferences.h"
-#import "CMRThreadsListSorter.h"
+//#import "CMRThreadsListSorter.h"
 #import "CMRSearchOptions.h"
 #import "CMRBrowserTemplateKeys.h"
 
@@ -105,7 +105,7 @@
                                          keyEquivalent:@""];
 		[item_ setTag : kSearchPopUpOptionItemTag];
 		[item_ setRepresentedObject : rep_];
-		[item_ setTarget : nil];
+		//[item_ setTarget : nil];
 		
 		state_ = (searchMasks_[i] & [CMRPref threadSearchOption]) ? NSOnState : NSOffState;
 		if (CMRSearchOptionCaseInsensitive == searchMasks_[i] || 

@@ -47,6 +47,8 @@ static NSString *const kContextInfoObjectKey	= @"object";
 		
 		[sheet_ setMinSize : minSize_];
 		[sheet_ setMaxSize : maxSize_];
+		
+		if (NSViewNotSizable == mask) [[self window] setShowsResizeIndicator : NO];
 	}
 	return self;
 }

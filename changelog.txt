@@ -1,2 +1,13 @@
 2005-05-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* frameworks/SGAppKit/framework/src/SGAppKit.h
+	* frameworks/SGAppKit/SGAppKit.pbproj/project.pbxproj
+		独自の検索フィールド描画はもはや不要なので関連コードとリソースを外した。
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/source/browser/CMRAccessorySheetController.m
+	* application/source/window/CMRNSSearchField.m
+		シート表示で「一覧を検索」するときも、NSSearchField を使うようにした。
+		これに伴い一部のファイルが不要になり、ターゲットから外されている。
+		[既知の問題]「一覧を検索」がシートで表示されているときは、虫眼鏡アイコンのメニューが無効になる。
+2005-05-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	*最初の bathyScaphe プロジェクトのインポート。

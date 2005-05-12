@@ -10,14 +10,15 @@
   */
 #import <Cocoa/Cocoa.h>
 #import "CMRThreadViewer.h"
+#import "CMRNSSearchField.h"
 
 @class CMRSplitView;
 @class ThreadsListTable;
-@class CMRThreadsListSorter;
+//@class CMRThreadsListSorter;
 @class CMRThreadsList;
 @class CMRAccessorySheetController;
 
-@class CMRNSSearchField;
+//@class CMRNSSearchField;
 
 
 @interface CMRBrowser : CMRThreadViewer
@@ -46,8 +47,9 @@
 	IBOutlet NSTextFieldCell	*m_dItemAddURLField;
 	
 	NSString					*_filterString;
-	CMRThreadsListSorter		*m_listSorter;
-	CMRThreadsListSorter		*m_listSorterSub;
+
+	CMRNSSearchField			*m_listSorter;
+	CMRNSSearchField			*m_listSorterSub;
 	
 	CMRAccessorySheetController	*m_boardListSheetController;
 	CMRAccessorySheetController	*m_listSorterSheetController;

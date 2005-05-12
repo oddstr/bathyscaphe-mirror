@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.1 2005/05/11 17:51:06 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.2 2005/05/12 14:25:08 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -242,7 +242,8 @@ NS_ENDHANDLER
 /* Search option */
 - (CMRSearchMask) threadSearchOption
 {
-	return [[self defaults] integerForKey : AppDefaultsThreadSearchOptionKey];
+	return [[self defaults] integerForKey : AppDefaultsThreadSearchOptionKey
+						defaultValue : CMRSearchOptionCaseInsensitive];
 }
 - (void) setThreadSearchOption : (CMRSearchMask) option
 {

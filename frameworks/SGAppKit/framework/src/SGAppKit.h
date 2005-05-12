@@ -1,6 +1,6 @@
 //: SGAppKit.h
 /**
-  * $Id: SGAppKit.h,v 1.1 2005/05/11 17:51:26 tsawada2 Exp $
+  * $Id: SGAppKit.h,v 1.2 2005/05/12 14:25:08 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -46,8 +46,8 @@ extern void SGAppKitFrameworkInit(void);
 #import <SGAppKit/SGBezelStyleTextFieldCell.h>
 */
 
-#import <SGAppKit/SGBackgroundSurfaceView.h>
-#import <SGAppKit/SGTextAccessoryFieldController.h>
+//#import <SGAppKit/SGBackgroundSurfaceView.h>
+//#import <SGAppKit/SGTextAccessoryFieldController.h>
 #import <SGAppKit/SGFixImageButtonCell.h>
 #import <SGAppKit/SGToolbarIconItemButton.h>
 #import <SGAppKit/SGControlToolbarItem.h>
