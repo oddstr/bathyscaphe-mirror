@@ -1,4 +1,10 @@
 2005-05-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Delegate.m
+		ウインドウが最大サイズのときに掲示板リストを表示／隠す場合の、一覧とスレ内容表示領域の
+		サイズの伸縮方法を少し変更。
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		「編集」メニューに「単語入力補助」「スピーチ」を追加。
+		「ウインドウ」メニューに「拡大／縮小」を追加。Panther 以降の標準メニューに揃えて強化。
 	* application/Resources/BathyScaphe.scriptSuite
 	* application/Resources/BathyScaphe.scriptTerminology
 		AppleScript 用語辞書を CocoMonar 用から CathyScaphe 用に更新。

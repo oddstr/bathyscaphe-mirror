@@ -1408,7 +1408,6 @@
 				872999110832618000CBD740,
 				872999140832618000CBD740,
 				872999170832618000CBD740,
-				8729991A0832618000CBD740,
 				8729991D0832618000CBD740,
 				872999200832618000CBD740,
 				872999230832618000CBD740,
@@ -3523,7 +3522,6 @@
 				8729990F0832618000CBD740,
 				872999120832618000CBD740,
 				872999150832618000CBD740,
-				872999180832618000CBD740,
 				8729991B0832618000CBD740,
 				8729991E0832618000CBD740,
 				872999210832618000CBD740,
@@ -3904,27 +3902,6 @@
 		};
 		872999170832618000CBD740 = {
 			fileRef = 872999150832618000CBD740;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		872999180832618000CBD740 = {
-			children = (
-				8729996C0832618800CBD740,
-			);
-			isa = PBXVariantGroup;
-			name = CMRThreadsListSorter.nib;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		872999190832618000CBD740 = {
-			fileRef = 872999180832618000CBD740;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		8729991A0832618000CBD740 = {
-			fileRef = 872999180832618000CBD740;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -4504,14 +4481,6 @@
 			lastKnownFileType = wrapper.nib;
 			name = Japanese;
 			path = Japanese.lproj/CMRThreadMenu.nib;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		8729996C0832618800CBD740 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.nib;
-			name = Japanese;
-			path = Japanese.lproj/CMRThreadsListSorter.nib;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -9014,7 +8983,6 @@
 				872999100832618000CBD740,
 				872999130832618000CBD740,
 				872999160832618000CBD740,
-				872999190832618000CBD740,
 				8729991C0832618000CBD740,
 				8729991F0832618000CBD740,
 				872999220832618000CBD740,

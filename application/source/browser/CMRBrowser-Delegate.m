@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.1 2005/05/11 17:51:03 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.2 2005/05/12 16:22:18 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -42,10 +42,12 @@ extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
 			さらに再描画して反映させる。無駄なのでブラウザウインドウの setFrame:display:でNOを渡したいが、
 			そうすると見苦しくなる…　もっといい方法がある気がするんだが。要研究 */
 		[[[self boardDrawer] parentWindow] setFrame:_oldSize display:YES];
+		/*
 		if ([[self splitView] isVertical]) {
 			[[[self splitView] firstSubview] setFrame:_oldTListSize];
 			[[[self boardDrawer] parentWindow] displayIfNeeded];
 		}
+		*/
         _needToRestoreWindowSize = NO;
     }
 }
