@@ -5,6 +5,7 @@
                 launchCMLF = id; 
                 openURL = id; 
                 openURLPanel = id; 
+                orderFrontCustomAboutPanel = id; 
                 resetApplication = id; 
                 showBoardListEditor = id; 
                 showPreferencesPane = id; 
@@ -73,6 +74,7 @@
             LANGUAGE = ObjC; 
             SUPERCLASS = NSObject; 
         }, 
+        {CLASS = NSApplication; LANGUAGE = ObjC; SUPERCLASS = NSResponder; }, 
         {CLASS = NSDocumentController; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
     ); 
     IBVersion = 1; 

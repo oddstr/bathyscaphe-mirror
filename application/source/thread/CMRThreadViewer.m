@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.1 2005/05/11 17:51:08 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.2 2005/05/12 20:18:57 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -322,7 +322,7 @@ static NSDictionary *boardInfoWithFilepath(NSString *filepath)
 	// スレッドをいちいち読み込まない。
 	if (NO == [self shouldShowContents])
 		return;
-	
+
 	if (nil == boardInfo || 0 == [boardInfo count])
 		boardInfo = boardInfoWithFilepath(filepath);
 	

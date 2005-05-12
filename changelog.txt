@@ -1,4 +1,16 @@
 2005-05-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/CMRAppDelegate.m
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		カスタムの About Panel を呼び出すように変更
+	* application/source/window/AboutPanelController.m
+	* application/source/window/NSFancyPanel.m
+		新規追加。カスタム About Panel を提供するアップルのサンプルコード（「FancyAbout」で検索すると良い）より。
+	* application/Resources/Japanese.lproj/AboutPanel.nib
+	* application/Resources/image/BaScLogo.png
+	* application/Resources/image/bathyicon192.png
+		新規追加。カスタム About Panel 用の部品。
+	* application/source/thread/CMRThreadViewer-Download.m
+		2ペインで使用時、「削除して再取得」がうまく機能しないことがあった問題を修正。
 	* MakeFile 各種
 		Tiger でコマンド一発でビルドできるように MakeFile を修正、また metadata importer 用の
 		MakeFile を metadataimporter/BathyScaphe/ に追加。

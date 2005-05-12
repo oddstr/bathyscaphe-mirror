@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.2 2005/05/12 15:20:25 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.3 2005/05/12 20:18:57 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -7,6 +7,7 @@
  * See the file LICENSE for copying permission.
  */
 #import "CMRAppDelegate_p.h"
+#import "AboutPanelController.h"
 #import "CMRTaskManager.h"
 #import <SGAppKit/NSColor-SGExtensions.h>
 
@@ -67,6 +68,11 @@
     
     mgr = [CMROpenURLManager defaultManager];
     [mgr askUserURL];
+}
+
+- (IBAction) orderFrontCustomAboutPanel: (id) sender
+{
+	    [[AboutPanelController sharedInstance] showPanel];
 }
 
 - (IBAction)launchCMLF:(id)sender

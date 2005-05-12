@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.h,v 1.2 2005/05/12 15:20:25 tsawada2 Exp $
+ * $Id: CMRAppDelegate.h,v 1.3 2005/05/12 20:18:57 tsawada2 Exp $
  * 
  * CMRAppDelegate.h
  *
@@ -31,6 +31,8 @@
 - (IBAction) showTaskInfoPanel : (id) sender;
 - (IBAction) openURL : (id) sender;
 - (IBAction) resetApplication : (id) sender;
+
+- (IBAction) orderFrontCustomAboutPanel: (id) sender;
 
 - (IBAction) openURLPanel : (id) sender;
 - (IBAction) launchCMLF : (id) sender;

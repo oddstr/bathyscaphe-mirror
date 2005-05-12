@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Download.m,v 1.1 2005/05/11 17:51:07 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Download.m,v 1.2 2005/05/12 20:18:57 tsawada2 Exp $
   * 
   * CMRThreadViewer-Download.m
   *
@@ -184,10 +184,52 @@
 	return;
 }
 
+static NSDictionary *boardInfoWithF(NSString *filepath)
+{
+	NSString				*dat_;
+	NSString				*bname_;
+	
+	bname_ = [[CMRDocumentFileManager defaultManager]
+						boardNameWithLogPath : filepath];
+	dat_ = [[CMRDocumentFileManager defaultManager]
+						datIdentifierWithLogPath : filepath];
+	
+	UTILCAssertNotNil(bname_);
+	UTILCAssertNotNil(dat_);
+	
+	return [NSDictionary dictionaryWithObjectsAndKeys : 
+						bname_,	ThreadPlistBoardNameKey,
+						dat_,	ThreadPlistIdentifierKey,
+						nil];
+}
+
 - (void) _reTry : (NSString *) thePath_
 {
-	[self setThreadContentWithFilePath : thePath_
-							 boardInfo : nil];
+	if (NO == [self shouldShowContents]) {
+		CMRThreadSignature *threadSignature_ = [CMRThreadSignature threadSignatureFromFilepath : thePath_];
+		
+		/*
+		if ([[self threadIdentifier] isEqual : threadSignature_]) {
+			if ([self checkCanGenarateContents])
+				[self reloadThread];
+			
+			continue;
+		}
+		*/
+		
+		[self downloadThread : threadSignature_
+					   title : nil
+				   nextIndex : NSNotFound];
+		return;
+	}
+
+	CMRThreadAttributes		*attrs_;
+	
+	attrs_ = [[CMRThreadAttributes alloc] initWithDictionary : boardInfoWithF(thePath_)];
+	[self setThreadAttributes : attrs_];
+	[attrs_ release];
+	
+	[self loadFromContentsOfFile : thePath_];
 }
 
 - (void) threadInvalidPerticalContentsSheetDidEnd : (NSWindow *) sheet
