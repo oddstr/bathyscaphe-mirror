@@ -1,8 +1,8 @@
 /* Localized versions of Info.plist keys */
 
 CFBundleName = "BathyScaphe";
-CFBundleShortVersionString = "1.0d1";
-CFBundleGetInfoString = "BathyScaphe version 1.0d1, Copyright (c) 2002005 tsawada2.";
+CFBundleShortVersionString = "1.0";
+CFBundleGetInfoString = "BathyScaphe version 1.0, Copyright (c) 2005 tsawada2.";
 NSHumanReadableCopyright = "Copyright (c) 2005 tsawada2.";
 
 /* Help */
@@ -10,5 +10,5 @@ CFBundleHelpBookName = "CocoMonar ヘルプ";
 
 /* Document Types */
 "CocoMonar Log Format" = "BathyScaphe ログ書類";
-"CocoMonar 2ch Format" = "CocoMonar 2ch Format";
+"CocoMonar 2ch Format" = "BathyScaphe 2ch Format";
 "CocoMonar Reply Format" = "BathyScaphe 下書き書類";

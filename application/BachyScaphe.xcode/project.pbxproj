@@ -1401,7 +1401,6 @@
 				872998F90832617F00CBD740,
 				872998FC0832617F00CBD740,
 				872998FF0832617F00CBD740,
-				872999020832617F00CBD740,
 				872999050832617F00CBD740,
 				872999080832617F00CBD740,
 				8729990B0832618000CBD740,
@@ -3517,7 +3516,6 @@
 				872998F70832617F00CBD740,
 				872998FA0832617F00CBD740,
 				872998FD0832617F00CBD740,
-				872999000832617F00CBD740,
 				872999030832617F00CBD740,
 				872999060832617F00CBD740,
 				872999090832618000CBD740,
@@ -3759,27 +3757,6 @@
 		};
 		872998FF0832617F00CBD740 = {
 			fileRef = 872998FD0832617F00CBD740;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		872999000832617F00CBD740 = {
-			children = (
-				872999640832618800CBD740,
-			);
-			isa = PBXVariantGroup;
-			name = CMROpenURLManager.string;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		872999010832617F00CBD740 = {
-			fileRef = 872999000832617F00CBD740;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		872999020832617F00CBD740 = {
-			fileRef = 872999000832617F00CBD740;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -4426,6 +4403,7 @@
 			sourceTree = "<group>";
 		};
 		8729995E0832618700CBD740 = {
+			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = text.xml;
 			name = Japanese;
@@ -4470,14 +4448,6 @@
 			lastKnownFileType = wrapper.nib;
 			name = Japanese;
 			path = Japanese.lproj/CMROpenURL.nib;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		872999640832618800CBD740 = {
-			isa = PBXFileReference;
-			lastKnownFileType = text;
-			name = Japanese;
-			path = Japanese.lproj/CMROpenURLManager.string;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -4602,6 +4572,7 @@
 			sourceTree = "<group>";
 		};
 		872999740832618800CBD740 = {
+			fileEncoding = 10;
 			isa = PBXFileReference;
 			lastKnownFileType = text.plist.strings;
 			name = Japanese;
@@ -4610,6 +4581,7 @@
 			sourceTree = "<group>";
 		};
 		872999750832618800CBD740 = {
+			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = text.plist.strings;
 			name = Japanese;
@@ -4618,6 +4590,7 @@
 			sourceTree = "<group>";
 		};
 		872999760832618800CBD740 = {
+			fileEncoding = 10;
 			isa = PBXFileReference;
 			lastKnownFileType = text.plist.strings;
 			name = Japanese;
@@ -4634,6 +4607,7 @@
 			sourceTree = "<group>";
 		};
 		872999780832618900CBD740 = {
+			fileEncoding = 10;
 			isa = PBXFileReference;
 			lastKnownFileType = text.plist.strings;
 			name = Japanese;
@@ -4642,6 +4616,7 @@
 			sourceTree = "<group>";
 		};
 		872999790832618900CBD740 = {
+			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = text.plist.strings;
 			name = Japanese;
@@ -4658,6 +4633,7 @@
 			sourceTree = "<group>";
 		};
 		8729997B0832618900CBD740 = {
+			fileEncoding = 10;
 			isa = PBXFileReference;
 			lastKnownFileType = text.plist.strings;
 			name = Japanese;
@@ -4666,6 +4642,7 @@
 			sourceTree = "<group>";
 		};
 		8729997C0832618900CBD740 = {
+			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = text.plist.strings;
 			name = Japanese;
@@ -4690,6 +4667,7 @@
 			sourceTree = "<group>";
 		};
 		8729997F0832618900CBD740 = {
+			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = text.plist.strings;
 			name = Japanese;
@@ -9029,7 +9007,6 @@
 				872998F80832617F00CBD740,
 				872998FB0832617F00CBD740,
 				872998FE0832617F00CBD740,
-				872999010832617F00CBD740,
 				872999040832617F00CBD740,
 				872999070832617F00CBD740,
 				8729990A0832618000CBD740,
