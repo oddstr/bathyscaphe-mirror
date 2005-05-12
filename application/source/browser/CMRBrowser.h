@@ -14,11 +14,8 @@
 
 @class CMRSplitView;
 @class ThreadsListTable;
-//@class CMRThreadsListSorter;
 @class CMRThreadsList;
 @class CMRAccessorySheetController;
-
-//@class CMRNSSearchField;
 
 
 @interface CMRBrowser : CMRThreadViewer

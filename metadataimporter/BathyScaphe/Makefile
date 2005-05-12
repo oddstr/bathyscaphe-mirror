@@ -1,13 +1,10 @@
 # 
-# makefile for CocoMonar application
+# makefile for MetaData Importer
 #
 
-ROOT = ..
+ROOT = ../..
 
 include $(ROOT)/config
-
-app:
-	$(PBXBUILD) -target bathyscaphe $(BUILD_OPTION)
 
 all:
 	$(PBXBUILD) $(BUILD_OPTION)

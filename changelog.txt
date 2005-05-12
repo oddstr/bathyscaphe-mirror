@@ -1,4 +1,9 @@
 2005-05-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* MakeFile 各種
+		Tiger でコマンド一発でビルドできるように MakeFile を修正、また metadata importer 用の
+		MakeFile を metadataimporter/BathyScaphe/ に追加。
+	* application/Resources/Japanese.lproj/Browser.nib
+		不要になってゾンビ化していたインスタンスなどを削除。
 	* application/source/browser/CMRBrowser-Delegate.m
 		ウインドウが最大サイズのときに掲示板リストを表示／隠す場合の、一覧とスレ内容表示領域の
 		サイズの伸縮方法を少し変更。

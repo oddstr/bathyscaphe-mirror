@@ -122,7 +122,7 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = src/NG/CocoMonar_Prefix.h;
+				GCC_PREFIX_HEADER = source/CocoMonar_Prefix.h;
 				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "-DDEBUG -DBUILD_COCOMONAR -DPATCH=1";
 				ZERO_LINK = NO;
@@ -6826,8 +6826,6 @@
 				F324DC5104C698FA00A80005,
 				F324DC5304C698FA00A80005,
 				F324DC5204C698FA00A80005,
-				F324DC4E04C698FA00A80005,
-				F33E994E04C6B0E200A80005,
 			);
 			isa = PBXGroup;
 			name = ThreadsList;
@@ -8786,7 +8784,6 @@
 				F324DE6904C698FC00A80005,
 				F324DE6A04C698FC00A80005,
 				F324DE6C04C698FC00A80005,
-				F324DE6D04C698FC00A80005,
 				F324DE7004C698FC00A80005,
 				F324DE7204C698FC00A80005,
 				F324DE8104C698FC00A80005,
@@ -9192,7 +9189,6 @@
 				F324DFEB04C698FC00A80005,
 				F324DFEF04C698FC00A80005,
 				F324DFF204C698FC00A80005,
-				F395A9C404C6DA8500A80005,
 				F3D5383104CE77B700A80005,
 				F3D5383704CE78FC00A80005,
 				F31D7F9B04D2F01A003EEDDD,
@@ -9773,14 +9769,6 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			path = CMRThreadsListReadFileTask_p.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		F324DC4E04C698FA00A80005 = {
-			fileEncoding = "-2147483647";
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = CMRThreadsListSorter.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -11464,12 +11452,6 @@
 			settings = {
 			};
 		};
-		F324DE6D04C698FC00A80005 = {
-			fileRef = F324DC4E04C698FA00A80005;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		F324DE7004C698FC00A80005 = {
 			fileRef = F324DC5104C698FA00A80005;
 			isa = PBXBuildFile;
@@ -13015,14 +12997,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		F33E994E04C6B0E200A80005 = {
-			fileEncoding = "-2147483647";
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = CMRThreadsListSorter.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		F33E995004C6B11F00A80005 = {
 			children = (
 				F3A107E4050A4BD600A80005,
@@ -14357,12 +14331,6 @@
 		};
 		F3959F1904D3050600A80005 = {
 			fileRef = F3959F1204D3050600A80005;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		F395A9C404C6DA8500A80005 = {
-			fileRef = F33E994E04C6B0E200A80005;
 			isa = PBXBuildFile;
 			settings = {
 			};

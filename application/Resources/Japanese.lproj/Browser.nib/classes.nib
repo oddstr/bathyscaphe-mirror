@@ -60,6 +60,7 @@
             CLASS = CMRBrowser; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                bottomSubview = id; 
                 "m_boardDrawer" = NSDrawer; 
                 "m_boardListTable" = NSOutlineView; 
                 "m_brdListActMenuBtn" = NSButton; 
@@ -76,6 +77,7 @@
                 "m_splitView" = CMRSplitView; 
                 "m_threadsFilterPopUp" = NSPopUpButton; 
                 "m_threadsListTable" = ThreadsListTable; 
+                topSubview = id; 
             }; 
             SUPERCLASS = CMRThreadViewer; 
         }, 
