@@ -1,3 +1,10 @@
+2005-05-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/manager/CMRKeychainManager.m
+		キーチェーン関連のコードを大幅に書き直した。
+	* application/Resources/Keychain.framework
+		Keychain Services API の Cocoa ラッパーフレームワーク「Keychain.framework」を導入した。
+		Keychain.m の一部を改変した（しないとクラッシュするので）。
+		<http://sourceforge.net/projects/keychain/>
 2005-05-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/CMRAppDelegate.m
 	* application/Resources/Japanese.lproj/MainMenu.nib

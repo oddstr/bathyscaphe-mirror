@@ -1,14 +1,3 @@
-//:CMRKeychainManager.m
-/**
-  *
-  * @see SGKeychain.h
-  * @see AppDefaults.h
-  *
-  * @author Takanori Ishikawa
-  * @author http://www15.big.or.jp/~takanori/
-  * @version 1.0.0d1 (02/09/11  8:55:35 PM)
-  *
-  */
 #import "CMRKeychainManager_p.h"
 #import <AppKit/NSApplication.h>
 
@@ -27,8 +16,65 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	}
 	return self;
 }
-@end
 
+- (BOOL) isAvailableKeychain
+{
+	if(nil == [Keychain defaultKeychain])
+		return NO;
+	
+	return YES;
+}
+
+- (void) checkHasAccountInKeychainIfNeeded
+{
+        if([self shouldCheckHasAccountInKeychain]){
+                KeychainItem        *item_;
+                
+                item_ = [[Keychain defaultKeychain] internetServer:[[self x2chAuthenticationRequestURL] host]
+														forAccount:[self x2chUserAccount] 
+															  port:0
+															  path:@"futen.cgi"
+												  inSecurityDomain:nil
+														  protocol:kSecProtocolTypeHTTPS
+															  auth:kSecAuthenticationTypeDefault];
+
+				if (item_ == nil) NSLog(@"KeyChain Account Not Found");
+                [CMRPref setHasAccountInKeychain : (nil != item_)];
+        }
+        [self setShouldCheckHasAccountInKeychain : NO];
+}
+
+- (NSString *) passwordFromKeychain
+{
+	NSString	*password_;
+	
+	password_ = [[Keychain defaultKeychain] passwordForInternetServer:[[self x2chAuthenticationRequestURL] host] 
+														   forAccount:[self x2chUserAccount]
+																 port:0
+																 path:@"futen.cgi"
+													 inSecurityDomain:nil
+															 protocol:kSecProtocolTypeHTTPS 
+																 auth:kSecAuthenticationTypeDefault];
+	
+	//if (password_ != nil) NSLog(@"%@", password_);
+	return password_; //on Error(or No password found), password_ may be nil.
+}
+
+- (void) createKeychainWithPassword : (NSString  *) password
+{
+	[[Keychain defaultKeychain]	addInternetPassword:password
+										   onServer:[[self x2chAuthenticationRequestURL] host]
+										 forAccount:[self x2chUserAccount]
+											   port:0
+											   path:@"futen.cgi" 
+								   inSecurityDomain:nil
+										   protocol:kSecProtocolTypeHTTPS 
+											   auth:kSecAuthenticationTypeDefault
+									replaceExisting:YES];
+
+	[CMRPref setHasAccountInKeychain:YES];
+}
+@end
 
 
 @implementation CMRKeychainManager(Private)
@@ -62,124 +108,5 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 		NSApp);
 	
 	[self setShouldCheckHasAccountInKeychain : YES];
-}
-@end
-
-
-
-@implementation CMRKeychainManager(AppUserAccount)
-- (BOOL) isAvailableKeychain
-{
-	if(NO == [SGKeychain keychainManagerAvailable])
-		return NO;
-	if(nil == [SGKeychain defaultKeychain])
-		return NO;
-	
-	return YES;
-}
-- (void) checkHasAccountInKeychainIfNeeded
-{
-	if([self shouldCheckHasAccountInKeychain]){
-		OSStatus	status_;
-		
-		UTILMethodLog;
-		status_ = [self findKeychainPassword : NULL
-							 keychainItemRef : NULL];
-		UTILDebugWrite1(@"  status = %d." ,status_);
-		[CMRPref 
-			setHasAccountInKeychain : (noErr == status_)];
-	}
-	[self setShouldCheckHasAccountInKeychain : NO];
-}
-- (NSString *) passwordFromKeychain
-{
-	NSString	*password_;
-	OSStatus	status_;
-	
-	status_ = [self findKeychainPassword : &password_
-						 keychainItemRef : NULL];
-	if(noErr == status_) return password_;
-	
-	return nil;
-}
-- (OSStatus) findKeychainAccount : (NSString  *) account
-						password : (NSString **) passwordPtr
-				 keychainItemRef : (KCItemRef *) itemRefPtr
-{
-	NSURL		*requestURL_;
-	OSStatus	status_;
-	
-	if(nil == account || 0 == [account length]) return errKCItemNotFound;
-	if(NO == [self isAvailableKeychain]) return errKCNoDefaultKeychain;
-	
-	requestURL_ = [self x2chAuthenticationRequestURL];
-	status_ = [SGKeychain findInternetPasswordWithURL : requestURL_
-									   accountName : account
-										  password : passwordPtr
-								   keychainItemRef : itemRefPtr];
-	
-	[CMRPref
-		setHasAccountInKeychain : (noErr == status_)];
-	return status_;
-}
-
-- (OSStatus) findKeychainPassword : (NSString **) passwordPtr
-				  keychainItemRef : (KCItemRef *) itemRefPtr
-{
-	return [self findKeychainAccount : [self x2chUserAccount]
-							password : passwordPtr
-					 keychainItemRef : itemRefPtr];
-}
-@end
-
-
-
-@implementation CMRKeychainManager(ChangeAttributes)
-- (OSStatus) createKeychainWithPassword : (NSString  *) password
-						keychainItemRef : (KCItemRef *) itemRefPtr
-{
-	return [SGKeychain 
-				addInternetPasswordWithURL : [self x2chAuthenticationRequestURL]
-							   accountName : [self x2chUserAccount]
-								  password : password
-						   keychainItemRef : itemRefPtr];
-}
-- (OSStatus) changeAccount : (NSString *) newAccount
-{
-	KCItemRef		keychainItem_;
-	OSStatus		status_;
-	
-	if([[self x2chUserAccount] isEqualToString : newAccount]) 
-		return noErr;
-	
-	status_ = [self findKeychainPassword : NULL
-						 keychainItemRef : &keychainItem_];
-	UTILRequireCondition((noErr == status_), err_change_attributes);
-	
-	status_ = [SGKeychain item : keychainItem_
-					setAccount : newAccount];
-	UTILRequireCondition((noErr == status_), err_change_attributes);
-	
-	status_ = [SGKeychain updateItem : keychainItem_];
-	UTILRequireCondition((noErr == status_), err_change_attributes);
-	
-	return status_;
-	
-	err_change_attributes:
-		return status_;
-}
-
-- (BOOL) deleteAccountWithAccount : (NSString *) account
-{
-	KCItemRef	keychainItem_;
-	OSStatus	status_;
-	
-	status_ = [self findKeychainAccount : account
-							   password : NULL 
-						keychainItemRef : &keychainItem_];
-	if(status_ != noErr) return NO;
-	
-	status_ = [SGKeychain deleteItem : keychainItem_];
-	return (noErr == status_);
 }
 @end

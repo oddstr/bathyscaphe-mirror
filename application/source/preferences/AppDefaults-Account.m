@@ -193,16 +193,17 @@ NS_ENDHANDLER
 		return NO;
 	
 	if(NO == [self hasAccountInKeychain]){
-		OSStatus	status_;
+		//OSStatus	status_;
 		
 		[self setX2chUserAccount : newAccount];
-		status_ = [[CMRKeychainManager defaultManager]
-					 createKeychainWithPassword : newPassword
-								keychainItemRef : NULL];
-		[self runAlertPanelWithReturnCode : status_
+		[[CMRKeychainManager defaultManager]
+					 createKeychainWithPassword : newPassword];
+					 		/*
+							[self runAlertPanelWithReturnCode : status_
 								  account : newAccount
 								 password : newPassword];
-		return (noErr == status_);
+								 */
+		return YES;//(noErr == status_);
 	}else{
 		if(NO == [self changeKeychainAccount : newAccount
 									password : newPassword]){
@@ -226,6 +227,7 @@ NS_ENDHANDLER
 								allowedCancel : YES]){
 		return NO;
 	}
+	/*
 	if(NO == [[CMRKeychainManager defaultManager]
 				deleteAccountWithAccount : [self x2chUserAccount]]){
 		[self runKeychainAlertPanelWithKey : 
@@ -233,6 +235,7 @@ NS_ENDHANDLER
 				allowedCancel : NO];
 		return NO;
 	}
+	*/
 	[self setHasAccountInKeychain : NO];
 	return YES;
 }
@@ -256,6 +259,7 @@ NS_ENDHANDLER
 - (BOOL) changeKeychainAccount : (NSString *) newAccount
 					  password : (NSString *) newPassword
 {
+	/*
 	NSString		*account_;
 	NSString		*password_;
 	OSStatus		status_;
@@ -293,6 +297,7 @@ NS_ENDHANDLER
 	}
 	
 	err_change_attributes:
+	*/
 		return NO;
 }
 @end
