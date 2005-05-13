@@ -24,7 +24,7 @@
 		「ウインドウ」メニューに「拡大／縮小」を追加。Panther 以降の標準メニューに揃えて強化。
 	* application/Resources/BathyScaphe.scriptSuite
 	* application/Resources/BathyScaphe.scriptTerminology
-		AppleScript 用語辞書を CocoMonar 用から CathyScaphe 用に更新。
+		AppleScript 用語辞書を CocoMonar 用から BathyScaphe 用に更新。
 		ファイル名変更のため、新規追加扱い（CocoMonar.scriptSuite/.scriptTerminology は削除）。
 	* application/source/manager/CMRHistoryManager.m
 		コンパイラのアドバイスに従って[super dealloc]を追加してみた :-)
