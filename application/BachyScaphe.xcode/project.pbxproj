@@ -6364,9 +6364,10 @@
 		87299B410832623A00CBD740 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.application;
-			path = BWAgent.app;
-			refType = 4;
-			sourceTree = "<group>";
+			name = BWAgent.app;
+			path = subproj/BWAgent/build/BWAgent.app;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		87299B420832623A00CBD740 = {
 			fileRef = 87299B410832623A00CBD740;
