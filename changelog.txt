@@ -1,3 +1,15 @@
+2005-05-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/BWAgent/sora.pl
+		BWAgent：22スレ200さんによるアップデートを適用（Thx!）。
+	* application/subproj/BWAgent/BoardWarrior.applescript
+	* application/subproj/BWAgent/Japanese.lproj/MainMenu.nib
+		BWAgent：スクリプト内部で CocoMonar フォルダを決め打ちしていた部分を BathyScaphe に変更。他、小修正。
+		BWAgent のバージョンは 1.1.5 にアップした。
+	* application/subproj/BWAgent/
+		BWAgent.app のソース一式を CVS にインポートした。同時に、application/Resources/BWAgent.app は
+		削除した（空のディレクトリが実際には残っているので、それを削除する -P オプションを付けて update してほしい）。
+		プロジェクトファイルで、BWAgent.app のパスを subproj/BWAgent/build/BWAgent.app に変更したので
+		注意すること。bathyscaphe をビルドする前に、BWAgent をビルドすること。
 2005-05-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/preferences/AppDefaults-Account.m
 	* application/subproj/preference/account/AccountController.m
