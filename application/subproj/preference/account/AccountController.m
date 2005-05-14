@@ -52,6 +52,7 @@
 	
 }
 
+/*
 - (IBAction) deleteAccount : (id) sender
 {
 	if([[self preferences] deleteAccount]){
@@ -61,6 +62,7 @@
 	}
 	[self updateUIComponents];
 }
+*/
 
 
 - (IBAction) changeShouldSavePassword : (id) sender
@@ -109,17 +111,18 @@
 	[[self preferences] setBe2chAccountCode : [sender stringValue]];
 }
 
+/*
 - (IBAction) openURLFor2chRegistration : (id) sender
 {
 	UTILAssertKindOfClass(sender, NSButton);
 	[[NSWorkspace sharedWorkspace] openURL :
 		[[self preferences] x2chRegistrationPageURL]];
 }
-- (IBAction) openURLForBe2chRegistration : (id) sender
+*/
+- (IBAction) openHelpForAccountPanel : (id) sender
 {
-	UTILAssertKindOfClass(sender, NSButton);
-	[[NSWorkspace sharedWorkspace] openURL :
-		[[self preferences] be2chRegistrationPageURL]];
+	NSBeep();
+	NSLog(@"Sorry, Not Supported Yet");
 }
 @end
 

@@ -1,7 +1,12 @@
 2005-05-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	* application/Resources/Keychain.framework.zip
-		フレームワークをそのまま CVS にコミットするのは困難なので、 CVS にはフレームワークの zip アーカイブを
-		コミットしておいた。開発者は、各自でこれを解凍してから（アーカイブと同じディレクトリに置いておけば良い）、
+	* application/source/preferences/AppDefaults-Account.m
+	* application/subproj/preference/account/AccountController.m
+	* application/subproj/preference/account/AccountController-ViewAccessor.m
+	* application/subproj/preference/Japanese.lproj/AccountPane.nib
+		「アカウント」環境設定のインタフェースを改良し、キーチェーン関連のコードを大幅に修正した。
+	* frameworks/Keychain/
+		フレームワークをそのまま CVS にコミットするのは困難なので、 CVS にはフレームワークのソースをまるごと
+		追加しておいた。frameworks/Keychain/Keychain.pbproj を開いて Keychain.framework をビルドしてから、
 		BathyScaphe をビルドしてほしい。
 	* application/source/manager/CMRKeychainManager.m
 		キーチェーン関連のコードを大幅に書き直した。

@@ -1,14 +1,3 @@
-//:AppDefaults-Account.m
-/**
-  *
-  * @see SGKeychain.h
-  * @see CMRKeychainManager.h
-  *
-  * @author Takanori Ishikawa
-  * @author http://www15.big.or.jp/~takanori/
-  * @version 1.0.0d1 (02/09/04  5:31:51 AM)
-  *
-  */
 #import "AppDefaults_p.h"
 #import "CMRKeychainManager.h"
 
@@ -193,27 +182,14 @@ NS_ENDHANDLER
 		return NO;
 	
 	if(NO == [self hasAccountInKeychain]){
-		//OSStatus	status_;
-		
 		[self setX2chUserAccount : newAccount];
 		[[CMRKeychainManager defaultManager]
 					 createKeychainWithPassword : newPassword];
-					 		/*
-							[self runAlertPanelWithReturnCode : status_
-								  account : newAccount
-								 password : newPassword];
-								 */
-		return YES;//(noErr == status_);
+		return YES;
 	}else{
-		if(NO == [self changeKeychainAccount : newAccount
-									password : newPassword]){
-			[self runKeychainAlertPanelWithKey : 
-					APPDEFAULTS_KEYCHAIN_ERRPR_CHANGE
-								 allowedCancel : NO];
-			return NO;
-		}
-		
-		[self setX2chUserAccount : newAccount];
+		[[CMRKeychainManager defaultManager]
+					 createKeychainWithPassword : newPassword];
+		//[self setX2chUserAccount : newAccount];
 		return YES;
 	}
 	return NO;
@@ -227,15 +203,7 @@ NS_ENDHANDLER
 								allowedCancel : YES]){
 		return NO;
 	}
-	/*
-	if(NO == [[CMRKeychainManager defaultManager]
-				deleteAccountWithAccount : [self x2chUserAccount]]){
-		[self runKeychainAlertPanelWithKey : 
-					APPDEFAULTS_KEYCHAIN_ERRPR_DELETE
-				allowedCancel : NO];
-		return NO;
-	}
-	*/
+	[[CMRKeychainManager defaultManager] deleteAccountCompletely];
 	[self setHasAccountInKeychain : NO];
 	return YES;
 }
@@ -253,52 +221,6 @@ NS_ENDHANDLER
 		return NO;
 	}
 	return YES;
-}
-
-
-- (BOOL) changeKeychainAccount : (NSString *) newAccount
-					  password : (NSString *) newPassword
-{
-	/*
-	NSString		*account_;
-	NSString		*password_;
-	OSStatus		status_;
-	
-	account_ = [self x2chUserAccount];
-	password_ = [self password];
-	
-	if(NO == [password_ isEqualToString : newPassword]){
-		BOOL		result_;
-		
-		// Keychain Manager APIでパスワードを変更する方法が
-		// 分からないので、新規に作成する。
-		UTILRequireCondition(
-			[[CMRKeychainManager defaultManager]
-				deleteAccountWithAccount : account_],
-			err_change_attributes);
-		
-		result_ = [self changeAccount : newAccount
-						     password : newPassword
-					     usesKeychain : YES];
-		UTILRequireCondition(
-			result_,
-			err_change_attributes);
-		
-		return YES;
-	}
-	
-	
-	if(NO == [account_ isEqualToString : newAccount]){
-		status_ = [[CMRKeychainManager defaultManager]
-								changeAccount : newAccount];
-		
-		UTILRequireCondition((noErr == status_), err_change_attributes);
-		return YES;
-	}
-	
-	err_change_attributes:
-	*/
-		return NO;
 }
 @end
 
@@ -391,29 +313,6 @@ NS_ENDHANDLER
 				account : account
 				password : password];
 		return NO;
-	}
-}
-- (void) runAlertPanelWithReturnCode : (OSStatus  ) status
-							 account : (NSString *) account
-							password : (NSString *) password
-{
-	switch(status){
-	case noErr:
-		return;
-		break;
-	case errKCDuplicateItem:
-		[self runKeychainAlertPanelWithTitle : 
-							APPDEFAULTS_KEYCHAIN_TITLE_ERR_CREATE
-				message : APPDEFAULTS_KEYCHAIN_MSG_ERRKCDUPLICATEITEM
-				account : account
-			   password : password];
-		break;
-	case errKCNoDefaultKeychain:
-		[self runKeychainAlertPanelWithKey : APPDEFAULTS_KEYCHAIN_NOT_AVAILABLE
-			allowedCancel : NO];
-		break;
-	default:
-		break;
 	}
 }
 @end

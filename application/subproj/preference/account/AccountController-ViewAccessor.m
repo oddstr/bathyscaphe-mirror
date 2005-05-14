@@ -37,11 +37,13 @@
 {
 	return m_saveButton;
 }
+/*
 - (NSButton *) deleteButton
 {
 	return m_deleteButton;
 }
-/* Accessor for m_shouldLoginCheckBox */
+*/
+
 - (NSButton *) shouldLoginCheckBox
 {
 	return m_shouldLoginCheckBox;
@@ -50,14 +52,16 @@
 {
 	return m_shouldLoginBe2chCheckBox;
 }
-/* Accessor for m_kagoButton */
+
+/*
 - (NSButton *) kagoButton
 {
 	return m_kagoButton;
 }
-- (NSButton *) beInfoButton
+*/
+- (NSButton *) helpButton
 {
-	return m_beInfoButton;
+	return m_helpButton;
 }
 @end
 
@@ -119,7 +123,7 @@
 	[[self userIDField] setStringValue : account_];
 	[[self beMailAddressField] setStringValue : beMail_];
 	[[self beCodeField] setStringValue : beCode_];
-	[[self deleteButton] setEnabled : hasAccountInKeychain_];
+	//[[self deleteButton] setEnabled : hasAccountInKeychain_];
 }
 @end
 

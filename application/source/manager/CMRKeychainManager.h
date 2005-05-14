@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 #import <Keychain/Keychain.h>
+#import <Keychain/KeychainItem.h>
 
 
 @interface CMRKeychainManager : NSObject
@@ -12,4 +13,5 @@
 - (void) checkHasAccountInKeychainIfNeeded;
 - (NSString *) passwordFromKeychain;
 - (void) createKeychainWithPassword : (NSString  *) password;
+- (void) deleteAccountCompletely;
 @end

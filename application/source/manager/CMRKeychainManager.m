@@ -38,10 +38,30 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 														  protocol:kSecProtocolTypeHTTPS
 															  auth:kSecAuthenticationTypeDefault];
 
-				if (item_ == nil) NSLog(@"KeyChain Account Not Found");
+				if (item_ == nil) NSLog(@"KeyChain Account Not Found - checkHasAccountInKeychainIfNeeded");
                 [CMRPref setHasAccountInKeychain : (nil != item_)];
         }
         [self setShouldCheckHasAccountInKeychain : NO];
+}
+
+- (void) deleteAccountCompletely
+{
+	KeychainItem        *item_;
+                
+	item_ = [[Keychain defaultKeychain] internetServer:[[self x2chAuthenticationRequestURL] host]
+											forAccount:[self x2chUserAccount] 
+												  port:0
+												  path:@"futen.cgi"
+									  inSecurityDomain:nil
+											  protocol:kSecProtocolTypeHTTPS
+											      auth:kSecAuthenticationTypeDefault];
+
+	if (item_ == nil) {
+		NSLog(@"KeyChain Account Not Found - deleteAccountCompletely");
+		return;
+	}
+	[item_ deleteCompletely];
+	
 }
 
 - (NSString *) passwordFromKeychain

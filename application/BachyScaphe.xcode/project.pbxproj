@@ -168,7 +168,7 @@
 			buildRules = (
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "../frameworks/CocoMonar/build ../frameworks/SGFoundation/build ../frameworks/SGNetwork/build ../frameworks/SGAppKit/build /Users/benchan/KeychainFW/build";
+				FRAMEWORK_SEARCH_PATHS = "../frameworks/CocoMonar/build ../frameworks/SGFoundation/build ../frameworks/SGNetwork/build ../frameworks/Keychain/build ../frameworks/SGAppKit/build";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = source/CocoMonar_Prefix.h;
 				GCC_USE_GCC3_PFE_SUPPORT = NO;
@@ -2745,7 +2745,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = Keychain.framework;
-			path = Resources/Keychain.framework;
+			path = ../frameworks/Keychain/build/Keychain.framework;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
