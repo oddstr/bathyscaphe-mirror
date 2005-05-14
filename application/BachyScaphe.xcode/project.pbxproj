@@ -6689,32 +6689,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		87A175110808E35800F004A9 = {
-			isa = PBXFileReference;
-			lastKnownFileType = image.png;
-			path = Help.png;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		87A175120808E35800F004A9 = {
-			isa = PBXFileReference;
-			lastKnownFileType = image.png;
-			path = HelpDown.png;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		87A175130808E35800F004A9 = {
-			fileRef = 87A175110808E35800F004A9;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		87A175140808E35800F004A9 = {
-			fileRef = 87A175120808E35800F004A9;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		87AC05B5082D3E4200823807 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -7777,8 +7751,6 @@
 				87AF6D0207425DC0001D08ED,
 				87AF6D0307425DC0001D08ED,
 				87AF6D0407425DC0001D08ED,
-				87A175130808E35800F004A9,
-				87A175140808E35800F004A9,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -8196,8 +8168,6 @@
 		};
 		F324DB6A04C6959800A80005 = {
 			children = (
-				87A175110808E35800F004A9,
-				87A175120808E35800F004A9,
 				87AF6CFD07425DC0001D08ED,
 				87AF6CFE07425DC0001D08ED,
 				87AF6CFF07425DC0001D08ED,

@@ -1,4 +1,7 @@
 2005-05-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/rsrc/Help.png
+	* application/subproj/preference/rsrc/HelpDown.png
+		不要になったので削除
 	* application/subproj/BWAgent/sora.pl
 		BWAgent：22スレ200さんによるアップデートを適用（Thx!）。
 	* application/subproj/BWAgent/BoardWarrior.applescript
