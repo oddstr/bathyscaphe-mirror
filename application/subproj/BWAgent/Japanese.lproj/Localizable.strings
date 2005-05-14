@@ -1,0 +1,24 @@
+/*Text Contents*/
+
+"label_default" = "アップデート";
+"label_alt" = "作成";
+"btn_stop" = "中止";
+"btn_ok" = "OK";
+"msg_default" = "“アップデート”をクリックすると、標準リストおよびユーザ定義リストを最新の状態に更新します。";
+"msg_alt" = "“作成”をクリックすると、標準リストを新しく作成します。";
+"word_errstep0" = "bbsmenu.html のダウンロード中にエラーが発生したため、アップデートを完了できませんでした。";
+"word_errstep1" = "標準リストの更新中にエラーが発生したため、アップデートを完了できませんでした。";
+"word_errstep2" = "ユーザ定義リストの更新中にエラーが発生したため、アップデートを完了できませんでした。";
+"msg_errstep0" = "標準リスト（board_default.plist）、およびユーザ定義リスト（board.plist）の内容は元のままです。";
+"msg_errstep1" = "標準リスト（board_default.plist）、およびユーザ定義リスト（board.plist）の内容は元のままです。";
+"msg_errstep2" = "標準リスト（board_default.plist）は更新されましたが、ユーザ定義リスト（board.plist）の内容は元のままです。";
+"status_fin" = "アップデートは無事完了しました。";
+"status_fin_alt" = "標準リストの作成は無事完了しました。";
+"msg_infopart1" = "標準リストを更新しました。また、ユーザ定義リストに登録されている";
+/*以下は改行を含むので注意*/
+"msg_infopart2" = "個の掲示板のアドレスを更新しました。
+
+";
+"msg_info" = "標準リストを更新しました。ユーザ定義リストの内容に変更はありませんでした。
+
+";
