@@ -1,4 +1,7 @@
 2005-05-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/image/ReplyDocument.icns
+	* application/Resources/image/ThreadDocument.icns
+		書類アイコンを更新。
 	* application/subproj/preference/rsrc/Help.png
 	* application/subproj/preference/rsrc/HelpDown.png
 		不要になったので削除

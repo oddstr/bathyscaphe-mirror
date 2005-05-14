@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
+	<string>Japanese</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -68,13 +68,13 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0d1</string>
+	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>BaSc</string>
 	<key>CFBundleVersion</key>
-	<string>17</string>
+	<string>18</string>
 	<key>LSMinimumSystemVersion</key>
-	<string>10.2.0</string>
+	<string>10.3.0</string>
 	<key>NSAppleScriptEnabled</key>
 	<true/>
 	<key>NSMainNibFile</key>
@@ -87,12 +87,12 @@
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
-				<string>Open URL in CocoMonar</string>
+				<string>Open URL in BathyScaphe</string>
 			</dict>
 			<key>NSMessage</key>
 			<string>openURL</string>
 			<key>NSPortName</key>
-			<string>CocoMonar</string>
+			<string>BathyScaphe</string>
 			<key>NSSendTypes</key>
 			<array>
 				<string>NSStringPboardType</string>
