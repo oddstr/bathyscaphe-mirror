@@ -12,3 +12,5 @@ COCOMONAR_FRWK    = CocoMonar
 FRAMEWORK_DIR     = frameworks
 APPLICATION_DIR   = application
 MDI_DIR		  = metadataimporter/BathyScaphe
+BWA_DIR		  = application/subproj/BWAgent
+

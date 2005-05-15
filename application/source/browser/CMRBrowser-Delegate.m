@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.2 2005/05/12 16:22:18 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.3 2005/05/15 00:12:15 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -113,6 +113,9 @@ extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
         }
     }
 }
+
+#pragma mark -
+
 - (BOOL)splitView:(id)sender canCollapseSubview:(NSView *)subview
 {
     return (subview == bottomSubview);
@@ -123,12 +126,120 @@ extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
     [[self splitView] setSubview:bottomSubview isCollapsed:!currentState];
     [[self splitView] resizeSubviewsWithOldSize:[[self splitView] frame].size];
 }
-/*- (void)splitViewDidResizeSubviews:(id)sender
+- (void)splitView:(id)sender resizeSubviewsWithOldSize:(NSSize)oldSize
 {
-    [[self splitView] resizeSubviewsWithOldSize:[[self splitView] frame].size];
-}*/
+    // It's our responsibility to set the frame rectangles of
+    // all uncollapsed subviews.
+    int i, numSubviews, numDividers;
+    float heightTotal, splitViewWidth, splitViewHeight, newSubviewHeight;
+    float curYAxisPos, dividerThickness, scaleFactor, availableSpace;
+    float minimumFirstSubviewHeight;
+	
+	float widthTotal, curXAxisPos, minimumFirstSubviewWidth, newSubviewWidth;
+	
+    id subview, subviews;
+
+    // setup
+    subviews = [sender subviews];
+    numSubviews = [subviews count];
+    numDividers = numSubviews - 1;
+    splitViewWidth = [sender frame].size.width;
+    splitViewHeight = [sender frame].size.height;
+    dividerThickness = [sender dividerThickness];
+
+    minimumFirstSubviewHeight = 90;
+	minimumFirstSubviewWidth = 120;
+
+	if ([sender isVertical]) {
+		widthTotal = 0;
+		for (i = 1; i < numSubviews; i++)
+		{
+			subview = [subviews objectAtIndex:i];
+			if (![sender isSubviewCollapsed:subview]) {
+				widthTotal += [subview frame].size.width;
+			}
+		}
+
+		availableSpace = splitViewWidth - minimumFirstSubviewWidth - numDividers*dividerThickness;
+		if (widthTotal > availableSpace) {
+			if (availableSpace < 0) {
+				scaleFactor = 0;
+			} else {
+				scaleFactor = availableSpace / widthTotal;
+			}
+		} else {
+			scaleFactor = 1;
+		}
+		
+		curXAxisPos = splitViewWidth;
+		for (i = numSubviews - 1; i > 0; i--) {
+			subview = [subviews objectAtIndex:i];
+			if (![sender isSubviewCollapsed:subview]) {
+				newSubviewWidth = floor([subview frame].size.width*scaleFactor);
+				curXAxisPos -= newSubviewWidth;
+				[subview setFrame:NSMakeRect(curXAxisPos, 0, newSubviewWidth, splitViewHeight)];
+			}
+			
+			curXAxisPos -= dividerThickness;
+		}
+		
+		subview = [subviews objectAtIndex:0];
+		[subview setFrame:NSMakeRect(0, 0, curXAxisPos, splitViewHeight)];
+		
+	} else {
+		// tabulate the total space taken up by uncollapsed subviews other than the first
+		heightTotal = 0;
+		for (i = 1; i < numSubviews; i++)
+		{
+			subview = [subviews objectAtIndex:i];
+			if (![sender isSubviewCollapsed:subview]) {
+				heightTotal += [subview frame].size.height;
+			}
+		}
+
+		// if the uncollapsed subviews (not counting the first) take up too much space then
+		// we have to scale them
+		availableSpace = splitViewHeight - minimumFirstSubviewHeight - numDividers*dividerThickness;
+		if (heightTotal > availableSpace) {
+			if (availableSpace < 0) {
+				scaleFactor = 0;
+			} else {
+				scaleFactor = availableSpace / heightTotal;
+			}
+		} else {
+			scaleFactor = 1;
+		}
+
+		// we walk up the Y-axis, setting subview frames as we go
+		curYAxisPos = splitViewHeight;
+		for (i = numSubviews - 1; i >0; i--) {
+			subview = [subviews objectAtIndex:i];
+			if (![sender isSubviewCollapsed:subview]) {
+				// expanded subviews need to have their origin set correctly and
+				// their size scaled.
+
+				newSubviewHeight = floor([subview frame].size.height*scaleFactor);
+				curYAxisPos -= newSubviewHeight;
+				[subview setFrame:NSMakeRect(0, curYAxisPos, splitViewWidth, newSubviewHeight)];
+			}
+
+			// account for the divider taking up space
+			curYAxisPos -= dividerThickness;
+		}
+
+		// the first subview subview's height is whatever's left over
+		subview = [subviews objectAtIndex:0];
+		[subview setFrame:NSMakeRect(0, 0, splitViewWidth, curYAxisPos)];
+	}
+
+    // if we wanted error checking, we could call adjustSubviews.  It would
+    // only change something if we messed up and didn't really tile the split view correctly.
+
+    // [sender adjustSubviews];
+}
 @end
 
+#pragma mark -
 
 @implementation CMRBrowser(NotificationPrivate)
 - (void) registerToNotificationCenter
@@ -281,6 +392,7 @@ extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
 	[[self threadsListTable] reloadData];
 	[self selectCurrentThreadWithMask : mask_];
 }
+/*
 - (void) favoritesManagerDidLinkFavorites : (NSNotification *) notification
 {
 	UTILAssertNotificationName(
@@ -307,6 +419,7 @@ extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
 	//	;
     //}
 }
+*/
 @end
 
 

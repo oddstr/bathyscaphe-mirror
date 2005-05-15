@@ -1,4 +1,7 @@
 2005-05-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Delegate.m
+		スプリットビューをダブルクリックするたびに、位置がズレていく問題を解決。
+		- KFSplitView 付属のサンプルコードがとても参考になった。
 	* application/Resources/image/ReplyDocument.icns
 	* application/Resources/image/ThreadDocument.icns
 		書類アイコンを更新。

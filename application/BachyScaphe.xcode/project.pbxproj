@@ -71,6 +71,7 @@
 			children = (
 				878DB8E6083277B40086BC97,
 				F324DC2004C698FA00A80005,
+				872998690832616D00CBD740,
 				F324DAF204C6943C00A80005,
 				8792D83A05E21ABE0074B2BE,
 				8729972C08325ECB00CBD740,
@@ -3547,8 +3548,8 @@
 			);
 			isa = PBXGroup;
 			path = Resources;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		872998E20832617E00CBD740 = {
 			children = (
@@ -9526,7 +9527,6 @@
 				F324DD7D04C698FB00A80005,
 				F324DD8D04C698FB00A80005,
 				F324DDC004C698FB00A80005,
-				872998690832616D00CBD740,
 			);
 			isa = PBXGroup;
 			path = source;
