@@ -1,18 +1,14 @@
-CocoMonar License
+BathyScaphe License
 -----------
 
-CocoMonar is licensed under the terms of the BSD style license reproduced
-below.
-This mean that CocoMonar is free software and can be used for both academic
-and commercial purposes at absolutely no cost.
+BathyScaphe は、CocoMonar と同様に基本的には BSD ライセンスに基づき -- This mean that BathyScaphe is free software and can be used for both academic
+and commercial purposes at absolutely no cost. -- 提供されますが、
 
-For details of BSD License, see
-http://www.opensource.org/licenses/bsd-license.html
-
+BathyScaphe の一部に使用されている KFSplitView のライセンス（http://creativecommons.org/licenses/by-nc/1.0/）に、「非営利」という条件が含まれることに留意してください。KFSplitView のコードをあなたが利用する場合は、KFSplitView のライセンスにそった取り扱いをお願いします。
 
 ===============================================================
 
-Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
+Copyright (c) 2005, Tsutomu Sawada.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions
