@@ -1,4 +1,12 @@
 2005-05-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* frameworks/Keychain/Keychain.pbproj/project.pbxproj
+		ビルド設定を手探りでいじる。…だいなみっくろーでぃんぐって何ですか。
+	* MakeFile 各種
+		Keychain.framework のビルドが抜けていたので修正。
+	* frameworks/Keychain/Makefile
+	　	新規追加。
+=================================================
+2005-05-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-Delegate.m
 		スプリットビューをダブルクリックするたびに、位置がズレていく問題を解決。
 		- KFSplitView 付属のサンプルコードがとても参考になった。
@@ -35,6 +43,7 @@
 		Keychain Services API の Cocoa ラッパーフレームワーク「Keychain.framework」を導入した。
 		Keychain.m の一部を改変した（しないとクラッシュするので）。
 		<http://sourceforge.net/projects/keychain/>
+=================================================
 2005-05-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/CMRAppDelegate.m
 	* application/Resources/Japanese.lproj/MainMenu.nib
