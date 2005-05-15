@@ -27,7 +27,7 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				LIBRARY_STYLE = BUNDLE;
+				LIBRARY_STYLE = STATIC;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			isa = PBXBuildStyle;
@@ -126,15 +126,18 @@
 				0867D6A2FE84028FC02AAC07,
 			);
 			buildSettings = {
+				DEBUGGING_SYMBOLS = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = "";
 				FRAMEWORK_VERSION = A;
 				HEADER_SEARCH_PATHS = "";
-				LIBRARY_SEARCH_PATHS = "";
-				OTHER_LDFLAGS = "-seg1addr 0x26900000";
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/3.3;
+				OTHER_LDFLAGS = "-seg1addr 0x26900000 -lz";
 				PRODUCT_NAME = Keychain;
 				SECTORDER_FLAGS = "";
+				USE_GCC3_PFE_SUPPORT = NO;
 				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
 				WRAPPER_EXTENSION = framework;
 			};
@@ -142,6 +145,7 @@
 			);
 			isa = PBXFrameworkTarget;
 			name = Keychain;
+			productInstallPath = "@executable_path/../Frameworks";
 			productName = Keychain;
 			productReference = 034768E0FF38A50411DB9C8B;
 			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
@@ -668,16 +672,16 @@
 		};
 		75606AE20746347A00A358D4 = {
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 1.0;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1.0;
-				DYLIB_CURRENT_VERSION = 1.0;
-				FRAMEWORK_VERSION = 1.0;
+				CURRENT_PROJECT_VERSION = "";
+				DEPLOYMENT_POSTPROCESSING = NO;
+				DYLIB_COMPATIBILITY_VERSION = "";
+				DYLIB_CURRENT_VERSION = "";
+				FRAMEWORK_VERSION = A;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_CPU = G3;
 				GCC_MODEL_TUNING = G3;
-				LIBRARY_STYLE = BUNDLE;
-				VERSIONING_SYSTEM = "apple-generic";
+				LIBRARY_STYLE = DYNAMIC;
+				VERSIONING_SYSTEM = "";
 			};
 			isa = PBXBuildStyle;
 			name = Deployment;
