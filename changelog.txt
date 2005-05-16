@@ -1,3 +1,8 @@
+5005-05-17 masakih <masakih@users.sourceforge.jp>
+	* Makefile
+		すべてのビルドを一つのMakefileですませるようにした
+		special thanks! > 本スレの 734さん
+=================================================
 2005-05-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* frameworks/Keychain/Keychain.pbproj/project.pbxproj
 		ビルド設定を手探りでいじる。…だいなみっくろーでぃんぐって何ですか。
