@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.2 2005/05/12 14:25:08 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.3 2005/05/20 14:09:05 masakih Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -81,12 +81,12 @@ enum {
 	[self deleteThread : nil];
 }
 
-- (IBAction) openSelectedThreads : (id) sender
+- (void) openThreadsInThreadWidnow : (NSArray *) threads
 {
 	NSEnumerator		*Iter_;
 	NSDictionary		*thread_;
 	
-	Iter_ = [[self selectedThreads] objectEnumerator];
+	Iter_ = [threads objectEnumerator];
 	while ((thread_ = [Iter_ nextObject])) {
 		NSString				*path_;
 		
@@ -94,6 +94,47 @@ enum {
 		[CMRThreadDocument showDocumentWithContentOfFile : path_
 											 contentInfo : thread_];
 	}
+}
+- (NSArray *) targetThreadsForAction : (SEL) action
+{
+	// currentlly no use action.
+	NSEvent *event = [NSApp currentEvent];
+	NSPoint mouse = [event locationInWindow];
+	NSView *targetView = [[[self window] contentView] hitTest : mouse];
+	NSArray *result = nil;
+	
+	if ([targetView isKindOfClass : [m_threadsListTable class]] || nil == targetView) {	// スレッドリストから
+		result = [self selectedThreadsReallySelected];
+		if (0 == [result count]) {
+			if (nil == [self threadURL]) {
+				result = [NSArray empty];
+			}
+			result = [self selectedThreads];
+		}
+//	} else if (nil == targetView) {
+		// メニューバーもしくはキーイベントから 今はスレッドリストの場合と同じ
+	} else { //　スレッドリストから。
+		id selected = [self selectedThread];
+		if (nil == selected) {
+			result = [NSArray empty];
+		} else {
+			result = [NSArray arrayWithObject : selected];
+		}
+	}
+		return result;
+}
+- (IBAction) openLogfile : (id) sender
+{
+	[self openThreadsLogFiles :  [self targetThreadsForAction : _cmd]];
+}
+- (IBAction) openInBrowser : (id) sender
+{
+	[self openThreadsInBrowser : [self targetThreadsForAction : _cmd]];
+}
+
+- (IBAction) openSelectedThreads : (id) sender
+{
+	[self openThreadsInThreadWidnow : [self targetThreadsForAction : _cmd]];
 }
 - (IBAction) selectThread : (id) sender
 {

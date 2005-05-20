@@ -180,6 +180,7 @@ static int messageMaskForTag(int tag)
 	SEL		action_;
 	NSDictionary	*selected_;
 	BOOL		isSelected_;
+	BOOL		isReallySelected_;
 	BOOL		textSelected_;
 	
 	if (nil == theItem) return NO;
@@ -188,6 +189,7 @@ static int messageMaskForTag(int tag)
 	action_ = [theItem action];
 	selected_ = [self selectedThread];
 	isSelected_ = ([self selectedThreads] && [self numberOfSelectedThreads]);
+	isReallySelected_ = ([[self selectedThreadsReallySelected] count] || [self threadURL]);
 	textSelected_ = [[self textView] selectedRange].length != 0;
         
 	// AA スレ
@@ -308,12 +310,18 @@ static int messageMaskForTag(int tag)
 	   action_ == @selector(copyThreadAttributes:)    ||
 	   action_ == @selector(copyInfoFromContextualMenu:)    ||
 	   action_ == @selector(showThreadAttributes:)    ||
-	   action_ == @selector(openInBrowser:)           ||
-	   action_ == @selector(openLogfile:)             ||
+	  
+	   
 	   action_ == @selector(deleteThread:)             ||
 	   action_ == @selector(openBBSInBrowser:) 
 	   ) 
 	{ return isSelected_; }
+	
+	if (action_ == @selector(openLogfile:)             ||
+	   action_ == @selector(openInBrowser:)           ||
+	   action_ == @selector(openSelectedThreads:)
+	   )
+	{ return isReallySelected_; }
 	
 	return NO;
 }

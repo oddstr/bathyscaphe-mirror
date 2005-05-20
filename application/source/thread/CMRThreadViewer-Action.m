@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.1 2005/05/11 17:51:07 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.2 2005/05/20 14:09:05 masakih Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -90,6 +90,51 @@
 					   name : CMRReplyMessengerDidFinishPostingNotification
 					 object : aMessenger];
 }
+
+- (void) openThreadsInThreadWidnow : (NSArray *) threads {}
+
+- (void) openThreadsInBrowser : (NSArray *) threads
+{
+	NSEnumerator		*Iter_;
+	NSDictionary		*threadAttributes_;
+	
+	int aType = [CMRPref openInBrowserType];
+	
+	Iter_ = [threads objectEnumerator];
+	while ((threadAttributes_ = [Iter_ nextObject])) {
+		NSURL			*boardURL_;
+		
+		switch(aType)
+		{
+			case 0:
+				boardURL_ =  [CMRThreadAttributes threadURLFromDictionary : threadAttributes_ withParamStr : @"l50"];
+				break;
+			case 1:
+				boardURL_ =  [CMRThreadAttributes threadURLFromDictionary : threadAttributes_ withParamStr : @"-100"];
+				break;
+			default:
+				boardURL_ =  [CMRThreadAttributes threadURLFromDictionary : threadAttributes_];
+		}
+		[[NSWorkspace sharedWorkspace] openURL : boardURL_ inBackGround : [CMRPref openInBg]];
+	}
+}
+
+- (void) openThreadsLogFiles : (NSArray *) threads
+{
+	NSEnumerator		*Iter_;
+	NSDictionary		*threadAttributes_;
+	
+	Iter_ = [threads objectEnumerator];
+	while ((threadAttributes_ = [Iter_ nextObject])) {
+		NSString			*filepath_;
+		
+		filepath_ =  [CMRThreadAttributes pathFromDictionary : threadAttributes_];
+		[[NSWorkspace sharedWorkspace]
+					openFile : filepath_
+			 withApplication : @"Property List Editor.app"];
+	}
+}	
+	
 @end
 
 #pragma mark -
@@ -544,35 +589,24 @@
 
 - (IBAction) openInBrowser : (id) sender
 {
-	NSEnumerator		*Iter_;
-	NSDictionary		*threadAttributes_;
+	NSArray				*selectedThreads_;
 	
-	int aType = [CMRPref openInBrowserType];
-	
-	Iter_ = [[self selectedThreads] objectEnumerator];
-	while ((threadAttributes_ = [Iter_ nextObject])) {
-		NSURL			*boardURL_;
-		
-		switch(aType)
-		{
-		case 0:
-			boardURL_ =  [CMRThreadAttributes threadURLFromDictionary : threadAttributes_ withParamStr : @"l50"];
-			break;
-		case 1:
-			boardURL_ =  [CMRThreadAttributes threadURLFromDictionary : threadAttributes_ withParamStr : @"-100"];
-			break;
-		default:
-			boardURL_ =  [CMRThreadAttributes threadURLFromDictionary : threadAttributes_];
+	selectedThreads_ = [self selectedThreadsReallySelected];
+	if (0 == [selectedThreads_ count]) {
+		if (nil == [self threadURL]) {
+			return;
 		}
-		[[NSWorkspace sharedWorkspace] openURL : boardURL_ inBackGround : [CMRPref openInBg]];
+		selectedThreads_ = [self selectedThreads];
 	}
+	
+	[self openThreadsInBrowser : selectedThreads_];
 }
 - (IBAction) openBBSInBrowser : (id) sender
 {
 	NSEnumerator		*Iter_;
 	NSDictionary		*threadAttributes_;
 	
-	Iter_ = [[self selectedThreads] objectEnumerator];
+	Iter_ = [[self selectedThreadsReallySelected] objectEnumerator];
 	while ((threadAttributes_ = [Iter_ nextObject])) {
 		NSURL			*boardURL_;
 		
@@ -583,18 +617,17 @@
 
 - (IBAction) openLogfile : (id) sender
 {
-	NSEnumerator		*Iter_;
-	NSDictionary		*threadAttributes_;
+	NSArray				*selectedThreads_;
 	
-	Iter_ = [[self selectedThreads] objectEnumerator];
-	while ((threadAttributes_ = [Iter_ nextObject])) {
-		NSString			*filepath_;
-		
-		filepath_ =  [CMRThreadAttributes pathFromDictionary : threadAttributes_];
-		[[NSWorkspace sharedWorkspace]
-					openFile : filepath_
-			 withApplication : @"Property List Editor.app"];
+	selectedThreads_ = [self selectedThreadsReallySelected];
+	if (0 == [selectedThreads_ count]) {
+		if (nil == [self threadURL]) {
+			return;
+		}
+		selectedThreads_ = [self selectedThreads];
 	}
+	
+	[self openThreadsLogFiles: selectedThreads_];
 }
 
 - (IBAction) addFavorites : (id) sender
@@ -602,12 +635,14 @@
 	NSEnumerator			*Iter_;
 	NSDictionary			*threadAttributes_;
 	CMRFavoritesOperation	operation_;
+	NSArray *selectedThreads_;
 	
-	operation_ = [self favoritesOperationForThreads : [self selectedThreads]];
+	selectedThreads_ = [self selectedThreads];
+	operation_ = [self favoritesOperationForThreads : selectedThreads_];
 	if (CMRFavoritesOperationNone == operation_)
 		return;
 	
-	Iter_ = [[self selectedThreads] objectEnumerator];
+	Iter_ = [selectedThreads_ objectEnumerator];
 	while ((threadAttributes_ = [Iter_ nextObject])) {
 		NSString			*path_;
 		

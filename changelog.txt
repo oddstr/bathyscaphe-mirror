@@ -1,4 +1,11 @@
-5005-05-17 masakih <masakih@users.sourceforge.jp>
+2005-05-20 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/thread/CMRThreadViewer_p.h
+	* application/source/thread/CMRThreadViewer-Validation.m
+	* application/source/thread/CMRThreadViewer-Action.m
+		3ペイン時の「ブラウザで開く」「ログを開く」、別のウインドウで開く実行時の、
+		選択スレッドとその動作間の不自然さを解消。
+2005-05-17 masakih <masakih@users.sourceforge.jp>
 	* Makefile
 		すべてのビルドを一つのMakefileですませるようにした
 		special thanks! > 本スレの 734さん
