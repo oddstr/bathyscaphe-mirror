@@ -1,4 +1,9 @@
 2005-05-21 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/PantherSearchField.nib
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/source/window/CMRNSSearchField.m
+		ブラウザウインドウを複数開くと、2枚目以降のウインドウでツールバーの検索フィールドが
+		動作しない問題を解決（>>52@2nd）。
 	* application/subproj/BWAgent/BoardWarrior.applescript
 		BWAgent 1.1.6
 		一時ファイルの生成場所を変更して、動作環境によらず正しく一時ファイルを生成できるようにした。

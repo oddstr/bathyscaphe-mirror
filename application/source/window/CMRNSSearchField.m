@@ -1,20 +1,25 @@
 //
 //  CMRNSSearchField.m
-//  CocoMonar
+//  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/04/30.
 //
 
 #import "CMRNSSearchField.h"
-#import "CMRBrowser.h"
 #import "CMXPreferences.h"
-//#import "CMRThreadsListSorter.h"
 #import "CMRSearchOptions.h"
 #import "CMRBrowserTemplateKeys.h"
 
 #define kSearchFieldNibName				@"PantherSearchField"
 #define kLocalizableTableName			@"ThreadViewer"
-#define kHistorySearchListLimitKey    @"History - Limit(SearchList)"
+#define kHistorySearchListLimitKey		@"History - Limit(SearchList)"
+
+/*
+	pantherSearchField のターゲットとアクションは
+	CMRBrowser 側で初期化する際に設定する。CMRBrowser-ViewAccessor.m を参照のこと。
+*/
+
+# pragma mark -
 
 @implementation CMRNSSearchField
 - (id) init
@@ -33,24 +38,16 @@
 	[self setupUIComponents];
 }
 
-# pragma mark -
 
 - (NSSearchField *) pantherSearchField
 {
 	return searchField;
 }
 
-#pragma mark -
-
-- (IBAction) searchString : (id) sender
-{
-	[CMRMainBrowser searchThreadWithString : [sender stringValue]];
-}
-
 - (void) setupUIComponents
 {
-	NSMenuItem		*hItem1, *hItem2, *hItem3, *hItem4;
-	id				hItem5;
+	NSMenuItem		*hItem1, *hItem2, *hItem3, *hItem5;
+	id				hItem4;
 	
 	BOOL	isIncremental;
 
@@ -94,20 +91,18 @@
 		NSNumber			*rep_;
 		NSCellStateValue	state_;
 		
-		label_ = NSLocalizedStringFromTable(
-					itemNameKeys_[i],
-					kLocalizableTableName,
-					@"search option lable.");
+		label_ = NSLocalizedStringFromTable(itemNameKeys_[i], kLocalizableTableName, nil);
 		
 		rep_  = [NSNumber numberWithUnsignedInt : searchMasks_[i]];
-		item_ = [[NSMenuItem alloc] initWithTitle:label_
-                                         action:@selector(searchToolbarPopupChanged:)
-                                         keyEquivalent:@""];
+		item_ = [[NSMenuItem alloc] initWithTitle : label_
+										   action : @selector(searchToolbarPopupChanged:)
+									keyEquivalent : @""];
+
 		[item_ setTag : kSearchPopUpOptionItemTag];
 		[item_ setRepresentedObject : rep_];
-		//[item_ setTarget : nil];
 		
 		state_ = (searchMasks_[i] & [CMRPref threadSearchOption]) ? NSOnState : NSOffState;
+
 		if (CMRSearchOptionCaseInsensitive == searchMasks_[i] || 
 		   CMRSearchOptionZenHankakuInsensitive == searchMasks_[i]) {
 			// 意味が逆になっている。
@@ -121,39 +116,43 @@
 	if (isIncremental) {
 		[cellMenu insertItem : [NSMenuItem separatorItem] atIndex : cnt];
 
-		hItem1 = [[NSMenuItem alloc] initWithTitle:NSLocalizedStringFromTable(
-					@"Search PopUp History Title", kLocalizableTableName, @"search option lable.")
-											action:NULL keyEquivalent:@""];
-		[hItem1 setTag:NSSearchFieldRecentsTitleMenuItemTag];
-		[cellMenu insertItem:hItem1 atIndex: (cnt+1)];
+		hItem1 = [[NSMenuItem alloc] initWithTitle : NSLocalizedStringFromTable(@"Search PopUp History Title",
+														kLocalizableTableName, nil)
+											action : NULL
+									 keyEquivalent : @""];
+		[hItem1 setTag : NSSearchFieldRecentsTitleMenuItemTag];
+		[cellMenu insertItem : hItem1 atIndex : (cnt+1)];
 		[hItem1 release];
 
-		hItem4 = [[NSMenuItem alloc] initWithTitle:NSLocalizedStringFromTable(
-					@"Search PopUp NoHistory Title", kLocalizableTableName, @"search option lable.")
-											action:NULL keyEquivalent:@""];
-		[hItem4 setTag:NSSearchFieldNoRecentsMenuItemTag];
-		[cellMenu insertItem:hItem4 atIndex: (cnt+2)];
-		[hItem4 release];
-
-		hItem2 = [[NSMenuItem alloc] initWithTitle:NSLocalizedStringFromTable(
-					@"Search PopUp History Title", kLocalizableTableName, @"search option lable.")
-											action:NULL keyEquivalent:@""];
-		[hItem2 setTag:NSSearchFieldRecentsMenuItemTag];
-		[cellMenu insertItem:hItem2 atIndex:(cnt+3)];
+		hItem2 = [[NSMenuItem alloc] initWithTitle : NSLocalizedStringFromTable(@"Search PopUp NoHistory Title",
+														kLocalizableTableName, nil)
+											action : NULL
+									 keyEquivalent : @""];
+		[hItem2 setTag : NSSearchFieldNoRecentsMenuItemTag];
+		[cellMenu insertItem : hItem2 atIndex : (cnt+2)];
 		[hItem2 release];
 
-		hItem5 = [NSMenuItem separatorItem];
-		[hItem5 setTag:NSSearchFieldClearRecentsMenuItemTag];
-		[cellMenu insertItem:hItem5 atIndex:(cnt+4)];
-
-		hItem3 = [[NSMenuItem alloc] initWithTitle:NSLocalizedStringFromTable(
-					@"Search Popup History Clear", kLocalizableTableName, @"search option lable.")
-											action:NULL keyEquivalent:@""];
-		[hItem3 setTag:NSSearchFieldClearRecentsMenuItemTag];
-		[cellMenu insertItem:hItem3 atIndex:(cnt+5)];
+		hItem3 = [[NSMenuItem alloc] initWithTitle : NSLocalizedStringFromTable(@"Search PopUp History Title",
+														kLocalizableTableName, nil)
+											action : NULL
+									 keyEquivalent : @""];
+		[hItem3 setTag : NSSearchFieldRecentsMenuItemTag];
+		[cellMenu insertItem : hItem3 atIndex : (cnt+3)];
 		[hItem3 release];
+
+		hItem4 = [NSMenuItem separatorItem];
+		[hItem4 setTag : NSSearchFieldClearRecentsMenuItemTag];
+		[cellMenu insertItem : hItem4 atIndex : (cnt+4)];
+
+		hItem5 = [[NSMenuItem alloc] initWithTitle : NSLocalizedStringFromTable(@"Search Popup History Clear",
+														kLocalizableTableName, nil)
+											action : NULL
+									 keyEquivalent : @""];
+		[hItem5 setTag : NSSearchFieldClearRecentsMenuItemTag];
+		[cellMenu insertItem : hItem5 atIndex : (cnt+5)];
+		[hItem5 release];
 	}
 	
-    [searchCell setSearchMenuTemplate:cellMenu];
+    [searchCell setSearchMenuTemplate : cellMenu];
 }
 @end

@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.m,v 1.1 2005/05/11 17:51:03 tsawada2 Exp $
+  * $Id: Browser.m,v 1.2 2005/05/21 10:43:03 tsawada2 Exp $
   * 
   * Browser.m
   *
@@ -112,7 +112,7 @@
 	CMRSearchMask		searchOption_;
 	NSNumber			*info_;
 	
-	id	tmp;
+	//id	tmp;
 	
 	if(nil == [self currentThreadsList]) return NO;
 	if(nil == text || [text isEmpty]) return NO;
@@ -130,6 +130,7 @@
 								          userInfo : info_
 								            option : options_];
 	
+	/*
 	// Incremental Search ÇÃèÍçáÇÕóöóÇ…ìoò^ÇµÇ»Ç¢
     tmp = SGTemplateResource(kBrowserIncrementalSearchKey);
     UTILAssertRespondsTo(tmp, @selector(boolValue));
@@ -140,7 +141,7 @@
 			type : CMRHistorySearchListOptionEntryType
 			object : operation_];
 	}
-	
+	*/
 	return [[self currentThreadsList] filterByFindOperation : operation_];
 }
 

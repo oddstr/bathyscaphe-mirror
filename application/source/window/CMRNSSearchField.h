@@ -1,6 +1,6 @@
 //
 //  CMRNSSearchField.h
-//  CocoMonar
+//  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/04/30.
 //
@@ -16,7 +16,8 @@
 @interface CMRNSSearchField : NSObject {
 	IBOutlet NSSearchField *searchField;
 }
+
 - (NSSearchField *) pantherSearchField;
 - (void) setupUIComponents;
-- (IBAction) searchString : (id) sender;
+
 @end
