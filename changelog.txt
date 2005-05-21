@@ -1,3 +1,7 @@
+2005-05-21 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/BWAgent/BoardWarrior.applescript
+		BWAgent 1.1.6
+		一時ファイルの生成場所を変更して、動作環境によらず正しく一時ファイルを生成できるようにした。
 2005-05-20 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/CMRBrowser-Action.m
 	* application/source/thread/CMRThreadViewer_p.h

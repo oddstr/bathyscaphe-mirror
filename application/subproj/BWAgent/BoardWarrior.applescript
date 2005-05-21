@@ -23,7 +23,7 @@ on will open theObject
 	readSettings()
 	checkfolder()
 	tell theObject
-		set visible of progress indicator "progress" to false
+		--set visible of progress indicator "progress" to false
 		if wherefolder is "" then
 			set contents of text field "message" to localized string "msg_alt"
 			set title of button "update" to localized string "label_alt"
@@ -64,6 +64,7 @@ on checkfolder()
 	set defPlistPath to ""
 	set wherefolder to ""
 	set AppSupportPath to (path to application support from user domain)
+	set TmpItemsPath to (path to temporary items from system domain)
 	set bundlePath to (resource path of main bundle) & "/"
 	--
 	tell application "Finder"
@@ -85,7 +86,7 @@ on checkfolder()
 			set defPlistPath to quoted form of ((POSIX path of AppSupportPath) & parentAppName & "/Documents/board_default.plist")
 		end if
 	end tell
-	set downloadedhtmlPath to quoted form of ((POSIX path of AppSupportPath) & parentAppName & "/bbsmenu.html")
+	set downloadedhtmlPath to quoted form of ((POSIX path of TmpItemsPath) & "bbsmenu.html")
 end checkfolder
 
 on checkifURLisValid(theURL)
@@ -166,11 +167,11 @@ end startsync
 
 on downloadbbsmenu()
 	set needtoRemove to false
-	tell application "Finder"
-		set myfol to (path to application support from user domain) as string
-		set myfol to myfol & parentAppName & ":bbsmenu.html"
-		set myfile to myfol as file specification
-	end tell
+	--tell application "Finder"
+	set myfol to (path to temporary items from system domain) as string
+	set myfol to myfol & "bbsmenu.html"
+	set myfile to myfol as file specification
+	--end tell
 	tell application "URL Access Scripting"
 		try
 			with timeout of 180 seconds
@@ -235,12 +236,12 @@ on progressControl(param)
 		set enabled of button "update" of window "mainwindow" to false
 		set enabled of button "cancel" of window "mainwindow" to false
 		set uses threaded animation of progress indicator "progress" of window "mainwindow" to true
-		set visible of progress indicator "progress" of window "mainwindow" to true
+		--set visible of progress indicator "progress" of window "mainwindow" to true
 		tell progress indicator "progress" of window "mainwindow" to start
 		tell window "mainwindow" to update
 	else if param is 2 then
 		tell progress indicator "progress" of window "mainwindow" to stop
-		set visible of progress indicator "progress" of window "mainwindow" to false
+		--set visible of progress indicator "progress" of window "mainwindow" to false
 		set enabled of button "cancel" of window "mainwindow" to true
 		set enabled of button "update" of window "mainwindow" to true
 	end if
