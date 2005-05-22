@@ -1,4 +1,11 @@
 2005-05-22 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+		ブラウザウインドウを複数開くと、2枚目以降のウインドウでスプリットバーが操作できなくなる
+		問題を解決。
+	* application/Resources/image/SendMessage.tiff
+		新規追加
+	* application/Resources/image/SendMessage.png
+		不要になったので削除
 	* application/subproj/editor/BoardListEditor.m
 	* application/subproj/editor/Japanese.lproj/BoardListEditor.nib
 	* application/subproj/editor/Japanese.lproj/Localizable.strings
@@ -28,6 +35,7 @@
 	* Makefile
 		すべてのビルドを一つのMakefileですませるようにした
 		special thanks! > 本スレの 734さん
+=================================================
 2005-05-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* frameworks/Keychain/Keychain.pbproj/project.pbxproj
 		ビルド設定を手探りでいじる。…だいなみっくろーでぃんぐって何ですか。
