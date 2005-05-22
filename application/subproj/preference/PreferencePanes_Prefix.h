@@ -12,6 +12,7 @@
 // controllers identifier
 extern NSString *const PPShowAllIdentifier;
 extern NSString *const PPGeneralPreferencesIdentifier;
+extern NSString *const PPAdvancedPreferencesIdentifier;
 extern NSString *const PPFilterPreferencesIdentifier;
 extern NSString *const PPFontsAndColorsIdentifier;
 extern NSString *const PPAccountSettingsIdentifier;

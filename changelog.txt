@@ -1,4 +1,24 @@
+2005-05-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/preferences/AppDefaults.m
+	* application/subproj/preference/pane/PreferencesPane-PCManagement.m
+	* application/subproj/preference/pane/PreferencesPane-Toolbar.m
+	* application/subproj/preference/pane/PreferencesPane-ViewAccessor.m
+	* application/subproj/preference/pane/PreferencesPane.m
+	* application/subproj/preference/general/GeneralPrefController.m
+	* application/subproj/preference/general/GeneralPrefController-View.m
+	* application/subproj/preference/Japanese.lproj/GeneralPreferences.nib
+		「一般」環境設定のうちプロキシ関連が「詳細」環境設定に転出。他、不要メソッドの削除など。
+	* application/subproj/preference/AdvancedPrefController.m
+	* application/subproj/preference/Japanese.lproj/AdvancedPane.nib
+	* application/subproj/preference/rsrc/AdvancedPreferences.tiff
+		新規追加。「詳細」環境設定ペインを増設。
+		- 「ログを削除する際に確認する」「リンクをバックグラウンドで開く」が
+		　KeyValueTemplates.plist から移動した。
 2005-05-22 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/image/age.png
+	* application/Resources/image/mailAttachment.png
+	* application/Resources/image/sage.png
+		あまりパッとしないアイコンだけど、一応独自のものに置き換え。
 	* application/source/browser/CMRBrowser-ViewAccessor.m
 		ブラウザウインドウを複数開くと、2枚目以降のウインドウでスプリットバーが操作できなくなる
 		問題を解決。
@@ -16,10 +36,6 @@
 	* application/Resources/Japanese.lproj/BathyScapheHelp/
 		新しいヘルプファイル。
 2005-05-21 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	* application/Resources/image/age.png
-	* application/Resources/image/mailAttachment.png
-	* application/Resources/image/sage.png
-		あまりパッとしないアイコンだけど、一応独自のものに置き換え。
 	* application/Resources/Japanese.lproj/PantherSearchField.nib
 	* application/source/browser/CMRBrowser-ViewAccessor.m
 	* application/source/window/CMRNSSearchField.m

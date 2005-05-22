@@ -1,5 +1,5 @@
 /**
-  * $Id: GeneralPrefController.m,v 1.1 2005/05/11 17:51:10 tsawada2 Exp $
+  * $Id: GeneralPrefController.m,v 1.2 2005/05/22 18:02:26 tsawada2 Exp $
   * 
   * GeneralPrefController.m
   *
@@ -51,7 +51,7 @@
 }
 - (IBAction) changeCollectByNew : (id) sender
 {
-	[[self preferences] setCollectByNew : (0 == [[[self collectByNewMatrix] selectedCell] tag])];
+	[[self preferences] setCollectByNew : (NSOnState == [[self collectByNewCheckBox] state])];
 }
 // Thread
 - (IBAction) changeLinkType : (id) sender
@@ -67,11 +67,11 @@
 }
 - (IBAction) changeMailAddressShown : (id) sender
 {
-	[[self preferences] setMailAddressShown : (0 == [[[self isMailShownMatrix] selectedCell] tag])];
+	[[self preferences] setMailAddressShown : (NSOnState == [[self isMailShownCheckBox] state])];
 }
 - (IBAction) changeShowsAll : (id) sender
 {
-	[[self preferences] setShowsAllMessagesWhenDownloaded : (0 == [[[self showsAllMatrix] selectedCell] tag])];
+	[[self preferences] setShowsAllMessagesWhenDownloaded : (NSOnState == [[self showsAllCheckBox] state])];
 }
 - (IBAction) changeOpenInBrowserType : (id) sender
 {
@@ -80,45 +80,11 @@
     
     [[self preferences] setOpenInBrowserType : [menuItem tag]];
 }
-// Proxy
-- (IBAction) changeProxyURL : (id) sender
+
+- (IBAction) openHelpForGeneralPane : (id) sender
 {
-	id		location_;
-	
-	location_ = [[self proxyURLField] stringValue];
-	[[self preferences] setProxyHost : location_];
-}
-- (IBAction) changeProxyPort : (id) sender
-{
-	int		v;
-	
-	v = [[self proxyPortField] intValue];
-	if(v <= 0){
-		[[self proxyPortField] setStringValue : @""];
-		v = 0;
-	}
-	[[self preferences] setProxyPort : v];
-}
-- (IBAction) enableProxy : (id) sender
-{
-	UTILAssertRespondsTo(sender, @selector(state));
-	[[self preferences] setUsesProxy : 
-		([sender state] == NSOnState)];
-	[self updateProxyUIComponents];
-}
-- (IBAction) enableProxyWhenPOST : (id) sender
-{
-	UTILAssertRespondsTo(sender, @selector(state));
-	[[self preferences] setUsesProxyOnlyWhenPOST : 
-		([sender state] == NSOnState)];
-	[self updateProxyUIComponents];
-}
-- (IBAction) syncSystemConfigProxy : (id) sender
-{
-	UTILAssertRespondsTo(sender, @selector(state));
-	[[self preferences] setUsesSystemConfigProxy : 
-		([sender state] == NSOnState)];
-	[self updateProxyUIComponents];
+	NSBeep();
+	NSLog(@"Not Supported yet.");
 }
 @end
 

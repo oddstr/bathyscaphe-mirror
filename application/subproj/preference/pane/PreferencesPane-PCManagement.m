@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesPane-PCManagement.m,v 1.1 2005/05/11 17:51:11 tsawada2 Exp $
+  * $Id: PreferencesPane-PCManagement.m,v 1.2 2005/05/22 18:02:26 tsawada2 Exp $
   * 
   * PreferencesPane-PCManagement.m
   *
@@ -13,6 +13,7 @@
 #import "AccountController.h"
 #import "CMRReplyDefaultsController.h"
 #import "GeneralPrefController.h"
+#import "AdvancedPrefController.h"
 #import "CMRFilterPrefController.h"
 
 
@@ -61,6 +62,7 @@
 		[CMRFilterPrefController class],
 		[FCController class],
 		[CMRReplyDefaultsController class],
+		[AdvancedPrefController class],
 		Nil
 	};
 	
@@ -144,12 +146,12 @@
 	[oldController didUnselect];
 	[controller didSelect];
 
+	[self setCurrentIdentifier : [controller identifier]];
+	[self updateUIComponents];
 	
 	[[self window] setFrame : wFrame
 					display : YES
 					animate : YES];
-	[self setCurrentIdentifier : [controller identifier]];
-	[self updateUIComponents];
 }
 - (IBAction) selectController : (id) sender
 {

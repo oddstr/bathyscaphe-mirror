@@ -165,6 +165,7 @@
 
 - (void) setupUIComponents
 {
+	/*
 	SEL		respondsSELs[] = {
 		@selector(threadsViewFont),
 		@selector(messageFont),
@@ -258,6 +259,7 @@
 		[self preferencesRespondsTo : respondsSELs[i]
 						  ofControl : control];
 	}
+	*/
 	// チェックボックスが選択されていない場合は非表示
 	if ([[self resPopUpTextColorWell] isEnabled])
 		[[self resPopUpTextColorWell] setEnabled : 

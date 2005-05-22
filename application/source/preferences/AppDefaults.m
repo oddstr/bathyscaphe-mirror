@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.2 2005/05/12 14:25:08 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.3 2005/05/22 18:02:26 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -43,6 +43,9 @@ NSString *const AppDefaultsWillSaveNotification = @"AppDefaultsWillSaveNotificat
 
 #define kQuietDeletionKey @"Thread - QuietDeletion"
 #define kOpenInBgkey	@"Thread - OpenLinkInBackGround"
+
+#define AppDefaultsOpenInBgKey				@"OpenLinkInBg"
+#define AppDefaultsQuietDeletionKey			@"QuietDeletion"
 
 static id _singletonAppDefaultsLock;
 
@@ -229,12 +232,28 @@ NS_ENDHANDLER
 // スレッドを削除するときに警告しない
 - (BOOL) quietDeletion
 {
-    return SGTemplateBool(kQuietDeletionKey);
+    return [[self defaults]
+				boolForKey : AppDefaultsQuietDeletionKey
+			  defaultValue : SGTemplateBool(kQuietDeletionKey)]; //以前の設定値を引き継ぐため
+}
+
+- (void) setQuietDeletion : (BOOL) flag
+{
+	[[self defaults] setBool : flag
+					  forKey : AppDefaultsQuietDeletionKey];
 }
 
 - (BOOL) openInBg
 {
-	return SGTemplateBool(kOpenInBgkey);
+	return [[self defaults]
+				boolForKey : AppDefaultsOpenInBgKey
+			  defaultValue :  SGTemplateBool(kOpenInBgkey)]; //以前の設定値を引き継ぐため
+}
+
+- (void) setOpenInBg : (BOOL) flag
+{
+	[[self defaults] setBool : flag
+					  forKey : AppDefaultsOpenInBgKey];
 }
 
 #pragma mark -

@@ -1,6 +1,11 @@
 {
     IBClasses = (
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {"" = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
         {
             ACTIONS = {
                 changeAutoscrollMask = id; 
@@ -11,30 +16,22 @@
                 changeMailAddressShown = id; 
                 changeMailAttachShown = id; 
                 changeOpenInBrowserType = id; 
-                changeProxyPort = id; 
-                changeProxyURL = id; 
                 changeShowsAll = id; 
-                enableProxy = id; 
-                enableProxyWhenPOST = id; 
-                syncSystemConfigProxy = id; 
+                openHelpForGeneralPane = id; 
             }; 
             CLASS = GeneralPrefController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 "_autoscrollMaskCheckBox" = NSMatrix; 
-                "_collectByNewMatrix" = NSMatrix; 
+                "_collectByNewCheckBox" = NSButton; 
                 "_drawerEdgeMaskMatrix" = NSMatrix; 
+                "_helpButton" = NSButton; 
                 "_ignoreCharsField" = NSTextField; 
-                "_isMailShownMatrix" = NSMatrix; 
+                "_isMailShownCheckBox" = NSButton; 
                 "_mailAttachCheckBox" = NSButton; 
                 "_openInBrowserPopUp" = NSPopUpButton; 
-                "_proxyPortField" = NSTextField; 
-                "_proxyURLField" = NSTextField; 
-                "_proxyWhenPOSTCheckBox" = NSButton; 
                 "_resAnchorActionPopUp" = NSPopUpButton; 
-                "_showsAllMatrix" = NSMatrix; 
-                "_usesProxyCheckBox" = NSButton; 
-                "_usesSystemConfigProxyCheckBox" = NSButton; 
+                "_showsAllCheckBox" = NSButton; 
             }; 
             SUPERCLASS = PreferencesController; 
         }, 

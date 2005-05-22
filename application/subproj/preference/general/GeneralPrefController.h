@@ -1,5 +1,5 @@
 /**
-  * $Id: GeneralPrefController.h,v 1.1 2005/05/11 17:51:10 tsawada2 Exp $
+  * $Id: GeneralPrefController.h,v 1.2 2005/05/22 18:02:26 tsawada2 Exp $
   * 
   * GeneralPrefController.h
   *
@@ -13,28 +13,20 @@
 
 @interface GeneralPrefController : PreferencesController
 {
-	// Log
-	//IBOutlet NSTextField	*_dataRootPathField;
-	
 	// List
 	IBOutlet NSMatrix		*_autoscrollMaskCheckBox;
 	IBOutlet NSMatrix		*_drawerEdgeMaskMatrix;
-	IBOutlet NSMatrix		*_collectByNewMatrix;
+	IBOutlet NSButton		*_collectByNewCheckBox;
 	IBOutlet NSTextField	*_ignoreCharsField;
 	
 	// Thread
 	IBOutlet NSPopUpButton  *_resAnchorActionPopUp;
 	IBOutlet NSButton		*_mailAttachCheckBox;
-	IBOutlet NSMatrix		*_isMailShownMatrix;
-	IBOutlet NSMatrix		*_showsAllMatrix;
+	IBOutlet NSButton		*_isMailShownCheckBox;
+	IBOutlet NSButton		*_showsAllCheckBox;
 	IBOutlet NSPopUpButton	*_openInBrowserPopUp;
 	
-	// Proxy
-	IBOutlet NSButton		*_usesProxyCheckBox;
-	IBOutlet NSButton		*_proxyWhenPOSTCheckBox;
-	IBOutlet NSButton		*_usesSystemConfigProxyCheckBox;
-	IBOutlet NSTextField	*_proxyURLField;
-	IBOutlet NSTextField	*_proxyPortField;
+	IBOutlet NSButton		*_helpButton;
 }
 
 // List
@@ -48,40 +40,26 @@
 - (IBAction) changeMailAddressShown : (id) sender;
 - (IBAction) changeShowsAll : (id) sender;
 - (IBAction) changeOpenInBrowserType : (id) sender;
-// Proxy
-- (IBAction) changeProxyURL : (id) sender;
-- (IBAction) changeProxyPort : (id) sender;
-- (IBAction) enableProxy : (id) sender;
-- (IBAction) enableProxyWhenPOST : (id) sender;
-- (IBAction) syncSystemConfigProxy : (id) sender;
+
+- (IBAction) openHelpForGeneralPane : (id) sender;
 @end
 
 
 
 @interface GeneralPrefController(View)
-// Log
-//- (NSTextField *) dataRootPathField;
 // List
 - (int) autoscrollMaskForTag : (int) tag;
 - (NSMatrix *) drawerEdgeMaskMatrix;
 - (NSMatrix *) autoscrollMaskCheckBox;
-- (NSMatrix *) collectByNewMatrix;
+- (NSButton *) collectByNewCheckBox;
 - (NSTextField *) ignoreCharsField;
 
 // Thread
 - (NSPopUpButton *) resAnchorActionPopUp;
-- (NSMatrix *) isMailShownMatrix;
-- (NSMatrix *) showsAllMatrix;
+- (NSButton *) isMailShownCheckBox;
+- (NSButton *) showsAllCheckBox;
 - (NSButton *) mailAttachCheckBox;
 - (NSPopUpButton *) openInBrowserPopUp;
 
-// Proxy
-- (NSButton *) usesProxyCheckBox;
-- (NSButton *) proxyWhenPOSTCheckBox;
-- (NSButton *) usesSystemConfigProxyCheckBox;
-- (NSTextField *) proxyURLField;
-- (NSTextField *) proxyPortField;
-
-- (void) updateProxyUIComponents;
 
 @end

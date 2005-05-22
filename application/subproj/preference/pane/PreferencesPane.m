@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesPane.m,v 1.1 2005/05/11 17:51:11 tsawada2 Exp $
+  * $Id: PreferencesPane.m,v 1.2 2005/05/22 18:02:26 tsawada2 Exp $
   * 
   * PreferencesPane.m
   *
@@ -17,6 +17,7 @@ DefineConstStr(PPToolbarIdentifier, @"PreferencesPane Toolbar");
 
 DefineConstStr(PPShowAllIdentifier, @"ShowAll");
 DefineConstStr(PPGeneralPreferencesIdentifier, @"General");
+DefineConstStr(PPAdvancedPreferencesIdentifier, @"Advanced");
 DefineConstStr(PPFilterPreferencesIdentifier, @"Filter");
 DefineConstStr(PPAccountSettingsIdentifier, @"AccountSettings");
 DefineConstStr(PPFontsAndColorsIdentifier, @"FontsAndColors");
@@ -28,14 +29,6 @@ DefineConstStr(PPReplyDefaultIdentifier, @"ReplyDefaults");
 - (id) initWithPreferences : (AppDefaults *) prefs
 {
 	if (self = [super initWithWindowNibName : @"PreferencesPane"]) {
-		
-/*
-		[[NSNotificationCenter defaultCenter]
-			addObserver : self
-			selector : @selector(applicationDidBecomeActive:)
-			name : NSApplicationDidBecomeActiveNotification
-			object : NSApp];
-*/
 		[self setPreferences : prefs];
 		[self makePreferencesControllers];
 	}
@@ -91,16 +84,7 @@ DefineConstStr(PPReplyDefaultIdentifier, @"ReplyDefaults");
 
 - (NSString *) displayName
 {
-	//NSString				*prefName_;
 	PreferencesController	*controller_;
-	
-	/*
-	prefName_ = NSLocalizedStringFromTableInBundle(
-					@"Preferences",
-					nil,
-					[NSBundle bundleForClass : [self class]],
-					@"Preferences Window");
-	*/
 	
 	controller_ = [self controllerWithIdentifier : [self currentIdentifier]];
 	

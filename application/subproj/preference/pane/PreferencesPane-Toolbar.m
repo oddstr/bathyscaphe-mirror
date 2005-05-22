@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesPane-Toolbar.m,v 1.1 2005/05/11 17:51:11 tsawada2 Exp $
+  * $Id: PreferencesPane-Toolbar.m,v 1.2 2005/05/22 18:02:26 tsawada2 Exp $
   * 
   * PreferencesPane-Toolbar.m
   *
@@ -11,28 +11,6 @@
 #import "AppDefaults.h"
 #import "PreferencePanes_Prefix.h"
 
-/*
-現在使われていない
-static void makeToolbarItemInDictionary(
-				NSString            *identifier,
-				NSMutableDictionary *dictionary,
-				NSString            *label,
-				NSString            *paletteLabel,
-				NSString            *toolTip,
-				id                   target,
-				SEL                  settingSelector,
-				id                   itemContent,
-				SEL                  action,
-				NSMenu              *menu);
-
-
-#define DefineStaticStr(symbol, value)		static NSString *const symbol = value
-DefineStaticStr(ShowAllLabelKey, @"Label for ShowAll");
-DefineStaticStr(ShowAllToolTipKey, @"ToolTip for ShowAll");
-
-*/
-
-
 @implementation PreferencesPane(ToolbarSupport)
 /* Accessor for _toolbarItems */
 - (NSMutableDictionary *) toolbarItems
@@ -42,40 +20,7 @@ DefineStaticStr(ShowAllToolTipKey, @"ToolTip for ShowAll");
 	}
 	return _toolbarItems;
 }
-/**
-  * ツールバーに項目が追加されるときに
-  * 呼ばれるメソッド。
-  * 
-  * @param    notification  NSToolbarWillAddItemNotification
-  */
 
-- (void) toolbarWillAddItem : (NSNotification *) notification
-{
-	NSString *name_;
-	
-	name_ = [notification name];
-	if([name_ isEqualToString : NSToolbarWillAddItemNotification]){
-		NSToolbarItem *item_;
-		NSString      *identifier_;
-		
-		item_ = [[notification userInfo] objectForKey:@"item"];
-		if(nil == item_) return;
-		
-		identifier_ = [item_ itemIdentifier];
-		
-		if(nil == identifier_) return;
-		/*
-		if([identifier_ isEqualToString : PPShowAllIdentifier]){
-			SEL runTcp_;
-			
-			runTcp_ = @selector(runToolbarCustomizationPalette:);
-			
-			[item_ setTarget : [self window]];
-			[item_ setAction : runTcp_];
-		}
-		*/
-	}
-}
 
 /**
   * 引数itemIdentifierで指定されたツールバーの項目を返す。
@@ -86,6 +31,7 @@ DefineStaticStr(ShowAllToolTipKey, @"ToolTip for ShowAll");
   * @param    flag            項目が追加される場合はYES
   * @return                   ツールバーの項目
   */
+
 - (NSToolbarItem *) toolbar : (NSToolbar *) toolbar
       itemForItemIdentifier : (NSString  *) itemIdentifier
   willBeInsertedIntoToolbar : (BOOL       ) flag
@@ -127,6 +73,7 @@ DefineStaticStr(ShowAllToolTipKey, @"ToolTip for ShowAll");
 				PPFilterPreferencesIdentifier,
 				PPFontsAndColorsIdentifier,
 				PPReplyDefaultIdentifier,
+				PPAdvancedPreferencesIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,
 				nil];
 }
@@ -142,6 +89,7 @@ DefineStaticStr(ShowAllToolTipKey, @"ToolTip for ShowAll");
 				PPFilterPreferencesIdentifier,
 				PPFontsAndColorsIdentifier,
 				PPReplyDefaultIdentifier,
+				PPAdvancedPreferencesIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,
 				nil];
 }
@@ -162,9 +110,11 @@ Mac OS X 10.3以上で、ツールバーで選択されている項目をハイライトするための仕掛け
 				PPFilterPreferencesIdentifier,
 				PPFontsAndColorsIdentifier,
 				PPReplyDefaultIdentifier,
+				PPAdvancedPreferencesIdentifier,
 				nil];
 }
 
+/*
 - (NSImage *) _imageResourceWithName : (NSString *) name
 {
 	NSBundle *bundle_;
@@ -176,7 +126,9 @@ Mac OS X 10.3以上で、ツールバーで選択されている項目をハイライトするための仕掛け
 	
 	return [[[NSImage alloc] initWithContentsOfFile : filepath_] autorelease];
 }
+*/
 
+/*
 - (NSImage *) _toolbarIconWithName : (NSString *) name
 {
 	static NSSize _tbItemSize = {32, 32};
@@ -199,6 +151,7 @@ Mac OS X 10.3以上で、ツールバーで選択されている項目をハイライトするための仕掛け
 	
 	return tbItemImage_;
 }
+*/
 
 - (void) setupToolbar
 {
@@ -209,20 +162,6 @@ Mac OS X 10.3以上で、ツールバーで選択されている項目をハイライトするための仕掛け
 	SEL action_ = @selector(selectController:);
 	
 	toolbar_= [[NSToolbar alloc] initWithIdentifier : PPToolbarIdentifier];
-	/*
-	makeToolbarItemInDictionary(
-		PPShowAllIdentifier,
-	    [self toolbarItems],
-		PPLocalizedString(ShowAllLabelKey),
-		PPLocalizedString(ShowAllLabelKey),
-		PPLocalizedString(ShowAllToolTipKey),
-	    [self window],
-	    @selector(setImage:),
-	    [[NSApplication sharedApplication] applicationIconImage],
-	    @selector(runToolbarCustomizationPalette:),
-	    NULL);
-	*/
-	
 	
 	iter_ = [[self controllers] objectEnumerator];
 	while(controller_ = [iter_ nextObject]){
@@ -247,8 +186,6 @@ Mac OS X 10.3以上で、ツールバーで選択されている項目をハイライトするための仕掛け
 NSAppKitVersionNumberでやってもいいんだけど、10.2でビルドしているので
 Objective-CならrespondsToSelector:でチェックしても安全
 */
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_3
-	
 	if([toolbar_ respondsToSelector : @selector(setSelectedItemIdentifier:)]){
 		
 		//Mac OS X 10.3以降では、ペインに応じてツールバーボタンをハイライトさせる。
@@ -266,51 +203,8 @@ Objective-CならrespondsToSelector:でチェックしても安全
 		
 		[toolbar_ setSelectedItemIdentifier: shouldSelectedTbIdentifier_];
 	}
-	
-#endif
-	
+
 	[[self window] setToolbar : toolbar_];
 	[toolbar_ release];
 }
 @end
-
-
-
-/*
-現在使われていない
-
-static void makeToolbarItemInDictionary(
-				NSString            *identifier,
-				NSMutableDictionary *dictionary,
-				NSString            *label,
-				NSString            *paletteLabel,
-				NSString            *toolTip,
-				id                   target,
-				SEL                  settingSelector,
-				id                   itemContent,
-				SEL                  action,
-				NSMenu              *menu)
-{
-	NSToolbarItem		*item_;
-	
-	item_ = [[NSToolbarItem alloc] initWithItemIdentifier : identifier];
-	[item_ setLabel : label];
-	[item_ setPaletteLabel : paletteLabel];
-	[item_ setToolTip : toolTip];
-	[item_ setTarget : target];
-	[item_ performSelector : settingSelector withObject : itemContent];
-	[item_ setAction : action];
-	
-	if(menu != nil){
-		NSMenuItem		*mItem = [[NSMenuItem alloc] init];
-		
-		[mItem setSubmenu : menu];
-		[mItem setTitle : [menu title]];
-		[item_ setMenuFormRepresentation : mItem];
-		[mItem release];
-	}
-	[dictionary setObject:item_ forKey:identifier];
-	[item_ release];
-}
-
-*/
