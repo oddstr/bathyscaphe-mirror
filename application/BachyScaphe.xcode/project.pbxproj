@@ -1434,7 +1434,6 @@
 				872999560832618100CBD740,
 				872999590832618200CBD740,
 				872999F7083261C400CBD740,
-				872999B9083261B700CBD740,
 				87299A3D083261F200CBD740,
 				87299A3E083261F200CBD740,
 				87299A3F083261F200CBD740,
@@ -1520,6 +1519,7 @@
 				87D8DBAC0833D57D004C1168,
 				87D8DC220833E8AF004C1168,
 				87D8DC270833EABB004C1168,
+				87BF7CA50840423900CC7D7C,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3499,13 +3499,13 @@
 		};
 		872998690832616D00CBD740 = {
 			children = (
+				87BF7CA40840423900CC7D7C,
 				87D8DBAA0833D57D004C1168,
 				87E2264C0833AA5D00E7FC85,
 				87E2264D0833AA5D00E7FC85,
 				87299B410832623A00CBD740,
 				87299AF50832622100CBD740,
 				87299A02083261F200CBD740,
-				872999B7083261B700CBD740,
 				872999F5083261C400CBD740,
 				872998E20832617E00CBD740,
 				872998E50832617F00CBD740,
@@ -4659,35 +4659,6 @@
 			lastKnownFileType = text.plist.strings;
 			name = Japanese;
 			path = Japanese.lproj/ThreadViewerTbItems.strings;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		872999B7083261B700CBD740 = {
-			children = (
-				872999C1083261BE00CBD740,
-			);
-			isa = PBXVariantGroup;
-			name = CocoMonarHelp;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		872999B8083261B700CBD740 = {
-			fileRef = 872999B7083261B700CBD740;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		872999B9083261B700CBD740 = {
-			fileRef = 872999B7083261B700CBD740;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		872999C1083261BE00CBD740 = {
-			isa = PBXFileReference;
-			lastKnownFileType = folder;
-			name = Japanese;
-			path = Japanese.lproj/CocoMonarHelp;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -6822,6 +6793,29 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
+		87BF7CA40840423900CC7D7C = {
+			children = (
+				87BF7CAE0840424200CC7D7C,
+			);
+			isa = PBXVariantGroup;
+			name = BathyScapheHelp;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		87BF7CA50840423900CC7D7C = {
+			fileRef = 87BF7CA40840423900CC7D7C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		87BF7CAE0840424200CC7D7C = {
+			isa = PBXFileReference;
+			lastKnownFileType = folder;
+			name = Japanese;
+			path = Japanese.lproj/BathyScapheHelp;
+			refType = 4;
+			sourceTree = "<group>";
+		};
 		87C7287A082B8E7E00AC9AE1 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -7937,7 +7931,7 @@
 			sourceTree = "<group>";
 		};
 		F324DB3604C6959800A80005 = {
-			fileEncoding = "-2147483647";
+			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
 			path = AccountController.m;
@@ -9082,7 +9076,6 @@
 				872999550832618100CBD740,
 				872999580832618200CBD740,
 				872999F6083261C400CBD740,
-				872999B8083261B700CBD740,
 				87299A76083261F200CBD740,
 				87299A77083261F200CBD740,
 				87299A78083261F200CBD740,

@@ -1,5 +1,5 @@
 /**
-  * $Id: BoardListEditor.h,v 1.1 2005/05/11 17:51:09 tsawada2 Exp $
+  * $Id: BoardListEditor.h,v 1.2 2005/05/22 05:58:39 tsawada2 Exp $
   * 
   * BoardListEditor.h
   *
@@ -40,6 +40,7 @@
 	IBOutlet NSButton			*_editButton;
 	IBOutlet NSButton			*_deleteButton;
 	IBOutlet NSButton			*_launchButton;
+	IBOutlet NSButton			*_helpButton;
 	
 	BoardList					*_userList;
 	BoardList					*_defaultList;
@@ -63,7 +64,7 @@
 - (IBAction) editUserList : (id) sender;
 - (IBAction) removeFromUserList : (id) sender;
 - (IBAction) endEditSheet : (id) sender;
-//- (IBAction) changeCreateView : (id) sender;
+- (IBAction) openHelp : (id) sender;
 //- (IBAction) removeAllFromUserList : (id) sender;
 //- (IBAction) resetUserList : (id) sender;
 @end

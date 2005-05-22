@@ -6,7 +6,7 @@ CFBundleGetInfoString = "BathyScaphe version 1.0, Copyright (c) 2005 tsawada2.";
 NSHumanReadableCopyright = "Copyright (c) 2005 tsawada2.";
 
 /* Help */
-CFBundleHelpBookName = "CocoMonar ヘルプ";
+CFBundleHelpBookName = "BathyScaphe ヘルプ";
 
 /* Document Types */
 "CocoMonar Log Format" = "BathyScaphe ログ書類";

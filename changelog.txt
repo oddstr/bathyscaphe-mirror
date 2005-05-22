@@ -1,3 +1,13 @@
+2005-05-22 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/editor/BoardListEditor.m
+	* application/subproj/editor/Japanese.lproj/BoardListEditor.nib
+	* application/subproj/editor/Japanese.lproj/Localizable.strings
+	* application/subproj/preference/filter/CMRFilterPrefController.m
+	* application/subproj/preference/Japanese.lproj/FilterPreferences.nib
+	* application/subproj/preference/Japanese.lproj/Localizable.strings
+		ヘルプボタンを付けてみた。Tiger のヘルプビューアの検索機能は今ひとつだなぁ。
+	* application/Resources/Japanese.lproj/BathyScapheHelp/
+		新しいヘルプファイル。
 2005-05-21 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/PantherSearchField.nib
 	* application/source/browser/CMRBrowser-ViewAccessor.m

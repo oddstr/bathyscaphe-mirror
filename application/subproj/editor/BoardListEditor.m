@@ -1,5 +1,5 @@
 /**
- * $Id: BoardListEditor.m,v 1.1 2005/05/11 17:51:09 tsawada2 Exp $
+ * $Id: BoardListEditor.m,v 1.2 2005/05/22 05:58:39 tsawada2 Exp $
  * 
  * BoardListEditor.m
  *
@@ -613,5 +613,10 @@
 	[super showWindow : sender];
 	[[self defaultListTable] reloadData];
 	[[self userListTable] reloadData];
+}
+
+- (IBAction) openHelp : (id) sender
+{
+	[[NSHelpManager sharedHelpManager] findString:[self localizedString : @"FindStr_"] inBook:[self localizedString : @"HelpBookName"]];
 }
 @end

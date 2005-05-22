@@ -9,6 +9,7 @@
                 endEditSheet = id; 
                 launchBW = id; 
                 moveItem = id; 
+                openHelp = id; 
                 reloadDefaultList = id; 
                 removeFromUserList = id; 
             }; 
@@ -26,6 +27,7 @@
                 "_defaultListTable" = NSOutlineView; 
                 "_deleteButton" = NSButton; 
                 "_editButton" = NSButton; 
+                "_helpButton" = NSButton; 
                 "_launchButton" = NSButton; 
                 "_userListTable" = NSOutlineView; 
             }; 

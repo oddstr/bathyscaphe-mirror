@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFilterPrefController.m,v 1.1 2005/05/11 17:51:10 tsawada2 Exp $
+  * $Id: CMRFilterPrefController.m,v 1.2 2005/05/22 05:58:39 tsawada2 Exp $
   * 
   * CMRFilterPrefController.m
   *
@@ -81,6 +81,10 @@
 - (IBAction) closeDetailSheet : (id) sender
 {
 	[NSApp endSheet : [self detailSheet]];
+}
+- (IBAction) openHelpForFilterPanel : (id) sender
+{
+	[[NSHelpManager sharedHelpManager] findString:PPLocalizedString(@"Help_Filter") inBook:PPLocalizedString(@"HelpBookName")];
 }
 @end
 

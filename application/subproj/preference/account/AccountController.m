@@ -121,8 +121,7 @@
 */
 - (IBAction) openHelpForAccountPanel : (id) sender
 {
-	NSBeep();
-	NSLog(@"Sorry, Not Supported Yet");
+	[[NSHelpManager sharedHelpManager] findString:PPLocalizedString(@"Help_Account") inBook:PPLocalizedString(@"HelpBookName")];
 }
 @end
 

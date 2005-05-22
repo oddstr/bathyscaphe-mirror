@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFilterPrefController.h,v 1.1 2005/05/11 17:51:10 tsawada2 Exp $
+  * $Id: CMRFilterPrefController.h,v 1.2 2005/05/22 05:58:39 tsawada2 Exp $
   * 
   * CMRFilterPrefController.h
   *
@@ -14,6 +14,7 @@
 @interface CMRFilterPrefController : PreferencesController
 {
 	IBOutlet NSButton	*_spamFilterEnabledCheckBox;
+	IBOutlet NSButton	*_helpbutton;
 	IBOutlet NSButton	*_usesSpamMessageCorpusCheckBox;
 	IBOutlet NSMatrix	*_spamFilterBehaviorMatrix;
 	
@@ -28,5 +29,7 @@
 
 - (IBAction) openDetailSheet : (id) sender;
 - (IBAction) closeDetailSheet : (id) sender;
+
+- (IBAction) openHelpForFilterPanel : (id) sender;
 
 @end
