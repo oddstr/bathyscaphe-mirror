@@ -16,6 +16,10 @@
 	* application/Resources/Japanese.lproj/BathyScapheHelp/
 		新しいヘルプファイル。
 2005-05-21 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/image/age.png
+	* application/Resources/image/mailAttachment.png
+	* application/Resources/image/sage.png
+		あまりパッとしないアイコンだけど、一応独自のものに置き換え。
 	* application/Resources/Japanese.lproj/PantherSearchField.nib
 	* application/source/browser/CMRBrowser-ViewAccessor.m
 	* application/source/window/CMRNSSearchField.m
