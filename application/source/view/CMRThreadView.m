@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadView.m,v 1.1 2005/05/11 17:51:08 tsawada2 Exp $
+  * $Id: CMRThreadView.m,v 1.2 2005/05/23 07:57:25 tsawada2 Exp $
   * 
   * CMRThreadView.m
   *
@@ -102,6 +102,7 @@ NSClipView ‚Ì NSViewBoundsDidChangeNotification ‚ðŽó‚¯Žæ‚Á‚Ä
 // invalidate focus ring in the bottom area of textView
 //
 
+/*
 #define FOCUS_RING_AREA_HEIGHT	5.0f
 - (NSRect) adjustScroll : (NSRect) proposedVisibleRect
 {
@@ -125,6 +126,7 @@ NSClipView ‚Ì NSViewBoundsDidChangeNotification ‚ðŽó‚¯Žæ‚Á‚Ä
 	
 	return proposedVisibleRect;
 }
+*/
 
 - (CMRThreadSignature *) threadSignature
 {

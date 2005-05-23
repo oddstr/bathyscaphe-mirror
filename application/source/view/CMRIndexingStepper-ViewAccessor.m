@@ -131,6 +131,7 @@
 
 	[[self indexField] setDelegate : self];
 	//[[self indexField] setAction : @selector(moveToScanedIndex:)];
+	[[self indexField] setFocusRingType : NSFocusRingTypeNone];
 }
 //- (void) setupFrameView
 //{

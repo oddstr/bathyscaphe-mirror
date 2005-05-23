@@ -1,4 +1,8 @@
 2005-05-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/CMRIndexingStepper-ViewAccessor.m
+	* application/source/view/CMRThreadView.m
+		レス番号フィールドはフォーカスリングを描画しないようにし、これに伴いスレッド本文の
+		スクロール時のフォーカスリング再描画処理を省いた。
 	* application/source/preferences/AppDefaults.m
 	* application/subproj/preference/pane/PreferencesPane-PCManagement.m
 	* application/subproj/preference/pane/PreferencesPane-Toolbar.m
