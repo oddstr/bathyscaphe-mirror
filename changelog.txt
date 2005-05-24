@@ -1,3 +1,7 @@
+2005-05-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/BathyScapheHelp/
+		ヘルプの記述ミスが若干あったので修正。
+		また、検索でひっかかりやすいように索引の生成パラメータやキーワードを調整。
 2005-05-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/view/CMRIndexingStepper-ViewAccessor.m
 	* application/source/view/CMRThreadView.m
