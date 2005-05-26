@@ -1,4 +1,10 @@
+2005-05-26 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/browserwin.png
+		ヘルプの図版が一部雑な作りだったので差し替え。
 2005-05-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/ref_pref_adv.html
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/ref_pref_gen.html
+		新規追加。環境設定パネルのヘルプボタンと効果的に連携するため、ヘルプの内容を増強。
 	* application/Resources/Japanese.lproj/Preview/PreviewSource.html
 		CocoMonar という文字列が残っていたので修正。（Thx! 2ndスレの>>302）
 	* application/Resources/Japanese.lproj/ThreadViewerTbItems.strings
