@@ -1,3 +1,18 @@
+2005-05-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/Preview/PreviewSource.html
+		CocoMonar という文字列が残っていたので修正。（Thx! 2ndスレの>>302）
+	* application/Resources/Japanese.lproj/ThreadViewerTbItems.strings
+		「お気に入りを追加」ボタンのヘルプタグを修正。
+	* application/Resources/image/
+		ほとんどのツールバーアイコン用画像ファイルを置き換え（もっとブラッシュアップすべきだが）。
+		また、一部のファイルは png から tiff に変わったため、更新ではなく
+		「png を削除」→「tiff を新規追加」扱いになっているので注意。
+	* application/Resources/image/lastUpdatedHeader.png
+		新着レス画像も置き換え。
+	* application/Resources/image/proxy/*.png
+		オンザフライレス展開用の画像も置き換え。
+	* application/Resources/text/StyleTemplates.rtf
+		掲示板リストのデフォルトフォント・サイズを調整。
 2005-05-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/BathyScapheHelp/
 		ヘルプの記述ミスが若干あったので修正。

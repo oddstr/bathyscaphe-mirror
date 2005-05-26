@@ -72,7 +72,7 @@
 
 - (IBAction) openHelpForAdvancedPane : (id) sender
 {
-	NSBeep();
+	[[NSHelpManager sharedHelpManager] findString:PPLocalizedString(@"Help_Advanced") inBook:PPLocalizedString(@"HelpBookName")];
 }
 
 #pragma mark -

@@ -1,5 +1,5 @@
 /**
-  * $Id: GeneralPrefController.m,v 1.2 2005/05/22 18:02:26 tsawada2 Exp $
+  * $Id: GeneralPrefController.m,v 1.3 2005/05/26 13:38:04 tsawada2 Exp $
   * 
   * GeneralPrefController.m
   *
@@ -83,8 +83,7 @@
 
 - (IBAction) openHelpForGeneralPane : (id) sender
 {
-	NSBeep();
-	NSLog(@"Not Supported yet.");
+	[[NSHelpManager sharedHelpManager] findString:PPLocalizedString(@"Help_General") inBook:PPLocalizedString(@"HelpBookName")];
 }
 @end
 
