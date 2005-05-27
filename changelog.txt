@@ -1,3 +1,7 @@
+2005-05-28 masakih <masakih@users.sourceforge.jp>
+	* application/source/thread/CMRThreadViewer-Link.m
+		スレへのアンカーへのマウスオーバーでそのスレの情報をポップアップするようにした。
+=================================================
 2005-05-26 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/browserwin.png
 		ヘルプの図版が一部雑な作りだったので差し替え。

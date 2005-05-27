@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.1 2005/05/11 17:51:07 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.2 2005/05/27 18:08:15 masakih Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -83,6 +83,7 @@ to link acctually clicked.
 	static NSMutableAttributedString *kBuffer = nil;
 	
 	NSString						*address_;
+	NSString						*logPath_ = nil;
 	
 	if (nil == aLink) return nil;
 	if (nil == kBuffer)
@@ -98,6 +99,27 @@ to link acctually clicked.
 		[[kBuffer mutableString] appendString : address_];
 		[kBuffer setAttributes:attributes_ range:[kBuffer range]]; 
 
+	} else if ([CMRThreadLinkProcessor parseThreadLink : aLink
+											 boardName : nil
+											  boardURL : nil
+											  filepath : &logPath_]) {
+		NSDictionary			*dict_;
+		CMRThreadAttributes		*attr_;
+		NSAttributedString		*template_;
+		
+		dict_ = [[[NSDictionary alloc] initWithContentsOfFile:logPath_] autorelease];
+		if (!dict_) goto ErrInvalidLink;
+		
+		attr_ = [[[CMRThreadAttributes alloc] initWithDictionary:dict_] autorelease];
+		
+		// 暫定的に表示内容は「情報を表示」のものをそのまま借用してます。
+		// ポップアップが大きすぎると言う苦情がくるかもしれません。 by masakih
+		template_ = [self templateForInfoPopUp];
+		if (!template_) goto ErrInvalidLink;
+		
+		[kBuffer setAttributedString : template_];
+		[self replaceKeywords : [kBuffer mutableString] 
+				   attributes : attr_];
 	} else {
 		SGBaseRangeArray		*indexRanges_;
 		SGBaseRangeEnumerator	*iter_;
