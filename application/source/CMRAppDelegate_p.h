@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate_p.h,v 1.1 2005/05/11 17:51:03 tsawada2 Exp $
+ * $Id: CMRAppDelegate_p.h,v 1.2 2005/05/29 12:30:15 masakih Exp $
  * 
  * CMRAppDelegate_p.h
  *
@@ -13,6 +13,7 @@
 #import "TextFinder.h"
 #import "CMRTaskManager.h"
 #import "CMRMainMenuManager.h"
+#import "BSScriptsMenuManager.h"
 #import "CMROpenURLManager.h"
 
 

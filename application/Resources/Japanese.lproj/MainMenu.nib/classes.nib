@@ -47,6 +47,7 @@
                 openDefaultNoNameInputPanel = id; 
                 openInBrowser = id; 
                 openLogfile = id; 
+                openScriptsDirectory = id; 
                 pasteAsQuotation = id; 
                 reloadThread = id; 
                 reloadThreadsList = id; 

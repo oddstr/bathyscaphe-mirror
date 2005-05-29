@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMainMenuManager.h,v 1.1 2005/05/11 17:51:05 tsawada2 Exp $
+  * $Id: CMRMainMenuManager.h,v 1.2 2005/05/29 12:30:15 masakih Exp $
   * 
   * CMRMainMenuManager.h
   *
@@ -21,6 +21,7 @@
 - (NSMenuItem *) threadMenuItem;
 - (NSMenuItem *) windowMenuItem;
 - (NSMenuItem *) helpMenuItem;
+- (NSMenuItem *) scriptsMenuItem;
 @end
 
 

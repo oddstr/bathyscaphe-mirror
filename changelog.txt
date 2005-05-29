@@ -1,3 +1,16 @@
+2005-05-29 masakih <masakih@users.sourceforge.jp>
+	* application/BachyScaphe.xcode/project.pbxproj
+	* application/Resources/Japanese.lproj/MainMenu.nib/classes.nib
+	* application/Resources/Japanese.lproj/MainMenu.nib/info.nib
+	* application/Resources/Japanese.lproj/MainMenu.nib/keyedobjects.nib
+	* application/Resources/image/Scripts.tiff
+	* application/source/CMRAppDelegate+Menu.m
+	* application/source/CMRAppDelegate_p.h
+	* application/source/manager/BSScriptsMenuManager.h
+	* application/source/manager/BSScriptsMenuManager.m
+	* application/source/manager/CMRMainMenuManager.h
+	* application/source/manager/CMRMainMenuManager.m
+		スクリプトメニューを実装。
 2005-05-28 masakih <masakih@users.sourceforge.jp>
 	* application/source/thread/CMRThreadViewer-Link.m
 		スレへのアンカーへのマウスオーバーでそのスレの情報をポップアップするようにした。

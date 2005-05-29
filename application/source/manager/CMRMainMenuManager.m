@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMainMenuManager.m,v 1.1 2005/05/11 17:51:05 tsawada2 Exp $
+  * $Id: CMRMainMenuManager.m,v 1.2 2005/05/29 12:30:15 masakih Exp $
   * 
   * CMRMainMenuManager.m
   *
@@ -20,6 +20,7 @@
 #define		THREAD_MENU_TAG			5
 #define		WINDOW_MENU_TAG			6
 #define		HELP_MENU_TAG			7
+#define		SCRIPTS_MENU_TAG		8
 
 #define		FILE_ONLINEMODE_TAG		1
 #define		BROWSER_ARRANGEMENT_TAG	1
@@ -41,6 +42,7 @@ MENU_ACCESSER(BBSMenuItem, BBS_MENU_TAG)
 MENU_ACCESSER(threadMenuItem, THREAD_MENU_TAG)
 MENU_ACCESSER(windowMenuItem, WINDOW_MENU_TAG)
 MENU_ACCESSER(helpMenuItem, HELP_MENU_TAG)
+MENU_ACCESSER(scriptsMenuItem, SCRIPTS_MENU_TAG)
 
 
 #undef MENU_ACCESSER
