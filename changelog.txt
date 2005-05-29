@@ -1,3 +1,7 @@
+2005-05-30 masakih <masakih@users.sourceforge.jp>
+	* application/source/manager/BSScriptsMenuManager.m
+		ファイルパスが違うがタイトルが同じになるアイテムをすべて表示するようにした。
+		ex) 01Script.scpt Script 02Script.app はタイトルは同じになってしまう。
 2005-05-29 masakih <masakih@users.sourceforge.jp>
 	* application/BachyScaphe.xcode/project.pbxproj
 	* application/Resources/Japanese.lproj/MainMenu.nib/classes.nib

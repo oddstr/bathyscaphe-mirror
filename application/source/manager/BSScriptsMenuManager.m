@@ -170,17 +170,20 @@ static inline void appendDirectoryIntoMenu(NSMenu *inMenu, NSString *dir)
 		} else if (isDirectory && !isAppleScriptFile(path)) {
 			id <NSMenuItem> menuItem;
 			NSMenu *submenu;
+			int index;
 			
-			if (nil == (menuItem = [inMenu itemWithTitle : title])) {
+			index = [inMenu indexOfItemWithRepresentedObject : path];
+			if (-1 == index) {
 				menuItem = [inMenu addItemWithTitle : title
-											 action : nil
-									  keyEquivalent : @""];
+											action : nil
+									 keyEquivalent : @""];
 				submenu = [[[NSMenu alloc] init] autorelease];
 				[submenu setTitle : [[NSDate dateWithTimeIntervalSinceNow : 0.0] description]];
 				[menuItem setSubmenu : submenu];
 				[menuItem setRepresentedObject : path];
 				[menuItem setImage : imageForMenuIcon(image)];
 			} else {
+				menuItem = [inMenu itemAtIndex : index];
 				submenu = [menuItem submenu];
 			}
 			
@@ -188,7 +191,7 @@ static inline void appendDirectoryIntoMenu(NSMenu *inMenu, NSString *dir)
 		} else {
 			id <NSMenuItem> menuItem;
 			
-			if (-1 != [inMenu indexOfItemWithTitle : title]) {
+			if (-1 != [inMenu indexOfItemWithRepresentedObject : path]) {
 				continue;
 			}
 			
