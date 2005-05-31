@@ -78,9 +78,10 @@ static NSString *const AppDefaultsResPopUpIsSeeThroughKey = @"Res PopUp See Thro
 }
 - (void) setBrowserStripedTableColor : (NSColor *) color
 {
-	[self setBGDefaultsColor : color
-					  forKey : AppDefaultsStripedTableColorKey];
-	[self setBrowserSTableDrawsStriped : YES];
+	NSLog(@"Deprecated.");
+	//[self setBGDefaultsColor : color
+	//				  forKey : AppDefaultsStripedTableColorKey];
+	//[self setBrowserSTableDrawsStriped : YES];
 }
 
 - (NSColor *) browserSTableBackgroundColor
@@ -91,6 +92,7 @@ static NSString *const AppDefaultsResPopUpIsSeeThroughKey = @"Res PopUp See Thro
 {
 	[self setBGDefaultsColor : color
 					  forKey : AppDefaultsSTableBackgroundColorKey];
+	[self setBrowserSTableDrawsStriped : NO]; //どうしてもカスタムカラーで塗るというなら、塗り分けは自動的に無効化する
 	[self setBrowserSTableDrawsBackground : YES];
 }
 
@@ -106,6 +108,7 @@ static NSString *const AppDefaultsResPopUpIsSeeThroughKey = @"Res PopUp See Thro
 	[[self backgroundColorDictionary]
 			 setBool : flag
 			  forKey : AppDefaultsSTableDrawsStripedKey];
+	[self setBrowserSTableDrawsBackground : NO];//(NO == flag)];
 	[self postLayoutSettingsUpdateNotification];
 }
 

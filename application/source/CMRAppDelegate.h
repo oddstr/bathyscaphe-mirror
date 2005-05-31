@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.h,v 1.3 2005/05/12 20:18:57 tsawada2 Exp $
+ * $Id: CMRAppDelegate.h,v 1.4 2005/05/31 13:48:38 tsawada2 Exp $
  * 
  * CMRAppDelegate.h
  *
@@ -42,6 +42,10 @@
 /* Property Support (Key-Value coding) */
 - (BOOL) isOnlineMode;
 - (void) setIsOnlineMode : (BOOL) flag;
+
+/* Who needs these stupid properties... Huh! */
+- (NSArray *) browserTableViewColor;
+- (void) setBrowserTableViewColor : (NSArray *) colorValue;
 
 /* Command Support */
 - (void) handleOpenURLCommand : (NSScriptCommand *) command;

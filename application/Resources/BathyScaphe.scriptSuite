@@ -144,6 +144,13 @@
 			<string>capp</string>
 			<key>Attributes</key>
 			<dict>
+				<key>browserTableViewColor</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>brCo</string>
+					<key>Type</key>
+					<string>NSArray</string>
+				</dict>
 				<key>isOnlineMode</key>
 				<dict>
 					<key>AppleEventCode</key>

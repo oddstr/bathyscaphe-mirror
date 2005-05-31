@@ -1,7 +1,14 @@
+2005-05-31 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/source/preferences/AppDefaults-Background.m
+	* application/Resources/BathyScaphe.scriptSuite
+	* application/Resources/BathyScaphe.scriptTerminology
+	* application/source/CMRAppDelegate.m
+		スレッド一覧のテーブル・ビューの背景色を（どうしても変えたいならば）変えられるようにした。
+		AppleScript 経由で。変えた場合、塗り分けの設定は強制的にオフになる。
 2005-05-31 masakih <masakih@users.sourceforge.jp>
 	* application/source/manager/BSScriptsMenuManager.m
-		スクリプトメニューに command + option + 数字１つ
-のショートカットをつけた。
+		スクリプトメニューに command + option + 数字１つのショートカットをつけた。
 		番号の順は DVD Player に準じた。
 2005-05-30 masakih <masakih@users.sourceforge.jp>
 	* application/source/manager/BSScriptsMenuManager.m

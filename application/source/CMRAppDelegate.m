@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.3 2005/05/12 20:18:57 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.4 2005/05/31 13:48:38 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -124,6 +124,35 @@
 - (void) setIsOnlineMode : (BOOL) flag
 {
 	[CMRPref setIsOnlineMode : flag];
+}
+
+- (NSArray *) browserTableViewColor
+{
+	float red,green,blue;
+	
+	NSColor *color_ = [CMRPref browserSTableBackgroundColor];
+	//NSString *colorName_ = [color_ colorSpaceName];
+		
+	[[color_ colorUsingColorSpaceName : @"NSCalibratedRGBColorSpace"] getRed: &red green: &green blue: &blue alpha: NULL];
+
+	return [NSArray arrayWithObjects : [NSNumber numberWithFloat:red], [NSNumber numberWithFloat:green], [NSNumber numberWithFloat:blue], nil];
+}
+
+- (void) setBrowserTableViewColor : (NSArray *) colorValue;
+{
+	float red,green,blue;
+	red = [[colorValue objectAtIndex : 0] floatValue];
+	green = [[colorValue objectAtIndex : 1] floatValue];
+	blue = [[colorValue objectAtIndex : 2] floatValue];
+	
+	if (red == 0 && green == 0 && blue == 0) {
+		[CMRPref setBrowserSTableDrawsBackground : NO];
+	} else {
+		[CMRPref setBrowserSTableBackgroundColor : [NSColor colorWithCalibratedRed:red
+															 green:green
+															  blue:blue
+															 alpha:1.0]];
+	}
 }
 
 - (void) handleOpenURLCommand : (NSScriptCommand *) command

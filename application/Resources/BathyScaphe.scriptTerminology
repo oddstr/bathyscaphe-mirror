@@ -114,6 +114,13 @@
 		<dict>
 			<key>Attributes</key>
 			<dict>
+				<key>browserTableViewColor</key>
+				<dict>
+					<key>Description</key>
+					<string>Background color of threads list table.</string>
+					<key>Name</key>
+					<string>browserTableViewColor</string>
+				</dict>
 				<key>isOnlineMode</key>
 				<dict>
 					<key>Description</key>
