@@ -1,3 +1,8 @@
+2005-05-31 masakih <masakih@users.sourceforge.jp>
+	* application/source/manager/BSScriptsMenuManager.m
+		スクリプトメニューに command + option + 数字１つ
+のショートカットをつけた。
+		番号の順は DVD Player に準じた。
 2005-05-30 masakih <masakih@users.sourceforge.jp>
 	* application/source/manager/BSScriptsMenuManager.m
 		ファイルパスが違うがタイトルが同じになるアイテムをすべて表示するようにした。

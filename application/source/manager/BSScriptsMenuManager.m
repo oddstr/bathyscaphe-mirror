@@ -208,6 +208,31 @@ static inline void appendDirectoryIntoMenu(NSMenu *inMenu, NSString *dir)
 	}
 }
 
+// スクリプトメニューに command + option + number のショートカットをつける。
+static inline void setKeyEquivalent(NSMenu *inMenu, int *nextKeyEquivalent)
+{
+	NSArray *items;
+	NSEnumerator *itemsEnum;
+	id <NSMenuItem> item;
+	
+	items = [inMenu itemArray];
+	itemsEnum = [items objectEnumerator];
+	while ((item = [itemsEnum nextObject])) {		
+		if (1 == [item tag]) continue;
+		if ([item isSeparatorItem]) continue;
+		
+		if ([item hasSubmenu]) {
+			setKeyEquivalent([item submenu], nextKeyEquivalent);
+		} else if (*nextKeyEquivalent < 10) {
+			[item setKeyEquivalent : [NSString stringWithFormat : @"%d", (*nextKeyEquivalent)++]];
+			[item setKeyEquivalentModifierMask : NSAlternateKeyMask | NSCommandKeyMask];
+		} else {
+			[item setKeyEquivalent : @""];
+		}
+	}
+}
+
+
 // メニュー構築時刻よりディレクトリが新しければ YES
 static inline BOOL isModifiriedScriptsDirectory(NSMenu *inMenu, NSString *path)
 {
@@ -274,6 +299,7 @@ static inline void removeDeletedOrModifiedMenuItem(NSMenu *inMenu, NSString *inP
 	NSString *scriptsDir = [[[CMRFileManager defaultManager] supportDirectoryWithName : @"Scripts"] filepath];
 	NSMenuItem *scriptMenu = [[CMRMainMenuManager defaultManager] scriptsMenuItem];
 	NSMenu *submenu = [scriptMenu submenu];
+	int nextKeyEquivalentNumber;
 	
 	if (isFirst) {
 		isFirst = NO;
@@ -283,8 +309,10 @@ static inline void removeDeletedOrModifiedMenuItem(NSMenu *inMenu, NSString *inP
 	}
 	
 	if (submenu) {
+		nextKeyEquivalentNumber = 0;
 		removeDeletedOrModifiedMenuItem(submenu, scriptsDir);
 		appendDirectoryIntoMenu(submenu, scriptsDir);
+		setKeyEquivalent(submenu, &nextKeyEquivalentNumber);
 		[submenu setTitle : [[NSDate dateWithTimeIntervalSinceNow : 0.0] description]];
 	}
 }
