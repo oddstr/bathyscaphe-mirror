@@ -131,6 +131,8 @@
 									boardInfo : contentInfo];
 		[viewer_ release];
 		[document_ release];
+	} else {
+		[document_ showWindows];
 	}
 	
 	return YES;
