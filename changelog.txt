@@ -1,3 +1,7 @@
+2005-06-04 masakih <masakih@users.sourceforge.jp>
+	* application/source/manager/BSScriptsMenuManager.h
+	* application/source/manager/BSScriptsMenuManager.m
+		Scripts Menu 関連の再設計、再実装。
 2005-05-31 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-ViewAccessor.m
 	* application/source/preferences/AppDefaults-Background.m

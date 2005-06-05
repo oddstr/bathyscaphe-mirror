@@ -1,5 +1,6 @@
 {
     IBClasses = (
+        {CLASS = BSScriptsMenu; LANGUAGE = ObjC; SUPERCLASS = NSMenu; }, 
         {
             ACTIONS = {
                 launchCMLF = id; 
@@ -75,7 +76,12 @@
             LANGUAGE = ObjC; 
             SUPERCLASS = NSObject; 
         }, 
-        {CLASS = NSApplication; LANGUAGE = ObjC; SUPERCLASS = NSResponder; }, 
+        {
+            ACTIONS = {openScriptsDirectory = id; }; 
+            CLASS = NSApplication; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSResponder; 
+        }, 
         {CLASS = NSDocumentController; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
     ); 
     IBVersion = 1; 

@@ -11,23 +11,23 @@
 
 #import "CMRMainMenuManager.h"
 
-/**
-	それぞれのメニューの Title にはメニューアイテムを構築した時刻が設定されている。
-	再構築時には、再構築した時刻が設定される。
-	設定される時刻は　[[NSDate dateWithTimeIntervalSinceNow : 0.0] description]　である。
-	
-	それぞれの NSMenuItem  の　representedObject には、対応するスクリプト等のフルパルが設定されている。
- 
-	NSMenuItem の tag に 1 が設定されている場合、管理下にないと判断する。
-**/
-
 @implementation BSScriptsMenuManager
-APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager)
+APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 + (void) setupScriptsMenu
 {
+	NSString *scriptsDir = [[[CMRFileManager defaultManager] supportDirectoryWithName : @"Scripts"] filepath];
 	NSMenuItem *scriptMenu = [[CMRMainMenuManager defaultManager] scriptsMenuItem];
+	BSScriptsMenu *submenu = [scriptMenu submenu];
 	NSImage *scriptImage;
+	
+	if (!submenu || ![submenu isKindOfClass : [BSScriptsMenu class]]) {
+		NSLog(@"##### MENU IS NOT BSScriptsMenu class's instance! ####");
+		return;
+	}
+	
+	[submenu setDelegate : [self defaultManager]];
+	[submenu setScriptsDirectoryPath : scriptsDir];
 	
 	if (scriptImage = [NSImage imageNamed : @"Scripts"]) {
 		[scriptMenu setTitle : @""];
@@ -37,24 +37,253 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager)
 	[[self defaultManager] buldScriptsMenu];
 }
 
-// アプリケーション化されたアップルスクリプトに対応。
-static inline BOOL isRunnableAppleScripFile(NSString *path)
-{
-	NSString *extension = [path pathExtension];
-	NSURL *url;
-	NSAppleScript *as;
-	BOOL isRunnable = NO;
+- (void) buldScriptsMenu
+{	
+	NSMenuItem *scriptMenu = [[CMRMainMenuManager defaultManager] scriptsMenuItem];
+	id submenu = [scriptMenu submenu];
 	
-	if ([@"app" isEqualTo : extension]) {
-		isRunnable =  YES;
-	} else {
-		NSString *filetype;
-		filetype = NSHFSTypeOfFile(path);
-		if  ([@"'APPL'" isEqualTo : filetype]) {
-			isRunnable =  YES;
+	if (submenu && [submenu isKindOfClass : [BSScriptsMenu class]]) {		
+		[submenu synchronizeScriptsMenu];
+	}
+}
+
+- (void)menuNeedsUpdate:(NSMenu*)menu
+{
+	if (![menu isKindOfClass : [BSScriptsMenu class]]) return;
+	
+	[self buldScriptsMenu];
+}
+@end
+
+@implementation NSApplication(BSScriptsMenuManager)
+- (IBAction) openScriptsDirectory : (id) sender
+{
+	NSString *scriptsDir = [[[CMRFileManager defaultManager] supportDirectoryWithName : @"Scripts"] filepath];
+	
+	[[NSWorkspace sharedWorkspace] openFile : scriptsDir];
+}
+@end
+
+#pragma mark -
+/**
+NSMenuItem の tag に 1 が設定されている場合、管理下にないと判断する。
+ **/
+const int kNonManagementItemTag = 1;
+
+@implementation BSScriptsMenu
+
+// ディレクトリとメニューを同期させる。
+// サブディレクトリであればサブメニューを作成し、再帰呼び出しする。
+static void appendDirectoryIntoMenu(BSScriptsMenu *inMenu, NSString *dir)
+{
+	NSArray *items;
+	NSEnumerator *itemsEnum;
+	NSString *item;
+	NSFileManager *fm = [NSFileManager defaultManager];
+	
+	if (nil == inMenu) return;
+	if (nil == dir) return;
+	
+	items = [fm directoryContentsAtPath : dir];
+	itemsEnum = [items objectEnumerator];
+	
+	while (item = [itemsEnum nextObject]) {
+		NSString *path = [dir stringByAppendingPathComponent : item];
+		int index;
+		BSScriptsMenuItem *menuItem;
+		BSScriptsMenu *submenu;
+		
+		if (![fm fileExistsAtPath : path]) continue;
+		
+		index = [inMenu indexOfItemWithScriptFilePath : path];
+		if (-1 == index) {
+			menuItem = [inMenu addBSScriptMenuItemWithScriptFilePath : path];
+			if (directoryMenuItemType == [menuItem type]) {
+				submenu = [[[BSScriptsMenu alloc] initWithScriptsDirectoryPath : path] autorelease];
+				[menuItem setSubmenu : submenu];
+				appendDirectoryIntoMenu(submenu, path);
+			}
+		} else {
+			menuItem = (BSScriptsMenuItem *)[inMenu itemAtIndex : index];
+			if (directoryMenuItemType == [menuItem type]) {
+				submenu = (id)[menuItem submenu];
+				if ([submenu isKindOfClass : [BSScriptsMenu class]]) {
+					appendDirectoryIntoMenu(submenu, path);
+				}
+			}
 		}
 	}
-	if(!isRunnable) return NO;
+}
+
+// 有効でないメニューアイテムを削除する。
+// サブディレクトリも対象にするため再帰呼び出しされる。
+static void removeDeletedOrModifiedMenuItem(BSScriptsMenu *inMenu)
+{
+	NSArray *items;
+	NSEnumerator *itemsEnum;
+	id item;
+	
+	if (nil == inMenu) return;
+	
+	items = [inMenu itemArray];
+	itemsEnum = [items objectEnumerator];
+	while ((item = [itemsEnum nextObject])) {
+		if (kNonManagementItemTag != [item tag] 
+			&& [item isKindOfClass : [BSScriptsMenuItem class]]
+			&& ![item isValid]) {
+			[inMenu removeItem : item];
+			continue;
+		}
+		if ([item hasSubmenu]) {
+			BSScriptsMenu *submenu = (id)[item submenu];
+			if ([submenu isKindOfClass : [BSScriptsMenu class]]) {
+				removeDeletedOrModifiedMenuItem((BSScriptsMenu *)submenu);
+			}
+		}
+	}
+}
+
+// スクリプトメニューに command + option + number のショートカットをつける。
+// サブメニューも対象にするため再帰呼び出しされる。
+static void setKeyEquivalent(BSScriptsMenu *inMenu, int *nextKeyEquivalent)
+{
+	NSArray *items;
+	NSEnumerator *itemsEnum;
+	id <NSMenuItem> item;
+	
+	if (nil == inMenu) return;
+	if (nil == nextKeyEquivalent) return;
+		
+	items = [inMenu itemArray];
+	itemsEnum = [items objectEnumerator];
+	while ((item = [itemsEnum nextObject])) {		
+		if (kNonManagementItemTag == [item tag]) continue;
+		if ([item isSeparatorItem]) continue;
+		
+		if ([item hasSubmenu]) {
+			id submenu = [item submenu];
+			if ([submenu isKindOfClass : [BSScriptsMenu class]]) {
+				setKeyEquivalent((BSScriptsMenu *)submenu, nextKeyEquivalent);
+			}
+		} else if (*nextKeyEquivalent < 10) {
+			[item setKeyEquivalent : [NSString stringWithFormat : @"%d", (*nextKeyEquivalent)++]];
+			[item setKeyEquivalentModifierMask : NSAlternateKeyMask | NSCommandKeyMask];
+		} else {
+			[item setKeyEquivalent : @""];
+		}
+	}
+}
+
+- (id) initWithScriptsDirectoryPath : (NSString *) path
+{
+	self = [super init];
+	if (self) {
+		[self setScriptsDirectoryPath : path];
+		
+		if (nil == [self scriptDirectoryPath]) {
+			[self release];
+			return nil;
+		}
+	}
+	
+	return self;
+}
+
+- (void) dealloc
+{
+	[scriptsDirectory release];
+	
+	[super dealloc];
+}
+
+- (void) setScriptsDirectoryPath : (NSString *) path
+{
+	BOOL isDirectory;
+	
+	if (![[NSFileManager defaultManager] fileExistsAtPath : path
+											  isDirectory : &isDirectory]
+		|| !isDirectory) {
+		return;
+	}
+	
+	scriptsDirectory = [path copy];
+}
+
+- (NSString *)scriptDirectoryPath
+{
+	if (scriptsDirectory) {
+		return [NSString stringWithString : scriptsDirectory];
+	}
+	
+	return nil;
+}
+
+- (void) synchronizeScriptsMenu
+{
+	int nextKeyEquivalentNumber = 0;
+	
+	removeDeletedOrModifiedMenuItem(self);
+	appendDirectoryIntoMenu(self, scriptsDirectory);
+	setKeyEquivalent(self, &nextKeyEquivalentNumber);
+}
+
+- (BSScriptsMenuItem *) addBSScriptMenuItemWithScriptFilePath : (NSString *) path
+{
+	BSScriptsMenuItem *newItem;
+	NSString *lastPath = [path lastPathComponent];
+	int i, itemsCount;
+	id item;
+	
+	newItem = [[[BSScriptsMenuItem alloc] initWithScriptFilePath : path] autorelease];
+	
+	if (!newItem) return nil;
+	
+	itemsCount = [self numberOfItems];
+	for (i = 0; i < itemsCount; i++ ) {
+		NSString *filename;
+		
+		item = [self itemAtIndex : i];
+		if (![item isKindOfClass : [BSScriptsMenuItem class]]) continue;
+		
+		filename = [item realFileName];
+		if (NSOrderedDescending == [filename compare : lastPath]) {
+			break;
+		}
+	}
+	
+	[self insertItem : newItem atIndex : i];
+	
+	return newItem;
+}
+
+- (int) indexOfItemWithScriptFilePath : (NSString *) path
+{
+	int i;
+	int itemsCount = [self numberOfItems];
+	id item;
+	
+	for (i = 0; i < itemsCount; i++) {
+		item = [self itemAtIndex : i];
+		if ([item isKindOfClass : [BSScriptsMenuItem class]] && [path isEqualTo : [item scriptsPath]]) {
+			return i;
+		}
+	}
+	
+	return -1;
+}
+@end
+
+@implementation BSScriptsMenuItem
+
+// アプリケーション化されたアップルスクリプトに対応。
+static inline BOOL isRunnableAppleScriptFile(NSString *path)
+{
+	NSURL *url;
+	NSAppleScript *as;
+	
+	if (![[NSFileManager defaultManager] isExecutableFileAtPath : path]) {
+		return NO;
+	}	
 	
 	url = [[[NSURL alloc] initWithScheme : @"file"
 									host : @""
@@ -65,7 +294,7 @@ static inline BOOL isRunnableAppleScripFile(NSString *path)
 	return as ? YES : NO;
 }
 
-static inline BOOL isAppleScriptFile(NSString * path)
+static inline BOOL isAppleScriptFile(NSString *path)
 {
 	NSString *extension = [path pathExtension];
 	NSString *filetype;
@@ -83,13 +312,15 @@ static inline BOOL isAppleScriptFile(NSString * path)
 		return YES;
 	}
 	
-	if (isRunnableAppleScripFile(path)) {
+	if (isRunnableAppleScriptFile(path)) {
 		return YES;
 	}
 	
 	return NO;
 }
 
+// 入力イメージを 16*16bit に変換し、それを返す。
+// 入力イメージ自体を変換する。
 static inline NSImage *imageForMenuIcon(NSImage *image)
 {
 	NSSize menuIconSize = NSMakeSize(16,16);
@@ -129,243 +360,135 @@ static inline NSString *titleForScriptsMenuFromPath(NSString *path)
 	return [temp substringWithRange : newRange];
 }
 
-// ディレクトリとメニューを同期させる。
-// サブディレクトリがあればサブメニューを作成し、再帰呼び出しする。
-// title が "-" の場合はセパレーターと解釈する。
-// isAppleScriptFile() が　NO であった場合は無視する。
-// 動作は DVD Player version 4.6 に準じた。 
-static inline void appendDirectoryIntoMenu(NSMenu *inMenu, NSString *dir)
++ (BOOL) isDirectory : (NSString *) path
 {
-	NSArray *items;
-	NSEnumerator *itemsEnum;
-	NSString *item;
-	NSFileManager *fm = [NSFileManager defaultManager];
-	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
+	BOOL isDirectory;
 	
-	items = [fm directoryContentsAtPath : dir];
-	items = [items sortedArrayUsingSelector : @selector(localizedCompare:)];
-	itemsEnum = [items objectEnumerator];
+	[[NSFileManager defaultManager] fileExistsAtPath : path isDirectory : &isDirectory];
 	
-	while (item = [itemsEnum nextObject]) {
-		BOOL isDirectory;
-		NSString *path = [dir stringByAppendingPathComponent : item];
-		NSString *title = titleForScriptsMenuFromPath(path);
-		NSImage *image;
+	return isDirectory;
+}
+
+- (id) initWithScriptFilePath : (NSString *) path
+{
+	self = [super initWithTitle : titleForScriptsMenuFromPath(path)
+						 action : @selector(handleScriptMenuItem:)
+				  keyEquivalent : @""];
+	
+	if (self) {
+		appleScriptPath = [path copy];
 		
-		image = [ws iconForFile : path];
-		
-		if (![fm fileExistsAtPath : path isDirectory : &isDirectory]) {
-			continue;
-		} else if ([@"-" isEqualTo : title]) {
-			id <NSMenuItem> menuItem;
-			
-			if (-1 != [inMenu indexOfItemWithRepresentedObject : path]) {
-				continue;
-			}
-			
-			menuItem = [NSMenuItem separatorItem];
-			[menuItem setRepresentedObject : path];
-			[inMenu addItem : menuItem];
-			
-		} else if (isDirectory && !isAppleScriptFile(path)) {
-			id <NSMenuItem> menuItem;
-			NSMenu *submenu;
-			int index;
-			
-			index = [inMenu indexOfItemWithRepresentedObject : path];
-			if (-1 == index) {
-				menuItem = [inMenu addItemWithTitle : title
-											action : nil
-									 keyEquivalent : @""];
-				submenu = [[[NSMenu alloc] init] autorelease];
-				[submenu setTitle : [[NSDate dateWithTimeIntervalSinceNow : 0.0] description]];
-				[menuItem setSubmenu : submenu];
-				[menuItem setRepresentedObject : path];
-				[menuItem setImage : imageForMenuIcon(image)];
-			} else {
-				menuItem = [inMenu itemAtIndex : index];
-				submenu = [menuItem submenu];
-			}
-			
-			appendDirectoryIntoMenu(submenu, path);
-		} else {
-			id <NSMenuItem> menuItem;
-			
-			if (-1 != [inMenu indexOfItemWithRepresentedObject : path]) {
-				continue;
-			}
-			
-			if (isAppleScriptFile(path)) {
-				menuItem = [inMenu addItemWithTitle : title
-											 action : @selector(handleScriptMenuItem:)
-									  keyEquivalent : @""];
-				
-				[menuItem setTarget : [BSScriptsMenuManager defaultManager]];
-				[menuItem setRepresentedObject : path];
-				[menuItem setImage : imageForMenuIcon(image)];
-			}
+		if (invalidMenuItemType == [self type]) {
+			[self release];
+			return nil;
 		}
+		
+		[self setImage : imageForMenuIcon([[NSWorkspace sharedWorkspace] iconForFile : path])]; 
+		
+		// バンドルでない普通のディレクトリなら
+		if (directoryMenuItemType == [self type]) {
+			[self setAction : nil];
+		} else {
+			[self setTarget : self];
+		}
+	}
+	
+	return self;
+}
+
+- (void) dealloc
+{
+	[appleScriptPath release];
+	
+	[super dealloc];
+}
+
+- (NSString *) scriptsPath
+{
+	return appleScriptPath;
+}
+
+- (NSString *) realFileName
+{
+	return [appleScriptPath lastPathComponent];
+}
+
+- (BSScriptMenuItemType) type
+{
+	if (unknownMenuItemType == type) {
+		if (isRunnableAppleScriptFile(appleScriptPath)) {
+			type = runnablescriptMenuItemType;
+		} else if (isAppleScriptFile(appleScriptPath)) {
+			type = scriptMenuItemType;
+		} else if ([[self class] isDirectory : appleScriptPath]) {
+			type = directoryMenuItemType;
+		} else {
+			type = invalidMenuItemType;
+		}
+	}
+	
+	return type;
+}
+
+- (void) excute
+{
+	NSAppleScript *as;
+	NSURL *url;
+	NSDictionary *error = nil;
+	
+	if (runnablescriptMenuItemType == [self type]) {
+		[[NSWorkspace sharedWorkspace] openFile : appleScriptPath];
+		return;
+	}
+	
+	url = [[[NSURL alloc] initWithScheme : @"file"
+									host : @""
+									path : appleScriptPath] autorelease];
+	if (!url) {
+		type = invalidMenuItemType;
+		return;
+	}
+	
+	as = [[NSAppleScript alloc] initWithContentsOfURL : url
+												error : &error];
+	if (error) {
+		type = invalidMenuItemType;
+		return;
+		//			NSLog(@"ERROR -> %@", error);
+	}
+	
+	[as executeAndReturnError : &error];
+	if (error) {
+		//			NSLog(@"ERROR -> %@", error);
 	}
 }
 
-// スクリプトメニューに command + option + number のショートカットをつける。
-static inline void setKeyEquivalent(NSMenu *inMenu, int *nextKeyEquivalent)
+- (BOOL) isValid
 {
-	NSArray *items;
-	NSEnumerator *itemsEnum;
-	id <NSMenuItem> item;
-	
-	items = [inMenu itemArray];
-	itemsEnum = [items objectEnumerator];
-	while ((item = [itemsEnum nextObject])) {		
-		if (1 == [item tag]) continue;
-		if ([item isSeparatorItem]) continue;
-		
-		if ([item hasSubmenu]) {
-			setKeyEquivalent([item submenu], nextKeyEquivalent);
-		} else if (*nextKeyEquivalent < 10) {
-			[item setKeyEquivalent : [NSString stringWithFormat : @"%d", (*nextKeyEquivalent)++]];
-			[item setKeyEquivalentModifierMask : NSAlternateKeyMask | NSCommandKeyMask];
-		} else {
-			[item setKeyEquivalent : @""];
-		}
+	if (![[NSFileManager defaultManager] fileExistsAtPath : appleScriptPath]) {
+		type = invalidMenuItemType;
+		return NO;
 	}
+	
+	return (invalidMenuItemType == [self type]) ? NO : YES;
 }
 
-
-// メニュー構築時刻よりディレクトリが新しければ YES
-static inline BOOL isModifiriedScriptsDirectory(NSMenu *inMenu, NSString *path)
+// 現在の innerLinkRangeCharacters.txt と同じものから NSCharacterSet を作成して。
+// title の一文字目と比べる方が丁寧です。 これは手抜き。 by masakih
+- (BOOL)isSeparatorItem
 {
-	NSFileManager *fm = [NSFileManager defaultManager];
-	NSDate *createDate = [NSDate dateWithString : [inMenu title]];
-	NSDate *modDate;
-	NSDictionary *attr;
-	
-	attr = [fm fileAttributesAtPath : path traverseLink : YES];
-	modDate = [attr objectForKey : NSFileModificationDate];
-	
-	if ([modDate timeIntervalSinceDate : createDate] > 0 ) {
+	if ( [@"-" isEqualTo : [self title]] ) {
 		return YES;
 	}
 	
 	return NO;
 }
 
-// 管理下にあるメニューアイテムを削除する。
-static inline void removeAllItem(NSMenu *inMenu)
-{
-	NSArray *items;
-	NSEnumerator *itemsEnum;
-	id <NSMenuItem> item;
-	
-	items = [inMenu itemArray];
-	itemsEnum = [items objectEnumerator];
-	while ((item = [itemsEnum nextObject])) {		
-		if (1 != [item tag]) {
-//			NSLog(@"############ DELETED -> %@", [item title]);
-			[inMenu removeItem : item];
-		}
-	}
-}
-
-// 対応するディレクトリが更新されていた場合、メニューアイテムをすべて削除する。
-// サブディレクトリも対象にするため再帰呼び出しされる。
-static inline void removeDeletedOrModifiedMenuItem(NSMenu *inMenu, NSString *inPath)
-{
-	NSArray *items;
-	NSEnumerator *itemsEnum;
-	id <NSMenuItem> item;
-	
-	if (isModifiriedScriptsDirectory(inMenu, inPath)) {
-		removeAllItem(inMenu);
-		return;
-	}
-	
-	items = [inMenu itemArray];
-	itemsEnum = [items objectEnumerator];
-	while ((item = [itemsEnum nextObject])) {
-		NSString *path = [item representedObject];
-		
-		if ([item hasSubmenu]) {
-			removeDeletedOrModifiedMenuItem([item submenu], path);
-		}
-	}
-}
-
-- (void) buldScriptsMenu
-{
-	static BOOL isFirst = YES;
-	
-	NSString *scriptsDir = [[[CMRFileManager defaultManager] supportDirectoryWithName : @"Scripts"] filepath];
-	NSMenuItem *scriptMenu = [[CMRMainMenuManager defaultManager] scriptsMenuItem];
-	NSMenu *submenu = [scriptMenu submenu];
-	int nextKeyEquivalentNumber;
-	
-	if (isFirst) {
-		isFirst = NO;
-		if (submenu) {
-			[submenu setDelegate : self];
-		}
-	}
-	
-	if (submenu) {
-		nextKeyEquivalentNumber = 0;
-		removeDeletedOrModifiedMenuItem(submenu, scriptsDir);
-		appendDirectoryIntoMenu(submenu, scriptsDir);
-		setKeyEquivalent(submenu, &nextKeyEquivalentNumber);
-		[submenu setTitle : [[NSDate dateWithTimeIntervalSinceNow : 0.0] description]];
-	}
-}
-
 - (IBAction) handleScriptMenuItem : (id) item
 {
-	if ([item conformsToProtocol : @protocol(NSMenuItem)]) {
-		NSDictionary *error = nil;
-		NSString *path = [item representedObject];
-		NSURL *url;
-		NSAppleScript *as;
-		
-		if (isRunnableAppleScripFile(path)) {
-			[[NSWorkspace sharedWorkspace] openFile : path];
-			return;
-		}
-		
-		url = [[[NSURL alloc] initWithScheme : @"file"
-										host : @""
-										path : path] autorelease];
-		as = [[[NSAppleScript alloc] initWithContentsOfURL : url
-													 error : &error] autorelease];
-		if (error) {
-//			NSLog(@"ERROR -> %@", error);
-			return;
-		}
-		
-		error = nil;
-		[as executeAndReturnError : &error];
-		if (error) {
-//			NSLog(@"ERROR -> %@", error);
-		}
+	if ([item isKindOfClass : [BSScriptsMenuItem class]]) {
+		[item excute];
 	}
 }
 
-- (void)menuNeedsUpdate:(NSMenu*)menu
-{
-	NSMenuItem *scriptMenu = [[CMRMainMenuManager defaultManager] scriptsMenuItem];
-	NSMenu *submenu = [scriptMenu submenu];
-	
-	if (![menu isEqual : submenu]) return;
-	
-	[self buldScriptsMenu];
-}
 @end
-
-
-@implementation NSApplication(BSScriptsMenuManager)
-- (IBAction) openScriptsDirectory : (id) sender
-{
-	NSString *scriptsDir = [[[CMRFileManager defaultManager] supportDirectoryWithName : @"Scripts"] filepath];
-	
-	[[NSWorkspace sharedWorkspace] openFile : scriptsDir];
-}
-@end
-
