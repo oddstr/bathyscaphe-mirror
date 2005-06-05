@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.2 2005/05/27 18:08:15 masakih Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.3 2005/06/05 23:26:56 tsawada2 Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -114,12 +114,16 @@ to link acctually clicked.
 		
 		// 暫定的に表示内容は「情報を表示」のものをそのまま借用してます。
 		// ポップアップが大きすぎると言う苦情がくるかもしれません。 by masakih
-		template_ = [self templateForInfoPopUp];
+		
+		/* 2005-06-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+			やはりポップアップが大きすぎる気がするので、表示内容をスレタイのみに限定してみる。
+		*/
+		template_ = [[[NSAttributedString alloc] initWithString : [attr_ threadTitle]] autorelease];//[self templateForInfoPopUp];
 		if (!template_) goto ErrInvalidLink;
 		
 		[kBuffer setAttributedString : template_];
-		[self replaceKeywords : [kBuffer mutableString] 
-				   attributes : attr_];
+		//[self replaceKeywords : [kBuffer mutableString] 
+		//		   attributes : attr_];
 	} else {
 		SGBaseRangeArray		*indexRanges_;
 		SGBaseRangeEnumerator	*iter_;
