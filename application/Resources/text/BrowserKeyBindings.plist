@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>&lt;CarriageReturn&gt;</key>
-	<string>showSelectedThread:</string>
+	<string>showOrOpenSelectedThread:</string>
 	<key>&lt;Delete&gt;</key>
 	<string>deleteThread:</string>
 	<key>@&lt;DownArrow&gt;</key>

@@ -72,6 +72,7 @@
 - (IBAction) selectThread : (id) sender;
 - (IBAction) showSelectedThread : (id) sender;
 - (IBAction) reloadThreadsList : (id) sender;
+- (IBAction) showOrOpenSelectedThread : (id) sender;
 
 - (BOOL) showsSearchResult;
 - (void) clearSearchFilter;

@@ -1,4 +1,14 @@
 2005-06-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Action.m
+	* application/Resources/text/BrowserKeyBindings.plist
+	* application/Resources/Japanese.lproj/Browser.nib
+		「return キーを押してスレッドを別窓で開くためにカスタマイズする必要は、もう、ない」
+		ブラウザのキーバインディングで使用できるアクションに新しく「showOrOpenSelectedThread:」を追加し、
+		BrowserKeyBindings.plist の return キーに対応するデフォルトのアクションとして割り当てた。
+		- 今までは、ここが showSelectedThread: になっていて、別ウインドウ派の人は各自で
+		　openSelectedThreads: に書き換える必要があり煩わしかった。showOrOpenSelectedThread: は、
+		　ペインの状態を判別して自動的に showSelectedThread:/openSelectedThreads: の適切な方を
+		　呼び出すだけのメソッド。しかしこれで煩わしさは奇麗に解決するではないか！
 	* application/source/thread/CMRThreadViewer-Link.m
 		スレへのリンクにマウスオーバーしたとき、スレタイのみポップアップさせるようにした。
 2005-06-06 masakih <masakih@users.sourceforge.jp>

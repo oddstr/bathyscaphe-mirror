@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.3 2005/05/20 14:09:05 masakih Exp $
+  * $Id: CMRBrowser-Action.m,v 1.4 2005/06/06 11:32:37 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -185,6 +185,22 @@ enum {
 	if ([[self threadsListTable] numberOfSelectedRows] != 1) return;
 	
 	[self showThreadAtRow : [[self threadsListTable] selectedRow]];
+}
+
+
+/*
+	2005-06-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	Key Binding の便宜を図るためだけのメソッド。
+	return キーに対応するアクションにこれを指定しておくと、2ペインのとき、3ペインのとき
+	それぞれに応じて自動的に適切な動作（別窓で開く、下部に表示する）を呼び出せるという仕掛け。
+*/
+- (IBAction) showOrOpenSelectedThread : (id) sender
+{
+	if ([self shouldShowContents]) {
+		[self showSelectedThread : sender];
+	} else {
+		[self openSelectedThreads : sender];
+	}
 }
 
 - (IBAction) selectFilteringMask : (id) sender

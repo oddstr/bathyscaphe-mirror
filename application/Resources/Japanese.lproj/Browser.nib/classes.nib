@@ -53,6 +53,7 @@
                 searchToolbarPopupChanged = id; 
                 selectFilteringMask = id; 
                 selectThread = id; 
+                showOrOpenSelectedThread = id; 
                 showSearchThreadPanel = id; 
                 showSelectedThread = id; 
                 toggleBoardDrawer = id; 
