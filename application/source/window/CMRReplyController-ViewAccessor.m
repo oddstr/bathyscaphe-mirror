@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyController-ViewAccessor.m,v 1.1 2005/05/11 17:51:09 tsawada2 Exp $
+  * $Id: CMRReplyController-ViewAccessor.m,v 1.2 2005/06/09 17:33:50 masakih Exp $
   * 
   * CMRReplyController-ViewAccessor.m
   *
@@ -108,8 +108,8 @@
 	[container release];
 	
 	/* TextView */
-	view = [[CMRTextView alloc] initWithFrame : cFrame 
-								textContainer : container];
+	view = [[[CMRTextView alloc] initWithFrame : cFrame 
+								 textContainer : container] autorelease];
 	
 	[view setMinSize : NSMakeSize(0.0, NSHeight(cFrame))];
 	[view setMaxSize : NSMakeSize(1e7, 1e7)];
@@ -129,9 +129,8 @@
 	[view setDelegate : self];
 	
 	
-	_textView = [view retain];
+	_textView = view;
 	[[self scrollView] setDocumentView : _textView];
-	[view release];
 	[self updateTextView];
 }
 
