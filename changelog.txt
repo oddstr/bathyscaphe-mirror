@@ -1,4 +1,11 @@
 2005-06-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/BathyScaphe.xcodeproj
+	* application/info-editor.plist
+	* application/info-preferences.plist
+	* application/info-reply.plist
+		[新規追加]Xcode 2.1 用のプロジェクトファイル。
+		また、ついでにビルドターゲット「editor」「preferences」「reply」をネイティブにアップグレード。
+		その副産物として info-hogehoge.plist も新規追加。
 	* application/Resources/Japanese.lproj/MainMenu.nib
 	* application/source/window/CMRBrowserTbDelegate.m
 		オンラインモードの切り替えボタンをデフォルトでツールバーから外し、
