@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-FontColor.m,v 1.1 2005/05/11 17:51:06 tsawada2 Exp $
+  * $Id: AppDefaults-FontColor.m,v 1.2 2005/06/09 13:27:05 tsawada2 Exp $
   * 
   * AppDefaults-FontColor.m
   *
@@ -296,17 +296,6 @@
 				 forKey : kPrefThreadsListDrawsGridKey];
 	[self postLayoutSettingsUpdateNotification];
 }
-
-- (NSColor *) threadsListGridColor
-{
-	NSLog(@"Deprecated");
-}
-
-- (void) setThreadsListGridColor : (NSColor *) color
-{
-	NSLog(@"Deprecated");
-}
-
 
 /*** ポップアップ ***/
 // デフォルトの色

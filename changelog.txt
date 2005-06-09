@@ -1,3 +1,8 @@
+2005-06-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/MainMenu.nib
+	* application/source/window/CMRBrowserTbDelegate.m
+		オンラインモードの切り替えボタンをデフォルトでツールバーから外し、
+		メニュー項目の位置も修正した。
 2005-06-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-Action.m
 	* application/Resources/text/BrowserKeyBindings.plist

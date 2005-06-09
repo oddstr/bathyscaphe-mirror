@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.1 2005/05/11 17:51:06 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.2 2005/06/09 13:27:05 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -83,9 +83,10 @@
 
 // スレッドを削除するときに警告しない
 - (BOOL) quietDeletion;
-
+- (void) setQuietDeletion : (BOOL) flag;
 // 外部リンクをバックグラウンドで開く
 - (BOOL) openInBg;
+- (void) setOpenInBg : (BOOL) flag;
 
 /*** 掲示板ドロワー ***/
 - (int) boardListState;
@@ -247,8 +248,8 @@ enum {
 
 - (BOOL) threadsListDrawsGrid;
 - (void) setThreadsListDrawsGrid : (BOOL) flag;
-- (NSColor *) threadsListGridColor;
-- (void) setThreadsListGridColor : (NSColor *) color;
+//- (NSColor *) threadsListGridColor; // deprecated in BathyScaphe 1.0
+//- (void) setThreadsListGridColor : (NSColor *) color; // deprecated in BathyScaphe 1.0
 
 // テキストの強調色
 - (NSColor *) textEnhancedColor;

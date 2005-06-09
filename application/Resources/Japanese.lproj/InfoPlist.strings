@@ -1,8 +1,8 @@
 /* Localized versions of Info.plist keys */
 
 CFBundleName = "BathyScaphe";
-CFBundleShortVersionString = "1.0";
-CFBundleGetInfoString = "BathyScaphe version 1.0, Copyright (c) 2005 tsawada2.";
+CFBundleShortVersionString = "1.0.1";
+CFBundleGetInfoString = "BathyScaphe version 1.0.1, Copyright (c) 2005 tsawada2.";
 NSHumanReadableCopyright = "Copyright (c) 2005 tsawada2.";
 
 /* Help */

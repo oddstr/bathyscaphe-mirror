@@ -184,7 +184,7 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 				st_toggleBBSListItemIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,
 				[self deleteItemIdentifier],
-				[self toggleOnlineModeIdentifier],
+				[self addFavoritesItemIdentifier],
 				st_searchThreadItemIdentifier,
 				[self replyItemIdentifier],
 				nil];
