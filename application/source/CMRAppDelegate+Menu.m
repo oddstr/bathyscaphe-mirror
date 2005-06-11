@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate+Menu.m,v 1.3 2005/06/11 10:02:17 tsawada2 Exp $
+ * $Id: CMRAppDelegate+Menu.m,v 1.4 2005/06/11 10:41:33 tsawada2 Exp $
  * 
  * CMRAppDelegate+Menu.m
  *
@@ -193,9 +193,7 @@
     UTILAssertNotNilArgument(menu, @"Menu");
     defaultColumnsArray_ = [[self class] defaultColumnsArray];
     if (nil == defaultColumnsArray_) return;
-    
-    //[menu addItem : [NSMenuItem separatorItem]];
-    
+
 	iter_ = [defaultColumnsArray_ objectEnumerator];
     while (item_ = [iter_ nextObject]) {
         NSString		*title_;
@@ -212,8 +210,6 @@
                                action : NULL
                         keyEquivalent : @""];
 
-		//[menuItem_ setTarget : self];
-		//[menuItem_ setAction : @selector(openURL:)];
 		[menuItem_ setRepresentedObject : identifier_];
         [menu addItem : menuItem_];
         [menuItem_ release];
