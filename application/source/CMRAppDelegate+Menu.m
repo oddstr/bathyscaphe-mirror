@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate+Menu.m,v 1.2 2005/05/29 12:30:15 masakih Exp $
+ * $Id: CMRAppDelegate+Menu.m,v 1.3 2005/06/11 10:02:17 tsawada2 Exp $
  * 
  * CMRAppDelegate+Menu.m
  *
@@ -14,6 +14,9 @@
 // ----------------------------------------
 // Bookmark file
 #define kURLBookmarksPlist @"URLBookmarks.plist"
+
+#define kBrowserListColumnsPlist        @"browserListColumns.plist"
+
 // Elements name
 #define kCMRAppDelegateNameKey      @"Name"
 #define kCMRAppDelegateURLKey       @"URL"
@@ -45,7 +48,23 @@
 {
     return ([item objectForKey : kCMRAppDelegateBookmarksKey] != nil);
 }
++ (NSArray *) defaultColumnsArray
+{
+    NSBundle    *bundles[] = {
+                [NSBundle applicationSpecificBundle], 
+                [NSBundle mainBundle],
+                nil};
+    NSBundle    **p = bundles;
+    NSString    *path = nil;
+    
+    for (; *p != nil; p++)
+        if (path = [*p pathForResourceWithName : kBrowserListColumnsPlist])
+            break;
+    
+    return (nil == path) ? nil : [NSArray arrayWithContentsOfFile : path];
+}
 
+#pragma mark -
 
 - (void) setupURLBookmarksMenuWithMenu : (NSMenu  *) menu
                              bookmarks : (NSArray *) bookmarks
@@ -165,9 +184,44 @@
                               bookmarks : URLBookmarkArray_];
 }
 
-//
-// PUBLIC
-//
+- (void) setupBrowserListColumnsMenuWithMenu : (NSMenu *) menu
+{
+    NSArray         *defaultColumnsArray_;
+    NSEnumerator    *iter_;
+    NSDictionary    *item_;
+    
+    UTILAssertNotNilArgument(menu, @"Menu");
+    defaultColumnsArray_ = [[self class] defaultColumnsArray];
+    if (nil == defaultColumnsArray_) return;
+    
+    //[menu addItem : [NSMenuItem separatorItem]];
+    
+	iter_ = [defaultColumnsArray_ objectEnumerator];
+    while (item_ = [iter_ nextObject]) {
+        NSString		*title_;
+		NSString		*identifier_;
+        NSMenuItem		*menuItem_;
+        
+        if (NO == [item_ isKindOfClass : [NSDictionary class]]) continue;
+        
+        title_ = [item_ objectForKey : @"Title"];
+        identifier_ = [item_ objectForKey : @"Identifier"];
+        
+        menuItem_ = [[NSMenuItem alloc]
+                        initWithTitle : title_
+                               action : NULL
+                        keyEquivalent : @""];
+
+		//[menuItem_ setTarget : self];
+		//[menuItem_ setAction : @selector(openURL:)];
+		[menuItem_ setRepresentedObject : identifier_];
+        [menu addItem : menuItem_];
+        [menuItem_ release];
+    }
+}
+
+#pragma mark Public
+
 - (void) setupMenu
 {
     NSMenuItem    *menuItem_;
@@ -177,6 +231,8 @@
         [menuItem_ hasSubmenu],
         @"menuItem must have submenu");
     [self setupURLBookmarksMenuWithMenu : [menuItem_ submenu]];
+	
+	[self setupBrowserListColumnsMenuWithMenu : [[[CMRMainMenuManager defaultManager] browserListColumnsMenuItem] submenu]];
     
     [self setupBrowserArrangementMenu];
     [[CMRMainMenuManager defaultManager] synchronizeIsOnlineModeMenuItemState];

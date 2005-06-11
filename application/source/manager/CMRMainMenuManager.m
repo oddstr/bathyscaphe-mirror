@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMainMenuManager.m,v 1.2 2005/05/29 12:30:15 masakih Exp $
+  * $Id: CMRMainMenuManager.m,v 1.3 2005/06/11 10:02:17 tsawada2 Exp $
   * 
   * CMRMainMenuManager.m
   *
@@ -24,7 +24,7 @@
 
 #define		FILE_ONLINEMODE_TAG		1
 #define		BROWSER_ARRANGEMENT_TAG	1
-
+#define		BROWSER_COLUMNS_TAG		2
 
 
 @implementation CMRMainMenuManager
@@ -59,6 +59,11 @@ MENU_ACCESSER(scriptsMenuItem, SCRIPTS_MENU_TAG)
 {
 	return (NSMenuItem*)[[[self browserMenuItem] submenu] 
 				itemWithTag : BROWSER_ARRANGEMENT_TAG];
+}
+- (NSMenuItem *) browserListColumnsMenuItem
+{
+	return (NSMenuItem*)[[[self browserMenuItem] submenu] 
+				itemWithTag : BROWSER_COLUMNS_TAG];
 }
 @end
 

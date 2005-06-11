@@ -531,7 +531,6 @@
 		87299A43083261F200CBD740 /* beDisabled.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87299A09083261F200CBD740 /* beDisabled.tiff */; };
 		87299A44083261F200CBD740 /* beEnabled.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87299A0A083261F200CBD740 /* beEnabled.tiff */; };
 		87299A45083261F200CBD740 /* Board.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A0B083261F200CBD740 /* Board.png */; };
-		87299A46083261F200CBD740 /* chooseColumn.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A0C083261F200CBD740 /* chooseColumn.png */; };
 		87299A48083261F200CBD740 /* cmlf_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A0E083261F200CBD740 /* cmlf_icon.png */; };
 		87299A4A083261F200CBD740 /* deleteMail.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A10083261F200CBD740 /* deleteMail.png */; };
 		87299A4B083261F200CBD740 /* DraggingBadge.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87299A11083261F200CBD740 /* DraggingBadge.tiff */; };
@@ -658,21 +657,21 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 871CA0F108585F3900C3A044 /* editor (Upgraded) */;
+			remoteGlobalIDString = 871CA0F108585F3900C3A044;
 			remoteInfo = "editor (Upgraded)";
 		};
 		871CA1860858600900C3A044 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 871CA11408585F8100C3A044 /* preferences (Upgraded) */;
+			remoteGlobalIDString = 871CA11408585F8100C3A044;
 			remoteInfo = "preferences (Upgraded)";
 		};
 		871CA1880858601A00C3A044 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 871CA15708585FD200C3A044 /* reply (Upgraded) */;
+			remoteGlobalIDString = 871CA15708585FD200C3A044;
 			remoteInfo = "reply (Upgraded)";
 		};
 /* End PBXContainerItemProxy section */
@@ -3025,7 +3024,6 @@
 				87299A43083261F200CBD740 /* beDisabled.tiff in Resources */,
 				87299A44083261F200CBD740 /* beEnabled.tiff in Resources */,
 				87299A45083261F200CBD740 /* Board.png in Resources */,
-				87299A46083261F200CBD740 /* chooseColumn.png in Resources */,
 				87299A48083261F200CBD740 /* cmlf_icon.png in Resources */,
 				87299A4A083261F200CBD740 /* deleteMail.png in Resources */,
 				87299A4B083261F200CBD740 /* DraggingBadge.tiff in Resources */,

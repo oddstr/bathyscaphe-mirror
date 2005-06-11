@@ -1,3 +1,10 @@
+2005-06-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/source/CMRAppDelegate+Menu.m
+	* application/source/manager/CMRMainMenuManager.m
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		ブラウザの表示カラム選択ボタンを廃止して、「表示」＞「欄」メニューを新設した。
+		これに伴い、chooseColumn.png をターゲットから外した。いずれ CVS から削除予定。
 2005-06-09 masakih <masakih@users.sourceforge.jp>
 	* application/source/window/CMRReplyController-ViewAccessor.m
 		メモリリーク解消
