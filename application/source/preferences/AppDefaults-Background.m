@@ -8,8 +8,6 @@
 // 背景色などの設定の辞書を格納するキー
 static NSString *const AppDefaultsBackgroundsKey = @"Preferences - BackgroundColors";
 
-//スレッド一覧の背景色（縞模様）
-static NSString *const AppDefaultsStripedTableColorKey = @"ThreadsList Striped Color";
 //スレッド一覧のテーブルの背景色
 static NSString *const AppDefaultsSTableBackgroundColorKey = @"ThreadsList BackgroundColor";
 //スレッド一覧のテーブルの縞模様を描画するか
@@ -25,7 +23,9 @@ static NSString *const AppDefaultsTVDrawsBackgroundKey = @"Thread Viewer Draws B
 static NSString *const AppDefaultsResPopUpBackgroundColorKey = @"Res PopUp Background";
 //ポップアップを半透明にするか
 static NSString *const AppDefaultsResPopUpIsSeeThroughKey = @"Res PopUp See Through";
-
+//書き込みウインドウの背景色
+static NSString *const kPrefReplyBackgroundColorKey	= @"Reply Window BackgroundColor";
+static NSString *const kPrefBoardListBackgroundColorKey	= @"BoardList BackgroundColor";
 
 
 @implementation AppDefaults(BackgroundColorsSupport)
@@ -69,25 +69,16 @@ static NSString *const AppDefaultsResPopUpIsSeeThroughKey = @"Res PopUp See Thro
 }
 @end
 
-
+#pragma mark -
 
 @implementation AppDefaults(BackgroundColors)
-- (NSColor *) browserStripedTableColor
-{
-	return [self defaultsColorForKey:AppDefaultsStripedTableColorKey];
-}
-- (void) setBrowserStripedTableColor : (NSColor *) color
-{
-	NSLog(@"Deprecated.");
-	//[self setBGDefaultsColor : color
-	//				  forKey : AppDefaultsStripedTableColorKey];
-	//[self setBrowserSTableDrawsStriped : YES];
-}
+#pragma mark Browser
 
 - (NSColor *) browserSTableBackgroundColor
 {
 	return [self defaultsColorForKey:AppDefaultsSTableBackgroundColorKey];
 }
+
 - (void) setBrowserSTableBackgroundColor : (NSColor *) color
 {
 	[self setBGDefaultsColor : color
@@ -96,13 +87,13 @@ static NSString *const AppDefaultsResPopUpIsSeeThroughKey = @"Res PopUp See Thro
 	[self setBrowserSTableDrawsBackground : YES];
 }
 
-
 - (BOOL) browserSTableDrawsStriped
 {
 	return [[self backgroundColorDictionary]
 					 boolForKey : AppDefaultsSTableDrawsStripedKey
 				   defaultValue : DEFAULT_STABLE_DRAWS_STRIPED];
 }
+
 - (void) setBrowserSTableDrawsStriped : (BOOL) flag
 {
 	[[self backgroundColorDictionary]
@@ -112,14 +103,13 @@ static NSString *const AppDefaultsResPopUpIsSeeThroughKey = @"Res PopUp See Thro
 	[self postLayoutSettingsUpdateNotification];
 }
 
-
-
 - (BOOL) browserSTableDrawsBackground
 {
 	return [[self backgroundColorDictionary]
 					 boolForKey : AppDefaultsSTableDrawsBackgroundKey
 				   defaultValue : DEFAULT_STABLE_DRAWS_BGCOLOR];
 }
+
 - (void) setBrowserSTableDrawsBackground : (BOOL) flag
 {
 	[[self backgroundColorDictionary]
@@ -128,14 +118,32 @@ static NSString *const AppDefaultsResPopUpIsSeeThroughKey = @"Res PopUp See Thro
 	[self postLayoutSettingsUpdateNotification];
 }
 
+- (NSColor *) boardListBackgroundColor
+{
+	NSColor		*color_;
+	
+	color_ = [[self backgroundColorDictionary]
+					colorForKey : kPrefBoardListBackgroundColorKey];
+	if(nil == color_){
+		return [NSColor whiteColor];
+	}
+	
+	return color_;
+}
 
+- (void) setBoardListBackgroundColor : (NSColor *) color
+{
+	[self setBGDefaultsColor : color
+					  forKey : kPrefBoardListBackgroundColorKey];
+	//[self postLayoutSettingsUpdateNotification];
+}
 
-
-
+#pragma mark Thread Viewer
 - (NSColor *) threadViewerBackgroundColor
 {
 	return [self defaultsColorForKey:AppDefaultsTVBackgroundColorKey];
 }
+
 - (void) setThreadViewerBackgroundColor : (NSColor *) color
 {
 	[self setBGDefaultsColor : color
@@ -143,14 +151,13 @@ static NSString *const AppDefaultsResPopUpIsSeeThroughKey = @"Res PopUp See Thro
 	[self setThreadViewerDrawsBackground : YES];
 }
 
-
-
 - (BOOL) threadViewerDrawsBackground
 {
 	return [[self backgroundColorDictionary]
 					 boolForKey : AppDefaultsTVDrawsBackgroundKey
 				   defaultValue : DEFAULT_TVIEW_DRAWS_BGCOLOR];
 }
+
 - (void) setThreadViewerDrawsBackground : (BOOL) flag
 {
 	[[self backgroundColorDictionary]
@@ -159,8 +166,7 @@ static NSString *const AppDefaultsResPopUpIsSeeThroughKey = @"Res PopUp See Thro
 	[self postLayoutSettingsUpdateNotification];
 }
 
-
-
+#pragma mark Popup and Reply Window
 - (BOOL) isResPopUpSeeThrough
 {
 	return [[self backgroundColorDictionary]
@@ -175,8 +181,6 @@ static NSString *const AppDefaultsResPopUpIsSeeThroughKey = @"Res PopUp See Thro
 			  forKey : AppDefaultsResPopUpIsSeeThroughKey];
 	[self postLayoutSettingsUpdateNotification];
 }
-
-
 
 - (NSColor *) resPopUpBackgroundColor
 {
@@ -193,6 +197,7 @@ static NSString *const AppDefaultsResPopUpIsSeeThroughKey = @"Res PopUp See Thro
 	
 	return color_;
 }
+
 - (void) setResPopUpBackgroundColor : (NSColor *) color
 {
 	[self setBGDefaultsColor : color
@@ -200,7 +205,22 @@ static NSString *const AppDefaultsResPopUpIsSeeThroughKey = @"Res PopUp See Thro
 	[self postLayoutSettingsUpdateNotification];
 }
 
+- (NSColor *) replyBackgroundColor
+{
+	NSColor *color_;
+	color_ = [[self backgroundColorDictionary]
+					colorForKey : kPrefReplyBackgroundColorKey];
+	return (nil == color_) ? [NSColor whiteColor] : color_;
+}
 
+- (void) setReplyBackgroundColor : (NSColor *) aColor
+{
+	[self setBGDefaultsColor : aColor
+					  forKey : kPrefReplyBackgroundColorKey];
+	[self postLayoutSettingsUpdateNotification];
+}
+
+#pragma mark -
 - (void) _loadBackgroundColors
 {
 }
@@ -217,4 +237,3 @@ static NSString *const AppDefaultsResPopUpIsSeeThroughKey = @"Res PopUp See Thro
 	return YES;
 }
 @end
-

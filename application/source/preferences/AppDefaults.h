@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.2 2005/06/09 13:27:05 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.3 2005/06/12 01:36:15 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -16,7 +16,7 @@
 @class		CMRBBSSignature;
 
 /*!
- * @define      CMXPref
+ * @define      CMRPref
  * @discussion  グローバルな初期設定オブジェクト
  */
 #define CMRPref		[AppDefaults sharedInstance]
@@ -72,8 +72,6 @@
 
 
 
-- (BOOL) isSupportedAppKitVersion10_2;
-
 - (BOOL) isOnlineMode;
 - (void) setIsOnlineMode : (BOOL) flag;
 - (IBAction) toggleOnlineMode : (id) sender;
@@ -89,6 +87,7 @@
 - (void) setOpenInBg : (BOOL) flag;
 
 /*** 掲示板ドロワー ***/
+/* will be deprecated in BathyScaphe 1.1 or later. */
 - (int) boardListState;
 - (void) setBoardListState : (int) state;
 - (float) boardListSizeWidth;
@@ -97,7 +96,6 @@
 - (void) setBoardListSizeHeight : (float) height;
 - (NSRectEdge) boardListDrawerEdge;
 - (void) setBoardListDrawerEdge : (NSRectEdge) edge;
-- (void) setBrowserStatusFilteringMask : (int) mask;
 - (NSSize) boardListContentSize;
 - (void) setBoardListContentSize : (NSSize) contentSize;
 - (BOOL) isBoardListOpen;
@@ -126,6 +124,7 @@
 - (BOOL) browserSortAscending;
 - (void) setBrowserSortAscending : (BOOL) isAscending;
 - (int) browserStatusFilteringMask;
+- (void) setBrowserStatusFilteringMask : (int) mask;
 - (BOOL) collectByNew;
 - (void) setCollectByNew : (BOOL) flag;
 
@@ -155,14 +154,17 @@
 
 
 @interface AppDefaults(BackgroundColors)
-- (NSColor *) browserStripedTableColor;
-- (void) setBrowserStripedTableColor : (NSColor *) color;
+//- (NSColor *) browserStripedTableColor; // deprecated in BathyScpahe 1.0.1
+//- (void) setBrowserStripedTableColor : (NSColor *) color; // deprecated in BathyScpahe 1.0.1
 - (BOOL) browserSTableDrawsStriped;
 - (void) setBrowserSTableDrawsStriped : (BOOL) flag;
 - (NSColor *) browserSTableBackgroundColor;
 - (void) setBrowserSTableBackgroundColor : (NSColor *) color;
 - (BOOL) browserSTableDrawsBackground;
 - (void) setBrowserSTableDrawsBackground : (BOOL) flag;
+- (NSColor *) boardListBackgroundColor;
+- (void) setBoardListBackgroundColor : (NSColor *) color;
+
 - (NSColor *) threadViewerBackgroundColor;
 - (void) setThreadViewerBackgroundColor : (NSColor *) color;
 - (BOOL) threadViewerDrawsBackground;
@@ -171,6 +173,9 @@
 - (void) setResPopUpBackgroundColor : (NSColor *) color;
 - (BOOL) isResPopUpSeeThrough;
 - (void) setIsResPopUpSeeThrough : (BOOL) anIsResPopUpSeeThrough;
+
+- (NSColor *) replyBackgroundColor;
+- (void) setReplyBackgroundColor : (NSColor *) aColor;
 
 - (void) _loadBackgroundColors;
 - (BOOL) _saveBackgroundColors;
@@ -212,12 +217,10 @@ enum {
 @interface AppDefaults(FontAndColor)
 - (NSColor *) replyTextColor;
 - (void) setReplyTextColor : (NSColor *) aColor;
-- (NSColor *) replyBackgroundColor;
-- (void) setReplyBackgroundColor : (NSColor *) aColor;
 - (NSFont *) replyFont;
 - (void) setReplyFont : (NSFont *) aFont;
-- (BOOL) caretUsesTextColor;
-- (void) setCaretUsesTextColor : (BOOL) flag;
+//- (BOOL) caretUsesTextColor; // deprecated in BathyScaphe 1.0.1
+//- (void) setCaretUsesTextColor : (BOOL) flag; // deprecated in BathyScaphe 1.0.1
 
 /*** ポップアップ ***/
 // デフォルトの色
@@ -227,13 +230,88 @@ enum {
 - (void) setIsResPopUpTextDefaultColor : (BOOL) flag;
 
 // @see CMXPopUpWindowAttributes.h
+/* deprecated in BathyScaphe 1.0.1
 - (BOOL) popUpWindowHasVerticalScroller;
 - (BOOL) popUpWindowAutohidesScrollers;
-- (BOOL) popUpWindowVerticalScrollerIsSmall;
 - (void) setPopUpWindowAutohidesScrollers : (BOOL) flag;
 - (void) setPopUpWindowHasVerticalScroller : (BOOL) flag;
+*/
+- (BOOL) popUpWindowVerticalScrollerIsSmall;
 - (void) setPopUpWindowVerticalScrollerIsSmall : (BOOL) flag;
 
+
+- (NSColor *) threadsListColor;
+- (void) setThreadsListColor : (NSColor *) color;
+- (NSFont *) threadsListFont;
+- (void) setThreadsListFont : (NSFont *) aFont;
+- (NSColor *) threadsListNewThreadColor;
+- (void) setThreadsListNewThreadColor : (NSColor *) color;
+- (NSFont *) threadsListNewThreadFont;
+- (void) setThreadsListNewThreadFont : (NSFont *) aFont;
+
+- (NSFont *) threadsViewFont;
+- (void) setThreadsViewFont : (NSFont *) aFont;
+- (NSColor *) threadsViewColor;
+- (void) setThreadsViewColor : (NSColor *) color;
+
+- (NSColor *) messageColor;
+- (void) setMessageColor : (NSColor *) color;
+
+- (NSFont *) messageFont;
+- (void) setMessageFont : (NSFont *) font;
+
+- (NSColor *) messageTitleColor;
+- (void) setMessageTitleColor : (NSColor *) color;
+
+- (NSFont *) messageTitleFont;
+- (void) setMessageTitleFont : (NSFont *) font;
+
+- (NSColor *) messageNameColor;
+- (void) setMessageNameColor : (NSColor *) color;
+
+- (NSFont *) messageAlternateFont;
+- (void) setMessageAlternateFont : (NSFont *) font;
+
+- (NSColor *) messageAnchorColor;
+- (void) setMessageAnchorColor : (NSColor *) color;
+- (NSColor *) messageFilteredColor;
+- (void) setMessageFilteredColor : (NSColor *) color;
+- (NSColor *) textEnhancedColor;
+- (void) setTextEnhancedColor : (NSColor *) color;
+
+- (NSFont *) messageHostFont;
+- (void) setMessageHostFont : (NSFont *) aFont;
+
+- (NSColor *) messageHostColor;
+- (void) setMessageHostColor : (NSColor *) color;
+- (NSFont *) messageBeProfileFont;
+- (void) setMessageBeProfileFont : (NSFont *) aFont;
+
+/* boardList font */
+- (NSFont *) boardListFont;
+- (void) setBoardListFont : (NSFont *) font;
+- (NSColor *) boardListTextColor;
+- (void) setBoardListTextColor : (NSColor *) color;
+- (NSColor *) boardListBgColor;
+- (void) setBoardListBgColor : (NSColor *) color;
+
+
+
+/* more options */
+- (BOOL) hasMessageAnchorUnderline;
+- (void) setHasMessageAnchorUnderline : (BOOL) flag;
+
+- (BOOL) shouldThreadAntialias;
+- (void) setShouldThreadAntialias : (BOOL) flag;
+
+- (BOOL) threadsListDrawsGrid;
+- (void) setThreadsListDrawsGrid : (BOOL) flag;
+//- (NSColor *) threadsListGridColor; // deprecated in BathyScaphe 1.0
+//- (void) setThreadsListGridColor : (NSColor *) color; // deprecated in BathyScaphe 1.0
+
+/* Row height, cell spacing */
+- (float) messageHeadIndent;
+- (void) setMessageHeadIndent : (float) anIndent;
 
 - (float) threadsListRowHeight;
 - (void) setThreadsListRowHeight : (float) rowHeight;
@@ -246,63 +324,10 @@ enum {
 - (void) setThreadsListIntercellSpacingHeight : (NSNumber *) height;
 - (void) setThreadsListIntercellSpacingWidth : (NSNumber *) width;
 
-- (BOOL) threadsListDrawsGrid;
-- (void) setThreadsListDrawsGrid : (BOOL) flag;
-//- (NSColor *) threadsListGridColor; // deprecated in BathyScaphe 1.0
-//- (void) setThreadsListGridColor : (NSColor *) color; // deprecated in BathyScaphe 1.0
+- (float) boardListRowHeight;
+- (void) setBoardListRowHeight : (float) rowHeight;
+- (void) fixBoardListRowHeightToFontSize;
 
-// テキストの強調色
-- (NSColor *) textEnhancedColor;
-- (void) setTextEnhancedColor : (NSColor *) color;
-
-- (NSColor *) threadsListColor;
-- (void) setThreadsListColor : (NSColor *) color;
-- (NSFont *) threadsListFont;
-- (void) setThreadsListFont : (NSFont *) aFont;
-- (NSColor *) threadsListNewThreadColor;
-- (void) setThreadsListNewThreadColor : (NSColor *) color;
-- (NSFont *) threadsListNewThreadFont;
-- (void) setThreadsListNewThreadFont : (NSFont *) aFont;
-
-- (BOOL) shouldThreadAntialias;
-- (void) setShouldThreadAntialias : (BOOL) flag;
-
-- (NSFont *) threadsViewFont;
-- (void) setThreadsViewFont : (NSFont *) aFont;
-- (NSColor *) threadsViewColor;
-- (void) setThreadsViewColor : (NSColor *) color;
-/* Accessor for _messageHeadIndent */
-- (float) messageHeadIndent;
-- (void) setMessageHeadIndent : (float) anIndent;
-/* Accessor for _messageColor */
-- (NSColor *) messageColor;
-- (void) setMessageColor : (NSColor *) color;
-/* Accessor for _messageFont */
-- (NSFont *) messageFont;
-- (void) setMessageFont : (NSFont *) font;
-/* Accessor for _messageTitleColor */
-- (NSColor *) messageTitleColor;
-- (void) setMessageTitleColor : (NSColor *) color;
-/* Accessor for _messageTitleFont */
-- (NSFont *) messageTitleFont;
-- (void) setMessageTitleFont : (NSFont *) font;
-/* Accessor for _messageNameColor */
-- (NSColor *) messageNameColor;
-- (void) setMessageNameColor : (NSColor *) color;
-
-	
-/* ＡＡ：フォント */
-- (NSFont *) messageAlternateFont;
-- (void) setMessageAlternateFont : (NSFont *) font;
-
-- (NSColor *) messageAnchorColor;
-- (void) setMessageAnchorColor : (NSColor *) color;
-
-- (NSColor *) messageFilteredColor;
-- (void) setMessageFilteredColor : (NSColor *) color;
-
-- (BOOL) hasMessageAnchorUnderline;
-- (void) setHasMessageAnchorUnderline : (BOOL) flag;
 - (void) _loadFontAndColor;
 - (BOOL) _saveFontAndColor;
 @end
@@ -316,7 +341,7 @@ enum {
 - (void) setIgnoreTitleCharacters : (NSString *) ignoreChars;
 
 // statusLine
-- (BOOL) canUseSpinningStyle;
+/* deprecated in BathyScaphe 1.1 or later. */
 - (BOOL) statusLineUsesSpinningStyle;
 - (void) setStatusLineUsesSpinningStyle : (BOOL) usesSpinningStyle;
 - (int) statusLinePosition;
@@ -336,8 +361,6 @@ enum {
 - (BOOL) showsAllMessagesWhenDownloaded;
 - (void) setShowsAllMessagesWhenDownloaded : (BOOL) flag;
 
-;
-
 /* オンザフライ読み込み */
 - (unsigned) onTheFlyCompositionAttributes;
 - (void) setOnTheFlyCompositionAttributes : (unsigned) value;
@@ -347,7 +370,6 @@ enum {
 - (void) setWindowDefaultFrameString : (NSString *) aString;
 - (NSString *) replyWindowDefaultFrameString;
 - (void) setReplyWindowDefaultFrameString : (NSString *) aString;
-
 
 - (int) threadViewerLinkType;
 - (void) setThreadViewerLinkType : (int) aType;

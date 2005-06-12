@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowserTemplateKeys.h,v 1.1 2005/05/11 17:51:03 tsawada2 Exp $
+  * $Id: CMRBrowserTemplateKeys.h,v 1.2 2005/06/12 01:36:15 tsawada2 Exp $
   * 
   * CMRBrowserTemplateKeys.h
   *
@@ -18,10 +18,6 @@
 #define kThreadsListTableActionKey			@"Browser - ListViewAction"
 #define kThreadsListTableDoubleActionKey	@"Browser - ListViewDoubleAction"
 #define kBrowserIncrementalSearchKey		@"Browser - UseIncrementalSearch"
-
-// Attributes
-#define kSearchListNotFoundAttrKey	@"Browser - SearchNotFound"
-#define kSearchListResultAttrKey	@"Browser - SearchResult"
 
 // Localized
 #define kSearchListNotFoundKey	@"Search Thread Not Found"

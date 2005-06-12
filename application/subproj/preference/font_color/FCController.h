@@ -1,5 +1,5 @@
 /**
-  * $Id: FCController.h,v 1.1 2005/05/11 17:51:10 tsawada2 Exp $
+  * $Id: FCController.h,v 1.2 2005/06/12 01:36:15 tsawada2 Exp $
   * 
   * FCController.h
   *
@@ -17,6 +17,8 @@
 	IBOutlet NSButton		*_messageFontButton;
 	IBOutlet NSButton		*_itemTitleFontButton;
 	IBOutlet NSButton		*_alternateFontButton;
+	IBOutlet NSButton		*_hostFontButton;
+	IBOutlet NSButton		*_beProfileFontButton;
 	IBOutlet NSColorWell	*_threadViewBGColorWell;
 	IBOutlet NSColorWell	*_threadViewColorWell;
 	IBOutlet NSColorWell	*_messageColorWell;
@@ -25,6 +27,7 @@
 	IBOutlet NSColorWell	*_messageAnchorColorWell;
 	IBOutlet NSColorWell	*_messageFilteredColorWell;
 	IBOutlet NSColorWell	*_messageTextEnhancedColorWell;
+	IBOutlet NSColorWell	*_messageHostColorWell;
 	
 	IBOutlet NSButton		*_hasAnchorULButton;
 	
@@ -56,9 +59,12 @@
 	IBOutlet NSButton		*m_replyFontButton;
 	IBOutlet NSColorWell	*m_replyTextColorWell;
 	IBOutlet NSColorWell	*m_replyBackgroundColorWell;
+
+	IBOutlet NSButton		*m_BLtextFontButton;
+	IBOutlet NSColorWell	*m_BLtextColorWell;
+	IBOutlet NSTextField	*m_BLrowHeightField;
+	IBOutlet NSStepper		*m_BLrowHeightStepper;
 	
-	// ステータス行
-	IBOutlet NSMatrix		*_progressStyleRadioBotton;
 }
 
 - (IBAction) changeHasAnchorUnderline : (id) sender;
@@ -71,7 +77,8 @@
 - (IBAction) changeTableRowSpace : (id) sender;
 - (IBAction) fixRowHeightToFont : (id) sender;
 
-- (IBAction) chooseProgressStyleRadioBotton : (id) sender;
+- (IBAction) changeBoardListRowHeight : (id) sender;
+- (IBAction) fixRowHeightToFontOfBoardList : (id) sender;
 
 - (IBAction) changePopUpScrollerSize : (id) sender;
 @end

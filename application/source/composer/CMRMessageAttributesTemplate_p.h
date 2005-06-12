@@ -25,9 +25,6 @@
 #define kEllipsisUpMouseDownImage		@"EllipsisUpMouseDown"
 #define kEllipsisUpMouseOverImage		@"EllipsisUpMouseOver"
 
-/* be profile link */
-#define kShowProfileImage			@"showProfile"
-#define kShowProfileMouseDownImage	@"showProfileDown"
 /* template */
 #define kMailIconAlignment		@"Thread - MailIconAlignment"
 
@@ -76,6 +73,9 @@
 - (NSMutableDictionary *) messageAttributesForText;
 /* Accessor for m_messageAttributes */
 - (NSMutableDictionary *) messageAttributes;
+
+- (NSMutableDictionary *) messageAttributesForBeProfileLink;
+- (NSMutableDictionary *) messageAttributesForHost;
 
 - (NSParagraphStyle *) messageParagraphStyleWithIndent : (float) anIndent;
 - (id) underlineStyleWithBool : (BOOL) hasUnderline;

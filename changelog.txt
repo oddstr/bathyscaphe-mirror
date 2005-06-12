@@ -1,3 +1,31 @@
+2005-06-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/composer/CMRAttributedMessageComposer.m
+		whiteSpaceSeparator() を append するのをやめた。
+	* application/source/browser/CMRBrowser-Action.m
+		検索結果の「xx件見つかりました」という文字列の書式カスタマイズ機能を廃止した。
+	* application/subproj/preference/FontWell.m
+	* application/subproj/preference/font_color/FCController-ViewAccessor.m
+	* application/subproj/preference/font_color/FCController.m
+	* application/subproj/preference/Japanese.lproj/FontsAndColors.nib
+		「環境設定」＞「表示」ペインの改良。
+		- 追加：「ホストのフォント」「同カラー」「Be プロフィールリンクのフォント」
+		- 追加：「掲示板リストのフォント」「同カラー」「同、行の高さ」
+		- 削除：「プログレスバーのスタイル選択」（将来このへんの仕様が変更される予定のため一旦外した）
+	* application/source/composer/CMRAttributedMessageComposer.m
+	* application/source/composer/CMRMessageAttributesStyling.m
+	* application/source/composer/CMRMessageAttributesTemplate.m
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/source/bbs/BoardList-OVDataSource.m
+		設定を参照する側も、参照先を適宜修正。
+	* application/source/preferences/AppDefaults-Background.m
+	* application/source/preferences/AppDefaults-FontColor.m
+	* application/Resources/text/StyleTemplates.rtf
+	* application/Resources/text/KeyValueTemplates.plist
+		StyleTemplates.rtf の設定の一部と、KeyValueTemplates.plist の設定の一部を
+		User Defaults に移管した。これに伴い StyleTemplates.rtf はほとんどの項目がなくなった（一部残存）。
+		KeyValueTemplates.plist も三つの項目が削除された。
+		また、いくつかの User Defaults 項目が削除された（どれが削除されたか把握できるように、
+		AppDefaults.h にコメントアウトして残してある）。
 2005-06-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-ViewAccessor.m
 	* application/source/CMRAppDelegate+Menu.m

@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.3 2005/05/22 18:02:26 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.4 2005/06/12 01:36:15 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -183,20 +183,6 @@ NS_ENDHANDLER
 	[self saveDefaults];
 }
 
-- (BOOL) isSupportedAppKitVersion10_2
-{
-	if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_0) {
-		// User is using Mac OS X 10.0.x or earlier
-		return NO;
-	}else if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_1) {
-		// User is using Mac OS X 10.1.x
-		return NO;
-	} else {
-		// 10.2 or later system
-		return YES;
-	}
-}
-
 #pragma mark -
 
 - (BOOL) isOnlineMode
@@ -214,7 +200,6 @@ NS_ENDHANDLER
 - (IBAction) toggleOnlineMode : (id) sender
 {
 	[self setIsOnlineMode : (NO == [self isOnlineMode])];
-	//[[CMRMainMenuManager defaultManager] synchronizeIsOnlineModeMenuItemState];
 }
 
 
@@ -234,7 +219,7 @@ NS_ENDHANDLER
 {
     return [[self defaults]
 				boolForKey : AppDefaultsQuietDeletionKey
-			  defaultValue : SGTemplateBool(kQuietDeletionKey)]; //ˆÈ‘O‚ÌÝ’è’l‚ðˆø‚«Œp‚®‚½‚ß
+			  defaultValue : NO];
 }
 
 - (void) setQuietDeletion : (BOOL) flag
@@ -247,7 +232,7 @@ NS_ENDHANDLER
 {
 	return [[self defaults]
 				boolForKey : AppDefaultsOpenInBgKey
-			  defaultValue :  SGTemplateBool(kOpenInBgkey)]; //ˆÈ‘O‚ÌÝ’è’l‚ðˆø‚«Œp‚®‚½‚ß
+			  defaultValue : NO];
 }
 
 - (void) setOpenInBg : (BOOL) flag

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRPreferencesDefautValues.h,v 1.1 2005/05/11 17:51:07 tsawada2 Exp $
+  * $Id: CMRPreferencesDefautValues.h,v 1.2 2005/06/12 01:36:15 tsawada2 Exp $
   * 
   * CMRPreferencesDefautValues.h
   *
@@ -69,3 +69,8 @@
 // be-2ch Info
 #define APP_BE2CH_REGISTRATION_PAGE_KEY		@"System - be2ch Register URL"
 
+#define DEFAULT_BOARD_LIST_ROW_HEIGHT	14.0f
+#define DEFAULT_BOARD_LIST_FONTSIZE	11.0f
+
+#define DEFAULT_HOST_FONTSIZE	10.0f
+#define DEFAULT_BEPROFILELINK_FONTSIZE	10.0f

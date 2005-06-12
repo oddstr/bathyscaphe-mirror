@@ -37,20 +37,9 @@
 }
 
 
-#define kPrefPopUpScrollerTagBase	10
 - (IBAction) changePopUpScrollerSize : (id) sender
 {
-	BOOL	setOn_;
-	int		tag_;
-	
-	UTILAssertRespondsTo(sender, @selector(tag));
-	UTILAssertRespondsTo(sender, @selector(state));
-	
-	tag_ = [sender tag];
-	setOn_ = (NSOnState == [sender state]);
-	
-	[[self preferences] setValue : [NSNumber numberWithBool:setOn_]
-				forKey : @"popUpWindowVerticalScrollerIsSmall"];
+	[[self preferences] setPopUpWindowVerticalScrollerIsSmall : ([sender state] == NSOnState)];
 }
 
 
@@ -104,11 +93,22 @@
 							 withObject : number_];
 	[self updateTableRowSettings];
 }
+- (IBAction) changeBoardListRowHeight : (id) sender
+{
+	[[self preferences]	setBoardListRowHeight : [sender floatValue]];
+	[self updateBoardListRowSettings];
+}
 
 - (IBAction) fixRowHeightToFont : (id) sender
 {
 	[[self preferences] fixRowHeightToFontSize];
 	[self updateTableRowSettings];
+}
+
+- (IBAction) fixRowHeightToFontOfBoardList : (id) sender
+{
+	[[self preferences] fixBoardListRowHeightToFontSize];
+	[self updateBoardListRowSettings];
 }
 
 - (IBAction) changeColor : (id) sender
@@ -121,14 +121,16 @@
 				@selector(setMessageNameColor:),				// 3
 				@selector(setMessageTitleColor:),				// 4
 				@selector(setMessageAnchorColor:),				// 5
-				@selector(setThreadsListColor:),				// 6
-				@selector(setThreadsListNewThreadColor:),		// 7
-				@selector(setResPopUpBackgroundColor:),			// 8
-				@selector(setResPopUpDefaultTextColor:),		// 9
+				@selector(setMessageFilteredColor:),			// 6
+				@selector(setTextEnhancedColor:),				// 7
+				@selector(setThreadsListNewThreadColor:),		// 8
+				@selector(setThreadsListColor:),				// 9
 				@selector(setReplyTextColor:),					// 10
 				@selector(setReplyBackgroundColor:),			// 11
-				@selector(setMessageFilteredColor:),			// 12
-				@selector(setTextEnhancedColor:)				// 13
+				@selector(setResPopUpBackgroundColor:),			// 12
+				@selector(setResPopUpDefaultTextColor:),		// 13
+				@selector(setMessageHostColor:),				// 14
+				@selector(setBoardListTextColor:)				// 15
 	};
 	
 	if (NO == [sender respondsToSelector : @selector(tag)]) return;
@@ -147,18 +149,6 @@
 	[[self preferences] performSelector : selector_[index_]
 							 withObject : [sender color]];
 }
-- (IBAction) chooseProgressStyleRadioBotton : (id) sender
-{
-	BOOL		usesSpinningStyle_;
-	NSCell		*cell_;
-	
-	if (NO == [sender respondsToSelector : @selector(cellWithTag:)])
-		return;
-	
-	cell_ = [[self progressStyleRadioBotton] selectedCell]; 
-	usesSpinningStyle_ = (kSpiningStyleTag == [cell_ tag]);
-	[[self preferences] setStatusLineUsesSpinningStyle : usesSpinningStyle_];
-}
 
 - (void) changeFontOf : (int) tagNum To: (NSFont *) newFont
 {
@@ -169,7 +159,10 @@
 				@selector(setThreadsListFont:),
 				@selector(setThreadsListNewThreadFont:),
 				@selector(setReplyFont:),
-				@selector(setMessageAlternateFont:)
+				@selector(setMessageAlternateFont:),
+				@selector(setMessageHostFont:),
+				@selector(setMessageBeProfileFont:),
+				@selector(setBoardListFont:)
 			};
 	
 	if (nil == [self preferences]) return;

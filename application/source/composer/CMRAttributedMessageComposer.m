@@ -24,8 +24,6 @@
 
 // CMXAttributesTemplate.rtf
 #define kWhiteSpaceSeparaterKey		@"WhiteSpaceSeparater"
-#define kHostAttributedStrKey		@"Host"
-#define kBeProfileAttributedStrKey	@"beProfileLink"
 // CMXPropertyListTemplate.plist
 #define	kThreadIndexFormatKey		@"Thread - IndexFormat"
 #define	kThreadFieldSeparaterKey	@"Thread - FieldSeparater"
@@ -353,9 +351,11 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 
 	mas_ = [self contentsStorage];
 
-	format_   = SGTemplateResource(kBeProfileAttributedStrKey);
+	format_   = SGTemporaryAttributedString();
 
-	[format_ replaceCharactersInRange:[format_ range] withString:beStr_];
+	[[format_ mutableString] appendString : beStr_];
+	[format_ addAttributes : [ATTR_TEMPLATE attributesForBeProfileLink]
+					 range : [format_ range]];
 	[format_ addAttributes : [ATTR_TEMPLATE attributesForAnchor]
 					 range : [format_ range]];
 	[format_ addAttribute : NSLinkAttributeName
@@ -363,14 +363,13 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 					range : [format_ range]];
 
 	[mas_ appendAttributedString : format_];
-	[mas_ appendAttributedString : whiteSpaceSeparater()];
+	//[mas_ appendAttributedString : whiteSpaceSeparater()];
 }
 
 - (void) composeHost : (CMRThreadMessage *) aMessage
 {
 	static NSString						*format_;
 	static NSMutableAttributedString	*template_;
-	auto   NSMutableString				*tmp;
 	auto   NSMutableAttributedString	*ms;
 	auto   NSString						*host = [aMessage host];
 	
@@ -379,14 +378,14 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 		NO == messageIsLocalAboned_(aMessage), 
 		ErrComposeHost);
 	
-	template_ = SGTemplateResource(kHostAttributedStrKey);
 	format_   = SGTemplateResource(kThreadHostFormateKey);
-	UTILRequireCondition(template_ && format_, ErrComposeHost);
 
 	ms = [self contentsStorage];
-	tmp = SGTemporaryString();
-	[tmp appendFormat:format_, host];
-	[template_ replaceCharactersInRange:[template_ range] withString:tmp];
+	template_ = SGTemporaryAttributedString();
+	[[template_ mutableString] appendFormat:format_, host];
+	[template_ addAttributes : [ATTR_TEMPLATE attributesForHost]
+					   range : NSMakeRange(0,[[template_ mutableString] length])];
+
 	[ms appendAttributedString : template_];
 
 ErrComposeHost:
@@ -563,7 +562,7 @@ static void appendDateString(NSMutableString *buffer, id theDate, NSString *pref
 
 static NSAttributedString *whiteSpaceSeparater(void)
 {
-	return SGTemplateResource(kWhiteSpaceSeparaterKey);
+	return [[[NSAttributedString alloc] initWithString : @"  "] autorelease];//SGTemplateResource(kWhiteSpaceSeparaterKey);
 }
 
 

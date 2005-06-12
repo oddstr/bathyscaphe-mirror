@@ -25,6 +25,8 @@ extern NSString *CMRLocalBeProfileLinkWithString(NSString *beProfile);
 - (NSDictionary *) attributesForItemName;
 - (NSDictionary *) attributesForMessage;
 - (NSDictionary *) attributesForText;
+- (NSDictionary *) attributesForBeProfileLink;
+- (NSDictionary *) attributesForHost;
 
 /*** Other Attributes ***/
 /* <ul> */

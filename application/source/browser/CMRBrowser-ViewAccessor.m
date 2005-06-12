@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.7 2005/06/11 10:02:17 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.8 2005/06/12 01:36:14 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -607,9 +607,7 @@
         [column_ setEditable : NO];
     }
     
-    tmp = SGTemplateResource(kBBSListRowHeightKey);
-    UTILAssertRespondsTo(tmp, @selector(floatValue));
-    [outlineView setRowHeight : [tmp floatValue]];
+    [outlineView setRowHeight : [CMRPref boardListRowHeight]];
     
     tmp = SGTemplateResource(kBBSListIntercellSpacingKey);
     UTILAssertRespondsTo(tmp, @selector(stringValue));
@@ -623,9 +621,8 @@
     UTILAssertRespondsTo(tmp, @selector(boolValue));
     [outlineView setShowsToolTipForRow : [tmp boolValue]];
 
-    tmp = SGTemplateColor(kBBSListBackgroundColorKey);
-    if (NO == [tmp isEqual : [NSColor whiteColor]])
-        [outlineView setBackgroundColor : tmp];
+	tmp = [CMRPref boardListBgColor];
+    if (NO == [tmp isEqual : [NSColor whiteColor]]) [outlineView setBackgroundColor : tmp];
 		
 	[outlineView setMenu : [self drawerContextualMenu]];
 }

@@ -78,10 +78,6 @@ static NSString *const AppDefaultsStatusLineToolbarAlignmentKey = @"StatusLine T
 			forKey : AppDefaultsTLIgnoreTitleCharactersKey];
 }
 
-- (BOOL) canUseSpinningStyle
-{
-	return [self isSupportedAppKitVersion10_2];
-}
 - (BOOL) statusLineUsesSpinningStyle
 {
 	return [[self threadsListSettingsDictionary]
@@ -90,9 +86,6 @@ static NSString *const AppDefaultsStatusLineToolbarAlignmentKey = @"StatusLine T
 }
 - (void) setStatusLineUsesSpinningStyle : (BOOL) usesSpinningStyle
 {
-	if(NO == [self canUseSpinningStyle])
-		return;
-	
 	[[self threadsListSettingsDictionary]
 			setBool : usesSpinningStyle
 			 forKey : AppDefaultsIsStatusLineUsesSpinningStyleKey];

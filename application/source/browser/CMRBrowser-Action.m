@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.4 2005/06/06 11:32:37 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.5 2005/06/12 01:36:14 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -365,11 +365,6 @@ enum {
 - (void) showSearchResultAppInfoWithFound : (BOOL) aResult
 {
 	NSString	*string_;
-	NSString	*key_;
-	id			tmp = nil;
-	
-	key_ = aResult ? kSearchListResultAttrKey : kSearchListNotFoundAttrKey;
-	tmp = CMXTemplateResource(key_, nil);
 	
 	if (NO == aResult) {
 		string_ = [self localizedString : kSearchListNotFoundKey];
@@ -378,8 +373,7 @@ enum {
 					[self localizedString : kSearchListResultKey],
 					[[self currentThreadsList] numberOfFilteredThreads]];
 	}
-	[tmp replaceCharactersInRange:[tmp range] withString:string_];
-	[[self statusLine] setInfoText : tmp];
+	[[self statusLine] setInfoText : string_];
 }
 - (BOOL) showsSearchResult
 {

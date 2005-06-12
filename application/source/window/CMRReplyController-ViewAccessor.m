@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyController-ViewAccessor.m,v 1.2 2005/06/09 17:33:50 masakih Exp $
+  * $Id: CMRReplyController-ViewAccessor.m,v 1.3 2005/06/12 01:36:15 tsawada2 Exp $
   * 
   * CMRReplyController-ViewAccessor.m
   *
@@ -44,6 +44,7 @@
 	
 	
 	// キャレットの色、変換中の色をテキストの色と同期
+	/*
 #if 0
 	if ([CMRPref caretUsesTextColor]) {
 		[textView_ setInsertionPointColor : [[self document] replyTextColor]];
@@ -68,7 +69,7 @@
 	}
 	
 #endif
-
+*/
 	if ([CMRPref replyBackgroundColor] != nil) {
 		[textView_ setDrawsBackground : YES];
 		[textView_ setBackgroundColor : [CMRPref replyBackgroundColor]];

@@ -1,6 +1,6 @@
 //: CMRStatusLine-ViewAccessor.m
 /**
-  * $Id: CMRStatusLine-ViewAccessor.m,v 1.1 2005/05/11 17:51:08 tsawada2 Exp $
+  * $Id: CMRStatusLine-ViewAccessor.m,v 1.2 2005/06/12 01:36:15 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -118,10 +118,7 @@ static struct IndicatorBarDefaults kIndicatorBarDefaults;
     
     BOOL                        usesSpinningStyle_;
     
-    if (NO == [CMRPref canUseSpinningStyle])
-        return;
-
-    usesSpinningStyle_ = [CMRPref statusLineUsesSpinningStyle];
+	usesSpinningStyle_ = [CMRPref statusLineUsesSpinningStyle];
     
     // ’âŽ~ƒ{ƒ^ƒ“
     if (usesSpinningStyle_)

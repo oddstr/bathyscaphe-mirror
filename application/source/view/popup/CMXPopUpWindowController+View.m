@@ -1,6 +1,6 @@
 //: CMXPopUpWindowController+View.m
 /**
-  * $Id: CMXPopUpWindowController+View.m,v 1.1 2005/05/11 17:51:09 tsawada2 Exp $
+  * $Id: CMXPopUpWindowController+View.m,v 1.2 2005/06/12 01:36:15 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -367,11 +367,11 @@
 }
 - (BOOL) autohidesScrollers
 {
-	return [CMRPref popUpWindowAutohidesScrollers];
+	return YES;
 }
 - (BOOL) hasVerticalScroller
 {
-	return [CMRPref popUpWindowHasVerticalScroller];
+	return YES;
 }
 - (BOOL) verticalScrollerIsSmall
 {

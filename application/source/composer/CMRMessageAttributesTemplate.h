@@ -21,6 +21,9 @@
 	NSMutableDictionary *_messageAttributesForText;	//標準の書式
 	NSMutableDictionary *_messageAttributes;			//メッセージの書式
 	
+	NSMutableDictionary *_messageAttributesForBeProfileLink;	//Be プロフィールリンクの書式
+	NSMutableDictionary *_messageAttributesForHost;	//Hostの書式
+	
 	NSParagraphStyle	*_blockQuoteParagraphStyle;
 }
 + (NSDictionary *) defaultAttributes;
@@ -51,6 +54,12 @@
 - (void) setAttributeForText : (NSString *) name
 					   value : (id        ) value;
 
+- (void) setAttributeForBeProfileLink : (NSString *) name
+								value : (id        ) value;
+					   
+- (void) setAttributeForHost : (NSString *) name
+					   value : (id        ) value;
+					   
 - (void) setMessageHeadIndent : (float) anIndent;
 - (void) setHasAnchorUnderline : (BOOL) flag;
 @end

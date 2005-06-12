@@ -12,7 +12,7 @@ static NSMutableArray*  _fontWells = nil;
 		font_ = [[[self window] delegate] getFontOf : [self tag]];
 	}
 	
-	titlestr_ = [NSString stringWithFormat : @"%@ - %0.1f",[font_ displayName],[font_ pointSize]];
+	titlestr_ = [NSString stringWithFormat : @"%@ %0.0f",[font_ displayName],[font_ pointSize]];
 	[self setTitle:titlestr_];
 }
 

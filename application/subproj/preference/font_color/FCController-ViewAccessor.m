@@ -152,114 +152,46 @@
 {
 	return m_replyBackgroundColorWell;
 }
-- (NSMatrix *) progressStyleRadioBotton
-{
-	return _progressStyleRadioBotton;
-}
 - (NSButton *) resPopUpScrollerIsSmall
 {
 	return _resPopUpScrollerIsSmall;
 }
 
+- (NSColorWell *) boardListTextColorWell
+{
+	return m_BLtextColorWell;
+}
+
+- (NSColorWell *) messageHostColorWell
+{
+	return _messageHostColorWell;
+}
+
+- (NSButton *) hostFontButton
+{
+	return _hostFontButton;
+}
+- (NSButton *) boardListTextFontButton
+{
+	return m_BLtextFontButton;
+}
+
+- (NSButton *) beProfileFontButton
+{
+	return _beProfileFontButton;
+}
+- (NSTextField *) boardListRowHeightField
+{
+	return m_BLrowHeightField;
+}
+- (NSStepper *) boardListRowHeightStepper
+{
+	return m_BLrowHeightStepper;
+}
 #pragma mark -
 
 - (void) setupUIComponents
 {
-	/*
-	SEL		respondsSELs[] = {
-		@selector(threadsViewFont),
-		@selector(messageFont),
-		
-		@selector(messageTitleFont),
-		@selector(threadsListFont),
-		@selector(threadsListNewThreadFont),
-		
-		@selector(threadViewerBackgroundColor),
-		@selector(threadsViewColor),
-		@selector(messageColor),
-		@selector(messageNameColor),
-		@selector(messageTitleColor),
-		
-		@selector(messageAnchorColor),
-		@selector(threadsListNewThreadColor),
-		@selector(threadsListColor),
-		
-		@selector(threadsListDrawsGrid),
-		@selector(browserSTableDrawsStriped),
-		@selector(threadsListRowHeight),
-		@selector(threadsListIntercellSpacing),
-		@selector(threadsListIntercellSpacing),
-		
-		@selector(shouldThreadAntialias),
-		@selector(resPopUpBackgroundColor),
-		@selector(isResPopUpTextDefaultColor),
-		@selector(resPopUpDefaultTextColor),
-		@selector(isResPopUpSeeThrough),
-		
-		@selector(canUseSpinningStyle),
-		@selector(messageFilteredColor),
-		@selector(messageAlternateFont),
-
-		@selector(popUpWindowVerticalScrollerIsSmall),
-		@selector(textEnhancedColor)
-	};
-	
-	NSString	*keys[] = {
-		@"threadViewFontButton",
-		@"messageFontButton",
-		
-		@"itemTitleFontButton",
-		@"threadsListFontButton",
-		@"newThreadFontButton",
-		
-		@"threadViewBGColorWell",
-		@"threadViewColorWell",
-		@"messageColorWell",
-		@"messageNameColorWell",
-		@"messageTitleColorWell",
-		
-		@"messageAnchorColorWell",
-		@"newThreadColorWell",
-		@"threadsListColorWell",
-		
-		@"drawsGridCheckBox",
-		@"drawStripedCheckBox",
-		@"rowHeightField",
-		@"spaceHeightField",
-		@"spaceWidthField",
-		
-		@"shouldAntialiasButton",
-		@"resPopUpBGColorWell",
-		@"resPopUpUsesTCButton",
-		@"resPopUpTextColorWell",
-		@"resPopUpIsSeeThroughButton",
-		
-		@"progressStyleRadioBotton",
-		@"messageFilteredColorWell",
-		@"alternateFontButton",
-		
-		@"resPopUpScrollerIsSmall",
-		@"messageTextEnhancedColorWell"
-	};
-	
-	int	i, cnt = UTILNumberOfCArray(keys);
-	
-	NSAssert(
-		UTILNumberOfCArray(keys) == UTILNumberOfCArray(respondsSELs),
-		@"Array keys and respondsSELs must have same amount of members.");
-	
-	
-	if (nil == _contentView) return;
-	
-	for (i = 0; i < cnt; i++) {
-		id		control;
-		
-		control = [self valueForKey : keys[i]];
-		UTILAssertNotNil(control);
-		[self preferencesRespondsTo : respondsSELs[i]
-						  ofControl : control];
-	}
-	*/
 	// チェックボックスが選択されていない場合は非表示
 	if ([[self resPopUpTextColorWell] isEnabled])
 		[[self resPopUpTextColorWell] setEnabled : 
@@ -282,7 +214,9 @@
 		@"replyTextColor",
 		@"replyBackgroundColor",
 		@"resPopUpBackgroundColor",
-		@"resPopUpDefaultTextColor"};
+		@"resPopUpDefaultTextColor",
+		@"messageHostColor",
+		@"boardListTextColor"};
 	
 	NSString *colorWells[] = {
 		@"threadViewBGColorWell",
@@ -298,7 +232,10 @@
 		@"replyTextColorWell",
 		@"replyBackgroundColorWell",
 		@"resPopUpBGColorWell",
-		@"resPopUpTextColorWell"};
+		@"resPopUpTextColorWell",
+		@"messageHostColorWell",
+		@"boardListTextColorWell"
+		};
 		
 	[[NSColorPanel sharedColorPanel] setShowsAlpha: YES];
 	
@@ -380,7 +317,10 @@
 		@"threadsListFont",
 		@"threadsListNewThreadFont",
 		@"replyFont",
-		@"messageAlternateFont"
+		@"messageAlternateFont",
+		@"messageHostFont",
+		@"messageBeProfileFont",
+		@"boardListFont"
 	};
 
 	AppDefaults *pref_ = [self preferences];
@@ -396,7 +336,10 @@
 		@"threadsListFontButton",
 		@"newThreadFontButton",
 		@"replyFontButton",
-		@"alternateFontButton"
+		@"alternateFontButton",
+		@"hostFontButton",
+		@"beProfileFontButton",
+		@"boardListTextFontButton"
 	};
 	int i, cnt = UTILNumberOfCArray(controls);
 	for (i = 0; i < cnt; i++) {
@@ -406,31 +349,9 @@
 		NSFont *font_ = [self getFontOf : i];
 		NSFont *font2_ = [NSFont fontWithName : [font_ fontName] size : [[field font] pointSize]];
 		[field setFont : font2_];
-		[field setTitle : [NSString stringWithFormat : @"%@ - %0.1f",[font_ displayName], [font_ pointSize]]];
+		[field setTitle : [NSString stringWithFormat : @"%@ %0.0f",[font_ displayName], [font_ pointSize]]];
 	}
 }
-
-- (void) updateUIComponents
-{
-	AppDefaults *pref_ = [self preferences];
-	
-	if (nil == _contentView || nil == pref_) return;
-	
-	[self updateTableRowSettings];
-	[self updateFontWellComponents];
-	[self updateColorWellComponents];
-	[self updateCheckboxComponents];
-	[self syncColorWellComponents];
-	
-	// ステータス行
-	if ([[self preferences] canUseSpinningStyle]) {
-		[[self progressStyleRadioBotton] selectCellWithTag : 
-			([[self preferences] statusLineUsesSpinningStyle]
-				? kSpiningStyleTag : kBarStyleTag)];
-	}
-}
-
-
 
 - (void) updateTableRowSettings
 {
@@ -455,5 +376,32 @@
 		[[self spaceHeightStepper] setFloatValue :
 			[pref_ threadsListIntercellSpacing].height];
 	}
+}
+
+- (void) updateBoardListRowSettings
+{
+	AppDefaults		*pref_;
+	
+	pref_ = [self preferences];
+	if ([[self boardListRowHeightField] isEnabled]) {
+		[[self boardListRowHeightField] setFloatValue :
+			[pref_ boardListRowHeight]];
+		[[self boardListRowHeightStepper] setFloatValue :
+			[pref_ boardListRowHeight]];
+	}
+}
+
+- (void) updateUIComponents
+{
+	AppDefaults *pref_ = [self preferences];
+	
+	if (nil == _contentView || nil == pref_) return;
+	
+	[self updateTableRowSettings];
+	[self updateBoardListRowSettings];
+	[self updateFontWellComponents];
+	[self updateColorWellComponents];
+	[self updateCheckboxComponents];
+	[self syncColorWellComponents];
 }
 @end

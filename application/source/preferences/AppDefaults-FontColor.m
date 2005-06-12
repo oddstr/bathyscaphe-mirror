@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-FontColor.m,v 1.2 2005/06/09 13:27:05 tsawada2 Exp $
+  * $Id: AppDefaults-FontColor.m,v 1.3 2005/06/12 01:36:15 tsawada2 Exp $
   * 
   * AppDefaults-FontColor.m
   *
@@ -10,43 +10,45 @@
 #import "CMRThreadsList.h"
 #import "CMRMessageAttributesTemplate.h"
 #import <AppKit/NSAttributedString.h>
-// PopUp Window attributes
-#import "CMXPopUpWindowAttributes.h"
 
+static NSString *const kPrefAppearanceDictKey		= @"Preferences - Fonts And Colors";
 
+static NSString *const kPrefReplyColorKey			= @"Reply Text Color";
+static NSString *const kPrefReplyFontKey			= @"Reply Text Font";
+static NSString *const kPrefAntialiasKey			= @"Should Thread Antialias";
+static NSString *const kPrefThreadsViewFontKey		= @"TextFont";
+static NSString *const kPrefThreadsViewColorKey		= @"TextColor";
+static NSString *const kPrefTextEnhancedColorKey	= @"Text Emphasis Color";
+static NSString *const kPrefResPopUpDefaultTextColorKey = @"Res PopUp Default Text-Color";
+static NSString *const kPrefIsResPopUpTextDefaultColorKey = @"Res PopUp uses Default Text-Color";
+static NSString *const kPrefMessageHeadIndentKey	= @"Message Head Indent";
+static NSString *const kPrefMessageColorKey			= @"Message Contents Color";
+static NSString *const kPrefMessageFontKey			= @"Message Contents Font";
+static NSString *const kPrefMessageAlternateFontKey	= @"Message Alternate Font";
+static NSString *const kPrefMessageTitleColorKey	= @"Message Item Color";
+static NSString *const kPrefMessageTitleFontKey		= @"Message Item Font";
+static NSString *const kPrefMessageNameColorKey		= @"Message Name Color";
+static NSString *const kPrefMessageAnchorColorKey	= @"Message Anchor Color";
+static NSString *const kPrefMessageAnchorHasUnderlineKey = @"Message Anchor Underline";
+static NSString *const kPrefMessageFilteredColorKey	= @"Message Filtered Color";
+static NSString *const kPrefThreadsListRowHeightKey	= @"Row Height";
+static NSString *const kPrefThreadsListIntercellSpacingKey = @"Intercell Spacing";
+static NSString *const kPrefThreadsListDrawsGridKey = @"Draws Grid";
+static NSString *const kPrefThreadsListColorKey		= @"ThreadsListColor";
+static NSString *const kPrefThreadsListFontKey		= @"ThreadsListFont";
+static NSString *const kPrefNewThreadColorKey		= @"NewThreadColor";
+static NSString *const kPrefNewThreadFontKey		= @"NewThreadFont";
 
-#define kPrefAppearanceDictKey				@"Preferences - Fonts And Colors"
+static NSString *const kPrefMessageHostColorKey			= @"Message Host Color";
+static NSString *const kPrefMessageHostFontKey			= @"Message Host Font";
+static NSString *const kPrefMessageBeProfileFontKey		= @"Message BeProfileLink Font";
 
-#define kPrefReplyColorKey					@"Reply Text Color"
-#define kPrefReplyBackgroundColorKey		@"Reply Background Color"
-#define kPrefReplyFontKey					@"Reply Text Font"
-#define kPrefCaretUsesTextColorKey			@"Caret Uses Text Color"
-#define kPrefAntialiasKey					@"Should Thread Antialias"
-#define kPrefThreadsViewFontKey				@"TextFont"
-#define kPrefThreadsViewColorKey			@"TextColor"
-#define kPrefTextEnhancedColorKey			@"Text Emphasis Color"
-#define kPrefResPopUpDefaultTextColorKey	@"Res PopUp Default Text-Color"
-#define kPrefIsResPopUpTextDefaultColorKey	@"Res PopUp uses Default Text-Color"
-#define kPrefPopUpWindowAttributesKey		@"PopUpWindow Attributes"
-#define kPrefMessageHeadIndentKey			@"Message Head Indent"
-#define kPrefMessageColorKey				@"Message Contents Color"
-#define kPrefMessageFontKey					@"Message Contents Font"
-#define kPrefMessageAlternateFontKey		@"Message Alternate Font"
-#define kPrefMessageTitleColorKey			@"Message Item Color"
-#define kPrefMessageTitleFontKey			@"Message Item Font"
-#define kPrefMessageNameColorKey			@"Message Name Color"
-#define kPrefMessageAnchorColorKey			@"Message Anchor Color"
-#define kPrefMessageAnchorHasUnderlineKey	@"Message Anchor Underline"
-#define kPrefMessageFilteredColorKey		@"Message Filtered Color"
-#define kPrefThreadsListRowHeightKey		@"Row Height"
-#define kPrefThreadsListIntercellSpacingKey	@"Intercell Spacing"
-#define kPrefThreadsListDrawsGridKey		@"Draws Grid"
-#define kPrefThreadsListGridColorKey		@"Grid Color"
-#define kPrefThreadsListColorKey			@"ThreadsListColor"
-#define kPrefThreadsListFontKey				@"ThreadsListFont"
-#define kPrefNewThreadColorKey				@"NewThreadColor"
-#define kPrefNewThreadFontKey				@"NewThreadFont"
+static NSString *const kPrefPopupAttrKey			= @"Popup scroller is small";
 
+static NSString *const kPrefBoardListRowHeightKey	= @"BoardList Row Height";
+static NSString *const kPrefBoardListBgColorKey		= @"BoardList Bg Color";
+static NSString *const kPrefBoardListTextColorKey	= @"BoardList Text Color";
+static NSString *const kPrefBoardListFontKey		= @"BoardList Font";
 
 
 //:AppDefaults-FontColor.m
@@ -65,8 +67,6 @@
 					  defaultSize : (float     ) fontSize;
 - (NSColor *) textAppearanceColorForKey : (NSString *) key;
 @end
-
-
 
 @implementation AppDefaults(FontColorPrivate)
 - (NSMutableDictionary *) appearances
@@ -155,7 +155,7 @@
 }
 @end
 
-
+#pragma mark -
 
 @implementation AppDefaults(FontAndColor)
 - (CMRMessageAttributesTemplate *) _template
@@ -174,8 +174,32 @@
 				forKey : kPrefAntialiasKey];
 	PFlags.enableAntialias = flag ? 1 : 0;
 }
+- (BOOL) hasMessageAnchorUnderline
+{
+	return [[self appearances]
+				boolForKey : kPrefMessageAnchorHasUnderlineKey
+			  defaultValue : DEFAULT_MESSAGE_ANCHOR_HAS_UNDERLINE];
+}
+- (void) setHasMessageAnchorUnderline : (BOOL) flag
+{
+	[[self appearances] setBool:flag forKey:kPrefMessageAnchorHasUnderlineKey];
+	[[self _template] setHasAnchorUnderline : flag];
+}
+- (float) messageHeadIndent
+{
+	return [[self appearances] 
+					 floatForKey : kPrefMessageHeadIndentKey
+					defaultValue : DEFAULT_PARAGRAPH_INDENT];
+}
+- (void) setMessageHeadIndent : (float) anIndent
+{
+	[[self appearances] 
+				setFloat : anIndent
+				  forKey : kPrefMessageHeadIndentKey];
+	[[self _template] setMessageHeadIndent : anIndent];
+}
 
-
+#pragma mark Reply
 - (NSColor *) replyTextColor
 {
 	return [self textAppearanceColorForKey : kPrefReplyColorKey];
@@ -183,16 +207,6 @@
 - (void) setReplyTextColor : (NSColor *) aColor
 {
 	[self setAppearanceColor:aColor forKey:kPrefReplyColorKey] ;
-	[self postLayoutSettingsUpdateNotification];
-}
-- (NSColor *) replyBackgroundColor
-{
-	NSColor *color_ = [self appearanceColorForKey:kPrefReplyBackgroundColorKey];
-	return (nil == color_) ? [NSColor whiteColor] : color_;
-}
-- (void) setReplyBackgroundColor : (NSColor *) aColor
-{
-	[self setAppearanceColor:aColor forKey:kPrefReplyBackgroundColorKey] ;
 	[self postLayoutSettingsUpdateNotification];
 }
 - (NSFont *) replyFont
@@ -205,100 +219,8 @@
 	[self setAppearanceFont:aFont forKey:kPrefReplyFontKey];
 	[self postLayoutSettingsUpdateNotification];
 }
-- (BOOL) caretUsesTextColor
-{
-	return NO;
-}
-- (void) setCaretUsesTextColor : (BOOL) flag
-{
-	NSLog(@"Deprecated");
-}
-- (float) threadsListRowHeight
-{
-	return [[self appearances] 
-					floatForKey : kPrefThreadsListRowHeightKey
-				   defaultValue : DEFAULT_THREAD_LIST_ROW_HEIGHT];
-}
-- (void) setThreadsListRowHeight : (float) rowHeight
-{
-	[[self appearances] setFloat:rowHeight forKey:kPrefThreadsListRowHeightKey];
-	[self postLayoutSettingsUpdateNotification];
-}
-- (void) fixRowHeightToFontSize
-{
-	NSFont	*listFont_;
-	
-	listFont_ = [self threadsListFont];
-	[self setThreadsListRowHeight : [listFont_ defaultLineHeightForFont]];
-}
 
-
-- (NSSize) threadsListIntercellSpacing
-{
-	NSString		*s;
-	
-	s = [[self appearances] stringForKey : kPrefThreadsListIntercellSpacingKey];
-	if (nil == s)
-		return DEFAULT_THREAD_LIST_INTERCELL_SPACING;
-	
-	return NSSizeFromString(s);
-}
-- (void) setThreadsListIntercellSpacing : (NSSize) space
-{
-	[[self appearances]
-			setSize : space
-			 forKey : kPrefThreadsListIntercellSpacingKey];
-	[self postLayoutSettingsUpdateNotification];
-}
-- (void) setThreadsListRowHeightNum : (NSNumber *) rowHeight
-{
-	UTILAssertNotNilArgument(rowHeight, @"rowHeight");
-	[self setThreadsListRowHeight : [rowHeight floatValue]];
-}
-- (void) setThreadsListIntercellSpacingHeight : (NSNumber *) height
-{
-	float		height_;
-	NSSize		newSize_;
-	
-	UTILAssertNotNilArgument(height, @"height");
-	
-	height_ = [height floatValue];
-	newSize_ = [self threadsListIntercellSpacing];
-	newSize_.height = height_;
-	
-	[self setThreadsListIntercellSpacing : newSize_];
-}
-- (void) setThreadsListIntercellSpacingWidth : (NSNumber *) width
-{
-	float		width_;
-	NSSize		newSize_;
-	
-	UTILAssertNotNilArgument(width, @"width");
-	
-	width_ = [width floatValue];
-	newSize_ = [self threadsListIntercellSpacing];
-	newSize_.width = width_;
-	
-	[self setThreadsListIntercellSpacing : newSize_];
-}
-
-
-- (BOOL) threadsListDrawsGrid
-{
-	return [[self appearances] 
-				boolForKey : kPrefThreadsListDrawsGridKey
-			  defaultValue : DEFAULT_THREAD_LIST_DRAWSGRID];
-}
-- (void) setThreadsListDrawsGrid : (BOOL) flag
-{
-	[[self appearances]
-				setBool : flag
-				 forKey : kPrefThreadsListDrawsGridKey];
-	[self postLayoutSettingsUpdateNotification];
-}
-
-/*** ポップアップ ***/
-// デフォルトの色
+#pragma mark Popup
 - (BOOL) isResPopUpTextDefaultColor
 {
 	return [[self appearances] 
@@ -323,68 +245,17 @@
 						forKey : kPrefResPopUpDefaultTextColorKey] ;
 }
 
-// @see CMXPopUpWindowAttributes.h
-- (UInt32) popUpWindowAttributes
-{
-	return [[self appearances] 
-		 unsignedIntForKey : kPrefPopUpWindowAttributesKey
-			  defaultValue : CMRPopUpDefaultAttributes];
-}
-- (void) setPopUpWindowAttributes:(UInt32) v setOn:(BOOL) setOn
-{
-	UInt32		flags_ = [self popUpWindowAttributes];
-	
-	v &= CMRPopUpUsedMask;
-	flags_ = (setOn) ? (flags_|v) : (flags_&~v);
-	
-	[[self appearances] setUnsignedInt : flags_
-			forKey : kPrefPopUpWindowAttributesKey];
-}
-- (BOOL) popUpWindowHasVerticalScroller
-{
-	return YES;//(([self popUpWindowAttributes] & CMRPopUpScrollerVertical) > 0);
-}
-- (BOOL) popUpWindowAutohidesScrollers
-{
-	return YES;//(([self popUpWindowAttributes] & CMRPopUpScrollerAutoHides) > 0);
-}
 - (BOOL) popUpWindowVerticalScrollerIsSmall
 {
-	return (([self popUpWindowAttributes] & CMRPopUpScrollerSmall) > 0);
+	return [[self appearances] boolForKey : kPrefPopupAttrKey defaultValue : YES];
 }
 
-- (void) setPopUpWindowHasVerticalScroller : (BOOL) flag
-{
-	NSLog(@"Deprecated.");//[self setPopUpWindowAttributes:CMRPopUpScrollerVertical setOn:flag];
-}
-- (void) setPopUpWindowAutohidesScrollers : (BOOL) flag
-{
-	NSLog(@"Deprecated.");//[self setPopUpWindowAttributes:CMRPopUpScrollerAutoHides setOn:flag];
-}
 - (void) setPopUpWindowVerticalScrollerIsSmall : (BOOL) flag
 {
-	[self setPopUpWindowAttributes:CMRPopUpScrollerSmall setOn:flag];
+	[[self appearances] setBool : flag forKey : kPrefPopupAttrKey];
 }
 
-
-
-
-/* 本文：インデント */
-- (float) messageHeadIndent
-{
-	return [[self appearances] 
-					 floatForKey : kPrefMessageHeadIndentKey
-					defaultValue : DEFAULT_PARAGRAPH_INDENT];
-}
-- (void) setMessageHeadIndent : (float) anIndent
-{
-	[[self appearances] 
-				setFloat : anIndent
-				  forKey : kPrefMessageHeadIndentKey];
-	[[self _template] setMessageHeadIndent : anIndent];
-}
-
-
+#pragma mark Thread viewer
 /* 標準：色 */
 - (NSColor *) getThreadsViewColor : (id) anUserData
 {
@@ -585,17 +456,6 @@
 }
 
 
-- (BOOL) hasMessageAnchorUnderline
-{
-	return [[self appearances]
-				boolForKey : kPrefMessageAnchorHasUnderlineKey
-			  defaultValue : DEFAULT_MESSAGE_ANCHOR_HAS_UNDERLINE];
-}
-- (void) setHasMessageAnchorUnderline : (BOOL) flag
-{
-	[[self appearances] setBool:flag forKey:kPrefMessageAnchorHasUnderlineKey];
-	[[self _template] setHasAnchorUnderline : flag];
-}
 
 // テキストの強調色
 - (NSColor *) textEnhancedColor
@@ -611,7 +471,149 @@
 	// [self postLayoutSettingsUpdateNotification];
 }
 
+#pragma mark BathyScaphe 1.0.1 additions
+- (NSFont *) getMessageHostFont : (id) anUserData
+{
+	return [self appearanceFontForKey : kPrefMessageHostFontKey
+						  defaultSize : DEFAULT_HOST_FONTSIZE];
+}
+- (NSFont *) messageHostFont
+{
+	// return [self valueProxyForSelector:@selector(getMessageFont:) key:kPrefMessageFontKey];
+	return [self getMessageHostFont : nil];
+}
+- (void) setMessageHostFont : (NSFont *) aFont
+{
+	[self setAppearanceFont:aFont forKey:kPrefMessageHostFontKey];
+	//[self postLayoutSettingsUpdateNotification];
+	
+	[[CMRMessageAttributesTemplate sharedTemplate]
+		setAttributeForHost:NSFontAttributeName value:aFont];
+}
+- (NSColor *) getMessageHostColor : (id) anUserData
+{
+	NSColor		*color_;
+	
+	color_ = [self appearanceColorForKey:anUserData];
+	if (nil == color_) {
+		color_ = [NSColor lightGrayColor];
+	}
+	return color_;
+}
+- (NSColor *) messageHostColor
+{
+	return [self valueProxyForSelector:@selector(getMessageHostColor:) key:kPrefMessageHostColorKey];
+}
+- (void) setMessageHostColor : (NSColor *) color
+{
+	[self setAppearanceColor:color forKey:kPrefMessageHostColorKey] ;
+	//[self postLayoutSettingsUpdateNotification];
+}
+- (NSFont *) getMessageBeProfileFont : (id) anUserData
+{
+	return [self appearanceFontForKey : kPrefMessageBeProfileFontKey
+						  defaultSize : DEFAULT_BEPROFILELINK_FONTSIZE];
+}
+- (NSFont *) messageBeProfileFont
+{
+	// return [self valueProxyForSelector:@selector(getMessageFont:) key:kPrefMessageFontKey];
+	return [self getMessageBeProfileFont : nil];
+}
+- (void) setMessageBeProfileFont : (NSFont *) aFont
+{
+	[self setAppearanceFont:aFont forKey:kPrefMessageBeProfileFontKey];
+	//[self postLayoutSettingsUpdateNotification];
+	
+	[[CMRMessageAttributesTemplate sharedTemplate]
+		setAttributeForBeProfileLink:NSFontAttributeName value:aFont];
+}
+
 /*** スレッド一覧 ***/
+#pragma mark Threads List
+- (float) threadsListRowHeight
+{
+	return [[self appearances] 
+					floatForKey : kPrefThreadsListRowHeightKey
+				   defaultValue : DEFAULT_THREAD_LIST_ROW_HEIGHT];
+}
+- (void) setThreadsListRowHeight : (float) rowHeight
+{
+	[[self appearances] setFloat:rowHeight forKey:kPrefThreadsListRowHeightKey];
+	[self postLayoutSettingsUpdateNotification];
+}
+- (void) fixRowHeightToFontSize
+{
+	NSFont	*listFont_;
+	
+	listFont_ = [self threadsListFont];
+	[self setThreadsListRowHeight : [listFont_ defaultLineHeightForFont]];
+}
+
+
+- (NSSize) threadsListIntercellSpacing
+{
+	NSString		*s;
+	
+	s = [[self appearances] stringForKey : kPrefThreadsListIntercellSpacingKey];
+	if (nil == s)
+		return DEFAULT_THREAD_LIST_INTERCELL_SPACING;
+	
+	return NSSizeFromString(s);
+}
+- (void) setThreadsListIntercellSpacing : (NSSize) space
+{
+	[[self appearances]
+			setSize : space
+			 forKey : kPrefThreadsListIntercellSpacingKey];
+	[self postLayoutSettingsUpdateNotification];
+}
+- (void) setThreadsListRowHeightNum : (NSNumber *) rowHeight
+{
+	UTILAssertNotNilArgument(rowHeight, @"rowHeight");
+	[self setThreadsListRowHeight : [rowHeight floatValue]];
+}
+- (void) setThreadsListIntercellSpacingHeight : (NSNumber *) height
+{
+	float		height_;
+	NSSize		newSize_;
+	
+	UTILAssertNotNilArgument(height, @"height");
+	
+	height_ = [height floatValue];
+	newSize_ = [self threadsListIntercellSpacing];
+	newSize_.height = height_;
+	
+	[self setThreadsListIntercellSpacing : newSize_];
+}
+- (void) setThreadsListIntercellSpacingWidth : (NSNumber *) width
+{
+	float		width_;
+	NSSize		newSize_;
+	
+	UTILAssertNotNilArgument(width, @"width");
+	
+	width_ = [width floatValue];
+	newSize_ = [self threadsListIntercellSpacing];
+	newSize_.width = width_;
+	
+	[self setThreadsListIntercellSpacing : newSize_];
+}
+
+
+- (BOOL) threadsListDrawsGrid
+{
+	return [[self appearances] 
+				boolForKey : kPrefThreadsListDrawsGridKey
+			  defaultValue : DEFAULT_THREAD_LIST_DRAWSGRID];
+}
+- (void) setThreadsListDrawsGrid : (BOOL) flag
+{
+	[[self appearances]
+				setBool : flag
+				 forKey : kPrefThreadsListDrawsGridKey];
+	[self postLayoutSettingsUpdateNotification];
+}
+
 - (NSColor *) threadsListColor
 {
 	return [self textAppearanceColorForKey:kPrefThreadsListColorKey];
@@ -655,8 +657,62 @@
 	[self postLayoutSettingsUpdateNotification];
 }
 
+#pragma mark BoardList
+- (float) boardListRowHeight
+{
+	return [[self appearances] 
+					floatForKey : kPrefBoardListRowHeightKey
+				   defaultValue : DEFAULT_BOARD_LIST_ROW_HEIGHT];
+}
+- (void) setBoardListRowHeight : (float) rowHeight
+{
+	[[self appearances] setFloat:rowHeight forKey:kPrefBoardListRowHeightKey];
+	//[self postLayoutSettingsUpdateNotification];
+}
+- (void) fixBoardListRowHeightToFontSize
+{
+	NSFont	*listFont_;
+	
+	listFont_ = [self boardListFont];
+	[self setBoardListRowHeight : [listFont_ defaultLineHeightForFont]];
+}
+- (NSFont *) boardListFont
+{
+	return [self appearanceFontForKey : kPrefBoardListFontKey
+					   defaultSize : DEFAULT_BOARD_LIST_FONTSIZE];
+}
+- (void) setBoardListFont : (NSFont *) font
+{
+	[self setAppearanceFont:font forKey:kPrefBoardListFontKey];
+	//[self postLayoutSettingsUpdateNotification];
+}
+- (NSColor *) boardListTextColor
+{
+	NSColor		*c;
+	
+	c = [self appearanceColorForKey:kPrefBoardListTextColorKey];
+	return (nil == c) ? [NSColor blackColor] : c;
+}
+- (void) setBoardListTextColor : (NSColor *) color
+{
+	[self setAppearanceColor:color forKey:kPrefBoardListTextColorKey];
+	//[self postLayoutSettingsUpdateNotification];
+}
+- (NSColor *) boardListBgColor
+{
+	NSColor		*c;
+	
+	c = [self appearanceColorForKey:kPrefBoardListBgColorKey];
+	return (nil == c) ? [NSColor whiteColor] : c;
+}
+- (void) setBoardListBgColor : (NSColor *) color
+{
+	[self setAppearanceColor:color forKey:kPrefBoardListBgColorKey];
+	//[self postLayoutSettingsUpdateNotification];
+}
 
 
+#pragma mark -
 - (void) _loadFontAndColor
 {
 	[self setShouldThreadAntialias : 

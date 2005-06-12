@@ -48,6 +48,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 	[_messageAttributesForTitle release];
 	[_messageAttributes release];
 	[_messageAttributesForText release];
+	[_messageAttributesForBeProfileLink release];
+	[_messageAttributesForHost release];
 	[_blockQuoteParagraphStyle release];
 	
 	[super dealloc];
@@ -84,6 +86,14 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 - (NSDictionary *) attributesForText
 {
 	return [self messageAttributesForText];
+}
+- (NSDictionary *) attributesForBeProfileLink
+{
+	return [self messageAttributesForBeProfileLink];
+}
+- (NSDictionary *) attributesForHost
+{
+	return [self messageAttributesForHost];
 }
 
 /*** Other Attributes ***/
@@ -192,34 +202,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 					mouseDown:kEllipsisUpMouseDownImage 
 					mouseOver:kEllipsisUpMouseOverImage];
 }
-/*** beProfile Attachments ***/
-// ToDo:メソッド定義を CMRMessageAttributesStyling.h に書いておく
-/*- (NSAttributedString *) profileLinkAttachmentStringWithBe : (NSString *) beProfile
-{
-	NSAttributedString			*attachment_;
-	NSString					*address_;
-
-	NSMutableAttributedString	*attrs_;
-	NSMutableString				*mstr_;
-	NSRange						rng_;
-	
-	//address_ = [address stringByStriped];
-	if(nil == address_ || 0 == [address_ length]) return nil;
-	
-		
-	attrs_ = [self profileLinkImageAttachmentString];
-	rng_ = NSMakeRange(0, [attrs_ length]);
-	mstr_ = [[NSMutableString allocWithZone : nil] initWithString : @"mailto:"];
-	[mstr_ appendString : address_];
-	[attrs_ addAttribute : NSLinkAttributeName
-				   value : mstr_
-				   range : rng_];
-	attachment_ = [[attrs_ copyWithZone : nil] autorelease];
-	[mstr_ release];
-
-	return attachment_;
-}*/
-
 @end
 
 
@@ -272,6 +254,20 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 		[self setAttributeForName : name
 							value : value];
 	}
+}
+- (void) setAttributeForBeProfileLink : (NSString *) name
+                        value : (id        ) value
+{
+	[self setAttributeInDictionary : [self messageAttributesForBeProfileLink]
+					 attributeName : name
+					         value : value];
+}
+- (void) setAttributeForHost : (NSString *) name
+                        value : (id        ) value
+{
+	[self setAttributeInDictionary : [self messageAttributesForHost]
+					 attributeName : name
+					         value : value];
 }
 
 - (void) setMessageHeadIndent : (float) anIndent
@@ -506,6 +502,39 @@ ErrCreateAttachment:
 								 value : [CMRPref threadsViewColor]];
 	}
 	return _messageAttributesForText;
+}
+- (NSMutableDictionary *) messageAttributesForBeProfileLink
+{
+	if(nil == _messageAttributesForBeProfileLink){
+		_messageAttributesForBeProfileLink = 
+			[[[self class] defaultAttributes] mutableCopyWithZone : nil];
+	/*	[self setAttributeInDictionary : _messageAttributesForBeProfileLink
+						 attributeName : NSForegroundColorAttributeName
+								 value : [CMRPref messageAnchorColor]];
+		
+		hasUnderline_ = [CMRPref hasMessageAnchorUnderline];
+		[self setAttributeInDictionary : _messageAttributesForBeProfileLink
+						 attributeName : NSUnderlineStyleAttributeName
+								 value : [self underlineStyleWithBool : hasUnderline_]];*/
+		[self setAttributeInDictionary : _messageAttributesForBeProfileLink
+						 attributeName : NSFontAttributeName
+								 value : [CMRPref messageBeProfileFont]];
+	}
+	return _messageAttributesForBeProfileLink;
+}
+- (NSMutableDictionary *) messageAttributesForHost
+{
+	if(nil == _messageAttributesForHost){
+		_messageAttributesForHost = 
+			[[[self class] defaultAttributes] mutableCopyWithZone : nil];
+		[self setAttributeInDictionary : _messageAttributesForHost
+						 attributeName : NSForegroundColorAttributeName
+								 value : [CMRPref messageHostColor]];
+		[self setAttributeInDictionary : _messageAttributesForHost
+						 attributeName : NSFontAttributeName
+								 value : [CMRPref messageHostFont]];
+	}
+	return _messageAttributesForHost;
 }
 
 - (NSParagraphStyle *) messageParagraphStyleWithIndent : (float) anIndent

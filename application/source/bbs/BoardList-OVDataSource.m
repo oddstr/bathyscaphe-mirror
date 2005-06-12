@@ -1,5 +1,5 @@
 /**
-  * $Id: BoardList-OVDataSource.m,v 1.1 2005/05/11 17:51:03 tsawada2 Exp $
+  * $Id: BoardList-OVDataSource.m,v 1.2 2005/06/12 01:36:14 tsawada2 Exp $
   * 
   * BoardList-OVDataSource.m
   *
@@ -71,9 +71,14 @@ static NSImage *imageForType(BoardListItemType type)
 
 static NSMutableAttributedString *textForType(BoardListItemType type)
 {
-	NSString	*key_ = nil;
+	//NSString	*key_ = nil;
+	NSDictionary *tmpAttrDict = [NSDictionary dictionaryWithObjectsAndKeys :
+										[CMRPref boardListFont], NSFontAttributeName,
+										[CMRPref boardListTextColor], NSForegroundColorAttributeName,
+								 NULL];
+	return [[[NSMutableAttributedString alloc] initWithString : @"StringGoesHere" attributes : tmpAttrDict] autorelease];
 	
-	switch(type){
+	/*switch(type){
 	case BoardListFavoritesItem:
 		key_ = kBBSListFavoritesTextKey;
 		break;
@@ -81,13 +86,11 @@ static NSMutableAttributedString *textForType(BoardListItemType type)
 		key_ = kBBSListCategoryTextKey;
 		break;
 	case BoardListBoardItem:
-		key_ = kBBSListDefaultTextKey;
-		break;
+		//break;
 	default:
-		key_ = kBBSListDefaultTextKey;
-		break;
+		//break;
 	}
-	return CMXTemplateResource(key_, nil);
+	return CMXTemplateResource(key_, nil);*/
 }
 
 - (void) outlineView : (NSOutlineView *) outlineView
