@@ -1,6 +1,18 @@
 2005-06-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/BathyScaphe.scriptTerminology
+	* application/Resources/BathyScaphe.scriptSuite
+	* application/source/CMRAppDelegate.m
+		掲示板リストの背景色を（強く望むなら）AppleScript 経由で設定できるようにした。
+	* application/source/preferences/AppDefaults-FontColor.m
+	* application/source/preferences/AppDefaults-Background.m
+	* application/source/browser/CMRBrowser-Delegate.m
+		掲示板リストのフォント、カラーなどの変更がすぐに反映されるようにした。
+	* application/Resources/text/StyleTemplates.rtf
+		ターゲットから外した。
+	* application/source/browser/CMRThreadsList-DataSource.m
+		スレッド一覧の書式を簡略化した。これで StyleTemplates.rtf は全く使われなくなった。
 	* application/source/composer/CMRAttributedMessageComposer.m
-		whiteSpaceSeparator() を append するのをやめた。
+		whiteSpaceSeparator() を append するとき、とくに書式を指定しないで単に空白文字をくっつけるだけにした。
 	* application/source/browser/CMRBrowser-Action.m
 		検索結果の「xx件見つかりました」という文字列の書式カスタマイズ機能を廃止した。
 	* application/subproj/preference/FontWell.m

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.1 2005/05/11 17:51:04 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.2 2005/06/12 02:34:19 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -16,10 +16,6 @@
 #define kStatusCachedImageName		@"Status_logcached"
 #define kStatusNewImageName			@"Status_newThread"
 
-/* @see resetDataSourceTemplates */
-#define kThreadTemplateStringKey	@"Browser - Text(Default)"
-#define kNewThreadTemplateStringKey	@"Browser - Text(NewArrival)"
-
 /* @see objectValueTemplate:forTYpe: */
 enum {
 	kValueTemplateDefaultType,
@@ -34,35 +30,25 @@ static id kThreadTemplateString;
 
 + (void) resetDataSourceTemplates
 {
-	NSDictionary			*attrs_;
-	
-	kThreadTemplateString = SGTemplateResource(kThreadTemplateStringKey);
-	kNewThreadTemplateString = SGTemplateResource(kNewThreadTemplateStringKey);
-	UTILAssertRespondsTo(
-		kThreadTemplateString,
-		@selector(addAttributes:range:));
-	UTILAssertRespondsTo(
-		kNewThreadTemplateString,
-		@selector(addAttributes:range:));
-	
+	NSDictionary			*attrs1_, *attrs2_;
 	// default object value:
-	attrs_ = [NSDictionary dictionaryWithObjectsAndKeys :
+	attrs1_ = [NSDictionary dictionaryWithObjectsAndKeys :
 					[CMRPref threadsListFont],
 					NSFontAttributeName,
 					[CMRPref threadsListColor],
 					NSForegroundColorAttributeName,
 					nil];
-	[kThreadTemplateString addAttributes:attrs_ range:[kThreadTemplateString range]];
-	
+
 	// New Arrival thread:
-	attrs_ = [NSDictionary dictionaryWithObjectsAndKeys :
+	attrs2_ = [NSDictionary dictionaryWithObjectsAndKeys :
 					[CMRPref threadsListNewThreadFont],
 					NSFontAttributeName,
 					[CMRPref threadsListNewThreadColor],
 					NSForegroundColorAttributeName,
 					nil];
-	[kNewThreadTemplateString addAttributes:attrs_ range:[kNewThreadTemplateString range]];
 	
+	kThreadTemplateString = [[NSMutableAttributedString alloc] initWithString : @"std" attributes: attrs1_];
+	kNewThreadTemplateString = [[NSMutableAttributedString alloc] initWithString : @"new" attributes:attrs2_];	
 }
 
 + (id) objectValueTemplate : (id ) aValue
@@ -397,13 +383,11 @@ static NSString *statusImageNameForStatus(ThreadStatus s)
 	return pathArray_;
 }
 
-#if PATCH
 -(void)updateDateFormatter {
 	if (dateFormatter)
 		[dateFormatter release];
 	dateFormatter = [[CMXDateFormatter alloc] init];
 }
-#endif
 @end
 
 

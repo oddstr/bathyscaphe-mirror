@@ -135,7 +135,7 @@ static NSString *const kPrefBoardListBackgroundColorKey	= @"BoardList Background
 {
 	[self setBGDefaultsColor : color
 					  forKey : kPrefBoardListBackgroundColorKey];
-	//[self postLayoutSettingsUpdateNotification];
+	[self postLayoutSettingsUpdateNotification];
 }
 
 #pragma mark Thread Viewer

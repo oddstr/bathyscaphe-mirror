@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.4 2005/05/31 13:48:38 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.5 2005/06/12 02:34:19 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -153,6 +153,26 @@
 															  blue:blue
 															 alpha:1.0]];
 	}
+}
+- (NSArray *) boardListColor
+{
+	float red,green,blue;
+	
+	NSColor *color_ = [CMRPref boardListBgColor];
+		
+	[[color_ colorUsingColorSpaceName : @"NSCalibratedRGBColorSpace"] getRed: &red green: &green blue: &blue alpha: NULL];
+
+	return [NSArray arrayWithObjects : [NSNumber numberWithFloat:red], [NSNumber numberWithFloat:green], [NSNumber numberWithFloat:blue], nil];
+}
+
+- (void) setBoardListColor : (NSArray *) colorValue;
+{
+	float red,green,blue;
+	red = [[colorValue objectAtIndex : 0] floatValue];
+	green = [[colorValue objectAtIndex : 1] floatValue];
+	blue = [[colorValue objectAtIndex : 2] floatValue];
+	
+	[CMRPref setBoardListBgColor : [NSColor colorWithCalibratedRed:red green:green blue:blue alpha:1.0]];
 }
 
 - (void) handleOpenURLCommand : (NSScriptCommand *) command

@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.h,v 1.4 2005/05/31 13:48:38 tsawada2 Exp $
+ * $Id: CMRAppDelegate.h,v 1.5 2005/06/12 02:34:19 tsawada2 Exp $
  * 
  * CMRAppDelegate.h
  *
@@ -46,6 +46,9 @@
 /* Who needs these stupid properties... Huh! */
 - (NSArray *) browserTableViewColor;
 - (void) setBrowserTableViewColor : (NSArray *) colorValue;
+
+- (NSArray *) boardListColor;
+- (void) setBoardListColor : (NSArray *) colorValue;
 
 /* Command Support */
 - (void) handleOpenURLCommand : (NSScriptCommand *) command;

@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-FontColor.m,v 1.3 2005/06/12 01:36:15 tsawada2 Exp $
+  * $Id: AppDefaults-FontColor.m,v 1.4 2005/06/12 02:34:19 tsawada2 Exp $
   * 
   * AppDefaults-FontColor.m
   *
@@ -667,7 +667,7 @@ static NSString *const kPrefBoardListFontKey		= @"BoardList Font";
 - (void) setBoardListRowHeight : (float) rowHeight
 {
 	[[self appearances] setFloat:rowHeight forKey:kPrefBoardListRowHeightKey];
-	//[self postLayoutSettingsUpdateNotification];
+	[self postLayoutSettingsUpdateNotification];
 }
 - (void) fixBoardListRowHeightToFontSize
 {
@@ -684,7 +684,7 @@ static NSString *const kPrefBoardListFontKey		= @"BoardList Font";
 - (void) setBoardListFont : (NSFont *) font
 {
 	[self setAppearanceFont:font forKey:kPrefBoardListFontKey];
-	//[self postLayoutSettingsUpdateNotification];
+	[self postLayoutSettingsUpdateNotification];
 }
 - (NSColor *) boardListTextColor
 {
@@ -696,7 +696,7 @@ static NSString *const kPrefBoardListFontKey		= @"BoardList Font";
 - (void) setBoardListTextColor : (NSColor *) color
 {
 	[self setAppearanceColor:color forKey:kPrefBoardListTextColorKey];
-	//[self postLayoutSettingsUpdateNotification];
+	[self postLayoutSettingsUpdateNotification];
 }
 - (NSColor *) boardListBgColor
 {
@@ -708,7 +708,7 @@ static NSString *const kPrefBoardListFontKey		= @"BoardList Font";
 - (void) setBoardListBgColor : (NSColor *) color
 {
 	[self setAppearanceColor:color forKey:kPrefBoardListBgColorKey];
-	//[self postLayoutSettingsUpdateNotification];
+	[self postLayoutSettingsUpdateNotification];
 }
 
 

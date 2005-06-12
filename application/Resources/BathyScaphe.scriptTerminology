@@ -114,6 +114,13 @@
 		<dict>
 			<key>Attributes</key>
 			<dict>
+				<key>boardListColor</key>
+				<dict>
+					<key>Description</key>
+					<string>Background color of boards list outline view.</string>
+					<key>Name</key>
+					<string>browserBoardListColor</string>
+				</dict>
 				<key>browserTableViewColor</key>
 				<dict>
 					<key>Description</key>

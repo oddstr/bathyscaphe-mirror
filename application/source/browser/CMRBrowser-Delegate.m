@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.3 2005/05/15 00:12:15 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.4 2005/06/12 02:34:19 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -314,7 +314,9 @@ extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
 	
 	[CMRThreadsList resetDataSourceTemplates];
 	[self updateDefaultsWithTableView : [self threadsListTable]];
+	[self setupBoardListOutlineView : [self boardListTable]];
 	[[self threadsListTable] setNeedsDisplay : YES];
+	[[self boardListTable] setNeedsDisplay : YES];
 	
 	if ([[self superclass] instancesRespondToSelector : _cmd])
 		[super appDefaultsLayoutSettingsUpdated : notification];
