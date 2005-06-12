@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.3 2005/06/12 01:36:15 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.4 2005/06/12 06:33:07 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -440,6 +440,9 @@ enum {
 - (id) sharedPreferencesPane;
 - (id<w2chConnect>) w2chConnectWithURL : (NSURL        *) anURL
                             properties : (NSDictionary *) properties;
+
+- (NSString *) helperAppPath;
+- (void) setHelperAppPath : (NSString *) fullPath_;
 @end
 
 

@@ -1,17 +1,13 @@
 //:CMRThreadViewerTbDelegate.m
 /**
   *
-  * @see CMRTrashItemButton.h
-  * @see CMRFavoritesItemButton.h
-  * @see SGToolbarIconItemButton.h
-  * @see SGControlToolbarItem.h
-  *
   * @author Takanori Ishikawa
   * @author http://www15.big.or.jp/~takanori/
   * @version 1.0.0d1 (02/11/09  9:11:09 PM)
   *
   */
 #import "CMRThreadViewerTbDelegate_p.h"
+#import "AppDefaults.h"
 
 //////////////////////////////////////////////////////////////////////
 ////////////////////// [ 定数やマクロ置換 ] //////////////////////////
@@ -71,8 +67,6 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 }
 - (void) dealloc
 {
-	//[m_trashItemView release];
-	//[m_favoritesItemView release];
 	[super dealloc];
 }
 @end
@@ -80,36 +74,6 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 
 
 @implementation CMRThreadViewerTbDelegate(Private)
-/*- (SGToolbarIconItemButton *) trashToolbarItemView
-{
-	if(nil == m_trashItemView){
-		CMRTrashItemButton		*button_;
-		NSRect					cFrame_;
-		
-		cFrame_.origin = NSZeroPoint;
-		cFrame_.size = [NSToolbar iconSizeWithSizeMode : NSToolbarSizeModeRegular];
-		button_ = [[CMRTrashItemButton alloc] initWithFrame : cFrame_];
-		
-		m_trashItemView = button_;
-	}
-	return m_trashItemView;
-}
-- (SGToolbarIconItemButton *) favoritesToolbarItemView
-{
-	if(nil == m_favoritesItemView){
-		CMRTrashItemButton		*button_;
-		NSRect					cFrame_;
-		
-		cFrame_.origin = NSZeroPoint;
-		cFrame_.size = [NSToolbar iconSizeWithSizeMode : NSToolbarSizeModeRegular];
-		button_ = [[CMRFavoritesItemButton alloc] initWithFrame : cFrame_];
-		
-		m_favoritesItemView = button_;
-	}
-	return m_favoritesItemView;
-}*/
-
-
 - (NSString *) reloadThreadItemIdentifier
 {
 	return st_reloadItem_Identifier;
@@ -139,11 +103,19 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 
 
 @implementation CMRThreadViewerTbDelegate (Protected)
+- (NSString *) labelForCMLF
+{
+	NSString *tmp_ = [CMRPref helperAppPath];
+	if (tmp_) {
+		return [[tmp_ lastPathComponent] stringByDeletingPathExtension];
+	} else {
+		return st_launchCMLFLabelKey;
+	}
+}
 - (void) initializeToolbarItems : (NSWindow *) aWindow
 {
 	NSToolbarItem			*item_;
 	NSWindowController		*wcontroller_;
-	//SGToolbarIconItemButton	*button_;
 	
 	wcontroller_ = [aWindow windowController];
 	UTILAssertNotNil(wcontroller_);
@@ -164,21 +136,6 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 											   target : nil];
 	[item_ setImage : [NSImage imageAppNamed : st_ReplyItem_imageName]];
 
-	// お気に入り
-	/*button_ = [self favoritesToolbarItemView];
-	[button_ setAction : @selector(addFavorites:)];
-	[button_ setTarget : nil];
-	[button_ setImage : [NSImage imageAppNamed : st_favorites_imageName]];
-	
-	item_ = [self appendToolbarItemWithClass : [SGControlToolbarItem class]
-							  itemIdentifier : st_favoritesIdentifier
-						   localizedLabelKey : st_favoritesLabelKey
-					localizedPaletteLabelKey : st_favoritesPaletteLabelKey
-						 localizedToolTipKey : st_favoritesToolTipKey
-									  action : NULL
-									  target : nil];
-	[item_ setView : button_];
-	[button_ attachToolbarItem : item_];*/
 	item_ = [self appendToolbarItemWithItemIdentifier : st_favoritesIdentifier
 									localizedLabelKey : st_favoritesLabelKey
 							 localizedPaletteLabelKey : st_favoritesPaletteLabelKey
@@ -186,23 +143,7 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 											   action : @selector(addFavorites:)
 											   target : nil];
 	[item_ setImage : [NSImage imageAppNamed : st_favorites_imageName]];
-	
-	
-	// 削除
-	/*button_ = [self trashToolbarItemView];
-	[button_ setAction : @selector(deleteThread:)];
-	[button_ setTarget : nil];
-	[button_ setImage : [NSImage imageAppNamed : st_deleteItem_ImageName]];
 
-	item_ = [self appendToolbarItemWithClass : [SGControlToolbarItem class]
-							  itemIdentifier : [self deleteItemIdentifier]
-						   localizedLabelKey : st_deleteItemItemLabelKey
-					localizedPaletteLabelKey : st_deleteItemItemPaletteLabelKey
-						 localizedToolTipKey : st_deleteItemItemToolTipKey
-									  action : NULL
-									  target : nil];
-	[item_ setView : button_];
-	[button_ attachToolbarItem : item_];*/
 	item_ = [self appendToolbarItemWithItemIdentifier : [self deleteItemIdentifier]
 									localizedLabelKey : st_deleteItemItemLabelKey
 							 localizedPaletteLabelKey : st_deleteItemItemPaletteLabelKey
@@ -211,8 +152,6 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 											   target : nil];
 	[item_ setImage : [NSImage imageAppNamed : st_deleteItem_ImageName]];
 
-	
-	
 	item_ = [self appendToolbarItemWithItemIdentifier : [self toggleOnlineModeIdentifier]
 									localizedLabelKey : st_onlineModeLabelKey
 							 localizedPaletteLabelKey : st_onlineModePaletteLabelKey
@@ -222,8 +161,8 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 	[item_ setImage : [NSImage imageAppNamed : st_onlineMode_ImageName]];
 	
 	item_ = [self appendToolbarItemWithItemIdentifier : [self launchCMLFIdentifier]
-									localizedLabelKey : st_launchCMLFLabelKey
-							 localizedPaletteLabelKey : st_launchCMLFPaletteLabelKey
+									localizedLabelKey : [self labelForCMLF]
+							 localizedPaletteLabelKey : [self labelForCMLF]
 								  localizedToolTipKey : st_launchCMLFToolTipKey
 											   action : @selector(launchCMLF:)
 											   target : nil];

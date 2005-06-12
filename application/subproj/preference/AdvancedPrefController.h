@@ -20,7 +20,10 @@
 	
 	IBOutlet NSButton		*_quietDeletionCheckBox;
 	IBOutlet NSButton		*_openLinkInBgCheckBox;
-	
+
+	IBOutlet NSButton		*_chooseAppButton;
+	IBOutlet id	_appNameField;
+
 	IBOutlet NSButton		*_helpButton;
 }
 
@@ -34,6 +37,8 @@
 - (IBAction) changeQuietDeletion : (id) sender;
 - (IBAction) changeOpenLinkInBg : (id) sender;
 
+- (IBAction) chooseApplication : (id) sender;
+
 - (IBAction) openHelpForAdvancedPane : (id) sender;
 
 // Proxy
@@ -45,6 +50,8 @@
 
 - (NSButton *) quietDeletionCheckBox;
 - (NSButton *) openLinkInBgCheckBox;
+
+- (id) appNameField;
 
 - (void) updateProxyUIComponents;
 

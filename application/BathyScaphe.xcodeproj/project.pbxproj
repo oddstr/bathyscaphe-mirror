@@ -592,6 +592,8 @@
 		87299B420832623A00CBD740 /* BWAgent.app in Resources */ = {isa = PBXBuildFile; fileRef = 87299B410832623A00CBD740 /* BWAgent.app */; };
 		87299C1F0832673000CBD740 /* BathyScaphe.mdimporter in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87299C09083266F700CBD740 /* BathyScaphe.mdimporter */; };
 		87299CCA08326C8900CBD740 /* misc.h in Headers */ = {isa = PBXBuildFile; fileRef = 87299CC908326C8900CBD740 /* misc.h */; };
+		87558534085BEF7800D2C2A6 /* BSIconTextFieldCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 87558532085BEF7800D2C2A6 /* BSIconTextFieldCell.h */; };
+		87558535085BEF7800D2C2A6 /* BSIconTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87558533085BEF7800D2C2A6 /* BSIconTextFieldCell.m */; };
 		87B652990840625F008AE2BE /* SendMessage.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B652980840625F008AE2BE /* SendMessage.tiff */; };
 		87BF7CA50840423900CC7D7C /* BathyScapheHelp in Resources */ = {isa = PBXBuildFile; fileRef = 87BF7CA40840423900CC7D7C /* BathyScapheHelp */; };
 		87D8DBA60833D55D004C1168 /* AboutPanelController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D8DBA20833D55C004C1168 /* AboutPanelController.h */; };
@@ -881,6 +883,8 @@
 		87299CC908326C8900CBD740 /* misc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = misc.h; sourceTree = "<group>"; };
 		874F24FA080E716700EA2164 /* w2chReply_be2ch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = w2chReply_be2ch.h; sourceTree = "<group>"; };
 		874F24FB080E716700EA2164 /* w2chReply_be2ch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = w2chReply_be2ch.m; sourceTree = "<group>"; };
+		87558532085BEF7800D2C2A6 /* BSIconTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIconTextFieldCell.h; sourceTree = "<group>"; };
+		87558533085BEF7800D2C2A6 /* BSIconTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIconTextFieldCell.m; sourceTree = "<group>"; };
 		875743F907C372F6006F3C68 /* CMRThreadViewer-Validation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-Validation.m"; sourceTree = "<group>"; };
 		8757441407C37772006F3C68 /* CMRThreadViewer-Find.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-Find.m"; sourceTree = "<group>"; };
 		875C4D76079059C8008EE846 /* CMRPullDownIconBtn.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRPullDownIconBtn.h; sourceTree = "<group>"; };
@@ -1843,6 +1847,8 @@
 				F324DB6404C6959800A80005 /* PreferencePanes_Prefix.h */,
 				876415700840A95000F66D78 /* AdvancedPrefController.h */,
 				876415710840A95000F66D78 /* AdvancedPrefController.m */,
+				87558532085BEF7800D2C2A6 /* BSIconTextFieldCell.h */,
+				87558533085BEF7800D2C2A6 /* BSIconTextFieldCell.m */,
 				87AC05B5082D3E4200823807 /* FontWell.h */,
 				87AC05B6082D3E4200823807 /* FontWell.m */,
 				F324DB5E04C6959800A80005 /* PreferencesPane */,
@@ -2753,6 +2759,7 @@
 				871CA12508585F8100C3A044 /* UTILDebugging.h in Headers */,
 				871CA12608585F8100C3A044 /* FontWell.h in Headers */,
 				871CA12708585F8100C3A044 /* AdvancedPrefController.h in Headers */,
+				87558534085BEF7800D2C2A6 /* BSIconTextFieldCell.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3391,6 +3398,7 @@
 				871CA14908585F8100C3A044 /* CMRFilterPrefController-View.m in Sources */,
 				871CA14A08585F8100C3A044 /* FontWell.m in Sources */,
 				871CA14B08585F8100C3A044 /* AdvancedPrefController.m in Sources */,
+				87558535085BEF7800D2C2A6 /* BSIconTextFieldCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

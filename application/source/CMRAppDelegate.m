@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.5 2005/06/12 02:34:19 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.6 2005/06/12 06:33:07 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -77,7 +77,7 @@
 
 - (IBAction)launchCMLF:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] launchApplication:@"CMLogFinder.app"];
+    [[NSWorkspace sharedWorkspace] launchApplication: [CMRPref helperAppPath]];
 }
 
 - (BOOL) isOnlineMode

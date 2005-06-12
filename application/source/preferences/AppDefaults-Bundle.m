@@ -1,5 +1,5 @@
 /**
- * $Id: AppDefaults-Bundle.m,v 1.1 2005/05/11 17:51:06 tsawada2 Exp $
+ * $Id: AppDefaults-Bundle.m,v 1.2 2005/06/12 06:33:07 tsawada2 Exp $
  * 
  * AppDefaults-Bundle.m
  *
@@ -12,6 +12,7 @@
 #import "TextFinder.h"
 #import "w2chConnect.h"
 #import "UTILKit.h"
+#import "CMRMainMenuManager.h"
 
 
 
@@ -30,6 +31,8 @@
 #define w2chConnectorPluginType    @"plugin"
 #define w2chConnectorClassName     @"SG2chConnector"
 #define w2chAuthenticaterClassName @"w2chAuthenticater"
+
+static NSString *const AppDefaultsHelperAppNameKey = @"Helper Application Path";
 
 
 
@@ -221,4 +224,23 @@
     }
     return instance_;
 }
+
+- (NSString *) helperAppPath
+{
+	NSString *fullPath_;
+	
+	fullPath_ = [[self defaults] stringForKey : AppDefaultsHelperAppNameKey];
+	return fullPath_ ? fullPath_ : [[NSWorkspace sharedWorkspace] fullPathForApplication : @"CMLogFinder.app"];
+}
+- (void) setHelperAppPath : (NSString *) fullPath_
+{
+	if (nil == fullPath_) {
+		[[self defaults] removeObjectForKey : AppDefaultsHelperAppNameKey];
+		return;
+	}
+	[[self defaults] setObject : fullPath_
+						forKey : AppDefaultsHelperAppNameKey];
+	[[CMRMainMenuManager defaultManager] synchronizeLogFinderMenuItemTitle];
+}
+
 @end

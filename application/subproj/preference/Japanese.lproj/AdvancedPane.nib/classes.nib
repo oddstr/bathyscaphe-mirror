@@ -6,6 +6,7 @@
                 changeProxyPort = id; 
                 changeProxyURL = id; 
                 changeQuietDeletion = id; 
+                chooseApplication = id; 
                 enableProxy = id; 
                 enableProxyWhenPOST = id; 
                 openHelpForAdvancedPane = id; 
@@ -14,6 +15,8 @@
             CLASS = AdvancedPrefController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                "_appNameField" = id; 
+                "_chooseAppButton" = NSButton; 
                 "_helpButton" = NSButton; 
                 "_openLinkInBgCheckBox" = NSButton; 
                 "_proxyPortField" = NSTextField; 
@@ -25,6 +28,7 @@
             }; 
             SUPERCLASS = PreferencesController; 
         }, 
+        {CLASS = BSIconTextFieldCell; LANGUAGE = ObjC; SUPERCLASS = NSTextFieldCell; }, 
         {
             ACTIONS = {"" = id; }; 
             CLASS = FirstResponder; 

@@ -1,4 +1,21 @@
 2005-06-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/BSIconTextFieldCell.m
+		[新規追加]設定インタフェース用のカスタムクラス。アイコン付きテキストの表示。
+	* application/source/CMRAppDelegate+Menu.m
+	* application/source/manager/CMRMainMenuManager.m
+	* application/source/preferences/AppDefaults-Bundle.m
+	* application/source/window/CMRThreadViewerTbDelegate.m
+	* application/Resources/Japanese.lproj/ThreadViewerTbItems.strings
+	* application/Resources/Japanese.lproj/MainMenu.nib
+	* application/subproj/preference/AdvancedPrefController.m
+	* application/subproj/preference/Japanese.lproj/AdvancedPane.nib
+		ツールバーやウインドウメニューから起動できるアプリを CMLogFinder に固定せず、
+		ユーザが任意に選択できるようにした。アプリ名がツールバーのラベルやメニュータイトルに
+		使用される。
+		- 設定は「環境設定」＞「詳細」で行う。
+		- 何も設定していない状態では、CMLogFinder が見つかればそれが起動される。
+		- アプリケーションを変更しても、ツールバーのラベルが変更されない。再起動後に反映される。
+		　一方、ウインドウメニューの項目タイトルはすぐに変更が反映される。
 	* application/Resources/BathyScaphe.scriptTerminology
 	* application/Resources/BathyScaphe.scriptSuite
 	* application/source/CMRAppDelegate.m

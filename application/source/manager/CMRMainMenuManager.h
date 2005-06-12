@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMainMenuManager.h,v 1.4 2005/06/11 10:41:34 tsawada2 Exp $
+  * $Id: CMRMainMenuManager.h,v 1.5 2005/06/12 06:33:07 tsawada2 Exp $
   * 
   * CMRMainMenuManager.h
   *
@@ -37,4 +37,5 @@
 @interface CMRMainMenuManager(SynchronizeWithDefaults)
 - (void) synchronizeBrowserArrangementMenuItemState;
 - (void) synchronizeIsOnlineModeMenuItemState;
+- (void) synchronizeLogFinderMenuItemTitle;
 @end

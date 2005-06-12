@@ -2,13 +2,14 @@
 //  AdvancedPrefController.m
 //  BachyScaphe
 //
-//  Created by àV“c •× on 05/05/22.
-//  Copyright 2005 __MyCompanyName__. All rights reserved.
+//  Created by Tsutomu Sawada on 05/05/22.
+//  Copyright 2005 tsawada2. All rights reserved.
 //
 
 #import <CocoMonar/CocoMonar.h>
 #import "AdvancedPrefController.h"
 #import "PreferencePanes_Prefix.h"
+#import "BSIconTextFieldCell.h"
 
 #define kLabelKey		@"Advanced Label"
 #define kToolTipKey		@"Advanced ToolTip"
@@ -69,6 +70,45 @@
 {
 	[[self preferences] setOpenInBg : (NSOnState == [[self openLinkInBgCheckBox] state])];
 }
+- (void) didEndChooseAppSheet : (NSOpenPanel *) sheet
+                   returnCode : (int          ) returnCode
+                  contextInfo : (void        *) contextInfo
+{
+	NSImage		*appIcon_;
+	NSString	*appPath_;
+	NSString	*displayName_;
+	
+	if (NO == (returnCode == NSOKButton)) return;
+	
+	appPath_ =	[sheet filename];
+	[[self preferences] setHelperAppPath : appPath_];
+
+	appIcon_ = [[NSWorkspace sharedWorkspace] iconForFile : appPath_];
+	//[appIcon_ setSize : NSMakeSize(16,16)];
+	[[[self appNameField] cell] setImage : appIcon_];
+	displayName_ = [[appPath_ lastPathComponent] stringByDeletingPathExtension];
+	[[[self appNameField] cell] setObjectValue : displayName_];
+	[[self appNameField] setNeedsDisplay : YES];
+	
+}
+
+- (IBAction) chooseApplication : (id) sender
+{
+	NSArray *fileTypes = [NSArray arrayWithObjects:@"app", nil];
+	NSArray	*tmp = NSSearchPathForDirectoriesInDomains (NSApplicationDirectory, NSLocalDomainMask, YES);
+	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+
+	[openPanel setAllowsMultipleSelection:NO];
+	
+	[openPanel
+		beginSheetForDirectory : [tmp objectAtIndex : 0]
+				  file : nil
+			     types : fileTypes
+		modalForWindow : [self window]
+		 modalDelegate : self
+		didEndSelector : @selector(didEndChooseAppSheet:returnCode:contextInfo:)
+		   contextInfo : nil];
+}
 
 - (IBAction) openHelpForAdvancedPane : (id) sender
 {
@@ -104,6 +144,10 @@
 - (NSButton *) openLinkInBgCheckBox
 {
 	return _openLinkInBgCheckBox;
+}
+- (id) appNameField
+{
+	return _appNameField;
 }
 #pragma mark -
 - (void) updateProxyUIComponents
@@ -166,21 +210,31 @@
 
 - (void) updateUIComponents
 {
+	NSString	*path_;
 	[self updateProxyUIComponents];
-	//[self updateThreadUIComponents];
-		[[self quietDeletionCheckBox] setState : 
+	[[self quietDeletionCheckBox] setState : 
 			([[self preferences] quietDeletion] ? NSOffState : NSOnState)];
-		[[self openLinkInBgCheckBox] setState : 
+	[[self openLinkInBgCheckBox] setState : 
 			([[self preferences] openInBg] ? NSOnState : NSOffState)];
+
+	path_ = [[self preferences] helperAppPath];
+	if (path_) {
+		NSImage *img_ = [[NSWorkspace sharedWorkspace] iconForFile : path_];
+		[[[self appNameField] cell] setImage : img_];
+		[[[self appNameField] cell] setObjectValue : [[path_ lastPathComponent] stringByDeletingPathExtension]];
+	}
 }
 
 - (void) setupUIComponents
 {
+	BSIconTextFieldCell	*cell_;
 	if (nil == _contentView)
 		return;
 	
-	//[self setupListUIComponents];
-	//[self setupThreadUIComponents];
+	cell_ = [[BSIconTextFieldCell alloc] init];
+    [[self appNameField] setCell : cell_];
+    [cell_ release];
+	
 	[self setupProxyUIComponents];
 	
 	[self updateUIComponents];
