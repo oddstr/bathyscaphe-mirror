@@ -1,4 +1,11 @@
 2005-06-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/window/BSWindow.m
+		すでにメタル or つるぺたになっているウインドウの場合はそのままスルーするようにした。
+		また、User defaults を参照して、「Use Unified Look」が true の時のみつるぺたに
+		すり替えるようにした。
+	* application/Resources/Japanese.lproj/CMRReplyWindow.nib
+	* application/Resources/Japanese.lproj/CMRThreadViewer.nib
+		NSWindow → BSWindow
 	* application/Resources/Japanese.lproj/Browser.nib
 		NSWindow を BSWindow にした。他の nib ファイルも後でそのようにするつもり。
 	* application/source/window/BSWindow.m

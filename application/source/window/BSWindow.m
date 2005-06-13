@@ -10,17 +10,24 @@
 
 #define NSAppKitVersionNumber10_3 743	// ここに書かなくてもいいと思うが、念のため
 
+static NSString *const kUseTurupetaKey = @"Use Unified Look";
+
 @implementation BSWindow
 - (id) initWithContentRect : (NSRect)contentRect
 				 styleMask : (unsigned int) styleMask
 				   backing : (NSBackingStoreType)backingType
 					 defer : (BOOL)flag
 {
-	if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_3) {
-		NSLog(@"Mac OS X v10.3 or Earlier.");
-	} else {
-		NSLog(@"Mac OS X v10.4 or later.");
-		styleMask |= NSUnifiedTitleAndToolbarWindowMask;
+	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_3) {
+
+		NSUserDefaults *defaults_ = [NSUserDefaults standardUserDefaults];
+
+		if ([defaults_ boolForKey : kUseTurupetaKey]) {
+			// すでに nib ファイルでメタル or つるぺたになっている場合は、つるぺた Mask を加えない
+			if ((styleMask & NSTexturedBackgroundWindowMask) == 0 & (styleMask & NSUnifiedTitleAndToolbarWindowMask) == 0) {
+				styleMask |= NSUnifiedTitleAndToolbarWindowMask;
+			}
+		}
 	}
 	return [super initWithContentRect : contentRect
 							styleMask : styleMask

@@ -1,5 +1,6 @@
 {
     IBClasses = (
+        {CLASS = BSWindow; LANGUAGE = ObjC; SUPERCLASS = NSWindow; }, 
         {
             ACTIONS = {toggleStatusLineShown = id; }; 
             CLASS = CMRStatusLineWindowController; 
