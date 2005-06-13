@@ -605,6 +605,8 @@
 		87D8DC270833EABB004C1168 /* bathyicon192.png in Resources */ = {isa = PBXBuildFile; fileRef = 87D8DC260833EABB004C1168 /* bathyicon192.png */; };
 		87E2264E0833AA5D00E7FC85 /* BathyScaphe.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 87E2264C0833AA5D00E7FC85 /* BathyScaphe.scriptSuite */; };
 		87E2264F0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 87E2264D0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology */; };
+		87E4752A085C57C100B3E45E /* BSWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 87E47528085C57C100B3E45E /* BSWindow.h */; };
+		87E4752B085C57C100B3E45E /* BSWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 87E47529085C57C100B3E45E /* BSWindow.m */; };
 		87F204B60845C8EA0076379E /* ResToThread.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87F204B50845C8EA0076379E /* ResToThread.tiff */; };
 		F424609908462452000803EA /* Scripts.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F424609808462452000803EA /* Scripts.tiff */; };
 		F49CCDF50849B87500835BE3 /* BSScriptsMenuManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F49CCDF30849B87500835BE3 /* BSScriptsMenuManager.h */; };
@@ -917,6 +919,8 @@
 		87D8DC260833EABB004C1168 /* bathyicon192.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bathyicon192.png; sourceTree = "<group>"; };
 		87E2264C0833AA5D00E7FC85 /* BathyScaphe.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = BathyScaphe.scriptSuite; sourceTree = "<group>"; };
 		87E2264D0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = BathyScaphe.scriptTerminology; sourceTree = "<group>"; };
+		87E47528085C57C100B3E45E /* BSWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSWindow.h; sourceTree = "<group>"; };
+		87E47529085C57C100B3E45E /* BSWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSWindow.m; sourceTree = "<group>"; };
 		87F204B50845C8EA0076379E /* ResToThread.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ResToThread.tiff; sourceTree = "<group>"; };
 		87FECDE40840DDF100787C68 /* AdvancedPreferences.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AdvancedPreferences.tiff; sourceTree = "<group>"; };
 		E8894DD805C3A3A30004317F /* CMROpenURLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMROpenURLManager.h; sourceTree = "<group>"; };
@@ -2227,6 +2231,8 @@
 				F324DDCC04C698FB00A80005 /* CMRReplyController_p.h */,
 				F324DDCB04C698FB00A80005 /* CMRReplyController.m */,
 				F324DDC904C698FB00A80005 /* CMRReplyController-ViewAccessor.m */,
+				87E47528085C57C100B3E45E /* BSWindow.h */,
+				87E47529085C57C100B3E45E /* BSWindow.m */,
 			);
 			path = window;
 			sourceTree = "<group>";
@@ -2721,6 +2727,7 @@
 				87D8DBA60833D55D004C1168 /* AboutPanelController.h in Headers */,
 				87D8DBA80833D55D004C1168 /* NSFancyPanel.h in Headers */,
 				F49CCDF50849B87500835BE3 /* BSScriptsMenuManager.h in Headers */,
+				87E4752A085C57C100B3E45E /* BSWindow.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3366,6 +3373,7 @@
 				87D8DBA70833D55D004C1168 /* AboutPanelController.m in Sources */,
 				87D8DBA90833D55D004C1168 /* NSFancyPanel.m in Sources */,
 				F49CCDF60849B87500835BE3 /* BSScriptsMenuManager.m in Sources */,
+				87E4752B085C57C100B3E45E /* BSWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

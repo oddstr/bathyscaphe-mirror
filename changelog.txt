@@ -1,3 +1,10 @@
+2005-06-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/Browser.nib
+		NSWindow を BSWindow にした。他の nib ファイルも後でそのようにするつもり。
+	* application/source/window/BSWindow.m
+		[新規追加]NSWindow のサブクラスで、initWithContentRect:styleMask:backing:defer: をオーバーライドして
+		Mac OS X 10.4 以降でつるぺたアピアランスに切り替える（後で user defaults を参照して切り替えられるようにするつもり）。
+		バージョンチェックは NSAppKitVersionNumber の比較で行っている。
 2005-06-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/preference/BSIconTextFieldCell.m
 		[新規追加]設定インタフェース用のカスタムクラス。アイコン付きテキストの表示。

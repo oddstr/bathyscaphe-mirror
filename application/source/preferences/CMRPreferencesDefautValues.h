@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRPreferencesDefautValues.h,v 1.2 2005/06/12 01:36:15 tsawada2 Exp $
+  * $Id: CMRPreferencesDefautValues.h,v 1.3 2005/06/13 00:33:13 tsawada2 Exp $
   * 
   * CMRPreferencesDefautValues.h
   *
@@ -49,7 +49,7 @@
 
 //:AppDefaults-ThreadsList.m
 #define DEFAULT_IGNORING_TITLE_CHARACTERS			@"\t "
-#define DEFAULT_USES_SPINNINGSTYLE					NO
+#define DEFAULT_USES_SPINNINGSTYLE					YES
 
 // NSMaxYEdge にしておくことで、「自動」扱いになるようにしてある（ウインドウの上側から開くことは無い）
 #define DEFAULT_BOARDLIST_PREFEREDEDGE				NSMaxYEdge
