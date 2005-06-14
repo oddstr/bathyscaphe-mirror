@@ -1,4 +1,9 @@
 2005-06-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/BathyScaphe.xcodeproj
+		SGAppKit.framework のビルド生成ディレクトリが
+		../frameworks/SGAppKit/build から ../frameworks/SGAppKit/build/Deployment
+		に変わったので（Xcode 2.1 の場合のみ）、
+		BathyScaphe.xcodeproj 側でも参照パスを変更した。
 	* application/Resources/Japanese.lproj/Browser.nib
 		ゾンビ化していたクラス(SGOutlineView)を削除した。
 	* application/source/browser/CMRBrowser-ViewAccessor.m
