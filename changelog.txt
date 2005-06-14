@@ -1,3 +1,8 @@
+2005-06-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/composer/CMXTextParser.m
+	* application/Resources/Japanese.lproj/Localizable.strings
+		シベリア超速報で「発信元」が表示されない問題の解決。
+		BathyScaphe 側では、Host としてログに記録／表示することにした。
 2005-06-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/BathyScaphe.xcodeproj
 		SGAppKit.framework のビルド生成ディレクトリが

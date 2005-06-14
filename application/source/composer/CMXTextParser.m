@@ -1,6 +1,6 @@
 //: CMXTextParser.m
 /**
-  * $Id: CMXTextParser.m,v 1.1 2005/05/11 17:51:05 tsawada2 Exp $
+  * $Id: CMXTextParser.m,v 1.2 2005/06/14 18:37:36 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -839,6 +839,7 @@ only_date_field:
 	unsigned	length_;
 	NSRange		found_;
 	NSRange		search_;
+	NSString	*siberiaIPKey;
 	
 	length_ = [extraField length];
 	if (nil == extraField || 0 == length_)
@@ -854,6 +855,8 @@ only_date_field:
 	}
 	
 	search_ = NSMakeRange(0, length_);
+	siberiaIPKey = NSLocalizedString(@"siberia IP field", @"siberia IP field");	// シベリア超速報などで出てくる「発信元:」という文字列
+
 	while (1) {
 		NSRange		substringRange_;
 		NSString	*name_;
@@ -921,7 +924,7 @@ only_date_field:
 				// standard be profile ID format
 				[aMessage setBeProfile : [value_ componentsSeparatedByString : @"-"]];
 			}
-		}else if ([name_ rangeOfString : @"HOST"].length != 0) {
+		}else if ([name_ rangeOfString : @"HOST"].length != 0 || [name_ rangeOfString : siberiaIPKey].length != 0) {
 			[aMessage setHost : value_];
 		} else {
 			;
@@ -945,8 +948,8 @@ only_date_field:
 + (BOOL) parseDateExtraField : (NSString         *) dateExtra
             convertToMessage : (CMRThreadMessage *) aMessage
 {
-	NSString		*datePart_;
-	NSString		*extraPart_;
+	NSString		*datePart_ = nil;
+	NSString		*extraPart_ = nil;
 	id				date_;
 	NSString		*prefixPart_ = nil;
 
