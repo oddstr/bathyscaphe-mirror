@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.8 2005/06/12 01:36:14 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.9 2005/06/14 10:20:56 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -19,6 +19,7 @@
 #define kBrowserListColumnsPlist        @"browserListColumns.plist"
 #define kChooseColumnAction             @selector(chooseColumn:)
 #define kBBSListSheetAutosaveName       @"BBS List Sheet"
+#define kToolbarSearchFieldItemKey		@"Search Thread"
 
 #pragma mark -
 
@@ -227,7 +228,7 @@
 
 		enumerator_ = [[toolBar_ visibleItems] objectEnumerator];
 		while((obj = [enumerator_ nextObject]) != nil) {
-			if ([[obj itemIdentifier] isEqualToString : @"Search Thread"])
+			if ([[obj itemIdentifier] isEqualToString : kToolbarSearchFieldItemKey])
 				return YES;
 		}
 		return NO;
@@ -465,7 +466,6 @@
     
     [tbView_ setAutosaveName : APP_BROWSER_THREADSLIST_TABLE_AUTOSAVE_NAME];
     [tbView_ setAutosaveTableColumns : YES];
-    [tbView_ setShowsToolTipForRow : NO];
     [tbView_ setVerticalMotionCanBeginDrag : NO];
         
     // Menu and Contextual Menus
@@ -617,10 +617,6 @@
     UTILAssertRespondsTo(tmp, @selector(floatValue));
     [outlineView setIndentationPerLevel : [tmp floatValue]];
     
-    tmp = SGTemplateResource(kBBSListShowsToolTipKey);
-    UTILAssertRespondsTo(tmp, @selector(boolValue));
-    [outlineView setShowsToolTipForRow : [tmp boolValue]];
-
 	tmp = [CMRPref boardListBgColor];
     if (NO == [tmp isEqual : [NSColor whiteColor]]) [outlineView setBackgroundColor : tmp];
 		

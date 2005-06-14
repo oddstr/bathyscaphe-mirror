@@ -1276,7 +1276,7 @@
 		F38D3D4E04FBE7D000DCB099 /* CMRHistoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRHistoryManager.h; sourceTree = "<group>"; };
 		F38D3D4F04FBE7D000DCB099 /* CMRHistoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRHistoryManager.m; sourceTree = "<group>"; };
 		F3924488043610AE00A80005 /* CocoMonar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoMonar.framework; path = ../frameworks/CocoMonar/build/CocoMonar.framework; sourceTree = SOURCE_ROOT; };
-		F39244F5043610D600A80005 /* SGAppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SGAppKit.framework; path = ../frameworks/SGAppKit/build/SGAppKit.framework; sourceTree = SOURCE_ROOT; };
+		F39244F5043610D600A80005 /* SGAppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SGAppKit.framework; path = ../frameworks/SGAppKit/build/Deployment/SGAppKit.framework; sourceTree = SOURCE_ROOT; };
 		F39244FA043610EB00A80005 /* SGFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SGFoundation.framework; path = ../frameworks/SGFoundation/build/SGFoundation.framework; sourceTree = SOURCE_ROOT; };
 		F39244FF043610FB00A80005 /* SGNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SGNetwork.framework; path = ../frameworks/SGNetwork/build/SGNetwork.framework; sourceTree = SOURCE_ROOT; };
 		F3959F0C04D3050600A80005 /* CMRAbstructThreadDocument_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRAbstructThreadDocument_p.h; sourceTree = "<group>"; };
@@ -4179,6 +4179,7 @@
 					../frameworks/SGFoundation/build,
 					../frameworks/SGNetwork/build,
 					../frameworks/Keychain/build,
+					../frameworks/SGAppKit/build/Deployment,
 					../frameworks/SGAppKit/build,
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -4220,6 +4221,7 @@
 					../frameworks/SGFoundation/build,
 					../frameworks/SGNetwork/build,
 					../frameworks/Keychain/build,
+					../frameworks/SGAppKit/build/Deployment,
 					../frameworks/SGAppKit/build,
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -4259,6 +4261,7 @@
 					../frameworks/SGFoundation/build,
 					../frameworks/SGNetwork/build,
 					../frameworks/Keychain/build,
+					../frameworks/SGAppKit/build/Deployment,
 					../frameworks/SGAppKit/build,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

@@ -6,8 +6,6 @@
 	<integer>16</integer>
 	<key>BBSList - IntercellSpacing</key>
 	<string>{3.0, 2.0}</string>
-	<key>BBSList - ShowsToolTip</key>
-	<integer>0</integer>
 	<key>Browser - BoardSheetMask</key>
 	<integer>524288</integer>
 	<key>Browser - ListViewAction</key>

@@ -58,6 +58,7 @@
 
 	
     // Shrinking Drawer
+	/* will be deprecated in BathyScaphe 1.1 */
     BOOL                        _needToRestoreWindowSize;
 	NSRect						_oldSize;
 	NSRect						_oldTListSize;

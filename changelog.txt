@@ -1,3 +1,15 @@
+2005-06-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/Browser.nib
+		ゾンビ化していたクラス(SGOutlineView)を削除した。
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+		掲示板リストでツールチップを表示するオプション (BBSList - showsTooltip@KeyValueTemplates.plist)
+		をいったん廃止した。
+	* frameworks/SGAppKit/SGAppKit.xcodeproj
+		[新規追加] Xcode 2.1 用のプロジェクトファイル
+		ついでに SGAppKit をネイティブターゲットにアップグレード。
+		また、使われなくなった（そして今後も使われる見込みの少ない）API をかなり外した。
+	* frameworks/SGAppKit/framework/src/SGAppKit.m
+		SGTableViewBase を poseAsClass しないようにした。
 2005-06-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/window/BSWindow.m
 		すでにメタル or つるぺたになっているウインドウの場合はそのままスルーするようにした。
