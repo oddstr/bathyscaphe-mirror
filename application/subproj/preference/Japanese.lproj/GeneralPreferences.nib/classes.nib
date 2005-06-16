@@ -10,7 +10,6 @@
             ACTIONS = {
                 changeAutoscrollMask = id; 
                 changeCollectByNew = id; 
-                changeDrawerEdgeMask = id; 
                 changeIgnoreCharacters = id; 
                 changeLinkType = id; 
                 changeMailAddressShown = id; 
@@ -24,7 +23,6 @@
             OUTLETS = {
                 "_autoscrollMaskCheckBox" = NSMatrix; 
                 "_collectByNewCheckBox" = NSButton; 
-                "_drawerEdgeMaskMatrix" = NSMatrix; 
                 "_helpButton" = NSButton; 
                 "_ignoreCharsField" = NSTextField; 
                 "_isMailShownCheckBox" = NSButton; 

@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.4 2005/06/12 06:33:07 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.5 2005/06/16 15:19:58 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -87,7 +87,8 @@
 - (void) setOpenInBg : (BOOL) flag;
 
 /*** 掲示板ドロワー ***/
-/* will be deprecated in BathyScaphe 1.1 or later. */
+// deprecated in BathyScaphe 1.0.1.
+/*
 - (int) boardListState;
 - (void) setBoardListState : (int) state;
 - (float) boardListSizeWidth;
@@ -100,6 +101,7 @@
 - (void) setBoardListContentSize : (NSSize) contentSize;
 - (BOOL) isBoardListOpen;
 - (void) setIsBoardListOpen : (BOOL) isOpen;
+*/
 
 /*** 書き込み：名前欄 ***/
 - (NSString *) defaultReplyName;

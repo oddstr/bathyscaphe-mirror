@@ -45,35 +45,7 @@
 	
 	// Åuåfé¶î¬Çï\é¶Åv
 	if(action_ == @selector(toggleBoardDrawer:)){
-		NSString		*title_;
-		NSString		*imageName_;
-		NSImage			*image_;
-		
-		if([self shouldOpenBoardListInSheet]){
-			imageName_ = kOpenBoardSheetImageName;
-			title_ = [self localizedShowBoardSheetString];
-		}else{
-			int				status_;
-			BOOL			flag_;
-			
-			status_ = [[self boardDrawer] state];
-			flag_ = (NSDrawerOpenState   == status_ || 
-					NSDrawerOpeningState == status_);
-			title_ = flag_
-						? [self localizedCloseBoardString]
-						: [self localizedOpenBoardString];
-			imageName_ = flag_
-						? kCloseBoardImageName
-						: kOpenBoardImageName;
-			
-		}
-		image_ = [NSImage imageAppNamed : imageName_];
-		UTILAssertNotNil(title_);
-		UTILAssertNotNil(image_);
-		[theItem setTitle : title_];
-		if([theItem isKindOfClass : [NSToolbarItem class]])
-			[theItem setImage : image_];
-		return YES;
+		return NO;
 	}
 	if(action_ == @selector(beginBoardListSheet:)){
 		return YES;

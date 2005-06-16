@@ -27,11 +27,11 @@ static NSString *const st_searchThreadItemPaletteLabelKey		= @"Search Thread Pal
 static NSString *const st_searchThreadItemToolTipKey			= @"Search Thread ToolTip";
 
 // ŒfŽ¦”ÂƒŠƒXƒg‚Ì•\Ž¦
-static NSString *const st_toggleBBSListItemIdentifier			= @"Toggle BBSList";
+/*static NSString *const st_toggleBBSListItemIdentifier			= @"Toggle BBSList";
 static NSString *const st_toggleBBSListItemLabelKey				= @"Toggle BBSList Label";
 static NSString *const st_toggleBBSListItemPaletteLabelKey		= @"Toggle BBSList Palette Label";
 static NSString *const st_toggleBBSListItemToolTipKey			= @"Toggle BBSList ToolTip";
-static NSString *const st_toggleBBSList_imageName				= @"openBoard";
+static NSString *const st_toggleBBSList_imageName				= @"openBoard";*/
 
 
 static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
@@ -54,24 +54,12 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 - (void) initializeToolbarItems : (NSWindow *) aWindow
 {
 	NSToolbarItem			*item_;
-	NSDrawer				*BBSDrawer_;
 	CMRBrowser				*wcontroller_;
-
-	//Class NSSFExist;
 	
 	[super initializeToolbarItems : aWindow];
-	
-	UTILAssertNotNil([aWindow drawers]);
-	NSAssert1(	[[aWindow drawers] count] > 0,
-				@"Window Drawers count must be bigger than 1 but was %d.",
-				[[aWindow drawers] count]);
 
 	wcontroller_ = (CMRBrowser*)[aWindow windowController];
-	BBSDrawer_ = [[aWindow drawers] objectAtIndex : 0];
-	UTILAssertKindOfClass(wcontroller_, CMRBrowser);
-	
 	UTILAssertNotNil(wcontroller_);
-	UTILAssertNotNil(BBSDrawer_);
 
 	item_ = [self appendToolbarItemWithItemIdentifier : st_reloadListItemIdentifier
 									localizedLabelKey : st_reloadListItemLabelKey
@@ -80,16 +68,7 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 											   action : @selector(reloadThreadsList:)
 											   target : wcontroller_];
 	[item_ setImage : [NSImage imageAppNamed : st_reloadList_ImageName]];
-	
-	
-	item_ = [self appendToolbarItemWithItemIdentifier : st_toggleBBSListItemIdentifier
-									localizedLabelKey : st_toggleBBSListItemLabelKey
-							 localizedPaletteLabelKey : st_toggleBBSListItemPaletteLabelKey
-								  localizedToolTipKey : st_toggleBBSListItemToolTipKey
-											   action : @selector(toggleBoardDrawer:)
-											   target : wcontroller_];
-	[item_ setImage : [NSImage imageAppNamed : st_toggleBBSList_imageName]];
-	
+
 	item_ = [self appendToolbarItemWithItemIdentifier : st_searchThreadItemIdentifier
 									localizedLabelKey : st_searchThreadItemLabelKey
 							 localizedPaletteLabelKey : st_searchThreadItemPaletteLabelKey
@@ -141,35 +120,6 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 	
 	[anItem setMenuFormRepresentation : menuItem_];
 }
-/*
-- (void) setupSearchToolbarItem : (NSToolbarItem *) anItem
-{
-	id aView;
-	NSMenuItem		*menuItem_;
-
-	if (!searchFieldController_) {
-		searchFieldController_ = [[CMRNSSearchField alloc] init];
-	}
-	
-	aView = [[searchFieldController_ pantherSearchField] retain];
-	[anItem  setView : aView];
-	if([anItem view] != nil){
-		NSSize		size_;
-		
-		size_ = [aView bounds].size;
-		[anItem setMinSize : size_];
-		
-		size_.width *= 5;
-		[anItem setMaxSize : size_];
-	}
-	[aView release];
-
-	menuItem_ = [self searchToolbarItemMenuFormRepresentationWithItem:anItem];
-	if(nil == menuItem_) return;
-	
-	[anItem setMenuFormRepresentation : menuItem_];
-}
-*/
 @end
 
 
@@ -181,7 +131,6 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 				st_reloadListItemIdentifier,
 				[self reloadThreadItemIdentifier],
 				NSToolbarSeparatorItemIdentifier,
-				st_toggleBBSListItemIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,
 				[self deleteItemIdentifier],
 				[self addFavoritesItemIdentifier],
@@ -197,7 +146,6 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 				[self addFavoritesItemIdentifier],
 				[self toggleOnlineModeIdentifier],
 				[self launchCMLFIdentifier],
-				st_toggleBBSListItemIdentifier,
 				[self deleteItemIdentifier],
 				st_searchThreadItemIdentifier,
 				[self replyItemIdentifier],

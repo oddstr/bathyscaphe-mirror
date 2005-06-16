@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.4 2005/06/12 01:36:15 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.5 2005/06/16 15:19:58 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -23,10 +23,12 @@ NSString *const AppDefaultsWillSaveNotification = @"AppDefaultsWillSaveNotificat
 #define AppDefaultsIsOnlineModeKey		        @"Online Mode ON"
 #define AppDefaultsThreadSearchOptionKey		@"Thread Search Option"
 #define AppDefaultsContentsSearchOptionKey		@"Contents Search Option"
+/*
 #define AppDefaultsBoardListSizeWidthKey		@"BoardListWidth"
 #define AppDefaultsBoardListSizeHeightKey		@"BoardListHeight"
 #define AppDefaultsBoardListStateKey		    @"BoardListShown"
 #define AppDefaultsBoardListDrawerPreferedEdgeKey		@"BoardList PreferredEdge"
+*/
 #define AppDefaultsBrowserSplitViewIsVerticalKey		@"Browser SplitView isVertical"
 #define AppDefaultsBrowserLastBoardKey		@"LastBoard"
 #define AppDefaultsBrowserSortColumnIdentifierKey		@"ThreadSortKey"
@@ -264,10 +266,9 @@ NS_ENDHANDLER
 	[[self defaults] setInteger : option
 						 forKey : AppDefaultsContentsSearchOptionKey];
 }
-
+/*
 #pragma mark -
 
-/*** 掲示板ドロワー ***/
 - (NSSize) boardListContentSize
 {
 	return NSMakeSize([self boardListSizeWidth],
@@ -331,7 +332,7 @@ NS_ENDHANDLER
 	[[self defaults] setInteger : edge
 						 forKey : AppDefaultsBoardListDrawerPreferedEdgeKey];
 }
-
+*/
 #pragma mark -
 
 /*** 書き込み：名前欄 ***/

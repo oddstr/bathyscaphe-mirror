@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.5 2005/06/12 01:36:14 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.6 2005/06/16 15:19:58 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -450,8 +450,6 @@ enum {
 	status_ = [info intValue];
 	switch(status_) {
 	case kShowsBoardListInSheet :
-		[[self boardDrawer] setContentView : contentView];
-		[self setupBoardDrawer];
 		break;
 	case kShowsSearchFieldInSheet :{
 		break;
@@ -463,14 +461,14 @@ enum {
 
 #pragma mark -
 
-- (BOOL) shouldOpenBoardListInSheet
+/*- (BOOL) shouldOpenBoardListInSheet
 {
 	int			mask_;
 	
 	mask_ = [CMXTemplateResource(kOpenBoardListInSheetMaskKey, nil) intValue];
 	return ((mask_ & [[NSApp currentEvent] modifierFlags]) || 0 == mask_);
-}
-- (IBAction) beginBoardListSheet : (id) sender
+}*/
+/*- (IBAction) beginBoardListSheet : (id) sender
 {
 	int				status_;
 	NSView			*contentView_;
@@ -491,8 +489,8 @@ enum {
 							 contentView : contentView_
 							 contextInfo : info_];
 	[contentView_ release];
-}
-- (IBAction) toggleBoardDrawer : (id) sender
+}*/
+/*- (IBAction) toggleBoardDrawer : (id) sender
 {
 	if ([self shouldOpenBoardListInSheet]) {
 		[self beginBoardListSheet : sender];
@@ -511,7 +509,7 @@ enum {
 	} else {
 		[[self boardDrawer] toggle : sender];
 	}
-}
+}*/
 
 - (IBAction) changeBrowserArrangement : (id) sender
 {

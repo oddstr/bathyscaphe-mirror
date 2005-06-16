@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRPreferencesDefautValues.h,v 1.3 2005/06/13 00:33:13 tsawada2 Exp $
+  * $Id: CMRPreferencesDefautValues.h,v 1.4 2005/06/16 15:19:58 tsawada2 Exp $
   * 
   * CMRPreferencesDefautValues.h
   *
@@ -29,9 +29,9 @@
 
 #define DEFAULT_RESPOPUP_IS_SEETHROUGH		NO
 #define DEFAULT_STATUS_LINE_VISIBLE			YES
-#define DEFAULT_BOARDLIST_WIDTH			150.0f
-#define DEFAULT_BOARDLIST_HEIGHT			300.0f
-#define DEFAULT_BOARDLIST_STATE			NSDrawerOpenState
+//#define DEFAULT_BOARDLIST_WIDTH			150.0f
+//#define DEFAULT_BOARDLIST_HEIGHT			300.0f
+//#define DEFAULT_BOARDLIST_STATE			NSDrawerOpenState
 #define DEFAULT_STABLE_DRAWS_STRIPED			YES
 #define DEFAULT_STABLE_DRAWS_BGCOLOR			NO
 #define DEFAULT_TVIEW_DRAWS_BGCOLOR			YES
@@ -52,7 +52,7 @@
 #define DEFAULT_USES_SPINNINGSTYLE					YES
 
 // NSMaxYEdge にしておくことで、「自動」扱いになるようにしてある（ウインドウの上側から開くことは無い）
-#define DEFAULT_BOARDLIST_PREFEREDEDGE				NSMaxYEdge
+//#define DEFAULT_BOARDLIST_PREFEREDEDGE				NSMaxYEdge
 
 #define DEFAULT_FAVORITES_IMPORTED				NO
 

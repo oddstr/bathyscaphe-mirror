@@ -1,3 +1,23 @@
+2005-06-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/general/GeneralPrefController.m
+	* application/subproj/preference/general/GeneralPrefController-View.m
+	* application/subproj/preference/Japanese.lproj/GeneralPreferences.nib
+		環境設定から掲示板リスト・ドロワーの設定項目を取り除いた。
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		「掲示板リストを表示」を削除、また一部項目のタイトル、配置を微修正。
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/browser/CMRBrowser-Delegate.m
+	* application/source/browser/CMRBrowser-Validation.m
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/source/browser/CMRBrowser.m
+	* application/source/window/CMRBrowserTbDelegate.m
+	* application/source/preferences/AppDefaults.m
+	* application/Resources/Japanese.lproj/Browser.nib
+		掲示板リスト・ドロワーを廃止して、すぷりっとびゅーもーどでーす♪
+		- アクション（歯車）ボタンは一旦廃止した（いずれ何か考える）
+		- ツールバーから「掲示板リスト」ボタンも取り除いたので、BathyScaphe の preferences ファイルを
+		　捨ててから起動した方が良い。
+		- 掲示板リストをシートで表示する機能は廃止した。
 2005-06-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/composer/CMXTextParser.m
 		Host 文字列に半角スペースが含まれていると、半角スペースより後ろの文字列が抜け落ちてしまう

@@ -20,14 +20,14 @@
 
 @interface CMRBrowser : CMRThreadViewer
 {
+	IBOutlet CMRSplitView		*m_boardListSplitView;
 	IBOutlet CMRSplitView		*m_splitView;
 	
 	IBOutlet ThreadsListTable	*m_threadsListTable;
 	IBOutlet NSPopUpButton		*m_threadsFilterPopUp;
 	
-	IBOutlet NSDrawer			*m_boardDrawer;
 	IBOutlet NSOutlineView		*m_boardListTable;
-	IBOutlet NSButton			*m_brdListActMenuBtn;	
+	//IBOutlet NSButton			*m_brdListActMenuBtn;	
 	
 	IBOutlet NSMenu				*m_listContextualMenu;
 	IBOutlet NSMenu				*m_drawerContextualMenu;
@@ -48,7 +48,7 @@
 	CMRNSSearchField			*m_listSorter;
 	CMRNSSearchField			*m_listSorterSub;
 	
-	CMRAccessorySheetController	*m_boardListSheetController;
+	//CMRAccessorySheetController	*m_boardListSheetController;
 	CMRAccessorySheetController	*m_listSorterSheetController;
     // note - these can't be connected in IB
     // you'll get, for example, a text view where you meant to get
@@ -56,12 +56,8 @@
     id topSubview;
     id bottomSubview;
 
-	
-    // Shrinking Drawer
-	/* will be deprecated in BathyScaphe 1.1 */
-    BOOL                        _needToRestoreWindowSize;
-	NSRect						_oldSize;
-	NSRect						_oldTListSize;
+	id boardListSubView;
+	id threadsListSubView;
 }
 @end
 
@@ -86,9 +82,8 @@
 - (IBAction) searchThread : (id) sender;
 - (IBAction) showSearchThreadPanel : (id) sender;
 
-- (BOOL) shouldOpenBoardListInSheet;
-- (IBAction) beginBoardListSheet : (id) sender;
-- (IBAction) toggleBoardDrawer : (id) sender;
+//- (BOOL) shouldOpenBoardListInSheet;
+//- (IBAction) beginBoardListSheet : (id) sender;
 
 - (IBAction) changeBrowserArrangement : (id) sender;
 

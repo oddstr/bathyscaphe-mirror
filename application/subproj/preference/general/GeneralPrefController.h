@@ -1,5 +1,5 @@
 /**
-  * $Id: GeneralPrefController.h,v 1.2 2005/05/22 18:02:26 tsawada2 Exp $
+  * $Id: GeneralPrefController.h,v 1.3 2005/06/16 15:19:58 tsawada2 Exp $
   * 
   * GeneralPrefController.h
   *
@@ -15,7 +15,7 @@
 {
 	// List
 	IBOutlet NSMatrix		*_autoscrollMaskCheckBox;
-	IBOutlet NSMatrix		*_drawerEdgeMaskMatrix;
+	//IBOutlet NSMatrix		*_drawerEdgeMaskMatrix;
 	IBOutlet NSButton		*_collectByNewCheckBox;
 	IBOutlet NSTextField	*_ignoreCharsField;
 	
@@ -31,7 +31,7 @@
 
 // List
 - (IBAction) changeAutoscrollMask : (id) sender;
-- (IBAction) changeDrawerEdgeMask : (id) sender;
+//- (IBAction) changeDrawerEdgeMask : (id) sender;
 - (IBAction) changeIgnoreCharacters : (id) sender;
 - (IBAction) changeCollectByNew : (id) sender;
 // Thread
@@ -49,7 +49,7 @@
 @interface GeneralPrefController(View)
 // List
 - (int) autoscrollMaskForTag : (int) tag;
-- (NSMatrix *) drawerEdgeMaskMatrix;
+//- (NSMatrix *) drawerEdgeMaskMatrix;
 - (NSMatrix *) autoscrollMaskCheckBox;
 - (NSButton *) collectByNewCheckBox;
 - (NSTextField *) ignoreCharsField;

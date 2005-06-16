@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.4 2005/06/12 02:34:19 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.5 2005/06/16 15:19:58 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -13,119 +13,31 @@
 extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
 
 @implementation CMRBrowser(Delegate)
-- (void) saveBoardDrawerState
-{
-	[CMRPref setBoardListState : [[self boardDrawer] state]];
-}
-- (NSSize) drawerWillResizeContents : (NSDrawer *) sender
-                             toSize : (NSSize    ) contentSize
-{
-	if (sender != [self boardDrawer]) return contentSize;
-	[CMRPref setBoardListContentSize : [[self boardDrawer] contentSize]];
-	
-	return contentSize;
-}
-- (void) drawerDidClose : (NSNotification *) notification
-{
-	UTILAssertNotificationName(
-		notification,
-		NSDrawerDidCloseNotification);
-	UTILAssertNotificationObject(
-		notification,
-		[self boardDrawer]);
-	[self saveBoardDrawerState];
-	
-    // Restore window size if it was shrinked by CocoMonar
-    if (_needToRestoreWindowSize) {
-		/* 2005-01-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-			まずブラウザウインドウを元のサイズに戻してから、スレッド一覧のサイズを元のサイズに戻して、
-			さらに再描画して反映させる。無駄なのでブラウザウインドウの setFrame:display:でNOを渡したいが、
-			そうすると見苦しくなる…　もっといい方法がある気がするんだが。要研究 */
-		[[[self boardDrawer] parentWindow] setFrame:_oldSize display:YES];
-		/*
-		if ([[self splitView] isVertical]) {
-			[[[self splitView] firstSubview] setFrame:_oldTListSize];
-			[[[self boardDrawer] parentWindow] displayIfNeeded];
-		}
-		*/
-        _needToRestoreWindowSize = NO;
-    }
-}
-- (void) drawerDidOpen : (NSNotification *) notification
-{
-	UTILAssertNotificationName(
-		notification,
-		NSDrawerDidOpenNotification);
-	UTILAssertNotificationObject(
-		notification,
-		[self boardDrawer]);
-	
-	[self saveBoardDrawerState];
-}
-- (void)drawerWillOpen:(NSNotification*)notification
-{
-    // if no space for drawer, we need to shrink parent window
-	NSWindow	*parentWindow;
-    NSRectEdge  edge;
-    NSSize      contentSize;
-    NSRect      windowFrame, withDrawerFrame, screenFrame;
-	
-	parentWindow = [[self boardDrawer] parentWindow];
-    edge = [[self boardDrawer] edge];
-    contentSize = [[self boardDrawer] contentSize];
-
-    windowFrame = [parentWindow frame];
-    withDrawerFrame = windowFrame;
-
-    screenFrame = [[NSScreen mainScreen] visibleFrame];
-	
-    if (edge == NSMaxXEdge) {
-		// Drawer は右側に開こうとしている
-        withDrawerFrame.size.width += (contentSize.width + 10);
-		
-        if (withDrawerFrame.origin.x + withDrawerFrame.size.width
-			> screenFrame.origin.x + screenFrame.size.width) {
-
-            _needToRestoreWindowSize = YES;
-			_oldSize = windowFrame;
-			_oldTListSize = [[[self splitView] firstSubview] frame];
-			
-            windowFrame.size.width -= (withDrawerFrame.origin.x + withDrawerFrame.size.width) - (screenFrame.origin.x + screenFrame.size.width);
-            [parentWindow setFrame:windowFrame display:YES animate:YES];
-        }
-    }
-    if (edge == NSMinXEdge) {
-		// Drawer は左側に開こうとしている
-        withDrawerFrame.origin.x -= (contentSize.width + 10);
-        withDrawerFrame.size.width += (contentSize.width + 10);
-		
-        if (withDrawerFrame.origin.x < screenFrame.origin.x) {
-
-            _needToRestoreWindowSize = YES;
-			_oldSize = windowFrame;
-			_oldTListSize = [[[self splitView] firstSubview] frame];
-            
-            int delta;
-            delta = screenFrame.origin.x - withDrawerFrame.origin.x;
-            windowFrame.origin.x += delta;
-            windowFrame.size.width -= delta;
-            [parentWindow setFrame:windowFrame display:YES animate:YES];
-        }
-    }
-}
-
-#pragma mark -
-
 - (BOOL)splitView:(id)sender canCollapseSubview:(NSView *)subview
 {
-    return (subview == bottomSubview);
+    if (sender == [self splitView]) {
+		return (subview == bottomSubview);
+	} else {
+		return (subview == boardListSubView);
+	}
 }
 - (void)splitView:(id)sender didDoubleClickInDivider:(int)index
 {
-    BOOL currentState = [[self splitView] isSubviewCollapsed:bottomSubview];
-    [[self splitView] setSubview:bottomSubview isCollapsed:!currentState];
-    [[self splitView] resizeSubviewsWithOldSize:[[self splitView] frame].size];
+	if (sender == [self splitView]) {
+		BOOL currentState = [sender isSubviewCollapsed:bottomSubview];
+		[sender setSubview:bottomSubview isCollapsed:!currentState];
+		[sender resizeSubviewsWithOldSize:[sender frame].size];
+	} else {
+		/*
+			2005-06-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+			NSSplitView のバグか、KFSplitView のバグか、BathyScaphe のバグか
+			判然としないが、とにかく掲示板リストとスレッド一覧を仕切るスプリット・ビューを
+			ダブルクリックで畳もうとしてもうまく畳めない。このため、今のところダブルクリック無効。
+		*/
+		NSLog(@"Sorry. currently not supported.");
+	}	
 }
+
 - (void)splitView:(id)sender resizeSubviewsWithOldSize:(NSSize)oldSize
 {
     // It's our responsibility to set the frame rectangles of
@@ -235,7 +147,7 @@ extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
     // if we wanted error checking, we could call adjustSubviews.  It would
     // only change something if we messed up and didn't really tile the split view correctly.
 
-    // [sender adjustSubviews];
+    [sender adjustSubviews];
 }
 @end
 
@@ -394,7 +306,7 @@ extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
 	[[self threadsListTable] reloadData];
 	[self selectCurrentThreadWithMask : mask_];
 }
-/*
+
 - (void) favoritesManagerDidLinkFavorites : (NSNotification *) notification
 {
 	UTILAssertNotificationName(
@@ -421,7 +333,7 @@ extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
 	//	;
     //}
 }
-*/
+
 @end
 
 

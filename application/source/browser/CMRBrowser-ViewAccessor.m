@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.9 2005/06/14 10:20:56 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.10 2005/06/16 15:19:58 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -18,7 +18,7 @@
 // Constants
 #define kBrowserListColumnsPlist        @"browserListColumns.plist"
 #define kChooseColumnAction             @selector(chooseColumn:)
-#define kBBSListSheetAutosaveName       @"BBS List Sheet"
+//#define kBBSListSheetAutosaveName       @"BBS List Sheet"
 #define kToolbarSearchFieldItemKey		@"Search Thread"
 
 #pragma mark -
@@ -31,6 +31,10 @@
 - (CMRSplitView *) splitView
 {
     return m_splitView;
+}
+- (CMRSplitView *) boardListSplitView
+{
+    return m_boardListSplitView;
 }
 - (ThreadsListTable *) threadsListTable
 {
@@ -49,18 +53,14 @@
 {
     return m_threadsFilterPopUp;
 }
-- (NSDrawer *) boardDrawer
-{
-    return m_boardDrawer;
-}
 - (NSOutlineView *) boardListTable
 {
     return m_boardListTable;
 }
-- (NSButton *) brdListActMenuBtn
+/*- (NSButton *) brdListActMenuBtn
 {
     return m_brdListActMenuBtn;
-}
+}*/
 
 - (NSMenu *) listContextualMenu
 {
@@ -153,7 +153,7 @@
     return m_listSorterSub;
 }
 
-- (CMRAccessorySheetController *) boardListSheetController
+/*- (CMRAccessorySheetController *) boardListSheetController
 {
     if (nil == m_boardListSheetController) {
         NSSize                        cSize_;
@@ -170,7 +170,7 @@
         [m_boardListSheetController setWindowFrameAutosaveName : kBBSListSheetAutosaveName];
     }
     return m_boardListSheetController;
-}
+}*/
 - (CMRAccessorySheetController *) listSorterSheetController
 {
     if (nil == m_listSorterSheetController) {
@@ -432,6 +432,9 @@
     [[self splitView] setVertical : [CMRPref isSplitViewVertical]];
     topSubview = [[[self splitView] subviews] objectAtIndex:0];
     bottomSubview = [[[self splitView] subviews] objectAtIndex:1];
+
+	boardListSubView = [[[self boardListSplitView] subviews] objectAtIndex : 0];
+	threadsListSubView = [[[self boardListSplitView] subviews] objectAtIndex : 1];
 }
 
 - (void) updateDefaultsWithTableView : (NSTableView *) tbview
@@ -548,37 +551,6 @@
 
 #pragma mark -
 
-- (void) setupBoardDrawer
-{
-    NSSize cSize_;
-    
-    cSize_ = [CMRPref boardListContentSize];
-    
-    [[self boardDrawer] setDelegate : self];
-    [[self boardDrawer] setContentSize : cSize_];
-    
-	[self setupBoardDrawerState : self];
-}
-- (void) setupBoardDrawerState : (id) sender
-{
-    NSRectEdge        defaultEdge_;
-    
-    defaultEdge_ = [CMRPref boardListDrawerEdge];
-    [[self boardDrawer] setPreferredEdge : NSMaxXEdge];
-    
-    if ([CMRPref isBoardListOpen]) {
-		if (defaultEdge_ == NSMinXEdge || defaultEdge_ == NSMaxXEdge) {
-			[[self boardDrawer] openOnEdge : defaultEdge_];
-		} else {
-			[[self boardDrawer] open];
-		}
-    } else {
-        [[self boardDrawer] close];
-    }
-}
-
-#pragma mark -
-
 - (void) setupBoardListOutlineView : (NSOutlineView *) outlineView
 {
     id        tmp;
@@ -627,7 +599,6 @@
     [self setupBoardListOutlineView : [self boardListTable]];
     
     [[self boardListTable] setDelegate : self];
-    [[self boardListTable] setAutosaveName : APP_BROWSER_BOARDLIST_OLVIEW_AUTOSAVE_NAME];
     [[self boardListTable] setAutosaveExpandedItems : YES];
 }
 
@@ -689,6 +660,7 @@
     [self setupSplitView];
     [[self window] setFrameAutosaveName : APP_BROWSER_WINDOW_AUTOSAVE_NAME];
 	[[self splitView] setPositionAutosaveName : APP_BROWSER_SPVIEW_AUTOSAVE_NAME];
+	[[self boardListSplitView] setPositionAutosaveName : APP_BROWSER_BL_SPVIEW_AUTOSAVE_NAME];
 }
 - (void) setupKeyLoops
 {
@@ -706,7 +678,7 @@
     return;
 }
 
-- (void) setUpBoardListToolButtons
+/*- (void) setUpBoardListToolButtons
 {
 	CMRPullDownIconBtn	*cell_;
 	
@@ -716,7 +688,7 @@
     [cell_ release];
 
 	[[[self brdListActMenuBtn] cell] setArrowPosition:NSPopUpNoArrow];
-}
+}*/
 @end
 
 #pragma mark -
@@ -734,7 +706,5 @@
     [self setupKeyLoops];
     
     [self setupBoardListTable];
-    [self setupBoardDrawer];
-    [self setUpBoardListToolButtons];
 }
 @end

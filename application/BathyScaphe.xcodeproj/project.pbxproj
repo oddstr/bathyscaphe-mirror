@@ -10,9 +10,6 @@
 		8700C7140845EF51005B2F7C /* RemoveFavorites.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8700C7110845EF51005B2F7C /* RemoveFavorites.tiff */; };
 		8700C7150845EF51005B2F7C /* ReloadList.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8700C7120845EF51005B2F7C /* ReloadList.tiff */; };
 		8700C7160845EF51005B2F7C /* ReloadThread.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8700C7130845EF51005B2F7C /* ReloadThread.tiff */; };
-		8700C71A0845F041005B2F7C /* openBoard.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8700C7170845F041005B2F7C /* openBoard.tiff */; };
-		8700C71B0845F041005B2F7C /* closeBoard.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8700C7180845F041005B2F7C /* closeBoard.tiff */; };
-		8700C71C0845F041005B2F7C /* openBoardSheet.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8700C7190845F041005B2F7C /* openBoardSheet.tiff */; };
 		8701619F082BE67100AEFDD0 /* BoardList.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC2504C698FA00A80005 /* BoardList.h */; };
 		870161A0082BE67100AEFDD0 /* BoardManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC2704C698FA00A80005 /* BoardManager.h */; };
 		870161A1082BE67100AEFDD0 /* BoardManager_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC2904C698FA00A80005 /* BoardManager_p.h */; };
@@ -175,7 +172,6 @@
 		87016253082BE67100AEFDD0 /* CMRPullsDownButton.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D8C87D069C587B0094A779 /* CMRPullsDownButton.h */; };
 		87016254082BE67100AEFDD0 /* CMRAppDelegate_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F3660E3A06C4C7DA00A92719 /* CMRAppDelegate_p.h */; };
 		87016255082BE67100AEFDD0 /* CMRAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F3660E3B06C4C7DA00A92719 /* CMRAppDelegate.h */; };
-		87016256082BE67100AEFDD0 /* CMRPullDownIconBtn.h in Headers */ = {isa = PBXBuildFile; fileRef = 875C4D76079059C8008EE846 /* CMRPullDownIconBtn.h */; };
 		87016257082BE67100AEFDD0 /* CMRNSSearchField.h in Headers */ = {isa = PBXBuildFile; fileRef = 8782402C0823C0A900C52066 /* CMRNSSearchField.h */; };
 		87016258082BE67100AEFDD0 /* KFSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87C7287A082B8E7E00AC9AE1 /* KFSplitView.h */; };
 		870162DD082BE67100AEFDD0 /* BoardList-OVDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC2404C698FA00A80005 /* BoardList-OVDataSource.m */; };
@@ -324,7 +320,6 @@
 		8701637A082BE67100AEFDD0 /* CMRPullsDownButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D8C87E069C587B0094A779 /* CMRPullsDownButton.m */; };
 		8701637B082BE67100AEFDD0 /* CMRAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F3660E3C06C4C7DA00A92719 /* CMRAppDelegate.m */; };
 		8701637C082BE67100AEFDD0 /* CMRAppDelegate+Menu.m in Sources */ = {isa = PBXBuildFile; fileRef = F3660E3D06C4C7DA00A92719 /* CMRAppDelegate+Menu.m */; };
-		8701637D082BE67100AEFDD0 /* CMRPullDownIconBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 875C4D77079059C8008EE846 /* CMRPullDownIconBtn.m */; };
 		8701637E082BE67100AEFDD0 /* CMRThreadViewer-Validation.m in Sources */ = {isa = PBXBuildFile; fileRef = 875743F907C372F6006F3C68 /* CMRThreadViewer-Validation.m */; };
 		8701637F082BE67100AEFDD0 /* CMRThreadViewer-Find.m in Sources */ = {isa = PBXBuildFile; fileRef = 8757441407C37772006F3C68 /* CMRThreadViewer-Find.m */; };
 		87016380082BE67100AEFDD0 /* CMRNSSearchField.m in Sources */ = {isa = PBXBuildFile; fileRef = 8782402D0823C0A900C52066 /* CMRNSSearchField.m */; };
@@ -522,8 +517,6 @@
 		872999560832618100CBD740 /* ThreadViewer.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999540832618100CBD740 /* ThreadViewer.strings */; };
 		872999590832618200CBD740 /* ThreadViewerTbItems.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999570832618200CBD740 /* ThreadViewerTbItems.strings */; };
 		872999F7083261C400CBD740 /* Preview in Resources */ = {isa = PBXBuildFile; fileRef = 872999F5083261C400CBD740 /* Preview */; };
-		87299A3D083261F200CBD740 /* Action.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87299A03083261F200CBD740 /* Action.tiff */; };
-		87299A3E083261F200CBD740 /* Action_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87299A04083261F200CBD740 /* Action_Pressed.tiff */; };
 		87299A3F083261F200CBD740 /* AddFavorites.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A05083261F200CBD740 /* AddFavorites.png */; };
 		87299A40083261F200CBD740 /* age.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A06083261F200CBD740 /* age.png */; };
 		87299A41083261F200CBD740 /* appIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 87299A07083261F200CBD740 /* appIcon.icns */; };
@@ -2703,7 +2696,6 @@
 				87016253082BE67100AEFDD0 /* CMRPullsDownButton.h in Headers */,
 				87016254082BE67100AEFDD0 /* CMRAppDelegate_p.h in Headers */,
 				87016255082BE67100AEFDD0 /* CMRAppDelegate.h in Headers */,
-				87016256082BE67100AEFDD0 /* CMRPullDownIconBtn.h in Headers */,
 				87016257082BE67100AEFDD0 /* CMRNSSearchField.h in Headers */,
 				87016258082BE67100AEFDD0 /* KFSplitView.h in Headers */,
 				872996590832556100CBD740 /* NSCharacterSet+CMXAdditions.h in Headers */,
@@ -3028,8 +3020,6 @@
 				872999560832618100CBD740 /* ThreadViewer.strings in Resources */,
 				872999590832618200CBD740 /* ThreadViewerTbItems.strings in Resources */,
 				872999F7083261C400CBD740 /* Preview in Resources */,
-				87299A3D083261F200CBD740 /* Action.tiff in Resources */,
-				87299A3E083261F200CBD740 /* Action_Pressed.tiff in Resources */,
 				87299A3F083261F200CBD740 /* AddFavorites.png in Resources */,
 				87299A40083261F200CBD740 /* age.png in Resources */,
 				87299A41083261F200CBD740 /* appIcon.icns in Resources */,
@@ -3108,9 +3098,6 @@
 				8700C7140845EF51005B2F7C /* RemoveFavorites.tiff in Resources */,
 				8700C7150845EF51005B2F7C /* ReloadList.tiff in Resources */,
 				8700C7160845EF51005B2F7C /* ReloadThread.tiff in Resources */,
-				8700C71A0845F041005B2F7C /* openBoard.tiff in Resources */,
-				8700C71B0845F041005B2F7C /* closeBoard.tiff in Resources */,
-				8700C71C0845F041005B2F7C /* openBoardSheet.tiff in Resources */,
 				F424609908462452000803EA /* Scripts.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3353,7 +3340,6 @@
 				8701637A082BE67100AEFDD0 /* CMRPullsDownButton.m in Sources */,
 				8701637B082BE67100AEFDD0 /* CMRAppDelegate.m in Sources */,
 				8701637C082BE67100AEFDD0 /* CMRAppDelegate+Menu.m in Sources */,
-				8701637D082BE67100AEFDD0 /* CMRPullDownIconBtn.m in Sources */,
 				8701637E082BE67100AEFDD0 /* CMRThreadViewer-Validation.m in Sources */,
 				8701637F082BE67100AEFDD0 /* CMRThreadViewer-Find.m in Sources */,
 				87016380082BE67100AEFDD0 /* CMRNSSearchField.m in Sources */,

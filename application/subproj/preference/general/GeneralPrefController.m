@@ -1,5 +1,5 @@
 /**
-  * $Id: GeneralPrefController.m,v 1.3 2005/05/26 13:38:04 tsawada2 Exp $
+  * $Id: GeneralPrefController.m,v 1.4 2005/06/16 15:19:58 tsawada2 Exp $
   * 
   * GeneralPrefController.m
   *
@@ -36,13 +36,13 @@
 	
 	[[self preferences] setThreadsListAutoscrollMask : mask_];
 }
-- (IBAction) changeDrawerEdgeMask : (id) sender
+/*- (IBAction) changeDrawerEdgeMask : (id) sender
 {
 	int		mask_;
 	mask_ = [[[self drawerEdgeMaskMatrix] selectedCell] tag];
 	
 	[[self preferences] setBoardListDrawerEdge : (NSRectEdge)mask_];
-}
+}*/
 
 - (IBAction) changeIgnoreCharacters : (id) sender
 {
