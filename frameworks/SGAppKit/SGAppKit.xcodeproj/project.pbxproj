@@ -254,7 +254,7 @@
 		F3FB8B9904459BA500A80005 /* AllTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllTest.m; sourceTree = "<group>"; };
 		F3FB8B9C04459BB700A80005 /* TestKeyBindingSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestKeyBindingSupport.h; sourceTree = "<group>"; };
 		F3FB8B9D04459BB700A80005 /* TestKeyBindingSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestKeyBindingSupport.m; sourceTree = "<group>"; };
-		F3FB8BA004459CE800A80005 /* SGFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SGFoundation.framework; path = ../SGFoundation/build/SGFoundation.framework; sourceTree = SOURCE_ROOT; };
+		F3FB8BA004459CE800A80005 /* SGFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SGFoundation.framework; path = ../SGFoundation/build/Deployment/SGFoundation.framework; sourceTree = SOURCE_ROOT; };
 		F515D14D02DB28B201A80002 /* SGAppKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = SGAppKit.h; path = src/SGAppKit.h; sourceTree = "<group>"; };
 		F523B0C7037C028C01A80002 /* NSWorkspace-SGExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSWorkspace-SGExtensions.h"; sourceTree = "<group>"; };
 		F523B0C8037C028C01A80002 /* NSWorkspace-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSWorkspace-SGExtensions.m"; sourceTree = "<group>"; };
@@ -1357,7 +1357,7 @@
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = ../SGFoundation/build/;
+				FRAMEWORK_SEARCH_PATHS = ../SGFoundation/build/Deployment;
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -1392,7 +1392,7 @@
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = ../SGFoundation/build/;
+				FRAMEWORK_SEARCH_PATHS = ../SGFoundation/build/Deployment;
 				FRAMEWORK_VERSION = A;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -1429,7 +1429,7 @@
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = ../SGFoundation/build/;
+				FRAMEWORK_SEARCH_PATHS = ../SGFoundation/build/Deployment;
 				FRAMEWORK_VERSION = A;
 				GCC_USE_GCC3_PFE_SUPPORT = NO;
 				HEADER_SEARCH_PATHS = "";

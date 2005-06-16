@@ -723,7 +723,7 @@
 		87016396082BE67200AEFDD0 /* BathyScaphe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BathyScaphe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8702DB0C0845BCAF004BE941 /* Reply.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Reply.tiff; sourceTree = "<group>"; };
 		870332520845A953002E9187 /* Delete.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Delete.tiff; sourceTree = "<group>"; };
-		871986D108351B1800188E63 /* Keychain.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Keychain.framework; path = ../frameworks/Keychain/build/Keychain.framework; sourceTree = SOURCE_ROOT; };
+		871986D108351B1800188E63 /* Keychain.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Keychain.framework; path = ../frameworks/Keychain/build/Deployment/Keychain.framework; sourceTree = SOURCE_ROOT; };
 		871CA11108585F3A00C3A044 /* Info-editor.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Info-editor.plist"; path = "../../Info-editor.plist"; sourceTree = "<group>"; };
 		871CA11208585F3A00C3A044 /* BoardListEditor.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoardListEditor.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		871CA15508585F8100C3A044 /* Info-preferences.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Info-preferences.plist"; path = "../../Info-preferences.plist"; sourceTree = "<group>"; };
@@ -871,8 +871,8 @@
 		87299B0A0832622200CBD740 /* Zenkaku-Kana-Daku.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Zenkaku-Kana-Daku.txt"; sourceTree = "<group>"; };
 		87299B0B0832622200CBD740 /* Zenkaku-Kana.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Zenkaku-Kana.txt"; sourceTree = "<group>"; };
 		87299B0C0832622200CBD740 /* Zenkaku.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Zenkaku.txt; sourceTree = "<group>"; };
-		87299B410832623A00CBD740 /* BWAgent.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = BWAgent.app; path = subproj/BWAgent/build/BWAgent.app; sourceTree = SOURCE_ROOT; };
-		87299C09083266F700CBD740 /* BathyScaphe.mdimporter */ = {isa = PBXFileReference; explicitFileType = wrapper; name = BathyScaphe.mdimporter; path = ../metadataimporter/BathyScaphe/build/BathyScaphe.mdimporter; sourceTree = SOURCE_ROOT; };
+		87299B410832623A00CBD740 /* BWAgent.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = BWAgent.app; path = subproj/BWAgent/build/Deployment/BWAgent.app; sourceTree = SOURCE_ROOT; };
+		87299C09083266F700CBD740 /* BathyScaphe.mdimporter */ = {isa = PBXFileReference; explicitFileType = "wrapper.plug-in"; name = BathyScaphe.mdimporter; path = ../metadataimporter/BathyScaphe/build/Deployment/BathyScaphe.mdimporter; sourceTree = SOURCE_ROOT; };
 		87299CAB08326A2900CBD740 /* CMXFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMXFileManager.h; sourceTree = "<group>"; };
 		87299CAC08326A2900CBD740 /* CMXFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMXFileManager.m; sourceTree = "<group>"; };
 		87299CC908326C8900CBD740 /* misc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = misc.h; sourceTree = "<group>"; };
@@ -1268,10 +1268,10 @@
 		F38D3D4B04FB942400DCB099 /* CMRStatusLine-Notification.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "CMRStatusLine-Notification.m"; sourceTree = "<group>"; };
 		F38D3D4E04FBE7D000DCB099 /* CMRHistoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRHistoryManager.h; sourceTree = "<group>"; };
 		F38D3D4F04FBE7D000DCB099 /* CMRHistoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRHistoryManager.m; sourceTree = "<group>"; };
-		F3924488043610AE00A80005 /* CocoMonar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoMonar.framework; path = ../frameworks/CocoMonar/build/CocoMonar.framework; sourceTree = SOURCE_ROOT; };
+		F3924488043610AE00A80005 /* CocoMonar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoMonar.framework; path = ../frameworks/CocoMonar/build/Deployment/CocoMonar.framework; sourceTree = SOURCE_ROOT; };
 		F39244F5043610D600A80005 /* SGAppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SGAppKit.framework; path = ../frameworks/SGAppKit/build/Deployment/SGAppKit.framework; sourceTree = SOURCE_ROOT; };
-		F39244FA043610EB00A80005 /* SGFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SGFoundation.framework; path = ../frameworks/SGFoundation/build/SGFoundation.framework; sourceTree = SOURCE_ROOT; };
-		F39244FF043610FB00A80005 /* SGNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SGNetwork.framework; path = ../frameworks/SGNetwork/build/SGNetwork.framework; sourceTree = SOURCE_ROOT; };
+		F39244FA043610EB00A80005 /* SGFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SGFoundation.framework; path = ../frameworks/SGFoundation/build/Deployment/SGFoundation.framework; sourceTree = SOURCE_ROOT; };
+		F39244FF043610FB00A80005 /* SGNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SGNetwork.framework; path = ../frameworks/SGNetwork/build/Deployment/SGNetwork.framework; sourceTree = SOURCE_ROOT; };
 		F3959F0C04D3050600A80005 /* CMRAbstructThreadDocument_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRAbstructThreadDocument_p.h; sourceTree = "<group>"; };
 		F3959F0D04D3050600A80005 /* CMRThreadComposingTask_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRThreadComposingTask_p.h; sourceTree = "<group>"; };
 		F3959F0E04D3050600A80005 /* CMRThreadDocument_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRThreadDocument_p.h; sourceTree = "<group>"; };
@@ -3873,8 +3873,8 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build,
-					../frameworks/SGFoundation/build,
+					../frameworks/CocoMonar/build/Deployment,
+					../frameworks/SGFoundation/build/Deployment,
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -3910,8 +3910,8 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build,
-					../frameworks/SGFoundation/build,
+					../frameworks/CocoMonar/build/Deployment,
+					../frameworks/SGFoundation/build/Deployment,
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -3945,8 +3945,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build,
-					../frameworks/SGFoundation/build,
+					../frameworks/CocoMonar/build/Deployment,
+					../frameworks/SGFoundation/build/Deployment,
 				);
 				GCC_USE_GCC3_PFE_SUPPORT = NO;
 				INFOPLIST_FILE = "Info-editor.plist";
@@ -3969,8 +3969,8 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build,
-					../frameworks/SGFoundation/build,
+					../frameworks/CocoMonar/build/Deployment,
+					../frameworks/SGFoundation/build/Deployment,
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -4005,8 +4005,8 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build,
-					../frameworks/SGFoundation/build,
+					../frameworks/CocoMonar/build/Deployment,
+					../frameworks/SGFoundation/build/Deployment,
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -4039,8 +4039,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build,
-					../frameworks/SGFoundation/build,
+					../frameworks/CocoMonar/build/Deployment,
+					../frameworks/SGFoundation/build/Deployment,
 				);
 				INFOPLIST_FILE = "Info-preferences.plist";
 				INSTALL_PATH = "@executable_path/../Plugins";
@@ -4062,9 +4062,9 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build,
-					../frameworks/SGFoundation/build,
-					../frameworks/SGNetwork/build,
+					../frameworks/CocoMonar/build/Deployment,
+					../frameworks/SGFoundation/build/Deployment,
+					../frameworks/SGNetwork/build/Deployment,
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -4100,9 +4100,9 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build,
-					../frameworks/SGFoundation/build,
-					../frameworks/SGNetwork/build,
+					../frameworks/CocoMonar/build/Deployment,
+					../frameworks/SGFoundation/build/Deployment,
+					../frameworks/SGNetwork/build/Deployment,
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -4136,9 +4136,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build,
-					../frameworks/SGFoundation/build,
-					../frameworks/SGNetwork/build,
+					../frameworks/CocoMonar/build/Deployment,
+					../frameworks/SGFoundation/build/Deployment,
+					../frameworks/SGNetwork/build/Deployment,
 				);
 				GCC_USE_GCC3_PFE_SUPPORT = NO;
 				INFOPLIST_FILE = "Info-reply.plist";
@@ -4161,12 +4161,11 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build,
-					../frameworks/SGFoundation/build,
-					../frameworks/SGNetwork/build,
-					../frameworks/Keychain/build,
+					../frameworks/CocoMonar/build/Deployment,
+					../frameworks/SGFoundation/build/Deployment,
+					../frameworks/SGNetwork/build/Deployment,
+					../frameworks/Keychain/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
-					../frameworks/SGAppKit/build,
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -4203,12 +4202,11 @@
 				COPY_PHASE_STRIP = YES;
 				DEBUGGING_SYMBOLS = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build,
-					../frameworks/SGFoundation/build,
-					../frameworks/SGNetwork/build,
-					../frameworks/Keychain/build,
+					../frameworks/CocoMonar/build/Deployment,
+					../frameworks/SGFoundation/build/Deployment,
+					../frameworks/SGNetwork/build/Deployment,
+					../frameworks/Keychain/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
-					../frameworks/SGAppKit/build,
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -4243,12 +4241,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build,
-					../frameworks/SGFoundation/build,
-					../frameworks/SGNetwork/build,
-					../frameworks/Keychain/build,
+					../frameworks/CocoMonar/build/Deployment,
+					../frameworks/SGFoundation/build/Deployment,
+					../frameworks/SGNetwork/build/Deployment,
+					../frameworks/Keychain/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
-					../frameworks/SGAppKit/build,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = source/CocoMonar_Prefix.h;
