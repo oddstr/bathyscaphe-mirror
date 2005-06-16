@@ -1,6 +1,6 @@
 //: CMXTextParser.m
 /**
-  * $Id: CMXTextParser.m,v 1.2 2005/06/14 18:37:36 tsawada2 Exp $
+  * $Id: CMXTextParser.m,v 1.3 2005/06/16 11:38:37 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -173,15 +173,12 @@ static void separetedLineByConvertingComma(NSString *theString, NSMutableArray *
 	if (found_.length != 0) {
 		// 2001/08/06(月) 21:45形式 --> 2001/08/06 21:45
 		NSRange		weekday_;		// 曜日欄
-
-#if PATCH
-		NSRange  weekday_close_;
-		int week_len = 0;
-#endif
+		NSRange		weekday_close_;
+		int			week_len = 0;
 
 		weekday_.location = found_.location;
 		weekday_.length = 3;
-#if PATCH
+
 		week_len = NSMaxRange(weekday_);
 		if ([dateString_ length] >= week_len && [dateString_ characterAtIndex: week_len-1] != c_CMXTextParserDate2chSeparater_close) {
 			weekday_.length = [dateString_ length] - weekday_.location;
@@ -191,10 +188,10 @@ static void separetedLineByConvertingComma(NSString *theString, NSMutableArray *
 			else
 				weekday_.length = 3;
 		}
-#endif
+
 		if (NSMaxRange(weekday_) > [dateString_ length])
 			goto return_date;
-			[dateString_ deleteCharactersInRange : weekday_];
+		[dateString_ deleteCharactersInRange : weekday_];
 	}
 
 
@@ -726,7 +723,6 @@ static BOOL divideDateExtraField(
 	// 
 	// まずは暦区切りの","を探し、
 	// 「エロゲ暦24年,2005/04/02...」 -> 「2005/04/02...」のように変な表記をカット
-	// CocoMonar の Date As Date ポリシーに乗っ取り、変な暦を表示することにはこだわらない。
 	// 
 	length_ = [field length];
 	search_ = NSMakeRange(0, length_);
@@ -839,32 +835,56 @@ only_date_field:
 	unsigned	length_;
 	NSRange		found_;
 	NSRange		search_;
-	NSString	*siberiaIPKey;
 	
 	length_ = [extraField length];
+
 	if (nil == extraField || 0 == length_)
 		return YES;
 
-	/* 2005-02-03 tsawada2<ben-sawa@td5.so-net.ne.jp>
-	   extraField が 0 または O 一文字の場合は、携帯・PCの区別記号と見なして直接処理
-	   ログファイルのフォーマットの互換性などを考慮して、Host の値として処理することにする。
+	/*
+		2005-02-03 tsawada2<ben-sawa@td5.so-net.ne.jp>
+		extraField が 0 または O 一文字の場合は、携帯・PCの区別記号と見なして直接処理
+		ログファイルのフォーマットの互換性などを考慮して、Host の値として処理することにする。
 	*/
 	if ([extraField isEqualToString : @"0"] || [extraField isEqualToString : @"O"]) {
 		[aMessage setHost : extraField];
 		return YES;
 	}
 	
+	NSString	*siberiaIPKey = NSLocalizedString(@"siberia IP field", @"siberia IP field");	// シベリア超速報などで出てくる「発信元:」という文字列
+	
+	{
+		NSRange		hostRange_;
+		
+		// お尻から"HOST:"を探す
+		// HOST より後ろには、他の情報（BE:やID:など）はくっつかないと仮定している。
+		hostRange_ = [extraField rangeOfString : @"HOST:"
+									   options : NSLiteralSearch | NSBackwardsSearch];
+
+		if (hostRange_.location != NSNotFound) {
+			NSString	*hostStr_ = [extraField substringFromIndex : (hostRange_.location+5)];
+			
+			// まちBBSなどで、"HOST: xxx.yyy.jp"のように":"のあとに" "があることがある。それを削除
+			if ([hostStr_ hasPrefix : @" "]) hostStr_ = [hostStr_ substringFromIndex : 1];
+
+			[aMessage setHost : hostStr_];
+			
+			if (hostRange_.location == 0) return YES; // HOST: より前に文字列が無いならもう終了
+			extraField = [extraField substringToIndex : (hostRange_.location-1)]; // extraField から host を削り取る
+			length_ = [extraField length]; // length を再設定
+		}
+	}
+
 	search_ = NSMakeRange(0, length_);
-	siberiaIPKey = NSLocalizedString(@"siberia IP field", @"siberia IP field");	// シベリア超速報などで出てくる「発信元:」という文字列
 
 	while (1) {
 		NSRange		substringRange_;
 		NSString	*name_;
 		NSString	*value_;
-		
+
 		// 
 		// まずは項目の名前／値区切り文字の":"を探す
-		// 
+		//
 		found_ = [extraField rangeOfString : @":"
 							       options : NSLiteralSearch
 							         range : search_];
@@ -892,7 +912,7 @@ only_date_field:
 		
 		// 
 		// 項目区切り文字の" "を探す
-		// 
+		//
 		found_ = [extraField rangeOfString : @" "
 							       options : NSLiteralSearch
 							         range : search_];
@@ -905,26 +925,25 @@ only_date_field:
 			value_ = [extraField substringWithRange : substringRange_];
 		}
 		
-/*
 		UTILDescription(extraField);
 		UTILDescription(name_);
 		UTILDescription(value_);
-*/
+
 		if ([name_ rangeOfString : @"ID"].length != 0) {
 			[aMessage setIDString : value_];
 		}else if ([name_ rangeOfString : @"BE"].length != 0) {
-			// be
-			//NSLog(@"Be: %@", value_);
+			//
+			// be profile link
+			//
 			if ([value_ hasSuffix : @">"]) {
 				// in 'be.2ch.net/be' the Be-ID format is different from other boards.
 				value_ = [value_ substringToIndex : ([value_ length]-1)];
-				//NSLog(@"trimed: %@", value_);
 				[aMessage setBeProfile : [value_ componentsSeparatedByString : @":"]];
 			} else {
 				// standard be profile ID format
 				[aMessage setBeProfile : [value_ componentsSeparatedByString : @"-"]];
 			}
-		}else if ([name_ rangeOfString : @"HOST"].length != 0 || [name_ rangeOfString : siberiaIPKey].length != 0) {
+		}else if ([name_ rangeOfString : siberiaIPKey].length != 0) {
 			[aMessage setHost : value_];
 		} else {
 			;
@@ -945,6 +964,7 @@ only_date_field:
 	error_invalid_format:
 		return NO;
 }
+
 + (BOOL) parseDateExtraField : (NSString         *) dateExtra
             convertToMessage : (CMRThreadMessage *) aMessage
 {

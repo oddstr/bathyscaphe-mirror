@@ -1,3 +1,7 @@
+2005-06-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/composer/CMXTextParser.m
+		Host 文字列に半角スペースが含まれていると、半角スペースより後ろの文字列が抜け落ちてしまう
+		問題を修正。
 2005-06-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/composer/CMXTextParser.m
 	* application/Resources/Japanese.lproj/Localizable.strings
