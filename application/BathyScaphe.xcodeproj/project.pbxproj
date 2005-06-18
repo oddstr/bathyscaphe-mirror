@@ -80,7 +80,6 @@
 		870161E3082BE67100AEFDD0 /* missing.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD8704C698FB00A80005 /* missing.h */; };
 		870161E4082BE67100AEFDD0 /* CMRIndexingStepper.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD9604C698FB00A80005 /* CMRIndexingStepper.h */; };
 		870161E5082BE67100AEFDD0 /* CMRIndexingStepper_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD9804C698FB00A80005 /* CMRIndexingStepper_p.h */; };
-		870161E6082BE67100AEFDD0 /* CMRSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD9C04C698FB00A80005 /* CMRSplitView.h */; };
 		870161E7082BE67100AEFDD0 /* CMRStatusLine.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDA304C698FB00A80005 /* CMRStatusLine.h */; };
 		870161E8082BE67100AEFDD0 /* CMRStatusLine_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDA504C698FB00A80005 /* CMRStatusLine_p.h */; };
 		870161E9082BE67100AEFDD0 /* IndexField.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDA604C698FB00A80005 /* IndexField.h */; };
@@ -168,7 +167,6 @@
 		8701624F082BE67100AEFDD0 /* UTILError.h in Headers */ = {isa = PBXBuildFile; fileRef = 8792D83B05E21AE20074B2BE /* UTILError.h */; };
 		87016250082BE67100AEFDD0 /* CMRNetRequestQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = F37B9DA105E8B16900B8507D /* CMRNetRequestQueue.h */; };
 		87016252082BE67100AEFDD0 /* CMRNetGrobalLock.h in Headers */ = {isa = PBXBuildFile; fileRef = F376045E064FD09200591F56 /* CMRNetGrobalLock.h */; };
-		87016253082BE67100AEFDD0 /* CMRPullsDownButton.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D8C87D069C587B0094A779 /* CMRPullsDownButton.h */; };
 		87016254082BE67100AEFDD0 /* CMRAppDelegate_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F3660E3A06C4C7DA00A92719 /* CMRAppDelegate_p.h */; };
 		87016255082BE67100AEFDD0 /* CMRAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F3660E3B06C4C7DA00A92719 /* CMRAppDelegate.h */; };
 		87016257082BE67100AEFDD0 /* CMRNSSearchField.h in Headers */ = {isa = PBXBuildFile; fileRef = 8782402C0823C0A900C52066 /* CMRNSSearchField.h */; };
@@ -315,7 +313,6 @@
 		87016376082BE67100AEFDD0 /* CMRNetRequestQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = F37B9DA205E8B16900B8507D /* CMRNetRequestQueue.m */; };
 		87016378082BE67100AEFDD0 /* CMRThreadAttributes-Convert.m in Sources */ = {isa = PBXBuildFile; fileRef = F387636C06015B8C00B3C8EA /* CMRThreadAttributes-Convert.m */; };
 		87016379082BE67100AEFDD0 /* CMRNetGrobalLock.m in Sources */ = {isa = PBXBuildFile; fileRef = F376045F064FD09200591F56 /* CMRNetGrobalLock.m */; };
-		8701637A082BE67100AEFDD0 /* CMRPullsDownButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D8C87E069C587B0094A779 /* CMRPullsDownButton.m */; };
 		8701637B082BE67100AEFDD0 /* CMRAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F3660E3C06C4C7DA00A92719 /* CMRAppDelegate.m */; };
 		8701637C082BE67100AEFDD0 /* CMRAppDelegate+Menu.m in Sources */ = {isa = PBXBuildFile; fileRef = F3660E3D06C4C7DA00A92719 /* CMRAppDelegate+Menu.m */; };
 		8701637E082BE67100AEFDD0 /* CMRThreadViewer-Validation.m in Sources */ = {isa = PBXBuildFile; fileRef = 875743F907C372F6006F3C68 /* CMRThreadViewer-Validation.m */; };
@@ -583,6 +580,13 @@
 		87299CCA08326C8900CBD740 /* misc.h in Headers */ = {isa = PBXBuildFile; fileRef = 87299CC908326C8900CBD740 /* misc.h */; };
 		87464E3708643673000F0371 /* libRBSplitView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87464E3608643673000F0371 /* libRBSplitView.a */; };
 		87464E390864368F000F0371 /* RBSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87464E380864368F000F0371 /* RBSplitView.h */; };
+		87517B780864B242002DA082 /* CMRSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD9C04C698FB00A80005 /* CMRSplitView.h */; };
+		87517B8A0864B4F0002DA082 /* SplitterHandle.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87517B890864B4F0002DA082 /* SplitterHandle.tiff */; };
+		87517B9E0864BA43002DA082 /* CMRPullDownIconBtn.h in Headers */ = {isa = PBXBuildFile; fileRef = 875C4D76079059C8008EE846 /* CMRPullDownIconBtn.h */; };
+		87517B9F0864BA46002DA082 /* CMRPullDownIconBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 875C4D77079059C8008EE846 /* CMRPullDownIconBtn.m */; };
+		87517BA70864BB14002DA082 /* Action.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87299A03083261F200CBD740 /* Action.tiff */; };
+		87517BA80864BB17002DA082 /* Action_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87299A04083261F200CBD740 /* Action_Pressed.tiff */; };
+		87517BAF0864BE33002DA082 /* Spacer.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87517BAE0864BE33002DA082 /* Spacer.tiff */; };
 		87558534085BEF7800D2C2A6 /* BSIconTextFieldCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 87558532085BEF7800D2C2A6 /* BSIconTextFieldCell.h */; };
 		87558535085BEF7800D2C2A6 /* BSIconTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87558533085BEF7800D2C2A6 /* BSIconTextFieldCell.m */; };
 		87B652990840625F008AE2BE /* SendMessage.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B652980840625F008AE2BE /* SendMessage.tiff */; };
@@ -880,6 +884,8 @@
 		87464E380864368F000F0371 /* RBSplitView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = RBSplitView.h; sourceTree = "<group>"; };
 		874F24FA080E716700EA2164 /* w2chReply_be2ch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = w2chReply_be2ch.h; sourceTree = "<group>"; };
 		874F24FB080E716700EA2164 /* w2chReply_be2ch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = w2chReply_be2ch.m; sourceTree = "<group>"; };
+		87517B890864B4F0002DA082 /* SplitterHandle.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SplitterHandle.tiff; sourceTree = "<group>"; };
+		87517BAE0864BE33002DA082 /* Spacer.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Spacer.tiff; sourceTree = "<group>"; };
 		87558532085BEF7800D2C2A6 /* BSIconTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIconTextFieldCell.h; sourceTree = "<group>"; };
 		87558533085BEF7800D2C2A6 /* BSIconTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIconTextFieldCell.m; sourceTree = "<group>"; };
 		875743F907C372F6006F3C68 /* CMRThreadViewer-Validation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-Validation.m"; sourceTree = "<group>"; };
@@ -1515,6 +1521,8 @@
 		87299A02083261F200CBD740 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				87517BAE0864BE33002DA082 /* Spacer.tiff */,
+				87517B890864B4F0002DA082 /* SplitterHandle.tiff */,
 				F424609808462452000803EA /* Scripts.tiff */,
 				8700C7170845F041005B2F7C /* openBoard.tiff */,
 				8700C7180845F041005B2F7C /* closeBoard.tiff */,
@@ -2609,7 +2617,6 @@
 				870161E3082BE67100AEFDD0 /* missing.h in Headers */,
 				870161E4082BE67100AEFDD0 /* CMRIndexingStepper.h in Headers */,
 				870161E5082BE67100AEFDD0 /* CMRIndexingStepper_p.h in Headers */,
-				870161E6082BE67100AEFDD0 /* CMRSplitView.h in Headers */,
 				870161E7082BE67100AEFDD0 /* CMRStatusLine.h in Headers */,
 				870161E8082BE67100AEFDD0 /* CMRStatusLine_p.h in Headers */,
 				870161E9082BE67100AEFDD0 /* IndexField.h in Headers */,
@@ -2697,7 +2704,6 @@
 				8701624F082BE67100AEFDD0 /* UTILError.h in Headers */,
 				87016250082BE67100AEFDD0 /* CMRNetRequestQueue.h in Headers */,
 				87016252082BE67100AEFDD0 /* CMRNetGrobalLock.h in Headers */,
-				87016253082BE67100AEFDD0 /* CMRPullsDownButton.h in Headers */,
 				87016254082BE67100AEFDD0 /* CMRAppDelegate_p.h in Headers */,
 				87016255082BE67100AEFDD0 /* CMRAppDelegate.h in Headers */,
 				87016257082BE67100AEFDD0 /* CMRNSSearchField.h in Headers */,
@@ -2727,6 +2733,8 @@
 				87464E390864368F000F0371 /* RBSplitView.h in Headers */,
 				87BB79210864401A00ED8757 /* RBSplitSubview.h in Headers */,
 				87BB79220864401A00ED8757 /* RBSplitViewPrivateDefines.h in Headers */,
+				87517B780864B242002DA082 /* CMRSplitView.h in Headers */,
+				87517B9E0864BA43002DA082 /* CMRPullDownIconBtn.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3104,6 +3112,10 @@
 				8700C7150845EF51005B2F7C /* ReloadList.tiff in Resources */,
 				8700C7160845EF51005B2F7C /* ReloadThread.tiff in Resources */,
 				F424609908462452000803EA /* Scripts.tiff in Resources */,
+				87517B8A0864B4F0002DA082 /* SplitterHandle.tiff in Resources */,
+				87517BA70864BB14002DA082 /* Action.tiff in Resources */,
+				87517BA80864BB17002DA082 /* Action_Pressed.tiff in Resources */,
+				87517BAF0864BE33002DA082 /* Spacer.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3341,7 +3353,6 @@
 				87016376082BE67100AEFDD0 /* CMRNetRequestQueue.m in Sources */,
 				87016378082BE67100AEFDD0 /* CMRThreadAttributes-Convert.m in Sources */,
 				87016379082BE67100AEFDD0 /* CMRNetGrobalLock.m in Sources */,
-				8701637A082BE67100AEFDD0 /* CMRPullsDownButton.m in Sources */,
 				8701637B082BE67100AEFDD0 /* CMRAppDelegate.m in Sources */,
 				8701637C082BE67100AEFDD0 /* CMRAppDelegate+Menu.m in Sources */,
 				8701637E082BE67100AEFDD0 /* CMRThreadViewer-Validation.m in Sources */,
@@ -3364,6 +3375,7 @@
 				87D8DBA90833D55D004C1168 /* NSFancyPanel.m in Sources */,
 				F49CCDF60849B87500835BE3 /* BSScriptsMenuManager.m in Sources */,
 				87E4752B085C57C100B3E45E /* BSWindow.m in Sources */,
+				87517B9F0864BA46002DA082 /* CMRPullDownIconBtn.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

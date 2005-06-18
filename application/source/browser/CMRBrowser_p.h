@@ -106,8 +106,9 @@
 - (NSPopUpButton *) threadsFilterPopUp;
 /* Accessor for m_boardListTable */
 - (NSOutlineView *) boardListTable;
-//- (NSButton *) brdListActMenuBtn;
+- (id) brdListActMenuBtn;
 - (RBSplitSubview *) boardListSubView;
+- (id) splitterBtn;
 
 - (NSMenu *) listContextualMenu;
 - (NSMenu *) drawerContextualMenu;

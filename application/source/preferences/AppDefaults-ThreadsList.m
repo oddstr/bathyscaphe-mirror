@@ -77,7 +77,7 @@ static NSString *const AppDefaultsStatusLineToolbarAlignmentKey = @"StatusLine T
 		 setObject : chars
 			forKey : AppDefaultsTLIgnoreTitleCharactersKey];
 }
-
+/*
 - (BOOL) statusLineUsesSpinningStyle
 {
 	return [[self threadsListSettingsDictionary]
@@ -115,7 +115,7 @@ static NSString *const AppDefaultsStatusLineToolbarAlignmentKey = @"StatusLine T
 				forKey : AppDefaultsStatusLineToolbarAlignmentKey];
 	[self postLayoutSettingsUpdateNotification];
 }
-
+*/
 - (void) _loadThreadsListSettings
 {
 }

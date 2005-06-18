@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.6 2005/06/18 14:27:59 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.7 2005/06/18 22:33:27 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -142,6 +142,19 @@ extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
 				to : (float) newDimension
 {
 	[sender adjustSubviewsExcepting : [self boardListSubView]];
+}
+// This makes it possible to drag the first divider around by the dragView.
+- (unsigned int) splitView : (RBSplitView *) sender
+		   dividerForPoint : (NSPoint) point
+				 inSubview : (RBSplitSubview *) subview
+{
+	if (subview == [self boardListSubView]) {
+		id draggingSplitter_ = [self splitterBtn];
+		if ([draggingSplitter_ mouse:[draggingSplitter_ convertPoint : point fromView : sender] inRect:[draggingSplitter_ bounds]]) {
+			return 0;	// [firstSplit position], which we assume to be zero
+		}
+	}
+	return NSNotFound;
 }
 @end
 

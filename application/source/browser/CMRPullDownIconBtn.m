@@ -26,8 +26,8 @@
     iconPoint.y = cellFrame.origin.y;
     
     if(iconImage) {
-        iconSize.width = 28;
-        iconSize.height = 22;
+        iconSize.width = 32;
+        iconSize.height = 25;
         
         if([controlView isFlipped]) {
             iconPoint.y += iconSize.height;

@@ -1,4 +1,21 @@
 2005-06-19 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/image/SplitterHandle.tiff
+	* application/Resources/image/Spacer.tiff
+		[新規追加]スプリットビューリサイズボタンと、隙間埋め用の画像。
+	* application/Resources/image/Action.tiff
+	* application/Resources/image/Action_Pressed.tiff
+	* application/source/browser/CMRPullDownIconBtn.m
+		アクションボタンのアイコンを変更（Tiger の Mail のそれがベースだが、
+		微妙に違うのだ）。
+	* application/Resources/Japanese.lproj/Browser.nib
+		掲示板リストの下部にアクションボタンを復活。また、スプリットバーの幅を
+		0にして、リサイズは下部のボタンで行うようにした。
+		さらに、（リサイズボタン＋アクションボタンの幅＝）48px 以下に幅を縮められないように
+		した（Mail はそう。しかし完全に隠したい人は不満たらたらかも。でも完全に隠すと、一緒に
+		リサイズボタンも消えちゃう訳で、そうすると再表示はどうするの？と不親切な UI な訳で…）
+	* application/Resources/Japanese.lproj/Browser.nib
+		RBSplitView の autoSave name がテスト時の適当な名前のままだったので
+		それらしいものに修正した。また、コンテキストメニューの表記を修正。
 	* application/source/view/CMRStatusLine-Notification.m
 	* application/source/view/CMRStatusLine-ViewAccessor.m
 	* application/source/view/CMRStatusLine.m

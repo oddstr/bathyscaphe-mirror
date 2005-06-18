@@ -63,6 +63,7 @@
                 bottomSubview = id; 
                 "m_boardListSubView" = RBSplitSubview; 
                 "m_boardListTable" = NSOutlineView; 
+                "m_brdListActMenuBtn" = id; 
                 "m_dItemAddNameField" = NSTextFieldCell; 
                 "m_dItemAddURLField" = NSTextFieldCell; 
                 "m_dItemEditSheetInputField" = NSTextField; 
@@ -74,6 +75,7 @@
                 "m_drawerItemEditSheet" = NSWindow; 
                 "m_listContextualMenu" = NSMenu; 
                 "m_splitView" = CMRSplitView; 
+                "m_splitterBtn" = id; 
                 "m_threadsFilterPopUp" = NSPopUpButton; 
                 "m_threadsListTable" = ThreadsListTable; 
                 topSubview = id; 

@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.5 2005/06/16 15:19:58 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.6 2005/06/18 22:33:27 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -343,13 +343,15 @@ enum {
 - (void) setIgnoreTitleCharacters : (NSString *) ignoreChars;
 
 // statusLine
-/* deprecated in BathyScaphe 1.1 or later. */
+/* deprecated in BathyScaphe 1.0.2. */
+/*
 - (BOOL) statusLineUsesSpinningStyle;
 - (void) setStatusLineUsesSpinningStyle : (BOOL) usesSpinningStyle;
 - (int) statusLinePosition;
 - (void) setStatusLinePosition : (int) aStatusLinePosition;
 - (int) statusLineToolbarAlignment;
 - (void) setStatusLineToolbarAlignment : (int) aStatusLineToolbarAlignment;
+*/
 
 
 - (void) _loadThreadsListSettings;

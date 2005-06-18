@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.12 2005/06/18 19:09:16 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.13 2005/06/18 22:33:27 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -56,10 +56,14 @@
 {
     return m_boardListTable;
 }
-/*- (NSButton *) brdListActMenuBtn
+- (id) brdListActMenuBtn
 {
     return m_brdListActMenuBtn;
-}*/
+}
+- (id) splitterBtn
+{
+	return m_splitterBtn;
+}
 
 - (NSMenu *) listContextualMenu
 {
@@ -658,7 +662,7 @@
     return;
 }
 
-/*- (void) setUpBoardListToolButtons
+- (void) setUpBoardListToolButtons
 {
 	CMRPullDownIconBtn	*cell_;
 	
@@ -668,7 +672,7 @@
     [cell_ release];
 
 	[[[self brdListActMenuBtn] cell] setArrowPosition:NSPopUpNoArrow];
-}*/
+}
 @end
 
 #pragma mark -
@@ -681,7 +685,7 @@
     [self setupThreadsListTable];
     [self setupThreadsFilterPopUp];
     [self setupThreadsListScrollView];
-    
+    [self setUpBoardListToolButtons];
     [self setupFrameAutosaveName];
     [self setupKeyLoops];
     

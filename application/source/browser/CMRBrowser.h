@@ -29,7 +29,8 @@
 	IBOutlet NSPopUpButton		*m_threadsFilterPopUp;
 	
 	IBOutlet NSOutlineView		*m_boardListTable;
-	//IBOutlet NSButton			*m_brdListActMenuBtn;	
+	IBOutlet id					m_splitterBtn;
+	IBOutlet id					m_brdListActMenuBtn;	
 	
 	IBOutlet NSMenu				*m_listContextualMenu;
 	IBOutlet NSMenu				*m_drawerContextualMenu;
