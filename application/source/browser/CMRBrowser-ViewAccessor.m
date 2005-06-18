@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.13 2005/06/18 22:33:27 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.14 2005/06/18 23:52:18 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -414,10 +414,10 @@
 
 - (void) setupSplitView
 {
+	// KFSplitView
     [[self splitView] setVertical : [CMRPref isSplitViewVertical]];
     topSubview = [[[self splitView] subviews] objectAtIndex:0];
     bottomSubview = [[[self splitView] subviews] objectAtIndex:1];
-
 }
 
 - (void) updateDefaultsWithTableView : (NSTableView *) tbview
@@ -537,6 +537,7 @@
 - (void) setupBoardListOutlineView : (NSOutlineView *) outlineView
 {
     id        tmp;
+	NSColor	*tmp2;
     
     // D & D
     [outlineView registerForDraggedTypes : 
@@ -571,9 +572,8 @@
     tmp = SGTemplateResource(kBBSListIndentationPerLevelKey);
     UTILAssertRespondsTo(tmp, @selector(floatValue));
     [outlineView setIndentationPerLevel : [tmp floatValue]];
-    
-	tmp = [CMRPref boardListBgColor];
-    if (NO == [tmp isEqual : [NSColor whiteColor]]) [outlineView setBackgroundColor : tmp];
+    tmp2 = [CMRPref boardListBgColor];
+    if (tmp2 != nil)[outlineView setBackgroundColor : tmp2];
 		
 	[outlineView setMenu : [self drawerContextualMenu]];
 }
@@ -643,16 +643,21 @@
 {
     [self setupSplitView];
     [[self window] setFrameAutosaveName : APP_BROWSER_WINDOW_AUTOSAVE_NAME];
-	//[[self boardListSplitView] setPositionAutosaveName : APP_BROWSER_BL_SPVIEW_AUTOSAVE_NAME];
 	[[self splitView] setPositionAutosaveName : APP_BROWSER_SPVIEW_AUTOSAVE_NAME];
 }
 - (void) setupKeyLoops
 {
     [[self searchTextField] setNextKeyView : [self threadsListTable]];
     
-    [[self threadsListTable] setNextKeyView : [self textView]];
-    [[self textView] setNextKeyView : [[self indexingStepper] textField]];
-    [[[self indexingStepper] textField] setNextKeyView : [self searchTextField]];
+	if ([self shouldShowContents]) {
+		[[self threadsListTable] setNextKeyView : [self textView]];
+		[[self textView] setNextKeyView : [[self indexingStepper] textField]];
+		[[[self indexingStepper] textField] setNextKeyView : [self boardListTable]];
+	} else {
+		[[self threadsListTable] setNextKeyView : [self boardListTable]];
+	}
+	
+	[[self boardListTable] setNextKeyView : [self searchTextField]];
     
     [[self window] setInitialFirstResponder : [self threadsListTable]];
     [[self window] makeFirstResponder : [self threadsListTable]];

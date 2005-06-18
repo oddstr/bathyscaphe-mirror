@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.7 2005/06/18 22:33:27 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.8 2005/06/18 23:52:18 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -22,6 +22,16 @@ extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
 	BOOL currentState = [sender isSubviewCollapsed:bottomSubview];
 	[sender setSubview:bottomSubview isCollapsed:!currentState];
 	[sender resizeSubviewsWithOldSize:[sender frame].size];
+	
+	if(currentState) {
+		//2 ‚©‚ç 3 ‚É‚È‚Á‚½
+		[[self threadsListTable] setNextKeyView : [self textView]];
+		[[self textView] setNextKeyView : [[self indexingStepper] textField]];
+		[[[self indexingStepper] textField] setNextKeyView : [self boardListTable]];
+	} else {
+		//3 ‚©‚ç 2 ‚É‚È‚Á‚½
+		[[self threadsListTable] setNextKeyView : [self boardListTable]];
+	}
 }
 
 - (void)splitView:(id)sender resizeSubviewsWithOldSize:(NSSize)oldSize
@@ -155,6 +165,14 @@ extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
 		}
 	}
 	return NSNotFound;
+}
+// This changes the cursor when it's over the dragView.
+- (NSRect)splitView:(RBSplitView*)sender cursorRect:(NSRect)rect forDivider:(unsigned int)divider {
+	if (divider==0) {
+		id draggingSplitter_ = [self splitterBtn];
+		[sender addCursorRect:[draggingSplitter_ convertRect:[draggingSplitter_ bounds] toView:sender] cursor:[RBSplitView cursor:RBSVVerticalCursor]];
+	}
+	return rect;
 }
 @end
 

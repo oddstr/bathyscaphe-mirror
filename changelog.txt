@@ -1,4 +1,10 @@
 2005-06-19 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/composer/CMRAttributedMessageComposer.m
+		Be プロフィールへのリンク書式が不要な範囲まで適用されてしまう問題を修正。
+	* application/source/preferences/AppDefaults-ThreadsList.m
+		ステータス行関係の preferences を削除（ヘッダにはコメントアウトして残してある）。
+	* application/source/browser/CMRBrowser-Delegate.m
+		掲示板リストのスプリットビューリサイズボタン上で、正しくカーソルが変わるようにした。
 	* application/Resources/image/SplitterHandle.tiff
 	* application/Resources/image/Spacer.tiff
 		[新規追加]スプリットビューリサイズボタンと、隙間埋め用の画像。

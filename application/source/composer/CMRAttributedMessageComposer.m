@@ -363,7 +363,7 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 					range : [format_ range]];
 
 	[mas_ appendAttributedString : format_];
-	//[mas_ appendAttributedString : whiteSpaceSeparater()];
+	[mas_ appendAttributedString : whiteSpaceSeparater()];
 }
 
 - (void) composeHost : (CMRThreadMessage *) aMessage
