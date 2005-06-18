@@ -75,6 +75,8 @@
 /* End PBXApplicationTarget section */
 
 /* Begin PBXBuildFile section */
+		8751C4760862204100998A38 /* SGContainerTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = F57D5E05037B6D8601A80002 /* SGContainerTableView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8751C4770862204200998A38 /* SGContainerTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F57D5E06037B6D8601A80002 /* SGContainerTableView.m */; };
 		87E45256085ED89D00F2ACB3 /* SGAppKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F515D14D02DB28B201A80002 /* SGAppKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87E45257085ED89D00F2ACB3 /* NSMatrix-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F545F23F036F807501A80002 /* NSMatrix-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87E45258085ED89D00F2ACB3 /* NSMatrix-SGExtensions_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F545F243036F80A501A80002 /* NSMatrix-SGExtensions_p.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -914,6 +916,7 @@
 				87E4527D085ED89D00F2ACB3 /* UtkDebugging.h in Headers */,
 				87E4527E085ED89D00F2ACB3 /* UtkDescription.h in Headers */,
 				87E4527F085ED89D00F2ACB3 /* UtkError.h in Headers */,
+				8751C4760862204100998A38 /* SGContainerTableView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1076,6 +1079,7 @@
 				87E45296085ED89D00F2ACB3 /* NSColor-SGExtensions.m in Sources */,
 				87E45297085ED89D00F2ACB3 /* SGKeyBindingSupport.m in Sources */,
 				87E45298085ED89D00F2ACB3 /* NSUserDefaults+SGAppKitExtensions.m in Sources */,
+				8751C4770862204200998A38 /* SGContainerTableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,6 +1,6 @@
 //: SGAppKit.h
 /**
-  * $Id: SGAppKit.h,v 1.3 2005/06/14 10:20:57 tsawada2 Exp $
+  * $Id: SGAppKit.h,v 1.4 2005/06/18 14:27:59 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -35,7 +35,7 @@ extern void SGAppKitFrameworkInit(void);
 #import <SGAppKit/NSWorkspace-SGExtensions.h>
 #import <SGAppKit/NSUserDefaults+SGAppKitExtensions.h>
 
-//#import <SGAppKit/SGContainerTableView.h>
+#import <SGAppKit/SGContainerTableView.h>
 //#import <SGAppKit/SGSplitView.h>
 //#import <SGAppKit/SGTableViewBase.h>
 //#import <SGAppKit/SGTableView.h>

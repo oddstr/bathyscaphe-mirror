@@ -9,6 +9,7 @@
   *
   */
 #import <Cocoa/Cocoa.h>
+#import "RBSplitView.h"
 #import "CMRThreadViewer.h"
 #import "CMRNSSearchField.h"
 
@@ -20,7 +21,8 @@
 
 @interface CMRBrowser : CMRThreadViewer
 {
-	IBOutlet CMRSplitView		*m_boardListSplitView;
+	IBOutlet RBSplitSubview		*m_boardListSubView;
+
 	IBOutlet CMRSplitView		*m_splitView;
 	
 	IBOutlet ThreadsListTable	*m_threadsListTable;
@@ -48,16 +50,12 @@
 	CMRNSSearchField			*m_listSorter;
 	CMRNSSearchField			*m_listSorterSub;
 	
-	//CMRAccessorySheetController	*m_boardListSheetController;
 	CMRAccessorySheetController	*m_listSorterSheetController;
     // note - these can't be connected in IB
     // you'll get, for example, a text view where you meant to get
     // its enclosing scroll view
     id topSubview;
     id bottomSubview;
-
-	id boardListSubView;
-	id threadsListSubView;
 }
 @end
 
@@ -81,9 +79,6 @@
 - (IBAction) searchToolbarPopupChanged : (id) sender;
 - (IBAction) searchThread : (id) sender;
 - (IBAction) showSearchThreadPanel : (id) sender;
-
-//- (BOOL) shouldOpenBoardListInSheet;
-//- (IBAction) beginBoardListSheet : (id) sender;
 
 - (IBAction) changeBrowserArrangement : (id) sender;
 

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.2 2005/06/16 15:19:58 tsawada2 Exp $
+  * $Id: CMRBrowser.m,v 1.3 2005/06/18 14:27:59 tsawada2 Exp $
   * 
   * CMRBrowser.m
   *
@@ -9,10 +9,6 @@
 #import "CMRBrowser_p.h"
 
 static NSString *const CMRBrowserLoadNibName              = @"Browser";
-/*static NSString *const CMRBrowserStringsOpenBoardKey      = @"Show Board List";
-static NSString *const CMRBrowserStringsCloseBoardKey     = @"Hide Board List";
-static NSString *const CMRBrowserStringsShowBoardSheetKey = @"Show Board Sheet";*/
-
 
 NSString *const CMRBrowserDidChangeBoardNotification = @"CMRBrowserDidChangeBoardNotification";
 
@@ -21,7 +17,6 @@ NSString *const CMRBrowserDidChangeBoardNotification = @"CMRBrowserDidChangeBoar
  * @see CMRExports.h 
  */
 CMRBrowser *CMRMainBrowser = nil;
-
 
 
 @implementation CMRBrowser
@@ -69,7 +64,6 @@ CMRBrowser *CMRMainBrowser = nil;
 	[_filterString release];
 	[m_listSorter release];
 	[m_listSorterSub release];
-	//[m_boardListSheetController release];
 	[m_listSorterSheetController release];
 	
 	[super dealloc];
@@ -233,20 +227,3 @@ static BOOL threadDictionaryCompare(NSDictionary *dict1, NSDictionary *dict2)
 	return threads_;
 }
 @end
-
-
-
-/*@implementation CMRBrowser(CMRLocalizableStringsOwner)
-- (NSString *) localizedShowBoardSheetString
-{
-	return [self localizedString : CMRBrowserStringsShowBoardSheetKey];
-}
-- (NSString *) localizedOpenBoardString
-{
-	return [self localizedString : CMRBrowserStringsOpenBoardKey];
-}
-- (NSString *) localizedCloseBoardString
-{
-	return [self localizedString : CMRBrowserStringsCloseBoardKey];
-}
-@end*/

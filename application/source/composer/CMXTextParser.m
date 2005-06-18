@@ -1,6 +1,6 @@
 //: CMXTextParser.m
 /**
-  * $Id: CMXTextParser.m,v 1.3 2005/06/16 11:38:37 tsawada2 Exp $
+  * $Id: CMXTextParser.m,v 1.4 2005/06/18 14:27:59 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -845,10 +845,13 @@ only_date_field:
 		2005-02-03 tsawada2<ben-sawa@td5.so-net.ne.jp>
 		extraField が 0 または O 一文字の場合は、携帯・PCの区別記号と見なして直接処理
 		ログファイルのフォーマットの互換性などを考慮して、Host の値として処理することにする。
+		2005-06-18 追加：公式p2 からの投稿区別記号「P」が加わった。
 	*/
-	if ([extraField isEqualToString : @"0"] || [extraField isEqualToString : @"O"]) {
-		[aMessage setHost : extraField];
-		return YES;
+	if (length_ == 1) {
+		if ([extraField isEqualToString : @"0"] || [extraField isEqualToString : @"O"] || [extraField isEqualToString : @"P"]) {
+			[aMessage setHost : extraField];
+			return YES;
+		}
 	}
 	
 	NSString	*siberiaIPKey = NSLocalizedString(@"siberia IP field", @"siberia IP field");	// シベリア超速報などで出てくる「発信元:」という文字列

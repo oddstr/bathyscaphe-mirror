@@ -4,7 +4,8 @@
 #import "CocoMonar_Prefix.h"
 #import <SGAppKit/SGAppKit.h>
 #import "CMXInternalMessaging.h"
-#import "CMRNSObject.h"
+//#import "CMRNSObject.h"
+#import "RBSplitView.h"
 
 #import "CookieManager.h"
 #import "CMRHistoryManager.h"
@@ -34,8 +35,10 @@ void CMXServicesInit(void)
     pool_ = [[NSAutoreleasePool alloc] init];
     
     // pose!
-    [NSObject class];
-    [[CMRNSObject class] poseAsClass : [NSObject class]];
+    //[NSObject class];
+    //[[CMRNSObject class] poseAsClass : [NSObject class]];
+
+	[RBSplitView class];
 
     seed_ = (unsigned int)[[NSDate date] timeIntervalSince1970];
     srand(seed_);

@@ -1,6 +1,6 @@
 //: CMXDateFormatter.m
 /**
-  * $Id: CMXDateFormatter.m,v 1.1 2005/05/11 17:51:04 tsawada2 Exp $
+  * $Id: CMXDateFormatter.m,v 1.2 2005/06/18 14:27:59 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -41,7 +41,7 @@ static NSCalendarDate *AppGetTodayCalendarDate(
  * 
  * @result    NSDate
  */
-static NSDate *AppGetBasicDataOfYesterday(void);
+//static NSDate *AppGetBasicDataOfYesterday(void);
 
 /*!
  * @function     AppGetBasicDataOfToday
@@ -52,7 +52,7 @@ static NSDate *AppGetBasicDataOfYesterday(void);
  * 
  * @result    NSDate
  */
-static NSDate *AppGetBasicDataOfToday(void);
+//static NSDate *AppGetBasicDataOfToday(void);
 
 /*!
  * @function     AppGetBasicDataOfToday
@@ -80,13 +80,13 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 			   allowNaturalLanguage : NO];
 }
 
-#if PATCH
+//#if PATCH
 - (void)dealloc {
 	if (dateOfYesterday_) {[dateOfYesterday_ release]; dateOfYesterday_ = nil;}
 	if (dateOfToday_) {[dateOfToday_ release]; dateOfToday_ = nil;}
 	[super dealloc];
 }
-#endif
+//#endif
 
 - (NSString *) naturalLanguageDescriptionWithDate : (NSDate *) date
 {
@@ -105,7 +105,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	//適切な文字列を返す。
 	
 	//日付の書式を決定
-#if PATCH
+//#if PATCH
 // インスタンス毎に生成
 	if (!dateOfYesterday_)
 		dateOfYesterday_ = AppGetBasicDataOfYesterday_everyTime();
@@ -113,10 +113,10 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 		dateOfToday_ = AppGetBasicDataOfToday_everyTime();
 	compareYesterday_ = [date compare : dateOfYesterday_];
 	compareToday_ = [date compare : dateOfToday_];
-#else
-	compareYesterday_ = [date compare : AppGetBasicDataOfYesterday()];
-	compareToday_ = [date compare : AppGetBasicDataOfToday()];
-#endif
+//#else
+//	compareYesterday_ = [date compare : AppGetBasicDataOfYesterday()];
+//	compareToday_ = [date compare : AppGetBasicDataOfToday()];
+//#endif
 	
 	if(compareToday_ != NSOrderedAscending){
 		date_ = NSLocalizedString(kStrTodayKey, @"Today");
@@ -157,11 +157,11 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 
 static NSDate *AppGetBasicDataOfYesterday_everyTime(void)
 {
-#if PATCH
+//#if PATCH
 	NSDate *dateOfYesterday_ = nil;
-#else
-	static NSDate *dateOfYesterday_;
-#endif
+//#else
+//	static NSDate *dateOfYesterday_;
+//#endif
 	
 	if(nil == dateOfYesterday_){
 		int year_;
@@ -183,14 +183,14 @@ static NSDate *AppGetBasicDataOfYesterday_everyTime(void)
 	return dateOfYesterday_;
 }
 
-#if PATCH
+//#if PATCH
 static NSDate * AppGetBasicDataOfToday_everyTime()
 {
-#if PATCH
+//#if PATCH
 	NSDate *dateOfToday_ = nil;
-#else
-	static NSDate *dateOfToday_;
-#endif
+//#else
+//	static NSDate *dateOfToday_;
+//#endif
 	
 	if(nil == dateOfToday_){
 		int year_;
@@ -211,7 +211,7 @@ static NSDate * AppGetBasicDataOfToday_everyTime()
 	}
 	return dateOfToday_;
 }
-#endif
+//#endif
 
 
 static NSCalendarDate *AppGetTodayCalendarDate(
@@ -236,7 +236,7 @@ static NSCalendarDate *AppGetTodayCalendarDate(
 		return today_;
 }
 
-static NSDate *AppGetBasicDataOfYesterday(void)
+/*static NSDate *AppGetBasicDataOfYesterday(void)
 {
 #if PATCH
 	NSDate *dateOfYesterday_ = nil;
@@ -262,9 +262,9 @@ static NSDate *AppGetBasicDataOfYesterday(void)
 		[dateOfYesterday_ retain];
 	}
 	return dateOfYesterday_;
-}
+}*/
 
-static NSDate *AppGetBasicDataOfToday(void)
+/*static NSDate *AppGetBasicDataOfToday(void)
 {
 #if PATCH
 	NSDate *dateOfToday_ = nil;
@@ -290,7 +290,7 @@ static NSDate *AppGetBasicDataOfToday(void)
 		[dateOfToday_ retain];
 	}
 	return dateOfToday_;
-}
+}*/
 
 static NSDate *AppGetBasicDataOfThisYear(void)
 {

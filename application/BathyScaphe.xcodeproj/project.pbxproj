@@ -167,7 +167,6 @@
 		8701624E082BE67100AEFDD0 /* UTILKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F376F1FE05D3A805000452AB /* UTILKit.h */; };
 		8701624F082BE67100AEFDD0 /* UTILError.h in Headers */ = {isa = PBXBuildFile; fileRef = 8792D83B05E21AE20074B2BE /* UTILError.h */; };
 		87016250082BE67100AEFDD0 /* CMRNetRequestQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = F37B9DA105E8B16900B8507D /* CMRNetRequestQueue.h */; };
-		87016251082BE67100AEFDD0 /* CMRNSObject.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AF5BCC06009E7200B5D4C7 /* CMRNSObject.h */; };
 		87016252082BE67100AEFDD0 /* CMRNetGrobalLock.h in Headers */ = {isa = PBXBuildFile; fileRef = F376045E064FD09200591F56 /* CMRNetGrobalLock.h */; };
 		87016253082BE67100AEFDD0 /* CMRPullsDownButton.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D8C87D069C587B0094A779 /* CMRPullsDownButton.h */; };
 		87016254082BE67100AEFDD0 /* CMRAppDelegate_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F3660E3A06C4C7DA00A92719 /* CMRAppDelegate_p.h */; };
@@ -314,7 +313,6 @@
 		87016373082BE67100AEFDD0 /* CMRThreadMessageBufferReader.m in Sources */ = {isa = PBXBuildFile; fileRef = F370621405BFED85007484CE /* CMRThreadMessageBufferReader.m */; };
 		87016375082BE67100AEFDD0 /* CMROpenURLManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E8894DD905C3A3A30004317F /* CMROpenURLManager.m */; };
 		87016376082BE67100AEFDD0 /* CMRNetRequestQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = F37B9DA205E8B16900B8507D /* CMRNetRequestQueue.m */; };
-		87016377082BE67100AEFDD0 /* CMRNSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AF5BCD06009E7200B5D4C7 /* CMRNSObject.m */; };
 		87016378082BE67100AEFDD0 /* CMRThreadAttributes-Convert.m in Sources */ = {isa = PBXBuildFile; fileRef = F387636C06015B8C00B3C8EA /* CMRThreadAttributes-Convert.m */; };
 		87016379082BE67100AEFDD0 /* CMRNetGrobalLock.m in Sources */ = {isa = PBXBuildFile; fileRef = F376045F064FD09200591F56 /* CMRNetGrobalLock.m */; };
 		8701637A082BE67100AEFDD0 /* CMRPullsDownButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D8C87E069C587B0094A779 /* CMRPullsDownButton.m */; };
@@ -585,9 +583,13 @@
 		87299B420832623A00CBD740 /* BWAgent.app in Resources */ = {isa = PBXBuildFile; fileRef = 87299B410832623A00CBD740 /* BWAgent.app */; };
 		87299C1F0832673000CBD740 /* BathyScaphe.mdimporter in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87299C09083266F700CBD740 /* BathyScaphe.mdimporter */; };
 		87299CCA08326C8900CBD740 /* misc.h in Headers */ = {isa = PBXBuildFile; fileRef = 87299CC908326C8900CBD740 /* misc.h */; };
+		87464E3708643673000F0371 /* libRBSplitView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87464E3608643673000F0371 /* libRBSplitView.a */; };
+		87464E390864368F000F0371 /* RBSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87464E380864368F000F0371 /* RBSplitView.h */; };
 		87558534085BEF7800D2C2A6 /* BSIconTextFieldCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 87558532085BEF7800D2C2A6 /* BSIconTextFieldCell.h */; };
 		87558535085BEF7800D2C2A6 /* BSIconTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87558533085BEF7800D2C2A6 /* BSIconTextFieldCell.m */; };
 		87B652990840625F008AE2BE /* SendMessage.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B652980840625F008AE2BE /* SendMessage.tiff */; };
+		87BB79210864401A00ED8757 /* RBSplitSubview.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB791F0864401A00ED8757 /* RBSplitSubview.h */; };
+		87BB79220864401A00ED8757 /* RBSplitViewPrivateDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB79200864401A00ED8757 /* RBSplitViewPrivateDefines.h */; };
 		87BF7CA50840423900CC7D7C /* BathyScapheHelp in Resources */ = {isa = PBXBuildFile; fileRef = 87BF7CA40840423900CC7D7C /* BathyScapheHelp */; };
 		87D8DBA60833D55D004C1168 /* AboutPanelController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D8DBA20833D55C004C1168 /* AboutPanelController.h */; };
 		87D8DBA70833D55D004C1168 /* AboutPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D8DBA30833D55C004C1168 /* AboutPanelController.m */; };
@@ -876,6 +878,8 @@
 		87299CAB08326A2900CBD740 /* CMXFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMXFileManager.h; sourceTree = "<group>"; };
 		87299CAC08326A2900CBD740 /* CMXFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMXFileManager.m; sourceTree = "<group>"; };
 		87299CC908326C8900CBD740 /* misc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = misc.h; sourceTree = "<group>"; };
+		87464E3608643673000F0371 /* libRBSplitView.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libRBSplitView.a; sourceTree = "<group>"; };
+		87464E380864368F000F0371 /* RBSplitView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = RBSplitView.h; sourceTree = "<group>"; };
 		874F24FA080E716700EA2164 /* w2chReply_be2ch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = w2chReply_be2ch.h; sourceTree = "<group>"; };
 		874F24FB080E716700EA2164 /* w2chReply_be2ch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = w2chReply_be2ch.m; sourceTree = "<group>"; };
 		87558532085BEF7800D2C2A6 /* BSIconTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIconTextFieldCell.h; sourceTree = "<group>"; };
@@ -900,6 +904,8 @@
 		87AF6CFF07425DC0001D08ED /* remove_idle.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = remove_idle.tiff; sourceTree = "<group>"; };
 		87AF6D0007425DC0001D08ED /* remove_pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = remove_pressed.tiff; sourceTree = "<group>"; };
 		87B652980840625F008AE2BE /* SendMessage.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SendMessage.tiff; sourceTree = "<group>"; };
+		87BB791F0864401A00ED8757 /* RBSplitSubview.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = RBSplitSubview.h; sourceTree = "<group>"; };
+		87BB79200864401A00ED8757 /* RBSplitViewPrivateDefines.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = RBSplitViewPrivateDefines.h; sourceTree = "<group>"; };
 		87BF7CAE0840424200CC7D7C /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Japanese; path = Japanese.lproj/BathyScapheHelp; sourceTree = "<group>"; };
 		87C7287A082B8E7E00AC9AE1 /* KFSplitView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = KFSplitView.h; sourceTree = "<group>"; };
 		87C7287B082B8E7E00AC9AE1 /* KFSplitView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = KFSplitView.m; sourceTree = "<group>"; };
@@ -1281,8 +1287,6 @@
 		F3A107E4050A4BD600A80005 /* CMRBrowserTemplateKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRBrowserTemplateKeys.h; sourceTree = "<group>"; };
 		F3A31C080503366700CE4E8E /* CMRBBSAttributes.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRBBSAttributes.h; sourceTree = "<group>"; };
 		F3A31C090503366700CE4E8E /* CMRBBSAttributes.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRBBSAttributes.m; sourceTree = "<group>"; };
-		F3AF5BCC06009E7200B5D4C7 /* CMRNSObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRNSObject.h; sourceTree = "<group>"; };
-		F3AF5BCD06009E7200B5D4C7 /* CMRNSObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRNSObject.m; sourceTree = "<group>"; };
 		F3B609F80509EDBF00A80005 /* CMRHostHTMLHandler.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRHostHTMLHandler.m; sourceTree = "<group>"; };
 		F3BA419E05B605BF00D03A0D /* CMRAttachmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRAttachmentCell.h; sourceTree = "<group>"; };
 		F3BA419F05B605BF00D03A0D /* CMRAttachmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRAttachmentCell.m; sourceTree = "<group>"; };
@@ -1323,6 +1327,7 @@
 				87016387082BE67100AEFDD0 /* SGAppKit.framework in Frameworks */,
 				87016388082BE67100AEFDD0 /* Carbon.framework in Frameworks */,
 				871986D208351B1800188E63 /* Keychain.framework in Frameworks */,
+				87464E3708643673000F0371 /* libRBSplitView.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2003,10 +2008,12 @@
 		F324DC2004C698FA00A80005 /* source */ = {
 			isa = PBXGroup;
 			children = (
+				87464E3608643673000F0371 /* libRBSplitView.a */,
+				87464E380864368F000F0371 /* RBSplitView.h */,
+				87BB791F0864401A00ED8757 /* RBSplitSubview.h */,
+				87BB79200864401A00ED8757 /* RBSplitViewPrivateDefines.h */,
 				87299CC908326C8900CBD740 /* misc.h */,
 				F32165FE0529CB2B00A80005 /* CMRExports.h */,
-				F3AF5BCC06009E7200B5D4C7 /* CMRNSObject.h */,
-				F3AF5BCD06009E7200B5D4C7 /* CMRNSObject.m */,
 				F3660E3B06C4C7DA00A92719 /* CMRAppDelegate.h */,
 				F3660E3A06C4C7DA00A92719 /* CMRAppDelegate_p.h */,
 				F3660E3C06C4C7DA00A92719 /* CMRAppDelegate.m */,
@@ -2691,7 +2698,6 @@
 				8701624E082BE67100AEFDD0 /* UTILKit.h in Headers */,
 				8701624F082BE67100AEFDD0 /* UTILError.h in Headers */,
 				87016250082BE67100AEFDD0 /* CMRNetRequestQueue.h in Headers */,
-				87016251082BE67100AEFDD0 /* CMRNSObject.h in Headers */,
 				87016252082BE67100AEFDD0 /* CMRNetGrobalLock.h in Headers */,
 				87016253082BE67100AEFDD0 /* CMRPullsDownButton.h in Headers */,
 				87016254082BE67100AEFDD0 /* CMRAppDelegate_p.h in Headers */,
@@ -2720,6 +2726,9 @@
 				87D8DBA80833D55D004C1168 /* NSFancyPanel.h in Headers */,
 				F49CCDF50849B87500835BE3 /* BSScriptsMenuManager.h in Headers */,
 				87E4752A085C57C100B3E45E /* BSWindow.h in Headers */,
+				87464E390864368F000F0371 /* RBSplitView.h in Headers */,
+				87BB79210864401A00ED8757 /* RBSplitSubview.h in Headers */,
+				87BB79220864401A00ED8757 /* RBSplitViewPrivateDefines.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3334,7 +3343,6 @@
 				87016373082BE67100AEFDD0 /* CMRThreadMessageBufferReader.m in Sources */,
 				87016375082BE67100AEFDD0 /* CMROpenURLManager.m in Sources */,
 				87016376082BE67100AEFDD0 /* CMRNetRequestQueue.m in Sources */,
-				87016377082BE67100AEFDD0 /* CMRNSObject.m in Sources */,
 				87016378082BE67100AEFDD0 /* CMRThreadAttributes-Convert.m in Sources */,
 				87016379082BE67100AEFDD0 /* CMRNetGrobalLock.m in Sources */,
 				8701637A082BE67100AEFDD0 /* CMRPullsDownButton.m in Sources */,
@@ -4166,6 +4174,7 @@
 					../frameworks/SGNetwork/build/Deployment,
 					../frameworks/Keychain/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
+					"$(SRCROOT)",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -4176,6 +4185,7 @@
 				GCC_USE_GCC3_PFE_SUPPORT = NO;
 				INFOPLIST_FILE = "Info-bathyscaphe.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/source\"";
 				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = (
 					"-DDEBUG",
@@ -4207,6 +4217,7 @@
 					../frameworks/SGNetwork/build/Deployment,
 					../frameworks/Keychain/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
+					"$(SRCROOT)",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -4215,6 +4226,7 @@
 				GCC_USE_GCC3_PFE_SUPPORT = NO;
 				INFOPLIST_FILE = "Info-bathyscaphe.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/source\"";
 				OPTIMIZATION_CFLAGS = "-O2";
 				OTHER_CFLAGS = (
 					"-DBUILD_COCOMONAR",
@@ -4246,12 +4258,14 @@
 					../frameworks/SGNetwork/build/Deployment,
 					../frameworks/Keychain/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
+					"$(SRCROOT)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = source/CocoMonar_Prefix.h;
 				GCC_USE_GCC3_PFE_SUPPORT = NO;
 				INFOPLIST_FILE = "Info-bathyscaphe.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/source\"";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = BathyScaphe;

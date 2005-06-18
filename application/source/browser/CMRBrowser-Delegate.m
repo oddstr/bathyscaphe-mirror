@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.5 2005/06/16 15:19:58 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.6 2005/06/18 14:27:59 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -15,27 +15,13 @@ extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
 @implementation CMRBrowser(Delegate)
 - (BOOL)splitView:(id)sender canCollapseSubview:(NSView *)subview
 {
-    if (sender == [self splitView]) {
-		return (subview == bottomSubview);
-	} else {
-		return (subview == boardListSubView);
-	}
+	return (subview == bottomSubview);
 }
 - (void)splitView:(id)sender didDoubleClickInDivider:(int)index
 {
-	if (sender == [self splitView]) {
-		BOOL currentState = [sender isSubviewCollapsed:bottomSubview];
-		[sender setSubview:bottomSubview isCollapsed:!currentState];
-		[sender resizeSubviewsWithOldSize:[sender frame].size];
-	} else {
-		/*
-			2005-06-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-			NSSplitView のバグか、KFSplitView のバグか、BathyScaphe のバグか
-			判然としないが、とにかく掲示板リストとスレッド一覧を仕切るスプリット・ビューを
-			ダブルクリックで畳もうとしてもうまく畳めない。このため、今のところダブルクリック無効。
-		*/
-		NSLog(@"Sorry. currently not supported.");
-	}	
+	BOOL currentState = [sender isSubviewCollapsed:bottomSubview];
+	[sender setSubview:bottomSubview isCollapsed:!currentState];
+	[sender resizeSubviewsWithOldSize:[sender frame].size];
 }
 
 - (void)splitView:(id)sender resizeSubviewsWithOldSize:(NSSize)oldSize
@@ -147,7 +133,15 @@ extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
     // if we wanted error checking, we could call adjustSubviews.  It would
     // only change something if we messed up and didn't really tile the split view correctly.
 
-    [sender adjustSubviews];
+    //[sender adjustSubviews];
+}
+
+#pragma mark RBSplitView Delegate
+- (void) splitView : (RBSplitView *) sender
+	wasResizedFrom : (float) oldDimension
+				to : (float) newDimension
+{
+	[sender adjustSubviewsExcepting : [self boardListSubView]];
 }
 @end
 
@@ -263,10 +257,8 @@ extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
 		notification,
 		currentList);
 	
-#if PATCH
 //	NSLog(@"threadsListDidChange updateDateFormatter");
 	[[[self threadsListTable] dataSource] updateDateFormatter];
-#endif
 
 	[[self threadsListTable] reloadData];
 	[self updateStatusLineBoardInfo];
@@ -299,10 +291,10 @@ extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
 	
 	[[self currentThreadsList] filterByDisplayingThreadAtPath : [self path]];
 	[self synchronizeWithSearchField];
-#if PATCH
+
 //	NSLog(@"threadsListDidFinishUpdate updateDateFormatter");
 	[[[self threadsListTable] dataSource] updateDateFormatter];
-#endif
+
 	[[self threadsListTable] reloadData];
 	[self selectCurrentThreadWithMask : mask_];
 }

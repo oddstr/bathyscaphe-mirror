@@ -1,6 +1,6 @@
 //: NSTableColumn+CMXAdditions.m
 /**
-  * $Id: NSTableColumn+CMXAdditions.m,v 1.1 2005/05/11 17:51:05 tsawada2 Exp $
+  * $Id: NSTableColumn+CMXAdditions.m,v 1.2 2005/06/18 14:27:59 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -41,8 +41,8 @@ static NSTextAlignment objectValue2NSTextAlignment(id obj);
 					SGTableColumnRepMinWidthKey,
 					[NSNumber numberWithFloat : [self maxWidth]],
 					SGTableColumnRepMaxWidthKey,
-					[NSNumber numberWithBool : [self isResizable]],
-					SGTableColumnRepResizableKey,
+					//[NSNumber numberWithBool : [self isResizable]],
+					//SGTableColumnRepResizableKey,
 					[NSNumber numberWithBool : [self isEditable]],
 					SGTableColumnRepEditableKey,
 					[NSNumber numberWithUnsignedInt : [[self headerCell] alignment]],

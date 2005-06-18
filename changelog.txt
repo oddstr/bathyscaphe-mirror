@@ -1,3 +1,32 @@
+2005-06-18 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/composer/CMXDateFormatter.m
+		ビルド時に警告が出ないように修正。
+	* application/source/composer/CMXTextParser.m
+		ID の無い板で、投稿元を区別する「0/O」記号の他に「P」（公式p2からの投稿を示す）が加わったので、
+		それに対応。
+	* application/Resources/Japanese.lproj/Credits.rtf
+		RBsplitView のクレジットを追加。
+	* application/source/main.m
+		libRBSplitView.a が確実にロードされるように。他、CMRNSObject への poseAsClass: を廃止。
+	* application/Resources/Japanese.lproj/Browser.nib
+		RBSplitView の組み込み。それと、掲示板リストのアウトライン・ビューのスクロールバーを
+		Auto-Hide に設定した。
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/source/browser/CMRBrowser-Delegate.m
+	* application/source/browser/CMRBrowser.m
+		RBSplitView に対応して変更と、デリゲートメソッドの実装。
+		また、掲示板リストのカテゴリの開閉状態が保存されなくなっていたバグを修正。
+	* frameworks/SGAppKit/framework/src/SGAppKit.m
+	* frameworks/SGAppKit/SGAppKit.xcodeproj
+		「進行状況」パネルに必要な API をあやまって削除していたのを復活した。
+	* application/source/CMRNSObject.m
+		見直しの結果、不要と判断し、プロジェクトから外した。
+	* application/source/libRBSplitView.a
+	* application/source/RBSplitView.h
+	* application/source/RBSplitSubview.h
+	* application/source/RBSplitViewPrivateDefines.h
+		[新規追加]スプリットビューの機能を強化するため、外部から導入した静的ライブラリ。
+=================================================
 2005-06-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/preference/general/GeneralPrefController.m
 	* application/subproj/preference/general/GeneralPrefController-View.m
