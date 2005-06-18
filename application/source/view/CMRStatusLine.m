@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRStatusLine.m,v 1.1 2005/05/11 17:51:08 tsawada2 Exp $
+  * $Id: CMRStatusLine.m,v 1.2 2005/06/18 19:09:16 tsawada2 Exp $
   * 
   * CMRStatusLine.m
   *
@@ -10,15 +10,9 @@
 #import "CMXTemplateResources.h"
 #import "missing.h"
 
-
-
-//////////////////////////////////////////////////////////////////////
-////////////////////// [ 定数やマクロ置換 ] //////////////////////////
-//////////////////////////////////////////////////////////////////////
 #define kLoadNibName				@"CMRStatusView"
-static NSString *const CMRStatusLineShownKey = @"Status Line Shown";
 
-
+static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 
 @implementation CMRStatusLine
 - (void) setIdentifier : (NSString *) anIdentifier
@@ -30,14 +24,6 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Shown";
 	[tmp release];
 }
 
-/*
-- (id) init
-{
-	if(self = [super init]){
-	}
-	return self;
-}
-*/
 - (id) initWithIdentifier : (NSString *) identifier
 {
 	if(self = [super init]){
@@ -47,7 +33,6 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Shown";
 			[self release];
 			return nil;
 		}
-		[[CMRHistoryManager defaultManager] addClient : self];
 		[self registerToNotificationCenter];
 	}
 	return self;
@@ -55,9 +40,6 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Shown";
 
 - (void) awakeFromNib
 {
-	// 停止ボタン
-	[_stopButton retain];
-	
 	[self setupUIComponents];
 	[self updateStatusLineWithTask : nil];
 }
@@ -65,17 +47,11 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Shown";
 {
 	[self setWindow : nil];
 	[self removeFromNotificationCenter];
-	[[CMRHistoryManager defaultManager] removeClient : self];
 
 	[_identifier release];
 	
 	// nib
-	[_indicatorView release];
-	[_toolbarView release];
 	[_statusLineView release];
-	
-	// 停止ボタン
-	[_stopButton release];
 	
 	[super dealloc];
 }
@@ -84,11 +60,8 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Shown";
 
 - (int) state
 {
-	if([self currentSubview] == [self indicatorView])
-		return CMRStatusLineInProgress;
-	if([self currentSubview] == [self toolbarView])
-		return CMRStatusLineToolbar;
-	
+	/* 未完成 */
+	/* ひょっとしたらそのまま deprecated にするかも */
 	return CMRStatusLineNone;
 }
 
@@ -108,17 +81,9 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Shown";
 - (void) setDelegate : (id) aDelegate
 {
 	_delegate = aDelegate;
-	
-	_Flags.delegateRespondsForward = 
-		(_delegate && [_delegate respondsToSelector : @selector(statusLinePerformForward:)]) ? 1 : 0;
-	_Flags.delegateRespondsBackward = 
-		(_delegate && [_delegate respondsToSelector : @selector(statusLinePerformBackward:)]) ? 1 : 0;
-	_Flags.delegateRespondsShouldForward = 
-		(_delegate && [_delegate respondsToSelector : @selector(statusLineShouldPerformForward:)]) ? 1 : 0;
-	_Flags.delegateRespondsShouldBackward = 
-		(_delegate && [_delegate respondsToSelector : @selector(statusLineShouldPerformBackward:)]) ? 1 : 0;
-	
 }
+
+#pragma mark Window
 
 - (void) setWindow : (NSWindow *) aWindow
 {
@@ -136,37 +101,13 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Shown";
 	[self setVisible:shown animate:NO];
 }
 
-
-- (BOOL) positionAtBottomFromDefaults
-{
-	return ([CMRPref statusLinePosition] != CMRStatusLineAtTop);
-}
-- (BOOL) positionAtBottom
-{
-	return NSEqualPoints([[self statusLineView] frame].origin, NSZeroPoint);
-}
-- (void) updateStatusLinePosition
-{
-	if([self positionAtBottom] == [self positionAtBottomFromDefaults])
-		return;
-	if(NO == [self isVisible])
-		return;
-	
-	[self setVisible:NO animate:NO];
-	[self setVisible:YES animate:NO];
-}
 - (void) changeWindowFrame : (NSWindow *) aWindow
                    animate : (BOOL      ) animateFlag
            statusLineShown : (BOOL      ) willBeShown
 {
 	NSRect		windowFrame_  = [aWindow frame];
 	NSRect		lineFrame_    = [[self statusLineView] frame];
-	BOOL		atBottom_;
 	float		moveY_;
-	
-	atBottom_ = willBeShown 
-					? [self positionAtBottomFromDefaults]
-					: [self positionAtBottom];
 	
 	if(willBeShown){
 		
@@ -175,12 +116,9 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Shown";
 		// resize indicatorのサイズが分からないので
 		// NSScrollerの幅で代用
 		lineFrame_.size.width = windowFrame_.size.width;
-		if(atBottom_)
-			lineFrame_.size.width -= [NSScroller scrollerWidth];
+		lineFrame_.size.width -= [NSScroller scrollerWidth];
 		
 		lineFrame_.origin = NSZeroPoint;
-		if(NO == [[aWindow contentView] isFlipped] && NO == atBottom_)
-			lineFrame_.origin.y = [[aWindow contentView] frame].size.height;
 		
 		[[self statusLineView] setFrame : lineFrame_];
 	}
@@ -189,7 +127,7 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Shown";
 	windowFrame_.size.height += moveY_;
 	windowFrame_.origin.y -= moveY_;
 	
-	if(atBottom_){
+	{
 		NSEnumerator	*iter_;
 		NSView			*view_;
 		
@@ -204,6 +142,7 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Shown";
 			[view_ setFrameOrigin : origin_];
 		}
 	}
+
 	[aWindow setFrame : windowFrame_ 
 			  display : YES
 			  animate : animateFlag
@@ -235,16 +174,16 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Shown";
 			 forKey : [self statusLineShownUserDefaultsKey]];
 }
 
-- (int) toolbarAlignment
-{
-	return [CMRPref statusLineToolbarAlignment];
-}
 - (void) setInfoText : (id) aText;
 {
 	[self setInfoTextFieldObjectValue : aText];
 }
+- (void) setBrowserInfoText : (id) aText;
+{
+	[self setBrowserInfoTextFieldObjectValue : aText];
+}
 
-
+#pragma mark IBAction
 
 - (IBAction) cancel : (id) sender
 {
@@ -252,13 +191,11 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Shown";
 }
 - (IBAction) toggleStatusLineShown : (id) sender
 {
-	[self setVisible:(NO == [self isVisible]) animate:YES];;
+	[self setVisible:(NO == [self isVisible]) animate:YES];
 }
-@end
 
+#pragma mark User Defaults
 
-
-@implementation CMRStatusLine(Autosave)
 - (NSString *) userDefaultsKeyWithKey : (NSString *) key
 {
 	if(nil == key || nil == [self identifier])

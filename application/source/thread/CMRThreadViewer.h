@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.1 2005/05/11 17:51:07 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.2 2005/06/18 19:09:16 tsawada2 Exp $
   * 
   * CMRThreadViewer.h
   *
@@ -127,7 +127,7 @@
 // make text area to be first responder
 - (IBAction) focus : (id) sender;
 /* NOTE: It is a history item's action. */
-- (IBAction) showThreadWithMenuItem : (id) sender;
+//- (IBAction) showThreadWithMenuItem : (id) sender;
 @end
 
 

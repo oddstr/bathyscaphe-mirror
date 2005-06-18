@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.11 2005/06/18 14:27:59 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.12 2005/06/18 19:09:16 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -632,7 +632,7 @@
 - (void) setupStatusLine
 {
     [super setupStatusLine];
-    [[self statusLine] setBoardHistoryEnabled : YES];
+    //[[self statusLine] setBoardHistoryEnabled : YES];
 }
 
 - (void) setupFrameAutosaveName

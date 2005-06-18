@@ -518,7 +518,6 @@
 		87299A3F083261F200CBD740 /* AddFavorites.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A05083261F200CBD740 /* AddFavorites.png */; };
 		87299A40083261F200CBD740 /* age.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A06083261F200CBD740 /* age.png */; };
 		87299A41083261F200CBD740 /* appIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 87299A07083261F200CBD740 /* appIcon.icns */; };
-		87299A42083261F200CBD740 /* BackSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A08083261F200CBD740 /* BackSmall.png */; };
 		87299A43083261F200CBD740 /* beDisabled.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87299A09083261F200CBD740 /* beDisabled.tiff */; };
 		87299A44083261F200CBD740 /* beEnabled.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87299A0A083261F200CBD740 /* beEnabled.tiff */; };
 		87299A45083261F200CBD740 /* Board.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A0B083261F200CBD740 /* Board.png */; };
@@ -528,7 +527,6 @@
 		87299A4C083261F200CBD740 /* FavoritesItem.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A12083261F200CBD740 /* FavoritesItem.png */; };
 		87299A4D083261F200CBD740 /* Find.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87299A13083261F200CBD740 /* Find.tiff */; };
 		87299A4F083261F200CBD740 /* Folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A15083261F200CBD740 /* Folder.png */; };
-		87299A50083261F200CBD740 /* ForwardSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A16083261F200CBD740 /* ForwardSmall.png */; };
 		87299A51083261F200CBD740 /* insertSage.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A17083261F200CBD740 /* insertSage.png */; };
 		87299A52083261F200CBD740 /* lastUpdatedHeader.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A18083261F200CBD740 /* lastUpdatedHeader.png */; };
 		87299A53083261F200CBD740 /* mailAttachment.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A19083261F200CBD740 /* mailAttachment.png */; };
@@ -800,7 +798,7 @@
 		8729997D0832618900CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/TextFind.nib; sourceTree = "<group>"; };
 		8729997E0832618900CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/ThreadData.strings; sourceTree = "<group>"; };
 		8729997F0832618900CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/ThreadsList.strings; sourceTree = "<group>"; };
-		872999800832618900CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/ThreadViewer.strings; sourceTree = "<group>"; };
+		872999800832618900CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/ThreadViewer.strings; sourceTree = "<group>"; };
 		872999810832618900CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/ThreadViewerTbItems.strings; sourceTree = "<group>"; };
 		872999FB083261CA00CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Japanese; path = Japanese.lproj/Preview; sourceTree = "<group>"; };
 		87299A03083261F200CBD740 /* Action.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Action.tiff; sourceTree = "<group>"; };
@@ -3032,7 +3030,6 @@
 				87299A3F083261F200CBD740 /* AddFavorites.png in Resources */,
 				87299A40083261F200CBD740 /* age.png in Resources */,
 				87299A41083261F200CBD740 /* appIcon.icns in Resources */,
-				87299A42083261F200CBD740 /* BackSmall.png in Resources */,
 				87299A43083261F200CBD740 /* beDisabled.tiff in Resources */,
 				87299A44083261F200CBD740 /* beEnabled.tiff in Resources */,
 				87299A45083261F200CBD740 /* Board.png in Resources */,
@@ -3042,7 +3039,6 @@
 				87299A4C083261F200CBD740 /* FavoritesItem.png in Resources */,
 				87299A4D083261F200CBD740 /* Find.tiff in Resources */,
 				87299A4F083261F200CBD740 /* Folder.png in Resources */,
-				87299A50083261F200CBD740 /* ForwardSmall.png in Resources */,
 				87299A51083261F200CBD740 /* insertSage.png in Resources */,
 				87299A52083261F200CBD740 /* lastUpdatedHeader.png in Resources */,
 				87299A53083261F200CBD740 /* mailAttachment.png in Resources */,

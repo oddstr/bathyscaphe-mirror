@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.1 2005/05/11 17:51:07 tsawada2 Exp $
+  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.2 2005/06/18 19:09:16 tsawada2 Exp $
   * 
   * CMRThreadViewer-ViewAccessor.m
   *
@@ -331,7 +331,7 @@
 - (void) setupStatusLine
 {
 	[super setupStatusLine];
-	[[self statusLine] setBoardHistoryEnabled : YES];
+	//[[self statusLine] setBoardHistoryEnabled : YES];
 }
 
 - (void) setupScrollView

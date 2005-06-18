@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.2 2005/05/20 14:09:05 masakih Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.3 2005/06/18 19:09:16 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -401,28 +401,6 @@
 	[tmp deleteCharactersInRange : [tmp range]];
 }
 
-/* NOTE: It is a history item's action. */
-- (IBAction) showThreadWithMenuItem : (id) sender
-{
-    id historyItem = nil;
-    
-    if ([sender respondsToSelector : @selector(representedObject)]) {
-        id o = [sender representedObject];
-        
-        if (nil == o || NO == [o isKindOfClass : [CMRHistoryItem class]]) {
-            UTILDebugWrite1(
-              @"[WARN] [sender representedObject] must be an instance"
-              @" of CMRHistoryItem."
-              @" at %@", UTIL_HANDLE_FAILURE_IN_METHOD);
-            return;
-        }
-        historyItem = o;
-    }
-    // make text area first responder
-    [self setThreadContentWithThreadIdentifier : 
-        [historyItem representedObject]];
-    [self focus : sender];
-}
 - (IBAction) copySelectedResURL : (id) sender
 {
 	NSRange			selectedRange_;

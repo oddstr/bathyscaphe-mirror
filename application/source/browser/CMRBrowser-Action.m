@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.6 2005/06/16 15:19:58 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.7 2005/06/18 19:09:16 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -22,7 +22,7 @@ enum {
     [[self window] makeFirstResponder : [[self threadsListTable] enclosingScrollView]];
 }
 // History Menu
-- (IBAction) showBoardWithMenuItem : (id) sender
+/*- (IBAction) showBoardWithMenuItem : (id) sender
 {
     NSString        *boardName;
 
@@ -53,6 +53,7 @@ enum {
 	[[self threadsListTable] deselectAll: nil];
 	[super showThreadWithMenuItem : sender];
 }
+*/
 
 - (void) selectRowWhoseNameIs : (NSString *) brdname_
 {
@@ -373,7 +374,7 @@ enum {
 					[self localizedString : kSearchListResultKey],
 					[[self currentThreadsList] numberOfFilteredThreads]];
 	}
-	[[self statusLine] setInfoText : string_];
+	[[self statusLine] setBrowserInfoText : string_];
 }
 - (BOOL) showsSearchResult
 {

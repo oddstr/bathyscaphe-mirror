@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyController-ViewAccessor.m,v 1.3 2005/06/12 01:36:15 tsawada2 Exp $
+  * $Id: CMRReplyController-ViewAccessor.m,v 1.4 2005/06/18 19:09:16 tsawada2 Exp $
   * 
   * CMRReplyController-ViewAccessor.m
   *
@@ -200,10 +200,6 @@
 - (void) setupStatusLine
 {
 	[super setupStatusLine];
-	[[self statusLine] setBoardHistoryEnabled : NO];
-	[[self statusLine] setThreadHistoryEnabled : NO];
-	
-	[[self statusLine] synchronizeHistoryTitleAndSelectedItem];
 }
 
 

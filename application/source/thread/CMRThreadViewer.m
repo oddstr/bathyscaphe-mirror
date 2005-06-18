@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.2 2005/05/12 20:18:57 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.3 2005/06/18 19:09:16 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -91,7 +91,7 @@ NSString *const CMRThreadViewerDidChangeThreadNotification  = @"CMRThreadViewerD
 	
 	return YES;
 }
-
+/*
 // *** delegate: CMRStatusLine *** //
 - (BOOL) statusLinePerformForward : (CMRStatusLine *) aStatusLine
 {
@@ -109,7 +109,7 @@ NSString *const CMRThreadViewerDidChangeThreadNotification  = @"CMRThreadViewerD
 - (BOOL) statusLineShouldPerformBackward : (CMRStatusLine *) aStatusLine
 {
 	return ([self threadIdentifierFromHistoryWithRelativeIndex : -1] != nil);
-}
+}*/
 
 // No History --> NSNotFound
 - (unsigned) historyIndex
@@ -423,7 +423,7 @@ FileNotExistsAutoReloadIfNeeded:
 	}
 	
 	UTILNotifyName(CMRThreadViewerDidChangeThreadNotification);
-	[[self statusLine] synchronizeHistoryTitleAndSelectedItem];
+	//[[self statusLine] synchronizeHistoryTitleAndSelectedItem];
 }
 - (CMRThreadAttributes *) threadAttributes
 {

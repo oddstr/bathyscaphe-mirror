@@ -1,3 +1,16 @@
+2005-06-19 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/CMRStatusLine-Notification.m
+	* application/source/view/CMRStatusLine-ViewAccessor.m
+	* application/source/view/CMRStatusLine.m
+	* application/source/thread/CMRThreadViewer-ViewAccessor.m
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/source/browser/CMRBrowser-List.m
+	* application/Resources/Japanese.lproj/CMRStatusView.nib
+		ステータス行の実装をシンプルにした。下部固定、プログレスバーはスピンスタイル固定。
+		また、履歴ポップアップを廃止した（代替手段はまだ実装していない）。
+		さらに、中止ボタンが表示されなかった問題を修正（配置とデザインがどうもしっくりこないなぁ）。
 2005-06-18 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/composer/CMXDateFormatter.m
 		ビルド時に警告が出ないように修正。
