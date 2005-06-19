@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.3 2005/06/19 15:09:18 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.4 2005/06/19 16:44:23 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -210,7 +210,6 @@ static NSString *statusImageNameForStatus(ThreadStatus s)
 	
 	NSEnumerator	*iter_;
 	NSNumber		*indexNum_;
-	NSLog(@"wsdfgj");
 	
 	if([self isFavorites]) return NO;
 	

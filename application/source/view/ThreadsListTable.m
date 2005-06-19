@@ -1,5 +1,5 @@
 /**
-  * $Id: ThreadsListTable.m,v 1.2 2005/06/19 15:09:18 tsawada2 Exp $
+  * $Id: ThreadsListTable.m,v 1.3 2005/06/19 16:44:23 tsawada2 Exp $
   * 
   * ThreadsListTable.m
   *
@@ -89,19 +89,6 @@
 	}
 
 }
-
-- (unsigned int) draggingSourceOperationMaskForLocal : (BOOL) localFlag
-{
-	id				source_;
-	source_ = [self dataSource];
-
-	if(source_ != nil && [source_ respondsToSelector : _cmd]) {
-		return [source_ draggingSourceOperationMaskForLocal : localFlag];
-	} else {
-		return NSDragOperationGeneric;
-	}
-}
-
 	
 // KeyBindings
 + (SGKeyBindingSupport *) keyBindingSupport

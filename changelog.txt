@@ -1,4 +1,17 @@
 2005-06-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/CMRNSObject.m
+		[削除]すでにプロジェクトから外していたが、ファイル自体も削除。
+	* application/source/window/NSFancyPanel.m
+		[削除] 現在、About パネルはサブクラス化する必要がないので、削除した。
+	* application/source/view/CMRStatusLine-Notification.m
+		[削除] CMRStatusLine-ViewAccessor.m と統合した（ソースの量が大幅に減ったため、
+		わざわざファイルを分けるほどでもなくなったため）。
+	* application/source/extensions/NSTableView+BSAdditions.m
+		[新規追加]SGTableViewBase.m@SGAppKit から draggingSourceOperationMaskForLocal: だけ
+		取り出してきたような、そんなカテゴリ。SGAppKit 側に組み込んだ方が良かったか？
+		これでスレッド一覧に加え、掲示板リストから外部へのドラッグ＆ドロップ機能も復活。
+	* application/source/view/ThreadsListTable.m
+		draggingSourceOperationMaskForLocal: を NSTableView+BSAdditions.m に移した。
 	* application/source/view/ThreadsListTable.m
 		テーブル・ビューから外部へのドラッグ＆ドロップができなくなっていた問題を解決。
 		また、Mac OS X 10.4 以降で「このメソッドは deprecated だよ！」という警告がうざいので

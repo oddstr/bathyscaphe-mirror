@@ -7,7 +7,7 @@
 
 #import "AboutPanelController.h"
 
-#import "NSFancyPanel.h"
+//#import "NSFancyPanel.h"
 
 
 //	Another approach would be to allow changing these through NSUserDefaults
@@ -27,12 +27,11 @@
 - (void) createPanelToDisplay
 {
     //	Programmatically create the new panel
-    panelToDisplay = [[NSFancyPanel alloc]
+    panelToDisplay = [[NSPanel alloc]
         initWithContentRect: [[panelInNib contentView] frame]
         styleMask: (NSTitledWindowMask | NSClosableWindowMask)
         backing: [panelInNib backingType]
         defer: NO];
-
     //	Tweak esthetics, making it all white and with a shadow
     [panelToDisplay setBackgroundColor: [NSColor whiteColor]];
     [panelToDisplay setHasShadow: YES];

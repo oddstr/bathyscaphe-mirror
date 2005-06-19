@@ -1,12 +1,13 @@
 //: CMRStatusLine-ViewAccessor.m
 /**
-  * $Id: CMRStatusLine-ViewAccessor.m,v 1.3 2005/06/18 19:09:16 tsawada2 Exp $
+  * $Id: CMRStatusLine-ViewAccessor.m,v 1.4 2005/06/19 16:44:23 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
   */
 
 #import "CMRStatusLine_p.h"
+#import "missing.h"
 
 @implementation CMRStatusLine(View)
 
@@ -90,5 +91,77 @@
                                                     ? [aTask message] 
                                                     : @""];
     }
+}
+@end
+
+#pragma mark -
+
+@implementation CMRStatusLine(Notification)
+- (void) registerToNotificationCenter
+{
+    [[NSNotificationCenter defaultCenter]
+         addObserver : self
+            selector : @selector(taskWillStartNotification:)
+                name : CMRTaskWillStartNotification
+              object : nil];
+    [[NSNotificationCenter defaultCenter]
+         addObserver : self
+            selector : @selector(taskWillProgressNotification:)
+                name : CMRTaskWillProgressNotification
+              object : nil];
+    [[NSNotificationCenter defaultCenter]
+         addObserver : self
+            selector : @selector(taskDidFinishNotification:)
+                name : CMRTaskDidFinishNotification
+              object : nil];
+    
+    [super registerToNotificationCenter];
+}
+- (void) removeFromNotificationCenter
+{
+    [[NSNotificationCenter defaultCenter]
+      removeObserver : self
+                name : CMRTaskWillStartNotification
+              object : nil];
+    [[NSNotificationCenter defaultCenter]
+      removeObserver : self
+                name : CMRTaskWillProgressNotification
+              object : nil];
+    [[NSNotificationCenter defaultCenter]
+      removeObserver : self
+                name : CMRTaskDidFinishNotification
+              object : nil];
+
+    [super removeFromNotificationCenter];
+}
+
+
+- (void) taskWillStartNotification : (NSNotification *) theNotification
+{
+    UTILAssertNotificationName(
+        theNotification,
+        CMRTaskWillStartNotification);
+    [[self progressIndicator] startAnimation : self];
+    [self updateStatusLineWithTask : [theNotification object]];
+}
+- (void) taskWillProgressNotification : (NSNotification *) theNotification
+{
+    UTILAssertNotificationName(
+        theNotification,
+        CMRTaskWillProgressNotification);
+    
+    [self updateStatusLineWithTask : [theNotification object]];
+}
+
+- (void) taskDidFinishNotification : (NSNotification *) theNotification
+{
+    UTILAssertNotificationName(
+        theNotification,
+        CMRTaskDidFinishNotification);
+    UTILAssertConformsTo(
+        [[theNotification object] class],
+        @protocol(CMRTask));
+    
+    [self updateStatusLineWithTask : [theNotification object]];
 }
 @end
