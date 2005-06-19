@@ -1,4 +1,13 @@
+2005-06-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/ThreadsListTable.m
+		テーブル・ビューから外部へのドラッグ＆ドロップができなくなっていた問題を解決。
+		また、Mac OS X 10.4 以降で「このメソッドは deprecated だよ！」という警告がうざいので
+		Mac OS X 10.4 以降用の新しいメソッド（dragImageForRowsWithIndexes:tableColumns:event:offset:）を
+		書き加えた。
 2005-06-19 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/source/browser/CMRBrowser-Delegate.m
+		2ペイン時と3ペイン時で、tab キーでのフォーカス移動ループを適切に変更するようにした。
 	* application/source/composer/CMRAttributedMessageComposer.m
 		Be プロフィールへのリンク書式が不要な範囲まで適用されてしまう問題を修正。
 	* application/source/preferences/AppDefaults-ThreadsList.m

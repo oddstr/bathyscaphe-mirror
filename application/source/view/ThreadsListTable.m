@@ -1,5 +1,5 @@
 /**
-  * $Id: ThreadsListTable.m,v 1.1 2005/05/11 17:51:09 tsawada2 Exp $
+  * $Id: ThreadsListTable.m,v 1.2 2005/06/19 15:09:18 tsawada2 Exp $
   * 
   * ThreadsListTable.m
   *
@@ -36,6 +36,31 @@
 	[attr_ release];
 }
 
+- (NSImage *) _draggingBadgeForRowCount : (unsigned int) countOfRows
+{
+	NSImage	*anImg = [[NSImage alloc] init];
+	NSRect	imageBounds;
+	NSString	*str_;
+
+	str_ = [NSString stringWithFormat : @"%i", countOfRows];
+
+	imageBounds.origin = NSMakePoint(16.0, 15.0);
+	imageBounds.size = NSMakeSize(26.0, 26.0);
+
+	[anImg setSize : NSMakeSize(40.0, 40.0)];
+
+	[anImg lockFocus];
+	[self _drawStringIn : imageBounds withString : str_];
+	[[NSImage imageAppNamed : @"DraggingBadge"] compositeToPoint : NSMakePoint(16.0, 14.0)
+													   operation : NSCompositeDestinationOver];
+	[[[NSWorkspace sharedWorkspace] iconForFileType : @"thread"] compositeToPoint : NSMakePoint(4.0, 0.0)
+																		operation : NSCompositeDestinationOver
+																		fraction : 0.7];
+	[anImg unlockFocus];
+
+	return [anImg autorelease];
+}
+
 - (NSImage*) dragImageForRows : (NSArray      *) dragRows
                         event : (NSEvent      *) dragEvent
               dragImageOffset : (NSPointPointer) dragImageOffset
@@ -45,29 +70,38 @@
 						? [super dragImageForRows : dragRows event : dragEvent dragImageOffset : dragImageOffset]
 						: [[NSWorkspace sharedWorkspace] iconForFileType : @"thread"];
 	} else {
-		NSImage	*anImg = [[NSImage alloc] init];
-		NSRect	imageBounds;
-		NSString	*str_;
-
-		str_ = [NSString stringWithFormat : @"%i", [dragRows count]];
-
-		imageBounds.origin = NSMakePoint(16.0, 15.0);
-		imageBounds.size = NSMakeSize(26.0, 26.0);
-
-		[anImg setSize : NSMakeSize(40.0, 40.0)];
-
-		[anImg lockFocus];
-		[self _drawStringIn : imageBounds withString : str_];
-		[[NSImage imageAppNamed : @"DraggingBadge"] compositeToPoint : NSMakePoint(16.0, 14.0)
-														   operation : NSCompositeDestinationOver];
-		[[[NSWorkspace sharedWorkspace] iconForFileType : @"thread"] compositeToPoint : NSMakePoint(4.0, 0.0)
-																			operation : NSCompositeDestinationOver
-																			 fraction : 0.7];
-		[anImg unlockFocus];
-
-		return [anImg autorelease];
+		return [self _draggingBadgeForRowCount : [dragRows count]];
 	}
 }
+
+// For Tiger or later
+- (NSImage *) dragImageForRowsWithIndexes : (NSIndexSet *) dragRows
+							 tableColumns : (NSArray *) tableColumns
+									event : (NSEvent *) dragEvent
+								   offset : (NSPointPointer) dragImageOffset
+{
+	if ([dragRows count] == 1) {
+		return [[self dataSource] isFavorites]
+						? [super dragImageForRowsWithIndexes : dragRows tableColumns : tableColumns event : dragEvent offset : dragImageOffset]
+						: [[NSWorkspace sharedWorkspace] iconForFileType : @"thread"];
+	} else {
+		return [self _draggingBadgeForRowCount : [dragRows count]];
+	}
+
+}
+
+- (unsigned int) draggingSourceOperationMaskForLocal : (BOOL) localFlag
+{
+	id				source_;
+	source_ = [self dataSource];
+
+	if(source_ != nil && [source_ respondsToSelector : _cmd]) {
+		return [source_ draggingSourceOperationMaskForLocal : localFlag];
+	} else {
+		return NSDragOperationGeneric;
+	}
+}
+
 	
 // KeyBindings
 + (SGKeyBindingSupport *) keyBindingSupport

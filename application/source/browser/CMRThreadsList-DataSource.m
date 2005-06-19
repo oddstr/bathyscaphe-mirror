@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.2 2005/06/12 02:34:19 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.3 2005/06/19 15:09:18 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -210,6 +210,7 @@ static NSString *statusImageNameForStatus(ThreadStatus s)
 	
 	NSEnumerator	*iter_;
 	NSNumber		*indexNum_;
+	NSLog(@"wsdfgj");
 	
 	if([self isFavorites]) return NO;
 	
@@ -256,7 +257,6 @@ static NSString *statusImageNameForStatus(ThreadStatus s)
 	
 	// èëÇ´çûÇ›
 	if([filenames_ count] > 0){
-		
 		types_ = [NSArray arrayWithObjects : 
 							NSFilenamesPboardType,
 							NSURLPboardType,
@@ -281,9 +281,6 @@ static NSString *statusImageNameForStatus(ThreadStatus s)
 	
 	return YES;
 }
-
-
-
 
 - (NSString *) threadFilePathAtRowIndex : (int          ) rowIndex
 							inTableView : (NSTableView *) tableView
@@ -406,15 +403,14 @@ static NSString *statusImageNameForStatus(ThreadStatus s)
 {
 	NSPasteboard	*pboard_;
 	NSArray			*filenames_;
-	
 	// ÅuÉSÉ~î†ÅvÇ÷ÇÃà⁄ìÆ
-	if(NO == (NSDragOperationDelete & operation))
+	if(NO == (NSDragOperationDelete & operation)) {
 		return;
-	
+	}
 	pboard_ = [NSPasteboard pasteboardWithName : NSDragPboard];
-	if(NO == [[pboard_ types] containsObject : NSFilenamesPboardType])
+	if(NO == [[pboard_ types] containsObject : NSFilenamesPboardType]) {
 		return;
-	
+	}
 	filenames_ = [pboard_ propertyListForType : NSFilenamesPboardType];
 	[self tableView:nil removeFiles:filenames_ deleteFile:YES];
 }
