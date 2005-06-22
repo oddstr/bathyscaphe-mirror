@@ -10,7 +10,7 @@
 
 
 @implementation NSTableView(BathyScapheAdditions)
-// draggingSourceoperationMask を 自身のデータソース・クラスに丸投げする
+// NSDraggingSource の各メソッドを 自身のデータソース・クラスに丸投げする
 // BoardList-OVDataSource.m, CMRThreadsList-DataSource.m を参照。
 
 // 本当は、これは NSTableView のサブクラスを作ってそこに書くべきなのだろうが、
@@ -26,5 +26,16 @@
 	} else {
 		return NSDragOperationGeneric;
 	}
+}
+
+- (void) draggedImage : (NSImage	   *) anImage
+			  endedAt : (NSPoint		) aPoint
+			operation : (NSDragOperation) operation
+{
+	id		source_;
+	
+	source_ = [self dataSource];
+	if([source_ respondsToSelector : _cmd])
+		[source_ draggedImage:anImage endedAt:aPoint operation:operation];
 }
 @end

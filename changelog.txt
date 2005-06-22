@@ -1,4 +1,14 @@
+2005-06-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/datestamper.sh
+	* misc/mkdmg.pl
+	* misc/README.txt
+	* docs/ReleaseNote.rtf
+		今後使う見込みが無いのでリポジトリから削除した。
+=================================================
 2005-06-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/extensions/NSTableView+BSAdditions.m
+		修正が不十分でゴミ箱にドラッグ＆ドロップしても無反応だったのを解決。
+		つくづく CocoMonar のソースは巧妙にできてるんだなぁと思った。
 	* application/source/CMRNSObject.m
 		[削除]すでにプロジェクトから外していたが、ファイル自体も削除。
 	* application/source/window/NSFancyPanel.m
