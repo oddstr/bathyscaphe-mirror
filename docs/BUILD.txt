@@ -2,10 +2,10 @@
  HOW TO BUILD
 ========================================
 
-Update:2005-05-15
+Update:2005-06-26
 
 BathyScaphe をビルドする方法を簡単に説明します。
-この文書の内容は、すべて Mac OS X 10.4 + Xcode 2.0 を対象に書かれています。
+* 基本的に Mac OS X 10.4 + Xcode 2.1 以降の環境を前提にしています。
 
 
 ■ビルド
@@ -15,21 +15,13 @@ BathyScaphe をビルドする方法を簡単に説明します。
 1. ソースのディレクトリに移動します：
 	cd bathyscaphe
 2. Makefile が用意されているので、次のコマンドですぐビルドできます：
-	make app
+	make
 3. すべてのターゲット（フレームワーク、Metadata importer、BWAgent、および BathyScaphe 本体）をクリーニングするためには、代わりに次のようにタイプ：
 	make clean
 
 * Xcode でビルド
 --------------------------------
-1. まず、frameworks 以下の各フレームワークをビルドする。
+最新のビルド方法の説明は、以下の Web ページをご覧ください。
 
-2. SGFoundation.framework を必要とするフレームワークがあるため、一番最初に SGFoundation.framework をビルドすること。それから、以下のフレームワークをビルド：
-	SGNetWork, SGAppKit, CMF(CocoMonar.framework), Keychain
-
-3. MetaData importer(Spotlight プラグイン）をビルドする。metadataimporter/BathyScaphe/BathyScapheMDI.xcode を開いてビルド。
-
-4. BWAgent.app をビルドする。application/subproj/BWAgent/BWAgent.xcode を開いてビルド。
-
-5. おまちかね、BathyScaphe 本体をビルドする。application/BachyScaphe.xcode を開いてビルド。必ずターゲットを「bathyscaphe」に設定してからビルドすること（v1 ターゲットではありません）。
-
-
+"How to Build BathyScaphe"
+http://bathyscaphe.sourceforge.jp/cgi-bin/wiki.cgi?p=How+to+Build+BathyScaphe
