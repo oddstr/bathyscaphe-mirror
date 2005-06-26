@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRStatusLine.m,v 1.2 2005/06/18 19:09:16 tsawada2 Exp $
+  * $Id: CMRStatusLine.m,v 1.3 2005/06/26 18:20:04 tsawada2 Exp $
   * 
   * CMRStatusLine.m
   *
@@ -9,6 +9,7 @@
 #import "CMRStatusLine_p.h"
 #import "CMXTemplateResources.h"
 #import "missing.h"
+#import "RBSplitView.h"
 
 #define kLoadNibName				@"CMRStatusView"
 
@@ -107,11 +108,11 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 {
 	NSRect		windowFrame_  = [aWindow frame];
 	NSRect		lineFrame_    = [[self statusLineView] frame];
-	float		moveY_;
+	float		statusBarHeight_;
 	
 	if(willBeShown){
 		
-		// ウィンドウの下側に表示する場合は
+		// ウィンドウの下側にステータスバーを配置するが、その際
 		// ウィンドウのリサイズ部分を避ける
 		// resize indicatorのサイズが分からないので
 		// NSScrollerの幅で代用
@@ -122,10 +123,9 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 		
 		[[self statusLineView] setFrame : lineFrame_];
 	}
-	// ツールバー or タイトルバーとの「境界線」が重なって太くならないように、1ピクセル余分に出し入れする
-	moveY_ = NSHeight(lineFrame_) * (willBeShown?1:-1) + (willBeShown?+1:(-1)) ;
-	windowFrame_.size.height += moveY_;
-	windowFrame_.origin.y -= moveY_;
+
+	// ビューの「境界線」が重なって太くならないように、1ピクセル余分に出し入れする
+	statusBarHeight_ = NSHeight(lineFrame_)+1 ;
 	
 	{
 		NSEnumerator	*iter_;
@@ -133,20 +133,50 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 		
 		iter_ = [[[[self window] contentView] subviews] objectEnumerator];
 		while(view_ = [iter_ nextObject]){
-			NSPoint		origin_;
-			
+			NSRect		newRect;
+
 			if(view_ == [self statusLineView]) continue;
 			
-			origin_ = [view_ frame].origin;
-			origin_.y += moveY_;
-			[view_ setFrameOrigin : origin_];
+			if (willBeShown) {
+
+				float tmp_;
+				
+				// 最下部に接して配置されているビューの height を縮めて下部に余白を作り、そこに
+				// ステータスバーを押し込むと考える（ウインドウ自体のサイズは変えない）。
+				
+				if([view_ frame].origin.y <= 0) {
+					if([view_ class] == [RBSplitView class]) {
+						// RBSplitView のリサイズ時の不審な挙動対策。RBSplitView の frame を
+						// 変更する前に、RBSplitSubview の dimension（幅）を記憶しておき、
+						// frame 変更後にその dimension に再設定してやる。
+						tmp_ = [[view_ subviewWithIdentifier : @"boards"] dimension];
+					}
+					
+					newRect = [view_ frame];
+					newRect.origin.y += statusBarHeight_;
+					newRect.size.height -= statusBarHeight_;
+					[view_ setFrame : newRect];
+					
+					if([view_ class] == [RBSplitView class]) {
+						[[view_ subviewWithIdentifier : @"boards"] setDimension : tmp_];
+					}
+				}
+
+			} else {
+			
+				// ステータスバーをよけて配置されていたビューの height を拡大して、最下部に接地させる。
+
+				if([view_ frame].origin.y <= statusBarHeight_) {
+					newRect = [view_ frame];
+					newRect.origin.y -= statusBarHeight_;
+					newRect.size.height += statusBarHeight_;
+					[view_ setFrame : newRect];
+				}
+			}
 		}
 	}
-
-	[aWindow setFrame : windowFrame_ 
-			  display : YES
-			  animate : animateFlag
-		  autoresizes : NO];
+	
+	//[aWindow displayIfNeeded];	// 多分必要ない
 }
 
 - (BOOL) isVisible

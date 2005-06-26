@@ -1,3 +1,8 @@
+2005-06-27 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/CMRStatusLine.m
+		ステータスバーを表示する／隠す時に、ウインドウ自体のサイズは変更しないようにした。
+		これによって、以前報告されていた「ズームしてからステータスバーを表示させると表示が
+		おかしくなる／Dock と干渉する」問題も解決（したはず）。
 2005-06-26 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/preferences/CMXFileManager.m
 		[削除]最初からプロジェクトでチェックマークはついていなかったが、リポジトリからも
