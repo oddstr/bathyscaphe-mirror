@@ -152,7 +152,6 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 				NSToolbarSeparatorItemIdentifier,
 				NSToolbarSpaceItemIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,
-				NSToolbarPrintItemIdentifier,
 				nil];
 }
 @end

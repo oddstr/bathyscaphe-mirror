@@ -116,7 +116,6 @@
 		87016208082BE67100AEFDD0 /* SGDocument_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F3959F1204D3050600A80005 /* SGDocument_p.h */; };
 		87016209082BE67100AEFDD0 /* w2chConnect.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DBCE04C6965500A80005 /* w2chConnect.h */; };
 		8701620A082BE67100AEFDD0 /* CMRTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = F325B46704D6BCED00A80005 /* CMRTextView.h */; };
-		8701620B082BE67100AEFDD0 /* CMXTemplateKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = F32248E404D97CCC00A80005 /* CMXTemplateKeys.h */; };
 		8701620C082BE67100AEFDD0 /* CMRSubjectReader.h in Headers */ = {isa = PBXBuildFile; fileRef = F309849604DD7FA100A80005 /* CMRSubjectReader.h */; };
 		8701620D082BE67100AEFDD0 /* CMRThreadHTMLDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = F31A368404DD971600A80005 /* CMRThreadHTMLDownloader.h */; };
 		8701620E082BE67100AEFDD0 /* CMRDATDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = F31A368804DD974C00A80005 /* CMRDATDownloader.h */; };
@@ -2658,7 +2657,6 @@
 				87016208082BE67100AEFDD0 /* SGDocument_p.h in Headers */,
 				87016209082BE67100AEFDD0 /* w2chConnect.h in Headers */,
 				8701620A082BE67100AEFDD0 /* CMRTextView.h in Headers */,
-				8701620B082BE67100AEFDD0 /* CMXTemplateKeys.h in Headers */,
 				8701620C082BE67100AEFDD0 /* CMRSubjectReader.h in Headers */,
 				8701620D082BE67100AEFDD0 /* CMRThreadHTMLDownloader.h in Headers */,
 				8701620E082BE67100AEFDD0 /* CMRDATDownloader.h in Headers */,

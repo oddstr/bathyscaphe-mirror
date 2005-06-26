@@ -1,6 +1,6 @@
 //: CMRStatusLine-ViewAccessor.m
 /**
-  * $Id: CMRStatusLine-ViewAccessor.m,v 1.4 2005/06/19 16:44:23 tsawada2 Exp $
+  * $Id: CMRStatusLine-ViewAccessor.m,v 1.5 2005/06/26 09:20:25 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -141,7 +141,7 @@
     UTILAssertNotificationName(
         theNotification,
         CMRTaskWillStartNotification);
-    [[self progressIndicator] startAnimation : self];
+
     [self updateStatusLineWithTask : [theNotification object]];
 }
 - (void) taskWillProgressNotification : (NSNotification *) theNotification

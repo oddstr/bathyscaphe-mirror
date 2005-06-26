@@ -1,4 +1,11 @@
 2005-06-26 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/window/CMRBrowserTbDelegate.m
+		ブラウザウインドウのツールバーから「プリント」ボタンを取り除いた。
+	* application/source/preferences/CMRPreferencesDefautValues.h
+		デフォルトのパラメータを若干調整。
+	* application/source/window/BSWindow.m
+		Mac OS X 10.4 以降では常につるぺたで表示するようにした。
+		（通常の Aqua ではイマイチしまらないため）
 	* framework 各種、および MDI
 		Xcode 2.1 用のプロジェクトファイルをコミットした。
 2005-06-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>
