@@ -16,12 +16,6 @@
 	<string>%%%BBSName%%% - %%%ThreadTitle%%%</string>
 	<key>Favorites - MaxCountForPool</key>
 	<integer>40</integer>
-	<key>History - Limit(Board)</key>
-	<integer>10</integer>
-	<key>History - Limit(SearchList)</key>
-	<integer>5</integer>
-	<key>History - Limit(Thread)</key>
-	<integer>20</integer>
 	<key>PopUp - BecomesKeyOnlyIfNeeded</key>
 	<integer>1</integer>
 	<key>PopUp - BorderType</key>

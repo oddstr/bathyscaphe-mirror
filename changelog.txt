@@ -1,4 +1,11 @@
 2005-06-26 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/preferences/CMXFileManager.m
+		[削除]最初からプロジェクトでチェックマークはついていなかったが、リポジトリからも
+		削除した。
+	* application/source/CMRAppDelegate.m
+		ログ管理アプリケーションを変更したとき、ツールバーボタンのラベルにも変更をすぐに
+		反映させるようにした。
+	* application/Resources/text/KeyValueTemplates.plist
 	* application/source/preferences/AppDefaults.m
 	* application/source/manager/CMRHistoryManager.m
 		履歴の上限数の設定を KeyValueTemplates.plist から User Defaults に移した。

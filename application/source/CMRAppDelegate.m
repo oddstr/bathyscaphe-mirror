@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.6 2005/06/12 06:33:07 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.7 2005/06/26 13:07:30 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -78,6 +78,22 @@
 - (IBAction)launchCMLF:(id)sender
 {
     [[NSWorkspace sharedWorkspace] launchApplication: [CMRPref helperAppPath]];
+}
+
+- (BOOL) validateToolbarItem : (NSToolbarItem *) theItem
+{
+	if ([theItem action] == @selector(launchCMLF:)) {
+		NSString	*name_ = [CMRPref helperAppPath];
+
+		if (nil == name_) {
+			return NO;
+		} else {
+			[theItem setLabel : [[name_ stringByDeletingPathExtension] lastPathComponent]];
+			return YES;
+		}
+	}
+
+	return YES;
 }
 
 - (BOOL) isOnlineMode
