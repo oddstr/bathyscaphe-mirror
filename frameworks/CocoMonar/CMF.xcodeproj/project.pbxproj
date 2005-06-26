@@ -1,0 +1,538 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		87F57053086E5217002A18AD /* CMRAppTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B756F50508BD6C00A80005 /* CMRAppTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87F57054086E5217002A18AD /* CMRDocumentTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B756F60508BD6C00A80005 /* CMRDocumentTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87F57055086E5217002A18AD /* CMRFRWKCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B756F80508BD6C00A80005 /* CMRFRWKCommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87F57056086E5217002A18AD /* CMRFRWKUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B756F90508BD6C00A80005 /* CMRFRWKUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87F57057086E5217002A18AD /* CMRHostTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B756FA0508BD6C00A80005 /* CMRHostTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87F57058086E5217002A18AD /* CMRLocalizableStringsOwner.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B756FC0508BD6C00A80005 /* CMRLocalizableStringsOwner.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87F57059086E5217002A18AD /* CMRPropertyKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B756FE0508BD6C00A80005 /* CMRPropertyKeys.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87F5705A086E5217002A18AD /* CMRPropertyListCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B757000508BD6C00A80005 /* CMRPropertyListCoding.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87F5705B086E5217002A18AD /* CMRResourceFileReader.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B757010508BD6C00A80005 /* CMRResourceFileReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87F5705C086E5217002A18AD /* CMRSingletonObject.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B757030508BD6C00A80005 /* CMRSingletonObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87F5705D086E5217002A18AD /* CocoMonar.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B757050508BD6C00A80005 /* CocoMonar.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87F5705E086E5217002A18AD /* NSBundle+CMRExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B757070508BD6C00A80005 /* NSBundle+CMRExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87F5705F086E5217002A18AD /* CMRFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B02DAE0509F1D600A80005 /* CMRFileManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87F57060086E5217002A18AD /* CMRFiles.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B02DB90509FCB000A80005 /* CMRFiles.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87F57061086E5217002A18AD /* UTILAssertion.h in Headers */ = {isa = PBXBuildFile; fileRef = F3354EAA05D39D260073CD71 /* UTILAssertion.h */; };
+		87F57062086E5217002A18AD /* UTILDebugging.h in Headers */ = {isa = PBXBuildFile; fileRef = F3354EAB05D39D260073CD71 /* UTILDebugging.h */; };
+		87F57063086E5217002A18AD /* UTILDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = F3354EAC05D39D260073CD71 /* UTILDescription.h */; };
+		87F57064086E5217002A18AD /* UTILKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F3354EAD05D39D260073CD71 /* UTILKit.h */; };
+		87F57066086E5217002A18AD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
+		87F57067086E5217002A18AD /* megabbs.txt in Resources */ = {isa = PBXBuildFile; fileRef = F37CD4C305089F5700A80005 /* megabbs.txt */; };
+		87F57068086E5217002A18AD /* pathinfo.txt in Resources */ = {isa = PBXBuildFile; fileRef = F37CD4C405089F5700A80005 /* pathinfo.txt */; };
+		87F5706A086E5217002A18AD /* CMRDocumentTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B756F70508BD6C00A80005 /* CMRDocumentTypes.m */; };
+		87F5706B086E5217002A18AD /* CMRHostTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B756FB0508BD6C00A80005 /* CMRHostTypes.m */; };
+		87F5706C086E5217002A18AD /* CMRLocalizableStringsOwner.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B756FD0508BD6C00A80005 /* CMRLocalizableStringsOwner.m */; };
+		87F5706D086E5217002A18AD /* CMRPropertyKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B756FF0508BD6C00A80005 /* CMRPropertyKeys.m */; };
+		87F5706E086E5217002A18AD /* CMRResourceFileReader.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B757020508BD6C00A80005 /* CMRResourceFileReader.m */; };
+		87F5706F086E5217002A18AD /* CMRSingletonObject.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B757040508BD6C00A80005 /* CMRSingletonObject.m */; };
+		87F57070086E5217002A18AD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B757060508BD6C00A80005 /* main.m */; };
+		87F57071086E5217002A18AD /* NSBundle+CMRExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B757080508BD6C00A80005 /* NSBundle+CMRExtensions.m */; };
+		87F57072086E5217002A18AD /* CMRFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B02DAF0509F1D600A80005 /* CMRFileManager.m */; };
+		87F57074086E5217002A18AD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
+		87F57075086E5217002A18AD /* SGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3A5E3AC0436BEF700A80005 /* SGFoundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		014CEA440018CDF011CA2923 /* Development */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		014CEA450018CDF011CA2923 /* Deployment */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUGGING_SYMBOLS = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				OPTIMIZATION_CFLAGS = "-O2";
+				OTHER_CFLAGS = "-DUTIL_BLOCK_DEBUG_WRITE";
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXFileReference section */
+		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		87F5707B086E5217002A18AD /* Info-CMF.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-CMF.plist"; sourceTree = "<group>"; };
+		87F5707C086E5217002A18AD /* CocoMonar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CocoMonar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3354EAA05D39D260073CD71 /* UTILAssertion.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = UTILAssertion.h; sourceTree = "<group>"; };
+		F3354EAB05D39D260073CD71 /* UTILDebugging.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = UTILDebugging.h; sourceTree = "<group>"; };
+		F3354EAC05D39D260073CD71 /* UTILDescription.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = UTILDescription.h; sourceTree = "<group>"; };
+		F3354EAD05D39D260073CD71 /* UTILKit.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = UTILKit.h; sourceTree = "<group>"; };
+		F37CD4C305089F5700A80005 /* megabbs.txt */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = text; name = megabbs.txt; path = framework/Resources/megabbs.txt; sourceTree = "<group>"; };
+		F37CD4C405089F5700A80005 /* pathinfo.txt */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = text; name = pathinfo.txt; path = framework/Resources/pathinfo.txt; sourceTree = "<group>"; };
+		F3A5E3AC0436BEF700A80005 /* SGFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SGFoundation.framework; path = ../SGFoundation/build/Deployment/SGFoundation.framework; sourceTree = SOURCE_ROOT; };
+		F3B02DAE0509F1D600A80005 /* CMRFileManager.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRFileManager.h; sourceTree = "<group>"; };
+		F3B02DAF0509F1D600A80005 /* CMRFileManager.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRFileManager.m; sourceTree = "<group>"; };
+		F3B02DB90509FCB000A80005 /* CMRFiles.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRFiles.h; sourceTree = "<group>"; };
+		F3B756F50508BD6C00A80005 /* CMRAppTypes.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRAppTypes.h; sourceTree = "<group>"; };
+		F3B756F60508BD6C00A80005 /* CMRDocumentTypes.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRDocumentTypes.h; sourceTree = "<group>"; };
+		F3B756F70508BD6C00A80005 /* CMRDocumentTypes.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRDocumentTypes.m; sourceTree = "<group>"; };
+		F3B756F80508BD6C00A80005 /* CMRFRWKCommon.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRFRWKCommon.h; sourceTree = "<group>"; };
+		F3B756F90508BD6C00A80005 /* CMRFRWKUtilities.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRFRWKUtilities.h; sourceTree = "<group>"; };
+		F3B756FA0508BD6C00A80005 /* CMRHostTypes.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRHostTypes.h; sourceTree = "<group>"; };
+		F3B756FB0508BD6C00A80005 /* CMRHostTypes.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRHostTypes.m; sourceTree = "<group>"; };
+		F3B756FC0508BD6C00A80005 /* CMRLocalizableStringsOwner.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRLocalizableStringsOwner.h; sourceTree = "<group>"; };
+		F3B756FD0508BD6C00A80005 /* CMRLocalizableStringsOwner.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRLocalizableStringsOwner.m; sourceTree = "<group>"; };
+		F3B756FE0508BD6C00A80005 /* CMRPropertyKeys.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRPropertyKeys.h; sourceTree = "<group>"; };
+		F3B756FF0508BD6C00A80005 /* CMRPropertyKeys.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRPropertyKeys.m; sourceTree = "<group>"; };
+		F3B757000508BD6C00A80005 /* CMRPropertyListCoding.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRPropertyListCoding.h; sourceTree = "<group>"; };
+		F3B757010508BD6C00A80005 /* CMRResourceFileReader.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRResourceFileReader.h; sourceTree = "<group>"; };
+		F3B757020508BD6C00A80005 /* CMRResourceFileReader.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRResourceFileReader.m; sourceTree = "<group>"; };
+		F3B757030508BD6C00A80005 /* CMRSingletonObject.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRSingletonObject.h; sourceTree = "<group>"; };
+		F3B757040508BD6C00A80005 /* CMRSingletonObject.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRSingletonObject.m; sourceTree = "<group>"; };
+		F3B757050508BD6C00A80005 /* CocoMonar.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CocoMonar.h; sourceTree = "<group>"; };
+		F3B757060508BD6C00A80005 /* main.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F3B757070508BD6C00A80005 /* NSBundle+CMRExtensions.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = "NSBundle+CMRExtensions.h"; sourceTree = "<group>"; };
+		F3B757080508BD6C00A80005 /* NSBundle+CMRExtensions.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+CMRExtensions.m"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		87F57073086E5217002A18AD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87F57074086E5217002A18AD /* Cocoa.framework in Frameworks */,
+				87F57075086E5217002A18AD /* SGFoundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		034768DFFF38A50411DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				87F5707C086E5217002A18AD /* CocoMonar.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* CocoMonar Framework */ = {
+			isa = PBXGroup;
+			children = (
+				F3354EA905D39D260073CD71 /* utilkit */,
+				F3B756F30508BD6C00A80005 /* src */,
+				089C1665FE841158C02AAC07 /* Resources */,
+				0867D69AFE84028FC02AAC07 /* Frameworks */,
+				034768DFFF38A50411DB9C8B /* Products */,
+				87F5707B086E5217002A18AD /* Info-CMF.plist */,
+			);
+			name = "CocoMonar Framework";
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
+				1058C7B2FEA5585E11CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		089C1665FE841158C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
+				F37CD4C305089F5700A80005 /* megabbs.txt */,
+				F37CD4C405089F5700A80005 /* pathinfo.txt */,
+			);
+			name = Resources;
+			sourceTree = SOURCE_ROOT;
+		};
+		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
+				F3A5E3AC0436BEF700A80005 /* SGFoundation.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7B2FEA5585E11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
+				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		F3354EA905D39D260073CD71 /* utilkit */ = {
+			isa = PBXGroup;
+			children = (
+				F3354EAD05D39D260073CD71 /* UTILKit.h */,
+				F3354EAA05D39D260073CD71 /* UTILAssertion.h */,
+				F3354EAB05D39D260073CD71 /* UTILDebugging.h */,
+				F3354EAC05D39D260073CD71 /* UTILDescription.h */,
+			);
+			name = utilkit;
+			path = ../../misc/utilkit;
+			sourceTree = SOURCE_ROOT;
+		};
+		F3B756F30508BD6C00A80005 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				F3B757050508BD6C00A80005 /* CocoMonar.h */,
+				F3B757060508BD6C00A80005 /* main.m */,
+				F3B7571E0508BDE600A80005 /* common */,
+				F3B7571F0508BDED00A80005 /* util */,
+			);
+			name = src;
+			path = framework/src;
+			sourceTree = "<group>";
+		};
+		F3B7571E0508BDE600A80005 /* common */ = {
+			isa = PBXGroup;
+			children = (
+				F3B756F80508BD6C00A80005 /* CMRFRWKCommon.h */,
+				F3B756F50508BD6C00A80005 /* CMRAppTypes.h */,
+				F3B756F60508BD6C00A80005 /* CMRDocumentTypes.h */,
+				F3B756F70508BD6C00A80005 /* CMRDocumentTypes.m */,
+				F3B756FE0508BD6C00A80005 /* CMRPropertyKeys.h */,
+				F3B756FF0508BD6C00A80005 /* CMRPropertyKeys.m */,
+				F3B02DB90509FCB000A80005 /* CMRFiles.h */,
+				F3B02DAE0509F1D600A80005 /* CMRFileManager.h */,
+				F3B02DAF0509F1D600A80005 /* CMRFileManager.m */,
+			);
+			name = common;
+			sourceTree = "<group>";
+		};
+		F3B7571F0508BDED00A80005 /* util */ = {
+			isa = PBXGroup;
+			children = (
+				F3B756F90508BD6C00A80005 /* CMRFRWKUtilities.h */,
+				F3B757200508BE0200A80005 /* NSObject */,
+				F3B756FA0508BD6C00A80005 /* CMRHostTypes.h */,
+				F3B756FB0508BD6C00A80005 /* CMRHostTypes.m */,
+				F3B757010508BD6C00A80005 /* CMRResourceFileReader.h */,
+				F3B757020508BD6C00A80005 /* CMRResourceFileReader.m */,
+				F3B757030508BD6C00A80005 /* CMRSingletonObject.h */,
+				F3B757040508BD6C00A80005 /* CMRSingletonObject.m */,
+				F3B757070508BD6C00A80005 /* NSBundle+CMRExtensions.h */,
+				F3B757080508BD6C00A80005 /* NSBundle+CMRExtensions.m */,
+			);
+			name = util;
+			sourceTree = "<group>";
+		};
+		F3B757200508BE0200A80005 /* NSObject */ = {
+			isa = PBXGroup;
+			children = (
+				F3B757000508BD6C00A80005 /* CMRPropertyListCoding.h */,
+				F3B756FC0508BD6C00A80005 /* CMRLocalizableStringsOwner.h */,
+				F3B756FD0508BD6C00A80005 /* CMRLocalizableStringsOwner.m */,
+			);
+			name = NSObject;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		87F57052086E5217002A18AD /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87F57053086E5217002A18AD /* CMRAppTypes.h in Headers */,
+				87F57054086E5217002A18AD /* CMRDocumentTypes.h in Headers */,
+				87F57055086E5217002A18AD /* CMRFRWKCommon.h in Headers */,
+				87F57056086E5217002A18AD /* CMRFRWKUtilities.h in Headers */,
+				87F57057086E5217002A18AD /* CMRHostTypes.h in Headers */,
+				87F57058086E5217002A18AD /* CMRLocalizableStringsOwner.h in Headers */,
+				87F57059086E5217002A18AD /* CMRPropertyKeys.h in Headers */,
+				87F5705A086E5217002A18AD /* CMRPropertyListCoding.h in Headers */,
+				87F5705B086E5217002A18AD /* CMRResourceFileReader.h in Headers */,
+				87F5705C086E5217002A18AD /* CMRSingletonObject.h in Headers */,
+				87F5705D086E5217002A18AD /* CocoMonar.h in Headers */,
+				87F5705E086E5217002A18AD /* NSBundle+CMRExtensions.h in Headers */,
+				87F5705F086E5217002A18AD /* CMRFileManager.h in Headers */,
+				87F57060086E5217002A18AD /* CMRFiles.h in Headers */,
+				87F57061086E5217002A18AD /* UTILAssertion.h in Headers */,
+				87F57062086E5217002A18AD /* UTILDebugging.h in Headers */,
+				87F57063086E5217002A18AD /* UTILDescription.h in Headers */,
+				87F57064086E5217002A18AD /* UTILKit.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		87F57051086E5217002A18AD /* CocoMonar Framework */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 87F57077086E5217002A18AD /* Build configuration list for PBXNativeTarget "CocoMonar Framework" */;
+			buildPhases = (
+				87F57052086E5217002A18AD /* Headers */,
+				87F57065086E5217002A18AD /* Resources */,
+				87F57069086E5217002A18AD /* Sources */,
+				87F57073086E5217002A18AD /* Frameworks */,
+				87F57076086E5217002A18AD /* Rez */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = ../SGFoundation/build;
+				FRAMEWORK_VERSION = A;
+				HEADER_SEARCH_PATHS = "";
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_LDFLAGS = (
+					"-seg1addr",
+					0x31900000,
+				);
+				PRODUCT_NAME = CocoMonar;
+				SECTORDER_FLAGS = "";
+				USE_GCC3_PFE_SUPPORT = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = framework;
+			};
+			dependencies = (
+			);
+			name = "CocoMonar Framework";
+			productInstallPath = "@executable_path/../Frameworks";
+			productName = "CocoMonar Framework";
+			productReference = 87F5707C086E5217002A18AD /* CocoMonar.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 87F5707D086E5218002A18AD /* Build configuration list for PBXProject "CMF" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				014CEA440018CDF011CA2923 /* Development */,
+				014CEA450018CDF011CA2923 /* Deployment */,
+			);
+			hasScannedForEncodings = 1;
+			mainGroup = 0867D691FE84028FC02AAC07 /* CocoMonar Framework */;
+			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
+			projectDirPath = "";
+			targets = (
+				87F57051086E5217002A18AD /* CocoMonar Framework */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		87F57065086E5217002A18AD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87F57066086E5217002A18AD /* InfoPlist.strings in Resources */,
+				87F57067086E5217002A18AD /* megabbs.txt in Resources */,
+				87F57068086E5217002A18AD /* pathinfo.txt in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		87F57076086E5217002A18AD /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		87F57069086E5217002A18AD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87F5706A086E5217002A18AD /* CMRDocumentTypes.m in Sources */,
+				87F5706B086E5217002A18AD /* CMRHostTypes.m in Sources */,
+				87F5706C086E5217002A18AD /* CMRLocalizableStringsOwner.m in Sources */,
+				87F5706D086E5217002A18AD /* CMRPropertyKeys.m in Sources */,
+				87F5706E086E5217002A18AD /* CMRResourceFileReader.m in Sources */,
+				87F5706F086E5217002A18AD /* CMRSingletonObject.m in Sources */,
+				87F57070086E5217002A18AD /* main.m in Sources */,
+				87F57071086E5217002A18AD /* NSBundle+CMRExtensions.m in Sources */,
+				87F57072086E5217002A18AD /* CMRFileManager.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C1666FE841158C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C1667FE841158C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		87F57078086E5217002A18AD /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = ../SGFoundation/build/Deployment;
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_USE_GCC3_PFE_SUPPORT = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "Info-CMF.plist";
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-seg1addr",
+					0x31900000,
+				);
+				PRODUCT_NAME = CocoMonar;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = framework;
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		87F57079086E5217002A18AD /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = ../SGFoundation/build/Deployment;
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = UTIL_BLOCK_DEBUG_WRITE;
+				GCC_USE_GCC3_PFE_SUPPORT = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "Info-CMF.plist";
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-seg1addr",
+					0x31900000,
+				);
+				PRODUCT_NAME = CocoMonar;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = framework;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		87F5707A086E5217002A18AD /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = ../SGFoundation/build/Deployment;
+				FRAMEWORK_VERSION = A;
+				GCC_USE_GCC3_PFE_SUPPORT = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "Info-CMF.plist";
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_LDFLAGS = (
+					"-seg1addr",
+					0x31900000,
+				);
+				PRODUCT_NAME = CocoMonar;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Default;
+		};
+		87F5707E086E5218002A18AD /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Development;
+		};
+		87F5707F086E5218002A18AD /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Deployment;
+		};
+		87F57080086E5218002A18AD /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		87F57077086E5217002A18AD /* Build configuration list for PBXNativeTarget "CocoMonar Framework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				87F57078086E5217002A18AD /* Development */,
+				87F57079086E5217002A18AD /* Deployment */,
+				87F5707A086E5217002A18AD /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		87F5707D086E5218002A18AD /* Build configuration list for PBXProject "CMF" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				87F5707E086E5218002A18AD /* Development */,
+				87F5707F086E5218002A18AD /* Deployment */,
+				87F57080086E5218002A18AD /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}

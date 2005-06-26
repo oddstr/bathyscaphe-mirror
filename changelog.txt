@@ -1,3 +1,6 @@
+2005-06-26 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* framework 各種、および MDI
+		Xcode 2.1 用のプロジェクトファイルをコミットした。
 2005-06-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/datestamper.sh
 	* misc/mkdmg.pl
