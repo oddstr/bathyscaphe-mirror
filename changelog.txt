@@ -1,4 +1,8 @@
 2005-06-26 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/preferences/AppDefaults.m
+	* application/source/manager/CMRHistoryManager.m
+		履歴の上限数の設定を KeyValueTemplates.plist から User Defaults に移した。
+		設定は引き継がれないので、上限を変更していた人は注意。
 	* application/source/window/CMRBrowserTbDelegate.m
 		ブラウザウインドウのツールバーから「プリント」ボタンを取り除いた。
 	* application/source/preferences/CMRPreferencesDefautValues.h

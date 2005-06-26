@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.5 2005/06/16 15:19:58 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.6 2005/06/26 12:18:45 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -48,6 +48,10 @@ NSString *const AppDefaultsWillSaveNotification = @"AppDefaultsWillSaveNotificat
 
 #define AppDefaultsOpenInBgKey				@"OpenLinkInBg"
 #define AppDefaultsQuietDeletionKey			@"QuietDeletion"
+
+#define AppDefaultsHistoryThreadsKey		@"History - Limit(Thread)"
+#define AppDefaultsHistoryBoardsKey			@"History - Limit(Board)"
+#define AppDefaultsHistorySearchKey    @"History - Limit(SearchList)"
 
 static id _singletonAppDefaultsLock;
 
@@ -266,73 +270,7 @@ NS_ENDHANDLER
 	[[self defaults] setInteger : option
 						 forKey : AppDefaultsContentsSearchOptionKey];
 }
-/*
-#pragma mark -
 
-- (NSSize) boardListContentSize
-{
-	return NSMakeSize([self boardListSizeWidth],
-					  [self boardListSizeHeight]);
-}
-
-- (void) setBoardListContentSize : (NSSize) contentSize
-{	
-	[self setBoardListSizeWidth : contentSize.width];
-	[self setBoardListSizeHeight : contentSize.height];
-}
-- (BOOL) isBoardListOpen
-{
-	int state_;
-	
-	state_ = [self boardListState];
-	return (state_ == NSDrawerOpeningState ||
-			state_ == NSDrawerOpenState);
-}
-- (void) setIsBoardListOpen : (BOOL) isOpen
-{
-	[self setBoardListState : (isOpen ? NSDrawerOpenState : NSDrawerClosedState)];
-}
-- (int) boardListState
-{
-	return [[self defaults] integerForKey : AppDefaultsBoardListStateKey
-							 defaultValue : DEFAULT_BOARDLIST_STATE];
-}
-- (void) setBoardListState : (int) state
-{
-	[[self defaults] setInteger : state
-						 forKey : AppDefaultsBoardListStateKey];
-}
-- (float) boardListSizeWidth
-{
-	return [[self defaults] floatForKey : AppDefaultsBoardListSizeWidthKey
-						   defaultValue : DEFAULT_BOARDLIST_WIDTH];
-}
-- (void) setBoardListSizeWidth : (float) width
-{
-	[[self defaults] setFloat : width
-					   forKey : AppDefaultsBoardListSizeWidthKey];
-}
-- (float) boardListSizeHeight
-{
-	return [[self defaults] floatForKey : AppDefaultsBoardListSizeHeightKey
-						   defaultValue : DEFAULT_BOARDLIST_HEIGHT];
-}
-- (void) setBoardListSizeHeight : (float) height
-{
-	[[self defaults] setFloat : height
-					   forKey : AppDefaultsBoardListSizeHeightKey];
-}
-- (NSRectEdge) boardListDrawerEdge
-{
-	return [[self defaults] integerForKey : AppDefaultsBoardListDrawerPreferedEdgeKey
-							 defaultValue : DEFAULT_BOARDLIST_PREFEREDEDGE];
-}
-- (void) setBoardListDrawerEdge : (NSRectEdge) edge;
-{
-	[[self defaults] setInteger : edge
-						 forKey : AppDefaultsBoardListDrawerPreferedEdgeKey];
-}
-*/
 #pragma mark -
 
 /*** èëÇ´çûÇ›ÅFñºëOóì ***/
@@ -698,6 +636,37 @@ ErrGetHTTPProxySetting:
 		[[self defaults] removeObjectForKey:AppDefaultsProxyURLKey];
 	else
 		[[self defaults] setObject:aHost forKey:AppDefaultsProxyURLKey];
+}
+
+#pragma mark -
+
+// History
+- (int) maxCountForThreadsHistory
+{
+	return [[self defaults] integerForKey : AppDefaultsHistoryThreadsKey
+							 defaultValue : 20];
+}
+- (void) setMaxCountForThreadsHistory : (int) counts
+{
+	[[self defaults] setInteger : counts forKey : AppDefaultsHistoryThreadsKey];
+}
+- (int) maxCountForBoardsHistory
+{
+	return [[self defaults] integerForKey : AppDefaultsHistoryBoardsKey
+							 defaultValue : 10];
+}
+- (void) setMaxCountForBoardsHistory : (int) counts
+{
+	[[self defaults] setInteger : counts forKey : AppDefaultsHistoryBoardsKey];
+}
+- (int) maxCountForSearchHistory
+{
+	return [[self defaults] integerForKey : AppDefaultsHistorySearchKey
+							 defaultValue : 10];
+}
+- (void) setMaxCountForSearchHistory : (int) counts
+{
+	[[self defaults] setInteger : counts forKey : AppDefaultsHistorySearchKey];
 }
 @end
 

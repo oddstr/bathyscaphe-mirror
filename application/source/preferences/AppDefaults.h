@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.6 2005/06/18 22:33:27 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.7 2005/06/26 12:18:45 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -151,6 +151,14 @@
 - (void) setProxyPort : (CFIndex) aProxyPort;
 - (NSString *) proxyHost;
 - (void) setProxyHost : (NSString *) aProxyURL;
+
+// History
+- (int) maxCountForThreadsHistory;
+- (void) setMaxCountForThreadsHistory : (int) counts;
+- (int) maxCountForBoardsHistory;
+- (void) setMaxCountForBoardsHistory : (int) counts;
+- (int) maxCountForSearchHistory;
+- (void) setMaxCountForSearchHistory : (int) counts;
 @end
 
 

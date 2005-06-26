@@ -875,8 +875,6 @@
 		87299B0C0832622200CBD740 /* Zenkaku.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Zenkaku.txt; sourceTree = "<group>"; };
 		87299B410832623A00CBD740 /* BWAgent.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = BWAgent.app; path = subproj/BWAgent/build/Deployment/BWAgent.app; sourceTree = SOURCE_ROOT; };
 		87299C09083266F700CBD740 /* BathyScaphe.mdimporter */ = {isa = PBXFileReference; explicitFileType = "wrapper.plug-in"; name = BathyScaphe.mdimporter; path = ../metadataimporter/BathyScaphe/build/Deployment/BathyScaphe.mdimporter; sourceTree = SOURCE_ROOT; };
-		87299CAB08326A2900CBD740 /* CMXFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMXFileManager.h; sourceTree = "<group>"; };
-		87299CAC08326A2900CBD740 /* CMXFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMXFileManager.m; sourceTree = "<group>"; };
 		87299CC908326C8900CBD740 /* misc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = misc.h; sourceTree = "<group>"; };
 		87464E3608643673000F0371 /* libRBSplitView.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libRBSplitView.a; sourceTree = "<group>"; };
 		87464E380864368F000F0371 /* RBSplitView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RBSplitView.h; path = ../RBSplitView.h; sourceTree = "<group>"; };
@@ -2154,8 +2152,6 @@
 		F324DCDA04C698FB00A80005 /* preferences */ = {
 			isa = PBXGroup;
 			children = (
-				87299CAB08326A2900CBD740 /* CMXFileManager.h */,
-				87299CAC08326A2900CBD740 /* CMXFileManager.m */,
 				F358F4B804DE224500A80005 /* default */,
 				F358F4B904DE227900A80005 /* CMRHostHandler.h */,
 				F358F4BD04DE23BC00A80005 /* CMRHostHandler_p.h */,

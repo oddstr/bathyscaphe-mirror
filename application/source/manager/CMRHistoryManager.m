@@ -1,6 +1,6 @@
 //: CMRHistoryManager.m
 /**
-  * $Id: CMRHistoryManager.m,v 1.2 2005/05/12 15:20:25 tsawada2 Exp $
+  * $Id: CMRHistoryManager.m,v 1.3 2005/06/26 12:18:45 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -8,17 +8,7 @@
 
 #import "CMRHistoryManager.h"
 #import "CocoMonar_Prefix.h"
-#import "CMXTemplateResources.h"
-
-
-
-// Property List
-#define kHistoryBoardLimitKey         @"History - Limit(Board)"
-#define kHistoryThreadLimitKey        @"History - Limit(Thread)"
-#define kHistorySearchListLimitKey    @"History - Limit(SearchList)"
-
-// see historyItemLimitForType:
-#define DEFAULT_LIMIT_ITEMS 10
+#import "AppDefaults.h"
 
 // assume item is precious if visitedCount >= PreciousItemThreshold
 #define PreciousItemThreshold 5
@@ -193,30 +183,17 @@ static CMRHistoryClientEntry *lookupHistoryEntry(CMRHistoryClientEntry *inList, 
 
 - (unsigned) historyItemLimitForType : (int) aType
 {
-    NSString    *key_ = nil;
-    id            n;
-    
-    switch(aType) {
+	switch(aType) {
     case CMRHistoryBoardEntryType:
-        key_ = kHistoryBoardLimitKey;
-        break;
+        return [CMRPref maxCountForBoardsHistory];
     case CMRHistoryThreadEntryType:
-        key_ = kHistoryThreadLimitKey;
-        break;
+        return [CMRPref maxCountForThreadsHistory];
     case CMRHistorySearchListOptionEntryType:
-        key_ = kHistorySearchListLimitKey;
-        break;
+        return [CMRPref maxCountForSearchHistory];
     default:
         UTILUnknownSwitchCase(aType);
-        break;
+        return 10;
     }
-    
-    n = SGTemplateResource(key_);
-    if (nil == n) {
-        return DEFAULT_LIMIT_ITEMS;
-    }
-    
-    return [n unsignedIntValue];
 }
 
 - (NSMutableArray *) mutableHistoryItemArrayForType : (int) aType
