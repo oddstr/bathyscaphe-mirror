@@ -84,9 +84,8 @@
 	[[self preferences] setHelperAppPath : appPath_];
 
 	appIcon_ = [[NSWorkspace sharedWorkspace] iconForFile : appPath_];
-	//[appIcon_ setSize : NSMakeSize(16,16)];
 	[[[self appNameField] cell] setImage : appIcon_];
-	displayName_ = [[appPath_ lastPathComponent] stringByDeletingPathExtension];
+	displayName_ = [[self preferences] helperAppDisplayName];
 	[[[self appNameField] cell] setObjectValue : displayName_];
 	[[self appNameField] setNeedsDisplay : YES];
 	
@@ -221,7 +220,7 @@
 	if (path_) {
 		NSImage *img_ = [[NSWorkspace sharedWorkspace] iconForFile : path_];
 		[[[self appNameField] cell] setImage : img_];
-		[[[self appNameField] cell] setObjectValue : [[path_ lastPathComponent] stringByDeletingPathExtension]];
+		[[[self appNameField] cell] setObjectValue : [[self preferences] helperAppDisplayName]];
 	}
 }
 

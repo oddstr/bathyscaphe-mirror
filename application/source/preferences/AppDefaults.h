@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.7 2005/06/26 12:18:45 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.8 2005/06/27 16:57:28 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -455,6 +455,7 @@ enum {
 
 - (NSString *) helperAppPath;
 - (void) setHelperAppPath : (NSString *) fullPath_;
+- (NSString *) helperAppDisplayName;
 @end
 
 

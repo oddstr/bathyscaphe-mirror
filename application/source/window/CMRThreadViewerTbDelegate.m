@@ -105,9 +105,9 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 @implementation CMRThreadViewerTbDelegate (Protected)
 - (NSString *) labelForCMLF
 {
-	NSString *tmp_ = [CMRPref helperAppPath];
+	NSString *tmp_ = [CMRPref helperAppDisplayName];
 	if (tmp_) {
-		return [[tmp_ lastPathComponent] stringByDeletingPathExtension];
+		return tmp_;
 	} else {
 		return st_launchCMLFLabelKey;
 	}

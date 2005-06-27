@@ -1,5 +1,5 @@
 /**
- * $Id: AppDefaults-Bundle.m,v 1.2 2005/06/12 06:33:07 tsawada2 Exp $
+ * $Id: AppDefaults-Bundle.m,v 1.3 2005/06/27 16:57:28 tsawada2 Exp $
  * 
  * AppDefaults-Bundle.m
  *
@@ -240,7 +240,22 @@ static NSString *const AppDefaultsHelperAppNameKey = @"Helper Application Path";
 	}
 	[[self defaults] setObject : fullPath_
 						forKey : AppDefaultsHelperAppNameKey];
-	[[CMRMainMenuManager defaultManager] synchronizeLogFinderMenuItemTitle];
 }
 
+- (NSString *) helperAppDisplayName
+{
+	NSString *tmp_ = [self helperAppPath];
+	
+	if (tmp_) {
+		NSString	*displayName_;
+		displayName_ = [[NSBundle bundleWithPath : tmp_] objectForInfoDictionaryKey: @"CFBundleDisplayName"];
+		if (displayName_) {
+			return displayName_;
+		} else {
+			return [[tmp_ stringByDeletingPathExtension] lastPathComponent];
+		}
+	}
+
+	return nil;
+}
 @end

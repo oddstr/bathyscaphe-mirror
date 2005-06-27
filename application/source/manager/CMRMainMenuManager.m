@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMainMenuManager.m,v 1.4 2005/06/12 06:33:07 tsawada2 Exp $
+  * $Id: CMRMainMenuManager.m,v 1.5 2005/06/27 16:57:28 tsawada2 Exp $
   * 
   * CMRMainMenuManager.m
   *
@@ -25,7 +25,6 @@
 #define		FILE_ONLINEMODE_TAG		1
 #define		BROWSER_ARRANGEMENT_TAG	1
 #define		BROWSER_COLUMNS_TAG		2
-#define		WINDOW_CMLF_TAG			1
 
 
 @implementation CMRMainMenuManager
@@ -66,11 +65,6 @@ MENU_ACCESSER(scriptsMenuItem, SCRIPTS_MENU_TAG)
 	return (NSMenuItem*)[[[self browserMenuItem] submenu] 
 				itemWithTag : BROWSER_COLUMNS_TAG];
 }
-- (NSMenuItem *) logFinderMenuItem
-{
-	return (NSMenuItem*)[[[self windowMenuItem] submenu] 
-				itemWithTag : WINDOW_CMLF_TAG];
-}
 @end
 
 
@@ -109,20 +103,5 @@ MENU_ACCESSER(scriptsMenuItem, SCRIPTS_MENU_TAG)
 	UTILAssertNotNil(menuItem_);
 	isOnlineMode_ = [CMRPref isOnlineMode];	
 	[menuItem_ setState : isOnlineMode_ ? NSOnState : NSOffState];
-}
-- (void) synchronizeLogFinderMenuItemTitle
-{
-	NSMenuItem	*menuItem_;
-	NSString	*fullPath_;
-	
-	menuItem_ = [self logFinderMenuItem];
-	
-	UTILAssertNotNil(menuItem_);
-	fullPath_ = [CMRPref helperAppPath];
-	if (fullPath_ == nil) {
-		[menuItem_ setEnabled : NO];
-	} else {
-		[menuItem_ setTitle : [[fullPath_ lastPathComponent] stringByDeletingPathExtension]];
-	}
 }
 @end

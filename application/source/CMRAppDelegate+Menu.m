@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate+Menu.m,v 1.5 2005/06/12 06:33:07 tsawada2 Exp $
+ * $Id: CMRAppDelegate+Menu.m,v 1.6 2005/06/27 16:57:27 tsawada2 Exp $
  * 
  * CMRAppDelegate+Menu.m
  *
@@ -232,7 +232,6 @@
     
     [self setupBrowserArrangementMenu];
     [[CMRMainMenuManager defaultManager] synchronizeIsOnlineModeMenuItemState];
-    [[CMRMainMenuManager defaultManager] synchronizeLogFinderMenuItemTitle];
 	
 	[BSScriptsMenuManager setupScriptsMenu];
 }

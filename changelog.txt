@@ -1,4 +1,13 @@
+2005-06-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/preferences/AppDefaults-Bundle.m
+	* application/subproj/preference/AdvancedPrefController.m
+	* application/source/CMRAppDelegate.m
+	* application/source/manager/CMRMainMenuManager.m
+		ログ管理アプリケーションの設定と、ツールバーアイコン／メニュー項目の
+		validation との関係処理を見直した。
 2005-06-27 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/image/cmlf_icon.png
+		アイコンを差し替え。
 	* application/source/manager/CMRReplyDocumentFileManager.m
 	* application/source/window/CMRReplyControllerTbDelegate.m
 	* application/source/window/CMRReplyMessenger.m

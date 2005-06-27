@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.7 2005/06/26 13:07:30 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.8 2005/06/27 16:57:27 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -24,6 +24,9 @@
 {
     [self setupMenu];
 }
+
+#pragma mark IBAction
+
 - (IBAction) showBoardListEditor : (id) sender
 {
     [[CMRPref sharedBoardListEditor] showWindow : sender];
@@ -75,6 +78,13 @@
 	    [[AboutPanelController sharedInstance] showPanel];
 }
 
+- (BOOL) isOnlineMode
+{
+	return [CMRPref isOnlineMode];
+}
+
+#pragma mark Launch Helper App
+
 - (IBAction)launchCMLF:(id)sender
 {
     [[NSWorkspace sharedWorkspace] launchApplication: [CMRPref helperAppPath]];
@@ -83,12 +93,13 @@
 - (BOOL) validateToolbarItem : (NSToolbarItem *) theItem
 {
 	if ([theItem action] == @selector(launchCMLF:)) {
-		NSString	*name_ = [CMRPref helperAppPath];
+		NSString	*name_ = [CMRPref helperAppDisplayName];
 
 		if (nil == name_) {
 			return NO;
 		} else {
-			[theItem setLabel : [[name_ stringByDeletingPathExtension] lastPathComponent]];
+			[theItem setLabel : name_];
+			[theItem setPaletteLabel : name_];
 			return YES;
 		}
 	}
@@ -96,10 +107,23 @@
 	return YES;
 }
 
-- (BOOL) isOnlineMode
+- (BOOL) validateMenuItem : (NSMenuItem *) theItem
 {
-	return [CMRPref isOnlineMode];
+	if ([theItem action] == @selector(launchCMLF:)) {
+		NSString	*name_ = [CMRPref helperAppDisplayName];
+
+		if (nil == name_) {
+			[theItem setTitle : [self localizedString : APP_MAINMENU_HELPER_NOTFOUND]];
+			return NO;
+		} else {
+			[theItem setTitle : name_];
+			return YES;
+		}
+	}
+
+	return YES;
 }
+	
 @end
 
 
@@ -114,9 +138,6 @@
 
 
 @implementation CMRAppDelegate(NSApplicationNotifications)
-//- (void) applicationWillFinishLaunching : (NSNotification *)notification
-//{
-//}
 - (void) applicationDidFinishLaunching : (NSNotification *) aNotification
 {
     /* Service menu */
@@ -147,7 +168,6 @@
 	float red,green,blue;
 	
 	NSColor *color_ = [CMRPref browserSTableBackgroundColor];
-	//NSString *colorName_ = [color_ colorSpaceName];
 		
 	[[color_ colorUsingColorSpaceName : @"NSCalibratedRGBColorSpace"] getRed: &red green: &green blue: &blue alpha: NULL];
 
@@ -201,7 +221,6 @@
 	if(!(urlstr_ = [command directParameter]) || [urlstr_ isEqualToString:@""]) {
 		return;
 	}
-	//NSLog(@"%@", urlstr_);
 	
 	url_ = [NSURL URLWithString : urlstr_];
 	
