@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyMessenger.h,v 1.1 2005/05/11 17:51:09 tsawada2 Exp $
+  * $Id: CMRReplyMessenger.h,v 1.2 2005/06/27 14:08:50 tsawada2 Exp $
   * 
   * CMRReplyMessenger.h
   *
@@ -46,8 +46,8 @@
 - (void) setMail : (NSString *) aMail;
 - (void) setName : (NSString *) aName;
 - (void) setReplyMessage : (NSString *) aMessage;
-- (void) setReplyTextFont : (NSFont *) aFont;
-- (void) setReplyTextColor : (NSColor *) aColor;
+//- (void) setReplyTextFont : (NSFont *) aFont;
+//- (void) setReplyTextColor : (NSColor *) aColor;
 @end
 
 

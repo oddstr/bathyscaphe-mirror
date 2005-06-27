@@ -13,9 +13,9 @@
 #import "CMRDocumentController.h"
 #import "CMRThreadAttributes.h"
 
-
-NSString *const CMRReplyDocumentFontKey = @"Font";
-NSString *const CMRReplyDocumentColorKey = @"Color";
+// deprecated in BathyScaphe 1.0.2
+//NSString *const CMRReplyDocumentFontKey = @"Font";
+//NSString *const CMRReplyDocumentColorKey = @"Color";
 
 
 @implementation CMRReplyDocumentFileManager
@@ -36,8 +36,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager)
 		ThreadPlistContentsMessageKey,
 		CMRThreadWindowFrameKey,
 		CMRThreadModifiedDateKey,
-		CMRReplyDocumentFontKey,
-		CMRReplyDocumentColorKey,
+		//CMRReplyDocumentFontKey,
+		//CMRReplyDocumentColorKey,
 		nil];
 }
 - (BOOL) replyDocumentFileExistsAtPath : (NSString *) path

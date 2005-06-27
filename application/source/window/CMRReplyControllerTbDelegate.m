@@ -102,9 +102,9 @@
 				kSendMessageIdentifier,
 				NSToolbarSeparatorItemIdentifier,
 				kSaveAsDraftIdentifier,
-				NSToolbarSpaceItemIdentifier,
+				NSToolbarFlexibleSpaceItemIdentifier,
 				kBeLoginIdentifier,
-				NSToolbarShowFontsItemIdentifier,
+				//NSToolbarShowFontsItemIdentifier,
 				nil];
 }
 - (NSArray *) toolbarAllowedItemIdentifiers : (NSToolbar *) toolbar
@@ -113,8 +113,8 @@
 				kSendMessageIdentifier,
 				kSaveAsDraftIdentifier,
 				kBeLoginIdentifier,
-				NSToolbarShowFontsItemIdentifier,
-				NSToolbarShowColorsItemIdentifier,
+				//NSToolbarShowFontsItemIdentifier,
+				//NSToolbarShowColorsItemIdentifier,
 				NSToolbarSeparatorItemIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,
 				NSToolbarSpaceItemIdentifier,

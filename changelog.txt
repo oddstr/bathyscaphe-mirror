@@ -1,4 +1,17 @@
 2005-06-27 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/manager/CMRReplyDocumentFileManager.m
+	* application/source/window/CMRReplyControllerTbDelegate.m
+	* application/source/window/CMRReplyMessenger.m
+	* application/source/window/CMRReplyController.m
+	* application/source/window/CMRReplyController-ViewAccessor.m
+		書き込みウインドウのフォントとカラーに関する仕様変更。
+		- 今までは、各 .cmreply ファイルごとにフォントとカラーの情報が記録されていたため、
+		　「環境設定」で変更しても、すでに書き込んだことのあるスレの書き込みウインドウでは
+		　フォントやカラーが変わらず、結果として「環境設定の変更が反映されない！」ように
+		　見える問題があった。仕様を再検討した結果、書き込みウインドウのフォント・カラーは
+		　個別の .cmreply ファイルに記録して保持する必要はないと考え、この機能を削除。
+		　書き込みウインドウのフォントとカラーは常に user defaults を参照するようにした。
+		　これに伴い、ツールバーの「フォント」「カラー」各ボタンも取り除いた。
 	* application/source/view/CMRStatusLine.m
 		ステータスバーを表示する／隠す時に、ウインドウ自体のサイズは変更しないようにした。
 		これによって、以前報告されていた「ズームしてからステータスバーを表示させると表示が

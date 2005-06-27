@@ -56,9 +56,10 @@
 	[document_ setMail : [[self mailField] stringValue]];
 	[document_ setReplyMessage : [[self textView] string]];
 	[document_ setWindowFrame : [[self window] frame]];
-	
-	[document_ setReplyTextFont : [[self textView] font]];
-	[document_ setReplyTextColor : [[self textView] textColor]];
+
+	// deprecated in BathyScaphe 1.0.2
+	//[document_ setReplyTextFont : [[self textView] font]];
+	//[document_ setReplyTextColor : [[self textView] textColor]];
 }
 
 /*** Action ***/

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyMessenger.m,v 1.1 2005/05/11 17:51:09 tsawada2 Exp $
+  * $Id: CMRReplyMessenger.m,v 1.2 2005/06/27 14:08:50 tsawada2 Exp $
   * 
   * CMRReplyMessenger.m
   *
@@ -25,7 +25,7 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 + (NSURL *) targetURLWithBoardURL : (NSURL *) boardURL
 {
 	return [[CMRHostHandler hostHandlerForURL : boardURL]
-								writeURLWithBoard : boardURL];
+							writeURLWithBoard : boardURL];
 }
 + (NSString *) formItemBBSWithBoardURL : (NSURL *) boardURL
 {
@@ -103,6 +103,10 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 	[[self getMutableInfoDictionary] setRect : aWindowFrame
 					  forKey : CMRThreadWindowFrameKey];
 }
+//
+//	deprecated in BathyScaphe 1.0.2
+//
+/*
 - (void) setReplyTextFont : (NSFont *) aFont;
 {
 	[[self getMutableInfoDictionary] setFont : aFont
@@ -113,7 +117,7 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 	[[self getMutableInfoDictionary] setColor : aColor
 					   forKey : CMRReplyDocumentColorKey];
 }
-
+*/
 
 - (NSTextStorage *) textStorage
 {
@@ -330,21 +334,23 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 }
 - (NSFont *) replyTextFont
 {
-	NSFont		*font_;
+	/*NSFont		*font_;
 	
 	font_ = [[self infoDictionary] fontForKey : CMRReplyDocumentFontKey];
 	if (nil == font_) font_ = [CMRPref replyFont];
 	
-	return font_;
+	return font_;*/
+	return [CMRPref replyFont];
 }
 - (NSColor *) replyTextColor
 {
-	NSColor		*color_;
+	/*NSColor		*color_;
 	
 	color_ = [[self infoDictionary] colorForKey : CMRReplyDocumentColorKey];
 	if (nil == color_) color_ = [CMRPref replyTextColor];
 
-	return color_;
+	return color_;*/
+	return [CMRPref replyTextColor];
 }
 @end
 
