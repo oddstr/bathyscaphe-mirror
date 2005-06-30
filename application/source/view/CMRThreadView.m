@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadView.m,v 1.2 2005/05/23 07:57:25 tsawada2 Exp $
+  * $Id: CMRThreadView.m,v 1.3 2005/06/30 14:33:45 tsawada2 Exp $
   * 
   * CMRThreadView.m
   *
@@ -578,8 +578,8 @@ static NSString *mActionGetKeysForTag[] = {
 		nil];
 	
 	[pboard_ declareTypes: types_ owner: nil];
-	contents_ = [[self textStorage] attributedSubstringFromRange: range];
-	NSLog(@"copy: %@ %d", NSStringFromRange(range), [contents_ length]);	
+	contents_ = (NSMutableAttributedString *)[[self textStorage] attributedSubstringFromRange: range];
+	//NSLog(@"copy: %@ %d", NSStringFromRange(range), [contents_ length]);	
 	[contents_ writeToPasteboard : pboard_];
 #elif 1
 	NSLog(@"copy: call [super copy]");

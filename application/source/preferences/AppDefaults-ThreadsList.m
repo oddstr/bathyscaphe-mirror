@@ -8,6 +8,7 @@
   */
 
 #import "AppDefaults_p.h"
+#import "CMRNSSearchField.h"
 
 
 static NSString *const AppDefaultsThreadsListSettingsKey = @"Preferences - ThreadsListSettings";
@@ -16,6 +17,7 @@ static NSString *const AppDefaultsTLIgnoreTitleCharactersKey = @"Ignore Characte
 static NSString *const AppDefaultsIsStatusLineUsesSpinningStyleKey = @"Uses Spinning Style";
 static NSString *const AppDefaultsStatusLinePositionKey = @"StatusLine Position";
 static NSString *const AppDefaultsStatusLineToolbarAlignmentKey = @"StatusLine Toolbar Alignment";
+static NSString *const AppDefaultsUseIncrementalSearchKey = @"Use Incremental Search";
 
 
 
@@ -77,45 +79,21 @@ static NSString *const AppDefaultsStatusLineToolbarAlignmentKey = @"StatusLine T
 		 setObject : chars
 			forKey : AppDefaultsTLIgnoreTitleCharactersKey];
 }
-/*
-- (BOOL) statusLineUsesSpinningStyle
+
+- (BOOL) useIncrementalSearch
 {
 	return [[self threadsListSettingsDictionary]
-					boolForKey : AppDefaultsIsStatusLineUsesSpinningStyleKey
-				  defaultValue : DEFAULT_USES_SPINNINGSTYLE];
+					boolForKey : AppDefaultsUseIncrementalSearchKey
+				  defaultValue : YES];
 }
-- (void) setStatusLineUsesSpinningStyle : (BOOL) usesSpinningStyle
+- (void) setUseIncrementalSearch : (BOOL) TorF
 {
 	[[self threadsListSettingsDictionary]
-			setBool : usesSpinningStyle
-			 forKey : AppDefaultsIsStatusLineUsesSpinningStyleKey];
-	[self postLayoutSettingsUpdateNotification];
+			setBool : TorF
+			 forKey : AppDefaultsUseIncrementalSearchKey];
 }
-- (int) statusLinePosition
-{
-	return [[self threadsListSettingsDictionary]
-					integerForKey : AppDefaultsStatusLinePositionKey];
-}
-- (void) setStatusLinePosition : (int) aStatusLinePosition
-{
-	[[self threadsListSettingsDictionary]
-			setInteger : aStatusLinePosition
-				forKey : AppDefaultsStatusLinePositionKey];
-	[self postLayoutSettingsUpdateNotification];
-}
-- (int) statusLineToolbarAlignment
-{
-	return [[self threadsListSettingsDictionary]
-					integerForKey : AppDefaultsStatusLineToolbarAlignmentKey];
-}
-- (void) setStatusLineToolbarAlignment : (int) aStatusLineToolbarAlignment
-{
-	[[self threadsListSettingsDictionary]
-			setInteger : aStatusLineToolbarAlignment
-				forKey : AppDefaultsStatusLineToolbarAlignmentKey];
-	[self postLayoutSettingsUpdateNotification];
-}
-*/
+
+
 - (void) _loadThreadsListSettings
 {
 }

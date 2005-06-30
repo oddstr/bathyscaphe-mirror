@@ -8,11 +8,9 @@
 #import "CMRNSSearchField.h"
 #import "CMXPreferences.h"
 #import "CMRSearchOptions.h"
-#import "CMRBrowserTemplateKeys.h"
 
 #define kSearchFieldNibName				@"PantherSearchField"
 #define kLocalizableTableName			@"ThreadViewer"
-#define kHistorySearchListLimitKey		@"History - Limit(SearchList)"
 
 /*
 	pantherSearchField のターゲットとアクションは
@@ -66,15 +64,13 @@
 	
 	NSMenu	*cellMenu	= [[[NSMenu alloc] initWithTitle : @"Search Menu"] autorelease];
     id		searchCell	= [[self pantherSearchField] cell];
-	id		tmp			= SGTemplateResource(kBrowserIncrementalSearchKey);
+
+	isIncremental = [CMRPref useIncrementalSearch];
+	[searchCell setSendsWholeSearchString : (NO == isIncremental)];
 	
-    UTILAssertRespondsTo(tmp, @selector(boolValue));
-	isIncremental = (NO == [tmp boolValue]);
-	[searchCell setSendsWholeSearchString : isIncremental];
-	
-	if (isIncremental) {
-		id maxValu = SGTemplateResource(kHistorySearchListLimitKey);
-		[searchCell setMaximumRecents : [maxValu unsignedIntValue]];
+	if (!isIncremental) {
+		int maxValu = [CMRPref maxCountForSearchHistory];
+		[searchCell setMaximumRecents : maxValu];
 	}
 
 	cnt = UTILNumberOfCArray(searchMasks_);
@@ -113,7 +109,7 @@
 		[item_ release];
 	}
 
-	if (isIncremental) {
+	if (!isIncremental) {
 		[cellMenu insertItem : [NSMenuItem separatorItem] atIndex : cnt];
 
 		hItem1 = [[NSMenuItem alloc] initWithTitle : NSLocalizedStringFromTable(@"Search PopUp History Title",

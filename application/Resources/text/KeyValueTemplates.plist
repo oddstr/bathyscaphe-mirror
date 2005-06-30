@@ -10,8 +10,6 @@
 	<string>selectThread:</string>
 	<key>Browser - ListViewDoubleAction</key>
 	<string>openSelectedThreads:</string>
-	<key>Browser - UseIncrementalSearch</key>
-	<integer>1</integer>
 	<key>Browser - WindowTitleFormat</key>
 	<string>%%%BBSName%%% - %%%ThreadTitle%%%</string>
 	<key>Favorites - MaxCountForPool</key>

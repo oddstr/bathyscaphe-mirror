@@ -1,3 +1,12 @@
+2005-06-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/CMRThreadView.m
+		ビルド警告の抑制と、デバッグ用文字列の出力抑制（テキストコピー時）。
+	* application/Resources/text/KeyValueTemplates.plist
+	* application/source/preferences/AppDefaults-ThreadsList.m
+		KeyValueTemplates.plist から "Browser - UseIncrementalSearch" を
+		User Defaults に移した。
+	* application/source/window/CMRNSSearchField.m
+		検索語句の履歴の上限の設定に関する問題を修正。
 2005-06-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/preferences/AppDefaults-Bundle.m
 	* application/subproj/preference/AdvancedPrefController.m

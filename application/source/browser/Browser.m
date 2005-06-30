@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.m,v 1.2 2005/05/21 10:43:03 tsawada2 Exp $
+  * $Id: Browser.m,v 1.3 2005/06/30 14:33:45 tsawada2 Exp $
   * 
   * Browser.m
   *
@@ -9,13 +9,10 @@
 #import "Browser.h"
 
 #import "CMXPreferences.h"
+#import "CMRThreadViewer_p.h"
 #import "CMRBrowser_p.h"
 #import "CMRThreadsList.h"
 #import "CMRThreadAttributes.h"
-#import "CMRThreadViewer_p.h"
-#import "CMRHistoryManager.h"
-
-#import "CMRBrowserTemplateKeys.h"
 
 #import "BoardManager.h"
 #import "BoardList.h"
@@ -56,9 +53,8 @@
 }
 
 
-//////////////////////////////////////////////////////////////////////
-///////////////////////// [ NSDocument ] /////////////////////////////
-//////////////////////////////////////////////////////////////////////
+#pragma mark NSDocument
+
 - (void) makeWindowControllers
 {
 	CMRBrowser		*browser_;
@@ -88,6 +84,7 @@
 {
 	return nil;
 }
+
 - (BOOL) validateMenuItem : (NSMenuItem *) theItem
 {
 	SEL action_;
@@ -101,9 +98,8 @@
 }
 
 
-//////////////////////////////////////////////////////////////////////
-//////////////////////// [ スレッド一覧 ] ////////////////////////////
-//////////////////////////////////////////////////////////////////////
+#pragma mark ThreadsList
+
 - (BOOL) searchThreadsInListWithString : (NSString *) text
 {
 	CMRSearchOptions		*operation_;
@@ -111,9 +107,7 @@
 
 	CMRSearchMask		searchOption_;
 	NSNumber			*info_;
-	
-	//id	tmp;
-	
+
 	if(nil == [self currentThreadsList]) return NO;
 	if(nil == text || [text isEmpty]) return NO;
 	
@@ -125,30 +119,16 @@
 		options_ |= NSBackwardsSearch;
 	
 	info_ = [NSNumber numberWithUnsignedInt : searchOption_];
-	operation_   = [CMRSearchOptions operationWithFindObject : text
-								           replace : nil
-								          userInfo : info_
-								            option : options_];
+	operation_ = [CMRSearchOptions operationWithFindObject : text
+												   replace : nil
+												  userInfo : info_
+													option : options_];
 	
-	/*
-	// Incremental Search の場合は履歴に登録しない
-    tmp = SGTemplateResource(kBrowserIncrementalSearchKey);
-    UTILAssertRespondsTo(tmp, @selector(boolValue));
-    if(NO == [tmp boolValue]){
-		// 履歴に登録
-		[[CMRHistoryManager defaultManager]
-			addItemWithTitle : text
-			type : CMRHistorySearchListOptionEntryType
-			object : operation_];
-	}
-	*/
 	return [[self currentThreadsList] filterByFindOperation : operation_];
 }
 
 - (void) sortThreadsByKey : (NSString *) key
 {
-	//ソート・キーはAppDefaultsで共有　…しない（1.0.9.7 以降）
-	//[CMRPref setBrowserSortColumnIdentifier : key];
 	[[self currentThreadsList] sortByKey : key];
 }
 
@@ -166,7 +146,8 @@
 }
 @end
 
-/* for AppleScript */
+#pragma mark -
+
 @implementation Browser(ScriptingSupport)
 - (NSString *) boardURLAsString
 {

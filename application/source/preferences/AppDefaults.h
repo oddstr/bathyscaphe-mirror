@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.8 2005/06/27 16:57:28 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.9 2005/06/30 14:33:45 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -361,6 +361,8 @@ enum {
 - (void) setStatusLineToolbarAlignment : (int) aStatusLineToolbarAlignment;
 */
 
+- (BOOL) useIncrementalSearch;
+- (void) setUseIncrementalSearch : (BOOL) TorF;
 
 - (void) _loadThreadsListSettings;
 - (BOOL) _saveThreadsListSettings;

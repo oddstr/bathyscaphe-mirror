@@ -27,11 +27,10 @@ static NSString *const st_searchThreadItemPaletteLabelKey		= @"Search Thread Pal
 static NSString *const st_searchThreadItemToolTipKey			= @"Search Thread ToolTip";
 
 // ŒfŽ¦”ÂƒŠƒXƒg‚Ì•\Ž¦
-/*static NSString *const st_toggleBBSListItemIdentifier			= @"Toggle BBSList";
-static NSString *const st_toggleBBSListItemLabelKey				= @"Toggle BBSList Label";
-static NSString *const st_toggleBBSListItemPaletteLabelKey		= @"Toggle BBSList Palette Label";
-static NSString *const st_toggleBBSListItemToolTipKey			= @"Toggle BBSList ToolTip";
-static NSString *const st_toggleBBSList_imageName				= @"openBoard";*/
+/*static NSString *const st_progressIndicatorItemIdentifier			= @"Progress Indicator";
+static NSString *const st_progressIndicatorItemLabelKey				= @"Progress Indicator Label";
+static NSString *const st_progressIndicatorItemPaletteLabelKey		= @"Progress Indicator Palette Label";
+static NSString *const st_progressIndicatorItemToolTipKey			= @"Progress Indicator ToolTip";*/
 
 
 static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
@@ -77,6 +76,15 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 											   target : wcontroller_];
 
 	[self setupSearchToolbarItem:item_ itemView:[wcontroller_ searchToolbarItem]];
+
+	/*item_ = [self appendToolbarItemWithItemIdentifier : st_progressIndicatorItemIdentifier
+									localizedLabelKey : st_progressIndicatorItemLabelKey
+							 localizedPaletteLabelKey : st_progressIndicatorItemPaletteLabelKey
+								  localizedToolTipKey : st_progressIndicatorItemToolTipKey
+											   action : NULL
+											   target : nil];*/
+
+	//[self setupProgressIndicatorTbItem:item_ fromView:[wcontroller_ statusLine]];
 }
 @end
 
@@ -120,6 +128,25 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 	
 	[anItem setMenuFormRepresentation : menuItem_];
 }
+/*- (void) setupProgressIndicatorTbItem : (NSToolbarItem *) anItem
+							 fromView : (NSView		   *) aView
+{
+	id	part_;
+	
+	part_ = [aView progressIndicator];
+	if(part_) {
+		NSSize		size_;
+		[part_ retain];
+		//[part_ removeFromSuperviewWithoutNeedingDisplay];
+		
+		[anItem setView : part_];
+		[part_ release];
+		
+		size_ = [part_ bounds].size;
+		[anItem setMinSize : size_];
+		[anItem setMaxSize : size_];
+	}
+}*/
 @end
 
 
@@ -148,6 +175,7 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 				[self launchCMLFIdentifier],
 				[self deleteItemIdentifier],
 				st_searchThreadItemIdentifier,
+				//st_progressIndicatorItemIdentifier,
 				[self replyItemIdentifier],
 				NSToolbarSeparatorItemIdentifier,
 				NSToolbarSpaceItemIdentifier,
