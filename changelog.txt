@@ -1,3 +1,9 @@
+2005-07-04 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/window/CMRReplyMessenger-Connector.m
+		[新規追加]CMRReplyMessenger.m から分割（保守性向上のため）。
+	* application/source/window/CMRReplyMessenger.m
+		AppleScript 経由で書き込みウインドウのテキストを設定したときは、常に
+		書き込みウインドウのデフォルトフォントとカラーを適用するようにした。
 2005-06-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/view/CMRThreadView.m
 		ビルド警告の抑制と、デバッグ用文字列の出力抑制（テキストコピー時）。

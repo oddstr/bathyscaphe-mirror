@@ -13,13 +13,6 @@
 #import "CMRServerClock.h"
 
 #import <SGNetwork/SGNetwork.h>
-#import <AppKit/NSApplication.h>
-#import <AppKit/NSPanel.h>
-#import <AppKit/NSToolbar.h>
-#import <AppKit/NSToolbarItem.h>
-#import <AppKit/NSWorkspace.h>
-#import <AppKit/NSFont.h>
-#import <AppKit/NSColor.h>
 
 //Cookies
 #import "Cookie.h"
@@ -29,8 +22,6 @@
 #define    MESSENGER_REFERER_FORMAT		@"http://%@/%@/%@"
 #define    MESSENGER_REFERER_INDEX_HTML	@"index.html"
 #define    MESSENGER_SHITARABA_REFERER	@"www.shitaraba.com/bbs"
-
-
 
 #define MESSENGER_TABLE_NAME					@"Messenger"
 #define MESSENGER_SEND_MESSAGE					@"Send Message to %@..."

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyMessenger.h,v 1.2 2005/06/27 14:08:50 tsawada2 Exp $
+  * $Id: CMRReplyMessenger.h,v 1.3 2005/07/04 13:56:46 tsawada2 Exp $
   * 
   * CMRReplyMessenger.h
   *
@@ -46,6 +46,7 @@
 - (void) setMail : (NSString *) aMail;
 - (void) setName : (NSString *) aName;
 - (void) setReplyMessage : (NSString *) aMessage;
+// deprecated in BathyScaphe 1.0.2
 //- (void) setReplyTextFont : (NSFont *) aFont;
 //- (void) setReplyTextColor : (NSColor *) aColor;
 @end

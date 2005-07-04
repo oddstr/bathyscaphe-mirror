@@ -328,6 +328,7 @@
 		8701638C082BE67100AEFDD0 /* SGNetwork.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F39244FF043610FB00A80005 /* SGNetwork.framework */; };
 		8701638D082BE67100AEFDD0 /* SGAppKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F39244F5043610D600A80005 /* SGAppKit.framework */; };
 		870332530845A953002E9187 /* Delete.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 870332520845A953002E9187 /* Delete.tiff */; };
+		8709E6540879713D009A65FC /* CMRReplyMessenger-Connector.m in Sources */ = {isa = PBXBuildFile; fileRef = 8709E6530879713D009A65FC /* CMRReplyMessenger-Connector.m */; };
 		871986D208351B1800188E63 /* Keychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 871986D108351B1800188E63 /* Keychain.framework */; };
 		8719876B083534D900188E63 /* Keychain.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 871986D108351B1800188E63 /* Keychain.framework */; };
 		871CA0F308585F3900C3A044 /* BoardListEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DAF704C6949900A80005 /* BoardListEditor.h */; };
@@ -446,8 +447,6 @@
 		8729965A0832556100CBD740 /* NSCharacterSet+CMXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8729964E0832556100CBD740 /* NSCharacterSet+CMXAdditions.m */; };
 		8729965B0832556100CBD740 /* NSLayoutManager+CMXAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8729964F0832556100CBD740 /* NSLayoutManager+CMXAdditions.h */; };
 		8729965C0832556100CBD740 /* NSLayoutManager+CMXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 872996500832556100CBD740 /* NSLayoutManager+CMXAdditions.m */; };
-		8729965D0832556200CBD740 /* NSMenu+CMXAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 872996510832556100CBD740 /* NSMenu+CMXAdditions.h */; };
-		8729965E0832556200CBD740 /* NSMenu+CMXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 872996520832556100CBD740 /* NSMenu+CMXAdditions.m */; };
 		8729965F0832556200CBD740 /* NSTableColumn+CMXAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 872996530832556100CBD740 /* NSTableColumn+CMXAdditions.h */; };
 		872996600832556200CBD740 /* NSTableColumn+CMXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 872996540832556100CBD740 /* NSTableColumn+CMXAdditions.m */; };
 		872996630832556200CBD740 /* NSTextView+CMXAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 872996570832556100CBD740 /* NSTextView+CMXAdditions.h */; };
@@ -725,6 +724,7 @@
 		87016396082BE67200AEFDD0 /* BathyScaphe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BathyScaphe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8702DB0C0845BCAF004BE941 /* Reply.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Reply.tiff; sourceTree = "<group>"; };
 		870332520845A953002E9187 /* Delete.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Delete.tiff; sourceTree = "<group>"; };
+		8709E6530879713D009A65FC /* CMRReplyMessenger-Connector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRReplyMessenger-Connector.m"; sourceTree = "<group>"; };
 		871986D108351B1800188E63 /* Keychain.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Keychain.framework; path = ../frameworks/Keychain/build/Deployment/Keychain.framework; sourceTree = SOURCE_ROOT; };
 		871CA11108585F3A00C3A044 /* Info-editor.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Info-editor.plist"; path = "../../Info-editor.plist"; sourceTree = "<group>"; };
 		871CA11208585F3A00C3A044 /* BoardListEditor.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoardListEditor.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2234,6 +2234,7 @@
 				F324DDD104C698FB00A80005 /* CMRReplyMessenger.h */,
 				F324DDD304C698FB00A80005 /* CMRReplyMessenger_p.h */,
 				F324DDD204C698FB00A80005 /* CMRReplyMessenger.m */,
+				8709E6530879713D009A65FC /* CMRReplyMessenger-Connector.m */,
 				F324DDCA04C698FB00A80005 /* CMRReplyController.h */,
 				F324DDCC04C698FB00A80005 /* CMRReplyController_p.h */,
 				F324DDCB04C698FB00A80005 /* CMRReplyController.m */,
@@ -2709,7 +2710,6 @@
 				87016258082BE67100AEFDD0 /* KFSplitView.h in Headers */,
 				872996590832556100CBD740 /* NSCharacterSet+CMXAdditions.h in Headers */,
 				8729965B0832556100CBD740 /* NSLayoutManager+CMXAdditions.h in Headers */,
-				8729965D0832556200CBD740 /* NSMenu+CMXAdditions.h in Headers */,
 				8729965F0832556200CBD740 /* NSTableColumn+CMXAdditions.h in Headers */,
 				872996630832556200CBD740 /* NSTextView+CMXAdditions.h in Headers */,
 				8729967E0832561E00CBD740 /* CMRThreadMessage.h in Headers */,
@@ -3359,7 +3359,6 @@
 				87016381082BE67100AEFDD0 /* KFSplitView.m in Sources */,
 				8729965A0832556100CBD740 /* NSCharacterSet+CMXAdditions.m in Sources */,
 				8729965C0832556100CBD740 /* NSLayoutManager+CMXAdditions.m in Sources */,
-				8729965E0832556200CBD740 /* NSMenu+CMXAdditions.m in Sources */,
 				872996600832556200CBD740 /* NSTableColumn+CMXAdditions.m in Sources */,
 				872996640832556200CBD740 /* NSTextView+CMXAdditions.m in Sources */,
 				8729967F0832561E00CBD740 /* CMRThreadMessage.m in Sources */,
@@ -3374,6 +3373,7 @@
 				87E4752B085C57C100B3E45E /* BSWindow.m in Sources */,
 				87517B9F0864BA46002DA082 /* CMRPullDownIconBtn.m in Sources */,
 				87BD61F10865D0230080A7CA /* NSTableView+BSAdditions.m in Sources */,
+				8709E6540879713D009A65FC /* CMRReplyMessenger-Connector.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
