@@ -1,3 +1,9 @@
+2005-07-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/task/CMRTaskManager.m
+		今更ながら、「進行状況」パネルの位置とサイズを記憶するようにした。
+	* application/source/view/CMRProgressIndicator.m
+		プログレスインジケータが隠れているときは、その場所をクリックしても
+		「進行状況」パネルを表示しないようにした。
 2005-07-04 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/window/CMRReplyMessenger-Connector.m
 		[新規追加]CMRReplyMessenger.m から分割（保守性向上のため）。
