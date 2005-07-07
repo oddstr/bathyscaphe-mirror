@@ -1,4 +1,10 @@
 2005-07-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/text/StyleTemplates.rtf
+		[削除]すでにターゲットからは外れていたが、リポジトリからも削除。
+	* application/Resources/image/
+		OpenFavorites.png, openBoard.tiff, openBoardSheet.tiff,
+		BackSmall.png, ForwardSmall.png, chooseColumn.png, closeBoard.tiff
+		[削除]すでにターゲットからは外れていたが、リポジトリからも削除。
 	* application/Resources/image/BoardList.tiff
 		[新規追加]ツールバーボタン用画像
 	* application/Resources/Japanese.lproj/Browser.nib
