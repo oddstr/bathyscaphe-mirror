@@ -1,3 +1,13 @@
+2005-07-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/image/BoardList.tiff
+		[新規追加]ツールバーボタン用画像
+	* application/Resources/Japanese.lproj/Browser.nib
+	* application/Resources/Japanese.lproj/MainMenu.nib
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/browser/CMRBrowser-Validation.m
+	* application/Resources/Japanese.lproj/ThreadViewerTbItems.strings
+	* application/Resources/Japanese.lproj/Localizable.strings
+		「表示」＞「掲示板リストを表示（隠す）」付けた。ツールバーにもボタン追加可能にした。
 2005-07-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/task/CMRTaskManager.m
 		今更ながら、「進行状況」パネルの位置とサイズを記憶するようにした。

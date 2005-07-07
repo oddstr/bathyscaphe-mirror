@@ -54,7 +54,7 @@
 	if(action_ == @selector(changeBrowserArrangement:)){
 		return YES;
 	}
-	
+
 	return [super validateUIItem : theItem];
 }
 
@@ -100,9 +100,30 @@
 		return ([self currentThreadsList] != nil);
 	else if(action_ == @selector(saveAsDefaultFrame:))
 		return NO;
+	else if(action_ == @selector(collapseOrExpandBoardList:)){
+		[theItem setTitle : ([[self boardListSubView] isCollapsed] ? NSLocalizedString(@"Expand Boards List", "Expand")
+																   : NSLocalizedString(@"Collapse Boards List", "Collapse")
+							)];
+		return YES;
+	}
 
 	if([super validateMenuItem : theItem] || [theItem tag] == 1003) return YES;
 	
 	return [self validateUIItem : theItem];
+}
+
+- (BOOL) validateToolbarItem : (NSToolbarItem *) theItem
+{
+	SEL action_;
+	action_ = [theItem action];
+	
+	if (action_ == @selector(collapseOrExpandBoardList:)) {
+		[theItem setLabel : ([[self boardListSubView] isCollapsed] ? NSLocalizedString(@"Expand Boards List", "Expand")
+																   : NSLocalizedString(@"Collapse Boards List", "Collapse")
+							)];
+		return YES;
+	}
+
+	return [super validateToolbarItem : theItem];
 }
 @end

@@ -328,6 +328,7 @@
 		8701638C082BE67100AEFDD0 /* SGNetwork.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F39244FF043610FB00A80005 /* SGNetwork.framework */; };
 		8701638D082BE67100AEFDD0 /* SGAppKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F39244F5043610D600A80005 /* SGAppKit.framework */; };
 		870332530845A953002E9187 /* Delete.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 870332520845A953002E9187 /* Delete.tiff */; };
+		8705E7C2087DB8C500BDEFBC /* BoardList.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8705E7C1087DB8C500BDEFBC /* BoardList.tiff */; };
 		8709E6540879713D009A65FC /* CMRReplyMessenger-Connector.m in Sources */ = {isa = PBXBuildFile; fileRef = 8709E6530879713D009A65FC /* CMRReplyMessenger-Connector.m */; };
 		871986D208351B1800188E63 /* Keychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 871986D108351B1800188E63 /* Keychain.framework */; };
 		8719876B083534D900188E63 /* Keychain.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 871986D108351B1800188E63 /* Keychain.framework */; };
@@ -724,6 +725,7 @@
 		87016396082BE67200AEFDD0 /* BathyScaphe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BathyScaphe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8702DB0C0845BCAF004BE941 /* Reply.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Reply.tiff; sourceTree = "<group>"; };
 		870332520845A953002E9187 /* Delete.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Delete.tiff; sourceTree = "<group>"; };
+		8705E7C1087DB8C500BDEFBC /* BoardList.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = BoardList.tiff; sourceTree = "<group>"; };
 		8709E6530879713D009A65FC /* CMRReplyMessenger-Connector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRReplyMessenger-Connector.m"; sourceTree = "<group>"; };
 		871986D108351B1800188E63 /* Keychain.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Keychain.framework; path = ../frameworks/Keychain/build/Deployment/Keychain.framework; sourceTree = SOURCE_ROOT; };
 		871CA11108585F3A00C3A044 /* Info-editor.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Info-editor.plist"; path = "../../Info-editor.plist"; sourceTree = "<group>"; };
@@ -1518,6 +1520,7 @@
 		87299A02083261F200CBD740 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				8705E7C1087DB8C500BDEFBC /* BoardList.tiff */,
 				87517BAE0864BE33002DA082 /* Spacer.tiff */,
 				87517B890864B4F0002DA082 /* SplitterHandle.tiff */,
 				F424609808462452000803EA /* Scripts.tiff */,
@@ -3115,6 +3118,7 @@
 				87517BA70864BB14002DA082 /* Action.tiff in Resources */,
 				87517BA80864BB17002DA082 /* Action_Pressed.tiff in Resources */,
 				87517BAF0864BE33002DA082 /* Spacer.tiff in Resources */,
+				8705E7C2087DB8C500BDEFBC /* BoardList.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -27,10 +27,10 @@ static NSString *const st_searchThreadItemPaletteLabelKey		= @"Search Thread Pal
 static NSString *const st_searchThreadItemToolTipKey			= @"Search Thread ToolTip";
 
 // ŒfŽ¦”ÂƒŠƒXƒg‚Ì•\Ž¦
-/*static NSString *const st_progressIndicatorItemIdentifier			= @"Progress Indicator";
-static NSString *const st_progressIndicatorItemLabelKey				= @"Progress Indicator Label";
-static NSString *const st_progressIndicatorItemPaletteLabelKey		= @"Progress Indicator Palette Label";
-static NSString *const st_progressIndicatorItemToolTipKey			= @"Progress Indicator ToolTip";*/
+static NSString *const st_COEItemIdentifier			= @"Collapse Or Expand";
+static NSString *const st_COEItemLabelKey			= @"Collapse Or Expand Label";
+static NSString *const st_COEItemPaletteLabelKey	= @"Collapse Or Expand Palette Label";
+static NSString *const st_COEItemToolTipKey			= @"Collapse Or Expand ToolTip";
 
 
 static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
@@ -77,12 +77,13 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 
 	[self setupSearchToolbarItem:item_ itemView:[wcontroller_ searchToolbarItem]];
 
-	/*item_ = [self appendToolbarItemWithItemIdentifier : st_progressIndicatorItemIdentifier
-									localizedLabelKey : st_progressIndicatorItemLabelKey
-							 localizedPaletteLabelKey : st_progressIndicatorItemPaletteLabelKey
-								  localizedToolTipKey : st_progressIndicatorItemToolTipKey
-											   action : NULL
-											   target : nil];*/
+	item_ = [self appendToolbarItemWithItemIdentifier : st_COEItemIdentifier
+									localizedLabelKey : st_COEItemLabelKey
+							 localizedPaletteLabelKey : st_COEItemPaletteLabelKey
+								  localizedToolTipKey : st_COEItemToolTipKey
+											   action : @selector(collapseOrExpandBoardList:)
+											   target : wcontroller_];
+	[item_ setImage : [NSImage imageAppNamed : @"BoardList"]];
 
 	//[self setupProgressIndicatorTbItem:item_ fromView:[wcontroller_ statusLine]];
 }
@@ -175,7 +176,7 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 				[self launchCMLFIdentifier],
 				[self deleteItemIdentifier],
 				st_searchThreadItemIdentifier,
-				//st_progressIndicatorItemIdentifier,
+				st_COEItemIdentifier,
 				[self replyItemIdentifier],
 				NSToolbarSeparatorItemIdentifier,
 				NSToolbarSpaceItemIdentifier,

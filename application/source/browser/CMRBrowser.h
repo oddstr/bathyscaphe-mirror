@@ -82,6 +82,7 @@
 - (IBAction) showSearchThreadPanel : (id) sender;
 
 - (IBAction) changeBrowserArrangement : (id) sender;
+- (IBAction) collapseOrExpandBoardList : (id) sender;
 
 - (IBAction) addDrawerItem : (id) sender;
 - (IBAction) addCategoryItem : (id) sender;

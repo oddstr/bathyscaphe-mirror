@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.7 2005/06/18 19:09:16 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.8 2005/07/07 19:38:45 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -528,6 +528,18 @@ enum {
 	
 	[self setupSplitView];
 	[[self splitView] resizeSubviewsWithOldSize : [[self splitView] frame].size];
+}
+
+- (IBAction) collapseOrExpandBoardList : (id) sender
+{
+	RBSplitSubview	*tmp_;
+	
+	tmp_ = [self boardListSubView];
+	if ([tmp_ isCollapsed]) {
+		[tmp_ expand];
+	} else {
+		[tmp_ collapse];
+	}
 }
 
 #pragma mark -
