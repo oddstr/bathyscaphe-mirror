@@ -1,3 +1,10 @@
+2005-07-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/manager/BSHistoryMenuManager.m
+		[新規追加]「履歴」メニューの管理を担当するマネージャ。
+	* application/source/manager/CMRMainMenuManager.m
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		「履歴」メニューの装備開始。今はまだ最初期段階で、起動時にメニューが生成されるだけ。
+		これから作っていく。
 2005-07-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadViewer-Validation.m
 	* application/source/window/CMRStatusLineWindowController.m

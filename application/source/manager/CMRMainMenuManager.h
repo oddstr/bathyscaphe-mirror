@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMainMenuManager.h,v 1.6 2005/06/27 16:57:28 tsawada2 Exp $
+  * $Id: CMRMainMenuManager.h,v 1.7 2005/07/08 19:37:31 tsawada2 Exp $
   * 
   * CMRMainMenuManager.h
   *
@@ -17,11 +17,14 @@
 - (NSMenuItem *) fileMenuItem;
 - (NSMenuItem *) editMenuItem;
 - (NSMenuItem *) browserMenuItem;
+- (NSMenuItem *) historyMenuItem;
 - (NSMenuItem *) BBSMenuItem;
 - (NSMenuItem *) threadMenuItem;
 - (NSMenuItem *) windowMenuItem;
 - (NSMenuItem *) helpMenuItem;
 - (NSMenuItem *) scriptsMenuItem;
+
+- (int) historyItemInsertionIndex;
 @end
 
 
@@ -37,5 +40,4 @@
 @interface CMRMainMenuManager(SynchronizeWithDefaults)
 - (void) synchronizeBrowserArrangementMenuItemState;
 - (void) synchronizeIsOnlineModeMenuItemState;
-//- (void) synchronizeLogFinderMenuItemTitle;
 @end

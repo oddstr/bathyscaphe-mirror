@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMainMenuManager.m,v 1.5 2005/06/27 16:57:28 tsawada2 Exp $
+  * $Id: CMRMainMenuManager.m,v 1.6 2005/07/08 19:37:31 tsawada2 Exp $
   * 
   * CMRMainMenuManager.m
   *
@@ -21,10 +21,12 @@
 #define		WINDOW_MENU_TAG			6
 #define		HELP_MENU_TAG			7
 #define		SCRIPTS_MENU_TAG		8
+#define		HISTORY_MENU_TAG		9
 
 #define		FILE_ONLINEMODE_TAG		1
 #define		BROWSER_ARRANGEMENT_TAG	1
 #define		BROWSER_COLUMNS_TAG		2
+#define		HISTORY_INSERT_MARKER	1001
 
 
 @implementation CMRMainMenuManager
@@ -33,11 +35,11 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager)
 #define MENU_ACCESSER(aMethodName, aTag)		\
 - (NSMenuItem *) aMethodName { return (NSMenuItem*)[[NSApp mainMenu] itemWithTag : (aTag)]; }
 
-
 MENU_ACCESSER(applicationMenuItem, APPLICATION_MENU_TAG)
 MENU_ACCESSER(fileMenuItem, FILE_MENU_TAG)
 MENU_ACCESSER(editMenuItem, EDIT_MENU_TAG)
 MENU_ACCESSER(browserMenuItem, BROWSER_MENU_TAG)
+MENU_ACCESSER(historyMenuItem, HISTORY_MENU_TAG)
 MENU_ACCESSER(BBSMenuItem, BBS_MENU_TAG)
 MENU_ACCESSER(threadMenuItem, THREAD_MENU_TAG)
 MENU_ACCESSER(windowMenuItem, WINDOW_MENU_TAG)
@@ -46,6 +48,11 @@ MENU_ACCESSER(scriptsMenuItem, SCRIPTS_MENU_TAG)
 
 
 #undef MENU_ACCESSER
+
+- (int) historyItemInsertionIndex
+{
+	return ([[[self historyMenuItem] submenu] indexOfItemWithTag : HISTORY_INSERT_MARKER]+1);
+}
 @end
 
 

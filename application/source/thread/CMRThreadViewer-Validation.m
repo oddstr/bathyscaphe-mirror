@@ -6,26 +6,11 @@
 #import "CMRThreadViewer_p.h"
 
 #import "CMRThreadsList.h"
-#import "SGLinkCommand.h"
-#import "CMRReplyMessenger.h"
-#import "CMRReplyDocumentFileManager.h"
+#import "CMRThreadView.h"
 #import "CMRThreadVisibleRange.h"
 #import "CMRThreadDownloadTask.h"
-
-#import "JStringAdditions.h"
-#import "CMRSearchOptions.h"
-#import "TextFinder.h"
-#import "CMRThreadView.h"
-#import "CMXTemplateResources.h"
-#import "CMRHistoryManager.h"
-#import "CMRTaskManager.h"
-
 #import "CMXPopUpWindowManager.h"
-#import "CMRAttributedMessageComposer.h"
 
-// for debugging only
-#define UTIL_DEBUGGING		0
-#import "UTILDebugging.h"
 
 //////////////////////////////////////////////////////////////////////
 //////////////////// [ Define and Constants ] ////////////////////////
@@ -46,13 +31,16 @@
 #pragma mark -
 
 @implementation CMRThreadViewer(Validation)
+
+#pragma mark Action Menu
+
 /*** アクション・メニュー ***/
 #define kActionMenuItemTag				(100)	/* 「アクション」 */
 
 #define kActionSpamHeader				(111)	/* 「迷惑レス」ヘッダ */
 #define kActionAAHeader					(222)	/* 「AA」ヘッダ */
 #define kActionBookmarkHeader			(333)	/* 「ブックマーク」ヘッダ */
-#define kActionLocalAbonedHeader		(444)	/* 「ロカールあぼーん」ヘッダ */
+#define kActionLocalAbonedHeader		(444)	/* 「ローカルあぼーん」ヘッダ */
 #define kActionInvisibleAbonedHeader	(555)	/* 「透明あぼーん」ヘッダ */
 
 - (IBAction) actionMenuHeader : (id) sender
@@ -118,23 +106,23 @@ static int messageMaskForTag(int tag)
 							   locationHint : location_];
 }
 
+#pragma mark Validation
+
 - (BOOL) validateActionMenuItem : (NSMenuItem *) theItem
 {
 	int			tag = [theItem tag];
 	SEL			action = [theItem action];
 	unsigned	mask;
 	
-	
 	if (@selector(runSpamFilter:) == action)
 		return YES;
 	
 	mask = messageMaskForTag(tag);
 	if (mask != 0) {
-		unsigned	nMatches;
-		
-		
+		unsigned	nMatches;		
+
 		nMatches = [[self threadLayout] numberOfMessageAttributes : mask];
-		
+
 		{
 			NSString	*title_ = @"";
 			NSString	*key_   = nil;
@@ -206,12 +194,11 @@ static int messageMaskForTag(int tag)
 		
 		title_ = [CMRPref isOnlineMode]
 					? [self localizedString : kOnlineItemKey]
-					: [self localizedString : kOfflineItemKey];;
-		UTILAssertNotNil(title_);
+					: [self localizedString : kOfflineItemKey];
+
 		image_ = [CMRPref isOnlineMode]
 					? [NSImage imageAppNamed : kOnlineItemImageName]
 					: [NSImage imageAppNamed : kOfflineItemImageName];
-		UTILAssertNotNil(image_);
 		
 		[theItem setImage : image_];
 		[theItem setTitle : title_];
@@ -224,10 +211,8 @@ static int messageMaskForTag(int tag)
 		title_ = (0 == ([[self textView] selectedRange]).length)
 					? [self localizedString : kReplyItemKey]
 					: [self localizedString : kReplyToItemKey];;
-		UTILAssertNotNil(title_);
 		
-		[theItem setTitle : title_];
-		
+		[theItem setTitle : title_];		
 		
 		return (selected_ != nil && [self shouldShowContents]);
 	}
@@ -240,21 +225,20 @@ static int messageMaskForTag(int tag)
 		if (NO == isSelected_) {
 			return NO;
 		}
-		
+
 		operation_ = [self favoritesOperationForThreads : [self selectedThreads]];
 		if (CMRFavoritesOperationNone == operation_) {
 			return NO;
 		}
-		
+
 		title_ = (CMRFavoritesOperationLink == operation_)
 					? [self localizedString : kAddFavaritesItemKey]
-					: [self localizedString : kRemoveFavaritesItemKey];;
-		UTILAssertNotNil(title_);
+					: [self localizedString : kRemoveFavaritesItemKey];
+
 		image_ = (CMRFavoritesOperationLink == operation_)
 					? [NSImage imageAppNamed : kAddFavaritesItemImageName]
 					: [NSImage imageAppNamed : kRemoveFavaritesItemImageName];
 		
-		UTILAssertNotNil(image_);
 		[theItem setTitle : title_];
 		if ([theItem image] != nil)
 			[theItem setImage : image_];
@@ -280,7 +264,6 @@ static int messageMaskForTag(int tag)
 		return ([[self threadLayout] previousBookmarkIndex] != NSNotFound);
 	if (action_ == @selector(scrollNextBookmark:)) 
 		return ([[self threadLayout] nextBookmarkIndex] != NSNotFound);
-	
 	
 
 	if (action_ == @selector(findNextText:)			||
@@ -329,10 +312,7 @@ static int messageMaskForTag(int tag)
 	
 	return YES;
 }
-@end
-#pragma mark -
 
-@implementation CMRThreadViewer(NSToolbarItemValidation)
 - (BOOL) validateToolbarItem : (NSToolbarItem *) theItem
 {
 	SEL action_ = [theItem action];

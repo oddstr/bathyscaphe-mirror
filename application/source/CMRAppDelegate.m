@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.8 2005/06/27 16:57:27 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.9 2005/07/08 19:37:31 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -10,13 +10,6 @@
 #import "AboutPanelController.h"
 #import "CMRTaskManager.h"
 #import <SGAppKit/NSColor-SGExtensions.h>
-
-
-
-//:CMRAppDelegate+Menu.m
-@interface CMRAppDelegate(MenuSetup)
-- (void) setupMenu;
-@end
 
 
 @implementation CMRAppDelegate
@@ -75,7 +68,7 @@
 
 - (IBAction) orderFrontCustomAboutPanel: (id) sender
 {
-	    [[AboutPanelController sharedInstance] showPanel];
+	[[AboutPanelController sharedInstance] showPanel];
 }
 
 - (BOOL) isOnlineMode
@@ -103,7 +96,6 @@
 			return YES;
 		}
 	}
-
 	return YES;
 }
 
@@ -120,12 +112,9 @@
 			return YES;
 		}
 	}
-
 	return YES;
 }
-	
 @end
-
 
 
 @implementation CMRAppDelegate(CMRLocalizableStringsOwner)
@@ -153,6 +142,7 @@
 }
 @end
 
+#define kRGBColorSpace	@"NSCalibratedRGBColorSpace"
 @implementation NSApplication(ScriptingSupport)
 - (BOOL) isOnlineMode
 {
@@ -169,7 +159,7 @@
 	
 	NSColor *color_ = [CMRPref browserSTableBackgroundColor];
 		
-	[[color_ colorUsingColorSpaceName : @"NSCalibratedRGBColorSpace"] getRed: &red green: &green blue: &blue alpha: NULL];
+	[[color_ colorUsingColorSpaceName : kRGBColorSpace] getRed: &red green: &green blue: &blue alpha: NULL];
 
 	return [NSArray arrayWithObjects : [NSNumber numberWithFloat:red], [NSNumber numberWithFloat:green], [NSNumber numberWithFloat:blue], nil];
 }
@@ -177,9 +167,9 @@
 - (void) setBrowserTableViewColor : (NSArray *) colorValue;
 {
 	float red,green,blue;
-	red = [[colorValue objectAtIndex : 0] floatValue];
-	green = [[colorValue objectAtIndex : 1] floatValue];
-	blue = [[colorValue objectAtIndex : 2] floatValue];
+	red		= [[colorValue objectAtIndex : 0] floatValue];
+	green	= [[colorValue objectAtIndex : 1] floatValue];
+	blue	= [[colorValue objectAtIndex : 2] floatValue];
 	
 	if (red == 0 && green == 0 && blue == 0) {
 		[CMRPref setBrowserSTableDrawsBackground : NO];
@@ -196,7 +186,7 @@
 	
 	NSColor *color_ = [CMRPref boardListBgColor];
 		
-	[[color_ colorUsingColorSpaceName : @"NSCalibratedRGBColorSpace"] getRed: &red green: &green blue: &blue alpha: NULL];
+	[[color_ colorUsingColorSpaceName : kRGBColorSpace] getRed: &red green: &green blue: &blue alpha: NULL];
 
 	return [NSArray arrayWithObjects : [NSNumber numberWithFloat:red], [NSNumber numberWithFloat:green], [NSNumber numberWithFloat:blue], nil];
 }
@@ -204,9 +194,9 @@
 - (void) setBoardListColor : (NSArray *) colorValue;
 {
 	float red,green,blue;
-	red = [[colorValue objectAtIndex : 0] floatValue];
-	green = [[colorValue objectAtIndex : 1] floatValue];
-	blue = [[colorValue objectAtIndex : 2] floatValue];
+	red		= [[colorValue objectAtIndex : 0] floatValue];
+	green	= [[colorValue objectAtIndex : 1] floatValue];
+	blue	= [[colorValue objectAtIndex : 2] floatValue];
 	
 	[CMRPref setBoardListBgColor : [NSColor colorWithCalibratedRed:red green:green blue:blue alpha:1.0]];
 }

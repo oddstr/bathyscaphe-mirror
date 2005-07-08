@@ -587,6 +587,8 @@
 		87517BAF0864BE33002DA082 /* Spacer.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87517BAE0864BE33002DA082 /* Spacer.tiff */; };
 		87558534085BEF7800D2C2A6 /* BSIconTextFieldCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 87558532085BEF7800D2C2A6 /* BSIconTextFieldCell.h */; };
 		87558535085BEF7800D2C2A6 /* BSIconTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87558533085BEF7800D2C2A6 /* BSIconTextFieldCell.m */; };
+		8770BF5D087F0095008907C5 /* BSHistoryMenuManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8770BF5B087F0095008907C5 /* BSHistoryMenuManager.h */; };
+		8770BF5E087F0096008907C5 /* BSHistoryMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8770BF5C087F0095008907C5 /* BSHistoryMenuManager.m */; };
 		87B652990840625F008AE2BE /* SendMessage.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B652980840625F008AE2BE /* SendMessage.tiff */; };
 		87BB79210864401A00ED8757 /* RBSplitSubview.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB791F0864401A00ED8757 /* RBSplitSubview.h */; };
 		87BB79220864401A00ED8757 /* RBSplitViewPrivateDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB79200864401A00ED8757 /* RBSplitViewPrivateDefines.h */; };
@@ -885,6 +887,8 @@
 		876415700840A95000F66D78 /* AdvancedPrefController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdvancedPrefController.h; sourceTree = "<group>"; };
 		876415710840A95000F66D78 /* AdvancedPrefController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdvancedPrefController.m; sourceTree = "<group>"; };
 		876415810840AF5500F66D78 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/AdvancedPane.nib; sourceTree = "<group>"; };
+		8770BF5B087F0095008907C5 /* BSHistoryMenuManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSHistoryMenuManager.h; sourceTree = "<group>"; };
+		8770BF5C087F0095008907C5 /* BSHistoryMenuManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSHistoryMenuManager.m; sourceTree = "<group>"; };
 		8782402C0823C0A900C52066 /* CMRNSSearchField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRNSSearchField.h; sourceTree = "<group>"; };
 		8782402D0823C0A900C52066 /* CMRNSSearchField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRNSSearchField.m; sourceTree = "<group>"; };
 		87892BC106BD1FEA00790F2F /* warrior.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warrior.png; sourceTree = "<group>"; };
@@ -1608,6 +1612,17 @@
 			path = text;
 			sourceTree = "<group>";
 		};
+		8770BF44087EFDF6008907C5 /* App Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				F3660E3B06C4C7DA00A92719 /* CMRAppDelegate.h */,
+				F3660E3A06C4C7DA00A92719 /* CMRAppDelegate_p.h */,
+				F3660E3C06C4C7DA00A92719 /* CMRAppDelegate.m */,
+				F3660E3D06C4C7DA00A92719 /* CMRAppDelegate+Menu.m */,
+			);
+			name = "App Delegate";
+			sourceTree = "<group>";
+		};
 		87823FA00823A82900C52066 /* Toolbar */ = {
 			isa = PBXGroup;
 			children = (
@@ -2015,15 +2030,12 @@
 				87464E3608643673000F0371 /* libRBSplitView.a */,
 				87299CC908326C8900CBD740 /* misc.h */,
 				F32165FE0529CB2B00A80005 /* CMRExports.h */,
-				F3660E3B06C4C7DA00A92719 /* CMRAppDelegate.h */,
-				F3660E3A06C4C7DA00A92719 /* CMRAppDelegate_p.h */,
-				F3660E3C06C4C7DA00A92719 /* CMRAppDelegate.m */,
-				F3660E3D06C4C7DA00A92719 /* CMRAppDelegate+Menu.m */,
-				F324DC8504C698FA00A80005 /* main.m */,
 				F38262C10513577300A80005 /* CocoMonar_Prefix.h */,
 				F382630E0513588A00A80005 /* CMXTemplateResources.h */,
+				F324DC8504C698FA00A80005 /* main.m */,
 				F3733DC405BA28CD009D1038 /* CMXMenuHolder.h */,
 				F3733DC505BA28CD009D1038 /* CMXMenuHolder.m */,
+				8770BF44087EFDF6008907C5 /* App Delegate */,
 				8729964C0832556100CBD740 /* extensions */,
 				F3826330051359B700A80005 /* interthread messaging */,
 				F324DCCA04C698FB00A80005 /* object */,
@@ -2481,6 +2493,8 @@
 				F324DC9D04C698FA00A80005 /* CMRMainMenuManager.h */,
 				F324DC9F04C698FA00A80005 /* CMRMainMenuManager_p.h */,
 				F324DC9E04C698FA00A80005 /* CMRMainMenuManager.m */,
+				8770BF5B087F0095008907C5 /* BSHistoryMenuManager.h */,
+				8770BF5C087F0095008907C5 /* BSHistoryMenuManager.m */,
 			);
 			name = menu;
 			sourceTree = "<group>";
@@ -2721,6 +2735,7 @@
 				87517B780864B242002DA082 /* CMRSplitView.h in Headers */,
 				87517B9E0864BA43002DA082 /* CMRPullDownIconBtn.h in Headers */,
 				87BD61F00865D0230080A7CA /* NSTableView+BSAdditions.h in Headers */,
+				8770BF5D087F0095008907C5 /* BSHistoryMenuManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3362,6 +3377,7 @@
 				87517B9F0864BA46002DA082 /* CMRPullDownIconBtn.m in Sources */,
 				87BD61F10865D0230080A7CA /* NSTableView+BSAdditions.m in Sources */,
 				8709E6540879713D009A65FC /* CMRReplyMessenger-Connector.m in Sources */,
+				8770BF5E087F0096008907C5 /* BSHistoryMenuManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

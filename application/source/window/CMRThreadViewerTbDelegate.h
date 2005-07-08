@@ -11,12 +11,8 @@
 #import <Foundation/Foundation.h>
 #import "CMRToolbarDelegateImp.h"
 
-
-@class SGToolbarIconItemButton;
 @interface CMRThreadViewerTbDelegate : CMRToolbarDelegateImp
 {
-	//SGToolbarIconItemButton		*m_trashItemView;
-	//SGToolbarIconItemButton		*m_favoritesItemView;
 }
 
 @end

@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate_p.h,v 1.3 2005/06/27 16:57:27 tsawada2 Exp $
+ * $Id: CMRAppDelegate_p.h,v 1.4 2005/07/08 19:37:31 tsawada2 Exp $
  * 
  * CMRAppDelegate_p.h
  *
@@ -15,7 +15,7 @@
 #import "CMRMainMenuManager.h"
 #import "BSScriptsMenuManager.h"
 #import "CMROpenURLManager.h"
-
+#import "BSHistoryMenuManager.h"
 
 
 // CMRLocalizableStringsOwner
@@ -25,4 +25,7 @@
 #define APP_MAINMENU_HELPER_NOTFOUND		@"Helper App Not Found"
 
 
-
+//:CMRAppDelegate+Menu.m
+@interface CMRAppDelegate(MenuSetup)
+- (void) setupMenu;
+@end
