@@ -1,4 +1,6 @@
 2005-07-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/manager/CMRMainMenuManager_p.h
+		[削除]内容を確かめたら空のゴミファイルだったので、削除した。
 	* application/source/manager/BSHistoryMenuManager.m
 		[新規追加]「履歴」メニューの管理を担当するマネージャ。
 	* application/source/manager/CMRMainMenuManager.m

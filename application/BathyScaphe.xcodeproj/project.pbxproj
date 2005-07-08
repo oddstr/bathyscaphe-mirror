@@ -40,7 +40,6 @@
 		870161BB082BE67100AEFDD0 /* CMRKeychainManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC9604C698FA00A80005 /* CMRKeychainManager.h */; };
 		870161BC082BE67100AEFDD0 /* CMRKeychainManager_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC9804C698FA00A80005 /* CMRKeychainManager_p.h */; };
 		870161BD082BE67100AEFDD0 /* CMRMainMenuManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC9D04C698FA00A80005 /* CMRMainMenuManager.h */; };
-		870161BE082BE67100AEFDD0 /* CMRMainMenuManager_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC9F04C698FA00A80005 /* CMRMainMenuManager_p.h */; };
 		870161BF082BE67100AEFDD0 /* CMRReplyDocumentFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCA004C698FA00A80005 /* CMRReplyDocumentFileManager.h */; };
 		870161C0082BE67100AEFDD0 /* CMRReplyDocumentFileManager_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCA204C698FA00A80005 /* CMRReplyDocumentFileManager_p.h */; };
 		870161C1082BE67100AEFDD0 /* CMRServerClock.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCA304C698FA00A80005 /* CMRServerClock.h */; };
@@ -1060,7 +1059,6 @@
 		F324DC9804C698FA00A80005 /* CMRKeychainManager_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRKeychainManager_p.h; sourceTree = "<group>"; };
 		F324DC9D04C698FA00A80005 /* CMRMainMenuManager.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRMainMenuManager.h; sourceTree = "<group>"; };
 		F324DC9E04C698FA00A80005 /* CMRMainMenuManager.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRMainMenuManager.m; sourceTree = "<group>"; };
-		F324DC9F04C698FA00A80005 /* CMRMainMenuManager_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRMainMenuManager_p.h; sourceTree = "<group>"; };
 		F324DCA004C698FA00A80005 /* CMRReplyDocumentFileManager.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRReplyDocumentFileManager.h; sourceTree = "<group>"; };
 		F324DCA104C698FA00A80005 /* CMRReplyDocumentFileManager.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRReplyDocumentFileManager.m; sourceTree = "<group>"; };
 		F324DCA204C698FA00A80005 /* CMRReplyDocumentFileManager_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRReplyDocumentFileManager_p.h; sourceTree = "<group>"; };
@@ -2491,7 +2489,6 @@
 				F49CCDF30849B87500835BE3 /* BSScriptsMenuManager.h */,
 				F49CCDF40849B87500835BE3 /* BSScriptsMenuManager.m */,
 				F324DC9D04C698FA00A80005 /* CMRMainMenuManager.h */,
-				F324DC9F04C698FA00A80005 /* CMRMainMenuManager_p.h */,
 				F324DC9E04C698FA00A80005 /* CMRMainMenuManager.m */,
 				8770BF5B087F0095008907C5 /* BSHistoryMenuManager.h */,
 				8770BF5C087F0095008907C5 /* BSHistoryMenuManager.m */,
@@ -2579,7 +2576,6 @@
 				870161BB082BE67100AEFDD0 /* CMRKeychainManager.h in Headers */,
 				870161BC082BE67100AEFDD0 /* CMRKeychainManager_p.h in Headers */,
 				870161BD082BE67100AEFDD0 /* CMRMainMenuManager.h in Headers */,
-				870161BE082BE67100AEFDD0 /* CMRMainMenuManager_p.h in Headers */,
 				870161BF082BE67100AEFDD0 /* CMRReplyDocumentFileManager.h in Headers */,
 				870161C0082BE67100AEFDD0 /* CMRReplyDocumentFileManager_p.h in Headers */,
 				870161C1082BE67100AEFDD0 /* CMRServerClock.h in Headers */,
