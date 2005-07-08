@@ -50,29 +50,15 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
         title_ = [item_ title];
         if (nil == title_) continue;
         
-        /*if (0 == [title_ length]) {
-            [menu addItem : [NSMenuItem separatorItem]];
-            continue;
-        }*/
-        
         menuItem_ = [[NSMenuItem alloc]
                         initWithTitle : title_
-                               action : NULL
+                               action : @selector(showThreadWithMenuItem:)
                         keyEquivalent : @""];
-
-		/*NSString        *URLString_;
-		NSURL            *URLToOpen_;
-		
-		URLString_ = [item_ objectForKey : kCMRAppDelegateURLKey];
-		if (nil == URLString_) {
-			[menuItem_ release];
-			continue;
-		}
-		URLToOpen_ = [NSURL URLWithString : URLString_];
                             
-		[menuItem_ setTarget : self];
-		[menuItem_ setAction : @selector(openURL:)];
-		[menuItem_ setRepresentedObject : URLToOpen_];*/
+		[menuItem_ setTarget : nil];
+		[menuItem_ setRepresentedObject : [item_ representedObject]];
+
+		//NSLog(@"%@",[[item_ representedObject] description]);
 
         [menu insertItem : menuItem_ atIndex : index];
         [menuItem_ release];
@@ -80,4 +66,5 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 		index += 1;
     }
 }
+
 @end

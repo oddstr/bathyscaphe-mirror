@@ -1,6 +1,6 @@
 //: CMRHistoryManager.m
 /**
-  * $Id: CMRHistoryManager.m,v 1.3 2005/06/26 12:18:45 tsawada2 Exp $
+  * $Id: CMRHistoryManager.m,v 1.4 2005/07/08 20:56:24 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -188,8 +188,8 @@ static CMRHistoryClientEntry *lookupHistoryEntry(CMRHistoryClientEntry *inList, 
         return [CMRPref maxCountForBoardsHistory];
     case CMRHistoryThreadEntryType:
         return [CMRPref maxCountForThreadsHistory];
-    case CMRHistorySearchListOptionEntryType:
-        return [CMRPref maxCountForSearchHistory];
+    //case CMRHistorySearchListOptionEntryType:
+    //    return [CMRPref maxCountForSearchHistory];
     default:
         UTILUnknownSwitchCase(aType);
         return 10;
@@ -337,7 +337,7 @@ static NSString *const stHistoryPropertyKey[] =
 {
     @"Board",
     @"Thread",
-    @"SearchListOption"
+    //@"SearchListOption"
 };
 
 - (void) removeAllItems
@@ -576,9 +576,8 @@ static NSString *const stHistoryPropertyKey[] =
 	return [date2 compare : date1];
 }
 
-#pragma mark -
+#pragma mark CMRPropertyListCoding
 
-// CMRPropertyListCoding
 #define kRepresentationTitleKey				@"Title"
 #define kRepresentationDateKey				@"HistoryDate"
 #define kRepresentationObjectKey			@"RepresentedObject"
@@ -649,11 +648,8 @@ static NSString *const stHistoryPropertyKey[] =
     return dict;
 }
 
-#pragma mark -
+#pragma mark NSCoding
 
-// ----------------------------------------
-// NSCoding
-// ----------------------------------------
 - (id) initWithCoder : (NSCoder *) coder
 {
     id        tmp;
@@ -732,11 +728,8 @@ static NSString *const stHistoryPropertyKey[] =
     }
 }
 
-#pragma mark -
+#pragma mark NSObject
 
-// ----------------------------------------
-// NSObject
-// ----------------------------------------
 - (NSString *) description
 {
     return [NSString stringWithFormat :

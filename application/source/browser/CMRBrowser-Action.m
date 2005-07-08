@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.8 2005/07/07 19:38:45 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.9 2005/07/08 20:56:24 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -45,7 +45,7 @@ enum {
     boardName = [historyItem title];
 	[self selectRowWhoseNameIs : boardName];
 	[self focus : sender];
-}
+}*/
 
 - (IBAction) showThreadWithMenuItem : (id) sender
 {
@@ -53,7 +53,6 @@ enum {
 	[[self threadsListTable] deselectAll: nil];
 	[super showThreadWithMenuItem : sender];
 }
-*/
 
 - (void) selectRowWhoseNameIs : (NSString *) brdname_
 {

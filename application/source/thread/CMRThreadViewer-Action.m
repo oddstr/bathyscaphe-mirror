@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.3 2005/06/18 19:09:16 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.4 2005/07/08 20:56:24 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -158,7 +158,21 @@
 #pragma mark -
 
 @implementation CMRThreadViewer(Action)
-/*
+/* NOTE: It is a history item's action. */	 
+- (IBAction) showThreadWithMenuItem : (id) sender	 
+{	 
+	id historyItem = nil;
+
+	if ([sender respondsToSelector : @selector(representedObject)]) {
+		id o = [sender representedObject];
+		NSLog(@"%@", [o description]);
+		historyItem = o;
+	}
+	// make text area first responder
+	[self setThreadContentWithThreadIdentifier : historyItem];
+	[self focus : sender];
+}
+ /*
  * RELOAD THREAD
  */
 - (IBAction) reloadThread
