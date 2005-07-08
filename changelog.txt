@@ -1,4 +1,13 @@
 2005-07-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-Validation.m
+	* application/source/window/CMRStatusLineWindowController.m
+	* application/source/window/CMRBrowserTbDelegate.m
+	* application/source/window/CMRThreadViewerTbDelegate.m
+	* application/Resources/Japanese.lproj/ThreadViewerTbItems.strings
+	* application/Resources/Japanese.lproj/CMRStatusView.nib
+	* application/source/view/CMRStatusLine-ViewAccessor.m
+		「停止」ボタンをステータスバーからツールバーに移動した。
+		ツールバーアイコンは stopSign.tiff（「進行状況」パネルで使われている奴）を使用する。
 	* application/Resources/text/StyleTemplates.rtf
 		[削除]すでにターゲットからは外れていたが、リポジトリからも削除。
 	* application/Resources/image/

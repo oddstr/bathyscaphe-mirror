@@ -55,6 +55,13 @@ static NSString *const st_launchCMLFPaletteLabelKey		= @"Launch CMLF Palette Lab
 static NSString *const st_launchCMLFToolTipKey			= @"Launch CMLF ToolTip";
 static NSString *const st_launchCMLF_ImageName			= @"cmlf_icon";
 
+// í‚é~
+static NSString *const st_stopTaskIdentifier			= @"stopTask";
+static NSString *const st_stopTaskLabelKey			= @"stopTask Label";
+static NSString *const st_stopTaskPaletteLabelKey		= @"stopTask Palette Label";
+static NSString *const st_stopTaskToolTipKey			= @"stopTask ToolTip";
+static NSString *const st_stopTask_ImageName			= @"stopSign";
+
 
 static NSString *const st_localizableStringsTableName	= @"ThreadViewerTbItems";
 static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
@@ -97,6 +104,10 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 - (NSString *) launchCMLFIdentifier
 {
 	return st_launchCMLFIdentifier;
+}
+- (NSString *) stopTaskIdentifier
+{
+	return st_stopTaskIdentifier;
 }
 @end
 
@@ -167,6 +178,14 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 											   action : @selector(launchCMLF:)
 											   target : nil];
 	[item_ setImage : [NSImage imageAppNamed : st_launchCMLF_ImageName]];
+	
+	item_ = [self appendToolbarItemWithItemIdentifier : [self stopTaskIdentifier]
+									localizedLabelKey : st_stopTaskLabelKey
+							 localizedPaletteLabelKey : st_stopTaskPaletteLabelKey
+								  localizedToolTipKey : st_stopTaskToolTipKey
+											   action : @selector(cancellCurrentTask:)
+											   target : nil];
+	[item_ setImage : [NSImage imageAppNamed : st_stopTask_ImageName]];
 }
 
 - (void) cofigureToolbar : (NSToolbar *) aToolbar
@@ -211,14 +230,15 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 {
 	return [NSArray arrayWithObjects :
 				[self reloadThreadItemIdentifier],
-				NSToolbarSeparatorItemIdentifier,
+				[self stopTaskIdentifier],
 				[self addFavoritesItemIdentifier],
+				[self deleteItemIdentifier],
+				[self replyItemIdentifier],
 				[self toggleOnlineModeIdentifier],
 				[self launchCMLFIdentifier],
-				[self deleteItemIdentifier],
+				NSToolbarSeparatorItemIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,
 				NSToolbarSpaceItemIdentifier,
-				[self replyItemIdentifier],
 				nil];
 }
 @end

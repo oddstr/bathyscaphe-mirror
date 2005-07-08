@@ -69,6 +69,18 @@
 	return NO;
 }
 
+- (BOOL) validateToolbarItem : (NSToolbarItem *) item_
+{
+	SEL	action_;
+	action_ = [item_ action];
+	
+	if (action_ == @selector(cancellCurrentTask:))
+	{ 
+		return ([[CMRTaskManager defaultManager] isInProgress] != NO); 
+	}
+	
+	return [super validateToolbarItem : item_];
+}
 @end
 
 

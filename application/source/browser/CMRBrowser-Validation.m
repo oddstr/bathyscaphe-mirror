@@ -118,9 +118,6 @@
 	action_ = [theItem action];
 	
 	if (action_ == @selector(collapseOrExpandBoardList:)) {
-		[theItem setLabel : ([[self boardListSubView] isCollapsed] ? NSLocalizedString(@"Expand Boards List", "Expand")
-																   : NSLocalizedString(@"Collapse Boards List", "Collapse")
-							)];
 		return YES;
 	}
 

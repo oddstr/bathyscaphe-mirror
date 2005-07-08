@@ -18,6 +18,7 @@
 #import "CMRThreadView.h"
 #import "CMXTemplateResources.h"
 #import "CMRHistoryManager.h"
+#import "CMRTaskManager.h"
 
 #import "CMXPopUpWindowManager.h"
 #import "CMRAttributedMessageComposer.h"
@@ -282,49 +283,42 @@ static int messageMaskForTag(int tag)
 	
 	
 
-	if (action_ == @selector(findNextText:) ||
-	   action_ == @selector(findPreviousText:)  ||
-	   action_ == @selector(findFirstText:)  ||
-	   action_ == @selector(findAll:)  ||
-	   action_ == @selector(customizeBrdListTable:)  ||
-	   action_ == @selector(launchBWAgent:)  ||
-	   action_ == @selector(openDefaultNoNameInputPanel:) ) {
-		
-		return YES;
-	}
+	if (action_ == @selector(findNextText:)			||
+	   action_ == @selector(findPreviousText:)		||
+	   action_ == @selector(findFirstText:)			||
+	   action_ == @selector(findAll:)				||
+	   action_ == @selector(customizeBrdListTable:) ||
+	   action_ == @selector(launchBWAgent:)			||
+	   action_ == @selector(openDefaultNoNameInputPanel:)
+	   )
+	{ return YES; }
+
 	if (action_ == @selector(findTextInSelection:) ||
-	   action_ == @selector(copySelectedResURL:)) {
-		
-		return textSelected_;
-	}
+	   action_ == @selector(copySelectedResURL:)
+	   )
+	{ return textSelected_; }
 	
-	// check whether lock
-	if (@selector(reloadThread:) == action_) {
-		return isSelected_;
-	}
-	
-	if (action_ == @selector(selectFirstVisibleRange:) ||
-	   action_ == @selector(selectLastVisibleRange:)  ||
-	   action_ == @selector(reloadThread:)            ||
-	   action_ == @selector(copyURL:)                 ||
-	   action_ == @selector(copyThreadAttributes:)    ||
-	   action_ == @selector(copyInfoFromContextualMenu:)    ||
-	   action_ == @selector(showThreadAttributes:)    ||
-	  
-	   
-	   action_ == @selector(deleteThread:)             ||
+	if (action_ == @selector(selectFirstVisibleRange:)	 ||
+	   action_ == @selector(selectLastVisibleRange:)	 ||
+	   action_ == @selector(reloadThread:)				 ||
+	   action_ == @selector(copyURL:)					 ||
+	   action_ == @selector(copyThreadAttributes:)		 ||
+	   action_ == @selector(copyInfoFromContextualMenu:) ||
+	   action_ == @selector(showThreadAttributes:)		 ||	  
+	   action_ == @selector(deleteThread:)				 ||
 	   action_ == @selector(openBBSInBrowser:) 
-	   ) 
+	   )
 	{ return isSelected_; }
 	
-	if (action_ == @selector(openLogfile:)             ||
-	   action_ == @selector(openInBrowser:)           ||
+	if (action_ == @selector(openLogfile:)		||
+	   action_ == @selector(openInBrowser:)		||
 	   action_ == @selector(openSelectedThreads:)
 	   )
 	{ return isReallySelected_; }
 	
 	return NO;
 }
+
 - (BOOL) validateMenuItem : (NSMenuItem *) theItem
 {
 	if ([super validateMenuItem : theItem]) 
@@ -341,6 +335,11 @@ static int messageMaskForTag(int tag)
 @implementation CMRThreadViewer(NSToolbarItemValidation)
 - (BOOL) validateToolbarItem : (NSToolbarItem *) theItem
 {
+	SEL action_ = [theItem action];
+	if (action_ == @selector(cancellCurrentTask:))
+	{ 
+		return [super validateToolbarItem : theItem];
+	}
 	if (NO == [super validateToolbarItem : theItem]) return NO;
 	return [self validateUIItem : theItem];
 }
