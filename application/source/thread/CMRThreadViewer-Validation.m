@@ -272,9 +272,12 @@ static int messageMaskForTag(int tag)
 	   action_ == @selector(findAll:)				||
 	   action_ == @selector(customizeBrdListTable:) ||
 	   action_ == @selector(launchBWAgent:)			||
-	   action_ == @selector(openDefaultNoNameInputPanel:) || action_ == @selector(showThreadWithMenuItem:) //暫定
+	   action_ == @selector(openDefaultNoNameInputPanel:)
 	   )
 	{ return YES; }
+	
+	if (action_ == @selector(showThreadWithMenuItem:))
+		return YES;//[self shouldShowContents];
 
 	if (action_ == @selector(findTextInSelection:) ||
 	   action_ == @selector(copySelectedResURL:)

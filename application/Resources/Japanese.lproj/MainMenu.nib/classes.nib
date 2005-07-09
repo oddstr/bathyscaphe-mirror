@@ -3,6 +3,7 @@
         {CLASS = BSScriptsMenu; LANGUAGE = ObjC; SUPERCLASS = NSMenu; }, 
         {
             ACTIONS = {
+                clearHistory = id; 
                 launchCMLF = id; 
                 openURL = id; 
                 openURLPanel = id; 

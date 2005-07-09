@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.3 2005/06/18 19:09:16 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.4 2005/07/09 00:01:49 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -22,6 +22,7 @@
 #import "CMRSpamFilter.h"
 #import "CMRThreadPlistComposer.h"
 #import "CMRNetGrobalLock.h"    /* for Locking */
+#import "BSHistoryMenuManager.h"
 
 #import "missing.h"
 
@@ -409,6 +410,9 @@ FileNotExistsAutoReloadIfNeeded:
 					type : CMRHistoryThreadEntryType
 				  object : [self threadIdentifier]];
 	
+	// 履歴メニューの更新（丸ごと書き換える）
+	[[BSHistoryMenuManager defaultManager] updateHistoryMenuWithDefaultMenu];
+	
 	// 2004-04-10 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
 	// ----------------------------------------
 	//フォントの変更を反映させる。
@@ -423,7 +427,6 @@ FileNotExistsAutoReloadIfNeeded:
 	}
 	
 	UTILNotifyName(CMRThreadViewerDidChangeThreadNotification);
-	//[[self statusLine] synchronizeHistoryTitleAndSelectedItem];
 }
 - (CMRThreadAttributes *) threadAttributes
 {

@@ -12,6 +12,10 @@
 @interface BSHistoryMenuManager : NSObject {
 
 }
-
++ (id) defaultManager;
 + (void) setupHistoryMenu;
+- (void) updateHistoryMenuWithMenu : (NSMenu *) menu;
+
+- (void) buildHistoryMenuWithMenu : (NSMenu *) menu;
+- (void) updateHistoryMenuWithDefaultMenu;
 @end

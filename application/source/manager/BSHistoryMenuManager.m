@@ -28,14 +28,36 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	[self updateHistoryMenuWithMenu : menu];
 }
 
+- (void) eraseHistoryMenuItemsOfMenu : (NSMenu *) menu
+{
+	NSArray	*items_;
+	NSEnumerator	*iter_;
+	id		eachItem_;
+
+	if (nil == menu) return;
+
+	items_ = [menu itemArray];
+	if (items_ == nil || [items_ count] == 0) return;
+	
+	iter_ = [items_ objectEnumerator];
+	while (eachItem_ = [iter_ nextObject]) {
+		if ([eachItem_ tag] < 1000) {
+			[menu removeItem : eachItem_];
+		}
+	}
+}
+
 - (void) updateHistoryMenuWithMenu : (NSMenu *) menu
 {
     NSEnumerator		*iter_;
 	NSArray				*historyItemsArray_;
 	CMRHistoryItem		*item_;
-	int					index = [[CMRMainMenuManager defaultManager] historyItemInsertionIndex];
+	int					initIndex = [[CMRMainMenuManager defaultManager] historyItemInsertionIndex];
+	int					index = initIndex;
    
     if (nil == menu) return;
+	
+	if ([[menu itemArray] count] > 4) [self eraseHistoryMenuItemsOfMenu : menu];
 	
 	historyItemsArray_ = [[CMRHistoryManager defaultManager] historyItemArrayForType : CMRHistoryThreadEntryType];
 	if (nil == historyItemsArray_) return;
@@ -58,13 +80,20 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 		[menuItem_ setTarget : nil];
 		[menuItem_ setRepresentedObject : [item_ representedObject]];
 
-		//NSLog(@"%@",[[item_ representedObject] description]);
-
         [menu insertItem : menuItem_ atIndex : index];
         [menuItem_ release];
 		
 		index += 1;
     }
+	// 最後に区切り線を追加
+	if (index > initIndex) [menu insertItem : [NSMenuItem separatorItem] atIndex : index];
 }
 
+- (void) updateHistoryMenuWithDefaultMenu
+{
+	NSMenu	*menu_;
+	
+	menu_ = [[[CMRMainMenuManager defaultManager] historyMenuItem] submenu];
+	[self updateHistoryMenuWithMenu : menu_];
+}
 @end

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.4 2005/07/08 20:56:24 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.5 2005/07/09 00:01:49 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -165,7 +165,6 @@
 
 	if ([sender respondsToSelector : @selector(representedObject)]) {
 		id o = [sender representedObject];
-		NSLog(@"%@", [o description]);
 		historyItem = o;
 	}
 	// make text area first responder

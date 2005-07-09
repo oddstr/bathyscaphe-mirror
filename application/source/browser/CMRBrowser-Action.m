@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.9 2005/07/08 20:56:24 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.10 2005/07/09 00:01:48 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -50,8 +50,27 @@ enum {
 - (IBAction) showThreadWithMenuItem : (id) sender
 {
 	// 他の板のスレッドに移動することを考え、スレ一覧での選択状態を解除しておく
-	[[self threadsListTable] deselectAll: nil];
-	[super showThreadWithMenuItem : sender];
+	if ([self shouldShowContents]) {
+		[[self threadsListTable] deselectAll: nil];
+		[super showThreadWithMenuItem : sender];
+	} else {
+		id historyItem = nil;
+
+		if ([sender respondsToSelector : @selector(representedObject)]) {
+			id o = [sender representedObject];
+			historyItem = o;
+		}
+		
+		NSDictionary	*info_;
+		NSString *path_ = [historyItem threadDocumentPath];
+		
+		info_ = [NSDictionary dictionaryWithObjectsAndKeys : 
+						[historyItem BBSName] ,	ThreadPlistBoardNameKey,
+						[historyItem identifier],	ThreadPlistIdentifierKey,
+						nil];
+		[CMRThreadDocument showDocumentWithContentOfFile : path_
+											 contentInfo : info_];	
+	}
 }
 
 - (void) selectRowWhoseNameIs : (NSString *) brdname_

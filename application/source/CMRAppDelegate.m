@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.9 2005/07/08 19:37:31 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.10 2005/07/09 00:01:48 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -9,6 +9,8 @@
 #import "CMRAppDelegate_p.h"
 #import "AboutPanelController.h"
 #import "CMRTaskManager.h"
+#import "CMRMainMenuManager.h"
+#import "BSHistoryMenuManager.h"
 #import <SGAppKit/NSColor-SGExtensions.h>
 
 
@@ -74,6 +76,12 @@
 - (BOOL) isOnlineMode
 {
 	return [CMRPref isOnlineMode];
+}
+
+- (IBAction) clearHistory : (id) sender
+{
+	[[CMRHistoryManager defaultManager] removeAllItems];
+	[[BSHistoryMenuManager defaultManager] updateHistoryMenuWithMenu : [[[CMRMainMenuManager defaultManager] historyMenuItem] submenu]];
 }
 
 #pragma mark Launch Helper App

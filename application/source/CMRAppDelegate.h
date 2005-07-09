@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.h,v 1.5 2005/06/12 02:34:19 tsawada2 Exp $
+ * $Id: CMRAppDelegate.h,v 1.6 2005/07/09 00:01:48 tsawada2 Exp $
  * 
  * CMRAppDelegate.h
  *
@@ -36,6 +36,8 @@
 
 - (IBAction) openURLPanel : (id) sender;
 - (IBAction) launchCMLF : (id) sender;
+
+- (IBAction) clearHistory : (id) sender;
 @end
 
 @interface NSApplication(ScriptingSupport)
