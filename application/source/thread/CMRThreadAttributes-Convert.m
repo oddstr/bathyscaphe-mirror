@@ -5,7 +5,7 @@
 
 #import "CMRDocumentFileManager.h"
 #import "BoardManager.h"
-#import "CMXPreferences.h"
+#import "AppDefaults.h"
 #import "CMRHostHandler.h"
 #import "CMRThreadUserStatus.h"
 

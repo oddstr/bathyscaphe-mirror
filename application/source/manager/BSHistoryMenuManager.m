@@ -13,6 +13,24 @@
 @implementation BSHistoryMenuManager
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
+- (id) init
+{
+	if (self = [super init]) {
+		[[NSNotificationCenter defaultCenter]
+				 addObserver : self
+					selector : @selector(applicationDidReset:)
+					    name : CMRApplicationDidResetNotification
+					  object : nil];
+	}
+	return self;
+}
+
+- (void) dealloc
+{
+	[[NSNotificationCenter defaultCenter] removeObserver : self];
+	[super dealloc];
+}
+
 + (void) setupHistoryMenu
 {
 	NSMenuItem	*historyMenu_;
@@ -20,12 +38,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	historyMenu_ = [[CMRMainMenuManager defaultManager] historyMenuItem];
 	[[historyMenu_ submenu] setDelegate : [self defaultManager]];
 	
-	[[self defaultManager] buildHistoryMenuWithMenu : [historyMenu_ submenu]];
-}
-
-- (void) buildHistoryMenuWithMenu : (NSMenu *) menu
-{
-	[self updateHistoryMenuWithMenu : menu];
+	[[self defaultManager] updateHistoryMenuWithMenu : [historyMenu_ submenu]];
 }
 
 - (void) eraseHistoryMenuItemsOfMenu : (NSMenu *) menu
@@ -95,5 +108,10 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	
 	menu_ = [[[CMRMainMenuManager defaultManager] historyMenuItem] submenu];
 	[self updateHistoryMenuWithMenu : menu_];
+}
+
+- (void) applicationDidReset : (NSNotification *) theNotification
+{
+	[self updateHistoryMenuWithDefaultMenu];
 }
 @end

@@ -1,7 +1,7 @@
 //:ThreadsList_p.h
 #import "CMRThreadsList.h"
 
-#import "CMXPreferences.h"
+#import "AppDefaults.h"
 
 #import "CMRTaskManager.h"
 #import "CMRDocumentFileManager.h"

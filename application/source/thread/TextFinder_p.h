@@ -4,7 +4,7 @@
 #import "CocoMonar_Prefix.h"
 
 #import "TextFinder.h"
-#import "CMXPreferences.h"
+#import "AppDefaults.h"
 #import "CMRSearchOptions.h"
 
 

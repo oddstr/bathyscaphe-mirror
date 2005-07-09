@@ -1,7 +1,7 @@
 //:CMRLayoutManager.m
 
 #import "CMRLayoutManager.h"
-#import "CMXPreferences.h"
+#import "AppDefaults.h"
 #import "NSLayoutManager+CMXAdditions.h"
 
 

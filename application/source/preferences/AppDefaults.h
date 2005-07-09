@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.9 2005/06/30 14:33:45 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.10 2005/07/09 01:03:03 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -86,23 +86,6 @@
 - (BOOL) openInBg;
 - (void) setOpenInBg : (BOOL) flag;
 
-/*** 掲示板ドロワー ***/
-// deprecated in BathyScaphe 1.0.1.
-/*
-- (int) boardListState;
-- (void) setBoardListState : (int) state;
-- (float) boardListSizeWidth;
-- (void) setBoardListSizeWidth : (float) width;
-- (float) boardListSizeHeight;
-- (void) setBoardListSizeHeight : (float) height;
-- (NSRectEdge) boardListDrawerEdge;
-- (void) setBoardListDrawerEdge : (NSRectEdge) edge;
-- (NSSize) boardListContentSize;
-- (void) setBoardListContentSize : (NSSize) contentSize;
-- (BOOL) isBoardListOpen;
-- (void) setIsBoardListOpen : (BOOL) isOpen;
-*/
-
 /*** 書き込み：名前欄 ***/
 - (NSString *) defaultReplyName;
 - (void) setDefaultReplyName : (NSString *) name;
@@ -119,7 +102,8 @@
 - (CMRBBSSignature *) browserLastBoard;
 - (void) setBrowserLastBoard : (CMRBBSSignature *) aSignature;
 
-/*** スレッド一覧 ***/
+#pragma mark ThreadsList
+
 /* ソート */
 - (NSString *) browserSortColumnIdentifier;
 - (void) setBrowserSortColumnIdentifier : (NSString *) identifier;
@@ -152,7 +136,8 @@
 - (NSString *) proxyHost;
 - (void) setProxyHost : (NSString *) aProxyURL;
 
-// History
+#pragma mark History
+
 - (int) maxCountForThreadsHistory;
 - (void) setMaxCountForThreadsHistory : (int) counts;
 - (int) maxCountForBoardsHistory;
@@ -164,8 +149,6 @@
 
 
 @interface AppDefaults(BackgroundColors)
-//- (NSColor *) browserStripedTableColor; // deprecated in BathyScpahe 1.0.1
-//- (void) setBrowserStripedTableColor : (NSColor *) color; // deprecated in BathyScpahe 1.0.1
 - (BOOL) browserSTableDrawsStriped;
 - (void) setBrowserSTableDrawsStriped : (BOOL) flag;
 - (NSColor *) browserSTableBackgroundColor;
@@ -229,8 +212,6 @@ enum {
 - (void) setReplyTextColor : (NSColor *) aColor;
 - (NSFont *) replyFont;
 - (void) setReplyFont : (NSFont *) aFont;
-//- (BOOL) caretUsesTextColor; // deprecated in BathyScaphe 1.0.1
-//- (void) setCaretUsesTextColor : (BOOL) flag; // deprecated in BathyScaphe 1.0.1
 
 /*** ポップアップ ***/
 // デフォルトの色
@@ -239,13 +220,6 @@ enum {
 - (BOOL) isResPopUpTextDefaultColor;
 - (void) setIsResPopUpTextDefaultColor : (BOOL) flag;
 
-// @see CMXPopUpWindowAttributes.h
-/* deprecated in BathyScaphe 1.0.1
-- (BOOL) popUpWindowHasVerticalScroller;
-- (BOOL) popUpWindowAutohidesScrollers;
-- (void) setPopUpWindowAutohidesScrollers : (BOOL) flag;
-- (void) setPopUpWindowHasVerticalScroller : (BOOL) flag;
-*/
 - (BOOL) popUpWindowVerticalScrollerIsSmall;
 - (void) setPopUpWindowVerticalScrollerIsSmall : (BOOL) flag;
 
@@ -316,8 +290,6 @@ enum {
 
 - (BOOL) threadsListDrawsGrid;
 - (void) setThreadsListDrawsGrid : (BOOL) flag;
-//- (NSColor *) threadsListGridColor; // deprecated in BathyScaphe 1.0
-//- (void) setThreadsListGridColor : (NSColor *) color; // deprecated in BathyScaphe 1.0
 
 /* Row height, cell spacing */
 - (float) messageHeadIndent;
@@ -349,17 +321,6 @@ enum {
 - (void) setThreadsListAutoscrollMask : (int) mask;
 - (NSString *) ignoreTitleCharacters;
 - (void) setIgnoreTitleCharacters : (NSString *) ignoreChars;
-
-// statusLine
-/* deprecated in BathyScaphe 1.0.2. */
-/*
-- (BOOL) statusLineUsesSpinningStyle;
-- (void) setStatusLineUsesSpinningStyle : (BOOL) usesSpinningStyle;
-- (int) statusLinePosition;
-- (void) setStatusLinePosition : (int) aStatusLinePosition;
-- (int) statusLineToolbarAlignment;
-- (void) setStatusLineToolbarAlignment : (int) aStatusLineToolbarAlignment;
-*/
 
 - (BOOL) useIncrementalSearch;
 - (void) setUseIncrementalSearch : (BOOL) TorF;
@@ -473,9 +434,6 @@ enum {
                                           message : (NSString *) msg;
 @end
 
+#pragma mark Constants
 
-
-//////////////////////////////////////////////////////////////////////
-////////////////////// [ 定数やマクロ置換 ] //////////////////////////
-//////////////////////////////////////////////////////////////////////
 extern NSString *const AppDefaultsWillSaveNotification;

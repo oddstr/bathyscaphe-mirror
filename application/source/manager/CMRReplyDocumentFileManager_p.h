@@ -1,7 +1,7 @@
 //:CMRReplyDocumentFileManager_p.h
 #import "CMRReplyDocumentFileManager.h"
 
-#import "CMXPreferences.h"
+#import "AppDefaults.h"
 #import "CocoMonar_Prefix.h"
 #import "CMRDocumentFileManager.h"
 

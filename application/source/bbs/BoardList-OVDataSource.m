@@ -1,5 +1,5 @@
 /**
-  * $Id: BoardList-OVDataSource.m,v 1.2 2005/06/12 01:36:14 tsawada2 Exp $
+  * $Id: BoardList-OVDataSource.m,v 1.3 2005/07/09 01:03:03 tsawada2 Exp $
   * 
   * BoardList-OVDataSource.m
   *
@@ -7,7 +7,7 @@
   * See the file LICENSE for copying permission.
   */
 #import "BoardList.h"
-#import "CMXPreferences.h"
+#import "AppDefaults.h"
 #import "CMRFavoritesManager.h"
 #import "CMRThreadsList.h"
 #import "CMXTemplateResources.h"

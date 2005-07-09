@@ -11,7 +11,7 @@
 #import "CMRBrowser.h"
 #import "CMRThreadViewer_p.h";
 
-#import "CMXPreferences.h"
+#import "AppDefaults.h"
 #import "BoardManager.h";
 #import "BoardList.h"
 

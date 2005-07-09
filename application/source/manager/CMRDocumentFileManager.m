@@ -11,7 +11,7 @@
 #import "CMRDocumentFileManager.h"
 
 #import "CocoMonar_Prefix.h"
-#import "CMXPreferences.h"
+#import "AppDefaults.h"
 #import "CMRDocumentController.h"
 
 

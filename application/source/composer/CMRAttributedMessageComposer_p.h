@@ -2,7 +2,7 @@
 #import "CMRAttributedMessageComposer.h"
 
 #import "CocoMonar_Prefix.h"
-#import "CMXPreferences.h"
+#import "AppDefaults.h"
 #import "CMRThreadMessage.h"
 #import "CMRMessageAttributesStyling.h"
 #import "CMRMessageAttributesTemplate.h"

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMainMenuManager.m,v 1.6 2005/07/08 19:37:31 tsawada2 Exp $
+  * $Id: CMRMainMenuManager.m,v 1.7 2005/07/09 01:03:03 tsawada2 Exp $
   * 
   * CMRMainMenuManager.m
   *
@@ -10,7 +10,7 @@
 #import "CMRMainMenuManager.h"
 
 #import "CocoMonar_Prefix.h"
-#import "CMXPreferences.h"
+#import "AppDefaults.h"
 
 #define		APPLICATION_MENU_TAG	0
 #define		FILE_MENU_TAG			1

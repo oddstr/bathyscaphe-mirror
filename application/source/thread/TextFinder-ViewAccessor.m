@@ -1,5 +1,5 @@
 //:TextFinder-ViewAccessor.m
-#import "CMXPreferences.h"
+#import "AppDefaults.h"
 #import "TextFinder_p.h"
 
 @implementation TextFinder(ViewAccessor)

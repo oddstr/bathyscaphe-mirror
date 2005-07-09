@@ -103,7 +103,6 @@
 		870161FC082BE67100AEFDD0 /* CMRToolbarDelegateImp_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDDD04C698FB00A80005 /* CMRToolbarDelegateImp_p.h */; };
 		870161FD082BE67100AEFDD0 /* CMRToolbarWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDDE04C698FB00A80005 /* CMRToolbarWindowController.h */; };
 		870161FE082BE67100AEFDD0 /* CMRToolbarWindowController_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDE004C698FB00A80005 /* CMRToolbarWindowController_p.h */; };
-		870161FF082BE67100AEFDD0 /* CMXPreferences.h in Headers */ = {isa = PBXBuildFile; fileRef = F30FC4E204CBF53200A80005 /* CMXPreferences.h */; };
 		87016200082BE67100AEFDD0 /* CMR2chDATReader.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC5A04C698FA00A80005 /* CMR2chDATReader.h */; };
 		87016201082BE67100AEFDD0 /* CMRThreadContentsReader.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D5383404CE78FC00A80005 /* CMRThreadContentsReader.h */; };
 		87016202082BE67100AEFDD0 /* CMRThreadUpdatedHeaderTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F31D7F9604D2F00E003EEDDD /* CMRThreadUpdatedHeaderTask.h */; };
@@ -906,6 +905,7 @@
 		87BD61EE0865D0230080A7CA /* NSTableView+BSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTableView+BSAdditions.h"; sourceTree = "<group>"; };
 		87BD61EF0865D0230080A7CA /* NSTableView+BSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTableView+BSAdditions.m"; sourceTree = "<group>"; };
 		87BF7CAE0840424200CC7D7C /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Japanese; path = Japanese.lproj/BathyScapheHelp; sourceTree = "<group>"; };
+		87C633C4087F53A60093559B /* AppDefaults-Deprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDefaults-Deprecated.h"; sourceTree = "<group>"; };
 		87C7287A082B8E7E00AC9AE1 /* KFSplitView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = KFSplitView.h; sourceTree = "<group>"; };
 		87C7287B082B8E7E00AC9AE1 /* KFSplitView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = KFSplitView.m; sourceTree = "<group>"; };
 		87D8DBA20833D55C004C1168 /* AboutPanelController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AboutPanelController.h; sourceTree = "<group>"; };
@@ -923,7 +923,6 @@
 		E8894DD905C3A3A30004317F /* CMROpenURLManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMROpenURLManager.m; sourceTree = "<group>"; };
 		F309849604DD7FA100A80005 /* CMRSubjectReader.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CMRSubjectReader.h; sourceTree = "<group>"; };
 		F309849704DD7FA100A80005 /* CMRSubjectReader.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CMRSubjectReader.m; sourceTree = "<group>"; };
-		F30FC4E204CBF53200A80005 /* CMXPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMXPreferences.h; sourceTree = "<group>"; };
 		F31A368404DD971600A80005 /* CMRThreadHTMLDownloader.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CMRThreadHTMLDownloader.h; sourceTree = "<group>"; };
 		F31A368504DD971600A80005 /* CMRThreadHTMLDownloader.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CMRThreadHTMLDownloader.m; sourceTree = "<group>"; };
 		F31A368804DD974C00A80005 /* CMRDATDownloader.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CMRDATDownloader.h; sourceTree = "<group>"; };
@@ -1093,7 +1092,6 @@
 		F324DCDF04C698FB00A80005 /* AppDefaults-Bundle.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-Bundle.m"; sourceTree = "<group>"; };
 		F324DCE004C698FB00A80005 /* AppDefaults-FontColor.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-FontColor.m"; sourceTree = "<group>"; };
 		F324DCE104C698FB00A80005 /* AppDefaults-LibPath.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-LibPath.m"; sourceTree = "<group>"; };
-		F324DCE204C698FB00A80005 /* AppDefaults-LogSetting.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-LogSetting.m"; sourceTree = "<group>"; };
 		F324DCE304C698FB00A80005 /* AppDefaults-ThreadsList.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-ThreadsList.m"; sourceTree = "<group>"; };
 		F324DCE404C698FB00A80005 /* AppDefaults-ThreadViewer.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-ThreadViewer.m"; sourceTree = "<group>"; };
 		F324DCE604C698FB00A80005 /* AppDefaults.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = AppDefaults.h; sourceTree = "<group>"; };
@@ -2343,8 +2341,8 @@
 			isa = PBXGroup;
 			children = (
 				F32248E404D97CCC00A80005 /* CMXTemplateKeys.h */,
-				F30FC4E204CBF53200A80005 /* CMXPreferences.h */,
 				F322F7FB050BA07D00A80005 /* CMRPreferencesDefautValues.h */,
+				87C633C4087F53A60093559B /* AppDefaults-Deprecated.h */,
 				F324DCE604C698FB00A80005 /* AppDefaults.h */,
 				F324DCE804C698FB00A80005 /* AppDefaults_p.h */,
 				F324DCE704C698FB00A80005 /* AppDefaults.m */,
@@ -2357,7 +2355,6 @@
 				F324DCE104C698FB00A80005 /* AppDefaults-LibPath.m */,
 				F324DCE304C698FB00A80005 /* AppDefaults-ThreadsList.m */,
 				F324DCE404C698FB00A80005 /* AppDefaults-ThreadViewer.m */,
-				F324DCE204C698FB00A80005 /* AppDefaults-LogSetting.m */,
 			);
 			name = default;
 			sourceTree = "<group>";
@@ -2639,7 +2636,6 @@
 				870161FC082BE67100AEFDD0 /* CMRToolbarDelegateImp_p.h in Headers */,
 				870161FD082BE67100AEFDD0 /* CMRToolbarWindowController.h in Headers */,
 				870161FE082BE67100AEFDD0 /* CMRToolbarWindowController_p.h in Headers */,
-				870161FF082BE67100AEFDD0 /* CMXPreferences.h in Headers */,
 				87016200082BE67100AEFDD0 /* CMR2chDATReader.h in Headers */,
 				87016201082BE67100AEFDD0 /* CMRThreadContentsReader.h in Headers */,
 				87016202082BE67100AEFDD0 /* CMRThreadUpdatedHeaderTask.h in Headers */,

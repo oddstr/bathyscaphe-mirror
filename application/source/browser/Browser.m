@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.m,v 1.3 2005/06/30 14:33:45 tsawada2 Exp $
+  * $Id: Browser.m,v 1.4 2005/07/09 01:03:03 tsawada2 Exp $
   * 
   * Browser.m
   *
@@ -8,7 +8,7 @@
   */
 #import "Browser.h"
 
-#import "CMXPreferences.h"
+#import "AppDefaults.h"
 #import "CMRThreadViewer_p.h"
 #import "CMRBrowser_p.h"
 #import "CMRThreadsList.h"

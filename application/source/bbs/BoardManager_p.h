@@ -1,6 +1,6 @@
 //:BoardManager_p.h
 #import "BoardManager.h"
-#import "CMXPreferences.h"
+#import "AppDefaults.h"
 #import "CocoMonar_Prefix.h"
 #import "BoardList.h"
 

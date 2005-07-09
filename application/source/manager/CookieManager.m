@@ -8,7 +8,7 @@
 
 #import "CookieManager.h"
 #import "Cookie.h"
-#import "CMXPreferences.h"
+#import "AppDefaults.h"
 #import <AppKit/NSApplication.h>
 
 

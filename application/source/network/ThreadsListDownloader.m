@@ -1,5 +1,5 @@
 /**
- * $Id: ThreadsListDownloader.m,v 1.1 2005/05/11 17:51:06 tsawada2 Exp $
+ * $Id: ThreadsListDownloader.m,v 1.2 2005/07/09 01:03:03 tsawada2 Exp $
  * 
  * ThreadsListDownloader.m
  *
@@ -9,7 +9,7 @@
 #import "ThreadsListDownloader.h"
 
 #import "CMRDownloader_p.h"
-#import "CMXPreferences.h"
+#import "AppDefaults.h"
 #import "BoardManager.h"
 #import "CMRBBSSignature.h"
 #import "CMRThreadSubjectComposer.h"

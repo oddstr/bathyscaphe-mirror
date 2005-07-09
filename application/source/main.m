@@ -4,7 +4,6 @@
 #import "CocoMonar_Prefix.h"
 #import <SGAppKit/SGAppKit.h>
 #import "CMXInternalMessaging.h"
-//#import "CMRNSObject.h"
 #import "RBSplitView.h"
 
 #import "CookieManager.h"
@@ -33,10 +32,6 @@ void CMXServicesInit(void)
     isInvoked = YES;
     
     pool_ = [[NSAutoreleasePool alloc] init];
-    
-    // pose!
-    //[NSObject class];
-    //[[CMRNSObject class] poseAsClass : [NSObject class]];
 
 	[RBSplitView class];
 
@@ -57,8 +52,7 @@ void CMXServicesInit(void)
     // Inter-thread messaging
     CMRMainThread = [NSThread currentThread];
     CMRMainRunLoop = [NSRunLoop currentRunLoop];
-    CMRMainMessenger = [SGInternalMessenger currentMessenger];
-    
+    CMRMainMessenger = [SGInternalMessenger currentMessenger];    
     
     [pool_ release];
 }

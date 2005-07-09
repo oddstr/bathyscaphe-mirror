@@ -3,7 +3,7 @@
 
 #import "CocoMonar_Prefix.h"
 
-#import "CMXPreferences.h"
+#import "AppDefaults.h"
 #import "BoardManager.h"
 #import "CMRReplyController.h"
 #import "CMRReplyDocumentFileManager.h"

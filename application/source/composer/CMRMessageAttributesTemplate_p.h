@@ -3,7 +3,7 @@
 
 #import <SGAppKit/SGAppKit.h>
 
-#import "CMXPreferences.h"
+#import "AppDefaults.h"
 #import "CMRThreadMessage.h"
 
 

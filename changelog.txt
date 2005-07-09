@@ -1,4 +1,11 @@
 2005-07-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/preferences/CMXPreferences.h
+		[削除]CMXPreferences.h は、単に AppDefaults.h を import するだけの
+		ファイルだった（たぶん、大昔の CocoMonar v1 と v2 のソースをくっつけるときの知恵だったのだろう）。
+		今回、CMXPreferences.h を import しているファイルは全て AppDefaults.h の import に書き換え、
+		CMXPreferences.h は廃止、削除した。今後は必ず #import "AppDefaults.h" と書くこと。
+	* application/source/manager/BSHistoryMenuManager.m
+		アプリケーションリセット時に「履歴」メニューの内容を消去するようにした。
 	* application/source/CMRAppDelegate.m
 		「履歴」＞「履歴を消去」メニュー項目への対応。
 	* application/source/manager/CMRHistoryManager.m

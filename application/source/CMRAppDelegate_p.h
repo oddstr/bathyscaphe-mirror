@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate_p.h,v 1.4 2005/07/08 19:37:31 tsawada2 Exp $
+ * $Id: CMRAppDelegate_p.h,v 1.5 2005/07/09 01:03:03 tsawada2 Exp $
  * 
  * CMRAppDelegate_p.h
  *
@@ -9,7 +9,7 @@
 #import "CMRAppDelegate.h"
 
 #import "CocoMonar_Prefix.h"
-#import "CMXPreferences.h"
+#import "AppDefaults.h"
 #import "TextFinder.h"
 #import "CMRTaskManager.h"
 #import "CMRMainMenuManager.h"

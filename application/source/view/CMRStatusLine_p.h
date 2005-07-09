@@ -4,7 +4,7 @@
 #import <SGAppKit/SGAppKit.h>
 #import "CMRTask.h"
 #import "CMRTaskManager.h"
-#import "CMXPreferences.h"
+#import "AppDefaults.h"
 
 
 //:CMRStatusLine-ViewAccessor.m

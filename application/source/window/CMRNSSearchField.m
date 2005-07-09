@@ -6,7 +6,7 @@
 //
 
 #import "CMRNSSearchField.h"
-#import "CMXPreferences.h"
+#import "AppDefaults.h"
 #import "CMRSearchOptions.h"
 
 #define kSearchFieldNibName				@"PantherSearchField"
