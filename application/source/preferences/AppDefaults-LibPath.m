@@ -90,29 +90,4 @@
 	}
 	return YES;
 }
-
-/*
-//ログの保存場所のルート
-- (void) setDataRootPath : (NSString *) filepath
-{
-	//POSIXパス長制限
-	if(NO == [self validatePathLength : filepath]) return;
-	
-	if(NO == [self createDirectoryAtPath : filepath]){
-		NSString *msg_format_;
-		NSString *msg_;
-		
-		msg_format_ = 
-		  NSLocalizedStringFromTable(@"DataPathNotFound",
-		  							 [[self class] tableForPanels],
-									 nil);
-		msg_ = [NSString stringWithFormat : msg_format_,
-											filepath];
-		[self runDirectoryNotFoundAlertAndTerminateWithMessage : msg_];
-	}
-	[filepath retain];
-	[m_dataRootPath release];
-	m_dataRootPath = filepath;
-}
-*/
 @end

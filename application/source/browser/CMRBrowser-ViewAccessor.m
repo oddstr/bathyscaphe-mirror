@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.14 2005/06/18 23:52:18 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.15 2005/07/09 13:14:03 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -428,7 +428,14 @@
     
     [tbview setUsesAlternatingRowBackgroundColors : [CMRPref browserSTableDrawsStriped]];
 	
-	if([CMRPref browserSTableDrawsBackground]) [tbview setBackgroundColor : [CMRPref browserSTableBackgroundColor]];
+	if([CMRPref browserSTableDrawsBackground]) {
+		[tbview setBackgroundColor : [CMRPref browserSTableBackgroundColor]];
+	} else {
+		// 背景を塗らない設定に変更したら、デフォルトの色に戻ってほしいので、
+		// もし、今デフォルトの色になっていないのなら、戻しておく。
+		if (!([[tbview backgroundColor] isEqual: [NSColor whiteColor]]))
+			[tbview setBackgroundColor : [NSColor whiteColor]];
+	}
 	[tbview setGridStyleMask : ([CMRPref threadsListDrawsGrid] ? NSTableViewSolidVerticalGridLineMask : NSTableViewGridNone)];    
 }
 
@@ -572,9 +579,9 @@
     tmp = SGTemplateResource(kBBSListIndentationPerLevelKey);
     UTILAssertRespondsTo(tmp, @selector(floatValue));
     [outlineView setIndentationPerLevel : [tmp floatValue]];
-    tmp2 = [CMRPref boardListBgColor];
-    if (tmp2 != nil)[outlineView setBackgroundColor : tmp2];
-		
+    tmp2 = [CMRPref boardListBackgroundColor];
+    if (tmp2 != nil)
+		[outlineView setBackgroundColor : tmp2];
 	[outlineView setMenu : [self drawerContextualMenu]];
 }
 - (void) setupBoardListTableDefaults
@@ -636,7 +643,6 @@
 - (void) setupStatusLine
 {
     [super setupStatusLine];
-    //[[self statusLine] setBoardHistoryEnabled : YES];
 }
 
 - (void) setupFrameAutosaveName

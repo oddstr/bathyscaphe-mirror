@@ -189,7 +189,6 @@ NS_ENDHANDLER
 	}else{
 		[[CMRKeychainManager defaultManager]
 					 createKeychainWithPassword : newPassword];
-		//[self setX2chUserAccount : newAccount];
 		return YES;
 	}
 	return NO;

@@ -49,3 +49,10 @@
 - (int) statusLineToolbarAlignment;
 - (void) setStatusLineToolbarAlignment : (int) aStatusLineToolbarAlignment;
 */
+
+/*
+#define AppDefaultsBoardListSizeWidthKey		@"BoardListWidth"
+#define AppDefaultsBoardListSizeHeightKey		@"BoardListHeight"
+#define AppDefaultsBoardListStateKey		    @"BoardListShown"
+#define AppDefaultsBoardListDrawerPreferedEdgeKey		@"BoardList PreferredEdge"
+*/

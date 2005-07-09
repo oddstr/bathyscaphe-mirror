@@ -54,6 +54,11 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	
 	iter_ = [items_ objectEnumerator];
 	while (eachItem_ = [iter_ nextObject]) {
+		/*
+			2005-07-09 tsawada2<ben-sawa@td5.so-net.ne.jp>
+			「履歴」メニューの、履歴以外の項目には 1000 番台ないしは 1100 番台のタグが
+			振ってある。それ以外のタグなら、履歴項目と判断できる。
+		*/
 		if ([eachItem_ tag] < 1000) {
 			[menu removeItem : eachItem_];
 		}
@@ -70,7 +75,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
    
     if (nil == menu) return;
 	
-	if ([[menu itemArray] count] > 4) [self eraseHistoryMenuItemsOfMenu : menu];
+	if ([[menu itemArray] count] > 4) [self eraseHistoryMenuItemsOfMenu : menu]; // まず、メニューから履歴項目を削除
 	
 	historyItemsArray_ = [[CMRHistoryManager defaultManager] historyItemArrayForType : CMRHistoryThreadEntryType];
 	if (nil == historyItemsArray_) return;
@@ -98,7 +103,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 		
 		index += 1;
     }
-	// 最後に区切り線を追加
+	// 最後に、「履歴の消去」との間に区切り線を追加（ただし、履歴が空だった場合は追加しない）
 	if (index > initIndex) [menu insertItem : [NSMenuItem separatorItem] atIndex : index];
 }
 

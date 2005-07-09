@@ -14,10 +14,11 @@
 static NSString *const AppDefaultsThreadsListSettingsKey = @"Preferences - ThreadsListSettings";
 static NSString *const AppDefaultsThreadsListAutoscrollMaskKey = @"Selection Holding Mask";
 static NSString *const AppDefaultsTLIgnoreTitleCharactersKey = @"Ignore Characters";
-static NSString *const AppDefaultsIsStatusLineUsesSpinningStyleKey = @"Uses Spinning Style";
 static NSString *const AppDefaultsStatusLinePositionKey = @"StatusLine Position";
 static NSString *const AppDefaultsStatusLineToolbarAlignmentKey = @"StatusLine Toolbar Alignment";
-static NSString *const AppDefaultsUseIncrementalSearchKey = @"Use Incremental Search";
+
+// Ç±ÇÍÇÕ User Defaults íºâ∫Ç…çÏê¨Ç≥ÇÍÇÈ key
+static NSString *const AppDefaultsUseIncrementalSearchKey = @"UseIncrementalSearch";
 
 
 
@@ -82,13 +83,13 @@ static NSString *const AppDefaultsUseIncrementalSearchKey = @"Use Incremental Se
 
 - (BOOL) useIncrementalSearch
 {
-	return [[self threadsListSettingsDictionary]
+	return [[self defaults]
 					boolForKey : AppDefaultsUseIncrementalSearchKey
 				  defaultValue : YES];
 }
 - (void) setUseIncrementalSearch : (BOOL) TorF
 {
-	[[self threadsListSettingsDictionary]
+	[[self defaults]
 			setBool : TorF
 			 forKey : AppDefaultsUseIncrementalSearchKey];
 }

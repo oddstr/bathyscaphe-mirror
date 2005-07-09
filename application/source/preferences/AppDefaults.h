@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.10 2005/07/09 01:03:03 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.11 2005/07/09 13:14:03 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -276,9 +276,6 @@ enum {
 - (void) setBoardListFont : (NSFont *) font;
 - (NSColor *) boardListTextColor;
 - (void) setBoardListTextColor : (NSColor *) color;
-- (NSColor *) boardListBgColor;
-- (void) setBoardListBgColor : (NSColor *) color;
-
 
 
 /* more options */

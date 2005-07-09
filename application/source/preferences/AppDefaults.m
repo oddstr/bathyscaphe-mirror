@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.6 2005/06/26 12:18:45 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.7 2005/07/09 13:14:03 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -10,7 +10,6 @@
 #import "CMRMainMenuManager.h"
 #import "BoardList.h"
 #import "CMRBBSSignature.h"
-#import <AppKit/NSDrawer.h>
 #import <AppKit/NSFont.h>
 
 
@@ -23,35 +22,29 @@ NSString *const AppDefaultsWillSaveNotification = @"AppDefaultsWillSaveNotificat
 #define AppDefaultsIsOnlineModeKey		        @"Online Mode ON"
 #define AppDefaultsThreadSearchOptionKey		@"Thread Search Option"
 #define AppDefaultsContentsSearchOptionKey		@"Contents Search Option"
-/*
-#define AppDefaultsBoardListSizeWidthKey		@"BoardListWidth"
-#define AppDefaultsBoardListSizeHeightKey		@"BoardListHeight"
-#define AppDefaultsBoardListStateKey		    @"BoardListShown"
-#define AppDefaultsBoardListDrawerPreferedEdgeKey		@"BoardList PreferredEdge"
-*/
+
 #define AppDefaultsBrowserSplitViewIsVerticalKey		@"Browser SplitView isVertical"
-#define AppDefaultsBrowserLastBoardKey		@"LastBoard"
+#define AppDefaultsBrowserLastBoardKey					@"LastBoard"
 #define AppDefaultsBrowserSortColumnIdentifierKey		@"ThreadSortKey"
-#define AppDefaultsListCollectByNewKey		@"CollectByNewKey"
-#define AppDefaultsBrowserSortAscendingKey		@"ThreadSortAscending"
+#define AppDefaultsListCollectByNewKey					@"CollectByNewKey"
+#define AppDefaultsBrowserSortAscendingKey				@"ThreadSortAscending"
 #define AppDefaultsBrowserStatusFilteringMaskKey		@"StatusFilteringMask"
+
+#define AppDefaultsIsFavImportedKey			@"Old Favorites Imported"
+
+#define AppDefaultsOpenInBgKey				@"OpenLinkInBg"
+#define AppDefaultsQuietDeletionKey			@"QuietDeletion"
+
+// History
+#define AppDefaultsHistoryThreadsKey		@"ThreadHistoryItemLimit"
+#define AppDefaultsHistoryBoardsKey			@"BoardHistoryItemLimit"
+#define AppDefaultsHistorySearchKey			@"RecentSearchItemLimit"
+
 // Proxy
 #define AppDefaultsUsesProxyKey				@"UsesProxy"
 #define AppDefaultsUsesSystemConfigProxy	@"UsesSystemConfigProxy"
 #define AppDefaultsProxyURLKey				@"ProxyURL"
 #define AppDefaultsProxyPortKey				@"ProxyPort"
-
-#define AppDefaultsIsFavImportedKey			@"Old Favorites Imported"
-
-#define kQuietDeletionKey @"Thread - QuietDeletion"
-#define kOpenInBgkey	@"Thread - OpenLinkInBackGround"
-
-#define AppDefaultsOpenInBgKey				@"OpenLinkInBg"
-#define AppDefaultsQuietDeletionKey			@"QuietDeletion"
-
-#define AppDefaultsHistoryThreadsKey		@"History - Limit(Thread)"
-#define AppDefaultsHistoryBoardsKey			@"History - Limit(Board)"
-#define AppDefaultsHistorySearchKey    @"History - Limit(SearchList)"
 
 static id _singletonAppDefaultsLock;
 

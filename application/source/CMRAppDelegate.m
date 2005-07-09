@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.10 2005/07/09 00:01:48 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.11 2005/07/09 13:14:03 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -174,26 +174,28 @@
 
 - (void) setBrowserTableViewColor : (NSArray *) colorValue;
 {
-	float red,green,blue;
-	red		= [[colorValue objectAtIndex : 0] floatValue];
-	green	= [[colorValue objectAtIndex : 1] floatValue];
-	blue	= [[colorValue objectAtIndex : 2] floatValue];
-	
-	if (red == 0 && green == 0 && blue == 0) {
+	// colorValue 配列の要素数が 0 のときは、デフォルトのカラーに戻す。
+	// また、配列の要素数が 0,3 以外のときは何もしない。
+	if ([colorValue count] == 0) {
 		[CMRPref setBrowserSTableDrawsBackground : NO];
-	} else {
-		[CMRPref setBrowserSTableBackgroundColor : [NSColor colorWithCalibratedRed:red
-															 green:green
-															  blue:blue
-															 alpha:1.0]];
+	} else if ([colorValue count] == 3) {
+		float red,green,blue;
+		red		= [[colorValue objectAtIndex : 0] floatValue];
+		green	= [[colorValue objectAtIndex : 1] floatValue];
+		blue	= [[colorValue objectAtIndex : 2] floatValue];
+	
+		if (red == 0 && green == 0 && blue == 0) {
+			[CMRPref setBrowserSTableDrawsBackground : NO];
+		} else {
+			[CMRPref setBrowserSTableBackgroundColor : [NSColor colorWithCalibratedRed:red green:green blue:blue alpha:1.0]];
+		}
 	}
 }
 - (NSArray *) boardListColor
 {
 	float red,green,blue;
 	
-	NSColor *color_ = [CMRPref boardListBgColor];
-		
+	NSColor *color_ = [CMRPref boardListBackgroundColor];		
 	[[color_ colorUsingColorSpaceName : kRGBColorSpace] getRed: &red green: &green blue: &blue alpha: NULL];
 
 	return [NSArray arrayWithObjects : [NSNumber numberWithFloat:red], [NSNumber numberWithFloat:green], [NSNumber numberWithFloat:blue], nil];
@@ -201,12 +203,18 @@
 
 - (void) setBoardListColor : (NSArray *) colorValue;
 {
-	float red,green,blue;
-	red		= [[colorValue objectAtIndex : 0] floatValue];
-	green	= [[colorValue objectAtIndex : 1] floatValue];
-	blue	= [[colorValue objectAtIndex : 2] floatValue];
-	
-	[CMRPref setBoardListBgColor : [NSColor colorWithCalibratedRed:red green:green blue:blue alpha:1.0]];
+	// colorValue 配列の要素数が 0 のときは、デフォルトのカラーに戻す。
+	// また、配列の要素数が 0,3 以外のときは何もしない。
+	if ([colorValue count] == 0) {
+		[CMRPref setBoardListBackgroundColor : nil];
+	} else if ([colorValue count] == 3) {
+		float red,green,blue;
+		red		= [[colorValue objectAtIndex : 0] floatValue];
+		green	= [[colorValue objectAtIndex : 1] floatValue];
+		blue	= [[colorValue objectAtIndex : 2] floatValue];
+
+		[CMRPref setBoardListBackgroundColor : [NSColor colorWithCalibratedRed:red green:green blue:blue alpha:1.0]];
+	}
 }
 
 - (void) handleOpenURLCommand : (NSScriptCommand *) command

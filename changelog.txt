@@ -1,4 +1,25 @@
 2005-07-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/preferences/AppDefaults.m
+	* application/source/CMRAppDelegate.m
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+		掲示板リストの背景色を User Defaults とやり取りするメソッドが重複して存在（boardListBgColor と
+		boardListBackgroundColor ）していたので、boardListBgColor を廃止。
+		また、AppleScript 経由での掲示板リスト／スレ一覧の背景色指定時に、最低限のパラメータチェックをするようにした。
+		さらに、パラメータとして空のリストを渡すことで、デフォルトの色に戻せるようにした。
+	* application/Resources/Japanese.lproj/Browser.nib
+		掲示板リストの背景色の Colorsync Profile をいじってみた。人によって、Mail と色が微妙に違うという声があったので。
+	* application/source/preferences/AppDefaults-ThreadsList.m
+		インクリメンタルサーチの設定 key の名称などを変更。
+		インクリメンタルサーチを使用するかどうか："UseIncrementalSearch"
+		2005-06-30 の変更では User Defaults の "Preferences - ThreadsListSettings" dictionary の中に
+		この key が作成されるようになっていたが、これを User defaults 直下に作成するように改めた。
+		これも defaults コマンドで Terminal などから変更する際に入力を容易にするための変更である。
+	* application/source/preferences/AppDefaults.m
+		履歴関連の key 名称を変更。
+		スレッドの履歴の上限："ThreadHistoryItemLimit"
+		板の履歴の上限（ただし、活用されていない）："BoardHistoryItemLimit"
+		検索語句の履歴の上限（インクリメンタルサーチがオフのとき）："RecentSearchItemLimit"
+		主に defaults コマンドで Terminal などから変更する際に入力を容易にするための変更である。
 	* application/source/preferences/AppDefaults-LogSetting.m
 		[削除]すでにターゲットからは外れていたが、リポジトリからも削除。
 	* application/source/preferences/CMXPreferences.h

@@ -124,9 +124,9 @@ static NSString *const kPrefBoardListBackgroundColorKey	= @"BoardList Background
 	
 	color_ = [[self backgroundColorDictionary]
 					colorForKey : kPrefBoardListBackgroundColorKey];
-	if(nil == color_){
-		return [NSColor whiteColor];
-	}
+	
+	if (color_ == nil)
+		return [NSColor colorWithDeviceCyan:0.07 magenta:0.04 yellow:0.01 black:0 alpha:1.0]; // デフォルトの色
 	
 	return color_;
 }

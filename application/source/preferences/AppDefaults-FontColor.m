@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-FontColor.m,v 1.5 2005/06/18 23:52:18 tsawada2 Exp $
+  * $Id: AppDefaults-FontColor.m,v 1.6 2005/07/09 13:14:03 tsawada2 Exp $
   * 
   * AppDefaults-FontColor.m
   *
@@ -698,19 +698,6 @@ static NSString *const kPrefBoardListFontKey		= @"BoardList Font";
 	[self setAppearanceColor:color forKey:kPrefBoardListTextColorKey];
 	[self postLayoutSettingsUpdateNotification];
 }
-- (NSColor *) boardListBgColor
-{
-	NSColor		*c;
-	
-	c = [self appearanceColorForKey:kPrefBoardListBgColorKey];
-	return c;
-}
-- (void) setBoardListBgColor : (NSColor *) color
-{
-	[self setAppearanceColor:color forKey:kPrefBoardListBgColorKey];
-	[self postLayoutSettingsUpdateNotification];
-}
-
 
 #pragma mark -
 - (void) _loadFontAndColor
