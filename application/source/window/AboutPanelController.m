@@ -67,7 +67,7 @@
     value3 = [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleVersion"];
     if (value3 == nil) value3 = @"N/A";
 
-    value2 = [NSString stringWithFormat : @"Version %@ \"ShootingStar\" (%@)", value1, value3];
+    value2 = [NSString stringWithFormat : @"Version %@ (%@)", value1, value3];
         [versionField setStringValue: value2];
 }
 

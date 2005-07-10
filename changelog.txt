@@ -1,3 +1,9 @@
+2005-07-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/Browser.nib
+	* application/source/preferences/AppDefaults-Background.m
+		掲示板リストの背景色がまだ Mail.app と違うようなので、色を設定し直し。
+		色の測定には ColorSync ユーティリティの「計算機」ペインを使ってみた。これでダメなら…もうあきらめる。
+=================================================
 2005-07-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/preferences/AppDefaults.m
 	* application/source/CMRAppDelegate.m
