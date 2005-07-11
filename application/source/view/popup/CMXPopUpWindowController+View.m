@@ -1,6 +1,6 @@
 //: CMXPopUpWindowController+View.m
 /**
-  * $Id: CMXPopUpWindowController+View.m,v 1.2 2005/06/12 01:36:15 tsawada2 Exp $
+  * $Id: CMXPopUpWindowController+View.m,v 1.3 2005/07/11 17:14:57 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -242,7 +242,7 @@
 	
 	// [Mac OS X 10.3]
 	// - [NSLayoutManager usedRectForTextContainer:]
-	// ‚È‚º‚©A•¡”s‚Ìê‡AboundingRect‚ğ•Ô‚·B
+	// ãªãœã‹ã€è¤‡æ•°è¡Œã®å ´åˆã€boundingRectã‚’è¿”ã™ã€‚
 /*
 	rect_ = [lm usedRectForTextContainer:container_];
 */
@@ -250,7 +250,7 @@
 	bodyRect_ = [lm boundingRectForTextContainer : container_];
 	nGlyphs_ = [lm numberOfGlyphs];
 	
-	// Å‘å POPUP_SCAN_MAXLINE s‚Ü‚ÅƒXƒLƒƒƒ“
+	// æœ€å¤§ POPUP_SCAN_MAXLINE è¡Œã¾ã§ã‚¹ã‚­ãƒ£ãƒ³
 	while (index_ < nGlyphs_ && nLines_++ < POPUP_SCAN_MAXLINE) {
 		NSRect		rect_;
 		NSRange		efRange_;
@@ -258,7 +258,7 @@
 		
 		rect_ = [lm lineFragmentUsedRectForGlyphAtIndex : index_
 										 effectiveRange : &efRange_];
-		// ¶ƒ}[ƒWƒ“‚ğl—¶
+		// å·¦ãƒãƒ¼ã‚¸ãƒ³ã‚’è€ƒæ…®
 		width_ = NSMaxX(rect_);
 		
 		if (width_ > NSWidth(usedRect_))
@@ -323,7 +323,7 @@
 	//[textView_ setFrameSize : textViewSize_];
 	[[self window] setContentSize : scrollViewSize_];
 	
-	// ScrollView‚ÉtextView‚ğ‡‚í‚¹‚ÄAÄ“xƒŒƒCƒAƒEƒg
+	// ScrollViewã«textViewã‚’åˆã‚ã›ã¦ã€å†åº¦ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆ
 	textViewSize_.width = [scrollView_ contentSize].width;
 	[textView_ setFrameSize : textViewSize_];
 	

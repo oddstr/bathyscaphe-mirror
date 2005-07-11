@@ -1,6 +1,6 @@
 //: CMXPopUpWindowController.m
 /**
-  * $Id: CMXPopUpWindowController.m,v 1.2 2005/07/09 01:03:03 tsawada2 Exp $
+  * $Id: CMXPopUpWindowController.m,v 1.3 2005/07/11 17:14:57 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -59,12 +59,12 @@
 	if([CMRPref isResPopUpTextDefaultColor]){
 		NSRange contentRng_;
 		
-		// �|�b�v�A�b�v�\���̃e�L�X�g��W���̐F��
-		// �\������ꍇ�͐�������������������
-		// �̃J���[������ύX����B
+		// ポップアップ表示のテキストを標準の色で
+		// 表示する場合は生成した書式つき文字列
+		// のカラー属性を変更する。
 		contentRng_ =NSMakeRange(0, [[self textStorage] length]);
 		if(contentRng_.length != 0){
-			NSColor *color_;		//�W���̃e�L�X�g�J���[
+			NSColor *color_;		//標準のテキストカラー
 			
 			color_ = [CMRPref resPopUpDefaultTextColor];
 			[[self textStorage] 
@@ -219,13 +219,13 @@
 
 // Popup Lock
 /* 2005-02-18 tsawada2<ben-sawa@td5.so-net.ne.jp>
-	�|�b�v�A�b�v�E�C���h�E�� key window �ɂȂ��Ă���Ƃ��ɁA�p���� L �L�[��������
-	�|�b�v�A�b�v���u���b�N�v����A�}�E�X������Ă����Ȃ��Ȃ�B������x L �L�[�������Ƃ����Ƀ|�b�v�A�b�v�͏�����B
-	���b�N��Ԃ̂Ƃ��́A������������߂Ƀ|�b�v�A�b�v�̔w�i�F�ƃe�L�X�g�J���[���ύX�����B
-	���_�F
-	1.�|�b�v�A�b�v�����b�N���Ă���Ƃ��ɔw��̃E�C���h�E���X�N���[����������ړ�����ƁA���̃|�b�v�A�b�v�𐳂����ʒu��
-	  �\���ł��Ȃ��Ȃ�B
-	2.�C���^�t�F�[�X���X�}�[�g�łȂ������B
+	ポップアップウインドウが key window になっているときに、英字の L キーを押すと
+	ポップアップが「ロック」され、マウスが離れても閉じなくなる。もう一度 L キーを押すとすぐにポップアップは消える。
+	ロック状態のときは、それを示すためにポップアップの背景色とテキストカラーが変更される。
+	問題点：
+	1.ポップアップをロックしているときに背後のウインドウをスクロールさせたり移動すると、他のポップアップを正しい位置に
+	  表示できなくなる。
+	2.インタフェースがスマートでないかも。
 */
 - (void) keyUp : (NSEvent *) theEvent
 {
