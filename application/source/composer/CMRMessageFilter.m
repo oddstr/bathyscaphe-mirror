@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMessageFilter.m,v 1.1 2005/05/11 17:51:04 tsawada2 Exp $
+  * $Id: CMRMessageFilter.m,v 1.2 2005/07/11 15:52:18 tsawada2 Exp $
   * 
   * CMRMessageFilter.m
   *
@@ -29,7 +29,7 @@
 { return NO; }
 @end
 
-
+#pragma mark -
 
 @implementation CMRMessageSample
 + (id) sampleWithMessage : (CMRThreadMessage   *) aMessage
@@ -123,7 +123,9 @@
 	_threadIdentifier = [aThreadIdentifier retain];
 	[tmp release];
 }
-// CMRPropertyListCoding
+
+#pragma mark  CMRPropertyListCoding
+
 #define kMessageKey			@"Message"
 #define kThreadIDKey		@"Thread"
 #define kFlagsKey			@"Flags"
@@ -182,8 +184,9 @@
 }
 @end
 
+#pragma mark -
+#pragma mark stuff
 
-/*** stuff ***/
 static void setupAppendingSample_(CMRMessageSample *sample, NSMutableDictionary *table);
 static int detectMessageAny_(
 				CMRMessageSample *s,
@@ -197,8 +200,9 @@ static int doDetectMessageAny_(
 // 設定されていないID や よくある名前等は比較対象にしない
 static BOOL checkMailIsNonSignificant_(NSString *mail);
 static BOOL checkNameIsNonSignificant_(NSString *name);
+static BOOL checkIDIsNonSignificant_(NSString *idStr_);
 
-
+#pragma mark -
 
 @implementation CMRSamplingDetecter
 - (SGBaseCArrayWrapper *) samples
@@ -224,7 +228,8 @@ static BOOL checkNameIsNonSignificant_(NSString *name);
 	[super dealloc];
 }
 
-// CMRPropertyListCoding
+#pragma mark  CMRPropertyListCoding
+
 #define kSamplesKey			@"Samples"
 
 - (BOOL) initializeWithPropertyListRepresentation : (id) rep
@@ -312,6 +317,9 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	return [NSDictionary dictionaryWithObject : samplesRep_
 									   forKey : kSamplesKey];
 }
+
+#pragma mark -
+
 - (id) initWithDictionaryRepresentation : (NSDictionary *) aDictionary
 {
 	return [self initWithPropertyListRepresentation : aDictionary];
@@ -540,6 +548,8 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 }
 @end
 
+#pragma mark -
+#pragma mark Static Funcs
 
 static int detectMessageAny_(
 				CMRMessageSample *s,
@@ -675,6 +685,20 @@ static BOOL checkNameIsNonSignificant_(NSString *name)
 	}
 	return NO;
 }
+
+// ID 欄のチェック
+static BOOL checkIDIsNonSignificant_(NSString *idStr_)
+{
+	// ID が 0 or 1文字、または「???」で始まるとき
+	if (nil == idStr_ || 2 > [idStr_ length] || [idStr_ hasPrefix : @"???"]) 
+	{
+		UTIL_DEBUG_WRITE1(@"ID:%@ was nonsignificant.", idStr_);
+		return YES;
+	}
+
+	return NO;
+}
+
 static BOOL checkNameHasResLink_(NSString *name)
 {
 	NSScanner		*scanner;
@@ -750,7 +774,8 @@ static void setupAppendingSample_(CMRMessageSample *sample, NSMutableDictionary 
 	
 	/* ID */
 	s = [[m IDString] stringByStriped];
-	if (nil == s || [s length] < 4)
+	//if (nil == s || [s length] < 4)
+	if (checkIDIsNonSignificant_(s))
 	{
 		UTIL_DEBUG_WRITE1(@"ID:%@ was nonsignificant.", s);
 		sign &= ~kSampleAsIDMask; 

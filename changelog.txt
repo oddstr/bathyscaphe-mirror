@@ -1,3 +1,7 @@
+2005-07-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/composer/CMRMessageFilter.m
+		[Bug 6321] 迷惑レスフィルタが ID：???0, ???O のレスに誤反応する問題を修正。
+		- ??? で始まる ID のときはサンプルに登録しないようにした（???P もあり得る）。
 2005-07-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/Browser.nib
 	* application/source/preferences/AppDefaults-Background.m
