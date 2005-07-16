@@ -128,23 +128,4 @@
 {
 	[[CMRTaskManager defaultManager] cancel : sender];
 }
-// statusline: browser action
-/*- (IBAction) showBoardWithMenuItem : (id) sender
-{
-	NSAssert(
-		CMRMainBrowser != self,
-		@"***ERROR*** CMRMainBrowser != self");
-	
-	[[CMRMainBrowser window] makeKeyAndOrderFront : self];
-	[CMRMainBrowser showBoardWithMenuItem : sender];
-	[[self statusLine] synchronizeHistoryTitleAndSelectedItem];
-}*/
-/*- (IBAction) toggleBookmarksPane : (id) sender
-{
-	NSAssert(
-		CMRMainBrowser != self,
-		@"***ERROR*** CMRMainBrowser != self");
-	[[CMRMainBrowser window] makeKeyAndOrderFront : self];
-	[CMRMainBrowser toggleBookmarksPane : sender];
-}*/
 @end

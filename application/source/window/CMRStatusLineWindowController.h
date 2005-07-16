@@ -29,14 +29,7 @@
 
 
 @interface CMRStatusLineWindowController(Action)
-// statusline: browser action
-// 現在のブラウザウィンドウにアクションを委譲するため
-//- (IBAction) showBoardWithMenuItem : (id) sender;
-//- (IBAction) toggleBookmarksPane : (id) sender;
-
-// 「ウインドウの位置と領域を記憶」
 - (IBAction) saveAsDefaultFrame : (id) sender;
-
 - (IBAction) cancellCurrentTask : (id) sender;
 @end
 

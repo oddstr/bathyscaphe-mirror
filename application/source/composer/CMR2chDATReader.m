@@ -1,5 +1,5 @@
 /**
-  * $Id: CMR2chDATReader.m,v 1.1 2005/05/11 17:51:04 tsawada2 Exp $
+  * $Id: CMR2chDATReader.m,v 1.2 2005/07/16 07:04:44 tsawada2 Exp $
   * 
   * CMR2chDATReader.m
   *
@@ -199,12 +199,17 @@
 	
 	while (line_ = [iter nextObject]) {
 		CMRThreadMessage	*message_;
+		id	tmp_;
 		
 		message_ = [CMXTextParser messageWithDATLine : line_];
 		if (nil == message_ || [message_ isAboned])
 			continue;
 		
-		return [message_ date];
+		// 2005-07-16 tsawada2<ben-sawa@td5.so-net.ne.jp>
+		// NSDate でない形式の場合は、ここでブロックして
+		// nil を返しておく。
+		tmp_ = [message_ date];
+		return ([tmp_ isKindOfClass : [NSDate class]]) ? tmp_ : nil ;
 	}
 	return nil;
 }

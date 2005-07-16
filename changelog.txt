@@ -1,3 +1,10 @@
+2005-07-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/composer/CMR2chDATReader.m
+		CMXTextParser に喰わせて得られる日付データが NSDate 型でなかった場合は、
+		スレッドの作成日や最終更新日の日付にそれを使用しない（nil にする）ようにした。
+		- NSString 型で渡されるとスレッド一覧でのソートができないので。
+		- これでスレッド一覧に「まいね」は表示されなくなる。ただし、一度問題のログを捨てて再取得すること。
+		　それと、東北mc の Threadslist.plist も捨てる。
 2005-07-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/view/SGContextHelpPanel.m
 		ポップアップがキーウインドウになっているとき、Esc キーを押しても何も起きないようにした。

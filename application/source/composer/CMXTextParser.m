@@ -1,6 +1,6 @@
 //: CMXTextParser.m
 /**
-  * $Id: CMXTextParser.m,v 1.4 2005/06/18 14:27:59 tsawada2 Exp $
+  * $Id: CMXTextParser.m,v 1.5 2005/07/16 07:04:44 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -241,9 +241,10 @@ static void separetedLineByConvertingComma(NSString *theString, NSMutableArray *
 #endif
 
 return_date:
-	if (!date_)
+	if (!date_) {
+		//NSLog(@"%@", theString);
 		date_ = theString; // 垂れ流し
-	
+	}
 	return date_;
 }
 
@@ -719,7 +720,8 @@ static BOOL divideDateExtraField(
 	unsigned	substringIndex_;
 	NSRange		found_;
 	NSRange		search_;
-	
+
+	//NSLog(@"divide %@", field);
 	// 
 	// まずは暦区切りの","を探し、
 	// 「エロゲ暦24年,2005/04/02...」 -> 「2005/04/02...」のように変な表記をカット
