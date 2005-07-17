@@ -330,6 +330,7 @@
 		8709E6540879713D009A65FC /* CMRReplyMessenger-Connector.m in Sources */ = {isa = PBXBuildFile; fileRef = 8709E6530879713D009A65FC /* CMRReplyMessenger-Connector.m */; };
 		871986D208351B1800188E63 /* Keychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 871986D108351B1800188E63 /* Keychain.framework */; };
 		8719876B083534D900188E63 /* Keychain.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 871986D108351B1800188E63 /* Keychain.framework */; };
+		8719F06A088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 8719F069088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m */; };
 		871CA0F308585F3900C3A044 /* BoardListEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DAF704C6949900A80005 /* BoardListEditor.h */; };
 		871CA0F408585F3900C3A044 /* BoardListEditor_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DAF904C6949900A80005 /* BoardListEditor_p.h */; };
 		871CA0F508585F3900C3A044 /* UTILAssertion.h in Headers */ = {isa = PBXBuildFile; fileRef = F376F1FB05D3A805000452AB /* UTILAssertion.h */; };
@@ -725,6 +726,7 @@
 		8705E7C1087DB8C500BDEFBC /* BoardList.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = BoardList.tiff; sourceTree = "<group>"; };
 		8709E6530879713D009A65FC /* CMRReplyMessenger-Connector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRReplyMessenger-Connector.m"; sourceTree = "<group>"; };
 		871986D108351B1800188E63 /* Keychain.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Keychain.framework; path = ../frameworks/Keychain/build/Deployment/Keychain.framework; sourceTree = SOURCE_ROOT; };
+		8719F069088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-OwnHistory.m"; sourceTree = "<group>"; };
 		871CA11108585F3A00C3A044 /* Info-editor.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Info-editor.plist"; path = "../../Info-editor.plist"; sourceTree = "<group>"; };
 		871CA11208585F3A00C3A044 /* BoardListEditor.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoardListEditor.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		871CA15508585F8100C3A044 /* Info-preferences.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Info-preferences.plist"; path = "../../Info-preferences.plist"; sourceTree = "<group>"; };
@@ -1287,8 +1289,6 @@
 		F3D0A9A104F6128A00CB520C /* CMRDATDownloader.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRDATDownloader.m; sourceTree = "<group>"; };
 		F3D5383404CE78FC00A80005 /* CMRThreadContentsReader.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRThreadContentsReader.h; sourceTree = "<group>"; };
 		F3D5383504CE78FC00A80005 /* CMRThreadContentsReader.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRThreadContentsReader.m; sourceTree = "<group>"; };
-		F3D8C87D069C587B0094A779 /* CMRPullsDownButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRPullsDownButton.h; sourceTree = "<group>"; };
-		F3D8C87E069C587B0094A779 /* CMRPullsDownButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRPullsDownButton.m; sourceTree = "<group>"; };
 		F3E81CEE050CA85A00A80005 /* CMRSearchOptions.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRSearchOptions.h; sourceTree = "<group>"; };
 		F3E81CEF050CA85A00A80005 /* CMRSearchOptions.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRSearchOptions.m; sourceTree = "<group>"; };
 		F3E81CF3050CB96F00A80005 /* CMRHistoryObject.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRHistoryObject.h; sourceTree = "<group>"; };
@@ -1666,6 +1666,7 @@
 				F324DD6B04C698FB00A80005 /* CMRThreadViewer-ViewAccessor.m */,
 				F33977B605087EBA00A80005 /* CMRThreadViewer-Link.m */,
 				875743F907C372F6006F3C68 /* CMRThreadViewer-Validation.m */,
+				8719F069088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m */,
 			);
 			name = ThreadViewer;
 			sourceTree = "<group>";
@@ -2282,8 +2283,6 @@
 				F324DDA204C698FB00A80005 /* CMRStatusLine-ViewAccessor.m */,
 				F322F1F8050B877200A80005 /* CMRProgressIndicator.h */,
 				F322F1F9050B877200A80005 /* CMRProgressIndicator.m */,
-				F3D8C87D069C587B0094A779 /* CMRPullsDownButton.h */,
-				F3D8C87E069C587B0094A779 /* CMRPullsDownButton.m */,
 			);
 			name = statusLine;
 			sourceTree = "<group>";
@@ -3370,6 +3369,7 @@
 				87BD61F10865D0230080A7CA /* NSTableView+BSAdditions.m in Sources */,
 				8709E6540879713D009A65FC /* CMRReplyMessenger-Connector.m in Sources */,
 				8770BF5E087F0096008907C5 /* BSHistoryMenuManager.m in Sources */,
+				8719F06A088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

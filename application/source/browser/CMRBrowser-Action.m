@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.10 2005/07/09 00:01:48 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.11 2005/07/17 04:54:47 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -564,14 +564,15 @@ enum {
 
 - (IBAction) addDrawerItem : (id) sender
 {
-	[[self dItemAddSheetNameField] setStringValue : @""];
+	/*[[self dItemAddSheetNameField] setStringValue : @""];
 	[[self dItemAddSheetURLField]  setStringValue : @""];
 
 	[NSApp beginSheet : [self drawerItemAddSheet]
 	   modalForWindow : [self window]
 	    modalDelegate : self
 	   didEndSelector : @selector(_drawerAddItemSheetDidEnd:returnCode:contextInfo:)
-	      contextInfo : nil];
+	      contextInfo : nil];*/
+	[[CMRPref sharedBoardListEditor] createItem : self];
 }
 
 - (IBAction) addCategoryItem : (id) sender

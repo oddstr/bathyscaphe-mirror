@@ -1,3 +1,9 @@
+2005-07-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/CMRPullsDownButton.m
+		[削除]すでにターゲットからは外れていたが、リポジトリからも削除。
+	* application/source/thread/CMRThreadViewer-OwnHistory.m
+		[新規追加] CMRThreadViewer.m から旧履歴ポップアップ関連の delegate を分割。
+		この部分を流用／改造して「戻る／進む」を作っていく。保守性向上のための分割。
 2005-07-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/composer/CMR2chDATReader.m
 		CMXTextParser に喰わせて得られる日付データが NSDate 型でなかった場合は、
