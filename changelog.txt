@@ -1,3 +1,14 @@
+2005-07-22 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-OwnHistory.m
+	* application/source/thread/CMRThreadViewer-Validation.m
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		「履歴」＞「前へ戻る」／「次へ進む」を利用可能にした。
+		- これは履歴メニューの項目間を移動するのではない。最前面のスレッドビューア内での
+		　履歴の中で移動する（Safari の履歴の移動と同じように考えれば良い）。
+2005-07-18 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/image/HistoryBack.tiff
+	* application/Resources/image/HistoryForward.tiff
+		[新規追加] これらの画像は、1.0.2 では使用しない（ビルド時にコピーされない）。将来をにらんで追加。
 2005-07-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/view/CMRPullsDownButton.m
 		[削除]すでにターゲットからは外れていたが、リポジトリからも削除。

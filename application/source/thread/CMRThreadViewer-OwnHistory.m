@@ -1,53 +1,13 @@
+// CMRThreadViewer-OwnHistory.m
+// それぞれのスレッドビューア内での履歴（グローバルな履歴と一致するとは限らない）の管理と移動アクションのサポート
 // CMRThreadViewer.m から分割
 
 #import "CMRThreadViewer_p.h"
 
-/*#import "CMRThreadFileLoadingTask.h"
-#import "CMRThreadComposingTask.h"
-#import "CMRThreadUpdatedHeaderTask.h"
-#import "CMR2chDATReader.h"
-#import "CMRThreadMessageBufferReader.h"
-#import "CMRThreadMessageBuffer.h"
-#import "CMRDownloader.h"
-#import "ThreadTextDownloader.h"
-#import "CMXPopUpWindowManager.h"*/
 #import "CMRHistoryManager.h"
-/*#import "CMRNoNameManager.h"
-#import "CMRSpamFilter.h"
-#import "CMRThreadPlistComposer.h"
-#import "CMRNetGrobalLock.h"
-*/
 #import "BSHistoryMenuManager.h"
 
-/*#import "missing.h"
-
-// for debugging only
-#define UTIL_DEBUGGING		1
-#import "UTILDebugging.h"
-*/
-
-@interface CMRThreadViewer(History)
-// History: ThreadSignature...
-- (unsigned) historyIndex;
-- (void) setHistoryIndex : (unsigned) aHistoryIndex;
-- (NSMutableArray *) threadHistoryArray;
-
-- (void) noteHistoryThreadChanged : (int) relativeIndex;
-- (void) clearThreadHistories;
-@end
-
 @implementation CMRThreadViewer(History)
-// アプリケーションのリセット
-- (void) applicationWillReset : (NSNotification *) theNotification
-{
-	;
-}
-- (void) applicationDidReset : (NSNotification *) theNotification
-{
-	// 履歴を一旦消去し、現在表示中のスレッドを追加。
-	[self clearThreadHistories];
-	[self noteHistoryThreadChanged : 0];
-}
 - (id) threadIdentifierFromHistoryWithRelativeIndex : (int) relativeIndex
 {
 	NSArray		*historyItems_ = [self threadHistoryArray];
@@ -66,6 +26,7 @@
 	
 	return nil;
 }
+
 - (BOOL) performHistoryWithRelativeIndex : (int) relativeIndex
 {
 	id		threadIdentifier_;
@@ -79,46 +40,6 @@
 	[self setThreadContentWithThreadIdentifier:threadIdentifier_ noteHistoryList:relativeIndex];
 	
 	return YES;
-}
-/*
-// *** delegate: CMRStatusLine *** //
-- (BOOL) statusLinePerformForward : (CMRStatusLine *) aStatusLine
-{
-	return [self performHistoryWithRelativeIndex : 1];
-}
-- (BOOL) statusLinePerformBackward : (CMRStatusLine *) aStatusLine
-{
-	return [self performHistoryWithRelativeIndex : -1];
-}
-
-- (BOOL) statusLineShouldPerformForward : (CMRStatusLine *) aStatusLine
-{
-	return ([self threadIdentifierFromHistoryWithRelativeIndex : 1] != nil);
-}
-- (BOOL) statusLineShouldPerformBackward : (CMRStatusLine *) aStatusLine
-{
-	return ([self threadIdentifierFromHistoryWithRelativeIndex : -1] != nil);
-}*/
-
-// No History --> NSNotFound
-- (unsigned) historyIndex
-{
-	return _historyIndex;
-}
-- (void) setHistoryIndex : (unsigned) aHistoryIndex
-{
-	_historyIndex = aHistoryIndex;
-}
-
-// History: ThreadSignature...
-- (NSMutableArray *) threadHistoryArray
-{
-	if (nil == _history) {
-		_history = [[NSMutableArray alloc] init];
-		[self setHistoryIndex : NSNotFound];
-	}
-	
-	return _history;
 }
 
 // 連続したエントリを削除
@@ -193,4 +114,47 @@
 	
 }
 
+#pragma mark Accessors
+// No History --> NSNotFound
+- (unsigned) historyIndex
+{
+	return _historyIndex;
+}
+- (void) setHistoryIndex : (unsigned) aHistoryIndex
+{
+	_historyIndex = aHistoryIndex;
+}
+
+// History: ThreadSignature...
+- (NSMutableArray *) threadHistoryArray
+{
+	if (nil == _history) {
+		_history = [[NSMutableArray alloc] init];
+		[self setHistoryIndex : NSNotFound];
+	}
+	
+	return _history;
+}
+
+#pragma mark App Reset Notification
+- (void) applicationWillReset : (NSNotification *) theNotification
+{
+	;
+}
+- (void) applicationDidReset : (NSNotification *) theNotification
+{
+	// 履歴を一旦消去し、現在表示中のスレッドを追加。
+	[self clearThreadHistories];
+	[self noteHistoryThreadChanged : 0];
+}
+
+#pragma mark IBAction
+- (IBAction) historyMenuPerformForward : (id) sender
+{
+	[self performHistoryWithRelativeIndex : 1];
+}
+- (IBAction) historyMenuPerformBack : (id) sender
+{
+	[self performHistoryWithRelativeIndex : -1];
+}
 @end

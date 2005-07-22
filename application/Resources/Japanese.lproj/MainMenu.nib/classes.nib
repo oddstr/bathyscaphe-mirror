@@ -45,6 +45,8 @@
                 findPreviousText = id; 
                 findTextInSelection = id; 
                 googleSearch = id; 
+                historyMenuPerformBack = id; 
+                historyMenuPerformForward = id; 
                 openBBSInBrowser = id; 
                 openDefaultNoNameInputPanel = id; 
                 openInBrowser = id; 

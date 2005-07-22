@@ -10,8 +10,6 @@
 
 #define NSAppKitVersionNumber10_3 743	// ここに書かなくてもいいと思うが、念のため
 
-static NSString *const kUseTurupetaKey = @"Use Unified Look";
-
 @implementation BSWindow
 - (id) initWithContentRect : (NSRect)contentRect
 				 styleMask : (unsigned int) styleMask
@@ -19,15 +17,10 @@ static NSString *const kUseTurupetaKey = @"Use Unified Look";
 					 defer : (BOOL)flag
 {
 	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_3) {
-
-		//NSUserDefaults *defaults_ = [NSUserDefaults standardUserDefaults];
-
-		//if ([defaults_ boolForKey : kUseTurupetaKey]) {
 			// すでに nib ファイルでメタル or つるぺたになっている場合は、つるぺた Mask を加えない
-			if ((styleMask & NSTexturedBackgroundWindowMask) == 0 & (styleMask & NSUnifiedTitleAndToolbarWindowMask) == 0) {
-				styleMask |= NSUnifiedTitleAndToolbarWindowMask;
-			}
-		//}
+		if ((styleMask & NSTexturedBackgroundWindowMask) == 0 & (styleMask & NSUnifiedTitleAndToolbarWindowMask) == 0) {
+			styleMask |= NSUnifiedTitleAndToolbarWindowMask;
+		}
 	}
 	return [super initWithContentRect : contentRect
 							styleMask : styleMask

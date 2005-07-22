@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.3 2005/07/09 00:01:49 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.4 2005/07/22 13:21:02 tsawada2 Exp $
   * 
   * CMRThreadViewer.h
   *
@@ -130,6 +130,20 @@
 - (IBAction) showThreadWithMenuItem : (id) sender;
 @end
 
+
+@interface CMRThreadViewer(History)
+// History: ThreadSignature...
+- (unsigned) historyIndex;
+- (void) setHistoryIndex : (unsigned) aHistoryIndex;
+- (NSMutableArray *) threadHistoryArray;
+
+- (id) threadIdentifierFromHistoryWithRelativeIndex : (int) relativeIndex;
+- (void) noteHistoryThreadChanged : (int) relativeIndex;
+- (void) clearThreadHistories;
+
+- (IBAction) historyMenuPerformForward : (id) sender;
+- (IBAction) historyMenuPerformBack : (id) sender;
+@end
 
 
 @interface CMRThreadViewer(MoveAction)

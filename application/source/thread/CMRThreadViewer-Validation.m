@@ -276,8 +276,24 @@ static int messageMaskForTag(int tag)
 	   )
 	{ return YES; }
 	
+	if (action_ == @selector(historyMenuPerformForward:)) {
+		if([self shouldShowContents]) {
+			return ([self threadIdentifierFromHistoryWithRelativeIndex : 1] != nil);
+		} else {
+			return NO;
+		}
+	}
+	
+	if (action_ == @selector(historyMenuPerformBack:)) {
+		if([self shouldShowContents]) {
+			return ([self threadIdentifierFromHistoryWithRelativeIndex : -1] != nil);
+		} else {
+			return NO;
+		}
+	}
+
 	if (action_ == @selector(showThreadWithMenuItem:))
-		return YES;//[self shouldShowContents];
+		return YES;
 
 	if (action_ == @selector(findTextInSelection:) ||
 	   action_ == @selector(copySelectedResURL:)

@@ -186,6 +186,37 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 											   action : @selector(cancellCurrentTask:)
 											   target : nil];
 	[item_ setImage : [NSImage imageAppNamed : st_stopTask_ImageName]];
+	
+	// é¿å±íÜÅB1.0.2 ê≥éÆî≈Ç≈ÇÕçÃópÇµÇ»Ç¢ÅB
+	/*
+	item_ = [self appendToolbarItemWithItemIdentifier : @"History"
+									localizedLabelKey : @"Back/Forward"
+							 localizedPaletteLabelKey : @"Back/Forward"
+								  localizedToolTipKey : @"Test"
+											   action : NULL
+											   target : nil];
+	{
+		NSSegmentedControl	*tmp_;
+		id  theCell = nil;
+		tmp_ = [[NSSegmentedControl alloc] initWithFrame : NSMakeRect(0,0,59,25)];
+    
+		//  back and forward.
+		[ tmp_ setSegmentCount: 2 ];
+		[ tmp_ setImage: [ NSImage imageNamed: @"HistoryBack" ] forSegment: 0 ];
+		[ tmp_ setImage: [ NSImage imageNamed: @"HistoryForward" ] forSegment: 1 ];
+		theCell = [ tmp_ cell ];
+		[ theCell setTrackingMode: NSSegmentSwitchTrackingMomentary ];
+
+		[item_ setView : tmp_];
+		if([item_ view] != nil){
+			NSSize		size_;
+		
+			size_ = [tmp_ bounds].size;
+			[item_ setMinSize : size_];
+			[item_ setMaxSize : size_];
+		}
+	}
+	*/
 }
 
 - (void) cofigureToolbar : (NSToolbar *) aToolbar
@@ -236,6 +267,7 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 				[self replyItemIdentifier],
 				[self toggleOnlineModeIdentifier],
 				[self launchCMLFIdentifier],
+				//@"History",
 				NSToolbarSeparatorItemIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,
 				NSToolbarSpaceItemIdentifier,
