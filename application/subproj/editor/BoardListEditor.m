@@ -1,5 +1,5 @@
 /**
- * $Id: BoardListEditor.m,v 1.2 2005/05/22 05:58:39 tsawada2 Exp $
+ * $Id: BoardListEditor.m,v 1.3 2005/07/22 16:42:21 tsawada2 Exp $
  * 
  * BoardListEditor.m
  *
@@ -413,7 +413,7 @@
 		} else {
 			id userList = [self userList];
 
-			if ([userList containsItemWithName : name_]) {
+			if ([userList containsItemWithName : name_  ofType : (BoardListFavoritesItem | BoardListBoardItem)]) {
 				[sheet close];	
 				NSBeep();
 				NSBeginInformationalAlertSheet(
@@ -513,7 +513,7 @@
 			newItem_ = (NSMutableDictionary *)contextInfo;
 			oldname_ = [newItem_ objectForKey : BoardPlistNameKey];
 		
-			if ([userList containsItemWithName : name_] &&
+			if ([userList containsItemWithName : name_ ofType : (BoardListFavoritesItem | BoardListCategoryItem)] &&
 				(NO == [oldname_ isEqualToString : name_])) {
 				[sheet close];	
 				NSBeep();
@@ -537,7 +537,7 @@
 
 		} else {
 			// êVãKÉJÉeÉSÉäÇÃí«â¡
-			if ([userList containsItemWithName : name_]) {
+			if ([userList containsItemWithName : name_ ofType : (BoardListFavoritesItem | BoardListCategoryItem)]) {
 				[sheet close];	
 				NSBeep();
 				NSBeginInformationalAlertSheet(
@@ -580,7 +580,7 @@
 		[[self userListTable] reloadData];
 	}
 	
-	[sheet close];	
+	[sheet close];
 }
 
 - (void) didEndRemoveSheet : (NSWindow *) theWindow
@@ -600,8 +600,8 @@
 		
 		index_ = [rowIndex_ intValue];
 		item_ = [[self userListTable] itemAtRow : index_];
-		[[self userList] removeItemWithName : 
-				[item_ objectForKey : BoardPlistNameKey]];
+		[[self userList] removeItemWithName : [item_ objectForKey : BoardPlistNameKey]
+									 ofType : [[[self userList] class] typeForItem : item_]];
 	}
 	[[self userListTable] reloadData];
 	[[self userListTable] deselectAll : nil];

@@ -1,5 +1,5 @@
 /**
-  * $Id: BoardList-OVDataSource.m,v 1.3 2005/07/09 01:03:03 tsawada2 Exp $
+  * $Id: BoardList-OVDataSource.m,v 1.4 2005/07/22 16:42:21 tsawada2 Exp $
   * 
   * BoardList-OVDataSource.m
   *
@@ -225,8 +225,10 @@ not_writtable:
 				index -= 1;
 			}
 		}
+		/* ここで名前だけで判断すると、「家電製品」が困っちゃう */
 		name_ = [dropped_ objectForKey : BoardPlistNameKey];
-		[self removeItemWithName : name_];
+		//[self removeItemWithName : name_];
+		[self removeItemWithName : name_ ofType : [[self class] typeForItem : dropped_]];
 		if(index < 0 || index >= [target_ count])
 			[target_ addObject : dropped_];
 		else

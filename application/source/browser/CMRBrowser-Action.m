@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.12 2005/07/22 13:21:02 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.13 2005/07/22 16:42:21 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -666,7 +666,7 @@ enum {
 		} else {
 			id userList = [[BoardManager defaultManager] userList];
 
-			if ([userList containsItemWithName : name_]) {
+			if ([userList containsItemWithName : name_ ofType : (BoardListBoardItem | BoardListFavoritesItem)]) {
 				[sheet close];	
 				NSBeep();
 				NSBeginInformationalAlertSheet(
@@ -722,7 +722,7 @@ enum {
 			return;
 		}
 
-		if ([userList containsItemWithName : name_]) {
+		if ([userList containsItemWithName : name_ ofType : (BoardListFavoritesItem | BoardListCategoryItem)]) {
 			[sheet close];	
 			NSBeep();
 			NSBeginInformationalAlertSheet(
@@ -787,7 +787,7 @@ enum {
 			newItem_ = (NSMutableDictionary *)contextInfo;
 			oldname_ = [newItem_ objectForKey : BoardPlistNameKey];
 		
-			if ([userList containsItemWithName : value_] && (NO == [oldname_ isEqualToString : value_])) {
+			if ([userList containsItemWithName : value_ ofType : (BoardListFavoritesItem | BoardListCategoryItem)] && (NO == [oldname_ isEqualToString : value_])) {
 				[sheet close];
 				NSBeep();
 				NSBeginInformationalAlertSheet(
@@ -812,7 +812,8 @@ enum {
 {
 	switch (returnCode) {
 	case NSAlertDefaultReturn:
-		[[[BoardManager defaultManager] userList] removeItemWithName : [contextInfo objectForKey : BoardPlistNameKey]];
+		[[[BoardManager defaultManager] userList] removeItemWithName : [contextInfo objectForKey : BoardPlistNameKey]
+															  ofType : [[BoardList class] typeForItem : contextInfo]];
 		[[self boardListTable] reloadData];
 		[[self boardListTable] deselectAll : nil];
 		break;

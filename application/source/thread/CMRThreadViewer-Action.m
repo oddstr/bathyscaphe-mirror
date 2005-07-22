@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.5 2005/07/09 00:01:49 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.6 2005/07/22 16:42:21 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -167,9 +167,7 @@
 		id o = [sender representedObject];
 		historyItem = o;
 	}
-	// make text area first responder
 	[self setThreadContentWithThreadIdentifier : historyItem];
-	[self focus : sender];
 }
  /*
  * RELOAD THREAD

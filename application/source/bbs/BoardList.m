@@ -1,5 +1,5 @@
 /**
- * $Id: BoardList.m,v 1.1 2005/05/11 17:51:03 tsawada2 Exp $
+ * $Id: BoardList.m,v 1.2 2005/07/22 16:42:21 tsawada2 Exp $
  * 
  * BoardList.m
  *
@@ -164,12 +164,12 @@ static NSDictionary *_searchItemInArray(NSMutableArray   *items,
 	name_ = [item objectForKey : BoardPlistNameKey];
 	if(nil == name_) return NO;
 	
-	if([self containsItemWithName : name_])
+	if([self containsItemWithName : name_ ofType : [[self class] typeForItem : item]])
 		return NO;
 	
 	item_ = [self itemForAttribute : [target objectForKey : BoardPlistNameKey]
 					  attributeKey : BoardPlistNameKey
-					     seachMask : (BoardListBoardItem | BoardListCategoryItem)
+					     seachMask : [[self class] typeForItem : item]//(BoardListBoardItem | BoardListCategoryItem)
 				     containsArray : &container_
 					       atIndex : &index_];
 	index_++;
@@ -200,6 +200,21 @@ static NSDictionary *_searchItemInArray(NSMutableArray   *items,
 				 forKey : BoardPlistURLKey];
 	}
 	[self postBoardListDidChangeNotification];
+}
+- (BOOL) containsItemWithName : (NSString     *) name
+					   ofType : (BoardListItemType) aType
+{
+	if ((aType & BoardListFavoritesItem) > 0) {
+		if ([name isEqualToString : CMXFavoritesDirectoryName]) return YES;
+	}
+	NSDictionary *item_;
+
+	item_ = [self itemForAttribute : name
+					  attributeKey : BoardPlistNameKey
+					     seachMask : aType
+				     containsArray : NULL
+					       atIndex : NULL];
+	return (item_ != nil);
 }
 - (BOOL) containsItemWithName : (NSString     *) name
 {
@@ -233,6 +248,23 @@ static NSDictionary *_searchItemInArray(NSMutableArray   *items,
     [container_ replaceObjectAtIndex:index_ withObject:item_];
     
     [self item:item_ setName:aName setURL:[anURL absoluteString]];
+}
+- (void) removeItemWithName : (NSString *) name
+					 ofType : (BoardListItemType) aType
+{
+	NSDictionary   *item_;
+	NSMutableArray *container_;
+	unsigned int    index_;
+	
+	item_ = [self itemForAttribute : name
+					  attributeKey : BoardPlistNameKey
+					     seachMask : aType
+				     containsArray : &container_
+					       atIndex : &index_];
+	if(item_ != nil){
+		[container_ removeObjectAtIndex : index_];
+	}
+	[self postBoardListDidChangeNotification];
 }
 - (void) removeItemWithName : (NSString *) name
 {
@@ -289,27 +321,26 @@ static NSDictionary *_searchItemInArray(NSMutableArray   *items,
 	url_ = [item objectForKey : BoardPlistURLKey];
 	name_ = [item objectForKey : BoardPlistNameKey];
 	if( NULL != url_) {
-                 item_ = [self itemForAttribute : url_
-                         attributeKey : BoardPlistURLKey
-                         seachMask : BoardListBoardItem
+		item_ = [self itemForAttribute : url_
+						  attributeKey : BoardPlistURLKey
+							 seachMask : BoardListBoardItem
                          containsArray : &container_
-                         atIndex : &index_];
-         } else if ( NULL != name_ ) {
-                 item_ = [self itemForAttribute : name_
-                         attributeKey : BoardPlistNameKey
-                         seachMask : (BoardListBoardItem | 
-BoardListCategoryItem)
+							   atIndex : &index_];
+	} else if ( NULL != name_ ) {
+		item_ = [self itemForAttribute : name_
+						  attributeKey : BoardPlistNameKey
+							 seachMask : (BoardListBoardItem | BoardListCategoryItem)
                          containsArray : &container_
-                         atIndex : &index_];
-         } else {
-                 return;
-         }
+							   atIndex : &index_];
+	} else {
+		return;
+	}
 	
 	if ( [item_ isEqual: [FavoritesList favoritesItem]] ) {
 		return;
 	}
 
-         switch ( direction ) {
+	switch ( direction ) {
          case 0:
              if ( index_ == 0 ) {
                  return;
@@ -322,14 +353,14 @@ BoardListCategoryItem)
              }
              insert_index_ = index_ + 1;
              break;
-         }
-		 if(NSNotFound == insert_index_)
-			return;
-		
-         [item retain];
-         [container_ removeObjectAtIndex:index_];
-         [container_ insertObject:item atIndex:insert_index_];
-         [item release];
+	}
+	if(NSNotFound == insert_index_)
+		return;
+
+	[item retain];
+	[container_ removeObjectAtIndex:index_];
+	[container_ insertObject:item atIndex:insert_index_];
+	[item release];
 	[self postBoardListDidChangeNotification];
 }
 - (NSDictionary *) itemForName : (NSString *) name

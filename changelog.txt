@@ -1,3 +1,16 @@
+2005-07-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-Action.m
+		3ペイン時に「履歴」メニューからスレッドを選択した際、フォーカスがスレッド一覧に強制的に
+		移動してしまう問題を解決。（4スレ413）
+	* application/subproj/editor/BoardListEditor.m
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/bbs/BoardList.m
+	* application/source/bbs/BoardList-OVDataSource.m
+		[Bug 6329] 掲示板と同じ名前のカテゴリを作成できない、また、掲示板と同じ名前のカテゴリが
+		存在しているとき、その掲示板をドラッグすると予期せぬ結果を引き起こす問題を解決。
+		- 掲示板と同じ名前のカテゴリが存在する事は、認めるようにした。
+		- 同じ名前のカテゴリを複数作る事は引き続き許可しない。また、「お気に入り」という名前の掲示板／カテゴリを
+		　作成する事も認めない。
 2005-07-22 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadViewer-OwnHistory.m
 	* application/source/thread/CMRThreadViewer-Validation.m

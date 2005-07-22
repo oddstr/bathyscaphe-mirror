@@ -1,5 +1,5 @@
 /**
- * $Id: BoardList.h,v 1.1 2005/05/11 17:51:03 tsawada2 Exp $
+ * $Id: BoardList.h,v 1.2 2005/07/22 16:42:21 tsawada2 Exp $
  * 
  * BoardList.h
  *
@@ -59,7 +59,11 @@ typedef enum _BoardListItemType {
        setURL : (NSString     *) url;
 
 
+- (BOOL) containsItemWithName : (NSString *) name
+					   ofType : (BoardListItemType) aType;
 - (BOOL) containsItemWithName : (NSString *) name;
+- (void) removeItemWithName : (NSString *) name
+					 ofType : (BoardListItemType) aType;
 - (void) removeItemWithName : (NSString *) name;
 
 - (NSURL *) URLForBoardName : (NSString *) boardName;
