@@ -1,6 +1,6 @@
 //: NSTableColumn+CMXAdditions.m
 /**
-  * $Id: NSTableColumn+CMXAdditions.m,v 1.3 2005/06/18 19:09:16 tsawada2 Exp $
+  * $Id: NSTableColumn+CMXAdditions.m,v 1.4 2005/07/23 08:07:28 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -83,7 +83,23 @@ static NSTextAlignment objectValue2NSTextAlignment(id obj);
 		[self setWidth : [rep floatForKey : SGTableColumnRepWidthKey]];
 		[self setMinWidth : [rep floatForKey : SGTableColumnRepMinWidthKey]];
 		[self setMaxWidth : [rep floatForKey : SGTableColumnRepMaxWidthKey]];
-		[self setResizable : [rep boolForKey : SGTableColumnRepResizableKey]];
+
+		// CocoMonar から修正を取り込み（Thx! >minamie 氏）
+		// プロパティリストのResizableとマスクの対応
+		// true: NSTableColumnUserResizingMask
+		// false: NSTableColumnNoResizing
+		if ( [self respondsToSelector : @selector(setResizingMask:)] ) {
+			unsigned _mask = NSTableColumnNoResizing;
+
+			if ( [rep boolForKey : SGTableColumnRepResizableKey] )
+				_mask = NSTableColumnUserResizingMask;
+
+			[self setResizingMask:_mask];
+		} else {
+			// Method setResizable in class NSTableView is deprecated on 10.4 and later.
+			[self setResizable : [rep boolForKey : SGTableColumnRepResizableKey]];
+		}
+
 		[self setEditable : [rep boolForKey : SGTableColumnRepEditableKey]];
 		
 		// Text/Contents Alignment

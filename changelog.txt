@@ -1,4 +1,7 @@
 2005-07-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/extensions/NSTableColumn+CMXAdditions.m
+		Mac OS X 10.4 以降で、起動時にコンソールに「setResizable: は deprecated じゃ！」と警告が
+		吐き出される問題を修正（CocoMonar での修正を取り込み）。
 	* application/source/thread/CMRThreadViewer-Action.m
 		3ペイン時に「履歴」メニューからスレッドを選択した際、フォーカスがスレッド一覧に強制的に
 		移動してしまう問題を解決。（4スレ413）
