@@ -9,7 +9,6 @@
                 chooseApplication = id; 
                 enableProxy = id; 
                 enableProxyWhenPOST = id; 
-                openHelpForAdvancedPane = id; 
                 syncSystemConfigProxy = id; 
             }; 
             CLASS = AdvancedPrefController; 
@@ -17,7 +16,6 @@
             OUTLETS = {
                 "_appNameField" = id; 
                 "_chooseAppButton" = NSButton; 
-                "_helpButton" = NSButton; 
                 "_openLinkInBgCheckBox" = NSButton; 
                 "_proxyPortField" = NSTextField; 
                 "_proxyURLField" = NSTextField; 
@@ -36,6 +34,7 @@
             SUPERCLASS = NSObject; 
         }, 
         {
+            ACTIONS = {openHelp = id; }; 
             CLASS = PreferencesController; 
             LANGUAGE = ObjC; 
             OUTLETS = {"_contentView" = NSView; }; 

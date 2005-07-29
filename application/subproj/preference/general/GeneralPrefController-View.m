@@ -1,5 +1,5 @@
 /**
-  * $Id: GeneralPrefController-View.m,v 1.3 2005/06/16 15:19:58 tsawada2 Exp $
+  * $Id: GeneralPrefController-View.m,v 1.4 2005/07/29 21:18:28 tsawada2 Exp $
   * 
   * GeneralPrefController-View.m
   *
@@ -31,10 +31,6 @@
 {
 	return _autoscrollMaskCheckBox;
 }
-/*- (NSMatrix *) drawerEdgeMaskMatrix
-{
-	return _drawerEdgeMaskMatrix;
-}*/
 - (NSButton *) collectByNewCheckBox
 {
 	return _collectByNewCheckBox;
@@ -83,11 +79,6 @@
 	if ([[self collectByNewCheckBox] isEnabled]) {
 		[[self collectByNewCheckBox] setState : ([[self preferences] collectByNew] ? NSOnState : NSOffState)];
 	}
-
-	//int	tag_;
-	//tag_ = (int)[[self preferences] boardListDrawerEdge];
-	//[[self drawerEdgeMaskMatrix] deselectSelectedCell];
-	//[[self drawerEdgeMaskMatrix] selectCellWithTag : tag_];
 }
 - (void) updateThreadUIComponents
 {
@@ -150,7 +141,6 @@
 	
 	[self setupListUIComponents];
 	[self setupThreadUIComponents];
-	//[self setupProxyUIComponents];
 	
 	[self updateUIComponents];
 }

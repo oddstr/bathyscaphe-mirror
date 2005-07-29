@@ -151,6 +151,10 @@
 {
 	return PPReplyDefaultIdentifier;
 }
+- (NSString *) helpKeyword
+{
+	return PPLocalizedString(@"Help_Reply");
+}
 - (NSString *) label
 {
 	return PPLocalizedString(kLabelKey);

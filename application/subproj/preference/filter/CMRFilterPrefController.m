@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFilterPrefController.m,v 1.2 2005/05/22 05:58:39 tsawada2 Exp $
+  * $Id: CMRFilterPrefController.m,v 1.3 2005/07/29 21:18:28 tsawada2 Exp $
   * 
   * CMRFilterPrefController.m
   *
@@ -82,10 +82,6 @@
 {
 	[NSApp endSheet : [self detailSheet]];
 }
-- (IBAction) openHelpForFilterPanel : (id) sender
-{
-	[[NSHelpManager sharedHelpManager] findString:PPLocalizedString(@"Help_Filter") inBook:PPLocalizedString(@"HelpBookName")];
-}
 @end
 
 
@@ -95,6 +91,10 @@
 - (NSString *) identifier
 {
 	return PPFilterPreferencesIdentifier;
+}
+- (NSString *) helpKeyword
+{
+	return PPLocalizedString(@"Help_Filter");
 }
 - (NSString *) label
 {

@@ -1,5 +1,5 @@
 /**
-  * $Id: FCController.h,v 1.2 2005/06/12 01:36:15 tsawada2 Exp $
+  * $Id: FCController.h,v 1.3 2005/07/29 21:18:28 tsawada2 Exp $
   * 
   * FCController.h
   *
@@ -81,4 +81,5 @@
 - (IBAction) fixRowHeightToFontOfBoardList : (id) sender;
 
 - (IBAction) changePopUpScrollerSize : (id) sender;
+- (void) changeFontOf : (int) tagNum To: (NSFont *) newFont;
 @end

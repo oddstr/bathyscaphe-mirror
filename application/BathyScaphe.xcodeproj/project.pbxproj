@@ -1738,6 +1738,15 @@
 			name = SplitView;
 			sourceTree = "<group>";
 		};
+		87BE5035089ACDE8009EFBC5 /* Advanced */ = {
+			isa = PBXGroup;
+			children = (
+				876415700840A95000F66D78 /* AdvancedPrefController.h */,
+				876415710840A95000F66D78 /* AdvancedPrefController.m */,
+			);
+			name = Advanced;
+			sourceTree = "<group>";
+		};
 		87D64F9B0821140000C44651 /* Documents */ = {
 			isa = PBXGroup;
 			children = (
@@ -1867,8 +1876,6 @@
 			children = (
 				871CA15508585F8100C3A044 /* Info-preferences.plist */,
 				F324DB6404C6959800A80005 /* PreferencePanes_Prefix.h */,
-				876415700840A95000F66D78 /* AdvancedPrefController.h */,
-				876415710840A95000F66D78 /* AdvancedPrefController.m */,
 				87558532085BEF7800D2C2A6 /* BSIconTextFieldCell.h */,
 				87558533085BEF7800D2C2A6 /* BSIconTextFieldCell.m */,
 				87AC05B5082D3E4200823807 /* FontWell.h */,
@@ -1880,6 +1887,7 @@
 				F324DB3204C6959800A80005 /* Account */,
 				F324DB3804C6959800A80005 /* Appearance */,
 				F324DB6504C6959800A80005 /* Reply */,
+				87BE5035089ACDE8009EFBC5 /* Advanced */,
 				F30FC4E604CBFA3B00A80005 /* Resources */,
 			);
 			path = preference;

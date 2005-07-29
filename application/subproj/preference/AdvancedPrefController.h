@@ -23,8 +23,6 @@
 
 	IBOutlet NSButton		*_chooseAppButton;
 	IBOutlet id	_appNameField;
-
-	IBOutlet NSButton		*_helpButton;
 }
 
 // Proxy
@@ -39,8 +37,6 @@
 
 - (IBAction) chooseApplication : (id) sender;
 
-- (IBAction) openHelpForAdvancedPane : (id) sender;
-
 // Proxy
 - (NSButton *) usesProxyCheckBox;
 - (NSButton *) proxyWhenPOSTCheckBox;
@@ -54,6 +50,4 @@
 - (id) appNameField;
 
 - (void) updateProxyUIComponents;
-
-
 @end

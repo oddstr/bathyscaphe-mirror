@@ -16,14 +16,12 @@
                 changeMailAttachShown = id; 
                 changeOpenInBrowserType = id; 
                 changeShowsAll = id; 
-                openHelpForGeneralPane = id; 
             }; 
             CLASS = GeneralPrefController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 "_autoscrollMaskCheckBox" = NSMatrix; 
                 "_collectByNewCheckBox" = NSButton; 
-                "_helpButton" = NSButton; 
                 "_ignoreCharsField" = NSTextField; 
                 "_isMailShownCheckBox" = NSButton; 
                 "_mailAttachCheckBox" = NSButton; 
@@ -34,6 +32,7 @@
             SUPERCLASS = PreferencesController; 
         }, 
         {
+            ACTIONS = {openHelp = id; }; 
             CLASS = PreferencesController; 
             LANGUAGE = ObjC; 
             OUTLETS = {"_contentView" = NSView; }; 

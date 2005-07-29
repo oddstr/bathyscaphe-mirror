@@ -1,5 +1,5 @@
 /**
-  * $Id: GeneralPrefController.m,v 1.4 2005/06/16 15:19:58 tsawada2 Exp $
+  * $Id: GeneralPrefController.m,v 1.5 2005/07/29 21:18:28 tsawada2 Exp $
   * 
   * GeneralPrefController.m
   *
@@ -36,13 +36,6 @@
 	
 	[[self preferences] setThreadsListAutoscrollMask : mask_];
 }
-/*- (IBAction) changeDrawerEdgeMask : (id) sender
-{
-	int		mask_;
-	mask_ = [[[self drawerEdgeMaskMatrix] selectedCell] tag];
-	
-	[[self preferences] setBoardListDrawerEdge : (NSRectEdge)mask_];
-}*/
 
 - (IBAction) changeIgnoreCharacters : (id) sender
 {
@@ -80,11 +73,6 @@
     
     [[self preferences] setOpenInBrowserType : [menuItem tag]];
 }
-
-- (IBAction) openHelpForGeneralPane : (id) sender
-{
-	[[NSHelpManager sharedHelpManager] findString:PPLocalizedString(@"Help_General") inBook:PPLocalizedString(@"HelpBookName")];
-}
 @end
 
 
@@ -93,6 +81,10 @@
 - (NSString *) identifier
 {
 	return PPGeneralPreferencesIdentifier;
+}
+- (NSString *) helpKeyword
+{
+	return PPLocalizedString(@"Help_General");
 }
 - (NSString *) label
 {

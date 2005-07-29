@@ -1,3 +1,10 @@
+2005-07-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/
+		ほぼすべてのファイルを微修正。
+		- HelpButton 用の IBAction をサブクラスごとにバラバラに持つのではなく、PreferenceController にまとめた。
+		- 「書き込み」ペインのレイアウト修正、ヘルプボタン追加、表記統一、nib のフォーマットを新しいものに変更。
+		- 「表示」ペインにヘルプボタン追加、行の高さなどの数値入力がすぐに反映されない問題を修正。
+=================================================
 2005-07-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/BathyScapheHelp/
 		ヘルプの更新開始。まだ途中。

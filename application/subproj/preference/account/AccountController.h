@@ -24,10 +24,6 @@
 	IBOutlet NSButton			*m_shouldLoginBe2chCheckBox;
 	
 	IBOutlet NSButton			*m_saveButton;
-	//IBOutlet NSButton			*m_deleteButton;
-	
-	//IBOutlet NSButton			*m_kagoButton;
-	IBOutlet NSButton			*m_helpButton;
 }
 @end
 
@@ -35,7 +31,6 @@
 
 @interface AccountController(Action)
 - (IBAction) saveAccount : (id) sender;
-//- (IBAction) deleteAccount : (id) sender;
 
 - (IBAction) changeShouldSavePassword : (id) sender;
 - (IBAction) changeShouldLoginIfNeeded : (id) sender;
@@ -43,7 +38,4 @@
 
 - (IBAction) changeAddressField : (id) sender;
 - (IBAction) changeCodeField : (id) sender;
-
-//- (IBAction) openURLFor2chRegistration : (id) sender;
-- (IBAction) openHelpForAccountPanel : (id) sender;
 @end

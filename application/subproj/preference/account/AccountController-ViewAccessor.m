@@ -37,13 +37,6 @@
 {
 	return m_saveButton;
 }
-/*
-- (NSButton *) deleteButton
-{
-	return m_deleteButton;
-}
-*/
-
 - (NSButton *) shouldLoginCheckBox
 {
 	return m_shouldLoginCheckBox;
@@ -51,17 +44,6 @@
 - (NSButton *) shouldLoginBe2chCheckBox
 {
 	return m_shouldLoginBe2chCheckBox;
-}
-
-/*
-- (NSButton *) kagoButton
-{
-	return m_kagoButton;
-}
-*/
-- (NSButton *) helpButton
-{
-	return m_helpButton;
 }
 @end
 
@@ -123,7 +105,6 @@
 	[[self userIDField] setStringValue : account_];
 	[[self beMailAddressField] setStringValue : beMail_];
 	[[self beCodeField] setStringValue : beCode_];
-	//[[self deleteButton] setEnabled : hasAccountInKeychain_];
 }
 @end
 
@@ -134,12 +115,12 @@
 {
 	return PPLocalizedString(key);
 }
-- (NSString *) createNewAccountString
+/*- (NSString *) createNewAccountString
 {
 	return [self localizableStringsForKey : APP_ACCOUNTCONTROLLER_CREATENEWACCOUNT];
 }
 - (NSString *) saveChangedString
 {
 	return [self localizableStringsForKey : APP_ACCOUNTCONTROLLER_SAVE_CHANGED];
-}
+}*/
 @end

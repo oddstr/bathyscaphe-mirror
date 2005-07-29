@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesController.h,v 1.1 2005/05/11 17:51:10 tsawada2 Exp $
+  * $Id: PreferencesController.h,v 1.2 2005/07/29 21:18:28 tsawada2 Exp $
   * 
   * PreferencesController.h
   *
@@ -49,6 +49,8 @@
 				    with : (SEL       ) boolValueSEL;
 - (void) syncSelectedTag : (NSMatrix *) aMatrix
 				    with : (SEL       ) boolValueSEL;
+
+- (IBAction) openHelp : (id) sender;
 @end
 
 
@@ -56,6 +58,7 @@
 @interface PreferencesController(Toolbar)
 - (NSToolbarItem *) makeToolbarItem;
 - (NSString *) identifier;
+- (NSString *) helpKeyword;
 - (NSString *) label;
 - (NSString *) paletteLabel;
 - (NSString *) toolTip;

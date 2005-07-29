@@ -7,14 +7,12 @@
                 changeUsesSpamMessageCorpus = id; 
                 closeDetailSheet = id; 
                 openDetailSheet = id; 
-                openHelpForFilterPanel = id; 
                 resetSpamDB = id; 
             }; 
             CLASS = CMRFilterPrefController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 "_detailSheet" = NSWindow; 
-                "_helpbutton" = NSButton; 
                 "_spamFilterBehaviorMatrix" = NSMatrix; 
                 "_spamFilterEnabledCheckBox" = NSButton; 
                 "_spamMessageCorpusTextView" = NSTextView; 
@@ -24,6 +22,7 @@
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
+            ACTIONS = {openHelp = id; }; 
             CLASS = PreferencesController; 
             LANGUAGE = ObjC; 
             OUTLETS = {"_contentView" = NSView; }; 

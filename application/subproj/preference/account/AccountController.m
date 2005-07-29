@@ -3,7 +3,7 @@
 
 
 //////////////////////////////////////////////////////////////////////
-////////////////////// [ íËêîÇ‚É}ÉNÉçíuä∑ ] //////////////////////////
+////////////////////// [ ÂÆöÊï∞„ÇÑ„Éû„ÇØ„É≠ÁΩÆÊèõ ] //////////////////////////
 //////////////////////////////////////////////////////////////////////
 #define    LOAD_NIB_NAME    @"AccountPane"
 
@@ -52,19 +52,6 @@
 	
 }
 
-/*
-- (IBAction) deleteAccount : (id) sender
-{
-	if([[self preferences] deleteAccount]){
-		[[self saveButton] setEnabled : NO];
-	}else{
-		
-	}
-	[self updateUIComponents];
-}
-*/
-
-
 - (IBAction) changeShouldSavePassword : (id) sender
 {
 	BOOL		passwordFieldEnabled_;
@@ -110,19 +97,6 @@
 {
 	[[self preferences] setBe2chAccountCode : [sender stringValue]];
 }
-
-/*
-- (IBAction) openURLFor2chRegistration : (id) sender
-{
-	UTILAssertKindOfClass(sender, NSButton);
-	[[NSWorkspace sharedWorkspace] openURL :
-		[[self preferences] x2chRegistrationPageURL]];
-}
-*/
-- (IBAction) openHelpForAccountPanel : (id) sender
-{
-	[[NSHelpManager sharedHelpManager] findString:PPLocalizedString(@"Help_Account") inBook:PPLocalizedString(@"HelpBookName")];
-}
 @end
 
 
@@ -131,6 +105,10 @@
 - (NSString *) identifier
 {
 	return PPAccountSettingsIdentifier;
+}
+- (NSString *) helpKeyword
+{
+	return PPLocalizedString(@"Help_Account");
 }
 - (NSString *) label
 {

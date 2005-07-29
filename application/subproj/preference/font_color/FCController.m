@@ -182,6 +182,10 @@
 {
 	return PPFontsAndColorsIdentifier;
 }
+- (NSString *) helpKeyword
+{
+	return PPLocalizedString(@"Help_View");
+}
 - (NSString *) label
 {
 	return PPLocalizedString(kLabelKey);

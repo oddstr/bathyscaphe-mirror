@@ -1,5 +1,5 @@
 /**
-  * $Id: GeneralPrefController.h,v 1.3 2005/06/16 15:19:58 tsawada2 Exp $
+  * $Id: GeneralPrefController.h,v 1.4 2005/07/29 21:18:28 tsawada2 Exp $
   * 
   * GeneralPrefController.h
   *
@@ -15,7 +15,6 @@
 {
 	// List
 	IBOutlet NSMatrix		*_autoscrollMaskCheckBox;
-	//IBOutlet NSMatrix		*_drawerEdgeMaskMatrix;
 	IBOutlet NSButton		*_collectByNewCheckBox;
 	IBOutlet NSTextField	*_ignoreCharsField;
 	
@@ -25,13 +24,10 @@
 	IBOutlet NSButton		*_isMailShownCheckBox;
 	IBOutlet NSButton		*_showsAllCheckBox;
 	IBOutlet NSPopUpButton	*_openInBrowserPopUp;
-	
-	IBOutlet NSButton		*_helpButton;
 }
 
 // List
 - (IBAction) changeAutoscrollMask : (id) sender;
-//- (IBAction) changeDrawerEdgeMask : (id) sender;
 - (IBAction) changeIgnoreCharacters : (id) sender;
 - (IBAction) changeCollectByNew : (id) sender;
 // Thread
@@ -40,8 +36,6 @@
 - (IBAction) changeMailAddressShown : (id) sender;
 - (IBAction) changeShowsAll : (id) sender;
 - (IBAction) changeOpenInBrowserType : (id) sender;
-
-- (IBAction) openHelpForGeneralPane : (id) sender;
 @end
 
 
@@ -49,7 +43,6 @@
 @interface GeneralPrefController(View)
 // List
 - (int) autoscrollMaskForTag : (int) tag;
-//- (NSMatrix *) drawerEdgeMaskMatrix;
 - (NSMatrix *) autoscrollMaskCheckBox;
 - (NSButton *) collectByNewCheckBox;
 - (NSTextField *) ignoreCharsField;
@@ -60,6 +53,4 @@
 - (NSButton *) showsAllCheckBox;
 - (NSButton *) mailAttachCheckBox;
 - (NSPopUpButton *) openInBrowserPopUp;
-
-
 @end

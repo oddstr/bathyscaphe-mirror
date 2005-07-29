@@ -15,6 +15,7 @@
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
+            ACTIONS = {openHelp = id; }; 
             CLASS = PreferencesController; 
             LANGUAGE = ObjC; 
             OUTLETS = {"_contentView" = NSView; }; 

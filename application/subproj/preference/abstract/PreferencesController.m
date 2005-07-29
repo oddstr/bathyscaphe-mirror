@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesController.m,v 1.1 2005/05/11 17:51:10 tsawada2 Exp $
+  * $Id: PreferencesController.m,v 1.2 2005/07/29 21:18:28 tsawada2 Exp $
   * 
   * PreferencesController.m
   *
@@ -141,6 +141,15 @@
 	[aMatrix deselectSelectedCell];
 	[aMatrix selectCellWithTag : tag];
 }
+
+
+- (IBAction) openHelp : (id) sender
+{
+	[[NSHelpManager sharedHelpManager] findString : [self helpKeyword]
+										   inBook : [[NSBundle bundleForClass : [self class]] localizedStringForKey:(@"HelpBookName")
+																											  value:@""
+																											  table:nil]];
+}
 @end
 
 
@@ -160,6 +169,10 @@
 }
 
 - (NSString *) identifier
+{
+	return nil;
+}
+- (NSString *) helpKeyword
 {
 	return nil;
 }

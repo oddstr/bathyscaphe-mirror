@@ -70,6 +70,7 @@
         }, 
         {CLASS = FontWell; LANGUAGE = ObjC; SUPERCLASS = NSButton; }, 
         {
+            ACTIONS = {openHelp = id; }; 
             CLASS = PreferencesController; 
             LANGUAGE = ObjC; 
             OUTLETS = {"_contentView" = NSView; }; 

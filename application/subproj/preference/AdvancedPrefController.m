@@ -109,11 +109,6 @@
 		   contextInfo : nil];
 }
 
-- (IBAction) openHelpForAdvancedPane : (id) sender
-{
-	[[NSHelpManager sharedHelpManager] findString:PPLocalizedString(@"Help_Advanced") inBook:PPLocalizedString(@"HelpBookName")];
-}
-
 #pragma mark -
 // Proxy
 - (NSButton *) usesProxyCheckBox
@@ -245,6 +240,10 @@
 - (NSString *) identifier
 {
 	return PPAdvancedPreferencesIdentifier;
+}
+- (NSString *) helpKeyword
+{
+	return PPLocalizedString(@"Help_Advanced");
 }
 - (NSString *) label
 {

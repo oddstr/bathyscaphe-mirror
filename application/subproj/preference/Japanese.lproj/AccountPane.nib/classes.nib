@@ -7,7 +7,6 @@
                 changeShouldLoginBe2chAnytime = id; 
                 changeShouldLoginIfNeeded = id; 
                 changeShouldSavePassword = id; 
-                openHelpForAccountPanel = id; 
                 saveAccount = id; 
             }; 
             CLASS = AccountController; 
@@ -15,7 +14,6 @@
             OUTLETS = {
                 "m_beCodeField" = NSTextField; 
                 "m_beMailAddressField" = NSTextField; 
-                "m_helpButton" = NSButton; 
                 "m_passwordField" = NSSecureTextField; 
                 "m_saveButton" = NSButton; 
                 "m_shouldLoginBe2chCheckBox" = NSButton; 
@@ -32,6 +30,7 @@
             SUPERCLASS = NSObject; 
         }, 
         {
+            ACTIONS = {openHelp = id; }; 
             CLASS = PreferencesController; 
             LANGUAGE = ObjC; 
             OUTLETS = {"_contentView" = NSView; }; 
