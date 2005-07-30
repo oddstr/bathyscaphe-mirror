@@ -1,5 +1,5 @@
 /**
- * $Id: AppDefaults-Bundle.m,v 1.3 2005/06/27 16:57:28 tsawada2 Exp $
+ * $Id: AppDefaults-Bundle.m,v 1.4 2005/07/30 22:30:09 tsawada2 Exp $
  * 
  * AppDefaults-Bundle.m
  *
@@ -248,12 +248,8 @@ static NSString *const AppDefaultsHelperAppNameKey = @"Helper Application Path";
 	
 	if (tmp_) {
 		NSString	*displayName_;
-		displayName_ = [[NSBundle bundleWithPath : tmp_] objectForInfoDictionaryKey: @"CFBundleDisplayName"];
-		if (displayName_) {
-			return displayName_;
-		} else {
-			return [[tmp_ stringByDeletingPathExtension] lastPathComponent];
-		}
+		displayName_ = [[NSFileManager defaultManager] displayNameAtPath: tmp_];
+		return displayName_;
 	}
 
 	return nil;

@@ -21,12 +21,14 @@
 		The keys that this metadata importer handles.
             </note>
             <allattrs>
+		kMDItemDisplayName
 		jp_tsawada2_bathyscaphe_thread_BoardName
 		jp_tsawada2_bathyscaphe_thread_ResCount
 	    jp_tsawada2_bathyscaphe_thread_DatSize
 		jp_tsawada2_bathyscaphe_thread_DatNumber
             </allattrs>
             <displayattrs>
+		kMDItemFSName
 		kMDItemTitle
 		jp_tsawada2_bathyscaphe_thread_BoardName
 		jp_tsawada2_bathyscaphe_thread_ResCount

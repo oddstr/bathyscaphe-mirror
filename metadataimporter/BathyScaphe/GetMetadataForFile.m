@@ -52,6 +52,7 @@ Boolean GetMetadataForFile(void* thisInterface,
 {
     Boolean success=NO;
     NSDictionary *tempDict;
+	NSString *tempTitle;
 	NSArray	*tempContent;
     NSAutoreleasePool *pool;
 
@@ -64,9 +65,13 @@ Boolean GetMetadataForFile(void* thisInterface,
 		[(NSMutableDictionary *)attributes setObject:@"BathyScaphe"
 									forKey:(NSString *)kMDItemCreator];
             // set the kMDItemTitle attribute to the Title
-		[(NSMutableDictionary *)attributes setObject:[tempDict objectForKey:@"Title"]
-									forKey:(NSString *)kMDItemTitle];
-
+		tempTitle = [tempDict objectForKey:@"Title"];
+		if (tempTitle) {
+			[(NSMutableDictionary *)attributes setObject:tempTitle
+												  forKey:(NSString *)kMDItemTitle];
+			[(NSMutableDictionary *)attributes setObject:tempTitle
+												  forKey:(NSString *)kMDItemDisplayName];
+		}
 		[(NSMutableDictionary *)attributes setObject:[tempDict objectForKey:@"BoardName"]
 									forKey:@"jp_tsawada2_bathyscaphe_thread_BoardName"];
 		[(NSMutableDictionary *)attributes setObject:[tempDict objectForKey:@"dat"]

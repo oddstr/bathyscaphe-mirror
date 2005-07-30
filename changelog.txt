@@ -1,4 +1,13 @@
 2005-07-31 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* metadataimporter/BathyScaphe/GetMetadataForFile.m
+	* metadataimporter/BathyScaphe/schema.xml
+		kMDItemDisplayName に、スレタイを代入するようにした。
+		- これで Spotlight メニューの表示にスレタイが使われるようになる。
+		- これに伴い、本来のファイル名（kMDItemFSName）を、詳細表示時に表示するようにした。
+		注意：新しいメタデータ・インポータは、再ログインではなく再起動しないと使用されないので、ビルド後
+		テストするためにはコンピュータを再起動すること。
+	* application/source/preferences/AppDefaults-Bundle.m
+		ログ管理アプリケーションの表示名を取得するコードをスタンダードなものに修正。
 	* application/source/composer/CMXTextParser.m
 		Air Edge Phone センターからの投稿を示す「o」記号への対応を追加。
 2005-07-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>

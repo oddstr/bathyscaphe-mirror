@@ -12,7 +12,7 @@
 
 //	Another approach would be to allow changing these through NSUserDefaults
 #define	SCROLL_DELAY_SECONDS	0.04	// time between animation frames
-#define SCROLL_AMOUNT_PIXELS	1.30	// amount to scroll in each animation frame
+#define SCROLL_AMOUNT_PIXELS	1.40	// amount to scroll in each animation frame
 
 
 //	We pad this many blank lines at the end of the text, so the visible part
