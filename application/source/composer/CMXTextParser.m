@@ -1,6 +1,6 @@
 //: CMXTextParser.m
 /**
-  * $Id: CMXTextParser.m,v 1.5 2005/07/16 07:04:44 tsawada2 Exp $
+  * $Id: CMXTextParser.m,v 1.6 2005/07/30 19:15:22 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -848,9 +848,14 @@ only_date_field:
 		extraField が 0 または O 一文字の場合は、携帯・PCの区別記号と見なして直接処理
 		ログファイルのフォーマットの互換性などを考慮して、Host の値として処理することにする。
 		2005-06-18 追加：公式p2 からの投稿区別記号「P」が加わった。
+		2005-07-31 追加：「o」もあるのか。知らなかった。
 	*/
 	if (length_ == 1) {
-		if ([extraField isEqualToString : @"0"] || [extraField isEqualToString : @"O"] || [extraField isEqualToString : @"P"]) {
+		if ([extraField isEqualToString : @"0"] || // 以下のどれでもない
+			[extraField isEqualToString : @"O"] || // 携帯
+			[extraField isEqualToString : @"P"] || // 公式 p2
+			[extraField isEqualToString : @"o"])   // AIR-EDGE PHONEセンター
+		{
 			[aMessage setHost : extraField];
 			return YES;
 		}
@@ -979,7 +984,7 @@ only_date_field:
 	NSString		*prefixPart_ = nil;
 
 	if (isAbonedDateField(dateExtra)) {
-		NSLog(@"It is Aboned.");
+		//NSLog(@"It is Aboned.");
 		return YES;
 	}
 	
@@ -996,7 +1001,7 @@ only_date_field:
 	}
 	
 	if (prefixPart_ != nil) {
-		NSLog(@"date prefix : %@", prefixPart_);
+		//NSLog(@"date prefix : %@", prefixPart_);
 		[aMessage setDatePrefix : prefixPart_];
 	}
 	[aMessage setDate : date_];

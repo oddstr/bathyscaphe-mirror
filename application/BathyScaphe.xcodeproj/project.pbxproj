@@ -170,7 +170,6 @@
 		87016258082BE67100AEFDD0 /* KFSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87C7287A082B8E7E00AC9AE1 /* KFSplitView.h */; };
 		870162DD082BE67100AEFDD0 /* BoardList-OVDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC2404C698FA00A80005 /* BoardList-OVDataSource.m */; };
 		870162DE082BE67100AEFDD0 /* BoardList.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC2604C698FA00A80005 /* BoardList.m */; };
-		870162DF082BE67100AEFDD0 /* BoardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC2804C698FA00A80005 /* BoardManager.m */; };
 		870162E0082BE67100AEFDD0 /* Browser.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC2E04C698FA00A80005 /* Browser.m */; };
 		870162E1082BE67100AEFDD0 /* CMRAccessorySheetController-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC3004C698FA00A80005 /* CMRAccessorySheetController-ViewAccessor.m */; };
 		870162E2082BE67100AEFDD0 /* CMRAccessorySheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC3204C698FA00A80005 /* CMRAccessorySheetController.m */; };
@@ -588,6 +587,7 @@
 		87558535085BEF7800D2C2A6 /* BSIconTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87558533085BEF7800D2C2A6 /* BSIconTextFieldCell.m */; };
 		8770BF5D087F0095008907C5 /* BSHistoryMenuManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8770BF5B087F0095008907C5 /* BSHistoryMenuManager.h */; };
 		8770BF5E087F0096008907C5 /* BSHistoryMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8770BF5C087F0095008907C5 /* BSHistoryMenuManager.m */; };
+		8794CC10089C033300161BAB /* BoardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8794CC0F089C033300161BAB /* BoardManager.m */; };
 		87B652990840625F008AE2BE /* SendMessage.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B652980840625F008AE2BE /* SendMessage.tiff */; };
 		87BB79210864401A00ED8757 /* RBSplitSubview.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB791F0864401A00ED8757 /* RBSplitSubview.h */; };
 		87BB79220864401A00ED8757 /* RBSplitViewPrivateDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB79200864401A00ED8757 /* RBSplitViewPrivateDefines.h */; };
@@ -897,6 +897,7 @@
 		878A7568088AA85B00539B6F /* HistoryForward.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = HistoryForward.tiff; sourceTree = "<group>"; };
 		878DB8E6083277B40086BC97 /* changelog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = changelog.txt; path = ../changelog.txt; sourceTree = SOURCE_ROOT; };
 		8792D83B05E21AE20074B2BE /* UTILError.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; name = UTILError.h; path = ../misc/utilkit/UTILError.h; sourceTree = SOURCE_ROOT; };
+		8794CC0F089C033300161BAB /* BoardManager.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = BoardManager.m; sourceTree = "<group>"; };
 		87AC05B5082D3E4200823807 /* FontWell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FontWell.h; sourceTree = "<group>"; };
 		87AC05B6082D3E4200823807 /* FontWell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FontWell.m; sourceTree = "<group>"; };
 		87AF6CFD07425DC0001D08ED /* add_idle.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = add_idle.tiff; sourceTree = "<group>"; };
@@ -998,7 +999,6 @@
 		F324DC2504C698FA00A80005 /* BoardList.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = BoardList.h; sourceTree = "<group>"; };
 		F324DC2604C698FA00A80005 /* BoardList.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = BoardList.m; sourceTree = "<group>"; };
 		F324DC2704C698FA00A80005 /* BoardManager.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = BoardManager.h; sourceTree = "<group>"; };
-		F324DC2804C698FA00A80005 /* BoardManager.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = BoardManager.m; sourceTree = "<group>"; };
 		F324DC2904C698FA00A80005 /* BoardManager_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = BoardManager_p.h; sourceTree = "<group>"; };
 		F324DC2D04C698FA00A80005 /* Browser.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = Browser.h; sourceTree = "<group>"; };
 		F324DC2E04C698FA00A80005 /* Browser.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = Browser.m; sourceTree = "<group>"; };
@@ -2065,10 +2065,10 @@
 		F324DC2204C698FA00A80005 /* bbs */ = {
 			isa = PBXGroup;
 			children = (
+				8794CC0F089C033300161BAB /* BoardManager.m */,
 				F34E37C9050743B600A80005 /* CMRBBSListTemplateKeys.h */,
 				F324DC2704C698FA00A80005 /* BoardManager.h */,
 				F324DC2904C698FA00A80005 /* BoardManager_p.h */,
-				F324DC2804C698FA00A80005 /* BoardManager.m */,
 				F3A31C080503366700CE4E8E /* CMRBBSAttributes.h */,
 				F3A31C090503366700CE4E8E /* CMRBBSAttributes.m */,
 				F324DC2504C698FA00A80005 /* BoardList.h */,
@@ -3218,7 +3218,6 @@
 			files = (
 				870162DD082BE67100AEFDD0 /* BoardList-OVDataSource.m in Sources */,
 				870162DE082BE67100AEFDD0 /* BoardList.m in Sources */,
-				870162DF082BE67100AEFDD0 /* BoardManager.m in Sources */,
 				870162E0082BE67100AEFDD0 /* Browser.m in Sources */,
 				870162E1082BE67100AEFDD0 /* CMRAccessorySheetController-ViewAccessor.m in Sources */,
 				870162E2082BE67100AEFDD0 /* CMRAccessorySheetController.m in Sources */,
@@ -3382,6 +3381,7 @@
 				8709E6540879713D009A65FC /* CMRReplyMessenger-Connector.m in Sources */,
 				8770BF5E087F0096008907C5 /* BSHistoryMenuManager.m in Sources */,
 				8719F06A088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m in Sources */,
+				8794CC10089C033300161BAB /* BoardManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

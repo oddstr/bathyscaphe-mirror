@@ -1,3 +1,6 @@
+2005-07-31 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/composer/CMXTextParser.m
+		Air Edge Phone センターからの投稿を示す「o」記号への対応を追加。
 2005-07-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/preference/
 		ほぼすべてのファイルを微修正。

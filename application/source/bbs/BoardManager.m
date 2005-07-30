@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.m,v 1.1 2005/05/11 17:51:03 tsawada2 Exp $
+ * $Id: BoardManager.m,v 1.2 2005/07/30 19:15:22 tsawada2 Exp $
  * 
  * BoardManager.m
  *
@@ -224,7 +224,7 @@ static id kDefaultManager;
     // We can do nothing.
     if (nil == URL) return nil;
 	
-    NSLog(@"[INFO] CocoMonar try to detect moved BBS:%@ URL:%@", boardName, [URL absoluteString]);
+    NSLog(@"BathyScaphe try to detect moved BBS:%@ URL:%@", boardName, [URL absoluteString]);
     
 	req_ = [NSURLRequest requestWithURL : URL];
 	canHandle_ = [NSURLConnection canHandleRequest : req_];
