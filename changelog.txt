@@ -1,3 +1,8 @@
+2005-08-04 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/BathyScapheHelp/
+		新しいヘルプを CVS リポジトリにコミット。多くの方に感謝。
+	* application/Resources/Japanese.lproj/Credits.rtf
+		ヘルプ制作者のクレジット追加。
 2005-07-31 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* metadataimporter/BathyScaphe/GetMetadataForFile.m
 	* metadataimporter/BathyScaphe/schema.xml
