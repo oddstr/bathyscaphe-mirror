@@ -8,6 +8,7 @@
   */
 #import "CMRThreadViewerTbDelegate_p.h"
 #import "AppDefaults.h"
+#import "BSSegmentedControlTbItem.h"
 
 //////////////////////////////////////////////////////////////////////
 ////////////////////// [ 定数やマクロ置換 ] //////////////////////////
@@ -62,6 +63,11 @@ static NSString *const st_stopTaskPaletteLabelKey		= @"stopTask Palette Label";
 static NSString *const st_stopTaskToolTipKey			= @"stopTask ToolTip";
 static NSString *const st_stopTask_ImageName			= @"stopSign";
 
+// 戻る／進む
+static NSString *const st_historySegmentedControlIdentifier			= @"historySC";	
+static NSString *const st_historySegmentedControlLabelKey			= @"historySC Label";
+static NSString *const st_historySegmentedControlPaletteLabelKey	= @"historySC Palette Label";
+
 
 static NSString *const st_localizableStringsTableName	= @"ThreadViewerTbItems";
 static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
@@ -108,6 +114,10 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 - (NSString *) stopTaskIdentifier
 {
 	return st_stopTaskIdentifier;
+}
+- (NSString *) historySegmentedControlIdentifier
+{
+	return st_historySegmentedControlIdentifier;
 }
 @end
 
@@ -187,39 +197,19 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 											   target : nil];
 	[item_ setImage : [NSImage imageAppNamed : st_stopTask_ImageName]];
 	
-	// 実験中。1.0.2 正式版では採用しない。
-	/*
-	item_ = [self appendToolbarItemWithItemIdentifier : @"History"
-									localizedLabelKey : @"Back/Forward"
-							 localizedPaletteLabelKey : @"Back/Forward"
-								  localizedToolTipKey : @"Test"
-											   action : NULL
-											   target : nil];
-	{
-		NSSegmentedControl	*tmp_;
-		id  theCell = nil;
-		tmp_ = [[NSSegmentedControl alloc] initWithFrame : NSMakeRect(0,0,59,25)];
-    
-		//  back and forward.
-		[ tmp_ setSegmentCount: 2 ];
-		[ tmp_ setImage: [ NSImage imageNamed: @"HistoryBack" ] forSegment: 0 ];
-		[ tmp_ setImage: [ NSImage imageNamed: @"HistoryForward" ] forSegment: 1 ];
-		theCell = [ tmp_ cell ];
-		[ theCell setTrackingMode: NSSegmentSwitchTrackingMomentary ];
+	item_ = [self appendToolbarItemWithClass : [BSSegmentedControlTbItem class]
+								itemIdentifier : [self historySegmentedControlIdentifier]
+							 localizedLabelKey : st_historySegmentedControlLabelKey
+					  localizedPaletteLabelKey : st_historySegmentedControlPaletteLabelKey
+						   localizedToolTipKey : nil
+										action : NULL
+										target : wcontroller_];
 
-		[item_ setView : tmp_];
-		if([item_ view] != nil){
-			NSSize		size_;
-		
-			size_ = [tmp_ bounds].size;
-			[item_ setMinSize : size_];
-			[item_ setMaxSize : size_];
-		}
-	}
-	*/
+	[(BSSegmentedControlTbItem *)item_ setupItemViewWithTarget : wcontroller_];
+	
 }
 
-- (void) cofigureToolbar : (NSToolbar *) aToolbar
+- (void) configureToolbar : (NSToolbar *) aToolbar
 {
 	[aToolbar setAllowsUserCustomization : YES];
 	[aToolbar setAutosavesConfiguration : YES];
@@ -267,7 +257,7 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 				[self replyItemIdentifier],
 				[self toggleOnlineModeIdentifier],
 				[self launchCMLFIdentifier],
-				//@"History",
+				[self historySegmentedControlIdentifier],
 				NSToolbarSeparatorItemIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,
 				NSToolbarSpaceItemIdentifier,

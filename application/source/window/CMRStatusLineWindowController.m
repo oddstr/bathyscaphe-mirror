@@ -73,7 +73,6 @@
 {
 	SEL	action_;
 	action_ = [item_ action];
-	
 	if (action_ == @selector(cancellCurrentTask:))
 	{ 
 		return ([[CMRTaskManager defaultManager] isInProgress] != NO); 

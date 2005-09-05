@@ -31,7 +31,7 @@
 @implementation CMRDocumentController : NSDocumentController
 - (void) noteNewRecentDocumentURL : (NSURL *) aURL
 {
-	NSString		*pathExtension_;
+	/*NSString		*pathExtension_;
 	NSString		*replyDocExtension_;
 	
 	pathExtension_ = [[aURL path] pathExtension];
@@ -41,6 +41,6 @@
 	if([replyDocExtension_ isEqualToString : pathExtension_])
 		return;
 	
-	[super noteNewRecentDocumentURL : aURL];
+	[super noteNewRecentDocumentURL : aURL];*/
 }
 @end

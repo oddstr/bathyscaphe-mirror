@@ -12,4 +12,5 @@
 - (NSString *) toggleOnlineModeIdentifier;
 - (NSString *) launchCMLFIdentifier;
 - (NSString *) stopTaskIdentifier;
+- (NSString *) historySegmentedControlIdentifier;
 @end

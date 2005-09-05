@@ -69,7 +69,7 @@
 	[item_ setImage : [NSImage imageAppNamed : kBeLoginImageName]];
 }
 
-- (void) cofigureToolbar : (NSToolbar *) aToolbar
+- (void) configureToolbar : (NSToolbar *) aToolbar
 {
 	[aToolbar setAllowsUserCustomization : YES];
 	[aToolbar setAutosavesConfiguration : YES];

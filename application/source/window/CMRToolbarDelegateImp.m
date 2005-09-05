@@ -31,7 +31,7 @@
 	
 	toolbar_ = [[NSToolbar alloc] initWithIdentifier : [self identifier]];
 	
-	[self cofigureToolbar : toolbar_];
+	[self configureToolbar : toolbar_];
 	[self initializeToolbarItems : aWindow];
 	[toolbar_ setDelegate : self];
 	
@@ -105,7 +105,7 @@
 	UTILAbstractMethodInvoked;
 }
 
-- (void) cofigureToolbar : (NSToolbar *) aToolbar
+- (void) configureToolbar : (NSToolbar *) aToolbar
 {
 	UTILAbstractMethodInvoked;
 }

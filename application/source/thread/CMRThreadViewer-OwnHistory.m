@@ -157,4 +157,18 @@
 {
 	[self performHistoryWithRelativeIndex : -1];
 }
+
+- (IBAction) historySegmentedControlPushed : (id) sender
+{
+	int	i;
+	i = [sender selectedSegment];
+
+	if (i == -1) {
+		NSLog(@"No selection?");
+	} else if (i == 1) {
+		[self historyMenuPerformForward : nil];
+	} else {
+		[self historyMenuPerformBack : nil];
+	}
+}
 @end

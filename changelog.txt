@@ -1,3 +1,20 @@
+2005-09-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		「ウインドウ」＞「進行状況」のショートカットを command-option-V から command-0 に変更（Mail.app と揃えた）。
+	* application/source/view/BSSegmentedControlTbItem.m
+		[新規追加] 「戻る／進む」ボタンをツールバーで適切に validate するための、NSToolbarItem のサブクラス。
+	* application/Resources/image/HistoryBack.tiff
+	* application/Resources/image/HistoryForward.tiff
+		画像ファイル自体はすでにコミット済みだが、画像を差し替えた。
+	* application/BathyScaphe.xcodeproj
+		上記画像ファイルをビルド時にコピーするようにした。
+	* application/source/window/CMRBrowserTbDelegate.m
+	* application/source/window/CMRThreadViewerTbDelegate.m
+	* application/source/window/CMRToolbarDelegateImp.m
+		ツールバーに「戻る／進む」ボタンを配置できるようにした。また、ソースの typo を修正。
+	* application/source/manager/CMRDocumentController.m
+		（masakih 氏のアドバイス）「最近使った書類」に BathyScaphe の書類が表示されないようにした。
+=================================================
 2005-08-04 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/BathyScapheHelp/
 		新しいヘルプを CVS リポジトリにコミット。多くの方に感謝。

@@ -574,6 +574,8 @@
 		87299B420832623A00CBD740 /* BWAgent.app in Resources */ = {isa = PBXBuildFile; fileRef = 87299B410832623A00CBD740 /* BWAgent.app */; };
 		87299C1F0832673000CBD740 /* BathyScaphe.mdimporter in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87299C09083266F700CBD740 /* BathyScaphe.mdimporter */; };
 		87299CCA08326C8900CBD740 /* misc.h in Headers */ = {isa = PBXBuildFile; fileRef = 87299CC908326C8900CBD740 /* misc.h */; };
+		8732FCBA08C2F79B00779F20 /* HistoryBack.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 878A7567088AA85B00539B6F /* HistoryBack.tiff */; };
+		8732FCBB08C2F79D00779F20 /* HistoryForward.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 878A7568088AA85B00539B6F /* HistoryForward.tiff */; };
 		87464E3708643673000F0371 /* libRBSplitView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87464E3608643673000F0371 /* libRBSplitView.a */; };
 		87464E390864368F000F0371 /* RBSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87464E380864368F000F0371 /* RBSplitView.h */; };
 		87517B780864B242002DA082 /* CMRSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD9C04C698FB00A80005 /* CMRSplitView.h */; };
@@ -587,6 +589,8 @@
 		87558535085BEF7800D2C2A6 /* BSIconTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87558533085BEF7800D2C2A6 /* BSIconTextFieldCell.m */; };
 		8770BF5D087F0095008907C5 /* BSHistoryMenuManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8770BF5B087F0095008907C5 /* BSHistoryMenuManager.h */; };
 		8770BF5E087F0096008907C5 /* BSHistoryMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8770BF5C087F0095008907C5 /* BSHistoryMenuManager.m */; };
+		877D634708C4531500DEE475 /* BSSegmentedControlTbItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 877D634508C4531500DEE475 /* BSSegmentedControlTbItem.h */; };
+		877D634808C4531500DEE475 /* BSSegmentedControlTbItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 877D634608C4531500DEE475 /* BSSegmentedControlTbItem.m */; };
 		8794CC10089C033300161BAB /* BoardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8794CC0F089C033300161BAB /* BoardManager.m */; };
 		87B652990840625F008AE2BE /* SendMessage.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B652980840625F008AE2BE /* SendMessage.tiff */; };
 		87BB79210864401A00ED8757 /* RBSplitSubview.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB791F0864401A00ED8757 /* RBSplitSubview.h */; };
@@ -889,6 +893,8 @@
 		876415810840AF5500F66D78 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/AdvancedPane.nib; sourceTree = "<group>"; };
 		8770BF5B087F0095008907C5 /* BSHistoryMenuManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSHistoryMenuManager.h; sourceTree = "<group>"; };
 		8770BF5C087F0095008907C5 /* BSHistoryMenuManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSHistoryMenuManager.m; sourceTree = "<group>"; };
+		877D634508C4531500DEE475 /* BSSegmentedControlTbItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSSegmentedControlTbItem.h; sourceTree = "<group>"; };
+		877D634608C4531500DEE475 /* BSSegmentedControlTbItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSSegmentedControlTbItem.m; sourceTree = "<group>"; };
 		8782402C0823C0A900C52066 /* CMRNSSearchField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRNSSearchField.h; sourceTree = "<group>"; };
 		8782402D0823C0A900C52066 /* CMRNSSearchField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRNSSearchField.m; sourceTree = "<group>"; };
 		87892BC106BD1FEA00790F2F /* warrior.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warrior.png; sourceTree = "<group>"; };
@@ -2227,6 +2233,8 @@
 				F324DDB504C698FB00A80005 /* SGLinkCommand.m */,
 				F324DDBB04C698FB00A80005 /* ThreadsListTable.h */,
 				F324DDBC04C698FB00A80005 /* ThreadsListTable.m */,
+				877D634508C4531500DEE475 /* BSSegmentedControlTbItem.h */,
+				877D634608C4531500DEE475 /* BSSegmentedControlTbItem.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -2739,6 +2747,7 @@
 				87517B9E0864BA43002DA082 /* CMRPullDownIconBtn.h in Headers */,
 				87BD61F00865D0230080A7CA /* NSTableView+BSAdditions.h in Headers */,
 				8770BF5D087F0095008907C5 /* BSHistoryMenuManager.h in Headers */,
+				877D634708C4531500DEE475 /* BSSegmentedControlTbItem.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3121,6 +3130,8 @@
 				87517BA80864BB17002DA082 /* Action_Pressed.tiff in Resources */,
 				87517BAF0864BE33002DA082 /* Spacer.tiff in Resources */,
 				8705E7C2087DB8C500BDEFBC /* BoardList.tiff in Resources */,
+				8732FCBA08C2F79B00779F20 /* HistoryBack.tiff in Resources */,
+				8732FCBB08C2F79D00779F20 /* HistoryForward.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3382,6 +3393,7 @@
 				8770BF5E087F0096008907C5 /* BSHistoryMenuManager.m in Sources */,
 				8719F06A088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m in Sources */,
 				8794CC10089C033300161BAB /* BoardManager.m in Sources */,
+				877D634808C4531500DEE475 /* BSSegmentedControlTbItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
