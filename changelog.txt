@@ -1,3 +1,9 @@
+2005-09-11 masakih <masakih@users.sourceforge.jp>
+	* application/source/manager/BSScriptsMenuManager.m
+		アプリケーション形式、アプリケーションバンドル形式のAppleScriptの判定に
+NSAppleScript クラスを使用しないようにした。
+		これにより、6スレ>>220の現象は発生しないはずである。
+		(残念ながら現象を再現できなかったため、未検証)
 2005-09-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/MainMenu.nib
 		「ウインドウ」＞「進行状況」のショートカットを command-option-V から command-0 に変更（Mail.app と揃えた）。

@@ -277,7 +277,7 @@ static void setKeyEquivalent(BSScriptsMenu *inMenu, int *nextKeyEquivalent)
 
 // アプリケーション化されたアップルスクリプトに対応。
 static inline BOOL isRunnableAppleScriptFile(NSString *path)
-{
+{/*
 	NSURL *url;
 	NSAppleScript *as;
 	
@@ -291,7 +291,40 @@ static inline BOOL isRunnableAppleScriptFile(NSString *path)
 	as = [[[NSAppleScript alloc] initWithContentsOfURL : url
 												 error : nil] autorelease];
 	
-	return as ? YES : NO;
+	return as ? YES : NO;*/
+	
+	NSFileManager *fm = [NSFileManager defaultManager];
+	BOOL isDirectory;
+	
+	if( ![fm fileExistsAtPath:path isDirectory:&isDirectory] ) return NO;
+	
+	if( !isDirectory ) {
+		NSDictionary *fileAttr;
+		OSType creatorType, fileType;
+		
+		fileAttr = [fm fileAttributesAtPath:path traverseLink:YES];
+		
+		fileType = [fileAttr fileHFSTypeCode];
+		if( fileType != 'APPL' ) return NO;
+		
+		creatorType = [fileAttr fileHFSCreatorCode];
+		if( creatorType != 'aplt' ) return NO;
+		
+	} else {
+		NSBundle *b = [NSBundle bundleWithPath:path];
+		id packageType, sig;
+		
+		if( !b ) return NO;
+		
+		packageType = [b objectForInfoDictionaryKey:@"CFBundlePackageType"];
+		if( ![packageType isEqual:@"APPL"] ) return NO;
+		
+		sig = [b objectForInfoDictionaryKey:@"CFBundleSignature"];
+		if( ![sig isEqualTo:@"aplt"] ) return NO;
+	}
+	
+	return YES;
+		
 }
 
 static inline BOOL isAppleScriptFile(NSString *path)
