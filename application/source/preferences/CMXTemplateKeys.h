@@ -1,5 +1,5 @@
 /**
-  * $Id: CMXTemplateKeys.h,v 1.1 2005/05/11 17:51:07 tsawada2 Exp $
+  * $Id: CMXTemplateKeys.h,v 1.2 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * CMXTemplateKeys.h
   *
@@ -7,7 +7,7 @@
   * See the file LICENSE for copying permission.
   */
 
-// v1 -- @see CMXTemplateResources.h
+// v1 -- @see SGTemplateResources.h
 // ここで定義されているキーは実際には使われていません。
 // ただ、それぞれの例を説明するためだけにあります。
 

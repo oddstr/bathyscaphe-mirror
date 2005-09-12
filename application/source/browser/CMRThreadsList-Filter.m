@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-Filter.m,v 1.1 2005/05/11 17:51:04 tsawada2 Exp $
+  * $Id: CMRThreadsList-Filter.m,v 1.2 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * CMRThreadsList-Filter.m
   *
@@ -7,7 +7,7 @@
   * See the file LICENSE for copying permission.
   */
 #import "CMRThreadsList_p.h"
-#import "CMRNoNameManager.h"
+#import "BoardManager.h"
 #import "CMRSearchOptions.h"
 #import "JStringAdditions.h"
 
@@ -33,7 +33,7 @@
 		
 		[[self filteredThreads] addObject : matched_];
 		//É\Å[ÉgÇµíºÇ∑
-		sortKey_ = [[CMRNoNameManager defaultManager] sortColumnForBoard : [self BBSSignature]];
+		sortKey_ = [[BoardManager defaultManager] sortColumnForBoard : [self boardName]];
 		[self _sortArrayByKey:sortKey_ array:[self filteredThreads]];
 	}
 }
@@ -58,7 +58,7 @@
 	int					i, cnt;
 	NSMutableArray		*sorted_;
 	NSMutableArray		*filtered_ = [NSMutableArray array];
-	NSString			*sortKey_  = [[CMRNoNameManager defaultManager] sortColumnForBoard : [self BBSSignature]];
+	NSString			*sortKey_  = [[BoardManager defaultManager] sortColumnForBoard : [self boardName]];
 	
 	if(ThreadStandardStatus == status){
 		[filtered_ addObjectsFromArray : [self threads]];

@@ -1,5 +1,5 @@
 /**
-  * $Id: ThreadsListTable.m,v 1.3 2005/06/19 16:44:23 tsawada2 Exp $
+  * $Id: ThreadsListTable.m,v 1.4 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * ThreadsListTable.m
   *
@@ -8,7 +8,6 @@
   */
 #import "ThreadsListTable.h"
 #import "CMRThreadsList.h"
-#import "CMXTemplateResources.h"
 
 
 #define kBrowserKeyBindingsFile		@"BrowserKeyBindings.plist"

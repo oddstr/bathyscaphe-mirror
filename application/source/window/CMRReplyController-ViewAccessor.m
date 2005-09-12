@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyController-ViewAccessor.m,v 1.4 2005/06/18 19:09:16 tsawada2 Exp $
+  * $Id: CMRReplyController-ViewAccessor.m,v 1.5 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * CMRReplyController-ViewAccessor.m
   *
@@ -8,7 +8,7 @@
   */
 #import "CMRReplyController_p.h"
 #import "CMRLayoutManager.h"
-#import "CMRTextView.h"
+//#import "CMRTextView.h"
 #import "AppDefaults.h"
 
 
@@ -109,7 +109,10 @@
 	[container release];
 	
 	/* TextView */
-	view = [[[CMRTextView alloc] initWithFrame : cFrame 
+	//view = [[[CMRTextView alloc] initWithFrame : cFrame 
+	//							 textContainer : container] autorelease];
+
+	view = [[[NSTextView alloc] initWithFrame : cFrame 
 								 textContainer : container] autorelease];
 	
 	[view setMinSize : NSMakeSize(0.0, NSHeight(cFrame))];

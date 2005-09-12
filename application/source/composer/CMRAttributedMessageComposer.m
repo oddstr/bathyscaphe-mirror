@@ -1,33 +1,25 @@
 //:CMRAttributedMessageComposer.m
 /**
   *
-  * 
-  *
-  * @author Takanori Ishikawa
-  * @author http://www15.big.or.jp/~takanori/
-  * @version 1.0.0d1 (02/09/15  7:45:00 PM)
+  * @author Takanori Ishikawa, tsawada2
+  * @version 1.0.1 (05/09/09  22:36:00 PM)
   *
   */
 #import "CMRAttributedMessageComposer_p.h"
-#import "CMXTemplateResources.h"
 #import <AppKit/NSTextStorage.h>
-
 
 
 // for debugging only
 #define UTIL_DEBUGGING		1
 #import "UTILDebugging.h"
 
-
-
 #define kLocalizedFilename			@"MessageComposer"
+#define kLocaleDictPlist			@"DateDescription.plist"
 
-// CMXAttributesTemplate.rtf
-#define kWhiteSpaceSeparaterKey		@"WhiteSpaceSeparater"
-// CMXPropertyListTemplate.plist
+// KeyValueTemplate.plist
 #define	kThreadIndexFormatKey		@"Thread - IndexFormat"
 #define	kThreadFieldSeparaterKey	@"Thread - FieldSeparater"
-#define kThreadHostFormateKey		@"Thread - Host Format"
+#define kThreadHostFormatKey		@"Thread - Host Format"
 #define kThreadMessageHeaderKey		@"Thread - MessageHeader"
 #define kThreadMessageFooterKey		@"Thread - MessageFooter"
 #define kThreadDateFormatKey		@"Thread - DateDescription"
@@ -36,7 +28,6 @@
 static NSString *st_num2str_tbl[] = {
 @"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"};
 
-static NSString *dateFormatString(void);
 static NSAttributedString *whiteSpaceSeparater(void);
 static void UTILMutableStringAppend2Figure(NSMutableString *mstr, unsigned int value);
 static void appendDateString(NSMutableString *buffer, id theDate, NSString *prefix, NSDictionary *localeDictionary);
@@ -50,7 +41,6 @@ static void appendFiledTitle(NSMutableAttributedString *buffer, NSString *title)
 #define FIELD_ID				LOCALIZED_STR(@"ID")
 #define FIELD_HOST				LOCALIZED_STR(@"Host")
 
-#define kLocaleDictPlist			@"DateDescription.plist"
 
 #pragma mark -
 
@@ -163,11 +153,8 @@ static void appendFiledTitle(NSMutableAttributedString *buffer, NSString *title)
 	_CCFlags.compose = flag ? 1 : 0;
 }
 
-#pragma mark -
+#pragma mark Instance Methods
 
-//////////////////////////////////////////////////////////////////////
-//////////////////// [ インスタンスメソッド ] ////////////////////////
-//////////////////////////////////////////////////////////////////////
 static BOOL messageIsLocalAboned_(CMRThreadMessage *aMessage) 
 {
 	return ([aMessage isLocalAboned] || ([aMessage isSpam] && kSpamFilterLocalAbonedBehavior == [CMRPref spamFilterBehavior]));
@@ -331,7 +318,6 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 	NSMutableAttributedString	*mas_;
 	NSArray						*tmpAry_ = nil;
 	NSString					*beRep_;
-	NSScanner					*isSharp_;
 	NSString					*beStr_;
 	NSMutableAttributedString	*format_;
 		
@@ -339,28 +325,28 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 		return;
 	
 	tmpAry_ = [aMessage beProfile];
-	if (tmpAry_ == nil || [tmpAry_ count] == 0) return;
+	if (tmpAry_ == nil || [tmpAry_ count] < 2) return;
 	
 	beRep_ = [tmpAry_ objectAtIndex : 1];
-	isSharp_ = [NSScanner scannerWithString : beRep_];
-	if ([isSharp_ scanCharactersFromSet : [NSCharacterSet decimalDigitCharacterSet] intoString : nil]) {
+
+	if ([[NSScanner scannerWithString : beRep_] scanCharactersFromSet : [NSCharacterSet decimalDigitCharacterSet]
+														   intoString : nil])
+	{
 		beStr_ = [NSString stringWithFormat : @"Lv.%@", beRep_];
 	} else {
 		beStr_ = [NSString stringWithFormat : @"?%@", beRep_];
 	}
-
-	mas_ = [self contentsStorage];
 
 	format_   = SGTemporaryAttributedString();
 
 	[[format_ mutableString] appendString : beStr_];
 	[format_ addAttributes : [ATTR_TEMPLATE attributesForBeProfileLink]
 					 range : [format_ range]];
-	[format_ addAttributes : [ATTR_TEMPLATE attributesForAnchor]
-					 range : [format_ range]];
 	[format_ addAttribute : NSLinkAttributeName
 					value : CMRLocalBeProfileLinkWithString([tmpAry_ objectAtIndex : 0])
 					range : [format_ range]];
+
+	mas_ = [self contentsStorage];
 
 	[mas_ appendAttributedString : format_];
 	[mas_ appendAttributedString : whiteSpaceSeparater()];
@@ -378,7 +364,7 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 		NO == messageIsLocalAboned_(aMessage), 
 		ErrComposeHost);
 	
-	format_   = SGTemplateResource(kThreadHostFormateKey);
+	format_   = SGTemplateResource(kThreadHostFormatKey);
 
 	ms = [self contentsStorage];
 	template_ = SGTemporaryAttributedString();
@@ -434,9 +420,9 @@ ErrComposeHost:
 		linkRange_.location = [tmp length];
 		[[tmp mutableString] appendString : source];
 		linkRange_.length = [tmp length] - linkRange_.location;
-		
-		[tmp addAttributes : [ATTR_TEMPLATE attributesForAnchor]
-					 range : linkRange_];
+		// 2005-09-08 リンク書式の付与は TextView に任せ、ここでは書式をセットしない		
+		//[tmp addAttributes : [ATTR_TEMPLATE attributesForAnchor]
+		//			 range : linkRange_];
 		[tmp addAttribute : NSLinkAttributeName
 				    value : CMRLocalResLinkWithIndex([aMessage index])
 				    range : linkRange_];
@@ -513,11 +499,6 @@ static inline void UTILMutableStringAppend2Figure(NSMutableString *mstr, unsigne
 	[mstr appendString : st_num2str_tbl[figure]];
 }
 
-static NSString *dateFormatString(void)
-{
-	return SGTemplateResource(kThreadDateFormatKey);
-}
-
 static void appendDateString(NSMutableString *buffer, id theDate, NSString *prefix, NSDictionary *localeDictionary)
 {
 	NSCalendarDate		*cdate_;
@@ -530,7 +511,7 @@ static void appendDateString(NSMutableString *buffer, id theDate, NSString *pref
 		
 		// 2005-03-22 tsawada2<ben-sawa@td5.so-net.ne.jp>
 		// ビルド時に警告が出るが、NSCalenderDate であることが保証されているので何も問題ない
-		[buffer setString : [theDate descriptionWithCalendarFormat : dateFormatString()
+		[buffer setString : [theDate descriptionWithCalendarFormat : SGTemplateResource(kThreadDateFormatKey)
 															locale : localeDictionary]];
 
 		if (prefix != nil) {
@@ -549,7 +530,7 @@ static void appendDateString(NSMutableString *buffer, id theDate, NSString *pref
 	cdate_ = [NSCalendarDate dateWithTimeIntervalSince1970 : 
 							[theDate timeIntervalSince1970]];
 
-	[cdate_ setCalendarFormat : dateFormatString()];
+	[cdate_ setCalendarFormat : SGTemplateResource(kThreadDateFormatKey)];
 	[buffer setString : [cdate_ descriptionWithLocale : localeDictionary]];
 	if (prefix != nil) {
 		//NSLog(@"appending prefix...");
@@ -562,7 +543,7 @@ static void appendDateString(NSMutableString *buffer, id theDate, NSString *pref
 
 static NSAttributedString *whiteSpaceSeparater(void)
 {
-	return [[[NSAttributedString alloc] initWithString : @"  "] autorelease];//SGTemplateResource(kWhiteSpaceSeparaterKey);
+	return [[[NSAttributedString alloc] initWithString : @"  "] autorelease];
 }
 
 

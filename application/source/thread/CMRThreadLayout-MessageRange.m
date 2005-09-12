@@ -299,7 +299,12 @@
 	UTILDescUnsignedInt(lst);
 	UTILDescription([self messageRanges]);
 #endif
-	
+
+	// 2005-09-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	// Tiger で、オンザフライでレス展開したとき描画がしばしば乱れる問題を
+	// これで回避…できるだろうか？しばらく様子見。
+	[[self scrollView] setNeedsDisplay : YES];
+
 	[textBuffer_ release];
 	[composer_ release];
 }

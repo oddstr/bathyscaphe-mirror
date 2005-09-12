@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRSubjectReader.m,v 1.1 2005/05/11 17:51:04 tsawada2 Exp $
+  * $Id: CMRSubjectReader.m,v 1.2 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * CMRSubjectReader.m
   *
@@ -10,7 +10,6 @@
 #import "CMRSubjectReader.h"
 
 #import "CMXTextParser.h"
-#import "CMXTemplateResources.h"
 #import "CMRThreadSubjectComposer.h"
 
 

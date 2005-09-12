@@ -17,7 +17,6 @@
 #import "CMRSearchOptions.h"
 #import "TextFinder.h"
 #import "CMRThreadView.h"
-#import "CMXTemplateResources.h"
 #import "CMRHistoryManager.h"
 
 #import "CMXPopUpWindowManager.h"

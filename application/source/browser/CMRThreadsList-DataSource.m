@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.4 2005/06/19 16:44:23 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.5 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -16,7 +16,7 @@
 #define kStatusCachedImageName		@"Status_logcached"
 #define kStatusNewImageName			@"Status_newThread"
 
-/* @see objectValueTemplate:forTYpe: */
+/* @see objectValueTemplate:forType: */
 enum {
 	kValueTemplateDefaultType,
 	kValueTemplateNewArrivalType,
@@ -25,8 +25,8 @@ enum {
 
 
 @implementation CMRThreadsList(DataSourceTemplates)
-static id kNewThreadTemplateString;
-static id kThreadTemplateString;
+static id kNewThreadAttrTemplate;
+static id kThreadAttrTemplate;
 
 + (void) resetDataSourceTemplates
 {
@@ -47,40 +47,38 @@ static id kThreadTemplateString;
 					NSForegroundColorAttributeName,
 					nil];
 	
-	kThreadTemplateString = [[NSMutableAttributedString alloc] initWithString : @"std" attributes: attrs1_];
-	kNewThreadTemplateString = [[NSMutableAttributedString alloc] initWithString : @"new" attributes:attrs2_];	
+	kNewThreadAttrTemplate = [attrs2_ retain];	// retain しないと即クラッシュだよ
+	kThreadAttrTemplate = [attrs1_ retain];
 }
 
 + (id) objectValueTemplate : (id ) aValue
-				   forTYpe : (int) aType
+				   forType : (int) aType
 {
 	id		temp = nil;
 	
 	if(nil == aValue || [aValue isKindOfClass : [NSImage class]])
 		return aValue;
 	
-	if(nil == kNewThreadTemplateString ||
-	   nil == kThreadTemplateString)
+	if (nil == kNewThreadAttrTemplate || nil == kThreadAttrTemplate)
 		[self resetDataSourceTemplates];
 	
 	switch(aType){
 	case kValueTemplateDefaultType:
-		temp = kThreadTemplateString;
+		temp = [[NSMutableAttributedString alloc] initWithString : [aValue stringValue]
+													  attributes : kThreadAttrTemplate];
 		break;
 	case kValueTemplateNewArrivalType:
-		temp = kNewThreadTemplateString;
+		temp = [[NSMutableAttributedString alloc] initWithString : [aValue stringValue]
+													  attributes : kNewThreadAttrTemplate];
 		break;
 	default :
 		UTILUnknownSwitchCase(aType);
 		break;
 	}
 	
-	[temp replaceCharactersInRange : [temp range]
-						withString : [aValue stringValue]];
-	return temp;
+	return [temp autorelease]; // autorelease しないと漏れまくり
 	
 }
-
 @end
 
 
@@ -156,7 +154,6 @@ static NSString *statusImageNameForStatus(ThreadStatus s)
 	}
 	
 	// 日付
-#if PATCH
 	if([v isKindOfClass : [NSDate class]]) {
 #if 0 // test
 		if (!dateFormatter)
@@ -167,14 +164,10 @@ static NSString *statusImageNameForStatus(ThreadStatus s)
 		else
 			v = [[CMXDateFormatter sharedInstance] stringForObjectValue : v];
 	}
-#else
-	if([v isKindOfClass : [NSDate class]])
-		v = [[CMXDateFormatter sharedInstance] stringForObjectValue : v];
-#endif
 	
 	// 新着スレッド／通常のスレッド
 	v = [[self class] objectValueTemplate : v
-			forTYpe : ((s == ThreadNewCreatedStatus) 
+			forType : ((s == ThreadNewCreatedStatus) 
 						? kValueTemplateNewArrivalType
 						: kValueTemplateDefaultType)];
 	
@@ -379,7 +372,7 @@ static NSString *statusImageNameForStatus(ThreadStatus s)
 	return pathArray_;
 }
 
--(void)updateDateFormatter {
+- (void) updateDateFormatter {
 	if (dateFormatter)
 		[dateFormatter release];
 	dateFormatter = [[CMXDateFormatter alloc] init];

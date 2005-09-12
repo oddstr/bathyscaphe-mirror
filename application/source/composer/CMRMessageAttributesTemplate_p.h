@@ -78,5 +78,5 @@
 - (NSMutableDictionary *) messageAttributesForHost;
 
 - (NSParagraphStyle *) messageParagraphStyleWithIndent : (float) anIndent;
-- (id) underlineStyleWithBool : (BOOL) hasUnderline;
+- (NSNumber *) underlineStyleWithBool : (BOOL) hasUnderline;
 @end

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.13 2005/07/22 16:42:21 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.14 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -21,32 +21,8 @@ enum {
 {
     [[self window] makeFirstResponder : [[self threadsListTable] enclosingScrollView]];
 }
+
 // History Menu
-/*- (IBAction) showBoardWithMenuItem : (id) sender
-{
-    NSString        *boardName;
-
-    id historyItem = nil;
-    
-    if ([sender respondsToSelector : @selector(representedObject)]) {
-        id o = [sender representedObject];
-        
-        if (nil == o || NO == [o isKindOfClass : [CMRHistoryItem class]]) {
-            UTILDebugWrite1(
-              @"[WARN] [sender representedObject] must be an instance"
-              @" of CMRHistoryItem."
-              @" at %@", UTIL_HANDLE_FAILURE_IN_METHOD);
-            return;
-        }
-        historyItem = o;
-    }
-	[self showThreadsListWithBBSSignature : [historyItem representedObject]];
-    // 掲示板リストでも同じ板を選択させる
-    boardName = [historyItem title];
-	[self selectRowWhoseNameIs : boardName];
-	[self focus : sender];
-}*/
-
 - (IBAction) showThreadWithMenuItem : (id) sender
 {
 	// 他の板のスレッドに移動することを考え、スレ一覧での選択状態を解除しておく
@@ -479,56 +455,6 @@ enum {
 }
 
 #pragma mark -
-
-/*- (BOOL) shouldOpenBoardListInSheet
-{
-	int			mask_;
-	
-	mask_ = [CMXTemplateResource(kOpenBoardListInSheetMaskKey, nil) intValue];
-	return ((mask_ & [[NSApp currentEvent] modifierFlags]) || 0 == mask_);
-}*/
-/*- (IBAction) beginBoardListSheet : (id) sender
-{
-	int				status_;
-	NSView			*contentView_;
-	id				info_;
-	
-	status_ = [[self boardDrawer] state];
-	if (NSDrawerOpenState == status_ || NSDrawerOpeningState == status_) {
-		[[self boardDrawer] setDelegate : nil];
-		[[self boardDrawer] close];
-		[CMRPref setIsBoardListOpen : YES];
-	}
-	contentView_ = [[[self boardDrawer] contentView] retain];
-	info_ = [NSNumber numberWithInt : kShowsBoardListInSheet];
-	
-	[[self boardListSheetController] 
-				beginSheetModalForWindow : [self window]
-						   modalDelegate : self
-							 contentView : contentView_
-							 contextInfo : info_];
-	[contentView_ release];
-}*/
-/*- (IBAction) toggleBoardDrawer : (id) sender
-{
-	if ([self shouldOpenBoardListInSheet]) {
-		[self beginBoardListSheet : sender];
-		return;
-	}
-	
-	NSRectEdge	defaultEdge_;
-	defaultEdge_ = [CMRPref boardListDrawerEdge];
-
-	if (defaultEdge_ == NSMinXEdge || defaultEdge_ == NSMaxXEdge) {
-		if ([[self boardDrawer] state] == NSDrawerClosedState) {
-			[[self boardDrawer] openOnEdge : defaultEdge_];
-		} else {
-			[[self boardDrawer] close];
-		}
-	} else {
-		[[self boardDrawer] toggle : sender];
-	}
-}*/
 
 - (IBAction) changeBrowserArrangement : (id) sender
 {

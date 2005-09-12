@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.5 2005/07/17 04:54:47 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.6 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -18,7 +18,7 @@
 #import "ThreadTextDownloader.h"
 #import "CMXPopUpWindowManager.h"
 #import "CMRHistoryManager.h"
-#import "CMRNoNameManager.h"
+#import "BoardManager.h"
 #import "CMRSpamFilter.h"
 #import "CMRThreadPlistComposer.h"
 #import "CMRNetGrobalLock.h"    /* for Locking */
@@ -539,19 +539,19 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 }
 - (NSString *) setupDefaultNoName : (BOOL) forceOpenInputPanel
 {
-	CMRNoNameManager	*mgr;
+	BoardManager		*mgr;
 	NSString			*name;
-	CMRBBSSignature		*board;
+	NSString			*board;
 	
-	board = [[self threadAttributes] BBSSignature];
+	board = [[self threadAttributes] boardName];
 	if (nil == board)
 		board = [self boardIdentifier];
 	
 	if (nil == board)
 		return nil;
 	
-	mgr = [CMRNoNameManager defaultManager];
-	name = [mgr defauoltNoNameForBoard : board];
+	mgr = [BoardManager defaultManager];
+	name = [mgr defaultNoNameForBoard : board];
 	if (nil == name || forceOpenInputPanel) {
 		if (nil == name)
 			name = [self detectDefaultNoName];

@@ -1,22 +1,21 @@
 //: CMXPopUpWindowController+View.m
 /**
-  * $Id: CMXPopUpWindowController+View.m,v 1.3 2005/07/11 17:14:57 tsawada2 Exp $
+  * $Id: CMXPopUpWindowController+View.m,v 1.4 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
   */
 
 #import "CMXPopUpWindowController_p.h"
-#import "CMXTemplateResources.h"
 #import "NSLayoutManager+CMXAdditions.h"
 #import "CMRLayoutManager.h"
 #import "CMRPopUpTemplateKeys.h"
 #import "CMXPopUpWindowManager.h"
 #import "AppDefaults.h"
 #import "SGContextHelpPanel.h"
+#import "CMRMessageAttributesTemplate.h"
 
-
-#define POPUP_TEXTINSET			CMXTemplateSize(kTextContainerInsetKey, nil)
+#define POPUP_TEXTINSET			SGTemplateSize(kTextContainerInsetKey)
 #define POPUP_SCAN_MAXLINE		40
 
 
@@ -51,13 +50,13 @@
 
 	[panel_ setOneShot : NO];
 
-	tmp = CMXTemplateResource(kPopUpIsFloatingPanelKey, nil);
+	tmp = SGTemplateResource(kPopUpIsFloatingPanelKey);
 	UTILAssertKindOfClass(tmp, NSNumber);
 	[panel_ setFloatingPanel : [tmp boolValue]];
-	tmp = CMXTemplateResource(kPopUpBecomesKeyOnlyIfNeededKey, nil);
+	tmp = SGTemplateResource(kPopUpBecomesKeyOnlyIfNeededKey);
 	UTILAssertKindOfClass(tmp, NSNumber);
 	[panel_ setBecomesKeyOnlyIfNeeded : [tmp boolValue]];
-	tmp = CMXTemplateResource(kPopUpHasShadowKey, nil);
+	tmp = SGTemplateResource(kPopUpHasShadowKey);
 	UTILAssertKindOfClass(tmp, NSNumber);
 	[panel_ setHasShadow : [tmp boolValue]];
 	
@@ -77,7 +76,7 @@
 	vFrame_ = [[[self window] contentView] frame];
 	scrollview_ = [[NSScrollView alloc] initWithFrame : vFrame_];
 	
-	tmp = CMXTemplateResource(kPopUpBorderTypeKey, nil);
+	tmp = SGTemplateResource(kPopUpBorderTypeKey);
 	UTILAssertKindOfClass(tmp, NSNumber);
 	[scrollview_ setBorderType : [tmp intValue]];
 	[scrollview_ setHasVerticalScroller : NO];
@@ -131,6 +130,17 @@
 	[textView_ setMinSize : NSMakeSize(0.0, contentSize_.height)];
 	[textView_ setMaxSize : NSMakeSize(1e7, 1e7)];
 	
+	// リンク文字列の書式はここでセットしておく
+	if ([CMRPref isResPopUpTextDefaultColor]) {
+		if ([CMRPref hasMessageAnchorUnderline]) {
+			[textView_ setLinkTextAttributes : [NSDictionary dictionaryWithObject : [NSNumber numberWithInt : NSUnderlineStyleSingle]
+																		   forKey : NSUnderlineStyleAttributeName]];
+		} else {
+			[textView_ setLinkTextAttributes : [NSDictionary empty]];
+		}
+	} else {
+		[textView_ setLinkTextAttributes : [[CMRMessageAttributesTemplate sharedTemplate] attributesForAnchor]];
+	}
 	[textView_ setTextContainerInset : POPUP_TEXTINSET];
 	
 	[textView_ setVerticallyResizable :YES];
@@ -209,7 +219,7 @@
 	visibleScreen_ = [[NSScreen mainScreen] visibleFrame];
 	maxSize_ = visibleScreen_.size;
 	
-	tmp = CMXTemplateResource(kPopUpMaxWidthRateKey, nil);
+	tmp = SGTemplateResource(kPopUpMaxWidthRateKey);
 	if (nil == tmp || NO == [tmp respondsToSelector : @selector(doubleValue)])
 		maxWidthRate_ = 0.5;
 	else
@@ -337,7 +347,7 @@
 @implementation CMXPopUpWindowController(Accessor)
 + (float) windowAlphaValue
 {
-	id	tmp = CMXTemplateResource(kPopUpWindowAlphaKey, nil);
+	id	tmp = SGTemplateResource(kPopUpWindowAlphaKey);
 	UTILAssertKindOfClass(tmp, NSNumber);
 	return [tmp floatValue];
 }

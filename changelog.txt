@@ -1,9 +1,64 @@
+2005-09-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/bbs/BoardManager.m
+		BoardManager は CMRNoNameManager と統合し、かつ、いくつかメソッドを追加。
+	* application/source/bbs/BoardManager-BSAddition.m
+		[新規追加] 統合された BoardManager のカテゴリで分割したソースファイル。
+		旧 CMRNoNameManager.m のメソッドと、今回新しく追加されるメソッドが記述されている。
+	* application/source/bbs/NoNameInputController.m
+		[新規追加] 旧 CMRNoNameManager.m から独立。
+	* application/source/manager/CMRNoNameManager.m
+		[削除] CMRNoNameManager は、BoardManager と統合することにした（NoNames.plist は引き続き使用される）。
+		CMRNoNameManager を参照している各ソースファイルに必要な修正を施し、CMRNoNameManager は削除。
+	* application/source/misc.h
+		CMRExports.h に統合して削除。
+	* application/source/browser/CMRAccessorySheetController-ViewAccessor.m
+	* application/source/browser/CMRAccessorySheetController_p.h
+		[削除] それぞれ CMRAccessorySheetController.m, CMRAccessorySheetController.h に統合して削除。
+	* application/source/view/CMRThreadView.m
+		レスを透明あぼーんに指定したとき（迷惑レスに指定し、迷惑レスの設定が「透明あぼーんする」だった場合も含む）、
+		"poof" animation（Dock のアイコンやツールバーのボタンを削除するときの煙のアニメーション）を表示させるようにしてみた。
+		- Mac OS X 10.4 以降では、このアニメーション表示後、スレッドの文字が一部にじんで表示される場合がある。
+		　Mac OS X のバグで、他のアプリでも症状が見られる。いい対処法は見つかっていない。
+	* application/source/browser/CMRBrowser-List.m
+		Mac OS X 10.2 以前との互換性を考慮していた、冗長な記述を削除。
+	* application/source/view/CMRStatusLine.m
+		ビルド時の警告が出ないように書き方を修正。
+	* application/source/preferences/CMXTemplateResources.h
+		[削除] これはかつての v1 と v2 のソースを橋渡しするためのファイルだったので、このヘッダを import している
+		各ファイルに必要な修正を施し、このヘッダは削除。
+	* application/source/browser/CMRBrowserTemplateKeys.h
+		[削除] CMRBrowser_p.h と統合して、削除。
+	* application/source/view/CMRTextView.m
+		このサブクラスを用意する必要がなくなったと考えられるため、ターゲットから外した。
+	* application/source/window/CMRReplyController-ViewAccessor.m
+		CMRTextView を NSTextView に変えた。
+	* application/source/view/popup/CMXPopUpWindowController+View.m
+	* application/source/composer/CMRMessageAttributesTemplate.m
+		2005-09-08 の変更で、ポップアップでテキストカラーを変えていると、リンクの下線設定が無視されるように
+		なっていたので修正。ついでにアンダーラインスタイルの指定方法を Mac OS X 10.3 以降のものに変更。
+	* application/source/thread/CMRThreadLayout.m
+	* application/source/thread/CMRThreadLayout-MessageRange.m
+		Tiger で、オンザフライで省略されたレスを展開したり、AAスレッドの指定を切り替える際、残像が残ったりして
+		描画が乱れる問題を修正（したつもり）。
+		- どうしてこの症状が起きるかよくわからないので、とりあえず画面の再描画を促してみたが…
+	* application/source/view/CMRThreadView.m
+	* application/source/view/popup/CMXPopUpWindowController+View.m
+	* application/source/view/SGHTMLView.m
+	* application/source/thread/CMRThreadViewer-ViewAccessor.m
+	* application/source/composer/CMRAttributedMessageComposer-Anchor.m
+	* application/source/composer/CMRAttributedMessageComposer.m
+		リンク文字列を、今までは composer の方で自前で attributes を与えつつ、NSTextView の linkTextAttributes を
+		空辞書にして描画していたが、linkTextAttributes に辞書をセットするようにして、自分で attributes を設定するのは
+		止めにした。（linkTextAttributes: は Panther 以降なので、CocoMonar の頃はこうすることはできなかった）。
+	* application/source/browser/CMRThreadsList-DataSource.m
+		書式付き文字列を生成する際の若干の効率化と typo の修正。
 2005-09-11 masakih <masakih@users.sourceforge.jp>
 	* application/source/manager/BSScriptsMenuManager.m
 		アプリケーション形式、アプリケーションバンドル形式のAppleScriptの判定に
 NSAppleScript クラスを使用しないようにした。
 		これにより、6スレ>>220の現象は発生しないはずである。
 		(残念ながら現象を再現できなかったため、未検証)
+================================================= Branch
 2005-09-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/MainMenu.nib
 		「ウインドウ」＞「進行状況」のショートカットを command-option-V から command-0 に変更（Mail.app と揃えた）。
@@ -20,7 +75,7 @@ NSAppleScript クラスを使用しないようにした。
 		ツールバーに「戻る／進む」ボタンを配置できるようにした。また、ソースの typo を修正。
 	* application/source/manager/CMRDocumentController.m
 		（masakih 氏のアドバイス）「最近使った書類」に BathyScaphe の書類が表示されないようにした。
-=================================================
+================================================= 1.0.2
 2005-08-04 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/BathyScapheHelp/
 		新しいヘルプを CVS リポジトリにコミット。多くの方に感謝。
@@ -529,7 +584,7 @@ NSAppleScript クラスを使用しないようにした。
 2005-05-28 masakih <masakih@users.sourceforge.jp>
 	* application/source/thread/CMRThreadViewer-Link.m
 		スレへのアンカーへのマウスオーバーでそのスレの情報をポップアップするようにした。
-=================================================
+================================================= 1.0
 2005-05-26 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/browserwin.png
 		ヘルプの図版が一部雑な作りだったので差し替え。

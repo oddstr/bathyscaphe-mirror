@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.m,v 1.1 2005/05/11 17:51:04 tsawada2 Exp $
+  * $Id: CMRThreadsList.m,v 1.2 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * CMRThreadsList.m
   *
@@ -10,7 +10,7 @@
 #import "CMRThreadLayout.h"
 #import "BoardManager.h"
 #import "CMRThreadsUpdateListTask.h"
-#import "CMRNoNameManager.h"
+//#import "CMRNoNameManager.h"
 #import "missing.h"
 
 

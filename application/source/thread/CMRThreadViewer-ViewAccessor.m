@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.2 2005/06/18 19:09:16 tsawada2 Exp $
+  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.3 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * CMRThreadViewer-ViewAccessor.m
   *
@@ -13,7 +13,7 @@
 #import "CMRLayoutManager.h"
 #import "CMRThreadView.h"
 #import "CMRMainMenuManager.h"
-
+#import "CMRMessageAttributesTemplate.h"
 
 
 // for debugging only
@@ -317,7 +317,7 @@
 
 
 
-// Overide super implementation
+// Override super implementation
 + (Class) toolbarDelegateImpClass
 {
 	return [CMRThreadViewerTbDelegate class];
@@ -328,11 +328,10 @@
 }
 
 
-- (void) setupStatusLine
+/*- (void) setupStatusLine
 {
 	[super setupStatusLine];
-	//[[self statusLine] setBoardHistoryEnabled : YES];
-}
+}*/
 
 - (void) setupScrollView
 {
@@ -406,6 +405,10 @@
 	[view setAllowsUndo : NO];
 	[view setImportsGraphics : NO];
 	[view setFieldEditor : NO];
+
+	// 2005-09-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	// リンク文字列の書式は、NSTextView が自動的に付けてくれる。その属性辞書をここでセットしておく。
+	[view setLinkTextAttributes : [[CMRMessageAttributesTemplate sharedTemplate] attributesForAnchor]];
 	
 	[view setFont : [CMRPref threadsViewFont]];
 	[view setMenu : [[self class] loadContextualMenuForTextView]];

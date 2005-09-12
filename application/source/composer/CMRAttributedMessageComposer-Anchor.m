@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer-Anchor.m,v 1.1 2005/05/11 17:51:04 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer-Anchor.m,v 1.2 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * CMRAttributedMessageComposer-Anchor.m
   *
@@ -160,8 +160,8 @@ static BOOL scanURLCharactersFallDown(NSScanner *scanner, NSMutableString *strin
 	link_ = [[scanner string] substringWithRange : specRange];
 	link_ = CMRLocalResLinkWithString(link_);
 	
-	[mAttrStr addAttributes : [ATTR_TEMPLATE attributesForAnchor]
-					  range : linkRange];
+	//[mAttrStr addAttributes : [ATTR_TEMPLATE attributesForAnchor]
+	//				  range : linkRange];
 	[mAttrStr addAttribute : NSLinkAttributeName
 				     value : link_
 					 range : linkRange];
@@ -221,9 +221,10 @@ static NSString *const kURLHTTPSProtocol         = @"https";
         searchRange_.length = (length_ - searchRange_.location);
         // リンクを設定する範囲の指定
         linkRange_.length = (scanIndex_ - linkRange_.location);
-        
-        [theMessage addAttributes : [ATTR_TEMPLATE attributesForAnchor]
-                            range : linkRange_];
+
+		// 2005-09-08 リンク書式の付与は TextView に任せ、ここでは書式をセットしない        
+        //[theMessage addAttributes : [ATTR_TEMPLATE attributesForAnchor]
+        //                    range : linkRange_];
         [theMessage addAttribute : NSLinkAttributeName
                          value : anchor_
                          range : linkRange_];
@@ -320,8 +321,9 @@ EndInsertString:
         // リンクを設定する範囲の指定
         linkRange_.length = (scanIndex_ - linkRange_.location);
         
-        [theMessage addAttributes : [ATTR_TEMPLATE attributesForAnchor]
-                            range : linkRange_];
+		// 2005-09-08 リンク書式の付与は TextView に任せ、ここでは書式をセットしない
+        //[theMessage addAttributes : [ATTR_TEMPLATE attributesForAnchor]
+        //                    range : linkRange_];
         [theMessage addAttribute : NSLinkAttributeName
                          value : anchor_
                          range : linkRange_];

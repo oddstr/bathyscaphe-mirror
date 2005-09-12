@@ -8,9 +8,7 @@
   * @version 1.0.0d1 (02/09/27  6:07:53 PM)
   *
   */
-#import "CMRAccessorySheetController_p.h"
-
-
+#import "CMRAccessorySheetController.h"
 
 //////////////////////////////////////////////////////////////////////
 ////////////////////// [ íËêîÇ‚É}ÉNÉçíuä∑ ] //////////////////////////
@@ -70,50 +68,27 @@ static NSString *const kContextInfoObjectKey	= @"object";
 	[super windowDidLoad];
 	[self setupUIComponents];
 }
-@end
 
+#pragma mark Accessor
 
-
-@implementation CMRAccessorySheetController(Private)
-- (void) sheetDidEnd : (NSWindow *) sheet
-		  returnCode : (int       ) returnCode
-		 contextInfo : (void     *) contextInfo
+/* Accessor for m_originalContentView */
+- (NSView *) originalContentView
 {
-	NSDictionary	*infoDict_;
-	id				delegate_;
-	id				userInfo_;
-	NSView			*contentView_;
-	SEL				sel_;
-	
-	infoDict_ = (NSDictionary *)contextInfo;
-	UTILAssertKindOfClass(infoDict_, NSDictionary);
-	
-	sel_ = @selector(controller:sheetDidEnd:contentView:contextInfo:);
-	delegate_ = [infoDict_ objectForKey : kContextInfoDelegateKey];
-	userInfo_ = [infoDict_ objectForKey : kContextInfoObjectKey];
-	
-	[infoDict_ autorelease];
-	[sheet close];
-	
-	contentView_ = [[self contentView] retain];
-	[self setContentView : [self originalContentView]];
-	if(delegate_ != nil && [delegate_ respondsToSelector : sel_]){
-		[delegate_ controller : self
-				  sheetDidEnd : sheet 
-				  contentView : contentView_
-				  contextInfo : userInfo_];
-	}
-	[contentView_ release];
+	return m_originalContentView;
 }
-@end
+/* Accessor for m_closeButton */
+- (NSButton *) closeButton
+{
+	return m_closeButton;
+}
 
-
-
-@implementation CMRAccessorySheetController(Content)
 - (NSView *) contentView
 {
 	return m_contentView;
 }
+
+#pragma mark Content
+
 - (void) setContentView : (NSView *) aView
 {
 	unsigned		autoresizingMask_;
@@ -178,13 +153,67 @@ static NSString *const kContextInfoObjectKey	= @"object";
 	   didEndSelector : @selector(sheetDidEnd:returnCode:contextInfo:)
 		  contextInfo : [info_ retain]];
 }
-@end
 
+#pragma mark View Initializer
 
-@implementation CMRAccessorySheetController(Action)
+- (void) setupContentView
+{
+	m_originalContentView = [m_contentView retain];
+}
+- (void) setupCloseButton
+{
+	//write your implementation...
+}
+- (void) setupWindow
+{
+	[[[self window] contentView] setAutoresizesSubviews : YES];
+	[[[self window] contentView] setAutoresizingMask : 
+			(NSViewHeightSizable | NSViewWidthSizable)];
+}
+- (void) setupUIComponents
+{
+	[self setupContentView];
+	[self setupCloseButton];
+}
+
+#pragma mark IBAction
+
 - (IBAction) close : (id) sender
 {
 	[NSApp endSheet : [self window]
 		 returnCode : NSOKButton];
+}
+@end
+
+@implementation CMRAccessorySheetController(Private)
+- (void) sheetDidEnd : (NSWindow *) sheet
+		  returnCode : (int       ) returnCode
+		 contextInfo : (void     *) contextInfo
+{
+	NSDictionary	*infoDict_;
+	id				delegate_;
+	id				userInfo_;
+	NSView			*contentView_;
+	SEL				sel_;
+	
+	infoDict_ = (NSDictionary *)contextInfo;
+	UTILAssertKindOfClass(infoDict_, NSDictionary);
+	
+	sel_ = @selector(controller:sheetDidEnd:contentView:contextInfo:);
+	delegate_ = [infoDict_ objectForKey : kContextInfoDelegateKey];
+	userInfo_ = [infoDict_ objectForKey : kContextInfoObjectKey];
+	
+	[infoDict_ autorelease];
+	[sheet close];
+	
+	contentView_ = [[self contentView] retain];
+	[self setContentView : [self originalContentView]];
+	if(delegate_ != nil && [delegate_ respondsToSelector : sel_]){
+		[delegate_ controller : self
+				  sheetDidEnd : sheet 
+				  contentView : contentView_
+				  contextInfo : userInfo_];
+	}
+	[contentView_ release];
 }
 @end

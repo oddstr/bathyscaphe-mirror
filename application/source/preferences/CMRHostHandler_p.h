@@ -1,5 +1,4 @@
 #import "CMRHostHandler.h"
-#import "CMXTemplateResources.h"
 #import "CocoMonar_Prefix.h"
 
 

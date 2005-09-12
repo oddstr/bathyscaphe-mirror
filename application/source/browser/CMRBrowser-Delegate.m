@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.8 2005/06/18 23:52:18 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.9 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -7,7 +7,7 @@
   * See the file LICENSE for copying permission.
   */
 #import "CMRBrowser_p.h"
-#import "CMRNoNameManager.h"
+#import "BoardManager.h"
 #import "missing.h"
 
 extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
@@ -408,11 +408,11 @@ static BOOL isOptionKeyDown(unsigned flag_)
   didClickTableColumn : (NSTableColumn *) tableColumn
 {
 	NSString		*theId_;
-	CMRBBSSignature	*currentBoard_;
+	NSString		*currentBoard_;
 	CMRThreadsList	*currentList_;
 	
 	theId_ = [tableColumn identifier];
-	currentBoard_ = [[self currentThreadsList] BBSSignature];
+	currentBoard_ = [[self currentThreadsList] boardName];
 	currentList_ = [self currentThreadsList];
 	
 	// Sort:
@@ -420,8 +420,8 @@ static BOOL isOptionKeyDown(unsigned flag_)
 	// 昇順／降順の切り替えと見なす。
 	if (tableColumn == [tableView highlightedTableColumn]) {
 		[currentList_ toggleIsAscending];
-		[[CMRNoNameManager defaultManager] setSortColumnIsAscending : [currentList_ isAscending]
-															atBoard : currentBoard_];
+		[[BoardManager defaultManager] setSortColumnIsAscending : [currentList_ isAscending]
+														atBoard : currentBoard_];
 	}
 		
 	// 実際のソート
@@ -430,8 +430,8 @@ static BOOL isOptionKeyDown(unsigned flag_)
 	// カラムヘッダの描画を更新
 	[self changeHighLightedTableColumnTo : theId_ isAscending : [currentList_ isAscending]];
 
-	[[CMRNoNameManager defaultManager] setSortColumn : theId_
-											forBoard : currentBoard_];
+	[[BoardManager defaultManager] setSortColumn : theId_
+										forBoard : currentBoard_];
 
 	// option キーを押しながらヘッダをクリックした場合は、変更後の設定を CMRPref に保存する（グローバルな設定の変更）。
 	if (isOptionKeyDown([[NSApp currentEvent] modifierFlags])) {

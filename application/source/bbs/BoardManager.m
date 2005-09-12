@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.m,v 1.2 2005/07/30 19:15:22 tsawada2 Exp $
+ * $Id: BoardManager.m,v 1.3 2005/09/12 08:02:20 tsawada2 Exp $
  * 
  * BoardManager.m
  *
@@ -57,6 +57,7 @@ static id kDefaultManager;
     
     [_defaultList release];
     [_userList release];
+	[_noNameDict release];
     [super dealloc];
 }
 
@@ -73,6 +74,12 @@ static id kDefaultManager;
 	
 	filepath_ = [[CMRFileManager defaultManager] dataRootDirectoryPath];
 	return [filepath_ stringByAppendingPathComponent : CMRDefaultBoardFile];
+}
++ (NSString *) NNDFilepath
+{
+	return [[CMRFileManager defaultManager]
+				 supportFilepathWithName : CMRNoNamesFile
+						resolvingFileRef : NULL];
 }
 
 
@@ -277,7 +284,12 @@ static id kDefaultManager;
 		NSApp);
 	
 	[self saveListsIfNeed];
+
+	// NoNames.plist ÇÕèÌÇ…ï€ë∂
+	[[self noNameDict] writeToFile : [[self class] NNDFilepath]
+						atomically : YES];
 }
+
 - (BOOL) saveListsIfNeed
 {	
 	if ([[self userList] isEdited]) {
@@ -292,7 +304,6 @@ static id kDefaultManager;
 						atomically : YES];
 		[[self defaultList] setIsEdited : NO];
 	}
-
 	return YES;
 }
 @end

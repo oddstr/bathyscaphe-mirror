@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.h,v 1.1 2005/05/11 17:51:04 tsawada2 Exp $
+  * $Id: CMRThreadsList.h,v 1.2 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * CMRThreadsList.h
   *
@@ -13,10 +13,7 @@
 @class CMRSearchOptions;
 @class CMRBBSSignature;
 @class CMRThreadLayout;
-
-#if PATCH
 @class CMXDateFormatter;
-#endif
 
 
 typedef enum _ThreadsListSearchType{
@@ -35,9 +32,9 @@ typedef enum _ThreadsListSearchType{
 	
 	NSLock		*_threadsListUpdateLock;
 	NSLock		*_filteredThreadsLock;
-#if PATCH
-	CMXDateFormatter * dateFormatter;
-#endif
+
+	CMXDateFormatter		*dateFormatter;
+
 	BOOL		_isAscending;
 }
 
@@ -132,7 +129,7 @@ typedef BOOL(*TLSearchFunction)(NSDictionary *, void *);
 + (void) resetDataSourceTemplates;
 
 + (id) objectValueTemplate : (id ) aValue
-				   forTYpe : (int) aType;
+				   forType : (int) aType;
 @end
 
 
@@ -150,9 +147,8 @@ typedef BOOL(*TLSearchFunction)(NSDictionary *, void *);
                                   inTableView : (NSTableView *) tableView;
 
 - (unsigned int) indexOfThreadWithPath : (NSString *) filepath;
-#if PATCH
--(void)updateDateFormatter;
-#endif
+
+- (void) updateDateFormatter;
 @end
 
 

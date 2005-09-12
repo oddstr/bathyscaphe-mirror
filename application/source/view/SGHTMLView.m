@@ -1,5 +1,5 @@
 /**
-  * $Id: SGHTMLView.m,v 1.1 2005/05/11 17:51:09 tsawada2 Exp $
+  * $Id: SGHTMLView.m,v 1.2 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * SGHTMLView.m
   *
@@ -69,14 +69,11 @@ acceptsMouseMovedEvents == YES だと resetCursorRects が頻繁に呼ばれる
 
 
 /*
-	[ Mac OS X 10.3 ]
-	このバージョンからリンクには自動的に書式がつくようになった。
-	CocoMonarは独自に設定しているので、これを無効化
+2005-09-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+以前は、ここで linkTextAttributes: をオーバーライドして空の辞書を返していたが、今後は linkTextAttributes: を
+生かしてレイアウト作業を行う。
+CMRThreadView をセットアップする際に、setLinkTextAttributes: で適当な属性辞書をセットすること。
 */
-- (NSDictionary *) linkTextAttributes
-{
-	return [NSDictionary empty];
-}
 
 - (NSMenu *) menuForEvent : (NSEvent *) theEvent
 {

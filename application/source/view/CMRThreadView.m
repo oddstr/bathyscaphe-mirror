@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadView.m,v 1.3 2005/06/30 14:33:45 tsawada2 Exp $
+  * $Id: CMRThreadView.m,v 1.4 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * CMRThreadView.m
   *
@@ -8,7 +8,7 @@
   */
 #import "CMRThreadView_p.h"
 #import "CMXMenuHolder.h"
-
+#import "AppDefaults.h"
 #import "NSTextView+CMXAdditions.h"
 
 
@@ -86,47 +86,6 @@
 	}
 	return self;
 }
-
-/*
-2004-03-15 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
-----------------------------------------
-ƒŒƒX”Ô†w’èƒtƒB[ƒ‹ƒh‚ÉƒtƒH[ƒJƒX‚ª‚ ‚éó‘Ô‚ÅƒXƒNƒ[ƒ‹‚·‚é‚Æ
-‚»‚ÌƒtƒH[ƒJƒXEƒŠƒ“ƒO‚ª‰æ–Êã‚ÉƒSƒ~‚Æ‚µ‚Äc‚Á‚Ä‚µ‚Ü‚¤B
-NSClipView ‚Ì NSViewBoundsDidChangeNotification ‚ğó‚¯æ‚Á‚Ä
-‚»‚±‚Å View ‘S‘Ì‚ğ setKeyboardFocusRingNeedsDisplayInRect
-‚µ‚Ä‚à‚¢‚¢‚ªAƒpƒtƒH[ƒ}ƒ“ƒX‚ğ‰Ò‚®‚½‚ß‚±‚±‚Å‘Î‰‚·‚éB
-----------------------------------------
-*/
-//
-// contentViewBoudnsDidChange:
-// invalidate focus ring in the bottom area of textView
-//
-
-/*
-#define FOCUS_RING_AREA_HEIGHT	5.0f
-- (NSRect) adjustScroll : (NSRect) proposedVisibleRect
-{
-	// ----------------------------------------
-	// Remove indexField's focus ring on textView
-	// ----------------------------------------
-	NSRect	focusRect = [self visibleRect];
-	
-	// Calc Focus-ring rect
-	if ([self isFlipped]) {
-		focusRect.origin.y += focusRect.size.height;
-		focusRect.origin.y -= FOCUS_RING_AREA_HEIGHT;
-	}
-	focusRect.size.height = FOCUS_RING_AREA_HEIGHT;
-	
-	// Intersection Rect of Focus-ring rect and proposedVisibleRect
-	focusRect = NSIntersectionRect(focusRect, proposedVisibleRect);
-	
-	if (NSHeight(focusRect) > 0)
-		[self setKeyboardFocusRingNeedsDisplayInRect:focusRect];
-	
-	return proposedVisibleRect;
-}
-*/
 
 - (CMRThreadSignature *) threadSignature
 {
@@ -262,8 +221,8 @@ NOT_FOUND:
 	unsigned		prevCharIndex_;
 	
 	selectedRange_ = [self selectedRange];
-	// ƒRƒ“ƒeƒLƒXƒgEƒƒjƒ…[‚ğ•\¦‚µ‚½ê‡‚Í•\¦ˆÊ’u‚Ì
-	// ƒCƒ“ƒfƒbƒNƒX
+	// ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆãƒ»ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’è¡¨ç¤ºã—ãŸå ´åˆã¯è¡¨ç¤ºä½ç½®ã®
+	// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 	if (0 == selectedRange_.length) {
 		selectedRange_.location = _lastCharIndex;
 		selectedRange_.length = 1;
@@ -272,7 +231,7 @@ NOT_FOUND:
 		NSMaxRange(selectedRange_) > [[self textStorage] length]) 
 	{ return [[NSArray empty] objectEnumerator]; }
 	
-	// ‘I‘ğ”ÍˆÍ‚Ì‚Ğ‚Æ‚Â‚Ü‚¦‚ÌƒŒƒX‚àŠÜ‚Ş
+	// é¸æŠç¯„å›²ã®ã²ã¨ã¤ã¾ãˆã®ãƒ¬ã‚¹ã‚‚å«ã‚€
 	prevCharIndex_ = [self previousMessageStartIndexOfCharIndex : selectedRange_.location];
 	if (prevCharIndex_ != NSNotFound)
 		selectedRange_.location = prevCharIndex_;
@@ -378,7 +337,7 @@ NOT_FOUND:
 	NSPoint		mouseLocation_;//,mouseLocation2_;
 	BOOL		isMouseEvent_ = YES;
 	
-	// ƒ}ƒEƒXƒCƒxƒ“ƒg‚©
+	// ãƒã‚¦ã‚¹ã‚¤ãƒ™ãƒ³ãƒˆã‹
 NS_DURING
 	[theEvent clickCount];
 NS_HANDLER
@@ -394,11 +353,11 @@ NS_ENDHANDLER
 		_lastCharIndex = [self characterIndexForPoint : mouseLocation_];
 	}
 	
-	// ƒ}ƒEƒXƒ|ƒCƒ“ƒ^‚ª‘I‘ğ‚³‚ê‚½ƒeƒLƒXƒg‚ÌA‚»‚Ì‘I‘ğ—Ìˆæ‚É“ü‚Á‚Ä‚¢‚é‚È‚çA‘I‘ğƒeƒLƒXƒg—p‚ÌƒRƒ“ƒeƒLƒXƒgƒƒjƒ…[‚ğ•Ô‚·B
+	// ãƒã‚¦ã‚¹ãƒã‚¤ãƒ³ã‚¿ãŒé¸æŠã•ã‚ŒãŸãƒ†ã‚­ã‚¹ãƒˆã®ã€ãã®é¸æŠé ˜åŸŸã«å…¥ã£ã¦ã„ã‚‹ãªã‚‰ã€é¸æŠãƒ†ã‚­ã‚¹ãƒˆç”¨ã®ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’è¿”ã™ã€‚
 	//if(NSPointInRect (mouseLocation2_, [self boundingRectForCharacterInRange : [self selectedRange]]))
 	//		return [[self class] defaultMenu];
 	
-	// ‚»‚¤‚Å‚È‚¯‚ê‚ÎAƒX[ƒp[ƒNƒ‰ƒX‚Å”»’f‚µ‚Ä‚à‚ç‚¤isee SGHTMLView.m)B
+	// ãã†ã§ãªã‘ã‚Œã°ã€ã‚¹ãƒ¼ãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹ã§åˆ¤æ–­ã—ã¦ã‚‚ã‚‰ã†ï¼ˆsee SGHTMLView.m)ã€‚
 	return [super menuForEvent : theEvent];
 }
 
@@ -433,11 +392,11 @@ static NSString *mActionGetKeysForTag[] = {
 	anIndexRange.location = [m index];
 	
 	rep = [NSValue valueWithRange : anIndexRange];
-	// RepresentedObject‚Ìİ’è
+	// RepresentedObjectã®è¨­å®š
 	[[self class] setupMenuItemInMenu : menu_
 			representedObject : rep];
 	
-	// ó‘Ô‚Ìİ’è
+	// çŠ¶æ…‹ã®è¨­å®š
 	indexes_ = [self indexArrayWithIndexRange : anIndexRange];
 	iter_ = [[menu_ itemArray] objectEnumerator];
 	while (item_ = [iter_ nextObject]) {
@@ -478,9 +437,9 @@ static NSString *mActionGetKeysForTag[] = {
 	id		v;
 	
 	v = [sender representedObject];
-	if (nil == v) {		// ‘I‘ğ‚³‚ê‚½ƒŒƒX
+	if (nil == v) {		// é¸æŠã•ã‚ŒãŸãƒ¬ã‚¹
 		
-		// ‚±‚Ì‚ ‚Æ“à—e‚ª•ÏX‚³‚ê‚é‚©‚à‚µ‚ê‚È‚¢
+		// ã“ã®ã‚ã¨å†…å®¹ãŒå¤‰æ›´ã•ã‚Œã‚‹ã‹ã‚‚ã—ã‚Œãªã„
 		v = [self selectedMessageIndexEnumerator];
 		v = [v allObjects];
 		v = [v objectEnumerator];
@@ -491,7 +450,7 @@ static NSString *mActionGetKeysForTag[] = {
 	return v;
 }
 
-// ƒXƒpƒ€ƒtƒBƒ‹ƒ^‚Ö‚Ì“o˜^
+// ã‚¹ãƒ‘ãƒ ãƒ•ã‚£ãƒ«ã‚¿ã¸ã®ç™»éŒ²
 - (void) messageRegister : (CMRThreadMessage *) aMessage
 			registerFlag : (BOOL			  ) flag
 {
@@ -505,7 +464,7 @@ static NSString *mActionGetKeysForTag[] = {
 }
 
 
-/* ƒXƒŒƒRƒs[ */
+/* ã‚¹ãƒ¬ã‚³ãƒ”ãƒ¼ */
 - (IBAction) messageCopy : (id) sender
 {
 	NSPasteboard			*pboard_ = [NSPasteboard generalPasteboard];
@@ -592,7 +551,7 @@ static NSString *mActionGetKeysForTag[] = {
 #endif
 
 
-/* ƒŒƒX */
+/* ãƒ¬ã‚¹ */
 - (IBAction) messageReply : (id) sender
 {
 	id				delegate_;
@@ -612,7 +571,7 @@ static NSString *mActionGetKeysForTag[] = {
 	[delegate_ threadView:self messageReply:range_];
 }
 
-/* ‘®«‚Ì•ÏX */
+/* å±æ€§ã®å¤‰æ›´ */
 - (CMRThreadMessage *) toggleMessageAttributesAtIndex : (unsigned) anIndex
 											senderTag : (int     ) aSenderTag
 {
@@ -635,13 +594,13 @@ static NSString *mActionGetKeysForTag[] = {
 		[m setAsciiArt : ![m isAsciiArt]];
 		break;
 	case kBookmarkTag:
-		/* Œ»ƒo[ƒWƒ‡ƒ“‚Å‚Í•¡”‚ÌƒuƒbƒNƒ}[ƒN‚Í—˜—p‚µ‚È‚¢ */
+		/* ç¾ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã§ã¯è¤‡æ•°ã®ãƒ–ãƒƒã‚¯ãƒãƒ¼ã‚¯ã¯åˆ©ç”¨ã—ãªã„ */
 		[m setHasBookmark : ![m hasBookmark]];
 		break;
 	case kSpamTag:{
 		BOOL	isSpam_ = (NO == [m isSpam]);
-		// –À˜fƒŒƒX‚ğè“®‚Åİ’è‚µ‚½ê‡‚Í
-		// ƒtƒBƒ‹ƒ^‚É“o˜^‚·‚é
+		// è¿·æƒ‘ãƒ¬ã‚¹ã‚’æ‰‹å‹•ã§è¨­å®šã—ãŸå ´åˆã¯
+		// ãƒ•ã‚£ãƒ«ã‚¿ã«ç™»éŒ²ã™ã‚‹
 		[self messageRegister:m registerFlag:isSpam_];
 		[m setSpam : isSpam_];
 		break;
@@ -652,17 +611,67 @@ static NSString *mActionGetKeysForTag[] = {
 	}
 	return m;
 }
+
+static void showPoofAnimationForInvisibleAbone(CMRThreadView *tView, unsigned int messageIndex)
+{		
+	// ã‚¯ãƒªãƒƒã‚¯ã•ã‚ŒãŸãƒ¬ã‚¹ã®ç•ªå·ã‹ã‚‰åº§æ¨™ã‚’è¨ˆç®—ï¼ˆç…©é›‘ï¼ï¼‰
+	// 1.ãƒ¬ã‚¹ç•ªå· mIndex ã‹ã‚‰ã€ã“ã®ãƒ¬ã‚¹ã® NSRange ã‚’å–å¾—
+	NSRange	range_ = [[[tView threadLayout] messageRanges] rangeAtIndex : messageIndex];
+	// 2.ã“ã® NSRange ã®é ˜åŸŸã‚’å–å¾—ï¼ˆNSTextView+CMXAddition.mï¼‰
+	NSRect	rect_ = [tView boundingRectForCharacterInRange : range_];
+	// 3.é ˜åŸŸã®éš…ã£ã“ã®å€¤ã‹ã‚‰ NSPoint ã‚’ä½œã‚‹
+	NSPoint	point_ = NSMakePoint(NSMinX(rect_), NSMinY(rect_));
+	// 4.NSPoint ã‚’ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ãƒ™ãƒ¼ã‚¹ã«å¤‰æ›
+	point_ = [tView convertPoint : point_ toView : nil];
+	point_ = [[tView window] convertBaseToScreen : point_];
+	// 5.ã“ã®é–¢æ•°ã§ poof ã‚’ç™ºç”Ÿã•ã›ã‚‹ã€‚Tiger ã§ãƒ†ã‚­ã‚¹ãƒˆãƒ“ãƒ¥ãƒ¼ã®æ–‡å­—ãŒã«ã˜ã‚€ã“ã¨ãŒã‚ã‚‹ã€‚ãŠãã‚‰ããƒã‚°ï¼ˆä»–ã®ã‚¢ãƒ—ãƒªã§ã‚‚è¦‹ã‚‰ã‚Œã‚‹ï¼‰ã€‚
+	NSShowAnimationEffect(NSAnimationEffectDisappearingItemDefault, point_, NSZeroSize, nil, nil, nil);
+}
+
 - (IBAction) changeMessageAttributes : (id) sender
 {
 	NSEnumerator	*mIndexEnum_;
 	NSNumber		*mIndex;
+	int				actionType = [sender tag];
 	
 	mIndexEnum_ = [self representedObjectWithSender : sender];
-	while (mIndex = [mIndexEnum_ nextObject]) {
-		UTILAssertRespondsTo(mIndex, @selector(unsignedIntValue));
-		
-		[self toggleMessageAttributesAtIndex : [mIndex unsignedIntValue]
-								   senderTag : [sender tag]];
+
+	if ([sender state] == NSOnState) {
+		while (mIndex = [mIndexEnum_ nextObject]) {
+			UTILAssertRespondsTo(mIndex, @selector(unsignedIntValue));
+
+			[self toggleMessageAttributesAtIndex : [mIndex unsignedIntValue]
+									   senderTag : actionType];
+		}
+
+	} else {
+
+		BOOL	poofDone = NO;
+
+		while (mIndex = [mIndexEnum_ nextObject]) {
+			UTILAssertRespondsTo(mIndex, @selector(unsignedIntValue));
+
+			[self toggleMessageAttributesAtIndex : [mIndex unsignedIntValue]
+									   senderTag : actionType];
+
+			switch(actionType) {
+			case kInvisibleAboneTag:
+				if (!poofDone) {
+					showPoofAnimationForInvisibleAbone(self, [mIndex unsignedIntValue]);
+					poofDone = YES; // ä¸€å€‹ poof é›²ã‚’ç™ºç”Ÿã•ã›ãŸã‚‰ã€ã‚‚ã†ã‚„ã‚‰ãªã„
+				}
+				break;
+			case kSpamTag:
+				if (([CMRPref spamFilterBehavior] == kSpamFilterInvisibleAbonedBehavior) && (!poofDone)) {
+					showPoofAnimationForInvisibleAbone(self, [mIndex unsignedIntValue]);
+					poofDone = YES; // ä¸€å€‹ poof é›²ã‚’ç™ºç”Ÿã•ã›ãŸã‚‰ã€ã‚‚ã†ã‚„ã‚‰ãªã„
+				}
+				break;
+			default:
+				break;
+			}
+
+		}
 	}
 }
 @end

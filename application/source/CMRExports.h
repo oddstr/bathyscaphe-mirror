@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRExports.h,v 1.1 2005/05/11 17:51:03 tsawada2 Exp $
+  * $Id: CMRExports.h,v 1.2 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * CMRExports.h
   *
@@ -14,6 +14,9 @@
 #define CMREXPORTS_H_INCLUDED
 
 #include <stddef.h>
+
+#import <Foundation/Foundation.h>
+#import <SGFoundation/SGFoundation.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -36,6 +39,23 @@ extern void CMRApplicationReset(void);
 // Alert
 extern int CMRRunAlertPanelForDeleteThread(BOOL isFavotites);
 
+/*!
+ * @function    CMXInit
+ * @discussion  各サービスの初期化
+ */
+extern void CMXServicesInit(void);
+
+/*!
+ * @abstract    ログ出力オブジェクト
+ * @discussion  アプリケーション全体で使用するログ出力オブジェクト
+ */
+extern SGUtilLogger *CMRLogger;
+
+/*!
+ * @category    CMXFavoritesDirectoryName
+ * @discussion  Version 1 との互換性のためだけの機能
+ */
+#define CMXFavoritesDirectoryName	NSLocalizedString(@"Favorites", nil)
 
 
 #ifdef __cplusplus

@@ -1,5 +1,5 @@
 /**
-  * $Id: BoardList-OVDataSource.m,v 1.4 2005/07/22 16:42:21 tsawada2 Exp $
+  * $Id: BoardList-OVDataSource.m,v 1.5 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * BoardList-OVDataSource.m
   *
@@ -10,7 +10,6 @@
 #import "AppDefaults.h"
 #import "CMRFavoritesManager.h"
 #import "CMRThreadsList.h"
-#import "CMXTemplateResources.h"
 #import "CMRBBSListTemplateKeys.h"
 
 #import <Cocoa/Cocoa.h>
@@ -90,7 +89,7 @@ static NSMutableAttributedString *textForType(BoardListItemType type)
 	default:
 		//break;
 	}
-	return CMXTemplateResource(key_, nil);*/
+	return SGTemplateResource(key_);*/
 }
 
 - (void) outlineView : (NSOutlineView *) outlineView

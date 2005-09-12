@@ -8,7 +8,7 @@
 
 #import "CookieManager.h"
 #import "CMRHistoryManager.h"
-#import "CMRNoNameManager.h"
+//#import "CMRNoNameManager.h"
 #import "CMRFavoritesManager.h"
 #import "CMRMainMenuManager.h"
 #import "BoardManager.h"
@@ -40,7 +40,7 @@ void CMXServicesInit(void)
     
     // Managers
     [CMRFileManager defaultManager];
-    [CMRNoNameManager defaultManager];
+    //[CMRNoNameManager defaultManager];
     [CMRMainMenuManager defaultManager];
     [BoardManager defaultManager];
 	[CMRFavoritesManager defaultManager];

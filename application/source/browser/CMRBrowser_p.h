@@ -1,7 +1,6 @@
 //:CMRBrowser_p.h
 /**
   *
-  * @see SGTextAccessoryFieldController.h
   *
   * @author Takanori Ishikawa
   * @author http://www15.big.or.jp/~takanori/
@@ -18,7 +17,6 @@
 #import "Browser.h"
 #import "CMRThreadDocument.h"
 
-#import "CMRBrowserTemplateKeys.h"
 #import "CMRBrowserTbDelegate.h";
 #import "CMRThreadsList.h";
 #import "CMXDateFormatter.h";
@@ -40,7 +38,7 @@
 
 // 前回最後に開いていた掲示板を開くよう指示する通知
 #define kSelectLastBBSNotification @"kSelectLastBBSNotification"
-
+// 掲示板リストの編集
 #define kEditDrawerTitleKey					@"Edit Title"
 #define kAddCategoryTitleKey				@"Add Category Title"
 
@@ -55,6 +53,18 @@
 #define kRemoveDrawerItemTitleKey			@"Browser Del Drawer Item Title"
 #define kRemoveDrawerItemMsgKey				@"Browser Del Drawer Item Message"
 
+// Window Title Format
+#define kWindowTitleBBSNameKey		@"%%%BBSName%%%"
+#define kWindowTitleThreadTitleKey	@"%%%ThreadTitle%%%"
+
+// PropertyList
+#define kWindowTitleFormatKey				@"Browser - WindowTitleFormat"
+#define kThreadsListTableActionKey			@"Browser - ListViewAction"
+#define kThreadsListTableDoubleActionKey	@"Browser - ListViewDoubleAction"
+
+// Localized
+#define kSearchListNotFoundKey	@"Search Thread Not Found"
+#define kSearchListResultKey	@"Search Thread Result"
 
 //:CMRBrowser-List.m
 @interface CMRBrowser(List)

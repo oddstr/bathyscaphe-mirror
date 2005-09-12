@@ -1,6 +1,6 @@
 //: CMXTextParser.m
 /**
-  * $Id: CMXTextParser.m,v 1.6 2005/07/30 19:15:22 tsawada2 Exp $
+  * $Id: CMXTextParser.m,v 1.7 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -9,7 +9,6 @@
 #import "CMXTextParser.h"
 #import "CocoMonar_Prefix.h"
 #import "CMRThreadMessage.h"
-#import "CMXTemplateResources.h"
 
 // for debugging only
 #define UTIL_DEBUGGING		1
@@ -601,7 +600,7 @@ static NSStringEncoding *allocateAvailableURLEncodings(void)
 	size_t				memSize_;
 	int					i, cnt;
 	
-	nsArray_ = CMXTemplateResource(kAvailableURLCFEncodingsNSArrayKey, nil);
+	nsArray_ = SGTemplateResource(kAvailableURLCFEncodingsNSArrayKey);
 	UTILCAssertNotNil(nsArray_);
 	
 	cnt = [nsArray_ count];

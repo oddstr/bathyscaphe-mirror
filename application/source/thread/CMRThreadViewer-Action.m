@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.6 2005/07/22 16:42:21 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.7 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -19,7 +19,6 @@
 #import "CMRSearchOptions.h"
 #import "TextFinder.h"
 #import "CMRThreadView.h"
-#import "CMXTemplateResources.h"
 #import "CMRHistoryManager.h"
 
 #import "CMXPopUpWindowManager.h"
@@ -389,7 +388,7 @@
 	NSArray			*types_;
 	NSDictionary	*dict_;
 
-	template_ = CMXTemplateResource(kCopyThreadFormatKey, nil);
+	template_ = SGTemplateResource(kCopyThreadFormatKey);
 	UTILAssertKindOfClass(template_, NSString);
 	
 	tmp = SGTemporaryString();

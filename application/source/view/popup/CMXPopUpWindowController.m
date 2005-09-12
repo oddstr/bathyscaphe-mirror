@@ -1,6 +1,6 @@
 //: CMXPopUpWindowController.m
 /**
-  * $Id: CMXPopUpWindowController.m,v 1.3 2005/07/11 17:14:57 tsawada2 Exp $
+  * $Id: CMXPopUpWindowController.m,v 1.4 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -8,7 +8,6 @@
 
 #import "CMXPopUpWindowController_p.h"
 #import "AppDefaults.h"
-#import "CMXTemplateResources.h"
 #import "CMRPopUpTemplateKeys.h"
 #import "CMXPopUpWindowManager.h"
 
@@ -42,7 +41,7 @@
 {
 	id		tmp;
 	
-	tmp = CMXTemplateResource(kPopUpTrackingInsetKey, nil);
+	tmp = SGTemplateResource(kPopUpTrackingInsetKey);
 	if(nil == tmp)
 		return 5.0f;
 	
@@ -241,19 +240,8 @@
 		[self setIsClosable : temp_];
 	
 		if ([self isClosable]) {
-			//NSLog(@"Popup unlocked");
-			/*[self setBackgroundColor : [CMRPref resPopUpBackgroundColor]];
-
-			[[self textStorage] 
-				   removeAttribute : NSForegroundColorAttributeName
-						     range : contentRng_];
-			[[self textStorage] 
-				  addAttribute : NSForegroundColorAttributeName
-						 value : [CMRPref resPopUpDefaultTextColor]
-					     range : contentRng_];*/
 			[self close];
 		} else {
-			//NSLog(@"Popup locked");
 			[self setBackgroundColor : [NSColor windowBackgroundColor]];
 
 			[[self textStorage] 

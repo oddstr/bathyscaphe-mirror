@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMessageFilter.m,v 1.2 2005/07/11 15:52:18 tsawada2 Exp $
+  * $Id: CMRMessageFilter.m,v 1.3 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * CMRMessageFilter.m
   *
@@ -11,7 +11,7 @@
 #import "CMRThreadMessage.h"
 #import "CMRBBSSignature.h"
 #import "CMRThreadSignature.h"
-#import "CMRNoNameManager.h"
+#import "BoardManager.h"
 #import "CMXTextParser.h"
 #import "NSCharacterSet+CMXAdditions.h"
 
@@ -472,9 +472,8 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 		// 名前
 		field = [aMessage name];
 		if (NO == checkNameIsNonSignificant_(field)) {
-			CMRBBSSignature		*b = [aThread BBSSignature];
-			NSString *nn = [[CMRNoNameManager defaultManager]
-									defauoltNoNameForBoard : b];
+			NSString *b = [aThread BBSName];
+			NSString *nn = [[BoardManager defaultManager] defaultNoNameForBoard : b];
 			
 			if (NO == [field isEqualToString : nn])
 				[tmp appendString : field];
@@ -574,7 +573,7 @@ static int doDetectMessageAny_(
 	BOOL				Eq_b, Eq_t;
 	unsigned			mask = [m1 property];
 	
-	CMRNoNameManager	*nnMgr = [CMRNoNameManager defaultManager];
+	BoardManager		*nnMgr = [BoardManager defaultManager];
 	CMRBBSSignature		*b1 = [t1 BBSSignature];
 	CMRBBSSignature		*b2 = [t2 BBSSignature];
 	NSString			*s1, *s2;
@@ -622,7 +621,7 @@ static int doDetectMessageAny_(
 	if (kSampleAsNameMask & mask) { 
 		s1 = [m1 name];
 		s2 = [m2 name];
-		if (NO == [s2 isEqualToString : [nnMgr defauoltNoNameForBoard : b2]]) {
+		if (NO == [s2 isEqualToString : [nnMgr defaultNoNameForBoard : [b2 name]]]) {
 			if ([s1 isEqualToString : s2]) {
 				return kSampleAsNameMask;
 			}
@@ -756,7 +755,7 @@ static void setupAppendingSample_(CMRMessageSample *sample, NSMutableDictionary 
 {
 	CMRThreadMessage	*m = [sample message];
 	CMRThreadSignature	*t = [sample threadIdentifier];
-	CMRBBSSignature		*b = [t BBSSignature];
+	NSString			*b = [t BBSName];
 	unsigned			sign;		// 考慮する項目のフラグ
 	NSString			*s;
 	id					tmp;
@@ -796,7 +795,7 @@ static void setupAppendingSample_(CMRMessageSample *sample, NSMutableDictionary 
 	// エンティティ参照を解決し、名前を正規化
 	// 板の名無しと同じ名前なら無視
 	s = [[m name] stringByReplaceEntityReference];
-	tmp = [[CMRNoNameManager defaultManager] defauoltNoNameForBoard : b];
+	tmp = [[BoardManager defaultManager] defaultNoNameForBoard : b];
 	if (s != nil && [s isEqualToString : tmp]) {
 		UTIL_DEBUG_WRITE1(
 			@"name:%@ was default NO_NAME, was nonsignificant.", s);

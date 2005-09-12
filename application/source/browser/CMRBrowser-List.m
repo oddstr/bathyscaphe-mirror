@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.2 2005/06/18 19:09:16 tsawada2 Exp $
+  * $Id: CMRBrowser-List.m,v 1.3 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -10,7 +10,7 @@
 #import "missing.h"
 #import "CMRHistoryManager.h"
 #import "CMRStatusLine.h"
-#import "CMRNoNameManager.h"
+#import "BoardManager.h"
 
 
 
@@ -72,6 +72,7 @@
 {
 	CMRThreadsList		*list_;
 	NSString			*sortColumnIdentifier_;
+	NSString			*bName_;
 	BOOL				isAscending_;
 	
 	if(nil == aSignature) return;
@@ -79,6 +80,7 @@
 		return;
 	}
 	
+	bName_ = [aSignature name];
 	[[self threadsListTable] deselectAll : nil];
 	[[self threadsListTable] setDataSource : nil];
 	
@@ -89,8 +91,8 @@
 	[self setCurrentThreadsList : list_];
 	
 	// sort column change
-	sortColumnIdentifier_ = [[CMRNoNameManager defaultManager] sortColumnForBoard : aSignature];
-	isAscending_ = [[CMRNoNameManager defaultManager] sortColumnIsAscendingAtBoard : aSignature];
+	sortColumnIdentifier_ = [[BoardManager defaultManager] sortColumnForBoard : bName_];
+	isAscending_ = [[BoardManager defaultManager] sortColumnIsAscendingAtBoard : bName_];
 	
 	[list_ setIsAscending : isAscending_];
 	[self changeHighLightedTableColumnTo : sortColumnIdentifier_ isAscending : isAscending_];
@@ -174,6 +176,7 @@ static NSImage *fnc_indicatorImageWithDirection(BOOL isAscending)
 {
 	CMRThreadsList	*tlist_ = [self currentThreadsList];
 	NSTableView		*tview_ = [self threadsListTable];
+	NSIndexSet		*indexes_;
 	unsigned int	index_;
 	int				selected_;
 	
@@ -186,33 +189,11 @@ static NSImage *fnc_indicatorImageWithDirection(BOOL isAscending)
 	// Ç∑Ç≈Ç…ëIëçœÇ›
 	if(NSNotFound == index_ || (selected_ != -1 && index_ == (unsigned)selected_))
 		return index_;
-	
-/*
-Deprecated in Mac OS X v10.3.
-- [NSTableView selectRow:byExtendingSelection:]
-*/
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_3
-{
-	Class	NSIndexSet_ = NSClassFromString(@"NSIndexSet");
-	id		indexes_;
-	
-	UTILRequireCondition((NSIndexSet_ != Nil), OLDER_SELECT_ROW);
-	UTILRequireCondition(
-		[NSIndexSet_ respondsToSelector : @selector(indexSetWithIndex:)],
-		OLDER_SELECT_ROW);
-	
-	indexes_ = [NSIndexSet_ indexSetWithIndex : index_];
-	UTILRequireCondition(
-		[tview_ respondsToSelector : @selector(selectRowIndexes:byExtendingSelection:)],
-		OLDER_SELECT_ROW);
-	
-	[tview_ selectRowIndexes:indexes_ byExtendingSelection:NO];
-	return index_;
-}
-#endif
 
-OLDER_SELECT_ROW:
-	[tview_ selectRow:index_ byExtendingSelection:NO];
+	// Mac OS X 10.3 à»ç~Ç≈ÇÕ NSIndexSet ÇégÇ§
+	indexes_ = [NSIndexSet indexSetWithIndex : index_];
+	[tview_ selectRowIndexes:indexes_ byExtendingSelection:NO];
+
 	return index_;
 }
 @end

@@ -1,6 +1,6 @@
 //: CMRThreadLayout.m
 /**
-  * $Id: CMRThreadLayout.m,v 1.1 2005/05/11 17:51:07 tsawada2 Exp $
+  * $Id: CMRThreadLayout.m,v 1.2 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * CMRThreadLayout.m
   *
@@ -191,8 +191,11 @@
 		CMRThreadMessageDidChangeAttributeNotification);
 	
 	m = [theNotification object];
-	if ((mIndex = [[self messageBuffer] indexOfMessage : m]) != NSNotFound)
+	if ((mIndex = [[self messageBuffer] indexOfMessage : m]) != NSNotFound) {
 		[self updateMessageAtIndex : mIndex];
+		// 2005-09-09 tsawada2 様子見中（Tiger 描画乱れ対策）
+		[[self scrollView] setNeedsDisplay: YES];
+	}
 }
 - (void) updateMessageAtIndex : (unsigned) anIndex
 {

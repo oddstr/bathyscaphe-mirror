@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAccessorySheetController.h,v 1.1 2005/05/11 17:51:03 tsawada2 Exp $
+  * $Id: CMRAccessorySheetController.h,v 1.2 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * CMRAccessorySheetController.h
   *
@@ -8,6 +8,8 @@
   */
 #import <Cocoa/Cocoa.h>
 
+#import "CocoMonar_Prefix.h"
+#import "BoardManager.h"
 
 
 @interface CMRAccessorySheetController : NSWindowController
@@ -18,34 +20,34 @@
 }
 - (id) initWithContentSize : (NSSize	  ) cSize
 			  resizingMask : (unsigned int) autoresizingMask;
-@end
 
-
-
-@interface CMRAccessorySheetController(Content)
-- (NSView *) contentView;
+- (NSView	*) originalContentView;
+- (NSButton *) closeButton;
+- (NSView	*) contentView;
 - (void) setContentView : (NSView *) aView;
 - (void) setContentSize : (NSSize) cSize;
 - (void) beginSheetModalForWindow : (NSWindow *) docWindow
 					modalDelegate : (id        ) modalDelegate
 					  contentView : (NSView   *) contentView
 					  contextInfo : (id		   ) info;
-@end
 
+- (void) setupContentView;
+- (void) setupCloseButton;
+- (void) setupWindow;
+- (void) setupUIComponents;
 
-
-@interface CMRAccessorySheetController(Action)
 - (IBAction) close : (id) sender;
 @end
 
-
+@interface CMRAccessorySheetController(Private)
+- (void) sheetDidEnd : (NSWindow *) sheet
+		  returnCode : (int       ) returnCode
+		 contextInfo : (void     *) contextInfo;
+@end
 
 @interface NSObject(CMRAccessorySheetControllerModalDelegate)
 - (void) controller : (CMRAccessorySheetController *) aController
 		sheetDidEnd : (NSWindow					 *) sheet
 		contentView : (NSView					 *) contentView
 		contextInfo : (id						  ) info;
-
-- (void) boardListSheetDidEnd : (NSWindow *) sheet 
-				  contentView : (NSView *) contentView;
 @end

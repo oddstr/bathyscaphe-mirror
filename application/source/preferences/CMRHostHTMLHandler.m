@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRHostHTMLHandler.m,v 1.1 2005/05/11 17:51:07 tsawada2 Exp $
+  * $Id: CMRHostHTMLHandler.m,v 1.2 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * CMRHostHTMLHandler.m
   *
@@ -7,7 +7,6 @@
   * See the file LICENSE for copying permission.
   */
 #import "CMRHostHandler_p.h"
-#import "CMXTemplateResources.h"
 #import "CMXTextParser.h"
 
 

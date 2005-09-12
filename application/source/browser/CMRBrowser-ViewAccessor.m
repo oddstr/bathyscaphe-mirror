@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.15 2005/07/09 13:14:03 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.16 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -8,8 +8,6 @@
   */
 #import "CMRBrowser_p.h"
 #import "CMRBBSListTemplateKeys.h"
-#import "CMRBrowserTemplateKeys.h"
-
 #import "NSTableColumn+CMXAdditions.h"
 #import "CMRTextColumnCell.h"
 #import "CMRPullDownIconBtn.h"
@@ -640,10 +638,10 @@
 
 #pragma mark -
 
-- (void) setupStatusLine
+/*- (void) setupStatusLine
 {
     [super setupStatusLine];
-}
+}*/
 
 - (void) setupFrameAutosaveName
 {

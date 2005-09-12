@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRStatusLine.m,v 1.3 2005/06/26 18:20:04 tsawada2 Exp $
+  * $Id: CMRStatusLine.m,v 1.4 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * CMRStatusLine.m
   *
@@ -7,7 +7,6 @@
   * See the file LICENSE for copying permission.
   */
 #import "CMRStatusLine_p.h"
-#import "CMXTemplateResources.h"
 #import "missing.h"
 #import "RBSplitView.h"
 
@@ -138,18 +137,17 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 			if(view_ == [self statusLineView]) continue;
 			
 			if (willBeShown) {
-
-				float tmp_;
-				
 				// 最下部に接して配置されているビューの height を縮めて下部に余白を作り、そこに
 				// ステータスバーを押し込むと考える（ウインドウ自体のサイズは変えない）。
-				
 				if([view_ frame].origin.y <= 0) {
+
+					float tmp_ = 0.0;
+				
 					if([view_ class] == [RBSplitView class]) {
 						// RBSplitView のリサイズ時の不審な挙動対策。RBSplitView の frame を
 						// 変更する前に、RBSplitSubview の dimension（幅）を記憶しておき、
 						// frame 変更後にその dimension に再設定してやる。
-						tmp_ = [[view_ subviewWithIdentifier : @"boards"] dimension];
+						tmp_ = [[(RBSplitView *)view_ subviewWithIdentifier : @"boards"] dimension];
 					}
 					
 					newRect = [view_ frame];
@@ -158,7 +156,7 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 					[view_ setFrame : newRect];
 					
 					if([view_ class] == [RBSplitView class]) {
-						[[view_ subviewWithIdentifier : @"boards"] setDimension : tmp_];
+						[[(RBSplitView *)view_ subviewWithIdentifier : @"boards"] setDimension : tmp_];
 					}
 				}
 

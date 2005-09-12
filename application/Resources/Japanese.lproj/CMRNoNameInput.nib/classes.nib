@@ -5,7 +5,7 @@
             ACTIONS = {cancel = id; ok = id; }; 
             CLASS = NoNameInputController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {"_messageField" = id; "_textField" = id; }; 
+            OUTLETS = {"_messageField" = NSTextField; "_textField" = NSTextField; }; 
             SUPERCLASS = NSWindowController; 
         }
     ); 

@@ -12,7 +12,6 @@
 #import "CocoMonar_Prefix.h"
 #import "CMXImageAttachmentCell.h"
 #import "CMRAttachmentCell.h"
-#import "CMXTemplateResources.h"
 
 
 
@@ -55,9 +54,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 	[super dealloc];
 }
 
-//////////////////////////////////////////////////////////////////////
-////////////////// CMRMessageAttributesStylist ///////////////////////
-//////////////////////////////////////////////////////////////////////
+#pragma mark CMRMessageAttributesStylist
+
 /* アンカーの書式 */
 - (NSDictionary *) attributesForAnchor
 {
@@ -96,7 +94,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 	return [self messageAttributesForHost];
 }
 
-/*** Other Attributes ***/
+#pragma mark Other Attributes
 /* <ul> */
 - (NSParagraphStyle *) blockQuoteParagraphStyle
 {
@@ -113,7 +111,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 	return _blockQuoteParagraphStyle;
 }
 
-/*** Text Attachments ***/
+#pragma mark Text Attachments
 - (NSAttributedString *) mailAttachmentStringWithMail : (NSString *) address
 {
 	NSAttributedString			*attachment_;
@@ -204,7 +202,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 }
 @end
 
-
+#pragma mark -
 
 @implementation CMRMessageAttributesTemplate(Attributes)
 /* Accessor for _messageAttributesForAnchor */
@@ -306,7 +304,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 	// Text Attachment Cellの設定
 	attachment_ =  [[NSTextAttachment alloc] init];
 	cell_ = [[CMXImageAttachmentCell alloc] initImageCell : image_];
-	alignment_ = CMXTemplateResource(kMailIconAlignment, @"Alignment");
+	alignment_ = SGTemplateResource(kMailIconAlignment);
 	UTILAssertKindOfClass(alignment_, NSNumber);
 	[cell_ setImageAlignment : [alignment_ intValue]];
 	
@@ -508,14 +506,6 @@ ErrCreateAttachment:
 	if(nil == _messageAttributesForBeProfileLink){
 		_messageAttributesForBeProfileLink = 
 			[[[self class] defaultAttributes] mutableCopyWithZone : nil];
-	/*	[self setAttributeInDictionary : _messageAttributesForBeProfileLink
-						 attributeName : NSForegroundColorAttributeName
-								 value : [CMRPref messageAnchorColor]];
-		
-		hasUnderline_ = [CMRPref hasMessageAnchorUnderline];
-		[self setAttributeInDictionary : _messageAttributesForBeProfileLink
-						 attributeName : NSUnderlineStyleAttributeName
-								 value : [self underlineStyleWithBool : hasUnderline_]];*/
 		[self setAttributeInDictionary : _messageAttributesForBeProfileLink
 						 attributeName : NSFontAttributeName
 								 value : [CMRPref messageBeProfileFont]];
@@ -549,10 +539,9 @@ ErrCreateAttachment:
 	return [paraStyle_ autorelease];
 }
 
-- (id) underlineStyleWithBool : (BOOL) hasUnderline
+- (NSNumber *) underlineStyleWithBool : (BOOL) hasUnderline
 {
-	if(NO == hasUnderline) return nil;
-	
-	return [NSNumber numberWithUnsignedInt : NSSingleUnderlineStyle];
+	// 2005-09-09 tsawada2 : Mac OS X 10.3 以前とは互換性がないので注意
+	return hasUnderline ? [NSNumber numberWithInt : NSUnderlineStyleSingle] : [NSNumber numberWithInt : NSUnderlineStyleNone];
 }
 @end

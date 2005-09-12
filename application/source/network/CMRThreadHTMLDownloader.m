@@ -1,6 +1,6 @@
 //: CMRThreadHTMLDownloader.m
 /**
-  * $Id: CMRThreadHTMLDownloader.m,v 1.1 2005/05/11 17:51:06 tsawada2 Exp $
+  * $Id: CMRThreadHTMLDownloader.m,v 1.2 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -8,7 +8,6 @@
 
 #import "CMRThreadHTMLDownloader.h"
 #import "ThreadTextDownloader_p.h"
-#import "CMXTemplateResources.h"
 #import "CMRHostHandler.h"
 
 

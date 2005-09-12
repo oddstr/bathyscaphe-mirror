@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.3 2005/06/18 14:27:59 tsawada2 Exp $
+  * $Id: CMRBrowser.m,v 1.4 2005/09/12 08:02:20 tsawada2 Exp $
   * 
   * CMRBrowser.m
   *
@@ -42,7 +42,7 @@ CMRBrowser *CMRMainBrowser = nil;
 	
 	if (nil == threadTitle_) return displayName;
 	
-	template_ = CMXTemplateResource(kWindowTitleFormatKey, nil);
+	template_ = SGTemplateResource(kWindowTitleFormatKey);
 	UTILAssertKindOfClass(template_, NSString);
 	
 	tmp = SGTemporaryString();
