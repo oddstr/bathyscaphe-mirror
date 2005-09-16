@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-FontColor.m,v 1.6 2005/07/09 13:14:03 tsawada2 Exp $
+  * $Id: AppDefaults-FontColor.m,v 1.7 2005/09/16 01:18:29 tsawada2 Exp $
   * 
   * AppDefaults-FontColor.m
   *
@@ -50,6 +50,8 @@ static NSString *const kPrefBoardListBgColorKey		= @"BoardList Bg Color";
 static NSString *const kPrefBoardListTextColorKey	= @"BoardList Text Color";
 static NSString *const kPrefBoardListFontKey		= @"BoardList Font";
 
+static NSString *const kPrefThreadViewerMsgSpacingBeforeKey = @"Message Content Spacing (Top)";
+static NSString *const kPrefThreadViewerMsgSpacingAfterKey = @"Message Content Spacing (Bottom)";
 
 //:AppDefaults-FontColor.m
 @interface AppDefaults(FontColorPrivate)
@@ -526,6 +528,31 @@ static NSString *const kPrefBoardListFontKey		= @"BoardList Font";
 	
 	[[CMRMessageAttributesTemplate sharedTemplate]
 		setAttributeForBeProfileLink:NSFontAttributeName value:aFont];
+}
+
+#pragma mark SledgeHammer Additions
+- (float) msgIdxSpacingBefore
+{
+	// インデックスの上部余白
+	return [[self appearances] floatForKey : kPrefThreadViewerMsgSpacingBeforeKey
+							  defaultValue : DEFAULT_TV_IDX_SPACING_BEFORE];
+}
+- (void) setMsgIdxSpacingBefore : (float) aValue
+{
+	[[self appearances] setFloat : aValue forKey : kPrefThreadViewerMsgSpacingBeforeKey];
+	[self postLayoutSettingsUpdateNotification];
+}
+
+- (float) msgIdxSpacingAfter
+{
+	// インデックスの下部余白
+	return [[self appearances] floatForKey : kPrefThreadViewerMsgSpacingAfterKey
+							  defaultValue : DEFAULT_TV_IDX_SPACING_AFTER];
+}
+- (void) setMsgIdxSpacingAfter : (float) aValue
+{
+	[[self appearances] setFloat : aValue forKey : kPrefThreadViewerMsgSpacingAfterKey];
+	[self postLayoutSettingsUpdateNotification];
 }
 
 /*** スレッド一覧 ***/

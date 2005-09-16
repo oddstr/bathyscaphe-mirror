@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.7 2005/09/12 08:02:20 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.8 2005/09/16 01:18:29 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -704,5 +704,14 @@
 {
     [[self window] makeFirstResponder : 
         [[self textView] enclosingScrollView]];
+}
+
+#pragma mark Available in SledgeHammer and Later
+
+- (IBAction) orderFrontMainBrowser : (id) sender
+{
+	if (CMRMainBrowser != nil) {
+		[[CMRMainBrowser window] makeKeyAndOrderFront : sender];
+	}
 }
 @end

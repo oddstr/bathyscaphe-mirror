@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadView.m,v 1.4 2005/09/12 08:02:20 tsawada2 Exp $
+  * $Id: CMRThreadView.m,v 1.5 2005/09/16 01:18:29 tsawada2 Exp $
   * 
   * CMRThreadView.m
   *
@@ -636,7 +636,7 @@ static void showPoofAnimationForInvisibleAbone(CMRThreadView *tView, unsigned in
 	
 	mIndexEnum_ = [self representedObjectWithSender : sender];
 
-	if ([sender state] == NSOnState) {
+	if (([sender state] == NSOnState) || ![CMRPref showsPoofAnimationOnInvisibleAbone]) {
 		while (mIndex = [mIndexEnum_ nextObject]) {
 			UTILAssertRespondsTo(mIndex, @selector(unsignedIntValue));
 

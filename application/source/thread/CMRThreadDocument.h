@@ -24,4 +24,6 @@
 @interface CMRThreadDocument(OpenDocument)
 + (BOOL) showDocumentWithContentOfFile : (NSString     *) filepath
 						   contentInfo : (NSDictionary *) contentInfo;
+
+- (BOOL) windowAlreadyExistsForPath : (NSString *) filePath;
 @end

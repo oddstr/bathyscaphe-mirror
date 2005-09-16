@@ -545,7 +545,6 @@
 		87299A74083261F200CBD740 /* StopSmall.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87299A3B083261F200CBD740 /* StopSmall.tiff */; };
 		87299A75083261F200CBD740 /* ThreadDocument.icns in Resources */ = {isa = PBXBuildFile; fileRef = 87299A3C083261F200CBD740 /* ThreadDocument.icns */; };
 		87299B0D0832622200CBD740 /* BrowserKeyBindings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87299AF60832622100CBD740 /* BrowserKeyBindings.plist */; };
-		87299B0E0832622200CBD740 /* DateDescription.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87299AF70832622100CBD740 /* DateDescription.plist */; };
 		87299B0F0832622200CBD740 /* firstVisibleNumbers.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87299AF80832622100CBD740 /* firstVisibleNumbers.plist */; };
 		87299B100832622200CBD740 /* Hankaku-Kana-Daku.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299AF90832622100CBD740 /* Hankaku-Kana-Daku.txt */; };
 		87299B110832622200CBD740 /* Hankaku-Kana.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299AFA0832622100CBD740 /* Hankaku-Kana.txt */; };
@@ -554,7 +553,6 @@
 		87299B140832622200CBD740 /* innerLinkPrefixCharacters.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299AFD0832622200CBD740 /* innerLinkPrefixCharacters.txt */; };
 		87299B150832622200CBD740 /* innerLinkRangeCharacters.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299AFE0832622200CBD740 /* innerLinkRangeCharacters.txt */; };
 		87299B160832622200CBD740 /* innerLinkSeparaterCharacters.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299AFF0832622200CBD740 /* innerLinkSeparaterCharacters.txt */; };
-		87299B170832622200CBD740 /* KakoAlias.brd in Resources */ = {isa = PBXBuildFile; fileRef = 87299B000832622200CBD740 /* KakoAlias.brd */; };
 		87299B180832622200CBD740 /* KeyValueTemplates.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87299B010832622200CBD740 /* KeyValueTemplates.plist */; };
 		87299B190832622200CBD740 /* lastVisibleNumbers.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87299B020832622200CBD740 /* lastVisibleNumbers.plist */; };
 		87299B1A0832622200CBD740 /* numericCharacters.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299B030832622200CBD740 /* numericCharacters.txt */; };
@@ -570,6 +568,7 @@
 		87299C1F0832673000CBD740 /* BathyScaphe.mdimporter in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87299C09083266F700CBD740 /* BathyScaphe.mdimporter */; };
 		8732FCBA08C2F79B00779F20 /* HistoryBack.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 878A7567088AA85B00539B6F /* HistoryBack.tiff */; };
 		8732FCBB08C2F79D00779F20 /* HistoryForward.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 878A7568088AA85B00539B6F /* HistoryForward.tiff */; };
+		873D91B008D9B7EA009D5E6C /* OrderFrontBrowser.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 873D91AF08D9B7EA009D5E6C /* OrderFrontBrowser.tiff */; };
 		87464E3708643673000F0371 /* libRBSplitView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87464E3608643673000F0371 /* libRBSplitView.a */; };
 		87464E390864368F000F0371 /* RBSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87464E380864368F000F0371 /* RBSplitView.h */; };
 		87517B780864B242002DA082 /* CMRSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD9C04C698FB00A80005 /* CMRSplitView.h */; };
@@ -849,7 +848,6 @@
 		87299A3B083261F200CBD740 /* StopSmall.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = StopSmall.tiff; sourceTree = "<group>"; };
 		87299A3C083261F200CBD740 /* ThreadDocument.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = ThreadDocument.icns; sourceTree = "<group>"; };
 		87299AF60832622100CBD740 /* BrowserKeyBindings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = BrowserKeyBindings.plist; sourceTree = "<group>"; };
-		87299AF70832622100CBD740 /* DateDescription.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = DateDescription.plist; sourceTree = "<group>"; };
 		87299AF80832622100CBD740 /* firstVisibleNumbers.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = firstVisibleNumbers.plist; sourceTree = "<group>"; };
 		87299AF90832622100CBD740 /* Hankaku-Kana-Daku.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Hankaku-Kana-Daku.txt"; sourceTree = "<group>"; };
 		87299AFA0832622100CBD740 /* Hankaku-Kana.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Hankaku-Kana.txt"; sourceTree = "<group>"; };
@@ -872,6 +870,7 @@
 		87299B0C0832622200CBD740 /* Zenkaku.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Zenkaku.txt; sourceTree = "<group>"; };
 		87299B410832623A00CBD740 /* BWAgent.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = BWAgent.app; path = subproj/BWAgent/build/Deployment/BWAgent.app; sourceTree = SOURCE_ROOT; };
 		87299C09083266F700CBD740 /* BathyScaphe.mdimporter */ = {isa = PBXFileReference; explicitFileType = "wrapper.plug-in"; name = BathyScaphe.mdimporter; path = ../metadataimporter/BathyScaphe/build/Deployment/BathyScaphe.mdimporter; sourceTree = SOURCE_ROOT; };
+		873D91AF08D9B7EA009D5E6C /* OrderFrontBrowser.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = OrderFrontBrowser.tiff; sourceTree = "<group>"; };
 		87464E3608643673000F0371 /* libRBSplitView.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libRBSplitView.a; sourceTree = "<group>"; };
 		87464E380864368F000F0371 /* RBSplitView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RBSplitView.h; path = ../RBSplitView.h; sourceTree = "<group>"; };
 		874F24FA080E716700EA2164 /* w2chReply_be2ch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = w2chReply_be2ch.h; sourceTree = "<group>"; };
@@ -1508,6 +1507,7 @@
 		87299A02083261F200CBD740 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				873D91AF08D9B7EA009D5E6C /* OrderFrontBrowser.tiff */,
 				878A7567088AA85B00539B6F /* HistoryBack.tiff */,
 				878A7568088AA85B00539B6F /* HistoryForward.tiff */,
 				8705E7C1087DB8C500BDEFBC /* BoardList.tiff */,
@@ -1581,7 +1581,6 @@
 			isa = PBXGroup;
 			children = (
 				87299AF60832622100CBD740 /* BrowserKeyBindings.plist */,
-				87299AF70832622100CBD740 /* DateDescription.plist */,
 				87299AF80832622100CBD740 /* firstVisibleNumbers.plist */,
 				87299AF90832622100CBD740 /* Hankaku-Kana-Daku.txt */,
 				87299AFA0832622100CBD740 /* Hankaku-Kana.txt */,
@@ -3067,7 +3066,6 @@
 				87299A74083261F200CBD740 /* StopSmall.tiff in Resources */,
 				87299A75083261F200CBD740 /* ThreadDocument.icns in Resources */,
 				87299B0D0832622200CBD740 /* BrowserKeyBindings.plist in Resources */,
-				87299B0E0832622200CBD740 /* DateDescription.plist in Resources */,
 				87299B0F0832622200CBD740 /* firstVisibleNumbers.plist in Resources */,
 				87299B100832622200CBD740 /* Hankaku-Kana-Daku.txt in Resources */,
 				87299B110832622200CBD740 /* Hankaku-Kana.txt in Resources */,
@@ -3076,7 +3074,6 @@
 				87299B140832622200CBD740 /* innerLinkPrefixCharacters.txt in Resources */,
 				87299B150832622200CBD740 /* innerLinkRangeCharacters.txt in Resources */,
 				87299B160832622200CBD740 /* innerLinkSeparaterCharacters.txt in Resources */,
-				87299B170832622200CBD740 /* KakoAlias.brd in Resources */,
 				87299B180832622200CBD740 /* KeyValueTemplates.plist in Resources */,
 				87299B190832622200CBD740 /* lastVisibleNumbers.plist in Resources */,
 				87299B1A0832622200CBD740 /* numericCharacters.txt in Resources */,
@@ -3109,6 +3106,7 @@
 				8705E7C2087DB8C500BDEFBC /* BoardList.tiff in Resources */,
 				8732FCBA08C2F79B00779F20 /* HistoryBack.tiff in Resources */,
 				8732FCBB08C2F79D00779F20 /* HistoryForward.tiff in Resources */,
+				873D91B008D9B7EA009D5E6C /* OrderFrontBrowser.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

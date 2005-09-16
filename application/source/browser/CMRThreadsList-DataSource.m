@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.5 2005/09/12 08:02:20 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.6 2005/09/16 01:18:29 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -31,12 +31,20 @@ static id kThreadAttrTemplate;
 + (void) resetDataSourceTemplates
 {
 	NSDictionary			*attrs1_, *attrs2_;
+	NSMutableParagraphStyle *style_;
+	
+	// 長過ぎる内容を「...」で省略
+	style_ = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+	[style_ setLineBreakMode : NSLineBreakByTruncatingMiddle];
+
 	// default object value:
 	attrs1_ = [NSDictionary dictionaryWithObjectsAndKeys :
 					[CMRPref threadsListFont],
 					NSFontAttributeName,
 					[CMRPref threadsListColor],
 					NSForegroundColorAttributeName,
+					style_,
+					NSParagraphStyleAttributeName,
 					nil];
 
 	// New Arrival thread:
@@ -45,7 +53,11 @@ static id kThreadAttrTemplate;
 					NSFontAttributeName,
 					[CMRPref threadsListNewThreadColor],
 					NSForegroundColorAttributeName,
+					style_,
+					NSParagraphStyleAttributeName,
 					nil];
+
+	[style_ release];
 	
 	kNewThreadAttrTemplate = [attrs2_ retain];	// retain しないと即クラッシュだよ
 	kThreadAttrTemplate = [attrs1_ retain];

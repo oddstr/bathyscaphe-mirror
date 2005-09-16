@@ -173,6 +173,12 @@
 	[[self preferences] performSelector : selector_[tagNum]
 							 withObject : newFont];
 }
+
+
+- (unsigned int) validModesForFontPanel : (NSFontPanel *) fontPanel
+{
+	return (NSFontPanelFaceModeMask|NSFontPanelSizeModeMask|NSFontPanelCollectionModeMask);
+}
 @end
 
 

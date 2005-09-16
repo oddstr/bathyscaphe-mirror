@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.11 2005/07/09 13:14:03 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.12 2005/09/16 01:18:29 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -292,6 +292,12 @@ enum {
 - (float) messageHeadIndent;
 - (void) setMessageHeadIndent : (float) anIndent;
 
+/* SledgeHammer Addition */
+- (float) msgIdxSpacingBefore;
+- (void) setMsgIdxSpacingBefore : (float) aValue;
+- (float) msgIdxSpacingAfter;
+- (void) setMsgIdxSpacingAfter : (float) aValue;
+
 - (float) threadsListRowHeight;
 - (void) setThreadsListRowHeight : (float) rowHeight;
 - (void) fixRowHeightToFontSize;
@@ -355,6 +361,10 @@ enum {
 
 - (int) openInBrowserType;
 - (void) setOpenInBrowserType : (int) aType;
+
+/* SledgeHammer Addition */
+- (BOOL) showsPoofAnimationOnInvisibleAbone;
+- (void) setShowsPoofAnimationOnInvisibleAbone : (BOOL) showsPoof;
 
 - (void) _loadThreadViewerSettings;
 - (BOOL) _saveThreadViewerSettings;

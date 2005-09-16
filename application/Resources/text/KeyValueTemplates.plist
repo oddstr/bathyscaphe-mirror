@@ -52,7 +52,7 @@
 %%%ThreadURL%%%
 </string>
 	<key>Thread - DateDescription</key>
-	<string>%y/%m/%d%a %H:%M:%S</string>
+	<string>%y/%m/%d (%a) %H:%M:%S</string>
 	<key>Thread - FieldSeparater</key>
 	<string>：</string>
 	<key>Thread - FirstVisible</key>
@@ -69,12 +69,6 @@
 	<integer>0</integer>
 	<key>Thread - MailIconAlignment</key>
 	<integer>5</integer>
-	<key>Thread - MessageFooter</key>
-	<string>
-</string>
-	<key>Thread - MessageHeader</key>
-	<string>
-</string>
 	<key>Thread - MouseDownTrackingTime</key>
 	<real>0.69999999999999996</real>
 	<key>Thread - On-The-Fly MessageCount</key>

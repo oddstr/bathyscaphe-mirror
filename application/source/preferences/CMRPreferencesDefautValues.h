@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRPreferencesDefautValues.h,v 1.5 2005/06/26 09:20:25 tsawada2 Exp $
+  * $Id: CMRPreferencesDefautValues.h,v 1.6 2005/09/16 01:18:29 tsawada2 Exp $
   * 
   * CMRPreferencesDefautValues.h
   *
@@ -32,6 +32,8 @@
 #define DEFAULT_TVIEW_DRAWS_BGCOLOR			YES
 #define DEFAULT_MESSAGE_HEAD_INDENT			40.0f
 #define DEFAULT_MESSAGE_ANCHOR_HAS_UNDERLINE			YES
+#define DEFAULT_TV_IDX_SPACING_BEFORE		15.0f
+#define DEFAULT_TV_IDX_SPACING_AFTER		10.0f
 
 #define DEFAULT_SHOULD_THREAD_ANTIALIAS			YES
 #define DEFAULT_IS_RESPOPUP_TEXT_COLOR			NO

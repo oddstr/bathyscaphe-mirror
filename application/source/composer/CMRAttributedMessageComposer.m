@@ -14,7 +14,6 @@
 #import "UTILDebugging.h"
 
 #define kLocalizedFilename			@"MessageComposer"
-#define kLocaleDictPlist			@"DateDescription.plist"
 
 // KeyValueTemplate.plist
 #define	kThreadIndexFormatKey		@"Thread - IndexFormat"
@@ -48,32 +47,7 @@ static void appendFiledTitle(NSMutableAttributedString *buffer, NSString *title)
 + (void) initialize 
 {
 	UTIL_DEBUG_METHOD;
-	
-	[[NSNotificationCenter defaultCenter]
-		addObserver:self 
-		selector:@selector(applicationWillReset:)
-		name:CMRApplicationWillResetNotification
-		object:nil];
-	[[NSNotificationCenter defaultCenter]
-		addObserver:self 
-		selector:@selector(applicationDidReset:)
-		name:CMRApplicationDidResetNotification
-		object:nil];
-	
 }
-// アプリケーションのリセット
-+ (void) applicationWillReset : (NSNotification *) theNotification
-{
-	UTIL_DEBUG_METHOD;
-	;
-}
-+ (void) applicationDidReset : (NSNotification *) theNotification
-{
-	UTIL_DEBUG_METHOD;
-	;
-}
-
-
 
 + (id) composerWithContentsStorage : (NSMutableAttributedString *) storage
 {
@@ -117,29 +91,20 @@ static void appendFiledTitle(NSMutableAttributedString *buffer, NSString *title)
 	_contentsStorage = [aContentsStorage retain];
 	[tmp release];
 }
-+ (NSString *) pathForLocaleDictResource
-{
-    NSString    *path;
-    NSBundle    *bundle;
-    
-    bundle = [NSBundle applicationSpecificBundle];
-    path = [bundle pathForResourceWithName : kLocaleDictPlist];
-    if (path != nil)
-        return path;
-    
-    bundle = [NSBundle mainBundle];
-    path = [bundle pathForResourceWithName : kLocaleDictPlist];
-    
-    return path;
-}
+
 - (NSDictionary *) localeDict
 {
-	if (nil == _localeDict)
-		_localeDict = [[NSDictionary alloc] initWithContentsOfFile : [[self class] pathForLocaleDictResource]];
-		
+	if (nil == _localeDict) {
+		NSArray		*tmp_ = [[NSUserDefaults standardUserDefaults] arrayForKey : NSShortWeekDayNameArray];
+		NSArray		*tmp2_ = [[NSUserDefaults standardUserDefaults] arrayForKey : NSWeekDayNameArray];
+		_localeDict = [[NSDictionary alloc] initWithObjectsAndKeys : tmp_,
+																	 NSShortWeekDayNameArray,
+																	 tmp2_,
+																	 NSWeekDayNameArray,
+																	 NULL];
+	}
 	return _localeDict;
 }
-
 
 /* mask で指定された属性を無視する */
 - (UInt32) attributesMask { return _mask; }
@@ -380,21 +345,10 @@ ErrComposeHost:
 
 - (void) composeMessage : (CMRThreadMessage *) aMessage
 {
-	NSString					*messageHeader;
-	NSString					*messageFooter;
 	NSMutableAttributedString	*ms;
 	NSMutableAttributedString	*tmp;
 	id							source;
 	NSRange						mRange_;
-	
-	// ヘッダ／フッタ
-	messageHeader = SGTemplateResource(kThreadMessageHeaderKey);
-	messageFooter = SGTemplateResource(kThreadMessageFooterKey);
-	
-	if (nil == messageHeader)
-		messageHeader = DEFAULT_NEWLINE_CHARACTER;
-	if (nil == messageFooter)
-		messageFooter = DEFAULT_NEWLINE_CHARACTER;
 	
 	
 	ms = [self contentsStorage];
@@ -420,9 +374,9 @@ ErrComposeHost:
 		linkRange_.location = [tmp length];
 		[[tmp mutableString] appendString : source];
 		linkRange_.length = [tmp length] - linkRange_.location;
+
 		// 2005-09-08 リンク書式の付与は TextView に任せ、ここでは書式をセットしない		
-		//[tmp addAttributes : [ATTR_TEMPLATE attributesForAnchor]
-		//			 range : linkRange_];
+
 		[tmp addAttribute : NSLinkAttributeName
 				    value : CMRLocalResLinkWithIndex([aMessage index])
 				    range : linkRange_];
@@ -441,12 +395,9 @@ ErrComposeHost:
 	// そのあとで、本文の書式つき文字列を挿入する。
 	source = [ms mutableString];
 	[source appendString : DEFAULT_NEWLINE_CHARACTER];
-	[source appendString : messageHeader];
-	[source appendString : messageFooter];
 	[source appendString : DEFAULT_NEWLINE_CHARACTER];
-	
 	[ms insertAttributedString : tmp
-					   atIndex : ([ms length] - [messageFooter length] - 1)];
+					   atIndex : ([ms length] - 1)];
 	
 	[tmp deleteAll];
 }

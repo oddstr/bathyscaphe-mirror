@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-ThreadViewer.m,v 1.1 2005/05/11 17:51:06 tsawada2 Exp $
+  * $Id: AppDefaults-ThreadViewer.m,v 1.2 2005/09/16 01:18:29 tsawada2 Exp $
   * 
   * AppDefaults-ThreadViewer.m
   *
@@ -19,7 +19,7 @@
 #define kPrefMailAttachmentShownKey			@"Mail Icon Shown"
 #define kPrefOpenInBrowserTypeKey			@"Open In Browser Setting"
 #define kPrefShowsAllWhenDownloadedKey		@"ShowsAllWhenDownloaded"
-
+#define kPrefShowsPoofAnimationKey			@"ShowsPoofOnInvisibleAbone"
 
 
 @implementation AppDefaults(ThreadViewerSettings)
@@ -159,7 +159,18 @@
 				forKey : kPrefOpenInBrowserTypeKey];
 }
 
+- (BOOL) showsPoofAnimationOnInvisibleAbone
+{
+	// Terminal などから変更しやすいように、このエントリはトップレベルに作る
+	return [[self defaults] boolForKey : kPrefShowsPoofAnimationKey
+						  defaultValue : YES];
+}
 
+- (void) setShowsPoofAnimationOnInvisibleAbone : (BOOL) showsPoof;
+{
+	[[self defaults] setBool : showsPoof
+					  forKey : kPrefShowsPoofAnimationKey];
+}
 
 - (void) _loadThreadViewerSettings
 {

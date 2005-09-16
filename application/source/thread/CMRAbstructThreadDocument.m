@@ -210,7 +210,7 @@
 	CMRThreadAttributes		*oldAttributes_;
 	
 	oldAttributes_ = _threadAttributes;
-	_threadAttributes = [newAttributes retain];
+	_threadAttributes = [newAttributes retain];	
 	
 	[self replace:oldAttributes_ with:newAttributes];
 	

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.4 2005/09/12 08:02:20 tsawada2 Exp $
+  * $Id: CMRBrowser.m,v 1.5 2005/09/16 01:18:29 tsawada2 Exp $
   * 
   * CMRBrowser.m
   *
@@ -35,24 +35,12 @@ CMRBrowser *CMRMainBrowser = nil;
 
 - (NSString *) windowTitleForDocumentDisplayName : (NSString *) displayName
 {
-	NSMutableString	*tmp;
-	NSString		*template_;
-	NSString		*boardName_   = [self boardName];
-	NSString		*threadTitle_ = [self title];
+	//NSString		*boardName_   = [self boardName];
+	NSString		*threadTitle_ = [[[self currentThreadsList] objectValueForBoardInfo] stringValue];
 	
-	if (nil == threadTitle_) return displayName;
-	
-	template_ = SGTemplateResource(kWindowTitleFormatKey);
-	UTILAssertKindOfClass(template_, NSString);
-	
-	tmp = SGTemporaryString();
-	[tmp setString : template_];
+	if ((nil == threadTitle_) || [self showsSearchResult]) return displayName;
 
-	[tmp replaceCharacters:kWindowTitleBBSNameKey toString:boardName_];
-	[tmp replaceCharacters:kWindowTitleThreadTitleKey toString:threadTitle_];
-	
-	// OS 10.2.6: Dock Menuはタイトルをコピーしてくれないので、
-	return [[tmp copy] autorelease];
+	return [NSString stringWithFormat:@"%@ (%@)", displayName, threadTitle_];
 }
 - (void) dealloc
 {

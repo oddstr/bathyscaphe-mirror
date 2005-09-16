@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.14 2005/09/12 08:02:20 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.15 2005/09/16 01:18:29 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -170,7 +170,8 @@ enum {
 								 boardInfo : thread_];
 		// フォーカス
 		[[self window] makeFirstResponder : [self textView]];
-		[self updateStatusLineBoardInfo];
+		//[self updateStatusLineBoardInfo];
+		[self synchronizeWindowTitleWithDocumentName];
 	}
 }
 

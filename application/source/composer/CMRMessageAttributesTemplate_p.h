@@ -78,5 +78,7 @@
 - (NSMutableDictionary *) messageAttributesForHost;
 
 - (NSParagraphStyle *) messageParagraphStyleWithIndent : (float) anIndent;
+- (NSParagraphStyle *) indexParagraphStyleWithSpacingBefore : (float) beforeSpace
+											andSpacingAfter : (float) afterSpace;
 - (NSNumber *) underlineStyleWithBool : (BOOL) hasUnderline;
 @end

@@ -1,3 +1,74 @@
+2005-09-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/image/OrderFrontBrowser.tiff
+		[新規追加] 「ブラウザ」ツールバーボタンのアイコン。
+	* application/source/window/CMRThreadViewerTbDelegate.m
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/thread/CMRThreadViewer-Validation.m
+	* application/Resources/Japanese.lproj/ThreadViewerTbItems.strings
+		スレッドのウインドウ（いわゆる"別窓"）で、ツールバーに「ブラウザ」ボタンを追加可能にした。
+		- このボタンをクリックすると、いつでもブラウザウインドウを手前に持ってくる。
+		- ブラウザウインドウ（いわゆる"スレ一覧のウインドウ"）ではこのツールバー項目は追加できません。
+		- 3ペインの人には、ありがたみはないかも。別窓が基本の2ペイン派には、ありがたいかも。
+	* application/source/thread/CMRThreadDocument.m
+	* application/source/thread/CMRThreadViewer.m
+		履歴メニューなどでスレッドを移動したとき、すでに移動先のスレッドが別ウインドウで開いているときは、
+		移動する変わりにそのウインドウをアクティブにするようにした（2ペイン時の話）。
+		- 同じスレが複数のウインドウで開いているとトラブルの元となるので、それを防ぐための措置。
+		- CMRThreadDocument.m のコメントも参照。また、3ペイン時は若干まだ詰めが必要かも。
+2005-09-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/source/browser/CMRThreadsList-DataSource.m
+		スレッド一覧の各列で、文字列が長過ぎて収まらないときは中間を「...」で省略して表示するようにした。
+	<file:///Developer/ADC%20Reference%20Library/documentation/Cocoa/Conceptual/Rulers/Tasks/TruncatingStrings.html>
+	* application/subproj/preference/font_color/FCController.m
+	* application/subproj/preference/FontWell.m
+		FontWell（フォント選択ボタン）について、以下の改良を実施：
+		- フォントパネルに余計な設定項目（シャドウや字消し線など）を表示しないようにした（validModesForFontPanel: を実装）。
+		　- 参考：validModesForFontPanel:（NSFontPanelValidation プロトコル）は available in Mac OS X 10.3 and later.
+		- フォントパネルを開いた際、現在のフォントが正しく選択されないことがある問題、また、現在のフォントサイズを無視して常に
+		　12ポイントが選択されていた問題を修正
+		- フォントパネルはキーウインドウにならないで開くようにした
+		- ソースを整理、また、ビルド時の警告が出ないように適切な書き方に改めた。
+2005-09-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser.m
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/browser/CMRBrowser-Delegate.m
+	* application/source/browser/CMRBrowser-List.m
+		「xxx 件のスレッド」をステータスバーではなくブラウザウインドウのタイトルバーに表示するように変更中。
+		- 3ペイン時のスレッドタイトルに付いては、タイトルバーではなくスレ内容領域の直上に表示したいのだが、面倒そう。
+		　現在、方法を検討中。
+		いずれにせよこの件はとりあえずやってみただけで、まだ固まっていない。
+	* application/source/view/CMRThreadView.m
+		"poof" animation を実行するかどうか、User Defaults の設定を参照するようにした。
+	* application/source/preferences/AppDefaults-ThreadViewer.m
+	* application/source/preferences/AppDefaults-FontColor.m
+	* application/source/preferences/CMRPreferencesDefautValues.h
+		新しい User Defaults の項目を追加した。
+		-[CMRPref ShowsPoofAnimation] - 透明あぼーん時に煙のアニメーションを表示するか？（デフォルト：YES）
+		（この設定項目を環境設定パネルに用意するつもりはない。どうしても煙を止めたい人だけが、Terminal を起動して
+		「defaults write jp.tsawada2.BathyScaphe ShowsPoofOnInvisibleAbone -bool FALSE」とタイプせよ）
+		-[CMRPref msgIdxSpacingBefore] / [CMRPref msgIdxSpacingAfter] - メッセージ本文と名前欄等の間の
+		余白（デフォルト：それぞれ 15.0,10.0）。あとで環境設定パネルから設定できるようにする予定。下の説明も参照。
+	* application/source/composer/CMRAttributedMessageComposer.m
+	* application/source/composer/CMRMessageAttributesTemplate.m
+		スレッド表示：メッセージの本文と、名前・投稿日欄との前後の余白の開け方、設定方法を変更。
+		今までは、メッセージの本文の前後に特定の文字列（デフォルトは改行文字）を付け足して、これによって表示上の余白を
+		作っていたが、これを廃止し、かわりに名前・投稿日欄の行に NSParagraphStyle の paragraphSpacingBefore 及び
+		paragraphSpacing を適当な値（上記 User Defaults を参照する）で指定して、これによって余白を作るようにした。
+		- 注意：paragraphSpacing(Before) は、本文の文字列ではなく、名前・投稿日等の行にセットする。
+		　よって、ユーザが「本文上部の余白」だと思って設定するものが、BathyScaphe 内部では「名前・投稿日等の行の下側余白」
+		　として扱われている。逆も同様。デベロッパはこの「ねじれ」を認識しておくこと。
+		- 参考：[NSParagraphStyle paragraphSpacingBefore] は available in Mac OS X 10.3 or later.
+	* application/Resources/text/KeyValueTemplates.plist
+		各種変更に合わせて修正した。
+		- "Thread - DateDescription" のデフォルト値を若干変更。
+		- "Thread - MessageFooter", "Thread - MessageHeader" を廃止（削除）した。
+	* application/Resources/text/DateDescription.plist
+		[削除] 下記変更に伴い削除。
+	* application/source/composer/CMRAttributedMessageComposer.m
+		曜日文字列を表示するために持っていた DateDescription.plist は廃止し、Mac OS X が提供するものを使うことにした。
+		もし DateDescription.plist をカスタマイズしていた場合、その内容を user defaults に同じエントリ名で書き写しておけば
+		たぶんそれが使われるはず。
 2005-09-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/bbs/BoardManager.m
 		BoardManager は CMRNoNameManager と統合し、かつ、いくつかメソッドを追加。
@@ -10,7 +81,7 @@
 		[削除] CMRNoNameManager は、BoardManager と統合することにした（NoNames.plist は引き続き使用される）。
 		CMRNoNameManager を参照している各ソースファイルに必要な修正を施し、CMRNoNameManager は削除。
 	* application/source/misc.h
-		CMRExports.h に統合して削除。
+		[削除] CMRExports.h に統合して削除。
 	* application/source/browser/CMRAccessorySheetController-ViewAccessor.m
 	* application/source/browser/CMRAccessorySheetController_p.h
 		[削除] それぞれ CMRAccessorySheetController.m, CMRAccessorySheetController.h に統合して削除。
@@ -34,7 +105,7 @@
 		CMRTextView を NSTextView に変えた。
 	* application/source/view/popup/CMXPopUpWindowController+View.m
 	* application/source/composer/CMRMessageAttributesTemplate.m
-		2005-09-08 の変更で、ポップアップでテキストカラーを変えていると、リンクの下線設定が無視されるように
+		数行下↓の変更で、ポップアップでテキストカラーを変えていると、リンクの下線設定が無視されるように
 		なっていたので修正。ついでにアンダーラインスタイルの指定方法を Mac OS X 10.3 以降のものに変更。
 	* application/source/thread/CMRThreadLayout.m
 	* application/source/thread/CMRThreadLayout-MessageRange.m

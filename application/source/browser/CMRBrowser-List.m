@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.3 2005/09/12 08:02:20 tsawada2 Exp $
+  * $Id: CMRBrowser-List.m,v 1.4 2005/09/16 01:18:29 tsawada2 Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -17,13 +17,14 @@
 @implementation CMRBrowser(List)
 - (void) updateStatusLineBoardInfo
 {
-	id		text_;
+	NSLog(@"Method updateStatusLineBoardInfo is deprecated in SledgeHammer. you should not use this method.");
+	/*id		text_;
 	
 	if([self showsSearchResult])
 		return;
 	
 	text_ = [[self currentThreadsList] objectValueForBoardInfo];
-	[[self statusLine] setBrowserInfoText : text_];
+	[[self statusLine] setBrowserInfoText : text_];*/
 }
 - (void) changeThreadsFilteringMask : (int) aMask
 {
@@ -31,7 +32,8 @@
 	[[self threadsListTable] reloadData];
 	
 	[self clearSearchFilter];
-	[self updateStatusLineBoardInfo];
+	//[self updateStatusLineBoardInfo];
+	[self synchronizeWindowTitleWithDocumentName];
 }
 - (CMRThreadsList *) currentThreadsList
 {

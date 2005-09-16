@@ -493,6 +493,11 @@ ErrCreateAttachment:
 			[[[self class] defaultAttributes] mutableCopyWithZone : nil];
 		
 		[self setAttributeInDictionary : _messageAttributesForText
+						 attributeName : NSParagraphStyleAttributeName
+								 value : [self indexParagraphStyleWithSpacingBefore : [CMRPref msgIdxSpacingBefore]
+																	andSpacingAfter : [CMRPref msgIdxSpacingAfter]
+										 ]];
+		[self setAttributeInDictionary : _messageAttributesForText
 						 attributeName : NSFontAttributeName
 								 value : [CMRPref threadsViewFont]];
 		[self setAttributeInDictionary : _messageAttributesForText
@@ -538,6 +543,19 @@ ErrCreateAttachment:
 	
 	return [paraStyle_ autorelease];
 }
+
+- (NSParagraphStyle *) indexParagraphStyleWithSpacingBefore : (float) beforeSpace
+											andSpacingAfter : (float) afterSpace
+{
+	NSMutableParagraphStyle *paraStyle_;
+	
+	paraStyle_ = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+	[paraStyle_ setParagraphSpacing : afterSpace];
+	[paraStyle_ setParagraphSpacingBefore : beforeSpace];	// Note: available in Mac OS X 10.3 or later.
+	
+	return [paraStyle_ autorelease];
+}
+
 
 - (NSNumber *) underlineStyleWithBool : (BOOL) hasUnderline
 {

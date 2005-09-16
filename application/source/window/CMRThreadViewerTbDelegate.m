@@ -58,7 +58,7 @@ static NSString *const st_launchCMLF_ImageName			= @"cmlf_icon";
 
 // ’âŽ~
 static NSString *const st_stopTaskIdentifier			= @"stopTask";
-static NSString *const st_stopTaskLabelKey			= @"stopTask Label";
+static NSString *const st_stopTaskLabelKey				= @"stopTask Label";
 static NSString *const st_stopTaskPaletteLabelKey		= @"stopTask Palette Label";
 static NSString *const st_stopTaskToolTipKey			= @"stopTask ToolTip";
 static NSString *const st_stopTask_ImageName			= @"stopSign";
@@ -68,6 +68,12 @@ static NSString *const st_historySegmentedControlIdentifier			= @"historySC";
 static NSString *const st_historySegmentedControlLabelKey			= @"historySC Label";
 static NSString *const st_historySegmentedControlPaletteLabelKey	= @"historySC Palette Label";
 
+// ƒuƒ‰ƒEƒU
+static NSString *const st_browserItemIdentifier			= @"Main Browser";
+static NSString *const st_browserItemLabelKey			= @"Main Browser Label";
+static NSString *const st_browserItemPaletteLabelKey	= @"Main Browser Palette Label";
+static NSString *const st_browserItemToolTipKey			= @"Main Browser ToolTip";
+static NSString *const st_browserItem_ImageName			= @"OrderFrontBrowser";
 
 static NSString *const st_localizableStringsTableName	= @"ThreadViewerTbItems";
 static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
@@ -118,6 +124,10 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 - (NSString *) historySegmentedControlIdentifier
 {
 	return st_historySegmentedControlIdentifier;
+}
+- (NSString *) orderFrontBrowserItemIdentifier
+{
+	return st_browserItemIdentifier;
 }
 @end
 
@@ -197,6 +207,14 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 											   target : nil];
 	[item_ setImage : [NSImage imageAppNamed : st_stopTask_ImageName]];
 	
+	item_ = [self appendToolbarItemWithItemIdentifier : [self orderFrontBrowserItemIdentifier]
+									localizedLabelKey : st_browserItemLabelKey
+							 localizedPaletteLabelKey : st_browserItemPaletteLabelKey
+								  localizedToolTipKey : st_browserItemToolTipKey
+											   action : @selector(orderFrontMainBrowser:)
+											   target : wcontroller_];
+	[item_ setImage : [NSImage imageAppNamed : st_browserItem_ImageName]];
+	
 	item_ = [self appendToolbarItemWithClass : [BSSegmentedControlTbItem class]
 								itemIdentifier : [self historySegmentedControlIdentifier]
 							 localizedLabelKey : st_historySegmentedControlLabelKey
@@ -258,6 +276,7 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 				[self toggleOnlineModeIdentifier],
 				[self launchCMLFIdentifier],
 				[self historySegmentedControlIdentifier],
+				[self orderFrontBrowserItemIdentifier],
 				NSToolbarSeparatorItemIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,
 				NSToolbarSpaceItemIdentifier,

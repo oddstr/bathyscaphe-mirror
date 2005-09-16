@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.4 2005/07/22 13:21:02 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.5 2005/09/16 01:18:29 tsawada2 Exp $
   * 
   * CMRThreadViewer.h
   *
@@ -128,6 +128,9 @@
 - (IBAction) focus : (id) sender;
 /* NOTE: It is a history item's action. */
 - (IBAction) showThreadWithMenuItem : (id) sender;
+
+// available in SledgeHammer and later.
+- (IBAction) orderFrontMainBrowser : (id) sender;
 @end
 
 

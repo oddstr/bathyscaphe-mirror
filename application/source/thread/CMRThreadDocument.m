@@ -42,10 +42,27 @@
 
 	if(nil == newAttrs)
 		return;
-	
-	// 最近使った項目
-	[[NSDocumentController sharedDocumentController]
-				noteNewRecentDocument : self];
+	// 最近使った項目…は、もう要らないから通知しなくてもいいだろう…
+	//[[NSDocumentController sharedDocumentController]
+	//			noteNewRecentDocument : self];
+	{
+		/* 2005-09-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+		履歴メニューを使ってスレッドを切り替えていると、windowController と document の対応にとりわけ
+		注意を払う必要が出てくる。
+		
+		ウインドウAでスレッド foo を、ウインドウBでスレッド bar を開いており、ウインドウ B がキーウインドウだと
+		しよう。ここで、「履歴」メニューからスレッド foo を選択すると、ウインドウ B の内容が foo に入れ替わる。
+		しかし、ウインドウAでも foo が表示されたままである。同じスレッドが複数のウインドウで表示されてしまう。
+		現在の BathyScaphe では、この状態ではレス番ずれなどのトラブルが発生しやすくなり危険。
+		
+		これを防ぐため、スレッド切り替え時に document の fileName を切り替え後のスレッドのそれにしっかり set する。
+		これと windowAlreadyExistsForPath: でのチェックにより、スレッド foo を選択した時にウインドウ B の内容を
+		入れ替えずに、ウインドウAを手前に持ってくるようにする。
+		*/
+		
+		NSString *tmp_ = [newAttrs path];
+		[self setFileName : tmp_];
+	}
 }
 
 
@@ -136,5 +153,31 @@
 	}
 	
 	return YES;
+}
+
+- (BOOL) windowAlreadyExistsForPath : (NSString *) filePath
+{
+	/* 2005-09-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	このメソッドはスレッドを履歴メニューなどから切り替える直前に呼ばれる。
+	パラメータには、これから切り替えようとしている（切り替え先の）スレッドのファイルパスを与える。
+	
+	ファイルパスを基に NSDocument を探す。見つかれば、もうそのドキュメントが開かれている訳だから、
+	切り替えを中止し、かわりにそのドキュメントのウインドウをアクティブに。
+	
+	見つからなければ、切り替えの許可、return YES;。*/
+	NSDocumentController	*dc_;
+	NSDocument				*document_;
+	
+	if (nil == filePath) return NO;
+
+	dc_ = [NSDocumentController sharedDocumentController];
+	document_ = [dc_ documentForFileName : filePath];
+	
+	if (nil == document_) {
+		return NO;
+	} else {
+		[document_ showWindows];
+		return YES;
+	}
 }
 @end

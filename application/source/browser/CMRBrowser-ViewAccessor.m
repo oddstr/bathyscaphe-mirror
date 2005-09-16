@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.16 2005/09/12 08:02:20 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.17 2005/09/16 01:18:29 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -395,6 +395,8 @@
     if ( [CMRThreadModifiedDateKey isEqualToString : [column identifier]] ||
          [CMRThreadCreatedDateKey isEqualToString : [column identifier]])
         [self setupDateFormaterWithTableColumn : column];
+		
+	[[column dataCell] setWraps : YES];
 }
 @end
 

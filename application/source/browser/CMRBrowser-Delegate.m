@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.9 2005/09/12 08:02:20 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.10 2005/09/16 01:18:29 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -292,7 +292,8 @@ extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
 	[[[self threadsListTable] dataSource] updateDateFormatter];
 
 	[[self threadsListTable] reloadData];
-	[self updateStatusLineBoardInfo];
+	//[self updateStatusLineBoardInfo];
+	[self synchronizeWindowTitleWithDocumentName];
 }
 
 - (void) threadsListDownloaderShouldRetryUpdate : (NSNotification *) notification

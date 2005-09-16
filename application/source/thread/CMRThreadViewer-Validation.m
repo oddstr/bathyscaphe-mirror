@@ -13,7 +13,7 @@
 
 
 //////////////////////////////////////////////////////////////////////
-//////////////////// [ Define and Constants ] ////////////////////////
+#pragma mark Define and Constants
 //////////////////////////////////////////////////////////////////////
 #define kOnlineItemKey				@"On Line"
 #define kOfflineItemKey				@"Off Line"
@@ -28,12 +28,6 @@
 #define kAddFavaritesItemImageName		@"AddFavorites"
 #define kRemoveFavaritesItemImageName	@"RemoveFavorites"
 
-#pragma mark -
-
-@implementation CMRThreadViewer(Validation)
-
-#pragma mark Action Menu
-
 /*** アクション・メニュー ***/
 #define kActionMenuItemTag				(100)	/* 「アクション」 */
 
@@ -42,6 +36,13 @@
 #define kActionBookmarkHeader			(333)	/* 「ブックマーク」ヘッダ */
 #define kActionLocalAbonedHeader		(444)	/* 「ローカルあぼーん」ヘッダ */
 #define kActionInvisibleAbonedHeader	(555)	/* 「透明あぼーん」ヘッダ */
+
+#pragma mark -
+
+@implementation CMRThreadViewer(Validation)
+
+#pragma mark Action Menu
+
 
 - (IBAction) actionMenuHeader : (id) sender
 {
@@ -169,17 +170,17 @@ static int messageMaskForTag(int tag)
 	SEL		action_;
 	NSDictionary	*selected_;
 	BOOL		isSelected_;
-	BOOL		isReallySelected_;
-	BOOL		textSelected_;
+	//BOOL		isReallySelected_;
+	//BOOL		textSelected_;
 	
 	if (nil == theItem) return NO;
-	if (NO == [theItem respondsToSelector : @selector(action)]) return NO;
+	//if (NO == [theItem respondsToSelector : @selector(action)]) return NO;
 	
 	action_ = [theItem action];
 	selected_ = [self selectedThread];
 	isSelected_ = ([self selectedThreads] && [self numberOfSelectedThreads]);
-	isReallySelected_ = ([[self selectedThreadsReallySelected] count] || [self threadURL]);
-	textSelected_ = [[self textView] selectedRange].length != 0;
+	//isReallySelected_ = ([[self selectedThreadsReallySelected] count] || [self threadURL]);
+	//textSelected_ = [[self textView] selectedRange].length != 0;
         
 	// AA スレ
 	if (@selector(toggleAAThread:) == action_) {
@@ -210,7 +211,7 @@ static int messageMaskForTag(int tag)
 		
 		title_ = (0 == ([[self textView] selectedRange]).length)
 					? [self localizedString : kReplyItemKey]
-					: [self localizedString : kReplyToItemKey];;
+					: [self localizedString : kReplyToItemKey];
 		
 		[theItem setTitle : title_];		
 		
@@ -265,17 +266,20 @@ static int messageMaskForTag(int tag)
 	if (action_ == @selector(scrollNextBookmark:)) 
 		return ([[self threadLayout] nextBookmarkIndex] != NSNotFound);
 	
-
+	// 常に使えるアイテムたち
 	if (action_ == @selector(findNextText:)			||
 	   action_ == @selector(findPreviousText:)		||
 	   action_ == @selector(findFirstText:)			||
 	   action_ == @selector(findAll:)				||
 	   action_ == @selector(customizeBrdListTable:) ||
 	   action_ == @selector(launchBWAgent:)			||
-	   action_ == @selector(openDefaultNoNameInputPanel:)
+	   action_ == @selector(openDefaultNoNameInputPanel:) ||
+	   action_ == @selector(orderFrontMainBrowser:) ||
+	   action_ == @selector(showThreadWithMenuItem:)
 	   )
 	{ return YES; }
 	
+	// 履歴：戻る／進む
 	if (action_ == @selector(historyMenuPerformForward:)) {
 		if([self shouldShowContents]) {
 			return ([self threadIdentifierFromHistoryWithRelativeIndex : 1] != nil);
@@ -292,13 +296,11 @@ static int messageMaskForTag(int tag)
 		}
 	}
 
-	if (action_ == @selector(showThreadWithMenuItem:))
-		return YES;
-
+	// 選択テキストの検索／コビー
 	if (action_ == @selector(findTextInSelection:) ||
 	   action_ == @selector(copySelectedResURL:)
 	   )
-	{ return textSelected_; }
+	{ return ([[self textView] selectedRange].length != 0)/*textSelected_*/; }
 	
 	if (action_ == @selector(selectFirstVisibleRange:)	 ||
 	   action_ == @selector(selectLastVisibleRange:)	 ||
@@ -316,7 +318,7 @@ static int messageMaskForTag(int tag)
 	   action_ == @selector(openInBrowser:)		||
 	   action_ == @selector(openSelectedThreads:)
 	   )
-	{ return isReallySelected_; }
+	{ return ([[self selectedThreadsReallySelected] count] || [self threadURL])/*isReallySelected_*/; }
 	
 	return NO;
 }

@@ -11,6 +11,9 @@
 - (NSString *) deleteItemIdentifier;
 - (NSString *) toggleOnlineModeIdentifier;
 - (NSString *) launchCMLFIdentifier;
+// Available in BathyScaphe 1.0.2 and later.
 - (NSString *) stopTaskIdentifier;
+// Available in SledgeHammer and later.
 - (NSString *) historySegmentedControlIdentifier;
+- (NSString *) orderFrontBrowserItemIdentifier;
 @end
