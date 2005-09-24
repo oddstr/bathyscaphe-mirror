@@ -2,13 +2,11 @@
 
 
 #import "CocoMonar_Prefix.h"
-#import <SGAppKit/SGAppKit.h>
+//#import <SGAppKit/SGAppKit.h>
 #import "CMXInternalMessaging.h"
 #import "RBSplitView.h"
-
 #import "CookieManager.h"
 #import "CMRHistoryManager.h"
-//#import "CMRNoNameManager.h"
 #import "CMRFavoritesManager.h"
 #import "CMRMainMenuManager.h"
 #import "BoardManager.h"
@@ -40,14 +38,13 @@ void CMXServicesInit(void)
     
     // Managers
     [CMRFileManager defaultManager];
-    //[CMRNoNameManager defaultManager];
     [CMRMainMenuManager defaultManager];
     [BoardManager defaultManager];
 	[CMRFavoritesManager defaultManager];
     [CMRNetGrobalLock sharedInstance];
     
     // Custom views
-    SGAppKitFrameworkInit();
+    //SGAppKitFrameworkInit();
     
     // Inter-thread messaging
     CMRMainThread = [NSThread currentThread];

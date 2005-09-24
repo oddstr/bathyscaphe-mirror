@@ -1,5 +1,5 @@
 /**
-  * $Id: BoardList-OVDataSource.m,v 1.5 2005/09/12 08:02:20 tsawada2 Exp $
+  * $Id: BoardList-OVDataSource.m,v 1.6 2005/09/24 06:07:49 tsawada2 Exp $
   * 
   * BoardList-OVDataSource.m
   *
@@ -68,28 +68,21 @@ static NSImage *imageForType(BoardListItemType type)
 	return [NSImage imageAppNamed : imageName_];
 }
 
-static NSMutableAttributedString *textForType(BoardListItemType type)
+static NSMutableAttributedString *makeAttrStrFromStr(NSString *source)
 {
-	//NSString	*key_ = nil;
+	NSMutableParagraphStyle *style_;
+	style_ = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+	[style_ setParagraphSpacingBefore : (([CMRPref boardListRowHeight] - [[CMRPref boardListFont] defaultLineHeightForFont]) / 2)];
+ 
 	NSDictionary *tmpAttrDict = [NSDictionary dictionaryWithObjectsAndKeys :
 										[CMRPref boardListFont], NSFontAttributeName,
 										[CMRPref boardListTextColor], NSForegroundColorAttributeName,
+										style_, NSParagraphStyleAttributeName,
 								 NULL];
-	return [[[NSMutableAttributedString alloc] initWithString : @"StringGoesHere" attributes : tmpAttrDict] autorelease];
-	
-	/*switch(type){
-	case BoardListFavoritesItem:
-		key_ = kBBSListFavoritesTextKey;
-		break;
-	case BoardListCategoryItem:
-		key_ = kBBSListCategoryTextKey;
-		break;
-	case BoardListBoardItem:
-		//break;
-	default:
-		//break;
-	}
-	return SGTemplateResource(key_);*/
+
+	[style_ release];
+
+	return [[[NSMutableAttributedString alloc] initWithString : source attributes : tmpAttrDict] autorelease];
 }
 
 - (void) outlineView : (NSOutlineView *) outlineView
@@ -122,22 +115,39 @@ static NSMutableAttributedString *textForType(BoardListItemType type)
         object_ = @"";
     
     if ([identifier_ isEqualToString : BoardPlistNameKey]){
-        BoardListItemType         type_;
-        NSImage                   *image_;
-        NSMutableAttributedString *tmp;
-        
-        type_ = [[self class] typeForItem : item];
+        //BoardListItemType		type_;
+        //NSImage                 *image_;
+        id		tmp;
+
+        /*type_ = [[self class] typeForItem : item];
         image_ = imageForType(type_);
-        tmp = textForType(type_);
-        
-        [self outlineView:outlineView setDataCellImage:image_
-                        tableColumn:tableColumn forItem:item];
-        
-        [tmp replaceCharactersInRange:[tmp range] withString:object_];
-        return tmp;
+		[self outlineView : outlineView
+		 setDataCellImage : image_
+			  tableColumn : tableColumn
+				  forItem : item];*/
+
+        tmp = makeAttrStrFromStr(object_);
+		return tmp;
     }
     
     return object_;
+}
+
+// これは本当は outlineView のデリゲート・メソッド
+// (see CMRBrowser-Delegate.m)
+- (void)outlineView : (NSOutlineView *) olv
+	willDisplayCell : (NSCell *) cell
+	 forTableColumn : (NSTableColumn *) tableColumn
+			   item : (id) item
+{
+    if ([[tableColumn identifier] isEqualToString: BoardPlistNameKey]) {
+        BoardListItemType		type_;
+        NSImage                 *image_;
+
+        type_ = [[self class] typeForItem : item];
+        image_ = imageForType(type_);
+		[cell setImage: image_];
+    }
 }
 
 - (id)        outlineView : (NSOutlineView *) outlineView
@@ -268,8 +278,8 @@ not_writtable:
 @end
 
 
-
-@implementation BoardList(SGOutlineViewDataSource)
+// Deprecated in BathyScaphe 1.0.2 and Later.
+/*@implementation BoardList(SGOutlineViewDataSource)
 - (NSString *) outlineView : (NSOutlineView *) outlineView
 			toolTipForItem : (id			 ) item
 {
@@ -279,7 +289,7 @@ not_writtable:
 	
 	return [item objectForKey : BoardPlistURLKey];
 }
-@end
+@end*/
 
 
 

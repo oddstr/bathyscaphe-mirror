@@ -12,6 +12,7 @@
 #import "CMRReplyDocumentFileManager_p.h"
 #import "CMRDocumentController.h"
 #import "CMRThreadAttributes.h"
+#import "BoardManager.h"
 
 // deprecated in BathyScaphe 1.0.2
 //NSString *const CMRReplyDocumentFontKey = @"Font";
@@ -92,10 +93,14 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager)
 		[fileContents_ setNoneNil : datIdentifier_
 						   forKey : ThreadPlistIdentifierKey];
 	}
-	
-	[fileContents_ setObject : [CMRPref defaultReplyName]
+	BoardManager		*bm_;
+	NSString			*board_;
+	bm_ = [BoardManager defaultManager];
+	board_ = [contentInfo objectForKey : ThreadPlistBoardNameKey];
+
+	[fileContents_ setObject : [bm_ defaultKotehanForBoard : board_]//[CMRPref defaultReplyName]
 					  forKey : ThreadPlistContentsNameKey];
-	[fileContents_ setObject : [CMRPref defaultReplyMailAddress]
+	[fileContents_ setObject : [bm_ defaultMailForBoard : board_]//[CMRPref defaultReplyMailAddress]
 					  forKey : ThreadPlistContentsMailKey];
 	
 	return [fileContents_ writeToFile:filepath atomically:YES];

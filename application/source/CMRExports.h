@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRExports.h,v 1.2 2005/09/12 08:02:20 tsawada2 Exp $
+  * $Id: CMRExports.h,v 1.3 2005/09/24 06:07:49 tsawada2 Exp $
   * 
   * CMRExports.h
   *
@@ -14,9 +14,6 @@
 #define CMREXPORTS_H_INCLUDED
 
 #include <stddef.h>
-
-#import <Foundation/Foundation.h>
-#import <SGFoundation/SGFoundation.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -35,9 +32,6 @@ extern NSRunLoop			*CMRMainRunLoop;
 extern SGInternalMessenger	*CMRMainMessenger;
 
 extern void CMRApplicationReset(void);
-
-// Alert
-extern int CMRRunAlertPanelForDeleteThread(BOOL isFavotites);
 
 /*!
  * @function    CMXInit

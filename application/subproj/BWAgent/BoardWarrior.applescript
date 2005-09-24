@@ -9,6 +9,7 @@ property downloadedhtmlPath : ""
 property ifplistexist : ""
 property needtoRemove : false
 property parentAppName : "BathyScaphe"
+property BWAgentDefaultURL : "http://menu.2ch.net/bbsmenu.html"
 
 on clicked theObject
 	if name of theObject is "update" then
@@ -23,7 +24,6 @@ on will open theObject
 	readSettings()
 	checkfolder()
 	tell theObject
-		--set visible of progress indicator "progress" to false
 		if wherefolder is "" then
 			set contents of text field "message" to localized string "msg_alt"
 			set title of button "update" to localized string "label_alt"
@@ -93,7 +93,7 @@ on checkifURLisValid(theURL)
 	if (theURL starts with "http://") and (theURL ends with "html") then
 		return theURL
 	else
-		return "http://www.ff.iij4u.or.jp/~ch2/bbsmenu.html"
+		return BWAgentDefaultURL
 	end if
 end checkifURLisValid
 
@@ -167,11 +167,11 @@ end startsync
 
 on downloadbbsmenu()
 	set needtoRemove to false
-	--tell application "Finder"
+	
 	set myfol to (path to temporary items from system domain) as string
 	set myfol to myfol & "bbsmenu.html"
 	set myfile to myfol as file specification
-	--end tell
+	
 	tell application "URL Access Scripting"
 		try
 			with timeout of 180 seconds
@@ -236,12 +236,10 @@ on progressControl(param)
 		set enabled of button "update" of window "mainwindow" to false
 		set enabled of button "cancel" of window "mainwindow" to false
 		set uses threaded animation of progress indicator "progress" of window "mainwindow" to true
-		--set visible of progress indicator "progress" of window "mainwindow" to true
 		tell progress indicator "progress" of window "mainwindow" to start
 		tell window "mainwindow" to update
 	else if param is 2 then
 		tell progress indicator "progress" of window "mainwindow" to stop
-		--set visible of progress indicator "progress" of window "mainwindow" to false
 		set enabled of button "cancel" of window "mainwindow" to true
 		set enabled of button "update" of window "mainwindow" to true
 	end if
@@ -251,7 +249,7 @@ on registerSettings()
 	tell user defaults
 		make new default entry at end of default entries with properties {name:"autostart", contents:false}
 		make new default entry at end of default entries with properties {name:"autoquit", contents:false}
-		make new default entry at end of default entries with properties {name:"defaultURL", contents:"http://www.ff.iij4u.or.jp/~ch2/bbsmenu.html"}
+		make new default entry at end of default entries with properties {name:"defaultURL", contents:BWAgentDefaultURL}
 		register
 	end tell
 end registerSettings
@@ -262,6 +260,10 @@ on readSettings()
 		set autostart to (contents of default entry "autostart") as boolean
 		set autoquit to (contents of default entry "autoquit") as boolean
 	end tell
+	-- old standard URL was deprecated, so we convert it to new recommended URL.
+	if defaultURL is "http://www.ff.iij4u.or.jp/~ch2/bbsmenu.html" then
+		set defaultURL to BWAgentDefaultURL
+	end if
 end readSettings
 
 on writeSettings()

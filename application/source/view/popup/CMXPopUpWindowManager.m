@@ -1,6 +1,6 @@
 //: CMXPopUpWindowManager.m
 /**
-  * $Id: CMXPopUpWindowManager.m,v 1.2 2005/07/09 01:03:03 tsawada2 Exp $
+  * $Id: CMXPopUpWindowManager.m,v 1.3 2005/09/24 06:07:49 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -168,6 +168,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 }
 - (BOOL) isSeeThrough
 {
-	return [CMRPref isResPopUpSeeThrough];
+	return ([CMRPref resPopUpBgAlphaValue] < 1.0);
 }
 @end

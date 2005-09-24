@@ -1,6 +1,6 @@
 //: CMRTaskManager-ViewAccessor.m
 /**
-  * $Id: CMRTaskManager-ViewAccessor.m,v 1.2 2005/07/04 17:22:17 tsawada2 Exp $
+  * $Id: CMRTaskManager-ViewAccessor.m,v 1.3 2005/09/24 06:07:49 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -30,12 +30,12 @@
 	UTILAssertNotNil([self taskContainerView]);
 	[[self taskContainerView] setDataSource : self];
 }
-- (void) validateNibSettings
+/*- (void) validateNibSettings
 {
-}
+}*/
 - (void) setupUIComponents
 {
-	[self validateNibSettings];
+	//[self validateNibSettings];
 	[self setupTaskContainerView];
 }
 @end

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.17 2005/09/16 01:18:29 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.18 2005/09/24 06:07:49 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -12,6 +12,8 @@
 #import "CMRTextColumnCell.h"
 #import "CMRPullDownIconBtn.h"
 #import "CMRMainMenuManager.h"
+#import "BSTitleRulerView.h"
+#import "BSIconAndTextCell.h"
 
 // Constants
 #define kBrowserListColumnsPlist        @"browserListColumns.plist"
@@ -188,6 +190,7 @@
     [[self splitView] addSubview : containerView_];
     [containerView_ release];
 }
+
 
 - (BOOL) ifSearchFieldIsInToolbar
 {
@@ -411,6 +414,18 @@
 {
     return APP_BROWSER_STATUSLINE_IDENTIFIER;
 }
+- (void) setupScrollView
+{
+	CMXScrollView *scView = [self scrollView];
+	id ruler;
+	[[scView class] setRulerViewClass : [BSTitleRulerView class]];
+	ruler = [[BSTitleRulerView alloc] initWithScrollView:scView];
+	[scView setHorizontalRulerView:ruler];
+
+	[super setupScrollView];
+	[scView setHasHorizontalRuler : YES];
+	[scView setRulersVisible : YES];
+}
 
 - (void) setupSplitView
 {
@@ -422,7 +437,14 @@
 
 - (void) updateDefaultsWithTableView : (NSTableView *) tbview
 {
-    [tbview setIntercellSpacing : [CMRPref threadsListIntercellSpacing]];
+	// [CMRPref threadsListIntercellSpacing] was deprecated in SledgeHammer and later...
+	//[tbview setIntercellSpacing : ];
+	// ...Use SGTemplateResource() instead.
+	id	tmp;
+    tmp = SGTemplateResource(kThreadsListTableICSKey);
+    UTILAssertRespondsTo(tmp, @selector(stringValue));
+    [tbview setIntercellSpacing : NSSizeFromString([tmp stringValue])];
+
     [tbview setRowHeight : [CMRPref threadsListRowHeight]];
     [tbview setFont : [CMRPref threadsListFont]];
     
@@ -557,31 +579,28 @@
     [outlineView setDataSource : [[BoardManager defaultManager] userList]];
     {
         NSTableColumn    *column_;
-        NSBrowserCell    *cell_;
+		BSIconAndTextCell	*cell_;
         
         column_ = [outlineView tableColumnWithIdentifier : BoardPlistNameKey];
-        cell_ = [[NSBrowserCell alloc] initTextCell : @""];
-        
-        [cell_ setLeaf : YES];
+
+        cell_ = [[BSIconAndTextCell alloc] init];
         [cell_ setEditable : NO];
         [column_ setDataCell : cell_];
         [cell_ release];
-        
+
         [column_ setEditable : NO];
     }
     
     [outlineView setRowHeight : [CMRPref boardListRowHeight]];
     
-    tmp = SGTemplateResource(kBBSListIntercellSpacingKey);
-    UTILAssertRespondsTo(tmp, @selector(stringValue));
-    [outlineView setIntercellSpacing : NSSizeFromString([tmp stringValue])];
-    
     tmp = SGTemplateResource(kBBSListIndentationPerLevelKey);
     UTILAssertRespondsTo(tmp, @selector(floatValue));
     [outlineView setIndentationPerLevel : [tmp floatValue]];
+
     tmp2 = [CMRPref boardListBackgroundColor];
     if (tmp2 != nil)
 		[outlineView setBackgroundColor : tmp2];
+    [outlineView setDoubleAction : @selector(boardListViewDoubleAction:)];
 	[outlineView setMenu : [self drawerContextualMenu]];
 }
 - (void) setupBoardListTableDefaults

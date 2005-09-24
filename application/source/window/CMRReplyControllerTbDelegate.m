@@ -39,7 +39,8 @@
 {
 	NSToolbarItem			*item_;
 	NSWindowController		*wcontroller_;
-	
+
+	[super initializeToolbarItems : aWindow];//SledgeHammer
 	
 	wcontroller_ = [aWindow windowController];
 	UTILAssertNotNil(wcontroller_);
@@ -115,6 +116,7 @@
 				kBeLoginIdentifier,
 				//NSToolbarShowFontsItemIdentifier,
 				//NSToolbarShowColorsItemIdentifier,
+				[self pIndicatorItemIdentifier],
 				NSToolbarSeparatorItemIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,
 				NSToolbarSpaceItemIdentifier,
@@ -124,9 +126,9 @@
 
 
 
-@implementation CMRReplyControllerTbDelegate(CMRLocalizableStringsOwner)
+/*@implementation CMRReplyControllerTbDelegate(CMRLocalizableStringsOwner)
 + (NSString *) localizableStringsTableName
 {
 	return @"ReplyWindowToolbarItems";
 }
-@end
+@end*/

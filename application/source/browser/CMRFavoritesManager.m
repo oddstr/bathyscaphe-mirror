@@ -19,8 +19,6 @@
 NSString *const CMRFavoritesManagerDidLinkFavoritesNotification = @"CMRFavoritesManagerDidLinkFavoritesNotification";
 NSString *const CMRFavoritesManagerDidRemoveFavoritesNotification = @"CMRFavoritesManagerDidRemoveFavoritesNotification";
 
-static NSString *const kFavItemsPoolMaxCountKey = @"Favorites - MaxCountForPool";
-
 @implementation CMRFavoritesManager
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
@@ -393,16 +391,14 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 //Žb’èŽÀ‘•
 - (void) addItemToPoolWithFilePath : (NSString *) filepath
 {
-	id tmp;
 	if (filepath == nil) return;
 
 	// ‰½‚ç‚©‚Ì——R‚ÅŠù‚É“o˜^‚³‚ê‚Ä‚¢‚éê‡‚ÍA“o˜^‚µ‚È‚¢
 	if ([[self changedFavItemsPool] containsObject : filepath]) return;
 	
 	// •ÛŽ”‚ÌãŒÀ‚ð’´‚¦‚½ê‡‚Íˆê”ÔŒÃ‚¢‚à‚Ì‚ðíœiƒpƒtƒH[ƒ}ƒ“ƒX‚Æ‚ÌŒ“‚Ë‡‚¢j
-	tmp = SGTemplateResource(kFavItemsPoolMaxCountKey);
-    UTILAssertRespondsTo(tmp, @selector(intValue));
-    if ([[self changedFavItemsPool] count] > [tmp intValue]) {
+	// SledgeHammer : ãŒÀ 50 ‚ÉŒÅ’è
+    if ([[self changedFavItemsPool] count] > 50) {
 		[[self changedFavItemsPool] removeObjectAtIndex : 0];
 	}
 	

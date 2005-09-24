@@ -1,6 +1,6 @@
 //: CMRThreadLayout.m
 /**
-  * $Id: CMRThreadLayout.m,v 1.2 2005/09/12 08:02:20 tsawada2 Exp $
+  * $Id: CMRThreadLayout.m,v 1.3 2005/09/24 06:07:49 tsawada2 Exp $
   * 
   * CMRThreadLayout.m
   *
@@ -13,9 +13,8 @@
 #import "CMRThreadLayout_p.h"
 #import "NSTextView+CMXAdditions.h"
 #import "CMRMessageAttributesStyling.h"
-#import "CMRMessageAttributesTemplate.h"
+#import "CMRMessageAttributesTemplate_p.h"
 #import "CMRAttributedMessageComposer.h"
-
 
 // for debugging only
 #define UTIL_DEBUGGING		0
@@ -197,6 +196,42 @@
 		[[self scrollView] setNeedsDisplay: YES];
 	}
 }
+
+- (void) wakeUpLayoutManagerWithRange : (NSRange) aRange
+{
+	NSRect			glyphRect_;
+	NSRect			visibleRect_;
+	NSPoint			newOrigin_;
+	id				textView_;
+	NSClipView		*clipview_;
+	
+	if (NSNotFound == aRange.location || 0 == aRange.length) {
+		//In case of invisible abone, etc.
+		//NSBeep();
+		[[self textView] setNeedsDisplay : YES];
+		return;
+	}
+	
+	textView_ = [self textView];
+	glyphRect_ = [textView_ boundingRectForCharacterInRange : aRange];
+	if (NSEqualRects(NSZeroRect, glyphRect_)) return;
+	
+	
+	clipview_ = [[self scrollView] contentView];
+	newOrigin_ = [textView_ bounds].origin;
+	newOrigin_.y = glyphRect_.origin.y;
+	
+	visibleRect_ = [clipview_ documentVisibleRect];
+	visibleRect_.origin = newOrigin_;
+	
+	// LayoutManager にハッパをかける。
+	// これが効いているのかどうか…？とにかく、症状は緩和されるようだが。
+	[[textView_ layoutManager]
+		glyphRangeForBoundingRect : visibleRect_
+				  inTextContainer : [textView_ textContainer]];
+	
+}
+
 - (void) updateMessageAtIndex : (unsigned) anIndex
 {
 	NSMutableAttributedString		*textBuffer_;
@@ -207,7 +242,6 @@
 	
 	if (NSNotFound == anIndex || [self firstUnlaidMessageIndex] <= anIndex)
 		return;
-	
 	[_messagesLock lock];
 	do {
 		m = [[self messageBuffer] messageAtIndex : anIndex];
@@ -244,6 +278,8 @@
 		[self slideMessageRanges : changeInLength_
 					fromLocation : mesRange_.location +1];
 		[[self messageRanges] setRange:mesRange_ atIndex:anIndex];
+		//2005-09-20 Tiger 白抜け対策（手探り様子見中）
+		[self wakeUpLayoutManagerWithRange : mesRange_];
 	}
 	[self setMessagesEdited : YES];
 }
@@ -340,6 +376,7 @@
 	// 各レスの最後には空行が含まれるため、表示されている範囲を
 	// そのまま渡すと見た目との齟齬が気になる。
 	// よって、位置を改行ひとつ分ずらす。
+	
 	if (visibleRange_.length > 1) {
 	  visibleRange_.location += 1;
 	  visibleRange_.length -= 1;	//範囲チェックを省く簡便のため
@@ -486,6 +523,13 @@
 	// 改行
 	[tmp appendString : @"\n"
 	   withAttributes : [NSDictionary empty]];
+	   
+	// 上下の余白（SledgeHammer and Later）
+	[tmp addAttributes : [NSDictionary dictionaryWithObject : 
+								[templateMgr indexParagraphStyleWithSpacingBefore : [CMRPref msgIdxSpacingBefore]
+																  andSpacingAfter : 0.0]
+													 forKey : NSParagraphStyleAttributeName]
+						range : NSMakeRange(0,[tmp length])];
 	
 	// 挿入
 	[aBuffer beginEditing];
@@ -624,16 +668,26 @@
 - (void) appendLastUpdatedHeader
 {
 	NSAttributedString	*header_;
+	NSMutableAttributedString	*tmp_;
 	NSRange				range_;
+	id					templateMgr = [CMRMessageAttributesTemplate sharedTemplate];
 	
-	header_ = [[CMRMessageAttributesTemplate sharedTemplate]
-									lastUpdatedHeaderAttachment];
+	header_ = [templateMgr lastUpdatedHeaderAttachment];
 	if (nil == header_) 
 		return;
-	
+	   
+	// 上下の余白（SledgeHammer and Later）
+	tmp_ = [header_ mutableCopy];
+	[tmp_ addAttributes : [NSDictionary dictionaryWithObject : 
+								[templateMgr indexParagraphStyleWithSpacingBefore : [CMRPref msgIdxSpacingBefore]
+																  andSpacingAfter : 0.0]
+													 forKey : NSParagraphStyleAttributeName]
+				  range : NSMakeRange(0,[tmp_ length])];
+
 	[[self textStorage] beginEditing];
 	range_.location = [[self textStorage] length];
-	[[self textStorage] appendAttributedString : header_];
+	[[self textStorage] appendAttributedString : tmp_];//header_];
+	[tmp_ release];
 	range_.length = [[self textStorage] length] - range_.location;
 	
 	// 現在の日付を属性として追加

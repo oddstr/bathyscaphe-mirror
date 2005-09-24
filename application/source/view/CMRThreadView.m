@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadView.m,v 1.5 2005/09/16 01:18:29 tsawada2 Exp $
+  * $Id: CMRThreadView.m,v 1.6 2005/09/24 06:07:49 tsawada2 Exp $
   * 
   * CMRThreadView.m
   *
@@ -85,6 +85,11 @@
 		_lastCharIndex = NSNotFound;
 	}
 	return self;
+}
+
+- (void)updateRuler
+{
+	// Ruler の更新をブロックする。
 }
 
 - (CMRThreadSignature *) threadSignature

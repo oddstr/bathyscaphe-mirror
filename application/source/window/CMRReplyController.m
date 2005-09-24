@@ -1,7 +1,5 @@
 #import "CMRReplyController_p.h"
 
-
-
 @implementation CMRReplyController
 - (id) init
 {
@@ -34,7 +32,7 @@
 }
 
 
-// working with NSDocument...
+#pragma mark Working with NSDocument
 - (void) synchronizeDataFromMessenger
 {
 	CMRReplyMessenger		*document_;
@@ -56,13 +54,9 @@
 	[document_ setMail : [[self mailField] stringValue]];
 	[document_ setReplyMessage : [[self textView] string]];
 	[document_ setWindowFrame : [[self window] frame]];
-
-	// deprecated in BathyScaphe 1.0.2
-	//[document_ setReplyTextFont : [[self textView] font]];
-	//[document_ setReplyTextColor : [[self textView] textColor]];
 }
 
-/*** Action ***/
+#pragma mark IBAction
 // 「ウインドウの位置と領域を記憶」
 - (IBAction) saveAsDefaultFrame : (id) sender;
 {
@@ -104,6 +98,8 @@
     if (NO == [[self document] isEndPost])
     	[[self document] sendMessage : sender];
 }
+
+#pragma mark Validation
 - (BOOL) validateMenuItem : (NSMenuItem *) theItem
 {
 	SEL		action_;

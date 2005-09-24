@@ -36,7 +36,7 @@ NS_ENDHANDLER
 {
     return [self URLForKey : APP_X2CH_AUTHENTICATION_REQUEST_KEY];
 }
-- (NSURL *) x2chRegistrationPageURL
+/*- (NSURL *) x2chRegistrationPageURL
 {
     return [self URLForKey : APP_X2CH_REGISTRATION_PAGE_KEY];
 }
@@ -44,7 +44,7 @@ NS_ENDHANDLER
 - (NSURL *) be2chRegistrationPageURL
 {
 	return [self URLForKey : APP_BE2CH_REGISTRATION_PAGE_KEY];
-}
+}*/
 
 #pragma mark -
 

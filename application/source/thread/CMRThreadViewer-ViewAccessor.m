@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.3 2005/09/12 08:02:20 tsawada2 Exp $
+  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.4 2005/09/24 06:07:49 tsawada2 Exp $
   * 
   * CMRThreadViewer-ViewAccessor.m
   *
@@ -97,6 +97,7 @@
 										   with : containerView_];
 	[m_windowContentView release];
 	m_windowContentView = nil;
+	[m_windowContentView addSubview : containerView_];
 	
 	[containerView_ release];
 	

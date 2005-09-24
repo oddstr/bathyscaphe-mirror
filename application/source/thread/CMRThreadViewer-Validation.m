@@ -170,17 +170,12 @@ static int messageMaskForTag(int tag)
 	SEL		action_;
 	NSDictionary	*selected_;
 	BOOL		isSelected_;
-	//BOOL		isReallySelected_;
-	//BOOL		textSelected_;
 	
 	if (nil == theItem) return NO;
-	//if (NO == [theItem respondsToSelector : @selector(action)]) return NO;
 	
 	action_ = [theItem action];
 	selected_ = [self selectedThread];
 	isSelected_ = ([self selectedThreads] && [self numberOfSelectedThreads]);
-	//isReallySelected_ = ([[self selectedThreadsReallySelected] count] || [self threadURL]);
-	//textSelected_ = [[self textView] selectedRange].length != 0;
         
 	// AA スレ
 	if (@selector(toggleAAThread:) == action_) {
@@ -300,7 +295,7 @@ static int messageMaskForTag(int tag)
 	if (action_ == @selector(findTextInSelection:) ||
 	   action_ == @selector(copySelectedResURL:)
 	   )
-	{ return ([[self textView] selectedRange].length != 0)/*textSelected_*/; }
+	{ return ([[self textView] selectedRange].length != 0); }
 	
 	if (action_ == @selector(selectFirstVisibleRange:)	 ||
 	   action_ == @selector(selectLastVisibleRange:)	 ||
@@ -318,7 +313,7 @@ static int messageMaskForTag(int tag)
 	   action_ == @selector(openInBrowser:)		||
 	   action_ == @selector(openSelectedThreads:)
 	   )
-	{ return ([[self selectedThreadsReallySelected] count] || [self threadURL])/*isReallySelected_*/; }
+	{ return ([[self selectedThreadsReallySelected] count] || [self threadURL]); }
 	
 	return NO;
 }

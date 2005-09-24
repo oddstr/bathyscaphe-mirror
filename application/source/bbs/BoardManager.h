@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.h,v 1.2 2005/09/12 08:02:20 tsawada2 Exp $
+ * $Id: BoardManager.h,v 1.3 2005/09/24 06:07:49 tsawada2 Exp $
  * 
  * BoardManager.h
  *
@@ -91,7 +91,7 @@
 			 	 forBoard : (NSString *) boardName;
 /* ソート基準カラム */
 - (NSString *) sortColumnForBoard : (NSString *) boardName;
-- (void) setSortColumn : (NSString		  *) anIdentifier
+- (void) setSortColumn : (NSString *) anIdentifier
 			  forBoard : (NSString *) boardName;
 - (BOOL) sortColumnIsAscendingAtBoard : (NSString *) boardName;
 - (void) setSortColumnIsAscending : (BOOL	   ) isAscending

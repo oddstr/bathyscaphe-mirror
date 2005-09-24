@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.12 2005/09/16 01:18:29 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.13 2005/09/24 06:07:49 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -164,11 +164,15 @@
 - (void) setThreadViewerDrawsBackground : (BOOL) flag;
 - (NSColor *) resPopUpBackgroundColor;
 - (void) setResPopUpBackgroundColor : (NSColor *) color;
-- (BOOL) isResPopUpSeeThrough;
-- (void) setIsResPopUpSeeThrough : (BOOL) anIsResPopUpSeeThrough;
 
 - (NSColor *) replyBackgroundColor;
 - (void) setReplyBackgroundColor : (NSColor *) aColor;
+
+// SledgeHammer Additions
+- (float) resPopUpBgAlphaValue;
+- (void) setResPopUpBgAlphaValue : (float) rate;
+- (float) replyBgAlphaValue;
+- (void) setReplyBgAlphaValue : (float) rate;
 
 - (void) _loadBackgroundColors;
 - (BOOL) _saveBackgroundColors;
@@ -302,13 +306,6 @@ enum {
 - (void) setThreadsListRowHeight : (float) rowHeight;
 - (void) fixRowHeightToFontSize;
 
-- (NSSize) threadsListIntercellSpacing;
-- (void) setThreadsListIntercellSpacing : (NSSize) space;
-
-- (void) setThreadsListRowHeightNum : (NSNumber *) rowHeight;
-- (void) setThreadsListIntercellSpacingHeight : (NSNumber *) height;
-- (void) setThreadsListIntercellSpacingWidth : (NSNumber *) width;
-
 - (float) boardListRowHeight;
 - (void) setBoardListRowHeight : (float) rowHeight;
 - (void) fixBoardListRowHeightToFontSize;
@@ -374,8 +371,7 @@ enum {
 
 @interface AppDefaults(Account)
 - (NSURL *) x2chAuthenticationRequestURL;
-- (NSURL *) x2chRegistrationPageURL;
-- (NSURL *) be2chRegistrationPageURL;
+
 - (BOOL) shouldLoginIfNeeded;
 - (void) setShouldLoginIfNeeded : (BOOL) flag;
 - (BOOL) shouldLoginBe2chAnyTime;

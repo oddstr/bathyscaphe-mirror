@@ -1,6 +1,143 @@
-2005-09-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+2005-09-24 (2005-09-23) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/BSProgressIndicatorTbItem.m
+		[新規追加] ツールバーのプログレスインジケータの表示状態をより細かく制御するためにサブクラス化。
+		- 「ツールバーをカスタマイズ」シートでインジケータが表示されない（isDisplayedWhenStopped : NO だから）ので、
+		　それを改善したいのだが……なかなかうまいこと動作しないので一部コメントアウトしてあったりする。
+	* application/subproj/BWAgent/BoardWarrior.applescript
+	* application/subproj/BWAgent/Japanese.lproj/MainMenu.nib
+		BWAgent 1.1.7 - デフォルトの参照先 URL を変更。
+	* application/subproj/BWAgent/BWAgent.xcodeproj
+		BWAgent.xcode を Xcode 2.1 以降用のプロジェクトファイルに変換。ついでにネイティブターゲットにアップグレード。
+	* application/source/window/CMRReplyControllerTbDelegate.m
+	* application/source/window/CMRThreadViewerTbDelegate.m
+	* application/source/window/CMRToolbarDelegateImp.m
+		下記変更に伴い微修正。
+	* application/Resources/Japanese.lproj/ReplyWindowToolbarItems.strings
+	* application/Resources/Japanese.lproj/ThreadViewerTbItems.strings
+		[削除] 下記変更に伴い削除。
+	* application/Resources/Japanese.lproj/ToolbarItems.strings
+		[新規追加] ThreadViewerTbItems.strings と ReplyWindowToolbarItems.strings を統合。
+		- 一緒になっていた方が全ツールバー共通のツールバー項目を提供するのに好都合だったため。
+	* application/Resources/text/KeyValueTemplates.plist
+		"Browser - WindowTitleFormat" を廃止（削除）した。また、"Favorite - MaxCountForPool" も廃止した。
+		そして、"Browser - ListViewInterCellSpacing" を追加した。
+2005-09-24 (2005-09-22) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/source/view/CMRThreadView.m
+		3ペイン時に BSTitleRulerView を表示するための小変更。
+		- CMRThreadView では、NSTextView の updateRuler メソッドを空メソッドでオーバーライドしてブロック。
+		　こうしないと、勝手にルーラーの土地に色々表示されたり、土地を拡張されたりして、非常に困ることになる。
+	* application/Resources/image/titleRulerBackground.tiff
+		[新規追加] 3ペイン時のスレッドタイトル表示領域の背景画像。暫定。
+	* application/source/browser/BSTitleRulerView.m
+		[新規追加] NSRulerView のサブクラス。NSTextView に表示されるルーラーの「土地だけを譲り受けて」、
+		そこを3ペイン時のスレッドタイトル表示場所に使おうという訳だ。
+		- 突貫工事のため、外観のカスタマイズ性が不十分だが、早い時期に改良する予定。
+	* application/source/window/CMRToolbarDelegateImp.m
+	* application/source/window/CMRReplyControllerTbDelegate.m
+	* application/source/window/CMRBrowserTbDelegate.m
+		プログレスインジケータをステータスバーからツールバーに移動。まだ作業の途中なので、いくつか不完全な部分が
+		残っているので、留意のこと。
+2005-09-24 (2005-09-21) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/text/KeyValueTemplates.plist
+		"PopUp - WindowAlphaValue" を廃止（削除）した。
+	* application/source/view/popup/CMXPopUpWindowController.m
+	* application/source/view/popup/CMXPopUpWindowController+View.m
+	* application/source/window/CMRReplyController-ViewAccessor.m
+	* application/source/preferences/AppDefaults-Background.m
+	* application/source/preferences/AppDefaults-FontColor.m
+	* application/subproj/preference/Japanese.lproj/FontsAndColors.nib
+		「表示」環境設定の改良：
+		- ポップアップの透明度の指定を直接行えるようにした。これに伴い、ポップアップの透明度の設定が
+		　KeyValueTemplates.plist から User Defaults に移動した。
+		- 書き込みウインドウの背景の透明度の設定をカラーウェルから独立させ、User Defaults にも「カラー」と
+		　「透明度」を分けて記録するようにした（残念ながら、以前の設定は変換されないので、書き込みウインドウの
+		　背景色を再設定することを推奨）。
+		- スレッド一覧の「行の間隔」「列の間隔」の設定インタフェースを廃止した（あまり有り難みがなく、「行の高さ」と
+		　相まって混乱しがちなため。KeyValueTemplates.plist に転出させようと思う）。
+		また、これに伴いこれらの設定を参照する側にも必要な変更を最小限施した。
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/source/browser/CMRBrowser-Action.m
+		掲示板リストで、カテゴリ項目をダブルクリックしたときはカテゴリを開閉するように（>>433@6th ほか）。
+		- フォルダだと思えば割と自然な振る舞い。NSOutlineView の item だと思えばやや規格外か。
+		　まぁ、たぶんほとんどの人はフォルダとして捉えているだろうから、いいか。
+		- Xcode でもダブルクリックでフォルダ開くしね。
+	* application/source/thread/CMRAbstructThreadDocument.m
+	* application/source/thread/CMRThreadDocument.m
+		2005-09-15 の修正の続き。3ペイン時に「履歴」メニューからスレッドを選んでも表示されなくなっていた
+		問題を解決（ブラウザ Browser は CMRThreadDocument のサブクラスではないので、CMRThreadDocument に
+		メソッドを書いておいても無効であった。Browser, CMRThreadDocument 両方のスーパークラスである
+		CMRAbstructThreadDocument にメソッドを移した）。
+2005-09-24 (2005-09-20) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/manager/CMRReplyDocumentFileManager.m
+		板ごとにコテハン・メール欄を設定するための内部準備工事。Be ログインはちょっと見直しが必要なので先送り。
+	* application/source/thread/CMRThreadLayout.m
+		レスの属性を変更した後などに、テキストが消えて白抜け状態になったり、文字がにじんだりする問題を緩和するための
+		実験と対症療法。少し良くなったと思うが、まだ状況によっては文字がにじんだりするなぁ。
+	* application/Resources/text/KeyValueTemplates.plist
+		"BBSList - InterCellSpcaing" を廃止した。
+	* application/source/view/BSIconAndTextCell.m
+		掲示板リスト（NSOutlineView）の row が　highlight すると、その row の cell もハイライトする。
+		私たちは今、row の ハイライト時背景を塗りつぶしているのだが、そのままだと、そのあとに cell の描画が
+		行われるため、「cell のハイライト色」が上にかぶさってしまい、邪魔。そこで cell のハイライト色として nil を返し、
+		cell には色をつけないようにした。
+	* application/source/view/BSBoardListView.m
+		[新規追加]（まったく本質的でない改造）掲示板リストの選択項目のハイライト背景をカスタムの画像で描くための
+		NSOutlineView のサブクラス。（ますます Mail.app に近づく）
+		ついでに、掲示板リストのコンテキストメニューの表示に関する問題 [Bug 6330] を解決。
+	* application/Resources/image/boardListSelBg.tiff
+	* application/Resources/image/boardListSelBgFocused.tiff
+		[新規追加]（まったく本質的でない改造）掲示板リストの選択項目のハイライト背景画像。
+		- 暫定、Mail.app から借りてきた。rowHeight と 画像の高さが違うときは自動的に伸縮して描くが、ちょっと汚いなぁ。
+	* application/source/browser/CMRBrowser-Delegate.m
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/source/bbs/BoardList-OVDataSource.m
+		BSIconAndTextCell を掲示板リストの表示に使う為に必要な修正。
+	* application/source/view/BSIconAndTextCell.m
+		[新規追加] 掲示板リストのアイコン付きテキスト表示用の新しい NSCell サブクラス、BSIconAndTextCell。
+		特徴：1.常にアイコン・テキストをセルの（上下の）中央に描画する。アイコンサイズは任意。
+		2. cell が highlight 状態のときは、ボールド＋文字色・白＋ドロップシャドウ付きでテキストを描画する。
+		- まだこれからどんどん調整していく可能性がある。また、汎用性を持たせたクラスに仕上げる可能性もある。
+		　今は、掲示板リストでの使用にやや特化している。
+		- あまりカスタムクラスを作って、決めうちで自力描画はしたくないのだが、普通のセルだとどうにも、テキストが
+		　いい位置に描けないんだよなぁ（上に寄ってしまう）…
+2005-09-24 (2005-09-19) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/image/Folder.png
+		20*16 pixel だったのを 16*16 に修正。
+	* application/Resources/image/StopSmall.tiff
+		[削除] 不要になったので削除。
+2005-09-24 (2005-09-18) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/preferences/AppDefaults-FontColor.m
+		Mac OS X 10.4（そして、10.5 以降）との互換性を確保するための微修正。
+	* application/source/bbs/BoardListItem/*.(h|m)
+		[新規追加] masakih 氏提供のソースからとりあえず boardListItem 関連のクラス群を追加。
+		とりあえず（データベース導入前に）掲示板リストの各項目の表現方法を刷新したい。この骨組みを活用していく予定。
+		- 注意：まだビルドターゲットには含まれていない。 
+	* application/source/bbs/BoardList-OVDataSource.m
+		書式付き文字列の生成方法を若干効率化した（もっとも、このへんはいずれまた書き直すことになるだろうが…）。
+	* application/source/task/CMRTaskManager.m
+		「ウインドウ」＞「進行状況」コマンドは、パネルがすでに開いている場合はパネルを閉じるようにした。
+2005-09-24 (2005-09-17) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/CMRExports.h
+	* application/source/main.m
+		しばらく前から不要になったまま放置されていたいくつかの宣言を削除、整理。
+	* application/source/thread/CMRThreadViewer.m
+		2005-09-12 の CMRNoNameManager の統廃合関連で、デフォルト名無しを正しく取得できないケースが
+		発生していたのを修正。
+2005-09-24 (2005-09-16) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/SGDocument_p.h
+		[削除] 単に SGDocument.h を import しているだけだったので、統合して削除。
+	* application/source/manager/CMRDocumentFileManager_p.h
+	* application/source/object/CMRBBSSignature_p.h
+		[削除] いずれも、内容が空のゴミファイルだったので削除。
+	* application/source/thread/CMRThreadLayout.m
+	* application/source/composer/CMRMessageAttributesTemplate.m
+		新着位置画像、オンザフライボタンの前後の余白を調整（まだ途中）。
+	* application/source/composer/CMRAttributedMessageComposer.m
+		よく見直すと、使われていない関数や定数が記述されていたので、その部分を削除した。
+2005-09-24 (2005-09-15) tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/image/OrderFrontBrowser.tiff
-		[新規追加] 「ブラウザ」ツールバーボタンのアイコン。
+		[新規追加] 「ブラウザ」ツールバーボタンのアイコン（とりあえず Xcode から借りてきた。リリースまでにちゃんと作り直す）。
 	* application/source/window/CMRThreadViewerTbDelegate.m
 	* application/source/thread/CMRThreadViewer-Action.m
 	* application/source/thread/CMRThreadViewer-Validation.m

@@ -4,16 +4,12 @@
 <dict>
 	<key>BBSList - IndentationPerLevel</key>
 	<integer>16</integer>
-	<key>BBSList - IntercellSpacing</key>
-	<string>{3.0, 2.0}</string>
 	<key>Browser - ListViewAction</key>
 	<string>selectThread:</string>
 	<key>Browser - ListViewDoubleAction</key>
 	<string>openSelectedThreads:</string>
-	<key>Browser - WindowTitleFormat</key>
-	<string>%%%BBSName%%% - %%%ThreadTitle%%%</string>
-	<key>Favorites - MaxCountForPool</key>
-	<integer>40</integer>
+	<key>Browser - ListViewInterCellSpacing</key>
+	<string>{3.0, 2.0}</string>
 	<key>PopUp - BecomesKeyOnlyIfNeeded</key>
 	<integer>1</integer>
 	<key>PopUp - BorderType</key>
@@ -30,12 +26,8 @@
 	<real>0.080000000000000002</real>
 	<key>PopUp - TrackingInsetWidth</key>
 	<integer>5</integer>
-	<key>PopUp - WindowAlphaValue</key>
-	<real>0.87</real>
 	<key>System - 2channel Auth URL</key>
 	<string>https://2chv.tora3.net/futen.cgi</string>
-	<key>System - 2channel Register URL</key>
-	<string>http://2ch.tora3.net/</string>
 	<key>System - AvailableURLCFEncodings</key>
 	<array>
 		<integer>1056</integer>
@@ -45,8 +37,6 @@
 	</array>
 	<key>System - be2ch Profile URL</key>
 	<string>http://be.2ch.net/test/p.php?i=%@&amp;u=d:%@</string>
-	<key>System - be2ch Register URL</key>
-	<string>http://be.2ch.net/</string>
 	<key>Thread - CopyThreadFormat</key>
 	<string>%%%ThreadTitle%%%
 %%%ThreadURL%%%

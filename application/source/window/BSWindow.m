@@ -27,4 +27,16 @@
 							  backing : backingType
 								defer : flag];
 }
+/*
+- (void) runToolbarCustomizationPalette : (id) sender
+{
+	id wc_ = [self windowController];
+
+	if (wc_) {
+		if ([wc_ respondsToSelector : @selector(statusLine)])
+			[[[wc_ statusLine] progressIndicator] setDisplayedWhenStopped : YES];
+	}
+	[super runToolbarCustomizationPalette : sender];
+}
+*/
 @end

@@ -8,7 +8,6 @@
                 changeDrawsGrid = id; 
                 changeHasAnchorUnderline = id; 
                 changePopUpScrollerSize = id; 
-                changeResPopUpSeeThrough = id; 
                 changeResPopUpUsesTextColor = id; 
                 changeShouldThreadAntialias = id; 
                 changeTableRowSpace = id; 
@@ -34,7 +33,6 @@
                 "_newThreadColorWell" = NSColorWell; 
                 "_newThreadFontButton" = NSButton; 
                 "_resPopUpBGColorWell" = NSColorWell; 
-                "_resPopUpIsSeeThroughButton" = NSButton; 
                 "_resPopUpScrollerIsSmall" = NSButton; 
                 "_resPopUpTextColorWell" = NSColorWell; 
                 "_resPopUpUsesTCButton" = NSButton; 
@@ -55,10 +53,6 @@
                 "m_rowHeightField" = NSTextField; 
                 "m_rowHeightStepper" = NSStepper; 
                 "m_shouldAntialiasButton" = NSButton; 
-                "m_spaceHeightField" = NSTextField; 
-                "m_spaceHeightStepper" = NSStepper; 
-                "m_spaceWidthField" = NSTextField; 
-                "m_spaceWidthStepper" = NSStepper; 
             }; 
             SUPERCLASS = PreferencesController; 
         }, 
@@ -69,6 +63,7 @@
             SUPERCLASS = NSObject; 
         }, 
         {CLASS = FontWell; LANGUAGE = ObjC; SUPERCLASS = NSButton; }, 
+        {CLASS = NSDatePicker; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
         {
             ACTIONS = {openHelp = id; }; 
             CLASS = PreferencesController; 

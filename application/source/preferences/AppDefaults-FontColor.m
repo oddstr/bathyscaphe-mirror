@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-FontColor.m,v 1.7 2005/09/16 01:18:29 tsawada2 Exp $
+  * $Id: AppDefaults-FontColor.m,v 1.8 2005/09/24 06:07:49 tsawada2 Exp $
   * 
   * AppDefaults-FontColor.m
   *
@@ -158,6 +158,8 @@ static NSString *const kPrefThreadViewerMsgSpacingAfterKey = @"Message Content S
 @end
 
 #pragma mark -
+
+static float getDefaultLineHeightForFont(NSFont *font_);
 
 @implementation AppDefaults(FontAndColor)
 - (CMRMessageAttributesTemplate *) _template
@@ -570,14 +572,11 @@ static NSString *const kPrefThreadViewerMsgSpacingAfterKey = @"Message Content S
 }
 - (void) fixRowHeightToFontSize
 {
-	NSFont	*listFont_;
-	
-	listFont_ = [self threadsListFont];
-	[self setThreadsListRowHeight : [listFont_ defaultLineHeightForFont]];
+	[self setThreadsListRowHeight : getDefaultLineHeightForFont([self threadsListFont])];
 }
 
-
-- (NSSize) threadsListIntercellSpacing
+/* Deprecated in SledgeHammer and later. use SGTemplateResource() instead. */
+/*- (NSSize) threadsListIntercellSpacing
 {
 	NSString		*s;
 	
@@ -625,6 +624,7 @@ static NSString *const kPrefThreadViewerMsgSpacingAfterKey = @"Message Content S
 	
 	[self setThreadsListIntercellSpacing : newSize_];
 }
+*/
 
 
 - (BOOL) threadsListDrawsGrid
@@ -698,15 +698,12 @@ static NSString *const kPrefThreadViewerMsgSpacingAfterKey = @"Message Content S
 }
 - (void) fixBoardListRowHeightToFontSize
 {
-	NSFont	*listFont_;
-	
-	listFont_ = [self boardListFont];
-	[self setBoardListRowHeight : [listFont_ defaultLineHeightForFont]];
+	[self setBoardListRowHeight : getDefaultLineHeightForFont([self boardListFont])];
 }
 - (NSFont *) boardListFont
 {
 	return [self appearanceFontForKey : kPrefBoardListFontKey
-					   defaultSize : DEFAULT_BOARD_LIST_FONTSIZE];
+						  defaultSize : DEFAULT_BOARD_LIST_FONTSIZE];
 }
 - (void) setBoardListFont : (NSFont *) font
 {
@@ -760,5 +757,24 @@ static NSString *const kPrefThreadViewerMsgSpacingAfterKey = @"Message Content S
 	[mResult release];
 	
 	return YES;
+}
+
+static float getDefaultLineHeightForFont(NSFont *font_)
+{
+	/*
+	2005-09-18 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	NSFont の defaultLineHeightForFont: は、Mac OS X 10.4 で deprecated になったらしい。
+	今のところまだ問題は出ていないが、替わりに NSLayoutManager の defaultLineHeightForFont: を
+	使うべしとドキュメントにある。NSLayoutManager の defaultLineHeightForFont: は、
+	Mac OS X 10.2 以降で使えるので、互換性の問題はない。よって、そちらに切り替えることにする。
+	*/
+	NSLayoutManager	*tmp_;
+	float			value_;
+
+	tmp_ = [[NSLayoutManager alloc] init];
+	value_ = [tmp_ defaultLineHeightForFont : font_];
+	[tmp_ release];
+	
+	return value_;
 }
 @end

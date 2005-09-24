@@ -53,12 +53,8 @@
 #define kRemoveDrawerItemTitleKey			@"Browser Del Drawer Item Title"
 #define kRemoveDrawerItemMsgKey				@"Browser Del Drawer Item Message"
 
-// Window Title Format
-#define kWindowTitleBBSNameKey		@"%%%BBSName%%%"
-#define kWindowTitleThreadTitleKey	@"%%%ThreadTitle%%%"
-
 // PropertyList
-#define kWindowTitleFormatKey				@"Browser - WindowTitleFormat"
+#define kThreadsListTableICSKey				@"Browser - ListViewInterCellSpacing"
 #define kThreadsListTableActionKey			@"Browser - ListViewAction"
 #define kThreadsListTableDoubleActionKey	@"Browser - ListViewDoubleAction"
 
@@ -68,7 +64,6 @@
 
 //:CMRBrowser-List.m
 @interface CMRBrowser(List)
-- (void) updateStatusLineBoardInfo;
 - (void) changeThreadsFilteringMask : (int) aMask;
 
 - (CMRThreadsList *) currentThreadsList;

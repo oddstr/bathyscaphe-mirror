@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.3 2005/06/05 23:26:56 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.4 2005/09/24 06:07:49 tsawada2 Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -20,9 +20,6 @@
 #import "CMRMessageFilter.h"
 #import "CMRSpamFilter.h"
 #import "CMRThreadView.h"
-
-//#import "CMRImagePanelManager.h"
-
 
 #import <SGAppKit/NSWorkspace-SGExtensions.h>
 
@@ -112,11 +109,11 @@ to link acctually clicked.
 		
 		attr_ = [[[CMRThreadAttributes alloc] initWithDictionary:dict_] autorelease];
 		
-		// b’è“I‚É•\¦“à—e‚Íuî•ñ‚ğ•\¦v‚Ì‚à‚Ì‚ğ‚»‚Ì‚Ü‚ÜØ—p‚µ‚Ä‚Ü‚·B
-		// ƒ|ƒbƒvƒAƒbƒv‚ª‘å‚«‚·‚¬‚é‚ÆŒ¾‚¤‹êî‚ª‚­‚é‚©‚à‚µ‚ê‚Ü‚¹‚ñB by masakih
+		// æš«å®šçš„ã«è¡¨ç¤ºå†…å®¹ã¯ã€Œæƒ…å ±ã‚’è¡¨ç¤ºã€ã®ã‚‚ã®ã‚’ãã®ã¾ã¾å€Ÿç”¨ã—ã¦ã¾ã™ã€‚
+		// ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ãŒå¤§ãã™ãã‚‹ã¨è¨€ã†è‹¦æƒ…ãŒãã‚‹ã‹ã‚‚ã—ã‚Œã¾ã›ã‚“ã€‚ by masakih
 		
 		/* 2005-06-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-			‚â‚Í‚èƒ|ƒbƒvƒAƒbƒv‚ª‘å‚«‚·‚¬‚é‹C‚ª‚·‚é‚Ì‚ÅA•\¦“à—e‚ğƒXƒŒƒ^ƒC‚Ì‚İ‚ÉŒÀ’è‚µ‚Ä‚İ‚éB
+			ã‚„ã¯ã‚Šãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ãŒå¤§ãã™ãã‚‹æ°—ãŒã™ã‚‹ã®ã§ã€è¡¨ç¤ºå†…å®¹ã‚’ã‚¹ãƒ¬ã‚¿ã‚¤ã®ã¿ã«é™å®šã—ã¦ã¿ã‚‹ã€‚
 		*/
 		template_ = [[[NSAttributedString alloc] initWithString : [attr_ threadTitle]] autorelease];//[self templateForInfoPopUp];
 		if (!template_) goto ErrInvalidLink;
@@ -224,7 +221,7 @@ ErrInvalidLink:
 		return NO;
 	}
 	
-	// “¯‚¶Œf¦”Â‚Ì“¯‚¶ƒXƒŒƒbƒh‚È‚çƒƒbƒZ[ƒWˆÚ“®ˆ—
+	// åŒã˜æ²ç¤ºæ¿ã®åŒã˜ã‚¹ãƒ¬ãƒƒãƒ‰ãªã‚‰ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ç§»å‹•å‡¦ç†
 	if ([[self bbsIdentifier] isEqualToString : bbs_] && 
 	   [[self datIdentifier] isEqualToString : key_]) {
 		if (messageRange != NULL)
@@ -397,9 +394,9 @@ static NSString *previewSourceHTMLFilepath(NSString *resourceName, NSString *aTy
 	NSString		*filepath_;
 	NSString		*beParam_;
 
-	// “¯‚¶ƒXƒŒƒbƒh‚ÌƒŒƒX‚Ö‚ÌƒAƒ“ƒJ[
-    // ŠmÀ‚ÉƒŒƒX‚Ö‚ÌƒAƒ“ƒJ[‚Å‚ ‚éê‡‚Ì‚İ”z—ñ‚ğ¶¬‚µ
-    // ƒCƒ“ƒfƒbƒNƒX‚Ì”ÍˆÍ‚ğ‹‚ß‚éB
+	// åŒã˜ã‚¹ãƒ¬ãƒƒãƒ‰ã®ãƒ¬ã‚¹ã¸ã®ã‚¢ãƒ³ã‚«ãƒ¼
+    // ç¢ºå®Ÿã«ãƒ¬ã‚¹ã¸ã®ã‚¢ãƒ³ã‚«ãƒ¼ã§ã‚ã‚‹å ´åˆã®ã¿é…åˆ—ã‚’ç”Ÿæˆã—
+    // ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®ç¯„å›²ã‚’æ±‚ã‚ã‚‹ã€‚
     if ([self isMessageLink:aLink rangeArray:nil]) {
         SGBaseRangeArray *ranges = [SGBaseRangeArray array];
         
@@ -513,6 +510,7 @@ static NSString *previewSourceHTMLFilepath(NSString *resourceName, NSString *aTy
 		runFilterWithMessages : [L messageBuffer]
 						 with : threadID];
 }
+
 /* CMRThreadViewerRunSpamFilterNotification */
 - (void) threadViewerRunSpamFilter : (NSNotification *) theNotification
 {
@@ -556,7 +554,7 @@ static NSString *previewSourceHTMLFilepath(NSString *resourceName, NSString *aTy
 		[filter_ addSample : aMessage
 					  with : threadID];
 		
-		// V‚µ‚¢ƒTƒ“ƒvƒ‹‚ğ’Ç‰Á‚µ‚½ê‡‚Ì‚İ©“®“I‚É‹N“®
+		// æ–°ã—ã„ã‚µãƒ³ãƒ—ãƒ«ã‚’è¿½åŠ ã—ãŸå ´åˆã®ã¿è‡ªå‹•çš„ã«èµ·å‹•
 		[self postRunSpamFilterNotification];
 	} else {
 		[filter_ removeSample : aMessage
@@ -564,9 +562,9 @@ static NSString *previewSourceHTMLFilepath(NSString *resourceName, NSString *aTy
 	}
 	
 /*
-	–{•¶‚ÌŒê‹å‚àƒ`ƒFƒbƒN‚µ‚Ä‚¢‚½ê‡A
-	‚±‚±‚ÅÀs‚µ‚Ä‚¢‚é‚ÆA‚¹‚Á‚©‚­‰ğœ‚µ‚½ƒŒƒX‚ª
-	‚Ó‚½‚½‚Ñ–À˜fƒŒƒX‚Éİ’è‚³‚ê‚Ä‚µ‚Ü‚¤‰Â”\«‚ª‚ ‚éB
+	æœ¬æ–‡ã®èªå¥ã‚‚ãƒã‚§ãƒƒã‚¯ã—ã¦ã„ãŸå ´åˆã€
+	ã“ã“ã§å®Ÿè¡Œã—ã¦ã„ã‚‹ã¨ã€ã›ã£ã‹ãè§£é™¤ã—ãŸãƒ¬ã‚¹ãŒ
+	ãµãŸãŸã³è¿·æƒ‘ãƒ¬ã‚¹ã«è¨­å®šã•ã‚Œã¦ã—ã¾ã†å¯èƒ½æ€§ãŒã‚ã‚‹ã€‚
 */
 	// [self postRunSpamFilterNotification];
 }
@@ -588,8 +586,8 @@ static NSString *previewSourceHTMLFilepath(NSString *resourceName, NSString *aTy
 // SGHTMLView delegate
 - (NSArray *) HTMLViewFilteringLinkSchemes : (SGHTMLView *) aView
 {
-	// "cmonar:", "mailto:"‚Í–³‹
-	// "cmbe:"‚à–³‹
+	// "cmonar:", "mailto:"ã¯ç„¡è¦–
+	// "cmbe:"ã‚‚ç„¡è¦–
 	return [NSArray arrayWithObjects:
 						CMRAttributeInnerLinkScheme,
 						CMRAttributesBeProfileLinkScheme,
@@ -632,7 +630,7 @@ static NSString *previewSourceHTMLFilepath(NSString *resourceName, NSString *aTy
 	selectedRange_ = [aView selectedRange];
 	if (0 == selectedRange_.length) return NO;
 
-	// ƒŒƒX”Ô†‚Å‚Íƒ|ƒbƒvƒAƒbƒv‚µ‚È‚¢
+	// ãƒ¬ã‚¹ç•ªå·ã§ã¯ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ã—ãªã„
 	v = [[aView textStorage] attribute : CMRMessageIndexAttributeName 
 							   atIndex : selectedRange_.location
 						effectiveRange : NULL];
@@ -681,7 +679,7 @@ static NSString *previewSourceHTMLFilepath(NSString *resourceName, NSString *aTy
 	mouseLoc_ = [aView convertPoint:mouseLoc_ toView:nil];
 	mouseLoc_ = [[aView window] convertBaseToScreen : mouseLoc_];
 	
-	// ƒeƒLƒXƒg‚Ìƒhƒ‰ƒbƒO‚ğ‹–‚·‚æ‚¤‚ÉA‚±‚±‚Å‚Íí‚ÉNO‚ğ•Ô‚·B
+	// ãƒ†ã‚­ã‚¹ãƒˆã®ãƒ‰ãƒ©ãƒƒã‚°ã‚’è¨±ã™ã‚ˆã†ã«ã€ã“ã“ã§ã¯å¸¸ã«NOã‚’è¿”ã™ã€‚
 	[self tryShowPopUpWindowSubstringWithRange : selectedRange_
 								 inTextStorage : [aView textStorage]
 								  locationHint : mouseLoc_];

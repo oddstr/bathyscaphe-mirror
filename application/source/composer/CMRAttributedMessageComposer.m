@@ -19,16 +19,10 @@
 #define	kThreadIndexFormatKey		@"Thread - IndexFormat"
 #define	kThreadFieldSeparaterKey	@"Thread - FieldSeparater"
 #define kThreadHostFormatKey		@"Thread - Host Format"
-#define kThreadMessageHeaderKey		@"Thread - MessageHeader"
-#define kThreadMessageFooterKey		@"Thread - MessageFooter"
 #define kThreadDateFormatKey		@"Thread - DateDescription"
 
 
-static NSString *st_num2str_tbl[] = {
-@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"};
-
 static NSAttributedString *whiteSpaceSeparater(void);
-static void UTILMutableStringAppend2Figure(NSMutableString *mstr, unsigned int value);
 static void appendDateString(NSMutableString *buffer, id theDate, NSString *prefix, NSDictionary *localeDictionary);
 static void appendFiledTitle(NSMutableAttributedString *buffer, NSString *title);
 
@@ -438,17 +432,6 @@ ErrComposeHost:
 @end
 
 #pragma mark -
-
-static inline void UTILMutableStringAppend2Figure(NSMutableString *mstr, unsigned int value)
-{
-	unsigned int figure;
-	
-	figure = (value / 10) % 10;
-	[mstr appendString : st_num2str_tbl[figure]];
-
-	figure = value % 10;
-	[mstr appendString : st_num2str_tbl[figure]];
-}
 
 static void appendDateString(NSMutableString *buffer, id theDate, NSString *prefix, NSDictionary *localeDictionary)
 {

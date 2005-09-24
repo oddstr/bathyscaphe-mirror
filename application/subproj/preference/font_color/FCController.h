@@ -1,5 +1,5 @@
 /**
-  * $Id: FCController.h,v 1.3 2005/07/29 21:18:28 tsawada2 Exp $
+  * $Id: FCController.h,v 1.4 2005/09/24 06:07:50 tsawada2 Exp $
   * 
   * FCController.h
   *
@@ -40,18 +40,18 @@
 	IBOutlet NSButton		*m_drawStripedCheckBox;
 	
 	IBOutlet NSTextField	*m_rowHeightField;
-	IBOutlet NSTextField	*m_spaceWidthField;
-	IBOutlet NSTextField	*m_spaceHeightField;
+	//IBOutlet NSTextField	*m_spaceWidthField;
+	//IBOutlet NSTextField	*m_spaceHeightField;
 	
 	IBOutlet NSStepper		*m_rowHeightStepper;
-	IBOutlet NSStepper		*m_spaceWidthStepper;
-	IBOutlet NSStepper		*m_spaceHeightStepper;
+	//IBOutlet NSStepper		*m_spaceWidthStepper;
+	//IBOutlet NSStepper		*m_spaceHeightStepper;
 	
 	// ‚»‚Ì‘¼
 	IBOutlet NSColorWell	*_resPopUpBGColorWell;
 	IBOutlet NSColorWell	*_resPopUpTextColorWell;
 	IBOutlet NSButton		*_resPopUpUsesTCButton;
-	IBOutlet NSButton		*_resPopUpIsSeeThroughButton;
+	//IBOutlet NSButton		*_resPopUpIsSeeThroughButton;
 	IBOutlet NSButton		*m_shouldAntialiasButton;
 	
 	IBOutlet NSButton		*_resPopUpScrollerIsSmall;
@@ -64,12 +64,11 @@
 	IBOutlet NSColorWell	*m_BLtextColorWell;
 	IBOutlet NSTextField	*m_BLrowHeightField;
 	IBOutlet NSStepper		*m_BLrowHeightStepper;
-	
 }
 
 - (IBAction) changeHasAnchorUnderline : (id) sender;
 - (IBAction) changeResPopUpUsesTextColor : (id) sender;
-- (IBAction) changeResPopUpSeeThrough : (id) sender;
+//- (IBAction) changeResPopUpSeeThrough : (id) sender;
 - (IBAction) changeShouldThreadAntialias : (id) sender;
 - (IBAction) changeColor : (id) sender;
 - (IBAction) changeDrawsGrid : (id) sender;
@@ -82,4 +81,17 @@
 
 - (IBAction) changePopUpScrollerSize : (id) sender;
 - (void) changeFontOf : (int) tagNum To: (NSFont *) newFont;
+
+// SledgeHammer Additions - Cocoa binding support
+- (float) msgContIndentValue;
+- (void) setMsgContIndentValue : (float) aValue;
+- (float) msgContSpacingBeforeValue;
+- (void) setMsgContSpacingBeforeValue : (float) aValue;
+- (float) msgContSpacingAfterValue;
+- (void) setMsgContSpacingAfterValue : (float) aValue;
+
+- (float) resPopUpBgAlphaValue;
+- (void) setResPopUpBgAlphaValue : (float) aValue;
+- (float) replyBgAlphaValue;
+- (void) setReplyBgAlphaValue : (float) aValue;
 @end

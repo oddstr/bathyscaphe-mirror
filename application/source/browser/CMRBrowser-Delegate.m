@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.10 2005/09/16 01:18:29 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.11 2005/09/24 06:07:49 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -292,7 +292,6 @@ extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
 	[[[self threadsListTable] dataSource] updateDateFormatter];
 
 	[[self threadsListTable] reloadData];
-	//[self updateStatusLineBoardInfo];
 	[self synchronizeWindowTitleWithDocumentName];
 }
 
@@ -392,6 +391,15 @@ extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
 	
 	[self showThreadsListForBoard : item_];
 }
+
+- (void)outlineView : (NSOutlineView *) olv
+	willDisplayCell : (NSCell *) cell
+	 forTableColumn : (NSTableColumn *) tableColumn
+			   item : (id) item
+{
+	// 自身のデータソースにデリゲートメソッドを処理させる。
+	[[olv dataSource] outlineView : olv willDisplayCell : cell forTableColumn : tableColumn item : item];
+}
 @end
 
 
@@ -443,4 +451,22 @@ static BOOL isOptionKeyDown(unsigned flag_)
 	[self selectCurrentThreadWithMask : CMRAutoscrollWhenTLSort];
 	[[self threadsListTable] reloadData];
 }
+
+/* そのセルの内容が「...」で省略表示されているのかどうか判別する方法が見つかるまで凍結
+- (NSString *) tableView : (NSTableView *) aTableView
+		  toolTipForCell : (NSCell *) aCell
+					rect : (NSRectPointer) rect
+			 tableColumn : (NSTableColumn *) aTableColumn
+					 row : (int) row
+		   mouseLocation : (NSPoint) mouseLocation
+{
+	if (([[aTableColumn identifier] isEqualToString : CMRThreadTitleKey]) &&
+		([[aCell objectValue] size].width > ([aTableColumn width])	)	 ) // ここがちょっとダメ
+	{
+		return [[aCell objectValue] stringValue];
+	} else {
+		return nil;
+	}
+}
+*/
 @end

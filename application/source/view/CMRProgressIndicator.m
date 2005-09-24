@@ -1,12 +1,13 @@
 //: CMRProgressIndicator.m
 /**
-  * $Id: CMRProgressIndicator.m,v 1.2 2005/07/04 17:22:17 tsawada2 Exp $
+  * $Id: CMRProgressIndicator.m,v 1.3 2005/09/24 06:07:49 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
   */
 
 #import "CMRProgressIndicator.h"
+#import "CMRTask.h"
 #import "CMRTaskManager.h"
 
 @implementation CMRProgressIndicator

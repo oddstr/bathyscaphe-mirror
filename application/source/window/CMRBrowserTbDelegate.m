@@ -84,8 +84,6 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 											   action : @selector(collapseOrExpandBoardList:)
 											   target : wcontroller_];
 	[item_ setImage : [NSImage imageAppNamed : @"BoardList"]];
-
-	//[self setupProgressIndicatorTbItem:item_ fromView:[wcontroller_ statusLine]];
 }
 @end
 
@@ -129,25 +127,6 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 	
 	[anItem setMenuFormRepresentation : menuItem_];
 }
-/*- (void) setupProgressIndicatorTbItem : (NSToolbarItem *) anItem
-							 fromView : (NSView		   *) aView
-{
-	id	part_;
-	
-	part_ = [aView progressIndicator];
-	if(part_) {
-		NSSize		size_;
-		[part_ retain];
-		//[part_ removeFromSuperviewWithoutNeedingDisplay];
-		
-		[anItem setView : part_];
-		[part_ release];
-		
-		size_ = [part_ bounds].size;
-		[anItem setMinSize : size_];
-		[anItem setMaxSize : size_];
-	}
-}*/
 @end
 
 
@@ -180,6 +159,7 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 				[self toggleOnlineModeIdentifier],
 				[self launchCMLFIdentifier],
 				[self historySegmentedControlIdentifier],
+				[self pIndicatorItemIdentifier],
 				NSToolbarSeparatorItemIdentifier,
 				NSToolbarSpaceItemIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,

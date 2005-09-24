@@ -230,6 +230,32 @@
 	
 	[super makeWindowControllers];
 }
+
+- (BOOL) windowAlreadyExistsForPath : (NSString *) filePath
+{
+	/* 2005-09-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	このメソッドはスレッドを履歴メニューなどから切り替える直前に呼ばれる。
+	パラメータには、これから切り替えようとしている（切り替え先の）スレッドのファイルパスを与える。
+	
+	ファイルパスを基に NSDocument を探す。見つかれば、もうそのドキュメントが開かれている訳だから、
+	切り替えを中止し、かわりにそのドキュメントのウインドウをアクティブに。
+	
+	見つからなければ、切り替えの許可、return YES;。*/
+	NSDocumentController	*dc_;
+	NSDocument				*document_;
+	
+	if (nil == filePath) return NO;
+
+	dc_ = [NSDocumentController sharedDocumentController];
+	document_ = [dc_ documentForFileName : filePath];
+	
+	if (nil == document_) {
+		return NO;
+	} else {
+		[document_ showWindows];
+		return YES;
+	}
+}
 @end
 
 /* for AppleScript */

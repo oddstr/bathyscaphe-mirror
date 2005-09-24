@@ -97,10 +97,10 @@
 {
 	return _resPopUpUsesTCButton;
 }
-- (NSButton *) resPopUpIsSeeThroughButton
+/*- (NSButton *) resPopUpIsSeeThroughButton
 {
 	return _resPopUpIsSeeThroughButton;
-}
+}*/
 
 - (NSButton *) shouldAntialiasButton
 {
@@ -110,14 +110,14 @@
 {
 	return m_rowHeightField;
 }
-- (NSTextField *) spaceWidthField
+/*- (NSTextField *) spaceWidthField
 {
 	return m_spaceWidthField;
 }
 - (NSTextField *) spaceHeightField
 {
 	return m_spaceHeightField;
-}
+}*/
 - (NSButton *) drawsGridCheckBox
 {
 	return m_drawsGridCheckBox;
@@ -130,14 +130,14 @@
 {
 	return m_rowHeightStepper;
 }
-- (NSStepper *) spaceWidthStepper
+/*- (NSStepper *) spaceWidthStepper
 {
 	return m_spaceWidthStepper;
 }
 - (NSStepper *) spaceHeightStepper
 {
 	return m_spaceHeightStepper;
-}
+}*/
 - (NSButton *) replyFontButton
 {
 	return m_replyFontButton;
@@ -236,9 +236,7 @@
 		@"messageHostColorWell",
 		@"boardListTextColorWell"
 		};
-		
-	[[NSColorPanel sharedColorPanel] setShowsAlpha: YES];
-	
+
 	AppDefaults *pref_ = [self preferences];
 	int	i, cnt = UTILNumberOfCArray(colorWells);
 	
@@ -269,7 +267,7 @@
 		@"drawsGridCheckBox",
 		@"drawStripedCheckBox",
 		@"resPopUpUsesTCButton",
-		@"resPopUpIsSeeThroughButton",
+		//@"resPopUpIsSeeThroughButton",
 		@"hasAnchorULButton",
 		@"shouldAntialiasButton",
 
@@ -281,7 +279,7 @@
 		@selector(threadsListDrawsGrid),
 		@selector(browserSTableDrawsStriped),
 		@selector(isResPopUpTextDefaultColor),
-		@selector(isResPopUpSeeThrough),
+		//@selector(isResPopUpSeeThrough),
 		@selector(hasMessageAnchorUnderline),
 		@selector(shouldThreadAntialias),
 
@@ -364,7 +362,7 @@
 		[[self rowHeightStepper] setFloatValue :
 			[pref_ threadsListRowHeight]];
 	}
-	if ([[self spaceWidthField] isEnabled]) {
+	/*if ([[self spaceWidthField] isEnabled]) {
 		[[self spaceWidthField] setFloatValue :
 			[pref_ threadsListIntercellSpacing].width];
 		[[self spaceWidthStepper] setFloatValue :
@@ -375,7 +373,7 @@
 			[pref_ threadsListIntercellSpacing].height];
 		[[self spaceHeightStepper] setFloatValue :
 			[pref_ threadsListIntercellSpacing].height];
-	}
+	}*/
 }
 
 - (void) updateBoardListRowSettings

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.7 2005/09/16 01:18:29 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.8 2005/09/24 06:07:49 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -549,7 +549,7 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 	
 	board = [[self threadAttributes] boardName];
 	if (nil == board)
-		board = [self boardIdentifier];
+		board = [(CMRBBSSignature *)[self boardIdentifier] name];
 	
 	if (nil == board)
 		return nil;

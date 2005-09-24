@@ -29,12 +29,12 @@
 	[[self preferences] setIsResPopUpTextDefaultColor : usesDefaultColor_];
 	[[self resPopUpTextColorWell] setEnabled : usesDefaultColor_];
 }
-- (IBAction) changeResPopUpSeeThrough : (id) sender
+/*- (IBAction) changeResPopUpSeeThrough : (id) sender
 {
 	UTILAssertRespondsTo(sender, @selector(state));
 	[[self preferences] setIsResPopUpSeeThrough : 
 						([sender state] == NSOnState)];
-}
+}*/
 
 
 - (IBAction) changePopUpScrollerSize : (id) sender
@@ -67,32 +67,10 @@
 }
 - (IBAction) changeTableRowSpace : (id) sender
 {
-	int			index_;
-	NSNumber	*number_;
-	SEL			selector_[] = {
-					@selector(setThreadsListRowHeightNum:),
-					@selector(setThreadsListIntercellSpacingHeight:),
-					@selector(setThreadsListIntercellSpacingWidth:),
-			};
-	
-	UTILAssertKindOfClass(sender, NSControl);
-	
-	index_ = [sender tag];
-	NSAssert2(
-		(index_ < UTILNumberOfCArray(selector_)),
-		@"Access over index(%d) length = %d",
-		index_,
-		UTILNumberOfCArray(selector_));
-	
-	
-	if (NO == [[self preferences] respondsToSelector : selector_[index_]]) 
-		return;
-	
-	number_ = [NSNumber numberWithFloat : [sender floatValue]];
-	[[self preferences] performSelector : selector_[index_]
-							 withObject : number_];
+	[[self preferences]	setThreadsListRowHeight : [sender floatValue]];
 	[self updateTableRowSettings];
 }
+
 - (IBAction) changeBoardListRowHeight : (id) sender
 {
 	[[self preferences]	setBoardListRowHeight : [sender floatValue]];
@@ -174,6 +152,52 @@
 							 withObject : newFont];
 }
 
+#pragma mark SledgeHammer Additions
+
+- (float) msgContIndentValue
+{
+	return [[self preferences] messageHeadIndent];
+}
+- (void) setMsgContIndentValue : (float) aValue
+{
+	[[self preferences] setMessageHeadIndent : aValue];
+}
+- (float) msgContSpacingBeforeValue
+{
+	return [[self preferences] msgIdxSpacingAfter];
+}
+- (void) setMsgContSpacingBeforeValue : (float) aValue
+{
+	[[self preferences] setMsgIdxSpacingAfter : aValue];
+}
+- (float) msgContSpacingAfterValue
+{
+	return [[self preferences] msgIdxSpacingBefore];
+}
+- (void) setMsgContSpacingAfterValue : (float) aValue
+{
+	[[self preferences] setMsgIdxSpacingBefore : aValue];
+}
+
+
+- (float) resPopUpBgAlphaValue
+{
+	return [[self preferences] resPopUpBgAlphaValue];
+}
+- (void) setResPopUpBgAlphaValue : (float) aValue
+{
+	[[self preferences] setResPopUpBgAlphaValue : aValue];
+}
+- (float) replyBgAlphaValue
+{
+	return [[self preferences] replyBgAlphaValue];
+}
+- (void) setReplyBgAlphaValue : (float) aValue
+{
+	[[self preferences] setReplyBgAlphaValue : aValue];
+}
+
+#pragma mark NSFontPanelValidation
 
 - (unsigned int) validModesForFontPanel : (NSFontPanel *) fontPanel
 {

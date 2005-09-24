@@ -1,6 +1,6 @@
 //: CMRStatusLine-ViewAccessor.m
 /**
-  * $Id: CMRStatusLine-ViewAccessor.m,v 1.6 2005/07/08 00:59:47 tsawada2 Exp $
+  * $Id: CMRStatusLine-ViewAccessor.m,v 1.7 2005/09/24 06:07:49 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -80,13 +80,13 @@
 
     if (NO == [[CMRTaskManager defaultManager] isInProgress]) {
         [[self progressIndicator] stopAnimation : nil];
-		//[[self stopButton] setHidden : YES];
+
         [[self browserInfoTextField] setHidden : NO];
         [[self statusTextField] setStringValue : @""];
         
     } else {
         [[self progressIndicator] startAnimation : nil];
-		//[[self stopButton] setHidden : NO];
+
         [[self browserInfoTextField] setHidden : YES];
         [[self statusTextField] setStringValue : [aTask message] 
                                                     ? [aTask message] 

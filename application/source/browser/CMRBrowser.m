@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.5 2005/09/16 01:18:29 tsawada2 Exp $
+  * $Id: CMRBrowser.m,v 1.6 2005/09/24 06:07:49 tsawada2 Exp $
   * 
   * CMRBrowser.m
   *
@@ -35,7 +35,6 @@ CMRBrowser *CMRMainBrowser = nil;
 
 - (NSString *) windowTitleForDocumentDisplayName : (NSString *) displayName
 {
-	//NSString		*boardName_   = [self boardName];
 	NSString		*threadTitle_ = [[[self currentThreadsList] objectValueForBoardInfo] stringValue];
 	
 	if ((nil == threadTitle_) || [self showsSearchResult]) return displayName;

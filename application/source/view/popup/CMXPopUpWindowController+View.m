@@ -1,6 +1,6 @@
 //: CMXPopUpWindowController+View.m
 /**
-  * $Id: CMXPopUpWindowController+View.m,v 1.4 2005/09/12 08:02:20 tsawada2 Exp $
+  * $Id: CMXPopUpWindowController+View.m,v 1.5 2005/09/24 06:07:49 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -347,9 +347,10 @@
 @implementation CMXPopUpWindowController(Accessor)
 + (float) windowAlphaValue
 {
-	id	tmp = SGTemplateResource(kPopUpWindowAlphaKey);
+	/*id	tmp = SGTemplateResource(kPopUpWindowAlphaKey);
 	UTILAssertKindOfClass(tmp, NSNumber);
-	return [tmp floatValue];
+	return [tmp floatValue];*/
+	return [CMRPref resPopUpBgAlphaValue];
 }
 - (void) setBackgroundColor : (NSColor *) aColor
 {

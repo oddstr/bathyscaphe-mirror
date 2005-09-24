@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.m,v 1.4 2005/07/09 01:03:03 tsawada2 Exp $
+  * $Id: Browser.m,v 1.5 2005/09/24 06:07:49 tsawada2 Exp $
   * 
   * Browser.m
   *
@@ -96,7 +96,6 @@
 		
 	return [super validateMenuItem : theItem];
 }
-
 
 #pragma mark ThreadsList
 

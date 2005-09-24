@@ -27,6 +27,10 @@ static NSString *const AppDefaultsResPopUpIsSeeThroughKey = @"Res PopUp See Thro
 static NSString *const kPrefReplyBackgroundColorKey	= @"Reply Window BackgroundColor";
 static NSString *const kPrefBoardListBackgroundColorKey	= @"BoardList BackgroundColor";
 
+//SledgeHammer Additions
+static NSString *const kPrefResPopUpBgAlphaKey = @"Res PopUp Bg Alpha Value";
+static NSString *const kPrefReplyWindowBgAlphaKey = @"Reply Window Bg Alpha Value";
+
 
 @implementation AppDefaults(BackgroundColorsSupport)
 - (NSMutableDictionary *) backgroundColorDictionary
@@ -167,7 +171,7 @@ static NSString *const kPrefBoardListBackgroundColorKey	= @"BoardList Background
 }
 
 #pragma mark Popup and Reply Window
-- (BOOL) isResPopUpSeeThrough
+/*- (BOOL) isResPopUpSeeThrough
 {
 	return [[self backgroundColorDictionary]
 					 boolForKey : AppDefaultsResPopUpIsSeeThroughKey
@@ -180,7 +184,7 @@ static NSString *const kPrefBoardListBackgroundColorKey	= @"BoardList Background
 			 setBool : anIsResPopUpSeeThrough
 			  forKey : AppDefaultsResPopUpIsSeeThroughKey];
 	[self postLayoutSettingsUpdateNotification];
-}
+}*/
 
 - (NSColor *) resPopUpBackgroundColor
 {
@@ -219,6 +223,35 @@ static NSString *const kPrefBoardListBackgroundColorKey	= @"BoardList Background
 					  forKey : kPrefReplyBackgroundColorKey];
 	[self postLayoutSettingsUpdateNotification];
 }
+
+// SledgeHammer Additions
+- (float) resPopUpBgAlphaValue
+{
+	return [[self backgroundColorDictionary]
+					floatForKey : kPrefResPopUpBgAlphaKey
+				   defaultValue : 0.85];
+}
+- (void) setResPopUpBgAlphaValue : (float) rate
+{
+	[[self backgroundColorDictionary]
+			setFloat : rate
+			  forKey : kPrefResPopUpBgAlphaKey];
+	[self postLayoutSettingsUpdateNotification];
+}
+- (float) replyBgAlphaValue
+{
+	return [[self backgroundColorDictionary]
+					floatForKey : kPrefReplyWindowBgAlphaKey
+				   defaultValue : 1.0];
+}
+- (void) setReplyBgAlphaValue : (float) rate
+{
+	[[self backgroundColorDictionary]
+			setFloat : rate
+			  forKey : kPrefReplyWindowBgAlphaKey];
+	[self postLayoutSettingsUpdateNotification];
+}
+
 
 #pragma mark -
 - (void) _loadBackgroundColors

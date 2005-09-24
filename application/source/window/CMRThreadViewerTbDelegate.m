@@ -75,7 +75,7 @@ static NSString *const st_browserItemPaletteLabelKey	= @"Main Browser Palette La
 static NSString *const st_browserItemToolTipKey			= @"Main Browser ToolTip";
 static NSString *const st_browserItem_ImageName			= @"OrderFrontBrowser";
 
-static NSString *const st_localizableStringsTableName	= @"ThreadViewerTbItems";
+//static NSString *const st_localizableStringsTableName	= @"ThreadViewerTbItems";
 static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 
 
@@ -147,6 +147,8 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 {
 	NSToolbarItem			*item_;
 	NSWindowController		*wcontroller_;
+
+	[super initializeToolbarItems : aWindow];//Testing
 	
 	wcontroller_ = [aWindow windowController];
 	UTILAssertNotNil(wcontroller_);
@@ -277,6 +279,7 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 				[self launchCMLFIdentifier],
 				[self historySegmentedControlIdentifier],
 				[self orderFrontBrowserItemIdentifier],
+				[self pIndicatorItemIdentifier],
 				NSToolbarSeparatorItemIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,
 				NSToolbarSpaceItemIdentifier,
@@ -286,9 +289,9 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 
 
 
-@implementation CMRThreadViewerTbDelegate(CMRLocalizableStringsOwner)
+/*@implementation CMRThreadViewerTbDelegate(CMRLocalizableStringsOwner)
 + (NSString *) localizableStringsTableName
 {
 	return st_localizableStringsTableName;
 }
-@end
+@end*/

@@ -1,6 +1,6 @@
 //: CMRTaskManager.m
 /**
-  * $Id: CMRTaskManager.m,v 1.2 2005/07/04 17:22:17 tsawada2 Exp $
+  * $Id: CMRTaskManager.m,v 1.3 2005/09/24 06:07:49 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -35,6 +35,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 - (void) awakeFromNib
 {
 	[(NSPanel*)[self window] setFloatingPanel : NO];
+	[(NSPanel*)[self window] setBecomesKeyOnlyIfNeeded : YES];
 	[(NSPanel*)[self window] setFrameAutosaveName : DEFAULT_TASKPANEL_AUTOSAVE_NAME];
 }
 
@@ -66,9 +67,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	[self registerNotificationWithTask : aTask];
 }
 
-//
-// @protocol CMRTask
-//
+#pragma mark CMRTask protocol
+
 - (NSString *) identifier
 {
 	return nil;
@@ -137,10 +137,17 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	}
 }
 
+#pragma mark IBActions
+
 - (IBAction) showWindow : (id) sender
 {
-	[super showWindow : sender];
-	[self taskContainerViewScrollLastRowToVisible];
+	// toggle-Action : すでにパネルが表示されているときは、パネルを閉じる
+	if ([[self window] isVisible]) {
+		[[self window] performClose : sender];
+	} else {
+		[super showWindow : sender];
+		[self taskContainerViewScrollLastRowToVisible];
+	}
 }
 - (IBAction) cancel : (id) sender
 {

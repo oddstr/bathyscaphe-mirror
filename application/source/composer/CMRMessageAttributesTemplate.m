@@ -141,6 +141,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 	}
 	return attachment_;
 }
+
 - (NSAttributedString *) lastUpdatedHeaderAttachment
 {
 	static NSAttributedString	*st_lastUpdatedHeaderAttachment;
@@ -150,9 +151,18 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 		NSMutableAttributedString		*mattachment_;
 		
 		attachment_ = [self attachmentAttributedStringWithImageFile : kUpdatedHeaderImageName];
+		/*[attachment_ addAttribute : NSParagraphStyleAttributeName
+							value : [self indexParagraphStyleWithSpacingBefore : [CMRPref msgIdxSpacingBefore]
+															   andSpacingAfter : [CMRPref msgIdxSpacingAfter]
+									]
+							range : NSMakeRange(0, [attachment_ length])];*/
 		mattachment_ = [attachment_ mutableCopyWithZone : nil];
 		[mattachment_ appendString : @"\n"
-					withAttributes : [NSDictionary empty]];
+					withAttributes : [NSDictionary empty]];/*dictionaryWithObject : 
+												[self indexParagraphStyleWithSpacingBefore : 10.0
+																		   andSpacingAfter : 10.0]
+																 forKey : NSParagraphStyleAttributeName]
+									  ];*/
 		st_lastUpdatedHeaderAttachment = [mattachment_ copyWithZone : nil];
 		[mattachment_ release];
 	}
@@ -162,7 +172,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 	return st_lastUpdatedHeaderAttachment;
 }
 /* è»ó™Ç≥ÇÍÇΩÉåÉXÇ™Ç†ÇËÇ‹Ç∑ */
-- (NSTextAttachment *) ellipsisProxyAttachmentWithName : (NSString *) aName mouseDown:(NSString *) mouseDownImg mouseOver:(NSString *) mouseOverImg
+- (NSTextAttachment *) ellipsisProxyAttachmentWithName : (NSString *) aName
+											 mouseDown : (NSString *) mouseDownImg
+											 mouseOver : (NSString *) mouseOverImg
 {
 	NSImage				*img;
 	NSTextAttachment	*attachment_;

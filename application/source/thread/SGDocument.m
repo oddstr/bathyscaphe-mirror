@@ -1,5 +1,5 @@
 //:SGDocument.m
-#import "SGDocument_p.h"
+#import "SGDocument.h"
 
 
 

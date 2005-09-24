@@ -1,5 +1,6 @@
 {
     IBClasses = (
+        {CLASS = BSBoardListView; LANGUAGE = ObjC; SUPERCLASS = NSOutlineView; }, 
         {CLASS = BSWindow; LANGUAGE = ObjC; SUPERCLASS = NSWindow; }, 
         {
             ACTIONS = {
@@ -43,6 +44,7 @@
                 addCategoryItem = id; 
                 addDrawerItem = id; 
                 changeBrowserArrangement = id; 
+                collapseOrExpandBoardList = id; 
                 editDrawerItem = id; 
                 endEditSheet = id; 
                 focus = id; 

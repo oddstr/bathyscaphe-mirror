@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyController-ViewAccessor.m,v 1.5 2005/09/12 08:02:20 tsawada2 Exp $
+  * $Id: CMRReplyController-ViewAccessor.m,v 1.6 2005/09/24 06:07:50 tsawada2 Exp $
   * 
   * CMRReplyController-ViewAccessor.m
   *
@@ -8,7 +8,6 @@
   */
 #import "CMRReplyController_p.h"
 #import "CMRLayoutManager.h"
-//#import "CMRTextView.h"
 #import "AppDefaults.h"
 
 
@@ -35,44 +34,18 @@
 - (void) updateTextView
 {
 	NSTextView	*textView_ = [self textView];
+	NSColor		*bgColor_ = [CMRPref replyBackgroundColor];
 	
 	if (nil == textView_)
 		return;
 	
 	[textView_ setFont : [[self document] replyTextFont]];
 	[textView_ setTextColor : [[self document] replyTextColor]];
-	
-	
-	// キャレットの色、変換中の色をテキストの色と同期
-	/*
-#if 0
-	if ([CMRPref caretUsesTextColor]) {
-		[textView_ setInsertionPointColor : [[self document] replyTextColor]];
+
+	if (bgColor_ != nil) {
 		
-		// たぶん、「ことえり」だけだと思うけど、
-		// @"NSUnderlineColor"という属生名を使用していて、
-		// こいつを使われると下線部がテキストの色にならない。
-		// なので、違う属性辞書で置き換える。
-		[textView_ setMarkedTextAttributes : 
-			[NSDictionary dictionaryWithObjectsAndKeys :
-				[NSNumber numberWithInt : 1],
-				NSUnderlineStyleAttributeName,
-				nil]];
-	} else {
-		[textView_ setInsertionPointColor : [NSColor blackColor]];
-		[textView_ setMarkedTextAttributes : nil];
-	}
-#else
-	
-	if ([CMRPref caretUsesTextColor]) {
-		[textView_ setInsertionPointColor : [[self document] replyTextColor]];
-	}
-	
-#endif
-*/
-	if ([CMRPref replyBackgroundColor] != nil) {
 		[textView_ setDrawsBackground : YES];
-		[textView_ setBackgroundColor : [CMRPref replyBackgroundColor]];
+		[textView_ setBackgroundColor : [bgColor_ colorWithAlphaComponent : [CMRPref replyBgAlphaValue]]];
 		[[textView_ window] setOpaque : NO];
 		[textView_ setNeedsDisplay : YES];
 	}
@@ -109,9 +82,6 @@
 	[container release];
 	
 	/* TextView */
-	//view = [[[CMRTextView alloc] initWithFrame : cFrame 
-	//							 textContainer : container] autorelease];
-
 	view = [[[NSTextView alloc] initWithFrame : cFrame 
 								 textContainer : container] autorelease];
 	
@@ -240,7 +210,7 @@
 	return NO;
 }
 
-// comboBox (kotehan list) Delegate
+#pragma mark NSComboBox Delegate
 - (int)numberOfItemsInComboBox:(NSComboBox *)aComboBox
 {
     return [[CMRPref defaultKoteHanList] count];

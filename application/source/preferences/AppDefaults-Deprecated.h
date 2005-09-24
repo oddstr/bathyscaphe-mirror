@@ -34,6 +34,8 @@
 - (void) setPopUpWindowAutohidesScrollers : (BOOL) flag;
 - (void) setPopUpWindowHasVerticalScroller : (BOOL) flag;
 */
+/*- (BOOL) isResPopUpSeeThrough;
+- (void) setIsResPopUpSeeThrough : (BOOL) anIsResPopUpSeeThrough;*/ // deprecated in SledgeHammer and later.
 
 //- (NSColor *) threadsListGridColor; // deprecated in BathyScaphe 1.0
 //- (void) setThreadsListGridColor : (NSColor *) color; // deprecated in BathyScaphe 1.0
@@ -56,3 +58,17 @@
 #define AppDefaultsBoardListStateKey		    @"BoardListShown"
 #define AppDefaultsBoardListDrawerPreferedEdgeKey		@"BoardList PreferredEdge"
 */
+
+//account
+/* deprecated in SledgeHammer. */
+//- (NSURL *) x2chRegistrationPageURL;
+//- (NSURL *) be2chRegistrationPageURL;
+
+//threadsList interCellSpacing
+/* Deprecated in SledgeHammer and later. Use SGTemplateResource() instead. */
+//- (NSSize) threadsListIntercellSpacing;
+//- (void) setThreadsListIntercellSpacing : (NSSize) space;
+
+//- (void) setThreadsListRowHeightNum : (NSNumber *) rowHeight;
+//- (void) setThreadsListIntercellSpacingHeight : (NSNumber *) height;
+//- (void) setThreadsListIntercellSpacingWidth : (NSNumber *) width;

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.15 2005/09/16 01:18:29 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.16 2005/09/24 06:07:49 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -170,7 +170,6 @@ enum {
 								 boardInfo : thread_];
 		// フォーカス
 		[[self window] makeFirstResponder : [self textView]];
-		//[self updateStatusLineBoardInfo];
 		[self synchronizeWindowTitleWithDocumentName];
 	}
 }
@@ -811,4 +810,19 @@ NSTableView action, doubleAction はカラムのクリックでも
 						actionKey : kThreadsListTableDoubleActionKey
 					defaultAction : @selector(openSelectedThreads:)];
 }
+- (IBAction) boardListViewDoubleAction : (id) sender
+{
+	int	rowNum;
+	id	bLT = [self boardListTable];
+
+	rowNum = [bLT clickedRow];
+	if (-1 == rowNum) return;
+	
+	id item_ = [bLT itemAtRow : rowNum];
+
+	if ([bLT isExpandable : item_]) {
+		if ([bLT isItemExpanded : item_]) [bLT collapseItem : item_];
+		else [bLT expandItem : item_];
+	}
+}	
 @end

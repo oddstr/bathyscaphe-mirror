@@ -1,5 +1,15 @@
 //:CMRToolbarDelegateImp.m
 #import "CMRToolbarDelegateImp_p.h"
+#import "CMRStatusLine_p.h"
+#import "BSProgressIndicatorTbItem.h"
+
+// プログレスバー
+static NSString *const st_pIndicatorItemIdentifier			= @"progressIndicator";
+static NSString *const st_pIndicatorItemLabelKey			= @"progressIndicator Label";
+static NSString *const st_pIndicatorItemPaletteLabelKey		= @"progressIndicator Palette Label";
+static NSString *const st_pIndicatorItemToolTipKey			= @"progressIndicator ToolTip";
+
+static NSString *const st_localizableStringsTableName	= @"ToolbarItems";
 
 @implementation CMRToolbarDelegateImp
 //////////////////////////////////////////////////////////////////////
@@ -95,6 +105,12 @@
 		m_itemDictionary = [[NSMutableDictionary alloc] init];
 	return m_itemDictionary;
 }
+
+- (NSString *) pIndicatorItemIdentifier
+{
+	return st_pIndicatorItemIdentifier;
+}
+
 @end
 
 
@@ -102,11 +118,35 @@
 @implementation CMRToolbarDelegateImp(Protected)
 - (void) initializeToolbarItems : (NSWindow *) aWindow
 {
-	UTILAbstractMethodInvoked;
+	//UTILAbstractMethodInvoked;
+	NSToolbarItem			*item_;
+	NSWindowController		*wcontroller_;
+	
+	wcontroller_ = [aWindow windowController];
+	UTILAssertNotNil(wcontroller_);
+
+	
+	item_ = [self appendToolbarItemWithClass : [BSProgressIndicatorTbItem class]
+							  itemIdentifier : [self pIndicatorItemIdentifier]
+						   localizedLabelKey : st_pIndicatorItemLabelKey
+					localizedPaletteLabelKey : st_pIndicatorItemPaletteLabelKey
+						 localizedToolTipKey : st_pIndicatorItemToolTipKey
+									  action : nil
+									  target : nil];
+
+	[(BSProgressIndicatorTbItem *)item_ setupItemViewWithTarget : wcontroller_];
 }
 
 - (void) configureToolbar : (NSToolbar *) aToolbar
 {
 	UTILAbstractMethodInvoked;
+}
+@end
+
+
+@implementation CMRToolbarDelegateImp(CMRLocalizableStringsOwner)
++ (NSString *) localizableStringsTableName
+{
+	return st_localizableStringsTableName;
 }
 @end
