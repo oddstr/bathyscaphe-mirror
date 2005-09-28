@@ -286,6 +286,14 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 					 attributeName : NSParagraphStyleAttributeName
 							 value : [self messageParagraphStyleWithIndent : anIndent]];
 }
+
+- (void) setMessageIdxSpacingBefore : (float) beforeValue andSpacingAfter : (float) afterValue
+{
+	[self setAttributeInDictionary : [self messageAttributesForText]
+					 attributeName : NSParagraphStyleAttributeName
+							 value : [self indexParagraphStyleWithSpacingBefore : beforeValue andSpacingAfter : afterValue]];
+}
+
 - (void) setHasAnchorUnderline : (BOOL) flag
 {
 	[self setAttributeInDictionary : [self messageAttributesForAnchor]

@@ -8,7 +8,6 @@
 
 #import "BSIconAndTextCell.h"
 
-
 @implementation BSIconAndTextCell
 - (void) drawInteriorWithFrame : (NSRect) cellFrame 
 						inView : (NSView *) controlView
@@ -60,11 +59,11 @@
 			pathRange = NSMakeRange(0, [path length]);
 
 			shadow_ = [[NSShadow alloc] init];
-			[shadow_ setShadowOffset : NSMakeSize(2.0,-2.0)];
-			[shadow_ setShadowBlurRadius : 0.5];
+			[shadow_ setShadowOffset : NSMakeSize(0.0,-1.0)];
 
 			highlightedAttr = [NSDictionary dictionaryWithObjectsAndKeys :
 								[NSColor whiteColor], NSForegroundColorAttributeName,
+								[NSNumber numberWithFloat : -0.2], NSKernAttributeName,
 								shadow_, NSShadowAttributeName,
 								NULL];
 

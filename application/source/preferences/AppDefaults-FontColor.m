@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-FontColor.m,v 1.8 2005/09/24 06:07:49 tsawada2 Exp $
+  * $Id: AppDefaults-FontColor.m,v 1.9 2005/09/28 14:49:34 tsawada2 Exp $
   * 
   * AppDefaults-FontColor.m
   *
@@ -260,7 +260,7 @@ static float getDefaultLineHeightForFont(NSFont *font_);
 }
 
 #pragma mark Thread viewer
-/* •W€FF */
+/* æ¨™æº–ï¼šè‰² */
 - (NSColor *) getThreadsViewColor : (id) anUserData
 {
 	return [self textAppearanceColorForKey : 
@@ -275,7 +275,7 @@ static float getDefaultLineHeightForFont(NSFont *font_);
 	[self setAppearanceColor:color forKey:kPrefThreadsViewColorKey] ;
 	[self postLayoutSettingsUpdateNotification];
 }
-/* –{•¶FF */
+/* æœ¬æ–‡ï¼šè‰² */
 - (NSColor *) getMessageColor : (id) anUserData
 {
 	return [self textAppearanceColorForKey : kPrefMessageColorKey];
@@ -290,7 +290,7 @@ static float getDefaultLineHeightForFont(NSFont *font_);
 	[self postLayoutSettingsUpdateNotification];
 }
 
-/* •W€FƒtƒHƒ“ƒg */
+/* æ¨™æº–ï¼šãƒ•ã‚©ãƒ³ãƒˆ */
 - (NSFont *) getThreadsViewFont : (id) anUserData
 {
 	return [self appearanceFontForKey : kPrefThreadsViewFontKey
@@ -310,7 +310,7 @@ static float getDefaultLineHeightForFont(NSFont *font_);
 		setAttributeForText:NSFontAttributeName value:aFont];
 }
 
-/* –{•¶FƒtƒHƒ“ƒg */
+/* æœ¬æ–‡ï¼šãƒ•ã‚©ãƒ³ãƒˆ */
 - (NSFont *) getMessageFont : (id) anUserData
 {
 	return [self appearanceFontForKey : kPrefMessageFontKey
@@ -330,7 +330,7 @@ static float getDefaultLineHeightForFont(NSFont *font_);
 		setAttributeForMessage:NSFontAttributeName value:aFont];
 }
 
-/* €–ÚFƒtƒHƒ“ƒg */
+/* é …ç›®ï¼šãƒ•ã‚©ãƒ³ãƒˆ */
 - (NSFont *) getMessageTitleFont : (id) anUserData
 {
 	return [self appearanceFontForKey : kPrefMessageTitleFontKey
@@ -349,7 +349,7 @@ static float getDefaultLineHeightForFont(NSFont *font_);
 		setAttributeForTitle:NSFontAttributeName value:aFont];
 }
 
-/* €–ÚFF */
+/* é …ç›®ï¼šè‰² */
 - (NSColor *) getMessageTitleColor : (id) anUserData
 {
 	NSColor		*color_;
@@ -373,7 +373,7 @@ static float getDefaultLineHeightForFont(NSFont *font_);
 	[self postLayoutSettingsUpdateNotification];
 }
 
-/* –¼‘OFF */
+/* åå‰ï¼šè‰² */
 - (NSColor *) getMessageNameColor : (id) anUserData
 {
 	NSColor		*color_;
@@ -397,7 +397,7 @@ static float getDefaultLineHeightForFont(NSFont *font_);
 	[self postLayoutSettingsUpdateNotification];
 }
 
-/* ‚`‚`FƒtƒHƒ“ƒg */
+/* ï¼¡ï¼¡ï¼šãƒ•ã‚©ãƒ³ãƒˆ */
 - (NSFont *) getMessageAlternateFont : (id) anUserData
 {
 	return [self appearanceFontForKey : kPrefMessageAlternateFontKey
@@ -416,7 +416,7 @@ static float getDefaultLineHeightForFont(NSFont *font_);
 
 
 
-/* ƒAƒ“ƒJ[FF */
+/* ã‚¢ãƒ³ã‚«ãƒ¼ï¼šè‰² */
 - (NSColor *) getMessageAnchorColor : (id) anUserData
 {
 	NSColor		*color_;
@@ -438,7 +438,7 @@ static float getDefaultLineHeightForFont(NSFont *font_);
 }
 
 
-/* ƒtƒBƒ‹ƒ^‚³‚ê‚½ƒŒƒX‚ÌF */
+/* ãƒ•ã‚£ãƒ«ã‚¿ã•ã‚ŒãŸãƒ¬ã‚¹ã®è‰² */
 - (NSColor *) getMessageFilteredColor : (id) anUserData
 {
 	NSColor		*color_;
@@ -461,7 +461,7 @@ static float getDefaultLineHeightForFont(NSFont *font_);
 
 
 
-// ƒeƒLƒXƒg‚Ì‹­’²F
+// ãƒ†ã‚­ã‚¹ãƒˆã®å¼·èª¿è‰²
 - (NSColor *) textEnhancedColor
 {
 	NSColor		*color_;
@@ -535,29 +535,29 @@ static float getDefaultLineHeightForFont(NSFont *font_);
 #pragma mark SledgeHammer Additions
 - (float) msgIdxSpacingBefore
 {
-	// ƒCƒ“ƒfƒbƒNƒX‚Ìã•”—]”’
+	// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®ä¸Šéƒ¨ä½™ç™½
 	return [[self appearances] floatForKey : kPrefThreadViewerMsgSpacingBeforeKey
 							  defaultValue : DEFAULT_TV_IDX_SPACING_BEFORE];
 }
 - (void) setMsgIdxSpacingBefore : (float) aValue
 {
 	[[self appearances] setFloat : aValue forKey : kPrefThreadViewerMsgSpacingBeforeKey];
-	[self postLayoutSettingsUpdateNotification];
+	[[self _template] setMessageIdxSpacingBefore : aValue andSpacingAfter : [self msgIdxSpacingAfter]];
 }
 
 - (float) msgIdxSpacingAfter
 {
-	// ƒCƒ“ƒfƒbƒNƒX‚Ì‰º•”—]”’
+	// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®ä¸‹éƒ¨ä½™ç™½
 	return [[self appearances] floatForKey : kPrefThreadViewerMsgSpacingAfterKey
 							  defaultValue : DEFAULT_TV_IDX_SPACING_AFTER];
 }
 - (void) setMsgIdxSpacingAfter : (float) aValue
 {
 	[[self appearances] setFloat : aValue forKey : kPrefThreadViewerMsgSpacingAfterKey];
-	[self postLayoutSettingsUpdateNotification];
+	[[self _template] setMessageIdxSpacingBefore : [self msgIdxSpacingBefore] andSpacingAfter : aValue];
 }
 
-/*** ƒXƒŒƒbƒhˆê—— ***/
+/*** ã‚¹ãƒ¬ãƒƒãƒ‰ä¸€è¦§ ***/
 #pragma mark Threads List
 - (float) threadsListRowHeight
 {
@@ -741,7 +741,7 @@ static float getDefaultLineHeightForFont(NSFont *font_);
 	mResult = [mdict mutableCopy];
 	UTILAssertNotNil(mdict);
 	
-	/* Font, Color ‚ğƒvƒƒpƒeƒBƒŠƒXƒgŒ`®‚É•ÏŠ· */
+	/* Font, Color ã‚’ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒªã‚¹ãƒˆå½¢å¼ã«å¤‰æ› */
 	keyEnum = [mdict keyEnumerator];
 	while (key = [keyEnum nextObject]) {
 		id		v = [mdict objectForKey : key];
@@ -763,10 +763,10 @@ static float getDefaultLineHeightForFont(NSFont *font_)
 {
 	/*
 	2005-09-18 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	NSFont ‚Ì defaultLineHeightForFont: ‚ÍAMac OS X 10.4 ‚Å deprecated ‚É‚È‚Á‚½‚ç‚µ‚¢B
-	¡‚Ì‚Æ‚±‚ë‚Ü‚¾–â‘è‚Ío‚Ä‚¢‚È‚¢‚ªA‘Ö‚í‚è‚É NSLayoutManager ‚Ì defaultLineHeightForFont: ‚ğ
-	g‚¤‚×‚µ‚ÆƒhƒLƒ…ƒƒ“ƒg‚É‚ ‚éBNSLayoutManager ‚Ì defaultLineHeightForFont: ‚ÍA
-	Mac OS X 10.2 ˆÈ~‚Åg‚¦‚é‚Ì‚ÅAŒİŠ·«‚Ì–â‘è‚Í‚È‚¢B‚æ‚Á‚ÄA‚»‚¿‚ç‚ÉØ‚è‘Ö‚¦‚é‚±‚Æ‚É‚·‚éB
+	NSFont ã® defaultLineHeightForFont: ã¯ã€Mac OS X 10.4 ã§ deprecated ã«ãªã£ãŸã‚‰ã—ã„ã€‚
+	ä»Šã®ã¨ã“ã‚ã¾ã å•é¡Œã¯å‡ºã¦ã„ãªã„ãŒã€æ›¿ã‚ã‚Šã« NSLayoutManager ã® defaultLineHeightForFont: ã‚’
+	ä½¿ã†ã¹ã—ã¨ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã«ã‚ã‚‹ã€‚NSLayoutManager ã® defaultLineHeightForFont: ã¯ã€
+	Mac OS X 10.2 ä»¥é™ã§ä½¿ãˆã‚‹ã®ã§ã€äº’æ›æ€§ã®å•é¡Œã¯ãªã„ã€‚ã‚ˆã£ã¦ã€ãã¡ã‚‰ã«åˆ‡ã‚Šæ›¿ãˆã‚‹ã“ã¨ã«ã™ã‚‹ã€‚
 	*/
 	NSLayoutManager	*tmp_;
 	float			value_;

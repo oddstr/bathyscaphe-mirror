@@ -1,6 +1,6 @@
 //: CMRStatusLine-ViewAccessor.m
 /**
-  * $Id: CMRStatusLine-ViewAccessor.m,v 1.7 2005/09/24 06:07:49 tsawada2 Exp $
+  * $Id: CMRStatusLine-ViewAccessor.m,v 1.8 2005/09/28 14:49:34 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -21,19 +21,19 @@
 {
     return _statusTextField;
 }
-- (NSTextField *) browserInfoTextField
+/*- (NSTextField *) browserInfoTextField
 {
     return _browserInfoTextField;
-}
+}*/
 - (NSProgressIndicator *) progressIndicator
 {
     return _progressIndicator;
 }
-- (NSButton *) stopButton
+/*- (NSButton *) stopButton
 {
 	NSLog(@"WARNING! deprecated");
     return _stopButton;
-}
+}*/
 
 #pragma mark -
 
@@ -51,14 +51,15 @@
 
 - (void) setBrowserInfoTextFieldObjectValue : (id) anObject
 {
-    id        v = anObject;
+    /*id        v = anObject;
     
     if (nil == v || NO == [v isKindOfClass : [NSAttributedString class]]) {
         [[self browserInfoTextField] setObjectValue : nil == v ? @"" : v];
         return;
     }
 
-    [[self browserInfoTextField] setAttributedStringValue : v];
+    [[self browserInfoTextField] setAttributedStringValue : v];*/
+	NSLog(@"Method setBrowserInfoTextFieldObjectValue: was deprecated in LeafTicket and later.");
 }
 
 - (void) setupStatusLineView
@@ -81,13 +82,13 @@
     if (NO == [[CMRTaskManager defaultManager] isInProgress]) {
         [[self progressIndicator] stopAnimation : nil];
 
-        [[self browserInfoTextField] setHidden : NO];
+        //[[self browserInfoTextField] setHidden : NO];
         [[self statusTextField] setStringValue : @""];
         
     } else {
         [[self progressIndicator] startAnimation : nil];
 
-        [[self browserInfoTextField] setHidden : YES];
+        //[[self browserInfoTextField] setHidden : YES];
         [[self statusTextField] setStringValue : [aTask message] 
                                                     ? [aTask message] 
                                                     : @""];

@@ -1,4 +1,18 @@
 2005-09-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/browser/CMRBrowser.m
+		検索結果の表示場所をステータスバーからタイトルバーに移動した。また、SledgeHammer で検索結果の表示が
+		消えなくなることがあった問題を解決。
+	* application/Resources/Japanese.lproj/CMRStatusView.nib
+	* application/source/view/CMRStatusLine-ViewAccessor.m
+	* application/source/view/CMRStatusLine.m
+		不要になった outlet, アクセッサメソッド、その他を廃止。
+	* application/source/preferences/AppDefaults-FontColor.m
+	* application/source/composer/CMRMessageAttributesTemplate.m
+		本文の上下余白設定が、BathyScaphe を再起動するまで反映されなかった問題を解決。
+		- 今後はスレッドを開き直したときに反映されるようになる（左余白と同じ）。
+	* application/source/browser/CMRThreadsList-DataSource.m
+		省略位置を中間から末尾に変更。
 	* application/source/browser/BSTitleRulerView.m
 		初期化時にクラッシュすることがある問題を解決。この問題の解決は、masakih 氏の功績によるものです。
 ================================================= SledgeHammer

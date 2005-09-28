@@ -62,4 +62,8 @@
 					   
 - (void) setMessageHeadIndent : (float) anIndent;
 - (void) setHasAnchorUnderline : (BOOL) flag;
+
+// Added in LeafTicket.
+- (void) setMessageIdxSpacingBefore : (float) beforeValue
+					andSpacingAfter : (float) afterValue;
 @end

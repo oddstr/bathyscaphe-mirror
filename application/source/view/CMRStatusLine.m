@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRStatusLine.m,v 1.4 2005/09/12 08:02:20 tsawada2 Exp $
+  * $Id: CMRStatusLine.m,v 1.5 2005/09/28 14:49:34 tsawada2 Exp $
   * 
   * CMRStatusLine.m
   *
@@ -208,7 +208,7 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 }
 - (void) setBrowserInfoText : (id) aText;
 {
-	[self setBrowserInfoTextFieldObjectValue : aText];
+	NSLog(@"Method setBrowserInfoText: was deprecated in LeafTicket and later.");
 }
 
 #pragma mark IBAction

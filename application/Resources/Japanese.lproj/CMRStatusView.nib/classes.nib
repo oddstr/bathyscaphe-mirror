@@ -11,11 +11,9 @@
             CLASS = CMRStatusLine; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                "_browserInfoTextField" = NSTextField; 
                 "_progressIndicator" = NSProgressIndicator; 
                 "_statusLineView" = NSView; 
                 "_statusTextField" = NSTextField; 
-                "_stopButton" = NSButton; 
             }; 
             SUPERCLASS = NSObject; 
         }, 

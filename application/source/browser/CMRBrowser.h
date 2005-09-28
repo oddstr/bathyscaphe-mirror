@@ -47,6 +47,7 @@
 	IBOutlet NSTextFieldCell	*m_dItemAddURLField;
 	
 	NSString					*_filterString;
+	NSString					*_filterResultMessage;	// added in LeafTicket.
 
 	CMRNSSearchField			*m_listSorter;
 	CMRNSSearchField			*m_listSorterSub;

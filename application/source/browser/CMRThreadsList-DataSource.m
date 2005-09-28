@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.6 2005/09/16 01:18:29 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.7 2005/09/28 14:49:34 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -35,7 +35,7 @@ static id kThreadAttrTemplate;
 	
 	// í∑âﬂÇ¨ÇÈì‡óeÇÅu...ÅvÇ≈è»ó™
 	style_ = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-	[style_ setLineBreakMode : NSLineBreakByTruncatingMiddle];
+	[style_ setLineBreakMode : NSLineBreakByTruncatingTail];
 
 	// default object value:
 	attrs1_ = [NSDictionary dictionaryWithObjectsAndKeys :

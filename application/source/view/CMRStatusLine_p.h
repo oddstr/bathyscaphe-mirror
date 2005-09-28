@@ -11,12 +11,12 @@
 @interface CMRStatusLine(View)
 - (NSView *) statusLineView;
 - (NSTextField *) statusTextField;
-- (NSTextField *) browserInfoTextField;
+//- (NSTextField *) browserInfoTextField;
 - (NSProgressIndicator *) progressIndicator;
-- (NSButton *) stopButton;
+//- (NSButton *) stopButton;
 
 - (void) setInfoTextFieldObjectValue : (id) anObject;
-- (void) setBrowserInfoTextFieldObjectValue : (id) anObject;
+//- (void) setBrowserInfoTextFieldObjectValue : (id) anObject;
 - (void) setupStatusLineView;
 - (void) setupUIComponents;
 - (void) updateStatusLineWithTask : (id<CMRTask>) aTask;

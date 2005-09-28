@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.6 2005/09/24 06:07:49 tsawada2 Exp $
+  * $Id: CMRBrowser.m,v 1.7 2005/09/28 14:49:34 tsawada2 Exp $
   * 
   * CMRBrowser.m
   *
@@ -36,11 +36,19 @@ CMRBrowser *CMRMainBrowser = nil;
 - (NSString *) windowTitleForDocumentDisplayName : (NSString *) displayName
 {
 	NSString		*threadTitle_ = [[[self currentThreadsList] objectValueForBoardInfo] stringValue];
-	
-	if ((nil == threadTitle_) || [self showsSearchResult]) return displayName;
 
+	if (_filterResultMessage != nil) {
+		/* 2005-09-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+		   検索結果を表示している間は、それを優先し、ウインドウタイトルの変更を抑制する。*/
+		return [[self window] title];
+	}
+	
+	if (nil == threadTitle_)
+		return displayName;
+	
 	return [NSString stringWithFormat:@"%@ (%@)", displayName, threadTitle_];
 }
+
 - (void) dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver : self];
@@ -49,6 +57,7 @@ CMRBrowser *CMRMainBrowser = nil;
 		CMRMainBrowser = nil;
 	
 	[_filterString release];
+	[_filterResultMessage release];
 	[m_listSorter release];
 	[m_listSorterSub release];
 	[m_listSorterSheetController release];

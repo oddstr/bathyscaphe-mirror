@@ -1120,7 +1120,7 @@
 		F324DCDD04C698FB00A80005 /* AppDefaults-Alert.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-Alert.m"; sourceTree = "<group>"; };
 		F324DCDE04C698FB00A80005 /* AppDefaults-Background.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-Background.m"; sourceTree = "<group>"; };
 		F324DCDF04C698FB00A80005 /* AppDefaults-Bundle.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-Bundle.m"; sourceTree = "<group>"; };
-		F324DCE004C698FB00A80005 /* AppDefaults-FontColor.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-FontColor.m"; sourceTree = "<group>"; };
+		F324DCE004C698FB00A80005 /* AppDefaults-FontColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-FontColor.m"; sourceTree = "<group>"; };
 		F324DCE104C698FB00A80005 /* AppDefaults-LibPath.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-LibPath.m"; sourceTree = "<group>"; };
 		F324DCE304C698FB00A80005 /* AppDefaults-ThreadsList.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-ThreadsList.m"; sourceTree = "<group>"; };
 		F324DCE404C698FB00A80005 /* AppDefaults-ThreadViewer.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-ThreadViewer.m"; sourceTree = "<group>"; };

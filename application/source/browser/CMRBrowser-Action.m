@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.16 2005/09/24 06:07:49 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.17 2005/09/28 14:49:34 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -358,17 +358,16 @@ enum {
 #pragma mark -
 
 - (void) showSearchResultAppInfoWithFound : (BOOL) aResult
-{
-	NSString	*string_;
-	
+{	
 	if (NO == aResult) {
-		string_ = [self localizedString : kSearchListNotFoundKey];
+		_filterResultMessage = [self localizedString : kSearchListNotFoundKey];
 	} else {
-		string_ = [NSString stringWithFormat : 
+		_filterResultMessage = [NSString stringWithFormat : 
 					[self localizedString : kSearchListResultKey],
 					[[self currentThreadsList] numberOfFilteredThreads]];
 	}
-	[[self statusLine] setBrowserInfoText : string_];
+
+	[[self window] setTitle : [NSString stringWithFormat : @"%@ (%@)", [[self document] displayName], _filterResultMessage]];
 }
 - (BOOL) showsSearchResult
 {
@@ -378,6 +377,10 @@ enum {
 {
 	[_filterString release];
 	_filterString = nil;
+	
+	// 検索結果の表示@タイトルバーを解除
+	[self synchronizeWindowTitleWithDocumentName];
+	_filterResultMessage = nil;
 }
 - (void) synchronizeWithSearchField
 {

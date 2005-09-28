@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRStatusLine.h,v 1.2 2005/06/18 19:09:16 tsawada2 Exp $
+  * $Id: CMRStatusLine.h,v 1.3 2005/09/28 14:49:34 tsawada2 Exp $
   * 
   * CMRStatusLine.h
   *
@@ -30,9 +30,9 @@ enum {
 	
 	IBOutlet NSView					*_statusLineView;
 	IBOutlet NSTextField			*_statusTextField;
-	IBOutlet NSTextField			*_browserInfoTextField;
+	//IBOutlet NSTextField			*_browserInfoTextField;
 	IBOutlet NSProgressIndicator	*_progressIndicator;
-	IBOutlet NSButton				*_stopButton;
+	//IBOutlet NSButton				*_stopButton;
 }
 
 - (id) initWithIdentifier : (NSString *) identifier;
@@ -53,7 +53,7 @@ enum {
             animate : (BOOL) isAnimate;
 
 - (void) setInfoText : (id) aText;
-- (void) setBrowserInfoText : (id) aText;
+//- (void) setBrowserInfoText : (id) aText; // Deprecated in LeafTicket and later:
 // Action
 - (IBAction) cancel : (id) sender;
 - (IBAction) toggleStatusLineShown : (id) sender;
