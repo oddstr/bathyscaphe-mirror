@@ -27,7 +27,18 @@
 							  backing : backingType
 								defer : flag];
 }
-/*
+
+
+/* 2005-09-29 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+   runToolbarCustomizationPalette: をつかまえてプログレスインジケータを表示させるようにしても、
+   ツールバーボタンを Command+option+クリックしてカスタマイズシートを出した場合に捕まえられない。
+   （たぶん、ツールバーボタンの方は NSToolbar の runCustomizationPalette を呼び出しているのだろう）。
+   かといって、 CMRStatusLineWindowController で windowWillBeginSheet: を捕まえる方法にすると、
+   シートの表示が決定してからプログレスインジケータが表示されるため、シートの中身の用意に間に合わない。
+   痛し痒し。
+   あとは NSToolbar をサブクラス化するか、カテゴリを使って runCustomizationPalette をオーバーライドする手があるが…
+   面倒だから今はいいや…
+*/
 - (void) runToolbarCustomizationPalette : (id) sender
 {
 	id wc_ = [self windowController];
@@ -38,5 +49,4 @@
 	}
 	[super runToolbarCustomizationPalette : sender];
 }
-*/
 @end

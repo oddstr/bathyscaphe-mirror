@@ -80,6 +80,18 @@
 	
 	return [super validateToolbarItem : item_];
 }
+
+
+// delegate
+/*- (void)windowWillBeginSheet:(NSNotification *)aNotification
+{
+	[[[self statusLine] progressIndicator] setDisplayedWhenStopped : YES];
+}*/
+
+- (void)windowDidEndSheet:(NSNotification *)aNotification
+{
+	[[[self statusLine] progressIndicator] setDisplayedWhenStopped : NO];
+}
 @end
 
 
@@ -102,6 +114,7 @@
 - (void) setupUIComponents
 {
 	[super setupUIComponents];
+	[[self window] setDelegate : self];
 	[self setupStatusLine];
 }
 - (CMRStatusLine *) statusLine

@@ -1,8 +1,25 @@
+2005-09-29 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/window/CMRStatusLineWindowController.m
+	* application/source/window/BSWindow.m
+		ツールバーをカスタマイズする際に、「進行状況」プログレスインジケータが表示されないままになる問題を修正。
+		- ただし、Command+Option+ツールバーボタンのクリックでカスタマイズシートを出した場合は表示されないまま。
+		- 殴り書きの原因推察は BSwindow.m のコメントを参照。
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/browser/CMRBrowser-Validation.m
+		「編集」＞「削除」では、ログを削除できないように仕様変更した（「スレッド」＞「ログを削除...」に一本化）。
+		- delete キーでの削除は今まで通り動作するので心配ない。（6スレ474氏の指摘）
 2005-09-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/window/CMRBrowserTbDelegate.m
+		ツールバーの検索フィールドの幅の上限が、今までは最小値の5倍だったが、3倍にとどめた（横長のウインドウで
+		検索フィールドが長く伸びすぎないように）。
+	* application/source/view/BSIconAndTextCell.m
+		ハイライト時の文字の書式を若干調整。
 	* application/source/browser/CMRBrowser-Action.m
 	* application/source/browser/CMRBrowser.m
 		検索結果の表示場所をステータスバーからタイトルバーに移動した。また、SledgeHammer で検索結果の表示が
 		消えなくなることがあった問題を解決。
+		- Mail.app のように検索フィールドのラベルとして検索結果を表示するのは、実装が複雑になるので
+		　とりあえず見送った。
 	* application/Resources/Japanese.lproj/CMRStatusView.nib
 	* application/source/view/CMRStatusLine-ViewAccessor.m
 	* application/source/view/CMRStatusLine.m

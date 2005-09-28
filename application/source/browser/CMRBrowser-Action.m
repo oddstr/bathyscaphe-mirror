@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.17 2005/09/28 14:49:34 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.18 2005/09/28 16:29:35 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -71,10 +71,12 @@ enum {
     [[self boardListTable] scrollRowToVisible : index];
 }
 
-- (IBAction) clear : (id) sender
+// Deprecated in LeafTicket and later.
+// cf.474(6th thread)
+/*- (IBAction) clear : (id) sender
 {
 	[self deleteThread : nil];
-}
+}*/
 
 - (void) openThreadsInThreadWidnow : (NSArray *) threads
 {

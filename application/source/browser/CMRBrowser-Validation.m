@@ -39,9 +39,9 @@
 		
 		return (NO == [[self currentThreadsList] isFavorites]);
 	}
-	
-	if(action_ == @selector(clear:))
-		return ([[self threadsListTable] selectedRow] != -1);
+	// deprecated in LeafTicket and later.
+	/*if(action_ == @selector(clear:))
+		return ([[self threadsListTable] selectedRow] != -1);*/
 	
 	// Åuåfé¶î¬Çï\é¶Åv
 	if(action_ == @selector(toggleBoardDrawer:)){

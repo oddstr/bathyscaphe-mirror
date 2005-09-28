@@ -117,7 +117,7 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 		size_ = [aView bounds].size;
 		[anItem setMinSize : size_];
 		
-		size_.width *= 5;
+		size_.width *= 3;
 		[anItem setMaxSize : size_];
 	}
 	[aView release];
