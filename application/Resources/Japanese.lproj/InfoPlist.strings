@@ -2,7 +2,7 @@
 
 CFBundleName = "BathyScaphe";
 CFBundleShortVersionString = "1.0.3";
-CFBundleGetInfoString = "1.0.3 'SledgeHammer', Copyright (c) 2005 tsawada2.";
+CFBundleGetInfoString = "1.0.3, Copyright (c) 2005 tsawada2.";
 NSHumanReadableCopyright = "Copyright (c) 2005 tsawada2.";
 
 /* Help */
