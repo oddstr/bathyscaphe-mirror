@@ -46,7 +46,7 @@ float	imgWidth, imgHeight;
 - (id) initWithScrollView : (NSScrollView *) scrollView
 {
 	m_scrollView	= scrollView;
-	m_titleStr		= NSLocalizedString(kTitleRulerViewDefaultTitleKey, @"BathyScaphe");
+	m_titleStr		= [NSLocalizedString(kTitleRulerViewDefaultTitleKey, @"BathyScaphe") retain];
 	m_bgImage		= [NSImage imageAppNamed : kTitleRulerViewBgImageKey];
 
 	imgWidth	= [m_bgImage size].width;
@@ -120,6 +120,7 @@ float	imgWidth, imgHeight;
 	            name : CMRThreadViewerDidChangeThreadNotification
 	          object : nil];
 
+	[m_titleStr release];
 	[m_bgImage release];
 	[super dealloc];
 }

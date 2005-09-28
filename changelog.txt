@@ -1,3 +1,7 @@
+2005-09-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/BSTitleRulerView.m
+		初期化時にクラッシュすることがある問題を解決。この問題の解決は、masakih 氏の功績によるものです。
+================================================= SledgeHammer
 2005-09-24 (2005-09-23) tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/view/BSProgressIndicatorTbItem.m
 		[新規追加] ツールバーのプログレスインジケータの表示状態をより細かく制御するためにサブクラス化。
