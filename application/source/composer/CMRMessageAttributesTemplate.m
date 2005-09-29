@@ -151,18 +151,10 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 		NSMutableAttributedString		*mattachment_;
 		
 		attachment_ = [self attachmentAttributedStringWithImageFile : kUpdatedHeaderImageName];
-		/*[attachment_ addAttribute : NSParagraphStyleAttributeName
-							value : [self indexParagraphStyleWithSpacingBefore : [CMRPref msgIdxSpacingBefore]
-															   andSpacingAfter : [CMRPref msgIdxSpacingAfter]
-									]
-							range : NSMakeRange(0, [attachment_ length])];*/
 		mattachment_ = [attachment_ mutableCopyWithZone : nil];
 		[mattachment_ appendString : @"\n"
-					withAttributes : [NSDictionary empty]];/*dictionaryWithObject : 
-												[self indexParagraphStyleWithSpacingBefore : 10.0
-																		   andSpacingAfter : 10.0]
-																 forKey : NSParagraphStyleAttributeName]
-									  ];*/
+					withAttributes : [NSDictionary empty]];
+
 		st_lastUpdatedHeaderAttachment = [mattachment_ copyWithZone : nil];
 		[mattachment_ release];
 	}
@@ -190,6 +182,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 	[cell_ setMouseOverImage : img];
 	
 	[attachment_ setAttachmentCell : cell_];
+	// 2005-09-30 この retain 追加でクラッシュしなくなるとは、いやはや、
+	// 268@CocoMonar 24th(actually 25th) thread 氏のアドバイス（激しく thx）。
+	[attachment_ retain];
 	[cell_ release];
 	
 	return [attachment_ autorelease];

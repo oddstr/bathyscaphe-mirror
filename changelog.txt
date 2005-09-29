@@ -1,3 +1,9 @@
+2005-09-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/composer/CMRMessageAttributesTemplate.m
+		[Bug 6003] オンザフライボタンにポインタを合わせても、ポインタが指差しに変わらず、そのままクリックすると
+		クラッシュすることがある問題を修正。（Special thanx to 268@CocoMonar 24th(actually 25th) thread）
+		- ポインタが変わらない問題は残るが、クラッシュはしなくなり、オンザフライ展開も実行される。 
+================================================= LeafTicket
 2005-09-29 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/window/CMRStatusLineWindowController.m
 	* application/source/window/BSWindow.m

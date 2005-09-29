@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.8 2005/09/24 06:07:49 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.9 2005/09/29 19:29:09 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -414,7 +414,6 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 			removeObserver : self
 			name : CMRThreadComposingCallbackNotification
 			object : [aNotification object]];
-	
 	[self scrollToLastReadedIndex : self];
 }
 
@@ -457,7 +456,6 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 	
     // remove from lock
     [[CMRNetGrobalLock sharedInstance] remove : [self threadIdentifier]];
-    
 	// まだ名無しさんが決定していなければ決定
 	// この時点では WorkerThread が動いており、
 	// プログレス・バーもそのままなので少し遅らせる
@@ -465,6 +463,7 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 			withObject:self
 			afterDelay:1];
 }
+
 - (id) setupDefaultNoNameIfNeeded_ : (id) sender
 {
 	[self setupDefaultNoNameIfNeeded];
@@ -774,7 +773,6 @@ NSString *kComposingNotificationNames[] = {
 		[composer_ release];
 		[[self threadLayout] setMessagesEdited : NO];
 	}
-	
 	return [mdict_ writeToFile:filepath_ atomically:YES];
 }
 
