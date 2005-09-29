@@ -1,4 +1,7 @@
 2005-09-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadLayout.m
+	* application/source/composer/CMRMessageAttributesTemplate.m
+		新着位置画像に対する余白の設定方法を若干効率化。
 	* application/source/composer/CMRMessageAttributesTemplate.m
 		[Bug 6003] オンザフライボタンにポインタを合わせても、ポインタが指差しに変わらず、そのままクリックすると
 		クラッシュすることがある問題を修正。（Special thanx to 268@CocoMonar 24th(actually 25th) thread）

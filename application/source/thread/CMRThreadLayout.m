@@ -1,6 +1,6 @@
 //: CMRThreadLayout.m
 /**
-  * $Id: CMRThreadLayout.m,v 1.3 2005/09/24 06:07:49 tsawada2 Exp $
+  * $Id: CMRThreadLayout.m,v 1.4 2005/09/29 23:22:18 tsawada2 Exp $
   * 
   * CMRThreadLayout.m
   *
@@ -668,26 +668,27 @@
 - (void) appendLastUpdatedHeader
 {
 	NSAttributedString	*header_;
-	NSMutableAttributedString	*tmp_;
+	//NSMutableAttributedString	*tmp_;
 	NSRange				range_;
 	id					templateMgr = [CMRMessageAttributesTemplate sharedTemplate];
 	
 	header_ = [templateMgr lastUpdatedHeaderAttachment];
 	if (nil == header_) 
 		return;
-	   
+
+	// 余白付加処理も templateMgr 側で先に済ませておくことにした（PrincessBride and Later）
 	// 上下の余白（SledgeHammer and Later）
-	tmp_ = [header_ mutableCopy];
+	/*tmp_ = [header_ mutableCopy];
 	[tmp_ addAttributes : [NSDictionary dictionaryWithObject : 
 								[templateMgr indexParagraphStyleWithSpacingBefore : [CMRPref msgIdxSpacingBefore]
 																  andSpacingAfter : 0.0]
 													 forKey : NSParagraphStyleAttributeName]
-				  range : NSMakeRange(0,[tmp_ length])];
+				  range : NSMakeRange(0,[tmp_ length])];*/
 
 	[[self textStorage] beginEditing];
 	range_.location = [[self textStorage] length];
-	[[self textStorage] appendAttributedString : tmp_];//header_];
-	[tmp_ release];
+	[[self textStorage] appendAttributedString : header_];//tmp_];//header_];
+	//[tmp_ release];
 	range_.length = [[self textStorage] length] - range_.location;
 	
 	// 現在の日付を属性として追加

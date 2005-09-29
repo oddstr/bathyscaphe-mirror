@@ -145,6 +145,23 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 - (NSAttributedString *) lastUpdatedHeaderAttachment
 {
 	static NSAttributedString	*st_lastUpdatedHeaderAttachment;
+	/* 2005-09-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	   上下の余白付加をここに移した弊害として、余白の値を変更してもすぐに反映されない問題が浮上した。
+	   ちゃんと反映させるため、できるだけ少ない負担で余白値の変化をキャッチして、 static な st_lastUpdatedHeaderAttachment を
+	   更新する。
+	*/
+	static float				st_spacingBeforeMemory; //上余白の値を記憶しておく
+	
+	float	tmp_ = [CMRPref msgIdxSpacingBefore]; // 最新の上余白値を取得
+	
+	if (nil == st_spacingBeforeMemory) //初回
+		st_spacingBeforeMemory = tmp_;//最新の値を入れておく
+	
+	if (st_spacingBeforeMemory != tmp_) { // 記憶している値と最新の値が異なるなら
+		//NSLog(@"PrefValue was changed, so reset st_lastUpdatedHeaderAttachment");
+		st_spacingBeforeMemory = tmp_; // 最新の値を記憶し直す
+		st_lastUpdatedHeaderAttachment = nil; // st_lastUpdatedHeaderAttachment をリセットして、下で作り直してもらう
+	}
 	
 	if(nil == st_lastUpdatedHeaderAttachment){
 		NSAttributedString				*attachment_;
@@ -154,6 +171,12 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 		mattachment_ = [attachment_ mutableCopyWithZone : nil];
 		[mattachment_ appendString : @"\n"
 					withAttributes : [NSDictionary empty]];
+		// 上下の余白を付加
+		[mattachment_ addAttributes : [NSDictionary dictionaryWithObject : 
+										 [self indexParagraphStyleWithSpacingBefore : st_spacingBeforeMemory
+																	andSpacingAfter : 0.0]
+																  forKey : NSParagraphStyleAttributeName]
+																   range : NSMakeRange(0,[mattachment_ length])];
 
 		st_lastUpdatedHeaderAttachment = [mattachment_ copyWithZone : nil];
 		[mattachment_ release];
