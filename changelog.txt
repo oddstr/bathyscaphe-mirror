@@ -1,4 +1,23 @@
 2005-09-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-Link.m
+		リンクでのスレタイポップアップについて、ログファイルを取得していなくても、ThreadsList.plist から
+		スレタイが取得できればそれを使うようにした（CocoMonar の機能を一部取り込み）。
+		- ThreadsList.plist にもない場合、CocoMonar ではその場でダウンロードしてくるようだが、ひとまずそれは
+		　見送る。
+	* application/source/browser/CMRThreadsList.m
+	* application/source/network/ThreadsListDownloader.m
+	* application/source/object/CMRThreadSignature.m
+	* application/source/object/CMRBBSSignature.m
+		CMRBBSSignature の以下のメソッドは今後非推奨とする：
+		-(NSString *) dataRootDirectoryPath
+		-(NSString *) threadsListPlistPath
+		替わりに CMRDocumentFileManager の以下のメソッドを使うこと：
+		-(NSString *) directoryWithBoardName:(NSString *) boardName
+		-(NSString *) threadsListPathWithBoardName:(NSString *) boardName
+
+		これに伴い、現在これらのメソッドを使っている部分（ごくわずかだった）については適宜書き換えておいた。
+		- 将来、CMRBBSSignature の他のファイルパス関連のメソッド群も CMRDocumentFileManager の類似メソッドに
+		　統合する可能性がある。
 	* application/source/thread/CMRThreadLayout.m
 	* application/source/composer/CMRMessageAttributesTemplate.m
 		新着位置画像に対する余白の設定方法を若干効率化。

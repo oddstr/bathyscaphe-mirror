@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.4 2005/09/24 06:07:49 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.5 2005/09/30 01:08:32 tsawada2 Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -20,6 +20,7 @@
 #import "CMRMessageFilter.h"
 #import "CMRSpamFilter.h"
 #import "CMRThreadView.h"
+#import "CMRDocumentFileManager.h"
 
 #import <SGAppKit/NSWorkspace-SGExtensions.h>
 
@@ -79,8 +80,10 @@ to link acctually clicked.
 {
 	static NSMutableAttributedString *kBuffer = nil;
 	
-	NSString						*address_;
-	NSString						*logPath_ = nil;
+	NSString		*address_;
+	NSString		*logPath_ = nil;
+	NSString		*boardName_ = nil;	// added in PrincessBride and later.
+	NSURL			*boardURL_ = nil;	// added in PrincessBride and later.
 	
 	if (nil == aLink) return nil;
 	if (nil == kBuffer)
@@ -97,30 +100,55 @@ to link acctually clicked.
 		[kBuffer setAttributes:attributes_ range:[kBuffer range]]; 
 
 	} else if ([CMRThreadLinkProcessor parseThreadLink : aLink
-											 boardName : nil
-											  boardURL : nil
+											 boardName : &boardName_
+											  boardURL : &boardURL_
 											  filepath : &logPath_]) {
 		NSDictionary			*dict_;
 		CMRThreadAttributes		*attr_;
 		NSAttributedString		*template_;
 		
 		dict_ = [[[NSDictionary alloc] initWithContentsOfFile:logPath_] autorelease];
-		if (!dict_) goto ErrInvalidLink;
+		if (!dict_) {
+			// ThreadsList.plist があるか
+			NSString		*plistPath_;
+			plistPath_ = [[CMRDocumentFileManager defaultManager] threadsListPathWithBoardName : boardName_];
+
+			if ([[NSFileManager defaultManager] isReadableFileAtPath:plistPath_] ) {
+				// ThreadsList.plist がある
+				NSArray	*threadsList_, *idArray_;
+				int tIndex_ = 0;
+
+				threadsList_ = [NSArray arrayWithContentsOfFile : plistPath_];
+				// valueForKey: is available in Mac OS X 10.3 and later.
+				idArray_ = [threadsList_ valueForKey : ThreadPlistIdentifierKey];
+				tIndex_ = [idArray_ indexOfObject : [[logPath_ stringByDeletingPathExtension] lastPathComponent]];
+				// ThreadsList.plist の中にスレタイがある場合はそれを使う
+				if (tIndex_ != NSNotFound) {
+					NSString *title_ = [[threadsList_ objectAtIndex : tIndex_] valueForKey : CMRThreadTitleKey];
+					template_ = [[[NSAttributedString alloc] initWithString : title_] autorelease];
+					if (!template_) goto ErrInvalidLink;
+
+					[kBuffer setAttributedString : template_];
+				} else {
+					goto ErrInvalidLink;
+				}
+			} else {
+				goto ErrInvalidLink;
+			}
+		} else {
+			attr_ = [[[CMRThreadAttributes alloc] initWithDictionary:dict_] autorelease];
 		
-		attr_ = [[[CMRThreadAttributes alloc] initWithDictionary:dict_] autorelease];
+			// 暫定的に表示内容は「情報を表示」のものをそのまま借用してます。
+			// ポップアップが大きすぎると言う苦情がくるかもしれません。 by masakih
 		
-		// 暫定的に表示内容は「情報を表示」のものをそのまま借用してます。
-		// ポップアップが大きすぎると言う苦情がくるかもしれません。 by masakih
+			/* 2005-06-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+			   やはりポップアップが大きすぎる気がするので、表示内容をスレタイのみに限定してみる。
+			*/
+			template_ = [[[NSAttributedString alloc] initWithString : [attr_ threadTitle]] autorelease];
+			if (!template_) goto ErrInvalidLink;
 		
-		/* 2005-06-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-			やはりポップアップが大きすぎる気がするので、表示内容をスレタイのみに限定してみる。
-		*/
-		template_ = [[[NSAttributedString alloc] initWithString : [attr_ threadTitle]] autorelease];//[self templateForInfoPopUp];
-		if (!template_) goto ErrInvalidLink;
-		
-		[kBuffer setAttributedString : template_];
-		//[self replaceKeywords : [kBuffer mutableString] 
-		//		   attributes : attr_];
+			[kBuffer setAttributedString : template_];
+		}
 	} else {
 		SGBaseRangeArray		*indexRanges_;
 		SGBaseRangeEnumerator	*iter_;

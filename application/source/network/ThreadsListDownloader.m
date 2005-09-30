@@ -1,5 +1,5 @@
 /**
- * $Id: ThreadsListDownloader.m,v 1.2 2005/07/09 01:03:03 tsawada2 Exp $
+ * $Id: ThreadsListDownloader.m,v 1.3 2005/09/30 01:08:32 tsawada2 Exp $
  * 
  * ThreadsListDownloader.m
  *
@@ -13,6 +13,7 @@
 #import "BoardManager.h"
 #import "CMRBBSSignature.h"
 #import "CMRThreadSubjectComposer.h"
+#import "CMRDocumentFileManager.h"
 
 #import "CMRSubjectReader.h"
 #import "CMRHostHandler.h"
@@ -91,7 +92,8 @@ NSString *const ThreadsListDownloaderShouldRetryUpdateNotification = @"ThreadsLi
 @implementation ThreadsListDownloader(Accessor)
 - (NSString *) filePathToWrite
 {
-	return [[self BBSSignature] threadsListPlistPath];
+	//return [[self BBSSignature] threadsListPlistPath];
+	return [[CMRDocumentFileManager defaultManager] threadsListPathWithBoardName : [[self BBSSignature] name]];
 }
 - (NSURL *) resourceURL
 {

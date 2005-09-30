@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.m,v 1.2 2005/09/12 08:02:20 tsawada2 Exp $
+  * $Id: CMRThreadsList.m,v 1.3 2005/09/30 01:08:32 tsawada2 Exp $
   * 
   * CMRThreadsList.m
   *
@@ -10,7 +10,7 @@
 #import "CMRThreadLayout.h"
 #import "BoardManager.h"
 #import "CMRThreadsUpdateListTask.h"
-//#import "CMRNoNameManager.h"
+#import "CMRDocumentFileManager.h"
 #import "missing.h"
 
 
@@ -290,7 +290,8 @@ struct SortContext {
 }
 - (NSString *) threadsListPath
 {
-	return [[self BBSSignature] threadsListPlistPath];
+	//return [[self BBSSignature] threadsListPlistPath];
+	return [[CMRDocumentFileManager defaultManager] threadsListPathWithBoardName : [self boardName]];
 }
 - (NSURL *) boardURL
 {

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadSignature.m,v 1.1 2005/05/11 17:51:06 tsawada2 Exp $
+  * $Id: CMRThreadSignature.m,v 1.2 2005/09/30 01:08:32 tsawada2 Exp $
   * 
   * CMRThreadSignature.m
   *
@@ -160,7 +160,9 @@
 
 - (NSString *) filepathExceptsExtention
 {
-	return [[[self BBSSignature] dataRootDirectoryPath] stringByAppendingPathComponent : [self identifier]];
+	NSString	*tmp_ = [[CMRDocumentFileManager defaultManager] directoryWithBoardName : [self BBSName]];
+	return [tmp_ stringByAppendingPathComponent : [self identifier]];
+	//return [[[self BBSSignature] dataRootDirectoryPath] stringByAppendingPathComponent : [self identifier]];
 }
 - (NSString *) datFilename
 {
