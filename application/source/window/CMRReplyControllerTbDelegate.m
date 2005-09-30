@@ -104,8 +104,8 @@
 				NSToolbarSeparatorItemIdentifier,
 				kSaveAsDraftIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,
+				[self pIndicatorItemIdentifier],
 				kBeLoginIdentifier,
-				//NSToolbarShowFontsItemIdentifier,
 				nil];
 }
 - (NSArray *) toolbarAllowedItemIdentifiers : (NSToolbar *) toolbar
@@ -114,8 +114,6 @@
 				kSendMessageIdentifier,
 				kSaveAsDraftIdentifier,
 				kBeLoginIdentifier,
-				//NSToolbarShowFontsItemIdentifier,
-				//NSToolbarShowColorsItemIdentifier,
 				[self pIndicatorItemIdentifier],
 				NSToolbarSeparatorItemIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,
@@ -123,12 +121,3 @@
 				nil];
 }
 @end
-
-
-
-/*@implementation CMRReplyControllerTbDelegate(CMRLocalizableStringsOwner)
-+ (NSString *) localizableStringsTableName
-{
-	return @"ReplyWindowToolbarItems";
-}
-@end*/

@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.13 2005/09/24 06:07:49 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.14 2005/09/30 10:52:06 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -324,6 +324,10 @@ enum {
 
 - (BOOL) useIncrementalSearch;
 - (void) setUseIncrementalSearch : (BOOL) TorF;
+
+/* PrincessBride Additions */
+- (BOOL) isTitleRulerViewTextUsesBlackColor;
+- (void) setTitleRulerViewTextUsesBlackColor : (BOOL) usesBlackColor;
 
 - (void) _loadThreadsListSettings;
 - (BOOL) _saveThreadsListSettings;

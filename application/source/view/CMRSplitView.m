@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRSplitView.m,v 1.1 2005/05/11 17:51:08 tsawada2 Exp $
+  * $Id: CMRSplitView.m,v 1.2 2005/09/30 10:52:06 tsawada2 Exp $
   * 
   * CMRSplitView.m
   *
@@ -19,5 +19,15 @@
     {
         kfNotIsVerticalResizeCursor = [[NSCursor resizeUpDownCursor] retain];
     }
+}
+
+- (void) drawDividerInRect:(NSRect)aRect
+{
+	if (![self isVertical]) {
+		// 左のボーダーが欠けるので改めて描く
+		[[NSColor gridColor] set];
+		NSRectFill(NSMakeRect(NSMinX(aRect), NSMinY(aRect), 1.0, NSHeight(aRect)));
+	}
+	[super drawDividerInRect : aRect];
 }
 @end

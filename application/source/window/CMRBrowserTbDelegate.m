@@ -136,13 +136,16 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 {
 	return [NSArray arrayWithObjects :
 				st_reloadListItemIdentifier,
+				NSToolbarFlexibleSpaceItemIdentifier,
 				[self reloadThreadItemIdentifier],
 				NSToolbarSeparatorItemIdentifier,
-				NSToolbarFlexibleSpaceItemIdentifier,
 				[self deleteItemIdentifier],
 				[self addFavoritesItemIdentifier],
-				st_searchThreadItemIdentifier,
+				NSToolbarSeparatorItemIdentifier,
 				[self replyItemIdentifier],
+				NSToolbarFlexibleSpaceItemIdentifier,
+				[self pIndicatorItemIdentifier],
+				st_searchThreadItemIdentifier,
 				nil];
 }
 - (NSArray *) toolbarAllowedItemIdentifiers : (NSToolbar *) toolbar

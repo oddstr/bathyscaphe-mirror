@@ -1,4 +1,17 @@
 2005-09-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/Browser.nib
+		コンテキストメニューに「新規ウインドウで開く」を追加した。
+	* application/source/view/CMRSplitView.m
+		横置きのとき、スプリッターの左境界を自力で描き加え、見た目を整えるようにした。
+		- 微妙に色が違うかもしれん… NSColor のクラスメソッド群にあのフレーム色がない。gridColor がいちばん
+		　近いが、微妙に薄いような気がする。
+	* application/source/window/CMRThreadViewerTbDelegate.m
+	* application/source/window/CMRReplyControllerTbDelegate.m
+	* application/source/window/CMRBrowserTbDelegate.m
+		ツールバーのデフォルトに「進行状況」を追加するなど、見直した。
+	* application/source/browser/BSTitleRulerView.m
+	* application/source/preferences/AppDefaults-ThreadsList.m
+		スレッドタイトルバーの文字色を黒と白の二色から選べるようにした。
 	* application/source/thread/CMRThreadViewer-Link.m
 		リンクでのスレタイポップアップについて、ログファイルを取得していなくても、ThreadsList.plist から
 		スレタイが取得できればそれを使うようにした（CocoMonar の機能を一部取り込み）。

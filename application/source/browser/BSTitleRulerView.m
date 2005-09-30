@@ -8,6 +8,7 @@
 
 #import "BSTitleRulerView.h"
 #import "CMRThreadAttributes.h"
+#import "AppDefaults.h"
 
 static NSString *const kTitleRulerViewBgImageKey		= @"titleRulerBackground";
 static NSString *const kTitleRulerViewDefaultTitleKey	= @"titleRuler default title";
@@ -20,7 +21,10 @@ float	imgWidth, imgHeight;
 + (NSDictionary *) attrTemplate
 {
 	NSDictionary	*tmp;
+	NSColor			*color_;
 	NSShadow		*shadow_;
+
+	color_ = ([CMRPref isTitleRulerViewTextUsesBlackColor] ? [NSColor blackColor] : [NSColor whiteColor]);
 
 	shadow_ = [[NSShadow alloc] init];
 	[shadow_ setShadowOffset     : NSMakeSize(2.0, -2.0)];
@@ -28,7 +32,7 @@ float	imgWidth, imgHeight;
 
 	tmp = [NSDictionary dictionaryWithObjectsAndKeys :
 				[NSFont boldSystemFontOfSize : 13.0], NSFontAttributeName,
-				[NSColor whiteColor], NSForegroundColorAttributeName,
+				color_, NSForegroundColorAttributeName,
 				shadow_, NSShadowAttributeName,
 				nil];
 

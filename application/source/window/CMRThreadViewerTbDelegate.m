@@ -261,9 +261,10 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 	return [NSArray arrayWithObjects :
 				[self reloadThreadItemIdentifier],
 				NSToolbarSeparatorItemIdentifier,
-				[self addFavoritesItemIdentifier],
 				[self deleteItemIdentifier],
+				[self addFavoritesItemIdentifier],
 				NSToolbarFlexibleSpaceItemIdentifier,
+				[self pIndicatorItemIdentifier],
 				[self replyItemIdentifier],
 				nil];
 }
@@ -286,12 +287,3 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 				nil];
 }
 @end
-
-
-
-/*@implementation CMRThreadViewerTbDelegate(CMRLocalizableStringsOwner)
-+ (NSString *) localizableStringsTableName
-{
-	return st_localizableStringsTableName;
-}
-@end*/

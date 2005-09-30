@@ -19,6 +19,7 @@ static NSString *const AppDefaultsStatusLineToolbarAlignmentKey = @"StatusLine T
 
 // Ç±ÇÍÇÕ User Defaults íºâ∫Ç…çÏê¨Ç≥ÇÍÇÈ key
 static NSString *const AppDefaultsUseIncrementalSearchKey = @"UseIncrementalSearch";
+static NSString *const AppDefaultsTRViewTextUsesBlackColorKey = @"ThreadTitleBarTextUsesBlackColor";
 
 
 
@@ -93,8 +94,19 @@ static NSString *const AppDefaultsUseIncrementalSearchKey = @"UseIncrementalSear
 			setBool : TorF
 			 forKey : AppDefaultsUseIncrementalSearchKey];
 }
+#pragma mark PrincessBride Additions
+- (BOOL) isTitleRulerViewTextUsesBlackColor
+{
+	return [[self defaults] boolForKey : AppDefaultsTRViewTextUsesBlackColorKey
+						  defaultValue : NO];
+}
+- (void) setTitleRulerViewTextUsesBlackColor : (BOOL) usesBlackColor
+{
+	[[self defaults] setBool : usesBlackColor
+					  forKey : AppDefaultsTRViewTextUsesBlackColorKey];
+}
 
-
+#pragma mark -
 - (void) _loadThreadsListSettings
 {
 }
