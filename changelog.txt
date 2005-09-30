@@ -1,4 +1,10 @@
 2005-09-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/image/titleRulerBgAquaBlue.tiff
+	* application/Resources/image/titleRulerBgAquaGraphite.tiff
+		[新規追加] スレッドタイトルバーの背景画像（以前の titleRulerBackground.tiff は今後使用されない）。
+		- ブルーとグラファイトの二種類用意してある。アピアランスに応じて自動的に使い分けられる。
+	* application/source/browser/BSTitleRulerView.m
+		スレッドタイトルバーの文字を少し小さくし（13pt→12pt）、バーの高さも少し低くした（24pt→22pt）。
 	* application/Resources/Japanese.lproj/Browser.nib
 		コンテキストメニューに「新規ウインドウで開く」を追加した。
 	* application/source/view/CMRSplitView.m
@@ -11,7 +17,8 @@
 		ツールバーのデフォルトに「進行状況」を追加するなど、見直した。
 	* application/source/browser/BSTitleRulerView.m
 	* application/source/preferences/AppDefaults-ThreadsList.m
-		スレッドタイトルバーの文字色を黒と白の二色から選べるようにした。
+		スレッドタイトルバーの文字色を黒と白の二色から選べるようにした。以下を Terminal で唱える：
+		defaults write jp.tsawada2.BathyScaphe ThreadTitleBarTextUsesBlackColor -bool TRUE
 	* application/source/thread/CMRThreadViewer-Link.m
 		リンクでのスレタイポップアップについて、ログファイルを取得していなくても、ThreadsList.plist から
 		スレタイが取得できればそれを使うようにした（CocoMonar の機能を一部取り込み）。
@@ -37,7 +44,8 @@
 	* application/source/composer/CMRMessageAttributesTemplate.m
 		[Bug 6003] オンザフライボタンにポインタを合わせても、ポインタが指差しに変わらず、そのままクリックすると
 		クラッシュすることがある問題を修正。（Special thanx to 268@CocoMonar 24th(actually 25th) thread）
-		- ポインタが変わらない問題は残るが、クラッシュはしなくなり、オンザフライ展開も実行される。 
+		- ポインタが変わらない問題は残るが、クラッシュはしなくなり、オンザフライ展開も実行される。
+		- ただし、メモリリークが多少発生するとのこと。
 ================================================= LeafTicket
 2005-09-29 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/window/CMRStatusLineWindowController.m

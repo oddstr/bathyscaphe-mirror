@@ -10,7 +10,8 @@
 #import "CMRThreadAttributes.h"
 #import "AppDefaults.h"
 
-static NSString *const kTitleRulerViewBgImageKey		= @"titleRulerBackground";
+static NSString *const kTRViewBgImgBlueKey				= @"titleRulerBgAquaBlue";
+static NSString *const kTRViewBgImgGraphiteKey			= @"titleRulerBgAquaGraphite";
 static NSString *const kTitleRulerViewDefaultTitleKey	= @"titleRuler default title";
 
 @implementation BSTitleRulerView
@@ -27,11 +28,11 @@ float	imgWidth, imgHeight;
 	color_ = ([CMRPref isTitleRulerViewTextUsesBlackColor] ? [NSColor blackColor] : [NSColor whiteColor]);
 
 	shadow_ = [[NSShadow alloc] init];
-	[shadow_ setShadowOffset     : NSMakeSize(2.0, -2.0)];
-	[shadow_ setShadowBlurRadius : 0.5];
+	[shadow_ setShadowOffset     : NSMakeSize(1.5, -1.5)];
+	[shadow_ setShadowBlurRadius : 0.3];
 
 	tmp = [NSDictionary dictionaryWithObjectsAndKeys :
-				[NSFont boldSystemFontOfSize : 13.0], NSFontAttributeName,
+				[NSFont boldSystemFontOfSize : 12.0], NSFontAttributeName,
 				color_, NSForegroundColorAttributeName,
 				shadow_, NSShadowAttributeName,
 				nil];
@@ -46,12 +47,21 @@ float	imgWidth, imgHeight;
 	return [[[NSAttributedString alloc] initWithString : m_titleStr attributes : [[self class] attrTemplate]] autorelease];
 }
 
+- (BOOL) isGraphiteNow
+{
+	if ([NSColor currentControlTint] == NSGraphiteControlTint)
+		return YES;
+		
+	return NO;
+}
+
 #pragma mark -
 - (id) initWithScrollView : (NSScrollView *) scrollView
 {
 	m_scrollView	= scrollView;
 	m_titleStr		= [NSLocalizedString(kTitleRulerViewDefaultTitleKey, @"BathyScaphe") retain];
-	m_bgImage		= [NSImage imageAppNamed : kTitleRulerViewBgImageKey];
+	m_bgImage		= ([self isGraphiteNow] ? [NSImage imageAppNamed : kTRViewBgImgGraphiteKey]
+											: [NSImage imageAppNamed : kTRViewBgImgBlueKey]);
 
 	imgWidth	= [m_bgImage size].width;
 	imgHeight	= [m_bgImage size].height;
@@ -60,12 +70,18 @@ float	imgWidth, imgHeight;
 
 	[self setMarkers : nil];
 	[self setReservedThicknessForMarkers : 0.0];
-	[self setRuleThickness : 24.0];
+	[self setRuleThickness : 22.0];
 
 	[[NSNotificationCenter defaultCenter]
 	     addObserver : self
 	        selector : @selector(threadViewerDidChangeThread:)
 	            name : CMRThreadViewerDidChangeThreadNotification
+	          object : nil];
+
+	[[NSNotificationCenter defaultCenter]
+	     addObserver : self
+	        selector : @selector(userDidChangeSystemColors:)
+	            name : NSSystemColorsDidChangeNotification
 	          object : nil];
   
 	return self;
@@ -113,8 +129,19 @@ float	imgWidth, imgHeight;
 		m_titleStr = [[NSString alloc] initWithFormat : @"%@ - %@", title_, bName_];
 		[tmp release];
 
-		[self setNeedsDisplay:YES];	// 再描画させるのが大切
+		[self setNeedsDisplay : YES];	// 再描画させるのが大切
 	}
+}
+
+- (void) userDidChangeSystemColors : (NSNotification *) theNotification
+{
+	id tmp;
+	tmp = m_bgImage;
+	m_bgImage = ([self isGraphiteNow] ? [NSImage imageAppNamed : kTRViewBgImgGraphiteKey]
+									  : [NSImage imageAppNamed : kTRViewBgImgBlueKey]);
+	[tmp release];
+	
+	[self setNeedsDisplay : YES];
 }
 
 - (void) dealloc
@@ -122,6 +149,10 @@ float	imgWidth, imgHeight;
 	[[NSNotificationCenter defaultCenter]
 	  removeObserver : self
 	            name : CMRThreadViewerDidChangeThreadNotification
+	          object : nil];
+	[[NSNotificationCenter defaultCenter]
+	  removeObserver : self
+	            name : NSSystemColorsDidChangeNotification
 	          object : nil];
 
 	[m_titleStr release];
