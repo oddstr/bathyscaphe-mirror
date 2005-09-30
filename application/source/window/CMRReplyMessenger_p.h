@@ -29,7 +29,7 @@
 #define MESSENGER_ERROR_POST					@"ERROR Send Message"
 #define REPLY_MESSENGER_WINDOW_TITLE_FORMAT		@"Window Title"
 #define REPLY_MESSENGER_SUBMIT					@"submit"
-
+/*
 #define kToolTipForNeededLogin	@"BeLoginOnNeededToolTip"
 #define kToolTipForTrivialLoginOff	@"BeLoginOffTrivialToolTip"
 #define kToolTipForCantLoginOn	@"BeLoginOffCantLoginToolTip"
@@ -40,7 +40,7 @@
 #define kLabelForLoginOff		@"Be Login Off"
 
 #define kImageForLoginOn		@"beEnabled"
-#define kImageForLoginOff		@"beDisabled"
+#define kImageForLoginOff		@"beDisabled"*/
 
 
 @interface CMRReplyMessenger(Private)
@@ -73,6 +73,7 @@
 
 @interface CMRReplyMessenger(PrivateAccessor)
 - (CMRReplyController *) replyControllerRespondsTo : (SEL) aSelector;
+- (BOOL) checkBe2chAccount;
 
 - (NSString *) threadTitle;
 

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyController-ViewAccessor.m,v 1.6 2005/09/24 06:07:50 tsawada2 Exp $
+  * $Id: CMRReplyController-ViewAccessor.m,v 1.7 2005/09/30 18:52:03 tsawada2 Exp $
   * 
   * CMRReplyController-ViewAccessor.m
   *
@@ -11,15 +11,7 @@
 #import "AppDefaults.h"
 
 
-
 @implementation CMRReplyController(View)
-- (NSComboBox *) nameComboBox{ return _nameComboBox; }
-- (NSTextField *) mailField { return _mailField; }
-- (NSTextView *) textView { return _textView; }
-- (NSScrollView *) scrollView { return _scrollView; }
-- (NSButton *) sageButton { return _sageButton; }
-- (NSButton *) deleteMailButton { return _deleteMailButton; }
-
 + (Class) toolbarDelegateImpClass 
 { 
 	return [CMRReplyControllerTbDelegate class];
@@ -29,7 +21,16 @@
 	return APP_REPLY_STATUSLINE_IDENTIFIER;
 }
 
+#pragma mark Accessors
 
+- (NSComboBox *) nameComboBox{ return _nameComboBox; }
+- (NSTextField *) mailField { return _mailField; }
+- (NSTextView *) textView { return _textView; }
+- (NSScrollView *) scrollView { return _scrollView; }
+- (NSButton *) sageButton { return _sageButton; }
+- (NSButton *) deleteMailButton { return _deleteMailButton; }
+
+#pragma mark UI SetUp
 
 - (void) updateTextView
 {
@@ -42,8 +43,7 @@
 	[textView_ setFont : [[self document] replyTextFont]];
 	[textView_ setTextColor : [[self document] replyTextColor]];
 
-	if (bgColor_ != nil) {
-		
+	if (bgColor_ != nil) {		
 		[textView_ setDrawsBackground : YES];
 		[textView_ setBackgroundColor : [bgColor_ colorWithAlphaComponent : [CMRPref replyBgAlphaValue]]];
 		[[textView_ window] setOpaque : NO];
@@ -147,34 +147,10 @@
 	[[self window] makeFirstResponder : [self textView]];
 }
 
-
-/* Notification */
-- (void) applicationUISettingsUpdated : (NSNotification *) notification
-{
-	UTILAssertNotificationName(
-		notification,
-		AppDefaultsLayoutSettingsUpdatedNotification);
-	[self updateTextView];
-}
-- (void) controlTextDidChange : (NSNotification *) aNotification
-{
-	UTILAssertNotificationName(
-		aNotification,
-		NSControlTextDidChangeNotification);
-	
-	if ([aNotification object] == [self mailField])
-		[self setupButtons];
-}
-@end
-
-
-
-@implementation CMRReplyController (ViewSetup)
 - (void) setupStatusLine
 {
 	[super setupStatusLine];
 }
-
 
 - (void) setupUIComponents
 {
@@ -193,8 +169,30 @@
 			      object : CMRPref];
 	[self synchronizeDataFromMessenger];
 }
+@end
 
-// TextView Delegate
+#pragma mark -
+
+@implementation CMRReplyController (Delegate)
+#pragma mark Notification
+- (void) applicationUISettingsUpdated : (NSNotification *) notification
+{
+	UTILAssertNotificationName(
+		notification,
+		AppDefaultsLayoutSettingsUpdatedNotification);
+	[self updateTextView];
+}
+- (void) controlTextDidChange : (NSNotification *) aNotification
+{
+	UTILAssertNotificationName(
+		aNotification,
+		NSControlTextDidChangeNotification);
+	
+	if ([aNotification object] == [self mailField])
+		[self setupButtons];
+}
+
+#pragma mark NSTextView Delegate
 - (BOOL)textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector
 {
 	if (aSelector == @selector(insertTab:)) { // tab

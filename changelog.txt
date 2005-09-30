@@ -1,3 +1,12 @@
+2005-10-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/manager/CookieManager.m
+	* application/source/window/CMRReplyController-ViewAccessor.m
+	* application/source/window/CMRReplyController.m
+	* application/source/window/CMRReplyMessenger.m
+		be ログインの板ごとの設定プリセットを可能にするための内部工事。また、Messenger とController の
+		役割分担を一部見直し。
+		- これで「板ごとのコテハン・メール欄・Be ログインのデフォルト設定」のための内部準備はできた。
+		　あとはインタフェースを作って繋げればいい。
 2005-09-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/image/titleRulerBgAquaBlue.tiff
 	* application/Resources/image/titleRulerBgAquaGraphite.tiff

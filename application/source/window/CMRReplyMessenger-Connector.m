@@ -47,6 +47,20 @@
 	return nil;
 }
 
+- (BOOL) checkBe2chAccount
+{
+	NSString	*dmdm_;
+	NSString	*mdmd_;
+	
+	dmdm_ = [CMRPref be2chAccountMailAddress];
+	if (dmdm_ == nil || [dmdm_ length] == 0) return NO;
+
+	mdmd_ = [CMRPref be2chAccountCode];
+	if (mdmd_ == nil || [mdmd_ length] == 0) return NO;
+	
+	return YES;
+}
+
 - (NSString *) threadTitle
 {
 	return [[self infoDictionary] objectForKey : CMRThreadTitleKey];
@@ -283,8 +297,8 @@
     [self setIsEndPost : YES];
     headers_ = [NSMutableDictionary dictionary];
     referer_ = [self refererParameter];
-    cookies_ = [[CookieManager defaultManager] cookiesForRequestURL : [self targetURL]];
-
+    cookies_ = [[CookieManager defaultManager] cookiesForRequestURL : [self targetURL]
+													   withBeCookie : [self shouldSendBeCookie]];
 
     if (referer_ != nil && [referer_ length] > 0) {
         [headers_ setObject : referer_

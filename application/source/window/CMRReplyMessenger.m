@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyMessenger.m,v 1.3 2005/07/04 13:56:46 tsawada2 Exp $
+  * $Id: CMRReplyMessenger.m,v 1.4 2005/09/30 18:52:03 tsawada2 Exp $
   * 
   * CMRReplyMessenger.m
   *
@@ -8,6 +8,7 @@
   */
 #import "CMRReplyMessenger_p.h"
 #import "CMRDocumentFileManager.h"
+#import "BoardManager.h"
 
 NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessengerDidFinishPostingNotification";
 
@@ -158,6 +159,15 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 {
 	_isEndPost = anIsEndPost;
 }
+#pragma mark PrincessBride Additions
+- (BOOL) shouldSendBeCookie
+{
+	return _shouldSendBeCookie;
+}
+- (void) setShouldSendBeCookie : (BOOL) sendBeCookie
+{
+	_shouldSendBeCookie = sendBeCookie;
+}
 
 #pragma mark NSDocument methods
 
@@ -175,6 +185,24 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 	controller_ = [[CMRReplyController alloc] init];
 	[self addWindowController : controller_];
 	[controller_ release];
+}
+
+- (void) setUpBeLoginSetting
+{
+	NSString	*bName_ = [self boardName];
+	NSString	*host_ = [[self targetURL] host];
+
+	if (![self checkBe2chAccount] || !is_2channel([host_ UTF8String])) {
+		[self setShouldSendBeCookie : NO];
+		return;
+	}
+
+	if ([host_ isEqualToString : @"be.2ch.net"] || [host_ isEqualToString : @"qa.2ch.net"]) {
+		[self setShouldSendBeCookie : YES];
+		return;
+	}
+	
+	[self setShouldSendBeCookie : [[BoardManager defaultManager] alwaysBeLoginAtBoard : bName_]];
 }
 
 - (BOOL) readFromFile : (NSString *) fileName
@@ -197,7 +225,8 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 		
 		[self replaceInfoDictionary : dict_];
 		[self synchronizeWindowControllersFromDocument];
-		
+		// Ç±Ç±Ç≈ be ÉçÉOÉCÉìÇÃê›íËÇÇ∑ÇÈÅH
+		[self setUpBeLoginSetting];
 		return (dict_ != nil);
 	}
 	return NO;
@@ -336,24 +365,6 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 				openFile : [self fileName]
 		 withApplication : @"Property List Editor.app"];
 }
-- (IBAction) toggleBeLogin : (id) sender
-{
-	[CMRPref setShouldLoginBe2chAnyTime : ![CMRPref shouldLoginBe2chAnyTime]];
-}
-
-- (BOOL) checkBe2chAccount
-{
-	NSString	*dmdm_;
-	NSString	*mdmd_;
-	
-	dmdm_ = [CMRPref be2chAccountMailAddress];
-	if (dmdm_ == nil || [dmdm_ length] == 0) return NO;
-
-	mdmd_ = [CMRPref be2chAccountCode];
-	if (mdmd_ == nil || [mdmd_ length] == 0) return NO;
-	
-	return YES;
-}
 
 - (BOOL) validateToolbarItem : (NSToolbarItem *) theItem
 {
@@ -369,45 +380,6 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 	}
 	if (action_ == @selector(saveDocument:)) {
 		return ([self isDocumentEdited]);
-	}
-	if (action_ == @selector(toggleBeLogin:)) {
-		NSString *host_ = [[self targetURL] host];
-		
-		if (![self checkBe2chAccount]) {
-			[theItem setImage : [NSImage imageAppNamed : kImageForLoginOff]];
-			[theItem setLabel : [self localizedString : kLabelForLoginOff]];
-			[theItem setToolTip : [self localizedString : kToolTipForCantLoginOn]];
-			return NO;
-		}
-		if (!is_2channel([host_ UTF8String])) {
-			[theItem setImage : [NSImage imageAppNamed : kImageForLoginOff]];
-			[theItem setLabel : [self localizedString : kLabelForLoginOff]];
-			[theItem setToolTip : [self localizedString : kToolTipForTrivialLoginOff]];
-			return NO;
-		}
-		if ([host_ isEqualToString : @"be.2ch.net"] || [host_ isEqualToString : @"qa.2ch.net"]) {
-			[theItem setImage : [NSImage imageAppNamed : kImageForLoginOn]];
-			[theItem setLabel : [self localizedString : kLabelForLoginOn]];
-			[theItem setToolTip : [self localizedString : kToolTipForNeededLogin]];
-			return NO;
-		} else {
-			NSString				*title_, *tooltip_;
-			NSImage					*image_;
-		
-			if ([CMRPref shouldLoginBe2chAnyTime]) {
-				title_ = [self localizedString : kLabelForLoginOn];
-				tooltip_ = [self localizedString : kToolTipForLoginOn];
-				image_ = [NSImage imageAppNamed : kImageForLoginOn];
-			} else {
-				title_ = [self localizedString : kLabelForLoginOff];
-				tooltip_ = [self localizedString : kToolTipForLoginOff];
-				image_ = [NSImage imageAppNamed : kImageForLoginOff];
-			}
-			[theItem setImage : image_];
-			[theItem setLabel : title_];
-			[theItem setToolTip : tooltip_];
-			return YES;
-		}
 	}
 	return NO;
 }

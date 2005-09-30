@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyMessenger.h,v 1.3 2005/07/04 13:56:46 tsawada2 Exp $
+  * $Id: CMRReplyMessenger.h,v 1.4 2005/09/30 18:52:03 tsawada2 Exp $
   * 
   * CMRReplyMessenger.h
   *
@@ -19,6 +19,7 @@
 	NSMutableDictionary		*_attributes;
 	BOOL					_isEndPost;
 	BOOL					_isInProgress;
+	BOOL					_shouldSendBeCookie;
 }
 - (NSTextStorage *) textStorage;
 - (void) setMessageContents : (NSString *) aContents
@@ -49,6 +50,10 @@
 // deprecated in BathyScaphe 1.0.2
 //- (void) setReplyTextFont : (NSFont *) aFont;
 //- (void) setReplyTextColor : (NSColor *) aColor;
+
+// available in PrincessBride and later
+- (BOOL) shouldSendBeCookie;
+- (void) setShouldSendBeCookie : (BOOL) sendBeCookie;
 @end
 
 
@@ -81,7 +86,6 @@
 @interface CMRReplyMessenger(Action)
 - (IBAction) sendMessage : (id) sender;
 - (IBAction) openLogfile : (id) sender;
-- (IBAction) toggleBeLogin : (id) sender;
 @end
 
 

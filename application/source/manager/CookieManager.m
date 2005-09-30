@@ -211,9 +211,11 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
   * 送信先に送るべきURLがある場合はクッキー文字列を返す。
   * 
   * @param    anURL  送信先URL
+  * @param    withBe  Be ログイン用のクッキーが必要かどうか
   * @return          クッキー
   */
 - (NSString *) cookiesForRequestURL : (NSURL *) anURL
+					   withBeCookie : (BOOL   ) withBe
 {
 	NSArray        *cookies_;		//ホストに対応するクッキー
 	NSEnumerator   *iter_;			//順次探索
@@ -243,22 +245,20 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	}
 */
 	// ここに be ログインのためのクッキー追加コード
-	if (is_2channel(hs)) {
-		if ([CMRPref shouldLoginBe2chAnyTime] || [[anURL host] isEqualToString : @"be.2ch.net"] || [[anURL host] isEqualToString : @"qa.2ch.net"]) {
-			Cookie	*beItem_, *beItem2_;
-			NSString *dmdmStr_, *mdmdStr_;
-			
-			dmdmStr_ = [CMRPref be2chAccountMailAddress];
-			if (dmdmStr_ == nil || [dmdmStr_ length] == 0) goto default_cookie;
+	if (withBe) {
+		Cookie	*beItem_, *beItem2_;
+		NSString *dmdmStr_, *mdmdStr_;
 
-			mdmdStr_ = [CMRPref be2chAccountCode];
-			if (mdmdStr_ == nil || [mdmdStr_ length] == 0) goto default_cookie;
-			
-			beItem_ = [Cookie cookieWithDictionary : [NSDictionary dictionaryWithObject : dmdmStr_ forKey : @"DMDM"]];
-			[avails_ addObject : beItem_];
-			beItem2_ = [Cookie cookieWithDictionary : [NSDictionary dictionaryWithObject : mdmdStr_ forKey : @"MDMD"]];
-			[avails_ addObject : beItem2_];
-		}
+		dmdmStr_ = [CMRPref be2chAccountMailAddress];
+		if (dmdmStr_ == nil || [dmdmStr_ length] == 0) goto default_cookie;
+
+		mdmdStr_ = [CMRPref be2chAccountCode];
+		if (mdmdStr_ == nil || [mdmdStr_ length] == 0) goto default_cookie;
+
+		beItem_ = [Cookie cookieWithDictionary : [NSDictionary dictionaryWithObject : dmdmStr_ forKey : @"DMDM"]];
+		[avails_ addObject : beItem_];
+		beItem2_ = [Cookie cookieWithDictionary : [NSDictionary dictionaryWithObject : mdmdStr_ forKey : @"MDMD"]];
+		[avails_ addObject : beItem2_];
 	}
 	
 default_cookie:

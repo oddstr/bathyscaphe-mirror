@@ -98,6 +98,10 @@
     if (NO == [[self document] isEndPost])
     	[[self document] sendMessage : sender];
 }
+- (IBAction) toggleBeLogin : (id) sender
+{
+	[[self document] setShouldSendBeCookie : (NO == [[self document] shouldSendBeCookie])];
+}
 
 #pragma mark Validation
 - (BOOL) validateMenuItem : (NSMenuItem *) theItem
@@ -120,6 +124,55 @@
 		return YES;
 	}
 	return [super validateMenuItem : theItem];
+}
+- (BOOL) validateToolbarItem : (NSToolbarItem *) theItem
+{
+	SEL		action_;
+	
+	if (nil == theItem) return NO;
+
+	action_ = [theItem action];
+
+	if (action_ == @selector(toggleBeLogin:)) {
+		NSString *host_ = [[[self document] targetURL] host];
+		
+		if (![[self document] checkBe2chAccount]) {
+			[theItem setImage : [NSImage imageAppNamed : kImageForLoginOff]];
+			[theItem setLabel : [self localizedString : kLabelForLoginOff]];
+			[theItem setToolTip : [self localizedString : kToolTipForCantLoginOn]];
+			return NO;
+		}
+		if (!is_2channel([host_ UTF8String])) {
+			[theItem setImage : [NSImage imageAppNamed : kImageForLoginOff]];
+			[theItem setLabel : [self localizedString : kLabelForLoginOff]];
+			[theItem setToolTip : [self localizedString : kToolTipForTrivialLoginOff]];
+			return NO;
+		}
+		if ([host_ isEqualToString : @"be.2ch.net"] || [host_ isEqualToString : @"qa.2ch.net"]) {
+			[theItem setImage : [NSImage imageAppNamed : kImageForLoginOn]];
+			[theItem setLabel : [self localizedString : kLabelForLoginOn]];
+			[theItem setToolTip : [self localizedString : kToolTipForNeededLogin]];
+			return NO;
+		} else {
+			NSString				*title_, *tooltip_;
+			NSImage					*image_;
+		
+			if ([[self document] shouldSendBeCookie]) {
+				title_ = [self localizedString : kLabelForLoginOn];
+				tooltip_ = [self localizedString : kToolTipForLoginOn];
+				image_ = [NSImage imageAppNamed : kImageForLoginOn];
+			} else {
+				title_ = [self localizedString : kLabelForLoginOff];
+				tooltip_ = [self localizedString : kToolTipForLoginOff];
+				image_ = [NSImage imageAppNamed : kImageForLoginOff];
+			}
+			[theItem setImage : image_];
+			[theItem setLabel : title_];
+			[theItem setToolTip : tooltip_];
+			return YES;
+		}
+	}
+	return NO;
 }
 @end
 

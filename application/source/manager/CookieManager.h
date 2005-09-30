@@ -1,5 +1,5 @@
 /**
-  * $Id: CookieManager.h,v 1.1 2005/05/11 17:51:05 tsawada2 Exp $
+  * $Id: CookieManager.h,v 1.2 2005/09/30 18:52:03 tsawada2 Exp $
   * 
   * CookieManager.h
   *
@@ -50,9 +50,11 @@
   * 送信先に送るべきURLがある場合はクッキー文字列を返す。
   * 
   * @param    anURL  送信先URL
+  * @param    withBe  Be ログイン用のクッキーも付けるかどうか
   * @return          クッキー
   */
-- (NSString *) cookiesForRequestURL : (NSURL *) anURL;
+- (NSString *) cookiesForRequestURL : (NSURL *) anURL
+					   withBeCookie : (BOOL   ) withBe;
 
 /**
   * 期限切れのクッキーを削除する。

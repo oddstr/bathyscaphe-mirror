@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyController.h,v 1.1 2005/05/11 17:51:09 tsawada2 Exp $
+  * $Id: CMRReplyController.h,v 1.2 2005/09/30 18:52:03 tsawada2 Exp $
   * 
   * CMRReplyController.h
   *
@@ -31,4 +31,5 @@
 - (IBAction) insertSage : (id) sender;
 - (IBAction) deleteMail : (id) sender;
 - (IBAction) pasteAsQuotation : (id) sender;
+- (IBAction) toggleBeLogin : (id) sender;
 @end
