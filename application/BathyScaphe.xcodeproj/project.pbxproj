@@ -158,7 +158,6 @@
 		87016252082BE67100AEFDD0 /* CMRNetGrobalLock.h in Headers */ = {isa = PBXBuildFile; fileRef = F376045E064FD09200591F56 /* CMRNetGrobalLock.h */; };
 		87016254082BE67100AEFDD0 /* CMRAppDelegate_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F3660E3A06C4C7DA00A92719 /* CMRAppDelegate_p.h */; };
 		87016255082BE67100AEFDD0 /* CMRAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F3660E3B06C4C7DA00A92719 /* CMRAppDelegate.h */; };
-		87016257082BE67100AEFDD0 /* CMRNSSearchField.h in Headers */ = {isa = PBXBuildFile; fileRef = 8782402C0823C0A900C52066 /* CMRNSSearchField.h */; };
 		87016258082BE67100AEFDD0 /* KFSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87C7287A082B8E7E00AC9AE1 /* KFSplitView.h */; };
 		870162DD082BE67100AEFDD0 /* BoardList-OVDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC2404C698FA00A80005 /* BoardList-OVDataSource.m */; };
 		870162DE082BE67100AEFDD0 /* BoardList.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC2604C698FA00A80005 /* BoardList.m */; };
@@ -301,7 +300,6 @@
 		8701637C082BE67100AEFDD0 /* CMRAppDelegate+Menu.m in Sources */ = {isa = PBXBuildFile; fileRef = F3660E3D06C4C7DA00A92719 /* CMRAppDelegate+Menu.m */; };
 		8701637E082BE67100AEFDD0 /* CMRThreadViewer-Validation.m in Sources */ = {isa = PBXBuildFile; fileRef = 875743F907C372F6006F3C68 /* CMRThreadViewer-Validation.m */; };
 		8701637F082BE67100AEFDD0 /* CMRThreadViewer-Find.m in Sources */ = {isa = PBXBuildFile; fileRef = 8757441407C37772006F3C68 /* CMRThreadViewer-Find.m */; };
-		87016380082BE67100AEFDD0 /* CMRNSSearchField.m in Sources */ = {isa = PBXBuildFile; fileRef = 8782402D0823C0A900C52066 /* CMRNSSearchField.m */; };
 		87016381082BE67100AEFDD0 /* KFSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C7287B082B8E7E00AC9AE1 /* KFSplitView.m */; };
 		87016383082BE67100AEFDD0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		87016384082BE67100AEFDD0 /* CocoMonar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3924488043610AE00A80005 /* CocoMonar.framework */; };
@@ -493,7 +491,6 @@
 		8729993B0832618100CBD740 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872999390832618100CBD740 /* MainMenu.nib */; };
 		8729993E0832618100CBD740 /* MessageComposer.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8729993C0832618100CBD740 /* MessageComposer.strings */; };
 		872999410832618100CBD740 /* Messenger.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8729993F0832618100CBD740 /* Messenger.strings */; };
-		872999440832618100CBD740 /* PantherSearchField.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872999420832618100CBD740 /* PantherSearchField.nib */; };
 		8729994A0832618100CBD740 /* ServicesMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999480832618100CBD740 /* ServicesMenu.strings */; };
 		8729994D0832618100CBD740 /* TextFind.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8729994B0832618100CBD740 /* TextFind.nib */; };
 		872999500832618100CBD740 /* ThreadData.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8729994E0832618100CBD740 /* ThreadData.strings */; };
@@ -804,7 +801,6 @@
 		872999770832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		872999780832618900CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/MessageComposer.strings; sourceTree = "<group>"; };
 		872999790832618900CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Messenger.strings; sourceTree = "<group>"; };
-		8729997A0832618900CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/PantherSearchField.nib; sourceTree = "<group>"; };
 		8729997C0832618900CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/ServicesMenu.strings; sourceTree = "<group>"; };
 		8729997D0832618900CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/TextFind.nib; sourceTree = "<group>"; };
 		8729997E0832618900CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/ThreadData.strings; sourceTree = "<group>"; };
@@ -898,8 +894,6 @@
 		877B78FB08E416C900184BB2 /* BSProgressIndicatorTbItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSProgressIndicatorTbItem.m; sourceTree = "<group>"; };
 		877D634508C4531500DEE475 /* BSSegmentedControlTbItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSSegmentedControlTbItem.h; sourceTree = "<group>"; };
 		877D634608C4531500DEE475 /* BSSegmentedControlTbItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSSegmentedControlTbItem.m; sourceTree = "<group>"; };
-		8782402C0823C0A900C52066 /* CMRNSSearchField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRNSSearchField.h; sourceTree = "<group>"; };
-		8782402D0823C0A900C52066 /* CMRNSSearchField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRNSSearchField.m; sourceTree = "<group>"; };
 		87892BC106BD1FEA00790F2F /* warrior.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warrior.png; sourceTree = "<group>"; };
 		87892BC906BD233600790F2F /* brdfile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = brdfile.png; sourceTree = "<group>"; };
 		878A7567088AA85B00539B6F /* HistoryBack.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = HistoryBack.tiff; sourceTree = "<group>"; };
@@ -1512,7 +1506,6 @@
 				8729991E0832618000CBD740 /* CMRThreadViewerComponents.nib */,
 				872999210832618000CBD740 /* CMXMessageMenu.nib */,
 				872999390832618100CBD740 /* MainMenu.nib */,
-				872999420832618100CBD740 /* PantherSearchField.nib */,
 				8729994B0832618100CBD740 /* TextFind.nib */,
 				872999240832618000CBD740 /* Credits.rtf */,
 				872999270832618100CBD740 /* DateFormater.strings */,
@@ -1651,8 +1644,6 @@
 		87823FA00823A82900C52066 /* Toolbar */ = {
 			isa = PBXGroup;
 			children = (
-				8782402C0823C0A900C52066 /* CMRNSSearchField.h */,
-				8782402D0823C0A900C52066 /* CMRNSSearchField.m */,
 				F324DDC204C698FB00A80005 /* CMRBrowserTbDelegate.h */,
 				F324DDC404C698FB00A80005 /* CMRBrowserTbDelegate_p.h */,
 				F324DDC304C698FB00A80005 /* CMRBrowserTbDelegate.m */,
@@ -2750,7 +2741,6 @@
 				87016252082BE67100AEFDD0 /* CMRNetGrobalLock.h in Headers */,
 				87016254082BE67100AEFDD0 /* CMRAppDelegate_p.h in Headers */,
 				87016255082BE67100AEFDD0 /* CMRAppDelegate.h in Headers */,
-				87016257082BE67100AEFDD0 /* CMRNSSearchField.h in Headers */,
 				87016258082BE67100AEFDD0 /* KFSplitView.h in Headers */,
 				872996590832556100CBD740 /* NSCharacterSet+CMXAdditions.h in Headers */,
 				8729965B0832556100CBD740 /* NSLayoutManager+CMXAdditions.h in Headers */,
@@ -3075,7 +3065,6 @@
 				8729993B0832618100CBD740 /* MainMenu.nib in Resources */,
 				8729993E0832618100CBD740 /* MessageComposer.strings in Resources */,
 				872999410832618100CBD740 /* Messenger.strings in Resources */,
-				872999440832618100CBD740 /* PantherSearchField.nib in Resources */,
 				8729994A0832618100CBD740 /* ServicesMenu.strings in Resources */,
 				8729994D0832618100CBD740 /* TextFind.nib in Resources */,
 				872999500832618100CBD740 /* ThreadData.strings in Resources */,
@@ -3405,7 +3394,6 @@
 				8701637C082BE67100AEFDD0 /* CMRAppDelegate+Menu.m in Sources */,
 				8701637E082BE67100AEFDD0 /* CMRThreadViewer-Validation.m in Sources */,
 				8701637F082BE67100AEFDD0 /* CMRThreadViewer-Find.m in Sources */,
-				87016380082BE67100AEFDD0 /* CMRNSSearchField.m in Sources */,
 				87016381082BE67100AEFDD0 /* KFSplitView.m in Sources */,
 				8729965A0832556100CBD740 /* NSCharacterSet+CMXAdditions.m in Sources */,
 				8729965C0832556100CBD740 /* NSLayoutManager+CMXAdditions.m in Sources */,
@@ -3769,14 +3757,6 @@
 				872999790832618900CBD740 /* Japanese */,
 			);
 			name = Messenger.strings;
-			sourceTree = "<group>";
-		};
-		872999420832618100CBD740 /* PantherSearchField.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8729997A0832618900CBD740 /* Japanese */,
-			);
-			name = PantherSearchField.nib;
 			sourceTree = "<group>";
 		};
 		872999480832618100CBD740 /* ServicesMenu.strings */ = {

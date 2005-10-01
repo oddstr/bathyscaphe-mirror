@@ -40,10 +40,10 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 {
 	return st_toolbar_identifier;
 }
-- (id) m_searchFieldController
+/*- (id) m_searchFieldController
 {
 	return searchFieldController_;
-}
+}*/
 @end
 
 
@@ -75,7 +75,7 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 											   action : NULL
 											   target : wcontroller_];
 
-	[self setupSearchToolbarItem:item_ itemView:[wcontroller_ searchToolbarItem]];
+	[self setupSearchToolbarItem:item_ itemView:[wcontroller_ searchField]];//searchToolbarItem]];
 
 	item_ = [self appendToolbarItemWithItemIdentifier : st_COEItemIdentifier
 									localizedLabelKey : st_COEItemLabelKey

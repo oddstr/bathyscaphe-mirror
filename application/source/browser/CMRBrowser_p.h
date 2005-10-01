@@ -128,11 +128,13 @@
 - (NSTextFieldCell *) dItemAddSheetNameField;
 - (NSTextFieldCell *) dItemAddSheetURLField;
 
-- (id) searchToolbarItem;
-- (NSTextField *) searchTextField;
+//- (id) searchToolbarItem;
+//- (NSTextField *) searchTextField;
 
-- (CMRNSSearchField *) listSorter;
-- (CMRNSSearchField *) listSorterSub;
+- (NSSearchField *) searchField;
+
+//- (CMRNSSearchField *) listSorter;
+//- (CMRNSSearchField *) listSorterSub;
 - (CMRAccessorySheetController *) listSorterSheetController;
 @end
 

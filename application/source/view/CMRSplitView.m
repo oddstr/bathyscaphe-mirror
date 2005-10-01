@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRSplitView.m,v 1.2 2005/09/30 10:52:06 tsawada2 Exp $
+  * $Id: CMRSplitView.m,v 1.3 2005/10/01 15:08:57 tsawada2 Exp $
   * 
   * CMRSplitView.m
   *
@@ -9,8 +9,9 @@
 #import "CMRSplitView.h"
 
 @implementation CMRSplitView
-- (void)kfSetupResizeCursors
+- (void) kfSetupResizeCursors
 {
+	// Mac OS X 10.3 以降なので、より適切なカーソルを使用することができる。
     if (kfIsVerticalResizeCursor == nil)
     {
         kfIsVerticalResizeCursor = [[NSCursor resizeLeftRightCursor] retain];
@@ -21,7 +22,7 @@
     }
 }
 
-- (void) drawDividerInRect:(NSRect)aRect
+- (void) drawDividerInRect : (NSRect) aRect
 {
 	if (![self isVertical]) {
 		// 左のボーダーが欠けるので改めて描く

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.18 2005/09/24 06:07:49 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.19 2005/10/01 15:08:57 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -14,11 +14,17 @@
 #import "CMRMainMenuManager.h"
 #import "BSTitleRulerView.h"
 #import "BSIconAndTextCell.h"
+#import "CMRSearchOptions.h"
 
 // Constants
 #define kBrowserListColumnsPlist        @"browserListColumns.plist"
 #define kChooseColumnAction             @selector(chooseColumn:)
 #define kToolbarSearchFieldItemKey		@"Search Thread"
+// menuItem tags
+#define kSearchPopUpOptionItemTag			11
+#define kSearchPopUpSeparatorTag			22
+#define kSearchPopUpHistoryHeaderItemTag	33
+#define kSearchPopUpHistoryItemTag			44
 
 #pragma mark -
 
@@ -111,59 +117,21 @@
 
 #pragma mark -
 
-- (id) searchToolbarItem
+- (NSSearchField *) searchField
 {
-    return [[self listSorter] pantherSearchField];
-}
-- (NSTextField *) searchTextField
-{
-	return [self searchToolbarItem];
-}
-
-#pragma mark -
-
-- (void) setupThreadsListSorter : (CMRNSSearchField *) sorter
-{
-	[[sorter pantherSearchField] setTarget : self];
-	[[sorter pantherSearchField] setAction : @selector(searchThread:)];
-}
-- (CMRNSSearchField *) listSorter
-{
-    if (nil == m_listSorter) {
-        m_listSorter = [[CMRNSSearchField alloc] init];
-    }
-    [self setupThreadsListSorter : m_listSorter];
-    return m_listSorter;
-}
-- (CMRNSSearchField *) listSorterSub
-{
-	if (nil == m_listSorterSub) {
-        NSView        *view_;
-        NSSize        cSize_;
-        NSSize        wSize_;
-        
-        m_listSorterSub = [[CMRNSSearchField alloc] init];
-        view_ = [m_listSorterSub pantherSearchField];
-        cSize_ = [view_ frame].size;
-        wSize_ = [[self window] frame].size;
-        cSize_.width = wSize_.width / 2;
-        
-        [view_ setFrameSize : cSize_];
-        [view_ setAutoresizingMask : NSViewNotSizable];
-        
-        [self setupThreadsListSorter : m_listSorterSub];
-    }
-    return m_listSorterSub;
+	return m_searchField;
 }
 
 - (CMRAccessorySheetController *) listSorterSheetController
 {
     if (nil == m_listSorterSheetController) {
-        CMRNSSearchField        *sorter_;
 		NSRect                  frame_;
         
-        sorter_ = [self listSorterSub];
-		frame_ = [[sorter_ pantherSearchField] frame];
+		frame_ = [[self searchField] frame];
+
+		// 検索フィールドの幅が 300px より短い場合、一律 300px に固定
+		// CMRBrowser-Action.m の showSearchThreadPanel: との合わせ技なので、そちらも参照
+		if(frame_.size.width < 300) frame_.size.width = 300;
 
         m_listSorterSheetController = 
             [[CMRAccessorySheetController alloc] 
@@ -300,7 +268,7 @@
     
     column_ = [[self threadsListTable] tableColumnWithIdentifier : identifier_];
     if (column_ != nil) {
-        [[self threadsListTable] removeTableColumn : column_];
+       [[self threadsListTable] removeTableColumn : column_];
     } else {
         column_ = [self defaultTableColumnWithIdentifier : identifier_];
         if (nil == column_) return;
@@ -437,9 +405,6 @@
 
 - (void) updateDefaultsWithTableView : (NSTableView *) tbview
 {
-	// [CMRPref threadsListIntercellSpacing] was deprecated in SledgeHammer and later...
-	//[tbview setIntercellSpacing : ];
-	// ...Use SGTemplateResource() instead.
 	id	tmp;
     tmp = SGTemplateResource(kThreadsListTableICSKey);
     UTILAssertRespondsTo(tmp, @selector(stringValue));
@@ -672,8 +637,8 @@
 }
 - (void) setupKeyLoops
 {
-    [[self searchTextField] setNextKeyView : [self threadsListTable]];
-    
+	[[self searchField] setNextKeyView : [self threadsListTable]];
+   
 	if ([self shouldShowContents]) {
 		[[self threadsListTable] setNextKeyView : [self textView]];
 		[[self textView] setNextKeyView : [[self indexingStepper] textField]];
@@ -682,7 +647,7 @@
 		[[self threadsListTable] setNextKeyView : [self boardListTable]];
 	}
 	
-	[[self boardListTable] setNextKeyView : [self searchTextField]];
+	[[self boardListTable] setNextKeyView : [self searchField]];
     
     [[self window] setInitialFirstResponder : [self threadsListTable]];
     [[self window] makeFirstResponder : [self threadsListTable]];
@@ -703,6 +668,114 @@
 
 	[[[self brdListActMenuBtn] cell] setArrowPosition:NSPopUpNoArrow];
 }
+
+- (void) setupSearchFieldMenu
+{
+	NSMenuItem		*hItem1, *hItem2, *hItem3, *hItem5;
+	id				hItem4;
+	
+	BOOL	isIncremental;
+
+	CMRSearchMask searchMasks_[] = {
+									CMRSearchOptionCaseInsensitive,
+									CMRSearchOptionZenHankakuInsensitive,
+									CMRSearchOptionIgnoreSpecified
+								};
+								
+	NSString *itemNameKeys_[] = {
+									@"Case Insensitive",
+									@"Zenkaku/Hankaku Insensitive",
+									@"Ignore Specified"
+								};
+	int				i, cnt;
+	
+	NSMenu	*cellMenu	= [[[NSMenu alloc] initWithTitle : @"Search Menu"] autorelease];
+    id		searchCell	= [[self searchField] cell];
+
+	isIncremental = [CMRPref useIncrementalSearch];
+	[searchCell setSendsWholeSearchString : (NO == isIncremental)];
+	
+	[searchCell setControlSize : NSSmallControlSize];
+	
+	if (!isIncremental) {
+		int maxValu = [CMRPref maxCountForSearchHistory];
+		[searchCell setMaximumRecents : maxValu];
+	}
+
+	cnt = UTILNumberOfCArray(searchMasks_);
+	
+	NSAssert2(
+		cnt == UTILNumberOfCArray(itemNameKeys_),
+		@"searchMasks_[] count expected (%u) but was (%u).",
+		UTILNumberOfCArray(itemNameKeys_),
+		cnt);
+	
+	for (i = 0; i < cnt; i++) {
+		NSString			*label_;
+		NSMenuItem			*item_;
+		NSNumber			*rep_;
+		NSCellStateValue	state_;
+		
+		label_ = [self localizedString : itemNameKeys_[i]];
+		
+		rep_  = [NSNumber numberWithUnsignedInt : searchMasks_[i]];
+		item_ = [[NSMenuItem alloc] initWithTitle : label_
+										   action : @selector(searchToolbarPopupChanged:)
+									keyEquivalent : @""];
+
+		[item_ setTag : kSearchPopUpOptionItemTag];
+		[item_ setRepresentedObject : rep_];
+		
+		state_ = (searchMasks_[i] & [CMRPref threadSearchOption]) ? NSOnState : NSOffState;
+
+		if (CMRSearchOptionCaseInsensitive == searchMasks_[i] || 
+		   CMRSearchOptionZenHankakuInsensitive == searchMasks_[i]) {
+			// 意味が逆になっている。
+			state_ = (state_ == NSOnState) ? NSOffState : NSOnState;
+		}
+		[item_ setState : state_];
+		[cellMenu insertItem:item_ atIndex:i];
+		[item_ release];
+	}
+
+	if (!isIncremental) {
+		[cellMenu insertItem : [NSMenuItem separatorItem] atIndex : cnt];
+
+		hItem1 = [[NSMenuItem alloc] initWithTitle : [self localizedString : @"Search PopUp History Title"]
+											action : NULL
+									 keyEquivalent : @""];
+		[hItem1 setTag : NSSearchFieldRecentsTitleMenuItemTag];
+		[cellMenu insertItem : hItem1 atIndex : (cnt+1)];
+		[hItem1 release];
+
+		hItem2 = [[NSMenuItem alloc] initWithTitle : [self localizedString : @"Search PopUp NoHistory Title"]
+											action : NULL
+									 keyEquivalent : @""];
+		[hItem2 setTag : NSSearchFieldNoRecentsMenuItemTag];
+		[cellMenu insertItem : hItem2 atIndex : (cnt+2)];
+		[hItem2 release];
+
+		hItem3 = [[NSMenuItem alloc] initWithTitle : [self localizedString : @"Search PopUp History Title"]
+											action : NULL
+									 keyEquivalent : @""];
+		[hItem3 setTag : NSSearchFieldRecentsMenuItemTag];
+		[cellMenu insertItem : hItem3 atIndex : (cnt+3)];
+		[hItem3 release];
+
+		hItem4 = [NSMenuItem separatorItem];
+		[hItem4 setTag : NSSearchFieldClearRecentsMenuItemTag];
+		[cellMenu insertItem : hItem4 atIndex : (cnt+4)];
+
+		hItem5 = [[NSMenuItem alloc] initWithTitle : [self localizedString : @"Search Popup History Clear"]
+											action : NULL
+									 keyEquivalent : @""];
+		[hItem5 setTag : NSSearchFieldClearRecentsMenuItemTag];
+		[cellMenu insertItem : hItem5 atIndex : (cnt+5)];
+		[hItem5 release];
+	}
+	
+    [searchCell setSearchMenuTemplate : cellMenu];
+}
 @end
 
 #pragma mark -
@@ -716,6 +789,9 @@
     [self setupThreadsFilterPopUp];
     [self setupThreadsListScrollView];
     [self setUpBoardListToolButtons];
+	
+	[self setupSearchFieldMenu];
+
     [self setupFrameAutosaveName];
     [self setupKeyLoops];
     

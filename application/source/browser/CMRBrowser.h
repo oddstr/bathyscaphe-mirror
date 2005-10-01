@@ -11,7 +11,6 @@
 #import <Cocoa/Cocoa.h>
 #import "RBSplitView.h"
 #import "CMRThreadViewer.h"
-#import "CMRNSSearchField.h"
 
 @class CMRSplitView;
 @class ThreadsListTable;
@@ -46,11 +45,11 @@
 	IBOutlet NSTextFieldCell	*m_dItemAddNameField;
 	IBOutlet NSTextFieldCell	*m_dItemAddURLField;
 	
+	// PrincessBride Addition
+	IBOutlet NSSearchField		*m_searchField;
+	
 	NSString					*_filterString;
 	NSString					*_filterResultMessage;	// added in LeafTicket.
-
-	CMRNSSearchField			*m_listSorter;
-	CMRNSSearchField			*m_listSorterSub;
 	
 	CMRAccessorySheetController	*m_listSorterSheetController;
     // note - these can't be connected in IB

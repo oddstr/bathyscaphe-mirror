@@ -25,7 +25,7 @@ float	imgWidth, imgHeight;
 	NSColor			*color_;
 	NSShadow		*shadow_;
 
-	color_ = ([CMRPref isTitleRulerViewTextUsesBlackColor] ? [NSColor blackColor] : [NSColor whiteColor]);
+	color_ = ([CMRPref titleRulerViewTextUsesBlackColor] ? [NSColor blackColor] : [NSColor whiteColor]);
 
 	shadow_ = [[NSShadow alloc] init];
 	[shadow_ setShadowOffset     : NSMakeSize(1.5, -1.5)];

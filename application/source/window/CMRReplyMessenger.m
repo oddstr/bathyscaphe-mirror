@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyMessenger.m,v 1.4 2005/09/30 18:52:03 tsawada2 Exp $
+  * $Id: CMRReplyMessenger.m,v 1.5 2005/10/01 15:08:57 tsawada2 Exp $
   * 
   * CMRReplyMessenger.m
   *
@@ -225,7 +225,8 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 		
 		[self replaceInfoDictionary : dict_];
 		[self synchronizeWindowControllersFromDocument];
-		// ここで be ログインの設定をする？
+		// ここで be ログインの設定をする？（be ログインの設定をスレごとに記憶することはしない。
+		// あくまでも板ごとの設定（それがなければ、グローバルな設定）に従う。
 		[self setUpBeLoginSetting];
 		return (dict_ != nil);
 	}

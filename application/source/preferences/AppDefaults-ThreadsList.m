@@ -95,7 +95,7 @@ static NSString *const AppDefaultsTRViewTextUsesBlackColorKey = @"ThreadTitleBar
 			 forKey : AppDefaultsUseIncrementalSearchKey];
 }
 #pragma mark PrincessBride Additions
-- (BOOL) isTitleRulerViewTextUsesBlackColor
+- (BOOL) titleRulerViewTextUsesBlackColor
 {
 	return [[self defaults] boolForKey : AppDefaultsTRViewTextUsesBlackColorKey
 						  defaultValue : NO];

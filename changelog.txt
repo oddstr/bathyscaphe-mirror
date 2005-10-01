@@ -1,4 +1,13 @@
 2005-10-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/browser/CMRBrowser.m
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+		検索フィールド周りを整理し直し、よりシンプルなコードに。
+		- 検索フィールド周りからのメモリリークも潰れたと思う。
+	* application/source/window/CMRNSSearchField.m
+	* application/Resources/Japanese.lproj/PantherSearchField.nib
+		[削除] このクラスと nib ファイルは、Browser.nib/CMRBrowser クラスに統合し、削除。
+		- いままで独立していたのは、CocoMonar 時代、Jaguar との互換性を確保するためだった。もうそんな気遣いは無用だ :-)
 	* application/source/manager/CookieManager.m
 	* application/source/window/CMRReplyController-ViewAccessor.m
 	* application/source/window/CMRReplyController.m

@@ -11,11 +11,11 @@
 #import <Foundation/Foundation.h>
 #import "CMRThreadViewerTbDelegate.h"
 
-@class CMRNSSearchField;
+//@class CMRNSSearchField;
 
 @interface CMRBrowserTbDelegate : CMRThreadViewerTbDelegate
 {
 	// Panther à»ç~Ç≈ÇÕ NSSearchField ÇégópÇ∑ÇÈ
-	CMRNSSearchField *searchFieldController_;
+	//CMRNSSearchField *searchFieldController_;
 }
 @end

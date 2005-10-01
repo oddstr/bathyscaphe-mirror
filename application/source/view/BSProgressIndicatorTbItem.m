@@ -7,18 +7,9 @@
 //
 
 #import "BSProgressIndicatorTbItem.h"
-//#import "CMRTaskManager.h"
 #import "CMRStatusLineWindowController_p.h"
 
 @implementation BSProgressIndicatorTbItem
-/*- (void) validate
-{
-	if ([[self toolbar] customizationPaletteIsRunning])
-		[(NSProgressIndicator *)[self view] setDisplayedWhenStopped : YES];
-	else
-		[(NSProgressIndicator *)[self view] setDisplayedWhenStopped : NO];
-}*/
-
 - (void) setupItemViewWithTarget : (id) windowController_
 {
 	id	part_;

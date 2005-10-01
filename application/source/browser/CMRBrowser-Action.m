@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.18 2005/09/28 16:29:35 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.19 2005/10/01 15:08:57 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -11,10 +11,12 @@
 #import "CMRHistoryManager.h"
 #import "CMRThreadsList_p.h"
 
+/*
 enum {
 	kShowsBoardListInSheet,
 	kShowsSearchFieldInSheet
 };
+*/
 
 @implementation CMRBrowser(Action)
 - (IBAction) focus : (id) sender
@@ -70,13 +72,6 @@ enum {
                 byExtendingSelection : NO];
     [[self boardListTable] scrollRowToVisible : index];
 }
-
-// Deprecated in LeafTicket and later.
-// cf.474(6th thread)
-/*- (IBAction) clear : (id) sender
-{
-	[self deleteThread : nil];
-}*/
 
 - (void) openThreadsInThreadWidnow : (NSArray *) threads
 {
@@ -422,18 +417,24 @@ enum {
 {
 	if ([self ifSearchFieldIsInToolbar]) {
 		// ツールバーに検索フィールドが見えているときは、単にそこにフォーカスを移動するだけ（シートは表示しない）
-		[[self searchTextField] selectText : sender];
+		[[self searchField] selectText : sender];
 	} else {
 		id		contentView_;
-		id		info_;
+		//id		info_;
+		NSRect	frame_;
 
-		contentView_ = [[self searchTextField] retain];
-		info_ = [NSNumber numberWithInt : kShowsSearchFieldInSheet];
+		contentView_ = [[self searchField] retain];
+		// 検索フィールドの幅が 300px より短い場合は、一律 300px に固定して表示
+		// それより長い場合は、そのまま表示
+		frame_ = [contentView_ frame];
+		if (frame_.size.height < 300)
+			[contentView_ setFrameSize : NSMakeSize(300, frame_.size.height)];
+		//info_ = [NSNumber numberWithInt : kShowsSearchFieldInSheet];
 
 		[[self listSorterSheetController] beginSheetModalForWindow : [self window]
 													 modalDelegate : self
 													   contentView : contentView_
-													   contextInfo : info_];
+													   contextInfo : nil];//info_];
 		[contentView_ release];
 	}
 }
@@ -443,7 +444,7 @@ enum {
 		contentView : (NSView					 *) contentView
 		contextInfo : (id						  ) info;
 {
-	int		status_;
+	/*int		status_;
 	
 	UTILAssertKindOfClass(info, NSNumber);
 	
@@ -456,7 +457,7 @@ enum {
 	}
 	default :
 		break;
-	}
+	}*/
 }
 
 #pragma mark -
