@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.9 2005/09/29 19:29:09 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.10 2005/10/01 15:58:51 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -73,7 +73,13 @@ NSString *const CMRThreadViewerDidChangeThreadNotification  = @"CMRThreadViewerD
 
 - (NSString *) windowTitleForDocumentDisplayName : (NSString *) displayName
 {
-	return ([self title] != nil) ? [self title] : displayName;
+	NSString *bName_ = [self boardName];
+	NSString *tTitle_ = [self title];
+
+	if ((bName_ == nil) || (tTitle_ == nil))
+		return displayName;
+
+	return [NSString stringWithFormat:@"%@ - %@", tTitle_, bName_];
 }
 
 /**

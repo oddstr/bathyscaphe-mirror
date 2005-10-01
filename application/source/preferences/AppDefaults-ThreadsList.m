@@ -8,7 +8,6 @@
   */
 
 #import "AppDefaults_p.h"
-#import "CMRNSSearchField.h"
 
 
 static NSString *const AppDefaultsThreadsListSettingsKey = @"Preferences - ThreadsListSettings";

@@ -1,3 +1,6 @@
+2005-10-02 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer.m
+		別ウインドウでスレッドを開いたとき、タイトルバーにスレッドタイトルだけでなく板名も表示するようにした（883@6th）。
 2005-10-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-Action.m
 	* application/source/browser/CMRBrowser.m
