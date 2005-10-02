@@ -8,24 +8,25 @@
   *
   */
 #import "CMRBrowser.h"
-#import "CMRThreadViewer_p.h";
+#import "CMRThreadViewer_p.h"
 
 #import "AppDefaults.h"
-#import "BoardManager.h";
+#import "BoardManager.h"
 #import "BoardList.h"
 
 #import "Browser.h"
 #import "CMRThreadDocument.h"
 
-#import "CMRBrowserTbDelegate.h";
-#import "CMRThreadsList.h";
-#import "CMXDateFormatter.h";
+#import "CMRBrowserTbDelegate.h"
+#import "CMRThreadsList.h"
+#import "CMXDateFormatter.h"
 
-#import "ThreadsListTable.h";
-#import "CMRSplitView.h";
-#import "CMXScrollView.h";
-#import "CMRAccessorySheetController.h";
+#import "ThreadsListTable.h"
+#import "CMRSplitView.h"
+#import "CMXScrollView.h"
+#import "CMRAccessorySheetController.h"
 
+#import "CMRSearchOptions.h"
 
 #define APP_BROWSER_WINDOW_AUTOSAVE_NAME			@"CocoMonar:Browser Window Autosave"
 #define APP_BROWSER_SPVIEW_AUTOSAVE_NAME			@"CocoMonar:Browser SplitView Autosave"
@@ -38,17 +39,18 @@
 
 // 前回最後に開いていた掲示板を開くよう指示する通知
 #define kSelectLastBBSNotification @"kSelectLastBBSNotification"
+
 // 掲示板リストの編集
 #define kEditDrawerTitleKey					@"Edit Title"
 #define kAddCategoryTitleKey				@"Add Category Title"
 
-#define kEditDrawerItemMsgForAdditionKey			@"Add Category Msg"
+#define kEditDrawerItemMsgForAdditionKey	@"Add Category Msg"
 
-#define kEditDrawerItemMsgForBoardKey			@"Edit Board Msg"
-#define kEditDrawerItemTitleForBoardKey			@"PleaseInputURL"
+#define kEditDrawerItemMsgForBoardKey		@"Edit Board Msg"
+#define kEditDrawerItemTitleForBoardKey		@"PleaseInputURL"
 
-#define kEditDrawerItemMsgForCategoryKey			@"Edit Category Msg"
-#define kEditDrawerItemTitleForCategoryKey			@"PleaseInputName"
+#define kEditDrawerItemMsgForCategoryKey	@"Edit Category Msg"
+#define kEditDrawerItemTitleForCategoryKey	@"PleaseInputName"
 
 #define kRemoveDrawerItemTitleKey			@"Browser Del Drawer Item Title"
 #define kRemoveDrawerItemMsgKey				@"Browser Del Drawer Item Message"
@@ -59,8 +61,19 @@
 #define kThreadsListTableDoubleActionKey	@"Browser - ListViewDoubleAction"
 
 // Localized
-#define kSearchListNotFoundKey	@"Search Thread Not Found"
-#define kSearchListResultKey	@"Search Thread Result"
+#define kSearchListNotFoundKey				@"Search Thread Not Found"
+#define kSearchListResultKey				@"Search Thread Result"
+
+//:CMRBrowser-ViewAccessor.m
+// TableView Columns
+#define kBrowserListColumnsPlist			@"browserListColumns.plist"
+#define kChooseColumnAction					@selector(chooseColumn:)
+#define kToolbarSearchFieldItemKey			@"Search Thread"
+// menuItem tags
+#define kSearchPopUpOptionItemTag			11
+#define kSearchPopUpSeparatorTag			22
+#define kSearchPopUpHistoryHeaderItemTag	33
+#define kSearchPopUpHistoryItemTag			44
 
 //:CMRBrowser-List.m
 @interface CMRBrowser(List)
@@ -70,7 +83,7 @@
 - (void) setCurrentThreadsList : (CMRThreadsList *) newList;
 
 - (void) showThreadsListForBoard : (NSDictionary *) board;
-- (void) showThreadsListWithBBSSignature : (CMRBBSSignature *) aSignature;
+- (void) showThreadsListWithBoardName : (NSString *) boardName;
 @end
 
 
@@ -128,19 +141,12 @@
 - (NSTextFieldCell *) dItemAddSheetNameField;
 - (NSTextFieldCell *) dItemAddSheetURLField;
 
-//- (id) searchToolbarItem;
-//- (NSTextField *) searchTextField;
-
 - (NSSearchField *) searchField;
-
-//- (CMRNSSearchField *) listSorter;
-//- (CMRNSSearchField *) listSorterSub;
 - (CMRAccessorySheetController *) listSorterSheetController;
 @end
 
 @interface CMRBrowser(UIComponents)
 - (void) setupLoadedComponents;
-- (BOOL) ifSearchFieldIsInToolbar;
 @end
 
 @interface CMRBrowser(TableColumnInitializer)
@@ -166,6 +172,4 @@
 - (void) setupBoardListTable;
 
 - (void) setupFrameAutosaveName;
-//- (void) setUpBoardListToolButtons;
-
 @end

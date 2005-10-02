@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.m,v 1.5 2005/09/24 06:07:49 tsawada2 Exp $
+  * $Id: Browser.m,v 1.6 2005/10/02 12:24:49 tsawada2 Exp $
   * 
   * Browser.m
   *
@@ -159,11 +159,11 @@
 }
 - (void) setBoardNameAsString : (NSString *) boardNameStr
 {
-	CMRBBSSignature		*signature_;
+	//CMRBBSSignature		*signature_;
 	
-	signature_ = [CMRBBSSignature BBSSignatureWithName : boardNameStr];
+	//signature_ = [CMRBBSSignature BBSSignatureWithName : boardNameStr];
 	//CMRMainBrowser は、現在のメイン・ブラウザのインスタンス。(see CMRBrowser.m)
-	[CMRMainBrowser showThreadsListWithBBSSignature : signature_];
+	[CMRMainBrowser showThreadsListWithBoardName : boardNameStr];
 	//掲示板リストの選択行も正しく同期させる
 	[CMRMainBrowser selectRowWhoseNameIs : boardNameStr];
 }

@@ -1,4 +1,13 @@
 2005-10-02 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/image/Status_logcached.png
+	* application/Resources/image/Status_updated.png
+	* application/Resources/image/Status_newThread.png
+		初代スレ109＝6スレ924さんのステータスアイコンを新しいデフォルトアイコンに採用。
+	* application/source/browser/CMRBrowser-List.m
+		- (void) showThreadsListWithBBSSignature:(CMRBBSSignature*)aBBSSignature は廃止し、
+		- (void) showThreadsListWithBoardName:(NSString*)boardName を新設。
+================================================= PrincessBride
+2005-10-02 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadViewer.m
 		別ウインドウでスレッドを開いたとき、タイトルバーにスレッドタイトルだけでなく板名も表示するようにした（883@6th）。
 2005-10-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>

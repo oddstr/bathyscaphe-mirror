@@ -76,6 +76,8 @@
 - (void) synchronizeWithSearchField;
 - (void) searchThreadWithString : (NSString *) aString;
 
+- (BOOL) ifSearchFieldIsInToolbar;
+
 - (IBAction) selectFilteringMask : (id) sender;
 - (IBAction) searchToolbarPopupChanged : (id) sender;
 - (IBAction) searchThread : (id) sender;

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.19 2005/10/01 15:08:57 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.20 2005/10/02 12:24:49 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -14,19 +14,6 @@
 #import "CMRMainMenuManager.h"
 #import "BSTitleRulerView.h"
 #import "BSIconAndTextCell.h"
-#import "CMRSearchOptions.h"
-
-// Constants
-#define kBrowserListColumnsPlist        @"browserListColumns.plist"
-#define kChooseColumnAction             @selector(chooseColumn:)
-#define kToolbarSearchFieldItemKey		@"Search Thread"
-// menuItem tags
-#define kSearchPopUpOptionItemTag			11
-#define kSearchPopUpSeparatorTag			22
-#define kSearchPopUpHistoryHeaderItemTag	33
-#define kSearchPopUpHistoryItemTag			44
-
-#pragma mark -
 
 @implementation CMRBrowser(ViewAccessor)
 - (CMRThreadViewer *) threadViewer
@@ -71,6 +58,11 @@
 	return m_splitterBtn;
 }
 
+- (NSSearchField *) searchField
+{
+	return m_searchField;
+}
+
 - (NSMenu *) listContextualMenu
 {
     return m_listContextualMenu;
@@ -80,7 +72,26 @@
     return m_drawerContextualMenu;
 }
 
-#pragma mark -
+- (CMRAccessorySheetController *) listSorterSheetController
+{
+    if (nil == m_listSorterSheetController) {
+		NSRect                  frame_;
+        
+		frame_ = [[self searchField] frame];
+
+		// 検索フィールドの幅が 300px より短い場合、一律 300px に固定
+		// CMRBrowser-Action.m の showSearchThreadPanel: との合わせ技なので、そちらも参照
+		if(frame_.size.width < 300) frame_.size.width = 300;
+
+        m_listSorterSheetController = 
+            [[CMRAccessorySheetController alloc] 
+                    initWithContentSize : frame_.size
+                           resizingMask : NSViewNotSizable];
+    }
+    return m_listSorterSheetController;
+}
+
+#pragma mark BoardList Editing
 
 - (NSWindow *) drawerItemEditSheet
 {
@@ -114,32 +125,6 @@
 {
 	return m_dItemAddURLField;
 }
-
-#pragma mark -
-
-- (NSSearchField *) searchField
-{
-	return m_searchField;
-}
-
-- (CMRAccessorySheetController *) listSorterSheetController
-{
-    if (nil == m_listSorterSheetController) {
-		NSRect                  frame_;
-        
-		frame_ = [[self searchField] frame];
-
-		// 検索フィールドの幅が 300px より短い場合、一律 300px に固定
-		// CMRBrowser-Action.m の showSearchThreadPanel: との合わせ技なので、そちらも参照
-		if(frame_.size.width < 300) frame_.size.width = 300;
-
-        m_listSorterSheetController = 
-            [[CMRAccessorySheetController alloc] 
-                    initWithContentSize : frame_.size
-                           resizingMask : NSViewNotSizable];
-    }
-    return m_listSorterSheetController;
-}
 @end
 
 #pragma mark -
@@ -158,39 +143,7 @@
     [[self splitView] addSubview : containerView_];
     [containerView_ release];
 }
-
-
-- (BOOL) ifSearchFieldIsInToolbar
-{
-	/*
-		2005-02-01 tsawada2<ben-sawa@td5.so-net.ne.jp>
-		ツールバーに検索フィールドが表示されているかチェックして真偽値を返す。
-		ここで「表示されている」とは、以下のすべての条件を満たすときに限る：
-		1.ツールバーの表示モードが「アイコンとテキスト」または「アイコンのみ」
-		2.検索フィールドがツールバーからはみ出していない
-	*/
-	NSToolbar	*toolBar_;
-	
-	toolBar_ = [[self window] toolbar];
-	if (nil == toolBar_) return NO;
-	
-	if ([toolBar_ isVisible] == NO || [toolBar_ displayMode] == NSToolbarDisplayModeLabelOnly) {
-		return NO;
-	} else {
-		id obj;
-		NSEnumerator *enumerator_;
-
-		enumerator_ = [[toolBar_ visibleItems] objectEnumerator];
-		while((obj = [enumerator_ nextObject]) != nil) {
-			if ([[obj itemIdentifier] isEqualToString : kToolbarSearchFieldItemKey])
-				return YES;
-		}
-		return NO;
-	}
-}
 @end
-
-#pragma mark -
 
 @implementation CMRBrowser(TableColumnInitializer)
 - (NSArray *) defaultColumnsArray
@@ -371,8 +324,6 @@
 }
 @end
 
-#pragma mark -
-
 @implementation CMRBrowser(ViewInitializer)
 + (Class) toolbarDelegateImpClass
 {
@@ -461,7 +412,7 @@
                         alignment : CMXScrollViewHorizontalRight];
 }
 
-#pragma mark -
+#pragma mark Threads Filter Popup
 
 - (void) setupThreadsFilterPopUpButton : (NSPopUpButton *) popUpBtn
 {
@@ -526,7 +477,7 @@
     [self setupThreadsFilterPopUpButtonItems : [self threadsFilterPopUp]];
 }
 
-#pragma mark -
+#pragma mark BoardList
 
 - (void) setupBoardListOutlineView : (NSOutlineView *) outlineView
 {
@@ -587,10 +538,9 @@
         NSLog(@"Last Board Setting not found.");
         return;
     }
-    [self showThreadsListWithBBSSignature : lastBoard];
     
-    // Select
     boardName = [lastBoard name];
+    [self showThreadsListWithBoardName : boardName];
 	[self selectRowWhoseNameIs : boardName];
 }
 
@@ -622,7 +572,19 @@
     [self setupBoardListTableLastSelected];
 }
 
-#pragma mark -
+- (void) setUpBoardListToolButtons
+{
+	CMRPullDownIconBtn	*cell_;
+	
+	cell_ = [[CMRPullDownIconBtn alloc] initTextCell : @"" pullsDown:YES];
+    [cell_ setAttributesFromCell : [[self brdListActMenuBtn] cell]];
+    [[self brdListActMenuBtn] setCell : cell_];
+    [cell_ release];
+
+	[[[self brdListActMenuBtn] cell] setArrowPosition:NSPopUpNoArrow];
+}
+
+#pragma mark Window, KeyLoop, and Search Menu
 
 /*- (void) setupStatusLine
 {
@@ -655,18 +617,6 @@
 - (void) setWindowFrameUsingCache
 {
     return;
-}
-
-- (void) setUpBoardListToolButtons
-{
-	CMRPullDownIconBtn	*cell_;
-	
-	cell_ = [[CMRPullDownIconBtn alloc] initTextCell : @"" pullsDown:YES];
-    [cell_ setAttributesFromCell : [[self brdListActMenuBtn] cell]];
-    [[self brdListActMenuBtn] setCell : cell_];
-    [cell_ release];
-
-	[[[self brdListActMenuBtn] cell] setArrowPosition:NSPopUpNoArrow];
 }
 
 - (void) setupSearchFieldMenu

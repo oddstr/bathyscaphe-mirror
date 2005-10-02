@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.19 2005/10/01 15:08:57 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.20 2005/10/02 12:24:49 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -11,44 +11,10 @@
 #import "CMRHistoryManager.h"
 #import "CMRThreadsList_p.h"
 
-/*
-enum {
-	kShowsBoardListInSheet,
-	kShowsSearchFieldInSheet
-};
-*/
-
 @implementation CMRBrowser(Action)
 - (IBAction) focus : (id) sender
 {
     [[self window] makeFirstResponder : [[self threadsListTable] enclosingScrollView]];
-}
-
-// History Menu
-- (IBAction) showThreadWithMenuItem : (id) sender
-{
-	// 他の板のスレッドに移動することを考え、スレ一覧での選択状態を解除しておく
-	if ([self shouldShowContents]) {
-		[[self threadsListTable] deselectAll: nil];
-		[super showThreadWithMenuItem : sender];
-	} else {
-		id historyItem = nil;
-
-		if ([sender respondsToSelector : @selector(representedObject)]) {
-			id o = [sender representedObject];
-			historyItem = o;
-		}
-		
-		NSDictionary	*info_;
-		NSString *path_ = [historyItem threadDocumentPath];
-		
-		info_ = [NSDictionary dictionaryWithObjectsAndKeys : 
-						[historyItem BBSName] ,	ThreadPlistBoardNameKey,
-						[historyItem identifier],	ThreadPlistIdentifierKey,
-						nil];
-		[CMRThreadDocument showDocumentWithContentOfFile : path_
-											 contentInfo : info_];	
-	}
 }
 
 - (void) selectRowWhoseNameIs : (NSString *) brdname_
@@ -71,6 +37,22 @@ enum {
     [[self boardListTable] selectRow : index 
                 byExtendingSelection : NO];
     [[self boardListTable] scrollRowToVisible : index];
+}
+
+- (IBAction) reloadThreadsList : (id) sender
+{
+	[[self document] reloadThreadsList];
+	
+	int row_ = [[self threadsListTable] selectedRow];
+	int mask_ = [CMRPref threadsListAutoscrollMask];
+	
+	if ((mask_ & CMRAutoscrollWhenTLUpdate) > 0 && row_ != -1){
+		// リストで選択されている項目までスクロール
+		[[self threadsListTable] scrollRowToVisible : row_];
+	}else{
+		// リストの先頭までスクロール
+		[[self threadsListTable] scrollRowToVisible : 0];
+	}
 }
 
 - (void) openThreadsInThreadWidnow : (NSArray *) threads
@@ -115,6 +97,19 @@ enum {
 	}
 		return result;
 }
+
+- (IBAction) openBBSInBrowser : (id) sender
+{
+	NSURL		*url_;
+	
+	url_ = [[self document] boardURL];
+	if (url_ != nil) {
+		[[NSWorkspace sharedWorkspace] openURL : url_ inBackGround : [CMRPref openInBg]];
+	} else {
+		[super openBBSInBrowser : sender];
+	}
+}
+
 - (IBAction) openLogfile : (id) sender
 {
 	[self openThreadsLogFiles :  [self targetThreadsForAction : _cmd]];
@@ -194,7 +189,34 @@ enum {
 		[self openSelectedThreads : sender];
 	}
 }
+#pragma mark History Menu
+- (IBAction) showThreadWithMenuItem : (id) sender
+{
+	// 他の板のスレッドに移動することを考え、スレ一覧での選択状態を解除しておく
+	if ([self shouldShowContents]) {
+		[[self threadsListTable] deselectAll: nil];
+		[super showThreadWithMenuItem : sender];
+	} else {
+		id historyItem = nil;
 
+		if ([sender respondsToSelector : @selector(representedObject)]) {
+			id o = [sender representedObject];
+			historyItem = o;
+		}
+		
+		NSDictionary	*info_;
+		NSString *path_ = [historyItem threadDocumentPath];
+		
+		info_ = [NSDictionary dictionaryWithObjectsAndKeys : 
+						[historyItem BBSName] ,	ThreadPlistBoardNameKey,
+						[historyItem identifier],	ThreadPlistIdentifierKey,
+						nil];
+		[CMRThreadDocument showDocumentWithContentOfFile : path_
+											 contentInfo : info_];	
+	}
+}
+
+#pragma mark Filter, Search Popup
 - (IBAction) selectFilteringMask : (id) sender
 {
 	NSPopUpButton	*popUpButton_;
@@ -242,7 +264,7 @@ enum {
 	}
 	
 }
-
+#pragma mark Deletion
 - (IBAction) forceDeleteThread : (id) sender
 {
 	NSString *thePath_ = [self path];
@@ -352,7 +374,7 @@ enum {
 	
 }
 
-#pragma mark -
+#pragma mark Search
 
 - (void) showSearchResultAppInfoWithFound : (BOOL) aResult
 {	
@@ -412,6 +434,35 @@ enum {
 	[self searchThreadWithString : [sender stringValue]];
 }
 
+- (BOOL) ifSearchFieldIsInToolbar
+{
+	/*
+		2005-02-01 tsawada2<ben-sawa@td5.so-net.ne.jp>
+		ツールバーに検索フィールドが表示されているかチェックして真偽値を返す。
+		ここで「表示されている」とは、以下のすべての条件を満たすときに限る：
+		1.ツールバーの表示モードが「アイコンとテキスト」または「アイコンのみ」
+		2.検索フィールドがツールバーからはみ出していない
+	*/
+	NSToolbar	*toolBar_;
+	
+	toolBar_ = [[self window] toolbar];
+	if (nil == toolBar_) return NO;
+	
+	if ([toolBar_ isVisible] == NO || [toolBar_ displayMode] == NSToolbarDisplayModeLabelOnly) {
+		return NO;
+	} else {
+		id obj;
+		NSEnumerator *enumerator_;
+
+		enumerator_ = [[toolBar_ visibleItems] objectEnumerator];
+		while((obj = [enumerator_ nextObject]) != nil) {
+			if ([[obj itemIdentifier] isEqualToString : kToolbarSearchFieldItemKey])
+				return YES;
+		}
+		return NO;
+	}
+}
+
 // リスト検索：シート表示
 - (IBAction) showSearchThreadPanel : (id) sender
 {
@@ -420,7 +471,6 @@ enum {
 		[[self searchField] selectText : sender];
 	} else {
 		id		contentView_;
-		//id		info_;
 		NSRect	frame_;
 
 		contentView_ = [[self searchField] retain];
@@ -429,12 +479,11 @@ enum {
 		frame_ = [contentView_ frame];
 		if (frame_.size.height < 300)
 			[contentView_ setFrameSize : NSMakeSize(300, frame_.size.height)];
-		//info_ = [NSNumber numberWithInt : kShowsSearchFieldInSheet];
 
 		[[self listSorterSheetController] beginSheetModalForWindow : [self window]
 													 modalDelegate : self
 													   contentView : contentView_
-													   contextInfo : nil];//info_];
+													   contextInfo : nil];
 		[contentView_ release];
 	}
 }
@@ -444,23 +493,10 @@ enum {
 		contentView : (NSView					 *) contentView
 		contextInfo : (id						  ) info;
 {
-	/*int		status_;
-	
-	UTILAssertKindOfClass(info, NSNumber);
-	
-	status_ = [info intValue];
-	switch(status_) {
-	case kShowsBoardListInSheet :
-		break;
-	case kShowsSearchFieldInSheet :{
-		break;
-	}
-	default :
-		break;
-	}*/
+
 }
 
-#pragma mark -
+#pragma mark View Menu
 
 - (IBAction) changeBrowserArrangement : (id) sender
 {
@@ -755,33 +791,6 @@ enum {
 }
 
 #pragma mark -
-
-- (IBAction) reloadThreadsList : (id) sender
-{
-	[[self document] reloadThreadsList];
-	
-	int row_ = [[self threadsListTable] selectedRow];
-	int mask_ = [CMRPref threadsListAutoscrollMask];
-	
-	if ((mask_ & CMRAutoscrollWhenTLUpdate) > 0 && row_ != -1){
-		// リストで選択されている項目までスクロール
-		[[self threadsListTable] scrollRowToVisible : row_];
-	}else{
-		// リストの先頭までスクロール
-		[[self threadsListTable] scrollRowToVisible : 0];
-	}
-}
-- (IBAction) openBBSInBrowser : (id) sender
-{
-	NSURL		*url_;
-	
-	url_ = [[self document] boardURL];
-	if (url_ != nil) {
-		[[NSWorkspace sharedWorkspace] openURL : url_ inBackGround : [CMRPref openInBg]];
-	} else {
-		[super openBBSInBrowser : sender];
-	}
-}
 
 /*
 NSTableView action, doubleAction はカラムのクリックでも

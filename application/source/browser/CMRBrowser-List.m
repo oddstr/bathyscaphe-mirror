@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.5 2005/09/24 06:07:49 tsawada2 Exp $
+  * $Id: CMRBrowser-List.m,v 1.6 2005/10/02 12:24:49 tsawada2 Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -61,31 +61,31 @@
 				  object : aBoardIdentifier];
 	UTILNotifyName(CMRBrowserDidChangeBoardNotification);
 }
-- (void) showThreadsListWithBBSSignature : (CMRBBSSignature *) aSignature
+- (void) showThreadsListWithBoardName : (NSString *) boardName
 {
+	CMRBBSSignature		*signature_;
 	CMRThreadsList		*list_;
 	NSString			*sortColumnIdentifier_;
-	NSString			*bName_;
 	BOOL				isAscending_;
 	
-	if(nil == aSignature) return;
-	if([[[self currentThreadsList] BBSSignature] isEqual : aSignature]){
+	if(nil == boardName) return;
+	signature_ = [CMRBBSSignature BBSSignatureWithName : boardName];
+	if([[[self currentThreadsList] BBSSignature] isEqual : signature_]){
 		return;
 	}
 	
-	bName_ = [aSignature name];
 	[[self threadsListTable] deselectAll : nil];
 	[[self threadsListTable] setDataSource : nil];
 	
-	list_ = [CMRThreadsList threadsListWithBBSSignature : aSignature];
+	list_ = [CMRThreadsList threadsListWithBBSSignature : signature_];
 	if(nil == list_)
 		return;
 	
 	[self setCurrentThreadsList : list_];
 	
 	// sort column change
-	sortColumnIdentifier_ = [[BoardManager defaultManager] sortColumnForBoard : bName_];
-	isAscending_ = [[BoardManager defaultManager] sortColumnIsAscendingAtBoard : bName_];
+	sortColumnIdentifier_ = [[BoardManager defaultManager] sortColumnForBoard : boardName];
+	isAscending_ = [[BoardManager defaultManager] sortColumnIsAscendingAtBoard : boardName];
 	
 	[list_ setIsAscending : isAscending_];
 	[self changeHighLightedTableColumnTo : sortColumnIdentifier_ isAscending : isAscending_];
@@ -95,19 +95,17 @@
 	
 	// リストの読み込みを開始する。
 	[list_ startLoadingThreadsList : [self threadLayout]];
-	[self boardChanged : aSignature];
+	[self boardChanged : signature_];
 }
 
 - (void) showThreadsListForBoard : (NSDictionary *) board;
 {
 	NSString			*bname_;
-	CMRBBSSignature		*signature_;
 	
 	bname_ = [board objectForKey : BoardPlistNameKey];
 	if(nil == bname_) return;
 	
-	signature_ = [CMRBBSSignature BBSSignatureWithName : bname_];
-	[self showThreadsListWithBBSSignature : signature_];
+	[self showThreadsListWithBoardName : bname_];
 }
 @end
 
