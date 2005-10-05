@@ -89,7 +89,7 @@ float	imgWidth, imgHeight;
 
 #pragma mark -
 
-- (id) initWithScrollView : (NSScrollView *) scrollView
+- (id) initWithScrollView : (NSScrollView *) scrollView ofBrowser : (CMRBrowser *) browser
 {
 	[self setTitleStr : NSLocalizedString(kTitleRulerViewDefaultTitleKey, @"BathyScaphe")];
 	[self setBgImage : ([self isGraphiteNow] ? [NSImage imageAppNamed : kTRViewBgImgGraphiteKey]
@@ -105,7 +105,7 @@ float	imgWidth, imgHeight;
 	     addObserver : self
 	        selector : @selector(threadViewerDidChangeThread:)
 	            name : CMRThreadViewerDidChangeThreadNotification
-	          object : nil];
+	          object : browser]; // 通知の発信元が browser のもののみ観察する
 
 	[[NSNotificationCenter defaultCenter]
 	     addObserver : self
@@ -133,24 +133,19 @@ float	imgWidth, imgHeight;
 
 - (void) threadViewerDidChangeThread : (NSNotification *) theNotification
 {
-	// ブラウザのスレ表示領域が切り替わったときだけ、スレッドタイトルを更新する。
-	// 全部の通知に反応してしまうと、別ウインドウでスレが切り替わった際にもスレッドタイトルが
-	// （その別ウインドウのものに）変わってしまう！
-	if ([[theNotification object] class] == [CMRBrowser class]) {
-		NSString				*title_, *bName_;
-		CMRThreadAttributes		*threadAttributes_;
+	NSString				*title_, *bName_;
+	CMRThreadAttributes		*threadAttributes_;
 
-		threadAttributes_ = [[theNotification object] threadAttributes];
-		title_ = [threadAttributes_ threadTitle];
-		bName_ = [threadAttributes_ boardName];
-		if(nil == title_)
-			title_ = @"Title is nil";
-		if(nil == bName_)
-			bName_ = @"Board name is nil";
-		
-		[self setTitleStr : [[NSString alloc] initWithFormat : @"%@ - %@", title_, bName_]];
-		[self setNeedsDisplay : YES];	// 再描画させるのが大切
-	}
+	threadAttributes_ = [[theNotification object] threadAttributes];
+	title_ = [threadAttributes_ threadTitle];
+	bName_ = [threadAttributes_ boardName];
+	if(nil == title_)
+		title_ = @"Title is nil";
+	if(nil == bName_)
+		bName_ = @"Board name is nil";
+
+	[self setTitleStr : [[NSString alloc] initWithFormat : @"%@ - %@", title_, bName_]];
+	[self setNeedsDisplay : YES];	// 再描画させるのが大切
 }
 
 - (void) userDidChangeSystemColors : (NSNotification *) theNotification

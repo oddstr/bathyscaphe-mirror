@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.20 2005/10/02 12:24:49 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.21 2005/10/05 21:21:53 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -338,8 +338,8 @@
 	CMXScrollView *scView = [self scrollView];
 	id ruler;
 	[[scView class] setRulerViewClass : [BSTitleRulerView class]];
-	ruler = [[BSTitleRulerView alloc] initWithScrollView:scView];
-	[scView setHorizontalRulerView:ruler];
+	ruler = [[BSTitleRulerView alloc] initWithScrollView : scView ofBrowser : self];
+	[scView setHorizontalRulerView : ruler];
 
 	[super setupScrollView];
 	[scView setHasHorizontalRuler : YES];

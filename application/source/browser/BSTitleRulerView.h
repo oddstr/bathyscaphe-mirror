@@ -27,11 +27,12 @@
 }
 
 /*!
-    @method     initWithScrollView:
+    @method     initWithScrollView:ofBrowser:
     @abstract   Designated initializer for the BSTitleRulerView class. 
     @discussion BSTitleRulerView クラスの指定イニシャライザで、初期化されたオブジェクトを返します。
 */
-- (id) initWithScrollView : (NSScrollView *) scrollView;
+- (id) initWithScrollView : (NSScrollView *) scrollView
+				ofBrowser : (CMRBrowser   *) browser;
 
 - (NSString *) titleStr;
 - (NSImage *) bgImage;
