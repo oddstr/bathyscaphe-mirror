@@ -22,7 +22,6 @@
 
 @interface BSTitleRulerView : NSRulerView {
 	@private
-	id			m_scrollView;
 	NSString	*m_titleStr;
 	NSImage		*m_bgImage;
 }
@@ -34,4 +33,6 @@
 */
 - (id) initWithScrollView : (NSScrollView *) scrollView;
 
+- (NSString *) titleStr;
+- (NSImage *) bgImage;
 @end

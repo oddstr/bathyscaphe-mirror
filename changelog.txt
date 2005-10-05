@@ -1,3 +1,9 @@
+2005-10-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/BSTitleRulerView.m
+	* application/source/browser/CMRBrowser.m
+		アピアランスを何度も切り替えていると、クラッシュする問題を修正。
+		- CMRBrowser が BSTitleRulerView を適切に release していなかった。
+		- BSTitleRulerView 自体も、手抜きを止めてきちんとアクセッサメソッドを書き、コードを全体的に見直した。
 2005-10-02 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/image/Status_logcached.png
 	* application/Resources/image/Status_updated.png
