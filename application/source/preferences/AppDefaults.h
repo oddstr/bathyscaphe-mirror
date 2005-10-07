@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.15 2005/10/01 15:08:57 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.16 2005/10/07 00:18:50 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -328,6 +328,10 @@ enum {
 /* PrincessBride Additions */
 - (BOOL) titleRulerViewTextUsesBlackColor;
 - (void) setTitleRulerViewTextUsesBlackColor : (BOOL) usesBlackColor;
+
+/* ShortCircuit Additions */
+- (id) threadsListTableColumnState;
+- (void) setThreadsListTableColumnState : (id) aColumnState;
 
 - (void) _loadThreadsListSettings;
 - (BOOL) _saveThreadsListSettings;

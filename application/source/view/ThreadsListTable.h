@@ -1,5 +1,5 @@
 /**
-  * $Id: ThreadsListTable.h,v 1.1 2005/05/11 17:51:09 tsawada2 Exp $
+  * $Id: ThreadsListTable.h,v 1.2 2005/10/07 00:18:50 tsawada2 Exp $
   * 
   * ThreadsListTable.h
   * スレッド一覧を表示するテーブル
@@ -12,5 +12,17 @@
 
 
 @interface ThreadsListTable : NSTableView
-//@interface ThreadsListTable : SGTableView
+{
+	@private
+	NSArray	*allColumns;	// added in ShortCircuit and later.
+}
+
+// ShortCircuit Additions
+- (NSObject<NSCoding> *) columnState;
+- (void) restoreColumnState : (NSObject *) columnState;
+- (void) setColumnWithIdentifier : (id) identifier visible : (BOOL) visible;
+- (BOOL) isColumnWithIdentifierVisible : (id) identifier;
+- (NSTableColumn *) initialColumnWithIdentifier : (id) identifier;
+- (void) removeAllColumns;
+- (void) setInitialState;
 @end

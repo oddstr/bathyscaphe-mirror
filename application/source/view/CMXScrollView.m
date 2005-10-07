@@ -1,13 +1,12 @@
 //: CMXScrollView.m
 /**
-  * $Id: CMXScrollView.m,v 1.1 2005/05/11 17:51:08 tsawada2 Exp $
+  * $Id: CMXScrollView.m,v 1.2 2005/10/07 00:18:50 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
   */
 
 #import "CMXScrollView.h"
-
 
 
 @interface CMXScrollView(Private)

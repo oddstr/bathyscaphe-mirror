@@ -1,3 +1,13 @@
+2005-10-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/source/browser/CMRBrowser-Delegate.m
+	* application/source/view/ThreadsListTable.m
+	* application/source/preferences/AppDefaults-ThreadsList.m
+		6スレ776の問題（カラムを非表示に設定しても、次に起動するとまた表示されてしまう）を解決するため、
+		スレッド一覧のカラムの幅・順序・表示／非表示の保存方法を変更。
+		- 詳細は ThreadsListTable.m のコメントを参照。
+		- この変更のため、今までのスレッド一覧のカラムの設定は無効になるので、デフォルトの幅と順序で、すべてのカラムが
+		　表示される。各自で再設定すべし。
 2005-10-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/BSTitleRulerView.m
 	* application/source/browser/CMRBrowser.m

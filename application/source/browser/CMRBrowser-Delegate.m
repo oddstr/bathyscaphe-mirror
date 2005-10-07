@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.11 2005/09/24 06:07:49 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.12 2005/10/07 00:18:50 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -451,6 +451,17 @@ static BOOL isOptionKeyDown(unsigned flag_)
 	[self selectCurrentThreadWithMask : CMRAutoscrollWhenTLSort];
 	[[self threadsListTable] reloadData];
 }
+
+- (void) tableViewColumnDidMove : (NSNotification *) aNotification
+{
+	[CMRPref setThreadsListTableColumnState : [[self threadsListTable] columnState]];
+}
+
+- (void) tableViewColumnDidResize : (NSNotification *) aNotification
+{
+	[CMRPref setThreadsListTableColumnState : [[self threadsListTable] columnState]];
+}
+
 
 /* そのセルの内容が「...」で省略表示されているのかどうか判別する方法が見つかるまで凍結
 - (NSString *) tableView : (NSTableView *) aTableView

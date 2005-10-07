@@ -914,6 +914,8 @@
 		87AF6CFF07425DC0001D08ED /* remove_idle.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = remove_idle.tiff; sourceTree = "<group>"; };
 		87AF6D0007425DC0001D08ED /* remove_pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = remove_pressed.tiff; sourceTree = "<group>"; };
 		87B652980840625F008AE2BE /* SendMessage.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SendMessage.tiff; sourceTree = "<group>"; };
+		87B7BFFA08F4980B0087E50C /* BSNaviScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSNaviScroller.h; sourceTree = "<group>"; };
+		87B7BFFB08F4980B0087E50C /* BSNaviScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSNaviScroller.m; sourceTree = "<group>"; };
 		87BB791F0864401A00ED8757 /* RBSplitSubview.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RBSplitSubview.h; path = ../RBSplitSubview.h; sourceTree = "<group>"; };
 		87BB79200864401A00ED8757 /* RBSplitViewPrivateDefines.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RBSplitViewPrivateDefines.h; path = ../RBSplitViewPrivateDefines.h; sourceTree = "<group>"; };
 		87BD61EE0865D0230080A7CA /* NSTableView+BSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTableView+BSAdditions.h"; sourceTree = "<group>"; };
@@ -2268,6 +2270,8 @@
 				87D5D8CA08DF0F990039A9EB /* BSBoardListView.m */,
 				877B78FA08E416C900184BB2 /* BSProgressIndicatorTbItem.h */,
 				877B78FB08E416C900184BB2 /* BSProgressIndicatorTbItem.m */,
+				87B7BFFA08F4980B0087E50C /* BSNaviScroller.h */,
+				87B7BFFB08F4980B0087E50C /* BSNaviScroller.m */,
 			);
 			path = view;
 			sourceTree = "<group>";

@@ -19,6 +19,7 @@ static NSString *const AppDefaultsStatusLineToolbarAlignmentKey = @"StatusLine T
 // Ç±ÇÍÇÕ User Defaults íºâ∫Ç…çÏê¨Ç≥ÇÍÇÈ key
 static NSString *const AppDefaultsUseIncrementalSearchKey = @"UseIncrementalSearch";
 static NSString *const AppDefaultsTRViewTextUsesBlackColorKey = @"ThreadTitleBarTextUsesBlackColor";
+static NSString *const AppDefaultsTLTableColumnStateKey = @"ThreadsListTable Columns Manualsave";
 
 
 
@@ -105,7 +106,20 @@ static NSString *const AppDefaultsTRViewTextUsesBlackColorKey = @"ThreadTitleBar
 					  forKey : AppDefaultsTRViewTextUsesBlackColorKey];
 }
 
+#pragma mark ShortCircuit Additions
+
+- (id) threadsListTableColumnState
+{
+	return [[self defaults] objectForKey : AppDefaultsTLTableColumnStateKey];
+}
+- (void) setThreadsListTableColumnState : (id) aColumnState
+{
+	[[self defaults] setObject : aColumnState
+						forKey : AppDefaultsTLTableColumnStateKey];
+}
+
 #pragma mark -
+
 - (void) _loadThreadsListSettings
 {
 }

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.21 2005/10/05 21:21:53 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.22 2005/10/07 00:18:50 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -210,28 +210,32 @@
 
 - (IBAction) chooseColumn : (id) sender
 {
-    NSString        *identifier_;
-    NSTableColumn    *column_;
+    NSString			*identifier_;
+    NSTableColumn		*column_;
+	ThreadsListTable	*tbView_;
         
     if (NO == [sender respondsToSelector : @selector(representedObject)])
         return;
     
     identifier_ = [sender representedObject];
     UTILAssertKindOfClass(identifier_, NSString);
-    
-    column_ = [[self threadsListTable] tableColumnWithIdentifier : identifier_];
+
+    tbView_ = [self threadsListTable];
+    column_ = [tbView_ tableColumnWithIdentifier : identifier_];
+
     if (column_ != nil) {
-       [[self threadsListTable] removeTableColumn : column_];
+	   [tbView_ setColumnWithIdentifier : identifier_ visible : NO];
     } else {
         column_ = [self defaultTableColumnWithIdentifier : identifier_];
         if (nil == column_) return;
         
-        [[self threadsListTable] addTableColumn : column_];
+	   [tbView_ setColumnWithIdentifier : identifier_ visible : YES];
     }
 	
 	[sender setState : (NSOffState == [sender state]) ? NSOnState : NSOffState];
-    
-    [[self threadsListTable] sizeLastColumnToFit];
+
+	[CMRPref setThreadsListTableColumnState : [tbView_ columnState]];
+
 }
 
 - (NSTableColumn *) defaultTableColumnWithIdentifier : (NSString *) anIdentifer
@@ -256,17 +260,20 @@
 - (void) createDefaultTableColumnsWithTableView : (NSTableView *) tableView
 {
     NSEnumerator        *iter_;
-    id                    rep_;
+    id                  rep_;
     
     iter_ = [[self defaultColumnsArray] objectEnumerator];
+
     while (rep_ = [iter_ nextObject]) {
         NSTableColumn        *column_;
         
         column_ = [self tableColumnWithPropertyListRep : rep_];
         if (nil == column_) continue;
         
-        [[self threadsListTable] addTableColumn : column_];
+        [tableView addTableColumn : column_];
     }
+
+	[(ThreadsListTable *)tableView setInitialState];
 }
 
 
@@ -356,7 +363,7 @@
 
 - (void) updateDefaultsWithTableView : (NSTableView *) tbview
 {
-	id	tmp;
+	id	tmp,tmp2;
     tmp = SGTemplateResource(kThreadsListTableICSKey);
     UTILAssertRespondsTo(tmp, @selector(stringValue));
     [tbview setIntercellSpacing : NSSizeFromString([tmp stringValue])];
@@ -374,7 +381,10 @@
 		if (!([[tbview backgroundColor] isEqual: [NSColor whiteColor]]))
 			[tbview setBackgroundColor : [NSColor whiteColor]];
 	}
-	[tbview setGridStyleMask : ([CMRPref threadsListDrawsGrid] ? NSTableViewSolidVerticalGridLineMask : NSTableViewGridNone)];    
+	[tbview setGridStyleMask : ([CMRPref threadsListDrawsGrid] ? NSTableViewSolidVerticalGridLineMask : NSTableViewGridNone)];
+	tmp2 = [CMRPref threadsListTableColumnState];
+	if(tmp2)
+		[(ThreadsListTable *)tbview restoreColumnState : tmp2];
 }
 
 - (void) setupThreadsListTable
@@ -395,8 +405,8 @@
 	// Favorites Item's Drag & Drop operation support:
 	[tbView_ registerForDraggedTypes : [NSArray arrayWithObjects : CMRFavoritesItemsPboardType, nil]];
     
-    [tbView_ setAutosaveName : APP_BROWSER_THREADSLIST_TABLE_AUTOSAVE_NAME];
-    [tbView_ setAutosaveTableColumns : YES];
+    //[tbView_ setAutosaveName : APP_BROWSER_THREADSLIST_TABLE_AUTOSAVE_NAME];
+    [tbView_ setAutosaveTableColumns : NO];
     [tbView_ setVerticalMotionCanBeginDrag : NO];
         
     // Menu and Contextual Menus
