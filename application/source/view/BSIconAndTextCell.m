@@ -50,29 +50,33 @@
     
     if(path) {
 		if([self isHighlighted]) {
+			// Mail のような視覚効果の実現方法を検証、発見してくれた 915@6th に感謝。
 			NSMutableAttributedString	*highlightedPath;
-			NSDictionary	*highlightedAttr ;
-			NSShadow		*shadow_;
+			NSDictionary	*highlightedAttr,*backgroundAttr;
 			NSRange			pathRange;
 
 			highlightedPath = [[path mutableCopy] autorelease];
 			pathRange = NSMakeRange(0, [path length]);
 
-			shadow_ = [[NSShadow alloc] init];
-			[shadow_ setShadowOffset : NSMakeSize(0.0,-1.0)];
+			highlightedAttr = [NSDictionary dictionaryWithObject : [NSColor whiteColor]
+														  forKey : NSForegroundColorAttributeName];
 
-			highlightedAttr = [NSDictionary dictionaryWithObjectsAndKeys :
-								[NSColor whiteColor], NSForegroundColorAttributeName,
-								[NSNumber numberWithFloat : -0.2], NSKernAttributeName,
-								shadow_, NSShadowAttributeName,
-								NULL];
+			backgroundAttr  = [NSDictionary dictionaryWithObject : [[NSColor grayColor] colorWithAlphaComponent : 0.8]
+														  forKey : NSForegroundColorAttributeName];
 
+			// まず、グレーの文字を y軸方向に 1px ずらして描く
+			[highlightedPath removeAttribute : NSForegroundColorAttributeName range : pathRange];
+			[highlightedPath   addAttributes : backgroundAttr				  range : pathRange];
+			[highlightedPath applyFontTraits : NSBoldFontMask				  range : pathRange];
+
+			[highlightedPath drawInRect:NSOffsetRect(pathRect, 0.0,1.0)];
+
+			// そして、白い文字で重ねて描く
 			[highlightedPath removeAttribute : NSForegroundColorAttributeName range : pathRange];
 			[highlightedPath   addAttributes : highlightedAttr				  range : pathRange];
-			[highlightedPath applyFontTraits : NSBoldFontMask				  range : pathRange];
-						  
-			[shadow_ release];
+
 			[highlightedPath drawInRect:pathRect];
+
 		} else {
 			[path drawInRect:pathRect];
 		}

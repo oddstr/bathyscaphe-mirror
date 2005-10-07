@@ -1,3 +1,7 @@
+2005-10-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/BSIconAndTextCell.m
+		ハイライト時の文字の視認性を向上させるため、NSShadow を付加するのではなく、文字をずらして重ね描きする方法に
+		変更（6スレ915氏のアドバイスに感謝）。
 2005-10-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-ViewAccessor.m
 	* application/source/browser/CMRBrowser-Delegate.m
