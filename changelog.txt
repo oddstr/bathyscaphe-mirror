@@ -1,4 +1,14 @@
 2005-10-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/MainMenu.nib
+	* application/source/thread/CMRThreadViewer-ViewAccessor.m
+	* application/source/thread/CMRThreadViewer.m
+		「掲示板」＞「掲示板オプション...」を追加。ショートカットは command-B ("B"oard options)。
+		また、「ステータスバーを表示／隠す」のショートカットを command-/ に変更。
+	* application/Resources/Japanese.lproj/BSBoardInfoInspector.nib
+		[新規追加] 「掲示板オプション」インスペクタ・パネル用 nib ファイル。
+	* application/source/bbs/BSBoardInfoInspector.m
+		[新規追加] 「掲示板オプション」インスペクタ・パネルのコントローラ。
+		- 名前の付け方をちょっとミスった、…かも。"BSBoardInfoInspectorController.m" の方がよかった、…かも？
 	* application/Resources/text/KeyValueTemplates.plist
 		"Thread - FirstVisible", "Thread - LastVisible" を廃止（削除）。
 		- これらの設定は User Defaults に移動し、今後は「環境設定」＞「一般」で設定する。

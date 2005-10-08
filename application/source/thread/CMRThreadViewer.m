@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.10 2005/10/01 15:58:51 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.11 2005/10/08 08:53:46 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -23,6 +23,7 @@
 #import "CMRThreadPlistComposer.h"
 #import "CMRNetGrobalLock.h"    /* for Locking */
 #import "BSHistoryMenuManager.h"
+#import "BSBoardInfoInspector.h"
 
 #import "missing.h"
 
@@ -578,6 +579,19 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 - (IBAction) openDefaultNoNameInputPanel : (id) sender
 {
 	[self setupDefaultNoName : YES];
+}
+- (IBAction) showBoardInspectorPanel : (id) sender
+{
+	NSString			*board;
+	
+	board = [[self threadAttributes] boardName];
+	if (nil == board)
+		board = [(CMRBBSSignature *)[self boardIdentifier] name];
+	
+	if (nil == board)
+		return;
+
+	[[BSBoardInfoInspector sharedInstance] showInspectorForTargetBoard : board];
 }
 
 #pragma mark board / thread signature for historyManager .etc

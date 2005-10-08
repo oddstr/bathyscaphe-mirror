@@ -269,6 +269,7 @@ static int messageMaskForTag(int tag)
 	   action_ == @selector(customizeBrdListTable:) ||
 	   action_ == @selector(launchBWAgent:)			||
 	   action_ == @selector(openDefaultNoNameInputPanel:) ||
+	   action_ == @selector(showBoardInspectorPanel:) ||
 	   action_ == @selector(orderFrontMainBrowser:) ||
 	   action_ == @selector(showThreadWithMenuItem:)
 	   )

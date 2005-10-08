@@ -1,0 +1,22 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {changeDefaultNanashi = id; openHelpForMe = id; }; 
+            CLASS = BSBoardInfoInspector; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "m_changeKotehanBtn" = NSButton; 
+                "m_helpButton" = NSButton; 
+                "m_nanashiField" = NSTextField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {"" = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

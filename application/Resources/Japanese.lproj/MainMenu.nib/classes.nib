@@ -67,6 +67,7 @@
                 scrollToLastReadedIndex = id; 
                 scrollToLastUpdatedIndex = id; 
                 setOnMessageAttributes = id; 
+                showBoardInspectorPanel = id; 
                 showMessageMatchesAttributes = id; 
                 showSearchThreadPanel = id; 
                 showStandardFindPanel = id; 
