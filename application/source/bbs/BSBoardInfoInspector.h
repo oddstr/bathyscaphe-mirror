@@ -50,4 +50,8 @@
 
 // method
 - (void) showInspectorForTargetBoard : (NSString *) boardName;
+
+- (void) mainWindowChanged : (NSNotification *) theNotification;
+- (void) browserBoardChanged : (NSNotification *) theNotification;
+- (void) windowWillCloseNow : (NSNotification *) theNotification;
 @end

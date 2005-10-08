@@ -1,4 +1,7 @@
 2005-10-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/bbs/BSBoardInfoInspector.m
+		インスペクタを表示したままウインドウや、掲示板を切り替えたとき、インスペクタも適切に更新するようにした。
+		- まだ少し詰めが甘いかもしれない。
 	* application/Resources/Japanese.lproj/MainMenu.nib
 	* application/source/thread/CMRThreadViewer-ViewAccessor.m
 	* application/source/thread/CMRThreadViewer.m

@@ -12,6 +12,8 @@
 #import <CocoMonar/CocoMonar.h>
 
 #import "BoardManager.h"
+#import "CMRThreadViewer.h"
+#import "CMRBrowser.h"
 
 #define BrdMgr	[BoardManager defaultManager]
 
@@ -23,11 +25,31 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 
 - (id) init
 {
-	return [self initWithWindowNibName : BIINibFileNameKey];
+	if (self = [self initWithWindowNibName : BIINibFileNameKey]) {
+		[[NSNotificationCenter defaultCenter]
+			 addObserver : self
+				selector : @selector(browserBoardChanged:)
+					name : CMRBrowserDidChangeBoardNotification
+				  object : nil];
+
+		[[NSNotificationCenter defaultCenter]
+			 addObserver : self
+				selector : @selector(mainWindowChanged:)
+					name : NSWindowDidBecomeMainNotification
+				  object : nil];
+
+		[[NSNotificationCenter defaultCenter]
+			 addObserver : self
+				selector : @selector(windowWillCloseNow:)
+					name : NSWindowWillCloseNotification
+				  object : nil];
+	}
+	return self;
 }
 
 - (void) dealloc
 {
+	[[NSNotificationCenter defaultCenter] removeObserver : self];
 	[_currentTargetBoardName release];
 	[super dealloc];
 }
@@ -139,5 +161,47 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 {
 	[self setCurrentTargetBoardName : boardName];
 	[self showWindow : self];
+}
+
+- (void) mainWindowChanged : (NSNotification *) theNotification
+{
+	if (![[self window] isVisible]) return;
+
+	id winController_ = [[theNotification object] windowController];
+
+	if (([winController_ class] == [CMRThreadViewer class]) || ([winController_ class] == [CMRBrowser class])) {
+		NSString *tmp_;
+		tmp_ = [(CMRThreadViewer *)winController_ boardName];
+		if(tmp_ == nil)
+			tmp_ = [(CMRBBSSignature *)[(CMRThreadViewer *)winController_ boardIdentifier] name];
+	
+		if (nil == tmp_)
+			return;
+		[self setCurrentTargetBoardName : tmp_];
+		[[self window] update];
+	}
+}
+
+- (void) browserBoardChanged : (NSNotification *) theNotification
+{
+	if (![[self window] isVisible]) return;
+	id winController_ = [theNotification object];
+
+	if ([winController_ class] == [CMRBrowser class]) {
+		NSString *tmp_;
+		//tmp_ = [(CMRBrowser *)winController_ boardName];
+		//if(tmp_ == nil)
+			tmp_ = [(CMRBBSSignature *)[(CMRBrowser *)winController_ boardIdentifier] name];
+	
+		if (nil == tmp_)
+			return;
+		[self setCurrentTargetBoardName : tmp_];
+		[[self window] update];
+	}
+}
+
+- (void) windowWillCloseNow : (NSNotification *) theNotification
+{
+	// ウインドウが一つもなくなったらインスペクタを閉じたいけど、なんかうまくいかないのでとりあえず何もしない。
 }
 @end
