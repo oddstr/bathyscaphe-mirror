@@ -1,6 +1,11 @@
 2005-10-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-Validation.m
+		「掲示板」＞「掲示板オプション...」は、状況に応じて「掲示板オプションを表示」「掲示板オプションを隠す」
+		に表記が変わるようにした。
+	* application/Resources/Japanese.lproj/Localizable.strings
 	* application/source/bbs/BSBoardInfoInspector.m
 		インスペクタを表示したままウインドウや、掲示板を切り替えたとき、インスペクタも適切に更新するようにした。
+		また、URL も表示させるようにした。
 		- まだ少し詰めが甘いかもしれない。
 	* application/Resources/Japanese.lproj/MainMenu.nib
 	* application/source/thread/CMRThreadViewer-ViewAccessor.m

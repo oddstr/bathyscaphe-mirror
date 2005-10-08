@@ -38,6 +38,9 @@
 
 // Binding
 - (NSString *) defaultNanashi;
+- (NSString *) boardURLAsString;
+- (BOOL) shouldEnableUI;
+- (NSString *) titleBarString;
 
 - (NSString *) defaultKotehan;
 - (void) setDefaultKotehan : (NSString *) fieldValue;
@@ -53,5 +56,6 @@
 
 - (void) mainWindowChanged : (NSNotification *) theNotification;
 - (void) browserBoardChanged : (NSNotification *) theNotification;
-- (void) windowWillCloseNow : (NSNotification *) theNotification;
+- (void) viewerThreadChanged : (NSNotification *) theNotification;
+//- (void) windowWillCloseNow : (NSNotification *) theNotification;
 @end

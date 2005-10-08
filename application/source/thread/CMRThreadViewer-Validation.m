@@ -10,7 +10,7 @@
 #import "CMRThreadVisibleRange.h"
 #import "CMRThreadDownloadTask.h"
 #import "CMXPopUpWindowManager.h"
-
+#import "BSBoardInfoInspector.h"
 
 //////////////////////////////////////////////////////////////////////
 #pragma mark Define and Constants
@@ -269,11 +269,18 @@ static int messageMaskForTag(int tag)
 	   action_ == @selector(customizeBrdListTable:) ||
 	   action_ == @selector(launchBWAgent:)			||
 	   action_ == @selector(openDefaultNoNameInputPanel:) ||
-	   action_ == @selector(showBoardInspectorPanel:) ||
 	   action_ == @selector(orderFrontMainBrowser:) ||
 	   action_ == @selector(showThreadWithMenuItem:)
 	   )
 	{ return YES; }
+	
+	if (action_ == @selector(showBoardInspectorPanel:)) {
+		BOOL tmpBool = [[[BSBoardInfoInspector sharedInstance] window] isVisible];
+		[theItem setTitle : (tmpBool ? NSLocalizedString(@"Hide Board Inspector", @"Show Board Options")
+									 : NSLocalizedString(@"Show Board Inspector", @"Hide Board Options"))];
+		return YES;
+	}
+
 	
 	// 履歴：戻る／進む
 	if (action_ == @selector(historyMenuPerformForward:)) {

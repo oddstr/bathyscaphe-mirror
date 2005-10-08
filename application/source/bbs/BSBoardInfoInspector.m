@@ -19,6 +19,8 @@
 
 static NSString *const BIINibFileNameKey		= @"BSBoardInfoInspector";
 static NSString *const BIIFrameAutoSaveNameKey	= @"BathyScaphe:BoardInfoInspector Panel Autosave";
+static NSString *const BIITitlebarFormatKey		= @"BoardInspector TitleBar";
+static NSString *const BIIHelpKeywordKey		= @"BoardInspector Help Keyword";
 
 @implementation BSBoardInfoInspector
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
@@ -40,9 +42,15 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 
 		[[NSNotificationCenter defaultCenter]
 			 addObserver : self
+				selector : @selector(viewerThreadChanged:)
+					name : CMRThreadViewerDidChangeThreadNotification
+				  object : nil];
+
+		/*[[NSNotificationCenter defaultCenter]
+			 addObserver : self
 				selector : @selector(windowWillCloseNow:)
 					name : NSWindowWillCloseNotification
-				  object : nil];
+				  object : nil];*/
 	}
 	return self;
 }
@@ -69,6 +77,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 {
 	// 参考：<http://www.cocoadev.com/index.pl?KeyValueObserving>
 	[self willChangeValueForKey:@"defaultNanashi"];
+	[self willChangeValueForKey:@"boardURLAsString"];
+	[self willChangeValueForKey:@"shouldEnableUI"];
+	[self willChangeValueForKey:@"titleBarString"];
 	[self willChangeValueForKey:@"defaultKotehan"];
 	[self willChangeValueForKey:@"defaultMail"];
 	[self willChangeValueForKey:@"shouldAlwaysBeLogin"];
@@ -78,6 +89,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	_currentTargetBoardName = newTarget;
 
 	[self didChangeValueForKey:@"defaultNanashi"];
+	[self didChangeValueForKey:@"boardURLAsString"];
+	[self didChangeValueForKey:@"shouldEnableUI"];
+	[self didChangeValueForKey:@"titleBarString"];
 	[self didChangeValueForKey:@"defaultKotehan"];
 	[self didChangeValueForKey:@"defaultMail"];
 	[self didChangeValueForKey:@"shouldAlwaysBeLogin"];
@@ -112,18 +126,33 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	NSString	*newNanashi;
 	newNanashi = [BrdMgr askUserAboutDefaultNoNameForBoard : [self currentTargetBoardName]
 											   presetValue : [self defaultNanashi]];
-	[[self nanashiField] setStringValue : newNanashi];
+	if(newNanashi != nil) [[self nanashiField] setStringValue : newNanashi];
 }
 - (IBAction) openHelpForMe : (id) sender
 {
-	NSLog(@"UnImplemented");
-	NSBeep();
+	[[NSHelpManager sharedHelpManager] findString : NSLocalizedString(BIIHelpKeywordKey, @"Board options")
+										   inBook : NSLocalizedString(@"BoardInspector HelpBook Name", @"HelpBookName")];
 }
 
 #pragma mark Accesors for Binding
 - (NSString *) defaultNanashi
 {
 	return [BrdMgr defaultNoNameForBoard : [self currentTargetBoardName]];
+}
+
+- (NSString *) boardURLAsString
+{
+	return [[BrdMgr URLForBoardName : [self currentTargetBoardName]] stringValue];
+}
+
+- (BOOL) shouldEnableUI
+{
+	return (![[self currentTargetBoardName] isEqualToString : CMXFavoritesDirectoryName]);
+}
+
+- (NSString *) titleBarString
+{
+	return [NSString stringWithFormat : NSLocalizedString(BIITitlebarFormatKey, @"%@ options"), [self currentTargetBoardName]];
 }
 
 - (NSString *) defaultKotehan
@@ -200,8 +229,29 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	}
 }
 
-- (void) windowWillCloseNow : (NSNotification *) theNotification
+- (void) viewerThreadChanged : (NSNotification *) theNotification
+{
+	if (![[self window] isVisible]) return;
+	id winController_ = [theNotification object];
+
+	if ([winController_ class] == [CMRThreadViewer class]) {
+		NSString *tmp_;
+		tmp_ = [(CMRThreadViewer *)winController_ boardName];
+		if(tmp_ == nil)
+			tmp_ = [(CMRBBSSignature *)[(CMRThreadViewer *)winController_ boardIdentifier] name];
+	
+		if (nil == tmp_)
+			return;
+		if ([[self currentTargetBoardName] isEqualToString : tmp_])
+			return;
+
+		[self setCurrentTargetBoardName : tmp_];
+		[[self window] update];
+	}
+}
+
+/*- (void) windowWillCloseNow : (NSNotification *) theNotification
 {
 	// ウインドウが一つもなくなったらインスペクタを閉じたいけど、なんかうまくいかないのでとりあえず何もしない。
-}
+}*/
 @end
