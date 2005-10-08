@@ -234,6 +234,17 @@
 	[self updateUIComponents];
 }
 
+#pragma mark ShortCircuit Additions
+
+- (int) openInBrowserType
+{
+	return [[self preferences] openInBrowserType];
+}
+
+- (void) setOpenInBrowserType : (int) aType
+{
+    [[self preferences] setOpenInBrowserType : aType];
+}
 @end
 
 @implementation AdvancedPrefController(Toolbar)

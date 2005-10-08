@@ -1,5 +1,5 @@
 /**
-  * $Id: GeneralPrefController.h,v 1.4 2005/07/29 21:18:28 tsawada2 Exp $
+  * $Id: GeneralPrefController.h,v 1.5 2005/10/08 02:46:39 tsawada2 Exp $
   * 
   * GeneralPrefController.h
   *
@@ -23,7 +23,6 @@
 	IBOutlet NSButton		*_mailAttachCheckBox;
 	IBOutlet NSButton		*_isMailShownCheckBox;
 	IBOutlet NSButton		*_showsAllCheckBox;
-	IBOutlet NSPopUpButton	*_openInBrowserPopUp;
 }
 
 // List
@@ -35,7 +34,12 @@
 - (IBAction) changeMailAttachShown : (id) sender;
 - (IBAction) changeMailAddressShown : (id) sender;
 - (IBAction) changeShowsAll : (id) sender;
-- (IBAction) changeOpenInBrowserType : (id) sender;
+
+// ShortCircuit Additions - Binding
+- (int) firstVisible;
+- (void) setFirstVisible : (int) tag_;
+- (int) lastVisible;
+- (void) setLastVisible : (int) tag_;
 @end
 
 
@@ -52,5 +56,4 @@
 - (NSButton *) isMailShownCheckBox;
 - (NSButton *) showsAllCheckBox;
 - (NSButton *) mailAttachCheckBox;
-- (NSPopUpButton *) openInBrowserPopUp;
 @end

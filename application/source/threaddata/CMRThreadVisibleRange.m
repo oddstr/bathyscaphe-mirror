@@ -1,13 +1,13 @@
 //: CMRThreadVisibleRange.m
 /**
-  * $Id: CMRThreadVisibleRange.m,v 1.1 2005/05/11 17:51:08 tsawada2 Exp $
+  * $Id: CMRThreadVisibleRange.m,v 1.2 2005/10/08 02:46:39 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
   */
 
 #import "CMRThreadVisibleRange.h"
-
+#import "AppDefaults.h"
 
 //////////////////////////////////////////////////////////////////////
 ////////////////////// [ íËêîÇ‚É}ÉNÉçíuä∑ ] //////////////////////////
@@ -36,36 +36,25 @@ static const unsigned CMRThreadDefaultLastVisibleNumber  = 50;
 + (CMRThreadVisibleRange *) defaultVisibleRange
 {
     if (nil == kDefaultVisibleRangeInstance_) {
-        NSNumber *n;
         unsigned first;
         unsigned last;
         
-        n = SGTemplateResource(@"Thread - FirstVisible");
-        if (NO == [n respondsToSelector : @selector(unsignedIntValue)]) 
-        { first = CMRThreadDefaultFirstVisibleNumber; }
-        else
-        { first = [n unsignedIntValue]; }
-        
-        n = SGTemplateResource(@"Thread - LastVisible");
-        if (NO == [n respondsToSelector : @selector(unsignedIntValue)]) 
-        { last = CMRThreadDefaultLastVisibleNumber; }
-        else
-        { last = [n unsignedIntValue]; }
+		first	= [CMRPref firstVisibleCount];
+		last	= [CMRPref lastVisibleCount];
         
         if (first < 0) first = CMRThreadShowAll;
         if (last < 0) last = CMRThreadShowAll;
         
-        [self setDefaultVisibleRange : 
-             [[self class] visibleRangeWithFirstVisibleLength : first
-                        lastVisibleLength : last]];
+        [self setDefaultVisibleRange : [[self class] visibleRangeWithFirstVisibleLength : first
+																	  lastVisibleLength : last]];
     }
     return [[kDefaultVisibleRangeInstance_ copy] autorelease];
 }
+
 + (void) setDefaultVisibleRange : (CMRThreadVisibleRange *) newVRange
 {
 	kDefaultVisibleRangeInstance_ = [newVRange copy];
 }
-
 
 + (id) visibleRangeWithFirstVisibleLength : (unsigned) aFirstVisibleLength
 						lastVisibleLength : (unsigned) aLastVisibleLength
@@ -73,6 +62,7 @@ static const unsigned CMRThreadDefaultLastVisibleNumber  = 50;
 	return [[[self alloc] initWithFirstVisibleLength : aFirstVisibleLength
 					lastVisibleLength : aLastVisibleLength] autorelease];
 }
+
 - (id) initWithFirstVisibleLength : (unsigned) aFirstVisibleLength
 				lastVisibleLength : (unsigned) aLastVisibleLength
 {

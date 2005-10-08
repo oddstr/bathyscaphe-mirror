@@ -1,5 +1,5 @@
 /**
-  * $Id: GeneralPrefController-View.m,v 1.4 2005/07/29 21:18:28 tsawada2 Exp $
+  * $Id: GeneralPrefController-View.m,v 1.5 2005/10/08 02:46:39 tsawada2 Exp $
   * 
   * GeneralPrefController-View.m
   *
@@ -55,11 +55,6 @@
 {
 	return _mailAttachCheckBox;
 }
-- (NSPopUpButton *) openInBrowserPopUp;
-{
-	return _openInBrowserPopUp;
-}
-
 
 
 - (void) updateListUIComponents
@@ -98,12 +93,6 @@
 	if ([[self showsAllCheckBox] isEnabled]) {
 		[[self showsAllCheckBox] setState : ([[self preferences] showsAllMessagesWhenDownloaded] ? NSOnState : NSOffState)];
 	}
-	if ([[self openInBrowserPopUp] isEnabled]) {
-        [[self openInBrowserPopUp] selectItemAtIndex : 
-            [[self openInBrowserPopUp] indexOfItemWithTag : 
-                [[self preferences] openInBrowserType]]];
-	}
-
 }
 
 - (void) updateUIComponents
@@ -129,8 +118,6 @@
 					  ofControl : [self showsAllCheckBox]];
 	[self preferencesRespondsTo : @selector(showsAllMessagesWhenDownloaded)
 					  ofControl : [self mailAttachCheckBox]];
-	[self preferencesRespondsTo : @selector(openInBrowserType)
-					  ofControl : [self openInBrowserPopUp]];
 }
 
 

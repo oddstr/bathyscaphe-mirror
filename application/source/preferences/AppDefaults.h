@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.16 2005/10/07 00:18:50 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.17 2005/10/08 02:46:39 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -356,8 +356,9 @@ enum {
 
 - (int) threadViewerLinkType;
 - (void) setThreadViewerLinkType : (int) aType;
-- (int) threadViewerMailType;
-- (void) setThreadViewerMailType : (int) aType;
+// Deprecated in ShortCircuit and later.
+//- (int) threadViewerMailType;
+//- (void) setThreadViewerMailType : (int) aType;
 
 - (BOOL) mailAttachmentShown;
 - (void) setMailAttachmentShown : (BOOL) flag;
@@ -367,9 +368,15 @@ enum {
 - (int) openInBrowserType;
 - (void) setOpenInBrowserType : (int) aType;
 
-/* SledgeHammer Addition */
+/* SledgeHammer Additions */
 - (BOOL) showsPoofAnimationOnInvisibleAbone;
 - (void) setShowsPoofAnimationOnInvisibleAbone : (BOOL) showsPoof;
+
+/* ShortCircuit Additions */
+- (unsigned int) firstVisibleCount;
+- (void) setFirstVisibleCount : (unsigned int) aValue;
+- (unsigned int) lastVisibleCount;
+- (void) setLastVisibleCount : (unsigned int) aValue;
 
 - (void) _loadThreadViewerSettings;
 - (BOOL) _saveThreadViewerSettings;

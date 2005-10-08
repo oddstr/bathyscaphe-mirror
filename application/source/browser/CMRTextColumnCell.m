@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRTextColumnCell.m,v 1.1 2005/05/11 17:51:04 tsawada2 Exp $
+  * $Id: CMRTextColumnCell.m,v 1.2 2005/10/08 02:46:39 tsawada2 Exp $
   * 
   * CMRTextColumnCell.m
   *
@@ -15,7 +15,7 @@ static id rightParagraphStyle(void)
 	if(nil == pstyle){
 		pstyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 		[pstyle setAlignment : NSRightTextAlignment];
-		[pstyle setLineBreakMode : NSLineBreakByTruncatingTail];
+		//[pstyle setLineBreakMode : NSLineBreakByTruncatingTail];
 	}
 	return pstyle;
 }

@@ -13,10 +13,8 @@
 static NSString *const AppDefaultsThreadsListSettingsKey = @"Preferences - ThreadsListSettings";
 static NSString *const AppDefaultsThreadsListAutoscrollMaskKey = @"Selection Holding Mask";
 static NSString *const AppDefaultsTLIgnoreTitleCharactersKey = @"Ignore Characters";
-static NSString *const AppDefaultsStatusLinePositionKey = @"StatusLine Position";
-static NSString *const AppDefaultsStatusLineToolbarAlignmentKey = @"StatusLine Toolbar Alignment";
 
-// Ç±ÇÍÇÕ User Defaults íºâ∫Ç…çÏê¨Ç≥ÇÍÇÈ key
+// à»â∫ÇÕ User Defaults íºâ∫Ç…çÏê¨Ç≥ÇÍÇÈ key
 static NSString *const AppDefaultsUseIncrementalSearchKey = @"UseIncrementalSearch";
 static NSString *const AppDefaultsTRViewTextUsesBlackColorKey = @"ThreadTitleBarTextUsesBlackColor";
 static NSString *const AppDefaultsTLTableColumnStateKey = @"ThreadsListTable Columns Manualsave";

@@ -1,5 +1,5 @@
 /**
-  * $Id: GeneralPrefController.m,v 1.5 2005/07/29 21:18:28 tsawada2 Exp $
+  * $Id: GeneralPrefController.m,v 1.6 2005/10/08 02:46:39 tsawada2 Exp $
   * 
   * GeneralPrefController.m
   *
@@ -66,13 +66,49 @@
 {
 	[[self preferences] setShowsAllMessagesWhenDownloaded : (NSOnState == [[self showsAllCheckBox] state])];
 }
-- (IBAction) changeOpenInBrowserType : (id) sender
+
+#pragma mark ShortCircuit Additions
+/*
+	2005-10-08 tsawada2<ben-sawa@td5.so-net.ne.jp>
+	firstVisible メソッドの返り値が、ポップアップボタンの各項目の tag とバインドされている。
+	ただし、NSNotFound だけは -1 に変換する。NSNotFound は「すべてを表示」に対応している。
+	他の項目は、メニューの「xxレス」のxxと tag が同じ数字になっている（やや汎用性に欠ける？）。
+	lastVisible も同様。
+*/
+- (int) firstVisible
 {
-    NSPopUpButton *popUp = [self openInBrowserPopUp];
-    NSMenuItem *menuItem = (NSMenuItem *)[popUp itemAtIndex : [popUp indexOfSelectedItem]];
-    
-    [[self preferences] setOpenInBrowserType : [menuItem tag]];
+	if ([[self preferences] firstVisibleCount] == NSNotFound) {
+		//NSLog(@"NSNotFound converted to -1");
+		return -1;
+	}
+	return [[self preferences] firstVisibleCount];
 }
+
+- (void) setFirstVisible : (int) tag_
+{
+	if (tag_ == -1) {
+		[[self preferences] setFirstVisibleCount : NSNotFound];
+		return;
+	}
+	[[self preferences] setFirstVisibleCount : tag_];
+}
+- (int) lastVisible
+{
+	if ([[self preferences] lastVisibleCount] == NSNotFound) {
+		//NSLog(@"NSNotFound converted to -1");
+		return -1;
+	}
+	return [[self preferences] lastVisibleCount];
+}
+- (void) setLastVisible : (int) tag_;
+{
+	if (tag_ == -1) {
+		[[self preferences] setLastVisibleCount : NSNotFound];
+		return;
+	}
+	[[self preferences] setLastVisibleCount : tag_];
+}
+
 @end
 
 

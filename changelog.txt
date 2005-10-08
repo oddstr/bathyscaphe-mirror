@@ -1,4 +1,18 @@
 2005-10-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/text/KeyValueTemplates.plist
+		"Thread - FirstVisible", "Thread - LastVisible" を廃止（削除）。
+		- これらの設定は User Defaults に移動し、今後は「環境設定」＞「一般」で設定する。
+	* application/source/preferences/AppDefaults-ThreadViewer.m
+	* application/subproj/preference/general/GeneralPrefController.m
+	* application/subproj/preference/general/GeneralPrefController-View.m
+	* application/subproj/preference/Japanese.lproj/GeneralPreferences.nib
+		スレッドのレスの表示範囲のデフォルトに関する設定を追加した。
+	* application/Resources/text/lastVisibleNumbers.plist
+	* application/Resources/text/firstVisibleNumbers.plist
+		デフォルトの選択肢を若干変更。
+	* application/subproj/preference/AdvancedPrefController.m
+	* application/subproj/preference/Japanese.lproj/AdvancedPane.nib
+		「“ブラウザで開く”ときのレス数：」設定は、「一般」から「詳細」ペインに移動した。
 	* application/source/view/BSIconAndTextCell.m
 		ハイライト時の文字の視認性を向上させるため、NSShadow を付加するのではなく、文字をずらして重ね描きする方法に
 		変更（6スレ915氏のアドバイスに感謝）。

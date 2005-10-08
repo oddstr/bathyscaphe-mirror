@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-ThreadViewer.m,v 1.2 2005/09/16 01:18:29 tsawada2 Exp $
+  * $Id: AppDefaults-ThreadViewer.m,v 1.3 2005/10/08 02:46:39 tsawada2 Exp $
   * 
   * AppDefaults-ThreadViewer.m
   *
@@ -8,18 +8,20 @@
   */
 #import "AppDefaults_p.h"
 
-
+#import "CMRThreadVisibleRange.h"
 
 #define kPrefThreadViewerWindowFrameKey		@"Default Window Frame"
 #define kPrefReplyWindowFrameKey			@"Default Reply Window Frame"
 #define kPrefThreadViewerSettingsKey		@"Preferences - ThreadViewerSettings"
 #define kPrefThreadViewerLinkTypeKey		@"Message Link Setting"
-#define kPrefThreadViewerMailtoLinkTypeKey	@"Mailto Link Setting"
 #define kPrefMailAddressShownKey			@"mail Address Shown"
 #define kPrefMailAttachmentShownKey			@"Mail Icon Shown"
 #define kPrefOpenInBrowserTypeKey			@"Open In Browser Setting"
 #define kPrefShowsAllWhenDownloadedKey		@"ShowsAllWhenDownloaded"
 #define kPrefShowsPoofAnimationKey			@"ShowsPoofOnInvisibleAbone"
+
+static NSString *const kPrefFirstVisibleKey	= @"FirstVisible";
+static NSString *const kPrefLastVisibleKey	= @"LastVisible";
 
 
 @implementation AppDefaults(ThreadViewerSettings)
@@ -107,19 +109,6 @@
 				forKey : kPrefThreadViewerLinkTypeKey];
 }
 
-//メールアドレスの処理方法
-- (int) threadViewerMailType
-{
-	//メール欄を表示しているときはメールソフトを起動。
-	//表示していなければポップアップ
-	return [self mailAddressShown] ? ThreadViewerOpenBrowserLinkType
-								   : ThreadViewerResPopUpLinkType;
-}
-- (void) setThreadViewerMailType : (int) aType
-{
-
-}
-
 // メールアドレス
 - (BOOL) mailAttachmentShown
 {
@@ -159,6 +148,7 @@
 				forKey : kPrefOpenInBrowserTypeKey];
 }
 
+#pragma mark SledgeHammer Additions
 - (BOOL) showsPoofAnimationOnInvisibleAbone
 {
 	// Terminal などから変更しやすいように、このエントリはトップレベルに作る
@@ -172,6 +162,41 @@
 					  forKey : kPrefShowsPoofAnimationKey];
 }
 
+#pragma mark ShortCircuit Additions
+- (void) _resetDefaultVisibleRange
+{
+	[CMRThreadVisibleRange setDefaultVisibleRange :
+				[CMRThreadVisibleRange visibleRangeWithFirstVisibleLength : [self firstVisibleCount]
+														lastVisibleLength : [self lastVisibleCount]]];
+}
+
+- (unsigned int) firstVisibleCount
+{
+	return [[self threadViewerDefaultsDictionary] unsignedIntForKey : kPrefFirstVisibleKey
+													   defaultValue : 1];
+}
+
+- (void) setFirstVisibleCount : (unsigned int) aValue
+{
+	[[self threadViewerDefaultsDictionary] setUnsignedInt : aValue
+												   forKey : kPrefFirstVisibleKey];
+	[self _resetDefaultVisibleRange];
+}
+
+- (unsigned int) lastVisibleCount
+{
+	return [[self threadViewerDefaultsDictionary] unsignedIntForKey : kPrefLastVisibleKey
+													   defaultValue : 50];
+}
+- (void) setLastVisibleCount : (unsigned int) aValue;
+{
+	[[self threadViewerDefaultsDictionary] setUnsignedInt : aValue
+												   forKey : kPrefLastVisibleKey];
+	[self _resetDefaultVisibleRange];
+}
+
+
+#pragma mark -
 - (void) _loadThreadViewerSettings
 {
 	BOOL	flag_;

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBBSSignature.m,v 1.2 2005/09/30 01:08:32 tsawada2 Exp $
+  * $Id: CMRBBSSignature.m,v 1.3 2005/10/08 02:46:39 tsawada2 Exp $
   * 
   * CMRBBSSignature.m
   *
@@ -135,27 +135,27 @@
 }
 // Deprecated in PrincessBride and later.
 // Use CMRDocumentFileManager's directoryWithBoardName: instead.
-- (NSString *) dataRootDirectoryPath
+/*- (NSString *) dataRootDirectoryPath
 {
 	NSLog(@"CMRBBSSignature's dataRootDirectoryPath has been deprecated!");
 	return [[CMRDocumentFileManager defaultManager] directoryWithBoardName : [self name]];
-}
-- (NSString *) localSubjectTextPath
+}*/
+/*- (NSString *) localSubjectTextPath
 {
 	return [[self dataRootDirectoryPath]
 				stringByAppendingPathComponent : CMRAppSubjectTextFileName];
-}
+}*/
 // Deprecated in PrincessBride and later.
 // Use CMRDocumentFileManager's threadsListPathWithBoardName: instead.
-- (NSString *) threadsListPlistPath
+/*- (NSString *) threadsListPlistPath
 {
 	NSLog(@"CMRBBSSignature's threadsListPlistPath has been deprecated!");
 	return [[self dataRootDirectoryPath]
 				stringByAppendingPathComponent : [self threadsListPlistFileName]];
-}
-- (NSString *) threadsListPlistFileName
+}*/
+/*- (NSString *) threadsListPlistFileName
 {
 	return CMRThreadsListPlistFileName;
-}
+}*/
 @end
 

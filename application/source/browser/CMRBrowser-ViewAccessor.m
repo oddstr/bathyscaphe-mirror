@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.22 2005/10/07 00:18:50 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.23 2005/10/08 02:46:39 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -235,7 +235,6 @@
 	[sender setState : (NSOffState == [sender state]) ? NSOnState : NSOffState];
 
 	[CMRPref setThreadsListTableColumnState : [tbView_ columnState]];
-
 }
 
 - (NSTableColumn *) defaultTableColumnWithIdentifier : (NSString *) anIdentifer

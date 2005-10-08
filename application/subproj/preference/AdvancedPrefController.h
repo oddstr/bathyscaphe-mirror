@@ -49,5 +49,10 @@
 
 - (id) appNameField;
 
+// ShortCircuit Additions
+// 「ブラウザで開くときのレス数：」が、「一般」から「詳細」ペインに移動
+- (int) openInBrowserType;
+- (void) setOpenInBrowserType : (int) aType;
+
 - (void) updateProxyUIComponents;
 @end

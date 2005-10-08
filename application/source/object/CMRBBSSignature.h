@@ -32,8 +32,8 @@
 
 //- (NSString *) dataRootDirectoryPath;	// Deprecated in PrincessBride and Later. Use CMRDocumentFileManager's
 										// directoryWithBoardName: instead.
-- (NSString *) localSubjectTextPath;
+//- (NSString *) localSubjectTextPath;	// Deprecated in ShortCircuit and later.
 //- (NSString *) threadsListPlistPath;	// Deprecated in PrincessBride and Later. Use CMRDocumentFileManager's
 										// threadsListPathWithBoardName: instead.
-- (NSString *) threadsListPlistFileName;
+//- (NSString *) threadsListPlistFileName;	// Deprecated in ShortCircuit and later.
 @end

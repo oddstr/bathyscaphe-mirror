@@ -14,7 +14,6 @@
                 changeLinkType = id; 
                 changeMailAddressShown = id; 
                 changeMailAttachShown = id; 
-                changeOpenInBrowserType = id; 
                 changeShowsAll = id; 
             }; 
             CLASS = GeneralPrefController; 
@@ -25,7 +24,6 @@
                 "_ignoreCharsField" = NSTextField; 
                 "_isMailShownCheckBox" = NSButton; 
                 "_mailAttachCheckBox" = NSButton; 
-                "_openInBrowserPopUp" = NSPopUpButton; 
                 "_resAnchorActionPopUp" = NSPopUpButton; 
                 "_showsAllCheckBox" = NSButton; 
             }; 

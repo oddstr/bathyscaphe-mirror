@@ -45,16 +45,12 @@
 	<string>%y/%m/%d (%a) %H:%M:%S</string>
 	<key>Thread - FieldSeparater</key>
 	<string>：</string>
-	<key>Thread - FirstVisible</key>
-	<string>1</string>
 	<key>Thread - GoogleQuery</key>
 	<string>http://www.google.com/search?q=%%%Query%%%&amp;ie=UTF-8&amp;oe=UTF-8</string>
 	<key>Thread - Host Format</key>
 	<string>[ %@ ]</string>
 	<key>Thread - IndexFormat</key>
 	<string>%u</string>
-	<key>Thread - LastVisible</key>
-	<integer>50</integer>
 	<key>Thread - LaunchExternalProgramOnPreviewLink</key>
 	<integer>0</integer>
 	<key>Thread - MailIconAlignment</key>
