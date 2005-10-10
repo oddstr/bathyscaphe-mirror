@@ -1,4 +1,7 @@
 2005-10-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/manager/BSImagePreviewInspector.m
+	* application/Resources/Japanese.lproj/BSImagePreviewInspector.nib
+		画像を保存できるようにした。また、インスペクタを閉じたときの処理を見直した。
 	* application/source/thread/CMRThreadViewer-Link.m
 	* application/Resources/text/KeyValueTemplates.plist
 		プレビューインスペクタの追加に伴い、暫定的に "Thread - LaunchExternalProgramOnPreviewLink" の扱いを

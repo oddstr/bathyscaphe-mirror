@@ -17,8 +17,10 @@
 */
 
 @interface BSImagePreviewInspector : NSWindowController {
-	IBOutlet NSButton		*m_openWithBrowserBtn;
-	IBOutlet NSImageView	*m_imageView;
+	IBOutlet NSButton				*m_openWithBrowserBtn;
+	IBOutlet NSButton				*m_saveButton;
+	IBOutlet NSImageView			*m_imageView;
+	IBOutlet NSProgressIndicator	*m_progIndicator;
 	
 	@private
 	NSURL	*_sourceURL;
@@ -26,7 +28,9 @@
 + (id) sharedInstance;
 // Accessor
 - (NSButton *) openWithBrowserBtn;
+- (NSButton *) saveButton;
 - (NSImageView *) imageView;
+- (NSProgressIndicator *) progIndicator;
 
 // Binding
 - (NSString *) sourceURLAsString;
@@ -36,5 +40,6 @@
 
 // Actions
 - (IBAction) openImage : (id) sender;
+- (IBAction) saveImage : (id) sender;
 - (BOOL) showImageWithURL : (NSURL *) imageURL; // 今のところ、常に YES が返るけど…
 @end
