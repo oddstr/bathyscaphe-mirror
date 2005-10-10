@@ -909,7 +909,6 @@
 		879A727508DEF69C005AA1A1 /* BSIconAndTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIconAndTextCell.m; sourceTree = "<group>"; };
 		87A6CD7508E2706200F971B7 /* BSTitleRulerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSTitleRulerView.h; sourceTree = "<group>"; };
 		87A6CD7608E2706200F971B7 /* BSTitleRulerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSTitleRulerView.m; sourceTree = "<group>"; };
-		87A6CDBA08E2964A00F971B7 /* titleRulerBackground.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = titleRulerBackground.tiff; sourceTree = "<group>"; };
 		87AC05B5082D3E4200823807 /* FontWell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FontWell.h; sourceTree = "<group>"; };
 		87AC05B6082D3E4200823807 /* FontWell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FontWell.m; sourceTree = "<group>"; };
 		87AF6CFD07425DC0001D08ED /* add_idle.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = add_idle.tiff; sourceTree = "<group>"; };
@@ -1537,7 +1536,6 @@
 			children = (
 				870B892B08ED56B3001664CC /* titleRulerBgAquaBlue.tiff */,
 				870B892C08ED56B3001664CC /* titleRulerBgAquaGraphite.tiff */,
-				87A6CDBA08E2964A00F971B7 /* titleRulerBackground.tiff */,
 				87D5D8CF08DF0FCC0039A9EB /* boardListSelBgFocused.tiff */,
 				87D5D8D008DF0FCC0039A9EB /* boardListSelBg.tiff */,
 				873D91AF08D9B7EA009D5E6C /* OrderFrontBrowser.tiff */,
