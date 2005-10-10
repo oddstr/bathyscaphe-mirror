@@ -585,6 +585,9 @@
 		879A727708DEF69C005AA1A1 /* BSIconAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 879A727508DEF69C005AA1A1 /* BSIconAndTextCell.m */; };
 		87A6CD7708E2706200F971B7 /* BSTitleRulerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87A6CD7508E2706200F971B7 /* BSTitleRulerView.h */; };
 		87A6CD7808E2706200F971B7 /* BSTitleRulerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87A6CD7608E2706200F971B7 /* BSTitleRulerView.m */; };
+		87B293A608FA5C6F00D21421 /* BSImagePreviewInspector.h in Headers */ = {isa = PBXBuildFile; fileRef = 87B293A408FA5C6F00D21421 /* BSImagePreviewInspector.h */; };
+		87B293A708FA5C6F00D21421 /* BSImagePreviewInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 87B293A508FA5C6F00D21421 /* BSImagePreviewInspector.m */; };
+		87B293AE08FA601300D21421 /* BSImagePreviewInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87B293AC08FA601300D21421 /* BSImagePreviewInspector.nib */; };
 		87B652990840625F008AE2BE /* SendMessage.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B652980840625F008AE2BE /* SendMessage.tiff */; };
 		87BB79210864401A00ED8757 /* RBSplitSubview.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB791F0864401A00ED8757 /* RBSplitSubview.h */; };
 		87BB79220864401A00ED8757 /* RBSplitViewPrivateDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB79200864401A00ED8757 /* RBSplitViewPrivateDefines.h */; };
@@ -915,6 +918,9 @@
 		87AF6CFE07425DC0001D08ED /* add_pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = add_pressed.tiff; sourceTree = "<group>"; };
 		87AF6CFF07425DC0001D08ED /* remove_idle.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = remove_idle.tiff; sourceTree = "<group>"; };
 		87AF6D0007425DC0001D08ED /* remove_pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = remove_pressed.tiff; sourceTree = "<group>"; };
+		87B293A408FA5C6F00D21421 /* BSImagePreviewInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSImagePreviewInspector.h; sourceTree = "<group>"; };
+		87B293A508FA5C6F00D21421 /* BSImagePreviewInspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSImagePreviewInspector.m; sourceTree = "<group>"; };
+		87B293AD08FA601300D21421 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSImagePreviewInspector.nib; sourceTree = "<group>"; };
 		87B652980840625F008AE2BE /* SendMessage.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SendMessage.tiff; sourceTree = "<group>"; };
 		87BB791F0864401A00ED8757 /* RBSplitSubview.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RBSplitSubview.h; path = ../RBSplitSubview.h; sourceTree = "<group>"; };
 		87BB79200864401A00ED8757 /* RBSplitViewPrivateDefines.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RBSplitViewPrivateDefines.h; path = ../RBSplitViewPrivateDefines.h; sourceTree = "<group>"; };
@@ -1527,6 +1533,7 @@
 				872999540832618100CBD740 /* ThreadViewer.strings */,
 				8795B91E08E3A7E3005C7C5B /* ToolbarItems.strings */,
 				87BF52D308F7913400998C4E /* BSBoardInfoInspector.nib */,
+				87B293AC08FA601300D21421 /* BSImagePreviewInspector.nib */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -2155,6 +2162,8 @@
 				87D64F9C0821141D00C44651 /* Others */,
 				F3488FCD04CD431600A80005 /* trash */,
 				F3488FCC04CD430300A80005 /* cookie */,
+				87B293A408FA5C6F00D21421 /* BSImagePreviewInspector.h */,
+				87B293A508FA5C6F00D21421 /* BSImagePreviewInspector.m */,
 			);
 			path = manager;
 			sourceTree = "<group>";
@@ -2782,6 +2791,7 @@
 				87A6CD7708E2706200F971B7 /* BSTitleRulerView.h in Headers */,
 				877B78FC08E416C900184BB2 /* BSProgressIndicatorTbItem.h in Headers */,
 				87BF52CB08F789D500998C4E /* BSBoardInfoInspector.h in Headers */,
+				87B293A608FA5C6F00D21421 /* BSImagePreviewInspector.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3167,6 +3177,7 @@
 				870B892D08ED56B3001664CC /* titleRulerBgAquaBlue.tiff in Resources */,
 				870B892E08ED56B3001664CC /* titleRulerBgAquaGraphite.tiff in Resources */,
 				87BF52D508F7913400998C4E /* BSBoardInfoInspector.nib in Resources */,
+				87B293AE08FA601300D21421 /* BSImagePreviewInspector.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3432,6 +3443,7 @@
 				87A6CD7808E2706200F971B7 /* BSTitleRulerView.m in Sources */,
 				877B78FD08E416C900184BB2 /* BSProgressIndicatorTbItem.m in Sources */,
 				87BF52CC08F789D500998C4E /* BSBoardInfoInspector.m in Sources */,
+				87B293A708FA5C6F00D21421 /* BSImagePreviewInspector.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3831,6 +3843,14 @@
 				8795B92008E3A7EC005C7C5B /* Japanese */,
 			);
 			name = ToolbarItems.strings;
+			sourceTree = "<group>";
+		};
+		87B293AC08FA601300D21421 /* BSImagePreviewInspector.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				87B293AD08FA601300D21421 /* Japanese */,
+			);
+			name = BSImagePreviewInspector.nib;
 			sourceTree = "<group>";
 		};
 		87BF52D308F7913400998C4E /* BSBoardInfoInspector.nib */ = {

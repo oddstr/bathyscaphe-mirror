@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.5 2005/09/30 01:08:32 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.6 2005/10/10 10:05:45 tsawada2 Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -23,6 +23,8 @@
 #import "CMRDocumentFileManager.h"
 
 #import <SGAppKit/NSWorkspace-SGExtensions.h>
+
+#import "BSImagePreviewInspector.h"
 
 
 #import "CMRNetRequestQueue.h"
@@ -366,16 +368,41 @@ static NSString *previewSourceHTMLFilepath(NSString *resourceName, NSString *aTy
 	[src_ writeToFile:path_ atomically:YES];	
 	
 	return [[NSWorkspace sharedWorkspace] openURL : previewURL_ inBackGround : [CMRPref openInBg]];
-	
-	//previewURL_ = [NSURL URLWithLink : aLink];
-	//return [[CMRImagePanelManager defaultManager] showImage : previewURL_];
-
 }
+
+// Added in Lemonade and later.
+- (BOOL) previewLinkWithImageInspector : (id) aLink
+{
+	NSURL		*previewURL_;
+
+	previewURL_ = [NSURL URLWithLink : aLink];
+	return [[BSImagePreviewInspector sharedInstance] showImageWithURL : previewURL_];
+}
+
 - (BOOL) previewLink : (id) aLink
 {
-	return SGTemplateBool(PREVIEW_EXT_KEY) 
+	/*return SGTemplateBool(PREVIEW_EXT_KEY) 
 			? [self previewLinkWithExternalProgram : aLink]
-			: [self previewLinkWithWebBrowser : aLink];
+			: [self previewLinkWithWebBrowser : aLink];*/
+	id	tmp_;
+	tmp_ = SGTemplateResource(PREVIEW_EXT_KEY);
+	UTILAssertRespondsTo(tmp_, @selector(intValue));
+
+	switch([tmp_ intValue]){
+	case 0:
+		return [self previewLinkWithWebBrowser : aLink];
+		break;
+	case 1:
+		return [self previewLinkWithExternalProgram : aLink];
+		break;
+	case 2:
+		return [self previewLinkWithImageInspector : aLink];
+		break;
+	default:
+		return [self previewLinkWithWebBrowser : aLink];
+		break;
+	}
+
 }
 
 - (BOOL) tryPreviewLink : (id) aLink

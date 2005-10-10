@@ -52,7 +52,7 @@
 	<key>Thread - IndexFormat</key>
 	<string>%u</string>
 	<key>Thread - LaunchExternalProgramOnPreviewLink</key>
-	<integer>0</integer>
+	<integer>2</integer>
 	<key>Thread - MailIconAlignment</key>
 	<integer>5</integer>
 	<key>Thread - MouseDownTrackingTime</key>

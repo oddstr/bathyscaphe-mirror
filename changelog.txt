@@ -1,4 +1,22 @@
 2005-10-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-Link.m
+	* application/Resources/text/KeyValueTemplates.plist
+		プレビューインスペクタの追加に伴い、暫定的に "Thread - LaunchExternalProgramOnPreviewLink" の扱いを
+		変更：
+		0 - 内蔵の html にリンクを埋め込んで開く（今までと同じ・今までのデフォルト）
+		1 - 外部プログラムにリンクを渡し、起動する（今までと同じ）
+		2 - 内蔵のプレビューインスペクタでリンクを表示する（新規追加・暫定的にこれをデフォルトに変更）
+		- イメージインスペクタの呼び出しインタフェース、今までのプレビュー機能との兼ね合い等はまだ確定していない。
+		　現在の動作は暫定的なものである。
+	* application/source/manager/BSImagePreviewInspector.m
+	* application/Resources/Japanese.lproj/BSImagePreviewInspector.nib
+		[新規追加] 画像プレビュー用のフローティングパネル「イメージインスペクタ」を導入。
+		- 暫定的に option-クリックで呼び出す（上記参照）。
+		- まだ生まれたてなので、リンクが画像かどうかはユーザ自身が判別してください。画像以外のリンクでも、何も表示されない
+		　だけで、クラッシュする訳ではないが。
+		- インスペクタなので今のところ同時に複数のプレビューを表示することは出来ない。別のリンクをクリックすると
+		　そのリンクの内容に入れ替わる。
+		- 画像の保存機能等はまだ実装されていない。ただ、見るだけ。
 	* application/Resources/image/titleRulerBackground.tiff
 		[削除] 不要になったので削除。
 ================================================= ShortCircuit
