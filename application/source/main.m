@@ -73,6 +73,7 @@ void CMRApplicationReset()
         object : nil];
     
     [[CookieManager defaultManager] removeAllCookies];
+	[[NSURLCache sharedURLCache] removeAllCachedResponses];
     [[SGTemplatesManager sharedInstance] resetAllResources];
     [[CMRHistoryManager  defaultManager] removeAllItems];
     [[NSNotificationCenter defaultCenter] 

@@ -1,5 +1,5 @@
 /**
-  * $Id: SGHTMLView.m,v 1.2 2005/09/12 08:02:20 tsawada2 Exp $
+  * $Id: SGHTMLView.m,v 1.3 2005/10/11 05:09:29 tsawada2 Exp $
   * 
   * SGHTMLView.m
   *
@@ -106,7 +106,7 @@ CMRThreadView ‚ğƒZƒbƒgƒAƒbƒv‚·‚éÛ‚ÉAsetLinkTextAttributes: ‚Å“K“–‚È‘®««‘‚ğƒ
 		default_menu);
 	
 	[self setSelectedRange : effectiveRange_];
-	return [self linkMenuWithLink : link_];
+	return [self linkMenuWithLink : link_ forImageFile : [self validateLinkBySuffix : link_]];
 	
 	default_menu:
 	
@@ -287,6 +287,7 @@ CMRThreadView ‚ğƒZƒbƒgƒAƒbƒv‚·‚éÛ‚ÉAsetLinkTextAttributes: ‚Å“K“–‚È‘®««‘‚ğƒ
 	return [menuItem_ autorelease];
 }
 - (NSMenu *) linkMenuWithLink : (id) aLink
+				 forImageFile : (BOOL) isImage
 {
 	NSString		*title_;
 	NSMenu			*menu_;
@@ -310,8 +311,20 @@ CMRThreadView ‚ğƒZƒbƒgƒAƒbƒv‚·‚éÛ‚ÉAsetLinkTextAttributes: ‚Å“K“–‚È‘®««‘‚ğƒ
 									title : title_];
 	[menu_ addItem : menuItem_];
 	
-	
+	if (isImage) {
+		// ƒŠƒ“ƒN‚ğƒvƒŒƒrƒ…[
+		title_ = [self localizedString : kPreviewLinkStringKey];
+		menuItem_ = [self commandItemWithLink : aLink 
+									  command : [SGPreviewLinkCommand class]
+										title : title_];
+		[menu_ addItem : menuItem_];
+	}
 	return [menu_ autorelease];
+}
+
+- (NSMenu *) linkMenuWithLink : (id) aLink
+{
+	return [self linkMenuWithLink : aLink forImageFile : NO];
 }
 - (BOOL) validateLinkByFiltering : (id) aLink
 {
@@ -329,7 +342,20 @@ CMRThreadView ‚ğƒZƒbƒgƒAƒbƒv‚·‚éÛ‚ÉAsetLinkTextAttributes: ‚Å“K“–‚È‘®««‘‚ğƒ
 	scheme_ = [url_ scheme];
 	return (NO == [filter_ containsObject : scheme_]);
 }
+- (BOOL) validateLinkBySuffix : (id) aLink
+{
+	NSURL	*url_;
+	NSString	*tmp_;
+	if (nil == aLink) return NO;
 
+	url_ = [NSURL URLWithLink : aLink];
+	if (nil == url_) return NO;
+
+	tmp_ = [url_ stringValue];	
+	if ([tmp_ hasSuffix : @".jpg"] || [tmp_ hasSuffix : @".png"] || [tmp_ hasSuffix : @".gif"])
+		return YES;
+	return NO;
+}
 
 - (void) pushCloseHandCursorIfNeeded
 {

@@ -12,6 +12,7 @@
 #define kLinkStringKey		@"Link"
 #define kCopyLinkStringKey	@"Copy Link"
 #define kOpenLinkStringKey	@"Open Link"
+#define kPreviewLinkStringKey @"Preview Link"
 
 
 
@@ -40,7 +41,10 @@
 							 command : (Class	  ) aFunctorClass
 							   title : (NSString *) aTitle;
 - (NSMenu *) linkMenuWithLink : (id) aLink;
+- (NSMenu *) linkMenuWithLink : (id) aLink
+				 forImageFile : (BOOL) isImage; // added in Lemonade and later.
 - (BOOL) validateLinkByFiltering : (id) aLink;
+- (BOOL) validateLinkBySuffix : (id) aLink; // added in Lemonade and later.
 
 - (void) pushCloseHandCursorIfNeeded;
 - (void) commandMouseDragged : (NSEvent *) theEvent;

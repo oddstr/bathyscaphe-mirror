@@ -1,3 +1,18 @@
+2005-10-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/image/AddBoard.tiff
+	* application/Resources/image/AddBoard_Pressed.tiff
+		[新規追加] 掲示板リストの下部に追加した「＋」ボタンの画像。
+	* application/Resources/Japanese.lproj/Browser.nib
+		今後の機能強化を睨み、掲示板リストの下部に「＋」ボタンを追加した。
+	* application/source/view/SGLinkCommand.m
+	* application/source/view/SGHTMLView.m
+	* application/Resources/Japanese.lproj/HTMLView.strings
+		リンクの末尾が「.png」「.jpg」「.gif」（.も含む）で終わっているとき、コンテキストメニューに「リンクをプレビュー」
+		を追加するようにした。
+		- 現状、例えば「.jpg.html」とかだと開けないので、勘弁な。option+クリックはこのチェックを行わないので、
+		　どんなリンクでも強制的にイメージインスペクタに渡します。でもたぶんバインディングしてくれない。
+	* application/source/main.m
+		「BathyScaphe をリセット」する際、~/Library/Caches/BathyScaphe/ の中身も掃除するようにした。
 2005-10-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/manager/BSImagePreviewInspector.m
 	* application/Resources/Japanese.lproj/BSImagePreviewInspector.nib

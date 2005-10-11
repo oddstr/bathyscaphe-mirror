@@ -19,3 +19,7 @@
 
 @interface SGOpenLinkCommand : SGLinkCommand
 @end
+
+// added in Lemonade and later.
+@interface SGPreviewLinkCommand : SGLinkCommand
+@end

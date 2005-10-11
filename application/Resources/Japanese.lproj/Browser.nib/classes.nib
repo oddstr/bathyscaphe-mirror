@@ -153,6 +153,7 @@
         {CLASS = CMXScrollView; LANGUAGE = ObjC; SUPERCLASS = NSScrollView; }, 
         {
             ACTIONS = {
+                "" = id; 
                 addFavorites = id; 
                 copyInfoFromContextualMenu = id; 
                 copyThreadAttributes = id; 

@@ -585,6 +585,8 @@
 		879A727708DEF69C005AA1A1 /* BSIconAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 879A727508DEF69C005AA1A1 /* BSIconAndTextCell.m */; };
 		87A6CD7708E2706200F971B7 /* BSTitleRulerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87A6CD7508E2706200F971B7 /* BSTitleRulerView.h */; };
 		87A6CD7808E2706200F971B7 /* BSTitleRulerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87A6CD7608E2706200F971B7 /* BSTitleRulerView.m */; };
+		87B19D7E08FB7C4100D15053 /* AddBoard_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B19D7C08FB7C4100D15053 /* AddBoard_Pressed.tiff */; };
+		87B19D7F08FB7C4100D15053 /* AddBoard.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B19D7D08FB7C4100D15053 /* AddBoard.tiff */; };
 		87B293A608FA5C6F00D21421 /* BSImagePreviewInspector.h in Headers */ = {isa = PBXBuildFile; fileRef = 87B293A408FA5C6F00D21421 /* BSImagePreviewInspector.h */; };
 		87B293A708FA5C6F00D21421 /* BSImagePreviewInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 87B293A508FA5C6F00D21421 /* BSImagePreviewInspector.m */; };
 		87B293AE08FA601300D21421 /* BSImagePreviewInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87B293AC08FA601300D21421 /* BSImagePreviewInspector.nib */; };
@@ -918,6 +920,8 @@
 		87AF6CFE07425DC0001D08ED /* add_pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = add_pressed.tiff; sourceTree = "<group>"; };
 		87AF6CFF07425DC0001D08ED /* remove_idle.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = remove_idle.tiff; sourceTree = "<group>"; };
 		87AF6D0007425DC0001D08ED /* remove_pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = remove_pressed.tiff; sourceTree = "<group>"; };
+		87B19D7C08FB7C4100D15053 /* AddBoard_Pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AddBoard_Pressed.tiff; sourceTree = "<group>"; };
+		87B19D7D08FB7C4100D15053 /* AddBoard.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AddBoard.tiff; sourceTree = "<group>"; };
 		87B293A408FA5C6F00D21421 /* BSImagePreviewInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSImagePreviewInspector.h; sourceTree = "<group>"; };
 		87B293A508FA5C6F00D21421 /* BSImagePreviewInspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSImagePreviewInspector.m; sourceTree = "<group>"; };
 		87B293AD08FA601300D21421 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSImagePreviewInspector.nib; sourceTree = "<group>"; };
@@ -1541,6 +1545,8 @@
 		87299A02083261F200CBD740 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				87B19D7C08FB7C4100D15053 /* AddBoard_Pressed.tiff */,
+				87B19D7D08FB7C4100D15053 /* AddBoard.tiff */,
 				870B892B08ED56B3001664CC /* titleRulerBgAquaBlue.tiff */,
 				870B892C08ED56B3001664CC /* titleRulerBgAquaGraphite.tiff */,
 				87D5D8CF08DF0FCC0039A9EB /* boardListSelBgFocused.tiff */,
@@ -3178,6 +3184,8 @@
 				870B892E08ED56B3001664CC /* titleRulerBgAquaGraphite.tiff in Resources */,
 				87BF52D508F7913400998C4E /* BSBoardInfoInspector.nib in Resources */,
 				87B293AE08FA601300D21421 /* BSImagePreviewInspector.nib in Resources */,
+				87B19D7E08FB7C4100D15053 /* AddBoard_Pressed.tiff in Resources */,
+				87B19D7F08FB7C4100D15053 /* AddBoard.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

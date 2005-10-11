@@ -2,7 +2,7 @@
 #import "SGLinkCommand.h"
 #import "CocoMonar_Prefix.h"
 //#import <SGAppKit/NSWorkspace-SGExtensions.h>
-
+#import "BSImagePreviewInspector.h"
 
 
 @implementation SGLinkCommand : SGFunctor
@@ -57,5 +57,12 @@
 - (void) execute : (id) sender
 {
 	[[NSWorkspace sharedWorkspace] openURL : [self URLValue]];// inBackGround : YES];
+}
+@end
+
+@implementation SGPreviewLinkCommand : SGLinkCommand
+- (void) execute : (id) sender
+{
+	[[BSImagePreviewInspector sharedInstance] showImageWithURL : [self URLValue]];
 }
 @end
