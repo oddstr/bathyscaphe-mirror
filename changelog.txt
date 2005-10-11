@@ -1,4 +1,16 @@
 2005-10-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/font_color/FCController-ViewAccessor.m
+	* application/subproj/preference/font_color/FCController.m
+	* application/subproj/preference/filter/CMRFilterPrefController.m
+	* application/subproj/preference/Japanese.lproj/FontsAndColors.nib
+	* application/subproj/preference/Japanese.lproj/FilterPreferences.nib
+		「表示」環境設定の「迷惑レス」カラーウェルは、「フィルタ」ペインに移動した。
+		また、「表示」環境設定の「テキストの強調色」カラーウェルは、検索パネルに移動予定（いまはいったん消えている）。
+		- 正直、「表示」ペインのスペース不足のため。
+	* application/source/browser/CMRPullDownIconBtn.m
+		Action.tiff, Action_Pressed.tiff は、今までなんとなく ~/Library/App Spt/BathyScaphe/Resources に
+		画像ファイルを入れてカスタマイズ可能だったが、掲示板リスト下部でこのボタンだけカスタマイズできても無意味なので
+		カスタマイズ不能にした（imageAppNamed: を止めて imageNamed: にした）。
 	* application/Resources/image/AddBoard.tiff
 	* application/Resources/image/AddBoard_Pressed.tiff
 		[新規追加] 掲示板リストの下部に追加した「＋」ボタンの画像。

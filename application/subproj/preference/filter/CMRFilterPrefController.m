@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFilterPrefController.m,v 1.3 2005/07/29 21:18:28 tsawada2 Exp $
+  * $Id: CMRFilterPrefController.m,v 1.4 2005/10/11 08:04:17 tsawada2 Exp $
   * 
   * CMRFilterPrefController.m
   *
@@ -42,7 +42,9 @@
 - (IBAction) changeSpamFilterBehavior : (id) sender
 {
 	UTILAssertRespondsTo(sender, @selector(selectedCell));
+	[self willChangeValueForKey:@"isColorWellEnabled"];
 	[[self preferences] setSpamFilterBehavior : [[sender selectedCell] tag]];
+	[self didChangeValueForKey:@"isColorWellEnabled"];
 }
 - (IBAction) resetSpamDB : (id) sender
 {
@@ -81,6 +83,19 @@
 - (IBAction) closeDetailSheet : (id) sender
 {
 	[NSApp endSheet : [self detailSheet]];
+}
+- (NSColor *) spamColor
+{
+	return [[self preferences] messageFilteredColor];
+}
+- (void) setSpamColor : (NSColor *) newColor;
+{
+	[[self preferences] setMessageFilteredColor : newColor];
+}
+
+- (BOOL) isColorWellEnabled
+{
+	return ([[self preferences] spamFilterBehavior] != 3);
 }
 @end
 

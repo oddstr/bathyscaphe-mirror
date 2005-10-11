@@ -1,5 +1,5 @@
 /**
-  * $Id: FCController.h,v 1.4 2005/09/24 06:07:50 tsawada2 Exp $
+  * $Id: FCController.h,v 1.5 2005/10/11 08:04:17 tsawada2 Exp $
   * 
   * FCController.h
   *
@@ -19,67 +19,25 @@
 	IBOutlet NSButton		*_alternateFontButton;
 	IBOutlet NSButton		*_hostFontButton;
 	IBOutlet NSButton		*_beProfileFontButton;
-	IBOutlet NSColorWell	*_threadViewBGColorWell;
-	IBOutlet NSColorWell	*_threadViewColorWell;
-	IBOutlet NSColorWell	*_messageColorWell;
-	IBOutlet NSColorWell	*_messageNameColorWell;
-	IBOutlet NSColorWell	*_messageTitleColorWell;
-	IBOutlet NSColorWell	*_messageAnchorColorWell;
-	IBOutlet NSColorWell	*_messageFilteredColorWell;
-	IBOutlet NSColorWell	*_messageTextEnhancedColorWell;
-	IBOutlet NSColorWell	*_messageHostColorWell;
-	
-	IBOutlet NSButton		*_hasAnchorULButton;
-	
 	IBOutlet NSButton		*_threadsListFontButton;
 	IBOutlet NSButton		*_newThreadFontButton;
-	IBOutlet NSColorWell	*_newThreadColorWell;
-	IBOutlet NSColorWell	*_threadsListColorWell;
-	
-	IBOutlet NSButton		*m_drawsGridCheckBox;
-	IBOutlet NSButton		*m_drawStripedCheckBox;
-	
-	IBOutlet NSTextField	*m_rowHeightField;
-	//IBOutlet NSTextField	*m_spaceWidthField;
-	//IBOutlet NSTextField	*m_spaceHeightField;
-	
-	IBOutlet NSStepper		*m_rowHeightStepper;
-	//IBOutlet NSStepper		*m_spaceWidthStepper;
-	//IBOutlet NSStepper		*m_spaceHeightStepper;
-	
-	// ‚»‚Ì‘¼
-	IBOutlet NSColorWell	*_resPopUpBGColorWell;
-	IBOutlet NSColorWell	*_resPopUpTextColorWell;
-	IBOutlet NSButton		*_resPopUpUsesTCButton;
-	//IBOutlet NSButton		*_resPopUpIsSeeThroughButton;
-	IBOutlet NSButton		*m_shouldAntialiasButton;
-	
-	IBOutlet NSButton		*_resPopUpScrollerIsSmall;
-	
 	IBOutlet NSButton		*m_replyFontButton;
-	IBOutlet NSColorWell	*m_replyTextColorWell;
-	IBOutlet NSColorWell	*m_replyBackgroundColorWell;
 
 	IBOutlet NSButton		*m_BLtextFontButton;
-	IBOutlet NSColorWell	*m_BLtextColorWell;
 	IBOutlet NSTextField	*m_BLrowHeightField;
 	IBOutlet NSStepper		*m_BLrowHeightStepper;
+	
+	IBOutlet NSTextField	*m_rowHeightField;
+	
+	IBOutlet NSStepper		*m_rowHeightStepper;	
 }
 
-- (IBAction) changeHasAnchorUnderline : (id) sender;
-- (IBAction) changeResPopUpUsesTextColor : (id) sender;
-//- (IBAction) changeResPopUpSeeThrough : (id) sender;
-- (IBAction) changeShouldThreadAntialias : (id) sender;
-- (IBAction) changeColor : (id) sender;
-- (IBAction) changeDrawsGrid : (id) sender;
-- (IBAction) changeDrawStriped : (id) sender;
 - (IBAction) changeTableRowSpace : (id) sender;
 - (IBAction) fixRowHeightToFont : (id) sender;
 
 - (IBAction) changeBoardListRowHeight : (id) sender;
 - (IBAction) fixRowHeightToFontOfBoardList : (id) sender;
 
-- (IBAction) changePopUpScrollerSize : (id) sender;
 - (void) changeFontOf : (int) tagNum To: (NSFont *) newFont;
 
 // SledgeHammer Additions - Cocoa binding support
@@ -94,4 +52,50 @@
 - (void) setResPopUpBgAlphaValue : (float) aValue;
 - (float) replyBgAlphaValue;
 - (void) setReplyBgAlphaValue : (float) aValue;
+
+- (NSColor *) threadTextColor;
+- (void) setThreadTextColor : (NSColor *) newColor;
+- (NSColor *) msgTextColor;
+- (void) setMsgTextColor : (NSColor *) newColor;
+- (NSColor *) headerTextColor;
+- (void) setHeaderTextColor : (NSColor *) newColor;
+- (NSColor *) hostTextColor;
+- (void) setHostTextColor : (NSColor *) newColor;
+- (NSColor *) linkTextColor;
+- (void) setLinkTextColor : (NSColor *) newColor;
+- (NSColor *) nameTextColor;
+- (void) setNameTextColor : (NSColor *) newColor;
+- (NSColor *) threadBgColor;
+- (void) setThreadBgColor : (NSColor *) newColor;
+
+- (NSColor *) thListDefaultColor;
+- (void) setThListDefaultColor : (NSColor *) newColor;
+- (NSColor *) thListNewColor;
+- (void) setThListNewColor : (NSColor *) newColor;
+
+- (NSColor *) popupBgColor;
+- (void) setPopupBgColor : (NSColor *) newColor;
+- (NSColor *) popupTextColor;
+- (void) setPopupTextColor : (NSColor *) newColor;
+
+- (NSColor *) replyTextColor;
+- (void) setReplyTextColor : (NSColor *) newColor;
+- (NSColor *) replyBgColor;
+- (void) setReplyBgColor : (NSColor *) newColor;
+- (NSColor *) boardListTextColor;
+- (void) setBoardListTextColor : (NSColor *) newColor;
+
+- (BOOL) hasAnchorUL;
+- (void) setHasAnchorUL : (BOOL) boxState;
+- (BOOL) shouldAntiAlias;
+- (void) setShouldAntiAlias : (BOOL) boxState;
+- (BOOL) drawsGrid;
+- (void) setDrawsGrid : (BOOL) boxState;
+- (BOOL) drawsStriped;
+- (void) setDrawsStriped : (BOOL) boxState;
+- (BOOL) popupUsesCustomTextColor;
+- (void) setPopupUsesCustomTextColor : (BOOL) boxState;
+- (BOOL) popupUsesSmallScroller;
+- (void) setPopupUsesSmallScroller : (BOOL) boxState;
+
 @end

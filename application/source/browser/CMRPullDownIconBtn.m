@@ -1,42 +1,37 @@
 //
 //  CMRPullDownIconBtn.m
-//  CocoMonar
+//  CocoMonar & BathyScaphe
 //
-//  Created by tsawada2 on 05/01/09.
-//  Copyright 2005 __MyCompanyName__. All rights reserved.
+//  Created by Tsutomu Sawada on 05/01/09, last modified on 05/10/11.
+//  Copyright 2005 tsawada2. All rights reserved.
 //
 
 #import "CMRPullDownIconBtn.h"
 
 
 @implementation CMRPullDownIconBtn
-- (void)drawInteriorWithFrame:(NSRect)cellFrame 
-                inView:(NSView*)controlView
+- (void) drawInteriorWithFrame : (NSRect ) cellFrame 
+						inView : (NSView*) controlView
 {    
     NSImage*  iconImage;
-    NSSize    iconSize;
     NSPoint   iconPoint;
     
     // 画像を描く
 	// isHighlighted を見ればよい ... Thanks to 642@21th
-	iconImage = [self isHighlighted]?[NSImage imageAppNamed : @"Action_Pressed"]:[NSImage imageAppNamed : @"Action"];
+	// 2005-10-11 追加：ここだけカスタマイズ可能でも意味がないので、ここの imageAppNamed は imageNamed に変更。
+	iconImage = [self isHighlighted] ? [NSImage imageNamed : @"Action_Pressed"] : [NSImage imageNamed : @"Action"];
 	
-	iconSize = NSZeroSize;
     iconPoint.x = cellFrame.origin.x;
     iconPoint.y = cellFrame.origin.y;
     
     if(iconImage) {
-        iconSize.width = 32;
-        iconSize.height = 25;
         
         if([controlView isFlipped]) {
-            iconPoint.y += iconSize.height;
+            iconPoint.y += 25;
         }
         
-        [iconImage setSize:iconSize];
-        [iconImage compositeToPoint:iconPoint 
-                operation:NSCompositeSourceOver];
-    }
-    
+        [iconImage setSize : NSMakeSize(32,25)];
+        [iconImage compositeToPoint : iconPoint operation : NSCompositeSourceOver];
+    }    
 }
 @end

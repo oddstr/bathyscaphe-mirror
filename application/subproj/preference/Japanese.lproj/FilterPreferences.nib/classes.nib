@@ -20,7 +20,12 @@
             }; 
             SUPERCLASS = PreferencesController; 
         }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {"" = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
         {
             ACTIONS = {openHelp = id; }; 
             CLASS = PreferencesController; 

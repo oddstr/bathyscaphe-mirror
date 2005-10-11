@@ -5,66 +5,14 @@
 #define kToolTipKey		@"Appearance ToolTip"
 #define kImageName		@"AppearancePreferences"
 
+#define PREF			[self preferences]
 
 @implementation FCController
 - (NSString *) mainNibName
 {
 	return @"FontsAndColors";
 }
-
-#pragma mark -
-
-- (IBAction) changeHasAnchorUnderline : (id) sender
-{
-	UTILAssertKindOfClass(sender, NSButton);
-	[[self preferences] setHasMessageAnchorUnderline : 
-						([sender state] == NSOnState)];
-}
-- (IBAction) changeResPopUpUsesTextColor : (id) sender
-{
-	BOOL usesDefaultColor_;
-	
-	UTILAssertRespondsTo(sender, @selector(state));
-	usesDefaultColor_ = ([sender state] == NSOnState);
-	[[self preferences] setIsResPopUpTextDefaultColor : usesDefaultColor_];
-	[[self resPopUpTextColorWell] setEnabled : usesDefaultColor_];
-}
-/*- (IBAction) changeResPopUpSeeThrough : (id) sender
-{
-	UTILAssertRespondsTo(sender, @selector(state));
-	[[self preferences] setIsResPopUpSeeThrough : 
-						([sender state] == NSOnState)];
-}*/
-
-
-- (IBAction) changePopUpScrollerSize : (id) sender
-{
-	[[self preferences] setPopUpWindowVerticalScrollerIsSmall : ([sender state] == NSOnState)];
-}
-
-
-- (IBAction) changeShouldThreadAntialias : (id) sender
-{
-	UTILAssertKindOfClass(sender, NSButton);
-	[[self preferences] setShouldThreadAntialias : 
-						([sender state] == NSOnState)];
-}
-- (IBAction) changeDrawsGrid : (id) sender
-{
-	BOOL	drawsGrid_;
-	
-	UTILAssertKindOfClass(sender, NSButton);
-	drawsGrid_ = ([sender state] == NSOnState);
-	[[self preferences] setThreadsListDrawsGrid : drawsGrid_];
-}
-- (IBAction) changeDrawStriped : (id) sender
-{
-	BOOL	drawStriped_;
-	
-	UTILAssertKindOfClass(sender, NSButton);
-	drawStriped_ = ([sender state] == NSOnState);
-	[[self preferences] setBrowserSTableDrawsStriped : drawStriped_];
-}
+#pragma mark IBActions
 - (IBAction) changeTableRowSpace : (id) sender
 {
 	[[self preferences]	setThreadsListRowHeight : [sender floatValue]];
@@ -88,46 +36,7 @@
 	[[self preferences] fixBoardListRowHeightToFontSize];
 	[self updateBoardListRowSettings];
 }
-
-- (IBAction) changeColor : (id) sender
-{
-	int		index_;
-	SEL		selector_[] = {
-				@selector(setThreadViewerBackgroundColor:),		// 0
-				@selector(setThreadsViewColor:),				// 1
-				@selector(setMessageColor:),					// 2
-				@selector(setMessageNameColor:),				// 3
-				@selector(setMessageTitleColor:),				// 4
-				@selector(setMessageAnchorColor:),				// 5
-				@selector(setMessageFilteredColor:),			// 6
-				@selector(setTextEnhancedColor:),				// 7
-				@selector(setThreadsListNewThreadColor:),		// 8
-				@selector(setThreadsListColor:),				// 9
-				@selector(setReplyTextColor:),					// 10
-				@selector(setReplyBackgroundColor:),			// 11
-				@selector(setResPopUpBackgroundColor:),			// 12
-				@selector(setResPopUpDefaultTextColor:),		// 13
-				@selector(setMessageHostColor:),				// 14
-				@selector(setBoardListTextColor:)				// 15
-	};
-	
-	if (NO == [sender respondsToSelector : @selector(tag)]) return;
-	if (NO == [sender respondsToSelector : @selector(color)]) return;
-	
-	index_ = [sender tag];
-	NSAssert2(
-		(index_ < UTILNumberOfCArray(selector_)),
-		@"Access over index(%d) length = %d",
-		index_,
-		UTILNumberOfCArray(selector_));
-	
-	if (NO == [[self preferences] respondsToSelector : selector_[index_]]) 
-		return;
-	
-	[[self preferences] performSelector : selector_[index_]
-							 withObject : [sender color]];
-}
-
+#pragma mark Font Setting
 - (void) changeFontOf : (int) tagNum To: (NSFont *) newFont
 {
 	SEL		selector_[] = {
@@ -197,6 +106,179 @@
 	[[self preferences] setReplyBgAlphaValue : aValue];
 }
 
+#pragma mark Lemonade New Color Settings
+
+- (NSColor *) threadTextColor
+{
+	return [PREF threadsViewColor];
+}
+- (void) setThreadTextColor : (NSColor *) newColor
+{
+	[PREF setThreadsViewColor : newColor];
+}
+
+- (NSColor *) msgTextColor
+{
+	return [PREF messageColor];
+}
+- (void) setMsgTextColor : (NSColor *) newColor
+{
+	[PREF setMessageColor : newColor];
+}
+
+- (NSColor *) headerTextColor
+{
+	return [PREF messageTitleColor];
+}
+- (void) setHeaderTextColor : (NSColor *) newColor
+{
+	[PREF setMessageTitleColor : newColor];
+}
+
+- (NSColor *) hostTextColor
+{
+	return [PREF messageHostColor];
+}
+- (void) setHostTextColor : (NSColor *) newColor
+{
+	[PREF setMessageHostColor : newColor];
+}
+
+- (NSColor *) linkTextColor
+{
+	return [PREF messageAnchorColor];
+}
+- (void) setLinkTextColor : (NSColor *) newColor
+{
+	[PREF setMessageAnchorColor : newColor];
+}
+
+- (NSColor *) nameTextColor
+{
+	return [PREF messageNameColor];
+}
+- (void) setNameTextColor : (NSColor *) newColor
+{
+	[PREF setMessageNameColor : newColor];
+}
+- (NSColor *) threadBgColor
+{
+	return [PREF threadViewerBackgroundColor];
+}
+- (void) setThreadBgColor : (NSColor *) newColor
+{
+	[PREF setThreadViewerBackgroundColor : newColor];
+}
+
+- (NSColor *) thListDefaultColor
+{
+	return [PREF threadsListColor];
+}
+- (void) setThListDefaultColor : (NSColor *) newColor
+{
+	[PREF setThreadsListColor : newColor];
+}
+- (NSColor *) thListNewColor
+{
+	return [PREF threadsListNewThreadColor];
+}
+- (void) setThListNewColor : (NSColor *) newColor
+{
+	[PREF setThreadsListNewThreadColor : newColor];
+}
+
+- (NSColor *) popupBgColor
+{
+	return [PREF resPopUpBackgroundColor];
+}
+- (void) setPopupBgColor : (NSColor *) newColor
+{
+	[PREF setResPopUpBackgroundColor : newColor];
+}
+
+- (NSColor *) popupTextColor
+{
+	return [PREF resPopUpDefaultTextColor];
+}
+- (void) setPopupTextColor : (NSColor *) newColor
+{
+	[PREF setResPopUpDefaultTextColor : newColor];
+}
+- (NSColor *) replyTextColor
+{
+	return [PREF replyTextColor];
+}
+- (void) setReplyTextColor : (NSColor *) newColor
+{
+	[PREF setReplyTextColor : newColor];
+}
+- (NSColor *) replyBgColor
+{
+	return [PREF replyBackgroundColor];
+}
+- (void) setReplyBgColor : (NSColor *) newColor
+{
+	[PREF setReplyBackgroundColor : newColor];
+}
+- (NSColor *) boardListTextColor
+{
+	return [PREF boardListTextColor];
+}
+- (void) setBoardListTextColor : (NSColor *) newColor
+{
+	[PREF setBoardListTextColor : newColor];
+}
+
+#pragma mark Lemonade New CheckBox Setings
+- (BOOL) hasAnchorUL
+{
+	return [PREF hasMessageAnchorUnderline];
+}
+- (void) setHasAnchorUL : (BOOL) boxState
+{
+	[PREF setHasMessageAnchorUnderline : boxState];
+}
+- (BOOL) shouldAntiAlias
+{
+	return [PREF shouldThreadAntialias];
+}
+- (void) setShouldAntiAlias : (BOOL) boxState
+{
+	[PREF setShouldThreadAntialias : boxState];
+}
+- (BOOL) drawsGrid
+{
+	return [PREF threadsListDrawsGrid];
+}
+- (void) setDrawsGrid : (BOOL) boxState
+{
+	[PREF setThreadsListDrawsGrid : boxState];
+}
+- (BOOL) drawsStriped
+{
+	return [PREF browserSTableDrawsStriped];
+}
+- (void) setDrawsStriped : (BOOL) boxState
+{
+	[PREF setBrowserSTableDrawsStriped : boxState];
+}
+- (BOOL) popupUsesCustomTextColor
+{
+	return [PREF isResPopUpTextDefaultColor];
+}
+- (void) setPopupUsesCustomTextColor : (BOOL) boxState
+{
+	[PREF setIsResPopUpTextDefaultColor : boxState];
+}
+- (BOOL) popupUsesSmallScroller
+{
+	return [PREF popUpWindowVerticalScrollerIsSmall];
+}
+- (void) setPopupUsesSmallScroller : (BOOL) boxState
+{
+	[PREF setPopUpWindowVerticalScrollerIsSmall : boxState];
+}
+
 #pragma mark NSFontPanelValidation
 
 - (unsigned int) validModesForFontPanel : (NSFontPanel *) fontPanel
@@ -205,7 +287,7 @@
 }
 @end
 
-
+#pragma mark -
 
 @implementation FCController(Toolbar)
 - (NSString *) identifier

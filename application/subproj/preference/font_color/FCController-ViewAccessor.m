@@ -3,56 +3,6 @@
 
 
 @implementation FCController(ViewAccessor)
-- (NSColorWell *) threadViewBGColorWell
-{
-	return _threadViewBGColorWell;
-}
-
-- (NSColorWell *) threadViewColorWell
-{
-	return _threadViewColorWell;
-}
-
-- (NSColorWell *) messageColorWell
-{
-	return _messageColorWell;
-}
-
-- (NSColorWell *) messageNameColorWell
-{
-	return _messageNameColorWell;
-}
-
-- (NSColorWell *) messageTitleColorWell
-{
-	return _messageTitleColorWell;
-}
-
-- (NSColorWell *) messageAnchorColorWell
-{
-	return _messageAnchorColorWell;
-}
-- (NSColorWell *) messageFilteredColorWell
-{
-	return _messageFilteredColorWell;
-}
-- (NSColorWell *) messageTextEnhancedColorWell
-{
-	return _messageTextEnhancedColorWell;
-}
-
-- (NSButton *) hasAnchorULButton
-{
-	return _hasAnchorULButton;
-}
-- (NSColorWell *) newThreadColorWell
-{
-	return _newThreadColorWell;
-}
-- (NSColorWell *) threadsListColorWell
-{
-	return _threadsListColorWell;
-}
 - (NSButton *) threadViewFontButton
 {
 	return _threadViewFontButton;
@@ -83,88 +33,19 @@
 	return _newThreadFontButton;
 }
 
-- (NSColorWell *) resPopUpBGColorWell
-{
-	return _resPopUpBGColorWell;
-}
-
-- (NSColorWell *) resPopUpTextColorWell
-{
-	return _resPopUpTextColorWell;
-}
-
-- (NSButton *) resPopUpUsesTCButton
-{
-	return _resPopUpUsesTCButton;
-}
-/*- (NSButton *) resPopUpIsSeeThroughButton
-{
-	return _resPopUpIsSeeThroughButton;
-}*/
-
-- (NSButton *) shouldAntialiasButton
-{
-	return m_shouldAntialiasButton;
-}
 - (NSTextField *) rowHeightField
 {
 	return m_rowHeightField;
 }
-/*- (NSTextField *) spaceWidthField
-{
-	return m_spaceWidthField;
-}
-- (NSTextField *) spaceHeightField
-{
-	return m_spaceHeightField;
-}*/
-- (NSButton *) drawsGridCheckBox
-{
-	return m_drawsGridCheckBox;
-}
-- (NSButton *) drawStripedCheckBox
-{
-	return m_drawStripedCheckBox;
-}
+
 - (NSStepper *) rowHeightStepper
 {
 	return m_rowHeightStepper;
 }
-/*- (NSStepper *) spaceWidthStepper
-{
-	return m_spaceWidthStepper;
-}
-- (NSStepper *) spaceHeightStepper
-{
-	return m_spaceHeightStepper;
-}*/
+
 - (NSButton *) replyFontButton
 {
 	return m_replyFontButton;
-}
-
-- (NSColorWell *) replyTextColorWell
-{
-	return m_replyTextColorWell;
-}
-
-- (NSColorWell *) replyBackgroundColorWell
-{
-	return m_replyBackgroundColorWell;
-}
-- (NSButton *) resPopUpScrollerIsSmall
-{
-	return _resPopUpScrollerIsSmall;
-}
-
-- (NSColorWell *) boardListTextColorWell
-{
-	return m_BLtextColorWell;
-}
-
-- (NSColorWell *) messageHostColorWell
-{
-	return _messageHostColorWell;
 }
 
 - (NSButton *) hostFontButton
@@ -188,122 +69,11 @@
 {
 	return m_BLrowHeightStepper;
 }
+
 #pragma mark -
 
 - (void) setupUIComponents
 {
-	// チェックボックスが選択されていない場合は非表示
-	if ([[self resPopUpTextColorWell] isEnabled])
-		[[self resPopUpTextColorWell] setEnabled : 
-			(NSOnState == [[self resPopUpUsesTCButton] state])];
-}
-
-- (void) updateColorWellComponents
-{
-	NSString *getColorKeys[] = {
-		@"threadViewerBackgroundColor",
-		@"threadsViewColor",
-		@"messageColor",
-		@"messageNameColor",
-		@"messageTitleColor",
-		@"messageAnchorColor",
-		@"messageFilteredColor",
-		@"textEnhancedColor",
-		@"threadsListNewThreadColor",
-		@"threadsListColor",
-		@"replyTextColor",
-		@"replyBackgroundColor",
-		@"resPopUpBackgroundColor",
-		@"resPopUpDefaultTextColor",
-		@"messageHostColor",
-		@"boardListTextColor"};
-	
-	NSString *colorWells[] = {
-		@"threadViewBGColorWell",
-		@"threadViewColorWell",
-		@"messageColorWell",
-		@"messageNameColorWell",
-		@"messageTitleColorWell",
-		@"messageAnchorColorWell",
-		@"messageFilteredColorWell",
-		@"messageTextEnhancedColorWell",
-		@"newThreadColorWell",
-		@"threadsListColorWell",
-		@"replyTextColorWell",
-		@"replyBackgroundColorWell",
-		@"resPopUpBGColorWell",
-		@"resPopUpTextColorWell",
-		@"messageHostColorWell",
-		@"boardListTextColorWell"
-		};
-
-	AppDefaults *pref_ = [self preferences];
-	int	i, cnt = UTILNumberOfCArray(colorWells);
-	
-	NSAssert(
-		UTILNumberOfCArray(colorWells) == UTILNumberOfCArray(getColorKeys),
-		@"Array colorWells and getColorKeys must have same amount of members.");
-	for (i = 0; i < cnt; i++) {
-		NSColorWell		*colorWell;
-		NSColor			*c;
-		
-		colorWell = [self valueForKey : colorWells[i]];
-		c = [pref_ valueForKey : getColorKeys[i]];
-		
-		UTILAssertKindOfClass(colorWell, NSColorWell);
-		UTILAssertKindOfClass(c, NSColor);
-		//カラーウェルの状態に関わらずカラーを設定してしまう。
-		//if ([colorWell isEnabled]) {
-			// プロキシである可能性があるのでコピー
-			c = [c copyWithZone : nil];
-			[colorWell setColor : c];
-			[c release];
-		//}
-	}
-}
-- (void) updateCheckboxComponents
-{
-	NSString *checkBoxes[] = {
-		@"drawsGridCheckBox",
-		@"drawStripedCheckBox",
-		@"resPopUpUsesTCButton",
-		//@"resPopUpIsSeeThroughButton",
-		@"hasAnchorULButton",
-		@"shouldAntialiasButton",
-
-		@"resPopUpScrollerIsSmall"
-		};
-		
-	
-	SEL getSELs[] = {
-		@selector(threadsListDrawsGrid),
-		@selector(browserSTableDrawsStriped),
-		@selector(isResPopUpTextDefaultColor),
-		//@selector(isResPopUpSeeThrough),
-		@selector(hasMessageAnchorUnderline),
-		@selector(shouldThreadAntialias),
-
-		@selector(popUpWindowVerticalScrollerIsSmall)
-		};
-	
-	int		i, cnt = UTILNumberOfCArray(getSELs);
-	
-	NSAssert(
-		UTILNumberOfCArray(checkBoxes) == UTILNumberOfCArray(getSELs),
-		@"Array getSELs and checkBoxes must have same amount of members.");
-	for (i = 0; i < cnt; i++) {
-		NSButton	*chexbox;
-		
-		chexbox = [self valueForKey : checkBoxes[i]];
-		UTILAssertKindOfClass(chexbox, NSButton);
-		[self syncButtonState : chexbox
-						 with : getSELs[i]];
-	}
-}
-
-- (void) syncColorWellComponents
-{
-	[[self resPopUpTextColorWell] setEnabled : (NSOnState == [[self resPopUpUsesTCButton]  state])];
 }
 
 - (NSFont *) getFontOf : (int) btnTag
@@ -325,6 +95,7 @@
 	NSFont *f = [pref_ valueForKey : fonts[btnTag]];
 	return f;
 }
+
 - (void) updateFontWellComponents
 {
 	NSString *controls[] = {
@@ -362,18 +133,6 @@
 		[[self rowHeightStepper] setFloatValue :
 			[pref_ threadsListRowHeight]];
 	}
-	/*if ([[self spaceWidthField] isEnabled]) {
-		[[self spaceWidthField] setFloatValue :
-			[pref_ threadsListIntercellSpacing].width];
-		[[self spaceWidthStepper] setFloatValue :
-			[pref_ threadsListIntercellSpacing].width];
-	}
-	if ([[self spaceHeightField] isEnabled]) {
-		[[self spaceHeightField] setFloatValue :
-			[pref_ threadsListIntercellSpacing].height];
-		[[self spaceHeightStepper] setFloatValue :
-			[pref_ threadsListIntercellSpacing].height];
-	}*/
 }
 
 - (void) updateBoardListRowSettings
@@ -398,8 +157,5 @@
 	[self updateTableRowSettings];
 	[self updateBoardListRowSettings];
 	[self updateFontWellComponents];
-	[self updateColorWellComponents];
-	[self updateCheckboxComponents];
-	[self syncColorWellComponents];
 }
 @end

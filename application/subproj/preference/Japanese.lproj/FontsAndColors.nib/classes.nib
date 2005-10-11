@@ -3,13 +3,6 @@
         {
             ACTIONS = {
                 changeBoardListRowHeight = id; 
-                changeColor = id; 
-                changeDrawStriped = id; 
-                changeDrawsGrid = id; 
-                changeHasAnchorUnderline = id; 
-                changePopUpScrollerSize = id; 
-                changeResPopUpUsesTextColor = id; 
-                changeShouldThreadAntialias = id; 
                 changeTableRowSpace = id; 
                 fixRowHeightToFont = id; 
                 fixRowHeightToFontOfBoardList = id; 
@@ -19,40 +12,18 @@
             OUTLETS = {
                 "_alternateFontButton" = NSButton; 
                 "_beProfileFontButton" = NSButton; 
-                "_hasAnchorULButton" = NSButton; 
                 "_hostFontButton" = NSButton; 
                 "_itemTitleFontButton" = NSButton; 
-                "_messageAnchorColorWell" = NSColorWell; 
-                "_messageColorWell" = NSColorWell; 
-                "_messageFilteredColorWell" = NSColorWell; 
                 "_messageFontButton" = NSButton; 
-                "_messageHostColorWell" = NSColorWell; 
-                "_messageNameColorWell" = NSColorWell; 
-                "_messageTextEnhancedColorWell" = NSColorWell; 
-                "_messageTitleColorWell" = NSColorWell; 
-                "_newThreadColorWell" = NSColorWell; 
                 "_newThreadFontButton" = NSButton; 
-                "_resPopUpBGColorWell" = NSColorWell; 
-                "_resPopUpScrollerIsSmall" = NSButton; 
-                "_resPopUpTextColorWell" = NSColorWell; 
-                "_resPopUpUsesTCButton" = NSButton; 
-                "_threadViewBGColorWell" = NSColorWell; 
-                "_threadViewColorWell" = NSColorWell; 
                 "_threadViewFontButton" = NSButton; 
-                "_threadsListColorWell" = NSColorWell; 
                 "_threadsListFontButton" = NSButton; 
                 "m_BLrowHeightField" = NSTextField; 
                 "m_BLrowHeightStepper" = NSStepper; 
-                "m_BLtextColorWell" = NSColorWell; 
                 "m_BLtextFontButton" = NSButton; 
-                "m_drawStripedCheckBox" = NSButton; 
-                "m_drawsGridCheckBox" = NSButton; 
-                "m_replyBackgroundColorWell" = NSColorWell; 
                 "m_replyFontButton" = NSButton; 
-                "m_replyTextColorWell" = NSColorWell; 
                 "m_rowHeightField" = NSTextField; 
                 "m_rowHeightStepper" = NSStepper; 
-                "m_shouldAntialiasButton" = NSButton; 
             }; 
             SUPERCLASS = PreferencesController; 
         }, 

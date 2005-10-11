@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFilterPrefController.h,v 1.3 2005/07/29 21:18:28 tsawada2 Exp $
+  * $Id: CMRFilterPrefController.h,v 1.4 2005/10/11 08:04:17 tsawada2 Exp $
   * 
   * CMRFilterPrefController.h
   *
@@ -28,4 +28,9 @@
 
 - (IBAction) openDetailSheet : (id) sender;
 - (IBAction) closeDetailSheet : (id) sender;
+
+- (NSColor *) spamColor;
+- (void) setSpamColor : (NSColor *) newColor;
+
+- (BOOL) isColorWellEnabled;
 @end
