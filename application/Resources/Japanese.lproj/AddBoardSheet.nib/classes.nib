@@ -1,0 +1,21 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {close = id; openHelp = id; searchBoards = id; }; 
+            CLASS = AddBoardSheetController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "m_OKButton" = NSButton; 
+                "m_brdNameField" = NSTextFieldCell; 
+                "m_brdURLField" = NSTextFieldCell; 
+                "m_cancelButton" = NSButton; 
+                "m_defaultListOLView" = NSOutlineView; 
+                "m_helpButton" = NSButton; 
+                "m_searchField" = NSSearchField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

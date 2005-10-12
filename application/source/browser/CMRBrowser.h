@@ -16,7 +16,7 @@
 @class ThreadsListTable;
 @class CMRThreadsList;
 @class CMRAccessorySheetController;
-
+@class AddBoardSheetController;
 
 @interface CMRBrowser : CMRThreadViewer
 {
@@ -41,9 +41,9 @@
 	IBOutlet NSTextField		*m_dItemEditSheetLabelField;
 	IBOutlet NSTextField		*m_dItemEditSheetInputField;
 
-	IBOutlet NSWindow			*m_drawerItemAddSheet;
-	IBOutlet NSTextFieldCell	*m_dItemAddNameField;
-	IBOutlet NSTextFieldCell	*m_dItemAddURLField;
+	//IBOutlet NSWindow			*m_drawerItemAddSheet;
+	//IBOutlet NSTextFieldCell	*m_dItemAddNameField;
+	//IBOutlet NSTextFieldCell	*m_dItemAddURLField;
 	
 	// PrincessBride Addition
 	IBOutlet NSSearchField		*m_searchField;
@@ -52,6 +52,8 @@
 	NSString					*_filterResultMessage;	// added in LeafTicket.
 	
 	CMRAccessorySheetController	*m_listSorterSheetController;
+	
+	AddBoardSheetController		*m_addBoardSheetController; // added in Lemonade.
     // note - these can't be connected in IB
     // you'll get, for example, a text view where you meant to get
     // its enclosing scroll view
@@ -86,18 +88,29 @@
 - (IBAction) changeBrowserArrangement : (id) sender;
 - (IBAction) collapseOrExpandBoardList : (id) sender;
 
-- (IBAction) addDrawerItem : (id) sender;
-- (IBAction) addCategoryItem : (id) sender;
-- (IBAction) editDrawerItem : (id) sender;
-- (IBAction) removeDrawerItem : (id) sender;
-- (IBAction) endEditSheet : (id) sender;
-
 // make threadsList view to be first responder;
 - (IBAction) focus : (id) sender;
 
 - (void) selectRowWhoseNameIs : (NSString *) brdname_;
 @end
 
+@interface CMRBrowser(BoardListEditor)
+// ReStructured on Lemonade.
+- (NSWindow *) drawerItemEditSheet;
+- (NSTextField *) dItemEditSheetMsgField;
+- (NSTextField *) dItemEditSheetLabelField;
+- (NSTextField *) dItemEditSheetInputField;
+- (NSTextField *) dItemEditSheetTitleField;
 
+//- (NSWindow *) drawerItemAddSheet;
+//- (NSTextFieldCell *) dItemAddSheetNameField;
+//- (NSTextFieldCell *) dItemAddSheetURLField;
+
+- (IBAction) addDrawerItem : (id) sender;
+- (IBAction) addCategoryItem : (id) sender;
+- (IBAction) editDrawerItem : (id) sender;
+- (IBAction) removeDrawerItem : (id) sender;
+- (IBAction) endEditSheet : (id) sender;
+@end
 
 extern NSString *const CMRBrowserDidChangeBoardNotification;

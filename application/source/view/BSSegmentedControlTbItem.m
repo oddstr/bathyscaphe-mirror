@@ -9,7 +9,7 @@
 #import "BSSegmentedControlTbItem.h"
 #import "CMRThreadViewer_p.h"
 
-static NSString *const st_localizableStringsTableName	= @"ThreadViewerTbItems";
+static NSString *const st_localizableStringsTableName	= @"ToolbarItems";
 
 static NSString *const st_historySC_seg0_ToolTipKey	= @"historySC_0_ToolTip";
 static NSString *const st_historySC_seg1_ToolTipKey = @"historySC_1_ToolTip";

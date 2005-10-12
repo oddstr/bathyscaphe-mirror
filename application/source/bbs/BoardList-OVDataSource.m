@@ -1,5 +1,5 @@
 /**
-  * $Id: BoardList-OVDataSource.m,v 1.6 2005/09/24 06:07:49 tsawada2 Exp $
+  * $Id: BoardList-OVDataSource.m,v 1.7 2005/10/12 11:25:49 tsawada2 Exp $
   * 
   * BoardList-OVDataSource.m
   *
@@ -11,7 +11,7 @@
 #import "CMRFavoritesManager.h"
 #import "CMRThreadsList.h"
 #import "CMRBBSListTemplateKeys.h"
-
+#import "BSBoardListView.h"
 #import <Cocoa/Cocoa.h>
 #import "CocoMonar_Prefix.h"
 
@@ -114,20 +114,11 @@ static NSMutableAttributedString *makeAttrStrFromStr(NSString *source)
     if (nil == object_)
         object_ = @"";
     
-    if ([identifier_ isEqualToString : BoardPlistNameKey]){
-        //BoardListItemType		type_;
-        //NSImage                 *image_;
-        id		tmp;
-
-        /*type_ = [[self class] typeForItem : item];
-        image_ = imageForType(type_);
-		[self outlineView : outlineView
-		 setDataCellImage : image_
-			  tableColumn : tableColumn
-				  forItem : item];*/
-
-        tmp = makeAttrStrFromStr(object_);
-		return tmp;
+    if ([identifier_ isEqualToString : BoardPlistNameKey] && ([outlineView class] == [BSBoardListView class]))
+	{
+        //id		tmp;
+        //tmp = makeAttrStrFromStr(object_);
+		return makeAttrStrFromStr(object_);//tmp;
     }
     
     return object_;

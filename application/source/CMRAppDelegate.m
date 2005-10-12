@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.11 2005/07/09 13:14:03 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.12 2005/10/12 11:25:49 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -24,7 +24,9 @@
 
 - (IBAction) showBoardListEditor : (id) sender
 {
-    [[CMRPref sharedBoardListEditor] showWindow : sender];
+    //[[CMRPref sharedBoardListEditor] showWindow : sender];
+	NSBeep();
+	NSLog(@"BoardListEditor will be deprecated in Lemonade and later.");
 }
 - (IBAction) showPreferencesPane : (id) sender
 {

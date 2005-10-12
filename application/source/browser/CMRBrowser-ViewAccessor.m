@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.23 2005/10/08 02:46:39 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.24 2005/10/12 11:25:49 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -14,6 +14,7 @@
 #import "CMRMainMenuManager.h"
 #import "BSTitleRulerView.h"
 #import "BSIconAndTextCell.h"
+#import "AddBoardSheetController.h"
 
 @implementation CMRBrowser(ViewAccessor)
 - (CMRThreadViewer *) threadViewer
@@ -91,39 +92,12 @@
     return m_listSorterSheetController;
 }
 
-#pragma mark BoardList Editing
-
-- (NSWindow *) drawerItemEditSheet
+- (AddBoardSheetController *) addBoardSheetController
 {
-	return m_drawerItemEditSheet;
-}
-- (NSTextField *) dItemEditSheetMsgField
-{
-	return m_dItemEditSheetMsgField;
-}
-- (NSTextField *) dItemEditSheetLabelField
-{
-	return m_dItemEditSheetLabelField;
-}
-- (NSTextField *) dItemEditSheetInputField
-{
-	return m_dItemEditSheetInputField;
-}
-- (NSTextField *) dItemEditSheetTitleField
-{
-	return m_dItemEditSheetTitleField;
-}
-- (NSWindow *) drawerItemAddSheet
-{
-	return m_drawerItemAddSheet;
-}
-- (NSTextFieldCell *) dItemAddSheetNameField
-{
-	return m_dItemAddNameField;
-}
-- (NSTextFieldCell *) dItemAddSheetURLField
-{
-	return m_dItemAddURLField;
+    if (nil == m_addBoardSheetController) {
+		m_addBoardSheetController = [[AddBoardSheetController alloc] init];
+	}
+	return m_addBoardSheetController;
 }
 @end
 

@@ -1,4 +1,36 @@
+2005-10-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/BathyScaphe.xcodeproj
+		ビルド時に BoardListEditor.plugin をコピーしないようにした。
+		また、ターゲット "BathyScaphe" のビルドフェーズに BoardListEditor のビルドは
+		含めないようにした。
+	* application/source/browser/CMRBrowser.m
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/Resources/Japanese.lproj/Browser.nib
+		下記変更に伴う修正。
+	* application/source/browser/AddBoardSheetController.m
+	* application/Resources/Japanese.lproj/AddBoardSheet.nib
+		[新規追加] 「掲示板を追加」シートの部品を Browser.nib から別の nib ファイルに独立させ、
+		コントローラも独立させた。まだごく初期の実装段階で、とりあえず CVS にぶち込んだだけ。
+		まともに動かない。「キャンセル」ボタンでシートを閉じることだけはできるけども。
 2005-10-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/Browser.nib
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		インタフェースを改造中。
+		- 現在、「掲示板リストの編集」パネルにアクセスできない状態になっているので、注意。
+		　また、「掲示板の追加...」パネルも製作途中なので、一部動作しない。注意。
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+		一部のメソッド群を CMRBrowser-BLEditor.m に移動した。
+	* application/source/browser/CMRBrowser-BLEditor.m
+		[新規追加] CMRBrowser-Action.m, CMRBrowser-ViewAccessor.m から掲示板リストの編集関連の
+		メソッド群を分割。メンテナンス性向上のため。
+	* application/source/preferences/AppDefaults-FontColor.m
+	* application/source/thread/CMRThreadViewer-ViewAccessor.m
+		リンクの下線の有無の切り替えがすぐに反映されなかった問題を修正。
+		- 注意：ThreadViewer については直したが、ポップアップに関しては、すぐに反映されないことがある。
+	* application/source/view/BSSegmentedControlTbItem.m
+		ローカライズ文字列が正しく取得できていなかったのを修正。
 	* application/subproj/preference/font_color/FCController-ViewAccessor.m
 	* application/subproj/preference/font_color/FCController.m
 	* application/subproj/preference/filter/CMRFilterPrefController.m

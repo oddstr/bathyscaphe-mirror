@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.4 2005/09/24 06:07:49 tsawada2 Exp $
+  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.5 2005/10/12 11:25:50 tsawada2 Exp $
   * 
   * CMRThreadViewer-ViewAccessor.m
   *
@@ -432,7 +432,7 @@
 #if 0
 	[[self textView] setFont : [CMRPref threadsViewFont]];
 #endif
-	
+	[[self textView] setLinkTextAttributes : [[CMRMessageAttributesTemplate sharedTemplate] attributesForAnchor]];
 	[self setupTextViewBackground];
 }
 

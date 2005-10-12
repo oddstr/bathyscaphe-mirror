@@ -131,18 +131,9 @@
 - (NSMenu *) listContextualMenu;
 - (NSMenu *) drawerContextualMenu;
 
-- (NSWindow *) drawerItemEditSheet;
-- (NSTextField *) dItemEditSheetMsgField;
-- (NSTextField *) dItemEditSheetLabelField;
-- (NSTextField *) dItemEditSheetInputField;
-- (NSTextField *) dItemEditSheetTitleField;
-
-- (NSWindow *) drawerItemAddSheet;
-- (NSTextFieldCell *) dItemAddSheetNameField;
-- (NSTextFieldCell *) dItemAddSheetURLField;
-
 - (NSSearchField *) searchField;
 - (CMRAccessorySheetController *) listSorterSheetController;
+- (AddBoardSheetController *) addBoardSheetController;
 @end
 
 @interface CMRBrowser(UIComponents)

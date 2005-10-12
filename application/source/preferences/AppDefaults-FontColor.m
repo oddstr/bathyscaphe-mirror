@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-FontColor.m,v 1.9 2005/09/28 14:49:34 tsawada2 Exp $
+  * $Id: AppDefaults-FontColor.m,v 1.10 2005/10/12 11:25:50 tsawada2 Exp $
   * 
   * AppDefaults-FontColor.m
   *
@@ -188,6 +188,7 @@ static float getDefaultLineHeightForFont(NSFont *font_);
 {
 	[[self appearances] setBool:flag forKey:kPrefMessageAnchorHasUnderlineKey];
 	[[self _template] setHasAnchorUnderline : flag];
+	[self postLayoutSettingsUpdateNotification];
 }
 - (float) messageHeadIndent
 {

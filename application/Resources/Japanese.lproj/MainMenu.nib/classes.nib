@@ -47,6 +47,7 @@
                 googleSearch = id; 
                 historyMenuPerformBack = id; 
                 historyMenuPerformForward = id; 
+                launchBWAgent = id; 
                 openBBSInBrowser = id; 
                 openDefaultNoNameInputPanel = id; 
                 openInBrowser = id; 

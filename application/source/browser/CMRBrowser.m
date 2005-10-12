@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.9 2005/10/05 16:04:01 tsawada2 Exp $
+  * $Id: CMRBrowser.m,v 1.10 2005/10/12 11:25:50 tsawada2 Exp $
   * 
   * CMRBrowser.m
   *
@@ -60,6 +60,7 @@ CMRBrowser *CMRMainBrowser = nil;
 	[_filterResultMessage release];
 
 	[m_listSorterSheetController release];
+	[m_addBoardSheetController release];
 	[[[self scrollView] horizontalRulerView] release];
 	
 	[super dealloc];

@@ -66,14 +66,11 @@
                 "m_boardListSubView" = RBSplitSubview; 
                 "m_boardListTable" = NSOutlineView; 
                 "m_brdListActMenuBtn" = id; 
-                "m_dItemAddNameField" = NSTextFieldCell; 
-                "m_dItemAddURLField" = NSTextFieldCell; 
                 "m_dItemEditSheetInputField" = NSTextField; 
                 "m_dItemEditSheetLabelField" = NSTextField; 
                 "m_dItemEditSheetMsgField" = NSTextField; 
                 "m_dItemEditSheetTitleField" = NSTextField; 
                 "m_drawerContextualMenu" = NSMenu; 
-                "m_drawerItemAddSheet" = NSWindow; 
                 "m_drawerItemEditSheet" = NSWindow; 
                 "m_listContextualMenu" = NSMenu; 
                 "m_searchField" = NSSearchField; 

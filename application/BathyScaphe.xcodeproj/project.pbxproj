@@ -431,7 +431,6 @@
 		871CA17A08585FD200C3A044 /* CocoMonar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3924488043610AE00A80005 /* CocoMonar.framework */; };
 		871CA17B08585FD200C3A044 /* SGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FA043610EB00A80005 /* SGFoundation.framework */; };
 		871CA17C08585FD200C3A044 /* SGNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FF043610FB00A80005 /* SGNetwork.framework */; };
-		871CA1B808586CEF00C3A044 /* BoardListEditor.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 871CA11208585F3A00C3A044 /* BoardListEditor.plugin */; };
 		871CA1B908586CFC00C3A044 /* PreferencesPane.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 871CA15608585F8100C3A044 /* PreferencesPane.plugin */; };
 		871CA1BC08586D1600C3A044 /* 2chConnector.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 871CA18308585FD200C3A044 /* 2chConnector.plugin */; };
 		872996590832556100CBD740 /* NSCharacterSet+CMXAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8729964D0832556100CBD740 /* NSCharacterSet+CMXAdditions.h */; };
@@ -561,6 +560,7 @@
 		87299C1F0832673000CBD740 /* BathyScaphe.mdimporter in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87299C09083266F700CBD740 /* BathyScaphe.mdimporter */; };
 		8732FCBA08C2F79B00779F20 /* HistoryBack.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 878A7567088AA85B00539B6F /* HistoryBack.tiff */; };
 		8732FCBB08C2F79D00779F20 /* HistoryForward.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 878A7568088AA85B00539B6F /* HistoryForward.tiff */; };
+		873C0DCF08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 873C0DCE08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m */; };
 		873D91B008D9B7EA009D5E6C /* OrderFrontBrowser.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 873D91AF08D9B7EA009D5E6C /* OrderFrontBrowser.tiff */; };
 		87464E3708643673000F0371 /* libRBSplitView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87464E3608643673000F0371 /* libRBSplitView.a */; };
 		87464E390864368F000F0371 /* RBSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87464E380864368F000F0371 /* RBSplitView.h */; };
@@ -599,6 +599,9 @@
 		87BF52CC08F789D500998C4E /* BSBoardInfoInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BF52CA08F789D400998C4E /* BSBoardInfoInspector.m */; };
 		87BF52D508F7913400998C4E /* BSBoardInfoInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87BF52D308F7913400998C4E /* BSBoardInfoInspector.nib */; };
 		87BF7CA50840423900CC7D7C /* BathyScapheHelp in Resources */ = {isa = PBXBuildFile; fileRef = 87BF7CA40840423900CC7D7C /* BathyScapheHelp */; };
+		87C4813108FD039B00F91054 /* AddBoardSheetController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87C4812F08FD039B00F91054 /* AddBoardSheetController.h */; };
+		87C4813208FD039B00F91054 /* AddBoardSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C4813008FD039B00F91054 /* AddBoardSheetController.m */; };
+		87C4813F08FD05A300F91054 /* AddBoardSheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87C4813D08FD05A300F91054 /* AddBoardSheet.nib */; };
 		87D5D8CB08DF0F990039A9EB /* BSBoardListView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D5D8C908DF0F990039A9EB /* BSBoardListView.h */; };
 		87D5D8CC08DF0F9A0039A9EB /* BSBoardListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D5D8CA08DF0F990039A9EB /* BSBoardListView.m */; };
 		87D5D8D108DF0FCC0039A9EB /* boardListSelBgFocused.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87D5D8CF08DF0FCC0039A9EB /* boardListSelBgFocused.tiff */; };
@@ -661,13 +664,6 @@
 /* End PBXBuildStyle section */
 
 /* Begin PBXContainerItemProxy section */
-		871CA18408585FF900C3A044 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 871CA0F108585F3900C3A044;
-			remoteInfo = "editor (Upgraded)";
-		};
 		871CA1860858600900C3A044 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -693,7 +689,6 @@
 			files = (
 				871CA1BC08586D1600C3A044 /* 2chConnector.plugin in CopyFiles */,
 				871CA1B908586CFC00C3A044 /* PreferencesPane.plugin in CopyFiles */,
-				871CA1B808586CEF00C3A044 /* BoardListEditor.plugin in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -880,6 +875,7 @@
 		87299B0C0832622200CBD740 /* Zenkaku.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Zenkaku.txt; sourceTree = "<group>"; };
 		87299B410832623A00CBD740 /* BWAgent.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = BWAgent.app; path = subproj/BWAgent/build/Deployment/BWAgent.app; sourceTree = SOURCE_ROOT; };
 		87299C09083266F700CBD740 /* BathyScaphe.mdimporter */ = {isa = PBXFileReference; explicitFileType = "wrapper.plug-in"; name = BathyScaphe.mdimporter; path = ../metadataimporter/BathyScaphe/build/Deployment/BathyScaphe.mdimporter; sourceTree = SOURCE_ROOT; };
+		873C0DCE08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRBrowser-BLEditor.m"; sourceTree = "<group>"; };
 		873D91AF08D9B7EA009D5E6C /* OrderFrontBrowser.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = OrderFrontBrowser.tiff; sourceTree = "<group>"; };
 		87464E3608643673000F0371 /* libRBSplitView.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libRBSplitView.a; sourceTree = "<group>"; };
 		87464E380864368F000F0371 /* RBSplitView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RBSplitView.h; path = ../RBSplitView.h; sourceTree = "<group>"; };
@@ -934,6 +930,9 @@
 		87BF52CA08F789D400998C4E /* BSBoardInfoInspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSBoardInfoInspector.m; sourceTree = "<group>"; };
 		87BF52D408F7913400998C4E /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSBoardInfoInspector.nib; sourceTree = "<group>"; };
 		87BF7CAE0840424200CC7D7C /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Japanese; path = Japanese.lproj/BathyScapheHelp; sourceTree = "<group>"; };
+		87C4812F08FD039B00F91054 /* AddBoardSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddBoardSheetController.h; sourceTree = "<group>"; };
+		87C4813008FD039B00F91054 /* AddBoardSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddBoardSheetController.m; sourceTree = "<group>"; };
+		87C4813E08FD05A300F91054 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/AddBoardSheet.nib; sourceTree = "<group>"; };
 		87C633C4087F53A60093559B /* AppDefaults-Deprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDefaults-Deprecated.h"; sourceTree = "<group>"; };
 		87C7287A082B8E7E00AC9AE1 /* KFSplitView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = KFSplitView.h; sourceTree = "<group>"; };
 		87C7287B082B8E7E00AC9AE1 /* KFSplitView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = KFSplitView.m; sourceTree = "<group>"; };
@@ -1538,6 +1537,7 @@
 				8795B91E08E3A7E3005C7C5B /* ToolbarItems.strings */,
 				87BF52D308F7913400998C4E /* BSBoardInfoInspector.nib */,
 				87B293AC08FA601300D21421 /* BSImagePreviewInspector.nib */,
+				87C4813D08FD05A300F91054 /* AddBoardSheet.nib */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1712,6 +1712,8 @@
 		87B4E68107D82C3200D09944 /* Interface Elements */ = {
 			isa = PBXGroup;
 			children = (
+				87C4812F08FD039B00F91054 /* AddBoardSheetController.h */,
+				87C4813008FD039B00F91054 /* AddBoardSheetController.m */,
 				875C4D76079059C8008EE846 /* CMRPullDownIconBtn.h */,
 				875C4D77079059C8008EE846 /* CMRPullDownIconBtn.m */,
 				F3712F06057DEB7800FF7D7A /* CMRTextColumnCell.h */,
@@ -2375,6 +2377,7 @@
 		F33E995004C6B11F00A80005 /* browser */ = {
 			isa = PBXGroup;
 			children = (
+				873C0DCE08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m */,
 				F324DC2D04C698FA00A80005 /* Browser.h */,
 				F324DC2E04C698FA00A80005 /* Browser.m */,
 				F324DC3A04C698FA00A80005 /* CMRBrowser.h */,
@@ -2798,6 +2801,7 @@
 				877B78FC08E416C900184BB2 /* BSProgressIndicatorTbItem.h in Headers */,
 				87BF52CB08F789D500998C4E /* BSBoardInfoInspector.h in Headers */,
 				87B293A608FA5C6F00D21421 /* BSImagePreviewInspector.h in Headers */,
+				87C4813108FD039B00F91054 /* AddBoardSheetController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2906,7 +2910,6 @@
 				WRAPPER_EXTENSION = app;
 			};
 			dependencies = (
-				871CA18508585FF900C3A044 /* PBXTargetDependency */,
 				871CA1870858600900C3A044 /* PBXTargetDependency */,
 				871CA1890858601A00C3A044 /* PBXTargetDependency */,
 			);
@@ -3186,6 +3189,7 @@
 				87B293AE08FA601300D21421 /* BSImagePreviewInspector.nib in Resources */,
 				87B19D7E08FB7C4100D15053 /* AddBoard_Pressed.tiff in Resources */,
 				87B19D7F08FB7C4100D15053 /* AddBoard.tiff in Resources */,
+				87C4813F08FD05A300F91054 /* AddBoardSheet.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3452,6 +3456,8 @@
 				877B78FD08E416C900184BB2 /* BSProgressIndicatorTbItem.m in Sources */,
 				87BF52CC08F789D500998C4E /* BSBoardInfoInspector.m in Sources */,
 				87B293A708FA5C6F00D21421 /* BSImagePreviewInspector.m in Sources */,
+				873C0DCF08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m in Sources */,
+				87C4813208FD039B00F91054 /* AddBoardSheetController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3506,11 +3512,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		871CA18508585FF900C3A044 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 871CA0F108585F3900C3A044 /* editor */;
-			targetProxy = 871CA18408585FF900C3A044 /* PBXContainerItemProxy */;
-		};
 		871CA1870858600900C3A044 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 871CA11408585F8100C3A044 /* preferences */;
@@ -3875,6 +3876,14 @@
 				87BF7CAE0840424200CC7D7C /* Japanese */,
 			);
 			name = BathyScapheHelp;
+			sourceTree = "<group>";
+		};
+		87C4813D08FD05A300F91054 /* AddBoardSheet.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				87C4813E08FD05A300F91054 /* Japanese */,
+			);
+			name = AddBoardSheet.nib;
 			sourceTree = "<group>";
 		};
 		87D8DBAA0833D57D004C1168 /* AboutPanel.nib */ = {

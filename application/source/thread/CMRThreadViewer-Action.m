@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.8 2005/09/16 01:18:29 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.9 2005/10/12 11:25:50 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -687,7 +687,9 @@
 
 - (IBAction) customizeBrdListTable : (id) sender
 {
-	[[CMRPref sharedBoardListEditor] showWindow : sender];
+	NSBeep();
+	NSLog(@"BoardListEditor plugin will be deprecated in Lemonade and later.");
+	//[[CMRPref sharedBoardListEditor] showWindow : sender];
 }
 - (IBAction) launchBWAgent : (id) sender
 {
