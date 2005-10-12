@@ -29,6 +29,8 @@
         {
             ACTIONS = {
                 actionMenuHeader = id; 
+                addCategoryItem = id; 
+                addDrawerItem = id; 
                 addFavorites = id; 
                 cancellCurrentTask = id; 
                 changeBrowserArrangement = id; 
@@ -36,9 +38,8 @@
                 collapseOrExpandBoardList = id; 
                 copySelectedResURL = id; 
                 copyThreadAttributes = id; 
-                debugAction = id; 
                 deleteThread = id; 
-                editBoardList = id; 
+                editDrawerItem = id; 
                 findAll = id; 
                 findFirstText = id; 
                 findNextText = id; 
@@ -49,13 +50,13 @@
                 historyMenuPerformForward = id; 
                 launchBWAgent = id; 
                 openBBSInBrowser = id; 
-                openDefaultNoNameInputPanel = id; 
                 openInBrowser = id; 
                 openLogfile = id; 
                 openScriptsDirectory = id; 
                 pasteAsQuotation = id; 
                 reloadThread = id; 
                 reloadThreadsList = id; 
+                removeDrawerItem = id; 
                 reply = id; 
                 runSpamFilter = id; 
                 saveAsDefaultFrame = id; 
