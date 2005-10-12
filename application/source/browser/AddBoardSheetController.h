@@ -37,6 +37,10 @@
 - (IBAction) searchBoards : (id) sender; 
 - (IBAction) openHelp : (id) sender;
 - (IBAction) close : (id) sender;
+- (IBAction) doAddAndClose : (id) sender;
+- (BOOL) addToUserListFromOLView : (id) sender;
+- (BOOL) addToUserListFromForm : (id) sender;
+
 - (void) beginSheetModalForWindow : (NSWindow *) docWindow
 					modalDelegate : (id        ) modalDelegate
 					  contextInfo : (id		   ) info;

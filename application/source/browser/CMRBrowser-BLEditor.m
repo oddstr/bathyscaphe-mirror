@@ -4,6 +4,7 @@
 //
 // Created on 05/10/11.
 #import "CMRBrowser_p.h"
+#import "AddBoardSheetController.h"
 
 @implementation CMRBrowser(BoardListEditor)
 #pragma mark Accessors
@@ -28,39 +29,21 @@
 {
 	return m_dItemEditSheetTitleField;
 }
-/*- (NSWindow *) drawerItemAddSheet
-{
-	return m_drawerItemAddSheet;
-}
-- (NSTextFieldCell *) dItemAddSheetNameField
-{
-	return m_dItemAddNameField;
-}
-- (NSTextFieldCell *) dItemAddSheetURLField
-{
-	return m_dItemAddURLField;
-}*/
 
 #pragma mark IBActions and private methods
+
 - (IBAction) addDrawerItem : (id) sender
 {
-	/*[[self dItemAddSheetNameField] setStringValue : @""];
-	[[self dItemAddSheetURLField]  setStringValue : @""];
-
-	[NSApp beginSheet : [self drawerItemAddSheet]
-	   modalForWindow : [self window]
-	    modalDelegate : self
-	   didEndSelector : @selector(_drawerAddItemSheetDidEnd:returnCode:contextInfo:)
-	      contextInfo : nil];*/
 	[[self addBoardSheetController] beginSheetModalForWindow : [self window]
-												 modalDelegate : self
-												   contextInfo : nil];
+											   modalDelegate : self
+												 contextInfo : nil];
 }
+
 - (void) controller : (AddBoardSheetController *) aController
 		sheetDidEnd : (NSWindow					 *) sheet
 		contextInfo : (id						  ) info;
 {
-	NSLog(@"Add Board Sheet Did End");
+	// Currently, we have nothing to do here.
 }
 
 
@@ -137,63 +120,6 @@
 }
 
 #pragma mark Private (Sheet delegate) methods
-/*- (void) _drawerAddItemSheetDidEnd : (NSWindow *) sheet
-						returnCode : (int       ) returnCode
-					   contextInfo : (id) contextInfo
-{
-	if (NSOKButton == returnCode) {
-		NSMutableDictionary *newItem_;
-		NSString *name_;
-		NSString *url_;
-
-		name_ = [[self dItemAddSheetNameField] stringValue];
-		url_  = [[self dItemAddSheetURLField] stringValue];
-		
-		if ([name_ isEqualToString : @""]|[url_ isEqualToString : @""]) {
-			// 名前またはURLが入力されていない場合は中止
-			NSBeep();
-			[sheet close];
-			return;
-		} else {
-			id userList = [[BoardManager defaultManager] userList];
-
-			if ([userList containsItemWithName : name_ ofType : (BoardListBoardItem | BoardListFavoritesItem)]) {
-				[sheet close];	
-				NSBeep();
-				NSBeginInformationalAlertSheet(
-					[self localizedString : @"Same Name Exists"],
-					[self localizedString : @"OK"],
-					nil, nil,
-					[self window],
-					self, NULL, NULL, nil,
-					[self localizedString : @"So cannot add board."]
-				);
-				return;
-			}
-
-			int rowIndex;
-			id selectedItem;
-		
-			newItem_ = [NSMutableDictionary dictionaryWithObjectsAndKeys :
-							name_, BoardPlistNameKey, url_, BoardPlistURLKey, nil];
-
-			rowIndex = [[self boardListTable] selectedRow];
-
-			selectedItem = (rowIndex >= 0) 
-						? [[self boardListTable] itemAtRow : rowIndex]
-						: nil;
-	
-			if (nil == selectedItem || [BoardList isFavorites : selectedItem]) {
-				[[userList boardItems] addObject : newItem_];
-				[userList postBoardListDidChangeNotification];
-			} else {
-				[userList addItem:newItem_ afterObject:selectedItem];
-			}
-			[[self boardListTable] reloadData];
-		}
-	}
-	[sheet close];
-}*/
 
 - (void) _drawerAddCategorySheetDidEnd : (NSWindow *) sheet
 							returnCode : (int       ) returnCode

@@ -1,7 +1,7 @@
 {
     IBClasses = (
         {
-            ACTIONS = {close = id; openHelp = id; searchBoards = id; }; 
+            ACTIONS = {close = id; doAddAndClose = id; openHelp = id; searchBoards = id; }; 
             CLASS = AddBoardSheetController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
