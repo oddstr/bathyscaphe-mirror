@@ -67,7 +67,7 @@
 	int tag_ = [sender tag];
 	int	rowIndex_;
 	NSOutlineView *boardListTable_ = [self boardListTable];
-	if (tag_ > 1100) {
+	if (tag_ == kBLEditItemViaContextualMenuItemTag) {
 		rowIndex_ = [(BSBoardListView *)boardListTable_ semiSelectedRow];
 	} else {
 		rowIndex_ = [boardListTable_ selectedRow];
@@ -105,7 +105,7 @@
 	int tag_ = [sender tag];
 	int	rowIndex_;
 	NSOutlineView *boardListTable_ = [self boardListTable];
-	if (tag_ > 1100) {
+	if (tag_ == kBLEditItemViaContextualMenuItemTag) {
 		rowIndex_ = [(BSBoardListView *)boardListTable_ semiSelectedRow];
 	} else {
 		rowIndex_ = [boardListTable_ selectedRow];
@@ -219,7 +219,9 @@
 			newItem_ = (NSMutableDictionary *)contextInfo;
 			oldname_ = [newItem_ objectForKey : BoardPlistNameKey];
 		
-			if ([userList containsItemWithName : value_ ofType : (BoardListFavoritesItem | BoardListCategoryItem)] && (NO == [oldname_ isEqualToString : value_])) {
+			if ([userList containsItemWithName : value_ ofType : (BoardListFavoritesItem | BoardListCategoryItem)] &&
+				(NO == [oldname_ isEqualToString : value_]))
+			{
 				[sheet close];
 				NSBeep();
 				NSBeginInformationalAlertSheet(

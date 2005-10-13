@@ -75,6 +75,11 @@
 #define kSearchPopUpHistoryHeaderItemTag	33
 #define kSearchPopUpHistoryItemTag			44
 
+#define kBLOpenItemItemTag					1001
+#define kBLEditItemViaMenubarItemTag		1002
+#define kBLEditItemViaContextualMenuItemTag	1102
+#define kBLAddItemItemTag					1003
+
 //:CMRBrowser-List.m
 @interface CMRBrowser(List)
 - (void) changeThreadsFilteringMask : (int) aMask;

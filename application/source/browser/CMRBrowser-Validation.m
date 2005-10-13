@@ -1,6 +1,7 @@
 //:CMRBrowser-Validation.m
 
 #import "CMRBrowser_p.h"
+#import "BSBoardListView.h"
 
 @implementation CMRBrowser(Validation)
 - (BOOL) validateUIItem : (id) theItem
@@ -44,12 +45,12 @@
 		return ([[self threadsListTable] selectedRow] != -1);*/
 	
 	// 「掲示板を表示」
-	if(action_ == @selector(toggleBoardDrawer:)){
+	/*if(action_ == @selector(toggleBoardDrawer:)){
 		return NO;
 	}
 	if(action_ == @selector(beginBoardListSheet:)){
 		return YES;
-	}
+	}*/
 	
 	if(action_ == @selector(changeBrowserArrangement:)){
 		return YES;
@@ -65,31 +66,36 @@
 	
 	if(nil == theItem) return NO;
 	tag_ = [theItem tag];
-	if(tag_ == 1001 || tag_ == 1002 || tag_ == 1102) {
-		// 掲示板リスト の Contextual Menu
+
+	if (tag_ == kBLAddItemItemTag) return YES;
+
+	if (tag_ == kBLOpenItemItemTag || tag_ == kBLEditItemViaMenubarItemTag || tag_ == kBLEditItemViaContextualMenuItemTag) {
 		int					rowIndex_;
 		NSDictionary		*item_;
+		NSOutlineView		*bLT_ = [self boardListTable];
 	
-		rowIndex_ = [[self boardListTable] selectedRow];
+		rowIndex_ = [bLT_ selectedRow];
 	
-		if ([[self boardListTable] numberOfSelectedRows] > 1) return NO;
-		if (rowIndex_ < 0) return NO;
-		if (rowIndex_ >= [[self boardListTable] numberOfRows]) return NO;
+		if (([bLT_ numberOfSelectedRows] > 1) || (rowIndex_ >= [bLT_ numberOfRows])) return NO;
+
+		if (rowIndex_ < 0) {
+			if (([(BSBoardListView *)bLT_ semiSelectedRow] >= 0) && (tag_ == kBLEditItemViaContextualMenuItemTag))
+				rowIndex_ = [(BSBoardListView *)bLT_ semiSelectedRow];
+			else
+				return NO;
+		}
 	
-		item_ = [[self boardListTable] itemAtRow : rowIndex_];
+		item_ = [bLT_ itemAtRow : rowIndex_];
 		if (nil == item_) return NO;
 
 		if ([BoardList isBoard : item_])
 			return YES;
-		else if ([BoardList isCategory : item_] && (tag_ == 1002 || tag_ == 1102))
+		else if ([BoardList isCategory : item_] && (tag_ != kBLOpenItemItemTag))
 			return YES;
 		return NO;
 	}
 	
-	// 1002,1102,1003,1103 は、掲示板リスト の Contextual Menu の一部項目のタグ
-	if(NO == [theItem respondsToSelector : @selector(action)]) return NO;
-	
-	
+	if(NO == [theItem respondsToSelector : @selector(action)]) return NO;	
 	action_ = [theItem action];
 	
 	if(action_ == @selector(selectFilteringMask:)) 
@@ -109,7 +115,7 @@
 		return YES;
 	}
 
-	if(tag_ == 1003 || tag_ == 1103 || [super validateMenuItem : theItem]) return YES;
+	if ([super validateMenuItem : theItem]) return YES;
 	
 	return [self validateUIItem : theItem];
 }

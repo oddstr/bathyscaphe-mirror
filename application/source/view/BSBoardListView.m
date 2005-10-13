@@ -15,7 +15,6 @@ static NSString *const bgImage_normal	= @"boardListSelBg";
 - (void) awakeFromNib
 {
 	_semiSelectedRow = -1;
-	//NSLog(@"Awake from nib. %i", _semiSelectedRow);
 }
 
 - (int) semiSelectedRow
@@ -77,7 +76,6 @@ static NSString *const bgImage_normal	= @"boardListSelBg";
 
 	if(row >= 0) {
 		_semiSelectedRow = row;
-		NSLog(@"%i", _semiSelectedRow);
 		return [self menu];
 	} else {
 		return nil;

@@ -12,7 +12,7 @@
 "ErrNamesSeparater" = "”、“";
 "ErrNamesCover" = "“%@”";
 
-"Same Name Exists" = "すでに同じ名前の項目が掲示板リストに存在します。";
+"Same Name Exists" = "すでに同じ名前の項目が存在します。";
 "Cancel" = "キャンセル";
 "%@ are not added to your Boards List." = "同じ名前の掲示板を重複して登録することはできません。よって、%@ を掲示板リストに追加できませんでした。";
 
