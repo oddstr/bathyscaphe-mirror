@@ -12,7 +12,19 @@ static NSString	*const bgImage_focused	= @"boardListSelBgFocused";
 static NSString *const bgImage_normal	= @"boardListSelBg";
 
 @implementation BSBoardListView
-#pragma mark Custom highlight drawing 
+- (void) awakeFromNib
+{
+	_semiSelectedRow = -1;
+	//NSLog(@"Awake from nib. %i", _semiSelectedRow);
+}
+
+- (int) semiSelectedRow
+{
+	return _semiSelectedRow;
+}
+
+#pragma mark Custom highlight drawing
+
 - (void) highlightSelectionInClipRect : (NSRect) clipRect
 {
 	NSImage	*image_;
@@ -37,15 +49,39 @@ static NSString *const bgImage_normal	= @"boardListSelBg";
 }
 
 #pragma mark Contextual menu handling
+- (void) cleanUpSemiHighlightBorder : (NSNotification *) theNotification
+{
+	[self setNeedsDisplay : YES]; // あまりスマートではないが、丸ごと描画し直す＝描いた枠を消す
+	//_semiSelectedRow = -1;
+	[[NSNotificationCenter defaultCenter] removeObserver : self];	
+}
+
 - (NSMenu *) menuForEvent : (NSEvent *) theEvent
 {
 	int row = [self rowAtPoint : [self convertPoint : [theEvent locationInWindow] fromView : nil]];
 
-	if(![self isRowSelected : row]) [self selectRow : row byExtendingSelection : NO];
+	if(![self isRowSelected : row]) {
+		NSRect	tmpRect;
+		tmpRect = [self rectOfRow : row];
+		[self lockFocus];
+		NSFrameRectWithWidth(tmpRect, 2.0); // 枠を描く
+		[self unlockFocus];
+		[self displayIfNeeded];
+		//[self selectRow : row byExtendingSelection : NO];
+		[[NSNotificationCenter defaultCenter]
+			addObserver : self
+				selector : @selector(cleanUpSemiHighlightBorder:)
+					name : NSMenuDidEndTrackingNotification // This Notification is available in Mac OS X 10.3 and later.
+				object : nil];
+	}
+
 	if(row >= 0) {
+		_semiSelectedRow = row;
+		NSLog(@"%i", _semiSelectedRow);
 		return [self menu];
 	} else {
 		return nil;
 	}
 }
+
 @end

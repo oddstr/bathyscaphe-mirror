@@ -40,10 +40,6 @@
 	IBOutlet NSTextField		*m_dItemEditSheetMsgField;
 	IBOutlet NSTextField		*m_dItemEditSheetLabelField;
 	IBOutlet NSTextField		*m_dItemEditSheetInputField;
-
-	//IBOutlet NSWindow			*m_drawerItemAddSheet;
-	//IBOutlet NSTextFieldCell	*m_dItemAddNameField;
-	//IBOutlet NSTextFieldCell	*m_dItemAddURLField;
 	
 	// PrincessBride Addition
 	IBOutlet NSSearchField		*m_searchField;
@@ -101,10 +97,6 @@
 - (NSTextField *) dItemEditSheetLabelField;
 - (NSTextField *) dItemEditSheetInputField;
 - (NSTextField *) dItemEditSheetTitleField;
-
-//- (NSWindow *) drawerItemAddSheet;
-//- (NSTextFieldCell *) dItemAddSheetNameField;
-//- (NSTextFieldCell *) dItemAddSheetURLField;
 
 - (IBAction) addDrawerItem : (id) sender;
 - (IBAction) addCategoryItem : (id) sender;

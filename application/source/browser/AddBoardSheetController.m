@@ -288,6 +288,18 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
                       items : [[[BoardManager defaultManager] defaultList] boardItems]];
 }
 
+- (void) cleanUpUI
+{
+	[[self searchField] setStringValue : @""];
+
+	[[self brdNameField] setStringValue : @""];
+	[[self brdURLField] setStringValue : @""];
+
+	[[self OKButton] setEnabled : NO];
+	
+	[[self defaultListOLView] deselectAll : self];
+}
+
 #pragma mark Delegate & Notifications
 
 - (void) sheetDidEnd : (NSWindow *) sheet
@@ -329,6 +341,11 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 	} else {
 		[[self OKButton] setEnabled : NO];
 	}
+}
+
+- (void) windowWillClose : (NSNotification *) aNotification
+{
+	[self cleanUpUI];
 }
 
 - (void) controlTextDidBeginEditing : (NSNotification *) aNotification

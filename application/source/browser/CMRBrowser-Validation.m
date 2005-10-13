@@ -61,9 +61,11 @@
 - (BOOL) validateMenuItem : (NSMenuItem *) theItem
 {
 	SEL action_;
+	int tag_;
 	
 	if(nil == theItem) return NO;
-	if([theItem tag] == 1001 || [theItem tag] == 1002) {
+	tag_ = [theItem tag];
+	if(tag_ == 1001 || tag_ == 1002 || tag_ == 1102) {
 		// 掲示板リスト の Contextual Menu
 		int					rowIndex_;
 		NSDictionary		*item_;
@@ -79,12 +81,12 @@
 
 		if ([BoardList isBoard : item_])
 			return YES;
-		else if ([BoardList isCategory : item_] && [theItem tag] == 1002)
+		else if ([BoardList isCategory : item_] && (tag_ == 1002 || tag_ == 1102))
 			return YES;
 		return NO;
 	}
 	
-	// 1003 は、掲示板リスト の Contextual Menu の一部項目のタグ
+	// 1002,1102,1003,1103 は、掲示板リスト の Contextual Menu の一部項目のタグ
 	if(NO == [theItem respondsToSelector : @selector(action)]) return NO;
 	
 	
@@ -107,7 +109,7 @@
 		return YES;
 	}
 
-	if([super validateMenuItem : theItem] || [theItem tag] == 1003) return YES;
+	if(tag_ == 1003 || tag_ == 1103 || [super validateMenuItem : theItem]) return YES;
 	
 	return [self validateUIItem : theItem];
 }

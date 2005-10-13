@@ -1,4 +1,13 @@
 2005-10-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/BSBoardListView.m
+	* application/source/browser/CMRBrowser-BLEditor.m
+	* application/source/browser/CMRBrowser-Validation.m
+		掲示板リストのコンテキストメニューを改良。
+		これまでは、現在選択されて「いない」項目を control-クリックしたときに、その項目が自動的に
+		選択されていたが、これを止め、かわりに「半選択」とも言おうか、実際には選択状態にならないが、
+		しかしコンテキストメニューの操作対象にはなる、という動作に改めた。
+		- Finder のカラム表示で、選択して「いない」項目を control-クリックしたときのような挙動。
+		- この改良は、とくにコンテキストメニューから掲示板を削除する際に効果的である。
 	* application/source/browser/AddBoardSheetController.m
 	* application/Resources/Japanese.lproj/ThreadsList.strings
 	* application/Resources/Japanese.lproj/ThreadViewer.strings

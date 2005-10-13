@@ -5,6 +5,7 @@
 // Created on 05/10/11.
 #import "CMRBrowser_p.h"
 #import "AddBoardSheetController.h"
+#import "BSBoardListView.h"
 
 @implementation CMRBrowser(BoardListEditor)
 #pragma mark Accessors
@@ -63,12 +64,19 @@
 
 - (IBAction) editDrawerItem : (id) sender
 {
-	int	rowIndex_ = [[self boardListTable] selectedRow];
+	int tag_ = [sender tag];
+	int	rowIndex_;
+	NSOutlineView *boardListTable_ = [self boardListTable];
+	if (tag_ > 1100) {
+		rowIndex_ = [(BSBoardListView *)boardListTable_ semiSelectedRow];
+	} else {
+		rowIndex_ = [boardListTable_ selectedRow];
+	}
 
 	NSDictionary	*item_;
 	NSString	*name_;
 
-	item_ = [[self boardListTable] itemAtRow : rowIndex_];
+	item_ = [boardListTable_ itemAtRow : rowIndex_];
 	name_ = [item_ objectForKey : BoardPlistNameKey];
 	
 	[[self dItemEditSheetTitleField] setStringValue : [self localizedString : kEditDrawerTitleKey]];
@@ -94,9 +102,16 @@
 
 - (IBAction) removeDrawerItem : (id) sender
 {
-	int	rowIndex_ = [[self boardListTable] selectedRow];
+	int tag_ = [sender tag];
+	int	rowIndex_;
+	NSOutlineView *boardListTable_ = [self boardListTable];
+	if (tag_ > 1100) {
+		rowIndex_ = [(BSBoardListView *)boardListTable_ semiSelectedRow];
+	} else {
+		rowIndex_ = [boardListTable_ selectedRow];
+	}
 	NSDictionary	*item_;
-	item_ = [[self boardListTable] itemAtRow : rowIndex_];
+	item_ = [boardListTable_ itemAtRow : rowIndex_];
 		
 	NSBeep();
 	NSBeginAlertSheet(

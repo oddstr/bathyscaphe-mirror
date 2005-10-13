@@ -10,7 +10,8 @@
 #import <SGAppKit/SGAppKit.h>
 
 @interface BSBoardListView : NSOutlineView {
-
+	@private
+	int _semiSelectedRow; // 選択されていないが、コンテキストメニューのターゲットになっている
 }
-
+- (int) semiSelectedRow;
 @end
