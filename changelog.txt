@@ -1,3 +1,12 @@
+2005-10-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/AddBoardSheetController.m
+	* application/Resources/Japanese.lproj/ThreadsList.strings
+	* application/Resources/Japanese.lproj/ThreadViewer.strings
+	* application/Resources/Japanese.lproj/AddBoardSheet.nib
+		「掲示板を追加」シートをさらに作り込んだ。
+		- 検索フィールドが簡易的ながら動作するようになった。
+		- エラーメッセージのローカライズ。
+		- 一通り動作するようになった。
 2005-10-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/BathyScaphe.xcodeproj
 		ビルド時に BoardListEditor.plugin をコピーしないようにした。

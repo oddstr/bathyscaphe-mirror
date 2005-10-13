@@ -15,10 +15,21 @@
 
 #import "UTILKit.h"
 
+static NSString *const kABSNibFileNameKey					= @"AddBoardSheet";
+static NSString *const kABSLocalizableStringsFileNameKey	= @"ThreadsList"; 
+
+static NSString *const kABSContextInfoDelegateKey			= @"delegate";
+static NSString *const kABSContextInfoObjectKey				= @"object";
+
 @implementation AddBoardSheetController
++ (NSString *) localizableStringsTableName
+{
+	return kABSLocalizableStringsFileNameKey;
+}
+
 - (id) init
 {
-	if (self = [super initWithWindowNibName : @"AddBoardSheet"]) {
+	if (self = [super initWithWindowNibName : kABSNibFileNameKey]) {
 		;
 	}
 	return self;
@@ -27,6 +38,7 @@
 - (void) dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver : self];
+	[_currentSearchStr release];
 	[super dealloc];
 }
 
@@ -45,6 +57,7 @@
 }
 
 #pragma mark Accessors
+
 - (NSOutlineView *) defaultListOLView
 {
 	return m_defaultListOLView;
@@ -76,20 +89,48 @@
 	return m_helpButton;
 }
 
+- (NSString *) currentSearchStr
+{
+	return _currentSearchStr;
+}
+- (void) setCurrentSearchStr : (NSString *) newStr
+{
+	[newStr retain];
+	[_currentSearchStr release];
+	_currentSearchStr = newStr;
+}
+
 #pragma mark IBActions
 
 - (IBAction) searchBoards : (id) sender
 {
+    NSString		*searchString = [sender stringValue];
+	NSOutlineView	*view_ = [self defaultListOLView];
+
+    if ([searchString isEqualToString : [self currentSearchStr]]) {
+        [self selectMatchedItem : searchString];        
+    } else {
+        [self setCurrentSearchStr : searchString];
+        
+        [view_ deselectAll : self];
+		[self selectMatchedItem : searchString];
+    }
+
+    [view_ scrollRowToVisible : [[view_ selectedRowIndexes] firstIndex]];
 }
+
 - (IBAction) openHelp : (id) sender
 {
-	[[NSHelpManager sharedHelpManager] findString:@"Boards List" inBook:@"BathyScaphe Help"];
+	[[NSHelpManager sharedHelpManager] findString : [self localizedString : @"Boards list"]
+										   inBook : [self localizedString : @"BathyScaphe Help"]];
 }
+
 - (IBAction) close : (id) sender
 {
 	[NSApp endSheet : [self window]
 		 returnCode : NSCancelButton];
 }
+
 - (IBAction) doAddAndClose : (id) sender
 {
 	BOOL	shouldClose;
@@ -123,8 +164,8 @@
 	NSMutableDictionary		*info_;
 	
 	info_ = [NSMutableDictionary dictionary];
-	[info_ setNoneNil:modalDelegate forKey:@"delegate"];
-	[info_ setNoneNil:info forKey:@"contextInfo"];
+	[info_ setNoneNil : modalDelegate forKey : kABSContextInfoDelegateKey];
+	[info_ setNoneNil : info forKey : kABSContextInfoObjectKey];
 	
 	[NSApp beginSheet : [self window]
 	   modalForWindow : docWindow
@@ -152,7 +193,7 @@
 														afterObject : nil])
 		{
 			NSString     *name_;
-			name_ = [item_ objectForKey : @"Name"];
+			name_ = [item_ objectForKey : BoardPlistNameKey];
 			[error_names_ addObject : name_];
 		}
 	}
@@ -162,14 +203,15 @@
 	if ([error_names_ count] > 0) {
 		NSString *message_;
 		
-		message_ = [error_names_ componentsJoinedByString:@"\", \""];
-		message_ = [NSString stringWithFormat : @"\"%@\"",  message_];
+		message_ = [error_names_ componentsJoinedByString : [self localizedString : @"ErrNamesSeparater"]];
+		message_ = [NSString stringWithFormat : [self localizedString : @"ErrNamesCover"],  message_];
 
-		[[NSAlert alertWithMessageText: @"Same Name Exists"
-						defaultButton: @"Cancel"
-					  alternateButton: nil
-						  otherButton: nil
-			informativeTextWithFormat: @"%@ are not added to your Boards List.", message_] runModal];
+		NSBeep();
+		[[NSAlert alertWithMessageText: [self localizedString : @"Same Name Exists"]
+						defaultButton : [self localizedString : @"Cancel"]
+					  alternateButton : nil
+						  otherButton : nil
+			informativeTextWithFormat : [self localizedString : @"%@ are not added to your Boards List."], message_] runModal];
 		return NO;
 	}
 	return YES;
@@ -185,7 +227,6 @@
 	url_  = [[self brdURLField] stringValue];
 		
 	if ([name_ isEqualToString : @""]|[url_ isEqualToString : @""]) {
-		// 名前またはURLが入力されていない場合は中止
 		NSBeep();
 		return NO;
 	} else {
@@ -193,23 +234,62 @@
 
 		if ([userList containsItemWithName : name_ ofType : (BoardListBoardItem | BoardListFavoritesItem)]) {
 			NSBeep();
-			[[NSAlert alertWithMessageText: @"Same Name Exists"
-							 defaultButton: @"Cancel"
-						   alternateButton: nil
-							   otherButton: nil
-				 informativeTextWithFormat: @"So could not add to your Boards List."] runModal];
+			[[NSAlert alertWithMessageText : [self localizedString : @"Same Name Exists"]
+							 defaultButton : [self localizedString : @"Cancel"]
+						   alternateButton : nil
+							   otherButton : nil
+				 informativeTextWithFormat : [self localizedString : @"So could not add to your Boards List."]] runModal];
 			return NO;
 		}
 		newItem_ = [NSDictionary dictionaryWithObjectsAndKeys :
 							name_, BoardPlistNameKey, url_, BoardPlistURLKey, nil];
 
-		[userList addItem:newItem_ afterObject:nil];
+		[userList addItem : newItem_ afterObject : nil];
 		[userList postBoardListDidChangeNotification];
 		return YES;
 	}
 }
 
+// From SevenFour :-b
+- (BOOL) selectMatchedItem : (NSString *) keyword
+                     items : (NSArray  *) items
+{
+    int i;
+    BOOL found = NO;
+	NSOutlineView	*outlineView = [self defaultListOLView];
+
+    for (i = 0; i < [items count]; i++) {
+        NSDictionary	*root = [items objectAtIndex : i];
+        NSRange			range;
+
+        range = [[root objectForKey : BoardPlistNameKey] rangeOfString : keyword
+															   options : NSCaseInsensitiveSearch];
+        if (range.location != NSNotFound) {
+            int row = [outlineView rowForItem : root];
+            [outlineView selectRowIndexes : [NSIndexSet indexSetWithIndex : row]
+                     byExtendingSelection : YES];
+            found |= YES;
+        } else {
+            found |= NO;
+        }
+        
+        [outlineView expandItem : root];
+        if (![self selectMatchedItem : keyword
+							   items : [root objectForKey : BoardPlistContentsKey]]) {
+            [outlineView collapseItem : root];
+        }
+    }
+    return found;
+}
+
+- (void) selectMatchedItem : (NSString *) keyword
+{
+    [self selectMatchedItem : keyword
+                      items : [[[BoardManager defaultManager] defaultList] boardItems]];
+}
+
 #pragma mark Delegate & Notifications
+
 - (void) sheetDidEnd : (NSWindow *) sheet
 		  returnCode : (int       ) returnCode
 		 contextInfo : (void     *) contextInfo
@@ -223,8 +303,8 @@
 	UTILAssertKindOfClass(infoDict_, NSDictionary);
 	
 	sel_ = @selector(controller:sheetDidEnd:contextInfo:);
-	delegate_ = [infoDict_ objectForKey : @"delegate"];
-	userInfo_ = [infoDict_ objectForKey : @"contextInfo"];
+	delegate_ = [infoDict_ objectForKey : kABSContextInfoDelegateKey];
+	userInfo_ = [infoDict_ objectForKey : kABSContextInfoObjectKey];
 	
 	[infoDict_ autorelease];
 	[sheet close];
@@ -251,12 +331,12 @@
 	}
 }
 
-- (void)controlTextDidBeginEditing : (NSNotification *) aNotification
+- (void) controlTextDidBeginEditing : (NSNotification *) aNotification
 {
 	[[self defaultListOLView] deselectAll : self];
 }
 
-- (void)controlTextDidChange : (NSNotification *) aNotification
+- (void) controlTextDidChange : (NSNotification *) aNotification
 {
 	if (![[[self brdNameField] stringValue] isEqualToString : @""] && ![[[self brdURLField] stringValue] isEqualToString : @""]) {
 		[[self OKButton] setEnabled : YES];
@@ -274,5 +354,4 @@
 	if ([notification object] == [[BoardManager defaultManager] defaultList])
         [[self defaultListOLView] reloadData];
 }
-
 @end
