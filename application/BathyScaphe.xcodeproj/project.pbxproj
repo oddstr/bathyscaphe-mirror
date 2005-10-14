@@ -587,9 +587,6 @@
 		87A6CD7808E2706200F971B7 /* BSTitleRulerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87A6CD7608E2706200F971B7 /* BSTitleRulerView.m */; };
 		87B19D7E08FB7C4100D15053 /* AddBoard_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B19D7C08FB7C4100D15053 /* AddBoard_Pressed.tiff */; };
 		87B19D7F08FB7C4100D15053 /* AddBoard.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B19D7D08FB7C4100D15053 /* AddBoard.tiff */; };
-		87B293A608FA5C6F00D21421 /* BSImagePreviewInspector.h in Headers */ = {isa = PBXBuildFile; fileRef = 87B293A408FA5C6F00D21421 /* BSImagePreviewInspector.h */; };
-		87B293A708FA5C6F00D21421 /* BSImagePreviewInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 87B293A508FA5C6F00D21421 /* BSImagePreviewInspector.m */; };
-		87B293AE08FA601300D21421 /* BSImagePreviewInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87B293AC08FA601300D21421 /* BSImagePreviewInspector.nib */; };
 		87B652990840625F008AE2BE /* SendMessage.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B652980840625F008AE2BE /* SendMessage.tiff */; };
 		87BB79210864401A00ED8757 /* RBSplitSubview.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB791F0864401A00ED8757 /* RBSplitSubview.h */; };
 		87BB79220864401A00ED8757 /* RBSplitViewPrivateDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB79200864401A00ED8757 /* RBSplitViewPrivateDefines.h */; };
@@ -599,6 +596,14 @@
 		87BF52CC08F789D500998C4E /* BSBoardInfoInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BF52CA08F789D400998C4E /* BSBoardInfoInspector.m */; };
 		87BF52D508F7913400998C4E /* BSBoardInfoInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87BF52D308F7913400998C4E /* BSBoardInfoInspector.nib */; };
 		87BF7CA50840423900CC7D7C /* BathyScapheHelp in Resources */ = {isa = PBXBuildFile; fileRef = 87BF7CA40840423900CC7D7C /* BathyScapheHelp */; };
+		87C2031508FF3E2B006DC42C /* CocoMonar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3924488043610AE00A80005 /* CocoMonar.framework */; };
+		87C2031608FF3E2B006DC42C /* SGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FA043610EB00A80005 /* SGFoundation.framework */; };
+		87C2031708FF3E2B006DC42C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
+		87C2032D08FF3F81006DC42C /* BSImagePreviewInspector.h in Headers */ = {isa = PBXBuildFile; fileRef = 87C2032908FF3F81006DC42C /* BSImagePreviewInspector.h */; };
+		87C2032E08FF3F81006DC42C /* BSImagePreviewInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C2032A08FF3F81006DC42C /* BSImagePreviewInspector.m */; };
+		87C2032F08FF3F81006DC42C /* BSImagePreviewInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87C2032B08FF3F81006DC42C /* BSImagePreviewInspector.nib */; };
+		87C2038508FF419C006DC42C /* SGAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244F5043610D600A80005 /* SGAppKit.framework */; };
+		87C2041208FF4873006DC42C /* ImagePreviewer.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87C2031D08FF3E2B006DC42C /* ImagePreviewer.plugin */; };
 		87C4813108FD039B00F91054 /* AddBoardSheetController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87C4812F08FD039B00F91054 /* AddBoardSheetController.h */; };
 		87C4813208FD039B00F91054 /* AddBoardSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C4813008FD039B00F91054 /* AddBoardSheetController.m */; };
 		87C4813F08FD05A300F91054 /* AddBoardSheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87C4813D08FD05A300F91054 /* AddBoardSheet.nib */; };
@@ -678,6 +683,13 @@
 			remoteGlobalIDString = 871CA15708585FD200C3A044;
 			remoteInfo = "reply (Upgraded)";
 		};
+		87C203EA08FF47B3006DC42C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 87C202FE08FF3E2B006DC42C /* previewer */;
+			remoteInfo = previewer;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -687,6 +699,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				87C2041208FF4873006DC42C /* ImagePreviewer.plugin in CopyFiles */,
 				871CA1BC08586D1600C3A044 /* 2chConnector.plugin in CopyFiles */,
 				871CA1B908586CFC00C3A044 /* PreferencesPane.plugin in CopyFiles */,
 			);
@@ -920,7 +933,6 @@
 		87B19D7D08FB7C4100D15053 /* AddBoard.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AddBoard.tiff; sourceTree = "<group>"; };
 		87B293A408FA5C6F00D21421 /* BSImagePreviewInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSImagePreviewInspector.h; sourceTree = "<group>"; };
 		87B293A508FA5C6F00D21421 /* BSImagePreviewInspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSImagePreviewInspector.m; sourceTree = "<group>"; };
-		87B293AD08FA601300D21421 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSImagePreviewInspector.nib; sourceTree = "<group>"; };
 		87B652980840625F008AE2BE /* SendMessage.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SendMessage.tiff; sourceTree = "<group>"; };
 		87BB791F0864401A00ED8757 /* RBSplitSubview.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RBSplitSubview.h; path = ../RBSplitSubview.h; sourceTree = "<group>"; };
 		87BB79200864401A00ED8757 /* RBSplitViewPrivateDefines.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RBSplitViewPrivateDefines.h; path = ../RBSplitViewPrivateDefines.h; sourceTree = "<group>"; };
@@ -930,6 +942,11 @@
 		87BF52CA08F789D400998C4E /* BSBoardInfoInspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSBoardInfoInspector.m; sourceTree = "<group>"; };
 		87BF52D408F7913400998C4E /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSBoardInfoInspector.nib; sourceTree = "<group>"; };
 		87BF7CAE0840424200CC7D7C /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Japanese; path = Japanese.lproj/BathyScapheHelp; sourceTree = "<group>"; };
+		87C2031D08FF3E2B006DC42C /* ImagePreviewer.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImagePreviewer.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		87C2032908FF3F81006DC42C /* BSImagePreviewInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSImagePreviewInspector.h; sourceTree = "<group>"; };
+		87C2032A08FF3F81006DC42C /* BSImagePreviewInspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSImagePreviewInspector.m; sourceTree = "<group>"; };
+		87C2032C08FF3F81006DC42C /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSImagePreviewInspector.nib; sourceTree = "<group>"; };
+		87C2033B08FF40B8006DC42C /* Info-previewer.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Info-previewer.plist"; sourceTree = SOURCE_ROOT; };
 		87C4812F08FD039B00F91054 /* AddBoardSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddBoardSheetController.h; sourceTree = "<group>"; };
 		87C4813008FD039B00F91054 /* AddBoardSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddBoardSheetController.m; sourceTree = "<group>"; };
 		87C4813E08FD05A300F91054 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/AddBoardSheet.nib; sourceTree = "<group>"; };
@@ -1387,6 +1404,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		87C2031408FF3E2B006DC42C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87C2031508FF3E2B006DC42C /* CocoMonar.framework in Frameworks */,
+				87C2038508FF419C006DC42C /* SGAppKit.framework in Frameworks */,
+				87C2031608FF3E2B006DC42C /* SGFoundation.framework in Frameworks */,
+				87C2031708FF3E2B006DC42C /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -1397,6 +1425,7 @@
 				871CA11208585F3A00C3A044 /* BoardListEditor.plugin */,
 				871CA15608585F8100C3A044 /* PreferencesPane.plugin */,
 				871CA18308585FD200C3A044 /* 2chConnector.plugin */,
+				87C2031D08FF3E2B006DC42C /* ImagePreviewer.plugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1536,7 +1565,6 @@
 				872999540832618100CBD740 /* ThreadViewer.strings */,
 				8795B91E08E3A7E3005C7C5B /* ToolbarItems.strings */,
 				87BF52D308F7913400998C4E /* BSBoardInfoInspector.nib */,
-				87B293AC08FA601300D21421 /* BSImagePreviewInspector.nib */,
 				87C4813D08FD05A300F91054 /* AddBoardSheet.nib */,
 			);
 			path = Resources;
@@ -1783,6 +1811,17 @@
 			name = Advanced;
 			sourceTree = "<group>";
 		};
+		87C2032808FF3F81006DC42C /* previewer */ = {
+			isa = PBXGroup;
+			children = (
+				87C2033B08FF40B8006DC42C /* Info-previewer.plist */,
+				87C2032908FF3F81006DC42C /* BSImagePreviewInspector.h */,
+				87C2032A08FF3F81006DC42C /* BSImagePreviewInspector.m */,
+				87C2032B08FF3F81006DC42C /* BSImagePreviewInspector.nib */,
+			);
+			path = previewer;
+			sourceTree = "<group>";
+		};
 		87D64F9B0821140000C44651 /* Documents */ = {
 			isa = PBXGroup;
 			children = (
@@ -1887,6 +1926,7 @@
 		F324DAF204C6943C00A80005 /* plug-ins */ = {
 			isa = PBXGroup;
 			children = (
+				87C2032808FF3F81006DC42C /* previewer */,
 				F324DAF404C6949900A80005 /* editor */,
 				F324DB2D04C6959800A80005 /* preference */,
 				F324DBBF04C6965500A80005 /* reply */,
@@ -2800,7 +2840,6 @@
 				87A6CD7708E2706200F971B7 /* BSTitleRulerView.h in Headers */,
 				877B78FC08E416C900184BB2 /* BSProgressIndicatorTbItem.h in Headers */,
 				87BF52CB08F789D500998C4E /* BSBoardInfoInspector.h in Headers */,
-				87B293A608FA5C6F00D21421 /* BSImagePreviewInspector.h in Headers */,
 				87C4813108FD039B00F91054 /* AddBoardSheetController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2867,6 +2906,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		87C202FF08FF3E2B006DC42C /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87C2032D08FF3F81006DC42C /* BSImagePreviewInspector.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -2912,6 +2959,7 @@
 			dependencies = (
 				871CA1870858600900C3A044 /* PBXTargetDependency */,
 				871CA1890858601A00C3A044 /* PBXTargetDependency */,
+				87C203EB08FF47B3006DC42C /* PBXTargetDependency */,
 			);
 			name = bathyscaphe;
 			productInstallPath = "$(HOME)/Applications";
@@ -3033,6 +3081,44 @@
 			productReference = 871CA18308585FD200C3A044 /* 2chConnector.plugin */;
 			productType = "com.apple.product-type.bundle";
 		};
+		87C202FE08FF3E2B006DC42C /* previewer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 87C2031908FF3E2B006DC42C /* Build configuration list for PBXNativeTarget "previewer" */;
+			buildPhases = (
+				87C202FF08FF3E2B006DC42C /* Headers */,
+				87C2030608FF3E2B006DC42C /* Resources */,
+				87C2031108FF3E2B006DC42C /* Sources */,
+				87C2031408FF3E2B006DC42C /* Frameworks */,
+				87C2031808FF3E2B006DC42C /* Rez */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					../frameworks/CocoMonar/build,
+					../frameworks/SGFoundation/build,
+				);
+				INSTALL_PATH = "@executable_path/../Plugins";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = BoardListEditor;
+				SECTORDER_FLAGS = "";
+				USE_GCC3_PFE_SUPPORT = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = plugin;
+			};
+			dependencies = (
+			);
+			name = previewer;
+			productInstallPath = "@executable_path/../Plugins";
+			productName = editor;
+			productReference = 87C2031D08FF3E2B006DC42C /* ImagePreviewer.plugin */;
+			productType = "com.apple.product-type.bundle";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -3053,6 +3139,7 @@
 				871CA0F108585F3900C3A044 /* editor */,
 				871CA11408585F8100C3A044 /* preferences */,
 				871CA15708585FD200C3A044 /* reply */,
+				87C202FE08FF3E2B006DC42C /* previewer */,
 			);
 		};
 /* End PBXProject section */
@@ -3186,7 +3273,6 @@
 				870B892D08ED56B3001664CC /* titleRulerBgAquaBlue.tiff in Resources */,
 				870B892E08ED56B3001664CC /* titleRulerBgAquaGraphite.tiff in Resources */,
 				87BF52D508F7913400998C4E /* BSBoardInfoInspector.nib in Resources */,
-				87B293AE08FA601300D21421 /* BSImagePreviewInspector.nib in Resources */,
 				87B19D7E08FB7C4100D15053 /* AddBoard_Pressed.tiff in Resources */,
 				87B19D7F08FB7C4100D15053 /* AddBoard.tiff in Resources */,
 				87C4813F08FD05A300F91054 /* AddBoardSheet.nib in Resources */,
@@ -3247,6 +3333,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		87C2030608FF3E2B006DC42C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87C2032F08FF3F81006DC42C /* BSImagePreviewInspector.nib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXRezBuildPhase section */
@@ -3272,6 +3366,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		871CA17D08585FD200C3A044 /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		87C2031808FF3E2B006DC42C /* Rez */ = {
 			isa = PBXRezBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -3455,7 +3556,6 @@
 				87A6CD7808E2706200F971B7 /* BSTitleRulerView.m in Sources */,
 				877B78FD08E416C900184BB2 /* BSProgressIndicatorTbItem.m in Sources */,
 				87BF52CC08F789D500998C4E /* BSBoardInfoInspector.m in Sources */,
-				87B293A708FA5C6F00D21421 /* BSImagePreviewInspector.m in Sources */,
 				873C0DCF08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m in Sources */,
 				87C4813208FD039B00F91054 /* AddBoardSheetController.m in Sources */,
 			);
@@ -3509,6 +3609,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		87C2031108FF3E2B006DC42C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87C2032E08FF3F81006DC42C /* BSImagePreviewInspector.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -3521,6 +3629,11 @@
 			isa = PBXTargetDependency;
 			target = 871CA15708585FD200C3A044 /* reply */;
 			targetProxy = 871CA1880858601A00C3A044 /* PBXContainerItemProxy */;
+		};
+		87C203EB08FF47B3006DC42C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 87C202FE08FF3E2B006DC42C /* previewer */;
+			targetProxy = 87C203EA08FF47B3006DC42C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -3854,14 +3967,6 @@
 			name = ToolbarItems.strings;
 			sourceTree = "<group>";
 		};
-		87B293AC08FA601300D21421 /* BSImagePreviewInspector.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				87B293AD08FA601300D21421 /* Japanese */,
-			);
-			name = BSImagePreviewInspector.nib;
-			sourceTree = "<group>";
-		};
 		87BF52D308F7913400998C4E /* BSBoardInfoInspector.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -3876,6 +3981,14 @@
 				87BF7CAE0840424200CC7D7C /* Japanese */,
 			);
 			name = BathyScapheHelp;
+			sourceTree = "<group>";
+		};
+		87C2032B08FF3F81006DC42C /* BSImagePreviewInspector.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				87C2032C08FF3F81006DC42C /* Japanese */,
+			);
+			name = BSImagePreviewInspector.nib;
 			sourceTree = "<group>";
 		};
 		87C4813D08FD05A300F91054 /* AddBoardSheet.nib */ = {
@@ -4257,6 +4370,104 @@
 			};
 			name = Default;
 		};
+		87C2031A08FF3E2B006DC42C /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					../frameworks/CocoMonar/build/Deployment,
+					../frameworks/SGFoundation/build/Deployment,
+					../frameworks/SGAppKit/build/Deployment,
+					"$(SRCROOT)/../frameworks/SGAppKit/build/Deployment",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = source/CocoMonar_Prefix.h;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					DEBUG,
+					BUILD_COCOMONAR,
+				);
+				GCC_USE_GCC3_PFE_SUPPORT = NO;
+				INFOPLIST_FILE = "/Users/benchan/bathyscaphe/application/Info-previewer.plist";
+				INSTALL_PATH = "@executable_path/../Plugins";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = BSImagePreviewInspector;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = plugin;
+				ZERO_LINK = NO;
+			};
+			name = Development;
+		};
+		87C2031B08FF3E2B006DC42C /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					../frameworks/CocoMonar/build/Deployment,
+					../frameworks/SGFoundation/build/Deployment,
+					../frameworks/SGAppKit/build/Deployment,
+					"$(SRCROOT)/../frameworks/SGAppKit/build/Deployment",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					BUILD_COCOMONAR,
+					NS_BLOCK_ASSERTIONS,
+				);
+				GCC_USE_GCC3_PFE_SUPPORT = NO;
+				INFOPLIST_FILE = "/Users/benchan/bathyscaphe/application/Info-previewer.plist";
+				INSTALL_PATH = "@executable_path/../Plugins";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ImagePreviewer;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = plugin;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		87C2031C08FF3E2B006DC42C /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					../frameworks/CocoMonar/build/Deployment,
+					../frameworks/SGFoundation/build/Deployment,
+					../frameworks/SGAppKit/build/Deployment,
+					"$(SRCROOT)/../frameworks/SGAppKit/build/Deployment",
+				);
+				GCC_USE_GCC3_PFE_SUPPORT = NO;
+				INFOPLIST_FILE = "/Users/benchan/bathyscaphe/application/Info-previewer.plist";
+				INSTALL_PATH = "@executable_path/../Plugins";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = BSImagePreviewInspector;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = plugin;
+			};
+			name = Default;
+		};
 		87E15B4C0858090F00C345E0 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4419,6 +4630,16 @@
 				871CA17F08585FD200C3A044 /* Development */,
 				871CA18008585FD200C3A044 /* Deployment */,
 				871CA18108585FD200C3A044 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		87C2031908FF3E2B006DC42C /* Build configuration list for PBXNativeTarget "previewer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				87C2031A08FF3E2B006DC42C /* Development */,
+				87C2031B08FF3E2B006DC42C /* Deployment */,
+				87C2031C08FF3E2B006DC42C /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Default;

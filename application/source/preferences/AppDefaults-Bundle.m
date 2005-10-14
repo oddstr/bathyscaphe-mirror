@@ -1,5 +1,5 @@
 /**
- * $Id: AppDefaults-Bundle.m,v 1.4 2005/07/30 22:30:09 tsawada2 Exp $
+ * $Id: AppDefaults-Bundle.m,v 1.5 2005/10/14 02:13:21 tsawada2 Exp $
  * 
  * AppDefaults-Bundle.m
  *
@@ -22,6 +22,10 @@
 #define BoardListEditorPluginName  @"BoardListEditor"
 #define BoardListEditorPluginType  @"plugin"
 #define BoardListEditorClassName   @"BoardListEditor"
+
+#define ImagePreviewerPluginName  @"ImagePreviewer"
+#define ImagePreviewerPluginType  @"plugin"
+#define ImagePreviewerClassName   @"BSImagePreviewInspector"
 
 #define PreferencesPanePluginName  @"PreferencesPane"
 #define PreferencesPanePluginType  @"plugin"
@@ -61,45 +65,6 @@ static NSString *const AppDefaultsHelperAppNameKey = @"Helper Application Path";
     return [NSBundle bundleWithPath : path_];
 }
 
-
-/*
-- (void) test 
-{
-    NSBundle *module;
-    BOOL ret;
-    
-    UTILMethodLog;
-    
-    module = [NSBundle bundleWithIdentifier : @"com.apple.AppleScriptKit"];
-    if (nil == module) {
-        module = [NSBundle bundleWithPath : @"/System/Library/Frameworks/AppleScriptKit.framework"];
-    }
-    
-    ret = [module load];
-    NSLog(@"Loading new module... %@", UTILBOOLString(ret));
-    NSLog(@"Done. module=%@", [module description]);
-    
-    module = [self moduleWithName : @"BoardWarrior"
-                           ofType : @"app"
-                      inDirectory : nil];
-    
-    ret = [module load];
-    NSLog(@"Loading new module... %@", UTILBOOLString(ret));
-    NSLog(@"Done. module=%@", [module description]);
-    NSLog(@"- [module principalClass] = %@", NSStringFromClass([module principalClass]));
-    NSLog(@"- [module infoDictionary] = %@", [[module infoDictionary] description]);
-    
-    ret = [module loadNibFile:@"MainWindow" 
-    externalNameTable:
-    [NSDictionary dictionaryWithObject:NSApp forKey:@"NSOwner"]
-    withZone:[self zone]];
-    NSLog(@"Load MainMenu.nib... (%@)", UTILBOOLString(ret));
-    
-    Class klass = [module classNamed : @"BWController"];
-
-    NSLog(@"- [module classNamed:] = %@", NSStringFromClass(klass));
-}
-*/
 - (id) _boardListEditor
 {
     static Class kEditorInstance;
@@ -130,6 +95,35 @@ static NSString *const AppDefaultsHelperAppNameKey = @"Helper Application Path";
        initWithDefaultList : [[BoardManager defaultManager] defaultList]
                   userList : [[BoardManager defaultManager] userList]]
             autorelease];
+}
+
+- (id) _imagePreviewer
+{
+    static Class kPreviewerInstance;
+    
+    if (Nil == kPreviewerInstance) {
+        NSBundle *module;
+        
+        module = [self moduleWithName : ImagePreviewerPluginName
+                               ofType : ImagePreviewerPluginType
+                          inDirectory : nil];
+        if (nil == module) {
+            NSLog(@"Couldn't load plugin<%@.%@>", 
+                    ImagePreviewerPluginName,
+                    ImagePreviewerPluginType);
+            return nil;
+        }
+        kPreviewerInstance = [module classNamed : ImagePreviewerClassName];
+    }
+    if (Nil == kPreviewerInstance) {
+        NSLog(@"Couldn't load Class<%@> in <%@.%@>", 
+                ImagePreviewerClassName,
+                ImagePreviewerPluginName,
+                ImagePreviewerPluginType);
+        return nil;
+    }
+    
+    return [[[kPreviewerInstance alloc] init] autorelease];
 }
 
 - (id) sharedBoardListEditor
@@ -221,6 +215,15 @@ static NSString *const AppDefaultsHelperAppNameKey = @"Helper Application Path";
     static id instance_;
     if (nil == instance_) {
         instance_ = [[self _preferencesPane] retain];
+    }
+    return instance_;
+}
+
+- (id) sharedImagePreviewer
+{
+    static id instance_;
+    if (nil == instance_) {
+        instance_ = [[self _imagePreviewer] retain];
     }
     return instance_;
 }

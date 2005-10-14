@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.17 2005/10/08 02:46:39 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.18 2005/10/14 02:13:21 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -429,6 +429,8 @@ enum {
 				  inDirectory : (NSString *) bundlePath;
 - (id) _boardListEditor;
 - (id) sharedBoardListEditor;
+- (id) _imagePreviewer;
+- (id) sharedImagePreviewer;
 - (id) _preferencesPane;
 - (id) sharedPreferencesPane;
 - (id<w2chConnect>) w2chConnectWithURL : (NSURL        *) anURL

@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+//#import "AppDefaults.h"
 
 /*!
     @class       BSImagePreviewInspector
@@ -15,6 +16,7 @@
 	             URL を与えることで、Cocoa バインディングの力によって自動的に imageView にイメージが表示され、
 				 テキストフィールドには URL が表示されます。私たちは URL のみを与えれば良いのです。
 */
+@class AppDefaults;
 
 @interface BSImagePreviewInspector : NSWindowController {
 	IBOutlet NSButton				*m_openWithBrowserBtn;

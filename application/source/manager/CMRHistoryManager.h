@@ -1,6 +1,6 @@
 //: CMRHistoryManager.h
 /**
-  * $Id: CMRHistoryManager.h,v 1.2 2005/07/08 20:56:24 tsawada2 Exp $
+  * $Id: CMRHistoryManager.h,v 1.3 2005/10/14 02:13:21 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -23,7 +23,7 @@ enum {
 
 
 //
-// ƒc[ƒ‹ƒo[‚Ég—p‚·‚é‚½‚ß‚ÉNSCoding‚ª•K—v
+// ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã«ä½¿ç”¨ã™ã‚‹ãŸã‚ã«NSCodingãŒå¿…è¦
 //
 @interface CMRHistoryItem : SGBaseObject<CMRPropertyListCoding, NSCoding>
 {
@@ -81,7 +81,7 @@ typedef struct CMRHistoryClientEntry CMRHistoryClientEntry;
 }
 + (CMRHistoryManager *) defaultManager;
 
-// retain/release‚Í‚µ‚È‚¢
+// retain/releaseã¯ã—ãªã„
 - (void) addClient : (id<CMRHistoryClient>) aClient;
 - (void) removeClient : (id<CMRHistoryClient>) aClient;
 

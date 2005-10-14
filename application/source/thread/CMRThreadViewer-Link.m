@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.6 2005/10/10 10:05:45 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.7 2005/10/14 02:13:21 tsawada2 Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -24,7 +24,6 @@
 
 #import <SGAppKit/NSWorkspace-SGExtensions.h>
 
-#import "BSImagePreviewInspector.h"
 
 
 #import "CMRNetRequestQueue.h"
@@ -376,7 +375,7 @@ static NSString *previewSourceHTMLFilepath(NSString *resourceName, NSString *aTy
 	NSURL		*previewURL_;
 
 	previewURL_ = [NSURL URLWithLink : aLink];
-	return [[BSImagePreviewInspector sharedInstance] showImageWithURL : previewURL_];
+	return [[CMRPref sharedImagePreviewer] showImageWithURL : previewURL_];
 }
 
 - (BOOL) previewLink : (id) aLink

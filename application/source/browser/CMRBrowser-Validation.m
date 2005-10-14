@@ -40,17 +40,6 @@
 		
 		return (NO == [[self currentThreadsList] isFavorites]);
 	}
-	// deprecated in LeafTicket and later.
-	/*if(action_ == @selector(clear:))
-		return ([[self threadsListTable] selectedRow] != -1);*/
-	
-	// Åuåfé¶î¬Çï\é¶Åv
-	/*if(action_ == @selector(toggleBoardDrawer:)){
-		return NO;
-	}
-	if(action_ == @selector(beginBoardListSheet:)){
-		return YES;
-	}*/
 	
 	if(action_ == @selector(changeBrowserArrangement:)){
 		return YES;

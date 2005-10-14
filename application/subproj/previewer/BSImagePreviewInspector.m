@@ -12,8 +12,6 @@
 #import <CocoMonar/CocoMonar.h>
 #import <SGAppKit/NSWorkspace-SGExtensions.h>
 
-#import "AppDefaults.h"
-
 static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInspector Panel Autosave";
 
@@ -87,7 +85,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 #pragma mark Actions
 - (IBAction) openImage : (id) sender
 {
-	[[NSWorkspace sharedWorkspace] openURL : [self sourceURL] inBackGround : [CMRPref openInBg]];
+	[[NSWorkspace sharedWorkspace] openURL : [self sourceURL] inBackGround : NO];//[CMRPref openInBg]];
 }
 
 - (IBAction) saveImage : (id) sender
