@@ -931,8 +931,6 @@
 		87AF6D0007425DC0001D08ED /* remove_pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = remove_pressed.tiff; sourceTree = "<group>"; };
 		87B19D7C08FB7C4100D15053 /* AddBoard_Pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AddBoard_Pressed.tiff; sourceTree = "<group>"; };
 		87B19D7D08FB7C4100D15053 /* AddBoard.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AddBoard.tiff; sourceTree = "<group>"; };
-		87B293A408FA5C6F00D21421 /* BSImagePreviewInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSImagePreviewInspector.h; sourceTree = "<group>"; };
-		87B293A508FA5C6F00D21421 /* BSImagePreviewInspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSImagePreviewInspector.m; sourceTree = "<group>"; };
 		87B652980840625F008AE2BE /* SendMessage.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SendMessage.tiff; sourceTree = "<group>"; };
 		87BB791F0864401A00ED8757 /* RBSplitSubview.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RBSplitSubview.h; path = ../RBSplitSubview.h; sourceTree = "<group>"; };
 		87BB79200864401A00ED8757 /* RBSplitViewPrivateDefines.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RBSplitViewPrivateDefines.h; path = ../RBSplitViewPrivateDefines.h; sourceTree = "<group>"; };
@@ -1550,6 +1548,8 @@
 				872999210832618000CBD740 /* CMXMessageMenu.nib */,
 				872999390832618100CBD740 /* MainMenu.nib */,
 				8729994B0832618100CBD740 /* TextFind.nib */,
+				87BF52D308F7913400998C4E /* BSBoardInfoInspector.nib */,
+				87C4813D08FD05A300F91054 /* AddBoardSheet.nib */,
 				872999240832618000CBD740 /* Credits.rtf */,
 				872999270832618100CBD740 /* DateFormater.strings */,
 				8729992A0832618100CBD740 /* DirectoryManager.strings */,
@@ -1564,8 +1564,6 @@
 				872999510832618100CBD740 /* ThreadsList.strings */,
 				872999540832618100CBD740 /* ThreadViewer.strings */,
 				8795B91E08E3A7E3005C7C5B /* ToolbarItems.strings */,
-				87BF52D308F7913400998C4E /* BSBoardInfoInspector.nib */,
-				87C4813D08FD05A300F91054 /* AddBoardSheet.nib */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -2210,8 +2208,6 @@
 				87D64F9C0821141D00C44651 /* Others */,
 				F3488FCD04CD431600A80005 /* trash */,
 				F3488FCC04CD430300A80005 /* cookie */,
-				87B293A408FA5C6F00D21421 /* BSImagePreviewInspector.h */,
-				87B293A508FA5C6F00D21421 /* BSImagePreviewInspector.m */,
 			);
 			path = manager;
 			sourceTree = "<group>";

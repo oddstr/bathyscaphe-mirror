@@ -1,4 +1,17 @@
 2005-10-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Info-previewer.plist
+		[新規追加] ImagePreviewer.plugin の Info.plist　のひな形。
+	* application/BathyScaphe.xcodeproj
+		新しいターゲット「previewer」を追加。また、BathyScaphe ビルド時に ImagePreviewer.plugin を
+		コピーするようにした。また、BathyScaphe のビルドフェーズに previewer を含めた。
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
+		[新規追加] BSImagePreviewInspector をプラグイン化したため、各ファイルの位置を変更。
+		- CVS上では、新しい位置にファイルを追加した扱い。
+	* application/source/manager/BSImagePreviewInspector.m
+	* application/Resources/Japanese.lproj/BSImagePreviewInspector.nib
+		[削除] BSImagePreviewInspector はプラグイン化したため、各ファイルの位置を変更。
+		- CVS上では、古い位置のファイルを削除した扱い。
 	* application/Resources/Japanese.lproj/Browser.nib
 	* application/source/browser/CMRBrowser-BLEditor.m
 	* application/source/browser/CMRBrowser-Validation.m
