@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.7 2005/10/14 02:13:21 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.8 2005/10/15 09:45:42 tsawada2 Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -373,9 +373,12 @@ static NSString *previewSourceHTMLFilepath(NSString *resourceName, NSString *aTy
 - (BOOL) previewLinkWithImageInspector : (id) aLink
 {
 	NSURL		*previewURL_;
+	id			tmp;
 
 	previewURL_ = [NSURL URLWithLink : aLink];
-	return [[CMRPref sharedImagePreviewer] showImageWithURL : previewURL_];
+	tmp = [CMRPref sharedImagePreviewer];
+	if (!tmp) return NO;
+	return [tmp showImageWithURL : previewURL_];
 }
 
 - (BOOL) previewLink : (id) aLink

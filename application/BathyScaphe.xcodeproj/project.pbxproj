@@ -562,6 +562,8 @@
 		8732FCBB08C2F79D00779F20 /* HistoryForward.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 878A7568088AA85B00539B6F /* HistoryForward.tiff */; };
 		873C0DCF08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 873C0DCE08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m */; };
 		873D91B008D9B7EA009D5E6C /* OrderFrontBrowser.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 873D91AF08D9B7EA009D5E6C /* OrderFrontBrowser.tiff */; };
+		8745CD290900DE9800A28AC0 /* BSImagePreviewerInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 8745CD280900DE9800A28AC0 /* BSImagePreviewerInterface.h */; };
+		8745CE870900F18300A28AC0 /* SGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FA043610EB00A80005 /* SGFoundation.framework */; };
 		87464E3708643673000F0371 /* libRBSplitView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87464E3608643673000F0371 /* libRBSplitView.a */; };
 		87464E390864368F000F0371 /* RBSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87464E380864368F000F0371 /* RBSplitView.h */; };
 		87517B780864B242002DA082 /* CMRSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD9C04C698FB00A80005 /* CMRSplitView.h */; };
@@ -596,8 +598,6 @@
 		87BF52CC08F789D500998C4E /* BSBoardInfoInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BF52CA08F789D400998C4E /* BSBoardInfoInspector.m */; };
 		87BF52D508F7913400998C4E /* BSBoardInfoInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87BF52D308F7913400998C4E /* BSBoardInfoInspector.nib */; };
 		87BF7CA50840423900CC7D7C /* BathyScapheHelp in Resources */ = {isa = PBXBuildFile; fileRef = 87BF7CA40840423900CC7D7C /* BathyScapheHelp */; };
-		87C2031508FF3E2B006DC42C /* CocoMonar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3924488043610AE00A80005 /* CocoMonar.framework */; };
-		87C2031608FF3E2B006DC42C /* SGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FA043610EB00A80005 /* SGFoundation.framework */; };
 		87C2031708FF3E2B006DC42C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		87C2032D08FF3F81006DC42C /* BSImagePreviewInspector.h in Headers */ = {isa = PBXBuildFile; fileRef = 87C2032908FF3F81006DC42C /* BSImagePreviewInspector.h */; };
 		87C2032E08FF3F81006DC42C /* BSImagePreviewInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C2032A08FF3F81006DC42C /* BSImagePreviewInspector.m */; };
@@ -687,7 +687,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 87C202FE08FF3E2B006DC42C /* previewer */;
+			remoteGlobalIDString = 87C202FE08FF3E2B006DC42C;
 			remoteInfo = previewer;
 		};
 /* End PBXContainerItemProxy section */
@@ -890,6 +890,7 @@
 		87299C09083266F700CBD740 /* BathyScaphe.mdimporter */ = {isa = PBXFileReference; explicitFileType = "wrapper.plug-in"; name = BathyScaphe.mdimporter; path = ../metadataimporter/BathyScaphe/build/Deployment/BathyScaphe.mdimporter; sourceTree = SOURCE_ROOT; };
 		873C0DCE08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRBrowser-BLEditor.m"; sourceTree = "<group>"; };
 		873D91AF08D9B7EA009D5E6C /* OrderFrontBrowser.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = OrderFrontBrowser.tiff; sourceTree = "<group>"; };
+		8745CD280900DE9800A28AC0 /* BSImagePreviewerInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSImagePreviewerInterface.h; sourceTree = "<group>"; };
 		87464E3608643673000F0371 /* libRBSplitView.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libRBSplitView.a; sourceTree = "<group>"; };
 		87464E380864368F000F0371 /* RBSplitView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RBSplitView.h; path = ../RBSplitView.h; sourceTree = "<group>"; };
 		874F24FA080E716700EA2164 /* w2chReply_be2ch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = w2chReply_be2ch.h; sourceTree = "<group>"; };
@@ -1406,9 +1407,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				87C2031508FF3E2B006DC42C /* CocoMonar.framework in Frameworks */,
+				8745CE870900F18300A28AC0 /* SGFoundation.framework in Frameworks */,
 				87C2038508FF419C006DC42C /* SGAppKit.framework in Frameworks */,
-				87C2031608FF3E2B006DC42C /* SGFoundation.framework in Frameworks */,
 				87C2031708FF3E2B006DC42C /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1816,6 +1816,7 @@
 				87C2032908FF3F81006DC42C /* BSImagePreviewInspector.h */,
 				87C2032A08FF3F81006DC42C /* BSImagePreviewInspector.m */,
 				87C2032B08FF3F81006DC42C /* BSImagePreviewInspector.nib */,
+				8745CD280900DE9800A28AC0 /* BSImagePreviewerInterface.h */,
 			);
 			path = previewer;
 			sourceTree = "<group>";
@@ -2907,6 +2908,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				87C2032D08FF3F81006DC42C /* BSImagePreviewInspector.h in Headers */,
+				8745CD290900DE9800A28AC0 /* BSImagePreviewerInterface.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4375,6 +4377,7 @@
 					../frameworks/SGFoundation/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
 					"$(SRCROOT)/../frameworks/SGAppKit/build/Deployment",
+					"$(SRCROOT)/../frameworks/SGFoundation/build/Deployment",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -4409,10 +4412,8 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build/Deployment,
 					../frameworks/SGFoundation/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
-					"$(SRCROOT)/../frameworks/SGAppKit/build/Deployment",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -4422,7 +4423,7 @@
 					NS_BLOCK_ASSERTIONS,
 				);
 				GCC_USE_GCC3_PFE_SUPPORT = NO;
-				INFOPLIST_FILE = "/Users/benchan/bathyscaphe/application/Info-previewer.plist";
+				INFOPLIST_FILE = "Info-previewer.plist";
 				INSTALL_PATH = "@executable_path/../Plugins";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
@@ -4447,6 +4448,7 @@
 					../frameworks/SGFoundation/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
 					"$(SRCROOT)/../frameworks/SGAppKit/build/Deployment",
+					"$(SRCROOT)/../frameworks/SGFoundation/build/Deployment",
 				);
 				GCC_USE_GCC3_PFE_SUPPORT = NO;
 				INFOPLIST_FILE = "/Users/benchan/bathyscaphe/application/Info-previewer.plist";

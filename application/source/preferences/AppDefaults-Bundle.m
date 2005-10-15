@@ -1,5 +1,5 @@
 /**
- * $Id: AppDefaults-Bundle.m,v 1.5 2005/10/14 02:13:21 tsawada2 Exp $
+ * $Id: AppDefaults-Bundle.m,v 1.6 2005/10/15 09:45:42 tsawada2 Exp $
  * 
  * AppDefaults-Bundle.m
  *
@@ -14,7 +14,7 @@
 #import "UTILKit.h"
 #import "CMRMainMenuManager.h"
 
-
+@protocol BSImagePreviewerProtocol;
 
 // ----------------------------------------
 // C O N S T A N T S
@@ -25,7 +25,6 @@
 
 #define ImagePreviewerPluginName  @"ImagePreviewer"
 #define ImagePreviewerPluginType  @"plugin"
-#define ImagePreviewerClassName   @"BSImagePreviewInspector"
 
 #define PreferencesPanePluginName  @"PreferencesPane"
 #define PreferencesPanePluginType  @"plugin"
@@ -37,10 +36,27 @@
 #define w2chAuthenticaterClassName @"w2chAuthenticater"
 
 static NSString *const AppDefaultsHelperAppNameKey = @"Helper Application Path";
+static NSString *const AppDefaultsImagePreviewerSettingsKey = @"Preferences - ImagePreviewer Plugin";
 
 
 
 @implementation AppDefaults(BundleSupport)
+- (NSMutableDictionary *) imagePreviewerPrefsDict
+{
+	if(nil == m_imagePreviewerDictionary){
+		NSDictionary	*dict_;
+		
+		dict_ = [[self defaults] 
+					dictionaryForKey : AppDefaultsImagePreviewerSettingsKey];
+		m_imagePreviewerDictionary = [dict_ mutableCopy];
+	}
+	
+	if(nil == m_imagePreviewerDictionary)
+		m_imagePreviewerDictionary = [[NSMutableDictionary alloc] init];
+	
+	return m_imagePreviewerDictionary;
+}
+
 - (NSBundle *) moduleWithName : (NSString *) bundleName
                        ofType : (NSString *) type
                   inDirectory : (NSString *) bundlePath
@@ -100,30 +116,47 @@ static NSString *const AppDefaultsHelperAppNameKey = @"Helper Application Path";
 - (id) _imagePreviewer
 {
     static Class kPreviewerInstance;
+	NSString		*pClassName;
+
+	pClassName = @"Unknown";
     
     if (Nil == kPreviewerInstance) {
-        NSBundle *module;
+        NSBundle		*module;
+		NSDictionary	*infoPlist;
         
         module = [self moduleWithName : ImagePreviewerPluginName
                                ofType : ImagePreviewerPluginType
                           inDirectory : nil];
+
         if (nil == module) {
-            NSLog(@"Couldn't load plugin<%@.%@>", 
-                    ImagePreviewerPluginName,
-                    ImagePreviewerPluginType);
+            NSLog(@"Couldn't load plugin<%@.%@>", ImagePreviewerPluginName, ImagePreviewerPluginType);
             return nil;
         }
-        kPreviewerInstance = [module classNamed : ImagePreviewerClassName];
+
+		infoPlist = [module infoDictionary];
+		pClassName = [infoPlist objectForKey : @"NSPrincipalClass"];
+
+		if (pClassName) {
+			Class pluginClass = NSClassFromString(pClassName);
+			if (!pluginClass) {
+				kPreviewerInstance = [module principalClass];
+				//NSLog(@"We load plugin <%@.%@>, and load its principal class <%@>",
+				//		ImagePreviewerPluginName, ImagePreviewerPluginType, pClassName);
+			}
+		}
     }
     if (Nil == kPreviewerInstance) {
-        NSLog(@"Couldn't load Class<%@> in <%@.%@>", 
-                ImagePreviewerClassName,
-                ImagePreviewerPluginName,
-                ImagePreviewerPluginType);
+        NSLog(@"Couldn't load principal class <%@> in <%@.%@>", 
+                pClassName, ImagePreviewerPluginName, ImagePreviewerPluginType);
         return nil;
     }
-    
-    return [[[kPreviewerInstance alloc] init] autorelease];
+	if ([kPreviewerInstance conformsToProtocol : @protocol(BSImagePreviewerProtocol)]) {
+		return [[[kPreviewerInstance alloc] initWithPreferences : self] autorelease];
+	} else {
+        NSLog(@"Principal class <%@> doesn't conform to protocol BSImagePreviewerProtocol! So we cancel loading this plugin", 
+                pClassName);
+        return nil;
+    }		
 }
 
 - (id) sharedBoardListEditor
@@ -233,7 +266,7 @@ static NSString *const AppDefaultsHelperAppNameKey = @"Helper Application Path";
 	NSString *fullPath_;
 	
 	fullPath_ = [[self defaults] stringForKey : AppDefaultsHelperAppNameKey];
-	return fullPath_ ? fullPath_ : [[NSWorkspace sharedWorkspace] fullPathForApplication : @"CMLogFinder.app"];
+	return fullPath_ ? fullPath_ : [[NSWorkspace sharedWorkspace] fullPathForApplication : @"CMLogBuccaneer.app"];
 }
 - (void) setHelperAppPath : (NSString *) fullPath_
 {
@@ -256,5 +289,23 @@ static NSString *const AppDefaultsHelperAppNameKey = @"Helper Application Path";
 	}
 
 	return nil;
+}
+
+#pragma mark -
+
+- (void) _loadImagePreviewerSettings
+{
+}
+
+- (BOOL) _saveImagePreviewerSettings
+{
+	NSDictionary			*dict_;
+	
+	dict_ = [self imagePreviewerPrefsDict];
+	
+	UTILAssertNotNil(dict_);
+	[[self defaults] setObject : dict_
+						forKey : AppDefaultsImagePreviewerSettingsKey];
+	return YES;
 }
 @end

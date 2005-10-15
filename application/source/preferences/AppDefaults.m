@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.7 2005/07/09 13:14:03 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.8 2005/10/15 09:45:42 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -92,6 +92,7 @@ static id _singletonAppDefaultsLock;
 	[m_backgroundColorDictionary release];
 	[m_threadsListDictionary release];
 	[m_threadViewerDictionary release];
+	[m_imagePreviewerDictionary release];
 	[_dictAppearance release];
 	[_proxyCache release];
 	
@@ -115,6 +116,7 @@ static id _singletonAppDefaultsLock;
 	[self _loadFilter];
 	[self _loadThreadsListSettings];
 	[self _loadThreadViewerSettings];
+	[self _loadImagePreviewerSettings];
 	[self loadAccountSettings];
 	
 	return YES;
@@ -131,6 +133,7 @@ NS_DURING
 	[self _saveFontAndColor];
 	[self _saveThreadsListSettings];
 	[self _saveThreadViewerSettings];
+	[self _saveImagePreviewerSettings];
 	[self _saveFilter];
 
 	syncResult = [[self defaults] synchronize];

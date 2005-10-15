@@ -1,5 +1,5 @@
 /**
-  * $Id: SGHTMLView.m,v 1.3 2005/10/11 05:09:29 tsawada2 Exp $
+  * $Id: SGHTMLView.m,v 1.4 2005/10/15 09:45:42 tsawada2 Exp $
   * 
   * SGHTMLView.m
   *
@@ -7,7 +7,7 @@
   * See the file LICENSE for copying permission.
   */
 #import "SGHTMLView_p.h"
-
+#import "AppDefaults.h"
 // for debugging only
 #define UTIL_DEBUGGING				0
 #import "UTILDebugging.h"
@@ -106,7 +106,7 @@ CMRThreadView ‚ğƒZƒbƒgƒAƒbƒv‚·‚éÛ‚ÉAsetLinkTextAttributes: ‚Å“K“–‚È‘®««‘‚ğƒ
 		default_menu);
 	
 	[self setSelectedRange : effectiveRange_];
-	return [self linkMenuWithLink : link_ forImageFile : [self validateLinkBySuffix : link_]];
+	return [self linkMenuWithLink : link_ forImageFile : [self validateLinkForImage : link_]];
 	
 	default_menu:
 	
@@ -342,19 +342,18 @@ CMRThreadView ‚ğƒZƒbƒgƒAƒbƒv‚·‚éÛ‚ÉAsetLinkTextAttributes: ‚Å“K“–‚È‘®««‘‚ğƒ
 	scheme_ = [url_ scheme];
 	return (NO == [filter_ containsObject : scheme_]);
 }
-- (BOOL) validateLinkBySuffix : (id) aLink
+- (BOOL) validateLinkForImage : (id) aLink
 {
 	NSURL	*url_;
-	NSString	*tmp_;
+	id tmp;
 	if (nil == aLink) return NO;
 
 	url_ = [NSURL URLWithLink : aLink];
 	if (nil == url_) return NO;
 
-	tmp_ = [url_ stringValue];	
-	if ([tmp_ hasSuffix : @".jpg"] || [tmp_ hasSuffix : @".png"] || [tmp_ hasSuffix : @".gif"])
-		return YES;
-	return NO;
+	tmp = [CMRPref sharedImagePreviewer];
+	if (!tmp) return NO;
+	return [tmp validateLink : url_];
 }
 
 - (void) pushCloseHandCursorIfNeeded

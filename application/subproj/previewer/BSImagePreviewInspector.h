@@ -3,11 +3,11 @@
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
-//  Copyright 2005 BathyScaphe. All rights reserved.
+//  Copyright 2005 BathyScaphe Project. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
-//#import "AppDefaults.h"
+#import "BSImagePreviewerInterface.h"
 
 /*!
     @class       BSImagePreviewInspector
@@ -16,18 +16,18 @@
 	             URL を与えることで、Cocoa バインディングの力によって自動的に imageView にイメージが表示され、
 				 テキストフィールドには URL が表示されます。私たちは URL のみを与えれば良いのです。
 */
-@class AppDefaults;
 
-@interface BSImagePreviewInspector : NSWindowController {
+@interface BSImagePreviewInspector : NSWindowController <BSImagePreviewerProtocol> {
 	IBOutlet NSButton				*m_openWithBrowserBtn;
 	IBOutlet NSButton				*m_saveButton;
 	IBOutlet NSImageView			*m_imageView;
 	IBOutlet NSProgressIndicator	*m_progIndicator;
 	
 	@private
-	NSURL	*_sourceURL;
+	NSURL		*_sourceURL;
+	AppDefaults	*_preferences;
 }
-+ (id) sharedInstance;
+
 // Accessor
 - (NSButton *) openWithBrowserBtn;
 - (NSButton *) saveButton;
@@ -43,5 +43,4 @@
 // Actions
 - (IBAction) openImage : (id) sender;
 - (IBAction) saveImage : (id) sender;
-- (BOOL) showImageWithURL : (NSURL *) imageURL; // 今のところ、常に YES が返るけど…
 @end

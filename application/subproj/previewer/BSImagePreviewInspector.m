@@ -8,38 +8,47 @@
 
 #import "BSImagePreviewInspector.h"
 
-#import <SGFoundation/SGFoundation.h>
-#import <CocoMonar/CocoMonar.h>
 #import <SGAppKit/NSWorkspace-SGExtensions.h>
 
 static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInspector Panel Autosave";
 
 @implementation BSImagePreviewInspector
-APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
-
-- (id) init
+- (id) initWithPreferences : (AppDefaults *) prefs
 {
-	if (self = [self initWithWindowNibName : kIPINibFileNameKey]) {
-		//
+	if (self = [super initWithWindowNibName : kIPINibFileNameKey]) {
+		[self setPreferences : prefs];
 	}
 	return self;
 }
 
 - (void) dealloc
 {
+	[_preferences release];
 	[_sourceURL release];
 	[super dealloc];
 }
 
 - (void) awakeFromNib
 {
-	[(NSPanel*)[self window] setBecomesKeyOnlyIfNeeded : YES];
-	[(NSPanel*)[self window] setFrameAutosaveName : kIPIFrameAutoSaveNameKey];
+	[(NSPanel *)[self window] setBecomesKeyOnlyIfNeeded : YES];
+	[[self window] setFrameAutosaveName : kIPIFrameAutoSaveNameKey];
 	[[self window] setDelegate : self];
 }
 
 #pragma mark Accessors
+- (AppDefaults *) preferences
+{
+	return _preferences;
+}
+- (void) setPreferences : (AppDefaults *) prefs
+{
+	id		tmp;
+	
+	tmp = _preferences;
+	_preferences = [prefs retain];
+	[tmp release];
+}
 
 - (NSButton *) openWithBrowserBtn
 {
@@ -64,7 +73,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 #pragma mark For Cocoa Binding
 - (NSString *) sourceURLAsString
 {
-	return [[self sourceURL] stringValue];
+	return [[self sourceURL] absoluteString];
 }
 
 - (NSURL *) sourceURL
@@ -85,7 +94,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 #pragma mark Actions
 - (IBAction) openImage : (id) sender
 {
-	[[NSWorkspace sharedWorkspace] openURL : [self sourceURL] inBackGround : NO];//[CMRPref openInBg]];
+	[[NSWorkspace sharedWorkspace] openURL : [self sourceURL] inBackGround : [[self preferences] openInBg]];
 }
 
 - (IBAction) saveImage : (id) sender
@@ -104,6 +113,17 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	[self setSourceURL : imageURL]; // あとは Binding 任せ
 
 	return YES;
+}
+
+- (BOOL) validateLink : (NSURL *) anURL
+{
+	NSString *tmp_;
+	if (nil == anURL) return NO;
+
+	tmp_ = [anURL absoluteString];	
+	if ([tmp_ hasSuffix : @".jpg"] || [tmp_ hasSuffix : @".png"] || [tmp_ hasSuffix : @".gif"])
+		return YES;
+	return NO;
 }
 
 #pragma mark NSWindow Delegate

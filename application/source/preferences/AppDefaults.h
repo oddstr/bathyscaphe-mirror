@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.18 2005/10/14 02:13:21 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.19 2005/10/15 09:45:42 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -44,6 +44,7 @@
 	NSMutableDictionary		*m_backgroundColorDictionary;
 	NSMutableDictionary		*m_threadsListDictionary;
 	NSMutableDictionary		*m_threadViewerDictionary;
+	NSMutableDictionary		*m_imagePreviewerDictionary;
 	NSMutableDictionary		*_dictAppearance;
 	NSMutableDictionary		*_dictFilter;
 	
@@ -439,6 +440,9 @@ enum {
 - (NSString *) helperAppPath;
 - (void) setHelperAppPath : (NSString *) fullPath_;
 - (NSString *) helperAppDisplayName;
+
+- (void) _loadImagePreviewerSettings;
+- (BOOL) _saveImagePreviewerSettings;
 @end
 
 

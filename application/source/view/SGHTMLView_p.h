@@ -44,7 +44,7 @@
 - (NSMenu *) linkMenuWithLink : (id) aLink
 				 forImageFile : (BOOL) isImage; // added in Lemonade and later.
 - (BOOL) validateLinkByFiltering : (id) aLink;
-- (BOOL) validateLinkBySuffix : (id) aLink; // added in Lemonade and later.
+- (BOOL) validateLinkForImage : (id) aLink; // added in Lemonade and later.
 
 - (void) pushCloseHandCursorIfNeeded;
 - (void) commandMouseDragged : (NSEvent *) theEvent;

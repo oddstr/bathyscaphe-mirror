@@ -1,3 +1,13 @@
+2005-10-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/SGHTMLView.m
+	* application/source/thread/CMRThreadViewer-Link.m
+	* application/source/preferences/AppDefaults-Bundle.m
+		ImagePreviewer プラグインのロード時のチェックをある程度きちんと行うようにした。
+	* application/subproj/previewer/BSImagePreviewInspector.m
+		BathyScaphe 本体に極力依存しないように修正。
+	* application/subproj/previewer/BSImagePreviewerInterface.h
+		[新規追加] ImagePreviewer プラグインが実装しなければいけないプロトコルを定義した
+		ヘッダファイル。サードパーティの開発者が独自の ImagePreviewer プラグインを開発する際は必須。
 2005-10-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Info-previewer.plist
 		[新規追加] ImagePreviewer.plugin の Info.plist　のひな形。
