@@ -1,6 +1,6 @@
 //: CMXPopUpWindowController.m
 /**
-  * $Id: CMXPopUpWindowController.m,v 1.4 2005/09/12 08:02:20 tsawada2 Exp $
+  * $Id: CMXPopUpWindowController.m,v 1.5 2005/10/16 11:18:11 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -216,6 +216,30 @@
 	[[self textView] resetCursorRects];
 }
 
+- (void) _togglePopupLock
+{
+	BOOL	temp_;
+	NSRange contentRng_;
+
+	temp_ = [self isClosable] ? NO : YES;
+	contentRng_ =NSMakeRange(0, [[self textStorage] length]);
+
+	[self setIsClosable : temp_];
+
+	if ([self isClosable]) {
+		[self close];
+	} else {
+		[self setBackgroundColor : [NSColor windowBackgroundColor]];
+
+		[[self textStorage] 
+			   removeAttribute : NSForegroundColorAttributeName
+						 range : contentRng_];
+		[[self textStorage] 
+			  addAttribute : NSForegroundColorAttributeName
+					 value : [NSColor textColor]
+					 range : contentRng_];
+	}
+}
 // Popup Lock
 /* 2005-02-18 tsawada2<ben-sawa@td5.so-net.ne.jp>
 	ポップアップウインドウが key window になっているときに、英字の L キーを押すと
@@ -231,29 +255,15 @@
 	NSString *str_ = [theEvent charactersIgnoringModifiers];
 	
 	if ( [str_ isEqualToString : @"l"]) {
-		BOOL	temp_;
-		NSRange contentRng_;
-
-		temp_ = [self isClosable] ? NO : YES;
-		contentRng_ =NSMakeRange(0, [[self textStorage] length]);
-
-		[self setIsClosable : temp_];
-	
-		if ([self isClosable]) {
-			[self close];
-		} else {
-			[self setBackgroundColor : [NSColor windowBackgroundColor]];
-
-			[[self textStorage] 
-				   removeAttribute : NSForegroundColorAttributeName
-						     range : contentRng_];
-			[[self textStorage] 
-				  addAttribute : NSForegroundColorAttributeName
-						 value : [NSColor textColor]
-					     range : contentRng_];
-		}
+		[self _togglePopupLock];
 	}
 	[super keyUp : theEvent];
+}
+
+- (void) otherMouseDown : (NSEvent *) theEvent
+{
+	[self _togglePopupLock];
+	[super otherMouseDown : theEvent];
 }
 
 - (void) threadViewMouseExitedNotification : (NSNotification *) notification

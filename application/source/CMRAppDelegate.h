@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.h,v 1.6 2005/07/09 00:01:48 tsawada2 Exp $
+ * $Id: CMRAppDelegate.h,v 1.7 2005/10/16 11:18:11 tsawada2 Exp $
  * 
  * CMRAppDelegate.h
  *
@@ -18,7 +18,6 @@
  */
 @interface CMRAppDelegate : NSObject
 {
-	IBOutlet	NSMenu	*fileMenu;
     @private
     NSMutableArray *_queue;
     BOOL _launchingFinished;

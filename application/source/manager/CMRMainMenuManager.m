@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMainMenuManager.m,v 1.7 2005/07/09 01:03:03 tsawada2 Exp $
+  * $Id: CMRMainMenuManager.m,v 1.8 2005/10/16 11:18:11 tsawada2 Exp $
   * 
   * CMRMainMenuManager.m
   *
@@ -52,6 +52,11 @@ MENU_ACCESSER(scriptsMenuItem, SCRIPTS_MENU_TAG)
 - (int) historyItemInsertionIndex
 {
 	return ([[[self historyMenuItem] submenu] indexOfItemWithTag : HISTORY_INSERT_MARKER]+1);
+}
+
+- (NSMenu *) fileMenu
+{
+	return [[self fileMenuItem] submenu];
 }
 @end
 

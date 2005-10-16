@@ -1,5 +1,5 @@
 /**
- * $Id: AppDefaults-Bundle.m,v 1.6 2005/10/15 09:45:42 tsawada2 Exp $
+ * $Id: AppDefaults-Bundle.m,v 1.7 2005/10/16 11:18:11 tsawada2 Exp $
  * 
  * AppDefaults-Bundle.m
  *
@@ -19,9 +19,9 @@
 // ----------------------------------------
 // C O N S T A N T S
 // ----------------------------------------
-#define BoardListEditorPluginName  @"BoardListEditor"
+/*#define BoardListEditorPluginName  @"BoardListEditor"
 #define BoardListEditorPluginType  @"plugin"
-#define BoardListEditorClassName   @"BoardListEditor"
+#define BoardListEditorClassName   @"BoardListEditor"*/
 
 #define ImagePreviewerPluginName  @"ImagePreviewer"
 #define ImagePreviewerPluginType  @"plugin"
@@ -38,7 +38,7 @@
 static NSString *const AppDefaultsHelperAppNameKey = @"Helper Application Path";
 static NSString *const AppDefaultsImagePreviewerSettingsKey = @"Preferences - ImagePreviewer Plugin";
 
-
+#pragma mark -
 
 @implementation AppDefaults(BundleSupport)
 - (NSMutableDictionary *) imagePreviewerPrefsDict
@@ -81,7 +81,7 @@ static NSString *const AppDefaultsImagePreviewerSettingsKey = @"Preferences - Im
     return [NSBundle bundleWithPath : path_];
 }
 
-- (id) _boardListEditor
+/*- (id) _boardListEditor
 {
     static Class kEditorInstance;
     
@@ -111,7 +111,7 @@ static NSString *const AppDefaultsImagePreviewerSettingsKey = @"Preferences - Im
        initWithDefaultList : [[BoardManager defaultManager] defaultList]
                   userList : [[BoardManager defaultManager] userList]]
             autorelease];
-}
+}*/
 
 - (id) _imagePreviewer
 {
@@ -159,14 +159,14 @@ static NSString *const AppDefaultsImagePreviewerSettingsKey = @"Preferences - Im
     }		
 }
 
-- (id) sharedBoardListEditor
+/*- (id) sharedBoardListEditor
 {
     static id instance_;
     if (nil == instance_) {
         instance_ = [[self _boardListEditor] retain];
     }
     return instance_;
-}
+}*/
 
 - (id) _preferencesPane
 {
@@ -261,6 +261,7 @@ static NSString *const AppDefaultsImagePreviewerSettingsKey = @"Preferences - Im
     return instance_;
 }
 
+#pragma mark -
 - (NSString *) helperAppPath
 {
 	NSString *fullPath_;

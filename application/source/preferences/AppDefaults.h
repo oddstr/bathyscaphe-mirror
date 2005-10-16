@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.19 2005/10/15 09:45:42 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.20 2005/10/16 11:18:11 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -428,8 +428,8 @@ enum {
 - (NSBundle *) moduleWithName : (NSString *) bundleName
 					   ofType : (NSString *) type
 				  inDirectory : (NSString *) bundlePath;
-- (id) _boardListEditor;
-- (id) sharedBoardListEditor;
+//- (id) _boardListEditor;
+//- (id) sharedBoardListEditor;
 - (id) _imagePreviewer;
 - (id) sharedImagePreviewer;
 - (id) _preferencesPane;

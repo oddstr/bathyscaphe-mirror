@@ -17,7 +17,6 @@
             }; 
             CLASS = CMRAppDelegate; 
             LANGUAGE = ObjC; 
-            OUTLETS = {fileMenu = NSMenu; }; 
             SUPERCLASS = NSObject; 
         }, 
         {

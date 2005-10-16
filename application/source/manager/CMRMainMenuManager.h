@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMainMenuManager.h,v 1.7 2005/07/08 19:37:31 tsawada2 Exp $
+  * $Id: CMRMainMenuManager.h,v 1.8 2005/10/16 11:18:11 tsawada2 Exp $
   * 
   * CMRMainMenuManager.h
   *
@@ -25,6 +25,8 @@
 - (NSMenuItem *) scriptsMenuItem;
 
 - (int) historyItemInsertionIndex;
+
+- (NSMenu *) fileMenu;
 @end
 
 

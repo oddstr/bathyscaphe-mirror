@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.12 2005/10/12 11:25:49 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.13 2005/10/16 11:18:11 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -24,7 +24,6 @@
 
 - (IBAction) showBoardListEditor : (id) sender
 {
-    //[[CMRPref sharedBoardListEditor] showWindow : sender];
 	NSBeep();
 	NSLog(@"BoardListEditor will be deprecated in Lemonade and later.");
 }
@@ -139,15 +138,16 @@
 @implementation CMRAppDelegate(NSApplicationNotifications)
 - (void) applicationDidFinishLaunching : (NSNotification *) aNotification
 {
+	CMRMainMenuManager *tmp = [CMRMainMenuManager defaultManager];
     /* Service menu */
     [NSApp setServicesProvider : [CMROpenURLManager defaultManager]];
 
 	/* Remove 'Open Recent' menu */
-	int openURLMenuItemIndex = [fileMenu indexOfItemWithTarget:self andAction:@selector(openURLPanel:)];
+	int openURLMenuItemIndex = [[tmp fileMenu] indexOfItemWithTarget:self andAction:@selector(openURLPanel:)];
 
-    if (openURLMenuItemIndex>=0 && [[fileMenu itemAtIndex:openURLMenuItemIndex+1] hasSubmenu])
+    if (openURLMenuItemIndex>=0 && [[[tmp fileMenu] itemAtIndex:openURLMenuItemIndex+1] hasSubmenu])
     {
-            [fileMenu removeItemAtIndex:openURLMenuItemIndex+1];
+            [[tmp fileMenu] removeItemAtIndex:openURLMenuItemIndex+1];
     }
 }
 @end

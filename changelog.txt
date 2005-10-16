@@ -1,3 +1,11 @@
+2005-10-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/popup/CMXPopUpWindowController.m
+		ポップアップ・ロック機能が、多ボタンマウスのホイールクリックでも動作するようにした。
+		- マウスによってはホイールクリックではないかもしれない。要するに NSResponder で言う所の
+		　otherMouseDown: を捕まえている。
+		- L キーを押す場合と違い、いちいちポップアップをキーウインドウにしなくても直接ホイールクリックで
+		　受け付けてくれる。
+================================================= Lemonade
 2005-10-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/view/SGHTMLView.m
 	* application/source/thread/CMRThreadViewer-Link.m
