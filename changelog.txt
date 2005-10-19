@@ -1,3 +1,20 @@
+2005-10-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Delegate.m
+		command キーを押しながら掲示板リストの項目をクリックした際は、複数の項目を選択しようとしている
+		可能性が高い。よって、この場合はスレッド一覧の表示処理をしないようにした。
+		- でも、これはいらなかったかもしれない（気を回し過ぎな感じがする）。
+	* application/Resources/Japanese.lproj/ThreadViewer.strings
+	* application/Resources/Japanese.lproj/MainMenu.nib
+	* application/Resources/Japanese.lproj/Browser.nib
+	* application/source/browser/CMRBrowser-Validation.m
+	* application/source/browser/CMRBrowser-BLEditor.m
+	* application/source/view/BSBoardListView.m
+		掲示板リストで複数項目を選択できるように各種改良。
+		- 複数項目を選択時、ハイライト描画がきちんと行われるように。
+		- 複数項目を選択時、「編集...」は使えないが「削除...」は使える。
+		- 複数項目の削除処理。
+	* application/source/composer/CMXTextParser.m
+		パーサの処理を一部簡素化（問題がないか様子見中）。
 2005-10-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/view/popup/CMXPopUpWindowController.m
 		ポップアップ・ロック機能が、多ボタンマウスのホイールクリックでも動作するようにした。
