@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.6 2005/10/02 12:24:49 tsawada2 Exp $
+  * $Id: CMRBrowser-List.m,v 1.7 2005/10/19 23:43:28 tsawada2 Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -15,10 +15,6 @@
 
 
 @implementation CMRBrowser(List)
-- (void) updateStatusLineBoardInfo
-{
-	NSLog(@"Method updateStatusLineBoardInfo is deprecated in SledgeHammer. you should not use this method.");
-}
 - (void) changeThreadsFilteringMask : (int) aMask
 {
 	[[self document] changeThreadsFilteringMask : aMask];

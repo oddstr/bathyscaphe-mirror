@@ -143,7 +143,6 @@ float	imgWidth, imgHeight;
 		title_ = @"Title is nil";
 	if(nil == bName_)
 		bName_ = @"Board name is nil";
-
 	[self setTitleStr : [[NSString alloc] initWithFormat : @"%@ - %@", title_, bName_]];
 	[self setNeedsDisplay : YES];	// 再描画させるのが大切
 }

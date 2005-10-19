@@ -4477,6 +4477,7 @@
 					../frameworks/Keychain/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
 					"$(SRCROOT)",
+					"$(SRCROOT)/../../Desktop/OgreKit_2_0_2/build/Deployment",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -4488,14 +4489,12 @@
 				INFOPLIST_FILE = "Info-bathyscaphe.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/source\"";
-				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = (
 					"-DDEBUG",
 					"-DBUILD_COCOMONAR",
 					"-DPATCH=1",
 				);
 				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = BathyScaphe;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -4519,7 +4518,6 @@
 					../frameworks/SGNetwork/build/Deployment,
 					../frameworks/Keychain/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
-					"$(SRCROOT)",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -4529,7 +4527,6 @@
 				INFOPLIST_FILE = "Info-bathyscaphe.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/source\"";
-				OPTIMIZATION_CFLAGS = "-O2";
 				OTHER_CFLAGS = (
 					"-DBUILD_COCOMONAR",
 					"-DUTIL_BLOCK_ASSERTIONS",
@@ -4538,7 +4535,6 @@
 					"-DPATCH=1",
 				);
 				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = BathyScaphe;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -4561,6 +4557,7 @@
 					../frameworks/Keychain/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
 					"$(SRCROOT)",
+					"$(SRCROOT)/../../Desktop/OgreKit_2_0_2/build/Deployment",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = source/CocoMonar_Prefix.h;
@@ -4569,7 +4566,6 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/source\"";
 				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = BathyScaphe;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (

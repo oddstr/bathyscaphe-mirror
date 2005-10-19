@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.12 2005/10/07 00:18:50 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.13 2005/10/19 23:43:28 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -13,6 +13,26 @@
 extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
 
 @implementation CMRBrowser(Delegate)
+BOOL isCommandKeyDown(unsigned flag_)
+{
+	if (flag_ & NSCommandKeyMask) {
+		return YES;
+	} else {
+		return NO;
+	}
+}
+
+BOOL isOptionKeyDown(unsigned flag_)
+{
+	if (flag_ & NSAlternateKeyMask) {
+		return YES;
+	} else {
+		return NO;
+	}
+}
+
+#pragma mark KFSplitView Delegate
+
 - (BOOL)splitView:(id)sender canCollapseSubview:(NSView *)subview
 {
 	return (subview == bottomSubview);
@@ -146,7 +166,120 @@ extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
     //[sender adjustSubviews];
 }
 
+#pragma mark NSOutlineView Delegate
+
+- (void) outlineViewSelectionDidChange : (NSNotification *) notification
+{
+	int					rowIndex_;
+	NSOutlineView		*brdListTable_;
+	NSDictionary		*item_;
+	
+	brdListTable_ = [self boardListTable];
+
+	UTILAssertNotificationName(
+		notification,
+		NSOutlineViewSelectionDidChangeNotification);
+	UTILAssertNotificationObject(
+		notification,
+		[self boardListTable]);
+	
+	rowIndex_ = [brdListTable_ selectedRow];
+	
+	if ([brdListTable_ numberOfSelectedRows] > 1) return;
+	if (rowIndex_ < 0) return;
+	if (rowIndex_ >= [brdListTable_ numberOfRows]) return;
+	if (isCommandKeyDown([[NSApp currentEvent] modifierFlags])) return;
+
+	item_ = [brdListTable_ itemAtRow : rowIndex_];
+
+	if (nil == item_) return;
+	UTILAssertKindOfClass(item_, NSDictionary);
+	if ([BoardList isCategory : item_]) return;
+	
+	[self showThreadsListForBoard : item_];
+}
+
+- (void)outlineView : (NSOutlineView *) olv
+	willDisplayCell : (NSCell *) cell
+	 forTableColumn : (NSTableColumn *) tableColumn
+			   item : (id) item
+{
+	// 自身のデータソースにデリゲートメソッドを処理させる。
+	[[olv dataSource] outlineView : olv willDisplayCell : cell forTableColumn : tableColumn item : item];
+}
+
+#pragma mark NSTableView Delegate
+
+- (void)    tableView : (NSTableView   *) tableView
+  didClickTableColumn : (NSTableColumn *) tableColumn
+{
+	NSString		*theId_;
+	NSString		*currentBoard_;
+	CMRThreadsList	*currentList_;
+	
+	theId_ = [tableColumn identifier];
+	currentBoard_ = [[self currentThreadsList] boardName];
+	currentList_ = [self currentThreadsList];
+	
+	// Sort:
+	// 既にハイライトされているヘッダをクリックした場合は
+	// 昇順／降順の切り替えと見なす。
+	if (tableColumn == [tableView highlightedTableColumn]) {
+		[currentList_ toggleIsAscending];
+		[[BoardManager defaultManager] setSortColumnIsAscending : [currentList_ isAscending]
+														atBoard : currentBoard_];
+	}
+		
+	// 実際のソート
+	[currentList_ sortByKey : theId_];
+	
+	// カラムヘッダの描画を更新
+	[self changeHighLightedTableColumnTo : theId_ isAscending : [currentList_ isAscending]];
+
+	[[BoardManager defaultManager] setSortColumn : theId_
+										forBoard : currentBoard_];
+
+	// option キーを押しながらヘッダをクリックした場合は、変更後の設定を CMRPref に保存する（グローバルな設定の変更）。
+	if (isOptionKeyDown([[NSApp currentEvent] modifierFlags])) {
+		[CMRPref setBrowserSortColumnIdentifier : theId_];
+		[CMRPref setBrowserSortAscending : [currentList_ isAscending]];
+	}
+
+	[self selectCurrentThreadWithMask : CMRAutoscrollWhenTLSort];
+	[[self threadsListTable] reloadData];
+}
+
+- (void) tableViewColumnDidMove : (NSNotification *) aNotification
+{
+	[CMRPref setThreadsListTableColumnState : [[self threadsListTable] columnState]];
+}
+
+- (void) tableViewColumnDidResize : (NSNotification *) aNotification
+{
+	[CMRPref setThreadsListTableColumnState : [[self threadsListTable] columnState]];
+}
+
+
+/* そのセルの内容が「...」で省略表示されているのかどうか判別する方法が見つかるまで凍結
+- (NSString *) tableView : (NSTableView *) aTableView
+		  toolTipForCell : (NSCell *) aCell
+					rect : (NSRectPointer) rect
+			 tableColumn : (NSTableColumn *) aTableColumn
+					 row : (int) row
+		   mouseLocation : (NSPoint) mouseLocation
+{
+	if (([[aTableColumn identifier] isEqualToString : CMRThreadTitleKey]) &&
+		([[aCell objectValue] size].width > ([aTableColumn width])	)	 ) // ここがちょっとダメ
+	{
+		return [[aCell objectValue] stringValue];
+	} else {
+		return nil;
+	}
+}
+*/
+
 #pragma mark RBSplitView Delegate
+
 - (void) splitView : (RBSplitView *) sender
 	wasResizedFrom : (float) oldDimension
 				to : (float) newDimension
@@ -357,127 +490,4 @@ extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
     //}
 }
 
-@end
-
-
-
-@implementation CMRBrowser(NSOutlineViewDelegate)
-- (void) outlineViewSelectionDidChange : (NSNotification *) notification
-{
-	int					rowIndex_;
-	NSOutlineView		*brdListTable_;
-	NSDictionary		*item_;
-	
-	brdListTable_ = [self boardListTable];
-
-	UTILAssertNotificationName(
-		notification,
-		NSOutlineViewSelectionDidChangeNotification);
-	UTILAssertNotificationObject(
-		notification,
-		[self boardListTable]);
-	
-	rowIndex_ = [brdListTable_ selectedRow];
-	
-	if ([brdListTable_ numberOfSelectedRows] > 1) return;
-	if (rowIndex_ < 0) return;
-	if (rowIndex_ >= [brdListTable_ numberOfRows]) return;
-	
-	item_ = [brdListTable_ itemAtRow : rowIndex_];
-
-	if (nil == item_) return;
-	UTILAssertKindOfClass(item_, NSDictionary);
-	if ([BoardList isCategory : item_]) return;
-	
-	[self showThreadsListForBoard : item_];
-}
-
-- (void)outlineView : (NSOutlineView *) olv
-	willDisplayCell : (NSCell *) cell
-	 forTableColumn : (NSTableColumn *) tableColumn
-			   item : (id) item
-{
-	// 自身のデータソースにデリゲートメソッドを処理させる。
-	[[olv dataSource] outlineView : olv willDisplayCell : cell forTableColumn : tableColumn item : item];
-}
-@end
-
-
-@implementation CMRBrowser(NSTableViewDelegate)
-static BOOL isOptionKeyDown(unsigned flag_)
-{
-	if (flag_ & NSAlternateKeyMask) {
-		return YES;
-	} else {
-		return NO;
-	}
-}
-
-- (void)    tableView : (NSTableView   *) tableView
-  didClickTableColumn : (NSTableColumn *) tableColumn
-{
-	NSString		*theId_;
-	NSString		*currentBoard_;
-	CMRThreadsList	*currentList_;
-	
-	theId_ = [tableColumn identifier];
-	currentBoard_ = [[self currentThreadsList] boardName];
-	currentList_ = [self currentThreadsList];
-	
-	// Sort:
-	// 既にハイライトされているヘッダをクリックした場合は
-	// 昇順／降順の切り替えと見なす。
-	if (tableColumn == [tableView highlightedTableColumn]) {
-		[currentList_ toggleIsAscending];
-		[[BoardManager defaultManager] setSortColumnIsAscending : [currentList_ isAscending]
-														atBoard : currentBoard_];
-	}
-		
-	// 実際のソート
-	[currentList_ sortByKey : theId_];
-	
-	// カラムヘッダの描画を更新
-	[self changeHighLightedTableColumnTo : theId_ isAscending : [currentList_ isAscending]];
-
-	[[BoardManager defaultManager] setSortColumn : theId_
-										forBoard : currentBoard_];
-
-	// option キーを押しながらヘッダをクリックした場合は、変更後の設定を CMRPref に保存する（グローバルな設定の変更）。
-	if (isOptionKeyDown([[NSApp currentEvent] modifierFlags])) {
-		[CMRPref setBrowserSortColumnIdentifier : theId_];
-		[CMRPref setBrowserSortAscending : [currentList_ isAscending]];
-	}
-
-	[self selectCurrentThreadWithMask : CMRAutoscrollWhenTLSort];
-	[[self threadsListTable] reloadData];
-}
-
-- (void) tableViewColumnDidMove : (NSNotification *) aNotification
-{
-	[CMRPref setThreadsListTableColumnState : [[self threadsListTable] columnState]];
-}
-
-- (void) tableViewColumnDidResize : (NSNotification *) aNotification
-{
-	[CMRPref setThreadsListTableColumnState : [[self threadsListTable] columnState]];
-}
-
-
-/* そのセルの内容が「...」で省略表示されているのかどうか判別する方法が見つかるまで凍結
-- (NSString *) tableView : (NSTableView *) aTableView
-		  toolTipForCell : (NSCell *) aCell
-					rect : (NSRectPointer) rect
-			 tableColumn : (NSTableColumn *) aTableColumn
-					 row : (int) row
-		   mouseLocation : (NSPoint) mouseLocation
-{
-	if (([[aTableColumn identifier] isEqualToString : CMRThreadTitleKey]) &&
-		([[aCell objectValue] size].width > ([aTableColumn width])	)	 ) // ここがちょっとダメ
-	{
-		return [[aCell objectValue] stringValue];
-	} else {
-		return nil;
-	}
-}
-*/
 @end

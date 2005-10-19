@@ -100,16 +100,55 @@
 		  contextInfo : item_];
 }
 
+- (void) _removeMultipleItem : (id) sender
+{
+	NSBeep();
+	NSBeginAlertSheet(
+		[self localizedString : kRemoveMultipleItemTitleKey],
+		[self localizedString : kDeleteOKBtnKey],
+		nil,
+		[self localizedString : kDeleteCancelBtnKey],
+		[self window],
+		self,
+		@selector(_multipleItemDeletionSheetDidEnd:returnCode:contextInfo:),
+		NULL,
+		nil,
+		[self localizedString : kRemoveMultipleItemMsgKey]
+	);
+}
+
 - (IBAction) removeDrawerItem : (id) sender
 {
 	int tag_ = [sender tag];
 	int	rowIndex_;
-	NSOutlineView *boardListTable_ = [self boardListTable];
-	if (tag_ == kBLEditItemViaContextualMenuItemTag) {
-		rowIndex_ = [(BSBoardListView *)boardListTable_ semiSelectedRow];
+	int counts_;
+	BSBoardListView *boardListTable_ = (BSBoardListView *)[self boardListTable];
+	
+	counts_ = [boardListTable_ numberOfSelectedRows];
+	
+	if (([boardListTable_ selectedRow] == -1) && ([boardListTable_ semiSelectedRow] == -1))
+		return;
+	  
+	if ([boardListTable_ numberOfSelectedRows] == 1) {
+		if (tag_ == kBLDeleteItemViaContMenuItemTag) {
+			rowIndex_ = [boardListTable_ semiSelectedRow];
+		} else {
+			rowIndex_ = [boardListTable_ selectedRow];
+		}
 	} else {
-		rowIndex_ = [boardListTable_ selectedRow];
+		if (tag_ == kBLDeleteItemViaMenubarItemTag) {
+			[self _removeMultipleItem : sender];
+			return;
+		} else {
+			if ([[boardListTable_ selectedRowIndexes] containsIndex : [boardListTable_ semiSelectedRow]]) {
+				[self _removeMultipleItem : sender];
+				return;
+			} else { // 複数選択項目とは別の項目を semiSelect した
+				rowIndex_ = [boardListTable_ semiSelectedRow];
+			}
+		}
 	}
+
 	NSDictionary	*item_;
 	item_ = [boardListTable_ itemAtRow : rowIndex_];
 		
@@ -255,4 +294,34 @@
 		break;
 	}
 }
+
+- (void) _multipleItemDeletionSheetDidEnd : (NSWindow *) sheet
+							   returnCode : (int	   ) returnCode
+							  contextInfo : (id		   ) contextInfo
+{
+	switch (returnCode) {
+	case NSAlertDefaultReturn:
+		// 参考：<http://www.cocoadev.com/index.pl?NSIndexSet>
+		{
+			NSIndexSet		*selected = [[self boardListTable] selectedRowIndexes];
+			unsigned int	arrayElement;
+			NSDictionary	*item_;
+			int				size = [selected lastIndex]+1;
+			NSRange			e = NSMakeRange(0, size);
+
+			while ([selected getIndexes:&arrayElement maxCount:1 inIndexRange:&e] > 0)
+			{
+				item_ = [[self boardListTable] itemAtRow : arrayElement];
+				[[[BoardManager defaultManager] userList] removeItemWithName : [item_ objectForKey : BoardPlistNameKey]
+																	  ofType : [[BoardList class] typeForItem : item_]];
+			}
+			[[self boardListTable] reloadData];
+			[[self boardListTable] deselectAll : nil];
+		}
+		break;
+	default:
+		break;
+	}
+}
+
 @end

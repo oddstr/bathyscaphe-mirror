@@ -55,6 +55,9 @@
 #define kRemoveDrawerItemTitleKey			@"Browser Del Drawer Item Title"
 #define kRemoveDrawerItemMsgKey				@"Browser Del Drawer Item Message"
 
+#define kRemoveMultipleItemTitleKey			@"Browser Del Multiple Item Title"
+#define kRemoveMultipleItemMsgKey			@"Browser Del Multiple Item Message"
+
 // PropertyList
 #define kThreadsListTableICSKey				@"Browser - ListViewInterCellSpacing"
 #define kThreadsListTableActionKey			@"Browser - ListViewAction"
@@ -78,7 +81,12 @@
 #define kBLOpenItemItemTag					1001
 #define kBLEditItemViaMenubarItemTag		1002
 #define kBLEditItemViaContextualMenuItemTag	1102
-#define kBLAddItemItemTag					1003
+#define kBLAddItemItemTag					1000
+#define kBLDeleteItemViaMenubarItemTag		1004
+#define kBLDeleteItemViaContMenuItemTag		1104
+
+#define kBLMenubarItemTagMaximalValue		1000
+#define kBLContMenuItemTagMaximalValue		1100
 
 //:CMRBrowser-List.m
 @interface CMRBrowser(List)

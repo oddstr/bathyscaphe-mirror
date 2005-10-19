@@ -35,23 +35,33 @@ static NSString *const bgImage_normal	= @"boardListSelBg";
 	else
 		image_ = [NSImage imageAppNamed : bgImage_normal];
 
-	rowRect	= [self rectOfRow : [self selectedRow]];
-
 	imgWidth	= [image_ size].width;
 	imgHeight	= [image_ size].height;
 
 	[image_ setFlipped : [self isFlipped]];
 
-	[self lockFocus];
-	[image_ drawInRect : rowRect fromRect : NSMakeRect(0, 0, imgWidth, imgHeight) operation : NSCompositeCopy fraction : 1.0];
-	[self unlockFocus];
+	// 参考：<http://www.cocoadev.com/index.pl?NSIndexSet>
+	{
+		NSIndexSet *selected = [self selectedRowIndexes];
+		int size = [selected lastIndex]+1;
+
+		unsigned int arrayElement;
+		NSRange e = NSMakeRange(0, size);
+
+		[self lockFocus];
+		while ([selected getIndexes:&arrayElement maxCount:1 inIndexRange:&e] > 0)
+		{
+			rowRect = [self rectOfRow : arrayElement];
+			[image_ drawInRect : rowRect fromRect : NSMakeRect(0, 0, imgWidth, imgHeight) operation : NSCompositeCopy fraction : 1.0];
+		}
+		[self unlockFocus];
+	}
 }
 
 #pragma mark Contextual menu handling
 - (void) cleanUpSemiHighlightBorder : (NSNotification *) theNotification
 {
 	[self setNeedsDisplay : YES]; // あまりスマートではないが、丸ごと描画し直す＝描いた枠を消す
-	//_semiSelectedRow = -1;
 	[[NSNotificationCenter defaultCenter] removeObserver : self];	
 }
 
@@ -66,7 +76,6 @@ static NSString *const bgImage_normal	= @"boardListSelBg";
 		NSFrameRectWithWidth(tmpRect, 2.0); // 枠を描く
 		[self unlockFocus];
 		[self displayIfNeeded];
-		//[self selectRow : row byExtendingSelection : NO];
 		[[NSNotificationCenter defaultCenter]
 			addObserver : self
 				selector : @selector(cleanUpSemiHighlightBorder:)

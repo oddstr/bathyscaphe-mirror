@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRSubjectReader.m,v 1.2 2005/09/12 08:02:20 tsawada2 Exp $
+  * $Id: CMRSubjectReader.m,v 1.3 2005/10/19 23:43:28 tsawada2 Exp $
   * 
   * CMRSubjectReader.m
   *
@@ -55,7 +55,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(reader);
 	
 	components_ = [CMXTextParser separatedLine : aLine];
 	UTILRequireCondition(components_ && [components_ count] >= 2, ErrCompose);
-	
+	//NSLog(@"%@",[components_ description]);
 	// Ž¯•ÊŽq
 	identifier_ = [components_ objectAtIndex : 0];
 	identifier_ = [identifier_ stringByDeletingPathExtension];

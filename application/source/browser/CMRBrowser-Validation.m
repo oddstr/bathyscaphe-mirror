@@ -58,22 +58,32 @@
 
 	if (tag_ == kBLAddItemItemTag) return YES;
 
-	if (tag_ == kBLOpenItemItemTag || tag_ == kBLEditItemViaMenubarItemTag || tag_ == kBLEditItemViaContextualMenuItemTag) {
+	if (tag_ > kBLMenubarItemTagMaximalValue) {
 		int					rowIndex_;
 		NSDictionary		*item_;
 		NSOutlineView		*bLT_ = [self boardListTable];
 	
+		if ([bLT_ numberOfSelectedRows] > 1) {
+			if (tag_ == kBLDeleteItemViaMenubarItemTag || tag_ == kBLDeleteItemViaContMenuItemTag) {
+				return YES;
+			} else if (tag_ == kBLEditItemViaContextualMenuItemTag) {
+				return (NO == [[bLT_ selectedRowIndexes] containsIndex : [(BSBoardListView *)bLT_ semiSelectedRow]]);
+			} else {
+				return NO;
+			}
+		}
+
 		rowIndex_ = [bLT_ selectedRow];
 	
-		if (([bLT_ numberOfSelectedRows] > 1) || (rowIndex_ >= [bLT_ numberOfRows])) return NO;
+		if (rowIndex_ >= [bLT_ numberOfRows]) return NO;
 
 		if (rowIndex_ < 0) {
-			if (([(BSBoardListView *)bLT_ semiSelectedRow] >= 0) && (tag_ == kBLEditItemViaContextualMenuItemTag))
+			if (([(BSBoardListView *)bLT_ semiSelectedRow] >= 0) && (tag_ > kBLContMenuItemTagMaximalValue)) // via Contextual menu
 				rowIndex_ = [(BSBoardListView *)bLT_ semiSelectedRow];
 			else
 				return NO;
 		}
-	
+
 		item_ = [bLT_ itemAtRow : rowIndex_];
 		if (nil == item_) return NO;
 

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.21 2005/10/12 11:25:49 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.22 2005/10/19 23:43:28 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -10,6 +10,8 @@
 #import "CMRMainMenuManager.h"
 #import "CMRHistoryManager.h"
 #import "CMRThreadsList_p.h"
+
+extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate.m
 
 @implementation CMRBrowser(Action)
 - (IBAction) focus : (id) sender
@@ -127,7 +129,7 @@
 {
 	// 特定のモディファイア・キーが押されているときは
 	// クリックで項目を選択してもスレッドを読み込まない
-	if (NSAlternateKeyMask & [[NSApp currentEvent] modifierFlags])
+	if (isOptionKeyDown([[NSApp currentEvent] modifierFlags]))
 		return;
 	
 	if (NO == [self shouldShowContents])

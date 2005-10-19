@@ -1,6 +1,6 @@
 //: CMXTextParser.m
 /**
-  * $Id: CMXTextParser.m,v 1.7 2005/09/12 08:02:20 tsawada2 Exp $
+  * $Id: CMXTextParser.m,v 1.8 2005/10/19 23:43:28 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -37,6 +37,8 @@ static char c_CMXTextParserDate2chSeparater_close = ')';
 
 static NSString *const CMXTextParserDate2chSample			= @"01/02/05 22:26";
 static NSString *const CMXTextParserComma					= @",";
+
+static NSString *const CMXTextParser2chSeparater			= @"<>";
 
 #define kAvailableURLCFEncodingsNSArrayKey		@"System - AvailableURLCFEncodings"
 
@@ -85,8 +87,9 @@ static void separetedLineByConvertingComma(NSString *theString, NSMutableArray *
 @implementation CMXTextParser
 + (NSArray *) separatedLine : (NSString *) theString
 {
-	NSMutableArray	*components_;
-	NSRange			searchRange_;
+	//NSMutableArray	*components_;
+	NSArray				*components_;
+	/*NSRange			searchRange_;
 	NSRange			field_;
 	unsigned		length_;
 	
@@ -116,7 +119,6 @@ static void separetedLineByConvertingComma(NSString *theString, NSMutableArray *
 			}
 			break;
 		}
-		
 		field_.length = found_.location - field_.location;
 		
 		if (0 == field_.length)
@@ -135,8 +137,20 @@ static void separetedLineByConvertingComma(NSString *theString, NSMutableArray *
 	//
 	[components_ addObject : 
 		[theString substringFromIndex : searchRange_.location]];
-	
-	return [[components_ copy] autorelease];
+	*/
+	// 2005-10-19 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	// 下記のより単純なコードでしばらく様子を見る。問題ないと思うんだが、どうだろうか。
+	components_ = [theString componentsSeparatedByString : CMXTextParser2chSeparater];
+	if ([components_ count] == 1) {
+		NSMutableArray	*commaComponents_ = [NSMutableArray arrayWithCapacity : 2];
+		separetedLineByConvertingComma(theString, commaComponents_);
+		if ((commaComponents_ == nil) || (0 == [commaComponents_ count]))
+			return nil;
+
+		return commaComponents_;
+	}
+	return components_;
+	//return [[components_ copy] autorelease];
 }
 
 
