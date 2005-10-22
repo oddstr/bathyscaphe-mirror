@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.22 2005/10/19 23:43:28 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.23 2005/10/22 14:48:54 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -274,30 +274,74 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 	[self forceDeleteThreadAtPath : thePath_];
 }
 
+- (void) _showDeletionAlertSheet : (id) sender
+						  ofType : (BSThreadDeletionType) aType
+					  allowRetry : (BOOL) allowRetry
+{
+	NSAlert		*alert_;
+	NSString	*title_;
+	NSString	*message_;
+	SEL			didEndSel_;
+
+	alert_ = [[NSAlert alloc] init];
+
+	switch(aType) {
+	case BSThreadAtViewerDeletionType:
+		title_ = [self localizedString : kDeleteThreadTitleKey];
+		message_ = [self localizedString : kDeleteThreadMessageKey];
+		didEndSel_ = @selector(_threadDeletionSheetDidEnd:returnCode:contextInfo:);
+		break;
+	case BSThreadAtBrowserDeletionType:
+		title_ = [self localizedString : kBrowserDelThTitleKey];
+		message_ = [self localizedString : kBrowserDelThMsgKey];
+		didEndSel_ = @selector(_threadDeletionSheetDidEnd:returnCode:contextInfo:);
+		break;
+	case BSThreadAtFavoritesDeletionType:
+		title_ = [self localizedString : kDeleteFavTitleKey];
+		message_ = [self localizedString : kDeleteFavMsgKey];
+		didEndSel_ = @selector(_threadDeletionSheetDidEnd:returnCode:contextInfo:);
+		break;
+	default : 
+		title_ = @"";
+		message_ = @"";
+		didEndSel_ = nil;
+		break;
+	}
+	
+	[alert_ setMessageText : title_];
+	[alert_ setInformativeText : message_];
+	[alert_ addButtonWithTitle : [self localizedString : kDeleteOKBtnKey]];
+	[alert_ addButtonWithTitle : [self localizedString : kDeleteCancelBtnKey]];
+	if (allowRetry) {
+		NSButton	*deleteAndReloadBtn_;
+		deleteAndReloadBtn_ = [alert_ addButtonWithTitle : [self localizedString : kDeleteAndReloadBtnKey]];
+		[deleteAndReloadBtn_ setKeyEquivalent : @"r"];
+	}
+
+	NSBeep();
+	[alert_ beginSheetModalForWindow : [self window]
+					   modalDelegate : self
+					  didEndSelector : didEndSel_
+					     contextInfo : sender];
+
+	[alert_ release];
+}
+
 - (IBAction) deleteThread : (id) sender
 {
-    CMRThreadsList *threadsList = [self currentThreadsList];
-    NSTableView    *tableView   = [self threadsListTable];
-    
-    if (nil == threadsList || 0 == [tableView numberOfSelectedRows]) {
+    CMRThreadsList	*threadsList = [self currentThreadsList];
+    NSTableView		*tableView   = [self threadsListTable];
+ 
+	int				numOfSelected = [tableView numberOfSelectedRows];
+   
+    if (nil == threadsList || 0 == numOfSelected) {
 		/* スレ一覧で何も選択されていないとき */
 		if ([self shouldShowContents]) {
 			/* 3ペイン表示なら、ログ表示領域で表示中のスレを削除する */
 			if ([CMRPref quietDeletion]) {
 				[self forceDeleteThread : sender];
 			} else {
-				NSBeep();
-				NSBeginAlertSheet(
-				[self localizedString : kDeleteThreadTitleKey],
-				[self localizedString : kDeleteOKBtnKey],
-				nil,
-				[self localizedString : kDeleteCancelBtnKey],
-				[self window],
-				self,
-				@selector(_threadDeletionSheetDidEnd:returnCode:contextInfo:),
-				NULL,
-				sender,
-				[self localizedString : kDeleteThreadMessageKey]);
+				[self _showDeletionAlertSheet : sender ofType : BSThreadAtViewerDeletionType allowRetry : YES];
 			}
 			return;
 		} else {
@@ -306,35 +350,12 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 		}
     }
     if (NO == [CMRPref quietDeletion]) {
-		NSBeep();
-		if(NO == [threadsList isFavorites]){
-			NSBeginAlertSheet(
-			[self localizedString : kBrowserDelThTitleKey],
-			[self localizedString : kDeleteOKBtnKey],
-			nil,
-			[self localizedString : kDeleteCancelBtnKey],
-			[self window],
-			self,
-			@selector(_threadDeletionSheetDidEnd:returnCode:contextInfo:),
-			NULL,
-			nil,
-			[self localizedString : kBrowserDelThMsgKey]);
-
-		}else{
-			NSBeginAlertSheet(
-			[self localizedString : kDeleteFavTitleKey],
-			[self localizedString : kDeleteOnlyFavBtnKey],
-			[self localizedString : kDeleteFavAlsoFileBtnKey],
-			[self localizedString : kDeleteCancelBtnKey],
-			[self window],
-			self,
-			@selector(_threadDeletionSheetDidEnd:returnCode:contextInfo:),
-			NULL,
-			nil,
-			[self localizedString : kDeleteFavMsgKey]);
-		}
+		/* 選択項目が複数ある場合、「削除して再取得」は許可しない */
+		if(NO == [threadsList isFavorites])
+			[self _showDeletionAlertSheet : nil ofType : BSThreadAtBrowserDeletionType allowRetry : (numOfSelected == 1)];
+		else
+			[self _showDeletionAlertSheet : nil ofType : BSThreadAtFavoritesDeletionType allowRetry : (numOfSelected == 1)];
     } else {
-
 		[threadsList tableView : tableView
 			removeItems : [[tableView selectedRowEnumerator] allObjects]
 			deleteFile : YES];
@@ -342,33 +363,42 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 	}
 }
 
-- (void) _threadDeletionSheetDidEnd : (NSWindow *) sheet
-						 returnCode : (int       ) returnCode
-						contextInfo : (void     *) contextInfo
+- (void) _threadDeletionSheetDidEnd : (NSAlert *) alert
+						 returnCode : (int      ) returnCode
+						contextInfo : (void    *) contextInfo
 {
     CMRThreadsList *threadsList = [self currentThreadsList];
     NSTableView    *tableView   = [self threadsListTable];
 
 	switch(returnCode){
-	case NSAlertDefaultReturn:
+	case NSAlertFirstButtonReturn: // delete
 		if (contextInfo == nil) {
 			[threadsList tableView : tableView
 					   removeItems : [[tableView selectedRowEnumerator] allObjects]
-						deleteFile : (NO == [threadsList isFavorites])];
+						deleteFile : YES];
 			[tableView reloadData];
 		} else {
 			[self forceDeleteThread : contextInfo];
 		}
 		break;
-	case NSAlertAlternateReturn:
-		[threadsList tableView : tableView
-			removeItems : [[tableView selectedRowEnumerator] allObjects]
-			deleteFile : YES];
-		[tableView reloadData];
+	case NSAlertThirdButtonReturn: // delete & reload
+		{
+			NSString *path_ = [[self path] copy];
+			if (contextInfo == nil) {
+				[threadsList tableView : tableView
+						   removeItems : [[tableView selectedRowEnumerator] allObjects]
+							deleteFile : YES];
+			} else {
+				[self forceDeleteThread : contextInfo];
+			}
+			[tableView reloadData];
+			[self performSelector : @selector(afterDeletionReTry:)
+					   withObject : path_
+					   afterDelay : 1.0];
+			[path_ release];
+		}
 		break;
-	case NSAlertOtherReturn:
-		break;
-	case NSAlertErrorReturn:
+	case NSAlertSecondButtonReturn: // cancel
 		break;
 	default:
 		break;
@@ -383,9 +413,8 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 	if (NO == aResult) {
 		_filterResultMessage = [self localizedString : kSearchListNotFoundKey];
 	} else {
-		_filterResultMessage = [NSString stringWithFormat : 
-					[self localizedString : kSearchListResultKey],
-					[[self currentThreadsList] numberOfFilteredThreads]];
+		_filterResultMessage = [NSString stringWithFormat : [self localizedString : kSearchListResultKey],
+															[[self currentThreadsList] numberOfFilteredThreads]];
 	}
 
 	[[self window] setTitle : [NSString stringWithFormat : @"%@ (%@)", [[self document] displayName], _filterResultMessage]];

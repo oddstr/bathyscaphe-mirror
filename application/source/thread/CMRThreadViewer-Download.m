@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Download.m,v 1.2 2005/05/12 20:18:57 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Download.m,v 1.3 2005/10/22 14:48:54 tsawada2 Exp $
   * 
   * CMRThreadViewer-Download.m
   *
@@ -203,20 +203,11 @@ static NSDictionary *boardInfoWithF(NSString *filepath)
 						nil];
 }
 
-- (void) _reTry : (NSString *) thePath_
+- (void) afterDeletionReTry : (NSString *) thePath_
 {
 	if (NO == [self shouldShowContents]) {
 		CMRThreadSignature *threadSignature_ = [CMRThreadSignature threadSignatureFromFilepath : thePath_];
-		
-		/*
-		if ([[self threadIdentifier] isEqual : threadSignature_]) {
-			if ([self checkCanGenarateContents])
-				[self reloadThread];
-			
-			continue;
-		}
-		*/
-		
+
 		[self downloadThread : threadSignature_
 					   title : nil
 				   nextIndex : NSNotFound];
@@ -251,7 +242,7 @@ static NSDictionary *boardInfoWithF(NSString *filepath)
 		/* 2005-03-30 tsawada2<ben-sawa@td5.so-net.ne.jp>
 			削除した後、少し間を置いてから再取得を開始した方が安定するようだ（とくに、別ウインドウで開いているとき）
 		*/
-		[self performSelector : @selector(_reTry:)
+		[self performSelector : @selector(afterDeletionReTry:)
                withObject : filePathToWrite_
                afterDelay : 1.0];
 		break;

@@ -1,4 +1,16 @@
 2005-10-22 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/manager/CMRTrashbox_p.h
+		[削除] CMRTrashBox.h に統合して削除。
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/manager/CMRTrashbox.m
+	* application/source/browser/w2chFavoriteItemList.m
+		削除ダイアログに、「削除して再取得」ボタンを追加した。
+		また、お気に入りの項目に対して「ログを削除」しても、お気に入りへの登録自体は削除しないようにした。
+		- このボタンのショートカットキーは「r」（delete and "R"eload、モディファイア・キーは無し）。
+		- ちなみに、すべて NSAlert を用いて書き直した。
+		- ただし、スレッド一覧で複数項目が選択されているときは、「削除して再取得」ボタンを表示しない。
+		　複数項目を一度に「削除して再取得」することに技術的懸念が残るため（倫理的懸念ではない）。
 	* application/source/main.m
 		「BathyScaphe をリセット」ダイアログのボタンの並びを Safari と統一した。
 		NSAlert を用いて書き直した。
@@ -6,6 +18,8 @@
 	* application/source/preferences/AppDefaults-Bundle.m
 		sharedImagePreviewer が BSImagePreviewerProtocol に適合していることを明示し、
 		これによってビルド時の警告を抑制。
+		また、ImagePreviewer.plugin が ~/Library/Application Support/BathyScaphe/PlugIns/ に
+		置かれていたら、それを優先して読み込むようにした（PlugIns は大文字と小文字が区別される）。
  	* application/BathyScaphe.xcodeproj
 		preferencesPane, 2chConnector のビルド設定を若干調整。また、バンドルに identifier を与えた。
 	* application/source/window/CMRReplyControllerTbDelegate.m

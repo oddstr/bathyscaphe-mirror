@@ -18,6 +18,12 @@
 @class CMRAccessorySheetController;
 @class AddBoardSheetController;
 
+typedef enum _BSThreadDeletionType {
+	BSThreadAtBrowserDeletionType	= 0,
+	BSThreadAtFavoritesDeletionType = 1,
+	BSThreadAtViewerDeletionType	= 2	
+} BSThreadDeletionType;
+
 @interface CMRBrowser : CMRThreadViewer
 {
 	IBOutlet RBSplitSubview		*m_boardListSubView;

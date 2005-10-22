@@ -280,7 +280,7 @@ extern void margeThreadAttributesWithContentDict(NSMutableDictionary*, NSDiction
 	
 	iter_ = [files objectEnumerator];
 	while(path_ = [iter_ nextObject]){
-		[[CMRFavoritesManager defaultManager] removeFromFavoritesWithFilePath:path_];
+		//[[CMRFavoritesManager defaultManager] removeFromFavoritesWithFilePath:path_];
 		if (flag) {
 			[[CMRFavoritesManager defaultManager] addItemToPoolWithFilePath : path_];
 		}

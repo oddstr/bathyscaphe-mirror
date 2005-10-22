@@ -43,7 +43,6 @@
 		870161C1082BE67100AEFDD0 /* CMRServerClock.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCA304C698FA00A80005 /* CMRServerClock.h */; };
 		870161C2082BE67100AEFDD0 /* CMRServerClock_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCA504C698FA00A80005 /* CMRServerClock_p.h */; };
 		870161C3082BE67100AEFDD0 /* CMRTrashbox.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCB004C698FA00A80005 /* CMRTrashbox.h */; };
-		870161C4082BE67100AEFDD0 /* CMRTrashbox_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCB204C698FB00A80005 /* CMRTrashbox_p.h */; };
 		870161C5082BE67100AEFDD0 /* Cookie.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCB304C698FB00A80005 /* Cookie.h */; };
 		870161C6082BE67100AEFDD0 /* CookieManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCB504C698FB00A80005 /* CookieManager.h */; };
 		870161C7082BE67100AEFDD0 /* CMRDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCBD04C698FB00A80005 /* CMRDownloader.h */; };
@@ -1125,7 +1124,6 @@
 		F324DCA504C698FA00A80005 /* CMRServerClock_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRServerClock_p.h; sourceTree = "<group>"; };
 		F324DCB004C698FA00A80005 /* CMRTrashbox.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRTrashbox.h; sourceTree = "<group>"; };
 		F324DCB104C698FB00A80005 /* CMRTrashbox.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRTrashbox.m; sourceTree = "<group>"; };
-		F324DCB204C698FB00A80005 /* CMRTrashbox_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRTrashbox_p.h; sourceTree = "<group>"; };
 		F324DCB304C698FB00A80005 /* Cookie.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = Cookie.h; sourceTree = "<group>"; };
 		F324DCB404C698FB00A80005 /* Cookie.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = Cookie.m; sourceTree = "<group>"; };
 		F324DCB504C698FB00A80005 /* CookieManager.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CookieManager.h; sourceTree = "<group>"; };
@@ -2445,7 +2443,6 @@
 			isa = PBXGroup;
 			children = (
 				F324DCB004C698FA00A80005 /* CMRTrashbox.h */,
-				F324DCB204C698FB00A80005 /* CMRTrashbox_p.h */,
 				F324DCB104C698FB00A80005 /* CMRTrashbox.m */,
 			);
 			name = trash;
@@ -2689,7 +2686,6 @@
 				870161C1082BE67100AEFDD0 /* CMRServerClock.h in Headers */,
 				870161C2082BE67100AEFDD0 /* CMRServerClock_p.h in Headers */,
 				870161C3082BE67100AEFDD0 /* CMRTrashbox.h in Headers */,
-				870161C4082BE67100AEFDD0 /* CMRTrashbox_p.h in Headers */,
 				870161C5082BE67100AEFDD0 /* Cookie.h in Headers */,
 				870161C6082BE67100AEFDD0 /* CookieManager.h in Headers */,
 				870161C7082BE67100AEFDD0 /* CMRDownloader.h in Headers */,

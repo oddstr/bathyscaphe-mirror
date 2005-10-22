@@ -1,21 +1,18 @@
 //:CMRTrashbox.m
-#import "CMRTrashbox_p.h"
-#import "CMRFavoritesManager.h"
+#import "CMRTrashbox.h"
+#import "CocoMonar_Prefix.h"
+#import <SGAppKit/SGAppKit.h>
 
-
-
-//////////////////////////////////////////////////////////////////////
-////////////////////// [ íËêîÇ‚É}ÉNÉçíuä∑ ] //////////////////////////
-//////////////////////////////////////////////////////////////////////
+// Constants
 NSString *const CMRTrashboxWillPerformNotification	= @"CMRTrashboxWillPerformNotification";
 NSString *const CMRTrashboxDidPerformNotification	= @"CMRTrashboxDidPerformNotification";
 
-
+NSString *const kAppTrashUserInfoFilesKey		= @"Files";
+NSString *const kAppTrashUserInfoStatusKey		= @"Status";
 
 @implementation CMRTrashbox
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(trash);
 @end
-
 
 
 @implementation CMRTrashbox(FileOperation)
@@ -28,30 +25,21 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(trash);
 	if(nil == filenames || 0 == [filenames count]) return NO;
 	
 	info_ = [NSMutableDictionary dictionaryWithObject : filenames 
-								forKey : kAppTrashUserInfoFilesKey];
+											   forKey : kAppTrashUserInfoFilesKey];
 	UTILNotifyInfo(
 		CMRTrashboxWillPerformNotification,
 		info_);
 	
-	isSucceeded_ = [[NSWorkspace sharedWorkspace]
-						moveFilesToTrash : filenames];
+	isSucceeded_ = [[NSWorkspace sharedWorkspace] moveFilesToTrash : filenames];
 	error_ = isSucceeded_ ? noErr : -1;
+
 	[info_ setObject : [NSNumber numberWithInt : error_]
 			  forKey : kAppTrashUserInfoStatusKey];
-			  
-	if (isSucceeded_)
-		[[CMRFavoritesManager defaultManager] removeFromFavoritesWithPathArray : filenames];
-
 
 	UTILNotifyInfo(
 		CMRTrashboxDidPerformNotification,
 		info_);
 	
 	return isSucceeded_;
-}
-// not available
-- (BOOL) deleteFiles
-{
-	return NO;
 }
 @end

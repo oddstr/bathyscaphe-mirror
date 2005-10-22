@@ -14,27 +14,12 @@
 + (id) trash;
 @end
 
-
-
 @interface CMRTrashbox(FileOperation)
 - (BOOL) performWithFiles : (NSArray *) filenames;
-// not available
-- (BOOL) deleteFiles;
 @end
-
-
-
-//////////////////////////////////////////////////////////////////////
-////////////////////// [ íËêîÇ‚É}ÉNÉçíuä∑ ] //////////////////////////
-//////////////////////////////////////////////////////////////////////
-/**
-  * userInfo:
-  * 	@"Files"	-- filepaths to be performed (NSArray)
-  * 	@"Status"	-- Error code: noErr = succeeded (NSNumber)
-  *
-  */
-#define kAppTrashUserInfoFilesKey	@"Files"
-#define kAppTrashUserInfoStatusKey	@"Status"
 
 extern NSString *const CMRTrashboxWillPerformNotification;
 extern NSString *const CMRTrashboxDidPerformNotification;
+
+extern NSString *const kAppTrashUserInfoFilesKey;
+extern NSString *const kAppTrashUserInfoStatusKey;

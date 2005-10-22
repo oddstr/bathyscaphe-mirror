@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.9 2005/10/12 11:25:50 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.10 2005/10/22 14:48:54 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -489,33 +489,44 @@
 	if ([CMRPref quietDeletion]) {
 		[self forceDeleteThread : sender];
 	} else {
+		NSAlert *alert_;
+		NSButton	*retryBtn_;
+		alert_ = [[NSAlert alloc] init];
+		[alert_ setMessageText : [self localizedString : kDeleteThreadTitleKey]];
+		[alert_ setInformativeText : [self localizedString : kDeleteThreadMessageKey]];
+		[alert_ addButtonWithTitle : [self localizedString : kDeleteOKBtnKey]];
+		[alert_ addButtonWithTitle : [self localizedString : kDeleteCancelBtnKey]];
+		
+		retryBtn_ = [alert_ addButtonWithTitle : [self localizedString : kDeleteAndReloadBtnKey]];
+		[retryBtn_ setKeyEquivalent : @"r"];
+
 		NSBeep();
-		NSBeginAlertSheet(
-		[self localizedString : kDeleteThreadTitleKey],
-		[self localizedString : kDeleteOKBtnKey],
-		[self localizedString : kDeleteCancelBtnKey],
-		nil,
-		[self window],
-		self,
-		NULL,
-		@selector(_threadDeletionSheetDidDismiss:returnCode:contextInfo:),
-		sender,
-		[self localizedString : kDeleteThreadMessageKey]);
+		[alert_ beginSheetModalForWindow : [self window]
+						   modalDelegate : self
+						  didEndSelector : @selector(_threadDeletionSheetDidEnd:returnCode:contextInfo:)
+							 contextInfo : sender];
+		[alert_ release];
 	}
 }
 
-/* 2004-12-13 tsawada2
-	スレッド削除では、SheetDidEndではなく、SheetDidDismissのタイミングでforceDeleteThread:を
-	呼び出さなければいけないだろう。なぜなら、forceDeleteThread:ではスレのウインドウを閉じる動作が含まれる。
-	しかし、SheetDidEndのタイミングで呼ぶと、ウインドウを閉じることが出来ない（まだシートが消えていないから！）のだ。
-*/
-- (void) _threadDeletionSheetDidDismiss : (NSWindow *) sheet
-							 returnCode : (int       ) returnCode
-							contextInfo : (void     *) contextInfo
+- (void) _threadDeletionSheetDidEnd : (NSAlert *) alert
+						 returnCode : (int      ) returnCode
+						contextInfo : (void    *) contextInfo
 {
 	switch(returnCode){
-	case NSAlertDefaultReturn:
+	case NSAlertFirstButtonReturn:
+		[[alert window] orderOut : nil]; 
 		[self forceDeleteThread : contextInfo];
+		break;
+	case NSAlertThirdButtonReturn:
+		{
+			NSString *path_ = [[self path] copy];
+			[self forceDeleteThread : contextInfo];
+			[self performSelector : @selector(afterDeletionReTry:)
+				   withObject : path_
+				   afterDelay : 1.0];
+			[path_ release];
+		}
 		break;
 	default:
 		break;

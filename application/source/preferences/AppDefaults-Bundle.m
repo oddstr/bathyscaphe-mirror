@@ -1,5 +1,5 @@
 /**
- * $Id: AppDefaults-Bundle.m,v 1.8 2005/10/22 06:25:54 tsawada2 Exp $
+ * $Id: AppDefaults-Bundle.m,v 1.9 2005/10/22 14:48:54 tsawada2 Exp $
  * 
  * AppDefaults-Bundle.m
  *
@@ -8,8 +8,8 @@
  */
 
 #import "AppDefaults_p.h"
-#import "BoardManager.h"
-#import "TextFinder.h"
+//#import "BoardManager.h"
+//#import "TextFinder.h"
 #import "w2chConnect.h"
 #import "UTILKit.h"
 #import "CMRMainMenuManager.h"
@@ -19,16 +19,12 @@
 // ----------------------------------------
 // C O N S T A N T S
 // ----------------------------------------
-/*#define BoardListEditorPluginName  @"BoardListEditor"
-#define BoardListEditorPluginType  @"plugin"
-#define BoardListEditorClassName   @"BoardListEditor"*/
 
 #define ImagePreviewerPluginName  @"ImagePreviewer"
 #define ImagePreviewerPluginType  @"plugin"
 
 #define PreferencesPanePluginName  @"PreferencesPane"
 #define PreferencesPanePluginType  @"plugin"
-#define PreferencesPaneClassName   @"PreferencesPane"
 
 #define w2chConnectorPluginName    @"2chConnector"
 #define w2chConnectorPluginType    @"plugin"
@@ -61,57 +57,38 @@ static NSString *const AppDefaultsImagePreviewerSettingsKey = @"Preferences - Im
                        ofType : (NSString *) type
                   inDirectory : (NSString *) bundlePath
 {
-    NSBundle *bundle_;
+    NSBundle    *bundles[] = {
+                [NSBundle applicationSpecificBundle], 
+                [NSBundle mainBundle],
+                nil};
+    NSBundle    **p = bundles;
+    NSString    *path_ = nil;
+    
+    for (; *p != nil; p++)
+        if (path_ = [*p pathForResource : bundleName
+								 ofType : type
+							inDirectory : bundlePath])
+            break;
+    /*NSBundle *bundle_;
     NSString *path_;
     
     bundle_ = [NSBundle mainBundle];
     
     path_ = [bundle_ pathForResource : bundleName 
                               ofType : type
-                         inDirectory : bundlePath];
+                         inDirectory : bundlePath];*/
     
     if (nil == path_) {
         NSString *plugInsPath_;
         NSString *plugin_;
 
         plugin_ = [bundleName stringByAppendingPathExtension : type];
-        plugInsPath_ = [bundle_ builtInPlugInsPath];
+        //plugInsPath_ = [bundle_ builtInPlugInsPath];
+		plugInsPath_ = [[NSBundle mainBundle] builtInPlugInsPath];
         path_ = [plugInsPath_ stringByAppendingPathComponent : plugin_];
     }
     return [NSBundle bundleWithPath : path_];
 }
-
-/*- (id) _boardListEditor
-{
-    static Class kEditorInstance;
-    
-    if (Nil == kEditorInstance) {
-        NSBundle *module;
-        
-        module = [self moduleWithName : BoardListEditorPluginName
-                               ofType : BoardListEditorPluginType
-                          inDirectory : nil];
-        if (nil == module) {
-            NSLog(@"Couldn't load plugin<%@.%@>", 
-                    BoardListEditorPluginName,
-                    BoardListEditorPluginType);
-            return nil;
-        }
-        kEditorInstance = [module classNamed : BoardListEditorClassName];
-    }
-    if (Nil == kEditorInstance) {
-        NSLog(@"Couldn't load Class<%@> in <%@.%@>", 
-                BoardListEditorClassName,
-                BoardListEditorPluginName,
-                BoardListEditorPluginType);
-        return nil;
-    }
-    
-    return [[[kEditorInstance alloc]
-       initWithDefaultList : [[BoardManager defaultManager] defaultList]
-                  userList : [[BoardManager defaultManager] userList]]
-            autorelease];
-}*/
 
 - (id) _imagePreviewer
 {
@@ -126,7 +103,7 @@ static NSString *const AppDefaultsImagePreviewerSettingsKey = @"Preferences - Im
         
         module = [self moduleWithName : ImagePreviewerPluginName
                                ofType : ImagePreviewerPluginType
-                          inDirectory : nil];
+                          inDirectory : @"PlugIns"];
 
         if (nil == module) {
             NSLog(@"Couldn't load plugin<%@.%@>", ImagePreviewerPluginName, ImagePreviewerPluginType);
@@ -159,15 +136,6 @@ static NSString *const AppDefaultsImagePreviewerSettingsKey = @"Preferences - Im
     }		
 }
 
-/*- (id) sharedBoardListEditor
-{
-    static id instance_;
-    if (nil == instance_) {
-        instance_ = [[self _boardListEditor] retain];
-    }
-    return instance_;
-}*/
-
 - (id) _preferencesPane
 {
     static Class st_class_PrefsPane_;
@@ -183,19 +151,17 @@ static NSString *const AppDefaultsImagePreviewerSettingsKey = @"Preferences - Im
                     PreferencesPanePluginType);
             return nil;
         } else {
-        st_class_PrefsPane_ = [module_ classNamed : PreferencesPaneClassName];
+        st_class_PrefsPane_ = [module_ principalClass];
         }
     }
     if (Nil == st_class_PrefsPane_) {
-        NSLog(@"Couldn't load Class<%@> in <%@.%@>", 
-                PreferencesPaneClassName,
+        NSLog(@"Couldn't load principal class in <%@.%@>", 
                 PreferencesPanePluginName,
                 PreferencesPanePluginType);
         return nil;
     }
     
-    return [[[st_class_PrefsPane_ alloc]
-       initWithPreferences : self] autorelease];
+    return [[[st_class_PrefsPane_ alloc] initWithPreferences : self] autorelease];
 }
 
 - (id<w2chConnect>) w2chConnectWithURL : (NSURL        *) anURL

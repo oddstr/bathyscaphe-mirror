@@ -46,6 +46,7 @@ extern NSString *const CMRThreadViewerRunSpamFilterNotification;
 #define kDeleteThreadMessageKey	@"Delete Thread Message"
 #define kDeleteOKBtnKey			@"Delete OK"
 #define kDeleteCancelBtnKey		@"Delete Cancel"
+#define kDeleteAndReloadBtnKey	@"Delete & Reload"
 
 @interface CMRThreadViewer(NotificationPrivate)
 - (void) cleanUpItemsToBeRemoved : (NSArray *) files;

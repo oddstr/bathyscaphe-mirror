@@ -65,10 +65,11 @@
 - (IBAction) editDrawerItem : (id) sender
 {
 	int tag_ = [sender tag];
-	int	rowIndex_;
+	int	rowIndex_, semiIndex_;
 	NSOutlineView *boardListTable_ = [self boardListTable];
 	if (tag_ == kBLEditItemViaContextualMenuItemTag) {
-		rowIndex_ = [(BSBoardListView *)boardListTable_ semiSelectedRow];
+		semiIndex_ = [(BSBoardListView *)boardListTable_ semiSelectedRow];
+		rowIndex_ = (semiIndex_ == -1) ? [boardListTable_ selectedRow] : semiIndex_;
 	} else {
 		rowIndex_ = [boardListTable_ selectedRow];
 	}
