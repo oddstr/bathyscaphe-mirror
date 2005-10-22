@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.24 2005/10/12 11:25:49 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.25 2005/10/22 16:51:15 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -558,13 +558,27 @@
 - (void) setUpBoardListToolButtons
 {
 	CMRPullDownIconBtn	*cell_;
+	NSPopUpButtonCell	*btnCell_;
+	NSMenu				*menuBase_;
+	id<NSMenuItem>		tmp_;
 	
 	cell_ = [[CMRPullDownIconBtn alloc] initTextCell : @"" pullsDown:YES];
-    [cell_ setAttributesFromCell : [[self brdListActMenuBtn] cell]];
+	btnCell_ = [[self brdListActMenuBtn] cell];
+    [cell_ setAttributesFromCell : btnCell_];
     [[self brdListActMenuBtn] setCell : cell_];
     [cell_ release];
 
-	[[[self brdListActMenuBtn] cell] setArrowPosition:NSPopUpNoArrow];
+	btnCell_ = [[self brdListActMenuBtn] cell];
+	[btnCell_ setArrowPosition:NSPopUpNoArrow];
+	
+	menuBase_ = [[self drawerContextualMenu] copy];
+	[menuBase_ insertItem : [NSMenuItem separatorItem] atIndex : 0]; // dummy
+	tmp_ = [menuBase_ itemWithTag : kBLEditItemViaContextualMenuItemTag];
+	[tmp_ setTag : kBLEditItemViaMenubarItemTag];
+	tmp_ = [menuBase_ itemWithTag : kBLDeleteItemViaContMenuItemTag];
+	[tmp_ setTag : kBLDeleteItemViaMenubarItemTag];
+	[btnCell_ setMenu : menuBase_];
+	[menuBase_ release];
 }
 
 #pragma mark Window, KeyLoop, and Search Menu
