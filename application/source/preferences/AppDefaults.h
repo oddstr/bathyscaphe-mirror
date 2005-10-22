@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.20 2005/10/16 11:18:11 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.21 2005/10/22 06:25:54 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -10,7 +10,7 @@
 #import "CocoMonar_Prefix.h"
 #import <AppKit/NSNibDeclarations.h>
 
-
+#import "BSImagePreviewerInterface.h"
 
 @protocol	w2chConnect;
 @class		CMRBBSSignature;
@@ -431,7 +431,7 @@ enum {
 //- (id) _boardListEditor;
 //- (id) sharedBoardListEditor;
 - (id) _imagePreviewer;
-- (id) sharedImagePreviewer;
+- (id<BSImagePreviewerProtocol>) sharedImagePreviewer;
 - (id) _preferencesPane;
 - (id) sharedPreferencesPane;
 - (id<w2chConnect>) w2chConnectWithURL : (NSURL        *) anURL

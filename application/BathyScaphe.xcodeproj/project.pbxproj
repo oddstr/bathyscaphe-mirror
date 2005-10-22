@@ -560,6 +560,7 @@
 		87299C1F0832673000CBD740 /* BathyScaphe.mdimporter in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87299C09083266F700CBD740 /* BathyScaphe.mdimporter */; };
 		8732FCBA08C2F79B00779F20 /* HistoryBack.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 878A7567088AA85B00539B6F /* HistoryBack.tiff */; };
 		8732FCBB08C2F79D00779F20 /* HistoryForward.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 878A7568088AA85B00539B6F /* HistoryForward.tiff */; };
+		873BAE9A090931B0009E9B41 /* BSImagePreviewerInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 8745CD280900DE9800A28AC0 /* BSImagePreviewerInterface.h */; };
 		873C0DCF08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 873C0DCE08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m */; };
 		873D91B008D9B7EA009D5E6C /* OrderFrontBrowser.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 873D91AF08D9B7EA009D5E6C /* OrderFrontBrowser.tiff */; };
 		8745CD290900DE9800A28AC0 /* BSImagePreviewerInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 8745CD280900DE9800A28AC0 /* BSImagePreviewerInterface.h */; };
@@ -2838,6 +2839,7 @@
 				877B78FC08E416C900184BB2 /* BSProgressIndicatorTbItem.h in Headers */,
 				87BF52CB08F789D500998C4E /* BSBoardInfoInspector.h in Headers */,
 				87C4813108FD039B00F91054 /* AddBoardSheetController.h in Headers */,
+				873BAE9A090931B0009E9B41 /* BSImagePreviewerInterface.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4199,7 +4201,6 @@
 				INSTALL_PATH = "@executable_path/../Plugins";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = PreferencesPane;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -4222,7 +4223,7 @@
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_OPTIMIZATION_LEVEL = s;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					BUILD_COCOMONAR,
 					UTIL_BLOCK_ASSERTIONS,
@@ -4234,7 +4235,6 @@
 				INSTALL_PATH = "@executable_path/../Plugins";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = PreferencesPane;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -4257,7 +4257,6 @@
 				INFOPLIST_FILE = "Info-preferences.plist";
 				INSTALL_PATH = "@executable_path/../Plugins";
 				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = PreferencesPane;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (

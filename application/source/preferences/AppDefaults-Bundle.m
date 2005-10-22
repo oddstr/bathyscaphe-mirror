@@ -1,5 +1,5 @@
 /**
- * $Id: AppDefaults-Bundle.m,v 1.7 2005/10/16 11:18:11 tsawada2 Exp $
+ * $Id: AppDefaults-Bundle.m,v 1.8 2005/10/22 06:25:54 tsawada2 Exp $
  * 
  * AppDefaults-Bundle.m
  *
@@ -252,7 +252,7 @@ static NSString *const AppDefaultsImagePreviewerSettingsKey = @"Preferences - Im
     return instance_;
 }
 
-- (id) sharedImagePreviewer
+- (id<BSImagePreviewerProtocol>) sharedImagePreviewer
 {
     static id instance_;
     if (nil == instance_) {

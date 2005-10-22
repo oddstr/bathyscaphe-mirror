@@ -137,35 +137,41 @@
 		NSString *host_ = [[[self document] targetURL] host];
 		
 		if (![[self document] checkBe2chAccount]) {
+			[[theItem toolbar] setSelectedItemIdentifier : nil];
 			[theItem setImage : [NSImage imageAppNamed : kImageForLoginOff]];
 			[theItem setLabel : [self localizedString : kLabelForLoginOff]];
 			[theItem setToolTip : [self localizedString : kToolTipForCantLoginOn]];
 			return NO;
 		}
 		if (!is_2channel([host_ UTF8String])) {
+			[[theItem toolbar] setSelectedItemIdentifier : nil];
 			[theItem setImage : [NSImage imageAppNamed : kImageForLoginOff]];
 			[theItem setLabel : [self localizedString : kLabelForLoginOff]];
 			[theItem setToolTip : [self localizedString : kToolTipForTrivialLoginOff]];
 			return NO;
 		}
 		if ([host_ isEqualToString : @"be.2ch.net"] || [host_ isEqualToString : @"qa.2ch.net"]) {
+			[[theItem toolbar] setSelectedItemIdentifier : [theItem itemIdentifier]];
 			[theItem setImage : [NSImage imageAppNamed : kImageForLoginOn]];
 			[theItem setLabel : [self localizedString : kLabelForLoginOn]];
 			[theItem setToolTip : [self localizedString : kToolTipForNeededLogin]];
 			return NO;
 		} else {
-			NSString				*title_, *tooltip_;
+			NSString				*title_, *tooltip_, *identifier_;
 			NSImage					*image_;
 		
 			if ([[self document] shouldSendBeCookie]) {
+				identifier_ = [theItem itemIdentifier];
 				title_ = [self localizedString : kLabelForLoginOn];
 				tooltip_ = [self localizedString : kToolTipForLoginOn];
 				image_ = [NSImage imageAppNamed : kImageForLoginOn];
 			} else {
+				identifier_ = nil;
 				title_ = [self localizedString : kLabelForLoginOff];
 				tooltip_ = [self localizedString : kToolTipForLoginOff];
 				image_ = [NSImage imageAppNamed : kImageForLoginOff];
 			}
+			[[theItem toolbar] setSelectedItemIdentifier : identifier_];
 			[theItem setImage : image_];
 			[theItem setLabel : title_];
 			[theItem setToolTip : tooltip_];

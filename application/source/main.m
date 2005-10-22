@@ -58,15 +58,22 @@ void CMXServicesInit(void)
 
 void CMRApplicationReset()
 {
-    int code;
-    
-    code = NSRunAlertPanel(
-                NSLocalizedString(@"Reset:Title", nil),
-                NSLocalizedString(@"Reset:Message", nil),
-                NSLocalizedString(@"Reset:Cancel", nil),
-                NSLocalizedString(@"Reset:Reset", nil),
-                nil);
-    if(NSOKButton == code) return;
+    int			code;
+	NSButton	*cancel_;
+	NSButton	*reset_;
+	NSAlert		*alert_;
+	
+	alert_ = [[NSAlert alloc] init];
+	[alert_	setAlertStyle : NSCriticalAlertStyle];
+	[alert_	setMessageText : NSLocalizedString(@"Reset:Title", nil)];
+	[alert_ setInformativeText : NSLocalizedString(@"Reset:Message", nil)];
+	reset_ = [alert_ addButtonWithTitle : NSLocalizedString(@"Reset:Reset", nil)];
+	[reset_ setKeyEquivalent : @""]; // 放っておくと勝手に return が割り当てられてしまう。また、nil は指定不可。
+	cancel_ = [alert_ addButtonWithTitle : NSLocalizedString(@"Reset:Cancel", nil)];
+	[cancel_ setKeyEquivalent : @"\r"];
+
+	code = [alert_ runModal];
+	if (NSAlertSecondButtonReturn == code) goto ENDING;
     
     [[NSNotificationCenter defaultCenter] 
         postNotificationName : CMRApplicationWillResetNotification
@@ -79,6 +86,8 @@ void CMRApplicationReset()
     [[NSNotificationCenter defaultCenter] 
         postNotificationName : CMRApplicationDidResetNotification
         object : nil];
+ENDING:
+	[alert_ release];
 }
 
 int main(int argc, const char *argv[])
