@@ -8,6 +8,10 @@
 		これによってビルド時の警告を抑制。
  	* application/BathyScaphe.xcodeproj
 		preferencesPane, 2chConnector のビルド設定を若干調整。また、バンドルに identifier を与えた。
+	* application/source/window/CMRReplyControllerTbDelegate.m
+	* application/source/window/CMRReplyController.m
+		「Be ログイン中／ログアウト中」ボタンについて、ログイン中のときはツールバーボタンそのものを選択状態に
+		するようにした（環境設定のツールバーのように）。
 2005-10-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-Delegate.m
 		command キーを押しながら掲示板リストの項目をクリックした際は、複数の項目を選択しようとしている
