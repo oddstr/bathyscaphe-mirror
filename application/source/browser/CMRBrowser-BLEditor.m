@@ -39,14 +39,14 @@
 											   modalDelegate : self
 												 contextInfo : nil];
 }
-
+/*
 - (void) controller : (AddBoardSheetController *) aController
 		sheetDidEnd : (NSWindow					 *) sheet
 		contextInfo : (id						  ) info;
 {
 	// Currently, we have nothing to do here.
 }
-
+*/
 
 - (IBAction) addCategoryItem : (id) sender
 {

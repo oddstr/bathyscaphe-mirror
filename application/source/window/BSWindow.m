@@ -7,6 +7,7 @@
 //
 
 #import "BSWindow.h"
+#import "CMRStatusLineWindowController_p.h"
 
 #define NSAppKitVersionNumber10_3 743	// ここに書かなくてもいいと思うが、念のため
 
@@ -45,7 +46,7 @@
 
 	if (wc_) {
 		if ([wc_ respondsToSelector : @selector(statusLine)])
-			[[[wc_ statusLine] progressIndicator] setDisplayedWhenStopped : YES];
+			[[[(CMRStatusLineWindowController *)wc_ statusLine] progressIndicator] setDisplayedWhenStopped : YES];
 	}
 	[super runToolbarCustomizationPalette : sender];
 }

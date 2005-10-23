@@ -122,7 +122,7 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 - (IBAction) openHelp : (id) sender
 {
 	[[NSHelpManager sharedHelpManager] findString : [self localizedString : @"Boards list"]
-										   inBook : [self localizedString : @"BathyScaphe Help"]];
+										   inBook : [NSBundle applicationHelpBookName]];
 }
 
 - (IBAction) close : (id) sender
@@ -320,12 +320,12 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 	
 	[infoDict_ autorelease];
 	[sheet close];
-	
-	if(delegate_ != nil && [delegate_ respondsToSelector : sel_]){
+	// 今は必要ない
+	/*if(delegate_ != nil && [delegate_ respondsToSelector : sel_]){
 		[delegate_ controller : self
 				  sheetDidEnd : sheet 
 				  contextInfo : userInfo_];
-	}
+	}*/
 }
 
 - (void) outlineViewSelectionDidChange : (NSNotification *) notification

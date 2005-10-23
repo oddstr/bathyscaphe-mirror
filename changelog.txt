@@ -1,4 +1,13 @@
 2005-10-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/BSTitleRulerView.m
+	* application/Resources/Japanese.lproj/Localizable.strings
+		スレッドタイトルバーで、スレタイや板名が取得できないときの表示を改善。
+	* application/source/bbs/BSBoardInfoInspector.m
+	* application/source/browser/AddBoardSheetController.m
+	* application/subproj/preference/abstract/PreferencesController.m
+		ヘルプの呼び出し方法を改善。
+	* frameworks/SGFoundation/framework/source/extensions/runtime/NSBundle-SGExtensions.m
+		ローカライズされた CFBundleHelpBookName を簡単に取得できるようメソッドを追加した。
 	* application/source/view/CMRThreadView.m
 		サービスメニュー経由でスレッドの内容を他のアプリケーションに渡すときにクラッシュすることがある
 		問題を修正（参考：CocoMonar 24(25)th thread の 341）。

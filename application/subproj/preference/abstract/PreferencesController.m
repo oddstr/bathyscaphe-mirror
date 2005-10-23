@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesController.m,v 1.2 2005/07/29 21:18:28 tsawada2 Exp $
+  * $Id: PreferencesController.m,v 1.3 2005/10/23 14:47:26 tsawada2 Exp $
   * 
   * PreferencesController.m
   *
@@ -8,7 +8,7 @@
   */
 #import "PreferencesController.h"
 
-
+#import <SGFoundation/NSBundle-SGExtensions.h>
 
 @implementation PreferencesController
 - (id) initWithPreferences : (AppDefaults *) pref
@@ -146,9 +146,7 @@
 - (IBAction) openHelp : (id) sender
 {
 	[[NSHelpManager sharedHelpManager] findString : [self helpKeyword]
-										   inBook : [[NSBundle bundleForClass : [self class]] localizedStringForKey:(@"HelpBookName")
-																											  value:@""
-																											  table:nil]];
+										   inBook : [NSBundle applicationHelpBookName]];
 }
 @end
 

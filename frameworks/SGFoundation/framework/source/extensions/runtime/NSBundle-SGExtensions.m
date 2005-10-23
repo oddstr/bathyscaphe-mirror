@@ -1,6 +1,6 @@
 //: NSBundle-SGExtensions.m
 /**
-  * $Id: NSBundle-SGExtensions.m,v 1.1 2005/05/11 17:51:44 tsawada2 Exp $
+  * $Id: NSBundle-SGExtensions.m,v 1.2 2005/10/23 14:47:26 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -16,13 +16,18 @@
 
 #define kCFBuncleExecutableKey		@"CFBundleExecutable"
 #define kCFBuncleVersionKey		@"CFBundleVersion"
-
+#define kCFBundleHelpBookKey	@"CFBundleHelpBookName"
 
 
 @implementation NSBundle(SGExtentions)
 + (NSDictionary *) applicationInfoDictionary
 {
 	return [[self mainBundle] infoDictionary];
+}
+
++ (NSDictionary *) localizedAppInfoDictionary
+{
+	return [[self mainBundle] localizedInfoDictionary];
 }
 
 + (NSString *) applicationName
@@ -32,6 +37,10 @@
 + (NSString *) applicationVersion
 {
 	return [[self applicationInfoDictionary] objectForKey : kCFBuncleVersionKey];
+}
++ (NSString *) applicationHelpBookName
+{
+	return [[self localizedAppInfoDictionary] objectForKey : kCFBundleHelpBookKey];
 }
 
 - (NSString *) pathForResourceWithName : (NSString *) fileName

@@ -13,6 +13,8 @@
 static NSString *const kTRViewBgImgBlueKey				= @"titleRulerBgAquaBlue";
 static NSString *const kTRViewBgImgGraphiteKey			= @"titleRulerBgAquaGraphite";
 static NSString *const kTitleRulerViewDefaultTitleKey	= @"titleRuler default title";
+static NSString *const kTitleRulerViewNilTitleKey		= @"titleRuler nil title";
+static NSString *const kTitleRulerViewNilBNameKey		= @"titleRuler nil boardName";
 
 @implementation BSTitleRulerView
 
@@ -140,9 +142,9 @@ float	imgWidth, imgHeight;
 	title_ = [threadAttributes_ threadTitle];
 	bName_ = [threadAttributes_ boardName];
 	if(nil == title_)
-		title_ = @"Title is nil";
+		title_ = NSLocalizedString(kTitleRulerViewNilTitleKey, @"Title is nil");
 	if(nil == bName_)
-		bName_ = @"Board name is nil";
+		bName_ = NSLocalizedString(kTitleRulerViewNilBNameKey, @"Board name is nil");
 	[self setTitleStr : [[NSString alloc] initWithFormat : @"%@ - %@", title_, bName_]];
 	[self setNeedsDisplay : YES];	// 再描画させるのが大切
 }

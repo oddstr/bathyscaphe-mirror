@@ -7,12 +7,11 @@
 "So could not add to your Boards List." = "同じ名前の掲示板を重複して登録することはできません。よって、掲示板を追加できませんでした。";
 
 "Boards list" = "掲示板リスト";
-"BathyScaphe Help" = "BathyScaphe ヘルプ";
 
 "ErrNamesSeparater" = "”、“";
 "ErrNamesCover" = "“%@”";
 
 "Same Name Exists" = "すでに同じ名前の項目が存在します。";
-"Cancel" = "キャンセル";
-"%@ are not added to your Boards List." = "同じ名前の掲示板を重複して登録することはできません。よって、%@ を掲示板リストに追加できませんでした。";
+"Cancel" = "OK";
+"%@ are not added to your Boards List." = "同じ名前の掲示板を重複して登録することはできません。よって、%@ は掲示板リストに追加できませんでした。";
 
