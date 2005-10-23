@@ -1,4 +1,9 @@
 2005-10-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/CMRStatusLine-ViewAccessor.m
+	* application/source/view/CMRStatusLine_p.h
+		[削除] CMRStatusLine.m, CMRStatusLine.h に統合して削除。
+	* application/source/view/CMRStatusLine.m
+		不要になったメソッド類を削除し、整理。
 	* application/source/browser/CMRBrowser-ViewAccessor.m
 	* application/Resources/Japanese.lproj/Browser.nib
 		アクションボタンのコンテクストメニュー項目の validation を改良。

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRStatusLine.h,v 1.3 2005/09/28 14:49:34 tsawada2 Exp $
+  * $Id: CMRStatusLine.h,v 1.4 2005/10/23 09:15:39 tsawada2 Exp $
   * 
   * CMRStatusLine.h
   *
@@ -9,18 +9,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-/*!
- * @enum StatusLine States
- * @discussion ステータス行の状態
- * @constant CMRStatusLineNone 何も表示されていない
- * @constant CMRStatusLineInProgress プログレスバーがくるくる回転中
- */
-enum {
-	CMRStatusLineNone = 0,
-	CMRStatusLineInProgress,
-	CMRStatusLineUnknown
-};
-
+@protocol CMRTask;
 
 @interface CMRStatusLine : NSObject
 {
@@ -30,15 +19,13 @@ enum {
 	
 	IBOutlet NSView					*_statusLineView;
 	IBOutlet NSTextField			*_statusTextField;
-	//IBOutlet NSTextField			*_browserInfoTextField;
 	IBOutlet NSProgressIndicator	*_progressIndicator;
-	//IBOutlet NSButton				*_stopButton;
 }
 
 - (id) initWithIdentifier : (NSString *) identifier;
 
-- (int) state;
 - (NSString *) identifier;
+- (void) setIdentifier : (NSString *) anIdentifier;
 
 - (id) delegate;
 - (void) setDelegate : (id) aDelegate;
@@ -53,7 +40,7 @@ enum {
             animate : (BOOL) isAnimate;
 
 - (void) setInfoText : (id) aText;
-//- (void) setBrowserInfoText : (id) aText; // Deprecated in LeafTicket and later:
+
 // Action
 - (IBAction) cancel : (id) sender;
 - (IBAction) toggleStatusLineShown : (id) sender;
@@ -64,4 +51,11 @@ enum {
 
 // NSUserDefaults / NSMutableDictionary ...
 - (id) preferencesObject;
+
+- (NSView *) statusLineView;
+- (NSTextField *) statusTextField;
+- (NSProgressIndicator *) progressIndicator;
+
+- (void) setupUIComponents;
+- (void) updateStatusLineWithTask : (id<CMRTask>) aTask;
 @end

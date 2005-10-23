@@ -76,7 +76,6 @@
 		870161E4082BE67100AEFDD0 /* CMRIndexingStepper.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD9604C698FB00A80005 /* CMRIndexingStepper.h */; };
 		870161E5082BE67100AEFDD0 /* CMRIndexingStepper_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD9804C698FB00A80005 /* CMRIndexingStepper_p.h */; };
 		870161E7082BE67100AEFDD0 /* CMRStatusLine.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDA304C698FB00A80005 /* CMRStatusLine.h */; };
-		870161E8082BE67100AEFDD0 /* CMRStatusLine_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDA504C698FB00A80005 /* CMRStatusLine_p.h */; };
 		870161E9082BE67100AEFDD0 /* IndexField.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDA604C698FB00A80005 /* IndexField.h */; };
 		870161EA082BE67100AEFDD0 /* SGFunctor.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDAE04C698FB00A80005 /* SGFunctor.h */; };
 		870161EB082BE67100AEFDD0 /* SGHTMLView.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDB104C698FB00A80005 /* SGHTMLView.h */; };
@@ -237,7 +236,6 @@
 		8701632B082BE67100AEFDD0 /* CMRIndexingStepper-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD9504C698FB00A80005 /* CMRIndexingStepper-ViewAccessor.m */; };
 		8701632C082BE67100AEFDD0 /* CMRIndexingStepper.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD9704C698FB00A80005 /* CMRIndexingStepper.m */; };
 		8701632D082BE67100AEFDD0 /* CMRSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD9D04C698FB00A80005 /* CMRSplitView.m */; };
-		8701632E082BE67100AEFDD0 /* CMRStatusLine-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDA204C698FB00A80005 /* CMRStatusLine-ViewAccessor.m */; };
 		8701632F082BE67100AEFDD0 /* CMRStatusLine.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDA404C698FB00A80005 /* CMRStatusLine.m */; };
 		87016330082BE67100AEFDD0 /* IndexField.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDA704C698FB00A80005 /* IndexField.m */; };
 		87016331082BE67100AEFDD0 /* SGFunctor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDAF04C698FB00A80005 /* SGFunctor.m */; };
@@ -1199,10 +1197,8 @@
 		F324DD9804C698FB00A80005 /* CMRIndexingStepper_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRIndexingStepper_p.h; sourceTree = "<group>"; };
 		F324DD9C04C698FB00A80005 /* CMRSplitView.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRSplitView.h; sourceTree = "<group>"; };
 		F324DD9D04C698FB00A80005 /* CMRSplitView.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRSplitView.m; sourceTree = "<group>"; };
-		F324DDA204C698FB00A80005 /* CMRStatusLine-ViewAccessor.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "CMRStatusLine-ViewAccessor.m"; sourceTree = "<group>"; };
 		F324DDA304C698FB00A80005 /* CMRStatusLine.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRStatusLine.h; sourceTree = "<group>"; };
 		F324DDA404C698FB00A80005 /* CMRStatusLine.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRStatusLine.m; sourceTree = "<group>"; };
-		F324DDA504C698FB00A80005 /* CMRStatusLine_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRStatusLine_p.h; sourceTree = "<group>"; };
 		F324DDA604C698FB00A80005 /* IndexField.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = IndexField.h; sourceTree = "<group>"; };
 		F324DDA704C698FB00A80005 /* IndexField.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = IndexField.m; sourceTree = "<group>"; };
 		F324DDA804C698FB00A80005 /* SGContextHelpPanel.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = SGContextHelpPanel.h; sourceTree = "<group>"; };
@@ -2391,9 +2387,7 @@
 			isa = PBXGroup;
 			children = (
 				F324DDA304C698FB00A80005 /* CMRStatusLine.h */,
-				F324DDA504C698FB00A80005 /* CMRStatusLine_p.h */,
 				F324DDA404C698FB00A80005 /* CMRStatusLine.m */,
-				F324DDA204C698FB00A80005 /* CMRStatusLine-ViewAccessor.m */,
 				F322F1F8050B877200A80005 /* CMRProgressIndicator.h */,
 				F322F1F9050B877200A80005 /* CMRProgressIndicator.m */,
 			);
@@ -2719,7 +2713,6 @@
 				870161E4082BE67100AEFDD0 /* CMRIndexingStepper.h in Headers */,
 				870161E5082BE67100AEFDD0 /* CMRIndexingStepper_p.h in Headers */,
 				870161E7082BE67100AEFDD0 /* CMRStatusLine.h in Headers */,
-				870161E8082BE67100AEFDD0 /* CMRStatusLine_p.h in Headers */,
 				870161E9082BE67100AEFDD0 /* IndexField.h in Headers */,
 				870161EA082BE67100AEFDD0 /* SGFunctor.h in Headers */,
 				870161EB082BE67100AEFDD0 /* SGHTMLView.h in Headers */,
@@ -3461,7 +3454,6 @@
 				8701632B082BE67100AEFDD0 /* CMRIndexingStepper-ViewAccessor.m in Sources */,
 				8701632C082BE67100AEFDD0 /* CMRIndexingStepper.m in Sources */,
 				8701632D082BE67100AEFDD0 /* CMRSplitView.m in Sources */,
-				8701632E082BE67100AEFDD0 /* CMRStatusLine-ViewAccessor.m in Sources */,
 				8701632F082BE67100AEFDD0 /* CMRStatusLine.m in Sources */,
 				87016330082BE67100AEFDD0 /* IndexField.m in Sources */,
 				87016331082BE67100AEFDD0 /* SGFunctor.m in Sources */,

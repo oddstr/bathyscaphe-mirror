@@ -1,6 +1,6 @@
 //:CMRToolbarDelegateImp.m
 #import "CMRToolbarDelegateImp_p.h"
-#import "CMRStatusLine_p.h"
+#import "CMRStatusLine.h"
 #import "BSProgressIndicatorTbItem.h"
 
 // プログレスバー

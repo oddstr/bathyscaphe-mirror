@@ -1,12 +1,15 @@
 /**
-  * $Id: CMRStatusLine.m,v 1.5 2005/09/28 14:49:34 tsawada2 Exp $
+  * $Id: CMRStatusLine.m,v 1.6 2005/10/23 09:15:39 tsawada2 Exp $
   * 
   * CMRStatusLine.m
   *
   * Copyright (c) 2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
   */
-#import "CMRStatusLine_p.h"
+#import "CMRStatusLine.h"
+
+#import "CMRTask.h"
+#import "CMRTaskManager.h"
 #import "missing.h"
 #import "RBSplitView.h"
 
@@ -15,15 +18,6 @@
 static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 
 @implementation CMRStatusLine
-- (void) setIdentifier : (NSString *) anIdentifier
-{
-	id tmp;
-	
-	tmp = _identifier;
-	_identifier = [anIdentifier retain];
-	[tmp release];
-}
-
 - (id) initWithIdentifier : (NSString *) identifier
 {
 	if(self = [super init]){
@@ -56,22 +50,37 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 	[super dealloc];
 }
 
+#pragma mark Accessor
 
-
-- (int) state
+- (NSView *) statusLineView
 {
-	/* ñ¢äÆê¨ */
-	/* Ç–ÇÂÇ¡Ç∆ÇµÇΩÇÁÇªÇÃÇ‹Ç‹ deprecated Ç…Ç∑ÇÈÇ©Ç‡ */
-	return CMRStatusLineNone;
+    return _statusLineView;
+}
+- (NSTextField *) statusTextField
+{
+    return _statusTextField;
+}
+- (NSProgressIndicator *) progressIndicator
+{
+    return _progressIndicator;
 }
 
 - (NSWindow *) window
 {
 	return _window;
 }
+
 - (NSString *) identifier
 {
 	return _identifier;
+}
+- (void) setIdentifier : (NSString *) anIdentifier
+{
+	id tmp;
+	
+	tmp = _identifier;
+	_identifier = [anIdentifier retain];
+	[tmp release];
 }
 
 - (id) delegate
@@ -204,11 +213,14 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 
 - (void) setInfoText : (id) aText;
 {
-	[self setInfoTextFieldObjectValue : aText];
-}
-- (void) setBrowserInfoText : (id) aText;
-{
-	NSLog(@"Method setBrowserInfoText: was deprecated in LeafTicket and later.");
+    id        v = aText;
+    
+    if (nil == v || NO == [v isKindOfClass : [NSAttributedString class]]) {
+        [[self statusTextField] setObjectValue : nil == v ? @"" : v];
+        return;
+    }
+
+    [[self statusTextField] setAttributedStringValue : v];
 }
 
 #pragma mark IBAction
@@ -241,5 +253,101 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 - (id) preferencesObject
 {
 	return [NSUserDefaults standardUserDefaults];
+}
+
+#pragma mark Other Actions
+
+- (void) setupUIComponents
+{
+    unsigned    autoresizingMask_;
+
+    autoresizingMask_ = NSViewMaxYMargin;
+    autoresizingMask_ |= NSViewWidthSizable;
+    [[self statusLineView] setAutoresizingMask : autoresizingMask_];
+}
+
+- (void) updateStatusLineWithTask : (id<CMRTask>) aTask;
+{
+
+    if (NO == [[CMRTaskManager defaultManager] isInProgress]) {
+        [[self progressIndicator] stopAnimation : nil];
+        [[self statusTextField] setStringValue : @""];
+        
+    } else {
+        [[self progressIndicator] startAnimation : nil];
+        [[self statusTextField] setStringValue : ([aTask message] ? [aTask message] : @"")];
+    }
+}
+@end
+
+#pragma mark -
+
+@implementation CMRStatusLine(Notification)
+- (void) registerToNotificationCenter
+{
+    [[NSNotificationCenter defaultCenter]
+         addObserver : self
+            selector : @selector(taskWillStartNotification:)
+                name : CMRTaskWillStartNotification
+              object : nil];
+    [[NSNotificationCenter defaultCenter]
+         addObserver : self
+            selector : @selector(taskWillProgressNotification:)
+                name : CMRTaskWillProgressNotification
+              object : nil];
+    [[NSNotificationCenter defaultCenter]
+         addObserver : self
+            selector : @selector(taskDidFinishNotification:)
+                name : CMRTaskDidFinishNotification
+              object : nil];
+    
+    [super registerToNotificationCenter];
+}
+- (void) removeFromNotificationCenter
+{
+    [[NSNotificationCenter defaultCenter]
+      removeObserver : self
+                name : CMRTaskWillStartNotification
+              object : nil];
+    [[NSNotificationCenter defaultCenter]
+      removeObserver : self
+                name : CMRTaskWillProgressNotification
+              object : nil];
+    [[NSNotificationCenter defaultCenter]
+      removeObserver : self
+                name : CMRTaskDidFinishNotification
+              object : nil];
+
+    [super removeFromNotificationCenter];
+}
+
+
+- (void) taskWillStartNotification : (NSNotification *) theNotification
+{
+    UTILAssertNotificationName(
+        theNotification,
+        CMRTaskWillStartNotification);
+
+    [self updateStatusLineWithTask : [theNotification object]];
+}
+- (void) taskWillProgressNotification : (NSNotification *) theNotification
+{
+    UTILAssertNotificationName(
+        theNotification,
+        CMRTaskWillProgressNotification);
+    
+    [self updateStatusLineWithTask : [theNotification object]];
+}
+
+- (void) taskDidFinishNotification : (NSNotification *) theNotification
+{
+    UTILAssertNotificationName(
+        theNotification,
+        CMRTaskDidFinishNotification);
+    UTILAssertConformsTo(
+        [[theNotification object] class],
+        @protocol(CMRTask));
+    
+    [self updateStatusLineWithTask : [theNotification object]];
 }
 @end
