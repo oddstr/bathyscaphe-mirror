@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadView.m,v 1.6 2005/09/24 06:07:49 tsawada2 Exp $
+  * $Id: CMRThreadView.m,v 1.7 2005/10/23 11:13:31 tsawada2 Exp $
   * 
   * CMRThreadView.m
   *
@@ -771,3 +771,30 @@ static void showPoofAnimationForInvisibleAbone(CMRThreadView *tView, unsigned in
 }
 @end
 
+// サービスメニュー経由でテキストを渡す場合のクラッシュを解決
+// 341@CocoMonar 24(25)th thread の修正をベースに
+// さらに独自の味付け
+@implementation CMRThreadView(NSServicesRequests)
+- (BOOL) writeSelectionToPasteboard : (NSPasteboard *) pboard types: (NSArray *)types
+{
+	NSMutableAttributedString * contents_;
+	NSRange range;
+
+	// 元々渡される types には NSRTFDPboardType が含まれる。しかしこれが受け渡し時に問題を引き起こすようだ
+	NSArray *newTypes = [NSArray arrayWithObjects : 
+		NSRTFPboardType,
+		NSStringPboardType,
+		nil]; // NSRTFDPboardType を含まない別の array にすり替える
+
+	//NSLog(@"writeSelectionToPasteboard: %@ types: %@", [pboard description], [types description]);
+	range = [self selectedRange];
+
+	[pboard declareTypes: newTypes owner: nil];
+	contents_ = (NSMutableAttributedString *)[[self textStorage] attributedSubstringFromRange: range];
+	//NSLog(@"writeSelectionToPasteboard: %@ %d", NSStringFromRange(range), [contents_ length]);	
+	[contents_ writeToPasteboard : pboard];
+
+	return YES;
+	//return [super writeSelectionToPasteboard: pboard types: newTypes];
+}
+@end

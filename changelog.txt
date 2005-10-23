@@ -1,4 +1,8 @@
 2005-10-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/CMRThreadView.m
+		サービスメニュー経由でスレッドの内容を他のアプリケーションに渡すときにクラッシュすることがある
+		問題を修正（参考：CocoMonar 24(25)th thread の 341）。
+		- 今後も研究を続ける必要がある。
 	* application/source/view/CMRStatusLine-ViewAccessor.m
 	* application/source/view/CMRStatusLine_p.h
 		[削除] CMRStatusLine.m, CMRStatusLine.h に統合して削除。
