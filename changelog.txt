@@ -1,4 +1,8 @@
 2005-10-26 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/rsrc/Reply.tiff
+		[削除]ビルド時には application/Resources/image/ResToThread.png をコピーするようにし、このファイルは削除。
+	* application/Resources/Japanese.lproj/BSBoardInfoInspector.nib
+		レイアウトを若干改良。
 	* application/Resources/image/
 		ほとんどのツールバーアイコンファイルを新しいものに置き換え。
 		また、ほとんどのファイルでフォーマットが png に統一された。このため、以前の tiff ファイルが

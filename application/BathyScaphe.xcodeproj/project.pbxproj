@@ -315,6 +315,7 @@
 		87078CE5090E9710007FF9C3 /* RemoveFavorites.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CD9090E970F007FF9C3 /* RemoveFavorites.png */; };
 		87078CE6090E9710007FF9C3 /* ResToThread.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CDA090E9710007FF9C3 /* ResToThread.png */; };
 		87078CE8090E9710007FF9C3 /* stopSign.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CDC090E9710007FF9C3 /* stopSign.png */; };
+		87078E34090EA195007FF9C3 /* ResToThread.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CDA090E9710007FF9C3 /* ResToThread.png */; };
 		8709E6540879713D009A65FC /* CMRReplyMessenger-Connector.m in Sources */ = {isa = PBXBuildFile; fileRef = 8709E6530879713D009A65FC /* CMRReplyMessenger-Connector.m */; };
 		870B892D08ED56B3001664CC /* titleRulerBgAquaBlue.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 870B892B08ED56B3001664CC /* titleRulerBgAquaBlue.tiff */; };
 		870B892E08ED56B3001664CC /* titleRulerBgAquaGraphite.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 870B892C08ED56B3001664CC /* titleRulerBgAquaGraphite.tiff */; };
@@ -380,7 +381,6 @@
 		871CA13708585F8100C3A044 /* remove_pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87AF6D0007425DC0001D08ED /* remove_pressed.tiff */; };
 		871CA13808585F8100C3A044 /* AdvancedPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8764157F0840AF4F00F66D78 /* AdvancedPane.nib */; };
 		871CA13908585F8100C3A044 /* AdvancedPreferences.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87FECDE40840DDF100787C68 /* AdvancedPreferences.tiff */; };
-		871CA13A08585F8100C3A044 /* Reply.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8702DB0C0845BCAF004BE941 /* Reply.tiff */; };
 		871CA13C08585F8100C3A044 /* PreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DB3104C6959800A80005 /* PreferencesController.m */; };
 		871CA13D08585F8100C3A044 /* AccountController-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DB3404C6959800A80005 /* AccountController-ViewAccessor.m */; };
 		871CA13E08585F8100C3A044 /* AccountController.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DB3604C6959800A80005 /* AccountController.m */; };
@@ -733,7 +733,6 @@
 		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		87016395082BE67200AEFDD0 /* Info-bathyscaphe.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-bathyscaphe.plist"; sourceTree = "<group>"; };
 		87016396082BE67200AEFDD0 /* BathyScaphe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BathyScaphe.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		8702DB0C0845BCAF004BE941 /* Reply.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Reply.tiff; sourceTree = "<group>"; };
 		87078CD1090E970F007FF9C3 /* beDisabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beDisabled.png; sourceTree = "<group>"; };
 		87078CD2090E970F007FF9C3 /* beEnabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beEnabled.png; sourceTree = "<group>"; };
 		87078CD3090E970F007FF9C3 /* BoardList.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BoardList.png; sourceTree = "<group>"; };
@@ -2046,7 +2045,6 @@
 		F324DB6A04C6959800A80005 /* rsrc */ = {
 			isa = PBXGroup;
 			children = (
-				8702DB0C0845BCAF004BE941 /* Reply.tiff */,
 				87FECDE40840DDF100787C68 /* AdvancedPreferences.tiff */,
 				87AF6CFD07425DC0001D08ED /* add_idle.tiff */,
 				87AF6CFE07425DC0001D08ED /* add_pressed.tiff */,
@@ -3310,7 +3308,7 @@
 				871CA13708585F8100C3A044 /* remove_pressed.tiff in Resources */,
 				871CA13808585F8100C3A044 /* AdvancedPane.nib in Resources */,
 				871CA13908585F8100C3A044 /* AdvancedPreferences.tiff in Resources */,
-				871CA13A08585F8100C3A044 /* Reply.tiff in Resources */,
+				87078E34090EA195007FF9C3 /* ResToThread.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

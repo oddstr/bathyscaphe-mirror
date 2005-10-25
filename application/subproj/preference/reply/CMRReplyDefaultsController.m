@@ -5,7 +5,7 @@
 
 #define kLabelKey		@"Reply Label"
 #define kToolTipKey		@"Reply ToolTip"
-#define kImageName		@"Reply"
+#define kImageName		@"ResToThread"
 
 
 
