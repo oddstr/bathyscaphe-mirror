@@ -1,3 +1,8 @@
+2005-10-26 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/image/
+		ほとんどのツールバーアイコンファイルを新しいものに置き換え。
+		また、ほとんどのファイルでフォーマットが png に統一された。このため、以前の tiff ファイルが
+		レポジトリから削除→ png ファイルがリポジトリに追加、という形になっているので注意。
 2005-10-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/bbs/BSBoardInfoInspector.m
 		「掲示板オプション」インスペクタで、名前またはメール欄に設定した文字列を削除して空にすると
