@@ -120,10 +120,10 @@
 				NSToolbarSpaceItemIdentifier,
 				nil];
 }
-- (NSArray *) toolbarSelectableItemIdentifiers : (NSToolbar *) toolbar
+/*- (NSArray *) toolbarSelectableItemIdentifiers : (NSToolbar *) toolbar
 {
 	return [NSArray arrayWithObjects :
 				kBeLoginIdentifier,
 				nil];
-}
+}*/
 @end

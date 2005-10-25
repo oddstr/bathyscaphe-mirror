@@ -62,7 +62,7 @@
 	if (action_ == @selector(saveAsDefaultFrame:)) {
 		return YES;
 	}
-	if (action_ == @selector(cancellCurrentTask:)) {
+	if (action_ == @selector(cancelCurrentTask:)) {
 		id<CMRTask> tm = [CMRTaskManager defaultManager];
 		return ([tm isInProgress] != NO);
 	}	
@@ -73,7 +73,7 @@
 {
 	SEL	action_;
 	action_ = [item_ action];
-	if (action_ == @selector(cancellCurrentTask:))
+	if (action_ == @selector(cancelCurrentTask:))
 	{ 
 		return ([[CMRTaskManager defaultManager] isInProgress] != NO); 
 	}
@@ -136,7 +136,7 @@
 {
 	UTILAbstractMethodInvoked;
 }
-- (IBAction) cancellCurrentTask : (id) sender;
+- (IBAction) cancelCurrentTask : (id) sender;
 {
 	[[CMRTaskManager defaultManager] cancel : sender];
 }

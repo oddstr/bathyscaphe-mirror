@@ -162,7 +162,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 
 - (void) setDefaultKotehan : (NSString *) fieldValue
 {
-	[BrdMgr setDefaultKotehan : fieldValue forBoard : [self currentTargetBoardName]];
+	[BrdMgr setDefaultKotehan : ((fieldValue != nil) ? fieldValue : @"") forBoard : [self currentTargetBoardName]];
 }
 
 - (NSString *) defaultMail
@@ -172,7 +172,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 
 - (void) setDefaultMail : (NSString *) fieldValue
 {
-	[BrdMgr setDefaultMail : fieldValue forBoard : [self currentTargetBoardName]];
+	[BrdMgr setDefaultMail : ((fieldValue != nil) ? fieldValue : @"") forBoard : [self currentTargetBoardName]];
 }
 
 - (BOOL) shouldAlwaysBeLogin

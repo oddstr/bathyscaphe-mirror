@@ -4,25 +4,20 @@
 #import "BSProgressIndicatorTbItem.h"
 
 // プログレスバー
-static NSString *const st_pIndicatorItemIdentifier			= @"progressIndicator";
-static NSString *const st_pIndicatorItemLabelKey			= @"progressIndicator Label";
-static NSString *const st_pIndicatorItemPaletteLabelKey		= @"progressIndicator Palette Label";
-static NSString *const st_pIndicatorItemToolTipKey			= @"progressIndicator ToolTip";
+static NSString *const st_pIndicatorItemIdentifier		= @"progressIndicator";
+static NSString *const st_pIndicatorItemLabelKey		= @"progressIndicator Label";
+static NSString *const st_pIndicatorItemPaletteLabelKey	= @"progressIndicator Palette Label";
+static NSString *const st_pIndicatorItemToolTipKey		= @"progressIndicator ToolTip";
 
 static NSString *const st_localizableStringsTableName	= @"ToolbarItems";
 
 @implementation CMRToolbarDelegateImp
-//////////////////////////////////////////////////////////////////////
-/////////////////////// [ 初期化・後始末 ] ///////////////////////////
-//////////////////////////////////////////////////////////////////////
 - (void) dealloc
 {
 	[m_itemDictionary release];
 	[super dealloc];
 }
-//////////////////////////////////////////////////////////////////////
-//////////////////// [ インスタンスメソッド ] ////////////////////////
-//////////////////////////////////////////////////////////////////////
+
 - (NSString *) identifier
 {
 	return nil;
@@ -51,7 +46,6 @@ static NSString *const st_localizableStringsTableName	= @"ToolbarItems";
 @end
 
 
-
 @implementation CMRToolbarDelegateImp(Private)
 - (NSToolbarItem *) itemForItemIdentifier : (NSString *) anIdentifier
 								itemClass : (Class	   ) aClass
@@ -65,6 +59,7 @@ static NSString *const st_localizableStringsTableName	= @"ToolbarItems";
 	}
 	return item_;
 }
+
 - (NSToolbarItem *) appendToolbarItemWithClass : (Class		) aClass
 								itemIdentifier : (NSString *) itemIdentifier
 							 localizedLabelKey : (NSString *) label
@@ -83,6 +78,7 @@ static NSString *const st_localizableStringsTableName	= @"ToolbarItems";
 	[item_ setTarget : target];
 	return item_;
 }
+
 - (NSToolbarItem *) appendToolbarItemWithItemIdentifier : (NSString *) itemIdentifier
                                       localizedLabelKey : (NSString *) label
                                localizedPaletteLabelKey : (NSString *) paletteLabel
@@ -110,15 +106,12 @@ static NSString *const st_localizableStringsTableName	= @"ToolbarItems";
 {
 	return st_pIndicatorItemIdentifier;
 }
-
 @end
-
 
 
 @implementation CMRToolbarDelegateImp(Protected)
 - (void) initializeToolbarItems : (NSWindow *) aWindow
 {
-	//UTILAbstractMethodInvoked;
 	NSToolbarItem			*item_;
 	NSWindowController		*wcontroller_;
 	

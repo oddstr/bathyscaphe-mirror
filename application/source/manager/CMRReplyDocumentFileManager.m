@@ -161,7 +161,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager)
 		[pathArray_ addObject : path_];
 		
 		replyPath_ = [self replyDocumentFilepathWithLogPath : path_];
-		if(YES == [self replyDocumentFileExistsAtPath : replyPath_])
+		if([self replyDocumentFileExistsAtPath : replyPath_])
 			[pathArray_ addObject : replyPath_];
 	}
 	

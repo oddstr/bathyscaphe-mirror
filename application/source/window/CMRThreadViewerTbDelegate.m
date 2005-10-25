@@ -205,7 +205,7 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 									localizedLabelKey : st_stopTaskLabelKey
 							 localizedPaletteLabelKey : st_stopTaskPaletteLabelKey
 								  localizedToolTipKey : st_stopTaskToolTipKey
-											   action : @selector(cancellCurrentTask:)
+											   action : @selector(cancelCurrentTask:)
 											   target : nil];
 	[item_ setImage : [NSImage imageAppNamed : st_stopTask_ImageName]];
 	

@@ -340,7 +340,7 @@ static int messageMaskForTag(int tag)
 - (BOOL) validateToolbarItem : (NSToolbarItem *) theItem
 {
 	SEL action_ = [theItem action];
-	if (action_ == @selector(cancellCurrentTask:))
+	if (action_ == @selector(cancelCurrentTask:))
 	{ 
 		return [super validateToolbarItem : theItem];
 	}

@@ -30,6 +30,6 @@
 
 @interface CMRStatusLineWindowController(Action)
 - (IBAction) saveAsDefaultFrame : (id) sender;
-- (IBAction) cancellCurrentTask : (id) sender;
+- (IBAction) cancelCurrentTask : (id) sender;
 @end
 
