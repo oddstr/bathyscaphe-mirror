@@ -1,3 +1,10 @@
+2005-10-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* metadataimporter/BathyScaphe/GetMetadataForFile.m
+		Spotlight プラグインは、本文の内容および名前欄も検索対象にするよう変更。
+		- 迷惑レス・透明あぼーんレス・掲示板側であぼーんされたレス は対象外（ローカルあぼーんのものは収集される）。
+		- 名前欄については、重複する名前を除いて kMDItemContributors として収集される（Finder の検索では
+		　「作成協力者」というキー）。
+		- <a href="...">と</a>も除去するようにした（参考：CocoMonar の MDI）。
 2005-10-26 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/preference/rsrc/Reply.tiff
 		[削除]ビルド時には application/Resources/image/ResToThread.png をコピーするようにし、このファイルは削除。
