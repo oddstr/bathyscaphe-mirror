@@ -68,7 +68,6 @@
 		870161DF082BE67100AEFDD0 /* SGDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD7604C698FB00A80005 /* SGDocument.h */; };
 		870161E0082BE67100AEFDD0 /* TextFinder.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD7A04C698FB00A80005 /* TextFinder.h */; };
 		870161E1082BE67100AEFDD0 /* TextFinder_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD7C04C698FB00A80005 /* TextFinder_p.h */; };
-		870161E2082BE67100AEFDD0 /* JStringAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD8504C698FB00A80005 /* JStringAdditions.h */; };
 		870161E3082BE67100AEFDD0 /* missing.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD8704C698FB00A80005 /* missing.h */; };
 		870161E4082BE67100AEFDD0 /* CMRIndexingStepper.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD9604C698FB00A80005 /* CMRIndexingStepper.h */; };
 		870161E5082BE67100AEFDD0 /* CMRIndexingStepper_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD9804C698FB00A80005 /* CMRIndexingStepper_p.h */; };
@@ -228,7 +227,6 @@
 		87016326082BE67100AEFDD0 /* SGDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD7704C698FB00A80005 /* SGDocument.m */; };
 		87016327082BE67100AEFDD0 /* TextFinder-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD7904C698FB00A80005 /* TextFinder-ViewAccessor.m */; };
 		87016328082BE67100AEFDD0 /* TextFinder.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD7B04C698FB00A80005 /* TextFinder.m */; };
-		87016329082BE67100AEFDD0 /* JStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD8604C698FB00A80005 /* JStringAdditions.m */; };
 		8701632A082BE67100AEFDD0 /* missing.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD8804C698FB00A80005 /* missing.m */; };
 		8701632B082BE67100AEFDD0 /* CMRIndexingStepper-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD9504C698FB00A80005 /* CMRIndexingStepper-ViewAccessor.m */; };
 		8701632C082BE67100AEFDD0 /* CMRIndexingStepper.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD9704C698FB00A80005 /* CMRIndexingStepper.m */; };
@@ -537,9 +535,6 @@
 		87299A75083261F200CBD740 /* ThreadDocument.icns in Resources */ = {isa = PBXBuildFile; fileRef = 87299A3C083261F200CBD740 /* ThreadDocument.icns */; };
 		87299B0D0832622200CBD740 /* BrowserKeyBindings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87299AF60832622100CBD740 /* BrowserKeyBindings.plist */; };
 		87299B0F0832622200CBD740 /* firstVisibleNumbers.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87299AF80832622100CBD740 /* firstVisibleNumbers.plist */; };
-		87299B100832622200CBD740 /* Hankaku-Kana-Daku.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299AF90832622100CBD740 /* Hankaku-Kana-Daku.txt */; };
-		87299B110832622200CBD740 /* Hankaku-Kana.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299AFA0832622100CBD740 /* Hankaku-Kana.txt */; };
-		87299B120832622200CBD740 /* Hankaku.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299AFB0832622100CBD740 /* Hankaku.txt */; };
 		87299B130832622200CBD740 /* HostProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87299AFC0832622200CBD740 /* HostProperties.plist */; };
 		87299B140832622200CBD740 /* innerLinkPrefixCharacters.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299AFD0832622200CBD740 /* innerLinkPrefixCharacters.txt */; };
 		87299B150832622200CBD740 /* innerLinkRangeCharacters.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299AFE0832622200CBD740 /* innerLinkRangeCharacters.txt */; };
@@ -550,11 +545,6 @@
 		87299B1C0832622200CBD740 /* ThreadInfoTemplate.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 87299B050832622200CBD740 /* ThreadInfoTemplate.rtf */; };
 		87299B1D0832622200CBD740 /* ThreadKeyBindings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87299B060832622200CBD740 /* ThreadKeyBindings.plist */; };
 		87299B1E0832622200CBD740 /* URLBookmarks.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87299B070832622200CBD740 /* URLBookmarks.plist */; };
-		87299B1F0832622200CBD740 /* Zenkaku-Hira-Daku.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299B080832622200CBD740 /* Zenkaku-Hira-Daku.txt */; };
-		87299B200832622200CBD740 /* Zenkaku-Hira.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299B090832622200CBD740 /* Zenkaku-Hira.txt */; };
-		87299B210832622200CBD740 /* Zenkaku-Kana-Daku.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299B0A0832622200CBD740 /* Zenkaku-Kana-Daku.txt */; };
-		87299B220832622200CBD740 /* Zenkaku-Kana.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299B0B0832622200CBD740 /* Zenkaku-Kana.txt */; };
-		87299B230832622200CBD740 /* Zenkaku.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299B0C0832622200CBD740 /* Zenkaku.txt */; };
 		87299B420832623A00CBD740 /* BWAgent.app in Resources */ = {isa = PBXBuildFile; fileRef = 87299B410832623A00CBD740 /* BWAgent.app */; };
 		87299C1F0832673000CBD740 /* BathyScaphe.mdimporter in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87299C09083266F700CBD740 /* BathyScaphe.mdimporter */; };
 		8732FCBA08C2F79B00779F20 /* HistoryBack.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 878A7567088AA85B00539B6F /* HistoryBack.tiff */; };
@@ -615,6 +605,14 @@
 		87D8DBAC0833D57D004C1168 /* AboutPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87D8DBAA0833D57D004C1168 /* AboutPanel.nib */; };
 		87D8DC220833E8AF004C1168 /* BaScLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 87D8DC210833E8AF004C1168 /* BaScLogo.png */; };
 		87D8DC270833EABB004C1168 /* bathyicon192.png in Resources */ = {isa = PBXBuildFile; fileRef = 87D8DC260833EABB004C1168 /* bathyicon192.png */; };
+		87DF8422091101F4008FB40E /* Hankaku-Kana-Daku.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299AF90832622100CBD740 /* Hankaku-Kana-Daku.txt */; };
+		87DF8423091101F7008FB40E /* Hankaku-Kana.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299AFA0832622100CBD740 /* Hankaku-Kana.txt */; };
+		87DF8424091101F9008FB40E /* Hankaku.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299AFB0832622100CBD740 /* Hankaku.txt */; };
+		87DF842509110206008FB40E /* Zenkaku-Hira-Daku.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299B080832622200CBD740 /* Zenkaku-Hira-Daku.txt */; };
+		87DF842609110209008FB40E /* Zenkaku-Hira.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299B090832622200CBD740 /* Zenkaku-Hira.txt */; };
+		87DF84270911020B008FB40E /* Zenkaku-Kana-Daku.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299B0A0832622200CBD740 /* Zenkaku-Kana-Daku.txt */; };
+		87DF84280911020E008FB40E /* Zenkaku-Kana.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299B0B0832622200CBD740 /* Zenkaku-Kana.txt */; };
+		87DF842909110211008FB40E /* Zenkaku.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299B0C0832622200CBD740 /* Zenkaku.txt */; };
 		87E2264E0833AA5D00E7FC85 /* BathyScaphe.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 87E2264C0833AA5D00E7FC85 /* BathyScaphe.scriptSuite */; };
 		87E2264F0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 87E2264D0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology */; };
 		87E4752A085C57C100B3E45E /* BSWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 87E47528085C57C100B3E45E /* BSWindow.h */; };
@@ -2710,7 +2708,6 @@
 				870161DF082BE67100AEFDD0 /* SGDocument.h in Headers */,
 				870161E0082BE67100AEFDD0 /* TextFinder.h in Headers */,
 				870161E1082BE67100AEFDD0 /* TextFinder_p.h in Headers */,
-				870161E2082BE67100AEFDD0 /* JStringAdditions.h in Headers */,
 				870161E3082BE67100AEFDD0 /* missing.h in Headers */,
 				870161E4082BE67100AEFDD0 /* CMRIndexingStepper.h in Headers */,
 				870161E5082BE67100AEFDD0 /* CMRIndexingStepper_p.h in Headers */,
@@ -3215,9 +3212,6 @@
 				87299A75083261F200CBD740 /* ThreadDocument.icns in Resources */,
 				87299B0D0832622200CBD740 /* BrowserKeyBindings.plist in Resources */,
 				87299B0F0832622200CBD740 /* firstVisibleNumbers.plist in Resources */,
-				87299B100832622200CBD740 /* Hankaku-Kana-Daku.txt in Resources */,
-				87299B110832622200CBD740 /* Hankaku-Kana.txt in Resources */,
-				87299B120832622200CBD740 /* Hankaku.txt in Resources */,
 				87299B130832622200CBD740 /* HostProperties.plist in Resources */,
 				87299B140832622200CBD740 /* innerLinkPrefixCharacters.txt in Resources */,
 				87299B150832622200CBD740 /* innerLinkRangeCharacters.txt in Resources */,
@@ -3228,11 +3222,6 @@
 				87299B1C0832622200CBD740 /* ThreadInfoTemplate.rtf in Resources */,
 				87299B1D0832622200CBD740 /* ThreadKeyBindings.plist in Resources */,
 				87299B1E0832622200CBD740 /* URLBookmarks.plist in Resources */,
-				87299B1F0832622200CBD740 /* Zenkaku-Hira-Daku.txt in Resources */,
-				87299B200832622200CBD740 /* Zenkaku-Hira.txt in Resources */,
-				87299B210832622200CBD740 /* Zenkaku-Kana-Daku.txt in Resources */,
-				87299B220832622200CBD740 /* Zenkaku-Kana.txt in Resources */,
-				87299B230832622200CBD740 /* Zenkaku.txt in Resources */,
 				87299B420832623A00CBD740 /* BWAgent.app in Resources */,
 				87E2264E0833AA5D00E7FC85 /* BathyScaphe.scriptSuite in Resources */,
 				87E2264F0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology in Resources */,
@@ -3267,6 +3256,14 @@
 				87078CE5090E9710007FF9C3 /* RemoveFavorites.png in Resources */,
 				87078CE6090E9710007FF9C3 /* ResToThread.png in Resources */,
 				87078CE8090E9710007FF9C3 /* stopSign.png in Resources */,
+				87DF8422091101F4008FB40E /* Hankaku-Kana-Daku.txt in Resources */,
+				87DF8423091101F7008FB40E /* Hankaku-Kana.txt in Resources */,
+				87DF8424091101F9008FB40E /* Hankaku.txt in Resources */,
+				87DF842509110206008FB40E /* Zenkaku-Hira-Daku.txt in Resources */,
+				87DF842609110209008FB40E /* Zenkaku-Hira.txt in Resources */,
+				87DF84270911020B008FB40E /* Zenkaku-Kana-Daku.txt in Resources */,
+				87DF84280911020E008FB40E /* Zenkaku-Kana.txt in Resources */,
+				87DF842909110211008FB40E /* Zenkaku.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3451,7 +3448,6 @@
 				87016326082BE67100AEFDD0 /* SGDocument.m in Sources */,
 				87016327082BE67100AEFDD0 /* TextFinder-ViewAccessor.m in Sources */,
 				87016328082BE67100AEFDD0 /* TextFinder.m in Sources */,
-				87016329082BE67100AEFDD0 /* JStringAdditions.m in Sources */,
 				8701632A082BE67100AEFDD0 /* missing.m in Sources */,
 				8701632B082BE67100AEFDD0 /* CMRIndexingStepper-ViewAccessor.m in Sources */,
 				8701632C082BE67100AEFDD0 /* CMRIndexingStepper.m in Sources */,

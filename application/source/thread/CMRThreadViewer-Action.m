@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.10 2005/10/22 14:48:54 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.11 2005/10/27 13:07:53 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -14,16 +14,7 @@
 #import "CMRReplyDocumentFileManager.h"
 #import "CMRThreadVisibleRange.h"
 #import "CMRThreadDownloadTask.h"
-
-#import "JStringAdditions.h"
-#import "CMRSearchOptions.h"
-#import "TextFinder.h"
-#import "CMRThreadView.h"
-#import "CMRHistoryManager.h"
-
 #import "CMXPopUpWindowManager.h"
-#import "CMRAttributedMessageComposer.h"
-
 
 // for debugging only
 #define UTIL_DEBUGGING		0
