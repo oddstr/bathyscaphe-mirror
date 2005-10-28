@@ -763,8 +763,6 @@
 		8729964E0832556100CBD740 /* NSCharacterSet+CMXAdditions.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "NSCharacterSet+CMXAdditions.m"; sourceTree = "<group>"; };
 		8729964F0832556100CBD740 /* NSLayoutManager+CMXAdditions.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = "NSLayoutManager+CMXAdditions.h"; sourceTree = "<group>"; };
 		872996500832556100CBD740 /* NSLayoutManager+CMXAdditions.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutManager+CMXAdditions.m"; sourceTree = "<group>"; };
-		872996510832556100CBD740 /* NSMenu+CMXAdditions.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = "NSMenu+CMXAdditions.h"; sourceTree = "<group>"; };
-		872996520832556100CBD740 /* NSMenu+CMXAdditions.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "NSMenu+CMXAdditions.m"; sourceTree = "<group>"; };
 		872996530832556100CBD740 /* NSTableColumn+CMXAdditions.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = "NSTableColumn+CMXAdditions.h"; sourceTree = "<group>"; };
 		872996540832556100CBD740 /* NSTableColumn+CMXAdditions.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "NSTableColumn+CMXAdditions.m"; sourceTree = "<group>"; };
 		872996570832556100CBD740 /* NSTextView+CMXAdditions.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = "NSTextView+CMXAdditions.h"; sourceTree = "<group>"; };
@@ -1465,8 +1463,6 @@
 				8729964E0832556100CBD740 /* NSCharacterSet+CMXAdditions.m */,
 				8729964F0832556100CBD740 /* NSLayoutManager+CMXAdditions.h */,
 				872996500832556100CBD740 /* NSLayoutManager+CMXAdditions.m */,
-				872996510832556100CBD740 /* NSMenu+CMXAdditions.h */,
-				872996520832556100CBD740 /* NSMenu+CMXAdditions.m */,
 				872996530832556100CBD740 /* NSTableColumn+CMXAdditions.h */,
 				872996540832556100CBD740 /* NSTableColumn+CMXAdditions.m */,
 				872996570832556100CBD740 /* NSTextView+CMXAdditions.h */,

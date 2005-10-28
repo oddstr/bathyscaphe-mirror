@@ -1,3 +1,10 @@
+2005-10-29 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* frameworks/SGAppKit/framework/src/extensions/menu/NSMenu-SGExtensions.m
+	* frameworks/SGAppKit/SGAppKit.xcodeproj
+		下記変更に伴う修正と、ビルドオプションの -O2 から -Os への変更。
+	* application/source/extensions/NSMenu+CMXAdditions.(h|m)
+		[削除] BathyScaphe では元々使われていなかったが、念のため中身を SGAppKit の
+		NSMenu-SGExtension.h に統合した上で、リポジトリから削除。
 2005-10-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* metadataimporter/BathyScaphe/GetMetadataForFile.m
 		Spotlight プラグインは、本文の内容および名前欄も検索対象にするよう変更。
