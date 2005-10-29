@@ -1,3 +1,13 @@
+2005-10-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/BWAgent/rosetta.pl
+		nmatz さんの rosetta.pl パッチを適用。
+	* application/Resources/image/lastUpdatedHeader.png
+		リニューアル。
+	* application/Resources/image/beDisabled.png
+		上下1ピクセルのズレがないバージョンに差し替え。
+	* application/subproj/previewer/BSImagePreviewInspector.m
+		キーウインドウにするかどうかの設定が再起動まで反映されなかった問題を修正。
+================================================= Senecio
 2005-10-29 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
 	* application/subproj/previewer/BSImagePreviewInspector.m
@@ -101,7 +111,7 @@
 	* application/source/window/CMRReplyControllerTbDelegate.m
 	* application/source/window/CMRReplyController.m
 		「Be ログイン中／ログアウト中」ボタンについて、ログイン中のときはツールバーボタンそのものを選択状態に
-		するようにした（環境設定のツールバーのように）。
+		するようにした（環境設定のツールバーのように）。→のちに中止した。
 2005-10-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-Delegate.m
 		command キーを押しながら掲示板リストの項目をクリックした際は、複数の項目を選択しようとしている

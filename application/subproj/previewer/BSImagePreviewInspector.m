@@ -84,16 +84,9 @@ static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePr
 	return m_progIndicator;
 }
 
-- (NSString *) downloadedFileDestination
+- (NSPanel *) settingsPanel
 {
-	return _downloadedFileDestination;
-}
-
-- (void) setDownloadedFileDestination : (NSString *) aPath
-{
-	[aPath retain];
-	[_downloadedFileDestination release];
-	_downloadedFileDestination = aPath;
+	return m_settingsPanel;
 }
 
 - (TemporaryFolder *) dlFolder
@@ -104,9 +97,16 @@ static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePr
 	return _dlFolder;
 }
 
-- (NSPanel *) settingsPanel
+- (NSString *) downloadedFileDestination
 {
-	return m_settingsPanel;
+	return _downloadedFileDestination;
+}
+
+- (void) setDownloadedFileDestination : (NSString *) aPath
+{
+	[aPath retain];
+	[_downloadedFileDestination release];
+	_downloadedFileDestination = aPath;
 }
 
 #pragma mark For Cocoa Binding
@@ -129,6 +129,7 @@ static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePr
 
 	[self didChangeValueForKey:@"sourceURLAsString"];
 }
+
 - (BOOL) alwaysBecomeKey
 {
 	return [[[self preferences] imagePreviewerPrefsDict] boolForKey : kIPIAlwaysKeyWindowKey
@@ -137,12 +138,13 @@ static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePr
 - (void) setAlwaysBecomeKey : (BOOL) alwaysKey
 {
 	[[[self preferences] imagePreviewerPrefsDict] setBool : alwaysKey forKey : kIPIAlwaysKeyWindowKey];
+	[(NSPanel *)[self window] setBecomesKeyOnlyIfNeeded : (NO == alwaysKey)];
 }
 
 - (NSString *) saveDirectory
 {
 	return [[[self preferences] imagePreviewerPrefsDict] objectForKey : kIPISaveDirectoryKey
-														defaultObject : [NSString stringWithFormat : @"%@/%@", NSHomeDirectory(), @"Desktop"]];
+														defaultObject : [NSHomeDirectory() stringByAppendingPathComponent : @"Desktop"]];
 }
 
 - (void) setSaveDirectory : (NSString *) aString
@@ -164,7 +166,7 @@ static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePr
 	[pboard_ declareTypes:types_ owner:nil];
 	
 	[[self sourceURL] writeToPasteboard : pboard_];
-	[pboard_ setString:[[self sourceURL] absoluteString] forType:NSStringPboardType];
+	[pboard_ setString : [[self sourceURL] absoluteString] forType : NSStringPboardType];
 }
 
 - (IBAction) beginSettingsSheet : (id) sender
@@ -177,22 +179,22 @@ static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePr
 }
 
 - (IBAction) endSettingsSheet : (id) sender
-{	
-	[NSApp endSheet : [sender window]
+{
+	NSWindow *sheet_ = [sender window];
+	[NSApp endSheet : sheet_
 		 returnCode : NSOKButton];
-	[[sender window] close];
+
+	[sheet_ close];
 }
 
 - (IBAction) openOpenPanel : (id) sender
 {
-	NSOpenPanel	*panel_;
-	panel_ = [NSOpenPanel openPanel];
+	NSOpenPanel	*panel_ = [NSOpenPanel openPanel];
 	[panel_ setCanChooseFiles : NO];
 	[panel_ setCanChooseDirectories : YES];
 	[panel_ setResolvesAliases : YES];
-	if([panel_ runModalForTypes : nil] == NSOKButton) {
+	if([panel_ runModalForTypes : nil] == NSOKButton)
 		[self setSaveDirectory : [panel_ directory]];
-	}
 }
 
 - (IBAction) openImage : (id) sender
@@ -210,6 +212,7 @@ static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePr
 	NSFileManager	*fm_ = [NSFileManager defaultManager];
 	NSString		*fPath_ = [self downloadedFileDestination];
 	NSString		*dest_ = [[self saveDirectory] stringByAppendingPathComponent : [fPath_ lastPathComponent]];
+
 	if (![fm_ fileExistsAtPath : dest_]) {
 		[fm_ copyPath : fPath_ toPath : dest_ handler : nil];
 	} else {
@@ -237,14 +240,15 @@ static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePr
 - (void) switchActionToCancelMode : (BOOL) toCancelMode
 {
 	NSButton *targetBtn = [self saveButton];
+	NSBundle *selfBundle = [NSBundle bundleForClass : [self class]];
 
 	if (toCancelMode) {
-		[targetBtn setTitle : [[NSBundle bundleForClass : [self class]] localizedStringForKey:@"Cancel" value:@"Cancel" table:nil]];
+		[targetBtn setTitle : [selfBundle localizedStringForKey : @"Cancel" value : @"Cancel" table : nil]];
 		[targetBtn setTarget : self];
 		[targetBtn setAction : @selector(cancelDownload:)];
 		[[self actionBtn] setEnabled : NO];
 	} else {
-		[targetBtn setTitle : [[NSBundle bundleForClass : [self class]] localizedStringForKey:@"Save" value:@"Save" table:nil]];
+		[targetBtn setTitle : [selfBundle localizedStringForKey : @"Save" value : @"Save" table : nil]];
 		[targetBtn setTarget : self];
 		[targetBtn setAction : @selector(saveImage:)];
 		[[self actionBtn] setEnabled : YES];
@@ -254,12 +258,15 @@ static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePr
 - (BOOL) downloadImageInBkgnd : (NSURL *) anURL
 {
 	NSURLRequest	*theRequest = [NSURLRequest requestWithURL : anURL];
-	if(_currentDownload) {
+
+	if(_currentDownload)
 		[_currentDownload cancel];
-	}
 
 	_currentDownload  = [[NSURLDownload alloc] initWithRequest : theRequest
 													  delegate : self ];
+
+	if([[self imageView] image] != nil)
+		[[self imageView] setImage : nil];
 
 	[self setSourceURL : anURL];
 	[self switchActionToCancelMode : YES];
@@ -288,7 +295,7 @@ static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePr
 	return [imageExtensions containsObject : extension];
 }
 
-#pragma mark NSWindow Delegate
+#pragma mark NSApp Notification
 
 - (void) applicationWillTerminate : (NSNotification *) notification
 {		
@@ -298,7 +305,7 @@ static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePr
 	[[NSNotificationCenter defaultCenter] removeObserver : self];
 }
 
-#pragma mark Notification
+#pragma mark NSWindow Delegate
 
 - (void) windowWillClose : (NSNotification *) aNotification
 {
@@ -319,7 +326,7 @@ static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePr
 - (void) download : (NSURLDownload *) dl decideDestinationWithSuggestedFilename : (NSString *) filename
 {
 	NSString *savePath;
-	savePath = [NSString stringWithFormat : @"%@/%@", [[self dlFolder] path], filename];
+	savePath = [[[self dlFolder] path] stringByAppendingPathComponent : filename];
 
 	[dl setDestination : savePath allowOverwrite : YES];
 }
@@ -361,5 +368,6 @@ static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePr
 	[tmp release];
 
 	[[self progIndicator] stopAnimation : self];
+	[self setSourceURL : nil];
 }
 @end
