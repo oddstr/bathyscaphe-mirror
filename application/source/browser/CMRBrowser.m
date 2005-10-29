@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.10 2005/10/12 11:25:50 tsawada2 Exp $
+  * $Id: CMRBrowser.m,v 1.11 2005/10/29 01:53:39 tsawada2 Exp $
   * 
   * CMRBrowser.m
   *
@@ -7,6 +7,7 @@
   * See the file LICENSE for copying permission.
   */
 #import "CMRBrowser_p.h"
+#import "BSBoardInfoInspector.h"
 
 static NSString *const CMRBrowserLoadNibName              = @"Browser";
 
@@ -120,6 +121,16 @@ willRemoveController : (NSWindowController *) aController;
 - (BOOL) shouldLoadWindowFrameUsingCache
 {
 	return NO;
+}
+- (IBAction) showBoardInspectorPanel : (id) sender
+{
+	NSString			*board;
+	board = [(CMRBBSSignature *)[self boardIdentifier] name];
+	
+	if (nil == board)
+		return;
+
+	[[BSBoardInfoInspector sharedInstance] showInspectorForTargetBoard : board];
 }
 @end
 

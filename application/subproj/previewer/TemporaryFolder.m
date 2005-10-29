@@ -55,12 +55,12 @@
 {
 	NSFileManager *fm = [NSFileManager defaultManager];
 	
-	NSLog(@"Start Dealocate TemporaryFolder(%@)", self );
+	//NSLog(@"Start Dealocate TemporaryFolder(%@)", self );
 	
 	[fm  removeFileAtPath:_path handler:nil];
 	[_path release];
 	
-	NSLog(@"End Dealocate TemporaryFolder" );
+	//NSLog(@"End Dealocate TemporaryFolder" );
 	
 	[super dealloc];
 }

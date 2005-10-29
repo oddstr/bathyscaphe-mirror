@@ -214,6 +214,7 @@ static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePr
 		[fm_ copyPath : fPath_ toPath : dest_ handler : nil];
 	} else {
 		NSBeep();
+		NSLog(@"Could not save the file %@ because same file already exists.", [fPath_ lastPathComponent]);
 	}
 }
 
