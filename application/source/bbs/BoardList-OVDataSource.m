@@ -1,5 +1,5 @@
 /**
-  * $Id: BoardList-OVDataSource.m,v 1.7 2005/10/12 11:25:49 tsawada2 Exp $
+  * $Id: BoardList-OVDataSource.m,v 1.8 2005/10/29 01:15:33 tsawada2 Exp $
   * 
   * BoardList-OVDataSource.m
   *
@@ -115,11 +115,7 @@ static NSMutableAttributedString *makeAttrStrFromStr(NSString *source)
         object_ = @"";
     
     if ([identifier_ isEqualToString : BoardPlistNameKey] && ([outlineView class] == [BSBoardListView class]))
-	{
-        //id		tmp;
-        //tmp = makeAttrStrFromStr(object_);
-		return makeAttrStrFromStr(object_);//tmp;
-    }
+		return makeAttrStrFromStr(object_);
     
     return object_;
 }
@@ -269,21 +265,6 @@ not_writtable:
 @end
 
 
-// Deprecated in BathyScaphe 1.0.2 and Later.
-/*@implementation BoardList(SGOutlineViewDataSource)
-- (NSString *) outlineView : (NSOutlineView *) outlineView
-			toolTipForItem : (id			 ) item
-{
-	if(NO == [item respondsToSelector : @selector(objectForKey:)]) return nil;
-	if([[self class] isCategory : item]) return nil;
-	if([[self class] isFavorites : item]) return nil;
-	
-	return [item objectForKey : BoardPlistURLKey];
-}
-@end*/
-
-
-
 @implementation BoardList(NSDraggingSource)
 - (unsigned int) draggingSourceOperationMaskForLocal : (BOOL) localFlag
 {
@@ -297,7 +278,6 @@ not_writtable:
 
 
 @implementation FavoritesList
-
 + (NSMutableDictionary *) favoritesItem
 {
 	static NSMutableDictionary *favorites_;
@@ -309,6 +289,7 @@ not_writtable:
 	}
 	return favorites_;
 }
+
 - (int)      outlineView : (NSOutlineView *) outlineView
   numberOfChildrenOfItem : (id             ) item
 {
@@ -436,6 +417,4 @@ not_writtable:
 					 containsArray : container
 					       atIndex : index];
 }
-
 @end
-

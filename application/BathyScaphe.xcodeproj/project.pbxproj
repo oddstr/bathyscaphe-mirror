@@ -433,6 +433,9 @@
 		871CA17C08585FD200C3A044 /* SGNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FF043610FB00A80005 /* SGNetwork.framework */; };
 		871CA1B908586CFC00C3A044 /* PreferencesPane.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 871CA15608585F8100C3A044 /* PreferencesPane.plugin */; };
 		871CA1BC08586D1600C3A044 /* 2chConnector.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 871CA18308585FD200C3A044 /* 2chConnector.plugin */; };
+		8724A6DD09127E69009CC855 /* board_default.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8724A6DB09127E69009CC855 /* board_default.plist */; };
+		8724A8100912A213009CC855 /* TemporaryFolder.h in Headers */ = {isa = PBXBuildFile; fileRef = 8724A80E0912A213009CC855 /* TemporaryFolder.h */; };
+		8724A8110912A213009CC855 /* TemporaryFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8724A80F0912A213009CC855 /* TemporaryFolder.m */; };
 		872996590832556100CBD740 /* NSCharacterSet+CMXAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8729964D0832556100CBD740 /* NSCharacterSet+CMXAdditions.h */; };
 		8729965A0832556100CBD740 /* NSCharacterSet+CMXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8729964E0832556100CBD740 /* NSCharacterSet+CMXAdditions.m */; };
 		8729965B0832556100CBD740 /* NSLayoutManager+CMXAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8729964F0832556100CBD740 /* NSLayoutManager+CMXAdditions.h */; };
@@ -583,6 +586,7 @@
 		87BB79220864401A00ED8757 /* RBSplitViewPrivateDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB79200864401A00ED8757 /* RBSplitViewPrivateDefines.h */; };
 		87BD61F00865D0230080A7CA /* NSTableView+BSAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BD61EE0865D0230080A7CA /* NSTableView+BSAdditions.h */; };
 		87BD61F10865D0230080A7CA /* NSTableView+BSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BD61EF0865D0230080A7CA /* NSTableView+BSAdditions.m */; };
+		87BE9E9F0912F54300D2F339 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87BE9E9E0912F54300D2F339 /* Localizable.strings */; };
 		87BF52CB08F789D500998C4E /* BSBoardInfoInspector.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BF52C908F789D400998C4E /* BSBoardInfoInspector.h */; };
 		87BF52CC08F789D500998C4E /* BSBoardInfoInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BF52CA08F789D400998C4E /* BSBoardInfoInspector.m */; };
 		87BF52D508F7913400998C4E /* BSBoardInfoInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87BF52D308F7913400998C4E /* BSBoardInfoInspector.nib */; };
@@ -759,6 +763,9 @@
 		871CA15608585F8100C3A044 /* PreferencesPane.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreferencesPane.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		871CA18208585FD200C3A044 /* Info-reply.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Info-reply.plist"; path = "../../Info-reply.plist"; sourceTree = "<group>"; };
 		871CA18308585FD200C3A044 /* 2chConnector.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = 2chConnector.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		8724A6DC09127E69009CC855 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Japanese; path = Japanese.lproj/board_default.plist; sourceTree = "<group>"; };
+		8724A80E0912A213009CC855 /* TemporaryFolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemporaryFolder.h; sourceTree = "<group>"; };
+		8724A80F0912A213009CC855 /* TemporaryFolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemporaryFolder.m; sourceTree = "<group>"; };
 		8729964D0832556100CBD740 /* NSCharacterSet+CMXAdditions.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = "NSCharacterSet+CMXAdditions.h"; sourceTree = "<group>"; };
 		8729964E0832556100CBD740 /* NSCharacterSet+CMXAdditions.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "NSCharacterSet+CMXAdditions.m"; sourceTree = "<group>"; };
 		8729964F0832556100CBD740 /* NSLayoutManager+CMXAdditions.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = "NSLayoutManager+CMXAdditions.h"; sourceTree = "<group>"; };
@@ -935,6 +942,7 @@
 		87BB79200864401A00ED8757 /* RBSplitViewPrivateDefines.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RBSplitViewPrivateDefines.h; path = ../RBSplitViewPrivateDefines.h; sourceTree = "<group>"; };
 		87BD61EE0865D0230080A7CA /* NSTableView+BSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTableView+BSAdditions.h"; sourceTree = "<group>"; };
 		87BD61EF0865D0230080A7CA /* NSTableView+BSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTableView+BSAdditions.m"; sourceTree = "<group>"; };
+		87BE9EA00912F54D00D2F339 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
 		87BF52C908F789D400998C4E /* BSBoardInfoInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSBoardInfoInspector.h; sourceTree = "<group>"; };
 		87BF52CA08F789D400998C4E /* BSBoardInfoInspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSBoardInfoInspector.m; sourceTree = "<group>"; };
 		87BF52D408F7913400998C4E /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSBoardInfoInspector.nib; sourceTree = "<group>"; };
@@ -1510,6 +1518,7 @@
 		872998690832616D00CBD740 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8724A6DB09127E69009CC855 /* board_default.plist */,
 				87E2264C0833AA5D00E7FC85 /* BathyScaphe.scriptSuite */,
 				87E2264D0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology */,
 				87299B410832623A00CBD740 /* BWAgent.app */,
@@ -1806,11 +1815,14 @@
 		87C2032808FF3F81006DC42C /* previewer */ = {
 			isa = PBXGroup;
 			children = (
+				8745CD280900DE9800A28AC0 /* BSImagePreviewerInterface.h */,
+				8724A80E0912A213009CC855 /* TemporaryFolder.h */,
+				8724A80F0912A213009CC855 /* TemporaryFolder.m */,
 				87C2033B08FF40B8006DC42C /* Info-previewer.plist */,
 				87C2032908FF3F81006DC42C /* BSImagePreviewInspector.h */,
 				87C2032A08FF3F81006DC42C /* BSImagePreviewInspector.m */,
 				87C2032B08FF3F81006DC42C /* BSImagePreviewInspector.nib */,
-				8745CD280900DE9800A28AC0 /* BSImagePreviewerInterface.h */,
+				87BE9E9E0912F54300D2F339 /* Localizable.strings */,
 			);
 			path = previewer;
 			sourceTree = "<group>";
@@ -2898,6 +2910,7 @@
 			files = (
 				87C2032D08FF3F81006DC42C /* BSImagePreviewInspector.h in Headers */,
 				8745CD290900DE9800A28AC0 /* BSImagePreviewerInterface.h in Headers */,
+				8724A8100912A213009CC855 /* TemporaryFolder.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3263,6 +3276,7 @@
 				87DF84270911020B008FB40E /* Zenkaku-Kana-Daku.txt in Resources */,
 				87DF84280911020E008FB40E /* Zenkaku-Kana.txt in Resources */,
 				87DF842909110211008FB40E /* Zenkaku.txt in Resources */,
+				8724A6DD09127E69009CC855 /* board_default.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3325,6 +3339,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				87C2032F08FF3F81006DC42C /* BSImagePreviewInspector.nib in Resources */,
+				87BE9E9F0912F54300D2F339 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3600,6 +3615,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				87C2032E08FF3F81006DC42C /* BSImagePreviewInspector.m in Sources */,
+				8724A8110912A213009CC855 /* TemporaryFolder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3624,6 +3640,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		8724A6DB09127E69009CC855 /* board_default.plist */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8724A6DC09127E69009CC855 /* Japanese */,
+			);
+			name = board_default.plist;
+			sourceTree = "<group>";
+		};
 		872996FD08325B2B00CBD740 /* LoginWindow.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -3951,6 +3975,14 @@
 				8795B92008E3A7EC005C7C5B /* Japanese */,
 			);
 			name = ToolbarItems.strings;
+			sourceTree = "<group>";
+		};
+		87BE9E9E0912F54300D2F339 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				87BE9EA00912F54D00D2F339 /* Japanese */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 		87BF52D308F7913400998C4E /* BSBoardInfoInspector.nib */ = {
@@ -4361,8 +4393,6 @@
 					../frameworks/CocoMonar/build/Deployment,
 					../frameworks/SGFoundation/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
-					"$(SRCROOT)/../frameworks/SGAppKit/build/Deployment",
-					"$(SRCROOT)/../frameworks/SGFoundation/build/Deployment",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -4375,12 +4405,12 @@
 					BUILD_COCOMONAR,
 				);
 				GCC_USE_GCC3_PFE_SUPPORT = NO;
-				INFOPLIST_FILE = "/Users/benchan/bathyscaphe/application/Info-previewer.plist";
+				INFOPLIST_FILE = "Info-previewer.plist";
 				INSTALL_PATH = "@executable_path/../Plugins";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = BSImagePreviewInspector;
+				PRODUCT_NAME = ImagePreviewer;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -4403,10 +4433,6 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_OPTIMIZATION_LEVEL = s;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					BUILD_COCOMONAR,
-					NS_BLOCK_ASSERTIONS,
-				);
 				GCC_USE_GCC3_PFE_SUPPORT = NO;
 				INFOPLIST_FILE = "Info-previewer.plist";
 				INSTALL_PATH = "@executable_path/../Plugins";
@@ -4436,11 +4462,11 @@
 					"$(SRCROOT)/../frameworks/SGFoundation/build/Deployment",
 				);
 				GCC_USE_GCC3_PFE_SUPPORT = NO;
-				INFOPLIST_FILE = "/Users/benchan/bathyscaphe/application/Info-previewer.plist";
+				INFOPLIST_FILE = "Info-previewer.plist";
 				INSTALL_PATH = "@executable_path/../Plugins";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = BSImagePreviewInspector;
+				PRODUCT_NAME = ImagePreviewer;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",

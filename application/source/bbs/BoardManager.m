@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.m,v 1.3 2005/09/12 08:02:20 tsawada2 Exp $
+ * $Id: BoardManager.m,v 1.4 2005/10/29 01:15:33 tsawada2 Exp $
  * 
  * BoardManager.m
  *
@@ -75,6 +75,14 @@ static id kDefaultManager;
 	filepath_ = [[CMRFileManager defaultManager] dataRootDirectoryPath];
 	return [filepath_ stringByAppendingPathComponent : CMRDefaultBoardFile];
 }
+- (NSString *) spareDefaultBoardListPath
+{
+	NSString	*filepath_;
+
+	filepath_ = [[NSBundle mainBundle] pathForResource : @"board_default" ofType : @"plist"];
+	return filepath_;
+}
+
 + (NSString *) NNDFilepath
 {
 	return [[CMRFileManager defaultManager]
@@ -100,9 +108,18 @@ static id kDefaultManager;
 - (BoardList *) defaultList
 {
     if (nil == _defaultList) {
+		NSFileManager	*dfm;
+		NSString		*dListPath;
+		dfm = [NSFileManager defaultManager];
+		dListPath = [self defaultBoardListPath];
+
+		if (![dfm fileExistsAtPath : dListPath]) {
+			//NSLog(@"defaultList.plist not found, so we copy one from our own Resources directory.");
+			[dfm copyPath : [self spareDefaultBoardListPath] toPath : dListPath handler : nil];
+		}
         _defaultList = 
           [self makeBoardList : [BoardList class]
-           withContentsOfFile : [self defaultBoardListPath]];
+           withContentsOfFile : dListPath];
     }
     return _defaultList;
 }

@@ -9,7 +9,7 @@ property downloadedhtmlPath : ""
 property ifplistexist : ""
 property needtoRemove : false
 property parentAppName : "BathyScaphe"
-property BWAgentDefaultURL : "http://menu.2ch.net/bbsmenu.html"
+property BWAgentDefaultURL : "http://azlucky.s25.xrea.com/2chboard/bbsmenu2.html"
 
 on clicked theObject
 	if name of theObject is "update" then
@@ -149,18 +149,19 @@ on startsync()
 	else
 		beep
 		set dBtnName to localized string "btn_ok"
-		set theinfo to ""
+		--set theinfo to ""
 		if ifplistexist is "" then
 			set theTitle to localized string "status_fin_alt"
 		else
 			set theTitle to localized string "status_fin"
-			if resultofUList is 0 then
+			(*if resultofUList is 0 then
 				set theinfo to (localized string "msg_info")
 			else
 				set theinfo to (localized string "msg_infopart1") & resultofUList & (localized string "msg_infopart2")
-			end if
+			end if*)
 		end if
-		display alert theTitle as warning message theinfo default button dBtnName attached to window "mainwindow"
+		display alert theTitle as warning message "" default button dBtnName attached to window "mainwindow"
+		--display alert theTitle as warning message theinfo default button dBtnName attached to window "mainwindow"
 	end if
 	progressControl(2)
 end startsync

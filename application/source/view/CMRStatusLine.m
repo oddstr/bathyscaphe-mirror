@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRStatusLine.m,v 1.6 2005/10/23 09:15:39 tsawada2 Exp $
+  * $Id: CMRStatusLine.m,v 1.7 2005/10/29 01:15:33 tsawada2 Exp $
   * 
   * CMRStatusLine.m
   *
@@ -99,7 +99,7 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 	[self setWindow : aWindow
 			visible : [[self preferencesObject] 
 						  boolForKey : [self statusLineShownUserDefaultsKey]
-						defaultValue : YES]];
+						defaultValue : NO]];
 }
 - (void) setWindow : (NSWindow *) aWindow
 		   visible : (BOOL      ) shown

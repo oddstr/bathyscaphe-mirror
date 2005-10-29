@@ -1,14 +1,22 @@
 {
     IBClasses = (
         {
-            ACTIONS = {openImage = id; saveImage = id; }; 
+            ACTIONS = {
+                beginSettingsSheet = id; 
+                copyURL = id; 
+                endSettingsSheet = id; 
+                openImage = id; 
+                openImageWithPreviewApp = id; 
+                openOpenPanel = id; 
+            }; 
             CLASS = BSImagePreviewInspector; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                "m_actionBtn" = NSPopUpButton; 
                 "m_imageView" = NSImageView; 
-                "m_openWithBrowserBtn" = NSButton; 
                 "m_progIndicator" = NSProgressIndicator; 
                 "m_saveButton" = NSButton; 
+                "m_settingsPanel" = NSPanel; 
             }; 
             SUPERCLASS = NSWindowController; 
         }, 

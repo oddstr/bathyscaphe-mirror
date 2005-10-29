@@ -264,6 +264,8 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 				[self deleteItemIdentifier],
 				[self addFavoritesItemIdentifier],
 				NSToolbarFlexibleSpaceItemIdentifier,
+				[self orderFrontBrowserItemIdentifier],
+				NSToolbarSeparatorItemIdentifier,
 				[self pIndicatorItemIdentifier],
 				[self replyItemIdentifier],
 				nil];

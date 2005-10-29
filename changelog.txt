@@ -1,4 +1,31 @@
 2005-10-29 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
+	* application/subproj/previewer/BSImagePreviewInspector.m
+		プレビューインスペクタ
+		- 読み込みをキャンセルできるように
+		- 保存先を指定できるように
+		- 常にキーウインドウにするかどうか選択できるように
+		- プレビュー.app で開く機能、URL をコピーする機能を追加
+		ほとんど書き直した。
+	* application/subproj/previewer/TemporaryFolder.m
+	* application/subproj/previewer/Japanese.lproj/Localizable.strings
+		[新規追加] プレビューインスペクタに使用する。TemporaryFolder クラスは、MosaicPreview のソースを利用させてもらった。
+	* application/subproj/BWAgent/BoardWarrior.applescript
+	* application/subproj/BWAgent/Japanese.lproj/MainMenu.nib
+	* application/subproj/BWAgent/Japanese.lproj/Localizable.strings
+		BWAgent 1.1.8
+		- 「標準リスト」「ユーザ定義リスト」という単語を表に出さないように変更。
+		- また、「掲示板リストのアップデート」を「掲示板リストの同期」という表現に変更。
+		- さらに、デフォルトの参照元 URL を azlucky にした。
+	* application/Resources/Japanese.lproj/board_default.plist
+		[新規追加] board_default.plist が見つからない場合、このファイルがコピーされる。
+		- menu.2ch.net ではなく、azlucky ベースで作成したものを収録してある。こちらの方がまち BBS 中国の
+		　名前重複問題が回避されるし、都合が良い。
+	* application/source/bbs/BoardManager.m
+		board_default.plist が ~/Library/App Spt/BathyScaphe/Documents/ に見つからないときは、
+		自動的にアプリケーション内部からコピーするように変更。
+	* application/source/view/CMRStatusLine.m
+		デフォルトでステータスバーは表示しないように変更（以前変更したつもりだったが、実際には変更されていなかった）。
 	* frameworks/SGAppKit/framework/src/extensions/menu/NSMenu-SGExtensions.m
 	* frameworks/SGAppKit/SGAppKit.xcodeproj
 		下記変更に伴う修正と、ビルドオプションの -O2 から -Os への変更。
