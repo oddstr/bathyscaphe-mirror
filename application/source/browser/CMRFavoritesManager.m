@@ -202,9 +202,13 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	
 	if(nil == filepath) return NO;
 	
-	if(NO == [[NSFileManager defaultManager] fileExistsAtPath : filepath])
-		return CMRFavoritesOperationNone;
-	
+	if(NO == [[NSFileManager defaultManager] fileExistsAtPath : filepath]) {
+		if([[self favoritesItemsIndex] containsObject : filepath])
+			return CMRFavoritesOperationRemove;
+		else
+			return CMRFavoritesOperationNone;
+	}
+
 	if([self favoriteItemExistsOfThreadPath : filepath])
 		return CMRFavoritesOperationRemove;
 	

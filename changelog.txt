@@ -1,4 +1,7 @@
 2005-10-31 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRFavoritesManager.m
+		dat 落ちしているスレッドをお気に入りから「ログを削除」した後、お気に入りへの登録を削除できなくなる
+		問題を修正（92,102@8th）。
 	* application/Resources/Japanese.lproj/Browser.nib
 		[Bug 7407]「カテゴリの追加」「掲示板の編集」シートが、Escape キーで閉じられなかった問題を解決。
 2005-10-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
