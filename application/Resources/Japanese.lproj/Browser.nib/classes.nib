@@ -173,7 +173,6 @@
             SUPERCLASS = NSSplitView; 
         }, 
         {CLASS = NSObject; LANGUAGE = ObjC; }, 
-        {CLASS = Parser; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {CLASS = ThreadTextView; LANGUAGE = ObjC; SUPERCLASS = NSTextView; }, 
         {CLASS = ThreadsListTable; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }
     ); 
