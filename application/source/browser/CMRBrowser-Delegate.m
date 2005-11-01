@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.13 2005/10/19 23:43:28 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.14 2005/11/01 22:09:49 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -485,9 +485,9 @@ BOOL isOptionKeyDown(unsigned flag_)
 		notification,
 		[CMRFavoritesManager defaultManager]);
 	
-	//if ([[self currentThreadsList] isFavorites]) {
-	//	;
-    //}
+	if ([[self currentThreadsList] isFavorites]) {
+		[[self threadsListTable] deselectAll : nil];
+    }
 }
 
 @end

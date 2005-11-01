@@ -167,7 +167,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	iter_ = [[self changedFavItemsPool] objectEnumerator];
 	
 	while ((anItem_ = [iter_ nextObject]) != nil) {
-		if (![[self favoritesItemsIndex] containsObject : anItem_])
+		if ((![[self favoritesItemsIndex] containsObject : anItem_]) || (![[NSFileManager defaultManager] fileExistsAtPath : anItem_]))
 			[array_ addObject : anItem_];
 	}
 

@@ -261,6 +261,39 @@ extern void margeThreadAttributesWithContentDict(NSMutableDictionary*, NSDiction
 @end
 
 @implementation w2chFavoriteItemList(ListImport)
++ (void) clearAttributes : (NSMutableDictionary *) attributes
+{
+	// ------ 必要ない内容は捨てる。------
+	NSString *removeKeys_[] = 
+				{
+					CMRThreadNumberOfUpdatedKey,
+					CMRThreadLastLoadedNumberKey,
+					CMRThreadCreatedDateKey,
+					CMRThreadModifiedDateKey,
+					ThreadPlistContentsKey,
+					ThreadPlistLengthKey,
+					CMRThreadWindowFrameKey,
+					CMRThreadLastReadedIndexKey,
+					CMRThreadVisibleRangeKey
+				};
+	unsigned		i, cnt;
+	
+	cnt = UTILNumberOfCArray(removeKeys_);
+	for(i = 0; i < cnt; i++)
+		[attributes removeObjectForKey : removeKeys_[i]];
+	
+	// ステータスをクリア
+	[attributes setUnsignedInt : ThreadNoCacheStatus
+						forKey : CMRThreadStatusKey];
+	{
+		int	idx_;
+		idx_ = [[[CMRFavoritesManager defaultManager] favoritesItemsIndex] indexOfObject : [attributes objectForKey : CMRThreadLogFilepathKey]];
+		if (idx_ != NSNotFound) {
+			[[[CMRFavoritesManager defaultManager] favoritesItemsArray] replaceObjectAtIndex : idx_ withObject : attributes];
+		}
+	}
+}
+
 - (void) _applyFavItemsPool
 {
 	// Nothing need to be done.

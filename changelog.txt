@@ -1,3 +1,17 @@
+2005-11-02 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/w2chFavoriteItemList.m
+	* application/source/browser/CMRFavoritesManager.m
+		お気に入り項目を「ログだけ削除」した後、所属板のスレッド一覧に正しく反映されなかったり、
+		再び「お気に入り」を表示するとステータスが不正確に表示される問題を修正。
+	* application/source/browser/CMRBrowser-Action.m
+		3ペイン時に、特定の状況でスレッドが削除できないことがあった問題を修正。
+	* application/subproj/previewer/BSImagePreviewInspector.m
+		プレビューインスペクタ
+		- 「常にキーウインドウとして開く」ように省略時設定を変更。
+		- インスペクタの透明度を設定可能にした
+		- 「アクション」プルダウンメニューの validation をボタン丸ごとではなく、各メニュー項目単位で
+		　行うようにした
+		- プログレスインジケータが回り始めるタイミングを調整
 2005-10-31 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRFavoritesManager.m
 		dat 落ちしているスレッドをお気に入りから「ログを削除」した後、お気に入りへの登録を削除できなくなる

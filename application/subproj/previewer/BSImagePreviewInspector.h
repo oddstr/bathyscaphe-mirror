@@ -54,6 +54,9 @@
 - (NSString *) saveDirectory;
 - (void) setSaveDirectory : (NSString *) aString;
 
+- (float) alphaValue;
+- (void) setAlphaValue : (float) newValue;
+
 // Actions
 - (IBAction) openImage : (id) sender;
 - (IBAction) openImageWithPreviewApp : (id) sender;

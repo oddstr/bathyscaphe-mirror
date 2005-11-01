@@ -17,6 +17,7 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInspector Panel Autosave";
 static NSString *const kIPIAlwaysKeyWindowKey	= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Always Key Window";
 static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Save Directory";
+static NSString *const kIPIAlphaValueKey		= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Window Alpha Value";
 
 @implementation BSImagePreviewInspector
 - (id) initWithPreferences : (AppDefaults *) prefs
@@ -45,9 +46,10 @@ static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePr
 
 - (void) awakeFromNib
 {
-	[(NSPanel *)[self window] setBecomesKeyOnlyIfNeeded : (NO == [self alwaysBecomeKey])];
 	[[self window] setFrameAutosaveName : kIPIFrameAutoSaveNameKey];
 	[[self window] setDelegate : self];
+	[(NSPanel *)[self window] setBecomesKeyOnlyIfNeeded : (NO == [self alwaysBecomeKey])];
+	[[self window] setAlphaValue : [self alphaValue]];
 }
 
 #pragma mark Accessors
@@ -133,7 +135,7 @@ static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePr
 - (BOOL) alwaysBecomeKey
 {
 	return [[[self preferences] imagePreviewerPrefsDict] boolForKey : kIPIAlwaysKeyWindowKey
-													   defaultValue : NO];
+													   defaultValue : YES];
 }
 - (void) setAlwaysBecomeKey : (BOOL) alwaysKey
 {
@@ -150,6 +152,18 @@ static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePr
 - (void) setSaveDirectory : (NSString *) aString
 {
 	[[[self preferences] imagePreviewerPrefsDict] setObject : aString forKey : kIPISaveDirectoryKey];
+}
+
+- (float) alphaValue
+{
+	return [[[self preferences] imagePreviewerPrefsDict] floatForKey : kIPIAlphaValueKey
+														defaultValue : 1.0];
+}
+
+- (void) setAlphaValue : (float) newValue
+{
+	[[[self preferences] imagePreviewerPrefsDict] setFloat : newValue forKey : kIPIAlphaValueKey];
+	[[self window] setAlphaValue : newValue];
 }
 
 #pragma mark Actions
@@ -246,12 +260,10 @@ static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePr
 		[targetBtn setTitle : [selfBundle localizedStringForKey : @"Cancel" value : @"Cancel" table : nil]];
 		[targetBtn setTarget : self];
 		[targetBtn setAction : @selector(cancelDownload:)];
-		[[self actionBtn] setEnabled : NO];
 	} else {
 		[targetBtn setTitle : [selfBundle localizedStringForKey : @"Save" value : @"Save" table : nil]];
 		[targetBtn setTarget : self];
 		[targetBtn setAction : @selector(saveImage:)];
-		[[self actionBtn] setEnabled : YES];
 	}
 }
 
@@ -269,6 +281,7 @@ static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePr
 		[[self imageView] setImage : nil];
 
 	[self setSourceURL : anURL];
+	[[self progIndicator] startAnimation : self];
 	[self switchActionToCancelMode : YES];
 	return YES;
 }
@@ -293,6 +306,16 @@ static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePr
 	imageExtensions = [NSImage imageFileTypes];
 	
 	return [imageExtensions containsObject : extension];
+}
+
+#pragma mark Validation
+
+- (BOOL) validateMenuItem : (NSMenuItem *) anItem
+{
+	SEL action_ = [anItem action];
+	if (action_ == nil) return NO;
+	if (action_ == @selector(beginSettingsSheet:)) return YES;
+	return ([self sourceURL] != nil);
 }
 
 #pragma mark NSApp Notification
@@ -336,10 +359,10 @@ static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePr
 	[self setDownloadedFileDestination : asDstPath];
 }
 
-- (void) download : (NSURLDownload *) dl didReceiveDataOfLength : (unsigned) len
+/*- (void) download : (NSURLDownload *) dl didReceiveDataOfLength : (unsigned) len
 {
 	[[self progIndicator] startAnimation : self];
-}
+}*/
 
 - (void) downloadDidFinish : (NSURLDownload *) dl
 {

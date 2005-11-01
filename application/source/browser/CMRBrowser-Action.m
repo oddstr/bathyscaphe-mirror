@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.23 2005/10/22 14:48:54 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.24 2005/11/01 22:09:49 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -341,7 +341,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 			if ([CMRPref quietDeletion]) {
 				[self forceDeleteThread : sender];
 			} else {
-				[self _showDeletionAlertSheet : sender ofType : BSThreadAtViewerDeletionType allowRetry : YES];
+				[self _showDeletionAlertSheet : [self path] ofType : BSThreadAtViewerDeletionType allowRetry : YES];
 			}
 			return;
 		} else {
