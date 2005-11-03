@@ -1,3 +1,19 @@
+2005-11-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/preferences/AppDefaults-ThreadViewer.m
+		リンクの「クリック」と「option-クリック」での挙動を逆転する設定を追加。
+		defaults write jp.tsawada2.BathyScaphe invertPreviewerLinks -bool YES(NO)
+		- YES：クリックでプレビューを試み、option-クリックで常に Web ブラウザにスルーパス
+		- NO：クリックで Web ブラウザにスルーパス、option-クリックでプレビューを試みる
+		- デフォルト：YES
+	* application/source/thread/CMRThreadViewer-Link.m
+		リンクをクリックしたときの振る舞いを一部変更。
+		上記「invertPreviewerLinks」の設定によって、option-クリックと通常のクリックの動作を
+		逆転できる。また、ImagePreviewer.plugin に渡す場合でも、プラグインの validateLink: に
+		一度リンクを渡して、YES が返った場合のみプラグインで表示させるようにした（NO が返った場合は
+		Web ブラウザで開く）。
+		- 正確には、プラグインと言うか、KeyValueTemplates.plist の "Thread - LaunchExternalProgramOnPreviewLink"
+		で設定された動作を行う。
+=================================================
 2005-11-02 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/w2chFavoriteItemList.m
 	* application/source/browser/CMRFavoritesManager.m

@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-ThreadViewer.m,v 1.3 2005/10/08 02:46:39 tsawada2 Exp $
+  * $Id: AppDefaults-ThreadViewer.m,v 1.4 2005/11/03 01:06:19 tsawada2 Exp $
   * 
   * AppDefaults-ThreadViewer.m
   *
@@ -19,6 +19,7 @@
 #define kPrefOpenInBrowserTypeKey			@"Open In Browser Setting"
 #define kPrefShowsAllWhenDownloadedKey		@"ShowsAllWhenDownloaded"
 #define kPrefShowsPoofAnimationKey			@"ShowsPoofOnInvisibleAbone"
+#define kPrefPreviewLinkDirectlyKey			@"InvertPreviewerLinks"
 
 static NSString *const kPrefFirstVisibleKey	= @"FirstVisible";
 static NSString *const kPrefLastVisibleKey	= @"LastVisible";
@@ -195,6 +196,18 @@ static NSString *const kPrefLastVisibleKey	= @"LastVisible";
 	[self _resetDefaultVisibleRange];
 }
 
+#pragma mark SecondFlight Additions
+- (BOOL) previewLinkWithNoModifierKey
+{
+	return [[self defaults] boolForKey : kPrefPreviewLinkDirectlyKey
+						  defaultValue : YES];
+}
+
+- (void) setPreviewLinkWithNoModifierKey : (BOOL) previewDirectly
+{
+	[[self defaults] setBool : previewDirectly
+					  forKey : kPrefPreviewLinkDirectlyKey];
+}
 
 #pragma mark -
 - (void) _loadThreadViewerSettings

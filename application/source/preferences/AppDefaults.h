@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.21 2005/10/22 06:25:54 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.22 2005/11/03 01:06:19 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -378,6 +378,10 @@ enum {
 - (void) setFirstVisibleCount : (unsigned int) aValue;
 - (unsigned int) lastVisibleCount;
 - (void) setLastVisibleCount : (unsigned int) aValue;
+
+/* SecondFlight Additions */
+- (BOOL) previewLinkWithNoModifierKey;
+- (void) setPreviewLinkWithNoModifierKey : (BOOL) previewDirectly;
 
 - (void) _loadThreadViewerSettings;
 - (BOOL) _saveThreadViewerSettings;

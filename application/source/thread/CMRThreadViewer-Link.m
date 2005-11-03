@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.8 2005/10/15 09:45:42 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.9 2005/11/03 01:06:19 tsawada2 Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -378,7 +378,8 @@ static NSString *previewSourceHTMLFilepath(NSString *resourceName, NSString *aTy
 	previewURL_ = [NSURL URLWithLink : aLink];
 	tmp = [CMRPref sharedImagePreviewer];
 	if (!tmp) return NO;
-	return [tmp showImageWithURL : previewURL_];
+	return ([tmp validateLink : previewURL_] ? [tmp showImageWithURL : previewURL_]
+											 : NO);
 }
 
 - (BOOL) previewLink : (id) aLink
@@ -409,6 +410,7 @@ static NSString *previewSourceHTMLFilepath(NSString *resourceName, NSString *aTy
 
 - (BOOL) tryPreviewLink : (id) aLink
 {
+	BOOL			noModifier_ = [CMRPref previewLinkWithNoModifierKey];
 	NSEvent			*theEvent;
 	unsigned int	flags_;
 	
@@ -416,10 +418,12 @@ static NSString *previewSourceHTMLFilepath(NSString *resourceName, NSString *aTy
 	UTILAssertNotNil(theEvent);
 	
 	flags_ = [theEvent modifierFlags];
-	if ( !(flags_ & NSAlternateKeyMask) )
-		return NO;
-	
-	return [self previewLink : aLink];
+	if (!(flags_ & NSAlternateKeyMask))
+		return (noModifier_ ? [self previewLink : aLink]
+							: NO);
+
+	return (noModifier_ ? NO
+						: [self previewLink : aLink]);
 }
 
 
