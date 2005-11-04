@@ -1,12 +1,9 @@
-//:CMRFavoritesManager.h
 /**
+  * $Id: CMRFavoritesManager.h,v 1.3 2005/11/04 10:32:36 tsawada2 Exp $
   *
-  *
-  *
-  * @author Takanori Ishikawa
-  * @author http://www15.big.or.jp/~takanori/
-  *
+  * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
+
 #import <Foundation/Foundation.h>
 
 
@@ -20,7 +17,6 @@ typedef enum {
 @interface CMRFavoritesManager : NSObject
 {
 	NSMutableArray	*_favoritesItemsArray;
-	//NSMutableArray	*_favoritesItemsIndex;
 	NSMutableArray	*_changedFavItemsPool;
 }
 
@@ -29,7 +25,6 @@ typedef enum {
 - (NSMutableArray *) favoritesItemsArray;
 - (void) setFavoritesItemsArray : (NSMutableArray *) anArray;
 - (NSMutableArray *) favoritesItemsIndex;
-//- (void) setFavoritesItemsIndex : (NSMutableArray *) anArray;
 
 - (NSMutableArray *) changedFavItemsPool;
 - (void) setChangedFavItemsPool : (NSMutableArray *) anArray;
@@ -60,9 +55,6 @@ typedef enum {
 
 
 
-//////////////////////////////////////////////////////////////////////
-////////////////////// [ íËêîÇ‚É}ÉNÉçíuä∑ ] //////////////////////////
-//////////////////////////////////////////////////////////////////////
 /**
   * userInfo:
   * 	@"File"	-- filepath to be performed (NSString)

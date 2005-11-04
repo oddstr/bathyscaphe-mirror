@@ -1,13 +1,15 @@
 /**
-  * $Id: CMRFavoritesManager.m,v 1.5 2005/11/04 10:12:08 tsawada2 Exp $
+  * $Id: CMRFavoritesManager.m,v 1.6 2005/11/04 10:32:36 tsawada2 Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
 
-#import "CMRFavoritesManager_p.h"
-#import "CMRBBSSignature.h"
+#import "CMRFavoritesManager.h"
+#import "CocoMonar_Prefix.h"
+
+#import "CMRThreadAttributes.h"
 #import "CMRThreadsList_p.h"
-#import "UTILKit.h"
+#import <AppKit/NSDocumentController.h>
 
 NSString *const CMRFavoritesManagerDidLinkFavoritesNotification = @"CMRFavoritesManagerDidLinkFavoritesNotification";
 NSString *const CMRFavoritesManagerDidRemoveFavoritesNotification = @"CMRFavoritesManagerDidRemoveFavoritesNotification";

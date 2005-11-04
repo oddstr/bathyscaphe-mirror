@@ -15,7 +15,6 @@
 		870161A5082BE67100AEFDD0 /* CMRBrowser.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC3A04C698FA00A80005 /* CMRBrowser.h */; };
 		870161A6082BE67100AEFDD0 /* CMRBrowser_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC3C04C698FA00A80005 /* CMRBrowser_p.h */; };
 		870161A7082BE67100AEFDD0 /* CMRFavoritesManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC3D04C698FA00A80005 /* CMRFavoritesManager.h */; };
-		870161A8082BE67100AEFDD0 /* CMRFavoritesManager_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC3F04C698FA00A80005 /* CMRFavoritesManager_p.h */; };
 		870161A9082BE67100AEFDD0 /* CMRThreadsList.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC4804C698FA00A80005 /* CMRThreadsList.h */; };
 		870161AA082BE67100AEFDD0 /* CMRThreadsList_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC4A04C698FA00A80005 /* CMRThreadsList_p.h */; };
 		870161AB082BE67100AEFDD0 /* CMRThreadsListReadFileTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC4B04C698FA00A80005 /* CMRThreadsListReadFileTask.h */; };
@@ -1076,7 +1075,6 @@
 		F324DC3C04C698FA00A80005 /* CMRBrowser_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRBrowser_p.h; sourceTree = "<group>"; };
 		F324DC3D04C698FA00A80005 /* CMRFavoritesManager.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRFavoritesManager.h; sourceTree = "<group>"; };
 		F324DC3E04C698FA00A80005 /* CMRFavoritesManager.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRFavoritesManager.m; sourceTree = "<group>"; };
-		F324DC3F04C698FA00A80005 /* CMRFavoritesManager_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRFavoritesManager_p.h; sourceTree = "<group>"; };
 		F324DC4004C698FA00A80005 /* CMRThreadsList-DataSource.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadsList-DataSource.m"; sourceTree = "<group>"; };
 		F324DC4104C698FA00A80005 /* CMRThreadsList-Download.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadsList-Download.m"; sourceTree = "<group>"; };
 		F324DC4304C698FA00A80005 /* CMRThreadsList-Filter.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadsList-Filter.m"; sourceTree = "<group>"; };
@@ -1783,7 +1781,6 @@
 			isa = PBXGroup;
 			children = (
 				F324DC3D04C698FA00A80005 /* CMRFavoritesManager.h */,
-				F324DC3F04C698FA00A80005 /* CMRFavoritesManager_p.h */,
 				F324DC3E04C698FA00A80005 /* CMRFavoritesManager.m */,
 			);
 			name = Favorites;
@@ -2665,7 +2662,6 @@
 				870161A5082BE67100AEFDD0 /* CMRBrowser.h in Headers */,
 				870161A6082BE67100AEFDD0 /* CMRBrowser_p.h in Headers */,
 				870161A7082BE67100AEFDD0 /* CMRFavoritesManager.h in Headers */,
-				870161A8082BE67100AEFDD0 /* CMRFavoritesManager_p.h in Headers */,
 				870161A9082BE67100AEFDD0 /* CMRThreadsList.h in Headers */,
 				870161AA082BE67100AEFDD0 /* CMRThreadsList_p.h in Headers */,
 				870161AB082BE67100AEFDD0 /* CMRThreadsListReadFileTask.h in Headers */,

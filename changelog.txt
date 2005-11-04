@@ -1,4 +1,6 @@
 2005-11-04 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRFavoritesManager_p.h
+		[削除] CMRFavoritesManager.h に統合して削除。
 	* application/source/browser/CMRThreadsList-DataSource.m
 	* application/source/thread/CMRThreadViewer-Action.m
 	* application/source/browser/CMRThreadsListReadFileTask.m
