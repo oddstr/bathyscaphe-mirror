@@ -21,8 +21,8 @@
 		<dict>
 			<key>guideLocations</key>
 			<array>
-				<string>Horizontal:173.000000</string>
-				<string>Vertical:150.000000</string>
+				<string>Horizontal:12.000000</string>
+				<string>Vertical:290.000000</string>
 			</array>
 			<key>guidesLocked</key>
 			<false/>

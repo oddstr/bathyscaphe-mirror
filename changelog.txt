@@ -1,4 +1,20 @@
+2005-11-04 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRThreadsList-DataSource.m
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/browser/CMRThreadsListReadFileTask.m
+		CMRFavoritesManager の仕様変更に伴い内部の処理を一部変更。
+		また、CocoMonar 1.0.9.6 以前の古いお気に入りをコンバートする機能を廃止した。
+	* application/source/browser/CMRFavoritesManager.m
+		CMRFavoritesManager の内部コードを刷新。
+		- 少し速度が犠牲になったが、信頼性は増したはず。
 2005-11-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRFavoritesManager.m
+		まれにクラッシュする可能性があった箇所を修正（したつもり）。
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
+		プレビューインスペクタ
+		- スライダの最小値を 0.1 にすることで、透明度を 0.1 未満に設定できないようにした（スライダの左端が 0.1）
+		- 「キーウインドウのときは半透明にしない」設定を追加した
 	* application/source/preferences/AppDefaults-ThreadViewer.m
 		リンクの「クリック」と「option-クリック」での挙動を逆転する設定を追加。
 		defaults write jp.tsawada2.BathyScaphe invertPreviewerLinks -bool YES(NO)

@@ -142,7 +142,7 @@
 	UTILAssertNotNil(folder);
 	if ([[self boardName] isEqualToString : CMXFavoritesDirectoryName]) {
 		list_ = [[CMRFavoritesManager defaultManager] favoritesItemsArray];
-		if([list_ count] == 0 && NO == [CMRPref isFavoritesImported]) {
+		/*if([list_ count] == 0 && NO == [CMRPref isFavoritesImported]) {
 			NSLog(@"Importing old favorites...");
 			list_ = [CMRThreadsList threadsListTemplateWithPath : [folder filepath]];
 			if (list_ != nil) {
@@ -156,7 +156,7 @@
 			}
 			
 			[CMRPref setIsFavoritesImported : YES];
-		}
+		}*/
 	} else {
 		list_ = [NSArray arrayWithContentsOfFile : [self threadsListPath]];
 	}

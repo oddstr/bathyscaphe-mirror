@@ -72,3 +72,11 @@
 //- (void) setThreadsListRowHeightNum : (NSNumber *) rowHeight;
 //- (void) setThreadsListIntercellSpacingHeight : (NSNumber *) height;
 //- (void) setThreadsListIntercellSpacingWidth : (NSNumber *) width;
+
+//deprecated in SecondFlight and later.
+
+/*
+//1.0.9.6 以前のお気に入りをインポートしたかどうか 
+- (BOOL) isFavoritesImported;
+- (void) setIsFavoritesImported : (BOOL) TorF;
+*/

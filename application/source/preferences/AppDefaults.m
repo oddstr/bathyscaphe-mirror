@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.8 2005/10/15 09:45:42 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.9 2005/11/04 10:12:09 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -321,7 +321,7 @@ NS_ENDHANDLER
 						forKey : AppDefaultsDefaultKoteHanListKey];
 }
 
-#pragma mark -
+/*#pragma mark -
 
 - (BOOL) isFavoritesImported
 {
@@ -334,7 +334,7 @@ NS_ENDHANDLER
 {
 	[[self defaults] setBool : TorF
 					  forKey : AppDefaultsIsFavImportedKey];
-}
+}*/
 
 #pragma mark -
 

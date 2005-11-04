@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.22 2005/11/03 01:06:19 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.23 2005/11/04 10:12:09 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -94,10 +94,6 @@
 - (void) setDefaultReplyMailAddress : (NSString *) mail;
 - (NSArray *) defaultKoteHanList;
 - (void) setDefaultKoteHanList : (NSArray *) array;
-
-/* 1.0.9.6 以前のお気に入りをインポートしたかどうか */
-- (BOOL) isFavoritesImported;
-- (void) setIsFavoritesImported : (BOOL) TorF;
 
 /* 最後に開いた板 */
 - (CMRBBSSignature *) browserLastBoard;

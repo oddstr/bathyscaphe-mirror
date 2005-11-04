@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.11 2005/10/27 13:07:53 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.12 2005/11/04 10:12:09 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -35,7 +35,7 @@
 	path_ = [CMRThreadAttributes pathFromDictionary : thread_];
 	UTILAssertNotNil(path_);
 	
-	return ([[CMRFavoritesManager defaultManager] avalableOperationWithPath : path_]);
+	return ([[CMRFavoritesManager defaultManager] availableOperationWithPath : path_]);
 }
 - (CMRReplyMessenger *) messenger : (BOOL) create
 {

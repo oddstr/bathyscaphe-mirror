@@ -20,7 +20,7 @@ typedef enum {
 @interface CMRFavoritesManager : NSObject
 {
 	NSMutableArray	*_favoritesItemsArray;
-	NSMutableArray	*_favoritesItemsIndex;
+	//NSMutableArray	*_favoritesItemsIndex;
 	NSMutableArray	*_changedFavItemsPool;
 }
 
@@ -29,7 +29,7 @@ typedef enum {
 - (NSMutableArray *) favoritesItemsArray;
 - (void) setFavoritesItemsArray : (NSMutableArray *) anArray;
 - (NSMutableArray *) favoritesItemsIndex;
-- (void) setFavoritesItemsIndex : (NSMutableArray *) anArray;
+//- (void) setFavoritesItemsIndex : (NSMutableArray *) anArray;
 
 - (NSMutableArray *) changedFavItemsPool;
 - (void) setChangedFavItemsPool : (NSMutableArray *) anArray;
@@ -41,7 +41,7 @@ typedef enum {
 
 
 @interface CMRFavoritesManager(Management)
-- (CMRFavoritesOperation) avalableOperationWithPath : (NSString *) filepath;
+- (CMRFavoritesOperation) availableOperationWithPath : (NSString *) filepath;
 - (BOOL) canCreateFavoriteLinkFromPath : (NSString *) filepath;
 - (BOOL) favoriteItemExistsOfThreadPath : (NSString *) filepath;
 

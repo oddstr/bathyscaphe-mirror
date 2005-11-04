@@ -1,21 +1,14 @@
-//:CMRFavoritesManager.m
 /**
+  * $Id: CMRFavoritesManager.m,v 1.5 2005/11/04 10:12:08 tsawada2 Exp $
   *
-  * @see CMRThreadAttributes.h
-  *
-  * @author Takanori Ishikawa
-  * @author http://www15.big.or.jp/~takanori/
-  * @version 1.1.1d1 (05/03/07  11:43:00 AM)
-  *
+  * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
+
 #import "CMRFavoritesManager_p.h"
 #import "CMRBBSSignature.h"
 #import "CMRThreadsList_p.h"
+#import "UTILKit.h"
 
-
-//////////////////////////////////////////////////////////////////////
-////////////////////// [ 定数やマクロ置換 ] //////////////////////////
-//////////////////////////////////////////////////////////////////////
 NSString *const CMRFavoritesManagerDidLinkFavoritesNotification = @"CMRFavoritesManagerDidLinkFavoritesNotification";
 NSString *const CMRFavoritesManagerDidRemoveFavoritesNotification = @"CMRFavoritesManagerDidRemoveFavoritesNotification";
 
@@ -53,7 +46,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 {
 	[[NSNotificationCenter defaultCenter] removeObserver : self];
 	[_favoritesItemsArray release];
-	[_favoritesItemsIndex release];
 	[_changedFavItemsPool release];
 	[super dealloc];
 }
@@ -83,7 +75,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 														[[self class] defaultFilepath]];
 	}
 	if (nil == _favoritesItemsArray) {
-		_favoritesItemsArray = [[NSMutableArray empty] mutableCopy];
+		_favoritesItemsArray = [[NSMutableArray alloc] init];
 	}
 	
 	return _favoritesItemsArray;
@@ -94,44 +86,33 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	id		tmp;
 	
 	tmp = _favoritesItemsArray;
-	_favoritesItemsArray = [anArray mutableCopyWithZone : [self zone]];
+	_favoritesItemsArray = [anArray retain];
 	[tmp release];
 }
 
 - (NSMutableArray *) favoritesItemsIndex
 {
-	if (nil == _favoritesItemsIndex) {
-		if ([[self favoritesItemsArray] isEmpty]) {
-			_favoritesItemsIndex = [[NSMutableArray empty] mutableCopy];
-		} else {
-			NSEnumerator	*iter_;
-			NSDictionary	*anItem_;	// each favorite item
+	NSMutableArray	*favItems_ = [self favoritesItemsArray];
 
-			_favoritesItemsIndex = [[NSMutableArray empty] mutableCopy];
+	if ([favItems_ count] == 0) {
+		return [NSMutableArray array];
+	} else {
+		NSEnumerator	*iter_;
+		NSDictionary	*anItem_;	// each favorite item
+		NSMutableArray *tmp_ = [NSMutableArray arrayWithCapacity : [favItems_ count]];
 
-			iter_ = [[self favoritesItemsArray] objectEnumerator];
-	
-			while ((anItem_ = [iter_ nextObject]) != nil) {
-				id	itemPath_;
-		
-				itemPath_ = [CMRThreadAttributes pathFromDictionary : anItem_];
-				if (itemPath_ == nil) itemPath_ = [NSNull null];
-				
-				[_favoritesItemsIndex addObject : itemPath_];
-			}
+		iter_ = [favItems_ objectEnumerator];
+
+		while ((anItem_ = [iter_ nextObject]) != nil) {
+			id	itemPath_;
+			itemPath_ = [CMRThreadAttributes pathFromDictionary : anItem_];
+			UTILAssertNotNil(itemPath_);
+
+			[tmp_ addObject : itemPath_];
 		}
-	}
-	
-	return _favoritesItemsIndex;
-}		
 
-- (void) setFavoritesItemsIndex : (NSMutableArray *) anArray
-{
-	id		tmp;
-	
-	tmp = _favoritesItemsIndex;
-	_favoritesItemsIndex = [anArray mutableCopyWithZone : [self zone]];
-	[tmp release];
+		return tmp_;
+	}
 }
 
 // このへん、暫定的な実装
@@ -142,7 +123,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 														[[self class] subFilepath]];
 	}
 	if (nil == _changedFavItemsPool) {
-		_changedFavItemsPool = [[NSMutableArray empty] mutableCopy];
+		_changedFavItemsPool = [[NSMutableArray alloc] initWithCapacity : 50];
 	}
 	
 	return _changedFavItemsPool;
@@ -153,7 +134,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	id		tmp;
 	
 	tmp = _changedFavItemsPool;
-	_changedFavItemsPool = [anArray mutableCopyWithZone : [self zone]];
+	_changedFavItemsPool = [anArray retain];
 	[tmp release];
 }
 
@@ -195,7 +176,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 #pragma mark -
 
 @implementation CMRFavoritesManager(Management)
-- (CMRFavoritesOperation) avalableOperationWithPath : (NSString *) filepath
+- (CMRFavoritesOperation) availableOperationWithPath : (NSString *) filepath
 {
 	NSString				*fileType_;
 	NSDocumentController	*docc_;
@@ -222,27 +203,13 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 - (BOOL) canCreateFavoriteLinkFromPath : (NSString *) filepath
 {
-	return (CMRFavoritesOperationLink == [self avalableOperationWithPath : filepath]);
+	return (CMRFavoritesOperationLink == [self availableOperationWithPath : filepath]);
 }
 
 - (BOOL) favoriteItemExistsOfThreadPath : (NSString *) filepath
 {
-	NSEnumerator	*iter_;
-	NSDictionary	*anItem_;	// each favorite item
-
-	if (nil == filepath) return NO;
-
-	iter_ = [[self favoritesItemsArray] objectEnumerator];
-	
-	while ((anItem_ = [iter_ nextObject]) != nil) {
-		NSString	*itemPath_;
-		
-		itemPath_ = [CMRThreadAttributes pathFromDictionary : anItem_];
-		if ([itemPath_ isEqualToString : filepath])
-			return YES;
-	}
-	
-	return NO;
+	UTILAssertNotNil(filepath);
+	return [[self favoritesItemsIndex] containsObject : filepath];
 }
 	
 - (BOOL) addFavoriteWithThread : (NSDictionary *) thread
@@ -251,10 +218,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	if(nil == thread) return NO;
 
 	path_ = [CMRThreadAttributes pathFromDictionary : thread];
-	if(NO == [self canCreateFavoriteLinkFromPath : path_]) return NO;
+	if(path_ == nil || NO == [self canCreateFavoriteLinkFromPath : path_]) return NO;
 	
 	[[self favoritesItemsArray] addObject : thread];
-	[[self favoritesItemsIndex] addObject : path_];
 	
 	// write Now
 	[[self favoritesItemsArray] writeToFile : [[self class] defaultFilepath]
@@ -272,7 +238,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 {
 	NSDictionary	*attr_;
 	
-	if(NO == [self canCreateFavoriteLinkFromPath : filepath]) return NO;
+	if(filepath == nil || NO == [self canCreateFavoriteLinkFromPath : filepath]) return NO;
 	
 	attr_ = [CMRThreadsList attributesForThreadsListWithContentsOfFile : filepath];
 	if (attr_ == nil) return NO;
@@ -291,36 +257,21 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 - (BOOL) removeFromFavoritesWithFilePath : (NSString *) filepath
 {
-	NSEnumerator	*iter_;
-	NSDictionary	*anItem_;	// each favorite item
-	id				deleteTarget_ = nil;
+	int				idx_;
 
 	if (nil == filepath) return NO;
-
-	iter_ = [[self favoritesItemsArray] objectEnumerator];
 	
-	while ((anItem_ = [iter_ nextObject]) != nil) {
-		NSString	*itemPath_;
-		
-		itemPath_ = [CMRThreadAttributes pathFromDictionary : anItem_];
-		if ([itemPath_ isEqualToString : filepath]) {
-			deleteTarget_ = anItem_;
-			break;
-		}
-	}
+	idx_ = [[self favoritesItemsIndex] indexOfObject : filepath];
+	if (idx_ == NSNotFound) return NO;
 
-	if (!(deleteTarget_ == nil)) {
-		[[self favoritesItemsArray] removeObject : deleteTarget_];
-		[[self favoritesItemsIndex] removeObject : filepath];
+	[[self favoritesItemsArray] removeObjectAtIndex : idx_];
 
-		UTILNotifyInfo3(
-			CMRFavoritesManagerDidRemoveFavoritesNotification,
-			filepath,
-			kAppFavoritesManagerInfoFilesKey);
+	UTILNotifyInfo3(
+		CMRFavoritesManagerDidRemoveFavoritesNotification,
+		filepath,
+		kAppFavoritesManagerInfoFilesKey);
 
-		return YES;
-	}
-	return NO;
+	return YES;
 }
 
 - (void) removeFromFavoritesWithPathArray : (NSArray *) pathArray_
@@ -356,7 +307,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	
 	index = isAscending_ ? index : (c - index); 
 	
-	insertArray_ = [[NSMutableArray empty] mutableCopy];
+	insertArray_ = [NSMutableArray arrayWithCapacity : c];
 	
 	aboveArray_ = [NSMutableArray arrayWithArray : 
 								[[self favoritesItemsArray] subarrayWithRange : NSMakeRange(0, index)]];
@@ -376,15 +327,12 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 		[belowArray_ removeObject : favItem];
 	}
 	
-	newFavAry_ = [[NSMutableArray empty] mutableCopy];
+	newFavAry_ = [[NSMutableArray alloc] initWithCapacity : c];
 	[newFavAry_ addObjectsFromArray : aboveArray_];
 	[newFavAry_ addObjectsFromArray : insertArray_];
 	[newFavAry_ addObjectsFromArray : belowArray_];
 	
 	[self setFavoritesItemsArray : newFavAry_];
-	[self setFavoritesItemsIndex : nil];	// nil にすることで、次回新しい内容で favoritesItemIndex が再生成される
-
-	[insertArray_ release];
 	[newFavAry_ release];
 	
 	return isAscending_ ? [aboveArray_ count] : [belowArray_ count];

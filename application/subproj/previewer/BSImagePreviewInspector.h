@@ -57,6 +57,9 @@
 - (float) alphaValue;
 - (void) setAlphaValue : (float) newValue;
 
+- (BOOL) opaqueWhenKey;
+- (void) setOpaqueWhenKey : (BOOL) opaqueWhenKey;
+
 // Actions
 - (IBAction) openImage : (id) sender;
 - (IBAction) openImageWithPreviewApp : (id) sender;

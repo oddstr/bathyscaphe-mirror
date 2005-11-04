@@ -18,6 +18,7 @@ static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInsp
 static NSString *const kIPIAlwaysKeyWindowKey	= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Always Key Window";
 static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Save Directory";
 static NSString *const kIPIAlphaValueKey		= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Window Alpha Value";
+static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.ImagePreviewer:Opaque When Key Window";
 
 @implementation BSImagePreviewInspector
 - (id) initWithPreferences : (AppDefaults *) prefs
@@ -30,6 +31,11 @@ static NSString *const kIPIAlphaValueKey		= @"jp.tsawada2.BathyScaphe.ImagePrevi
 					selector : @selector(applicationWillTerminate:)
 					    name : NSApplicationWillTerminateNotification
 					  object : NSApp];
+		[[NSNotificationCenter defaultCenter]
+				 addObserver : self
+					selector : @selector(keyWindowChanged:)
+					    name : NSWindowDidBecomeKeyNotification
+					  object : nil];
 	}
 	return self;
 }
@@ -164,6 +170,17 @@ static NSString *const kIPIAlphaValueKey		= @"jp.tsawada2.BathyScaphe.ImagePrevi
 {
 	[[[self preferences] imagePreviewerPrefsDict] setFloat : newValue forKey : kIPIAlphaValueKey];
 	[[self window] setAlphaValue : newValue];
+}
+
+- (BOOL) opaqueWhenKey
+{
+	return [[[self preferences] imagePreviewerPrefsDict] boolForKey : kIPIOpaqueWhenKeyWindowKey
+													   defaultValue : NO];
+}
+
+- (void) setOpaqueWhenKey : (BOOL) opaqueWhenKey
+{
+	[[[self preferences] imagePreviewerPrefsDict] setBool : opaqueWhenKey forKey : kIPIOpaqueWhenKeyWindowKey];
 }
 
 #pragma mark Actions
@@ -318,7 +335,7 @@ static NSString *const kIPIAlphaValueKey		= @"jp.tsawada2.BathyScaphe.ImagePrevi
 	return ([self sourceURL] != nil);
 }
 
-#pragma mark NSApp Notification
+#pragma mark Notifications
 
 - (void) applicationWillTerminate : (NSNotification *) notification
 {		
@@ -326,6 +343,18 @@ static NSString *const kIPIAlphaValueKey		= @"jp.tsawada2.BathyScaphe.ImagePrevi
 	_dlFolder = nil;
 
 	[[NSNotificationCenter defaultCenter] removeObserver : self];
+}
+
+- (void) keyWindowChanged : (NSNotification *) aNotification
+{
+	NSWindow	*window_ = [self window];
+	if([self opaqueWhenKey] && [window_ isVisible]) {
+		if([aNotification object] == window_) {
+			[window_ setAlphaValue : 1.0];
+		} else {
+			[window_ setAlphaValue : [self alphaValue]];
+		}
+	}
 }
 
 #pragma mark NSWindow Delegate
