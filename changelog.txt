@@ -1,3 +1,13 @@
+2005-11-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/preferences/AppDefaults-Account.m
+		「アカウント」環境設定で「変更を適用」をクリックしても、メールアドレスが正しく変更されないことがある問題を修正
+		（355@8th）
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/browser/w2chFavoriteItemList.m
+	* application/source/browser/CMRThreadsList-Remove.m
+	* application/source/thread/CMRThreadViewer-Action.m
+		「お気に入り」からログを削除すると、そのスレッドを「お気に入り」から削除するように仕様を再び変更した。
+		また、このへんの処理を見直し。さらに NSIndexSet を使用するように変更。
 2005-11-04 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRFavoritesManager_p.h
 		[削除] CMRFavoritesManager.h に統合して削除。

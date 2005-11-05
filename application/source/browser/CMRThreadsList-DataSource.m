@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.8 2005/11/04 10:12:08 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.9 2005/11/05 04:21:57 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -360,9 +360,25 @@ static NSString *statusImageNameForStatus(ThreadStatus s)
 	return rowIndex_;
 }
 
+- (NSArray *) threadFilePathArrayWithRowIndexSet : (NSIndexSet	*) anIndexSet
+									 inTableView : (NSTableView	*) tableView
+{
+	NSMutableArray	*pathArray_ = [NSMutableArray array];
+	unsigned int	arrayElement;
+	int				size = [anIndexSet lastIndex]+1;
+	NSRange			e = NSMakeRange(0, size);
+
+	while ([anIndexSet getIndexes:&arrayElement maxCount:1 inIndexRange:&e] > 0) {
+		NSString	*path_;
+		path_ = [self threadFilePathAtRowIndex : arrayElement inTableView : tableView status : NULL];
+		[pathArray_ addObject : path_];
+	}
+
+	return pathArray_;
+}
 
 - (NSArray *) threadFilePathArrayWithRowIndexArray : (NSArray	  *) anIndexArray
-									   inTableView : (NSTableView *)tableView
+									   inTableView : (NSTableView *) tableView
 {
 	NSEnumerator		*iter_;
 	NSNumber			*num_;
@@ -416,6 +432,6 @@ static NSString *statusImageNameForStatus(ThreadStatus s)
 		return;
 	}
 	filenames_ = [pboard_ propertyListForType : NSFilenamesPboardType];
-	[self tableView:nil removeFiles:filenames_ deleteFile:YES];
+	[self tableView : nil removeFiles : filenames_ delFavIfNecessary : YES];
 }
 @end

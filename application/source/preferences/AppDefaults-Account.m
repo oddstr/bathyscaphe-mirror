@@ -181,17 +181,10 @@ NS_ENDHANDLER
 										password : newPassword])
 		return NO;
 	
-	if(NO == [self hasAccountInKeychain]){
-		[self setX2chUserAccount : newAccount];
-		[[CMRKeychainManager defaultManager]
-					 createKeychainWithPassword : newPassword];
-		return YES;
-	}else{
-		[[CMRKeychainManager defaultManager]
-					 createKeychainWithPassword : newPassword];
-		return YES;
-	}
-	return NO;
+	[self setX2chUserAccount : newAccount];
+	[[CMRKeychainManager defaultManager]
+				 createKeychainWithPassword : newPassword];
+	return YES;
 }
 
 - (BOOL) deleteAccount

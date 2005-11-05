@@ -55,10 +55,13 @@
 - (void) cleanUpItemsToBeRemoved : (NSArray *) files;
 - (BOOL) tableView : (NSTableView *) tableView
 	   removeItems : (NSArray	  *) rows
-		deleteFile : (BOOL         ) flag;
+ delFavIfNecessary : (BOOL         ) flag;
+- (BOOL) tableView : (NSTableView	*) tableView
+	removeIndexSet : (NSIndexSet	*) indexSet
+ delFavIfNecessary : (BOOL			 ) flag;
 - (BOOL) tableView : (NSTableView	*) tableView
 	   removeFiles : (NSArray		*) files
-		deleteFile : (BOOL			 ) flag;
+ delFavIfNecessary : (BOOL			 ) flag;
 @end
 
 

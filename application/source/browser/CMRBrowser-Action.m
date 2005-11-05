@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.24 2005/11/01 22:09:49 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.25 2005/11/05 04:21:57 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -339,7 +339,10 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 		if ([self shouldShowContents]) {
 			/* 3ペイン表示なら、ログ表示領域で表示中のスレを削除する */
 			if ([CMRPref quietDeletion]) {
-				[self forceDeleteThread : sender];
+				NSString *path_ = [[self path] copy];
+				[self forceDeleteThreadAtPath : path_];
+				[self checkIfFavItemThenRemove : path_];
+				[path_ release];
 			} else {
 				[self _showDeletionAlertSheet : [self path] ofType : BSThreadAtViewerDeletionType allowRetry : YES];
 			}
@@ -357,8 +360,8 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 			[self _showDeletionAlertSheet : nil ofType : BSThreadAtFavoritesDeletionType allowRetry : (numOfSelected == 1)];
     } else {
 		[threadsList tableView : tableView
-			removeItems : [[tableView selectedRowEnumerator] allObjects]
-			deleteFile : YES];
+				removeIndexSet : [tableView selectedRowIndexes]
+			 delFavIfNecessary : YES];
 		[tableView reloadData];
 	}
 }
@@ -374,11 +377,14 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 	case NSAlertFirstButtonReturn: // delete
 		if (contextInfo == nil) {
 			[threadsList tableView : tableView
-					   removeItems : [[tableView selectedRowEnumerator] allObjects]
-						deleteFile : YES];
+					removeIndexSet : [tableView selectedRowIndexes]
+				 delFavIfNecessary : YES];
 			[tableView reloadData];
 		} else {
-			[self forceDeleteThread : contextInfo];
+			NSString *path_ = [[self path] copy];
+			[self forceDeleteThreadAtPath : path_];
+			[self checkIfFavItemThenRemove : path_];
+			[path_ release];
 		}
 		break;
 	case NSAlertThirdButtonReturn: // delete & reload
@@ -386,10 +392,10 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 			NSString *path_ = [[self path] copy];
 			if (contextInfo == nil) {
 				[threadsList tableView : tableView
-						   removeItems : [[tableView selectedRowEnumerator] allObjects]
-							deleteFile : YES];
+						removeIndexSet : [tableView selectedRowIndexes]
+					 delFavIfNecessary : NO];
 			} else {
-				[self forceDeleteThread : contextInfo];
+				[self forceDeleteThreadAtPath : path_];
 			}
 			[tableView reloadData];
 			[self performSelector : @selector(afterDeletionReTry:)

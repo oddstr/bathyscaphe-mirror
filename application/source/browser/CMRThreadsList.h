@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.h,v 1.2 2005/09/12 08:02:20 tsawada2 Exp $
+  * $Id: CMRThreadsList.h,v 1.3 2005/11/05 04:21:57 tsawada2 Exp $
   * 
   * CMRThreadsList.h
   *
@@ -134,6 +134,8 @@ typedef BOOL(*TLSearchFunction)(NSDictionary *, void *);
 
 
 @interface CMRThreadsList(DataSource)
+- (NSArray *) threadFilePathArrayWithRowIndexSet : (NSIndexSet	*) anIndexSet
+									 inTableView : (NSTableView	*) tableView;
 - (NSArray *) threadFilePathArrayWithRowIndexArray : (NSArray	  *) anIndexArray
 									   inTableView : (NSTableView *)tableView;
 - (ThreadStatus) threadStatusForThread : (NSDictionary *) aThread;

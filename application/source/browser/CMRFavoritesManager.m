@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFavoritesManager.m,v 1.6 2005/11/04 10:32:36 tsawada2 Exp $
+  * $Id: CMRFavoritesManager.m,v 1.7 2005/11/05 04:21:57 tsawada2 Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
@@ -283,10 +283,11 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 	if (nil == pathArray_ || [pathArray_ count] == 0 ) return;
 	iter_ = [pathArray_ objectEnumerator];
-	
+
 	while ((aPath_ = [iter_ nextObject]) != nil) {
-		if ([[self favoritesItemsIndex] containsObject : aPath_])
+		if ([[self favoritesItemsIndex] containsObject : aPath_]) {
 			[self removeFromFavoritesWithFilePath : aPath_];
+		}
 	}
 }
 

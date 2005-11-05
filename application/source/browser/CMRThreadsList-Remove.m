@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-Remove.m,v 1.1 2005/05/11 17:51:04 tsawada2 Exp $
+  * $Id: CMRThreadsList-Remove.m,v 1.2 2005/11/05 04:21:57 tsawada2 Exp $
   * 
   * CMRThreadsList-Remove.m
   *
@@ -51,26 +51,39 @@
 }
 - (BOOL) tableView : (NSTableView *) tableView
 	   removeItems : (NSArray	  *) rows
-		deleteFile : (BOOL         ) flag
+ delFavIfNecessary : (BOOL         ) flag
 {
 	
 	NSArray				*pathArray_;
 	
 	pathArray_ = [self threadFilePathArrayWithRowIndexArray : rows 
 												inTableView : tableView];
-	return [self tableView:tableView removeFiles:pathArray_ deleteFile:flag];
+	return [self tableView : tableView removeFiles : pathArray_ delFavIfNecessary : flag];
+}
+
+- (BOOL) tableView : (NSTableView	*) tableView
+	removeIndexSet : (NSIndexSet	*) indexSet
+ delFavIfNecessary : (BOOL			 ) flag
+{
+	NSArray	*pathArray_;
+	pathArray_ = [self threadFilePathArrayWithRowIndexSet : indexSet inTableView : tableView];
+
+	return [self tableView : tableView removeFiles : pathArray_ delFavIfNecessary : flag];
 }
 
 - (BOOL) tableView : (NSTableView	*) tableView
 	   removeFiles : (NSArray		*) files
-		deleteFile : (BOOL			 ) flag
+ delFavIfNecessary : (BOOL			 ) flag
 {
 	if(flag) {
+		BOOL tmp;
 		NSArray	*alsoReplyFiles_;
 		
 		alsoReplyFiles_ = [[CMRReplyDocumentFileManager defaultManager]
 								replyDocumentFilesArrayWithLogsArray : files];
-		return [[CMRTrashbox trash] performWithFiles : alsoReplyFiles_];
+		tmp = [[CMRTrashbox trash] performWithFiles : alsoReplyFiles_];
+		if(tmp) [[CMRFavoritesManager defaultManager] removeFromFavoritesWithPathArray : files];
+		return tmp;
 	}
 	[self cleanUpItemsToBeRemoved : files];
 	

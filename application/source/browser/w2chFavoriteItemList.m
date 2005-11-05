@@ -303,23 +303,19 @@ extern void margeThreadAttributesWithContentDict(NSMutableDictionary*, NSDiction
 @implementation w2chFavoriteItemList(CleanUp)
 - (BOOL) tableView : (NSTableView	*) tableView
 	   removeFiles : (NSArray		*) files
-		deleteFile : (BOOL			 ) flag
+ delFavIfNecessary : (BOOL			 ) flag
 {
 	NSEnumerator		*iter_;
 	NSString			*path_;
 	
-	if(NO == [super tableView:tableView removeFiles:files deleteFile:flag])
+	if(NO == [super tableView : tableView removeFiles : files delFavIfNecessary : flag])
 		return NO;
 	
 	iter_ = [files objectEnumerator];
 	while(path_ = [iter_ nextObject]){
-		//[[CMRFavoritesManager defaultManager] removeFromFavoritesWithFilePath:path_];
-		if (flag) {
-			[[CMRFavoritesManager defaultManager] addItemToPoolWithFilePath : path_];
-		}
+		[[CMRFavoritesManager defaultManager] addItemToPoolWithFilePath : path_];
 	}
-		
-	
+
 	return YES;
 }
 @end

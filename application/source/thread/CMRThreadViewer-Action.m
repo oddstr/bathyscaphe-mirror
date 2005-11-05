@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.12 2005/11/04 10:12:09 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.13 2005/11/05 04:21:57 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -450,9 +450,8 @@
 	[CMRPref setWindowDefaultFrameString : [[self window] stringWithSavedFrame]];
 }
 
-#pragma mark -
+#pragma mark Deletion
 
-// delete thread log file
 - (void) forceDeleteThreadAtPath : (NSString *) filepath
 {
 	if (NO == [[NSFileManager defaultManager] fileExistsAtPath:filepath])
@@ -468,6 +467,16 @@
 		
 	[[CMRTrashbox trash] performWithFiles : alsoReplyFile_];
 }
+
+- (void) checkIfFavItemThenRemove : (NSString *) aPath
+{
+	CMRFavoritesManager	*favManager = [CMRFavoritesManager defaultManager];
+	if ([favManager favoriteItemExistsOfThreadPath : aPath]) {
+		[favManager removeFromFavoritesWithFilePath : aPath];
+		[favManager addItemToPoolWithFilePath : aPath];
+	}
+}
+
 - (IBAction) forceDeleteThread : (id) sender
 {
 	NSString *thePath_ = [self path];
@@ -475,10 +484,14 @@
 	[[self window] performClose : sender];
 	[self forceDeleteThreadAtPath : thePath_];
 }
+
 - (IBAction) deleteThread : (id) sender
 {
 	if ([CMRPref quietDeletion]) {
+		NSString	*path_ = [[self path] copy];
 		[self forceDeleteThread : sender];
+		[self checkIfFavItemThenRemove : path_];
+		[path_ release];
 	} else {
 		NSAlert *alert_;
 		NSButton	*retryBtn_;
@@ -506,8 +519,13 @@
 {
 	switch(returnCode){
 	case NSAlertFirstButtonReturn:
-		[[alert window] orderOut : nil]; 
-		[self forceDeleteThread : contextInfo];
+		{
+			NSString *path_ = [[self path] copy];
+			[[alert window] orderOut : nil]; 
+			[self forceDeleteThread : contextInfo];
+			[self checkIfFavItemThenRemove : path_];
+			[path_ release];
+		}
 		break;
 	case NSAlertThirdButtonReturn:
 		{
