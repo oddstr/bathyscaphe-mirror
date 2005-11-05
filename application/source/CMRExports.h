@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRExports.h,v 1.3 2005/09/24 06:07:49 tsawada2 Exp $
+  * $Id: CMRExports.h,v 1.4 2005/11/05 05:24:57 tsawada2 Exp $
   * 
   * CMRExports.h
   *
@@ -31,7 +31,7 @@ extern NSThread				*CMRMainThread;
 extern NSRunLoop			*CMRMainRunLoop;
 extern SGInternalMessenger	*CMRMainMessenger;
 
-extern void CMRApplicationReset(void);
+extern void CMRApplicationReset(id sender);
 
 /*!
  * @function    CMXInit

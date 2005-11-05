@@ -130,8 +130,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 }
 - (IBAction) openHelpForMe : (id) sender
 {
-	[[NSHelpManager sharedHelpManager] findString : NSLocalizedString(BIIHelpKeywordKey, @"Board options")
-										   inBook : [NSBundle applicationHelpBookName]];
+	[[NSHelpManager sharedHelpManager] openHelpAnchor : NSLocalizedString(BIIHelpKeywordKey, @"Board options")
+											   inBook : [NSBundle applicationHelpBookName]];
 }
 
 #pragma mark Accesors for Binding

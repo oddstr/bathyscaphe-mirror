@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.13 2005/10/16 11:18:11 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.14 2005/11/05 05:24:57 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -56,9 +56,17 @@
     }
 }
 
+// Application Reset Alert's help button delegate
+- (BOOL) alertShowHelp : (NSAlert *) alert
+{
+	[[NSHelpManager sharedHelpManager] openHelpAnchor : [alert helpAnchor]
+											   inBook : [NSBundle applicationHelpBookName]];
+	return YES;
+}
+
 - (IBAction) resetApplication : (id) sender
 {
-    CMRApplicationReset();
+    CMRApplicationReset(self);
 }
 
 - (IBAction) openURLPanel : (id) sender

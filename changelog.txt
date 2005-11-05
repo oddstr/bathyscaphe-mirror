@@ -1,4 +1,8 @@
 2005-11-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/CMRExports.h
+	* application/source/main.m
+	* application/source/CMRAppDelegate.m
+		「BathyScaphe をリセット」アラートにヘルプボタンを付けた。
 	* application/source/preferences/AppDefaults-Account.m
 		「アカウント」環境設定で「変更を適用」をクリックしても、メールアドレスが正しく変更されないことがある問題を修正
 		（355@8th）

@@ -56,7 +56,7 @@ void CMXServicesInit(void)
 
 
 
-void CMRApplicationReset()
+void CMRApplicationReset(id sender)
 {
     int			code;
 	NSButton	*cancel_;
@@ -64,9 +64,12 @@ void CMRApplicationReset()
 	NSAlert		*alert_;
 	
 	alert_ = [[NSAlert alloc] init];
+	[alert_ setDelegate : sender];
 	[alert_	setAlertStyle : NSCriticalAlertStyle];
 	[alert_	setMessageText : NSLocalizedString(@"Reset:Title", nil)];
 	[alert_ setInformativeText : NSLocalizedString(@"Reset:Message", nil)];
+	[alert_ setShowsHelp : YES];
+	[alert_ setHelpAnchor : NSLocalizedString(@"Reset:HelpAnchor", @"bs_app_reset_alert")];
 	reset_ = [alert_ addButtonWithTitle : NSLocalizedString(@"Reset:Reset", nil)];
 	[reset_ setKeyEquivalent : @""]; // 放っておくと勝手に return が割り当てられてしまう。また、nil は指定不可。
 	cancel_ = [alert_ addButtonWithTitle : NSLocalizedString(@"Reset:Cancel", nil)];

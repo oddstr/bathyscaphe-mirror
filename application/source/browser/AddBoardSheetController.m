@@ -121,8 +121,8 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 
 - (IBAction) openHelp : (id) sender
 {
-	[[NSHelpManager sharedHelpManager] findString : [self localizedString : @"Boards list"]
-										   inBook : [NSBundle applicationHelpBookName]];
+	[[NSHelpManager sharedHelpManager] openHelpAnchor : [self localizedString : @"Boards list"]
+											   inBook : [NSBundle applicationHelpBookName]];
 }
 
 - (IBAction) close : (id) sender

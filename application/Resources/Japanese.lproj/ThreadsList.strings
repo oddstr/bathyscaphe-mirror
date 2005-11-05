@@ -6,7 +6,7 @@
 
 "So could not add to your Boards List." = "同じ名前の掲示板を重複して登録することはできません。よって、掲示板を追加できませんでした。";
 
-"Boards list" = "掲示板リスト";
+"Boards list" = "bs_addboard_sheet";
 
 "ErrNamesSeparater" = "”、“";
 "ErrNamesCover" = "“%@”";
