@@ -1,4 +1,11 @@
 2005-11-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/BathyScapheHelp/
+		新しいヘルプを CVS リポジトリにコミット。多くの方に感謝。
+		なお、いくつか手を加えた：
+		- 環境設定パネルやその他の場所から、ヘルプボタンをクリックして該当ページに一本釣りでアクセスするために、
+		　一部のページに専用のアンカータグを仕込んだ。
+		- 目次ページなどに、<meta name="ROBOTS" content="NOINDEX"> を追加した。
+		- index.html のレイアウト（正確には、上マージン）を他のアプリケーションのヘルプに揃えて若干調整した。
 	* application/subproj/preference/abstract/PreferencesController.m
 		環境設定パネルからのヘルプの呼び出し方法を改良。
 	* application/source/thread/CMRThreadLayout.m
