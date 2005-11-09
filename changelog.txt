@@ -1,3 +1,8 @@
+2005-11-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-BLEditor.m
+		掲示板リストで複数項目を一度に削除しようとすると、予期しない項目が誤って削除されることがあった
+		問題を修正。
+================================================= CVS Tag : v110_FINAL
 2005-11-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/BathyScapheHelp/
 		新しいヘルプを CVS リポジトリにコミット。多くの方に感謝。

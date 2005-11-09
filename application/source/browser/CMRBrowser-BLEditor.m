@@ -309,14 +309,30 @@
 			NSDictionary	*item_;
 			int				size = [selected lastIndex]+1;
 			NSRange			e = NSMakeRange(0, size);
+			BoardList		*list_ = [[BoardManager defaultManager] userList];
+			
+			NSMutableArray	*tmp = [NSMutableArray array];
 
 			while ([selected getIndexes:&arrayElement maxCount:1 inIndexRange:&e] > 0)
 			{
 				item_ = [[self boardListTable] itemAtRow : arrayElement];
-				[[[BoardManager defaultManager] userList] removeItemWithName : [item_ objectForKey : BoardPlistNameKey]
-																	  ofType : [[BoardList class] typeForItem : item_]];
+				//NSLog(@"We will remove %@", [item_ objectForKey : BoardPlistNameKey]);
+				if (item_ != nil) [tmp addObject : item_];
+				//[[[BoardManager defaultManager] userList] removeItemWithName : [item_ objectForKey : BoardPlistNameKey]
+				//													  ofType : [[BoardList class] typeForItem : item_]];
 			}
-			[[self boardListTable] reloadData];
+			
+			if([tmp count] > 0) {
+				NSEnumerator	*enum_ = [tmp objectEnumerator];
+				id				eachItem;
+
+				while ((eachItem = [enum_ nextObject]) != nil) {
+					[list_ removeItemWithName : [eachItem objectForKey : BoardPlistNameKey]
+									   ofType : [[BoardList class] typeForItem : eachItem]];
+				}
+			
+				[[self boardListTable] reloadData];
+			}
 			[[self boardListTable] deselectAll : nil];
 		}
 		break;
