@@ -1282,6 +1282,10 @@
 <key>URL</key>
 <string>http://that3.2ch.net/sepia/</string></dict>
 <dict><key>Name</key>
+<string>駄洒落</string>
+<key>URL</key>
+<string>http://game9.2ch.net/gag/</string></dict>
+<dict><key>Name</key>
 <string>しりとり</string>
 <key>URL</key>
 <string>http://game9.2ch.net/575/</string></dict>
@@ -1818,6 +1822,10 @@
 <string>国内旅行</string>
 <key>URL</key>
 <string>http://travel2.2ch.net/travel/</string></dict>
+<dict><key>Name</key>
+<string>土産物・特産物</string>
+<key>URL</key>
+<string>http://food6.2ch.net/localfoods/</string></dict>
 <dict><key>Name</key>
 <string>トロピカル</string>
 <key>URL</key>
