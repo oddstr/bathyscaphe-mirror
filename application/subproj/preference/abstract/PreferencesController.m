@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesController.m,v 1.3 2005/10/23 14:47:26 tsawada2 Exp $
+  * $Id: PreferencesController.m,v 1.4 2005/11/09 10:16:56 tsawada2 Exp $
   * 
   * PreferencesController.m
   *
@@ -145,8 +145,8 @@
 
 - (IBAction) openHelp : (id) sender
 {
-	[[NSHelpManager sharedHelpManager] findString : [self helpKeyword]
-										   inBook : [NSBundle applicationHelpBookName]];
+	[[NSHelpManager sharedHelpManager] openHelpAnchor : [self helpKeyword]
+											   inBook : [NSBundle applicationHelpBookName]];
 }
 @end
 

@@ -1,6 +1,6 @@
 //: CMRThreadLayout.m
 /**
-  * $Id: CMRThreadLayout.m,v 1.4 2005/09/29 23:22:18 tsawada2 Exp $
+  * $Id: CMRThreadLayout.m,v 1.5 2005/11/09 10:16:56 tsawada2 Exp $
   * 
   * CMRThreadLayout.m
   *
@@ -279,8 +279,8 @@
 					fromLocation : mesRange_.location +1];
 		[[self messageRanges] setRange:mesRange_ atIndex:anIndex];
 		//2005-09-20 Tiger 白抜け対策（手探り様子見中）
-		[self wakeUpLayoutManagerWithRange : mesRange_];
 	}
+		[self wakeUpLayoutManagerWithRange : mesRange_]; // 2005-11-09 ここに移す（changeInLength_ == 0のときも実行させる、AA指定対策）
 	[self setMessagesEdited : YES];
 }
 - (void) changeAllMessageAttributes : (BOOL  ) onOffFlag

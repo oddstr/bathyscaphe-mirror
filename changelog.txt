@@ -1,3 +1,8 @@
+2005-11-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/abstract/PreferencesController.m
+		環境設定パネルからのヘルプの呼び出し方法を改良。
+	* application/source/thread/CMRThreadLayout.m
+		まれに AAスレッドに指定／指定解除した際、スレッドの内容が白抜けしてしまう問題を修正（したつもり）。
 2005-11-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/CMRExports.h
 	* application/source/main.m
