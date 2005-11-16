@@ -14,12 +14,14 @@
 #import "CMRThreadsUpdateListTask.h"
 #import "CMRThreadsListReadFileTask.h"
 
+#import "UKDirectoryEnumerator.h"
+
 
 static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, CMRThreadAttributes *theAttributes)
 {
 	unsigned		nLoaded_;
 	unsigned		nCorrectLoaded_;
-	unsigned		nRes_;
+	//unsigned		nRes_;
 	ThreadStatus	status_;
 	
 	nLoaded_ = [theThread unsignedIntForKey : CMRThreadLastLoadedNumberKey];
@@ -27,9 +29,9 @@ static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, CMRThreadAt
 
 	[theThread setUnsignedInt : nCorrectLoaded_
 					   forKey : CMRThreadLastLoadedNumberKey];
-	nRes_ = [theThread unsignedIntForKey : CMRThreadNumberOfMessagesKey];
+	//nRes_ = [theThread unsignedIntForKey : CMRThreadNumberOfMessagesKey];
 	
-	if(0 == nCorrectLoaded_)
+	/*if(0 == nCorrectLoaded_)
 		status_ = ThreadNoCacheStatus;
 	else if(nRes_ == nCorrectLoaded_)
 		status_ = ThreadLogCachedStatus;
@@ -38,6 +40,19 @@ static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, CMRThreadAt
 	else
 		status_ = ThreadUpdatedStatus;
 	
+	[theThread setUnsignedInt : status_
+					   forKey : CMRThreadStatusKey];
+	*/
+	if (nCorrectLoaded_ == 0) {
+		status_ = ThreadNoCacheStatus;
+	} else {
+		unsigned	nRes_ = [theThread unsignedIntForKey : CMRThreadNumberOfMessagesKey];
+		if (nCorrectLoaded_ >= nRes_)
+			status_ = ThreadLogCachedStatus;
+		else
+			status_ = ThreadUpdatedStatus;
+	}
+
 	[theThread setUnsignedInt : status_
 					   forKey : CMRThreadStatusKey];
 	
@@ -125,10 +140,10 @@ static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, CMRThreadAt
 + (id) threadsListTemplateWithPath : (NSString *) boardDirectory
 {
 	NSFileManager			*fileManager;
-	SGFileRef			*boardDirRef_;
-	NSString				*filename_;
+	SGFileRef				*boardDirRef_;
+	//NSString				*filename_;
 	NSString				*fileExtention_;
-	NSDirectoryEnumerator	*iter_;
+	//NSDirectoryEnumerator	*iter_;
 	NSMutableArray			*list_;
 	
 	BOOL					isDirectory_;
@@ -138,7 +153,7 @@ static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, CMRThreadAt
 	// 板に対応するLibrary/内のディレクトリ直下の
 	// 「~~.thread」ログファイルからログスレッドを収集。
 	// 
-	
+	NSLog(@"Start");
 	fileManager = [NSFileManager defaultManager];
 	result_ = [fileManager fileExistsAtPath:boardDirectory isDirectory:&isDirectory_];
 	
@@ -159,7 +174,7 @@ static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, CMRThreadAt
 	
 	
 	list_ = [NSMutableArray array];
-	iter_ = [fileManager enumeratorAtPath : boardDirectory];
+	/*iter_ = [fileManager enumeratorAtPath : boardDirectory];
 	while ((filename_ = [iter_ nextObject])){
 		SGFileRef		*fileRef_;
 		NSString			*acrualPath_;
@@ -183,7 +198,33 @@ static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, CMRThreadAt
 		
 		[list_ addObject : dict_];
 	}
-	return list_;
+	*/
+	{
+		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+		UKDirectoryEnumerator *enum_ = [[[UKDirectoryEnumerator alloc] initWithPath: boardDirectory] autorelease];
+		NSString*	fName;
+		NSMutableDictionary *dict_;
+		//NSLog(@"Hi");
+
+        [enum_ setDesiredInfo: kFSCatInfoFinderInfo];
+		
+		while ((fName = [enum_ nextObjectFullPath])) {
+			if([enum_ isInvisible])// || [enum_ isDirectory])
+				continue;
+
+			if(NO == [[fName pathExtension] isEqualToString : fileExtention_])
+				continue;
+			
+			dict_ = [self  attributesForThreadsListWithContentsOfFile : fName];
+			if(nil == dict_) 
+				continue;
+			
+			[list_ addObject : dict_];
+		}
+		[pool release];
+	}
+	NSLog(@"END");
+	return list_;				
 }
 @end
 
@@ -257,9 +298,10 @@ static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, CMRThreadAt
 	NSEnumerator	*iter_;
 	NSMutableArray	*array_;
 	NSString		*path_;
+	CMRFavoritesManager	*fm_ = [CMRFavoritesManager defaultManager];
 	
-	array_ = [[[CMRFavoritesManager defaultManager] itemsForRemoving] copy];
-	if ([array_ count] == 0 || array_ == nil) {
+	array_ = [[fm_ itemsForRemoving] copy];
+	if (array_ == nil || [array_ count] == 0) {
 		[array_ release];
 		return;
 	}
@@ -271,7 +313,7 @@ static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, CMRThreadAt
 		thread_ = [self seachThreadByPath : path_];
 		if (thread_ != nil) {
 			[[self class] clearAttributes : thread_];
-			[[CMRFavoritesManager defaultManager] removeFromPoolWithFilePath : path_];
+			[fm_ removeFromPoolWithFilePath : path_];
 		}
 	}
 	
@@ -284,10 +326,11 @@ static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, CMRThreadAt
 	NSEnumerator	*iter_;
 	NSMutableArray	*array_;
 	NSString		*path_;
+	CMRFavoritesManager	*fm_ = [CMRFavoritesManager defaultManager];
 	
-	array_ = [[[CMRFavoritesManager defaultManager] itemsForChange] copy];
+	array_ = [[fm_ itemsForChange] copy];
 
-	if ([array_ count] == 0 || array_ == nil) {
+	if (array_ == nil || [array_ count] == 0) {
 		[array_ release];
 		return;
 	}
@@ -300,14 +343,14 @@ static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, CMRThreadAt
 		if (thread_ != nil) {
 			int		i;
 			id		attr_;
-			i = [[[CMRFavoritesManager defaultManager] favoritesItemsIndex] indexOfObject : path_];
+			i = [[fm_ favoritesItemsIndex] indexOfObject : path_];
 			if (i == NSNotFound) break;
 			attr_ = [[CMRThreadAttributes alloc] initWithDictionary : 
-						[[[CMRFavoritesManager defaultManager] favoritesItemsArray] objectAtIndex : i]];
+						[[fm_ favoritesItemsArray] objectAtIndex : i]];
 
 			if(synchronizeThAttrForSync(thread_, attr_)) {
 				// 後片付けはきちんと
-				[[CMRFavoritesManager defaultManager] removeFromPoolWithFilePath : path_];
+				[fm_ removeFromPoolWithFilePath : path_];
 			}
 			[attr_ release];
 		}

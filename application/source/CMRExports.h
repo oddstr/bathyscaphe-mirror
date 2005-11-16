@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRExports.h,v 1.4 2005/11/05 05:24:57 tsawada2 Exp $
+  * $Id: CMRExports.h,v 1.5 2005/11/16 15:59:47 tsawada2 Exp $
   * 
   * CMRExports.h
   *
@@ -21,7 +21,6 @@ extern "C" {
 
 
 @class SGInternalMessenger;
-
 
 // main browser
 extern id					CMRMainBrowser;

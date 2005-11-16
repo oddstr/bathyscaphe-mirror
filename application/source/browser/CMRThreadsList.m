@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.m,v 1.3 2005/09/30 01:08:32 tsawada2 Exp $
+  * $Id: CMRThreadsList.m,v 1.4 2005/11/16 15:59:47 tsawada2 Exp $
   * 
   * CMRThreadsList.m
   *
@@ -428,13 +428,12 @@ static NSComparisonResult sortArrayByFavNumKey(id arg1, id arg2, void *context)
 	struct SortContext	*context_ = (struct SortContext*)context;
 	NSNumber			*s1, *s2;
 	NSComparisonResult	result;
+	NSArray				*favItemsIdx_ = [[CMRFavoritesManager defaultManager] favoritesItemsIndex];
 		
 	s1 = [NSNumber numberWithInt :
-					[[[CMRFavoritesManager defaultManager] favoritesItemsIndex] indexOfObject :
-					[CMRThreadAttributes pathFromDictionary : arg1]]];
+					[favItemsIdx_ indexOfObject : [CMRThreadAttributes pathFromDictionary : arg1]]];
 	s2 = [NSNumber numberWithInt :
-					[[[CMRFavoritesManager defaultManager] favoritesItemsIndex] indexOfObject : 
-					[CMRThreadAttributes pathFromDictionary : arg2]]];
+					[favItemsIdx_ indexOfObject : [CMRThreadAttributes pathFromDictionary : arg2]]];
 	
 	result = UTILComparisionResultObjects(s1, s2);
 	if(NSOrderedSame == result){

@@ -1,6 +1,6 @@
 //: CMXTextParser.m
 /**
-  * $Id: CMXTextParser.m,v 1.8 2005/10/19 23:43:28 tsawada2 Exp $
+  * $Id: CMXTextParser.m,v 1.9 2005/11/16 15:59:47 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -87,57 +87,7 @@ static void separetedLineByConvertingComma(NSString *theString, NSMutableArray *
 @implementation CMXTextParser
 + (NSArray *) separatedLine : (NSString *) theString
 {
-	//NSMutableArray	*components_;
 	NSArray				*components_;
-	/*NSRange			searchRange_;
-	NSRange			field_;
-	unsigned		length_;
-	
-	components_ = SGTemporaryArray();
-	
-	length_ = [theString length];
-	searchRange_ = NSMakeRange(0, length_);
-	field_ = NSMakeRange(0, 0);
-	
-	while (1) {
-		NSRange			found_;
-		
-		found_ = [theString rangeOfString : @"<>"
-								  options : NSLiteralSearch
-								    range : searchRange_];
-		
-		if (NSNotFound == found_.location || 0 == found_.length) {
-			if (0 == [components_ count]) {
-				//
-				// "<>"以外の区切り文字
-				//
-				separetedLineByConvertingComma(theString, components_);
-				if (0 == [components_ count])
-					return nil;
-				
-				return components_;
-			}
-			break;
-		}
-		field_.length = found_.location - field_.location;
-		
-		if (0 == field_.length)
-			[components_ addObject : @""];
-		else
-			[components_ addObject : [theString substringWithRange : field_]];
-		
-		searchRange_.location = NSMaxRange(found_);
-		searchRange_.length = length_ - searchRange_.location;
-		
-		field_.location = searchRange_.location;
-	}
-	
-	//
-	// 末尾。何もなければ空文字
-	//
-	[components_ addObject : 
-		[theString substringFromIndex : searchRange_.location]];
-	*/
 	// 2005-10-19 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	// 下記のより単純なコードでしばらく様子を見る。問題ないと思うんだが、どうだろうか。
 	components_ = [theString componentsSeparatedByString : CMXTextParser2chSeparater];
@@ -150,7 +100,6 @@ static void separetedLineByConvertingComma(NSString *theString, NSMutableArray *
 		return commaComponents_;
 	}
 	return components_;
-	//return [[components_ copy] autorelease];
 }
 
 
@@ -299,17 +248,18 @@ static void htmlConvertDeleteAllTagElements(NSMutableString *theString)
 	unsigned int	strLen_;
 	NSRange			result_;
 	NSRange			searchRange_;
-	BOOL			shouldDelete = YES;
+	//BOOL			shouldDelete = YES;
 	
 	if ((strLen_ = [theString length]) < 2) 
 		return;
-	
+
 	searchRange_ = NSMakeRange(0, strLen_);
 	
 	while ((result_ = [theString rangeOfString : @"<"
 								 options : NSLiteralSearch
 								   range : searchRange_]).length != 0) {
-		NSRange		gtRange_;		// ">"
+		NSRange		gtRange_;			// ">"
+		BOOL		shouldDelete = YES;	// 2005-11-16 tsawada2 : shouldDelete はループの先頭に戻るたびに再初期化しないとダメ
 		
 		// "<"の次から検索
 		searchRange_.location = NSMaxRange(result_);
@@ -335,7 +285,6 @@ static void htmlConvertDeleteAllTagElements(NSMutableString *theString)
 			i = result_.location +1;
 			max = NSMaxRange(result_);
 			NSCAssert(result_.length >= 2, @"result_.length >= 2");
-			
 			// skip first blank spaces and '/'
 			for (; i < max; i++) {
 				c = [theString characterAtIndex : i];
@@ -345,7 +294,7 @@ static void htmlConvertDeleteAllTagElements(NSMutableString *theString)
 				shouldDelete = YES;
 				goto FASE_DELETE;
 			}
-			
+
 			// now c points first character of element's tagName
 			for (; i < max; i++) {
 				c = [theString characterAtIndex : i];
@@ -366,8 +315,9 @@ static void htmlConvertDeleteAllTagElements(NSMutableString *theString)
 			// now tagName buffer contains elements tagName
 			
 			// <ul> 
-			if (0 == nsr_strcasecmp(tagName, "ul"))
+			if (0 == nsr_strcasecmp(tagName, "ul")) {
 				shouldDelete = NO;
+			}
 		}
 FASE_DELETE:
 		if (NO == shouldDelete) continue;

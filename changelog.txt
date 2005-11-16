@@ -1,3 +1,33 @@
+2005-11-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-Link.m
+		1.1.2 から、 KeyValueTemplates.plist の "Thread - LaunchExternalProgramOnPreviewLink" は
+		廃止し、html+JavaScript による簡易プレビューと、外部プログラムに渡す機能は廃止（かわりに、そういう機能を
+		持った ImagePreviewer.plugin をオプションで提供して、使ってもらう -- html プレビューのプラグインは BathyScaphe
+		プロジェクトとして正式にリリースするが、外部プログラムに渡す方は、サードパーティ依存にするかもしれません）。
+		で、それを見込んで BathyScaphe に組み込まれていたそれらの機能を廃止。現在、"Thread - LaunchExternalProgramOnPreviewLink"
+		は参照されず、常にプレビューにはプレビューインスペクタが使用される。このことについてバグ報告などはしないこと。
+	* application/source/composer/CMXTextParser.m
+		[Bug 6142] 削除依頼フォームからの投稿で、アンカータグがそのまま表示されてしまう不具合を解決。
+	* application/source/composer/CMRAttributedMessageComposer-Convert.m
+	* application/Resources/Japanese.lproj/Localizable.strings
+		本文に書き込まれた <ul> という文字が表示されず、かわりにその位置が改行される問題を解決。
+		- 削除依頼フォームからの投稿では <ul> </ul> を削除する必要があるのだが、その他の投稿でも区別なく削除
+		　されていたのが原因。しかし、Composer は現在「どの板を」レンダリングしているのかは知るすべがないので、
+		　とりあえず削除依頼フォームからの投稿に特有な文字列「削除対象アドレス： <ul>」を見つけた場合のみ
+		　<ul> </ul> を削除するようにした。
+		- 同時に、処理簡略化のため削除依頼フォームからの投稿で <ul> </ul> で囲まれた部分をインデントするのを
+		　廃止し、かわりに（フォームからの投稿を装った直接投稿と区別できるように）フォームからの投稿と思われる
+		　場合は「削除対象アドレス：」の文字を赤く表示するようにした。
+	* application/Resources/Japanese.lproj/Credits.rtf
+	* application/source/browser/CMRThreadsList-listImport.m
+		UKDirectryEnumerator 導入に伴う変更
+	* application/source/extensions/NSString+CarbonUtilities.m
+	* application/source/extensions/UKDirectoryEnumerator.m
+		http://www.zathras.de の UKDirectoryEnumerator を試験導入中。
+		BathyScaphe では使いどころがそもそも少ないのと、この部分の高速化を行っても他の部分が足を引っ張って
+		全体としてはほとんど差が出ないようで、そのうち採用を中止する可能性もある。
+		- 同じサイトの UKKQueue もそのうち使ってみようかな、と思っている。
+================================================= 1.1 / SecondFlight / CVS Tag : v111_FINAL
 2005-11-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-BLEditor.m
 		掲示板リストで複数項目を一度に削除しようとすると、予期しない項目が誤って削除されることがあった

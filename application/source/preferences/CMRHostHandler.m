@@ -1,6 +1,6 @@
 //: CMRHostHandler.m
 /**
-  * $Id: CMRHostHandler.m,v 1.1 2005/05/11 17:51:06 tsawada2 Exp $
+  * $Id: CMRHostHandler.m,v 1.2 2005/11/16 15:59:47 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -19,7 +19,7 @@
 #define kReadCGIPropertiesKey		@"CGI - Read"
 	#define kRelativePathKey		@"relativePath"
 	#define kAbsolutePathKey		@"absolutePath"
-	// [[NSURL path] pathComponents] ‚Å‚Ì directory ‚Ìindex
+	// [[NSURL path] pathComponents] ã§ã® directory ã®index
 	#define kReadCGIDirectoryIndexKey	@"directoryIndex"
 	#define kReadCGINameKey				@"name"
 	#define kReadCGIDirectoryKey		@"directory"
@@ -61,8 +61,8 @@
 	[self registerHostHandlerClass : [CMRJbbsShitarabaHandler class]];
 	[self registerHostHandlerClass : [CMRMachibbsaHandler class]];
 
-	// ã‹LˆÈŠO = 2channelŒİŠ·
-	// dat‚Ì‰üs‚ğ<br>‚É‚µ‚Ä‚¢‚È‚¢”Â‚È‚Ç‚ª‘¶İ‚·‚é‚Ì‚ÅAƒTƒ|[ƒg‚â‚ß
+	// ä¸Šè¨˜ä»¥å¤– = 2channeläº’æ›
+	// datã®æ”¹è¡Œã‚’<br>ã«ã—ã¦ã„ãªã„æ¿ãªã©ãŒå­˜åœ¨ã™ã‚‹ã®ã§ã€ã‚µãƒãƒ¼ãƒˆã‚„ã‚
 	[self registerHostHandlerClass : [CMR2channelOtherHandler class]];
 }
 + (void) initialize
@@ -117,7 +117,7 @@
 	id					instance_;
 	
 	UTILAssertNotNilArgument(aHostHandlerClass, @"HostHandler Class");
-	// Šù‚É“o˜^‚³‚ê‚Ä‚¢‚È‚¢‚©
+	// æ—¢ã«ç™»éŒ²ã•ã‚Œã¦ã„ãªã„ã‹
 	while (instance_ = [iter_ nextObject]) {
 		if ([(id)[instance_ class] isEqual : aHostHandlerClass]) {
 			return;
@@ -275,7 +275,7 @@ ErrReadURL:
 	return nil;
 }
 
-/* ƒGƒ“ƒR[ƒfƒBƒ“ƒOŠÖ˜A */
+/* ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°é–¢é€£ */
 - (CFStringEncoding) subjectEncoding
 {
 	NSNumber	*v;
@@ -356,7 +356,7 @@ ErrReadURL:
 	UTILRequireCondition(
 		([comps_ count] > directoryIndex_ +1), ErrParse);
 	
-	// ƒfƒBƒŒƒNƒgƒŠ‚ÆCGI‚Ì–¼‘O
+	// ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã¨CGIã®åå‰
 	tmp = [comps_ objectAtIndex : directoryIndex_];
 	//--------------------------------
 /*
@@ -374,8 +374,8 @@ ErrReadURL:
 	UTILRequireCondition([tmp hasPrefix : cgiName_], ErrParse);
 
 	
-	// ƒNƒGƒŠ‚É‚æ‚éƒpƒ‰ƒ[ƒ^w’è‚È‚ç‚»‚ê‚ğ‰ğÍB
-	// ‚»‚¤‚Å‚È‚¯‚ê‚ÎAÅŒã‚ÌƒpƒX—v‘f‚ğƒXƒLƒƒƒ“B
+	// ã‚¯ã‚¨ãƒªã«ã‚ˆã‚‹ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿æŒ‡å®šãªã‚‰ãã‚Œã‚’è§£æã€‚
+	// ãã†ã§ãªã‘ã‚Œã°ã€æœ€å¾Œã®ãƒ‘ã‚¹è¦ç´ ã‚’ã‚¹ã‚­ãƒ£ãƒ³ã€‚
 	if ([link query] != nil) {
 		NSDictionary	*params_;
 		NSString		*bbs_;
@@ -443,9 +443,9 @@ ErrReadURL:
 			
 			skiped_ = nil;
 			
-			// ÅŒã‚ÌƒpƒX•¶š—ñ‚ªƒCƒ“ƒfƒbƒNƒX•¶š—ñ
-			// ‚É‚È‚Á‚Ä‚¢‚é‚Ì‚ÅA‚»‚±‚©‚çƒCƒ“ƒfƒbƒNƒX
-			// ‚ğƒXƒLƒƒƒ“
+			// æœ€å¾Œã®ãƒ‘ã‚¹æ–‡å­—åˆ—ãŒã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹æ–‡å­—åˆ—
+			// ã«ãªã£ã¦ã„ã‚‹ã®ã§ã€ãã“ã‹ã‚‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+			// ã‚’ã‚¹ã‚­ãƒ£ãƒ³
 			mesIndexStr_ = [comps_ lastObject];
 			scanner_ = [NSScanner scannerWithString : mesIndexStr_];
 			[scanner_ scanUpToCharactersFromSet : 
@@ -455,7 +455,7 @@ ErrReadURL:
 				if (startIndex != NULL) *startIndex = index_;
 				if (endIndex != NULL) *endIndex = index_;
 				
-				// ”ÍˆÍ‚ªw’è‚³‚ê‚Ä‚¢‚é‚©
+				// ç¯„å›²ãŒæŒ‡å®šã•ã‚Œã¦ã„ã‚‹ã‹
 				if ([scanner_ scanString : @"-" intoString : NULL]) {
 					if ([scanner_ scanInt : &index_]) {
 						if (endIndex != NULL) *endIndex = index_;
@@ -533,7 +533,7 @@ static NSDictionary *CMRHostPropertiesForKey(NSString *aKey)
 
 
 
-// ‚Q‚¿‚á‚ñ‚Ë‚é
+// ï¼’ã¡ã‚ƒã‚“ã­ã‚‹
 @implementation CMR2channelHandler : CMRHostHandler
 + (BOOL) canHandleURL : (NSURL *) anURL
 {
@@ -656,7 +656,7 @@ ErrReadURL:
 }
 @end
 
-// ‚Q‚¿‚á‚ñ‚Ë‚éŒİŠ·
+// ï¼’ã¡ã‚ƒã‚“ã­ã‚‹äº’æ›
 @implementation CMR2channelOtherHandler
 + (BOOL) canHandleURL : (NSURL *) anURL
 {
@@ -687,7 +687,7 @@ ErrReadURL:
 @end
 
 
-// ‚µ‚½‚ç‚Î
+// ã—ãŸã‚‰ã°
 @implementation CMRShitarabaHandler : CMRHostHandler
 + (BOOL) canHandleURL : (NSURL *) anURL
 {
@@ -702,7 +702,7 @@ ErrReadURL:
 @end
 
 
-// JBBS@‚µ‚½‚ç‚Î
+// JBBS@ã—ãŸã‚‰ã°
 @implementation CMRJbbsShitarabaHandler : CMRHostHTMLHandler
 + (BOOL) canHandleURL : (NSURL *) anURL
 {
@@ -838,7 +838,7 @@ ErrReadURL:
 
 
 
-// ‚Ü‚¿BBS
+// ã¾ã¡BBS
 @implementation CMRMachibbsaHandler : CMRHostHTMLHandler
 + (BOOL) canHandleURL : (NSURL *) anURL
 {

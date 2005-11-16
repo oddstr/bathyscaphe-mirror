@@ -164,13 +164,13 @@ RECACHE:
 		// お気に入りに含まれていないか探す
 		// 新着ありの既得スレのみについて調べれば良い。
 		// さらに subject.txt を取ってきて更新した場合のみ調べれば良い。
+		CMRFavoritesManager	*fm_ = [CMRFavoritesManager defaultManager];
 		int	favidx_;
-		favidx_ = [[[CMRFavoritesManager defaultManager] favoritesItemsIndex] indexOfObject : path_];
+		favidx_ = [[fm_ favoritesItemsIndex] indexOfObject : path_];
 		if (favidx_ != NSNotFound) {
 			// お気に入りのデータを更新
-			[[[CMRFavoritesManager defaultManager] favoritesItemsArray]
-								replaceObjectAtIndex : favidx_
-										  withObject : thread];
+			[[fm_ favoritesItemsArray] replaceObjectAtIndex : favidx_
+												 withObject : thread];
 		}
 
         [cachedInfoTbl setObject:thread forKey:path_];

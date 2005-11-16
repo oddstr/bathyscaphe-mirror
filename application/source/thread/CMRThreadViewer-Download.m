@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Download.m,v 1.3 2005/10/22 14:48:54 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Download.m,v 1.4 2005/11/16 15:59:47 tsawada2 Exp $
   * 
   * CMRThreadViewer-Download.m
   *
@@ -188,11 +188,10 @@ static NSDictionary *boardInfoWithF(NSString *filepath)
 {
 	NSString				*dat_;
 	NSString				*bname_;
+	CMRDocumentFileManager	*dFM_ = [CMRDocumentFileManager defaultManager];
 	
-	bname_ = [[CMRDocumentFileManager defaultManager]
-						boardNameWithLogPath : filepath];
-	dat_ = [[CMRDocumentFileManager defaultManager]
-						datIdentifierWithLogPath : filepath];
+	bname_ = [dFM_ boardNameWithLogPath : filepath];
+	dat_ = [dFM_ datIdentifierWithLogPath : filepath];
 	
 	UTILCAssertNotNil(bname_);
 	UTILCAssertNotNil(dat_);

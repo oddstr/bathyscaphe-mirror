@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.h,v 1.7 2005/10/16 11:18:11 tsawada2 Exp $
+ * $Id: CMRAppDelegate.h,v 1.8 2005/11/16 15:59:47 tsawada2 Exp $
  * 
  * CMRAppDelegate.h
  *
@@ -22,7 +22,6 @@
     NSMutableArray *_queue;
     BOOL _launchingFinished;
 }
-- (IBAction) showBoardListEditor : (id) sender;
 - (IBAction) showPreferencesPane : (id) sender;
 - (IBAction) showStandardFindPanel : (id) sender;
 - (IBAction) toggleOnlineMode : (id) sender;

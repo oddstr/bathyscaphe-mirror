@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.11 2005/10/08 08:53:46 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.12 2005/11/16 15:59:47 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -106,11 +106,10 @@ static NSDictionary *boardInfoWithFilepath(NSString *filepath)
 {
 	NSString				*dat_;
 	NSString				*bname_;
+	CMRDocumentFileManager	*dFM_ = [CMRDocumentFileManager defaultManager];
 	
-	bname_ = [[CMRDocumentFileManager defaultManager]
-						boardNameWithLogPath : filepath];
-	dat_ = [[CMRDocumentFileManager defaultManager]
-						datIdentifierWithLogPath : filepath];
+	bname_ = [dFM_ boardNameWithLogPath : filepath];
+	dat_ = [dFM_ datIdentifierWithLogPath : filepath];
 	
 	UTILCAssertNotNil(bname_);
 	UTILCAssertNotNil(dat_);
@@ -323,11 +322,12 @@ cancel, if this method returns NO.
 {
     CMR2chDATReader *reader;
     unsigned         nMessages;
+	CMRThreadLayout	*layout_ = [self threadLayout];
     
     // can't process by downloader while viewer execute.
     [[CMRNetGrobalLock sharedInstance] add : aSignature];
     
-    nMessages = [[self threadLayout] numberOfReadedMessages];
+    nMessages = [layout_ numberOfReadedMessages];
     // check unexpected contetns
     if (NO == [[self threadIdentifier] isEqual : aSignature]) {
         NSLog(@"Unexpected contents:\n"
@@ -348,17 +348,15 @@ cancel, if this method returns NO.
 
     // updates title, created date, etc...
     if ([[self threadAttributes] needsToBeUpdatedFromLoadedContents]) 
-        [[self threadAttributes] addEntriesFromDictionary : 
-            [reader threadAttributes]];
+        [[self threadAttributes] addEntriesFromDictionary : [reader threadAttributes]];
     
     // inserts tag for new arrival messages.
     if (nMessages > 0) {
-        [[self threadLayout] push : 
-            [CMRThreadUpdatedHeaderTask taskWithIndentifier : [self path]]];
+        [layout_ push : [CMRThreadUpdatedHeaderTask taskWithIndentifier : [self path]]];
     }
     
     [self pushComposingTaskWithThreadReader: reader];
-    [[self threadLayout] setMessagesEdited : YES];
+    [layout_ setMessagesEdited : YES];
 }
 
 

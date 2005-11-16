@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.9 2005/11/03 01:06:19 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.10 2005/11/16 15:59:47 tsawada2 Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -36,25 +36,25 @@ NSString *const CMRThreadViewerRunSpamFilterNotification = @"CMRThreadViewerRunS
 #import "UTILDebugging.h"
 
 
-
+// deprecated in LittleWish and Later. this feature will be moved to optional PlugIn.
 /*
 [feature: URL preview] by nmatz
 application tries to open specific .html file if option key pressed.
 when open this file, '%%%ClickedLink%%%' keyword in file will be replaced
 to link acctually clicked.
 */
-#define PREVIEW_SRC			@"PreviewSource"
+/*#define PREVIEW_SRC			@"PreviewSource"
 #define PREVIEW_TYPE		@"html"
 #define PREVIEW_DIR			@"Preview"
 #define PREVIEW_ENC			NSShiftJISStringEncoding
 #define PREVIEW_URL_KEY		@"%%%ClickedLink%%%"
-#define PREVIEW_FILENAME	@"Preview.html"
+#define PREVIEW_FILENAME	@"Preview.html"*/
 
 /*** KeyValueTemplate ***/
 /* lNumber(BOOL) Launch external program when preview link? */
-#define PREVIEW_EXT_SRC		@"preview"
+/*#define PREVIEW_EXT_SRC		@"preview"
 #define PREVIEW_EXT_TYPE	nil
-#define PREVIEW_EXT_KEY		@"Thread - LaunchExternalProgramOnPreviewLink"
+#define PREVIEW_EXT_KEY		@"Thread - LaunchExternalProgramOnPreviewLink"*/
 
 #define kBeProfileLinkTemplateKey	@"System - be2ch Profile URL"
 
@@ -306,8 +306,8 @@ ErrInvalidLink:
 }
 
 
-
-static NSString *previewSourceHTMLFilepath(NSString *resourceName, NSString *aType)
+//Deprecated in LittleWish and Later.
+/*static NSString *previewSourceHTMLFilepath(NSString *resourceName, NSString *aType)
 {
 	NSBundle	*bundle_;
 	NSString	*path_;
@@ -320,13 +320,13 @@ static NSString *previewSourceHTMLFilepath(NSString *resourceName, NSString *aTy
 	path_ = [bundle_ pathForResource:resourceName ofType:aType inDirectory:PREVIEW_DIR];
 	
 	return path_;
-}
+}*/
 
 /*
  launch extern program using NSTask with argument (URL)
    by 1077693166/260
  */
-- (BOOL) previewLinkWithExternalProgram : (id) aLink
+/*- (BOOL) previewLinkWithExternalProgram : (id) aLink
 {
 	NSString	*path_;
 	NSTask          *task_;
@@ -341,8 +341,8 @@ static NSString *previewSourceHTMLFilepath(NSString *resourceName, NSString *aTy
 	[task_ launch];
 	[task_ autorelease];
 	return YES;
-}
-- (BOOL) previewLinkWithWebBrowser : (id) aLink
+}*/
+/*- (BOOL) previewLinkWithWebBrowser : (id) aLink
 {
 	NSString	*path_;
 	NSData		*data_;
@@ -367,7 +367,7 @@ static NSString *previewSourceHTMLFilepath(NSString *resourceName, NSString *aTy
 	[src_ writeToFile:path_ atomically:YES];	
 	
 	return [[NSWorkspace sharedWorkspace] openURL : previewURL_ inBackGround : [CMRPref openInBg]];
-}
+}*/
 
 // Added in Lemonade and later.
 - (BOOL) previewLinkWithImageInspector : (id) aLink
@@ -382,11 +382,9 @@ static NSString *previewSourceHTMLFilepath(NSString *resourceName, NSString *aTy
 											 : NO);
 }
 
+/*
 - (BOOL) previewLink : (id) aLink
 {
-	/*return SGTemplateBool(PREVIEW_EXT_KEY) 
-			? [self previewLinkWithExternalProgram : aLink]
-			: [self previewLinkWithWebBrowser : aLink];*/
 	id	tmp_;
 	tmp_ = SGTemplateResource(PREVIEW_EXT_KEY);
 	UTILAssertRespondsTo(tmp_, @selector(intValue));
@@ -407,6 +405,7 @@ static NSString *previewSourceHTMLFilepath(NSString *resourceName, NSString *aTy
 	}
 
 }
+*/
 
 - (BOOL) tryPreviewLink : (id) aLink
 {
@@ -419,11 +418,11 @@ static NSString *previewSourceHTMLFilepath(NSString *resourceName, NSString *aTy
 	
 	flags_ = [theEvent modifierFlags];
 	if (!(flags_ & NSAlternateKeyMask))
-		return (noModifier_ ? [self previewLink : aLink]
+		return (noModifier_ ? [self previewLinkWithImageInspector : aLink]//[self previewLink : aLink]
 							: NO);
 
 	return (noModifier_ ? NO
-						: [self previewLink : aLink]);
+						: [self previewLinkWithImageInspector : aLink]);//[self previewLink : aLink]);
 }
 
 

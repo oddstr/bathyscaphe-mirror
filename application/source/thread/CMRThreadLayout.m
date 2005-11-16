@@ -1,6 +1,6 @@
 //: CMRThreadLayout.m
 /**
-  * $Id: CMRThreadLayout.m,v 1.5 2005/11/09 10:16:56 tsawada2 Exp $
+  * $Id: CMRThreadLayout.m,v 1.6 2005/11/16 15:59:47 tsawada2 Exp $
   * 
   * CMRThreadLayout.m
   *
@@ -668,38 +668,29 @@
 - (void) appendLastUpdatedHeader
 {
 	NSAttributedString	*header_;
-	//NSMutableAttributedString	*tmp_;
 	NSRange				range_;
 	id					templateMgr = [CMRMessageAttributesTemplate sharedTemplate];
+	NSTextStorage		*tS_ = [self textStorage];
 	
 	header_ = [templateMgr lastUpdatedHeaderAttachment];
 	if (nil == header_) 
 		return;
 
-	// 余白付加処理も templateMgr 側で先に済ませておくことにした（PrincessBride and Later）
-	// 上下の余白（SledgeHammer and Later）
-	/*tmp_ = [header_ mutableCopy];
-	[tmp_ addAttributes : [NSDictionary dictionaryWithObject : 
-								[templateMgr indexParagraphStyleWithSpacingBefore : [CMRPref msgIdxSpacingBefore]
-																  andSpacingAfter : 0.0]
-													 forKey : NSParagraphStyleAttributeName]
-				  range : NSMakeRange(0,[tmp_ length])];*/
-
-	[[self textStorage] beginEditing];
-	range_.location = [[self textStorage] length];
-	[[self textStorage] appendAttributedString : header_];//tmp_];//header_];
-	//[tmp_ release];
-	range_.length = [[self textStorage] length] - range_.location;
+	[tS_ beginEditing];
+	range_.location = [tS_ length];
+	[tS_ appendAttributedString : header_];
+	range_.length = [tS_ length] - range_.location;
 	
 	// 現在の日付を属性として追加
-	[[self textStorage] addAttribute : CMRMessageLastUpdatedHeaderAttributeName
-						value : [NSDate date]
-						range : range_];
-	[[self textStorage] endEditing];
+	[tS_ addAttribute : CMRMessageLastUpdatedHeaderAttributeName
+				value : [NSDate date]
+				range : range_];
+	[tS_ endEditing];
 }
 - (void) clearLastUpdatedHeader
 {
 	NSRange		headerRange_;
+	NSTextStorage		*tS_ = [self textStorage];
 	
 	headerRange_ = [self firstLastUpdatedHeaderAttachmentRange];
 	if (NSNotFound == headerRange_.location) return;
@@ -707,8 +698,8 @@
 	[self slideMessageRanges : -(headerRange_.length)
 				fromLocation : NSMaxRange(headerRange_)];
 	
-	[[self textStorage] beginEditing];
-	[[self textStorage] deleteCharactersInRange : headerRange_];
-	[[self textStorage] endEditing];
+	[tS_ beginEditing];
+	[tS_ deleteCharactersInRange : headerRange_];
+	[tS_ endEditing];
 }
 @end
