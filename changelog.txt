@@ -1,3 +1,6 @@
+2005-11-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer.m
+		2005-11-23 の変更で、書き込み完了後のスクロールがちょっと変な挙動になってしまっていたので修正。
 2005-11-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/w2chFavoriteItemList.m
 	* application/source/browser/CMRThreadsList-listImport.m

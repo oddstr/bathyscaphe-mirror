@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.13 2005/11/23 13:44:07 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.14 2005/11/23 17:09:44 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -419,15 +419,15 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 			removeObserver : self
 			name : CMRThreadComposingCallbackNotification
 			object : [aNotification object]];
-	//[self scrollToLastReadedIndex : self];
+	[self scrollToLastReadedIndex : self];
 }
 
 // CMRThreadComposingDidFinishNotification
 - (void) threadComposingDidFinished : (NSNotification *) aNotification
 {
-	id		object_;
-        unsigned	nReaded = NSNotFound;
-        unsigned	nLoaded = NSNotFound;
+	id			object_;
+	unsigned	nReaded = NSNotFound;
+	unsigned	nLoaded = NSNotFound;
 	
 	UTILAssertNotificationName(
 		aNotification,
@@ -461,7 +461,10 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
     // remove from lock
     [[CMRNetGrobalLock sharedInstance] remove : [self threadIdentifier]];
 
-	[self scrollToLastReadedIndex : self];
+	//[self scrollToLastReadedIndex : self];
+	if (![self canScrollToLastReadedMessage]) {
+		[[self threadLayout] dummyScroll : self];
+	}
 	
 	// Ç‹Çæñºñ≥ÇµÇ≥ÇÒÇ™åàíËÇµÇƒÇ¢Ç»ÇØÇÍÇŒåàíË
 	// Ç±ÇÃéûì_Ç≈ÇÕ WorkerThread Ç™ìÆÇ¢ÇƒÇ®ÇËÅA
