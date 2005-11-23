@@ -11,6 +11,7 @@ static NSString *const NNDIsAscendingKey	= @"IsAscending";
 static NSString *const NNDAlwaysBeLoginKey	= @"AlwaysBeLogin";
 static NSString *const NNDDefaultKotehanKey = @"DefaultReplyName";
 static NSString *const NNDDefaultMailKey	= @"DefaultReplyMail";
+static NSString *const NNDAllThreadsAAKey	= @"AABoard";
 
 
 @implementation BoardManager(BSAddition)
@@ -354,6 +355,63 @@ static NSString *const NNDDefaultMailKey	= @"DefaultReplyMail";
 	[self setNoNameDict : mdict_];
 	[mdict_ release];
 }
+
+#pragma mark (LittleWish Addition)
+// LittleWish Addition
+- (BOOL) allThreadsShouldAAThreadAtBoard : (NSString *) boardName
+{
+	id entry_;
+	
+	entry_ = [self entryForBoardName : boardName];
+
+	if ([entry_ isKindOfClass : [NSString class]]) {
+		return NO;
+	} else if ([entry_ isKindOfClass : [NSDictionary class]]) {
+		if ([[entry_ allKeys] containsObject : NNDAllThreadsAAKey]) {
+			return [entry_ boolForKey : NNDAllThreadsAAKey];
+		} else {
+			return NO;
+		}
+	} else {
+		return NO;
+	}
+}
+
+- (void) setAllThreadsShouldAAThread : (BOOL      ) shouldAAThread
+							 atBoard : (NSString *) boardName
+{
+	NSMutableDictionary		*mdict_;
+	id entry_;
+	
+	UTILAssertNotNil(boardName);
+	
+	entry_ = [self entryForBoardName : boardName];
+	
+	mdict_ = [[self noNameDict] mutableCopyWithZone : [self zone]];
+	if(entry_ == nil || [entry_ isKindOfClass : [NSString class]]) {
+		NSArray	*tempObjects, *tempKeys;
+		
+		if (entry_ != nil) {
+			tempObjects = [NSArray arrayWithObjects : entry_, [NSNumber numberWithBool : shouldAAThread], nil];
+			tempKeys	= [NSArray arrayWithObjects : NNDNoNameKey, NNDAllThreadsAAKey, nil];
+		} else {
+			tempObjects = [NSArray arrayWithObjects : [NSNumber numberWithBool : shouldAAThread], nil];
+			tempKeys	= [NSArray arrayWithObjects : NNDAllThreadsAAKey, nil];
+		}
+		[mdict_ setObject : [NSDictionary dictionaryWithObjects : tempObjects forKeys : tempKeys]
+				   forKey : boardName];
+	} else {
+		NSMutableDictionary		*mutableEntry_;
+		mutableEntry_ = [entry_ mutableCopy];
+		[mutableEntry_ setBool : shouldAAThread forKey : NNDAllThreadsAAKey];
+		
+		[mdict_ setObject : mutableEntry_ forKey : boardName];
+		[mutableEntry_ release];
+	}
+	[self setNoNameDict : mdict_];
+	[mdict_ release];
+}
+
 
 #pragma mark -
 

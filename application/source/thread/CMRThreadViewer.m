@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.12 2005/11/16 15:59:47 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.13 2005/11/23 13:44:07 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -419,7 +419,7 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 			removeObserver : self
 			name : CMRThreadComposingCallbackNotification
 			object : [aNotification object]];
-	[self scrollToLastReadedIndex : self];
+	//[self scrollToLastReadedIndex : self];
 }
 
 // CMRThreadComposingDidFinishNotification
@@ -458,9 +458,11 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 		// 
 		[self reloadIfOnlineMode : self];
 	}
-	
     // remove from lock
     [[CMRNetGrobalLock sharedInstance] remove : [self threadIdentifier]];
+
+	[self scrollToLastReadedIndex : self];
+	
 	// まだ名無しさんが決定していなければ決定
 	// この時点では WorkerThread が動いており、
 	// プログレス・バーもそのままなので少し遅らせる

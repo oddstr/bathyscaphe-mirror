@@ -114,6 +114,12 @@
 {
 	if ([self canScrollToLastReadedMessage]) {
 		[self scrollMessageAtIndex : [[self threadAttributes] lastIndex]];
+	} else {
+		if ([self threadLayout] != nil) {
+			// アタッチメントをマウスオーバーに反応させるために強制的にビューを更新（CocoMonar の修正を取り込み）
+			[[self threadLayout] dummyScroll : sender];
+
+		}
 	}
 }
 - (IBAction) scrollToLastUpdatedIndex : (id) sender

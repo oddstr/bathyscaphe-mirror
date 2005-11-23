@@ -49,6 +49,12 @@
 @end
 
 
+@interface CMRThreadsList(NotificationCenterSupport)
+// added in LittleWish and later.
+- (void) syncFavIfNeededWithAttr : (NSMutableDictionary *) thread
+						 forPath : (NSString *) filePath;
+@end
+
 
 @interface CMRThreadsList(CleanUp)
 - (void) trashDidPerformNotification : (NSNotification *) theNotification;

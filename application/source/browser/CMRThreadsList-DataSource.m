@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.9 2005/11/05 04:21:57 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.10 2005/11/23 13:44:07 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -153,10 +153,6 @@ static NSString *statusImageNameForStatus(ThreadStatus s)
 			v = (diff_ >= 0) ? [NSNumber numberWithInt : diff_] : nil;
 		}
 	}else if([CMRThreadSubjectIndexKey isEqualToString : identifier] && [self isFavorites]){
-		/*if ([[[CMRFavoritesManager defaultManager] favoritesItemsIndex] count] == 0) {
-			NSLog(@"Resetting FavItemsIndex");
-			[[CMRFavoritesManager defaultManager] setFavoritesItemsIndex : nil];
-		}*/
 		// ”Ô†i‚¨‹C‚É“ü‚èj
 		v = [NSNumber numberWithInt : ([[[CMRFavoritesManager defaultManager] favoritesItemsIndex]
 											indexOfObject : [CMRThreadAttributes pathFromDictionary : thread]]+1)];

@@ -5,7 +5,6 @@
 #import "CMRThreadLayout.h"
 
 
-
 @interface CMRThreadsListReadFileTask(Private)
 - (NSString *) threadsListPath;
 - (void) setThreadsListPath : (NSString *) aThreadsListPath;

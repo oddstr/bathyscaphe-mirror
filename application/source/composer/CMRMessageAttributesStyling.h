@@ -30,7 +30,8 @@ extern NSString *CMRLocalBeProfileLinkWithString(NSString *beProfile);
 
 /*** Other Attributes ***/
 /* <ul> */
-- (NSParagraphStyle *) blockQuoteParagraphStyle;
+// deprecated in LittleWish and later.
+//- (NSParagraphStyle *) blockQuoteParagraphStyle;
 
 
 /*** Text Attachments ***/

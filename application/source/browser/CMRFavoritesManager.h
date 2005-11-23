@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFavoritesManager.h,v 1.3 2005/11/04 10:32:36 tsawada2 Exp $
+  * $Id: CMRFavoritesManager.h,v 1.4 2005/11/23 13:44:07 tsawada2 Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
@@ -17,6 +17,7 @@ typedef enum {
 @interface CMRFavoritesManager : NSObject
 {
 	NSMutableArray	*_favoritesItemsArray;
+	NSMutableArray	*_favoritesItemsIndex;
 	NSMutableArray	*_changedFavItemsPool;
 }
 
@@ -25,6 +26,7 @@ typedef enum {
 - (NSMutableArray *) favoritesItemsArray;
 - (void) setFavoritesItemsArray : (NSMutableArray *) anArray;
 - (NSMutableArray *) favoritesItemsIndex;
+- (void) setFavoritesItemsIndex : (NSMutableArray *) anArray;
 
 - (NSMutableArray *) changedFavItemsPool;
 - (void) setChangedFavItemsPool : (NSMutableArray *) anArray;

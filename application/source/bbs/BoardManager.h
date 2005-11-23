@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.h,v 1.3 2005/09/24 06:07:49 tsawada2 Exp $
+ * $Id: BoardManager.h,v 1.4 2005/11/23 13:44:07 tsawada2 Exp $
  * 
  * BoardManager.h
  *
@@ -108,6 +108,10 @@
 - (void) setDefaultMail : (NSString *) aString
 			   forBoard : (NSString *) boardName;
 
+// LittleWish Addition
+- (BOOL) allThreadsShouldAAThreadAtBoard : (NSString *) boardName;
+- (void) setAllThreadsShouldAAThread : (BOOL      ) shouldAAThread
+							 atBoard : (NSString *) boardName;
 
 /*
 	ƒ†[ƒU‚©‚ç‚Ì“ü—Í‚ğó‚¯‚Â‚¯‚éB

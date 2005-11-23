@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-Notification.m,v 1.1 2005/05/11 17:51:04 tsawada2 Exp $
+  * $Id: CMRThreadsList-Notification.m,v 1.2 2005/11/23 13:44:07 tsawada2 Exp $
   * 
   * CMRThreadsList-Notification.m
   *
@@ -14,8 +14,7 @@
 #import "CMRFavoritesManager.h"
 #import "missing.h"
 
-// these functions are used in both CMRThreadsList-Notification.m and w2chFavoriteItemList.m
-BOOL synchronizeThreadAttributes(NSMutableDictionary *theThread, CMRThreadAttributes *theAttributes)
+static BOOL synchronizeThreadAttributes(NSMutableDictionary *theThread, CMRThreadAttributes *theAttributes)
 {
 	unsigned		nLoaded_;
 	unsigned		nCorrectLoaded_;
@@ -31,20 +30,18 @@ BOOL synchronizeThreadAttributes(NSMutableDictionary *theThread, CMRThreadAttrib
 					   forKey : CMRThreadLastLoadedNumberKey];
 	nRes_ = [theThread unsignedIntForKey : CMRThreadNumberOfMessagesKey];
 	
-	if(0 == nCorrectLoaded_)
-		status_ = ThreadNoCacheStatus;
-	else if(nRes_ == nCorrectLoaded_)
+	if(nRes_ == nCorrectLoaded_)
 		status_ = ThreadLogCachedStatus;
 	else
 		status_ = ThreadUpdatedStatus;
-	
+
 	[theThread setUnsignedInt : status_
 					   forKey : CMRThreadStatusKey];
 	
 	return YES;
 }
 
-void margeThreadAttributesWithContentDict(NSMutableDictionary *thread, NSDictionary *content)
+static void margeThreadAttributesWithContentDict(NSMutableDictionary *thread, NSDictionary *content)
 {
 	int		cnt_;
 	id		o1, o2;
@@ -114,6 +111,17 @@ void margeThreadAttributesWithContentDict(NSMutableDictionary *thread, NSDiction
 	
 	[super removeFromNotificationCenter];
 }
+
+- (void) syncFavIfNeededWithAttr : (NSMutableDictionary *) thread forPath : (NSString *) filePath
+{
+	CMRFavoritesManager *fM_ = [CMRFavoritesManager defaultManager];
+	int					i;
+	
+	i = [[fM_ favoritesItemsIndex] indexOfObject : filePath];
+	if (i != NSNotFound)
+		[[fM_ favoritesItemsArray] replaceObjectAtIndex : i withObject : thread];
+}
+
 // スレッドの読み込みが完了。
 - (void) threadViewerDidChangeThread : (NSNotification *) theNotification
 {
@@ -135,14 +143,11 @@ void margeThreadAttributesWithContentDict(NSMutableDictionary *thread, NSDiction
 	
 	// 既得数を更新
 	if(synchronizeThreadAttributes(thread_, threadAttributes_)) {
-		int	i;
-		i = [[[CMRFavoritesManager defaultManager] favoritesItemsIndex] indexOfObject : filepath_];
-		if (i != NSNotFound) {
-			[[[CMRFavoritesManager defaultManager] favoritesItemsArray] replaceObjectAtIndex : i withObject : thread_];
-		}
+		[self syncFavIfNeededWithAttr : thread_ forPath : filepath_];
 		[self postListDidUpdateNotification : CMRAutoscrollWhenThreadUpdate];
 	}
 }
+
 // スレッドのダウンロードが終了した。
 - (void) downloaderTextUpdatedNotified : (NSNotification *) notification
 {
@@ -150,8 +155,7 @@ void margeThreadAttributesWithContentDict(NSMutableDictionary *thread, NSDiction
 	NSDictionary			*userInfo_;
 	NSDictionary			*newContents_;
 	NSMutableDictionary		*thread_;
-	
-	int	i;
+	NSString				*fPath_;
 
 	UTILAssertNotificationName(
 		notification,
@@ -161,6 +165,9 @@ void margeThreadAttributesWithContentDict(NSMutableDictionary *thread, NSDiction
 	downloader_ = [notification object];
 	UTILAssertKindOfClass(downloader_, CMRDownloader);
 	
+	fPath_ = [downloader_ filePathToWrite];
+	UTILAssertNotNil(fPath_);
+	
 	userInfo_ = [notification userInfo];
 	UTILAssertNotNil(userInfo_);
 	
@@ -169,16 +176,12 @@ void margeThreadAttributesWithContentDict(NSMutableDictionary *thread, NSDiction
 		newContents_,
 		NSDictionary);
 
-	thread_ = [self seachThreadByPath : [downloader_ filePathToWrite]];
+	thread_ = [self seachThreadByPath : fPath_];
 	if(nil == thread_) return;
 
 	margeThreadAttributesWithContentDict(thread_, newContents_);
 
-	i = [[[CMRFavoritesManager defaultManager] favoritesItemsIndex] indexOfObject : [downloader_ filePathToWrite]];
-	if (i != NSNotFound) {
-		[[[CMRFavoritesManager defaultManager] favoritesItemsArray] replaceObjectAtIndex : i withObject : thread_];
-	}
-	
+	[self syncFavIfNeededWithAttr : thread_ forPath : fPath_];	
 	[self postListDidUpdateNotification : CMRAutoscrollWhenThreadUpdate];
 }
 @end

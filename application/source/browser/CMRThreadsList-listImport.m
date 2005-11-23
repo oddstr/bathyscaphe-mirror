@@ -19,12 +19,12 @@
 
 static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, CMRThreadAttributes *theAttributes)
 {
-	unsigned		nLoaded_;
+	//unsigned		nLoaded_;
 	unsigned		nCorrectLoaded_;
 	//unsigned		nRes_;
 	ThreadStatus	status_;
 	
-	nLoaded_ = [theThread unsignedIntForKey : CMRThreadLastLoadedNumberKey];
+	//nLoaded_ = [theThread unsignedIntForKey : CMRThreadLastLoadedNumberKey];
 	nCorrectLoaded_ = [theAttributes numberOfLoadedMessages];
 
 	[theThread setUnsignedInt : nCorrectLoaded_

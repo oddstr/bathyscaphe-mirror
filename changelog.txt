@@ -1,3 +1,18 @@
+2005-11-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/w2chFavoriteItemList.m
+	* application/source/browser/CMRThreadsList-listImport.m
+	* application/source/browser/CMRThreadsList-Notification.m
+		CMRThreadsList（スーパークラス）と w2chFavoriteItemList（サブクラス）の間の無駄なソースの重複記述を
+		無くすようにソースの書き方を改めた。あちこちに似たような内容が書き散らされ、メンテナンス性が低下していた
+		（昔の自分がやったことなのだが）。
+	* application/source/thread/CMRThreadViewer-MoveAction.m
+	* application/source/thread/CMRThreadViewer.m
+	* application/source/composer/CMRMessageAttributesTemplate.m
+		オンザフライボタンをクリックするとクラッシュする問題の解決方法を変更し、CocoMonar と同じ方法にした。
+		微少スクロール（0.01point なので、目には見えない）を強制的に行って、スクロールビューを更新する。
+		これによって、ポップアップが表示領域をスクロールするまで反応しないことがある問題も解決。
+	* application/source/browser/CMRFavoritesManager.m
+		CMRFavoritesManager のコードを以前と似た形に戻す。
 2005-11-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadViewer-Link.m
 		1.1.2 から、 KeyValueTemplates.plist の "Thread - LaunchExternalProgramOnPreviewLink" は

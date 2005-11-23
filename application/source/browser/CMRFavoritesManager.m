@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFavoritesManager.m,v 1.7 2005/11/05 04:21:57 tsawada2 Exp $
+  * $Id: CMRFavoritesManager.m,v 1.8 2005/11/23 13:44:07 tsawada2 Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
@@ -48,6 +48,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 {
 	[[NSNotificationCenter defaultCenter] removeObserver : self];
 	[_favoritesItemsArray release];
+	[_favoritesItemsIndex release];
 	[_changedFavItemsPool release];
 	[super dealloc];
 }
@@ -94,27 +95,39 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 - (NSMutableArray *) favoritesItemsIndex
 {
-	NSMutableArray	*favItems_ = [self favoritesItemsArray];
+	if (nil == _favoritesItemsIndex) {
+		NSMutableArray	*favItems_ = [self favoritesItemsArray];
 
-	if ([favItems_ count] == 0) {
-		return [NSMutableArray array];
-	} else {
-		NSEnumerator	*iter_;
-		NSDictionary	*anItem_;	// each favorite item
-		NSMutableArray *tmp_ = [NSMutableArray arrayWithCapacity : [favItems_ count]];
+		if ([favItems_ count] == 0) {
+			_favoritesItemsIndex = [[NSMutableArray alloc] init];
+		} else {
+			NSEnumerator	*iter_;
+			NSDictionary	*anItem_;	// each favorite item
 
-		iter_ = [favItems_ objectEnumerator];
+			_favoritesItemsIndex = [[NSMutableArray alloc] initWithCapacity : [favItems_ count]];
 
-		while ((anItem_ = [iter_ nextObject]) != nil) {
-			id	itemPath_;
-			itemPath_ = [CMRThreadAttributes pathFromDictionary : anItem_];
-			UTILAssertNotNil(itemPath_);
+			iter_ = [favItems_ objectEnumerator];
 
-			[tmp_ addObject : itemPath_];
+			while ((anItem_ = [iter_ nextObject]) != nil) {
+				id	itemPath_;
+				itemPath_ = [CMRThreadAttributes pathFromDictionary : anItem_];
+				UTILAssertNotNil(itemPath_);
+
+				[_favoritesItemsIndex addObject : itemPath_];
+			}
 		}
-
-		return tmp_;
 	}
+	
+	return _favoritesItemsIndex;
+}
+
+- (void) setFavoritesItemsIndex : (NSMutableArray *) anArray
+{
+	id		tmp;
+	
+	tmp = _favoritesItemsIndex;
+	_favoritesItemsIndex = [anArray retain];
+	[tmp release];
 }
 
 // Ç±ÇÃÇ÷ÇÒÅAébíËìIÇ»é¿ëï
@@ -223,6 +236,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	if(path_ == nil || NO == [self canCreateFavoriteLinkFromPath : path_]) return NO;
 	
 	[[self favoritesItemsArray] addObject : thread];
+	[[self favoritesItemsIndex] addObject : path_];
 	
 	// write Now
 	[[self favoritesItemsArray] writeToFile : [[self class] defaultFilepath]
@@ -267,6 +281,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	if (idx_ == NSNotFound) return NO;
 
 	[[self favoritesItemsArray] removeObjectAtIndex : idx_];
+	[[self favoritesItemsIndex] removeObjectAtIndex : idx_];
 
 	UTILNotifyInfo3(
 		CMRFavoritesManagerDidRemoveFavoritesNotification,
@@ -337,6 +352,10 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	
 	[self setFavoritesItemsArray : newFavAry_];
 	[newFavAry_ release];
+
+	// éËî≤Ç´
+	[self setFavoritesItemsIndex : nil];
+	[self favoritesItemsIndex];
 	
 	return isAscending_ ? [aboveArray_ count] : [belowArray_ count];
 }

@@ -6,7 +6,6 @@
 #import "CMRThreadLayout.h"
 
 
-
 @interface CMRThreadsUpdateListTask(Private)
 /**
   * CMRThreadsList.plist‚ğ“Ç‚İ‚ñ‚¾mutable‚È”z—ñ‚Ì’†g‚ğ

@@ -1,11 +1,7 @@
 //:w2chFavoriteItemList.m
 /**
-  *
-  * @see CMRFavoritesManager.h
-  *
-  * @author Takanori Ishikawa
-  * @author http://www15.big.or.jp/~takanori/
-  * @version 1.0.0d1 (02/11/09  0:04:57 AM)
+  * $Id: w2chFavoriteItemList.m,v 1.5 2005/11/23 13:44:07 tsawada2 Exp $
+  * Copyright 2005 BathyScaphe Project. All rights reserved.
   *
   */
 #import "CMRThreadsList_p.h"
@@ -14,10 +10,6 @@
 #import "ThreadTextDownloader.h"
 #import "CMRThreadsUpdateListTask.h"
 #import "missing.h"
-
-/* These functions are actually implemented in CMRThreadsList-Notification.m */
-extern BOOL synchronizeThreadAttributes(NSMutableDictionary*, CMRThreadAttributes*);
-extern void margeThreadAttributesWithContentDict(NSMutableDictionary*, NSDictionary*);
 
 @implementation w2chFavoriteItemList
 - (void) registerToNotificationCenter
@@ -181,77 +173,19 @@ extern void margeThreadAttributesWithContentDict(NSMutableDictionary*, NSDiction
 	[self startLoadingThreadsList : [self worker]];
 }
 
-// スレッドの読み込みが完了。
-- (void) threadViewerDidChangeThread : (NSNotification *) theNotification
+
+- (void) syncFavIfNeededWithAttr : (NSMutableDictionary *) thread forPath : (NSString *) filePath
 {
-	NSMutableDictionary		*thread_;
-	NSString				*filepath_;
-	CMRThreadAttributes		*threadAttributes_;
-	
-	UTILAssertNotificationName(
-		theNotification,
-		CMRThreadViewerDidChangeThreadNotification);
-	
-	
-	threadAttributes_ = [[theNotification object] threadAttributes];
-	filepath_ = [[theNotification object] path];
-	thread_ = [self seachThreadByPath : filepath_];
-	if(nil == thread_)
-		return;
-	
-	
-	// 既得数を更新
-	if(synchronizeThreadAttributes(thread_, threadAttributes_)) {
-		int	i;
-		i = [[[CMRFavoritesManager defaultManager] favoritesItemsIndex] indexOfObject : filepath_];
-		if (i != NSNotFound) {
-			[[[CMRFavoritesManager defaultManager] favoritesItemsArray] replaceObjectAtIndex : i
-																				  withObject : thread_];
-		}
+	[super syncFavIfNeededWithAttr : thread forPath : filePath];
 
-		[[CMRFavoritesManager defaultManager] addItemToPoolWithFilePath : filepath_];
-
-		[self postListDidUpdateNotification : CMRAutoscrollWhenThreadUpdate];
-	}
+	[[CMRFavoritesManager defaultManager] addItemToPoolWithFilePath : filePath];
 }
-// スレッドのダウンロードが終了した。
-- (void) downloaderTextUpdatedNotified : (NSNotification *) notification
+@end
+
+@implementation w2chFavoriteItemList(ReadThreadsList)
+- (void) _applyFavItemsPool
 {
-	CMRDownloader			*downloader_;
-	NSDictionary			*userInfo_;
-	NSDictionary			*newContents_;
-	NSMutableDictionary		*thread_;
-	int	i;
-	
-	UTILAssertNotificationName(
-		notification,
-		ThreadTextDownloaderUpdatedNotification);
-		
-
-	downloader_ = [notification object];
-	UTILAssertKindOfClass(downloader_, CMRDownloader);
-	
-	userInfo_ = [notification userInfo];
-	UTILAssertNotNil(userInfo_);
-	
-	newContents_ = [userInfo_ objectForKey : CMRDownloaderUserInfoContentsKey];
-	UTILAssertKindOfClass(
-		newContents_,
-		NSDictionary);
-
-	thread_ = [self seachThreadByPath : [downloader_ filePathToWrite]];
-	if(nil == thread_) return;
-
-	margeThreadAttributesWithContentDict(thread_, newContents_);
-
-	i = [[[CMRFavoritesManager defaultManager] favoritesItemsIndex] indexOfObject : [downloader_ filePathToWrite]];
-	if (i != NSNotFound) {
-		[[[CMRFavoritesManager defaultManager] favoritesItemsArray] replaceObjectAtIndex : i withObject : thread_];
-	}
-
-	[[CMRFavoritesManager defaultManager] addItemToPoolWithFilePath : [downloader_ filePathToWrite]];
-	
-	[self postListDidUpdateNotification : CMRAutoscrollWhenThreadUpdate];
+	// Nothing need to be done.
 }
 
 - (void) _syncFavItemsPool
@@ -263,40 +197,16 @@ extern void margeThreadAttributesWithContentDict(NSMutableDictionary*, NSDiction
 @implementation w2chFavoriteItemList(ListImport)
 + (void) clearAttributes : (NSMutableDictionary *) attributes
 {
-	// ------ 必要ない内容は捨てる。------
-	NSString *removeKeys_[] = 
-				{
-					CMRThreadNumberOfUpdatedKey,
-					CMRThreadLastLoadedNumberKey,
-					CMRThreadCreatedDateKey,
-					CMRThreadModifiedDateKey,
-					ThreadPlistContentsKey,
-					ThreadPlistLengthKey,
-					CMRThreadWindowFrameKey,
-					CMRThreadLastReadedIndexKey,
-					CMRThreadVisibleRangeKey
-				};
-	unsigned		i, cnt;
+	int idx_;
+	CMRFavoritesManager	*fM_ = [CMRFavoritesManager defaultManager];
 	
-	cnt = UTILNumberOfCArray(removeKeys_);
-	for(i = 0; i < cnt; i++)
-		[attributes removeObjectForKey : removeKeys_[i]];
-	
-	// ステータスをクリア
-	[attributes setUnsignedInt : ThreadNoCacheStatus
-						forKey : CMRThreadStatusKey];
-	{
-		int	idx_;
-		idx_ = [[[CMRFavoritesManager defaultManager] favoritesItemsIndex] indexOfObject : [attributes objectForKey : CMRThreadLogFilepathKey]];
-		if (idx_ != NSNotFound) {
-			[[[CMRFavoritesManager defaultManager] favoritesItemsArray] replaceObjectAtIndex : idx_ withObject : attributes];
-		}
-	}
-}
+	[super clearAttributes : attributes];
 
-- (void) _applyFavItemsPool
-{
-	// Nothing need to be done.
+	idx_ = [[fM_ favoritesItemsIndex] indexOfObject : [CMRThreadAttributes pathFromDictionary : attributes]];
+
+	if (idx_ != NSNotFound)
+		[[fM_ favoritesItemsArray] replaceObjectAtIndex : idx_ withObject : attributes];
+
 }
 @end
 

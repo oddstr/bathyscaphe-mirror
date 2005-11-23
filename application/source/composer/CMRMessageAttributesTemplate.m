@@ -94,9 +94,10 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 	return [self messageAttributesForHost];
 }
 
-#pragma mark Other Attributes
+//#pragma mark Other Attributes
 /* <ul> */
-- (NSParagraphStyle *) blockQuoteParagraphStyle
+// deprecated in LittleWish and later.
+/*- (NSParagraphStyle *) blockQuoteParagraphStyle
 {
 	float		indent_;
 	
@@ -109,7 +110,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 	[_blockQuoteParagraphStyle retain];
 	
 	return _blockQuoteParagraphStyle;
-}
+}*/
 
 #pragma mark Text Attachments
 - (NSAttributedString *) mailAttachmentStringWithMail : (NSString *) address
@@ -207,7 +208,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 	[attachment_ setAttachmentCell : cell_];
 	// 2005-09-30 この retain 追加でクラッシュしなくなるとは、いやはや、
 	// 268@CocoMonar 24th(actually 25th) thread 氏のアドバイス（激しく thx）。
-	[attachment_ retain];
+	//[attachment_ retain];
 	[cell_ release];
 	
 	return [attachment_ autorelease];
