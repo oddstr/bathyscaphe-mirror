@@ -51,6 +51,12 @@
 - (BOOL) shouldAlwaysBeLogin;
 - (void) setShouldAlwaysBeLogin : (BOOL) checkboxState;
 
+// Availabe in LittleWish and later.
+- (BOOL) shouldAllThreadsAAThread;
+- (void) setShouldAllThreadsAAThread : (BOOL) checkboxState;
+
+- (NSImage *) icon;
+
 // method
 - (void) showInspectorForTargetBoard : (NSString *) boardName;
 

@@ -412,6 +412,15 @@ static NSString *const NNDAllThreadsAAKey	= @"AABoard";
 	[mdict_ release];
 }
 
+- (NSImage *) iconForBoard : (NSString *) boardName
+{
+	// Future will be...
+	/*BoardListItem	*item_;
+	item_ = [self itemForName : boardName];
+	
+	return [item_ icon];*/
+	
+}
 
 #pragma mark -
 

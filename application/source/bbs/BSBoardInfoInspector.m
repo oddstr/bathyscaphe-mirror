@@ -83,6 +83,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	[self willChangeValueForKey:@"defaultKotehan"];
 	[self willChangeValueForKey:@"defaultMail"];
 	[self willChangeValueForKey:@"shouldAlwaysBeLogin"];
+	[self willChangeValueForKey:@"shouldAllThreadsAAThread"];
 
 	[newTarget retain];
 	[_currentTargetBoardName release];
@@ -95,6 +96,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	[self didChangeValueForKey:@"defaultKotehan"];
 	[self didChangeValueForKey:@"defaultMail"];
 	[self didChangeValueForKey:@"shouldAlwaysBeLogin"];
+	[self didChangeValueForKey:@"shouldAllThreadsAAThread"];
 }
 
 - (NSButton *) helpButton
@@ -183,6 +185,20 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 - (void) setShouldAlwaysBeLogin : (BOOL) checkboxState
 {
 	[BrdMgr setAlwaysBeLogin : checkboxState atBoard : [self currentTargetBoardName]];
+}
+
+- (BOOL) shouldAllThreadsAAThread
+{
+	return [BrdMgr allThreadsShouldAAThreadAtBoard : [self currentTargetBoardName]];
+}
+
+- (void) setShouldAllThreadsAAThread : (BOOL) checkboxState
+{
+	[BrdMgr setAllThreadsShouldAAThread : checkboxState atBoard : [self currentTargetBoardName]];
+}
+
+- (NSImage *) icon
+{
 }
 
 #pragma mark -

@@ -1,6 +1,6 @@
 //: CMRThreadLayout.h
 /**
-  * $Id: CMRThreadLayout.h,v 1.2 2005/11/23 13:44:07 tsawada2 Exp $
+  * $Id: CMRThreadLayout.h,v 1.3 2005/11/24 10:15:02 tsawada2 Exp $
   * 
   * CMRThreadLayout.h
   *
@@ -103,7 +103,6 @@
 - (unsigned int) messageIndexForDocuemntVisibleRect;
 - (void) scrollMessageAtIndex : (unsigned) anIndex;
 - (IBAction) scrollToLastUpdatedIndex : (id) sender;
-- (void) dummyScroll : (id) sender; // added in LittleWish
 @end
 
 

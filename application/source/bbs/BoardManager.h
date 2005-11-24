@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.h,v 1.4 2005/11/23 13:44:07 tsawada2 Exp $
+ * $Id: BoardManager.h,v 1.5 2005/11/24 10:15:02 tsawada2 Exp $
  * 
  * BoardManager.h
  *
@@ -112,6 +112,8 @@
 - (BOOL) allThreadsShouldAAThreadAtBoard : (NSString *) boardName;
 - (void) setAllThreadsShouldAAThread : (BOOL      ) shouldAAThread
 							 atBoard : (NSString *) boardName;
+
+- (NSImage *) iconForBoard : (NSString *) boardName;
 
 /*
 	ƒ†[ƒU‚©‚ç‚Ì“ü—Í‚ğó‚¯‚Â‚¯‚éB

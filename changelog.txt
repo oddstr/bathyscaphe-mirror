@@ -1,4 +1,10 @@
 2005-11-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadLayout.m
+	* application/source/thread/CMRThreadViewer-MoveAction.m
+	* application/source/thread/CMRThreadViewer.m
+		オンザフライボタンをクリックするとクラッシュする問題、および時々ポップアップが反応しないことがある問題の解決策を
+		さらに修正（微小スクロールの方法は止めた）。
+		- NSWindow の invalidateCursorRectsForView: を clipView に対して呼んでやることでうまくいくようだ。
 	* application/source/thread/CMRThreadViewer.m
 		2005-11-23 の変更で、書き込み完了後のスクロールがちょっと変な挙動になってしまっていたので修正。
 2005-11-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>

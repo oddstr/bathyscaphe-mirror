@@ -108,7 +108,6 @@
 		8701620F082BE67100AEFDD0 /* CMRHostHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = F358F4B904DE227900A80005 /* CMRHostHandler.h */; };
 		87016210082BE67100AEFDD0 /* CMRHostHandler_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F358F4BD04DE23BC00A80005 /* CMRHostHandler_p.h */; };
 		87016211082BE67100AEFDD0 /* CMRHistoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F38D3D4E04FBE7D000DCB099 /* CMRHistoryManager.h */; };
-		87016212082BE67100AEFDD0 /* CMRBBSAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = F3A31C080503366700CE4E8E /* CMRBBSAttributes.h */; };
 		87016213082BE67100AEFDD0 /* SGContextHelpPanel.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDA804C698FB00A80005 /* SGContextHelpPanel.h */; };
 		87016215082BE67100AEFDD0 /* CMRProgressIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = F322F1F8050B877200A80005 /* CMRProgressIndicator.h */; };
 		87016216082BE67100AEFDD0 /* CMRPreferencesDefautValues.h in Headers */ = {isa = PBXBuildFile; fileRef = F322F7FB050BA07D00A80005 /* CMRPreferencesDefautValues.h */; };
@@ -254,7 +253,6 @@
 		87016346082BE67100AEFDD0 /* CMRHostHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F358F4BA04DE227900A80005 /* CMRHostHandler.m */; };
 		87016347082BE67100AEFDD0 /* CMRDATDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D0A9A104F6128A00CB520C /* CMRDATDownloader.m */; };
 		87016349082BE67100AEFDD0 /* CMRHistoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F38D3D4F04FBE7D000DCB099 /* CMRHistoryManager.m */; };
-		8701634A082BE67100AEFDD0 /* CMRBBSAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A31C090503366700CE4E8E /* CMRBBSAttributes.m */; };
 		8701634B082BE67100AEFDD0 /* CMRThreadViewer-Link.m in Sources */ = {isa = PBXBuildFile; fileRef = F33977B605087EBA00A80005 /* CMRThreadViewer-Link.m */; };
 		8701634C082BE67100AEFDD0 /* SGContextHelpPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDA904C698FB00A80005 /* SGContextHelpPanel.m */; };
 		8701634D082BE67100AEFDD0 /* CMRHostHTMLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B609F80509EDBF00A80005 /* CMRHostHTMLHandler.m */; };
@@ -2767,7 +2765,6 @@
 				8701620F082BE67100AEFDD0 /* CMRHostHandler.h in Headers */,
 				87016210082BE67100AEFDD0 /* CMRHostHandler_p.h in Headers */,
 				87016211082BE67100AEFDD0 /* CMRHistoryManager.h in Headers */,
-				87016212082BE67100AEFDD0 /* CMRBBSAttributes.h in Headers */,
 				87016213082BE67100AEFDD0 /* SGContextHelpPanel.h in Headers */,
 				87016215082BE67100AEFDD0 /* CMRProgressIndicator.h in Headers */,
 				87016216082BE67100AEFDD0 /* CMRPreferencesDefautValues.h in Headers */,
@@ -3500,7 +3497,6 @@
 				87016346082BE67100AEFDD0 /* CMRHostHandler.m in Sources */,
 				87016347082BE67100AEFDD0 /* CMRDATDownloader.m in Sources */,
 				87016349082BE67100AEFDD0 /* CMRHistoryManager.m in Sources */,
-				8701634A082BE67100AEFDD0 /* CMRBBSAttributes.m in Sources */,
 				8701634B082BE67100AEFDD0 /* CMRThreadViewer-Link.m in Sources */,
 				8701634C082BE67100AEFDD0 /* SGContextHelpPanel.m in Sources */,
 				8701634D082BE67100AEFDD0 /* CMRHostHTMLHandler.m in Sources */,

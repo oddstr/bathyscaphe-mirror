@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.14 2005/11/23 17:09:44 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.15 2005/11/24 10:15:02 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -461,10 +461,8 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
     // remove from lock
     [[CMRNetGrobalLock sharedInstance] remove : [self threadIdentifier]];
 
-	//[self scrollToLastReadedIndex : self];
-	if (![self canScrollToLastReadedMessage]) {
-		[[self threadLayout] dummyScroll : self];
-	}
+	// 2005-11-24 オンザフライクラッシュ対策
+	[[self window] invalidateCursorRectsForView : [[[self threadLayout] scrollView] contentView]];
 	
 	// まだ名無しさんが決定していなければ決定
 	// この時点では WorkerThread が動いており、

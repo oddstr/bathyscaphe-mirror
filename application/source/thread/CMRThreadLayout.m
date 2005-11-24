@@ -1,6 +1,6 @@
 //: CMRThreadLayout.m
 /**
-  * $Id: CMRThreadLayout.m,v 1.7 2005/11/23 13:44:07 tsawada2 Exp $
+  * $Id: CMRThreadLayout.m,v 1.8 2005/11/24 10:15:02 tsawada2 Exp $
   * 
   * CMRThreadLayout.m
   *
@@ -439,15 +439,6 @@
 	[self scrollMessageWithRange : 
 		[[self messageRanges] rangeAtIndex : anIndex]];
 }
-
-- (void) dummyScroll : (id) sender
-{
-	NSClipView	*clipview_;
-
-	clipview_ = [[self scrollView] contentView];
-	[clipview_ scrollToPoint : NSMakePoint(0, 0.01)];
-}
-
 @end
 
 
