@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.12 2005/11/16 15:59:47 tsawada2 Exp $
+  * $Id: CMRBrowser.m,v 1.13 2005/11/25 15:27:54 tsawada2 Exp $
   * 
   * CMRBrowser.m
   *
@@ -207,29 +207,37 @@ static BOOL threadDictionaryCompare(NSDictionary *dict1, NSDictionary *dict2)
 	
 	return threads_;
 }
+
 - (NSArray *) selectedThreadsReallySelected
 {
+	ThreadsListTable	*table_ = [self threadsListTable];
 	NSEnumerator	*indexIter_;
 	NSMutableArray	*threads_;
 	NSNumber		*indexNum_;
+	CMRThreadsList	*threadsList_;
 	
 	// 選択していないが表示しているかもしれない
 	// しかし、このメソッドは「真に選択されている」ものしか返さない(see selectedThreads)
 	
 	threads_ = [NSMutableArray array];
-	indexIter_ = [[self threadsListTable] selectedRowEnumerator];
+	indexIter_ = [table_ selectedRowEnumerator];
+	threadsList_ = [self currentThreadsList];
+
+	if (threadsList_ == nil)
+		return threads_;
+
 	while ((indexNum_ = [indexIter_ nextObject])) {
 		unsigned int		rowIndex_;
-		NSDictionary		*thread_;
+		NSDictionary		*threadAttr_;
 		
 		rowIndex_ = [indexNum_ unsignedIntValue];
-		thread_ = [[self currentThreadsList]
-					threadAttributesAtRowIndex : rowIndex_ 
-								   inTableView : [self threadsListTable]];
-		if (nil == thread_) 
+		threadAttr_ = [threadsList_ threadAttributesAtRowIndex : rowIndex_ 
+												   inTableView : table_];
+
+		if (nil == threadAttr_)
 			continue;
 		
-		[threads_ addObject : thread_];
+		[threads_ addObject : threadAttr_];
 	}
 	
 	return threads_;

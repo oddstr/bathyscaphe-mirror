@@ -1,3 +1,14 @@
+2005-11-26 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/thread/CMRThreadViewer.m
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/thread/CMRThreadViewer-Download.m
+	* application/source/browser/CMRThreadsList-Download.m
+	* application/source/browser/CMRThreadsList-Notification.m
+	* application/source/browser/CMRThreadsUpdateListTask.m
+		スレッドの削除と再取得に関連する部分を色々と書き換え。
+		- 以前のバージョンでは、潜在的なものも含めて多数のバグ、ないしは危うい動作があった。
+		- とりあえず一通り動作するように書き直したつもりだが、もうしばらく検証を続ける。
 2005-11-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadLayout.m
 	* application/source/thread/CMRThreadViewer-MoveAction.m

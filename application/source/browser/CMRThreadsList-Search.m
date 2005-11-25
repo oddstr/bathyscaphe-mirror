@@ -80,7 +80,7 @@ static TLSearchFunction _func4type(ThreadsListSearchType type){
 	thread_ = [[self threadsInfo] objectForKey : filepath];
 	if(thread_ != nil && (NO == [thread_ isEqual : [NSNull null]]))
 		return thread_;
-	
+
 	// ƒƒO‚ª‚È‚¯‚ê‚ÎAˆê——‚©‚çŒŸõB
 	thread_ = [self seachThreadByPath : filepath inArray : [self threads]];
 	

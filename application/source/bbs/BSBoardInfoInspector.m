@@ -13,6 +13,7 @@
 
 #import "BoardManager.h"
 #import "CMRThreadViewer.h"
+#import "CMRBBSSignature.h"
 #import "CMRBrowser.h"
 
 #define BrdMgr	[BoardManager defaultManager]

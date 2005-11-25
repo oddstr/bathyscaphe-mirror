@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Download.m,v 1.4 2005/11/16 15:59:47 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Download.m,v 1.5 2005/11/25 15:27:54 tsawada2 Exp $
   * 
   * CMRThreadViewer-Download.m
   *
@@ -9,8 +9,6 @@
 #import "CMRThreadViewer_p.h"
 #import "CMRDownloader.h"
 #import "ThreadTextDownloader.h"
-
-
 
 //////////////////////////////////////////////////////////////////////
 ////////////////////// [ 定数やマクロ置換 ] //////////////////////////
@@ -84,7 +82,6 @@
 	NSDictionary			*userInfo_;
 	NSString				*contents_;
 	
-	
 	UTILAssertNotificationName(
 		notification,
 		ThreadTextDownloaderDidFinishLoadingNotification);
@@ -98,10 +95,9 @@
 	UTILAssertKindOfClass(contents_, NSString);
 	
 	[self removeFromNotificationCeterWithDownloader : downloader_];
-	
-	if (NO == [[self threadIdentifier] isEqual : [downloader_ identifier]])
+	if (NO == [[self threadIdentifier] isEqual : [downloader_ identifier]]) {
 		return;
-	
+	}
 	[self composeDATContents : contents_
 			 threadSignature : [downloader_ identifier]
 				   nextIndex : [downloader_ nextIndex]];
@@ -184,42 +180,9 @@
 	return;
 }
 
-static NSDictionary *boardInfoWithF(NSString *filepath)
+- (void) reloadAfterDeletion : (NSString *) filePath_
 {
-	NSString				*dat_;
-	NSString				*bname_;
-	CMRDocumentFileManager	*dFM_ = [CMRDocumentFileManager defaultManager];
-	
-	bname_ = [dFM_ boardNameWithLogPath : filepath];
-	dat_ = [dFM_ datIdentifierWithLogPath : filepath];
-	
-	UTILCAssertNotNil(bname_);
-	UTILCAssertNotNil(dat_);
-	
-	return [NSDictionary dictionaryWithObjectsAndKeys : 
-						bname_,	ThreadPlistBoardNameKey,
-						dat_,	ThreadPlistIdentifierKey,
-						nil];
-}
-
-- (void) afterDeletionReTry : (NSString *) thePath_
-{
-	if (NO == [self shouldShowContents]) {
-		CMRThreadSignature *threadSignature_ = [CMRThreadSignature threadSignatureFromFilepath : thePath_];
-
-		[self downloadThread : threadSignature_
-					   title : nil
-				   nextIndex : NSNotFound];
-		return;
-	}
-
-	CMRThreadAttributes		*attrs_;
-	
-	attrs_ = [[CMRThreadAttributes alloc] initWithDictionary : boardInfoWithF(thePath_)];
-	[self setThreadAttributes : attrs_];
-	[attrs_ release];
-	
-	[self loadFromContentsOfFile : thePath_];
+	[self loadFromContentsOfFile : filePath_];
 }
 
 - (void) threadInvalidPerticalContentsSheetDidEnd : (NSWindow *) sheet
@@ -236,15 +199,15 @@ static NSDictionary *boardInfoWithF(NSString *filepath)
 	
 	switch(returnCode) {
 	case NSAlertDefaultReturn: // Delete and try again
-		[self forceDeleteThreadAtPath : filePathToWrite_];
-		
-		/* 2005-03-30 tsawada2<ben-sawa@td5.so-net.ne.jp>
-			削除した後、少し間を置いてから再取得を開始した方が安定するようだ（とくに、別ウインドウで開いているとき）
-		*/
-		[self performSelector : @selector(afterDeletionReTry:)
-               withObject : filePathToWrite_
-               afterDelay : 1.0];
+	{
+		if ([self forceDeleteThreadAtPath : filePathToWrite_]) {
+			[self reloadAfterDeletion : filePathToWrite_];
+		} else {
+			NSBeep();
+			NSLog(@"Deletion failed : %@\n...So reloading operation has been canceled.", filePathToWrite_);
+		}
 		break;
+	}
 	case NSAlertAlternateReturn: // Delete only
 		[self forceDeleteThreadAtPath : filePathToWrite_];
 		break;

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-Notification.m,v 1.2 2005/11/23 13:44:07 tsawada2 Exp $
+  * $Id: CMRThreadsList-Notification.m,v 1.3 2005/11/25 15:27:54 tsawada2 Exp $
   * 
   * CMRThreadsList-Notification.m
   *
@@ -160,7 +160,6 @@ static void margeThreadAttributesWithContentDict(NSMutableDictionary *thread, NS
 	UTILAssertNotificationName(
 		notification,
 		ThreadTextDownloaderUpdatedNotification);
-		
 
 	downloader_ = [notification object];
 	UTILAssertKindOfClass(downloader_, CMRDownloader);
@@ -178,7 +177,6 @@ static void margeThreadAttributesWithContentDict(NSMutableDictionary *thread, NS
 
 	thread_ = [self seachThreadByPath : fPath_];
 	if(nil == thread_) return;
-
 	margeThreadAttributesWithContentDict(thread_, newContents_);
 
 	[self syncFavIfNeededWithAttr : thread_ forPath : fPath_];	

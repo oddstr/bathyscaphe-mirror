@@ -19,30 +19,14 @@
 
 static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, CMRThreadAttributes *theAttributes)
 {
-	//unsigned		nLoaded_;
 	unsigned		nCorrectLoaded_;
-	//unsigned		nRes_;
 	ThreadStatus	status_;
 	
-	//nLoaded_ = [theThread unsignedIntForKey : CMRThreadLastLoadedNumberKey];
 	nCorrectLoaded_ = [theAttributes numberOfLoadedMessages];
 
 	[theThread setUnsignedInt : nCorrectLoaded_
 					   forKey : CMRThreadLastLoadedNumberKey];
-	//nRes_ = [theThread unsignedIntForKey : CMRThreadNumberOfMessagesKey];
-	
-	/*if(0 == nCorrectLoaded_)
-		status_ = ThreadNoCacheStatus;
-	else if(nRes_ == nCorrectLoaded_)
-		status_ = ThreadLogCachedStatus;
-	else if(nRes_ < nCorrectLoaded_)	// キモ
-		status_ = ThreadLogCachedStatus;
-	else
-		status_ = ThreadUpdatedStatus;
-	
-	[theThread setUnsignedInt : status_
-					   forKey : CMRThreadStatusKey];
-	*/
+
 	if (nCorrectLoaded_ == 0) {
 		status_ = ThreadNoCacheStatus;
 	} else {
@@ -153,7 +137,7 @@ static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, CMRThreadAt
 	// 板に対応するLibrary/内のディレクトリ直下の
 	// 「~~.thread」ログファイルからログスレッドを収集。
 	// 
-	NSLog(@"Start");
+	//NSLog(@"Start");
 	fileManager = [NSFileManager defaultManager];
 	result_ = [fileManager fileExistsAtPath:boardDirectory isDirectory:&isDirectory_];
 	
@@ -223,7 +207,7 @@ static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, CMRThreadAt
 		}
 		[pool release];
 	}
-	NSLog(@"END");
+	//NSLog(@"END");
 	return list_;				
 }
 @end

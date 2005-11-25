@@ -1,7 +1,7 @@
 /*
-    CMRThreadViewer-Validation.m
+    $Id: CMRThreadViewer-Validation.m,v 1.13 2005/11/25 15:27:54 tsawada2 Exp $
     CMRThreadViewer-Action.m から独立
-    v1.0 - 2005-02-16 by tsawada2.
+    Created at 2005-02-16 by tsawada2.
 */
 #import "CMRThreadViewer_p.h"
 
@@ -266,7 +266,6 @@ static int messageMaskForTag(int tag)
 	   action_ == @selector(findPreviousText:)		||
 	   action_ == @selector(findFirstText:)			||
 	   action_ == @selector(findAll:)				||
-	   action_ == @selector(customizeBrdListTable:) ||
 	   action_ == @selector(launchBWAgent:)			||
 	   action_ == @selector(openDefaultNoNameInputPanel:) ||
 	   action_ == @selector(orderFrontMainBrowser:) ||

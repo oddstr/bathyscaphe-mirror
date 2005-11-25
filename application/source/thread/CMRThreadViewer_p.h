@@ -134,6 +134,9 @@ extern NSString *const CMRThreadViewerRunSpamFilterNotification;
 - (void) downloadThread : (CMRThreadSignature *) aSignature
 				  title : (NSString           *) threadTitle
 			  nextIndex : (unsigned int        ) aNextIndex;
+
+// available in LittleWish and later.
+- (void) reloadAfterDeletion : (NSString *) filePath_; // subclass(CMRBrowser) should override this method
 @end
 
 

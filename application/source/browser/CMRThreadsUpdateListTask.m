@@ -157,9 +157,10 @@ RECACHE:
     // スレッド情報を更新する。
     // ログの存在しないスレッドにはNSNullを設定
     if (s & ThreadNoCacheStatus) {
-        if (cache == nil) {
+		// 2005-11-25 この if プロックを外して様子見
+        //if (cache == nil) {
             [cachedInfoTbl setObject:[NSNull null] forKey:path_];
-        }
+        //}
 	} else if (isUpdated && (s == ThreadUpdatedStatus)) {
 		// お気に入りに含まれていないか探す
 		// 新着ありの既得スレのみについて調べれば良い。

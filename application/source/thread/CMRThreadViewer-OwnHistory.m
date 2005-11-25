@@ -1,6 +1,10 @@
-// CMRThreadViewer-OwnHistory.m
-// それぞれのスレッドビューア内での履歴（グローバルな履歴と一致するとは限らない）の管理と移動アクションのサポート
-// CMRThreadViewer.m から分割
+/*
+ * $Id: CMRThreadViewer-OwnHistory.m,v 1.4 2005/11/25 15:27:54 tsawada2 Exp $
+ *
+ * それぞれのスレッドビューア内での履歴（グローバルな履歴と一致するとは限らない）の管理と移動アクションのサポート
+ * CMRThreadViewer.m から分割
+ *
+ */
 
 #import "CMRThreadViewer_p.h"
 
@@ -137,10 +141,10 @@
 }
 
 #pragma mark App Reset Notification
-- (void) applicationWillReset : (NSNotification *) theNotification
+/*- (void) applicationWillReset : (NSNotification *) theNotification
 {
 	;
-}
+}*/
 - (void) applicationDidReset : (NSNotification *) theNotification
 {
 	// 履歴を一旦消去し、現在表示中のスレッドを追加。

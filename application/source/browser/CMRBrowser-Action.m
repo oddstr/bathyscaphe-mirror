@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.25 2005/11/05 04:21:57 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.26 2005/11/25 15:27:54 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -266,17 +266,12 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 	}
 	
 }
+
 #pragma mark Deletion
-- (IBAction) forceDeleteThread : (id) sender
-{
-	NSString *thePath_ = [self path];
-
-	[self forceDeleteThreadAtPath : thePath_];
-}
-
 - (void) _showDeletionAlertSheet : (id) sender
 						  ofType : (BSThreadDeletionType) aType
 					  allowRetry : (BOOL) allowRetry
+				   targetThreads : (id) anObj
 {
 	NSAlert		*alert_;
 	NSString	*title_;
@@ -289,17 +284,17 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 	case BSThreadAtViewerDeletionType:
 		title_ = [self localizedString : kDeleteThreadTitleKey];
 		message_ = [self localizedString : kDeleteThreadMessageKey];
-		didEndSel_ = @selector(_threadDeletionSheetDidEnd:returnCode:contextInfo:);
+		didEndSel_ = @selector(_threadDeletionSheetForViewerDidEnd:returnCode:contextInfo:);
 		break;
 	case BSThreadAtBrowserDeletionType:
 		title_ = [self localizedString : kBrowserDelThTitleKey];
 		message_ = [self localizedString : kBrowserDelThMsgKey];
-		didEndSel_ = @selector(_threadDeletionSheetDidEnd:returnCode:contextInfo:);
+		didEndSel_ = @selector(_threadDeletionSheetForListDidEnd:returnCode:contextInfo:);
 		break;
 	case BSThreadAtFavoritesDeletionType:
 		title_ = [self localizedString : kDeleteFavTitleKey];
 		message_ = [self localizedString : kDeleteFavMsgKey];
-		didEndSel_ = @selector(_threadDeletionSheetDidEnd:returnCode:contextInfo:);
+		didEndSel_ = @selector(_threadDeletionSheetForListDidEnd:returnCode:contextInfo:);
 		break;
 	default : 
 		title_ = @"";
@@ -322,7 +317,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 	[alert_ beginSheetModalForWindow : [self window]
 					   modalDelegate : self
 					  didEndSelector : didEndSel_
-					     contextInfo : sender];
+					     contextInfo : [anObj retain]];
 
 	[alert_ release];
 }
@@ -332,20 +327,27 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
     CMRThreadsList	*threadsList = [self currentThreadsList];
     NSTableView		*tableView   = [self threadsListTable];
  
-	int				numOfSelected = [tableView numberOfSelectedRows];
+	NSArray			*selected_	= [self selectedThreadsReallySelected];
    
-    if (nil == threadsList || 0 == numOfSelected) {
-		/* スレ一覧で何も選択されていないとき */
+    if ([selected_ count] == 0) {
+		/* 一覧で何も選択されていない */
 		if ([self shouldShowContents]) {
 			/* 3ペイン表示なら、ログ表示領域で表示中のスレを削除する */
+			NSString *path_ = [[self path] copy];
 			if ([CMRPref quietDeletion]) {
-				NSString *path_ = [[self path] copy];
-				[self forceDeleteThreadAtPath : path_];
-				[self checkIfFavItemThenRemove : path_];
-				[path_ release];
+				if ([self forceDeleteThreadAtPath : path_]) {
+					[self checkIfFavItemThenRemove : path_];
+				} else {
+					NSBeep();
+					NSLog(@"Deletion failed : %@", path_);
+				}
 			} else {
-				[self _showDeletionAlertSheet : [self path] ofType : BSThreadAtViewerDeletionType allowRetry : YES];
+				[self _showDeletionAlertSheet : sender
+									   ofType : BSThreadAtViewerDeletionType
+								   allowRetry : YES
+								targetThreads : path_];
 			}
+			[path_ release];
 			return;
 		} else {
 			/* 2ペイン表示なら、削除するものは何も無い */
@@ -355,9 +357,11 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
     if (NO == [CMRPref quietDeletion]) {
 		/* 選択項目が複数ある場合、「削除して再取得」は許可しない */
 		if(NO == [threadsList isFavorites])
-			[self _showDeletionAlertSheet : nil ofType : BSThreadAtBrowserDeletionType allowRetry : (numOfSelected == 1)];
+			[self _showDeletionAlertSheet : sender ofType : BSThreadAtBrowserDeletionType allowRetry : ([selected_ count] == 1)
+					targetThreads : selected_];
 		else
-			[self _showDeletionAlertSheet : nil ofType : BSThreadAtFavoritesDeletionType allowRetry : (numOfSelected == 1)];
+			[self _showDeletionAlertSheet : sender ofType : BSThreadAtFavoritesDeletionType allowRetry : ([selected_ count] == 1)
+					targetThreads : selected_];
     } else {
 		[threadsList tableView : tableView
 				removeIndexSet : [tableView selectedRowIndexes]
@@ -366,42 +370,53 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 	}
 }
 
-- (void) _threadDeletionSheetDidEnd : (NSAlert *) alert
-						 returnCode : (int      ) returnCode
-						contextInfo : (void    *) contextInfo
+- (void) _threadDeletionSheetForListDidEnd : (NSAlert *) alert
+								returnCode : (int      ) returnCode
+							   contextInfo : (void	   *) contextInfo
 {
     CMRThreadsList *threadsList = [self currentThreadsList];
     NSTableView    *tableView   = [self threadsListTable];
+	
+	UTILAssertKindOfClass(contextInfo, [NSArray class]);
 
 	switch(returnCode){
 	case NSAlertFirstButtonReturn: // delete
-		if (contextInfo == nil) {
+		{
 			[threadsList tableView : tableView
 					removeIndexSet : [tableView selectedRowIndexes]
 				 delFavIfNecessary : YES];
 			[tableView reloadData];
-		} else {
-			NSString *path_ = [[self path] copy];
-			[self forceDeleteThreadAtPath : path_];
-			[self checkIfFavItemThenRemove : path_];
-			[path_ release];
 		}
 		break;
 	case NSAlertThirdButtonReturn: // delete & reload
 		{
-			NSString *path_ = [[self path] copy];
-			if (contextInfo == nil) {
-				[threadsList tableView : tableView
-						removeIndexSet : [tableView selectedRowIndexes]
-					 delFavIfNecessary : NO];
+			NSEnumerator		*Iter_;
+			NSDictionary		*threadAttributes_;
+
+			if ([threadsList tableView : tableView
+					removeIndexSet : [tableView selectedRowIndexes]
+				 delFavIfNecessary : YES])
+			{
+				[tableView reloadData];
+
+				Iter_ = [(NSArray *)contextInfo objectEnumerator];
+				while ((threadAttributes_ = [Iter_ nextObject])) {
+					NSString			*path_;
+					NSString			*title_;
+					CMRThreadSignature	*threadSignature_;
+					
+					path_ =  [CMRThreadAttributes pathFromDictionary : threadAttributes_];
+					title_ = [threadAttributes_ objectForKey : CMRThreadTitleKey];
+					threadSignature_ = [CMRThreadSignature threadSignatureFromFilepath : path_];
+
+					[self downloadThread : threadSignature_
+								   title : title_
+							   nextIndex : NSNotFound];
+				}
 			} else {
-				[self forceDeleteThreadAtPath : path_];
+				NSBeep();
+				NSLog(@"Deletion failed :\n%@", [(NSArray *)contextInfo description]);
 			}
-			[tableView reloadData];
-			[self performSelector : @selector(afterDeletionReTry:)
-					   withObject : path_
-					   afterDelay : 1.0];
-			[path_ release];
 		}
 		break;
 	case NSAlertSecondButtonReturn: // cancel
@@ -410,6 +425,44 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 		break;
 	}
 	
+}
+
+
+- (void) _threadDeletionSheetForViewerDidEnd : (NSAlert *) alert
+								  returnCode : (int      ) returnCode
+								 contextInfo : (void *) contextInfo
+{
+	UTILAssertKindOfClass(contextInfo, [NSString class]);
+
+	switch(returnCode){
+	case NSAlertFirstButtonReturn: // delete
+		{
+			NSString *path_ = [self path];
+			if ([self forceDeleteThreadAtPath : path_]) {
+				[self checkIfFavItemThenRemove : path_];
+			} else {
+				NSBeep();
+				NSLog(@"Deletion failed : %@", path_);
+			}
+		}
+		break;
+	case NSAlertThirdButtonReturn: // delete & reload
+		{
+			NSString *path_ = [self path];
+			if ([self forceDeleteThreadAtPath : path_]) {
+				[self reloadAfterDeletion : path_];
+				[[self threadsListTable] reloadData]; // really need?
+			} else {
+				NSBeep();
+				NSLog(@"Deletion failed : %@", path_);
+			}			
+		}
+		break;
+	case NSAlertSecondButtonReturn: // cancel
+		break;
+	default:
+		break;
+	}	
 }
 
 #pragma mark Search

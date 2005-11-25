@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.13 2005/11/05 04:21:57 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.14 2005/11/25 15:27:54 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -172,7 +172,7 @@
 {
 	NSEnumerator		*Iter_;
 	NSDictionary		*threadAttributes_;
-	
+	NSLog(@"Caught");
 	Iter_ = [[self selectedThreads] objectEnumerator];
 	while ((threadAttributes_ = [Iter_ nextObject])) {
 		NSString			*path_;
@@ -216,7 +216,7 @@
 	return [NSNull null];
 }
 
-#pragma mark -
+#pragma mark Show & Copy Thread Info
 
 - (NSPoint) locationForInformationPopUp
 {
@@ -438,34 +438,22 @@
 	[[SGCopyLinkCommand functorWithObject : resURL_] execute : self];
 }
 
-// AA
-- (IBAction) toggleAAThread : (id) sender
-{
-	[self setAAThread : ![self isAAThread]];
-}
-
-// Save window frame
-- (IBAction) saveAsDefaultFrame : (id) sender;
-{
-	[CMRPref setWindowDefaultFrameString : [[self window] stringWithSavedFrame]];
-}
-
 #pragma mark Deletion
 
-- (void) forceDeleteThreadAtPath : (NSString *) filepath
+- (BOOL) forceDeleteThreadAtPath : (NSString *) filepath
 {
-	if (NO == [[NSFileManager defaultManager] fileExistsAtPath:filepath])
-		return;
+	if (NO == [[NSFileManager defaultManager] fileExistsAtPath : filepath])
+		return NO;
 	
 	NSArray		*alsoReplyFile_;
 	NSArray		*filePathArray_;
-	
+
 	filePathArray_ = [NSArray arrayWithObject : filepath];
 		
 	alsoReplyFile_ = [[CMRReplyDocumentFileManager defaultManager]
 							replyDocumentFilesArrayWithLogsArray : filePathArray_];
-		
-	[[CMRTrashbox trash] performWithFiles : alsoReplyFile_];
+
+	return [[CMRTrashbox trash] performWithFiles : alsoReplyFile_];
 }
 
 - (void) checkIfFavItemThenRemove : (NSString *) aPath
@@ -473,25 +461,25 @@
 	CMRFavoritesManager	*favManager = [CMRFavoritesManager defaultManager];
 	if ([favManager favoriteItemExistsOfThreadPath : aPath]) {
 		[favManager removeFromFavoritesWithFilePath : aPath];
-		[favManager addItemToPoolWithFilePath : aPath];
 	}
-}
-
-- (IBAction) forceDeleteThread : (id) sender
-{
-	NSString *thePath_ = [self path];
-
-	[[self window] performClose : sender];
-	[self forceDeleteThreadAtPath : thePath_];
+		[favManager addItemToPoolWithFilePath : aPath];
 }
 
 - (IBAction) deleteThread : (id) sender
 {
 	if ([CMRPref quietDeletion]) {
 		NSString	*path_ = [[self path] copy];
-		[self forceDeleteThread : sender];
-		[self checkIfFavItemThenRemove : path_];
+		[[self window] performClose : sender];
+
+		if ([self forceDeleteThreadAtPath : [self path]]) {
+			[self checkIfFavItemThenRemove : path_];
+		} else {
+			NSBeep();
+			NSLog(@"Deletion failed : %@", path_);
+		}
+
 		[path_ release];
+
 	} else {
 		NSAlert *alert_;
 		NSButton	*retryBtn_;
@@ -521,19 +509,28 @@
 	case NSAlertFirstButtonReturn:
 		{
 			NSString *path_ = [[self path] copy];
+
 			[[alert window] orderOut : nil]; 
-			[self forceDeleteThread : contextInfo];
-			[self checkIfFavItemThenRemove : path_];
+			[[self window] performClose : contextInfo];
+
+			if ([self forceDeleteThreadAtPath : path_]) {
+				[self checkIfFavItemThenRemove : path_];
+			} else {
+				NSBeep();
+				NSLog(@"Deletion failed : %@", path_);
+			}
 			[path_ release];
 		}
 		break;
 	case NSAlertThirdButtonReturn:
 		{
 			NSString *path_ = [[self path] copy];
-			[self forceDeleteThread : contextInfo];
-			[self performSelector : @selector(afterDeletionReTry:)
-				   withObject : path_
-				   afterDelay : 1.0];
+			if ([self forceDeleteThreadAtPath : path_]) {
+				[self reloadAfterDeletion : path_];
+			} else {
+				NSBeep();
+				NSLog(@"Deletion failed : %@\n...So reloading operation has been canceled.", path_);
+			}
 			[path_ release];
 		}
 		break;
@@ -542,7 +539,19 @@
 	}
 }
 
-#pragma mark -
+#pragma mark Other IBActions
+
+// AA
+- (IBAction) toggleAAThread : (id) sender
+{
+	[self setAAThread : ![self isAAThread]];
+}
+
+// Save window frame
+- (IBAction) saveAsDefaultFrame : (id) sender;
+{
+	[CMRPref setWindowDefaultFrameString : [[self window] stringWithSavedFrame]];
+}
 
 - (void) quoteWithMessenger : (CMRReplyMessenger *) aMessenger
 {
@@ -705,12 +714,6 @@
 	[self updateVisibleRange];
 }
 
-- (IBAction) customizeBrdListTable : (id) sender
-{
-	NSBeep();
-	NSLog(@"BoardListEditor plugin will be deprecated in Lemonade and later.");
-	//[[CMRPref sharedBoardListEditor] showWindow : sender];
-}
 - (IBAction) launchBWAgent : (id) sender
 {
 	NSBundle* mainBundle;

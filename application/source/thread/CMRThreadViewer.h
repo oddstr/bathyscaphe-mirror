@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.6 2005/11/05 04:21:57 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.7 2005/11/25 15:27:54 tsawada2 Exp $
   * 
   * CMRThreadViewer.h
   *
@@ -10,16 +10,10 @@
 #import "CMRStatusLineWindowController.h"
 
 @class CMXScrollView;
-@class CMRThreadAttributes;
-@class Messenger;
-@class CMRDownloader;
-@class TextSystemDebug;
-
-@class CMRBBSSignature;
-@class CMRThreadSignature;
 @class CMRIndexingStepper;
 @class CMRThreadLayout;
-
+@class CMRThreadAttributes;
+@class CMRThreadSignature;
 
 
 @interface CMRThreadViewer : CMRStatusLineWindowController
@@ -98,10 +92,12 @@
 @interface CMRThreadViewer(Action)
 - (NSPoint) locationForInformationPopUp;
 
-// KeyBinding...
+- (BOOL) forceDeleteThreadAtPath : (NSString *) filepath;
 - (void) checkIfFavItemThenRemove : (NSString *) aPath;
-- (IBAction) forceDeleteThread : (id) sender;
-- (void) forceDeleteThreadAtPath : (NSString *) filepath;
+
+- (void) copyThreadInfoOf : (NSEnumerator *) Iter_;
+
+// KeyBinding...
 - (IBAction) deleteThread : (id) sender;
 - (IBAction) reloadThread : (id) sender;
 - (IBAction) reply : (id) sender;
@@ -110,7 +106,6 @@
 
 - (IBAction) copyThreadAttributes : (id) sender;
 - (IBAction) copyInfoFromContextualMenu : (id) sender;
-- (void) copyThreadInfoOf : (NSEnumerator *) Iter_;
 - (IBAction) showThreadAttributes : (id) sender;
 
 - (IBAction) copySelectedResURL : (id) sender;
@@ -123,13 +118,12 @@
 - (IBAction) selectFirstVisibleRange : (id) sender;
 - (IBAction) selectLastVisibleRange : (id) sender;
 
-- (IBAction) customizeBrdListTable : (id) sender;   //Action Button
-- (IBAction) launchBWAgent : (id) sender;   //Action Button
+// Sync BoardList
+- (IBAction) launchBWAgent : (id) sender;
 // make text area to be first responder
 - (IBAction) focus : (id) sender;
-/* NOTE: It is a history item's action. */
+// NOTE: It is a history item's action.
 - (IBAction) showThreadWithMenuItem : (id) sender;
-
 // available in SledgeHammer and later.
 - (IBAction) orderFrontMainBrowser : (id) sender;
 @end

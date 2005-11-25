@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.15 2005/11/24 10:15:02 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.16 2005/11/25 15:27:54 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -335,7 +335,8 @@ cancel, if this method returns NO.
             @"  arrived: %@", [self threadIdentifier], aSignature);
         return;
     }
-    if (aNextIndex != nMessages) {
+	// 2005-11-26 óléqå©íÜ
+    if ((aNextIndex != nMessages) && (aNextIndex != NSNotFound)) {
         NSLog(@"Unexpected sequence:\n"
             @"  expected: %u\n"
             @"  arrived:  %u", nMessages, aNextIndex);
@@ -807,7 +808,7 @@ NSString *kComposingNotificationNames[] = {
 - (void) saveLastIndex
 {
 	unsigned	idx;
-	
+
 	idx = [[self threadLayout] messageIndexForDocuemntVisibleRect];
 	if ([[self threadLayout] isInProgress]) {
 		NSLog(@"*** REPORT ***\n  "
@@ -894,11 +895,11 @@ NSString *kComposingNotificationNames[] = {
 	     selector : @selector(trashDidPerformNotification:)
 	         name : CMRTrashboxDidPerformNotification
 	       object : [CMRTrashbox trash]];
-	[[NSNotificationCenter defaultCenter]
+	/*[[NSNotificationCenter defaultCenter]
 	  addObserver : self
 	     selector : @selector(applicationWillReset:)
 	         name : CMRApplicationWillResetNotification
-	       object : nil];
+	       object : nil];*/
 	[[NSNotificationCenter defaultCenter]
 	  addObserver : self
 	     selector : @selector(applicationDidReset:)
@@ -921,10 +922,10 @@ NSString *kComposingNotificationNames[] = {
 	  removeObserver : self
 	            name : CMRTrashboxDidPerformNotification
 	          object : [CMRTrashbox trash]];
-	[[NSNotificationCenter defaultCenter]
+	/*[[NSNotificationCenter defaultCenter]
 	  removeObserver : self
 	            name : CMRApplicationWillResetNotification
-	          object : nil];
+	          object : nil];*/
 	[[NSNotificationCenter defaultCenter]
 	  removeObserver : self
 	            name : CMRApplicationDidResetNotification
