@@ -1,6 +1,6 @@
 //: CMRFileManager.m
 /**
-  * $Id: CMRFileManager.m,v 1.1 2005/05/11 17:51:19 tsawada2 Exp $
+  * $Id: CMRFileManager.m,v 1.2 2005/11/25 20:21:24 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -215,8 +215,24 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	}
 	
 	support_ = [self supportDirectory];
-	UTILAssertNotNil(support_);
+
+NS_DURING
+	//UTILAssertNotNil(support_);
+	UTILAssertNotNilArgument(support_, aFileName);
 	
+NS_HANDLER
+	if ([[localException name] isEqualToString : NSInvalidArgumentException]) {
+		NSBeep();
+		NSRunCriticalAlertPanel(NSLocalizedString(@"cannotRunTitle", "Alert Panel"), @"%@\n\n%@",
+								NSLocalizedString(@"Terminate",@"Quit"), nil, nil, 
+								NSLocalizedString(@"cannotRun",@"we can't resolve/create application support file/folder(s)."), localException);
+		[NSApp terminate : self];
+
+	} else {
+		[localException raise];
+	}
+NS_ENDHANDLER
+
 	fileRef_ = [support_ fileRefWithChildName : aFileName];
 	fileRef_ = [fileRef_ fileRefResolvingLinkIfNeeded];
 	

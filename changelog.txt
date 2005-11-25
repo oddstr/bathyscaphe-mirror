@@ -1,4 +1,13 @@
 2005-11-26 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/Localizable.strings
+		起動不能時のエラーメッセージを追加。
+	* application/source/main.m
+		一部をコメントアウトして様子見。たぶん大丈夫。
+	* frameworks/CocoMonar/framework/src/CMRFileManager.m
+		サポートフォルダへの SGFileRef が nil だった場合は、例外を捕まえてアラートを表示、その後 BathyScaphe を
+		終了するようにした（localized string は BathyScaphe 本体の Localizable.strings を参照する）。
+		これによって [Bug 7520] は解決（シンボリックリンクの解決処理自体が問題なのではない。「正しく」作られたシンボリックリンクなら、
+		ちゃんと追跡して参照を解決できる。念のため）。
 	* application/subproj/previewer/BSImagePreviewInspector.m
 		MIME タイプが image/ で始まらなくても表示を試みるようにした（どうせ validateLink で NSImageView が
 		対応できる拡張子に制限しているので）。

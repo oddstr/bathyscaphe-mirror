@@ -1,5 +1,5 @@
 /**
- * $Id: SGFileRef.m,v 1.1 2005/05/11 17:51:44 tsawada2 Exp $
+ * $Id: SGFileRef.m,v 1.2 2005/11/25 20:21:24 tsawada2 Exp $
  * 
  * SGFileRef.m
  *
@@ -545,13 +545,14 @@ ErrFSGetParentRef:
 		
 		actualPath_ = [[NSFileManager defaultManager] 
 							pathContentOfSymbolicLinkAtPath : [self filepath]];
-		if(nil == actualPath_) return self;
-		
+		if(nil == actualPath_) {
+			return self;
+		}
 		return [[self class] fileRefWithPath : actualPath_];
 	}
-	if([self isAliasFile])
+	if([self isAliasFile]){
 		return [self fileRefOfResolvedAliasFile];
-	
+	}
 	return self;
 }
 @end

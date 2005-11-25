@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate+Menu.m,v 1.7 2005/07/08 19:37:31 tsawada2 Exp $
+ * $Id: CMRAppDelegate+Menu.m,v 1.8 2005/11/25 20:21:24 tsawada2 Exp $
  * 
  * CMRAppDelegate+Menu.m
  *
@@ -221,7 +221,6 @@
 - (void) setupMenu
 {
     NSMenuItem    *menuItem_;
-    
     menuItem_ = [[CMRMainMenuManager defaultManager] helpMenuItem];
     NSAssert(
         [menuItem_ hasSubmenu],

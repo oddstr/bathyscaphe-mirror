@@ -1,5 +1,5 @@
 /**
-  * $Id: SGFile+AppSupport.m,v 1.1 2005/05/11 17:51:45 tsawada2 Exp $
+  * $Id: SGFile+AppSupport.m,v 1.2 2005/11/25 20:21:24 tsawada2 Exp $
   * 
   * SGFile+AppSupport.m
   *
@@ -8,6 +8,7 @@
   */
 #import "SGFile+AppSupport.h"
 #import <SGFoundation/NSBundle-SGExtensions.h>
+
 #import "UTILKit.h"
 
 
@@ -48,8 +49,10 @@
 		
 		
 		f = [f fileRefWithChildName:executableName_ createDirectory:YES];
+		
 		f =  [f fileRefResolvingLinkIfNeeded];
-		if(nil == f || NO == [f isDirectory]){
+
+		if(nil == f || NO == [f isDirectory]) {
 			NSLog(@"%@ Can't locate special folder <Application Support/%@>",
 					executableName_,
 					UTIL_HANDLE_FAILURE_IN_METHOD);

@@ -1,5 +1,5 @@
 /**
-  * $Id: NSString+TEC.m,v 1.1 2005/05/11 17:51:45 tsawada2 Exp $
+  * $Id: NSString+TEC.m,v 1.2 2005/11/25 20:21:24 tsawada2 Exp $
   * 
   * NSString+TEC.m
   *
@@ -60,7 +60,7 @@ static TextEncoding GetTextEncodingForNSString(void)
 						kUnicode16BitFormat);
 }
 
-static id AllocateNSStringWithBytesUsingTEC(const UInt8 *srcBuffer, size_t srcLength, TextEncoding theEncoding, BOOL flush)
+static NSString *AllocateNSStringWithBytesUsingTEC(const UInt8 *srcBuffer, size_t srcLength, TextEncoding theEncoding, BOOL flush)
 {
 
 	static TECObjectRef		cachedConverter = NULL;
