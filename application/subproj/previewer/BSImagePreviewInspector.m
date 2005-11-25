@@ -371,8 +371,8 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 
 - (void)  download : (NSURLDownload *) dl didReceiveResponse : (NSURLResponse *) response
 {
-	if (![[response MIMEType] hasPrefix : @"image/"])
-		[dl cancel];
+	//if (![[response MIMEType] hasPrefix : @"image/"])
+	//	[dl cancel];
 }
 
 - (void) download : (NSURLDownload *) dl decideDestinationWithSuggestedFilename : (NSString *) filename

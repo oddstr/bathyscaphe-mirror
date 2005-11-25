@@ -1,4 +1,7 @@
 2005-11-26 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSImagePreviewInspector.m
+		MIME タイプが image/ で始まらなくても表示を試みるようにした（どうせ validateLink で NSImageView が
+		対応できる拡張子に制限しているので）。
 	* application/source/browser/CMRBrowser-Action.m
 	* application/source/thread/CMRThreadViewer.m
 	* application/source/thread/CMRThreadViewer-Action.m

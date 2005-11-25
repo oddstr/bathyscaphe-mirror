@@ -200,6 +200,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 
 - (NSImage *) icon
 {
+	return nil;
 }
 
 #pragma mark -

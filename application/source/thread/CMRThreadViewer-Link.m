@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.10 2005/11/16 15:59:47 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.11 2005/11/25 16:14:45 tsawada2 Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -12,52 +12,24 @@
 #import "CMRThreadLayout.h"
 #import "SGHTMLView.h"
 #import "CMXPopUpWindowManager.h"
-#import "NSCharacterSet+CMXAdditions.h"
 #import "CMXMenuHolder.h"
 #import "CMRReplyMessenger.h"
-#import "CMRThreadMessage.h"
-#import "CMRThreadMessageBuffer.h"
 #import "CMRMessageFilter.h"
 #import "CMRSpamFilter.h"
 #import "CMRThreadView.h"
-#import "CMRDocumentFileManager.h"
-
-#import <SGAppKit/NSWorkspace-SGExtensions.h>
-
-
-
 #import "CMRNetRequestQueue.h"
+
+#import "NSCharacterSet+CMXAdditions.h"
+#import <SGAppKit/NSWorkspace-SGExtensions.h>
 
 
 NSString *const CMRThreadViewerRunSpamFilterNotification = @"CMRThreadViewerRunSpamFilterNotification";
 
+#define kBeProfileLinkTemplateKey	@"System - be2ch Profile URL"
+
 // for debugging only
 #define UTIL_DEBUGGING				0
 #import "UTILDebugging.h"
-
-
-// deprecated in LittleWish and Later. this feature will be moved to optional PlugIn.
-/*
-[feature: URL preview] by nmatz
-application tries to open specific .html file if option key pressed.
-when open this file, '%%%ClickedLink%%%' keyword in file will be replaced
-to link acctually clicked.
-*/
-/*#define PREVIEW_SRC			@"PreviewSource"
-#define PREVIEW_TYPE		@"html"
-#define PREVIEW_DIR			@"Preview"
-#define PREVIEW_ENC			NSShiftJISStringEncoding
-#define PREVIEW_URL_KEY		@"%%%ClickedLink%%%"
-#define PREVIEW_FILENAME	@"Preview.html"*/
-
-/*** KeyValueTemplate ***/
-/* lNumber(BOOL) Launch external program when preview link? */
-/*#define PREVIEW_EXT_SRC		@"preview"
-#define PREVIEW_EXT_TYPE	nil
-#define PREVIEW_EXT_KEY		@"Thread - LaunchExternalProgramOnPreviewLink"*/
-
-#define kBeProfileLinkTemplateKey	@"System - be2ch Profile URL"
-
 
 
 @interface CMRThreadViewer (PopUpSupport)
@@ -73,7 +45,6 @@ to link acctually clicked.
 - (BOOL) isStandardMessageLink : (id            ) aLink
                     indexRange : (NSRangePointer) messageRange;
 @end
-
 
 
 @implementation CMRThreadViewer (PopUpSupport)
@@ -281,151 +252,9 @@ ErrInvalidLink:
 }
 @end
 
-
+#pragma mark -
 
 @implementation CMRThreadViewer (NSTextViewDelegate)
-- (void) textView : (NSTextView              *) aTextView 
-    clickedOnCell : (id <NSTextAttachmentCell>) cell
-           inRect : (NSRect                   ) cellFrame
-          atIndex : (unsigned                 ) charIndex
-{
-	if ([[self threadLayout] respondsToSelector : _cmd]) {
-		[[self threadLayout] textView : aTextView
-						clickedOnCell : cell
-					           inRect : cellFrame
-					          atIndex : charIndex];
-	}
-}
-
-
-- (BOOL) HTMLView : (SGHTMLView *) aView
-	 mouseClicked : (NSEvent    *) theEvent
-	      atIndex : (unsigned    ) charIndex
-{
-	return NO;
-}
-
-
-//Deprecated in LittleWish and Later.
-/*static NSString *previewSourceHTMLFilepath(NSString *resourceName, NSString *aType)
-{
-	NSBundle	*bundle_;
-	NSString	*path_;
-	
-	bundle_ = [NSBundle applicationSpecificBundle];
-	path_ = [bundle_ pathForResource:resourceName ofType:aType inDirectory:PREVIEW_DIR];
-	if (path_) return path_;
-	
-	bundle_ = [NSBundle mainBundle];
-	path_ = [bundle_ pathForResource:resourceName ofType:aType inDirectory:PREVIEW_DIR];
-	
-	return path_;
-}*/
-
-/*
- launch extern program using NSTask with argument (URL)
-   by 1077693166/260
- */
-/*- (BOOL) previewLinkWithExternalProgram : (id) aLink
-{
-	NSString	*path_;
-	NSTask          *task_;
-	
-	path_ = previewSourceHTMLFilepath(PREVIEW_EXT_SRC, PREVIEW_EXT_TYPE);
-	if (nil == path_) return NO;
-	
-	task_ = [[NSTask alloc] init];
-	[task_ setLaunchPath : path_];
-	[task_ setCurrentDirectoryPath : [path_ stringByDeletingLastPathComponent]];
-	[task_ setArguments : [NSArray arrayWithObject : [aLink stringValue]]];
-	[task_ launch];
-	[task_ autorelease];
-	return YES;
-}*/
-/*- (BOOL) previewLinkWithWebBrowser : (id) aLink
-{
-	NSString	*path_;
-	NSData		*data_;
-	NSString	*src_;
-	NSURL		*previewURL_;
-	
-	path_ = previewSourceHTMLFilepath(PREVIEW_SRC, PREVIEW_TYPE);
-	if (nil == path_) return NO;
-	
-	data_ = [NSData dataWithContentsOfFile : path_];
-	src_ = [NSString stringWithData:data_ encoding:PREVIEW_ENC];
-	if (nil == src_) return NO;
-	
-	// replace keyword to URL
-	src_ = [src_ stringByReplaceCharacters : PREVIEW_URL_KEY
-								  toString : [aLink stringValue]];
-	
-	path_ = [path_ stringByDeletingLastPathComponent];
-	path_ = [path_ stringByAppendingPathComponent : PREVIEW_FILENAME];
-	previewURL_ = [NSURL fileURLWithPath : path_];
-	
-	[src_ writeToFile:path_ atomically:YES];	
-	
-	return [[NSWorkspace sharedWorkspace] openURL : previewURL_ inBackGround : [CMRPref openInBg]];
-}*/
-
-// Added in Lemonade and later.
-- (BOOL) previewLinkWithImageInspector : (id) aLink
-{
-	NSURL		*previewURL_;
-	id			tmp;
-
-	previewURL_ = [NSURL URLWithLink : aLink];
-	tmp = [CMRPref sharedImagePreviewer];
-	if (!tmp) return NO;
-	return ([tmp validateLink : previewURL_] ? [tmp showImageWithURL : previewURL_]
-											 : NO);
-}
-
-/*
-- (BOOL) previewLink : (id) aLink
-{
-	id	tmp_;
-	tmp_ = SGTemplateResource(PREVIEW_EXT_KEY);
-	UTILAssertRespondsTo(tmp_, @selector(intValue));
-
-	switch([tmp_ intValue]){
-	case 0:
-		return [self previewLinkWithWebBrowser : aLink];
-		break;
-	case 1:
-		return [self previewLinkWithExternalProgram : aLink];
-		break;
-	case 2:
-		return [self previewLinkWithImageInspector : aLink];
-		break;
-	default:
-		return [self previewLinkWithWebBrowser : aLink];
-		break;
-	}
-
-}
-*/
-
-- (BOOL) tryPreviewLink : (id) aLink
-{
-	BOOL			noModifier_ = [CMRPref previewLinkWithNoModifierKey];
-	NSEvent			*theEvent;
-	unsigned int	flags_;
-	
-	theEvent = [[self window] currentEvent];
-	UTILAssertNotNil(theEvent);
-	
-	flags_ = [theEvent modifierFlags];
-	if (!(flags_ & NSAlternateKeyMask))
-		return (noModifier_ ? [self previewLinkWithImageInspector : aLink]//[self previewLink : aLink]
-							: NO);
-
-	return (noModifier_ ? NO
-						: [self previewLinkWithImageInspector : aLink]);//[self previewLink : aLink]);
-}
-
-
 - (void) openMessagesWithIndexRange : (NSRange) indexRange
 {
     if (indexRange.location == NSNotFound || 
@@ -445,6 +274,52 @@ ErrInvalidLink:
         [[NSWorkspace sharedWorkspace] openURL : url inBackGround : [CMRPref openInBg]];
     }
 }
+
+#pragma mark Previewing Link via ImagePreviewer
+// Added in Lemonade and later.
+- (BOOL) previewLinkWithImageInspector : (id) aLink
+{
+	NSURL		*previewURL_;
+	id			tmp;
+
+	previewURL_ = [NSURL URLWithLink : aLink];
+	tmp = [CMRPref sharedImagePreviewer];
+	if (!tmp) return NO;
+	return ([tmp validateLink : previewURL_] ? [tmp showImageWithURL : previewURL_]
+											 : NO);
+}
+
+- (BOOL) tryPreviewLink : (id) aLink
+{
+	BOOL			noModifier_ = [CMRPref previewLinkWithNoModifierKey];
+	NSEvent			*theEvent;
+	unsigned int	flags_;
+	
+	theEvent = [[self window] currentEvent];
+	UTILAssertNotNil(theEvent);
+	
+	flags_ = [theEvent modifierFlags];
+	if (!(flags_ & NSAlternateKeyMask))
+		return (noModifier_ ? [self previewLinkWithImageInspector : aLink]
+							: NO);
+
+	return (noModifier_ ? NO
+						: [self previewLinkWithImageInspector : aLink]);
+}
+#pragma mark NSTextView Delegate
+- (void) textView : (NSTextView              *) aTextView 
+    clickedOnCell : (id <NSTextAttachmentCell>) cell
+           inRect : (NSRect                   ) cellFrame
+          atIndex : (unsigned                 ) charIndex
+{
+	if ([[self threadLayout] respondsToSelector : _cmd]) {
+		[[self threadLayout] textView : aTextView
+						clickedOnCell : cell
+					           inRect : cellFrame
+					          atIndex : charIndex];
+	}
+}
+
 - (BOOL) textView : (NSTextView *) textView
     clickedOnLink : (id          ) aLink
           atIndex : (unsigned    ) charIndex
@@ -520,22 +395,15 @@ ErrInvalidLink:
 		return [CMRThreadDocument showDocumentWithContentOfFile : filepath_
 													contentInfo : contentInfo_];
 	}
-	
-	/*
-	2004-02-29 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
-	----------------------------------------
-	[feature: URL preview] by nmatz
-	application tries to open specific .html file if option key pressed.
-	when open this file, '%%%ClickedLink%%%' keyword in file will be replaced
-	to link acctually clicked.
-	*/
+
 	if ([self tryPreviewLink:aLink]) {
 		return YES;
 	}
+
     return [[NSWorkspace sharedWorkspace] openURL : [NSURL URLWithLink : aLink] inBackGround : [CMRPref openInBg]];
 }
 
-// CMRThreadView delegate
+#pragma mark CMRThreadView delegate
 - (CMRThreadSignature *) threadSignatureForView : (CMRThreadView *) aView
 {
 	return [[self threadAttributes] threadSignature];
@@ -643,7 +511,7 @@ ErrInvalidLink:
 	return YES;
 }
 
-// SGHTMLView delegate
+#pragma mark SGHTMLView delegate
 - (NSArray *) HTMLViewFilteringLinkSchemes : (SGHTMLView *) aView
 {
 	// "cmonar:", "mailto:"は無視
@@ -654,6 +522,14 @@ ErrInvalidLink:
 						@"mailto",
 						nil];
 }
+
+- (BOOL) HTMLView : (SGHTMLView *) aView
+	 mouseClicked : (NSEvent    *) theEvent
+	      atIndex : (unsigned    ) charIndex
+{
+	return NO;
+}
+
 - (void)    HTMLView : (SGHTMLView *) aView
   mouseEnteredInLink : (id          ) aLink
       inTrackingRect : (NSRect      ) aRect
