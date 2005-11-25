@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.14 2005/11/25 15:27:54 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.15 2005/11/25 20:50:29 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -172,7 +172,7 @@
 {
 	NSEnumerator		*Iter_;
 	NSDictionary		*threadAttributes_;
-	NSLog(@"Caught");
+
 	Iter_ = [[self selectedThreads] objectEnumerator];
 	while ((threadAttributes_ = [Iter_ nextObject])) {
 		NSString			*path_;
@@ -482,15 +482,16 @@
 
 	} else {
 		NSAlert *alert_;
-		NSButton	*retryBtn_;
 		alert_ = [[NSAlert alloc] init];
 		[alert_ setMessageText : [self localizedString : kDeleteThreadTitleKey]];
 		[alert_ setInformativeText : [self localizedString : kDeleteThreadMessageKey]];
 		[alert_ addButtonWithTitle : [self localizedString : kDeleteOKBtnKey]];
 		[alert_ addButtonWithTitle : [self localizedString : kDeleteCancelBtnKey]];
-		
-		retryBtn_ = [alert_ addButtonWithTitle : [self localizedString : kDeleteAndReloadBtnKey]];
-		[retryBtn_ setKeyEquivalent : @"r"];
+		if ([CMRPref isOnlineMode]) {
+			NSButton	*retryBtn_;		
+			retryBtn_ = [alert_ addButtonWithTitle : [self localizedString : kDeleteAndReloadBtnKey]];
+			[retryBtn_ setKeyEquivalent : @"r"];
+		}
 
 		NSBeep();
 		[alert_ beginSheetModalForWindow : [self window]

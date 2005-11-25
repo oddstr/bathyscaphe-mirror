@@ -1,4 +1,9 @@
 2005-11-26 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/thread/CMRThreadViewer-Action.m
+		- オフラインモードのときは「削除して再取得」を表示しないようにした。
+		- スレッド一覧で、2ペイン状態の場合は「削除して再取得」を表示しないようにした（別ウインドウで開いてから、そこで
+		　「削除して再取得」してください）。- どうしてもうまく再取得が動作しないため
 	* application/Resources/Japanese.lproj/Localizable.strings
 		起動不能時のエラーメッセージを追加。
 	* application/source/main.m

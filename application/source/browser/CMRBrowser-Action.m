@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.26 2005/11/25 15:27:54 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.27 2005/11/25 20:50:29 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -355,12 +355,17 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 		}
     }
     if (NO == [CMRPref quietDeletion]) {
-		/* 選択項目が複数ある場合、「削除して再取得」は許可しない */
+		/* 以下の場合、「削除して再取得」は許可しない：
+		   1.オフラインモード時
+		   2.2ペイン表示時（別ウインドウで開いてからどうぞ）
+		   3.複数のスレッドが選択されているとき
+		*/
+		BOOL reTryValue = ([CMRPref isOnlineMode] && ([selected_ count] == 1) && [self shouldShowContents]);
 		if(NO == [threadsList isFavorites])
-			[self _showDeletionAlertSheet : sender ofType : BSThreadAtBrowserDeletionType allowRetry : ([selected_ count] == 1)
+			[self _showDeletionAlertSheet : sender ofType : BSThreadAtBrowserDeletionType allowRetry : reTryValue
 					targetThreads : selected_];
 		else
-			[self _showDeletionAlertSheet : sender ofType : BSThreadAtFavoritesDeletionType allowRetry : ([selected_ count] == 1)
+			[self _showDeletionAlertSheet : sender ofType : BSThreadAtFavoritesDeletionType allowRetry : reTryValue
 					targetThreads : selected_];
     } else {
 		[threadsList tableView : tableView
