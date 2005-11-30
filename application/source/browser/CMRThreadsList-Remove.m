@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-Remove.m,v 1.3 2005/11/25 15:27:54 tsawada2 Exp $
+  * $Id: CMRThreadsList-Remove.m,v 1.4 2005/11/30 19:46:53 tsawada2 Exp $
   * 
   * CMRThreadsList-Remove.m
   *
@@ -75,16 +75,18 @@
 	   removeFiles : (NSArray		*) files
  delFavIfNecessary : (BOOL			 ) flag
 {
-	//if(flag) {
-		BOOL tmp;
+	BOOL tmp;
+
+	if(flag) {
 		NSArray	*alsoReplyFiles_;
-		
-		alsoReplyFiles_ = [[CMRReplyDocumentFileManager defaultManager]
-								replyDocumentFilesArrayWithLogsArray : files];
+
+		alsoReplyFiles_ = [[CMRReplyDocumentFileManager defaultManager] replyDocumentFilesArrayWithLogsArray : files];
 		tmp = [[CMRTrashbox trash] performWithFiles : alsoReplyFiles_];
-		if(tmp && flag) [[CMRFavoritesManager defaultManager] removeFromFavoritesWithPathArray : files];
-		//return tmp;
-	//}
+	} else {
+		tmp = [[CMRTrashbox trash] performWithFiles : files];
+	}
+
+	if(tmp && flag) [[CMRFavoritesManager defaultManager] removeFromFavoritesWithPathArray : files];
 	if(tmp)[self cleanUpItemsToBeRemoved : files];
 	
 	return tmp;

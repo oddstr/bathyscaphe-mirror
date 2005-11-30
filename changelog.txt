@@ -1,4 +1,16 @@
+2005-12-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadLayout-MessageRange.m
+		迷惑レスとして透明あぼーんされているレスへのアンカーに対するマウスオーバーで、その迷惑レスの内容が表示されてしまう
+		問題を修正。
+2005-11-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRThreadsList-Remove.m
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/thread/CMRThreadViewer-Action.m
+		削除して再取得する時は、.cmreply ファイルは削除しないようにした。
 2005-11-26 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRThreadsList-Filter.m
+		スレッド一覧の検索で、「全角／半角を区別」しないときは、Unicode 正規化 KC を施して検索するようにした。
+		JstringAddtions.h に頼る必要がなくなった。
 	* application/source/browser/CMRBrowser-Action.m
 	* application/source/thread/CMRThreadViewer-Action.m
 		- オフラインモードのときは「削除して再取得」を表示しないようにした。

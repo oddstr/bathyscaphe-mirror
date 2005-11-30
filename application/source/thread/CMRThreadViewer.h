@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.7 2005/11/25 15:27:54 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.8 2005/11/30 19:46:53 tsawada2 Exp $
   * 
   * CMRThreadViewer.h
   *
@@ -92,9 +92,10 @@
 @interface CMRThreadViewer(Action)
 - (NSPoint) locationForInformationPopUp;
 
-- (BOOL) forceDeleteThreadAtPath : (NSString *) filepath;
-- (void) checkIfFavItemThenRemove : (NSString *) aPath;
+- (BOOL) forceDeleteThreadAtPath : (NSString *) filepath
+				   alsoReplyFile : (BOOL      ) deleteReply;
 
+- (void) checkIfFavItemThenRemove : (NSString *) aPath;
 - (void) copyThreadInfoOf : (NSEnumerator *) Iter_;
 
 // KeyBinding...

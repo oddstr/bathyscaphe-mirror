@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Download.m,v 1.5 2005/11/25 15:27:54 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Download.m,v 1.6 2005/11/30 19:46:53 tsawada2 Exp $
   * 
   * CMRThreadViewer-Download.m
   *
@@ -200,7 +200,7 @@
 	switch(returnCode) {
 	case NSAlertDefaultReturn: // Delete and try again
 	{
-		if ([self forceDeleteThreadAtPath : filePathToWrite_]) {
+		if ([self forceDeleteThreadAtPath : filePathToWrite_ alsoReplyFile : NO]) {
 			[self reloadAfterDeletion : filePathToWrite_];
 		} else {
 			NSBeep();
@@ -209,7 +209,7 @@
 		break;
 	}
 	case NSAlertAlternateReturn: // Delete only
-		[self forceDeleteThreadAtPath : filePathToWrite_];
+		[self forceDeleteThreadAtPath : filePathToWrite_ alsoReplyFile : YES];
 		break;
 	case NSAlertOtherReturn:
 		break;
@@ -238,7 +238,7 @@
 		break;
 	case NSAlertAlternateReturn:	// âﬂãéÉçÉOåüçı
 /*
-		[self forceDeleteThreadAtPath : filePathToWrite_];
+		[self forceDeleteThreadAtPath : filePathToWrite_ alsoReplyFile : NO];
 		[self downloadKakoThread : [downloader_ threadSignature]];
 */
 		break;

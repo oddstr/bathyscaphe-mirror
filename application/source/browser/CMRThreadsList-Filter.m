@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-Filter.m,v 1.2 2005/09/12 08:02:20 tsawada2 Exp $
+  * $Id: CMRThreadsList-Filter.m,v 1.3 2005/11/30 19:46:53 tsawada2 Exp $
   * 
   * CMRThreadsList-Filter.m
   *
@@ -9,7 +9,7 @@
 #import "CMRThreadsList_p.h"
 #import "BoardManager.h"
 #import "CMRSearchOptions.h"
-#import "JStringAdditions.h"
+//#import "JStringAdditions.h"
 
 
 
@@ -229,6 +229,12 @@
 		UTILRequireCondition(NO == [searchString_ isEmpty], ErrSearch);
 	}
 	
+	if (isZenHankakuInsensitive_) {
+		// Unicode KC
+		searchString_ = [searchString_ precomposedStringWithCompatibilityMapping];
+		UTILRequireCondition(NO == [searchString_ isEmpty], ErrSearch);
+	}
+	
 	while(thread_ = [iter_ nextObject]){
 		NSString	*title_;
 		NSRange		include_;
@@ -241,12 +247,15 @@
 		
 		if(ignoreSpecificCharacters_)
 			title_ = [title_ stringByDeleteCharactersInSet : ignoreSet_];
+			
+		if (isZenHankakuInsensitive_)
+			title_ = [title_ precomposedStringWithCompatibilityMapping]; // Unicode KC
 		
 		searchRng_ = NSMakeRange(0, [title_ length]);
 		include_ = [title_ rangeOfString : searchString_ 
-						   options : options_
-							 range : searchRng_
-			 HanZenKakuInsensitive : isZenHankakuInsensitive_];
+								 options : options_
+								   range : searchRng_];
+			 //HanZenKakuInsensitive : isZenHankakuInsensitive_];
 		
 		if(0 == include_.length || NSNotFound == include_.location)
 			continue;

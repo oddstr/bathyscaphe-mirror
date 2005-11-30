@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.27 2005/11/25 20:50:29 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.28 2005/11/30 19:46:53 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -335,7 +335,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 			/* 3ペイン表示なら、ログ表示領域で表示中のスレを削除する */
 			NSString *path_ = [[self path] copy];
 			if ([CMRPref quietDeletion]) {
-				if ([self forceDeleteThreadAtPath : path_]) {
+				if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
 					[self checkIfFavItemThenRemove : path_];
 				} else {
 					NSBeep();
@@ -400,7 +400,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 
 			if ([threadsList tableView : tableView
 					removeIndexSet : [tableView selectedRowIndexes]
-				 delFavIfNecessary : YES])
+				 delFavIfNecessary : NO])
 			{
 				[tableView reloadData];
 
@@ -443,7 +443,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 	case NSAlertFirstButtonReturn: // delete
 		{
 			NSString *path_ = [self path];
-			if ([self forceDeleteThreadAtPath : path_]) {
+			if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
 				[self checkIfFavItemThenRemove : path_];
 			} else {
 				NSBeep();
@@ -454,7 +454,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 	case NSAlertThirdButtonReturn: // delete & reload
 		{
 			NSString *path_ = [self path];
-			if ([self forceDeleteThreadAtPath : path_]) {
+			if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : NO]) {
 				[self reloadAfterDeletion : path_];
 				[[self threadsListTable] reloadData]; // really need?
 			} else {

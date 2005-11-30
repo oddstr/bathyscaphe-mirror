@@ -1,6 +1,6 @@
 //: CMRThreadLayout.h
 /**
-  * $Id: CMRThreadLayout.h,v 1.3 2005/11/24 10:15:02 tsawada2 Exp $
+  * $Id: CMRThreadLayout.h,v 1.4 2005/11/30 19:46:53 tsawada2 Exp $
   * 
   * CMRThreadLayout.h
   *
@@ -94,7 +94,7 @@
 - (unsigned int) nextBookmarkIndexOfIndex : (unsigned int) index;
 - (unsigned int) previousBookmarkIndexOfIndex : (unsigned int) index;
 
-- (void) drawViewBackgroundInRect : (NSRect) clipRect;
+//- (void) drawViewBackgroundInRect : (NSRect) clipRect;
 @end
 
 

@@ -157,15 +157,22 @@
 }
 - (NSAttributedString *) contentsForIndexRange : (NSRange) aRange
 {
-	return [self contentsForIndexRange : aRange
-	 					 composingMask : CMRInvisibleAbonedMask
-							   compose : NO
-						attributesMask : (CMRLocalAbonedMask | CMRSpamMask)];
+	if (kSpamFilterInvisibleAbonedBehavior == [CMRPref spamFilterBehavior]) {
+		return [self contentsForIndexRange : aRange
+							 composingMask : CMRInvisibleAbonedMask
+								   compose : NO
+							attributesMask : CMRLocalAbonedMask];
+	} else {
+		return [self contentsForIndexRange : aRange
+							 composingMask : CMRInvisibleAbonedMask
+								   compose : NO
+							attributesMask : (CMRLocalAbonedMask | CMRSpamMask)];
+	}
 }
 
+/*
 - (void) drawViewBackgroundInRect : (NSRect) clipRect
 {
-/*
 	NSLayoutManager			*lm = [self layoutManager];
 	NSTextContainer			*tc = [self textContainer];
 	NSRange					drawRange_;
@@ -198,12 +205,10 @@
 		
 		mIndex_++;
 	}
-*/
 }
-
-/*
-「オンザフライ読み込み」
 */
+
+#pragma mark On-the-fly loading
 - (unsigned) numberOfMessagesPerOnTheFly
 {
 	id		v;
@@ -354,7 +359,7 @@
 	return NSNotFound;
 }
 
-// 移動可能なインデックス
+#pragma mark Jumpable index
 - (unsigned) nextVisibleMessageIndex
 {
 	return [self nextVisibleMessageIndexOfIndex : 
@@ -377,7 +382,8 @@
 								   attribute : CMRInvisibleAbonedMask
 									   value : NO];
 }
-// ブックマークされたレスの移動
+
+#pragma mark Jumping to bookmarks
 - (unsigned) nextBookmarkIndex
 {
 	return [self nextBookmarkIndexOfIndex : 

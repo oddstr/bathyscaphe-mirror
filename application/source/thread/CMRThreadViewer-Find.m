@@ -1,5 +1,5 @@
 /** 
-  * CMRThreadViewer-Find.m
+  * $Id: CMRThreadViewer-Find.m,v 1.3 2005/11/30 19:46:53 tsawada2 Exp $
   *
   * Copyright (c) 2003, Takanori Ishikawa.
   * CMRThreadViewer-Action.m から分割 - 2005-02-16 by tsawada2.
@@ -13,7 +13,7 @@
 #import "CMRThreadVisibleRange.h"
 #import "CMRThreadDownloadTask.h"
 
-#import "JStringAdditions.h"
+//#import "JStringAdditions.h"
 #import "CMRSearchOptions.h"
 #import "TextFinder.h"
 #import "CMRThreadView.h"
@@ -49,6 +49,7 @@
 	if (searchOption | CMRSearchOptionCaseInsensitive)
 		options_ |= NSCaseInsensitiveSearch;
 	HanZenInsens_ = (searchOption & CMRSearchOptionZenHankakuInsensitive);
+	if (HanZenInsens_) return NO;
 
 	textStorage_ = [self textStorage];
 	searchRange_ = [textStorage_ range];
@@ -57,8 +58,8 @@
 		
 		found = [[textStorage_ string] rangeOfString : aString
 								options : options_
-								  range : searchRange_
-				  HanZenKakuInsensitive : HanZenInsens_];
+								  range : searchRange_];
+
 		if (0 == found.length) break;
 		[self setTemporaryAttributes:attrs forCharacterRange:found];
 		ret = YES;
@@ -126,8 +127,8 @@
 				
 				found_ = [linkstr_ rangeOfString : subString 
 										 options : mask
-										   range : NSMakeRange(0, [linkstr_ length])
-						   HanZenKakuInsensitive : flag];
+										   range : NSMakeRange(0, [linkstr_ length])];
+				//		   HanZenKakuInsensitive : flag];
 				if (found_.location != NSNotFound && found_.length != 0) {
 					return linkRange_;
 				}
@@ -150,6 +151,7 @@
 {
 	NSString	*text_;
 	NSRange		result_;
+	BOOL		hanZenIn_ = (searchOption & CMRSearchOptionZenHankakuInsensitive);
 	
 	text_ = [[self textView] string];
 	UTILRequireCondition(
@@ -162,28 +164,30 @@
 		result_ = [self rangeOfStorageLinkOnly : aString 
 							   options : options
 								 range : aRange
-				 HanZenKakuInsensitive : 
-						(searchOption & CMRSearchOptionZenHankakuInsensitive)];
+				 HanZenKakuInsensitive : hanZenIn_];
 	} else {
 		UTILRequireCondition([aString length], ErrNotFound);
+
 		result_ = [text_ rangeOfString : aString 
 							   options : options
-								 range : aRange
-				 HanZenKakuInsensitive : 
-						(searchOption & CMRSearchOptionZenHankakuInsensitive)];
+								 range : aRange];
+//				 HanZenKakuInsensitive : 
+//						(searchOption & CMRSearchOptionZenHankakuInsensitive)];
 	}
 	
 	UTILRequireCondition(
 		result_.location != NSNotFound && result_.length != 0,
 		ErrNotFound);
 	
-	[[self textView] setSelectedRange : result_];
+	//if (!hanZenIn_)
+		[[self textView] setSelectedRange : result_];
+
 	[[self textView] scrollRangeToVisible : result_];
 	return;
 	
-	ErrNotFound:
-		NSBeep();
-		return;
+ErrNotFound:
+	NSBeep();
+	return;
 }
 
 
@@ -211,8 +215,8 @@
 		   options : [searchOptions_ findOption]
 			 range : aRange];
 	
-	ErrNotFound:
-		return;
+ErrNotFound:
+	return;
 }
 
 
@@ -228,34 +232,35 @@
 	searchRange_.location = NSMaxRange(searchRange_);
 	searchRange_.length = [[[self textView] string] length] - searchRange_.location;
 	
-	[self findWithOperation:findOperation_ range:searchRange_];
+	[self findWithOperation : findOperation_ range : searchRange_];
 	
-	ErrNotFound:
-		return;
+ErrNotFound:
+	return;
 }
+
 - (IBAction) findPreviousText : (id) sender
 {
-	CMRSearchOptions		*findOperation_;
+	CMRSearchOptions	*findOperation_;
 	NSRange				searchRange_;
 	
 	findOperation_ = [[TextFinder standardTextFinder] currentOperation];
 	UTILRequireCondition(findOperation_, ErrNotFound);
 	
-	[findOperation_ setOptionState:YES option:NSBackwardsSearch];
+	[findOperation_ setOptionState : YES option : NSBackwardsSearch];
 	
 	searchRange_ = [[self textView] selectedRange];
 	searchRange_.length = searchRange_.location;
 	searchRange_.location = 0;
 	
-	[self findWithOperation:findOperation_ range:searchRange_];
+	[self findWithOperation : findOperation_ range : searchRange_];
 	
 ErrNotFound:
 	return;
 }
 
 - (BOOL) setUpTemporaryAttributesMatchingString : (NSString *) aString
-						searchOption : (CMRSearchMask    ) searchOption
-					 inLayoutManager : (NSLayoutManager *) layoutManager
+								   searchOption : (CMRSearchMask    ) searchOption
+								inLayoutManager : (NSLayoutManager *) layoutManager
 {
 	NSDictionary		*dict;
 	
@@ -270,9 +275,10 @@ ErrNotFound:
 				NSBackgroundColorAttributeName,
 				nil];
 	return [layoutManager setTemporaryAttributes : dict
-				forMatchString : aString
-				searchOption : searchOption];
+								  forMatchString : aString
+									searchOption : searchOption];
 }
+
 - (IBAction) findAllByFilter : (id) sender
 {
 	CMRSearchOptions		*findOperation_;
@@ -284,28 +290,30 @@ ErrNotFound:
 	[self findTextByFilter : [findOperation_ findObject]
 			  searchOption : [[findOperation_ userInfo] unsignedIntValue]];
 }
+
 - (IBAction) findAll : (id) sender
 {
-	CMRSearchOptions		*findOperation_;
-	BOOL					found;
+	CMRSearchOptions	*findOperation_;
+	NSLayoutManager		*lM_ = [[self textView] layoutManager];
+	BOOL				found;
 	
 	findOperation_ = [[TextFinder standardTextFinder] currentOperation];
 	if (nil == findOperation_)
 		return;
 
-	[[[self textView] layoutManager]
-		removeTemporaryAttribute : NSBackgroundColorAttributeName
-		forCharacterRange : [[[self textView] textStorage] range]];
+	[lM_ removeTemporaryAttribute : NSBackgroundColorAttributeName
+				forCharacterRange : [[[self textView] textStorage] range]];
 	
 	found = [self setUpTemporaryAttributesMatchingString : [findOperation_ findObject]
-			  searchOption : [[findOperation_ userInfo] unsignedIntValue]
-			  inLayoutManager : [[self textView] layoutManager]];
-	
-	if (NO == found) {
+											searchOption : [[findOperation_ userInfo] unsignedIntValue]
+										 inLayoutManager : lM_];
+
+	if (NO == found)
 		NSBeep();
-	}
 }
 
+// 2005-11-27
+// Waring : HanZenKakuInsensitive = YES の場合、このメソッドが返す NSRange はあまりアテにならない
 - (NSRange) threadMessage : (CMRThreadMessage *) aMessage
 			rangeOfString : (NSString         *) aString
 				  options : (unsigned          ) options
@@ -324,18 +332,25 @@ ErrNotFound:
 	
 	if (nil == aMessage || 0 == [aString length])
 		return kNFRange;
-	
+
 	cnt = UTILNumberOfCArray(getKeys);
 	
 	for (i = 0; i < cnt; i++) {
 		target = [aMessage valueForKey : getKeys[i]];
 		if (nil == target || 0 == [target length])
 			continue;
-			
+		if (HanZenKakuInsensitive) {// Unicode 正規化形式 KC
+			NSLog(@"Before KC : %i", [target length]);
+			target = [target precomposedStringWithCompatibilityMapping];
+
+			NSLog(@" After KC : %i", [target length]);
+		}
+
+		// aString の正規化は、（必要なら）呼び出し側で行っておくこと
 		found = [target rangeOfString : aString
 							  options : options
-								range : [target range]
-				HanZenKakuInsensitive : HanZenKakuInsensitive];
+								range : [target range]];
+//				HanZenKakuInsensitive : HanZenKakuInsensitive];
 		if (found.length != 0) 
 			return found;
 	}
@@ -359,10 +374,16 @@ ErrNotFound:
 	CMXPopUpWindowController		*popUp_;
 	unsigned						nFound = 0;
 	UInt32							attributesMask_ = CMRAnyAttributesMask;
+
+	if ([aString length] == 0) return;
 	
 	if (searchOption | CMRSearchOptionCaseInsensitive)
 		options_ |= NSCaseInsensitiveSearch;
+
 	HanZenInsens_ = (searchOption & CMRSearchOptionZenHankakuInsensitive);
+	
+	if (HanZenInsens_)	// Unicode 正規化形式 KC
+		aString = [aString precomposedStringWithCompatibilityMapping];
 	
 	composer_ = [[CMRAttributedMessageComposer alloc] init];
 	textBuffer_ = [[NSMutableAttributedString alloc] init];
@@ -370,7 +391,7 @@ ErrNotFound:
 	attributesMask_ &= ~CMRAsciiArtMask;
 	attributesMask_ &= ~CMRBookmarkMask;
 	[composer_ setAttributesMask : attributesMask_];
-	[composer_ setComposingMask:CMRAnyAttributesMask compose:YES];
+	[composer_ setComposingMask : CMRAnyAttributesMask compose : YES];
 	
 	[composer_ setContentsStorage : textBuffer_];
 	
@@ -379,50 +400,55 @@ ErrNotFound:
 		NSRange		found;
 		
 		found = [self threadMessage : m
-				 rangeOfString : aString
-					   options : options_
-		 HanZenKakuInsensitive : HanZenInsens_];
-		
+					  rangeOfString : aString
+							options : options_
+			  HanZenKakuInsensitive : HanZenInsens_];
+
 		if (0 == found.length) continue;
-		
+
 		nFound++;
 		[composer_ composeThreadMessage : m];
 	}
+
 	if (0 == nFound) {
 		// 見つからなかった
 		NSBeep();
 		goto CleanUp;
 	}
+
 	popUpLocation_ = [self locationForInformationPopUp];
 	popUp_ = [CMRPopUpMgr showPopUpWindowWithContext : textBuffer_
-								  forObject : [self threadIdentifier]
-									  owner : self
-							   locationHint : popUpLocation_];
-	
-	[self setUpTemporaryAttributesMatchingString : aString
-						searchOption : searchOption
-					 inLayoutManager : [[popUp_ textView] layoutManager]];
+										   forObject : [self threadIdentifier]
+											   owner : self
+										locationHint : popUpLocation_];
+
+	if (!HanZenInsens_) // 全角／半角を無視する場合は、結果のハイライトを行わない
+		[self setUpTemporaryAttributesMatchingString : aString
+										searchOption : searchOption
+									 inLayoutManager : [[popUp_ textView] layoutManager]];
 
 CleanUp:
 	[composer_ release];
 	[textBuffer_ release];
-	composer_ = nil; textBuffer_ = nil;
+	composer_ = nil;
+	textBuffer_ = nil;
 }
 
 - (IBAction) findFirstText : (id) sender
 {
-	CMRSearchOptions		*findOperation_;
+	CMRSearchOptions	*findOperation_;
 	NSRange				searchRange_;
 	
 	findOperation_ = [[TextFinder standardTextFinder] currentOperation];
 	UTILRequireCondition(findOperation_, ErrNotFound);
 	searchRange_ = NSMakeRange(0, [[[self textView] string] length]);
 	
-	[self findWithOperation:findOperation_ range:searchRange_];
-	
+	[self findWithOperation : findOperation_ range : searchRange_];
+
 ErrNotFound:
 	return;
 }
+
 - (IBAction) findTextInSelection : (id) sender
 {
 	CMRSearchOptions	*findOperation_;
@@ -435,11 +461,11 @@ ErrNotFound:
 	searchRange_ = [[self textView] selectedRange];
 	UTILRequireCondition(searchRange_.length != 0, ErrNotFound);
 	
-	selection = [[[self textView] string] substringWithRange:[[self textView] selectedRange]];
-	if ( ! [finder_ isWindowLoaded] ) {
+	selection = [[[self textView] string] substringWithRange : [[self textView] selectedRange]];
+	if (![finder_ isWindowLoaded]) {
 	    [finder_ loadWindow];
 	}
-	[finder_ setFindString:selection];
+	[finder_ setFindString : selection];
 	[finder_ updateComponents : sender];
 
 	

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.15 2005/11/25 20:50:29 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.16 2005/11/30 19:46:53 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -159,9 +159,9 @@
 	}
 	[self setThreadContentWithThreadIdentifier : historyItem];
 }
- /*
- * RELOAD THREAD
- */
+
+#pragma mark Reloading thread
+
 - (IBAction) reloadThread
 {
 	[self downloadThread : [[self threadAttributes] threadSignature]
@@ -440,20 +440,23 @@
 
 #pragma mark Deletion
 
-- (BOOL) forceDeleteThreadAtPath : (NSString *) filepath
+- (BOOL) forceDeleteThreadAtPath : (NSString *) filepath alsoReplyFile : (BOOL) deleteReply
 {
 	if (NO == [[NSFileManager defaultManager] fileExistsAtPath : filepath])
 		return NO;
 	
-	NSArray		*alsoReplyFile_;
 	NSArray		*filePathArray_;
 
 	filePathArray_ = [NSArray arrayWithObject : filepath];
-		
-	alsoReplyFile_ = [[CMRReplyDocumentFileManager defaultManager]
-							replyDocumentFilesArrayWithLogsArray : filePathArray_];
 
-	return [[CMRTrashbox trash] performWithFiles : alsoReplyFile_];
+	if (deleteReply) {
+		NSArray		*alsoReplyFile_;		
+		alsoReplyFile_ = [[CMRReplyDocumentFileManager defaultManager]
+								replyDocumentFilesArrayWithLogsArray : filePathArray_];
+		return [[CMRTrashbox trash] performWithFiles : alsoReplyFile_];
+	}
+
+	return [[CMRTrashbox trash] performWithFiles : filePathArray_];
 }
 
 - (void) checkIfFavItemThenRemove : (NSString *) aPath
@@ -462,7 +465,7 @@
 	if ([favManager favoriteItemExistsOfThreadPath : aPath]) {
 		[favManager removeFromFavoritesWithFilePath : aPath];
 	}
-		[favManager addItemToPoolWithFilePath : aPath];
+		[favManager addItemToPoolWithFilePath : aPath]; // お気に入り項目でなくてもプールに追加する（削除ステータスを同期させるため）
 }
 
 - (IBAction) deleteThread : (id) sender
@@ -471,7 +474,7 @@
 		NSString	*path_ = [[self path] copy];
 		[[self window] performClose : sender];
 
-		if ([self forceDeleteThreadAtPath : [self path]]) {
+		if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
 			[self checkIfFavItemThenRemove : path_];
 		} else {
 			NSBeep();
@@ -514,7 +517,7 @@
 			[[alert window] orderOut : nil]; 
 			[[self window] performClose : contextInfo];
 
-			if ([self forceDeleteThreadAtPath : path_]) {
+			if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
 				[self checkIfFavItemThenRemove : path_];
 			} else {
 				NSBeep();
@@ -526,7 +529,7 @@
 	case NSAlertThirdButtonReturn:
 		{
 			NSString *path_ = [[self path] copy];
-			if ([self forceDeleteThreadAtPath : path_]) {
+			if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : NO]) {
 				[self reloadAfterDeletion : path_];
 			} else {
 				NSBeep();

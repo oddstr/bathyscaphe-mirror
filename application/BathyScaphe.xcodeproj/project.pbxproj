@@ -462,7 +462,6 @@
 		8729972108325E2500CBD740 /* CMXPopUpWindowManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8729971908325E2500CBD740 /* CMXPopUpWindowManager.m */; };
 		872998E40832617E00CBD740 /* AlertPanel.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872998E20832617E00CBD740 /* AlertPanel.strings */; };
 		872998E70832617F00CBD740 /* AlertPanelManager.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872998E50832617F00CBD740 /* AlertPanelManager.strings */; };
-		872998EA0832617F00CBD740 /* AppInformationManager.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872998E80832617F00CBD740 /* AppInformationManager.strings */; };
 		872998ED0832617F00CBD740 /* Browser.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872998EB0832617F00CBD740 /* Browser.nib */; };
 		872998F00832617F00CBD740 /* browserListColumns.plist in Resources */ = {isa = PBXBuildFile; fileRef = 872998EE0832617F00CBD740 /* browserListColumns.plist */; };
 		872998F30832617F00CBD740 /* CMRAccessorySheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872998F10832617F00CBD740 /* CMRAccessorySheet.nib */; };
@@ -482,7 +481,6 @@
 		872999230832618000CBD740 /* CMXMessageMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872999210832618000CBD740 /* CMXMessageMenu.nib */; };
 		872999260832618000CBD740 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 872999240832618000CBD740 /* Credits.rtf */; };
 		872999290832618100CBD740 /* DateFormater.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999270832618100CBD740 /* DateFormater.strings */; };
-		8729992C0832618100CBD740 /* DirectoryManager.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8729992A0832618100CBD740 /* DirectoryManager.strings */; };
 		8729992F0832618100CBD740 /* Downloader.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8729992D0832618100CBD740 /* Downloader.strings */; };
 		872999320832618100CBD740 /* HTMLView.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999300832618100CBD740 /* HTMLView.strings */; };
 		872999350832618100CBD740 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999330832618100CBD740 /* InfoPlist.strings */; };
@@ -495,7 +493,6 @@
 		872999500832618100CBD740 /* ThreadData.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8729994E0832618100CBD740 /* ThreadData.strings */; };
 		872999530832618100CBD740 /* ThreadsList.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999510832618100CBD740 /* ThreadsList.strings */; };
 		872999560832618100CBD740 /* ThreadViewer.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999540832618100CBD740 /* ThreadViewer.strings */; };
-		872999F7083261C400CBD740 /* Preview in Resources */ = {isa = PBXBuildFile; fileRef = 872999F5083261C400CBD740 /* Preview */; };
 		87299A3F083261F200CBD740 /* AddFavorites.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A05083261F200CBD740 /* AddFavorites.png */; };
 		87299A40083261F200CBD740 /* age.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A06083261F200CBD740 /* age.png */; };
 		87299A41083261F200CBD740 /* appIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 87299A07083261F200CBD740 /* appIcon.icns */; };
@@ -601,8 +598,6 @@
 		87C4813108FD039B00F91054 /* AddBoardSheetController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87C4812F08FD039B00F91054 /* AddBoardSheetController.h */; };
 		87C4813208FD039B00F91054 /* AddBoardSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C4813008FD039B00F91054 /* AddBoardSheetController.m */; };
 		87C4813F08FD05A300F91054 /* AddBoardSheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87C4813D08FD05A300F91054 /* AddBoardSheet.nib */; };
-		87C644860911291800CB3B90 /* JStringAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD8504C698FB00A80005 /* JStringAdditions.h */; };
-		87C644870911291A00CB3B90 /* JStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD8604C698FB00A80005 /* JStringAdditions.m */; };
 		87D5D8CB08DF0F990039A9EB /* BSBoardListView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D5D8C908DF0F990039A9EB /* BSBoardListView.h */; };
 		87D5D8CC08DF0F9A0039A9EB /* BSBoardListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D5D8CA08DF0F990039A9EB /* BSBoardListView.m */; };
 		87D5D8D108DF0FCC0039A9EB /* boardListSelBgFocused.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87D5D8CF08DF0FCC0039A9EB /* boardListSelBgFocused.tiff */; };
@@ -612,14 +607,6 @@
 		87D8DBAC0833D57D004C1168 /* AboutPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87D8DBAA0833D57D004C1168 /* AboutPanel.nib */; };
 		87D8DC220833E8AF004C1168 /* BaScLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 87D8DC210833E8AF004C1168 /* BaScLogo.png */; };
 		87D8DC270833EABB004C1168 /* bathyicon192.png in Resources */ = {isa = PBXBuildFile; fileRef = 87D8DC260833EABB004C1168 /* bathyicon192.png */; };
-		87DF8422091101F4008FB40E /* Hankaku-Kana-Daku.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299AF90832622100CBD740 /* Hankaku-Kana-Daku.txt */; };
-		87DF8423091101F7008FB40E /* Hankaku-Kana.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299AFA0832622100CBD740 /* Hankaku-Kana.txt */; };
-		87DF8424091101F9008FB40E /* Hankaku.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299AFB0832622100CBD740 /* Hankaku.txt */; };
-		87DF842509110206008FB40E /* Zenkaku-Hira-Daku.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299B080832622200CBD740 /* Zenkaku-Hira-Daku.txt */; };
-		87DF842609110209008FB40E /* Zenkaku-Hira.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299B090832622200CBD740 /* Zenkaku-Hira.txt */; };
-		87DF84270911020B008FB40E /* Zenkaku-Kana-Daku.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299B0A0832622200CBD740 /* Zenkaku-Kana-Daku.txt */; };
-		87DF84280911020E008FB40E /* Zenkaku-Kana.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299B0B0832622200CBD740 /* Zenkaku-Kana.txt */; };
-		87DF842909110211008FB40E /* Zenkaku.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299B0C0832622200CBD740 /* Zenkaku.txt */; };
 		87E2264E0833AA5D00E7FC85 /* BathyScaphe.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 87E2264C0833AA5D00E7FC85 /* BathyScaphe.scriptSuite */; };
 		87E2264F0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 87E2264D0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology */; };
 		87E4752A085C57C100B3E45E /* BSWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 87E47528085C57C100B3E45E /* BSWindow.h */; };
@@ -799,7 +786,6 @@
 		8729971908325E2500CBD740 /* CMXPopUpWindowManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMXPopUpWindowManager.m; sourceTree = "<group>"; };
 		8729995A0832618700CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/AlertPanel.strings; sourceTree = "<group>"; };
 		8729995B0832618700CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/AlertPanelManager.strings; sourceTree = "<group>"; };
-		8729995C0832618700CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/AppInformationManager.strings; sourceTree = "<group>"; };
 		8729995D0832618700CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/Browser.nib; sourceTree = "<group>"; };
 		8729995E0832618700CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Japanese; path = Japanese.lproj/browserListColumns.plist; sourceTree = "<group>"; };
 		8729995F0832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/CMRAccessorySheet.nib; sourceTree = "<group>"; };
@@ -819,7 +805,6 @@
 		8729996F0832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/CMXMessageMenu.nib; sourceTree = "<group>"; };
 		872999700832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Japanese; path = Japanese.lproj/Credits.rtf; sourceTree = "<group>"; };
 		872999710832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/DateFormater.strings; sourceTree = "<group>"; };
-		872999720832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/DirectoryManager.strings; sourceTree = "<group>"; };
 		872999730832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Downloader.strings; sourceTree = "<group>"; };
 		872999740832618800CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/HTMLView.strings; sourceTree = "<group>"; };
 		872999750832618800CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -832,7 +817,6 @@
 		8729997E0832618900CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/ThreadData.strings; sourceTree = "<group>"; };
 		8729997F0832618900CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/ThreadsList.strings; sourceTree = "<group>"; };
 		872999800832618900CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/ThreadViewer.strings; sourceTree = "<group>"; };
-		872999FB083261CA00CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Japanese; path = Japanese.lproj/Preview; sourceTree = "<group>"; };
 		87299A03083261F200CBD740 /* Action.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Action.tiff; sourceTree = "<group>"; };
 		87299A04083261F200CBD740 /* Action_Pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Action_Pressed.tiff; sourceTree = "<group>"; };
 		87299A05083261F200CBD740 /* AddFavorites.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AddFavorites.png; sourceTree = "<group>"; };
@@ -1532,11 +1516,9 @@
 				87299B410832623A00CBD740 /* BWAgent.app */,
 				87299AF50832622100CBD740 /* text */,
 				87299A02083261F200CBD740 /* image */,
-				872999F5083261C400CBD740 /* Preview */,
 				87BF7CA40840423900CC7D7C /* BathyScapheHelp */,
 				872998E20832617E00CBD740 /* AlertPanel.strings */,
 				872998E50832617F00CBD740 /* AlertPanelManager.strings */,
-				872998E80832617F00CBD740 /* AppInformationManager.strings */,
 				872998EE0832617F00CBD740 /* browserListColumns.plist */,
 				872998F70832617F00CBD740 /* CMRMainMenu.strings */,
 				872999030832617F00CBD740 /* CMROpenURLManager.strings */,
@@ -1561,7 +1543,6 @@
 				87C4813D08FD05A300F91054 /* AddBoardSheet.nib */,
 				872999240832618000CBD740 /* Credits.rtf */,
 				872999270832618100CBD740 /* DateFormater.strings */,
-				8729992A0832618100CBD740 /* DirectoryManager.strings */,
 				8729992D0832618100CBD740 /* Downloader.strings */,
 				872999300832618100CBD740 /* HTMLView.strings */,
 				872999330832618100CBD740 /* InfoPlist.strings */,
@@ -2843,7 +2824,6 @@
 				87BF52CB08F789D500998C4E /* BSBoardInfoInspector.h in Headers */,
 				87C4813108FD039B00F91054 /* AddBoardSheetController.h in Headers */,
 				873BAE9A090931B0009E9B41 /* BSImagePreviewerInterface.h in Headers */,
-				87C644860911291800CB3B90 /* JStringAdditions.h in Headers */,
 				87AF762709261F3900DD95CE /* NSString+CarbonUtilities.h in Headers */,
 				87AF762809261F3900DD95CE /* UKDirectoryEnumerator.h in Headers */,
 			);
@@ -3158,7 +3138,6 @@
 			files = (
 				872998E40832617E00CBD740 /* AlertPanel.strings in Resources */,
 				872998E70832617F00CBD740 /* AlertPanelManager.strings in Resources */,
-				872998EA0832617F00CBD740 /* AppInformationManager.strings in Resources */,
 				872998ED0832617F00CBD740 /* Browser.nib in Resources */,
 				872998F00832617F00CBD740 /* browserListColumns.plist in Resources */,
 				872998F30832617F00CBD740 /* CMRAccessorySheet.nib in Resources */,
@@ -3178,7 +3157,6 @@
 				872999230832618000CBD740 /* CMXMessageMenu.nib in Resources */,
 				872999260832618000CBD740 /* Credits.rtf in Resources */,
 				872999290832618100CBD740 /* DateFormater.strings in Resources */,
-				8729992C0832618100CBD740 /* DirectoryManager.strings in Resources */,
 				8729992F0832618100CBD740 /* Downloader.strings in Resources */,
 				872999320832618100CBD740 /* HTMLView.strings in Resources */,
 				872999350832618100CBD740 /* InfoPlist.strings in Resources */,
@@ -3191,7 +3169,6 @@
 				872999500832618100CBD740 /* ThreadData.strings in Resources */,
 				872999530832618100CBD740 /* ThreadsList.strings in Resources */,
 				872999560832618100CBD740 /* ThreadViewer.strings in Resources */,
-				872999F7083261C400CBD740 /* Preview in Resources */,
 				87299A3F083261F200CBD740 /* AddFavorites.png in Resources */,
 				87299A40083261F200CBD740 /* age.png in Resources */,
 				87299A41083261F200CBD740 /* appIcon.icns in Resources */,
@@ -3275,14 +3252,6 @@
 				87078CE5090E9710007FF9C3 /* RemoveFavorites.png in Resources */,
 				87078CE6090E9710007FF9C3 /* ResToThread.png in Resources */,
 				87078CE8090E9710007FF9C3 /* stopSign.png in Resources */,
-				87DF8422091101F4008FB40E /* Hankaku-Kana-Daku.txt in Resources */,
-				87DF8423091101F7008FB40E /* Hankaku-Kana.txt in Resources */,
-				87DF8424091101F9008FB40E /* Hankaku.txt in Resources */,
-				87DF842509110206008FB40E /* Zenkaku-Hira-Daku.txt in Resources */,
-				87DF842609110209008FB40E /* Zenkaku-Hira.txt in Resources */,
-				87DF84270911020B008FB40E /* Zenkaku-Kana-Daku.txt in Resources */,
-				87DF84280911020E008FB40E /* Zenkaku-Kana.txt in Resources */,
-				87DF842909110211008FB40E /* Zenkaku.txt in Resources */,
 				8724A6DD09127E69009CC855 /* board_default.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3564,7 +3533,6 @@
 				87BF52CC08F789D500998C4E /* BSBoardInfoInspector.m in Sources */,
 				873C0DCF08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m in Sources */,
 				87C4813208FD039B00F91054 /* AddBoardSheetController.m in Sources */,
-				87C644870911291A00CB3B90 /* JStringAdditions.m in Sources */,
 				87AF762909261F3900DD95CE /* NSString+CarbonUtilities.m in Sources */,
 				87AF762A09261F3900DD95CE /* UKDirectoryEnumerator.m in Sources */,
 			);
@@ -3695,14 +3663,6 @@
 				8729995B0832618700CBD740 /* Japanese */,
 			);
 			name = AlertPanelManager.strings;
-			sourceTree = "<group>";
-		};
-		872998E80832617F00CBD740 /* AppInformationManager.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8729995C0832618700CBD740 /* Japanese */,
-			);
-			name = AppInformationManager.strings;
 			sourceTree = "<group>";
 		};
 		872998EB0832617F00CBD740 /* Browser.nib */ = {
@@ -3857,14 +3817,6 @@
 			name = DateFormater.strings;
 			sourceTree = "<group>";
 		};
-		8729992A0832618100CBD740 /* DirectoryManager.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				872999720832618800CBD740 /* Japanese */,
-			);
-			name = DirectoryManager.strings;
-			sourceTree = "<group>";
-		};
 		8729992D0832618100CBD740 /* Downloader.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -3959,14 +3911,6 @@
 				872999800832618900CBD740 /* Japanese */,
 			);
 			name = ThreadViewer.strings;
-			sourceTree = "<group>";
-		};
-		872999F5083261C400CBD740 /* Preview */ = {
-			isa = PBXVariantGroup;
-			children = (
-				872999FB083261CA00CBD740 /* Japanese */,
-			);
-			name = Preview;
 			sourceTree = "<group>";
 		};
 		8764157F0840AF4F00F66D78 /* AdvancedPane.nib */ = {
