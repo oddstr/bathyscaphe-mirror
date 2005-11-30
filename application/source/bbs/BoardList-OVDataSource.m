@@ -1,5 +1,5 @@
 /**
-  * $Id: BoardList-OVDataSource.m,v 1.8 2005/10/29 01:15:33 tsawada2 Exp $
+  * $Id: BoardList-OVDataSource.m,v 1.9 2005/11/30 23:22:51 tsawada2 Exp $
   * 
   * BoardList-OVDataSource.m
   *
@@ -44,7 +44,7 @@
 		 : nil;
 }
 
-static NSImage *imageForType(BoardListItemType type)
+/*static*/ NSImage *imageForType(BoardListItemType type)
 {
 	NSString	*imageName_ = nil;
 	

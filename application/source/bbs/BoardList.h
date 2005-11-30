@@ -1,5 +1,5 @@
 /**
- * $Id: BoardList.h,v 1.2 2005/07/22 16:42:21 tsawada2 Exp $
+ * $Id: BoardList.h,v 1.3 2005/11/30 23:22:51 tsawada2 Exp $
  * 
  * BoardList.h
  *
@@ -102,8 +102,6 @@ typedef enum _BoardListItemType {
 @interface FavoritesList : BoardList
 + (NSMutableDictionary *) favoritesItem;
 @end
-
-
 
 extern NSString *const CMRBBSListItemsPboardType;
 extern NSString *const CMRBBSListDidChangeNotification;

@@ -134,44 +134,38 @@
 	action_ = [theItem action];
 
 	if (action_ == @selector(toggleBeLogin:)) {
-		NSString *host_ = [[[self document] targetURL] host];
-		
 		if (![[self document] checkBe2chAccount]) {
-			//[[theItem toolbar] setSelectedItemIdentifier : nil];
 			[theItem setImage : [NSImage imageAppNamed : kImageForLoginOff]];
 			[theItem setLabel : [self localizedString : kLabelForLoginOff]];
 			[theItem setToolTip : [self localizedString : kToolTipForCantLoginOn]];
 			return NO;
 		}
-		if (!is_2channel([host_ UTF8String])) {
-			//[[theItem toolbar] setSelectedItemIdentifier : nil];
+
+		BSBeLoginPolicyType policy_ = [[BoardManager defaultManager] typeOfBeLoginPolicyForBoard : [[self document] boardName]];
+
+		if (policy_ == BSBeLoginTriviallyOFF) {
 			[theItem setImage : [NSImage imageAppNamed : kImageForLoginOff]];
 			[theItem setLabel : [self localizedString : kLabelForLoginOff]];
 			[theItem setToolTip : [self localizedString : kToolTipForTrivialLoginOff]];
 			return NO;
-		}
-		if ([host_ isEqualToString : @"be.2ch.net"] || [host_ isEqualToString : @"qa.2ch.net"]) {
-			//[[theItem toolbar] setSelectedItemIdentifier : [theItem itemIdentifier]];
+		} else if (policy_ == BSBeLoginTriviallyNeeded) {
 			[theItem setImage : [NSImage imageAppNamed : kImageForLoginOn]];
 			[theItem setLabel : [self localizedString : kLabelForLoginOn]];
 			[theItem setToolTip : [self localizedString : kToolTipForNeededLogin]];
 			return NO;
 		} else {
-			NSString				*title_, *tooltip_;//, *identifier_;
+			NSString				*title_, *tooltip_;
 			NSImage					*image_;
 		
 			if ([[self document] shouldSendBeCookie]) {
-				//identifier_ = [theItem itemIdentifier];
 				title_ = [self localizedString : kLabelForLoginOn];
 				tooltip_ = [self localizedString : kToolTipForLoginOn];
 				image_ = [NSImage imageAppNamed : kImageForLoginOn];
 			} else {
-				//identifier_ = nil;
 				title_ = [self localizedString : kLabelForLoginOff];
 				tooltip_ = [self localizedString : kToolTipForLoginOff];
 				image_ = [NSImage imageAppNamed : kImageForLoginOff];
 			}
-			//[[theItem toolbar] setSelectedItemIdentifier : identifier_];
 			[theItem setImage : image_];
 			[theItem setLabel : title_];
 			[theItem setToolTip : tooltip_];

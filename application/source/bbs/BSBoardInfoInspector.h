@@ -56,6 +56,7 @@
 - (void) setShouldAllThreadsAAThread : (BOOL) checkboxState;
 
 - (NSImage *) icon;
+- (BOOL) shouldEnableBeBtn;
 
 // method
 - (void) showInspectorForTargetBoard : (NSString *) boardName;

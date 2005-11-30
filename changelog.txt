@@ -1,4 +1,15 @@
 2005-12-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/bbs/BSBoardInfoInspector.m
+	* application/source/bbs/BoardManager-BSAddition.m
+	* application/Resources/Japanese.lproj/BSBoardInfoInspector.nib
+		「掲示板オプション」インスペクタの改良
+		- 掲示板アイコンの表示方法を将来の拡張をにらんで変更
+		- Be ログインチェックボックスは、Be ログイン必須の板および2ch以外の掲示板では使用不可になるようにした。
+	* application/source/window/CMRReplyController.m
+		書き込みウインドウのツールバーの「Be ログイン」ボタンの validate 方法を改良。
+		根幹の判定は BoardManager が一括して取り扱うようにし、ReplyController から BoardManager に問い合わせる形にした。 
+	* frameworks/CocoMonar/framework/src/CMRHostTypes.m
+		ユーティリティメソッドを追加した。
 	* application/source/thread/CMRThreadLayout-MessageRange.m
 		迷惑レスとして透明あぼーんされているレスへのアンカーに対するマウスオーバーで、その迷惑レスの内容が表示されてしまう
 		問題を修正。

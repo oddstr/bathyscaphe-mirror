@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRHostTypes.h,v 1.1 2005/05/11 17:51:19 tsawada2 Exp $
+  * $Id: CMRHostTypes.h,v 1.2 2005/11/30 23:22:51 tsawada2 Exp $
   * 
   * CMRHostTypes.h
   *
@@ -38,7 +38,8 @@ extern bool can_readcgi(const char *host);
 
 // 2channel互換
 extern bool is_2channel(const char *host);
-extern bool is_be2ch(const char *host);
+extern bool is_be2ch(const char *host);	// EUC エンコーディングが必要かどうかを判定する際に使う
+extern bool is_2ch_belogin_needed(const char *host); // 書き込みに Be ログインが必須かどうかを判定する際に使う
 extern bool is_jbbs_shita(const char *host);
 extern bool is_machi(const char *host);
 extern bool is_jbbs(const char *host);

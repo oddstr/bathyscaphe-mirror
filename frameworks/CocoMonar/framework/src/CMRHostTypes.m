@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRHostTypes.m,v 1.1 2005/05/11 17:51:19 tsawada2 Exp $
+  * $Id: CMRHostTypes.m,v 1.2 2005/11/30 23:22:51 tsawada2 Exp $
   * 
   * CMRHostTypes.m
   *
@@ -138,6 +138,16 @@ bool is_be2ch(const char *host)
 {
 	return host ? strstr(host, "be.2ch.net") != NULL && can_readcgi(host) : true;
 }
+
+bool is_2ch_belogin_needed(const char *host)
+{
+	if (host != NULL) {
+		return strstr(host, "be.2ch.net") != NULL ||
+			   strstr(host, "qa.2ch.net") != NULL;
+	}
+	return false;
+}
+
 bool is_jbbs_shita(const char *host)
 {
 	if (host != NULL) {

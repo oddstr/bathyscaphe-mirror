@@ -84,7 +84,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	[self willChangeValueForKey:@"defaultKotehan"];
 	[self willChangeValueForKey:@"defaultMail"];
 	[self willChangeValueForKey:@"shouldAlwaysBeLogin"];
-	[self willChangeValueForKey:@"shouldAllThreadsAAThread"];
+	//[self willChangeValueForKey:@"shouldAllThreadsAAThread"];
+	[self willChangeValueForKey:@"icon"];
+	[self willChangeValueForKey:@"shouldEnableBeBtn"];
 
 	[newTarget retain];
 	[_currentTargetBoardName release];
@@ -97,7 +99,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	[self didChangeValueForKey:@"defaultKotehan"];
 	[self didChangeValueForKey:@"defaultMail"];
 	[self didChangeValueForKey:@"shouldAlwaysBeLogin"];
-	[self didChangeValueForKey:@"shouldAllThreadsAAThread"];
+	//[self didChangeValueForKey:@"shouldAllThreadsAAThread"];
+	[self didChangeValueForKey:@"icon"];
+	[self didChangeValueForKey:@"shouldEnableBeBtn"];
 }
 
 - (NSButton *) helpButton
@@ -200,7 +204,12 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 
 - (NSImage *) icon
 {
-	return nil;
+	return [BrdMgr iconForBoard : [self currentTargetBoardName]];
+}
+
+- (BOOL) shouldEnableBeBtn
+{
+	return (BSBeLoginDecidedByUser == [BrdMgr typeOfBeLoginPolicyForBoard : [self currentTargetBoardName]]);
 }
 
 #pragma mark -

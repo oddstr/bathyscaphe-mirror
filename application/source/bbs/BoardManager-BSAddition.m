@@ -13,6 +13,7 @@ static NSString *const NNDDefaultKotehanKey = @"DefaultReplyName";
 static NSString *const NNDDefaultMailKey	= @"DefaultReplyMail";
 static NSString *const NNDAllThreadsAAKey	= @"AABoard";
 
+extern NSImage  *imageForType(BoardListItemType type); // described in BoardList-OVDatasource.m
 
 @implementation BoardManager(BSAddition)
 
@@ -141,7 +142,7 @@ static NSString *const NNDAllThreadsAAKey	= @"AABoard";
 }
 
 
-- (BOOL)  sortColumnIsAscendingAtBoard : (NSString *) boardName
+- (BOOL) sortColumnIsAscendingAtBoard : (NSString *) boardName
 {
 	id entry_;
 	
@@ -198,20 +199,31 @@ static NSString *const NNDAllThreadsAAKey	= @"AABoard";
 #pragma mark (SledgeHammer Addition)
 - (BOOL) alwaysBeLoginAtBoard : (NSString *) boardName
 {
-	id entry_;
+	BSBeLoginPolicyType	policy_;
 	
-	entry_ = [self entryForBoardName : boardName];
+	policy_ = [self typeOfBeLoginPolicyForBoard : boardName];
+	
+	if (policy_ == BSBeLoginTriviallyOFF) {
+		return NO;
+	
+	} else if (policy_ == BSBeLoginTriviallyNeeded) {
+		return YES;
 
-	if ([entry_ isKindOfClass : [NSString class]]) {
-		return [CMRPref shouldLoginBe2chAnyTime];
-	} else if ([entry_ isKindOfClass : [NSDictionary class]]) {
-		if ([[entry_ allKeys] containsObject : NNDAlwaysBeLoginKey]) {
-			return [entry_ boolForKey : NNDAlwaysBeLoginKey];
+	} else {
+		id entry_;
+		entry_ = [self entryForBoardName : boardName];
+
+		if ([entry_ isKindOfClass : [NSString class]]) {
+			return [CMRPref shouldLoginBe2chAnyTime];
+		} else if ([entry_ isKindOfClass : [NSDictionary class]]) {
+			if ([[entry_ allKeys] containsObject : NNDAlwaysBeLoginKey]) {
+				return [entry_ boolForKey : NNDAlwaysBeLoginKey];
+			} else {
+				return [CMRPref shouldLoginBe2chAnyTime];
+			}
 		} else {
 			return [CMRPref shouldLoginBe2chAnyTime];
 		}
-	} else {
-		return [CMRPref shouldLoginBe2chAnyTime];
 	}
 }
 
@@ -419,8 +431,27 @@ static NSString *const NNDAllThreadsAAKey	= @"AABoard";
 	item_ = [self itemForName : boardName];
 	
 	return [item_ icon];*/
-	
+	if ([boardName isEqualToString : CMXFavoritesDirectoryName]) {
+		return imageForType(BoardListFavoritesItem);
+	} else {
+		return imageForType(BoardListBoardItem);
+	}
 }
+
+- (BSBeLoginPolicyType) typeOfBeLoginPolicyForBoard : (NSString *) boardName
+{
+	const char *hs;
+	
+	hs = [[[self URLForBoardName : boardName] host] UTF8String];
+	
+	if (NULL == hs)
+		return BSBeLoginDecidedByUser;
+
+	if (!is_2channel(hs)) return BSBeLoginTriviallyOFF;	
+	if (is_2ch_belogin_needed(hs)) return BSBeLoginTriviallyNeeded;
+	
+	return BSBeLoginDecidedByUser;
+}	
 
 #pragma mark -
 
