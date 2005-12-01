@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyMessenger.m,v 1.5 2005/10/01 15:08:57 tsawada2 Exp $
+  * $Id: CMRReplyMessenger.m,v 1.6 2005/12/01 23:08:33 tsawada2 Exp $
   * 
   * CMRReplyMessenger.m
   *
@@ -189,20 +189,19 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 
 - (void) setUpBeLoginSetting
 {
-	NSString	*bName_ = [self boardName];
-	NSString	*host_ = [[self targetURL] host];
+	BSBeLoginPolicyType	policy_;
+	NSString			*bName_ = [self boardName];
+	BOOL				tmp = NO;
 
-	if (![self checkBe2chAccount] || !is_2channel([host_ UTF8String])) {
-		[self setShouldSendBeCookie : NO];
-		return;
-	}
-
-	if ([host_ isEqualToString : @"be.2ch.net"] || [host_ isEqualToString : @"qa.2ch.net"]) {
-		[self setShouldSendBeCookie : YES];
-		return;
-	}
+	policy_	 = [[BoardManager defaultManager] typeOfBeLoginPolicyForBoard : bName_];
 	
-	[self setShouldSendBeCookie : [[BoardManager defaultManager] alwaysBeLoginAtBoard : bName_]];
+	if (policy_ == BSBeLoginTriviallyNeeded) {
+		tmp = YES;
+	} else if (policy_ == BSBeLoginDecidedByUser) {
+		tmp = [[BoardManager defaultManager] alwaysBeLoginAtBoard : bName_];
+	}
+
+	[self setShouldSendBeCookie : tmp];
 }
 
 - (BOOL) readFromFile : (NSString *) fileName

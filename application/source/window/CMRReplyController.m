@@ -134,42 +134,49 @@
 	action_ = [theItem action];
 
 	if (action_ == @selector(toggleBeLogin:)) {
-		if (![[self document] checkBe2chAccount]) {
-			[theItem setImage : [NSImage imageAppNamed : kImageForLoginOff]];
-			[theItem setLabel : [self localizedString : kLabelForLoginOff]];
-			[theItem setToolTip : [self localizedString : kToolTipForCantLoginOn]];
-			return NO;
-		}
-
 		BSBeLoginPolicyType policy_ = [[BoardManager defaultManager] typeOfBeLoginPolicyForBoard : [[self document] boardName]];
-
-		if (policy_ == BSBeLoginTriviallyOFF) {
-			[theItem setImage : [NSImage imageAppNamed : kImageForLoginOff]];
-			[theItem setLabel : [self localizedString : kLabelForLoginOff]];
-			[theItem setToolTip : [self localizedString : kToolTipForTrivialLoginOff]];
-			return NO;
-		} else if (policy_ == BSBeLoginTriviallyNeeded) {
-			[theItem setImage : [NSImage imageAppNamed : kImageForLoginOn]];
-			[theItem setLabel : [self localizedString : kLabelForLoginOn]];
-			[theItem setToolTip : [self localizedString : kToolTipForNeededLogin]];
-			return NO;
-		} else {
-			NSString				*title_, *tooltip_;
-			NSImage					*image_;
 		
-			if ([[self document] shouldSendBeCookie]) {
-				title_ = [self localizedString : kLabelForLoginOn];
-				tooltip_ = [self localizedString : kToolTipForLoginOn];
-				image_ = [NSImage imageAppNamed : kImageForLoginOn];
-			} else {
-				title_ = [self localizedString : kLabelForLoginOff];
-				tooltip_ = [self localizedString : kToolTipForLoginOff];
-				image_ = [NSImage imageAppNamed : kImageForLoginOff];
+		switch(policy_) {
+			case BSBeLoginNoAccountOFF:
+			{
+				[theItem setImage : [NSImage imageAppNamed : kImageForLoginOff]];
+				[theItem setLabel : [self localizedString : kLabelForLoginOff]];
+				[theItem setToolTip : [self localizedString : kToolTipForCantLoginOn]];
+				return NO;
 			}
-			[theItem setImage : image_];
-			[theItem setLabel : title_];
-			[theItem setToolTip : tooltip_];
-			return YES;
+			case BSBeLoginTriviallyOFF:
+			{
+				[theItem setImage : [NSImage imageAppNamed : kImageForLoginOff]];
+				[theItem setLabel : [self localizedString : kLabelForLoginOff]];
+				[theItem setToolTip : [self localizedString : kToolTipForTrivialLoginOff]];
+				return NO;
+			}
+			case BSBeLoginTriviallyNeeded:
+			{
+				[theItem setImage : [NSImage imageAppNamed : kImageForLoginOn]];
+				[theItem setLabel : [self localizedString : kLabelForLoginOn]];
+				[theItem setToolTip : [self localizedString : kToolTipForNeededLogin]];
+				return NO;
+			}
+			case BSBeLoginDecidedByUser: 
+			{
+				NSString				*title_, *tooltip_;
+				NSImage					*image_;
+			
+				if ([[self document] shouldSendBeCookie]) {
+					title_ = [self localizedString : kLabelForLoginOn];
+					tooltip_ = [self localizedString : kToolTipForLoginOn];
+					image_ = [NSImage imageAppNamed : kImageForLoginOn];
+				} else {
+					title_ = [self localizedString : kLabelForLoginOff];
+					tooltip_ = [self localizedString : kToolTipForLoginOff];
+					image_ = [NSImage imageAppNamed : kImageForLoginOff];
+				}
+				[theItem setImage : image_];
+				[theItem setLabel : title_];
+				[theItem setToolTip : tooltip_];
+				return YES;
+			}
 		}
 	}
 	return NO;

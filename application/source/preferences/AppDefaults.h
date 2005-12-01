@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.23 2005/11/04 10:12:09 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.24 2005/12/01 23:08:33 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -395,6 +395,9 @@ enum {
 
 - (BOOL) hasAccountInKeychain;
 - (void) setHasAccountInKeychain : (BOOL) usesKeychain;
+
+- (BOOL) availableBe2chAccount;
+
 - (NSString *) applicationUserAgent;
 - (NSString *) x2chUserAccount;
 - (void) setX2chUserAccount : (NSString *) account;

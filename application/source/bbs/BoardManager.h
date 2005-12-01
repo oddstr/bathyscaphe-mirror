@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.h,v 1.6 2005/11/30 23:22:51 tsawada2 Exp $
+ * $Id: BoardManager.h,v 1.7 2005/12/01 23:08:33 tsawada2 Exp $
  * 
  * BoardManager.h
  *
@@ -31,7 +31,8 @@
 typedef enum _BSBeLoginPolicyType {
 	BSBeLoginTriviallyNeeded	= 0, // Be ログイン必須
 	BSBeLoginTriviallyOFF		= 1, // Be ログインは無意味（2chではない掲示板など）
-	BSBeLoginDecidedByUser		= 2	 // Be ログインするかどうかはユーザの設定を参照する
+	BSBeLoginDecidedByUser		= 2, // Be ログインするかどうかはユーザの設定を参照する
+	BSBeLoginNoAccountOFF		= 3  // 環境設定で Be アカウントが設定されていない
 } BSBeLoginPolicyType;
 
 @interface BoardManager : NSObject

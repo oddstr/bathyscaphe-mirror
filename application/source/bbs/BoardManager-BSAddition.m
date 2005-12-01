@@ -203,7 +203,7 @@ extern NSImage  *imageForType(BoardListItemType type); // described in BoardList
 	
 	policy_ = [self typeOfBeLoginPolicyForBoard : boardName];
 	
-	if (policy_ == BSBeLoginTriviallyOFF) {
+	if ((policy_ == BSBeLoginTriviallyOFF) || (policy_ == BSBeLoginNoAccountOFF)) {
 		return NO;
 	
 	} else if (policy_ == BSBeLoginTriviallyNeeded) {
@@ -440,6 +440,9 @@ extern NSImage  *imageForType(BoardListItemType type); // described in BoardList
 
 - (BSBeLoginPolicyType) typeOfBeLoginPolicyForBoard : (NSString *) boardName
 {
+	if(![CMRPref availableBe2chAccount])
+		return BSBeLoginNoAccountOFF;
+
 	const char *hs;
 	
 	hs = [[[self URLForBoardName : boardName] host] UTF8String];

@@ -73,7 +73,7 @@
 
 @interface CMRReplyMessenger(PrivateAccessor)
 - (CMRReplyController *) replyControllerRespondsTo : (SEL) aSelector;
-- (BOOL) checkBe2chAccount;
+//- (BOOL) checkBe2chAccount; // deprecated in LittleWish and later. Use AppDefault's availableBe2chAccount instead.
 
 - (NSString *) threadTitle;
 

@@ -1,3 +1,9 @@
+2005-12-02 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/window/CMRReplyMessenger.m
+	* application/source/window/CMRReplyController.m
+	* application/source/window/CMRReplyMessenger-Connector.m
+	* application/source/bbs/BoardManager-BSAddition.m
+		Be ログイン設定の切り替え制御を一元化（内部構造上の）。
 2005-12-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/bbs/BSBoardInfoInspector.m
 	* application/source/bbs/BoardManager-BSAddition.m

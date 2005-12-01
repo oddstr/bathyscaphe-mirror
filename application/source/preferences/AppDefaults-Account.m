@@ -110,6 +110,20 @@ NS_ENDHANDLER
 						  defaultValue : NO];
 }
 
+- (BOOL) availableBe2chAccount
+{
+	NSString	*dmdm_;
+	NSString	*mdmd_;
+	
+	dmdm_ = [self be2chAccountMailAddress];
+	if (dmdm_ == nil || [dmdm_ length] == 0) return NO;
+
+	mdmd_ = [self be2chAccountCode];
+	if (mdmd_ == nil || [mdmd_ length] == 0) return NO;
+	
+	return YES;
+}
+
 #pragma mark -
 
 - (void) setX2chUserAccount : (NSString *) account
