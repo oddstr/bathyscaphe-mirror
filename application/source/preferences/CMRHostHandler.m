@@ -1,6 +1,6 @@
 //: CMRHostHandler.m
 /**
-  * $Id: CMRHostHandler.m,v 1.2 2005/11/16 15:59:47 tsawada2 Exp $
+  * $Id: CMRHostHandler.m,v 1.3 2005/12/02 14:41:57 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -37,10 +37,7 @@
 // @see readURLWithBoard:datName:
 #define READ_URL_FORMAT_DEF		@"%@?%@=%@&%@=%@"
 #define READ_URL_FORMAT_2CH		@"%@/%s/%@/"
-#define READ_URL_FORMAT_2CH_PARAM	@"%@/%s/%@/%@"
 #define READ_URL_FORMAT_SHITARABA	@"%@/%@/%s/%@/"
-#define READ_URL_FORMAT_SHITA_PARAM	@"%@/%@/%s/%@/%@"
-
 
 @implementation CMRHostHandler
 + (SGBaseCArrayWrapper *) registeredHostHandlers
@@ -191,8 +188,8 @@ ErrDATURL:
 ErrReadURL:
 	return nil;
 }
-- (NSURL *) readURLWithBoard : (NSURL    *) boardURL
-                     datName : (NSString *) datName
+
+- (NSString *) makeURLStringWithBoard : (NSURL *) boardURL datName : (NSString *) datName
 {
 	NSString		*absolute_;
 	NSURL			*location_;
@@ -213,7 +210,37 @@ ErrReadURL:
 					[[boardURL absoluteString] lastPathComponent],
 					[properties_ objectForKey : kReadCGIParamIDKey],
 					datName];
+
+	return absolute_;
+ErrReadURL:
+	return nil;
+}
+
+- (NSURL *) readURLWithBoard : (NSURL    *) boardURL
+                     datName : (NSString *) datName
+{
+	NSString		*absolute_;
+	NSURL			*location_;
+	//NSDictionary	*properties_;
 	
+	/*UTILRequireCondition(boardURL && datName, ErrReadURL);
+
+	location_ = [self readURLWithBoard:boardURL];
+	UTILRequireCondition(location_, ErrReadURL);
+	
+	properties_ = [self readCGIProperties];
+	UTILRequireCondition(properties_, ErrReadURL);
+	
+	absolute_ = [NSString stringWithFormat :
+					READ_URL_FORMAT_DEF,
+					[location_ absoluteString],
+					[properties_ objectForKey : kReadCGIParamBBSKey],
+					[[boardURL absoluteString] lastPathComponent],
+					[properties_ objectForKey : kReadCGIParamIDKey],
+					datName];*/
+	absolute_ = [self makeURLStringWithBoard : boardURL datName : datName];
+	UTILRequireCondition(absolute_, ErrReadURL);
+
 	location_ = [NSURL URLWithString : absolute_];
 	
 	return location_;
@@ -221,12 +248,18 @@ ErrReadURL:
 ErrReadURL:
 	return nil;
 }
+- (NSURL *) readURLWithBoard : (NSURL    *) boardURL
+                     datName : (NSString *) datName
+				 latestCount : (int) count
+{
+	return [self readURLWithBoard : boardURL datName : datName];
+}
 
 - (NSURL *) readURLWithBoard : (NSURL    *) boardURL
                      datName : (NSString *) datName
-					paramStr : (NSString *) paramStr
+				   headCount : (int) count;
 {
-	return [self readURLWithBoard:boardURL datName:datName];
+	return [self readURLWithBoard : boardURL datName : datName];
 }
 
 - (NSURL *) readURLWithBoard : (NSURL    *) boardURL
@@ -239,15 +272,19 @@ ErrReadURL:
 	NSURL			*location_;
 	NSDictionary	*properties_;
 	NSString		*paramKey_;
+	NSString	*base_;
 	
-	location_ = [self readURLWithBoard:boardURL datName:datName];
-	UTILRequireCondition(location_, ErrReadURL);
+	/*location_ = [self readURLWithBoard:boardURL datName:datName];
+	UTILRequireCondition(location_, ErrReadURL);*/
 	
 	properties_ = [[self properties] objectForKey : kReadCGIPropertiesKey];
 	UTILRequireCondition(properties_, ErrReadURL);
+	base_ = [self makeURLStringWithBoard : boardURL datName : datName];
+	UTILRequireCondition(base_, ErrReadURL);
 	
 	tmp = SGTemporaryString();
-	[tmp setString : [location_ absoluteString]];
+	//[tmp setString : [location_ absoluteString]];
+	[tmp setString : base_];
 	if (startIndex != NSNotFound) {
 		paramKey_ = [properties_ objectForKey : kReadCGIParamStartKey];
 		UTILAssertKindOfClass(paramKey_, NSString);
@@ -534,7 +571,7 @@ static NSDictionary *CMRHostPropertiesForKey(NSString *aKey)
 
 
 // ２ちゃんねる
-@implementation CMR2channelHandler : CMRHostHandler
+@implementation CMR2channelHandler// : CMRHostHandler
 + (BOOL) canHandleURL : (NSURL *) anURL
 {
 	const char *hs = [[anURL host] UTF8String];
@@ -548,8 +585,8 @@ static NSDictionary *CMRHostPropertiesForKey(NSString *aKey)
 {
 	return CMRHostPropertiesForKey(@"2channel");
 }
-- (NSURL *) readURLWithBoard : (NSURL    *) boardURL
-                     datName : (NSString *) datName
+
+- (NSString *) makeURLStringWithBoard : (NSURL *) boardURL datName : (NSString *) datName
 {
 	NSString		*absolute_;
 	const char		*bbs_ = NULL;
@@ -572,24 +609,22 @@ static NSDictionary *CMRHostPropertiesForKey(NSString *aKey)
 					[location_ absoluteString],
 					bbs_,
 					datName];
-	
-	location_ = [NSURL URLWithString : absolute_];
-	
-	return location_;
-	
+
+	return absolute_;
+
 ErrReadURL:
 	return nil;
 }
+
 - (NSURL *) readURLWithBoard : (NSURL    *) boardURL
                      datName : (NSString *) datName
-					paramStr : (NSString *) paramStr
 {
 	NSString		*absolute_;
-	const char		*bbs_ = NULL;
+	//const char		*bbs_ = NULL;
 	NSURL			*location_;
-	NSDictionary	*properties_;
+	//NSDictionary	*properties_;
 	
-	UTILRequireCondition(boardURL && datName, ErrReadURL);
+	/*UTILRequireCondition(boardURL && datName, ErrReadURL);
 
 	location_ = [self readURLWithBoard:boardURL];
 	UTILRequireCondition(location_, ErrReadURL);
@@ -601,11 +636,12 @@ ErrReadURL:
 	UTILRequireCondition(bbs_, ErrReadURL);
 
 	absolute_ = [NSString stringWithFormat :
-					READ_URL_FORMAT_2CH_PARAM,
+					READ_URL_FORMAT_2CH,
 					[location_ absoluteString],
 					bbs_,
-					datName,
-					paramStr];
+					datName];*/
+	absolute_ = [self makeURLStringWithBoard : boardURL datName : datName];
+	UTILRequireCondition(absolute_, ErrReadURL);
 	
 	location_ = [NSURL URLWithString : absolute_];
 	
@@ -617,18 +653,45 @@ ErrReadURL:
 
 - (NSURL *) readURLWithBoard : (NSURL    *) boardURL
                      datName : (NSString *) datName
+				 latestCount : (int) count
+{
+	NSString	*base_;
+	base_ = [self makeURLStringWithBoard : boardURL datName : datName];
+	if (base_ == nil)
+		return nil;
+
+	return [NSURL URLWithString : [base_ stringByAppendingFormat : @"l%i", count]];
+}
+
+- (NSURL *) readURLWithBoard : (NSURL    *) boardURL
+                     datName : (NSString *) datName
+				   headCount : (int) count
+{
+	NSString	*base_;
+	base_ = [self makeURLStringWithBoard : boardURL datName : datName];
+	if (base_ == nil)
+		return nil;
+
+	return [NSURL URLWithString : [base_ stringByAppendingFormat : @"-%i", count]];
+}
+
+- (NSURL *) readURLWithBoard : (NSURL    *) boardURL
+                     datName : (NSString *) datName
 					   start : (unsigned  ) startIndex
 					     end : (unsigned  ) endIndex
 					 nofirst : (BOOL      ) nofirst
 {
 	id				tmp;
 	NSURL			*location_;
-	
-	location_ = [self readURLWithBoard:boardURL datName:datName];
-	UTILRequireCondition(location_, ErrReadURL);
-	
+	NSString		*base_;
+	//location_ = [self readURLWithBoard:boardURL datName:datName];
+	//UTILRequireCondition(location_, ErrReadURL);
+	base_ = [self makeURLStringWithBoard : boardURL datName : datName];
+	UTILRequireCondition(base_, ErrReadURL);
+
 	tmp = SGTemporaryString();
-	[tmp setString : [location_ absoluteString]];
+	//[tmp setString : [location_ absoluteString]];
+	[tmp setString : base_];
 	if (startIndex != NSNotFound)
 		[tmp appendFormat : @"%u", startIndex];
 	
@@ -670,7 +733,7 @@ ErrReadURL:
 @end
 
 // Be@2ch
-@implementation CMR2channelBeHandler : CMR2channelHandler
+@implementation CMR2channelBeHandler// : CMR2channelHandler
 + (BOOL) canHandleURL : (NSURL *) anURL
 {
 	const char *hs = [[anURL host] UTF8String];
@@ -703,7 +766,7 @@ ErrReadURL:
 
 
 // JBBS@したらば
-@implementation CMRJbbsShitarabaHandler : CMRHostHTMLHandler
+@implementation CMRJbbsShitarabaHandler// : CMRHostHTMLHandler
 + (BOOL) canHandleURL : (NSURL *) anURL
 {
 	const char *hostName_ = [[anURL host] UTF8String];
@@ -732,8 +795,7 @@ ErrReadURL:
 	
 	return [NSURL URLWithString : absolute_];
 }
-- (NSURL *) readURLWithBoard : (NSURL    *) boardURL
-                     datName : (NSString *) datName
+- (NSString *) makeURLStringWithBoard : (NSURL *) boardURL datName : (NSString *) datName
 {
 	NSString		*absolute_;
 	const char		*bbs_ = NULL;
@@ -757,26 +819,23 @@ ErrReadURL:
 					[[[boardURL path] pathComponents] objectAtIndex : 1],
 					bbs_,
 					datName];
-	
-	location_ = [NSURL URLWithString : absolute_];
-	
-	return location_;
-	
+
+	return absolute_;
 ErrReadURL:
 	return nil;
 }
+
 - (NSURL *) readURLWithBoard : (NSURL    *) boardURL
                      datName : (NSString *) datName
-					paramStr : (NSString *) paramStr
 {
 	NSString		*absolute_;
-	const char		*bbs_ = NULL;
+	//const char		*bbs_ = NULL;
 	NSURL			*location_;
-	NSDictionary	*properties_;
+	//NSDictionary	*properties_;
 	
-	UTILRequireCondition(boardURL && datName, ErrReadURL);
+	//UTILRequireCondition(boardURL && datName, ErrReadURL);
 
-	location_ = [self readURLWithBoard:boardURL];
+	/*location_ = [self readURLWithBoard:boardURL];
 	UTILRequireCondition(location_, ErrReadURL);
 	
 	properties_ = [self readCGIProperties];
@@ -786,12 +845,13 @@ ErrReadURL:
 	UTILRequireCondition(bbs_, ErrReadURL);
 
 	absolute_ = [NSString stringWithFormat :
-					READ_URL_FORMAT_SHITA_PARAM,
+					READ_URL_FORMAT_SHITARABA,
 					[location_ absoluteString],
 					[[[boardURL path] pathComponents] objectAtIndex : 1],
 					bbs_,
-					datName,
-					paramStr];
+					datName];*/
+	absolute_ = [self makeURLStringWithBoard : boardURL datName : datName];
+	UTILRequireCondition(absolute_, ErrReadURL);
 	
 	location_ = [NSURL URLWithString : absolute_];
 	
@@ -800,6 +860,31 @@ ErrReadURL:
 ErrReadURL:
 	return nil;
 }
+
+- (NSURL *) readURLWithBoard : (NSURL    *) boardURL
+                     datName : (NSString *) datName
+				 latestCount : (int) count
+{
+	NSString	*base_;
+	base_ = [self makeURLStringWithBoard : boardURL datName : datName];
+	if (base_ == nil)
+		return nil;
+
+	return [NSURL URLWithString : [base_ stringByAppendingFormat : @"l%i", count]];
+}
+
+- (NSURL *) readURLWithBoard : (NSURL    *) boardURL
+                     datName : (NSString *) datName
+				   headCount : (int) count
+{
+	NSString	*base_;
+	base_ = [self makeURLStringWithBoard : boardURL datName : datName];
+	if (base_ == nil)
+		return nil;
+
+	return [NSURL URLWithString : [base_ stringByAppendingFormat : @"-%i", count]];
+}
+
 - (NSURL *) readURLWithBoard : (NSURL    *) boardURL
                      datName : (NSString *) datName
 					   start : (unsigned  ) startIndex
@@ -808,12 +893,14 @@ ErrReadURL:
 {
 	id				tmp;
 	NSURL			*location_;
-	
-	location_ = [self readURLWithBoard:boardURL datName:datName];
-	UTILRequireCondition(location_, ErrReadURL);
-	
+	NSString		*base_;
+	//location_ = [self readURLWithBoard:boardURL datName:datName];
+	//UTILRequireCondition(location_, ErrReadURL);
+	base_ = [self makeURLStringWithBoard : boardURL datName : datName];
+	UTILRequireCondition(base_, ErrReadURL);
 	tmp = SGTemporaryString();
-	[tmp setString : [location_ absoluteString]];
+	//[tmp setString : [location_ absoluteString]];
+	[tmp setString : base_];
 	if (startIndex != NSNotFound)
 		[tmp appendFormat : @"%u-", startIndex];
 	
@@ -837,9 +924,7 @@ ErrReadURL:
 @end
 
 
-
-// まちBBS
-@implementation CMRMachibbsaHandler : CMRHostHTMLHandler
+@implementation CMRMachibbsaHandler// : CMRHostHTMLHandler
 + (BOOL) canHandleURL : (NSURL *) anURL
 {
 	const char *hostName_ = [[anURL host] UTF8String];
@@ -849,5 +934,16 @@ ErrReadURL:
 - (NSDictionary *) properties
 {
 	return CMRHostPropertiesForKey(@"machibbs");
+}
+- (NSURL *) readURLWithBoard : (NSURL    *) boardURL
+                     datName : (NSString *) datName
+				 latestCount : (int) count
+{
+	NSString	*base_;
+	base_ = [self makeURLStringWithBoard : boardURL datName : datName];
+	if (base_ == nil)
+		return nil;
+
+	return [NSURL URLWithString : [base_ stringByAppendingFormat : @"&LAST=%i", count]];
 }
 @end

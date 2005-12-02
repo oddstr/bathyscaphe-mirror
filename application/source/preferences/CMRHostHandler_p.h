@@ -7,15 +7,12 @@
 
 
 // dat
-
-
 @interface CMR2channelHandler : CMRHostHandler
 @end
 @interface CMR2channelOtherHandler : CMR2channelHandler
 @end
 @interface CMR2channelBeHandler : CMR2channelHandler
 @end
-
 
 @interface CMRShitarabaHandler : CMRHostHandler
 @end

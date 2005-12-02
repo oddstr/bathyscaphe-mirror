@@ -1,6 +1,6 @@
 //: CMRHostHandler.h
 /**
-  * $Id: CMRHostHandler.h,v 1.1 2005/05/11 17:51:06 tsawada2 Exp $
+  * $Id: CMRHostHandler.h,v 1.2 2005/12/02 14:41:57 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -79,7 +79,11 @@ NOTE:
                      datName : (NSString *) datName;
 - (NSURL *) readURLWithBoard : (NSURL    *) boardURL
                      datName : (NSString *) datName
-					paramStr : (NSString *) paramStr;
+				 latestCount : (int) count;
+- (NSURL *) readURLWithBoard : (NSURL    *) boardURL
+                     datName : (NSString *) datName
+				   headCount : (int) count;
+
 - (NSURL *) readURLWithBoard : (NSURL    *) boardURL
                      datName : (NSString *) datName
 					   start : (unsigned  ) startIndex

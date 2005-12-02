@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadAttributes.h,v 1.1 2005/05/11 17:51:07 tsawada2 Exp $
+  * $Id: CMRThreadAttributes.h,v 1.2 2005/12/02 14:41:57 tsawada2 Exp $
   * 
   * CMRThreadAttributes.h
   *
@@ -80,7 +80,12 @@
 
 + (NSURL *) boardURLFromDictionary : (NSDictionary *) dict;
 + (NSURL *) threadURLFromDictionary : (NSDictionary *) dict;
-+ (NSURL *) threadURLFromDictionary : (NSDictionary *) dict withParamStr : (NSString *) paramStr;
+// Deprecated in LittleWish and later.
+//+ (NSURL *) threadURLFromDictionary : (NSDictionary *) dict withParamStr : (NSString *) paramStr;
+
+// Available in LittleWish and later.
++ (NSURL *) threadURLWithLatestParamFromDict : (NSDictionary *) dict resCount : (int) count;
++ (NSURL *) threadURLWithHeaderParamFromDict : (NSDictionary *) dict resCount : (int) count;
 @end
 
 

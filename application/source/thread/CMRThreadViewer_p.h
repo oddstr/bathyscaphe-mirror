@@ -110,7 +110,7 @@ extern NSString *const CMRThreadViewerRunSpamFilterNotification;
 - (void) replyMessengerDidFinishPosting : (NSNotification *) aNotification;
 - (void) removeMessenger : (CMRReplyMessenger *) aMessenger;
 
-- (void) openThreadsInThreadWidnow : (NSArray *) threads;
+- (void) openThreadsInThreadWindow : (NSArray *) threads;
 - (void) openThreadsInBrowser : (NSArray *) threads;
 - (void) openThreadsLogFiles : (NSArray *) threads;
 @end

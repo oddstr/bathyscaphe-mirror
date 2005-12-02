@@ -1727,6 +1727,22 @@
 			name = ThreadViewer;
 			sourceTree = "<group>";
 		};
+		87AE387909405F6500E10F36 /* reply */ = {
+			isa = PBXGroup;
+			children = (
+				F324DDD104C698FB00A80005 /* CMRReplyMessenger.h */,
+				F324DDD304C698FB00A80005 /* CMRReplyMessenger_p.h */,
+				F324DDD204C698FB00A80005 /* CMRReplyMessenger.m */,
+				8709E6530879713D009A65FC /* CMRReplyMessenger-Connector.m */,
+				F324DDCA04C698FB00A80005 /* CMRReplyController.h */,
+				F324DDCC04C698FB00A80005 /* CMRReplyController_p.h */,
+				F324DDCB04C698FB00A80005 /* CMRReplyController.m */,
+				F324DDC904C698FB00A80005 /* CMRReplyController-ViewAccessor.m */,
+			);
+			name = reply;
+			path = window;
+			sourceTree = "<group>";
+		};
 		87B4E68107D82C3200D09944 /* Interface Elements */ = {
 			isa = PBXGroup;
 			children = (
@@ -2137,6 +2153,7 @@
 				F324DC2A04C698FA00A80005 /* browser */,
 				F324DC5804C698FA00A80005 /* composer */,
 				F324DD3804C698FB00A80005 /* thread */,
+				87AE387909405F6500E10F36 /* reply */,
 				F324DD7D04C698FB00A80005 /* util */,
 				F324DD8D04C698FB00A80005 /* view */,
 				F324DDC004C698FB00A80005 /* window */,
@@ -2334,14 +2351,6 @@
 				87823FA00823A82900C52066 /* Toolbar */,
 				F33E994D04C6A20C00A80005 /* abstract */,
 				F33E994B04C6A16800A80005 /* status line */,
-				F324DDD104C698FB00A80005 /* CMRReplyMessenger.h */,
-				F324DDD304C698FB00A80005 /* CMRReplyMessenger_p.h */,
-				F324DDD204C698FB00A80005 /* CMRReplyMessenger.m */,
-				8709E6530879713D009A65FC /* CMRReplyMessenger-Connector.m */,
-				F324DDCA04C698FB00A80005 /* CMRReplyController.h */,
-				F324DDCC04C698FB00A80005 /* CMRReplyController_p.h */,
-				F324DDCB04C698FB00A80005 /* CMRReplyController.m */,
-				F324DDC904C698FB00A80005 /* CMRReplyController-ViewAccessor.m */,
 				87E47528085C57C100B3E45E /* BSWindow.h */,
 				87E47529085C57C100B3E45E /* BSWindow.m */,
 			);

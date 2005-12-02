@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.28 2005/11/30 19:46:53 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.29 2005/12/02 14:41:57 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -57,7 +57,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 	}
 }
 
-- (void) openThreadsInThreadWidnow : (NSArray *) threads
+- (void) openThreadsInThreadWindow : (NSArray *) threads
 {
 	NSEnumerator		*Iter_;
 	NSDictionary		*thread_;
@@ -123,7 +123,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 
 - (IBAction) openSelectedThreads : (id) sender
 {
-	[self openThreadsInThreadWidnow : [self targetThreadsForAction : _cmd]];
+	[self openThreadsInThreadWindow : [self targetThreadsForAction : _cmd]];
 }
 - (IBAction) selectThread : (id) sender
 {

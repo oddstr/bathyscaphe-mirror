@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.16 2005/11/30 19:46:53 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.17 2005/12/02 14:41:57 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -37,6 +37,7 @@
 	
 	return ([[CMRFavoritesManager defaultManager] availableOperationWithPath : path_]);
 }
+
 - (CMRReplyMessenger *) messenger : (BOOL) create
 {
 	NSDocumentController		*docc_;
@@ -48,23 +49,25 @@
 	replyMgr_ = [CMRReplyDocumentFileManager defaultManager];
 	reppath_ = [replyMgr_ replyDocumentFilepathWithLogPath : [self path]];
 	document_ = [docc_ documentForFileName : reppath_];
+
 	if ((document_ != nil) || NO == create) 
 		return document_;
 	
-	[replyMgr_ createDocumentFileIfNeededAtPath : reppath_
-					contentInfo : [self selectedThread]];
-	document_ = [docc_ openDocumentWithContentsOfFile : reppath_
-											  display : YES];
+	[replyMgr_ createDocumentFileIfNeededAtPath : reppath_ contentInfo : [self selectedThread]];
+
+	document_ = [docc_ openDocumentWithContentsOfFile : reppath_ display : YES];
 	return document_;
 }
+
 - (void) addMessenger : (CMRReplyMessenger *) aMessenger
 {
 	[[NSNotificationCenter defaultCenter]
 		addObserver : self
-		selector : @selector(replyMessengerDidFinishPosting:)
-		name : CMRReplyMessengerDidFinishPostingNotification
-		object : aMessenger];
+		   selector : @selector(replyMessengerDidFinishPosting:)
+			   name : CMRReplyMessengerDidFinishPostingNotification
+			 object : aMessenger];
 }
+
 - (void) replyMessengerDidFinishPosting : (NSNotification *) aNotification
 {
 	UTILAssertNotificationName(
@@ -73,6 +76,7 @@
 
 	[self reloadIfOnlineMode : nil];
 }
+
 - (void) removeMessenger : (CMRReplyMessenger *) aMessenger
 {
 	[[NSNotificationCenter defaultCenter]
@@ -81,7 +85,7 @@
 					 object : aMessenger];
 }
 
-- (void) openThreadsInThreadWidnow : (NSArray *) threads {}
+- (void) openThreadsInThreadWindow : (NSArray *) threads {}
 
 - (void) openThreadsInBrowser : (NSArray *) threads
 {
@@ -92,20 +96,20 @@
 	
 	Iter_ = [threads objectEnumerator];
 	while ((threadAttributes_ = [Iter_ nextObject])) {
-		NSURL			*boardURL_;
+		NSURL			*url_;
 		
-		switch(aType)
-		{
-			case 0:
-				boardURL_ =  [CMRThreadAttributes threadURLFromDictionary : threadAttributes_ withParamStr : @"l50"];
-				break;
-			case 1:
-				boardURL_ =  [CMRThreadAttributes threadURLFromDictionary : threadAttributes_ withParamStr : @"-100"];
-				break;
-			default:
-				boardURL_ =  [CMRThreadAttributes threadURLFromDictionary : threadAttributes_];
+		switch(aType) {
+		case BSOpenInBrowserLatestFifty:
+			url_ = [CMRThreadAttributes threadURLWithLatestParamFromDict : threadAttributes_ resCount : 50];
+			break;
+		case BSOpenInBrowserFirstHundred:
+			url_ = [CMRThreadAttributes threadURLWithHeaderParamFromDict : threadAttributes_ resCount : 100];
+			break;
+		default:
+			url_ = [CMRThreadAttributes threadURLFromDictionary : threadAttributes_];
+			break;
 		}
-		[[NSWorkspace sharedWorkspace] openURL : boardURL_ inBackGround : [CMRPref openInBg]];
+		[[NSWorkspace sharedWorkspace] openURL : url_ inBackGround : [CMRPref openInBg]];
 	}
 }
 

@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.h,v 1.7 2005/12/01 23:08:33 tsawada2 Exp $
+ * $Id: BoardManager.h,v 1.8 2005/12/02 14:41:57 tsawada2 Exp $
  * 
  * BoardManager.h
  *
@@ -27,14 +27,14 @@
 				・スレッド一覧でのソート基準カラムと、昇順／降順
 */
 
-
+/*
 typedef enum _BSBeLoginPolicyType {
 	BSBeLoginTriviallyNeeded	= 0, // Be ログイン必須
 	BSBeLoginTriviallyOFF		= 1, // Be ログインは無意味（2chではない掲示板など）
 	BSBeLoginDecidedByUser		= 2, // Be ログインするかどうかはユーザの設定を参照する
 	BSBeLoginNoAccountOFF		= 3  // 環境設定で Be アカウントが設定されていない
 } BSBeLoginPolicyType;
-
+*/
 @interface BoardManager : NSObject
 {
     @private

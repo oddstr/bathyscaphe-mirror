@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.25 2005/12/02 10:10:02 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.26 2005/12/02 14:41:57 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -191,11 +191,11 @@
 
 
 // –À˜fƒŒƒX‚ğŒ©‚Â‚¯‚½‚Æ‚«‚Ì“®ìF
-enum {
+/*enum {
 	kSpamFilterChangeTextColorBehavior = 1,
 	kSpamFilterLocalAbonedBehavior,
 	kSpamFilterInvisibleAbonedBehavior
-};
+};*/
 
 - (int) spamFilterBehavior;
 - (void) setSpamFilterBehavior : (int) mask;

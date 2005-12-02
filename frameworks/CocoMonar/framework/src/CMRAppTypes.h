@@ -1,6 +1,6 @@
 //: CMRAppTypes.h
 /**
-  * $Id: CMRAppTypes.h,v 1.1 2005/05/11 17:51:19 tsawada2 Exp $
+  * $Id: CMRAppTypes.h,v 1.2 2005/12/02 14:41:57 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -34,6 +34,11 @@ enum {
 	CMRAutoscrollAny			  = 0xffffffffU
 };
 
+enum {
+	kSpamFilterChangeTextColorBehavior = 1,
+	kSpamFilterLocalAbonedBehavior,
+	kSpamFilterInvisibleAbonedBehavior
+};
 
 typedef enum _CMRSearchMask{
 	CMRSearchOptionNone						= 0,
@@ -43,3 +48,18 @@ typedef enum _CMRSearchMask{
 	CMRSearchOptionIgnoreSpecified			= 1 << 3,
 	CMRSearchOptionLinkOnly					= 1 << 4
 } CMRSearchMask;
+
+typedef enum _BSOpenInBrowserType {
+	BSOpenInBrowserAll			= 2,
+	BSOpenInBrowserLatestFifty	= 0,
+	BSOpenInBrowserFirstHundred	= 1
+} BSOpenInBrowserType;
+
+
+typedef enum _BSBeLoginPolicyType {
+	BSBeLoginTriviallyNeeded	= 0, // Be ログイン必須
+	BSBeLoginTriviallyOFF		= 1, // Be ログインは無意味（2chではない掲示板など）
+	BSBeLoginDecidedByUser		= 2, // Be ログインするかどうかはユーザの設定を参照する
+	BSBeLoginNoAccountOFF		= 3  // 環境設定で Be アカウントが設定されていない
+} BSBeLoginPolicyType;
+

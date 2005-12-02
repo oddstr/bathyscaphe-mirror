@@ -130,9 +130,8 @@ static NSString *const kCMROldVersionThreadURLKey = @"ThreadURL";
 	
 	return [handler_ readURLWithBoard:boardURL_ datName:dat_];
 }
-// added by tsawada2 2004-10-27
-+ (NSURL *) threadURLFromDictionary : (NSDictionary *) dict
-					   withParamStr : (NSString *) paramStr
+
++ (NSURL *) threadURLWithLatestParamFromDict : (NSDictionary *) dict resCount : (int) count
 {
 	NSURL			*boardURL_;
 	NSString		*dat_;
@@ -143,6 +142,20 @@ static NSString *const kCMROldVersionThreadURLKey = @"ThreadURL";
 	
 	handler_ = [CMRHostHandler hostHandlerForURL : boardURL_];
 	
-	return [handler_ readURLWithBoard:boardURL_ datName:dat_ paramStr:paramStr];
+	return [handler_ readURLWithBoard : boardURL_ datName : dat_ latestCount : count];
+}
+
++ (NSURL *) threadURLWithHeaderParamFromDict : (NSDictionary *) dict resCount : (int) count
+{
+	NSURL			*boardURL_;
+	NSString		*dat_;
+	CMRHostHandler	*handler_;
+	
+	boardURL_ = [self boardURLFromDictionary : dict];
+	dat_ = [self identifierFromDictionary : dict];
+	
+	handler_ = [CMRHostHandler hostHandlerForURL : boardURL_];
+	
+	return [handler_ readURLWithBoard : boardURL_ datName : dat_ headCount : count];
 }
 @end

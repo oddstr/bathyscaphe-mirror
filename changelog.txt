@@ -1,4 +1,10 @@
 2005-12-02 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/preferences/CMRHostHandler.m
+	* application/source/thread/CMRThreadAttributes-Convert.m
+	* application/source/thread/CMRThreadViewer-Action.m
+		「ブラウザで開く」機能の実装方法の見直し。
+	* frameworks/CocoMonar/framework/src/CMRAppTypes.h
+		いくつかの列挙型定義を Framework に移した。
 	* application/source/manager/CMRKeychainManager.m
 		●アカウントパスワードのキーチェーンへの保存方法を、より適切な方法に変更。
 		重要：この変更のため、パスワードをもう一度キーチェーンに登録し直す必要がある。また、古いキーチェーン項目は
