@@ -7,7 +7,7 @@
 
 // このバージョンからキーチェーンを利用するので、
 // これまでの初期設定は取り除く。
-static NSString *const st_ShouldBeRemovedKey = @"Preferences - AccountSettings";
+//static NSString *const st_ShouldBeRemovedKey = @"Preferences - AccountSettings";
 
 static NSString *const st_AppDefaultsX2chUserAccountKey = @"Account";
 static NSString *const st_AppDefaultsUsesKeychainKey = @"Uses Keychain";
@@ -164,9 +164,9 @@ NS_ENDHANDLER
 {
 	// このバージョンからキーチェーンを利用するので、
 	// これまでの初期設定は取り除く。
-	if([[self defaults] dictionaryForKey : st_ShouldBeRemovedKey]){
+	/*if([[self defaults] dictionaryForKey : st_ShouldBeRemovedKey]){
 		[[self defaults] removeObjectForKey : st_ShouldBeRemovedKey];
-	}
+	}*/
 }
 @end
 

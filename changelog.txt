@@ -1,4 +1,8 @@
 2005-12-02 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/manager/CMRKeychainManager.m
+		●アカウントパスワードのキーチェーンへの保存方法を、より適切な方法に変更。
+		重要：この変更のため、パスワードをもう一度キーチェーンに登録し直す必要がある。また、古いキーチェーン項目は
+		自動的に削除されないので、気になる場合は各自「キーチェーンアクセス」から削除する。
 	* application/source/window/CMRReplyMessenger.m
 	* application/source/window/CMRReplyController.m
 	* application/source/window/CMRReplyMessenger-Connector.m

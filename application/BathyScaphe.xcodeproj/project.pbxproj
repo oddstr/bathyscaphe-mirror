@@ -197,7 +197,6 @@
 		8701630A082BE67100AEFDD0 /* CMRBBSSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCCD04C698FB00A80005 /* CMRBBSSignature.m */; };
 		8701630B082BE67100AEFDD0 /* CMRThreadSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCD804C698FB00A80005 /* CMRThreadSignature.m */; };
 		8701630C082BE67100AEFDD0 /* AppDefaults-Account.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCDC04C698FB00A80005 /* AppDefaults-Account.m */; };
-		8701630D082BE67100AEFDD0 /* AppDefaults-Alert.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCDD04C698FB00A80005 /* AppDefaults-Alert.m */; };
 		8701630E082BE67100AEFDD0 /* AppDefaults-Background.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCDE04C698FB00A80005 /* AppDefaults-Background.m */; };
 		8701630F082BE67100AEFDD0 /* AppDefaults-Bundle.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCDF04C698FB00A80005 /* AppDefaults-Bundle.m */; };
 		87016310082BE67100AEFDD0 /* AppDefaults-FontColor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCE004C698FB00A80005 /* AppDefaults-FontColor.m */; };
@@ -598,6 +597,7 @@
 		87C4813108FD039B00F91054 /* AddBoardSheetController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87C4812F08FD039B00F91054 /* AddBoardSheetController.h */; };
 		87C4813208FD039B00F91054 /* AddBoardSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C4813008FD039B00F91054 /* AddBoardSheetController.m */; };
 		87C4813F08FD05A300F91054 /* AddBoardSheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87C4813D08FD05A300F91054 /* AddBoardSheet.nib */; };
+		87C9DD3009404CA3004E6596 /* AppDefaults-Alert.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCDD04C698FB00A80005 /* AppDefaults-Alert.m */; };
 		87D5D8CB08DF0F990039A9EB /* BSBoardListView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D5D8C908DF0F990039A9EB /* BSBoardListView.h */; };
 		87D5D8CC08DF0F9A0039A9EB /* BSBoardListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D5D8CA08DF0F990039A9EB /* BSBoardListView.m */; };
 		87D5D8D108DF0FCC0039A9EB /* boardListSelBgFocused.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87D5D8CF08DF0FCC0039A9EB /* boardListSelBgFocused.tiff */; };
@@ -3410,7 +3410,6 @@
 				8701630A082BE67100AEFDD0 /* CMRBBSSignature.m in Sources */,
 				8701630B082BE67100AEFDD0 /* CMRThreadSignature.m in Sources */,
 				8701630C082BE67100AEFDD0 /* AppDefaults-Account.m in Sources */,
-				8701630D082BE67100AEFDD0 /* AppDefaults-Alert.m in Sources */,
 				8701630E082BE67100AEFDD0 /* AppDefaults-Background.m in Sources */,
 				8701630F082BE67100AEFDD0 /* AppDefaults-Bundle.m in Sources */,
 				87016310082BE67100AEFDD0 /* AppDefaults-FontColor.m in Sources */,
@@ -3535,6 +3534,7 @@
 				87C4813208FD039B00F91054 /* AddBoardSheetController.m in Sources */,
 				87AF762909261F3900DD95CE /* NSString+CarbonUtilities.m in Sources */,
 				87AF762A09261F3900DD95CE /* UKDirectoryEnumerator.m in Sources */,
+				87C9DD3009404CA3004E6596 /* AppDefaults-Alert.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

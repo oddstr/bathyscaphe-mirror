@@ -1,5 +1,5 @@
 /**
- * $Id: AppDefaults-Bundle.m,v 1.9 2005/10/22 14:48:54 tsawada2 Exp $
+ * $Id: AppDefaults-Bundle.m,v 1.10 2005/12/02 10:10:02 tsawada2 Exp $
  * 
  * AppDefaults-Bundle.m
  *
@@ -8,8 +8,6 @@
  */
 
 #import "AppDefaults_p.h"
-//#import "BoardManager.h"
-//#import "TextFinder.h"
 #import "w2chConnect.h"
 #import "UTILKit.h"
 #import "CMRMainMenuManager.h"

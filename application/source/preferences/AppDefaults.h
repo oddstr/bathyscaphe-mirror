@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.24 2005/12/01 23:08:33 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.25 2005/12/02 10:10:02 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -431,8 +431,7 @@ enum {
 - (NSBundle *) moduleWithName : (NSString *) bundleName
 					   ofType : (NSString *) type
 				  inDirectory : (NSString *) bundlePath;
-//- (id) _boardListEditor;
-//- (id) sharedBoardListEditor;
+
 - (id) _imagePreviewer;
 - (id<BSImagePreviewerProtocol>) sharedImagePreviewer;
 - (id) _preferencesPane;
@@ -447,7 +446,6 @@ enum {
 - (void) _loadImagePreviewerSettings;
 - (BOOL) _saveImagePreviewerSettings;
 @end
-
 
 
 @interface AppDefaults(AlertPanel)

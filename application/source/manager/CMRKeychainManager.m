@@ -1,3 +1,10 @@
+/*
+ * $Id: CMRKeychainManager.m,v 1.4 2005/12/02 10:10:02 tsawada2 Exp $
+ *
+ * Copyright 2005 BathyScaphe Project. All rights reserved.
+ *
+ */
+
 #import "CMRKeychainManager_p.h"
 #import <AppKit/NSApplication.h>
 
@@ -6,13 +13,12 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 - (id) init
 {
-	if(self = [super init]){
+	if (self = [super init]) {
 		[self setShouldCheckHasAccountInKeychain : YES];
-		[[NSNotificationCenter defaultCenter]
-			addObserver : self
-			   selector : @selector(applicationDidBecomeActive:)
-				   name : NSApplicationDidBecomeActiveNotification
-				 object : NSApp];
+		[[NSNotificationCenter defaultCenter] addObserver : self
+												 selector : @selector(applicationDidBecomeActive:)
+													 name : NSApplicationDidBecomeActiveNotification
+												   object : NSApp];
 	}
 	return self;
 }
@@ -27,72 +33,78 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 - (void) checkHasAccountInKeychainIfNeeded
 {
-        if([self shouldCheckHasAccountInKeychain]){
-                KeychainItem        *item_;
-                
-                item_ = [[Keychain defaultKeychain] internetServer:[[self x2chAuthenticationRequestURL] host]
-														forAccount:[self x2chUserAccount] 
-															  port:0
-															  path:@"futen.cgi"
-												  inSecurityDomain:nil
-														  protocol:kSecProtocolTypeHTTPS
-															  auth:kSecAuthenticationTypeDefault];
+	if([self shouldCheckHasAccountInKeychain]){
+			KeychainItem	*item_;
+			NSURL			*url_ = [self x2chAuthenticationRequestURL];
+			
+			item_ = [[Keychain defaultKeychain] internetServer : [url_ host]
+													forAccount : [self x2chUserAccount] 
+														  port : 0
+														  path : [url_ path]
+											  inSecurityDomain : nil
+													  protocol : kSecProtocolTypeHTTPS
+														  auth : kSecAuthenticationTypeDefault];
 
-				if (item_ == nil) NSLog(@"KeyChain Account Not Found - checkHasAccountInKeychainIfNeeded");
-                [CMRPref setHasAccountInKeychain : (nil != item_)];
-        }
-        [self setShouldCheckHasAccountInKeychain : NO];
+			if (item_ == nil)
+				NSLog(@"KeyChain Account Not Found - checkHasAccountInKeychainIfNeeded");
+
+			[CMRPref setHasAccountInKeychain : (nil != item_)];
+	}
+	[self setShouldCheckHasAccountInKeychain : NO];
 }
 
 - (void) deleteAccountCompletely
 {
-	KeychainItem        *item_;
+	KeychainItem	*item_;
+	NSURL			*url_ = [self x2chAuthenticationRequestURL];
                 
-	item_ = [[Keychain defaultKeychain] internetServer:[[self x2chAuthenticationRequestURL] host]
-											forAccount:[self x2chUserAccount] 
-												  port:0
-												  path:@"futen.cgi"
-									  inSecurityDomain:nil
-											  protocol:kSecProtocolTypeHTTPS
-											      auth:kSecAuthenticationTypeDefault];
+	item_ = [[Keychain defaultKeychain] internetServer : [url_ host]
+											forAccount : [self x2chUserAccount] 
+												  port : 0
+												  path : [url_ path]
+									  inSecurityDomain : nil
+											  protocol : kSecProtocolTypeHTTPS
+											      auth : kSecAuthenticationTypeDefault];
 
 	if (item_ == nil) {
 		NSLog(@"KeyChain Account Not Found - deleteAccountCompletely");
 		return;
 	}
+
 	[item_ deleteCompletely];
-	
 }
 
 - (NSString *) passwordFromKeychain
 {
 	NSString	*password_;
+	NSURL		*url_ = [self x2chAuthenticationRequestURL];
 	
-	password_ = [[Keychain defaultKeychain] passwordForInternetServer:[[self x2chAuthenticationRequestURL] host] 
-														   forAccount:[self x2chUserAccount]
-																 port:0
-																 path:@"futen.cgi"
-													 inSecurityDomain:nil
-															 protocol:kSecProtocolTypeHTTPS 
-																 auth:kSecAuthenticationTypeDefault];
+	password_ = [[Keychain defaultKeychain] passwordForInternetServer : [url_ host] 
+														   forAccount : [self x2chUserAccount]
+																 port : 0
+																 path : [url_ path]
+													 inSecurityDomain : nil
+															 protocol : kSecProtocolTypeHTTPS 
+																 auth : kSecAuthenticationTypeDefault];
 	
-	//if (password_ != nil) NSLog(@"%@", password_);
-	return password_; //on Error(or No password found), password_ may be nil.
+	return password_; // Note: On Error(or No password found), password_ may be nil.
 }
 
 - (void) createKeychainWithPassword : (NSString  *) password
 {
-	[[Keychain defaultKeychain]	addInternetPassword:password
-										   onServer:[[self x2chAuthenticationRequestURL] host]
-										 forAccount:[self x2chUserAccount]
-											   port:0
-											   path:@"futen.cgi" 
-								   inSecurityDomain:nil
-										   protocol:kSecProtocolTypeHTTPS 
-											   auth:kSecAuthenticationTypeDefault
-									replaceExisting:YES];
+	NSURL	*url_ = [self x2chAuthenticationRequestURL];
 
-	[CMRPref setHasAccountInKeychain:YES];
+	[[Keychain defaultKeychain]	addInternetPassword : password
+										   onServer : [url_ host]
+										 forAccount : [self x2chUserAccount]
+											   port : 0
+											   path : [url_ path] 
+								   inSecurityDomain : nil
+										   protocol : kSecProtocolTypeHTTPS 
+											   auth : kSecAuthenticationTypeDefault
+									replaceExisting : YES];
+
+	[CMRPref setHasAccountInKeychain : YES];
 }
 @end
 
@@ -107,7 +119,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 {
 	m_shouldCheckHasAccountInKeychain = flag;
 }
-
 
 - (NSURL *) x2chAuthenticationRequestURL
 {
