@@ -1,42 +1,37 @@
-//:TextFinder.h
 /**
-  *
+  * $Id: TextFinder.h,v 1.2 2005/12/03 01:58:34 tsawada2 Exp $
   * 
-  *
-  * @author Takanori Ishikawa
-  * @author http://www15.big.or.jp/~takanori/
-  * @version 1.0.0d1 (02/11/13  7:16:33 PM)
+  * Copyright 2005 BathyScaphe Project. All rights reserved.
   *
   */
-#import <Cocoa/Cocoa.h>
-#import <CocoMonar/CocoMonar.h>
 
+#import <Cocoa/Cocoa.h>
 
 @class CMRSearchOptions;
 
-
-
 @interface TextFinder : NSWindowController
 {
-	IBOutlet NSTextField *_findTextField;
-	IBOutlet NSMatrix    *_buttonMatrix;
-	IBOutlet NSMatrix    *_optionMatrix;
+	IBOutlet NSTextField	*_findTextField;
+	IBOutlet NSTextField	*_notFoundField;
+	IBOutlet NSButton		*_findNextBtn;
+	IBOutlet NSButton		*_findPrevBtn;
+	IBOutlet NSButton		*_findFromHeadBtn;
+	IBOutlet NSButton		*_findAllBtn;
+	IBOutlet NSButton		*_findPopupBtn;
 }
 + (id) standardTextFinder;
+- (NSTextField *) findTextField;
+- (NSTextField *) notFoundField;
 
-- (CMRSearchMask) searchOption;
-- (void) setSearchOption : (CMRSearchMask) aOption;
+- (void) setupUIComponents;
 
 - (CMRSearchOptions *) currentOperation;
-
-
-- (IBAction) updateComponents : (id) sender;
 - (void) setFindString: (NSString *)aString;
 
-/*
-- (NSPasteboard *) pasteboardForFind;
+// Binding...
+- (BOOL) isCaseInsensitive;
+- (void) setIsCaseInsensitive : (BOOL) checkBoxState;
+
 - (NSString *) loadFindStringFromPasteboard;
 - (void) setFindStringToPasteboard;
-
-*/
 @end

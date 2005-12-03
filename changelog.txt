@@ -1,3 +1,17 @@
+2005-12-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		「一覧検索」を「抽出」に改称。
+	* application/Resources/Japanese.lproj/TextFind.nib
+		検索パネルのインタフェースを刷新。
+		-「リンクのみ検索」は、コード見直し中のため一旦使用不可になっている。
+	* application/source/thread/CMRThreadViewer-Find.m
+	* application/source/thread/TextFinder.m
+		検索関連を整理。全角／半角を無視して本文を検索する機能を廃止。
+		また、「選択部分を検索」を実行したとき、検索パネルが表示されない問題を解決。
+		- 注意：スレッド一覧については、全角／半角を無視した検索が引き続き可能である。
+	* application/source/thread/TextFinder-ViewAccessor.m
+	* application/source/thread/TextFinder_p.h
+		[削除] TextFinder.m/TextFinder.h に統合して削除。
 2005-12-02 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/preferences/CMRHostHandler.m
 	* application/source/thread/CMRThreadAttributes-Convert.m

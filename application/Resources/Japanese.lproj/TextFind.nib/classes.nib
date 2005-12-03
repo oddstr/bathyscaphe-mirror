@@ -13,13 +13,16 @@
             SUPERCLASS = NSObject; 
         }, 
         {
-            ACTIONS = {optionChanged = id; updateComponents = id; }; 
             CLASS = TextFinder; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                "_buttonMatrix" = NSMatrix; 
+                "_findAllBtn" = NSButton; 
+                "_findFromHeadBtn" = NSButton; 
+                "_findNextBtn" = NSButton; 
+                "_findPopupBtn" = NSButton; 
+                "_findPrevBtn" = NSButton; 
                 "_findTextField" = NSTextField; 
-                "_optionMatrix" = NSMatrix; 
+                "_notFoundField" = NSTextField; 
             }; 
             SUPERCLASS = NSWindowController; 
         }

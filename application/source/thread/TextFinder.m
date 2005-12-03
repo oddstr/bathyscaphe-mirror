@@ -1,14 +1,17 @@
-//:TextFinder.m
 /**
+  * $Id: TextFinder.m,v 1.2 2005/12/03 01:58:34 tsawada2 Exp $
   *
-  * @see CMRSearchOptions.h
-  *
-  * @author Takanori Ishikawa
-  * @author http:
-  * @version 1.0.0d1 (02/11/13  0:10:21 AM)
+  * Copyright 2005 BathyScaphe Project. All rights reserved.
   *
   */
-#import "TextFinder_p.h"
+
+#import "TextFinder.h"
+#import "CocoMonar_Prefix.h"
+#import "AppDefaults.h"
+#import "CMRSearchOptions.h"
+
+#define kLoadNibName					@"TextFind"
+#define APP_FIND_PANEL_AUTOSAVE_NAME	@"BathyScaphe:Find Panel Autosave"
 
 
 @implementation TextFinder
@@ -27,78 +30,114 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(standardTextFinder);
 	[self setupUIComponents];
 }
 
-- (NSCell *) componentCellWithTag : (int) aTag
-{ return [[self optionMatrix] cellWithTag : aTag]; }
-- (BOOL) checkBoxIsOnStateWithTag : (int) aTag
-{ return (NSOnState == [[self componentCellWithTag : aTag] state]); }
-- (void) setCheckBoxWithTag:(int)aTag onState:(BOOL) flag
-{ [[self componentCellWithTag : aTag] setState : (flag?NSOnState:NSOffState)]; }
-
-- (IBAction) optionChanged : (id) sender
+- (void) setupUIComponents
 {
-	CMRSearchMask		option = [self searchOption];
-
-	[CMRPref setContentsSearchOption : option];
-	[self updateComponents : sender];
-}
-- (CMRSearchMask) searchOption
-{
-	CMRSearchMask		option = 0;
+	NSString		*s;		// from Pasteboard
 	
-	if (NO == [self checkBoxIsOnStateWithTag : kCaseSencitiveBtnTag]) {
-		option |= CMRSearchOptionCaseInsensitive;
+	s = [self loadFindStringFromPasteboard];
+	if (s != nil) {
+		[[self findTextField] setStringValue : s];
 	}
-	if (NO == [self checkBoxIsOnStateWithTag : kZenkakuHankakuBtnTag]) {
-		option |= CMRSearchOptionZenHankakuInsensitive;
-	}
-	if ([self checkBoxIsOnStateWithTag : kInLinkOptionBtnTag]) {
-		option |= CMRSearchOptionLinkOnly;
-	}
-	return option;
-}
-- (void) setSearchOption : (CMRSearchMask) aOption
-{
-	[self setCheckBoxWithTag : kCaseSencitiveBtnTag
-			onState : NO == (aOption & CMRSearchOptionCaseInsensitive)];
-	[self setCheckBoxWithTag : kZenkakuHankakuBtnTag
-			onState : NO == (aOption & CMRSearchOptionZenHankakuInsensitive)];
-	[self setCheckBoxWithTag : kInLinkOptionBtnTag
-			onState : (aOption & CMRSearchOptionLinkOnly)];
+
+	[[self findTextField] setDelegate : self];
+    [[self window] setFrameAutosaveName : APP_FIND_PANEL_AUTOSAVE_NAME];
 }
 
 - (CMRSearchOptions *) currentOperation
 {
-	CMRSearchMask option = [self searchOption];
+	CMRSearchMask	option = [CMRPref contentsSearchOption];
 	unsigned int  generalOption = 0;
 	
 	if (option & CMRSearchOptionCaseInsensitive)
 		generalOption |= NSCaseInsensitiveSearch;
 	
-	return [CMRSearchOptions operationWithFindObject : 
-						[[self findTextField] stringValue]
-					replace : nil
-					userInfo : [NSNumber numberWithUnsignedInt : option]
-					option : generalOption];
+	return [CMRSearchOptions operationWithFindObject : [[self findTextField] stringValue]
+											 replace : nil
+											userInfo : [NSNumber numberWithUnsignedInt : option]
+											  option : generalOption];
 }
-
-
-- (IBAction) updateComponents : (id) sender
-{
-	[self updateButtonEnabled];
-}
-
 
 - (void) showWindow : (id) sender
 {
 	[[self window] makeKeyAndOrderFront : self];
-	[[self findTextField] selectText:sender];
+	[[self findTextField] selectText : sender];
+	[[self notFoundField] setHidden : YES];
 }
 
-- (void) setFindString: (NSString *)aString
+- (void) setFindString : (NSString *) aString
 {
-    if ( aString ) {
-	[[self findTextField] setStringValue:aString];
-    }
+    if (aString)
+		[[self findTextField] setStringValue : aString];
 }
 
+#pragma mark Accessors
+- (NSTextField *) findTextField
+{
+	return _findTextField;
+}
+
+- (NSTextField *) notFoundField
+{
+	return _notFoundField;
+}
+
+#pragma mark Cocoa Binding
+- (BOOL) isCaseInsensitive
+{
+	CMRSearchMask	option = [CMRPref contentsSearchOption];
+	return (option & CMRSearchOptionCaseInsensitive);
+}
+
+- (void) setIsCaseInsensitive : (BOOL) checkBoxState
+{
+	CMRSearchMask	option = [CMRPref contentsSearchOption];
+	if (checkBoxState) {
+		option |= CMRSearchOptionCaseInsensitive;
+	} else {
+		option ^= CMRSearchOptionCaseInsensitive;
+	}
+	[CMRPref setContentsSearchOption : option];
+}
+
+#pragma mark Working with pasteboards
+- (NSString *) loadFindStringFromPasteboard
+{
+	NSPasteboard *pasteboard;
+
+	pasteboard = [NSPasteboard pasteboardWithName : NSFindPboard];
+	
+	if ([[pasteboard types] containsObject : NSStringPboardType])
+		return [pasteboard stringForType : NSStringPboardType];
+	
+	return nil;
+}
+
+- (void) setFindStringToPasteboard
+{
+	NSPasteboard *pasteboard;
+	
+	pasteboard = [NSPasteboard pasteboardWithName : NSFindPboard];
+	if ([[[self findTextField] stringValue] length] > 0) {
+		NSArray *types_;
+		
+		types_ = [NSArray arrayWithObject : NSStringPboardType];
+		
+		[pasteboard declareTypes : types_
+						   owner : nil];
+		[pasteboard setString : [[self findTextField] stringValue] 
+					  forType : NSStringPboardType];
+	}
+}
+
+#pragma mark Delegate
+- (void) controlTextDidChange : (NSNotification *) aNotification
+{
+	NSString *name_;
+	
+	name_ = [aNotification name];
+	
+	if ([name_ isEqualToString : NSControlTextDidChangeNotification]) {
+		[self setFindStringToPasteboard];
+	}
+}
 @end
