@@ -1,5 +1,5 @@
 /**
-  * $Id: TextFinder.h,v 1.2 2005/12/03 01:58:34 tsawada2 Exp $
+  * $Id: TextFinder.h,v 1.3 2005/12/03 09:01:50 tsawada2 Exp $
   * 
   * Copyright 2005 BathyScaphe Project. All rights reserved.
   *
@@ -31,6 +31,8 @@
 // Binding...
 - (BOOL) isCaseInsensitive;
 - (void) setIsCaseInsensitive : (BOOL) checkBoxState;
+- (BOOL) isLinkOnly;
+- (void) setIsLinkOnly : (BOOL) checkBoxState;
 
 - (NSString *) loadFindStringFromPasteboard;
 - (void) setFindStringToPasteboard;

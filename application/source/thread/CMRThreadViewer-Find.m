@@ -1,5 +1,5 @@
 /** 
-  * $Id: CMRThreadViewer-Find.m,v 1.4 2005/12/03 01:58:34 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Find.m,v 1.5 2005/12/03 09:01:50 tsawada2 Exp $
   *
   * Copyright (c) 2003, Takanori Ishikawa.
   * CMRThreadViewer-Action.m から分割 - 2005-02-16 by tsawada2.
@@ -75,7 +75,6 @@
 #pragma mark -
 
 @implementation CMRThreadViewer(TextViewSupport)
-/*
 - (NSRange) rangeOfStorageLinkOnly : (NSString *) subString 
 						   options : (unsigned  ) mask
 							 range : (NSRange   ) aRange
@@ -98,7 +97,7 @@
 		toIndex_ = 0;
 	} else {
 		charIndex_ = aRange.location;
-		toIndex_ = NSMaxRange(aRange);;
+		toIndex_ = NSMaxRange(aRange);
 	}
 	while (1) {
 		if (mask & NSBackwardsSearch) {
@@ -128,7 +127,7 @@
 				found_ = [linkstr_ rangeOfString : subString 
 										 options : mask
 										   range : NSMakeRange(0, [linkstr_ length])];
-				//		   HanZenKakuInsensitive : flag];
+
 				if (found_.location != NSNotFound && found_.length != 0) {
 					return linkRange_;
 				}
@@ -144,7 +143,6 @@
 	
 	return kNFRange;
 }
-*/
 
 - (void) findText : (NSString		*) aString
 	 searchOption : (CMRSearchMask   ) searchOption
@@ -161,15 +159,15 @@
 	UTILRequireCondition((text_ && [text_ length]), ErrNotFound);
 	UTILRequireCondition((aString && [aString length]), ErrNotFound);
 	
-	/*if (CMRSearchOptionLinkOnly & searchOption) {
+	if (CMRSearchOptionLinkOnly & searchOption) {
 		result_ = [self rangeOfStorageLinkOnly : aString 
 									   options : options
 										 range : aRange];
-	} else {*/
+	} else {
 		result_ = [text_ rangeOfString : aString 
 							   options : options
 								 range : aRange];
-	//}
+	}
 
 	UTILRequireCondition(
 		result_.location != NSNotFound && result_.length != 0,

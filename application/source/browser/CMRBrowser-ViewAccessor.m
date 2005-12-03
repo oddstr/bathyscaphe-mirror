@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.25 2005/10/22 16:51:15 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.26 2005/12/03 09:01:50 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -675,11 +675,11 @@
 		
 		state_ = (searchMasks_[i] & [CMRPref threadSearchOption]) ? NSOnState : NSOffState;
 
-		if (CMRSearchOptionCaseInsensitive == searchMasks_[i] || 
+		/*if (CMRSearchOptionCaseInsensitive == searchMasks_[i] || 
 		   CMRSearchOptionZenHankakuInsensitive == searchMasks_[i]) {
 			// à”ñ°Ç™ãtÇ…Ç»Ç¡ÇƒÇ¢ÇÈÅB
 			state_ = (state_ == NSOnState) ? NSOffState : NSOnState;
-		}
+		}*/
 		[item_ setState : state_];
 		[cellMenu insertItem:item_ atIndex:i];
 		[item_ release];

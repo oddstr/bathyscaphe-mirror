@@ -279,6 +279,16 @@
 	[PREF setPopUpWindowVerticalScrollerIsSmall : boxState];
 }
 
+#pragma mark LittleWish Addition
+- (NSColor *) hiliteColor
+{
+	return [PREF textEnhancedColor];
+}
+- (void) setHiliteColor : (NSColor *) newColor
+{
+	[PREF setTextEnhancedColor : newColor];
+}
+
 #pragma mark NSFontPanelValidation
 
 - (unsigned int) validModesForFontPanel : (NSFontPanel *) fontPanel

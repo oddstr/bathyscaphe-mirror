@@ -1,5 +1,5 @@
 /**
-  * $Id: TextFinder.m,v 1.2 2005/12/03 01:58:34 tsawada2 Exp $
+  * $Id: TextFinder.m,v 1.3 2005/12/03 09:01:50 tsawada2 Exp $
   *
   * Copyright 2005 BathyScaphe Project. All rights reserved.
   *
@@ -95,6 +95,23 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(standardTextFinder);
 		option |= CMRSearchOptionCaseInsensitive;
 	} else {
 		option ^= CMRSearchOptionCaseInsensitive;
+	}
+	[CMRPref setContentsSearchOption : option];
+}
+
+- (BOOL) isLinkOnly
+{
+	CMRSearchMask	option = [CMRPref contentsSearchOption];
+	return (option & CMRSearchOptionLinkOnly);
+}
+
+- (void) setIsLinkOnly : (BOOL) checkBoxState
+{
+	CMRSearchMask	option = [CMRPref contentsSearchOption];
+	if (checkBoxState) {
+		option |= CMRSearchOptionLinkOnly;
+	} else {
+		option ^= CMRSearchOptionLinkOnly;
 	}
 	[CMRPref setContentsSearchOption : option];
 }

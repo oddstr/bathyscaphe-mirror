@@ -1,9 +1,17 @@
 2005-12-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/font_color/FCController.m
+	* application/subproj/preference/Japanese.lproj/FontsAndColors.nib
+		検索結果のハイライト色の設定（一時消えていた）を、「環境設定」＞「表示」＞「その他」に復活。
+		- 正直、うまく配置できる場所がなかなか見つからなかった。
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/Resources/Japanese.lproj/ThreadViewer.strings
+		「全角／半角を区別」「大文字／小文字を区別」は、それぞれ「〜を無視」に表記を変更。
+		- Mac OS X 10.4 の標準に合わせる
 	* application/Resources/Japanese.lproj/MainMenu.nib
-		「一覧検索」を「抽出」に改称。
 	* application/Resources/Japanese.lproj/TextFind.nib
 		検索パネルのインタフェースを刷新。
-		-「リンクのみ検索」は、コード見直し中のため一旦使用不可になっている。
+		「一覧検索」を「抽出」に改称。また、「すべてを検索」を「ハイライト」に改称。
+		メニューバーから「一覧検索」と「先頭から検索」をいったん削除した（インタフェースを整理するため）。
 	* application/source/thread/CMRThreadViewer-Find.m
 	* application/source/thread/TextFinder.m
 		検索関連を整理。全角／半角を無視して本文を検索する機能を廃止。
@@ -17,6 +25,9 @@
 	* application/source/thread/CMRThreadAttributes-Convert.m
 	* application/source/thread/CMRThreadViewer-Action.m
 		「ブラウザで開く」機能の実装方法の見直し。
+		これによって、まちBBSのスレッドを「ブラウザで開く」とき、「最新 50 レス」指定が有効になるようになった。
+		- 以前は最新50レスを選択していても、まちBBSについてはすべてのレスをWeb ブラウザに表示していた。
+		- 最初の100レス 指定は、まち BBS 側が対応していないようなので相変わらず無視される。
 	* frameworks/CocoMonar/framework/src/CMRAppTypes.h
 		いくつかの列挙型定義を Framework に移した。
 	* application/source/manager/CMRKeychainManager.m

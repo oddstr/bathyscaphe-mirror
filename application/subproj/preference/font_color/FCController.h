@@ -1,5 +1,5 @@
 /**
-  * $Id: FCController.h,v 1.5 2005/10/11 08:04:17 tsawada2 Exp $
+  * $Id: FCController.h,v 1.6 2005/12/03 09:01:50 tsawada2 Exp $
   * 
   * FCController.h
   *
@@ -97,5 +97,9 @@
 - (void) setPopupUsesCustomTextColor : (BOOL) boxState;
 - (BOOL) popupUsesSmallScroller;
 - (void) setPopupUsesSmallScroller : (BOOL) boxState;
+
+// LittleWish Addition
+- (NSColor *) hiliteColor;
+- (void) setHiliteColor : (NSColor *) newColor;
 
 @end
