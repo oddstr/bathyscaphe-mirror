@@ -199,7 +199,7 @@ static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, CMRThreadAt
 			if(NO == [[fName pathExtension] isEqualToString : fileExtention_])
 				continue;
 			
-			dict_ = [self  attributesForThreadsListWithContentsOfFile : fName];
+			dict_ = [self attributesForThreadsListWithContentsOfFile : fName];
 			if(nil == dict_) 
 				continue;
 			

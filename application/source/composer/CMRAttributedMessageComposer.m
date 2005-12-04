@@ -22,10 +22,10 @@
 #define kThreadDateFormatKey		@"Thread - DateDescription"
 
 
-static NSAttributedString *whiteSpaceSeparater(void);
+//static NSAttributedString *whiteSpaceSeparater(void);
 static void appendDateString(NSMutableString *buffer, id theDate, NSString *prefix, NSDictionary *localeDictionary);
 static void appendFiledTitle(NSMutableAttributedString *buffer, NSString *title);
-
+static void appendWhiteSpaceSeparator(NSMutableAttributedString *buffer);
 
 #define LOCALIZED_STR(aKey)	NSLocalizedStringFromTable(aKey, kLocalizedFilename, nil)
 #define FIELD_NAME				LOCALIZED_STR(@"Name")
@@ -89,13 +89,13 @@ static void appendFiledTitle(NSMutableAttributedString *buffer, NSString *title)
 - (NSDictionary *) localeDict
 {
 	if (nil == _localeDict) {
-		NSArray		*tmp_ = [[NSUserDefaults standardUserDefaults] arrayForKey : NSShortWeekDayNameArray];
-		NSArray		*tmp2_ = [[NSUserDefaults standardUserDefaults] arrayForKey : NSWeekDayNameArray];
-		_localeDict = [[NSDictionary alloc] initWithObjectsAndKeys : tmp_,
-																	 NSShortWeekDayNameArray,
-																	 tmp2_,
-																	 NSWeekDayNameArray,
-																	 NULL];
+		NSUserDefaults	*defaults_ = [NSUserDefaults standardUserDefaults];
+		NSArray		*tmp_ = [defaults_ arrayForKey : NSShortWeekDayNameArray];
+		NSArray		*tmp2_ = [defaults_ arrayForKey : NSWeekDayNameArray];
+		_localeDict = [[NSDictionary alloc] initWithObjectsAndKeys : 
+							tmp_,  NSShortWeekDayNameArray,
+							tmp2_, NSWeekDayNameArray,
+							NULL];
 	}
 	return _localeDict;
 }
@@ -138,8 +138,9 @@ static BOOL messageIsLocalAboned_(CMRThreadMessage *aMessage)
 		[aMessage setFlags : newFlags_];
 	}
 	
+	BOOL	isSpam_ = [aMessage isSpam];
 	// 「迷惑レス」：表示しない場合
-	if ([aMessage isSpam] && kSpamFilterInvisibleAbonedBehavior == [CMRPref spamFilterBehavior])
+	if (isSpam_ && kSpamFilterInvisibleAbonedBehavior == [CMRPref spamFilterBehavior])
 		return;
 	
 	
@@ -147,7 +148,7 @@ static BOOL messageIsLocalAboned_(CMRThreadMessage *aMessage)
 	[super composeThreadMessage : aMessage];
 	mRange_.length = [ms length] - mRange_.location;
 	
-	if (mRange_.length != 0 && [aMessage isSpam]) {
+	if (isSpam_ && (mRange_.length != 0)) {
 		//「迷惑レス」は色を変更する
 		[ms addAttribute : NSForegroundColorAttributeName
 				   value : [CMRPref messageFilteredColor]
@@ -191,8 +192,10 @@ static BOOL messageIsLocalAboned_(CMRThreadMessage *aMessage)
 番号が隠れてしまい、メニューを表示できなくなる。
 */
 	
-	[ms appendAttributedString : whiteSpaceSeparater()];
+	//[ms appendAttributedString : whiteSpaceSeparater()];
+	appendWhiteSpaceSeparator(ms);
 }
+
 - (void) composeName : (CMRThreadMessage *) aMessage
 {
 	NSString					*name = [aMessage name];
@@ -216,7 +219,8 @@ static BOOL messageIsLocalAboned_(CMRThreadMessage *aMessage)
 		
 		[ms appendAttributedString : _nameCache];
 	}
-	[ms appendAttributedString : whiteSpaceSeparater()];
+	//[ms appendAttributedString : whiteSpaceSeparater()];
+	appendWhiteSpaceSeparator(ms);
 }
 - (void) composeMail : (CMRThreadMessage *) aMessage
 {
@@ -237,7 +241,8 @@ static BOOL messageIsLocalAboned_(CMRThreadMessage *aMessage)
 	
 	[self appendMailAttachmentWithAddress : mail];
 	[self appendMailAddressWithAddress : mail];
-	[[self contentsStorage] appendAttributedString : whiteSpaceSeparater()];
+	//[[self contentsStorage] appendAttributedString : whiteSpaceSeparater()];
+	appendWhiteSpaceSeparator([self contentsStorage]);
 }
 
 static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title, NSString *item)
@@ -246,8 +251,10 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 	
 	appendFiledTitle(ms, title);
 	[ms appendString:item withAttributes:[ATTR_TEMPLATE attributesForText]];
-	[ms appendAttributedString : whiteSpaceSeparater()];
+	//[ms appendAttributedString : whiteSpaceSeparater()];
+	appendWhiteSpaceSeparator(ms);
 }
+
 - (void) composeDate : (CMRThreadMessage *) aMessage
 {
 	NSMutableString		*tmp;
@@ -268,8 +275,26 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 {
 	if (messageIsLocalAboned_(aMessage))
 		return;
+
+	NSString	*idStr = [aMessage IDString];
+	if (nil == idStr || 0 == [idStr length])
+		return;
+
+	NSMutableAttributedString	*ms = [self contentsStorage];
+	NSRange						idRange;
 	
-	simpleAppendFieldItem([self contentsStorage], FIELD_ID, [aMessage IDString]);
+	appendFiledTitle(ms, FIELD_ID);
+	
+	idRange.location = [ms length];
+	[ms appendString : idStr withAttributes : [ATTR_TEMPLATE attributesForText]];
+	idRange.length = [ms length] - idRange.location;
+	
+	[ms addAttribute : BSMessageIDAttributeName
+			   value : idStr
+			   range : idRange];
+
+	//[ms appendAttributedString : whiteSpaceSeparater()];
+	appendWhiteSpaceSeparator(ms);
 }
 
 - (void) composeBeProfile : (CMRThreadMessage *) aMessage
@@ -308,7 +333,8 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 	mas_ = [self contentsStorage];
 
 	[mas_ appendAttributedString : format_];
-	[mas_ appendAttributedString : whiteSpaceSeparater()];
+	//[mas_ appendAttributedString : whiteSpaceSeparater()];
+	appendWhiteSpaceSeparator(mas_);
 }
 
 - (void) composeHost : (CMRThreadMessage *) aMessage
@@ -343,13 +369,13 @@ ErrComposeHost:
 	NSMutableAttributedString	*tmp;
 	id							source;
 	NSRange						mRange_;
-	
+	BOOL						isLocalAboned = messageIsLocalAboned_(aMessage); 
 	
 	ms = [self contentsStorage];
 	tmp = SGTemporaryAttributedString();
 	
 	// 「ローカルあぼーん」
-	if (messageIsLocalAboned_(aMessage)) {
+	if (isLocalAboned) {
 		source = [aMessage isSpam]
 			? LOCALIZED_STR(@"SpamLocalAbone")
 			: LOCALIZED_STR(@"LocalAbone");
@@ -359,7 +385,7 @@ ErrComposeHost:
 	
 	mRange_.location = [tmp length];
 	[self convertMessage:source with:tmp];
-	if (messageIsLocalAboned_(aMessage)) {
+	if (isLocalAboned) {
 		NSRange		linkRange_;
 		
 		// 「ローカルあぼーん」では内容をポップアップするリンクを追加
@@ -425,7 +451,9 @@ ErrComposeHost:
 		return;
 	
 	ms = [self contentsStorage];
-	[ms appendAttributedString : whiteSpaceSeparater()];
+	//[ms appendAttributedString : whiteSpaceSeparater()];
+	appendWhiteSpaceSeparator(ms);
+
 	appendFiledTitle(ms, FIELD_MAIL);
 	[ms appendString:address withAttributes:[ATTR_TEMPLATE attributesForText]];
 }
@@ -474,12 +502,20 @@ static void appendDateString(NSMutableString *buffer, id theDate, NSString *pref
 
 	return;
 }
-
+/*
 static NSAttributedString *whiteSpaceSeparater(void)
 {
 	return [[[NSAttributedString alloc] initWithString : @"  "] autorelease];
 }
+*/
+static void appendWhiteSpaceSeparator(NSMutableAttributedString *buffer)
+{
+	NSAttributedString	*wSS = [[NSAttributedString alloc] initWithString : @"  "];
 
+	[buffer appendAttributedString : wSS];
+	
+	[wSS release];
+}
 
 static void appendFiledTitle(NSMutableAttributedString *buffer, NSString *title)
 {
@@ -497,5 +533,6 @@ static void appendFiledTitle(NSMutableAttributedString *buffer, NSString *title)
 	[tmp appendString : fieldSeparater];
 	
 	[buffer appendString:tmp withAttributes:[ATTR_TEMPLATE attributesForItemName]];
-	[buffer appendAttributedString : whiteSpaceSeparater()];
+	//[buffer appendAttributedString : whiteSpaceSeparater()];
+	appendWhiteSpaceSeparator(buffer);
 }

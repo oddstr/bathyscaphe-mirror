@@ -1,5 +1,5 @@
 /**
-  * $Id: SGHTTPRequest.m,v 1.1 2005/05/11 17:51:50 tsawada2 Exp $
+  * $Id: SGHTTPRequest.m,v 1.2 2005/12/04 13:14:12 tsawada2 Exp $
   * 
   * SGHTTPRequest.m
   *
@@ -46,7 +46,7 @@
 										  version);
 	
 	if(self = [super initWithHTTPMessageRef : request_]){
-		;
+		CFRelease(request_); //2005-12-04 ‚±‚±‚Å leak ‚µ‚Ä‚¢‚½‚ç‚µ‚¢
 	}
 	return self;
 }

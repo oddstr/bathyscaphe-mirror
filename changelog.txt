@@ -1,3 +1,17 @@
+2005-12-04 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* frameworks/SGFoundation/framework/source/classes/files/SGFileRef.m
+		[Bug 7520] (again) シンボリックリンクが相対パスで記述されている場合に正しく元のパスを取得できない
+		問題を修正（masakih 師による）。
+	* frameworks/SGNetwork/src/message/SGHTTPRequest.m
+		メモリリークを一個潰した。
+	* application/source/composer/CMRAttributedMessageComposer.m
+	* application/source/composer/CMRMessageAttributesStyling.m
+		ID 文字列（Attributed String）に attribute として ID 文字列の内容それ自身を仕込むようにした。
+		また、空白文字の結合方法を少し見直した（autorelease のかわりに自分で release するようにした）。
+		意味はあるのかどうか。
+	* application/source/browser/CMRFavoritesManager.m
+		_favoritesItemsIndex を作るときに自前の Autoreleasepool の中で作業するようにしてみたけど、
+		安定性向上に効果があるかどうか。
 2005-12-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/preference/font_color/FCController.m
 	* application/subproj/preference/Japanese.lproj/FontsAndColors.nib

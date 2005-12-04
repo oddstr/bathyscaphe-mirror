@@ -75,6 +75,9 @@ extern NSString *const CMRMessageBeProfileLinkAttributeName;
 extern NSString *const CMRAttributeInnerLinkScheme;
 extern NSString *const CMRAttributesBeProfileLinkScheme;
 
+// Available in TestaRossa and later.
+extern NSString *const BSMessageIDAttributeName; // NSString, ID string itself.
+
 /**
   * Text -System で使用するデフォルトの書式を
   * おさめた辞書を返す。

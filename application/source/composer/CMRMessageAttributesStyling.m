@@ -12,6 +12,8 @@ NSString *const CMRMessageLastUpdatedHeaderAttributeName = @"CMRLastUpdated";
 NSString *const CMRMessageProxyAttributeName = @"CMRMessageProxy";
 NSString *const CMRMessageBeProfileLinkAttributeName = @"CMRBeProfileLink";
 
+// Available in TestaRossa and later.
+NSString *const BSMessageIDAttributeName = @"BSID";
 
 
 // 内部リンクのアドレス文字列を生成。

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFavoritesManager.m,v 1.8 2005/11/23 13:44:07 tsawada2 Exp $
+  * $Id: CMRFavoritesManager.m,v 1.9 2005/12/04 13:14:12 tsawada2 Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
@@ -103,6 +103,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 		} else {
 			NSEnumerator	*iter_;
 			NSDictionary	*anItem_;	// each favorite item
+			NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]; // 2005-12-04 Ç«Ç§ÇæÇÎÇ§ÅH
 
 			_favoritesItemsIndex = [[NSMutableArray alloc] initWithCapacity : [favItems_ count]];
 
@@ -115,6 +116,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 				[_favoritesItemsIndex addObject : itemPath_];
 			}
+			
+			[pool release];
 		}
 	}
 	

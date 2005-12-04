@@ -1178,10 +1178,8 @@
 		F324DD7704C698FB00A80005 /* SGDocument.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = SGDocument.m; sourceTree = "<group>"; };
 		F324DD7A04C698FB00A80005 /* TextFinder.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = TextFinder.h; sourceTree = "<group>"; };
 		F324DD7B04C698FB00A80005 /* TextFinder.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = TextFinder.m; sourceTree = "<group>"; };
-		F324DD8504C698FB00A80005 /* JStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = JStringAdditions.h; sourceTree = "<group>"; };
-		F324DD8604C698FB00A80005 /* JStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = JStringAdditions.m; sourceTree = "<group>"; };
-		F324DD8704C698FB00A80005 /* missing.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = missing.h; sourceTree = "<group>"; };
-		F324DD8804C698FB00A80005 /* missing.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = missing.m; sourceTree = "<group>"; };
+		F324DD8704C698FB00A80005 /* missing.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; name = missing.h; path = ../util/missing.h; sourceTree = "<group>"; };
+		F324DD8804C698FB00A80005 /* missing.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; name = missing.m; path = ../util/missing.m; sourceTree = "<group>"; };
 		F324DD9504C698FB00A80005 /* CMRIndexingStepper-ViewAccessor.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "CMRIndexingStepper-ViewAccessor.m"; sourceTree = "<group>"; };
 		F324DD9604C698FB00A80005 /* CMRIndexingStepper.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRIndexingStepper.h; sourceTree = "<group>"; };
 		F324DD9704C698FB00A80005 /* CMRIndexingStepper.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRIndexingStepper.m; sourceTree = "<group>"; };
@@ -1451,6 +1449,8 @@
 		8729964C0832556100CBD740 /* extensions */ = {
 			isa = PBXGroup;
 			children = (
+				F324DD8704C698FB00A80005 /* missing.h */,
+				F324DD8804C698FB00A80005 /* missing.m */,
 				87AF762309261F3800DD95CE /* NSString+CarbonUtilities.h */,
 				87AF762409261F3800DD95CE /* UKDirectoryEnumerator.h */,
 				87AF762509261F3900DD95CE /* NSString+CarbonUtilities.m */,
@@ -2150,7 +2150,6 @@
 				F324DC5804C698FA00A80005 /* composer */,
 				F324DD3804C698FB00A80005 /* thread */,
 				87AE387909405F6500E10F36 /* reply */,
-				F324DD7D04C698FB00A80005 /* util */,
 				F324DD8D04C698FB00A80005 /* view */,
 				F324DDC004C698FB00A80005 /* window */,
 			);
@@ -2281,17 +2280,6 @@
 				F38E16EC04CE418300A80005 /* search */,
 			);
 			path = thread;
-			sourceTree = "<group>";
-		};
-		F324DD7D04C698FB00A80005 /* util */ = {
-			isa = PBXGroup;
-			children = (
-				F324DD8504C698FB00A80005 /* JStringAdditions.h */,
-				F324DD8604C698FB00A80005 /* JStringAdditions.m */,
-				F324DD8704C698FB00A80005 /* missing.h */,
-				F324DD8804C698FB00A80005 /* missing.m */,
-			);
-			path = util;
 			sourceTree = "<group>";
 		};
 		F324DD8D04C698FB00A80005 /* view */ = {

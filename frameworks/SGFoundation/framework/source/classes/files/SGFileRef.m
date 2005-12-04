@@ -1,5 +1,5 @@
 /**
- * $Id: SGFileRef.m,v 1.2 2005/11/25 20:21:24 tsawada2 Exp $
+ * $Id: SGFileRef.m,v 1.3 2005/12/04 13:14:12 tsawada2 Exp $
  * 
  * SGFileRef.m
  *
@@ -548,6 +548,12 @@ ErrFSGetParentRef:
 		if(nil == actualPath_) {
 			return self;
 		}
+		if(![actualPath_ hasPrefix : @"/"]) { //2005-12-04
+			NSString	*parent_;
+			parent_ = [[self filepath] stringByDeletingLastPathComponent];
+			actualPath_ = [parent_ stringByAppendingPathComponent : actualPath_];
+		}
+
 		return [[self class] fileRefWithPath : actualPath_];
 	}
 	if([self isAliasFile]){
