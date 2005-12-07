@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.11 2005/11/25 16:14:45 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.12 2005/12/07 13:28:31 tsawada2 Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -562,7 +562,18 @@ ErrInvalidLink:
 	NSRange		selectedRange_;
 	id			v;
 	unichar		c;
-	
+	NSPoint		mouseLocation_;
+
+	// ID ポップアップ
+	mouseLocation_ = [aView convertPoint : [theEvent locationInWindow]
+								fromView : nil];
+
+	v = [aView attribute : BSMessageIDAttributeName
+				 atPoint : mouseLocation_
+		  effectiveRange : NULL];
+
+	if (v != nil) return YES;
+
 	selectedRange_ = [aView selectedRange];
 	if (0 == selectedRange_.length) return NO;
 
@@ -575,56 +586,71 @@ ErrInvalidLink:
 	c = [[aView string] characterAtIndex : selectedRange_.location];
 	return [[NSCharacterSet numberCharacterSet_JP] characterIsMember : c];
 }
+
 - (BOOL)     HTMLView : (SGHTMLView *) aView 
   continuousMouseDown : (NSEvent    *) theEvent
 {
 	NSPoint				mouseLoc_;
-	NSRange				selectedRange_;
-	NSLayoutManager		*layoutManager_;
-	NSRange				selectedGlyphRange_;
-	NSRect				selection_;
 	BOOL				isInside_;
+	id					v;
 	
 	UTILRequireCondition((aView && theEvent), default_implementation);
-	
+
 	mouseLoc_ = (NSPeriodic == [theEvent type])
 		? [[aView window] convertScreenToBase : [theEvent locationInWindow]]
 		: [theEvent locationInWindow];
 	mouseLoc_ = [aView convertPoint:mouseLoc_ fromView:nil];
 	isInside_ = [aView mouse:mouseLoc_ inRect:[aView visibleRect]];
 	
-	selectedRange_ = [aView selectedRange];
-	UTILRequireCondition(selectedRange_.length, default_implementation);
-	
-	layoutManager_ = [aView layoutManager];
-	UTILRequireCondition(layoutManager_, default_implementation);
-	
-	selectedGlyphRange_ = 
-		[layoutManager_ glyphRangeForCharacterRange : selectedRange_
-							   actualCharacterRange : NULL];
-	UTILRequireCondition(selectedGlyphRange_.length, default_implementation);
-	selection_ = 
-		[layoutManager_ boundingRectForGlyphRange : selectedGlyphRange_
-								  inTextContainer : [aView textContainer]];
-	isInside_ = [aView mouse:mouseLoc_ inRect:selection_];
-	UTILRequireCondition(isInside_, default_implementation);
-	
-	mouseLoc_.y = [aView isFlipped] 
-					? NSMinY(selection_)
-					: NSMaxY(selection_);
-	mouseLoc_ = [aView convertPoint:mouseLoc_ toView:nil];
-	mouseLoc_ = [[aView window] convertBaseToScreen : mouseLoc_];
-	
-	// テキストのドラッグを許すように、ここでは常にNOを返す。
-	[self tryShowPopUpWindowSubstringWithRange : selectedRange_
-								 inTextStorage : [aView textStorage]
-								  locationHint : mouseLoc_];
+	v = [aView attribute : BSMessageIDAttributeName
+				 atPoint : mouseLoc_
+		  effectiveRange : NULL];
+
+	if (v != nil) {
+		// ID PopUp
+		[self findTextByFilter : (NSString *)v
+				  searchOption : CMRSearchOptionNone
+				  locationHint : [theEvent locationInWindow]
+				  hiliteResult : NO];
+	} else {
+		NSRange				selectedRange_;
+		NSLayoutManager		*layoutManager_;
+		NSRange				selectedGlyphRange_;
+		NSRect				selection_;
+
+		selectedRange_ = [aView selectedRange];
+		UTILRequireCondition(selectedRange_.length, default_implementation);
+		
+		layoutManager_ = [aView layoutManager];
+		UTILRequireCondition(layoutManager_, default_implementation);
+		
+		selectedGlyphRange_ = 
+			[layoutManager_ glyphRangeForCharacterRange : selectedRange_
+								   actualCharacterRange : NULL];
+		UTILRequireCondition(selectedGlyphRange_.length, default_implementation);
+		selection_ = 
+			[layoutManager_ boundingRectForGlyphRange : selectedGlyphRange_
+									  inTextContainer : [aView textContainer]];
+		isInside_ = [aView mouse:mouseLoc_ inRect:selection_];
+		UTILRequireCondition(isInside_, default_implementation);
+
+		mouseLoc_.y = [aView isFlipped] 
+						? NSMinY(selection_)
+						: NSMaxY(selection_);
+		mouseLoc_ = [aView convertPoint:mouseLoc_ toView:nil];
+		mouseLoc_ = [[aView window] convertBaseToScreen : mouseLoc_];
+
+		// テキストのドラッグを許すように、ここでは常にNOを返す。
+		[self tryShowPopUpWindowSubstringWithRange : selectedRange_
+									 inTextStorage : [aView textStorage]
+									  locationHint : mouseLoc_];
+	}
 	return NO;
 	
-	default_implementation:
-/*		[NSMenu popUpContextMenu : [aView menu]
+default_implementation:
+	/*[NSMenu popUpContextMenu : [aView menu]
 					   withEvent : theEvent
-						 forView : aView];
-*/		return YES;
+						 forView : aView];*/
+	return YES;
 }
 @end

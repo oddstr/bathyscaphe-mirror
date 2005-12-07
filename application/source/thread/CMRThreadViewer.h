@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.8 2005/11/30 19:46:53 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.9 2005/12/07 13:28:31 tsawada2 Exp $
   * 
   * CMRThreadViewer.h
   *
@@ -179,8 +179,15 @@
 - (IBAction) findTextInSelection : (id) sender;
 - (IBAction) findAll : (id) sender;
 - (IBAction) findAllByFilter : (id) sender;
+// Deprecated in TestaRossa and later. Use findTextByFilter:searchOption:locationHint:hiliteResult: instead.
+//- (void) findTextByFilter : (NSString    *) aString
+//			 searchOption : (CMRSearchMask) searchOption;
+
+// Available in TestaRossa and later.
 - (void) findTextByFilter : (NSString    *) aString
-			 searchOption : (CMRSearchMask) searchOption;
+			 searchOption : (CMRSearchMask) searchOption
+			 locationHint : (NSPoint	  ) location
+			 hiliteResult : (BOOL		  ) hilite;
 @end
 
 

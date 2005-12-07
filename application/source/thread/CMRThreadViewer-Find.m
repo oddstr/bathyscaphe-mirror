@@ -1,5 +1,5 @@
 /** 
-  * $Id: CMRThreadViewer-Find.m,v 1.5 2005/12/03 09:01:50 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Find.m,v 1.6 2005/12/07 13:28:31 tsawada2 Exp $
   *
   * Copyright (c) 2003, Takanori Ishikawa.
   * CMRThreadViewer-Action.m から分割 - 2005-02-16 by tsawada2.
@@ -281,7 +281,9 @@ ErrNotFound:
 		return;
 	
 	[self findTextByFilter : [findOperation_ findObject]
-			  searchOption : [[findOperation_ userInfo] unsignedIntValue]];
+			  searchOption : [[findOperation_ userInfo] unsignedIntValue]//];
+			  locationHint : [self locationForInformationPopUp]
+			  hiliteResult : YES];
 }
 
 - (IBAction) findAll : (id) sender
@@ -347,10 +349,14 @@ ErrNotFound:
 
 - (void) findTextByFilter : (NSString    *) aString
 			 searchOption : (CMRSearchMask) searchOption
+			 locationHint : (NSPoint	  ) location
+			 hiliteResult : (BOOL		  ) hilite
+//- (void) findTextByFilter : (NSString    *) aString
+//			 searchOption : (CMRSearchMask) searchOption
 {
 	CMRThreadLayout	*L = [self threadLayout];
 	unsigned		options_  = NSLiteralSearch;
-	NSPoint			popUpLocation_;
+	//NSPoint			popUpLocation_;
 	
 	CMRThreadMessage	*m;
 	NSEnumerator		*mIter_;
@@ -361,11 +367,11 @@ ErrNotFound:
 	unsigned						nFound = 0;
 	UInt32							attributesMask_ = CMRAnyAttributesMask;
 	
-	TextFinder	*finder_ = [TextFinder standardTextFinder];
+	//TextFinder	*finder_ = [TextFinder standardTextFinder];
 
 	if ([aString length] == 0) return;
 
-	[[finder_ notFoundField] setHidden : YES];
+	//[[finder_ notFoundField] setHidden : YES];
 	
 	if (searchOption | CMRSearchOptionCaseInsensitive)
 		options_ |= NSCaseInsensitiveSearch;
@@ -397,19 +403,19 @@ ErrNotFound:
 	if (0 == nFound) {
 		// 見つからなかった
 		NSBeep();
-		[[finder_ notFoundField] setHidden : NO];
+		//[[finder_ notFoundField] setHidden : NO];
 		goto CleanUp;
 	}
 
-	popUpLocation_ = [self locationForInformationPopUp];
 	popUp_ = [CMRPopUpMgr showPopUpWindowWithContext : textBuffer_
 										   forObject : [self threadIdentifier]
 											   owner : self
-										locationHint : popUpLocation_];
+										locationHint : location];
 
-	[self setUpTemporaryAttributesMatchingString : aString
-									searchOption : searchOption
-								 inLayoutManager : [[popUp_ textView] layoutManager]];
+	if (hilite)
+		[self setUpTemporaryAttributesMatchingString : aString
+										searchOption : searchOption
+									 inLayoutManager : [[popUp_ textView] layoutManager]];
 
 CleanUp:
 	[composer_ release];

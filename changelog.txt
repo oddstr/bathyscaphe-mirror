@@ -1,3 +1,11 @@
+2005-12-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-Find.m
+	* application/source/thread/CMRThreadViewer-Link.m
+		ID 部分を長押しするとその ID で抽出を実行して、検索結果をその位置にポップアップするようにした。
+		つまり… ID ポップアップを実装した。
+		- なぜ「長押し」か？→数字を選択して長押しするとそのレス番号のレスがポップアップする動作との類似性。
+		- 今後、コンテキストメニューにも「抽出」項目を追加する予定。
+		- なお、右クリックでの直接ポップアップは Mac のインタフェースとしてはそれほど適切ではないと考えるので、やらない予定。
 2005-12-04 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* frameworks/SGFoundation/framework/source/classes/files/SGFileRef.m
 		[Bug 7520] (again) シンボリックリンクが相対パスで記述されている場合に正しく元のパスを取得できない

@@ -303,6 +303,8 @@ RECACHE:
 
     UTILAssertNotNilArgument(loadedList, @"Threads List Array");
     UTILAssertNotNilArgument(threadsInfo, @"Threads Info Dictionary");
+	
+	NSAutoreleasePool	*pool_ = [[NSAutoreleasePool alloc] init];
 
     iter = [loadedList objectEnumerator];
     while (thread_ = [iter nextObject]) {
@@ -313,6 +315,8 @@ RECACHE:
         nEnded_++;
         [self setProgress : (((double)nEnded_ / (double)nElem_) * 100)];
     }
+	
+	[pool_ release];
 }
 
 
