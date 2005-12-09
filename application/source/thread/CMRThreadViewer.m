@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.16 2005/11/25 15:27:54 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.17 2005/12/09 00:01:41 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -33,6 +33,8 @@
 
 NSString *const CMRThreadViewerDidChangeThreadNotification  = @"CMRThreadViewerDidChangeThreadNotification";
 
+NSString *const BSThreadViewerWillStartFindingNotification = @"BSThreadViewerWillStartFindingNotification";
+NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEndFindingNotification";
 
 @implementation CMRThreadViewer
 - (id) init

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.29 2005/12/02 14:41:57 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.30 2005/12/09 00:01:41 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -416,7 +416,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 
 					[self downloadThread : threadSignature_
 								   title : title_
-							   nextIndex : NSNotFound];
+							   nextIndex : 0];
 				}
 			} else {
 				NSBeep();

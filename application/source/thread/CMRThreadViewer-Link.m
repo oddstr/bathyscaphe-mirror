@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.12 2005/12/07 13:28:31 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.13 2005/12/09 00:01:41 tsawada2 Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -609,9 +609,10 @@ ErrInvalidLink:
 	if (v != nil) {
 		// ID PopUp
 		[self findTextByFilter : (NSString *)v
+					 targetKey : @"IDString"
 				  searchOption : CMRSearchOptionNone
 				  locationHint : [theEvent locationInWindow]
-				  hiliteResult : NO];
+						hilite : NO];
 	} else {
 		NSRange				selectedRange_;
 		NSLayoutManager		*layoutManager_;

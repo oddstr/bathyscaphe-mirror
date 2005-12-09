@@ -1,5 +1,5 @@
 /**
-  * $Id: TextFinder.h,v 1.3 2005/12/03 09:01:50 tsawada2 Exp $
+  * $Id: TextFinder.h,v 1.4 2005/12/09 00:01:41 tsawada2 Exp $
   * 
   * Copyright 2005 BathyScaphe Project. All rights reserved.
   *
@@ -36,4 +36,6 @@
 
 - (NSString *) loadFindStringFromPasteboard;
 - (void) setFindStringToPasteboard;
+
+- (void) registerToNotificationCenter;
 @end

@@ -1,5 +1,5 @@
 /**
-  * $Id: TextFinder.m,v 1.3 2005/12/03 09:01:50 tsawada2 Exp $
+  * $Id: TextFinder.m,v 1.4 2005/12/09 00:01:41 tsawada2 Exp $
   *
   * Copyright 2005 BathyScaphe Project. All rights reserved.
   *
@@ -9,6 +9,7 @@
 #import "CocoMonar_Prefix.h"
 #import "AppDefaults.h"
 #import "CMRSearchOptions.h"
+#import "CMRThreadViewer.h"
 
 #define kLoadNibName					@"TextFind"
 #define APP_FIND_PANEL_AUTOSAVE_NAME	@"BathyScaphe:Find Panel Autosave"
@@ -20,7 +21,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(standardTextFinder);
 - (id) init
 {
 	if (self = [super initWithWindowNibName : kLoadNibName]) {
-		;
+		[self registerToNotificationCenter];
 	}
 	return self;
 }
@@ -157,4 +158,53 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(standardTextFinder);
 		[self setFindStringToPasteboard];
 	}
 }
+
+- (void) findWillStart : (NSNotification *) aNotification
+{
+	[[self notFoundField] setHidden : YES];
+}
+
+- (void) findDidEnd : (NSNotification *) aNotification
+{
+	unsigned	num;
+	num = [[[aNotification userInfo] objectForKey : kAppThreadViewerFindInfoKey] unsignedIntValue];
+	//NSLog(@"%i", num);
+	if (num == 0) {
+		[[self notFoundField] setHidden : NO];
+	}
+}
+
+- (void) registerToNotificationCenter
+{
+	[[NSNotificationCenter defaultCenter]
+	     addObserver : self
+	        selector : @selector(findWillStart:)
+	            name : BSThreadViewerWillStartFindingNotification
+	          object : nil];
+	[[NSNotificationCenter defaultCenter]
+	     addObserver : self
+	        selector : @selector(findDidEnd:)
+	            name : BSThreadViewerDidEndFindingNotification
+	          object : nil];
+	
+}
+- (void) removeFromNotificationCenter
+{
+	[[NSNotificationCenter defaultCenter]
+	  removeObserver : self
+	            name : BSThreadViewerWillStartFindingNotification
+	          object : nil];
+	[[NSNotificationCenter defaultCenter]
+	  removeObserver : self
+	            name : BSThreadViewerDidEndFindingNotification
+	          object : nil];
+	
+}
+
+- (void) dealloc
+{
+	[self removeFromNotificationCenter];
+	[super dealloc];
+}
+
 @end

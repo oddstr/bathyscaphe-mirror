@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.9 2005/12/07 13:28:31 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.10 2005/12/09 00:01:41 tsawada2 Exp $
   * 
   * CMRThreadViewer.h
   *
@@ -179,15 +179,16 @@
 - (IBAction) findTextInSelection : (id) sender;
 - (IBAction) findAll : (id) sender;
 - (IBAction) findAllByFilter : (id) sender;
-// Deprecated in TestaRossa and later. Use findTextByFilter:searchOption:locationHint:hiliteResult: instead.
+// Deprecated in TestaRossa and later. Use findTextByFilter:targetKey:searchOption:locationHint:hilite: instead.
 //- (void) findTextByFilter : (NSString    *) aString
 //			 searchOption : (CMRSearchMask) searchOption;
 
 // Available in TestaRossa and later.
 - (void) findTextByFilter : (NSString    *) aString
+				targetKey : (NSString	 *) targetKey
 			 searchOption : (CMRSearchMask) searchOption
 			 locationHint : (NSPoint	  ) location
-			 hiliteResult : (BOOL		  ) hilite;
+				   hilite : (BOOL		  ) hilite;
 @end
 
 
@@ -208,3 +209,13 @@
 
 
 extern NSString *const CMRThreadViewerDidChangeThreadNotification;
+
+/**
+  * userInfo:
+  * 	@"Count"	-- number of found items (NSNumber, as an unsigned int)
+  *
+  */
+#define kAppThreadViewerFindInfoKey	@"Count"
+
+extern NSString *const BSThreadViewerWillStartFindingNotification;
+extern NSString *const BSThreadViewerDidEndFindingNotification;

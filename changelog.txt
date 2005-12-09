@@ -1,3 +1,13 @@
+2005-12-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Action.m
+		削除して再取得：3ペイン時の再取得で、インデックスが NSNotFound のまま作業が進んでしまうことがある問題を修正。
+	* application/source/thread/CMRThreadViewer-Find.m
+	* application/source/thread/TextFinder.m
+		ID ポップアップをチューニング。また、検索結果の表示方法を見直し。
+		さらに、「次を検索」は、現在選択されているテキストの次の文字から検索を始めるが、何もテキストが選択されていないときは
+		テキスト・ビューの「見えている」領域の先頭文字から検索を開始するようにした。同様に、「前を検索」は、現在選択されている
+		テキストの直前までの範囲を後ろから検索するが、何もテキストが選択されていない時はテキスト・ビューの「見えている」領域の
+		最後の文字までの範囲を後ろから検索するようにした。
 2005-12-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadViewer-Find.m
 	* application/source/thread/CMRThreadViewer-Link.m
@@ -5,7 +15,7 @@
 		つまり… ID ポップアップを実装した。
 		- なぜ「長押し」か？→数字を選択して長押しするとそのレス番号のレスがポップアップする動作との類似性。
 		- 今後、コンテキストメニューにも「抽出」項目を追加する予定。
-		- なお、右クリックでの直接ポップアップは Mac のインタフェースとしてはそれほど適切ではないと考えるので、やらない予定。
+		- なお、右クリックでの直接ポップアップは、やらない予定。
 2005-12-04 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* frameworks/SGFoundation/framework/source/classes/files/SGFileRef.m
 		[Bug 7520] (again) シンボリックリンクが相対パスで記述されている場合に正しく元のパスを取得できない
@@ -20,6 +30,7 @@
 	* application/source/browser/CMRFavoritesManager.m
 		_favoritesItemsIndex を作るときに自前の Autoreleasepool の中で作業するようにしてみたけど、
 		安定性向上に効果があるかどうか。
+================================================= LittleWish
 2005-12-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/preference/font_color/FCController.m
 	* application/subproj/preference/Japanese.lproj/FontsAndColors.nib

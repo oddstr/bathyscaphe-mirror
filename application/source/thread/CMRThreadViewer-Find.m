@@ -1,5 +1,5 @@
 /** 
-  * $Id: CMRThreadViewer-Find.m,v 1.6 2005/12/07 13:28:31 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Find.m,v 1.7 2005/12/09 00:01:41 tsawada2 Exp $
   *
   * Copyright (c) 2003, Takanori Ishikawa.
   * CMRThreadViewer-Action.m から分割 - 2005-02-16 by tsawada2.
@@ -20,7 +20,7 @@
 
 #import "CMXPopUpWindowManager.h"
 #import "CMRAttributedMessageComposer.h"
-
+#import "NSTextView+CMXAdditions.h"
 
 // for debugging only
 #define UTIL_DEBUGGING		0
@@ -151,9 +151,9 @@
 {
 	NSString	*text_;
 	NSRange		result_;
-	TextFinder	*finder_ = [TextFinder standardTextFinder];
-	
-	[[finder_ notFoundField] setHidden : YES];
+
+	UTILNotifyName(BSThreadViewerWillStartFindingNotification);
+
 	text_ = [[self textView] string];
 
 	UTILRequireCondition((text_ && [text_ length]), ErrNotFound);
@@ -176,11 +176,20 @@
 	[[self textView] setSelectedRange : result_];
 	[[self textView] scrollRangeToVisible : result_];
 
+	UTILNotifyInfo3(
+		BSThreadViewerDidEndFindingNotification,
+		[NSNumber numberWithUnsignedInt : 1],
+		kAppThreadViewerFindInfoKey);
+
+
 	return;
 
 ErrNotFound:
 	NSBeep();
-	[[finder_ notFoundField] setHidden : NO];
+	UTILNotifyInfo3(
+		BSThreadViewerDidEndFindingNotification,
+		[NSNumber numberWithUnsignedInt : 0],
+		kAppThreadViewerFindInfoKey);
 	return;
 }
 
@@ -222,9 +231,15 @@ ErrNotFound:
 	UTILRequireCondition(findOperation_, ErrNotFound);
 
 	searchRange_ = [[self textView] selectedRange];
-	searchRange_.location = NSMaxRange(searchRange_);
-	searchRange_.length = [[[self textView] string] length] - searchRange_.location;
 
+	if (searchRange_.length == 0) {
+		// テキストが選択されていない場合は、ウインドウで「見えている」テキストの先頭から検索を開始する。
+		searchRange_ = [[self textView] characterRangeForDocumentVisibleRect];
+		searchRange_.length = [[[self textView] string] length] - searchRange_.location;
+	} else {
+		searchRange_.location = NSMaxRange(searchRange_);
+		searchRange_.length = [[[self textView] string] length] - searchRange_.location;
+	}
 	[self findWithOperation : findOperation_ range : searchRange_];
 	
 ErrNotFound:
@@ -242,9 +257,14 @@ ErrNotFound:
 	[findOperation_ setOptionState : YES option : NSBackwardsSearch];
 	
 	searchRange_ = [[self textView] selectedRange];
-	searchRange_.length = searchRange_.location;
-	searchRange_.location = 0;
-	
+	if (searchRange_.length == 0) {
+		searchRange_ = [[self textView] characterRangeForDocumentVisibleRect];
+		searchRange_.length = NSMaxRange(searchRange_);
+		searchRange_.location = 0;
+	} else {
+		searchRange_.length = searchRange_.location;
+		searchRange_.location = 0;
+	}
 	[self findWithOperation : findOperation_ range : searchRange_];
 	
 ErrNotFound:
@@ -281,9 +301,10 @@ ErrNotFound:
 		return;
 	
 	[self findTextByFilter : [findOperation_ findObject]
-			  searchOption : [[findOperation_ userInfo] unsignedIntValue]//];
+				 targetKey : nil
+			  searchOption : [[findOperation_ userInfo] unsignedIntValue]
 			  locationHint : [self locationForInformationPopUp]
-			  hiliteResult : YES];
+					hilite : YES];
 }
 
 - (IBAction) findAll : (id) sender
@@ -292,12 +313,13 @@ ErrNotFound:
 	NSLayoutManager		*lM_ = [[self textView] layoutManager];
 	BOOL				found;
 	TextFinder			*finder_ = [TextFinder standardTextFinder];
+	unsigned			k = 1;
 	
 	findOperation_ = [finder_ currentOperation];
 	if (nil == findOperation_)
 		return;
 
-	[[finder_ notFoundField] setHidden : YES];
+	UTILNotifyName(BSThreadViewerWillStartFindingNotification);
 
 	[lM_ removeTemporaryAttribute : NSBackgroundColorAttributeName
 				forCharacterRange : [[[self textView] textStorage] range]];
@@ -308,8 +330,40 @@ ErrNotFound:
 
 	if (NO == found) {
 		NSBeep();
-		[[finder_ notFoundField] setHidden : NO];
+		k = 0;
 	}
+
+	UTILNotifyInfo3(
+		BSThreadViewerDidEndFindingNotification,
+		[NSNumber numberWithUnsignedInt : k],
+		kAppThreadViewerFindInfoKey);
+}
+
+// available in TestaRossa and later.
+- (NSRange) threadMessage : (CMRThreadMessage *) aMessage
+			  valueForKey : (NSString		  *) key
+			rangeOfString : (NSString         *) aString
+				  options : (unsigned          ) options
+{
+	NSRange		found;
+	NSString	*target;
+	
+	if (nil == aMessage || 0 == [aString length])
+		return kNFRange;
+	if (nil == key || 0 == [key length])
+		return kNFRange;
+
+	target = [aMessage valueForKey : key];
+	if (nil == target || 0 == [target length])
+		return kNFRange;
+
+	found = [target rangeOfString : aString
+						  options : options
+							range : [target range]];
+	if (found.length != 0) 
+		return found;
+	
+	return kNFRange;
 }
 
 - (NSRange) threadMessage : (CMRThreadMessage *) aMessage
@@ -348,16 +402,13 @@ ErrNotFound:
 }
 
 - (void) findTextByFilter : (NSString    *) aString
+				targetKey : (NSString	 *) targetKey
 			 searchOption : (CMRSearchMask) searchOption
 			 locationHint : (NSPoint	  ) location
-			 hiliteResult : (BOOL		  ) hilite
-//- (void) findTextByFilter : (NSString    *) aString
-//			 searchOption : (CMRSearchMask) searchOption
+				   hilite : (BOOL		  ) hilite
 {
 	CMRThreadLayout	*L = [self threadLayout];
 	unsigned		options_  = NSLiteralSearch;
-	//NSPoint			popUpLocation_;
-	
 	CMRThreadMessage	*m;
 	NSEnumerator		*mIter_;
 	
@@ -366,12 +417,10 @@ ErrNotFound:
 	CMXPopUpWindowController		*popUp_;
 	unsigned						nFound = 0;
 	UInt32							attributesMask_ = CMRAnyAttributesMask;
-	
-	//TextFinder	*finder_ = [TextFinder standardTextFinder];
 
 	if ([aString length] == 0) return;
 
-	//[[finder_ notFoundField] setHidden : YES];
+	UTILNotifyName(BSThreadViewerWillStartFindingNotification);
 	
 	if (searchOption | CMRSearchOptionCaseInsensitive)
 		options_ |= NSCaseInsensitiveSearch;
@@ -387,23 +436,38 @@ ErrNotFound:
 	[composer_ setContentsStorage : textBuffer_];
 	
 	mIter_ = [L messageEnumerator];
-	while (m = [mIter_ nextObject]) {
-		NSRange		found;
-		
-		found = [self threadMessage : m
-					  rangeOfString : aString
-							options : options_];
+	if (targetKey == nil) {
+		while (m = [mIter_ nextObject]) {
+			NSRange		found;
+			
+			found = [self threadMessage : m
+						  rangeOfString : aString
+								options : options_];
 
-		if (0 == found.length) continue;
+			if (0 == found.length) continue;
 
-		nFound++;
-		[composer_ composeThreadMessage : m];
+			nFound++;
+			[composer_ composeThreadMessage : m];
+		}
+	} else {
+		while (m = [mIter_ nextObject]) {
+			NSRange		found;
+			
+			found = [self threadMessage : m
+							valueForKey : targetKey
+						  rangeOfString : aString
+								options : options_];
+
+			if (0 == found.length) continue;
+
+			nFound++;
+			[composer_ composeThreadMessage : m];
+		}
 	}
 
 	if (0 == nFound) {
 		// 見つからなかった
 		NSBeep();
-		//[[finder_ notFoundField] setHidden : NO];
 		goto CleanUp;
 	}
 
@@ -418,6 +482,11 @@ ErrNotFound:
 									 inLayoutManager : [[popUp_ textView] layoutManager]];
 
 CleanUp:
+	UTILNotifyInfo3(
+		BSThreadViewerDidEndFindingNotification,
+		[NSNumber numberWithUnsignedInt : nFound],
+		kAppThreadViewerFindInfoKey);
+
 	[composer_ release];
 	[textBuffer_ release];
 	composer_ = nil;

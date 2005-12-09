@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.m,v 1.5 2005/12/04 13:14:12 tsawada2 Exp $
+  * $Id: CMRThreadsList.m,v 1.6 2005/12/09 00:01:41 tsawada2 Exp $
   * 
   * CMRThreadsList.m
   *
@@ -90,14 +90,10 @@ struct SortContext {
 
 - (void) dealloc
 {
-	//BOOL		writeToFile_;
 	[self removeFromNotificationCenter];
 
-	if (NO == [self isFavorites]){
-		/*writeToFile_ = */[[self threads] writeToFile : [self threadsListPath]
-									atomically : NO];
-	//} else {
-	//	writeToFile_ = NO;
+	if (NO == [self isFavorites]) {
+		[[self threads] writeToFile : [self threadsListPath] atomically : NO];
 	}
 	
 	[_BBSSignature release];
@@ -108,7 +104,7 @@ struct SortContext {
 	[_threads release];
 	[_filteredThreads release];
 	[_threadsInfo release];
-	[dateFormatter release];//
+	[dateFormatter release];
 	[super dealloc];
 }
 
