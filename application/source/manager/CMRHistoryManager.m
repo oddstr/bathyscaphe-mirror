@@ -1,6 +1,6 @@
 //: CMRHistoryManager.m
 /**
-  * $Id: CMRHistoryManager.m,v 1.4 2005/07/08 20:56:24 tsawada2 Exp $
+  * $Id: CMRHistoryManager.m,v 1.5 2005/12/10 18:05:53 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -625,7 +625,7 @@ static NSString *const stHistoryPropertyKey[] =
     [instance_ setHistoryDate : date_];
     [instance_ setVisitedCount : count_];
     
-    return instance_;
+    return [instance_ autorelease];
 }
 
 - (id) propertyListRepresentation

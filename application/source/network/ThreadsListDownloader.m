@@ -1,5 +1,5 @@
 /**
- * $Id: ThreadsListDownloader.m,v 1.4 2005/12/10 12:39:44 tsawada2 Exp $
+ * $Id: ThreadsListDownloader.m,v 1.5 2005/12/10 18:05:53 tsawada2 Exp $
  * 
  * ThreadsListDownloader.m
  *
@@ -11,7 +11,6 @@
 #import "CMRDownloader_p.h"
 #import "AppDefaults.h"
 #import "BoardManager.h"
-//#import "CMRBBSSignature.h"
 #import "CMRThreadSubjectComposer.h"
 #import "CMRDocumentFileManager.h"
 
@@ -19,16 +18,10 @@
 #import "CMRHostHandler.h"
 
 
-
 // for debugging only
 #define UTIL_DEBUGGING		0
 #import "UTILDebugging.h"
 
-
-
-///////////////////////////////////////////////////////////////
-//////////////////// [ C o n s t a n t s ] ////////////////////
-///////////////////////////////////////////////////////////////
 NSString *const ThreadListDownloaderUpdatedNotification = @"ThreadListDownloaderUpdatedNotification";
 NSString *const ThreadsListDownloaderShouldRetryUpdateNotification = @"ThreadsListDownloaderShouldRetryUpdateNotification";
 
@@ -39,24 +32,22 @@ NSString *const ThreadsListDownloaderShouldRetryUpdateNotification = @"ThreadsLi
 
 
 @implementation ThreadsListDownloader
-//+ (id) threadsListDownloaderWithBBSSignature : (CMRBBSSignature *) signature
 + (id) threadsListDownloaderWithBBSName : (NSString *) boardName
 {
-	return [[[self alloc] initWithBBSName : boardName] autorelease];//Signature : signature] autorelease];
+	return [[[self alloc] initWithBBSName : boardName] autorelease];
 }
 
-- (id) initWithBBSName : (NSString *) boardName//Signature : (CMRBBSSignature *) signature
+- (id) initWithBBSName : (NSString *) boardName
 {
 	NSURL	*boardURL_;
 	
-	boardURL_ = [[BoardManager defaultManager] URLForBoardName : boardName];//[signature name]];
+	boardURL_ = [[BoardManager defaultManager] URLForBoardName : boardName];
 	if (NO == [[self class] canInitWithURL : boardURL_]) {
 		[self autorelease];
 		return nil;
 	}
 	
 	if (self = [super init]) {
-		//[self setBBSSignature : signature];
 		// 単純に boardName を identifier にすると、ThreadsListUpdateTask のそれと重複し、TaskManager が混乱する
 		[self setIdentifier : [NSDictionary dictionaryWithObject : boardName forKey :  @"ThreadsListDownLoaderIdentifier"]];
 	}
@@ -68,6 +59,7 @@ NSString *const ThreadsListDownloaderShouldRetryUpdateNotification = @"ThreadsLi
 {
 	return ([CMRHostHandler hostHandlerForURL : url] != nil);
 }
+/*
 + (BOOL) isValideSubjectTXT : (NSString *) contents
 {
 	NSRange found;
@@ -77,17 +69,15 @@ NSString *const ThreadsListDownloaderShouldRetryUpdateNotification = @"ThreadsLi
 	
 	return (found.location == NSNotFound);
 }
-
+*/
 - (NSString *) BBSName
-//- (CMRBBSSignature *) BBSSignature
 {
 	return [[self identifier] objectForKey : @"ThreadsListDownLoaderIdentifier"];
 }
-//- (void) setBBSSignature : (CMRBBSSignature *) aBBSSignature
 - (void) setBBSName : (NSString *) aBBSName
 {
 	NSLog(@"WARNING : ThreadsListDownloader setBBSName: KORE YOBARETARA YABAI. please report.");
-	[self setIdentifier : aBBSName];//Signature];
+	[self setIdentifier : aBBSName];
 }
 
 @end
@@ -97,8 +87,7 @@ NSString *const ThreadsListDownloaderShouldRetryUpdateNotification = @"ThreadsLi
 @implementation ThreadsListDownloader(Accessor)
 - (NSString *) filePathToWrite
 {
-	//return [[self BBSSignature] threadsListPlistPath];
-	return [[CMRDocumentFileManager defaultManager] threadsListPathWithBoardName : [self BBSName]];//[[self BBSSignature] name]];
+	return [[CMRDocumentFileManager defaultManager] threadsListPathWithBoardName : [self BBSName]];
 }
 - (NSURL *) resourceURL
 {
@@ -175,6 +164,8 @@ NSString *const ThreadsListDownloaderShouldRetryUpdateNotification = @"ThreadsLi
     NSString     *line;
     unsigned int lineNum = 1;
     BOOL         result;
+	
+	NSRange		 validationCheck;
 
     NSMutableArray *mutableArray = [NSMutableArray array];
     NSMutableSet   *entryIdSet_  = SGTemporarySet();
@@ -187,10 +178,13 @@ NSString *const ThreadsListDownloaderShouldRetryUpdateNotification = @"ThreadsLi
      * In the end, however, we need HTML file for auto-detection.
      *
      */
-    if (NO == [[self class] isValideSubjectTXT : subjectsText]) {
+	validationCheck = [subjectsText rangeOfString : @"<HTML"
+										  options : NSCaseInsensitiveSearch]; 
+	if (validationCheck.location != NSNotFound) {
+    //if (NO == [[self class] isValideSubjectTXT : subjectsText]) {
         
         static NSCountedSet *sTriedSet;
-        NSString *name = [self BBSName];//[self BBSSignature] name];
+        NSString *name = [self BBSName];
         
         if (nil == sTriedSet) {
             sTriedSet = [[NSCountedSet alloc] initWithCapacity:8];
@@ -227,7 +221,6 @@ NOT_FOUND:
 	lineIter_ = [lines objectEnumerator];
 	reader_ = [CMRSubjectReader reader];
 	composer_ = [CMRThreadSubjectComposer composerWithBoardName : [self BBSName]];
-										//[[self BBSSignature] name]];
 	
 	while (line = [lineIter_ nextObject]) {
 		id			subject_;
@@ -293,8 +286,6 @@ NOT_FOUND:
 }
 @end
 
-
-
 @implementation ThreadsListDownloader(ResourceManagement)
 - (BOOL) shouldCancelWithFirstArrivalData : (NSData *) theData
 {
@@ -303,14 +294,9 @@ NOT_FOUND:
 }
 @end
 
-
-
 @implementation ThreadsListDownloader(Description)
 - (NSString *) resourceName
 {
 	return CMRAppSubjectTextFileName;
 }
 @end
-
-
-

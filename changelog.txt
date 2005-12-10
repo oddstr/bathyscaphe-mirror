@@ -1,4 +1,15 @@
 2005-12-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* すべてのプロジェクトファイル（.xcodeproj）
+		Universal Binary でビルドするためのビルド設定の変更。ターゲットの Mac OS X 10.3 以降の明記。
+		また、G3 プロセッサのコンピュータで問題になる恐れがあるので、"-mtune=G4" をすべてのプロジェクトの
+		ビルド設定から取り除いた（ご丁寧にすべてのプロジェクトで -mtune=G4 がくっついていた！）。
+		ただし、Deployment スタイル以外では一部の設定が古いままかもしれないので注意。今後整理整頓する。
+	* application/source/libRBSplitView.a
+		Universal Binary のものに差し替えた。
+	* application/source/manager/CMRHistoryManager.m
+		メモリリークの恐れがある場所を一個潰した。
+	* application/source/network/ThreadsListDownloader.m
+		一部のメソッドを統合。
 	* application/source/thread/CMRThreadViewer-Download.m
 	* application/Resources/Japanese.lproj/ThreadViewer.strings
 		メッセージを一部簡略化。
