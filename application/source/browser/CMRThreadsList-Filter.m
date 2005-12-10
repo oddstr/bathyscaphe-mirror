@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-Filter.m,v 1.3 2005/11/30 19:46:53 tsawada2 Exp $
+  * $Id: CMRThreadsList-Filter.m,v 1.4 2005/12/10 12:39:44 tsawada2 Exp $
   * 
   * CMRThreadsList-Filter.m
   *
@@ -9,9 +9,6 @@
 #import "CMRThreadsList_p.h"
 #import "BoardManager.h"
 #import "CMRSearchOptions.h"
-//#import "JStringAdditions.h"
-
-
 
 @implementation CMRThreadsList(Filter)
 - (void) filterByStatus : (int       ) status

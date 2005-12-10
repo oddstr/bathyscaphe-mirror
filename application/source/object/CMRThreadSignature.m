@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadSignature.m,v 1.2 2005/09/30 01:08:32 tsawada2 Exp $
+  * $Id: CMRThreadSignature.m,v 1.3 2005/12/10 12:39:44 tsawada2 Exp $
   * 
   * CMRThreadSignature.m
   *
@@ -20,25 +20,28 @@
 }
 - (id) initFromFilepath : (NSString *) filepath
 {
-	CMRBBSSignature		*bbsSignature_;
+	//CMRBBSSignature		*bbsSignature_;
 	NSString			*bbsName_;
 	NSString			*datIdentifier_;
 	
 	bbsName_ = [[CMRDocumentFileManager defaultManager] boardNameWithLogPath : filepath];
-	bbsSignature_ = [CMRBBSSignature BBSSignatureWithName : bbsName_];
+	//bbsSignature_ = [CMRBBSSignature BBSSignatureWithName : bbsName_];
 	datIdentifier_ = [[CMRDocumentFileManager defaultManager]
 								datIdentifierWithLogPath : filepath];
-	return [self initWithIdentifier : datIdentifier_
-					   BBSSignature : bbsSignature_];
+	return [self initWithIdentifier : datIdentifier_ BBSName : bbsName_];
+					   //BBSSignature : bbsSignature_];
 }
 
-+ (id) threadSignatureWithIdentifier : (NSString        *) anIdentifier
-						BBSSignature : (CMRBBSSignature *) bbsSignature
++ (id) threadSignatureWithIdentifier : (NSString *) anIdentifier
+//						BBSSignature : (CMRBBSSignature *) bbsSignature
+							 BBSName : (NSString *) bbsName
 {
-	return [[[self alloc]  initWithIdentifier : anIdentifier
-								 BBSSignature : bbsSignature] autorelease];
+	/*return [[[self alloc]  initWithIdentifier : anIdentifier
+								 BBSSignature : bbsSignature] autorelease];*/
+	return [[[self alloc] initWithIdentifier : anIdentifier
+									 BBSName : bbsName] autorelease];
 }
-- (id) initWithIdentifier : (NSString        *) anIdentifier
+/*- (id) initWithIdentifier : (NSString        *) anIdentifier
 			 BBSSignature : (CMRBBSSignature *) bbsSignature
 {
 	if(nil == anIdentifier || nil == bbsSignature){
@@ -50,12 +53,27 @@
 		[self setBBSSignature : bbsSignature];
 	}
 	return self;
+}*/
+
+- (id) initWithIdentifier : (NSString *) anIdentifier
+				  BBSName : (NSString *) bbsName
+{
+	if(nil == anIdentifier || nil == bbsName){
+		[self release];
+		return nil;
+	}
+	if(self = [self init]){
+		[self setIdentifier : anIdentifier];
+		[self setBBSName : bbsName];
+	}
+	return self;
 }
 
 - (void) dealloc
 {
 	[m_identifier release];
-	[m_BBSSignature release];
+	//[m_BBSSignature release];
+	[m_BBSName release];
 	[super dealloc];
 }
 //////////////////////////////////////////////////////////////////////
@@ -64,7 +82,8 @@
 // NSObject
 - (unsigned) hash
 {
-	return [[self BBSSignature] hash] ^ [[self identifier] hash];
+	//return [[self BBSSignature] hash] ^ [[self identifier] hash];
+	return [[self BBSName] hash] ^ [[self identifier] hash];
 }
 - (BOOL) isEqual : (id) other
 {
@@ -80,9 +99,10 @@
 		result = (obj1 == obj2) ? YES : [obj1 isEqualToString : obj2];
 		if(NO == result) return NO;
 		
-		obj1 = [self BBSSignature];
-		obj2 = [other_ BBSSignature];
-		result = (obj1 == obj2) ? YES : [obj1 isEqual : obj2];
+		obj1 = [self BBSName];//[self BBSSignature];
+		obj2 = [other_ BBSName];//[other_ BBSSignature];
+		//result = (obj1 == obj2) ? YES : [obj1 isEqual : obj2];
+		result = (obj1 == obj2) ? YES : [obj1 isEqualToString : obj2];
 		
 		return result;
 	}
@@ -93,8 +113,8 @@
 {
 	return [NSString stringWithFormat : @"%@<identifier = %@, BBS = %@>",
 					NSStringFromClass([self class]),
-					[self identifier],
-					[self BBSSignature]];
+					[self identifier],[self BBSName]];
+					//[self BBSSignature]];
 }
 
 // CMRHistoryObject
@@ -114,14 +134,15 @@
 #define kPropertyListDATIdentifierKey		@"DAT"
 + (id) objectWithPropertyListRepresentation : (id) rep
 {
-	id			bbsSignature_;
+	//id			bbsSignature_;
+	NSString	*bbsSignature_;
 	NSString	*identifier_;
 	
 	if(NO == [rep isKindOfClass : [NSDictionary class]])
 		return nil;
 	
 	bbsSignature_ = [rep objectForKey : kPropertyListBBSIdentifierKey];
-	bbsSignature_ = [CMRBBSSignature objectWithPropertyListRepresentation : bbsSignature_];
+	//bbsSignature_ = [CMRBBSSignature objectWithPropertyListRepresentation : bbsSignature_];
 	if(nil == bbsSignature_)
 		return nil;
 	
@@ -129,17 +150,17 @@
 	if(nil == identifier_)
 		return nil;
 	
-	return [[self class] threadSignatureWithIdentifier : identifier_
-										  BBSSignature : bbsSignature_];
+	return [[self class] threadSignatureWithIdentifier : identifier_ BBSName : bbsSignature_];
+										  //BBSSignature : bbsSignature_];
 }
 - (id) propertyListRepresentation
 {
-	if(nil == [self identifier] || nil == [self BBSSignature])
+	if(nil == [self identifier] || nil == [self BBSName])//BBSSignature])
 		return [NSDictionary dictionary];
 	
 	return [NSDictionary dictionaryWithObjectsAndKeys :
 				[self identifier], kPropertyListDATIdentifierKey,
-				[[self BBSSignature] propertyListRepresentation],
+				[self BBSName],//[[self BBSSignature] propertyListRepresentation],
 				kPropertyListBBSIdentifierKey,
 				nil];
 }
@@ -149,13 +170,14 @@
 {
 	return m_identifier;
 }
-- (CMRBBSSignature *) BBSSignature
+/*- (CMRBBSSignature *) BBSSignature
 {
 	return m_BBSSignature;
-}
+}*/
 - (NSString *) BBSName
 {
-	return [[self BBSSignature] name];
+	//return [[self BBSSignature] name];
+	return m_BBSName;
 }
 
 - (NSString *) filepathExceptsExtention
@@ -208,12 +230,13 @@
 	[tmp release];
 }
 /* Accessor for m_BBSSignature */
-- (void) setBBSSignature : (CMRBBSSignature *) aBBSSignature
+//- (void) setBBSSignature : (CMRBBSSignature *) aBBSSignature
+- (void) setBBSName : (NSString *) aBBSName
 {
 	id tmp;
 	
-	tmp = m_BBSSignature;
-	m_BBSSignature = [aBBSSignature retain];
+	tmp = m_BBSName;
+	m_BBSName = [aBBSName retain];
 	[tmp release];
 }
 @end

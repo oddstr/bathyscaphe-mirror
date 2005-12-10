@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.15 2005/11/16 15:59:47 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.16 2005/12/10 12:39:44 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -66,10 +66,7 @@
 
 - (IBAction) openURLPanel : (id) sender
 {
-    CMROpenURLManager    *mgr;
-    
-    mgr = [CMROpenURLManager defaultManager];
-    [mgr askUserURL];
+    [[CMROpenURLManager defaultManager] askUserURL];
 }
 
 - (IBAction) orderFrontCustomAboutPanel: (id) sender

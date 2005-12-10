@@ -1,5 +1,5 @@
 /**
-  * $Id: ThreadsListDownloader.h,v 1.1 2005/05/11 17:51:06 tsawada2 Exp $
+  * $Id: ThreadsListDownloader.h,v 1.2 2005/12/10 12:39:44 tsawada2 Exp $
   * 
   * ThreadsListDownloader.h
   *
@@ -10,17 +10,21 @@
 #import "CMRDownloader.h"
 
 
-@class CMRBBSSignature;
+//@class CMRBBSSignature;
 
 
 @interface ThreadsListDownloader : CMRDownloader
-+ (id) threadsListDownloaderWithBBSSignature : (CMRBBSSignature *) signature;
-- (id) initWithBBSSignature : (CMRBBSSignature *) signature;
+//+ (id) threadsListDownloaderWithBBSSignature : (CMRBBSSignature *) signature;
+//- (id) initWithBBSSignature : (CMRBBSSignature *) signature;
++ (id) threadsListDownloaderWithBBSName : (NSString *) boardName;
+- (id) initWithBBSName : (NSString *) boardName;
 
 + (BOOL) canInitWithURL : (NSURL *) url;
 
-- (CMRBBSSignature *) BBSSignature;
-- (void) setBBSSignature : (CMRBBSSignature *) aBBSSignature;
+//- (CMRBBSSignature *) BBSSignature;
+//- (void) setBBSSignature : (CMRBBSSignature *) aBBSSignature;
+- (NSString *) BBSName;
+- (void) setBBSName : (NSString *) aBBSName;
 @end
 
 

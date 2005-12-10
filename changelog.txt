@@ -1,3 +1,30 @@
+2005-12-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/extensions/NSString+CarbonUtilities.m(.h)
+	* application/source/extensions/UKDirectoryEnumerator.m(.h)
+		[削除] リポジトリから削除
+	* application/source/thread/CMRThreadViewer.m
+	* application/source/browser/CMRThreadsList.m
+	* application/source/preferences/AppDefaults.m
+		現状ではバイナリ形式での保存による互換性の問題が（とくに CMLB/CMLF）懸念されるため、下に書いた実装をすべて中止した。
+	* application/source/browser/CMRThreadsList-listImport.m
+		UKDirectoryEnumerator の使用を停止した。効果が見られないため（Tiger 以降では、NSDirectoryEnumerator も
+		高速化したらしい）。
+	* application/source/thread/CMRThreadViewer.m
+	* application/source/browser/CMRThreadsList.m
+	* application/source/preferences/AppDefaults.m
+		試験的に、ログ書類（.thread）及び ThreadsList.plist をバイナリ形式で保存する設定を追加した。
+		それぞれ defaults write jp.tsawada2.BathyScaphe Use_Binary_Format_For_List -bool YES
+		defaults write jp.tsawada2.BathyScaphe Use_Binary_Format_For_Doc -bool YES
+		バイナリ形式に変換されることで以下のメリットがある：
+		- ファイルサイズが小さくなる（760KBのログが430KB程度まで小さくなった例あり）
+		- ファイルを開くまでの時間が短縮される
+		以下のデメリット及び未確認の点を考慮の上、上級ユーザのみが試験目的でこの隠し設定を操作することが望ましい：
+		- テキストエディタでは編集できなくなる（コマンドラインで変換するか、Property List Editor を使えば良いが）
+		- Panther での互換性は一切検証していない。はっきりと書いた資料も見つからない。
+		
+		- 少なくとも Tiger では、NSArray/NSDictionary の arrayWithContentsOfFile:/dictionaryWithContentsOfFile:
+		　メソッドで普通にバイナリ形式の plist を読み込み可能である。このため、BathyScaphe 本体や、Spotlight プラグインの動作には
+		　何の支障もないようである。Panther は知らん。
 2005-12-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-Action.m
 		削除して再取得：3ペイン時の再取得で、インデックスが NSNotFound のまま作業が進んでしまうことがある問題を修正。

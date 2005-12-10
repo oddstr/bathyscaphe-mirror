@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.26 2005/12/03 09:01:50 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.27 2005/12/10 12:39:44 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -513,16 +513,17 @@
 
 - (void) setupBoardListTableLastSelected
 {
-    CMRBBSSignature *lastBoard;
+    //CMRBBSSignature *lastBoard;
     NSString        *boardName;
     
-    lastBoard = [CMRPref browserLastBoard];
-    if (nil == lastBoard) {
+    //lastBoard = [CMRPref browserLastBoard];
+	boardName = [CMRPref browserLastBoard];
+    if (nil == boardName) {//lastBoard) {
         NSLog(@"Last Board Setting not found.");
         return;
     }
     
-    boardName = [lastBoard name];
+    //boardName = [lastBoard name];
     [self showThreadsListWithBoardName : boardName];
 	[self selectRowWhoseNameIs : boardName];
 }

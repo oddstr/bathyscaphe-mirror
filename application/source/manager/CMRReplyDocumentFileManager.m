@@ -122,8 +122,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager)
 }
 - (NSString *) replyDocumentFileExtention
 {
-	return [[NSDocumentController sharedDocumentController]
-							firstFileExtensionFromType : CMRReplyDocumentType];
+	// TestaRossa
+	return @"cmreply";//[[NSDocumentController sharedDocumentController]
+						//	firstFileExtensionFromType : CMRReplyDocumentType];
 }
 - (NSString *) replyDocumentFilepathWithLogPath : (NSString *) filepath
 {

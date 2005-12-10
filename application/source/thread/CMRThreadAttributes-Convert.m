@@ -1,5 +1,5 @@
 #import "CMRThreadAttributes.h"
-#import "CMRBBSSignature.h"
+//#import "CMRBBSSignature.h"
 #import "CMRThreadVisibleRange.h"
 #import "CMRThreadSignature.h"
 

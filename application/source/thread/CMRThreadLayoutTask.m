@@ -87,7 +87,7 @@
 				postNotificationName : CMRThreadTaskInterruptedNotification
 							  object : self];
 		}else{
-			//
+			NSLog(@"%@ - %@", name_, localException);
 		}
 		exception_ = [localException retain];
 		

@@ -21,8 +21,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 - (NSString *) threadDocumentFileExtention
 {
-	return [[NSDocumentController sharedDocumentController]
-							firstFileExtensionFromType : CMRThreadDocumentType];
+	// TestaRossa
+	return @"thread";//[[NSDocumentController sharedDocumentController]
+						//	firstFileExtensionFromType : CMRThreadDocumentType];
 }
 
 - (NSString *) datIdentifierWithLogPath : (NSString *) filepath

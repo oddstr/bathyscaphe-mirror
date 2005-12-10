@@ -11,10 +11,10 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/NSDocumentController.h>
 
-
-@interface NSDocumentController(CMRExtensions)
+// Deprecated in TestaRossa and later.
+/*@interface NSDocumentController(CMRExtensions)
 - (NSString *) firstFileExtensionFromType:(NSString *) documentTypeName;
-@end
+@end*/
 
 
 

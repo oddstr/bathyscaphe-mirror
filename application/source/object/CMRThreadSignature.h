@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadSignature.h,v 1.1 2005/05/11 17:51:06 tsawada2 Exp $
+  * $Id: CMRThreadSignature.h,v 1.2 2005/12/10 12:39:44 tsawada2 Exp $
   * 
   * CMRThreadSignature.h
   *
@@ -10,27 +10,31 @@
 #import <CocoMonar/CocoMonar.h>
 #import "CMRHistoryObject.h"
 
-
-@class CMRBBSSignature;
+// CMRBBSSignature îÒàÀë∂Ç…èëÇ´ä∑Ç¶
+//@class CMRBBSSignature;
 @class SGFileRef;
 
 
 @interface CMRThreadSignature : SGBaseObject<NSCopying, CMRHistoryObject, CMRPropertyListCoding>
 {
 	NSString			*m_identifier;
-	CMRBBSSignature		*m_BBSSignature;
+	//CMRBBSSignature		*m_BBSSignature; // îpé~
+	NSString			*m_BBSName; // íuÇ´ä∑Ç¶
 }
 + (id) threadSignatureFromFilepath : (NSString *) filepath;
 - (id) initFromFilepath : (NSString *) filepath;
 
-+ (id) threadSignatureWithIdentifier : (NSString        *) anIdentifier
-						BBSSignature : (CMRBBSSignature *) bbsSignature;
+//+ (id) threadSignatureWithIdentifier : (NSString        *) anIdentifier
+//						BBSSignature : (CMRBBSSignature *) bbsSignature;
++ (id) threadSignatureWithIdentifier : (NSString *) anIdentifier BBSName : (NSString *) bbsName;
 
-- (id) initWithIdentifier : (NSString        *) anIdentifier
-			 BBSSignature : (CMRBBSSignature *) bbsSignature;
+//- (id) initWithIdentifier : (NSString        *) anIdentifier
+//			 BBSSignature : (CMRBBSSignature *) bbsSignature;
+- (id) initWithIdentifier : (NSString *) anIdentifier
+				  BBSName : (NSString *) bbsName;
 
 - (NSString *) identifier;
-- (CMRBBSSignature *) BBSSignature;
+//- (CMRBBSSignature *) BBSSignature;
 - (NSString *) BBSName;
 
 - (NSString *) filepathExceptsExtention;

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMessageFilter.m,v 1.3 2005/09/12 08:02:20 tsawada2 Exp $
+  * $Id: CMRMessageFilter.m,v 1.4 2005/12/10 12:39:44 tsawada2 Exp $
   * 
   * CMRMessageFilter.m
   *
@@ -9,7 +9,7 @@
 #import "CMRMessageFilter.h"
 #import "CocoMonar_Prefix.h"
 #import "CMRThreadMessage.h"
-#import "CMRBBSSignature.h"
+//#import "CMRBBSSignature.h"
 #import "CMRThreadSignature.h"
 #import "BoardManager.h"
 #import "CMXTextParser.h"
@@ -574,12 +574,15 @@ static int doDetectMessageAny_(
 	unsigned			mask = [m1 property];
 	
 	BoardManager		*nnMgr = [BoardManager defaultManager];
-	CMRBBSSignature		*b1 = [t1 BBSSignature];
-	CMRBBSSignature		*b2 = [t2 BBSSignature];
+	//CMRBBSSignature		*b1 = [t1 BBSSignature];
+	//CMRBBSSignature		*b2 = [t2 BBSSignature];
+	NSString	*b1 = [t1 BBSName];
+	NSString	*b2 = [t2 BBSName];
 	NSString			*s1, *s2;
 	
 	Eq_t = [t1 isEqual : t2];
-	Eq_b = (NO == Eq_t) ? [b1 isEqual : b2] : YES;
+	//Eq_b = (NO == Eq_t) ? [b1 isEqual : b2] : YES;
+	Eq_b = (NO == Eq_t) ? [b1 isEqualToString : b2] : YES;
 
 	if (kSampleAsIDMask & mask) { 
 		if (b1 == b2 || Eq_b) {
@@ -621,7 +624,7 @@ static int doDetectMessageAny_(
 	if (kSampleAsNameMask & mask) { 
 		s1 = [m1 name];
 		s2 = [m2 name];
-		if (NO == [s2 isEqualToString : [nnMgr defaultNoNameForBoard : [b2 name]]]) {
+		if (NO == [s2 isEqualToString : [nnMgr defaultNoNameForBoard : b2]]) {
 			if ([s1 isEqualToString : s2]) {
 				return kSampleAsNameMask;
 			}

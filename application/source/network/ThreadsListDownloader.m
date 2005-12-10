@@ -1,5 +1,5 @@
 /**
- * $Id: ThreadsListDownloader.m,v 1.3 2005/09/30 01:08:32 tsawada2 Exp $
+ * $Id: ThreadsListDownloader.m,v 1.4 2005/12/10 12:39:44 tsawada2 Exp $
  * 
  * ThreadsListDownloader.m
  *
@@ -11,7 +11,7 @@
 #import "CMRDownloader_p.h"
 #import "AppDefaults.h"
 #import "BoardManager.h"
-#import "CMRBBSSignature.h"
+//#import "CMRBBSSignature.h"
 #import "CMRThreadSubjectComposer.h"
 #import "CMRDocumentFileManager.h"
 
@@ -39,23 +39,26 @@ NSString *const ThreadsListDownloaderShouldRetryUpdateNotification = @"ThreadsLi
 
 
 @implementation ThreadsListDownloader
-+ (id) threadsListDownloaderWithBBSSignature : (CMRBBSSignature *) signature
+//+ (id) threadsListDownloaderWithBBSSignature : (CMRBBSSignature *) signature
++ (id) threadsListDownloaderWithBBSName : (NSString *) boardName
 {
-	return [[[self alloc] initWithBBSSignature : signature] autorelease];
+	return [[[self alloc] initWithBBSName : boardName] autorelease];//Signature : signature] autorelease];
 }
 
-- (id) initWithBBSSignature : (CMRBBSSignature *) signature
+- (id) initWithBBSName : (NSString *) boardName//Signature : (CMRBBSSignature *) signature
 {
 	NSURL	*boardURL_;
 	
-	boardURL_ = [[BoardManager defaultManager] URLForBoardName : [signature name]];
+	boardURL_ = [[BoardManager defaultManager] URLForBoardName : boardName];//[signature name]];
 	if (NO == [[self class] canInitWithURL : boardURL_]) {
 		[self autorelease];
 		return nil;
 	}
 	
 	if (self = [super init]) {
-		[self setBBSSignature : signature];
+		//[self setBBSSignature : signature];
+		// 単純に boardName を identifier にすると、ThreadsListUpdateTask のそれと重複し、TaskManager が混乱する
+		[self setIdentifier : [NSDictionary dictionaryWithObject : boardName forKey :  @"ThreadsListDownLoaderIdentifier"]];
 	}
 	return self;
 }
@@ -75,14 +78,16 @@ NSString *const ThreadsListDownloaderShouldRetryUpdateNotification = @"ThreadsLi
 	return (found.location == NSNotFound);
 }
 
-
-- (CMRBBSSignature *) BBSSignature
+- (NSString *) BBSName
+//- (CMRBBSSignature *) BBSSignature
 {
-	return [self identifier];
+	return [[self identifier] objectForKey : @"ThreadsListDownLoaderIdentifier"];
 }
-- (void) setBBSSignature : (CMRBBSSignature *) aBBSSignature
+//- (void) setBBSSignature : (CMRBBSSignature *) aBBSSignature
+- (void) setBBSName : (NSString *) aBBSName
 {
-	[self setIdentifier : aBBSSignature];
+	NSLog(@"WARNING : ThreadsListDownloader setBBSName: KORE YOBARETARA YABAI. please report.");
+	[self setIdentifier : aBBSName];//Signature];
 }
 
 @end
@@ -93,7 +98,7 @@ NSString *const ThreadsListDownloaderShouldRetryUpdateNotification = @"ThreadsLi
 - (NSString *) filePathToWrite
 {
 	//return [[self BBSSignature] threadsListPlistPath];
-	return [[CMRDocumentFileManager defaultManager] threadsListPathWithBoardName : [[self BBSSignature] name]];
+	return [[CMRDocumentFileManager defaultManager] threadsListPathWithBoardName : [self BBSName]];//[[self BBSSignature] name]];
 }
 - (NSURL *) resourceURL
 {
@@ -102,8 +107,7 @@ NSString *const ThreadsListDownloaderShouldRetryUpdateNotification = @"ThreadsLi
 }
 - (NSURL *) boardURL
 {
-	return [[BoardManager defaultManager] URLForBoardName : 
-									[[self BBSSignature] name]];
+	return [[BoardManager defaultManager] URLForBoardName : [self BBSName]];
 }
 @end
 
@@ -150,7 +154,7 @@ NSString *const ThreadsListDownloaderShouldRetryUpdateNotification = @"ThreadsLi
 							CMRDownloaderUserInfoContentsKey,
 							[self resourceURL],
 							CMRDownloaderUserInfoResourceURLKey,
-							[self identifier],
+							[self BBSName],
 							CMRDownloaderUserInfoIdentifierKey,
 							nil];
 	UTILNotifyInfo(
@@ -186,7 +190,7 @@ NSString *const ThreadsListDownloaderShouldRetryUpdateNotification = @"ThreadsLi
     if (NO == [[self class] isValideSubjectTXT : subjectsText]) {
         
         static NSCountedSet *sTriedSet;
-        NSString *name = [[self BBSSignature] name];
+        NSString *name = [self BBSName];//[self BBSSignature] name];
         
         if (nil == sTriedSet) {
             sTriedSet = [[NSCountedSet alloc] initWithCapacity:8];
@@ -222,8 +226,8 @@ NOT_FOUND:
 	
 	lineIter_ = [lines objectEnumerator];
 	reader_ = [CMRSubjectReader reader];
-	composer_ = [CMRThreadSubjectComposer composerWithBoardName : 
-										[[self BBSSignature] name]];
+	composer_ = [CMRThreadSubjectComposer composerWithBoardName : [self BBSName]];
+										//[[self BBSSignature] name]];
 	
 	while (line = [lineIter_ nextObject]) {
 		id			subject_;

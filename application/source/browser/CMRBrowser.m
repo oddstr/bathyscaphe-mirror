@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.13 2005/11/25 15:27:54 tsawada2 Exp $
+  * $Id: CMRBrowser.m,v 1.14 2005/12/10 12:39:44 tsawada2 Exp $
   * 
   * CMRBrowser.m
   *
@@ -149,23 +149,27 @@ willRemoveController : (NSWindowController *) aController;
 
 static BOOL threadDictionaryCompare(NSDictionary *dict1, NSDictionary *dict2)
 {
-	CMRBBSSignature		*bbs1, *bbs2;
-	NSString			*boardName_;
+	//CMRBBSSignature		*bbs1, *bbs2;
+	//NSString			*boardName;
+	NSString			*brdName1, *brdName2;
 	NSString			*dat1, *dat2;
 	BOOL				result = NO;
 	
 	if (dict1 == dict2) return YES;
 	if (nil == dict1 || nil == dict2) return NO;
 	
-	boardName_ = [CMRThreadAttributes boardNameFromDictionary : dict1];
-	bbs1 = [CMRBBSSignature BBSSignatureWithName : boardName_];
+	//boardName_ = [CMRThreadAttributes boardNameFromDictionary : dict1];
+	brdName1 = [CMRThreadAttributes boardNameFromDictionary : dict1];
+	//bbs1 = [CMRBBSSignature BBSSignatureWithName : boardName_];
 	dat1 = [CMRThreadAttributes identifierFromDictionary : dict1];
 	
-	boardName_ = [CMRThreadAttributes boardNameFromDictionary : dict2];
-	bbs2 = [CMRBBSSignature BBSSignatureWithName : boardName_];
+	//boardName_ = [CMRThreadAttributes boardNameFromDictionary : dict2];
+	brdName2 = [CMRThreadAttributes boardNameFromDictionary : dict2];
+	//bbs2 = [CMRBBSSignature BBSSignatureWithName : boardName_];
 	dat2 = [CMRThreadAttributes identifierFromDictionary : dict2];
 	
-	result = bbs1 ? [bbs1 isEqual : bbs2] : nil == bbs2;
+	//result = bbs1 ? [bbs1 isEqual : bbs2] : nil == bbs2;
+	result = brdName1 ? [brdName1 isEqualToString : brdName2] : nil == brdName2;
 	if (NO == result) return NO;
 	
 	result = dat1 ? [dat1 isEqualToString : dat2] : nil == dat2;

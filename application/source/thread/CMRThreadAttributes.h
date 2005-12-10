@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadAttributes.h,v 1.2 2005/12/02 14:41:57 tsawada2 Exp $
+  * $Id: CMRThreadAttributes.h,v 1.3 2005/12/10 12:39:44 tsawada2 Exp $
   * 
   * CMRThreadAttributes.h
   *
@@ -9,7 +9,7 @@
 
 #import <SGFoundation/SGFoundation.h>
 
-@class CMRBBSSignature;
+//@class CMRBBSSignature;
 @class CMRThreadSignature;
 @class CMRThreadVisibleRange;
 
@@ -27,7 +27,7 @@
 
 
 
-- (CMRBBSSignature *) BBSSignature;
+//- (CMRBBSSignature *) BBSSignature;// Deprecated in TestaRossa and later. use -(NSString *) boardName directly instead.
 - (CMRThreadSignature *) threadSignature;
 - (NSString *) bbsIdentifier;
 - (NSString *) datIdentifier;

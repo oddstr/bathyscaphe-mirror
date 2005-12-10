@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.7 2005/10/19 23:43:28 tsawada2 Exp $
+  * $Id: CMRBrowser-List.m,v 1.8 2005/12/10 12:39:44 tsawada2 Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -46,34 +46,32 @@
 	[self clearSearchFilter];
 }
 
-- (void) boardChanged : (id) aBoardIdentifier
+- (void) boardChanged : (NSString *) boardName
 {
 	// 読み込みの完了、設定に保存
 	// 履歴に登録してから、変更の通知
-	[CMRPref setBrowserLastBoard : aBoardIdentifier];
+	[CMRPref setBrowserLastBoard : boardName];
 	[[CMRHistoryManager defaultManager]
-		addItemWithTitle : [aBoardIdentifier name]
+		addItemWithTitle : boardName
 					type : CMRHistoryBoardEntryType
-				  object : aBoardIdentifier];
+				  object : [CMRBBSSignature BBSSignatureWithName : boardName]];
 	UTILNotifyName(CMRBrowserDidChangeBoardNotification);
 }
 - (void) showThreadsListWithBoardName : (NSString *) boardName
 {
-	CMRBBSSignature		*signature_;
 	CMRThreadsList		*list_;
 	NSString			*sortColumnIdentifier_;
 	BOOL				isAscending_;
 	
 	if(nil == boardName) return;
-	signature_ = [CMRBBSSignature BBSSignatureWithName : boardName];
-	if([[[self currentThreadsList] BBSSignature] isEqual : signature_]){
+	if([[[self currentThreadsList] boardName] isEqualToString : boardName]){
 		return;
 	}
 	
 	[[self threadsListTable] deselectAll : nil];
 	[[self threadsListTable] setDataSource : nil];
 	
-	list_ = [CMRThreadsList threadsListWithBBSSignature : signature_];
+	list_ = [CMRThreadsList threadsListWithBBSName : boardName];
 	if(nil == list_)
 		return;
 	
@@ -91,7 +89,7 @@
 	
 	// リストの読み込みを開始する。
 	[list_ startLoadingThreadsList : [self threadLayout]];
-	[self boardChanged : signature_];
+	[self boardChanged : boardName];
 }
 
 - (void) showThreadsListForBoard : (NSDictionary *) board;

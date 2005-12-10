@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.26 2005/12/02 14:41:57 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.27 2005/12/10 12:39:44 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -13,7 +13,7 @@
 #import "BSImagePreviewerInterface.h"
 
 @protocol	w2chConnect;
-@class		CMRBBSSignature;
+//@class		CMRBBSSignature;
 
 /*!
  * @define      CMRPref
@@ -71,7 +71,9 @@
 - (BOOL) loadDefaults;
 - (BOOL) saveDefaults;
 
-
+// é¿å±Å®íÜé~
+//- (BOOL) saveThreadListAsBinaryPlist;
+//- (BOOL) saveThreadDocAsBinaryPlist;
 
 - (BOOL) isOnlineMode;
 - (void) setIsOnlineMode : (BOOL) flag;
@@ -96,8 +98,10 @@
 - (void) setDefaultKoteHanList : (NSArray *) array;
 
 /* ç≈å„Ç…äJÇ¢ÇΩî¬ */
-- (CMRBBSSignature *) browserLastBoard;
-- (void) setBrowserLastBoard : (CMRBBSSignature *) aSignature;
+//- (CMRBBSSignature *) browserLastBoard;
+//- (void) setBrowserLastBoard : (CMRBBSSignature *) aSignature;
+- (NSString *) browserLastBoard;
+- (void) setBrowserLastBoard : (NSString *) boardName;
 
 #pragma mark ThreadsList
 

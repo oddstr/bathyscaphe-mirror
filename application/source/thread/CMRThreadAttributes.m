@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadAttributes.m,v 1.2 2005/07/09 01:03:03 tsawada2 Exp $
+  * $Id: CMRThreadAttributes.m,v 1.3 2005/12/10 12:39:44 tsawada2 Exp $
   * 
   * CMRThreadAttributes.m
   *
@@ -68,16 +68,16 @@ NSString *const CMRThreadAttributesDidChangeNotification =
 	[self notifyDidChangeAttributes];
 }
 
-
-- (CMRBBSSignature *) BBSSignature
+// Deprecated in TestaRossa and later. use - (NSString *) boardName directly instead.
+/*- (CMRBBSSignature *) BBSSignature
 {
 	return [CMRBBSSignature BBSSignatureWithName : [self boardName]];
-}
+}*/
 - (CMRThreadSignature *) threadSignature
 {
 	return [CMRThreadSignature 
 				threadSignatureWithIdentifier : [self datIdentifier]
-								 BBSSignature : [self BBSSignature]];
+									  BBSName : [self boardName]];
 }
 - (NSString *) datIdentifier
 {

@@ -570,10 +570,6 @@
 		879A727708DEF69C005AA1A1 /* BSIconAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 879A727508DEF69C005AA1A1 /* BSIconAndTextCell.m */; };
 		87A6CD7708E2706200F971B7 /* BSTitleRulerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87A6CD7508E2706200F971B7 /* BSTitleRulerView.h */; };
 		87A6CD7808E2706200F971B7 /* BSTitleRulerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87A6CD7608E2706200F971B7 /* BSTitleRulerView.m */; };
-		87AF762709261F3900DD95CE /* NSString+CarbonUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 87AF762309261F3800DD95CE /* NSString+CarbonUtilities.h */; };
-		87AF762809261F3900DD95CE /* UKDirectoryEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 87AF762409261F3800DD95CE /* UKDirectoryEnumerator.h */; };
-		87AF762909261F3900DD95CE /* NSString+CarbonUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 87AF762509261F3900DD95CE /* NSString+CarbonUtilities.m */; };
-		87AF762A09261F3900DD95CE /* UKDirectoryEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 87AF762609261F3900DD95CE /* UKDirectoryEnumerator.m */; };
 		87B19D7E08FB7C4100D15053 /* AddBoard_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B19D7C08FB7C4100D15053 /* AddBoard_Pressed.tiff */; };
 		87B19D7F08FB7C4100D15053 /* AddBoard.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B19D7D08FB7C4100D15053 /* AddBoard.tiff */; };
 		87B652990840625F008AE2BE /* SendMessage.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B652980840625F008AE2BE /* SendMessage.tiff */; };
@@ -918,10 +914,6 @@
 		87AF6CFE07425DC0001D08ED /* add_pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = add_pressed.tiff; sourceTree = "<group>"; };
 		87AF6CFF07425DC0001D08ED /* remove_idle.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = remove_idle.tiff; sourceTree = "<group>"; };
 		87AF6D0007425DC0001D08ED /* remove_pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = remove_pressed.tiff; sourceTree = "<group>"; };
-		87AF762309261F3800DD95CE /* NSString+CarbonUtilities.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NSString+CarbonUtilities.h"; sourceTree = "<group>"; };
-		87AF762409261F3800DD95CE /* UKDirectoryEnumerator.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UKDirectoryEnumerator.h; sourceTree = "<group>"; };
-		87AF762509261F3900DD95CE /* NSString+CarbonUtilities.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "NSString+CarbonUtilities.m"; sourceTree = "<group>"; };
-		87AF762609261F3900DD95CE /* UKDirectoryEnumerator.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = UKDirectoryEnumerator.m; sourceTree = "<group>"; };
 		87B19D7C08FB7C4100D15053 /* AddBoard_Pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AddBoard_Pressed.tiff; sourceTree = "<group>"; };
 		87B19D7D08FB7C4100D15053 /* AddBoard.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AddBoard.tiff; sourceTree = "<group>"; };
 		87B652980840625F008AE2BE /* SendMessage.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SendMessage.tiff; sourceTree = "<group>"; };
@@ -1451,10 +1443,6 @@
 			children = (
 				F324DD8704C698FB00A80005 /* missing.h */,
 				F324DD8804C698FB00A80005 /* missing.m */,
-				87AF762309261F3800DD95CE /* NSString+CarbonUtilities.h */,
-				87AF762409261F3800DD95CE /* UKDirectoryEnumerator.h */,
-				87AF762509261F3900DD95CE /* NSString+CarbonUtilities.m */,
-				87AF762609261F3900DD95CE /* UKDirectoryEnumerator.m */,
 				8729964D0832556100CBD740 /* NSCharacterSet+CMXAdditions.h */,
 				8729964E0832556100CBD740 /* NSCharacterSet+CMXAdditions.m */,
 				8729964F0832556100CBD740 /* NSLayoutManager+CMXAdditions.h */,
@@ -2814,8 +2802,6 @@
 				87BF52CB08F789D500998C4E /* BSBoardInfoInspector.h in Headers */,
 				87C4813108FD039B00F91054 /* AddBoardSheetController.h in Headers */,
 				873BAE9A090931B0009E9B41 /* BSImagePreviewerInterface.h in Headers */,
-				87AF762709261F3900DD95CE /* NSString+CarbonUtilities.h in Headers */,
-				87AF762809261F3900DD95CE /* UKDirectoryEnumerator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3521,8 +3507,6 @@
 				87BF52CC08F789D500998C4E /* BSBoardInfoInspector.m in Sources */,
 				873C0DCF08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m in Sources */,
 				87C4813208FD039B00F91054 /* AddBoardSheetController.m in Sources */,
-				87AF762909261F3900DD95CE /* NSString+CarbonUtilities.m in Sources */,
-				87AF762A09261F3900DD95CE /* UKDirectoryEnumerator.m in Sources */,
 				87C9DD3009404CA3004E6596 /* AppDefaults-Alert.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4428,8 +4412,6 @@
 					../frameworks/SGNetwork/build/Deployment,
 					../frameworks/Keychain/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
-					"$(SRCROOT)",
-					"$(SRCROOT)/../../Desktop/OgreKit_2_0_2/build/Deployment",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;

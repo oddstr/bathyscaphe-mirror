@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.30 2005/12/09 00:01:41 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.31 2005/12/10 12:39:44 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -283,18 +283,20 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 	switch(aType) {
 	case BSThreadAtViewerDeletionType:
 		title_ = [self localizedString : kDeleteThreadTitleKey];
-		message_ = [self localizedString : kDeleteThreadMessageKey];
+		message_ = [self title];//[self localizedString : kDeleteThreadMessageKey];
 		didEndSel_ = @selector(_threadDeletionSheetForViewerDidEnd:returnCode:contextInfo:);
 		break;
 	case BSThreadAtBrowserDeletionType:
 		title_ = [self localizedString : kBrowserDelThTitleKey];
-		message_ = [self localizedString : kBrowserDelThMsgKey];
-		didEndSel_ = @selector(_threadDeletionSheetForListDidEnd:returnCode:contextInfo:);
+		message_ = allowRetry ? [self title] : [self localizedString : kBrowserDelThMsgKey];
+		didEndSel_ = allowRetry ? @selector(_threadDeletionSheetForViewerDidEnd:returnCode:contextInfo:)
+								: @selector(_threadDeletionSheetForListDidEnd:returnCode:contextInfo:);
 		break;
 	case BSThreadAtFavoritesDeletionType:
 		title_ = [self localizedString : kDeleteFavTitleKey];
-		message_ = [self localizedString : kDeleteFavMsgKey];
-		didEndSel_ = @selector(_threadDeletionSheetForListDidEnd:returnCode:contextInfo:);
+		message_ = allowRetry ? [self title] : [self localizedString : kDeleteFavMsgKey];
+		didEndSel_ = allowRetry ? @selector(_threadDeletionSheetForViewerDidEnd:returnCode:contextInfo:)
+								: @selector(_threadDeletionSheetForListDidEnd:returnCode:contextInfo:);
 		break;
 	default : 
 		title_ = @"";
@@ -360,13 +362,23 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 		   2.2ペイン表示時（別ウインドウで開いてからどうぞ）
 		   3.複数のスレッドが選択されているとき
 		*/
-		BOOL reTryValue = ([CMRPref isOnlineMode] && ([selected_ count] == 1) && [self shouldShowContents]);
+		// 追加：3ペイン時に一覧で選択されているスレッドとビューアで表示されているスレッドが一致しない時は、ビューアのものを対象にする
+		BOOL reTryValue = ([CMRPref isOnlineMode] && /*([selected_ count] == 1) && */[self shouldShowContents]);
+		/*if (reTryValue) {
+			int			selectedNum = [tableView selectedRow];
+			NSString	*checkPath_;
+			checkPath_ = [threadsList threadFilePathAtRowIndex : selectedNum
+												   inTableView : tableView
+														status : NULL];
+			if (![checkPath_ isEqualToString : [self path]])
+				reTryValue = NO;
+		}*/
 		if(NO == [threadsList isFavorites])
 			[self _showDeletionAlertSheet : sender ofType : BSThreadAtBrowserDeletionType allowRetry : reTryValue
-					targetThreads : selected_];
+					targetThreads : [self path]];
 		else
 			[self _showDeletionAlertSheet : sender ofType : BSThreadAtFavoritesDeletionType allowRetry : reTryValue
-					targetThreads : selected_];
+					targetThreads : [self path]];
     } else {
 		[threadsList tableView : tableView
 				removeIndexSet : [tableView selectedRowIndexes]
@@ -393,7 +405,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 			[tableView reloadData];
 		}
 		break;
-	case NSAlertThirdButtonReturn: // delete & reload
+	/*case NSAlertThirdButtonReturn: // delete & reload
 		{
 			NSEnumerator		*Iter_;
 			NSDictionary		*threadAttributes_;
@@ -403,7 +415,6 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 				 delFavIfNecessary : NO])
 			{
 				[tableView reloadData];
-
 				Iter_ = [(NSArray *)contextInfo objectEnumerator];
 				while ((threadAttributes_ = [Iter_ nextObject])) {
 					NSString			*path_;
@@ -423,7 +434,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 				NSLog(@"Deletion failed :\n%@", [(NSArray *)contextInfo description]);
 			}
 		}
-		break;
+		break;*/
 	case NSAlertSecondButtonReturn: // cancel
 		break;
 	default:
@@ -453,6 +464,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 		break;
 	case NSAlertThirdButtonReturn: // delete & reload
 		{
+			NSLog(@"KKKKKKKKKKKK");
 			NSString *path_ = [self path];
 			if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : NO]) {
 				[self reloadAfterDeletion : path_];

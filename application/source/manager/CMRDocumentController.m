@@ -12,8 +12,9 @@
 #import "CocoMonar_Prefix.h"
 #import "CMRReplyDocumentFileManager.h"
 
-
-@implementation NSDocumentController(CMRExtensions)
+// Deprecatd in TestaRossa and later, because of performance issue.
+// this method was used in CMRDocumentFileManage.m and CMRReplyDocumentFileManager.m
+/*@implementation NSDocumentController(CMRExtensions)
 - (NSString *) firstFileExtensionFromType:(NSString *) documentTypeName
 {
 	NSArray		*fileExtensions_;
@@ -24,7 +25,7 @@
 	
 	return [fileExtensions_ objectAtIndex : 0];
 }
-@end
+@end*/
 
 
 

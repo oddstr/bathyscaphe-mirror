@@ -1,33 +1,23 @@
 /**
+  * $Id: CMRThreadsList-Download.m,v 1.2 2005/12/10 12:39:44 tsawada2 Exp $
+  * BathyScaphe
   *
-  * @see AppDefaults.h
-  * @see CMRTaskManager.h
-  * @see BoardManager.h
-  * @see CMRDownloader.h
-  * @see CMRBBSSignature.h
-  * @see ThreadTextDownloader.h
-  * @see ThreadsListDownloader.h
-  *
-  * @author Takanori Ishikawa
-  * @author http:
-  * @version 1.0.0d1 (02/08/14  1:46:59 PM)
+  * Copyright 2005 BathyScaphe Project. All rights reserved.
   *
   */
+
 #import "CMRThreadsList_p.h"
 #import "ThreadTextDownloader.h"
 #import "ThreadsListDownloader.h"
 #import "CMRNetRequestQueue.h"
-
-
-
 
 @implementation CMRThreadsList(Download)
 - (void) downloadThreadsList
 {
 	CMRDownloader		*downloader_;
 	
-	downloader_ = [ThreadsListDownloader 
-					threadsListDownloaderWithBBSSignature : [self BBSSignature]];
+	downloader_ = [ThreadsListDownloader threadsListDownloaderWithBBSName : [self boardName]];
+
 	if(nil == downloader_){
 		NSLog(@"  Sorry, not supported...");
 		return;
@@ -69,6 +59,10 @@
 			selector : @selector(downloaderNotFound:)
 			    name : CMRDownloaderNotFoundNotification
 			  object : downloader];
+	[nc_ addObserver : self
+			selector : @selector(downloaderTaskStopped:)
+				name : CMRTaskDidFinishNotification
+			  object : downloader];
 }
 - (void) removeFromNotificationCeterWithDownloader : (CMRDownloader *) downloader
 {
@@ -84,12 +78,27 @@
 				 object : downloader];
 }
 
+- (void) downloaderTaskStopped : (NSNotification *) notification
+{
+	//NSLog(@"TASKSTOPPED");
+	/* フェスト・テスタロッサ　チラシの裏
+	　ダウンロード完了前に task がストップされるとこのメソッドが呼ばれる。*/
+	[[NSNotificationCenter defaultCenter] removeObserver : self
+				   name : CMRTaskDidFinishNotification
+				 object : [notification object]];
+
+	[self postListDidUpdateNotification : CMRAutoscrollWhenTLUpdate];
+}
 
 - (void) downloaderFinishedNotified : (NSNotification *) notification
 {
 	CMRDownloader		*downloader_;
 	NSMutableArray		*newList_;
-	
+	//NSLog(@"downloaderFInidhedNotified");
+	/* フェイト・テスタロッサ　チラシの裏
+	　downloaderFinishedNotified が投げられた時点でまだ task は停止していない。しかしダウンロードが完了したら、
+	　もうこの task を捕まえる必要はないので、このメソッド内で通知観察を解除する。よってこのメソッドにたどり着いたら、
+	　downloaderTaskStopped: は呼ばれない。*/
 	UTILAssertNotificationName(
 		notification,
 		ThreadListDownloaderUpdatedNotification);
@@ -101,6 +110,11 @@
 	newList_ = 
 		[[notification userInfo] objectForKey : CMRDownloaderUserInfoContentsKey];
 	UTILAssertKindOfClass(newList_, NSMutableArray);
+
+	// task の観察を解除
+	[[NSNotificationCenter defaultCenter] removeObserver : self
+				   name : CMRTaskDidFinishNotification
+				 object : [notification object]];
 	
 	[self donwnloader : [downloader_ retain]
 		  didFinished : [newList_ retain]];
@@ -128,7 +142,11 @@
 {
 	CMRDownloader *downloader_;
 	NSString      *msg_;
-	
+	//NSLog(@"downloaderNotFound");
+	/* フェイト・テスタロッサ　チラシの裏
+	downloaderNotFound が投げられた時点ではまだ task は終了していない。よってこの時点では taskDidFinish の
+	通知観察を解除せず、このメソッド終了後に taskDidFinish を通知してもらう。
+	その時点で postListDidUpdateNotification を downloaderTaskStopped: が投げ、一覧は表示される。*/
 	UTILAssertNotificationName(
 		notification,
 		CMRDownloaderNotFoundNotification);

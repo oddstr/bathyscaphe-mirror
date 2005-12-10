@@ -14,9 +14,6 @@
 #import "CMRThreadsUpdateListTask.h"
 #import "CMRThreadsListReadFileTask.h"
 
-#import "UKDirectoryEnumerator.h"
-
-
 static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, CMRThreadAttributes *theAttributes)
 {
 	unsigned		nCorrectLoaded_;
@@ -125,10 +122,11 @@ static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, CMRThreadAt
 {
 	NSFileManager			*fileManager;
 	SGFileRef				*boardDirRef_;
-	//NSString				*filename_;
+	NSString				*filename_;
 	NSString				*fileExtention_;
-	//NSDirectoryEnumerator	*iter_;
+	NSDirectoryEnumerator	*iter_;
 	NSMutableArray			*list_;
+	NSAutoreleasePool		*pool_;
 	
 	BOOL					isDirectory_;
 	BOOL					result_;
@@ -137,9 +135,8 @@ static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, CMRThreadAt
 	// 板に対応するLibrary/内のディレクトリ直下の
 	// 「~~.thread」ログファイルからログスレッドを収集。
 	// 
-	//NSLog(@"Start");
 	fileManager = [NSFileManager defaultManager];
-	result_ = [fileManager fileExistsAtPath:boardDirectory isDirectory:&isDirectory_];
+	result_ = [fileManager fileExistsAtPath : boardDirectory isDirectory : &isDirectory_];
 	
 	if(NO == (result_ && isDirectory_)){
 		UTILMethodLog;
@@ -156,9 +153,11 @@ static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, CMRThreadAt
 	
 	fileExtention_ = [[CMRDocumentFileManager defaultManager] threadDocumentFileExtention];
 	
-	
 	list_ = [NSMutableArray array];
-	/*iter_ = [fileManager enumeratorAtPath : boardDirectory];
+	
+	pool_ = [[NSAutoreleasePool alloc] init];
+
+	iter_ = [fileManager enumeratorAtPath : boardDirectory];
 	while ((filename_ = [iter_ nextObject])){
 		SGFileRef		*fileRef_;
 		NSString			*acrualPath_;
@@ -168,8 +167,7 @@ static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, CMRThreadAt
 		// 
 		if(NO == [[filename_ pathExtension] isEqualToString : fileExtention_])
 			continue;
-		
-		
+
 		
 		fileRef_ = [boardDirRef_ fileRefWithChildName : filename_];
 		acrualPath_ = [fileRef_ pathContentResolvingLinkIfNeeded];
@@ -182,33 +180,10 @@ static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, CMRThreadAt
 		
 		[list_ addObject : dict_];
 	}
-	*/
-	{
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-		UKDirectoryEnumerator *enum_ = [[[UKDirectoryEnumerator alloc] initWithPath: boardDirectory] autorelease];
-		NSString*	fName;
-		NSMutableDictionary *dict_;
-		//NSLog(@"Hi");
 
-        [enum_ setDesiredInfo: kFSCatInfoFinderInfo];
-		
-		while ((fName = [enum_ nextObjectFullPath])) {
-			if([enum_ isInvisible])// || [enum_ isDirectory])
-				continue;
-
-			if(NO == [[fName pathExtension] isEqualToString : fileExtention_])
-				continue;
-			
-			dict_ = [self attributesForThreadsListWithContentsOfFile : fName];
-			if(nil == dict_) 
-				continue;
-			
-			[list_ addObject : dict_];
-		}
-		[pool release];
-	}
+	[pool_ release];
 	//NSLog(@"END");
-	return list_;				
+	return list_;
 }
 @end
 
@@ -385,18 +360,22 @@ static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, CMRThreadAt
 	[self _syncFavItemsPool];
 	[self setThreads : threadsArray_];
 	[_threadsListUpdateLock unlock];
-	[self postListDidUpdateNotification : CMRAutoscrollWhenTLUpdate];
+	//[self postListDidUpdateNotification : CMRAutoscrollWhenTLUpdate];
 	
 	if(NO == [isUpdated_ boolValue]){
 		//
 		// ファイルからの読み込み
 		//
-		if([CMRPref isOnlineMode]){
+		if([CMRPref isOnlineMode] && ![self isFavorites]){
 			// 
 			// 自動更新
 			// 
 			[self downloadThreadsList];
+		} else {
+		[self postListDidUpdateNotification : CMRAutoscrollWhenTLUpdate];
 		}
+	} else {
+		[self postListDidUpdateNotification : CMRAutoscrollWhenTLUpdate];
 	}
 	[[NSNotificationCenter defaultCenter]
 			removeObserver : self

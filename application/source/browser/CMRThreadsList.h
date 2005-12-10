@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.h,v 1.3 2005/11/05 04:21:57 tsawada2 Exp $
+  * $Id: CMRThreadsList.h,v 1.4 2005/12/10 12:39:44 tsawada2 Exp $
   * 
   * CMRThreadsList.h
   *
@@ -16,10 +16,10 @@
 @class CMXDateFormatter;
 
 
-typedef enum _ThreadsListSearchType{
+/*typedef enum _ThreadsListSearchType{
 	ThreadsListTitleSeach = 1,
 	ThreadsListPathSearch,
-} ThreadsListSearchType;
+} ThreadsListSearchType;*/
 
 @interface CMRThreadsList : NSObject 
 {
@@ -38,8 +38,10 @@ typedef enum _ThreadsListSearchType{
 	BOOL		_isAscending;
 }
 
-+ (id) threadsListWithBBSSignature : (CMRBBSSignature *) aSignature;
+//+ (id) threadsListWithBBSSignature : (CMRBBSSignature *) aSignature;
 - (id) initWithBBSSignature :  (CMRBBSSignature *) aSignature;
+
++ (id) threadsListWithBBSName : (NSString *) boardName;
 
 /**
   * 
@@ -108,19 +110,22 @@ typedef enum _ThreadsListSearchType{
 
 
 
-typedef BOOL(*TLSearchFunction)(NSDictionary *, void *);
+//typedef BOOL(*TLSearchFunction)(NSDictionary *, void *);
 @interface CMRThreadsList(SearchThreads)
 - (NSMutableDictionary *) seachThreadByPath : (NSString *) filepath;
 - (NSMutableDictionary *) seachThreadByPath : (NSString *) filepath
 									inArray : (NSArray  *) array;
-- (NSArray *) seachThreadsUsingFunction : (BOOL(*)(NSDictionary *, void *))checker 
-                                context : (void  *) context;
-- (NSArray *) _seachThreads : (ThreadsListSearchType) type
-			        inArray : (NSArray *) array
-			        context : (void    *) context;
-- (NSArray *) _seachThreadsUsingFunction : (TLSearchFunction)checker 
-							     inArray : (NSArray *) array
-							     context : (void    *) context;
+//- (NSArray *) seachThreadsUsingFunction : (BOOL(*)(NSDictionary *, void *))checker 
+//                                context : (void  *) context;
+//- (NSArray *) _seachThreads : (ThreadsListSearchType) type
+//			        inArray : (NSArray *) array
+//			        context : (void    *) context;
+//- (NSArray *) _seachThreadsUsingFunction : (TLSearchFunction)checker 
+//							     inArray : (NSArray *) array
+//							     context : (void    *) context;
+								 
+// Added in TestaRossa and later.
+- (NSArray *) _searchThreadsInArray : (NSArray *) array context : (NSString *) context;
 @end
 
 

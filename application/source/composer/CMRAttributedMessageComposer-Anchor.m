@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer-Anchor.m,v 1.2 2005/09/12 08:02:20 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer-Anchor.m,v 1.3 2005/12/10 12:39:44 tsawada2 Exp $
   * 
   * CMRAttributedMessageComposer-Anchor.m
   *
@@ -158,7 +158,8 @@ static BOOL scanURLCharactersFallDown(NSScanner *scanner, NSMutableString *strin
 	specRange.length = ([scanner scanLocation] - specRange.location);
 	
 	link_ = [[scanner string] substringWithRange : specRange];
-	link_ = CMRLocalResLinkWithString(link_);
+	//link_ = CMRLocalResLinkWithString(link_);
+	link_ = [NSString stringWithFormat : @"%@:%@", CMRAttributeInnerLinkScheme, link_];
 	
 	//[mAttrStr addAttributes : [ATTR_TEMPLATE attributesForAnchor]
 	//				  range : linkRange];

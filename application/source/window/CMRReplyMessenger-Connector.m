@@ -69,7 +69,7 @@
 }
 - (id) threadIdentifier
 {
-	return [CMRThreadSignature threadSignatureWithIdentifier:[self formItemKey] BBSSignature:[self boardIdentifier]];
+	return [CMRThreadSignature threadSignatureWithIdentifier:[self formItemKey] BBSName:[self boardName]];
 }
 @end
 

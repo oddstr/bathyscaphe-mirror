@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.17 2005/12/09 00:01:41 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.18 2005/12/10 12:39:44 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -588,7 +588,7 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 {
 	NSString			*board;
 	
-	board = [[self threadAttributes] boardName];
+	board = [self boardName];
 	if (nil == board)
 		board = [(CMRBBSSignature *)[self boardIdentifier] name];
 	
@@ -601,7 +601,9 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 #pragma mark board / thread signature for historyManager .etc
 - (id) boardIdentifier
 {
-	return [[self threadAttributes] BBSSignature];
+	//return [[self threadAttributes] BBSSignature];
+	//Žb’è bridge
+	return [CMRBBSSignature BBSSignatureWithName : [self boardName]];
 }
 - (id) threadIdentifier
 {
@@ -797,7 +799,22 @@ NSString *kComposingNotificationNames[] = {
 		[composer_ release];
 		[[self threadLayout] setMessagesEdited : NO];
 	}
-	return [mdict_ writeToFile:filepath_ atomically:YES];
+	/*if ([CMRPref saveThreadDocAsBinaryPlist]) {
+		NSData *data_;
+		NSString *errStr;
+		data_ = [NSPropertyListSerialization dataFromPropertyList:mdict_
+							format:NSPropertyListBinaryFormat_v1_0 errorDescription:&errStr];
+
+		if(!data_) {
+			NSLog(errStr);
+			[errStr release];
+			return [mdict_ writeToFile:filepath_ atomically:YES];
+		} else {
+			return [data_ writeToFile :filepath_ atomically : YES];
+		}
+	} else {*/
+		return [mdict_ writeToFile:filepath_ atomically:YES];
+	//}
 }
 
 - (void) saveWindowFrame

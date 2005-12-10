@@ -1,6 +1,6 @@
 //: CMRDATDownloader.m
 /**
-  * $Id: CMRDATDownloader.m,v 1.1 2005/05/11 17:51:06 tsawada2 Exp $
+  * $Id: CMRDATDownloader.m,v 1.2 2005/12/10 12:39:44 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -197,7 +197,6 @@
 	unsigned			contentLength_;
 	
 	[self updateLastAccessedDate : connector];
-	
 	HTTPConnector_ = (SGHTTPConnector *)connector;
 	
 	// ----------------------------------------
@@ -218,7 +217,6 @@
 	ungzipped_ = SGUtilUngzipIfNeeded(resourceData);
 	if (nil == ungzipped_ || 0 == [ungzipped_ length])
 		return NO;
-	
 	// ----------------------------------------
 	// 最終チェック
 	// ----------------------------------------

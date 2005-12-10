@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.m,v 1.6 2005/12/09 00:01:41 tsawada2 Exp $
+  * $Id: CMRThreadsList.m,v 1.7 2005/12/10 12:39:44 tsawada2 Exp $
   * 
   * CMRThreadsList.m
   *
@@ -50,6 +50,11 @@ struct SortContext {
 	return [[[self alloc] initWithBBSSignature : aSignature] autorelease];
 }
 
++ (id) threadsListWithBBSName : (NSString *) boardName
+{
+	return [[[self alloc] initWithBBSSignature : [CMRBBSSignature BBSSignatureWithName : boardName]] autorelease];
+}
+
 - (id) initConcreateWithBBSSignature : (CMRBBSSignature *) aSignature
 {
 	NSURL		*boardURL_;
@@ -94,6 +99,22 @@ struct SortContext {
 
 	if (NO == [self isFavorites]) {
 		[[self threads] writeToFile : [self threadsListPath] atomically : NO];
+		/*if ([CMRPref saveThreadListAsBinaryPlist]) {
+			NSData *data_;
+			NSString *errStr;
+			data_ = [NSPropertyListSerialization dataFromPropertyList:[self threads]
+															   format:NSPropertyListBinaryFormat_v1_0 errorDescription:&errStr];
+		
+			if(!data_) {
+				NSLog(errStr);
+				[errStr release];
+				[[self threads] writeToFile : [self threadsListPath] atomically : NO];
+			} else {
+				[data_ writeToFile : [self threadsListPath] atomically : YES];
+			}
+		} else {
+			[[self threads] writeToFile : [self threadsListPath] atomically : NO];
+		}*/
 	}
 	
 	[_BBSSignature release];
@@ -328,9 +349,21 @@ static NSComparisonResult sortArrayByContextKey(id arg1, id arg2, void *context)
 	// 新着スレッドは常に大きい位置に持っていくか？
 	if(SORT_NEWTHREAD(context_)){
 		BOOL	new1, new2;
-		
-		new1 = [CMRThreadAttributes isNewThreadFromDictionary : arg1];
-		new2 = [CMRThreadAttributes isNewThreadFromDictionary : arg2];
+		NSNumber	*s1, *s2;
+		s1 = [arg1 objectForKey : CMRThreadStatusKey];
+		s2 = [arg2 objectForKey : CMRThreadStatusKey];
+		if (s1 == nil) {
+			new1 = NO;
+		} else {
+			new1 = (ThreadNewCreatedStatus == [s1 unsignedIntValue]);
+		}
+		if (s2 == nil) {
+			new2 = NO;
+		} else {
+			new2 = (ThreadNewCreatedStatus == [s2 unsignedIntValue]);
+		}
+		//new1 = [CMRThreadAttributes isNewThreadFromDictionary : arg1];
+		//new2 = [CMRThreadAttributes isNewThreadFromDictionary : arg2];
 		
 		if(new1 != new2)
 			return new1 ? NSOrderedAscending : NSOrderedDescending;
