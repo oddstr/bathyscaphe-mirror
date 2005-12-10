@@ -1,4 +1,23 @@
+2005-12-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-Download.m
+	* application/Resources/Japanese.lproj/ThreadViewer.strings
+		メッセージを一部簡略化。
+	* application/source/browser/CMRBrowser-Action.m
+		削除：シートに対象となっているスレッドのタイトルを表示するようにした（表示されない時もある）。
+		削除して再取得：不確実な方法は使わないようにした。
 2005-12-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRThreadsList-Search.m
+		メソッドを簡素化、統合。
+	* application/source/browser/CMRThreadsList-listImport.m
+	* application/source/browser/CMRThreadsList-Download.m
+	* application/source/network/ThreadsListDownloader.m
+		オンラインモードのとき、スレッド一覧の表示を更新するタイミングを二回から一回に減らした。
+		- 以前：更新スタート→まずローカルの一覧を表示→ダウンロード→最新の一覧を表示
+		　現在：更新スタート→最新の一覧を表示
+	* たくさんのファイル
+		CMRBBSSignature は、その目的や内容に対して比較的オーバースペックでコストがかさむため、単に掲示板の名前を NSString で
+		やりとりすることをもって代替とすることを目指し、以前から少しずつ廃止と置き換えを進めている。今回さらに
+		一部のクラスやメソッドで CMRBBSSignature を廃止した（まだ残っているけど）。
 	* application/source/extensions/NSString+CarbonUtilities.m(.h)
 	* application/source/extensions/UKDirectoryEnumerator.m(.h)
 		[削除] リポジトリから削除

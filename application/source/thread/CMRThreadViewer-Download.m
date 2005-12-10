@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Download.m,v 1.6 2005/11/30 19:46:53 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Download.m,v 1.7 2005/12/10 15:42:21 tsawada2 Exp $
   * 
   * CMRThreadViewer-Download.m
   *
@@ -126,8 +126,8 @@
 		NULL,
 		[downloader_ retain],
 		[self localizedString : APP_TVIEWER_INVALID_PERT_MSG_FMT],
-		[downloader_ threadTitle],
-		[downloader_ filePathToWrite]);
+		[downloader_ threadTitle]);//,
+		//[downloader_ filePathToWrite]);
 	
 	
 	return;

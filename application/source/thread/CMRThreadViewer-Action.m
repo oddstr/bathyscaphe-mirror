@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.17 2005/12/02 14:41:57 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.18 2005/12/10 15:42:21 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -489,8 +489,9 @@
 
 	} else {
 		NSAlert *alert_;
+		NSString	*tmp_ = [self localizedString : kDeleteThreadTitleKey];
 		alert_ = [[NSAlert alloc] init];
-		[alert_ setMessageText : [self localizedString : kDeleteThreadTitleKey]];
+		[alert_ setMessageText : [NSString stringWithFormat : tmp_, [self title]]];
 		[alert_ setInformativeText : [self localizedString : kDeleteThreadMessageKey]];
 		[alert_ addButtonWithTitle : [self localizedString : kDeleteOKBtnKey]];
 		[alert_ addButtonWithTitle : [self localizedString : kDeleteCancelBtnKey]];
