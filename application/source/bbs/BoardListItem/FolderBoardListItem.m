@@ -11,94 +11,244 @@
 #import "CMRBBSListTemplateKeys.h"
 
 static NSString *FolderBoardListItemItemsKey = @"FolderBoardListItemItemsKey";
-static NSString *FolderBoardListItemNameKey = @"FolderBoardListItemNameKey";
 
 @implementation FolderBoardListItem
 
--(id)initWithFolderName:(NSString *)inName
+- (id) initWithFolderName : (NSString *) inName
 {
-	if( self = [super init] ) {
+	if (self = [super init]) {
+		[self setName : inName];
 		items = [[NSMutableArray array] retain];
-		[self setName:inName];
 	}
 	
 	return self;
 }
-
--(void)dealloc
+- (void) dealloc
 {
 	[items release];
-	[name release];
 	
 	[super dealloc];
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder
+- (id) itemForName : (NSString *) name deepSearch : (BOOL) isDeep
 {
-	[super encodeWithCoder:aCoder];
-	[aCoder encodeObject:name forKey:FolderBoardListItemNameKey];
-	[aCoder encodeObject:items forKey:FolderBoardListItemItemsKey];
+	id result = nil;
+	NSEnumerator *objEnum;
+	id obj;
+	
+	// NON Thread safe.
+	objEnum = [items objectEnumerator];
+	while ((obj = [objEnum nextObject])) {
+		if ([name isEqualTo : [obj name]]) {
+			result = obj;
+			break;
+		}
+		if (isDeep && [obj hasChildren]) {
+			result = [obj itemForName : name deepSearch : YES];
+		}
+		if (result) break;
+	}
+	
+	return result;
 }
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (id) itemForRepresentName : (NSString *) name deepSearch : (BOOL) isDeep
 {
-	if( self = [super initWithCoder:aDecoder] ) {
-		[self setName:[aDecoder decodeObjectForKey:FolderBoardListItemNameKey]];
-		items = [[aDecoder decodeObjectForKey:FolderBoardListItemItemsKey] mutableCopy];
+	id result = nil;
+	NSEnumerator *objEnum;
+	id obj;
+	
+	// NON Thread safe.
+	objEnum = [items objectEnumerator];
+	while ((obj = [objEnum nextObject])) {
+		if ([name isEqualTo : [obj representName]]) {
+			result = obj;
+			break;
+		}
+		if (isDeep && [obj hasChildren]) {
+			result = [obj itemForRepresentName : name deepSearch : YES];
+		}
+		if (result) break;
+	}
+	
+	return result;
+}
+
+- (NSArray *) itemsWithoutFavoriteItem
+{
+	NSMutableArray *result = [NSMutableArray array];
+	id obj;
+	NSEnumerator *itesEnum = [items objectEnumerator];
+	
+	while ((obj = [itesEnum nextObject])) {
+		if (![BoardListItem isFavoriteItem : obj]) {
+			[result addObject : [obj plist]];
+		}
+	}
+	
+	return result;
+}
+	
+- (id) description
+{
+	id result = nil;
+	
+	NSLog (@"MUST change!!!") ;
+	
+	if ([[self name] isEqualTo : @"Top"]) {
+		result = [self itemsWithoutFavoriteItem];
+	} else {
+		result = [[[NSDictionary alloc] initWithObjectsAndKeys : [self itemsWithoutFavoriteItem], BoardPlistContentsKey,
+			[self name], BoardPlistNameKey, nil] autorelease];
+	}
+	
+	return [result description];
+}
+- (id) plist
+{
+	id result = nil;
+	
+	NSLog (@"MUST change!!!") ;
+	
+	if ([[self name] isEqualTo : @"Top"]) {
+		result = [self itemsWithoutFavoriteItem];
+	} else {
+		result = [[[NSDictionary alloc] initWithObjectsAndKeys :
+			[self itemsWithoutFavoriteItem], BoardPlistContentsKey,
+			[self name], BoardPlistNameKey, nil] autorelease];
+	}
+	
+	return result;
+}
+- (void) encodeWithCoder : (NSCoder *) aCoder
+{
+	[super encodeWithCoder : aCoder];
+	[aCoder encodeObject : items forKey : FolderBoardListItemItemsKey];
+}
+- (id) initWithCoder : (NSCoder *) aDecoder
+{
+	if (self = [super initWithCoder : aDecoder]) {
+		items = [[aDecoder decodeObjectForKey : FolderBoardListItemItemsKey] mutableCopy];
 	}
 	return self;
 }
 
--(NSImage *)icon
+- (NSImage *) icon
 {
 	return [NSImage imageAppNamed : kCategoryImageName];
 }
--(NSString *)name
-{
-	return name;
-}
--(void)setName:(id)newName
-{
-	id temp = name;
-	
-	name = [newName copy];
-	[temp release];
-}
 
--(BOOL)hasChildren
+- (BOOL) hasChildren
 {
 	return YES;
 }
--(unsigned)numberOfItem
+- (unsigned) numberOfItem
 {
 	return [items count];
 }
--(id)itemAtIndex:(unsigned)index
+- (id) itemAtIndex : (unsigned) index
 {
-	return [items objectAtIndex:index];
+	return [items objectAtIndex : index];
+}
+- (NSArray *) items
+{
+	return [NSArray arrayWithArray : items];
 }
 
--(BOOL)isMutable
+- (BOOL) isMutable
 {
 	return YES;
 }
--(void)addItem:(BoardListItem *)item
+- (void) addItem : (BoardListItem *) item
 {
-	[items addObject:item];
+	[items addObject : item];
 	[self postUpdateChildrenNotification];
 }
--(void)insertItem:(BoardListItem *)item atIndex:(unsigned)index
+- (void) insertItem : (BoardListItem *) item atIndex : (unsigned) index
 {
-	[items insertObject:item atIndex:index];
+	[items insertObject : item atIndex : index];
 	[self postUpdateChildrenNotification];
 }
--(void)removeItem:(BoardListItem *)item
+- (BoardListItem *) parentForItem : (BoardListItem *) item
 {
-	[items removeObject:item];
+	if ([items containsObject : item]) {
+		return self;
+	}
+	
+	id result = nil;
+	NSEnumerator *objEnum;
+	id obj;
+	
+	// NON Thread safe.
+	objEnum = [items objectEnumerator];
+	while ((obj = [objEnum nextObject])) {
+		if ([obj hasChildren]) {
+			result = [obj parentForItem : item];
+		}
+		if (result) break;
+	}
+	
+	return result;
+}
+//ツリー内に２つ以上のobjectがあった場合、早く見つかったものが対象となる。
+// TODO 要変更
+- (void) insertItem : (BoardListItem *) item afterItem : (BoardListItem *) object deepSearch : (BOOL) isDeep
+{
+	id obj;
+	unsigned i, count;
+	BOOL isInserted = NO;
+	
+	// NON Thread safe.
+	count = [items count];
+	for ( i = 0; i < count; i++ ) {
+		obj = [items objectAtIndex : i];
+		if ([object isEqual : obj]) {
+			[items insertObject : item atIndex : i + i];
+			isInserted = YES;
+			break;
+		}
+		if (isDeep && [obj hasChildren]) {
+			id exception = nil;
+			NS_DURING
+				[obj insertItem : item afterItem : object deepSearch : YES];
+			NS_HANDLER
+				exception = localException;
+				if (![NSRangeException isEqualTo : [exception name]]) {
+					[exception raise];
+				}
+			NS_ENDHANDLER
+			
+			if (!exception) {
+				isInserted = YES;
+				break;
+			}
+		}
+	}
+	
+	if (!isInserted) {
+		[NSException raise : NSRangeException format : @"Not fount target (%@) .", object];
+	}
+}
+- (void) removeItem : (BoardListItem *) item deepSearch : (BOOL) isDeep
+{
+	BoardListItem *parent;
+	
+	if ([items containsObject : item]) {
+		[items removeObject : item];
+		[self postUpdateChildrenNotification];
+		return;
+	}
+	
+	if (!isDeep) return;
+	
+	parent = [self parentForItem : item];
+	if (!parent) return;
+	
+	[parent removeItem : item];
 	[self postUpdateChildrenNotification];
 }
--(void)removeItemAtIndex:(unsigned)index
+- (void) removeItemAtIndex : (unsigned) index
 {
-	[items removeObjectAtIndex:index];
+	[items removeObjectAtIndex : index];
 	[self postUpdateChildrenNotification];
 }
 

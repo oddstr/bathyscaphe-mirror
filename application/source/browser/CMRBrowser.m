@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.14 2005/12/10 12:39:44 tsawada2 Exp $
+  * $Id: CMRBrowser.m,v 1.11.2.1 2005/12/12 15:28:28 masakih Exp $
   * 
   * CMRBrowser.m
   *
@@ -17,8 +17,8 @@ NSString *const CMRBrowserDidChangeBoardNotification = @"CMRBrowserDidChangeBoar
  * current main browser instance.
  * @see CMRExports.h 
  */
-//CMRBrowser *CMRMainBrowser = nil;
 id CMRMainBrowser = nil;
+
 
 @implementation CMRBrowser
 - (id) init
@@ -149,27 +149,23 @@ willRemoveController : (NSWindowController *) aController;
 
 static BOOL threadDictionaryCompare(NSDictionary *dict1, NSDictionary *dict2)
 {
-	//CMRBBSSignature		*bbs1, *bbs2;
-	//NSString			*boardName;
-	NSString			*brdName1, *brdName2;
+	CMRBBSSignature		*bbs1, *bbs2;
+	NSString			*boardName_;
 	NSString			*dat1, *dat2;
 	BOOL				result = NO;
 	
 	if (dict1 == dict2) return YES;
 	if (nil == dict1 || nil == dict2) return NO;
 	
-	//boardName_ = [CMRThreadAttributes boardNameFromDictionary : dict1];
-	brdName1 = [CMRThreadAttributes boardNameFromDictionary : dict1];
-	//bbs1 = [CMRBBSSignature BBSSignatureWithName : boardName_];
+	boardName_ = [CMRThreadAttributes boardNameFromDictionary : dict1];
+	bbs1 = [CMRBBSSignature BBSSignatureWithName : boardName_];
 	dat1 = [CMRThreadAttributes identifierFromDictionary : dict1];
 	
-	//boardName_ = [CMRThreadAttributes boardNameFromDictionary : dict2];
-	brdName2 = [CMRThreadAttributes boardNameFromDictionary : dict2];
-	//bbs2 = [CMRBBSSignature BBSSignatureWithName : boardName_];
+	boardName_ = [CMRThreadAttributes boardNameFromDictionary : dict2];
+	bbs2 = [CMRBBSSignature BBSSignatureWithName : boardName_];
 	dat2 = [CMRThreadAttributes identifierFromDictionary : dict2];
 	
-	//result = bbs1 ? [bbs1 isEqual : bbs2] : nil == bbs2;
-	result = brdName1 ? [brdName1 isEqualToString : brdName2] : nil == brdName2;
+	result = bbs1 ? [bbs1 isEqual : bbs2] : nil == bbs2;
 	if (NO == result) return NO;
 	
 	result = dat1 ? [dat1 isEqualToString : dat2] : nil == dat2;
@@ -211,37 +207,29 @@ static BOOL threadDictionaryCompare(NSDictionary *dict1, NSDictionary *dict2)
 	
 	return threads_;
 }
-
 - (NSArray *) selectedThreadsReallySelected
 {
-	ThreadsListTable	*table_ = [self threadsListTable];
 	NSEnumerator	*indexIter_;
 	NSMutableArray	*threads_;
 	NSNumber		*indexNum_;
-	CMRThreadsList	*threadsList_;
 	
 	// 選択していないが表示しているかもしれない
 	// しかし、このメソッドは「真に選択されている」ものしか返さない(see selectedThreads)
 	
 	threads_ = [NSMutableArray array];
-	indexIter_ = [table_ selectedRowEnumerator];
-	threadsList_ = [self currentThreadsList];
-
-	if (threadsList_ == nil)
-		return threads_;
-
+	indexIter_ = [[self threadsListTable] selectedRowEnumerator];
 	while ((indexNum_ = [indexIter_ nextObject])) {
 		unsigned int		rowIndex_;
-		NSDictionary		*threadAttr_;
+		NSDictionary		*thread_;
 		
 		rowIndex_ = [indexNum_ unsignedIntValue];
-		threadAttr_ = [threadsList_ threadAttributesAtRowIndex : rowIndex_ 
-												   inTableView : table_];
-
-		if (nil == threadAttr_)
+		thread_ = [[self currentThreadsList]
+					threadAttributesAtRowIndex : rowIndex_ 
+								   inTableView : [self threadsListTable]];
+		if (nil == thread_) 
 			continue;
 		
-		[threads_ addObject : threadAttr_];
+		[threads_ addObject : thread_];
 	}
 	
 	return threads_;

@@ -11,7 +11,7 @@
 #import "CMRMainMenuManager.h"
 #import "BoardManager.h"
 #import "CMRNetGrobalLock.h"
-
+#import "DatabaseManager.h"
 
 
 /* for Debugging */
@@ -39,9 +39,12 @@ void CMXServicesInit(void)
     // Managers
     [CMRFileManager defaultManager];
     [CMRMainMenuManager defaultManager];
-    //[BoardManager defaultManager];
-	//[CMRFavoritesManager defaultManager];
+    [BoardManager defaultManager];
+	[CMRFavoritesManager defaultManager];
     [CMRNetGrobalLock sharedInstance];
+	[DatabaseManager defaultManager];
+	[DatabaseManager setupDatabase];
+	
     
     // Custom views
     //SGAppKitFrameworkInit();

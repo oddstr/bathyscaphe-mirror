@@ -15,9 +15,8 @@
 @interface SmartBoardListItem : AbstractDBBoardListItem
 {
 	NSMutableArray *conditions;
-	NSString *name;
 }
 
--(id)initWithName:(NSString *)name condition:(id)condition;
+- (id) initWithName : (NSString *) name condition : (id) condition;
 
 @end

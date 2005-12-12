@@ -1,254 +1,72 @@
-2005-12-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	* application/source/manager/BSHistoryMenuManager.m
-		メニュー項目のタグ番号の関係で、「履歴」＞「前へ戻る」「次へ進む」の validation がブラウザウインドウでコンフリクトして
-		うまくいかないことがあった問題を修正。
-	* application/Resources/text/KeyValueTemplates.plist
-		よく考えたら長押しでの反応までの時間は KeyValueTemplates.plist の "Thread - MouseDownTrackingTime" で
-		設定できるんだった。デフォルトの値を少し小さく（0.7→0.5秒に変更）した。
-		また、「クリックで ID 抽出」したい場合は待ち時間を 0 にすれば良い。
-		- ダブルクリックでよく ID 文字列を選択するとか、そういう場合は適度に待ち時間を設けないとイベントが横取りされてしまう。
-	* application/Resources/Japanese.lproj/MainMenu.nib
-	* application/source/thread/CMRThreadViewer-Validation.m
-		「編集」＞「検索」サブメニューに「抽出」「ハイライト」を追加（「一覧検索」「すべて検索」の復帰）。
-		また、「次を検索」「抽出」「ハイライト」メニュー項目は、ブラウザウインドウが2ペイン状態で最前面の時は選択不可能にした。
-================================================= TestaRossa
-2005-12-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	* すべてのプロジェクトファイル（.xcodeproj）
-		Universal Binary でビルドするためのビルド設定の変更。ターゲットの Mac OS X 10.3 以降の明記。
-		また、G3 プロセッサのコンピュータで問題になる恐れがあるので、"-mtune=G4" をすべてのプロジェクトの
-		ビルド設定から取り除いた（ご丁寧にすべてのプロジェクトで -mtune=G4 がくっついていた！）。
-		ただし、Deployment スタイル以外では一部の設定が古いままかもしれないので注意。今後整理整頓する。
-	* application/source/libRBSplitView.a
-		Universal Binary のものに差し替えた。
-	* application/source/manager/CMRHistoryManager.m
-		メモリリークの恐れがある場所を一個潰した。
-	* application/source/network/ThreadsListDownloader.m
-		一部のメソッドを統合。
-	* application/source/thread/CMRThreadViewer-Download.m
-	* application/Resources/Japanese.lproj/ThreadViewer.strings
-		メッセージを一部簡略化。
-	* application/source/browser/CMRBrowser-Action.m
-		削除：シートに対象となっているスレッドのタイトルを表示するようにした（表示されない時もある）。
-		削除して再取得：不確実な方法は使わないようにした。
-2005-12-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	* application/source/browser/CMRThreadsList-Search.m
-		メソッドを簡素化、統合。
-	* application/source/browser/CMRThreadsList-listImport.m
-	* application/source/browser/CMRThreadsList-Download.m
-	* application/source/network/ThreadsListDownloader.m
-		オンラインモードのとき、スレッド一覧の表示を更新するタイミングを二回から一回に減らした。
-		- 以前：更新スタート→まずローカルの一覧を表示→ダウンロード→最新の一覧を表示
-		　現在：更新スタート→最新の一覧を表示
-	* たくさんのファイル
-		CMRBBSSignature は、その目的や内容に対して比較的オーバースペックでコストがかさむため、単に掲示板の名前を NSString で
-		やりとりすることをもって代替とすることを目指し、以前から少しずつ廃止と置き換えを進めている。今回さらに
-		一部のクラスやメソッドで CMRBBSSignature を廃止した（まだ残っているけど）。
-	* application/source/extensions/NSString+CarbonUtilities.m(.h)
-	* application/source/extensions/UKDirectoryEnumerator.m(.h)
-		[削除] リポジトリから削除
-	* application/source/thread/CMRThreadViewer.m
-	* application/source/browser/CMRThreadsList.m
-	* application/source/preferences/AppDefaults.m
-		現状ではバイナリ形式での保存による互換性の問題が（とくに CMLB/CMLF）懸念されるため、下に書いた実装をすべて中止した。
-	* application/source/browser/CMRThreadsList-listImport.m
-		UKDirectoryEnumerator の使用を停止した。効果が見られないため（Tiger 以降では、NSDirectoryEnumerator も
-		高速化したらしい）。
-	* application/source/thread/CMRThreadViewer.m
-	* application/source/browser/CMRThreadsList.m
-	* application/source/preferences/AppDefaults.m
-		試験的に、ログ書類（.thread）及び ThreadsList.plist をバイナリ形式で保存する設定を追加した。
-		それぞれ defaults write jp.tsawada2.BathyScaphe Use_Binary_Format_For_List -bool YES
-		defaults write jp.tsawada2.BathyScaphe Use_Binary_Format_For_Doc -bool YES
-		バイナリ形式に変換されることで以下のメリットがある：
-		- ファイルサイズが小さくなる（760KBのログが430KB程度まで小さくなった例あり）
-		- ファイルを開くまでの時間が短縮される
-		以下のデメリット及び未確認の点を考慮の上、上級ユーザのみが試験目的でこの隠し設定を操作することが望ましい：
-		- テキストエディタでは編集できなくなる（コマンドラインで変換するか、Property List Editor を使えば良いが）
-		- Panther での互換性は一切検証していない。はっきりと書いた資料も見つからない。
-		
-		- 少なくとも Tiger では、NSArray/NSDictionary の arrayWithContentsOfFile:/dictionaryWithContentsOfFile:
-		　メソッドで普通にバイナリ形式の plist を読み込み可能である。このため、BathyScaphe 本体や、Spotlight プラグインの動作には
-		　何の支障もないようである。Panther は知らん。
-2005-12-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	* application/source/browser/CMRBrowser-Action.m
-		削除して再取得：3ペイン時の再取得で、インデックスが NSNotFound のまま作業が進んでしまうことがある問題を修正。
-	* application/source/thread/CMRThreadViewer-Find.m
-	* application/source/thread/TextFinder.m
-		ID ポップアップをチューニング。また、検索結果の表示方法を見直し。
-		さらに、「次を検索」は、現在選択されているテキストの次の文字から検索を始めるが、何もテキストが選択されていないときは
-		テキスト・ビューの「見えている」領域の先頭文字から検索を開始するようにした。同様に、「前を検索」は、現在選択されている
-		テキストの直前までの範囲を後ろから検索するが、何もテキストが選択されていない時はテキスト・ビューの「見えている」領域の
-		最後の文字までの範囲を後ろから検索するようにした。
-2005-12-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	* application/source/thread/CMRThreadViewer-Find.m
-	* application/source/thread/CMRThreadViewer-Link.m
-		ID 部分を長押しするとその ID で抽出を実行して、検索結果をその位置にポップアップするようにした。
-		つまり… ID ポップアップを実装した。
-		- なぜ「長押し」か？→数字を選択して長押しするとそのレス番号のレスがポップアップする動作との類似性。
-		- 今後、コンテキストメニューにも「抽出」項目を追加する予定。
-		- なお、右クリックでの直接ポップアップは、やらない予定。
-2005-12-04 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	* frameworks/SGFoundation/framework/source/classes/files/SGFileRef.m
-		[Bug 7520] (again) シンボリックリンクが相対パスで記述されている場合に正しく元のパスを取得できない
-		問題を修正（masakih 師による）。
-	* frameworks/SGNetwork/src/message/SGHTTPRequest.m
-		メモリリークを一個潰した。
-	* application/source/composer/CMRAttributedMessageComposer.m
-	* application/source/composer/CMRMessageAttributesStyling.m
-		ID 文字列（Attributed String）に attribute として ID 文字列の内容それ自身を仕込むようにした。
-		また、空白文字の結合方法を少し見直した（autorelease のかわりに自分で release するようにした）。
-		意味はあるのかどうか。
-	* application/source/browser/CMRFavoritesManager.m
-		_favoritesItemsIndex を作るときに自前の Autoreleasepool の中で作業するようにしてみたけど、
-		安定性向上に効果があるかどうか。
-================================================= LittleWish
-2005-12-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	* application/subproj/preference/font_color/FCController.m
-	* application/subproj/preference/Japanese.lproj/FontsAndColors.nib
-		検索結果のハイライト色の設定（一時消えていた）を、「環境設定」＞「表示」＞「その他」に復活。
-		- 正直、うまく配置できる場所がなかなか見つからなかった。
-	* application/source/browser/CMRBrowser-ViewAccessor.m
-	* application/Resources/Japanese.lproj/ThreadViewer.strings
-		「全角／半角を区別」「大文字／小文字を区別」は、それぞれ「〜を無視」に表記を変更。
-		- Mac OS X 10.4 の標準に合わせる
-	* application/Resources/Japanese.lproj/MainMenu.nib
-	* application/Resources/Japanese.lproj/TextFind.nib
-		検索パネルのインタフェースを刷新。
-		「一覧検索」を「抽出」に改称。また、「すべてを検索」を「ハイライト」に改称。
-		メニューバーから「一覧検索」と「先頭から検索」をいったん削除した（インタフェースを整理するため）。
-	* application/source/thread/CMRThreadViewer-Find.m
-	* application/source/thread/TextFinder.m
-		検索関連を整理。全角／半角を無視して本文を検索する機能を廃止。
-		また、「選択部分を検索」を実行したとき、検索パネルが表示されない問題を解決。
-		- 注意：スレッド一覧については、全角／半角を無視した検索が引き続き可能である。
-	* application/source/thread/TextFinder-ViewAccessor.m
-	* application/source/thread/TextFinder_p.h
-		[削除] TextFinder.m/TextFinder.h に統合して削除。
-2005-12-02 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	* application/source/preferences/CMRHostHandler.m
-	* application/source/thread/CMRThreadAttributes-Convert.m
-	* application/source/thread/CMRThreadViewer-Action.m
-		「ブラウザで開く」機能の実装方法の見直し。
-		これによって、まちBBSのスレッドを「ブラウザで開く」とき、「最新 50 レス」指定が有効になるようになった。
-		- 以前は最新50レスを選択していても、まちBBSについてはすべてのレスをWeb ブラウザに表示していた。
-		- 最初の100レス 指定は、まち BBS 側が対応していないようなので相変わらず無視される。
-	* frameworks/CocoMonar/framework/src/CMRAppTypes.h
-		いくつかの列挙型定義を Framework に移した。
-	* application/source/manager/CMRKeychainManager.m
-		●アカウントパスワードのキーチェーンへの保存方法を、より適切な方法に変更。
-		重要：この変更のため、パスワードをもう一度キーチェーンに登録し直す必要がある。また、古いキーチェーン項目は
-		自動的に削除されないので、気になる場合は各自「キーチェーンアクセス」から削除する。
-	* application/source/window/CMRReplyMessenger.m
-	* application/source/window/CMRReplyController.m
-	* application/source/window/CMRReplyMessenger-Connector.m
-	* application/source/bbs/BoardManager-BSAddition.m
-		Be ログイン設定の切り替え制御を一元化（内部構造上の）。
-2005-12-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	* application/source/bbs/BSBoardInfoInspector.m
-	* application/source/bbs/BoardManager-BSAddition.m
-	* application/Resources/Japanese.lproj/BSBoardInfoInspector.nib
-		「掲示板オプション」インスペクタの改良
-		- 掲示板アイコンの表示方法を将来の拡張をにらんで変更
-		- Be ログインチェックボックスは、Be ログイン必須の板および2ch以外の掲示板では使用不可になるようにした。
-	* application/source/window/CMRReplyController.m
-		書き込みウインドウのツールバーの「Be ログイン」ボタンの validate 方法を改良。
-		根幹の判定は BoardManager が一括して取り扱うようにし、ReplyController から BoardManager に問い合わせる形にした。 
-	* frameworks/CocoMonar/framework/src/CMRHostTypes.m
-		ユーティリティメソッドを追加した。
-	* application/source/thread/CMRThreadLayout-MessageRange.m
-		迷惑レスとして透明あぼーんされているレスへのアンカーに対するマウスオーバーで、その迷惑レスの内容が表示されてしまう
-		問題を修正。
-2005-11-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	* application/source/browser/CMRThreadsList-Remove.m
-	* application/source/browser/CMRBrowser-Action.m
-	* application/source/thread/CMRThreadViewer-Action.m
-		削除して再取得する時は、.cmreply ファイルは削除しないようにした。
-2005-11-26 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	* application/source/browser/CMRThreadsList-Filter.m
-		スレッド一覧の検索で、「全角／半角を区別」しないときは、Unicode 正規化 KC を施して検索するようにした。
-		JstringAddtions.h に頼る必要がなくなった。
-	* application/source/browser/CMRBrowser-Action.m
-	* application/source/thread/CMRThreadViewer-Action.m
-		- オフラインモードのときは「削除して再取得」を表示しないようにした。
-		- スレッド一覧で、2ペイン状態の場合は「削除して再取得」を表示しないようにした（別ウインドウで開いてから、そこで
-		　「削除して再取得」してください）。- どうしてもうまく再取得が動作しないため
-	* application/Resources/Japanese.lproj/Localizable.strings
-		起動不能時のエラーメッセージを追加。
+2005-12-12 masakih <masakih@users.sorceforge.jp>
+	* application/source/bbs/BoardListItem/BoardListItem.h
+	* application/source/bbs/BoardListItem/BoardListItem.m
+	* application/source/bbs/BoardListItem/ConcreteBoardListItem.h
+	* application/source/bbs/BoardListItem/ConcreteBoardListItem.m
+	* application/source/bbs/BoardListItem/FolderBoardListItem.h
+	* application/source/bbs/BoardListItem/FolderBoardListItem.m
+	* application/source/bbs/BoardListItem/AbstractDBBoardListItem.h
+	* application/source/bbs/BoardListItem/AbstractDBBoardListItem.m
+	* application/source/bbs/BoardListItem/BoardBoardListItem.h
+	* application/source/bbs/BoardListItem/BoardBoardListItem.m
+	* application/source/bbs/BoardListItem/FavoritesBoardListItem.h
+	* application/source/bbs/BoardListItem/FavoritesBoardListItem.m
+	* application/source/bbs/BoardListItem/SmartBoardListItem.h
+	* application/source/bbs/BoardListItem/SmartBoardListItem.m
+		いろいろ変更。
+		板リストに表示されるアイテムたち。
+		現在 NSDictionary でやり取りされているものをすべてこれに変更するのが目的。
+	* application/source/bbs/BoardListItem/SmartBoardList.h
+	* application/source/bbs/BoardListItem/SmartBoardList.m
+		いろいろ変更。
+		板リストのデータソース。
+	* application/source/browser/BSDBThreadList.h
+	* application/source/browser/BSDBThreadList.m
+		[新規追加] CMRThreadList のデータソース部分を切り離し、BoardListItem および SQL を利用するようにしている。
+		ほとんどの機能を継承できていない。
+		ただし、検索フィールドでスペース区切りによるAND検索、!を頭に付けることによるNOT検索が可能になった。
+		現状では大文字小文字の区別はない。
+	* application/source/manager/DatabaseManager-DatabaseAccess.m
+	* application/source/manager/DatabaseManager.h
+	* application/source/manager/DatabaseManager.m
+	* application/source/manager/SQLiteDB.h
+	* application/source/manager/SQLiteDB.m
+	* misc/sqlite
+		[新規追加] DatabaseManager は BathyScaphe.db の作成管理およびデータ登録のためのクラス。
+		SQLiteDB は sqlite のCocoaラッパー。
+	* misc/sqlite/util.c
+		malloc系の関数をNSZoneを使う関数に置換。
+		sqlite, DatabaseManager, SQLiteManager専用NSZoneを使用するようにした。
+		このため このファイルに限りファイルタイプをsourcecode.c.objcにし、
+		gcc -x objective-c でコンパイルされるようにしている。
+		これが速度面で有効であるかどうかは不明。
 	* application/source/main.m
-		一部をコメントアウトして様子見。たぶん大丈夫。
-	* frameworks/CocoMonar/framework/src/CMRFileManager.m
-		サポートフォルダへの SGFileRef が nil だった場合は、例外を捕まえてアラートを表示、その後 BathyScaphe を
-		終了するようにした（localized string は BathyScaphe 本体の Localizable.strings を参照する）。
-		これによって [Bug 7520] は解決（シンボリックリンクの解決処理自体が問題なのではない。「正しく」作られたシンボリックリンクなら、
-		ちゃんと追跡して参照を解決できる。念のため）。
-	* application/subproj/previewer/BSImagePreviewInspector.m
-		MIME タイプが image/ で始まらなくても表示を試みるようにした（どうせ validateLink で NSImageView が
-		対応できる拡張子に制限しているので）。
+		DatabaseManager の初期化
+	* application/source/browser/AddBoardSheetController.m(.h)
+	* application/source/bbs/BoardManager.m(.h)(_p.h)
+	* application/source/browser/CMRBrowser.m(_p.h)
 	* application/source/browser/CMRBrowser-Action.m
-	* application/source/thread/CMRThreadViewer.m
-	* application/source/thread/CMRThreadViewer-Action.m
-	* application/source/thread/CMRThreadViewer-Download.m
-	* application/source/browser/CMRThreadsList-Download.m
-	* application/source/browser/CMRThreadsList-Notification.m
+	* application/source/browser/CMRBrowser-BLEditor.m
+	* application/source/browser/CMRBrowser-Delegate.m
+	* application/source/browser/CMRBrowser-List.m
+	* application/source/browser/CMRBrowser-Validation.m
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/source/browser/CMRThreadsList-DataSource.m
+	* application/source/browser/CMRThreadsListReadFileTask.m
 	* application/source/browser/CMRThreadsUpdateListTask.m
-		スレッドの削除と再取得に関連する部分を色々と書き換え。
-		- 以前のバージョンでは、潜在的なものも含めて多数のバグ、ないしは危うい動作があった。
-		- とりあえず一通り動作するように書き直したつもりだが、もうしばらく検証を続ける。
-2005-11-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	* application/source/thread/CMRThreadLayout.m
-	* application/source/thread/CMRThreadViewer-MoveAction.m
-	* application/source/thread/CMRThreadViewer.m
-		オンザフライボタンをクリックするとクラッシュする問題、および時々ポップアップが反応しないことがある問題の解決策を
-		さらに修正（微小スクロールの方法は止めた）。
-		- NSWindow の invalidateCursorRectsForView: を clipView に対して呼んでやることでうまくいくようだ。
-	* application/source/thread/CMRThreadViewer.m
-		2005-11-23 の変更で、書き込み完了後のスクロールがちょっと変な挙動になってしまっていたので修正。
-2005-11-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	* application/source/browser/w2chFavoriteItemList.m
-	* application/source/browser/CMRThreadsList-listImport.m
-	* application/source/browser/CMRThreadsList-Notification.m
-		CMRThreadsList（スーパークラス）と w2chFavoriteItemList（サブクラス）の間の無駄なソースの重複記述を
-		無くすようにソースの書き方を改めた。あちこちに似たような内容が書き散らされ、メンテナンス性が低下していた
-		（昔の自分がやったことなのだが）。
-	* application/source/thread/CMRThreadViewer-MoveAction.m
-	* application/source/thread/CMRThreadViewer.m
-	* application/source/composer/CMRMessageAttributesTemplate.m
-		オンザフライボタンをクリックするとクラッシュする問題の解決方法を変更し、CocoMonar と同じ方法にした。
-		微少スクロール（0.01point なので、目には見えない）を強制的に行って、スクロールビューを更新する。
-		これによって、ポップアップが表示領域をスクロールするまで反応しないことがある問題も解決。
+	* application/subproj/editor/BoardListEditor.m(.h)(_p.h)
+		SmartBoardList ,BoardListItem, BSDBThreadList を使用するように変更
+
 	* application/source/browser/CMRFavoritesManager.m
-		CMRFavoritesManager のコードを以前と似た形に戻す。
-2005-11-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	* application/source/thread/CMRThreadViewer-Link.m
-		1.1.2 から、 KeyValueTemplates.plist の "Thread - LaunchExternalProgramOnPreviewLink" は
-		廃止し、html+JavaScript による簡易プレビューと、外部プログラムに渡す機能は廃止（かわりに、そういう機能を
-		持った ImagePreviewer.plugin をオプションで提供して、使ってもらう -- html プレビューのプラグインは BathyScaphe
-		プロジェクトとして正式にリリースするが、外部プログラムに渡す方は、サードパーティ依存にするかもしれません）。
-		で、それを見込んで BathyScaphe に組み込まれていたそれらの機能を廃止。現在、"Thread - LaunchExternalProgramOnPreviewLink"
-		は参照されず、常にプレビューにはプレビューインスペクタが使用される。このことについてバグ報告などはしないこと。
-	* application/source/composer/CMXTextParser.m
-		[Bug 6142] 削除依頼フォームからの投稿で、アンカータグがそのまま表示されてしまう不具合を解決。
-	* application/source/composer/CMRAttributedMessageComposer-Convert.m
-	* application/Resources/Japanese.lproj/Localizable.strings
-		本文に書き込まれた <ul> という文字が表示されず、かわりにその位置が改行される問題を解決。
-		- 削除依頼フォームからの投稿では <ul> </ul> を削除する必要があるのだが、その他の投稿でも区別なく削除
-		　されていたのが原因。しかし、Composer は現在「どの板を」レンダリングしているのかは知るすべがないので、
-		　とりあえず削除依頼フォームからの投稿に特有な文字列「削除対象アドレス： <ul>」を見つけた場合のみ
-		　<ul> </ul> を削除するようにした。
-		- 同時に、処理簡略化のため削除依頼フォームからの投稿で <ul> </ul> で囲まれた部分をインデントするのを
-		　廃止し、かわりに（フォームからの投稿を装った直接投稿と区別できるように）フォームからの投稿と思われる
-		　場合は「削除対象アドレス：」の文字を赤く表示するようにした。
-	* application/Resources/Japanese.lproj/Credits.rtf
-	* application/source/browser/CMRThreadsList-listImport.m
-		UKDirectryEnumerator 導入に伴う変更
-	* application/source/extensions/NSString+CarbonUtilities.m
-	* application/source/extensions/UKDirectoryEnumerator.m
-		http://www.zathras.de の UKDirectoryEnumerator を試験導入中。
-		BathyScaphe では使いどころがそもそも少ないのと、この部分の高速化を行っても他の部分が足を引っ張って
-		全体としてはほとんど差が出ないようで、そのうち採用を中止する可能性もある。
-		- 同じサイトの UKKQueue もそのうち使ってみようかな、と思っている。
-================================================= 1.1 / SecondFlight / CVS Tag : v111_FINAL
-2005-11-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+		DatabaseManager を使用するように変更
+	* application/Makefile
+	* application/subproj/Makefile
+	* frameworks/Makefile
+	* metadataimporter/BathyScaphe/Makefile
+		[新規追加] application/subproj/Makefile
+		コンポーネントごとにメイク可能にした。
+================================================= CVS Branch Tag : v111-BASED-BRANCH
+================================================= 1.1 / SecondFlight / CVS Tag : v111_FINAL2005-11-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-BLEditor.m
 		掲示板リストで複数項目を一度に削除しようとすると、予期しない項目が誤って削除されることがあった
 		問題を修正。

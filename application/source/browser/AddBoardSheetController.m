@@ -8,7 +8,7 @@
 
 #import "AddBoardSheetController.h"
 
-#import "BoardList.h"
+#import "SmartBoardList.h"
 #import "BoardManager.h"
 #import <SGFoundation/SGFoundation.h>
 #import <CocoMonar/CocoMonar.h>
@@ -198,7 +198,7 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 		}
 	}
 
-	[[[BoardManager defaultManager] userList] postBoardListDidChangeNotification];
+//	[[[BoardManager defaultManager] userList] postBoardListDidChangeNotification];
 
 	if ([error_names_ count] > 0) {
 		NSString *message_;
@@ -232,7 +232,7 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 	} else {
 		id userList = [[BoardManager defaultManager] userList];
 
-		if ([userList containsItemWithName : name_ ofType : (BoardListBoardItem | BoardListFavoritesItem)]) {
+		if ([userList itemForName : name_]) {
 			NSBeep();
 			[[NSAlert alertWithMessageText : [self localizedString : @"Same Name Exists"]
 							 defaultButton : [self localizedString : @"Cancel"]
@@ -245,7 +245,7 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 							name_, BoardPlistNameKey, url_, BoardPlistURLKey, nil];
 
 		[userList addItem : newItem_ afterObject : nil];
-		[userList postBoardListDidChangeNotification];
+//		[userList postBoardListDidChangeNotification];
 		return YES;
 	}
 }
@@ -259,11 +259,11 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 	NSOutlineView	*outlineView = [self defaultListOLView];
 
     for (i = 0; i < [items count]; i++) {
-        NSDictionary	*root = [items objectAtIndex : i];
+        id				root = [items objectAtIndex : i];
         NSRange			range;
 
-        range = [[root objectForKey : BoardPlistNameKey] rangeOfString : keyword
-															   options : NSCaseInsensitiveSearch];
+        range = [[root name] rangeOfString : keyword
+								   options : NSCaseInsensitiveSearch];
         if (range.location != NSNotFound) {
             int row = [outlineView rowForItem : root];
             [outlineView selectRowIndexes : [NSIndexSet indexSetWithIndex : row]
@@ -273,11 +273,13 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
             found |= NO;
         }
         
-        [outlineView expandItem : root];
-        if (![self selectMatchedItem : keyword
-							   items : [root objectForKey : BoardPlistContentsKey]]) {
-            [outlineView collapseItem : root];
-        }
+		if( [root hasChildren] ) {
+			[outlineView expandItem : root];
+			if (![self selectMatchedItem : keyword
+								   items : [root items]]) {
+				[outlineView collapseItem : root];
+			}
+		}
     }
     return found;
 }

@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-@class BoardList;
+@class SmartBoardList;
 
 /*!
     @header AddBoardSheetController

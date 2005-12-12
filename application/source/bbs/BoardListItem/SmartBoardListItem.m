@@ -12,26 +12,16 @@
 
 @implementation SmartBoardListItem
 
--(NSImage *)icon
+- (NSImage *) icon
 {
 	return [NSImage imageAppNamed : @"SmartBoard"];
 }
 
--(NSString *)name
-{
-	return name;
-}
--(void)setName:(NSString *)newName
-{
-	id temp = name;
-	name = [newName copy];
-	[temp release];
-}
 
--(id)initWithName:(NSString *)inName condition:(id)condition
+- (id) initWithName : (NSString *) inName condition : (id) condition
 {
-	if( self = [super init] ) {
-		[self setName:inName];
+	if (self = [super init]) {
+		[self setName : inName];
 	}
 	
 	return self;

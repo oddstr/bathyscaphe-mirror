@@ -8,33 +8,70 @@
 
 #import "FavoritesBoardListItem.h"
 
+#import "BoardBoardListItem.h"
+
 #import "DatabaseManager.h"
 #import "CMRBBSListTemplateKeys.h"
-#import "misc.h"
+
 
 @implementation FavoritesBoardListItem
-
--(id)init
+//APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance) ;
++ (id) sharedInstance
 {
-	if( self = [super init] ) {
-		[self setQuery:[NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@ IN (SELECT %@ FROM %@)", ThreadInfoTableName, ThreadIDColumn, ThreadIDColumn, FavoritesTableName]];
+	static id _sharedInstance = nil;
+	
+	if (!_sharedInstance) {
+		_sharedInstance = [[self alloc] init];
+	}
+	
+	return _sharedInstance;
+}
+
+- (id) init
+{
+	if (self = [super init]) {
+		NSMutableString *query = [NSMutableString string];
+		[query appendFormat : @"SELECT * FROM %@ INNER JOIN %@\n", ThreadInfoTableName, BoardInfoTableName];
+		[query appendFormat : @"\t\tUSING (%@) \n", BoardIDColumn];
+		[query appendFormat : @"WHERE %@ IN (SELECT %@ FROM %@) ",
+			ThreadIDColumn, ThreadIDColumn, FavoritesTableName];
+		[self setQuery : query];
 	}
 	
 	return self;
 }
 
--(NSImage *)icon
+- (id) retain { return self; }
+- (oneway void) release {}
+- (unsigned) retainCount { return UINT_MAX; }
+
+- (NSImage *) icon
 {
 	return [NSImage imageAppNamed : kFavoritesImageName];
 }
 
--(NSString *)name
+- (NSString *) name
 {
 	return CMXFavoritesDirectoryName;
 }
--(void)setName:(NSString *)newName
+- (void) setName : (NSString *) newName
 {
 	//
 }
 
+#pragma mark## CMRPropertyListCoding protocol ##
+//+ (id) objectWithPropertyListRepresentation : (id) rep
+//{
+//	return [[[self alloc] initWithPropertyListRepresentation : rep] autorelease];
+//}
+- (id) propertyListRepresentation
+{
+	return [self name];
+}
+- (id) initWithPropertyListRepresentation : (id) rep
+{
+	[self release];
+	
+	return [[self class] sharedInstance];
+}
 @end

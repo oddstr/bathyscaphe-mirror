@@ -1,5 +1,5 @@
 /**
- * $Id: BoardListEditor.m,v 1.3 2005/07/22 16:42:21 tsawada2 Exp $
+ * $Id: BoardListEditor.m,v 1.3.4.1 2005/12/12 15:28:28 masakih Exp $
  * 
  * BoardListEditor.m
  *
@@ -19,8 +19,8 @@
 	}
 	return self;
 }
-- (id) initWithDefaultList : (BoardList *) defaultList 
-				  userList : (BoardList *) userList;
+- (id) initWithDefaultList : (SmartBoardList *) defaultList 
+				  userList : (SmartBoardList *) userList;
 {
 	if (self = [self init]) {
 		_defaultList = [defaultList retain];
@@ -50,11 +50,11 @@
 						            table : nil];
 }
 
-- (BoardList *) defaultList
+- (SmartBoardList *) defaultList
 {
 	return _defaultList;
 }
-- (BoardList *) userList
+- (SmartBoardList *) userList
 {
 	return _userList;
 }
@@ -447,9 +447,8 @@
 						? [[self userListTable] itemAtRow : rowIndex]
 						: nil;
 	
-			if (nil == selectedItem || [[userList class] isFavorites : selectedItem]){
-				[[userList boardItems] addObject : newItem_];
-				[userList postBoardListDidChangeNotification];
+			if ([[userList class] isFavorites : selectedItem]){
+				[userList addItem:newItem_ afterObject:nil];
 			}else{
 				[userList addItem:newItem_ afterObject:selectedItem];
 			}
@@ -570,11 +569,10 @@
 			rowIndex = [[self userListTable] selectedRow];
 			selectedItem = (rowIndex >= 0) ? [[self userListTable] itemAtRow : rowIndex]: nil;
 	
-			if (nil == selectedItem || [[userList class] isFavorites : selectedItem]){
-				[[userList boardItems] addObject : newItem_];
-				[userList postBoardListDidChangeNotification];	// 掲示板リストドロワーにすぐに反映させるため通知する
+			if ([[userList class] isFavorites : selectedItem]){
+				[userList addItem:newItem_ afterObject:nil];
 			}else{
-				[userList addItem:newItem_ afterObject:selectedItem]; // こっちの場合はaddItem:内で通知が送られているので不要
+				[userList addItem:newItem_ afterObject:selectedItem];
 			}
 		}
 		[[self userListTable] reloadData];

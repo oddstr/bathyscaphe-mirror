@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.8 2005/12/10 12:39:44 tsawada2 Exp $
+  * $Id: CMRBrowser-List.m,v 1.7.2.1 2005/12/12 15:28:27 masakih Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -23,11 +23,11 @@
 	[self clearSearchFilter];
 	[self synchronizeWindowTitleWithDocumentName];
 }
-- (CMRThreadsList *) currentThreadsList
+- (id) currentThreadsList
 {
 	return [[self document] currentThreadsList];
 }
-- (void) setCurrentThreadsList : (CMRThreadsList *) newList
+- (void) setCurrentThreadsList : (id) newList
 {
 	[self exchangeNotificationObserver :
 						CMRThreadsListDidUpdateNotification
@@ -46,40 +46,43 @@
 	[self clearSearchFilter];
 }
 
-- (void) boardChanged : (NSString *) boardName
+- (void) boardChanged : (id) aBoardIdentifier
 {
 	// 読み込みの完了、設定に保存
 	// 履歴に登録してから、変更の通知
-	[CMRPref setBrowserLastBoard : boardName];
+	[CMRPref setBrowserLastBoard : aBoardIdentifier];
 	[[CMRHistoryManager defaultManager]
-		addItemWithTitle : boardName
+		addItemWithTitle : [aBoardIdentifier name]
 					type : CMRHistoryBoardEntryType
-				  object : [CMRBBSSignature BBSSignatureWithName : boardName]];
+				  object : aBoardIdentifier];
 	UTILNotifyName(CMRBrowserDidChangeBoardNotification);
 }
-- (void) showThreadsListWithBoardName : (NSString *) boardName
+
+- (void) showThreadsListWithBoardListItem : (id) item
 {
-	CMRThreadsList		*list_;
+	id		list_;
 	NSString			*sortColumnIdentifier_;
+	NSString			*bName_;
 	BOOL				isAscending_;
 	
-	if(nil == boardName) return;
-	if([[[self currentThreadsList] boardName] isEqualToString : boardName]){
+	if(nil == item) return;
+	if([[[self currentThreadsList] boardListItem] isEqual : item]){
 		return;
 	}
 	
+	bName_ = [item name];
 	[[self threadsListTable] deselectAll : nil];
 	[[self threadsListTable] setDataSource : nil];
 	
-	list_ = [CMRThreadsList threadsListWithBBSName : boardName];
+	list_ = [BSDBThreadList threadListWithBoardListItem : item];
 	if(nil == list_)
 		return;
 	
 	[self setCurrentThreadsList : list_];
 	
 	// sort column change
-	sortColumnIdentifier_ = [[BoardManager defaultManager] sortColumnForBoard : boardName];
-	isAscending_ = [[BoardManager defaultManager] sortColumnIsAscendingAtBoard : boardName];
+	sortColumnIdentifier_ = [[BoardManager defaultManager] sortColumnForBoard : bName_];
+	isAscending_ = [[BoardManager defaultManager] sortColumnIsAscendingAtBoard : bName_];
 	
 	[list_ setIsAscending : isAscending_];
 	[self changeHighLightedTableColumnTo : sortColumnIdentifier_ isAscending : isAscending_];
@@ -89,18 +92,19 @@
 	
 	// リストの読み込みを開始する。
 	[list_ startLoadingThreadsList : [self threadLayout]];
-	[self boardChanged : boardName];
+	[self boardChanged : item];
+}
+- (void) showThreadsListWithBoardName : (NSString *) boardName
+{
+	NSLog(@"enter method(%@) arg(%@)", NSStringFromSelector(_cmd), boardName);
+	[self showThreadsListWithBoardListItem : [[[BoardManager defaultManager] userList] itemForName : boardName]];
 }
 
-- (void) showThreadsListForBoard : (NSDictionary *) board;
-{
-	NSString			*bname_;
-	
-	bname_ = [board objectForKey : BoardPlistNameKey];
-	if(nil == bname_) return;
-	
-	[self showThreadsListWithBoardName : bname_];
+- (void) showThreadsListForBoard : (id) board;
+{	
+	[self showThreadsListWithBoardListItem : board];
 }
+
 @end
 
 

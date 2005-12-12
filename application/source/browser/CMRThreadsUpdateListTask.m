@@ -12,6 +12,7 @@
   */
 #import "CMRThreadsUpdateListTask_p.h"
 #import "CMRFavoritesManager.h"
+#import "BSDBThreadList.h"
 
 //////////////////////////////////////////////////////////////////////
 ////////////////////// [ 定数やマクロ置換 ] //////////////////////////
@@ -75,7 +76,7 @@ static void collectAttributesFromPath(NSString *path, NSMutableDictionary *threa
     
     // ログファイルから各種情報を取得
     fileContents_ = 
-        [CMRThreadsList attributesForThreadsListWithContentsOfFile : path];
+        [BSDBThreadList attributesForThreadsListWithContentsOfFile : path];
     
     if (nil != fileContents_)
         setAttributesFromDictionary(fileContents_, thread);
@@ -157,21 +158,20 @@ RECACHE:
     // スレッド情報を更新する。
     // ログの存在しないスレッドにはNSNullを設定
     if (s & ThreadNoCacheStatus) {
-		// 2005-11-25 この if プロックを外して様子見
-        //if (cache == nil) {
+        if (cache == nil) {
             [cachedInfoTbl setObject:[NSNull null] forKey:path_];
-        //}
+        }
 	} else if (isUpdated && (s == ThreadUpdatedStatus)) {
 		// お気に入りに含まれていないか探す
 		// 新着ありの既得スレのみについて調べれば良い。
 		// さらに subject.txt を取ってきて更新した場合のみ調べれば良い。
-		CMRFavoritesManager	*fm_ = [CMRFavoritesManager defaultManager];
 		int	favidx_;
-		favidx_ = [[fm_ favoritesItemsIndex] indexOfObject : path_];
+		favidx_ = [[[CMRFavoritesManager defaultManager] favoritesItemsIndex] indexOfObject : path_];
 		if (favidx_ != NSNotFound) {
 			// お気に入りのデータを更新
-			[[fm_ favoritesItemsArray] replaceObjectAtIndex : favidx_
-												 withObject : thread];
+			[[[CMRFavoritesManager defaultManager] favoritesItemsArray]
+								replaceObjectAtIndex : favidx_
+										  withObject : thread];
 		}
 
         [cachedInfoTbl setObject:thread forKey:path_];
@@ -303,8 +303,6 @@ RECACHE:
 
     UTILAssertNotNilArgument(loadedList, @"Threads List Array");
     UTILAssertNotNilArgument(threadsInfo, @"Threads Info Dictionary");
-	
-	NSAutoreleasePool	*pool_ = [[NSAutoreleasePool alloc] init];
 
     iter = [loadedList objectEnumerator];
     while (thread_ = [iter nextObject]) {
@@ -315,8 +313,6 @@ RECACHE:
         nEnded_++;
         [self setProgress : (((double)nEnded_ / (double)nElem_) * 100)];
     }
-	
-	[pool_ release];
 }
 
 

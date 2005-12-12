@@ -2,9 +2,9 @@
 # makefile for MetaData Importer
 #
 
-ROOT = ../..
-
-include $(ROOT)/config
+PBXBUILD = /usr/bin/xcodebuild
+BUILD_OPTION = -configuration Deployment
+BUILD_DIR = build
 
 all:
 	$(PBXBUILD) $(BUILD_OPTION)

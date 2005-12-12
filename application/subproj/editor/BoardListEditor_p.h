@@ -1,6 +1,6 @@
 #import "BoardListEditor.h"
 
-#import "BoardList.h"
+//#import "BoardList.h"
 #import <SGFoundation/SGFoundation.h>
 #import <CocoMonar/CocoMonar.h>
 

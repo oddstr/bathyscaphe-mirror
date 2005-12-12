@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.h,v 1.8 2005/12/02 14:41:57 tsawada2 Exp $
+ * $Id: BoardManager.h,v 1.3.2.1 2005/12/12 15:28:27 masakih Exp $
  * 
  * BoardManager.h
  *
@@ -9,7 +9,7 @@
 
 #import <SGFoundation/SGFoundation.h>
 
-@class BoardList;
+@class SmartBoardList;
 /*!
     @class		BoardManager
     @abstract   掲示板リストの dataSource 提供と、各掲示板の属性へのアクセスを一括して取り扱うマネージャ
@@ -27,25 +27,17 @@
 				・スレッド一覧でのソート基準カラムと、昇順／降順
 */
 
-/*
-typedef enum _BSBeLoginPolicyType {
-	BSBeLoginTriviallyNeeded	= 0, // Be ログイン必須
-	BSBeLoginTriviallyOFF		= 1, // Be ログインは無意味（2chではない掲示板など）
-	BSBeLoginDecidedByUser		= 2, // Be ログインするかどうかはユーザの設定を参照する
-	BSBeLoginNoAccountOFF		= 3  // 環境設定で Be アカウントが設定されていない
-} BSBeLoginPolicyType;
-*/
 @interface BoardManager : NSObject
 {
     @private
-	BoardList			*_defaultList;
-	BoardList			*_userList;
+	SmartBoardList		*_defaultList;
+	SmartBoardList		*_userList;
 	NSDictionary		*_noNameDict;	// NoNameManager を統合
 }
 + (id) defaultManager;
 
-- (BoardList *) defaultList;
-- (BoardList *) userList;
+- (SmartBoardList *) defaultList;
+- (SmartBoardList *) userList;
 
 - (NSString *) defaultBoardListPath;
 - (NSString *) userBoardListPath;
@@ -116,15 +108,6 @@ typedef enum _BSBeLoginPolicyType {
 - (void) setDefaultMail : (NSString *) aString
 			   forBoard : (NSString *) boardName;
 
-// LittleWish Addition
-/* 注意：現在はまだインタフェースのみ */
-- (BOOL) allThreadsShouldAAThreadAtBoard : (NSString *) boardName;
-- (void) setAllThreadsShouldAAThread : (BOOL      ) shouldAAThread
-							 atBoard : (NSString *) boardName;
-
-// LittleWish Addtion : Read-only Properties
-- (NSImage *) iconForBoard : (NSString *) boardName;
-- (BSBeLoginPolicyType) typeOfBeLoginPolicyForBoard : (NSString *) boardName;
 
 /*
 	ユーザからの入力を受けつける。

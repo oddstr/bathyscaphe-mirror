@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.11 2005/12/10 18:05:53 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.9.2.1 2005/12/12 15:28:28 masakih Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -102,8 +102,7 @@ static id kThreadAttrTemplate;
 }
 - (int) numberOfRowsInTableView : (NSTableView *) aTableView
 {
-//	return [[self threadsForTableView : aTableView] count];
-	return [[self filteredThreads] count];
+	return [[self threadsForTableView : aTableView] count];
 }
 
 static NSString *statusImageNameForStatus(ThreadStatus s)
@@ -154,6 +153,10 @@ static NSString *statusImageNameForStatus(ThreadStatus s)
 			v = (diff_ >= 0) ? [NSNumber numberWithInt : diff_] : nil;
 		}
 	}else if([CMRThreadSubjectIndexKey isEqualToString : identifier] && [self isFavorites]){
+		/*if ([[[CMRFavoritesManager defaultManager] favoritesItemsIndex] count] == 0) {
+			NSLog(@"Resetting FavItemsIndex");
+			[[CMRFavoritesManager defaultManager] setFavoritesItemsIndex : nil];
+		}*/
 		// ”Ô†i‚¨‹C‚É“ü‚èj
 		v = [NSNumber numberWithInt : ([[[CMRFavoritesManager defaultManager] favoritesItemsIndex]
 											indexOfObject : [CMRThreadAttributes pathFromDictionary : thread]]+1)];
@@ -189,7 +192,7 @@ static NSString *statusImageNameForStatus(ThreadStatus s)
 {
 	NSArray			*threads_;
 	
-	threads_ = [self filteredThreads];//[self threadsForTableView : aTableView];
+	threads_ = [self threadsForTableView : aTableView];
 	NSAssert2(
 		(rowIndex >= 0 && rowIndex <= [threads_ count]),
 		@"Threads Count(%u) but Accessed Index = %d.",
@@ -317,10 +320,9 @@ static NSString *statusImageNameForStatus(ThreadStatus s)
 	if(rowIndex == -1) 
 		return nil;
 	
-	[self _filteredThreadsLock];
-	//threadsArray_ = [[self threadsForTableView : tableView] retain];
-	threadsArray_ = [[self filteredThreads] retain];
-	[self _filteredThreadsUnlock];
+//	[self _filteredThreadsLock];
+	threadsArray_ = [[self threadsForTableView : tableView] retain];
+//	[self _filteredThreadsUnlock];
 	
 	if(rowIndex < 0 || rowIndex >= [threadsArray_ count])
 		return nil;
@@ -348,8 +350,7 @@ static NSString *statusImageNameForStatus(ThreadStatus s)
 	matched_ = [self seachThreadByPath : filepath];
 	[self _filteredThreadsLock]; 
 	do {
-		//threadsArray_ = [self threadsForTableView : nil];
-		threadsArray_ = [self filteredThreads];
+		threadsArray_ = [self threadsForTableView : nil];
 		rowIndex_ = [threadsArray_ indexOfObject : matched_];
 		if(NSNotFound == rowIndex_)
 			break;

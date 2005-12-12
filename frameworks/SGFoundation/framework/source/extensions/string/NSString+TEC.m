@@ -1,5 +1,5 @@
 /**
-  * $Id: NSString+TEC.m,v 1.2 2005/11/25 20:21:24 tsawada2 Exp $
+  * $Id: NSString+TEC.m,v 1.1.1.1.4.1 2005/12/12 15:28:28 masakih Exp $
   * 
   * NSString+TEC.m
   *

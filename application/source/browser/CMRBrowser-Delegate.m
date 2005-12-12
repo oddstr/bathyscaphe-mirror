@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.14 2005/11/01 22:09:49 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.14.2.1 2005/12/12 15:28:27 masakih Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -9,6 +9,8 @@
 #import "CMRBrowser_p.h"
 #import "BoardManager.h"
 #import "missing.h"
+
+#import "BoardListItem.h"
 
 extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
 
@@ -172,7 +174,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 {
 	int					rowIndex_;
 	NSOutlineView		*brdListTable_;
-	NSDictionary		*item_;
+	id					item_;
 	
 	brdListTable_ = [self boardListTable];
 
@@ -193,8 +195,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 	item_ = [brdListTable_ itemAtRow : rowIndex_];
 
 	if (nil == item_) return;
-	UTILAssertKindOfClass(item_, NSDictionary);
-	if ([BoardList isCategory : item_]) return;
+	if (![item_ hasURL] && ![BoardListItem isFavoriteItem:item_]) return;
 	
 	[self showThreadsListForBoard : item_];
 }
@@ -382,7 +383,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 	if (nil == [self threadsListTable]) 
 		return;
 	
-	[CMRThreadsList resetDataSourceTemplates];
+	[BSDBThreadList resetDataSourceTemplates];
 	[self updateDefaultsWithTableView : [self threadsListTable]];
 	[self setupBoardListOutlineView : [self boardListTable]];
 	[[self threadsListTable] setNeedsDisplay : YES];

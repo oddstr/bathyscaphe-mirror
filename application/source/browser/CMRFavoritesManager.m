@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFavoritesManager.m,v 1.9 2005/12/04 13:14:12 tsawada2 Exp $
+  * $Id: CMRFavoritesManager.m,v 1.7.2.1 2005/12/12 15:28:28 masakih Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
@@ -10,6 +10,9 @@
 #import "CMRThreadAttributes.h"
 #import "CMRThreadsList_p.h"
 #import <AppKit/NSDocumentController.h>
+
+#import "BSDBThreadList.h"
+#import "DatabaseManager.h"
 
 NSString *const CMRFavoritesManagerDidLinkFavoritesNotification = @"CMRFavoritesManagerDidLinkFavoritesNotification";
 NSString *const CMRFavoritesManagerDidRemoveFavoritesNotification = @"CMRFavoritesManagerDidRemoveFavoritesNotification";
@@ -48,7 +51,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 {
 	[[NSNotificationCenter defaultCenter] removeObserver : self];
 	[_favoritesItemsArray release];
-	[_favoritesItemsIndex release];
 	[_changedFavItemsPool release];
 	[super dealloc];
 }
@@ -95,42 +97,27 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 - (NSMutableArray *) favoritesItemsIndex
 {
-	if (nil == _favoritesItemsIndex) {
-		NSMutableArray	*favItems_ = [self favoritesItemsArray];
+	NSMutableArray	*favItems_ = [self favoritesItemsArray];
 
-		if ([favItems_ count] == 0) {
-			_favoritesItemsIndex = [[NSMutableArray alloc] init];
-		} else {
-			NSEnumerator	*iter_;
-			NSDictionary	*anItem_;	// each favorite item
-			NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]; // 2005-12-04 Ç«Ç§ÇæÇÎÇ§ÅH
+	if ([favItems_ count] == 0) {
+		return [NSMutableArray array];
+	} else {
+		NSEnumerator	*iter_;
+		NSDictionary	*anItem_;	// each favorite item
+		NSMutableArray *tmp_ = [NSMutableArray arrayWithCapacity : [favItems_ count]];
 
-			_favoritesItemsIndex = [[NSMutableArray alloc] initWithCapacity : [favItems_ count]];
+		iter_ = [favItems_ objectEnumerator];
 
-			iter_ = [favItems_ objectEnumerator];
+		while ((anItem_ = [iter_ nextObject]) != nil) {
+			id	itemPath_;
+			itemPath_ = [CMRThreadAttributes pathFromDictionary : anItem_];
+			UTILAssertNotNil(itemPath_);
 
-			while ((anItem_ = [iter_ nextObject]) != nil) {
-				id	itemPath_;
-				itemPath_ = [CMRThreadAttributes pathFromDictionary : anItem_];
-				UTILAssertNotNil(itemPath_);
-
-				[_favoritesItemsIndex addObject : itemPath_];
-			}
-			
-			[pool release];
+			[tmp_ addObject : itemPath_];
 		}
-	}
-	
-	return _favoritesItemsIndex;
-}
 
-- (void) setFavoritesItemsIndex : (NSMutableArray *) anArray
-{
-	id		tmp;
-	
-	tmp = _favoritesItemsIndex;
-	_favoritesItemsIndex = [anArray retain];
-	[tmp release];
+		return tmp_;
+	}
 }
 
 // Ç±ÇÃÇ÷ÇÒÅAébíËìIÇ»é¿ëï
@@ -194,29 +181,40 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 #pragma mark -
 
 @implementation CMRFavoritesManager(Management)
+- (CMRFavoritesOperation)availableOperationWithThread:(id)thread
+{
+	id identifier;
+	id boardName = [thread valueForKey:ThreadPlistBoardNameKey];
+	id boardIDs;
+	
+	identifier = [CMRThreadAttributes identifierFromDictionary:thread];
+	boardIDs = [[DatabaseManager defaultManager] boardIDsForName:boardName];
+	
+	if( !identifier || !boardIDs ) return CMRFavoritesOperationNone;
+	
+	/* TODO 
+		ï°êîë∂ç›Ç∑ÇÈèÍçáÇÃèàóù
+*/
+	unsigned boardID;
+	boardID = [[boardIDs objectAtIndex:0] unsignedIntValue];
+	
+	BOOL isFavorite;
+	isFavorite = [[DatabaseManager defaultManager] isFavoriteThreadIdentifier:identifier
+																	onBoardID:boardID];
+	
+	return isFavorite ? CMRFavoritesOperationRemove : CMRFavoritesOperationLink;
+}
 - (CMRFavoritesOperation) availableOperationWithPath : (NSString *) filepath
 {
-	NSString				*fileType_;
-	NSDocumentController	*docc_;
+	NSDictionary	*attr_;
 	
-	if(nil == filepath) return NO;
+	if(filepath == nil)
+		return CMRFavoritesOperationNone;
 	
-	if(NO == [[NSFileManager defaultManager] fileExistsAtPath : filepath]) {
-		if([[self favoritesItemsIndex] containsObject : filepath])
-			return CMRFavoritesOperationRemove;
-		else
-			return CMRFavoritesOperationNone;
-	}
-
-	if([self favoriteItemExistsOfThreadPath : filepath])
-		return CMRFavoritesOperationRemove;
+	attr_ = [BSDBThreadList attributesForThreadsListWithContentsOfFile : filepath];
+	if (attr_ == nil) return CMRFavoritesOperationNone;
 	
-	docc_ = [NSDocumentController sharedDocumentController];
-	fileType_ = [docc_ typeFromFileExtension : [filepath pathExtension]];
-	
-	return [fileType_ isEqualToString : CMRThreadDocumentType]
-				? CMRFavoritesOperationLink
-				: CMRFavoritesOperationNone;
+	return [self availableOperationWithThread : attr_];
 }
 
 - (BOOL) canCreateFavoriteLinkFromPath : (NSString *) filepath
@@ -229,37 +227,40 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	UTILAssertNotNil(filepath);
 	return [[self favoritesItemsIndex] containsObject : filepath];
 }
-	
+
 - (BOOL) addFavoriteWithThread : (NSDictionary *) thread
 {
-	NSString	*path_;
-	if(nil == thread) return NO;
-
-	path_ = [CMRThreadAttributes pathFromDictionary : thread];
-	if(path_ == nil || NO == [self canCreateFavoriteLinkFromPath : path_]) return NO;
+	id identifier;
+	id boardName = [thread valueForKey:ThreadPlistBoardNameKey];
+	id boardIDs;
+	BOOL isSuccess = NO;
 	
-	[[self favoritesItemsArray] addObject : thread];
-	[[self favoritesItemsIndex] addObject : path_];
+	identifier = [CMRThreadAttributes identifierFromDictionary:thread];
+	boardIDs = [[DatabaseManager defaultManager] boardIDsForName:boardName];
 	
-	// write Now
-	[[self favoritesItemsArray] writeToFile : [[self class] defaultFilepath]
-								 atomically : YES];
-
-	UTILNotifyInfo3(
-		CMRFavoritesManagerDidLinkFavoritesNotification,
-		path_,
-		kAppFavoritesManagerInfoFilesKey);
-			
-	return YES;
+	if( !identifier || !boardIDs ) return NO;
+	
+	/* TODO 
+		ï°êîë∂ç›Ç∑ÇÈèÍçáÇÃèàóù
+*/
+	unsigned boardID;
+	boardID = [[boardIDs objectAtIndex:0] unsignedIntValue];
+	
+	isSuccess = [[DatabaseManager defaultManager] appendFavoriteThreadIdentifier:identifier
+																	   onBoardID:boardID];
+	if( isSuccess ) {
+		UTILNotifyName( CMRFavoritesManagerDidLinkFavoritesNotification );
+	}
+	
+	return isSuccess;
 }
-
 - (BOOL) addFavoriteWithFilePath : (NSString *) filepath
 {
 	NSDictionary	*attr_;
 	
 	if(filepath == nil || NO == [self canCreateFavoriteLinkFromPath : filepath]) return NO;
 	
-	attr_ = [CMRThreadsList attributesForThreadsListWithContentsOfFile : filepath];
+	attr_ = [BSDBThreadList attributesForThreadsListWithContentsOfFile : filepath];
 	if (attr_ == nil) return NO;
 	
 	return [self addFavoriteWithThread : attr_];
@@ -267,31 +268,39 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 - (BOOL) removeFromFavoritesWithThread : (NSDictionary *) thread
 {
-	NSString *path_;
-	if (nil == thread) return NO;
+	id identifier;
+	id boardName = [thread valueForKey:ThreadPlistBoardNameKey];
+	id boardIDs;
+	BOOL isSuccess;
 	
-	path_ = [CMRThreadAttributes pathFromDictionary : thread];
-	return [self removeFromFavoritesWithFilePath : path_];
+	identifier = [CMRThreadAttributes identifierFromDictionary:thread];
+	boardIDs = [[DatabaseManager defaultManager] boardIDsForName:boardName];
+	
+	if( !identifier || !boardIDs ) return NO;
+	
+	/* TODO 
+		ï°êîë∂ç›Ç∑ÇÈèÍçáÇÃèàóù
+*/
+	unsigned boardID;
+	boardID = [[boardIDs objectAtIndex:0] unsignedIntValue];
+	
+	isSuccess = [[DatabaseManager defaultManager] removeFavoriteThreadIdentifier:identifier
+																	   onBoardID:boardID];
+	if( isSuccess ) {
+		UTILNotifyName( CMRFavoritesManagerDidRemoveFavoritesNotification );
+	}
+	
+	return isSuccess;
 }
 
 - (BOOL) removeFromFavoritesWithFilePath : (NSString *) filepath
 {
-	int				idx_;
-
-	if (nil == filepath) return NO;
+	NSDictionary	*attr_;
 	
-	idx_ = [[self favoritesItemsIndex] indexOfObject : filepath];
-	if (idx_ == NSNotFound) return NO;
-
-	[[self favoritesItemsArray] removeObjectAtIndex : idx_];
-	[[self favoritesItemsIndex] removeObjectAtIndex : idx_];
-
-	UTILNotifyInfo3(
-		CMRFavoritesManagerDidRemoveFavoritesNotification,
-		filepath,
-		kAppFavoritesManagerInfoFilesKey);
-
-	return YES;
+	attr_ = [BSDBThreadList attributesForThreadsListWithContentsOfFile : filepath];
+	if (attr_ == nil) return NO;
+	
+	return [self removeFromFavoritesWithThread : attr_];
 }
 
 - (void) removeFromFavoritesWithPathArray : (NSArray *) pathArray_
@@ -355,10 +364,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	
 	[self setFavoritesItemsArray : newFavAry_];
 	[newFavAry_ release];
-
-	// éËî≤Ç´
-	[self setFavoritesItemsIndex : nil];
-	[self favoritesItemsIndex];
 	
 	return isAscending_ ? [aboveArray_ count] : [belowArray_ count];
 }

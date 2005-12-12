@@ -14,6 +14,8 @@
 #import "CMRFavoritesManager.h"
 #import "AppDefaults.h"
 
+#import "BSDBThreadList.h"
+
 @implementation CMRThreadsListReadFileTask(Private)
 - (NSString *) threadsListPath
 {
@@ -135,23 +137,33 @@
 {
 	NSArray				*list_;
 	NSMutableArray		*converted_;
-	NSString			*bName_;
+	SGFileRef			*folder;
 	
-	bName_ = [self boardName];
-
-	if ([bName_ isEqualToString : CMXFavoritesDirectoryName]) {
+	folder = [[CMRDocumentFileManager defaultManager]
+				ensureDirectoryExistsWithBoardName : [self boardName]];
+	UTILAssertNotNil(folder);
+	if ([[self boardName] isEqualToString : CMXFavoritesDirectoryName]) {
 		list_ = [[CMRFavoritesManager defaultManager] favoritesItemsArray];
+		/*if([list_ count] == 0 && NO == [CMRPref isFavoritesImported]) {
+			NSLog(@"Importing old favorites...");
+			list_ = [BSDBThreadList threadsListTemplateWithPath : [folder filepath]];
+			if (list_ != nil) {
+				NSMutableArray	*importedList_;
+				importedList_ = [list_ mutableCopy];
+				[[CMRFavoritesManager defaultManager] setFavoritesItemsArray : importedList_];
+				//[[CMRFavoritesManager defaultManager] setFavoritesItemsIndex : 
+				//				  [[CMRFavoritesManager defaultManager] favoritesItemsIndex]];
+				[importedList_ release];
+				NSLog(@"Old Favorites are successfully imported.");
+			}
+			
+			[CMRPref setIsFavoritesImported : YES];
+		}*/
 	} else {
 		list_ = [NSArray arrayWithContentsOfFile : [self threadsListPath]];
 	}
-	
-	if(nil == list_) {
-		SGFileRef			*folder;
-		folder = [[CMRDocumentFileManager defaultManager] ensureDirectoryExistsWithBoardName : bName_];
-		UTILAssertNotNil(folder);
-
-		list_ = [CMRThreadsList threadsListTemplateWithPath : [folder filepath]];
-	}
+	if(nil == list_){
+		list_ = [BSDBThreadList threadsListTemplateWithPath : [folder filepath]];}
 	
 	converted_ = [self convertThreadsList : list_];
 	if(nil == list_ || nil == converted_){

@@ -3,6 +3,8 @@
 #import "CMRBrowser_p.h"
 #import "BSBoardListView.h"
 
+#import "SmartBoardList.h"
+
 @implementation CMRBrowser(Validation)
 - (BOOL) validateUIItem : (id) theItem
 {
@@ -87,9 +89,9 @@
 		item_ = [bLT_ itemAtRow : rowIndex_];
 		if (nil == item_) return NO;
 
-		if ([BoardList isBoard : item_])
+		if ([SmartBoardList isBoard : item_])
 			return YES;
-		else if ([BoardList isCategory : item_] && (tag_ != kBLOpenItemItemTag))
+		else if ([SmartBoardList isCategory : item_] && (tag_ != kBLOpenItemItemTag))
 			return YES;
 		return NO;
 	}

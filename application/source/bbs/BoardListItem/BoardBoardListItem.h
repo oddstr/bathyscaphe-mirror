@@ -13,12 +13,13 @@
 @interface BoardBoardListItem : AbstractDBBoardListItem
 {
 	unsigned boardID;
-	NSString *name;
+	NSString *representName;
 }
 
--(id)initWithBoardID:(unsigned)boardID;
+- (id) initWithBoardID : (unsigned) boardID;
+- (id) initWithURLString : (NSString *) urlString;
 
--(unsigned)boardID;
--(void)setBoardID:(unsigned)boardID;
+- (unsigned) boardID;
+- (void) setBoardID : (unsigned) boardID;
 
 @end
