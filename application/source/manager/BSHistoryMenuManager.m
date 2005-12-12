@@ -10,6 +10,8 @@
 
 #import "CMRMainMenuManager.h"
 
+#define kHistoryMenuItemTagMaximalNumKey	900
+
 @implementation BSHistoryMenuManager
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
@@ -59,7 +61,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 			「履歴」メニューの、履歴以外の項目には 1000 番台ないしは 1100 番台のタグが
 			振ってある。それ以外のタグなら、履歴項目と判断できる。
 		*/
-		if ([eachItem_ tag] < 1000) {
+		// 2005-12-12 修正：1000 番台のタグを「掲示板」メニューの項目が利用しているため、validation 上問題がある。
+		// このため、900 番台に修正する。
+		if ([eachItem_ tag] < kHistoryMenuItemTagMaximalNumKey) {
 			[menu removeItem : eachItem_];
 		}
 	}
