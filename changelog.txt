@@ -1,3 +1,13 @@
+2005-12-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/text/KeyValueTemplates.plist
+		よく考えたら長押しでの反応までの時間は KeyValueTemplates.plist の "Thread - MouseDownTrackingTime" で
+		設定できるんだった。デフォルトの値を少し小さく（0.7→0.5秒に変更）した。
+		また、「クリックで ID 抽出」したい場合は待ち時間を 0 にすれば良い。
+		- ダブルクリックでよく ID 文字列を選択するとか、そういう場合は適度に待ち時間を設けた方がよい。
+	* application/Resources/Japanese.lproj/MainMenu.nib
+	* application/source/thread/CMRThreadViewer-Validation.m
+		「編集」＞「検索」サブメニューに「抽出」「ハイライト」を追加（「一覧検索」「すべて検索」の復帰）。
+================================================= TestaRossa
 2005-12-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* すべてのプロジェクトファイル（.xcodeproj）
 		Universal Binary でビルドするためのビルド設定の変更。ターゲットの Mac OS X 10.3 以降の明記。

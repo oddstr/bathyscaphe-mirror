@@ -40,6 +40,7 @@
                 deleteThread = id; 
                 editDrawerItem = id; 
                 findAll = id; 
+                findAllByFilter = id; 
                 findFirstText = id; 
                 findNextText = id; 
                 findPreviousText = id; 
