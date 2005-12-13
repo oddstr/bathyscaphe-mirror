@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadMessageBuffer.m,v 1.1 2005/05/11 17:51:04 tsawada2 Exp $
+  * $Id: CMRThreadMessageBuffer.m,v 1.2 2005/12/13 10:04:53 tsawada2 Exp $
   * 
   * CMRThreadMessageBuffer.m
   *
@@ -60,7 +60,7 @@
 {
 	if (nil == _messages || anIndex >= SGBaseCArrayWrapperCount(_messages))
 		return nil;
-	
+
 	return SGBaseCArrayWrapperObjectAtIndex(_messages, anIndex);
 }
 - (unsigned) indexOfMessage : (id) aMessage

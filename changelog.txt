@@ -1,3 +1,7 @@
+2005-12-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/CMRThreadView.m
+		レス番クリックのメニューで「レスをコピー」を選んでも、レスがコピーされないことがあった問題を修正（したつもり）。
+		- 恐らく、非表示範囲のレスをポップアップで一時的に表示してコピーしようとした際に失敗していた。
 2005-12-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/manager/BSHistoryMenuManager.m
 		メニュー項目のタグ番号の関係で、「履歴」＞「前へ戻る」「次へ進む」の validation がブラウザウインドウでコンフリクトして

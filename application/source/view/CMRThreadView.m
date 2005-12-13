@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadView.m,v 1.7 2005/10/23 11:13:31 tsawada2 Exp $
+  * $Id: CMRThreadView.m,v 1.8 2005/12/13 10:04:53 tsawada2 Exp $
   * 
   * CMRThreadView.m
   *
@@ -478,9 +478,11 @@ static NSString *mActionGetKeysForTag[] = {
 	NSNumber				*mIndex;
 	CMRThreadLayout			*L = [self threadLayout];
 	NSMutableAttributedString	*contents_;
+	int		n;
 	
-	if (nil == L) return;
-	
+	if (nil == L)
+	 return;
+
 	contents_ = [[NSMutableAttributedString alloc] init];
 	mIndexEnum_ = [self representedObjectWithSender : sender];
 	while (mIndex = [mIndexEnum_ nextObject]) {
@@ -491,11 +493,12 @@ static NSString *mActionGetKeysForTag[] = {
 		range_ = NSMakeRange([mIndex unsignedIntValue], 1);
 		
 		m = [L contentsForIndexRange : range_
-	 					 composingMask : CMRInvisibleMask
-							   compose : NO
-						attributesMask : (CMRLocalAbonedMask | CMRSpamMask)];
+					   composingMask : CMRInvisibleAbonedMask//CMRInvisibleMask
+							 compose : NO
+					  attributesMask : (CMRLocalAbonedMask | CMRSpamMask)];
 		if(nil == m)
 			continue;
+
 		[contents_ appendAttributedString : m];
 	}
 	
@@ -520,7 +523,7 @@ static NSString *mActionGetKeysForTag[] = {
 	}
 #endif
 	
-	[pboard_ declareTypes : types_
+	n = [pboard_ declareTypes : types_
 				    owner : nil];
 
 	[contents_ writeToPasteboard : pboard_];

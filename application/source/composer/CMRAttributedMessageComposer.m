@@ -127,9 +127,10 @@ static BOOL messageIsLocalAboned_(CMRThreadMessage *aMessage)
 	
 	if (nil == aMessage)
 		return;
-	
-	if ((0 == _CCFlags.compose) != (0 == (_CCFlags.mask & flags_)))
+
+	if ((0 == _CCFlags.compose) != (0 == (_CCFlags.mask & flags_))){
 		return;
+	}
 	
 	if (flags_ & _mask) {
 		UInt32		newFlags_;
@@ -143,7 +144,6 @@ static BOOL messageIsLocalAboned_(CMRThreadMessage *aMessage)
 	if (isSpam_ && kSpamFilterInvisibleAbonedBehavior == [CMRPref spamFilterBehavior])
 		return;
 	
-	
 	mRange_.location = [ms length];
 	[super composeThreadMessage : aMessage];
 	mRange_.length = [ms length] - mRange_.location;
@@ -154,6 +154,7 @@ static BOOL messageIsLocalAboned_(CMRThreadMessage *aMessage)
 				   value : [CMRPref messageFilteredColor]
 				   range : mRange_];
 	}
+					   //NSLog(@"C: %@",[ms string]);
 	
 	// ëÆê´Çå≥Ç…ñﬂÇ∑
 	[aMessage setFlags : flags_];

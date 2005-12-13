@@ -155,6 +155,7 @@
 	[composer_ release];
 	return [textBuffer_ autorelease];
 }
+
 - (NSAttributedString *) contentsForIndexRange : (NSRange) aRange
 {
 	if (kSpamFilterInvisibleAbonedBehavior == [CMRPref spamFilterBehavior]) {
