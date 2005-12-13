@@ -1,5 +1,5 @@
 //
-//  BSBoardListView.m
+//  $Id: BSBoardListView.m,v 1.5 2005/12/13 12:14:01 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/09/20.
@@ -76,11 +76,12 @@ static NSString *const bgImage_normal	= @"boardListSelBg";
 		NSFrameRectWithWidth(tmpRect, 2.0); // 枠を描く
 		[self unlockFocus];
 		[self displayIfNeeded];
-		[[NSNotificationCenter defaultCenter]
-			addObserver : self
-				selector : @selector(cleanUpSemiHighlightBorder:)
-					name : NSMenuDidEndTrackingNotification // This Notification is available in Mac OS X 10.3 and later.
-				object : nil];
+
+		// This Notification is available in Mac OS X 10.3 and later.
+ 		[[NSNotificationCenter defaultCenter] addObserver : self
+												 selector : @selector(cleanUpSemiHighlightBorder:)
+													 name : NSMenuDidEndTrackingNotification
+												   object : nil];
 	}
 
 	if(row >= 0) {
@@ -90,5 +91,4 @@ static NSString *const bgImage_normal	= @"boardListSelBg";
 		return nil;
 	}
 }
-
 @end
