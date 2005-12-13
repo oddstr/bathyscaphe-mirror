@@ -1,3 +1,7 @@
+2005-12-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/preferences/AppDefaults-FontColor.m
+		フォント・カラー関連の設定について：カラーの変更は、直ちに反映させるように統一。
+		- ホストの色がちゃんと変更されていなかった。
 2005-12-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-Validation.m
 		掲示板リストで「お気に入り」が選択されている状態で、他の掲示板リスト項目に対してコンテキストメニューを表示させると、
