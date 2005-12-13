@@ -663,8 +663,6 @@
 		F424609908462452000803EA /* Scripts.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F424609808462452000803EA /* Scripts.tiff */; };
 		F4559444088A106E00557B17 /* DatabaseManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F4559442088A106E00557B17 /* DatabaseManager.h */; };
 		F4559445088A106E00557B17 /* DatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F4559443088A106E00557B17 /* DatabaseManager.m */; };
-		F466B141094D9C31008B128E /* BoardList.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC2504C698FA00A80005 /* BoardList.h */; };
-		F466B142094D9C33008B128E /* BoardList.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC2604C698FA00A80005 /* BoardList.m */; };
 		F469D5430943582A007D7EDC /* BSBoardInfoInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87BF52D308F7913400998C4E /* BSBoardInfoInspector.nib */; };
 		F469D6BD09435E34007D7EDC /* AddBoard.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B19D7D08FB7C4100D15053 /* AddBoard.tiff */; };
 		F469D6BE09435E35007D7EDC /* AddBoard_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B19D7C08FB7C4100D15053 /* AddBoard_Pressed.tiff */; };
@@ -953,7 +951,6 @@
 		F4904C1F088C096D00EA9BA8 /* 2chConnector.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 871CA18308585FD200C3A044 /* 2chConnector.plugin */; };
 		F4904C20088C096D00EA9BA8 /* PreferencesPane.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 871CA15608585F8100C3A044 /* PreferencesPane.plugin */; };
 		F4904C23088C096D00EA9BA8 /* BathyScaphe.mdimporter in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87299C09083266F700CBD740 /* BathyScaphe.mdimporter */; };
-		F4904C25088C096D00EA9BA8 /* BoardList-OVDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC2404C698FA00A80005 /* BoardList-OVDataSource.m */; };
 		F4904C28088C096D00EA9BA8 /* Browser.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC2E04C698FA00A80005 /* Browser.m */; };
 		F4904C2A088C096D00EA9BA8 /* CMRAccessorySheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC3204C698FA00A80005 /* CMRAccessorySheetController.m */; };
 		F4904C2B088C096D00EA9BA8 /* CMRBrowser-Action.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC3404C698FA00A80005 /* CMRBrowser-Action.m */; };
@@ -3945,7 +3942,6 @@
 				F4FA703B094357C100BE3F27 /* BSSegmentedControlTbItem.h in Headers */,
 				F469D7480943605C007D7EDC /* AddBoardSheetController.h in Headers */,
 				F4F5821F0945C9CC004DF9DB /* ConcreteBoardListItem.h in Headers */,
-				F466B141094D9C31008B128E /* BoardList.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4932,7 +4928,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4904C25088C096D00EA9BA8 /* BoardList-OVDataSource.m in Sources */,
 				F4904C28088C096D00EA9BA8 /* Browser.m in Sources */,
 				F4904C2A088C096D00EA9BA8 /* CMRAccessorySheetController.m in Sources */,
 				F4904C2B088C096D00EA9BA8 /* CMRBrowser-Action.m in Sources */,
@@ -5114,7 +5109,6 @@
 				F469D7490943605D007D7EDC /* AddBoardSheetController.m in Sources */,
 				F469D74C0943606C007D7EDC /* CMRBrowser-BLEditor.m in Sources */,
 				F4F582200945C9CC004DF9DB /* ConcreteBoardListItem.m in Sources */,
-				F466B142094D9C33008B128E /* BoardList.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

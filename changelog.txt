@@ -1,3 +1,8 @@
+2005-12-13 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardList.h
+	* application/source/bbs/BoardList.m
+	* application/source/bbs/BoardList-OVDataSource.m
+		置き換えが完了していたのでプロジェクトから外した。
 2005-12-12 masakih <masakih@users.sorceforge.jp>
 	* application/source/bbs/BoardListItem/BoardListItem.h
 	* application/source/bbs/BoardListItem/BoardListItem.m
