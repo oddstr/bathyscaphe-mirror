@@ -1,5 +1,11 @@
 2005-12-14 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSDBThreadList.m
+	* application/source/bbs/BoardListItem/SmartBoardList.m
+	* application/source/manager/DatabaseManager-DatabaseAccess.m
+		お気に入りが削除されたときに、スレッド一覧を更新するようにした。
+		ついでにBathyScaphe Style にコードを直すスクリプトのバグで混入した
+		文字リテラル内の不要なスペースによるバグを解消。
+	* application/source/browser/BSDBThreadList.m
 	* application/source/browser/Browser.m
 	* application/source/browser/CMRBrowser-Action.m 
 		検索フィールドが空になった時にスレッド一覧を正しく表示するようにした。

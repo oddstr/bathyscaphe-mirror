@@ -339,13 +339,13 @@
 		return NO;
 	}
 	
-	query = [NSMutableString stringWithFormat : @"SELECT count (*) FROM %@", FavoritesTableName];
+	query = [NSMutableString stringWithFormat : @"SELECT count(*) FROM %@", FavoritesTableName];
 	[query appendFormat : @" WHERE %@ = %u", BoardIDColumn, boardID];
 	[query appendFormat : @" AND %@ LIKE '%@'", ThreadIDColumn, identifier];
 	
 	cursor = [db performQuery : query];
 	if ([cursor rowCount]) {
-		value = [cursor valueForColumn : @"count (*) " atRow : 0];
+		value = [cursor valueForColumn : @"count(*)" atRow : 0];
 		if ([value intValue]) {
 			isFavorite = YES;
 		}

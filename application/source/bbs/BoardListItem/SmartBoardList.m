@@ -287,7 +287,7 @@ objectValueForTableColumn : (NSTableColumn *) tableColumn
 }
 - (id) outlineView : (NSOutlineView *) outlineView persistentObjectForItem : (id) item
 {
-	return [item name];
+	return [item representName];
 }
 
 
