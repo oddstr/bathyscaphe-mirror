@@ -13,6 +13,7 @@
 #import "CMRThreadSignature.h"
 #import "ThreadTextDownloader.h"
 #import "CMRSearchOptions.h"
+#import "missing.h"
 
 #import "BoardListItem.h"
 
@@ -66,6 +67,44 @@
 	}
 	
 	return self;
+}
+
+- (void) registerToNotificationCenter
+{
+	[[NSNotificationCenter defaultCenter]
+	     addObserver : self
+	        selector : @selector(favoritesManagerDidChange:)
+	            name : CMRFavoritesManagerDidLinkFavoritesNotification
+	          object : [CMRFavoritesManager defaultManager]];
+	[[NSNotificationCenter defaultCenter]
+	     addObserver : self
+	        selector : @selector(favoritesManagerDidChange:)
+	            name : CMRFavoritesManagerDidRemoveFavoritesNotification
+	          object : [CMRFavoritesManager defaultManager]];
+	
+	[super registerToNotificationCenter];
+}
+- (void) removeFromNotificationCenter
+{
+	[[NSNotificationCenter defaultCenter]
+	  removeObserver : self
+	            name : CMRFavoritesManagerDidLinkFavoritesNotification
+	          object : [CMRFavoritesManager defaultManager]];
+	[[NSNotificationCenter defaultCenter]
+	  removeObserver : self
+	            name : CMRFavoritesManagerDidRemoveFavoritesNotification
+	          object : [CMRFavoritesManager defaultManager]];
+	
+	[super removeFromNotificationCenter];
+}
+- (void)favoritesManagerDidChange : (id) notification
+{
+	UTILAssertNotificationObject(
+								 notification,
+								 [CMRFavoritesManager defaultManager]);
+	[self updateCursor];
+	
+	UTILNotifyName(CMRThreadsListDidChangeNotification);
 }
 
 - (id) boardListItem
@@ -141,7 +180,7 @@ NSString *wherePhraseFromSearchString(NSString *searchString)
 	
 	sql = [NSMutableString stringWithFormat : @"SELECT * FROM (%@) ",targetTable];
 	
-	if (mSearchString) {
+	if (mSearchString && ![mSearchString isEmpty]) {
 		id phrase = wherePhraseFromSearchString( mSearchString );
 		if (phrase) {
 			[sql appendString : phrase];

@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.m,v 1.6.2.1 2005/12/12 15:28:27 masakih Exp $
+  * $Id: Browser.m,v 1.6.2.2 2005/12/13 15:03:39 masakih Exp $
   * 
   * Browser.m
   *
@@ -108,7 +108,7 @@
 	NSNumber			*info_;
 
 	if(nil == [self currentThreadsList]) return NO;
-	if(nil == text || [text isEmpty]) return NO;
+	if(nil == text) return NO;
 	
 	
 	searchOption_ = [CMRPref threadSearchOption];

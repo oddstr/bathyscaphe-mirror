@@ -1,3 +1,8 @@
+2005-12-14 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+	* application/source/browser/Browser.m
+	* application/source/browser/CMRBrowser-Action.m 
+		検索フィールドが空になった時にスレッド一覧を正しく表示するようにした。
 2005-12-13 masakih <masakih@users.sourceforge.jp>
 	* application/source/bbs/BoardList.h
 	* application/source/bbs/BoardList.m

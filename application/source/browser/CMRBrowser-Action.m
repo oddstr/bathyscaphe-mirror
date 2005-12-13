@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.25.2.1 2005/12/12 15:28:27 masakih Exp $
+  * $Id: CMRBrowser-Action.m,v 1.25.2.2 2005/12/13 15:03:39 masakih Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -446,12 +446,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 {
 	BOOL		result = NO;
 	
-	if (nil == aString || [aString isEmpty]) {
-		int		mask_;
-		
-		mask_ = [[self currentThreadsList] filteringMask];
-		[self changeThreadsFilteringMask : mask_];
-	} else {
+	if (nil != aString) {
 		result = [[self document] searchThreadsInListWithString : aString];
 		[self showSearchResultAppInfoWithFound : result];
 	}
