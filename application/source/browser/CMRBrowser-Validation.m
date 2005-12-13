@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-Validation.m,v 1.10 2005/12/13 12:14:01 tsawada2 Exp $
+ * $Id: CMRBrowser-Validation.m,v 1.11 2005/12/13 12:31:28 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -84,7 +84,7 @@
 	
 		if (rowIndex_ >= [bLT_ numberOfRows]) return NO;
 		// 2005-12-13 tsawada2
-		if (rowIndex_ < 0 || (rowIndex_ != semiSelRowIdx_)) {
+		if ((rowIndex_ < 0 || (rowIndex_ != semiSelRowIdx_)) && semiSelRowIdx_ != -1) {
 			if ((semiSelRowIdx_ >= 0) && (tag_ > kBLContMenuItemTagMaximalValue)) // via Contextual menu
 				rowIndex_ = semiSelRowIdx_;
 			else
