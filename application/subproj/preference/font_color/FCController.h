@@ -1,5 +1,5 @@
 /**
-  * $Id: FCController.h,v 1.6 2005/12/03 09:01:50 tsawada2 Exp $
+  * $Id: FCController.h,v 1.5.2.1 2005/12/14 16:05:06 masakih Exp $
   * 
   * FCController.h
   *

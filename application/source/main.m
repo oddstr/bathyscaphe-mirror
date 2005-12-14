@@ -39,8 +39,8 @@ void CMXServicesInit(void)
     // Managers
     [CMRFileManager defaultManager];
     [CMRMainMenuManager defaultManager];
-    [BoardManager defaultManager];
-	[CMRFavoritesManager defaultManager];
+    //[BoardManager defaultManager];
+	//[CMRFavoritesManager defaultManager];
     [CMRNetGrobalLock sharedInstance];
 	[DatabaseManager defaultManager];
 	[DatabaseManager setupDatabase];

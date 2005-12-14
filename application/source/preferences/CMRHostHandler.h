@@ -1,6 +1,6 @@
 //: CMRHostHandler.h
 /**
-  * $Id: CMRHostHandler.h,v 1.2 2005/12/02 14:41:57 tsawada2 Exp $
+  * $Id: CMRHostHandler.h,v 1.1.1.1.4.1 2005/12/14 16:05:06 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.

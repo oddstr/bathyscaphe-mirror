@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.18 2005/12/10 15:42:21 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.13.2.1 2005/12/14 16:05:06 masakih Exp $
   * 
   * CMRThreadViewer-Action.m
   *

@@ -1,5 +1,5 @@
 /*
- * $Id: CMRThreadViewer-OwnHistory.m,v 1.4 2005/11/25 15:27:54 tsawada2 Exp $
+ * $Id: CMRThreadViewer-OwnHistory.m,v 1.3.4.1 2005/12/14 16:05:06 masakih Exp $
  *
  * それぞれのスレッドビューア内での履歴（グローバルな履歴と一致するとは限らない）の管理と移動アクションのサポート
  * CMRThreadViewer.m から分割

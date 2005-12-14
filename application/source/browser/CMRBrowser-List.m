@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.7.2.1 2005/12/12 15:28:27 masakih Exp $
+  * $Id: CMRBrowser-List.m,v 1.7.2.2 2005/12/14 16:05:06 masakih Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -46,15 +46,15 @@
 	[self clearSearchFilter];
 }
 
-- (void) boardChanged : (id) aBoardIdentifier
+- (void) boardChanged : (NSString *) boardName
 {
 	// 読み込みの完了、設定に保存
 	// 履歴に登録してから、変更の通知
-	[CMRPref setBrowserLastBoard : aBoardIdentifier];
+	[CMRPref setBrowserLastBoard : boardName];
 	[[CMRHistoryManager defaultManager]
-		addItemWithTitle : [aBoardIdentifier name]
+		addItemWithTitle : boardName
 					type : CMRHistoryBoardEntryType
-				  object : aBoardIdentifier];
+				  object : [CMRBBSSignature BBSSignatureWithName : boardName]];
 	UTILNotifyName(CMRBrowserDidChangeBoardNotification);
 }
 
@@ -92,7 +92,7 @@
 	
 	// リストの読み込みを開始する。
 	[list_ startLoadingThreadsList : [self threadLayout]];
-	[self boardChanged : item];
+	[self boardChanged : bName_];
 }
 - (void) showThreadsListWithBoardName : (NSString *) boardName
 {

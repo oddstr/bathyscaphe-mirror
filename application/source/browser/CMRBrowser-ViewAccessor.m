@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.25.2.1 2005/12/12 15:28:27 masakih Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.25.2.2 2005/12/14 16:05:06 masakih Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -562,16 +562,17 @@
 
 - (void) setupBoardListTableLastSelected
 {
-    CMRBBSSignature *lastBoard;
+    //CMRBBSSignature *lastBoard;
     NSString        *boardName;
     
-    lastBoard = [CMRPref browserLastBoard];
-    if (nil == lastBoard) {
+    //lastBoard = [CMRPref browserLastBoard];
+	boardName = [CMRPref browserLastBoard];
+    if (nil == boardName) {//lastBoard) {
         NSLog(@"Last Board Setting not found.");
         return;
     }
     
-    boardName = [lastBoard name];
+    //boardName = [lastBoard name];
     [self showThreadsListWithBoardName : boardName];
 	[self selectRowWhoseNameIs : boardName];
 }
@@ -724,11 +725,11 @@
 		
 		state_ = (searchMasks_[i] & [CMRPref threadSearchOption]) ? NSOnState : NSOffState;
 
-		if (CMRSearchOptionCaseInsensitive == searchMasks_[i] || 
+		/*if (CMRSearchOptionCaseInsensitive == searchMasks_[i] || 
 		   CMRSearchOptionZenHankakuInsensitive == searchMasks_[i]) {
 			// à”ñ°Ç™ãtÇ…Ç»Ç¡ÇƒÇ¢ÇÈÅB
 			state_ = (state_ == NSOnState) ? NSOffState : NSOnState;
-		}
+		}*/
 		[item_ setState : state_];
 		[cellMenu insertItem:item_ atIndex:i];
 		[item_ release];

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFavoritesManager.h,v 1.4 2005/11/23 13:44:07 tsawada2 Exp $
+  * $Id: CMRFavoritesManager.h,v 1.3.2.1 2005/12/14 16:05:06 masakih Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */

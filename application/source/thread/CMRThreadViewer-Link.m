@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.13 2005/12/09 00:01:41 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.9.2.1 2005/12/14 16:05:06 masakih Exp $
   * 
   * CMRThreadViewer-Link.m
   *

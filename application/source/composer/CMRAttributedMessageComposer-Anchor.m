@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer-Anchor.m,v 1.3 2005/12/10 12:39:44 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer-Anchor.m,v 1.2.2.1 2005/12/14 16:05:06 masakih Exp $
   * 
   * CMRAttributedMessageComposer-Anchor.m
   *

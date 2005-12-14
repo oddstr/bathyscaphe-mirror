@@ -1,6 +1,6 @@
 //: CMRThreadLayout.m
 /**
-  * $Id: CMRThreadLayout.m,v 1.8 2005/11/24 10:15:02 tsawada2 Exp $
+  * $Id: CMRThreadLayout.m,v 1.5.2.1 2005/12/14 16:05:06 masakih Exp $
   * 
   * CMRThreadLayout.m
   *

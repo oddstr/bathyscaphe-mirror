@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.h,v 1.3.2.1 2005/12/12 15:28:27 masakih Exp $
+ * $Id: BoardManager.h,v 1.3.2.2 2005/12/14 16:05:06 masakih Exp $
  * 
  * BoardManager.h
  *
@@ -27,6 +27,14 @@
 				・スレッド一覧でのソート基準カラムと、昇順／降順
 */
 
+/*
+typedef enum _BSBeLoginPolicyType {
+	BSBeLoginTriviallyNeeded	= 0, // Be ログイン必須
+	BSBeLoginTriviallyOFF		= 1, // Be ログインは無意味（2chではない掲示板など）
+	BSBeLoginDecidedByUser		= 2, // Be ログインするかどうかはユーザの設定を参照する
+	BSBeLoginNoAccountOFF		= 3  // 環境設定で Be アカウントが設定されていない
+} BSBeLoginPolicyType;
+*/
 @interface BoardManager : NSObject
 {
     @private
@@ -108,6 +116,15 @@
 - (void) setDefaultMail : (NSString *) aString
 			   forBoard : (NSString *) boardName;
 
+// LittleWish Addition
+/* 注意：現在はまだインタフェースのみ */
+- (BOOL) allThreadsShouldAAThreadAtBoard : (NSString *) boardName;
+- (void) setAllThreadsShouldAAThread : (BOOL      ) shouldAAThread
+							 atBoard : (NSString *) boardName;
+
+// LittleWish Addtion : Read-only Properties
+- (NSImage *) iconForBoard : (NSString *) boardName;
+- (BSBeLoginPolicyType) typeOfBeLoginPolicyForBoard : (NSString *) boardName;
 
 /*
 	ユーザからの入力を受けつける。

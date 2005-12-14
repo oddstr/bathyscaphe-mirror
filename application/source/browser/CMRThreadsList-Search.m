@@ -1,6 +1,6 @@
 //:
 /**
-  * $Id: CMRThreadsList-Search.m,v 1.3 2005/12/10 12:39:44 tsawada2 Exp $
+  * $Id: CMRThreadsList-Search.m,v 1.1.1.1.4.1 2005/12/14 16:05:06 masakih Exp $
   * BathyScaphe 1.1.2 "TestaRossa"
   *
   * Copyright 2005 BathyScaphe Project. All rights reserved.

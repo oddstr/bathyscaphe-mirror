@@ -13,7 +13,7 @@ static NSString *const NNDDefaultKotehanKey = @"DefaultReplyName";
 static NSString *const NNDDefaultMailKey	= @"DefaultReplyMail";
 static NSString *const NNDAllThreadsAAKey	= @"AABoard";
 
-extern NSImage  *imageForType(BoardListItemType type); // described in BoardList-OVDatasource.m
+//extern NSImage  *imageForType(BoardListItemType type); // described in BoardList-OVDatasource.m
 
 @implementation BoardManager(BSAddition)
 
@@ -427,15 +427,10 @@ extern NSImage  *imageForType(BoardListItemType type); // described in BoardList
 - (NSImage *) iconForBoard : (NSString *) boardName
 {
 	// Future will be...
-	/*BoardListItem	*item_;
-	item_ = [self itemForName : boardName];
+	BoardListItem	*item_;
+	item_ = [[self defaultList] itemForName : boardName];
 	
-	return [item_ icon];*/
-	if ([boardName isEqualToString : CMXFavoritesDirectoryName]) {
-		return imageForType(BoardListFavoritesItem);
-	} else {
-		return imageForType(BoardListBoardItem);
-	}
+	return [item_ icon];
 }
 
 - (BSBeLoginPolicyType) typeOfBeLoginPolicyForBoard : (NSString *) boardName

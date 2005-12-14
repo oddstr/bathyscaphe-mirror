@@ -1,5 +1,5 @@
 /** 
-  * $Id: CMRThreadViewer-Find.m,v 1.7 2005/12/09 00:01:41 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Find.m,v 1.2.2.1 2005/12/14 16:05:06 masakih Exp $
   *
   * Copyright (c) 2003, Takanori Ishikawa.
   * CMRThreadViewer-Action.m から分割 - 2005-02-16 by tsawada2.

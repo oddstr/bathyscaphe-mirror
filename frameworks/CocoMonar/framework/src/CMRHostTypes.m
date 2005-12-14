@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRHostTypes.m,v 1.2 2005/11/30 23:22:51 tsawada2 Exp $
+  * $Id: CMRHostTypes.m,v 1.1.1.1.4.1 2005/12/14 16:05:06 masakih Exp $
   * 
   * CMRHostTypes.m
   *

@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate+Menu.m,v 1.8 2005/11/25 20:21:24 tsawada2 Exp $
+ * $Id: CMRAppDelegate+Menu.m,v 1.7.4.1 2005/12/14 16:05:06 masakih Exp $
  * 
  * CMRAppDelegate+Menu.m
  *

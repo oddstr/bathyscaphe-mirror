@@ -66,7 +66,6 @@
 		870161DE082BE67100AEFDD0 /* CMRThreadViewer_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD6E04C698FB00A80005 /* CMRThreadViewer_p.h */; };
 		870161DF082BE67100AEFDD0 /* SGDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD7604C698FB00A80005 /* SGDocument.h */; };
 		870161E0082BE67100AEFDD0 /* TextFinder.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD7A04C698FB00A80005 /* TextFinder.h */; };
-		870161E1082BE67100AEFDD0 /* TextFinder_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD7C04C698FB00A80005 /* TextFinder_p.h */; };
 		870161E3082BE67100AEFDD0 /* missing.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD8704C698FB00A80005 /* missing.h */; };
 		870161E4082BE67100AEFDD0 /* CMRIndexingStepper.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD9604C698FB00A80005 /* CMRIndexingStepper.h */; };
 		870161E5082BE67100AEFDD0 /* CMRIndexingStepper_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD9804C698FB00A80005 /* CMRIndexingStepper_p.h */; };
@@ -108,7 +107,6 @@
 		8701620F082BE67100AEFDD0 /* CMRHostHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = F358F4B904DE227900A80005 /* CMRHostHandler.h */; };
 		87016210082BE67100AEFDD0 /* CMRHostHandler_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F358F4BD04DE23BC00A80005 /* CMRHostHandler_p.h */; };
 		87016211082BE67100AEFDD0 /* CMRHistoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F38D3D4E04FBE7D000DCB099 /* CMRHistoryManager.h */; };
-		87016212082BE67100AEFDD0 /* CMRBBSAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = F3A31C080503366700CE4E8E /* CMRBBSAttributes.h */; };
 		87016213082BE67100AEFDD0 /* SGContextHelpPanel.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDA804C698FB00A80005 /* SGContextHelpPanel.h */; };
 		87016215082BE67100AEFDD0 /* CMRProgressIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = F322F1F8050B877200A80005 /* CMRProgressIndicator.h */; };
 		87016216082BE67100AEFDD0 /* CMRPreferencesDefautValues.h in Headers */ = {isa = PBXBuildFile; fileRef = F322F7FB050BA07D00A80005 /* CMRPreferencesDefautValues.h */; };
@@ -198,7 +196,6 @@
 		8701630A082BE67100AEFDD0 /* CMRBBSSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCCD04C698FB00A80005 /* CMRBBSSignature.m */; };
 		8701630B082BE67100AEFDD0 /* CMRThreadSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCD804C698FB00A80005 /* CMRThreadSignature.m */; };
 		8701630C082BE67100AEFDD0 /* AppDefaults-Account.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCDC04C698FB00A80005 /* AppDefaults-Account.m */; };
-		8701630D082BE67100AEFDD0 /* AppDefaults-Alert.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCDD04C698FB00A80005 /* AppDefaults-Alert.m */; };
 		8701630E082BE67100AEFDD0 /* AppDefaults-Background.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCDE04C698FB00A80005 /* AppDefaults-Background.m */; };
 		8701630F082BE67100AEFDD0 /* AppDefaults-Bundle.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCDF04C698FB00A80005 /* AppDefaults-Bundle.m */; };
 		87016310082BE67100AEFDD0 /* AppDefaults-FontColor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCE004C698FB00A80005 /* AppDefaults-FontColor.m */; };
@@ -224,7 +221,6 @@
 		87016324082BE67100AEFDD0 /* CMRThreadViewer-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD6B04C698FB00A80005 /* CMRThreadViewer-ViewAccessor.m */; };
 		87016325082BE67100AEFDD0 /* CMRThreadViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD6D04C698FB00A80005 /* CMRThreadViewer.m */; };
 		87016326082BE67100AEFDD0 /* SGDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD7704C698FB00A80005 /* SGDocument.m */; };
-		87016327082BE67100AEFDD0 /* TextFinder-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD7904C698FB00A80005 /* TextFinder-ViewAccessor.m */; };
 		87016328082BE67100AEFDD0 /* TextFinder.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD7B04C698FB00A80005 /* TextFinder.m */; };
 		8701632A082BE67100AEFDD0 /* missing.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD8804C698FB00A80005 /* missing.m */; };
 		8701632B082BE67100AEFDD0 /* CMRIndexingStepper-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD9504C698FB00A80005 /* CMRIndexingStepper-ViewAccessor.m */; };
@@ -254,7 +250,6 @@
 		87016346082BE67100AEFDD0 /* CMRHostHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F358F4BA04DE227900A80005 /* CMRHostHandler.m */; };
 		87016347082BE67100AEFDD0 /* CMRDATDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D0A9A104F6128A00CB520C /* CMRDATDownloader.m */; };
 		87016349082BE67100AEFDD0 /* CMRHistoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F38D3D4F04FBE7D000DCB099 /* CMRHistoryManager.m */; };
-		8701634A082BE67100AEFDD0 /* CMRBBSAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A31C090503366700CE4E8E /* CMRBBSAttributes.m */; };
 		8701634B082BE67100AEFDD0 /* CMRThreadViewer-Link.m in Sources */ = {isa = PBXBuildFile; fileRef = F33977B605087EBA00A80005 /* CMRThreadViewer-Link.m */; };
 		8701634C082BE67100AEFDD0 /* SGContextHelpPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDA904C698FB00A80005 /* SGContextHelpPanel.m */; };
 		8701634D082BE67100AEFDD0 /* CMRHostHTMLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B609F80509EDBF00A80005 /* CMRHostHTMLHandler.m */; };
@@ -464,7 +459,6 @@
 		8729972108325E2500CBD740 /* CMXPopUpWindowManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8729971908325E2500CBD740 /* CMXPopUpWindowManager.m */; };
 		872998E40832617E00CBD740 /* AlertPanel.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872998E20832617E00CBD740 /* AlertPanel.strings */; };
 		872998E70832617F00CBD740 /* AlertPanelManager.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872998E50832617F00CBD740 /* AlertPanelManager.strings */; };
-		872998EA0832617F00CBD740 /* AppInformationManager.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872998E80832617F00CBD740 /* AppInformationManager.strings */; };
 		872998ED0832617F00CBD740 /* Browser.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872998EB0832617F00CBD740 /* Browser.nib */; };
 		872998F00832617F00CBD740 /* browserListColumns.plist in Resources */ = {isa = PBXBuildFile; fileRef = 872998EE0832617F00CBD740 /* browserListColumns.plist */; };
 		872998F30832617F00CBD740 /* CMRAccessorySheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872998F10832617F00CBD740 /* CMRAccessorySheet.nib */; };
@@ -484,7 +478,6 @@
 		872999230832618000CBD740 /* CMXMessageMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872999210832618000CBD740 /* CMXMessageMenu.nib */; };
 		872999260832618000CBD740 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 872999240832618000CBD740 /* Credits.rtf */; };
 		872999290832618100CBD740 /* DateFormater.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999270832618100CBD740 /* DateFormater.strings */; };
-		8729992C0832618100CBD740 /* DirectoryManager.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8729992A0832618100CBD740 /* DirectoryManager.strings */; };
 		8729992F0832618100CBD740 /* Downloader.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8729992D0832618100CBD740 /* Downloader.strings */; };
 		872999320832618100CBD740 /* HTMLView.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999300832618100CBD740 /* HTMLView.strings */; };
 		872999350832618100CBD740 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999330832618100CBD740 /* InfoPlist.strings */; };
@@ -497,7 +490,6 @@
 		872999500832618100CBD740 /* ThreadData.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8729994E0832618100CBD740 /* ThreadData.strings */; };
 		872999530832618100CBD740 /* ThreadsList.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999510832618100CBD740 /* ThreadsList.strings */; };
 		872999560832618100CBD740 /* ThreadViewer.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999540832618100CBD740 /* ThreadViewer.strings */; };
-		872999F7083261C400CBD740 /* Preview in Resources */ = {isa = PBXBuildFile; fileRef = 872999F5083261C400CBD740 /* Preview */; };
 		87299A3F083261F200CBD740 /* AddFavorites.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A05083261F200CBD740 /* AddFavorites.png */; };
 		87299A40083261F200CBD740 /* age.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A06083261F200CBD740 /* age.png */; };
 		87299A41083261F200CBD740 /* appIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 87299A07083261F200CBD740 /* appIcon.icns */; };
@@ -599,8 +591,7 @@
 		87C4813108FD039B00F91054 /* AddBoardSheetController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87C4812F08FD039B00F91054 /* AddBoardSheetController.h */; };
 		87C4813208FD039B00F91054 /* AddBoardSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C4813008FD039B00F91054 /* AddBoardSheetController.m */; };
 		87C4813F08FD05A300F91054 /* AddBoardSheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87C4813D08FD05A300F91054 /* AddBoardSheet.nib */; };
-		87C644860911291800CB3B90 /* JStringAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD8504C698FB00A80005 /* JStringAdditions.h */; };
-		87C644870911291A00CB3B90 /* JStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD8604C698FB00A80005 /* JStringAdditions.m */; };
+		87C9DD3009404CA3004E6596 /* AppDefaults-Alert.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCDD04C698FB00A80005 /* AppDefaults-Alert.m */; };
 		87D5D8CB08DF0F990039A9EB /* BSBoardListView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D5D8C908DF0F990039A9EB /* BSBoardListView.h */; };
 		87D5D8CC08DF0F9A0039A9EB /* BSBoardListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D5D8CA08DF0F990039A9EB /* BSBoardListView.m */; };
 		87D5D8D108DF0FCC0039A9EB /* boardListSelBgFocused.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87D5D8CF08DF0FCC0039A9EB /* boardListSelBgFocused.tiff */; };
@@ -610,14 +601,6 @@
 		87D8DBAC0833D57D004C1168 /* AboutPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87D8DBAA0833D57D004C1168 /* AboutPanel.nib */; };
 		87D8DC220833E8AF004C1168 /* BaScLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 87D8DC210833E8AF004C1168 /* BaScLogo.png */; };
 		87D8DC270833EABB004C1168 /* bathyicon192.png in Resources */ = {isa = PBXBuildFile; fileRef = 87D8DC260833EABB004C1168 /* bathyicon192.png */; };
-		87DF8422091101F4008FB40E /* Hankaku-Kana-Daku.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299AF90832622100CBD740 /* Hankaku-Kana-Daku.txt */; };
-		87DF8423091101F7008FB40E /* Hankaku-Kana.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299AFA0832622100CBD740 /* Hankaku-Kana.txt */; };
-		87DF8424091101F9008FB40E /* Hankaku.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299AFB0832622100CBD740 /* Hankaku.txt */; };
-		87DF842509110206008FB40E /* Zenkaku-Hira-Daku.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299B080832622200CBD740 /* Zenkaku-Hira-Daku.txt */; };
-		87DF842609110209008FB40E /* Zenkaku-Hira.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299B090832622200CBD740 /* Zenkaku-Hira.txt */; };
-		87DF84270911020B008FB40E /* Zenkaku-Kana-Daku.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299B0A0832622200CBD740 /* Zenkaku-Kana-Daku.txt */; };
-		87DF84280911020E008FB40E /* Zenkaku-Kana.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299B0B0832622200CBD740 /* Zenkaku-Kana.txt */; };
-		87DF842909110211008FB40E /* Zenkaku.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87299B0C0832622200CBD740 /* Zenkaku.txt */; };
 		87E2264E0833AA5D00E7FC85 /* BathyScaphe.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 87E2264C0833AA5D00E7FC85 /* BathyScaphe.scriptSuite */; };
 		87E2264F0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 87E2264D0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology */; };
 		87E4752A085C57C100B3E45E /* BSWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 87E47528085C57C100B3E45E /* BSWindow.h */; };
@@ -729,8 +712,6 @@
 		F4904B1F088C096D00EA9BA8 /* CMRThreadViewer_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD6E04C698FB00A80005 /* CMRThreadViewer_p.h */; };
 		F4904B20088C096D00EA9BA8 /* SGDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD7604C698FB00A80005 /* SGDocument.h */; };
 		F4904B21088C096D00EA9BA8 /* TextFinder.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD7A04C698FB00A80005 /* TextFinder.h */; };
-		F4904B22088C096D00EA9BA8 /* TextFinder_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD7C04C698FB00A80005 /* TextFinder_p.h */; };
-		F4904B23088C096D00EA9BA8 /* JStringAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD8504C698FB00A80005 /* JStringAdditions.h */; };
 		F4904B24088C096D00EA9BA8 /* missing.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD8704C698FB00A80005 /* missing.h */; };
 		F4904B25088C096D00EA9BA8 /* CMRIndexingStepper.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD9604C698FB00A80005 /* CMRIndexingStepper.h */; };
 		F4904B26088C096D00EA9BA8 /* CMRIndexingStepper_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD9804C698FB00A80005 /* CMRIndexingStepper_p.h */; };
@@ -844,7 +825,6 @@
 		F4904BA1088C096D00EA9BA8 /* DatabaseManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F4559442088A106E00557B17 /* DatabaseManager.h */; };
 		F4904BA4088C096D00EA9BA8 /* AlertPanel.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872998E20832617E00CBD740 /* AlertPanel.strings */; };
 		F4904BA5088C096D00EA9BA8 /* AlertPanelManager.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872998E50832617F00CBD740 /* AlertPanelManager.strings */; };
-		F4904BA6088C096D00EA9BA8 /* AppInformationManager.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872998E80832617F00CBD740 /* AppInformationManager.strings */; };
 		F4904BA7088C096D00EA9BA8 /* Browser.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872998EB0832617F00CBD740 /* Browser.nib */; };
 		F4904BA8088C096D00EA9BA8 /* browserListColumns.plist in Resources */ = {isa = PBXBuildFile; fileRef = 872998EE0832617F00CBD740 /* browserListColumns.plist */; };
 		F4904BA9088C096D00EA9BA8 /* CMRAccessorySheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872998F10832617F00CBD740 /* CMRAccessorySheet.nib */; };
@@ -864,7 +844,6 @@
 		F4904BB7088C096D00EA9BA8 /* CMXMessageMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872999210832618000CBD740 /* CMXMessageMenu.nib */; };
 		F4904BB8088C096D00EA9BA8 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 872999240832618000CBD740 /* Credits.rtf */; };
 		F4904BB9088C096D00EA9BA8 /* DateFormater.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999270832618100CBD740 /* DateFormater.strings */; };
-		F4904BBA088C096D00EA9BA8 /* DirectoryManager.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8729992A0832618100CBD740 /* DirectoryManager.strings */; };
 		F4904BBB088C096D00EA9BA8 /* Downloader.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8729992D0832618100CBD740 /* Downloader.strings */; };
 		F4904BBC088C096D00EA9BA8 /* HTMLView.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999300832618100CBD740 /* HTMLView.strings */; };
 		F4904BBD088C096D00EA9BA8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999330832618100CBD740 /* InfoPlist.strings */; };
@@ -877,7 +856,6 @@
 		F4904BC6088C096D00EA9BA8 /* ThreadData.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8729994E0832618100CBD740 /* ThreadData.strings */; };
 		F4904BC7088C096D00EA9BA8 /* ThreadsList.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999510832618100CBD740 /* ThreadsList.strings */; };
 		F4904BC8088C096D00EA9BA8 /* ThreadViewer.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999540832618100CBD740 /* ThreadViewer.strings */; };
-		F4904BCA088C096D00EA9BA8 /* Preview in Resources */ = {isa = PBXBuildFile; fileRef = 872999F5083261C400CBD740 /* Preview */; };
 		F4904BCB088C096D00EA9BA8 /* AddFavorites.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A05083261F200CBD740 /* AddFavorites.png */; };
 		F4904BCC088C096D00EA9BA8 /* age.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A06083261F200CBD740 /* age.png */; };
 		F4904BCD088C096D00EA9BA8 /* appIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 87299A07083261F200CBD740 /* appIcon.icns */; };
@@ -1021,9 +999,7 @@
 		F4904C6C088C096D00EA9BA8 /* CMRThreadViewer-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD6B04C698FB00A80005 /* CMRThreadViewer-ViewAccessor.m */; };
 		F4904C6D088C096D00EA9BA8 /* CMRThreadViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD6D04C698FB00A80005 /* CMRThreadViewer.m */; };
 		F4904C6E088C096D00EA9BA8 /* SGDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD7704C698FB00A80005 /* SGDocument.m */; };
-		F4904C6F088C096D00EA9BA8 /* TextFinder-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD7904C698FB00A80005 /* TextFinder-ViewAccessor.m */; };
 		F4904C70088C096D00EA9BA8 /* TextFinder.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD7B04C698FB00A80005 /* TextFinder.m */; };
-		F4904C71088C096D00EA9BA8 /* JStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD8604C698FB00A80005 /* JStringAdditions.m */; };
 		F4904C72088C096D00EA9BA8 /* missing.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD8804C698FB00A80005 /* missing.m */; };
 		F4904C73088C096D00EA9BA8 /* CMRIndexingStepper-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD9504C698FB00A80005 /* CMRIndexingStepper-ViewAccessor.m */; };
 		F4904C74088C096D00EA9BA8 /* CMRIndexingStepper.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD9704C698FB00A80005 /* CMRIndexingStepper.m */; };
@@ -1250,27 +1226,6 @@
 /* End PBXBuildStyle section */
 
 /* Begin PBXContainerItemProxy section */
-		871CA1860858600900C3A044 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 871CA11408585F8100C3A044;
-			remoteInfo = "preferences (Upgraded)";
-		};
-		871CA1880858601A00C3A044 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 871CA15708585FD200C3A044;
-			remoteInfo = "reply (Upgraded)";
-		};
-		87C203EA08FF47B3006DC42C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 87C202FE08FF3E2B006DC42C;
-			remoteInfo = previewer;
-		};
 		F469D81B094366BE007D7EDC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -1298,6 +1253,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = 87C202FE08FF3E2B006DC42C;
 			remoteInfo = previewer;
+		};
+		F4AC1EC70950697A004762A7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 87C202FE08FF3E2B006DC42C;
+			remoteInfo = previewer;
+		};
+		F4AC1EC80950697A004762A7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 871CA15708585FD200C3A044;
+			remoteInfo = reply;
+		};
+		F4AC1EC90950697A004762A7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 871CA11408585F8100C3A044;
+			remoteInfo = preferences;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -1441,7 +1417,6 @@
 		8729971908325E2500CBD740 /* CMXPopUpWindowManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMXPopUpWindowManager.m; sourceTree = "<group>"; };
 		8729995A0832618700CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/AlertPanel.strings; sourceTree = "<group>"; };
 		8729995B0832618700CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/AlertPanelManager.strings; sourceTree = "<group>"; };
-		8729995C0832618700CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/AppInformationManager.strings; sourceTree = "<group>"; };
 		8729995D0832618700CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/Browser.nib; sourceTree = "<group>"; };
 		8729995E0832618700CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Japanese; path = Japanese.lproj/browserListColumns.plist; sourceTree = "<group>"; };
 		8729995F0832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/CMRAccessorySheet.nib; sourceTree = "<group>"; };
@@ -1461,7 +1436,6 @@
 		8729996F0832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/CMXMessageMenu.nib; sourceTree = "<group>"; };
 		872999700832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Japanese; path = Japanese.lproj/Credits.rtf; sourceTree = "<group>"; };
 		872999710832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/DateFormater.strings; sourceTree = "<group>"; };
-		872999720832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/DirectoryManager.strings; sourceTree = "<group>"; };
 		872999730832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Downloader.strings; sourceTree = "<group>"; };
 		872999740832618800CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/HTMLView.strings; sourceTree = "<group>"; };
 		872999750832618800CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1474,7 +1448,6 @@
 		8729997E0832618900CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/ThreadData.strings; sourceTree = "<group>"; };
 		8729997F0832618900CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/ThreadsList.strings; sourceTree = "<group>"; };
 		872999800832618900CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/ThreadViewer.strings; sourceTree = "<group>"; };
-		872999FB083261CA00CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Japanese; path = Japanese.lproj/Preview; sourceTree = "<group>"; };
 		87299A03083261F200CBD740 /* Action.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Action.tiff; sourceTree = "<group>"; };
 		87299A04083261F200CBD740 /* Action_Pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Action_Pressed.tiff; sourceTree = "<group>"; };
 		87299A05083261F200CBD740 /* AddFavorites.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AddFavorites.png; sourceTree = "<group>"; };
@@ -1832,14 +1805,10 @@
 		F324DD6E04C698FB00A80005 /* CMRThreadViewer_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRThreadViewer_p.h; sourceTree = "<group>"; };
 		F324DD7604C698FB00A80005 /* SGDocument.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = SGDocument.h; sourceTree = "<group>"; };
 		F324DD7704C698FB00A80005 /* SGDocument.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = SGDocument.m; sourceTree = "<group>"; };
-		F324DD7904C698FB00A80005 /* TextFinder-ViewAccessor.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "TextFinder-ViewAccessor.m"; sourceTree = "<group>"; };
 		F324DD7A04C698FB00A80005 /* TextFinder.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = TextFinder.h; sourceTree = "<group>"; };
 		F324DD7B04C698FB00A80005 /* TextFinder.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = TextFinder.m; sourceTree = "<group>"; };
-		F324DD7C04C698FB00A80005 /* TextFinder_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = TextFinder_p.h; sourceTree = "<group>"; };
-		F324DD8504C698FB00A80005 /* JStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = JStringAdditions.h; sourceTree = "<group>"; };
-		F324DD8604C698FB00A80005 /* JStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = JStringAdditions.m; sourceTree = "<group>"; };
-		F324DD8704C698FB00A80005 /* missing.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = missing.h; sourceTree = "<group>"; };
-		F324DD8804C698FB00A80005 /* missing.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = missing.m; sourceTree = "<group>"; };
+		F324DD8704C698FB00A80005 /* missing.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; name = missing.h; path = ../util/missing.h; sourceTree = "<group>"; };
+		F324DD8804C698FB00A80005 /* missing.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; name = missing.m; path = ../util/missing.m; sourceTree = "<group>"; };
 		F324DD9504C698FB00A80005 /* CMRIndexingStepper-ViewAccessor.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "CMRIndexingStepper-ViewAccessor.m"; sourceTree = "<group>"; };
 		F324DD9604C698FB00A80005 /* CMRIndexingStepper.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRIndexingStepper.h; sourceTree = "<group>"; };
 		F324DD9704C698FB00A80005 /* CMRIndexingStepper.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRIndexingStepper.m; sourceTree = "<group>"; };
@@ -2186,6 +2155,7 @@
 		2A37F4C3FDCFA73011CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F4E2F23408B8A27800177310 /* sqlite */,
 				871986D108351B1800188E63 /* Keychain.framework */,
 				F38D04EC03C49C8100A80002 /* Reference */,
 				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
@@ -2204,6 +2174,8 @@
 		8729964C0832556100CBD740 /* extensions */ = {
 			isa = PBXGroup;
 			children = (
+				F324DD8704C698FB00A80005 /* missing.h */,
+				F324DD8804C698FB00A80005 /* missing.m */,
 				8729964D0832556100CBD740 /* NSCharacterSet+CMXAdditions.h */,
 				8729964E0832556100CBD740 /* NSCharacterSet+CMXAdditions.m */,
 				8729964F0832556100CBD740 /* NSLayoutManager+CMXAdditions.h */,
@@ -2261,11 +2233,9 @@
 				87299B410832623A00CBD740 /* BWAgent.app */,
 				87299AF50832622100CBD740 /* text */,
 				87299A02083261F200CBD740 /* image */,
-				872999F5083261C400CBD740 /* Preview */,
 				87BF7CA40840423900CC7D7C /* BathyScapheHelp */,
 				872998E20832617E00CBD740 /* AlertPanel.strings */,
 				872998E50832617F00CBD740 /* AlertPanelManager.strings */,
-				872998E80832617F00CBD740 /* AppInformationManager.strings */,
 				872998EE0832617F00CBD740 /* browserListColumns.plist */,
 				872998F70832617F00CBD740 /* CMRMainMenu.strings */,
 				872999030832617F00CBD740 /* CMROpenURLManager.strings */,
@@ -2290,7 +2260,6 @@
 				87C4813D08FD05A300F91054 /* AddBoardSheet.nib */,
 				872999240832618000CBD740 /* Credits.rtf */,
 				872999270832618100CBD740 /* DateFormater.strings */,
-				8729992A0832618100CBD740 /* DirectoryManager.strings */,
 				8729992D0832618100CBD740 /* Downloader.strings */,
 				872999300832618100CBD740 /* HTMLView.strings */,
 				872999330832618100CBD740 /* InfoPlist.strings */,
@@ -2473,6 +2442,22 @@
 				8719F069088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m */,
 			);
 			name = ThreadViewer;
+			sourceTree = "<group>";
+		};
+		87AE387909405F6500E10F36 /* reply */ = {
+			isa = PBXGroup;
+			children = (
+				F324DDD104C698FB00A80005 /* CMRReplyMessenger.h */,
+				F324DDD304C698FB00A80005 /* CMRReplyMessenger_p.h */,
+				F324DDD204C698FB00A80005 /* CMRReplyMessenger.m */,
+				8709E6530879713D009A65FC /* CMRReplyMessenger-Connector.m */,
+				F324DDCA04C698FB00A80005 /* CMRReplyController.h */,
+				F324DDCC04C698FB00A80005 /* CMRReplyController_p.h */,
+				F324DDCB04C698FB00A80005 /* CMRReplyController.m */,
+				F324DDC904C698FB00A80005 /* CMRReplyController-ViewAccessor.m */,
+			);
+			name = reply;
+			path = window;
 			sourceTree = "<group>";
 		};
 		87B4E68107D82C3200D09944 /* Interface Elements */ = {
@@ -2879,7 +2864,6 @@
 		F324DC2004C698FA00A80005 /* source */ = {
 			isa = PBXGroup;
 			children = (
-				F4E2F23408B8A27800177310 /* sqlite */,
 				87464E3608643673000F0371 /* libRBSplitView.a */,
 				F38262C10513577300A80005 /* CocoMonar_Prefix.h */,
 				F32165FE0529CB2B00A80005 /* CMRExports.h */,
@@ -2895,7 +2879,7 @@
 				F324DC2A04C698FA00A80005 /* browser */,
 				F324DC5804C698FA00A80005 /* composer */,
 				F324DD3804C698FB00A80005 /* thread */,
-				F324DD7D04C698FB00A80005 /* util */,
+				87AE387909405F6500E10F36 /* reply */,
 				F324DD8D04C698FB00A80005 /* view */,
 				F324DDC004C698FB00A80005 /* window */,
 			);
@@ -3029,17 +3013,6 @@
 			path = thread;
 			sourceTree = "<group>";
 		};
-		F324DD7D04C698FB00A80005 /* util */ = {
-			isa = PBXGroup;
-			children = (
-				F324DD8504C698FB00A80005 /* JStringAdditions.h */,
-				F324DD8604C698FB00A80005 /* JStringAdditions.m */,
-				F324DD8704C698FB00A80005 /* missing.h */,
-				F324DD8804C698FB00A80005 /* missing.m */,
-			);
-			path = util;
-			sourceTree = "<group>";
-		};
 		F324DD8D04C698FB00A80005 /* view */ = {
 			isa = PBXGroup;
 			children = (
@@ -3093,14 +3066,6 @@
 				87823FA00823A82900C52066 /* Toolbar */,
 				F33E994D04C6A20C00A80005 /* abstract */,
 				F33E994B04C6A16800A80005 /* status line */,
-				F324DDD104C698FB00A80005 /* CMRReplyMessenger.h */,
-				F324DDD304C698FB00A80005 /* CMRReplyMessenger_p.h */,
-				F324DDD204C698FB00A80005 /* CMRReplyMessenger.m */,
-				8709E6530879713D009A65FC /* CMRReplyMessenger-Connector.m */,
-				F324DDCA04C698FB00A80005 /* CMRReplyController.h */,
-				F324DDCC04C698FB00A80005 /* CMRReplyController_p.h */,
-				F324DDCB04C698FB00A80005 /* CMRReplyController.m */,
-				F324DDC904C698FB00A80005 /* CMRReplyController-ViewAccessor.m */,
 				87E47528085C57C100B3E45E /* BSWindow.h */,
 				87E47529085C57C100B3E45E /* BSWindow.m */,
 			);
@@ -3360,9 +3325,7 @@
 				F3E81CEE050CA85A00A80005 /* CMRSearchOptions.h */,
 				F3E81CEF050CA85A00A80005 /* CMRSearchOptions.m */,
 				F324DD7A04C698FB00A80005 /* TextFinder.h */,
-				F324DD7C04C698FB00A80005 /* TextFinder_p.h */,
 				F324DD7B04C698FB00A80005 /* TextFinder.m */,
-				F324DD7904C698FB00A80005 /* TextFinder-ViewAccessor.m */,
 			);
 			name = search;
 			sourceTree = "<group>";
@@ -3528,7 +3491,6 @@
 				870161DE082BE67100AEFDD0 /* CMRThreadViewer_p.h in Headers */,
 				870161DF082BE67100AEFDD0 /* SGDocument.h in Headers */,
 				870161E0082BE67100AEFDD0 /* TextFinder.h in Headers */,
-				870161E1082BE67100AEFDD0 /* TextFinder_p.h in Headers */,
 				870161E3082BE67100AEFDD0 /* missing.h in Headers */,
 				870161E4082BE67100AEFDD0 /* CMRIndexingStepper.h in Headers */,
 				870161E5082BE67100AEFDD0 /* CMRIndexingStepper_p.h in Headers */,
@@ -3570,7 +3532,6 @@
 				8701620F082BE67100AEFDD0 /* CMRHostHandler.h in Headers */,
 				87016210082BE67100AEFDD0 /* CMRHostHandler_p.h in Headers */,
 				87016211082BE67100AEFDD0 /* CMRHistoryManager.h in Headers */,
-				87016212082BE67100AEFDD0 /* CMRBBSAttributes.h in Headers */,
 				87016213082BE67100AEFDD0 /* SGContextHelpPanel.h in Headers */,
 				87016215082BE67100AEFDD0 /* CMRProgressIndicator.h in Headers */,
 				87016216082BE67100AEFDD0 /* CMRPreferencesDefautValues.h in Headers */,
@@ -3651,7 +3612,6 @@
 				87BF52CB08F789D500998C4E /* BSBoardInfoInspector.h in Headers */,
 				87C4813108FD039B00F91054 /* AddBoardSheetController.h in Headers */,
 				873BAE9A090931B0009E9B41 /* BSImagePreviewerInterface.h in Headers */,
-				87C644860911291800CB3B90 /* JStringAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3811,8 +3771,6 @@
 				F4904B1F088C096D00EA9BA8 /* CMRThreadViewer_p.h in Headers */,
 				F4904B20088C096D00EA9BA8 /* SGDocument.h in Headers */,
 				F4904B21088C096D00EA9BA8 /* TextFinder.h in Headers */,
-				F4904B22088C096D00EA9BA8 /* TextFinder_p.h in Headers */,
-				F4904B23088C096D00EA9BA8 /* JStringAdditions.h in Headers */,
 				F4904B24088C096D00EA9BA8 /* missing.h in Headers */,
 				F4904B25088C096D00EA9BA8 /* CMRIndexingStepper.h in Headers */,
 				F4904B26088C096D00EA9BA8 /* CMRIndexingStepper_p.h in Headers */,
@@ -4222,7 +4180,7 @@
 			);
 			name = "bs another story";
 			productInstallPath = "$(HOME)/Applications";
-			productName = v1;
+			productName = "bs another story";
 			productReference = F4904CE9088C096D00EA9BA8 /* BS Another Story.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -4260,7 +4218,6 @@
 			files = (
 				872998E40832617E00CBD740 /* AlertPanel.strings in Resources */,
 				872998E70832617F00CBD740 /* AlertPanelManager.strings in Resources */,
-				872998EA0832617F00CBD740 /* AppInformationManager.strings in Resources */,
 				872998ED0832617F00CBD740 /* Browser.nib in Resources */,
 				872998F00832617F00CBD740 /* browserListColumns.plist in Resources */,
 				872998F30832617F00CBD740 /* CMRAccessorySheet.nib in Resources */,
@@ -4280,7 +4237,6 @@
 				872999230832618000CBD740 /* CMXMessageMenu.nib in Resources */,
 				872999260832618000CBD740 /* Credits.rtf in Resources */,
 				872999290832618100CBD740 /* DateFormater.strings in Resources */,
-				8729992C0832618100CBD740 /* DirectoryManager.strings in Resources */,
 				8729992F0832618100CBD740 /* Downloader.strings in Resources */,
 				872999320832618100CBD740 /* HTMLView.strings in Resources */,
 				872999350832618100CBD740 /* InfoPlist.strings in Resources */,
@@ -4293,7 +4249,6 @@
 				872999500832618100CBD740 /* ThreadData.strings in Resources */,
 				872999530832618100CBD740 /* ThreadsList.strings in Resources */,
 				872999560832618100CBD740 /* ThreadViewer.strings in Resources */,
-				872999F7083261C400CBD740 /* Preview in Resources */,
 				87299A3F083261F200CBD740 /* AddFavorites.png in Resources */,
 				87299A40083261F200CBD740 /* age.png in Resources */,
 				87299A41083261F200CBD740 /* appIcon.icns in Resources */,
@@ -4377,14 +4332,6 @@
 				87078CE5090E9710007FF9C3 /* RemoveFavorites.png in Resources */,
 				87078CE6090E9710007FF9C3 /* ResToThread.png in Resources */,
 				87078CE8090E9710007FF9C3 /* stopSign.png in Resources */,
-				87DF8422091101F4008FB40E /* Hankaku-Kana-Daku.txt in Resources */,
-				87DF8423091101F7008FB40E /* Hankaku-Kana.txt in Resources */,
-				87DF8424091101F9008FB40E /* Hankaku.txt in Resources */,
-				87DF842509110206008FB40E /* Zenkaku-Hira-Daku.txt in Resources */,
-				87DF842609110209008FB40E /* Zenkaku-Hira.txt in Resources */,
-				87DF84270911020B008FB40E /* Zenkaku-Kana-Daku.txt in Resources */,
-				87DF84280911020E008FB40E /* Zenkaku-Kana.txt in Resources */,
-				87DF842909110211008FB40E /* Zenkaku.txt in Resources */,
 				8724A6DD09127E69009CC855 /* board_default.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4462,7 +4409,6 @@
 				F4FA6AA609431B5D00BE3F27 /* ToolbarItems.strings in Resources */,
 				F4904BA4088C096D00EA9BA8 /* AlertPanel.strings in Resources */,
 				F4904BA5088C096D00EA9BA8 /* AlertPanelManager.strings in Resources */,
-				F4904BA6088C096D00EA9BA8 /* AppInformationManager.strings in Resources */,
 				F4904BA7088C096D00EA9BA8 /* Browser.nib in Resources */,
 				F4904BA8088C096D00EA9BA8 /* browserListColumns.plist in Resources */,
 				F4904BA9088C096D00EA9BA8 /* CMRAccessorySheet.nib in Resources */,
@@ -4482,7 +4428,6 @@
 				F4904BB7088C096D00EA9BA8 /* CMXMessageMenu.nib in Resources */,
 				F4904BB8088C096D00EA9BA8 /* Credits.rtf in Resources */,
 				F4904BB9088C096D00EA9BA8 /* DateFormater.strings in Resources */,
-				F4904BBA088C096D00EA9BA8 /* DirectoryManager.strings in Resources */,
 				F4904BBB088C096D00EA9BA8 /* Downloader.strings in Resources */,
 				F4904BBC088C096D00EA9BA8 /* HTMLView.strings in Resources */,
 				F4904BBD088C096D00EA9BA8 /* InfoPlist.strings in Resources */,
@@ -4495,7 +4440,6 @@
 				F4904BC6088C096D00EA9BA8 /* ThreadData.strings in Resources */,
 				F4904BC7088C096D00EA9BA8 /* ThreadsList.strings in Resources */,
 				F4904BC8088C096D00EA9BA8 /* ThreadViewer.strings in Resources */,
-				F4904BCA088C096D00EA9BA8 /* Preview in Resources */,
 				F4904BCB088C096D00EA9BA8 /* AddFavorites.png in Resources */,
 				F4904BCC088C096D00EA9BA8 /* age.png in Resources */,
 				F4904BCD088C096D00EA9BA8 /* appIcon.icns in Resources */,
@@ -4688,7 +4632,6 @@
 				8701630A082BE67100AEFDD0 /* CMRBBSSignature.m in Sources */,
 				8701630B082BE67100AEFDD0 /* CMRThreadSignature.m in Sources */,
 				8701630C082BE67100AEFDD0 /* AppDefaults-Account.m in Sources */,
-				8701630D082BE67100AEFDD0 /* AppDefaults-Alert.m in Sources */,
 				8701630E082BE67100AEFDD0 /* AppDefaults-Background.m in Sources */,
 				8701630F082BE67100AEFDD0 /* AppDefaults-Bundle.m in Sources */,
 				87016310082BE67100AEFDD0 /* AppDefaults-FontColor.m in Sources */,
@@ -4714,7 +4657,6 @@
 				87016324082BE67100AEFDD0 /* CMRThreadViewer-ViewAccessor.m in Sources */,
 				87016325082BE67100AEFDD0 /* CMRThreadViewer.m in Sources */,
 				87016326082BE67100AEFDD0 /* SGDocument.m in Sources */,
-				87016327082BE67100AEFDD0 /* TextFinder-ViewAccessor.m in Sources */,
 				87016328082BE67100AEFDD0 /* TextFinder.m in Sources */,
 				8701632A082BE67100AEFDD0 /* missing.m in Sources */,
 				8701632B082BE67100AEFDD0 /* CMRIndexingStepper-ViewAccessor.m in Sources */,
@@ -4744,7 +4686,6 @@
 				87016346082BE67100AEFDD0 /* CMRHostHandler.m in Sources */,
 				87016347082BE67100AEFDD0 /* CMRDATDownloader.m in Sources */,
 				87016349082BE67100AEFDD0 /* CMRHistoryManager.m in Sources */,
-				8701634A082BE67100AEFDD0 /* CMRBBSAttributes.m in Sources */,
 				8701634B082BE67100AEFDD0 /* CMRThreadViewer-Link.m in Sources */,
 				8701634C082BE67100AEFDD0 /* SGContextHelpPanel.m in Sources */,
 				8701634D082BE67100AEFDD0 /* CMRHostHTMLHandler.m in Sources */,
@@ -4815,7 +4756,7 @@
 				87BF52CC08F789D500998C4E /* BSBoardInfoInspector.m in Sources */,
 				873C0DCF08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m in Sources */,
 				87C4813208FD039B00F91054 /* AddBoardSheetController.m in Sources */,
-				87C644870911291A00CB3B90 /* JStringAdditions.m in Sources */,
+				87C9DD3009404CA3004E6596 /* AppDefaults-Alert.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4998,9 +4939,7 @@
 				F4904C6C088C096D00EA9BA8 /* CMRThreadViewer-ViewAccessor.m in Sources */,
 				F4904C6D088C096D00EA9BA8 /* CMRThreadViewer.m in Sources */,
 				F4904C6E088C096D00EA9BA8 /* SGDocument.m in Sources */,
-				F4904C6F088C096D00EA9BA8 /* TextFinder-ViewAccessor.m in Sources */,
 				F4904C70088C096D00EA9BA8 /* TextFinder.m in Sources */,
-				F4904C71088C096D00EA9BA8 /* JStringAdditions.m in Sources */,
 				F4904C72088C096D00EA9BA8 /* missing.m in Sources */,
 				F4904C73088C096D00EA9BA8 /* CMRIndexingStepper-ViewAccessor.m in Sources */,
 				F4904C74088C096D00EA9BA8 /* CMRIndexingStepper.m in Sources */,
@@ -5118,17 +5057,17 @@
 		871CA1870858600900C3A044 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 871CA11408585F8100C3A044 /* preferences */;
-			targetProxy = 871CA1860858600900C3A044 /* PBXContainerItemProxy */;
+			targetProxy = F4AC1EC90950697A004762A7 /* PBXContainerItemProxy */;
 		};
 		871CA1890858601A00C3A044 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 871CA15708585FD200C3A044 /* reply */;
-			targetProxy = 871CA1880858601A00C3A044 /* PBXContainerItemProxy */;
+			targetProxy = F4AC1EC80950697A004762A7 /* PBXContainerItemProxy */;
 		};
 		87C203EB08FF47B3006DC42C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 87C202FE08FF3E2B006DC42C /* previewer */;
-			targetProxy = 87C203EA08FF47B3006DC42C /* PBXContainerItemProxy */;
+			targetProxy = F4AC1EC70950697A004762A7 /* PBXContainerItemProxy */;
 		};
 		F469D81C094366BE007D7EDC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -5200,14 +5139,6 @@
 				8729995B0832618700CBD740 /* Japanese */,
 			);
 			name = AlertPanelManager.strings;
-			sourceTree = "<group>";
-		};
-		872998E80832617F00CBD740 /* AppInformationManager.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8729995C0832618700CBD740 /* Japanese */,
-			);
-			name = AppInformationManager.strings;
 			sourceTree = "<group>";
 		};
 		872998EB0832617F00CBD740 /* Browser.nib */ = {
@@ -5362,14 +5293,6 @@
 			name = DateFormater.strings;
 			sourceTree = "<group>";
 		};
-		8729992A0832618100CBD740 /* DirectoryManager.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				872999720832618800CBD740 /* Japanese */,
-			);
-			name = DirectoryManager.strings;
-			sourceTree = "<group>";
-		};
 		8729992D0832618100CBD740 /* Downloader.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -5464,14 +5387,6 @@
 				872999800832618900CBD740 /* Japanese */,
 			);
 			name = ThreadViewer.strings;
-			sourceTree = "<group>";
-		};
-		872999F5083261C400CBD740 /* Preview */ = {
-			isa = PBXVariantGroup;
-			children = (
-				872999FB083261CA00CBD740 /* Japanese */,
-			);
-			name = Preview;
 			sourceTree = "<group>";
 		};
 		8764157F0840AF4F00F66D78 /* AdvancedPane.nib */ = {
@@ -5938,6 +5853,10 @@
 		87C2031B08FF3E2B006DC42C /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					../frameworks/SGFoundation/build/Deployment,
@@ -6000,8 +5919,6 @@
 					../frameworks/SGNetwork/build/Deployment,
 					../frameworks/Keychain/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
-					"$(SRCROOT)",
-					"$(SRCROOT)/../../Desktop/OgreKit_2_0_2/build/Deployment",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -6035,7 +5952,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
-				DEBUGGING_SYMBOLS = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					../frameworks/CocoMonar/build/Deployment,
 					../frameworks/SGFoundation/build/Deployment,
@@ -6045,6 +5961,7 @@
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = source/CocoMonar_Prefix.h;
 				GCC_USE_GCC3_PFE_SUPPORT = NO;
@@ -6104,18 +6021,34 @@
 		87E15B540858090F00C345E0 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = ppc;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Development;
 		};
 		87E15B550858090F00C345E0 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				GCC_MODEL_TUNING = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Deployment;
 		};
 		87E15B560858090F00C345E0 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Default;
 		};
@@ -6155,6 +6088,10 @@
 		F406943D0942DCBF0045317C /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				COPY_PHASE_STRIP = YES;
 				GCC_CW_ASM_SYNTAX = NO;
 				GCC_DYNAMIC_NO_PIC = YES;
@@ -6260,6 +6197,10 @@
 		F4904CE7088C096D00EA9BA8 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				COPY_PHASE_STRIP = YES;
 				DEBUGGING_SYMBOLS = NO;
 				FRAMEWORK_SEARCH_PATHS = (

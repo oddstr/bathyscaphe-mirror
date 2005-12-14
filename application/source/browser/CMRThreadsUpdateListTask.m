@@ -158,20 +158,21 @@ RECACHE:
     // スレッド情報を更新する。
     // ログの存在しないスレッドにはNSNullを設定
     if (s & ThreadNoCacheStatus) {
-        if (cache == nil) {
+		// 2005-11-25 この if プロックを外して様子見
+        //if (cache == nil) {
             [cachedInfoTbl setObject:[NSNull null] forKey:path_];
-        }
+        //}
 	} else if (isUpdated && (s == ThreadUpdatedStatus)) {
 		// お気に入りに含まれていないか探す
 		// 新着ありの既得スレのみについて調べれば良い。
 		// さらに subject.txt を取ってきて更新した場合のみ調べれば良い。
+		CMRFavoritesManager	*fm_ = [CMRFavoritesManager defaultManager];
 		int	favidx_;
-		favidx_ = [[[CMRFavoritesManager defaultManager] favoritesItemsIndex] indexOfObject : path_];
+		favidx_ = [[fm_ favoritesItemsIndex] indexOfObject : path_];
 		if (favidx_ != NSNotFound) {
 			// お気に入りのデータを更新
-			[[[CMRFavoritesManager defaultManager] favoritesItemsArray]
-								replaceObjectAtIndex : favidx_
-										  withObject : thread];
+			[[fm_ favoritesItemsArray] replaceObjectAtIndex : favidx_
+												 withObject : thread];
 		}
 
         [cachedInfoTbl setObject:thread forKey:path_];
@@ -303,6 +304,8 @@ RECACHE:
 
     UTILAssertNotNilArgument(loadedList, @"Threads List Array");
     UTILAssertNotNilArgument(threadsInfo, @"Threads Info Dictionary");
+	
+	NSAutoreleasePool	*pool_ = [[NSAutoreleasePool alloc] init];
 
     iter = [loadedList objectEnumerator];
     while (thread_ = [iter nextObject]) {
@@ -313,6 +316,8 @@ RECACHE:
         nEnded_++;
         [self setProgress : (((double)nEnded_ / (double)nElem_) * 100)];
     }
+	
+	[pool_ release];
 }
 
 

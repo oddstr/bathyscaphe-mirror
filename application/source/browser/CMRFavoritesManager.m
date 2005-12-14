@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFavoritesManager.m,v 1.7.2.1 2005/12/12 15:28:28 masakih Exp $
+  * $Id: CMRFavoritesManager.m,v 1.7.2.2 2005/12/14 16:05:06 masakih Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
@@ -51,6 +51,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 {
 	[[NSNotificationCenter defaultCenter] removeObserver : self];
 	[_favoritesItemsArray release];
+	[_favoritesItemsIndex release];
 	[_changedFavItemsPool release];
 	[super dealloc];
 }
@@ -97,27 +98,42 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 - (NSMutableArray *) favoritesItemsIndex
 {
-	NSMutableArray	*favItems_ = [self favoritesItemsArray];
+	if (nil == _favoritesItemsIndex) {
+		NSMutableArray	*favItems_ = [self favoritesItemsArray];
 
-	if ([favItems_ count] == 0) {
-		return [NSMutableArray array];
-	} else {
-		NSEnumerator	*iter_;
-		NSDictionary	*anItem_;	// each favorite item
-		NSMutableArray *tmp_ = [NSMutableArray arrayWithCapacity : [favItems_ count]];
+		if ([favItems_ count] == 0) {
+			_favoritesItemsIndex = [[NSMutableArray alloc] init];
+		} else {
+			NSEnumerator	*iter_;
+			NSDictionary	*anItem_;	// each favorite item
+			NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]; // 2005-12-04 Ç«Ç§ÇæÇÎÇ§ÅH
 
-		iter_ = [favItems_ objectEnumerator];
+			_favoritesItemsIndex = [[NSMutableArray alloc] initWithCapacity : [favItems_ count]];
 
-		while ((anItem_ = [iter_ nextObject]) != nil) {
-			id	itemPath_;
-			itemPath_ = [CMRThreadAttributes pathFromDictionary : anItem_];
-			UTILAssertNotNil(itemPath_);
+			iter_ = [favItems_ objectEnumerator];
 
-			[tmp_ addObject : itemPath_];
+			while ((anItem_ = [iter_ nextObject]) != nil) {
+				id	itemPath_;
+				itemPath_ = [CMRThreadAttributes pathFromDictionary : anItem_];
+				UTILAssertNotNil(itemPath_);
+
+				[_favoritesItemsIndex addObject : itemPath_];
+			}
+			
+			[pool release];
 		}
-
-		return tmp_;
 	}
+	
+	return _favoritesItemsIndex;
+}
+
+- (void) setFavoritesItemsIndex : (NSMutableArray *) anArray
+{
+	id		tmp;
+	
+	tmp = _favoritesItemsIndex;
+	_favoritesItemsIndex = [anArray retain];
+	[tmp release];
 }
 
 // Ç±ÇÃÇ÷ÇÒÅAébíËìIÇ»é¿ëï
@@ -364,6 +380,10 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	
 	[self setFavoritesItemsArray : newFavAry_];
 	[newFavAry_ release];
+
+	// éËî≤Ç´
+	[self setFavoritesItemsIndex : nil];
+	[self favoritesItemsIndex];
 	
 	return isAscending_ ? [aboveArray_ count] : [belowArray_ count];
 }

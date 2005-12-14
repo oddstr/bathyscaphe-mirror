@@ -54,7 +54,7 @@
 	<key>Thread - MailIconAlignment</key>
 	<integer>5</integer>
 	<key>Thread - MouseDownTrackingTime</key>
-	<real>0.5</real>
+	<real>0.69999999999999996</real>
 	<key>Thread - On-The-Fly MessageCount</key>
 	<integer>20</integer>
 </dict>

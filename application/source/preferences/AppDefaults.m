@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.9.2.1 2005/12/12 15:28:28 masakih Exp $
+  * $Id: AppDefaults.m,v 1.9.2.2 2005/12/14 16:05:06 masakih Exp $
   * 
   * AppDefaults.m
   *
@@ -335,10 +335,19 @@ NS_ENDHANDLER
 	[[self defaults] setBool : TorF
 					  forKey : AppDefaultsIsFavImportedKey];
 }*/
+/*#pragma mark DANGER
+- (BOOL) saveThreadListAsBinaryPlist
+{
+	return [[self defaults] boolForKey : @"Use_Binary_Format_For_List" defaultValue : NO];
+}
+- (BOOL) saveThreadDocAsBinaryPlist
+{
+	return [[self defaults] boolForKey : @"Use_Binary_Format_For_Doc" defaultValue : NO];
+}*/
 
 #pragma mark -
 
-- (CMRBBSSignature *) browserLastBoard
+/*- (CMRBBSSignature *) browserLastBoard
 {
 	NSDictionary		*dictionary_;
 	NSString			*rep_;
@@ -364,8 +373,28 @@ NS_ENDHANDLER
 	}
 	[[self defaults] setObject : [aSignature propertyListRepresentation]
 						forKey : AppDefaultsBrowserLastBoardKey];
-}
+}*/
 
+- (NSString *) browserLastBoard
+{
+	NSString			*rep_;
+	rep_ = [[self defaults] objectForKey : AppDefaultsBrowserLastBoardKey];
+
+	UTILRequireCondition(rep_, default_browserLastBoard);
+	return rep_;
+	
+default_browserLastBoard:
+	return CMXFavoritesDirectoryName;
+}
+- (void) setBrowserLastBoard : (NSString *) boardName
+{
+	if (nil == boardName) {
+		[[self defaults] removeObjectForKey : AppDefaultsBrowserLastBoardKey];
+		return;
+	}
+	[[self defaults] setObject : boardName
+						forKey : AppDefaultsBrowserLastBoardKey];
+}
 
 
 - (NSString *) browserSortColumnIdentifier

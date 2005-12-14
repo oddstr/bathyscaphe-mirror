@@ -1,3 +1,7 @@
+2005-12-15 masakih <masakih@users.sourceforge.jp>
+	* トランクの TestaRosssa の位置に一時タグ'v111-BASED-BRANCH-MERGE-POINT-01'を付けた
+	* トランクよりマージ
+		cvs -z3 up -j v111-BASED-BRANCH-MERGE-POINT-01
 2005-12-14 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSDBThreadList.m
 	* application/source/bbs/BoardListItem/SmartBoardList.m

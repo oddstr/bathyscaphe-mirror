@@ -1,5 +1,5 @@
 /**
- * $Id: AppDefaults-Bundle.m,v 1.10 2005/12/02 10:10:02 tsawada2 Exp $
+ * $Id: AppDefaults-Bundle.m,v 1.9.2.1 2005/12/14 16:05:06 masakih Exp $
  * 
  * AppDefaults-Bundle.m
  *

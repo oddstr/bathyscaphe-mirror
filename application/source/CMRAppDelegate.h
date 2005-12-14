@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.h,v 1.8 2005/11/16 15:59:47 tsawada2 Exp $
+ * $Id: CMRAppDelegate.h,v 1.7.2.1 2005/12/14 16:05:06 masakih Exp $
  * 
  * CMRAppDelegate.h
  *

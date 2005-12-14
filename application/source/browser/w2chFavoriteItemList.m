@@ -1,6 +1,6 @@
 //:w2chFavoriteItemList.m
 /**
-  * $Id: w2chFavoriteItemList.m,v 1.5 2005/11/23 13:44:07 tsawada2 Exp $
+  * $Id: w2chFavoriteItemList.m,v 1.4.2.1 2005/12/14 16:05:06 masakih Exp $
   * Copyright 2005 BathyScaphe Project. All rights reserved.
   *
   */

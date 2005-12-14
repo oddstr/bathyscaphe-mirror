@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer-Convert.m,v 1.2 2005/11/16 15:59:47 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer-Convert.m,v 1.1.1.1.4.1 2005/12/14 16:05:06 masakih Exp $
   * 
   * CMRAttributedMessageComposer-Convert.m
   *
