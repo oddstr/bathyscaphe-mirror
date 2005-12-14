@@ -1,5 +1,5 @@
 /**
-  * $Id: GeneralPrefController.m,v 1.6 2005/10/08 02:46:39 tsawada2 Exp $
+  * $Id: GeneralPrefController.m,v 1.7 2005/12/14 14:37:15 tsawada2 Exp $
   * 
   * GeneralPrefController.m
   *
@@ -109,6 +109,15 @@
 	[[self preferences] setLastVisibleCount : tag_];
 }
 
+#pragma mark InnocentStarter Additions
+- (BOOL) autoReloadListWhenWake
+{
+	return [[self preferences] autoReloadListWhenWake];
+}
+- (void) setAutoReloadListWhenWake : (BOOL) boxState_
+{
+	[[self preferences] setAutoReloadListWhenWake : boxState_];
+}
 @end
 
 

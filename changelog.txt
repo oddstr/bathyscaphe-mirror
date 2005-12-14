@@ -1,4 +1,20 @@
 2005-12-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/preferences/AppDefaults-ThreadViewer.m
+	* application/subproj/preference/AdvancedPrefController.m
+	* application/subproj/preference/Japanese.lproj/AdvancedPane.nib
+	* application/source/view/SGHTMLView.m
+		長押しでの反応時間の設定は、KeyValueTemplates.plist から AppDefaults に移動した。同時に、環境設定の
+		「詳細」ペインで設定できるようにした（デフォルト：0.5秒）。0秒から3.0秒までの範囲で設定できる。
+		- 厳密にはこれは ID ポップアップだけでなく、数値文字列の選択→長押しで該当レス番ポップアップ、にも適用される
+	* application/Resources/text/KeyValueTemplates.plist
+		"Thread - MouseDownTrackingTime" 設定は、AppDefaults に移動して廃止した。エントリを削除。
+	* application/source/browser/CMRBrowser-Delegate.m
+	* application/source/preferences/AppDefaults-ThreadsList.m
+	* application/subproj/preference/general/GeneralPrefController.m
+	* application/subproj/preference/Japanese.lproj/GeneralPreferences.nib
+		スリープを解除したとき、自動的にスレッド一覧を更新する設定を追加した。（デフォルトではオフ）
+		- 環境設定では「一般」ペインにチェックボックスを新設。
+		- オフラインモード時・「お気に入り」表示時、およびスレッド一覧が表示されていない時は無視される。
 	* application/source/preferences/AppDefaults-FontColor.m
 		フォント・カラー関連の設定について：カラーの変更は、直ちに反映させるように統一。
 		- ホストの色がちゃんと変更されていなかった。

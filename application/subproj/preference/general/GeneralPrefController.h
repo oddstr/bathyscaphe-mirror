@@ -1,5 +1,5 @@
 /**
-  * $Id: GeneralPrefController.h,v 1.5 2005/10/08 02:46:39 tsawada2 Exp $
+  * $Id: GeneralPrefController.h,v 1.6 2005/12/14 14:37:15 tsawada2 Exp $
   * 
   * GeneralPrefController.h
   *
@@ -40,6 +40,10 @@
 - (void) setFirstVisible : (int) tag_;
 - (int) lastVisible;
 - (void) setLastVisible : (int) tag_;
+
+// InnocentStarter Additions
+- (BOOL) autoReloadListWhenWake;
+- (void) setAutoReloadListWhenWake : (BOOL) boxState_;
 @end
 
 

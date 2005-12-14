@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.27 2005/12/10 12:39:44 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.28 2005/12/14 14:37:15 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -334,6 +334,10 @@
 - (id) threadsListTableColumnState;
 - (void) setThreadsListTableColumnState : (id) aColumnState;
 
+/* InnocentStarter Additions */
+- (BOOL) autoReloadListWhenWake;
+- (void) setAutoReloadListWhenWake : (BOOL) doReload;
+
 - (void) _loadThreadsListSettings;
 - (BOOL) _saveThreadsListSettings;
 @end
@@ -382,6 +386,10 @@
 /* SecondFlight Additions */
 - (BOOL) previewLinkWithNoModifierKey;
 - (void) setPreviewLinkWithNoModifierKey : (BOOL) previewDirectly;
+
+/* InnocentStarter Additions */
+- (float) mouseDownTrackingTime;
+- (void) setMouseDownTrackingTime : (float) aValue;
 
 - (void) _loadThreadViewerSettings;
 - (BOOL) _saveThreadViewerSettings;
