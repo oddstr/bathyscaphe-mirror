@@ -32,7 +32,7 @@
 	
 	self = [self initWithBBSSignature : sig];
 	if (self) {
-		boardListItem = item;
+		boardListItem = [item retain];
 		mCursor = [[item cursorForThreadList] retain];
 		if (!mCursor) {
 			[self release];
@@ -44,6 +44,32 @@
 	
 	return self;
 }
++ (id) threadsListWithBBSName : (NSString *) boardName
+{
+	BoardListItem *item;
+	
+	UTILAssertNotNilArgument(boardName, @"boardName");
+	
+	if ([boardName isEqualTo : CMXFavoritesDirectoryName]) {
+		item = [BoardListItem favoritesItem];
+	} else {
+		NSArray *boardIDs;
+		unsigned boardID;
+		
+		boardIDs = [[DatabaseManager defaultManager] boardIDsForName : boardName];
+		if (!boardIDs || ![boardIDs count]) {
+			NSLog(@"Not found board named %@", boardName);
+			return nil;
+		}
+		
+		/* TODO 複数あった場合の処理 */
+		
+		boardID = [[boardIDs objectAtIndex : 0] unsignedIntValue];
+		item = [[[BoardListItem alloc] initWithBoardID : boardID] autorelease];
+	}
+	
+	return [self threadListWithBoardListItem : item];
+}
 + (id)threadListWithBoardListItem : (BoardListItem *) item
 {
 	return [[[self alloc] initWithBoardListItem : item] autorelease];
@@ -51,7 +77,11 @@
 - (void) dealloc
 {
 	[mCursor release];
+	mCursor = nil;
 	[cursorLock release];
+	cursorLock = nil;
+	[boardListItem release];
+	boardListItem = nil;
 	
 	[super dealloc];
 }

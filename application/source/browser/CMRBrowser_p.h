@@ -97,8 +97,7 @@
 - (id) currentThreadsList;
 - (void) setCurrentThreadsList : (id) newList;
 
-- (void) showThreadsListWithBoardListItem : (id) board;
-- (void) showThreadsListForBoard : (id) aSignature;
+- (void) showThreadsListForBoard : (id) board;
 - (void) showThreadsListWithBoardName : (NSString *) boardName;
 @end
 

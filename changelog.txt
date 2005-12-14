@@ -1,4 +1,11 @@
 2005-12-15 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+	* application/source/browser/CMRBrowser-List.m
+	* application/source/browser/CMRBrowser_p.h
+		スレッドリストの生成を名前ベースに変更。
+================================================= CVS  Tag : MERGED-v111-BASED-BRANCH-MERGE-POINT-01
+2005-12-15 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
 	* トランクの TestaRosssa の位置に一時タグ'v111-BASED-BRANCH-MERGE-POINT-01'を付けた
 	* トランクよりマージ
 		cvs -z3 up -j v111-BASED-BRANCH-MERGE-POINT-01
@@ -86,7 +93,8 @@
 		[新規追加] application/subproj/Makefile
 		コンポーネントごとにメイク可能にした。
 ================================================= CVS Branch Tag : v111-BASED-BRANCH
-================================================= 1.1 / SecondFlight / CVS Tag : v111_FINAL2005-11-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+================================================= 1.1 / SecondFlight / CVS Tag : v111_FINAL
+2005-11-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-BLEditor.m
 		掲示板リストで複数項目を一度に削除しようとすると、予期しない項目が誤って削除されることがあった
 		問題を修正。

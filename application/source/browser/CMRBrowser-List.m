@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.7.2.2 2005/12/14 16:05:06 masakih Exp $
+  * $Id: CMRBrowser-List.m,v 1.7.2.3 2005/12/14 17:05:27 masakih Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -58,31 +58,29 @@
 	UTILNotifyName(CMRBrowserDidChangeBoardNotification);
 }
 
-- (void) showThreadsListWithBoardListItem : (id) item
+- (void) showThreadsListWithBoardName : (NSString *) boardName
 {
 	id		list_;
 	NSString			*sortColumnIdentifier_;
-	NSString			*bName_;
 	BOOL				isAscending_;
 	
-	if(nil == item) return;
-	if([[[self currentThreadsList] boardListItem] isEqual : item]){
+	if(nil == boardName) return;
+	if([[[[self currentThreadsList] boardListItem] name] isEqual : boardName]){
 		return;
 	}
 	
-	bName_ = [item name];
 	[[self threadsListTable] deselectAll : nil];
 	[[self threadsListTable] setDataSource : nil];
 	
-	list_ = [BSDBThreadList threadListWithBoardListItem : item];
+	list_ = [BSDBThreadList threadsListWithBBSName : boardName];
 	if(nil == list_)
 		return;
 	
 	[self setCurrentThreadsList : list_];
 	
 	// sort column change
-	sortColumnIdentifier_ = [[BoardManager defaultManager] sortColumnForBoard : bName_];
-	isAscending_ = [[BoardManager defaultManager] sortColumnIsAscendingAtBoard : bName_];
+	sortColumnIdentifier_ = [[BoardManager defaultManager] sortColumnForBoard : boardName];
+	isAscending_ = [[BoardManager defaultManager] sortColumnIsAscendingAtBoard : boardName];
 	
 	[list_ setIsAscending : isAscending_];
 	[self changeHighLightedTableColumnTo : sortColumnIdentifier_ isAscending : isAscending_];
@@ -92,17 +90,12 @@
 	
 	// リストの読み込みを開始する。
 	[list_ startLoadingThreadsList : [self threadLayout]];
-	[self boardChanged : bName_];
-}
-- (void) showThreadsListWithBoardName : (NSString *) boardName
-{
-	NSLog(@"enter method(%@) arg(%@)", NSStringFromSelector(_cmd), boardName);
-	[self showThreadsListWithBoardListItem : [[[BoardManager defaultManager] userList] itemForName : boardName]];
+	[self boardChanged : boardName];
 }
 
 - (void) showThreadsListForBoard : (id) board;
 {	
-	[self showThreadsListWithBoardListItem : board];
+	[self showThreadsListWithBoardName : [board name]];
 }
 
 @end
