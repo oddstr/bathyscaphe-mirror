@@ -137,6 +137,11 @@
 	UTILNotifyName(CMRThreadsListDidChangeNotification);
 }
 
+- (BOOL)isFavorites
+{
+	return [BoardListItem isFavoriteItem : [self boardListItem]];
+}
+
 - (id) boardListItem
 {
 	return boardListItem;

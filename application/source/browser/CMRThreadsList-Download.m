@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-Download.m,v 1.1.1.1.4.1 2005/12/14 16:05:06 masakih Exp $
+  * $Id: CMRThreadsList-Download.m,v 1.1.1.1.4.2 2005/12/15 13:01:52 masakih Exp $
   * BathyScaphe
   *
   * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -16,6 +16,11 @@
 {
 	CMRDownloader		*downloader_;
 	
+	if ([self isFavorites]) {
+		[self postListDidUpdateNotification : CMRAutoscrollWhenTLUpdate];
+		return;
+	}
+	
 	downloader_ = [ThreadsListDownloader threadsListDownloaderWithBBSName : [self boardName]];
 
 	if(nil == downloader_){
@@ -28,7 +33,7 @@
 	[downloader_ startLoadInBackground];
 }
 
-- (void) postListDidUpdateNotification : (int) mask;
+- (void) postListDidUpdateNotification : (int) mask
 {
 	id		obj_;
 	

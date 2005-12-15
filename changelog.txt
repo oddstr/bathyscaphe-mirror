@@ -1,5 +1,9 @@
 2005-12-15 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSDBThreadList.m
+	* application/source/browser/CMRThreadsList-Download.m
+		マージによりお気に入り選択時にスレッド一覧のreloadDataが
+		呼ばれなくなっていたのを直した
+	* application/source/browser/BSDBThreadList.m
 	* application/source/browser/CMRBrowser-List.m
 	* application/source/browser/CMRBrowser_p.h
 		スレッドリストの生成を名前ベースに変更。
