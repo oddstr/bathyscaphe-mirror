@@ -1,3 +1,16 @@
+================================================= 1.1.2 / InnocentStarter / CVS Tag : v112_FINAL
+2005-12-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/board_default.plist
+		最新の標準リストを内包。
+	* application/Resources/Japanese.lproj/BathyScapheHelp/BathyScapheHelp idx
+	* application/Resources/Japanese.lproj/BathyScapheHelp/BathyScapheHelp.helpindex
+		ヘルプ：索引の更新。
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/setting_view.html
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/setting_general.html
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/setting_details.html
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/search_thread.html
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/not_search_optional_id.html
+		ヘルプ：1.1.1→1.1.2の修正を反映するための最小限の変更（ごくわずかなため、tsawada2 が直接行った）。
 2005-12-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/preferences/AppDefaults-ThreadViewer.m
 	* application/subproj/preference/AdvancedPrefController.m
