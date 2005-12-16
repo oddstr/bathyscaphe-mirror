@@ -11,21 +11,56 @@
 #import "DatabaseManager.h"
 #import "CMRBBSListTemplateKeys.h"
 
+static NSMutableDictionary *_commonInstances = nil;
+static NSLock *_commonInstancesLock = nil;
+
+@interface BoardBoardListItem(Private)
+- (id) _privateInitWithBoardID : (unsigned) boardID;
+@end
+
 @implementation BoardBoardListItem
 
-+ (NSString *) untitledItemName
++ (void)initialize
 {
-	return NSLocalizedString(@"Untitled Board", @"Untitled Board");
+	static BOOL isFirst = YES;
+	
+	if (isFirst) {
+		isFirst = NO;
+		
+		_commonInstances = [[NSMutableDictionary dictionary] retain];
+		_commonInstancesLock = [[NSLock alloc] init];
+	}
+}
+
++ (id) boardBoardListWithBoardID : (unsigned) inBoardID
+{
+	return [[[self alloc] _privateInitWithBoardID : inBoardID] autorelease];
+}
+
+- (id)_privateInitWithBoardID : (unsigned) inBoardID
+{
+	id result = nil;
+	id key = [NSNumber numberWithUnsignedInt : inBoardID];
+	
+	[_commonInstancesLock lock];
+	result = [[_commonInstances objectForKey : key] retain];
+	if (!result) {
+		result = [super init];
+		if (result) {
+			[result setBoardID : inBoardID];
+			[_commonInstances setObject : result forKey : key];
+		}
+	} else {
+		[self release];
+	}
+	[_commonInstancesLock unlock];
+	
+	return result;
 }
 
 - (id) initWithBoardID : (unsigned) inBoardID
-{
-	if (self = [super init]) {
-		[self setBoardID : inBoardID];
-//		[self setName : [[self class] untitledItemName]];
-	}
-
-	return self;
+{	
+	return [self _privateInitWithBoardID : inBoardID];
 }
 - (id) initWithURLString : (NSString *) urlString
 {
@@ -37,7 +72,7 @@
 		return nil;
 	}
 	
-	return [self initWithBoardID : inBoardID];
+	return [self _privateInitWithBoardID : inBoardID];
 }
 - (void) dealloc
 {

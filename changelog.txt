@@ -1,4 +1,9 @@
 2005-12-16 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/BoardBoardListItem.m
+		BoardBoardListItem を baordID 一つにつき一つのインスタンス
+		だけ生成するようにした。
+		Flyweight パターン。
+		メモリ節約より生成/解放を減らすのが主目的。
 	* application/source/browser/BSDBThreadList.m
 		カーソルの排他処理をより確実にした。
 	* application/source/browser/BSDBThreadList.h
