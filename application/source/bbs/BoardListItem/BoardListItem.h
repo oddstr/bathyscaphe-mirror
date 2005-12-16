@@ -19,49 +19,53 @@
 	NSString *_name;
 }
 
-// + (id)itemForName:(NSString *)name;
+// + (id) itemForName : (NSString *) name;
 
-- (NSImage *)icon;
-- (void)setIcon:(NSImage *)icon;
+- (NSImage *) icon;
+- (void) setIcon : (NSImage *) icon;
 
-- (NSString *)name;
-- (void)setName:(NSString *)newName;
-- (NSString *)representName; // name shown in BoardList. default call name method.
-- (void)setRepresentName:(NSString *)newRepresentName; // defualt call setName method.
+- (NSString *) name;
+- (void) setName : (NSString *) newName;
+- (NSString *) representName; // name shown in BoardList. default call name method.
+- (void) setRepresentName : (NSString *) newRepresentName; // defualt call setName method.
 
 // default return NO.
-- (BOOL)hasURL;
-- (NSURL *)url;
-- (void)setURLString:(NSString *)urlString;
+- (BOOL) hasURL;
+- (NSURL *) url;
+- (void) setURLString : (NSString *) urlString;
 
 // default return NO;
-- (BOOL)hasChildren;
+- (BOOL) hasChildren;
 
 // default retrun 0.
-- (unsigned)numberOfItem;
-- (id)itemAtIndex:(unsigned)index;
-- (NSArray *)items;
-- (id)itemForName : (NSString *)name;
-- (id)itemForName : (NSString *)name deepSearch : (BOOL) isDeep;
-- (id)itemForRepresentName:(NSString *)name;
-- (id)itemForRepresentName:(NSString *)name deepSearch:(BOOL)isDeep;
+- (unsigned) numberOfItem;
+- (id) itemAtIndex : (unsigned) index;
+- (NSArray *) items;
+- (id) itemForName : (NSString *) name;
+- (id) itemForName : (NSString *) name deepSearch : (BOOL) isDeep;
+- (id) itemForRepresentName : (NSString *) name;
+- (id) itemForRepresentName : (NSString *) name deepSearch : (BOOL) isDeep;
 
-- (id)description;
-- (id)plist;
+- (id) description;
+- (id) plist;
 
 @end
 
 @interface BoardListItem (Creation)
 
-+ (id)favoritesItem;
++ (id) favoritesItem;
++ (id) boardListItemWithFolderName : (NSString *) name;
++ (id) baordListItemWithBoradID : (unsigned) boardID;
++ (id) boardListItemWithURLString : (NSString *) urlString;
++ (id) baordListItemWithName : (NSString *) name condition : (id) condition;
 
-- (id)initForFavorites;
-- (id)initWithFolderName:(NSString *)name;
-- (id)initWithBoardID:(unsigned)boardID;
-- (id)initWithURLString:(NSString *)urlString;
-- (id)initWithName:(NSString *)name condition:(id)condition;
+- (id) initForFavorites;
+- (id) initWithFolderName : (NSString *) name;
+- (id) initWithBoardID : (unsigned) boardID;
+- (id) initWithURLString : (NSString *) urlString;
+- (id) initWithName : (NSString *) name condition : (id) condition;
 
-- (id)initWithContentsOfFile:(NSString *)path;
+- (id) initWithContentsOfFile : (NSString *) path;
 
 @end
 
@@ -82,10 +86,10 @@
 
 // this cursor ONLY used by thread list.
 // default return nil.
-- (id <SQLiteCursor>)cursorForThreadList;
-- (NSString *)query;
+- (id <SQLiteCursor>) cursorForThreadList;
+- (NSString *) query;
 
-- (void)postUpdateThreadsNotification;
+- (void) postUpdateThreadsNotification;
 
 @end
 
@@ -93,20 +97,20 @@
 @interface BoardListItem (Mutable)
 
 // default return NO.
-- (BOOL)isMutable;
+- (BOOL) isMutable;
 
-- (void)addItem:(BoardListItem *)item;
+- (void) addItem : (BoardListItem *) item;
 // Raise NSRangeException, if index larger.
-- (void)insertItem:(BoardListItem *)item atIndex:(unsigned)index;
+- (void) insertItem : (BoardListItem *) item atIndex : (unsigned) index;
 // Raise NSRangeException, if not found object.
-- (void)insertItem:(BoardListItem *)item afterItem:(BoardListItem *)object; // default call -insertItem:afterItem:deepSearch: isDeep argument set NO.
-- (void)insertItem:(BoardListItem *)item afterItem:(BoardListItem *)object deepSearch:(BOOL)isDeep;
+- (void) insertItem : (BoardListItem *) item afterItem : (BoardListItem *) object; // default call -insertItem:afterItem:deepSearch: isDeep argument set NO.
+- (void) insertItem : (BoardListItem *) item afterItem : (BoardListItem *) object deepSearch : (BOOL) isDeep;
 
-- (void)removeItem:(BoardListItem *)item; // default call -removeItem:deepSearch: isDeep argument set NO.
-- (void)removeItem:(BoardListItem *)item deepSearch:(BOOL)isDeep;
-- (void)removeItemAtIndex:(unsigned)index;
+- (void) removeItem : (BoardListItem *) item; // default call -removeItem:deepSearch: isDeep argument set NO.
+- (void) removeItem : (BoardListItem *) item deepSearch : (BOOL) isDeep;
+- (void) removeItemAtIndex : (unsigned) index;
 
-- (void)postUpdateChildrenNotification;
+- (void) postUpdateChildrenNotification;
 
 @end
 

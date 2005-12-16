@@ -25,7 +25,7 @@
 		if (![path isEqualTo : [[BoardManager defaultManager] defaultBoardListPath]]) {
 			id favorites;
 			
-			favorites = [[[BoardListItem alloc] initForFavorites] autorelease];
+			favorites = [BoardListItem favoritesItem];
 			if (favorites && [topLevelItem isMutable]) {
 				[topLevelItem insertItem : favorites atIndex : 0];
 			}
@@ -157,20 +157,8 @@
 }
 
 @end
-@implementation NSNumber (Test)
-- (unsigned) length
-{
-	NSLog (@"OIHDSFKJDLKFJSHDKHFKSDHFKEF") ;
-	return 0;
-}
-- (NSRange) rangeOfString : (id) str options : (int) opt
-{
-	NSLog (@"OIHDSFKJDLKFJSHDKHFKSDHFKEF") ;
-	return NSMakeRange (NSNotFound, 0) ;
-}
-@end
-@implementation SmartBoardList (Test)
 
+@implementation SmartBoardList (Test)
 
 @end
 

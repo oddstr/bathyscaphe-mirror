@@ -34,6 +34,22 @@ static ConcreteBoardListItem *_sharedInstance;
 {
 	return [FavoritesBoardListItem sharedInstance];
 }
++ (id) boardListItemWithFolderName : (NSString *) name
+{
+	return [[[FolderBoardListItem alloc] initWithFolderName : name] autorelease];
+}
++ (id) baordListItemWithBoradID : (unsigned) boardID
+{
+	return [[[BoardBoardListItem alloc] initWithBoardID : boardID] autorelease];
+}
++ (id) boardListItemWithURLString : (NSString *) urlString
+{
+	return [[[BoardBoardListItem alloc] initWithURLString : urlString] autorelease];
+}
++ (id) baordListItemWithName : (NSString *) name condition : (id) condition
+{
+	return [[[SmartBoardListItem alloc] initWithName : name condition : condition] autorelease];
+}
 - (id) initForFavorites
 {
 	return [FavoritesBoardListItem sharedInstance];
@@ -94,7 +110,7 @@ static ConcreteBoardListItem *_sharedInstance;
 			}
 		}
 		
-		boardItem = [[[BoardListItem alloc] initWithBoardID : boardID] autorelease];
+		boardItem = [BoardListItem baordListItemWithBoradID : boardID];
 //		[boardItem setName : boardName];
 		[result addItem : boardItem];
 	}

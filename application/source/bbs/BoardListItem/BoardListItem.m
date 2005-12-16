@@ -106,6 +106,10 @@ NSString *BoardListItemUpdateThreadsNotification = @"BoardListItemUpdateThreadsN
 {
 	return [super description];
 }
+- (id)plist
+{
+	return [NSString stringWithFormat : @"%@ (%p)", NSStringFromClass([self class]), self];
+}
 
 #pragma mark## NSCoding protocol ##
 - (void) encodeWithCoder : (NSCoder *) aCoder
@@ -180,6 +184,22 @@ NSString *BoardListItemUpdateThreadsNotification = @"BoardListItemUpdateThreadsN
 {
 	return [ConcreteBoardListItem favoritesItem];
 }
++ (id) boardListItemWithFolderName : (NSString *) name
+{
+	return [ConcreteBoardListItem boardListItemWithFolderName : name];
+}
++ (id) baordListItemWithBoradID : (unsigned) boardID
+{
+	return [ConcreteBoardListItem baordListItemWithBoradID : boardID];
+}
++ (id) boardListItemWithURLString : (NSString *) urlString
+{
+	return [ConcreteBoardListItem boardListItemWithURLString : urlString];
+}
++ (id) baordListItemWithName : (NSString *) name condition : (id) condition
+{
+	return [ConcreteBoardListItem baordListItemWithName : name condition : condition];
+}
 - (id) initForFavorites
 {
 	NSLog(@"Oh! what do you do?") ;
@@ -223,28 +243,28 @@ NSString *BoardListItemUpdateThreadsNotification = @"BoardListItemUpdateThreadsN
 
 + (BOOL) isBoardItem : (BoardListItem *) item
 {
-	return (BOOL) [ConcreteBoardListItem performSelector : _cmd withObject : item];
+	return [ConcreteBoardListItem isBoardItem : item];
 }
 + (BOOL) isFavoriteItem : (BoardListItem *) item
 {
-	return (BOOL) [ConcreteBoardListItem performSelector : _cmd withObject : item];
+	return [ConcreteBoardListItem isFavoriteItem : item];
 }
 + (BOOL) isFolderItem : (BoardListItem *) item
 {
-	return (BOOL) [ConcreteBoardListItem performSelector : _cmd withObject : item];
+	return [ConcreteBoardListItem isFolderItem : item];
 }
 + (BOOL) isSmartItem : (BoardListItem *) item
 {
-	return (BOOL) [ConcreteBoardListItem performSelector : _cmd withObject : item];
+	return [ConcreteBoardListItem isSmartItem : item];
 }
 + (BOOL) isCategory : (BoardListItem *) item
 {
-	return (BOOL) [ConcreteBoardListItem performSelector : _cmd withObject : item];
+	return [ConcreteBoardListItem isFolderItem : item];
 }
 
 + (/*BoardListItemType*/ int) typeForItem : (BoardListItem *) item
 {
-	return (int) [ConcreteBoardListItem performSelector : _cmd withObject : item];
+	return [ConcreteBoardListItem typeForItem : item];
 }
 
 @end

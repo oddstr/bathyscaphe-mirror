@@ -65,7 +65,7 @@
 		/* TODO 複数あった場合の処理 */
 		
 		boardID = [[boardIDs objectAtIndex : 0] unsignedIntValue];
-		item = [[[BoardListItem alloc] initWithBoardID : boardID] autorelease];
+		item = [BoardListItem baordListItemWithBoradID : boardID];
 	}
 	
 	return [self threadListWithBoardListItem : item];

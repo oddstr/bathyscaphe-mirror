@@ -211,7 +211,7 @@
 		int rowIndex;
 		id selectedItem;
 	
-		newItem_ = [[[BoardListItem alloc] initWithFolderName:name_] autorelease]; 
+		newItem_ = [BoardListItem boardListItemWithFolderName : name_]; 
 	
 		rowIndex = [[self boardListTable] selectedRow];
 		selectedItem = (rowIndex >= 0) ? [[self boardListTable] itemAtRow : rowIndex]: nil;
