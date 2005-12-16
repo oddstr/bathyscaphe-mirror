@@ -1,4 +1,6 @@
 2005-12-16 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+		カーソルの排他処理をより確実にした。
 	* application/source/browser/BSDBThreadList.h
 	* application/source/browser/BSDBThreadList.m
 	* application/source/browser/CMRThreadsList-Download.m

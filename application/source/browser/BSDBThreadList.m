@@ -270,14 +270,9 @@ NSString *wherePhraseFromSearchString(NSString *searchString)
 	printf("\ntotal time: %ld\ncursor lock time: %ld\ngetting cursor time: %ld\ncursor unlock time %ld\n",
 		   time03 - time00, time01 - time00, time02 - time01, time03 - time02 );
 #endif
-	
-//	temp = data;
-//	data = [[mCursor arrayForTableView] retain];
-//	[temp release];
 }
 - (NSString *) boardName
 {
-	//	NSLog(@"CHECKKING ME! %s : %d", __FILE__, __LINE__);
 	if (boardListItem) {
 		return [boardListItem name];
 	}
@@ -287,11 +282,17 @@ NSString *wherePhraseFromSearchString(NSString *searchString)
 
 - (unsigned) numberOfThreads
 {
-	return [mCursor rowCount];
+	unsigned count;
+	
+	[cursorLock lock];
+	count = [mCursor rowCount];
+	[cursorLock unlock];
+	
+	return count;
 }
 - (unsigned) numberOfFilteredThreads
 {
-	return [mCursor rowCount];
+	return [self numberOfThreads];
 }
 
 - (void) sortByKey : (NSString *) key
@@ -491,7 +492,11 @@ BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSString **outThread
                                   inTableView : (NSTableView *) tableView
 {
 	NSDictionary *result;
-	id<SQLiteRow> row = [mCursor rowAtIndex : rowIndex];
+	id<SQLiteRow> row;
+	
+	[cursorLock lock];
+	row = [[[mCursor rowAtIndex : rowIndex] retain] autorelease];
+	[cursorLock unlock];
 	
 	NSString *title = [row valueForColumn : ThreadNameColumn];
 	NSNumber *newCount = [row valueForColumn : NumberOfAllColumn];
@@ -515,7 +520,11 @@ BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSString **outThread
 	CMRThreadSignature *threadSig = [CMRThreadSignature threadSignatureFromFilepath : filepath];
 	NSString *identifier = [threadSig identifier];
 	
-	NSArray *threadIDs = [mCursor valuesForColumn : ThreadIDColumn];
+	NSArray *threadIDs;
+	
+	[cursorLock lock];
+	threadIDs	= [[[mCursor valuesForColumn : ThreadIDColumn] retain] autorelease];
+	[cursorLock unlock];
 	
 	result = [threadIDs indexOfObject : identifier];
 	
@@ -529,16 +538,21 @@ enum {
 };
 - (int)numberOfRowsInTableView : (NSTableView *)tableView
 {
-	return [mCursor rowCount];
+	return [self numberOfFilteredThreads];
 }
 
 - (id)tableView : (NSTableView *)tableView objectValueForTableColumn : (NSTableColumn *)tableColumn row : (int)rowIndex
 {
 	NSString *identifier = [tableColumn identifier];
-	id <SQLiteRow> row = [mCursor rowAtIndex : rowIndex];
+	id <SQLiteRow> row;
 	id result = nil;
+	ThreadStatus s;
 	
-	ThreadStatus s = [[row valueForColumn : ThreadStatusColumn] intValue];
+	[cursorLock lock];
+	row = [[[mCursor rowAtIndex : rowIndex] retain] autorelease];
+	[cursorLock unlock];
+	
+	s = [[row valueForColumn : ThreadStatusColumn] intValue];
 	
 	if ([identifier isEqualTo : CMRThreadStatusKey]) {
 		result = [[self class] statusImageWithStatus : s];
