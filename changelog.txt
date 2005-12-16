@@ -1,3 +1,10 @@
+2005-12-16 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.h
+	* application/source/browser/BSDBThreadList.m
+	* application/source/browser/CMRThreadsList-Download.m
+		お気に入り選択時にスレッド一覧が表示されないのが試験的に導入した
+		BSDBThreadList のインスタンス変数が原因だと判明。
+		インスタンス変数を削除し、CMRThreadsList-Download.m は元に戻した。
 2005-12-15 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSDBThreadList.m
 	* application/source/browser/CMRThreadsList-Download.m

@@ -16,9 +16,7 @@
 @interface BSDBThreadList : CMRThreadsList
 {
 	id <SQLiteCursor> mCursor;
-	
-	id data;
-	
+		
 	BoardListItem *boardListItem;
 	
 	NSString *mSortKey;

@@ -271,9 +271,9 @@ NSString *wherePhraseFromSearchString(NSString *searchString)
 		   time03 - time00, time01 - time00, time02 - time01, time03 - time02 );
 #endif
 	
-	temp = data;
-	data = [[mCursor arrayForTableView] retain];
-	[temp release];
+//	temp = data;
+//	data = [[mCursor arrayForTableView] retain];
+//	[temp release];
 }
 - (NSString *) boardName
 {
@@ -535,7 +535,7 @@ enum {
 - (id)tableView : (NSTableView *)tableView objectValueForTableColumn : (NSTableColumn *)tableColumn row : (int)rowIndex
 {
 	NSString *identifier = [tableColumn identifier];
-	id <SQLiteRow> row = [data objectAtIndex : rowIndex];
+	id <SQLiteRow> row = [mCursor rowAtIndex : rowIndex];
 	id result = nil;
 	
 	ThreadStatus s = [[row valueForColumn : ThreadStatusColumn] intValue];
