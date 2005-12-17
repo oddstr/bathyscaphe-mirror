@@ -1,3 +1,7 @@
+================================================= CVS  Tag : MERGED-v112_FINAL
+2005-12-15 masakih <masakih@users.sourceforge.jp>
+	* トランクよりマージ
+	cvs -z3 up -j v111-BASED-BRANCH-MERGE-POINT-01  -j v112_FINAL 
 2005-12-17 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSDBThreadList.m
 		スレッド一覧変更時に以前のソートに沿うようにした。

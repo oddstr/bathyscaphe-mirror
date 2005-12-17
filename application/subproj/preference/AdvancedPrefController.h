@@ -54,5 +54,9 @@
 - (int) openInBrowserType;
 - (void) setOpenInBrowserType : (int) aType;
 
+// InnocentStarter Additions
+- (float) mouseDownTrackingTime;
+- (void) setMouseDownTrackingTime : (float) sliderValue;
+
 - (void) updateProxyUIComponents;
 @end

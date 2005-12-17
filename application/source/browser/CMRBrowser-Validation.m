@@ -1,4 +1,10 @@
-//:CMRBrowser-Validation.m
+/*
+ * $Id: CMRBrowser-Validation.m,v 1.9.2.2 2005/12/17 14:59:49 masakih Exp $
+ * BathyScaphe
+ *
+ * Copyright 2005 BathyScaphe Project. All rights reserved.
+ *
+ */
 
 #import "CMRBrowser_p.h"
 #import "BSBoardListView.h"
@@ -64,12 +70,13 @@
 		int					rowIndex_;
 		NSDictionary		*item_;
 		NSOutlineView		*bLT_ = [self boardListTable];
+		int					semiSelRowIdx_ = [(BSBoardListView *)bLT_ semiSelectedRow];
 	
 		if ([bLT_ numberOfSelectedRows] > 1) {
 			if (tag_ == kBLDeleteItemViaMenubarItemTag || tag_ == kBLDeleteItemViaContMenuItemTag) {
-				return YES;
+				return YES; // •¡”‚Ì€–Ú‚Éu‚¨‹C‚É“ü‚èv‚ªŠÜ‚Ü‚ê‚Ä‚¢‚Ä‚à–â‘è‚Í‚È‚¢
 			} else if (tag_ == kBLEditItemViaContextualMenuItemTag) {
-				return (NO == [[bLT_ selectedRowIndexes] containsIndex : [(BSBoardListView *)bLT_ semiSelectedRow]]);
+				return (NO == [[bLT_ selectedRowIndexes] containsIndex : semiSelRowIdx_]);
 			} else {
 				return NO;
 			}
@@ -78,10 +85,10 @@
 		rowIndex_ = [bLT_ selectedRow];
 	
 		if (rowIndex_ >= [bLT_ numberOfRows]) return NO;
-
-		if (rowIndex_ < 0) {
-			if (([(BSBoardListView *)bLT_ semiSelectedRow] >= 0) && (tag_ > kBLContMenuItemTagMaximalValue)) // via Contextual menu
-				rowIndex_ = [(BSBoardListView *)bLT_ semiSelectedRow];
+		// 2005-12-13 tsawada2
+		if ((rowIndex_ < 0 || (rowIndex_ != semiSelRowIdx_)) && semiSelRowIdx_ != -1) {
+			if ((semiSelRowIdx_ >= 0) && (tag_ > kBLContMenuItemTagMaximalValue)) // via Contextual menu
+				rowIndex_ = semiSelRowIdx_;
 			else
 				return NO;
 		}

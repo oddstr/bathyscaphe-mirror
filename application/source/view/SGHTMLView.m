@@ -1,5 +1,5 @@
 /**
-  * $Id: SGHTMLView.m,v 1.4 2005/10/15 09:45:42 tsawada2 Exp $
+  * $Id: SGHTMLView.m,v 1.4.2.1 2005/12/17 14:59:49 masakih Exp $
   * 
   * SGHTMLView.m
   *
@@ -18,7 +18,7 @@
 NSString *const SGHTMLViewMouseEnteredNotification = @"SGHTMLViewMouseEnteredNotification";
 NSString *const SGHTMLViewMouseExitedNotification = @"SGHTMLViewMouseExitedNotification";
 
-#define kMouseDownTrackingTimeKey	@"Thread - MouseDownTrackingTime"
+//#define kMouseDownTrackingTimeKey	@"Thread - MouseDownTrackingTime"
 #define kThreadKeyBindingsFile		@"ThreadKeyBindings.plist"
 #define MOUSE_CLICK_TRACKING_TIME	0.18
 
@@ -196,13 +196,15 @@ CMRThreadView ÇÉZÉbÉgÉAÉbÉvÇ∑ÇÈç€Ç…ÅAsetLinkTextAttributes: Ç≈ìKìñÇ»ëÆê´é´èëÇÉ
 	}
 	
 	if ([self shouldHandleContinuousMouseDown:theEvent]) {
-		id				interval_;
+		//id				interval_;
+		NSNumber	*interval_;
 		
 		eventMask_ = (	NSLeftMouseUpMask | 
 						NSLeftMouseDraggedMask | 
 						NSPeriodicMask);
 		
-		interval_ = SGTemplateResource(kMouseDownTrackingTimeKey);
+		//interval_ = SGTemplateResource(kMouseDownTrackingTimeKey);
+		interval_ = [NSNumber numberWithFloat : [CMRPref mouseDownTrackingTime]];
 		UTILAssertKindOfClass(interval_, NSNumber);
 		
 		[NSEvent startPeriodicEventsAfterDelay : [interval_ doubleValue]

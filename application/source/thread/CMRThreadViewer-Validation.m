@@ -1,5 +1,5 @@
 /*
-    $Id: CMRThreadViewer-Validation.m,v 1.12.2.1 2005/12/14 16:05:06 masakih Exp $
+    $Id: CMRThreadViewer-Validation.m,v 1.12.2.2 2005/12/17 14:59:49 masakih Exp $
     CMRThreadViewer-Action.m から独立
     Created at 2005-02-16 by tsawada2.
 */
@@ -168,13 +168,11 @@ static int messageMaskForTag(int tag)
 - (BOOL) validateUIItem : (id) theItem
 {
 	SEL		action_;
-	NSDictionary	*selected_;
 	BOOL		isSelected_;
 	
 	if (nil == theItem) return NO;
 	
 	action_ = [theItem action];
-	selected_ = [self selectedThread];
 	isSelected_ = ([self selectedThreads] && [self numberOfSelectedThreads]);
         
 	// AA スレ
@@ -210,7 +208,7 @@ static int messageMaskForTag(int tag)
 		
 		[theItem setTitle : title_];		
 		
-		return (selected_ != nil && [self shouldShowContents]);
+		return ([self threadAttributes] && [self shouldShowContents]);
 	}
 	// お気に入りに追加
 	if (action_ == @selector(addFavorites:)) {
@@ -266,7 +264,11 @@ static int messageMaskForTag(int tag)
 	   action_ == @selector(findPreviousText:)		||
 	   action_ == @selector(findFirstText:)			||
 	   action_ == @selector(findAll:)				||
-	   action_ == @selector(launchBWAgent:)			||
+	   action_ == @selector(findAllByFilter:)
+	   )
+	{ return [self shouldShowContents]; }
+	
+	if (action_ == @selector(launchBWAgent:)			||
 	   action_ == @selector(openDefaultNoNameInputPanel:) ||
 	   action_ == @selector(orderFrontMainBrowser:) ||
 	   action_ == @selector(showThreadWithMenuItem:)

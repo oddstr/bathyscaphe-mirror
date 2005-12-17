@@ -245,6 +245,16 @@
 {
     [[self preferences] setOpenInBrowserType : aType];
 }
+
+#pragma mark InnocentStarter Additions
+- (float) mouseDownTrackingTime
+{
+	return [[self preferences] mouseDownTrackingTime];
+}
+- (void) setMouseDownTrackingTime : (float) sliderValue
+{
+	[[self preferences] setMouseDownTrackingTime : sliderValue];
+}
 @end
 
 @implementation AdvancedPrefController(Toolbar)

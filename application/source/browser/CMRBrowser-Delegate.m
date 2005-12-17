@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.14.2.1 2005/12/12 15:28:27 masakih Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.14.2.2 2005/12/17 14:59:49 masakih Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -335,6 +335,12 @@ BOOL isOptionKeyDown(unsigned flag_)
 	        selector : @selector(threadsListDownloaderShouldRetryUpdate:)
 	            name : ThreadsListDownloaderShouldRetryUpdateNotification
 	          object : nil];
+
+	[[[NSWorkspace sharedWorkspace] notificationCenter]
+	     addObserver : self
+	        selector : @selector(sleepDidEnd:)
+	            name : NSWorkspaceDidWakeNotification
+	          object : nil];
 	
 	[super registerToNotificationCenter];
 }
@@ -355,6 +361,12 @@ BOOL isOptionKeyDown(unsigned flag_)
 	[[NSNotificationCenter defaultCenter]
 	  removeObserver : self
 	            name : ThreadsListDownloaderShouldRetryUpdateNotification
+	          object : nil];
+
+
+	[[[NSWorkspace sharedWorkspace] notificationCenter]
+	  removeObserver : self
+	            name : NSWorkspaceDidWakeNotification
 	          object : nil];
 
 	[super removeFromNotificationCenter];
@@ -491,4 +503,12 @@ BOOL isOptionKeyDown(unsigned flag_)
     }
 }
 
+// Added in InnocentStarter.
+- (void) sleepDidEnd : (NSNotification *) aNotification
+{
+	if ([CMRPref isOnlineMode] && [CMRPref autoReloadListWhenWake] && ![[self currentThreadsList] isFavorites]) {
+		[self reloadThreadsList : nil];
+	}
+}
 @end
+

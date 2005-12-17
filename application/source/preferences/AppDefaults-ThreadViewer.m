@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-ThreadViewer.m,v 1.4 2005/11/03 01:06:19 tsawada2 Exp $
+  * $Id: AppDefaults-ThreadViewer.m,v 1.4.2.1 2005/12/17 14:59:49 masakih Exp $
   * 
   * AppDefaults-ThreadViewer.m
   *
@@ -23,6 +23,7 @@
 
 static NSString *const kPrefFirstVisibleKey	= @"FirstVisible";
 static NSString *const kPrefLastVisibleKey	= @"LastVisible";
+static NSString *const kPrefTrackingTimeKey = @"Mousedown Tracking Time";
 
 
 @implementation AppDefaults(ThreadViewerSettings)
@@ -207,6 +208,17 @@ static NSString *const kPrefLastVisibleKey	= @"LastVisible";
 {
 	[[self defaults] setBool : previewDirectly
 					  forKey : kPrefPreviewLinkDirectlyKey];
+}
+
+#pragma mark InnocentStarter Additions
+- (float) mouseDownTrackingTime
+{
+	return [[self threadViewerDefaultsDictionary] floatForKey : kPrefTrackingTimeKey
+												 defaultValue : 0.5];
+}
+- (void) setMouseDownTrackingTime : (float) aValue
+{
+	[[self threadViewerDefaultsDictionary] setFloat : aValue forKey : kPrefTrackingTimeKey];
 }
 
 #pragma mark -

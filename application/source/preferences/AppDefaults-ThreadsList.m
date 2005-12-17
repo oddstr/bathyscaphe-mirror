@@ -14,6 +14,8 @@ static NSString *const AppDefaultsThreadsListSettingsKey = @"Preferences - Threa
 static NSString *const AppDefaultsThreadsListAutoscrollMaskKey = @"Selection Holding Mask";
 static NSString *const AppDefaultsTLIgnoreTitleCharactersKey = @"Ignore Characters";
 
+static NSString *const AppDefaultsTLAutoReloadWhenWakeKey = @"Reload When Wake";
+
 // à»â∫ÇÕ User Defaults íºâ∫Ç…çÏê¨Ç≥ÇÍÇÈ key
 static NSString *const AppDefaultsUseIncrementalSearchKey = @"UseIncrementalSearch";
 static NSString *const AppDefaultsTRViewTextUsesBlackColorKey = @"ThreadTitleBarTextUsesBlackColor";
@@ -114,6 +116,18 @@ static NSString *const AppDefaultsTLTableColumnStateKey = @"ThreadsListTable Col
 {
 	[[self defaults] setObject : aColumnState
 						forKey : AppDefaultsTLTableColumnStateKey];
+}
+
+#pragma mark InnocentStarter Additions
+- (BOOL) autoReloadListWhenWake
+{
+	return [[self threadsListSettingsDictionary] boolForKey : AppDefaultsTLAutoReloadWhenWakeKey
+											   defaultValue : NO];
+}
+- (void) setAutoReloadListWhenWake : (BOOL) doReload
+{
+	[[self threadsListSettingsDictionary] setBool : doReload
+										   forKey : AppDefaultsTLAutoReloadWhenWakeKey];
 }
 
 #pragma mark -
