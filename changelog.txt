@@ -1,4 +1,6 @@
 2005-12-17 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+		スレッド一覧変更時に以前のソートに沿うようにした。
 	* application/source/bbs/BoardListItem/BoardListItem.h
 	* application/source/bbs/BoardListItem/BoardListItem.m
 	* application/source/bbs/BoardListItem/ConcreteBoardListItem.m

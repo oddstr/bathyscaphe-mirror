@@ -33,12 +33,12 @@
 	self = [self initWithBBSSignature : sig];
 	if (self) {
 		boardListItem = [item retain];
+		mSortKey = [[[BoardManager defaultManager] sortColumnForBoard : [self boardName]] retain];
+		cursorLock = [[NSLock alloc] init];
 		mCursor = [[item cursorForThreadList] retain];
 		if (!mCursor) {
 			[self release];
 			self = nil;
-		} else {
-			cursorLock = [[NSLock alloc] init];
 		}
 	}
 	
@@ -82,6 +82,10 @@
 	cursorLock = nil;
 	[boardListItem release];
 	boardListItem = nil;
+	[mSortKey release];
+	mSortKey = nil;
+	[mSearchString release];
+	mSearchString = nil;
 	
 	[super dealloc];
 }
