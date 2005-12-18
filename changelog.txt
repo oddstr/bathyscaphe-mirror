@@ -1,7 +1,15 @@
+2005-12-19 masakih <masakih@users.sourceforge.jp>
+	* application/Makefile
+	* application/source/libRBSplitView.a
+		nmatz さんのご指摘を受けてterminal上でメイクできるように変更
+		また、マージできていなかったlibRBSplitView.aをマージ。
 ================================================= CVS  Tag : MERGED-v112_FINAL
-2005-12-15 masakih <masakih@users.sourceforge.jp>
-	* トランクよりマージ
-	cvs -z3 up -j v111-BASED-BRANCH-MERGE-POINT-01  -j v112_FINAL 
+2005-12-18 masakih <masakih@users.sourceforge.jp>
+		不要となったタグ MERGED-v111-BASED-BRANCH-MERGE-POINT-01 と
+		v111-BASED-BRANCH-MERGE-POINT-01 を削除
+
+		トランクよりマージ
+		cvs -z3 up -j v111-BASED-BRANCH-MERGE-POINT-01  -j v112_FINAL 
 2005-12-17 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSDBThreadList.m
 		スレッド一覧変更時に以前のソートに沿うようにした。
@@ -36,11 +44,10 @@
 	* application/source/browser/CMRBrowser-List.m
 	* application/source/browser/CMRBrowser_p.h
 		スレッドリストの生成を名前ベースに変更。
-================================================= CVS  Tag : MERGED-v111-BASED-BRANCH-MERGE-POINT-01
 2005-12-15 masakih <masakih@users.sourceforge.jp>
-	* application/source/browser/BSDBThreadList.m
-	* トランクの TestaRosssa の位置に一時タグ'v111-BASED-BRANCH-MERGE-POINT-01'を付けた
-	* トランクよりマージ
+		トランクの TestaRosssa の位置に一時タグ'v111-BASED-BRANCH-MERGE-POINT-01'を付けた
+		rtag -D'2005-12-10 19:00 UCT' v111-BASED-BRANCH-MERGE-POINT-01
+		トランクよりマージ
 		cvs -z3 up -j v111-BASED-BRANCH-MERGE-POINT-01
 2005-12-14 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSDBThreadList.m
