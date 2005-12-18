@@ -1,4 +1,8 @@
 2005-12-19 masakih <masakih@users.sourceforge.jp>
+	* application/source/manager/DatabaseManager.h
+	* application/source/manager/DatabaseManager.m
+		今後の可能性をふまえて、LastWrittenDateカラムをThreadInfoTableに追加。
+		プログラム上では未使用、且つ存在検証もしていない。
 	* application/Makefile
 	* application/source/libRBSplitView.a
 		nmatz さんのご指摘を受けてterminal上でメイクできるように変更

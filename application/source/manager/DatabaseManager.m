@@ -30,6 +30,7 @@ NSString *ModifiedDateColumn = @"modifiedDate";
 NSString *ThreadStatusColumn = @"threadStatus";
 NSString *ThreadAboneTypeColumn = @"threadAboneType";
 NSString *ThreadLabelColumn = @"threadLabel";
+NSString *LastWrittenDateColumn = @"lastWrittenDate";
 NSString *NumberColumn = @"number";
 NSString *MailColumn = @"mail";
 NSString *DateColumn = @"date";
@@ -168,13 +169,17 @@ extern void setSQLiteZone(NSZone *zone);
 
 - (NSArray *) threadInfoColumns
 {
-	return [NSArray arrayWithObjects : BoardIDColumn, ThreadIDColumn, ThreadNameColumn, NumberOfAllColumn,
-		NumberOfReadColumn, ModifiedDateColumn, ThreadStatusColumn, ThreadAboneTypeColumn, ThreadLabelColumn, nil];
+	return [NSArray arrayWithObjects : BoardIDColumn, ThreadIDColumn, ThreadNameColumn,
+		NumberOfAllColumn, NumberOfReadColumn,
+		ModifiedDateColumn, LastWrittenDateColumn, 
+		ThreadStatusColumn, ThreadAboneTypeColumn, ThreadLabelColumn, nil];
 }
 - (NSArray *) threadInfoDataTypes
 {
-	return [NSArray arrayWithObjects : INTEGER_NOTNULL, TEXT_NOTNULL, TEXT_NOTNULL, QLNumber,
-		QLNumber, QLNumber, QLNumber, QLNumber, QLNumber, nil];
+	return [NSArray arrayWithObjects : INTEGER_NOTNULL, TEXT_NOTNULL, TEXT_NOTNULL,
+		QLNumber, QLNumber,
+		QLNumber, QLNumber,
+		QLNumber, QLNumber, QLNumber, nil];
 }
 
 - (NSArray *) boardInfoHistoryColumns

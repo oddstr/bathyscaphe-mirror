@@ -89,6 +89,7 @@ extern		NSString *ModifiedDateColumn;
 extern		NSString *ThreadStatusColumn;
 extern		NSString *ThreadAboneTypeColumn;
 extern		NSString *ThreadLabelColumn;
+extern		NSString *LastWrittenDateColumn;
 extern NSString *FavoritesTableName;
 // extern		NSString *BoardIDColumn;
 // extern		NSString *ThreadIDColumn;
