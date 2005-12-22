@@ -75,15 +75,12 @@ static NSLock *_commonInstancesLock = nil;
 	return [self _privateInitWithBoardID : inBoardID];
 }
 
-- (id) retain {return self;}
-- (oneway void) release {}
-- (unsigned) retainCount { return UINT_MAX; }
-//- (void) dealloc
-//{
-//	[representName release];
-//	
-//	[super dealloc];
-//}
+- (void) dealloc
+{
+	[representName release];
+	
+	[super dealloc];
+}
 
 - (id) description
 {

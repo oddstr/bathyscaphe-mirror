@@ -1,3 +1,7 @@
+2005-12-23 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/BoardBoardListItem.m
+	* application/source/bbs/BoardListItem/ConcreteBoardListItem.m
+		２重リリースしていた部分を発見。修正。
 2005-12-22 masakih <masakih@users.sourceforge.jp>
 	* application/source/bbs/BoardListItem/BoardBoardListItem.m
 	* application/source/bbs/BoardListItem/BoardListItem.h

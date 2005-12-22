@@ -96,10 +96,8 @@ static ConcreteBoardListItem *_sharedInstance;
 		}
 	}
 	
-	result = [BoardListItem baordListItemWithBoradID : boardID];
-	
-	return [result autorelease];
-	
+	return [BoardListItem baordListItemWithBoradID : boardID];
+		
 failCreation:
 	NSLog(@"Fail Import Board. %@", plist ) ;
 	return nil;
