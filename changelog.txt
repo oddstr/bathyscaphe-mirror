@@ -1,4 +1,6 @@
 2005-12-23 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/SmartBoardList.m
+		掲示板リスト編集ウインドウからのドロップが出来なかったのを修正。
 	* application/source/bbs/BoardListItem/BoardBoardListItem.m
 	* application/source/bbs/BoardListItem/ConcreteBoardListItem.m
 		２重リリースしていた部分を発見。修正。

@@ -353,9 +353,11 @@ not_writtable:
 		original_ = [topLevelItem itemForName : name_ deepSearch : YES];
 		parent_ = [topLevelItem parentForItem : original_];
 		/* TODO SmartBoardListItem ‚Ì‚Ìˆ— */
-		if(!parent_ || ![parent_ isMutable]) continue;
-		
-		[parent_ removeItem : original_];
+		if(parent_ && [parent_ isMutable]) {
+			[parent_ removeItem : original_];
+		} else if(parent_) { /* e‚ª‚ ‚Á‚ÄŠ‚Âimmutable */
+			continue;
+		}
 		if(index < 0 || index >= [target_ numberOfItem]) {
 			[target_ addItem : dropped_];
 		} else {
