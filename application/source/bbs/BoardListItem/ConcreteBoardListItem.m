@@ -71,14 +71,48 @@ static ConcreteBoardListItem *_sharedInstance;
 	return [[SmartBoardListItem alloc] initWithName : name condition : condition];
 }
 
++ (BoardListItem *) boardBoardListItemFromPlist : (id) plist
+{
+	BoardListItem *result;
+	NSString *url;
+	NSString *boardName;
+	unsigned boardID;
+	DatabaseManager *dbm = [DatabaseManager defaultManager];
+	
+	UTILCAssertKindOfClass(plist, [NSDictionary class]);
+	
+	boardName = [plist objectForKey : @"Name"];
+	if (!boardName) goto failCreation;
+			
+	url = [plist objectForKey : @"URL"];
+	if (!url) goto failCreation;
+	
+	boardID = [dbm boardIDForURLString : url];
+	if (NSNotFound == boardID) {
+		BOOL isOK = [dbm registerBoardName : boardName URLString : url];
+		boardID = [dbm boardIDForURLString : url];
+		if (!isOK || NSNotFound == boardID) {
+			goto failCreation;
+		}
+	}
+	
+	result = [BoardListItem baordListItemWithBoradID : boardID];
+	
+	return [result autorelease];
+	
+failCreation:
+	NSLog(@"Fail Import Board. %@", plist ) ;
+	return nil;
+}
 
-- (BoardListItem *) folderItemFromPlist : (NSDictionary *) plist
++ (BoardListItem *) folderBaordListItemFromPlist : (id) plist
 {
 	BoardListItem *result;
 	NSString *name;
 	NSArray *contents;
 	int i, count;
-	DatabaseManager *dbm = [DatabaseManager defaultManager];
+	
+	UTILCAssertKindOfClass(plist, [NSDictionary class]);
 	
 	name = [plist objectForKey : @"Name"];
 	if (!name) return nil;
@@ -86,38 +120,52 @@ static ConcreteBoardListItem *_sharedInstance;
 	if (!contents) return nil;
 	
 	result = [[[BoardListItem alloc] initWithFolderName : name] autorelease];
+	if(!result) goto failCreation;
 	
 	count = [contents count];
 	for ( i = 0; i < count; i++ ) {
 		id item = [contents objectAtIndex : i];
-		NSString *boardName;
-		NSString *url;
-		unsigned boardID;
 		BoardListItem *boardItem;
 		
 		if (!item) continue;
-		
-		boardName = [item objectForKey : @"Name"];
-		url = [item objectForKey : @"URL"];
-		
-		boardID = [dbm boardIDForURLString : url];
-		if (NSNotFound == boardID) {
-			BOOL isOK = [dbm registerBoardName : boardName URLString : url];
-			boardID = [dbm boardIDForURLString : url];
-			if (!isOK || NSNotFound == boardID) {
-				NSLog(@"Fail Import Board. %@", item ) ;
-				continue;
-			}
+
+		boardItem = [self boardBoardListItemFromPlist : item];
+		if(boardItem) {
+			[result addItem : boardItem];
 		}
-		
-		boardItem = [BoardListItem baordListItemWithBoradID : boardID];
-//		[boardItem setName : boardName];
-		[result addItem : boardItem];
+	}
+	
+	return result;
+	
+failCreation:
+	NSLog(@"Fail Import Folder. %@", plist ) ;
+	return nil;
+}
+
++ (BoardListItem *) baordListItemFromPlist : (id) plist
+{
+	BoardListItem *result = nil;
+	NSString *name;
+	id contents;
+	id url;
+	
+	UTILCAssertKindOfClass(plist, [NSDictionary class]);
+	
+	name = [plist objectForKey : @"Name"];
+	if (!name) return nil;
+	
+	contents = [plist objectForKey : @"Contents"];
+	if (contents) {
+		result = [self folderBaordListItemFromPlist : plist];
+	}
+	
+	url = [plist objectForKey : @"URL"];
+	if (url) {
+		result = [self boardBoardListItemFromPlist : plist];
 	}
 	
 	return result;
 }
-
 
 - (id) initWithContentsOfFile : (NSString *) path;
 {
@@ -146,7 +194,7 @@ static ConcreteBoardListItem *_sharedInstance;
 		while ( object = [elemsEnum nextObject] ) {
 			id item;
 			
-			item = [self folderItemFromPlist : object];
+			item = [[self class] baordListItemFromPlist : object];
 			if (item) {
 				[result addItem : item];
 			}

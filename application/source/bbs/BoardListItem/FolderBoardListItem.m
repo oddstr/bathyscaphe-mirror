@@ -149,6 +149,10 @@ static NSString *FolderBoardListItemItemsKey = @"FolderBoardListItemItemsKey";
 {
 	return [items objectAtIndex : index];
 }
+- (unsigned) indexOfItem : (id) item
+{
+	return [items indexOfObject : item];
+}
 - (NSArray *) items
 {
 	return [NSArray arrayWithArray : items];
@@ -227,6 +231,7 @@ static NSString *FolderBoardListItemItemsKey = @"FolderBoardListItemItemsKey";
 	if (!isInserted) {
 		[NSException raise : NSRangeException format : @"Not fount target (%@) .", object];
 	}
+	[self postUpdateChildrenNotification];
 }
 - (void) removeItem : (BoardListItem *) item deepSearch : (BOOL) isDeep
 {
@@ -247,7 +252,7 @@ static NSString *FolderBoardListItemItemsKey = @"FolderBoardListItemItemsKey";
 	[self postUpdateChildrenNotification];
 }
 - (void) removeItemAtIndex : (unsigned) index
-{
+{	
 	[items removeObjectAtIndex : index];
 	[self postUpdateChildrenNotification];
 }

@@ -65,9 +65,17 @@ NSString *BoardListItemUpdateThreadsNotification = @"BoardListItemUpdateThreadsN
 {
 	return NO;
 }
+- (BoardListItem *) parentForItem : (BoardListItem *) item
+{
+	return nil;
+}
 - (unsigned) numberOfItem
 {	
 	return 0;
+}
+- (unsigned) indexOfItem : (id) item
+{
+	return NSNotFound;
 }
 - (id) itemAtIndex : (unsigned) index
 {	
@@ -199,6 +207,10 @@ NSString *BoardListItemUpdateThreadsNotification = @"BoardListItemUpdateThreadsN
 + (id) baordListItemWithName : (NSString *) name condition : (id) condition
 {
 	return [ConcreteBoardListItem baordListItemWithName : name condition : condition];
+}
++ (id) baordListItemFromPlist : (id) plist
+{
+	return [ConcreteBoardListItem baordListItemFromPlist : plist];
 }
 - (id) initForFavorites
 {

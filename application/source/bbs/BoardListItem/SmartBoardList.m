@@ -198,9 +198,7 @@
 	
 	if (nil == item ) {
 		result = [topLevelItem itemAtIndex : index];
-	}
-	
-	if ([item hasChildren]) {
+	} else if ([item hasChildren]) {
 		result = [item itemAtIndex : index];
 	}
 	
@@ -212,9 +210,7 @@
 	
 	if (nil == item) {
 		result = YES;
-	}
-	
-	if ([item hasChildren]) {
+	} else if ([item hasChildren]) {
 		result = YES;
 	}
 	
@@ -226,9 +222,7 @@
 	
 	if (nil == item) {
 		result = [topLevelItem numberOfItem];
-	}
-	
-	if ([item hasChildren]) {
+	} else if ([item hasChildren]) {
 		result = [item numberOfItem];
 	}
 	
@@ -277,6 +271,131 @@ objectValueForTableColumn : (NSTableColumn *) tableColumn
 {
 	return [item representName];
 }
+- (BOOL) outlineView : (NSOutlineView *) outlineView
+          writeItems : (NSArray       *) items
+        toPasteboard : (NSPasteboard  *) pboard
+{
+	NSArray			*types_;
+	BoardListItem	*board_;
+	NSURL			*url_;
+	
+	if ([items containsObject : [BoardListItem favoritesItem]]) return NO;
+	
+	types_ = [NSArray arrayWithObjects : CMRBBSListItemsPboardType,
+		NSURLPboardType,
+		NSStringPboardType,
+		nil];
+	[pboard declareTypes : types_ 
+				   owner : NSApp];
+	[pboard setPropertyList : [items description] 
+					forType : CMRBBSListItemsPboardType];
+	
+	board_ = [items lastObject];
+	if ([board_ hasURL]) {
+		url_ = [board_ url];
+		UTILRequireCondition(url_ != nil, not_writtable);
+	
+		[url_ writeToPasteboard : pboard];
+		[pboard setString : [url_ absoluteString] 
+				  forType : NSStringPboardType];
+	}
+	
+	return YES;
+	
+not_writtable:
+		return YES;
+}
+- (BOOL) outlineView : (NSOutlineView     *) outlineView
+          acceptDrop : (id <NSDraggingInfo>) info
+                item : (id                 ) item
+          childIndex : (int                ) index
+{
+	NSPasteboard	*pboard_;
+	NSString		*type_;
+	id				items_;
+	BoardListItem	*target_;
+	
+	NSEnumerator	*iter_;
+	BoardListItem	*dropped_;
+	
+	pboard_ = [info draggingPasteboard];
+	type_ = [pboard_ availableTypeFromArray : 
+		[NSArray arrayWithObjects : CMRBBSListItemsPboardType, nil]];
+	if(NO == [CMRBBSListItemsPboardType isEqualToString : type_])
+		return NO;
+	
+	items_ = [pboard_ propertyListForType : CMRBBSListItemsPboardType];
+	items_ = [items_ propertyList];
+	
+	target_ = (nil == item) ? topLevelItem : item;
+	if(nil == target_)
+		return NO;
+	if(![target_ isMutable]) return NO;
+	
+	iter_ = [items_ reverseObjectEnumerator];
+	while(dropped_ = [iter_ nextObject]){
+		unsigned int	found_;
+		NSString		*name_;
+		BoardListItem	*original_;
+		BoardListItem	*parent_;
+		
+		dropped_ = [BoardListItem baordListItemFromPlist : dropped_];
+		if(!dropped_) continue;
+		if([BoardListItem isFavoriteItem : dropped_]) continue;
+		
+		if((found_ = [target_ indexOfItem : dropped_]) != NSNotFound) {
+			if(found_ < index){
+				index -= 1;
+			}
+		}
+		
+		name_ = [dropped_ name];
+		original_ = [topLevelItem itemForName : name_ deepSearch : YES];
+		parent_ = [topLevelItem parentForItem : original_];
+		/* TODO SmartBoardListItem ‚ÌŽž‚Ìˆ— */
+		if(!parent_ || ![parent_ isMutable]) continue;
+		
+		[parent_ removeItem : original_];
+		if(index < 0 || index >= [target_ numberOfItem]) {
+			[target_ addItem : dropped_];
+		} else {
+			[target_ insertItem : dropped_ atIndex : index];
+		}
+	}
+	[self postBoardListDidChangeNotification];
+	
+	[outlineView reloadData];
+	return YES;
+}
+- (NSDragOperation) outlineView : (NSOutlineView     *) outlineView
+                   validateDrop : (id <NSDraggingInfo>) info
+                   proposedItem : (id                 ) item
+             proposedChildIndex : (int                ) index;
+{
+	if(item != nil && index < 0 &&  NO == [BoardListItem isFolderItem : item]){
+		return NSDragOperationNone;
+	}
+	return NSDragOperationMove;
+	
+}
+- (BOOL) outlineView : (NSOutlineView *) outlineView
+             addItem : (id             ) item
+           afterItem : (id             ) pointingItem
+{
+	if([self addItem : item afterObject : pointingItem]){
+		[outlineView reloadData];
+		return YES;
+	}
+	return NO;
+}
+@end
 
-
+@implementation SmartBoardList (NSDraggingSource)
+- (unsigned int) draggingSourceOperationMaskForLocal : (BOOL) localFlag
+{
+	if(localFlag)
+		return (NSDragOperationCopy | NSDragOperationGeneric | NSDragOperationMove);
+	
+	return NSDragOperationGeneric;
+}
 @end

@@ -1,3 +1,11 @@
+2005-12-22 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/BoardBoardListItem.m
+	* application/source/bbs/BoardListItem/BoardListItem.h
+	* application/source/bbs/BoardListItem/BoardListItem.m
+	* application/source/bbs/BoardListItem/ConcreteBoardListItem.m
+	* application/source/bbs/BoardListItem/FolderBoardListItem.m
+	* application/source/bbs/BoardListItem/SmartBoardList.m
+		掲示板リストのD & Dを実装。
 2005-12-19 masakih <masakih@users.sourceforge.jp>
 	* application/source/manager/DatabaseManager.h
 	* application/source/manager/DatabaseManager.m

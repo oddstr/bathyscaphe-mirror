@@ -74,41 +74,35 @@ static NSLock *_commonInstancesLock = nil;
 	
 	return [self _privateInitWithBoardID : inBoardID];
 }
-- (void) dealloc
-{
-	[representName release];
-	
-	[super dealloc];
-}
+
+- (id) retain {return self;}
+- (oneway void) release {}
+- (unsigned) retainCount { return UINT_MAX; }
+//- (void) dealloc
+//{
+//	[representName release];
+//	
+//	[super dealloc];
+//}
 
 - (id) description
 {
-	id dict;
-	id url;
-	
-	url = [[DatabaseManager defaultManager] urlStringForBoardID : [self boardID]];
-	if ( url ) {
-		dict = [[NSDictionary alloc] initWithObjectsAndKeys : [self name], BoardPlistNameKey,
-			url, BoardPlistURLKey, nil];
-	} else {
-		NSLog(@"I'm broken.") ;
-		dict = [[NSDictionary alloc] initWithObjectsAndKeys : [self name], BoardPlistNameKey, nil];
-	}
-	
-	return [[dict autorelease] description];
+	return [[self plist] description];
 }
 - (id) plist
 {
 	id dict;
 	id url;
+	id repName;
+	
+	dict = [[NSMutableDictionary alloc] initWithObjectsAndKeys : [self name], BoardPlistNameKey, nil];
 	
 	url = [[DatabaseManager defaultManager] urlStringForBoardID : [self boardID]];
-	if (url) {
-		dict = [[NSDictionary alloc] initWithObjectsAndKeys : [self name], BoardPlistNameKey,
-			url, BoardPlistURLKey, nil];
-	} else {
-		NSLog(@"I'm broken.") ;
-		dict = [[NSDictionary alloc] initWithObjectsAndKeys : [self name], BoardPlistNameKey, nil];
+	UTILAssertNotNil(url);
+	[dict setObject : url forKey : BoardPlistURLKey];
+	
+	if((repName = [self representName])) {
+		[dict setObject : repName forKey : @"RepresentName"];
 	}
 	
 	return [dict autorelease];

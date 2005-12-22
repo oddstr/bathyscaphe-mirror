@@ -36,10 +36,12 @@
 
 // default return NO;
 - (BOOL) hasChildren;
+- (BoardListItem *) parentForItem : (BoardListItem *) item;
 
 // default retrun 0.
 - (unsigned) numberOfItem;
 - (id) itemAtIndex : (unsigned) index;
+- (unsigned) indexOfItem : (id) item;
 - (NSArray *) items;
 - (id) itemForName : (NSString *) name;
 - (id) itemForName : (NSString *) name deepSearch : (BOOL) isDeep;
@@ -58,6 +60,8 @@
 + (id) baordListItemWithBoradID : (unsigned) boardID;
 + (id) boardListItemWithURLString : (NSString *) urlString;
 + (id) baordListItemWithName : (NSString *) name condition : (id) condition;
+
++ (id) baordListItemFromPlist : (id) plist;
 
 - (id) initForFavorites;
 - (id) initWithFolderName : (NSString *) name;
