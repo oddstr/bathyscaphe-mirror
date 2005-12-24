@@ -73,7 +73,6 @@ static ConcreteBoardListItem *_sharedInstance;
 
 + (BoardListItem *) boardBoardListItemFromPlist : (id) plist
 {
-	BoardListItem *result;
 	NSString *url;
 	NSString *boardName;
 	unsigned boardID;

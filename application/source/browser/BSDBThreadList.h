@@ -15,7 +15,7 @@
 
 @interface BSDBThreadList : CMRThreadsList
 {
-	id <SQLiteCursor> mCursor;
+	id <SQLiteMutableCursor> mCursor;
 		
 	BoardListItem *boardListItem;
 	

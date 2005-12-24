@@ -230,14 +230,14 @@ NSArray *valuesForSTMT(sqlite3_stmt *stmt, NSArray *culumns)
 	return values;
 }
 
-- (id <SQLiteCursor>) cursorForSQL : (NSString *) sqlString
+- (id <SQLiteMutableCursor>) cursorForSQL : (NSString *) sqlString
 {
 	const char *sql;
 	sqlite3_stmt *stmt;
 	int result;
 	NSArray *values;
 	id columns;
-	id <SQLiteCursor> cursor;
+	id <SQLiteMutableCursor> cursor;
 	
 	
 	if (!mDatabase) {
@@ -291,7 +291,7 @@ NSArray *valuesForSTMT(sqlite3_stmt *stmt, NSArray *culumns)
 	return cursor;
 }
 
-- (id <SQLiteCursor>) performQuery : (NSString *) sqlString
+- (id <SQLiteMutableCursor>) performQuery : (NSString *) sqlString
 {
 	return [self cursorForSQL : sqlString];
 }
@@ -460,7 +460,7 @@ void objectDeallocator(void *obj)
 {
 	//	NSLog(@"??? DEALLOC ???");
 }
-- (id <SQLiteCursor>) cursorForBindValues : (NSArray *) bindValues
+- (id <SQLiteMutableCursor>) cursorForBindValues : (NSArray *) bindValues
 {
 	int error;
 	int paramCount;
@@ -469,7 +469,7 @@ void objectDeallocator(void *obj)
 	
 	NSArray *values;
 	id columns;
-	id <SQLiteCursor> cursor;
+	id <SQLiteMutableCursor> cursor;
 	
 	error = sqlite3_reset(m_stmt);
 	if (SQLITE_OK != error) return nil;
@@ -594,6 +594,15 @@ void objectDeallocator(void *obj)
 	if (![[row columnNames] isEqual : [self columnNames]]) return NO;
 	
 	[(NSMutableArray *)[self arrayForTableView] addObject : row];
+	
+	return YES;
+}
+- (BOOL) appendCursor : (id <SQLiteCursor>) cursor
+{
+	if ([cursor columnCount] != [self columnCount]) return NO;
+	if (![[cursor columnNames] isEqual : [self columnNames]]) return NO;
+	
+	[(NSMutableArray *)[self arrayForTableView] addObjectsFromArray : [cursor arrayForTableView]];
 	
 	return YES;
 }

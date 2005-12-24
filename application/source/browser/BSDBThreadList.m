@@ -153,7 +153,6 @@
 
 NSArray *componentsSeparatedByWhiteSpace(NSString *string)
 {
-	//
 	NSMutableArray *result = [NSMutableArray array];
 	NSScanner *s = [NSScanner scannerWithString : string];
 	NSCharacterSet *cs = [NSCharacterSet whitespaceCharacterSet];
@@ -169,9 +168,9 @@ NSArray *componentsSeparatedByWhiteSpace(NSString *string)
 	
 	return result;
 }
-NSString *wherePhraseFromSearchString(NSString *searchString)
+NSString *whereClauseFromSearchString(NSString *searchString)
 {
-	NSMutableString *phrase;
+	NSMutableString *clause;
 	NSArray *searchs;
 	NSEnumerator *searchsEnum;
 	NSString *token;
@@ -184,45 +183,63 @@ NSString *wherePhraseFromSearchString(NSString *searchString)
 		return nil;
 	}
 	
-	phrase = [NSMutableString stringWithFormat : @" WHERE "];
+	clause = [NSMutableString stringWithFormat : @" WHERE "];
 	
 	searchsEnum = [searchs objectEnumerator];
 	while (token = [searchsEnum nextObject]) {
 		if ([token hasPrefix : @"!"]) {
 			if ([token length] == 1) continue;
 			
-			[phrase appendFormat : @"%@NOT %@ LIKE '%%%@%%' ",
+			[clause appendFormat : @"%@NOT %@ LIKE '%%%@%%' ",
 				p, ThreadNameColumn, [token substringFromIndex : 1]];
 		} else {
-			[phrase appendFormat : @"%@%@ LIKE '%%%@%%' ",
+			[clause appendFormat : @"%@%@ LIKE '%%%@%%' ",
 				p, ThreadNameColumn, token];
 		}
 		p = @"AND ";
 	}
 	
-	return phrase;
+	return clause;
 }
-- (void) updateCursor
+enum {
+	kNewerThreadType,
+	kOlderThreadType,
+	kAllThreadType,
+};
+- (NSString *) sqlForListForType : (int) type
 {
-	id temp;
-	
-#ifdef DEBUG
-	clock_t time00, time01, time02, time03;
-#endif
-	
-	SQLiteDB *db = [[DatabaseManager defaultManager] databaseForCurrentThread];
-	
 	NSString *sortCol = nil;
 	NSString *ascending = @"";
 	NSString *targetTable = [boardListItem query];
 	NSMutableString *sql;
+	BOOL appendWhere = NO;
 	
 	sql = [NSMutableString stringWithFormat : @"SELECT * FROM (%@) ",targetTable];
 	
 	if (mSearchString && ![mSearchString isEmpty]) {
-		id phrase = wherePhraseFromSearchString( mSearchString );
-		if (phrase) {
-			[sql appendString : phrase];
+		id clause = whereClauseFromSearchString(mSearchString);
+		if (clause) {
+			[sql appendString : clause];
+			appendWhere = YES;
+		}
+	}
+	
+	if(type != kAllThreadType) {
+		if(!appendWhere) {
+			[sql appendString : @"WHERE "];
+		} else {
+			[sql appendString : @"\nAND "];
+		}
+		switch(type) {
+			case kNewerThreadType:	
+				[sql appendFormat : @"%@ = %u\n", ThreadStatusColumn, ThreadNewCreatedStatus];
+				break;
+			case kOlderThreadType:
+				[sql appendFormat : @"%@ != %u\n", ThreadStatusColumn, ThreadNewCreatedStatus];
+				break;
+			default:
+				UTILUnknownSwitchCase(type);
+				break;
 		}
 	}
 	
@@ -245,34 +262,75 @@ NSString *wherePhraseFromSearchString(NSString *searchString)
 	}
 	
 	if (sortCol) {
-		[sql appendFormat : @"ORDER BY %@ %@;",sortCol, ascending];
+		[sql appendFormat : @"ORDER BY %@ %@",sortCol, ascending];
+	}
+
+	return sql;
+}
+- (void) updateCursor
+{
+	id temp;
+	
+#ifdef DEBUG
+	clock_t time00, time01, time02, time03;
+	
+	time00 = clock();
+#endif
+	
+	SQLiteDB *db = [[DatabaseManager defaultManager] databaseForCurrentThread];
+	NSString *newersSQL = nil;
+	NSString *sql;
+	
+	if( [CMRPref collectByNew] ) {
+		newersSQL = [self sqlForListForType : kNewerThreadType];
+		sql = [self sqlForListForType : kOlderThreadType];
+	} else {
+		sql = [self sqlForListForType : kAllThreadType];
 	}
 	
 #ifdef DEBUG
-	time00 = clock();
+	time01 = clock();
 #endif
 	
 	[cursorLock lock];
 #ifdef DEBUG
-	time01 = clock();
-#endif
-	temp = mCursor;
-	mCursor = [[db cursorForSQL : sql] retain];
-	if ([db lastErrorID] != 0) {
-		[mCursor release];
-		mCursor = [temp retain];
-	}
-	[temp release];
-#ifdef DEBUG
 	time02 = clock();
+#endif
+	do {
+		id <SQLiteMutableCursor> newerCursor = nil;
+		
+		temp = mCursor;
+		mCursor = [[db cursorForSQL : sql] retain];
+		if ([db lastErrorID] != 0) {
+			NSLog(@"sql error on %s line %d.\n\tReason   : %@", __FILE__, __LINE__, [db lastError]);
+			[mCursor release];
+			mCursor = temp;
+			break;
+		}
+		if(newersSQL) {
+			newerCursor = [[db cursorForSQL : newersSQL] retain];
+			if([db lastErrorID] != 0) {
+				NSLog(@"sql error on %s line %d.\n\tReason   : %@", __FILE__, __LINE__, [db lastError]);
+				[newerCursor release];
+				newerCursor = nil;
+			}
+		}
+		if(newerCursor && [newerCursor rowCount]) {
+			[newerCursor appendCursor : mCursor];
+			[mCursor release];
+			mCursor = newerCursor;
+		}
+		[temp release];
+	} while( NO );
+#ifdef DEBUG
+	time03 = clock();
 #endif
 	[cursorLock unlock];
 	
-#ifdef DEBUG
-	time03 = clock();
-	
-	printf("\ntotal time: %ld\ncursor lock time: %ld\ngetting cursor time: %ld\ncursor unlock time %ld\n",
-		   time03 - time00, time01 - time00, time02 - time01, time03 - time02 );
+#ifdef DEBUG	
+	printf("creating SQL time   : %ld\n"
+		   "getting cursor time : %ld\n",
+		   time01 - time00, time03 - time02 );
 #endif
 }
 - (NSString *) boardName
@@ -372,6 +430,7 @@ BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSString **outThread
 		
 		NSString *prevBoardName = nil;
 		NSURL *boardURL;
+		unsigned boardID = NSNotFound;
 		
 		SQLiteReservedQuery *reservedInsert;
 		SQLiteReservedQuery *reservedUpdate;
@@ -422,7 +481,6 @@ BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSString **outThread
 			NSNumber *count = [thread objectForKey : CMRThreadNumberOfMessagesKey];
 			NSNumber *status = [thread objectForKey : CMRThreadStatusKey];
 			NSNumber *index = [thread objectForKey : CMRThreadSubjectIndexKey];
-			unsigned boardID;
 			
 			if (![prevBoardName isEqualTo : boardName]) {
 				// URLForBoardName: がオーバーヘッドになっているため少しでも呼び出しを減らす。
@@ -490,7 +548,14 @@ BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSString **outThread
 	
 	[super setThreads : aThreads];
 }
-
+//#pragma mark## Download ##
+//- (void) startLoadingThreadsList : (CMRThreadLayout *) worker
+//{
+//	UTILAssertNotNilArgument(worker, @"Thread Layout(Worker)");
+//	[self setWorker : worker];
+//	
+//	[self downloadThreadsList];
+//}
 #pragma mark## DataSource ##
 - (NSDictionary *) threadAttributesAtRowIndex : (int          ) rowIndex
                                   inTableView : (NSTableView *) tableView

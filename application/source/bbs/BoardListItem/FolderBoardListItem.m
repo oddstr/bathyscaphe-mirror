@@ -139,7 +139,7 @@ static NSString *FolderBoardListItemItemsKey = @"FolderBoardListItemItemsKey";
 
 - (BOOL) hasChildren
 {
-	return YES;
+	return ([self numberOfItem] == 0) ? NO : YES;
 }
 - (unsigned) numberOfItem
 {

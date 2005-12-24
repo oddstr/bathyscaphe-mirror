@@ -1,3 +1,11 @@
+2005-12-24 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/ConcreteBoardListItem.m
+	* application/source/bbs/BoardListItem/FolderBoardListItem.m
+	* application/source/browser/BSDBThreadList.h
+	* application/source/browser/BSDBThreadList.m
+	* application/source/manager/SQLiteDB.h
+	* application/source/manager/SQLiteDB.m
+		設定に沿って新着スレッドを常に上部に表示するようにした。
 2005-12-23 masakih <masakih@users.sourceforge.jp>
 	* application/source/bbs/BoardListItem/SmartBoardList.m
 		掲示板リスト編集ウインドウからのドロップが出来なかったのを修正。

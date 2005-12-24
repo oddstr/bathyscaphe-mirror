@@ -23,6 +23,7 @@
 
 @protocol SQLiteMutableCursor <SQLiteCursor>
 - (BOOL) appendRow : (id <SQLiteRow>) row;
+- (BOOL) appendCursor : (id <SQLiteCursor>) cursor;
 @end
 
 @class SQLiteReservedQuery;
@@ -52,8 +53,8 @@
 - (NSString *) lastError;
 - (int) lastErrorID;
 
-- (id <SQLiteCursor>) cursorForSQL : (NSString *) sqlString;
-- (id <SQLiteCursor>) performQuery : (NSString *) sqlString; // alias cursorForSQL. for compatible QuickLite.
+- (id <SQLiteMutableCursor>) cursorForSQL : (NSString *) sqlString;
+- (id <SQLiteMutableCursor>) performQuery : (NSString *) sqlString; // alias cursorForSQL. for compatible QuickLite.
 
 - (SQLiteReservedQuery *) reservedQuery : (NSString *) sqlString;
 
@@ -83,7 +84,7 @@
 + (id) sqliteReservedQueryWithQuery : (NSString *) sqlString usingSQLiteDB : (SQLiteDB *) db;
 - (id) initWithQuery : (NSString *) sqlString usingSQLiteDB : (SQLiteDB *) db;
 
-- (id <SQLiteCursor>) cursorForBindValues : (NSArray *) values;
+- (id <SQLiteMutableCursor>) cursorForBindValues : (NSArray *) values;
 
 @end
 
