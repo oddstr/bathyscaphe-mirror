@@ -465,6 +465,11 @@ BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSString **outThread
 	return YES;
 }
 
+//<チラシの裏>
+//長いよ！このメソッド！
+//でも、ここはスピード命で。あと、分けるとやってることが分かりにくくなる可能性が。
+//いっぱいコメント書いたから許して。
+//</チラシの裏>
 - (void) setThreads : (NSMutableArray *) aThreads
 {
 	NSLog(@"CHECKKING ME! %s : %d", __FILE__, __LINE__);
@@ -480,7 +485,7 @@ BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSString **outThread
 	SQLiteDB *db = [[DatabaseManager defaultManager] databaseForCurrentThread];
 	
 	if (db && [db beginTransaction]) {
-		NSEnumerator *threadsEnum = [aThreads objectEnumerator];
+		NSEnumerator *threadsEnum;
 		id thread;
 		
 		NSString *prevBoardName = nil;
@@ -490,18 +495,32 @@ BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSString **outThread
 		SQLiteReservedQuery *reservedInsert;
 		SQLiteReservedQuery *reservedUpdate;
 		SQLiteReservedQuery *reservedInsertNumber;
+		SQLiteReservedQuery *reservedSelectThreadTable;
 		
 		id query;
 		
+		// データ確認用
+		query = [NSString stringWithFormat : @"SELECT %@, %@ FROM %@ WHERE %@ = ? AND %@ = ?",
+			ThreadStatusColumn, NumberOfAllColumn,
+			ThreadInfoTableName,
+			BoardIDColumn, ThreadIDColumn];
+		reservedSelectThreadTable = [db reservedQuery : query];
+		if (!reservedSelectThreadTable) {
+			NSLog(@"Can NOT create reservedSelectThreadTable");
+			goto abort;
+		}
+		
+		// スレッド登録用
 		query = [NSString stringWithFormat : @"INSERT INTO %@ ( %@, %@, %@, %@, %@ ) VALUES ( ?, ?, ?, ?, ? )",
 			ThreadInfoTableName,
 			BoardIDColumn, ThreadIDColumn, ThreadNameColumn, NumberOfAllColumn, ThreadStatusColumn];
 		reservedInsert = [db reservedQuery : query];
 		if (!reservedInsert) {
 			NSLog(@"Can NOT create reservedInsert");
-			return;
+			goto abort;
 		}
 		
+		// スレッドデータ更新用
 		query = [NSString stringWithFormat : @"UPDATE %@ SET %@ = ?, %@ = ? WHERE %@ = ? AND %@ = ?",
 			ThreadInfoTableName,
 			NumberOfAllColumn, ThreadStatusColumn,
@@ -509,33 +528,40 @@ BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSString **outThread
 		reservedUpdate = [db reservedQuery : query];
 		if (!reservedUpdate) {
 			NSLog(@"Can NOT create reservedUpdate");
-			return;
+			goto abort;
 		}
 		
+		// スレッド番号登録用
 		query = [NSString stringWithFormat : @"INSERT INTO %@ ( %@, %@, %@ ) VALUES ( ?, ?, ? )",
 			TempThreadNumberTableName,
 			BoardIDColumn, ThreadIDColumn, TempThreadThreadNumberColumn];
 		reservedInsertNumber = [db reservedQuery : query];
 		if (!reservedInsertNumber) {
 			NSLog(@"Can NOT create reservedInsertNumber");
-			return;
+			goto abort;
 		}
 		
+		// スレッド番号用テーブルをクリア
 		query = [NSString stringWithFormat : @"DELETE FROM %@",
 			TempThreadNumberTableName];
 		[db performQuery : query];
 		incrementCount();
 		
+		threadsEnum = [aThreads objectEnumerator];
 		while( thread = [threadsEnum nextObject] ) {
 			id pool = [[NSAutoreleasePool alloc] init];
 			
 			NSString *boardName = [thread objectForKey : ThreadPlistBoardNameKey];
-			
 			NSString *title = [thread objectForKey : CMRThreadTitleKey];
 			NSString *dat = [thread objectForKey : ThreadPlistIdentifierKey];
 			NSNumber *count = [thread objectForKey : CMRThreadNumberOfMessagesKey];
 			NSNumber *status = [thread objectForKey : CMRThreadStatusKey];
 			NSNumber *index = [thread objectForKey : CMRThreadSubjectIndexKey];
+			
+			if( !boardName || !title || !dat || !count || !status || !index ) {
+				NSLog(@"Thread infomation is broken. (%@)", thread);
+				continue;
+			}
 			
 			if (![prevBoardName isEqualTo : boardName]) {
 				// URLForBoardName: がオーバーヘッドになっているため少しでも呼び出しを減らす。
@@ -551,34 +577,54 @@ BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSString **outThread
 			
 			if (boardID != NSNotFound) {
 				NSArray *bindValues;
+				id <SQLiteCursor> cursor;
 				
-				title = [SQLiteDB prepareStringForQuery : title];
-				
+				// 対象スレッドを以前読み込んだか調べる
+				// [cursor rowCount] が0なら初めて読み込んだ。
 				bindValues = [NSArray arrayWithObjects:
-					[NSNumber numberWithUnsignedInt : boardID], dat, title, count, status, nil];
-				[reservedInsert cursorForBindValues : bindValues];
+					[NSNumber numberWithUnsignedInt : boardID], dat, nil];
+				cursor = [reservedSelectThreadTable cursorForBindValues : bindValues];
 				incrementCount();
+				UTILRequireCondition(cursor, abort);
 				
-				// 制約違反(複合主キーのユニーク制約)なら既に存在しているデータをアップデート
-				if (SQLITE_CONSTRAINT == [db lastErrorID]) {
-					bindValues = [NSArray arrayWithObjects:
-						count, status,
-						[NSNumber numberWithUnsignedInt : boardID], dat, nil];
-					[reservedUpdate cursorForBindValues : bindValues];
-					incrementCount();
+				if(![cursor rowCount]) {
+					// 初めての読み込み。データベースに登録。
+					title = [SQLiteDB prepareStringForQuery : title];
 					
+					bindValues = [NSArray arrayWithObjects:
+						[NSNumber numberWithUnsignedInt : boardID], dat, title, count, status, nil];
+					[reservedInsert cursorForBindValues : bindValues];
+					incrementCount();
 					if ([db lastErrorID] != 0) {
-						NSLog(@"Fail Insert or udate. ErrorID -> %d. Reson: %@", [db lastErrorID], [db lastError] );
+						NSLog(@"Fail Insert. ErrorID -> %d. Reson: %@", [db lastErrorID], [db lastError] );
+					}
+					
+				} else {
+					// ２度目以降の読み込み。レス数かステータスが変更されていれば
+					// データベースを更新。
+					id <SQLiteRow> row = [cursor rowAtIndex:0];
+					
+					if( [count intValue] != [[row valueForColumn : NumberOfAllColumn] intValue] ||
+						[status intValue] != [[row valueForColumn : ThreadStatusColumn] intValue]) {
+						
+						bindValues = [NSArray arrayWithObjects:
+							count, status,
+							[NSNumber numberWithUnsignedInt : boardID], dat, nil];
+						[reservedUpdate cursorForBindValues : bindValues];
+						incrementCount();
+						if ([db lastErrorID] != 0) {
+							NSLog(@"Fail udate. ErrorID -> %d. Reson: %@", [db lastErrorID], [db lastError] );
+						}
 					}
 				}
 				
+				// スレッド番号のための一時テーブルに番号を登録。
 				bindValues = [NSArray arrayWithObjects:
 					[NSNumber numberWithUnsignedInt : boardID], dat, index, nil];
 				[reservedInsertNumber cursorForBindValues : bindValues];
 				incrementCount();
-				
 				if ([db lastErrorID] != 0) {
-					NSLog(@"Fail Insert or udate. ErrorID -> %d. Reson: %@", [db lastErrorID], [db lastError] );
+					NSLog(@"Fail Insert. ErrorID -> %d. Reson: %@", [db lastErrorID], [db lastError] );
 				}
 			}
 			
@@ -602,6 +648,12 @@ BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSString **outThread
 	[self updateCursor];
 	
 	[super setThreads : aThreads];
+	
+	return;
+	
+abort:
+	NSLog(@"Fail Database operation. Reson: \n%@", [db lastError]);
+	[db rollbackTransaction];
 }
 //#pragma mark## Download ##
 //- (void) startLoadingThreadsList : (CMRThreadLayout *) worker
