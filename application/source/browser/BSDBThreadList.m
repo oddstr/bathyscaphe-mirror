@@ -32,9 +32,9 @@
 	
 	self = [self initWithBBSSignature : sig];
 	if (self) {
-		boardListItem = [item retain];
+		mBoardListItem = [item retain];
 		mSortKey = [[[BoardManager defaultManager] sortColumnForBoard : [self boardName]] retain];
-		cursorLock = [[NSLock alloc] init];
+		mCursorLock = [[NSLock alloc] init];
 		mCursor = [[item cursorForThreadList] retain];
 		if (!mCursor) {
 			[self release];
@@ -78,10 +78,10 @@
 {
 	[mCursor release];
 	mCursor = nil;
-	[cursorLock release];
-	cursorLock = nil;
-	[boardListItem release];
-	boardListItem = nil;
+	[mCursorLock release];
+	mCursorLock = nil;
+	[mBoardListItem release];
+	mBoardListItem = nil;
 	[mSortKey release];
 	mSortKey = nil;
 	[mSearchString release];
@@ -148,10 +148,10 @@
 
 - (id) boardListItem
 {
-	return boardListItem;
+	return mBoardListItem;
 }
 
-NSArray *componentsSeparatedByWhiteSpace(NSString *string)
+inline NSArray *componentsSeparatedByWhiteSpace(NSString *string)
 {
 	NSMutableArray *result = [NSMutableArray array];
 	NSScanner *s = [NSScanner scannerWithString : string];
@@ -168,7 +168,7 @@ NSArray *componentsSeparatedByWhiteSpace(NSString *string)
 	
 	return result;
 }
-NSString *whereClauseFromSearchString(NSString *searchString)
+inline NSString *whereClauseFromSearchString(NSString *searchString)
 {
 	NSMutableString *clause;
 	NSArray *searchs;
@@ -201,68 +201,112 @@ NSString *whereClauseFromSearchString(NSString *searchString)
 	
 	return clause;
 }
+
 enum {
-	kNewerThreadType,
-	kOlderThreadType,
-	kAllThreadType,
+	kNewerThreadType,	// 新着検索
+	kOlderThreadType,	// 非新着検索
+	kAllThreadType,		// 全部！
 };
-- (NSString *) sqlForListForType : (int) type
+
+// filter 処理と
+// 新着のみもしくは非新着のみもしくはすべてのスレッドをDBから取得するための
+// WHERE句を生成。
+inline NSString *conditionFromStatusAndType( int status, int type )
 {
+	NSMutableString *result = [NSMutableString string];
+	NSString *brankOrAnd = @"";
+	
+	if(status & ThreadLogCachedStatus && 
+	   (type == kOlderThreadType || !(status & ThreadNewCreatedStatus))) {
+		// 新着/既得スレッドで且つ既得分表示 もしくは　既得スレッド
+		[result appendFormat : @"NOT %@ IS NULL\n", NumberOfReadColumn];
+		brankOrAnd = @" AND ";
+	} else if(status & ThreadNoCacheStatus) {
+		// 未取得スレッド
+		[result appendFormat : @"%@ IS NULL\n", NumberOfReadColumn];
+		brankOrAnd = @" AND ";
+	} else if(status & ThreadNewCreatedStatus && type == kOlderThreadType) {
+		// 新着スレッドで且つ既得分表示。あり得ない boardID を指定し、要素数を0にする
+		[result appendFormat : @"%@ < 0\n",BoardIDColumn];
+		brankOrAnd = @" AND ";
+	}
+	
+	if(type != kAllThreadType) {
+		switch(type) {
+			case kNewerThreadType:	
+				[result appendFormat : @"%@%@ = %u\n", 
+					brankOrAnd, ThreadStatusColumn, ThreadNewCreatedStatus];
+				break;
+			case kOlderThreadType:
+				[result appendFormat : @"%@%@ != %u\n", 
+					brankOrAnd, ThreadStatusColumn, ThreadNewCreatedStatus];
+				break;
+			default:
+				UTILUnknownCSwitchCase(type);
+				break;
+		}
+	}
+	
+	return result;
+}
+inline NSString *orderBy( NSString *sortKey, BOOL isAscending )
+{
+	NSString *result = nil;
 	NSString *sortCol = nil;
 	NSString *ascending = @"";
-	NSString *targetTable = [boardListItem query];
+	
+	if (!isAscending) ascending = @"DESC";
+	
+	if ([sortKey isEqualTo : CMRThreadTitleKey]) {
+		sortCol = ThreadNameColumn;
+	} else if ([sortKey isEqualTo : CMRThreadLastLoadedNumberKey]) {
+		sortCol = NumberOfReadColumn;
+	} else if ([sortKey isEqualTo : CMRThreadNumberOfMessagesKey]) {
+		sortCol = NumberOfAllColumn;
+	} else if ([sortKey isEqualTo : CMRThreadNumberOfUpdatedKey]) {
+		sortCol = [NSString stringWithFormat : @"(%@ - %@)", NumberOfAllColumn, NumberOfReadColumn];
+	} else if ([sortKey isEqualTo : CMRThreadSubjectIndexKey]) {
+		sortCol = TempThreadThreadNumberColumn;
+	} else if ([sortKey isEqualTo : CMRThreadStatusKey]) {
+		sortCol = ThreadStatusColumn;
+	} else if ([sortKey isEqualTo : CMRThreadModifiedDateKey]) {
+		sortCol = ModifiedDateColumn;
+	}
+	
+	if(sortCol) {
+		result = [NSString stringWithFormat : @"ORDER BY %@ %@",sortCol, ascending];
+	}
+	
+	return result;
+}
+- (NSString *) sqlForListForType : (int) type
+{
+	NSString *targetTable = [mBoardListItem query];
 	NSMutableString *sql;
-	BOOL appendWhere = NO;
+	NSString *whereOrAnd = @" WHERE ";
+	NSString *searchCondition;
+	NSString *filterCondition;
+	NSString *order;
 	
 	sql = [NSMutableString stringWithFormat : @"SELECT * FROM (%@) ",targetTable];
 	
 	if (mSearchString && ![mSearchString isEmpty]) {
-		id clause = whereClauseFromSearchString(mSearchString);
-		if (clause) {
-			[sql appendString : clause];
-			appendWhere = YES;
+		searchCondition = whereClauseFromSearchString(mSearchString);
+		if (searchCondition) {
+			[sql appendString : searchCondition];
+			whereOrAnd = @" AND ";
 		}
 	}
 	
-	if(type != kAllThreadType) {
-		if(!appendWhere) {
-			[sql appendString : @"WHERE "];
-		} else {
-			[sql appendString : @"\nAND "];
-		}
-		switch(type) {
-			case kNewerThreadType:	
-				[sql appendFormat : @"%@ = %u\n", ThreadStatusColumn, ThreadNewCreatedStatus];
-				break;
-			case kOlderThreadType:
-				[sql appendFormat : @"%@ != %u\n", ThreadStatusColumn, ThreadNewCreatedStatus];
-				break;
-			default:
-				UTILUnknownSwitchCase(type);
-				break;
-		}
+	filterCondition = conditionFromStatusAndType( mStatus, type);
+	if(filterCondition) {
+		[sql appendFormat : @"%@ %@\n", whereOrAnd, filterCondition];
+//		whereOrAnd = @" AND ";
 	}
 	
-	if (![self isAscending]) ascending = @"DESC";
-	
-	if ([mSortKey isEqualTo : CMRThreadTitleKey]) {
-		sortCol = ThreadNameColumn;
-	} else if ([mSortKey isEqualTo : CMRThreadLastLoadedNumberKey]) {
-		sortCol = NumberOfReadColumn;
-	} else if ([mSortKey isEqualTo : CMRThreadNumberOfMessagesKey]) {
-		sortCol = NumberOfAllColumn;
-	} else if ([mSortKey isEqualTo : CMRThreadNumberOfUpdatedKey]) {
-		sortCol = [NSString stringWithFormat : @"(%@ - %@)", NumberOfAllColumn, NumberOfReadColumn];
-	} else if ([mSortKey isEqualTo : CMRThreadSubjectIndexKey]) {
-		sortCol = TempThreadThreadNumberColumn;
-	} else if ([mSortKey isEqualTo : CMRThreadStatusKey]) {
-		sortCol = ThreadStatusColumn;
-	} else if ([mSortKey isEqualTo : CMRThreadModifiedDateKey]) {
-		sortCol = ModifiedDateColumn;
-	}
-	
-	if (sortCol) {
-		[sql appendFormat : @"ORDER BY %@ %@",sortCol, ascending];
+	order = orderBy( mSortKey, [self isAscending]);
+	if(order) {
+		[sql appendString : order];
 	}
 
 	return sql;
@@ -280,6 +324,8 @@ enum {
 	SQLiteDB *db = [[DatabaseManager defaultManager] databaseForCurrentThread];
 	NSString *newersSQL = nil;
 	NSString *sql;
+	id <SQLiteMutableCursor> newerCursor = nil;
+	id <SQLiteMutableCursor> olderCursor = nil;
 	
 	if( [CMRPref collectByNew] ) {
 		newersSQL = [self sqlForListForType : kNewerThreadType];
@@ -291,52 +337,57 @@ enum {
 #ifdef DEBUG
 	time01 = clock();
 #endif
-	
-	[cursorLock lock];
-#ifdef DEBUG
-	time02 = clock();
-#endif
 	do {
-		id <SQLiteMutableCursor> newerCursor = nil;
-		
-		temp = mCursor;
-		mCursor = [[db cursorForSQL : sql] retain];
+		olderCursor = [db cursorForSQL : sql];
 		if ([db lastErrorID] != 0) {
 			NSLog(@"sql error on %s line %d.\n\tReason   : %@", __FILE__, __LINE__, [db lastError]);
-			[mCursor release];
-			mCursor = temp;
+			olderCursor = nil;
 			break;
 		}
 		if(newersSQL) {
-			newerCursor = [[db cursorForSQL : newersSQL] retain];
+			newerCursor = [db cursorForSQL : newersSQL];
 			if([db lastErrorID] != 0) {
 				NSLog(@"sql error on %s line %d.\n\tReason   : %@", __FILE__, __LINE__, [db lastError]);
-				[newerCursor release];
 				newerCursor = nil;
+				break;
 			}
 		}
 		if(newerCursor && [newerCursor rowCount]) {
-			[newerCursor appendCursor : mCursor];
-			[mCursor release];
-			mCursor = newerCursor;
+			[newerCursor appendCursor : olderCursor];
+			olderCursor = nil;
 		}
-		[temp release];
 	} while( NO );
+#ifdef DEBUG
+	time02 = clock();
+#endif
+	if(olderCursor || newerCursor) {
+		temp = mCursor;
+		[mCursorLock lock];
+		{
+			if(olderCursor) {
+				mCursor = [olderCursor retain];
+			} else {
+				mCursor = [newerCursor retain];
+			}
+		}
+		[mCursorLock unlock];
+		[temp release];
+	}
 #ifdef DEBUG
 	time03 = clock();
 #endif
-	[cursorLock unlock];
+	
 	
 #ifdef DEBUG	
 	printf("creating SQL time   : %ld\n"
 		   "getting cursor time : %ld\n",
-		   time01 - time00, time03 - time02 );
+		   time01 - time00, time03 - time01 );
 #endif
 }
 - (NSString *) boardName
 {
-	if (boardListItem) {
-		return [boardListItem name];
+	if (mBoardListItem) {
+		return [mBoardListItem name];
 	}
 	
 	return [super boardName];
@@ -346,9 +397,9 @@ enum {
 {
 	unsigned count;
 	
-	[cursorLock lock];
+	[mCursorLock lock];
 	count = [mCursor rowCount];
-	[cursorLock unlock];
+	[mCursorLock unlock];
 	
 	return count;
 }
@@ -384,7 +435,11 @@ enum {
 	return YES;
 }
 
-// - (void) filterByStatus : (int) status
+- (void) filterByStatus : (int) status
+{
+	mStatus = status;
+	[self updateCursor];
+}
 
 BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSString **outThreadID, NSString *inFilePath )
 {
@@ -438,7 +493,7 @@ BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSString **outThread
 		
 		id query;
 		
-		query = [NSString stringWithFormat : @"INSERT INTO %@ ( %@, %@, %@, %@, %@ ) VALUES ( ?, ?, ?, ?, ? );",
+		query = [NSString stringWithFormat : @"INSERT INTO %@ ( %@, %@, %@, %@, %@ ) VALUES ( ?, ?, ?, ?, ? )",
 			ThreadInfoTableName,
 			BoardIDColumn, ThreadIDColumn, ThreadNameColumn, NumberOfAllColumn, ThreadStatusColumn];
 		reservedInsert = [db reservedQuery : query];
@@ -447,7 +502,7 @@ BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSString **outThread
 			return;
 		}
 		
-		query = [NSString stringWithFormat : @"UPDATE %@ SET %@ = ?, %@ = ? WHERE %@ = ? AND %@ = ?;",
+		query = [NSString stringWithFormat : @"UPDATE %@ SET %@ = ?, %@ = ? WHERE %@ = ? AND %@ = ?",
 			ThreadInfoTableName,
 			NumberOfAllColumn, ThreadStatusColumn,
 			BoardIDColumn, ThreadIDColumn];
@@ -457,7 +512,7 @@ BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSString **outThread
 			return;
 		}
 		
-		query = [NSString stringWithFormat : @"INSERT INTO %@ ( %@, %@, %@ ) VALUES ( ?, ?, ? );",
+		query = [NSString stringWithFormat : @"INSERT INTO %@ ( %@, %@, %@ ) VALUES ( ?, ?, ? )",
 			TempThreadNumberTableName,
 			BoardIDColumn, ThreadIDColumn, TempThreadThreadNumberColumn];
 		reservedInsertNumber = [db reservedQuery : query];
@@ -466,7 +521,7 @@ BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSString **outThread
 			return;
 		}
 		
-		query = [NSString stringWithFormat : @"DELETE FROM %@;",
+		query = [NSString stringWithFormat : @"DELETE FROM %@",
 			TempThreadNumberTableName];
 		[db performQuery : query];
 		incrementCount();
@@ -563,9 +618,9 @@ BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSString **outThread
 	NSDictionary *result;
 	id<SQLiteRow> row;
 	
-	[cursorLock lock];
+	[mCursorLock lock];
 	row = [[[mCursor rowAtIndex : rowIndex] retain] autorelease];
-	[cursorLock unlock];
+	[mCursorLock unlock];
 	
 	NSString *title = [row valueForColumn : ThreadNameColumn];
 	NSNumber *newCount = [row valueForColumn : NumberOfAllColumn];
@@ -591,9 +646,9 @@ BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSString **outThread
 	
 	NSArray *threadIDs;
 	
-	[cursorLock lock];
+	[mCursorLock lock];
 	threadIDs	= [[[mCursor valuesForColumn : ThreadIDColumn] retain] autorelease];
-	[cursorLock unlock];
+	[mCursorLock unlock];
 	
 	result = [threadIDs indexOfObject : identifier];
 	
@@ -617,9 +672,9 @@ enum {
 	id result = nil;
 	ThreadStatus s;
 	
-	[cursorLock lock];
+	[mCursorLock lock];
 	row = [[[mCursor rowAtIndex : rowIndex] retain] autorelease];
-	[cursorLock unlock];
+	[mCursorLock unlock];
 	
 	s = [[row valueForColumn : ThreadStatusColumn] intValue];
 	
@@ -755,7 +810,7 @@ Compatability Note: This method replaces tableView : writeRows : toPasteboard : 
 			NumberOfReadColumn, cnt_,
 			ThreadStatusColumn, ThreadLogCachedStatus,
 			ModifiedDateColumn, [modDate timeIntervalSince1970]];
-		[sql appendFormat : @"WHERE %@ = %u AND %@ = '%@';",
+		[sql appendFormat : @"WHERE %@ = %u AND %@ = '%@'",
 			BoardIDColumn, baordID, ThreadIDColumn, threadID];
 		
 		db = [[DatabaseManager defaultManager] databaseForCurrentThread];

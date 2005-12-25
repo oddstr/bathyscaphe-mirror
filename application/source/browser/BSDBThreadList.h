@@ -17,12 +17,13 @@
 {
 	id <SQLiteMutableCursor> mCursor;
 		
-	BoardListItem *boardListItem;
+	BoardListItem *mBoardListItem;
 	
 	NSString *mSortKey;
 	NSString *mSearchString;
+	ThreadStatus mStatus;
 	
-	NSLock *cursorLock;
+	NSLock *mCursorLock;
 }
 
 - (id) initWithBoardListItem : (BoardListItem *)item;
