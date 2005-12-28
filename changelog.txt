@@ -1,3 +1,6 @@
+2005-12-28 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+		スレッド名に"'"が含まれているとき"''"の様にダブって登録されていたのを修正。
 2005-12-25 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSDBThreadList.m
 		-[BSDBThreadList setThread:]を最適化。

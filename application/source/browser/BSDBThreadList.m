@@ -589,7 +589,7 @@ BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSString **outThread
 				
 				if(![cursor rowCount]) {
 					// 初めての読み込み。データベースに登録。
-					title = [SQLiteDB prepareStringForQuery : title];
+		//			title = [SQLiteDB prepareStringForQuery : title];
 					
 					bindValues = [NSArray arrayWithObjects:
 						[NSNumber numberWithUnsignedInt : boardID], dat, title, count, status, nil];

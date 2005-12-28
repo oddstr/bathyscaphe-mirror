@@ -282,7 +282,7 @@ NSArray *valuesForSTMT(sqlite3_stmt *stmt, NSArray *culumns)
 		   time04 - time00, time01 - time00, time02 - time01, time03 -time02, time04 - time03);
 #endif
 	
-	if (!values) {
+	if (!columns || !values) {
 		return nil;
 	}
 	cursor = [NSDictionary dictionaryWithObjectsAndKeys : columns, TestColumnNames,
