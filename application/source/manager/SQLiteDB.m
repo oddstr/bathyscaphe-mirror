@@ -131,7 +131,7 @@ int progressHandler(void *obj)
 }
 - (int) close
 {
-	int result;
+	int result = NO;
 	
 	if (mDatabase) {
 		NSLog(@"Start Closing database.");
