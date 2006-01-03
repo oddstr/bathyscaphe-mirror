@@ -1,4 +1,15 @@
 2006-01-03 masakih <masakih@users.sourceforge.jp>
+	* application/Resources/Japanese.lproj/SmartBLIEditorComponents.nib
+	* application/Resources/Japanese.lproj/SmartBoardItemEditor.nib
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.h
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m
+	* application/source/bbs/BoardListItem/SmartBoardListItemEditor.h
+	* application/source/bbs/BoardListItem/SmartBoardListItemEditor.m
+	* application/source/bbs/BoardListItem/SmartCondition.h
+	* application/source/bbs/BoardListItem/SmartCondition.m
+		[新規追加]スマートボードを作成、編集するためのクラスを投入。
+		ただし、現在未使用。
+2006-01-03 masakih <masakih@users.sourceforge.jp>
 	* application/source/manager/SQLiteDB.m
 		バグフィックス。
 2005-12-28 masakih <masakih@users.sourceforge.jp>

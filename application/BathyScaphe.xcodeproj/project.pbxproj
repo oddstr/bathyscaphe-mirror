@@ -1109,6 +1109,14 @@
 		F49CCDF60849B87500835BE3 /* BSScriptsMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F49CCDF40849B87500835BE3 /* BSScriptsMenuManager.m */; };
 		F4C3954D08B8ABD800D20E01 /* SQLiteDB.h in Headers */ = {isa = PBXBuildFile; fileRef = F4C3954B08B8ABD800D20E01 /* SQLiteDB.h */; };
 		F4C3954E08B8ABD800D20E01 /* SQLiteDB.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C3954C08B8ABD800D20E01 /* SQLiteDB.m */; };
+		F4CB530509699670001256C8 /* SmartBLIEditorHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = F4CB52FF09699670001256C8 /* SmartBLIEditorHelper.h */; };
+		F4CB530609699670001256C8 /* SmartBLIEditorHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CB530009699670001256C8 /* SmartBLIEditorHelper.m */; };
+		F4CB530709699670001256C8 /* SmartBoardListItemEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = F4CB530109699670001256C8 /* SmartBoardListItemEditor.h */; };
+		F4CB530809699670001256C8 /* SmartBoardListItemEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CB530209699670001256C8 /* SmartBoardListItemEditor.m */; };
+		F4CB530909699670001256C8 /* SmartCondition.h in Headers */ = {isa = PBXBuildFile; fileRef = F4CB530309699670001256C8 /* SmartCondition.h */; };
+		F4CB530A09699670001256C8 /* SmartCondition.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CB530409699670001256C8 /* SmartCondition.m */; };
+		F4CB530F096996AC001256C8 /* SmartBLIEditorComponents.nib in Resources */ = {isa = PBXBuildFile; fileRef = F4CB530B096996AC001256C8 /* SmartBLIEditorComponents.nib */; };
+		F4CB5310096996AC001256C8 /* SmartBoardItemEditor.nib in Resources */ = {isa = PBXBuildFile; fileRef = F4CB530D096996AC001256C8 /* SmartBoardItemEditor.nib */; };
 		F4E2E0BB08B5FB3A00177310 /* BoardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8794CC0F089C033300161BAB /* BoardManager.m */; };
 		F4F57FA30945A9DA004DF9DB /* BoardList.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CD3090E970F007FF9C3 /* BoardList.png */; };
 		F4F57FA40945A9DB004DF9DB /* beEnabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CD2090E970F007FF9C3 /* beEnabled.png */; };
@@ -1973,6 +1981,14 @@
 		F49CCDF40849B87500835BE3 /* BSScriptsMenuManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSScriptsMenuManager.m; sourceTree = "<group>"; };
 		F4C3954B08B8ABD800D20E01 /* SQLiteDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLiteDB.h; sourceTree = "<group>"; };
 		F4C3954C08B8ABD800D20E01 /* SQLiteDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLiteDB.m; sourceTree = "<group>"; };
+		F4CB52FF09699670001256C8 /* SmartBLIEditorHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartBLIEditorHelper.h; sourceTree = "<group>"; };
+		F4CB530009699670001256C8 /* SmartBLIEditorHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartBLIEditorHelper.m; sourceTree = "<group>"; };
+		F4CB530109699670001256C8 /* SmartBoardListItemEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartBoardListItemEditor.h; sourceTree = "<group>"; };
+		F4CB530209699670001256C8 /* SmartBoardListItemEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartBoardListItemEditor.m; sourceTree = "<group>"; };
+		F4CB530309699670001256C8 /* SmartCondition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartCondition.h; sourceTree = "<group>"; };
+		F4CB530409699670001256C8 /* SmartCondition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartCondition.m; sourceTree = "<group>"; };
+		F4CB530C096996AC001256C8 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/SmartBLIEditorComponents.nib; sourceTree = "<group>"; };
+		F4CB530E096996AC001256C8 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/SmartBoardItemEditor.nib; sourceTree = "<group>"; };
 		F4E2F23508B8A27800177310 /* alter.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alter.c; sourceTree = "<group>"; };
 		F4E2F23608B8A27800177310 /* attach.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = attach.c; sourceTree = "<group>"; };
 		F4E2F23708B8A27800177310 /* auth.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = auth.c; sourceTree = "<group>"; };
@@ -2227,6 +2243,8 @@
 		872998690832616D00CBD740 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F4CB530D096996AC001256C8 /* SmartBoardItemEditor.nib */,
+				F4CB530B096996AC001256C8 /* SmartBLIEditorComponents.nib */,
 				8724A6DB09127E69009CC855 /* board_default.plist */,
 				87E2264C0833AA5D00E7FC85 /* BathyScaphe.scriptSuite */,
 				87E2264D0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology */,
@@ -2638,6 +2656,12 @@
 				87E8726908DD63F40055370D /* FolderBoardListItem.m */,
 				87E8726C08DD63F40055370D /* SmartBoardListItem.h */,
 				87E8726D08DD63F40055370D /* SmartBoardListItem.m */,
+				F4CB530309699670001256C8 /* SmartCondition.h */,
+				F4CB530409699670001256C8 /* SmartCondition.m */,
+				F4CB530109699670001256C8 /* SmartBoardListItemEditor.h */,
+				F4CB530209699670001256C8 /* SmartBoardListItemEditor.m */,
+				F4CB52FF09699670001256C8 /* SmartBLIEditorHelper.h */,
+				F4CB530009699670001256C8 /* SmartBLIEditorHelper.m */,
 			);
 			path = BoardListItem;
 			sourceTree = "<group>";
@@ -3900,6 +3924,9 @@
 				F4FA703B094357C100BE3F27 /* BSSegmentedControlTbItem.h in Headers */,
 				F469D7480943605C007D7EDC /* AddBoardSheetController.h in Headers */,
 				F4F5821F0945C9CC004DF9DB /* ConcreteBoardListItem.h in Headers */,
+				F4CB530509699670001256C8 /* SmartBLIEditorHelper.h in Headers */,
+				F4CB530709699670001256C8 /* SmartBoardListItemEditor.h in Headers */,
+				F4CB530909699670001256C8 /* SmartCondition.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4531,6 +4558,8 @@
 				F4F57FAD0945A9F2004DF9DB /* SmartBoard.png in Resources */,
 				F4F57FAE0945A9F3004DF9DB /* SplitterHandle.tiff in Resources */,
 				F4F57FAF0945A9F8004DF9DB /* stopSign.png in Resources */,
+				F4CB530F096996AC001256C8 /* SmartBLIEditorComponents.nib in Resources */,
+				F4CB5310096996AC001256C8 /* SmartBoardItemEditor.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5048,6 +5077,9 @@
 				F469D7490943605D007D7EDC /* AddBoardSheetController.m in Sources */,
 				F469D74C0943606C007D7EDC /* CMRBrowser-BLEditor.m in Sources */,
 				F4F582200945C9CC004DF9DB /* ConcreteBoardListItem.m in Sources */,
+				F4CB530609699670001256C8 /* SmartBLIEditorHelper.m in Sources */,
+				F4CB530809699670001256C8 /* SmartBoardListItemEditor.m in Sources */,
+				F4CB530A09699670001256C8 /* SmartCondition.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5523,6 +5555,22 @@
 				F33AE22905BE525A002448CC /* Japanese */,
 			);
 			name = FilterPreferences.nib;
+			sourceTree = "<group>";
+		};
+		F4CB530B096996AC001256C8 /* SmartBLIEditorComponents.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F4CB530C096996AC001256C8 /* Japanese */,
+			);
+			name = SmartBLIEditorComponents.nib;
+			sourceTree = "<group>";
+		};
+		F4CB530D096996AC001256C8 /* SmartBoardItemEditor.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F4CB530E096996AC001256C8 /* Japanese */,
+			);
+			name = SmartBoardItemEditor.nib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
