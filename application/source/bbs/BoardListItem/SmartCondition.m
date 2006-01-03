@@ -188,7 +188,7 @@ static NSDictionary *sConditionTypes = nil;
 		
 }
 
-void setValueToValue( id value, id *toValue )
+static inline void setValueToValue( id value, id *toValue )
 {
 	id temp;
 	

@@ -32,7 +32,7 @@
 	[super dealloc];
 }
 
-NSInvocation *checkMethodSignature(id obj, SEL selector)
+static inline NSInvocation *checkMethodSignature(id obj, SEL selector)
 {
 	NSInvocation *result = nil;
 	NSMethodSignature *sig;

@@ -1,4 +1,9 @@
 2006-01-03 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m
+		条件の増減時のアニメーションを自力で行うようにした。
+	* application/source/bbs/BoardListItem/SmartBoardListItemEditor.m
+	* application/source/bbs/BoardListItem/SmartCondition.m
+		内部だけで使うC関数を static inline にした。
 	* application/Resources/Japanese.lproj/SmartBLIEditorComponents.nib
 	* application/Resources/Japanese.lproj/SmartBoardItemEditor.nib
 	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.h

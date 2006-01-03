@@ -16,6 +16,7 @@
 {
 	IBOutlet NSWindow *editorWindow;
 	IBOutlet SmartBLIEditorHelper *helper;
+	IBOutlet NSTextField *nameField;
 	
 	NSInvocation *mInvocation;
 

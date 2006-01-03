@@ -20,7 +20,11 @@
             ACTIONS = {cancel = id; ok = id; }; 
             CLASS = SmartBoardListItemEditor; 
             LANGUAGE = ObjC; 
-            OUTLETS = {editorWindow = NSWindow; helper = SmartBLIEditorHelper; }; 
+            OUTLETS = {
+                editorWindow = NSWindow; 
+                helper = SmartBLIEditorHelper; 
+                nameField = NSTextField; 
+            }; 
             SUPERCLASS = NSObject; 
         }
     ); 
