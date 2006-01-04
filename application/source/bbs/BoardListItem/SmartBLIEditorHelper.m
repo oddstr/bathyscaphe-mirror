@@ -124,7 +124,7 @@ const float kViewPadding = 2.0;
 
 @implementation SmartBLIEditorHelper
 
-NSColor *nextColor(NSColor *inColor)
+static inline NSColor *nextColor(NSColor *inColor)
 {
 	if(!inColor || [inColor isEqual:[NSColor whiteColor]]) {
 		return  [NSColor colorWithCalibratedRed:238 / 255.0
@@ -214,10 +214,12 @@ NSColor *nextColor(NSColor *inColor)
 
 - (NSScrollView *)container
 {
-	id result = [self rootHelper]->container;
+	SmartBLIEditorHelper *root;
+	id result;
 	
-	if(!result) {
-		NSLog(@"HHHHHHHHHHHHHHH");
+	if(!(root = [self rootHelper])
+	   || !(result = root->container) ) {
+		NSLog(@"You create SmartBLIeditor in abnormal way.");
 	}
 	
 	return result;
@@ -230,43 +232,30 @@ NSColor *nextColor(NSColor *inColor)
 - (void)relocateConditionView
 {
 	id prev = [self previousHelper];
+	NSPoint origin;
+	NSColor *color;
+	
 	if(!prev) {
-		[expressionView setFrameOrigin:NSZeroPoint];
-		[expressionView setColor:nextColor(nil)];
-		
-		[[self nextHelper] relocateConditionView];
-		
-		return;
+		origin = NSZeroPoint;
+		color = nextColor(nil);
+	} else {
+		NSRect frame;
+		id prevView = [prev conditionView];
+	
+		frame = [expressionView frame];
+		origin = frame.origin;
+		origin.y = [prevView frame].origin.y + frame.size.height;
+		color = nextColor([prevView color]);
 	}
 	
-	id prevView = [prev conditionView];
-	NSRect prevViewFrame = [prevView frame];
-	NSRect frame;
-	NSPoint origin;
-	
-	frame = [expressionView frame];
-	origin = frame.origin;
-	origin.y = prevViewFrame.origin.y + frame.size.height;
 	[expressionView setFrameOrigin:origin];
-	[expressionView setColor:nextColor([prevView color])];
+	[expressionView setColor:color];
 	
 	[[self nextHelper] relocateConditionView];
 }
 
 - (void)incrementContainerHeight
 {
-//	id w = [[self container] window];
-//	id d = [[self container] documentView];
-//	NSRect wFrame = [w frame];
-//	NSRect dFrame = [d frame];
-//	
-//	wFrame.size.height += [expressionView frame].size.height;
-//	wFrame.origin.y -= [expressionView frame].size.height;
-//	
-//	dFrame.size.height += [expressionView frame].size.height;
-//	[d setFrame:dFrame];
-//	
-//	[w setFrame:wFrame display:YES animate:YES];
 	NSWindow *w = [[self container] window];
 	NSView *d = [[self container] documentView];
 	ColorBackgroundView *c = [self conditionView];
@@ -275,33 +264,14 @@ NSColor *nextColor(NSColor *inColor)
 	NSRect dFrame = [d frame];
 	NSPoint origin;
 	float deltaY = 10;
-	float totalY = 0.0;
 	float incHeight;
-	int i;
 	
 	if(![self previousHelper]) return;
 	
-	NSRect prevFrame = [pv frame];
-	origin = prevFrame.origin;
-	[c setFrameOrigin:origin];
-	[c setColor:nextColor([pv color])];
+	origin = [pv frame].origin;
 	
 	incHeight = [c frame].size.height;
 	
-//	while(incHeight >= totalY + deltaY) {
-	origin.y += deltaY;
-	[c setFrameOrigin:origin];
-	[[self nextHelper] relocateConditionView];
-	dFrame.size.height += deltaY;
-	[d setFrame:dFrame];
-	wFrame.size.height += deltaY;
-	wFrame.origin.y -= deltaY;
-	[w setFrame:wFrame display:YES];
-	totalY += deltaY;
-//	}
-//	if(incHeight != totalY) {
-	deltaY = incHeight - totalY;
-	
 	origin.y += deltaY;
 	[c setFrameOrigin:origin];
 	[[self nextHelper] relocateConditionView];
@@ -311,27 +281,19 @@ NSColor *nextColor(NSColor *inColor)
 	wFrame.origin.y -= deltaY;
 	[w setFrame:wFrame display:YES];
 	
-	// for debug
-	totalY += deltaY;
-//	}
-#ifdef DEUBG
-	NSLog(@"Total Y is %.2f", totalY);
-#endif
+	deltaY = incHeight - deltaY;
+	
+	origin.y += deltaY;
+	[c setFrameOrigin:origin];
+	[[self nextHelper] relocateConditionView];
+	dFrame.size.height += deltaY;
+	[d setFrame:dFrame];
+	wFrame.size.height += deltaY;
+	wFrame.origin.y -= deltaY;
+	[w setFrame:wFrame display:YES];
 }
 - (void)decrementContainerHeight
 {
-//	id w = [[self container] window];
-//	id d = [[self container] documentView];
-//	NSRect wFrame = [w frame];
-//	NSRect dFrame = [d frame];
-//	
-//	wFrame.size.height -= [expressionView frame].size.height;
-//	wFrame.origin.y += [expressionView frame].size.height;
-//	
-//	dFrame.size.height -= [expressionView frame].size.height;
-//	[d setFrame:dFrame];
-//	
-//	[w setFrame:wFrame display:YES animate:YES];
 	NSWindow *w = [[self container] window];
 	NSView *d = [[self container] documentView];
 	ColorBackgroundView *c = [self conditionView];
@@ -339,63 +301,48 @@ NSColor *nextColor(NSColor *inColor)
 	NSRect wFrame = [w frame];
 	NSRect dFrame = [d frame];
 	NSPoint origin;
-	float deltaY = 10;
-	float totalY = 0.0;
+	float deltaY = -10;
 	float incHeight;
-	int i;
 	
-	if([self previousHelper]) {
-		NSRect prevFrame = [pv frame];
-		origin = prevFrame.origin;
-		[c setColor:nextColor([pv color])];
+	incHeight = -[c frame].size.height;
+	
+	if(pv) {
+		origin = [pv frame].origin;
+		origin.y -= incHeight;
 	} else {
 		origin = NSZeroPoint;
-		[c setColor:nextColor(nil)];
 	}
-	[c setFrameOrigin:origin];
-	
-	incHeight = [c frame].size.height;
-	
-//	while(incHeight >= totalY + deltaY) {
-	origin.y -= deltaY;
-	[c setFrameOrigin:origin];
-	[[self nextHelper] relocateConditionView];
-	dFrame.size.height -= deltaY;
-	[d setFrame:dFrame];
-	wFrame.size.height -= deltaY;
-	wFrame.origin.y += deltaY;
-	[w setFrame:wFrame display:YES];
-	totalY += deltaY;
-//	}
-//	if(incHeight != totalY) {
-	deltaY = incHeight - totalY;
 	
 	origin.y += deltaY;
 	[c setFrameOrigin:origin];
 	[[self nextHelper] relocateConditionView];
-	dFrame.size.height -= deltaY;
+	dFrame.size.height += deltaY;
 	[d setFrame:dFrame];
-	wFrame.size.height -= deltaY;
-	wFrame.origin.y += deltaY;
+	wFrame.size.height += deltaY;
+	wFrame.origin.y -= deltaY;
 	[w setFrame:wFrame display:YES];
+
+	deltaY = incHeight - deltaY;
 	
-	// for debug
-	totalY += deltaY;
-//	}
-#ifdef DEUBG
-	NSLog(@"Total Y is %.2f", totalY);
-#endif
+	origin.y += deltaY;
+	[c setFrameOrigin:origin];
+	[[self nextHelper] relocateConditionView];
+	dFrame.size.height += deltaY;
+	[d setFrame:dFrame];
+	wFrame.size.height += deltaY;
+	wFrame.origin.y -= deltaY;
+	[w setFrame:wFrame display:YES];
 }
 
 - (void)addConditionView
 {
 	id prev = [self previousHelper];
 	
-	if(prev) {		
+	if(prev) {
+		[expressionView setColor:nextColor([[prev conditionView] color])];
 		[[[self container] documentView] addSubview:expressionView
 										 positioned:NSWindowBelow
 										 relativeTo:[prev conditionView]];
-//		[self relocateConditionView];
 		
 		[self incrementContainerHeight];
 	} else {
@@ -408,12 +355,14 @@ NSColor *nextColor(NSColor *inColor)
 }
 - (void)removeConditionView
 {
-	if(![self previousHelper] && !nextHelper) {
+	SmartBLIEditorHelper* temp;
+	
+	if(!(temp = [self previousHelper]) && !nextHelper) {
 		NSBeep();
 		return;
 	}
 	
-	id temp = previousHelper;
+	temp = temp ? temp : nextHelper;
 	
 	[self decrementContainerHeight];
 	[expressionView removeFromSuperview];

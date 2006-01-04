@@ -6153,7 +6153,7 @@
 				GCC_WARN_ABOUT_POINTER_SIGNEDNESS = NO;
 				GCC_WARN_ALLOW_INCOMPLETE_PROTOCOL = NO;
 				INSTALL_PATH = /usr/local/lib;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-s";
 				PREBINDING = NO;
 				PRODUCT_NAME = sqlite;
 				ZERO_LINK = NO;
@@ -6184,7 +6184,7 @@
 				GCC_WARN_ABOUT_POINTER_SIGNEDNESS = NO;
 				GCC_WARN_ALLOW_INCOMPLETE_PROTOCOL = NO;
 				INSTALL_PATH = /usr/local/lib;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-s";
 				PREBINDING = NO;
 				PRODUCT_NAME = sqlite;
 				ZERO_LINK = NO;
@@ -6210,7 +6210,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = source/CocoMonar_Prefix.h;
-				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_PREPROCESSOR_DEFINITIONS = USE_NSZONE_MALLOC;
 				GCC_USE_GCC3_PFE_SUPPORT = NO;
 				INFOPLIST_FILE = "Info-bs-another-story.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -6295,11 +6295,11 @@
 					../frameworks/Keychain/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
 					"$(SRCROOT)",
-					"$(SRCROOT)/../frameworks/QuickLite/build/Deployment",
 				);
 				GCC_MODEL_TUNING = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "";
+				GCC_PREFIX_HEADER = source/CocoMonar_Prefix.h;
+				GCC_PREPROCESSOR_DEFINITIONS = USE_NSZONE_MALLOC;
 				GCC_USE_GCC3_PFE_SUPPORT = NO;
 				INFOPLIST_FILE = "Info-bs-another-story.plist";
 				INSTALL_PATH = "$(HOME)/Applications";

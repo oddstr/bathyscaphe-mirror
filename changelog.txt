@@ -1,3 +1,6 @@
+2006-01-05 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m
+		アニメーション部分にあったバグを解消。
 2006-01-03 masakih <masakih@users.sourceforge.jp>
 	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m
 		条件の増減時のアニメーションを自力で行うようにした。
