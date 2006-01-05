@@ -1,6 +1,6 @@
 //: CMXTextParser.h
 /**
-  * $Id: CMXTextParser.h,v 1.1 2005/05/11 17:51:04 tsawada2 Exp $
+  * $Id: CMXTextParser.h,v 1.2 2006/01/05 14:16:44 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -38,10 +38,7 @@ enum {
 /**
   *
   * 2ch日付けからNSDateを生成
-  * 不正な文字列ではnilを返す。
-  * [日付表示]
-  *   02/02/05 22:26
-  *   2001/08/06(月) 21:45
+  * うまく NSDate を生成できなかったときは元の文字列をそのまま返す。
   * 
   * @param    string  ログファイルの日付け
   * @return           NSDate

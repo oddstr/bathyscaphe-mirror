@@ -42,7 +42,7 @@
 %%%ThreadURL%%%
 </string>
 	<key>Thread - DateDescription</key>
-	<string>%y/%m/%d (%a) %H:%M:%S</string>
+	<string>%Y/%m/%d(%a) %H:%M:%S</string>
 	<key>Thread - FieldSeparater</key>
 	<string>：</string>
 	<key>Thread - GoogleQuery</key>

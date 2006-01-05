@@ -1,6 +1,6 @@
 //: CMRThreadMessage.m
 /**
-  * $Id: CMRThreadMessage.m,v 1.1 2005/05/11 17:51:08 tsawada2 Exp $
+  * $Id: CMRThreadMessage.m,v 1.2 2006/01/05 14:16:44 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -59,24 +59,30 @@ NSString *const CMRThreadMessage_SAGE_String	= @"sage";
 	[_date release];
 	[_datePrefix release];
 	[_beProfile release];
-	[_extraHeaders release];
+	[_dateRepresentation release];
+	[_IDString release];
+	[_hostString release];
 	[_messageSource release];
 	
 	[_messageAttributes release];
 
 	[super dealloc];
 }
-// CMRPropertyListCoding
+#pragma mark CMRPropertyListCoding
 - (BOOL) initializeWithPropertyListRepresentation : (id) rep
 {
 	if (NO == [rep isKindOfClass : [NSDictionary class]]) {
 		return NO;
 	}
+	
+	int	milliSec_;
+
 	[self setIndex : [rep unsignedIntForKey : ThreadPlistContentsIndexKey]];
 	[self setName : [rep stringForKey : ThreadPlistContentsNameKey]];
 	[self setMail : [rep stringForKey : ThreadPlistContentsMailKey]];
 	[self setDate : [rep objectForKey : ThreadPlistContentsDateKey]];
 	[self setDatePrefix : [rep objectForKey : ThreadPlistContentsDatePrefixKey]];
+	[self setDateRepresentation : [rep objectForKey : ThreadPlistContentsDateRepKey]];
 	[self setIDString : [rep stringForKey : ThreadPlistContentsIDKey]];
 	[self setBeProfile : [rep objectForKey : ThreadPlistContentsBeProfileKey]];
 	[self setMessageSource : [rep stringForKey : ThreadPlistContentsMessageKey]];
@@ -85,6 +91,10 @@ NSString *const CMRThreadMessage_SAGE_String	= @"sage";
 	[self setMessageAttributes :
 		[CMRThreadMessageAttributes objectWithPropertyListRepresentation :
 			[rep objectForKey : CMRThreadContentsHostKey]]];
+
+	milliSec_ = [rep integerForKey : ThreadPlistContentsMilliSecKey];
+	if (milliSec_ != 0)
+		[[self date] addTimeInterval : (double)(milliSec_ / 1000)];
 	
 	return YES;
 }
@@ -105,15 +115,29 @@ NSString *const CMRThreadMessage_SAGE_String	= @"sage";
 - (id) propertyListRepresentation
 {
 	NSMutableDictionary		*rep;
-	
+	id						date_ = [self date];
 	rep = [NSMutableDictionary dictionary];
 	
 	[rep setUnsignedInt:[self index] forKey:ThreadPlistContentsIndexKey];
 	[rep setNoneNil:[self name] forKey:ThreadPlistContentsNameKey];
 	[rep setNoneNil:[self mail] forKey:ThreadPlistContentsMailKey];
-	[rep setNoneNil:[self date] forKey:ThreadPlistContentsDateKey];
+
+	if(date_ != nil) {
+		[rep setObject : date_ forKey : ThreadPlistContentsDateKey];
+		if ([date_ isKindOfClass : [NSDate class]]) {
+		double	sec_, sec2_;
+		int		milliSec_int;
+
+		sec_ = (double)[date_ timeIntervalSince1970];
+		milliSec_int = (modf(sec_, &sec2_))*1000;
+		if (milliSec_int != 0)
+			[rep setInteger : milliSec_int forKey : ThreadPlistContentsMilliSecKey];
+		}
+	}
+
 	[rep setNoneNil:[self datePrefix] forKey:ThreadPlistContentsDatePrefixKey];
 	[rep setNoneNil:[self IDString] forKey:ThreadPlistContentsIDKey];
+	[rep setNoneNil : [self dateRepresentation] forKey : ThreadPlistContentsDateRepKey];
 	[rep setNoneNil:[self beProfile] forKey:ThreadPlistContentsBeProfileKey];
 	[rep setNoneNil:[self messageSource] forKey:ThreadPlistContentsMessageKey];
 	[rep setNoneNil:[self host] forKey:CMRThreadContentsHostKey];
@@ -124,7 +148,7 @@ NSString *const CMRThreadMessage_SAGE_String	= @"sage";
 }
 
 
-// NSObject
+#pragma mark NSObject
 - (NSString *) description
 {
 	return [NSString stringWithFormat : 
@@ -181,11 +205,22 @@ NSString *const CMRThreadMessage_SAGE_String	= @"sage";
 	[tmp setMessageAttributes : v];
 	[v release];
 	
-	[tmp setIDString:[self IDString] host:[self host]];
+	v = [[self IDString] copyWithZone : aZone];
+	[tmp setIDString : v];
+	[v release];
+	
+	v = [[self host] copyWithZone : aZone];
+	[tmp setHost : v];
+	[v release];
+	
+	v = [[self dateRepresentation] copyWithZone : aZone];
+	[tmp setDateRepresentation : v];
+	[v release];
+	//[tmp setIDString:[self IDString] host:[self host]];
 	return tmp;
 }
 
-#pragma mark (Accessors)
+#pragma mark Accessors
 
 - (unsigned) index
 {
@@ -285,13 +320,27 @@ NSString *const CMRThreadMessage_SAGE_String	= @"sage";
 	[tmp release];
 }
 
+- (NSString *) dateRepresentation
+{
+	return _dateRepresentation;
+}
+- (void) setDateRepresentation : (NSString *) aRep
+{
+	id		tmp;
+	
+	tmp = _dateRepresentation;
+	_dateRepresentation = [aRep retain];
+	[tmp release];
+}
+
+
 
 
 // Extra Headers
-static NSString *const CMRTMExtraHeadersSeparater  = @" ";
+//static NSString *const CMRTMExtraHeadersSeparater  = @" ";
 static NSString *const kEmptyString = @"";
 
-- (void) getIDString : (NSString **) theIDPtr
+/*- (void) getIDString : (NSString **) theIDPtr
 				host : (NSString **) theHostPtr
 {
 	NSRange			resultRange_;
@@ -316,30 +365,42 @@ GetIDStringHost:
 	if (theHostPtr != NULL) *theHostPtr = host_;
 	
 	return;
-}
+}*/
 			
 - (NSString *) IDString
 {
-	NSString	*str_ = nil;
+	//NSString	*str_ = nil;
 	
-	[self getIDString:&str_ host:NULL];
-	return str_;
+	//[self getIDString:&str_ host:NULL];
+	//return str_;
+	return _IDString;
 }
 - (NSString *) host
 {
-	NSString	*host_ = nil;
+	//NSString	*host_ = nil;
 	
-	[self getIDString:NULL host:&host_];
-	return host_;
+	//[self getIDString:NULL host:&host_];
+	//return host_;
+	return _hostString;
 }
 
 - (void) setIDString : (NSString *) anIDString
 {
-	[self setIDString:anIDString host:[self host]];
+	//[self setIDString:anIDString host:[self host]];
+	id		tmp;
+	
+	tmp = _IDString;
+	_IDString = [anIDString retain];
+	[tmp release];
 }
 - (void) setHost : (NSString *) aHost
 {
-	[self setIDString:[self IDString] host:aHost];
+	//[self setIDString:[self IDString] host:aHost];
+	id		tmp;
+	
+	tmp = _hostString;
+	_hostString = [aHost retain];
+	[tmp release];
 }
 @end
 
@@ -511,7 +572,7 @@ GetIDStringHost:
 #pragma mark -
 
 @implementation CMRThreadMessage(Private)
-- (void) setIDString : (NSString *) anIDString
+/*- (void) setIDString : (NSString *) anIDString
 			    host : (NSString *) aHost
 {
 	[_extraHeaders autorelease];
@@ -526,7 +587,7 @@ GetIDStringHost:
 						anIDString ? anIDString : kEmptyString,
 						aHost ? CMRTMExtraHeadersSeparater : kEmptyString,
 						aHost ? aHost : kEmptyString];
-}
+}*/
 - (void) postDidChangeAttributeNotification
 {
 	NSNotification		*notification_;

@@ -1,6 +1,6 @@
 //: CMRPropertyKeys.m
 /**
-  * $Id: CMRPropertyKeys.m,v 1.1 2005/05/11 17:51:19 tsawada2 Exp $
+  * $Id: CMRPropertyKeys.m,v 1.2 2006/01/05 14:16:44 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -20,6 +20,8 @@ NSString *const ThreadPlistContentsBeProfileKey = @"BeProfileLink";
 NSString *const ThreadPlistContentsMessageKey	= @"Message";
 NSString *const CMRThreadContentsStatusKey		= @"Status";
 NSString *const CMRThreadContentsHostKey		= @"Host";
+NSString *const ThreadPlistContentsMilliSecKey  = @"MilliSec"; // available in BathyScaphe 1.1.3 and later.
+NSString *const ThreadPlistContentsDateRepKey  = @"DateRepresentation"; // available in BathyScaphe 1.1.3 and later.
 
 
 NSString *const ThreadPlistContentsKey			= @"Contents";

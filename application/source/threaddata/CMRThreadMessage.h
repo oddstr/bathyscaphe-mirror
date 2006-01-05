@@ -1,6 +1,6 @@
 //: CMRThreadMessage.h
 /**
-  * $Id: CMRThreadMessage.h,v 1.1 2005/05/11 17:51:08 tsawada2 Exp $
+  * $Id: CMRThreadMessage.h,v 1.2 2006/01/05 14:16:44 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -12,7 +12,7 @@
 
 
 
-@interface CMRThreadMessage : SGBaseObject<NSCopying, CMRPropertyListCoding>
+@interface CMRThreadMessage : NSObject<NSCopying, CMRPropertyListCoding>
 {
 	@private
 	unsigned		_index;		/* 0-base */
@@ -20,12 +20,14 @@
 	NSString		*_mail;
 	
 	id				_date;
-	//Humm...
 	NSString		*_datePrefix;
+	NSString		*_dateRepresentation; // may be nil in old log
 	
 	NSArray			*_beProfile;
 	NSString		*_messageSource;
-	id				_extraHeaders;	// ID: HOST:
+	//id				_extraHeaders;	// ID: HOST:
+	NSString		*_IDString;
+	NSString		*_hostString;
 	
 	/* Application Difined Attributes*/
 	CMRThreadMessageAttributes *_messageAttributes;
@@ -45,6 +47,8 @@
 - (NSString *) datePrefix;
 - (void) setDatePrefix : (NSString *) aPrefix;
 
+- (NSString *) dateRepresentation;
+- (void) setDateRepresentation : (NSString *) aRep;
 
 // Plain Text
 - (NSString *) cachedMessage;
@@ -132,8 +136,8 @@
 
 
 @interface CMRThreadMessage(Private)
-- (void) setIDString : (NSString *) anIDString
-			    host : (NSString *) aHost;
+//- (void) setIDString : (NSString *) anIDString
+//			    host : (NSString *) aHost;
 - (void) setMessageAttributeFlag : (UInt32) flag
 							  on : (BOOL  ) isSet;
 - (void) postDidChangeAttributeNotification;

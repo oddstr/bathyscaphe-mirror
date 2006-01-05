@@ -1,6 +1,6 @@
 //: CMXTextParser.m
 /**
-  * $Id: CMXTextParser.m,v 1.9 2005/11/16 15:59:47 tsawada2 Exp $
+  * $Id: CMXTextParser.m,v 1.10 2006/01/05 14:16:44 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -18,27 +18,22 @@
 @defined     DATE2CH_CALENDAR_FORMAT
 @discussion  2channel Data Format
  */
-#define DATE2CH_CALENDAR_FORMAT		@"%y/%m/%d %H:%M"
-#define DATE2CH_CALENDAR_FORMAT_2		@"%y/%m/%d %H:%M:%S"
-
-/*!
-@defined     THREAD_HEADER_TITLE_INDEX
-@discussion  the index of thread's title
- */
-#define THREAD_HEADER_TITLE_INDEX	4
-
+#define DATE2CH_CALENDAR_FORMAT_LATE2005 @"%Y/%m/%d %H:%M:%S.%F"
+#define DATE2CH_CALENDAR_FORMAT_SEC		 @"%Y/%m/%d %H:%M:%S"
+#define DATE2CH_CALENDAR_FORMAT_4KETA	 @"%Y/%m/%d %H:%M"
+#define DATE2CH_CALENDAR_FORMAT			 @"%y/%m/%d %H:%M"
 
 static NSString *const CMXTextParserDate2chSeparater		= @"(";
-
-#if PATCH
-static NSString *const CMXTextParserDate2chSeparater_close = @")";
+static NSString *const CMXTextParserDate2chSeparater_close  = @")";
 static char c_CMXTextParserDate2chSeparater_close = ')';
-#endif
 
-static NSString *const CMXTextParserDate2chSample			= @"01/02/05 22:26";
 static NSString *const CMXTextParserComma					= @",";
-
 static NSString *const CMXTextParser2chSeparater			= @"<>";
+
+static NSString *const CMXTextParserBSPeriod				= @".";
+static NSString *const CMXTextParserBSZero					= @"0";
+static NSString *const CMXTextParserBSColon					= @":";
+static NSString *const CMXTextParserBSSpace					= @" ";
 
 #define kAvailableURLCFEncodingsNSArrayKey		@"System - AvailableURLCFEncodings"
 
@@ -56,6 +51,7 @@ static NSString *fnc_stringWillConvertToComma(void)
 	}
 	return st_cnv;
 }
+
 static void separetedLineByConvertingComma(NSString *theString, NSMutableArray *fields)
 {
 	NSArray			*separated_;
@@ -88,9 +84,8 @@ static void separetedLineByConvertingComma(NSString *theString, NSMutableArray *
 + (NSArray *) separatedLine : (NSString *) theString
 {
 	NSArray				*components_;
-	// 2005-10-19 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	// 下記のより単純なコードでしばらく様子を見る。問題ないと思うんだが、どうだろうか。
 	components_ = [theString componentsSeparatedByString : CMXTextParser2chSeparater];
+
 	if ([components_ count] == 1) {
 		NSMutableArray	*commaComponents_ = [NSMutableArray arrayWithCapacity : 2];
 		separetedLineByConvertingComma(theString, commaComponents_);
@@ -99,9 +94,9 @@ static void separetedLineByConvertingComma(NSString *theString, NSMutableArray *
 
 		return commaComponents_;
 	}
+
 	return components_;
 }
-
 
 + (id) dateWith2chDateString : (NSString *) theString
 {
@@ -109,93 +104,77 @@ static void separetedLineByConvertingComma(NSString *theString, NSMutableArray *
 	NSMutableString		*dateString_ = nil;
 	NSRange				found_;
 	
-	int sec = 0;
-	BOOL flagSec = NO;
-	//
-	// 「書式」
-	// 
-	// 02/02/05 22:26
-	// 2001/08/06(月) 21:45 
-	// 
 	UTILRequireCondition(theString && [theString length], return_date);
 
 #if DEBUG_LOG
 	NSLog(@"dateWith2chDateString: %@", theString);
 #endif
-	
-	// 
-	// 前後の空白を除去し、2001/08/06(月) 21:45形式は
-	// 01/08/06 21:45に変換する。
-	// 
+
+	// 前後の空白を除去し、さらに曜日欄をカッコを含めて除去する。
 	dateString_ = SGTemporaryString();
 	[dateString_ setString : theString];
 	[dateString_ strip];
 	
 	found_ = [dateString_ rangeOfString : CMXTextParserDate2chSeparater];
+
 	if (found_.length != 0) {
-		// 2001/08/06(月) 21:45形式 --> 2001/08/06 21:45
-		NSRange		weekday_;		// 曜日欄
-		NSRange		weekday_close_;
-		int			week_len = 0;
+		// 2001/08/06(月) 21:45 --> 2001/08/06 21:45
+		NSRange			weekday_;
+		NSRange			weekday_close_;
+		int				week_len = 0;
+		unsigned int	cur_len = [dateString_ length];
 
 		weekday_.location = found_.location;
 		weekday_.length = 3;
-
 		week_len = NSMaxRange(weekday_);
-		if ([dateString_ length] >= week_len && [dateString_ characterAtIndex: week_len-1] != c_CMXTextParserDate2chSeparater_close) {
-			weekday_.length = [dateString_ length] - weekday_.location;
-			weekday_close_ = [dateString_ rangeOfString: CMXTextParserDate2chSeparater_close options: NSLiteralSearch range: weekday_];
+
+		if (cur_len >= week_len && [dateString_ characterAtIndex: week_len-1] != c_CMXTextParserDate2chSeparater_close) {
+			weekday_.length = cur_len - weekday_.location;
+			weekday_close_ = [dateString_ rangeOfString : CMXTextParserDate2chSeparater_close
+												options : NSLiteralSearch
+												  range : weekday_];
+
 			if (weekday_close_.location != NSNotFound)
 				weekday_.length = NSMaxRange(weekday_close_) - weekday_.location;
 			else
 				weekday_.length = 3;
 		}
 
-		if (NSMaxRange(weekday_) > [dateString_ length])
+		if (NSMaxRange(weekday_) > cur_len)
 			goto return_date;
+
 		[dateString_ deleteCharactersInRange : weekday_];
 	}
 
-
-	// 2001/08/06 21:45:00形式 --> 2001/08/06 21:45 (sec保持)
+	// 1/100 -> 1/1000
 	{
-		int t_dateString_len = [dateString_ length];
+		NSRange	commaFound_;
+		commaFound_ = [dateString_ rangeOfString : CMXTextParserBSPeriod
+										 options : NSLiteralSearch | NSBackwardsSearch];
 
-		if (t_dateString_len >= 8 && ([dateString_ characterAtIndex: t_dateString_len - 3] == ':' && [dateString_ characterAtIndex: t_dateString_len - 6] == ':')) {
-			int c10, c1;
-
-			c10 = [dateString_ characterAtIndex: t_dateString_len - 2];
-			c1 = [dateString_ characterAtIndex: t_dateString_len - 1];
-
-			sec = (c10 - '0') * 10;
-			sec += c1 - '0';
-			if (sec < 0 || 60 <= sec)
-				sec = 0; // fault
-			else flagSec = YES;
-				
-#if DEBUG_LOG
-			NSLog (@"sec: %d", sec);
-#endif
-			[dateString_ deleteCharactersInRange : NSMakeRange(t_dateString_len - 3, 3)];
+		if (commaFound_.location != NSNotFound) {
+			[dateString_ appendString : CMXTextParserBSZero];
+			date_ = [NSCalendarDate dateWithString : dateString_
+									calendarFormat : DATE2CH_CALENDAR_FORMAT_LATE2005];
+			if(date_)
+				return date_;
+			else
+				goto return_date;
 		}
 	}
-	
-	if ([dateString_ length] > [CMXTextParserDate2chSample length]) {
-		// 
-		// 2001/08/06 21:45 --> 01/08/06 21:45
-		// 
-		[dateString_ deleteCharactersInRange : NSMakeRange(0, 2)];
-	}
-	
-	if (flagSec) {
-		NSString * t_dateString;
-		
-		t_dateString = [NSString stringWithFormat: @"%@:%02d", dateString_, sec];
-		date_ = [NSCalendarDate dateWithString : t_dateString
-								calendarFormat : DATE2CH_CALENDAR_FORMAT_2];
-	} else {
+
+	// 総当たり戦開始 
+	{
+		// 順番が重要。多い方から
+		date_ = [NSCalendarDate dateWithString : dateString_
+								calendarFormat : DATE2CH_CALENDAR_FORMAT_SEC];
+		if(date_) return date_;
+		date_ = [NSCalendarDate dateWithString : dateString_
+								calendarFormat : DATE2CH_CALENDAR_FORMAT_4KETA];
+		if(date_) return date_;
 		date_ = [NSCalendarDate dateWithString : dateString_
 								calendarFormat : DATE2CH_CALENDAR_FORMAT];
+		if(date_) return date_;	
 	}
 
 #if DEBUG_LOG
@@ -203,11 +182,7 @@ static void separetedLineByConvertingComma(NSString *theString, NSMutableArray *
 #endif
 
 return_date:
-	if (!date_) {
-		//NSLog(@"%@", theString);
-		date_ = theString; // 垂れ流し
-	}
-	return date_;
+	return theString;
 }
 
 /*
@@ -248,7 +223,6 @@ static void htmlConvertDeleteAllTagElements(NSMutableString *theString)
 	unsigned int	strLen_;
 	NSRange			result_;
 	NSRange			searchRange_;
-	//BOOL			shouldDelete = YES;
 	
 	if ((strLen_ = [theString length]) < 2) 
 		return;
@@ -668,10 +642,9 @@ static BOOL isAbonedDateField(NSString *dateExtra)
 	// dateExtra に ":" が含まれなければ、日付文字列ではないと判断
 	// （そんな判定法で100%安心安全とは断言できないが、まぁたぶんOK）
 	//
-	tempArray_ = [dateExtra componentsSeparatedByString : @":"]; // 変な方法だなぁ
+	tempArray_ = [dateExtra componentsSeparatedByString : CMXTextParserBSColon];
 	return ([tempArray_ count] == 1);
 }
-
 
 static BOOL divideDateExtraField(
 					NSString *field,
@@ -684,14 +657,13 @@ static BOOL divideDateExtraField(
 	NSRange		found_;
 	NSRange		search_;
 
-	//NSLog(@"divide %@", field);
 	// 
 	// まずは暦区切りの","を探し、
 	// 「エロゲ暦24年,2005/04/02...」 -> 「2005/04/02...」のように変な表記をカット
 	// 
 	length_ = [field length];
 	search_ = NSMakeRange(0, length_);
-	found_ = [field rangeOfString : @","
+	found_ = [field rangeOfString : CMXTextParserComma
 						  options : NSLiteralSearch
 						    range : search_];
 	
@@ -700,7 +672,7 @@ static BOOL divideDateExtraField(
 		// まさかとは思うが、IDに","が含まれていたのを検出したのかもしれないのでチェック
 		// ","の前に空白区切りが含まれているかどうか？
 		NSRange	check_;
-		check_ = [field rangeOfString : @" "
+		check_ = [field rangeOfString : CMXTextParserBSSpace
 							  options : NSLiteralSearch
 							    range : NSMakeRange(0, found_.location)];
 								
@@ -718,14 +690,14 @@ static BOOL divideDateExtraField(
 	// 
 	// まずは時刻の":"を探す
 	// 
-	found_ = [field rangeOfString : @":"
+	found_ = [field rangeOfString : CMXTextParserBSColon
 						  options : NSLiteralSearch
 						    range : search_];
 	
-	if (0 == found_.length || NSNotFound == found_.location) {
+	/*if (0 == found_.length || NSNotFound == found_.location) {
 		NSLog(@"Time ':' not found.");
 		return NO;
-	}
+	}*/
 	
 	//
 	// 空白区切り
@@ -735,7 +707,7 @@ static BOOL divideDateExtraField(
 		goto only_date_field;
 	search_.length = length_ - search_.location;
 	
-	found_ = [field rangeOfString : @" "
+	found_ = [field rangeOfString : CMXTextParserBSSpace
 						  options : NSLiteralSearch
 						    range : search_];
 	
@@ -806,6 +778,8 @@ only_date_field:
 	if (nil == extraField || 0 == length_)
 		return YES;
 
+	static NSSet *clientCodeSet;
+
 	/*
 		2005-02-03 tsawada2<ben-sawa@td5.so-net.ne.jp>
 		extraField が 0 または O 一文字の場合は、携帯・PCの区別記号と見なして直接処理
@@ -814,11 +788,10 @@ only_date_field:
 		2005-07-31 追加：「o」もあるのか。知らなかった。
 	*/
 	if (length_ == 1) {
-		if ([extraField isEqualToString : @"0"] || // 以下のどれでもない
-			[extraField isEqualToString : @"O"] || // 携帯
-			[extraField isEqualToString : @"P"] || // 公式 p2
-			[extraField isEqualToString : @"o"])   // AIR-EDGE PHONEセンター
-		{
+		if (clientCodeSet == nil)
+			clientCodeSet = [[NSSet alloc] initWithObjects : @"0", @"O", @"P", @"o", nil];
+
+		if ([clientCodeSet containsObject : extraField]) {
 			[aMessage setHost : extraField];
 			return YES;
 		}
@@ -838,7 +811,7 @@ only_date_field:
 			NSString	*hostStr_ = [extraField substringFromIndex : (hostRange_.location+5)];
 			
 			// まちBBSなどで、"HOST: xxx.yyy.jp"のように":"のあとに" "があることがある。それを削除
-			if ([hostStr_ hasPrefix : @" "]) hostStr_ = [hostStr_ substringFromIndex : 1];
+			if ([hostStr_ hasPrefix : CMXTextParserBSSpace]) hostStr_ = [hostStr_ substringFromIndex : 1];
 
 			[aMessage setHost : hostStr_];
 			
@@ -858,7 +831,7 @@ only_date_field:
 		// 
 		// まずは項目の名前／値区切り文字の":"を探す
 		//
-		found_ = [extraField rangeOfString : @":"
+		found_ = [extraField rangeOfString : CMXTextParserBSColon
 							       options : NSLiteralSearch
 							         range : search_];
 		if (0 == found_.length || NSNotFound == found_.location)
@@ -911,7 +884,7 @@ only_date_field:
 			if ([value_ hasSuffix : @">"]) {
 				// in 'be.2ch.net/be' the Be-ID format is different from other boards.
 				value_ = [value_ substringToIndex : ([value_ length]-1)];
-				[aMessage setBeProfile : [value_ componentsSeparatedByString : @":"]];
+				[aMessage setBeProfile : [value_ componentsSeparatedByString : CMXTextParserBSColon]];
 			} else {
 				// standard be profile ID format
 				[aMessage setBeProfile : [value_ componentsSeparatedByString : @"-"]];
@@ -955,7 +928,7 @@ only_date_field:
 	if (NO == divideDateExtraField(dateExtra, &datePart_, &extraPart_, &prefixPart_)) {
 		NSLog(@"Can't Divide Date And Extra");
 		return NO;
-	}
+	}		
 	
 	date_ = [[self class] dateWith2chDateString : datePart_];
 	if (nil == date_) {
@@ -966,7 +939,9 @@ only_date_field:
 	if (prefixPart_ != nil) {
 		//NSLog(@"date prefix : %@", prefixPart_);
 		[aMessage setDatePrefix : prefixPart_];
+		datePart_ = [NSString stringWithFormat : @"%@,%@", prefixPart_, datePart_];
 	}
+	[aMessage setDateRepresentation : datePart_];
 	[aMessage setDate : date_];
 	//NSLog(@"extraPart_ is %@.",extraPart_);
 	[self parseExtraField:extraPart_ convertToMessage:aMessage];

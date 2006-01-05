@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFavoritesManager.m,v 1.9 2005/12/04 13:14:12 tsawada2 Exp $
+  * $Id: CMRFavoritesManager.m,v 1.10 2006/01/05 14:16:44 tsawada2 Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
@@ -161,12 +161,15 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	NSEnumerator	*iter_;
 	NSString		*anItem_;	// each pool item
 	
+	NSArray			*tmp_ = [self favoritesItemsIndex];
+	NSFileManager	*dFM_ = [NSFileManager defaultManager];
+	
 	NSMutableArray	*array_ = [NSMutableArray array];
 
 	iter_ = [[self changedFavItemsPool] objectEnumerator];
 	
 	while ((anItem_ = [iter_ nextObject]) != nil) {
-		if ((![[self favoritesItemsIndex] containsObject : anItem_]) || (![[NSFileManager defaultManager] fileExistsAtPath : anItem_]))
+		if ((![tmp_ containsObject : anItem_]) || (![dFM_ fileExistsAtPath : anItem_]))
 			[array_ addObject : anItem_];
 	}
 
@@ -178,12 +181,14 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	NSEnumerator	*iter_;
 	NSString		*anItem_;	// each pool item
 	
+	NSArray			*tmp_ = [self favoritesItemsIndex];
+	
 	NSMutableArray	*array_ = [NSMutableArray array];
 
 	iter_ = [[self changedFavItemsPool] objectEnumerator];
 	
 	while ((anItem_ = [iter_ nextObject]) != nil) {
-		if ([[self favoritesItemsIndex] containsObject : anItem_])
+		if ([tmp_ containsObject : anItem_])
 			[array_ addObject : anItem_];
 	}
 
@@ -196,23 +201,21 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 @implementation CMRFavoritesManager(Management)
 - (CMRFavoritesOperation) availableOperationWithPath : (NSString *) filepath
 {
-	NSString				*fileType_;
-	NSDocumentController	*docc_;
+	NSString	*fileType_;
 	
 	if(nil == filepath) return NO;
 	
+	if([[self favoritesItemsIndex] containsObject : filepath])
+		return CMRFavoritesOperationRemove;
+
 	if(NO == [[NSFileManager defaultManager] fileExistsAtPath : filepath]) {
-		if([[self favoritesItemsIndex] containsObject : filepath])
-			return CMRFavoritesOperationRemove;
-		else
+		//if([[self favoritesItemsIndex] containsObject : filepath])
+		//	return CMRFavoritesOperationRemove;
+		//else
 			return CMRFavoritesOperationNone;
 	}
-
-	if([self favoriteItemExistsOfThreadPath : filepath])
-		return CMRFavoritesOperationRemove;
 	
-	docc_ = [NSDocumentController sharedDocumentController];
-	fileType_ = [docc_ typeFromFileExtension : [filepath pathExtension]];
+	fileType_ = [[NSDocumentController sharedDocumentController] typeFromFileExtension : [filepath pathExtension]];
 	
 	return [fileType_ isEqualToString : CMRThreadDocumentType]
 				? CMRFavoritesOperationLink
@@ -320,7 +323,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	NSMutableArray	*insertArray_;
 	NSMutableArray	*aboveArray_;
 	NSMutableArray	*belowArray_;
-	
+
+	NSArray			*originalArray_ = [self favoritesItemsArray];
+
 	NSMutableArray	*newFavAry_;
 	
 	if (indexArray_ == nil || [indexArray_ count] == 0) return index;
@@ -331,17 +336,17 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	insertArray_ = [NSMutableArray arrayWithCapacity : c];
 	
 	aboveArray_ = [NSMutableArray arrayWithArray : 
-								[[self favoritesItemsArray] subarrayWithRange : NSMakeRange(0, index)]];
+								[originalArray_ subarrayWithRange : NSMakeRange(0, index)]];
 	belowArray_ = [NSMutableArray arrayWithArray :
-								[[self favoritesItemsArray] subarrayWithRange : NSMakeRange(index, (c - index))]];
+								[originalArray_ subarrayWithRange : NSMakeRange(index, (c - index))]];
 	
 	iter_ = isAscending_ ? [indexArray_ objectEnumerator] : [indexArray_ reverseObjectEnumerator];
 	
 	while ((num = [iter_ nextObject]) != nil) {
 		id	favItem;
 		int	n = [num intValue];
-		favItem = isAscending_ ? [[self favoritesItemsArray] objectAtIndex : n]
-							   : [[self favoritesItemsArray] objectAtIndex : ((c - n) - 1)];
+		favItem = isAscending_ ? [originalArray_ objectAtIndex : n]
+							   : [originalArray_ objectAtIndex : ((c - n) - 1)];
 
 		[insertArray_ addObject : favItem];
 		[aboveArray_ removeObject : favItem];

@@ -83,7 +83,20 @@ static unsigned int current_index_;
 }
 - (void) composeDate : (CMRThreadMessage *) aMessage
 {
-	[self addNewEntry:[aMessage date] forKey:ThreadPlistContentsDateKey];
+	id date_ = [aMessage date];
+	if (date_ == nil) return;
+	if ([date_ isKindOfClass : [NSDate class]]) {
+		double	sec_, sec2_;
+		int		milliSec_int;
+
+		sec_ = (double)[date_ timeIntervalSince1970];
+		milliSec_int = (modf(sec_, &sec2_))*1000;
+		if (milliSec_int != 0)
+			[[self dictionary] setInteger : milliSec_int forKey : ThreadPlistContentsMilliSecKey];
+	}
+
+	[self addNewEntry : date_ forKey : ThreadPlistContentsDateKey];
+	[self addNewEntry : [aMessage dateRepresentation] forKey : ThreadPlistContentsDateRepKey];
 }
 - (void) composeDatePrefix : (CMRThreadMessage *) aMessage
 {
