@@ -1,22 +1,31 @@
+2006-01-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/board_default.plist
+		最新のものに更新。
+	* application/source/composer/CMXTextParser.m
+		2ケタの数字で表記された年を正しく解析できない問題を修正。
+		まち BBS やJBBSライブドアで、不要な半角スペースが DateRepresentation に混入する問題を修正。
+		さらに、若干の動作効率化と見直し。ソースの整形。
 2006-01-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/Credits.rtf
 		コピーライト表記等：「2005」を「2005-2006」に更新。
 	* application/Resources/text/KeyValueTemplates.plist
 		Thread - DateDescription のデフォルト値を若干変更。read.cgi の現行書式に合わせた。
-	* bathyscaphe/application/source/browser/CMRFavoritesManager.m
+	* application/source/browser/CMRFavoritesManager.m
 		若干の効率化。
-	* bathyscaphe/application/source/composer/CMRAttributedMessageComposer.m
+	* application/source/composer/CMRAttributedMessageComposer.m
 		日付文字列のレンダリングには、DateRepresentation キーを（あれば）そのまま流し込むようにした。
-	* bathyscaphe/application/source/composer/CMRThreadDictReader.m
-	* bathyscaphe/application/source/composer/CMRThreadPlistComposer.m
+	* application/source/composer/CMRThreadDictReader.m
+	* application/source/composer/CMRThreadPlistComposer.m
 		ミリ秒をログファイルに保存・読み込みできるようにした。MilliSec キーに分離して保存される。
 		ミリ秒は1000倍されて、integer として保持される。詳細はメーリングリストで記した。
-	* bathyscaphe/application/source/composer/CMXTextParser.m
+	* application/source/composer/CMXTextParser.m
 		ミリ秒が記録された dat でも正しく解析できるようにした。また、アルゴリズムの見直し。
-	* bathyscaphe/application/source/threaddata/CMRThreadMessage.m
+	* application/source/threaddata/CMRThreadMessage.m
+		CMRThreadMessage クラス：
 		なぜか ID と Host をセットで管理していたのを独立して管理するように変更。また、日付表記の単なる文字列としての
 		表現を DateRepresentation キーとして保持するようにした。
-	* bathyscaphe/frameworks/CocoMonar/framework/src/CMRPropertyKeys.m
+		さらに、SGBaseObject ではなく NSObject のサブクラスに変更した（SGBaseObject の意味はほとんどなくなっている）。
+	* frameworks/CocoMonar/framework/src/CMRPropertyKeys.m
 		MilliSec キー、DateRepresentation キーを表す定数を追加定義。
 ================================================= 1.1.2 / InnocentStarter / CVS Tag : v112_FINAL
 2005-12-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>

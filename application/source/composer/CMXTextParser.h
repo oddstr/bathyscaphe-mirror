@@ -1,9 +1,9 @@
-//: CMXTextParser.h
 /**
-  * $Id: CMXTextParser.h,v 1.2 2006/01/05 14:16:44 tsawada2 Exp $
-  * 
-  * Copyright (c) 2001-2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
+  * $Id: CMXTextParser.h,v 1.3 2006/01/06 13:22:16 tsawada2 Exp $
+  * BathyScaphe
+  *
+  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
+  *
   */
 
 #import <Foundation/Foundation.h>
@@ -34,17 +34,6 @@ enum {
   *
   */
 + (NSArray *) separatedLine : (NSString *) line;
-
-/**
-  *
-  * 2ch日付けからNSDateを生成
-  * うまく NSDate を生成できなかったときは元の文字列をそのまま返す。
-  * 
-  * @param    string  ログファイルの日付け
-  * @return           NSDate
-  *
-  */
-+ (id) dateWith2chDateString : (NSString *) theString;
 
 // DAT文字列 --> レスオブジェクト
 + (NSArray *) messageArrayWithDATContents : (NSString  *) DATContens
@@ -121,11 +110,8 @@ CocoMonar の場合、たとえば新・mac 板では Mac Japanese の
 + (NSString *) stringByURLEncodedWithString : (NSString *) aString;
 + (NSString *) stringByURLDecodedWithString : (NSString *) aString;
 + (NSString *) queryWithDictionary : (NSDictionary *) aDictionary;
-@end
 
 
-
-@interface CMXTextParser(LowLevelAPIs)
 + (CMRThreadMessage *) messageWithDATLineComponentsSeparatedByNewline : (NSArray *) aComponents;
 
 + (BOOL) parseDateExtraField : (NSString         *) dateExtra
@@ -133,7 +119,6 @@ CocoMonar の場合、たとえば新・mac 板では Mac Japanese の
 + (BOOL) parseExtraField : (NSString         *) extraField
         convertToMessage : (CMRThreadMessage *) aMessage;
 @end
-
 
 
 extern void htmlConvertBreakLineTag(NSMutableString *theString);

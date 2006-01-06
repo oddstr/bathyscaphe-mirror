@@ -1680,7 +1680,7 @@
 <dict><key>Name</key>
 <string>スケート</string>
 <key>URL</key>
-<string>http://sports9.2ch.net/skate/</string></dict>
+<string>http://ex12.2ch.net/skate/</string></dict>
 <dict><key>Name</key>
 <string>水泳</string>
 <key>URL</key>
@@ -2186,6 +2186,10 @@
 <string>携帯ゲーソフト</string>
 <key>URL</key>
 <string>http://game10.2ch.net/handygame/</string></dict>
+<dict><key>Name</key>
+<string>Wi-Fi</string>
+<key>URL</key>
+<string>http://game10.2ch.net/wifi/</string></dict>
 <dict><key>Name</key>
 <string>ポケモン</string>
 <key>URL</key>
@@ -3242,6 +3246,10 @@
 <key>URL</key>
 <string>http://dso.2ch.net/yangon/</string></dict>
 <dict><key>Name</key>
+<string>荒らすか</string>
+<key>URL</key>
+<string>http://snow.2ch.net/alaska/</string></dict>
+<dict><key>Name</key>
 <string>携帯向けheadline</string>
 <key>URL</key>
 <string>http://headline.2ch.net/bbylunch/</string></dict>
@@ -3896,6 +3904,10 @@
 <string>science4ゴミ箱</string>
 <key>URL</key>
 <string>http://science4.2ch.net/science4tr/</string></dict>
+<dict><key>Name</key>
+<string>snowゴミ箱</string>
+<key>URL</key>
+<string>http://snow.2ch.net/snowtr/</string></dict>
 <dict><key>Name</key>
 <string>societyゴミ箱</string>
 <key>URL</key>
