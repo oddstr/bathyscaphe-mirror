@@ -13,8 +13,7 @@
 //	IBOutlet id dateView;
 //はrootHelper以外にのみ存在する。(SmartBLIEditorComponents.nib内で接続)
 //
-//rootHelperはSmartBoardListItemEditor.nib内でインスタンス化され、
-//nibがロードされると、最初のhelperを生成する。
+//rootHelperはSmartBoardListItemEditor.nib内でインスタンス化されると最初のhelperを生成する。
 //
 //	containerはNSScrollViewであり、そのdocumentViewは上下がひくり返ったFlippedViewである。
 //	FlppedView内にColorBackgroundViewが条件数分配置されている。
@@ -44,17 +43,30 @@ typedef enum UIItemTags {
 	dateQualifierPopUpTag = 700,
 	dateExpression2FieldTag = 800,
 	dateExpressionToFieldTag = 801,
+	daysExpressionFieldTag = 900,
+	daysUnitPopUpTag = 1000,
+	daysExpressionAgoFieldTag = 1100,
+	daysExpressionField2Tag = 1200,
+	daysExpressionToFieldTag = 1201,
 	
-	numberExpressionFieldTag = 900,
-	numberQualifierPopUpTag = 1000,
-	numberExpression2FieldTag = 1100,
-	numberExpressionToFieldTag = 1101,
+	numberExpressionFieldTag = 1300,
+	numberQualifierPopUpTag = 1400,
+	numberExpression2FieldTag = 1500,
+	numberExpressionToFieldTag = 1501,
 } UIItemTags;
+
+typedef enum CriterionTypes {
+	unkownCriterionType,
+	stringCriterionType,
+	dateCriterionType,
+	namberCriterionType,
+} CriterionTypes;
 
 typedef enum ExpressionTypes {
 	stringExpressionType,
 	dateExpressionType,
 	dateExpressionRangeType,
+	daysExpressionType,
 	numberExpressionType,
 	namberExpressionRangeType,
 } ExpressionTypes;
@@ -77,14 +89,47 @@ typedef enum QualifierMenuItemTags {
 	notExactQualifierItemTag,
 	beginsWithQualifierItemTag,
 	endsWithQualifierItemTag,
+	
 	isEqualQualifierItemTag = 7,
 	notEqualQualifierItemTag,
 	largerThanQualifierItemTag,
 	smallerThanQualifierItemTag,
 	rangeQualifierItemTag,
+	
+	daysDateItemExtension = 1000,
+	daysTodayQualifierItemTag = daysDateItemExtension + 0,
+	daysYesterdayQualifierItemTag = daysDateItemExtension + 1,
+	daysThisWeekQualifierItemTag = daysDateItemExtension + 7,
+	daysLastWeekQualifierItemTag = daysDateItemExtension + 14,
+	
+	daysItemExtension = 2000,
+	daysIsEqualQualifierItemTag = daysItemExtension + isEqualQualifierItemTag,
+	daysLargerThanQualifierItemTaag = daysItemExtension + largerThanQualifierItemTag,
+	daysSmallerThanQualifierItemTag = daysItemExtension + smallerThanQualifierItemTag,
+	daysRangeQualifierItemTag = daysItemExtension + rangeQualifierItemTag,
+	
+	dateItemExtension = 3000,
+	dateIsEqualQualifierItemTag = dateItemExtension + isEqualQualifierItemTag,
+	dateNotEqualQualifierItemTag = dateItemExtension + notEqualQualifierItemTag,
+	dateLargerThanQualifierItemTaag = dateItemExtension + largerThanQualifierItemTag,
+	dateSmallerThanQualifierItemTag = dateItemExtension + smallerThanQualifierItemTag,
+	dateRangeQualifierItemTag = dateItemExtension + rangeQualifierItemTag,
 } QualifierMenuItemTags;
 
+#pragma mark## Constants ##
 const float kViewPadding = 2.0;
+const float kMostLeftViewsOriginX = 10.0;
+
+#pragma mark## Static Variables ##
+static NSString *SmartBLIEditorComponentsNibName = @"SmartBLIEditorComponents";
+
+static NSString *CriteriaSpecificationsPlist = @"CriteriaSpecifications.plist";
+static NSString *CriteriaSpecificationsCriteriaKey = @"criteria";
+static NSString		*CriteriaTypeKey = @"type";
+static NSString *CriteriaSpecificationsOrdersKey = @"orders";
+
+#pragma mark## Class Variables ##
+static NSDictionary *sCriteriaSpecifications = nil;
 
 @interface SmartBLIEditorHelper(Private)
 - (void)loadComponent;
@@ -106,8 +151,7 @@ const float kViewPadding = 2.0;
 @end
 
 @interface SmartBLIEditorHelper(ViewAccessor)
-- (ExpressionTypes) currentExpressionType;
-- (void)buildForExpressionType:(ExpressionTypes)type;
+- (void)builExpressionViews;
 - (void)validateUIItem;
 - (id)uiItemForTag:(UIItemTags)tag;
 @end
@@ -124,16 +168,26 @@ const float kViewPadding = 2.0;
 
 @implementation SmartBLIEditorHelper
 
-static inline NSColor *nextColor(NSColor *inColor)
++ (void)initialize
 {
-	if(!inColor || [inColor isEqual:[NSColor whiteColor]]) {
-		return  [NSColor colorWithCalibratedRed:238 / 255.0
-										  green:246 / 255.0
-										   blue:255 / 255.0
-										  alpha:1];
+	static BOOL isFirst = YES;
+	//	@synchronized(self) {
+	if(isFirst) {
+		isFirst = NO;
+		
+		if(!sCriteriaSpecifications) {
+			NSString *path;
+			path = [[NSBundle applicationSpecificBundle] pathForResourceWithName:CriteriaSpecificationsPlist];
+			if(!path) {
+				path = [[NSBundle mainBundle] pathForResourceWithName:CriteriaSpecificationsPlist];
+			}
+			if(path) {
+				sCriteriaSpecifications = [[NSDictionary dictionaryWithContentsOfFile:path] retain];
+			}
+			UTILAssertNotNil(sCriteriaSpecifications);
+		}
 	}
-	
-	return [NSColor whiteColor];
+	//	}
 }
 
 - (void)awakeFromNib
@@ -162,17 +216,29 @@ static inline NSColor *nextColor(NSColor *inColor)
 }
 - (IBAction)changeCriterionPop:(id)sender
 {	
-	[self buildForExpressionType:[self currentExpressionType]];
+	[self builExpressionViews];
 }
 
 @end
 
 @implementation SmartBLIEditorHelper(Private)
+static inline NSColor *nextColor(NSColor *inColor)
+{
+	if(!inColor || [inColor isEqual:[NSColor whiteColor]]) {
+		return  [NSColor colorWithCalibratedRed:238 / 255.0
+										  green:246 / 255.0
+										   blue:255 / 255.0
+										  alpha:1];
+	}
+	
+	return [NSColor whiteColor];
+}
 - (void)loadComponent
 {
 	if(!expressionView) {
-		[NSBundle loadNibNamed:@"SmartBLIEditorComponents"
+		[NSBundle loadNibNamed:SmartBLIEditorComponentsNibName
 						 owner:self];
+		[self builExpressionViews];
 	}
 }
 
@@ -215,7 +281,7 @@ static inline NSColor *nextColor(NSColor *inColor)
 - (NSScrollView *)container
 {
 	SmartBLIEditorHelper *root;
-	id result;
+	id result = nil;
 	
 	if(!(root = [self rootHelper])
 	   || !(result = root->container) ) {
@@ -241,7 +307,7 @@ static inline NSColor *nextColor(NSColor *inColor)
 	} else {
 		NSRect frame;
 		id prevView = [prev conditionView];
-	
+		
 		frame = [expressionView frame];
 		origin = frame.origin;
 		origin.y = [prevView frame].origin.y + frame.size.height;
@@ -321,7 +387,7 @@ static inline NSColor *nextColor(NSColor *inColor)
 	wFrame.size.height += deltaY;
 	wFrame.origin.y -= deltaY;
 	[w setFrame:wFrame display:YES];
-
+	
 	deltaY = incHeight - deltaY;
 	
 	origin.y += deltaY;
@@ -375,43 +441,6 @@ static inline NSColor *nextColor(NSColor *inColor)
 @end
 
 @implementation SmartBLIEditorHelper(ViewAccessor)
-- (ExpressionTypes) currentExpressionType
-{
-	ExpressionTypes type = -1;
-	
-	CriterionMenuItemTags popupTag = [[[self uiItemForTag:criterionPopUpTag] selectedItem] tag];
-	QualifierMenuItemTags qualifierTag;
-	BOOL isDateRange = NO;
-	BOOL isNumberRange = NO;
-	
-	if(popupTag == boardNameItemTag || popupTag == threadNameItemTag) return stringExpressionType;
-	
-	qualifierTag = [[[self uiItemForTag:dateQualifierPopUpTag] selectedItem] tag];
-	if(qualifierTag == rangeQualifierItemTag) isDateRange = YES;
-	qualifierTag = [[[self uiItemForTag:numberQualifierPopUpTag] selectedItem] tag];
-	if(qualifierTag == rangeQualifierItemTag) isNumberRange = YES;
-	
-	switch(popupTag) {
-		case numberOfResponseItemTag:
-		case numberOfReadItemTag:
-		case numberOfUnreadItemTag:
-			if(isNumberRange) {
-				type = namberExpressionRangeType;
-			} else {
-				type = numberExpressionType;
-			}
-			break;
-		case dateOfThreadCreateItemTag:
-		case dateOfModifierItemTag:
-		case dateOfLastWritenItemTag:
-			if(isDateRange) {
-				type = dateExpressionRangeType;
-			} else {
-				type = dateExpressionType;
-			}
-	}
-	return type;
-}
 
 static inline void moveSubviewToSuperview(NSView *subview, NSView *superview)
 {
@@ -429,133 +458,182 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 {
 	NSRect frame;
 	NSPoint origin;
-	
-	[[target superview] setNeedsDisplayInRect:[target frame]];
-	
-	frame = [leftSideView frame];
-	origin.x = NSMaxX(frame) + kViewPadding;
+		
+	if(leftSideView) {
+		frame = [leftSideView frame];
+		origin.x = NSMaxX(frame) + kViewPadding;
+	} else {
+		origin.x = kMostLeftViewsOriginX;
+	}
 	origin.y = [target frame].origin.y;
 	[target setFrameOrigin:origin];
 	
 	moveSubviewToSuperview(target, superview);
-	
-	[[target superview] setNeedsDisplayInRect:[target frame]];
+	if([target isHidden]) {
+		[target setHidden:NO];
+	}
 }
+- (CriterionTypes)currentCriterionType
+{
+	CriterionTypes result = unkownCriterionType;
+	
+	int tag = [[[self uiItemForTag:criterionPopUpTag] selectedItem] tag];
+	NSString *typesKey = [NSString stringWithFormat:@"%d", tag];
+	id criteria;
+	NSString *typeString;
+	
+	criteria = [sCriteriaSpecifications objectForKey:CriteriaSpecificationsCriteriaKey];
+	typeString = [[criteria objectForKey:typesKey] objectForKey:CriteriaTypeKey];
+	
+	if([typeString isEqualTo:@"string type"]) {
+		result = stringCriterionType;
+	} else if([typeString isEqualTo:@"number type"]) {
+		result = namberCriterionType;
+	} else if([typeString isEqualTo:@"date type"]) {
+		result = dateCriterionType;
+	}
+	
+	if(result == unkownCriterionType) {
+		NSLog(@"Broken %@.nib file.", SmartBLIEditorComponentsNibName);
+	}
+	
+	return result;
+	
+}
+- (QualifierMenuItemTags)currentQualifierItemTag
+{
+	int qulifierPopupTag = -1;
+	id popup;
+	
+	switch([self currentCriterionType]) {
+		case stringCriterionType:
+			qulifierPopupTag = stringQualifierPopUpTag;
+			break;
+		case dateCriterionType:
+			qulifierPopupTag = dateQualifierPopUpTag;
+			break;
+		case namberCriterionType:
+			qulifierPopupTag = numberQualifierPopUpTag;
+			break;
+		case unkownCriterionType:
+			qulifierPopupTag = -1;
+			break;
+	}
+	
+	popup = [self uiItemForTag:qulifierPopupTag];
+	if(!popup) {
+		return -1;
+	}
+	
+	return [[popup selectedItem] tag];
+}	
 
-- (void)buildForStringExpression
+- (NSView *)uiItemFromName:(NSString *)string
 {
-	// 不要な要素を移動。
+	int itemTag = -1;
+	CriterionTypes currentCriterionType = [self currentCriterionType];
+	
+	if(!string || ![string length]) return nil;
+	if(currentCriterionType  == unkownCriterionType) return nil;
+	
+	if([string hasSuffix:@"popup"]) {
+		if([string hasPrefix:@"criterion"]) {
+			itemTag = criterionPopUpTag;
+		} else if([string hasPrefix:@"qualifier"]) {
+			if(currentCriterionType == stringCriterionType) {
+				itemTag = stringQualifierPopUpTag;
+			} else if(currentCriterionType == dateCriterionType) {
+				itemTag = dateQualifierPopUpTag;
+			} else if(currentCriterionType == namberCriterionType) {
+				itemTag = numberQualifierPopUpTag;
+			}
+		} else if([string hasPrefix:@"units"]) {
+			itemTag = daysUnitPopUpTag;
+		}
+	} else if([string hasSuffix:@"field"]) {
+		if([string hasPrefix:@"expression"]) {
+			itemTag = stringExpressionFieldTag;
+		} else if([string hasPrefix:@"date"]) {
+			itemTag = dateExpressionFieldTag;
+		} else if([string hasPrefix:@"beginning date"]) {
+			itemTag = dateExpressionFieldTag;
+		} else if([string hasPrefix:@"ending date"]) {
+			itemTag = dateExpression2FieldTag;
+		} else if([string hasPrefix:@"days"]) {
+			itemTag = daysExpressionFieldTag;
+		} else if([string hasPrefix:@"beginning days"]) {
+			itemTag = daysExpressionFieldTag;
+		} else if([string hasPrefix:@"ending days"]) {
+			itemTag = daysExpressionField2Tag;
+		} else if([string hasPrefix:@"number"]) {
+			itemTag = numberExpressionFieldTag;
+		} else if([string hasPrefix:@"beginning number"]) {
+			itemTag = numberExpressionFieldTag;
+		} else if([string hasPrefix:@"ending number"]) {
+			itemTag = numberExpression2FieldTag;
+		}
+	} else if([string hasSuffix:@"string"]) {
+		if([string hasPrefix:@"to"]) {
+			itemTag = dateExpressionToFieldTag;
+		} else if([string hasPrefix:@"and"]) {
+			if(currentCriterionType == dateCriterionType) {
+				itemTag = daysExpressionToFieldTag;
+			} else if(currentCriterionType == namberCriterionType) {
+				itemTag = numberExpressionToFieldTag;
+			}
+		}else if([string hasPrefix:@"ago"]) {
+			itemTag = daysExpressionAgoFieldTag;
+		}
+	}
+	
+	return [self uiItemForTag:itemTag];
+}
+- (void)hideAllItems
+{
+	[[self uiItemForTag:criterionPopUpTag] setHidden:YES];
+	[[self uiItemForTag:stringExpressionFieldTag] setHidden:YES];
+	[[self uiItemForTag:stringQualifierPopUpTag] setHidden:YES];
+	
 	moveSubviewToSuperview([self uiItemForTag:dateExpressionFieldTag], dateView);
 	moveSubviewToSuperview([self uiItemForTag:dateQualifierPopUpTag], dateView);
 	moveSubviewToSuperview([self uiItemForTag:dateExpression2FieldTag], dateView);
 	moveSubviewToSuperview([self uiItemForTag:dateExpressionToFieldTag], dateView);
 	
-	moveSubviewToSuperview([self uiItemForTag:numberExpressionFieldTag], numberView);
-	moveSubviewToSuperview([self uiItemForTag:numberQualifierPopUpTag], numberView);
-	moveSubviewToSuperview([self uiItemForTag:numberExpression2FieldTag], numberView);
-	moveSubviewToSuperview([self uiItemForTag:numberExpressionToFieldTag], numberView);
-	
-	// 必要な要素を表示。
-	[[self uiItemForTag:stringExpressionFieldTag] setHidden:NO];
-	[[self uiItemForTag:stringQualifierPopUpTag] setHidden:NO];
-}
-- (void)buildForDateExpressionIsRange:(BOOL)isRange
-{
-	// 不要な要素を移動。
-	if(!isRange) {
-		moveSubviewToSuperview([self uiItemForTag:dateExpression2FieldTag], dateView);
-		moveSubviewToSuperview([self uiItemForTag:dateExpressionToFieldTag], dateView);
-	}
+	moveSubviewToSuperview([self uiItemForTag:daysExpressionFieldTag], dateView);
+	moveSubviewToSuperview([self uiItemForTag:daysUnitPopUpTag], dateView);
+	moveSubviewToSuperview([self uiItemForTag:daysExpressionAgoFieldTag], dateView);
+	moveSubviewToSuperview([self uiItemForTag:daysExpressionField2Tag], dateView);
+	moveSubviewToSuperview([self uiItemForTag:daysExpressionToFieldTag], dateView);
 	
 	moveSubviewToSuperview([self uiItemForTag:numberExpressionFieldTag], numberView);
 	moveSubviewToSuperview([self uiItemForTag:numberQualifierPopUpTag], numberView);
 	moveSubviewToSuperview([self uiItemForTag:numberExpression2FieldTag], numberView);
 	moveSubviewToSuperview([self uiItemForTag:numberExpressionToFieldTag], numberView);
-	
-	// 不要な要素を隠す。
-	[[self uiItemForTag:stringExpressionFieldTag] setHidden:YES];
-	[[self uiItemForTag:stringQualifierPopUpTag] setHidden:YES];
-	
-	// 必要な要素を再配置。
-	NSView *leftSideView;
-	NSView *targetView;
-	
-	leftSideView = [self uiItemForTag:criterionPopUpTag];
-	targetView = [self uiItemForTag:dateExpressionFieldTag];
-	moveViewLeftSideViewOnSuperView(targetView, leftSideView, expressionView);
-	
-	if(isRange) {
-		leftSideView = targetView;
-		targetView = [self uiItemForTag:dateExpressionToFieldTag];
-		moveViewLeftSideViewOnSuperView(targetView, leftSideView, expressionView);
-		
-		leftSideView = targetView;
-		targetView = [self uiItemForTag:dateExpression2FieldTag];
-		moveViewLeftSideViewOnSuperView(targetView, leftSideView, expressionView);
-	}
-	
-	leftSideView = targetView;
-	targetView = [self uiItemForTag:dateQualifierPopUpTag];
-	moveViewLeftSideViewOnSuperView(targetView, leftSideView, expressionView);
-	
 }
-- (void)buildForNumberExpressionIsRange:(BOOL)isRange
+- (void)builExpressionViews
 {
-	// 不要な要素を移動。
-	moveSubviewToSuperview([self uiItemForTag:dateExpressionFieldTag], dateView);
-	moveSubviewToSuperview([self uiItemForTag:dateQualifierPopUpTag], dateView);
-	moveSubviewToSuperview([self uiItemForTag:dateExpression2FieldTag], dateView);
-	moveSubviewToSuperview([self uiItemForTag:dateExpressionToFieldTag], dateView);
+	QualifierMenuItemTags tag = [self currentQualifierItemTag];
+	NSString *typesKey = [NSString stringWithFormat:@"%d", tag];
+	id orderDict;
+	NSArray *order;
+	NSEnumerator *orderEnum;
+	NSString *itemName;
 	
-	if(!isRange) {
-		moveSubviewToSuperview([self uiItemForTag:numberExpression2FieldTag], numberView);
-		moveSubviewToSuperview([self uiItemForTag:numberExpressionToFieldTag], numberView);
-	}
-	// 不要な要素を隠す。
-	[[self uiItemForTag:stringExpressionFieldTag] setHidden:YES];
-	[[self uiItemForTag:stringQualifierPopUpTag] setHidden:YES];
+	NSView *leftSideView = nil;
+	NSView *targetView = nil;
 	
-	// 必要な要素を再配置。
-	NSView *leftSideView;
-	NSView *targetView;
+	orderDict = [sCriteriaSpecifications objectForKey:CriteriaSpecificationsOrdersKey];
+	UTILAssertNotNil(orderDict);
+	order = [orderDict objectForKey:typesKey];
+	UTILAssertNotNil(order);
 	
-	leftSideView = [self uiItemForTag:criterionPopUpTag];
-	targetView = [self uiItemForTag:numberExpressionFieldTag];
-	moveViewLeftSideViewOnSuperView(targetView, leftSideView, expressionView);
+	[self hideAllItems];
 	
-	if(isRange) {
-		leftSideView = targetView;
-		targetView = [self uiItemForTag:numberExpressionToFieldTag];
+	orderEnum = [order objectEnumerator];
+	while(itemName = [orderEnum nextObject]) {
+		targetView = [self uiItemFromName:itemName];
 		moveViewLeftSideViewOnSuperView(targetView, leftSideView, expressionView);
-		
 		leftSideView = targetView;
-		targetView = [self uiItemForTag:numberExpression2FieldTag];
-		moveViewLeftSideViewOnSuperView(targetView, leftSideView, expressionView);
-	}
-	
-	leftSideView = targetView;
-	targetView = [self uiItemForTag:numberQualifierPopUpTag];
-	moveViewLeftSideViewOnSuperView(targetView, leftSideView, expressionView);
-}
-- (void)buildForExpressionType:(ExpressionTypes)type
-{
-	
-	switch(type) {
-		case stringExpressionType:
-			[self buildForStringExpression];
-			break;
-		case dateExpressionType:
-			[self buildForDateExpressionIsRange:NO];
-			break;
-		case dateExpressionRangeType:
-			[self buildForDateExpressionIsRange:YES];
-			break;
-		case numberExpressionType:
-			[self buildForNumberExpressionIsRange:NO];
-			break;
-		case namberExpressionRangeType:
-			[self buildForNumberExpressionIsRange:YES];
-			break;
 	}
 }
 - (void)validateUIItem
@@ -592,6 +670,11 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 		case dateQualifierPopUpTag:
 		case dateExpression2FieldTag:
 		case dateExpressionToFieldTag:
+		case daysExpressionFieldTag:
+		case daysUnitPopUpTag:
+		case daysExpressionAgoFieldTag:
+		case daysExpressionField2Tag:
+		case daysExpressionToFieldTag:
 			containerView = dateView;
 			break;
 		case numberExpressionFieldTag:
@@ -609,14 +692,16 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 		if(tag == [subview tag]) return subview;
 	}
 	// 無ければ移動されている可能性あり
-	subviewsEnum = [[expressionView subviews] objectEnumerator];
-	while((subview = [subviewsEnum nextObject])) {
-		if(tag == [subview tag]) return subview;
+	if( containerView != expressionView) {
+		subviewsEnum = [[expressionView subviews] objectEnumerator];
+		while((subview = [subviewsEnum nextObject])) {
+			if(tag == [subview tag]) return subview;
+		}
 	}
 	
 	return nil;
 }
-	
+
 @end
 
 @implementation FlippedView

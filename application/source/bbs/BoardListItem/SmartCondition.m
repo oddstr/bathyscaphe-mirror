@@ -8,7 +8,7 @@
 
 #import "SmartCondition.h"
 
-static NSString *sNameKey = @"name";
+// static NSString *sNameKey = @"name";
 static NSString *sAcceptValueTypeKey = @"acceptValueType";
 
 static NSDictionary *sConditionTypes = nil;
@@ -22,13 +22,18 @@ static NSDictionary *sConditionTypes = nil;
 
 + (void)initialize
 {
-	@synchronized(sConditionTypes) {
+	static BOOL isFirst = YES;
+//	@synchronized(self) {
+	if(isFirst) {
 		id file;
-		file = [[NSBundle mainBundle] pathForResource:@"ConditionTypes" ofType:@"plist"];
 		
+		isFirst = NO;
+		
+		file = [[NSBundle mainBundle] pathForResource:@"ConditionTypes" ofType:@"plist"];
 		sConditionTypes = [[NSDictionary alloc] initWithContentsOfFile:file];
+		UTILAssertNotNil(sConditionTypes);
 	}
-	UTILAssertNotNil(sConditionTypes);
+//	}
 }
 + (BOOL) checkCoordinationTarget : (NSString *)target andOperation : (SCOperation)operation
 {

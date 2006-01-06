@@ -1,6 +1,12 @@
+2006-01-06 masakih <masakih@users.sourceforge.jp>
+	* application/Resources/Japanese.lproj/CriteriaSpecifications.plist
+		[新規追加]スマートボード編集ウインドウの条件のアイテムの並びを
+		定義するプロパティーリスト。
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m
+		スマートボード編集ウインドウの条件に相対的日付を付加。
 2006-01-05 masakih <masakih@users.sourceforge.jp>
 	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m
-		アニメーション部分にあったバグを解消。
+		スマートボード編集ウインドウのアニメーション部分にあったバグを解消。
 2006-01-03 masakih <masakih@users.sourceforge.jp>
 	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m
 		条件の増減時のアニメーションを自力で行うようにした。
@@ -17,7 +23,6 @@
 	* application/source/bbs/BoardListItem/SmartCondition.m
 		[新規追加]スマートボードを作成、編集するためのクラスを投入。
 		ただし、現在未使用。
-2006-01-03 masakih <masakih@users.sourceforge.jp>
 	* application/source/manager/SQLiteDB.m
 		バグフィックス。
 2005-12-28 masakih <masakih@users.sourceforge.jp>

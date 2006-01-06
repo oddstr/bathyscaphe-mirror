@@ -1152,6 +1152,7 @@
 		F4F5871409472D8F004DF9DB /* analyze.c in Sources */ = {isa = PBXBuildFile; fileRef = F4F5871109472D8F004DF9DB /* analyze.c */; };
 		F4F5871509472D8F004DF9DB /* complete.c in Sources */ = {isa = PBXBuildFile; fileRef = F4F5871209472D8F004DF9DB /* complete.c */; };
 		F4F5871609472D8F004DF9DB /* vdbefifo.c in Sources */ = {isa = PBXBuildFile; fileRef = F4F5871309472D8F004DF9DB /* vdbefifo.c */; };
+		F4F85756096E2F9300C7E9F5 /* CriteriaSpecifications.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4F85754096E2F9300C7E9F5 /* CriteriaSpecifications.plist */; };
 		F4FA684E0942DE5E00BE3F27 /* libsqlite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F406943A0942DC950045317C /* libsqlite.a */; };
 		F4FA68690942E13200BE3F27 /* BSSegmentedControlTbItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 877D634608C4531500DEE475 /* BSSegmentedControlTbItem.m */; };
 		F4FA693B0942EBDA00BE3F27 /* BoardManager-BSAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 8718EFA508D4257200FFAAEE /* BoardManager-BSAddition.m */; };
@@ -2048,6 +2049,7 @@
 		F4F5871109472D8F004DF9DB /* analyze.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = analyze.c; sourceTree = "<group>"; };
 		F4F5871209472D8F004DF9DB /* complete.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = complete.c; sourceTree = "<group>"; };
 		F4F5871309472D8F004DF9DB /* vdbefifo.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vdbefifo.c; sourceTree = "<group>"; };
+		F4F85755096E2F9300C7E9F5 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Japanese; path = Japanese.lproj/CriteriaSpecifications.plist; sourceTree = "<group>"; };
 		F523AB4B037BFBFC01A80002 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
 		F523AC2B037BFC4F01A80002 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		F57B10B8032D277701A80002 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -2243,6 +2245,7 @@
 		872998690832616D00CBD740 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F4F85754096E2F9300C7E9F5 /* CriteriaSpecifications.plist */,
 				F4CB530D096996AC001256C8 /* SmartBoardItemEditor.nib */,
 				F4CB530B096996AC001256C8 /* SmartBLIEditorComponents.nib */,
 				8724A6DB09127E69009CC855 /* board_default.plist */,
@@ -4560,6 +4563,7 @@
 				F4F57FAF0945A9F8004DF9DB /* stopSign.png in Resources */,
 				F4CB530F096996AC001256C8 /* SmartBLIEditorComponents.nib in Resources */,
 				F4CB5310096996AC001256C8 /* SmartBoardItemEditor.nib in Resources */,
+				F4F85756096E2F9300C7E9F5 /* CriteriaSpecifications.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5571,6 +5575,14 @@
 				F4CB530E096996AC001256C8 /* Japanese */,
 			);
 			name = SmartBoardItemEditor.nib;
+			sourceTree = "<group>";
+		};
+		F4F85754096E2F9300C7E9F5 /* CriteriaSpecifications.plist */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F4F85755096E2F9300C7E9F5 /* Japanese */,
+			);
+			name = CriteriaSpecifications.plist;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
