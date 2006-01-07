@@ -13,6 +13,8 @@
 #import <SGFoundation/NSMutableDictionary-SGExtensions.h>
 #import "TemporaryFolder.h"
 
+NSString *const kIPITbCancelBtnId		= @"CancelAndSave";
+
 static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInspector Panel Autosave";
 static NSString *const kIPIAlwaysKeyWindowKey	= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Always Key Window";
@@ -52,10 +54,17 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 
 - (void) awakeFromNib
 {
+	id<NSMenuItem>	iter;
 	[[self window] setFrameAutosaveName : kIPIFrameAutoSaveNameKey];
 	[[self window] setDelegate : self];
 	[(NSPanel *)[self window] setBecomesKeyOnlyIfNeeded : (NO == [self alwaysBecomeKey])];
 	[[self window] setAlphaValue : [self alphaValue]];
+
+	iter = [[[self actionBtn] menu] itemAtIndex : 0];
+	[iter setImage : [self imageResourceWithName: @"Gear"]];
+	
+	[self setupToolbar];
+	[[self window] useOptimizedDrawing : YES];
 }
 
 #pragma mark Accessors
@@ -77,9 +86,9 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 	return m_actionBtn;
 }
 
-- (NSButton *) saveButton
+- (NSTextField *) infoField
 {
-	return m_saveButton;
+	return m_infoField;
 }
 
 - (NSImageView *) imageView
@@ -95,6 +104,11 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 - (NSPanel *) settingsPanel
 {
 	return m_settingsPanel;
+}
+
+- (NSURLDownload *) currentDownload
+{
+	return _currentDownload;
 }
 
 - (TemporaryFolder *) dlFolder
@@ -270,15 +284,26 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 
 - (void) switchActionToCancelMode : (BOOL) toCancelMode
 {
-	NSButton *targetBtn = [self saveButton];
-	NSBundle *selfBundle = [NSBundle bundleForClass : [self class]];
+	NSArray	*itemArray_ = [[[self window] toolbar] items];
+	NSEnumerator *enum_ = [itemArray_ objectEnumerator];
 
+	id	each_;
+	NSToolbarItem *targetBtn = nil;
+	while (each_ = [enum_ nextObject]) {
+		if ([[each_ itemIdentifier] isEqualToString : kIPITbCancelBtnId])
+			targetBtn = each_;
+	}
+	if(targetBtn == nil) return;
 	if (toCancelMode) {
-		[targetBtn setTitle : [selfBundle localizedStringForKey : @"Cancel" value : @"Cancel" table : nil]];
+		[targetBtn setLabel : [self localizedStrForKey : @"Stop"]];
+		[targetBtn setToolTip: [self localizedStrForKey : @"StopTip"]];
+		[targetBtn setImage: [NSImage imageNamed: @"stopSign"]];
 		[targetBtn setTarget : self];
 		[targetBtn setAction : @selector(cancelDownload:)];
 	} else {
-		[targetBtn setTitle : [selfBundle localizedStringForKey : @"Save" value : @"Save" table : nil]];
+		[targetBtn setLabel : [self localizedStrForKey : @"Save"]];
+		[targetBtn setToolTip: [self localizedStrForKey : @"SaveTip"]];
+		[targetBtn setImage: [self imageResourceWithName: @"Save"]];
 		[targetBtn setTarget : self];
 		[targetBtn setAction : @selector(saveImage:)];
 	}
@@ -297,8 +322,8 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 	if([[self imageView] image] != nil)
 		[[self imageView] setImage : nil];
 
+	[[self infoField] setStringValue : @""];
 	[self setSourceURL : anURL];
-	[[self progIndicator] startAnimation : self];
 	[self switchActionToCancelMode : YES];
 	return YES;
 }
@@ -325,15 +350,15 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 	return [imageExtensions containsObject : extension];
 }
 
-#pragma mark Validation
+//#pragma mark Validation
 
-- (BOOL) validateMenuItem : (NSMenuItem *) anItem
+/*- (BOOL) validateMenuItem : (NSMenuItem *) anItem
 {
 	SEL action_ = [anItem action];
 	if (action_ == nil) return NO;
 	if (action_ == @selector(beginSettingsSheet:)) return YES;
 	return ([self sourceURL] != nil);
-}
+}*/
 
 #pragma mark Notifications
 
@@ -371,8 +396,30 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 
 - (void)  download : (NSURLDownload *) dl didReceiveResponse : (NSURLResponse *) response
 {
-	//if (![[response MIMEType] hasPrefix : @"image/"])
-	//	[dl cancel];
+	NSProgressIndicator	*bar_ =[self progIndicator];
+	lExLength = [response expectedContentLength];
+
+	if (lExLength != NSURLResponseUnknownLength) {
+		[bar_ setMinValue : 0];
+		[bar_ setMaxValue : lExLength];
+		[bar_ setIndeterminate : NO];
+		[bar_ setUsesThreadedAnimation : YES];
+	}
+	else 
+		[bar_ setIndeterminate : YES];
+
+	lDlLength = 0;
+}
+
+- (NSURLRequest *) download : (NSURLDownload *) download willSendRequest : (NSURLRequest *) request
+		   redirectResponse : (NSURLResponse *) redirectResponse
+{
+	if(![self validateLink : [request URL]]) {
+		NSLog(@"Redirection blocked");
+		//[download cancel];
+		return nil;
+	}
+	return request;
 }
 
 - (void) download : (NSURLDownload *) dl decideDestinationWithSuggestedFilename : (NSString *) filename
@@ -388,24 +435,51 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 	[self setDownloadedFileDestination : asDstPath];
 }
 
-/*- (void) download : (NSURLDownload *) dl didReceiveDataOfLength : (unsigned) len
+- (void) download : (NSURLDownload *) dl didReceiveDataOfLength : (unsigned) len
 {
-	[[self progIndicator] startAnimation : self];
-}*/
+	NSProgressIndicator	*bar_ = [self progIndicator];
+	if (lDlLength == 0) {
+		[bar_ setHidden : NO];
+		[bar_ startAnimation : self];
+	}
+	lDlLength += len;
 
+	if (lExLength != NSURLResponseUnknownLength)
+		[bar_ setDoubleValue : lExLength];
+}
+
+- (NSString *) _calcImageSize : (NSImage *) image_
+{
+	int	wi, he;
+	NSArray	*ary_ = [image_ representations];
+	NSImageRep	*tmp_ = [ary_ objectAtIndex : 0];
+	NSString *msg_;
+	
+	wi = [tmp_ pixelsWide];
+	he = [tmp_ pixelsHigh];
+	
+	msg_ = [NSString stringWithFormat : [self localizedStrForKey : @"%i*%i pixel"], wi, he];
+	return msg_;
+}
+	
 - (void) downloadDidFinish : (NSURLDownload *) dl
 {
 	id tmp;
 
 	NSImage *img = [[[NSImage alloc] initWithContentsOfFile : [self downloadedFileDestination]] autorelease];
 	[[self progIndicator] stopAnimation : self];
+	[[self progIndicator] setHidden : YES];
 	
 	tmp = _currentDownload;
 	_currentDownload = nil;
 	[tmp release];
-
-	[self switchActionToCancelMode : NO];
-	[[self imageView] setImage : img];
+	if (img) {
+		[[self infoField] setStringValue : [self _calcImageSize : img]];
+		[self switchActionToCancelMode : NO];
+		[[self imageView] setImage : img];
+	} else {
+		[self setSourceURL : nil];
+	}
 }
 
 - (void) download : (NSURLDownload *) dl didFailWithError : (NSError *) err
@@ -420,6 +494,7 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 	[tmp release];
 
 	[[self progIndicator] stopAnimation : self];
+	[[self progIndicator] setHidden : YES];
 	[self setSourceURL : nil];
 }
 @end

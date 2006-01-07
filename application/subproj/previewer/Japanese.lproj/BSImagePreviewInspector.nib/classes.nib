@@ -1,5 +1,6 @@
 {
     IBClasses = (
+        {CLASS = BSIPIImageView; LANGUAGE = ObjC; SUPERCLASS = NSImageView; }, 
         {
             ACTIONS = {
                 beginSettingsSheet = id; 
@@ -14,8 +15,8 @@
             OUTLETS = {
                 "m_actionBtn" = NSPopUpButton; 
                 "m_imageView" = NSImageView; 
+                "m_infoField" = NSTextField; 
                 "m_progIndicator" = NSProgressIndicator; 
-                "m_saveButton" = NSButton; 
                 "m_settingsPanel" = NSPanel; 
             }; 
             SUPERCLASS = NSWindowController; 

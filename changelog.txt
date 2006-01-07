@@ -1,4 +1,28 @@
 2006-01-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
+	* application/subproj/previewer/Japanese.lproj/Localizable.strings
+		プレビューインスペクタ（1.1.4 → 1.2）
+		- ドラッグ＆ドロップをサポート。
+		- ツールバーを採用して、「アクション」ボタン、「保存／中止」ボタンを移動。また、「環境設定」ボタンを新設。
+		- プログレスインジケータをバースタイルに戻す。
+		- 画像の縦・横ピクセル数を表示するようにした。
+		- 画像が 404 などで、無関係なページにリダイレクトされてしまった際の処理を強化した。
+	* application/subproj/previewer/BSIPIImageView.m
+		[新規追加] プレビューインスペクタ：ドラッグ＆ドロップをサポートするための NSImageView のサブクラス。
+	* application/subproj/previewer/BSIPIActionBtnTbItem.m
+		[新規追加] プレビューインスペクタ：ツールバー上に置かれた「アクション」ボタンの validation を行うための
+		NSToolbarItem のサブクラス。
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+		[新規追加] プレビューインスペクタ：ツールバー関連のコード。
+	* application/subproj/previewer/Save.tiff
+	* application/subproj/previewer/Settings.tiff
+	* application/subproj/previewer/Gear.tiff
+		[新規追加] プレビューインスペクタ：ツールバーのアイコン。
+	* application/source/browser/CMRThreadsList-DataSource.m
+		statusImageNameForStatus() と -statusImageWithStatus: を統合してわずかながら効率化した。
+	* application/source/composer/CMRAttributedMessageComposer-Convert.m
+		これまた効率化を図った。
 	* application/source/util/JStringAdditions.h, JStringAdditions.m
 		[削除] しばらく前から未使用になっていたが、リポジトリからも削除。
 	* application/Resources/Japanese.lproj/Preview

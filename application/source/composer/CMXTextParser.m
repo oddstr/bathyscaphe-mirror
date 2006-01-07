@@ -1,5 +1,5 @@
 /**
-  * $Id: CMXTextParser.m,v 1.11 2006/01/06 13:22:16 tsawada2 Exp $
+  * $Id: CMXTextParser.m,v 1.12 2006/01/07 11:56:50 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -932,7 +932,7 @@ error_invalid_format:
 	CFStringTrimWhitespace((CFMutableStringRef)tmpDatePart_);
 
 	date_ = dateWith2chDateString(tmpDatePart_);
-	//date_ = [[self class] dateWith2chDateString : tmpDatePart_];
+
 	if (nil == date_) {
 		NSLog(@"Can't Convert '%@' to Date.", datePart_);
 		return NO;
