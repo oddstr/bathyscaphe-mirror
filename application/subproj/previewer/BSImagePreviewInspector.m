@@ -277,6 +277,7 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 		[tmp release];
 
 		[[self progIndicator] stopAnimation : self];
+		[[self progIndicator] setHidden : YES];
 		[self setSourceURL : nil];
 		[[self imageView] setImage : nil];
 	}
@@ -324,6 +325,10 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 
 	[[self infoField] setStringValue : @""];
 	[self setSourceURL : anURL];
+	[[self progIndicator] setIndeterminate : YES];
+	[[self progIndicator] setHidden : NO];
+	[[self progIndicator] startAnimation : self];
+
 	[self switchActionToCancelMode : YES];
 	return YES;
 }
@@ -400,13 +405,10 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 	lExLength = [response expectedContentLength];
 
 	if (lExLength != NSURLResponseUnknownLength) {
+		[bar_ setIndeterminate : NO];
 		[bar_ setMinValue : 0];
 		[bar_ setMaxValue : lExLength];
-		[bar_ setIndeterminate : NO];
-		[bar_ setUsesThreadedAnimation : YES];
 	}
-	else 
-		[bar_ setIndeterminate : YES];
 
 	lDlLength = 0;
 }
@@ -438,10 +440,10 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 - (void) download : (NSURLDownload *) dl didReceiveDataOfLength : (unsigned) len
 {
 	NSProgressIndicator	*bar_ = [self progIndicator];
-	if (lDlLength == 0) {
+	/*if (lDlLength == 0) {
 		[bar_ setHidden : NO];
 		[bar_ startAnimation : self];
-	}
+	}*/
 	lDlLength += len;
 
 	if (lExLength != NSURLResponseUnknownLength)
