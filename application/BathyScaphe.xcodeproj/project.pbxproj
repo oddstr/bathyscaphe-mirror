@@ -1306,8 +1306,6 @@
 		F3959F0E04D3050600A80005 /* CMRThreadDocument_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRThreadDocument_p.h; sourceTree = "<group>"; };
 		F3959F1004D3050600A80005 /* CMRThreadLayout_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRThreadLayout_p.h; sourceTree = "<group>"; };
 		F39673CC045679B400A80005 /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = /System/Library/Frameworks/PreferencePanes.framework; sourceTree = "<absolute>"; };
-		F3A31C080503366700CE4E8E /* CMRBBSAttributes.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRBBSAttributes.h; sourceTree = "<group>"; };
-		F3A31C090503366700CE4E8E /* CMRBBSAttributes.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRBBSAttributes.m; sourceTree = "<group>"; };
 		F3B609F80509EDBF00A80005 /* CMRHostHTMLHandler.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRHostHTMLHandler.m; sourceTree = "<group>"; };
 		F3BA419E05B605BF00D03A0D /* CMRAttachmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRAttachmentCell.h; sourceTree = "<group>"; };
 		F3BA419F05B605BF00D03A0D /* CMRAttachmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRAttachmentCell.m; sourceTree = "<group>"; };
@@ -2152,8 +2150,6 @@
 				8794CC0F089C033300161BAB /* BoardManager.m */,
 				8718EFA508D4257200FFAAEE /* BoardManager-BSAddition.m */,
 				F324DC2904C698FA00A80005 /* BoardManager_p.h */,
-				F3A31C080503366700CE4E8E /* CMRBBSAttributes.h */,
-				F3A31C090503366700CE4E8E /* CMRBBSAttributes.m */,
 				F34E37C9050743B600A80005 /* CMRBBSListTemplateKeys.h */,
 				F324DC2504C698FA00A80005 /* BoardList.h */,
 				F324DC2604C698FA00A80005 /* BoardList.m */,

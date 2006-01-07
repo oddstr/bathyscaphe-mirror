@@ -1,4 +1,6 @@
 2006-01-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/util/JStringAdditions.h, JStringAdditions.m
+		[削除] しばらく前から未使用になっていたが、リポジトリからも削除。
 	* application/Resources/Japanese.lproj/Preview
 		[削除] Bardiche に切り離されたので、リポジトリから削除。
 	* application/source/bbs/CMRBBSAttributes.h, CMRBBSAttributes.m
