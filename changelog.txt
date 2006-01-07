@@ -1,3 +1,8 @@
+2006-01-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/Preview
+		[削除] Bardiche に切り離されたので、リポジトリから削除。
+	* application/source/bbs/CMRBBSAttributes.h, CMRBBSAttributes.m
+		[削除] しばらく前から未使用になっていたが、リポジトリからも削除。
 2006-01-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/board_default.plist
 		最新のものに更新。
