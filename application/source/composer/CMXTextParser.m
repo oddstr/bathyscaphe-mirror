@@ -1,5 +1,5 @@
 /**
-  * $Id: CMXTextParser.m,v 1.12 2006/01/07 11:56:50 tsawada2 Exp $
+  * $Id: CMXTextParser.m,v 1.13 2006/01/10 21:43:05 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -537,22 +537,20 @@ static id fnc_queryUsingEncoding(id obj, NSStringEncoding enc)
 
 static BOOL isAbonedDateField(NSString *dateExtra)
 {
-	NSArray	*tempArray_;
-	
 	// 
 	// 投稿者自身が書き込んだわけではない、日付をチェックし、
 	// "あぼーん"かどうかを判定する。
 	// 
-	
 	if (nil == dateExtra || 0 == [dateExtra length])
 		return YES;
 
-	//
-	// dateExtra に ":" が含まれなければ、日付文字列ではないと判断
-	// （そんな判定法で100%安心安全とは断言できないが、まぁたぶんOK）
-	//
-	tempArray_ = [dateExtra componentsSeparatedByString : CMXTextParserBSColon];
-	return ([tempArray_ count] == 1);
+	NSRange		check_;	
+
+	// 文字列に「:」が含まれなければ、あぼーんと判断
+	check_ = [dateExtra rangeOfString : CMXTextParserBSColon
+							  options : NSLiteralSearch];
+
+	return (check_.length == 0);
 }
 
 static BOOL divideDateExtraField(

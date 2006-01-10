@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer.m,v 1.9 2006/01/05 14:16:44 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer.m,v 1.10 2006/01/10 21:43:05 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -467,7 +467,7 @@ static void appendDateString(NSMutableString *buffer, id theDate, NSString *pref
 		NSArray		*tmp_ = [defaults_ arrayForKey : NSShortWeekDayNameArray];
 		NSArray		*tmp2_ = [defaults_ arrayForKey : NSWeekDayNameArray];
 
-		threadDateFormat_ = SGTemplateResource(kThreadDateFormatKey);
+		threadDateFormat_ = [SGTemplateResource(kThreadDateFormatKey) retain];
 		localeDict_ = [[NSDictionary alloc] initWithObjectsAndKeys : 
 							tmp_,  NSShortWeekDayNameArray,
 							tmp2_, NSWeekDayNameArray,
