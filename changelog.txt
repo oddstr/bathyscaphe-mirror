@@ -1,3 +1,7 @@
+2006-01-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/main.m
+	* application/source/composer/CMRAttributedMessageComposer.m
+		[Bug 7831] BathyScaphe をリセット後などに、スレッドを表示しようとするとクラッシュすることがある問題を修正。
 2006-01-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/composer/CMXTextParser.m
 		微修正。ほんの少し効率化。

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer.m,v 1.10 2006/01/10 21:43:05 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer.m,v 1.11 2006/01/11 17:54:20 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -455,8 +455,7 @@ ErrComposeHost:
 
 #pragma mark -
 
-static void appendDateString(NSMutableString *buffer, id theDate, NSString *prefix)//, NSDictionary *localeDictionary)
-{
+static void appendDateString(NSMutableString *buffer, id theDate, NSString *prefix){
 	NSCalendarDate		*cdate_;
 	
 	if (nil == theDate)
