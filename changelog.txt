@@ -1,4 +1,6 @@
 2006-01-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/Functions.m
+		[削除] 未使用のままずっと存在していたのに今更気付いたので、削除した。
 	* application/source/browser/CMRBrowser-Action.m
 	* application/source/thread/CMRThreadViewer-Action.m
 		スレッドを削除する際に警告音を鳴らさないようにした。
