@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.18 2005/12/10 15:42:21 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.19 2006/01/12 18:00:24 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -501,7 +501,7 @@
 			[retryBtn_ setKeyEquivalent : @"r"];
 		}
 
-		NSBeep();
+		//NSBeep();
 		[alert_ beginSheetModalForWindow : [self window]
 						   modalDelegate : self
 						  didEndSelector : @selector(_threadDeletionSheetDidEnd:returnCode:contextInfo:)

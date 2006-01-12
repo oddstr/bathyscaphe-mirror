@@ -1,9 +1,9 @@
 //
-//  AdvancedPrefController.h
+//  $Id: AdvancedPrefController.h,v 1.6 2006/01/12 18:00:24 tsawada2 Exp $
 //  BachyScaphe
 //
 //  Created by tsawada2 on 05/05/22.
-//  Copyright 2005 __MyCompanyName__. All rights reserved.
+//  Copyright 2005-2006 BathyScaphe Project. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
@@ -18,11 +18,7 @@
 	IBOutlet NSTextField	*_proxyURLField;
 	IBOutlet NSTextField	*_proxyPortField;
 	
-	IBOutlet NSButton		*_quietDeletionCheckBox;
-	IBOutlet NSButton		*_openLinkInBgCheckBox;
-
-	IBOutlet NSButton		*_chooseAppButton;
-	IBOutlet id	_appNameField;
+	IBOutlet NSPopUpButton	*_helperAppBtn;
 }
 
 // Proxy
@@ -31,9 +27,6 @@
 - (IBAction) enableProxy : (id) sender;
 - (IBAction) enableProxyWhenPOST : (id) sender;
 - (IBAction) syncSystemConfigProxy : (id) sender;
-
-- (IBAction) changeQuietDeletion : (id) sender;
-- (IBAction) changeOpenLinkInBg : (id) sender;
 
 - (IBAction) chooseApplication : (id) sender;
 
@@ -44,10 +37,7 @@
 - (NSTextField *) proxyURLField;
 - (NSTextField *) proxyPortField;
 
-- (NSButton *) quietDeletionCheckBox;
-- (NSButton *) openLinkInBgCheckBox;
-
-- (id) appNameField;
+- (NSPopUpButton *) helperAppBtn;
 
 // ShortCircuit Additions
 // 「ブラウザで開くときのレス数：」が、「一般」から「詳細」ペインに移動
@@ -57,6 +47,15 @@
 // InnocentStarter Additions
 - (float) mouseDownTrackingTime;
 - (void) setMouseDownTrackingTime : (float) sliderValue;
+
+// Vita Additions
+- (NSString *) helperAppName;
+- (NSImage *) helperAppIcon;
+
+- (BOOL) quietDeletion;
+- (void) setQuietDeletion : (BOOL) boxState;
+- (BOOL) openLinkInBg;
+- (void) setOpenLinkInBg : (BOOL) boxState;
 
 - (void) updateProxyUIComponents;
 @end

@@ -39,7 +39,9 @@
 - (NSImageView *) imageView;
 - (NSProgressIndicator *) progIndicator;
 - (NSPanel *) settingsPanel;
+
 - (NSURLDownload *) currentDownload;
+- (void) setCurrentDownload : (NSURLDownload *) aDownload;
 
 - (NSString *) downloadedFileDestination;
 - (void) setDownloadedFileDestination : (NSString *) aPath;
@@ -76,6 +78,7 @@
 @interface BSImagePreviewInspector(Toolbar)
 - (NSString *) localizedStrForKey : (NSString *) key;
 - (NSImage *) imageResourceWithName : (NSString *) name;
+- (NSString *) calcImageSize : (NSImage *) image_;
 - (void) setupToolbar;
 @end
 

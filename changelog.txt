@@ -1,3 +1,22 @@
+2006-01-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/thread/CMRThreadViewer-Action.m
+		スレッドを削除する際に警告音を鳴らさないようにした。
+	* application/subproj/preference/Japanese.lproj/Localizable.strings
+	* application/subproj/preference/Japanese.lproj/AdvancedPane.nib
+	* application/subproj/preference/AdvancedPrefController.m
+		「詳細」＞「ログファイルの管理に使用するアプリケーション：」の設定インタフェースをポップアップボタンにした。
+		また、「詳細」ペインのチェックボックスを Cocoa Binding で制御するように変更した。
+	* application/subproj/preference/BSIconTextFieldCell.m
+		[削除] 未使用になったので削除した。
+	* application/subproj/previewer/BSIPIHistoryManager.m
+		[新規追加] プレビューインスペクタ：キャッシュのリストを管理するクラス。
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+		プレビューインスペクタ（1.2 → 1.3）
+		- 一度ダウンロード／表示したファイルは、再度ダウンロードせず、テンポラリフォルダに残っているダウンロード済みファイルを
+		　そのまま表示するようにした。
+		- ツールバーに「プレビュー で開く」ボタンを追加した。
 2006-01-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/main.m
 	* application/source/composer/CMRAttributedMessageComposer.m

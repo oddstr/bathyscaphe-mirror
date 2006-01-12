@@ -1,5 +1,5 @@
 //
-//  BSImagePreviewInspector.m
+//  $Id: BSImagePreviewInspector.m,v 1.11 2006/01/12 18:00:24 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -12,6 +12,7 @@
 #import <SGFoundation/NSDictionary-SGExtensions.h>
 #import <SGFoundation/NSMutableDictionary-SGExtensions.h>
 #import "TemporaryFolder.h"
+#import "BSIPIHistoryManager.h"
 
 NSString *const kIPITbCancelBtnId		= @"CancelAndSave";
 
@@ -109,6 +110,14 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 - (NSURLDownload *) currentDownload
 {
 	return _currentDownload;
+}
+- (void) setCurrentDownload : (NSURLDownload *) aDownload
+{
+	id		tmp;
+	
+	tmp = _currentDownload;
+	_currentDownload = [aDownload retain];
+	[tmp release];
 }
 
 - (TemporaryFolder *) dlFolder
@@ -269,12 +278,8 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 - (IBAction) cancelDownload : (id) sender
 {
 	if(_currentDownload) {
-		id	tmp;
 		[_currentDownload cancel];
-
-		tmp = _currentDownload;
-		_currentDownload = nil;
-		[tmp release];
+		[self setCurrentDownload : nil];
 
 		[[self progIndicator] stopAnimation : self];
 		[[self progIndicator] setHidden : YES];
@@ -333,12 +338,51 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 	return YES;
 }
 
+- (BOOL) showCachedImage : (NSString *) path ofURL : (NSURL *) anURL
+{
+	if(_currentDownload) {
+		[_currentDownload cancel];
+		[self setCurrentDownload : nil];
+	}	
+
+	NSImageView	*imageView_ = [self imageView];
+	if([imageView_ image] != nil)
+		[imageView_ setImage : nil];
+
+	[[self infoField] setStringValue : @""];
+	[self setSourceURL : anURL];
+
+	[[self progIndicator] setIndeterminate : YES];
+	[[self progIndicator] setHidden : NO];
+	[[self progIndicator] startAnimation : self];
+
+	[self switchActionToCancelMode : YES];
+	[self setDownloadedFileDestination : path];
+	NSImage *img = [[[NSImage alloc] initWithContentsOfFile : path] autorelease];
+
+	[[self progIndicator] stopAnimation : self];
+	[[self progIndicator] setHidden : YES];
+
+	if (img) {
+		//NSLog(@"Load from temporary (already downloaded) file.");
+		[[self infoField] setStringValue : [self calcImageSize : img]];
+		[self switchActionToCancelMode : NO];
+		[imageView_ setImage : img];
+		return YES;
+	} else {
+		NSLog(@"Can't load from temp file, so download it again.");
+		return [self downloadImageInBkgnd : anURL];
+	}
+}
+
 - (BOOL) showImageWithURL : (NSURL *) imageURL
 {
+	NSString *cachedFilePath;
 	if (![[self window] isVisible])
 		[self showWindow : self];
 
-	return [self downloadImageInBkgnd : imageURL];
+	cachedFilePath = [[BSIPIHistoryManager sharedManager] cachedFilePathForURL : imageURL];
+	return (cachedFilePath != nil) ? [self showCachedImage : cachedFilePath ofURL : imageURL] : [self downloadImageInBkgnd : imageURL];
 }
 
 - (BOOL) validateLink : (NSURL *) anURL
@@ -355,18 +399,7 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 	return [imageExtensions containsObject : extension];
 }
 
-//#pragma mark Validation
-
-/*- (BOOL) validateMenuItem : (NSMenuItem *) anItem
-{
-	SEL action_ = [anItem action];
-	if (action_ == nil) return NO;
-	if (action_ == @selector(beginSettingsSheet:)) return YES;
-	return ([self sourceURL] != nil);
-}*/
-
 #pragma mark Notifications
-
 - (void) applicationWillTerminate : (NSNotification *) notification
 {		
 	[_dlFolder release];
@@ -388,7 +421,6 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 }
 
 #pragma mark NSWindow Delegate
-
 - (void) windowWillClose : (NSNotification *) aNotification
 {
 	if ([self sourceURL] != nil) {
@@ -418,7 +450,6 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 {
 	if(![self validateLink : [request URL]]) {
 		NSLog(@"Redirection blocked");
-		//[download cancel];
 		return nil;
 	}
 	return request;
@@ -440,43 +471,29 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 - (void) download : (NSURLDownload *) dl didReceiveDataOfLength : (unsigned) len
 {
 	NSProgressIndicator	*bar_ = [self progIndicator];
-	/*if (lDlLength == 0) {
-		[bar_ setHidden : NO];
-		[bar_ startAnimation : self];
-	}*/
+
 	lDlLength += len;
 
 	if (lExLength != NSURLResponseUnknownLength)
 		[bar_ setDoubleValue : lExLength];
 }
 
-- (NSString *) _calcImageSize : (NSImage *) image_
-{
-	int	wi, he;
-	NSArray	*ary_ = [image_ representations];
-	NSImageRep	*tmp_ = [ary_ objectAtIndex : 0];
-	NSString *msg_;
-	
-	wi = [tmp_ pixelsWide];
-	he = [tmp_ pixelsHigh];
-	
-	msg_ = [NSString stringWithFormat : [self localizedStrForKey : @"%i*%i pixel"], wi, he];
-	return msg_;
-}
-	
 - (void) downloadDidFinish : (NSURLDownload *) dl
 {
-	id tmp;
-
-	NSImage *img = [[[NSImage alloc] initWithContentsOfFile : [self downloadedFileDestination]] autorelease];
 	[[self progIndicator] stopAnimation : self];
 	[[self progIndicator] setHidden : YES];
 	
-	tmp = _currentDownload;
-	_currentDownload = nil;
-	[tmp release];
+	[self setCurrentDownload : nil];
+
+	NSImage *img = [[[NSImage alloc] initWithContentsOfFile : [self downloadedFileDestination]] autorelease];
 	if (img) {
-		[[self infoField] setStringValue : [self _calcImageSize : img]];
+		NSMutableArray	*backet;
+		[[self infoField] setStringValue : [self calcImageSize : img]];
+		backet = [[BSIPIHistoryManager sharedManager] historyBacket];
+
+		[backet addObject : [NSDictionary dictionaryWithObjectsAndKeys : [self sourceURL], kIPIHistoryItemURLKey,
+																		 [self downloadedFileDestination], kIPIHistoryItemPathKey, NULL]];
+
 		[self switchActionToCancelMode : NO];
 		[[self imageView] setImage : img];
 	} else {
@@ -486,14 +503,10 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 
 - (void) download : (NSURLDownload *) dl didFailWithError : (NSError *) err
 {
-	id tmp;
-
 	NSBeep();
 	NSLog(@"%@",[err localizedDescription]);
 	
-	tmp = _currentDownload;
-	_currentDownload = nil;
-	[tmp release];
+	[self setCurrentDownload : nil];
 
 	[[self progIndicator] stopAnimation : self];
 	[[self progIndicator] setHidden : YES];

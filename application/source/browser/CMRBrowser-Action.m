@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.32 2005/12/10 15:42:21 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.33 2006/01/12 18:00:24 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -316,7 +316,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 		[deleteAndReloadBtn_ setKeyEquivalent : @"r"];
 	}
 
-	NSBeep();
+	//NSBeep();
 	[alert_ beginSheetModalForWindow : [self window]
 					   modalDelegate : self
 					  didEndSelector : didEndSel_

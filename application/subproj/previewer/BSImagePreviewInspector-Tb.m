@@ -11,6 +11,7 @@
 
 static NSString *const kIPITbActionBtnId		= @"Actions";
 static NSString *const kIPITbSettingsBtnId		= @"Settings";
+static NSString *const kIPITbPreviewBtnId		= @"OpenWithPreview";
 static NSString *const kIPIToobarId				= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Toolbar";
 
 @implementation BSImagePreviewInspector(Toolbar)
@@ -32,6 +33,20 @@ static NSString *const kIPIToobarId				= @"jp.tsawada2.BathyScaphe.ImagePreviewe
 	return [[[NSImage alloc] initWithContentsOfFile : filepath_] autorelease];
 }
 
+- (NSString *) calcImageSize : (NSImage *) image_
+{
+	int	wi, he;
+	NSArray	*ary_ = [image_ representations];
+	NSImageRep	*tmp_ = [ary_ objectAtIndex : 0];
+	NSString *msg_;
+	
+	wi = [tmp_ pixelsWide];
+	he = [tmp_ pixelsHigh];
+	
+	msg_ = [NSString stringWithFormat : [self localizedStrForKey : @"%i*%i pixel"], wi, he];
+	return msg_;
+}
+	
 - (void) setupToolbar
 {
     NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier: kIPIToobarId] autorelease];
@@ -74,6 +89,18 @@ willBeInsertedIntoToolbar:(BOOL) willBeInserted
 		[toolbarItem setTarget: self];
 		[toolbarItem setAction: @selector(cancelDownload:)];
 	
+	} else if ([itemIdent isEqual: kIPITbPreviewBtnId]) {
+		NSString *previewPath = [[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier : @"com.apple.Preview"];
+        toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdent] autorelease];
+	
+		[toolbarItem setLabel: [self localizedStrForKey : @"Preview"]];
+		[toolbarItem setPaletteLabel: [self localizedStrForKey : @"OpenWithPreview"]];
+		[toolbarItem setToolTip: [self localizedStrForKey : @"PreviewTip"]];
+		[toolbarItem setImage: [[NSWorkspace sharedWorkspace] iconForFile : previewPath]];
+		
+		[toolbarItem setTarget: self];
+		[toolbarItem setAction: @selector(openImageWithPreviewApp:)];
+	
     } else if([itemIdent isEqual: kIPITbActionBtnId]) {
         toolbarItem = [[[BSIPIActionBtnTbItem alloc] initWithItemIdentifier: itemIdent] autorelease];
 
@@ -99,16 +126,19 @@ willBeInsertedIntoToolbar:(BOOL) willBeInserted
 }
 
 - (NSArray *) toolbarAllowedItemIdentifiers: (NSToolbar *) toolbar {
-    return [NSArray arrayWithObjects: 	kIPITbActionBtnId, kIPITbCancelBtnId, kIPITbSettingsBtnId, 
+    return [NSArray arrayWithObjects: 	kIPITbActionBtnId, kIPITbCancelBtnId, kIPITbPreviewBtnId, kIPITbSettingsBtnId,
 					NSToolbarCustomizeToolbarItemIdentifier,
 					NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier, nil];
 }
 
 
 - (BOOL) validateToolbarItem: (NSToolbarItem *) toolbarItem {
-	if([[toolbarItem itemIdentifier] isEqualToString : kIPITbCancelBtnId]) {
+	NSString *identifier_ = [toolbarItem itemIdentifier];
+	if ([identifier_ isEqualToString : kIPITbCancelBtnId]) {
 		if ((_currentDownload == nil) && ([toolbarItem action] == @selector(cancelDownload:)))
 			return NO;
+	} else if ([identifier_ isEqualToString : kIPITbPreviewBtnId]) {
+			return ((_currentDownload == nil) && ([self downloadedFileDestination] != nil));
 	}
     return YES;
 }

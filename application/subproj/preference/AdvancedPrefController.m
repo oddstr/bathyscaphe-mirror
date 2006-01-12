@@ -9,7 +9,6 @@
 #import <CocoMonar/CocoMonar.h>
 #import "AdvancedPrefController.h"
 #import "PreferencePanes_Prefix.h"
-#import "BSIconTextFieldCell.h"
 
 #define kLabelKey		@"Advanced Label"
 #define kToolTipKey		@"Advanced ToolTip"
@@ -62,33 +61,45 @@
 		([sender state] == NSOnState)];
 	[self updateProxyUIComponents];
 }
-- (IBAction) changeQuietDeletion : (id) sender
+
+- (void) updateHelperAppUI
 {
-	[[self preferences] setQuietDeletion : (NSOffState == [[self quietDeletionCheckBox] state])];
+	NSString	*title = [self helperAppName];
+	id<NSMenuItem>	theItem = [[self helperAppBtn] itemAtIndex : 0];
+	
+	if (title != nil) {
+		[theItem setTitle : title];
+		[theItem setImage : [self helperAppIcon]];
+	} else {
+		[theItem setTitle : PPLocalizedString(@"NilHelper")];
+	}
+	[[self helperAppBtn] selectItem : nil];
+	[[self helperAppBtn] synchronizeTitleAndSelectedItem];
 }
-- (IBAction) changeOpenLinkInBg : (id) sender
-{
-	[[self preferences] setOpenInBg : (NSOnState == [[self openLinkInBgCheckBox] state])];
-}
+	
 - (void) didEndChooseAppSheet : (NSOpenPanel *) sheet
                    returnCode : (int          ) returnCode
                   contextInfo : (void        *) contextInfo
 {
-	NSImage		*appIcon_;
-	NSString	*appPath_;
-	NSString	*displayName_;
-	
-	if (NO == (returnCode == NSOKButton)) return;
-	
-	appPath_ =	[sheet filename];
-	[[self preferences] setHelperAppPath : appPath_];
+	if (returnCode == NSOKButton) {
+		NSString	*appPath_;
 
-	appIcon_ = [[NSWorkspace sharedWorkspace] iconForFile : appPath_];
-	[[[self appNameField] cell] setImage : appIcon_];
-	displayName_ = [[self preferences] helperAppDisplayName];
-	[[[self appNameField] cell] setObjectValue : displayName_];
-	[[self appNameField] setNeedsDisplay : YES];
-	
+		appPath_ =	[sheet filename];
+		[[self preferences] setHelperAppPath : appPath_];
+	}
+	[self updateHelperAppUI];
+}
+
+- (NSString *) helperAppName
+{
+	return [[self preferences] helperAppDisplayName];
+}
+
+- (NSImage *) helperAppIcon
+{
+	NSImage	*icon32 = [[NSWorkspace sharedWorkspace] iconForFile : [[self preferences] helperAppPath]];
+	[icon32 setSize : NSMakeSize(16, 16)];
+	return icon32;
 }
 
 - (IBAction) chooseApplication : (id) sender
@@ -131,18 +142,11 @@
 {
 	return _proxyPortField;
 }
-- (NSButton *) quietDeletionCheckBox
+- (NSPopUpButton *) helperAppBtn
 {
-	return _quietDeletionCheckBox;
+	return _helperAppBtn;
 }
-- (NSButton *) openLinkInBgCheckBox
-{
-	return _openLinkInBgCheckBox;
-}
-- (id) appNameField
-{
-	return _appNameField;
-}
+
 #pragma mark -
 - (void) updateProxyUIComponents
 {
@@ -204,33 +208,17 @@
 
 - (void) updateUIComponents
 {
-	NSString	*path_;
 	[self updateProxyUIComponents];
-	[[self quietDeletionCheckBox] setState : 
-			([[self preferences] quietDeletion] ? NSOffState : NSOnState)];
-	[[self openLinkInBgCheckBox] setState : 
-			([[self preferences] openInBg] ? NSOnState : NSOffState)];
 
-	path_ = [[self preferences] helperAppPath];
-	if (path_) {
-		NSImage *img_ = [[NSWorkspace sharedWorkspace] iconForFile : path_];
-		[[[self appNameField] cell] setImage : img_];
-		[[[self appNameField] cell] setObjectValue : [[self preferences] helperAppDisplayName]];
-	}
+	[self updateHelperAppUI];
 }
 
 - (void) setupUIComponents
 {
-	BSIconTextFieldCell	*cell_;
 	if (nil == _contentView)
 		return;
 	
-	cell_ = [[BSIconTextFieldCell alloc] init];
-    [[self appNameField] setCell : cell_];
-    [cell_ release];
-	
 	[self setupProxyUIComponents];
-	
 	[self updateUIComponents];
 }
 
@@ -254,6 +242,24 @@
 - (void) setMouseDownTrackingTime : (float) sliderValue
 {
 	[[self preferences] setMouseDownTrackingTime : sliderValue];
+}
+
+#pragma mark Vita Additions
+- (BOOL) quietDeletion
+{
+	return (NO == [[self preferences] quietDeletion]);
+}
+- (void) setQuietDeletion : (BOOL) boxState
+{
+	[[self preferences] setQuietDeletion : (NO == boxState)];
+}
+- (BOOL) openLinkInBg
+{
+	return [[self preferences] openInBg];
+}
+- (void) setOpenLinkInBg : (BOOL) boxState
+{
+	[[self preferences] setOpenInBg : boxState];
 }
 @end
 
