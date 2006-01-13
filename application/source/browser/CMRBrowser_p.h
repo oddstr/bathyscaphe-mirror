@@ -134,7 +134,7 @@
 /* Accessor for m_threadsListScrollView */
 - (CMXScrollView *) threadsListScrollView;
 /* Accessor for m_threadsFilterPopUp */
-- (NSPopUpButton *) threadsFilterPopUp;
+//- (NSPopUpButton *) threadsFilterPopUp;
 /* Accessor for m_boardListTable */
 - (NSOutlineView *) boardListTable;
 - (id) brdListActMenuBtn;
@@ -170,8 +170,8 @@
 
 - (void) setupSplitView;
 - (void) setupThreadsListTable;
-- (void) setupThreadsListScrollView;
-- (void) setupThreadsFilterPopUp;
+//- (void) setupThreadsListScrollView;
+//- (void) setupThreadsFilterPopUp;
 
 - (void) setupBoardListTable;
 

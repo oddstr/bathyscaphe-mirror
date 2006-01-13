@@ -76,7 +76,6 @@
                 "m_searchField" = NSSearchField; 
                 "m_splitView" = CMRSplitView; 
                 "m_splitterBtn" = id; 
-                "m_threadsFilterPopUp" = NSPopUpButton; 
                 "m_threadsListTable" = ThreadsListTable; 
                 topSubview = id; 
             }; 

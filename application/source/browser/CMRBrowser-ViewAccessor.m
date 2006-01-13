@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.27 2005/12/10 12:39:44 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.28 2006/01/13 23:47:59 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -42,10 +42,10 @@
     
     return sview_;
 }
-- (NSPopUpButton *) threadsFilterPopUp
+/*- (NSPopUpButton *) threadsFilterPopUp
 {
     return m_threadsFilterPopUp;
-}
+}*/
 - (NSOutlineView *) boardListTable
 {
     return m_boardListTable;
@@ -386,7 +386,7 @@
     [self setupColumnsMenuWithTableView : tbView_]; // Ç±ÇÍÇÕïKÇ∏[tbView_ setAutosaveTableColumns : YES] ÇÃå„Ç…é¿çsÇµÇ»ÇØÇÍÇŒÇ»ÇÁÇ»Ç¢
     [tbView_ setMenu : [self listContextualMenu]];
 }
-
+/*
 - (void) setupThreadsListScrollView
 {
     CMXScrollView    *scrollView_ = [self threadsListScrollView];
@@ -459,7 +459,7 @@
     [self setupThreadsFilterPopUpButtonCell : [[self threadsFilterPopUp] cell]];
     [self setupThreadsFilterPopUpButtonItems : [self threadsFilterPopUp]];
 }
-
+*/
 #pragma mark BoardList
 
 - (void) setupBoardListOutlineView : (NSOutlineView *) outlineView
@@ -513,17 +513,14 @@
 
 - (void) setupBoardListTableLastSelected
 {
-    //CMRBBSSignature *lastBoard;
     NSString        *boardName;
     
-    //lastBoard = [CMRPref browserLastBoard];
 	boardName = [CMRPref browserLastBoard];
-    if (nil == boardName) {//lastBoard) {
+    if (nil == boardName) {
         NSLog(@"Last Board Setting not found.");
         return;
     }
     
-    //boardName = [lastBoard name];
     [self showThreadsListWithBoardName : boardName];
 	[self selectRowWhoseNameIs : boardName];
 }
@@ -734,8 +731,8 @@
     [super setupUIComponents];
 
     [self setupThreadsListTable];
-    [self setupThreadsFilterPopUp];
-    [self setupThreadsListScrollView];
+    //[self setupThreadsFilterPopUp];
+    //[self setupThreadsListScrollView];
     [self setUpBoardListToolButtons];
 	
 	[self setupSearchFieldMenu];

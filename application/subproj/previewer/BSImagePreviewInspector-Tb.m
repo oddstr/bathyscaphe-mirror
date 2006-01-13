@@ -1,10 +1,9 @@
-//
-//  BSImagePreviewInspector.m
-//  BathyScaphe
-//
-//  Created by Tsutomu Sawada on 05/10/10.
-//  Copyright 2005 BathyScaphe Project. All rights reserved.
-//
+/*
+ * %Id$
+ * BathyScaphe
+ *
+ * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
+ */
 
 #import "BSImagePreviewInspector.h"
 #import "BSIPIActionBtnTbItem.h"
@@ -12,6 +11,7 @@
 static NSString *const kIPITbActionBtnId		= @"Actions";
 static NSString *const kIPITbSettingsBtnId		= @"Settings";
 static NSString *const kIPITbPreviewBtnId		= @"OpenWithPreview";
+static NSString *const kIPITbFullscreenBtnId	= @"StartFullscreen";
 static NSString *const kIPIToobarId				= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Toolbar";
 
 @implementation BSImagePreviewInspector(Toolbar)
@@ -61,9 +61,9 @@ static NSString *const kIPIToobarId				= @"jp.tsawada2.BathyScaphe.ImagePreviewe
     [[self window] setToolbar: toolbar];
 }
 
-- (NSToolbarItem *) toolbar: (NSToolbar *)toolbar
-itemForItemIdentifier: (NSString *) itemIdent
-willBeInsertedIntoToolbar:(BOOL) willBeInserted
+- (NSToolbarItem *) toolbar : (NSToolbar *) toolbar
+	  itemForItemIdentifier : (NSString *) itemIdent
+  willBeInsertedIntoToolbar : (BOOL) willBeInserted
 {
     NSToolbarItem *toolbarItem = nil;
     
@@ -101,6 +101,17 @@ willBeInsertedIntoToolbar:(BOOL) willBeInserted
 		[toolbarItem setTarget: self];
 		[toolbarItem setAction: @selector(openImageWithPreviewApp:)];
 	
+	} else if ([itemIdent isEqual: kIPITbFullscreenBtnId]) {
+        toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdent] autorelease];
+	
+		[toolbarItem setLabel: [self localizedStrForKey : @"FullScreen"]];
+		[toolbarItem setPaletteLabel: [self localizedStrForKey : @"StartFullScreen"]];
+		[toolbarItem setToolTip: [self localizedStrForKey : @"FullScreenTip"]];
+		[toolbarItem setImage: [self imageResourceWithName: @"FullScreen"]];
+		
+		[toolbarItem setTarget: self];
+		[toolbarItem setAction: @selector(startFullscreen:)];
+	
     } else if([itemIdent isEqual: kIPITbActionBtnId]) {
         toolbarItem = [[[BSIPIActionBtnTbItem alloc] initWithItemIdentifier: itemIdent] autorelease];
 
@@ -119,26 +130,31 @@ willBeInsertedIntoToolbar:(BOOL) willBeInserted
     return toolbarItem;
 }
 
-- (NSArray *) toolbarDefaultItemIdentifiers: (NSToolbar *) toolbar {
+- (NSArray *) toolbarDefaultItemIdentifiers : (NSToolbar *) toolbar
+{
     return [NSArray arrayWithObjects:	kIPITbActionBtnId, 
 					kIPITbCancelBtnId, NSToolbarFlexibleSpaceItemIdentifier, 
 					kIPITbSettingsBtnId, nil];
 }
 
-- (NSArray *) toolbarAllowedItemIdentifiers: (NSToolbar *) toolbar {
-    return [NSArray arrayWithObjects: 	kIPITbActionBtnId, kIPITbCancelBtnId, kIPITbPreviewBtnId, kIPITbSettingsBtnId,
+- (NSArray *) toolbarAllowedItemIdentifiers : (NSToolbar *) toolbar
+{
+    return [NSArray arrayWithObjects: 	kIPITbActionBtnId, kIPITbCancelBtnId, kIPITbPreviewBtnId, kIPITbFullscreenBtnId, kIPITbSettingsBtnId,
 					NSToolbarCustomizeToolbarItemIdentifier,
 					NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier, nil];
 }
 
 
-- (BOOL) validateToolbarItem: (NSToolbarItem *) toolbarItem {
+- (BOOL) validateToolbarItem : (NSToolbarItem *) toolbarItem
+{
 	NSString *identifier_ = [toolbarItem itemIdentifier];
 	if ([identifier_ isEqualToString : kIPITbCancelBtnId]) {
 		if ((_currentDownload == nil) && ([toolbarItem action] == @selector(cancelDownload:)))
 			return NO;
 	} else if ([identifier_ isEqualToString : kIPITbPreviewBtnId]) {
 			return ((_currentDownload == nil) && ([self downloadedFileDestination] != nil));
+	} else if ([identifier_ isEqualToString : kIPITbFullscreenBtnId]) {
+			return ((_currentDownload == nil) && ([[self imageView] image] != nil));
 	}
     return YES;
 }

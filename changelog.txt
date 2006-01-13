@@ -1,3 +1,38 @@
+2006-01-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/Browser.nib
+		オブジェクトのレイアウトを見直し、掲示板リストの境界線（わずか1ピクセルだが！）をドラッグしても掲示板リストを
+		リサイズできるようにした。また、境界線の見栄えをわずかながら向上させた。
+	* application/source/view/CMRSplitView.m
+		Split View の Splitter を自前で描くようにした。
+	* application/Resources/image/browserSplitterVertical.tiff
+	* application/Resources/image/browserSplitterDimpleVertical.tiff
+		[新規追加] Split View の Splitter を自力で描くための画像リソース（垂直スプリッター用）。
+	* application/Resources/image/browserSplitter.tiff
+	* application/Resources/image/browserSplitterDimple.tiff
+		[新規追加] Split View の Splitter も自力で描きましょう。画像リソース（水平スプリッター用）。
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
+		プレビューインスペクタ（1.3 → 1.5）
+		- 「フルスクリーンで表示」機能を付けた。ツールバーまたはアクションボタンから実行可能。
+		- 様々なスペックの Mac によってパフォーマンスにどの程度差が出てくるかは、私にはよくわからない。
+		　Quartz Extreme が有効になる程度のマシンならば不満は感じないと思うが。
+		- 今のところ、画像のサイズに関わらず「プロポーショナルに、画面より小さい画像はそのまま（拡大されずに）、
+		　画面より大きい画像は画面の大きさまで縮小されて表示される。任意のキーまたはマウスクリックで終了。
+		- Cmd-Opt-Esc は効くが、Cmd-Tab 等は抑制している。See TN2062（日本語訳もあり）。
+	* application/subproj/previewer/BSIPIFullScreenController.m
+	* application/subproj/previewer/BSIPIFullScreenWindow.m
+	* application/subproj/previewer/Japanese.lproj/BSIPIFullScreen.nib
+	* application/subproj/previewer/FullScreen.tiff
+		[新規追加] プレビューインスペクタ：フルスクリーン表示を実現するための各種ファイル。
+	* application/source/manager/CMRMainMenuManager.m
+	* application/source/CMRAppDelegate+Menu.m
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/source/browser/CMRBrowser-Action.m
+	* application/Resources/Japanese.lproj/Browser.nib
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		「表示」＞「一覧に表示するスレッド」を新設。ステータスフィルタリングボタンの代替。
+		また、ステータスフィルタリングボタンを廃止した。
 2006-01-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/preference/Functions.m
 		[削除] 未使用のままずっと存在していたのに今更気付いたので、削除した。

@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.11 2006/01/12 18:00:24 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.12 2006/01/13 23:47:59 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -13,6 +13,7 @@
 #import <SGFoundation/NSMutableDictionary-SGExtensions.h>
 #import "TemporaryFolder.h"
 #import "BSIPIHistoryManager.h"
+#import "BSIPIFullScreenController.h"
 
 NSString *const kIPITbCancelBtnId		= @"CancelAndSave";
 
@@ -259,6 +260,11 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 - (IBAction) openImageWithPreviewApp : (id) sender
 {
 	[[NSWorkspace sharedWorkspace] openFile : [self downloadedFileDestination] withApplication : @"Preview.app"];
+}
+
+- (IBAction) startFullscreen : (id) sender
+{
+	[[BSIPIFullScreenController sharedInstance] showPanelWithImage : [[self imageView] image]];
 }
 
 - (IBAction) saveImage : (id) sender

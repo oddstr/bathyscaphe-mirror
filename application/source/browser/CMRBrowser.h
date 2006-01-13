@@ -31,7 +31,7 @@ typedef enum _BSThreadDeletionType {
 	IBOutlet CMRSplitView		*m_splitView;
 	
 	IBOutlet ThreadsListTable	*m_threadsListTable;
-	IBOutlet NSPopUpButton		*m_threadsFilterPopUp;
+	//IBOutlet NSPopUpButton		*m_threadsFilterPopUp; // deprecated in Vita.
 	
 	IBOutlet NSOutlineView		*m_boardListTable;
 	IBOutlet id					m_splitterBtn;

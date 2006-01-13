@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.15 2005/12/14 14:37:15 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.16 2006/01/13 23:47:59 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -437,6 +437,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 	[[[self threadsListTable] dataSource] updateDateFormatter];
 
 	[[self threadsListTable] reloadData];
+
 	[self synchronizeWindowTitleWithDocumentName];
 }
 
