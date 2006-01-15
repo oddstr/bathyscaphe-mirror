@@ -1,3 +1,25 @@
+2006-01-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/pane/PreferencesPane-PCManagement.m
+		環境設定：各ペインの切り替え動作を滑らかになるよう改良。
+		- ビューを入れ替えてからフレーム変更するのではなく、ビューを消して、フレーム変更して、新しいビューをセットするようにした。
+	* application/subproj/preference/AdvancedPrefController.m
+	* application/subproj/preference/Japanese.lproj/AdvancedPane.nib
+		「環境設定」＞「詳細」ペインの改良：
+		- プロキシ関連の項目は別シート（に追い出した）を呼び出して設定。プロキシ関連は今後どうなるのかなぁ…
+		- プレビューインスペクタを使用するかどうかを選べるラジオボタンを追加。今までの Hidden Option による設定と互換性がある。
+	* application/subproj/preference/general/GeneralPrefController-View.m
+		[削除] GeneralPrefController.m に統合して削除。
+	* application/subproj/preference/general/GeneralPrefController.m
+	* application/subproj/preference/Japanese.lproj/GeneralPreferences.nib
+		「環境設定」＞「一般」ペインの改良：
+		- 「一覧の検索で無視する文字」設定項目を廃止。この設定は Hidden Options に格下げされる（「一般」ペインに鎮座するほど
+		　よく使われていて、重要な設定項目だとは思えない。しかし今までは CocoMonar から何となく引っ張り続けていた）。
+		- Mail 欄の表示設定をラジオボタンにして、不適切な設定の組み合わせができないように改良した。
+		- ソースは Cocoa Bindings の利用にほとんど変更して、量を減らし、わかりやすくした。
+	* application/subproj/previewer/BSIPIFullScreenController.m
+		プレビューインスペクタ：フェード処理を見直した（タイミング、方向、時間など）。
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+		プレビューインスペクタ：イメージの dpi を無視して表示するようにした。
 2006-01-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/Browser.nib
 		オブジェクトのレイアウトを見直し、掲示板リストの境界線（わずか1ピクセルだが！）をドラッグしても掲示板リストを

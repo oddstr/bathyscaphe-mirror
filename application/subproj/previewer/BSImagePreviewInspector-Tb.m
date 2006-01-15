@@ -43,7 +43,15 @@ static NSString *const kIPIToobarId				= @"jp.tsawada2.BathyScaphe.ImagePreviewe
 	wi = [tmp_ pixelsWide];
 	he = [tmp_ pixelsHigh];
 	
+	// ignore DPI
+	[tmp_ setSize : NSMakeSize(wi, he)];
+	
 	msg_ = [NSString stringWithFormat : [self localizedStrForKey : @"%i*%i pixel"], wi, he];
+	
+	/*if ([tmp_ isKindOfClass : [NSBitmapImageRep class]]) {
+		id	exifData_ = [tmp_ valueForProperty : NSImageEXIFData];
+		if (exifData_)NSLog(@"%@", [exifData_ description]);
+	}*/
 	return msg_;
 }
 	

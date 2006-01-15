@@ -383,7 +383,6 @@
 		871CA14308585F8100C3A044 /* PreferencesPane-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DB6104C6959800A80005 /* PreferencesPane-ViewAccessor.m */; };
 		871CA14408585F8100C3A044 /* PreferencesPane.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DB6304C6959800A80005 /* PreferencesPane.m */; };
 		871CA14508585F8100C3A044 /* CMRReplyDefaultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DB6804C6959800A80005 /* CMRReplyDefaultsController.m */; };
-		871CA14608585F8100C3A044 /* GeneralPrefController-View.m in Sources */ = {isa = PBXBuildFile; fileRef = F334140004F11CCA00DAC789 /* GeneralPrefController-View.m */; };
 		871CA14708585F8100C3A044 /* GeneralPrefController.m in Sources */ = {isa = PBXBuildFile; fileRef = F334140204F11CCA00DAC789 /* GeneralPrefController.m */; };
 		871CA14808585F8100C3A044 /* CMRFilterPrefController.m in Sources */ = {isa = PBXBuildFile; fileRef = F33AE22305BE50F7002448CC /* CMRFilterPrefController.m */; };
 		871CA14908585F8100C3A044 /* CMRFilterPrefController-View.m in Sources */ = {isa = PBXBuildFile; fileRef = F33AE23605BE5B0B002448CC /* CMRFilterPrefController-View.m */; };
@@ -1261,7 +1260,6 @@
 		F327C17B04D528F100A80005 /* ReplyErrorCode.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = ReplyErrorCode.plist; sourceTree = "<group>"; };
 		F3340DF904F0FCCD00DAC789 /* GeneralPreferences.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = GeneralPreferences.tiff; sourceTree = "<group>"; };
 		F3340DFC04F103A600DAC789 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/GeneralPreferences.nib; sourceTree = "<group>"; };
-		F334140004F11CCA00DAC789 /* GeneralPrefController-View.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "GeneralPrefController-View.m"; sourceTree = "<group>"; };
 		F334140104F11CCA00DAC789 /* GeneralPrefController.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = GeneralPrefController.h; sourceTree = "<group>"; };
 		F334140204F11CCA00DAC789 /* GeneralPrefController.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = GeneralPrefController.m; sourceTree = "<group>"; };
 		F336E13B0567EE450016AB2D /* SGHTMLView-Link.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "SGHTMLView-Link.m"; sourceTree = "<group>"; };
@@ -2390,7 +2388,6 @@
 			children = (
 				F334140104F11CCA00DAC789 /* GeneralPrefController.h */,
 				F334140204F11CCA00DAC789 /* GeneralPrefController.m */,
-				F334140004F11CCA00DAC789 /* GeneralPrefController-View.m */,
 			);
 			name = General;
 			path = general;
@@ -3603,7 +3600,6 @@
 				871CA14308585F8100C3A044 /* PreferencesPane-ViewAccessor.m in Sources */,
 				871CA14408585F8100C3A044 /* PreferencesPane.m in Sources */,
 				871CA14508585F8100C3A044 /* CMRReplyDefaultsController.m in Sources */,
-				871CA14608585F8100C3A044 /* GeneralPrefController-View.m in Sources */,
 				871CA14708585F8100C3A044 /* GeneralPrefController.m in Sources */,
 				871CA14808585F8100C3A044 /* CMRFilterPrefController.m in Sources */,
 				871CA14908585F8100C3A044 /* CMRFilterPrefController-View.m in Sources */,

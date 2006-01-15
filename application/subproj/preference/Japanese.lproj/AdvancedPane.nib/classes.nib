@@ -5,15 +5,20 @@
                 changeProxyPort = id; 
                 changeProxyURL = id; 
                 chooseApplication = id; 
+                closeSheet = id; 
                 enableProxy = id; 
                 enableProxyWhenPOST = id; 
+                openSheet = id; 
                 syncSystemConfigProxy = id; 
             }; 
             CLASS = AdvancedPrefController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                "_closeSheetBtn" = NSButton; 
                 "_helperAppBtn" = NSPopUpButton; 
+                "_openSheetBtn" = NSButton; 
                 "_proxyPortField" = NSTextField; 
+                "_proxySheet" = NSWindow; 
                 "_proxyURLField" = NSTextField; 
                 "_proxyWhenPOSTCheckBox" = NSButton; 
                 "_usesProxyCheckBox" = NSButton; 

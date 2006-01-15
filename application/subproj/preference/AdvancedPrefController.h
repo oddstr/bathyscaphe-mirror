@@ -1,5 +1,5 @@
 //
-//  $Id: AdvancedPrefController.h,v 1.6 2006/01/12 18:00:24 tsawada2 Exp $
+//  $Id: AdvancedPrefController.h,v 1.7 2006/01/15 03:28:07 tsawada2 Exp $
 //  BachyScaphe
 //
 //  Created by tsawada2 on 05/05/22.
@@ -12,11 +12,15 @@
 
 @interface AdvancedPrefController : PreferencesController {
 	// Proxy
+	IBOutlet NSWindow		*_proxySheet;
 	IBOutlet NSButton		*_usesProxyCheckBox;
 	IBOutlet NSButton		*_proxyWhenPOSTCheckBox;
 	IBOutlet NSButton		*_usesSystemConfigProxyCheckBox;
 	IBOutlet NSTextField	*_proxyURLField;
 	IBOutlet NSTextField	*_proxyPortField;
+	
+	IBOutlet NSButton		*_openSheetBtn;
+	IBOutlet NSButton		*_closeSheetBtn;
 	
 	IBOutlet NSPopUpButton	*_helperAppBtn;
 }
@@ -30,6 +34,9 @@
 
 - (IBAction) chooseApplication : (id) sender;
 
+- (IBAction) openSheet : (id) sender;
+- (IBAction) closeSheet : (id) sender;
+
 // Proxy
 - (NSButton *) usesProxyCheckBox;
 - (NSButton *) proxyWhenPOSTCheckBox;
@@ -38,6 +45,11 @@
 - (NSTextField *) proxyPortField;
 
 - (NSPopUpButton *) helperAppBtn;
+
+- (NSWindow *) proxySheet;
+
+- (NSButton *) openSheetBtn;
+- (NSButton *) closeSheetBtn;
 
 // ShortCircuit Additions
 // 「ブラウザで開くときのレス数：」が、「一般」から「詳細」ペインに移動
@@ -51,6 +63,9 @@
 // Vita Additions
 - (NSString *) helperAppName;
 - (NSImage *) helperAppIcon;
+
+- (int) previewOption;
+- (void) setPreviewOption : (int) selectedTag;
 
 - (BOOL) quietDeletion;
 - (void) setQuietDeletion : (BOOL) boxState;

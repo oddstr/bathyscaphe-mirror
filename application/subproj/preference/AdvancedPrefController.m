@@ -120,7 +120,29 @@
 		   contextInfo : nil];
 }
 
-#pragma mark -
+- (void)proxySheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+	[sheet close];
+}
+
+- (IBAction) openSheet : (id) sender
+{
+	[self updateProxyUIComponents];
+	[NSApp beginSheet : [self proxySheet]
+		modalForWindow : [self window]
+		modalDelegate : self
+		didEndSelector : @selector(proxySheetDidEnd:returnCode:contextInfo:) 
+		contextInfo : NULL];
+}
+- (IBAction) closeSheet : (id) sender
+{
+	[self changeProxyURL : nil];	// 念のため
+	[self changeProxyPort : nil]; // 念のため
+	[NSApp endSheet : [self proxySheet]];
+}
+
+
+#pragma mark Accessors (IB outlet)
 // Proxy
 - (NSButton *) usesProxyCheckBox
 {
@@ -147,7 +169,21 @@
 	return _helperAppBtn;
 }
 
-#pragma mark -
+- (NSWindow *) proxySheet
+{
+	return _proxySheet;
+}
+
+- (NSButton *) openSheetBtn
+{
+	return _openSheetBtn;
+}
+- (NSButton *) closeSheetBtn
+{
+	return _closeSheetBtn;
+}
+
+#pragma mark setting up UIs
 - (void) updateProxyUIComponents
 {
 	BOOL		usesProxy_;
@@ -155,12 +191,12 @@
 	NSString	*proxyHost_;
 	CFIndex		proxyPort_;
 	
-	if (NO == [[self usesProxyCheckBox] isEnabled] &&
+	/*if (NO == [[self usesProxyCheckBox] isEnabled] &&
 	   NO == [[self proxyWhenPOSTCheckBox] isEnabled] &&
 	   NO == [[self proxyURLField] isEnabled] &&
 	   NO == [[self proxyPortField] isEnabled] &&
 	   NO == [[self usesSystemConfigProxyCheckBox] isEnabled])
-	{ return; }
+	{ return; }*/
 	
 	usesProxy_ = [[self preferences] usesProxy];
 	syncSysConfing = [[self preferences] usesSystemConfigProxy];
@@ -191,7 +227,7 @@
 			: (id)@""];
 	
 }
-
+/*
 - (void) setupProxyUIComponents
 {
 	[self preferencesRespondsTo : @selector(usesProxy)
@@ -205,10 +241,10 @@
 	[self preferencesRespondsTo : @selector(proxyPort)
 					  ofControl : [self proxyPortField]];
 }
-
+*/
 - (void) updateUIComponents
 {
-	[self updateProxyUIComponents];
+	//[self updateProxyUIComponents];
 
 	[self updateHelperAppUI];
 }
@@ -218,7 +254,7 @@
 	if (nil == _contentView)
 		return;
 	
-	[self setupProxyUIComponents];
+	//[self setupProxyUIComponents];
 	[self updateUIComponents];
 }
 
@@ -260,6 +296,17 @@
 - (void) setOpenLinkInBg : (BOOL) boxState
 {
 	[[self preferences] setOpenInBg : boxState];
+}
+
+- (int) previewOption
+{
+	return [[self preferences] previewLinkWithNoModifierKey] ? 0 : 1;
+}
+
+- (void) setPreviewOption : (int) selectedTag
+{
+	BOOL	tmp_ = (selectedTag == 0) ? YES : NO;
+	[[self preferences] setPreviewLinkWithNoModifierKey : tmp_];
 }
 @end
 

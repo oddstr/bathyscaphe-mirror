@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesPane-PCManagement.m,v 1.2 2005/05/22 18:02:26 tsawada2 Exp $
+  * $Id: PreferencesPane-PCManagement.m,v 1.3 2006/01/15 03:28:07 tsawada2 Exp $
   * 
   * PreferencesPane-PCManagement.m
   *
@@ -119,7 +119,7 @@
 {
 	PreferencesController	*oldController;
 	NSView					*mainView_;
-	
+	NSView	*tmp_;
 	NSRect	wFrame;
 	NSRect	newFrame;
 	
@@ -136,11 +136,22 @@
 	// insert new pane
 	[controller willSelect];
 	[oldController willUnselect];
+
+	tmp_ = [[self contentView] superview];
+	[[self contentView] removeFromSuperviewWithoutNeedingDisplay];
+
 	[mainView_ setFrame : newFrame];
-	[[[self contentView] superview] 
-				replaceSubview : [self contentView] 
-						  with : mainView_];
+	//[[[self contentView] superview] 
+	//			replaceSubview : [self contentView] 
+	//					  with : mainView_];
+	
+	[[self window] setFrame : wFrame
+					display : YES
+					animate : YES];
+
+	[tmp_ addSubview : mainView_];
 	[self setContentView : mainView_];
+
 	[oldController setWindow : nil];
 	[controller setWindow : [self window]];
 	[oldController didUnselect];
@@ -149,9 +160,9 @@
 	[self setCurrentIdentifier : [controller identifier]];
 	[self updateUIComponents];
 	
-	[[self window] setFrame : wFrame
-					display : YES
-					animate : YES];
+	//[[self window] setFrame : wFrame
+	//				display : YES
+	//				animate : YES];
 }
 - (IBAction) selectController : (id) sender
 {
