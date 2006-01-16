@@ -7,9 +7,8 @@
                 launchCMLF = id; 
                 openURL = id; 
                 openURLPanel = id; 
-                orderFrontCustomAboutPanel = id; 
                 resetApplication = id; 
-                showBoardListEditor = id; 
+                showAcknowledgment = id; 
                 showPreferencesPane = id; 
                 showStandardFindPanel = id; 
                 showTaskInfoPanel = id; 

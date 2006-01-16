@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.12 2006/01/07 11:56:50 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.13 2006/01/16 00:20:20 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -132,6 +132,8 @@ static id kThreadAttrTemplate;
 		return [NSImage imageAppNamed : kStatusUpdatedImageName];
 	case ThreadNewCreatedStatus :
 		return [NSImage imageAppNamed : kStatusNewImageName];
+	case ThreadHeadModifiedStatus :
+		return [NSImage imageAppNamed : @"Status_HeadModified"];
 	case ThreadNoCacheStatus :
 		return nil;
 	default :

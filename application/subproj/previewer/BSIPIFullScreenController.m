@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIFullScreenController.m,v 1.2 2006/01/15 03:28:07 tsawada2 Exp $
+//  $Id: BSIPIFullScreenController.m,v 1.3 2006/01/16 00:20:20 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.
@@ -42,7 +42,7 @@
     }
 }
 
-- (void) _showPanelWithPath : (NSString *) aPath
+/*- (void) _showPanelWithPath : (NSString *) aPath
 {
 	NSImage	*tmp0_ = [[NSImage alloc] initWithContentsOfFile : aPath];
 
@@ -52,7 +52,7 @@
 	//float	dX, dY;
 	[rep_ setSize : NSMakeSize([rep_ pixelsWide], [rep_ pixelsHigh])];
 
-	/*dX = viewSize.width / imgX;
+	dX = viewSize.width / imgX;
 	dY = viewSize.height / imgY;
 	
 	if (dX <= 1.0 && dY <= 1.0) {
@@ -60,30 +60,44 @@
 	}
 	float	dT = (dX > dY) ? dY : dX;
 	
-	[Rep_ setSize : NSMakeSize(imgX*dT, imgY*dT)];*/
+	[Rep_ setSize : NSMakeSize(imgX*dT, imgY*dT)];
 	[self showPanelWithImage : tmp0_];
-}
+}*/
 
 - (void) showPanelWithImage : (NSImage *) anImage;
 {
-	CGDisplayFadeReservationToken tokenPtr;
+	CGDisplayFadeReservationToken tokenPtr1, tokenPtr2;
 
 	// Carbon!
 	SetSystemUIMode(kUIModeAllHidden, kUIOptionDisableProcessSwitch);
+
+	// Quartz!
+	if (kCGErrorSuccess == CGAcquireDisplayFadeReservation(kCGMaxDisplayReservationInterval, &tokenPtr1)) {
+		CGDisplayFade(
+			tokenPtr1,
+			0.8,							// フェードにかける秒数：0.8
+			kCGDisplayBlendNormal,			// 開始状態
+			kCGDisplayBlendSolidColor,			// 終了状態
+			0.0, 0.0, 0.0,					// R, G, B：真っ黒
+			FALSE							// 完了を待つか：待たない
+		);
+
+		CGReleaseDisplayFadeReservation (tokenPtr1);
+	}
+
     [_fullScreenWindow makeKeyAndOrderFront: nil];
 	
-	// Quartz!
-	if (kCGErrorSuccess == CGAcquireDisplayFadeReservation(kCGMaxDisplayReservationInterval, &tokenPtr)) {
+	if (kCGErrorSuccess == CGAcquireDisplayFadeReservation(kCGMaxDisplayReservationInterval, &tokenPtr2)) {
 		CGDisplayFade(
-			tokenPtr,
-			0.5,							// フェードにかける秒数：0.5
+			tokenPtr2,
+			0.5,							// 0.5 seconds
 			kCGDisplayBlendSolidColor,      // 開始状態
 			kCGDisplayBlendNormal,			// 終了状態
 			0.0, 0.0, 0.0,					// R, G, B：真っ黒
 			FALSE							// 完了を待つか：待たない
 		);
 
-		CGReleaseDisplayFadeReservation (tokenPtr);
+		CGReleaseDisplayFadeReservation (tokenPtr2);
 	}
 	[_imageView setImage : anImage];
 }
@@ -97,7 +111,7 @@
 	if (kCGErrorSuccess == CGAcquireDisplayFadeReservation(kCGMaxDisplayReservationInterval, &tokenPtr)) {
 		CGDisplayFade(
 			tokenPtr,
-			0.7,							// 0.7 seconds
+			0.8,							// 0.8 seconds
 			kCGDisplayBlendSolidColor,      // starting state
 			kCGDisplayBlendNormal,			// ending state
 			0.0, 0.0, 0.0,					// black
@@ -119,8 +133,11 @@
     //	Close the panel on any keystroke.
     //	We could also check for the Escape key by testing
     //		[[keyDown characters] isEqualToString: @"\033"]
-
-    [self hidePanel];
+	//if([[keyDown charactersIgnoringModifiers] isEqualToString : @" "]) {
+	//	[self _toggleFitMode];
+	//} else {
+		[self hidePanel];
+	//}
     return YES;
 }
 

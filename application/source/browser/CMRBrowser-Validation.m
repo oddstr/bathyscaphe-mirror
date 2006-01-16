@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-Validation.m,v 1.11 2005/12/13 12:31:28 tsawada2 Exp $
+ * $Id: CMRBrowser-Validation.m,v 1.12 2006/01/16 00:20:20 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -44,7 +44,7 @@
 	if(action_ == @selector(reloadThreadsList:)){
 		if(nil == [self currentThreadsList]) return NO;
 		
-		return (NO == [[self currentThreadsList] isFavorites]);
+		return YES;//(NO == [[self currentThreadsList] isFavorites]);
 	}
 	
 	if(action_ == @selector(changeBrowserArrangement:)){

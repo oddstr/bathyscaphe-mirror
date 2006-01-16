@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.16 2005/12/10 12:39:44 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.17 2006/01/16 00:20:20 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -7,7 +7,6 @@
  * See the file LICENSE for copying permission.
  */
 #import "CMRAppDelegate_p.h"
-#import "AboutPanelController.h"
 #import "CMRTaskManager.h"
 #import "CMRMainMenuManager.h"
 #import "BSHistoryMenuManager.h"
@@ -69,21 +68,28 @@
     [[CMROpenURLManager defaultManager] askUserURL];
 }
 
-- (IBAction) orderFrontCustomAboutPanel: (id) sender
-{
-	[[AboutPanelController sharedInstance] showPanel];
-}
-
-- (BOOL) isOnlineMode
+/*- (BOOL) isOnlineMode
 {
 	return [CMRPref isOnlineMode];
-}
+}*/
 
 - (IBAction) clearHistory : (id) sender
 {
 	[[CMRHistoryManager defaultManager] removeAllItems];
 	[[BSHistoryMenuManager defaultManager] updateHistoryMenuWithMenu : [[[CMRMainMenuManager defaultManager] historyMenuItem] submenu]];
 }
+
+- (IBAction) showAcknowledgment : (id) sender
+{
+	NSBundle* mainBundle;
+    NSString* fileName;
+
+    mainBundle = [NSBundle mainBundle];
+    fileName = [mainBundle pathForResource:@"Acknowledgments" ofType:@"rtf"];
+	
+    [[NSWorkspace sharedWorkspace] openFile : fileName withApplication : @"TextEdit"];
+}
+
 
 #pragma mark Launch Helper App
 
@@ -217,6 +223,37 @@
 
 		[CMRPref setBoardListBackgroundColor : [NSColor colorWithCalibratedRed:red green:green blue:blue alpha:1.0]];
 	}
+}
+
+- (NSString *) searchIgnoreChars
+{
+	return [CMRPref ignoreTitleCharacters];
+}
+- (void) setSearchIgnoreChars : (NSString *) someString
+{
+	[CMRPref setIgnoreTitleCharacters : someString];
+}
+
+- (BOOL) ignoreSpecificCharsOnSearch
+{
+	CMRSearchMask tmp_ = [CMRPref threadSearchOption];
+	return (tmp_ & CMRSearchOptionIgnoreSpecified);
+}
+
+- (void) setIgnoreSpecificCharsOnSearch : (BOOL) flag;
+{
+	CMRSearchMask		prefOption_;		// ê›íËçœÇ›ÇÃÉIÉvÉVÉáÉì
+	
+	prefOption_ = [CMRPref threadSearchOption];
+
+	if (flag) {
+		[CMRPref setThreadSearchOption : 
+			prefOption_ | CMRSearchOptionIgnoreSpecified];
+	} else {
+		[CMRPref setThreadSearchOption : 
+			(prefOption_ & ~CMRSearchOptionIgnoreSpecified)];
+	}
+	
 }
 
 - (void) handleOpenURLCommand : (NSScriptCommand *) command

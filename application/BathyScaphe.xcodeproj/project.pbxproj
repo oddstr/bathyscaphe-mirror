@@ -475,7 +475,6 @@
 		8729991D0832618000CBD740 /* CMRThreadViewer.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8729991B0832618000CBD740 /* CMRThreadViewer.nib */; };
 		872999200832618000CBD740 /* CMRThreadViewerComponents.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8729991E0832618000CBD740 /* CMRThreadViewerComponents.nib */; };
 		872999230832618000CBD740 /* CMXMessageMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872999210832618000CBD740 /* CMXMessageMenu.nib */; };
-		872999260832618000CBD740 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 872999240832618000CBD740 /* Credits.rtf */; };
 		872999290832618100CBD740 /* DateFormater.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999270832618100CBD740 /* DateFormater.strings */; };
 		8729992F0832618100CBD740 /* Downloader.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8729992D0832618100CBD740 /* Downloader.strings */; };
 		872999320832618100CBD740 /* HTMLView.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999300832618100CBD740 /* HTMLView.strings */; };
@@ -581,6 +580,7 @@
 		8782A764096FD2F40099B65F /* BSIPIImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8782A762096FD2F40099B65F /* BSIPIImageView.m */; };
 		8782A79E096FDBCE0099B65F /* BSIPIActionBtnTbItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 8782A79C096FDBCE0099B65F /* BSIPIActionBtnTbItem.h */; };
 		8782A79F096FDBCE0099B65F /* BSIPIActionBtnTbItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8782A79D096FDBCE0099B65F /* BSIPIActionBtnTbItem.m */; };
+		8791EE2A097A5BC200EA7475 /* Status_HeadModified.png in Resources */ = {isa = PBXBuildFile; fileRef = 8791EE29097A5BC200EA7475 /* Status_HeadModified.png */; };
 		8794CC10089C033300161BAB /* BoardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8794CC0F089C033300161BAB /* BoardManager.m */; };
 		8795B91F08E3A7E3005C7C5B /* ToolbarItems.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8795B91E08E3A7E3005C7C5B /* ToolbarItems.strings */; };
 		879A727608DEF69C005AA1A1 /* BSIconAndTextCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 879A727408DEF69C005AA1A1 /* BSIconAndTextCell.h */; };
@@ -609,15 +609,11 @@
 		87C4813208FD039B00F91054 /* AddBoardSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C4813008FD039B00F91054 /* AddBoardSheetController.m */; };
 		87C4813F08FD05A300F91054 /* AddBoardSheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87C4813D08FD05A300F91054 /* AddBoardSheet.nib */; };
 		87C9DD3009404CA3004E6596 /* AppDefaults-Alert.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCDD04C698FB00A80005 /* AppDefaults-Alert.m */; };
+		87CF646A097A335D00DE8B16 /* Acknowledgments.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 87CF6468097A335D00DE8B16 /* Acknowledgments.rtf */; };
 		87D5D8CB08DF0F990039A9EB /* BSBoardListView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D5D8C908DF0F990039A9EB /* BSBoardListView.h */; };
 		87D5D8CC08DF0F9A0039A9EB /* BSBoardListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D5D8CA08DF0F990039A9EB /* BSBoardListView.m */; };
 		87D5D8D108DF0FCC0039A9EB /* boardListSelBgFocused.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87D5D8CF08DF0FCC0039A9EB /* boardListSelBgFocused.tiff */; };
 		87D5D8D208DF0FCC0039A9EB /* boardListSelBg.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87D5D8D008DF0FCC0039A9EB /* boardListSelBg.tiff */; };
-		87D8DBA60833D55D004C1168 /* AboutPanelController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D8DBA20833D55C004C1168 /* AboutPanelController.h */; };
-		87D8DBA70833D55D004C1168 /* AboutPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D8DBA30833D55C004C1168 /* AboutPanelController.m */; };
-		87D8DBAC0833D57D004C1168 /* AboutPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87D8DBAA0833D57D004C1168 /* AboutPanel.nib */; };
-		87D8DC220833E8AF004C1168 /* BaScLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 87D8DC210833E8AF004C1168 /* BaScLogo.png */; };
-		87D8DC270833EABB004C1168 /* bathyicon192.png in Resources */ = {isa = PBXBuildFile; fileRef = 87D8DC260833EABB004C1168 /* bathyicon192.png */; };
 		87E2264E0833AA5D00E7FC85 /* BathyScaphe.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 87E2264C0833AA5D00E7FC85 /* BathyScaphe.scriptSuite */; };
 		87E2264F0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 87E2264D0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology */; };
 		87E4752A085C57C100B3E45E /* BSWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 87E47528085C57C100B3E45E /* BSWindow.h */; };
@@ -817,7 +813,6 @@
 		8729996D0832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/CMRThreadViewer.nib; sourceTree = "<group>"; };
 		8729996E0832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/CMRThreadViewerComponents.nib; sourceTree = "<group>"; };
 		8729996F0832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/CMXMessageMenu.nib; sourceTree = "<group>"; };
-		872999700832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Japanese; path = Japanese.lproj/Credits.rtf; sourceTree = "<group>"; };
 		872999710832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/DateFormater.strings; sourceTree = "<group>"; };
 		872999730832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Downloader.strings; sourceTree = "<group>"; };
 		872999740832618800CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/HTMLView.strings; sourceTree = "<group>"; };
@@ -937,6 +932,7 @@
 		878A7567088AA85B00539B6F /* HistoryBack.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = HistoryBack.tiff; sourceTree = "<group>"; };
 		878A7568088AA85B00539B6F /* HistoryForward.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = HistoryForward.tiff; sourceTree = "<group>"; };
 		878DB8E6083277B40086BC97 /* changelog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = changelog.txt; path = ../changelog.txt; sourceTree = SOURCE_ROOT; };
+		8791EE29097A5BC200EA7475 /* Status_HeadModified.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Status_HeadModified.png; sourceTree = "<group>"; };
 		8792D83B05E21AE20074B2BE /* UTILError.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; name = UTILError.h; path = ../misc/utilkit/UTILError.h; sourceTree = SOURCE_ROOT; };
 		8794CC0F089C033300161BAB /* BoardManager.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = BoardManager.m; sourceTree = "<group>"; };
 		8795B92008E3A7EC005C7C5B /* Japanese */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; lineEnding = 0; name = Japanese; path = Japanese.lproj/ToolbarItems.strings; sourceTree = "<group>"; };
@@ -973,13 +969,13 @@
 		87C633C4087F53A60093559B /* AppDefaults-Deprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDefaults-Deprecated.h"; sourceTree = "<group>"; };
 		87C7287A082B8E7E00AC9AE1 /* KFSplitView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = KFSplitView.h; sourceTree = "<group>"; };
 		87C7287B082B8E7E00AC9AE1 /* KFSplitView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = KFSplitView.m; sourceTree = "<group>"; };
+		87CF6469097A335D00DE8B16 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Japanese; path = Japanese.lproj/Acknowledgments.rtf; sourceTree = "<group>"; };
 		87D5D8C908DF0F990039A9EB /* BSBoardListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSBoardListView.h; sourceTree = "<group>"; };
 		87D5D8CA08DF0F990039A9EB /* BSBoardListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSBoardListView.m; sourceTree = "<group>"; };
 		87D5D8CF08DF0FCC0039A9EB /* boardListSelBgFocused.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = boardListSelBgFocused.tiff; sourceTree = "<group>"; };
 		87D5D8D008DF0FCC0039A9EB /* boardListSelBg.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = boardListSelBg.tiff; sourceTree = "<group>"; };
 		87D8DBA20833D55C004C1168 /* AboutPanelController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AboutPanelController.h; sourceTree = "<group>"; };
 		87D8DBA30833D55C004C1168 /* AboutPanelController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AboutPanelController.m; sourceTree = "<group>"; };
-		87D8DBAD0833D588004C1168 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/AboutPanel.nib; sourceTree = "<group>"; };
 		87D8DC210833E8AF004C1168 /* BaScLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BaScLogo.png; sourceTree = "<group>"; };
 		87D8DC260833EABB004C1168 /* bathyicon192.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bathyicon192.png; sourceTree = "<group>"; };
 		87E2264C0833AA5D00E7FC85 /* BathyScaphe.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = BathyScaphe.scriptSuite; sourceTree = "<group>"; };
@@ -1532,6 +1528,7 @@
 		872998690832616D00CBD740 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				87CF6468097A335D00DE8B16 /* Acknowledgments.rtf */,
 				8724A6DB09127E69009CC855 /* board_default.plist */,
 				87E2264C0833AA5D00E7FC85 /* BathyScaphe.scriptSuite */,
 				87E2264D0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology */,
@@ -1545,7 +1542,6 @@
 				872998F70832617F00CBD740 /* CMRMainMenu.strings */,
 				872999030832617F00CBD740 /* CMROpenURLManager.strings */,
 				8729990C0832618000CBD740 /* CMRTaskDescription.strings */,
-				87D8DBAA0833D57D004C1168 /* AboutPanel.nib */,
 				872998EB0832617F00CBD740 /* Browser.nib */,
 				872998F10832617F00CBD740 /* CMRAccessorySheet.nib */,
 				872998F40832617F00CBD740 /* CMRIndexingStepper.nib */,
@@ -1563,7 +1559,6 @@
 				8729994B0832618100CBD740 /* TextFind.nib */,
 				87BF52D308F7913400998C4E /* BSBoardInfoInspector.nib */,
 				87C4813D08FD05A300F91054 /* AddBoardSheet.nib */,
-				872999240832618000CBD740 /* Credits.rtf */,
 				872999270832618100CBD740 /* DateFormater.strings */,
 				8729992D0832618100CBD740 /* Downloader.strings */,
 				872999300832618100CBD740 /* HTMLView.strings */,
@@ -1643,6 +1638,7 @@
 				87299A37083261F200CBD740 /* Status_logcached.png */,
 				87299A38083261F200CBD740 /* Status_newThread.png */,
 				87299A39083261F200CBD740 /* Status_updated.png */,
+				8791EE29097A5BC200EA7475 /* Status_HeadModified.png */,
 				87299A3C083261F200CBD740 /* ThreadDocument.icns */,
 			);
 			path = image;
@@ -2836,7 +2832,6 @@
 				8729971D08325E2500CBD740 /* CMXPopUpWindowController.h in Headers */,
 				8729971F08325E2500CBD740 /* CMXPopUpWindowController_p.h in Headers */,
 				8729972008325E2500CBD740 /* CMXPopUpWindowManager.h in Headers */,
-				87D8DBA60833D55D004C1168 /* AboutPanelController.h in Headers */,
 				F49CCDF50849B87500835BE3 /* BSScriptsMenuManager.h in Headers */,
 				87E4752A085C57C100B3E45E /* BSWindow.h in Headers */,
 				87464E390864368F000F0371 /* RBSplitView.h in Headers */,
@@ -3188,7 +3183,6 @@
 				8729991D0832618000CBD740 /* CMRThreadViewer.nib in Resources */,
 				872999200832618000CBD740 /* CMRThreadViewerComponents.nib in Resources */,
 				872999230832618000CBD740 /* CMXMessageMenu.nib in Resources */,
-				872999260832618000CBD740 /* Credits.rtf in Resources */,
 				872999290832618100CBD740 /* DateFormater.strings in Resources */,
 				8729992F0832618100CBD740 /* Downloader.strings in Resources */,
 				872999320832618100CBD740 /* HTMLView.strings in Resources */,
@@ -3254,9 +3248,6 @@
 				87299B420832623A00CBD740 /* BWAgent.app in Resources */,
 				87E2264E0833AA5D00E7FC85 /* BathyScaphe.scriptSuite in Resources */,
 				87E2264F0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology in Resources */,
-				87D8DBAC0833D57D004C1168 /* AboutPanel.nib in Resources */,
-				87D8DC220833E8AF004C1168 /* BaScLogo.png in Resources */,
-				87D8DC270833EABB004C1168 /* bathyicon192.png in Resources */,
 				87BF7CA50840423900CC7D7C /* BathyScapheHelp in Resources */,
 				87B652990840625F008AE2BE /* SendMessage.tiff in Resources */,
 				F424609908462452000803EA /* Scripts.tiff in Resources */,
@@ -3290,6 +3281,8 @@
 				87751BCB097847FC009D4A9C /* browserSplitterDimple.tiff in Resources */,
 				87751C78097869FF009D4A9C /* browserSplitterVertical.tiff in Resources */,
 				87751C79097869FF009D4A9C /* browserSplitterDimpleVertical.tiff in Resources */,
+				87CF646A097A335D00DE8B16 /* Acknowledgments.rtf in Resources */,
+				8791EE2A097A5BC200EA7475 /* Status_HeadModified.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3554,7 +3547,6 @@
 				8729971C08325E2500CBD740 /* CMXPopUpWindowController+View.m in Sources */,
 				8729971E08325E2500CBD740 /* CMXPopUpWindowController.m in Sources */,
 				8729972108325E2500CBD740 /* CMXPopUpWindowManager.m in Sources */,
-				87D8DBA70833D55D004C1168 /* AboutPanelController.m in Sources */,
 				F49CCDF60849B87500835BE3 /* BSScriptsMenuManager.m in Sources */,
 				87E4752B085C57C100B3E45E /* BSWindow.m in Sources */,
 				87517B9F0864BA46002DA082 /* CMRPullDownIconBtn.m in Sources */,
@@ -3844,14 +3836,6 @@
 			name = CMXMessageMenu.nib;
 			sourceTree = "<group>";
 		};
-		872999240832618000CBD740 /* Credits.rtf */ = {
-			isa = PBXVariantGroup;
-			children = (
-				872999700832618800CBD740 /* Japanese */,
-			);
-			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
 		872999270832618100CBD740 /* DateFormater.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -4020,12 +4004,12 @@
 			name = AddBoardSheet.nib;
 			sourceTree = "<group>";
 		};
-		87D8DBAA0833D57D004C1168 /* AboutPanel.nib */ = {
+		87CF6468097A335D00DE8B16 /* Acknowledgments.rtf */ = {
 			isa = PBXVariantGroup;
 			children = (
-				87D8DBAD0833D588004C1168 /* Japanese */,
+				87CF6469097A335D00DE8B16 /* Japanese */,
 			);
-			name = AboutPanel.nib;
+			name = Acknowledgments.rtf;
 			sourceTree = "<group>";
 		};
 		F324DAFC04C6949900A80005 /* BoardListEditor.nib */ = {

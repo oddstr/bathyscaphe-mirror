@@ -131,10 +131,10 @@
     newline = [[[NSAttributedString alloc] initWithString: @"\n"] autorelease];
 
     //	Append that one newline to the real text a bunch of times
-    for (i = 0; i < BLANK_LINE_COUNT; i++)
+    /*for (i = 0; i < BLANK_LINE_COUNT; i++)
         [textToScroll insertAttributedString: newline atIndex : 0];
     for (i = 0; i < BLANK_LINE_COUNT; i++)
-        [textToScroll appendAttributedString: newline];
+        [textToScroll appendAttributedString: newline];*/
 
     //	Put the final result into the UI
     [[textView textStorage] setAttributedString: textToScroll];
@@ -237,7 +237,7 @@
         //       withObject : nil
         //       afterDelay : 1.0];
 
-    [self startScrollingAnimation];
+    //[self startScrollingAnimation];
 
     //	Make it the key window so it can watch for keystrokes
 }
@@ -246,7 +246,7 @@
 //	wasting the processor, since if we kept scrolling it wouldnÕt be visible anyway.)
 - (void) hidePanel
 {
-    [self stopScrollingAnimation];
+    //[self stopScrollingAnimation];
 
     [panelToDisplay orderOut: nil];
 }

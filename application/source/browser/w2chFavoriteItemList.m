@@ -1,6 +1,6 @@
 //:w2chFavoriteItemList.m
 /**
-  * $Id: w2chFavoriteItemList.m,v 1.5 2005/11/23 13:44:07 tsawada2 Exp $
+  * $Id: w2chFavoriteItemList.m,v 1.6 2006/01/16 00:20:20 tsawada2 Exp $
   * Copyright 2005 BathyScaphe Project. All rights reserved.
   *
   */
@@ -10,6 +10,8 @@
 #import "ThreadTextDownloader.h"
 #import "CMRThreadsUpdateListTask.h"
 #import "missing.h"
+#import "CMRHostHandler.h"
+#import "CMRThreadSignature.h"
 
 @implementation w2chFavoriteItemList
 - (void) registerToNotificationCenter
@@ -55,9 +57,77 @@
 {
 	return nil;
 }
+
+- (NSURL *) _resourceURL : (NSDictionary *) aaa
+{
+	CMRHostHandler	*handler_;
+	CMRThreadSignature	*tmptmp = [CMRThreadSignature threadSignatureFromFilepath : [aaa objectForKey : @"Path"]];
+	NSURL *boardURL_ = [[BoardManager defaultManager] URLForBoardName : [aaa objectForKey : @"BoardName"]];
+	//UTILAssertNotNil([self threadSignature]);
+	handler_ = [CMRHostHandler hostHandlerForURL : boardURL_];
+	return [handler_ datURLWithBoard:boardURL_ datName:[tmptmp datFilename]];
+}
+
 - (void) downloadThreadsList
 {
-	;
+	NSDictionary *tmp_;
+	//NSEnumerator	*tmp2_;
+	NSDate *lastDate_;
+	
+	tmp_ = [[[CMRFavoritesManager defaultManager] favoritesItemsArray] objectAtIndex : 0];
+	
+	NSLog(@"%@",[tmp_ description]);
+	lastDate_ = [tmp_ objectForKey : CMRThreadModifiedDateKey];
+
+	NSURLConnection	*download_;
+	NSURL *url_ = [self _resourceURL : tmp_];
+	NSLog(@"%@",[url_ absoluteString]);
+	
+	NSMutableURLRequest	*theRequest = [NSMutableURLRequest requestWithURL : url_];
+	[theRequest setHTTPMethod : @"HEAD"];
+	[theRequest setValue:@"Monazilla/1.00 (BathyScaphe/185)" forHTTPHeaderField:@"User-Agent"];
+
+	NSLog(@"%@",[[theRequest allHTTPHeaderFields] description]);
+
+	download_ = [NSURLConnection connectionWithRequest : theRequest
+													  delegate : self ];
+
+}
+
+-(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+	if([response isKindOfClass : [NSHTTPURLResponse class]]) {
+		NSDate *lastDate_;
+		NSDictionary *tmp_;
+	
+		tmp_ = [[[CMRFavoritesManager defaultManager] favoritesItemsArray] objectAtIndex : 0];
+
+		NSLog(@"MMM");
+		NSDictionary *dicHead = [ (NSHTTPURLResponse *) response allHeaderFields ];
+		NSString *sLastMod = [ dicHead objectForKey : @"Last-Modified" ];
+		NSCalendarDate *dateLastMod = [ NSCalendarDate dateWithString : sLastMod 
+                                                 calendarFormat : @"%a, %d %b %Y %H:%M:%S %Z"];
+		lastDate_ = [tmp_ objectForKey : CMRThreadModifiedDateKey];
+		if([dateLastMod isAfterDate : lastDate_]) {
+		NSMutableDictionary	*tmp2_;
+			NSLog(@"Modified");
+			tmp2_ = [tmp_ mutableCopy];
+			[tmp2_ setUnsignedInt : ThreadHeadModifiedStatus forKey : CMRThreadStatusKey];
+			[[[CMRFavoritesManager defaultManager] favoritesItemsArray] replaceObjectAtIndex: 0 withObject: tmp2_];
+			[tmp2_ release];
+			
+			[self startLoadingThreadsList : [self worker]];	
+		} else {
+			NSLog(@"Not Modified");
+		}
+	} else {
+		NSLog(@"Booo");
+	}
+}
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+	NSLog(@"MMMMMMMMMM");
+	//NSLog(@"%@",[error description]);
 }
 
 //Favorites

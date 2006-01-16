@@ -1,3 +1,23 @@
+2006-01-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/CMRAppDelegate.m
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		About パネルのカスタムメイドを止め、単純に Mac OS X 標準の standardAboutPanel を使うようにした。
+		また、そのかわりに「ヘルプ」＞「謝辞」を追加した（Safari のような）。
+		- 今までの About パネル用各種ファイルはターゲットから外した。いずれリポジトリからも削除される。
+	* application/Resources/Japanese.lproj/Acknowledgments.rtf
+		[新規追加] 今まで About パネルに表示していた長文のほとんどをこのファイルに移した。「ヘルプ」＞「謝辞」と選んで
+		このファイルを表示させる。
+	* application/source/browser/CMRThreadsList-DataSource.m
+	* application/source/browser/CMRThreadsUpdateListTask.m
+	* application/source/browser/w2chFavoriteItemList.m
+	* application/source/browser/CMRBrowser-Validation.m
+		HEAD メソッドを投げて、「お気に入り」の各項目の更新チェックをするための実験を開始した。
+		まだろくに仕様も決めていないが… HEAD では最終更新日の比較しかできないので、新着レスがあるかどうか、までしか
+		わからないことに注意せよ（新着レスの個数までは調べられない）。
+	* application/Resources/image/Status_HeadModified.png
+		[新規追加] まだ使用されることは無い。
+	* frameworks/CocoMonar/framework/src/CMRAppTypes.h
+		enum ThreadStatus : ThreadHeadModifiedStatus を追加定義。まだ使用されることは無い。
 2006-01-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/preference/pane/PreferencesPane-PCManagement.m
 		環境設定：各ペインの切り替え動作を滑らかになるよう改良。

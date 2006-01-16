@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.28 2006/01/13 23:47:59 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.29 2006/01/16 00:20:20 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -620,7 +620,7 @@
 	id				hItem4;
 	
 	BOOL	isIncremental;
-
+	/*
 	CMRSearchMask searchMasks_[] = {
 									CMRSearchOptionCaseInsensitive,
 									CMRSearchOptionZenHankakuInsensitive,
@@ -632,7 +632,9 @@
 									@"Zenkaku/Hankaku Insensitive",
 									@"Ignore Specified"
 								};
-	int				i, cnt;
+	*/
+	//int				i, cnt;
+	int cnt = -1;
 	
 	NSMenu	*cellMenu	= [[[NSMenu alloc] initWithTitle : @"Search Menu"] autorelease];
     id		searchCell	= [[self searchField] cell];
@@ -646,7 +648,7 @@
 		int maxValu = [CMRPref maxCountForSearchHistory];
 		[searchCell setMaximumRecents : maxValu];
 	}
-
+	/*
 	cnt = UTILNumberOfCArray(searchMasks_);
 	
 	NSAssert2(
@@ -673,18 +675,13 @@
 		
 		state_ = (searchMasks_[i] & [CMRPref threadSearchOption]) ? NSOnState : NSOffState;
 
-		/*if (CMRSearchOptionCaseInsensitive == searchMasks_[i] || 
-		   CMRSearchOptionZenHankakuInsensitive == searchMasks_[i]) {
-			// à”ñ°Ç™ãtÇ…Ç»Ç¡ÇƒÇ¢ÇÈÅB
-			state_ = (state_ == NSOnState) ? NSOffState : NSOnState;
-		}*/
 		[item_ setState : state_];
 		[cellMenu insertItem:item_ atIndex:i];
 		[item_ release];
 	}
-
+	*/
 	if (!isIncremental) {
-		[cellMenu insertItem : [NSMenuItem separatorItem] atIndex : cnt];
+		//[cellMenu insertItem : [NSMenuItem separatorItem] atIndex : cnt];
 
 		hItem1 = [[NSMenuItem alloc] initWithTitle : [self localizedString : @"Search PopUp History Title"]
 											action : NULL
@@ -717,9 +714,10 @@
 		[hItem5 setTag : NSSearchFieldClearRecentsMenuItemTag];
 		[cellMenu insertItem : hItem5 atIndex : (cnt+5)];
 		[hItem5 release];
-	}
+	//}
 	
     [searchCell setSearchMenuTemplate : cellMenu];
+	}
 }
 @end
 
