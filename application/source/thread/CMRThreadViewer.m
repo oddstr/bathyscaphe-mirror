@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.18 2005/12/10 12:39:44 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.19 2006/01/17 20:19:20 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -458,7 +458,14 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 		// ファイルからの読み込み、変換が終了
 		// すでにレイアウトのタスクを開始したので、
 		// オンラインモードなら更新する
-		// 
+		//
+		
+		// 2006-01-17 tsawada2<ben-sawa@td5.so-net.ne.jp>
+		// 内容を表示しないで「スレッドを更新」した場合（スレッド一覧から更新した）でも、AA スレッドのレスを
+		// AA フォントでレンダリングするために、このタイミングで changeAllMessageAttributes: flags: を実行する。
+		if([[self threadAttributes] isAAThread])
+			[[self threadLayout] changeAllMessageAttributes : YES flags : CMRAsciiArtMask];
+
 		[self reloadIfOnlineMode : self];
 	}
     // remove from lock

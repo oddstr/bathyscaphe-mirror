@@ -1,3 +1,20 @@
+2006-01-18 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/image/BaScLogo.png
+	* application/Resources/image/bathyicon192.png
+	* application/source/window/AboutPanelController.h
+	* application/source/window/AboutPanelController.m
+	* application/Resources/Japanese.lproj/AboutPanel.nib
+		[削除] 削除。
+	* application/source/view/BSBoardListView.m
+		選択列描画用の画像リソースをいちいち取得せず、インスタンス変数として保持するようにした。つまり、ごくわずかながら効率化を図ったつもり。
+	* application/source/browser/BSTitleRulerView.m
+		スレッドタイトルバー：ウインドウがアクティブでないときは淡色表示するようにした。
+	* application/Resources/image/titleRulerBgNotActive.tiff
+		[新規追加] スレッドタイトルバー：ウインドウがアクティブでないときは淡色表示するようにした。そのための追加リソース。
+2006-01-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer.m
+		AA スレッドを、開かないで「スレッドを更新」したあと、次にそのスレッドを開いても、取得されたレスが AA フォントで
+		表示されない問題を修正。
 2006-01-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/CMRAppDelegate.m
 	* application/Resources/Japanese.lproj/MainMenu.nib

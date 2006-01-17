@@ -24,6 +24,8 @@
 	@private
 	NSString	*m_titleStr;
 	NSImage		*m_bgImage;
+	
+	NSImage		*m_bgImageNonActive;
 }
 
 /*!
@@ -36,4 +38,5 @@
 
 - (NSString *) titleStr;
 - (NSImage *) bgImage;
+- (NSImage *) bgImageNonActive;
 @end
