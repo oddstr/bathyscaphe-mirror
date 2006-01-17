@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.19 2006/01/17 20:19:20 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.20 2006/01/17 21:08:34 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -226,6 +226,15 @@ FileNotExistsAutoReloadIfNeeded:
 	if (NO == [[self window] isVisible])
 		[self showWindow : self];
 	
+	{
+		NSString *bName_;
+		bName_ = [self boardName];
+		if (nil == bName_)
+			bName_ = [(CMRBBSSignature *)[self boardIdentifier] name];
+		
+		if ([[BoardManager defaultManager] allThreadsShouldAAThreadAtBoard : bName_])
+			[self setAAThread : YES];
+	}
 	[self didChangeThread];
 	[[self threadLayout] clear];
 	[self reloadIfOnlineMode : self];

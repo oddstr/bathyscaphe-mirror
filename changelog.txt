@@ -1,4 +1,11 @@
 2006-01-18 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer.m
+	* application/source/bbs/BSBoardInfoInspector.m
+	* application/Resources/Japanese.lproj/BSBoardInfoInspector.nib
+		「掲示板オプション」インスペクタから、その板のスレッドをデフォルトで AA スレッドにしておくかどうか選べるようにした。
+		- AA 系の掲示板で役に立つ。
+		- この設定は該当板ですでに取得済みのログに影響することは無い。また、このオプションが設定された後でも、もちろん自分で
+		　各ログごとに「AA スレッド」の指定は切り替えられる。
 	* application/Resources/image/BaScLogo.png
 	* application/Resources/image/bathyicon192.png
 	* application/source/window/AboutPanelController.h
