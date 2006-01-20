@@ -80,3 +80,7 @@
 - (BOOL) isFavoritesImported;
 - (void) setIsFavoritesImported : (BOOL) TorF;
 */
+
+// Deprecated in ShortCircuit and later.
+//- (int) threadViewerMailType;
+//- (void) setThreadViewerMailType : (int) aType;

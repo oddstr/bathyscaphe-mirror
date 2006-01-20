@@ -1,5 +1,5 @@
 /**
-  * $Id: GeneralPrefController.h,v 1.7 2006/01/15 03:28:07 tsawada2 Exp $
+  * $Id: GeneralPrefController.h,v 1.8 2006/01/20 03:02:25 tsawada2 Exp $
   * 
   * GeneralPrefController.h
   *
@@ -39,6 +39,9 @@
 - (void) setCollectByNew : (BOOL) boxState_;
 - (BOOL) showsAllFirstTime;
 - (void) setShowsAllFirstTime : (BOOL) boxState_;
+
+- (BOOL) scrollToLastUpdated;
+- (void) setScrollToLastUpdated : (BOOL) boxState_;
 @end
 
 

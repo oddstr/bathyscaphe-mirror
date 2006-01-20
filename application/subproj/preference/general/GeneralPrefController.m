@@ -1,5 +1,5 @@
 /**
-  * $Id: GeneralPrefController.m,v 1.8 2006/01/15 03:28:07 tsawada2 Exp $
+  * $Id: GeneralPrefController.m,v 1.9 2006/01/20 03:02:25 tsawada2 Exp $
   * 
   * GeneralPrefController.m
   *
@@ -153,6 +153,16 @@
 - (void) setShowsAllFirstTime : (BOOL) boxState_
 {
 	[[self preferences] setShowsAllMessagesWhenDownloaded : boxState_];
+}
+
+- (BOOL) scrollToLastUpdated
+{
+	return [[self preferences] scrollToLastUpdated];
+}
+
+- (void) setScrollToLastUpdated : (BOOL) boxState_
+{
+	[[self preferences] setScrollToLastUpdated : boxState_];
 }
 @end
 

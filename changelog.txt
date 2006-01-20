@@ -1,3 +1,14 @@
+2006-01-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/general/GeneralPrefController.m
+	* application/subproj/preference/Japanese.lproj/GeneralPreferences.nib
+	* application/source/preferences/AppDefaults-ThreadViewer.m
+		新着レスの位置までスクロールするかどうかは、「環境設定」＞「一般」から設定可能にした（デフォルト：オフ）。
+	* application/source/thread/CMRThreadViewer.m
+		（とりあえず）新着レスの位置までスクロールするようにした。
+		- スクロールは、今までの「最後に読んだ位置までスクロール」（threadComposingCallback:）と、「新着レスの位置までスクロール」
+		　（threadComposingDidFinished:）の二度実行される。これは一見無駄に思えるかもしれないが、新着レスが無かったり、オフラインモードで
+		　スレッドを開いた際などと処理を共通化する上では楽なのだ。しかも体感速度的にはむしろ二度実行される方が小気味良い。
+		- 新着レスが無い場合・オフラインモードの場合は今までどおり、「最後に読んだ位置までスクロール」される。
 2006-01-18 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadViewer.m
 	* application/source/bbs/BSBoardInfoInspector.m

@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.28 2005/12/14 14:37:15 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.29 2006/01/20 03:02:24 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -98,8 +98,6 @@
 - (void) setDefaultKoteHanList : (NSArray *) array;
 
 /* ç≈å„Ç…äJÇ¢ÇΩî¬ */
-//- (CMRBBSSignature *) browserLastBoard;
-//- (void) setBrowserLastBoard : (CMRBBSSignature *) aSignature;
 - (NSString *) browserLastBoard;
 - (void) setBrowserLastBoard : (NSString *) boardName;
 
@@ -361,9 +359,6 @@
 
 - (int) threadViewerLinkType;
 - (void) setThreadViewerLinkType : (int) aType;
-// Deprecated in ShortCircuit and later.
-//- (int) threadViewerMailType;
-//- (void) setThreadViewerMailType : (int) aType;
 
 - (BOOL) mailAttachmentShown;
 - (void) setMailAttachmentShown : (BOOL) flag;
@@ -390,6 +385,10 @@
 /* InnocentStarter Additions */
 - (float) mouseDownTrackingTime;
 - (void) setMouseDownTrackingTime : (float) aValue;
+
+/* Vita Additions */
+- (BOOL) scrollToLastUpdated;
+- (void) setScrollToLastUpdated : (BOOL) flag;
 
 - (void) _loadThreadViewerSettings;
 - (BOOL) _saveThreadViewerSettings;

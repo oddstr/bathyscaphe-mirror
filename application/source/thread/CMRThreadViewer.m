@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.20 2006/01/17 21:08:34 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.21 2006/01/20 03:02:24 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -476,6 +476,9 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 			[[self threadLayout] changeAllMessageAttributes : YES flags : CMRAsciiArtMask];
 
 		[self reloadIfOnlineMode : self];
+	} else {
+		if ([CMRPref scrollToLastUpdated] && [self canScrollToLastUpdatedMessage])
+			[self scrollToLastUpdatedIndex : self];
 	}
     // remove from lock
     [[CMRNetGrobalLock sharedInstance] remove : [self threadIdentifier]];
