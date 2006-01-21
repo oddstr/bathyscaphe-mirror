@@ -1,3 +1,9 @@
+2006-01-21 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/w2chFavoriteItemList.m
+	* application/Resources/Japanese.lproj/CMRTaskDescription.strings
+		お気に入りの更新チェックを実装開始した。
+	* application/source/browser/BSFavoritesHEADCheckTask.m
+		[新規追加] お気に入りの更新チェック（HEAD メソッド投げ）を行う、CMRThreadLayoutConcreateTask のサブクラス。
 2006-01-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/preference/general/GeneralPrefController.m
 	* application/subproj/preference/Japanese.lproj/GeneralPreferences.nib

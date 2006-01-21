@@ -610,6 +610,8 @@
 		87C2041208FF4873006DC42C /* ImagePreviewer.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87C2031D08FF3E2B006DC42C /* ImagePreviewer.plugin */; };
 		87C4813F08FD05A300F91054 /* AddBoardSheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87C4813D08FD05A300F91054 /* AddBoardSheet.nib */; };
 		87C9DD3009404CA3004E6596 /* AppDefaults-Alert.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCDD04C698FB00A80005 /* AppDefaults-Alert.m */; };
+		87CD85CC098170ED002C4372 /* BSFavoritesHEADCheckTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 87CD85CA098170ED002C4372 /* BSFavoritesHEADCheckTask.h */; };
+		87CD85CD098170ED002C4372 /* BSFavoritesHEADCheckTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CD85CB098170ED002C4372 /* BSFavoritesHEADCheckTask.m */; };
 		87CF646A097A335D00DE8B16 /* Acknowledgments.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 87CF6468097A335D00DE8B16 /* Acknowledgments.rtf */; };
 		87D5D8CB08DF0F990039A9EB /* BSBoardListView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D5D8C908DF0F990039A9EB /* BSBoardListView.h */; };
 		87D5D8CC08DF0F9A0039A9EB /* BSBoardListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D5D8CA08DF0F990039A9EB /* BSBoardListView.m */; };
@@ -975,6 +977,8 @@
 		87C633C4087F53A60093559B /* AppDefaults-Deprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDefaults-Deprecated.h"; sourceTree = "<group>"; };
 		87C7287A082B8E7E00AC9AE1 /* KFSplitView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = KFSplitView.h; sourceTree = "<group>"; };
 		87C7287B082B8E7E00AC9AE1 /* KFSplitView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = KFSplitView.m; sourceTree = "<group>"; };
+		87CD85CA098170ED002C4372 /* BSFavoritesHEADCheckTask.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = BSFavoritesHEADCheckTask.h; sourceTree = "<group>"; };
+		87CD85CB098170ED002C4372 /* BSFavoritesHEADCheckTask.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = BSFavoritesHEADCheckTask.m; sourceTree = "<group>"; };
 		87CF6469097A335D00DE8B16 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Japanese; path = Japanese.lproj/Acknowledgments.rtf; sourceTree = "<group>"; };
 		87D5D8C908DF0F990039A9EB /* BSBoardListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSBoardListView.h; sourceTree = "<group>"; };
 		87D5D8CA08DF0F990039A9EB /* BSBoardListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSBoardListView.m; sourceTree = "<group>"; };
@@ -1782,6 +1786,8 @@
 		87B4E68207D82C5300D09944 /* ThreadsList */ = {
 			isa = PBXGroup;
 			children = (
+				87CD85CA098170ED002C4372 /* BSFavoritesHEADCheckTask.h */,
+				87CD85CB098170ED002C4372 /* BSFavoritesHEADCheckTask.m */,
 				F324DC4804C698FA00A80005 /* CMRThreadsList.h */,
 				F324DC4A04C698FA00A80005 /* CMRThreadsList_p.h */,
 				F324DC4904C698FA00A80005 /* CMRThreadsList.m */,
@@ -2845,6 +2851,7 @@
 				871265B9097D84ED00B90FF2 /* CMRAccessorySheetController.h in Headers */,
 				871265BB097D84ED00B90FF2 /* CMRPullDownIconBtn.h in Headers */,
 				871265BD097D84ED00B90FF2 /* CMRTextColumnCell.h in Headers */,
+				87CD85CC098170ED002C4372 /* BSFavoritesHEADCheckTask.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3562,6 +3569,7 @@
 				871265BA097D84ED00B90FF2 /* CMRAccessorySheetController.m in Sources */,
 				871265BC097D84ED00B90FF2 /* CMRPullDownIconBtn.m in Sources */,
 				871265BE097D84ED00B90FF2 /* CMRTextColumnCell.m in Sources */,
+				87CD85CD098170ED002C4372 /* BSFavoritesHEADCheckTask.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

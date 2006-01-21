@@ -1,7 +1,8 @@
-//:w2chFavoriteItemList.m
 /**
-  * $Id: w2chFavoriteItemList.m,v 1.6 2006/01/16 00:20:20 tsawada2 Exp $
-  * Copyright 2005 BathyScaphe Project. All rights reserved.
+  * $Id: w2chFavoriteItemList.m,v 1.7 2006/01/21 07:17:02 tsawada2 Exp $
+  * BathyScaphe
+  *
+  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
   *
   */
 #import "CMRThreadsList_p.h"
@@ -12,6 +13,7 @@
 #import "missing.h"
 #import "CMRHostHandler.h"
 #import "CMRThreadSignature.h"
+#import "BSFavoritesHEADCheckTask.h"
 
 @implementation w2chFavoriteItemList
 - (void) registerToNotificationCenter
@@ -58,76 +60,30 @@
 	return nil;
 }
 
-- (NSURL *) _resourceURL : (NSDictionary *) aaa
-{
-	CMRHostHandler	*handler_;
-	CMRThreadSignature	*tmptmp = [CMRThreadSignature threadSignatureFromFilepath : [aaa objectForKey : @"Path"]];
-	NSURL *boardURL_ = [[BoardManager defaultManager] URLForBoardName : [aaa objectForKey : @"BoardName"]];
-	//UTILAssertNotNil([self threadSignature]);
-	handler_ = [CMRHostHandler hostHandlerForURL : boardURL_];
-	return [handler_ datURLWithBoard:boardURL_ datName:[tmptmp datFilename]];
-}
-
 - (void) downloadThreadsList
 {
-	NSDictionary *tmp_;
-	//NSEnumerator	*tmp2_;
-	NSDate *lastDate_;
+	BSFavoritesHEADCheckTask		*task_;
 	
-	tmp_ = [[[CMRFavoritesManager defaultManager] favoritesItemsArray] objectAtIndex : 0];
+	task_ = [[BSFavoritesHEADCheckTask alloc]
+				initWithFavItemsArray : [[CMRFavoritesManager defaultManager] favoritesItemsArray]];
 	
-	NSLog(@"%@",[tmp_ description]);
-	lastDate_ = [tmp_ objectForKey : CMRThreadModifiedDateKey];
-
-	NSURLConnection	*download_;
-	NSURL *url_ = [self _resourceURL : tmp_];
-	NSLog(@"%@",[url_ absoluteString]);
+	// 進行状況を表示するための情報
+	[task_ setBoardName : [self boardName]];
+	[task_ setIdentifier : [self boardName]];
 	
-	NSMutableURLRequest	*theRequest = [NSMutableURLRequest requestWithURL : url_];
-	[theRequest setHTTPMethod : @"HEAD"];
-	[theRequest setValue:@"Monazilla/1.00 (BathyScaphe/185)" forHTTPHeaderField:@"User-Agent"];
+	// 終了通知
+	[[NSNotificationCenter defaultCenter]
+			addObserver : self
+			selector : @selector(favoritesHEADCheckTaskDidFinish:)
+			name : BSFavoritesHEADCheckTaskDidFinishNotification
+			object : task_];
 
-	NSLog(@"%@",[[theRequest allHTTPHeaderFields] description]);
+	//if (usesWorker)
+		[[self worker] push : task_];
+	//else
+		//[task_ executeWithLayout : [self worker]];
 
-	download_ = [NSURLConnection connectionWithRequest : theRequest
-													  delegate : self ];
-
-}
-
--(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-	if([response isKindOfClass : [NSHTTPURLResponse class]]) {
-		NSDate *lastDate_;
-		NSDictionary *tmp_;
-	
-		tmp_ = [[[CMRFavoritesManager defaultManager] favoritesItemsArray] objectAtIndex : 0];
-
-		NSLog(@"MMM");
-		NSDictionary *dicHead = [ (NSHTTPURLResponse *) response allHeaderFields ];
-		NSString *sLastMod = [ dicHead objectForKey : @"Last-Modified" ];
-		NSCalendarDate *dateLastMod = [ NSCalendarDate dateWithString : sLastMod 
-                                                 calendarFormat : @"%a, %d %b %Y %H:%M:%S %Z"];
-		lastDate_ = [tmp_ objectForKey : CMRThreadModifiedDateKey];
-		if([dateLastMod isAfterDate : lastDate_]) {
-		NSMutableDictionary	*tmp2_;
-			NSLog(@"Modified");
-			tmp2_ = [tmp_ mutableCopy];
-			[tmp2_ setUnsignedInt : ThreadHeadModifiedStatus forKey : CMRThreadStatusKey];
-			[[[CMRFavoritesManager defaultManager] favoritesItemsArray] replaceObjectAtIndex: 0 withObject: tmp2_];
-			[tmp2_ release];
-			
-			[self startLoadingThreadsList : [self worker]];	
-		} else {
-			NSLog(@"Not Modified");
-		}
-	} else {
-		NSLog(@"Booo");
-	}
-}
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
-	NSLog(@"MMMMMMMMMM");
-	//NSLog(@"%@",[error description]);
+	[task_ release];
 }
 
 //Favorites
@@ -243,6 +199,37 @@
 	[self startLoadingThreadsList : [self worker]];
 }
 
+- (void) favoritesHEADCheckTaskDidFinish : (NSNotification *) aNotification
+{
+	UTILAssertNotificationName(
+		aNotification,
+		BSFavoritesHEADCheckTaskDidFinishNotification);
+
+	id					object_;
+	NSDictionary		*userInfo_;
+	NSMutableArray		*threadsArray_;
+	
+	object_ = [aNotification object];
+	UTILAssertKindOfClass(object_, BSFavoritesHEADCheckTask);
+	if(NO == [[object_ identifier] isEqual : [self boardName]])
+		return;
+	
+	userInfo_ = [aNotification userInfo];
+	
+	threadsArray_	= [userInfo_ objectForKey : kBSUserInfoThreadsArrayKey];
+	UTILAssertKindOfClass(threadsArray_, NSMutableArray);
+	
+
+	[[CMRFavoritesManager defaultManager] setFavoritesItemsArray : threadsArray_];
+
+
+	[self startLoadingThreadsList : [self worker]];
+
+	[[NSNotificationCenter defaultCenter]
+			removeObserver : self
+			name : [aNotification name]
+			object : [aNotification object]];
+}
 
 - (void) syncFavIfNeededWithAttr : (NSMutableDictionary *) thread forPath : (NSString *) filePath
 {

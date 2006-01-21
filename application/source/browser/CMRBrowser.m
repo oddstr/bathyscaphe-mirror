@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.14 2005/12/10 12:39:44 tsawada2 Exp $
+  * $Id: CMRBrowser.m,v 1.15 2006/01/21 07:17:02 tsawada2 Exp $
   * 
   * CMRBrowser.m
   *
@@ -149,8 +149,6 @@ willRemoveController : (NSWindowController *) aController;
 
 static BOOL threadDictionaryCompare(NSDictionary *dict1, NSDictionary *dict2)
 {
-	//CMRBBSSignature		*bbs1, *bbs2;
-	//NSString			*boardName;
 	NSString			*brdName1, *brdName2;
 	NSString			*dat1, *dat2;
 	BOOL				result = NO;
@@ -158,17 +156,12 @@ static BOOL threadDictionaryCompare(NSDictionary *dict1, NSDictionary *dict2)
 	if (dict1 == dict2) return YES;
 	if (nil == dict1 || nil == dict2) return NO;
 	
-	//boardName_ = [CMRThreadAttributes boardNameFromDictionary : dict1];
 	brdName1 = [CMRThreadAttributes boardNameFromDictionary : dict1];
-	//bbs1 = [CMRBBSSignature BBSSignatureWithName : boardName_];
 	dat1 = [CMRThreadAttributes identifierFromDictionary : dict1];
 	
-	//boardName_ = [CMRThreadAttributes boardNameFromDictionary : dict2];
 	brdName2 = [CMRThreadAttributes boardNameFromDictionary : dict2];
-	//bbs2 = [CMRBBSSignature BBSSignatureWithName : boardName_];
 	dat2 = [CMRThreadAttributes identifierFromDictionary : dict2];
 	
-	//result = bbs1 ? [bbs1 isEqual : bbs2] : nil == bbs2;
 	result = brdName1 ? [brdName1 isEqualToString : brdName2] : nil == brdName2;
 	if (NO == result) return NO;
 	
