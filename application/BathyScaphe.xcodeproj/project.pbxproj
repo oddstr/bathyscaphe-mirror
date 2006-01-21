@@ -1118,6 +1118,10 @@
 		F4CB530F096996AC001256C8 /* SmartBLIEditorComponents.nib in Resources */ = {isa = PBXBuildFile; fileRef = F4CB530B096996AC001256C8 /* SmartBLIEditorComponents.nib */; };
 		F4CB5310096996AC001256C8 /* SmartBoardItemEditor.nib in Resources */ = {isa = PBXBuildFile; fileRef = F4CB530D096996AC001256C8 /* SmartBoardItemEditor.nib */; };
 		F4E2E0BB08B5FB3A00177310 /* BoardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8794CC0F089C033300161BAB /* BoardManager.m */; };
+		F4E431450982A34000119842 /* BSDatePicker.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E431410982A34000119842 /* BSDatePicker.h */; };
+		F4E431460982A34000119842 /* BSDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E431420982A34000119842 /* BSDatePicker.m */; };
+		F4E431470982A34000119842 /* BSDatePickerCell.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E431430982A34000119842 /* BSDatePickerCell.h */; };
+		F4E431480982A34000119842 /* BSDatePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E431440982A34000119842 /* BSDatePickerCell.m */; };
 		F4F57FA30945A9DA004DF9DB /* BoardList.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CD3090E970F007FF9C3 /* BoardList.png */; };
 		F4F57FA40945A9DB004DF9DB /* beEnabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CD2090E970F007FF9C3 /* beEnabled.png */; };
 		F4F57FA50945A9DC004DF9DB /* beDisabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CD1090E970F007FF9C3 /* beDisabled.png */; };
@@ -2044,6 +2048,10 @@
 		F4E2F26808B8A27800177310 /* vdbeInt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vdbeInt.h; sourceTree = "<group>"; };
 		F4E2F26908B8A27800177310 /* vdbemem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vdbemem.c; sourceTree = "<group>"; };
 		F4E2F26A08B8A27800177310 /* where.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = where.c; sourceTree = "<group>"; };
+		F4E431410982A34000119842 /* BSDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSDatePicker.h; sourceTree = "<group>"; };
+		F4E431420982A34000119842 /* BSDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSDatePicker.m; sourceTree = "<group>"; };
+		F4E431430982A34000119842 /* BSDatePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSDatePickerCell.h; sourceTree = "<group>"; };
+		F4E431440982A34000119842 /* BSDatePickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSDatePickerCell.m; sourceTree = "<group>"; };
 		F4F5821D0945C9CC004DF9DB /* ConcreteBoardListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConcreteBoardListItem.h; sourceTree = "<group>"; };
 		F4F5821E0945C9CC004DF9DB /* ConcreteBoardListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConcreteBoardListItem.m; sourceTree = "<group>"; };
 		F4F5871109472D8F004DF9DB /* analyze.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = analyze.c; sourceTree = "<group>"; };
@@ -3043,6 +3051,7 @@
 		F324DD8D04C698FB00A80005 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				F4E4313B0982A31000119842 /* DatePicker */,
 				F3733DC405BA28CD009D1038 /* CMXMenuHolder.h */,
 				F3733DC505BA28CD009D1038 /* CMXMenuHolder.m */,
 				87BD62250865D40B0080A7CA /* SplitView */,
@@ -3451,6 +3460,17 @@
 			name = sqlite;
 			path = ../misc/sqlite;
 			sourceTree = SOURCE_ROOT;
+		};
+		F4E4313B0982A31000119842 /* DatePicker */ = {
+			isa = PBXGroup;
+			children = (
+				F4E431410982A34000119842 /* BSDatePicker.h */,
+				F4E431420982A34000119842 /* BSDatePicker.m */,
+				F4E431430982A34000119842 /* BSDatePickerCell.h */,
+				F4E431440982A34000119842 /* BSDatePickerCell.m */,
+			);
+			name = DatePicker;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -3930,6 +3950,8 @@
 				F4CB530509699670001256C8 /* SmartBLIEditorHelper.h in Headers */,
 				F4CB530709699670001256C8 /* SmartBoardListItemEditor.h in Headers */,
 				F4CB530909699670001256C8 /* SmartCondition.h in Headers */,
+				F4E431450982A34000119842 /* BSDatePicker.h in Headers */,
+				F4E431470982A34000119842 /* BSDatePickerCell.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5084,6 +5106,8 @@
 				F4CB530609699670001256C8 /* SmartBLIEditorHelper.m in Sources */,
 				F4CB530809699670001256C8 /* SmartBoardListItemEditor.m in Sources */,
 				F4CB530A09699670001256C8 /* SmartCondition.m in Sources */,
+				F4E431460982A34000119842 /* BSDatePicker.m in Sources */,
+				F4E431480982A34000119842 /* BSDatePickerCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

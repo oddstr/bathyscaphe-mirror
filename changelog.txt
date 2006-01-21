@@ -1,3 +1,13 @@
+2006-01-22 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+		スレッドステータスがスレッド読み込み時に更新されていなかったのを修正。
+	* application/Resources/Japanese.lproj/SmartBLIEditorComponents.nib
+		スマートボード編集ウインドウの日付フィールドをBSDatePickerにした。
+	* application/source/view/BSDatePicker.h
+	* application/source/view/BSDatePicker.m
+	* application/source/view/BSDatePickerCell.h
+	* application/source/view/BSDatePickerCell.m
+		[新規追加]Pantherで駆動するDatePicker.
 2006-01-06 masakih <masakih@users.sourceforge.jp>
 	* application/Resources/Japanese.lproj/CriteriaSpecifications.plist
 		[新規追加]スマートボード編集ウインドウの条件のアイテムの並びを
