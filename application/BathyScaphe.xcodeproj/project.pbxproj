@@ -819,7 +819,7 @@
 		872999650832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/CMROpenURLManager.strings; sourceTree = "<group>"; };
 		872999660832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/CMRReplyWindow.nib; sourceTree = "<group>"; };
 		872999670832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/CMRStatusView.nib; sourceTree = "<group>"; };
-		872999680832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/CMRTaskDescription.strings; sourceTree = "<group>"; };
+		872999680832618800CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/CMRTaskDescription.strings; sourceTree = "<group>"; };
 		872999690832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/CMRTaskItem.nib; sourceTree = "<group>"; };
 		8729996A0832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/CMRTaskManager.nib; sourceTree = "<group>"; };
 		8729996B0832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/CMRThreadMenu.nib; sourceTree = "<group>"; };

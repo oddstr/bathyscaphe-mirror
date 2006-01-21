@@ -1,5 +1,5 @@
 /**
-  * $Id: BSFavoritesHEADCheckTask.m,v 1.1 2006/01/21 07:17:02 tsawada2 Exp $
+  * $Id: BSFavoritesHEADCheckTask.m,v 1.2 2006/01/21 10:13:32 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2006 BathyScaphe Project. All rights reserved.
@@ -13,85 +13,121 @@
 
 NSString *const BSFavoritesHEADCheckTaskDidFinishNotification = @"BSFavoritesHEADCheckTaskDidFinishNotification";
 
+static NSString *const BSFavHEADerUAKey	= @"User-Agent";
+static NSString *const BSFavHEADerLMKey	= @"Last-Modified";
+static NSString *const BSFavCheckMethodKey = @"HEAD";
+static NSString *const BSFavCheckDateFormatKey = @"%a, %d %b %Y %H:%M:%S %Z";
 
-@implementation BSFavoritesHEADCheckTask
-- (NSURL *) getDATURL: (NSDictionary        *)dict
+static NSString	*userAgent_ = nil;
+
+static NSString *monazillaUserAgent()
 {
-	CMRHostHandler	*handler_;
-	NSURL *url_;
-	CMRThreadSignature	*tmptmp = [CMRThreadSignature threadSignatureFromFilepath : [dict objectForKey : @"Path"]];
-	//if(tmptmp)NSLog(@"%@",[tmptmp datFilename]);
-	NSURL *boardURL_ = [[BoardManager defaultManager] URLForBoardName : [dict objectForKey : @"BoardName"]];
-	//NSLog(@"%@",[boardURL_ description]);
-	handler_ = [CMRHostHandler hostHandlerForURL : boardURL_];
-	url_ = [handler_ datURLWithBoard:boardURL_ datName:[tmptmp datFilename]];
-	//NSString *mmm_ = [NSString stringWithFormat : @"%@dat/%@", [boardURL_ absoluteString],[tmptmp datFilename]];
-	//NSLog(@"%@",mmm_);
-	//NSLog(@"%@",[url_ absoluteString]);
-	return url_;//[NSURL URLWithString : mmm_];
+	const long	dolibVersion_ = (1 << 16);
+		
+	// monazilla.org (02.01.20)
+	if (userAgent_ == nil) {
+		userAgent_ = [[NSString stringWithFormat : @"Monazilla/%d.%02d (%@/%@)",
+												   dolibVersion_ >> 16, dolibVersion_ & 0xffff,
+												   [NSBundle applicationName], [NSBundle applicationVersion]] retain];
+	}
+	return userAgent_;
 }
 
-- (NSDictionary *) constructByAppendingCachedInfo : (NSDictionary *)thread withURL : (NSURL *) anURL
+static NSURL *getDATURL(NSDictionary *dict)
 {
-	NSURLResponse *response = nil;
-	NSError *ifErr = nil;
+	CMRHostHandler		*handler_;
+	NSURL				*boardURL_;
+	NSURL				*url_;
+	CMRThreadSignature	*tmpSign_;
 	
-	unsigned s;
-	NSNumber *status;
+	tmpSign_ = [CMRThreadSignature threadSignatureFromFilepath : [dict objectForKey : CMRThreadLogFilepathKey]];
+
+	boardURL_ = [[BoardManager defaultManager] URLForBoardName : [dict objectForKey : ThreadPlistBoardNameKey]];
+	handler_ = [CMRHostHandler hostHandlerForURL : boardURL_];
+	
+	url_ = [handler_ datURLWithBoard :boardURL_ datName : [tmpSign_ datFilename]];
+
+	return url_;
+}
+
+static NSDictionary *replaceAttributesIfNeeded(NSDictionary *thread)
+{
+	NSURLResponse	*response = nil;
+	NSError			*ifErr = nil;
+	NSNumber	*status;
+	NSURL		*checkURL;
+	NSMutableURLRequest	*theRequest;
+	int			t;
+
 	status = [thread objectForKey : CMRThreadStatusKey];
 	if(status == nil) return thread;
-	s = [status unsignedIntValue];
-	if (!(s == ThreadLogCachedStatus)) {
+
+	if (!([status unsignedIntValue] == ThreadLogCachedStatus)) {
 
 		return thread;
 	}
+	
+	t = [thread integerForKey : CMRThreadNumberOfMessagesKey];
+	if (t > 1000) {
+		//NSLog(@"Over 1000 skipped");
+		return thread;
+	}
 
-	if (anURL == nil) return thread;
+	checkURL = getDATURL(thread);
+	if (checkURL == nil) {
+		NSLog(@"DAT URL is nil at %@", [thread objectForKey : CMRThreadTitleKey]);
+		return thread;
+	}
 
-	NSMutableURLRequest	*theRequest = [NSMutableURLRequest requestWithURL : anURL];
-	[theRequest setHTTPMethod : @"HEAD"];
+	theRequest = [NSMutableURLRequest requestWithURL : checkURL];
+	[theRequest setHTTPMethod : BSFavCheckMethodKey];
 	[theRequest setTimeoutInterval : 30.0];
-	[theRequest setValue : @"Monazilla/1.00 (BathyScaphe/143)" forHTTPHeaderField : @"User-Agent"];
+	[theRequest setValue : monazillaUserAgent() forHTTPHeaderField : BSFavHEADerUAKey];
 
 	[NSURLConnection sendSynchronousRequest: theRequest returningResponse: &response error: &ifErr];
 	
 	if (ifErr) {
-		NSLog(@"HEADCHeck Error");
+		NSLog(@"HEADCheck Error at %@", [thread objectForKey : CMRThreadTitleKey]);
 		return thread;
 	}
 
 	if([response isKindOfClass : [NSHTTPURLResponse class]]) {
-		NSDate			*lastDate_;
-		NSDictionary *dicHead = [(NSHTTPURLResponse *)response allHeaderFields];
-
-		NSString	*sLastMod = [dicHead objectForKey : @"Last-Modified"];
+		NSDate			*lastDate_ = [thread objectForKey : CMRThreadModifiedDateKey];;
+		NSDictionary	*dicHead = [(NSHTTPURLResponse *)response allHeaderFields];
+		NSString		*sLastMod = [dicHead objectForKey : BSFavHEADerLMKey];
 		NSCalendarDate	*dateLastMod = [NSCalendarDate dateWithString : sLastMod 
-													   calendarFormat : @"%a, %d %b %Y %H:%M:%S %Z"];
+													   calendarFormat : BSFavCheckDateFormatKey];
 		
-		lastDate_ = [thread objectForKey : CMRThreadModifiedDateKey];
+		if (lastDate_ == nil) return thread;
 
-		if([dateLastMod isAfterDate : lastDate_] && [[[response URL] absoluteString] isEqualToString : [anURL absoluteString]]) {			
-			NSMutableDictionary *thread2 = [thread mutableCopy];
-			/* thread の status を更新 */
-	        [thread2 setObject : [NSNumber numberWithUnsignedInt : ThreadHeadModifiedStatus]
-					   forKey : CMRThreadStatusKey];
-			return [thread2 autorelease];
+		/* dat 落ちしたスレッドの場合、リダイレクトされて http://www.2ch.net/live.html などに飛ばされてしまう。
+		   するとリダイレクト先の last-modified と比較することになり、よろしくない。そこで元の URL と response の URL を比較する必要がある。
+		   しかも、absoluteURL で比較しないと正しく比較できないので注意。*/
+		if([dateLastMod isAfterDate : lastDate_] && [[[response URL] absoluteURL] isEqual: [checkURL absoluteURL]]) {			
+			NSMutableDictionary *newThread = [thread mutableCopy];
+
+	        [newThread setObject : [NSNumber numberWithUnsignedInt : ThreadHeadModifiedStatus]
+						  forKey : CMRThreadStatusKey];
+			return [newThread autorelease];
 		}
 	}
 	return thread;
 }
 
-+ (id) taskWithFavItemsArray : (NSMutableArray      *) loadedList
+
+@implementation BSFavoritesHEADCheckTask
++ (id) taskWithFavItemsArray : (NSMutableArray *) loadedList
 {
     return [[[self alloc] initWithFavItemsArray : loadedList] autorelease];
 }
 
-- (id) initWithFavItemsArray : (NSMutableArray      *) loadedList
+- (id) initWithFavItemsArray : (NSMutableArray *) loadedList
 {
     if (self = [super init]) {
         
         [self setProgress : 0];
         [self setThreadsArray : loadedList];
+		[self setAmountString : @"0"];
     }
     return self;
 }
@@ -100,6 +136,7 @@ NSString *const BSFavoritesHEADCheckTaskDidFinishNotification = @"BSFavoritesHEA
 {
     [_boardName release];
     [_threadsArray release];
+	[_amountString release];
     [super dealloc];
 }
 
@@ -109,15 +146,44 @@ NSString *const BSFavoritesHEADCheckTaskDidFinishNotification = @"BSFavoritesHEA
     NSDictionary    *userInfo_;
 
     [self checkEachItemOfFavItemsArray];
-    userInfo_ = [NSDictionary dictionaryWithObjectsAndKeys :
-                    [self threadsArray],   kBSUserInfoThreadsArrayKey, 
-                    nil];
+    userInfo_ = [NSDictionary dictionaryWithObjectsAndKeys : [self threadsArray], kBSUserInfoThreadsArrayKey, nil];
     
     [CMRMainMessenger postNotificationName : BSFavoritesHEADCheckTaskDidFinishNotification
                                     object : self
                                   userInfo : userInfo_];
 }
 
+- (void) checkEachItemOfFavItemsArray
+{
+    NSEnumerator        *iter;
+    NSMutableDictionary *thread_;
+    
+    unsigned nEnded_ = 0;
+    unsigned nElem_  = [[self threadsArray] count];
+
+    UTILAssertNotNilArgument([self threadsArray], @"Threads List Array");
+	
+	NSAutoreleasePool	*pool_ = [[NSAutoreleasePool alloc] init];
+	NSMutableArray		*newArray_ = [[NSMutableArray alloc] initWithCapacity : nElem_];
+
+    iter = [[self threadsArray] objectEnumerator];
+    while (thread_ = [iter nextObject]) {
+        NSDictionary *newItem;
+		
+		[self checkIsInterrupted]; // ユーザが中止できるように
+
+        newItem = replaceAttributesIfNeeded(thread_);
+		[newArray_ addObject : newItem];
+
+        nEnded_++;
+        [self setProgress : (((double)nEnded_ / (double)nElem_) * 100)];
+		[self setAmountString : [NSString stringWithFormat : @"%i/%i",nEnded_,nElem_]];
+    }
+
+	[self setThreadsArray : newArray_];
+	[newArray_ release];
+	[pool_ release];
+}
 
 - (NSString *) boardName
 {
@@ -133,6 +199,18 @@ NSString *const BSFavoritesHEADCheckTaskDidFinishNotification = @"BSFavoritesHEA
     [tmp release];
 }
 
+- (NSMutableArray *) threadsArray
+{
+    return _threadsArray;
+}
+- (void) setThreadsArray : (NSMutableArray *) aThreadsArray
+{
+    id        tmp;
+    
+    tmp = _threadsArray;
+    _threadsArray = [aThreadsArray retain];
+    [tmp release];
+}
 
 // CMRTask:
 - (NSString *) title
@@ -157,31 +235,21 @@ NSString *const BSFavoritesHEADCheckTaskDidFinishNotification = @"BSFavoritesHEA
     format_ = [self localizedString : @"Checking Favorites Message"];
     
     return [NSString stringWithFormat : 
-                        format_ ? format_ : @"%@",
-                        title_ ? title_ : @""];
-}
-
-- (NSMutableArray *) threadsArray
-{
-    return _threadsArray;
-}
-- (void) setThreadsArray : (NSMutableArray *) aThreadsArray
-{
-    id        tmp;
-    
-    tmp = _threadsArray;
-    _threadsArray = [aThreadsArray retain];
-    [tmp release];
+                        format_ ? format_ : @"%@ (%@)",
+                        title_ ? title_ : @"",
+						[self amountString]];
 }
 
 - (unsigned) progress
 {
     return _progress;
 }
+
 - (void) setProgress : (unsigned) newValue
 {
     _progress = newValue;
 }
+
 - (double) amount
 {
     if ([self progress] <= 0)
@@ -189,36 +257,18 @@ NSString *const BSFavoritesHEADCheckTaskDidFinishNotification = @"BSFavoritesHEA
     
     return [self progress];
 }
-- (void) checkEachItemOfFavItemsArray
+
+- (NSString *) amountString
 {
-    NSEnumerator        *iter;
-    NSMutableDictionary *thread_;
+	return _amountString;
+}
+
+- (void) setAmountString : (NSString *) someString
+{
+    id        tmp;
     
-    unsigned nEnded_ = 0;
-    unsigned nElem_  = [[self threadsArray] count];
-
-    UTILAssertNotNilArgument([self threadsArray], @"Threads List Array");
-	
-	NSAutoreleasePool	*pool_ = [[NSAutoreleasePool alloc] init];
-	NSMutableArray		*newArray_ = [[NSMutableArray alloc] initWithCapacity : [[self threadsArray] count]];
-
-    iter = [[self threadsArray] objectEnumerator];
-    while (thread_ = [iter nextObject]) {
-        NSDictionary *newItem;
-		NSURL *tmpURL_;
-		
-		[self checkIsInterrupted]; // ユーザが中止できるように
-
-		tmpURL_ = [self getDATURL : thread_];
-        newItem = [self constructByAppendingCachedInfo: thread_ withURL : tmpURL_];
-		[newArray_ addObject : newItem];
-
-        nEnded_++;
-        [self setProgress : (((double)nEnded_ / (double)nElem_) * 100)];
-    }
-
-	[self setThreadsArray : newArray_];
-	[newArray_ release];
-	[pool_ release];
+    tmp = _amountString;
+    _amountString = [someString retain];
+    [tmp release];
 }
 @end

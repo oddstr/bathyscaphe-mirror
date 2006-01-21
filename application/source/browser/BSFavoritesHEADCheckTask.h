@@ -1,5 +1,5 @@
 /**
-  * $Id: BSFavoritesHEADCheckTask.h,v 1.1 2006/01/21 07:17:02 tsawada2 Exp $
+  * $Id: BSFavoritesHEADCheckTask.h,v 1.2 2006/01/21 10:13:32 tsawada2 Exp $
   * BathyScaphe
   *
   * ワーカースレッド上で実行される
@@ -19,6 +19,7 @@
 	NSMutableArray			*_threadsArray;
 
 	unsigned		_progress;
+	NSString		*_amountString;
 }
 
 + (id) taskWithFavItemsArray : (NSMutableArray *) loadedList;
@@ -31,6 +32,9 @@
 - (void) setThreadsArray : (NSMutableArray *) aThreadsArray;
 
 - (void) setProgress : (unsigned) newValue;
+
+- (NSString *) amountString;
+- (void) setAmountString : (NSString *) someString;
 
 - (void) checkEachItemOfFavItemsArray;
 @end
