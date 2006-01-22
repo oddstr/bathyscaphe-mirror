@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.29 2006/01/16 00:20:20 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.30 2006/01/22 07:10:52 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -571,7 +571,7 @@
 	
 	menuBase_ = [[self drawerContextualMenu] copy];
 	[menuBase_ insertItem : [NSMenuItem separatorItem] atIndex : 0]; // dummy
-	tmp_ = [menuBase_ itemWithTag : kBLEditItemViaContextualMenuItemTag];
+	tmp_ = [menuBase_ itemWithTag : kBLEditItemViaContMenuItemTag];
 	[tmp_ setTag : kBLEditItemViaMenubarItemTag];
 	tmp_ = [menuBase_ itemWithTag : kBLDeleteItemViaContMenuItemTag];
 	[tmp_ setTag : kBLDeleteItemViaMenubarItemTag];

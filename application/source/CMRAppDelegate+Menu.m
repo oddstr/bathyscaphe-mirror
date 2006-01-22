@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate+Menu.m,v 1.9 2006/01/13 23:47:59 tsawada2 Exp $
+ * $Id: CMRAppDelegate+Menu.m,v 1.10 2006/01/22 07:10:52 tsawada2 Exp $
  * 
  * CMRAppDelegate+Menu.m
  *
@@ -238,7 +238,8 @@
 			[item_ setRepresentedObject : [NSNumber numberWithUnsignedInt : ~ThreadNoCacheStatus]];
 			break;
 		case 52:
-			[item_ setRepresentedObject : [NSNumber numberWithUnsignedInt : (ThreadNewCreatedStatus ^ ThreadNoCacheStatus)]];
+			[item_ setRepresentedObject : 
+				[NSNumber numberWithUnsignedInt : (ThreadNewCreatedStatus ^ ThreadNoCacheStatus)]];
 			break;
 		case 53:
 			[item_ setRepresentedObject : [NSNumber numberWithUnsignedInt : ThreadLogCachedStatus]];

@@ -1,3 +1,14 @@
+2006-01-22 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRThreadsList-listImport.m
+		お気に入りから更新したスレッドについて、所属板のスレッド一覧に切り替えたときに最終更新日が正しく反映されないままになっていた
+		問題を修正。
+	* application/source/browser/CMRThreadsList-Filter.m
+		フィルタリング時に ThreadHeadModifiedStatus のスレッドが漏れてしまう問題を修正。
+	* application/Resources/Japanese.lproj/MainMenu.nib
+	* application/Resources/Japanese.lproj/Browser.nib
+	* application/source/browser/CMRBrowser-Validation.m
+	* application/Resources/Japanese.lproj/ThreadViewer.strings
+		一部メニュー項目の validation が不適切だったのを修正。また、掲示板リスト項目の編集シートにヘルプボタンを付けた。
 2006-01-21 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/w2chFavoriteItemList.m
 	* application/Resources/Japanese.lproj/CMRTaskDescription.strings

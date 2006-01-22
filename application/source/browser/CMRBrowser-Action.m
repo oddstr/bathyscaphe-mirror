@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.34 2006/01/13 23:47:59 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.35 2006/01/22 07:10:52 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -237,7 +237,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 
 	[[CMRMainMenuManager defaultManager] synchronizeStatusFilteringMenuItemState];
 }
-
+/*
 - (IBAction) searchToolbarPopupChanged : (id) sender
 {
 	CMRSearchMask		prefOption_;		// ê›íËçœÇ›ÇÃÉIÉvÉVÉáÉì
@@ -266,7 +266,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 	}
 	
 }
-
+*/
 #pragma mark Deletion
 - (void) _showDeletionAlertSheet : (id) sender
 						  ofType : (BSThreadDeletionType) aType

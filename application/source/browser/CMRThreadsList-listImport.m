@@ -1,12 +1,9 @@
-//:CMRThreadsList-listImport.m
 /**
+  * $Id: CMRThreadsList-listImport.m,v 1.7 2006/01/22 07:10:52 tsawada2 Exp $
+  * BathyScaphe
   *
-  * @see CMRDocumentFileManager.h
-  * @see AppDefaults.h
   *
-  * @author Takanori Ishikawa
-  * @author http://www15.big.or.jp/~takanori/
-  * @version 1.0.0d1 (02/09/16  0:10:59 AM)
+  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
   *
   */
 #import "CMRThreadsList_p.h"
@@ -14,7 +11,35 @@
 #import "CMRThreadsUpdateListTask.h"
 #import "CMRThreadsListReadFileTask.h"
 
-static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, CMRThreadAttributes *theAttributes)
+static BOOL synchronizeThAttrForSync2(NSMutableDictionary *theThread, NSDictionary *fromFavorite)
+{
+	unsigned		nCorrectLoaded_;
+	ThreadStatus	status_;
+	
+	nCorrectLoaded_ = [fromFavorite unsignedIntForKey : CMRThreadLastLoadedNumberKey defaultValue : 0];
+
+	[theThread setUnsignedInt : nCorrectLoaded_
+					   forKey : CMRThreadLastLoadedNumberKey];
+
+	if (nCorrectLoaded_ == 0) {
+		status_ = ThreadNoCacheStatus;
+	} else {
+		unsigned	nRes_ = [theThread unsignedIntForKey : CMRThreadNumberOfMessagesKey];
+		if (nCorrectLoaded_ >= nRes_) {
+			status_ = ThreadLogCachedStatus;
+			[theThread setObject : [fromFavorite objectForKey : CMRThreadModifiedDateKey] forKey : CMRThreadModifiedDateKey];
+		} else {
+			status_ = ThreadUpdatedStatus;
+		}
+	}
+
+	[theThread setUnsignedInt : status_
+					   forKey : CMRThreadStatusKey];
+	
+	return YES;
+}
+
+/*static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, CMRThreadAttributes *theAttributes)
 {
 	unsigned		nCorrectLoaded_;
 	ThreadStatus	status_;
@@ -28,17 +53,19 @@ static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, CMRThreadAt
 		status_ = ThreadNoCacheStatus;
 	} else {
 		unsigned	nRes_ = [theThread unsignedIntForKey : CMRThreadNumberOfMessagesKey];
-		if (nCorrectLoaded_ >= nRes_)
+		if (nCorrectLoaded_ >= nRes_) {
 			status_ = ThreadLogCachedStatus;
-		else
+			[theThread setObject : [
+		} else {
 			status_ = ThreadUpdatedStatus;
+		}
 	}
 
 	[theThread setUnsignedInt : status_
 					   forKey : CMRThreadStatusKey];
 	
 	return YES;
-}
+}*/
 
 #pragma mark -
 
@@ -301,17 +328,18 @@ static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, CMRThreadAt
 		thread_ = [self seachThreadByPath : path_];
 		if (thread_ != nil) {
 			int		i;
-			id		attr_;
+			//id		attr_;
 			i = [[fm_ favoritesItemsIndex] indexOfObject : path_];
 			if (i == NSNotFound) break;
-			attr_ = [[CMRThreadAttributes alloc] initWithDictionary : 
-						[[fm_ favoritesItemsArray] objectAtIndex : i]];
+			//attr_ = [[CMRThreadAttributes alloc] initWithDictionary : 
+			//			[[fm_ favoritesItemsArray] objectAtIndex : i]];
 
-			if(synchronizeThAttrForSync(thread_, attr_)) {
+			//if(synchronizeThAttrForSync(thread_, attr_)) {
+			if(synchronizeThAttrForSync2(thread_, [[fm_ favoritesItemsArray] objectAtIndex : i])) {
 				// Œã•Ð•t‚¯‚Í‚«‚¿‚ñ‚Æ
 				[fm_ removeFromPoolWithFilePath : path_];
 			}
-			[attr_ release];
+			//[attr_ release];
 		}
 	}
 	

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-Filter.m,v 1.4 2005/12/10 12:39:44 tsawada2 Exp $
+  * $Id: CMRThreadsList-Filter.m,v 1.5 2006/01/22 07:10:52 tsawada2 Exp $
   * 
   * CMRThreadsList-Filter.m
   *
@@ -51,7 +51,8 @@
 	ThreadStatus filters[]  = {ThreadNoCacheStatus,
 							   ThreadLogCachedStatus,
 							   ThreadUpdatedStatus,
-							   ThreadNewCreatedStatus};
+							   ThreadNewCreatedStatus,
+							   ThreadHeadModifiedStatus};
 	int					i, cnt;
 	NSMutableArray		*sorted_;
 	NSMutableArray		*filtered_ = [NSMutableArray array];
@@ -177,9 +178,9 @@
 	NSEnumerator			*iter_;
 	id						thread_;
 	NSString				*searchString_;
-	unsigned int			options_;
+	//unsigned int			options_;
 	CMRSearchMask			searchOption_;
-	BOOL					isZenHankakuInsensitive_;
+	//BOOL					isZenHankakuInsensitive_;
 	id						userInfo_;
 	NSCharacterSet			*ignoreSet_ = nil;
 	BOOL					ignoreSpecificCharacters_;
@@ -202,12 +203,12 @@
 		searchOption_ = [userInfo_ unsignedIntValue];
 	
 	
-	options_ = [operation findOption];
-	if(searchOption_ & CMRSearchOptionCaseInsensitive){
-		options_ = options_ | NSCaseInsensitiveSearch;
-	}
-	isZenHankakuInsensitive_ = 
-		(searchOption_ & CMRSearchOptionZenHankakuInsensitive);
+	//options_ = [operation findOption];
+	//if(searchOption_ & CMRSearchOptionCaseInsensitive){
+	//	options_ = options_ | NSCaseInsensitiveSearch;
+	//}
+	//isZenHankakuInsensitive_ = 
+	//	(searchOption_ & CMRSearchOptionZenHankakuInsensitive);
 	ignoreSpecificCharacters_ = (searchOption_ & CMRSearchOptionIgnoreSpecified);
 	
 	
@@ -226,11 +227,11 @@
 		UTILRequireCondition(NO == [searchString_ isEmpty], ErrSearch);
 	}
 	
-	if (isZenHankakuInsensitive_) {
+	//if (isZenHankakuInsensitive_) {
 		// Unicode KC
 		searchString_ = [searchString_ precomposedStringWithCompatibilityMapping];
 		UTILRequireCondition(NO == [searchString_ isEmpty], ErrSearch);
-	}
+	//}
 	
 	while(thread_ = [iter_ nextObject]){
 		NSString	*title_;
@@ -245,14 +246,13 @@
 		if(ignoreSpecificCharacters_)
 			title_ = [title_ stringByDeleteCharactersInSet : ignoreSet_];
 			
-		if (isZenHankakuInsensitive_)
+		//if (isZenHankakuInsensitive_)
 			title_ = [title_ precomposedStringWithCompatibilityMapping]; // Unicode KC
 		
 		searchRng_ = NSMakeRange(0, [title_ length]);
 		include_ = [title_ rangeOfString : searchString_ 
-								 options : options_
+								 options : NSCaseInsensitiveSearch//options_
 								   range : searchRng_];
-			 //HanZenKakuInsensitive : isZenHankakuInsensitive_];
 		
 		if(0 == include_.length || NSNotFound == include_.location)
 			continue;

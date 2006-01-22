@@ -30,6 +30,10 @@
 {
 	return m_dItemEditSheetTitleField;
 }
+- (NSButton *) dItemEditSheetHelpBtn
+{
+	return m_dItemEditSheetHelpBtn;
+}
 
 #pragma mark IBActions and private methods
 
@@ -67,7 +71,7 @@
 	int tag_ = [sender tag];
 	int	rowIndex_, semiIndex_;
 	NSOutlineView *boardListTable_ = [self boardListTable];
-	if (tag_ == kBLEditItemViaContextualMenuItemTag) {
+	if (tag_ == kBLEditItemViaContMenuItemTag) {
 		semiIndex_ = [(BSBoardListView *)boardListTable_ semiSelectedRow];
 		rowIndex_ = (semiIndex_ == -1) ? [boardListTable_ selectedRow] : semiIndex_;
 	} else {
@@ -172,6 +176,12 @@
 {	
 	[NSApp endSheet : [sender window]
 		 returnCode : ([sender tag] == 1) ? NSOKButton : NSCancelButton];
+}
+
+- (IBAction) openHelpForEditSheet : (id) sender
+{
+	[[NSHelpManager sharedHelpManager] findString : [self localizedString : kEditDrawerItemHelpKeyword]
+										   inBook : [NSBundle applicationHelpBookName]];
 }
 
 #pragma mark Private (Sheet delegate) methods
@@ -316,10 +326,8 @@
 			while ([selected getIndexes:&arrayElement maxCount:1 inIndexRange:&e] > 0)
 			{
 				item_ = [[self boardListTable] itemAtRow : arrayElement];
-				//NSLog(@"We will remove %@", [item_ objectForKey : BoardPlistNameKey]);
+
 				if (item_ != nil) [tmp addObject : item_];
-				//[[[BoardManager defaultManager] userList] removeItemWithName : [item_ objectForKey : BoardPlistNameKey]
-				//													  ofType : [[BoardList class] typeForItem : item_]];
 			}
 			
 			if([tmp count] > 0) {
