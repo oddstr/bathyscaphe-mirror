@@ -406,7 +406,6 @@ static inline NSPoint stringDrawingPointForFrame(NSRect frame)
 	} else if(NSMouseInRect(startPoint,[self textFieldFrame], [controlView isFlipped])) {
 		result = YES;
 	}
-		
 	
 	return result;
 }
@@ -451,7 +450,7 @@ static inline int maxDayFor(int year, int month)
 	if(month != 2) return sMaxDays[month - 1];
 	if(!isLeapYear(year)) return sMaxDays[month - 1];
 	
-	return sMaxDays[month - 1] + 1;
+	return 29;
 }
 
 static inline int calcDayFor(int newYear, int newMonth, int oldDay)

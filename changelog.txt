@@ -1,5 +1,7 @@
 2006-01-22 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSDBThreadList.m
+		ログ削除時にデータベースを更新するようにした。
+	* application/source/browser/BSDBThreadList.m
 		スレッドステータスがスレッド読み込み時に更新されていなかったのを修正。
 	* application/Resources/Japanese.lproj/SmartBLIEditorComponents.nib
 		スマートボード編集ウインドウの日付フィールドをBSDatePickerにした。

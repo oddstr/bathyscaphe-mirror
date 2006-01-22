@@ -697,6 +697,52 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 @end
 
 @implementation BSDBThreadList (ToBeRefactoring)
+
+- (void) cleanUpItemsToBeRemoved : (NSArray *) files
+{
+	SQLiteDB *db = [[DatabaseManager defaultManager] databaseForCurrentThread];
+	NSString *query;
+	
+	NSEnumerator *filesEnum;
+	NSString *path;
+	
+	if([db beginTransaction]) {
+		filesEnum = [files objectEnumerator];
+		while(path = [filesEnum nextObject]) {
+			int boardID;
+			NSString *threadID;
+			
+			if(searchBoardIDAndThreadIDFromFilePath(&boardID, &threadID, path)) {
+				
+				query = [NSString stringWithFormat:
+					@"UPDATE %@\n"
+					@"SET %@ = NULL,\n"
+					@"%@ = NULL,\n"
+					@"%@ = %d,\n"
+					@"%@ = NULL,\n"
+					@"%@ = NULL\n"
+					@"WHERE %@ = %d\n"
+					@"AND %@ = %@",
+					ThreadInfoTableName,
+					NumberOfReadColumn,
+					ModifiedDateColumn,
+					ThreadStatusColumn, ThreadNoCacheStatus,
+					ThreadAboneTypeColumn,
+					ThreadLabelColumn,
+					BoardIDColumn, boardID,
+					ThreadIDColumn, threadID];
+				
+				[db performQuery:query];
+			}
+			
+		}
+		[db commitTransaction];
+	}
+	
+	[self updateCursor];
+	[super cleanUpItemsToBeRemoved : files];
+}
+
 - (void) setThreads : (NSMutableArray *) aThreads
 {
 	[self updateDateBaseForThreads : aThreads];
