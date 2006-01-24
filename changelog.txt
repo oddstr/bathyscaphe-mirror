@@ -1,3 +1,19 @@
+2006-01-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		「お気に入りに追加」のショートカットを Cmd-Shift-A から Cmd-D に変更。
+		Cmd-Shift-A を「AA スレッド」に転出させたため。
+		また、「スレッド」メニューに「印を付ける」を追加し、サブメニューで「AA スレッド」「フラグ付き」「dat 落ち」とした。
+		ショートカットはそれぞれ Cmd-Shift-A、Cmd-Shift-L、Cmd-Shift-U。
+	* application/source/thread/CMRThreadViewer.m
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/thread/CMRThreadViewer-Validation.m
+	* application/source/threaddata/CMRThreadUserStatusMask.h
+	* application/source/threaddata/CMRThreadUserStatus.m
+	* application/source/thread/CMRThreadAttributes.m
+		スレッドの属性として、「フラグ付き」「dat 落ち」を設定できるようにした。
+		- 現在、これらの属性は「スレッド」＞「印を付ける」サブメニューで設定／解除できるが、具体的にこれらの属性が
+		　どう活用されるかについては今後しばらくかけて段階的に実装されていくだろう。当面は、「何に使うの？」状態かもしれない。
+		- とりあえず、「dat 落ち」属性がついているスレッドの時は、スレッドを開いても更新しないようにした。
 2006-01-22 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRThreadsList-listImport.m
 		お気に入りから更新したスレッドについて、所属板のスレッド一覧に切り替えたときに最終更新日が正しく反映されないままになっていた

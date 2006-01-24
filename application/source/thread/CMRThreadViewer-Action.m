@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.19 2006/01/12 18:00:24 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.20 2006/01/24 11:00:54 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -554,6 +554,14 @@
 - (IBAction) toggleAAThread : (id) sender
 {
 	[self setAAThread : ![self isAAThread]];
+}
+- (IBAction) toggleDatOchiThread : (id) sender
+{
+	[self setDatOchiThread : ![self isDatOchiThread]];
+}
+- (IBAction) toggleMarkedThread : (id) sender
+{
+	[self setMarkedThread : ![self isMarkedThread]];
 }
 
 // Save window frame

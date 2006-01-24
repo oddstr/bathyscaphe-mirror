@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.21 2006/01/20 03:02:24 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.22 2006/01/24 11:00:54 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -474,8 +474,11 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 		// AA フォントでレンダリングするために、このタイミングで changeAllMessageAttributes: flags: を実行する。
 		if([[self threadAttributes] isAAThread])
 			[[self threadLayout] changeAllMessageAttributes : YES flags : CMRAsciiArtMask];
-
-		[self reloadIfOnlineMode : self];
+		
+		if([self isDatOchiThread])
+			NSLog(@"This thread has DAT-OCHI flag, so we don't reload.");
+		else
+			[self reloadIfOnlineMode : self];
 	} else {
 		if ([CMRPref scrollToLastUpdated] && [self canScrollToLastUpdatedMessage])
 			[self scrollToLastUpdatedIndex : self];
@@ -663,15 +666,39 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 {
 	return [[self threadAttributes] isAAThread];
 }
-- (void) setAAThread : (BOOL) isAA
+- (void) setAAThread : (BOOL) flag
 {
-	if ([self isAAThread] == isAA)
+	if ([self isAAThread] == flag)
 		return;
 	
-	[[self threadAttributes] setAAThread : isAA];
+	[[self threadAttributes] setAAThread : flag];
 
 	// すべてのレスのAA属性を変更
-	[[self threadLayout] changeAllMessageAttributes:isAA flags:CMRAsciiArtMask];
+	[[self threadLayout] changeAllMessageAttributes : flag flags : CMRAsciiArtMask];
+}
+
+#pragma mark Vita Additions
+- (BOOL) isDatOchiThread
+{
+	return [[self threadAttributes] isDatOchiThread];
+}
+- (void) setDatOchiThread : (BOOL) flag
+{
+	if ([self isDatOchiThread] == flag)
+		return;
+	
+	[[self threadAttributes] setDatOchiThread : flag];
+}
+- (BOOL) isMarkedThread
+{
+	return [[self threadAttributes] isMarkedThread];
+}
+- (void) setMarkedThread : (BOOL) flag
+{
+	if ([self isMarkedThread] == flag)
+		return;
+	
+	[[self threadAttributes] setMarkedThread : flag];
 }
 @end
 

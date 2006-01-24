@@ -75,6 +75,8 @@
                 showStandardFindPanel = id; 
                 showThreadAttributes = id; 
                 toggleAAThread = id; 
+                toggleDatOchiThread = id; 
+                toggleMarkedThread = id; 
                 toggleStatusLineShown = id; 
             }; 
             CLASS = FirstResponder; 

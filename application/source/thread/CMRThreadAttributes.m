@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadAttributes.m,v 1.3 2005/12/10 12:39:44 tsawada2 Exp $
+  * $Id: CMRThreadAttributes.m,v 1.4 2006/01/24 11:00:54 tsawada2 Exp $
   * 
   * CMRThreadAttributes.m
   *
@@ -242,7 +242,9 @@ NSString *const CMRThreadAttributesDidChangeNotification =
 	[aDictionary setNoneNil:v forKey:CMRThreadUserStatusKey];
 	
 }
+@end
 
+@implementation CMRThreadAttributes(UserStatus)
 /* working with CMRThreadUserStatus */
 - (CMRThreadUserStatus *) userStatus
 {
@@ -257,7 +259,6 @@ NSString *const CMRThreadAttributesDidChangeNotification =
 	}
 	return s;
 }
-
 - (BOOL) isAAThread
 {
 	return [[self userStatus] isAAThread];
@@ -276,5 +277,40 @@ NSString *const CMRThreadAttributesDidChangeNotification =
 						  forKey : CMRThreadUserStatusKey];
 	[self setNeedsToUpdateLogFile : YES];
 }
+#pragma mark Vita Additions
+- (BOOL) isDatOchiThread
+{
+	return [[self userStatus] isDatOchiThread];
+}
+- (void) setDatOchiThread : (BOOL) flag
+{
+	CMRThreadUserStatus	*s = [self userStatus];
+	
+	UTILAssertNotNil(s);
+	if ([s isDatOchiThread] == flag)
+		return;
+	
+	[s setDatOchiThread : flag];
+	[[self getMutableAttributes]
+					   setObject : [s propertyListRepresentation]
+						  forKey : CMRThreadUserStatusKey];
+	[self setNeedsToUpdateLogFile : YES];
+}
+- (BOOL) isMarkedThread
+{	return [[self userStatus] isMarkedThread];
+}
+- (void) setMarkedThread : (BOOL) flag
+{
+	CMRThreadUserStatus	*s = [self userStatus];
+	
+	UTILAssertNotNil(s);
+	if ([s isMarkedThread] == flag)
+		return;
+	
+	[s setMarkedThread : flag];
+	[[self getMutableAttributes]
+					   setObject : [s propertyListRepresentation]
+						  forKey : CMRThreadUserStatusKey];
+	[self setNeedsToUpdateLogFile : YES];
+}
 @end
-

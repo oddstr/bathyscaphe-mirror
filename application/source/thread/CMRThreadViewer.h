@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.10 2005/12/09 00:01:41 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.11 2006/01/24 11:00:54 tsawada2 Exp $
   * 
   * CMRThreadViewer.h
   *
@@ -85,6 +85,11 @@
 
 - (BOOL) isAAThread;
 - (void) setAAThread : (BOOL) flag;
+// available in BathyScaphe 1.2 and later.
+- (BOOL) isDatOchiThread;
+- (void) setDatOchiThread : (BOOL) flag;
+- (BOOL) isMarkedThread;
+- (void) setMarkedThread : (BOOL) flag;
 @end
 
 
@@ -127,6 +132,9 @@
 - (IBAction) showThreadWithMenuItem : (id) sender;
 // available in SledgeHammer and later.
 - (IBAction) orderFrontMainBrowser : (id) sender;
+// available in Vita and later.
+- (IBAction) toggleDatOchiThread : (id) sender;
+- (IBAction) toggleMarkedThread : (id) sender;
 @end
 
 

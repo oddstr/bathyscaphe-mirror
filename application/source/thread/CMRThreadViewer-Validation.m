@@ -1,5 +1,5 @@
 /*
-    $Id: CMRThreadViewer-Validation.m,v 1.15 2005/12/12 13:47:34 tsawada2 Exp $
+    $Id: CMRThreadViewer-Validation.m,v 1.16 2006/01/24 11:00:54 tsawada2 Exp $
     CMRThreadViewer-Action.m から独立
     Created at 2005-02-16 by tsawada2.
 */
@@ -179,6 +179,16 @@ static int messageMaskForTag(int tag)
 	if (@selector(toggleAAThread:) == action_) {
 		[theItem setState : 
 			([self isAAThread] ? NSOnState : NSOffState)];
+		return isSelected_;
+	}
+	if (@selector(toggleMarkedThread:) == action_) {
+		[theItem setState : 
+			([self isMarkedThread] ? NSOnState : NSOffState)];
+		return isSelected_;
+	}
+	if (@selector(toggleDatOchiThread:) == action_) {
+		[theItem setState : 
+			([self isDatOchiThread] ? NSOnState : NSOffState)];
 		return isSelected_;
 	}
 	// オンライン
