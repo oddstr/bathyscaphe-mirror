@@ -1,23 +1,23 @@
 /**
-  * $Id: CMRThreadViewer-Download.m,v 1.7 2005/12/10 15:42:21 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Download.m,v 1.8 2006/01/24 23:00:06 tsawada2 Exp $
+  * BathyScaphe
   * 
-  * CMRThreadViewer-Download.m
   *
   * Copyright (c) 2003-2004 Takanori Ishikawa, All rights reserved.
-  * See the file LICENSE for copying permission.
+  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
   */
 #import "CMRThreadViewer_p.h"
 #import "CMRDownloader.h"
 #import "ThreadTextDownloader.h"
 
-//////////////////////////////////////////////////////////////////////
-////////////////////// [ 定数やマクロ置換 ] //////////////////////////
-//////////////////////////////////////////////////////////////////////
 // そんな板 or スレッドありません
 #define kNotFoundTitleKey				@"Not Found Title"
 #define kNotFoundMessageFormatKey		@"Not Found Message"
-#define kSearchKakoLogLabelKey			@"Search Kako Log"
-
+#define kNotFoundMessage2FormatKey		@"Not Found Msg 2"
+#define kMakeDatOchiLabelKey			@"Make DatOchi"
+#define kSearchKakoLogLabelKey			@"Search Kako Log" // reserved
+#define kNotFoundHelpKeywordKey			@"NotFoundSheet Help Anchor"
+#define kNotFoundCancelLabelKey			@"Do Not Reload Button Label"
 
 
 
@@ -140,7 +140,9 @@
 	ThreadTextDownloader	*downloader_;
 	// 過去ログ検索
 	NSURL					*threadURL_;
-	NSString				*alternateButton_ = nil;
+	//NSString				*alternateButton_ = nil;
+	NSString				*filePath_;
+	BOOL					fileExists_;
 	
 	UTILAssertNotificationName(
 		notification,
@@ -151,6 +153,7 @@
 	[self removeFromNotificationCeterWithDownloader : downloader_];
 	
 	threadURL_ = [downloader_ threadURL];
+	filePath_ = [downloader_ filePathToWrite];
 	
 	// 過去ログの検索
 /*
@@ -158,26 +161,32 @@
 							? [self localizedString : kSearchKakoLogLabelKey]
 							: nil;
 */
-	
-	NSBeginAlertSheet(
-		[self localizedString : kNotFoundTitleKey],
-		nil,
-		alternateButton_,	// alternateButton
-		nil,
-		[self window],
-		self,
-		@selector(threadNotFoundSheetDidEnd:returnCode:contextInfo:),
-		NULL,						// didDismissSelector
-		[downloader_ retain],		// contextInfo
-		
-		// message...
-		[self localizedString : kNotFoundMessageFormatKey],
-		[downloader_ threadTitle] ? [downloader_ threadTitle] : @"",
-		[[downloader_ threadSignature] BBSName],
-		[downloader_ filePathToWrite],
-		[threadURL_ absoluteString]);
-	
+	fileExists_ = [[NSFileManager defaultManager] fileExistsAtPath : filePath_];
+
+	NSAlert *alert_ = [NSAlert alertWithMessageText : [self localizedString : kNotFoundTitleKey]
+									  defaultButton : [self localizedString : kNotFoundCancelLabelKey]
+									alternateButton : nil
+										otherButton : (fileExists_ ? [self localizedString : kMakeDatOchiLabelKey] : nil)
+						  informativeTextWithFormat : (fileExists_ ? [self localizedString : kNotFoundMessage2FormatKey] :
+																	 [self localizedString : kNotFoundMessageFormatKey]),
+													  [downloader_ threadTitle] ? [downloader_ threadTitle] : @"",
+													  [threadURL_ absoluteString]];
+	[alert_ setShowsHelp : YES];
+	[alert_ setHelpAnchor : [self localizedString : kNotFoundHelpKeywordKey]];
+	[alert_ setDelegate : self];
+	[alert_ beginSheetModalForWindow : [self window]
+					   modalDelegate : self
+					  didEndSelector : @selector(threadNotFoundSheetDidEnd:returnCode:contextInfo:)
+						 contextInfo : [downloader_ retain]];
+
 	return;
+}
+
+- (BOOL) alertShowHelp : (NSAlert *) alert
+{
+	[[NSHelpManager sharedHelpManager] findString : [alert helpAnchor]
+										   inBook : [NSBundle applicationHelpBookName]];
+	return YES;
 }
 
 - (void) reloadAfterDeletion : (NSString *) filePath_
@@ -236,16 +245,17 @@
 	switch(returnCode) {
 	case NSAlertDefaultReturn:
 		break;
-	case NSAlertAlternateReturn:	// 過去ログ検索
+//	case NSAlertAlternateReturn:	// 過去ログ検索
 /*
 		[self forceDeleteThreadAtPath : filePathToWrite_ alsoReplyFile : NO];
 		[self downloadKakoThread : [downloader_ threadSignature]];
 */
-		break;
+//		break;
 	case NSAlertOtherReturn:
+		[self setDatOchiThread : YES];
 		break;
-	case NSAlertErrorReturn:
-		break;
+	//case NSAlertErrorReturn:
+	//	break;
 	default:
 		UTILUnknownSwitchCase(returnCode);
 		break;

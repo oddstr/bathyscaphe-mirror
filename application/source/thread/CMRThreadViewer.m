@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.22 2006/01/24 11:00:54 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.23 2006/01/24 23:00:06 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -475,9 +475,7 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 		if([[self threadAttributes] isAAThread])
 			[[self threadLayout] changeAllMessageAttributes : YES flags : CMRAsciiArtMask];
 		
-		if([self isDatOchiThread])
-			NSLog(@"This thread has DAT-OCHI flag, so we don't reload.");
-		else
+		if(![self isDatOchiThread])
 			[self reloadIfOnlineMode : self];
 	} else {
 		if ([CMRPref scrollToLastUpdated] && [self canScrollToLastUpdatedMessage])

@@ -1,3 +1,9 @@
+2006-01-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-Download.m
+	* application/Resources/Japanese.lproj/ThreadViewer.strings
+		オンラインモード時に dat 落ちしたスレッドを開いたときに表示される、あの煩わしい「そんな板 or スレッドないです。」
+		シートに「dat 落ちにする」ボタンを付けた。また、ヘルプボタンもつけた（呼び出されるヘルプトピックは今のところ適切でないが、動作確認のための
+		暫定的な実装のため）。「dat 落ち」フラグを立てることで、次回以降開いた時はもうこのシートを見ることは無い。
 2006-01-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/MainMenu.nib
 		「お気に入りに追加」のショートカットを Cmd-Shift-A から Cmd-D に変更。
