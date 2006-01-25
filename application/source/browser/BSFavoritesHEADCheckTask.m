@@ -1,5 +1,5 @@
 /**
-  * $Id: BSFavoritesHEADCheckTask.m,v 1.2 2006/01/21 10:13:32 tsawada2 Exp $
+  * $Id: BSFavoritesHEADCheckTask.m,v 1.3 2006/01/25 11:22:03 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2006 BathyScaphe Project. All rights reserved.
@@ -16,9 +16,9 @@ NSString *const BSFavoritesHEADCheckTaskDidFinishNotification = @"BSFavoritesHEA
 static NSString *const BSFavHEADerUAKey	= @"User-Agent";
 static NSString *const BSFavHEADerLMKey	= @"Last-Modified";
 static NSString *const BSFavCheckMethodKey = @"HEAD";
-static NSString *const BSFavCheckDateFormatKey = @"%a, %d %b %Y %H:%M:%S %Z";
 
 static NSString	*userAgent_ = nil;
+static int modified_ = 0;
 
 static NSString *monazillaUserAgent()
 {
@@ -95,8 +95,7 @@ static NSDictionary *replaceAttributesIfNeeded(NSDictionary *thread)
 		NSDate			*lastDate_ = [thread objectForKey : CMRThreadModifiedDateKey];;
 		NSDictionary	*dicHead = [(NSHTTPURLResponse *)response allHeaderFields];
 		NSString		*sLastMod = [dicHead objectForKey : BSFavHEADerLMKey];
-		NSCalendarDate	*dateLastMod = [NSCalendarDate dateWithString : sLastMod 
-													   calendarFormat : BSFavCheckDateFormatKey];
+		NSCalendarDate	*dateLastMod = [NSCalendarDate dateWithHTTPTimeRepresentation : sLastMod]; // SGFoundation
 		
 		if (lastDate_ == nil) return thread;
 
@@ -108,6 +107,8 @@ static NSDictionary *replaceAttributesIfNeeded(NSDictionary *thread)
 
 	        [newThread setObject : [NSNumber numberWithUnsignedInt : ThreadHeadModifiedStatus]
 						  forKey : CMRThreadStatusKey];
+			
+			modified_++;
 			return [newThread autorelease];
 		}
 	}
@@ -157,11 +158,14 @@ static NSDictionary *replaceAttributesIfNeeded(NSDictionary *thread)
 {
     NSEnumerator        *iter;
     NSMutableDictionary *thread_;
+	NSSound				*finishedSound_;
     
     unsigned nEnded_ = 0;
     unsigned nElem_  = [[self threadsArray] count];
 
     UTILAssertNotNilArgument([self threadsArray], @"Threads List Array");
+	
+	modified_ = 0;
 	
 	NSAutoreleasePool	*pool_ = [[NSAutoreleasePool alloc] init];
 	NSMutableArray		*newArray_ = [[NSMutableArray alloc] initWithCapacity : nElem_];
@@ -179,9 +183,20 @@ static NSDictionary *replaceAttributesIfNeeded(NSDictionary *thread)
         [self setProgress : (((double)nEnded_ / (double)nElem_) * 100)];
 		[self setAmountString : [NSString stringWithFormat : @"%i/%i",nEnded_,nElem_]];
     }
-
+	
+	if (modified_ > 0) {
+		NSLog(@"Some Threads are modified.");
+		finishedSound_ = [NSSound soundNamed : @"Ping"];
+	} else {
+		NSLog(@"No threads are modified.");
+		finishedSound_ = [NSSound soundNamed : @"Basso"];
+	}
 	[self setThreadsArray : newArray_];
 	[newArray_ release];
+
+	if(finishedSound_)
+		[finishedSound_ play];
+
 	[pool_ release];
 }
 

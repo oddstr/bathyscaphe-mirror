@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.h,v 1.4 2005/12/10 12:39:44 tsawada2 Exp $
+  * $Id: CMRThreadsList.h,v 1.5 2006/01/25 11:22:03 tsawada2 Exp $
   * 
   * CMRThreadsList.h
   *
@@ -11,19 +11,12 @@
 
 @class CMRDownloader;
 @class CMRSearchOptions;
-@class CMRBBSSignature;
 @class CMRThreadLayout;
 @class CMXDateFormatter;
 
-
-/*typedef enum _ThreadsListSearchType{
-	ThreadsListTitleSeach = 1,
-	ThreadsListPathSearch,
-} ThreadsListSearchType;*/
-
 @interface CMRThreadsList : NSObject 
 {
-	CMRBBSSignature			*_BBSSignature;
+	NSString				*_BBSName;
 	CMRThreadLayout			*_worker;
 	
 	NSMutableArray			*_threads;
@@ -38,9 +31,7 @@
 	BOOL		_isAscending;
 }
 
-//+ (id) threadsListWithBBSSignature : (CMRBBSSignature *) aSignature;
-- (id) initWithBBSSignature :  (CMRBBSSignature *) aSignature;
-
+- (id) initWithBBSName : (NSString *) boardName;
 + (id) threadsListWithBBSName : (NSString *) boardName;
 
 /**
@@ -85,7 +76,7 @@
 
  
 @interface CMRThreadsList(Attributes)
-- (CMRBBSSignature *) BBSSignature;
+- (NSString *) BBSName;
 - (NSString *) boardName;
 - (NSString *) threadsListPath;
 - (NSURL *) boardURL;
@@ -110,20 +101,11 @@
 
 
 
-//typedef BOOL(*TLSearchFunction)(NSDictionary *, void *);
 @interface CMRThreadsList(SearchThreads)
 - (NSMutableDictionary *) seachThreadByPath : (NSString *) filepath;
 - (NSMutableDictionary *) seachThreadByPath : (NSString *) filepath
 									inArray : (NSArray  *) array;
-//- (NSArray *) seachThreadsUsingFunction : (BOOL(*)(NSDictionary *, void *))checker 
-//                                context : (void  *) context;
-//- (NSArray *) _seachThreads : (ThreadsListSearchType) type
-//			        inArray : (NSArray *) array
-//			        context : (void    *) context;
-//- (NSArray *) _seachThreadsUsingFunction : (TLSearchFunction)checker 
-//							     inArray : (NSArray *) array
-//							     context : (void    *) context;
-								 
+
 // Added in TestaRossa and later.
 - (NSArray *) _searchThreadsInArray : (NSArray *) array context : (NSString *) context;
 @end

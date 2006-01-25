@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-Filter.m,v 1.5 2006/01/22 07:10:52 tsawada2 Exp $
+  * $Id: CMRThreadsList-Filter.m,v 1.6 2006/01/25 11:22:03 tsawada2 Exp $
   * 
   * CMRThreadsList-Filter.m
   *
@@ -307,5 +307,63 @@ ErrFilterByFindOperation:
 - (void) _filteredThreadsUnlock
 {
 	[_filteredThreadsLock unlock];
+}
+@end
+
+@implementation CMRThreadsList(SearchThreads)
+- (NSMutableDictionary *) seachThreadByPath : (NSString *) filepath
+{
+	id	thread_;
+	
+	// 既にログを取得していれば、辞書に格納している。
+	// ログが存在しない場合はNSNullを格納している。
+	thread_ = [[self threadsInfo] objectForKey : filepath];
+	if(thread_ != nil && (NO == [thread_ isEqual : [NSNull null]]))
+		return thread_;
+
+	// ログがなければ、一覧から検索。
+	thread_ = [self seachThreadByPath : filepath inArray : [self threads]];
+	return thread_;
+}
+
+- (NSMutableDictionary *) seachThreadByPath : (NSString *) filepath
+									inArray : (NSArray  *) array
+{
+	NSArray *matched_;
+	
+	matched_ = [self _searchThreadsInArray : array context : filepath];
+	if([matched_ count] == 0) return nil;
+	
+	//パス文字列の一致するスレッドはひとつしかない。
+	NSAssert(([matched_ count] == 1), @"duplicated threadsList.");
+	
+	return [matched_ objectAtIndex : 0];
+}
+
+- (NSArray *) _searchThreadsInArray : (NSArray *) array context : (NSString *) context
+{
+	NSMutableArray		*result_;
+	NSEnumerator		*iter_;
+	NSDictionary		*thread_;
+	NSAutoreleasePool	*pool_;
+	
+	result_ = [NSMutableArray array];
+	if (nil == array || nil == context)
+		return result_;
+
+	pool_ = [[NSAutoreleasePool alloc] init];
+	iter_ = [array objectEnumerator];
+
+	while (thread_ = [iter_ nextObject]) {
+		NSString *target_;
+
+		target_ = [CMRThreadAttributes pathFromDictionary : thread_];
+		if (target_ == nil)
+			continue;
+		if([context isSameAsString : target_])
+			[result_ addObject : thread_];
+	}
+	[pool_ release];
+	return result_;
 }
 @end

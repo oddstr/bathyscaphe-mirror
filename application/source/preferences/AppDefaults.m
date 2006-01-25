@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.10 2005/12/10 12:39:44 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.11 2006/01/25 11:22:03 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -9,7 +9,7 @@
 #import "AppDefaults_p.h"
 #import "CMRMainMenuManager.h"
 #import "BoardList.h"
-#import "CMRBBSSignature.h"
+//#import "CMRBBSSignature.h"
 #import <AppKit/NSFont.h>
 
 

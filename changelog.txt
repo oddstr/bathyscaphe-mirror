@@ -1,4 +1,29 @@
 2006-01-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/window/CMRToolbarDelegateImp_p.h
+	* application/source/view/CMRIndexingStepper-ViewAccessor.m
+		#import <SGAppKit/SGAppKit.h> を書き加えた。+[NSImage imageAppNamed:] が CocoMonar Framework から
+		SGAppKit に移ったため。
+	* application/source/browser/CMRThreadsList.h
+		CMRThreadsList は、CMRBBSSignature を用いないように書き換えた。
+	* application/source/browser/CMRThreadsList-Search.m
+		CMRThreadsList-Remove.m を統合。 -Remove.m はターゲットから外れた。いずれリポジトリからも削除される。
+	* application/source/task/CMRTaskManager.m
+		CMRTaskManager-ViewAccessor.m を統合。 -ViewAccessor.m はターゲットから外れた。いずれリポジトリからも削除される。
+	* frameworks/SGFoundation/framework/source/support/NSBundle+AppSupport.m
+	* frameworks/SGAppKit/framework/src/extensions/image/NSImage-SGExtensions.m
+	* frameworks/SGAppKit/SGAppKit.xcodeproj
+	* frameworks/SGFoundation/SGFoundation.xcodeproj
+	* frameworks/CocoMonar/CMF.xcodeproj
+		フレームワーク間でのソース移動など
+		- CocoMonar framework の NSBundle+CMRExtensions.h の内容は、SGFoundation と SGAppKit に統合した。
+		- BathyScaphe 本体の NSLayoutManager+CMXAdditions.h, NSTableColumn+CMXAdditions.h は SGAppKit に移動した
+		　（ソースファイルのディレクトリ配置自体は移動していないので注意）。
+		- BathyScaphe 本体の NSTextView+CMXAdditions.h は SGAppKit に統合した。
+		- 少しでもコンパイル時間を短縮するために。また、あちこちに分散しているものを多少まとめる目的。
+		各自手元で SGfoundation → SGAppKit → CMF → BathyScaphe.app の順でビルドし直すべし。
+	* application/Resources/Japanese.lproj/BSBoardInfoInspector.nib
+		「掲示板オプション」インスペクタは、今までよりパネルの幅を小さくできるようにした（240px まで）。また、長過ぎる文字は
+		末尾に「...」を付加して表示するようにした。
 	* application/source/thread/CMRThreadViewer-Download.m
 	* application/Resources/Japanese.lproj/ThreadViewer.strings
 		オンラインモード時に dat 落ちしたスレッドを開いたときに表示される、あの煩わしい「そんな板 or スレッドないです。」

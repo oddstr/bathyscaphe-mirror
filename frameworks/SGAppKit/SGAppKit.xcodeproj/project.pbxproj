@@ -77,6 +77,8 @@
 /* Begin PBXBuildFile section */
 		8751C4760862204100998A38 /* SGContainerTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = F57D5E05037B6D8601A80002 /* SGContainerTableView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8751C4770862204200998A38 /* SGContainerTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F57D5E06037B6D8601A80002 /* SGContainerTableView.m */; };
+		87D971C2098761FA009C1F73 /* NSLayoutManager+CMXAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D971BE098761FA009C1F73 /* NSLayoutManager+CMXAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87D971C3098761FA009C1F73 /* NSLayoutManager+CMXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D971BF098761FA009C1F73 /* NSLayoutManager+CMXAdditions.m */; };
 		87E45256085ED89D00F2ACB3 /* SGAppKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F515D14D02DB28B201A80002 /* SGAppKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87E45257085ED89D00F2ACB3 /* NSMatrix-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F545F23F036F807501A80002 /* NSMatrix-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87E45258085ED89D00F2ACB3 /* NSMatrix-SGExtensions_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F545F243036F80A501A80002 /* NSMatrix-SGExtensions_p.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -224,6 +226,8 @@
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		08FB77B4FE84181DC02AAC07 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; name = main.c; path = src/main.c; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		87D971BE098761FA009C1F73 /* NSLayoutManager+CMXAdditions.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; name = "NSLayoutManager+CMXAdditions.h"; path = "../../application/source/extensions/NSLayoutManager+CMXAdditions.h"; sourceTree = SOURCE_ROOT; };
+		87D971BF098761FA009C1F73 /* NSLayoutManager+CMXAdditions.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; name = "NSLayoutManager+CMXAdditions.m"; path = "../../application/source/extensions/NSLayoutManager+CMXAdditions.m"; sourceTree = SOURCE_ROOT; };
 		87E452A4085ED89D00F2ACB3 /* Info-SGAppKit.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-SGAppKit.plist"; sourceTree = "<group>"; };
 		87E452A5085ED89D00F2ACB3 /* SGAppKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SGAppKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F303886F0484C45700A80005 /* NSUserDefaults+SGAppKitExtensions.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSUserDefaults+SGAppKitExtensions.h"; sourceTree = "<group>"; };
@@ -533,6 +537,8 @@
 		F545F23D036F804701A80002 /* extensions */ = {
 			isa = PBXGroup;
 			children = (
+				87D971BE098761FA009C1F73 /* NSLayoutManager+CMXAdditions.h */,
+				87D971BF098761FA009C1F73 /* NSLayoutManager+CMXAdditions.m */,
 				F58144E3037B019A01A80002 /* cell */,
 				F391134C03D6A7C200A80002 /* color */,
 				F5823B6C037D2CC001A80002 /* control */,
@@ -909,6 +915,7 @@
 				87E4527E085ED89D00F2ACB3 /* UtkDescription.h in Headers */,
 				87E4527F085ED89D00F2ACB3 /* UtkError.h in Headers */,
 				8751C4760862204100998A38 /* SGContainerTableView.h in Headers */,
+				87D971C2098761FA009C1F73 /* NSLayoutManager+CMXAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1070,6 +1077,7 @@
 				87E45297085ED89D00F2ACB3 /* SGKeyBindingSupport.m in Sources */,
 				87E45298085ED89D00F2ACB3 /* NSUserDefaults+SGAppKitExtensions.m in Sources */,
 				8751C4770862204200998A38 /* SGContainerTableView.m in Sources */,
+				87D971C3098761FA009C1F73 /* NSLayoutManager+CMXAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

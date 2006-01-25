@@ -164,7 +164,6 @@
 		870162ED082BE67100AEFDD0 /* CMRThreadsList-listImport.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC4404C698FA00A80005 /* CMRThreadsList-listImport.m */; };
 		870162EE082BE67100AEFDD0 /* CMRThreadsList-Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC4504C698FA00A80005 /* CMRThreadsList-Notification.m */; };
 		870162EF082BE67100AEFDD0 /* CMRThreadsList-Remove.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC4604C698FA00A80005 /* CMRThreadsList-Remove.m */; };
-		870162F0082BE67100AEFDD0 /* CMRThreadsList-Search.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC4704C698FA00A80005 /* CMRThreadsList-Search.m */; };
 		870162F1082BE67100AEFDD0 /* CMRThreadsList.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC4904C698FA00A80005 /* CMRThreadsList.m */; };
 		870162F2082BE67100AEFDD0 /* CMRThreadsListReadFileTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC4C04C698FA00A80005 /* CMRThreadsListReadFileTask.m */; };
 		870162F3082BE67100AEFDD0 /* CMRThreadsUpdateListTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC5204C698FA00A80005 /* CMRThreadsUpdateListTask.m */; };
@@ -255,7 +254,6 @@
 		87016358082BE67100AEFDD0 /* CMRTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F38262E60513581100A80005 /* CMRTask.m */; };
 		87016359082BE67100AEFDD0 /* CMRTaskItemController.m in Sources */ = {isa = PBXBuildFile; fileRef = F38262E80513581100A80005 /* CMRTaskItemController.m */; };
 		8701635A082BE67100AEFDD0 /* CMRTaskManager-Management.m in Sources */ = {isa = PBXBuildFile; fileRef = F38262EA0513581100A80005 /* CMRTaskManager-Management.m */; };
-		8701635B082BE67100AEFDD0 /* CMRTaskManager-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F38262EB0513581100A80005 /* CMRTaskManager-ViewAccessor.m */; };
 		8701635C082BE67100AEFDD0 /* CMRTaskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F38262ED0513581100A80005 /* CMRTaskManager.m */; };
 		8701635D082BE67100AEFDD0 /* CMXDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = F38262FA0513585900A80005 /* CMXDateFormatter.m */; };
 		8701635E082BE67100AEFDD0 /* CMXTextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F38263010513585900A80005 /* CMXTextParser.m */; };
@@ -437,12 +435,8 @@
 		8724A8110912A213009CC855 /* TemporaryFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8724A80F0912A213009CC855 /* TemporaryFolder.m */; };
 		872996590832556100CBD740 /* NSCharacterSet+CMXAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8729964D0832556100CBD740 /* NSCharacterSet+CMXAdditions.h */; };
 		8729965A0832556100CBD740 /* NSCharacterSet+CMXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8729964E0832556100CBD740 /* NSCharacterSet+CMXAdditions.m */; };
-		8729965B0832556100CBD740 /* NSLayoutManager+CMXAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8729964F0832556100CBD740 /* NSLayoutManager+CMXAdditions.h */; };
-		8729965C0832556100CBD740 /* NSLayoutManager+CMXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 872996500832556100CBD740 /* NSLayoutManager+CMXAdditions.m */; };
 		8729965F0832556200CBD740 /* NSTableColumn+CMXAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 872996530832556100CBD740 /* NSTableColumn+CMXAdditions.h */; };
 		872996600832556200CBD740 /* NSTableColumn+CMXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 872996540832556100CBD740 /* NSTableColumn+CMXAdditions.m */; };
-		872996630832556200CBD740 /* NSTextView+CMXAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 872996570832556100CBD740 /* NSTextView+CMXAdditions.h */; };
-		872996640832556200CBD740 /* NSTextView+CMXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 872996580832556100CBD740 /* NSTextView+CMXAdditions.m */; };
 		8729967E0832561E00CBD740 /* CMRThreadMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 872996720832561E00CBD740 /* CMRThreadMessage.h */; };
 		8729967F0832561E00CBD740 /* CMRThreadMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 872996730832561E00CBD740 /* CMRThreadMessage.m */; };
 		872996800832561E00CBD740 /* CMRThreadMessage_p.h in Headers */ = {isa = PBXBuildFile; fileRef = 872996740832561E00CBD740 /* CMRThreadMessage_p.h */; };
@@ -463,12 +457,10 @@
 		8729972008325E2500CBD740 /* CMXPopUpWindowManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8729971808325E2500CBD740 /* CMXPopUpWindowManager.h */; };
 		8729972108325E2500CBD740 /* CMXPopUpWindowManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8729971908325E2500CBD740 /* CMXPopUpWindowManager.m */; };
 		872998E40832617E00CBD740 /* AlertPanel.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872998E20832617E00CBD740 /* AlertPanel.strings */; };
-		872998E70832617F00CBD740 /* AlertPanelManager.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872998E50832617F00CBD740 /* AlertPanelManager.strings */; };
 		872998ED0832617F00CBD740 /* Browser.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872998EB0832617F00CBD740 /* Browser.nib */; };
 		872998F00832617F00CBD740 /* browserListColumns.plist in Resources */ = {isa = PBXBuildFile; fileRef = 872998EE0832617F00CBD740 /* browserListColumns.plist */; };
 		872998F30832617F00CBD740 /* CMRAccessorySheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872998F10832617F00CBD740 /* CMRAccessorySheet.nib */; };
 		872998F60832617F00CBD740 /* CMRIndexingStepper.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872998F40832617F00CBD740 /* CMRIndexingStepper.nib */; };
-		872998F90832617F00CBD740 /* CMRMainMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872998F70832617F00CBD740 /* CMRMainMenu.strings */; };
 		872998FC0832617F00CBD740 /* CMRNoNameInput.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872998FA0832617F00CBD740 /* CMRNoNameInput.nib */; };
 		872998FF0832617F00CBD740 /* CMROpenURL.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872998FD0832617F00CBD740 /* CMROpenURL.nib */; };
 		872999050832617F00CBD740 /* CMROpenURLManager.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999030832617F00CBD740 /* CMROpenURLManager.strings */; };
@@ -491,7 +483,6 @@
 		872999410832618100CBD740 /* Messenger.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8729993F0832618100CBD740 /* Messenger.strings */; };
 		8729994A0832618100CBD740 /* ServicesMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999480832618100CBD740 /* ServicesMenu.strings */; };
 		8729994D0832618100CBD740 /* TextFind.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8729994B0832618100CBD740 /* TextFind.nib */; };
-		872999500832618100CBD740 /* ThreadData.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8729994E0832618100CBD740 /* ThreadData.strings */; };
 		872999530832618100CBD740 /* ThreadsList.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999510832618100CBD740 /* ThreadsList.strings */; };
 		872999560832618100CBD740 /* ThreadViewer.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999540832618100CBD740 /* ThreadViewer.strings */; };
 		87299A3F083261F200CBD740 /* AddFavorites.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A05083261F200CBD740 /* AddFavorites.png */; };
@@ -808,12 +799,10 @@
 		8729971808325E2500CBD740 /* CMXPopUpWindowManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMXPopUpWindowManager.h; sourceTree = "<group>"; };
 		8729971908325E2500CBD740 /* CMXPopUpWindowManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMXPopUpWindowManager.m; sourceTree = "<group>"; };
 		8729995A0832618700CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/AlertPanel.strings; sourceTree = "<group>"; };
-		8729995B0832618700CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/AlertPanelManager.strings; sourceTree = "<group>"; };
 		8729995D0832618700CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/Browser.nib; sourceTree = "<group>"; };
 		8729995E0832618700CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Japanese; path = Japanese.lproj/browserListColumns.plist; sourceTree = "<group>"; };
 		8729995F0832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/CMRAccessorySheet.nib; sourceTree = "<group>"; };
 		872999600832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/CMRIndexingStepper.nib; sourceTree = "<group>"; };
-		872999610832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/CMRMainMenu.strings; sourceTree = "<group>"; };
 		872999620832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/CMRNoNameInput.nib; sourceTree = "<group>"; };
 		872999630832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/CMROpenURL.nib; sourceTree = "<group>"; };
 		872999650832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/CMROpenURLManager.strings; sourceTree = "<group>"; };
@@ -836,7 +825,6 @@
 		872999790832618900CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Messenger.strings; sourceTree = "<group>"; };
 		8729997C0832618900CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/ServicesMenu.strings; sourceTree = "<group>"; };
 		8729997D0832618900CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/TextFind.nib; sourceTree = "<group>"; };
-		8729997E0832618900CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/ThreadData.strings; sourceTree = "<group>"; };
 		8729997F0832618900CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/ThreadsList.strings; sourceTree = "<group>"; };
 		872999800832618900CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/ThreadViewer.strings; sourceTree = "<group>"; };
 		87299A03083261F200CBD740 /* Action.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Action.tiff; sourceTree = "<group>"; };
@@ -1555,12 +1543,6 @@
 				87299AF50832622100CBD740 /* text */,
 				87299A02083261F200CBD740 /* image */,
 				87BF7CA40840423900CC7D7C /* BathyScapheHelp */,
-				872998E20832617E00CBD740 /* AlertPanel.strings */,
-				872998E50832617F00CBD740 /* AlertPanelManager.strings */,
-				872998EE0832617F00CBD740 /* browserListColumns.plist */,
-				872998F70832617F00CBD740 /* CMRMainMenu.strings */,
-				872999030832617F00CBD740 /* CMROpenURLManager.strings */,
-				8729990C0832618000CBD740 /* CMRTaskDescription.strings */,
 				872998EB0832617F00CBD740 /* Browser.nib */,
 				872998F10832617F00CBD740 /* CMRAccessorySheet.nib */,
 				872998F40832617F00CBD740 /* CMRIndexingStepper.nib */,
@@ -1578,6 +1560,10 @@
 				8729994B0832618100CBD740 /* TextFind.nib */,
 				87BF52D308F7913400998C4E /* BSBoardInfoInspector.nib */,
 				87C4813D08FD05A300F91054 /* AddBoardSheet.nib */,
+				872998E20832617E00CBD740 /* AlertPanel.strings */,
+				872998EE0832617F00CBD740 /* browserListColumns.plist */,
+				872999030832617F00CBD740 /* CMROpenURLManager.strings */,
+				8729990C0832618000CBD740 /* CMRTaskDescription.strings */,
 				872999270832618100CBD740 /* DateFormater.strings */,
 				8729992D0832618100CBD740 /* Downloader.strings */,
 				872999300832618100CBD740 /* HTMLView.strings */,
@@ -1586,7 +1572,6 @@
 				8729993C0832618100CBD740 /* MessageComposer.strings */,
 				8729993F0832618100CBD740 /* Messenger.strings */,
 				872999480832618100CBD740 /* ServicesMenu.strings */,
-				8729994E0832618100CBD740 /* ThreadData.strings */,
 				872999510832618100CBD740 /* ThreadsList.strings */,
 				872999540832618100CBD740 /* ThreadViewer.strings */,
 				8795B91E08E3A7E3005C7C5B /* ToolbarItems.strings */,
@@ -2816,9 +2801,7 @@
 				87016255082BE67100AEFDD0 /* CMRAppDelegate.h in Headers */,
 				87016258082BE67100AEFDD0 /* KFSplitView.h in Headers */,
 				872996590832556100CBD740 /* NSCharacterSet+CMXAdditions.h in Headers */,
-				8729965B0832556100CBD740 /* NSLayoutManager+CMXAdditions.h in Headers */,
 				8729965F0832556200CBD740 /* NSTableColumn+CMXAdditions.h in Headers */,
-				872996630832556200CBD740 /* NSTextView+CMXAdditions.h in Headers */,
 				8729967E0832561E00CBD740 /* CMRThreadMessage.h in Headers */,
 				872996800832561E00CBD740 /* CMRThreadMessage_p.h in Headers */,
 				872996810832561E00CBD740 /* CMRThreadMessageAttributes.h in Headers */,
@@ -3167,12 +3150,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				872998E40832617E00CBD740 /* AlertPanel.strings in Resources */,
-				872998E70832617F00CBD740 /* AlertPanelManager.strings in Resources */,
 				872998ED0832617F00CBD740 /* Browser.nib in Resources */,
 				872998F00832617F00CBD740 /* browserListColumns.plist in Resources */,
 				872998F30832617F00CBD740 /* CMRAccessorySheet.nib in Resources */,
 				872998F60832617F00CBD740 /* CMRIndexingStepper.nib in Resources */,
-				872998F90832617F00CBD740 /* CMRMainMenu.strings in Resources */,
 				872998FC0832617F00CBD740 /* CMRNoNameInput.nib in Resources */,
 				872998FF0832617F00CBD740 /* CMROpenURL.nib in Resources */,
 				872999050832617F00CBD740 /* CMROpenURLManager.strings in Resources */,
@@ -3195,7 +3176,6 @@
 				872999410832618100CBD740 /* Messenger.strings in Resources */,
 				8729994A0832618100CBD740 /* ServicesMenu.strings in Resources */,
 				8729994D0832618100CBD740 /* TextFind.nib in Resources */,
-				872999500832618100CBD740 /* ThreadData.strings in Resources */,
 				872999530832618100CBD740 /* ThreadsList.strings in Resources */,
 				872999560832618100CBD740 /* ThreadViewer.strings in Resources */,
 				87299A3F083261F200CBD740 /* AddFavorites.png in Resources */,
@@ -3418,7 +3398,6 @@
 				870162ED082BE67100AEFDD0 /* CMRThreadsList-listImport.m in Sources */,
 				870162EE082BE67100AEFDD0 /* CMRThreadsList-Notification.m in Sources */,
 				870162EF082BE67100AEFDD0 /* CMRThreadsList-Remove.m in Sources */,
-				870162F0082BE67100AEFDD0 /* CMRThreadsList-Search.m in Sources */,
 				870162F1082BE67100AEFDD0 /* CMRThreadsList.m in Sources */,
 				870162F2082BE67100AEFDD0 /* CMRThreadsListReadFileTask.m in Sources */,
 				870162F3082BE67100AEFDD0 /* CMRThreadsUpdateListTask.m in Sources */,
@@ -3509,7 +3488,6 @@
 				87016358082BE67100AEFDD0 /* CMRTask.m in Sources */,
 				87016359082BE67100AEFDD0 /* CMRTaskItemController.m in Sources */,
 				8701635A082BE67100AEFDD0 /* CMRTaskManager-Management.m in Sources */,
-				8701635B082BE67100AEFDD0 /* CMRTaskManager-ViewAccessor.m in Sources */,
 				8701635C082BE67100AEFDD0 /* CMRTaskManager.m in Sources */,
 				8701635D082BE67100AEFDD0 /* CMXDateFormatter.m in Sources */,
 				8701635E082BE67100AEFDD0 /* CMXTextParser.m in Sources */,
@@ -3538,9 +3516,7 @@
 				8701637F082BE67100AEFDD0 /* CMRThreadViewer-Find.m in Sources */,
 				87016381082BE67100AEFDD0 /* KFSplitView.m in Sources */,
 				8729965A0832556100CBD740 /* NSCharacterSet+CMXAdditions.m in Sources */,
-				8729965C0832556100CBD740 /* NSLayoutManager+CMXAdditions.m in Sources */,
 				872996600832556200CBD740 /* NSTableColumn+CMXAdditions.m in Sources */,
-				872996640832556200CBD740 /* NSTextView+CMXAdditions.m in Sources */,
 				8729967F0832561E00CBD740 /* CMRThreadMessage.m in Sources */,
 				872996820832561E00CBD740 /* CMRThreadMessageAttributes.m in Sources */,
 				872996860832561E00CBD740 /* CMRThreadUserStatus.m in Sources */,
@@ -3696,14 +3672,6 @@
 			name = AlertPanel.strings;
 			sourceTree = "<group>";
 		};
-		872998E50832617F00CBD740 /* AlertPanelManager.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8729995B0832618700CBD740 /* Japanese */,
-			);
-			name = AlertPanelManager.strings;
-			sourceTree = "<group>";
-		};
 		872998EB0832617F00CBD740 /* Browser.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -3734,14 +3702,6 @@
 				872999600832618800CBD740 /* Japanese */,
 			);
 			name = CMRIndexingStepper.nib;
-			sourceTree = "<group>";
-		};
-		872998F70832617F00CBD740 /* CMRMainMenu.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				872999610832618800CBD740 /* Japanese */,
-			);
-			name = CMRMainMenu.strings;
 			sourceTree = "<group>";
 		};
 		872998FA0832617F00CBD740 /* CMRNoNameInput.nib */ = {
@@ -3918,14 +3878,6 @@
 				8729997D0832618900CBD740 /* Japanese */,
 			);
 			name = TextFind.nib;
-			sourceTree = "<group>";
-		};
-		8729994E0832618100CBD740 /* ThreadData.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8729997E0832618900CBD740 /* Japanese */,
-			);
-			name = ThreadData.strings;
 			sourceTree = "<group>";
 		};
 		872999510832618100CBD740 /* ThreadsList.strings */ = {

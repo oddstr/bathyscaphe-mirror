@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.9 2006/01/13 23:47:59 tsawada2 Exp $
+  * $Id: CMRBrowser-List.m,v 1.10 2006/01/25 11:22:03 tsawada2 Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -11,7 +11,7 @@
 #import "CMRHistoryManager.h"
 #import "CMRStatusLine.h"
 #import "BoardManager.h"
-
+#import "CMRBBSSignature.h"
 
 @implementation CMRBrowser(List)
 - (void) changeThreadsFilteringMask : (int) aMask

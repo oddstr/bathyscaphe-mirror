@@ -1,6 +1,6 @@
 //: CMRTaskManager.m
 /**
-  * $Id: CMRTaskManager.m,v 1.3 2005/09/24 06:07:49 tsawada2 Exp $
+  * $Id: CMRTaskManager.m,v 1.4 2006/01/25 11:22:03 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -160,6 +160,34 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 @end
 
 
+@implementation CMRTaskManager(ViewAccessor)
+- (NSScrollView *) scrollView
+{
+	return [[self taskContainerView] enclosingScrollView];
+}
+
+- (SGContainerTableView *) taskContainerView
+{
+	return _taskContainerView;
+}
+
+- (void) taskContainerViewScrollLastRowToVisible
+{
+	[[self taskContainerView] 
+		scrollRowToVisible : [[self taskItemControllers] count] -1];
+}
+
+- (void) setupTaskContainerView
+{
+	UTILAssertNotNil([self taskContainerView]);
+	[[self taskContainerView] setDataSource : self];
+}
+
+- (void) setupUIComponents
+{
+	[self setupTaskContainerView];
+}
+@end
 
 
 @implementation CMRTaskManager(SGContainerTableViewDataSource)

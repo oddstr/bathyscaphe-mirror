@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate_p.h,v 1.5 2005/07/09 01:03:03 tsawada2 Exp $
+ * $Id: CMRAppDelegate_p.h,v 1.6 2006/01/25 11:22:02 tsawada2 Exp $
  * 
  * CMRAppDelegate_p.h
  *
@@ -19,7 +19,7 @@
 
 
 // CMRLocalizableStringsOwner
-#define APP_MAINMENU_LOCALIZABLE_FILE_NAME	@"CMRMainMenu"
+#define APP_MAINMENU_LOCALIZABLE_FILE_NAME	@"Localizable"
 #define APP_MAINMENU_SPVIEW_HORIZONTAL		@"NSSplitView Horizontal"
 #define APP_MAINMENU_SPVIEW_VERTICAL		@"NSSplitView Vertical"
 #define APP_MAINMENU_HELPER_NOTFOUND		@"Helper App Not Found"

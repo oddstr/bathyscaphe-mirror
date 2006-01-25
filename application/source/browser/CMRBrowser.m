@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.15 2006/01/21 07:17:02 tsawada2 Exp $
+  * $Id: CMRBrowser.m,v 1.16 2006/01/25 11:22:03 tsawada2 Exp $
   * 
   * CMRBrowser.m
   *
@@ -77,7 +77,7 @@ id CMRMainBrowser = nil;
 
 - (id) boardIdentifier
 {
-	return [[self currentThreadsList] BBSSignature];
+	return [CMRBBSSignature BBSSignatureWithName : [[self currentThreadsList] BBSName]];
 }
 - (id) threadIdentifier
 {

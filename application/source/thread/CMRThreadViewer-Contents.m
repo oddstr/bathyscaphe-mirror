@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Contents.m,v 1.2 2005/09/29 19:29:09 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Contents.m,v 1.3 2006/01/25 11:22:03 tsawada2 Exp $
   * 
   * CMRThreadViewer-Contents.m
   *
@@ -9,7 +9,7 @@
 #import "CMRThreadViewer_p.h"
 #import "CMRThreadLayout.h"
 #import "CMRThreadVisibleRange.h"
-#import "NSLayoutManager+CMXAdditions.h"
+//#import "NSLayoutManager+CMXAdditions.h"
 
 
 

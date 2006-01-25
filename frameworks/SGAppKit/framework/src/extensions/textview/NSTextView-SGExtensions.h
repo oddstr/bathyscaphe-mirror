@@ -1,6 +1,6 @@
 //: NSTextView-SGExtensions.h
 /**
-  * $Id: NSTextView-SGExtensions.h,v 1.2 2006/01/07 11:56:50 tsawada2 Exp $
+  * $Id: NSTextView-SGExtensions.h,v 1.3 2006/01/25 11:22:03 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -19,4 +19,8 @@
 				  atPoint : (NSPoint		  ) aPoint 
 	longestEffectiveRange : (NSRangePointer) aRangePtr
 				  inRange : (NSRange) rangeLimit;
+
+// Merge from NSTextView+CMXAdditions.m
+- (NSRect) boundingRectForCharacterInRange : (NSRange) aRange;
+- (NSRange) characterRangeForDocumentVisibleRect;
 @end

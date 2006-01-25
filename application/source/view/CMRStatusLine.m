@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRStatusLine.m,v 1.7 2005/10/29 01:15:33 tsawada2 Exp $
+  * $Id: CMRStatusLine.m,v 1.8 2006/01/25 11:22:03 tsawada2 Exp $
   * 
   * CMRStatusLine.m
   *
@@ -183,7 +183,6 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 		}
 	}
 	
-	//[aWindow displayIfNeeded];	// ‘½•ª•K—v‚È‚¢
 }
 
 - (BOOL) isVisible

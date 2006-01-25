@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadView.m,v 1.8 2005/12/13 10:04:53 tsawada2 Exp $
+  * $Id: CMRThreadView.m,v 1.9 2006/01/25 11:22:03 tsawada2 Exp $
   * 
   * CMRThreadView.m
   *
@@ -9,7 +9,7 @@
 #import "CMRThreadView_p.h"
 #import "CMXMenuHolder.h"
 #import "AppDefaults.h"
-#import "NSTextView+CMXAdditions.h"
+//#import "NSTextView+CMXAdditions.h"
 
 
 
