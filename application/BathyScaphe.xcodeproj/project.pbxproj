@@ -315,6 +315,10 @@
 		871265BC097D84ED00B90FF2 /* CMRPullDownIconBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 871265B2097D84ED00B90FF2 /* CMRPullDownIconBtn.m */; };
 		871265BD097D84ED00B90FF2 /* CMRTextColumnCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 871265B3097D84ED00B90FF2 /* CMRTextColumnCell.h */; };
 		871265BE097D84ED00B90FF2 /* CMRTextColumnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 871265B4097D84ED00B90FF2 /* CMRTextColumnCell.m */; };
+		87160662098A338500A27F63 /* SoundsPaneController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87160660098A338500A27F63 /* SoundsPaneController.h */; };
+		87160663098A338500A27F63 /* SoundsPaneController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87160661098A338500A27F63 /* SoundsPaneController.m */; };
+		8716066D098A44AB00A27F63 /* SoundsPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8716066B098A44AB00A27F63 /* SoundsPane.nib */; };
+		871606AF098A646500A27F63 /* Sounds.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 871606AE098A646400A27F63 /* Sounds.tiff */; };
 		8718EFA608D4257200FFAAEE /* BoardManager-BSAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 8718EFA508D4257200FFAAEE /* BoardManager-BSAddition.m */; };
 		8718EFDE08D43F7D00FFAAEE /* NoNameInputController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8718EFDC08D43F7D00FFAAEE /* NoNameInputController.h */; };
 		8718EFDF08D43F7D00FFAAEE /* NoNameInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8718EFDD08D43F7D00FFAAEE /* NoNameInputController.m */; };
@@ -350,7 +354,6 @@
 		871CA11B08585F8100C3A044 /* PreferencesPane.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DB6204C6959800A80005 /* PreferencesPane.h */; };
 		871CA11C08585F8100C3A044 /* PreferencePanes_Prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DB6404C6959800A80005 /* PreferencePanes_Prefix.h */; };
 		871CA11D08585F8100C3A044 /* CMRReplyDefaultsController.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DB6704C6959800A80005 /* CMRReplyDefaultsController.h */; };
-		871CA11E08585F8100C3A044 /* CMRReplyDefaultsController_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DB6904C6959800A80005 /* CMRReplyDefaultsController_p.h */; };
 		871CA11F08585F8100C3A044 /* GeneralPrefController.h in Headers */ = {isa = PBXBuildFile; fileRef = F334140104F11CCA00DAC789 /* GeneralPrefController.h */; };
 		871CA12008585F8100C3A044 /* CMRFilterPrefController.h in Headers */ = {isa = PBXBuildFile; fileRef = F33AE22205BE50F7002448CC /* CMRFilterPrefController.h */; };
 		871CA12108585F8100C3A044 /* CMRFilterPrefController_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F33AE22405BE50F7002448CC /* CMRFilterPrefController_p.h */; };
@@ -384,7 +387,6 @@
 		871CA14008585F8100C3A044 /* FCController.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DB3C04C6959800A80005 /* FCController.m */; };
 		871CA14108585F8100C3A044 /* PreferencesPane-PCManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DB5F04C6959800A80005 /* PreferencesPane-PCManagement.m */; };
 		871CA14208585F8100C3A044 /* PreferencesPane-Toolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DB6004C6959800A80005 /* PreferencesPane-Toolbar.m */; };
-		871CA14308585F8100C3A044 /* PreferencesPane-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DB6104C6959800A80005 /* PreferencesPane-ViewAccessor.m */; };
 		871CA14408585F8100C3A044 /* PreferencesPane.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DB6304C6959800A80005 /* PreferencesPane.m */; };
 		871CA14508585F8100C3A044 /* CMRReplyDefaultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DB6804C6959800A80005 /* CMRReplyDefaultsController.m */; };
 		871CA14708585F8100C3A044 /* GeneralPrefController.m in Sources */ = {isa = PBXBuildFile; fileRef = F334140204F11CCA00DAC789 /* GeneralPrefController.m */; };
@@ -754,6 +756,10 @@
 		871265B2097D84ED00B90FF2 /* CMRPullDownIconBtn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRPullDownIconBtn.m; sourceTree = "<group>"; };
 		871265B3097D84ED00B90FF2 /* CMRTextColumnCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRTextColumnCell.h; sourceTree = "<group>"; };
 		871265B4097D84ED00B90FF2 /* CMRTextColumnCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRTextColumnCell.m; sourceTree = "<group>"; };
+		87160660098A338500A27F63 /* SoundsPaneController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundsPaneController.h; sourceTree = "<group>"; };
+		87160661098A338500A27F63 /* SoundsPaneController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundsPaneController.m; sourceTree = "<group>"; };
+		8716066C098A44AB00A27F63 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/SoundsPane.nib; sourceTree = "<group>"; };
+		871606AE098A646400A27F63 /* Sounds.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Sounds.tiff; sourceTree = "<group>"; };
 		8718EFA508D4257200FFAAEE /* BoardManager-BSAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BoardManager-BSAddition.m"; sourceTree = "<group>"; };
 		8718EFDC08D43F7D00FFAAEE /* NoNameInputController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoNameInputController.h; sourceTree = "<group>"; };
 		8718EFDD08D43F7D00FFAAEE /* NoNameInputController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoNameInputController.m; sourceTree = "<group>"; };
@@ -1479,6 +1485,15 @@
 			name = "Interface Elems";
 			sourceTree = "<group>";
 		};
+		8716065E098A334500A27F63 /* Sound */ = {
+			isa = PBXGroup;
+			children = (
+				87160660098A338500A27F63 /* SoundsPaneController.h */,
+				87160661098A338500A27F63 /* SoundsPaneController.m */,
+			);
+			name = Sound;
+			sourceTree = "<group>";
+		};
 		8729964C0832556100CBD740 /* extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -1954,6 +1969,7 @@
 				F324DB4604C6959800A80005 /* FontsAndColors.nib */,
 				F324DB4E04C6959800A80005 /* ReplySetting.nib */,
 				8764157F0840AF4F00F66D78 /* AdvancedPane.nib */,
+				8716066B098A44AB00A27F63 /* SoundsPane.nib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -2009,12 +2025,13 @@
 				87AC05B6082D3E4200823807 /* FontWell.m */,
 				F324DB5E04C6959800A80005 /* PreferencesPane */,
 				F324DB2F04C6959800A80005 /* Abstract */,
-				F33AE22105BE50F7002448CC /* Filter */,
 				F33413FF04F11CCA00DAC789 /* General */,
 				F324DB3204C6959800A80005 /* Account */,
 				F324DB3804C6959800A80005 /* Appearance */,
 				F324DB6504C6959800A80005 /* Reply */,
+				F33AE22105BE50F7002448CC /* Filter */,
 				87BE5035089ACDE8009EFBC5 /* Advanced */,
+				8716065E098A334500A27F63 /* Sound */,
 				F30FC4E604CBFA3B00A80005 /* Resources */,
 			);
 			path = preference;
@@ -2081,6 +2098,7 @@
 		F324DB6A04C6959800A80005 /* rsrc */ = {
 			isa = PBXGroup;
 			children = (
+				871606AE098A646400A27F63 /* Sounds.tiff */,
 				87FECDE40840DDF100787C68 /* AdvancedPreferences.tiff */,
 				87AF6CFD07425DC0001D08ED /* add_idle.tiff */,
 				87AF6CFE07425DC0001D08ED /* add_pressed.tiff */,
@@ -2863,7 +2881,6 @@
 				871CA11B08585F8100C3A044 /* PreferencesPane.h in Headers */,
 				871CA11C08585F8100C3A044 /* PreferencePanes_Prefix.h in Headers */,
 				871CA11D08585F8100C3A044 /* CMRReplyDefaultsController.h in Headers */,
-				871CA11E08585F8100C3A044 /* CMRReplyDefaultsController_p.h in Headers */,
 				871CA11F08585F8100C3A044 /* GeneralPrefController.h in Headers */,
 				871CA12008585F8100C3A044 /* CMRFilterPrefController.h in Headers */,
 				871CA12108585F8100C3A044 /* CMRFilterPrefController_p.h in Headers */,
@@ -2873,6 +2890,7 @@
 				871CA12508585F8100C3A044 /* UTILDebugging.h in Headers */,
 				871CA12608585F8100C3A044 /* FontWell.h in Headers */,
 				871CA12708585F8100C3A044 /* AdvancedPrefController.h in Headers */,
+				87160662098A338500A27F63 /* SoundsPaneController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3308,6 +3326,8 @@
 				871CA13808585F8100C3A044 /* AdvancedPane.nib in Resources */,
 				871CA13908585F8100C3A044 /* AdvancedPreferences.tiff in Resources */,
 				87078E34090EA195007FF9C3 /* ResToThread.png in Resources */,
+				8716066D098A44AB00A27F63 /* SoundsPane.nib in Resources */,
+				871606AF098A646500A27F63 /* Sounds.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3569,7 +3589,6 @@
 				871CA14008585F8100C3A044 /* FCController.m in Sources */,
 				871CA14108585F8100C3A044 /* PreferencesPane-PCManagement.m in Sources */,
 				871CA14208585F8100C3A044 /* PreferencesPane-Toolbar.m in Sources */,
-				871CA14308585F8100C3A044 /* PreferencesPane-ViewAccessor.m in Sources */,
 				871CA14408585F8100C3A044 /* PreferencesPane.m in Sources */,
 				871CA14508585F8100C3A044 /* CMRReplyDefaultsController.m in Sources */,
 				871CA14708585F8100C3A044 /* GeneralPrefController.m in Sources */,
@@ -3577,6 +3596,7 @@
 				871CA14908585F8100C3A044 /* CMRFilterPrefController-View.m in Sources */,
 				871CA14A08585F8100C3A044 /* FontWell.m in Sources */,
 				871CA14B08585F8100C3A044 /* AdvancedPrefController.m in Sources */,
+				87160663098A338500A27F63 /* SoundsPaneController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3631,6 +3651,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		8716066B098A44AB00A27F63 /* SoundsPane.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8716066C098A44AB00A27F63 /* Japanese */,
+			);
+			name = SoundsPane.nib;
+			sourceTree = "<group>";
+		};
 		8724A6DB09127E69009CC855 /* board_default.plist */ = {
 			isa = PBXVariantGroup;
 			children = (

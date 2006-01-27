@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesPane-PCManagement.m,v 1.3 2006/01/15 03:28:07 tsawada2 Exp $
+  * $Id: PreferencesPane-PCManagement.m,v 1.4 2006/01/27 17:52:53 tsawada2 Exp $
   * 
   * PreferencesPane-PCManagement.m
   *
@@ -9,13 +9,14 @@
 #import "PreferencesPane.h"
 #import "AppDefaults.h"
 #import "PreferencesController.h"
+
 #import "FCController.h"
 #import "AccountController.h"
 #import "CMRReplyDefaultsController.h"
 #import "GeneralPrefController.h"
 #import "AdvancedPrefController.h"
 #import "CMRFilterPrefController.h"
-
+#import "SoundsPaneController.h"
 
 
 @implementation PreferencesPane(PreferencesControllerManagement)
@@ -41,15 +42,13 @@
 }
 - (void) setCurrentIdentifier : (NSString *) aCurrentIdentifier
 {
-	NSUserDefaults *defaults_;
-	
 	[aCurrentIdentifier retain];
 	[_currentIdentifier release];
 	_currentIdentifier = aCurrentIdentifier;
 	
 	if (nil == _currentIdentifier) return;
-	defaults_ = [NSUserDefaults standardUserDefaults];
-	[defaults_ setObject : _currentIdentifier
+
+	[[NSUserDefaults standardUserDefaults] setObject : _currentIdentifier
 				  forKey : PPLastOpenPaneIdentifier];
 }
 
@@ -63,6 +62,7 @@
 		[FCController class],
 		[CMRReplyDefaultsController class],
 		[AdvancedPrefController class],
+		[SoundsPaneController class],
 		Nil
 	};
 	
@@ -115,6 +115,7 @@
 	*windowFrame = wFrame;
 	*contentFrame = newFrame;
 }
+
 - (void) setContentViewWithController : (PreferencesController *) controller
 {
 	PreferencesController	*oldController;
@@ -129,9 +130,9 @@
 	mainView_ = [controller mainView];
 	oldController = [self controllerWithIdentifier : [self currentIdentifier]];
 	
-	[self calcFramesForContentFrame:[mainView_ frame]
-			windowFrame:&wFrame
-			contentFrame:&newFrame];
+	[self calcFramesForContentFrame : [mainView_ frame]
+						windowFrame : &wFrame
+					   contentFrame : &newFrame];
 	
 	// insert new pane
 	[controller willSelect];
@@ -141,10 +142,6 @@
 	[[self contentView] removeFromSuperviewWithoutNeedingDisplay];
 
 	[mainView_ setFrame : newFrame];
-	//[[[self contentView] superview] 
-	//			replaceSubview : [self contentView] 
-	//					  with : mainView_];
-	
 	[[self window] setFrame : wFrame
 					display : YES
 					animate : YES];
@@ -159,11 +156,8 @@
 
 	[self setCurrentIdentifier : [controller identifier]];
 	[self updateUIComponents];
-	
-	//[[self window] setFrame : wFrame
-	//				display : YES
-	//				animate : YES];
 }
+
 - (IBAction) selectController : (id) sender
 {
 	id	object_;

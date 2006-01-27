@@ -1,5 +1,5 @@
 //:CMRReplyDefaultsController.m
-#import "CMRReplyDefaultsController_p.h"
+#import "CMRReplyDefaultsController.h"
 #import "PreferencePanes_Prefix.h"
 
 
@@ -7,18 +7,33 @@
 #define kToolTipKey		@"Reply ToolTip"
 #define kImageName		@"ResToThread"
 
-
+#define REPLYDEFAULTSCONTROLLER_LOAD_NIB_NAME		@"ReplySetting"
 
 @implementation CMRReplyDefaultsController
 - (NSString *) mainNibName
 {
 	return REPLYDEFAULTSCONTROLLER_LOAD_NIB_NAME;
 }
-@end
 
+#pragma mark Accessors
+- (NSTextField *) defaultNameField
+{
+	return m_defaultNameField;
+}
+- (NSTextField *) defaultMailField
+{
+	return m_defaultMailField;
+}
+- (NSTableView *) nameListTable
+{
+	return m_nameListTable;
+}
+- (NSButton *) removeRowBtn
+{
+	return m_removeRowBtn;
+}
 
-
-@implementation CMRReplyDefaultsController(Action)
+#pragma mark IBActions
 - (IBAction) changeDefaultName : (id) sender
 {
 	UTILAssertKindOfClass(sender, NSTextField);
@@ -53,29 +68,8 @@
 		NSBeep();
 	}
 }
-@end
 
-
-
-@implementation CMRReplyDefaultsController(ViewAccessor)
-- (NSTextField *) defaultNameField
-{
-	return m_defaultNameField;
-}
-- (NSTextField *) defaultMailField
-{
-	return m_defaultMailField;
-}
-- (NSTableView *) nameListTable
-{
-	return m_nameListTable;
-}
-- (NSButton *) removeRowBtn
-{
-	return m_removeRowBtn;
-}
-
-
+#pragma mark Override Methods
 - (void) setupUIComponents
 {
 	[self updateUIComponents];
@@ -98,7 +92,7 @@
 }
 
 
-//TableView Data Source
+#pragma mark TableView Data Source
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView
 {
     return [_nameList count];
@@ -131,7 +125,7 @@
 }
 
 
-//TableView Delegate
+#pragma mark TableView Delegate
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification
 {
 	int row = [[self nameListTable] selectedRow];

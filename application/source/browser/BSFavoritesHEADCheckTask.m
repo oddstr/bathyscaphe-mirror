@@ -1,5 +1,5 @@
 /**
-  * $Id: BSFavoritesHEADCheckTask.m,v 1.3 2006/01/25 11:22:03 tsawada2 Exp $
+  * $Id: BSFavoritesHEADCheckTask.m,v 1.4 2006/01/27 17:52:53 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2006 BathyScaphe Project. All rights reserved.
@@ -10,6 +10,7 @@
 #import "BoardManager.h"
 #import "CMRThreadSignature.h"
 #import "CMRHostHandler.h"
+#import "AppDefaults.h"
 
 NSString *const BSFavoritesHEADCheckTaskDidFinishNotification = @"BSFavoritesHEADCheckTaskDidFinishNotification";
 
@@ -158,7 +159,8 @@ static NSDictionary *replaceAttributesIfNeeded(NSDictionary *thread)
 {
     NSEnumerator        *iter;
     NSMutableDictionary *thread_;
-	NSSound				*finishedSound_;
+	NSString			*soundName_;
+	NSSound				*finishedSound_ = nil;
     
     unsigned nEnded_ = 0;
     unsigned nElem_  = [[self threadsArray] count];
@@ -183,13 +185,16 @@ static NSDictionary *replaceAttributesIfNeeded(NSDictionary *thread)
         [self setProgress : (((double)nEnded_ / (double)nElem_) * 100)];
 		[self setAmountString : [NSString stringWithFormat : @"%i/%i",nEnded_,nElem_]];
     }
-	
-	if (modified_ > 0) {
-		NSLog(@"Some Threads are modified.");
-		finishedSound_ = [NSSound soundNamed : @"Ping"];
+
+	soundName_ = [CMRPref HEADCheckNewArrivedSound];
+	if ((modified_ > 0) && ![soundName_ isEqualToString : @""]) {
+		//NSLog(@"Some Threads are modified.");
+		finishedSound_ = [NSSound soundNamed :soundName_];
 	} else {
-		NSLog(@"No threads are modified.");
-		finishedSound_ = [NSSound soundNamed : @"Basso"];
+		//NSLog(@"No threads are modified.");
+		soundName_ = [CMRPref HEADCheckNoUpdateSound];
+		if (![soundName_ isEqualToString : @""])
+			finishedSound_ = [NSSound soundNamed : @"Basso"];
 	}
 	[self setThreadsArray : newArray_];
 	[newArray_ release];

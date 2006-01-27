@@ -17,3 +17,4 @@ extern NSString *const PPFilterPreferencesIdentifier;
 extern NSString *const PPFontsAndColorsIdentifier;
 extern NSString *const PPAccountSettingsIdentifier;
 extern NSString *const PPReplyDefaultIdentifier;
+extern NSString *const PPSoundsPreferencesIdentifier; // available in BathyScaphe 1.2 and later.

@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.29 2006/01/20 03:02:24 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.30 2006/01/27 17:52:53 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -47,7 +47,7 @@
 	NSMutableDictionary		*m_imagePreviewerDictionary;
 	NSMutableDictionary		*_dictAppearance;
 	NSMutableDictionary		*_dictFilter;
-	
+	NSMutableDictionary		*m_soundsDictionary;
 	
 	NSMutableDictionary		*_proxyCache;
 	
@@ -468,6 +468,18 @@
 								 message : (NSString *) msg;
 - (int) runCriticalAlertPanelWithLocalizedString : (NSString *) title
                                           message : (NSString *) msg;
+@end
+/* Vita Additions */
+@interface AppDefaults(Sounds)
+- (NSString *) HEADCheckNewArrivedSound;
+- (void) setHEADCheckNewArrivedSound : (NSString *) soundName;
+- (NSString *) HEADCheckNoUpdateSound;
+- (void) setHEADCheckNoUpdateSound : (NSString *) soundName;
+- (NSString *) replyDidFinishSound;
+- (void) setReplyDidFinishSound : (NSString *) soundName;
+
+- (void) _loadSoundsSettings;
+- (BOOL) _saveSoundsSettings;
 @end
 
 #pragma mark Constants

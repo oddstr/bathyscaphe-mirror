@@ -1,3 +1,27 @@
+2006-01-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/BSFavoritesHEADCheckTask.m
+	* application/source/thread/CMRThreadViewer-Action.m
+		特定の操作が完了したときに、サウンドを再生できるようにした。サウンドが "" か、見つからない場合は再生されない。
+		- サウンドファイルは NSSound が再生できるものを、/Library/Sounds/ か /~Library/Sounds/ に置いておく。
+		　その後、環境設定で選択する。このとき、/System/Library/Sounds/ にあるサウンドも選択できる。
+		- NSSound の仕様により、「.aiff」は OK だが「.aif」は認識されないので注意。
+	* application/source/preferences/AppDefaults-LibPath.m
+		AppDefaults にサウンドエフェクト関連のメソッドを追加。Sounds カテゴリとして、（なぜか）-LibPath.m に記述した。
+		サウンドファイルの名前（拡張子抜き）を記録する。サウンド無しの場合は ""（nil ではない）となる。
+	* application/subproj/preference/reply/CMRReplyDefaultsController.m
+		CMRReplyDefaultsController_p.h の内容を統合した。 -_p.h はターゲットから外され、いずれリポジトリから削除される。
+	* application/subproj/preference/PreferencePanes_Prefix.h
+	* application/subproj/preference/pane/PreferencesPane-PCManagement.m
+	* application/subproj/preference/pane/PreferencesPane.m
+	* application/subproj/preference/pane/PreferencesPane-Toolbar.m
+		「環境設定」に「サウンド」ペインを追加したことに伴う諸変更と、若干のコードの再編成、効率化。
+		また、PreferencesPane-ViewAccessor.m の内容は PreferencesPane.m に統合し、 -ViewAccessor.m はターゲットから外した。
+		いずれリポジトリからも削除される。
+	* application/subproj/preference/SoundsPaneController.m
+	* application/subproj/preference/Japanese.lproj/SoundsPane.nib
+	* application/subproj/preference/rsrc/Sounds.tiff
+		[新規追加] 「環境設定」に「サウンド」ペインを追加。サウンドエフェクトの設定を行う。
+		- ヘルプボタンは、対応するヘルプコンテンツが未作成のため、今は正しく動作しないが、問題ない。
 2006-01-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/window/CMRToolbarDelegateImp_p.h
 	* application/source/view/CMRIndexingStepper-ViewAccessor.m

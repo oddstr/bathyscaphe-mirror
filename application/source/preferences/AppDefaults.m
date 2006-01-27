@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.11 2006/01/25 11:22:03 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.12 2006/01/27 17:52:53 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -9,7 +9,6 @@
 #import "AppDefaults_p.h"
 #import "CMRMainMenuManager.h"
 #import "BoardList.h"
-//#import "CMRBBSSignature.h"
 #import <AppKit/NSFont.h>
 
 
@@ -95,6 +94,7 @@ static id _singletonAppDefaultsLock;
 	[m_imagePreviewerDictionary release];
 	[_dictAppearance release];
 	[_proxyCache release];
+	[m_soundsDictionary release];
 	
 	[super dealloc];
 }
@@ -118,6 +118,7 @@ static id _singletonAppDefaultsLock;
 	[self _loadThreadViewerSettings];
 	[self _loadImagePreviewerSettings];
 	[self loadAccountSettings];
+	[self _loadSoundsSettings];
 	
 	return YES;
 }
@@ -135,6 +136,7 @@ NS_DURING
 	[self _saveThreadViewerSettings];
 	[self _saveImagePreviewerSettings];
 	[self _saveFilter];
+	[self _saveSoundsSettings];
 
 	syncResult = [[self defaults] synchronize];
 	
@@ -346,34 +348,6 @@ NS_ENDHANDLER
 }*/
 
 #pragma mark -
-
-/*- (CMRBBSSignature *) browserLastBoard
-{
-	NSDictionary		*dictionary_;
-	NSString			*rep_;
-	CMRBBSSignature		*signature_;
-	
-	dictionary_ = [[self defaults] dictionaryForKey : AppDefaultsBrowserLastBoardKey];
-	
-	rep_ = [[self defaults] objectForKey : AppDefaultsBrowserLastBoardKey];
-	UTILRequireCondition(rep_, default_browserLastBoard);
-	signature_ = [CMRBBSSignature objectWithPropertyListRepresentation : rep_];
-	UTILRequireCondition(signature_, default_browserLastBoard);
-	
-	return signature_;
-	
-	default_browserLastBoard:
-		return [CMRBBSSignature favoritesListSignature];
-}
-- (void) setBrowserLastBoard : (CMRBBSSignature *) aSignature
-{
-	if (nil == aSignature) {
-		[[self defaults] removeObjectForKey : AppDefaultsBrowserLastBoardKey];
-		return;
-	}
-	[[self defaults] setObject : [aSignature propertyListRepresentation]
-						forKey : AppDefaultsBrowserLastBoardKey];
-}*/
 
 - (NSString *) browserLastBoard
 {

@@ -1,0 +1,30 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {"" = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {openHelp = id; }; 
+            CLASS = PreferencesController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"_contentView" = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {soundChosen = id; soundNone = id; }; 
+            CLASS = SoundsPaneController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_soundForHEADCheckNewArrivedBtn" = NSPopUpButton; 
+                "_soundForHEADCheckNoUpdateBtn" = NSPopUpButton; 
+                "_soundForReplyDidFinishBtn" = NSPopUpButton; 
+                "_soundsListMenu" = NSMenu; 
+            }; 
+            SUPERCLASS = PreferencesController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

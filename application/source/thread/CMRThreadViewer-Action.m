@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.20 2006/01/24 11:00:54 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.21 2006/01/27 17:52:53 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -70,9 +70,18 @@
 
 - (void) replyMessengerDidFinishPosting : (NSNotification *) aNotification
 {
+	NSSound	*sound_ = nil;
+	NSString *soundTitle_;
 	UTILAssertNotificationName(
 		aNotification,
 		CMRReplyMessengerDidFinishPostingNotification);
+
+	soundTitle_ = [CMRPref replyDidFinishSound];
+	if (![soundTitle_ isEqualToString : @""])
+		sound_ = [NSSound soundNamed : soundTitle_];
+	
+	if (sound_)
+		[sound_ play];
 
 	[self reloadIfOnlineMode : nil];
 }
