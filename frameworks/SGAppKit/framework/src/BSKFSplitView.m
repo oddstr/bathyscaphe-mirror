@@ -1,14 +1,15 @@
 /**
-  * $Id: CMRSplitView.m,v 1.4 2006/01/13 23:47:59 tsawada2 Exp $
+  * $Id: BSKFSplitView.m,v 1.1 2006/01/27 23:02:19 tsawada2 Exp $
   * 
-  * CMRSplitView.m
+  * BathyScaphe
   *
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
+  * Copyright 2005-2006 BathyScaphe Project.
+  * All rights reserved.
   */
-#import "CMRSplitView.h"
+#import "BSKFSplitView.h"
+#import "NSImage-SGExtensions.h"
 
-@implementation CMRSplitView
+@implementation BSKFSplitView
 static NSRect	bSRect;
 static NSRect	bSDimRect;
 static NSRect	bSVerRect;
@@ -18,7 +19,9 @@ static NSRect	bSDimVerRect;
 - (NSImage *) splitterBg
 {
 	if (_splitterBg == nil) {
-		_splitterBg = [NSImage imageNamed : @"browserSplitter"];
+		_splitterBg = [NSImage imageNamed : @"browserSplitter"
+						   loadFromBundle : [NSBundle bundleForClass : [self class]]];
+
 		bSRect = NSMakeRect(0, 0, 1.0, 10.0);
 		[_splitterBg setFlipped : [self isFlipped]];
 	}
@@ -28,7 +31,8 @@ static NSRect	bSDimVerRect;
 - (NSImage *) splitterDimple
 {
 	if (_splitterDimple == nil) {
-		_splitterDimple = [NSImage imageNamed : @"browserSplitterDimple"];
+		_splitterDimple = [NSImage imageNamed : @"browserSplitterDimple"
+							   loadFromBundle : [NSBundle bundleForClass : [self class]]];
 		bSDimRect = NSMakeRect(0,0,8.0,10.0);
 		[_splitterDimple setFlipped : [self isFlipped]];
 	}
@@ -38,7 +42,8 @@ static NSRect	bSDimVerRect;
 - (NSImage *) splitterBgVertical
 {
 	if (_splitterBgVertical == nil) {
-		_splitterBgVertical = [NSImage imageNamed : @"browserSplitterVertical"];
+		_splitterBgVertical = [NSImage imageNamed : @"browserSplitterVertical"
+								   loadFromBundle : [NSBundle bundleForClass : [self class]]];
 		bSVerRect = NSMakeRect(0,0,10.0,1.0);
 		[_splitterBgVertical setFlipped : [self isFlipped]];
 	}
@@ -48,7 +53,8 @@ static NSRect	bSDimVerRect;
 - (NSImage *) splitterDimpleVertical
 {
 	if (_splitterDimpleVertical == nil) {
-		_splitterDimpleVertical = [NSImage imageNamed : @"browserSplitterDimpleVertical"];
+		_splitterDimpleVertical = [NSImage imageNamed : @"browserSplitterDimpleVertical"
+									   loadFromBundle : [NSBundle bundleForClass : [self class]]];
 		bSDimVerRect = NSMakeRect(0,0,10.0,8.0);
 		[_splitterDimpleVertical setFlipped : [self isFlipped]];
 	}

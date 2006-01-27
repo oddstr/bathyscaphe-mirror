@@ -22,7 +22,6 @@
 #import "CMXDateFormatter.h"
 
 #import "ThreadsListTable.h"
-#import "CMRSplitView.h"
 #import "CMXScrollView.h"
 #import "CMRAccessorySheetController.h"
 
@@ -132,7 +131,7 @@
 //:CMRBrowser-ViewAccessor.m
 @interface CMRBrowser(ViewAccessor)
 /* Accessor for m_splitView */
-- (CMRSplitView *) splitView;
+- (BSKFSplitView *) splitView;
 /* Accessor for m_threadsListTable */
 - (ThreadsListTable *) threadsListTable;
 /* Accessor for m_threadsListScrollView */

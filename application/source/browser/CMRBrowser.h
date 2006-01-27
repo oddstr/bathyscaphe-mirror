@@ -12,7 +12,7 @@
 #import "RBSplitView.h"
 #import "CMRThreadViewer.h"
 
-@class CMRSplitView;
+@class BSKFSplitView;
 @class ThreadsListTable;
 @class CMRThreadsList;
 @class CMRAccessorySheetController;
@@ -28,7 +28,7 @@ typedef enum _BSThreadDeletionType {
 {
 	IBOutlet RBSplitSubview		*m_boardListSubView;
 
-	IBOutlet CMRSplitView		*m_splitView;
+	IBOutlet BSKFSplitView		*m_splitView;
 	
 	IBOutlet ThreadsListTable	*m_threadsListTable;
 	//IBOutlet NSPopUpButton		*m_threadsFilterPopUp; // deprecated in Vita.

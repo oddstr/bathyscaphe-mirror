@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.30 2006/01/22 07:10:52 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.31 2006/01/27 23:02:19 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -21,7 +21,7 @@
 {
     return nil;
 }
-- (CMRSplitView *) splitView
+- (BSKFSplitView *) splitView
 {
     return m_splitView;
 }

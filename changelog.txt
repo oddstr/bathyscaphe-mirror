@@ -1,4 +1,29 @@
 2006-01-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRThreadsList-Filter.m
+		「特定の文字を無視」は隠しで残そうかとも思っていたが、それはそれでわかりにくくなりそうなので思い切って廃止した。
+	* frameworks/SGAppKit/framework/src/extensions/workspace/NSWorkspace-SGExtensions.m
+		ビルド時の警告が出ないよう、適切な書き方に改めた。
+	* application/Resources/Japanese.lproj/Browser.nib
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/source/browser/CMRBrowser.m
+	* frameworks/SGAppKit/framework/src/SGAppKit.h
+		下記変更に伴い、必要な修正を施した。
+	* frameworks/SGAppKit/framework/src/BSKFSplitView.m
+	* frameworks/SGAppKit/framework/src/KFSplitView.m
+	* frameworks/SGAppKit/framework/resource/images/browserSplitterVertical.tiff
+	* frameworks/SGAppKit/framework/resource/images/browserSplitterDimpleVertical.tiff
+	* frameworks/SGAppKit/framework/resource/images/browserSplitter.tiff
+	* frameworks/SGAppKit/framework/resource/images/browserSplitterDimple.tiff
+		[新規追加] KFSplitView および CMRSplitView クラスは、SGAppKit に移動した。
+		この機会に、CMRSplitView を BSKFSplitView に改名した。画像リソースも移動した。
+	* application/Resources/image/browserSplitterVertical.tiff
+	* application/Resources/image/browserSplitterDimpleVertical.tiff
+	* application/Resources/image/browserSplitter.tiff
+	* application/Resources/image/browserSplitterDimple.tiff
+		[削除] これらの画像リソースも SGAppKit に移した。
+	* application/source/view/KFSplitView.m
+	* application/source/view/CMRSplitView.m
+		[削除] これらのクラスは SGAppKit に移した。
 	* application/source/browser/BSFavoritesHEADCheckTask.m
 	* application/source/thread/CMRThreadViewer-Action.m
 		特定の操作が完了したときに、サウンドを再生できるようにした。サウンドが "" か、見つからない場合は再生されない。

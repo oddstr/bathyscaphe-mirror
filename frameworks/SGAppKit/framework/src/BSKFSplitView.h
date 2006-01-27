@@ -1,15 +1,15 @@
 /**
-  * $Id: CMRSplitView.h,v 1.3 2006/01/13 23:47:59 tsawada2 Exp $
+  * $Id: BSKFSplitView.h,v 1.1 2006/01/27 23:02:19 tsawada2 Exp $
   * 
-  * CMRSplitView.h
+  * BathyScaphe
   *
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
+  * Copyright 2005-2006 BathyScaphe Project.
+  * All rights reserved.
   */
 #import <Cocoa/Cocoa.h>
 #import "KFSplitView.h"
 
-@interface CMRSplitView : KFSplitView
+@interface BSKFSplitView : KFSplitView
 {
 	@private
 	NSImage	*_splitterBg;
