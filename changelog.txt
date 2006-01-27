@@ -1,4 +1,9 @@
 2006-01-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/SyncPaneController.h
+	* application/subproj/preference/SyncPaneController.m
+	* application/subproj/preference/Japanese.lproj/SyncPane.nib
+	* application/subproj/preference/rsrc/Sync.tiff
+		[新規追加] これらはまだ使用されることは無い。BWAgent を PreferencePane 他に統合したい。
 	* application/source/browser/CMRThreadsList-Filter.m
 		「特定の文字を無視」は隠しで残そうかとも思っていたが、それはそれでわかりにくくなりそうなので思い切って廃止した。
 	* frameworks/SGAppKit/framework/src/extensions/workspace/NSWorkspace-SGExtensions.m
