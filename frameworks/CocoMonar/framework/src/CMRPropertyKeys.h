@@ -1,6 +1,6 @@
 //: CMRPropertyKeys.h
 /**
-  * $Id: CMRPropertyKeys.h,v 1.1 2005/05/11 17:51:19 tsawada2 Exp $
+  * $Id: CMRPropertyKeys.h,v 1.1.1.1.4.1 2006/01/28 16:06:42 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -29,6 +29,8 @@ extern NSString *const ThreadPlistContentsMessageKey;
 extern NSString *const ThreadPlistContentsBeProfileKey;
 extern NSString *const CMRThreadContentsStatusKey;		// NSNumber
 extern NSString *const CMRThreadContentsHostKey;
+extern NSString *const ThreadPlistContentsMilliSecKey; // integer (0-999) available in BathyScaphe 1.1.3 and later
+extern NSString *const ThreadPlistContentsDateRepKey;
 
 
 extern NSString *const BoardPlistURLKey;

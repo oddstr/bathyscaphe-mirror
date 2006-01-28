@@ -9,7 +9,7 @@ SUBPROJECTS_ROOT = $(APPLICATION_ROOT)/subproj
 FRAMEWORK_ROOT	= $(PROJECT_ROOT)/frameworks
 
 DARWIN_VER = $(shell uname -r | sed -e 's/\..*//')
-ENABLE_MDI = $(shell if [ $(DARWIN_VER) -le 8 ] ;then echo YES ;fi)
+ENABLE_MDI = $(shell if [ $(DARWIN_VER) -ge 8 ] ;then echo YES ;fi)
 ifeq ($(ENABLE_MDI), YES) 
 	MAKE_MDI = mdimporter
 	MDI_DIR = $(PROJECT_ROOT)/metadataimporter/BathyScaphe

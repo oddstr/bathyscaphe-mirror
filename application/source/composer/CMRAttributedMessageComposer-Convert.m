@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer-Convert.m,v 1.1.1.1.4.1 2005/12/14 16:05:06 masakih Exp $
+  * $Id: CMRAttributedMessageComposer-Convert.m,v 1.1.1.1.4.2 2006/01/28 16:06:42 masakih Exp $
   * 
   * CMRAttributedMessageComposer-Convert.m
   *
@@ -69,29 +69,38 @@ void htmlConvertBreakLineTag(NSMutableString *theString)
 	}
 }
 
-static void htmlConvertBlockQuate(NSMutableAttributedString *mAttrs)
+static void convertMessageWith(NSMutableAttributedString *ms, NSString *str, NSDictionary *attributes)
 {
-	unsigned	length_;
-	NSRange		start_;
+	static NSString				*ulTag_ = nil;
+
+	NSRange			start_;
 	NSMutableString	*contents_;
-	
-	length_ = [mAttrs length];
-	if (nil == mAttrs || 0 == length_)
-		return;
-	
-	contents_ = [mAttrs mutableString];
-	start_ = NSMakeRange(0, 0);
 
-	// フォームからの削除依頼で混入する <ul> </ul> タグを削除
-	start_ = [contents_ rangeOfString : NSLocalizedString(@"saku target UL", nil)
-							  options : NSLiteralSearch];
-	if (0 == start_.length || NSNotFound == start_.location) {
-		return;
+	if(!ulTag_) {
+		ulTag_ = [NSLocalizedString(@"saku target UL", nil) retain];
 	}
+	
+	if(ms == nil) return;
 
-	[mAttrs addAttribute : NSForegroundColorAttributeName value : [NSColor redColor] range : start_];
-	[mAttrs replaceCharactersInRange : start_
-						  withString : NSLocalizedString(@"saku target BR", nil)];
+	[ms replaceCharactersInRange : [ms range] withString : str];
+	[ms setAttributes : attributes range : [ms range]];
+	[CMXTextParser convertMessageSourceToCachedMessage : [ms mutableString]];
+
+	if(0 == [ms length] || ms == nil)
+		return;
+
+	contents_ = [ms mutableString];
+	//start_ = NSMakeRange(0, 0);
+
+	start_ = [contents_ rangeOfString : ulTag_
+							  options : NSLiteralSearch];
+	if (0 == start_.length || NSNotFound == start_.location)
+		return;
+
+	// フォームからの削除依頼で混入する <ul> </ul> タグを削除	
+	[ms addAttribute : NSForegroundColorAttributeName value : [NSColor redColor] range : start_];
+	[ms replaceCharactersInRange : start_
+					  withString : NSLocalizedString(@"saku target BR", nil)];
 	[contents_ replaceOccurrencesOfString : @"<ul> " // 直後の半角スペース込みで削除
 							   withString : @"\n"
 							      options : (NSBackwardsSearch | NSLiteralSearch)
@@ -103,17 +112,6 @@ static void htmlConvertBlockQuate(NSMutableAttributedString *mAttrs)
 									range : NSMakeRange(0, [contents_ length])];
 
 	[contents_ deleteCharactersInRange : NSMakeRange([contents_ length]-6, 6)]; // 一番最後の </ul> だけ別処理
-
-}
-
-
-static void convertMessageWith(NSMutableAttributedString *ms, NSString *str, NSDictionary *attributes)
-{
-	[ms replaceCharactersInRange:[ms range] withString:str];
-	
-	[ms setAttributes:attributes range:[ms range]];
-	[CMXTextParser convertMessageSourceToCachedMessage : [ms mutableString]];
-	htmlConvertBlockQuate(ms);
 }
 
 @implementation CMRAttributedMessageComposer(Convert)

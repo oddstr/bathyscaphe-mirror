@@ -1,3 +1,6 @@
+2006-01-29 masakih <masakih@users.sourceforge.jp>
+		トランクよりマージ
+		cvs -z3 up -j v122_FINAL -j v113_FINAL 
 2006-01-22 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSDBThreadList.m
 		ログ削除時にデータベースを更新するようにした。

@@ -1,13 +1,13 @@
-//:CMRAttributedMessageComposer.m
 /**
+  * $Id: CMRAttributedMessageComposer.m,v 1.6.2.3 2006/01/28 16:06:42 masakih Exp $
+  * BathyScaphe
   *
-  * @author Takanori Ishikawa, tsawada2
-  * @version 1.0.1 (05/09/09  22:36:00 PM)
+  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
   *
   */
+
 #import "CMRAttributedMessageComposer_p.h"
 #import <AppKit/NSTextStorage.h>
-
 
 // for debugging only
 #define UTIL_DEBUGGING		1
@@ -22,8 +22,7 @@
 #define kThreadDateFormatKey		@"Thread - DateDescription"
 
 
-//static NSAttributedString *whiteSpaceSeparater(void);
-static void appendDateString(NSMutableString *buffer, id theDate, NSString *prefix, NSDictionary *localeDictionary);
+static void appendDateString(NSMutableString *buffer, id theDate, NSString *prefix);
 static void appendFiledTitle(NSMutableAttributedString *buffer, NSString *title);
 static void appendWhiteSpaceSeparator(NSMutableAttributedString *buffer);
 
@@ -38,6 +37,11 @@ static void appendWhiteSpaceSeparator(NSMutableAttributedString *buffer);
 #pragma mark -
 
 @implementation CMRAttributedMessageComposer
+
+static NSAttributedString	*wSS = nil;
+static NSDictionary			*localeDict_ = nil;
+static NSString				*threadDateFormat_ = nil;
+
 + (void) initialize 
 {
 	UTIL_DEBUG_METHOD;
@@ -65,7 +69,6 @@ static void appendWhiteSpaceSeparator(NSMutableAttributedString *buffer);
 {
 	[_contentsStorage release];
 	[_nameCache release];
-	[_localeDict release];
 	[super dealloc];
 }
 
@@ -84,20 +87,6 @@ static void appendWhiteSpaceSeparator(NSMutableAttributedString *buffer);
 	tmp = _contentsStorage;
 	_contentsStorage = [aContentsStorage retain];
 	[tmp release];
-}
-
-- (NSDictionary *) localeDict
-{
-	if (nil == _localeDict) {
-		NSUserDefaults	*defaults_ = [NSUserDefaults standardUserDefaults];
-		NSArray		*tmp_ = [defaults_ arrayForKey : NSShortWeekDayNameArray];
-		NSArray		*tmp2_ = [defaults_ arrayForKey : NSWeekDayNameArray];
-		_localeDict = [[NSDictionary alloc] initWithObjectsAndKeys : 
-							tmp_,  NSShortWeekDayNameArray,
-							tmp2_, NSWeekDayNameArray,
-							NULL];
-	}
-	return _localeDict;
 }
 
 /* mask で指定された属性を無視する */
@@ -154,7 +143,6 @@ static BOOL messageIsLocalAboned_(CMRThreadMessage *aMessage)
 				   value : [CMRPref messageFilteredColor]
 				   range : mRange_];
 	}
-					   //NSLog(@"C: %@",[ms string]);
 	
 	// 属性を元に戻す
 	[aMessage setFlags : flags_];
@@ -193,7 +181,6 @@ static BOOL messageIsLocalAboned_(CMRThreadMessage *aMessage)
 番号が隠れてしまい、メニューを表示できなくなる。
 */
 	
-	//[ms appendAttributedString : whiteSpaceSeparater()];
 	appendWhiteSpaceSeparator(ms);
 }
 
@@ -220,7 +207,7 @@ static BOOL messageIsLocalAboned_(CMRThreadMessage *aMessage)
 		
 		[ms appendAttributedString : _nameCache];
 	}
-	//[ms appendAttributedString : whiteSpaceSeparater()];
+
 	appendWhiteSpaceSeparator(ms);
 }
 - (void) composeMail : (CMRThreadMessage *) aMessage
@@ -242,7 +229,7 @@ static BOOL messageIsLocalAboned_(CMRThreadMessage *aMessage)
 	
 	[self appendMailAttachmentWithAddress : mail];
 	[self appendMailAddressWithAddress : mail];
-	//[[self contentsStorage] appendAttributedString : whiteSpaceSeparater()];
+
 	appendWhiteSpaceSeparator([self contentsStorage]);
 }
 
@@ -252,13 +239,14 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 	
 	appendFiledTitle(ms, title);
 	[ms appendString:item withAttributes:[ATTR_TEMPLATE attributesForText]];
-	//[ms appendAttributedString : whiteSpaceSeparater()];
+
 	appendWhiteSpaceSeparator(ms);
 }
 
 - (void) composeDate : (CMRThreadMessage *) aMessage
 {
 	NSMutableString		*tmp;
+	NSString			*dateRep;
 	
 	if (messageIsLocalAboned_(aMessage))
 		return;
@@ -267,8 +255,14 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 	if (nil == [aMessage date]) return;
 	
 	tmp = SGTemporaryString();
-	
-	appendDateString(tmp, [aMessage date], [aMessage datePrefix], [self localeDict]);
+	dateRep = [aMessage dateRepresentation];
+
+	if (dateRep) {
+		[tmp setString : dateRep];
+	} else {
+		appendDateString(tmp, [aMessage date], [aMessage datePrefix]);
+	}
+
 	simpleAppendFieldItem([self contentsStorage], FIELD_DATE, tmp);
 }
 
@@ -294,7 +288,6 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 			   value : idStr
 			   range : idRange];
 
-	//[ms appendAttributedString : whiteSpaceSeparater()];
 	appendWhiteSpaceSeparator(ms);
 }
 
@@ -334,7 +327,7 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 	mas_ = [self contentsStorage];
 
 	[mas_ appendAttributedString : format_];
-	//[mas_ appendAttributedString : whiteSpaceSeparater()];
+
 	appendWhiteSpaceSeparator(mas_);
 }
 
@@ -452,7 +445,7 @@ ErrComposeHost:
 		return;
 	
 	ms = [self contentsStorage];
-	//[ms appendAttributedString : whiteSpaceSeparater()];
+
 	appendWhiteSpaceSeparator(ms);
 
 	appendFiledTitle(ms, FIELD_MAIL);
@@ -462,27 +455,23 @@ ErrComposeHost:
 
 #pragma mark -
 
-static void appendDateString(NSMutableString *buffer, id theDate, NSString *prefix, NSDictionary *localeDictionary)
+static void appendDateString(NSMutableString *buffer, id theDate, NSString *prefix)//, NSDictionary *localeDictionary)
 {
 	NSCalendarDate		*cdate_;
 	
 	if (nil == theDate)
 		return;
 	
-	if ([theDate isKindOfClass : [NSCalendarDate class]]) {
-		// NSCalendarDate は期待どおりのフォーマットで生成しているはず
-		
-		// 2005-03-22 tsawada2<ben-sawa@td5.so-net.ne.jp>
-		// ビルド時に警告が出るが、NSCalenderDate であることが保証されているので何も問題ない
-		[buffer setString : [theDate descriptionWithCalendarFormat : SGTemplateResource(kThreadDateFormatKey)
-															locale : localeDictionary]];
+	if (nil == threadDateFormat_) {
+		NSUserDefaults	*defaults_ = [NSUserDefaults standardUserDefaults];
+		NSArray		*tmp_ = [defaults_ arrayForKey : NSShortWeekDayNameArray];
+		NSArray		*tmp2_ = [defaults_ arrayForKey : NSWeekDayNameArray];
 
-		if (prefix != nil) {
-			//NSLog(@"appending prefix...");
-			[buffer insertString : @" " atIndex : 0];
-			[buffer insertString : prefix atIndex : 0];
-		}
-		return;
+		threadDateFormat_ = SGTemplateResource(kThreadDateFormatKey);
+		localeDict_ = [[NSDictionary alloc] initWithObjectsAndKeys : 
+							tmp_,  NSShortWeekDayNameArray,
+							tmp2_, NSWeekDayNameArray,
+							NULL];
 	}
 	
 	if ([theDate isKindOfClass : [NSString class]]) {
@@ -490,38 +479,29 @@ static void appendDateString(NSMutableString *buffer, id theDate, NSString *pref
 		return;
 	}
 
-	cdate_ = [NSCalendarDate dateWithTimeIntervalSince1970 : 
-							[theDate timeIntervalSince1970]];
-
-	[cdate_ setCalendarFormat : SGTemplateResource(kThreadDateFormatKey)];
-	[buffer setString : [cdate_ descriptionWithLocale : localeDictionary]];
+	cdate_ = [NSCalendarDate dateWithTimeIntervalSince1970 : [theDate timeIntervalSince1970]];
+	[cdate_ setCalendarFormat : threadDateFormat_];
+	[buffer setString : [cdate_ descriptionWithLocale : localeDict_]];
 	if (prefix != nil) {
-		//NSLog(@"appending prefix...");
 		[buffer insertString : @" " atIndex : 0];
 		[buffer insertString : prefix atIndex : 0];
 	}
 
 	return;
 }
-/*
-static NSAttributedString *whiteSpaceSeparater(void)
-{
-	return [[[NSAttributedString alloc] initWithString : @"  "] autorelease];
-}
-*/
+
 static void appendWhiteSpaceSeparator(NSMutableAttributedString *buffer)
 {
-	NSAttributedString	*wSS = [[NSAttributedString alloc] initWithString : @"  "];
+	if (wSS == nil)
+		wSS = [[NSAttributedString alloc] initWithString : @"  "];
 
 	[buffer appendAttributedString : wSS];
-	
-	[wSS release];
 }
 
 static void appendFiledTitle(NSMutableAttributedString *buffer, NSString *title)
 {
 	NSString *fieldSeparater;
-	static NSMutableString	*tmp ;
+	static NSMutableString	*tmp;
 	
 	fieldSeparater = SGTemplateResource(kThreadFieldSeparaterKey);
 	if (nil == fieldSeparater)
@@ -534,6 +514,5 @@ static void appendFiledTitle(NSMutableAttributedString *buffer, NSString *title)
 	[tmp appendString : fieldSeparater];
 	
 	[buffer appendString:tmp withAttributes:[ATTR_TEMPLATE attributesForItemName]];
-	//[buffer appendAttributedString : whiteSpaceSeparater()];
 	appendWhiteSpaceSeparator(buffer);
 }

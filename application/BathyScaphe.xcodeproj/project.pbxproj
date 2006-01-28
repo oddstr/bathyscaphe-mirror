@@ -564,6 +564,15 @@
 		877B78FD08E416C900184BB2 /* BSProgressIndicatorTbItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 877B78FB08E416C900184BB2 /* BSProgressIndicatorTbItem.m */; };
 		877D634708C4531500DEE475 /* BSSegmentedControlTbItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 877D634508C4531500DEE475 /* BSSegmentedControlTbItem.h */; };
 		877D634808C4531500DEE475 /* BSSegmentedControlTbItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 877D634608C4531500DEE475 /* BSSegmentedControlTbItem.m */; };
+		8782A66E096FAAB90099B65F /* BSImagePreviewInspector-Tb.m in Sources */ = {isa = PBXBuildFile; fileRef = 8782A66D096FAAB90099B65F /* BSImagePreviewInspector-Tb.m */; };
+		8782A679096FADBF0099B65F /* stopSign.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CDC090E9710007FF9C3 /* stopSign.png */; };
+		8782A6B2096FB46A0099B65F /* Save.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8782A6B0096FB4690099B65F /* Save.tiff */; };
+		8782A6B3096FB46A0099B65F /* Settings.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8782A6B1096FB46A0099B65F /* Settings.tiff */; };
+		8782A6DA096FB8010099B65F /* Gear.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8782A6D9096FB8010099B65F /* Gear.tiff */; };
+		8782A763096FD2F40099B65F /* BSIPIImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 8782A761096FD2F40099B65F /* BSIPIImageView.h */; };
+		8782A764096FD2F40099B65F /* BSIPIImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8782A762096FD2F40099B65F /* BSIPIImageView.m */; };
+		8782A79E096FDBCE0099B65F /* BSIPIActionBtnTbItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 8782A79C096FDBCE0099B65F /* BSIPIActionBtnTbItem.h */; };
+		8782A79F096FDBCE0099B65F /* BSIPIActionBtnTbItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8782A79D096FDBCE0099B65F /* BSIPIActionBtnTbItem.m */; };
 		8794CC10089C033300161BAB /* BoardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8794CC0F089C033300161BAB /* BoardManager.m */; };
 		8795B91F08E3A7E3005C7C5B /* ToolbarItems.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8795B91E08E3A7E3005C7C5B /* ToolbarItems.strings */; };
 		879A727608DEF69C005AA1A1 /* BSIconAndTextCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 879A727408DEF69C005AA1A1 /* BSIconAndTextCell.h */; };
@@ -753,7 +762,6 @@
 		F4904B4D088C096D00EA9BA8 /* CMRHostHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = F358F4B904DE227900A80005 /* CMRHostHandler.h */; };
 		F4904B4E088C096D00EA9BA8 /* CMRHostHandler_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F358F4BD04DE23BC00A80005 /* CMRHostHandler_p.h */; };
 		F4904B4F088C096D00EA9BA8 /* CMRHistoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F38D3D4E04FBE7D000DCB099 /* CMRHistoryManager.h */; };
-		F4904B50088C096D00EA9BA8 /* CMRBBSAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = F3A31C080503366700CE4E8E /* CMRBBSAttributes.h */; };
 		F4904B51088C096D00EA9BA8 /* SGContextHelpPanel.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDA804C698FB00A80005 /* SGContextHelpPanel.h */; };
 		F4904B53088C096D00EA9BA8 /* CMRProgressIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = F322F1F8050B877200A80005 /* CMRProgressIndicator.h */; };
 		F4904B54088C096D00EA9BA8 /* CMRPreferencesDefautValues.h in Headers */ = {isa = PBXBuildFile; fileRef = F322F7FB050BA07D00A80005 /* CMRPreferencesDefautValues.h */; };
@@ -1028,7 +1036,6 @@
 		F4904C8D088C096D00EA9BA8 /* CMRHostHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F358F4BA04DE227900A80005 /* CMRHostHandler.m */; };
 		F4904C8E088C096D00EA9BA8 /* CMRDATDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D0A9A104F6128A00CB520C /* CMRDATDownloader.m */; };
 		F4904C8F088C096D00EA9BA8 /* CMRHistoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F38D3D4F04FBE7D000DCB099 /* CMRHistoryManager.m */; };
-		F4904C90088C096D00EA9BA8 /* CMRBBSAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A31C090503366700CE4E8E /* CMRBBSAttributes.m */; };
 		F4904C91088C096D00EA9BA8 /* CMRThreadViewer-Link.m in Sources */ = {isa = PBXBuildFile; fileRef = F33977B605087EBA00A80005 /* CMRThreadViewer-Link.m */; };
 		F4904C92088C096D00EA9BA8 /* SGContextHelpPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDA904C698FB00A80005 /* SGContextHelpPanel.m */; };
 		F4904C93088C096D00EA9BA8 /* CMRHostHTMLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B609F80509EDBF00A80005 /* CMRHostHTMLHandler.m */; };
@@ -1546,6 +1553,14 @@
 		877B78FB08E416C900184BB2 /* BSProgressIndicatorTbItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSProgressIndicatorTbItem.m; sourceTree = "<group>"; };
 		877D634508C4531500DEE475 /* BSSegmentedControlTbItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSSegmentedControlTbItem.h; sourceTree = "<group>"; };
 		877D634608C4531500DEE475 /* BSSegmentedControlTbItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSSegmentedControlTbItem.m; sourceTree = "<group>"; };
+		8782A66D096FAAB90099B65F /* BSImagePreviewInspector-Tb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BSImagePreviewInspector-Tb.m"; sourceTree = "<group>"; };
+		8782A6B0096FB4690099B65F /* Save.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Save.tiff; sourceTree = "<group>"; };
+		8782A6B1096FB46A0099B65F /* Settings.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Settings.tiff; sourceTree = "<group>"; };
+		8782A6D9096FB8010099B65F /* Gear.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Gear.tiff; sourceTree = "<group>"; };
+		8782A761096FD2F40099B65F /* BSIPIImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIImageView.h; sourceTree = "<group>"; };
+		8782A762096FD2F40099B65F /* BSIPIImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIImageView.m; sourceTree = "<group>"; };
+		8782A79C096FDBCE0099B65F /* BSIPIActionBtnTbItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIActionBtnTbItem.h; sourceTree = "<group>"; };
+		8782A79D096FDBCE0099B65F /* BSIPIActionBtnTbItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIActionBtnTbItem.m; sourceTree = "<group>"; };
 		87892BC106BD1FEA00790F2F /* warrior.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warrior.png; sourceTree = "<group>"; };
 		87892BC906BD233600790F2F /* brdfile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = brdfile.png; sourceTree = "<group>"; };
 		878A7567088AA85B00539B6F /* HistoryBack.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = HistoryBack.tiff; sourceTree = "<group>"; };
@@ -1956,8 +1971,6 @@
 		F3959F0E04D3050600A80005 /* CMRThreadDocument_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRThreadDocument_p.h; sourceTree = "<group>"; };
 		F3959F1004D3050600A80005 /* CMRThreadLayout_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRThreadLayout_p.h; sourceTree = "<group>"; };
 		F39673CC045679B400A80005 /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = /System/Library/Frameworks/PreferencePanes.framework; sourceTree = "<absolute>"; };
-		F3A31C080503366700CE4E8E /* CMRBBSAttributes.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRBBSAttributes.h; sourceTree = "<group>"; };
-		F3A31C090503366700CE4E8E /* CMRBBSAttributes.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRBBSAttributes.m; sourceTree = "<group>"; };
 		F3B609F80509EDBF00A80005 /* CMRHostHTMLHandler.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRHostHTMLHandler.m; sourceTree = "<group>"; };
 		F3BA419E05B605BF00D03A0D /* CMRAttachmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRAttachmentCell.h; sourceTree = "<group>"; };
 		F3BA419F05B605BF00D03A0D /* CMRAttachmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRAttachmentCell.m; sourceTree = "<group>"; };
@@ -2567,14 +2580,22 @@
 		87C2032808FF3F81006DC42C /* previewer */ = {
 			isa = PBXGroup;
 			children = (
+				8782A6B0096FB4690099B65F /* Save.tiff */,
+				8782A6B1096FB46A0099B65F /* Settings.tiff */,
+				8782A6D9096FB8010099B65F /* Gear.tiff */,
 				8745CD280900DE9800A28AC0 /* BSImagePreviewerInterface.h */,
 				8724A80E0912A213009CC855 /* TemporaryFolder.h */,
 				8724A80F0912A213009CC855 /* TemporaryFolder.m */,
+				8782A761096FD2F40099B65F /* BSIPIImageView.h */,
+				8782A762096FD2F40099B65F /* BSIPIImageView.m */,
 				87C2033B08FF40B8006DC42C /* Info-previewer.plist */,
 				87C2032908FF3F81006DC42C /* BSImagePreviewInspector.h */,
 				87C2032A08FF3F81006DC42C /* BSImagePreviewInspector.m */,
+				8782A66D096FAAB90099B65F /* BSImagePreviewInspector-Tb.m */,
 				87C2032B08FF3F81006DC42C /* BSImagePreviewInspector.nib */,
 				87BE9E9E0912F54300D2F339 /* Localizable.strings */,
+				8782A79C096FDBCE0099B65F /* BSIPIActionBtnTbItem.h */,
+				8782A79D096FDBCE0099B65F /* BSIPIActionBtnTbItem.m */,
 			);
 			path = previewer;
 			sourceTree = "<group>";
@@ -2929,8 +2950,6 @@
 				8794CC0F089C033300161BAB /* BoardManager.m */,
 				8718EFA508D4257200FFAAEE /* BoardManager-BSAddition.m */,
 				F324DC2904C698FA00A80005 /* BoardManager_p.h */,
-				F3A31C080503366700CE4E8E /* CMRBBSAttributes.h */,
-				F3A31C090503366700CE4E8E /* CMRBBSAttributes.m */,
 				F34E37C9050743B600A80005 /* CMRBBSListTemplateKeys.h */,
 				F324DC2504C698FA00A80005 /* BoardList.h */,
 				F324DC2604C698FA00A80005 /* BoardList.m */,
@@ -3731,6 +3750,8 @@
 				87C2032D08FF3F81006DC42C /* BSImagePreviewInspector.h in Headers */,
 				8745CD290900DE9800A28AC0 /* BSImagePreviewerInterface.h in Headers */,
 				8724A8100912A213009CC855 /* TemporaryFolder.h in Headers */,
+				8782A763096FD2F40099B65F /* BSIPIImageView.h in Headers */,
+				8782A79E096FDBCE0099B65F /* BSIPIActionBtnTbItem.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3859,7 +3880,6 @@
 				F4904B4D088C096D00EA9BA8 /* CMRHostHandler.h in Headers */,
 				F4904B4E088C096D00EA9BA8 /* CMRHostHandler_p.h in Headers */,
 				F4904B4F088C096D00EA9BA8 /* CMRHistoryManager.h in Headers */,
-				F4904B50088C096D00EA9BA8 /* CMRBBSAttributes.h in Headers */,
 				F4904B51088C096D00EA9BA8 /* SGContextHelpPanel.h in Headers */,
 				F4904B53088C096D00EA9BA8 /* CMRProgressIndicator.h in Headers */,
 				F4904B54088C096D00EA9BA8 /* CMRPreferencesDefautValues.h in Headers */,
@@ -4448,6 +4468,10 @@
 			files = (
 				87C2032F08FF3F81006DC42C /* BSImagePreviewInspector.nib in Resources */,
 				87BE9E9F0912F54300D2F339 /* Localizable.strings in Resources */,
+				8782A679096FADBF0099B65F /* stopSign.png in Resources */,
+				8782A6B2096FB46A0099B65F /* Save.tiff in Resources */,
+				8782A6B3096FB46A0099B65F /* Settings.tiff in Resources */,
+				8782A6DA096FB8010099B65F /* Gear.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4869,6 +4893,9 @@
 			files = (
 				87C2032E08FF3F81006DC42C /* BSImagePreviewInspector.m in Sources */,
 				8724A8110912A213009CC855 /* TemporaryFolder.m in Sources */,
+				8782A66E096FAAB90099B65F /* BSImagePreviewInspector-Tb.m in Sources */,
+				8782A764096FD2F40099B65F /* BSIPIImageView.m in Sources */,
+				8782A79F096FDBCE0099B65F /* BSIPIActionBtnTbItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5023,7 +5050,6 @@
 				F4904C8D088C096D00EA9BA8 /* CMRHostHandler.m in Sources */,
 				F4904C8E088C096D00EA9BA8 /* CMRDATDownloader.m in Sources */,
 				F4904C8F088C096D00EA9BA8 /* CMRHistoryManager.m in Sources */,
-				F4904C90088C096D00EA9BA8 /* CMRBBSAttributes.m in Sources */,
 				F4904C91088C096D00EA9BA8 /* CMRThreadViewer-Link.m in Sources */,
 				F4904C92088C096D00EA9BA8 /* SGContextHelpPanel.m in Sources */,
 				F4904C93088C096D00EA9BA8 /* CMRHostHTMLHandler.m in Sources */,
@@ -6033,6 +6059,10 @@
 		87E15B4D0858090F00C345E0 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				FRAMEWORK_SEARCH_PATHS = (
 					../frameworks/CocoMonar/build/Deployment,
 					../frameworks/SGFoundation/build/Deployment,

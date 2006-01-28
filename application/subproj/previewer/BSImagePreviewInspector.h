@@ -16,12 +16,15 @@
 */
 
 @interface BSImagePreviewInspector : NSWindowController <BSImagePreviewerProtocol> {
+	IBOutlet NSTextField			*m_infoField;
 	IBOutlet NSPopUpButton			*m_actionBtn;
-	IBOutlet NSButton				*m_saveButton;
 	IBOutlet NSImageView			*m_imageView;
 	IBOutlet NSProgressIndicator	*m_progIndicator;
 	IBOutlet NSPanel				*m_settingsPanel;
-	
+
+	long long  lExLength;  // コンテンツの総容量
+	long long  lDlLength;  // ダウンロードした量	
+
 	@private
 	NSURL			*_sourceURL;
 	NSURLDownload	*_currentDownload;
@@ -31,11 +34,12 @@
 }
 
 // Accessor
+- (NSTextField *) infoField;
 - (NSPopUpButton *) actionBtn;
-- (NSButton *) saveButton;
 - (NSImageView *) imageView;
 - (NSProgressIndicator *) progIndicator;
 - (NSPanel *) settingsPanel;
+- (NSURLDownload *) currentDownload;
 
 - (NSString *) downloadedFileDestination;
 - (void) setDownloadedFileDestination : (NSString *) aPath;
@@ -65,5 +69,14 @@
 - (IBAction) openImageWithPreviewApp : (id) sender;
 - (IBAction) copyURL : (id) sender;
 - (IBAction) beginSettingsSheet : (id) sender;
+- (IBAction) endSettingsSheet : (id) sender;
 - (IBAction) openOpenPanel : (id) sender;
 @end
+
+@interface BSImagePreviewInspector(Toolbar)
+- (NSString *) localizedStrForKey : (NSString *) key;
+- (NSImage *) imageResourceWithName : (NSString *) name;
+- (void) setupToolbar;
+@end
+
+extern NSString *const kIPITbCancelBtnId;

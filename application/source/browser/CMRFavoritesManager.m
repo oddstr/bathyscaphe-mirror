@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFavoritesManager.m,v 1.7.2.2 2005/12/14 16:05:06 masakih Exp $
+  * $Id: CMRFavoritesManager.m,v 1.7.2.3 2006/01/28 16:06:42 masakih Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
@@ -164,12 +164,15 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	NSEnumerator	*iter_;
 	NSString		*anItem_;	// each pool item
 	
+	NSArray			*tmp_ = [self favoritesItemsIndex];
+	NSFileManager	*dFM_ = [NSFileManager defaultManager];
+	
 	NSMutableArray	*array_ = [NSMutableArray array];
 
 	iter_ = [[self changedFavItemsPool] objectEnumerator];
 	
 	while ((anItem_ = [iter_ nextObject]) != nil) {
-		if ((![[self favoritesItemsIndex] containsObject : anItem_]) || (![[NSFileManager defaultManager] fileExistsAtPath : anItem_]))
+		if ((![tmp_ containsObject : anItem_]) || (![dFM_ fileExistsAtPath : anItem_]))
 			[array_ addObject : anItem_];
 	}
 
@@ -181,12 +184,14 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	NSEnumerator	*iter_;
 	NSString		*anItem_;	// each pool item
 	
+	NSArray			*tmp_ = [self favoritesItemsIndex];
+	
 	NSMutableArray	*array_ = [NSMutableArray array];
 
 	iter_ = [[self changedFavItemsPool] objectEnumerator];
 	
 	while ((anItem_ = [iter_ nextObject]) != nil) {
-		if ([[self favoritesItemsIndex] containsObject : anItem_])
+		if ([tmp_ containsObject : anItem_])
 			[array_ addObject : anItem_];
 	}
 
@@ -345,7 +350,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	NSMutableArray	*insertArray_;
 	NSMutableArray	*aboveArray_;
 	NSMutableArray	*belowArray_;
-	
+
+	NSArray			*originalArray_ = [self favoritesItemsArray];
+
 	NSMutableArray	*newFavAry_;
 	
 	if (indexArray_ == nil || [indexArray_ count] == 0) return index;
@@ -356,17 +363,17 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	insertArray_ = [NSMutableArray arrayWithCapacity : c];
 	
 	aboveArray_ = [NSMutableArray arrayWithArray : 
-								[[self favoritesItemsArray] subarrayWithRange : NSMakeRange(0, index)]];
+								[originalArray_ subarrayWithRange : NSMakeRange(0, index)]];
 	belowArray_ = [NSMutableArray arrayWithArray :
-								[[self favoritesItemsArray] subarrayWithRange : NSMakeRange(index, (c - index))]];
+								[originalArray_ subarrayWithRange : NSMakeRange(index, (c - index))]];
 	
 	iter_ = isAscending_ ? [indexArray_ objectEnumerator] : [indexArray_ reverseObjectEnumerator];
 	
 	while ((num = [iter_ nextObject]) != nil) {
 		id	favItem;
 		int	n = [num intValue];
-		favItem = isAscending_ ? [[self favoritesItemsArray] objectAtIndex : n]
-							   : [[self favoritesItemsArray] objectAtIndex : ((c - n) - 1)];
+		favItem = isAscending_ ? [originalArray_ objectAtIndex : n]
+							   : [originalArray_ objectAtIndex : ((c - n) - 1)];
 
 		[insertArray_ addObject : favItem];
 		[aboveArray_ removeObject : favItem];

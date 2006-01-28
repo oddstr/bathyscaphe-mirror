@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.9.2.2 2005/12/14 16:05:06 masakih Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.9.2.2 2005/12/14 16:05:06 masakih Exp 
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -106,7 +106,7 @@ static id kThreadAttrTemplate;
 	return [[self filteredThreads] count];
 }
 
-static NSString *statusImageNameForStatus(ThreadStatus s)
+/*static NSString *statusImageNameForStatus(ThreadStatus s)
 {
 	switch (s){
 	case ThreadLogCachedStatus :
@@ -121,10 +121,24 @@ static NSString *statusImageNameForStatus(ThreadStatus s)
 		return nil;
 	}
 	return nil;
-}
+}*/
 + (NSImage *) statusImageWithStatus : (ThreadStatus) s
 {
-	return [NSImage imageAppNamed : statusImageNameForStatus(s)];
+//	return [NSImage imageAppNamed : statusImageNameForStatus(s)];
+	switch (s){
+	case ThreadLogCachedStatus :
+		return [NSImage imageAppNamed : kStatusCachedImageName];
+	case ThreadUpdatedStatus :
+		return [NSImage imageAppNamed : kStatusUpdatedImageName];
+	case ThreadNewCreatedStatus :
+		return [NSImage imageAppNamed : kStatusNewImageName];
+	case ThreadNoCacheStatus :
+		return nil;
+	default :
+		return nil;
+	}
+	return nil;
+
 }
 
 - (ThreadStatus) threadStatusForThread : (NSDictionary *) aThread

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer.h,v 1.1 2005/05/11 17:51:04 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer.h,v 1.1.1.1.4.1 2006/01/28 16:06:42 masakih Exp $
   * 
   * CMRAttributedMessageComposer.h
   *
@@ -17,7 +17,7 @@
 	NSMutableAttributedString	*_contentsStorage;
 	NSMutableAttributedString	*_nameCache;
 	
-	NSDictionary				*_localeDict;
+	//NSDictionary				*_localeDict;
 	
 	UInt32			_mask;
 	struct {
@@ -29,7 +29,7 @@
 + (id) composerWithContentsStorage : (NSMutableAttributedString *) storage;
 - (id) initWithContentsStorage : (NSMutableAttributedString *) storage;
 
-- (NSDictionary *) localeDict;
+//- (NSDictionary *) localeDict;
 
 /* mask Ç≈éwíËÇ≥ÇÍÇΩëÆê´Çñ≥éãÇ∑ÇÈ */
 - (UInt32) attributesMask;
