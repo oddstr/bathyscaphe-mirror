@@ -1,4 +1,8 @@
 2006-01-29 masakih <masakih@users.sourceforge.jp>
+	* misc/sqlite/pager.c
+	* misc/sqlite/sqlite3.h
+		sqlite-3.2.8 からマージ。
+
 		トランクよりマージ
 		cvs -z3 up -j v122_FINAL -j v113_FINAL 
 2006-01-22 masakih <masakih@users.sourceforge.jp>
