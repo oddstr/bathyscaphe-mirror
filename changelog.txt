@@ -1,3 +1,33 @@
+2006-01-29 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* frameworks/CocoMonar/framework/src/NSBundle+CMRExtensions.m
+		[削除] すでに 2006-01-25 の変更でターゲットから外れていたが、リポジトリからも削除。
+	* application/Resources/text/Hankaku-Kana-Daku.txt
+	* application/Resources/text/Hankaku-Kana.txt
+	* application/Resources/text/Hankaku.txt
+	* application/Resources/text/Zenkaku-Hira-Daku.txt
+	* application/Resources/text/Zenkaku-Hira.txt
+	* application/Resources/text/Zenkaku-Kana-Daku.txt
+	* application/Resources/text/Zenkaku-Kana.txt
+	* application/Resources/text/Zenkaku.txt
+		[削除] BathyScaphe 1.1.2 以降での検索機能の変更に伴い未使用になっていた。
+		今回まとめてリポジトリからも削除。
+	* application/Resources/Japanese.lproj/AlertPanelManager.strings
+	* application/Resources/Japanese.lproj/AppInformationManager.strings
+	* application/Resources/Japanese.lproj/CMRMainMenu.strings
+	* application/Resources/Japanese.lproj/DirectoryManager.strings
+	* application/Resources/Japanese.lproj/ThreadData.strings
+		[削除] これらのファイルは少し前から、プロジェクトから外していた。
+		CMRMainMenu.strings は Localizable.strings に統合。他のものは BathyScaphe では使用
+		されていなかった。今回まとめてリポジトリからも削除。
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+	* application/subproj/previewer/TemporaryFolder.m
+	* application/subproj/previewer/Japanese.lproj/Localizable.strings
+		プレビューインスペクタ（1.5 → 1.5.1）：
+		- ツールバーに「Web ブラウザで開く」ボタンを追加可能にした。
+		- 他、細部の修正。
+	* frameworks/CocoMonar/framework/src/CMRFileManager.m
+		CocoMonar Framework のビルドに失敗する問題を修正。
+================================================= Vita
 2006-01-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/preference/SyncPaneController.h
 	* application/subproj/preference/SyncPaneController.m

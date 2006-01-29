@@ -1,5 +1,5 @@
 /**
-  * $Id: BSFavoritesHEADCheckTask.m,v 1.4 2006/01/27 17:52:53 tsawada2 Exp $
+  * $Id: BSFavoritesHEADCheckTask.m,v 1.5 2006/01/29 06:55:54 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2006 BathyScaphe Project. All rights reserved.
@@ -194,7 +194,7 @@ static NSDictionary *replaceAttributesIfNeeded(NSDictionary *thread)
 		//NSLog(@"No threads are modified.");
 		soundName_ = [CMRPref HEADCheckNoUpdateSound];
 		if (![soundName_ isEqualToString : @""])
-			finishedSound_ = [NSSound soundNamed : @"Basso"];
+			finishedSound_ = [NSSound soundNamed : soundName_];
 	}
 	[self setThreadsArray : newArray_];
 	[newArray_ release];

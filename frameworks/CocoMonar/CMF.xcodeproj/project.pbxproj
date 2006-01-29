@@ -103,8 +103,6 @@
 		F3B757040508BD6C00A80005 /* CMRSingletonObject.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRSingletonObject.m; sourceTree = "<group>"; };
 		F3B757050508BD6C00A80005 /* CocoMonar.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CocoMonar.h; sourceTree = "<group>"; };
 		F3B757060508BD6C00A80005 /* main.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		F3B757070508BD6C00A80005 /* NSBundle+CMRExtensions.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = "NSBundle+CMRExtensions.h"; sourceTree = "<group>"; };
-		F3B757080508BD6C00A80005 /* NSBundle+CMRExtensions.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+CMRExtensions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -229,8 +227,6 @@
 				F3B757020508BD6C00A80005 /* CMRResourceFileReader.m */,
 				F3B757030508BD6C00A80005 /* CMRSingletonObject.h */,
 				F3B757040508BD6C00A80005 /* CMRSingletonObject.m */,
-				F3B757070508BD6C00A80005 /* NSBundle+CMRExtensions.h */,
-				F3B757080508BD6C00A80005 /* NSBundle+CMRExtensions.m */,
 			);
 			name = util;
 			sourceTree = "<group>";

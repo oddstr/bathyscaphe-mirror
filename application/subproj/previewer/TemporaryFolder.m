@@ -13,10 +13,9 @@
 
 -(NSString *)appName
 {
-	/*NSBundle *b = [NSBundle mainBundle];
+	NSBundle *bundle_ = [NSBundle mainBundle];
 	
-	return [b objectForInfoDictionaryKey:@"CFBundleName"];*/
-	return @"BathyScaphe";
+	return [bundle_ bundleIdentifier];
 }
 
 +(id)temporaryFolder
@@ -33,7 +32,7 @@
 		
 		do {
 			NSString *folderName;
-			folderName = [NSString stringWithFormat:@"%@-%@",
+			folderName = [NSString stringWithFormat:@"%@_%@",
 				appName, 
 				[[NSCalendarDate dateWithTimeIntervalSinceNow:0.0]
 							descriptionWithCalendarFormat:@"%Y%m%d%H%M%S%F"] ];

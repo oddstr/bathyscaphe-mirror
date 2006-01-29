@@ -12,9 +12,28 @@ static NSString *const kIPITbActionBtnId		= @"Actions";
 static NSString *const kIPITbSettingsBtnId		= @"Settings";
 static NSString *const kIPITbPreviewBtnId		= @"OpenWithPreview";
 static NSString *const kIPITbFullscreenBtnId	= @"StartFullscreen";
+static NSString *const kIPITbBrowserBtnId		= @"OpenWithBrowser";
 static NSString *const kIPIToobarId				= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Toolbar";
 
 @implementation BSImagePreviewInspector(Toolbar)
+static NSImage *_imageForDefaultBrowser()
+{
+	NSURL	*dummyURL = [NSURL URLWithString : @"http://www.apple.com/"];
+	OSStatus	err;
+	FSRef	outAppRef;
+	CFURLRef	outAppURL;
+	NSImage	*image_ = nil;
+
+	err = LSGetApplicationForURL((CFURLRef )dummyURL, kLSRolesAll, &outAppRef, &outAppURL);
+	if(outAppURL) {
+		NSWorkspace *ws = [NSWorkspace sharedWorkspace];
+		NSString *appName = [[(NSURL *)outAppURL absoluteString] lastPathComponent];
+		NSString *appPath = [ws fullPathForApplication : appName];
+		image_ = [ws iconForFile : appPath];
+	}
+	return image_;
+}
+
 - (NSString *) localizedStrForKey : (NSString *) key
 {
 	NSBundle *selfBundle = [NSBundle bundleForClass : [self class]];
@@ -120,6 +139,17 @@ static NSString *const kIPIToobarId				= @"jp.tsawada2.BathyScaphe.ImagePreviewe
 		[toolbarItem setTarget: self];
 		[toolbarItem setAction: @selector(startFullscreen:)];
 	
+	} else if ([itemIdent isEqual: kIPITbBrowserBtnId]) {
+        toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdent] autorelease];
+	
+		[toolbarItem setLabel: [self localizedStrForKey : @"Browser"]];
+		[toolbarItem setPaletteLabel: [self localizedStrForKey : @"OpenWithBrowser"]];
+		[toolbarItem setToolTip: [self localizedStrForKey : @"BrowserTip"]];
+		[toolbarItem setImage: _imageForDefaultBrowser()];
+		
+		[toolbarItem setTarget: self];
+		[toolbarItem setAction: @selector(openImage:)];
+	
     } else if([itemIdent isEqual: kIPITbActionBtnId]) {
         toolbarItem = [[[BSIPIActionBtnTbItem alloc] initWithItemIdentifier: itemIdent] autorelease];
 
@@ -140,15 +170,15 @@ static NSString *const kIPIToobarId				= @"jp.tsawada2.BathyScaphe.ImagePreviewe
 
 - (NSArray *) toolbarDefaultItemIdentifiers : (NSToolbar *) toolbar
 {
-    return [NSArray arrayWithObjects:	kIPITbActionBtnId, 
-					kIPITbCancelBtnId, NSToolbarFlexibleSpaceItemIdentifier, 
+    return [NSArray arrayWithObjects: kIPITbActionBtnId, 
+					kIPITbCancelBtnId, kIPITbFullscreenBtnId, NSToolbarFlexibleSpaceItemIdentifier, 
 					kIPITbSettingsBtnId, nil];
 }
 
 - (NSArray *) toolbarAllowedItemIdentifiers : (NSToolbar *) toolbar
 {
-    return [NSArray arrayWithObjects: 	kIPITbActionBtnId, kIPITbCancelBtnId, kIPITbPreviewBtnId, kIPITbFullscreenBtnId, kIPITbSettingsBtnId,
-					NSToolbarCustomizeToolbarItemIdentifier,
+    return [NSArray arrayWithObjects: kIPITbActionBtnId, kIPITbCancelBtnId, kIPITbBrowserBtnId, kIPITbPreviewBtnId,
+					kIPITbFullscreenBtnId, kIPITbSettingsBtnId, NSToolbarCustomizeToolbarItemIdentifier,
 					NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier, nil];
 }
 
@@ -160,9 +190,11 @@ static NSString *const kIPIToobarId				= @"jp.tsawada2.BathyScaphe.ImagePreviewe
 		if ((_currentDownload == nil) && ([toolbarItem action] == @selector(cancelDownload:)))
 			return NO;
 	} else if ([identifier_ isEqualToString : kIPITbPreviewBtnId]) {
-			return ((_currentDownload == nil) && ([self downloadedFileDestination] != nil));
+		return ((_currentDownload == nil) && ([self downloadedFileDestination] != nil));
 	} else if ([identifier_ isEqualToString : kIPITbFullscreenBtnId]) {
-			return ((_currentDownload == nil) && ([[self imageView] image] != nil));
+		return ((_currentDownload == nil) && ([[self imageView] image] != nil));
+	} else if ([identifier_ isEqualToString : kIPITbBrowserBtnId]) {
+		return ([self sourceURL] != nil);
 	}
     return YES;
 }
