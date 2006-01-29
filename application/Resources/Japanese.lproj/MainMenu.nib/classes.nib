@@ -7,9 +7,8 @@
                 launchCMLF = id; 
                 openURL = id; 
                 openURLPanel = id; 
-                orderFrontCustomAboutPanel = id; 
                 resetApplication = id; 
-                showBoardListEditor = id; 
+                showAcknowledgment = id; 
                 showPreferencesPane = id; 
                 showStandardFindPanel = id; 
                 showTaskInfoPanel = id; 
@@ -68,6 +67,7 @@
                 scrollPreviousBookmark = id; 
                 scrollToLastReadedIndex = id; 
                 scrollToLastUpdatedIndex = id; 
+                selectFilteringMask = id; 
                 setOnMessageAttributes = id; 
                 showBoardInspectorPanel = id; 
                 showMessageMatchesAttributes = id; 
@@ -75,6 +75,8 @@
                 showStandardFindPanel = id; 
                 showThreadAttributes = id; 
                 toggleAAThread = id; 
+                toggleDatOchiThread = id; 
+                toggleMarkedThread = id; 
                 toggleStatusLineShown = id; 
             }; 
             CLASS = FirstResponder; 

@@ -75,8 +75,18 @@
 /* End PBXApplicationTarget section */
 
 /* Begin PBXBuildFile section */
+		8716080F098AA7F900A27F63 /* BSKFSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 8716080B098AA7F900A27F63 /* BSKFSplitView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87160810098AA7F900A27F63 /* BSKFSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8716080C098AA7F900A27F63 /* BSKFSplitView.m */; };
+		87160811098AA7F900A27F63 /* KFSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 8716080D098AA7F900A27F63 /* KFSplitView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87160812098AA7F900A27F63 /* KFSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8716080E098AA7F900A27F63 /* KFSplitView.m */; };
+		8716081E098AA8DE00A27F63 /* browserSplitter.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8716081A098AA8DE00A27F63 /* browserSplitter.tiff */; };
+		8716081F098AA8DE00A27F63 /* browserSplitterDimple.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8716081B098AA8DE00A27F63 /* browserSplitterDimple.tiff */; };
+		87160820098AA8DE00A27F63 /* browserSplitterDimpleVertical.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8716081C098AA8DE00A27F63 /* browserSplitterDimpleVertical.tiff */; };
+		87160821098AA8DE00A27F63 /* browserSplitterVertical.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8716081D098AA8DE00A27F63 /* browserSplitterVertical.tiff */; };
 		8751C4760862204100998A38 /* SGContainerTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = F57D5E05037B6D8601A80002 /* SGContainerTableView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8751C4770862204200998A38 /* SGContainerTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F57D5E06037B6D8601A80002 /* SGContainerTableView.m */; };
+		87D971C2098761FA009C1F73 /* NSLayoutManager+CMXAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D971BE098761FA009C1F73 /* NSLayoutManager+CMXAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87D971C3098761FA009C1F73 /* NSLayoutManager+CMXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D971BF098761FA009C1F73 /* NSLayoutManager+CMXAdditions.m */; };
 		87E45256085ED89D00F2ACB3 /* SGAppKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F515D14D02DB28B201A80002 /* SGAppKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87E45257085ED89D00F2ACB3 /* NSMatrix-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F545F23F036F807501A80002 /* NSMatrix-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87E45258085ED89D00F2ACB3 /* NSMatrix-SGExtensions_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F545F243036F80A501A80002 /* NSMatrix-SGExtensions_p.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -224,6 +234,16 @@
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		08FB77B4FE84181DC02AAC07 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; name = main.c; path = src/main.c; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		8716080B098AA7F900A27F63 /* BSKFSplitView.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; name = BSKFSplitView.h; path = ../BSKFSplitView.h; sourceTree = "<group>"; };
+		8716080C098AA7F900A27F63 /* BSKFSplitView.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; name = BSKFSplitView.m; path = ../BSKFSplitView.m; sourceTree = "<group>"; };
+		8716080D098AA7F900A27F63 /* KFSplitView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = KFSplitView.h; path = ../KFSplitView.h; sourceTree = "<group>"; };
+		8716080E098AA7F900A27F63 /* KFSplitView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = KFSplitView.m; path = ../KFSplitView.m; sourceTree = "<group>"; };
+		8716081A098AA8DE00A27F63 /* browserSplitter.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = browserSplitter.tiff; path = images/browserSplitter.tiff; sourceTree = "<group>"; };
+		8716081B098AA8DE00A27F63 /* browserSplitterDimple.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = browserSplitterDimple.tiff; path = images/browserSplitterDimple.tiff; sourceTree = "<group>"; };
+		8716081C098AA8DE00A27F63 /* browserSplitterDimpleVertical.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = browserSplitterDimpleVertical.tiff; path = images/browserSplitterDimpleVertical.tiff; sourceTree = "<group>"; };
+		8716081D098AA8DE00A27F63 /* browserSplitterVertical.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = browserSplitterVertical.tiff; path = images/browserSplitterVertical.tiff; sourceTree = "<group>"; };
+		87D971BE098761FA009C1F73 /* NSLayoutManager+CMXAdditions.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; name = "NSLayoutManager+CMXAdditions.h"; path = "../../application/source/extensions/NSLayoutManager+CMXAdditions.h"; sourceTree = SOURCE_ROOT; };
+		87D971BF098761FA009C1F73 /* NSLayoutManager+CMXAdditions.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; name = "NSLayoutManager+CMXAdditions.m"; path = "../../application/source/extensions/NSLayoutManager+CMXAdditions.m"; sourceTree = SOURCE_ROOT; };
 		87E452A4085ED89D00F2ACB3 /* Info-SGAppKit.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-SGAppKit.plist"; sourceTree = "<group>"; };
 		87E452A5085ED89D00F2ACB3 /* SGAppKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SGAppKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F303886F0484C45700A80005 /* NSUserDefaults+SGAppKitExtensions.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSUserDefaults+SGAppKitExtensions.h"; sourceTree = "<group>"; };
@@ -393,9 +413,9 @@
 		0867D691FE84028FC02AAC07 /* SGAppKit */ = {
 			isa = PBXGroup;
 			children = (
-				F3BF09570627A581009DAAFE /* misc */,
 				F5CF84AC02DB5DCA01A80002 /* framework */,
 				F3FB8B9004459B4400A80005 /* Unit Test */,
+				F3BF09570627A581009DAAFE /* misc */,
 				F5CF84BD02DB5F4A01A80002 /* TestContainerTableView */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
 				034768DFFF38A50411DB9C8B /* Products */,
@@ -416,6 +436,10 @@
 		089C1665FE841158C02AAC07 /* resource */ = {
 			isa = PBXGroup;
 			children = (
+				8716081A098AA8DE00A27F63 /* browserSplitter.tiff */,
+				8716081B098AA8DE00A27F63 /* browserSplitterDimple.tiff */,
+				8716081C098AA8DE00A27F63 /* browserSplitterDimpleVertical.tiff */,
+				8716081D098AA8DE00A27F63 /* browserSplitterVertical.tiff */,
 				F3C928CD04DC0E5400A80005 /* SGKeybindingMacros.plist */,
 				F581BD30037BABD901A80002 /* images */,
 				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
@@ -533,6 +557,8 @@
 		F545F23D036F804701A80002 /* extensions */ = {
 			isa = PBXGroup;
 			children = (
+				87D971BE098761FA009C1F73 /* NSLayoutManager+CMXAdditions.h */,
+				87D971BF098761FA009C1F73 /* NSLayoutManager+CMXAdditions.m */,
 				F58144E3037B019A01A80002 /* cell */,
 				F391134C03D6A7C200A80002 /* color */,
 				F5823B6C037D2CC001A80002 /* control */,
@@ -595,6 +621,10 @@
 		F57BBEE00377FA7001A80002 /* custom */ = {
 			isa = PBXGroup;
 			children = (
+				8716080B098AA7F900A27F63 /* BSKFSplitView.h */,
+				8716080C098AA7F900A27F63 /* BSKFSplitView.m */,
+				8716080D098AA7F900A27F63 /* KFSplitView.h */,
+				8716080E098AA7F900A27F63 /* KFSplitView.m */,
 				F5823B7A037D2DF901A80002 /* button_cell */,
 				F5823B73037D2DCD01A80002 /* toolbar */,
 				F581BD26037BAA7201A80002 /* accessoryField */,
@@ -909,6 +939,9 @@
 				87E4527E085ED89D00F2ACB3 /* UtkDescription.h in Headers */,
 				87E4527F085ED89D00F2ACB3 /* UtkError.h in Headers */,
 				8751C4760862204100998A38 /* SGContainerTableView.h in Headers */,
+				87D971C2098761FA009C1F73 /* NSLayoutManager+CMXAdditions.h in Headers */,
+				8716080F098AA7F900A27F63 /* BSKFSplitView.h in Headers */,
+				87160811098AA7F900A27F63 /* KFSplitView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1007,6 +1040,10 @@
 			files = (
 				87E45281085ED89D00F2ACB3 /* InfoPlist.strings in Resources */,
 				87E45282085ED89D00F2ACB3 /* SGKeybindingMacros.plist in Resources */,
+				8716081E098AA8DE00A27F63 /* browserSplitter.tiff in Resources */,
+				8716081F098AA8DE00A27F63 /* browserSplitterDimple.tiff in Resources */,
+				87160820098AA8DE00A27F63 /* browserSplitterDimpleVertical.tiff in Resources */,
+				87160821098AA8DE00A27F63 /* browserSplitterVertical.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1070,6 +1107,9 @@
 				87E45297085ED89D00F2ACB3 /* SGKeyBindingSupport.m in Sources */,
 				87E45298085ED89D00F2ACB3 /* NSUserDefaults+SGAppKitExtensions.m in Sources */,
 				8751C4770862204200998A38 /* SGContainerTableView.m in Sources */,
+				87D971C3098761FA009C1F73 /* NSLayoutManager+CMXAdditions.m in Sources */,
+				87160810098AA7F900A27F63 /* BSKFSplitView.m in Sources */,
+				87160812098AA7F900A27F63 /* KFSplitView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,13 +1,13 @@
 //: CMRDocumentTypes.m
 /**
-  * $Id: CMRDocumentTypes.m,v 1.1 2005/05/11 17:51:19 tsawada2 Exp $
+  * $Id: CMRDocumentTypes.m,v 1.1.1.1.4.1 2006/01/29 12:58:10 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
   */
 
 #import "CMRDocumentTypes.h"
-#import <SGFoundation/SGFoundation.h>
+//#import <SGFoundation/SGFoundation.h>
 
 
 

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.11.2.1 2005/12/14 16:05:06 masakih Exp $
+  * $Id: CMRThreadViewer.m,v 1.11.2.2 2006/01/29 12:58:10 masakih Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -226,6 +226,15 @@ FileNotExistsAutoReloadIfNeeded:
 	if (NO == [[self window] isVisible])
 		[self showWindow : self];
 	
+	{
+		NSString *bName_;
+		bName_ = [self boardName];
+		if (nil == bName_)
+			bName_ = [(CMRBBSSignature *)[self boardIdentifier] name];
+		
+		if ([[BoardManager defaultManager] allThreadsShouldAAThreadAtBoard : bName_])
+			[self setAAThread : YES];
+	}
 	[self didChangeThread];
 	[[self threadLayout] clear];
 	[self reloadIfOnlineMode : self];
@@ -458,8 +467,19 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 		// ファイルからの読み込み、変換が終了
 		// すでにレイアウトのタスクを開始したので、
 		// オンラインモードなら更新する
-		// 
-		[self reloadIfOnlineMode : self];
+		//
+		
+		// 2006-01-17 tsawada2<ben-sawa@td5.so-net.ne.jp>
+		// 内容を表示しないで「スレッドを更新」した場合（スレッド一覧から更新した）でも、AA スレッドのレスを
+		// AA フォントでレンダリングするために、このタイミングで changeAllMessageAttributes: flags: を実行する。
+		if([[self threadAttributes] isAAThread])
+			[[self threadLayout] changeAllMessageAttributes : YES flags : CMRAsciiArtMask];
+		
+		if(![self isDatOchiThread])
+			[self reloadIfOnlineMode : self];
+	} else {
+		if ([CMRPref scrollToLastUpdated] && [self canScrollToLastUpdatedMessage])
+			[self scrollToLastUpdatedIndex : self];
 	}
     // remove from lock
     [[CMRNetGrobalLock sharedInstance] remove : [self threadIdentifier]];
@@ -644,15 +664,39 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 {
 	return [[self threadAttributes] isAAThread];
 }
-- (void) setAAThread : (BOOL) isAA
+- (void) setAAThread : (BOOL) flag
 {
-	if ([self isAAThread] == isAA)
+	if ([self isAAThread] == flag)
 		return;
 	
-	[[self threadAttributes] setAAThread : isAA];
+	[[self threadAttributes] setAAThread : flag];
 
 	// すべてのレスのAA属性を変更
-	[[self threadLayout] changeAllMessageAttributes:isAA flags:CMRAsciiArtMask];
+	[[self threadLayout] changeAllMessageAttributes : flag flags : CMRAsciiArtMask];
+}
+
+#pragma mark Vita Additions
+- (BOOL) isDatOchiThread
+{
+	return [[self threadAttributes] isDatOchiThread];
+}
+- (void) setDatOchiThread : (BOOL) flag
+{
+	if ([self isDatOchiThread] == flag)
+		return;
+	
+	[[self threadAttributes] setDatOchiThread : flag];
+}
+- (BOOL) isMarkedThread
+{
+	return [[self threadAttributes] isMarkedThread];
+}
+- (void) setMarkedThread : (BOOL) flag
+{
+	if ([self isMarkedThread] == flag)
+		return;
+	
+	[[self threadAttributes] setMarkedThread : flag];
 }
 @end
 

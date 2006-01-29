@@ -2,25 +2,25 @@
     IBClasses = (
         {
             ACTIONS = {
-                changeOpenLinkInBg = id; 
                 changeProxyPort = id; 
                 changeProxyURL = id; 
-                changeQuietDeletion = id; 
                 chooseApplication = id; 
+                closeSheet = id; 
                 enableProxy = id; 
                 enableProxyWhenPOST = id; 
+                openSheet = id; 
                 syncSystemConfigProxy = id; 
             }; 
             CLASS = AdvancedPrefController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                "_appNameField" = id; 
-                "_chooseAppButton" = NSButton; 
-                "_openLinkInBgCheckBox" = NSButton; 
+                "_closeSheetBtn" = NSButton; 
+                "_helperAppBtn" = NSPopUpButton; 
+                "_openSheetBtn" = NSButton; 
                 "_proxyPortField" = NSTextField; 
+                "_proxySheet" = NSWindow; 
                 "_proxyURLField" = NSTextField; 
                 "_proxyWhenPOSTCheckBox" = NSButton; 
-                "_quietDeletionCheckBox" = NSButton; 
                 "_usesProxyCheckBox" = NSButton; 
                 "_usesSystemConfigProxyCheckBox" = NSButton; 
             }; 

@@ -5,13 +5,15 @@
 	<key>IBDocumentLocation</key>
 	<string>43 74 356 240 0 0 1024 746 </string>
 	<key>IBFramework Version</key>
-	<string>364.0</string>
+	<string>443.0</string>
+	<key>IBOldestOS</key>
+	<integer>3</integer>
 	<key>IBOpenObjects</key>
 	<array>
 		<integer>10</integer>
 	</array>
 	<key>IBSystem Version</key>
-	<string>7R28</string>
+	<string>8G32</string>
 	<key>IBUserGuides</key>
 	<dict>
 		<key>10</key>
@@ -19,7 +21,7 @@
 			<key>guideLocations</key>
 			<array>
 				<string>Horizontal:118.000000</string>
-				<string>Vertical:24.000000</string>
+				<string>Vertical:88.000000</string>
 			</array>
 			<key>guidesLocked</key>
 			<false/>

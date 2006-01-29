@@ -1,6 +1,5 @@
-//:w2chFavoriteItemList.m
 /**
-  * $Id: w2chFavoriteItemList.m,v 1.4.2.1 2005/12/14 16:05:06 masakih Exp $
+  * $Id: w2chFavoriteItemList.m,v 1.4.2.2 2006/01/29 12:58:10 masakih Exp $
   * Copyright 2005 BathyScaphe Project. All rights reserved.
   *
   */
@@ -10,6 +9,9 @@
 #import "ThreadTextDownloader.h"
 #import "CMRThreadsUpdateListTask.h"
 #import "missing.h"
+#import "CMRHostHandler.h"
+#import "CMRThreadSignature.h"
+#import "BSFavoritesHEADCheckTask.h"
 
 @implementation w2chFavoriteItemList
 - (void) registerToNotificationCenter
@@ -55,9 +57,31 @@
 {
 	return nil;
 }
+
 - (void) downloadThreadsList
 {
-	;
+	BSFavoritesHEADCheckTask		*task_;
+	
+	task_ = [[BSFavoritesHEADCheckTask alloc]
+				initWithFavItemsArray : [[CMRFavoritesManager defaultManager] favoritesItemsArray]];
+	
+	// 進行状況を表示するための情報
+	[task_ setBoardName : [self boardName]];
+	[task_ setIdentifier : [self boardName]];
+	
+	// 終了通知
+	[[NSNotificationCenter defaultCenter]
+			addObserver : self
+			selector : @selector(favoritesHEADCheckTaskDidFinish:)
+			name : BSFavoritesHEADCheckTaskDidFinishNotification
+			object : task_];
+
+	//if (usesWorker)
+		[[self worker] push : task_];
+	//else
+		//[task_ executeWithLayout : [self worker]];
+
+	[task_ release];
 }
 
 //Favorites
@@ -173,6 +197,37 @@
 	[self startLoadingThreadsList : [self worker]];
 }
 
+- (void) favoritesHEADCheckTaskDidFinish : (NSNotification *) aNotification
+{
+	UTILAssertNotificationName(
+		aNotification,
+		BSFavoritesHEADCheckTaskDidFinishNotification);
+
+	id					object_;
+	NSDictionary		*userInfo_;
+	NSMutableArray		*threadsArray_;
+	
+	object_ = [aNotification object];
+	UTILAssertKindOfClass(object_, BSFavoritesHEADCheckTask);
+	if(NO == [[object_ identifier] isEqual : [self boardName]])
+		return;
+	
+	userInfo_ = [aNotification userInfo];
+	
+	threadsArray_	= [userInfo_ objectForKey : kBSUserInfoThreadsArrayKey];
+	UTILAssertKindOfClass(threadsArray_, NSMutableArray);
+	
+
+	[[CMRFavoritesManager defaultManager] setFavoritesItemsArray : threadsArray_];
+
+
+	[self startLoadingThreadsList : [self worker]];
+
+	[[NSNotificationCenter defaultCenter]
+			removeObserver : self
+			name : [aNotification name]
+			object : [aNotification object]];
+}
 
 - (void) syncFavIfNeededWithAttr : (NSMutableDictionary *) thread forPath : (NSString *) filePath
 {

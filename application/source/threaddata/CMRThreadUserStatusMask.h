@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadUserStatusMask.h,v 1.1 2005/05/11 17:51:08 tsawada2 Exp $
+  * $Id: CMRThreadUserStatusMask.h,v 1.1.1.1.4.1 2006/01/29 12:58:10 masakih Exp $
   * 
   * CMRThreadUserStatusMask.h
   *
@@ -15,3 +15,7 @@
 
 #define TUS_FL_USER_USED_MASK	(0x3f)			// 6bit
 #define TUS_ASCII_ART_FLAG		(0x40)			// 7
+
+// available in BathyScaphe 1.2 and later
+#define TUS_DAT_OCHI_FLAG		(0x80)
+#define TUS_MARKED_FLAG			(0x01)

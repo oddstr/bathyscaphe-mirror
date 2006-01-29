@@ -24,7 +24,6 @@
 #import "BSDBThreadList.h"
 
 #import "ThreadsListTable.h"
-#import "CMRSplitView.h"
 #import "CMXScrollView.h"
 #import "CMRAccessorySheetController.h"
 
@@ -60,6 +59,8 @@
 #define kRemoveMultipleItemTitleKey			@"Browser Del Multiple Item Title"
 #define kRemoveMultipleItemMsgKey			@"Browser Del Multiple Item Message"
 
+#define kEditDrawerItemHelpKeyword			@"Browser Edit Drawer Item Help"
+
 // PropertyList
 #define kThreadsListTableICSKey				@"Browser - ListViewInterCellSpacing"
 #define kThreadsListTableActionKey			@"Browser - ListViewAction"
@@ -80,15 +81,17 @@
 #define kSearchPopUpHistoryHeaderItemTag	33
 #define kSearchPopUpHistoryItemTag			44
 
-#define kBLOpenItemItemTag					1001
-#define kBLEditItemViaMenubarItemTag		1002
-#define kBLEditItemViaContextualMenuItemTag	1102
-#define kBLAddItemItemTag					1000
-#define kBLDeleteItemViaMenubarItemTag		1004
-#define kBLDeleteItemViaContMenuItemTag		1104
+#define kBrowserMenuItemAlwaysEnabledTag	777
 
-#define kBLMenubarItemTagMaximalValue		1000
-#define kBLContMenuItemTagMaximalValue		1100
+#define kBLEditItemViaMenubarItemTag	751
+#define kBLEditItemViaContMenuItemTag	701
+#define kBLDeleteItemViaMenubarItemTag	752
+#define kBLDeleteItemViaContMenuItemTag	702
+#define kBLOpenBoardItemViaContMenuItemTag	703
+#define kBLShowInspectorViaContMenuItemTag	704
+
+#define kBLContMenuItemTagMin		700
+#define kBLContMenuItemTagMax		705
 
 //:CMRBrowser-List.m
 @interface CMRBrowser(List)
@@ -130,13 +133,13 @@
 //:CMRBrowser-ViewAccessor.m
 @interface CMRBrowser(ViewAccessor)
 /* Accessor for m_splitView */
-- (CMRSplitView *) splitView;
+- (BSKFSplitView *) splitView;
 /* Accessor for m_threadsListTable */
 - (ThreadsListTable *) threadsListTable;
 /* Accessor for m_threadsListScrollView */
 - (CMXScrollView *) threadsListScrollView;
 /* Accessor for m_threadsFilterPopUp */
-- (NSPopUpButton *) threadsFilterPopUp;
+//- (NSPopUpButton *) threadsFilterPopUp;
 /* Accessor for m_boardListTable */
 - (NSOutlineView *) boardListTable;
 - (id) brdListActMenuBtn;
@@ -172,8 +175,8 @@
 
 - (void) setupSplitView;
 - (void) setupThreadsListTable;
-- (void) setupThreadsListScrollView;
-- (void) setupThreadsFilterPopUp;
+//- (void) setupThreadsListScrollView;
+//- (void) setupThreadsFilterPopUp;
 
 - (void) setupBoardListTable;
 

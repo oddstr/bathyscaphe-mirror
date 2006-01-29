@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-Validation.m,v 1.9.2.2 2005/12/17 14:59:49 masakih Exp $
+ * $Id: CMRBrowser-Validation.m,v 1.9.2.3 2006/01/29 12:58:10 masakih Exp $
  * BathyScaphe
  *
  * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -46,7 +46,7 @@
 	if(action_ == @selector(reloadThreadsList:)){
 		if(nil == [self currentThreadsList]) return NO;
 		
-		return (NO == [[self currentThreadsList] isFavorites]);
+		return YES;//(NO == [[self currentThreadsList] isFavorites]);
 	}
 	
 	if(action_ == @selector(changeBrowserArrangement:)){
@@ -58,58 +58,74 @@
 
 - (BOOL) validateMenuItem : (NSMenuItem *) theItem
 {
-	SEL action_;
-	int tag_;
-	
 	if(nil == theItem) return NO;
-	tag_ = [theItem tag];
+	int tag_ = [theItem tag];
 
-	if (tag_ == kBLAddItemItemTag) return YES;
+	if (tag_ == kBrowserMenuItemAlwaysEnabledTag) return YES;
+	
+	if (tag_ == kBLEditItemViaMenubarItemTag || tag_ == kBLDeleteItemViaMenubarItemTag) {
+		NSOutlineView	*bLT = [self boardListTable];
+		int numOfSelectedRow = [bLT numberOfSelectedRows];
+		switch(numOfSelectedRow) {
+		case 0:
+			return NO;
+		case 1:
+			return (NO == [SmartBoardList isFavorites : [bLT itemAtRow : [bLT selectedRow]]]);
+		default:
+			return (tag_ == kBLDeleteItemViaMenubarItemTag);
+		}
+	}
 
-	if (tag_ > kBLMenubarItemTagMaximalValue) {
+	if ((tag_ > kBLContMenuItemTagMin) && (tag_ < kBLContMenuItemTagMax)) {
 		int					rowIndex_;
-		NSDictionary		*item_;
 		NSOutlineView		*bLT_ = [self boardListTable];
 		int					semiSelRowIdx_ = [(BSBoardListView *)bLT_ semiSelectedRow];
+		int					numOfSelected_ = [bLT_ numberOfSelectedRows];
 	
-		if ([bLT_ numberOfSelectedRows] > 1) {
-			if (tag_ == kBLDeleteItemViaMenubarItemTag || tag_ == kBLDeleteItemViaContMenuItemTag) {
-				return YES; // 複数の項目に「お気に入り」が含まれていても問題はない
-			} else if (tag_ == kBLEditItemViaContextualMenuItemTag) {
-				return (NO == [[bLT_ selectedRowIndexes] containsIndex : semiSelRowIdx_]);
+		if (numOfSelected_ > 1) {
+			if ([[bLT_ selectedRowIndexes] containsIndex : semiSelRowIdx_]) {
+				if (tag_ == kBLDeleteItemViaContMenuItemTag)
+					return YES; // 複数の項目に「お気に入り」が含まれていても問題はない
+				else
+					return NO;
 			} else {
-				return NO;
+				if (tag_ == kBLShowInspectorViaContMenuItemTag) return NO;
+				rowIndex_ = semiSelRowIdx_;
+			}
+		} else if (numOfSelected_ = 0) {
+			if (semiSelRowIdx_ = -1) return NO;
+			else rowIndex_ = semiSelRowIdx_;
+		} else {
+			rowIndex_ = [bLT_ selectedRow];
+			if ((semiSelRowIdx_ != -1) && (semiSelRowIdx_ != rowIndex_)) {
+				if (tag_ == kBLShowInspectorViaContMenuItemTag) return NO;
+				else rowIndex_ = semiSelRowIdx_;
 			}
 		}
 
-		rowIndex_ = [bLT_ selectedRow];
-	
 		if (rowIndex_ >= [bLT_ numberOfRows]) return NO;
-		// 2005-12-13 tsawada2
-		if ((rowIndex_ < 0 || (rowIndex_ != semiSelRowIdx_)) && semiSelRowIdx_ != -1) {
-			if ((semiSelRowIdx_ >= 0) && (tag_ > kBLContMenuItemTagMaximalValue)) // via Contextual menu
-				rowIndex_ = semiSelRowIdx_;
-			else
-				return NO;
-		}
 
-		item_ = [bLT_ itemAtRow : rowIndex_];
+		NSDictionary		*item_ = [bLT_ itemAtRow : rowIndex_];
 		if (nil == item_) return NO;
 
-		if ([SmartBoardList isBoard : item_])
+		if ([SmartBoardList isBoard : item_]) {
 			return YES;
-		else if ([SmartBoardList isCategory : item_] && (tag_ != kBLOpenItemItemTag))
-			return YES;
+		} else if ([SmartBoardList isCategory : item_]) {
+			if (tag_ == kBLShowInspectorViaContMenuItemTag || tag_ == kBLOpenBoardItemViaContMenuItemTag)
+				return NO;
+			else
+				return YES;
+		}
 		return NO;
 	}
 	
 	if(NO == [theItem respondsToSelector : @selector(action)]) return NO;	
-	action_ = [theItem action];
+	SEL action_ = [theItem action];
 	
 	if(action_ == @selector(selectFilteringMask:)) 
 		return ([self currentThreadsList] != nil);
-	else if(action_ == @selector(searchToolbarPopupChanged:))
-		return ([self currentThreadsList] != nil);
+	//else if(action_ == @selector(searchToolbarPopupChanged:))
+	//	return ([self currentThreadsList] != nil);
 	else if(action_ == @selector(showSearchThreadPanel:))
 		return ([self currentThreadsList] != nil);
 	else if(action_ == @selector(chooseColumn:))

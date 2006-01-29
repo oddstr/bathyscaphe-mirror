@@ -1,13 +1,14 @@
 //
-//  CMRReplyMessenger-Connector.m
+//  $Id: CMRReplyMessenger-Connector.m,v 1.2.2.2 2006/01/29 12:58:10 masakih Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/07/04.
 //  CMRReplyMessenger.m から分割
+//  Copyright 2005-2006 BathyScaphe Project. All rights reserved.
 //
 
 #import "CMRReplyMessenger_p.h"
-#import "CMRBBSSignature.h"
+//#import "CMRBBSSignature.h"
 #import "CMRThreadSignature.h"
 #import "CMRHostHandler.h"
 
@@ -65,7 +66,7 @@
 }
 - (id) boardIdentifier
 {
-	return [CMRBBSSignature BBSSignatureWithName : [self boardName]];
+	return [self boardName];//[CMRBBSSignature BBSSignatureWithName : [self boardName]];
 }
 - (id) threadIdentifier
 {

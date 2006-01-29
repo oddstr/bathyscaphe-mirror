@@ -60,7 +60,7 @@
 - (void) executeWithLayout : (CMRThreadLayout *) layout
 {
 	NSException			*exception_ = nil;
-	
+
 	[CMRMainMessenger target : [CMRTaskManager defaultManager]
 		performSelector : @selector(addTask:)
 			 withObject : self

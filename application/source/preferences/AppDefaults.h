@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.23.2.2 2005/12/17 14:59:49 masakih Exp $
+  * $Id: AppDefaults.h,v 1.23.2.3 2006/01/29 12:58:10 masakih Exp $
   * 
   * AppDefaults.h
   *
@@ -47,7 +47,7 @@
 	NSMutableDictionary		*m_imagePreviewerDictionary;
 	NSMutableDictionary		*_dictAppearance;
 	NSMutableDictionary		*_dictFilter;
-	
+	NSMutableDictionary		*m_soundsDictionary;
 	
 	NSMutableDictionary		*_proxyCache;
 	
@@ -98,8 +98,6 @@
 - (void) setDefaultKoteHanList : (NSArray *) array;
 
 /* ç≈å„Ç…äJÇ¢ÇΩî¬ */
-//- (CMRBBSSignature *) browserLastBoard;
-//- (void) setBrowserLastBoard : (CMRBBSSignature *) aSignature;
 - (NSString *) browserLastBoard;
 - (void) setBrowserLastBoard : (NSString *) boardName;
 
@@ -361,9 +359,6 @@
 
 - (int) threadViewerLinkType;
 - (void) setThreadViewerLinkType : (int) aType;
-// Deprecated in ShortCircuit and later.
-//- (int) threadViewerMailType;
-//- (void) setThreadViewerMailType : (int) aType;
 
 - (BOOL) mailAttachmentShown;
 - (void) setMailAttachmentShown : (BOOL) flag;
@@ -390,6 +385,10 @@
 /* InnocentStarter Additions */
 - (float) mouseDownTrackingTime;
 - (void) setMouseDownTrackingTime : (float) aValue;
+
+/* Vita Additions */
+- (BOOL) scrollToLastUpdated;
+- (void) setScrollToLastUpdated : (BOOL) flag;
 
 - (void) _loadThreadViewerSettings;
 - (BOOL) _saveThreadViewerSettings;
@@ -469,6 +468,18 @@
 								 message : (NSString *) msg;
 - (int) runCriticalAlertPanelWithLocalizedString : (NSString *) title
                                           message : (NSString *) msg;
+@end
+/* Vita Additions */
+@interface AppDefaults(Sounds)
+- (NSString *) HEADCheckNewArrivedSound;
+- (void) setHEADCheckNewArrivedSound : (NSString *) soundName;
+- (NSString *) HEADCheckNoUpdateSound;
+- (void) setHEADCheckNoUpdateSound : (NSString *) soundName;
+- (NSString *) replyDidFinishSound;
+- (void) setReplyDidFinishSound : (NSString *) soundName;
+
+- (void) _loadSoundsSettings;
+- (BOOL) _saveSoundsSettings;
 @end
 
 #pragma mark Constants

@@ -9,6 +9,7 @@
                 openImage = id; 
                 openImageWithPreviewApp = id; 
                 openOpenPanel = id; 
+                startFullscreen = id; 
             }; 
             CLASS = BSImagePreviewInspector; 
             LANGUAGE = ObjC; 

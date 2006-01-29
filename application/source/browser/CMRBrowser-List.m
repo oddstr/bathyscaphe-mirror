@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.7.2.3 2005/12/14 17:05:27 masakih Exp $
+  * $Id: CMRBrowser-List.m,v 1.7.2.4 2006/01/29 12:58:10 masakih Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -11,8 +11,7 @@
 #import "CMRHistoryManager.h"
 #import "CMRStatusLine.h"
 #import "BoardManager.h"
-
-
+#import "CMRBBSSignature.h"
 
 @implementation CMRBrowser(List)
 - (void) changeThreadsFilteringMask : (int) aMask
@@ -55,6 +54,7 @@
 		addItemWithTitle : boardName
 					type : CMRHistoryBoardEntryType
 				  object : [CMRBBSSignature BBSSignatureWithName : boardName]];
+
 	UTILNotifyName(CMRBrowserDidChangeBoardNotification);
 }
 

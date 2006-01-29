@@ -1,6 +1,6 @@
 //: CMRFileManager.m
 /**
-  * $Id: CMRFileManager.m,v 1.1.1.1.4.1 2005/12/14 16:05:06 masakih Exp $
+  * $Id: CMRFileManager.m,v 1.1.1.1.4.2 2006/01/29 12:58:10 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -12,7 +12,7 @@
 #import <AppKit/NSApplication.h>
 #import <CocoMonar/CMRSingletonObject.h>
 #import <CocoMonar/CMRFiles.h>
-#import <CocoMonar/NSBundle+CMRExtensions.h>
+//#import <CocoMonar/NSBundle+CMRExtensions.h>
 #import "UTILKit.h"
 
 

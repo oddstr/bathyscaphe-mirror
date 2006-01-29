@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-Filter.m,v 1.2.2.1 2005/12/14 16:05:06 masakih Exp $
+  * $Id: CMRThreadsList-Filter.m,v 1.2.2.2 2006/01/29 12:58:10 masakih Exp $
   * 
   * CMRThreadsList-Filter.m
   *
@@ -51,7 +51,8 @@
 	ThreadStatus filters[]  = {ThreadNoCacheStatus,
 							   ThreadLogCachedStatus,
 							   ThreadUpdatedStatus,
-							   ThreadNewCreatedStatus};
+							   ThreadNewCreatedStatus,
+							   ThreadHeadModifiedStatus};
 	int					i, cnt;
 	NSMutableArray		*sorted_;
 	NSMutableArray		*filtered_ = [NSMutableArray array];
@@ -177,12 +178,10 @@
 	NSEnumerator			*iter_;
 	id						thread_;
 	NSString				*searchString_;
-	unsigned int			options_;
-	CMRSearchMask			searchOption_;
-	BOOL					isZenHankakuInsensitive_;
-	id						userInfo_;
-	NSCharacterSet			*ignoreSet_ = nil;
-	BOOL					ignoreSpecificCharacters_;
+	//CMRSearchMask			searchOption_;
+	//id						userInfo_;
+	//NSCharacterSet			*ignoreSet_ = nil;
+	//BOOL					ignoreSpecificCharacters_;
 	
 	foundArray_ = SGTemporaryArray();
 	
@@ -196,22 +195,16 @@
 	
 	iter_ = [array objectEnumerator];
 	
-	searchOption_ = 0;
-	userInfo_ = [operation userInfo];
-	if(userInfo_ && [userInfo_ respondsToSelector : @selector(unsignedIntValue)])
-		searchOption_ = [userInfo_ unsignedIntValue];
+	//searchOption_ = 0;
+	//userInfo_ = [operation userInfo];
+	//if(userInfo_ && [userInfo_ respondsToSelector : @selector(unsignedIntValue)])
+	//	searchOption_ = [userInfo_ unsignedIntValue];
 	
 	
-	options_ = [operation findOption];
-	if(searchOption_ & CMRSearchOptionCaseInsensitive){
-		options_ = options_ | NSCaseInsensitiveSearch;
-	}
-	isZenHankakuInsensitive_ = 
-		(searchOption_ & CMRSearchOptionZenHankakuInsensitive);
-	ignoreSpecificCharacters_ = (searchOption_ & CMRSearchOptionIgnoreSpecified);
+	//ignoreSpecificCharacters_ = (searchOption_ & CMRSearchOptionIgnoreSpecified);
 	
 	
-	if(ignoreSpecificCharacters_){
+	/*if(ignoreSpecificCharacters_){
 		if(nil == ignoreSet_){
 			NSString		*igchars_;
 			
@@ -221,16 +214,12 @@
 		}
 		
 		// 検索文字列から無視する文字は取り除く。
-		searchString_ = 
-			[searchString_ stringByDeleteCharactersInSet : ignoreSet_];
+		searchString_ = [searchString_ stringByDeleteCharactersInSet : ignoreSet_];
 		UTILRequireCondition(NO == [searchString_ isEmpty], ErrSearch);
-	}
+	}*/
 	
-	if (isZenHankakuInsensitive_) {
-		// Unicode KC
-		searchString_ = [searchString_ precomposedStringWithCompatibilityMapping];
-		UTILRequireCondition(NO == [searchString_ isEmpty], ErrSearch);
-	}
+	searchString_ = [searchString_ precomposedStringWithCompatibilityMapping];
+	UTILRequireCondition(NO == [searchString_ isEmpty], ErrSearch);
 	
 	while(thread_ = [iter_ nextObject]){
 		NSString	*title_;
@@ -242,17 +231,15 @@
 		UTILAssertNotNil(title_);
 		
 		
-		if(ignoreSpecificCharacters_)
-			title_ = [title_ stringByDeleteCharactersInSet : ignoreSet_];
+		//if(ignoreSpecificCharacters_)
+		//	title_ = [title_ stringByDeleteCharactersInSet : ignoreSet_];
 			
-		if (isZenHankakuInsensitive_)
-			title_ = [title_ precomposedStringWithCompatibilityMapping]; // Unicode KC
+		title_ = [title_ precomposedStringWithCompatibilityMapping]; // Unicode KC
 		
 		searchRng_ = NSMakeRange(0, [title_ length]);
 		include_ = [title_ rangeOfString : searchString_ 
-								 options : options_
+								 options : NSCaseInsensitiveSearch
 								   range : searchRng_];
-			 //HanZenKakuInsensitive : isZenHankakuInsensitive_];
 		
 		if(0 == include_.length || NSNotFound == include_.location)
 			continue;
@@ -307,5 +294,63 @@ ErrFilterByFindOperation:
 - (void) _filteredThreadsUnlock
 {
 	[_filteredThreadsLock unlock];
+}
+@end
+
+@implementation CMRThreadsList(SearchThreads)
+- (NSMutableDictionary *) seachThreadByPath : (NSString *) filepath
+{
+	id	thread_;
+	
+	// 既にログを取得していれば、辞書に格納している。
+	// ログが存在しない場合はNSNullを格納している。
+	thread_ = [[self threadsInfo] objectForKey : filepath];
+	if(thread_ != nil && (NO == [thread_ isEqual : [NSNull null]]))
+		return thread_;
+
+	// ログがなければ、一覧から検索。
+	thread_ = [self seachThreadByPath : filepath inArray : [self threads]];
+	return thread_;
+}
+
+- (NSMutableDictionary *) seachThreadByPath : (NSString *) filepath
+									inArray : (NSArray  *) array
+{
+	NSArray *matched_;
+	
+	matched_ = [self _searchThreadsInArray : array context : filepath];
+	if([matched_ count] == 0) return nil;
+	
+	//パス文字列の一致するスレッドはひとつしかない。
+	NSAssert(([matched_ count] == 1), @"duplicated threadsList.");
+	
+	return [matched_ objectAtIndex : 0];
+}
+
+- (NSArray *) _searchThreadsInArray : (NSArray *) array context : (NSString *) context
+{
+	NSMutableArray		*result_;
+	NSEnumerator		*iter_;
+	NSDictionary		*thread_;
+	NSAutoreleasePool	*pool_;
+	
+	result_ = [NSMutableArray array];
+	if (nil == array || nil == context)
+		return result_;
+
+	pool_ = [[NSAutoreleasePool alloc] init];
+	iter_ = [array objectEnumerator];
+
+	while (thread_ = [iter_ nextObject]) {
+		NSString *target_;
+
+		target_ = [CMRThreadAttributes pathFromDictionary : thread_];
+		if (target_ == nil)
+			continue;
+		if([context isSameAsString : target_])
+			[result_ addObject : thread_];
+	}
+	[pool_ release];
+	return result_;
 }
 @end

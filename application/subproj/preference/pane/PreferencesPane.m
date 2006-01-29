@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesPane.m,v 1.2 2005/05/22 18:02:26 tsawada2 Exp $
+  * $Id: PreferencesPane.m,v 1.2.4.1 2006/01/29 12:58:10 masakih Exp $
   * 
   * PreferencesPane.m
   *
@@ -22,7 +22,7 @@ DefineConstStr(PPFilterPreferencesIdentifier, @"Filter");
 DefineConstStr(PPAccountSettingsIdentifier, @"AccountSettings");
 DefineConstStr(PPFontsAndColorsIdentifier, @"FontsAndColors");
 DefineConstStr(PPReplyDefaultIdentifier, @"ReplyDefaults");
-
+DefineConstStr(PPSoundsPreferencesIdentifier, @"Sounds");
 
 
 @implementation PreferencesPane
@@ -107,5 +107,34 @@ DefineConstStr(PPReplyDefaultIdentifier, @"ReplyDefaults");
 	cntl = [self controllerWithIdentifier : [self currentIdentifier]];
 	[cntl willUnselect];
 	[cntl didUnselect];
+}
+@end
+
+@implementation PreferencesPane(ViewAccessor)
+- (void) setupUIComponents
+{
+	PreferencesController *controller_;
+	NSUserDefaults *defaults_;
+	NSString       *identifier_;
+	
+	defaults_ = [NSUserDefaults standardUserDefaults];
+	identifier_ = [defaults_ stringForKey : PPLastOpenPaneIdentifier];
+	
+	controller_ = [self controllerWithIdentifier : identifier_];
+	if(nil == controller_)
+		identifier_ = PPFontsAndColorsIdentifier;
+	controller_ = [self controllerWithIdentifier : identifier_];
+	UTILAssertNotNil(controller_);
+	
+	[self setContentViewWithController : controller_];
+	[self setupToolbar];
+	[[[self window] toolbar] setSelectedItemIdentifier: identifier_];
+}
+
+- (void) updateUIComponents
+{
+	[[self controllerWithIdentifier : 
+		[self currentIdentifier]] updateUIComponents];
+	[[self window] setTitle : [self displayName]];
 }
 @end

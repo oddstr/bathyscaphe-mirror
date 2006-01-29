@@ -1,6 +1,6 @@
 //: SGAppKit.h
 /**
-  * $Id: SGAppKit.h,v 1.5 2005/10/28 15:21:43 tsawada2 Exp $
+  * $Id: SGAppKit.h,v 1.5.2.1 2006/01/29 12:58:10 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -13,10 +13,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-
-// フレームワークの初期化
 extern void SGAppKitFrameworkInit(void);
-
 
 #import <SGAppKit/NSCell-SGExtensions.h>
 #import <SGAppKit/NSColor-SGExtensions.h>
@@ -48,13 +45,14 @@ extern void SGAppKitFrameworkInit(void);
 
 //#import <SGAppKit/SGBackgroundSurfaceView.h>
 //#import <SGAppKit/SGTextAccessoryFieldController.h>
+#import <SGAppKit/KFSplitView.h>
+#import <SGAppKit/BSKFSplitView.h>
 //#import <SGAppKit/SGFixImageButtonCell.h>
 //#import <SGAppKit/SGToolbarIconItemButton.h>
 //#import <SGAppKit/SGControlToolbarItem.h>
 
 #import <SGAppKit/SGKeyBindingSupport.h>
 
-
-
+#import <SGAppKit/NSLayoutManager+CMXAdditions.h>
 
 #endif /* SGAPPKIT_INCLUDED */

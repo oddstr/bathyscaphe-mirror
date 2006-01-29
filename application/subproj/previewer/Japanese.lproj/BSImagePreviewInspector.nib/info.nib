@@ -15,12 +15,12 @@
 	<integer>3</integer>
 	<key>IBOpenObjects</key>
 	<array>
-		<integer>41</integer>
-		<integer>86</integer>
 		<integer>5</integer>
+		<integer>86</integer>
+		<integer>41</integer>
 	</array>
 	<key>IBSystem Version</key>
-	<string>8F46</string>
+	<string>8G32</string>
 	<key>IBUserGuides</key>
 	<dict>
 		<key>41</key>

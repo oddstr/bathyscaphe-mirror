@@ -1,13 +1,13 @@
 //: CMXPopUpWindowController+View.m
 /**
-  * $Id: CMXPopUpWindowController+View.m,v 1.5 2005/09/24 06:07:49 tsawada2 Exp $
+  * $Id: CMXPopUpWindowController+View.m,v 1.5.2.1 2006/01/29 12:58:10 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
   */
 
 #import "CMXPopUpWindowController_p.h"
-#import "NSLayoutManager+CMXAdditions.h"
+//#import "NSLayoutManager+CMXAdditions.h"
 #import "CMRLayoutManager.h"
 #import "CMRPopUpTemplateKeys.h"
 #import "CMXPopUpWindowManager.h"

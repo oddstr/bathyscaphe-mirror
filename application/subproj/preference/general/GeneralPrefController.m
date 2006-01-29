@@ -1,5 +1,5 @@
 /**
-  * $Id: GeneralPrefController.m,v 1.6.2.1 2005/12/17 14:59:49 masakih Exp $
+  * $Id: GeneralPrefController.m,v 1.6.2.2 2006/01/29 12:58:10 masakih Exp $
   * 
   * GeneralPrefController.m
   *
@@ -8,6 +8,7 @@
   */
 #import "GeneralPrefController.h"
 #import "PreferencePanes_Prefix.h"
+#import <CocoMonar/CocoMonar.h>
 
 #define kLabelKey		@"General Label"
 #define kToolTipKey		@"General ToolTip"
@@ -35,36 +36,6 @@
 	}
 	
 	[[self preferences] setThreadsListAutoscrollMask : mask_];
-}
-
-- (IBAction) changeIgnoreCharacters : (id) sender
-{
-	UTILAssertRespondsTo(sender, @selector(stringValue));
-	[[self preferences] setIgnoreTitleCharacters : [sender stringValue]];
-}
-- (IBAction) changeCollectByNew : (id) sender
-{
-	[[self preferences] setCollectByNew : (NSOnState == [[self collectByNewCheckBox] state])];
-}
-// Thread
-- (IBAction) changeLinkType : (id) sender
-{
-    NSPopUpButton *popUp = [self resAnchorActionPopUp];
-    NSMenuItem *menuItem = (NSMenuItem *)[popUp itemAtIndex : [popUp indexOfSelectedItem]];
-    
-    [[self preferences] setThreadViewerLinkType : [menuItem tag]];
-}
-- (IBAction) changeMailAttachShown : (id) sender
-{
-	[[self preferences] setMailAttachmentShown : (NSOnState == [[self mailAttachCheckBox] state])];
-}
-- (IBAction) changeMailAddressShown : (id) sender
-{
-	[[self preferences] setMailAddressShown : (NSOnState == [[self isMailShownCheckBox] state])];
-}
-- (IBAction) changeShowsAll : (id) sender
-{
-	[[self preferences] setShowsAllMessagesWhenDownloaded : (NSOnState == [[self showsAllCheckBox] state])];
 }
 
 #pragma mark ShortCircuit Additions
@@ -118,9 +89,133 @@
 {
 	[[self preferences] setAutoReloadListWhenWake : boxState_];
 }
+
+#pragma mark Vita Additions
+- (int) mailFieldOption
+{
+	BOOL	_mailAddressShown = [[self preferences] mailAddressShown];
+	BOOL	_mailIconShown = [[self preferences] mailAttachmentShown];
+	
+	if (_mailAddressShown && _mailIconShown)
+		return 1;
+	else if (_mailAddressShown)
+		return 0;
+	else
+		return 2;
+}
+
+- (void) setMailFieldOption : (int) selectedTag
+{
+	
+	switch(selectedTag) {
+	case 0:
+		[[self preferences] setMailAddressShown : YES];
+		[[self preferences] setMailAttachmentShown : NO];
+		break;
+	case 1:
+		[[self preferences] setMailAddressShown : YES];
+		[[self preferences] setMailAttachmentShown : YES];
+		break;
+	case 2:
+		[[self preferences] setMailAddressShown : NO];
+		[[self preferences] setMailAttachmentShown : YES];
+		break;
+	default:
+		break;
+	}
+}
+
+- (int) resAnchorAction
+{
+	return [[self preferences] threadViewerLinkType];
+}
+
+- (void) setResAnchorAction : (int) tag_
+{
+	[[self preferences] setThreadViewerLinkType : tag_];
+}
+
+- (BOOL) collectByNew
+{
+	return [[self preferences] collectByNew];
+}
+
+- (void) setCollectByNew : (BOOL) boxState_
+{
+	[[self preferences] setCollectByNew : boxState_];
+}
+
+- (BOOL) showsAllFirstTime
+{
+	return [[self preferences] showsAllMessagesWhenDownloaded];
+}
+
+- (void) setShowsAllFirstTime : (BOOL) boxState_
+{
+	[[self preferences] setShowsAllMessagesWhenDownloaded : boxState_];
+}
+
+- (BOOL) scrollToLastUpdated
+{
+	return [[self preferences] scrollToLastUpdated];
+}
+
+- (void) setScrollToLastUpdated : (BOOL) boxState_
+{
+	[[self preferences] setScrollToLastUpdated : boxState_];
+}
 @end
 
 
+@implementation GeneralPrefController(View)
+- (int) autoscrollMaskForTag : (int) tag
+{
+	static int masks_[] = {
+					CMRAutoscrollWhenTLUpdate,
+					CMRAutoscrollWhenTLSort,
+					CMRAutoscrollWhenThreadUpdate
+			};
+
+	NSAssert2(
+		tag >= 0 && tag < UTILNumberOfCArray(masks_),
+		@"Accessing over bounds(%d) length = %u",
+		tag,
+		UTILNumberOfCArray(masks_));
+	return masks_[tag];
+}
+
+- (NSMatrix *) autoscrollMaskCheckBox
+{
+	return _autoscrollMaskCheckBox;
+}
+
+- (void) updateListUIComponents
+{
+	int	i;
+	int	cnt		= [[self autoscrollMaskCheckBox] numberOfRows];
+	int	mask_	= [[self preferences] threadsListAutoscrollMask];
+	
+	for (i = 0; i < cnt; i++) {
+		[[[self autoscrollMaskCheckBox] cellWithTag : i] setState : 
+			(([self autoscrollMaskForTag : i] & mask_)
+				? NSOnState
+				: NSOffState)];
+	}
+}
+
+- (void) updateUIComponents
+{
+	[self updateListUIComponents];
+}
+
+- (void) setupUIComponents
+{
+	if (nil == _contentView)
+		return;
+	
+	[self updateUIComponents];
+}
+@end
 
 @implementation GeneralPrefController(Toolbar)
 - (NSString *) identifier

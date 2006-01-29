@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.25.2.2 2005/12/14 16:05:06 masakih Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.25.2.3 2006/01/29 12:58:10 masakih Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -23,7 +23,7 @@
 {
     return nil;
 }
-- (CMRSplitView *) splitView
+- (BSKFSplitView *) splitView
 {
     return m_splitView;
 }
@@ -44,10 +44,10 @@
     
     return sview_;
 }
-- (NSPopUpButton *) threadsFilterPopUp
+/*- (NSPopUpButton *) threadsFilterPopUp
 {
     return m_threadsFilterPopUp;
-}
+}*/
 - (NSOutlineView *) boardListTable
 {
     return m_boardListTable;
@@ -435,7 +435,7 @@
     [self setupColumnsMenuWithTableView : tbView_]; // Ç±ÇÍÇÕïKÇ∏[tbView_ setAutosaveTableColumns : YES] ÇÃå„Ç…é¿çsÇµÇ»ÇØÇÍÇŒÇ»ÇÁÇ»Ç¢
     [tbView_ setMenu : [self listContextualMenu]];
 }
-
+/*
 - (void) setupThreadsListScrollView
 {
     CMXScrollView    *scrollView_ = [self threadsListScrollView];
@@ -508,7 +508,7 @@
     [self setupThreadsFilterPopUpButtonCell : [[self threadsFilterPopUp] cell]];
     [self setupThreadsFilterPopUpButtonItems : [self threadsFilterPopUp]];
 }
-
+*/
 #pragma mark BoardList
 
 - (void) setupBoardListOutlineView : (NSOutlineView *) outlineView
@@ -562,17 +562,14 @@
 
 - (void) setupBoardListTableLastSelected
 {
-    //CMRBBSSignature *lastBoard;
     NSString        *boardName;
     
-    //lastBoard = [CMRPref browserLastBoard];
 	boardName = [CMRPref browserLastBoard];
-    if (nil == boardName) {//lastBoard) {
+    if (nil == boardName) {
         NSLog(@"Last Board Setting not found.");
         return;
     }
     
-    //boardName = [lastBoard name];
     [self showThreadsListWithBoardName : boardName];
 	[self selectRowWhoseNameIs : boardName];
 }
@@ -623,7 +620,7 @@
 	
 	menuBase_ = [[self drawerContextualMenu] copy];
 	[menuBase_ insertItem : [NSMenuItem separatorItem] atIndex : 0]; // dummy
-	tmp_ = [menuBase_ itemWithTag : kBLEditItemViaContextualMenuItemTag];
+	tmp_ = [menuBase_ itemWithTag : kBLEditItemViaContMenuItemTag];
 	[tmp_ setTag : kBLEditItemViaMenubarItemTag];
 	tmp_ = [menuBase_ itemWithTag : kBLDeleteItemViaContMenuItemTag];
 	[tmp_ setTag : kBLDeleteItemViaMenubarItemTag];
@@ -672,7 +669,7 @@
 	id				hItem4;
 	
 	BOOL	isIncremental;
-
+	/*
 	CMRSearchMask searchMasks_[] = {
 									CMRSearchOptionCaseInsensitive,
 									CMRSearchOptionZenHankakuInsensitive,
@@ -684,7 +681,9 @@
 									@"Zenkaku/Hankaku Insensitive",
 									@"Ignore Specified"
 								};
-	int				i, cnt;
+	*/
+	//int				i, cnt;
+	int cnt = -1;
 	
 	NSMenu	*cellMenu	= [[[NSMenu alloc] initWithTitle : @"Search Menu"] autorelease];
     id		searchCell	= [[self searchField] cell];
@@ -698,7 +697,7 @@
 		int maxValu = [CMRPref maxCountForSearchHistory];
 		[searchCell setMaximumRecents : maxValu];
 	}
-
+	/*
 	cnt = UTILNumberOfCArray(searchMasks_);
 	
 	NSAssert2(
@@ -725,18 +724,13 @@
 		
 		state_ = (searchMasks_[i] & [CMRPref threadSearchOption]) ? NSOnState : NSOffState;
 
-		/*if (CMRSearchOptionCaseInsensitive == searchMasks_[i] || 
-		   CMRSearchOptionZenHankakuInsensitive == searchMasks_[i]) {
-			// à”ñ°Ç™ãtÇ…Ç»Ç¡ÇƒÇ¢ÇÈÅB
-			state_ = (state_ == NSOnState) ? NSOffState : NSOnState;
-		}*/
 		[item_ setState : state_];
 		[cellMenu insertItem:item_ atIndex:i];
 		[item_ release];
 	}
-
+	*/
 	if (!isIncremental) {
-		[cellMenu insertItem : [NSMenuItem separatorItem] atIndex : cnt];
+		//[cellMenu insertItem : [NSMenuItem separatorItem] atIndex : cnt];
 
 		hItem1 = [[NSMenuItem alloc] initWithTitle : [self localizedString : @"Search PopUp History Title"]
 											action : NULL
@@ -769,9 +763,10 @@
 		[hItem5 setTag : NSSearchFieldClearRecentsMenuItemTag];
 		[cellMenu insertItem : hItem5 atIndex : (cnt+5)];
 		[hItem5 release];
-	}
+	//}
 	
     [searchCell setSearchMenuTemplate : cellMenu];
+	}
 }
 @end
 
@@ -783,8 +778,8 @@
     [super setupUIComponents];
 
     [self setupThreadsListTable];
-    [self setupThreadsFilterPopUp];
-    [self setupThreadsListScrollView];
+    //[self setupThreadsFilterPopUp];
+    //[self setupThreadsListScrollView];
     [self setUpBoardListToolButtons];
 	
 	[self setupSearchFieldMenu];

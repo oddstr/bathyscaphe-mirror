@@ -1,6 +1,6 @@
 //: CMRAppTypes.h
 /**
-  * $Id: CMRAppTypes.h,v 1.1.1.1.4.1 2005/12/14 16:05:06 masakih Exp $
+  * $Id: CMRAppTypes.h,v 1.1.1.1.4.2 2006/01/29 12:58:10 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -17,6 +17,8 @@ typedef enum _ThreadStatus {
 	ThreadUpdatedStatus     = (1 << 2) | ThreadLogCachedStatus,	
 	
 	ThreadNewCreatedStatus  = (1 << 3) | ThreadNoCacheStatus,
+	
+	ThreadHeadModifiedStatus = (1 << 4) | ThreadLogCachedStatus // available in BathyScaphe 1.2 and later
 } ThreadStatus;
 
 typedef enum _ThreadViewerLinkType{

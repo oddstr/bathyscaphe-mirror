@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadUserStatus.h,v 1.1 2005/05/11 17:51:08 tsawada2 Exp $
+  * $Id: CMRThreadUserStatus.h,v 1.1.1.1.4.1 2006/01/29 12:58:10 masakih Exp $
   * 
   * CMRThreadUserStatus.h
   *
@@ -27,6 +27,15 @@
 // AA 
 - (BOOL) isAAThread;
 - (void) setAAThread : (BOOL) flag;
+
+/* Available in BathyScaphe 1.2 and later. */
+// Dat —Ž‚¿
+- (BOOL) isDatOchiThread;
+- (void) setDatOchiThread : (BOOL) flag;
+
+// ƒtƒ‰ƒO•t‚«
+- (BOOL) isMarkedThread;
+- (void) setMarkedThread : (BOOL) flag;
 @end
 
 

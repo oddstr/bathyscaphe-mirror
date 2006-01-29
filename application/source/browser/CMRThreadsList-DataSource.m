@@ -132,6 +132,8 @@ static id kThreadAttrTemplate;
 		return [NSImage imageAppNamed : kStatusUpdatedImageName];
 	case ThreadNewCreatedStatus :
 		return [NSImage imageAppNamed : kStatusNewImageName];
+	case ThreadHeadModifiedStatus :
+		return [NSImage imageAppNamed : @"Status_HeadModified"];
 	case ThreadNoCacheStatus :
 		return nil;
 	default :

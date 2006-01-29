@@ -141,7 +141,7 @@ RECACHE:
         // サーバ上のレス数の方が多ければ、
         if (newcount_ != nil && 
            NSOrderedDescending == [newcount_ compare : count_]) {
-            s = ThreadUpdatedStatus;
+            if(s != ThreadHeadModifiedStatus)s = ThreadUpdatedStatus;
         }
     }
     // 新規スレッドかどうを判定する。

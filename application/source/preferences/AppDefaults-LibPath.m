@@ -1,9 +1,8 @@
-//:AppDefaults-LibPath.m
 /**
+  * $Id: AppDefaults-LibPath.m,v 1.2.4.1 2006/01/29 12:58:10 masakih Exp $
+  * BathyScaphe
   *
-  * ライブラリや設定ファイルのパスの取得
-  *
-  * @version 1.0.0d2 (01/11/29  6:02:35 PM)
+  * Copyright 2005-2006 BathyScpahe Project. All rights reserved.
   *
   */
 #import "AppDefaults_p.h"
@@ -11,7 +10,11 @@
 
 #define COCOMONAR_PATH_MAX    (1024 - 40)  /* max bytes in pathname */
 
+static NSString *const AppDefaultsSoundsSettingsKey = @"Preferences - Sounds";
 
+static NSString *const kHEADCheckNewArrivedSoundKey = @"Sound:HEADCheck New Arrival";
+static NSString *const kHEADCheckNoUpdateSoundKey	= @"Sound:HEADCheck No Update";
+static NSString *const kReplyDidFinishSoundKey		= @"sound:Reply Sent Successfully";
 
 @implementation AppDefaults(LibraryPath)
 /**
@@ -88,6 +91,66 @@
 			return NO;
 		}
 	}
+	return YES;
+}
+@end
+
+@implementation AppDefaults(Sounds)
+- (NSMutableDictionary *) soundsSettingsDictionary
+{
+	if(nil == m_soundsDictionary){
+		NSDictionary	*dict_;
+		
+		dict_ = [[self defaults] 
+					dictionaryForKey : AppDefaultsSoundsSettingsKey];
+		m_soundsDictionary = [dict_ mutableCopy];
+	}
+	
+	if(nil == m_soundsDictionary)
+		m_soundsDictionary = [[NSMutableDictionary alloc] init];
+	
+	return m_soundsDictionary;
+}
+
+- (NSString *) HEADCheckNewArrivedSound
+{
+	return [[self soundsSettingsDictionary] objectForKey : kHEADCheckNewArrivedSoundKey defaultObject : @"Ping"];
+}
+- (void) setHEADCheckNewArrivedSound : (NSString *) soundName
+{
+	[[self soundsSettingsDictionary] setObject : soundName forKey : kHEADCheckNewArrivedSoundKey];
+}
+- (NSString *) HEADCheckNoUpdateSound
+{
+	return [[self soundsSettingsDictionary] objectForKey : kHEADCheckNoUpdateSoundKey defaultObject : @"Basso"];
+}
+- (void) setHEADCheckNoUpdateSound : (NSString *) soundName
+{
+	[[self soundsSettingsDictionary] setObject : soundName forKey : kHEADCheckNoUpdateSoundKey];
+}
+- (NSString *) replyDidFinishSound
+{
+	return [[self soundsSettingsDictionary] objectForKey : kReplyDidFinishSoundKey defaultObject : @""];
+}
+- (void) setReplyDidFinishSound : (NSString *) soundName
+{
+	[[self soundsSettingsDictionary] setObject : soundName forKey : kReplyDidFinishSoundKey];
+}
+
+
+- (void) _loadSoundsSettings
+{
+}
+
+- (BOOL) _saveSoundsSettings
+{
+	NSDictionary			*dict_;
+	
+	dict_ = [self soundsSettingsDictionary];
+	
+	UTILAssertNotNil(dict_);
+	[[self defaults] setObject : dict_
+						forKey : AppDefaultsSoundsSettingsKey];
 	return YES;
 }
 @end

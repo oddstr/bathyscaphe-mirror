@@ -7,9 +7,7 @@
 #import "CMRDocumentFileManager.h"
 #import "CMRFavoritesManager.h"
 #import "CMRTrashbox.h"
-
 #import "BoardManager.h"
-#import "CMRBBSSignature.h"
 #import "CMRThreadAttributes.h"
 
 #import <SGAppKit/SGAppKit.h>
@@ -33,9 +31,8 @@
 
 
 @interface CMRThreadsList(PrivateAccessor)
-- (void) setBBSSignature : (CMRBBSSignature *) aBBSSignature;
+- (void) setBBSName : (NSString *) boardName;
 @end
-
 
 
 @interface CMRThreadsList(DownLoadPrivate)

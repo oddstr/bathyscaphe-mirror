@@ -1,10 +1,16 @@
 2006-01-29 masakih <masakih@users.sourceforge.jp>
+	トランクよりマージ
+	cvs -z3 up -j v113_FINAL -j MERGED-v111-BASED-BRANCH-MERGE-POINT-01
+	
+	トランクに一時タグを作成。
+	cvs -z3 tag -D "Jan 29 06:55:54 2006 UTC" MERGED-v111-BASED-BRANCH-MERGE-POINT-01
+	
 	* misc/sqlite/pager.c
 	* misc/sqlite/sqlite3.h
 		sqlite-3.2.8 からマージ。
 
-		トランクよりマージ
-		cvs -z3 up -j v122_FINAL -j v113_FINAL 
+	トランクよりマージ
+	cvs -z3 up -j v122_FINAL -j v113_FINAL 
 2006-01-22 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSDBThreadList.m
 		ログ削除時にデータベースを更新するようにした。

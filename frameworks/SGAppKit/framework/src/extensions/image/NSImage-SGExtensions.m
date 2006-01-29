@@ -1,6 +1,6 @@
 //: NSImage-SGExtensions.m
 /**
-  * $Id: NSImage-SGExtensions.m,v 1.1 2005/05/11 17:51:26 tsawada2 Exp $
+  * $Id: NSImage-SGExtensions.m,v 1.1.1.1.4.1 2006/01/29 12:58:10 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -8,7 +8,7 @@
 
 #import "NSImage-SGExtensions.h"
 #import "SGAppKitFrameworkDefines.h"
-
+#import <SGFoundation/NSBundle+AppSupport.h>
 #define SHOULD_FIX_BAD_SEARCH_RESOURCE_BEHAVIOUR	YES
 
 
@@ -74,6 +74,36 @@
    loadFromBundle : (NSBundle *) aBundle
 {
 	return [self imageNamed:aName loadFromBundle:aBundle inDirectory:nil];
+}
+
+// CocoMonar Framework : NSBundle+CMRExtensions.m から統合
++ (id) imageAppNamed : (NSString *) aName
+{
+	static NSMutableDictionary *userImageCache;
+	NSImage				*image_;
+	NSString			*filepath_;
+	
+	if(nil == aName) return nil;
+	if(nil == userImageCache)
+		userImageCache = [[NSMutableDictionary alloc] init];
+	
+	image_ = [userImageCache objectForKey : aName];
+	if(image_ != nil) return image_;
+	
+	filepath_ = [[NSBundle applicationSpecificBundle] pathForImageResource : aName];
+	if(filepath_ != nil)
+		image_ = [[self alloc] initWithContentsOfFile : filepath_];
+	
+	if(nil == image_)
+		image_ = [[self imageNamed : aName] retain];
+	
+	if(nil == image_)
+		return nil;
+	
+	[userImageCache setObject:image_ forKey:aName];
+	[image_ release];
+	
+	return image_;
 }
 @end
 

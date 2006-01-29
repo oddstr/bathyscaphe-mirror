@@ -1,6 +1,7 @@
 {
     IBClasses = (
         {CLASS = BSBoardListView; LANGUAGE = ObjC; SUPERCLASS = NSOutlineView; }, 
+        {CLASS = BSKFSplitView; LANGUAGE = ObjC; SUPERCLASS = KFSplitView; }, 
         {CLASS = BSWindow; LANGUAGE = ObjC; SUPERCLASS = NSWindow; }, 
         {
             ACTIONS = {
@@ -48,11 +49,11 @@
                 editDrawerItem = id; 
                 endEditSheet = id; 
                 focus = id; 
+                openHelpForEditSheet = id; 
                 openSelectedThreads = id; 
                 reloadThreadsList = id; 
                 removeDrawerItem = id; 
                 searchThread = id; 
-                searchToolbarPopupChanged = id; 
                 selectFilteringMask = id; 
                 selectThread = id; 
                 showOrOpenSelectedThread = id; 
@@ -66,6 +67,7 @@
                 "m_boardListSubView" = RBSplitSubview; 
                 "m_boardListTable" = NSOutlineView; 
                 "m_brdListActMenuBtn" = id; 
+                "m_dItemEditSheetHelpBtn" = NSButton; 
                 "m_dItemEditSheetInputField" = NSTextField; 
                 "m_dItemEditSheetLabelField" = NSTextField; 
                 "m_dItemEditSheetMsgField" = NSTextField; 
@@ -74,16 +76,14 @@
                 "m_drawerItemEditSheet" = NSWindow; 
                 "m_listContextualMenu" = NSMenu; 
                 "m_searchField" = NSSearchField; 
-                "m_splitView" = CMRSplitView; 
+                "m_splitView" = BSKFSplitView; 
                 "m_splitterBtn" = id; 
-                "m_threadsFilterPopUp" = NSPopUpButton; 
                 "m_threadsListTable" = ThreadsListTable; 
                 topSubview = id; 
             }; 
             SUPERCLASS = CMRThreadViewer; 
         }, 
         {CLASS = CMRPullDownIconBtn; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButtonCell; }, 
-        {CLASS = CMRSplitView; LANGUAGE = ObjC; SUPERCLASS = KFSplitView; }, 
         {
             ACTIONS = {toggleStatusLineShown = id; }; 
             CLASS = CMRStatusLineWindowController; 
@@ -96,7 +96,6 @@
                 copyInfoFromContextualMenu = id; 
                 copySelectedResURL = id; 
                 copyThreadAttributes = id; 
-                customizeBrdListTable = id; 
                 deleteThread = id; 
                 findAll = id; 
                 findAllByFilter = id; 
@@ -105,11 +104,13 @@
                 findPreviousText = id; 
                 findTextInSelection = id; 
                 focus = id; 
-                forceDeleteThread = id; 
+                historyMenuPerformBack = id; 
+                historyMenuPerformForward = id; 
                 launchBWAgent = id; 
                 openBBSInBrowser = id; 
                 openInBrowser = id; 
                 openLogfile = id; 
+                orderFrontMainBrowser = id; 
                 reloadIfOnlineMode = id; 
                 reloadThread = id; 
                 reply = id; 
@@ -125,6 +126,7 @@
                 selectFirstVisibleRange = id; 
                 selectLastVisibleRange = id; 
                 showThreadAttributes = id; 
+                showThreadWithMenuItem = id; 
                 toggleAAThread = id; 
                 toggleOnlineMode = id; 
             }; 
@@ -150,16 +152,17 @@
         {CLASS = CMXScrollView; LANGUAGE = ObjC; SUPERCLASS = NSScrollView; }, 
         {
             ACTIONS = {
-                "" = id; 
                 addFavorites = id; 
                 copyInfoFromContextualMenu = id; 
                 copyThreadAttributes = id; 
                 deleteThread = id; 
+                openBBSInBrowser = id; 
                 openInBrowser = id; 
                 openSelectedThreads = id; 
                 openThread = id; 
                 reloadThread = id; 
                 reply = id; 
+                showBoardInspectorPanel = id; 
             }; 
             CLASS = FirstResponder; 
             LANGUAGE = ObjC; 

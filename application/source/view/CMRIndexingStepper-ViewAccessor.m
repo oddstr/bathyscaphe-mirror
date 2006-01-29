@@ -9,7 +9,7 @@
   *
   */
 #import "CMRIndexingStepper_p.h"
-
+#import <SGAppKit/SGAppKit.h>
 
 
 @implementation CMRIndexingStepper(ViewAccessor)

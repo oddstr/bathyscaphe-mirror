@@ -12,7 +12,7 @@
 #import "RBSplitView.h"
 #import "CMRThreadViewer.h"
 
-@class CMRSplitView;
+@class BSKFSplitView;
 @class ThreadsListTable;
 @class CMRThreadsList;
 @class CMRAccessorySheetController;
@@ -28,10 +28,10 @@ typedef enum _BSThreadDeletionType {
 {
 	IBOutlet RBSplitSubview		*m_boardListSubView;
 
-	IBOutlet CMRSplitView		*m_splitView;
+	IBOutlet BSKFSplitView		*m_splitView;
 	
 	IBOutlet ThreadsListTable	*m_threadsListTable;
-	IBOutlet NSPopUpButton		*m_threadsFilterPopUp;
+	//IBOutlet NSPopUpButton		*m_threadsFilterPopUp; // deprecated in Vita.
 	
 	IBOutlet NSOutlineView		*m_boardListTable;
 	IBOutlet id					m_splitterBtn;
@@ -46,6 +46,9 @@ typedef enum _BSThreadDeletionType {
 	IBOutlet NSTextField		*m_dItemEditSheetMsgField;
 	IBOutlet NSTextField		*m_dItemEditSheetLabelField;
 	IBOutlet NSTextField		*m_dItemEditSheetInputField;
+	
+	// Vita Addition
+	IBOutlet NSButton			*m_dItemEditSheetHelpBtn;
 	
 	// PrincessBride Addition
 	IBOutlet NSSearchField		*m_searchField;
@@ -83,7 +86,7 @@ typedef enum _BSThreadDeletionType {
 - (BOOL) ifSearchFieldIsInToolbar;
 
 - (IBAction) selectFilteringMask : (id) sender;
-- (IBAction) searchToolbarPopupChanged : (id) sender;
+//- (IBAction) searchToolbarPopupChanged : (id) sender;
 - (IBAction) searchThread : (id) sender;
 - (IBAction) showSearchThreadPanel : (id) sender;
 
@@ -109,6 +112,8 @@ typedef enum _BSThreadDeletionType {
 - (IBAction) editDrawerItem : (id) sender;
 - (IBAction) removeDrawerItem : (id) sender;
 - (IBAction) endEditSheet : (id) sender;
+
+- (IBAction) openHelpForEditSheet : (id) sender; // available in Vita
 @end
 
 extern NSString *const CMRBrowserDidChangeBoardNotification;

@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate+Menu.m,v 1.7.4.1 2005/12/14 16:05:06 masakih Exp $
+ * $Id: CMRAppDelegate+Menu.m,v 1.7.4.2 2006/01/29 12:58:10 masakih Exp $
  * 
  * CMRAppDelegate+Menu.m
  *
@@ -216,21 +216,62 @@
     }
 }
 
+- (void) setupBrowserStatusFilteringMenuWithMenu : (NSMenu *) menu
+{
+    NSArray         *menuItemsArray_;
+    NSEnumerator    *iter_;
+    id<NSMenuItem>	item_;
+    
+    UTILAssertNotNilArgument(menu, @"Menu");
+    menuItemsArray_ = [menu itemArray];
+    if (nil == menuItemsArray_ || [menuItemsArray_ count] == 0) return;
+
+	iter_ = [menuItemsArray_ objectEnumerator];
+    while (item_ = [iter_ nextObject]) {
+        int			itemTag = [item_ tag];
+		
+		switch(itemTag) {
+		case 50:
+			[item_ setRepresentedObject : [NSNumber numberWithUnsignedInt : ThreadStandardStatus]];
+			break;
+		case 51:
+			[item_ setRepresentedObject : [NSNumber numberWithUnsignedInt : ~ThreadNoCacheStatus]];
+			break;
+		case 52:
+			[item_ setRepresentedObject : 
+				[NSNumber numberWithUnsignedInt : (ThreadNewCreatedStatus ^ ThreadNoCacheStatus)]];
+			break;
+		case 53:
+			[item_ setRepresentedObject : [NSNumber numberWithUnsignedInt : ThreadLogCachedStatus]];
+			break;
+		case 54:
+			[item_ setRepresentedObject : [NSNumber numberWithUnsignedInt : ThreadNoCacheStatus]];
+			break;
+		default:
+			break;
+		}
+	}
+
+	[[CMRMainMenuManager defaultManager] synchronizeStatusFilteringMenuItemState];
+}
+
 #pragma mark Public
 
 - (void) setupMenu
 {
     NSMenuItem    *menuItem_;
-    menuItem_ = [[CMRMainMenuManager defaultManager] helpMenuItem];
+	CMRMainMenuManager	*dm_ = [CMRMainMenuManager defaultManager];
+    menuItem_ = [dm_ helpMenuItem];
     NSAssert(
         [menuItem_ hasSubmenu],
         @"menuItem must have submenu");
     [self setupURLBookmarksMenuWithMenu : [menuItem_ submenu]];
 	
-	[self setupBrowserListColumnsMenuWithMenu : [[[CMRMainMenuManager defaultManager] browserListColumnsMenuItem] submenu]];
+	[self setupBrowserListColumnsMenuWithMenu : [[dm_ browserListColumnsMenuItem] submenu]];
+	[self setupBrowserStatusFilteringMenuWithMenu : [[dm_ browserStatusFilteringMenuItem] submenu]];
     
     [self setupBrowserArrangementMenu];
-    [[CMRMainMenuManager defaultManager] synchronizeIsOnlineModeMenuItemState];
+    [dm_ synchronizeIsOnlineModeMenuItemState];
 
 	[BSHistoryMenuManager setupHistoryMenu];
 	[BSScriptsMenuManager setupScriptsMenu];

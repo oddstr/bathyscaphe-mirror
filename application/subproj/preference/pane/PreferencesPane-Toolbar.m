@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesPane-Toolbar.m,v 1.2 2005/05/22 18:02:26 tsawada2 Exp $
+  * $Id: PreferencesPane-Toolbar.m,v 1.2.4.1 2006/01/29 12:58:10 masakih Exp $
   * 
   * PreferencesPane-Toolbar.m
   *
@@ -72,6 +72,7 @@
 				PPAccountSettingsIdentifier,
 				PPFilterPreferencesIdentifier,
 				PPFontsAndColorsIdentifier,
+				PPSoundsPreferencesIdentifier,
 				PPReplyDefaultIdentifier,
 				PPAdvancedPreferencesIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,
@@ -88,17 +89,13 @@
 				PPAccountSettingsIdentifier,
 				PPFilterPreferencesIdentifier,
 				PPFontsAndColorsIdentifier,
+				PPSoundsPreferencesIdentifier,
 				PPReplyDefaultIdentifier,
 				PPAdvancedPreferencesIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,
 				nil];
 }
 
-/*
-Mac OS X 10.3以上で、ツールバーで選択されている項目をハイライトするための仕掛け
-ハイライトを許可する項目の配列を作って渡す。
-10.2.x以前ではこのメソッドは呼ばれない。
-*/
 - (NSArray *) toolbarSelectableItemIdentifiers : (NSToolbar *) toolbar
 {
 	if(NO == [[toolbar identifier] isEqualToString : PPToolbarIdentifier])
@@ -109,49 +106,11 @@ Mac OS X 10.3以上で、ツールバーで選択されている項目をハイライトするための仕掛け
 				PPAccountSettingsIdentifier,
 				PPFilterPreferencesIdentifier,
 				PPFontsAndColorsIdentifier,
+				PPSoundsPreferencesIdentifier,
 				PPReplyDefaultIdentifier,
 				PPAdvancedPreferencesIdentifier,
 				nil];
 }
-
-/*
-- (NSImage *) _imageResourceWithName : (NSString *) name
-{
-	NSBundle *bundle_;
-	NSString *filepath_;
-	bundle_ = [NSBundle bundleForClass : [self class]];
-	filepath_ = [bundle_ pathForImageResource : name];
-	
-	if(nil == filepath_) return nil;
-	
-	return [[[NSImage alloc] initWithContentsOfFile : filepath_] autorelease];
-}
-*/
-
-/*
-- (NSImage *) _toolbarIconWithName : (NSString *) name
-{
-	static NSSize _tbItemSize = {32, 32};
-	NSImage *tbItemImage_;
-	NSSize   oldSize_;
-	NSSize   newSize_;
-	
-	tbItemImage_ = [self _imageResourceWithName : name];
-	if(nil == tbItemImage_) return nil;
-
-	newSize_.width = (oldSize_.width <= _tbItemSize.width)
-						? oldSize_.width 
-						: _tbItemSize.width;
-	newSize_.height = (oldSize_.height <= _tbItemSize.height)
-						? oldSize_.height 
-						: _tbItemSize.height;
-	if(NO == NSEqualSizes(newSize_, _tbItemSize)){
-		[tbItemImage_ setSize : newSize_];
-	}
-	
-	return tbItemImage_;
-}
-*/
 
 - (void) setupToolbar
 {
@@ -179,31 +138,6 @@ Mac OS X 10.3以上で、ツールバーで選択されている項目をハイライトするための仕掛け
 	[toolbar_ setAllowsUserCustomization : NO];
 	[toolbar_ setAutosavesConfiguration : NO];
 	
-/*
-2003-11-11 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
---------------------------------------------------------
-実行時のOSバージョンチェック
-NSAppKitVersionNumberでやってもいいんだけど、10.2でビルドしているので
-Objective-CならrespondsToSelector:でチェックしても安全
-*/
-	if([toolbar_ respondsToSelector : @selector(setSelectedItemIdentifier:)]){
-		
-		//Mac OS X 10.3以降では、ペインに応じてツールバーボタンをハイライトさせる。
-		//最初に「環境設定」を開く時に、ハイライトされているべきツールバーボタンは何か？
-		NSUserDefaults *defaults_;
-		NSString       *shouldSelectedTbIdentifier_;
-		
-		defaults_ = [NSUserDefaults standardUserDefaults];
-		shouldSelectedTbIdentifier_ = [defaults_ stringForKey : PPLastOpenPaneIdentifier];
-		//最後に開いていたペインがわからない場合、「表示」ペインにする。即ち「表示」ツールバーボタンを選択。
-		if(nil == shouldSelectedTbIdentifier_)
-		        shouldSelectedTbIdentifier_ = PPFontsAndColorsIdentifier;
-		
-		// ハイライトさせる
-		
-		[toolbar_ setSelectedItemIdentifier: shouldSelectedTbIdentifier_];
-	}
-
 	[[self window] setToolbar : toolbar_];
 	[toolbar_ release];
 }

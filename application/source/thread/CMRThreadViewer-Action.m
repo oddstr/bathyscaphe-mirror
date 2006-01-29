@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.13.2.1 2005/12/14 16:05:06 masakih Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.13.2.2 2006/01/29 12:58:10 masakih Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -70,9 +70,18 @@
 
 - (void) replyMessengerDidFinishPosting : (NSNotification *) aNotification
 {
+	NSSound	*sound_ = nil;
+	NSString *soundTitle_;
 	UTILAssertNotificationName(
 		aNotification,
 		CMRReplyMessengerDidFinishPostingNotification);
+
+	soundTitle_ = [CMRPref replyDidFinishSound];
+	if (![soundTitle_ isEqualToString : @""])
+		sound_ = [NSSound soundNamed : soundTitle_];
+	
+	if (sound_)
+		[sound_ play];
 
 	[self reloadIfOnlineMode : nil];
 }
@@ -501,7 +510,7 @@
 			[retryBtn_ setKeyEquivalent : @"r"];
 		}
 
-		NSBeep();
+		//NSBeep();
 		[alert_ beginSheetModalForWindow : [self window]
 						   modalDelegate : self
 						  didEndSelector : @selector(_threadDeletionSheetDidEnd:returnCode:contextInfo:)
@@ -554,6 +563,14 @@
 - (IBAction) toggleAAThread : (id) sender
 {
 	[self setAAThread : ![self isAAThread]];
+}
+- (IBAction) toggleDatOchiThread : (id) sender
+{
+	[self setDatOchiThread : ![self isDatOchiThread]];
+}
+- (IBAction) toggleMarkedThread : (id) sender
+{
+	[self setMarkedThread : ![self isMarkedThread]];
 }
 
 // Save window frame

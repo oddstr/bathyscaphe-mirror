@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesPane-ViewAccessor.m,v 1.1 2005/05/11 17:51:11 tsawada2 Exp $
+  * $Id: PreferencesPane-ViewAccessor.m,v 1.1.1.1.4.1 2006/01/29 12:58:10 masakih Exp $
   * 
   * PreferencesPane-ViewAccessor.m
   *
@@ -31,6 +31,7 @@
 	
 	[self setContentViewWithController : controller_];
 	[self setupToolbar];
+	[[[self window] toolbar] setSelectedItemIdentifier: identifier_];
 }
 
 - (void) updateUIComponents

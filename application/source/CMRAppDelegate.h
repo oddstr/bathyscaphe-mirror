@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.h,v 1.7.2.1 2005/12/14 16:05:06 masakih Exp $
+ * $Id: CMRAppDelegate.h,v 1.7.2.2 2006/01/29 12:58:10 masakih Exp $
  * 
  * CMRAppDelegate.h
  *
@@ -30,12 +30,11 @@
 - (IBAction) openURL : (id) sender;
 - (IBAction) resetApplication : (id) sender;
 
-- (IBAction) orderFrontCustomAboutPanel: (id) sender;
-
 - (IBAction) openURLPanel : (id) sender;
 - (IBAction) launchCMLF : (id) sender;
 
 - (IBAction) clearHistory : (id) sender;
+- (IBAction) showAcknowledgment : (id) sender;
 @end
 
 @interface NSApplication(ScriptingSupport)
@@ -49,6 +48,13 @@
 
 - (NSArray *) boardListColor;
 - (void) setBoardListColor : (NSArray *) colorValue;
+
+/* Vita Additions */
+- (NSString *) searchIgnoreChars;
+- (void) setSearchIgnoreChars : (NSString *) someString;
+
+- (BOOL) ignoreSpecificCharsOnSearch;
+- (void) setIgnoreSpecificCharsOnSearch : (BOOL) flag;
 
 /* Command Support */
 - (void) handleOpenURLCommand : (NSScriptCommand *) command;

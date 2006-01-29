@@ -1,10 +1,10 @@
 /**
-  * $Id: CMRMainMenuManager.h,v 1.8 2005/10/16 11:18:11 tsawada2 Exp $
-  * 
-  * CMRMainMenuManager.h
+  * $Id: CMRMainMenuManager.h,v 1.8.2.1 2006/01/29 12:58:10 masakih Exp $
+  * BathyScaphe
   *
-  * Copyright (c) 2004 Takanori Ishikawa, All rights reserved.
-  * See the file LICENSE for copying permission.
+  *
+  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
+  *
   */
 
 #import <Cocoa/Cocoa.h>
@@ -35,6 +35,7 @@
 - (NSMenuItem *) isOnlineModeMenuItem;
 - (NSMenuItem *) browserArrangementMenuItem;
 - (NSMenuItem *) browserListColumnsMenuItem;
+- (NSMenuItem *) browserStatusFilteringMenuItem; // available in Vita and later.
 @end
 
 
@@ -42,4 +43,5 @@
 @interface CMRMainMenuManager(SynchronizeWithDefaults)
 - (void) synchronizeBrowserArrangementMenuItemState;
 - (void) synchronizeIsOnlineModeMenuItemState;
+- (void) synchronizeStatusFilteringMenuItemState; // available in Vita and later.
 @end

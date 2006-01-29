@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMainMenuManager.m,v 1.8 2005/10/16 11:18:11 tsawada2 Exp $
+  * $Id: CMRMainMenuManager.m,v 1.8.2.1 2006/01/29 12:58:10 masakih Exp $
   * 
   * CMRMainMenuManager.m
   *
@@ -27,7 +27,7 @@
 #define		BROWSER_ARRANGEMENT_TAG	1
 #define		BROWSER_COLUMNS_TAG		2
 #define		HISTORY_INSERT_MARKER	1001
-
+#define		BROWSER_FILTERING_TAG	3
 
 @implementation CMRMainMenuManager
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager)
@@ -77,6 +77,11 @@ MENU_ACCESSER(scriptsMenuItem, SCRIPTS_MENU_TAG)
 	return (NSMenuItem*)[[[self browserMenuItem] submenu] 
 				itemWithTag : BROWSER_COLUMNS_TAG];
 }
+- (NSMenuItem *) browserStatusFilteringMenuItem
+{
+	return (NSMenuItem*)[[[self browserMenuItem] submenu]
+				itemWithTag : BROWSER_FILTERING_TAG];
+}
 @end
 
 
@@ -115,5 +120,32 @@ MENU_ACCESSER(scriptsMenuItem, SCRIPTS_MENU_TAG)
 	UTILAssertNotNil(menuItem_);
 	isOnlineMode_ = [CMRPref isOnlineMode];	
 	[menuItem_ setState : isOnlineMode_ ? NSOnState : NSOffState];
+}
+- (void) synchronizeStatusFilteringMenuItemState
+{
+	NSMenu			*browserFilteringSubmenu_;
+	NSEnumerator	*itemIter_;
+	NSMenuItem		*item_;
+	NSNumber		*currentStatus;
+	
+	browserFilteringSubmenu_ = [[self browserStatusFilteringMenuItem] submenu];
+	UTILAssertNotNil(browserFilteringSubmenu_);
+	
+	currentStatus = [NSNumber numberWithUnsignedInt : [CMRPref browserStatusFilteringMask]];
+
+	itemIter_ = [[browserFilteringSubmenu_ itemArray] objectEnumerator];
+
+	while (item_ = [itemIter_ nextObject]) {
+		NSNumber	*represent_;
+		
+		represent_ = [item_ representedObject];
+		UTILAssertKindOfClass(represent_, NSNumber);
+		
+		if ([represent_ isEqualToNumber: currentStatus]) {
+			[item_ setState : NSOnState];
+		} else {
+			[item_ setState : NSOffState];
+		}
+	}
 }
 @end

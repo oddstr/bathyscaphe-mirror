@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.m,v 1.3.2.1 2005/12/14 16:05:06 masakih Exp $
+  * $Id: CMRThreadsList.m,v 1.3.2.2 2006/01/29 12:58:10 masakih Exp $
   * 
   * CMRThreadsList.m
   *
@@ -45,17 +45,32 @@ struct SortContext {
 
 
 @implementation CMRThreadsList
-+ (id) threadsListWithBBSSignature : (CMRBBSSignature *) aSignature
+/*+ (id) threadsListWithBBSSignature : (CMRBBSSignature *) aSignature
 {
 	return [[[self alloc] initWithBBSSignature : aSignature] autorelease];
-}
+}*/
 
 + (id) threadsListWithBBSName : (NSString *) boardName
 {
-	return [[[self alloc] initWithBBSSignature : [CMRBBSSignature BBSSignatureWithName : boardName]] autorelease];
+	return [[[self alloc] initWithBBSName : boardName] autorelease];
 }
 
-- (id) initConcreateWithBBSSignature : (CMRBBSSignature *) aSignature
+- (id) initConcreateWithBBSName : (NSString *) boardName
+{
+	NSURL		*boardURL_;
+	
+	boardURL_ = [[BoardManager defaultManager] URLForBoardName : boardName];
+	if((NO == [CMXFavoritesDirectoryName isSameAsString : boardName]) && nil == boardURL_){
+		[self autorelease];
+		return nil;
+	}
+	
+	if(self = [self init]){
+		[self setBBSName : boardName];
+	}
+	return self;
+}
+/*- (id) initConcreateWithBBSSignature : (CMRBBSSignature *) aSignature
 {
 	NSURL		*boardURL_;
 	
@@ -70,8 +85,18 @@ struct SortContext {
 		[self setBBSSignature : aSignature];
 	}
 	return self;
+}*/
+- (id) initWithBBSName : (NSString *) boardName
+{
+	if([CMXFavoritesDirectoryName isSameAsString : boardName]){
+		[self autorelease];
+		return [[w2chFavoriteItemList alloc] 
+					initConcreateWithBBSName : boardName];
+	}
+	
+	return [self initConcreateWithBBSName : boardName];
 }
-- (id) initWithBBSSignature : (CMRBBSSignature *) aSignature
+/*- (id) initWithBBSSignature : (CMRBBSSignature *) aSignature
 {
 	if([CMXFavoritesDirectoryName isSameAsString : [aSignature name]]){
 		[self autorelease];
@@ -80,7 +105,7 @@ struct SortContext {
 	}
 	
 	return [self initConcreateWithBBSSignature : aSignature];
-}
+}*/
 
 - (id) init
 {
@@ -117,8 +142,9 @@ struct SortContext {
 		}*/
 	}
 	
-	[_BBSSignature release];
-	
+	//[_BBSSignature release];
+	[_BBSName release];
+
 	[_worker release];
 	[_threadsListUpdateLock release];
 	[_filteredThreadsLock release];
@@ -180,12 +206,20 @@ struct SortContext {
 
 
 @implementation CMRThreadsList(PrivateAccessor)
-- (void) setBBSSignature : (CMRBBSSignature *) aBBSSignature
+/*- (void) setBBSSignature : (CMRBBSSignature *) aBBSSignature
 {
 	id		tmp;
 	
 	tmp = _BBSSignature;
 	_BBSSignature = [aBBSSignature retain];
+	[tmp release];
+}*/
+- (void) setBBSName : (NSString *) boardName
+{
+	id		tmp;
+	
+	tmp = _BBSName;
+	_BBSName = [boardName retain];
 	[tmp release];
 }
 @end
@@ -297,13 +331,17 @@ struct SortContext {
 
 
 @implementation CMRThreadsList(Attributes)
-- (CMRBBSSignature *) BBSSignature
+/*- (CMRBBSSignature *) BBSSignature
 {
 	return _BBSSignature;
+}*/
+- (NSString *) BBSName
+{
+	return _BBSName;
 }
 - (NSString *) boardName
 {
-	return [[self BBSSignature] name];
+	return [self BBSName];//[[self BBSSignature] name];
 }
 - (NSString *) threadsListPath
 {

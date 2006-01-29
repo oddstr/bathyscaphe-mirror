@@ -1,5 +1,5 @@
 /**
-  * $Id: ThreadTextDownloader.h,v 1.1 2005/05/11 17:51:06 tsawada2 Exp $
+  * $Id: ThreadTextDownloader.h,v 1.1.1.1.4.1 2006/01/29 12:58:10 masakih Exp $
   * 
   * ThreadTextDownloader.h
   *
@@ -11,7 +11,7 @@
 
 
 
-@class CMRBBSSignature;
+//@class CMRBBSSignature;
 @class CMRThreadSignature;
 
 @interface ThreadTextDownloader : CMRDownloader

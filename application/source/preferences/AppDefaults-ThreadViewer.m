@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-ThreadViewer.m,v 1.4.2.1 2005/12/17 14:59:49 masakih Exp $
+  * $Id: AppDefaults-ThreadViewer.m,v 1.4.2.2 2006/01/29 12:58:10 masakih Exp $
   * 
   * AppDefaults-ThreadViewer.m
   *
@@ -25,6 +25,7 @@ static NSString *const kPrefFirstVisibleKey	= @"FirstVisible";
 static NSString *const kPrefLastVisibleKey	= @"LastVisible";
 static NSString *const kPrefTrackingTimeKey = @"Mousedown Tracking Time";
 
+static NSString *const kPrefScroll2LUKey = @"ScrollToLastUpdatedHeader";
 
 @implementation AppDefaults(ThreadViewerSettings)
 - (NSMutableDictionary *) threadViewerDefaultsDictionary
@@ -219,6 +220,17 @@ static NSString *const kPrefTrackingTimeKey = @"Mousedown Tracking Time";
 - (void) setMouseDownTrackingTime : (float) aValue
 {
 	[[self threadViewerDefaultsDictionary] setFloat : aValue forKey : kPrefTrackingTimeKey];
+}
+
+#pragma mark Vita Additions
+- (BOOL) scrollToLastUpdated
+{
+	return [[self threadViewerDefaultsDictionary] boolForKey : kPrefScroll2LUKey
+												defaultValue : NO];
+}
+- (void) setScrollToLastUpdated : (BOOL) flag
+{
+	[[self threadViewerDefaultsDictionary] setBool : flag forKey : kPrefScroll2LUKey];
 }
 
 #pragma mark -

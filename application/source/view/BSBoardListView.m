@@ -1,5 +1,5 @@
 //
-//  $Id: BSBoardListView.m,v 1.4.2.1 2005/12/17 14:59:49 masakih Exp $
+//  $Id: BSBoardListView.m,v 1.4.2.2 2006/01/29 12:58:10 masakih Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/09/20.
@@ -12,14 +12,60 @@ static NSString	*const bgImage_focused	= @"boardListSelBgFocused";
 static NSString *const bgImage_normal	= @"boardListSelBg";
 
 @implementation BSBoardListView
-- (void) awakeFromNib
-{
-	_semiSelectedRow = -1;
-}
+static NSRect	imgRectNormal;
+static NSRect	imgRectFocused;
 
 - (int) semiSelectedRow
 {
 	return _semiSelectedRow;
+}
+
+- (NSImage *) imageNormal
+{
+	return _imageNormal;
+}
+
+- (void) setImageNormal : (NSImage *) anImage
+{
+	[anImage retain];
+	[_imageNormal release];
+	_imageNormal = anImage;
+	
+	NSSize	tmp_ = [_imageNormal size];
+	imgRectNormal = NSMakeRect(0, 0, tmp_.width, tmp_.height);
+
+	[_imageNormal setFlipped : [self isFlipped]];
+}
+
+- (NSImage *) imageFocused
+{
+	return _imageFocused;
+}
+
+- (void) setImageFocused : (NSImage *) anImage
+{
+	[anImage retain];
+	[_imageFocused release];
+	_imageFocused = anImage;
+	
+	NSSize	tmp_ = [_imageFocused size];
+	imgRectFocused = NSMakeRect(0, 0, tmp_.width, tmp_.height);
+
+	[_imageFocused setFlipped : [self isFlipped]];
+}
+
+- (void) awakeFromNib
+{
+	_semiSelectedRow = -1;
+	[self setImageNormal : [NSImage imageAppNamed : bgImage_normal]];
+	[self setImageFocused : [NSImage imageAppNamed : bgImage_focused]];
+}
+
+- (void) dealloc
+{
+	[_imageNormal release];
+	[_imageFocused release];
+	[super dealloc];
 }
 
 #pragma mark Custom highlight drawing
@@ -28,17 +74,15 @@ static NSString *const bgImage_normal	= @"boardListSelBg";
 {
 	NSImage	*image_;
 	NSRect	rowRect;
-	float	imgWidth, imgHeight;
+	NSRect	sourceRect;
 
-	if (([[self window] firstResponder] == self) && [[self window] isKeyWindow])
-		image_ = [NSImage imageAppNamed : bgImage_focused];
-	else
-		image_ = [NSImage imageAppNamed : bgImage_normal];
-
-	imgWidth	= [image_ size].width;
-	imgHeight	= [image_ size].height;
-
-	[image_ setFlipped : [self isFlipped]];
+	if (([[self window] firstResponder] == self) && [[self window] isKeyWindow]) {
+		image_ = [self imageFocused];
+		sourceRect = imgRectFocused;
+	} else {
+		image_ = [self imageNormal];
+		sourceRect = imgRectNormal;
+	}
 
 	// 参考：<http://www.cocoadev.com/index.pl?NSIndexSet>
 	{
@@ -52,7 +96,7 @@ static NSString *const bgImage_normal	= @"boardListSelBg";
 		while ([selected getIndexes:&arrayElement maxCount:1 inIndexRange:&e] > 0)
 		{
 			rowRect = [self rectOfRow : arrayElement];
-			[image_ drawInRect : rowRect fromRect : NSMakeRect(0, 0, imgWidth, imgHeight) operation : NSCompositeCopy fraction : 1.0];
+			[image_ drawInRect : rowRect fromRect : sourceRect operation : NSCompositeCopy fraction : 1.0];
 		}
 		[self unlockFocus];
 	}

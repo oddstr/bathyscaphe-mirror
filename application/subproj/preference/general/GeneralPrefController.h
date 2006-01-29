@@ -1,5 +1,5 @@
 /**
-  * $Id: GeneralPrefController.h,v 1.5.2.1 2005/12/17 14:59:49 masakih Exp $
+  * $Id: GeneralPrefController.h,v 1.5.2.2 2006/01/29 12:58:10 masakih Exp $
   * 
   * GeneralPrefController.h
   *
@@ -13,27 +13,10 @@
 
 @interface GeneralPrefController : PreferencesController
 {
-	// List
 	IBOutlet NSMatrix		*_autoscrollMaskCheckBox;
-	IBOutlet NSButton		*_collectByNewCheckBox;
-	IBOutlet NSTextField	*_ignoreCharsField;
-	
-	// Thread
-	IBOutlet NSPopUpButton  *_resAnchorActionPopUp;
-	IBOutlet NSButton		*_mailAttachCheckBox;
-	IBOutlet NSButton		*_isMailShownCheckBox;
-	IBOutlet NSButton		*_showsAllCheckBox;
 }
 
-// List
 - (IBAction) changeAutoscrollMask : (id) sender;
-- (IBAction) changeIgnoreCharacters : (id) sender;
-- (IBAction) changeCollectByNew : (id) sender;
-// Thread
-- (IBAction) changeLinkType : (id) sender;
-- (IBAction) changeMailAttachShown : (id) sender;
-- (IBAction) changeMailAddressShown : (id) sender;
-- (IBAction) changeShowsAll : (id) sender;
 
 // ShortCircuit Additions - Binding
 - (int) firstVisible;
@@ -44,6 +27,21 @@
 // InnocentStarter Additions
 - (BOOL) autoReloadListWhenWake;
 - (void) setAutoReloadListWhenWake : (BOOL) boxState_;
+
+// Vita Additions
+- (int) mailFieldOption;
+- (void) setMailFieldOption : (int) selectedTag;
+
+- (int) resAnchorAction;
+- (void) setResAnchorAction : (int) tag_;
+
+- (BOOL) collectByNew;
+- (void) setCollectByNew : (BOOL) boxState_;
+- (BOOL) showsAllFirstTime;
+- (void) setShowsAllFirstTime : (BOOL) boxState_;
+
+- (BOOL) scrollToLastUpdated;
+- (void) setScrollToLastUpdated : (BOOL) boxState_;
 @end
 
 
@@ -52,12 +50,4 @@
 // List
 - (int) autoscrollMaskForTag : (int) tag;
 - (NSMatrix *) autoscrollMaskCheckBox;
-- (NSButton *) collectByNewCheckBox;
-- (NSTextField *) ignoreCharsField;
-
-// Thread
-- (NSPopUpButton *) resAnchorActionPopUp;
-- (NSButton *) isMailShownCheckBox;
-- (NSButton *) showsAllCheckBox;
-- (NSButton *) mailAttachCheckBox;
 @end

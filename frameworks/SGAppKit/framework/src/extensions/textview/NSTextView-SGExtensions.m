@@ -1,6 +1,6 @@
 //: NSTextView-SGExtensions.m
 /**
-  * $Id: NSTextView-SGExtensions.m,v 1.1.1.1.4.1 2006/01/28 16:06:42 masakih Exp $
+  * $Id: NSTextView-SGExtensions.m,v 1.1.1.1.4.2 2006/01/29 12:58:10 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -81,5 +81,44 @@ no_attribute:
 no_attribute:
 	if(aRangePtr != NULL) *aRangePtr = kNFRange;
 	return nil;
+}
+
+#pragma mark From CMXAdditions
+- (NSRect) boundingRectForCharacterInRange : (NSRange) aRange
+{
+	NSLayoutManager		*lm  = [self layoutManager];
+	NSTextContainer		*container_ = [self textContainer];
+	unsigned int		count_;
+	NSRange				glyphRange_;
+	
+	count_ = [[self string] length];
+	if(NSNotFound == aRange.location || NSMaxRange(aRange) > count_) 
+		return NSZeroRect;
+	
+	glyphRange_ = [lm glyphRangeForCharacterRange : aRange
+							 actualCharacterRange : NULL];
+	return [lm boundingRectForGlyphRange : glyphRange_
+								inTextContainer : container_];
+}
+- (NSRange) characterRangeForDocumentVisibleRect
+{
+	NSRect				visibleRect_;
+	NSRange				glyphRange_;
+	NSRange				charRange_;
+	NSLayoutManager		*lm;
+	NSTextContainer		*container_;
+	
+	visibleRect_ = [[self enclosingScrollView] documentVisibleRect];
+	lm = [self layoutManager];
+	container_ = [self textContainer];
+	
+	// Glyphを生成しないメソッド
+	glyphRange_ = 
+	  [lm glyphRangeForBoundingRectWithoutAdditionalLayout : visibleRect_ 
+	  					   inTextContainer : container_];
+	charRange_ = [lm characterRangeForGlyphRange : glyphRange_
+									   actualGlyphRange : NULL];
+	
+	return charRange_;
 }
 @end

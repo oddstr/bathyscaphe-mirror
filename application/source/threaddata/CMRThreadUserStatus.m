@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadUserStatus.m,v 1.1 2005/05/11 17:51:08 tsawada2 Exp $
+  * $Id: CMRThreadUserStatus.m,v 1.1.1.1.4.1 2006/01/29 12:58:10 masakih Exp $
   * 
   * CMRThreadUserStatus.m
   *
@@ -90,5 +90,20 @@ ErrRepresentation:
 - (void) setAAThread : (BOOL) setOn
 {
 	_flags = setOn ? (_flags|TUS_ASCII_ART_FLAG) : (_flags&~TUS_ASCII_ART_FLAG);
+}
+- (BOOL) isDatOchiThread
+{
+	return (([self flags] & TUS_DAT_OCHI_FLAG) > 0);
+}
+- (void) setDatOchiThread : (BOOL) setOn
+{
+	_flags = setOn ? (_flags|TUS_DAT_OCHI_FLAG) : (_flags&~TUS_DAT_OCHI_FLAG);
+}- (BOOL) isMarkedThread
+{
+	return (([self flags] & TUS_MARKED_FLAG) > 0);
+}
+- (void) setMarkedThread : (BOOL) setOn
+{
+	_flags = setOn ? (_flags|TUS_MARKED_FLAG) : (_flags&~TUS_MARKED_FLAG);
 }
 @end

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer.m,v 1.6.2.3 2006/01/28 16:06:42 masakih Exp $
+  * $Id: CMRAttributedMessageComposer.m,v 1.6.2.4 2006/01/29 12:58:10 masakih Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -455,8 +455,7 @@ ErrComposeHost:
 
 #pragma mark -
 
-static void appendDateString(NSMutableString *buffer, id theDate, NSString *prefix)//, NSDictionary *localeDictionary)
-{
+static void appendDateString(NSMutableString *buffer, id theDate, NSString *prefix){
 	NSCalendarDate		*cdate_;
 	
 	if (nil == theDate)
@@ -467,7 +466,7 @@ static void appendDateString(NSMutableString *buffer, id theDate, NSString *pref
 		NSArray		*tmp_ = [defaults_ arrayForKey : NSShortWeekDayNameArray];
 		NSArray		*tmp2_ = [defaults_ arrayForKey : NSWeekDayNameArray];
 
-		threadDateFormat_ = SGTemplateResource(kThreadDateFormatKey);
+		threadDateFormat_ = [SGTemplateResource(kThreadDateFormatKey) retain];
 		localeDict_ = [[NSDictionary alloc] initWithObjectsAndKeys : 
 							tmp_,  NSShortWeekDayNameArray,
 							tmp2_, NSWeekDayNameArray,

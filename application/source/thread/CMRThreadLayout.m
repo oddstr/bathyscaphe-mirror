@@ -1,6 +1,6 @@
 //: CMRThreadLayout.m
 /**
-  * $Id: CMRThreadLayout.m,v 1.5.2.1 2005/12/14 16:05:06 masakih Exp $
+  * $Id: CMRThreadLayout.m,v 1.5.2.2 2006/01/29 12:58:10 masakih Exp $
   * 
   * CMRThreadLayout.m
   *
@@ -11,7 +11,7 @@
   * See the file LICENSE for copying permission.
   */
 #import "CMRThreadLayout_p.h"
-#import "NSTextView+CMXAdditions.h"
+//#import "NSTextView+CMXAdditions.h"
 #import "CMRMessageAttributesStyling.h"
 #import "CMRMessageAttributesTemplate_p.h"
 #import "CMRAttributedMessageComposer.h"

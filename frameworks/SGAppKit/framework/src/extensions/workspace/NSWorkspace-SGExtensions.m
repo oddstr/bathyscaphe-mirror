@@ -1,6 +1,6 @@
 //: NSWorkspace-SGExtensions.m
 /**
-  * $Id: NSWorkspace-SGExtensions.m,v 1.1 2005/05/11 17:51:27 tsawada2 Exp $
+  * $Id: NSWorkspace-SGExtensions.m,v 1.1.1.1.4.1 2006/01/29 12:58:10 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -121,7 +121,7 @@ bail:
 		return NO;
 	
 	inLaunchSpec.appURL = NULL;
-	inLaunchSpec.itemURLs = URLsArray; //NSArray, it's CFArrayRef
+	inLaunchSpec.itemURLs = (CFArrayRef )URLsArray; //NSArray, it's CFArrayRef
 	inLaunchSpec.passThruParams = nil;
 	inLaunchSpec.launchFlags = kLSLaunchDontSwitch; //アプリケーションを前面に持ってこない
 	inLaunchSpec.asyncRefCon = nil;

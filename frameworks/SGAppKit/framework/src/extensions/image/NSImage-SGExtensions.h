@@ -1,6 +1,6 @@
 //: NSImage-SGExtensions.h
 /**
-  * $Id: NSImage-SGExtensions.h,v 1.1 2005/05/11 17:51:26 tsawada2 Exp $
+  * $Id: NSImage-SGExtensions.h,v 1.1.1.1.4.1 2006/01/29 12:58:10 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -24,6 +24,14 @@
 	  inDirectory : (NSString *) aDirectory;
 + (id) imageNamed : (NSString *) aName 
    loadFromBundle : (NSBundle *) aBundle;
+/*!
+ * @method      imageAppNamed:preferUserDirectory:
+ * @abstract    ユーザのサポートディレクトリを優先的に探す
+ * @discussion  
+ * @param name  画像名
+ * @result      画像
+ */
++ (id) imageAppNamed : (NSString *) aName;
 @end
 
 

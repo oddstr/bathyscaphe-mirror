@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.25.2.3 2005/12/14 16:05:06 masakih Exp $
+  * $Id: CMRBrowser-Action.m,v 1.25.2.4 2006/01/29 12:58:10 masakih Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -221,23 +221,23 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 #pragma mark Filter, Search Popup
 - (IBAction) selectFilteringMask : (id) sender
 {
-	NSPopUpButton	*popUpButton_;
-	NSNumber		*representedObject_;
-	unsigned int	mask_;
+	NSNumber	*represent_;
+	int			mask_;
 	
-	if (nil == [self currentThreadsList]) return;
-	if (nil == sender) return;
+	if (NO == [sender respondsToSelector : @selector(representedObject)]) {
+		UTILDebugWrite(@"Sender must respondsToSelector : -representedObject");
+		return;
+	}
 	
-	UTILAssertKindOfClass(sender, NSPopUpButton);
-	
-	popUpButton_ = (NSPopUpButton*) sender;
-	representedObject_ = [[popUpButton_ selectedItem] representedObject];
-	UTILAssertKindOfClass(representedObject_, NSNumber);
+	represent_ = [sender representedObject];
+	UTILAssertKindOfClass(represent_, NSNumber);
 
-	mask_ = [representedObject_ unsignedIntValue];
+	mask_ = [represent_ unsignedIntValue];
 	[self changeThreadsFilteringMask : mask_];
-}
 
+	[[CMRMainMenuManager defaultManager] synchronizeStatusFilteringMenuItemState];
+}
+/*
 - (IBAction) searchToolbarPopupChanged : (id) sender
 {
 	CMRSearchMask		prefOption_;		// ê›íËçœÇ›ÇÃÉIÉvÉVÉáÉì
@@ -266,7 +266,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 	}
 	
 }
-
+*/
 #pragma mark Deletion
 - (void) _showDeletionAlertSheet : (id) sender
 						  ofType : (BSThreadDeletionType) aType
@@ -316,7 +316,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 		[deleteAndReloadBtn_ setKeyEquivalent : @"r"];
 	}
 
-	NSBeep();
+	//NSBeep();
 	[alert_ beginSheetModalForWindow : [self window]
 					   modalDelegate : self
 					  didEndSelector : didEndSel_

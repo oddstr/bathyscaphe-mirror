@@ -18,7 +18,6 @@
 		87F5705B086E5217002A18AD /* CMRResourceFileReader.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B757010508BD6C00A80005 /* CMRResourceFileReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87F5705C086E5217002A18AD /* CMRSingletonObject.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B757030508BD6C00A80005 /* CMRSingletonObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87F5705D086E5217002A18AD /* CocoMonar.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B757050508BD6C00A80005 /* CocoMonar.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		87F5705E086E5217002A18AD /* NSBundle+CMRExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B757070508BD6C00A80005 /* NSBundle+CMRExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87F5705F086E5217002A18AD /* CMRFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B02DAE0509F1D600A80005 /* CMRFileManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87F57060086E5217002A18AD /* CMRFiles.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B02DB90509FCB000A80005 /* CMRFiles.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87F57061086E5217002A18AD /* UTILAssertion.h in Headers */ = {isa = PBXBuildFile; fileRef = F3354EAA05D39D260073CD71 /* UTILAssertion.h */; };
@@ -35,7 +34,6 @@
 		87F5706E086E5217002A18AD /* CMRResourceFileReader.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B757020508BD6C00A80005 /* CMRResourceFileReader.m */; };
 		87F5706F086E5217002A18AD /* CMRSingletonObject.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B757040508BD6C00A80005 /* CMRSingletonObject.m */; };
 		87F57070086E5217002A18AD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B757060508BD6C00A80005 /* main.m */; };
-		87F57071086E5217002A18AD /* NSBundle+CMRExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B757080508BD6C00A80005 /* NSBundle+CMRExtensions.m */; };
 		87F57072086E5217002A18AD /* CMRFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B02DAF0509F1D600A80005 /* CMRFileManager.m */; };
 		87F57074086E5217002A18AD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		87F57075086E5217002A18AD /* SGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3A5E3AC0436BEF700A80005 /* SGFoundation.framework */; };
@@ -105,8 +103,6 @@
 		F3B757040508BD6C00A80005 /* CMRSingletonObject.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRSingletonObject.m; sourceTree = "<group>"; };
 		F3B757050508BD6C00A80005 /* CocoMonar.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CocoMonar.h; sourceTree = "<group>"; };
 		F3B757060508BD6C00A80005 /* main.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		F3B757070508BD6C00A80005 /* NSBundle+CMRExtensions.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = "NSBundle+CMRExtensions.h"; sourceTree = "<group>"; };
-		F3B757080508BD6C00A80005 /* NSBundle+CMRExtensions.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+CMRExtensions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -231,8 +227,6 @@
 				F3B757020508BD6C00A80005 /* CMRResourceFileReader.m */,
 				F3B757030508BD6C00A80005 /* CMRSingletonObject.h */,
 				F3B757040508BD6C00A80005 /* CMRSingletonObject.m */,
-				F3B757070508BD6C00A80005 /* NSBundle+CMRExtensions.h */,
-				F3B757080508BD6C00A80005 /* NSBundle+CMRExtensions.m */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -265,7 +259,6 @@
 				87F5705B086E5217002A18AD /* CMRResourceFileReader.h in Headers */,
 				87F5705C086E5217002A18AD /* CMRSingletonObject.h in Headers */,
 				87F5705D086E5217002A18AD /* CocoMonar.h in Headers */,
-				87F5705E086E5217002A18AD /* NSBundle+CMRExtensions.h in Headers */,
 				87F5705F086E5217002A18AD /* CMRFileManager.h in Headers */,
 				87F57060086E5217002A18AD /* CMRFiles.h in Headers */,
 				87F57061086E5217002A18AD /* UTILAssertion.h in Headers */,
@@ -377,7 +370,6 @@
 				87F5706E086E5217002A18AD /* CMRResourceFileReader.m in Sources */,
 				87F5706F086E5217002A18AD /* CMRSingletonObject.m in Sources */,
 				87F57070086E5217002A18AD /* main.m in Sources */,
-				87F57071086E5217002A18AD /* NSBundle+CMRExtensions.m in Sources */,
 				87F57072086E5217002A18AD /* CMRFileManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

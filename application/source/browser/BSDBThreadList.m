@@ -10,7 +10,7 @@
 
 #import "CMRThreadsList_p.h"
 #import "CMRThreadsListReadFileTask.h"
-#import "CMRThreadSignature.h"
+// #import "CMRThreadSignature.h"
 #import "ThreadTextDownloader.h"
 #import "CMRSearchOptions.h"
 #import "missing.h"
@@ -29,12 +29,14 @@
 
 @implementation BSDBThreadList
 
+// primitive
 - (id)initWithBoardListItem : (BoardListItem *) item
 {
-	CMRBBSSignature *sig = [CMRBBSSignature BBSSignatureWithName : [item name]];
+//	CMRBBSSignature *sig = [CMRBBSSignature BBSSignatureWithName : [item name]];
 	
-	self = [self initWithBBSSignature : sig];
+	self = [super init];
 	if (self) {
+		[self setBBSName : [item name]];
 		mBoardListItem = [item retain];
 		mSortKey = [[[BoardManager defaultManager] sortColumnForBoard : [self boardName]] retain];
 		mCursorLock = [[NSLock alloc] init];
@@ -47,7 +49,7 @@
 	
 	return self;
 }
-+ (id) threadsListWithBBSName : (NSString *) boardName
+- (id) initWithBBSName : (NSString *) boardName
 {
 	BoardListItem *item;
 	
@@ -71,7 +73,7 @@
 		item = [BoardListItem baordListItemWithBoradID : boardID];
 	}
 	
-	return [self threadListWithBoardListItem : item];
+	return [self initWithBoardListItem : item];
 }
 + (id)threadListWithBoardListItem : (BoardListItem *) item
 {
@@ -92,7 +94,7 @@
 	
 	[super dealloc];
 }
-
+/*
 - (id) initWithBBSSignature : (CMRBBSSignature *) aSignature
 {
 	if([CMXFavoritesDirectoryName isSameAsString : [aSignature name]]){
@@ -105,7 +107,7 @@
 	
 	return self;
 }
-
+*/
 - (void) registerToNotificationCenter
 {
 	[[NSNotificationCenter defaultCenter]
@@ -485,8 +487,8 @@ static inline NSString *orderBy( NSString *sortKey, BOOL isAscending )
 - (unsigned int) indexOfThreadWithPath : (NSString *) filepath
 {
 	unsigned result;
-	CMRThreadSignature *threadSig = [CMRThreadSignature threadSignatureFromFilepath : filepath];
-	NSString *identifier = [threadSig identifier];
+	CMRDocumentFileManager *dfm = [CMRDocumentFileManager defaultManager];
+	NSString *identifier = [dfm datIdentifierWithLogPath : filepath];
 	
 	NSArray *threadIDs;
 	
@@ -608,17 +610,17 @@ Compatability Note: This method replaces tableView : writeRows : toPasteboard : 
 #pragma mark## Notification ##
 static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSString **outThreadID, NSString *inFilePath )
 {
-	CMRThreadSignature *threadSig = [CMRThreadSignature threadSignatureFromFilepath : inFilePath];
+	CMRDocumentFileManager *dfm = [CMRDocumentFileManager defaultManager];
 	
 	if (outThreadID) {
-		*outThreadID = [threadSig identifier];
+		*outThreadID = [dfm datIdentifierWithLogPath : inFilePath];
 	}
 	
 	if (outBoardID) {
 		NSString *boardName;
 		NSArray *boardIDs;
 		
-		boardName = [threadSig BBSName];
+		boardName = [dfm boardNameWithLogPath : inFilePath];
 		if (!boardName) return NO;
 		
 		boardIDs = [[DatabaseManager defaultManager] boardIDsForName : boardName];

@@ -7,26 +7,10 @@
             SUPERCLASS = NSObject; 
         }, 
         {
-            ACTIONS = {
-                changeAutoscrollMask = id; 
-                changeCollectByNew = id; 
-                changeIgnoreCharacters = id; 
-                changeLinkType = id; 
-                changeMailAddressShown = id; 
-                changeMailAttachShown = id; 
-                changeShowsAll = id; 
-            }; 
+            ACTIONS = {changeAutoscrollMask = id; }; 
             CLASS = GeneralPrefController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {
-                "_autoscrollMaskCheckBox" = NSMatrix; 
-                "_collectByNewCheckBox" = NSButton; 
-                "_ignoreCharsField" = NSTextField; 
-                "_isMailShownCheckBox" = NSButton; 
-                "_mailAttachCheckBox" = NSButton; 
-                "_resAnchorActionPopUp" = NSPopUpButton; 
-                "_showsAllCheckBox" = NSButton; 
-            }; 
+            OUTLETS = {"_autoscrollMaskCheckBox" = NSMatrix; }; 
             SUPERCLASS = PreferencesController; 
         }, 
         {

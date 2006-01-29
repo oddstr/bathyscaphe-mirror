@@ -87,7 +87,7 @@ void CMRApplicationReset(id sender)
     
     [[CookieManager defaultManager] removeAllCookies];
 	[[NSURLCache sharedURLCache] removeAllCachedResponses];
-    [[SGTemplatesManager sharedInstance] resetAllResources];
+    //[[SGTemplatesManager sharedInstance] resetAllResources];
     [[CMRHistoryManager  defaultManager] removeAllItems];
     [[NSNotificationCenter defaultCenter] 
         postNotificationName : CMRApplicationDidResetNotification

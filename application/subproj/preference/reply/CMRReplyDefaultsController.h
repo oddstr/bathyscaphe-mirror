@@ -23,11 +23,12 @@
 	
 	NSMutableArray *_nameList;
 }
-@end
 
+- (NSTextField *) defaultNameField;
+- (NSTextField *) defaultMailField;
+- (NSTableView *) nameListTable;
+- (NSButton *) removeRowBtn;
 
-
-@interface CMRReplyDefaultsController(Action)
 - (IBAction) changeDefaultName : (id) sender;
 - (IBAction) changeDefaultMail : (id) sender;
 

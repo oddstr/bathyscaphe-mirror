@@ -16,9 +16,14 @@ static NSString *const kTitleRulerViewDefaultTitleKey	= @"titleRuler default tit
 static NSString *const kTitleRulerViewNilTitleKey		= @"titleRuler nil title";
 static NSString *const kTitleRulerViewNilBNameKey		= @"titleRuler nil boardName";
 
+static NSString *const kTRViewBgImageNonActiveKey		= @"titleRulerBgNotActive";
+
 @implementation BSTitleRulerView
 
-float	imgWidth, imgHeight;
+//float	imgWidth, imgHeight;
+//float	imgNAWidth, imgNAHeight; 
+NSRect	bgImgRect;
+NSRect	bgImgNARect;
 
 #pragma mark Accessors
 - (NSImage *) bgImage
@@ -31,6 +36,11 @@ float	imgWidth, imgHeight;
 	return m_titleStr;
 }
 
+- (NSImage *) bgImageNonActive
+{
+	return m_bgImageNonActive;
+}
+
 #pragma mark Private
 
 - (void) setBgImage : (NSImage *) anImage
@@ -39,11 +49,29 @@ float	imgWidth, imgHeight;
 	[m_bgImage release];
 	m_bgImage = anImage;
 
-	imgWidth	= [m_bgImage size].width;
-	imgHeight	= [m_bgImage size].height;
+	//imgWidth	= [m_bgImage size].width;
+	//imgHeight	= [m_bgImage size].height;
+	
+	NSSize	tmp_ = [m_bgImage size];
+	bgImgRect = NSMakeRect(0, 0, tmp_.width, tmp_.height);
 
 	// 意外と重要
 	[m_bgImage setFlipped : [self isFlipped]];
+}
+
+- (void) setBgImageNonActive : (NSImage *) anImage
+{
+	[anImage retain];
+	[m_bgImageNonActive release];
+	m_bgImageNonActive = anImage;
+	
+	//imgNAWidth	= [m_bgImageNonActive size].width;
+	//imgNAHeight	= [m_bgImageNonActive size].height;
+	
+	NSSize	tmp_ = [m_bgImageNonActive size];
+	bgImgNARect = NSMakeRect(0, 0, tmp_.width, tmp_.height);
+	
+	[m_bgImageNonActive setFlipped : [self isFlipped]];
 }
 
 - (void) setTitleStr : (NSString *) aString
@@ -96,6 +124,8 @@ float	imgWidth, imgHeight;
 	[self setTitleStr : NSLocalizedString(kTitleRulerViewDefaultTitleKey, @"BathyScaphe")];
 	[self setBgImage : ([self isGraphiteNow] ? [NSImage imageAppNamed : kTRViewBgImgGraphiteKey]
 											 : [NSImage imageAppNamed : kTRViewBgImgBlueKey])];
+	
+	[self setBgImageNonActive : [NSImage imageAppNamed : kTRViewBgImageNonActiveKey]];
 
 	[super initWithScrollView : scrollView orientation : NSHorizontalRuler];
 
@@ -114,6 +144,18 @@ float	imgWidth, imgHeight;
 	        selector : @selector(userDidChangeSystemColors:)
 	            name : NSSystemColorsDidChangeNotification
 	          object : nil];
+
+	[[NSNotificationCenter defaultCenter]
+	     addObserver : self
+	        selector : @selector(keyWindowDidChange:)
+	            name : NSWindowDidBecomeKeyNotification
+	          object : [self window]];
+
+	[[NSNotificationCenter defaultCenter]
+	     addObserver : self
+	        selector : @selector(keyWindowDidChange:)
+	            name : NSWindowDidResignKeyNotification
+	          object : [self window]];
   
 	return self;
 }
@@ -121,14 +163,20 @@ float	imgWidth, imgHeight;
 - (void) drawRect : (NSRect) aRect
 {
 	NSRect	rect_;
+	BOOL	isKeyWin_;
+	NSImage	*img_;
+	NSRect	img_Rect;
 
 	// 完全に領域を塗りつぶすため、微調整
 	rect_ = [self frame];
 	rect_.origin.x -= 1.0;
 	rect_.origin.y -= 1.0;
 
+	isKeyWin_ = [[self window] isKeyWindow];
+	img_ = isKeyWin_ ? [self bgImage] : [self bgImageNonActive];
+	img_Rect = isKeyWin_ ? bgImgRect : bgImgNARect;
 	// 背景を描く
-	[[self bgImage] drawInRect : rect_ fromRect : NSMakeRect(0, 0, imgWidth, imgHeight) operation : NSCompositeCopy fraction : 1.0];
+	[img_ drawInRect : rect_ fromRect : img_Rect operation : NSCompositeCopy fraction : 1.0];
 	// スレッドタイトルを描く
 	[[self titleForDrawing] drawInRect : NSInsetRect(rect_, 5.0, 2.0)];
 }
@@ -156,6 +204,11 @@ float	imgWidth, imgHeight;
 	[self setNeedsDisplay : YES];
 }
 
+- (void) keyWindowDidChange : (NSNotification *) theNotification
+{
+	[self setNeedsDisplay : YES];
+}
+
 - (void) dealloc
 {
 	[[NSNotificationCenter defaultCenter]
@@ -166,6 +219,15 @@ float	imgWidth, imgHeight;
 	  removeObserver : self
 	            name : NSSystemColorsDidChangeNotification
 	          object : nil];
+	[[NSNotificationCenter defaultCenter]
+	  removeObserver : self
+	            name : NSWindowDidBecomeKeyNotification
+	          object : [self window]];
+
+	[[NSNotificationCenter defaultCenter]
+	  removeObserver : self
+	            name : NSWindowDidResignKeyNotification
+	          object : [self window]];
 
 	[m_titleStr release];
 	[m_bgImage release];
