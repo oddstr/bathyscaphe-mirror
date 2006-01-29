@@ -124,13 +124,19 @@
 	return [BoardListItem isFavoriteItem : item];
 }
 
-
-// 名前が同じものは全く受け付けない。TODO 要変更
 - (BOOL) addItem : (id) item
      afterObject : (id) target
 {
-	// 名前が同じものは全く受け付けない。TODO 要変更
-	if ([topLevelItem itemForRepresentName : [item name] deepSearch : YES]) return NO;
+	UTILAssertKindOfClass(item, BoardListItem);
+	UTILAssertKindOfClass(target, BoardListItem);
+	
+	int type;
+	if( 1 << 1/*BoardListCategoryItem*/ == [(BoardListItem *)item type]) {
+		type = 1 << 1; //BoardListCategoryItem;
+	} else {
+		type = 1/*BoardListBoardItem*/ | 1 << 5;
+	}
+	if ([topLevelItem itemForRepresentName : [item name] ofType : type deepSearch : YES]) return NO;
 	
 	if (!target) {
 		[topLevelItem addItem : item];
@@ -254,7 +260,7 @@ objectValueForTableColumn : (NSTableColumn *) tableColumn
         id obj = [item representName];
 		
 		
-        result = makeAttrStrFromStr ( obj ) ;
+        result = makeAttrStrFromStr( obj );
 	}
 	
 	return result;
@@ -350,7 +356,7 @@ not_writtable:
 		}
 		
 		name_ = [dropped_ name];
-		original_ = [topLevelItem itemForName : name_ deepSearch : YES];
+		original_ = [topLevelItem itemForName : name_ ofType : [dropped_ type] deepSearch : YES];
 		parent_ = [topLevelItem parentForItem : original_];
 		/* TODO SmartBoardListItem の時の処理 */
 		if(parent_ && [parent_ isMutable]) {

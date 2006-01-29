@@ -1,5 +1,5 @@
 /**
- * $Id: BoardListEditor.m,v 1.3.4.1 2005/12/12 15:28:28 masakih Exp $
+ * $Id: BoardListEditor.m,v 1.3.4.2 2006/01/29 17:10:34 masakih Exp $
  * 
  * BoardListEditor.m
  *
@@ -599,7 +599,7 @@
 		index_ = [rowIndex_ intValue];
 		item_ = [[self userListTable] itemAtRow : index_];
 		[[self userList] removeItemWithName : [item_ objectForKey : BoardPlistNameKey]
-									 ofType : [[[self userList] class] typeForItem : item_]];
+									 ofType : [item_ type]];
 	}
 	[[self userListTable] reloadData];
 	[[self userListTable] deselectAll : nil];

@@ -1,3 +1,13 @@
+2006-01-30 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/SmartBoardList.m
+		カテゴリと板、スマートボードの重複名を許すようにした。
+	* application/source/bbs/BoardListItem/BoardListItem.h
+	* application/source/bbs/BoardListItem/BoardListItem.m
+	* application/source/bbs/BoardListItem/ConcreteBoardListItem.m
+	* application/source/bbs/BoardListItem/FolderBoardListItem.m
+	* application/subproj/editor/BoardListEditor.m
+		-[BoardListItem type] を新設。
+		+[BoardListItem typeForItem:] を使用している部分をこれに変更
 2006-01-29 masakih <masakih@users.sourceforge.jp>
 	トランクよりマージ
 	cvs -z3 up -j v113_FINAL -j MERGED-v111-BASED-BRANCH-MERGE-POINT-01

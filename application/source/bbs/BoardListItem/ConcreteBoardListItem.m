@@ -19,9 +19,11 @@ static ConcreteBoardListItem *_sharedInstance;
 
 + (id) sharedInstance
 {
+//	@synchronized(self) {
 	if (!_sharedInstance) {
 		_sharedInstance = [[self alloc] init];
 	}
+//	}
 	
 	return _sharedInstance;
 }

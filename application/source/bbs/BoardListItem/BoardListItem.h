@@ -48,6 +48,11 @@
 - (id) itemForRepresentName : (NSString *) name;
 - (id) itemForRepresentName : (NSString *) name deepSearch : (BOOL) isDeep;
 
+- (id) itemForName : (NSString *)name ofType: (/*BoardListItemType*/ int)type;
+- (id) itemForName : (NSString *)name ofType: (/*BoardListItemType*/ int)type deepSearch : (BOOL) isDeep;
+- (id) itemForRepresentName : (NSString *)name ofType: (/*BoardListItemType*/ int)type;
+- (id) itemForRepresentName : (NSString *)name ofType: (/*BoardListItemType*/ int)type deepSearch : (BOOL) isDeep;
+
 - (id) description;
 - (id) plist;
 
@@ -83,6 +88,8 @@
 + (BOOL) isCategory : (BoardListItem *) item; // alias of +isFolderItem:
 
 + (/*BoardListItemType*/ int) typeForItem : (BoardListItem *) item;
+
+- (/*BoardListItemType*/ int) type;
 
 @end
 

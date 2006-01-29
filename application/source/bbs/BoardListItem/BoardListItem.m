@@ -99,8 +99,25 @@ NSString *BoardListItemUpdateThreadsNotification = @"BoardListItemUpdateThreadsN
 }
 - (id) itemForRepresentName : (NSString *) name deepSearch : (BOOL) isDeep
 {
+	return [self itemForName : name deepSearch : isDeep];
+}
+- (id) itemForName : (NSString *)name ofType: (/*BoardListItemType*/ int)type
+{
+	return [self itemForName : name ofType : type isDeep : NO];
+}
+- (id) itemForName : (NSString *)name ofType: (/*BoardListItemType*/ int)type deepSearch : (BOOL) isDeep
+{
 	return nil;
 }
+- (id) itemForRepresentName : (NSString *)name ofType: (/*BoardListItemType*/ int)type
+{
+	return [self itemForRepresentName : name ofType : type deepSearch : NO];
+}
+- (id) itemForRepresentName : (NSString *)name ofType: (/*BoardListItemType*/ int)type deepSearch : (BOOL) isDeep
+{
+	return [self itemForName : name ofType : type deepSearch : isDeep];
+}
+
 - (NSString *) representName
 {
 	return [self name];
@@ -278,7 +295,10 @@ NSString *BoardListItemUpdateThreadsNotification = @"BoardListItemUpdateThreadsN
 {
 	return [ConcreteBoardListItem typeForItem : item];
 }
-
+- (/*BoardListItemType*/ int) type
+{
+	return [BoardListItem typeForItem : self];
+}
 @end
 
 @implementation BoardListItem (Mutable)

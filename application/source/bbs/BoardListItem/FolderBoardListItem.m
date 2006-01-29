@@ -72,6 +72,48 @@ static NSString *FolderBoardListItemItemsKey = @"FolderBoardListItemItemsKey";
 	
 	return result;
 }
+- (id) itemForName : (NSString *) name ofType : (int) type deepSearch : (BOOL) isDeep
+{
+	id result = nil;
+	NSEnumerator *objEnum;
+	BoardListItem *obj;
+	
+	// NON Thread safe.
+	objEnum = [items objectEnumerator];
+	while ((obj = [objEnum nextObject])) {
+		if ([name isEqualTo : [obj name]] && (type & [obj type])) {
+			result = obj;
+			break;
+		}
+		if (isDeep && [obj hasChildren]) {
+			result = [obj itemForName : name ofType : type deepSearch : YES];
+		}
+		if (result) break;
+	}
+	
+	return result;
+}
+- (id) itemForRepresentName : (NSString *) name ofType : (int) type deepSearch : (BOOL) isDeep
+{
+	id result = nil;
+	NSEnumerator *objEnum;
+	BoardListItem *obj;
+	
+	// NON Thread safe.
+	objEnum = [items objectEnumerator];
+	while ((obj = [objEnum nextObject])) {
+		if ([name isEqualTo : [obj representName]] && (type & [obj type])) {
+			result = obj;
+			break;
+		}
+		if (isDeep && [obj hasChildren]) {
+			result = [obj itemForRepresentName : name ofType : type deepSearch : YES];
+		}
+		if (result) break;
+	}
+	
+	return result;
+}
 
 - (NSArray *) itemsWithoutFavoriteItem
 {
