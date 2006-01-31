@@ -134,7 +134,7 @@
 	if( BoardListCategoryItem == [(BoardListItem *)item type]) {
 		type = BoardListCategoryItem;
 	} else {
-		type = BoardListBoardItem | BoardListSmartBoardItem
+		type = BoardListBoardItem | BoardListSmartBoardItem;
 	}
 	if ([topLevelItem itemForRepresentName : [item name] ofType : type deepSearch : YES]) return NO;
 	
