@@ -36,7 +36,7 @@
 - (BOOL) addItem : (id) item afterObject : (id) target;
 - (void) removeItem : (id) item;
 
-+ (/*BoardListItemType*/ int) typeForItem : (id) item;
++ (BoardListItemType) typeForItem : (id) item;
 + (BOOL) isBoard : (id) item;
 + (BOOL) isCategory : (id) item;
 + (BOOL) isFavorites : (id) item;

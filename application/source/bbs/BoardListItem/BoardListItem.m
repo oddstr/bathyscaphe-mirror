@@ -91,7 +91,7 @@ NSString *BoardListItemUpdateThreadsNotification = @"BoardListItemUpdateThreadsN
 }
 - (id) itemForName : (NSString *) name deepSearch : (BOOL) isDeep
 {
-	return nil;
+	return [self itemForName : name ofType : BoardListAnyTypeItem deepSearch : isDeep];
 }
 - (id) itemForRepresentName : (NSString *) name
 {
@@ -101,19 +101,21 @@ NSString *BoardListItemUpdateThreadsNotification = @"BoardListItemUpdateThreadsN
 {
 	return [self itemForName : name deepSearch : isDeep];
 }
-- (id) itemForName : (NSString *)name ofType: (/*BoardListItemType*/ int)type
+- (id) itemForName : (NSString *)name ofType: (BoardListItemType)type
 {
-	return [self itemForName : name ofType : type isDeep : NO];
+	return [self itemForName : name ofType : type deepSearch : NO];
 }
-- (id) itemForName : (NSString *)name ofType: (/*BoardListItemType*/ int)type deepSearch : (BOOL) isDeep
+
+// primitive
+- (id) itemForName : (NSString *)name ofType: (BoardListItemType)type deepSearch : (BOOL) isDeep
 {
 	return nil;
 }
-- (id) itemForRepresentName : (NSString *)name ofType: (/*BoardListItemType*/ int)type
+- (id) itemForRepresentName : (NSString *)name ofType: (BoardListItemType)type
 {
 	return [self itemForRepresentName : name ofType : type deepSearch : NO];
 }
-- (id) itemForRepresentName : (NSString *)name ofType: (/*BoardListItemType*/ int)type deepSearch : (BOOL) isDeep
+- (id) itemForRepresentName : (NSString *)name ofType: (BoardListItemType)type deepSearch : (BOOL) isDeep
 {
 	return [self itemForName : name ofType : type deepSearch : isDeep];
 }
@@ -291,11 +293,11 @@ NSString *BoardListItemUpdateThreadsNotification = @"BoardListItemUpdateThreadsN
 	return [ConcreteBoardListItem isFolderItem : item];
 }
 
-+ (/*BoardListItemType*/ int) typeForItem : (BoardListItem *) item
++ (BoardListItemType) typeForItem : (BoardListItem *) item
 {
 	return [ConcreteBoardListItem typeForItem : item];
 }
-- (/*BoardListItemType*/ int) type
+- (BoardListItemType) type
 {
 	return [BoardListItem typeForItem : self];
 }

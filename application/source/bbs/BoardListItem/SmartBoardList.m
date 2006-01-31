@@ -107,7 +107,7 @@
 	
 	return nil;
 }
-+ (/*BoardListItemType*/ int) typeForItem : (id) item
++ (BoardListItemType) typeForItem : (id) item
 {
 	return [BoardListItem typeForItem : item];
 }
@@ -131,10 +131,10 @@
 	UTILAssertKindOfClass(target, BoardListItem);
 	
 	int type;
-	if( 1 << 1/*BoardListCategoryItem*/ == [(BoardListItem *)item type]) {
-		type = 1 << 1; //BoardListCategoryItem;
+	if( BoardListCategoryItem == [(BoardListItem *)item type]) {
+		type = BoardListCategoryItem;
 	} else {
-		type = 1/*BoardListBoardItem*/ | 1 << 5;
+		type = BoardListBoardItem | BoardListSmartBoardItem
 	}
 	if ([topLevelItem itemForRepresentName : [item name] ofType : type deepSearch : YES]) return NO;
 	

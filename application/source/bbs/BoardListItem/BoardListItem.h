@@ -12,6 +12,19 @@
 
 #import "SQLiteDB.h"
 
+typedef enum _BoardListItemType {
+	BoardListUnknownItem    = 0,
+	BoardListBoardItem      = 1,
+	BoardListCategoryItem   = 1 << 1,
+	BoardListFavoritesItem  = 1 << 2,
+	BoardListEmptyBoardItem = ((1 << 3) | BoardListBoardItem),
+	BoardListEmptyCategoryItem = ((1 << 4) | BoardListCategoryItem),
+	BoardListSmartBoardItem = 1 << 5,
+	
+	BoardListAnyTypeItem    = UINT_MAX,  /* 0xFFFFFFFF */
+	
+} BoardListItemType;
+
 @interface BoardListItem : NSObject <CMRHistoryObject, NSCoding>
 {
 	@private
@@ -47,11 +60,11 @@
 - (id) itemForName : (NSString *) name deepSearch : (BOOL) isDeep;
 - (id) itemForRepresentName : (NSString *) name;
 - (id) itemForRepresentName : (NSString *) name deepSearch : (BOOL) isDeep;
-
-- (id) itemForName : (NSString *)name ofType: (/*BoardListItemType*/ int)type;
-- (id) itemForName : (NSString *)name ofType: (/*BoardListItemType*/ int)type deepSearch : (BOOL) isDeep;
-- (id) itemForRepresentName : (NSString *)name ofType: (/*BoardListItemType*/ int)type;
-- (id) itemForRepresentName : (NSString *)name ofType: (/*BoardListItemType*/ int)type deepSearch : (BOOL) isDeep;
+- (id) itemForName : (NSString *)name ofType: (BoardListItemType)type;
+// primitive
+- (id) itemForName : (NSString *)name ofType: (BoardListItemType)type deepSearch : (BOOL) isDeep;
+- (id) itemForRepresentName : (NSString *)name ofType: (BoardListItemType)type;
+- (id) itemForRepresentName : (NSString *)name ofType: (BoardListItemType)type deepSearch : (BOOL) isDeep;
 
 - (id) description;
 - (id) plist;
@@ -87,9 +100,9 @@
 
 + (BOOL) isCategory : (BoardListItem *) item; // alias of +isFolderItem:
 
-+ (/*BoardListItemType*/ int) typeForItem : (BoardListItem *) item;
++ (BoardListItemType) typeForItem : (BoardListItem *) item;
 
-- (/*BoardListItemType*/ int) type;
+- (BoardListItemType) type;
 
 @end
 

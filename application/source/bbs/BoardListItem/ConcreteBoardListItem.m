@@ -230,19 +230,19 @@ final :
 	return [self isFolderItem : item];
 }
 
-+ (/*BoardListItemType*/ int) typeForItem : (BoardListItem *) item
++ (BoardListItemType) typeForItem : (BoardListItem *) item
 {
 	if ([self isBoardItem : item]) {
-		return 1; //BoardListBoardItem;
+		return BoardListBoardItem;
 	} else if ([self isFolderItem : item]) {
-		return 1 << 1; //BoardListCategoryItem;
+		return BoardListCategoryItem;
 	} else if ([self isFavoriteItem : item]) {
-		return 1 << 2; //BoardListFavoritesItem;
+		return BoardListFavoritesItem;
 	} else if ([self isSmartItem : item]) {
-		return 1 << 5;
+		return BoardListSmartBoardItem;
 	}
 	
-	return 0; //BoardListUnknownItem;
+	return BoardListUnknownItem;
 }
 
 @end
