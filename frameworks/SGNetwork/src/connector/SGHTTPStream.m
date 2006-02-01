@@ -1,5 +1,5 @@
 /**
-  * $Id: SGHTTPStream.m,v 1.1 2005/05/11 17:51:50 tsawada2 Exp $
+  * $Id: SGHTTPStream.m,v 1.2 2006/02/01 17:39:08 tsawada2 Exp $
   * 
   * SGHTTPStream.m
   *
@@ -48,7 +48,7 @@ typedef enum {
     NSURLHandleLoadFailed
 } NSURLHandleStatus;
 */
-static NSString *NSURLHandleStatusToString_(NSURLHandleStatus s)
+/*static NSString *NSURLHandleStatusToString_(NSURLHandleStatus s)
 {
     static NSString *desc[] = {
         @"NSURLHandleNotLoaded",
@@ -62,7 +62,7 @@ static NSString *NSURLHandleStatusToString_(NSURLHandleStatus s)
     }
     
     return desc[s];
-}
+}*/
 
 /*
 CFStreamErrorDomain:
@@ -639,7 +639,7 @@ RET_LOADED:
 - (void) setProxy : (NSString *) proxy
 			 port : (CFIndex   ) port
 {
-	double version = floor(NSAppKitVersionNumber);
+	//double version = floor(NSAppKitVersionNumber);
 
 	/*
 	in version 10.2 and later in CoreServices.framework,
@@ -647,14 +647,14 @@ RET_LOADED:
 	call SetProperty(kCFStreamPropertyHTTPProxy) instead
 	*/
 	
-	if (version <= NSAppKitVersionNumber10_1) {
+	/*if (version <= NSAppKitVersionNumber10_1) {
 		CFHTTPReadStreamSetProxy(
 			[self readStreamRef],
 			(CFStringRef)proxy,
 			port);
-	} else {
+	} else {*/
 		[self setUpProxyUsingSetProperty:proxy port:port];
-	}
+	//}
 }
 @end
 

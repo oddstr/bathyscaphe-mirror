@@ -1,3 +1,20 @@
+2006-02-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/text/numericCharacters.txt
+		今まで何となく残っていたが、調べた所どうも使われている形跡が見当たらなかったので、プロジェクトから外した。
+		問題がないようなら、そのうちリポジトリからも削除する。
+	* 一部のファイル
+		ビルド時の warning でいいかげん見飽きたものについて、ファイルごとに個別に -w フラグを追加して警告を抑制した。
+	* application/source/extensions/NSCharacterSet+CMXAdditions.m
+	* application/Resources/text/innerLinkPrefixCharacters.txt
+	* application/Resources/text/innerLinkRangeCharacters.txt
+	* application/Resources/text/innerLinkSeparaterCharacters.txt
+	* application/source/threaddata/CMRThreadUserStatus.m
+	* application/source/threaddata/CMRThreadUserStatusMask.h
+		これらのファイルは、BathyScaphe 本体から CocoMonar Framework に移動した。ただし、ソースファイル自体の位置は
+		変えていないので注意。フレームワークへの組み込みに伴い必要な修正を行った。
+		また、これらのヘッダをインポートしている BathyScaphe の各種ファイルについても、必要な修正を行った。
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+		アイコンの取得方法を少し見直した。
 2006-01-29 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* frameworks/CocoMonar/framework/src/NSBundle+CMRExtensions.m
 		[削除] すでに 2006-01-25 の変更でターゲットから外れていたが、リポジトリからも削除。

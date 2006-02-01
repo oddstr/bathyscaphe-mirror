@@ -1,14 +1,14 @@
 //: NSCharacterSet+CMXAdditions.m
 /**
-  * $Id: NSCharacterSet+CMXAdditions.m,v 1.1 2005/05/11 17:51:05 tsawada2 Exp $
+  * $Id: NSCharacterSet+CMXAdditions.m,v 1.2 2006/02/01 17:39:08 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
   */
 
 #import "NSCharacterSet+CMXAdditions.h"
-#import "CocoMonar_Prefix.h"
-
+#import "UtilKit.h"
+#import <SGFoundation/NSBundle-SGExtensions.h>
 
 @interface CMRNumberCharacterSet_JP : NSCharacterSet
 @end
@@ -72,10 +72,11 @@ static NSCharacterSet *characterSetFromBundleWithFilename(NSString *filename)
 	NSString	*filepath_;
 	NSString	*string_;
 	
-	filepath_ = [[NSBundle mainBundle] pathForResourceWithName : filename];
+	//filepath_ = [[NSBundle mainBundle] pathForResourceWithName : filename];
+	filepath_ = [[NSBundle bundleForClass : [CMRFileManager class]] pathForResourceWithName : filename];
 	if(nil == filepath_) return nil;
 	string_ = [NSString stringWithContentsOfFile : filepath_];
 	if(nil == string_) return nil;
-	
+
 	return [[NSCharacterSet characterSetWithCharactersInString:string_] copyWithZone : nil];
 }

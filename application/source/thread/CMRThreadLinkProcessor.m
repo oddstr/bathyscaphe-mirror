@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadLinkProcessor.m,v 1.2 2005/07/09 01:03:03 tsawada2 Exp $
+  * $Id: CMRThreadLinkProcessor.m,v 1.3 2006/02/01 17:39:08 tsawada2 Exp $
   * 
   * CMRThreadLinkProcessor.m
   *
@@ -14,7 +14,7 @@
 #import "CMXPopUpWindowManager.h"
 #import "CMRDocumentFileManager.h"
 
-#import "NSCharacterSet+CMXAdditions.h"
+//#import "NSCharacterSet+CMXAdditions.h"
 #import "CMRHostHandler.h"
 
 

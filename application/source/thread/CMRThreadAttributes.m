@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadAttributes.m,v 1.4 2006/01/24 11:00:54 tsawada2 Exp $
+  * $Id: CMRThreadAttributes.m,v 1.5 2006/02/01 17:39:08 tsawada2 Exp $
   * 
   * CMRThreadAttributes.m
   *
@@ -15,7 +15,7 @@
 #import "BoardManager.h"
 #import "AppDefaults.h"
 #import "CMRHostHandler.h"
-#import "CMRThreadUserStatus.h"
+//#import "CMRThreadUserStatus.h"
 
 
 

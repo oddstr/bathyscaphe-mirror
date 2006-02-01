@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMessageFilter.m,v 1.4 2005/12/10 12:39:44 tsawada2 Exp $
+  * $Id: CMRMessageFilter.m,v 1.5 2006/02/01 17:39:08 tsawada2 Exp $
   * 
   * CMRMessageFilter.m
   *
@@ -13,7 +13,7 @@
 #import "CMRThreadSignature.h"
 #import "BoardManager.h"
 #import "CMXTextParser.h"
-#import "NSCharacterSet+CMXAdditions.h"
+//#import "NSCharacterSet+CMXAdditions.h"
 
 
 

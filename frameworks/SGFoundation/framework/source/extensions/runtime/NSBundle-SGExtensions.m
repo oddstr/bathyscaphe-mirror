@@ -1,14 +1,16 @@
 //: NSBundle-SGExtensions.m
 /**
-  * $Id: NSBundle-SGExtensions.m,v 1.2 2005/10/23 14:47:26 tsawada2 Exp $
+  * $Id: NSBundle-SGExtensions.m,v 1.3 2006/02/01 17:39:08 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
   */
 
 #import "NSBundle-SGExtensions.h"
+#import "NSBundle+AppSupport.h"
+#import "SGFile+AppSupport.h"
 #import <AppKit/NSImage.h>
-
+#import <SGFoundation/SGFileRef.h>
 
 
 #define SHOULD_FIX_BAD_SEARCH_RESOURCE_BEHAVIOUR		YES
@@ -54,5 +56,44 @@
 	return [self pathForResource : [fileName stringByDeletingPathExtension]
 						  ofType : [fileName pathExtension]
 				     inDirectory : dirName];
+}
+@end
+
+
+@implementation NSBundle(SGApplicationSupport)
+// ~/Library/Application Support/(ExecutableName)
++ (NSBundle *) applicationSpecificBundle
+{
+	SGFileRef		*reference_;
+	
+	reference_ = [SGFileRef applicationSpecificFolderRef];
+	return [NSBundle bundleWithPath : [reference_ filepath]];
+}
+
+// Merged from CMF
++ (NSDictionary *) mergedDictionaryWithName : (NSString *) filename
+{
+	NSString	*filepath_;
+	id			dict_ = nil;
+	
+	filepath_ = [[NSBundle mainBundle] pathForResourceWithName : filename];
+	if(filepath_ != nil)
+		dict_ = [NSMutableDictionary dictionaryWithContentsOfFile : filepath_];
+	
+	filepath_ = [[NSBundle applicationSpecificBundle] pathForResourceWithName : filename];
+	UTILRequireCondition(filepath_, ReturnCopiedDictionary);
+	
+	if(nil == dict_){
+		dict_ = [NSMutableDictionary dictionaryWithContentsOfFile : filepath_];
+	}else{
+		id		tmp;
+		
+		tmp = [NSDictionary dictionaryWithContentsOfFile : filepath_];
+		UTILRequireCondition(tmp, ReturnCopiedDictionary);
+		[dict_ addEntriesFromDictionary : tmp];
+	}
+	
+ReturnCopiedDictionary:
+	return [[dict_ copy] autorelease];
 }
 @end

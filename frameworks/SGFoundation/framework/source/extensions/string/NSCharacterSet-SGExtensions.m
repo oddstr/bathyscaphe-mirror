@@ -1,6 +1,6 @@
 //: NSCharacterSet-SGExtentions.m
 /**
-  * $Id: NSCharacterSet-SGExtensions.m,v 1.1 2005/05/11 17:51:44 tsawada2 Exp $
+  * $Id: NSCharacterSet-SGExtensions.m,v 1.2 2006/02/01 17:39:08 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -32,7 +32,7 @@
 	
 	return [NSCharacterSet characterSetWithRange:lcEnglishRange];
 }
-+ (id) URLCharacterSet
++ (NSCharacterSet *) URLCharacterSet
 {
 	static NSCharacterSet *charSet = nil;
 	if(nil == charSet)
@@ -95,13 +95,15 @@
 #define ACCEPTABLE_ASCII_BASE		32
 #define ACCEPTABLE_ASCII_LENGTH		96
 
-/* URLÊ¸»úÎó */
+/* URL Strings */
 static const BOOL	isURLCharactersASCII[ACCEPTABLE_ASCII_LENGTH] =
   // 0 1 2 3 4 5 6 7 8 9 A B C D E F           0123456789ABCDEF
-	{0,0,0,1,0,1,1,0,0,0,1,1,1,1,1,1,	// 2x   !"#$%&'()*+,-./
+//	{0,0,0,1,0,1,1,0,0,0,1,1,1,1,1,1,	// 2x   !"#$%&'()*+,-./
+	{0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,	// 2x   !"#$%&'()*+,-./
 	 1,1,1,1,1,1,1,1,1,1,1,1,0,1,0,1,	// 3x  0123456789:;<=>?
 	 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,	// 4x  @ABCDEFGHIJKLMNO
-	 1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,	// 5X  PQRSTUVWXYZ[\]^_
+//	 1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,	// 5X  PQRSTUVWXYZ[\]^_
+	 1,1,1,1,1,1,1,1,1,1,1,1,0,1,0,1,	// 5X  PQRSTUVWXYZ[\]^_
 	 0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,	// 6x  `abcdefghijklmno
 	 1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,0 };	// 7X  pqrstuvwxyz{|}~	DEL
 

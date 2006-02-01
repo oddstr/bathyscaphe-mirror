@@ -6,7 +6,7 @@
 #import "CMRThreadMessage.h"
 #import "CMRMessageAttributesStyling.h"
 #import "CMRMessageAttributesTemplate.h"
-#import "NSCharacterSet+CMXAdditions.h"
+//#import "NSCharacterSet+CMXAdditions.h"
 #import "CMXTextParser.h"
 
 

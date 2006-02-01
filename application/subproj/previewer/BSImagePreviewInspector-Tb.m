@@ -1,5 +1,5 @@
 /*
- * %Id$
+ * $Id: BSImagePreviewInspector-Tb.m,v 1.6 2006/02/01 17:39:08 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -26,10 +26,8 @@ static NSImage *_imageForDefaultBrowser()
 
 	err = LSGetApplicationForURL((CFURLRef )dummyURL, kLSRolesAll, &outAppRef, &outAppURL);
 	if(outAppURL) {
-		NSWorkspace *ws = [NSWorkspace sharedWorkspace];
-		NSString *appName = [[(NSURL *)outAppURL absoluteString] lastPathComponent];
-		NSString *appPath = [ws fullPathForApplication : appName];
-		image_ = [ws iconForFile : appPath];
+		CFStringRef appPath = CFURLCopyFileSystemPath(outAppURL, kCFURLPOSIXPathStyle);
+		image_ = [[NSWorkspace sharedWorkspace] iconForFile : (NSString *)appPath];
 	}
 	return image_;
 }

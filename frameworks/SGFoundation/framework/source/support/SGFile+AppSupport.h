@@ -1,5 +1,5 @@
 /**
-  * $Id: SGFile+AppSupport.h,v 1.1 2005/05/11 17:51:45 tsawada2 Exp $
+  * $Id: SGFile+AppSupport.h,v 1.2 2006/02/01 17:39:08 tsawada2 Exp $
   * 
   * SGFile+AppSupport.h
   *
@@ -9,7 +9,6 @@
 
 #import <Foundation/Foundation.h>
 #import <SGFoundation/SGFileRef.h>
-
 
 
 @interface SGFileRef(SGApplicationSupport)

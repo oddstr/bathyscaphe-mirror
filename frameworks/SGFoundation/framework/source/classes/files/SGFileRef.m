@@ -1,5 +1,5 @@
 /**
- * $Id: SGFileRef.m,v 1.3 2005/12/04 13:14:12 tsawada2 Exp $
+ * $Id: SGFileRef.m,v 1.4 2006/02/01 17:39:08 tsawada2 Exp $
  * 
  * SGFileRef.m
  *
@@ -13,8 +13,8 @@
 #import <SGFoundation/SGFileLocation.h>
 #import <SGFoundation/NSURL-SGExtensions.h>
 #import <SGFoundation/NSDate-SGExtensions.h>
-
-
+#import "SGFile+AppSupport.h"
+#import <SGFoundation/NSBundle-SGExtensions.h>
 
 @implementation SGFileRef
 - (BOOL) changeFileSystemReferenceWithFileURL : (NSURL *) anURL
@@ -680,5 +680,58 @@ ErrLSCopyDisplayNameForRef:
 		return record_.flags;
 	
 	return kLSItemInfoIsPlainFile;
+}
+@end
+
+
+@implementation SGFileRef(SGApplicationSupport)
+// ~/Library/Application Support
++ (SGFileRef *) applicationSupportFolderRef
+{
+	SGFileRef	*f;
+
+	f = [self searchDirectoryInDomain : kUserDomain
+						   folderType : kApplicationSupportFolderType
+						   willCreate : YES];
+	if(nil == f){
+		NSLog(@"%@ Can't locate special folder <Application Support>",
+			UTIL_HANDLE_FAILURE_IN_METHOD);
+	}
+	return f;
+}
+// ~/Library/Application Support/(ExecutableName)
++ (SGFileRef *) applicationSpecificFolderRef
+{
+	static SGFileRef	*supportDirRef_;
+	
+	if(nil == supportDirRef_){
+		SGFileRef	*f;
+		NSString	*executableName_;
+		
+		executableName_ = [NSBundle applicationName];
+		if(nil == executableName_){
+			NSLog(@"%@ No Executable.", UTIL_HANDLE_FAILURE_IN_METHOD);
+			
+			return nil;
+		}
+		
+		f = [self applicationSupportFolderRef];
+		if(nil == f) return nil;
+		
+		
+		f = [f fileRefWithChildName:executableName_ createDirectory:YES];
+		
+		f =  [f fileRefResolvingLinkIfNeeded];
+
+		if(nil == f || NO == [f isDirectory]) {
+			NSLog(@"%@ Can't locate special folder <Application Support/%@>",
+					executableName_,
+					UTIL_HANDLE_FAILURE_IN_METHOD);
+			return nil;
+		}
+		
+		supportDirRef_ = [f retain];
+	}
+	return supportDirRef_;
 }
 @end
