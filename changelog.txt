@@ -2,6 +2,7 @@
 	* application/source/browser/BSDBThreadList.m
 		お気に入りの更新に対応。
 		これはスマートリストの更新も出来るようになったことを意味する。
+		いくつかのエラーチェックを追加。
 2006-02-01 masakih <masakih@users.sourceforge.jp>
 	* application/source/bbs/BoardListItem/BoardListItem.h
 	* application/source/bbs/BoardListItem/BoardListItem.m

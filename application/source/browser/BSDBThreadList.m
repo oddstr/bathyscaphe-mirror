@@ -694,6 +694,9 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 		int baordID;
 		NSString *threadID;
 		
+		db = [[DatabaseManager defaultManager] databaseForCurrentThread];
+		if(!db) break;
+		
 		messages_ = [newContents_ objectForKey : ThreadPlistContentsKey];
 		cnt_ = (messages_ != nil) ? [messages_ count] : 0;
 		
@@ -710,7 +713,6 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 		[sql appendFormat : @"WHERE %@ = %u AND %@ = '%@'",
 			BoardIDColumn, baordID, ThreadIDColumn, threadID];
 		
-		db = [[DatabaseManager defaultManager] databaseForCurrentThread];
 		[db cursorForSQL : sql];
 		
 		if ([db lastErrorID] != 0) {
@@ -734,7 +736,7 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 	NSMutableArray		*threadsArray_;
 	NSEnumerator		*threadsEnum;
 	id					thread;
-	SQLiteDB *db;
+	SQLiteDB *db = nil;
 	NSString *query;
 	
 	object_ = [notification object];
@@ -750,35 +752,38 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 	db = [[DatabaseManager defaultManager] databaseForCurrentThread];
 	if(!db) goto fail;
 	
-	threadsEnum = [threadsArray_ objectEnumerator];
-	while(thread = [threadsEnum nextObject]) {
-		NSNumber *status;
-		int boardID;
-		NSString *threadID;
-		
-		if( !(status = [thread objectForKey:CMRThreadStatusKey]) ) {
-			continue;
+	if([db beginTransaction]) {
+		threadsEnum = [threadsArray_ objectEnumerator];
+		while(thread = [threadsEnum nextObject]) {
+			NSNumber *status;
+			int boardID;
+			NSString *threadID;
+			
+			if( !(status = [thread objectForKey:CMRThreadStatusKey]) ) {
+				continue;
+			}
+			if([status unsignedIntValue] == ThreadLogCachedStatus) {
+				continue;
+			}
+			
+			if(!searchBoardIDAndThreadIDFromFilePath( &boardID, &threadID, [thread objectForKey:CMRThreadLogFilepathKey]) ) {
+				continue;
+			}
+			
+			query = [NSString stringWithFormat:@"UPDATE %@ SET %@ = %u WHERE %@ = %u AND %@ = '%@'",
+				ThreadInfoTableName,
+				ThreadStatusColumn, ThreadHeadModifiedStatus,
+				BoardIDColumn, boardID,
+				ThreadIDColumn, threadID];
+			
+			[db cursorForSQL : query];
+			
+			if ([db lastErrorID] != 0) {
+				NSLog(@"Fail Insert or udate. Reson: %@", [db lastError] );
+				goto fail;
+			}
 		}
-		if([status unsignedIntValue] == ThreadLogCachedStatus) {
-			continue;
-		}
-		
-		if(!searchBoardIDAndThreadIDFromFilePath( &boardID, &threadID, [thread objectForKey:CMRThreadLogFilepathKey]) ) {
-			continue;
-		}
-		
-		query = [NSString stringWithFormat:@"UPDATE %@ SET %@ = %u WHERE %@ = %u AND %@ = '%@'",
-			ThreadInfoTableName,
-			ThreadStatusColumn, ThreadHeadModifiedStatus,
-			BoardIDColumn, boardID,
-			ThreadIDColumn, threadID];
-		
-		[db cursorForSQL : query];
-		
-		if ([db lastErrorID] != 0) {
-			NSLog(@"Fail Insert or udate. Reson: %@", [db lastError] );
-			goto fail;
-		}
+		[db commitTransaction];
 	}
 	
 	[self updateCursor];
@@ -793,6 +798,7 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 	return;
 	
 fail:
+		[db rollbackTransaction];
 		[[NSNotificationCenter defaultCenter]
 			removeObserver : self
 					  name : [notification name]
