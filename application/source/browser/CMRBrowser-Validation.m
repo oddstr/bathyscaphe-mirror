@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-Validation.m,v 1.13 2006/01/22 07:10:52 tsawada2 Exp $
+ * $Id: CMRBrowser-Validation.m,v 1.14 2006/02/02 13:00:47 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -7,7 +7,7 @@
  */
 
 #import "CMRBrowser_p.h"
-#import "BSBoardListView.h"
+//#import "BSBoardListView.h"
 
 @implementation CMRBrowser(Validation)
 - (BOOL) validateUIItem : (id) theItem

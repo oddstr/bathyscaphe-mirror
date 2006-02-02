@@ -78,15 +78,23 @@
 		8716080F098AA7F900A27F63 /* BSKFSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 8716080B098AA7F900A27F63 /* BSKFSplitView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87160810098AA7F900A27F63 /* BSKFSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8716080C098AA7F900A27F63 /* BSKFSplitView.m */; };
 		87160811098AA7F900A27F63 /* KFSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 8716080D098AA7F900A27F63 /* KFSplitView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		87160812098AA7F900A27F63 /* KFSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8716080E098AA7F900A27F63 /* KFSplitView.m */; };
+		87160812098AA7F900A27F63 /* KFSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8716080E098AA7F900A27F63 /* KFSplitView.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		8716081E098AA8DE00A27F63 /* browserSplitter.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8716081A098AA8DE00A27F63 /* browserSplitter.tiff */; };
 		8716081F098AA8DE00A27F63 /* browserSplitterDimple.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8716081B098AA8DE00A27F63 /* browserSplitterDimple.tiff */; };
 		87160820098AA8DE00A27F63 /* browserSplitterDimpleVertical.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8716081C098AA8DE00A27F63 /* browserSplitterDimpleVertical.tiff */; };
 		87160821098AA8DE00A27F63 /* browserSplitterVertical.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8716081D098AA8DE00A27F63 /* browserSplitterVertical.tiff */; };
 		8751C4760862204100998A38 /* SGContainerTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = F57D5E05037B6D8601A80002 /* SGContainerTableView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8751C4770862204200998A38 /* SGContainerTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F57D5E06037B6D8601A80002 /* SGContainerTableView.m */; };
+		87D29C3609913620007D26B4 /* BSBoardListView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D29C3209913620007D26B4 /* BSBoardListView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87D29C3709913620007D26B4 /* BSBoardListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D29C3309913620007D26B4 /* BSBoardListView.m */; };
+		87D29C3809913620007D26B4 /* BSIconAndTextCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D29C3409913620007D26B4 /* BSIconAndTextCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87D29C3909913620007D26B4 /* BSIconAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D29C3509913620007D26B4 /* BSIconAndTextCell.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		87D971C2098761FA009C1F73 /* NSLayoutManager+CMXAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D971BE098761FA009C1F73 /* NSLayoutManager+CMXAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87D971C3098761FA009C1F73 /* NSLayoutManager+CMXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D971BF098761FA009C1F73 /* NSLayoutManager+CMXAdditions.m */; };
+		87D991A909922E6F006C5821 /* Action_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87D991A709922E6F006C5821 /* Action_Pressed.tiff */; };
+		87D991AA09922E6F006C5821 /* Action.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87D991A809922E6F006C5821 /* Action.tiff */; };
+		87D991AD09922E91006C5821 /* CMRPullDownIconBtn.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D991AB09922E91006C5821 /* CMRPullDownIconBtn.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87D991AE09922E91006C5821 /* CMRPullDownIconBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D991AC09922E91006C5821 /* CMRPullDownIconBtn.m */; };
 		87E45256085ED89D00F2ACB3 /* SGAppKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F515D14D02DB28B201A80002 /* SGAppKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87E45257085ED89D00F2ACB3 /* NSMatrix-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F545F23F036F807501A80002 /* NSMatrix-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87E45258085ED89D00F2ACB3 /* NSMatrix-SGExtensions_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F545F243036F80A501A80002 /* NSMatrix-SGExtensions_p.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -242,8 +250,16 @@
 		8716081B098AA8DE00A27F63 /* browserSplitterDimple.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = browserSplitterDimple.tiff; path = images/browserSplitterDimple.tiff; sourceTree = "<group>"; };
 		8716081C098AA8DE00A27F63 /* browserSplitterDimpleVertical.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = browserSplitterDimpleVertical.tiff; path = images/browserSplitterDimpleVertical.tiff; sourceTree = "<group>"; };
 		8716081D098AA8DE00A27F63 /* browserSplitterVertical.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = browserSplitterVertical.tiff; path = images/browserSplitterVertical.tiff; sourceTree = "<group>"; };
+		87D29C3209913620007D26B4 /* BSBoardListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSBoardListView.h; path = ../../application/source/view/BSBoardListView.h; sourceTree = SOURCE_ROOT; };
+		87D29C3309913620007D26B4 /* BSBoardListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSBoardListView.m; path = ../../application/source/view/BSBoardListView.m; sourceTree = SOURCE_ROOT; };
+		87D29C3409913620007D26B4 /* BSIconAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSIconAndTextCell.h; path = ../../application/source/view/BSIconAndTextCell.h; sourceTree = SOURCE_ROOT; };
+		87D29C3509913620007D26B4 /* BSIconAndTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSIconAndTextCell.m; path = ../../application/source/view/BSIconAndTextCell.m; sourceTree = SOURCE_ROOT; };
 		87D971BE098761FA009C1F73 /* NSLayoutManager+CMXAdditions.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; name = "NSLayoutManager+CMXAdditions.h"; path = "../../application/source/extensions/NSLayoutManager+CMXAdditions.h"; sourceTree = SOURCE_ROOT; };
 		87D971BF098761FA009C1F73 /* NSLayoutManager+CMXAdditions.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; name = "NSLayoutManager+CMXAdditions.m"; path = "../../application/source/extensions/NSLayoutManager+CMXAdditions.m"; sourceTree = SOURCE_ROOT; };
+		87D991A709922E6F006C5821 /* Action_Pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Action_Pressed.tiff; path = ../../application/Resources/image/Action_Pressed.tiff; sourceTree = SOURCE_ROOT; };
+		87D991A809922E6F006C5821 /* Action.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Action.tiff; path = ../../application/Resources/image/Action.tiff; sourceTree = SOURCE_ROOT; };
+		87D991AB09922E91006C5821 /* CMRPullDownIconBtn.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; name = CMRPullDownIconBtn.h; path = ../../application/source/browser/CMRPullDownIconBtn.h; sourceTree = SOURCE_ROOT; };
+		87D991AC09922E91006C5821 /* CMRPullDownIconBtn.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; name = CMRPullDownIconBtn.m; path = ../../application/source/browser/CMRPullDownIconBtn.m; sourceTree = SOURCE_ROOT; };
 		87E452A4085ED89D00F2ACB3 /* Info-SGAppKit.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-SGAppKit.plist"; sourceTree = "<group>"; };
 		87E452A5085ED89D00F2ACB3 /* SGAppKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SGAppKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F303886F0484C45700A80005 /* NSUserDefaults+SGAppKitExtensions.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSUserDefaults+SGAppKitExtensions.h"; sourceTree = "<group>"; };
@@ -436,6 +452,8 @@
 		089C1665FE841158C02AAC07 /* resource */ = {
 			isa = PBXGroup;
 			children = (
+				87D991A709922E6F006C5821 /* Action_Pressed.tiff */,
+				87D991A809922E6F006C5821 /* Action.tiff */,
 				8716081A098AA8DE00A27F63 /* browserSplitter.tiff */,
 				8716081B098AA8DE00A27F63 /* browserSplitterDimple.tiff */,
 				8716081C098AA8DE00A27F63 /* browserSplitterDimpleVertical.tiff */,
@@ -621,6 +639,12 @@
 		F57BBEE00377FA7001A80002 /* custom */ = {
 			isa = PBXGroup;
 			children = (
+				87D991AB09922E91006C5821 /* CMRPullDownIconBtn.h */,
+				87D991AC09922E91006C5821 /* CMRPullDownIconBtn.m */,
+				87D29C3209913620007D26B4 /* BSBoardListView.h */,
+				87D29C3309913620007D26B4 /* BSBoardListView.m */,
+				87D29C3409913620007D26B4 /* BSIconAndTextCell.h */,
+				87D29C3509913620007D26B4 /* BSIconAndTextCell.m */,
 				8716080B098AA7F900A27F63 /* BSKFSplitView.h */,
 				8716080C098AA7F900A27F63 /* BSKFSplitView.m */,
 				8716080D098AA7F900A27F63 /* KFSplitView.h */,
@@ -942,6 +966,9 @@
 				87D971C2098761FA009C1F73 /* NSLayoutManager+CMXAdditions.h in Headers */,
 				8716080F098AA7F900A27F63 /* BSKFSplitView.h in Headers */,
 				87160811098AA7F900A27F63 /* KFSplitView.h in Headers */,
+				87D29C3609913620007D26B4 /* BSBoardListView.h in Headers */,
+				87D29C3809913620007D26B4 /* BSIconAndTextCell.h in Headers */,
+				87D991AD09922E91006C5821 /* CMRPullDownIconBtn.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1044,6 +1071,8 @@
 				8716081F098AA8DE00A27F63 /* browserSplitterDimple.tiff in Resources */,
 				87160820098AA8DE00A27F63 /* browserSplitterDimpleVertical.tiff in Resources */,
 				87160821098AA8DE00A27F63 /* browserSplitterVertical.tiff in Resources */,
+				87D991A909922E6F006C5821 /* Action_Pressed.tiff in Resources */,
+				87D991AA09922E6F006C5821 /* Action.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1110,6 +1139,9 @@
 				87D971C3098761FA009C1F73 /* NSLayoutManager+CMXAdditions.m in Sources */,
 				87160810098AA7F900A27F63 /* BSKFSplitView.m in Sources */,
 				87160812098AA7F900A27F63 /* KFSplitView.m in Sources */,
+				87D29C3709913620007D26B4 /* BSBoardListView.m in Sources */,
+				87D29C3909913620007D26B4 /* BSIconAndTextCell.m in Sources */,
+				87D991AE09922E91006C5821 /* CMRPullDownIconBtn.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

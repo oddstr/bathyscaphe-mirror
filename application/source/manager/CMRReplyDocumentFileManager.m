@@ -9,14 +9,18 @@
   * @version 1.0.0d1 (02/09/15  9:47:47 PM)
   *
   */
-#import "CMRReplyDocumentFileManager_p.h"
+#import "CMRReplyDocumentFileManager.h"
+#import "CocoMonar_Prefix.h"
+#import "AppDefaults.h"
+#import "CMRDocumentFileManager.h"
+
 #import "CMRDocumentController.h"
 #import "CMRThreadAttributes.h"
 #import "BoardManager.h"
 
-// deprecated in BathyScaphe 1.0.2
-//NSString *const CMRReplyDocumentFontKey = @"Font";
-//NSString *const CMRReplyDocumentColorKey = @"Color";
+#import <AppKit/NSDocumentController.h>
+
+#define REPLY_MESSENGER_DOCUMENT_FOLDER_NAME	@"reply"
 
 
 @implementation CMRReplyDocumentFileManager
@@ -37,8 +41,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager)
 		ThreadPlistContentsMessageKey,
 		CMRThreadWindowFrameKey,
 		CMRThreadModifiedDateKey,
-		//CMRReplyDocumentFontKey,
-		//CMRReplyDocumentColorKey,
 		nil];
 }
 - (BOOL) replyDocumentFileExistsAtPath : (NSString *) path

@@ -1,16 +1,13 @@
 # 
-# makefile for CocoMonar application
+# makefile for BathyScaphe application
 #
 
-ROOT = ..
-
-include $(ROOT)/config
-
-app:
-	$(PBXBUILD) -target bathyscaphe $(BUILD_OPTION)
+PBXBUILD = xcodebuild
+BUILD_OPTION = -configuration Deployment
+BUILD_DIR = build
 
 all:
-	$(PBXBUILD) $(BUILD_OPTION)
+	$(PBXBUILD) -target bathyscaphe $(BUILD_OPTION)
 
 clean:
 	$(PBXBUILD) -alltargets clean

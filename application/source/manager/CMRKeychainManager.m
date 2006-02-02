@@ -1,15 +1,38 @@
 /*
- * $Id: CMRKeychainManager.m,v 1.4 2005/12/02 10:10:02 tsawada2 Exp $
+ * $Id: CMRKeychainManager.m,v 1.5 2006/02/02 13:00:47 tsawada2 Exp $
  *
  * Copyright 2005 BathyScaphe Project. All rights reserved.
  *
  */
 
-#import "CMRKeychainManager_p.h"
+#import "CMRKeychainManager.h"
+#import "CocoMonar_Prefix.h"
+#import "AppDefaults.h"
 #import <AppKit/NSApplication.h>
 
 @implementation CMRKeychainManager
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
+
+#pragma mark Accessors
+- (BOOL) shouldCheckHasAccountInKeychain
+{
+	return m_shouldCheckHasAccountInKeychain;
+}
+- (void) setShouldCheckHasAccountInKeychain : (BOOL) flag
+{
+	m_shouldCheckHasAccountInKeychain = flag;
+}
+
+- (NSURL *) x2chAuthenticationRequestURL
+{
+	return [CMRPref x2chAuthenticationRequestURL];
+}
+- (NSString *) x2chUserAccount
+{
+	return [CMRPref x2chUserAccount];
+}
+
+#pragma mark Public Methods
 
 - (id) init
 {
@@ -106,28 +129,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 	[CMRPref setHasAccountInKeychain : YES];
 }
-@end
 
-
-@implementation CMRKeychainManager(Private)
-/* Accessor for m_shouldCheckHasAccountInKeychain */
-- (BOOL) shouldCheckHasAccountInKeychain
-{
-	return m_shouldCheckHasAccountInKeychain;
-}
-- (void) setShouldCheckHasAccountInKeychain : (BOOL) flag
-{
-	m_shouldCheckHasAccountInKeychain = flag;
-}
-
-- (NSURL *) x2chAuthenticationRequestURL
-{
-	return [CMRPref x2chAuthenticationRequestURL];
-}
-- (NSString *) x2chUserAccount
-{
-	return [CMRPref x2chUserAccount];
-}
+#pragma mark Notifications
 
 - (void) applicationDidBecomeActive : (NSNotification *) theNotification
 {

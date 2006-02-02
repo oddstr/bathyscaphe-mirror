@@ -1,5 +1,5 @@
 /**
-  * $Id: BSKFSplitView.m,v 1.1 2006/01/27 23:02:19 tsawada2 Exp $
+  * $Id: BSKFSplitView.m,v 1.2 2006/02/02 13:00:47 tsawada2 Exp $
   * 
   * BathyScaphe
   *
@@ -19,8 +19,8 @@ static NSRect	bSDimVerRect;
 - (NSImage *) splitterBg
 {
 	if (_splitterBg == nil) {
-		_splitterBg = [NSImage imageNamed : @"browserSplitter"
-						   loadFromBundle : [NSBundle bundleForClass : [self class]]];
+		_splitterBg = [[NSImage imageNamed : @"browserSplitter"
+						    loadFromBundle : [NSBundle bundleForClass : [self class]]] retain];
 
 		bSRect = NSMakeRect(0, 0, 1.0, 10.0);
 		[_splitterBg setFlipped : [self isFlipped]];
@@ -31,8 +31,8 @@ static NSRect	bSDimVerRect;
 - (NSImage *) splitterDimple
 {
 	if (_splitterDimple == nil) {
-		_splitterDimple = [NSImage imageNamed : @"browserSplitterDimple"
-							   loadFromBundle : [NSBundle bundleForClass : [self class]]];
+		_splitterDimple = [[NSImage imageNamed : @"browserSplitterDimple"
+							    loadFromBundle : [NSBundle bundleForClass : [self class]]] retain];
 		bSDimRect = NSMakeRect(0,0,8.0,10.0);
 		[_splitterDimple setFlipped : [self isFlipped]];
 	}
@@ -42,8 +42,8 @@ static NSRect	bSDimVerRect;
 - (NSImage *) splitterBgVertical
 {
 	if (_splitterBgVertical == nil) {
-		_splitterBgVertical = [NSImage imageNamed : @"browserSplitterVertical"
-								   loadFromBundle : [NSBundle bundleForClass : [self class]]];
+		_splitterBgVertical = [[NSImage imageNamed : @"browserSplitterVertical"
+								    loadFromBundle : [NSBundle bundleForClass : [self class]]] retain];
 		bSVerRect = NSMakeRect(0,0,10.0,1.0);
 		[_splitterBgVertical setFlipped : [self isFlipped]];
 	}
@@ -53,8 +53,8 @@ static NSRect	bSDimVerRect;
 - (NSImage *) splitterDimpleVertical
 {
 	if (_splitterDimpleVertical == nil) {
-		_splitterDimpleVertical = [NSImage imageNamed : @"browserSplitterDimpleVertical"
-									   loadFromBundle : [NSBundle bundleForClass : [self class]]];
+		_splitterDimpleVertical = [[NSImage imageNamed : @"browserSplitterDimpleVertical"
+									    loadFromBundle : [NSBundle bundleForClass : [self class]]] retain];
 		bSDimVerRect = NSMakeRect(0,0,10.0,8.0);
 		[_splitterDimpleVertical setFlipped : [self isFlipped]];
 	}
@@ -91,7 +91,7 @@ static NSRect	bSDimVerRect;
 		
 		dX = (NSWidth(aRect) - 8.0) * 0.5;
 		[[self splitterDimple] drawInRect : NSInsetRect(aRect, dX, -1.0) fromRect : bSDimRect
-							operation : NSCompositeCopy fraction : 1.0];
+								operation : NSCompositeCopy fraction : 1.0];
 	} else {
 		float dY;
 		[[self splitterBgVertical] drawInRect : NSInsetRect(aRect, -1.0, 0) fromRect : bSVerRect 

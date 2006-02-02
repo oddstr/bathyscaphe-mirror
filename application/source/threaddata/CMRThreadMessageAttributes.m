@@ -1,12 +1,13 @@
 //: CMRThreadMessageAttributes.m
 /**
-  * $Id: CMRThreadMessageAttributes.m,v 1.1 2005/05/11 17:51:08 tsawada2 Exp $
+  * $Id: CMRThreadMessageAttributes.m,v 1.2 2006/02/02 13:00:47 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
   */
 
-#import "CMRThreadMessageAttributes_p.h"
+#import "CMRThreadMessageAttributes.h"
+#import "UTILKit.h"
 
 
 @implementation CMRThreadMessageAttributes
@@ -160,11 +161,11 @@ ErrRepresentation:
 {
 	return [self flagAt:TEMP_INVISIBLE_FLAG];
 }
-@end
+//@end
 
 
 
-@implementation CMRThreadMessageAttributes(Private)
+//@implementation CMRThreadMessageAttributes(Private)
 - (void) setFlags : (UInt32) flags;
 {
 	_flags = flags;

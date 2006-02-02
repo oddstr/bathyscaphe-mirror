@@ -5,7 +5,7 @@
 // Created on 05/10/11.
 #import "CMRBrowser_p.h"
 #import "AddBoardSheetController.h"
-#import "BSBoardListView.h"
+//#import "BSBoardListView.h"
 
 @implementation CMRBrowser(BoardListEditor)
 #pragma mark Accessors

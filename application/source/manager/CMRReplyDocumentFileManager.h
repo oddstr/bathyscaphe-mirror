@@ -32,7 +32,3 @@
 
 - (NSArray *) replyDocumentFilesArrayWithLogsArray : (NSArray *) logfiles;
 @end
-
-// deprecated in BathyScaphe 1.0.2
-//extern NSString *const CMRReplyDocumentFontKey;
-//extern NSString *const CMRReplyDocumentColorKey;

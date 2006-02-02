@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.31 2006/01/27 23:02:19 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.32 2006/02/02 13:00:47 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -10,10 +10,10 @@
 #import "CMRBBSListTemplateKeys.h"
 #import "NSTableColumn+CMXAdditions.h"
 #import "CMRTextColumnCell.h"
-#import "CMRPullDownIconBtn.h"
+#import <SGAppKit/CMRPullDownIconBtn.h>
 #import "CMRMainMenuManager.h"
 #import "BSTitleRulerView.h"
-#import "BSIconAndTextCell.h"
+#import <SGAppKit/BSIconAndTextCell.h>
 #import "AddBoardSheetController.h"
 
 @implementation CMRBrowser(ViewAccessor)

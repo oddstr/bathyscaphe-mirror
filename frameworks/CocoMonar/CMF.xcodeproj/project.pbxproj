@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		87D29C850991388F007D26B4 /* CMRThreadMessageAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D29C810991388F007D26B4 /* CMRThreadMessageAttributes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87D29C860991388F007D26B4 /* CMRThreadMessageAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D29C820991388F007D26B4 /* CMRThreadMessageAttributes.m */; };
+		87D29C870991388F007D26B4 /* CMRThreadMessageAttributesMask.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D29C830991388F007D26B4 /* CMRThreadMessageAttributesMask.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87E8CDFB0991180A00703486 /* NSCharacterSet+CMXAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 87E8CDF90991180A00703486 /* NSCharacterSet+CMXAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87E8CDFC0991180A00703486 /* NSCharacterSet+CMXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 87E8CDFA0991180A00703486 /* NSCharacterSet+CMXAdditions.m */; };
 		87E8CE010991186000703486 /* innerLinkPrefixCharacters.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87E8CDFD0991186000703486 /* innerLinkPrefixCharacters.txt */; };
@@ -81,6 +84,9 @@
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		87D29C810991388F007D26B4 /* CMRThreadMessageAttributes.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; name = CMRThreadMessageAttributes.h; path = ../../application/source/threaddata/CMRThreadMessageAttributes.h; sourceTree = SOURCE_ROOT; };
+		87D29C820991388F007D26B4 /* CMRThreadMessageAttributes.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; name = CMRThreadMessageAttributes.m; path = ../../application/source/threaddata/CMRThreadMessageAttributes.m; sourceTree = SOURCE_ROOT; };
+		87D29C830991388F007D26B4 /* CMRThreadMessageAttributesMask.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; name = CMRThreadMessageAttributesMask.h; path = ../../application/source/threaddata/CMRThreadMessageAttributesMask.h; sourceTree = SOURCE_ROOT; };
 		87E8CDF90991180A00703486 /* NSCharacterSet+CMXAdditions.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; name = "NSCharacterSet+CMXAdditions.h"; path = "../../application/source/extensions/NSCharacterSet+CMXAdditions.h"; sourceTree = SOURCE_ROOT; };
 		87E8CDFA0991180A00703486 /* NSCharacterSet+CMXAdditions.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; name = "NSCharacterSet+CMXAdditions.m"; path = "../../application/source/extensions/NSCharacterSet+CMXAdditions.m"; sourceTree = SOURCE_ROOT; };
 		87E8CDFD0991186000703486 /* innerLinkPrefixCharacters.txt */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text; name = innerLinkPrefixCharacters.txt; path = ../../application/Resources/text/innerLinkPrefixCharacters.txt; sourceTree = SOURCE_ROOT; };
@@ -222,6 +228,9 @@
 		F3B7571E0508BDE600A80005 /* common */ = {
 			isa = PBXGroup;
 			children = (
+				87D29C810991388F007D26B4 /* CMRThreadMessageAttributes.h */,
+				87D29C820991388F007D26B4 /* CMRThreadMessageAttributes.m */,
+				87D29C830991388F007D26B4 /* CMRThreadMessageAttributesMask.h */,
 				87E8CE7C09911B5B00703486 /* CMRThreadUserStatusMask.h */,
 				87E8CE7409911B3700703486 /* CMRThreadUserStatus.h */,
 				87E8CE7509911B3700703486 /* CMRThreadUserStatus.m */,
@@ -292,6 +301,8 @@
 				87E8CDFB0991180A00703486 /* NSCharacterSet+CMXAdditions.h in Headers */,
 				87E8CE7709911B3700703486 /* CMRThreadUserStatus.h in Headers */,
 				87E8CE7D09911B5B00703486 /* CMRThreadUserStatusMask.h in Headers */,
+				87D29C850991388F007D26B4 /* CMRThreadMessageAttributes.h in Headers */,
+				87D29C870991388F007D26B4 /* CMRThreadMessageAttributesMask.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,6 +414,7 @@
 				87F57072086E5217002A18AD /* CMRFileManager.m in Sources */,
 				87E8CDFC0991180A00703486 /* NSCharacterSet+CMXAdditions.m in Sources */,
 				87E8CE7809911B3700703486 /* CMRThreadUserStatus.m in Sources */,
+				87D29C860991388F007D26B4 /* CMRThreadMessageAttributes.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

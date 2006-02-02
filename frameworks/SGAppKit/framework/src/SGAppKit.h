@@ -1,6 +1,6 @@
 //: SGAppKit.h
 /**
-  * $Id: SGAppKit.h,v 1.7 2006/01/27 23:02:19 tsawada2 Exp $
+  * $Id: SGAppKit.h,v 1.8 2006/02/02 13:00:47 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -47,6 +47,9 @@ extern void SGAppKitFrameworkInit(void);
 //#import <SGAppKit/SGTextAccessoryFieldController.h>
 #import <SGAppKit/KFSplitView.h>
 #import <SGAppKit/BSKFSplitView.h>
+#import <SGAppKit/BSIconAndTextCell.h>
+#import <SGAppKit/BSBoardListView.h>
+#import <SGAppKit/CMRPullDownIconBtn.h>
 //#import <SGAppKit/SGFixImageButtonCell.h>
 //#import <SGAppKit/SGToolbarIconItemButton.h>
 //#import <SGAppKit/SGControlToolbarItem.h>

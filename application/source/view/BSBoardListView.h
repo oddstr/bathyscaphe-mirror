@@ -1,5 +1,5 @@
 //
-//  $Id: BSBoardListView.h,v 1.3 2006/01/17 20:19:20 tsawada2 Exp $
+//  $Id: BSBoardListView.h,v 1.4 2006/02/02 13:00:47 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/09/20.
@@ -7,7 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <SGAppKit/SGAppKit.h>
 
 @interface BSBoardListView : NSOutlineView {
 	@private

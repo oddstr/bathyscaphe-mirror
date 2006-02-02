@@ -27,6 +27,8 @@
 
 #import "CMRSearchOptions.h"
 
+#import <SGAppKit/BSBoardListView.h>
+
 #define APP_BROWSER_WINDOW_AUTOSAVE_NAME			@"CocoMonar:Browser Window Autosave"
 #define APP_BROWSER_SPVIEW_AUTOSAVE_NAME			@"CocoMonar:Browser SplitView Autosave"
 #define APP_BROWSER_STATUSLINE_IDENTIFIER			@"Browser"

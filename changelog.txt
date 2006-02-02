@@ -1,4 +1,17 @@
+2006-02-02 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* frameworks/SGAppKit/framework/src/BSKFSplitView.m
+		image を retain していなかったため、クラッシュする可能性があった問題を修正。
+	* frameworks/SGAppKit/framework/src/SGAppKit.h
+		下記変更に伴い、必要な修正を施した。
+	* application/source/browser/CMRPullDownIconBtn.m
+	* application/Resources/image/Action.tiff
+	* application/Resources/image/Action_Pressed.tiff
+		CMRPullDownIconBtn クラスは、BathyScaphe 本体から SGAppKit Framework に移動した。ただし、ソースファイル自体の位置は
+		変えていないので注意。フレームワークへの組み込みに伴い必要な修正を行った。
+		また、これらのヘッダをインポートしている BathyScaphe の各種ファイルについても、必要な修正を行った。
 2006-02-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRPullDownIconBtn.m
+		ソースの見直し。
 	* application/Resources/text/numericCharacters.txt
 		今まで何となく残っていたが、調べた所どうも使われている形跡が見当たらなかったので、プロジェクトから外した。
 		問題がないようなら、そのうちリポジトリからも削除する。
