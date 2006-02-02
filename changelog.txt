@@ -1,3 +1,16 @@
+2006-02-02 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+		お気に入りの更新に対応。
+		これはスマートリストの更新も出来るようになったことを意味する。
+2006-02-01 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/BoardListItem.h
+	* application/source/bbs/BoardListItem/BoardListItem.m
+	* application/source/bbs/BoardListItem/ConcreteBoardListItem.m
+	* application/source/bbs/BoardListItem/SmartBoardList.h
+	* application/source/bbs/BoardListItem/SmartBoardList.m
+		BoardListItemType の宣言を BoardListItem.h に移動。
+		新たに BoardListSmartBoardItem と BoardListAnyTypeItem を追加。
+		それに伴い、直値を使っていた部分を置換。
 2006-01-30 masakih <masakih@users.sourceforge.jp>
 	* application/source/bbs/BoardListItem/SmartBoardList.m
 		カテゴリと板、スマートボードの重複名を許すようにした。

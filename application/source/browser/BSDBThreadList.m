@@ -10,6 +10,7 @@
 
 #import "CMRThreadsList_p.h"
 #import "CMRThreadsListReadFileTask.h"
+#import "BSFavoritesHEADCheckTask.h"
 // #import "CMRThreadSignature.h"
 #import "ThreadTextDownloader.h"
 #import "CMRSearchOptions.h"
@@ -20,8 +21,9 @@
 #import "DatabaseManager.h"
 
 
-@interface BSDBThreadList (PPPPP)
+@interface CMRThreadsList (PPPPP)
 + (id)statusImageWithStatus : (ThreadStatus)s;
+- (void)downloaderTextUpdatedNotified:(id)notification;
 @end
 @interface BSDBThreadList (ToBeRefactoring)
 - (void)updateDateBaseForThreads : (id) aThread;
@@ -135,15 +137,6 @@
 	          object : [CMRFavoritesManager defaultManager]];
 	
 	[super removeFromNotificationCenter];
-}
-- (void)favoritesManagerDidChange : (id) notification
-{
-	UTILAssertNotificationObject(
-								 notification,
-								 [CMRFavoritesManager defaultManager]);
-	[self updateCursor];
-	
-	UTILNotifyName(CMRThreadsListDidChangeNotification);
 }
 
 - (BOOL)isFavorites
@@ -449,30 +442,27 @@ static inline NSString *orderBy( NSString *sortKey, BOOL isAscending )
 	[self updateCursor];
 }
 
-//#pragma mark## Download ##
-//- (void) startLoadingThreadsList : (CMRThreadLayout *) worker
-//{
-//	UTILAssertNotNilArgument(worker, @"Thread Layout(Worker)");
-//	[self setWorker : worker];
-//	
-//	[self downloadThreadsList];
-//}
 #pragma mark## DataSource ##
-- (NSDictionary *) threadAttributesAtRowIndex : (int          ) rowIndex
-                                  inTableView : (NSTableView *) tableView
+- (NSDictionary *) threadAttributesAtRowIndex : (int) rowIndex useLock : (BOOL) useLock
 {
 	NSDictionary *result;
 	id<SQLiteRow> row;
 	
-	[mCursorLock lock];
+	if(useLock)
+		[mCursorLock lock];
 	row = [[[mCursor rowAtIndex : rowIndex] retain] autorelease];
-	[mCursorLock unlock];
+	if(useLock)
+		[mCursorLock unlock];
 	
 	NSString *title = [row valueForColumn : ThreadNameColumn];
 	NSNumber *newCount = [row valueForColumn : NumberOfAllColumn];
 	NSString *dat = [row valueForColumn : ThreadIDColumn];
 	NSString *boardName = [row valueForColumn : BoardNameColumn];
 	NSNumber *status = [row valueForColumn : ThreadStatusColumn];
+	NSString *modDateStr = [row valueForColumn : ModifiedDateColumn];
+	NSDate *modDate = [NSDate dateWithTimeIntervalSince1970 : [modDateStr doubleValue]];
+	NSString *threadPath = [[CMRDocumentFileManager defaultManager] threadPathWithBoardName : boardName
+																			  datIdentifier : dat];
 	
 	result = [NSDictionary dictionaryWithObjectsAndKeys:
 		title, CMRThreadTitleKey,
@@ -480,9 +470,37 @@ static inline NSString *orderBy( NSString *sortKey, BOOL isAscending )
 		dat, ThreadPlistIdentifierKey,
 		boardName, ThreadPlistBoardNameKey,
 		status, CMRThreadUserStatusKey,
+		modDate, CMRThreadModifiedDateKey,
+		threadPath, CMRThreadLogFilepathKey, // threadPath が nil ならこれ以降無視される。
 		nil];
 	
 	return result;
+}
+- (NSArray *) allThreadAttributes
+{
+	NSMutableArray *result;
+	unsigned i, count;
+	id attr;
+	
+	[mCursorLock lock];
+	{
+		count = [mCursor rowCount];
+		result = [NSMutableArray arrayWithCapacity:count];
+		for( i = 0; i < count; i++ ) {
+			attr = [self threadAttributesAtRowIndex:i useLock:NO];
+			if(attr) {
+				[result addObject:attr];
+			}
+		}
+	}
+	[mCursorLock unlock];
+	
+	return result;
+}
+- (NSDictionary *) threadAttributesAtRowIndex : (int          ) rowIndex
+                                  inTableView : (NSTableView *) tableView
+{
+	return [self threadAttributesAtRowIndex : rowIndex useLock : YES];
 }
 - (unsigned int) indexOfThreadWithPath : (NSString *) filepath
 {
@@ -608,6 +626,16 @@ Compatability Note: This method replaces tableView : writeRows : toPasteboard : 
 //- (NSArray *)tableView : (NSTableView *)tv namesOfPromisedFilesDroppedAtDestination : (NSURL *)dropDestination forDraggedRowsWithIndexes : (NSIndexSet *)indexSet;
 
 #pragma mark## Notification ##
+- (void)favoritesManagerDidChange : (id) notification
+{
+	UTILAssertNotificationObject(
+								 notification,
+								 [CMRFavoritesManager defaultManager]);
+	[self updateCursor];
+	
+	UTILNotifyName(CMRThreadsListDidChangeNotification);
+}
+
 static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSString **outThreadID, NSString *inFilePath )
 {
 	CMRDocumentFileManager *dfm = [CMRDocumentFileManager defaultManager];
@@ -695,10 +723,111 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 	
 	[super downloaderTextUpdatedNotified : notification];
 }
+- (void)favoritesHEADCheckTaskDidFinish:(id)notification
+{
+	UTILAssertNotificationName(
+							   notification,
+							   BSFavoritesHEADCheckTaskDidFinishNotification);
+	
+	id					object_;
+	NSDictionary		*userInfo_;
+	NSMutableArray		*threadsArray_;
+	NSEnumerator		*threadsEnum;
+	id					thread;
+	SQLiteDB *db;
+	NSString *query;
+	
+	object_ = [notification object];
+	UTILAssertKindOfClass(object_, BSFavoritesHEADCheckTask);
+	if(NO == [[object_ identifier] isEqual : [self boardName]])
+		goto fail;
+	
+	userInfo_ = [notification userInfo];
+	
+	threadsArray_	= [userInfo_ objectForKey : kBSUserInfoThreadsArrayKey];
+	UTILAssertKindOfClass(threadsArray_, NSArray);
+	
+	db = [[DatabaseManager defaultManager] databaseForCurrentThread];
+	if(!db) goto fail;
+	
+	threadsEnum = [threadsArray_ objectEnumerator];
+	while(thread = [threadsEnum nextObject]) {
+		NSNumber *status;
+		int boardID;
+		NSString *threadID;
+		
+		if( !(status = [thread objectForKey:CMRThreadStatusKey]) ) {
+			continue;
+		}
+		if([status unsignedIntValue] == ThreadLogCachedStatus) {
+			continue;
+		}
+		
+		if(!searchBoardIDAndThreadIDFromFilePath( &boardID, &threadID, [thread objectForKey:CMRThreadLogFilepathKey]) ) {
+			continue;
+		}
+		
+		query = [NSString stringWithFormat:@"UPDATE %@ SET %@ = %u WHERE %@ = %u AND %@ = '%@'",
+			ThreadInfoTableName,
+			ThreadStatusColumn, ThreadHeadModifiedStatus,
+			BoardIDColumn, boardID,
+			ThreadIDColumn, threadID];
+		
+		[db cursorForSQL : query];
+		
+		if ([db lastErrorID] != 0) {
+			NSLog(@"Fail Insert or udate. Reson: %@", [db lastError] );
+			goto fail;
+		}
+	}
+	
+	[self updateCursor];
+	
+	[[NSNotificationCenter defaultCenter]
+			removeObserver : self
+					  name : [notification name]
+					object : [notification object]];
+	
+	UTILNotifyName(CMRThreadsListDidChangeNotification);
+	
+	return;
+	
+fail:
+		[[NSNotificationCenter defaultCenter]
+			removeObserver : self
+					  name : [notification name]
+					object : [notification object]];
+}
 
 @end
 
 @implementation BSDBThreadList (ToBeRefactoring)
+
+
+#pragma mark## Download ##
+- (void) downloadThreadsList
+{
+	if( [self isFavorites] ) {
+		BSFavoritesHEADCheckTask		*task_;
+		
+		task_ = [[BSFavoritesHEADCheckTask alloc]
+				initWithFavItemsArray : [[[self allThreadAttributes] mutableCopy] autorelease]];
+		[task_ setBoardName : [self boardName]];
+		[task_ setIdentifier : [self boardName]];
+		
+		[[NSNotificationCenter defaultCenter]
+			addObserver : self
+			   selector : @selector(favoritesHEADCheckTaskDidFinish:)
+				   name : BSFavoritesHEADCheckTaskDidFinishNotification
+				 object : task_];
+		
+		[[self worker] push : task_];
+		
+		[task_ release];
+	} else {
+		[super downloadThreadsList];
+	}
+}
 
 - (void) cleanUpItemsToBeRemoved : (NSArray *) files
 {
