@@ -1,3 +1,8 @@
+2006-02-03 masakih <masakih@users.sourceforge.jp>
+	* application/source/manager/SQLiteDB.m
+		SQLiteDB
+のデータ格納法を変更。すべてのテーブル名を常に小文字で持つようにした。
+		これにより速度向上を確認。
 2006-02-02 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSDBThreadList.m
 		お気に入りの更新に対応。

@@ -171,7 +171,7 @@ id <SQLiteRow> makeRowFromSTMT(sqlite3_stmt *stmt, NSArray *columns)
 		}
 		
 		[result setObject : v
-				   forKey : [[columns objectAtIndex : i] lowercaseString]];
+				   forKey : [columns objectAtIndex : i]];
 	}
 	
 	return result;
@@ -185,7 +185,7 @@ NSArray *columnsFromSTMT(sqlite3_stmt *stmt)
 	for (i = 0; i < columnCount; i++) {
 		const char *columnName = sqlite3_column_name(stmt, i);
 		
-		[result addObject : [NSString stringWithUTF8String : columnName]];
+		[result addObject : [[NSString stringWithUTF8String : columnName] lowercaseString]];
 	}
 	
 	return result;
