@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadComposingTask.m,v 1.1 2005/05/11 17:51:07 tsawada2 Exp $
+  * $Id: CMRThreadComposingTask.m,v 1.2 2006/02/08 21:24:39 tsawada2 Exp $
   * 
   * CMRThreadComposingTask.m
   *
@@ -44,6 +44,7 @@ NSString *const CMRThreadComposingCallbackNotification = @"CMRThreadComposingCal
 {
 	[_threadTitle release];
 	[_reader release];
+	[_delegate release];
 	[super dealloc];
 }
 
@@ -162,6 +163,9 @@ NSString *const CMRThreadComposingCallbackNotification = @"CMRThreadComposingCal
 }
 - (void) setDelegate : (id) aDelegate
 {
+	[aDelegate retain];
+	[_delegate release];
+
 	_delegate = aDelegate;
 }
 - (BOOL) delegate_willCompleteMessages : (CMRThreadMessageBuffer *) aMessageBuffer

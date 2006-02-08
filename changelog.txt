@@ -1,3 +1,7 @@
+2006-02-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadComposingTask.m
+		[Bug 8009] の調査の過程で、少し気になる部分があったので修正してみた（Bug の修正になっているかどうかは
+		わからない）。
 2006-02-02 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* frameworks/SGAppKit/framework/src/BSKFSplitView.m
 		image を retain していなかったため、クラッシュする可能性があった問題を修正。
