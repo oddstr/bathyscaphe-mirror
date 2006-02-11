@@ -1,5 +1,5 @@
 /**
-  * $Id: ThreadsListTable.m,v 1.6 2006/02/11 03:20:56 tsawada2 Exp $
+  * $Id: ThreadsListTable.m,v 1.7 2006/02/11 08:19:26 tsawada2 Exp $
   * 
   * ThreadsListTable.m
   *
@@ -8,7 +8,7 @@
   */
 #import "ThreadsListTable.h"
 #import "CMRThreadsList.h"
-
+#import "AppDefaults.h"
 
 #define kBrowserKeyBindingsFile		@"BrowserKeyBindings.plist"
 
@@ -275,28 +275,35 @@ Hope this helps...
 	if(visible) {
 		if(![self isColumnWithIdentifierVisible : identifier]) {
 			
-			// tsawada2 Memo: 縦3ペインのことを考えると、これじゃマズいんだろうなぁ…ふみゅー。
-			float tmp;
-			NSTableColumn	*tmp2;
-			
-			[self addTableColumn : column];
-			
-			tmp = [column width];
-			tmp2 = [self initialColumnWithIdentifier : @"Title"];
-			[tmp2 setWidth : ([tmp2 width] - tmp)];
-			
+			if (![CMRPref isSplitViewVertical] && ![identifier isEqualToString : CMRThreadTitleKey]) {
+				float tmp;
+				NSTableColumn	*tmp2;
+				
+				[self addTableColumn : column];
+				
+				tmp = [column width];
+				tmp2 = [self initialColumnWithIdentifier : CMRThreadTitleKey];
+				[tmp2 setWidth : ([tmp2 width] - tmp)];
+			} else {
+				[self addTableColumn : column];			
+			}
 			[self sizeLastColumnToFit];
 			[self setNeedsDisplay : YES];
 		}
 	} else {
 		if([self isColumnWithIdentifierVisible : identifier]) {
-			
-			float tmp = [column width];
-			NSTableColumn	*tmp2 = [self initialColumnWithIdentifier : @"Title"];
-			
-			[self removeTableColumn : column];
-			[tmp2 setWidth : ([tmp2 width] + tmp)];
-			[self sizeLastColumnToFit];
+
+			if (![CMRPref isSplitViewVertical] && ![identifier isEqualToString : CMRThreadTitleKey]) {			
+				float tmp = [column width];
+				NSTableColumn	*tmp2 = [self initialColumnWithIdentifier : CMRThreadTitleKey];
+				
+				[self removeTableColumn : column];
+				[tmp2 setWidth : ([tmp2 width] + tmp)];
+			} else {
+				[self removeTableColumn : column];
+			}
+			if(![identifier isEqualToString : CMRThreadTitleKey])
+				[self sizeLastColumnToFit];
 			[self setNeedsDisplay : YES];
 		}
 	}

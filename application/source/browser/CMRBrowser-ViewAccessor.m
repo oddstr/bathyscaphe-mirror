@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.32 2006/02/02 13:00:47 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.33 2006/02/11 08:19:26 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -328,8 +328,10 @@
 
 - (void) setupSplitView
 {
+	BOOL isGoingToVertical = [CMRPref isSplitViewVertical];
 	// KFSplitView
-    [[self splitView] setVertical : [CMRPref isSplitViewVertical]];
+    [[self splitView] setVertical : isGoingToVertical];
+	[[[self threadsListTable] enclosingScrollView] setHasHorizontalScroller : isGoingToVertical];
     topSubview = [[[self splitView] subviews] objectAtIndex:0];
     bottomSubview = [[[self splitView] subviews] objectAtIndex:1];
 }

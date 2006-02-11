@@ -1,5 +1,5 @@
 /**
-  * $Id: ThreadTextDownloader.m,v 1.2 2006/02/11 03:20:56 tsawada2 Exp $
+  * $Id: ThreadTextDownloader.m,v 1.3 2006/02/11 08:19:26 tsawada2 Exp $
   * 
   * ThreadTextDownloader.m
   *
@@ -284,15 +284,18 @@ return_instance:
 
 - (BOOL) amIAAThread : (NSDictionary *) localDict_
 {
-	if (!localDict_) return NO;
+	if (!localDict_) {
+		NSString *boardName_ = [[self threadSignature] BBSName];
+		if (boardName_) return [[BoardManager defaultManager] allThreadsShouldAAThreadAtBoard : boardName_];
+		else return NO;
+	}
 
 	id					rep_;
 	CMRThreadUserStatus	*s;
 	
 	rep_ = [localDict_ objectForKey : CMRThreadUserStatusKey];
 	s = [CMRThreadUserStatus objectWithPropertyListRepresentation : rep_];
-	if (nil == s) return NO;
-	return [s isAAThread];
+	return s ? [s isAAThread] : NO;
 }
 
 - (NSDictionary *) dictionaryByAppendingContents : (NSString   *) datContents
