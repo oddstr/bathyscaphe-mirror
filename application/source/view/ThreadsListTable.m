@@ -1,5 +1,5 @@
 /**
-  * $Id: ThreadsListTable.m,v 1.5 2005/10/07 00:18:50 tsawada2 Exp $
+  * $Id: ThreadsListTable.m,v 1.6 2006/02/11 03:20:56 tsawada2 Exp $
   * 
   * ThreadsListTable.m
   *
@@ -274,13 +274,28 @@ Hope this helps...
 
 	if(visible) {
 		if(![self isColumnWithIdentifierVisible : identifier]) {
+			
+			// tsawada2 Memo: 縦3ペインのことを考えると、これじゃマズいんだろうなぁ…ふみゅー。
+			float tmp;
+			NSTableColumn	*tmp2;
+			
 			[self addTableColumn : column];
+			
+			tmp = [column width];
+			tmp2 = [self initialColumnWithIdentifier : @"Title"];
+			[tmp2 setWidth : ([tmp2 width] - tmp)];
+			
 			[self sizeLastColumnToFit];
 			[self setNeedsDisplay : YES];
 		}
 	} else {
 		if([self isColumnWithIdentifierVisible : identifier]) {
+			
+			float tmp = [column width];
+			NSTableColumn	*tmp2 = [self initialColumnWithIdentifier : @"Title"];
+			
 			[self removeTableColumn : column];
+			[tmp2 setWidth : ([tmp2 width] + tmp)];
 			[self sizeLastColumnToFit];
 			[self setNeedsDisplay : YES];
 		}

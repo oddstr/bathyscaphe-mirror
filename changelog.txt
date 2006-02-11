@@ -1,3 +1,19 @@
+2006-02-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/composer/CMRThreadPlistComposer.m
+	* application/source/network/ThreadTextDownloader.m
+	* application/source/thread/CMRThreadViewer.m
+		スレッドが AA スレッドの場合、スレッドを開かないで更新すると更新した分が AA 指定されない問題を以前（2006-01-17）
+		修正したが、この影響で「AA スレッドで一部のレスの AA 指定を解除しても、次に開くとまた AA 指定されてしまう」問題が
+		発生していた。この問題を解決するため、最初の問題への対処方法を全面的に変更した。そして解決した。
+	* application/Resources/Japanese.lproj/browserListColumns.plist
+	* application/source/browser/CMRThreadsList-DataSource.m
+		スレッド一覧に「作成日」カラムを追加可能にした（dat 番号を日付に変換して表示）。
+	* application/source/extensions/NSTableColumn+CMXAdditions.m
+	* application/source/view/ThreadsListTable.m
+		スレッド一覧で、カラムを追加／削除した時は、「名前」カラムの幅をその分伸縮するようにした。
+		- 横スクロールバーを出さずに、（おそらく一番横幅を取っているはずの）「名前」カラムの幅を調整してスペースを捻出
+		　または埋め合わせする。
+		- 縦3ペインで使ってるとその動作は気に入らないって？…んー、それはこれから考えよう。
 2006-02-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadComposingTask.m
 		[Bug 8009] の調査の過程で、少し気になる部分があったので修正してみた（Bug の修正になっているかどうかは

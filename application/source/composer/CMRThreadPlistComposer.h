@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadPlistComposer.h,v 1.1 2005/05/11 17:51:04 tsawada2 Exp $
+  * $Id: CMRThreadPlistComposer.h,v 1.2 2006/02/11 03:20:56 tsawada2 Exp $
   * 
   * CMRThreadPlistComposer.h
   *
@@ -16,7 +16,9 @@
 	@private
 	NSMutableDictionary	*m_thread;
 	NSMutableArray		*m_threadsArray;
+	BOOL				_AAThread;
 }
 + (id) composerWithThreadsArray : (NSMutableArray *) threads;
++ (id) composerWithThreadsArray : (NSMutableArray *) threads noteAAThread : (BOOL) isAAThread;
 - (id) initWithThreadsArray : (NSMutableArray *) threads;
 @end

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.23 2006/01/24 23:00:06 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.24 2006/02/11 03:20:56 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -472,8 +472,8 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 		// 2006-01-17 tsawada2<ben-sawa@td5.so-net.ne.jp>
 		// 内容を表示しないで「スレッドを更新」した場合（スレッド一覧から更新した）でも、AA スレッドのレスを
 		// AA フォントでレンダリングするために、このタイミングで changeAllMessageAttributes: flags: を実行する。
-		if([[self threadAttributes] isAAThread])
-			[[self threadLayout] changeAllMessageAttributes : YES flags : CMRAsciiArtMask];
+		//if([[self threadAttributes] isAAThread])
+		//	[[self threadLayout] changeAllMessageAttributes : YES flags : CMRAsciiArtMask];
 		
 		if(![self isDatOchiThread])
 			[self reloadIfOnlineMode : self];

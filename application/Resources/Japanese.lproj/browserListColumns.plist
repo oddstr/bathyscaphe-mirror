@@ -142,5 +142,25 @@
 		<key>Width</key>
 		<integer>98</integer>
 	</dict>
+	<dict>
+		<key>Contents Alignment</key>
+		<integer>0</integer>
+		<key>Editable</key>
+		<false/>
+		<key>Identifier</key>
+		<string>dat</string>
+		<key>Max Width</key>
+		<integer>1000</integer>
+		<key>Min Width</key>
+		<integer>40</integer>
+		<key>Resizable</key>
+		<true/>
+		<key>Title</key>
+		<string>作成日</string>
+		<key>Title Alignment</key>
+		<integer>0</integer>
+		<key>Width</key>
+		<integer>98</integer>
+	</dict>
 </array>
 </plist>

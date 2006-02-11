@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.13 2006/01/16 00:20:20 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.14 2006/02/11 03:20:56 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -161,7 +161,7 @@ static id kThreadAttrTemplate;
 	if([identifier isEqualToString : CMRThreadStatusKey]){
 		// ステータス画像
 		v = [[self class] statusImageWithStatus : s];
-	}else if([CMRThreadNumberOfUpdatedKey isEqualToString : identifier]){
+	} else if ([CMRThreadNumberOfUpdatedKey isEqualToString : identifier]){
 		// 差分
 		if(ThreadLogCachedStatus & s){
 			int		diff_;
@@ -169,11 +169,14 @@ static id kThreadAttrTemplate;
 			diff_ = [CMRThreadAttributes numberOfUpdatedFromDictionary : thread];
 			v = (diff_ >= 0) ? [NSNumber numberWithInt : diff_] : nil;
 		}
-	}else if([CMRThreadSubjectIndexKey isEqualToString : identifier] && [self isFavorites]){
+	} else if ([self isFavorites] && [CMRThreadSubjectIndexKey isEqualToString : identifier]) {
 		// 番号（お気に入り）
 		v = [NSNumber numberWithInt : ([[[CMRFavoritesManager defaultManager] favoritesItemsIndex]
 											indexOfObject : [CMRThreadAttributes pathFromDictionary : thread]]+1)];
-	}else{
+	} else if ([identifier isEqualToString : ThreadPlistIdentifierKey]) {
+		// スレッドの立った日付（dat 番号を変換）available in BathyScaphe 1.2 and later.
+		v = [NSDate dateWithTimeIntervalSince1970 : (NSTimeInterval)[[thread objectForKey : identifier] doubleValue]];
+	} else {
 		// それ以外
 		v = [thread objectForKey : identifier];
 	}

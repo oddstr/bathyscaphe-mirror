@@ -1,6 +1,6 @@
 //: NSTableColumn+CMXAdditions.m
 /**
-  * $Id: NSTableColumn+CMXAdditions.m,v 1.5 2006/02/01 17:39:08 tsawada2 Exp $
+  * $Id: NSTableColumn+CMXAdditions.m,v 1.6 2006/02/11 03:20:56 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -92,9 +92,9 @@ static NSTextAlignment objectValue2NSTextAlignment(id obj);
 			unsigned _mask = NSTableColumnNoResizing;
 
 			if ( [rep boolForKey : SGTableColumnRepResizableKey] )
-				_mask = NSTableColumnUserResizingMask;
+				_mask = (NSTableColumnUserResizingMask|NSTableColumnAutoresizingMask);
 
-			[self setResizingMask:(_mask|NSTableColumnAutoresizingMask)];
+			[self setResizingMask : _mask];
 		} else {
 			// Method setResizable in class NSTableView is deprecated on 10.4 and later.
 			[self setResizable : [rep boolForKey : SGTableColumnRepResizableKey]];

@@ -1061,12 +1061,10 @@
 		F324DC9404C698FA00A80005 /* CMRDocumentFileManager.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRDocumentFileManager.m; sourceTree = "<group>"; };
 		F324DC9604C698FA00A80005 /* CMRKeychainManager.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRKeychainManager.h; sourceTree = "<group>"; };
 		F324DC9704C698FA00A80005 /* CMRKeychainManager.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRKeychainManager.m; sourceTree = "<group>"; };
-		F324DC9804C698FA00A80005 /* CMRKeychainManager_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRKeychainManager_p.h; sourceTree = "<group>"; };
 		F324DC9D04C698FA00A80005 /* CMRMainMenuManager.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRMainMenuManager.h; sourceTree = "<group>"; };
 		F324DC9E04C698FA00A80005 /* CMRMainMenuManager.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRMainMenuManager.m; sourceTree = "<group>"; };
 		F324DCA004C698FA00A80005 /* CMRReplyDocumentFileManager.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRReplyDocumentFileManager.h; sourceTree = "<group>"; };
 		F324DCA104C698FA00A80005 /* CMRReplyDocumentFileManager.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRReplyDocumentFileManager.m; sourceTree = "<group>"; };
-		F324DCA204C698FA00A80005 /* CMRReplyDocumentFileManager_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRReplyDocumentFileManager_p.h; sourceTree = "<group>"; };
 		F324DCA304C698FA00A80005 /* CMRServerClock.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRServerClock.h; sourceTree = "<group>"; };
 		F324DCA404C698FA00A80005 /* CMRServerClock.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRServerClock.m; sourceTree = "<group>"; };
 		F324DCA504C698FA00A80005 /* CMRServerClock_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRServerClock_p.h; sourceTree = "<group>"; };
@@ -1781,7 +1779,6 @@
 				F324DC9304C698FA00A80005 /* CMRDocumentFileManager.h */,
 				F324DC9404C698FA00A80005 /* CMRDocumentFileManager.m */,
 				F324DCA004C698FA00A80005 /* CMRReplyDocumentFileManager.h */,
-				F324DCA204C698FA00A80005 /* CMRReplyDocumentFileManager_p.h */,
 				F324DCA104C698FA00A80005 /* CMRReplyDocumentFileManager.m */,
 			);
 			name = Documents;
@@ -1793,7 +1790,6 @@
 				E8894DD805C3A3A30004317F /* CMROpenURLManager.h */,
 				E8894DD905C3A3A30004317F /* CMROpenURLManager.m */,
 				F324DC9604C698FA00A80005 /* CMRKeychainManager.h */,
-				F324DC9804C698FA00A80005 /* CMRKeychainManager_p.h */,
 				F324DC9704C698FA00A80005 /* CMRKeychainManager.m */,
 				F324DCA304C698FA00A80005 /* CMRServerClock.h */,
 				F324DCA504C698FA00A80005 /* CMRServerClock_p.h */,
