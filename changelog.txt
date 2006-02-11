@@ -1,4 +1,8 @@
 2006-02-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/manager/CMRKeychainManager_p.h
+	* application/source/manager/CMRReplyDocumentFileManager_p.h
+	* application/Resources/text/numericCharacters.txt
+		[削除] 未使用になったため、リポジトリから削除。
 	* application/source/network/CMRThreadHTMLDownloader.m
 		まちやJBBSライブドアで、1からダウンロードしたい所が NSNotFound というばかでかい定数からダウンロードすることを指定するような
 		URI 文字列が生成されてしまうことがあった内部の問題を修正。
