@@ -63,14 +63,14 @@
 - (BOOL) createBoardInfoTable;
 - (BOOL) createThreadInfoTable;
 - (BOOL) createBoardInfoHistoryTable;
-- (BOOL) createResponseTable;
+	// - (BOOL) createResponseTable;
 
 - (BOOL) createTempThreadNumberTable;
 
 	/*
 	 - (BOOL) createFavThraedInfoView;
-	 - (BOOL) createBoardThreadInfoView;
 	 */
+- (BOOL) createBoardThreadInfoView;
 @end
 
 
@@ -97,18 +97,18 @@ extern NSString *BoardInfoHistoryTableName;
 // extern		NSString *BoardIDColumn;
 // extern		NSString *BoardNameColumn;
 // extern		NSString *BoardURLColumn;
-extern NSString *ResponseTableName;
-// extern		NSString *BoardIDColumn;
-// extern		NSString *ThreadIDColumn;
-extern		NSString *NumberColumn;
-extern		NSString *MailColumn;
-extern		NSString *DateColumn;
-extern		NSString *IDColumn;
-extern		NSString *HostColumn;
-extern		NSString *BEColumn;
-extern		NSString *ContentsColumn;
-extern		NSString *ResAboneTypeColumn;
-extern		NSString *ResLabelColumn;
+//extern NSString *ResponseTableName;
+//// extern		NSString *BoardIDColumn;
+//// extern		NSString *ThreadIDColumn;
+//extern		NSString *NumberColumn;
+//extern		NSString *MailColumn;
+//extern		NSString *DateColumn;
+//extern		NSString *IDColumn;
+//extern		NSString *HostColumn;
+//extern		NSString *BEColumn;
+//extern		NSString *ContentsColumn;
+//extern		NSString *ResAboneTypeColumn;
+//extern		NSString *ResLabelColumn;
 
 extern NSString *TempThreadNumberTableName;
 // extern		NSString *BoardIDColumn;
@@ -117,5 +117,6 @@ extern		NSString *TempThreadThreadNumberColumn;
 
 /*
  extern NSString *FavThreadInfoViewName;
- extern NSString *BoardThreadInfoViewName;
  */
+ extern NSString *BoardThreadInfoViewName;
+

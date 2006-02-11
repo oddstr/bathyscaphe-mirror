@@ -14,7 +14,7 @@ NSString *FavoritesTableName = @"Favorites";
 NSString *BoardInfoTableName = @"BoardInfo";
 NSString *ThreadInfoTableName = @"ThreadInfo";
 NSString *BoardInfoHistoryTableName = @"BoardInfoHistory";
-NSString *ResponseTableName = @"Response";
+//NSString *ResponseTableName = @"Response";
 
 NSString *FavThreadInfoViewName = @"FavThreadInfoView";
 NSString *BoardThreadInfoViewName = @"BoardThreadInfoView";
@@ -31,15 +31,15 @@ NSString *ThreadStatusColumn = @"threadStatus";
 NSString *ThreadAboneTypeColumn = @"threadAboneType";
 NSString *ThreadLabelColumn = @"threadLabel";
 NSString *LastWrittenDateColumn = @"lastWrittenDate";
-NSString *NumberColumn = @"number";
-NSString *MailColumn = @"mail";
-NSString *DateColumn = @"date";
-NSString *IDColumn = @"id";
-NSString *HostColumn = @"host";
-NSString *BEColumn = @"be";
-NSString *ContentsColumn = @"contents";
-NSString *ResAboneTypeColumn = @"resAboneType";
-NSString *ResLabelColumn = @"resLabel";
+//NSString *NumberColumn = @"number";
+//NSString *MailColumn = @"mail";
+//NSString *DateColumn = @"date";
+//NSString *IDColumn = @"id";
+//NSString *HostColumn = @"host";
+//NSString *BEColumn = @"be";
+//NSString *ContentsColumn = @"contents";
+//NSString *ResAboneTypeColumn = @"resAboneType";
+//NSString *ResLabelColumn = @"resLabel";
 
 NSString *TempThreadNumberTableName = @"TempThreadNumber";
 NSString *TempThreadThreadNumberColumn = @"threadNumber";
@@ -87,21 +87,21 @@ extern void setSQLiteZone(NSZone *zone);
 	if (![[self defaultManager] createBoardInfoHistoryTable]) {
 		NSLog(@"Can not create BoardInfoHistory tables");
 	}
-	if (![[self defaultManager] createResponseTable]) {
-		NSLog(@"Can not create Response tables");
-	}
+//	if (![[self defaultManager] createResponseTable]) {
+//		NSLog(@"Can not create Response tables");
+//	}
 	if (![[self defaultManager] createTempThreadNumberTable]) {
-		NSLog(@"Can not create Response tables");
+		NSLog(@"Can not create TempThreadNumber tables");
 	}
 	
 	/*
 	 if (![[self defaultManager] createFavThraedInfoView]) {
 		 NSLog(@"Can not create FavThraedInfo view");
 	 }
+	 */
 	 if (![[self defaultManager] createBoardThreadInfoView]) {
 		 NSLog(@"Can not create BoardThreadInfo view");
 	 }
-	 */
 }
 
 - (NSString *) databasePath
@@ -191,16 +191,16 @@ extern void setSQLiteZone(NSZone *zone);
 	return [NSArray arrayWithObjects : INTEGER_NOTNULL, QLString, QLString, nil];
 }
 
-- (NSArray *) responseColumns
-{
-	return [NSArray arrayWithObjects : BoardIDColumn, ThreadIDColumn, NumberColumn, MailColumn, DateColumn,
-		IDColumn, HostColumn, BEColumn, ContentsColumn, ResAboneTypeColumn, ResLabelColumn, nil];
-}
-- (NSArray *) responseDataTypes
-{
-	return [NSArray arrayWithObjects : INTEGER_NOTNULL, TEXT_NOTNULL, INTEGER_NOTNULL, QLString, QLDateTime,
-		QLString, QLString, QLString, QLString, QLNumber, QLNumber, nil];
-}
+//- (NSArray *) responseColumns
+//{
+//	return [NSArray arrayWithObjects : BoardIDColumn, ThreadIDColumn, NumberColumn, MailColumn, DateColumn,
+//		IDColumn, HostColumn, BEColumn, ContentsColumn, ResAboneTypeColumn, ResLabelColumn, nil];
+//}
+//- (NSArray *) responseDataTypes
+//{
+//	return [NSArray arrayWithObjects : INTEGER_NOTNULL, TEXT_NOTNULL, INTEGER_NOTNULL, QLString, QLDateTime,
+//		QLString, QLString, QLString, QLString, QLNumber, QLNumber, nil];
+//}
 
 - (NSArray *) tempThreadNumberColumns
 {
@@ -419,39 +419,39 @@ abort:
 	[db rollbackTransaction];
 	return NO;
 }
-- (BOOL) createResponseTable
-{
-	BOOL isOK = NO;
-	NSString *query;
-	
-	SQLiteDB *db = [self databaseForCurrentThread];
-	if (!db) return NO;
-	
-	if ([[db tables] containsObject : ResponseTableName]) {
-		return YES;
-	}
-	
-	query = [self queryForCreateIndexWithMultiColumn : [NSString stringWithFormat : @"%@,%@,%@", BoardIDColumn, ThreadIDColumn, NumberColumn]
-											 inTable : ResponseTableName
-											isUnique : YES];
-	if ([db beginTransaction]) {
-		isOK = [self createTable : ResponseTableName
-					 withColumns : [self responseColumns]
-					andDataTypes : [self responseDataTypes]
-				 andIndexQueries : [NSArray arrayWithObject : query]];
-		if (!isOK) goto abort;
-		
-		[db commitTransaction];
-		[db save];
-	}
-	
-	return isOK;
-	
-abort:
-		NSLog(@"Fail Database operation. Reson: \n%@", [db lastError]);
-	[db rollbackTransaction];
-	return NO;
-}
+//- (BOOL) createResponseTable
+//{
+//	BOOL isOK = NO;
+//	NSString *query;
+//	
+//	SQLiteDB *db = [self databaseForCurrentThread];
+//	if (!db) return NO;
+//	
+//	if ([[db tables] containsObject : ResponseTableName]) {
+//		return YES;
+//	}
+//	
+//	query = [self queryForCreateIndexWithMultiColumn : [NSString stringWithFormat : @"%@,%@,%@", BoardIDColumn, ThreadIDColumn, NumberColumn]
+//											 inTable : ResponseTableName
+//											isUnique : YES];
+//	if ([db beginTransaction]) {
+//		isOK = [self createTable : ResponseTableName
+//					 withColumns : [self responseColumns]
+//					andDataTypes : [self responseDataTypes]
+//				 andIndexQueries : [NSArray arrayWithObject : query]];
+//		if (!isOK) goto abort;
+//		
+//		[db commitTransaction];
+//		[db save];
+//	}
+//	
+//	return isOK;
+//	
+//abort:
+//		NSLog(@"Fail Database operation. Reson: \n%@", [db lastError]);
+//	[db rollbackTransaction];
+//	return NO;
+//}
 
 - (BOOL) createTempThreadNumberTable
 {
@@ -515,19 +515,21 @@ abort:
 	 [db rollbackTransaction];
 	 return NO;
  }
+ */
  - (BOOL) createBoardThreadInfoView
  {
 	 BOOL isOK = NO;
 	 NSMutableString *query;
 	 
-	 QuickLiteDatabase *db = [self databaseForCurrentThread];
+	 SQLiteDB *db = [self databaseForCurrentThread];
 	 if (!db) return NO;
 	 
 	 if ([[db tables] containsObject : BoardThreadInfoViewName]) {
 		 return YES;
 	 }
 	 
-	 query = [NSMutableString stringWithFormat : @"CREATE VIEW %@ AS\n", BoardThreadInfoViewName];
+//	 query = [NSMutableString stringWithFormat : @"CREATE VIEW %@ AS\n", BoardThreadInfoViewName];
+	 query = [NSMutableString stringWithFormat : @"CREATE TEMPORARY VIEW %@ AS\n", BoardThreadInfoViewName];
 	 [query appendFormat : @"\tSELECT * FROM %@ INNER JOIN %@", ThreadInfoTableName, BoardInfoTableName];
 	 [query appendFormat : @" USING(%@) ", BoardIDColumn];
 	 
@@ -547,5 +549,5 @@ abort:
 	 [db rollbackTransaction];
 	 return NO;
  }
- */
+ 
 @end

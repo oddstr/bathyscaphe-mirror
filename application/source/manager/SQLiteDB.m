@@ -155,9 +155,10 @@ int progressHandler(void *obj)
 }
 id <SQLiteRow> makeRowFromSTMT(sqlite3_stmt *stmt, NSArray *columns)
 {
-	NSMutableDictionary *result = [NSMutableDictionary dictionary];
+	NSMutableDictionary *result;
 	int i, columnCount = sqlite3_column_count(stmt);
 	
+	result = [NSMutableDictionary dictionaryWithCapacity : columnCount];
 	for (i = 0; i < columnCount; i++) {
 		//		const char *columnName = sqlite3_column_name(stmt, i);
 		const unsigned char *value = sqlite3_column_text(stmt, i);
