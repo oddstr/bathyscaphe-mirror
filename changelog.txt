@@ -1,4 +1,14 @@
+2006-02-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+		「ファイル」＞「新規ブラウザ」で二枚目以降のブラウザウインドウを開いた時、ウインドウのサイズが不適切だった問題を
+		（ようやく）修正。
+	* application/source/thread/CMRThreadViewer-Action.m
+		まちやJBBSライブドアで、スレッドを開かないで更新したときに正しく差分取得できなかった問題を修正。
 2006-02-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRAbstructThreadDocument.m
+		SGDocument.m を統合。SGDocument.m はプロジェクトから外した。いずれリポジトリからも削除される。
+	* application/source/thread/CMRThreadViewer-Download.m
+		NSBeginAlertSheet() → NSAlert に変更
 	* application/source/manager/CMRKeychainManager_p.h
 	* application/source/manager/CMRReplyDocumentFileManager_p.h
 	* application/Resources/text/numericCharacters.txt

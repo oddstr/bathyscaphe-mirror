@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.33 2006/02/11 08:19:26 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.34 2006/02/12 09:10:23 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -9,12 +9,12 @@
 #import "CMRBrowser_p.h"
 #import "CMRBBSListTemplateKeys.h"
 #import "NSTableColumn+CMXAdditions.h"
+#import "CMRMainMenuManager.h"
+#import "AddBoardSheetController.h"
+#import "BSTitleRulerView.h"
 #import "CMRTextColumnCell.h"
 #import <SGAppKit/CMRPullDownIconBtn.h>
-#import "CMRMainMenuManager.h"
-#import "BSTitleRulerView.h"
 #import <SGAppKit/BSIconAndTextCell.h>
-#import "AddBoardSheetController.h"
 
 @implementation CMRBrowser(ViewAccessor)
 - (CMRThreadViewer *) threadViewer
@@ -42,10 +42,7 @@
     
     return sview_;
 }
-/*- (NSPopUpButton *) threadsFilterPopUp
-{
-    return m_threadsFilterPopUp;
-}*/
+
 - (NSOutlineView *) boardListTable
 {
     return m_boardListTable;
@@ -100,8 +97,6 @@
 	return m_addBoardSheetController;
 }
 @end
-
-#pragma mark -
 
 @implementation CMRBrowser(UIComponents)
 - (void) setupLoadedComponents
@@ -368,7 +363,6 @@
     
     [self createDefaultTableColumnsWithTableView : tbView_];
     [self updateDefaultsWithTableView : tbView_];
-    
 
     [tbView_ setTarget : self];
     [tbView_ setDelegate : self];
@@ -380,7 +374,6 @@
 	// Favorites Item's Drag & Drop operation support:
 	[tbView_ registerForDraggedTypes : [NSArray arrayWithObjects : CMRFavoritesItemsPboardType, nil]];
     
-    //[tbView_ setAutosaveName : APP_BROWSER_THREADSLIST_TABLE_AUTOSAVE_NAME];
     [tbView_ setAutosaveTableColumns : NO];
     [tbView_ setVerticalMotionCanBeginDrag : NO];
         
@@ -388,80 +381,7 @@
     [self setupColumnsMenuWithTableView : tbView_]; // Ç±ÇÍÇÕïKÇ∏[tbView_ setAutosaveTableColumns : YES] ÇÃå„Ç…é¿çsÇµÇ»ÇØÇÍÇŒÇ»ÇÁÇ»Ç¢
     [tbView_ setMenu : [self listContextualMenu]];
 }
-/*
-- (void) setupThreadsListScrollView
-{
-    CMXScrollView    *scrollView_ = [self threadsListScrollView];
-    
-    [scrollView_ addAccessoryView : [self threadsFilterPopUp]
-                        alignment : CMXScrollViewHorizontalRight];
-}
 
-#pragma mark Threads Filter Popup
-
-- (void) setupThreadsFilterPopUpButton : (NSPopUpButton *) popUpBtn
-{
-    [popUpBtn setFont : [NSFont labelFontOfSize : 10.0f]];
-    [popUpBtn setPullsDown : NO];
-    [popUpBtn setBezelStyle : NSShadowlessSquareBezelStyle];
-    [popUpBtn setBordered : YES];
-    [popUpBtn removeAllItems];
-    [popUpBtn setAction : @selector(selectFilteringMask:)];
-    [popUpBtn setTarget : self];
-}
-- (void) setupThreadsFilterPopUpButtonCell : (NSPopUpButtonCell *) popUpBtnCell
-{
-    [popUpBtnCell setControlSize : NSSmallControlSize];
-    [popUpBtnCell setArrowPosition : NSPopUpArrowAtBottom];
-}
-- (void) setupThreadsFilterPopUpButtonItems : (NSPopUpButton *) popUpBtn
-{
-    NSString *menuKeys[] = {
-                            @"Show All Threads",
-							@"Show New & Local Threads",
-                            @"Show Local Threads",
-                            @"Show NoCached Threads",
-                            @"Show New Threads"
-                           };
-    int filteringMasks[] = 
-      {
-        ThreadStandardStatus,
-		~ThreadNoCacheStatus,
-        ThreadLogCachedStatus,
-        ThreadNoCacheStatus,
-        ThreadNewCreatedStatus ^ ThreadNoCacheStatus
-      };
-    
-    int i, cnt;
-    int filtering_mask_;
-    
-    i = 0;
-    cnt = UTILNumberOfCArray(filteringMasks);
-    filtering_mask_ = [CMRPref browserStatusFilteringMask];
-    NSAssert(
-        (cnt == UTILNumberOfCArray(menuKeys)),
-        @"Menu item and RepresentedObjects must be same count.");
-    
-    for (i = 0; i < cnt; i++) {
-        NSString *title_;
-        
-        title_ = [self localizedString : menuKeys[i]];
-        [popUpBtn addItemWithTitle : title_];
-        [[popUpBtn lastItem] setRepresentedObject : 
-            [NSNumber numberWithUnsignedInt : filteringMasks[i]]];
-
-        if (filteringMasks[i] == filtering_mask_) {
-            [popUpBtn selectItem : [popUpBtn lastItem]];
-        }
-    }
-}
-- (void) setupThreadsFilterPopUp
-{
-    [self setupThreadsFilterPopUpButton : [self threadsFilterPopUp]];
-    [self setupThreadsFilterPopUpButtonCell : [[self threadsFilterPopUp] cell]];
-    [self setupThreadsFilterPopUpButtonItems : [self threadsFilterPopUp]];
-}
-*/
 #pragma mark BoardList
 
 - (void) setupBoardListOutlineView : (NSOutlineView *) outlineView
@@ -470,14 +390,11 @@
 	NSColor	*tmp2;
     
     // D & D
-    [outlineView registerForDraggedTypes : 
-        [NSArray arrayWithObjects : 
-                        CMRBBSListItemsPboardType,
-                        NSFilenamesPboardType,
-                        nil]];
+    [outlineView registerForDraggedTypes : [NSArray arrayWithObjects : CMRBBSListItemsPboardType, NSFilenamesPboardType, nil]];
     
     [outlineView setDelegate : self];
     [outlineView setDataSource : [[BoardManager defaultManager] userList]];
+
     {
         NSTableColumn    *column_;
 		BSIconAndTextCell	*cell_;
@@ -534,25 +451,21 @@
 - (void) setupBoardListTable
 {
     [self setupBoardListTableDefaults];
+
     // Since selecting board kick-start another thread,
     // we should run this task after application did finish
-    // launching
+    // launching.
     
-    NSNotification *notification;
+    NSNotification *notification = [NSNotification notificationWithName : kSelectLastBBSNotification
+																 object : self];
     
-    notification = [NSNotification notificationWithName : kSelectLastBBSNotification
-        object : self];
-    
-    [[NSNotificationCenter defaultCenter]
-        addObserver : self
-        selector : @selector(selectLastBBS:)
-        name : kSelectLastBBSNotification
-        object : self];
-    [[NSNotificationQueue defaultQueue]
-        enqueueNotification : notification
-        postingStyle : NSPostWhenIdle];
-    
-    [self setupBoardListTableLastSelected];
+    [[NSNotificationCenter defaultCenter] addObserver : self
+											 selector : @selector(selectLastBBS:)
+												 name : kSelectLastBBSNotification
+											   object : self];
+
+    [[NSNotificationQueue defaultQueue] enqueueNotification : notification
+											   postingStyle : NSPostWhenIdle];
 }
 
 - (void) setUpBoardListToolButtons
@@ -590,9 +503,11 @@
 
 - (void) setupFrameAutosaveName
 {
-    [self setupSplitView];
     [[self window] setFrameAutosaveName : APP_BROWSER_WINDOW_AUTOSAVE_NAME];
+	[[self window] setFrameUsingName : APP_BROWSER_WINDOW_AUTOSAVE_NAME];
+    [self setupSplitView];
 	[[self splitView] setPositionAutosaveName : APP_BROWSER_SPVIEW_AUTOSAVE_NAME];
+	[[self splitView] setPositionUsingName : APP_BROWSER_SPVIEW_AUTOSAVE_NAME];
 }
 - (void) setupKeyLoops
 {
@@ -622,68 +537,19 @@
 	id				hItem4;
 	
 	BOOL	isIncremental;
-	/*
-	CMRSearchMask searchMasks_[] = {
-									CMRSearchOptionCaseInsensitive,
-									CMRSearchOptionZenHankakuInsensitive,
-									CMRSearchOptionIgnoreSpecified
-								};
-								
-	NSString *itemNameKeys_[] = {
-									@"Case Insensitive",
-									@"Zenkaku/Hankaku Insensitive",
-									@"Ignore Specified"
-								};
-	*/
-	//int				i, cnt;
-	int cnt = -1;
+	int		cnt = -1;
 	
 	NSMenu	*cellMenu	= [[[NSMenu alloc] initWithTitle : @"Search Menu"] autorelease];
     id		searchCell	= [[self searchField] cell];
 
 	isIncremental = [CMRPref useIncrementalSearch];
-	[searchCell setSendsWholeSearchString : (NO == isIncremental)];
-	
+
+	[searchCell setSendsWholeSearchString : (NO == isIncremental)];	
 	[searchCell setControlSize : NSSmallControlSize];
 	
 	if (!isIncremental) {
 		int maxValu = [CMRPref maxCountForSearchHistory];
 		[searchCell setMaximumRecents : maxValu];
-	}
-	/*
-	cnt = UTILNumberOfCArray(searchMasks_);
-	
-	NSAssert2(
-		cnt == UTILNumberOfCArray(itemNameKeys_),
-		@"searchMasks_[] count expected (%u) but was (%u).",
-		UTILNumberOfCArray(itemNameKeys_),
-		cnt);
-	
-	for (i = 0; i < cnt; i++) {
-		NSString			*label_;
-		NSMenuItem			*item_;
-		NSNumber			*rep_;
-		NSCellStateValue	state_;
-		
-		label_ = [self localizedString : itemNameKeys_[i]];
-		
-		rep_  = [NSNumber numberWithUnsignedInt : searchMasks_[i]];
-		item_ = [[NSMenuItem alloc] initWithTitle : label_
-										   action : @selector(searchToolbarPopupChanged:)
-									keyEquivalent : @""];
-
-		[item_ setTag : kSearchPopUpOptionItemTag];
-		[item_ setRepresentedObject : rep_];
-		
-		state_ = (searchMasks_[i] & [CMRPref threadSearchOption]) ? NSOnState : NSOffState;
-
-		[item_ setState : state_];
-		[cellMenu insertItem:item_ atIndex:i];
-		[item_ release];
-	}
-	*/
-	if (!isIncremental) {
-		//[cellMenu insertItem : [NSMenuItem separatorItem] atIndex : cnt];
 
 		hItem1 = [[NSMenuItem alloc] initWithTitle : [self localizedString : @"Search PopUp History Title"]
 											action : NULL
@@ -716,9 +582,8 @@
 		[hItem5 setTag : NSSearchFieldClearRecentsMenuItemTag];
 		[cellMenu insertItem : hItem5 atIndex : (cnt+5)];
 		[hItem5 release];
-	//}
 	
-    [searchCell setSearchMenuTemplate : cellMenu];
+		[searchCell setSearchMenuTemplate : cellMenu];
 	}
 }
 @end
@@ -731,8 +596,6 @@
     [super setupUIComponents];
 
     [self setupThreadsListTable];
-    //[self setupThreadsFilterPopUp];
-    //[self setupThreadsListScrollView];
     [self setUpBoardListToolButtons];
 	
 	[self setupSearchFieldMenu];

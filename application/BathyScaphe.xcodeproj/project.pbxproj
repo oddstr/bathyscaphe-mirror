@@ -61,7 +61,6 @@
 		870161DC082BE67100AEFDD0 /* CMRThreadLinkProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD5E04C698FB00A80005 /* CMRThreadLinkProcessor.h */; };
 		870161DD082BE67100AEFDD0 /* CMRThreadViewer.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD6C04C698FB00A80005 /* CMRThreadViewer.h */; };
 		870161DE082BE67100AEFDD0 /* CMRThreadViewer_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD6E04C698FB00A80005 /* CMRThreadViewer_p.h */; };
-		870161DF082BE67100AEFDD0 /* SGDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD7604C698FB00A80005 /* SGDocument.h */; };
 		870161E0082BE67100AEFDD0 /* TextFinder.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD7A04C698FB00A80005 /* TextFinder.h */; };
 		870161E3082BE67100AEFDD0 /* missing.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD8704C698FB00A80005 /* missing.h */; };
 		870161E4082BE67100AEFDD0 /* CMRIndexingStepper.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD9604C698FB00A80005 /* CMRIndexingStepper.h */; };
@@ -213,7 +212,6 @@
 		87016323082BE67100AEFDD0 /* CMRThreadViewer-MoveAction.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD6804C698FB00A80005 /* CMRThreadViewer-MoveAction.m */; };
 		87016324082BE67100AEFDD0 /* CMRThreadViewer-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD6B04C698FB00A80005 /* CMRThreadViewer-ViewAccessor.m */; };
 		87016325082BE67100AEFDD0 /* CMRThreadViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD6D04C698FB00A80005 /* CMRThreadViewer.m */; };
-		87016326082BE67100AEFDD0 /* SGDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD7704C698FB00A80005 /* SGDocument.m */; };
 		87016328082BE67100AEFDD0 /* TextFinder.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD7B04C698FB00A80005 /* TextFinder.m */; };
 		8701632A082BE67100AEFDD0 /* missing.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD8804C698FB00A80005 /* missing.m */; };
 		8701632B082BE67100AEFDD0 /* CMRIndexingStepper-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD9504C698FB00A80005 /* CMRIndexingStepper-ViewAccessor.m */; };
@@ -1129,8 +1127,6 @@
 		F324DD6C04C698FB00A80005 /* CMRThreadViewer.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRThreadViewer.h; sourceTree = "<group>"; };
 		F324DD6D04C698FB00A80005 /* CMRThreadViewer.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRThreadViewer.m; sourceTree = "<group>"; };
 		F324DD6E04C698FB00A80005 /* CMRThreadViewer_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRThreadViewer_p.h; sourceTree = "<group>"; };
-		F324DD7604C698FB00A80005 /* SGDocument.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = SGDocument.h; sourceTree = "<group>"; };
-		F324DD7704C698FB00A80005 /* SGDocument.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = SGDocument.m; sourceTree = "<group>"; };
 		F324DD7A04C698FB00A80005 /* TextFinder.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = TextFinder.h; sourceTree = "<group>"; };
 		F324DD7B04C698FB00A80005 /* TextFinder.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = TextFinder.m; sourceTree = "<group>"; };
 		F324DD8704C698FB00A80005 /* missing.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; name = missing.h; path = ../util/missing.h; sourceTree = "<group>"; };
@@ -2458,8 +2454,6 @@
 				F324DD4C04C698FB00A80005 /* CMRThreadDocument.h */,
 				F3959F0E04D3050600A80005 /* CMRThreadDocument_p.h */,
 				F324DD4D04C698FB00A80005 /* CMRThreadDocument.m */,
-				F324DD7604C698FB00A80005 /* SGDocument.h */,
-				F324DD7704C698FB00A80005 /* SGDocument.m */,
 			);
 			name = document;
 			sourceTree = "<group>";
@@ -2624,7 +2618,6 @@
 				870161DC082BE67100AEFDD0 /* CMRThreadLinkProcessor.h in Headers */,
 				870161DD082BE67100AEFDD0 /* CMRThreadViewer.h in Headers */,
 				870161DE082BE67100AEFDD0 /* CMRThreadViewer_p.h in Headers */,
-				870161DF082BE67100AEFDD0 /* SGDocument.h in Headers */,
 				870161E0082BE67100AEFDD0 /* TextFinder.h in Headers */,
 				870161E3082BE67100AEFDD0 /* missing.h in Headers */,
 				870161E4082BE67100AEFDD0 /* CMRIndexingStepper.h in Headers */,
@@ -3342,7 +3335,6 @@
 				87016323082BE67100AEFDD0 /* CMRThreadViewer-MoveAction.m in Sources */,
 				87016324082BE67100AEFDD0 /* CMRThreadViewer-ViewAccessor.m in Sources */,
 				87016325082BE67100AEFDD0 /* CMRThreadViewer.m in Sources */,
-				87016326082BE67100AEFDD0 /* SGDocument.m in Sources */,
 				87016328082BE67100AEFDD0 /* TextFinder.m in Sources */,
 				8701632A082BE67100AEFDD0 /* missing.m in Sources */,
 				8701632B082BE67100AEFDD0 /* CMRIndexingStepper-ViewAccessor.m in Sources */,

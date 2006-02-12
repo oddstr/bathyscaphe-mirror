@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.16 2006/01/25 11:22:03 tsawada2 Exp $
+  * $Id: CMRBrowser.m,v 1.17 2006/02/12 09:10:23 tsawada2 Exp $
   * 
   * CMRBrowser.m
   *
@@ -32,6 +32,11 @@ id CMRMainBrowser = nil;
 - (NSString *) windowNibName
 {
 	return CMRBrowserLoadNibName;
+}
+
+- (BOOL) shouldCascadeWindows
+{
+	return YES;
 }
 
 - (NSString *) windowTitleForDocumentDisplayName : (NSString *) displayName
