@@ -1,7 +1,13 @@
 2006-02-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/Browser.nib
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+		[Bug 6478] 掲示板リストを隠した状態で BathyScaphe を終了し、次に起動して掲示板リストを表示させると、掲示板リストの幅が
+		不正になる問題を（ようやく）修正。
 	* application/source/browser/CMRBrowser-ViewAccessor.m
 		「ファイル」＞「新規ブラウザ」で二枚目以降のブラウザウインドウを開いた時、ウインドウのサイズが不適切だった問題を
 		（ようやく）修正。
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		「表示」＞「一覧に表示するスレッド」へのショートカットキーの付加（やや暫定的）。
 	* application/source/thread/CMRThreadViewer-Action.m
 		まちやJBBSライブドアで、スレッドを開かないで更新したときに正しく差分取得できなかった問題を修正。
 2006-02-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>

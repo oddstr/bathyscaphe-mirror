@@ -280,7 +280,7 @@
 		F3C928CF04DC0E5F00A80005 /* genKeybindngMacros.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; name = genKeybindngMacros.m; path = framework/resource/genKeybindngMacros.m; sourceTree = SOURCE_ROOT; };
 		F3FB8B7904459A3F00A80005 /* SGKeyBindingSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGKeyBindingSupport.h; sourceTree = "<group>"; };
 		F3FB8B7A04459A3F00A80005 /* SGKeyBindingSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGKeyBindingSupport.m; sourceTree = "<group>"; };
-		F3FB8B8204459A6E00A80005 /* Product Unit Test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = "Product Unit Test"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3FB8B8204459A6E00A80005 /* Product Unit Test */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "Product Unit Test"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3FB8B9104459B6400A80005 /* test_main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = test_main.m; sourceTree = "<group>"; };
 		F3FB8B9604459B9300A80005 /* ObjcUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjcUnit.framework; path = /Users/takanori/Library/Frameworks/ObjcUnit.framework; sourceTree = "<absolute>"; };
 		F3FB8B9804459BA500A80005 /* AllTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllTest.h; sourceTree = "<group>"; };

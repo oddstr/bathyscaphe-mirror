@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.34 2006/02/12 09:10:23 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.35 2006/02/12 13:30:57 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -505,6 +505,10 @@
 {
     [[self window] setFrameAutosaveName : APP_BROWSER_WINDOW_AUTOSAVE_NAME];
 	[[self window] setFrameUsingName : APP_BROWSER_WINDOW_AUTOSAVE_NAME];
+	
+	[[[self boardListSubView] outermostSplitView] setAutosaveName : APP_BROWSER_BL_SPLITVUEW_AUTOSAVE_NAME recursively : NO];
+	[[[self boardListSubView] outermostSplitView] restoreState : NO];
+	
     [self setupSplitView];
 	[[self splitView] setPositionAutosaveName : APP_BROWSER_SPVIEW_AUTOSAVE_NAME];
 	[[self splitView] setPositionUsingName : APP_BROWSER_SPVIEW_AUTOSAVE_NAME];
