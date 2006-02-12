@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-listImport.m,v 1.7 2006/01/22 07:10:52 tsawada2 Exp $
+  * $Id: CMRThreadsList-listImport.m,v 1.8 2006/02/12 15:39:46 tsawada2 Exp $
   * BathyScaphe
   *
   *
@@ -400,7 +400,7 @@ static BOOL synchronizeThAttrForSync2(NSMutableDictionary *theThread, NSDictiona
 			// 
 			[self downloadThreadsList];
 		} else {
-		[self postListDidUpdateNotification : CMRAutoscrollWhenTLUpdate];
+			[self postListDidUpdateNotification : CMRAutoscrollWhenTLUpdate];
 		}
 	} else {
 		[self postListDidUpdateNotification : CMRAutoscrollWhenTLUpdate];

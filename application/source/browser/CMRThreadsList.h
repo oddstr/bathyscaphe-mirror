@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.h,v 1.5 2006/01/25 11:22:03 tsawada2 Exp $
+  * $Id: CMRThreadsList.h,v 1.6 2006/02/12 15:39:46 tsawada2 Exp $
   * 
   * CMRThreadsList.h
   *
@@ -50,6 +50,7 @@
 				   inTableView : (NSTableView *) tableView;
 
 - (id) objectValueForBoardInfo;
+- (BOOL) writeListToFileNow;
 @end
 
 

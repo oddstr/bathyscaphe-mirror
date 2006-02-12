@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.17 2006/02/12 09:10:23 tsawada2 Exp $
+  * $Id: CMRBrowser.m,v 1.18 2006/02/12 15:39:46 tsawada2 Exp $
   * 
   * CMRBrowser.m
   *
@@ -17,13 +17,13 @@ NSString *const CMRBrowserDidChangeBoardNotification = @"CMRBrowserDidChangeBoar
  * current main browser instance.
  * @see CMRExports.h 
  */
-//CMRBrowser *CMRMainBrowser = nil;
 id CMRMainBrowser = nil;
 
 @implementation CMRBrowser
 - (id) init
 {
 	if (self = [super init]) {
+		[self setShouldCascadeWindows : YES];
 		CMRMainBrowser = self;
 	}
 	return self;
@@ -32,11 +32,6 @@ id CMRMainBrowser = nil;
 - (NSString *) windowNibName
 {
 	return CMRBrowserLoadNibName;
-}
-
-- (BOOL) shouldCascadeWindows
-{
-	return YES;
 }
 
 - (NSString *) windowTitleForDocumentDisplayName : (NSString *) displayName
@@ -58,6 +53,7 @@ id CMRMainBrowser = nil;
 - (void) dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver : self];
+
 	// dispose main browser...
 	if (CMRMainBrowser == self)
 		CMRMainBrowser = nil;
@@ -92,7 +88,7 @@ id CMRMainBrowser = nil;
 - (IBAction) showWindow : (id) sender
 {
 	BOOL	isWindowLoaded_ = [self isWindowLoaded];
-	
+
 	[super showWindow : sender];
 	if (isWindowLoaded_) return;
 	

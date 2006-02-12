@@ -1,3 +1,10 @@
+2006-02-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRThreadsList-Download.m
+	* application/source/browser/CMRThreadsList.m
+		ThreadsList.plist への書き込みは、これまで CMRThreadsList の dealloc 時（〜板を切り替えるとき）に行われていたが、
+		これを postListDidUpdateNotification: （〜スレッド一覧が更新された直後）で行うようにした。
+		- 以前よりこまめに、ただちに書き込まれる。
+		- 「ファイル」＞「新規ブラウザ」で二枚目以降のブラウザウインドウを開くときに、読み込みに長くかかっていた問題をこれで解決。
 2006-02-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/Browser.nib
 	* application/source/browser/CMRBrowser-ViewAccessor.m

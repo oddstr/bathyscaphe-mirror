@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.m,v 1.7 2005/12/10 12:39:44 tsawada2 Exp $
+  * $Id: Browser.m,v 1.8 2006/02/12 15:39:46 tsawada2 Exp $
   * 
   * Browser.m
   *
@@ -63,6 +63,7 @@
 	[self addWindowController : browser_];
 	[browser_ release];
 }
+
 - (NSString *) displayName
 {
 	CMRThreadsList		*list_;

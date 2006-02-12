@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.m,v 1.8 2006/01/25 11:22:03 tsawada2 Exp $
+  * $Id: CMRThreadsList.m,v 1.9 2006/02/12 15:39:46 tsawada2 Exp $
   * 
   * CMRThreadsList.m
   *
@@ -118,12 +118,19 @@ struct SortContext {
 	return self;
 }
 
+- (BOOL) writeListToFileNow
+{
+	return [[self threads] writeToFile : [self threadsListPath] atomically : NO];
+}
+
 - (void) dealloc
 {
 	[self removeFromNotificationCenter];
 
 	if (NO == [self isFavorites]) {
-		[[self threads] writeToFile : [self threadsListPath] atomically : NO];
+		//NSLog(@"Now writing");
+		//[self writeListToFileNow];
+		//[[self threads] writeToFile : [self threadsListPath] atomically : NO];
 		/*if ([CMRPref saveThreadListAsBinaryPlist]) {
 			NSData *data_;
 			NSString *errStr;

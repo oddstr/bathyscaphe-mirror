@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.24 2006/02/11 03:20:56 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.25 2006/02/12 15:39:46 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -46,14 +46,16 @@ NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEnd
 			[self release];
 			return nil;
 		}
+		
+		[self setShouldCascadeWindows : NO];
 		[self registerToNotificationCenter];
 	}
 	return self;
 }
-- (BOOL) shouldCascadeWindows
+/*- (BOOL) shouldCascadeWindows
 {
 	return NO;
-}
+}*/
 - (void) dealloc
 {
 	[CMRPopUpMgr closePopUpWindowForOwner:self];
