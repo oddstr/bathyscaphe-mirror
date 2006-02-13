@@ -1,4 +1,10 @@
 2006-02-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/w2chFavoriteItemList.m
+	* application/source/preferences/AppDefaults-ThreadsList.m
+	* application/source/browser/CMRBrowser-Validation.m
+	* application/Resources/Japanese.lproj/Localizable.strings
+		お気に入りの更新チェックは、一度実行したら 10 分間実行できないようにした。更新チェックができない時は、その旨といつ頃から
+		利用できるようになるかをツールチップで表示するようにした。
 	* application/source/browser/CMRThreadsList-Download.m
 	* application/source/browser/CMRThreadsList.m
 		ThreadsList.plist への書き込みは、これまで CMRThreadsList の dealloc 時（〜板を切り替えるとき）に行われていたが、

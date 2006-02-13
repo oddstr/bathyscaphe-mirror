@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.30 2006/01/27 17:52:53 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.31 2006/02/13 02:15:18 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -335,6 +335,11 @@
 /* InnocentStarter Additions */
 - (BOOL) autoReloadListWhenWake;
 - (void) setAutoReloadListWhenWake : (BOOL) doReload;
+
+/* RainbowJerk Additions */
+- (NSDate *) lastHEADCheckedDate;
+- (void) setLastHEADCheckedDate : (NSDate *) date;
+- (BOOL) canHEADCheck;
 
 - (void) _loadThreadsListSettings;
 - (BOOL) _saveThreadsListSettings;
