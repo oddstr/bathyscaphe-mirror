@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.5 2005/10/12 11:25:50 tsawada2 Exp $
+  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.6 2006/02/14 15:09:41 tsawada2 Exp $
   * 
   * CMRThreadViewer-ViewAccessor.m
   *
@@ -488,7 +488,7 @@
 	
 	// ロードしたComponentsの配置
 	[self setupLoadedComponents];
-	
+
 	[self setupScrollView];
 	[self setupTextView];
 	

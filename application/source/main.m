@@ -2,7 +2,6 @@
 
 
 #import "CocoMonar_Prefix.h"
-//#import <SGAppKit/SGAppKit.h>
 #import "CMXInternalMessaging.h"
 #import "RBSplitView.h"
 #import "CookieManager.h"
@@ -17,7 +16,7 @@
 /* for Debugging */
 SGUtilLogger *CMRLogger = nil;
 
-
+BOOL shouldCascadeBrowser = YES;
 
 void CMXServicesInit(void)
 {
@@ -42,9 +41,6 @@ void CMXServicesInit(void)
     //[BoardManager defaultManager];
 	//[CMRFavoritesManager defaultManager];
     [CMRNetGrobalLock sharedInstance];
-    
-    // Custom views
-    //SGAppKitFrameworkInit();
     
     // Inter-thread messaging
     CMRMainThread = [NSThread currentThread];
@@ -84,7 +80,6 @@ void CMRApplicationReset(id sender)
     
     [[CookieManager defaultManager] removeAllCookies];
 	[[NSURLCache sharedURLCache] removeAllCachedResponses];
-    //[[SGTemplatesManager sharedInstance] resetAllResources];
     [[CMRHistoryManager  defaultManager] removeAllItems];
     [[NSNotificationCenter defaultCenter] 
         postNotificationName : CMRApplicationDidResetNotification

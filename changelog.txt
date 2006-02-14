@@ -1,3 +1,12 @@
+2006-02-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* frameworks/CocoMonar/framework/src/CMRDocumentTypes.m
+		CMRBrowserDocumentType = @"CocoMonar 2ch Format"（ブラウザウインドウ）を追加定義した。
+	* application/source/manager/CMRDocumentController.m
+	* application/source/CMRExports.h
+	* application/source/browser/CMRBrowser.m
+		ブラウザウインドウのカスケード処理を最適化した。
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+		描画の不具合を修正。
 2006-02-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/w2chFavoriteItemList.m
 	* application/source/preferences/AppDefaults-ThreadsList.m

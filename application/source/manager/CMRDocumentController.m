@@ -11,7 +11,7 @@
 #import "CMRDocumentController.h"
 #import "CocoMonar_Prefix.h"
 #import "CMRReplyDocumentFileManager.h"
-
+#import "CMRBrowser.h"
 // Deprecatd in TestaRossa and later, because of performance issue.
 // this method was used in CMRDocumentFileManage.m and CMRReplyDocumentFileManager.m
 /*@implementation NSDocumentController(CMRExtensions)
@@ -27,7 +27,7 @@
 }
 @end*/
 
-
+static int	numOfBrowsers = 0;
 
 @implementation CMRDocumentController : NSDocumentController
 - (void) noteNewRecentDocumentURL : (NSURL *) aURL
@@ -44,4 +44,27 @@
 	
 	[super noteNewRecentDocumentURL : aURL];*/
 }
+
+- (IBAction)newDocument:(id)sender
+{	
+	shouldCascadeBrowser = (numOfBrowsers == 0) ? NO : YES;
+	[super newDocument : sender];
+}
+
+- (void)addDocument:(NSDocument *)document
+{
+	[super addDocument : document];
+	if ([[document fileType] isEqualToString: CMRBrowserDocumentType]) {
+		numOfBrowsers++;
+	}
+}
+
+- (void)removeDocument:(NSDocument *)document
+{
+	if ([[document fileType] isEqualToString: CMRBrowserDocumentType]) {
+		numOfBrowsers--;
+	}
+	[super removeDocument : document];
+}
+		
 @end

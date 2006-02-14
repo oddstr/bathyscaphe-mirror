@@ -53,8 +53,8 @@
 	[[self window] setAutodisplay : NO];
 	[[self window] setViewsNeedDisplay : NO];
 	[self setupUIComponents];
-	[[self window] setAutodisplay : YES];
 	[[self window] setViewsNeedDisplay : YES];
+	[[self window] setAutodisplay : YES];
 }
 @end
 
