@@ -1,5 +1,5 @@
 /**
-  * $Id: BSFavoritesHEADCheckTask.h,v 1.2 2006/01/21 10:13:32 tsawada2 Exp $
+  * $Id: BSFavoritesHEADCheckTask.h,v 1.3 2006/02/19 08:49:19 tsawada2 Exp $
   * BathyScaphe
   *
   * ワーカースレッド上で実行される
@@ -36,7 +36,7 @@
 - (NSString *) amountString;
 - (void) setAmountString : (NSString *) someString;
 
-- (void) checkEachItemOfFavItemsArray;
+- (void) checkEachItemOfThreadsArray;
 @end
 
 

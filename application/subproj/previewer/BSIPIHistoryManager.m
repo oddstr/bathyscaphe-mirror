@@ -40,7 +40,13 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 - (NSArray *) arrayOfURLs
 {
 	NSMutableArray *tmp = [self historyBacket];
-	return (tmp == nil) ? nil : [tmp valueForKey : kIPIHistoryItemURLKey];
+	return ([tmp count] > 0) ? [tmp valueForKey : kIPIHistoryItemURLKey] : nil;
+}
+
+- (NSArray *) arrayOfPaths
+{
+	NSMutableArray *tmp = [self historyBacket];
+	return ([tmp count] > 0) ? [tmp valueForKey : kIPIHistoryItemPathKey] : nil;
 }
 
 - (NSString *) cachedFilePathForURL : (NSURL *) anURL
@@ -52,6 +58,17 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 	idx = [tmp indexOfObject : anURL];
 	if (idx == NSNotFound) return nil;
 	
-	return [(NSDictionary *)[[self historyBacket] objectAtIndex : idx] objectForKey : kIPIHistoryItemPathKey];
+	return [[self arrayOfPaths] objectAtIndex : idx];
+}
+
+- (BOOL) addItemOfURL : (NSURL *) anURL andPath : (NSString *) aPath
+{
+	if (anURL == nil || aPath == nil) return NO;
+	
+	NSDictionary *tmpDict;
+	tmpDict = [NSDictionary dictionaryWithObjectsAndKeys : anURL, kIPIHistoryItemURLKey, aPath, kIPIHistoryItemPathKey, NULL];
+
+	[[self historyBacket] addObject : tmpDict];
+	return YES;
 }
 @end

@@ -1,3 +1,35 @@
+2006-02-19 (2006-02-18) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRThreadsList-DataSource.m
+		ソースの見直し（一部のメソッドを関数呼び出しに書き換えるなどの、涙ぐましい悪あがき）
+2006-02-19 (2006-02-17) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/BSFavoritesHEADCheckTask.m
+		お気に入りの更新チェックは、30 スレッドまでに制限した。
+		- お気に入り全体から、まず以下のスレッドは除外される：
+		　1. ステータスが灰色ではない項目
+		　2. レス数が 1001 以上の項目
+		　3. ログファイルに「dat 落ち」フラグが設定されている項目
+		　4. dat の URL が取得できない項目（例：まちBBS、JBBS ライブドア）
+		これらのスレッドを「除いて」、30 スレッドまで更新チェックを行う。
+		- つまり、あくまで「HEAD メソッドを投げる回数を 30 回までとする」という観点である。
+		- チェックはお気に入りの登録順で、1 番から順に行われる。
+		- 溢れてチェックされなかったスレッドについて、現在のところとくにその旨は報告されない。今後さらに検討を進めて、改良される
+		　予定なので、あせらないこと。
+		- BathyScaphe 1.2 では HEAD 投げによるチェックのみを使用する。subject.txt との組み合わせは 1.5 までやらない（できない）。
+		　これはハッキリさせておく。負荷については更新間隔の制限と、この総量規制でとりあえず対応できると考える。
+2006-02-19 (2006-02-16) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Delegate.m
+	* application/Resources/Japanese.lproj/Browser.nib
+		[Bug 6398] 関連：スレッド一覧の検索フィールドで return を押した時は、スレッド一覧にフォーカスを移すようにした。
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/BSIPIHistoryManager.m
+	* application/subproj/previewer/Japanese.lproj/BSIPIFullScreen.nib
+		プレビューインスペクタ（1.5.2）
+		-フルスクリーン時に gif アニメーションがアニメートしない問題を修正。
+		-キャッシュ履歴の参照法を見直し、ソースを少し整理した。
+2006-02-19 (2006-02-15) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/Browser.nib
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+		tab/shift-tab でのフォーカス移動がきちんと動作するように手直しした。
 2006-02-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* frameworks/CocoMonar/framework/src/CMRDocumentTypes.m
 		CMRBrowserDocumentType = @"CocoMonar 2ch Format"（ブラウザウインドウ）を追加定義した。

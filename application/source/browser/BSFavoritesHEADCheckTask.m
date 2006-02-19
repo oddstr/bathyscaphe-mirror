@@ -1,5 +1,5 @@
 /**
-  * $Id: BSFavoritesHEADCheckTask.m,v 1.5 2006/01/29 06:55:54 tsawada2 Exp $
+  * $Id: BSFavoritesHEADCheckTask.m,v 1.6 2006/02/19 08:49:19 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2006 BathyScaphe Project. All rights reserved.
@@ -11,6 +11,9 @@
 #import "CMRThreadSignature.h"
 #import "CMRHostHandler.h"
 #import "AppDefaults.h"
+#import "CMRThreadAttributes.h"
+
+#define MAX_HEAD_COUNT	30
 
 NSString *const BSFavoritesHEADCheckTaskDidFinishNotification = @"BSFavoritesHEADCheckTaskDidFinishNotification";
 
@@ -51,34 +54,19 @@ static NSURL *getDATURL(NSDictionary *dict)
 	return url_;
 }
 
-static NSDictionary *replaceAttributesIfNeeded(NSDictionary *thread)
+static NSDictionary *replaceAttributesIfNeeded(NSDictionary *thread, NSURL *checkURL)
 {
 	NSURLResponse	*response = nil;
 	NSError			*ifErr = nil;
-	NSNumber	*status;
-	NSURL		*checkURL;
+
+	//NSURL		*checkURL;
 	NSMutableURLRequest	*theRequest;
-	int			t;
 
-	status = [thread objectForKey : CMRThreadStatusKey];
-	if(status == nil) return thread;
-
-	if (!([status unsignedIntValue] == ThreadLogCachedStatus)) {
-
-		return thread;
-	}
-	
-	t = [thread integerForKey : CMRThreadNumberOfMessagesKey];
-	if (t > 1000) {
-		//NSLog(@"Over 1000 skipped");
-		return thread;
-	}
-
-	checkURL = getDATURL(thread);
+	/*checkURL = getDATURL(thread);
 	if (checkURL == nil) {
-		NSLog(@"DAT URL is nil at %@", [thread objectForKey : CMRThreadTitleKey]);
+		NSLog(@"DAT URL is nil at %@, skipped", [thread objectForKey : CMRThreadTitleKey]);
 		return thread;
-	}
+	}*/
 
 	theRequest = [NSMutableURLRequest requestWithURL : checkURL];
 	[theRequest setHTTPMethod : BSFavCheckMethodKey];
@@ -93,12 +81,13 @@ static NSDictionary *replaceAttributesIfNeeded(NSDictionary *thread)
 	}
 
 	if([response isKindOfClass : [NSHTTPURLResponse class]]) {
-		NSDate			*lastDate_ = [thread objectForKey : CMRThreadModifiedDateKey];;
+		NSDate			*lastDate_ = [thread objectForKey : CMRThreadModifiedDateKey];
+		
+		if (lastDate_ == nil) return thread;
+
 		NSDictionary	*dicHead = [(NSHTTPURLResponse *)response allHeaderFields];
 		NSString		*sLastMod = [dicHead objectForKey : BSFavHEADerLMKey];
 		NSCalendarDate	*dateLastMod = [NSCalendarDate dateWithHTTPTimeRepresentation : sLastMod]; // SGFoundation
-		
-		if (lastDate_ == nil) return thread;
 
 		/* dat 落ちしたスレッドの場合、リダイレクトされて http://www.2ch.net/live.html などに飛ばされてしまう。
 		   するとリダイレクト先の last-modified と比較することになり、よろしくない。そこで元の URL と response の URL を比較する必要がある。
@@ -146,8 +135,8 @@ static NSDictionary *replaceAttributesIfNeeded(NSDictionary *thread)
 - (void) doExecuteWithLayout : (CMRThreadLayout *) layout
 {
     NSDictionary    *userInfo_;
-
-    [self checkEachItemOfFavItemsArray];
+	
+    [self checkEachItemOfThreadsArray];
     userInfo_ = [NSDictionary dictionaryWithObjectsAndKeys : [self threadsArray], kBSUserInfoThreadsArrayKey, nil];
     
     [CMRMainMessenger postNotificationName : BSFavoritesHEADCheckTaskDidFinishNotification
@@ -155,7 +144,38 @@ static NSDictionary *replaceAttributesIfNeeded(NSDictionary *thread)
                                   userInfo : userInfo_];
 }
 
-- (void) checkEachItemOfFavItemsArray
+- (BOOL) validateThreadBeforeHEADCheck : (NSDictionary *) thread
+{
+	NSNumber	*status;
+	int			t;
+
+	status = [thread objectForKey : CMRThreadStatusKey];
+	if(status == nil) return NO;
+
+	if (!([status unsignedIntValue] == ThreadLogCachedStatus)) return NO;
+	
+	t = [thread integerForKey : CMRThreadNumberOfMessagesKey];
+	if (t > 1000) return NO;
+
+	{
+		NSString *path_;
+		path_ = [CMRThreadAttributes pathFromDictionary : thread];
+		if (!path_) return NO;
+		
+		NSDictionary	*tmp_;
+		id		rep_;
+		CMRThreadUserStatus	*s;
+
+		tmp_ = [NSDictionary dictionaryWithContentsOfFile : path_];
+		rep_ = [tmp_ objectForKey : CMRThreadUserStatusKey];
+		s = [CMRThreadUserStatus objectWithPropertyListRepresentation : rep_];
+		if((s != nil) && [s isDatOchiThread]) return NO;
+	}
+
+	return YES;
+}
+
+- (void) checkEachItemOfThreadsArray
 {
     NSEnumerator        *iter;
     NSMutableDictionary *thread_;
@@ -164,6 +184,7 @@ static NSDictionary *replaceAttributesIfNeeded(NSDictionary *thread)
     
     unsigned nEnded_ = 0;
     unsigned nElem_  = [[self threadsArray] count];
+	unsigned nActuallyEnded_ = 0;
 
     UTILAssertNotNilArgument([self threadsArray], @"Threads List Array");
 	
@@ -174,24 +195,34 @@ static NSDictionary *replaceAttributesIfNeeded(NSDictionary *thread)
 
     iter = [[self threadsArray] objectEnumerator];
     while (thread_ = [iter nextObject]) {
-        NSDictionary *newItem;
 		
 		[self checkIsInterrupted]; // ユーザが中止できるように
 
-        newItem = replaceAttributesIfNeeded(thread_);
-		[newArray_ addObject : newItem];
+
+		if((nActuallyEnded_ < MAX_HEAD_COUNT) && [self validateThreadBeforeHEADCheck : thread_]) {
+			NSURL	*datURL = getDATURL(thread_);
+			if (datURL != nil) {
+				NSDictionary *newItem;
+				newItem = replaceAttributesIfNeeded(thread_, datURL);
+				[newArray_ addObject : newItem];
+				
+				nActuallyEnded_++;
+			} else {
+				[newArray_ addObject : thread_];
+			}
+		} else {
+			[newArray_ addObject : thread_];
+		}
 
         nEnded_++;
         [self setProgress : (((double)nEnded_ / (double)nElem_) * 100)];
-		[self setAmountString : [NSString stringWithFormat : @"%i/%i",nEnded_,nElem_]];
+		[self setAmountString : [NSString stringWithFormat : @"%i/%i (%i)",nEnded_,nElem_,nActuallyEnded_]];
     }
 
 	soundName_ = [CMRPref HEADCheckNewArrivedSound];
 	if ((modified_ > 0) && ![soundName_ isEqualToString : @""]) {
-		//NSLog(@"Some Threads are modified.");
 		finishedSound_ = [NSSound soundNamed :soundName_];
 	} else {
-		//NSLog(@"No threads are modified.");
 		soundName_ = [CMRPref HEADCheckNoUpdateSound];
 		if (![soundName_ isEqualToString : @""])
 			finishedSound_ = [NSSound soundNamed : soundName_];

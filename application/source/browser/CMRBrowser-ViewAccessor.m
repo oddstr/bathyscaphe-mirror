@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.36 2006/02/14 15:09:41 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.37 2006/02/19 08:49:19 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -323,12 +323,15 @@
 
 - (void) setupSplitView
 {
-	BOOL isGoingToVertical = [CMRPref isSplitViewVertical];
-	// KFSplitView
-    [[self splitView] setVertical : isGoingToVertical];
-	[[[self threadsListTable] enclosingScrollView] setHasHorizontalScroller : isGoingToVertical];
-    topSubview = [[[self splitView] subviews] objectAtIndex:0];
-    bottomSubview = [[[self splitView] subviews] objectAtIndex:1];
+	BOOL			isGoingToVertical = [CMRPref isSplitViewVertical];
+	BSKFSplitView	*splitView_ = [self splitView];
+	NSArray			*subviewsAry_ = [splitView_ subviews];
+
+    [splitView_ setVertical : isGoingToVertical];
+	[[self threadsListScrollView] setHasHorizontalScroller : isGoingToVertical];
+
+    topSubview = [subviewsAry_ objectAtIndex : 0];
+    bottomSubview = [subviewsAry_ objectAtIndex : 1];
 }
 
 - (void) updateDefaultsWithTableView : (NSTableView *) tbview
@@ -503,12 +506,14 @@
 
 - (void) setupFrameAutosaveName
 {
+	RBSplitView *mainSplitView_ = [[self boardListSubView] outermostSplitView];
+
     [[self window] setFrameAutosaveName : APP_BROWSER_WINDOW_AUTOSAVE_NAME];
 	[[self window] setFrameUsingName : APP_BROWSER_WINDOW_AUTOSAVE_NAME];
 
-	[[[self boardListSubView] outermostSplitView] setAutosaveName : APP_BROWSER_BL_SPLITVUEW_AUTOSAVE_NAME recursively : NO];
-	[[[self boardListSubView] outermostSplitView] restoreState : NO];
-	[[[self boardListSubView] outermostSplitView] adjustSubviews];
+	[mainSplitView_ setAutosaveName : APP_BROWSER_BL_SPLITVUEW_AUTOSAVE_NAME recursively : NO];
+	[mainSplitView_ restoreState : NO];
+	[mainSplitView_ adjustSubviews];
 
 	[self setupSplitView];
 
@@ -518,21 +523,17 @@
 
 - (void) setupKeyLoops
 {
-	[[self searchField] setNextKeyView : [self threadsListTable]];
-   
-	if ([self shouldShowContents]) {
+	[[self searchField] setNextKeyView : [self boardListTable]];
+	[[self boardListTable] setNextKeyView : [self threadsListTable]];
+	if([self shouldShowContents]) {
 		[[self threadsListTable] setNextKeyView : [self textView]];
 		[[self textView] setNextKeyView : [[self indexingStepper] textField]];
-		[[[self indexingStepper] textField] setNextKeyView : [self boardListTable]];
+		[[[self indexingStepper] textField] setNextKeyView : [self searchField]];
 	} else {
-		[[self threadsListTable] setNextKeyView : [self boardListTable]];
+		[[self threadsListTable] setNextKeyView : [self searchField]];
 	}
-	
-	[[self boardListTable] setNextKeyView : [self searchField]];
-    
-    [[self window] setInitialFirstResponder : [self threadsListTable]];
-    [[self window] makeFirstResponder : [self threadsListTable]];
 }
+
 - (void) setWindowFrameUsingCache
 {
     return;
@@ -607,6 +608,7 @@
 	
 	[self setupSearchFieldMenu];
     [self setupFrameAutosaveName];
+	[self setupKeyLoops];
     [self setupBoardListTable];
 }
 @end

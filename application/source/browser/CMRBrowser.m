@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.19 2006/02/14 15:09:41 tsawada2 Exp $
+  * $Id: CMRBrowser.m,v 1.20 2006/02/19 08:49:19 tsawada2 Exp $
   * 
   * CMRBrowser.m
   *
@@ -89,7 +89,7 @@ id CMRMainBrowser = nil;
 {
 	return [super threadIdentifier];
 }
-
+/*
 - (IBAction) showWindow : (id) sender
 {
 	BOOL	isWindowLoaded_ = [self isWindowLoaded];
@@ -103,7 +103,7 @@ id CMRMainBrowser = nil;
 	[[self window] setInitialFirstResponder : [self threadsListTable]];
 	[[self window] makeFirstResponder : [self threadsListTable]];
 }
-
+*/
 // CMRThreadViewer:
 /**
   * 

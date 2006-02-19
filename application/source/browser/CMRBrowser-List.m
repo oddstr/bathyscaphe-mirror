@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.10 2006/01/25 11:22:03 tsawada2 Exp $
+  * $Id: CMRBrowser-List.m,v 1.11 2006/02/19 08:49:19 tsawada2 Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -129,8 +129,10 @@ static NSImage *fnc_indicatorImageWithDirection(BOOL isAscending)
 						inTableColumn : oldColumn_];
 	}
 
-	[tableView_ setIndicatorImage : image_ inTableColumn : newColumn_]; 
-	[tableView_ setHighlightedTableColumn : newColumn_];
+	if(newColumn_ != nil) {
+		[tableView_ setIndicatorImage : image_ inTableColumn : newColumn_]; 
+		[tableView_ setHighlightedTableColumn : newColumn_];
+	}
 }
 
 /**
