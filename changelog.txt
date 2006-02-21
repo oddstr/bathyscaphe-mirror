@@ -1,3 +1,6 @@
+2006-02-22 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+			-[id<SQLiteRow> valueForColumn] が NSNullを返した場合の処理を忘れていたので追加。
 2006-02-11 masakih <masakih@users.sourceforge.jp>
 	* application/source/bbs/BoardListItem/BoardBoardListItem.m
 		ThreadBoardInfoViewを使用するように変更。

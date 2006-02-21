@@ -445,8 +445,19 @@ static inline NSString *orderBy( NSString *sortKey, BOOL isAscending )
 #pragma mark## DataSource ##
 - (NSDictionary *) threadAttributesAtRowIndex : (int) rowIndex useLock : (BOOL) useLock
 {
-	NSDictionary *result;
+	NSMutableDictionary *result;
 	id<SQLiteRow> row;
+	
+	id temp;
+	NSString *title;
+	NSString *newCount;
+	NSString *dat;
+	NSString *boardName;
+	NSString *statusStr;
+	NSNumber *status;
+	NSString *modDateStr;
+	NSDate *modDate = nil;
+	NSString *threadPath;
 	
 	if(useLock)
 		[mCursorLock lock];
@@ -454,25 +465,34 @@ static inline NSString *orderBy( NSString *sortKey, BOOL isAscending )
 	if(useLock)
 		[mCursorLock unlock];
 	
-	NSString *title = [row valueForColumn : ThreadNameColumn];
-	NSNumber *newCount = [row valueForColumn : NumberOfAllColumn];
-	NSString *dat = [row valueForColumn : ThreadIDColumn];
-	NSString *boardName = [row valueForColumn : BoardNameColumn];
-	NSNumber *status = [row valueForColumn : ThreadStatusColumn];
-	NSString *modDateStr = [row valueForColumn : ModifiedDateColumn];
-	NSDate *modDate = [NSDate dateWithTimeIntervalSince1970 : [modDateStr doubleValue]];
-	NSString *threadPath = [[CMRDocumentFileManager defaultManager] threadPathWithBoardName : boardName
-																			  datIdentifier : dat];
+	temp = [row valueForColumn : ThreadNameColumn];
+	title = temp == [NSNull null] ? nil : temp;
+	temp = [row valueForColumn : NumberOfAllColumn];
+	newCount = temp == [NSNull null] ? nil : temp;
+	temp = [row valueForColumn : ThreadIDColumn];
+	dat = temp == [NSNull null] ? nil : temp;
+	temp = [row valueForColumn : BoardNameColumn];
+	boardName = temp == [NSNull null] ? nil : temp;
+	temp = [row valueForColumn : ThreadStatusColumn];
+	statusStr = temp == [NSNull null] ? nil : temp;
+	temp = [row valueForColumn : ModifiedDateColumn];
+	modDateStr = temp == [NSNull null] ? nil : temp;
 	
-	result = [NSDictionary dictionaryWithObjectsAndKeys:
-		title, CMRThreadTitleKey,
-		newCount, CMRThreadNumberOfMessagesKey,
-		dat, ThreadPlistIdentifierKey,
-		boardName, ThreadPlistBoardNameKey,
-		status, CMRThreadUserStatusKey,
-		modDate, CMRThreadModifiedDateKey,
-		threadPath, CMRThreadLogFilepathKey, // threadPath が nil ならこれ以降無視される。
-		nil];
+	threadPath = [[CMRDocumentFileManager defaultManager] threadPathWithBoardName : boardName
+																			  datIdentifier : dat];
+	status = [NSNumber numberWithInt : [statusStr intValue]];
+	if(modDateStr) {
+		modDate = [NSDate dateWithTimeIntervalSince1970 : [modDateStr doubleValue]];
+	}
+	
+	result = [NSMutableDictionary dictionaryWithCapacity:7];
+	[result setNoneNil:title forKey:CMRThreadTitleKey];
+	[result setNoneNil:newCount forKey:CMRThreadNumberOfMessagesKey];
+	[result setNoneNil:dat forKey:ThreadPlistIdentifierKey];
+	[result setNoneNil:boardName forKey:ThreadPlistBoardNameKey];
+	[result setNoneNil:status forKey:CMRThreadUserStatusKey];
+	[result setNoneNil:modDate forKey:CMRThreadModifiedDateKey];
+	[result setNoneNil:threadPath forKey:CMRThreadLogFilepathKey];
 	
 	return result;
 }
