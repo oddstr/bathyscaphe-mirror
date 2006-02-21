@@ -1,5 +1,5 @@
 //
-//  $Id: CMRReplyMessenger-Connector.m,v 1.5 2006/01/25 11:22:03 tsawada2 Exp $
+//  $Id: CMRReplyMessenger-Connector.m,v 1.6 2006/02/21 13:39:34 masakih Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/07/04.
@@ -198,6 +198,14 @@
 
 
 @implementation CMRReplyMessenger(SendMeesage)
+// メール欄アイコン付きのレスをコピペするとメール欄アイコンが 0xfffc (Object Replacement Character だそうです) に変換されペーストされる。
+// これがURLエンコードできないため書き込みに失敗するので、これを削除する。
+static inline NSString *removeObjectReplacementCharacter(NSString *str)
+{
+	return [str stringByReplaceCharacters : [NSString stringWithFormat : @"%C", 0xfffc]
+								 toString : @""];
+}
+
 #define XML_YEN_ENTITY		@"&yen;"
 - (NSString *) stringByReplacingYenBackslashToEntity : (NSString *) str
 {
@@ -250,7 +258,7 @@
 
     // 本文のみ円記号とバッスラッシュを実体参照で置換する。
 	key_ = [formKeys_ stringForKey : CMRHostFormMessageKey];
-	[form_ setNoneNil : [self stringByReplacingYenBackslashToEntity : replyMessage]
+	[form_ setNoneNil : removeObjectReplacementCharacter([self stringByReplacingYenBackslashToEntity : replyMessage])
     forKey : key_];
 
 	key_ = [formKeys_ stringForKey : CMRHostFormBBSKey];
