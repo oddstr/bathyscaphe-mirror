@@ -1,3 +1,7 @@
+2006-02-21 masakih <masakih@users.sourceforge.jp>
+	* application/source/window/CMRReplyMessenger-Connector.m
+		メール欄アイコンを含むテキストをコピーアンドペーストした内容を
+		書き込むときに起きるエンコードミスを回避するようにした。
 2006-02-19 (2006-02-18) tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRThreadsList-DataSource.m
 		ソースの見直し（一部のメソッドを関数呼び出しに書き換えるなどの、涙ぐましい悪あがき）
