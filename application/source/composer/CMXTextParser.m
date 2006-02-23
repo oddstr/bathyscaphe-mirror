@@ -1,5 +1,5 @@
 /**
-  * $Id: CMXTextParser.m,v 1.13 2006/01/10 21:43:05 tsawada2 Exp $
+  * $Id: CMXTextParser.m,v 1.14 2006/02/23 14:50:59 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -725,6 +725,29 @@ return_date:
 	return theString;
 }
 
+
+static BOOL _parseStockPartFromExtraField(NSString *extraPart_, NSString **stockPart_)
+{
+	if(extraPart_ == nil) return NO;
+	unsigned	exPartLen = [extraPart_ length];
+
+	if(exPartLen < 10) return NO; // " <a href="
+	
+	if([extraPart_ hasPrefix : @" <a href="]) {
+		NSRange hoge_;
+
+		hoge_ = [extraPart_ rangeOfString : @" " options : NSLiteralSearch range : NSMakeRange(9,exPartLen-9)];
+		
+		*stockPart_ = [extraPart_ substringToIndex : hoge_.location];
+		extraPart_ = [extraPart_ substringFromIndex : hoge_.location];
+		
+		return YES;
+	}
+	
+	return NO;
+}
+
+
 + (CMRThreadMessage *) messageWithDATLineComponentsSeparatedByNewline : (NSArray *) aComponents
 {
 	CMRThreadMessage	*message_ = nil;
@@ -743,7 +766,7 @@ return_date:
 	message_ = [[CMRThreadMessage alloc] init];
 	dateExtra_ = [aComponents objectAtIndex : k2chDATDateExtraFieldIndex];
 	
-	if (nil == [self parseDateExtraField : dateExtra_
+	if (NO == [self parseDateExtraField : dateExtra_
 			           convertToMessage : message_]) {
 		[message_ release];
 		return nil;
@@ -758,8 +781,9 @@ return_date:
 	return [message_ autorelease];
 }
 
-+ (BOOL) parseExtraField : (NSString         *) extraField
-        convertToMessage : (CMRThreadMessage *) aMessage
+//+ (BOOL) parseExtraField : (NSString         *) extraField
+//        convertToMessage : (CMRThreadMessage *) aMessage
+static BOOL _parseExtraField(NSString *extraField, CMRThreadMessage *aMessage)
 {
 	unsigned	length_;
 	NSRange		found_;
@@ -903,7 +927,7 @@ return_date:
 	return YES;
 	
 error_invalid_format:
-	return NO;
+	return YES;//NO;
 }
 
 + (BOOL) parseDateExtraField : (NSString         *) dateExtra
@@ -913,6 +937,8 @@ error_invalid_format:
 	NSString		*extraPart_ = nil;
 	id				date_;
 	NSString		*prefixPart_ = nil;
+	
+	NSString		*stockPart_ = nil;
 
 	if (isAbonedDateField(dateExtra)) {
 		//NSLog(@"It is Aboned.");
@@ -942,14 +968,23 @@ error_invalid_format:
 		[tmpDatePart_ insertString : CMXTextParserComma atIndex : 0];
 		[tmpDatePart_ insertString : prefixPart_ atIndex : 0];
 	}
+
+	UTILDescription(extraPart_);
+	if (_parseStockPartFromExtraField(extraPart_, &stockPart_)) {
+		UTILDescription(stockPart_);
+		[tmpDatePart_ appendString : stockPart_];
+	}
+
+	UTILDescription(tmpDatePart_);
 	[aMessage setDateRepresentation : tmpDatePart_];
 	[tmpDatePart_ release];
 
 	[aMessage setDate : date_];
 
-	//NSLog(@"extraPart_ is %@.",extraPart_);
-	[self parseExtraField : extraPart_ convertToMessage : aMessage];
+	UTILDescription(extraPart_);
+	//[self parseExtraField : extraPart_ convertToMessage : aMessage];
 
-	return YES;
+	//return YES;
+	return _parseExtraField(extraPart_, aMessage);
 }
 @end

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer.m,v 1.11 2006/01/11 17:54:20 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer.m,v 1.12 2006/02/23 14:50:59 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -8,6 +8,7 @@
 
 #import "CMRAttributedMessageComposer_p.h"
 #import <AppKit/NSTextStorage.h>
+
 
 // for debugging only
 #define UTIL_DEBUGGING		1
@@ -247,6 +248,57 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 {
 	NSMutableString		*tmp;
 	NSString			*dateRep;
+	NSString		*anchorStr = nil;
+
+	if (messageIsLocalAboned_(aMessage))
+		return;
+	
+	// message date is nil, if message was aboned.
+	if (nil == [aMessage date]) return;
+	
+	tmp = SGTemporaryString();
+	dateRep = [aMessage dateRepresentation];
+
+	if (dateRep) {
+		NSRange	anchor_ = [dateRep rangeOfString : @"<a href=" options : (NSCaseInsensitiveSearch|NSLiteralSearch)];
+		if (anchor_.length != 0) {
+			NSRange anchorEnd_;
+			anchorEnd_ = [dateRep rangeOfString : @"</a>" options: (NSCaseInsensitiveSearch|NSLiteralSearch|NSBackwardsSearch)];
+			
+			if (anchorEnd_.length != 0) {
+				anchor_.length = anchorEnd_.location - anchor_.location + anchorEnd_.length;
+	
+				anchorStr = [dateRep substringWithRange : anchor_];
+
+				[tmp setString : [dateRep substringToIndex : anchor_.location]];
+			} else {
+				[tmp setString : dateRep];
+			}
+		} else {
+			[tmp setString : dateRep];
+		}
+	} else {
+		appendDateString(tmp, [aMessage date], [aMessage datePrefix]);
+	}
+
+	simpleAppendFieldItem([self contentsStorage], FIELD_DATE, tmp);
+	if (anchorStr) {
+		NSDictionary *attr_ = nil;
+		NSData *data_ = [anchorStr dataUsingEncoding : NSUnicodeStringEncoding];
+		NSMutableAttributedString *result_ = [[NSMutableAttributedString alloc] initWithHTML: data_ documentAttributes: &attr_];
+		[result_ addAttributes :[ATTR_TEMPLATE attributesForText] range : NSMakeRange(0, [result_ length])];
+		[result_ removeAttribute:NSUnderlineStyleAttributeName range : NSMakeRange(0,[result_ length])];
+
+		[[self contentsStorage] insertAttributedString:result_ atIndex: ([[self contentsStorage] length] -2)];
+		[result_ release];
+	}
+}
+
+/*
+- (void) composeDate : (CMRThreadMessage *) aMessage
+{
+	NSMutableString		*tmp;
+	NSString			*dateRep;
 	
 	if (messageIsLocalAboned_(aMessage))
 		return;
@@ -265,7 +317,7 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 
 	simpleAppendFieldItem([self contentsStorage], FIELD_DATE, tmp);
 }
-
+*/
 - (void) composeID : (CMRThreadMessage *) aMessage
 {
 	if (messageIsLocalAboned_(aMessage))
