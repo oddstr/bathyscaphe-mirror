@@ -10,6 +10,7 @@
 
 #import "CMRThreadsList_p.h"
 #import "CMRThreadsListReadFileTask.h"
+#import "CMRThreadViewer.h"
 #import "BSFavoritesHEADCheckTask.h"
 // #import "CMRThreadSignature.h"
 #import "ThreadTextDownloader.h"
@@ -24,6 +25,7 @@
 @interface CMRThreadsList (PPPPP)
 + (id)statusImageWithStatus : (ThreadStatus)s;
 - (void)downloaderTextUpdatedNotified:(id)notification;
+- (void)threadViewerDidChangeThread:(id)notification;
 @end
 @interface BSDBThreadList (ToBeRefactoring)
 - (void)updateDateBaseForThreads : (id) aThread;
@@ -443,21 +445,87 @@ static inline NSString *orderBy( NSString *sortKey, BOOL isAscending )
 }
 
 #pragma mark## DataSource ##
+static inline id nilIfObjectIsNSNull( id obj )
+{
+	return obj == [NSNull null] ? nil : obj;
+}
+static inline NSMutableDictionary *threadAttributesForBoardIDAndThreadID(
+																		 int boardID,
+																		 NSString *threadID )
+{
+	NSMutableDictionary *result = nil;
+	
+	SQLiteDB *db;
+	id<SQLiteCursor> cursor;
+	id<SQLiteRow> row;
+	NSMutableString *query;
+	
+	if(boardID == 0) return nil;
+	if(!threadID || ![threadID isKindOfClass:[NSString class]]) return nil;
+	
+	db = [[DatabaseManager defaultManager] databaseForCurrentThread];
+	if(!db) return nil;
+	
+	query = [NSMutableString stringWithFormat:@"SELECT * FROM %@ ", BoardThreadInfoViewName];
+	[query appendFormat:@"WHERE %@ = %u AND %@ = '%@'",
+		BoardIDColumn, boardID, ThreadIDColumn, threadID];
+	
+	{
+		NSString *title;
+		NSString *newCount;
+		NSString *dat;
+		NSString *boardName;
+		NSString *statusStr;
+		NSNumber *status;
+		NSString *modDateStr;
+		NSDate *modDate = nil;
+		NSString *threadPath;
+		
+		cursor = [db cursorForSQL:query];
+		if(!cursor || [cursor rowCount] == 0) {
+			goto abort;
+		}
+		
+		row = [cursor rowAtIndex:0];
+		
+		title = nilIfObjectIsNSNull([row valueForColumn:ThreadNameColumn]);
+		newCount = nilIfObjectIsNSNull([row valueForColumn:NumberOfAllColumn]);
+		dat = nilIfObjectIsNSNull([row valueForColumn:ThreadIDColumn]);
+		boardName = nilIfObjectIsNSNull([row valueForColumn:BoardNameColumn]);
+		statusStr = nilIfObjectIsNSNull([row valueForColumn:ThreadStatusColumn]);
+		modDateStr = nilIfObjectIsNSNull([row valueForColumn:ModifiedDateColumn]);
+		
+		threadPath = [[CMRDocumentFileManager defaultManager] threadPathWithBoardName : boardName
+																		datIdentifier : dat];
+		status = [NSNumber numberWithInt : [statusStr intValue]];
+		if(modDateStr) {
+			modDate = [NSDate dateWithTimeIntervalSince1970 : [modDateStr doubleValue]];
+		}
+		
+		result = [NSMutableDictionary dictionaryWithCapacity:7];
+		[result setNoneNil:title forKey:CMRThreadTitleKey];
+		[result setNoneNil:newCount forKey:CMRThreadNumberOfMessagesKey];
+		[result setNoneNil:dat forKey:ThreadPlistIdentifierKey];
+		[result setNoneNil:boardName forKey:ThreadPlistBoardNameKey];
+		[result setNoneNil:status forKey:CMRThreadUserStatusKey];
+		[result setNoneNil:modDate forKey:CMRThreadModifiedDateKey];
+		[result setNoneNil:threadPath forKey:CMRThreadLogFilepathKey];
+	}
+	
+	return result;
+	
+abort:{
+	return nil;
+}
+
+}
 - (NSDictionary *) threadAttributesAtRowIndex : (int) rowIndex useLock : (BOOL) useLock
 {
-	NSMutableDictionary *result;
 	id<SQLiteRow> row;
 	
-	id temp;
-	NSString *title;
-	NSString *newCount;
 	NSString *dat;
-	NSString *boardName;
-	NSString *statusStr;
-	NSNumber *status;
-	NSString *modDateStr;
-	NSDate *modDate = nil;
-	NSString *threadPath;
+	NSString *boardID;
+
 	
 	if(useLock)
 		[mCursorLock lock];
@@ -465,36 +533,10 @@ static inline NSString *orderBy( NSString *sortKey, BOOL isAscending )
 	if(useLock)
 		[mCursorLock unlock];
 	
-	temp = [row valueForColumn : ThreadNameColumn];
-	title = temp == [NSNull null] ? nil : temp;
-	temp = [row valueForColumn : NumberOfAllColumn];
-	newCount = temp == [NSNull null] ? nil : temp;
-	temp = [row valueForColumn : ThreadIDColumn];
-	dat = temp == [NSNull null] ? nil : temp;
-	temp = [row valueForColumn : BoardNameColumn];
-	boardName = temp == [NSNull null] ? nil : temp;
-	temp = [row valueForColumn : ThreadStatusColumn];
-	statusStr = temp == [NSNull null] ? nil : temp;
-	temp = [row valueForColumn : ModifiedDateColumn];
-	modDateStr = temp == [NSNull null] ? nil : temp;
+	dat = nilIfObjectIsNSNull([row valueForColumn:ThreadIDColumn]);
+	boardID = nilIfObjectIsNSNull([row valueForColumn:BoardIDColumn]);
 	
-	threadPath = [[CMRDocumentFileManager defaultManager] threadPathWithBoardName : boardName
-																			  datIdentifier : dat];
-	status = [NSNumber numberWithInt : [statusStr intValue]];
-	if(modDateStr) {
-		modDate = [NSDate dateWithTimeIntervalSince1970 : [modDateStr doubleValue]];
-	}
-	
-	result = [NSMutableDictionary dictionaryWithCapacity:7];
-	[result setNoneNil:title forKey:CMRThreadTitleKey];
-	[result setNoneNil:newCount forKey:CMRThreadNumberOfMessagesKey];
-	[result setNoneNil:dat forKey:ThreadPlistIdentifierKey];
-	[result setNoneNil:boardName forKey:ThreadPlistBoardNameKey];
-	[result setNoneNil:status forKey:CMRThreadUserStatusKey];
-	[result setNoneNil:modDate forKey:CMRThreadModifiedDateKey];
-	[result setNoneNil:threadPath forKey:CMRThreadLogFilepathKey];
-	
-	return result;
+	return threadAttributesForBoardIDAndThreadID([boardID intValue], dat);
 }
 - (NSArray *) allThreadAttributes
 {
@@ -680,6 +722,7 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 	return YES;
 }
 
+// スレッドのダウンロードが終了した。
 - (void) downloaderTextUpdatedNotified : (NSNotification *) notification
 {
 	CMRDownloader			*downloader_;
@@ -825,6 +868,20 @@ fail:
 					object : [notification object]];
 }
 
+
+#pragma mark## SearchThread ##
+- (NSMutableDictionary *)seachThreadByPath : (NSString *)filePath
+{
+	int boardID;
+	id threadID;
+	
+	if( searchBoardIDAndThreadIDFromFilePath(&boardID,&threadID,filePath) ) {
+		return threadAttributesForBoardIDAndThreadID( boardID, threadID );
+	}
+	
+	return nil;
+}
+
 @end
 
 @implementation BSDBThreadList (ToBeRefactoring)
@@ -944,8 +1001,8 @@ fail:
 		id query;
 		
 		// データ確認用
-		query = [NSString stringWithFormat : @"SELECT %@, %@ FROM %@ WHERE %@ = ? AND %@ = ?",
-			ThreadStatusColumn, NumberOfAllColumn,
+		query = [NSString stringWithFormat : @"SELECT %@, %@, %@ FROM %@ WHERE %@ = ? AND %@ = ?",
+			ThreadStatusColumn, NumberOfAllColumn, NumberOfReadColumn,
 			ThreadInfoTableName,
 			BoardIDColumn, ThreadIDColumn];
 		reservedSelectThreadTable = [db reservedQuery : query];
@@ -1047,8 +1104,16 @@ fail:
 					// ２度目以降の読み込み。レス数かステータスが変更されていれば
 					// データベースを更新。
 					id <SQLiteRow> row = [cursor rowAtIndex:0];
+					int nAll, nRead;
 					
-					if( [count intValue] != [[row valueForColumn : NumberOfAllColumn] intValue] ||
+					// 前レス数と既得数が同じならstatusを強制的にThreadLogCachedStatusに変更。
+					nAll = [nilIfObjectIsNSNull([row valueForColumn:NumberOfAllColumn]) intValue];
+					nRead = [nilIfObjectIsNSNull([row valueForColumn:NumberOfReadColumn]) intValue];
+					if(nAll && nAll == nRead && [status intValue] != ThreadLogCachedStatus) {
+						status = [NSNumber numberWithInt:ThreadLogCachedStatus];
+					}
+					
+					if( [count intValue] != nAll ||
 						[status intValue] != [[row valueForColumn : ThreadStatusColumn] intValue]) {
 						
 						bindValues = [NSArray arrayWithObjects:

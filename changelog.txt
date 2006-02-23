@@ -1,3 +1,7 @@
+2006-02-24 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+		お気に入りからスレッドを更新するとスレッド一覧でステータスが正しく表示されない現象を修正。
+		-[CMRThreadsList seachThreadByPath:]をオーバーライドし、データベース上から検索するようにした。
 2006-02-22 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSDBThreadList.m
 			-[id<SQLiteRow> valueForColumn] が NSNullを返した場合の処理を忘れていたので追加。
