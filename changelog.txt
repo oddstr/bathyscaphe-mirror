@@ -1,3 +1,7 @@
+2006-02-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/composer/CMXTextParser.m
+	* application/source/composer/CMRAttributedMessageComposer.m
+		「株」表示のサポート：少しコードを整理した。
 2006-02-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
 	* application/subproj/previewer/BSImagePreviewInspector.m

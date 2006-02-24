@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer.m,v 1.13 2006/02/24 13:41:39 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer.m,v 1.14 2006/02/24 15:13:21 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -282,42 +282,25 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 	}
 
 	simpleAppendFieldItem([self contentsStorage], FIELD_DATE, tmp);
+
 	if (anchorStr) {
 		NSDictionary *attr_ = nil;
 		NSData *data_ = [anchorStr dataUsingEncoding : NSUnicodeStringEncoding];
-		NSMutableAttributedString *result_ = [[NSMutableAttributedString alloc] initWithHTML: data_ documentAttributes: &attr_];
-		[result_ addAttributes :[ATTR_TEMPLATE attributesForText] range : NSMakeRange(0, [result_ length])];
-		[result_ removeAttribute:NSUnderlineStyleAttributeName range : NSMakeRange(0,[result_ length])];
 
-		[[self contentsStorage] insertAttributedString:result_ atIndex: ([[self contentsStorage] length] -1)];
+		NSMutableAttributedString *result_ = [[NSMutableAttributedString alloc] initWithHTML: data_ documentAttributes: &attr_];
+		if(!result_) return;
+
+		NSRange	anchorRange = NSMakeRange(0, [result_ length]);
+		NSMutableAttributedString	*contentsStorage_ = [self contentsStorage];
+
+		[result_ removeAttribute : NSUnderlineStyleAttributeName range : anchorRange];
+		[result_ addAttributes : [ATTR_TEMPLATE attributesForText] range : anchorRange];
+
+		[contentsStorage_ insertAttributedString:result_ atIndex: ([contentsStorage_ length] -1)];
 		[result_ release];
 	}
 }
 
-/*
-- (void) composeDate : (CMRThreadMessage *) aMessage
-{
-	NSMutableString		*tmp;
-	NSString			*dateRep;
-	
-	if (messageIsLocalAboned_(aMessage))
-		return;
-	
-	// message date is nil, if message was aboned.
-	if (nil == [aMessage date]) return;
-	
-	tmp = SGTemporaryString();
-	dateRep = [aMessage dateRepresentation];
-
-	if (dateRep) {
-		[tmp setString : dateRep];
-	} else {
-		appendDateString(tmp, [aMessage date], [aMessage datePrefix]);
-	}
-
-	simpleAppendFieldItem([self contentsStorage], FIELD_DATE, tmp);
-}
-*/
 - (void) composeID : (CMRThreadMessage *) aMessage
 {
 	if (messageIsLocalAboned_(aMessage))

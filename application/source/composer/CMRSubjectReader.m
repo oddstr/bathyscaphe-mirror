@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRSubjectReader.m,v 1.3 2005/10/19 23:43:28 tsawada2 Exp $
+  * $Id: CMRSubjectReader.m,v 1.4 2006/02/24 15:13:21 tsawada2 Exp $
   * 
   * CMRSubjectReader.m
   *
@@ -80,6 +80,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(reader);
 	if(NSNotFound == resCount_){
 		NSString			*field_;
 		NSScanner			*scanner_;
+		int				resCount2_;
 		
 		// タイトルとレス数を調べる
 		// レス数を取得。
@@ -95,10 +96,14 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(reader);
 			ErrCompose);
 		scanner_ = [NSScanner scannerWithString : field_];
 		//最初の開き括弧は飛ばす
-		resCount_ = 0;
+		//resCount_ = 0;
+		resCount2_ = 0;
 		[scanner_ setScanLocation : NSMaxRange(resRange_)];
-		if(NO == [scanner_ scanInt : &resCount_]){
+		//if(NO == [scanner_ scanInt : &resCount_]){
+		if(NO == [scanner_ scanInt : &resCount2_]){
 			resCount_ = NSNotFound;
+		} else {
+			resCount_ = (unsigned int)resCount2_;
 		}
 		title_ = [field_ substringToIndex : resRange_.location];
 	}

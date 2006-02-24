@@ -1,5 +1,5 @@
 /**
-  * $Id: CMXTextParser.m,v 1.14 2006/02/23 14:50:59 tsawada2 Exp $
+  * $Id: CMXTextParser.m,v 1.15 2006/02/24 15:13:21 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -37,6 +37,8 @@ static NSString *const CMXTextParserBSColon					= @":";
 static NSString *const CMXTextParserBSSpace					= @" ";
 
 #define kAvailableURLCFEncodingsNSArrayKey		@"System - AvailableURLCFEncodings"
+
+static BOOL _parseDateExtraField(NSString *dateExtra, CMRThreadMessage *aMessage);
 
 #pragma mark -
 
@@ -766,8 +768,9 @@ static BOOL _parseStockPartFromExtraField(NSString *extraPart_, NSString **stock
 	message_ = [[CMRThreadMessage alloc] init];
 	dateExtra_ = [aComponents objectAtIndex : k2chDATDateExtraFieldIndex];
 	
-	if (NO == [self parseDateExtraField : dateExtra_
-			           convertToMessage : message_]) {
+	//if (NO == [self parseDateExtraField : dateExtra_
+	//		           convertToMessage : message_]) {
+	if (NO == _parseDateExtraField(dateExtra_, message_)) {
 		[message_ release];
 		return nil;
 	}
@@ -930,8 +933,9 @@ error_invalid_format:
 	return YES;//NO;
 }
 
-+ (BOOL) parseDateExtraField : (NSString         *) dateExtra
-            convertToMessage : (CMRThreadMessage *) aMessage
+//+ (BOOL) parseDateExtraField : (NSString         *) dateExtra
+//            convertToMessage : (CMRThreadMessage *) aMessage
+static BOOL _parseDateExtraField(NSString *dateExtra, CMRThreadMessage *aMessage)
 {
 	NSString		*datePart_ = nil;
 	NSString		*extraPart_ = nil;
@@ -963,7 +967,7 @@ error_invalid_format:
 	}
 	
 	if (prefixPart_ != nil) {
-		//NSLog(@"date prefix : %@", prefixPart_);
+		UTILDescription(prefixPart_);
 		[aMessage setDatePrefix : prefixPart_];
 		[tmpDatePart_ insertString : CMXTextParserComma atIndex : 0];
 		[tmpDatePart_ insertString : prefixPart_ atIndex : 0];
@@ -982,9 +986,7 @@ error_invalid_format:
 	[aMessage setDate : date_];
 
 	UTILDescription(extraPart_);
-	//[self parseExtraField : extraPart_ convertToMessage : aMessage];
 
-	//return YES;
 	return _parseExtraField(extraPart_, aMessage);
 }
 @end
