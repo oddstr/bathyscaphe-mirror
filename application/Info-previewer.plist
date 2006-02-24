@@ -23,7 +23,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.5.2</string>
+	<string>1.5.3</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Built-in plugin for previewing images. (c) 2005-2006 tsawada2.</string>
 	<key>NSMainNibFile</key>

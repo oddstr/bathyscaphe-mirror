@@ -1,3 +1,13 @@
+2006-02-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+		プレビューインスペクタ（1.5.2 → 1.5.3）：
+		- ツールバーをカスタマイズする際、「アクション」ツールバーボタンを取り除いて再度追加できない、また、その後
+		　ツールバーの挙動が不安定になる問題を修正。
+		- ツールバー項目の validation 方法を見直し。
+		- ソースの整理をさらに進め、保守性の向上を図った。
+	* application/source/browser/CMRThreadsList.m
+		ThreadsList.plist への書き込みを CMRThreadsList の dealloc 時にも再び行うようにした。
 2006-02-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/composer/CMXTextParser.m
 	* application/source/composer/CMRAttributedMessageComposer.m

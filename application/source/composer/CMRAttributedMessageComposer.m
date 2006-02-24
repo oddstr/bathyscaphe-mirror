@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer.m,v 1.12 2006/02/23 14:50:59 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer.m,v 1.13 2006/02/24 13:41:39 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -289,7 +289,7 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 		[result_ addAttributes :[ATTR_TEMPLATE attributesForText] range : NSMakeRange(0, [result_ length])];
 		[result_ removeAttribute:NSUnderlineStyleAttributeName range : NSMakeRange(0,[result_ length])];
 
-		[[self contentsStorage] insertAttributedString:result_ atIndex: ([[self contentsStorage] length] -2)];
+		[[self contentsStorage] insertAttributedString:result_ atIndex: ([[self contentsStorage] length] -1)];
 		[result_ release];
 	}
 }
@@ -544,7 +544,7 @@ static void appendDateString(NSMutableString *buffer, id theDate, NSString *pref
 static void appendWhiteSpaceSeparator(NSMutableAttributedString *buffer)
 {
 	if (wSS == nil)
-		wSS = [[NSAttributedString alloc] initWithString : @"  "];
+		wSS = [[NSAttributedString alloc] initWithString : @" "];
 
 	[buffer appendAttributedString : wSS];
 }

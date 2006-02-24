@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIActionBtnTbItem.m,v 1.1 2006/01/07 11:56:50 tsawada2 Exp $
+//  $Id: BSIPIActionBtnTbItem.m,v 1.2 2006/02/24 13:41:39 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/07.
@@ -23,6 +23,4 @@
 		[popupBtn setEnabled : ([[wc_ imageView] image] != nil)];
 	}
 }
-
-
 @end

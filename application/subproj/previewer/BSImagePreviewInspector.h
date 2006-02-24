@@ -76,11 +76,11 @@
 - (IBAction) startFullscreen : (id) sender;
 @end
 
-@interface BSImagePreviewInspector(Toolbar)
+@interface BSImagePreviewInspector(ToolbarAndUtils)
 - (NSString *) localizedStrForKey : (NSString *) key;
 - (NSImage *) imageResourceWithName : (NSString *) name;
 - (NSString *) calcImageSize : (NSImage *) image_;
 - (void) setupToolbar;
+- (void) startProgressIndicator : (NSProgressIndicator *) indicator indeterminately : (BOOL) indeterminately;
+- (void) stopProgressIndicator : (NSProgressIndicator *) indicator;
 @end
-
-extern NSString *const kIPITbCancelBtnId;
