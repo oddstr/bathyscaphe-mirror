@@ -17,6 +17,7 @@ static NSString *const AppDefaultsTLIgnoreTitleCharactersKey = @"Ignore Characte
 static NSString *const AppDefaultsTLAutoReloadWhenWakeKey = @"Reload When Wake";
 
 static NSString *const AppDefaultsTLLastHEADCheckedDateKey = @"Last HEADCheck";
+static NSString *const AppDefaultsTLHEADCheckIntervalKey = @"HEADCheck Interval";
 
 // ˆÈ‰º‚Í User Defaults ’¼‰º‚Éì¬‚³‚ê‚é key
 static NSString *const AppDefaultsUseIncrementalSearchKey = @"UseIncrementalSearch";
@@ -149,7 +150,29 @@ static NSString *const AppDefaultsTLTableColumnStateKey = @"ThreadsListTable Col
 	if (!baseDate_) return YES;
 	
 	NSTimeInterval interval_ = [[NSDate date] timeIntervalSinceDate : baseDate_];
-	return (interval_ > 600.0);
+	return (interval_ > [self HEADCheckTimeInterval]);
+}
+
+#pragma mark GrafEisen Addition
+- (NSTimeInterval) HEADCheckTimeInterval
+{
+	return [[self threadsListSettingsDictionary] doubleForKey : AppDefaultsTLHEADCheckIntervalKey
+												 defaultValue : 300.0];
+}
+
+- (void) setHEADCheckTimeInterval : (NSTimeInterval) interval
+{
+	[[self threadsListSettingsDictionary] setDouble : interval
+											 forKey : AppDefaultsTLHEADCheckIntervalKey];
+}
+
+- (NSDate *) nextHEADCheckAvailableDate
+{
+	NSDate *baseDate_ = [self lastHEADCheckedDate];
+	if (!baseDate_)
+		return [NSDate date];
+	else
+		return [baseDate_ addTimeInterval : [self HEADCheckTimeInterval]];
 }
 
 #pragma mark -

@@ -1,5 +1,5 @@
 /**
-  * $Id: w2chFavoriteItemList.m,v 1.8 2006/02/13 02:15:18 tsawada2 Exp $
+  * $Id: w2chFavoriteItemList.m,v 1.9 2006/02/24 16:54:13 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -224,7 +224,6 @@
 	
 
 	[[CMRFavoritesManager defaultManager] setFavoritesItemsArray : threadsArray_];
-	[CMRPref setLastHEADCheckedDate : [NSDate date]];
 
 	[self startLoadingThreadsList : [self worker]];
 

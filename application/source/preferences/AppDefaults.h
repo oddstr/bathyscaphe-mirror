@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.31 2006/02/13 02:15:18 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.32 2006/02/24 16:54:13 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -340,6 +340,11 @@
 - (NSDate *) lastHEADCheckedDate;
 - (void) setLastHEADCheckedDate : (NSDate *) date;
 - (BOOL) canHEADCheck;
+
+/* GrafEisen Additions */
+- (NSTimeInterval) HEADCheckTimeInterval;
+- (void) setHEADCheckTimeInterval : (NSTimeInterval) interval;
+- (NSDate *) nextHEADCheckAvailableDate;
 
 - (void) _loadThreadsListSettings;
 - (BOOL) _saveThreadsListSettings;
