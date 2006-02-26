@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMessageFilter.m,v 1.5 2006/02/01 17:39:08 tsawada2 Exp $
+  * $Id: CMRMessageFilter.m,v 1.6 2006/02/26 15:34:22 tsawada2 Exp $
   * 
   * CMRMessageFilter.m
   *
@@ -9,12 +9,9 @@
 #import "CMRMessageFilter.h"
 #import "CocoMonar_Prefix.h"
 #import "CMRThreadMessage.h"
-//#import "CMRBBSSignature.h"
 #import "CMRThreadSignature.h"
 #import "BoardManager.h"
 #import "CMXTextParser.h"
-//#import "NSCharacterSet+CMXAdditions.h"
-
 
 
 // for debugging only
@@ -395,21 +392,24 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 {
 	NSMutableDictionary	*sampleTbl = [self samplesTable];
 	CMRMessageSample	*mSample;
+	CMRThreadMessage	*sampleMsg;
 	id					key;
+
+	sampleMsg = [aSample message];
 	
-	key = [[aSample message] IDString];
+	key = [sampleMsg IDString];
 	mSample = [sampleTbl objectForKey : key];
 	if (mSample == aSample) {
 		UTIL_DEBUG_WRITE(@"ID Cache Removed");
 		[sampleTbl removeObjectForKey : key];
 	}
-	key = [[aSample message] name];
+	key = [sampleMsg name];
 	mSample = [sampleTbl objectForKey : key];
 	if (mSample == aSample) {
 		UTIL_DEBUG_WRITE(@"Name Cache Removed");
 		[sampleTbl removeObjectForKey : key];
 	}
-	key = [[aSample message] host];
+	key = [sampleMsg host];
 	mSample = [sampleTbl objectForKey : key];
 	if (mSample == aSample) {
 		UTIL_DEBUG_WRITE(@"Host Cache Removed");
@@ -574,14 +574,11 @@ static int doDetectMessageAny_(
 	unsigned			mask = [m1 property];
 	
 	BoardManager		*nnMgr = [BoardManager defaultManager];
-	//CMRBBSSignature		*b1 = [t1 BBSSignature];
-	//CMRBBSSignature		*b2 = [t2 BBSSignature];
-	NSString	*b1 = [t1 BBSName];
-	NSString	*b2 = [t2 BBSName];
+	NSString			*b1 = [t1 BBSName];
+	NSString			*b2 = [t2 BBSName];
 	NSString			*s1, *s2;
 	
 	Eq_t = [t1 isEqual : t2];
-	//Eq_b = (NO == Eq_t) ? [b1 isEqual : b2] : YES;
 	Eq_b = (NO == Eq_t) ? [b1 isEqualToString : b2] : YES;
 
 	if (kSampleAsIDMask & mask) { 
@@ -763,6 +760,7 @@ static void setupAppendingSample_(CMRMessageSample *sample, NSMutableDictionary 
 	NSString			*s;
 	id					tmp;
 	CMRThreadMessage	*tmp_m;
+	NSString			*tmpString;
 	
 	UTILCAssertNotNil(sample);
 	UTILCAssertNotNil(table);
@@ -775,29 +773,33 @@ static void setupAppendingSample_(CMRMessageSample *sample, NSMutableDictionary 
 	
 	
 	/* ID */
-	s = [[m IDString] stringByStriped];
-	//if (nil == s || [s length] < 4)
-	if (checkIDIsNonSignificant_(s))
+	tmpString = [m IDString];
+	//s = [tmpString stringByStriped];
+
+	if ((tmpString == nil) || checkIDIsNonSignificant_([tmpString stringByStriped]))
 	{
-		UTIL_DEBUG_WRITE1(@"ID:%@ was nonsignificant.", s);
+		UTIL_DEBUG_WRITE1(@"ID:%@ was nonsignificant.", tmpString);
 		sign &= ~kSampleAsIDMask; 
 	} else {
 		// ID ‚Å“o˜^
-		[table setObject:sample forKey:[m IDString]];
+		[table setObject:sample forKey:tmpString];
 	}
+
 	/* Host */
-	s = [[m host] stringByStriped];
+	tmpString = [m host];
+	s = [tmpString stringByStriped];
 	if ([s length] != 0) {
 		// Host ‚Å“o˜^
 		sign |= kSampleAsHostMask; 
-		[table setObject:sample forKey:[m IDString]];
+		[table setObject:sample forKey:tmpString];
 	}
 	
 	
 	/* Name */
 	// ƒGƒ“ƒeƒBƒeƒBŽQÆ‚ð‰ðŒˆ‚µA–¼‘O‚ð³‹K‰»
 	// ”Â‚Ì–¼–³‚µ‚Æ“¯‚¶–¼‘O‚È‚ç–³Ž‹
-	s = [[m name] stringByReplaceEntityReference];
+	tmpString = [m name];
+	s = [tmpString stringByReplaceEntityReference];
 	tmp = [[BoardManager defaultManager] defaultNoNameForBoard : b];
 	if (s != nil && [s isEqualToString : tmp]) {
 		UTIL_DEBUG_WRITE1(
@@ -816,7 +818,7 @@ static void setupAppendingSample_(CMRMessageSample *sample, NSMutableDictionary 
 			
 			tmp = [table objectForKey : t];
 			tmp_m = [(CMRMessageSample*)tmp message];
-			if (tmp && tmp_m && [[tmp_m name] isEqualToString : [m name]]) {
+			if (tmp && tmp_m && [[tmp_m name] isEqualToString : tmpString]) {
 				if (0 == ([tmp_m property] & kSampleAsThreadLocalMask)) {
 					UTIL_DEBUG_WRITE2(
 						@"name:%@ was duplicate ResLink in thread(%@)"
@@ -843,7 +845,7 @@ static void setupAppendingSample_(CMRMessageSample *sample, NSMutableDictionary 
 			// –¼‘O‚àl—¶‚ÉŠÜ‚ß‚é
 			
 			sign &= ~kSampleAsNameMask;
-			tmp = [table objectForKey : [m name]];
+			tmp = [table objectForKey : tmpString];
 			tmp_m = [(CMRMessageSample*)tmp message];
 			if (tmp && tmp_m && (0 == ([tmp_m property] & kSampleAsNameMask))) {
 				BOOL	q = YES;
@@ -858,18 +860,18 @@ static void setupAppendingSample_(CMRMessageSample *sample, NSMutableDictionary 
 					UTIL_DEBUG_WRITE1(
 						@"name:%@ was duplicate and has identical ID"
 						@", so it will be added.", s);
-					[table setObject:sample forKey:[m name]];
+					[table setObject:sample forKey:tmpString];
 				}
 			} else {
 				// –¼‘O ‚Å“o˜^
-				[table setObject:sample forKey:[m name]];
+				[table setObject:sample forKey:tmpString];
 			}
 		} else {
 			// ID/Host ‚ª‚È‚¯‚ê‚Î–¼‘O
 			sign |= kSampleAsNameMask;
 			UTIL_DEBUG_WRITE1(
 				@"name:%@ will be added.", s);
-			[table setObject:sample forKey:[m name]];
+			[table setObject:sample forKey:tmpString];
 		}
 	} else {
 		if (0 == (sign & kSampleAsIDMask)) {

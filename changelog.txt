@@ -1,3 +1,6 @@
+2006-02-27 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/composer/CMRMessageFilter.m
+		[Bug 8082] シベリア超速報で迷惑レスフィルタが正しく動作しない問題を修正。
 2006-02-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/preferences/AppDefaults-ThreadsList.m
 	* application/source/browser/CMRBrowser-Validation.m
@@ -452,11 +455,11 @@
 		微修正。ほんの少し効率化。
 	* application/source/composer/CMRAttributedMessageComposer.m
 		[Bug 7831] 怪しい所を修正して様子を見る。
-================================================= 1.1.3(v123.1) / ReinForce / CVS Tag : v113_FINAL
+================================================= 1.1.3(v132.1) / ReinForce / CVS Tag : v113_FINAL
 2006-01-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
 		プレビューインスペクタ：一部の UI パーツのレイアウトが不適切だった問題を修正。
-================================================= 1.1.3(v123)
+================================================= 1.1.3(v132)
 2006-01-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/previewer/BSImagePreviewInspector.m
 	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
