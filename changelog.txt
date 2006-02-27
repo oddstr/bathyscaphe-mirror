@@ -1,4 +1,7 @@
 2006-02-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/Save.tiff
+		暫定的にプレビューインスペクタの「保存」アイコンを差し替え。
+		- 開いたフォルダのアイコン。あまり良くないな。描いてもらわないといかんね。
 	* application/source/window/CMRReplyController-ViewAccessor.m
 		書き込みウインドウで「下書きとして保存」した直後にテキストを変更しても "dirty" フラグが立たず、
 		新たに保存することができない問題を修正した（つもり）。
