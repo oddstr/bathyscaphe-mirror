@@ -315,8 +315,6 @@
 		8718EFA608D4257200FFAAEE /* BoardManager-BSAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 8718EFA508D4257200FFAAEE /* BoardManager-BSAddition.m */; };
 		8718EFDE08D43F7D00FFAAEE /* NoNameInputController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8718EFDC08D43F7D00FFAAEE /* NoNameInputController.h */; };
 		8718EFDF08D43F7D00FFAAEE /* NoNameInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8718EFDD08D43F7D00FFAAEE /* NoNameInputController.m */; };
-		871986D208351B1800188E63 /* Keychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 871986D108351B1800188E63 /* Keychain.framework */; };
-		8719876B083534D900188E63 /* Keychain.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 871986D108351B1800188E63 /* Keychain.framework */; };
 		8719F06A088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 8719F069088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m */; };
 		871CA0F308585F3900C3A044 /* BoardListEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DAF704C6949900A80005 /* BoardListEditor.h */; };
 		871CA0F408585F3900C3A044 /* BoardListEditor_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DAF904C6949900A80005 /* BoardListEditor_p.h */; };
@@ -573,6 +571,7 @@
 		87C2038508FF419C006DC42C /* SGAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244F5043610D600A80005 /* SGAppKit.framework */; };
 		87C2041208FF4873006DC42C /* ImagePreviewer.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87C2031D08FF3E2B006DC42C /* ImagePreviewer.plugin */; };
 		87C4813F08FD05A300F91054 /* AddBoardSheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87C4813D08FD05A300F91054 /* AddBoardSheet.nib */; };
+		87C8FBDD09B3631800039203 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87C8FBDC09B3631800039203 /* Security.framework */; };
 		87C9DD3009404CA3004E6596 /* AppDefaults-Alert.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCDD04C698FB00A80005 /* AppDefaults-Alert.m */; };
 		87CD85CC098170ED002C4372 /* BSFavoritesHEADCheckTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 87CD85CA098170ED002C4372 /* BSFavoritesHEADCheckTask.h */; };
 		87CD85CD098170ED002C4372 /* BSFavoritesHEADCheckTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CD85CB098170ED002C4372 /* BSFavoritesHEADCheckTask.m */; };
@@ -676,7 +675,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8719876B083534D900188E63 /* Keychain.framework in CopyFiles */,
 				8701638A082BE67100AEFDD0 /* CocoMonar.framework in CopyFiles */,
 				8701638B082BE67100AEFDD0 /* SGFoundation.framework in CopyFiles */,
 				8701638C082BE67100AEFDD0 /* SGNetwork.framework in CopyFiles */,
@@ -734,7 +732,6 @@
 		8718EFA508D4257200FFAAEE /* BoardManager-BSAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BoardManager-BSAddition.m"; sourceTree = "<group>"; };
 		8718EFDC08D43F7D00FFAAEE /* NoNameInputController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoNameInputController.h; sourceTree = "<group>"; };
 		8718EFDD08D43F7D00FFAAEE /* NoNameInputController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoNameInputController.m; sourceTree = "<group>"; };
-		871986D108351B1800188E63 /* Keychain.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Keychain.framework; path = ../frameworks/Keychain/build/Deployment/Keychain.framework; sourceTree = SOURCE_ROOT; };
 		8719F069088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-OwnHistory.m"; sourceTree = "<group>"; };
 		871CA11108585F3A00C3A044 /* Info-editor.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Info-editor.plist"; path = "../../Info-editor.plist"; sourceTree = "<group>"; };
 		871CA11208585F3A00C3A044 /* BoardListEditor.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoardListEditor.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -907,6 +904,7 @@
 		87C2033B08FF40B8006DC42C /* Info-previewer.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Info-previewer.plist"; sourceTree = SOURCE_ROOT; };
 		87C4813E08FD05A300F91054 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/AddBoardSheet.nib; sourceTree = "<group>"; };
 		87C633C4087F53A60093559B /* AppDefaults-Deprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDefaults-Deprecated.h"; sourceTree = "<group>"; };
+		87C8FBDC09B3631800039203 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		87CD85CA098170ED002C4372 /* BSFavoritesHEADCheckTask.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = BSFavoritesHEADCheckTask.h; sourceTree = "<group>"; };
 		87CD85CB098170ED002C4372 /* BSFavoritesHEADCheckTask.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = BSFavoritesHEADCheckTask.m; sourceTree = "<group>"; };
 		87CF6469097A335D00DE8B16 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Japanese; path = Japanese.lproj/Acknowledgments.rtf; sourceTree = "<group>"; };
@@ -1294,8 +1292,8 @@
 				87016386082BE67100AEFDD0 /* SGNetwork.framework in Frameworks */,
 				87016387082BE67100AEFDD0 /* SGAppKit.framework in Frameworks */,
 				87016388082BE67100AEFDD0 /* Carbon.framework in Frameworks */,
-				871986D208351B1800188E63 /* Keychain.framework in Frameworks */,
 				87464E3708643673000F0371 /* libRBSplitView.a in Frameworks */,
+				87C8FBDD09B3631800039203 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1377,7 +1375,7 @@
 		2A37F4C3FDCFA73011CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				871986D108351B1800188E63 /* Keychain.framework */,
+				87C8FBDC09B3631800039203 /* Security.framework */,
 				F38D04EC03C49C8100A80002 /* Reference */,
 				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
 				F3924488043610AE00A80005 /* CocoMonar.framework */,

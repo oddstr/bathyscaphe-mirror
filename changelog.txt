@@ -1,3 +1,13 @@
+2006-02-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* Makefile
+		Keychain framework はビルドしないようにした。
+		- 当然、クリーニングもされなくなるので、必要に応じて残骸を自分でクリーニングしておくべき。
+	* application/source/manager/CMRKeychainManager.m
+		「さようなら、Keychain framework」
+		フルビルドする際の時間短縮と、アプリケーションのスリム化を計るため、Keychain framework を使用せず、
+		直接 Keychain Services を叩くようにした。
+		これに伴い、Keychain framework のコピー、リンクを停止し、かわりに Security.framework をリンクする
+		ようにした。
 2006-02-27 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/MainMenu.nib
 		「ファイル」＞「すべてのウインドウを閉じる」（command-option-W）

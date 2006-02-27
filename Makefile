@@ -13,8 +13,7 @@ FRAMEWORK_ROOT	= frameworks
 FRAMEWORK_DIRS	= $(FRAMEWORK_ROOT)/SGFoundation \
 		  $(FRAMEWORK_ROOT)/SGAppKit \
 		  $(FRAMEWORK_ROOT)/SGNetwork \
-		  $(FRAMEWORK_ROOT)/CocoMonar \
-		  $(FRAMEWORK_ROOT)/Keychain
+		  $(FRAMEWORK_ROOT)/CocoMonar
 
 COMPONENT_DIRS	= $(FRAMEWORK_DIRS) \
 		  application/subproj/BWAgent
