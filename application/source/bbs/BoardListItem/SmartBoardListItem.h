@@ -9,12 +9,11 @@
 #import <Cocoa/Cocoa.h>
 
 #import "AbstractDBBoardListItem.h"
-
-@class SmartConditionItem;
+#import "SmartCondition.h"
 
 @interface SmartBoardListItem : AbstractDBBoardListItem
 {
-	NSMutableArray *conditions;
+	id<SmartCondition> mConditions;
 }
 
 - (id) initWithName : (NSString *) name condition : (id) condition;

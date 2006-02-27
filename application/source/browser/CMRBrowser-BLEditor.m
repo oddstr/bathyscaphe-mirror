@@ -9,6 +9,7 @@
 
 #import "SmartBoardList.h"
 #import "BoardListItem.h"
+#import "SmartBoardListItemEditor.h"
 
 @implementation CMRBrowser(BoardListEditor)
 #pragma mark Accessors
@@ -39,6 +40,28 @@
 }
 
 #pragma mark IBActions and private methods
+- (void)setItem : (id) item : (int *) userInfo
+{
+	//
+	if(item) {
+		int rowIndex;
+		id selectedItem;
+		id userList = [[BoardManager defaultManager] userList];
+				
+		rowIndex = [[self boardListTable] selectedRow];
+		selectedItem = (rowIndex >= 0) ? [[self boardListTable] itemAtRow : rowIndex]: nil;
+		
+		[userList addItem:item afterObject:selectedItem];
+		[[self boardListTable] reloadData];
+	}
+}
+- (IBAction) addSmartItem : (id) sender
+{
+	[[SmartBoardListItemEditor editor] cretateFromUIWindow:[self window]
+												  delegate:self
+										   settingSelector:@selector(setItem::)
+												  userInfo:NULL];
+}
 
 - (IBAction) addDrawerItem : (id) sender
 {

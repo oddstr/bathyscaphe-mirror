@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.14.2.3 2006/01/29 12:58:10 masakih Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.14.2.4 2006/02/27 16:01:43 masakih Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -195,7 +195,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 	item_ = [brdListTable_ itemAtRow : rowIndex_];
 
 	if (nil == item_) return;
-	if (![item_ hasURL] && ![BoardListItem isFavoriteItem:item_]) return;
+	if (![item_ hasURL] && ![BoardListItem isFavoriteItem:item_] && ![BoardListItem isSmartItem:item_]) return;
 	
 	[self showThreadsListForBoard : item_];
 }

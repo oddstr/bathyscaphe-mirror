@@ -145,7 +145,10 @@
 {
 	return [BoardListItem isFavoriteItem : [self boardListItem]];
 }
-
+- (BOOL)isSmartItem
+{
+	return [BoardListItem isSmartItem : [self boardListItem]];
+}
 - (id) boardListItem
 {
 	return mBoardListItem;
@@ -890,7 +893,7 @@ fail:
 #pragma mark## Download ##
 - (void) downloadThreadsList
 {
-	if( [self isFavorites] ) {
+	if( [self isFavorites] || [self isSmartItem] ) {
 		BSFavoritesHEADCheckTask		*task_;
 		
 		task_ = [[BSFavoritesHEADCheckTask alloc]
@@ -1106,7 +1109,7 @@ fail:
 					id <SQLiteRow> row = [cursor rowAtIndex:0];
 					int nAll, nRead;
 					
-					// 前レス数と既得数が同じならstatusを強制的にThreadLogCachedStatusに変更。
+					// 全レス数と既得数が同じならstatusを強制的にThreadLogCachedStatusに変更。
 					nAll = [nilIfObjectIsNSNull([row valueForColumn:NumberOfAllColumn]) intValue];
 					nRead = [nilIfObjectIsNSNull([row valueForColumn:NumberOfReadColumn]) intValue];
 					if(nAll && nAll == nRead && [status intValue] != ThreadLogCachedStatus) {

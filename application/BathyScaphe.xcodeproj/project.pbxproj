@@ -657,6 +657,7 @@
 		F469D74C0943606C007D7EDC /* CMRBrowser-BLEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 873C0DCE08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m */; };
 		F469D75209436166007D7EDC /* AddBoardSheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87C4813D08FD05A300F91054 /* AddBoardSheet.nib */; };
 		F469D827094366F6007D7EDC /* ImagePreviewer.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87C2031D08FF3E2B006DC42C /* ImagePreviewer.plugin */; };
+		F46BD77F09B3413B0069AEB6 /* ConditionTypes.plist in Resources */ = {isa = PBXBuildFile; fileRef = F46BD77D09B3413B0069AEB6 /* ConditionTypes.plist */; };
 		F4904AE3088C096D00EA9BA8 /* BoardManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC2704C698FA00A80005 /* BoardManager.h */; };
 		F4904AE4088C096D00EA9BA8 /* BoardManager_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC2904C698FA00A80005 /* BoardManager_p.h */; };
 		F4904AE5088C096D00EA9BA8 /* Browser.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC2D04C698FA00A80005 /* Browser.h */; };
@@ -1951,6 +1952,7 @@
 		F424609808462452000803EA /* Scripts.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Scripts.tiff; sourceTree = "<group>"; };
 		F4559442088A106E00557B17 /* DatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseManager.h; sourceTree = "<group>"; };
 		F4559443088A106E00557B17 /* DatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabaseManager.m; sourceTree = "<group>"; };
+		F46BD77E09B3413B0069AEB6 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Japanese; path = Japanese.lproj/ConditionTypes.plist; sourceTree = "<group>"; };
 		F4904CE9088C096D00EA9BA8 /* BS Another Story.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BS Another Story.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4904CED088C096E00EA9BA8 /* Info-bs-another-story.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-bs-another-story.plist"; sourceTree = "<group>"; };
 		F4904D22088C116700EA9BA8 /* BSDBThreadList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSDBThreadList.h; sourceTree = "<group>"; };
@@ -2261,6 +2263,7 @@
 		872998690832616D00CBD740 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F46BD77D09B3413B0069AEB6 /* ConditionTypes.plist */,
 				F4F85754096E2F9300C7E9F5 /* CriteriaSpecifications.plist */,
 				F4CB530D096996AC001256C8 /* SmartBoardItemEditor.nib */,
 				F4CB530B096996AC001256C8 /* SmartBLIEditorComponents.nib */,
@@ -4560,6 +4563,7 @@
 				F4CB5310096996AC001256C8 /* SmartBoardItemEditor.nib in Resources */,
 				F4F85756096E2F9300C7E9F5 /* CriteriaSpecifications.plist in Resources */,
 				F4976E66098CC5CE008E838D /* Status_HeadModified.png in Resources */,
+				F46BD77F09B3413B0069AEB6 /* ConditionTypes.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5539,6 +5543,14 @@
 				F33AE22905BE525A002448CC /* Japanese */,
 			);
 			name = FilterPreferences.nib;
+			sourceTree = "<group>";
+		};
+		F46BD77D09B3413B0069AEB6 /* ConditionTypes.plist */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F46BD77E09B3413B0069AEB6 /* Japanese */,
+			);
+			name = ConditionTypes.plist;
 			sourceTree = "<group>";
 		};
 		F4CB530B096996AC001256C8 /* SmartBLIEditorComponents.nib */ = {

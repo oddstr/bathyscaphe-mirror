@@ -10,21 +10,65 @@
 
 #import "DatabaseManager.h"
 
-@implementation SmartBoardListItem
+@interface SmartBoardListItem(Private)
+- (void)updateQuery;
+@end
 
+@implementation SmartBoardListItem
+- (id) initWithName : (NSString *) inName condition : (id) condition
+{
+	if (self = [super init]) {
+		[self setName : inName];
+		mConditions = [condition retain];
+		[self updateQuery];
+	}
+	
+	return self;
+}
 - (NSImage *) icon
 {
 	return [NSImage imageAppNamed : @"SmartBoard"];
 }
 
-
-- (id) initWithName : (NSString *) inName condition : (id) condition
+- (void)updateQuery
 {
-	if (self = [super init]) {
-		[self setName : inName];
+	NSString *query;
+	
+	query = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@",
+		BoardThreadInfoViewName, mConditions];
+	
+	[self setQuery:query];
+}
+
+#pragma mark## CMRPropertyListCoding protocol ##
+static NSString *SmartConditionNameKey = @"SmartConditionNameKey";
+static NSString *SmartConditionConditionKey = @"SmartConditionConditionKey";
+
+- (id) propertyListRepresentation
+{
+	return [NSDictionary dictionaryWithObjectsAndKeys:
+		[self name], SmartConditionNameKey,
+		[NSArchiver archivedDataWithRootObject:mConditions], SmartConditionConditionKey,
+		nil];
+}
+- (id) initWithPropertyListRepresentation : (id) rep
+{
+	id v;
+	id name, cond;
+	
+	name = [rep objectForKey:SmartConditionNameKey];
+	
+	v = [rep objectForKey:SmartConditionConditionKey];
+	if(v) {
+		cond = [[NSUnarchiver unarchiveObjectWithData:v] retain];
 	}
 	
-	return self;
+	return [self initWithName:name condition:cond];
+}
+
+- (id)plist
+{
+	return [self propertyListRepresentation];
 }
 
 @end

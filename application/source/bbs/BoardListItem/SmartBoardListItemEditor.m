@@ -106,7 +106,8 @@ static inline NSInvocation *checkMethodSignature(id obj, SEL selector)
 	[editorWindow orderOut:self];
 	if(returnCode) {
 		////
-		
+		newItem = [BoardListItem baordListItemWithName:[nameField stringValue]
+											 condition:[helper condition]];
 		
 		/////
 	}

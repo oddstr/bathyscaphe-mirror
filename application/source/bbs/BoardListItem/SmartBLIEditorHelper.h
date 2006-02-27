@@ -2,6 +2,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "SmartCondition.h"
+
 @class ColorBackgroundView;
 
 @interface SmartBLIEditorHelper : NSObject
@@ -21,4 +23,9 @@
 - (IBAction)addCriterion:(id)sender;
 - (IBAction)changeCriterionPop:(id)sender;
 - (IBAction)removeCriterion:(id)sender;
+@end
+
+@interface SmartBLIEditorHelper(SmartConditionAccesor)
+- (id<SmartCondition>)condition;
+- (BOOL)buildHelperFromCondition:(id<SmartCondition>)condition;
 @end

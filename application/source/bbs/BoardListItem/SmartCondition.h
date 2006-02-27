@@ -10,6 +10,14 @@
 
 #import "DatabaseManager.h"
 
+
+@protocol SmartCondition
+- (NSString *) conditionString;
+
+// description method must be return same as conditionString method's returns.
+- (NSString *)description;
+@end
+
 typedef enum _SCOperation
 {
 	SCUnknownOperation = 0,
@@ -28,8 +36,7 @@ typedef enum _SCOperation
 	SCRangeOperation,
 } SCOperation;
 
-
-@interface SmartCondition : NSObject
+@interface SmartCondition : NSObject <SmartCondition, NSCoding>
 {
 	@private
 	id mTarget;
@@ -38,13 +45,43 @@ typedef enum _SCOperation
 	id mValue2;
 }
 
-
 + (id) conditionWithTarget : (NSString *)target operation : (SCOperation)operation value : (id)value;
-+ (id) conditionWithTarget : (NSString *)target operation : (SCOperation)operation value : (id)value value : (id) value;
++ (id) conditionWithTarget : (NSString *)target operation : (SCOperation)operation value : (id)value1 value : (id) value2;
 
 - (id) initWithTarget : (NSString *)target operation : (SCOperation)operation value : (id)value;
-- (id) initWithTarget : (NSString *)target operation : (SCOperation)operation value : (id)value value : (id) value;
+- (id) initWithTarget : (NSString *)target operation : (SCOperation)operation value : (id)value1 value : (id) value2;
 
-- (NSString *)conditionString;
+- (NSString *) conditionString;
+@end
 
+
+typedef enum _SCCOperation
+{
+	SCCUnionOperation,
+	SCCIntersectionOperation,
+} SCCOperation;
+
+@interface SmartConditionComposit : NSObject <SmartCondition, NSCoding>
+{
+	SCCOperation mOperation;
+	id mConditions;
+}
+
++ (id)unionCompositWithArray : (NSArray *)conditions;
++ (id)unionCompositWithConditions : (id)firstCondition, ...;
++ (id)intersectionCompositWithArray : (NSArray *)conditions;
++ (id)intersectionCompositWithConditions : (id)firstCondition, ...;
+
+	// primitive method.
+- (id)initCompositWithOperation:(SCCOperation)ope conditions:(NSArray *)conditions;
+
+- (id)initUnionCompositWithArray : (NSArray *)conditions;
+- (id)initUnionCompositWithConditions : (id)firstCondition, ...;
+- (id)initIntersectionCompositWithArray : (NSArray *)conditions;
+- (id)initIntersectionCompositWithConditions : (id)firstCondition, ...;
+
+- (NSString *) conditionString;
+
+- (NSArray *)conditions;
+- (SCCOperation)operation;
 @end

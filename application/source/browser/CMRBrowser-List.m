@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.7.2.4 2006/01/29 12:58:10 masakih Exp $
+  * $Id: CMRBrowser-List.m,v 1.7.2.5 2006/02/27 16:01:43 masakih Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -95,7 +95,39 @@
 
 - (void) showThreadsListForBoard : (id) board;
 {	
-	[self showThreadsListWithBoardName : [board name]];
+	id		list_;
+	NSString *boardName;
+	NSString			*sortColumnIdentifier_;
+	BOOL				isAscending_;
+	
+	boardName = [board name];
+	if(nil == boardName) return;
+	if([[[[self currentThreadsList] boardListItem] name] isEqual : boardName]){
+		return;
+	}
+	
+	[[self threadsListTable] deselectAll : nil];
+	[[self threadsListTable] setDataSource : nil];
+	
+	list_ = [BSDBThreadList threadListWithBoardListItem : board];
+	if(nil == list_)
+		return;
+	
+	[self setCurrentThreadsList : list_];
+	
+	// sort column change
+	sortColumnIdentifier_ = [[BoardManager defaultManager] sortColumnForBoard : boardName];
+	isAscending_ = [[BoardManager defaultManager] sortColumnIsAscendingAtBoard : boardName];
+	
+	[list_ setIsAscending : isAscending_];
+	[self changeHighLightedTableColumnTo : sortColumnIdentifier_ isAscending : isAscending_];
+	
+	[self synchronizeWindowTitleWithDocumentName];
+	[[self window] makeFirstResponder : [self threadsListTable]];
+	
+	// リストの読み込みを開始する。
+	[list_ startLoadingThreadsList : [self threadLayout]];
+	[self boardChanged : boardName];
 }
 
 @end

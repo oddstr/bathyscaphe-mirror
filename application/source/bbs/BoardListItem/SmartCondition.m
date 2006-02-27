@@ -51,13 +51,16 @@ static NSDictionary *sConditionTypes = nil;
 		case SCBeginsWithOperation:
 		case SCEndsWithOperation:
 		case SCContaionsOperation:
+		case SCNotContainsOperation:
 		case SCExactOperation:
+		case SCNotExactOperation:
 			if([valueType isEqualTo : @"NSString"]) {
 				result = YES;
 			}
 			break;
 		case SCLargerOperation:
 		case SCEqualOperation:
+		case SCNotEqualOperation:
 		case SCSmallerOperation:
 		case SCRangeOperation:
 			if([valueType isEqualTo : @"NSNumber"]
@@ -163,14 +166,23 @@ static NSDictionary *sConditionTypes = nil;
 		case SCContaionsOperation:
 			format = @"%@ LIKE '%%%@%%'";
 			break;
+		case SCNotContainsOperation:
+			format = @"%@ NOT LIKE '%%%@%%'";
+			break;
 		case SCExactOperation:
 			format = @"%@ LIKE '%@'";
+			break;
+		case SCNotExactOperation:
+			format = @"%@ NOT LIKE '%@'";
 			break;
 		case SCLargerOperation:
 			format = @"%@ > %@";
 			break;
 		case SCEqualOperation:
 			format = @"%@ = %@";
+			break;
+		case SCNotEqualOperation:
+			format = @"%@ != %@";
 			break;
 		case SCSmallerOperation:
 			format = @"%@ < %@";
@@ -193,26 +205,24 @@ static NSDictionary *sConditionTypes = nil;
 		
 }
 
+- (NSString *)description
+{
+	return [self conditionString];
+}
+
 static inline void setValueToValue( id value, id *toValue )
 {
-	id temp;
-	
 	UTILCAssertNotNil(toValue);
 	
 	if([value isKindOfClass : [NSString class]] ) {
-		temp = *toValue;
 		*toValue = [SQLiteDB prepareStringForQuery : value];
 		[*toValue retain];
-		[temp release];
 	} else if ([value isKindOfClass : [NSNumber class]]
 			   ||[value isKindOfClass : [NSNull class]]) {
-		temp = *toValue;
 		*toValue = [value copy];
-		[temp release];
 	} else if([value isKindOfClass : [NSDate class]]) {
-		temp = *toValue;
 		*toValue = [NSNumber numberWithDouble : [value timeIntervalSince1970]];
-		[temp release];
+		[*toValue retain];
 	} else {
 		NSLog(@"value must be NSString, NSNumber, NSDate or nil");
 	}
@@ -224,5 +234,255 @@ static inline void setValueToValue( id value, id *toValue )
 - (void) _setValue2 : (id) value
 {
 	setValueToValue(value, &mValue2);
+}
+
+
+#pragma mark## NSCoding ##
+static NSString *SCTargetCodingKey = @"SCTargetCodingKey";
+static NSString *SCOperationCodingKey = @"SCOperationCodingKey";
+static NSString *SCValue1CodingKey = @"SCValue1CodingKey";
+static NSString *SCValue2CodingKey = @"SCValue2CodingKey";
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+	if([aCoder allowsKeyedCoding]) {
+		[aCoder encodeObject:mTarget forKey:SCTargetCodingKey];
+		[aCoder encodeObject:[NSNumber numberWithInt:mOperation] forKey:SCOperationCodingKey];
+		[aCoder encodeObject:mValue1 forKey:SCValue1CodingKey];
+		if(mValue2) {
+			[aCoder encodeObject:mValue2 forKey:SCValue2CodingKey];
+		}
+	} else {
+		[aCoder encodeObject:mTarget];
+		[aCoder encodeObject:[NSNumber numberWithInt:mOperation]];
+		[aCoder encodeObject:mValue1];
+		if(mValue2) {
+			[aCoder encodeObject:mValue2];
+		}
+	}
+}
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+	id target,value1, value2;
+	int ope;
+	
+	if([aDecoder allowsKeyedCoding]) {
+		target = [aDecoder decodeObjectForKey:SCTargetCodingKey];
+		ope = [[aDecoder decodeObjectForKey:SCOperationCodingKey] intValue];
+		value1 = [aDecoder decodeObjectForKey:SCValue1CodingKey];
+		value2 = [aDecoder decodeObjectForKey:SCValue2CodingKey];
+	} else {
+		target = [aDecoder decodeObject];
+		ope = [[aDecoder decodeObject] intValue];
+		value1 = [aDecoder decodeObject];
+		value2 = [aDecoder decodeObject];
+	}
+	
+	if(value2) {
+		self = [self initWithTarget:target operation:ope value:value1 value:value2];
+	} else {
+		self = [self initWithTarget:target operation:ope value:value1];
+	}
+	
+	return self;
+}
+@end
+
+
+@implementation SmartConditionComposit
+
+NSArray *arrayFromValist( id firstCondition, va_list ap )
+{
+	id cond;
+	NSMutableArray *result = [NSMutableArray array];
+	
+	cond = firstCondition;
+	while( cond ) {
+		if(![cond conformsToProtocol:@protocol(SmartCondition)]) {
+			return nil;
+		}
+		[result addObject:cond];
+//		NSLog(@"add!!");
+		cond = va_arg( ap, id );
+	}
+	
+	return result;
+}
+
++ (id)unionCompositWithArray : (NSArray *)conditions
+{
+	return [[[[self class] alloc] initUnionCompositWithArray:conditions] autorelease];
+}
++ (id)intersectionCompositWithArray : (NSArray *)conditions
+{
+	return [[[[self class] alloc] initIntersectionCompositWithArray:conditions] autorelease];
+}
++ (id)unionCompositWithConditions : (id)firstCondition, ...
+{
+	va_list ap;
+	id result;
+	
+	va_start(ap, firstCondition);
+	result = [[[[self class] alloc] initCompositWithOperation:SCCUnionOperation
+												   conditions:arrayFromValist(firstCondition, ap)] autorelease];
+	va_end(ap);
+	
+	return result;
+}
++ (id)intersectionCompositWithConditions : (id)firstCondition, ...
+{
+	va_list ap;
+	id result;
+	
+	va_start(ap, firstCondition);
+	result = [[[[self class] alloc] initCompositWithOperation:SCCIntersectionOperation
+												   conditions:arrayFromValist(firstCondition, ap)] autorelease];
+	va_end(ap);
+	
+	return result;
+}
+
+static inline BOOL checkOperation( SCCOperation ope)
+{
+	return (ope == SCCUnionOperation || ope == SCCIntersectionOperation) ? YES : NO;
+}
+static inline BOOL checkConditions( NSArray *conditions)
+{
+	NSEnumerator *condEnum;
+	id obj;
+	
+	if(!conditions || ![conditions isKindOfClass:[NSArray class]]) return NO;
+	if([conditions count] == 0) return NO;
+	
+	condEnum = [conditions objectEnumerator];
+	while((obj = [condEnum nextObject])) {
+		if(![obj conformsToProtocol:@protocol(SmartCondition)]) return NO;
+	}
+	
+	return YES;
+}
+// primitive method.
+- (id)initCompositWithOperation:(SCCOperation)ope conditions:(NSArray *)conditions
+{
+	if(self = [super init]) {
+		if(!checkOperation(ope)) {
+			goto fail;
+		}
+		if(!checkConditions(conditions)) {
+			goto fail;
+		}
+		
+		mOperation = ope;
+		mConditions = [[NSArray alloc] initWithArray:conditions];
+	}
+	
+	return self;
+	
+fail:{
+	[self release];
+	return nil;
+}
+}
+- (id)initUnionCompositWithArray : (NSArray *)conditions
+{
+	return [self initCompositWithOperation:SCCUnionOperation
+								conditions:conditions];
+}
+- (id)initIntersectionCompositWithArray : (NSArray *)conditions
+{
+	return [self initCompositWithOperation:SCCIntersectionOperation
+								conditions:conditions];
+}
+- (id)initUnionCompositWithConditions : (id)firstCondition, ...
+{
+	id result;
+	va_list ap;
+	
+	va_start(ap, firstCondition);
+	result = [self initUnionCompositWithArray:arrayFromValist(firstCondition, ap)];
+	va_end(ap);
+	
+	return result;
+}
+- (id)initIntersectionCompositWithConditions : (id)firstCondition, ...
+{
+	id result;
+	va_list ap;
+	
+	va_start(ap, firstCondition);
+	result = [self initIntersectionCompositWithArray:arrayFromValist(firstCondition, ap)];
+	va_end(ap);
+	
+	return result;
+}
+
+- (NSString *) conditionString
+{
+	NSMutableString *result;
+	NSString *comp = nil;
+	
+	switch(mOperation) {
+		case SCCUnionOperation:
+			comp = @") AND (";
+			break;
+		case SCCIntersectionOperation:
+			comp = @") OR (";
+			break;
+		default:
+			UTILUnknownSwitchCase(mOperation);
+			break;
+	}
+	
+	result = [NSMutableString stringWithString:@"("];
+	
+	[result appendString:[mConditions componentsJoinedByString:comp]];
+	
+	[result appendString:@")"];
+	
+	return result;
+}
+
+- (NSString *)description
+{
+	return [self conditionString];
+}
+
+- (NSArray *)conditions
+{
+	return mConditions;
+}
+- (SCCOperation)operation
+{
+	return mOperation;
+}
+
+#pragma mark## NSCoding ##
+static NSString *SCCOperationCodingKey = @"SCOperationCodingKey";
+static NSString *SCCConditionsCodingKey = @"SCValue1CodingKey";
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+	if([aCoder allowsKeyedCoding]) {
+		[aCoder encodeObject:[NSNumber numberWithInt:mOperation] forKey:SCCOperationCodingKey];
+		[aCoder encodeObject:mConditions forKey:SCCConditionsCodingKey];
+	} else {
+		[aCoder encodeObject:[NSNumber numberWithInt:mOperation]];
+		[aCoder encodeObject:mConditions];
+	}
+}
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+	id cond;
+	int ope;
+	
+	if([aDecoder allowsKeyedCoding]) {
+		ope = [[aDecoder decodeObjectForKey:SCCOperationCodingKey] intValue];
+		cond = [aDecoder decodeObjectForKey:SCCConditionsCodingKey];
+	} else {
+		ope = [[aDecoder decodeObject] intValue];
+		cond = [aDecoder decodeObject];
+	}
+	
+	return [self initCompositWithOperation:ope conditions:cond];
 }
 @end

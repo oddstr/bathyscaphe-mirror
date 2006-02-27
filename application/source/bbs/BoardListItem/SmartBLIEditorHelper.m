@@ -1,5 +1,9 @@
 #import "SmartBLIEditorHelper.h"
 
+#import "SmartCondition.h"
+
+#import "BSDatePicker.h"
+
 //rootHelperを始点とする双方向リンクドリンストを構成する。
 //rootHelperは特別扱いされ、ビューを表示しない。
 //
@@ -114,6 +118,8 @@ typedef enum QualifierMenuItemTags {
 	dateLargerThanQualifierItemTaag = dateItemExtension + largerThanQualifierItemTag,
 	dateSmallerThanQualifierItemTag = dateItemExtension + smallerThanQualifierItemTag,
 	dateRangeQualifierItemTag = dateItemExtension + rangeQualifierItemTag,
+	
+	lastExtensionsLabel = 4000,
 } QualifierMenuItemTags;
 
 #pragma mark## Constants ##
@@ -125,6 +131,7 @@ static NSString *SmartBLIEditorComponentsNibName = @"SmartBLIEditorComponents";
 
 static NSString *CriteriaSpecificationsPlist = @"CriteriaSpecifications.plist";
 static NSString *CriteriaSpecificationsCriteriaKey = @"criteria";
+static NSString		*CriteriaNameKey = @"name";
 static NSString		*CriteriaTypeKey = @"type";
 static NSString *CriteriaSpecificationsOrdersKey = @"orders";
 
@@ -700,6 +707,237 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 	}
 	
 	return nil;
+}
+
+@end
+
+@implementation SmartBLIEditorHelper(SmartConditionAccesor)
+- (SCOperation) conditionOperation
+{
+	SCOperation operation = SCUnknownOperation;
+	QualifierMenuItemTags qualifier = [self currentQualifierItemTag];
+	
+	switch(qualifier) {
+		case containsQualifierItemTag:
+			operation = SCContaionsOperation;
+			break;
+		case notContainsQualifierItemTag:
+			operation = SCNotContainsOperation;
+			break;
+		case exactQualifierItemTag:
+			operation = SCExactOperation;
+			break;
+		case notExactQualifierItemTag:
+			operation = SCNotExactOperation;
+			break;
+		case beginsWithQualifierItemTag:
+			operation = SCBeginsWithOperation;
+			break;
+		case endsWithQualifierItemTag:
+			operation = SCEndsWithOperation;
+			break;
+		case isEqualQualifierItemTag:
+		case daysIsEqualQualifierItemTag:
+		case dateIsEqualQualifierItemTag:
+			operation = SCEqualOperation;
+			break;
+		case notEqualQualifierItemTag:
+		case dateNotEqualQualifierItemTag:
+			operation = SCNotEqualOperation;
+			break;
+		case largerThanQualifierItemTag:
+		case daysLargerThanQualifierItemTaag:
+		case dateLargerThanQualifierItemTaag:
+			operation = SCLargerOperation;
+			break;
+		case smallerThanQualifierItemTag:
+		case daysSmallerThanQualifierItemTag:
+		case dateSmallerThanQualifierItemTag:
+			operation = SCSmallerOperation;
+			break;
+		case rangeQualifierItemTag:
+		case daysRangeQualifierItemTag:
+		case dateRangeQualifierItemTag:
+			operation = SCRangeOperation;
+			break;
+		case daysTodayQualifierItemTag:
+		case daysYesterdayQualifierItemTag:
+		case daysThisWeekQualifierItemTag:
+		case daysLastWeekQualifierItemTag:
+			operation = -2;
+			break;
+		default:
+			operation = -1;
+			break;
+	}
+	
+	return operation;
+}
+- (SmartCondition *)aCondition
+{
+	SmartCondition *result;
+	
+	NSString *criterion;
+	id value1, value2 = nil;
+	
+	SCOperation operation = SCUnknownOperation;
+	QualifierMenuItemTags qualifier = [self currentQualifierItemTag];
+	
+	int tag;
+	NSString *typesKey;
+	id criteria;
+	
+	if(self == [self rootHelper]) return nil;
+	
+	{
+		switch(qualifier) {
+			case containsQualifierItemTag:
+				operation = SCContaionsOperation;
+				break;
+			case notContainsQualifierItemTag:
+				operation = SCNotContainsOperation;
+				break;
+			case exactQualifierItemTag:
+				operation = SCExactOperation;
+				break;
+			case notExactQualifierItemTag:
+				operation = SCNotExactOperation;
+				break;
+			case beginsWithQualifierItemTag:
+				operation = SCBeginsWithOperation;
+				break;
+			case endsWithQualifierItemTag:
+				operation = SCEndsWithOperation;
+				break;
+			case isEqualQualifierItemTag:
+			case daysIsEqualQualifierItemTag:
+			case dateIsEqualQualifierItemTag:
+				operation = SCEqualOperation;
+				break;
+			case notEqualQualifierItemTag:
+			case dateNotEqualQualifierItemTag:
+				operation = SCNotEqualOperation;
+				break;
+			case largerThanQualifierItemTag:
+			case daysLargerThanQualifierItemTaag:
+			case dateLargerThanQualifierItemTaag:
+				operation = SCLargerOperation;
+				break;
+			case smallerThanQualifierItemTag:
+			case daysSmallerThanQualifierItemTag:
+			case dateSmallerThanQualifierItemTag:
+				operation = SCSmallerOperation;
+				break;
+			case rangeQualifierItemTag:
+			case daysRangeQualifierItemTag:
+			case dateRangeQualifierItemTag:
+				operation = SCRangeOperation;
+				break;
+			case daysTodayQualifierItemTag:
+			case daysYesterdayQualifierItemTag:
+			case daysThisWeekQualifierItemTag:
+			case daysLastWeekQualifierItemTag:
+				operation = -2;
+				break;
+			default:
+				operation = -1;
+				break;
+		}
+		
+		if(operation == -2) {
+			return [self daysDateCondition];
+		} else if(operation == -1) {
+			return nil;
+		}
+	}
+	
+	tag = [[[self uiItemForTag:criterionPopUpTag] selectedItem] tag];
+	typesKey = [NSString stringWithFormat:@"%d", tag];
+	criteria = [sCriteriaSpecifications objectForKey:CriteriaSpecificationsCriteriaKey];
+	criterion = [[criteria objectForKey:typesKey] objectForKey:CriteriaNameKey];
+	
+	{
+		if(qualifier < isEqualQualifierItemTag) {
+			value1 = [[self uiItemForTag:stringExpressionFieldTag] stringValue];
+		} else if(qualifier < daysItemExtension) {
+			int v = [[self uiItemForTag:numberExpressionFieldTag] intValue];
+			value1 = [NSNumber numberWithInt:v];
+			if(qualifier == rangeQualifierItemTag) {
+				v = [[self uiItemForTag:numberExpression2FieldTag] intValue];
+				value2 = [NSNumber numberWithInt:v];
+			}
+		} else if(qualifier < dateItemExtension) {
+			int v = [[self uiItemForTag:numberExpressionFieldTag] intValue];
+			v *= [[[self uiItemForTag:daysUnitPopUpTag] selectedItem] tag];
+			value1 = [NSNumber numberWithInt:v];
+			if(qualifier == daysRangeQualifierItemTag) {
+				v = [[self uiItemForTag:numberExpression2FieldTag] intValue];
+				v *= [[[self uiItemForTag:daysUnitPopUpTag] selectedItem] tag];
+				value2 = [NSNumber numberWithInt:v];
+			}
+		} else if(qualifier < lastExtensionsLabel) {
+			NSTimeInterval t = [[self uiItemForTag:dateExpressionFieldTag] epoch];
+			value1 = [NSNumber numberWithInt:t];
+			if(qualifier == dateRangeQualifierItemTag) {
+				t = [[self uiItemForTag:dateExpression2FieldTag] epoch];
+				value2 = [NSNumber numberWithInt:t];
+			}
+		} else {
+			//
+			//
+			return nil;
+		}
+	}
+	
+	
+	{
+		//
+		if(value2) {
+			result = [SmartCondition conditionWithTarget:criterion
+											   operation:operation
+												   value:value1
+												   value:value2];
+		} else {
+			result = [SmartCondition conditionWithTarget:criterion
+											   operation:operation
+												   value:value1];
+		}
+	}
+	
+	return result;
+}
+
+- (SmartConditionComposit *)compositCondition
+{
+	NSMutableArray *array;
+	SmartBLIEditorHelper *helper;
+	SCCOperation ope;
+	
+	if(self != [self rootHelper]) return nil;
+	
+	array = [NSMutableArray array];
+	helper = self;
+	while((helper = [helper nextHelper])) {
+		id cond = [helper aCondition];
+		if(cond) {
+			[array addObject:cond];
+		}
+	}
+	
+	ope = [[allOrAnyPopUp selectedItem] tag];
+	
+	return [[[SmartConditionComposit alloc] initCompositWithOperation:ope
+														   conditions:array] autorelease];
+}
+
+- (id<SmartCondition>)condition
+{
+	return [[self rootHelper] compositCondition];
+}
+
+- (BOOL)buildHelperFromCondition:(id<SmartCondition>)condition
+{
+	//
 }
 
 @end

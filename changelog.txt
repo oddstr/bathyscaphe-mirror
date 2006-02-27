@@ -1,3 +1,23 @@
+2006-02-28 masakih <masakih@users.sourceforge.jp>
+	* application/Resources/Japanese.lproj/ConditionTypes.plist
+		[新規追加] SmartConditionの型を規定する。
+	* application/Resources/Japanese.lproj/CriteriaSpecifications.plist
+	* application/Resources/Japanese.lproj/Browser.nib
+	* application/Resources/Japanese.lproj/SmartBLIEditorComponents.nib
+	* application/Resources/Japanese.lproj/SmartBoardItemEditor.nib
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.h
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m
+	* application/source/bbs/BoardListItem/SmartBoardListItem.h
+	* application/source/bbs/BoardListItem/SmartBoardListItem.m
+	* application/source/bbs/BoardListItem/SmartBoardListItemEditor.m
+	* application/source/bbs/BoardListItem/SmartCondition.h
+	* application/source/bbs/BoardListItem/SmartCondition.m
+	* application/source/browser/BSDBThreadList.m
+	* application/source/browser/CMRBrowser-BLEditor.m
+	* application/source/browser/CMRBrowser-Delegate.m
+	* application/source/browser/CMRBrowser-List.m
+		スマートリストを仮実装。
+		**注意** スマートリストを追加するとboard.plist が壊れます。
 2006-02-24 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSDBThreadList.m
 		お気に入りからスレッドを更新するとスレッド一覧でステータスが正しく表示されない現象を修正。
