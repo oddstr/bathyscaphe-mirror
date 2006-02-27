@@ -1,12 +1,8 @@
-//:CMRBrowser.h
 /**
+  * $Id: CMRBrowser.h,v 1.19 2006/02/27 15:34:09 tsawada2 Exp $
+  * BathyScaphe
   *
-  * 
-  *
-  * @author  Takanori Ishikawa
-  * @author  http://www15.big.or.jp/~takanori/
-  * @version Sun Sep 01 2002
-  *
+  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
   */
 #import <Cocoa/Cocoa.h>
 #import "RBSplitView.h"
@@ -31,7 +27,6 @@ typedef enum _BSThreadDeletionType {
 	IBOutlet BSKFSplitView		*m_splitView;
 	
 	IBOutlet ThreadsListTable	*m_threadsListTable;
-	//IBOutlet NSPopUpButton		*m_threadsFilterPopUp; // deprecated in Vita.
 	
 	IBOutlet NSOutlineView		*m_boardListTable;
 	IBOutlet id					m_splitterBtn;
@@ -41,7 +36,7 @@ typedef enum _BSThreadDeletionType {
 	IBOutlet NSMenu				*m_drawerContextualMenu;
 
 	// Direct Editing BoardList
-	IBOutlet NSWindow			*m_drawerItemEditSheet;
+	IBOutlet NSPanel			*m_drawerItemEditSheet;
 	IBOutlet NSTextField		*m_dItemEditSheetTitleField;
 	IBOutlet NSTextField		*m_dItemEditSheetMsgField;
 	IBOutlet NSTextField		*m_dItemEditSheetLabelField;
@@ -86,7 +81,7 @@ typedef enum _BSThreadDeletionType {
 - (BOOL) ifSearchFieldIsInToolbar;
 
 - (IBAction) selectFilteringMask : (id) sender;
-//- (IBAction) searchToolbarPopupChanged : (id) sender;
+
 - (IBAction) searchThread : (id) sender;
 - (IBAction) showSearchThreadPanel : (id) sender;
 
@@ -101,7 +96,7 @@ typedef enum _BSThreadDeletionType {
 
 @interface CMRBrowser(BoardListEditor)
 // ReStructured on Lemonade.
-- (NSWindow *) drawerItemEditSheet;
+- (NSPanel *) drawerItemEditSheet;
 - (NSTextField *) dItemEditSheetMsgField;
 - (NSTextField *) dItemEditSheetLabelField;
 - (NSTextField *) dItemEditSheetInputField;

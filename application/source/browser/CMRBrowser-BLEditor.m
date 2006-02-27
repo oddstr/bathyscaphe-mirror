@@ -1,16 +1,20 @@
-// CMRBrowser-BLEditor.m
-//
-// CMRBrowser-Action.m, CMRBrowser-ViewAccessor.m から分割
-//
-// Created on 05/10/11.
+/*
+ * $Id: CMRBrowser-BLEditor.m,v 1.11 2006/02/27 15:34:09 tsawada2 Exp $
+ * BathyScaphe
+ * CMRBrowser-Action.m, CMRBrowser-ViewAccessor.m から分割
+ *
+ * First created on 05/10/11.
+ * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
+ *
+ */
+
 #import "CMRBrowser_p.h"
 #import "AddBoardSheetController.h"
-//#import "BSBoardListView.h"
 
 @implementation CMRBrowser(BoardListEditor)
 #pragma mark Accessors
 
-- (NSWindow *) drawerItemEditSheet
+- (NSPanel *) drawerItemEditSheet
 {
 	return m_drawerItemEditSheet;
 }

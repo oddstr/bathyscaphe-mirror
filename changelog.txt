@@ -1,4 +1,14 @@
 2006-02-27 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		「ファイル」＞「すべてのウインドウを閉じる」（command-option-W）
+		「ウインドウ」＞「すべてをしまう」（command-option-M）をそれぞれ追加。
+		- ちゃんと動作させようとすると意外と面倒だった。
+	* application/source/browser/CMRBrowser-BLEditor.m
+	* application/Resources/Japanese.lproj/Browser.nib
+		「すべてのウインドウを閉じる」機能との関係で、「掲示板リスト項目の編集」シートを NSWindow から
+		NSPanel に変更。
+	* application/source/CMRAppDelegate.m
+		すべてのウインドウを閉じる／最小化するためのメソッドをいくつか用意した。
 	* application/source/composer/CMRMessageFilter.m
 		[Bug 8082] シベリア超速報で迷惑レスフィルタが正しく動作しない問題を修正。
 2006-02-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
@@ -12,6 +22,8 @@
 	* application/source/composer/CMXTextParser.m
 	* application/source/composer/CMRAttributedMessageComposer.m
 		「株」表示のサポート：少しコードを整理した。
+		また、レンダリングを見直し、「名前： hoge  投稿日： 2006/...」などの部分の「hoge」と「投稿日」の間に
+		半角スペースを2個挿入していたのを1個に減らした（他も同様）。
 2006-02-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
 	* application/subproj/previewer/BSImagePreviewInspector.m

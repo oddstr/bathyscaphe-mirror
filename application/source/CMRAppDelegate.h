@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.h,v 1.9 2006/01/16 00:20:20 tsawada2 Exp $
+ * $Id: CMRAppDelegate.h,v 1.10 2006/02/27 15:34:09 tsawada2 Exp $
  * 
  * CMRAppDelegate.h
  *
@@ -35,6 +35,9 @@
 
 - (IBAction) clearHistory : (id) sender;
 - (IBAction) showAcknowledgment : (id) sender;
+// available in GrafEisen and later.
+- (IBAction) closeAll : (id) sender;
+- (IBAction) miniaturizeAll : (id) sender;
 @end
 
 @interface NSApplication(ScriptingSupport)
@@ -58,4 +61,8 @@
 
 /* Command Support */
 - (void) handleOpenURLCommand : (NSScriptCommand *) command;
+@end
+
+@interface NSWindow(BSAddition)
+- (BOOL) isNotMiniaturizedButCanMinimize;
 @end

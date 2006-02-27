@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.17 2006/01/16 00:20:20 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.18 2006/02/27 15:34:09 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -90,10 +90,28 @@
     [[NSWorkspace sharedWorkspace] openFile : fileName withApplication : @"TextEdit"];
 }
 
+- (IBAction) closeAll : (id) sender
+{
+	//この方法では「BathyScaphe について」パネルなどが閉じられない（Safari では閉じてくれる！）
+	//NSArray	*array_ = [NSApp orderedWindows];
+	//if (array_ == nil || [array_ count] == 0) return;
+	
+	//[array_ makeObjectsPerformSelector : @selector(performClose:)
+	//						withObject : sender];
+	
+	//この方法だと概ね良い感じだが、makeWindowsPerform:inOrder: を使って発信するセレクタは "Can’t take any arguments"
+	//であり、performClose: を使って良いのかどうかやや不安。（close を呼ぶ手もあるが、それもまたちょっと…）
+	[NSApp makeWindowsPerform : @selector(performClose:) inOrder : YES];
+}
+
+- (IBAction) miniaturizeAll : (id) sender
+{
+	[NSApp miniaturizeAll : sender];
+}
 
 #pragma mark Launch Helper App
 
-- (IBAction)launchCMLF:(id)sender
+- (IBAction) launchCMLF : (id) sender
 {
     [[NSWorkspace sharedWorkspace] launchApplication: [CMRPref helperAppPath]];
 }
@@ -116,7 +134,9 @@
 
 - (BOOL) validateMenuItem : (NSMenuItem *) theItem
 {
-	if ([theItem action] == @selector(launchCMLF:)) {
+	SEL action_ = [theItem action];
+
+	if (action_ == @selector(launchCMLF:)) {
 		NSString	*name_ = [CMRPref helperAppDisplayName];
 
 		if (nil == name_) {
@@ -126,11 +146,25 @@
 			[theItem setTitle : name_];
 			return YES;
 		}
+	} else if (action_ == @selector(closeAll:)) {
+		return ([NSApp makeWindowsPerform : @selector(isVisible) inOrder : YES] != nil);
+	} else if (action_ == @selector(miniaturizeAll:)) {
+		return ([NSApp makeWindowsPerform : @selector(isNotMiniaturizedButCanMinimize) inOrder : YES] != nil);
 	}
 	return YES;
 }
 @end
 
+
+@implementation NSWindow(BSAddition)
+- (BOOL) isNotMiniaturizedButCanMinimize
+{
+	// 最小化されていない、かつ、最小化可能であるウインドウである場合に YES を返す。
+	// 最小化不可能なウインドウでは常に NO を返す。
+	if (NO == ([self styleMask] & NSMiniaturizableWindowMask)) return NO;
+	return (NO == [self isMiniaturized]);
+}
+@end
 
 @implementation CMRAppDelegate(CMRLocalizableStringsOwner)
 + (NSString *) localizableStringsTableName

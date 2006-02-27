@@ -4,7 +4,9 @@
         {
             ACTIONS = {
                 clearHistory = id; 
+                closeAll = id; 
                 launchCMLF = id; 
+                miniaturizeAll = id; 
                 openURL = id; 
                 openURLPanel = id; 
                 resetApplication = id; 
