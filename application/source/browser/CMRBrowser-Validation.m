@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-Validation.m,v 1.9.2.3 2006/01/29 12:58:10 masakih Exp $
+ * $Id: CMRBrowser-Validation.m,v 1.9.2.4 2006/02/27 17:31:49 masakih Exp $
  * BathyScaphe
  *
  * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -7,7 +7,6 @@
  */
 
 #import "CMRBrowser_p.h"
-#import "BSBoardListView.h"
 
 #import "SmartBoardList.h"
 
@@ -44,9 +43,23 @@
 	}
 	
 	if(action_ == @selector(reloadThreadsList:)){
-		if(nil == [self currentThreadsList]) return NO;
-		
-		return YES;//(NO == [[self currentThreadsList] isFavorites]);
+		id tmp_ = [self currentThreadsList];
+		if(nil == tmp_) return NO;
+
+		if([tmp_ isFavorites] && ![CMRPref canHEADCheck]) {
+			if ([theItem respondsToSelector : @selector(setToolTip:)]) {
+				NSDate *newDate_ = [[CMRPref lastHEADCheckedDate] addTimeInterval : 600.0];
+				NSString *dateStr_ =
+					[NSString stringWithFormat : NSLocalizedString(@"HEADCheck Disabled ToolTip", @"Can't use HEADCheck until %@"),
+												 [newDate_ descriptionWithCalendarFormat : @"%H:%M" timeZone: nil locale:nil]];
+				[theItem setToolTip : dateStr_];
+			}
+			return NO;
+		} else {
+			if ([theItem respondsToSelector : @selector(setToolTip:)])
+				[theItem setToolTip : NSLocalizedString(@"Reload List ToolTip", @"Reload current thread list.")];
+			return YES;
+		}
 	}
 	
 	if(action_ == @selector(changeBrowserArrangement:)){
@@ -133,8 +146,8 @@
 	else if(action_ == @selector(saveAsDefaultFrame:))
 		return NO;
 	else if(action_ == @selector(collapseOrExpandBoardList:)){
-		[theItem setTitle : ([[self boardListSubView] isCollapsed] ? NSLocalizedString(@"Expand Boards List", "Expand")
-																   : NSLocalizedString(@"Collapse Boards List", "Collapse")
+		[theItem setTitle : ([[self boardListSubView] isCollapsed] ? NSLocalizedString(@"Expand Boards List", @"Expand")
+																   : NSLocalizedString(@"Collapse Boards List", @"Collapse")
 							)];
 		return YES;
 	}

@@ -1,6 +1,6 @@
 //: SGBaseRangeArray.h
 /**
-  * $Id: SGBaseRangeArray.h,v 1.1 2005/05/11 17:51:44 tsawada2 Exp $
+  * $Id: SGBaseRangeArray.h,v 1.1.1.1.4.1 2006/02/27 17:31:50 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import <SGFoundation/SGBaseObject.h>
+//#import <SGFoundation/SGBaseObject.h>
 #import <SGFoundation/SGRangeArrayImp.h>
 
 
@@ -16,7 +16,7 @@
 
 
 
-@interface SGBaseRangeArray : SGBaseObject
+@interface SGBaseRangeArray : NSObject//SGBaseObject
 {
 	@public
 	SGRangeArrayRef		_imp;
@@ -45,7 +45,7 @@
 
 
 
-@interface SGBaseRangeEnumerator : SGBaseObject
+@interface SGBaseRangeEnumerator : NSObject//SGBaseObject
 {
 	@private
 	unsigned			_position;

@@ -16,6 +16,8 @@ static NSString *const AppDefaultsTLIgnoreTitleCharactersKey = @"Ignore Characte
 
 static NSString *const AppDefaultsTLAutoReloadWhenWakeKey = @"Reload When Wake";
 
+static NSString *const AppDefaultsTLLastHEADCheckedDateKey = @"Last HEADCheck";
+
 // ˆÈ‰º‚Í User Defaults ’¼‰º‚Éì¬‚³‚ê‚é key
 static NSString *const AppDefaultsUseIncrementalSearchKey = @"UseIncrementalSearch";
 static NSString *const AppDefaultsTRViewTextUsesBlackColorKey = @"ThreadTitleBarTextUsesBlackColor";
@@ -128,6 +130,26 @@ static NSString *const AppDefaultsTLTableColumnStateKey = @"ThreadsListTable Col
 {
 	[[self threadsListSettingsDictionary] setBool : doReload
 										   forKey : AppDefaultsTLAutoReloadWhenWakeKey];
+}
+
+#pragma mark RainbowJerk Additions
+- (NSDate *) lastHEADCheckedDate
+{
+	return [[self threadsListSettingsDictionary] objectForKey : AppDefaultsTLLastHEADCheckedDateKey];
+}
+- (void) setLastHEADCheckedDate : (NSDate *) date
+{
+	[[self threadsListSettingsDictionary] setObject : date
+											 forKey : AppDefaultsTLLastHEADCheckedDateKey];
+}
+
+- (BOOL) canHEADCheck
+{
+	NSDate *baseDate_ = [self lastHEADCheckedDate];
+	if (!baseDate_) return YES;
+	
+	NSTimeInterval interval_ = [[NSDate date] timeIntervalSinceDate : baseDate_];
+	return (interval_ > 600.0);
 }
 
 #pragma mark -

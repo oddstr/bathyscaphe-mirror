@@ -9,14 +9,14 @@
   *
   */
 #import <Cocoa/Cocoa.h>
-#import "SGDocument.h"
+//#import "SGDocument.h"
 #import "CMRThreadViewer.h"
 
 @class CMRThreadAttributes;
 
 
 
-@interface CMRAbstructThreadDocument : SGDocument
+@interface CMRAbstructThreadDocument : NSDocument//SGDocument
 {
 	CMRThreadAttributes			*_threadAttributes;
 	NSTextStorage				*_textStorage;
@@ -51,4 +51,10 @@
 - (NSString *) boardURLAsString;
 
 - (void)handleReloadThreadCommand:(NSScriptCommand*)command;
+@end
+
+
+@interface NSWindowController(CMRAbstructThreadDocumentDelegate)
+- (void)    document : (NSDocument         *) aDocument
+willRemoveController : (NSWindowController *) aController;
 @end

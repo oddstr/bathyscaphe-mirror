@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.13.2.2 2006/01/29 12:58:10 masakih Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.13.2.3 2006/02/27 17:31:50 masakih Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -190,10 +190,12 @@
 	while ((threadAttributes_ = [Iter_ nextObject])) {
 		NSString			*path_;
 		NSString			*title_;
+		unsigned int		curNumOfMsgs_;
 		CMRThreadSignature	*threadSignature_;
 		
 		path_ =  [CMRThreadAttributes pathFromDictionary : threadAttributes_];
 		title_ = [threadAttributes_ objectForKey : CMRThreadTitleKey];
+		curNumOfMsgs_ = [threadAttributes_ unsignedIntForKey : CMRThreadLastLoadedNumberKey];
 		threadSignature_ = [CMRThreadSignature threadSignatureFromFilepath : path_];
 		
 		if ([[self threadIdentifier] isEqual : threadSignature_]) {
@@ -205,7 +207,7 @@
 		
 		[self downloadThread : threadSignature_
 					   title : title_
-				   nextIndex : NSNotFound];
+				   nextIndex : curNumOfMsgs_];//NSNotFound];
 	}
 }
 - (IBAction) reloadIfOnlineMode : (id) sender

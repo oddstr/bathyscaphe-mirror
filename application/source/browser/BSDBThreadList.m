@@ -448,6 +448,29 @@ static inline NSString *orderBy( NSString *sortKey, BOOL isAscending )
 }
 
 #pragma mark## DataSource ##
+// Status image
+#define kStatusUpdatedImageName		@"Status_updated"
+#define kStatusCachedImageName		@"Status_logcached"
+#define kStatusNewImageName			@"Status_newThread"
+#define kStatusHEADModImageName		@"Status_HeadModified"
+static NSImage *_statusImageWithStatusBSDB(ThreadStatus s)
+{
+	switch (s){
+		case ThreadLogCachedStatus :
+			return [NSImage imageAppNamed : kStatusCachedImageName];
+		case ThreadUpdatedStatus :
+			return [NSImage imageAppNamed : kStatusUpdatedImageName];
+		case ThreadNewCreatedStatus :
+			return [NSImage imageAppNamed : kStatusNewImageName];
+		case ThreadHeadModifiedStatus :
+			return [NSImage imageAppNamed : kStatusHEADModImageName];
+		case ThreadNoCacheStatus :
+			return nil;
+		default :
+			return nil;
+	}
+	return nil;
+}
 static inline id nilIfObjectIsNSNull( id obj )
 {
 	return obj == [NSNull null] ? nil : obj;
@@ -608,7 +631,7 @@ enum {
 	s = [[row valueForColumn : ThreadStatusColumn] intValue];
 	
 	if ([identifier isEqualTo : CMRThreadStatusKey]) {
-		result = [[self class] statusImageWithStatus : s];
+		result = _statusImageWithStatusBSDB(s);
 	} else if ([identifier isEqualTo : CMRThreadNumberOfUpdatedKey]) {
 		id all = [row valueForColumn : NumberOfAllColumn];
 		id read = [row valueForColumn : NumberOfReadColumn];
@@ -635,10 +658,24 @@ enum {
 		result = [row valueForColumn : NumberOfReadColumn];
 	} else if ( [identifier isEqualTo : CMRThreadSubjectIndexKey] ) {
 		result = [row valueForColumn : TempThreadThreadNumberColumn];
+	} else if([identifier isEqualToString : ThreadPlistIdentifierKey]) {
+		// スレッドの立った日付（dat 番号を変換）available in RainbowJerk and later.
+		result = [NSDate dateWithTimeIntervalSince1970 : (NSTimeInterval)[[row valueForColumn : ThreadIDColumn] doubleValue]];
+	} else if([identifier isEqualToString : @"BoardName"]) {
+		// 掲示板名 available in RainbowJerk and later.
+		result = [row valueForColumn : BoardNameColumn];
 	}
 	
 	if ([result isKindOfClass : [NSNull class]]) {
 		result = nil;
+	}
+	
+	// 日付
+	if([result isKindOfClass : [NSDate class]]) {
+		if (dateFormatter)
+			result = [dateFormatter stringForObjectValue : result];
+		else
+			result = [[CMXDateFormatter sharedInstance] stringForObjectValue : result];
 	}
 	
 	result = [[self class] objectValueTemplate : result

@@ -1,5 +1,5 @@
 //
-//  $Id: BSBoardListView.m,v 1.4.2.2 2006/01/29 12:58:10 masakih Exp $
+//  $Id: BSBoardListView.m,v 1.4.2.3 2006/02/27 17:31:50 masakih Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/09/20.
@@ -7,6 +7,7 @@
 //
 
 #import "BSBoardListView.h"
+#import <SGAppKit/NSImage-SGExtensions.h>
 
 static NSString	*const bgImage_focused	= @"boardListSelBgFocused";
 static NSString *const bgImage_normal	= @"boardListSelBg";

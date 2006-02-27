@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.11.2.2 2006/01/29 12:58:10 masakih Exp $
+  * $Id: CMRThreadViewer.m,v 1.11.2.3 2006/02/27 17:31:50 masakih Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -46,14 +46,16 @@ NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEnd
 			[self release];
 			return nil;
 		}
+		
+		[self setShouldCascadeWindows : NO];
 		[self registerToNotificationCenter];
 	}
 	return self;
 }
-- (BOOL) shouldCascadeWindows
+/*- (BOOL) shouldCascadeWindows
 {
 	return NO;
-}
+}*/
 - (void) dealloc
 {
 	[CMRPopUpMgr closePopUpWindowForOwner:self];
@@ -472,8 +474,8 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 		// 2006-01-17 tsawada2<ben-sawa@td5.so-net.ne.jp>
 		// 内容を表示しないで「スレッドを更新」した場合（スレッド一覧から更新した）でも、AA スレッドのレスを
 		// AA フォントでレンダリングするために、このタイミングで changeAllMessageAttributes: flags: を実行する。
-		if([[self threadAttributes] isAAThread])
-			[[self threadLayout] changeAllMessageAttributes : YES flags : CMRAsciiArtMask];
+		//if([[self threadAttributes] isAAThread])
+		//	[[self threadLayout] changeAllMessageAttributes : YES flags : CMRAsciiArtMask];
 		
 		if(![self isDatOchiThread])
 			[self reloadIfOnlineMode : self];

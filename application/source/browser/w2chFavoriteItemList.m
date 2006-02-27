@@ -1,5 +1,5 @@
 /**
-  * $Id: w2chFavoriteItemList.m,v 1.4.2.2 2006/01/29 12:58:10 masakih Exp $
+  * $Id: w2chFavoriteItemList.m,v 1.4.2.3 2006/02/27 17:31:49 masakih Exp $
   * Copyright 2005 BathyScaphe Project. All rights reserved.
   *
   */
@@ -60,6 +60,12 @@
 
 - (void) downloadThreadsList
 {
+	if(NO == [CMRPref canHEADCheck]) {
+		NSBeep();
+		NSLog(@"You can't use HEADCheck now. Please wait...");
+		return;
+	}
+
 	BSFavoritesHEADCheckTask		*task_;
 	
 	task_ = [[BSFavoritesHEADCheckTask alloc]
@@ -76,10 +82,7 @@
 			name : BSFavoritesHEADCheckTaskDidFinishNotification
 			object : task_];
 
-	//if (usesWorker)
-		[[self worker] push : task_];
-	//else
-		//[task_ executeWithLayout : [self worker]];
+	[[self worker] push : task_];
 
 	[task_ release];
 }
@@ -219,7 +222,7 @@
 	
 
 	[[CMRFavoritesManager defaultManager] setFavoritesItemsArray : threadsArray_];
-
+	[CMRPref setLastHEADCheckedDate : [NSDate date]];
 
 	[self startLoadingThreadsList : [self worker]];
 

@@ -1,5 +1,5 @@
 /**
-  * $Id: BoardList-OVDataSource.m,v 1.8.2.1 2005/12/14 16:05:06 masakih Exp $
+  * $Id: BoardList-OVDataSource.m,v 1.8.2.2 2006/02/27 17:31:49 masakih Exp $
   * 
   * BoardList-OVDataSource.m
   *
@@ -11,7 +11,8 @@
 #import "CMRFavoritesManager.h"
 #import "CMRThreadsList.h"
 #import "CMRBBSListTemplateKeys.h"
-#import "BSBoardListView.h"
+#import <SGAppKit/BSBoardListView.h>
+#import <SGAppKit/NSImage-SGExtensions.h>
 #import <Cocoa/Cocoa.h>
 #import "CocoMonar_Prefix.h"
 

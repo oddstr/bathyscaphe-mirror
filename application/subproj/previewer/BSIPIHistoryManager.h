@@ -19,8 +19,11 @@
 - (void) setHistoryBacket : (NSMutableArray *) aMutableArray;
 
 - (NSArray *) arrayOfURLs;
+- (NSArray *) arrayOfPaths;
 
 - (NSString *) cachedFilePathForURL : (NSURL *) anURL;
+
+- (BOOL) addItemOfURL : (NSURL *) anURL andPath : (NSString *) aPath;
 @end
 
 extern NSString *const kIPIHistoryItemURLKey;

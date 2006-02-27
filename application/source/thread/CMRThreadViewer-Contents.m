@@ -1,16 +1,15 @@
 /**
-  * $Id: CMRThreadViewer-Contents.m,v 1.2.2.1 2006/01/29 12:58:10 masakih Exp $
+  * $Id: CMRThreadViewer-Contents.m,v 1.2.2.2 2006/02/27 17:31:50 masakih Exp $
   * 
   * CMRThreadViewer-Contents.m
   *
   * Copyright (c) 2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
   */
+
 #import "CMRThreadViewer_p.h"
 #import "CMRThreadLayout.h"
 #import "CMRThreadVisibleRange.h"
-//#import "NSLayoutManager+CMXAdditions.h"
-
 
 
 @implementation CMRThreadViewer(ThreadContents)

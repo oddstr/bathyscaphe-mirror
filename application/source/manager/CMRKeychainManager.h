@@ -1,3 +1,11 @@
+/*
+ * $Id: CMRKeychainManager.h,v 1.3.4.1 2006/02/27 17:31:49 masakih Exp $
+ * BathyScaphe
+ *
+ * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
+ *
+ */
+
 #import <Foundation/Foundation.h>
 #import <Keychain/Keychain.h>
 #import <Keychain/KeychainItem.h>

@@ -1,5 +1,14 @@
 2006-02-28 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSDBThreadList.m
+		掲示板、作成日カラムのサポート
+	
+	トランクよりマージ
+	cvs -z3 up -j MERGED-v111-BASED-BRANCH-MERGE-POINT-01 -j MERGED-v111-BASED-BRANCH-MERGE-POINT-02
+	
+	トランクに一時タグを作成。
+	cvs -z3 tag -D "Feb 19 10:00:00 2006 UTC" MERGED-v111-BASED-BRANCH-MERGE-POINT-02
+	
+	* application/source/browser/BSDBThreadList.m
 		2006-02-24 の変更は間違い。revert.
 	* application/Resources/Japanese.lproj/ConditionTypes.plist
 		[新規追加] SmartConditionの型を規定する。

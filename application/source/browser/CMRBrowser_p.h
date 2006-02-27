@@ -29,11 +29,14 @@
 
 #import "CMRSearchOptions.h"
 
+#import <SGAppKit/BSBoardListView.h>
+
 #define APP_BROWSER_WINDOW_AUTOSAVE_NAME			@"CocoMonar:Browser Window Autosave"
 #define APP_BROWSER_SPVIEW_AUTOSAVE_NAME			@"CocoMonar:Browser SplitView Autosave"
 #define APP_BROWSER_STATUSLINE_IDENTIFIER			@"Browser"
 #define APP_BROWSER_THREADSLIST_TABLE_AUTOSAVE_NAME	@"CocoMonar:ThreadsListTable Autosave"
 #define APP_BROWSER_BOARDLIST_OLVIEW_AUTOSAVE_NAME	@"BoardListTable Autosave"
+#define APP_BROWSER_BL_SPLITVUEW_AUTOSAVE_NAME		@"boardsList"
 
 #define STATUS_HEADER_IMAGE_NAME					@"Status_header"
 #define STATUS_HEADER_IMAGE_WIDTH					18.0f

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.9.2.1 2005/12/14 16:05:06 masakih Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.9.2.2 2006/02/27 17:31:50 masakih Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -19,7 +19,7 @@
 #import "CMRThreadView.h"
 #import "CMRNetRequestQueue.h"
 
-#import "NSCharacterSet+CMXAdditions.h"
+//#import "NSCharacterSet+CMXAdditions.h"
 #import <SGAppKit/NSWorkspace-SGExtensions.h>
 
 

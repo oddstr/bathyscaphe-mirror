@@ -1,18 +1,18 @@
 //: CMRDocumentTypes.m
 /**
-  * $Id: CMRDocumentTypes.m,v 1.1.1.1.4.1 2006/01/29 12:58:10 masakih Exp $
+  * $Id: CMRDocumentTypes.m,v 1.1.1.1.4.2 2006/02/27 17:31:50 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
   */
 
 #import "CMRDocumentTypes.h"
-//#import <SGFoundation/SGFoundation.h>
 
 
 
 // èëóﬁÉ^ÉCÉv
-NSString *const CMRBBSDocumentType		= @"2channel Board File Format";
+NSString *const CMRBBSDocumentType		= @"2channel Board File Format"; // deprecated in RainbowJerk and later.
+NSString *const CMRBrowserDocumentType	= @"CocoMonar 2ch Format"; // available in RainbowJerk and later.
 NSString *const CMRThreadDocumentType	= @"CocoMonar Log Format";
 NSString *const CMRReplyDocumentType	= @"CocoMonar Reply Format";
 

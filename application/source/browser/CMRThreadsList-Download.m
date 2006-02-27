@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-Download.m,v 1.1.1.1.4.3 2005/12/16 11:23:47 masakih Exp $
+  * $Id: CMRThreadsList-Download.m,v 1.1.1.1.4.4 2006/02/27 17:31:49 masakih Exp $
   * BathyScaphe
   *
   * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -38,6 +38,7 @@
 		obj_,
 		ThreadsListUserInfoSelectionHoldingMaskKey);
 	UTILNotifyName(CMRThreadsListDidChangeNotification);
+	[self writeListToFileNow];
 }
 @end
 

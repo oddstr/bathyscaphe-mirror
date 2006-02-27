@@ -1,6 +1,6 @@
 //: CMRThreadMessage.h
 /**
-  * $Id: CMRThreadMessage.h,v 1.1.1.1.4.1 2006/01/28 16:06:42 masakih Exp $
+  * $Id: CMRThreadMessage.h,v 1.1.1.1.4.2 2006/02/27 17:31:50 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -8,9 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import <SGFoundation/SGFoundation.h>
-#import "CMRThreadMessageAttributes.h"
-
-
 
 @interface CMRThreadMessage : NSObject<NSCopying, CMRPropertyListCoding>
 {
@@ -25,7 +22,7 @@
 	
 	NSArray			*_beProfile;
 	NSString		*_messageSource;
-	//id				_extraHeaders;	// ID: HOST:
+
 	NSString		*_IDString;
 	NSString		*_hostString;
 	
@@ -136,8 +133,6 @@
 
 
 @interface CMRThreadMessage(Private)
-//- (void) setIDString : (NSString *) anIDString
-//			    host : (NSString *) aHost;
 - (void) setMessageAttributeFlag : (UInt32) flag
 							  on : (BOOL  ) isSet;
 - (void) postDidChangeAttributeNotification;

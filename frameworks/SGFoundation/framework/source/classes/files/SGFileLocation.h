@@ -1,5 +1,5 @@
 /**
-  * $Id: SGFileLocation.h,v 1.1 2005/05/11 17:51:44 tsawada2 Exp $
+  * $Id: SGFileLocation.h,v 1.1.1.1.4.1 2006/02/27 17:31:50 masakih Exp $
   * 
   * SGFileLocation.h
   *
@@ -19,7 +19,8 @@
  *   An instance of SGFileLocation represents file location
  *   as file name (Unicode) and its parent directory reference.
  */
-@interface SGFileLocation : SGBaseObject<NSCopying>
+//@interface SGFileLocation : SGBaseObject<NSCopying>
+@interface SGFileLocation : NSObject<NSCopying>
 {
     @private
     SGFileRef  *m_directory;

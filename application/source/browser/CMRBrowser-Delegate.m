@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.14.2.4 2006/02/27 16:01:43 masakih Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.14.2.5 2006/02/27 17:31:49 masakih Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -33,26 +33,37 @@ BOOL isOptionKeyDown(unsigned flag_)
 	}
 }
 
+#pragma mark NSControl Delegate (SearchField)
+// added in RainbowJerk
+// 検索フィールドで return などを押したとき、フォーカスをスレッド一覧に移動させる
+- (void) controlTextDidEndEditing : (NSNotification *) aNotification
+{
+	if ([aNotification object] == [self searchField]) {
+		[[self window] makeFirstResponder : [self threadsListTable]];
+	}
+}
+
 #pragma mark KFSplitView Delegate
 
-- (BOOL)splitView:(id)sender canCollapseSubview:(NSView *)subview
+- (BOOL) splitView : (id) sender canCollapseSubview : (NSView *) subview
 {
 	return (subview == bottomSubview);
 }
-- (void)splitView:(id)sender didDoubleClickInDivider:(int)index
+
+- (void) splitView : (id) sender didDoubleClickInDivider : (int) index
 {
-	BOOL currentState = [sender isSubviewCollapsed:bottomSubview];
-	[sender setSubview:bottomSubview isCollapsed:!currentState];
-	[sender resizeSubviewsWithOldSize:[sender frame].size];
+	BOOL currentState = [sender isSubviewCollapsed : bottomSubview];
+	[sender setSubview : bottomSubview isCollapsed : !currentState];
+	[sender resizeSubviewsWithOldSize : [sender frame].size];
 	
 	if(currentState) {
 		//2 から 3 になった
 		[[self threadsListTable] setNextKeyView : [self textView]];
 		[[self textView] setNextKeyView : [[self indexingStepper] textField]];
-		[[[self indexingStepper] textField] setNextKeyView : [self boardListTable]];
+		[[[self indexingStepper] textField] setNextKeyView : [self searchField]];
 	} else {
 		//3 から 2 になった
-		[[self threadsListTable] setNextKeyView : [self boardListTable]];
+		[[self threadsListTable] setNextKeyView : [self searchField]];
 	}
 }
 
@@ -294,17 +305,23 @@ BOOL isOptionKeyDown(unsigned flag_)
 {
 	if (subview == [self boardListSubView]) {
 		id draggingSplitter_ = [self splitterBtn];
-		if ([draggingSplitter_ mouse:[draggingSplitter_ convertPoint : point fromView : sender] inRect:[draggingSplitter_ bounds]]) {
+		if ([draggingSplitter_ mouse : [draggingSplitter_ convertPoint : point fromView : sender]
+							  inRect : [draggingSplitter_ bounds]])
+		{
 			return 0;	// [firstSplit position], which we assume to be zero
 		}
 	}
 	return NSNotFound;
 }
 // This changes the cursor when it's over the dragView.
-- (NSRect)splitView:(RBSplitView*)sender cursorRect:(NSRect)rect forDivider:(unsigned int)divider {
-	if (divider==0) {
+- (NSRect) splitView : (RBSplitView *) sender
+		  cursorRect : (NSRect) rect
+		  forDivider : (unsigned int) divider
+{
+	if (divider == 0) {
 		id draggingSplitter_ = [self splitterBtn];
-		[sender addCursorRect:[draggingSplitter_ convertRect:[draggingSplitter_ bounds] toView:sender] cursor:[RBSplitView cursor:RBSVVerticalCursor]];
+		[sender addCursorRect : [draggingSplitter_ convertRect : [draggingSplitter_ bounds] toView : sender]
+					   cursor : [RBSplitView cursor : RBSVVerticalCursor]];
 	}
 	return rect;
 }
@@ -413,8 +430,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 		// 
 		[[self currentThreadsList] filterByDisplayingThreadAtPath : [self path]];
 		[self synchronizeWithSearchField];
-		[self selectCurrentThreadWithMask : 
-			[CMRPref threadsListAutoscrollMask]];
+		[self selectCurrentThreadWithMask : [CMRPref threadsListAutoscrollMask]];
 	}
 	
 	if ([[self superclass] instancesRespondToSelector : _cmd])

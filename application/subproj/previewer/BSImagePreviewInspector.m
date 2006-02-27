@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.7.2.3 2006/01/29 12:58:10 masakih Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.7.2.4 2006/02/27 17:31:50 masakih Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -493,13 +493,9 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 
 	NSImage *img = [[[NSImage alloc] initWithContentsOfFile : [self downloadedFileDestination]] autorelease];
 	if (img) {
-		NSMutableArray	*backet;
 		[[self infoField] setStringValue : [self calcImageSize : img]];
-		backet = [[BSIPIHistoryManager sharedManager] historyBacket];
 
-		[backet addObject : [NSDictionary dictionaryWithObjectsAndKeys : [self sourceURL], kIPIHistoryItemURLKey,
-																		 [self downloadedFileDestination], kIPIHistoryItemPathKey, NULL]];
-
+		[[BSIPIHistoryManager sharedManager] addItemOfURL : [self sourceURL] andPath : [self downloadedFileDestination]];
 		[self switchActionToCancelMode : NO];
 		[[self imageView] setImage : img];
 	} else {

@@ -15,6 +15,7 @@
 #define kStatusUpdatedImageName		@"Status_updated"
 #define kStatusCachedImageName		@"Status_logcached"
 #define kStatusNewImageName			@"Status_newThread"
+#define kStatusHEADModImageName		@"Status_HeadModified"
 
 /* @see objectValueTemplate:forType: */
 enum {
@@ -30,7 +31,6 @@ static id kThreadAttrTemplate;
 
 + (void) resetDataSourceTemplates
 {
-	NSDictionary			*attrs1_, *attrs2_;
 	NSMutableParagraphStyle *style_;
 	
 	// 長過ぎる内容を「...」で省略
@@ -38,29 +38,20 @@ static id kThreadAttrTemplate;
 	[style_ setLineBreakMode : NSLineBreakByTruncatingTail];
 
 	// default object value:
-	attrs1_ = [NSDictionary dictionaryWithObjectsAndKeys :
-					[CMRPref threadsListFont],
-					NSFontAttributeName,
-					[CMRPref threadsListColor],
-					NSForegroundColorAttributeName,
-					style_,
-					NSParagraphStyleAttributeName,
-					nil];
+	kThreadAttrTemplate = [[NSDictionary alloc] initWithObjectsAndKeys :
+							[CMRPref threadsListFont], NSFontAttributeName,
+							[CMRPref threadsListColor], NSForegroundColorAttributeName,
+							style_, NSParagraphStyleAttributeName,
+							nil];
 
 	// New Arrival thread:
-	attrs2_ = [NSDictionary dictionaryWithObjectsAndKeys :
-					[CMRPref threadsListNewThreadFont],
-					NSFontAttributeName,
-					[CMRPref threadsListNewThreadColor],
-					NSForegroundColorAttributeName,
-					style_,
-					NSParagraphStyleAttributeName,
-					nil];
+	kNewThreadAttrTemplate = [[NSDictionary alloc] initWithObjectsAndKeys :
+								[CMRPref threadsListNewThreadFont], NSFontAttributeName,
+								[CMRPref threadsListNewThreadColor], NSForegroundColorAttributeName,
+								style_, NSParagraphStyleAttributeName,
+								nil];
 
 	[style_ release];
-	
-	kNewThreadAttrTemplate = [attrs2_ retain];	// retain しないと即クラッシュだよ
-	kThreadAttrTemplate = [attrs1_ retain];
 }
 
 + (id) objectValueTemplate : (id ) aValue
@@ -88,8 +79,7 @@ static id kThreadAttrTemplate;
 		break;
 	}
 	
-	return [temp autorelease]; // autorelease しないと漏れまくり
-	
+	return [temp autorelease]; // autorelease しないと漏れまくり	
 }
 @end
 
@@ -106,25 +96,8 @@ static id kThreadAttrTemplate;
 	return [[self filteredThreads] count];
 }
 
-/*static NSString *statusImageNameForStatus(ThreadStatus s)
+static NSImage *_statusImageWithStatus(ThreadStatus s)
 {
-	switch (s){
-	case ThreadLogCachedStatus :
-		return kStatusCachedImageName;
-	case ThreadUpdatedStatus :
-		return kStatusUpdatedImageName;
-	case ThreadNewCreatedStatus :
-		return kStatusNewImageName;
-	case ThreadNoCacheStatus :
-		return nil;
-	default :
-		return nil;
-	}
-	return nil;
-}*/
-+ (NSImage *) statusImageWithStatus : (ThreadStatus) s
-{
-//	return [NSImage imageAppNamed : statusImageNameForStatus(s)];
 	switch (s){
 	case ThreadLogCachedStatus :
 		return [NSImage imageAppNamed : kStatusCachedImageName];
@@ -133,35 +106,43 @@ static id kThreadAttrTemplate;
 	case ThreadNewCreatedStatus :
 		return [NSImage imageAppNamed : kStatusNewImageName];
 	case ThreadHeadModifiedStatus :
-		return [NSImage imageAppNamed : @"Status_HeadModified"];
+		return [NSImage imageAppNamed : kStatusHEADModImageName];
 	case ThreadNoCacheStatus :
 		return nil;
 	default :
 		return nil;
 	}
 	return nil;
+}
 
+static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
+{
+	if(!aThread) return ThreadNoCacheStatus;
+
+	NSNumber *statusNum_;
+	statusNum_ = [aThread objectForKey : CMRThreadStatusKey];
+	return [statusNum_ unsignedIntValue];
 }
 
 - (ThreadStatus) threadStatusForThread : (NSDictionary *) aThread
 {
-	NSNumber *statusNum_;
-	
-	statusNum_ = [aThread objectForKey : CMRThreadStatusKey];
-	return aThread ? [statusNum_ unsignedIntValue] : ThreadNoCacheStatus;
+	return _threadStatusForThread(aThread);
 }
+
 - (id) objectValueForIdentifier : (NSString *) identifier
 					threadArray : (NSArray  *) threadArray
 						atIndex : (int       ) index
 {
 	NSDictionary	*thread = [threadArray objectAtIndex : index];
-	ThreadStatus	s = [self threadStatusForThread : thread];
+	ThreadStatus	s = _threadStatusForThread(thread);
 	id				v = nil;
 	
 	if([identifier isEqualToString : CMRThreadStatusKey]){
 		// ステータス画像
-		v = [[self class] statusImageWithStatus : s];
-	}else if([CMRThreadNumberOfUpdatedKey isEqualToString : identifier]){
+		v = _statusImageWithStatus(s);
+		return v;
+
+	} else if ([CMRThreadNumberOfUpdatedKey isEqualToString : identifier]){
 		// 差分
 		if(ThreadLogCachedStatus & s){
 			int		diff_;
@@ -169,11 +150,14 @@ static id kThreadAttrTemplate;
 			diff_ = [CMRThreadAttributes numberOfUpdatedFromDictionary : thread];
 			v = (diff_ >= 0) ? [NSNumber numberWithInt : diff_] : nil;
 		}
-	}else if([CMRThreadSubjectIndexKey isEqualToString : identifier] && [self isFavorites]){
+	} else if ([self isFavorites] && [CMRThreadSubjectIndexKey isEqualToString : identifier]) {
 		// 番号（お気に入り）
 		v = [NSNumber numberWithInt : ([[[CMRFavoritesManager defaultManager] favoritesItemsIndex]
 											indexOfObject : [CMRThreadAttributes pathFromDictionary : thread]]+1)];
-	}else{
+	} else if ([identifier isEqualToString : ThreadPlistIdentifierKey]) {
+		// スレッドの立った日付（dat 番号を変換）available in RainbowJerk and later.
+		v = [NSDate dateWithTimeIntervalSince1970 : (NSTimeInterval)[[thread objectForKey : identifier] doubleValue]];
+	} else {
 		// それ以外
 		v = [thread objectForKey : identifier];
 	}
@@ -189,13 +173,12 @@ static id kThreadAttrTemplate;
 		else
 			v = [[CMXDateFormatter sharedInstance] stringForObjectValue : v];
 	}
-	
+
 	// 新着スレッド／通常のスレッド
-	v = [[self class] objectValueTemplate : v
-			forType : ((s == ThreadNewCreatedStatus) 
-						? kValueTemplateNewArrivalType
-						: kValueTemplateDefaultType)];
-	
+	if(v) {
+		v = [[self class] objectValueTemplate : v
+									  forType : ((s == ThreadNewCreatedStatus) ? kValueTemplateNewArrivalType : kValueTemplateDefaultType)];
+	}
 	return v;
 }
 
@@ -217,6 +200,13 @@ static id kThreadAttrTemplate;
 								  atIndex : rowIndex];
 }
 
+- (void) updateDateFormatter {
+	if (dateFormatter)
+		[dateFormatter release];
+	dateFormatter = [[CMXDateFormatter alloc] init];
+}
+
+#pragma mark Drag and Drop support
 - (BOOL) tableView : (NSTableView  *) tableView
          writeRows : (NSArray      *) rows
       toPasteboard : (NSPasteboard *) pboard
@@ -299,6 +289,7 @@ static id kThreadAttrTemplate;
 	return YES;
 }
 
+#pragma mark Getting Thread Attributes
 - (NSString *) threadFilePathAtRowIndex : (int          ) rowIndex
 							inTableView : (NSTableView *) tableView
 								 status : (ThreadStatus *) status
@@ -413,12 +404,6 @@ static id kThreadAttrTemplate;
 		[pathArray_ addObject : path_];
 	}
 	return pathArray_;
-}
-
-- (void) updateDateFormatter {
-	if (dateFormatter)
-		[dateFormatter release];
-	dateFormatter = [[CMXDateFormatter alloc] init];
 }
 @end
 

@@ -1,6 +1,6 @@
 //: NSString-SGExtensions.m
 /**
-  * $Id: NSString-SGExtensions.m,v 1.1 2005/05/11 17:51:45 tsawada2 Exp $
+  * $Id: NSString-SGExtensions.m,v 1.1.1.1.4.1 2006/02/27 17:31:50 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -381,7 +381,8 @@
 }
 - (id) initWithPascalString : (ConstStr255Param) pStr
 {
-	return [self initWithCString:&pStr[1] length:pStr[0]];
+	NSLog(@"method initWithPascalString: is deprecated in BathyScaphe 1.2 and later.");
+	return nil;//[self initWithCString:&pStr[1] length:pStr[0]];
 }
 - (ConstStringPtr) pascalString
 {

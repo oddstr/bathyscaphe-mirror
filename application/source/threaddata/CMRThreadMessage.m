@@ -1,6 +1,6 @@
 //: CMRThreadMessage.m
 /**
-  * $Id: CMRThreadMessage.m,v 1.1.1.1.4.1 2006/01/28 16:06:42 masakih Exp $
+  * $Id: CMRThreadMessage.m,v 1.1.1.1.4.2 2006/02/27 17:31:50 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -337,56 +337,18 @@ NSString *const CMRThreadMessage_SAGE_String	= @"sage";
 
 
 // Extra Headers
-//static NSString *const CMRTMExtraHeadersSeparater  = @" ";
 static NSString *const kEmptyString = @"";
-
-/*- (void) getIDString : (NSString **) theIDPtr
-				host : (NSString **) theHostPtr
-{
-	NSRange			resultRange_;
-	NSString		*IdString_ = kEmptyString;
-	NSString		*host_     = kEmptyString;
-	
-	UTILRequireCondition(_extraHeaders != nil, GetIDStringHost);
-	resultRange_ = [_extraHeaders rangeOfString : CMRTMExtraHeadersSeparater
-										options : NSLiteralSearch];
-	
-	IdString_ = _extraHeaders;
-	if (resultRange_.length != 0) {
-		NSAssert(
-			(NSMaxRange(resultRange_) != [(NSString*)_extraHeaders length]),
-			@"host string must be not Empty");
-		IdString_ = [_extraHeaders substringToIndex : resultRange_.location];
-		host_ = [_extraHeaders substringFromIndex : NSMaxRange(resultRange_)];
-	}
-	
-GetIDStringHost:
-	if (theIDPtr != NULL)   *theIDPtr   = IdString_;
-	if (theHostPtr != NULL) *theHostPtr = host_;
-	
-	return;
-}*/
-			
 - (NSString *) IDString
 {
-	//NSString	*str_ = nil;
-	
-	//[self getIDString:&str_ host:NULL];
-	//return str_;
 	return _IDString;
 }
 - (NSString *) host
 {
-	//NSString	*host_ = nil;
-	
-	//[self getIDString:NULL host:&host_];
-	//return host_;
 	return _hostString;
 }
 
 - (void) setIDString : (NSString *) anIDString
 {
-	//[self setIDString:anIDString host:[self host]];
 	id		tmp;
 	
 	tmp = _IDString;
@@ -395,7 +357,6 @@ GetIDStringHost:
 }
 - (void) setHost : (NSString *) aHost
 {
-	//[self setIDString:[self IDString] host:aHost];
 	id		tmp;
 	
 	tmp = _hostString;
@@ -572,22 +533,6 @@ GetIDStringHost:
 #pragma mark -
 
 @implementation CMRThreadMessage(Private)
-/*- (void) setIDString : (NSString *) anIDString
-			    host : (NSString *) aHost
-{
-	[_extraHeaders autorelease];
-	if (nil == aHost || [aHost isEmpty]) {
-		_extraHeaders = anIDString ? anIDString : kEmptyString;
-		[_extraHeaders retain];
-		return;
-	}
-	
-	_extraHeaders = [[NSString alloc] initWithFormat :
-						@"%@%@%@",
-						anIDString ? anIDString : kEmptyString,
-						aHost ? CMRTMExtraHeadersSeparater : kEmptyString,
-						aHost ? aHost : kEmptyString];
-}*/
 - (void) postDidChangeAttributeNotification
 {
 	NSNotification		*notification_;

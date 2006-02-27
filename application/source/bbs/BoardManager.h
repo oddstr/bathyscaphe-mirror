@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.h,v 1.3.2.2 2005/12/14 16:05:06 masakih Exp $
+ * $Id: BoardManager.h,v 1.3.2.3 2006/02/27 17:31:49 masakih Exp $
  * 
  * BoardManager.h
  *
@@ -117,7 +117,8 @@ typedef enum _BSBeLoginPolicyType {
 			   forBoard : (NSString *) boardName;
 
 // LittleWish Addition
-/* 注意：現在はまだインタフェースのみ */
+/* 注意：1.1.x ではまだインタフェースのみ */
+// available in BathyScaphe 1.2 and later.
 - (BOOL) allThreadsShouldAAThreadAtBoard : (NSString *) boardName;
 - (void) setAllThreadsShouldAAThread : (BOOL      ) shouldAAThread
 							 atBoard : (NSString *) boardName;

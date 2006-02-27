@@ -1,5 +1,5 @@
 /**
-  * $Id: SGInputReader.h,v 1.1 2005/05/11 17:51:44 tsawada2 Exp $
+  * $Id: SGInputReader.h,v 1.1.1.1.4.1 2006/02/27 17:31:50 masakih Exp $
   * 
   * SGInputReader.h
   *
@@ -12,7 +12,7 @@
 
 
 
-@interface SGInputReader : SGBaseObject
+@interface SGInputReader : NSObject//SGBaseObject
 /*!
  * @method     read
  * @discussion Read a character.

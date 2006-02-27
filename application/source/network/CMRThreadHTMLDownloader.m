@@ -1,6 +1,6 @@
 //: CMRThreadHTMLDownloader.m
 /**
-  * $Id: CMRThreadHTMLDownloader.m,v 1.2 2005/09/12 08:02:20 tsawada2 Exp $
+  * $Id: CMRThreadHTMLDownloader.m,v 1.2.2.1 2006/02/27 17:31:49 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -31,7 +31,7 @@
 	boardURL_ = [self boardURL];
 	UTILAssertNotNil(boardURL_);
 	handler_ = [CMRHostHandler hostHandlerForURL : boardURL_];
-	nextIndex = [self nextIndex];
+	nextIndex = ([self nextIndex] != NSNotFound) ? [self nextIndex] : 0;
 	
 	threadURL_ = [handler_ readURLWithBoard : boardURL_
 							datName : [[self threadSignature] identifier]

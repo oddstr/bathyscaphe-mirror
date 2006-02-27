@@ -1,5 +1,5 @@
 /**
-  * $Id: ThreadsListTable.m,v 1.5 2005/10/07 00:18:50 tsawada2 Exp $
+  * $Id: ThreadsListTable.m,v 1.5.2.1 2006/02/27 17:31:50 masakih Exp $
   * 
   * ThreadsListTable.m
   *
@@ -8,7 +8,7 @@
   */
 #import "ThreadsListTable.h"
 #import "CMRThreadsList.h"
-
+#import "AppDefaults.h"
 
 #define kBrowserKeyBindingsFile		@"BrowserKeyBindings.plist"
 
@@ -274,14 +274,36 @@ Hope this helps...
 
 	if(visible) {
 		if(![self isColumnWithIdentifierVisible : identifier]) {
-			[self addTableColumn : column];
+			
+			if (![CMRPref isSplitViewVertical] && ![identifier isEqualToString : CMRThreadTitleKey]) {
+				float tmp;
+				NSTableColumn	*tmp2;
+				
+				[self addTableColumn : column];
+				
+				tmp = [column width];
+				tmp2 = [self initialColumnWithIdentifier : CMRThreadTitleKey];
+				[tmp2 setWidth : ([tmp2 width] - tmp)];
+			} else {
+				[self addTableColumn : column];			
+			}
 			[self sizeLastColumnToFit];
 			[self setNeedsDisplay : YES];
 		}
 	} else {
 		if([self isColumnWithIdentifierVisible : identifier]) {
-			[self removeTableColumn : column];
-			[self sizeLastColumnToFit];
+
+			if (![CMRPref isSplitViewVertical] && ![identifier isEqualToString : CMRThreadTitleKey]) {			
+				float tmp = [column width];
+				NSTableColumn	*tmp2 = [self initialColumnWithIdentifier : CMRThreadTitleKey];
+				
+				[self removeTableColumn : column];
+				[tmp2 setWidth : ([tmp2 width] + tmp)];
+			} else {
+				[self removeTableColumn : column];
+			}
+			if(![identifier isEqualToString : CMRThreadTitleKey])
+				[self sizeLastColumnToFit];
 			[self setNeedsDisplay : YES];
 		}
 	}

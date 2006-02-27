@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadUserStatus.h,v 1.1.1.1.4.1 2006/01/29 12:58:10 masakih Exp $
+  * $Id: CMRThreadUserStatus.h,v 1.1.1.1.4.2 2006/02/27 17:31:50 masakih Exp $
   * 
   * CMRThreadUserStatus.h
   *
@@ -7,7 +7,7 @@
   * See the file LICENSE for copying permission.
   */
 #import <Foundation/Foundation.h>
-#import <CocoMonar/CocoMonar.h>
+#import "CMRPropertyListCoding.h"
 #import <SGFoundation/SGFoundation.h>
 #import "CMRThreadUserStatusMask.h"
 

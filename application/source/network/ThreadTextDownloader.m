@@ -1,5 +1,5 @@
 /**
-  * $Id: ThreadTextDownloader.m,v 1.1 2005/05/11 17:51:06 tsawada2 Exp $
+  * $Id: ThreadTextDownloader.m,v 1.1.1.1.4.1 2006/02/27 17:31:49 masakih Exp $
   * 
   * ThreadTextDownloader.m
   *
@@ -281,6 +281,23 @@ return_instance:
     
     return result;
 }
+
+- (BOOL) amIAAThread : (NSDictionary *) localDict_
+{
+	if (!localDict_) {
+		NSString *boardName_ = [[self threadSignature] BBSName];
+		if (boardName_) return [[BoardManager defaultManager] allThreadsShouldAAThreadAtBoard : boardName_];
+		else return NO;
+	}
+
+	id					rep_;
+	CMRThreadUserStatus	*s;
+	
+	rep_ = [localDict_ objectForKey : CMRThreadUserStatusKey];
+	s = [CMRThreadUserStatus objectWithPropertyListRepresentation : rep_];
+	return s ? [s isAAThread] : NO;
+}
+
 - (NSDictionary *) dictionaryByAppendingContents : (NSString   *) datContents
 									  dataLength : (unsigned int) aLength;
 {
@@ -295,6 +312,8 @@ return_instance:
 	
 	unsigned int			dataLength_;
 	
+	BOOL					shouldAA_ = NO;
+	
 	dataLength_ = aLength;
 	localThread_ = [self localThreadsDict];
 	if (nil == datContents || 0 == [datContents length]) return localThread_;
@@ -302,7 +321,11 @@ return_instance:
 	newThread_  = [NSMutableDictionary dictionary];
 	messages_ = [NSMutableArray array];
 	
-	composer_ = [CMRThreadPlistComposer composerWithThreadsArray : messages_];
+	shouldAA_ = [self amIAAThread : localThread_];
+
+	//composer_ = [CMRThreadPlistComposer composerWithThreadsArray : messages_];
+	composer_ = [CMRThreadPlistComposer composerWithThreadsArray : messages_ noteAAThread : shouldAA_];
+
 	reader_ = [CMR2chDATReader readerWithContents : datContents];
 	if (NO == [self pertialContentsRequested]) {
 		[newThread_ setNoneNil : [reader_ threadTitle]

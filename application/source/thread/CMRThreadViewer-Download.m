@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Download.m,v 1.3.2.2 2006/01/29 12:58:10 masakih Exp $
+  * $Id: CMRThreadViewer-Download.m,v 1.3.2.3 2006/02/27 17:31:50 masakih Exp $
   * BathyScaphe
   * 
   *
@@ -17,6 +17,7 @@
 #define kMakeDatOchiLabelKey			@"Make DatOchi"
 #define kSearchKakoLogLabelKey			@"Search Kako Log" // reserved
 #define kNotFoundHelpKeywordKey			@"NotFoundSheet Help Anchor"
+#define kInvalidPerticalContentsHelpKeywordKey	@"InvalidPerticalSheet Help Anchor"
 #define kNotFoundCancelLabelKey			@"Do Not Reload Button Label"
 
 
@@ -115,21 +116,20 @@
 	[self removeFromNotificationCeterWithDownloader : downloader_];
 	
 	
-	NSBeginAlertSheet(
-		[self localizedString : APP_TVIEWER_INVALID_PERT_TITLE],
-		[self localizedString : APP_TVIEWER_DEL_AND_RETRY_LABEL],
-		[self localizedString : APP_TVIEWER_DELETE_LABEL],
-		[self localizedString : APP_TVIEWER_NOT_DELETE_LABEL],
-		[self window],
-		self,
-		@selector(threadInvalidPerticalContentsSheetDidEnd:returnCode:contextInfo:),
-		NULL,
-		[downloader_ retain],
-		[self localizedString : APP_TVIEWER_INVALID_PERT_MSG_FMT],
-		[downloader_ threadTitle]);//,
-		//[downloader_ filePathToWrite]);
-	
-	
+	NSAlert *alert_ = [NSAlert alertWithMessageText : [self localizedString : APP_TVIEWER_INVALID_PERT_TITLE]
+									  defaultButton : [self localizedString : APP_TVIEWER_DEL_AND_RETRY_LABEL]
+									alternateButton : [self localizedString : APP_TVIEWER_DELETE_LABEL]
+										otherButton : [self localizedString : APP_TVIEWER_NOT_DELETE_LABEL]
+						  informativeTextWithFormat : [self localizedString : APP_TVIEWER_INVALID_PERT_MSG_FMT],
+													  [downloader_ threadTitle]];
+	[alert_ setShowsHelp : YES];
+	[alert_ setHelpAnchor : [self localizedString : kInvalidPerticalContentsHelpKeywordKey]];
+	[alert_ setDelegate : self];
+	[alert_ beginSheetModalForWindow : [self window]
+					   modalDelegate : self
+					  didEndSelector : @selector(threadInvalidPerticalContentsSheetDidEnd:returnCode:contextInfo:)
+						 contextInfo : [downloader_ retain]];
+
 	return;
 }
 
@@ -245,17 +245,15 @@
 	switch(returnCode) {
 	case NSAlertDefaultReturn:
 		break;
-//	case NSAlertAlternateReturn:	// âﬂãéÉçÉOåüçı
 /*
-		[self forceDeleteThreadAtPath : filePathToWrite_ alsoReplyFile : NO];
-		[self downloadKakoThread : [downloader_ threadSignature]];
+	case NSAlertAlternateReturn:	// âﬂãéÉçÉOåüçı
+		break;
 */
-//		break;
 	case NSAlertOtherReturn:
 		[self setDatOchiThread : YES];
 		break;
-	//case NSAlertErrorReturn:
-	//	break;
+	case NSAlertErrorReturn:
+		break;
 	default:
 		UTILUnknownSwitchCase(returnCode);
 		break;

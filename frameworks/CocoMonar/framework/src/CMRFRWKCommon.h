@@ -1,6 +1,6 @@
 //: CMRFRWKCommon.h
 /**
-  * $Id: CMRFRWKCommon.h,v 1.1 2005/05/11 17:51:19 tsawada2 Exp $
+  * $Id: CMRFRWKCommon.h,v 1.1.1.1.4.1 2006/02/27 17:31:50 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -12,3 +12,5 @@
 #import <CocoMonar/CMRPropertyKeys.h>
 #import <CocoMonar/CMRFiles.h>
 #import <CocoMonar/CMRFileManager.h>
+#import <CocoMonar/CMRThreadUserStatus.h>
+#import <CocoMonar/CMRThreadMessageAttributes.h>

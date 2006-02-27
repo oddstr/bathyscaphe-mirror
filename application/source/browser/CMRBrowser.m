@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.11.2.3 2006/01/29 12:58:10 masakih Exp $
+  * $Id: CMRBrowser.m,v 1.11.2.4 2006/02/27 17:31:49 masakih Exp $
   * 
   * CMRBrowser.m
   *
@@ -17,13 +17,18 @@ NSString *const CMRBrowserDidChangeBoardNotification = @"CMRBrowserDidChangeBoar
  * current main browser instance.
  * @see CMRExports.h 
  */
-//CMRBrowser *CMRMainBrowser = nil;
 id CMRMainBrowser = nil;
 
 @implementation CMRBrowser
 - (id) init
 {
 	if (self = [super init]) {
+		if(shouldCascadeBrowser) {
+			[self setShouldCascadeWindows : YES];
+			shouldCascadeBrowser = NO;
+		} else {
+			[self setShouldCascadeWindows : NO];
+		}
 		CMRMainBrowser = self;
 	}
 	return self;
@@ -53,6 +58,7 @@ id CMRMainBrowser = nil;
 - (void) dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver : self];
+
 	// dispose main browser...
 	if (CMRMainBrowser == self)
 		CMRMainBrowser = nil;
@@ -83,11 +89,11 @@ id CMRMainBrowser = nil;
 {
 	return [super threadIdentifier];
 }
-
+/*
 - (IBAction) showWindow : (id) sender
 {
 	BOOL	isWindowLoaded_ = [self isWindowLoaded];
-	
+
 	[super showWindow : sender];
 	if (isWindowLoaded_) return;
 	
@@ -97,7 +103,7 @@ id CMRMainBrowser = nil;
 	[[self window] setInitialFirstResponder : [self threadsListTable]];
 	[[self window] makeFirstResponder : [self threadsListTable]];
 }
-
+*/
 // CMRThreadViewer:
 /**
   * 

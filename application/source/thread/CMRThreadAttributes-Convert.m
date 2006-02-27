@@ -7,7 +7,7 @@
 #import "BoardManager.h"
 #import "AppDefaults.h"
 #import "CMRHostHandler.h"
-#import "CMRThreadUserStatus.h"
+//#import "CMRThreadUserStatus.h"
 
 
 

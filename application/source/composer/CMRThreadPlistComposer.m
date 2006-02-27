@@ -24,16 +24,30 @@ static unsigned int current_index_;
 
 
 @implementation CMRThreadPlistComposer
-+ (id) composerWithThreadsArray : (NSMutableArray *) threads
-{
-	return [[[self alloc] initWithThreadsArray : threads] autorelease];
-}
-- (id) initWithThreadsArray : (NSMutableArray *) threads
+- (id) initWithThreadsArray : (NSMutableArray *) threads noteAAThread : (BOOL) isAAThread
 {
 	if (self = [self init]) {
 		[self setThreadsArray : threads];
+		_AAThread = isAAThread;
 	}
 	return self;
+}
++ (id) composerWithThreadsArray : (NSMutableArray *) threads noteAAThread : (BOOL) isAAThread
+{
+	return [[[self alloc] initWithThreadsArray : threads noteAAThread : isAAThread] autorelease];
+}
++ (id) composerWithThreadsArray : (NSMutableArray *) threads
+{
+	//return [[[self alloc] initWithThreadsArray : threads] autorelease];
+	return [[[self alloc] initWithThreadsArray : threads noteAAThread : NO] autorelease];
+}
+- (id) initWithThreadsArray : (NSMutableArray *) threads
+{
+	/*if (self = [self init]) {
+		[self setThreadsArray : threads];
+	}
+	return self;*/
+	return [self initWithThreadsArray : threads noteAAThread : NO];
 }
 - (void) dealloc
 {
@@ -57,6 +71,10 @@ static unsigned int current_index_;
 {
 	NSDictionary	*next_;
 	
+	if(_AAThread) {
+		//NSLog(@"This message marked as AA");
+		[aMessage setAsciiArt : YES];
+	}
 	// save message attributes
 	[self addNewEntry : [[aMessage messageAttributes] propertyListRepresentation]
 			   forKey : CMRThreadContentsStatusKey];
