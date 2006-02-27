@@ -4321,7 +4321,6 @@
 					../frameworks/CocoMonar/build/Deployment,
 					../frameworks/SGFoundation/build/Deployment,
 					../frameworks/SGNetwork/build/Deployment,
-					../frameworks/Keychain/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -4361,7 +4360,6 @@
 					../frameworks/CocoMonar/build/Deployment,
 					../frameworks/SGFoundation/build/Deployment,
 					../frameworks/SGNetwork/build/Deployment,
-					../frameworks/Keychain/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

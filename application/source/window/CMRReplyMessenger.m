@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyMessenger.m,v 1.6 2005/12/01 23:08:33 tsawada2 Exp $
+  * $Id: CMRReplyMessenger.m,v 1.7 2006/02/27 20:21:20 tsawada2 Exp $
   * 
   * CMRReplyMessenger.m
   *
@@ -382,6 +382,34 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 		return ([self isDocumentEdited]);
 	}
 	return NO;
+}
+
+- (BOOL) validateMenuItem : (NSMenuItem *) theItem
+{
+	SEL action_;
+
+	action_ = [theItem action];
+
+	if (action_ == @selector(sendMessage:)) {
+		return (NO == [self isEndPost]);
+	}
+	
+	if(action_ == @selector(saveDocumentAs:)) {
+		[theItem setTitle : [self localizedString : @"Save Menu Item"]];
+		return ([self isDocumentEdited]);
+	}
+	return [super validateMenuItem : theItem];
+}
+
+// override
+- (IBAction) saveDocumentAs : (id) sender
+{
+	if ([sender isKindOfClass : [NSMenuItem class]]) {
+		// ‚·‚è‘Ö‚¦
+		[self saveDocument : sender];
+	} else {
+		[super saveDocumentAs : sender];
+	}
 }
 @end
 

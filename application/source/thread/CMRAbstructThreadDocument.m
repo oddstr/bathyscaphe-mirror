@@ -276,6 +276,18 @@
 	
 	[super removeWindowController : windowController];
 }
+
+- (BOOL) validateMenuItem : (NSMenuItem *) theItem
+{
+	SEL action_;
+
+	action_ = [theItem action];
+	
+	if(action_ == @selector(saveDocumentAs:)) 
+		[theItem setTitle : NSLocalizedString(@"Save Menu Item Default", @"Save as...")];
+		
+	return [super validateMenuItem : theItem];
+}
 @end
 
 /* for AppleScript */

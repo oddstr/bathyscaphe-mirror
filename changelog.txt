@@ -1,4 +1,21 @@
 2006-02-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/window/CMRReplyController-ViewAccessor.m
+		書き込みウインドウで「下書きとして保存」した直後にテキストを変更しても "dirty" フラグが立たず、
+		新たに保存することができない問題を修正した（つもり）。
+	* application/source/browser/Browser.m
+	* application/source/thread/CMRAbstructThreadDocument.m
+	* application/source/window/CMRReplyMessenger.m
+	* application/Resources/Japanese.lproj/Localizable.strings
+	* application/Resources/Japanese.lproj/Messenger.strings
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		「ファイル」＞「下書きとして保存」「別名で保存...」を統合した。
+		- 別ウインドウで開いているスレッドに対しては、「別名で保存...」を command-S で提供する（command-shift-S から変更）。
+		- 書き込みウインドウに対しては、「下書きとして保存」を command-S で引き続き提供する。
+	* application/source/view/SGLinkCommand.m
+		コンテクストメニューから「リンクを Web ブラウザで開く」を選んだときも、「外部リンクをバックグラウンドで開く」
+		設定を参照して従うようにした（これまでは無視していた）。
+	* application/Resources/Japanese.lproj/Acknowledgments.rtf
+		必要な修正を施した。
 	* Makefile
 		Keychain framework はビルドしないようにした。
 		- 当然、クリーニングもされなくなるので、必要に応じて残骸を自分でクリーニングしておくべき。
@@ -13,6 +30,7 @@
 		「ファイル」＞「すべてのウインドウを閉じる」（command-option-W）
 		「ウインドウ」＞「すべてをしまう」（command-option-M）をそれぞれ追加。
 		- ちゃんと動作させようとすると意外と面倒だった。
+		「表示」メニューの構成を若干見直し。
 	* application/source/browser/CMRBrowser-BLEditor.m
 	* application/Resources/Japanese.lproj/Browser.nib
 		「すべてのウインドウを閉じる」機能との関係で、「掲示板リスト項目の編集」シートを NSWindow から

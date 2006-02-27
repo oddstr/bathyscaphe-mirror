@@ -1,7 +1,7 @@
 //:SGLinkCommand.m
 #import "SGLinkCommand.h"
 #import "CocoMonar_Prefix.h"
-//#import <SGAppKit/NSWorkspace-SGExtensions.h>
+#import <SGAppKit/NSWorkspace-SGExtensions.h>
 #import "AppDefaults.h"
 
 
@@ -56,7 +56,7 @@
 @implementation SGOpenLinkCommand : SGLinkCommand
 - (void) execute : (id) sender
 {
-	[[NSWorkspace sharedWorkspace] openURL : [self URLValue]];// inBackGround : YES];
+	[[NSWorkspace sharedWorkspace] openURL : [self URLValue] inBackGround : [CMRPref openInBg]];
 }
 @end
 
