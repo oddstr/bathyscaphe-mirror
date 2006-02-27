@@ -1107,17 +1107,9 @@ fail:
 					// ２度目以降の読み込み。レス数かステータスが変更されていれば
 					// データベースを更新。
 					id <SQLiteRow> row = [cursor rowAtIndex:0];
-					int nAll, nRead;
 					
-					// 全レス数と既得数が同じならstatusを強制的にThreadLogCachedStatusに変更。
-					nAll = [nilIfObjectIsNSNull([row valueForColumn:NumberOfAllColumn]) intValue];
-					nRead = [nilIfObjectIsNSNull([row valueForColumn:NumberOfReadColumn]) intValue];
-					if(nAll && nAll == nRead && [status intValue] != ThreadLogCachedStatus) {
-						status = [NSNumber numberWithInt:ThreadLogCachedStatus];
-					}
-					
-					if( [count intValue] != nAll ||
-						[status intValue] != [[row valueForColumn : ThreadStatusColumn] intValue]) {
+					if( [count intValue] != [nilIfObjectIsNSNull([row valueForColumn:NumberOfAllColumn]) intValue] ||
+						[status intValue] != [nilIfObjectIsNSNull([row valueForColumn : ThreadStatusColumn]) intValue]) {
 						
 						bindValues = [NSArray arrayWithObjects:
 							count, status,

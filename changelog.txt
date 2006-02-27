@@ -1,4 +1,6 @@
 2006-02-28 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+		2006-02-24 の変更は間違い。revert.
 	* application/Resources/Japanese.lproj/ConditionTypes.plist
 		[新規追加] SmartConditionの型を規定する。
 	* application/Resources/Japanese.lproj/CriteriaSpecifications.plist
