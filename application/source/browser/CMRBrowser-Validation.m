@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-Validation.m,v 1.9.2.4 2006/02/27 17:31:49 masakih Exp $
+ * $Id: CMRBrowser-Validation.m,v 1.9.2.5 2006/02/28 16:28:58 masakih Exp $
  * BathyScaphe
  *
  * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -118,12 +118,12 @@
 
 		if (rowIndex_ >= [bLT_ numberOfRows]) return NO;
 
-		NSDictionary		*item_ = [bLT_ itemAtRow : rowIndex_];
+		id item_ = [bLT_ itemAtRow : rowIndex_];
 		if (nil == item_) return NO;
 
-		if ([SmartBoardList isBoard : item_]) {
+		if ([BoardListItem isBoardItem : item_] || [BoardListItem isSmartItem : item_]) {
 			return YES;
-		} else if ([SmartBoardList isCategory : item_]) {
+		} else if ([BoardListItem isFolderItem : item_]) {
 			if (tag_ == kBLShowInspectorViaContMenuItemTag || tag_ == kBLOpenBoardItemViaContMenuItemTag)
 				return NO;
 			else

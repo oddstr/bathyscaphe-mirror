@@ -111,13 +111,13 @@
 	name_ = [item_ representName]; //[item_ objectForKey : BoardPlistNameKey];
 	
 	[[self dItemEditSheetTitleField] setStringValue : [self localizedString : kEditDrawerTitleKey]];
-	if ([SmartBoardList isBoard : item_]) {
+	if ([BoardListItem isBoardItem : item_]) {
 		[[self dItemEditSheetMsgField]   setStringValue :
 					 [NSString localizedStringWithFormat: [self localizedString : kEditDrawerItemMsgForBoardKey],name_]];
 		[[self dItemEditSheetLabelField] setStringValue : [self localizedString : kEditDrawerItemTitleForBoardKey]];
 		[[self dItemEditSheetInputField] setStringValue : [[item_ url] absoluteString]]; //objectForKey : BoardPlistURLKey]];
 
-	} else if ([SmartBoardList isCategory : item_]) {
+	} else if ([BoardListItem isFolderItem : item_] || [BoardListItem isSmartItem : item_]) {
 		[[self dItemEditSheetMsgField]   setStringValue :
 					 [NSString localizedStringWithFormat: [self localizedString : kEditDrawerItemMsgForCategoryKey],name_]];
 		[[self dItemEditSheetLabelField] setStringValue : [self localizedString : kEditDrawerItemTitleForCategoryKey]];
@@ -272,9 +272,9 @@
 			return;
 		}
 		
-		if ([SmartBoardList isBoard : contextInfo]) {
+		if ([BoardListItem isBoardItem : contextInfo]) {
 			[userList setURL:value_ toItem:contextInfo];
-		} else if ([SmartBoardList isCategory : contextInfo]) {		
+		} else if ([BoardListItem isFolderItem : contextInfo] || [BoardListItem isSmartItem : contextInfo]) {		
 			if ([userList itemForName:value_])
 			{
 				[sheet close];

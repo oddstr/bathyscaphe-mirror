@@ -1,4 +1,7 @@
 2006-03-01 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/CMRBrowser-BLEditor.m
+	* application/source/browser/CMRBrowser-Validation.m
+		スマートリストの削除、名称変更に対応。
 	* application/source/bbs/BoardListItem/ConcreteBoardListItem.m
 	* application/source/bbs/BoardListItem/SmartBoardList.m
 	* application/source/bbs/BoardListItem/SmartBoardListItem.m
