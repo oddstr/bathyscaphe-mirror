@@ -128,7 +128,9 @@
      afterObject : (id) target
 {
 	UTILAssertKindOfClass(item, BoardListItem);
-	UTILAssertKindOfClass(target, BoardListItem);
+	if(target) {
+		UTILAssertKindOfClass(target, BoardListItem);
+	}
 	
 	int type;
 	if( BoardListCategoryItem == [(BoardListItem *)item type]) {

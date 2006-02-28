@@ -41,7 +41,7 @@
 }
 
 #pragma mark## CMRPropertyListCoding protocol ##
-static NSString *SmartConditionNameKey = @"SmartConditionNameKey";
+static NSString *SmartConditionNameKey = @"Name";
 static NSString *SmartConditionConditionKey = @"SmartConditionConditionKey";
 
 - (id) propertyListRepresentation
@@ -70,5 +70,8 @@ static NSString *SmartConditionConditionKey = @"SmartConditionConditionKey";
 {
 	return [self propertyListRepresentation];
 }
-
+- (id) description
+{
+	return [[self plist] description];
+}
 @end

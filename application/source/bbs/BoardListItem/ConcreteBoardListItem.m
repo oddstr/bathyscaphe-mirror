@@ -147,6 +147,7 @@ failCreation:
 	NSString *name;
 	id contents;
 	id url;
+	id cond;
 	
 	UTILCAssertKindOfClass(plist, [NSDictionary class]);
 	
@@ -161,6 +162,11 @@ failCreation:
 	url = [plist objectForKey : @"URL"];
 	if (url) {
 		result = [self boardBoardListItemFromPlist : plist];
+	}
+	
+	cond = [plist objectForKey:@"SmartConditionConditionKey"];
+	if(cond) {
+		result = [[[SmartBoardListItem alloc] initWithPropertyListRepresentation:plist] autorelease];
 	}
 	
 	return result;

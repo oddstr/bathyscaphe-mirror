@@ -275,7 +275,9 @@ static NSString *SCValue2CodingKey = @"SCValue2CodingKey";
 		target = [aDecoder decodeObject];
 		ope = [[aDecoder decodeObject] intValue];
 		value1 = [aDecoder decodeObject];
-		value2 = [aDecoder decodeObject];
+		if(ope == SCRangeOperation) {
+			value2 = [aDecoder decodeObject];
+		}
 	}
 	
 	if(value2) {
