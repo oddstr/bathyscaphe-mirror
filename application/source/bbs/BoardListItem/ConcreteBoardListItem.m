@@ -128,9 +128,11 @@ failCreation:
 		
 		if (!item) continue;
 
-		boardItem = [self boardBoardListItemFromPlist : item];
+//		boardItem = [self boardBoardListItemFromPlist : item];
+		boardItem = [self baordListItemFromPlist : item];
 		if(boardItem) {
 			[result addItem : boardItem];
+			continue;
 		}
 	}
 	
@@ -166,7 +168,7 @@ failCreation:
 	
 	cond = [plist objectForKey:@"SmartConditionConditionKey"];
 	if(cond) {
-		result = [[[SmartBoardListItem alloc] initWithPropertyListRepresentation:plist] autorelease];
+		result = [SmartBoardListItem objectWithPropertyListRepresentation:plist];
 	}
 	
 	return result;
