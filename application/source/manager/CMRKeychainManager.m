@@ -1,5 +1,5 @@
 /*
- * $Id: CMRKeychainManager.m,v 1.6 2006/02/27 18:25:41 tsawada2 Exp $
+ * $Id: CMRKeychainManager.m,v 1.7 2006/02/28 05:40:06 tsawada2 Exp $
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
  *
@@ -56,55 +56,61 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 - (void) checkHasAccountInKeychainIfNeeded
 {
 	if([self shouldCheckHasAccountInKeychain]) {
-		OSStatus err;
-		SecKeychainItemRef item = nil;
+		BOOL		result_ = NO;
+		NSString	*account_ = [self x2chUserAccount];
 
-		NSURL			*url_ = [self x2chAuthenticationRequestURL];
-		NSString		*account_ = [self x2chUserAccount];
-		NSString		*host_ = [url_ host];
-		NSString		*path_ = [url_ path];
-		
-		const char		*accountUTF8 = [account_ UTF8String];
-		const char		*hostUTF8 = [host_ UTF8String];
-		const char		*pathUTF8 = [path_ UTF8String];
-		
-		BOOL	result_ = NO;
+		if(account_ != nil) {
+			OSStatus err;
+			SecKeychainItemRef item = nil;
 
-		err = SecKeychainFindInternetPassword(NULL,
-											  strlen(hostUTF8),
-											  hostUTF8,
-											  0,
-											  NULL,
-											  strlen(accountUTF8),
-											  accountUTF8,
-											  strlen(pathUTF8),
-											  pathUTF8,
-											  0,
-											  kSecProtocolTypeHTTPS,
-											  kSecAuthenticationTypeDefault,
-											  NULL,
-											  NULL,
-											  &item);
+			NSURL		*url_ = [self x2chAuthenticationRequestURL];
+			NSString	*host_ = [url_ host];
+			NSString	*path_ = [url_ path];
+			
+			const char	*accountUTF8 = [account_ UTF8String];
+			const char	*hostUTF8 = [host_ UTF8String];
+			const char	*pathUTF8 = [path_ UTF8String];
+			
 
-		if ((err == noErr) && item) {
-			//NSLog(@"KeyChain Account successfully found");
-			result_ = YES;
-//		} else {
-//			NSLog(@"Some Error Occured - checkHasAccountInKeychainIfNeeded");
+			err = SecKeychainFindInternetPassword(NULL,
+												  strlen(hostUTF8),
+												  hostUTF8,
+												  0,
+												  NULL,
+												  strlen(accountUTF8),
+												  accountUTF8,
+												  strlen(pathUTF8),
+												  pathUTF8,
+												  0,
+												  kSecProtocolTypeHTTPS,
+												  kSecAuthenticationTypeDefault,
+												  NULL,
+												  NULL,
+												  &item);
+
+			if ((err == noErr) && item) {
+//				NSLog(@"KeyChain Account successfully found");
+				result_ = YES;
+//			} else {
+//				NSLog(@"Some Error Occured - checkHasAccountInKeychainIfNeeded");
+			}
 		}
-		
+
 		[CMRPref setHasAccountInKeychain : result_];
+		[self setShouldCheckHasAccountInKeychain : NO];
 	}
-	[self setShouldCheckHasAccountInKeychain : NO];
 }
 
 - (void) deleteAccountCompletely
 {
+	NSString		*account_ = [self x2chUserAccount];
+
+	if(account_ == nil) return;
+
 	OSStatus err;
 	SecKeychainItemRef item = nil;
 
 	NSURL			*url_ = [self x2chAuthenticationRequestURL];
-	NSString		*account_ = [self x2chUserAccount];
 	NSString		*host_ = [url_ host];
 	NSString		*path_ = [url_ path];
 	
@@ -129,7 +135,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 										  &item);
 
 	if ((noErr == err) && item) {
-		//NSLog(@"KeyChain Account Found and will remove...");
+//		NSLog(@"KeyChain Account Found and will remove...");
 		err = SecKeychainItemDelete(item);
 		if(err == noErr)
 			CFRelease(item);
@@ -142,11 +148,15 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 - (NSString *) passwordFromKeychain
 {
+	NSString		*account_ = [self x2chUserAccount];
+	
+	if(account_ == nil)
+		return nil;
+
 	OSStatus err;
 	SecKeychainItemRef item = nil;
 
 	NSURL			*url_ = [self x2chAuthenticationRequestURL];
-	NSString		*account_ = [self x2chUserAccount];
 	NSString		*host_ = [url_ host];
 	NSString		*path_ = [url_ path];
 	
@@ -175,16 +185,12 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 										  &item);
 
 	if ((err == noErr) && item) {
-		// deprecated in Mac OS X 10.4.
-		//NSString *result_ = [[NSString alloc] initWithCStringNoCopy : passwordData length : passwordLength freeWhenDone : YES];
-
-		// we should use this (NOTE that this method is available in Mac OS X 10.3 and later):
 		NSString *result_ = [[NSString alloc] initWithBytesNoCopy : passwordData
 														   length : passwordLength
 														 encoding : NSUTF8StringEncoding
 													 freeWhenDone : YES];
 
-		//NSLog(@"Successfully got password");
+//		NSLog(@"Successfully got password");
 		return [result_ autorelease];
 //	} else {
 //		NSLog(@"Some Error Occrred while getting keychianItem");
@@ -195,10 +201,14 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 - (void) createKeychainWithPassword : (NSString  *) password
 {
+	NSString		*account_ = [self x2chUserAccount];
+
+	if (account_ == nil)
+		return;
+
 	OSStatus err;
 
 	NSURL			*url_ = [self x2chAuthenticationRequestURL];
-	NSString		*account_ = [self x2chUserAccount];
 	NSString		*host_ = [url_ host];
 	NSString		*path_ = [url_ path];
 	
@@ -225,7 +235,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 										 NULL);
  
 	if(err == errSecDuplicateItem) {
-		//NSLog(@"Keychain item already exists.");
+//		NSLog(@"Keychain item already exists.");
 		SecKeychainItemRef item = nil;
 		err = SecKeychainFindInternetPassword(NULL,
 											  strlen(hostUTF8),
@@ -246,7 +256,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 		if(item) {
 			err == SecKeychainItemModifyContent(item, NULL, strlen(passwordUTF8), passwordUTF8);
 			if(err == noErr) {
-				//NSLog(@"Replacing keychain item's data successfully finished.");
+//				NSLog(@"Replacing keychain item's data successfully finished.");
 				CFRelease(item);
 				[CMRPref setHasAccountInKeychain : YES];
 			}
@@ -254,7 +264,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 //			NSLog(@"Some Error Occurred while modifying content.");
 		}
 	} else if (err == noErr) {
-		//NSLog(@"Keychain item was successfully created.");
+//		NSLog(@"Keychain item was successfully created.");
 		[CMRPref setHasAccountInKeychain : YES];
 //	} else {
 //		NSLog(@"Some error occurred while creating keychain item");

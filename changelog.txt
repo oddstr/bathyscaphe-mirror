@@ -1,3 +1,8 @@
+================================================= GrafEisen_Rev2 (v165.1)
+2006-02-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/manager/CMRKeychainManager.m
+		●アカウントを設定していない状態で「アカウント」環境設定を開こうとするとクラッシュする問題を修正。
+================================================= GrafEisen (v165)
 2006-02-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/previewer/Save.tiff
 		暫定的にプレビューインスペクタの「保存」アイコンを差し替え。
