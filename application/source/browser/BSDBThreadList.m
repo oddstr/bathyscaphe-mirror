@@ -635,13 +635,13 @@ enum {
 	} else if ([identifier isEqualTo : CMRThreadNumberOfUpdatedKey]) {
 		id read = [row valueForColumn : NumberOfReadColumn];
 		// NumberOfReadColumn カラムが NULL なら NULL
-		if(read && read != [NSNull null]) {
+		if(!UTILObjectIsNull(read)) {
 			result = [row valueForColumn : NumberOfDifferenceColumn];
 		}
 	} else if ( [identifier isEqualTo : CMRThreadModifiedDateKey] ) {
 		id mod = [row valueForColumn : ModifiedDateColumn];
 		
-		if (![mod isKindOfClass : [NSNull class]]) {
+		if (mod != [NSNull null]) {
 			result = [NSDate dateWithTimeIntervalSince1970 : [mod doubleValue]];
 			
 			if (dateFormatter)
@@ -660,12 +660,11 @@ enum {
 	} else if([identifier isEqualToString : ThreadPlistIdentifierKey]) {
 		// スレッドの立った日付（dat 番号を変換）available in RainbowJerk and later.
 		result = [NSDate dateWithTimeIntervalSince1970 : (NSTimeInterval)[[row valueForColumn : ThreadIDColumn] doubleValue]];
-	} else if([identifier isEqualToString : @"BoardName"]) {
-		// 掲示板名 available in RainbowJerk and later.
-		result = [row valueForColumn : BoardNameColumn];
+	} else {
+		result = [row valueForColumn : identifier];
 	}
 	
-	if ([result isKindOfClass : [NSNull class]]) {
+	if (result == [NSNull null]) {
 		result = nil;
 	}
 	

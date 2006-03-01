@@ -81,7 +81,7 @@ static NSDictionary *sConditionTypes = nil;
 	id valueType;
 	Class valueTypeClass;
 	
-	if([value isKindOfClass : [NSNull class]]) return YES;
+	if(value == [NSNull null]) return YES;
 	
 	if(!dict) return NO;
 	
@@ -218,7 +218,7 @@ static inline void setValueToValue( id value, id *toValue )
 		*toValue = [SQLiteDB prepareStringForQuery : value];
 		[*toValue retain];
 	} else if ([value isKindOfClass : [NSNumber class]]
-			   ||[value isKindOfClass : [NSNull class]]) {
+			   ||value == [NSNull null]) {
 		*toValue = [value copy];
 	} else if([value isKindOfClass : [NSDate class]]) {
 		*toValue = [NSNumber numberWithDouble : [value timeIntervalSince1970]];

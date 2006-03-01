@@ -1,4 +1,8 @@
 2006-03-02 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/SmartCondition.m
+	* application/source/browser/BSDBThreadList.m
+	* application/source/manager/SQLiteDB.m
+		オブジェクトが NSNull のインスタンスであるかどうかの判定に、[NSNull null] のポインタとの直接比較を使用するようにした。
 	* application/source/browser/BSDBThreadList.m
 		numberOfDifference カラムを使用するように変更。
 	* application/source/manager/DatabaseManager.h

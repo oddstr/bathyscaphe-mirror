@@ -494,7 +494,7 @@ void objectDeallocator(void *obj)
 			const char *str = [value UTF8String];
 			error = sqlite3_bind_text(m_stmt, i+1, str, strlen(str) , objectDeallocator);
 			if (SQLITE_OK != error) return nil;
-		} else if ([value isKindOfClass : [NSNull class]]) {
+		} else if (value == [NSNull null]) {
 			error = sqlite3_bind_null(m_stmt, i+1);
 			if (SQLITE_OK != error) return nil;
 		} else {
