@@ -633,11 +633,10 @@ enum {
 	if ([identifier isEqualTo : CMRThreadStatusKey]) {
 		result = _statusImageWithStatusBSDB(s);
 	} else if ([identifier isEqualTo : CMRThreadNumberOfUpdatedKey]) {
-		id all = [row valueForColumn : NumberOfAllColumn];
 		id read = [row valueForColumn : NumberOfReadColumn];
-		
-		if ([all respondsToSelector : @selector(intValue)] && [read respondsToSelector : @selector(intValue)]) {
-			result = [NSNumber numberWithInt : [all intValue] - [read intValue]];
+		// NumberOfReadColumn カラムが NULL なら NULL
+		if(read && read != [NSNull null]) {
+			result = [row valueForColumn : NumberOfDifferenceColumn];
 		}
 	} else if ( [identifier isEqualTo : CMRThreadModifiedDateKey] ) {
 		id mod = [row valueForColumn : ModifiedDateColumn];

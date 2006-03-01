@@ -1,4 +1,6 @@
 2006-03-02 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+		numberOfDifference カラムを使用するように変更。
 	* application/source/manager/DatabaseManager.h
 	* application/source/manager/DatabaseManager.m
 		BoardThreadInfoView ビューに numberOfDifference カラムを追加。
