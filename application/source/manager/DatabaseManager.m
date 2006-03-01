@@ -40,6 +40,7 @@ NSString *LastWrittenDateColumn = @"lastWrittenDate";
 //NSString *ContentsColumn = @"contents";
 //NSString *ResAboneTypeColumn = @"resAboneType";
 //NSString *ResLabelColumn = @"resLabel";
+NSString *NumberOfDifferenceColumn = @"numberOfDifference";
 
 NSString *TempThreadNumberTableName = @"TempThreadNumber";
 NSString *TempThreadThreadNumberColumn = @"threadNumber";
@@ -530,7 +531,9 @@ abort:
 	 
 //	 query = [NSMutableString stringWithFormat : @"CREATE VIEW %@ AS\n", BoardThreadInfoViewName];
 	 query = [NSMutableString stringWithFormat : @"CREATE TEMPORARY VIEW %@ AS\n", BoardThreadInfoViewName];
-	 [query appendFormat : @"\tSELECT * FROM %@ INNER JOIN %@", ThreadInfoTableName, BoardInfoTableName];
+	 [query appendFormat : @"\tSELECT *, (%@ - %@) AS %@ FROM %@ INNER JOIN %@",
+		 NumberOfAllColumn, NumberOfReadColumn, NumberOfDifferenceColumn,
+		 ThreadInfoTableName, BoardInfoTableName];
 	 [query appendFormat : @" USING(%@) ", BoardIDColumn];
 	 
 	 if ([db beginTransaction]) {

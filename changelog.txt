@@ -1,3 +1,8 @@
+2006-03-02 masakih <masakih@users.sourceforge.jp>
+	* application/source/manager/DatabaseManager.h
+	* application/source/manager/DatabaseManager.m
+		BoardThreadInfoView ビューに numberOfDifference カラムを追加。
+		... SELECT *,(numberOfAll - numberOfRead) AS numberOfDifference ...
 2006-03-01 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/CMRBrowser-BLEditor.m
 	* application/source/browser/CMRBrowser-Validation.m

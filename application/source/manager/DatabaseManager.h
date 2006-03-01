@@ -118,5 +118,6 @@ extern		NSString *TempThreadThreadNumberColumn;
 /*
  extern NSString *FavThreadInfoViewName;
  */
- extern NSString *BoardThreadInfoViewName;
+extern NSString *BoardThreadInfoViewName;
+extern		NSString *NumberOfDifferenceColumn;
 
