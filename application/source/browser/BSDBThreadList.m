@@ -268,13 +268,17 @@ static inline NSString *orderBy( NSString *sortKey, BOOL isAscending )
 	} else if ([sortKey isEqualTo : CMRThreadNumberOfMessagesKey]) {
 		sortCol = NumberOfAllColumn;
 	} else if ([sortKey isEqualTo : CMRThreadNumberOfUpdatedKey]) {
-		sortCol = [NSString stringWithFormat : @"(%@ - %@)", NumberOfAllColumn, NumberOfReadColumn];
+		sortCol = NumberOfDifferenceColumn;
 	} else if ([sortKey isEqualTo : CMRThreadSubjectIndexKey]) {
 		sortCol = TempThreadThreadNumberColumn;
 	} else if ([sortKey isEqualTo : CMRThreadStatusKey]) {
 		sortCol = ThreadStatusColumn;
 	} else if ([sortKey isEqualTo : CMRThreadModifiedDateKey]) {
 		sortCol = ModifiedDateColumn;
+	} else if ([sortKey isEqualTo : ThreadPlistIdentifierKey]) {
+		sortCol = ThreadIDColumn;
+	} else if ([sortKey isEqualTo : ThreadPlistBoardNameKey]) {
+		sortCol = BoardNameColumn;
 	}
 	
 	if(sortCol) {

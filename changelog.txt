@@ -1,4 +1,6 @@
-2006-03-03 masakih <masakih@users.sourceforge.jp>
+2006-03-04 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+		掲示板カラム、作成日カラムでのソートをサポート。
 	* application/source/browser/BSDBThreadList.m
 	* application/source/manager/DatabaseManager-DatabaseAccess.m
 	* application/source/manager/DatabaseManager.m
