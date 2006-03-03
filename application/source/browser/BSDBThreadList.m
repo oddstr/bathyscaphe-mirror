@@ -493,7 +493,7 @@ static inline NSMutableDictionary *threadAttributesForBoardIDAndThreadID(
 	if(!db) return nil;
 	
 	query = [NSMutableString stringWithFormat:@"SELECT * FROM %@ ", BoardThreadInfoViewName];
-	[query appendFormat:@"WHERE %@ = %u AND %@ = '%@'",
+	[query appendFormat:@"WHERE %@ = %u AND %@ = %@",
 		BoardIDColumn, boardID, ThreadIDColumn, threadID];
 	
 	{
@@ -811,7 +811,7 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 			NumberOfReadColumn, cnt_,
 			ThreadStatusColumn, ThreadLogCachedStatus,
 			ModifiedDateColumn, [modDate timeIntervalSince1970]];
-		[sql appendFormat : @"WHERE %@ = %u AND %@ = '%@'",
+		[sql appendFormat : @"WHERE %@ = %u AND %@ = %@",
 			BoardIDColumn, baordID, ThreadIDColumn, threadID];
 		
 		[db cursorForSQL : sql];
@@ -871,7 +871,7 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 				continue;
 			}
 			
-			query = [NSString stringWithFormat:@"UPDATE %@ SET %@ = %u WHERE %@ = %u AND %@ = '%@'",
+			query = [NSString stringWithFormat:@"UPDATE %@ SET %@ = %u WHERE %@ = %u AND %@ = %@",
 				ThreadInfoTableName,
 				ThreadStatusColumn, ThreadHeadModifiedStatus,
 				BoardIDColumn, boardID,

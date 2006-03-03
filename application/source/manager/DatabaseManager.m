@@ -177,7 +177,7 @@ extern void setSQLiteZone(NSZone *zone);
 }
 - (NSArray *) threadInfoDataTypes
 {
-	return [NSArray arrayWithObjects : INTEGER_NOTNULL, TEXT_NOTNULL, TEXT_NOTNULL,
+	return [NSArray arrayWithObjects : INTEGER_NOTNULL, INTEGER_NOTNULL, TEXT_NOTNULL,
 		QLNumber, QLNumber,
 		QLNumber, QLNumber,
 		QLNumber, QLNumber, QLNumber, nil];
@@ -369,7 +369,7 @@ abort:
 		if (!isOK) goto abort;
 		
 		// dummy data for set ThreadIDColumn to 0.
-		query = [NSString stringWithFormat : @"INSERT INTO %@ (%@, %@, %@) VALUES(0, '', '')",
+		query = [NSString stringWithFormat : @"INSERT INTO %@ (%@, %@, %@) VALUES(0, 0, '')",
 			ThreadInfoTableName, BoardIDColumn, ThreadIDColumn, ThreadNameColumn];
 		[db performQuery : query];
 		isOK = ([db lastErrorID] == 0);

@@ -66,8 +66,8 @@ int progressHandler(void *obj)
 
 - (void) dealloc
 {
-	[mPath release];
 	[self close];
+	[mPath release];
 	
 	[super dealloc];
 }

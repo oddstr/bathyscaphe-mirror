@@ -1,3 +1,16 @@
+2006-03-03 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+	* application/source/manager/DatabaseManager-DatabaseAccess.m
+	* application/source/manager/DatabaseManager.m
+		ThreadIDColumn カラムをなぜか TEXTで定義していた。このため様々な不具合を生んでいた。
+		ThreadIDColumn カラムを INTEGER に定義し直した。
+		**この変更は過去に作成された BathyScaphe.db には作用しない。
+		データベースバージョンへの移行用に用意しているBSDataImporter を
+		'BS Another Story' 用に変更したものを用意した。
+		(http://www.geocities.jp/svc9826/app/BSDataImporterForBSAS.zip)
+		一度 BathyScaphe.db を削除してからこれを実行すると、データベースを再構築できる。
+	* application/source/manager/SQLiteDB.m
+		fix: インスタンス変数 mPath を dealloc 時に2重リリースしていた。
 2006-03-02 masakih <masakih@users.sourceforge.jp>
 	* application/source/bbs/BoardListItem/SmartCondition.m
 	* application/source/browser/BSDBThreadList.m

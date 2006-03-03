@@ -174,6 +174,10 @@
 	
 	// checking URL.
 	{
+		if(!urlString) {
+			NSLog(@"urlString is nil.");
+			return NO;
+		}
 		id url = [NSURL URLWithString : urlString];
 		if (!url) {
 			NSLog(@"urlString (%@) is NOT url.", urlString);
