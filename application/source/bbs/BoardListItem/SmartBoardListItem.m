@@ -48,7 +48,8 @@ static NSString *SmartConditionConditionKey = @"SmartConditionConditionKey";
 {
 	return [NSDictionary dictionaryWithObjectsAndKeys:
 		[self name], SmartConditionNameKey,
-		[NSArchiver archivedDataWithRootObject:mConditions], SmartConditionConditionKey,
+//		[NSArchiver archivedDataWithRootObject:mConditions], SmartConditionConditionKey,
+		[NSKeyedArchiver archivedDataWithRootObject:mConditions], SmartConditionConditionKey,
 		nil];
 }
 - (id) initWithPropertyListRepresentation : (id) rep
@@ -60,7 +61,8 @@ static NSString *SmartConditionConditionKey = @"SmartConditionConditionKey";
 	
 	v = [rep objectForKey:SmartConditionConditionKey];
 	if(v) {
-		cond = [[NSUnarchiver unarchiveObjectWithData:v] retain];
+//		cond = [[NSUnarchiver unarchiveObjectWithData:v] retain];
+		cond = [[NSKeyedUnarchiver unarchiveObjectWithData:v] retain];
 	}
 	
 	return [self initWithName:name condition:cond];

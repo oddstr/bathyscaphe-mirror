@@ -188,7 +188,7 @@ static NSDictionary *sConditionTypes = nil;
 			format = @"%@ < %@";
 			break;
 		case SCRangeOperation:
-			format = @"(%@ < %@ AND %@ > %@)";
+			format = @"(%@ > %@ AND %@ < %@)";
 			useValue2 = YES;
 			break;
 		default:
@@ -284,6 +284,86 @@ static NSString *SCValue2CodingKey = @"SCValue2CodingKey";
 		self = [self initWithTarget:target operation:ope value:value1 value:value2];
 	} else {
 		self = [self initWithTarget:target operation:ope value:value1];
+	}
+	
+	return self;
+}
+@end
+
+@implementation RelativeDateLiveCondition
+- (id) initWithTarget : (NSString *)target operation : (SCOperation)operation value : (id)value
+{
+	if( self = [super initWithTarget:target operation:operation value:value] ) {
+		mAbsoluteDate1 = [value retain];
+		[self update];
+	}
+	
+	return self;
+}
+- (id) initWithTarget : (NSString *)target operation : (SCOperation)operation value : (id)value1 value : (id) value2
+{
+	if( self = [super initWithTarget:target operation:operation value:value1 value:value2] ) {
+		mAbsoluteDate1 = [value1 retain];
+		mAbsoluteDate2 = [value2 retain];
+		[self update];
+	}
+	
+	return self;
+	
+	return self;
+}
+- (NSString *)conditionString
+{
+	[self update];
+	return [super conditionString];
+}
+- (NSString *) description
+{
+	return [super description];
+}
+- (void)update
+{
+	id now = [NSDate dateWithTimeIntervalSinceNow:0.0];
+	//	@synchronized(self) {
+	[self _setValue1:[NSNumber numberWithInt:[now timeIntervalSince1970] - [mAbsoluteDate1 intValue]]];
+	if(mAbsoluteDate2) {
+		[self _setValue2:[NSNumber numberWithInt:[now timeIntervalSince1970] - [mAbsoluteDate2 intValue]]];
+	}
+	//	}
+}
+
+#pragma mark## NSCoding ##
+static NSString *ADValue1CodingKey = @"ADValue1CodingKey";
+static NSString *ADValue2CodingKey = @"ADValue2CodingKey";
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+	[super encodeWithCoder:aCoder];
+	
+	if([aCoder allowsKeyedCoding]) {
+		[aCoder encodeObject:mAbsoluteDate1 forKey:ADValue1CodingKey];
+		if(mAbsoluteDate2) {
+			[aCoder encodeObject:mAbsoluteDate2 forKey:ADValue2CodingKey];
+		}
+	} else {
+		[aCoder encodeObject:mAbsoluteDate1];
+		if(mAbsoluteDate2) {
+			[aCoder encodeObject:mAbsoluteDate2];
+		}
+	}
+}
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+	if( self = [super initWithCoder:aDecoder]) {
+		if([aDecoder allowsKeyedCoding]) {
+			mAbsoluteDate1 = [[aDecoder decodeObjectForKey:ADValue1CodingKey] retain];
+			mAbsoluteDate2 = [[aDecoder decodeObjectForKey:ADValue2CodingKey] retain];
+		} else {
+			mAbsoluteDate1 = [[aDecoder decodeObject] retain];
+			if(mOperation == SCRangeOperation) {
+				mAbsoluteDate2 = [[aDecoder decodeObject] retain];
+			}
+		}
 	}
 	
 	return self;

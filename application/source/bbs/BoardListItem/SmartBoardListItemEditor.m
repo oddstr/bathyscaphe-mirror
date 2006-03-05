@@ -86,7 +86,9 @@ static inline NSInvocation *checkMethodSignature(id obj, SEL selector)
 		[mInvocation setArgument:&contextInfo atIndex:3];
 		[mInvocation retain];
 	}
-		
+	
+	NSLog(@"Must Be Change!!!");
+	[nameField setStringValue:NSLocalizedString(@"New SmartBoard 1", @"New SmartBoard 1")];
 	if(inModalForWindow) {
 		[NSApp beginSheet:editorWindow
 		   modalForWindow:inModalForWindow

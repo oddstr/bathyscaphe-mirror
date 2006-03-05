@@ -858,11 +858,24 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 	if(!db) goto fail;
 	
 	if([db beginTransaction]) {
+		SQLiteReservedQuery *reservedUpdate;
+		
+		query = [NSString stringWithFormat:@"UPDATE %@ SET %@ = ? WHERE %@ = ? AND %@ = ?",
+			ThreadInfoTableName,
+			ThreadStatusColumn,
+			BoardIDColumn, ThreadIDColumn];
+		reservedUpdate = [db reservedQuery:query];
+		if(!reservedUpdate) {
+			NSLog(@"Can NOT create reservedUpdate on favoritesHEADCheckTaskDidFinish:");
+			goto fail;
+		}
+		
 		threadsEnum = [threadsArray_ objectEnumerator];
 		while(thread = [threadsEnum nextObject]) {
 			NSNumber *status;
 			int boardID;
 			NSString *threadID;
+			NSArray *bindValues;
 			
 			if( !(status = [thread objectForKey:CMRThreadStatusKey]) ) {
 				continue;
@@ -875,13 +888,9 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 				continue;
 			}
 			
-			query = [NSString stringWithFormat:@"UPDATE %@ SET %@ = %u WHERE %@ = %u AND %@ = %@",
-				ThreadInfoTableName,
-				ThreadStatusColumn, ThreadHeadModifiedStatus,
-				BoardIDColumn, boardID,
-				ThreadIDColumn, threadID];
-			
-			[db cursorForSQL : query];
+			bindValues = [NSArray arrayWithObjects:
+				status, [NSNumber numberWithInt:boardID], threadID, nil];
+			[reservedUpdate cursorForBindValues:bindValues];
 			
 			if ([db lastErrorID] != 0) {
 				NSLog(@"Fail Insert or udate. Reson: %@", [db lastError] );

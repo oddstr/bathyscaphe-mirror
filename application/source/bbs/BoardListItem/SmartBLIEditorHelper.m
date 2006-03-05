@@ -777,6 +777,8 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 {
 	SmartCondition *result;
 	
+	Class condClasss = [SmartCondition class];
+	
 	NSString *criterion;
 	id value1, value2 = nil;
 	
@@ -857,25 +859,26 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 	criterion = [[criteria objectForKey:typesKey] objectForKey:CriteriaNameKey];
 	
 	{
-		if(qualifier < isEqualQualifierItemTag) {
+		if(qualifier < isEqualQualifierItemTag) {	// 文字列
 			value1 = [[self uiItemForTag:stringExpressionFieldTag] stringValue];
-		} else if(qualifier < daysItemExtension) {
+		} else if(qualifier < daysItemExtension) {	// 数字
 			int v = [[self uiItemForTag:numberExpressionFieldTag] intValue];
 			value1 = [NSNumber numberWithInt:v];
 			if(qualifier == rangeQualifierItemTag) {
 				v = [[self uiItemForTag:numberExpression2FieldTag] intValue];
 				value2 = [NSNumber numberWithInt:v];
 			}
-		} else if(qualifier < dateItemExtension) {
-			int v = [[self uiItemForTag:numberExpressionFieldTag] intValue];
+		} else if(qualifier < dateItemExtension) {	// 相対日付
+			int v = [[self uiItemForTag:daysExpressionFieldTag] intValue];
 			v *= [[[self uiItemForTag:daysUnitPopUpTag] selectedItem] tag];
 			value1 = [NSNumber numberWithInt:v];
 			if(qualifier == daysRangeQualifierItemTag) {
-				v = [[self uiItemForTag:numberExpression2FieldTag] intValue];
+				v = [[self uiItemForTag:daysExpressionField2Tag] intValue];
 				v *= [[[self uiItemForTag:daysUnitPopUpTag] selectedItem] tag];
 				value2 = [NSNumber numberWithInt:v];
 			}
-		} else if(qualifier < lastExtensionsLabel) {
+			condClasss = [RelativeDateLiveCondition class];
+		} else if(qualifier < lastExtensionsLabel) { // 絶対日付
 			NSTimeInterval t = [[self uiItemForTag:dateExpressionFieldTag] epoch];
 			value1 = [NSNumber numberWithInt:t];
 			if(qualifier == dateRangeQualifierItemTag) {
@@ -893,14 +896,14 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 	{
 		//
 		if(value2) {
-			result = [SmartCondition conditionWithTarget:criterion
-											   operation:operation
-												   value:value1
-												   value:value2];
+			result = [condClasss conditionWithTarget:criterion
+										   operation:operation
+											   value:value1
+											   value:value2];
 		} else {
-			result = [SmartCondition conditionWithTarget:criterion
-											   operation:operation
-												   value:value1];
+			result = [condClasss conditionWithTarget:criterion
+										   operation:operation
+											   value:value1];
 		}
 	}
 	

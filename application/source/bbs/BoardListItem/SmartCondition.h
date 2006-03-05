@@ -11,7 +11,7 @@
 #import "DatabaseManager.h"
 
 
-@protocol SmartCondition
+@protocol SmartCondition <NSCoding>
 - (NSString *) conditionString;
 
 // description method must be return same as conditionString method's returns.
@@ -36,9 +36,9 @@ typedef enum _SCOperation
 	SCRangeOperation,
 } SCOperation;
 
-@interface SmartCondition : NSObject <SmartCondition, NSCoding>
+@interface SmartCondition : NSObject <SmartCondition>
 {
-	@private
+	@protected
 	id mTarget;
 	SCOperation mOperation;
 	id mValue1;
@@ -54,6 +54,14 @@ typedef enum _SCOperation
 - (NSString *) conditionString;
 @end
 
+@interface RelativeDateLiveCondition : SmartCondition <SmartCondition>
+{
+	id mAbsoluteDate1;
+	id mAbsoluteDate2;
+}
+- (void)update;
+@end
+
 
 typedef enum _SCCOperation
 {
@@ -61,7 +69,7 @@ typedef enum _SCCOperation
 	SCCIntersectionOperation,
 } SCCOperation;
 
-@interface SmartConditionComposit : NSObject <SmartCondition, NSCoding>
+@interface SmartConditionComposit : NSObject <SmartCondition>
 {
 	SCCOperation mOperation;
 	id mConditions;

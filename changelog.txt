@@ -1,3 +1,13 @@
+2006-03-06 masakih <masakih@users.sourceforge.jp>
+	* application/Resources/Japanese.lproj/SmartBLIEditorComponents.nib
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m
+	* application/source/bbs/BoardListItem/SmartBoardListItem.m
+	* application/source/bbs/BoardListItem/SmartBoardListItemEditor.m
+	* application/source/bbs/BoardListItem/SmartCondition.h
+	* application/source/bbs/BoardListItem/SmartCondition.m
+		相対的日付条件を実装＆バグ取り。
+	* application/source/browser/BSDBThreadList.m
+		-[BSDBThreadList favoritesHEADCheckTaskDidFinish:] を少し最適化。
 2006-03-04 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSDBThreadList.m
 		掲示板カラム、作成日カラムでのソートをサポート。
