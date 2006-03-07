@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.35 2006/01/22 07:10:52 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.36 2006/03/07 15:17:40 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -28,9 +28,20 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
     source = (BoardList *)[[self boardListTable] dataSource];
     
     selected = [source itemForName : brdname_];
-    if (nil == selected)
-        return;
-    
+    //if (nil == selected)
+    //    return;
+    if (nil == selected) {
+		BoardList	*defaultList_ = [[BoardManager defaultManager] defaultList];
+		NSDictionary *willAdd_ = [defaultList_ itemForName : brdname_];
+		if(nil == willAdd_) {
+			NSLog(@"No data for board %@ found.", brdname_);
+			return;
+		} else {
+			[source addItem : willAdd_ afterObject : nil];
+			selected = [source itemForName : brdname_];
+		}
+	}
+		
     index = [[self boardListTable] rowForItem : selected];
     if (-1 == index) {
         return;
@@ -191,6 +202,19 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 		[self openSelectedThreads : sender];
 	}
 }
+
+#pragma mark Available in BathyScaphe 1.2 and later.
+
+- (IBAction) orderFrontMainBrowser : (id) sender
+{
+	// overriden
+
+	NSString *boardName = [self boardName];
+	if(!boardName) return; 
+	[self showThreadsListWithBoardName : boardName];
+	[self selectRowWhoseNameIs : boardName];
+}
+
 #pragma mark History Menu
 - (IBAction) showThreadWithMenuItem : (id) sender
 {

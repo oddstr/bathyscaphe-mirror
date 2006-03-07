@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.22 2006/02/12 09:10:23 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.23 2006/03/07 15:17:40 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -15,6 +15,8 @@
 #import "CMRThreadVisibleRange.h"
 #import "CMRThreadDownloadTask.h"
 #import "CMXPopUpWindowManager.h"
+#import "CMRDocumentController.h"
+#import "CMRBrowser.h"
 
 // for debugging only
 #define UTIL_DEBUGGING		0
@@ -765,6 +767,14 @@
 {
 	if (CMRMainBrowser != nil) {
 		[[CMRMainBrowser window] makeKeyAndOrderFront : sender];
+	} else {
+		[[CMRDocumentController sharedDocumentController] newDocument : sender];
 	}
+
+	// Ç±ÇÃéûì_Ç≈ CMRMainBrowser ÇÕïKÇ∏ë∂ç›ÇµÇƒÇ¢ÇÈ
+	NSString *boardName = [self boardName];
+	if(!boardName) return; 
+	[CMRMainBrowser showThreadsListWithBoardName : boardName];
+	[CMRMainBrowser selectRowWhoseNameIs : boardName];
 }
 @end

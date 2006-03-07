@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.h,v 1.19 2006/02/27 15:34:09 tsawada2 Exp $
+  * $Id: CMRBrowser.h,v 1.20 2006/03/07 15:17:40 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -109,6 +109,18 @@ typedef enum _BSThreadDeletionType {
 - (IBAction) endEditSheet : (id) sender;
 
 - (IBAction) openHelpForEditSheet : (id) sender; // available in Vita
+@end
+
+
+//:CMRBrowser-List.m
+@interface CMRBrowser(List)
+- (void) changeThreadsFilteringMask : (int) aMask;
+
+- (CMRThreadsList *) currentThreadsList;
+- (void) setCurrentThreadsList : (CMRThreadsList *) newList;
+
+- (void) showThreadsListForBoard : (NSDictionary *) board;
+- (void) showThreadsListWithBoardName : (NSString *) boardName;
 @end
 
 extern NSString *const CMRBrowserDidChangeBoardNotification;

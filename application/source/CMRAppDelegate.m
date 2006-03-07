@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.18 2006/02/27 15:34:09 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.19 2006/03/07 15:17:40 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -35,6 +35,17 @@
                    to : CMRPref
                  from : sender];
 }
+/*
+- (IBAction) togglePreviewPanel : (id) sender
+{
+	BOOL	result_;
+	result_ = [NSApp sendAction : @selector(togglePreviewPanel:)
+							 to : [CMRPref sharedImagePreviewer]
+						   from : sender];
+
+	if(NO == result_) NSLog(@"togglePreviewPanel: fail to send action.");
+}
+*/
 - (IBAction) showTaskInfoPanel : (id) sender
 {
     [[CMRTaskManager defaultManager] showWindow : sender];
@@ -150,6 +161,9 @@
 		return ([NSApp makeWindowsPerform : @selector(isVisible) inOrder : YES] != nil);
 	} else if (action_ == @selector(miniaturizeAll:)) {
 		return ([NSApp makeWindowsPerform : @selector(isNotMiniaturizedButCanMinimize) inOrder : YES] != nil);
+	/*} else if (action_ == @selector(togglePreviewPanel:)) {
+		id<NSObject> tmp_ = [CMRPref sharedImagePreviewer];
+		return [tmp_ respondsToSelector : @selector(togglePreviewPanel:)];*/
 	}
 	return YES;
 }

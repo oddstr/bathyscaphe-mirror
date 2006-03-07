@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.20 2006/02/19 08:49:19 tsawada2 Exp $
+  * $Id: CMRBrowser.m,v 1.21 2006/03/07 15:17:40 tsawada2 Exp $
   * 
   * CMRBrowser.m
   *
@@ -17,7 +17,7 @@ NSString *const CMRBrowserDidChangeBoardNotification = @"CMRBrowserDidChangeBoar
  * current main browser instance.
  * @see CMRExports.h 
  */
-id CMRMainBrowser = nil;
+CMRBrowser *CMRMainBrowser = nil;
 
 @implementation CMRBrowser
 - (id) init

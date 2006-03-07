@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-Validation.m,v 1.16 2006/02/24 16:54:13 tsawada2 Exp $
+ * $Id: CMRBrowser-Validation.m,v 1.17 2006/03/07 15:17:40 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -135,8 +135,6 @@
 	
 	if(action_ == @selector(selectFilteringMask:)) 
 		return ([self currentThreadsList] != nil);
-	//else if(action_ == @selector(searchToolbarPopupChanged:))
-	//	return ([self currentThreadsList] != nil);
 	else if(action_ == @selector(showSearchThreadPanel:))
 		return ([self currentThreadsList] != nil);
 	else if(action_ == @selector(chooseColumn:))

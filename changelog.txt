@@ -1,3 +1,25 @@
+2006-03-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-Action.m
+		ツールバーの「ブラウザを最前面に」ボタンは、ブラウザウインドウが開いていないときは新しくそれを開いて最前面に
+		表示するようにした。
+		さらに、ブラウザウインドウを最前面にした後、下の「掲示板を表示」と同様な動作をするようにした。
+		- つまり、このツールバーボタンは「掲示板を表示」メニュー項目のツールバーボタン版となったと考えて良い。
+		- 表記不統一の問題については現在保留中。
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/thread/CMRThreadViewer-Validation.m
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		「スレッド」メニューに「掲示板を表示」を追加した（command-L）。
+		表示しているスレッドが属している掲示板のスレッド一覧に切り替える（必要ならブラウザウインドウを最前面に出す）。
+		また、このような場合、属している掲示板が掲示板リストに見つからないときは、自動的に掲示板リストに追加するようにした
+		（これまでは何もせず終わっていた）。
+	* application/subproj/previewer/BSImagePreviewInspector.m
+		やむを得ず「常にキーウインドウとしてインスペクタを開く」をデフォルトでオンにした。
+		- どのウインドウが今、キーウインドウかを常に意識する（タイトルバーの色で分かる）
+		- パネルはたとえ最前面にあっても、キーウインドウであるとは限らない
+		この二点を心がけていれば、誤って cmd-W を叩いて別のウインドウを閉じてしまうようなミスは減少すると思う。
+		逆に言えば、たとえ「常にキーウインドウとして開く」ようにしたって、ユーザが他のウインドウを操作すればすぐにキーウインドウは
+		入れ替わる。そして、ユーザが cmd-W を叩いた瞬間に閉じられるのは常に「今、キーになっているウインドウ」であって、
+		それ以上でもそれ以下でもないのだ。
 ================================================= GrafEisen_Rev2 (v165.1)
 2006-02-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/manager/CMRKeychainManager.m

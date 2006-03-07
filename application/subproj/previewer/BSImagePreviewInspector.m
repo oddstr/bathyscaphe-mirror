@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.14 2006/02/24 13:41:39 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.15 2006/03/07 15:17:40 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -163,7 +163,7 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 - (BOOL) alwaysBecomeKey
 {
 	return [[[self preferences] imagePreviewerPrefsDict] boolForKey : kIPIAlwaysKeyWindowKey
-													   defaultValue : YES];
+													   defaultValue : NO];
 }
 - (void) setAlwaysBecomeKey : (BOOL) alwaysKey
 {
@@ -302,7 +302,25 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 		[self _resetAttributes];
 	}
 }
+/*
+- (IBAction) togglePreviewPanel : (id) sender
+{
+	if ([[self window] isVisible]) {
+		// orderOut: では windowWillClose: はもちろん呼ばれない。
+		[[self window] orderOut : sender];
 
+		if(_currentDownload) {
+			[_currentDownload cancel];
+			[self setCurrentDownload : nil];
+		}	
+
+		[self _resetAttributes];
+
+	} else {
+		[self showWindow : sender];
+	}
+}
+*/
 - (BOOL) downloadImageInBkgnd : (NSURL *) anURL
 {
 	NSURLRequest	*theRequest = [NSURLRequest requestWithURL : anURL];
@@ -399,6 +417,11 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 #pragma mark NSWindow Delegate
 - (void) windowWillClose : (NSNotification *) aNotification
 {
+	if(_currentDownload) {
+		[_currentDownload cancel];
+		[self setCurrentDownload : nil];
+	}	
+
 	[self _resetAttributes];
 }
 	

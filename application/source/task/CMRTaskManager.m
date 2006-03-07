@@ -1,6 +1,6 @@
 //: CMRTaskManager.m
 /**
-  * $Id: CMRTaskManager.m,v 1.4 2006/01/25 11:22:03 tsawada2 Exp $
+  * $Id: CMRTaskManager.m,v 1.5 2006/03/07 15:17:40 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -143,7 +143,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 {
 	// toggle-Action : すでにパネルが表示されているときは、パネルを閉じる
 	if ([[self window] isVisible]) {
-		[[self window] performClose : sender];
+		[[self window] orderOut : sender];
 	} else {
 		[super showWindow : sender];
 		[self taskContainerViewScrollLastRowToVisible];

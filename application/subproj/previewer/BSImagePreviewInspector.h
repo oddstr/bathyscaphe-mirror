@@ -74,6 +74,8 @@
 - (IBAction) endSettingsSheet : (id) sender;
 - (IBAction) openOpenPanel : (id) sender;
 - (IBAction) startFullscreen : (id) sender;
+
+//- (IBAction) togglePreviewPanel : (id) sender;
 @end
 
 @interface BSImagePreviewInspector(ToolbarAndUtils)
