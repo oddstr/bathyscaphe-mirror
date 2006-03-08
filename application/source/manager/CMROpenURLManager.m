@@ -1,9 +1,9 @@
 //
-//  CMROpenURLManager.m
-//  CocoMonar
+//  $Id: CMROpenURLManager.m,v 1.2 2006/03/08 10:46:48 tsawada2 Exp $
+//  BathyScaphe
 //
 //  Created by minamie on Sun Jan 25 2004.
-//  Copyright (c) 2004 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2004 CocoMonar Project, (c) 2006 BathyScaphe Project. All rights reserved.
 //
 
 #import "CMROpenURLManager.h"
@@ -65,20 +65,27 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	u = [controller_ askUserURL];
 	
 	if (u != nil) {
-		[self openURL:u];
+		[self openLocation : u];
 	}
 	[controller_ release];
 	
 	return u;
 }
 
-- (BOOL) openURL:(NSURL *)url
+- (BOOL) openLocation : (NSURL *) url
 {
 	NSString		*boardName_;
 	NSURL			*boardURL_;
 	NSString		*filepath_;
 	int				code;
 	
+	if ([[url scheme] isEqualToString : @"bathyscaphe"]) {
+		NSString *host_ = [url host];
+		NSString *path_ = [url path];
+		
+		url = [[[NSURL alloc] initWithScheme : @"http" host : host_ path : path_] autorelease];
+	}
+
 	if ([CMRThreadLinkProcessor parseThreadLink : url
 									  boardName : &boardName_
 									   boardURL : &boardURL_
@@ -196,7 +203,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 						NULL);
 		return;
 	}
-	[self openURL:u];
+	[self openLocation : u];
 	
 	return;
 }

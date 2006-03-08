@@ -16,11 +16,11 @@
 + (id) defaultManager;
 
 - (NSURL *) askUserURL;
-- (BOOL) openURL:(NSURL *)url;
+- (BOOL) openLocation : (NSURL *) url;
 
 /* Support Service Menu */
-- (void)openURL:(NSPasteboard *)pboard
-	   userData:(NSString *)data
-		  error:(NSString **)error;
+- (void)openURL : (NSPasteboard *) pboard
+	   userData : (NSString *) data
+		  error : (NSString **) error;
 
 @end

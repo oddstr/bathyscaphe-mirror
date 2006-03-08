@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.19 2006/03/07 15:17:40 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.20 2006/03/08 10:46:48 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -190,6 +190,17 @@
 
 
 @implementation CMRAppDelegate(NSApplicationNotifications)
+- (void) applicationWillFinishLaunching : (NSNotification *) aNotification
+// available in BathyScaphe 1.2 and later.
+{
+	NSAppleEventManager	*aeMgr = [NSAppleEventManager sharedAppleEventManager];
+	
+	[aeMgr setEventHandler : self
+			   andSelector : @selector(handleGetURLEvent:withReplyEvent:)
+			 forEventClass : 'GURL'
+				andEventID : 'GURL']; // WARN: 'GURL' is different from 'gurl'!!!
+}
+
 - (void) applicationDidFinishLaunching : (NSNotification *) aNotification
 {
 	CMRMainMenuManager *tmp = [CMRMainMenuManager defaultManager];
@@ -203,6 +214,20 @@
     {
             [[tmp fileMenu] removeItemAtIndex:openURLMenuItemIndex+1];
     }
+}
+
+#pragma mark AppleEvent Support
+// Available in BathyScaphe 1.2 and later.
+- (void) handleGetURLEvent : (NSAppleEventDescriptor *) event withReplyEvent : (NSAppleEventDescriptor *) replyEvent
+{
+    NSString	*urlStr_;
+    NSURL		*url_;
+
+    urlStr_ = [[event paramDescriptorForKeyword : keyDirectObject] stringValue];
+	url_ = [NSURL URLWithString : urlStr_];
+
+	// scheme ÇÃà·Ç¢Åibathyscaphe: or http:ÅjÇÕ CMROpenURLManager Ç™ãzé˚Ç∑ÇÈ
+    [[CMROpenURLManager defaultManager] openLocation : url_];
 }
 @end
 
@@ -307,17 +332,13 @@
 - (void) handleOpenURLCommand : (NSScriptCommand *) command
 {
 	NSURL *url_;
-    CMROpenURLManager    *mgr;
-
 	NSString *urlstr_ = nil;
 	
 	if(!(urlstr_ = [command directParameter]) || [urlstr_ isEqualToString:@""]) {
 		return;
 	}
 	
-	url_ = [NSURL URLWithString : urlstr_];
-	
-    mgr = [CMROpenURLManager defaultManager];
-	[mgr openURL : url_];
+	url_ = [NSURL URLWithString : urlstr_];	
+	[[CMROpenURLManager defaultManager] openLocation : url_];
 }
 @end
