@@ -1,9 +1,9 @@
 /**
- * $Id: CMRAppDelegate.h,v 1.11 2006/03/07 15:17:40 tsawada2 Exp $
+ * $Id: CMRAppDelegate.h,v 1.12 2006/03/08 18:26:11 tsawada2 Exp $
  * 
  * CMRAppDelegate.h
  *
- * Copyright (c) 2004 Takanori Ishikawa, All rights reserved.
+ * Copyright (c) 2004 Takanori Ishikawa, (c) 2005-2006 tsawada2, All rights reserved.
  * See the file LICENSE for copying permission.
  */
 
@@ -18,9 +18,6 @@
  */
 @interface CMRAppDelegate : NSObject
 {
-    @private
-    NSMutableArray *_queue;
-    BOOL _launchingFinished;
 }
 - (IBAction) showPreferencesPane : (id) sender;
 - (IBAction) showStandardFindPanel : (id) sender;
@@ -53,13 +50,6 @@
 
 - (NSArray *) boardListColor;
 - (void) setBoardListColor : (NSArray *) colorValue;
-
-/* Vita Additions */
-- (NSString *) searchIgnoreChars;
-- (void) setSearchIgnoreChars : (NSString *) someString;
-
-- (BOOL) ignoreSpecificCharsOnSearch;
-- (void) setIgnoreSpecificCharsOnSearch : (BOOL) flag;
 
 /* Command Support */
 - (void) handleOpenURLCommand : (NSScriptCommand *) command;

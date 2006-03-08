@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.32 2006/02/24 16:54:13 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.33 2006/03/08 18:26:11 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -318,8 +318,9 @@
 @interface AppDefaults(ThreadsListSettings)
 - (int) threadsListAutoscrollMask;
 - (void) setThreadsListAutoscrollMask : (int) mask;
-- (NSString *) ignoreTitleCharacters;
-- (void) setIgnoreTitleCharacters : (NSString *) ignoreChars;
+// Deprecated in BathyScaphe 1.2.
+//- (NSString *) ignoreTitleCharacters;
+//- (void) setIgnoreTitleCharacters : (NSString *) ignoreChars;
 
 - (BOOL) useIncrementalSearch;
 - (void) setUseIncrementalSearch : (BOOL) TorF;

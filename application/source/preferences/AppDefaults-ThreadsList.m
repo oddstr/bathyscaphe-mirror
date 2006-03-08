@@ -55,7 +55,7 @@ static NSString *const AppDefaultsTLTableColumnStateKey = @"ThreadsListTable Col
 		setInteger : mask
 			forKey : AppDefaultsThreadsListAutoscrollMaskKey];
 }
-
+/*
 - (NSString *) ignoreTitleCharacters
 {
 	NSString	*ignoreTitleCharacters_;
@@ -84,7 +84,7 @@ static NSString *const AppDefaultsTLTableColumnStateKey = @"ThreadsListTable Col
 		 setObject : chars
 			forKey : AppDefaultsTLIgnoreTitleCharactersKey];
 }
-
+*/
 - (BOOL) useIncrementalSearch
 {
 	return [[self defaults]

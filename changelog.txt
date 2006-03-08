@@ -1,4 +1,9 @@
 2006-03-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/AddBoardSheetController.m
+	* application/Resources/Japanese.lproj/AddBoardSheet.nib
+		「掲示板を追加」シートは、リストで選択されている項目の数を右上部に表示するようにした（やや暫定的なもの）。
+		- 本来、検索フィールドで絞り込んでいるときは、マッチした項目のみを表示するようにする方が良いのだが、面倒。
+		　せめて何項目見つかったかを表示することで、「選択されているけどスクロールしないと隠れて見えない」項目に気付きやすくする。
 	* application/source/browser/CMRBrowser-ViewAccessor.m
 		「環境設定」＞「表示」＞「スレッド一覧」の設定を変更すると、予期せず現在ハイライトしているカラムがハイライト
 		解除され、ソートの昇順／降順を表す三角印も消えてしまっていた問題を修正。

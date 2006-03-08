@@ -100,6 +100,16 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 	_currentSearchStr = newStr;
 }
 
+- (int) numOfSelectedItems
+{
+	return [[self defaultListOLView] numberOfSelectedRows];
+}
+
+- (BOOL) shouldHideCounts
+{
+	return ([self numOfSelectedItems] == 0);
+}
+
 #pragma mark IBActions
 
 - (IBAction) searchBoards : (id) sender
@@ -334,6 +344,10 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
         notification,
         NSOutlineViewSelectionDidChangeNotification);
 
+
+	[self willChangeValueForKey : @"numOfSelectedItems"];
+	[self willChangeValueForKey : @"shouldHideCounts"];
+
 	if ([[self defaultListOLView] selectedRow] != -1) {
 		[[self OKButton] setEnabled : YES];
 		[[self brdNameField] setStringValue : @""];
@@ -341,6 +355,9 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 	} else {
 		[[self OKButton] setEnabled : NO];
 	}
+
+	[self didChangeValueForKey : @"numOfSelectedItems"];
+	[self didChangeValueForKey : @"shouldHideCounts"];
 }
 
 - (void) windowWillClose : (NSNotification *) aNotification
