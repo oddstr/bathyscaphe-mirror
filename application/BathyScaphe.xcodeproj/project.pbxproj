@@ -311,7 +311,6 @@
 		8716066D098A44AB00A27F63 /* SoundsPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8716066B098A44AB00A27F63 /* SoundsPane.nib */; };
 		871606AF098A646500A27F63 /* Sounds.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 871606AE098A646400A27F63 /* Sounds.tiff */; };
 		871607ED098AA42200A27F63 /* SyncPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = 871607EB098AA42200A27F63 /* SyncPane.nib */; };
-		871607EF098AA48400A27F63 /* Sync.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 871607EE098AA48400A27F63 /* Sync.tiff */; };
 		8718EFA608D4257200FFAAEE /* BoardManager-BSAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 8718EFA508D4257200FFAAEE /* BoardManager-BSAddition.m */; };
 		8718EFDE08D43F7D00FFAAEE /* NoNameInputController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8718EFDC08D43F7D00FFAAEE /* NoNameInputController.h */; };
 		8718EFDF08D43F7D00FFAAEE /* NoNameInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8718EFDD08D43F7D00FFAAEE /* NoNameInputController.m */; };
@@ -3190,7 +3189,6 @@
 				8716066D098A44AB00A27F63 /* SoundsPane.nib in Resources */,
 				871606AF098A646500A27F63 /* Sounds.tiff in Resources */,
 				871607ED098AA42200A27F63 /* SyncPane.nib in Resources */,
-				871607EF098AA48400A27F63 /* Sync.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

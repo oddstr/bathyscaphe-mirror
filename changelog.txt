@@ -1,11 +1,19 @@
 2006-03-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+		「環境設定」＞「表示」＞「スレッド一覧」の設定を変更すると、予期せず現在ハイライトしているカラムがハイライト
+		解除され、ソートの昇順／降順を表す三角印も消えてしまっていた問題を修正。
+	* application/source/view/ThreadsListTable.m
+		restoreColumnState: では [NSTableView sizeLastColumnToFit]; を実行しないようにした。
+		- カラムを「はみ出させたまま」終了して次に起動すると、sizeLastColumnToFit: によってはみ出したカラムが
+		　押し込められてしまうが、それが困る、という人もいたため。
+2006-03-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/manager/CMROpenURLManager.m
 		http スキームでも bathyscaphe スキームでも処理できるようにした。
 	* application/source/CMRAppDelegate.m
 	* application/Info-bathyscaphe.plist
 		'GURL' AppleEvent に対応した。"bathyscaphe:" スキームによる URL によって、BathyScaphe でスレッドを
 		開けるようにした。
-2006-03-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+2006-03-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadViewer-Action.m
 		ツールバーの「ブラウザを最前面に」ボタンは、ブラウザウインドウが開いていないときは新しくそれを開いて最前面に
 		表示するようにした。
