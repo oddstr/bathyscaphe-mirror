@@ -1,4 +1,6 @@
 2006-03-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadLayout.m
+		メッセージの属性を変更したときは、常に clipview の visibleRect 全体でグリフの再描画を促すようにした。
 	* application/source/browser/AddBoardSheetController.m
 	* application/Resources/Japanese.lproj/AddBoardSheet.nib
 		「掲示板を追加」シートは、リストで選択されている項目の数を右上部に表示するようにした（やや暫定的なもの）。
