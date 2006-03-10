@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyController-ViewAccessor.m,v 1.8 2006/02/27 20:21:20 tsawada2 Exp $
+  * $Id: CMRReplyController-ViewAccessor.m,v 1.9 2006/03/10 12:17:52 tsawada2 Exp $
   * 
   * CMRReplyController-ViewAccessor.m
   *
@@ -221,6 +221,10 @@
 	//NSLog(@"text did change");
 	if(NO == [[self document] isDocumentEdited]) // "dirty" ‚Å‚È‚¢‚Æ‚«‚Ì‚İ updateChangeCount: ‚·‚éB
 		[[self document] updateChangeCount:NSChangeDone];
+
+	// 2006-03-10 ‚Æ‚­‚É”¼“§–¾‚É•¶š‚Ìc‘œ‚ª”’”²‚¯‚·‚é‚Ì‚ğ”ğ‚¯‚é‚½‚ßA‰æ–Ê‚ÌÄ•`‰æ‚ğ‘£‚·
+	NSTextView *textView_ = [self textView];
+	[textView_ setNeedsDisplayInRect : [textView_ boundingRectForCharacterInRange : [[textView_ textStorage] editedRange]]];
 }
 
 #pragma mark NSComboBox Delegate

@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.m,v 1.9 2006/02/27 20:21:20 tsawada2 Exp $
+  * $Id: Browser.m,v 1.10 2006/03/10 12:17:52 tsawada2 Exp $
   * 
   * Browser.m
   *
@@ -86,6 +86,48 @@
 	return nil;
 }
 
+- (IBAction) saveDocumentAs : (id) sender
+{
+	if ([self threadAttributes] == nil) return;
+	
+	NSString *filePath_ = [[self threadAttributes] path];
+	if (filePath_ == nil) return;
+	
+	NSSavePanel *sP = [NSSavePanel savePanel];
+	[sP setRequiredFileType : CMRThreadDocumentPathExtension];
+	[sP setCanCreateDirectories : YES];
+	[sP setCanSelectHiddenExtension : YES];
+
+	[sP beginSheetForDirectory : nil
+						  file : [filePath_ lastPathComponent]
+				modalForWindow : [CMRMainBrowser window]
+				 modalDelegate : self
+				didEndSelector : @selector(savePanelDidEnd:returnCode:contextInfo:)
+				   contextInfo : nil];
+}
+
+- (void) savePanelDidEnd : (NSSavePanel *) sheet returnCode : (int) returnCode  contextInfo : (void *) contextInfo
+{
+	if (returnCode == NSOKButton) {
+		NSDictionary	*fileContents_;
+		
+		fileContents_ = [NSDictionary dictionaryWithContentsOfFile : [[self threadAttributes] path]];
+		if (nil == fileContents_) return;
+		
+		NSString *savePath = [sheet filename];
+		if ([fileContents_ writeToFile : savePath atomically : YES]) {
+			NSDictionary *tmpDict;
+			tmpDict = [NSDictionary dictionaryWithObject : [NSNumber numberWithBool : [sheet isExtensionHidden]]
+												  forKey : NSFileExtensionHidden];
+
+			[[NSFileManager defaultManager] changeFileAttributes : tmpDict atPath : savePath];
+		} else {
+			NSBeep();
+			NSLog(@"Save failure - %@", savePath);
+		}
+	}
+}
+
 - (BOOL) validateMenuItem : (NSMenuItem *) theItem
 {
 	SEL action_;
@@ -94,7 +136,7 @@
 	
 	if(action_ == @selector(saveDocumentAs:)) {
 		[theItem setTitle : NSLocalizedString(@"Save Menu Item Default", @"Save as...")];
-		return NO;
+		return ([self threadAttributes] != nil);
 	}	
 	return [super validateMenuItem : theItem];
 }

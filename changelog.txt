@@ -1,3 +1,9 @@
+2006-03-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/Browser.m
+		ブラウザウインドウでも「ファイル」＞「別名で保存...」で、表示中のログファイルを保存できるようにした（3ペイン時）。
+	* application/source/window/CMRReplyController-ViewAccessor.m
+		書き込みウインドウの背景を半透明な色にしているとき、テキストの残像が白抜けしてしまう問題を修正した。
+================================================= Zafira
 2006-03-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadLayout.m
 		メッセージの属性を変更したときは、常に clipview の visibleRect 全体でグリフの再描画を促すようにした。
