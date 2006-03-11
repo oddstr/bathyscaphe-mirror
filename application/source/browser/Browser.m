@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.m,v 1.10 2006/03/10 12:17:52 tsawada2 Exp $
+  * $Id: Browser.m,v 1.11 2006/03/11 14:42:22 tsawada2 Exp $
   * 
   * Browser.m
   *
@@ -85,7 +85,12 @@
 {
 	return nil;
 }
-
+/*
+- (NSString *) fileName
+{
+	return ([self threadAttributes] == nil) ? [super fileName] : [[self threadAttributes] path];
+}
+*/
 - (IBAction) saveDocumentAs : (id) sender
 {
 	if ([self threadAttributes] == nil) return;

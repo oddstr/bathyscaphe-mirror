@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.25 2006/02/12 15:39:46 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.26 2006/03/11 14:42:22 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -64,7 +64,7 @@ NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEnd
 	[m_indexingStepper release];
 	[m_componentsView release];
 	[_layout release];
-	[_textStorage release];
+	//[_textStorage release];
 	
 	[_history release];
 	[super dealloc];

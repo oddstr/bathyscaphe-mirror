@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.11 2006/01/24 11:00:54 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.12 2006/03/11 14:42:22 tsawada2 Exp $
   * 
   * CMRThreadViewer.h
   *
@@ -18,7 +18,7 @@
 
 @interface CMRThreadViewer : CMRStatusLineWindowController
 {
-	NSTextStorage				*_textStorage;
+	//NSTextStorage				*_textStorage;
 	
 	// History
 	unsigned					_historyIndex;

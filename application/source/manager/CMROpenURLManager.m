@@ -1,5 +1,5 @@
 //
-//  $Id: CMROpenURLManager.m,v 1.2 2006/03/08 10:46:48 tsawada2 Exp $
+//  $Id: CMROpenURLManager.m,v 1.3 2006/03/11 14:42:22 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by minamie on Sun Jan 25 2004.
@@ -77,7 +77,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	NSString		*boardName_;
 	NSURL			*boardURL_;
 	NSString		*filepath_;
-	int				code;
 	
 	if ([[url scheme] isEqualToString : @"bathyscaphe"]) {
 		NSString *host_ = [url host];
@@ -109,24 +108,22 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 		return [CMRThreadDocument showDocumentWithContentOfFile : filepath_
 													contentInfo : contentInfo_];
 	} else {
-		code = NSRunAlertPanel(NSLocalizedStringFromTable(@"Could Not Open Title",
-														  [self className],
-														  nil),
-							   [NSString stringWithFormat:
-								   NSLocalizedStringFromTable(@"Could Not Open Message",
-															  [self className],
-															  nil), 
-								   [url absoluteString]],
-							   NSLocalizedStringFromTable(@"Open in Web Browser",
-														  [self className],
-														  nil), 
-							   NSLocalizedStringFromTable(@"Cancel",
-														  [self className],
-														  nil), 
-							   NULL);
-		if ( code == NSAlertDefaultReturn ) {
+		int		code;
+		NSAlert	*alert_ = [[NSAlert alloc] init];
+			
+		[alert_ setMessageText : NSLocalizedStringFromTable(@"Could Not Open Title", [self className], nil)];
+		[alert_ setInformativeText : [NSString stringWithFormat : NSLocalizedStringFromTable(@"Could Not Open Message", [self className], nil), 
+																  [url absoluteString]]];
+		[alert_ addButtonWithTitle : NSLocalizedStringFromTable(@"Open in Web Browser", [self className], nil)];
+		[alert_ addButtonWithTitle : NSLocalizedStringFromTable(@"Cancel", [self className], nil)];
+
+		code = [alert_ runModal];
+
+		if (code == NSAlertFirstButtonReturn) {
 			[[NSWorkspace sharedWorkspace] openURL : url];
 		}
+		
+		[alert_ release];
 	}
 	
 	return NO;
@@ -134,78 +131,50 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 
 /* Support Service Menu */
-- (void)openURL:(NSPasteboard *)pboard
-	   userData:(NSString *)data
-		  error:(NSString **)error
+- (void) _showAlertForViaService
 {
-	NSArray		*types			= nil;
-	NSString	*pboardString  = nil;
-	NSURL		*u				= nil;
+	NSAlert *alert_;
 	
-	[NSApp activateIgnoringOtherApps:YES];
-	types = [pboard types];
-	if ( [types containsObject:NSStringPboardType] == NO ) {
-		NSLog(@"types dosen't countain NSStringPboardType\n");
-		NSRunAlertPanel(NSLocalizedStringFromTable(@"Could Not Open Title",
-												   [self className],
-												   nil),
-						[NSString stringWithFormat:
-							NSLocalizedStringFromTable(@"Could Not Open Message",
-													   [self className],
-													   nil), 
-							@""],
-						NSLocalizedStringFromTable(@"OK",
-												   [self className],
-												   nil), 
-						NSLocalizedStringFromTable(@"Cancel",
-												   [self className],
-												   nil), 
-						NULL);
-		return;
-	}
-	pboardString = [pboard stringForType:NSStringPboardType];
-	if ( pboardString == nil ) {
-		NSLog(@"pboardString == nil\n");
-		NSRunAlertPanel(NSLocalizedStringFromTable(@"Could Not Open Title",
-												   [self className],
-												   nil),
-						[NSString stringWithFormat:
-							NSLocalizedStringFromTable(@"Could Not Open Message",
-													   [self className],
-													   nil), 
-							@""],
-						NSLocalizedStringFromTable(@"OK",
-												   [self className],
-												   nil), 
-						NSLocalizedStringFromTable(@"Cancel",
-												   [self className],
-												   nil), 
-						NULL);
-		return;
-	}
-	u = [NSURL URLWithString:pboardString];
-	if ( u == nil) {
-		NSLog(@"u == nil\n");
-		NSRunAlertPanel(NSLocalizedStringFromTable(@"Could Not Open Title",
-												   [self className],
-												   nil),
-						[NSString stringWithFormat:
-							NSLocalizedStringFromTable(@"Could Not Open Message",
-													   [self className],
-													   nil), 
-							pboardString],
-						NSLocalizedStringFromTable(@"OK",
-												   [self className],
-												   nil), 
-						NSLocalizedStringFromTable(@"Cancel",
-												   [self className],
-												   nil), 
-						NULL);
-		return;
-	}
-	[self openLocation : u];
+	alert_ = [[NSAlert alloc] init];
+	[alert_ setMessageText : NSLocalizedStringFromTable(@"Could Not Open Via Service Title", [self className], nil)];
+	[alert_ addButtonWithTitle : NSLocalizedStringFromTable(@"Cancel", [self className], nil)];
 	
-	return;
+	[alert_ runModal];
+	[alert_ release];
 }
 
+- (void) openURL : (NSPasteboard *) pboard
+		userData : (NSString *) data
+		   error : (NSString **) error
+{
+	NSArray		*types			= nil;
+	NSString	*pboardString   = nil;
+	NSURL		*u				= nil;
+	
+	[NSApp activateIgnoringOtherApps : YES];
+	types = [pboard types];
+	if ([types containsObject : NSStringPboardType] == NO) {
+		*error = @"[pboard types] dosen't contain NSStringPboardType.";
+	
+		[self _showAlertForViaService];
+		return;
+	}
+	pboardString = [pboard stringForType : NSStringPboardType];
+	if (pboardString == nil) {
+		*error = @"pboardString is nil.";
+		
+		[self _showAlertForViaService];
+		return;
+	}
+	u = [NSURL URLWithString : pboardString];
+	if (u == nil) {
+		*error = @"Can't create NSURL from pboardString.";
+		
+		[self _showAlertForViaService];
+		return;
+	}
+
+	[self openLocation : u];	
+	return;
+}
 @end
