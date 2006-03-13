@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.21 2006/03/07 15:17:40 tsawada2 Exp $
+  * $Id: CMRBrowser.m,v 1.22 2006/03/13 01:51:12 tsawada2 Exp $
   * 
   * CMRBrowser.m
   *
@@ -29,7 +29,8 @@ CMRBrowser *CMRMainBrowser = nil;
 		} else {
 			[self setShouldCascadeWindows : NO];
 		}
-		CMRMainBrowser = self;
+		if (CMRMainBrowser == nil)
+			CMRMainBrowser = self;
 	}
 	return self;
 }

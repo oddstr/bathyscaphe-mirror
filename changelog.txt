@@ -1,4 +1,8 @@
 2006-03-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/Browser.m
+	* application/source/browser/CMRBrowser.m
+		ブラウザウインドウが複数開いている場合、「別名で保存...」や「ブラウザを最前面に」、および
+		AppleScript 経由での browser document に対する操作で発生するいくつかの問題を修正。
 	* application/source/composer/CMRAttributedMessageComposer.m
 		ID が「???」で始まる場合は、クリックして発言を抽出できない仕様に変更した。
 2006-03-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>

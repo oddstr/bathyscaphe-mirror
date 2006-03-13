@@ -1,8 +1,8 @@
 /**
-  * $Id: Browser.m,v 1.11 2006/03/11 14:42:22 tsawada2 Exp $
-  * 
-  * Browser.m
+  * $Id: Browser.m,v 1.12 2006/03/13 01:51:12 tsawada2 Exp $
+  * BathyScaphe 
   *
+  * Copyright 2005-2006 BathyScaphe Project.
   * Copyright (c) 2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
   */
@@ -19,7 +19,6 @@
 #import "CMRSearchOptions.h"
 
 
-
 @implementation Browser
 - (void) dealloc
 {	
@@ -29,6 +28,7 @@
 	
 	[super dealloc];
 }
+
 - (NSURL *) boardURL
 {
 	return [[self currentThreadsList] boardURL];
@@ -38,6 +38,7 @@
 {
 	return m_currentThreadsList;
 }
+
 - (void) setCurrentThreadsList : (CMRThreadsList *) aCurrentThreadsList
 {
 	id tmp;
@@ -46,12 +47,6 @@
 	m_currentThreadsList = [aCurrentThreadsList retain];
 	[tmp release];
 }
-
-- (void) reloadThreadsList
-{
-	[[self currentThreadsList] downloadThreadsList];
-}
-
 
 #pragma mark NSDocument
 
@@ -71,32 +66,33 @@
 	list_ = [self currentThreadsList];
 	return list_ ? [list_ boardName] : nil;
 }
+
 - (BOOL) readFromFile : (NSString *) fileName
 			   ofType : (NSString *) type
 {
 	return YES;
 }
+
 - (BOOL) loadDataRepresentation : (NSData   *) data
                          ofType : (NSString *) aType
 {
 	return NO;
 }
+
 - (NSData *) dataRepresentationOfType : (NSString *) aType
 {
 	return nil;
 }
-/*
-- (NSString *) fileName
-{
-	return ([self threadAttributes] == nil) ? [super fileName] : [[self threadAttributes] path];
-}
-*/
+
 - (IBAction) saveDocumentAs : (id) sender
 {
 	if ([self threadAttributes] == nil) return;
 	
 	NSString *filePath_ = [[self threadAttributes] path];
 	if (filePath_ == nil) return;
+
+	NSWindowController	*winControllerForMe_ = [[self windowControllers] lastObject];
+	if (winControllerForMe_ == nil) return;
 	
 	NSSavePanel *sP = [NSSavePanel savePanel];
 	[sP setRequiredFileType : CMRThreadDocumentPathExtension];
@@ -105,7 +101,7 @@
 
 	[sP beginSheetForDirectory : nil
 						  file : [filePath_ lastPathComponent]
-				modalForWindow : [CMRMainBrowser window]
+				modalForWindow : [winControllerForMe_ window]
 				 modalDelegate : self
 				didEndSelector : @selector(savePanelDidEnd:returnCode:contextInfo:)
 				   contextInfo : nil];
@@ -148,6 +144,11 @@
 
 #pragma mark ThreadsList
 
+- (void) reloadThreadsList
+{
+	[[self currentThreadsList] downloadThreadsList];
+}
+
 - (BOOL) searchThreadsInListWithString : (NSString *) text
 {
 	CMRSearchOptions		*operation_;
@@ -180,12 +181,12 @@
 	[[self currentThreadsList] sortByKey : key];
 }
 
-
 - (void) toggleThreadsListIsAscending
 {
 	if(nil == [self currentThreadsList]) return;
 	[[self currentThreadsList] toggleIsAscending];
 }
+
 - (void) changeThreadsFilteringMask : (int) mask
 {
 	if(nil == [self currentThreadsList]) return;
@@ -206,20 +207,26 @@
 {
 	return [[self currentThreadsList] boardName];
 }
+
 - (void) setBoardNameAsString : (NSString *) boardNameStr
 {
-	//CMRMainBrowser は、現在のメイン・ブラウザのインスタンス。(see CMRBrowser.m)
-	[CMRMainBrowser showThreadsListWithBoardName : boardNameStr];
-	//掲示板リストの選択行も正しく同期させる
-	[CMRMainBrowser selectRowWhoseNameIs : boardNameStr];
+	CMRBrowser *wc_ = [[self windowControllers] lastObject];
+	if (wc_ == nil) return;
+
+	[wc_ showThreadsListWithBoardName : boardNameStr];
+	[wc_ selectRowWhoseNameIs : boardNameStr];
 }
 
-- (void)handleReloadListCommand:(NSScriptCommand*)command
+- (void) handleReloadListCommand : (NSScriptCommand *) command
 {
 	[self reloadThreadsList];
 }
-- (void)handleReloadThreadCommand:(NSScriptCommand*)command
+
+- (void) handleReloadThreadCommand : (NSScriptCommand *) command
 {
-	[CMRMainBrowser reloadThread : nil];
+	CMRBrowser *wc_ = [[self windowControllers] lastObject];
+	if (wc_ == nil) return;
+
+	[wc_ reloadThread : nil];
 }
 @end
