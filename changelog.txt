@@ -1,4 +1,6 @@
 2006-03-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/CMRReplyWindow.nib
+		レイアウトの微修正。
 	* application/source/window/CMRReplyController-ViewAccessor.m
 		書き込みウインドウの背景を半透明にしているとき、テキストの残像がうっすら残る問題を 2006-03-10 に修正した
 		つもりだったが、不完全だった。よく調べたところ、実はテキストビューのバックグラウンドではなく、ウインドウ自身の
