@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyController-ViewAccessor.m,v 1.9 2006/03/10 12:17:52 tsawada2 Exp $
+  * $Id: CMRReplyController-ViewAccessor.m,v 1.10 2006/03/13 13:24:08 tsawada2 Exp $
   * 
   * CMRReplyController-ViewAccessor.m
   *
@@ -9,7 +9,7 @@
 #import "CMRReplyController_p.h"
 #import "CMRLayoutManager.h"
 #import "AppDefaults.h"
-
+#import "BSReplyTextView.h"
 
 @implementation CMRReplyController(View)
 + (Class) toolbarDelegateImpClass 
@@ -34,21 +34,27 @@
 
 - (void) updateTextView
 {
-	NSTextView	*textView_ = [self textView];
+	//NSTextView	*textView_ = [self textView];
+	BSReplyTextView	*textView_ = (BSReplyTextView *)[self textView];
 	NSColor		*bgColor_ = [CMRPref replyBackgroundColor];
 	
 	if (nil == textView_)
 		return;
-	
-	[textView_ setFont : [[self document] replyTextFont]];
-	[textView_ setTextColor : [[self document] replyTextColor]];
 
-	if (bgColor_ != nil) {		
+	NSColor		*textColor_ = [[self document] replyTextColor];
+	[textView_ setFont : [[self document] replyTextFont]];
+	[textView_ setTextColor : textColor_];
+	[textView_ setInsertionPointColor : textColor_];
+
+	if (bgColor_ != nil) {
+		float alpha_ = [CMRPref replyBgAlphaValue];
+
+		[[textView_ window] setOpaque : (alpha_ < 1.0) ? NO : YES];
 		[textView_ setDrawsBackground : YES];
-		[textView_ setBackgroundColor : [bgColor_ colorWithAlphaComponent : [CMRPref replyBgAlphaValue]]];
-		[[textView_ window] setOpaque : NO];
-		[textView_ setNeedsDisplay : YES];
+		[textView_ setBackgroundColor : bgColor_ withAlphaComponent : alpha_];
 	}
+
+	[textView_ setNeedsDisplay : YES];
 }
 - (void) setupScrollView
 {
@@ -82,7 +88,7 @@
 	[container release];
 	
 	/* TextView */
-	view = [[[NSTextView alloc] initWithFrame : cFrame 
+	view = [[[BSReplyTextView alloc] initWithFrame : cFrame 
 								 textContainer : container] autorelease];
 	
 	[view setMinSize : NSMakeSize(0.0, NSHeight(cFrame))];
@@ -125,6 +131,8 @@
 		[[self window] setFrame : windowFrame_
 						display : YES];
 	}
+	
+	[[self window] useOptimizedDrawing : YES];
 }
 - (void) setupNameComboBox
 {
@@ -223,8 +231,12 @@
 		[[self document] updateChangeCount:NSChangeDone];
 
 	// 2006-03-10 ‚Æ‚­‚É”¼“§–¾Žž‚É•¶Žš‚ÌŽc‘œ‚ª”’”²‚¯‚·‚é‚Ì‚ð”ð‚¯‚é‚½‚ßA‰æ–Ê‚ÌÄ•`‰æ‚ð‘£‚·
-	NSTextView *textView_ = [self textView];
-	[textView_ setNeedsDisplayInRect : [textView_ boundingRectForCharacterInRange : [[textView_ textStorage] editedRange]]];
+	//NSTextView *textView_ = [self textView];
+	//[textView_ setNeedsDisplay : YES];//InRect : [textView_ boundingRectForCharacterInRange : [[textView_ textStorage] editedRange]]];
+	//NSRect	rect_ = [[textView_ layoutManager] usedRectForTextContainer : [textView_ textContainer]];
+	//[textView_ setNeedsDisplayInRect : rect_];
+	/*[[self scrollView] setNeedsDisplayInRect : rect_]; */
+	//[[self window] invalidateShadow];
 }
 
 #pragma mark NSComboBox Delegate

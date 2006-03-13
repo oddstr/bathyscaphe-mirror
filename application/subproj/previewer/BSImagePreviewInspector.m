@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.15 2006/03/07 15:17:40 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.16 2006/03/13 13:24:08 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -269,7 +269,9 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 
 - (IBAction) openImageWithPreviewApp : (id) sender
 {
-	[[NSWorkspace sharedWorkspace] openFile : [self downloadedFileDestination] withApplication : @"Preview.app"];
+	NSWorkspace	*ws_ = [NSWorkspace sharedWorkspace];
+	NSString *appName_ = [ws_ absolutePathForAppBundleWithIdentifier : @"com.apple.Preview"];
+	[ws_ openFile : [self downloadedFileDestination] withApplication : appName_];
 }
 
 - (IBAction) startFullscreen : (id) sender
