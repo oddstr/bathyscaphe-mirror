@@ -1,3 +1,6 @@
+2006-03-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/composer/CMRAttributedMessageComposer.m
+		ID が「???」で始まる場合は、クリックして発言を抽出できない仕様に変更した。
 2006-03-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/CMROpenURLManager.strings
 	* application/source/manager/CMROpenURLManager.m

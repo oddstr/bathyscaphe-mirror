@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer.m,v 1.14 2006/02/24 15:13:21 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer.m,v 1.15 2006/03/13 00:30:55 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -317,12 +317,14 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 	
 	idRange.location = [ms length];
 	[ms appendString : idStr withAttributes : [ATTR_TEMPLATE attributesForText]];
-	idRange.length = [ms length] - idRange.location;
 	
-	[ms addAttribute : BSMessageIDAttributeName
-			   value : idStr
-			   range : idRange];
-
+	if (![idStr hasPrefix : @"???"]) {
+		idRange.length = [ms length] - idRange.location;
+		
+		[ms addAttribute : BSMessageIDAttributeName
+				   value : idStr
+				   range : idRange];
+	}
 	appendWhiteSpaceSeparator(ms);
 }
 

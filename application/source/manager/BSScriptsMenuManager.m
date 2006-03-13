@@ -489,7 +489,6 @@ static inline NSString *titleForScriptsMenuFromPath(NSString *path)
 		return;
 		//			NSLog(@"ERROR -> %@", error);
 	}
-	
 	[as executeAndReturnError : &error];
 	if (error) {
 		//			NSLog(@"ERROR -> %@", error);
