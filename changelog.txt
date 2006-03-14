@@ -1,6 +1,9 @@
 2006-03-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-Action.m
-		ブラウザウインドウでスレッドを削除する際、常に適切なスレッドが削除されるように修正。
+	* application/source/browser/CMRThreadsList-Notification.m
+		ブラウザウインドウでスレッドを削除する際、常に適切なスレッドが削除されるように修正。また、削除してすぐに
+		同じスレッドを取得し、その後一覧を更新するとそのスレッドのステータスが消失することがある問題を修正。
+		さらに、ブラウザウインドウでフォーカスが当たっているビューに応じて適切に対象を識別するよう改良。
 2006-03-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/CMRReplyWindow.nib
 		レイアウトの微修正。

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-Notification.m,v 1.3 2005/11/25 15:27:54 tsawada2 Exp $
+  * $Id: CMRThreadsList-Notification.m,v 1.4 2006/03/14 15:22:03 tsawada2 Exp $
   * 
   * CMRThreadsList-Notification.m
   *
@@ -120,6 +120,9 @@ static void margeThreadAttributesWithContentDict(NSMutableDictionary *thread, NS
 	i = [[fM_ favoritesItemsIndex] indexOfObject : filePath];
 	if (i != NSNotFound)
 		[[fM_ favoritesItemsArray] replaceObjectAtIndex : i withObject : thread];
+
+	// 2006-03-14 削除プールに入っていたとしたら、今、ダウンロードしたのだからプールから取り除いておかなければならない。
+	[fM_ removeFromPoolWithFilePath : filePath];
 }
 
 // スレッドの読み込みが完了。

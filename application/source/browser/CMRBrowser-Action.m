@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.37 2006/03/14 10:13:28 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.38 2006/03/14 15:22:03 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -12,6 +12,8 @@
 #import "CMRThreadsList_p.h"
 
 extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate.m
+
+@class IndexField;
 
 @implementation CMRBrowser(Action)
 - (IBAction) focus : (id) sender
@@ -90,7 +92,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 	NSView *targetView = [[[self window] contentView] hitTest : mouse];
 	NSArray *result = nil;
 	
-	if ([targetView isKindOfClass : [m_threadsListTable class]] || nil == targetView) {	// スレッドリストから
+	if ([targetView isKindOfClass : [m_threadsListTable class]] /*|| nil == targetView*/) {	// スレッドリストから
 		result = [self selectedThreadsReallySelected];
 		if (0 == [result count]) {
 			if (nil == [self threadURL]) {
@@ -98,9 +100,29 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 			}
 			result = [self selectedThreads];
 		}
-//	} else if (nil == targetView) {
-		// メニューバーもしくはキーイベントから 今はスレッドリストの場合と同じ
-	} else { //　スレッドリストから。
+	} else if (nil == targetView) {
+		// メニューバーもしくはキーイベントから
+		// あるいはツールバーボタンから
+		// スレッドリストにフォーカスが当たっているかどうかで対象をスイッチする。
+		NSView *focusedView_ = (NSView *)[[self window] firstResponder];
+		if (focusedView_ == [self textView] || [[[focusedView_ superview] superview] isKindOfClass : [IndexField class]]) {
+			// フォーカスがスレッド本文領域にある
+			id selected = [self selectedThread];
+			if (nil == selected) {
+				result = [NSArray empty];
+			} else {
+				result = [NSArray arrayWithObject : selected];
+			}
+		} else { // フォーカスがそれ以外の領域にある：スレッドリストの選択項目を優先
+			result = [self selectedThreadsReallySelected];
+			if (0 == [result count]) {
+				if (nil == [self threadURL]) {
+					result = [NSArray empty];
+				}
+				result = [self selectedThreads];
+			}
+		}	
+	} else { //　スレッド本文領域から。
 		id selected = [self selectedThread];
 		if (nil == selected) {
 			result = [NSArray empty];
