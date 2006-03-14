@@ -1,3 +1,7 @@
+2006-03-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/thread/CMRThreadViewer-Action.m
+		「掲示板を表示」は、スレッド一覧を切り替えた後、確実にそのスレッドを選択状態にするようにした。
 2006-03-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-Action.m
 	* application/source/browser/CMRThreadsList-Notification.m
