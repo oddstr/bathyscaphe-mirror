@@ -1,3 +1,6 @@
+2006-03-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Action.m
+		ブラウザウインドウでスレッドを削除する際、常に適切なスレッドが削除されるように修正。
 2006-03-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/CMRReplyWindow.nib
 		レイアウトの微修正。
