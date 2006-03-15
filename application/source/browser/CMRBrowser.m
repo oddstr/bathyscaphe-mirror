@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.22 2006/03/13 01:51:12 tsawada2 Exp $
+  * $Id: CMRBrowser.m,v 1.23 2006/03/15 18:55:17 tsawada2 Exp $
   * 
   * CMRBrowser.m
   *
@@ -12,6 +12,7 @@
 static NSString *const CMRBrowserLoadNibName              = @"Browser";
 
 NSString *const CMRBrowserDidChangeBoardNotification = @"CMRBrowserDidChangeBoardNotification";
+NSString *const CMRBrowserThListUpdateDelegateTaskDidFinishNotification = @"CMRBrThListUpdateDelgTaskDidFinishNotification";
 
 /*
  * current main browser instance.

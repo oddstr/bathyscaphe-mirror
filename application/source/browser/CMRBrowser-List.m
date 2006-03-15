@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.11 2006/02/19 08:49:19 tsawada2 Exp $
+  * $Id: CMRBrowser-List.m,v 1.12 2006/03/15 18:55:17 tsawada2 Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -78,8 +78,9 @@
 	[self setCurrentThreadsList : list_];
 	
 	// sort column change
-	sortColumnIdentifier_ = [[BoardManager defaultManager] sortColumnForBoard : boardName];
-	isAscending_ = [[BoardManager defaultManager] sortColumnIsAscendingAtBoard : boardName];
+	BoardManager	*bm_ = [BoardManager defaultManager];
+	sortColumnIdentifier_ = [bm_ sortColumnForBoard : boardName];
+	isAscending_ = [bm_ sortColumnIsAscendingAtBoard : boardName];
 	
 	[list_ setIsAscending : isAscending_];
 	[self changeHighLightedTableColumnTo : sortColumnIdentifier_ isAscending : isAscending_];
@@ -100,6 +101,17 @@
 	if(nil == bname_) return;
 	
 	[self showThreadsListWithBoardName : bname_];
+}
+
+- (unsigned) selectRowWithThreadPath : (NSString *) filepath
+                byExtendingSelection : (BOOL ) flag
+					 scrollToVisible : (BOOL ) scroll
+{
+	unsigned index_ = [self selectRowWithThreadPath : filepath byExtendingSelection : flag];
+	if (scroll && (index_ != NSNotFound))
+		[[self threadsListTable] scrollRowToVisible : index_];
+	
+	return index_;
 }
 @end
 

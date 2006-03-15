@@ -1,3 +1,10 @@
+2006-03-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser.m
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/browser/CMRBrowser-List.m
+	* application/source/thread/CMRThreadViewer-Action.m
+		今度こそ、「掲示板を表示」でスレッド一覧を切り替えた後、確実にそのスレッドを選択状態にするようにした。
+		さらに、できるだけその選択列が見えるように適宜一覧をスクロールさせるようにした。
 2006-03-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-Action.m
 	* application/source/thread/CMRThreadViewer-Action.m

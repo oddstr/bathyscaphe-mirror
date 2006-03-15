@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.39 2006/03/14 15:53:47 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.40 2006/03/15 18:55:17 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -233,8 +233,12 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 
 	NSString *boardName = [self boardName];
 	if(!boardName) return; 
-	[self showThreadsListWithBoardName : boardName];
-	[self selectRowWithCurrentThread];
+
+	if([[[self currentThreadsList] boardName] isEqualToString : boardName]) {
+		[self selectCurrentThreadWithMask : CMRAutoscrollAny];
+	} else {
+		[self showThreadsListWithBoardName : boardName];
+	}
 	[self selectRowWhoseNameIs : boardName];
 }
 
