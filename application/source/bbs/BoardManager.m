@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.m,v 1.4 2005/10/29 01:15:33 tsawada2 Exp $
+ * $Id: BoardManager.m,v 1.5 2006/03/16 02:53:27 tsawada2 Exp $
  * 
  * BoardManager.m
  *
@@ -163,8 +163,8 @@ static id kDefaultManager;
                 oldLocation : (NSURL    *) anOldURL
 {
     int ret;
-    
-    ret = NSRunInformationalAlertPanel(
+	
+    /*ret = NSRunInformationalAlertPanel(
             NSLocalizedString(@"MovedBBSFoundTitle", nil),
             NSLocalizedString(@"MovedBBSFoundFormat", nil),
             NSLocalizedString(@"MovedOK", nil),
@@ -174,10 +174,26 @@ static id kDefaultManager;
             [anOldURL absoluteString],
             [anNewURL absoluteString]
           );
-    if (ret != NSOKButton) {
+	*/
+
+	NSAlert *alert_ = [[NSAlert alloc] init];
+	[alert_ setAlertStyle : NSInformationalAlertStyle];
+	[alert_ setMessageText : NSLocalizedString(@"MovedBBSFoundTitle", nil)];
+	[alert_ setInformativeText : [NSString stringWithFormat : NSLocalizedString(@"MovedBBSFoundFormat", nil),
+															  boardName, [anOldURL absoluteString], [anNewURL absoluteString]]];
+	[alert_ addButtonWithTitle : NSLocalizedString(@"MovedOK", nil)];
+	[alert_ addButtonWithTitle : NSLocalizedString(@"MovedCancel", nil)];
+	[alert_ setHelpAnchor : NSLocalizedString(@"MovedBBSHelpAnchor", nil)];
+	[alert_ setShowsHelp : YES];
+	
+    ret = [alert_ runModal];
+	[alert_ release];
+
+    //if (ret != NSOKButton) {
+	if (ret != NSAlertFirstButtonReturn) {
         return NO;
     }
-    [self updateURL:anNewURL forBoardName:boardName];
+    [self updateURL : anNewURL forBoardName : boardName];
     
     return YES;
 }

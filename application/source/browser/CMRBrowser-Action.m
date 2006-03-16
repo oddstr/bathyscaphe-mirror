@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.40 2006/03/15 18:55:17 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.41 2006/03/16 02:53:28 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -23,11 +23,12 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 
 - (void) selectRowWhoseNameIs : (NSString *) brdname_
 {
+	NSOutlineView	*bLT = [self boardListTable];
     BoardList       *source;
     NSDictionary	*selected;
     int				index;
 
-    source = (BoardList *)[[self boardListTable] dataSource];
+    source = (BoardList *)[bLT dataSource];
     
     selected = [source itemForName : brdname_];
     //if (nil == selected)
@@ -44,14 +45,14 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 		}
 	}
 		
-    index = [[self boardListTable] rowForItem : selected];
+    index = [bLT rowForItem : selected];
     if (-1 == index) {
+		[bLT deselectAll : nil];
         return;
     }
     
-    [[self boardListTable] selectRow : index 
-                byExtendingSelection : NO];
-    [[self boardListTable] scrollRowToVisible : index];
+    [bLT selectRow : index byExtendingSelection : NO];
+    [bLT scrollRowToVisible : index];
 }
 
 - (IBAction) reloadThreadsList : (id) sender

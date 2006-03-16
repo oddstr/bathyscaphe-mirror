@@ -1,4 +1,9 @@
 2006-03-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/bbs/BoardManager.m
+	* application/Resources/Japanese.lproj/Localizable.strings
+		「サーバの移転」アラートを NSAlert で書き直し、ヘルプボタンを付けた。
+	* application/Resources/Japanese.lproj/ToolbarItems.strings
+		ツールバーの「ブラウザを最前面に」ボタンの名称を「掲示板を表示」に変更した（メニュー項目と統一）。
 	* application/source/browser/CMRBrowser.m
 	* application/source/browser/CMRBrowser-Action.m
 	* application/source/browser/CMRBrowser-List.m
