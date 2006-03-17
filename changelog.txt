@@ -1,4 +1,7 @@
 2006-03-18 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/bbs/NoNameInputController.m
+	* application/Resources/Japanese.lproj/CMRNoNameInput.nib
+		「掲示板の名無しさんの設定」ダイアログにヘルプボタンを付けた。
 	* application/subproj/reply/Japanese.lproj/LoginWindow.nib
 	* application/subproj/reply/Japanese.lproj/Localizable.strings
 	* application/subproj/reply/connector/SG2chConnector.m
