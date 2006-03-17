@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyController-ViewAccessor.m,v 1.10 2006/03/13 13:24:08 tsawada2 Exp $
+  * $Id: CMRReplyController-ViewAccessor.m,v 1.11 2006/03/17 17:52:34 tsawada2 Exp $
   * 
   * CMRReplyController-ViewAccessor.m
   *
@@ -226,17 +226,8 @@
 */
 - (void)textDidChange:(NSNotification *)aNotification
 {
-	//NSLog(@"text did change");
 	if(NO == [[self document] isDocumentEdited]) // "dirty" ‚Å‚È‚¢‚Æ‚«‚Ì‚İ updateChangeCount: ‚·‚éB
 		[[self document] updateChangeCount:NSChangeDone];
-
-	// 2006-03-10 ‚Æ‚­‚É”¼“§–¾‚É•¶š‚Ìc‘œ‚ª”’”²‚¯‚·‚é‚Ì‚ğ”ğ‚¯‚é‚½‚ßA‰æ–Ê‚ÌÄ•`‰æ‚ğ‘£‚·
-	//NSTextView *textView_ = [self textView];
-	//[textView_ setNeedsDisplay : YES];//InRect : [textView_ boundingRectForCharacterInRange : [[textView_ textStorage] editedRange]]];
-	//NSRect	rect_ = [[textView_ layoutManager] usedRectForTextContainer : [textView_ textContainer]];
-	//[textView_ setNeedsDisplayInRect : rect_];
-	/*[[self scrollView] setNeedsDisplayInRect : rect_]; */
-	//[[self window] invalidateShadow];
 }
 
 #pragma mark NSComboBox Delegate

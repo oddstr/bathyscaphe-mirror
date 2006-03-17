@@ -1,3 +1,15 @@
+2006-03-18 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/reply/Japanese.lproj/LoginWindow.nib
+	* application/subproj/reply/Japanese.lproj/Localizable.strings
+	* application/subproj/reply/connector/SG2chConnector.m
+	* application/subproj/reply/account/w2chAuthenticater.m
+		2chConnector プラグイン：
+		- アラートは NSAlert で
+		- ログインウインドウのインタフェースを更新
+		- 一部のエラーメッセージが正しくローカライズされていなかった問題を修正。
+	* application/source/window/CMRReplyMessenger-Connector.m
+	* application/Resources/Japanese.lproj/Messenger.strings
+		書き込み時のアラートに一部ヘルプボタンを付けた。すべて NSAlert で書き直した。
 2006-03-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/bbs/BoardManager.m
 	* application/Resources/Japanese.lproj/Localizable.strings

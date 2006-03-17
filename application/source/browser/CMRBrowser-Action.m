@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.41 2006/03/16 02:53:28 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.42 2006/03/17 17:52:34 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -31,9 +31,8 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
     source = (BoardList *)[bLT dataSource];
     
     selected = [source itemForName : brdname_];
-    //if (nil == selected)
-    //    return;
-    if (nil == selected) {
+
+    if (nil == selected) { // 掲示板を自動的に追加
 		BoardList	*defaultList_ = [[BoardManager defaultManager] defaultList];
 		NSDictionary *willAdd_ = [defaultList_ itemForName : brdname_];
 		if(nil == willAdd_) {
@@ -47,6 +46,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 		
     index = [bLT rowForItem : selected];
     if (-1 == index) {
+		// 将来の課題：カテゴリを自動的に開いて選択する
 		[bLT deselectAll : nil];
         return;
     }

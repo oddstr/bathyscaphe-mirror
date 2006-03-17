@@ -1,5 +1,5 @@
 //
-//  $Id: CMRReplyMessenger-Connector.m,v 1.6 2006/02/21 13:39:34 masakih Exp $
+//  $Id: CMRReplyMessenger-Connector.m,v 1.7 2006/03/17 17:52:34 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/07/04.
@@ -8,7 +8,6 @@
 //
 
 #import "CMRReplyMessenger_p.h"
-//#import "CMRBBSSignature.h"
 #import "CMRThreadSignature.h"
 #import "CMRHostHandler.h"
 
@@ -66,7 +65,7 @@
 }
 - (id) boardIdentifier
 {
-	return [self boardName];//[CMRBBSSignature BBSSignatureWithName : [self boardName]];
+	return [self boardName];
 }
 - (id) threadIdentifier
 {
@@ -107,13 +106,12 @@
 }
 
 /* 書き込みエラー */
-- (void) cookieOrContributionCheckSheetDidEnd : (NSWindow *) sheet
+- (void) cookieOrContributionCheckSheetDidEnd : (NSAlert *) alert
 								   returnCode : (int) returnCode
 								  contextInfo : (void *) contextInfo
 {
-	if (NSAlertDefaultReturn == returnCode) {
+	if (NSAlertFirstButtonReturn == returnCode)
 		[self sendMessage : self];
-	}
 }
 
 - (void) beginErrorInformationalAlertSheet : (NSString *) title
@@ -124,11 +122,11 @@
 	SEL			didEndSelector;
 	NSString	*message_ = message;
 	NSArray		*lines_;
+
+	NSAlert		*alert_;
 	
 	docWindow = [[self replyControllerRespondsTo : @selector(window)] window];
-	didEndSelector = contribution
-		? @selector(cookieOrContributionCheckSheetDidEnd:returnCode:contextInfo:)
-		: NULL;
+	didEndSelector = contribution ? @selector(cookieOrContributionCheckSheetDidEnd:returnCode:contextInfo:) : nil;
 	
 	// あまりにも長いエラーメッセージは切り詰める
 	lines_ = [message_ componentsSeparatedByNewline];
@@ -136,26 +134,32 @@
 		lines_ = [lines_ subarrayWithRange:NSMakeRange(0, 10)];
 		message_ = [lines_ componentsJoinedByString : @"\n"];
 	}
+
+	alert_ = [[NSAlert alloc] init];
+	[alert_ setAlertStyle : NSInformationalAlertStyle];
+	[alert_ setMessageText : title];
+	[alert_ setInformativeText : message_];
+	[alert_ setHelpAnchor : [self localizedString : @"Reply Error Sheet Help Anchor"]];
+	[alert_ setShowsHelp : YES];
 	
-	NSBeginInformationalAlertSheet(
-				title,
-				contribution ? [self localizedString:@"Try Again"] : @"OK",
-				contribution ? [self localizedString:@"Cancel"] : nil,
-				nil,
-				docWindow,
-				contribution ? self : nil,
-				didEndSelector,	// didEndSelector
-				NULL,			// didDismissSelector
-				NULL,			// contextInfo
-				@"%@", message_);
+	[alert_ addButtonWithTitle : (contribution ? [self localizedString : @"Try Again"] : @"OK")];
+	if(contribution)
+		[alert_ addButtonWithTitle : [self localizedString : @"Cancel"]];
+
+	[alert_ beginSheetModalForWindow : docWindow
+					   modalDelegate : (contribution ? self : nil)
+					  didEndSelector : didEndSelector
+					     contextInfo : nil];
+	[alert_ release];
 }
+
 - (BOOL) isCookieOrContributionCheckError : (SG2chServerError) error
 {
 	return (k2chContributionCheckErrorType == error.type || k2chSPIDCookieErrorType == error.type);
 }
 
-- (void) connector                 : (id<w2chConnect>      ) sender
-   resourceDidFailLoadingWithError : (id<w2chErrorHandling>) handler
+- (void)				  connector : (id<w2chConnect>      ) sender
+	resourceDidFailLoadingWithError : (id<w2chErrorHandling>) handler
 {
 	BOOL		contribution;
 	
@@ -186,12 +190,17 @@
 - (void)                     connector : (id<w2chConnect>) sender
       resourceDidFailLoadingWithReason : (NSString      *) reason
 {
-	NSRunAlertPanel(
-		[self localizedString : MESSENGER_ERROR_POST],
-		reason,
-		nil,
-		nil,
-		nil);
+	NSAlert	*alert_ = [[NSAlert alloc] init];
+
+	[alert_ setAlertStyle : NSWarningAlertStyle];
+	[alert_ setMessageText : [self localizedString : MESSENGER_ERROR_POST]];
+	[alert_ setInformativeText : reason];
+	[alert_ addButtonWithTitle : @"OK"];
+	
+	[alert_ runModal];
+	
+	[alert_ release];
+
 	[self didFailPosting : [sender HTTPConnector]];
 }
 @end

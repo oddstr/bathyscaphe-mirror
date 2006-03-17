@@ -1,5 +1,5 @@
 //
-//  $Id: CMROpenURLManager.m,v 1.3 2006/03/11 14:42:22 tsawada2 Exp $
+//  $Id: CMROpenURLManager.m,v 1.4 2006/03/17 17:52:34 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by minamie on Sun Jan 25 2004.
@@ -137,6 +137,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	
 	alert_ = [[NSAlert alloc] init];
 	[alert_ setMessageText : NSLocalizedStringFromTable(@"Could Not Open Via Service Title", [self className], nil)];
+	[alert_ setInformativeText : NSLocalizedStringFromTable(@"Could Not Open Via Service Message", [self className], nil)];
 	[alert_ addButtonWithTitle : NSLocalizedStringFromTable(@"Cancel", [self className], nil)];
 	
 	[alert_ runModal];

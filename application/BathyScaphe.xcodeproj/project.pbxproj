@@ -752,7 +752,7 @@
 		8729967D0832561E00CBD740 /* CMRThreadVisibleRange.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRThreadVisibleRange.m; sourceTree = "<group>"; };
 		872996FF08325B3000CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = subproj/reply/Japanese.lproj/LoginWindow.nib; sourceTree = SOURCE_ROOT; };
 		8729970208325B3E00CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = subproj/reply/Japanese.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
-		8729970C08325BBB00CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8729970C08325BBB00CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8729971208325E2500CBD740 /* CMXPopUpOwner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMXPopUpOwner.h; sourceTree = "<group>"; };
 		8729971408325E2500CBD740 /* CMXPopUpWindowController+View.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMXPopUpWindowController+View.m"; sourceTree = "<group>"; };
 		8729971508325E2500CBD740 /* CMXPopUpWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMXPopUpWindowController.h; sourceTree = "<group>"; };

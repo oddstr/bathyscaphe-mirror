@@ -27,3 +27,4 @@
 "FailURLEncoding_msg"	= "送信データの URL エンコーディングに失敗しました。書き直したうえで、もう一度送信してください。
 
 内容：%@";
+"FailURLEncoding_help"	= "bs_connector_fail_encoding_alert";
