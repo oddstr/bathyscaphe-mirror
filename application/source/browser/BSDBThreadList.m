@@ -568,24 +568,78 @@ abort:{
 	
 	return threadAttributesForBoardIDAndThreadID([boardID intValue], dat);
 }
+//- (NSArray *) allThreadAttributes
+//{
+//	NSMutableArray *result;
+//	unsigned i, count;
+//	id attr;
+//	
+//	[mCursorLock lock];
+//	{
+//		count = [mCursor rowCount];
+//		result = [NSMutableArray arrayWithCapacity:count];
+//		for( i = 0; i < count; i++ ) {
+//			attr = [self threadAttributesAtRowIndex:i useLock:NO];
+//			if(attr) {
+//				[result addObject:attr];
+//			}
+//		}
+//	}
+//	[mCursorLock unlock];
+//	
+//	return result;
+//}
 - (NSArray *) allThreadAttributes
 {
 	NSMutableArray *result;
-	unsigned i, count;
-	id attr;
+	id <SQLiteCursor> cursor;
+	unsigned count, i;
 	
-	[mCursorLock lock];
-	{
-		count = [mCursor rowCount];
-		result = [NSMutableArray arrayWithCapacity:count];
-		for( i = 0; i < count; i++ ) {
-			attr = [self threadAttributesAtRowIndex:i useLock:NO];
-			if(attr) {
-				[result addObject:attr];
-			}
+	NSString *title;
+	NSString *newCount;
+	NSString *dat;
+	NSString *boardName;
+	NSString *statusStr;
+	NSNumber *status;
+	NSString *modDateStr;
+	NSDate *modDate = nil;
+	NSString *threadPath;
+	
+	cursor = [mBoardListItem cursorForThreadList];
+	count = [cursor rowCount];
+	result = [NSMutableArray arrayWithCapacity:count];
+	
+	for( i = 0; i < count; i++ ) {
+		id pool = [[NSAutoreleasePool alloc] init];
+		NSMutableDictionary *aAttr;
+		
+		title = nilIfObjectIsNSNull([cursor valueForColumn:ThreadNameColumn atRow:i]);
+		newCount = nilIfObjectIsNSNull([cursor valueForColumn:NumberOfAllColumn atRow:i]);
+		dat = nilIfObjectIsNSNull([cursor valueForColumn:ThreadIDColumn atRow:i]);
+		boardName = nilIfObjectIsNSNull([cursor valueForColumn:BoardNameColumn atRow:i]);
+		statusStr = nilIfObjectIsNSNull([cursor valueForColumn:ThreadStatusColumn atRow:i]);
+		modDateStr = nilIfObjectIsNSNull([cursor valueForColumn:ModifiedDateColumn atRow:i]);
+		
+		threadPath = [[CMRDocumentFileManager defaultManager] threadPathWithBoardName : boardName
+																		datIdentifier : dat];
+		status = [NSNumber numberWithInt : [statusStr intValue]];
+		if(modDateStr) {
+			modDate = [NSDate dateWithTimeIntervalSince1970 : [modDateStr doubleValue]];
 		}
+		
+		aAttr = [NSMutableDictionary dictionaryWithCapacity:7];
+		[aAttr setNoneNil:title forKey:CMRThreadTitleKey];
+		[aAttr setNoneNil:newCount forKey:CMRThreadNumberOfMessagesKey];
+		[aAttr setNoneNil:dat forKey:ThreadPlistIdentifierKey];
+		[aAttr setNoneNil:boardName forKey:ThreadPlistBoardNameKey];
+		[aAttr setNoneNil:status forKey:CMRThreadUserStatusKey];
+		[aAttr setNoneNil:modDate forKey:CMRThreadModifiedDateKey];
+		[aAttr setNoneNil:threadPath forKey:CMRThreadLogFilepathKey];
+		
+		[result addObject:aAttr];
+		
+		[pool release];
 	}
-	[mCursorLock unlock];
 	
 	return result;
 }
@@ -661,6 +715,9 @@ enum {
 		result = [row valueForColumn : NumberOfReadColumn];
 	} else if ( [identifier isEqualTo : CMRThreadSubjectIndexKey] ) {
 		result = [row valueForColumn : TempThreadThreadNumberColumn];
+		if(!result) {
+			result = [NSNumber numberWithInt:rowIndex + 1];
+		}
 	} else if([identifier isEqualToString : ThreadPlistIdentifierKey]) {
 		// スレッドの立った日付（dat 番号を変換）available in RainbowJerk and later.
 		result = [NSDate dateWithTimeIntervalSince1970 : (NSTimeInterval)[[row valueForColumn : ThreadIDColumn] doubleValue]];
@@ -742,23 +799,39 @@ Compatability Note: This method replaces tableView : writeRows : toPasteboard : 
 
 static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSString **outThreadID, NSString *inFilePath )
 {
+	/* TODO これはヤバいので早めに直すこと　*/
+	static NSMutableDictionary *boardIDCache = nil;
+	
 	CMRDocumentFileManager *dfm = [CMRDocumentFileManager defaultManager];
 	
 	if (outThreadID) {
 		*outThreadID = [dfm datIdentifierWithLogPath : inFilePath];
 	}
 	
+	if(!boardIDCache) {
+		boardIDCache = [[NSMutableDictionary alloc] init];
+	}
 	if (outBoardID) {
 		NSString *boardName;
 		NSArray *boardIDs;
+		id boardID;
 		
 		boardName = [dfm boardNameWithLogPath : inFilePath];
 		if (!boardName) return NO;
 		
+		boardID = [boardIDCache objectForKey:boardName];
+		if(boardID) {
+			*outBoardID = [boardID intValue];
+			return YES;
+		}
+		
 		boardIDs = [[DatabaseManager defaultManager] boardIDsForName : boardName];
 		if (!boardIDs || [boardIDs count] == 0) return NO;
 		
-		*outBoardID = [[boardIDs objectAtIndex : 0] intValue];
+		boardID = [boardIDs objectAtIndex : 0];
+		[boardIDCache setObject:boardID forKey:boardName];
+		
+		*outBoardID = [boardID intValue];
 	}
 	
 	return YES;
@@ -860,10 +933,10 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 	if([db beginTransaction]) {
 		SQLiteReservedQuery *reservedUpdate;
 		
-		query = [NSString stringWithFormat:@"UPDATE %@ SET %@ = ? WHERE %@ = ? AND %@ = ?",
+		query = [NSString stringWithFormat:@"UPDATE %@ SET %@ = ? WHERE %@ = ? AND %@ = ? AND %@ != ?",
 			ThreadInfoTableName,
 			ThreadStatusColumn,
-			BoardIDColumn, ThreadIDColumn];
+			BoardIDColumn, ThreadIDColumn, ThreadStatusColumn];
 		reservedUpdate = [db reservedQuery:query];
 		if(!reservedUpdate) {
 			NSLog(@"Can NOT create reservedUpdate on favoritesHEADCheckTaskDidFinish:");
@@ -872,30 +945,36 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 		
 		threadsEnum = [threadsArray_ objectEnumerator];
 		while(thread = [threadsEnum nextObject]) {
+			id pool = [[NSAutoreleasePool alloc] init];
 			NSNumber *status;
 			int boardID;
 			NSString *threadID;
 			NSArray *bindValues;
 			
 			if( !(status = [thread objectForKey:CMRThreadStatusKey]) ) {
+				[pool release];
 				continue;
 			}
 			if([status unsignedIntValue] == ThreadLogCachedStatus) {
+				[pool release];
 				continue;
 			}
 			
 			if(!searchBoardIDAndThreadIDFromFilePath( &boardID, &threadID, [thread objectForKey:CMRThreadLogFilepathKey]) ) {
+				[pool release];
 				continue;
 			}
 			
 			bindValues = [NSArray arrayWithObjects:
-				status, [NSNumber numberWithInt:boardID], threadID, nil];
+				status, [NSNumber numberWithInt:boardID], threadID, status, nil];
 			[reservedUpdate cursorForBindValues:bindValues];
 			
 			if ([db lastErrorID] != 0) {
 				NSLog(@"Fail Insert or udate. Reson: %@", [db lastError] );
+				[pool release];
 				goto fail;
 			}
+			[pool release];
 		}
 		[db commitTransaction];
 	}

@@ -245,6 +245,10 @@ static inline NSColor *nextColor(NSColor *inColor)
 	if(!expressionView) {
 		[NSBundle loadNibNamed:SmartBLIEditorComponentsNibName
 						 owner:self];
+		
+		[[self uiItemForTag:dateExpressionFieldTag] setDate:[NSCalendarDate calendarDate]];
+		[[self uiItemForTag:dateExpression2FieldTag] setDate:[NSCalendarDate calendarDate]];
+		
 		[self builExpressionViews];
 	}
 }
@@ -712,67 +716,7 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 @end
 
 @implementation SmartBLIEditorHelper(SmartConditionAccesor)
-- (SCOperation) conditionOperation
-{
-	SCOperation operation = SCUnknownOperation;
-	QualifierMenuItemTags qualifier = [self currentQualifierItemTag];
-	
-	switch(qualifier) {
-		case containsQualifierItemTag:
-			operation = SCContaionsOperation;
-			break;
-		case notContainsQualifierItemTag:
-			operation = SCNotContainsOperation;
-			break;
-		case exactQualifierItemTag:
-			operation = SCExactOperation;
-			break;
-		case notExactQualifierItemTag:
-			operation = SCNotExactOperation;
-			break;
-		case beginsWithQualifierItemTag:
-			operation = SCBeginsWithOperation;
-			break;
-		case endsWithQualifierItemTag:
-			operation = SCEndsWithOperation;
-			break;
-		case isEqualQualifierItemTag:
-		case daysIsEqualQualifierItemTag:
-		case dateIsEqualQualifierItemTag:
-			operation = SCEqualOperation;
-			break;
-		case notEqualQualifierItemTag:
-		case dateNotEqualQualifierItemTag:
-			operation = SCNotEqualOperation;
-			break;
-		case largerThanQualifierItemTag:
-		case daysLargerThanQualifierItemTaag:
-		case dateLargerThanQualifierItemTaag:
-			operation = SCLargerOperation;
-			break;
-		case smallerThanQualifierItemTag:
-		case daysSmallerThanQualifierItemTag:
-		case dateSmallerThanQualifierItemTag:
-			operation = SCSmallerOperation;
-			break;
-		case rangeQualifierItemTag:
-		case daysRangeQualifierItemTag:
-		case dateRangeQualifierItemTag:
-			operation = SCRangeOperation;
-			break;
-		case daysTodayQualifierItemTag:
-		case daysYesterdayQualifierItemTag:
-		case daysThisWeekQualifierItemTag:
-		case daysLastWeekQualifierItemTag:
-			operation = -2;
-			break;
-		default:
-			operation = -1;
-			break;
-	}
-	
-	return operation;
-}
+
 - (SmartCondition *)aCondition
 {
 	SmartCondition *result;

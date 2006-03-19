@@ -1,3 +1,8 @@
+2006-03-19 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m
+		初期化時に日付を現在の日付で初期化。
+	* application/source/browser/BSDBThreadList.m
+		-[BSDBThreadList allThreadAttributes]  を最適化。
 2006-03-06 masakih <masakih@users.sourceforge.jp>
 	* application/Resources/Japanese.lproj/SmartBLIEditorComponents.nib
 	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m

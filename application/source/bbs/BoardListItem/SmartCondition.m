@@ -263,7 +263,7 @@ static NSString *SCValue2CodingKey = @"SCValue2CodingKey";
 }
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-	id target,value1, value2;
+	id target,value1, value2 = nil;
 	int ope;
 	
 	if([aDecoder allowsKeyedCoding]) {
