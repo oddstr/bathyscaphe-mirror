@@ -20,3 +20,5 @@
 "BeLoginOffToolTip" = "現在、Be ログインしていません。クリックすると Be ログインします。";
 "BeLoginOffTrivialToolTip" = "この掲示板は２ちゃんねるの掲示板ではないため、Be ログインは無効になっています。";
 "BeLoginOffCantLoginToolTip" = "環境設定で Be アカウントが設定されていないため、Be ログインは無効になっています。";
+
+"Save Menu Item" = "下書きとして保存";

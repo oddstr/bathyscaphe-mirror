@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIFullScreenController.m,v 1.3.2.1 2006/01/29 12:58:10 masakih Exp $
+//  $Id: BSIPIFullScreenController.m,v 1.3.2.2 2006/03/19 15:09:53 masakih Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.
@@ -100,12 +100,14 @@
 		CGReleaseDisplayFadeReservation (tokenPtr2);
 	}
 	[_imageView setImage : anImage];
+	[NSCursor setHiddenUntilMouseMoves : YES];
 }
 
 - (void) hidePanel
 {
 	CGDisplayFadeReservationToken tokenPtr;
 
+	[NSCursor setHiddenUntilMouseMoves : NO]; // 念のため
 	[_imageView setImage : nil];
 
 	if (kCGErrorSuccess == CGAcquireDisplayFadeReservation(kCGMaxDisplayReservationInterval, &tokenPtr)) {

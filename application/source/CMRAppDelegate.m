@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.14.2.2 2006/01/29 12:58:10 masakih Exp $
+ * $Id: CMRAppDelegate.m,v 1.14.2.3 2006/03/19 15:09:53 masakih Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -35,6 +35,17 @@
                    to : CMRPref
                  from : sender];
 }
+/*
+- (IBAction) togglePreviewPanel : (id) sender
+{
+	BOOL	result_;
+	result_ = [NSApp sendAction : @selector(togglePreviewPanel:)
+							 to : [CMRPref sharedImagePreviewer]
+						   from : sender];
+
+	if(NO == result_) NSLog(@"togglePreviewPanel: fail to send action.");
+}
+*/
 - (IBAction) showTaskInfoPanel : (id) sender
 {
     [[CMRTaskManager defaultManager] showWindow : sender];
@@ -68,11 +79,6 @@
     [[CMROpenURLManager defaultManager] askUserURL];
 }
 
-/*- (BOOL) isOnlineMode
-{
-	return [CMRPref isOnlineMode];
-}*/
-
 - (IBAction) clearHistory : (id) sender
 {
 	[[CMRHistoryManager defaultManager] removeAllItems];
@@ -81,23 +87,43 @@
 
 - (IBAction) showAcknowledgment : (id) sender
 {
-	NSBundle* mainBundle;
-    NSString* fileName;
+	NSBundle	*mainBundle;
+    NSString	*fileName;
+	NSString	*appName;
+	NSWorkspace	*ws = [NSWorkspace sharedWorkspace];
 
     mainBundle = [NSBundle mainBundle];
-    fileName = [mainBundle pathForResource:@"Acknowledgments" ofType:@"rtf"];
+    fileName = [mainBundle pathForResource : @"Acknowledgments" ofType : @"rtf"];
+	appName = [ws absolutePathForAppBundleWithIdentifier : @"com.apple.TextEdit"];
 	
-    [[NSWorkspace sharedWorkspace] openFile : fileName withApplication : @"TextEdit"];
+    [ws openFile : fileName withApplication : appName];
 }
 
+- (IBAction) closeAll : (id) sender
+{
+	//この方法では「BathyScaphe について」パネルなどが閉じられない（Safari では閉じてくれる！）
+	//NSArray	*array_ = [NSApp orderedWindows];
+	//if (array_ == nil || [array_ count] == 0) return;
+	
+	//[array_ makeObjectsPerformSelector : @selector(performClose:)
+	//						withObject : sender];
+	
+	//この方法だと概ね良い感じだが、makeWindowsPerform:inOrder: を使って発信するセレクタは "Can’t take any arguments"
+	//であり、performClose: を使って良いのかどうかやや不安。（close を呼ぶ手もあるが、それもまたちょっと…）
+	[NSApp makeWindowsPerform : @selector(performClose:) inOrder : YES];
+}
 
-#pragma mark Launch Helper App
+- (IBAction) miniaturizeAll : (id) sender
+{
+	[NSApp miniaturizeAll : sender];
+}
 
-- (IBAction)launchCMLF:(id)sender
+- (IBAction) launchCMLF : (id) sender
 {
     [[NSWorkspace sharedWorkspace] launchApplication: [CMRPref helperAppPath]];
 }
 
+#pragma mark validation
 - (BOOL) validateToolbarItem : (NSToolbarItem *) theItem
 {
 	if ([theItem action] == @selector(launchCMLF:)) {
@@ -116,7 +142,9 @@
 
 - (BOOL) validateMenuItem : (NSMenuItem *) theItem
 {
-	if ([theItem action] == @selector(launchCMLF:)) {
+	SEL action_ = [theItem action];
+
+	if (action_ == @selector(launchCMLF:)) {
 		NSString	*name_ = [CMRPref helperAppDisplayName];
 
 		if (nil == name_) {
@@ -126,8 +154,56 @@
 			[theItem setTitle : name_];
 			return YES;
 		}
+	} else if (action_ == @selector(closeAll:)) {
+		return ([NSApp makeWindowsPerform : @selector(isVisible) inOrder : YES] != nil);
+	} else if (action_ == @selector(miniaturizeAll:)) {
+		return ([NSApp makeWindowsPerform : @selector(isNotMiniaturizedButCanMinimize) inOrder : YES] != nil);
+	/*} else if (action_ == @selector(togglePreviewPanel:)) {
+		id<NSObject> tmp_ = [CMRPref sharedImagePreviewer];
+		return [tmp_ respondsToSelector : @selector(togglePreviewPanel:)];*/
 	}
 	return YES;
+}
+
+#pragma mark AppleEvent Support
+// Available in BathyScaphe 1.2 and later.
+- (void) handleGetURLEvent : (NSAppleEventDescriptor *) event withReplyEvent : (NSAppleEventDescriptor *) replyEvent
+{
+    NSString	*urlStr_;
+    NSURL		*url_;
+
+    urlStr_ = [[event paramDescriptorForKeyword : keyDirectObject] stringValue];
+	url_ = [NSURL URLWithString : urlStr_];
+
+	// scheme の違い（bathyscaphe: or http:）は CMROpenURLManager が吸収する
+    [[CMROpenURLManager defaultManager] openLocation : url_];
+}
+
+#pragma mark NSApplication Delegates
+- (void) applicationWillFinishLaunching : (NSNotification *) aNotification
+// available in BathyScaphe 1.2 and later.
+{
+	NSAppleEventManager	*aeMgr = [NSAppleEventManager sharedAppleEventManager];
+	
+	[aeMgr setEventHandler : self
+			   andSelector : @selector(handleGetURLEvent:withReplyEvent:)
+			 forEventClass : 'GURL'
+				andEventID : 'GURL']; // 'GURL' is different from 'gurl'
+}
+
+- (void) applicationDidFinishLaunching : (NSNotification *) aNotification
+{
+	CMRMainMenuManager *tmp = [CMRMainMenuManager defaultManager];
+    /* Service menu */
+    [NSApp setServicesProvider : [CMROpenURLManager defaultManager]];
+
+	/* Remove 'Open Recent' menu */
+	int openURLMenuItemIndex = [[tmp fileMenu] indexOfItemWithTarget : self andAction : @selector(openURLPanel:)];
+
+    if (openURLMenuItemIndex >= 0 && [[[tmp fileMenu] itemAtIndex : openURLMenuItemIndex+1] hasSubmenu])
+    {
+            [[tmp fileMenu] removeItemAtIndex : openURLMenuItemIndex+1];
+    }
 }
 @end
 
@@ -139,24 +215,19 @@
 }
 @end
 
+#pragma mark -
 
-
-@implementation CMRAppDelegate(NSApplicationNotifications)
-- (void) applicationDidFinishLaunching : (NSNotification *) aNotification
+@implementation NSWindow(BSAddition)
+- (BOOL) isNotMiniaturizedButCanMinimize
 {
-	CMRMainMenuManager *tmp = [CMRMainMenuManager defaultManager];
-    /* Service menu */
-    [NSApp setServicesProvider : [CMROpenURLManager defaultManager]];
-
-	/* Remove 'Open Recent' menu */
-	int openURLMenuItemIndex = [[tmp fileMenu] indexOfItemWithTarget:self andAction:@selector(openURLPanel:)];
-
-    if (openURLMenuItemIndex>=0 && [[[tmp fileMenu] itemAtIndex:openURLMenuItemIndex+1] hasSubmenu])
-    {
-            [[tmp fileMenu] removeItemAtIndex:openURLMenuItemIndex+1];
-    }
+	// 最小化されていない、かつ、最小化可能であるウインドウである場合に YES を返す。
+	// 最小化不可能なウインドウでは常に NO を返す。
+	if (NO == ([self styleMask] & NSMiniaturizableWindowMask)) return NO;
+	return (NO == [self isMiniaturized]);
 }
 @end
+
+#pragma mark -
 
 #define kRGBColorSpace	@"NSCalibratedRGBColorSpace"
 @implementation NSApplication(ScriptingSupport)
@@ -225,51 +296,15 @@
 	}
 }
 
-- (NSString *) searchIgnoreChars
-{
-	return [CMRPref ignoreTitleCharacters];
-}
-- (void) setSearchIgnoreChars : (NSString *) someString
-{
-	[CMRPref setIgnoreTitleCharacters : someString];
-}
-
-- (BOOL) ignoreSpecificCharsOnSearch
-{
-	CMRSearchMask tmp_ = [CMRPref threadSearchOption];
-	return (tmp_ & CMRSearchOptionIgnoreSpecified);
-}
-
-- (void) setIgnoreSpecificCharsOnSearch : (BOOL) flag;
-{
-	CMRSearchMask		prefOption_;		// 設定済みのオプション
-	
-	prefOption_ = [CMRPref threadSearchOption];
-
-	if (flag) {
-		[CMRPref setThreadSearchOption : 
-			prefOption_ | CMRSearchOptionIgnoreSpecified];
-	} else {
-		[CMRPref setThreadSearchOption : 
-			(prefOption_ & ~CMRSearchOptionIgnoreSpecified)];
-	}
-	
-}
-
 - (void) handleOpenURLCommand : (NSScriptCommand *) command
 {
-	NSURL *url_;
-    CMROpenURLManager    *mgr;
-
-	NSString *urlstr_ = nil;
+	NSURL		*url_;
+	NSString	*urlstr_ = [command directParameter];
 	
-	if(!(urlstr_ = [command directParameter]) || [urlstr_ isEqualToString:@""]) {
+	if(!urlstr_ || [urlstr_ isEqualToString : @""])
 		return;
-	}
 	
-	url_ = [NSURL URLWithString : urlstr_];
-	
-    mgr = [CMROpenURLManager defaultManager];
-	[mgr openURL : url_];
+	url_ = [NSURL URLWithString : urlstr_];	
+	[[CMROpenURLManager defaultManager] openLocation : url_];
 }
 @end

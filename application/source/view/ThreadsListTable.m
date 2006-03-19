@@ -1,5 +1,5 @@
 /**
-  * $Id: ThreadsListTable.m,v 1.5.2.1 2006/02/27 17:31:50 masakih Exp $
+  * $Id: ThreadsListTable.m,v 1.5.2.2 2006/03/19 15:09:53 masakih Exp $
   * 
   * ThreadsListTable.m
   *
@@ -135,16 +135,12 @@
 }
 - (void) keyDown : (NSEvent *) theEvent
 {
-	// デバッグ用
-	/*
+	// デバッグ用	
 	UTILDescription(theEvent);
 	UTILDescUnsignedInt([theEvent modifierFlags]);
 	UTILDescription([theEvent characters]);
 	UTILDescription([theEvent charactersIgnoringModifiers]);
-	CMRDebugWriteObject(
-		[SGKeyBindingSupport keyBindingStringWithEvent:theEvent]);
-	*/
-
+	
 	if([self interpretKeyBinding : theEvent])
 		return;
 	
@@ -261,7 +257,7 @@ Hope this helps...
 		}
 	}
 
-	[self sizeLastColumnToFit];
+	//[self sizeLastColumnToFit];
 }
 
 - (void) setColumnWithIdentifier : (id) identifier visible : (BOOL) visible

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.25.2.4 2006/02/27 17:31:49 masakih Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.25.2.5 2006/03/19 15:09:53 masakih Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -385,7 +385,7 @@
 
 - (void) updateDefaultsWithTableView : (NSTableView *) tbview
 {
-	id	tmp,tmp2;
+	id	tmp;
     tmp = SGTemplateResource(kThreadsListTableICSKey);
     UTILAssertRespondsTo(tmp, @selector(stringValue));
     [tbview setIntercellSpacing : NSSizeFromString([tmp stringValue])];
@@ -404,17 +404,19 @@
 			[tbview setBackgroundColor : [NSColor whiteColor]];
 	}
 	[tbview setGridStyleMask : ([CMRPref threadsListDrawsGrid] ? NSTableViewSolidVerticalGridLineMask : NSTableViewGridNone)];
-	tmp2 = [CMRPref threadsListTableColumnState];
-	if(tmp2)
-		[(ThreadsListTable *)tbview restoreColumnState : tmp2];
 }
 
 - (void) setupThreadsListTable
 {
     ThreadsListTable    *tbView_ = [self threadsListTable];
+	id tmp2;
     
     [self createDefaultTableColumnsWithTableView : tbView_];
     [self updateDefaultsWithTableView : tbView_];
+
+	tmp2 = [CMRPref threadsListTableColumnState];
+	if(tmp2)
+		[tbView_ restoreColumnState : tmp2];
 
     [tbView_ setTarget : self];
     [tbView_ setDelegate : self];

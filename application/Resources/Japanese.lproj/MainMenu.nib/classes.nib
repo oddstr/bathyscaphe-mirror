@@ -4,7 +4,9 @@
         {
             ACTIONS = {
                 clearHistory = id; 
+                closeAll = id; 
                 launchCMLF = id; 
+                miniaturizeAll = id; 
                 openURL = id; 
                 openURLPanel = id; 
                 resetApplication = id; 
@@ -13,6 +15,7 @@
                 showStandardFindPanel = id; 
                 showTaskInfoPanel = id; 
                 toggleOnlineMode = id; 
+                togglePreviewPanel = id; 
             }; 
             CLASS = CMRAppDelegate; 
             LANGUAGE = ObjC; 
@@ -52,6 +55,7 @@
                 openInBrowser = id; 
                 openLogfile = id; 
                 openScriptsDirectory = id; 
+                orderFrontMainBrowser = id; 
                 pasteAsQuotation = id; 
                 reloadThread = id; 
                 reloadThreadsList = id; 
@@ -89,7 +93,8 @@
             LANGUAGE = ObjC; 
             SUPERCLASS = NSResponder; 
         }, 
-        {CLASS = NSDocumentController; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+        {CLASS = NSDocumentController; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = NSWindow; LANGUAGE = ObjC; SUPERCLASS = NSResponder; }
     ); 
     IBVersion = 1; 
 }

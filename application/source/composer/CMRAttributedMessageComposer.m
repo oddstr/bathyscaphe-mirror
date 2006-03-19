@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer.m,v 1.6.2.4 2006/01/29 12:58:10 masakih Exp $
+  * $Id: CMRAttributedMessageComposer.m,v 1.6.2.5 2006/03/19 15:09:53 masakih Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -8,6 +8,7 @@
 
 #import "CMRAttributedMessageComposer_p.h"
 #import <AppKit/NSTextStorage.h>
+
 
 // for debugging only
 #define UTIL_DEBUGGING		1
@@ -247,7 +248,8 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 {
 	NSMutableString		*tmp;
 	NSString			*dateRep;
-	
+	NSString		*anchorStr = nil;
+
 	if (messageIsLocalAboned_(aMessage))
 		return;
 	
@@ -258,12 +260,45 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 	dateRep = [aMessage dateRepresentation];
 
 	if (dateRep) {
-		[tmp setString : dateRep];
+		NSRange	anchor_ = [dateRep rangeOfString : @"<a href=" options : (NSCaseInsensitiveSearch|NSLiteralSearch)];
+		if (anchor_.length != 0) {
+			NSRange anchorEnd_;
+			anchorEnd_ = [dateRep rangeOfString : @"</a>" options: (NSCaseInsensitiveSearch|NSLiteralSearch|NSBackwardsSearch)];
+			
+			if (anchorEnd_.length != 0) {
+				anchor_.length = anchorEnd_.location - anchor_.location + anchorEnd_.length;
+	
+				anchorStr = [dateRep substringWithRange : anchor_];
+
+				[tmp setString : [dateRep substringToIndex : anchor_.location]];
+			} else {
+				[tmp setString : dateRep];
+			}
+		} else {
+			[tmp setString : dateRep];
+		}
 	} else {
 		appendDateString(tmp, [aMessage date], [aMessage datePrefix]);
 	}
 
 	simpleAppendFieldItem([self contentsStorage], FIELD_DATE, tmp);
+
+	if (anchorStr) {
+		NSDictionary *attr_ = nil;
+		NSData *data_ = [anchorStr dataUsingEncoding : NSUnicodeStringEncoding];
+
+		NSMutableAttributedString *result_ = [[NSMutableAttributedString alloc] initWithHTML: data_ documentAttributes: &attr_];
+		if(!result_) return;
+
+		NSRange	anchorRange = NSMakeRange(0, [result_ length]);
+		NSMutableAttributedString	*contentsStorage_ = [self contentsStorage];
+
+		[result_ removeAttribute : NSUnderlineStyleAttributeName range : anchorRange];
+		[result_ addAttributes : [ATTR_TEMPLATE attributesForText] range : anchorRange];
+
+		[contentsStorage_ insertAttributedString:result_ atIndex: ([contentsStorage_ length] -1)];
+		[result_ release];
+	}
 }
 
 - (void) composeID : (CMRThreadMessage *) aMessage
@@ -492,7 +527,7 @@ static void appendDateString(NSMutableString *buffer, id theDate, NSString *pref
 static void appendWhiteSpaceSeparator(NSMutableAttributedString *buffer)
 {
 	if (wSS == nil)
-		wSS = [[NSAttributedString alloc] initWithString : @"  "];
+		wSS = [[NSAttributedString alloc] initWithString : @" "];
 
 	[buffer appendAttributedString : wSS];
 }

@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-Validation.m,v 1.9.2.5 2006/02/28 16:28:58 masakih Exp $
+ * $Id: CMRBrowser-Validation.m,v 1.9.2.6 2006/03/19 15:09:53 masakih Exp $
  * BathyScaphe
  *
  * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -48,7 +48,7 @@
 
 		if([tmp_ isFavorites] && ![CMRPref canHEADCheck]) {
 			if ([theItem respondsToSelector : @selector(setToolTip:)]) {
-				NSDate *newDate_ = [[CMRPref lastHEADCheckedDate] addTimeInterval : 600.0];
+				NSDate *newDate_ = [CMRPref nextHEADCheckAvailableDate];
 				NSString *dateStr_ =
 					[NSString stringWithFormat : NSLocalizedString(@"HEADCheck Disabled ToolTip", @"Can't use HEADCheck until %@"),
 												 [newDate_ descriptionWithCalendarFormat : @"%H:%M" timeZone: nil locale:nil]];
@@ -137,8 +137,6 @@
 	
 	if(action_ == @selector(selectFilteringMask:)) 
 		return ([self currentThreadsList] != nil);
-	//else if(action_ == @selector(searchToolbarPopupChanged:))
-	//	return ([self currentThreadsList] != nil);
 	else if(action_ == @selector(showSearchThreadPanel:))
 		return ([self currentThreadsList] != nil);
 	else if(action_ == @selector(chooseColumn:))

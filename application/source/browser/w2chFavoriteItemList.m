@@ -1,6 +1,8 @@
 /**
-  * $Id: w2chFavoriteItemList.m,v 1.4.2.3 2006/02/27 17:31:49 masakih Exp $
-  * Copyright 2005 BathyScaphe Project. All rights reserved.
+  * $Id: w2chFavoriteItemList.m,v 1.4.2.4 2006/03/19 15:09:53 masakih Exp $
+  * BathyScaphe
+  *
+  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
   *
   */
 #import "CMRThreadsList_p.h"
@@ -222,7 +224,6 @@
 	
 
 	[[CMRFavoritesManager defaultManager] setFavoritesItemsArray : threadsArray_];
-	[CMRPref setLastHEADCheckedDate : [NSDate date]];
 
 	[self startLoadingThreadsList : [self worker]];
 

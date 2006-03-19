@@ -311,12 +311,9 @@
 		8716066D098A44AB00A27F63 /* SoundsPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8716066B098A44AB00A27F63 /* SoundsPane.nib */; };
 		871606AF098A646500A27F63 /* Sounds.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 871606AE098A646400A27F63 /* Sounds.tiff */; };
 		871607ED098AA42200A27F63 /* SyncPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = 871607EB098AA42200A27F63 /* SyncPane.nib */; };
-		871607EF098AA48400A27F63 /* Sync.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 871607EE098AA48400A27F63 /* Sync.tiff */; };
 		8718EFA608D4257200FFAAEE /* BoardManager-BSAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 8718EFA508D4257200FFAAEE /* BoardManager-BSAddition.m */; };
 		8718EFDE08D43F7D00FFAAEE /* NoNameInputController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8718EFDC08D43F7D00FFAAEE /* NoNameInputController.h */; };
 		8718EFDF08D43F7D00FFAAEE /* NoNameInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8718EFDD08D43F7D00FFAAEE /* NoNameInputController.m */; };
-		871986D208351B1800188E63 /* Keychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 871986D108351B1800188E63 /* Keychain.framework */; };
-		8719876B083534D900188E63 /* Keychain.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 871986D108351B1800188E63 /* Keychain.framework */; };
 		8719F06A088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 8719F069088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m */; };
 		871CA0F308585F3900C3A044 /* BoardListEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DAF704C6949900A80005 /* BoardListEditor.h */; };
 		871CA0F408585F3900C3A044 /* BoardListEditor_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DAF904C6949900A80005 /* BoardListEditor_p.h */; };
@@ -573,6 +570,7 @@
 		87C2038508FF419C006DC42C /* SGAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244F5043610D600A80005 /* SGAppKit.framework */; };
 		87C2041208FF4873006DC42C /* ImagePreviewer.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87C2031D08FF3E2B006DC42C /* ImagePreviewer.plugin */; };
 		87C4813F08FD05A300F91054 /* AddBoardSheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87C4813D08FD05A300F91054 /* AddBoardSheet.nib */; };
+		87C8FBDD09B3631800039203 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87C8FBDC09B3631800039203 /* Security.framework */; };
 		87C9DD3009404CA3004E6596 /* AppDefaults-Alert.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCDD04C698FB00A80005 /* AppDefaults-Alert.m */; };
 		87CD85CC098170ED002C4372 /* BSFavoritesHEADCheckTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 87CD85CA098170ED002C4372 /* BSFavoritesHEADCheckTask.h */; };
 		87CD85CD098170ED002C4372 /* BSFavoritesHEADCheckTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CD85CB098170ED002C4372 /* BSFavoritesHEADCheckTask.m */; };
@@ -1016,9 +1014,7 @@
 		F4904CD7088C096D00EA9BA8 /* SGNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FF043610FB00A80005 /* SGNetwork.framework */; };
 		F4904CD8088C096D00EA9BA8 /* SGAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244F5043610D600A80005 /* SGAppKit.framework */; };
 		F4904CD9088C096D00EA9BA8 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F523AC2B037BFC4F01A80002 /* Carbon.framework */; };
-		F4904CDA088C096D00EA9BA8 /* Keychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 871986D108351B1800188E63 /* Keychain.framework */; };
 		F4904CDB088C096D00EA9BA8 /* libRBSplitView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87464E3608643673000F0371 /* libRBSplitView.a */; };
-		F4904CDF088C096D00EA9BA8 /* Keychain.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 871986D108351B1800188E63 /* Keychain.framework */; };
 		F4904CE0088C096D00EA9BA8 /* CocoMonar.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3924488043610AE00A80005 /* CocoMonar.framework */; };
 		F4904CE1088C096D00EA9BA8 /* SGFoundation.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F39244FA043610EB00A80005 /* SGFoundation.framework */; };
 		F4904CE2088C096D00EA9BA8 /* SGNetwork.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F39244FF043610FB00A80005 /* SGNetwork.framework */; };
@@ -1091,6 +1087,7 @@
 		F4F5871409472D8F004DF9DB /* analyze.c in Sources */ = {isa = PBXBuildFile; fileRef = F4F5871109472D8F004DF9DB /* analyze.c */; };
 		F4F5871509472D8F004DF9DB /* complete.c in Sources */ = {isa = PBXBuildFile; fileRef = F4F5871209472D8F004DF9DB /* complete.c */; };
 		F4F5871609472D8F004DF9DB /* vdbefifo.c in Sources */ = {isa = PBXBuildFile; fileRef = F4F5871309472D8F004DF9DB /* vdbefifo.c */; };
+		F4F63CC709CD0F9B005FF2DE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87C8FBDC09B3631800039203 /* Security.framework */; };
 		F4F85756096E2F9300C7E9F5 /* CriteriaSpecifications.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4F85754096E2F9300C7E9F5 /* CriteriaSpecifications.plist */; };
 		F4FA684E0942DE5E00BE3F27 /* libsqlite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F406943A0942DC950045317C /* libsqlite.a */; };
 		F4FA68690942E13200BE3F27 /* BSSegmentedControlTbItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 877D634608C4531500DEE475 /* BSSegmentedControlTbItem.m */; };
@@ -1238,7 +1235,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8719876B083534D900188E63 /* Keychain.framework in CopyFiles */,
 				8701638A082BE67100AEFDD0 /* CocoMonar.framework in CopyFiles */,
 				8701638B082BE67100AEFDD0 /* SGFoundation.framework in CopyFiles */,
 				8701638C082BE67100AEFDD0 /* SGNetwork.framework in CopyFiles */,
@@ -1284,7 +1280,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F4904CDF088C096D00EA9BA8 /* Keychain.framework in CopyFiles */,
 				F4904CE0088C096D00EA9BA8 /* CocoMonar.framework in CopyFiles */,
 				F4904CE1088C096D00EA9BA8 /* SGFoundation.framework in CopyFiles */,
 				F4904CE2088C096D00EA9BA8 /* SGNetwork.framework in CopyFiles */,
@@ -1332,7 +1327,6 @@
 		8718EFA508D4257200FFAAEE /* BoardManager-BSAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BoardManager-BSAddition.m"; sourceTree = "<group>"; };
 		8718EFDC08D43F7D00FFAAEE /* NoNameInputController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoNameInputController.h; sourceTree = "<group>"; };
 		8718EFDD08D43F7D00FFAAEE /* NoNameInputController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoNameInputController.m; sourceTree = "<group>"; };
-		871986D108351B1800188E63 /* Keychain.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Keychain.framework; path = ../frameworks/Keychain/build/Deployment/Keychain.framework; sourceTree = SOURCE_ROOT; };
 		8719F069088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-OwnHistory.m"; sourceTree = "<group>"; };
 		871CA11108585F3A00C3A044 /* Info-editor.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Info-editor.plist"; path = "../../Info-editor.plist"; sourceTree = "<group>"; };
 		871CA11208585F3A00C3A044 /* BoardListEditor.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoardListEditor.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1505,6 +1499,7 @@
 		87C2033B08FF40B8006DC42C /* Info-previewer.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Info-previewer.plist"; sourceTree = SOURCE_ROOT; };
 		87C4813E08FD05A300F91054 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/AddBoardSheet.nib; sourceTree = "<group>"; };
 		87C633C4087F53A60093559B /* AppDefaults-Deprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDefaults-Deprecated.h"; sourceTree = "<group>"; };
+		87C8FBDC09B3631800039203 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		87CD85CA098170ED002C4372 /* BSFavoritesHEADCheckTask.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = BSFavoritesHEADCheckTask.h; sourceTree = "<group>"; };
 		87CD85CB098170ED002C4372 /* BSFavoritesHEADCheckTask.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = BSFavoritesHEADCheckTask.m; sourceTree = "<group>"; };
 		87CF6469097A335D00DE8B16 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Japanese; path = Japanese.lproj/Acknowledgments.rtf; sourceTree = "<group>"; };
@@ -1975,8 +1970,8 @@
 				87016386082BE67100AEFDD0 /* SGNetwork.framework in Frameworks */,
 				87016387082BE67100AEFDD0 /* SGAppKit.framework in Frameworks */,
 				87016388082BE67100AEFDD0 /* Carbon.framework in Frameworks */,
-				871986D208351B1800188E63 /* Keychain.framework in Frameworks */,
 				87464E3708643673000F0371 /* libRBSplitView.a in Frameworks */,
+				87C8FBDD09B3631800039203 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2041,9 +2036,9 @@
 				F4904CD7088C096D00EA9BA8 /* SGNetwork.framework in Frameworks */,
 				F4904CD8088C096D00EA9BA8 /* SGAppKit.framework in Frameworks */,
 				F4904CD9088C096D00EA9BA8 /* Carbon.framework in Frameworks */,
-				F4904CDA088C096D00EA9BA8 /* Keychain.framework in Frameworks */,
 				F4904CDB088C096D00EA9BA8 /* libRBSplitView.a in Frameworks */,
 				F4FA684E0942DE5E00BE3F27 /* libsqlite.a in Frameworks */,
+				F4F63CC709CD0F9B005FF2DE /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2085,7 +2080,7 @@
 			isa = PBXGroup;
 			children = (
 				F4E2F23408B8A27800177310 /* sqlite */,
-				871986D108351B1800188E63 /* Keychain.framework */,
+				87C8FBDC09B3631800039203 /* Security.framework */,
 				F38D04EC03C49C8100A80002 /* Reference */,
 				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
 				F3924488043610AE00A80005 /* CocoMonar.framework */,
@@ -4280,7 +4275,6 @@
 				8716066D098A44AB00A27F63 /* SoundsPane.nib in Resources */,
 				871606AF098A646500A27F63 /* Sounds.tiff in Resources */,
 				871607ED098AA42200A27F63 /* SyncPane.nib in Resources */,
-				871607EF098AA48400A27F63 /* Sync.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5820,7 +5814,6 @@
 					../frameworks/CocoMonar/build/Deployment,
 					../frameworks/SGFoundation/build/Deployment,
 					../frameworks/SGNetwork/build/Deployment,
-					../frameworks/Keychain/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -5860,7 +5853,6 @@
 					../frameworks/CocoMonar/build/Deployment,
 					../frameworks/SGFoundation/build/Deployment,
 					../frameworks/SGNetwork/build/Deployment,
-					../frameworks/Keychain/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

@@ -44,7 +44,6 @@
             ACTIONS = {
                 addCategoryItem = id; 
                 addDrawerItem = id; 
-                addSmartItem = id; 
                 changeBrowserArrangement = id; 
                 collapseOrExpandBoardList = id; 
                 editDrawerItem = id; 
@@ -74,7 +73,7 @@
                 "m_dItemEditSheetMsgField" = NSTextField; 
                 "m_dItemEditSheetTitleField" = NSTextField; 
                 "m_drawerContextualMenu" = NSMenu; 
-                "m_drawerItemEditSheet" = NSWindow; 
+                "m_drawerItemEditSheet" = NSPanel; 
                 "m_listContextualMenu" = NSMenu; 
                 "m_searchField" = NSSearchField; 
                 "m_splitView" = BSKFSplitView; 

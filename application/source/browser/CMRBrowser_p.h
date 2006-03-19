@@ -96,17 +96,6 @@
 #define kBLContMenuItemTagMin		700
 #define kBLContMenuItemTagMax		705
 
-//:CMRBrowser-List.m
-@interface CMRBrowser(List)
-- (void) changeThreadsFilteringMask : (int) aMask;
-
-- (id) currentThreadsList;
-- (void) setCurrentThreadsList : (id) newList;
-
-- (void) showThreadsListForBoard : (id) board;
-- (void) showThreadsListWithBoardName : (NSString *) boardName;
-@end
-
 
 
 @interface CMRBrowser(Table)

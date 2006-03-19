@@ -1,3 +1,9 @@
+2006-03-20 masakih <masakih@users.sourceforge.jp>
+	トランクよりマージ
+	cvs -z3 up -j v111-BASED-BRANCH-MERGE-POINT-02 -j v111-BASED-BRANCH-MERGE-POINT-03
+	
+	トランクに一時タグを作成。
+	cvs -z3 tag -D "Mar 9 14:00:00 2006 UTC" v111-BASED-BRANCH-MERGE-POINT-03
 2006-03-19 masakih <masakih@users.sourceforge.jp>
 	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m
 		初期化時に日付を現在の日付で初期化。

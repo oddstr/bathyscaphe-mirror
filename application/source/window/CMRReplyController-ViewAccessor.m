@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyController-ViewAccessor.m,v 1.7 2005/09/30 18:52:03 tsawada2 Exp $
+  * $Id: CMRReplyController-ViewAccessor.m,v 1.7.2.1 2006/03/19 15:09:53 masakih Exp $
   * 
   * CMRReplyController-ViewAccessor.m
   *
@@ -206,6 +206,21 @@
 	}
 	
 	return NO;
+}
+
+// GrafEisen Addition
+/* 2006-02-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	NSDocument を "dirty" な状態にするのは、通常 NSDocument 自身に任せておけばよいはず。
+	しかし、「下書きとして保存」した後、本文を追加／削除などして編集しても、"dirty" な状態になぜか
+	なってくれない。テキストを選択して、削除したりすると "dirty" になるのだが…
+	そこでこの delegate でテキストの追加／削除をつかまえ、強制的に "dirty" フラグを立てる。
+	単純な状況で試す限り良い感じで動くようだが、しばらく様子見が必要か。
+*/
+- (void)textDidChange:(NSNotification *)aNotification
+{
+	//NSLog(@"text did change");
+	if(NO == [[self document] isDocumentEdited]) // "dirty" でないときのみ updateChangeCount: する。
+		[[self document] updateChangeCount:NSChangeDone];
 }
 
 #pragma mark NSComboBox Delegate

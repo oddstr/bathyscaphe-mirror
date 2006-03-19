@@ -1,11 +1,12 @@
 /**
-  * $Id: CMRThreadsList.m,v 1.3.2.3 2006/02/27 17:31:49 masakih Exp $
+  * $Id: CMRThreadsList.m,v 1.3.2.4 2006/03/19 15:09:53 masakih Exp $
   * 
   * CMRThreadsList.m
   *
-  * Copyright (c) 2003, Takanori Ishikawa.
+  * Copyright (c) 2003, Takanori Ishikawa, and 2005-2006, BathyScaphe Project.
   * See the file LICENSE for copying permission.
   */
+
 #import "CMRThreadsList_p.h"
 #import "CMRThreadLayout.h"
 #import "BoardManager.h"
@@ -14,9 +15,6 @@
 #import "missing.h"
 
 
-//////////////////////////////////////////////////////////////////////
-////////////////////// [ íËêîÇ‚É}ÉNÉçíuä∑ ] //////////////////////////
-//////////////////////////////////////////////////////////////////////
 NSString *const CMRThreadsListDidUpdateNotification = @"ThreadsListDidUpdateNotification";
 NSString *const CMRThreadsListDidChangeNotification = @"ThreadsListDidChangeNotification";
 NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserInfoSelectionHoldingMaskKey";
@@ -45,11 +43,6 @@ struct SortContext {
 
 
 @implementation CMRThreadsList
-/*+ (id) threadsListWithBBSSignature : (CMRBBSSignature *) aSignature
-{
-	return [[[self alloc] initWithBBSSignature : aSignature] autorelease];
-}*/
-
 + (id) threadsListWithBBSName : (NSString *) boardName
 {
 	return [[[self alloc] initWithBBSName : boardName] autorelease];
@@ -70,22 +63,7 @@ struct SortContext {
 	}
 	return self;
 }
-/*- (id) initConcreateWithBBSSignature : (CMRBBSSignature *) aSignature
-{
-	NSURL		*boardURL_;
-	
-	boardURL_ = [[BoardManager defaultManager] 
-					URLForBoardName : [aSignature name]];
-	if(NO == [aSignature isFavorites] && nil == boardURL_){
-		[self autorelease];
-		return nil;
-	}
-	
-	if(self = [self init]){
-		[self setBBSSignature : aSignature];
-	}
-	return self;
-}*/
+
 - (id) initWithBBSName : (NSString *) boardName
 {
 	if([CMXFavoritesDirectoryName isSameAsString : boardName]){
@@ -96,16 +74,6 @@ struct SortContext {
 	
 	return [self initConcreateWithBBSName : boardName];
 }
-/*- (id) initWithBBSSignature : (CMRBBSSignature *) aSignature
-{
-	if([CMXFavoritesDirectoryName isSameAsString : [aSignature name]]){
-		[self autorelease];
-		return [[w2chFavoriteItemList alloc] 
-					initConcreateWithBBSSignature : aSignature];
-	}
-	
-	return [self initConcreateWithBBSSignature : aSignature];
-}*/
 
 - (id) init
 {
@@ -120,6 +88,23 @@ struct SortContext {
 
 - (BOOL) writeListToFileNow
 {
+/*	if ([CMRPref saveThreadListAsBinaryPlist]) {
+		NSData *data_;
+		NSString *errStr;
+		data_ = [NSPropertyListSerialization dataFromPropertyList : [self threads]
+														   format : NSPropertyListBinaryFormat_v1_0
+												 errorDescription : &errStr];
+		
+		if(!data_) {
+			NSLog(errStr);
+			[errStr release];
+			goto standard_writing;
+		} else {
+			return [data_ writeToFile : [self threadsListPath] atomically : NO];
+		}
+	}
+
+standard_writing:*/
 	return [[self threads] writeToFile : [self threadsListPath] atomically : NO];
 }
 
@@ -128,28 +113,9 @@ struct SortContext {
 	[self removeFromNotificationCenter];
 
 	if (NO == [self isFavorites]) {
-		//NSLog(@"Now writing");
-		//[self writeListToFileNow];
-		//[[self threads] writeToFile : [self threadsListPath] atomically : NO];
-		/*if ([CMRPref saveThreadListAsBinaryPlist]) {
-			NSData *data_;
-			NSString *errStr;
-			data_ = [NSPropertyListSerialization dataFromPropertyList:[self threads]
-															   format:NSPropertyListBinaryFormat_v1_0 errorDescription:&errStr];
-		
-			if(!data_) {
-				NSLog(errStr);
-				[errStr release];
-				[[self threads] writeToFile : [self threadsListPath] atomically : NO];
-			} else {
-				[data_ writeToFile : [self threadsListPath] atomically : YES];
-			}
-		} else {
-			[[self threads] writeToFile : [self threadsListPath] atomically : NO];
-		}*/
+		[self writeListToFileNow];
 	}
 	
-	//[_BBSSignature release];
 	[_BBSName release];
 
 	[_worker release];
@@ -213,14 +179,6 @@ struct SortContext {
 
 
 @implementation CMRThreadsList(PrivateAccessor)
-/*- (void) setBBSSignature : (CMRBBSSignature *) aBBSSignature
-{
-	id		tmp;
-	
-	tmp = _BBSSignature;
-	_BBSSignature = [aBBSSignature retain];
-	[tmp release];
-}*/
 - (void) setBBSName : (NSString *) boardName
 {
 	id		tmp;
@@ -338,17 +296,13 @@ struct SortContext {
 
 
 @implementation CMRThreadsList(Attributes)
-/*- (CMRBBSSignature *) BBSSignature
-{
-	return _BBSSignature;
-}*/
 - (NSString *) BBSName
 {
 	return _BBSName;
 }
 - (NSString *) boardName
 {
-	return [self BBSName];//[[self BBSSignature] name];
+	return [self BBSName];
 }
 - (NSString *) threadsListPath
 {
@@ -407,8 +361,6 @@ static NSComparisonResult sortArrayByContextKey(id arg1, id arg2, void *context)
 		} else {
 			new2 = (ThreadNewCreatedStatus == [s2 unsignedIntValue]);
 		}
-		//new1 = [CMRThreadAttributes isNewThreadFromDictionary : arg1];
-		//new2 = [CMRThreadAttributes isNewThreadFromDictionary : arg2];
 		
 		if(new1 != new2)
 			return new1 ? NSOrderedAscending : NSOrderedDescending;

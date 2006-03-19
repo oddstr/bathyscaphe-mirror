@@ -1,5 +1,5 @@
 /**
-  * $Id: CMXTextParser.h,v 1.1.1.1.4.1 2006/01/28 16:06:42 masakih Exp $
+  * $Id: CMXTextParser.h,v 1.1.1.1.4.2 2006/03/19 15:09:53 masakih Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -114,10 +114,10 @@ CocoMonar ÇÃèÍçáÅAÇΩÇ∆Ç¶ÇŒêVÅEmac î¬Ç≈ÇÕ Mac Japanese ÇÃ
 
 + (CMRThreadMessage *) messageWithDATLineComponentsSeparatedByNewline : (NSArray *) aComponents;
 
-+ (BOOL) parseDateExtraField : (NSString         *) dateExtra
-            convertToMessage : (CMRThreadMessage *) aMessage;
-+ (BOOL) parseExtraField : (NSString         *) extraField
-        convertToMessage : (CMRThreadMessage *) aMessage;
+//+ (BOOL) parseDateExtraField : (NSString         *) dateExtra
+//            convertToMessage : (CMRThreadMessage *) aMessage;
+//+ (BOOL) parseExtraField : (NSString         *) extraField
+//        convertToMessage : (CMRThreadMessage *) aMessage;
 @end
 
 

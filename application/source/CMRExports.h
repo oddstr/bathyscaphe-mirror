@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRExports.h,v 1.4.2.2 2006/02/27 17:31:49 masakih Exp $
+  * $Id: CMRExports.h,v 1.4.2.3 2006/03/19 15:09:53 masakih Exp $
   * 
   * CMRExports.h
   *
@@ -21,9 +21,9 @@ extern "C" {
 
 
 @class SGInternalMessenger;
-
+@class CMRBrowser;
 // main browser
-extern id					CMRMainBrowser;
+extern CMRBrowser			*CMRMainBrowser;
 
 // main thread & runLoop...
 extern NSThread				*CMRMainThread;

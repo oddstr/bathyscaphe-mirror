@@ -1,5 +1,5 @@
 /*
-    $Id: CMRThreadViewer-Validation.m,v 1.12.2.3 2006/01/29 12:58:10 masakih Exp $
+    $Id: CMRThreadViewer-Validation.m,v 1.12.2.4 2006/03/19 15:09:53 masakih Exp $
     CMRThreadViewer-Action.m から独立
     Created at 2005-02-16 by tsawada2.
 */
@@ -280,11 +280,14 @@ static int messageMaskForTag(int tag)
 	
 	if (action_ == @selector(launchBWAgent:)			||
 	   action_ == @selector(openDefaultNoNameInputPanel:) ||
-	   action_ == @selector(orderFrontMainBrowser:) ||
 	   action_ == @selector(showThreadWithMenuItem:)
 	   )
 	{ return YES; }
-	
+
+	if (action_ == @selector(orderFrontMainBrowser:)) {
+		return [self shouldShowContents] && [self threadAttributes];
+	}
+
 	if (action_ == @selector(showBoardInspectorPanel:)) {
 		BOOL tmpBool = [[[BSBoardInfoInspector sharedInstance] window] isVisible];
 		[theItem setTitle : (tmpBool ? NSLocalizedString(@"Hide Board Inspector", @"Show Board Options")

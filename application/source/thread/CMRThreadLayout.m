@@ -1,6 +1,6 @@
 //: CMRThreadLayout.m
 /**
-  * $Id: CMRThreadLayout.m,v 1.5.2.2 2006/01/29 12:58:10 masakih Exp $
+  * $Id: CMRThreadLayout.m,v 1.5.2.3 2006/03/19 15:09:53 masakih Exp $
   * 
   * CMRThreadLayout.m
   *
@@ -199,30 +199,34 @@
 
 - (void) wakeUpLayoutManagerWithRange : (NSRange) aRange
 {
-	NSRect			glyphRect_;
+	/* 2006-03-09 tsawada2
+	　　念には念を入れて、aRange に関わらず documentVisibleRect 全体を
+	　　invalidate させる。 */
+	//NSLog(@"Wake Up!");
+	//NSRect			glyphRect_;
 	NSRect			visibleRect_;
-	NSPoint			newOrigin_;
+	//NSPoint			newOrigin_;
 	id				textView_;
 	NSClipView		*clipview_;
 	
-	if (NSNotFound == aRange.location || 0 == aRange.length) {
+	//if (NSNotFound == aRange.location || 0 == aRange.length) {
 		//In case of invisible abone, etc.
-		//NSBeep();
-		[[self textView] setNeedsDisplay : YES];
-		return;
-	}
+	//	//NSBeep();
+	//	[[self textView] setNeedsDisplay : YES];
+	//	return;
+	//}
 	
 	textView_ = [self textView];
-	glyphRect_ = [textView_ boundingRectForCharacterInRange : aRange];
-	if (NSEqualRects(NSZeroRect, glyphRect_)) return;
+	//glyphRect_ = [textView_ boundingRectForCharacterInRange : aRange];
+	//if (NSEqualRects(NSZeroRect, glyphRect_)) return;
 	
 	
 	clipview_ = [[self scrollView] contentView];
-	newOrigin_ = [textView_ bounds].origin;
-	newOrigin_.y = glyphRect_.origin.y;
+	//newOrigin_ = [textView_ bounds].origin;
+	//newOrigin_.y = glyphRect_.origin.y;
 	
 	visibleRect_ = [clipview_ documentVisibleRect];
-	visibleRect_.origin = newOrigin_;
+	//visibleRect_.origin = newOrigin_;
 	
 	// LayoutManager にハッパをかける。
 	// これが効いているのかどうか…？とにかく、症状は緩和されるようだが。
@@ -278,9 +282,9 @@
 		[self slideMessageRanges : changeInLength_
 					fromLocation : mesRange_.location +1];
 		[[self messageRanges] setRange:mesRange_ atIndex:anIndex];
-		//2005-09-20 Tiger 白抜け対策（手探り様子見中）
 	}
-		[self wakeUpLayoutManagerWithRange : mesRange_]; // 2005-11-09 ここに移す（changeInLength_ == 0のときも実行させる、AA指定対策）
+	// Tiger 白抜け対策（手探り様子見中）
+	[self wakeUpLayoutManagerWithRange : mesRange_];
 	[self setMessagesEdited : YES];
 }
 - (void) changeAllMessageAttributes : (BOOL  ) onOffFlag

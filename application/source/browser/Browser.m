@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.m,v 1.6.2.4 2006/02/27 17:31:49 masakih Exp $
+  * $Id: Browser.m,v 1.6.2.5 2006/03/19 15:09:53 masakih Exp $
   * 
   * Browser.m
   *
@@ -92,9 +92,10 @@
 
 	action_ = [theItem action];
 	
-	if(action_ == @selector(saveDocument:) || action_ == @selector(saveDocumentAs:)) 
+	if(action_ == @selector(saveDocumentAs:)) {
+		[theItem setTitle : NSLocalizedString(@"Save Menu Item Default", @"Save as...")];
 		return NO;
-		
+	}	
 	return [super validateMenuItem : theItem];
 }
 

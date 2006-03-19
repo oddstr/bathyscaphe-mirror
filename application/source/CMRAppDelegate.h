@@ -1,9 +1,9 @@
 /**
- * $Id: CMRAppDelegate.h,v 1.7.2.2 2006/01/29 12:58:10 masakih Exp $
+ * $Id: CMRAppDelegate.h,v 1.7.2.3 2006/03/19 15:09:53 masakih Exp $
  * 
  * CMRAppDelegate.h
  *
- * Copyright (c) 2004 Takanori Ishikawa, All rights reserved.
+ * Copyright (c) 2004 Takanori Ishikawa, (c) 2005-2006 tsawada2, All rights reserved.
  * See the file LICENSE for copying permission.
  */
 
@@ -18,9 +18,6 @@
  */
 @interface CMRAppDelegate : NSObject
 {
-    @private
-    NSMutableArray *_queue;
-    BOOL _launchingFinished;
 }
 - (IBAction) showPreferencesPane : (id) sender;
 - (IBAction) showStandardFindPanel : (id) sender;
@@ -35,6 +32,11 @@
 
 - (IBAction) clearHistory : (id) sender;
 - (IBAction) showAcknowledgment : (id) sender;
+// available in GrafEisen and later.
+- (IBAction) closeAll : (id) sender;
+- (IBAction) miniaturizeAll : (id) sender;
+
+//- (IBAction) togglePreviewPanel : (id) sender;
 @end
 
 @interface NSApplication(ScriptingSupport)
@@ -49,13 +51,10 @@
 - (NSArray *) boardListColor;
 - (void) setBoardListColor : (NSArray *) colorValue;
 
-/* Vita Additions */
-- (NSString *) searchIgnoreChars;
-- (void) setSearchIgnoreChars : (NSString *) someString;
-
-- (BOOL) ignoreSpecificCharsOnSearch;
-- (void) setIgnoreSpecificCharsOnSearch : (BOOL) flag;
-
 /* Command Support */
 - (void) handleOpenURLCommand : (NSScriptCommand *) command;
+@end
+
+@interface NSWindow(BSAddition)
+- (BOOL) isNotMiniaturizedButCanMinimize;
 @end

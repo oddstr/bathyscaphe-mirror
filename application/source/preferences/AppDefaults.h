@@ -1,6 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.23.2.4 2006/02/27 17:31:49 masakih Exp $
-  * $Id: AppDefaults.h,v 1.23.2.4 2006/02/27 17:31:49 masakih Exp $
+  * $Id: AppDefaults.h,v 1.23.2.5 2006/03/19 15:09:53 masakih Exp $
   * 
   * AppDefaults.h
   *
@@ -319,8 +318,9 @@
 @interface AppDefaults(ThreadsListSettings)
 - (int) threadsListAutoscrollMask;
 - (void) setThreadsListAutoscrollMask : (int) mask;
-- (NSString *) ignoreTitleCharacters;
-- (void) setIgnoreTitleCharacters : (NSString *) ignoreChars;
+// Deprecated in BathyScaphe 1.2.
+//- (NSString *) ignoreTitleCharacters;
+//- (void) setIgnoreTitleCharacters : (NSString *) ignoreChars;
 
 - (BOOL) useIncrementalSearch;
 - (void) setUseIncrementalSearch : (BOOL) TorF;
@@ -341,6 +341,11 @@
 - (NSDate *) lastHEADCheckedDate;
 - (void) setLastHEADCheckedDate : (NSDate *) date;
 - (BOOL) canHEADCheck;
+
+/* GrafEisen Additions */
+- (NSTimeInterval) HEADCheckTimeInterval;
+- (void) setHEADCheckTimeInterval : (NSTimeInterval) interval;
+- (NSDate *) nextHEADCheckAvailableDate;
 
 - (void) _loadThreadsListSettings;
 - (BOOL) _saveThreadsListSettings;

@@ -1,5 +1,5 @@
 /*
- * $Id: BSImagePreviewInspector-Tb.m,v 1.4.2.3 2006/02/27 17:31:50 masakih Exp $
+ * $Id: BSImagePreviewInspector-Tb.m,v 1.4.2.4 2006/03/19 15:09:53 masakih Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -10,12 +10,14 @@
 
 static NSString *const kIPITbActionBtnId		= @"Actions";
 static NSString *const kIPITbSettingsBtnId		= @"Settings";
+static NSString *const kIPITbCancelBtnId		= @"CancelAndSave";
 static NSString *const kIPITbPreviewBtnId		= @"OpenWithPreview";
 static NSString *const kIPITbFullscreenBtnId	= @"StartFullscreen";
 static NSString *const kIPITbBrowserBtnId		= @"OpenWithBrowser";
 static NSString *const kIPIToobarId				= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Toolbar";
 
-@implementation BSImagePreviewInspector(Toolbar)
+@implementation BSImagePreviewInspector(ToolbarAndUtils)
+#pragma mark Utilities
 static NSImage *_imageForDefaultBrowser()
 {
 	NSURL	*dummyURL = [NSURL URLWithString : @"http://www.apple.com/"];
@@ -64,14 +66,24 @@ static NSImage *_imageForDefaultBrowser()
 	[tmp_ setSize : NSMakeSize(wi, he)];
 	
 	msg_ = [NSString stringWithFormat : [self localizedStrForKey : @"%i*%i pixel"], wi, he];
-	
-	/*if ([tmp_ isKindOfClass : [NSBitmapImageRep class]]) {
-		id	exifData_ = [tmp_ valueForProperty : NSImageEXIFData];
-		if (exifData_)NSLog(@"%@", [exifData_ description]);
-	}*/
+
 	return msg_;
 }
-	
+
+- (void) startProgressIndicator : (NSProgressIndicator *) indicator indeterminately : (BOOL) indeterminately
+{
+	[indicator setIndeterminate : indeterminately];
+	[indicator setHidden : NO];
+	[indicator startAnimation : self];
+}
+
+- (void) stopProgressIndicator : (NSProgressIndicator *) indicator
+{
+	[indicator stopAnimation : self];
+	[indicator setHidden : YES];
+}
+
+#pragma mark Toolbars	
 - (void) setupToolbar
 {
     NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier: kIPIToobarId] autorelease];
@@ -149,44 +161,61 @@ static NSImage *_imageForDefaultBrowser()
 		[toolbarItem setAction: @selector(openImage:)];
 	
     } else if([itemIdent isEqual: kIPITbActionBtnId]) {
+		NSSize	size_;
+		NSView	*tmp_;
         toolbarItem = [[[BSIPIActionBtnTbItem alloc] initWithItemIdentifier: itemIdent] autorelease];
 
 		[toolbarItem setLabel: [self localizedStrForKey : @"Actions"]];
 		[toolbarItem setPaletteLabel: [self localizedStrForKey : @"Actions"]];
 		[toolbarItem setToolTip: [self localizedStrForKey : @"ActionsTip"]];
-		
-		[toolbarItem setView: [self actionBtn]];
-		[toolbarItem setMinSize:[[self actionBtn] bounds].size];
-		[toolbarItem setMaxSize:[[self actionBtn] bounds].size];
+
+		tmp_ = [[self actionBtn] retain]; // 2006-02-24 added
+		[toolbarItem setView: tmp_];
+		size_ = [tmp_ bounds].size;
+		[toolbarItem setMinSize: size_];
+		[toolbarItem setMaxSize: size_];
 
 		[toolbarItem setTarget : self];
-    } else {
-		toolbarItem = nil;
+
     }
+
     return toolbarItem;
 }
 
 - (NSArray *) toolbarDefaultItemIdentifiers : (NSToolbar *) toolbar
 {
-    return [NSArray arrayWithObjects: kIPITbActionBtnId, 
-					kIPITbCancelBtnId, kIPITbFullscreenBtnId, NSToolbarFlexibleSpaceItemIdentifier, 
-					kIPITbSettingsBtnId, nil];
+    return [NSArray arrayWithObjects: kIPITbActionBtnId, kIPITbCancelBtnId, kIPITbFullscreenBtnId, 
+									  NSToolbarFlexibleSpaceItemIdentifier, kIPITbSettingsBtnId, nil];
 }
 
 - (NSArray *) toolbarAllowedItemIdentifiers : (NSToolbar *) toolbar
 {
-    return [NSArray arrayWithObjects: kIPITbActionBtnId, kIPITbCancelBtnId, kIPITbBrowserBtnId, kIPITbPreviewBtnId,
-					kIPITbFullscreenBtnId, kIPITbSettingsBtnId, NSToolbarCustomizeToolbarItemIdentifier,
-					NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier, nil];
+    return [NSArray arrayWithObjects: kIPITbActionBtnId, kIPITbCancelBtnId, kIPITbBrowserBtnId, kIPITbPreviewBtnId, kIPITbFullscreenBtnId,
+									  kIPITbSettingsBtnId, NSToolbarCustomizeToolbarItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier,
+									  NSToolbarSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier, nil];
 }
 
 
 - (BOOL) validateToolbarItem : (NSToolbarItem *) toolbarItem
 {
 	NSString *identifier_ = [toolbarItem itemIdentifier];
+
 	if ([identifier_ isEqualToString : kIPITbCancelBtnId]) {
-		if ((_currentDownload == nil) && ([toolbarItem action] == @selector(cancelDownload:)))
-			return NO;
+		if(_currentDownload) {
+			[toolbarItem setLabel : [self localizedStrForKey : @"Stop"]];
+			[toolbarItem setToolTip: [self localizedStrForKey : @"StopTip"]];
+			[toolbarItem setImage: [NSImage imageNamed: @"stopSign"]];
+			[toolbarItem setTarget : self];
+			[toolbarItem setAction : @selector(cancelDownload:)];
+			return YES;
+		} else {
+			[toolbarItem setLabel : [self localizedStrForKey : @"Save"]];
+			[toolbarItem setToolTip: [self localizedStrForKey : @"SaveTip"]];
+			[toolbarItem setImage: [self imageResourceWithName: @"Save"]];
+			[toolbarItem setTarget : self];
+			[toolbarItem setAction : @selector(saveImage:)];
+			return ([self downloadedFileDestination] != nil);
+		}
 	} else if ([identifier_ isEqualToString : kIPITbPreviewBtnId]) {
 		return ((_currentDownload == nil) && ([self downloadedFileDestination] != nil));
 	} else if ([identifier_ isEqualToString : kIPITbFullscreenBtnId]) {

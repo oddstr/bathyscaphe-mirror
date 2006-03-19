@@ -1,5 +1,5 @@
 /**
-  * $Id: BSFavoritesHEADCheckTask.m,v 1.5.2.2 2006/02/27 17:31:49 masakih Exp $
+  * $Id: BSFavoritesHEADCheckTask.m,v 1.5.2.3 2006/03/19 15:09:53 masakih Exp $
   * BathyScaphe
   *
   * Copyright 2006 BathyScaphe Project. All rights reserved.
@@ -232,6 +232,11 @@ static NSDictionary *replaceAttributesIfNeeded(NSDictionary *thread, NSURL *chec
 
 	if(finishedSound_)
 		[finishedSound_ play];
+
+	[CMRPref setLastHEADCheckedDate : [NSDate date]];
+	
+	double interval_ = (double)nActuallyEnded_ * 20.0;
+	[CMRPref setHEADCheckTimeInterval : ((interval_ < 300.0) ? 300.0 : interval_)];
 
 	[pool_ release];
 }

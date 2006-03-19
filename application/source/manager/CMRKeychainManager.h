@@ -1,5 +1,5 @@
 /*
- * $Id: CMRKeychainManager.h,v 1.3.4.1 2006/02/27 17:31:49 masakih Exp $
+ * $Id: CMRKeychainManager.h,v 1.3.4.2 2006/03/19 15:09:53 masakih Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -7,9 +7,6 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <Keychain/Keychain.h>
-#import <Keychain/KeychainItem.h>
-
 
 @interface CMRKeychainManager : NSObject
 {

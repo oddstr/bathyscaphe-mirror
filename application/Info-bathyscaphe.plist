@@ -71,8 +71,19 @@
 	<string>1.2</string>
 	<key>CFBundleSignature</key>
 	<string>BaSc</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>jp.tsawada2.BathyScaphe.2chbbs.url</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>bathyscaphe</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
-	<string>159</string>
+	<string>169</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.3.0</string>
 	<key>NSAppleScriptEnabled</key>

@@ -14,7 +14,7 @@
 #import "AppDefaults.h"
 #import "CMRDocumentFileManager.h"
 
-#import "CMRDocumentController.h"
+//#import "CMRDocumentController.h"
 #import "CMRThreadAttributes.h"
 #import "BoardManager.h"
 
