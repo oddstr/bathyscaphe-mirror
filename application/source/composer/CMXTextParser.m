@@ -1,5 +1,5 @@
 /**
-  * $Id: CMXTextParser.m,v 1.15 2006/02/24 15:13:21 tsawada2 Exp $
+  * $Id: CMXTextParser.m,v 1.16 2006/03/21 16:40:19 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -784,8 +784,6 @@ static BOOL _parseStockPartFromExtraField(NSString *extraPart_, NSString **stock
 	return [message_ autorelease];
 }
 
-//+ (BOOL) parseExtraField : (NSString         *) extraField
-//        convertToMessage : (CMRThreadMessage *) aMessage
 static BOOL _parseExtraField(NSString *extraField, CMRThreadMessage *aMessage)
 {
 	unsigned	length_;
@@ -806,10 +804,11 @@ static BOOL _parseExtraField(NSString *extraField, CMRThreadMessage *aMessage)
 		ログファイルのフォーマットの互換性などを考慮して、Host の値として処理することにする。
 		2005-06-18 追加：公式p2 からの投稿区別記号「P」が加わった。
 		2005-07-31 追加：「o」もあるのか。知らなかった。
+		2006-03-22 追加：「Q」も加わったらしい。
 	*/
 	if (length_ == 1) {
 		if (clientCodeSet == nil)
-			clientCodeSet = [[NSSet alloc] initWithObjects : @"0", @"O", @"P", @"o", nil];
+			clientCodeSet = [[NSSet alloc] initWithObjects : @"0", @"O", @"P", @"o", @"Q", nil];
 
 		if ([clientCodeSet containsObject : extraField]) {
 			[aMessage setHost : extraField];
@@ -933,8 +932,6 @@ error_invalid_format:
 	return YES;//NO;
 }
 
-//+ (BOOL) parseDateExtraField : (NSString         *) dateExtra
-//            convertToMessage : (CMRThreadMessage *) aMessage
 static BOOL _parseDateExtraField(NSString *dateExtra, CMRThreadMessage *aMessage)
 {
 	NSString		*datePart_ = nil;
