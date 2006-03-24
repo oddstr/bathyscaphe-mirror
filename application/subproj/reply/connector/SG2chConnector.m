@@ -249,8 +249,8 @@ static id fnc_stringByURLEncodingUsingEncoding(id obj, NSStringEncoding enc)
 	[alert_ setAlertStyle : NSWarningAlertStyle];
 	[alert_ setMessageText : w2chLocalizedAlertMessageString(FAIL_URLENCODING_TITLE_KEY)];
 	[alert_ setInformativeText : [NSString stringWithFormat:w2chLocalizedAlertMessageString(FAIL_URLENCODING_MSG_KEY),originalString]];
-	[alert_ setHelpAnchor : w2chLocalizedAlertMessageString(FAIL_URLENCODING_HELP_KEY)];
-	[alert_ setShowsHelp : YES];
+	//[alert_ setHelpAnchor : w2chLocalizedAlertMessageString(FAIL_URLENCODING_HELP_KEY)];
+	//[alert_ setShowsHelp : YES];
 	[alert_ addButtonWithTitle : @"OK"];
 	
 	result_ = [alert_ runModal];
