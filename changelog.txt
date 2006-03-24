@@ -1,3 +1,9 @@
+2006-03-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/BathyScapheHelp/
+		ヘルプを更新（20060324.zip ベース）
+	* application/subproj/reply/connector/SG2chConnector.m
+	* application/subproj/preference/Japanese.lproj/Localizable.strings
+		ヘルプとの連携機能を微調整。
 2006-03-22 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/composer/CMXTextParser.m
 		ID の無い板での識別子：「O」「0」「P」「o」に加えて「Q」も認識するようにした。
