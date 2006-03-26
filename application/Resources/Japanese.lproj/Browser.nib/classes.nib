@@ -153,6 +153,7 @@
         {
             ACTIONS = {
                 addFavorites = id; 
+                addSmartItem = id; 
                 copyInfoFromContextualMenu = id; 
                 copyThreadAttributes = id; 
                 deleteThread = id; 

@@ -10,6 +10,9 @@
 
 #import "SQLiteDB.h"
 
+static NSMutableDictionary *boardIDNameCache = nil;
+static NSLock *boardIDNumberCacheLock = nil;
+
 @implementation DatabaseManager (DatabaseAccess)
 
 // return NSNotFound, if not registered.
@@ -77,7 +80,7 @@
 	}
 	
 	query = [NSMutableString stringWithFormat : @"SELECT %@ FROM %@", BoardURLColumn, BoardInfoTableName];
-	[query appendFormat : @"\n\tWHERE %@ = '%u'", BoardIDColumn, boardID];
+	[query appendFormat : @"\n\tWHERE %@ = %u", BoardIDColumn, boardID];
 	cursor = [db performQuery : query];
 	
 	if (!cursor || ![cursor rowCount]) {
@@ -112,6 +115,24 @@
 		return nil;
 	}
 	
+	if(!boardIDNameCache) {
+		boardIDNameCache = [[NSMutableDictionary alloc] init];
+		boardIDNumberCacheLock = [[NSLock alloc] init];
+		if(!boardIDNumberCacheLock) {
+			[boardIDNameCache release];
+			boardIDNameCache = nil;
+		}
+	}
+	
+	if(boardIDNameCache) {
+		id idArray;
+		
+		idArray = [boardIDNameCache objectForKey:name];
+		if(idArray) {
+			return idArray;
+		}
+	}
+	
 	prepareName = [SQLiteDB prepareStringForQuery : name];
 	query = [NSMutableString stringWithFormat : @"SELECT %@ FROM %@", BoardIDColumn, BoardInfoTableName];
 	[query appendFormat : @"\n\tWHERE %@ LIKE '%@'", BoardNameColumn, prepareName];
@@ -135,7 +156,11 @@
 	}
 	
 	value = [cursor valuesForColumn : BoardIDColumn];
-	
+	if([value count] != 0 ) {
+		[boardIDNumberCacheLock lock];
+		[boardIDNameCache setObject:value forKey:name];
+		[boardIDNumberCacheLock unlock];
+	}
 	return [value count] > 0 ? value : nil;
 }
 - (NSString *) nameForBoardID : (unsigned) boardID
@@ -153,7 +178,7 @@
 	}
 	
 	query = [NSMutableString stringWithFormat : @"SELECT %@ FROM %@", BoardNameColumn, BoardInfoTableName];
-	[query appendFormat : @"\n\tWHERE %@ = '%u'", BoardIDColumn, boardID];
+	[query appendFormat : @"\n\tWHERE %@ = %u", BoardIDColumn, boardID];
 	cursor = [db performQuery : query];
 	
 	if (!cursor || ![cursor rowCount]) {
@@ -194,7 +219,7 @@
 	prepareURL = [SQLiteDB prepareStringForQuery : urlString];
 	query = [NSMutableString stringWithFormat : @"INSERT INTO %@", BoardInfoTableName];
 	[query appendFormat : @" ( %@, %@, %@ ) ", BoardIDColumn, BoardNameColumn, BoardURLColumn];
-	[query appendFormat : @"VALUES ( (SELECT max (%@) FROM %@) + 1, '%@', '%@' ) ",
+	[query appendFormat : @"VALUES ( (SELECT max(%@) FROM %@) + 1, '%@', '%@' ) ",
 		BoardIDColumn, BoardInfoTableName, prepareName, prepareURL];
 	[db performQuery : query];
 	

@@ -621,6 +621,7 @@
 		F40694640942DD0D0045317C /* vacuum.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E2F26308B8A27800177310 /* vacuum.c */; };
 		F40694650942DD0E0045317C /* select.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E2F25A08B8A27800177310 /* select.c */; };
 		F40694660942DD0F0045317C /* table.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E2F25D08B8A27800177310 /* table.c */; };
+		F411449F09D6EE6C00DDF200 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F411449E09D6EE6C00DDF200 /* CoreFoundation.framework */; };
 		F424609908462452000803EA /* Scripts.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F424609808462452000803EA /* Scripts.tiff */; };
 		F4559444088A106E00557B17 /* DatabaseManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F4559442088A106E00557B17 /* DatabaseManager.h */; };
 		F4559445088A106E00557B17 /* DatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F4559443088A106E00557B17 /* DatabaseManager.m */; };
@@ -1868,6 +1869,7 @@
 		F3FF61F905BD5AD200BDEBFA /* CMRSpamFilter.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CMRSpamFilter.h; sourceTree = "<group>"; };
 		F3FF61FA05BD5AD200BDEBFA /* CMRSpamFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CMRSpamFilter.m; sourceTree = "<group>"; };
 		F406943A0942DC950045317C /* libsqlite.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libsqlite.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F411449E09D6EE6C00DDF200 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
 		F424609808462452000803EA /* Scripts.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Scripts.tiff; sourceTree = "<group>"; };
 		F4559442088A106E00557B17 /* DatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseManager.h; sourceTree = "<group>"; };
 		F4559443088A106E00557B17 /* DatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabaseManager.m; sourceTree = "<group>"; };
@@ -2039,6 +2041,7 @@
 				F4904CDB088C096D00EA9BA8 /* libRBSplitView.a in Frameworks */,
 				F4FA684E0942DE5E00BE3F27 /* libsqlite.a in Frameworks */,
 				F4F63CC709CD0F9B005FF2DE /* Security.framework in Frameworks */,
+				F411449F09D6EE6C00DDF200 /* CoreFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2079,6 +2082,7 @@
 		2A37F4C3FDCFA73011CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F411449E09D6EE6C00DDF200 /* CoreFoundation.framework */,
 				F4E2F23408B8A27800177310 /* sqlite */,
 				87C8FBDC09B3631800039203 /* Security.framework */,
 				F38D04EC03C49C8100A80002 /* Reference */,

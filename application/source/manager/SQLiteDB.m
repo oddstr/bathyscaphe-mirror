@@ -153,29 +153,62 @@ int progressHandler(void *obj)
 {
 	return _isOpen;
 }
+//id <SQLiteRow> makeRowFromSTMT(sqlite3_stmt *stmt, NSArray *columns)
+//{
+//	NSMutableDictionary *result;
+//	int i, columnCount = sqlite3_column_count(stmt);
+//	
+//	result = [NSMutableDictionary dictionaryWithCapacity : columnCount];
+//	for (i = 0; i < columnCount; i++) {
+//		//		const char *columnName = sqlite3_column_name(stmt, i);
+//		const unsigned char *value = sqlite3_column_text(stmt, i);
+//		id v = nil;
+//		
+//		if (value) {
+//			v = [NSString stringWithUTF8String : (const char *) value];
+//		}
+//		if (!v) {
+//			v = [NSNull null];
+//		}
+//		
+//		[result setObject : v
+//				   forKey : [columns objectAtIndex : i]];
+//	}
+//	
+//	return result;
+//}
 id <SQLiteRow> makeRowFromSTMT(sqlite3_stmt *stmt, NSArray *columns)
 {
-	NSMutableDictionary *result;
+	NSNull *nsNull = [NSNull null];
+	
+	CFMutableDictionaryRef result;
 	int i, columnCount = sqlite3_column_count(stmt);
 	
-	result = [NSMutableDictionary dictionaryWithCapacity : columnCount];
+	result = CFDictionaryCreateMutable( kCFAllocatorDefault,
+										0,
+										&kCFTypeDictionaryKeyCallBacks,
+										&kCFTypeDictionaryValueCallBacks );
 	for (i = 0; i < columnCount; i++) {
 		//		const char *columnName = sqlite3_column_name(stmt, i);
 		const unsigned char *value = sqlite3_column_text(stmt, i);
 		id v = nil;
 		
 		if (value) {
-			v = [NSString stringWithUTF8String : (const char *) value];
+			v = (id)CFStringCreateWithCString( kCFAllocatorDefault,
+											   (const char*)value,
+											   kCFStringEncodingUTF8 );
 		}
 		if (!v) {
-			v = [NSNull null];
+			v = nsNull;
 		}
 		
-		[result setObject : v
-				   forKey : [columns objectAtIndex : i]];
+		CFDictionaryAddValue(result, [columns objectAtIndex : i], v);
+		if(v && v != nsNull) {
+			CFRelease(v);
+		}
 	}
 	
-	return result;
+	return [(id)result autorelease];
 }
 NSArray *columnsFromSTMT(sqlite3_stmt *stmt)
 {

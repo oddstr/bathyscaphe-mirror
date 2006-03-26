@@ -799,18 +799,12 @@ Compatability Note: This method replaces tableView : writeRows : toPasteboard : 
 
 static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSString **outThreadID, NSString *inFilePath )
 {
-	/* TODO これはヤバいので早めに直すこと　*/
-	static NSMutableDictionary *boardIDCache = nil;
-	
 	CMRDocumentFileManager *dfm = [CMRDocumentFileManager defaultManager];
 	
 	if (outThreadID) {
 		*outThreadID = [dfm datIdentifierWithLogPath : inFilePath];
 	}
 	
-	if(!boardIDCache) {
-		boardIDCache = [[NSMutableDictionary alloc] init];
-	}
 	if (outBoardID) {
 		NSString *boardName;
 		NSArray *boardIDs;
@@ -819,17 +813,10 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 		boardName = [dfm boardNameWithLogPath : inFilePath];
 		if (!boardName) return NO;
 		
-		boardID = [boardIDCache objectForKey:boardName];
-		if(boardID) {
-			*outBoardID = [boardID intValue];
-			return YES;
-		}
-		
 		boardIDs = [[DatabaseManager defaultManager] boardIDsForName : boardName];
 		if (!boardIDs || [boardIDs count] == 0) return NO;
 		
 		boardID = [boardIDs objectAtIndex : 0];
-		[boardIDCache setObject:boardID forKey:boardName];
 		
 		*outBoardID = [boardID intValue];
 	}
