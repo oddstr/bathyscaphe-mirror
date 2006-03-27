@@ -1,3 +1,4 @@
+================================================= 1.2(v174.1) / Hayate / CVS Tag : v120_FINAL
 2006-03-27 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/board_default.plist
 		board_default.plist を最新のものに更新。
