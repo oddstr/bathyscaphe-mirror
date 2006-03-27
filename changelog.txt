@@ -1,3 +1,7 @@
+2006-03-27 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/board_default.plist
+		board_default.plist を最新のものに更新。
+================================================= Levantine
 2006-03-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/BathyScapheHelp/
 		ヘルプを更新（20060324.zip ベース）
