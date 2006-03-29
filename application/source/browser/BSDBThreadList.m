@@ -44,11 +44,11 @@
 		mBoardListItem = [item retain];
 		mSortKey = [[[BoardManager defaultManager] sortColumnForBoard : [self boardName]] retain];
 		mCursorLock = [[NSLock alloc] init];
-		mCursor = [[item cursorForThreadList] retain];
-		if (!mCursor) {
-			[self release];
-			self = nil;
-		}
+//		[self updateCursor];
+//		if (!mCursor) {
+//			[self release];
+//			self = nil;
+//		}
 	}
 	
 	return self;
@@ -344,6 +344,9 @@ static inline NSString *orderBy( NSString *sortKey, BOOL isAscending )
 		sql = [self sqlForListForType : kAllThreadType];
 	}
 	
+//	sql = [sql stringByAppendingString:@"\nLIMIT 10000"];
+//	newersSQL = [newersSQL stringByAppendingString:@"\nLIMIT 10000"];
+	
 #ifdef DEBUG
 	time01 = clock();
 #endif
@@ -589,9 +592,63 @@ abort:{
 //	
 //	return result;
 //}
+//- (NSArray *) allThreadAttributes
+//{
+//	NSMutableArray *result;
+//	id <SQLiteCursor> cursor;
+//	unsigned count, i;
+//	
+//	NSString *title;
+//	NSString *newCount;
+//	NSString *dat;
+//	NSString *boardName;
+//	NSString *statusStr;
+//	NSNumber *status;
+//	NSString *modDateStr;
+//	NSDate *modDate = nil;
+//	NSString *threadPath;
+//	
+//	cursor = [mBoardListItem cursorForThreadList];
+//	count = [cursor rowCount];
+//	result = [NSMutableArray arrayWithCapacity:count];
+//	
+//	for( i = 0; i < count; i++ ) {
+//		id pool = [[NSAutoreleasePool alloc] init];
+//		NSMutableDictionary *aAttr;
+//		
+//		title = nilIfObjectIsNSNull([cursor valueForColumn:ThreadNameColumn atRow:i]);
+//		newCount = nilIfObjectIsNSNull([cursor valueForColumn:NumberOfAllColumn atRow:i]);
+//		dat = nilIfObjectIsNSNull([cursor valueForColumn:ThreadIDColumn atRow:i]);
+//		boardName = nilIfObjectIsNSNull([cursor valueForColumn:BoardNameColumn atRow:i]);
+//		statusStr = nilIfObjectIsNSNull([cursor valueForColumn:ThreadStatusColumn atRow:i]);
+//		modDateStr = nilIfObjectIsNSNull([cursor valueForColumn:ModifiedDateColumn atRow:i]);
+//		
+//		threadPath = [[CMRDocumentFileManager defaultManager] threadPathWithBoardName : boardName
+//																		datIdentifier : dat];
+//		status = [NSNumber numberWithInt : [statusStr intValue]];
+//		if(modDateStr) {
+//			modDate = [NSDate dateWithTimeIntervalSince1970 : [modDateStr doubleValue]];
+//		}
+//		
+//		aAttr = [NSMutableDictionary dictionaryWithCapacity:7];
+//		[aAttr setNoneNil:title forKey:CMRThreadTitleKey];
+//		[aAttr setNoneNil:newCount forKey:CMRThreadNumberOfMessagesKey];
+//		[aAttr setNoneNil:dat forKey:ThreadPlistIdentifierKey];
+//		[aAttr setNoneNil:boardName forKey:ThreadPlistBoardNameKey];
+//		[aAttr setNoneNil:status forKey:CMRThreadUserStatusKey];
+//		[aAttr setNoneNil:modDate forKey:CMRThreadModifiedDateKey];
+//		[aAttr setNoneNil:threadPath forKey:CMRThreadLogFilepathKey];
+//		
+//		[result addObject:aAttr];
+//		
+//		[pool release];
+//	}
+//	
+//	return result;
+//}
 - (NSArray *) allThreadAttributes
 {
-	NSMutableArray *result;
+	CFMutableArrayRef result;
 	id <SQLiteCursor> cursor;
 	unsigned count, i;
 	
@@ -607,41 +664,62 @@ abort:{
 	
 	cursor = [mBoardListItem cursorForThreadList];
 	count = [cursor rowCount];
-	result = [NSMutableArray arrayWithCapacity:count];
+	result = CFArrayCreateMutable( kCFAllocatorDefault,
+								   0,
+								   &kCFTypeArrayCallBacks );
+	if(!result) return nil;
+	
+	SEL valueForColumnAtRowSEL = @selector(valueForColumn:atRow:);
+	IMP valueForColumnAtRowIMP = [(id)cursor methodForSelector:valueForColumnAtRowSEL];
+	if(!valueForColumnAtRowIMP) return nil;
+	
+	id cmrDFM = [CMRDocumentFileManager defaultManager];
+	SEL threadPathWithBoardNameDatIDSEL = @selector(threadPathWithBoardName:datIdentifier:);
+	IMP threadPathWithBoardNameDatIDIMP = [cmrDFM methodForSelector:threadPathWithBoardNameDatIDSEL];
+	if(!threadPathWithBoardNameDatIDIMP) return nil;
 	
 	for( i = 0; i < count; i++ ) {
 		id pool = [[NSAutoreleasePool alloc] init];
-		NSMutableDictionary *aAttr;
+		CFMutableDictionaryRef aAttr;
 		
-		title = nilIfObjectIsNSNull([cursor valueForColumn:ThreadNameColumn atRow:i]);
-		newCount = nilIfObjectIsNSNull([cursor valueForColumn:NumberOfAllColumn atRow:i]);
-		dat = nilIfObjectIsNSNull([cursor valueForColumn:ThreadIDColumn atRow:i]);
-		boardName = nilIfObjectIsNSNull([cursor valueForColumn:BoardNameColumn atRow:i]);
-		statusStr = nilIfObjectIsNSNull([cursor valueForColumn:ThreadStatusColumn atRow:i]);
-		modDateStr = nilIfObjectIsNSNull([cursor valueForColumn:ModifiedDateColumn atRow:i]);
+		title = nilIfObjectIsNSNull(valueForColumnAtRowIMP(cursor, valueForColumnAtRowSEL, ThreadNameColumn, i));
+		newCount = nilIfObjectIsNSNull(valueForColumnAtRowIMP(cursor, valueForColumnAtRowSEL, NumberOfAllColumn, i));
+		dat = nilIfObjectIsNSNull(valueForColumnAtRowIMP(cursor, valueForColumnAtRowSEL, ThreadIDColumn, i));
+		boardName = nilIfObjectIsNSNull(valueForColumnAtRowIMP(cursor, valueForColumnAtRowSEL, BoardNameColumn, i));
+		statusStr = nilIfObjectIsNSNull(valueForColumnAtRowIMP(cursor, valueForColumnAtRowSEL, ThreadStatusColumn, i));
+		modDateStr = nilIfObjectIsNSNull(valueForColumnAtRowIMP(cursor, valueForColumnAtRowSEL, ModifiedDateColumn, i));
 		
-		threadPath = [[CMRDocumentFileManager defaultManager] threadPathWithBoardName : boardName
-																		datIdentifier : dat];
+		threadPath = threadPathWithBoardNameDatIDIMP( cmrDFM, threadPathWithBoardNameDatIDSEL, boardName, dat);
+		
 		status = [NSNumber numberWithInt : [statusStr intValue]];
 		if(modDateStr) {
 			modDate = [NSDate dateWithTimeIntervalSince1970 : [modDateStr doubleValue]];
 		}
 		
-		aAttr = [NSMutableDictionary dictionaryWithCapacity:7];
-		[aAttr setNoneNil:title forKey:CMRThreadTitleKey];
-		[aAttr setNoneNil:newCount forKey:CMRThreadNumberOfMessagesKey];
-		[aAttr setNoneNil:dat forKey:ThreadPlistIdentifierKey];
-		[aAttr setNoneNil:boardName forKey:ThreadPlistBoardNameKey];
-		[aAttr setNoneNil:status forKey:CMRThreadUserStatusKey];
-		[aAttr setNoneNil:modDate forKey:CMRThreadModifiedDateKey];
-		[aAttr setNoneNil:threadPath forKey:CMRThreadLogFilepathKey];
+		aAttr = CFDictionaryCreateMutable(kCFAllocatorDefault,
+										  7,
+										  &kCFTypeDictionaryKeyCallBacks,
+										  &kCFTypeDictionaryValueCallBacks);
+		if(!aAttr) {
+			[pool release];
+			continue;
+		}
 		
-		[result addObject:aAttr];
+		if(title) CFDictionaryAddValue(aAttr, CMRThreadTitleKey, title);
+		if(newCount) CFDictionaryAddValue(aAttr, CMRThreadNumberOfMessagesKey, newCount);
+		if(dat) CFDictionaryAddValue(aAttr, ThreadPlistIdentifierKey, dat);
+		if(boardName) CFDictionaryAddValue(aAttr, ThreadPlistBoardNameKey, boardName);
+		if(status) CFDictionaryAddValue(aAttr, CMRThreadUserStatusKey, status);
+		if(modDate) CFDictionaryAddValue(aAttr, CMRThreadModifiedDateKey, modDate);
+		if(threadPath) CFDictionaryAddValue(aAttr, CMRThreadLogFilepathKey, threadPath);
+		
+		CFArrayAppendValue(result, aAttr);
+		CFRelease(aAttr);
 		
 		[pool release];
 	}
 	
-	return result;
+	return [(id)result autorelease];
 }
 - (NSDictionary *) threadAttributesAtRowIndex : (int          ) rowIndex
                                   inTableView : (NSTableView *) tableView

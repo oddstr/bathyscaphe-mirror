@@ -184,25 +184,27 @@ id <SQLiteRow> makeRowFromSTMT(sqlite3_stmt *stmt, NSArray *columns)
 	CFMutableDictionaryRef result;
 	int i, columnCount = sqlite3_column_count(stmt);
 	
-	result = CFDictionaryCreateMutable( kCFAllocatorDefault,
-										0,
-										&kCFTypeDictionaryKeyCallBacks,
-										&kCFTypeDictionaryValueCallBacks );
+	result = CFDictionaryCreateMutable(kCFAllocatorDefault,
+									   0,
+									   &kCFTypeDictionaryKeyCallBacks,
+									   &kCFTypeDictionaryValueCallBacks);
+	if(!result) return nil;
+	
 	for (i = 0; i < columnCount; i++) {
 		//		const char *columnName = sqlite3_column_name(stmt, i);
 		const unsigned char *value = sqlite3_column_text(stmt, i);
 		id v = nil;
 		
 		if (value) {
-			v = (id)CFStringCreateWithCString( kCFAllocatorDefault,
-											   (const char*)value,
-											   kCFStringEncodingUTF8 );
+			v = (id)CFStringCreateWithCString(kCFAllocatorDefault,
+											  (const char*)value,
+											  kCFStringEncodingUTF8);
 		}
 		if (!v) {
 			v = nsNull;
 		}
 		
-		CFDictionaryAddValue(result, [columns objectAtIndex : i], v);
+		CFDictionaryAddValue(result, CFArrayGetValueAtIndex((CFArrayRef)columns, i), v);
 		if(v && v != nsNull) {
 			CFRelease(v);
 		}
@@ -210,26 +212,99 @@ id <SQLiteRow> makeRowFromSTMT(sqlite3_stmt *stmt, NSArray *columns)
 	
 	return [(id)result autorelease];
 }
+//NSArray *columnsFromSTMT(sqlite3_stmt *stmt)
+//{
+//	NSMutableArray *result;
+//	int i, columnCount = sqlite3_column_count(stmt);
+//	
+//	result = [NSMutableArray arrayWithCapacity : columnCount];
+//	for (i = 0; i < columnCount; i++) {
+//		const char *columnName = sqlite3_column_name(stmt, i);
+//		
+//		[result addObject : [[NSString stringWithUTF8String : columnName] lowercaseString]];
+//	}
+//	
+//	return result;
+//}
 NSArray *columnsFromSTMT(sqlite3_stmt *stmt)
 {
-	NSMutableArray *result;
+	CFMutableArrayRef result;
 	int i, columnCount = sqlite3_column_count(stmt);
 	
-	result = [NSMutableArray arrayWithCapacity : columnCount];
+	result = CFArrayCreateMutable(kCFAllocatorDefault,
+								  0,
+								  &kCFTypeArrayCallBacks);
+	if(!result) return nil;
+	
 	for (i = 0; i < columnCount; i++) {
 		const char *columnName = sqlite3_column_name(stmt, i);
+		CFStringRef colStr;
+		CFMutableStringRef lowerColStr; 
 		
-		[result addObject : [[NSString stringWithUTF8String : columnName] lowercaseString]];
+		colStr = CFStringCreateWithCString(kCFAllocatorDefault,
+										   columnName,
+										   kCFStringEncodingUTF8);
+		lowerColStr = CFStringCreateMutableCopy(kCFAllocatorDefault,
+												CFStringGetLength(colStr),
+												colStr);
+		CFStringLowercase(lowerColStr, CFLocaleGetSystem());
+		CFArrayAppendValue(result, lowerColStr);
+		CFRelease(colStr);
+		CFRelease(lowerColStr);
 	}
 	
-	return result;
+	return [(id)result autorelease];
 }
+//NSArray *valuesForSTMT(sqlite3_stmt *stmt, NSArray *culumns)
+//{
+//	int result;
+//	BOOL finishFetch = NO;
+//	id <SQLiteRow> dict;
+//	NSMutableArray *values = [NSMutableArray array];
+//	
+//	do {
+//		BOOL updateCursor = NO;
+//		
+//		result = sqlite3_step(stmt);
+//		
+//		switch (result) {
+//			case SQLITE_BUSY :
+//				break;
+//			case SQLITE_OK :
+//			case SQLITE_DONE :
+//				finishFetch = YES;
+//				break;
+//			case SQLITE_ROW :
+//				updateCursor = YES;
+//				break;
+//			default :
+//				//				sqlite3_finalize(stmt);
+//				return nil;
+//				break;
+//		}
+//		
+//		if (updateCursor) {
+//			dict = makeRowFromSTMT(stmt, culumns);
+//			if (dict) {
+//				[values addObject : dict];
+//			}
+//		}
+//		
+//	} while (!finishFetch);
+//	
+//	return values;
+//}
 NSArray *valuesForSTMT(sqlite3_stmt *stmt, NSArray *culumns)
 {
 	int result;
 	BOOL finishFetch = NO;
 	id <SQLiteRow> dict;
-	NSMutableArray *values = [NSMutableArray array];
+	CFMutableArrayRef values;
+	
+	values = CFArrayCreateMutable(kCFAllocatorDefault,
+								  0,
+								  &kCFTypeArrayCallBacks);
+	if(!values) return nil;
 	
 	do {
 		BOOL updateCursor = NO;
@@ -255,13 +330,13 @@ NSArray *valuesForSTMT(sqlite3_stmt *stmt, NSArray *culumns)
 		if (updateCursor) {
 			dict = makeRowFromSTMT(stmt, culumns);
 			if (dict) {
-				[values addObject : dict];
+				CFArrayAppendValue(values, dict);
 			}
 		}
 		
 	} while (!finishFetch);
 	
-	return values;
+	return [(id)values autorelease];
 }
 
 - (id <SQLiteMutableCursor>) cursorForSQL : (NSString *) sqlString
