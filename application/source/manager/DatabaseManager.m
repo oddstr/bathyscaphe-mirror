@@ -529,8 +529,8 @@ abort:
 		 return YES;
 	 }
 	 
-//	 query = [NSMutableString stringWithFormat : @"CREATE VIEW %@ AS\n", BoardThreadInfoViewName];
-	 query = [NSMutableString stringWithFormat : @"CREATE TEMPORARY VIEW %@ AS\n", BoardThreadInfoViewName];
+	 query = [NSMutableString stringWithFormat : @"CREATE VIEW %@ AS\n", BoardThreadInfoViewName];
+//	 query = [NSMutableString stringWithFormat : @"CREATE TEMPORARY VIEW %@ AS\n", BoardThreadInfoViewName];
 	 [query appendFormat : @"\tSELECT *, (%@ - %@) AS %@ FROM %@ INNER JOIN %@",
 		 NumberOfAllColumn, NumberOfReadColumn, NumberOfDifferenceColumn,
 		 ThreadInfoTableName, BoardInfoTableName];

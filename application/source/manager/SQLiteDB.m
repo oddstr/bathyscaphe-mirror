@@ -185,7 +185,7 @@ id <SQLiteRow> makeRowFromSTMT(sqlite3_stmt *stmt, NSArray *columns)
 	int i, columnCount = sqlite3_column_count(stmt);
 	
 	result = CFDictionaryCreateMutable(kCFAllocatorDefault,
-									   0,
+									   columnCount,
 									   &kCFTypeDictionaryKeyCallBacks,
 									   &kCFTypeDictionaryValueCallBacks);
 	if(!result) return nil;
@@ -232,7 +232,7 @@ NSArray *columnsFromSTMT(sqlite3_stmt *stmt)
 	int i, columnCount = sqlite3_column_count(stmt);
 	
 	result = CFArrayCreateMutable(kCFAllocatorDefault,
-								  0,
+								  columnCount,
 								  &kCFTypeArrayCallBacks);
 	if(!result) return nil;
 	

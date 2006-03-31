@@ -1,3 +1,28 @@
+2006-03-31 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+		時間のかかる処理を CMRTask として外部に押し出した。
+		呼び出しはクラス名を用いた無理矢理方式。後日直す。
+	* application/source/browser/BSThreadListCollectAllThreadAttrTask.m
+	* application/source/browser/BSThreadListDBUpdateTask.m
+	* application/source/browser/BSThreadListSmartItemDBUpdateTask.m
+	* application/source/browser/BSThreadListUpdateTask.m
+		[新規追加] BSDBThreadList で時間のかかる処理を CMRTask として外部に押し出した。
+		BSThreadListCollectAllThreadAttrTask  表示中のすべてのスレッドの属性の配列を作成する。
+		ただし、メインスレッド上で呼ばれるため偽の配列である BSFakeThreadAttributeArray をすぐに返し、
+		BSFakeThreadAttributeArray が別スレッド上で情報を収集している。
+		実際のデータを返すのは -[BSFakeThreadAttributeArray objectEnumerator] である。
+		( Future パターン、Proxy パターン)。
+		BSThreadListDBUpdateTask 通常の板の更新時に更新内容をデータベースに反映する。
+		現在、非マルチスレッド。マルチスレッド化を検討中。
+		BSThreadListSmartItemDBUpdateTask スマートボードの更新時に更新内容をデータベースに反映する。
+		BSThreadListUpdateTask スレッド一覧に表示するデータを収集。
+		機能上、非マルチスレッド。
+	* application/source/manager/DatabaseManager.m
+		スキーマ変更。
+		どうやら、一時テーブルが作成したスレッド以外から見えないらしいので、
+		BoardThreadInfoView を通常のビューに変更した。
+	* application/source/manager/SQLiteDB.m
+		CFMutableArrayRef(), CFDictionaryCreateMutable() で上限が設定可能なものは上限を設定した。
 2006-03-29 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSDBThreadList.m
 	* application/source/manager/SQLiteDB.m

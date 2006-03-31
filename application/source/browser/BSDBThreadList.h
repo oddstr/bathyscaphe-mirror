@@ -30,6 +30,9 @@
 + (id) threadListWithBoardListItem : (BoardListItem *)item;
 
 - (id) boardListItem;
+- (id) searchString;
+- (id) sortKey;
+- (ThreadStatus) status;
 
 - (void) updateCursor;
 

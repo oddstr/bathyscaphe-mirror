@@ -622,6 +622,8 @@
 		F40694650942DD0E0045317C /* select.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E2F25A08B8A27800177310 /* select.c */; };
 		F40694660942DD0F0045317C /* table.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E2F25D08B8A27800177310 /* table.c */; };
 		F411449F09D6EE6C00DDF200 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F411449E09D6EE6C00DDF200 /* CoreFoundation.framework */; };
+		F411498609DABFD500DDF200 /* BSThreadListUpdateTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F411498409DABFD500DDF200 /* BSThreadListUpdateTask.h */; };
+		F411498709DABFD500DDF200 /* BSThreadListUpdateTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F411498509DABFD500DDF200 /* BSThreadListUpdateTask.m */; };
 		F424609908462452000803EA /* Scripts.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F424609808462452000803EA /* Scripts.tiff */; };
 		F4559444088A106E00557B17 /* DatabaseManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F4559442088A106E00557B17 /* DatabaseManager.h */; };
 		F4559445088A106E00557B17 /* DatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F4559443088A106E00557B17 /* DatabaseManager.m */; };
@@ -632,6 +634,8 @@
 		F469D75209436166007D7EDC /* AddBoardSheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87C4813D08FD05A300F91054 /* AddBoardSheet.nib */; };
 		F469D827094366F6007D7EDC /* ImagePreviewer.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87C2031D08FF3E2B006DC42C /* ImagePreviewer.plugin */; };
 		F46BD77F09B3413B0069AEB6 /* ConditionTypes.plist in Resources */ = {isa = PBXBuildFile; fileRef = F46BD77D09B3413B0069AEB6 /* ConditionTypes.plist */; };
+		F47F6EDD09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F47F6EDB09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.h */; };
+		F47F6EDE09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F47F6EDC09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.m */; };
 		F4904AE3088C096D00EA9BA8 /* BoardManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC2704C698FA00A80005 /* BoardManager.h */; };
 		F4904AE4088C096D00EA9BA8 /* BoardManager_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC2904C698FA00A80005 /* BoardManager_p.h */; };
 		F4904AE5088C096D00EA9BA8 /* Browser.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC2D04C698FA00A80005 /* Browser.h */; };
@@ -1056,6 +1060,10 @@
 		F4E431460982A34000119842 /* BSDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E431420982A34000119842 /* BSDatePicker.m */; };
 		F4E431470982A34000119842 /* BSDatePickerCell.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E431430982A34000119842 /* BSDatePickerCell.h */; };
 		F4E431480982A34000119842 /* BSDatePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E431440982A34000119842 /* BSDatePickerCell.m */; };
+		F4E8FADE09DAE1F0006F453C /* BSThreadListDBUpdateTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E8FADC09DAE1F0006F453C /* BSThreadListDBUpdateTask.h */; };
+		F4E8FADF09DAE1F0006F453C /* BSThreadListDBUpdateTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E8FADD09DAE1F0006F453C /* BSThreadListDBUpdateTask.m */; };
+		F4E8FB5E09DAEA55006F453C /* BSThreadListCollectAllThreadAttrTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E8FB5C09DAEA55006F453C /* BSThreadListCollectAllThreadAttrTask.h */; };
+		F4E8FB5F09DAEA55006F453C /* BSThreadListCollectAllThreadAttrTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E8FB5D09DAEA55006F453C /* BSThreadListCollectAllThreadAttrTask.m */; };
 		F4F57FA30945A9DA004DF9DB /* BoardList.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CD3090E970F007FF9C3 /* BoardList.png */; };
 		F4F57FA40945A9DB004DF9DB /* beEnabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CD2090E970F007FF9C3 /* beEnabled.png */; };
 		F4F57FA50945A9DC004DF9DB /* beDisabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CD1090E970F007FF9C3 /* beDisabled.png */; };
@@ -1870,10 +1878,14 @@
 		F3FF61FA05BD5AD200BDEBFA /* CMRSpamFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CMRSpamFilter.m; sourceTree = "<group>"; };
 		F406943A0942DC950045317C /* libsqlite.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libsqlite.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F411449E09D6EE6C00DDF200 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
+		F411498409DABFD500DDF200 /* BSThreadListUpdateTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSThreadListUpdateTask.h; sourceTree = "<group>"; };
+		F411498509DABFD500DDF200 /* BSThreadListUpdateTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSThreadListUpdateTask.m; sourceTree = "<group>"; };
 		F424609808462452000803EA /* Scripts.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Scripts.tiff; sourceTree = "<group>"; };
 		F4559442088A106E00557B17 /* DatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseManager.h; sourceTree = "<group>"; };
 		F4559443088A106E00557B17 /* DatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabaseManager.m; sourceTree = "<group>"; };
 		F46BD77E09B3413B0069AEB6 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Japanese; path = Japanese.lproj/ConditionTypes.plist; sourceTree = "<group>"; };
+		F47F6EDB09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSThreadListSmartItemDBUpdateTask.h; sourceTree = "<group>"; };
+		F47F6EDC09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSThreadListSmartItemDBUpdateTask.m; sourceTree = "<group>"; };
 		F4904CE9088C096D00EA9BA8 /* BS Another Story.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BS Another Story.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4904CED088C096E00EA9BA8 /* Info-bs-another-story.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-bs-another-story.plist"; sourceTree = "<group>"; };
 		F4904D22088C116700EA9BA8 /* BSDBThreadList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSDBThreadList.h; sourceTree = "<group>"; };
@@ -1949,6 +1961,10 @@
 		F4E431420982A34000119842 /* BSDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSDatePicker.m; sourceTree = "<group>"; };
 		F4E431430982A34000119842 /* BSDatePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSDatePickerCell.h; sourceTree = "<group>"; };
 		F4E431440982A34000119842 /* BSDatePickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSDatePickerCell.m; sourceTree = "<group>"; };
+		F4E8FADC09DAE1F0006F453C /* BSThreadListDBUpdateTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSThreadListDBUpdateTask.h; sourceTree = "<group>"; };
+		F4E8FADD09DAE1F0006F453C /* BSThreadListDBUpdateTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSThreadListDBUpdateTask.m; sourceTree = "<group>"; };
+		F4E8FB5C09DAEA55006F453C /* BSThreadListCollectAllThreadAttrTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSThreadListCollectAllThreadAttrTask.h; sourceTree = "<group>"; };
+		F4E8FB5D09DAEA55006F453C /* BSThreadListCollectAllThreadAttrTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSThreadListCollectAllThreadAttrTask.m; sourceTree = "<group>"; };
 		F4F5821D0945C9CC004DF9DB /* ConcreteBoardListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConcreteBoardListItem.h; sourceTree = "<group>"; };
 		F4F5821E0945C9CC004DF9DB /* ConcreteBoardListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConcreteBoardListItem.m; sourceTree = "<group>"; };
 		F4F5871109472D8F004DF9DB /* analyze.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = analyze.c; sourceTree = "<group>"; };
@@ -2397,6 +2413,14 @@
 		87B4E68207D82C5300D09944 /* ThreadsList */ = {
 			isa = PBXGroup;
 			children = (
+				F47F6EDB09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.h */,
+				F47F6EDC09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.m */,
+				F4E8FB5C09DAEA55006F453C /* BSThreadListCollectAllThreadAttrTask.h */,
+				F4E8FB5D09DAEA55006F453C /* BSThreadListCollectAllThreadAttrTask.m */,
+				F4E8FADC09DAE1F0006F453C /* BSThreadListDBUpdateTask.h */,
+				F4E8FADD09DAE1F0006F453C /* BSThreadListDBUpdateTask.m */,
+				F411498409DABFD500DDF200 /* BSThreadListUpdateTask.h */,
+				F411498509DABFD500DDF200 /* BSThreadListUpdateTask.m */,
 				87CD85CA098170ED002C4372 /* BSFavoritesHEADCheckTask.h */,
 				87CD85CB098170ED002C4372 /* BSFavoritesHEADCheckTask.m */,
 				F324DC4804C698FA00A80005 /* CMRThreadsList.h */,
@@ -3811,6 +3835,10 @@
 				F4976E6D098CC5F4008E838D /* AddBoardSheetController.h in Headers */,
 				F4976E71098CC603008E838D /* CMRTextColumnCell.h in Headers */,
 				F4976E73098CC693008E838D /* CocoMonar_Prefix.h in Headers */,
+				F411498609DABFD500DDF200 /* BSThreadListUpdateTask.h in Headers */,
+				F4E8FADE09DAE1F0006F453C /* BSThreadListDBUpdateTask.h in Headers */,
+				F4E8FB5E09DAEA55006F453C /* BSThreadListCollectAllThreadAttrTask.h in Headers */,
+				F47F6EDD09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4922,6 +4950,10 @@
 				F4976E6E098CC5F4008E838D /* AddBoardSheetController.m in Sources */,
 				F4976E72098CC603008E838D /* CMRTextColumnCell.m in Sources */,
 				F4976FBA098CF163008E838D /* w2chFavoriteItemList.m in Sources */,
+				F411498709DABFD500DDF200 /* BSThreadListUpdateTask.m in Sources */,
+				F4E8FADF09DAE1F0006F453C /* BSThreadListDBUpdateTask.m in Sources */,
+				F4E8FB5F09DAEA55006F453C /* BSThreadListCollectAllThreadAttrTask.m in Sources */,
+				F47F6EDE09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
