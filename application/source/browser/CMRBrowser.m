@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.11.2.5 2006/03/19 15:09:53 masakih Exp $
+  * $Id: CMRBrowser.m,v 1.11.2.6 2006/04/10 17:10:21 masakih Exp $
   * 
   * CMRBrowser.m
   *
@@ -12,6 +12,7 @@
 static NSString *const CMRBrowserLoadNibName              = @"Browser";
 
 NSString *const CMRBrowserDidChangeBoardNotification = @"CMRBrowserDidChangeBoardNotification";
+NSString *const CMRBrowserThListUpdateDelegateTaskDidFinishNotification = @"CMRBrThListUpdateDelgTaskDidFinishNotification";
 
 /*
  * current main browser instance.
@@ -29,7 +30,8 @@ CMRBrowser *CMRMainBrowser = nil;
 		} else {
 			[self setShouldCascadeWindows : NO];
 		}
-		CMRMainBrowser = self;
+		if (CMRMainBrowser == nil)
+			CMRMainBrowser = self;
 	}
 	return self;
 }

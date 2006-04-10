@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-listImport.m,v 1.1.1.1.4.3 2006/02/27 17:31:49 masakih Exp $
+  * $Id: CMRThreadsList-listImport.m,v 1.1.1.1.4.4 2006/04/10 17:10:21 masakih Exp $
   * BathyScaphe
   *
   *
@@ -38,34 +38,6 @@ static BOOL synchronizeThAttrForSync2(NSMutableDictionary *theThread, NSDictiona
 	
 	return YES;
 }
-
-/*static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, CMRThreadAttributes *theAttributes)
-{
-	unsigned		nCorrectLoaded_;
-	ThreadStatus	status_;
-	
-	nCorrectLoaded_ = [theAttributes numberOfLoadedMessages];
-
-	[theThread setUnsignedInt : nCorrectLoaded_
-					   forKey : CMRThreadLastLoadedNumberKey];
-
-	if (nCorrectLoaded_ == 0) {
-		status_ = ThreadNoCacheStatus;
-	} else {
-		unsigned	nRes_ = [theThread unsignedIntForKey : CMRThreadNumberOfMessagesKey];
-		if (nCorrectLoaded_ >= nRes_) {
-			status_ = ThreadLogCachedStatus;
-			[theThread setObject : [
-		} else {
-			status_ = ThreadUpdatedStatus;
-		}
-	}
-
-	[theThread setUnsignedInt : status_
-					   forKey : CMRThreadStatusKey];
-	
-	return YES;
-}*/
 
 #pragma mark -
 
@@ -328,18 +300,14 @@ static BOOL synchronizeThAttrForSync2(NSMutableDictionary *theThread, NSDictiona
 		thread_ = [self seachThreadByPath : path_];
 		if (thread_ != nil) {
 			int		i;
-			//id		attr_;
+
 			i = [[fm_ favoritesItemsIndex] indexOfObject : path_];
 			if (i == NSNotFound) break;
-			//attr_ = [[CMRThreadAttributes alloc] initWithDictionary : 
-			//			[[fm_ favoritesItemsArray] objectAtIndex : i]];
 
-			//if(synchronizeThAttrForSync(thread_, attr_)) {
 			if(synchronizeThAttrForSync2(thread_, [[fm_ favoritesItemsArray] objectAtIndex : i])) {
 				// Œã•Ð•t‚¯‚Í‚«‚¿‚ñ‚Æ
 				[fm_ removeFromPoolWithFilePath : path_];
 			}
-			//[attr_ release];
 		}
 	}
 	

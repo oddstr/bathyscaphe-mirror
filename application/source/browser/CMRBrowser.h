@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.h,v 1.15.2.2 2006/03/19 15:09:53 masakih Exp $
+  * $Id: CMRBrowser.h,v 1.15.2.3 2006/04/10 17:10:21 masakih Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -121,6 +121,12 @@ typedef enum _BSThreadDeletionType {
 
 - (void) showThreadsListForBoard : (NSDictionary *) board;
 - (void) showThreadsListWithBoardName : (NSString *) boardName;
+
+// available in Levantine
+- (unsigned) selectRowWithThreadPath : (NSString *) filepath
+                byExtendingSelection : (BOOL ) flag
+					 scrollToVisible : (BOOL ) scroll;
 @end
 
 extern NSString *const CMRBrowserDidChangeBoardNotification;
+extern NSString *const CMRBrowserThListUpdateDelegateTaskDidFinishNotification; // avaiable in Levantine

@@ -239,15 +239,32 @@ static id fnc_stringByURLEncodingUsingEncoding(id obj, NSStringEncoding enc)
 
 #define FAIL_URLENCODING_TITLE_KEY			@"FailURLEncoding_title"
 #define FAIL_URLENCODING_MSG_KEY			@"FailURLEncoding_msg"
+#define FAIL_URLENCODING_HELP_KEY			@"FailURLEncoding_help"
 
 - (int) runAlertPanelWithFailURLEncoding : (NSString *) originalString
 {
-	return NSRunAlertPanel(
+	NSAlert	*alert_ = [[NSAlert alloc] init];
+	int		result_;
+	
+	[alert_ setAlertStyle : NSWarningAlertStyle];
+	[alert_ setMessageText : w2chLocalizedAlertMessageString(FAIL_URLENCODING_TITLE_KEY)];
+	[alert_ setInformativeText : [NSString stringWithFormat:w2chLocalizedAlertMessageString(FAIL_URLENCODING_MSG_KEY),originalString]];
+	//[alert_ setHelpAnchor : w2chLocalizedAlertMessageString(FAIL_URLENCODING_HELP_KEY)];
+	//[alert_ setShowsHelp : YES];
+	[alert_ addButtonWithTitle : @"OK"];
+	
+	result_ = [alert_ runModal];
+	
+	[alert_ release];
+
+	return result_;
+/*	return NSRunAlertPanel(
 			w2chLocalizedAlertMessageString(FAIL_URLENCODING_TITLE_KEY),
 			[NSString stringWithFormat:w2chLocalizedAlertMessageString(FAIL_URLENCODING_MSG_KEY),originalString],
 			@"OK",
 			nil,
 			nil);
+*/
 }
 - (NSString *) parameterWithForm : (NSDictionary *) forms
 {

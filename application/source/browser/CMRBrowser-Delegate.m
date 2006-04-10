@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.14.2.5 2006/02/27 17:31:49 masakih Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.14.2.6 2006/04/10 17:10:21 masakih Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -491,6 +491,8 @@ BOOL isOptionKeyDown(unsigned flag_)
 
 	[[self threadsListTable] reloadData];
 	[self selectCurrentThreadWithMask : mask_];
+	
+	UTILNotifyName(CMRBrowserThListUpdateDelegateTaskDidFinishNotification);
 }
 
 - (void) favoritesManagerDidLinkFavorites : (NSNotification *) notification

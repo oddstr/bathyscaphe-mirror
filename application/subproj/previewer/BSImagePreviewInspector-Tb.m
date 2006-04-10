@@ -1,5 +1,5 @@
 /*
- * $Id: BSImagePreviewInspector-Tb.m,v 1.4.2.4 2006/03/19 15:09:53 masakih Exp $
+ * $Id: BSImagePreviewInspector-Tb.m,v 1.4.2.5 2006/04/10 17:10:21 masakih Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -55,8 +55,9 @@ static NSImage *_imageForDefaultBrowser()
 - (NSString *) calcImageSize : (NSImage *) image_
 {
 	int	wi, he;
-	NSArray	*ary_ = [image_ representations];
-	NSImageRep	*tmp_ = [ary_ objectAtIndex : 0];
+	//NSArray	*ary_ = [image_ representations];
+	//NSImageRep	*tmp_ = [ary_ objectAtIndex : 0];
+	NSImageRep	*tmp_ = [image_ bestRepresentationForDevice : nil];
 	NSString *msg_;
 	
 	wi = [tmp_ pixelsWide];

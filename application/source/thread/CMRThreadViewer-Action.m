@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.13.2.4 2006/03/19 15:09:53 masakih Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.13.2.5 2006/04/10 17:10:21 masakih Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -23,6 +23,8 @@
 #import "UTILDebugging.h"
 
 #pragma mark -
+
+static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBrowserSelectCurThreadNotification";
 
 @implementation CMRThreadViewer(ActionSupport)
 - (CMRFavoritesOperation) favoritesOperationForThreads : (NSArray *) threadsArray
@@ -763,6 +765,25 @@
 
 #pragma mark Available in SledgeHammer and Later
 
+- (void) mainBrowserDidFinishShowThList : (NSNotification *) aNotification
+{
+	if (CMRMainBrowser == nil) return;
+	UTILAssertNotificationName(
+		notification,
+		CMRBrowserThListUpdateDelegateTaskDidFinishNotification);
+	UTILAssertNotificationObject(
+		notification,
+		CMRMainBrowser);
+	
+	[CMRMainBrowser selectRowWithThreadPath : [self path]
+					   byExtendingSelection : NO
+							scrollToVisible : YES];
+
+	[[NSNotificationCenter defaultCenter] removeObserver : self
+													name : CMRBrowserThListUpdateDelegateTaskDidFinishNotification
+												  object : CMRMainBrowser];
+}
+
 - (IBAction) orderFrontMainBrowser : (id) sender
 {
 	if (CMRMainBrowser != nil) {
@@ -774,7 +795,23 @@
 	// この時点で CMRMainBrowser は必ず存在している
 	NSString *boardName = [self boardName];
 	if(!boardName) return; 
-	[CMRMainBrowser showThreadsListWithBoardName : boardName];
-	[CMRMainBrowser selectRowWhoseNameIs : boardName];
+
+	if([[[CMRMainBrowser currentThreadsList] boardName] isEqualToString : boardName]) {
+		// ブラウザの表示を切り替える必要は無い
+		[CMRMainBrowser selectRowWhoseNameIs : boardName];
+		[CMRMainBrowser selectRowWithThreadPath : [self path]
+						   byExtendingSelection : NO
+								scrollToVisible : YES];
+		
+		return;
+	} else {
+		[[NSNotificationCenter defaultCenter] addObserver : self
+												 selector : @selector(mainBrowserDidFinishShowThList:)
+													 name : CMRBrowserThListUpdateDelegateTaskDidFinishNotification
+												   object : CMRMainBrowser];
+
+		[CMRMainBrowser showThreadsListWithBoardName : boardName];
+		[CMRMainBrowser selectRowWhoseNameIs : boardName];
+	}
 }
 @end

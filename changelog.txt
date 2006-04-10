@@ -1,3 +1,6 @@
+2006-04-11 masakih <masakih@users.sourceforge.jp>
+	トランクよりマージ
+	cvs -z3 up -j v111-BASED-BRANCH-MERGE-POINT-03 -j v120_FINAL
 2006-03-31 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSDBThreadList.m
 		時間のかかる処理を CMRTask として外部に押し出した。

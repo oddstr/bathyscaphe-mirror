@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.25.2.5 2006/03/19 15:09:53 masakih Exp $
+  * $Id: CMRBrowser-Action.m,v 1.25.2.6 2006/04/10 17:10:21 masakih Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -13,6 +13,8 @@
 
 extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate.m
 
+@class IndexField;
+
 @implementation CMRBrowser(Action)
 - (IBAction) focus : (id) sender
 {
@@ -22,15 +24,15 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 - (void) selectRowWhoseNameIs : (NSString *) brdname_
 {
     SmartBoardList       *source;
+	NSOutlineView	*bLT = [self boardListTable];
     NSDictionary	*selected;
     int				index;
 
-    source = (SmartBoardList *)[[self boardListTable] dataSource];
+    source = (SmartBoardList *)[bLT dataSource];
     
     selected = [source itemForName : brdname_];
-    //if (nil == selected)
-    //    return;
-    if (nil == selected) {
+	
+    if (nil == selected) { // 掲示板を自動的に追加
 		id defaultList_ = [[BoardManager defaultManager] defaultList];
 		NSDictionary *willAdd_ = [defaultList_ itemForName : brdname_];
 		if(nil == willAdd_) {
@@ -42,14 +44,15 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 		}
 	}
 		
-    index = [[self boardListTable] rowForItem : selected];
+    index = [bLT rowForItem : selected];
     if (-1 == index) {
+		// 将来の課題：カテゴリを自動的に開いて選択する
+		[bLT deselectAll : nil];
         return;
     }
     
-    [[self boardListTable] selectRow : index 
-                byExtendingSelection : NO];
-    [[self boardListTable] scrollRowToVisible : index];
+    [bLT selectRow : index byExtendingSelection : NO];
+    [bLT scrollRowToVisible : index];
 }
 
 - (IBAction) reloadThreadsList : (id) sender
@@ -90,7 +93,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 	NSView *targetView = [[[self window] contentView] hitTest : mouse];
 	NSArray *result = nil;
 	
-	if ([targetView isKindOfClass : [m_threadsListTable class]] || nil == targetView) {	// スレッドリストから
+	if ([targetView isKindOfClass : [m_threadsListTable class]] /*|| nil == targetView*/) {	// スレッドリストから
 		result = [self selectedThreadsReallySelected];
 		if (0 == [result count]) {
 			if (nil == [self threadURL]) {
@@ -98,9 +101,29 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 			}
 			result = [self selectedThreads];
 		}
-//	} else if (nil == targetView) {
-		// メニューバーもしくはキーイベントから 今はスレッドリストの場合と同じ
-	} else { //　スレッドリストから。
+	} else if (nil == targetView) {
+		// メニューバーもしくはキーイベントから
+		// あるいはツールバーボタンから
+		// スレッドリストにフォーカスが当たっているかどうかで対象をスイッチする。
+		NSView *focusedView_ = (NSView *)[[self window] firstResponder];
+		if (focusedView_ == [self textView] || [[[focusedView_ superview] superview] isKindOfClass : [IndexField class]]) {
+			// フォーカスがスレッド本文領域にある
+			id selected = [self selectedThread];
+			if (nil == selected) {
+				result = [NSArray empty];
+			} else {
+				result = [NSArray arrayWithObject : selected];
+			}
+		} else { // フォーカスがそれ以外の領域にある：スレッドリストの選択項目を優先
+			result = [self selectedThreadsReallySelected];
+			if (0 == [result count]) {
+				if (nil == [self threadURL]) {
+					result = [NSArray empty];
+				}
+				result = [self selectedThreads];
+			}
+		}	
+	} else { //　スレッド本文領域から。
 		id selected = [self selectedThread];
 		if (nil == selected) {
 			result = [NSArray empty];
@@ -211,7 +234,12 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 
 	NSString *boardName = [self boardName];
 	if(!boardName) return; 
-	[self showThreadsListWithBoardName : boardName];
+
+	if([[[self currentThreadsList] boardName] isEqualToString : boardName]) {
+		[self selectCurrentThreadWithMask : CMRAutoscrollAny];
+	} else {
+		[self showThreadsListWithBoardName : boardName];
+	}
 	[self selectRowWhoseNameIs : boardName];
 }
 
@@ -261,72 +289,39 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 
 	[[CMRMainMenuManager defaultManager] synchronizeStatusFilteringMenuItemState];
 }
-/*
-- (IBAction) searchToolbarPopupChanged : (id) sender
-{
-	CMRSearchMask		prefOption_;		// 設定済みのオプション
-	CMRSearchMask		settingOpt_;		// 設定または解除されたオプション
-	BOOL				isOnState_;			// 設定か
-	
-	if (NO == [sender respondsToSelector:@selector(representedObject)]) return;
-	if (NO == [sender respondsToSelector:@selector(state)]) return;
-	
-	prefOption_ = [CMRPref threadSearchOption];
-	settingOpt_ = [[sender representedObject] unsignedIntValue];
-	isOnState_  = NSOffState == [(NSMenuItem*)sender state];
-	
-	[sender setState : isOnState_ ? NSOnState : NSOffState];
-	if (CMRSearchOptionCaseInsensitive == settingOpt_ || 
-	   CMRSearchOptionZenHankakuInsensitive == settingOpt_) {
-		// 意味が逆になっている。
-		isOnState_ = (NO == isOnState_);
-	}
-	if (isOnState_) {
-		[CMRPref setThreadSearchOption : 
-			prefOption_ | settingOpt_];
-	} else {
-		[CMRPref setThreadSearchOption : 
-			(prefOption_ & (~settingOpt_))];
-	}
-	
-}
-*/
+
 #pragma mark Deletion
 - (void) _showDeletionAlertSheet : (id) sender
 						  ofType : (BSThreadDeletionType) aType
 					  allowRetry : (BOOL) allowRetry
-				   targetThreads : (id) anObj
+				   targetThreads : (NSArray *) threadsArray
 {
 	NSAlert		*alert_;
 	NSString	*title_;
 	NSString	*message_;
-	SEL			didEndSel_;
 
 	alert_ = [[NSAlert alloc] init];
 
 	switch(aType) {
 	case BSThreadAtViewerDeletionType:
-		{
+	{
 		NSString *tmp_ = [self localizedString : kDeleteThreadTitleKey];
-		title_ = [NSString stringWithFormat : tmp_, [self title]];
+		NSString *threadTitle_ = [CMRThreadAttributes threadTitleFromDictionary : [threadsArray lastObject]];
+		title_ = [NSString stringWithFormat : tmp_, threadTitle_];
 		message_ = [self localizedString : kDeleteThreadMessageKey];
-		didEndSel_ = @selector(_threadDeletionSheetForViewerDidEnd:returnCode:contextInfo:);
-		}
+	}
 		break;
 	case BSThreadAtBrowserDeletionType:
 		title_ = [self localizedString : kBrowserDelThTitleKey];
 		message_ = [self localizedString : kBrowserDelThMsgKey];
-		didEndSel_ = @selector(_threadDeletionSheetForListDidEnd:returnCode:contextInfo:);
 		break;
 	case BSThreadAtFavoritesDeletionType:
 		title_ = [self localizedString : kDeleteFavTitleKey];
 		message_ = [self localizedString : kDeleteFavMsgKey];
-		didEndSel_ = @selector(_threadDeletionSheetForListDidEnd:returnCode:contextInfo:);
 		break;
 	default : 
 		title_ = @"Implementaion Error";
 		message_ = @"Please report that You see this message. Oh, you should press Cancel button. Sorry.";
-		didEndSel_ = nil;
 		break;
 	}
 	
@@ -343,183 +338,106 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 	//NSBeep();
 	[alert_ beginSheetModalForWindow : [self window]
 					   modalDelegate : self
-					  didEndSelector : didEndSel_
-					     contextInfo : nil];
+					  didEndSelector : @selector(_threadDeletionSheetDidEnd:returnCode:contextInfo:)
+					     contextInfo : [threadsArray retain]];
 
 	[alert_ release];
 }
 
 - (IBAction) deleteThread : (id) sender
 {
-    CMRThreadsList	*threadsList = [self currentThreadsList];
-    NSTableView		*tableView   = [self threadsListTable];
- 
-	NSArray			*selected_	= [self selectedThreadsReallySelected];
-   
-    if ([selected_ count] == 0) {
-		/* 一覧で何も選択されていない */
-		if ([self shouldShowContents]) {
-			/* 3ペイン表示なら、ログ表示領域で表示中のスレを削除する */
-			NSString *path_ = [[self path] copy];
-			if ([CMRPref quietDeletion]) {
-				if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
-					[self checkIfFavItemThenRemove : path_];
-				} else {
-					NSBeep();
-					NSLog(@"Deletion failed : %@", path_);
-				}
-			} else {
-				[self _showDeletionAlertSheet : sender
-									   ofType : BSThreadAtViewerDeletionType
-								   allowRetry : YES
-								targetThreads : nil];
-			}
-			[path_ release];
-			return;
-		} else {
-			/* 2ペイン表示なら、削除するものは何も無い */
-			return;
-		}
-    }
-    if (NO == [CMRPref quietDeletion]) {
-		/* 以下の場合、「削除して再取得」は許可しない：
-		   1.オフラインモード時
-		   2.2ペイン表示時（別ウインドウで開いてからどうぞ）
-		   3.複数のスレッドが選択されているとき
-		*/
-		// 追加：3ペイン時に一覧で選択されているスレッドとビューアで表示されているスレッドが一致しない時は、
-		//　　　　フォーカスの当たっているビューで判断する。ただし、フォーカスが一覧側にあっても、ビューアと選択スレッドが一致している時は
-		//　　　　再取得を許可する。
-
-		// 3ペイン、かつ、選択項目が一つしかない
-		if ([self shouldShowContents] && ([selected_ count] == 1)) {
-			int			selectedNum = [tableView selectedRow];
-			NSString	*checkPath_;
-			checkPath_ = [threadsList threadFilePathAtRowIndex : selectedNum
-												   inTableView : tableView
-														status : NULL];
-			// 選択スレと表示スレが一致、またはフォーカスがビューアにある→ビューアのスレを対象に、再取得許可付きで
-			if ([checkPath_ isEqualToString : [self path]] || ([[self window] firstResponder] == [self textView])) {
-				[self _showDeletionAlertSheet : sender
-									   ofType : BSThreadAtViewerDeletionType
-								   allowRetry : [CMRPref isOnlineMode]
-								targetThreads : nil];
-			// 選択スレと表示スレが一致しない、かつ、フォーカスは一覧側にある→再取得は許可しない
-			} else {
-				[self _showDeletionAlertSheet : sender
-									   ofType : BSThreadAtBrowserDeletionType
-								   allowRetry : NO
-								targetThreads : nil];
-			}
-			return;
-		}
-		// 3ペインで選択項目が複数あるか、または選択項目数に関わらず2ペイン
-		if(NO == [threadsList isFavorites])
-			[self _showDeletionAlertSheet : sender ofType : BSThreadAtBrowserDeletionType allowRetry : NO
-					targetThreads : nil];
-		else
-			[self _showDeletionAlertSheet : sender ofType : BSThreadAtFavoritesDeletionType allowRetry : NO
-					targetThreads : nil];
-    } else {
-		[threadsList tableView : tableView
-				removeIndexSet : [tableView selectedRowIndexes]
-			 delFavIfNecessary : YES];
-		[tableView reloadData];
-	}
-}
-
-- (void) _threadDeletionSheetForListDidEnd : (NSAlert *) alert
-								returnCode : (int      ) returnCode
-							   contextInfo : (void	   *) contextInfo
-{
-    CMRThreadsList *threadsList = [self currentThreadsList];
-    NSTableView    *tableView   = [self threadsListTable];
+	NSArray			*targets_ = [self targetThreadsForAction : _cmd];
+	int				numOfSelected_ = [targets_ count];
 	
-	//UTILAssertKindOfClass(contextInfo, [NSArray class]);
-
-	switch(returnCode){
-	case NSAlertFirstButtonReturn: // delete
-		{
-			[threadsList tableView : tableView
-					removeIndexSet : [tableView selectedRowIndexes]
-				 delFavIfNecessary : YES];
-			[tableView reloadData];
-		}
-		break;
-	/*case NSAlertThirdButtonReturn: // delete & reload
-		{
-			NSEnumerator		*Iter_;
-			NSDictionary		*threadAttributes_;
-
-			if ([threadsList tableView : tableView
-					removeIndexSet : [tableView selectedRowIndexes]
-				 delFavIfNecessary : NO])
-			{
-				[tableView reloadData];
-				Iter_ = [(NSArray *)contextInfo objectEnumerator];
-				while ((threadAttributes_ = [Iter_ nextObject])) {
-					NSString			*path_;
-					NSString			*title_;
-					CMRThreadSignature	*threadSignature_;
-					
-					path_ =  [CMRThreadAttributes pathFromDictionary : threadAttributes_];
-					title_ = [threadAttributes_ objectForKey : CMRThreadTitleKey];
-					threadSignature_ = [CMRThreadSignature threadSignatureFromFilepath : path_];
-
-					[self downloadThread : threadSignature_
-								   title : title_
-							   nextIndex : 0];
-				}
-			} else {
-				NSBeep();
-				NSLog(@"Deletion failed :\n%@", [(NSArray *)contextInfo description]);
-			}
-		}
-		break;*/
-	case NSAlertSecondButtonReturn: // cancel
-		break;
-	default:
-		break;
-	}
+	if (numOfSelected_ == 0) return;
 	
-}
-
-
-- (void) _threadDeletionSheetForViewerDidEnd : (NSAlert *) alert
-								  returnCode : (int      ) returnCode
-								 contextInfo : (void *) contextInfo
-{
-	//UTILAssertKindOfClass(contextInfo, [NSString class]);
-
-	switch(returnCode){
-	case NSAlertFirstButtonReturn: // delete
-		{
-			NSString *path_ = [self path];
+	if (numOfSelected_ == 1) {
+		NSString *path_ = [CMRThreadAttributes pathFromDictionary : [targets_ lastObject]];
+		if ([CMRPref quietDeletion]) {
 			if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
 				[self checkIfFavItemThenRemove : path_];
 			} else {
 				NSBeep();
 				NSLog(@"Deletion failed : %@", path_);
 			}
+		} else {
+			[self _showDeletionAlertSheet : sender
+								   ofType : BSThreadAtViewerDeletionType
+							   allowRetry : ([CMRPref isOnlineMode] && [self shouldShowContents] && [[self path] isEqualToString : path_])
+							targetThreads : targets_];
+		}
+	} else {
+		if ([CMRPref quietDeletion]) {
+			NSEnumerator	*enumerator_;
+			id				eachItem_;
+			enumerator_ = [targets_ objectEnumerator];
+			while ((eachItem_ = [enumerator_ nextObject])) {
+				NSString	*path_ = [CMRThreadAttributes pathFromDictionary : eachItem_];
+				if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
+					[self checkIfFavItemThenRemove : path_];
+				} else {
+					NSBeep();
+					NSLog(@"Deletion failed : %@", path_);
+					continue;
+				}
+			}
+		} else {
+			[self _showDeletionAlertSheet : sender
+								   ofType : ([[self currentThreadsList] isFavorites] ? BSThreadAtFavoritesDeletionType
+																					 : BSThreadAtBrowserDeletionType)
+							   allowRetry : NO
+							targetThreads : targets_];
+		}
+	}
+}
+
+- (void) _threadDeletionSheetDidEnd : (NSAlert *) alert
+						 returnCode : (int      ) returnCode
+						contextInfo : (void	   *) contextInfo
+{	
+	UTILAssertKindOfClass(contextInfo, [NSArray class]);
+
+	switch(returnCode){
+	case NSAlertFirstButtonReturn: // delete
+		{
+			NSEnumerator	*enumerator_;
+			id				eachItem_;
+			enumerator_ = [(NSArray *)contextInfo objectEnumerator];
+			while ((eachItem_ = [enumerator_ nextObject])) {
+				NSString	*path_ = [CMRThreadAttributes pathFromDictionary : eachItem_];
+				if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
+					[self checkIfFavItemThenRemove : path_];
+				} else {
+					NSBeep();
+					NSLog(@"Deletion failed : %@", path_);
+					continue;
+				}
+			}
 		}
 		break;
 	case NSAlertThirdButtonReturn: // delete & reload
 		{
-			NSString *path_ = [self path];
-			if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : NO]) {
-				[self reloadAfterDeletion : path_];
-				[[self threadsListTable] reloadData]; // really need?
-			} else {
-				NSBeep();
-				NSLog(@"Deletion failed : %@ , so reloading opreation has been canceled.", path_);
-			}			
+			NSEnumerator	*enumerator_;
+			id				eachItem_;
+			enumerator_ = [(NSArray *)contextInfo objectEnumerator];
+			while ((eachItem_ = [enumerator_ nextObject])) {
+				NSString	*path_ = [CMRThreadAttributes pathFromDictionary : eachItem_];
+				if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : NO]) {
+					[self reloadAfterDeletion : path_];
+					[[self threadsListTable] reloadData]; // really need?
+				} else {
+					NSBeep();
+					NSLog(@"Deletion failed : %@, so reloading opreation has been canceled.", path_);
+					continue;
+				}
+			}
 		}
 		break;
 	case NSAlertSecondButtonReturn: // cancel
 		break;
 	default:
 		break;
-	}	
+	}
 }
 
 #pragma mark Search

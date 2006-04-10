@@ -224,7 +224,7 @@ static NSLock		*st_singleton_lock	= nil;
 	if(userAgent != NULL) *userAgent = nil;
 	if(sid != NULL) *sid = nil;
 	if(nil == userID || nil == password){
-		UTILDebugWrite(@"UserID or password was nill.");
+		UTILDebugWrite(@"UserID or password was nil.");
 		
 		[self setRecentErrorType : w2chNoError];
 		return NO;
@@ -513,7 +513,6 @@ static NSLock		*st_singleton_lock	= nil;
 		}
 		
 	}else{
-		NSString		*tbl_ = APP_AUTHENTICATER_TABLE;
 		NSString		*ok_ = APP_AUTHENTICATER_OK_KEY;
 		NSString		*titleKey_;
 		NSString		*msgKey_;
@@ -522,12 +521,24 @@ static NSLock		*st_singleton_lock	= nil;
 		msgKey_ = [self messageKeyForErrorType : [self recentErrorType]];
 		
 		if(titleKey_ != nil && msgKey_ != nil){
-			NSRunAlertPanel(
-					PluginLocalizedStringFromTable(titleKey_, tbl_, nil),
-					PluginLocalizedStringFromTable(msgKey_, tbl_, nil),
-					PluginLocalizedStringFromTable(ok_, tbl_, nil),
+			NSAlert	*alert_ = [[NSAlert alloc] init];
+			
+			[alert_ setAlertStyle : NSWarningAlertStyle];
+			[alert_ setMessageText : PluginLocalizedStringFromTable(titleKey_, nil, nil)];
+			[alert_ setInformativeText : PluginLocalizedStringFromTable(msgKey_, nil, nil)];
+
+			[alert_ addButtonWithTitle : PluginLocalizedStringFromTable(ok_, nil, nil)];
+			
+			[alert_ runModal];
+			
+			[alert_ release];
+/*			NSRunAlertPanel(
+					PluginLocalizedStringFromTable(titleKey_, nil, nil),
+					PluginLocalizedStringFromTable(msgKey_, nil, nil),
+					PluginLocalizedStringFromTable(ok_, nil, nil),
 					nil,
 					nil);
+*/
 		}
 	}
 	

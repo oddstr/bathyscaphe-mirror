@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Download.m,v 1.3.2.3 2006/02/27 17:31:50 masakih Exp $
+  * $Id: CMRThreadViewer-Download.m,v 1.3.2.4 2006/04/10 17:10:21 masakih Exp $
   * BathyScaphe
   * 
   *
@@ -184,8 +184,8 @@
 
 - (BOOL) alertShowHelp : (NSAlert *) alert
 {
-	[[NSHelpManager sharedHelpManager] findString : [alert helpAnchor]
-										   inBook : [NSBundle applicationHelpBookName]];
+	[[NSHelpManager sharedHelpManager] openHelpAnchor : [alert helpAnchor]
+											   inBook : [NSBundle applicationHelpBookName]];
 	return YES;
 }
 
