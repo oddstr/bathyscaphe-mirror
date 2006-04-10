@@ -153,30 +153,7 @@ int progressHandler(void *obj)
 {
 	return _isOpen;
 }
-//id <SQLiteRow> makeRowFromSTMT(sqlite3_stmt *stmt, NSArray *columns)
-//{
-//	NSMutableDictionary *result;
-//	int i, columnCount = sqlite3_column_count(stmt);
-//	
-//	result = [NSMutableDictionary dictionaryWithCapacity : columnCount];
-//	for (i = 0; i < columnCount; i++) {
-//		//		const char *columnName = sqlite3_column_name(stmt, i);
-//		const unsigned char *value = sqlite3_column_text(stmt, i);
-//		id v = nil;
-//		
-//		if (value) {
-//			v = [NSString stringWithUTF8String : (const char *) value];
-//		}
-//		if (!v) {
-//			v = [NSNull null];
-//		}
-//		
-//		[result setObject : v
-//				   forKey : [columns objectAtIndex : i]];
-//	}
-//	
-//	return result;
-//}
+
 id <SQLiteRow> makeRowFromSTMT(sqlite3_stmt *stmt, NSArray *columns)
 {
 	NSNull *nsNull = [NSNull null];
@@ -212,20 +189,7 @@ id <SQLiteRow> makeRowFromSTMT(sqlite3_stmt *stmt, NSArray *columns)
 	
 	return [(id)result autorelease];
 }
-//NSArray *columnsFromSTMT(sqlite3_stmt *stmt)
-//{
-//	NSMutableArray *result;
-//	int i, columnCount = sqlite3_column_count(stmt);
-//	
-//	result = [NSMutableArray arrayWithCapacity : columnCount];
-//	for (i = 0; i < columnCount; i++) {
-//		const char *columnName = sqlite3_column_name(stmt, i);
-//		
-//		[result addObject : [[NSString stringWithUTF8String : columnName] lowercaseString]];
-//	}
-//	
-//	return result;
-//}
+
 NSArray *columnsFromSTMT(sqlite3_stmt *stmt)
 {
 	CFMutableArrayRef result;
@@ -255,45 +219,7 @@ NSArray *columnsFromSTMT(sqlite3_stmt *stmt)
 	
 	return [(id)result autorelease];
 }
-//NSArray *valuesForSTMT(sqlite3_stmt *stmt, NSArray *culumns)
-//{
-//	int result;
-//	BOOL finishFetch = NO;
-//	id <SQLiteRow> dict;
-//	NSMutableArray *values = [NSMutableArray array];
-//	
-//	do {
-//		BOOL updateCursor = NO;
-//		
-//		result = sqlite3_step(stmt);
-//		
-//		switch (result) {
-//			case SQLITE_BUSY :
-//				break;
-//			case SQLITE_OK :
-//			case SQLITE_DONE :
-//				finishFetch = YES;
-//				break;
-//			case SQLITE_ROW :
-//				updateCursor = YES;
-//				break;
-//			default :
-//				//				sqlite3_finalize(stmt);
-//				return nil;
-//				break;
-//		}
-//		
-//		if (updateCursor) {
-//			dict = makeRowFromSTMT(stmt, culumns);
-//			if (dict) {
-//				[values addObject : dict];
-//			}
-//		}
-//		
-//	} while (!finishFetch);
-//	
-//	return values;
-//}
+
 NSArray *valuesForSTMT(sqlite3_stmt *stmt, NSArray *culumns)
 {
 	int result;
@@ -359,7 +285,7 @@ NSArray *valuesForSTMT(sqlite3_stmt *stmt, NSArray *culumns)
 	
 	sql = [sqlString UTF8String];
 	
-#ifdef DEBUG
+#ifdef DEBUG_SQLiteDB
 	clock_t time00, time01, time02, time03, time04;
 	
 	time00 = clock();
@@ -367,20 +293,20 @@ NSArray *valuesForSTMT(sqlite3_stmt *stmt, NSArray *culumns)
 	result = sqlite3_prepare(mDatabase, sql, strlen(sql) , &stmt, &sql);
 	if(result != SQLITE_OK) return nil;
 	
-#ifdef DEBUG
+#ifdef DEBUG_SQLiteDB
 	time01 = clock();
 #endif
 	columns = columnsFromSTMT(stmt);
-#ifdef DEBUG
+#ifdef DEBUG_SQLiteDB
 	time02 = clock();
 #endif
 	values = valuesForSTMT(stmt, columns);
-#ifdef DEBUG
+#ifdef DEBUG_SQLiteDB
 	time03 = clock();
 #endif
 	
 	sqlite3_finalize(stmt);
-#ifdef DEBUG
+#ifdef DEBUG_SQLiteDB
 	time04 = clock();
 	
 	printf("total time : \t%ld\n"
