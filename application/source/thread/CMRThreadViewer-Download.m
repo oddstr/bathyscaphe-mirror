@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Download.m,v 1.10 2006/03/16 02:53:28 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Download.m,v 1.11 2006/04/11 17:31:21 masakih Exp $
   * BathyScaphe
   * 
   *

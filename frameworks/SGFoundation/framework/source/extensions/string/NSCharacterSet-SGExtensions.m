@@ -1,6 +1,6 @@
 //: NSCharacterSet-SGExtentions.m
 /**
-  * $Id: NSCharacterSet-SGExtensions.m,v 1.2 2006/02/01 17:39:08 tsawada2 Exp $
+  * $Id: NSCharacterSet-SGExtensions.m,v 1.3 2006/04/11 17:31:21 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.

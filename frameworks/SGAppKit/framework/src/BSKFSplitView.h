@@ -1,5 +1,5 @@
 /**
-  * $Id: BSKFSplitView.h,v 1.1 2006/01/27 23:02:19 tsawada2 Exp $
+  * $Id: BSKFSplitView.h,v 1.2 2006/04/11 17:31:21 masakih Exp $
   * 
   * BathyScaphe
   *

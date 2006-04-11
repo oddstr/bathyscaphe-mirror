@@ -2,50 +2,62 @@
 # makefile for BathyScaphe all products.
 #
 
-PBXBUILD	= xcodebuild
-BUILD_OPTION	= -buildstyle Deployment
-BATHYSCAPHE	= -target bathyscaphe $(BUILD_OPTION)
-BUILD_DIR	= build
-
 PROJECT_ROOT	= $(CURDIR)
 
-FRAMEWORK_ROOT	= frameworks
-FRAMEWORK_DIRS	= $(FRAMEWORK_ROOT)/SGFoundation \
-		  $(FRAMEWORK_ROOT)/SGAppKit \
-		  $(FRAMEWORK_ROOT)/SGNetwork \
-		  $(FRAMEWORK_ROOT)/CocoMonar
-
-COMPONENT_DIRS	= $(FRAMEWORK_DIRS) \
-		  application/subproj/BWAgent
-
-ALL_DIRS	= $(COMPONENT_DIRS) application
+APPLICATION_ROOT = $(PROJECT_ROOT)/application
+SUBPROJECTS_ROOT = $(APPLICATION_ROOT)/subproj
+FRAMEWORK_ROOT	= $(PROJECT_ROOT)/frameworks
 
 DARWIN_VER = $(shell uname -r | sed -e 's/\..*//')
-ifeq ($(DARWIN_VER), 8)
-	COMPONENT_DIRS := $(COMPONENT_DIRS) metadataimporter/BathyScaphe
+ENABLE_MDI = $(shell if [ $(DARWIN_VER) -ge 8 ] ;then echo YES ;fi)
+ifeq ($(ENABLE_MDI), YES) 
+	MAKE_MDI = mdimporter
+	MDI_DIR = $(PROJECT_ROOT)/metadataimporter/BathyScaphe
 else
-	MAKE_MDI_DIR = makemdidir
-	MDI_DIR = metadataimporter/BathyScaphe/build/BathyScaphe.mdimporter
+	MAKE_MDI = makemdidir
+	DUMMY_MDI_DIR = $(PROJECT_ROOT)/metadataimporter/BathyScaphe/build/BathyScaphe.mdimporter
 endif
 
+.PHONY: frameworks
 
-all: components
-	cd $(PROJECT_ROOT)/application && \
-	$(PBXBUILD) $(BATHYSCAPHE)
+all: bathyscaphe
 
-clean:
-	for dir in $(ALL_DIRS); do \
-		cd $(PROJECT_ROOT)/$$dir && \
-		$(PBXBUILD) -alltargets clean && \
-		rm -rf $(BUILD_DIR); \
-	done
+clean: clean-components clean-bathyscaphe
 
-components: $(MAKE_MDI_DIR)
-	for dir in $(COMPONENT_DIRS); do \
-		cd $(PROJECT_ROOT)/$$dir && \
-		$(PBXBUILD) $(BUILD_OPTION); \
-	done
+bathyscaphe: components
+	cd $(APPLICATION_ROOT) && $(MAKE) all
+
+clean-bathyscaphe:
+	cd $(APPLICATION_ROOT) && $(MAKE) clean
+
+
+# make components
+components: frameworks subprojects $(MAKE_MDI)
+
+frameworks: 
+	cd $(FRAMEWORK_ROOT) && $(MAKE) all
+
+subprojects: 
+	cd $(SUBPROJECTS_ROOT) && $(MAKE) all
+
+mdimporter:
+	cd $(MDI_DIR) && $(MAKE) all
 
 makemdidir:
-	mkdir -p $(MDI_DIR)
+	mkdir -p $(DUMMY_MDI_DIR)
+
+# cleaning compoments
+clean-components: clean-frameworks clean-subprojects clean-$(MAKE_MDI)
+
+clean-frameworks:
+	cd $(FRAMEWORK_ROOT) && $(MAKE) clean
+
+clean-subprojects:
+	cd $(SUBPROJECTS_ROOT) && $(MAKE) clean
+
+clean-mdimporter:
+	cd $(MDI_DIR) && $(MAKE) clean
+
+clean-makemdidir:
+	rm -fr $(DUMMY_MDI_DIR)
 

@@ -1,5 +1,5 @@
 //
-//  $Id: SoundsPaneController.m,v 1.1 2006/01/27 17:52:53 tsawada2 Exp $
+//  $Id: SoundsPaneController.m,v 1.2 2006/04/11 17:31:21 masakih Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/27.

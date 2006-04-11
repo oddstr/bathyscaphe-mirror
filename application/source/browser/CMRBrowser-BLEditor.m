@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-BLEditor.m,v 1.11 2006/02/27 15:34:09 tsawada2 Exp $
+ * $Id: CMRBrowser-BLEditor.m,v 1.12 2006/04/11 17:31:21 masakih Exp $
  * BathyScaphe
  * CMRBrowser-Action.m, CMRBrowser-ViewAccessor.m から分割
  *
@@ -10,6 +10,10 @@
 
 #import "CMRBrowser_p.h"
 #import "AddBoardSheetController.h"
+
+#import "SmartBoardList.h"
+#import "BoardListItem.h"
+#import "SmartBoardListItemEditor.h"
 
 @implementation CMRBrowser(BoardListEditor)
 #pragma mark Accessors
@@ -40,6 +44,28 @@
 }
 
 #pragma mark IBActions and private methods
+- (void)setItem : (id) item : (int *) userInfo
+{
+	//
+	if(item) {
+		int rowIndex;
+		id selectedItem;
+		id userList = [[BoardManager defaultManager] userList];
+				
+		rowIndex = [[self boardListTable] selectedRow];
+		selectedItem = (rowIndex >= 0) ? [[self boardListTable] itemAtRow : rowIndex]: nil;
+		
+		[userList addItem:item afterObject:selectedItem];
+		[[self boardListTable] reloadData];
+	}
+}
+- (IBAction) addSmartItem : (id) sender
+{
+	[[SmartBoardListItemEditor editor] cretateFromUIWindow:[self window]
+												  delegate:self
+										   settingSelector:@selector(setItem::)
+												  userInfo:NULL];
+}
 
 - (IBAction) addDrawerItem : (id) sender
 {
@@ -82,20 +108,20 @@
 		rowIndex_ = [boardListTable_ selectedRow];
 	}
 
-	NSDictionary	*item_;
+	id			item_;
 	NSString	*name_;
 
 	item_ = [boardListTable_ itemAtRow : rowIndex_];
-	name_ = [item_ objectForKey : BoardPlistNameKey];
+	name_ = [item_ representName]; //[item_ objectForKey : BoardPlistNameKey];
 	
 	[[self dItemEditSheetTitleField] setStringValue : [self localizedString : kEditDrawerTitleKey]];
-	if ([BoardList isBoard : item_]) {
+	if ([BoardListItem isBoardItem : item_]) {
 		[[self dItemEditSheetMsgField]   setStringValue :
 					 [NSString localizedStringWithFormat: [self localizedString : kEditDrawerItemMsgForBoardKey],name_]];
 		[[self dItemEditSheetLabelField] setStringValue : [self localizedString : kEditDrawerItemTitleForBoardKey]];
-		[[self dItemEditSheetInputField] setStringValue : [item_ objectForKey : BoardPlistURLKey]];
+		[[self dItemEditSheetInputField] setStringValue : [[item_ url] absoluteString]]; //objectForKey : BoardPlistURLKey]];
 
-	} else if ([BoardList isCategory : item_]) {
+	} else if ([BoardListItem isFolderItem : item_] || [BoardListItem isSmartItem : item_]) {
 		[[self dItemEditSheetMsgField]   setStringValue :
 					 [NSString localizedStringWithFormat: [self localizedString : kEditDrawerItemMsgForCategoryKey],name_]];
 		[[self dItemEditSheetLabelField] setStringValue : [self localizedString : kEditDrawerItemTitleForCategoryKey]];
@@ -158,7 +184,7 @@
 		}
 	}
 
-	NSDictionary	*item_;
+	id	item_;
 	item_ = [boardListTable_ itemAtRow : rowIndex_];
 		
 	NSBeep();
@@ -172,7 +198,7 @@
 		@selector(_drawerItemDeletionSheetDidEnd:returnCode:contextInfo:),
 		NULL,
 		item_,
-		[self localizedString : kRemoveDrawerItemMsgKey],[item_ objectForKey : BoardPlistNameKey]
+		[self localizedString : kRemoveDrawerItemMsgKey],[item_ name]
 	);
 }
 
@@ -196,7 +222,7 @@
 {
 	if (NSOKButton == returnCode) {
 
-		NSMutableDictionary *newItem_;
+		id		newItem_;
 		NSString *name_;
 		id userList = [[BoardManager defaultManager] userList];
 	
@@ -208,7 +234,7 @@
 			return;
 		}
 
-		if ([userList containsItemWithName : name_ ofType : (BoardListFavoritesItem | BoardListCategoryItem)]) {
+		if ([userList itemForName : name_]) {
 			[sheet close];	
 			NSBeep();
 			NSBeginInformationalAlertSheet(
@@ -222,18 +248,12 @@
 		int rowIndex;
 		id selectedItem;
 	
-		newItem_ = [NSMutableDictionary dictionaryWithObjectsAndKeys :
-					name_, BoardPlistNameKey, [NSMutableArray array], BoardPlistContentsKey, nil];
+		newItem_ = [BoardListItem boardListItemWithFolderName : name_]; 
 	
 		rowIndex = [[self boardListTable] selectedRow];
 		selectedItem = (rowIndex >= 0) ? [[self boardListTable] itemAtRow : rowIndex]: nil;
 	
-		if (nil == selectedItem || [BoardList isFavorites : selectedItem]) {
-			[[userList boardItems] addObject : newItem_];
-			[userList postBoardListDidChangeNotification];
-		} else {
-			[userList addItem:newItem_ afterObject:selectedItem];
-		}
+		[userList addItem:newItem_ afterObject:selectedItem];
 		[[self boardListTable] reloadData];
 	}
 	[sheet close];
@@ -241,7 +261,7 @@
 
 - (void) _drawerItemEditSheetDidEnd : (NSWindow *) sheet
 						 returnCode : (int       ) returnCode
-						contextInfo : (NSDictionary *) contextInfo
+						contextInfo : (id		) contextInfo
 {
 	if (NSOKButton == returnCode) {
 
@@ -250,31 +270,16 @@
 
 		id userList = [[BoardManager defaultManager] userList];
 
-		NSMutableDictionary *newItem_;
-		NSString *oldname_;
-
 		if ([value_ isEqualToString : @""]) {
 			NSBeep();
 			[sheet close];
 			return;
 		}
 		
-		if ([BoardList isBoard : contextInfo]) {
-
-			newItem_ = (NSMutableDictionary *)contextInfo;
-			oldname_ = [newItem_ objectForKey : BoardPlistNameKey];
-		
-			[userList item : newItem_
-				   setName : oldname_
-					setURL : value_];
-						   
-		} else if ([BoardList isCategory : contextInfo]) {
-
-			newItem_ = (NSMutableDictionary *)contextInfo;
-			oldname_ = [newItem_ objectForKey : BoardPlistNameKey];
-		
-			if ([userList containsItemWithName : value_ ofType : (BoardListFavoritesItem | BoardListCategoryItem)] &&
-				(NO == [oldname_ isEqualToString : value_]))
+		if ([BoardListItem isBoardItem : contextInfo]) {
+			[userList setURL:value_ toItem:contextInfo];
+		} else if ([BoardListItem isFolderItem : contextInfo] || [BoardListItem isSmartItem : contextInfo]) {		
+			if ([userList itemForName:value_])
 			{
 				[sheet close];
 				NSBeep();
@@ -285,9 +290,7 @@
 				);
 				return;
 			}
-			[userList item : newItem_
-				   setName : value_
-					setURL : nil];
+			[userList setName:value_ toItem:contextInfo];
 		}
 		[[self boardListTable] reloadData];
 	}
@@ -296,12 +299,11 @@
 
 - (void) _drawerItemDeletionSheetDidEnd : (NSWindow *) sheet
 							 returnCode : (int       ) returnCode
-							contextInfo : (NSDictionary *) contextInfo
+							contextInfo : (id        ) contextInfo
 {
 	switch (returnCode) {
 	case NSAlertDefaultReturn:
-		[[[BoardManager defaultManager] userList] removeItemWithName : [contextInfo objectForKey : BoardPlistNameKey]
-															  ofType : [[BoardList class] typeForItem : contextInfo]];
+		[(id)[[BoardManager defaultManager] userList] removeItem:contextInfo];
 		[[self boardListTable] reloadData];
 		[[self boardListTable] deselectAll : nil];
 		break;
@@ -323,7 +325,7 @@
 			NSDictionary	*item_;
 			int				size = [selected lastIndex]+1;
 			NSRange			e = NSMakeRange(0, size);
-			BoardList		*list_ = [[BoardManager defaultManager] userList];
+			id				list_ = [[BoardManager defaultManager] userList];
 			
 			NSMutableArray	*tmp = [NSMutableArray array];
 
@@ -339,8 +341,7 @@
 				id				eachItem;
 
 				while ((eachItem = [enum_ nextObject]) != nil) {
-					[list_ removeItemWithName : [eachItem objectForKey : BoardPlistNameKey]
-									   ofType : [[BoardList class] typeForItem : eachItem]];
+					[list_ removeItem:eachItem];
 				}
 			
 				[[self boardListTable] reloadData];

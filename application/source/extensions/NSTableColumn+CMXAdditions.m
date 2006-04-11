@@ -1,6 +1,6 @@
 //: NSTableColumn+CMXAdditions.m
 /**
-  * $Id: NSTableColumn+CMXAdditions.m,v 1.6 2006/02/11 03:20:56 tsawada2 Exp $
+  * $Id: NSTableColumn+CMXAdditions.m,v 1.7 2006/04/11 17:31:21 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.

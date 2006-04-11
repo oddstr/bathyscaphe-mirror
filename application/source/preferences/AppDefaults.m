@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.12 2006/01/27 17:52:53 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.13 2006/04/11 17:31:21 masakih Exp $
   * 
   * AppDefaults.m
   *
@@ -8,7 +8,7 @@
   */
 #import "AppDefaults_p.h"
 #import "CMRMainMenuManager.h"
-#import "BoardList.h"
+// #import "BoardList.h"
 #import <AppKit/NSFont.h>
 
 

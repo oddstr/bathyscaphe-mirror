@@ -18,7 +18,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 {
 	NSString *scriptsDir = [[[CMRFileManager defaultManager] supportDirectoryWithName : @"Scripts"] filepath];
 	NSMenuItem *scriptMenu = [[CMRMainMenuManager defaultManager] scriptsMenuItem];
-	BSScriptsMenu *submenu = [scriptMenu submenu];
+	id submenu = [scriptMenu submenu];
 	NSImage *scriptImage;
 	
 	if (!submenu || ![submenu isKindOfClass : [BSScriptsMenu class]]) {

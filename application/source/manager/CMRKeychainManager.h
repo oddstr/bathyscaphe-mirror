@@ -1,5 +1,5 @@
 /*
- * $Id: CMRKeychainManager.h,v 1.5 2006/02/27 18:25:41 tsawada2 Exp $
+ * $Id: CMRKeychainManager.h,v 1.6 2006/04/11 17:31:21 masakih Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.

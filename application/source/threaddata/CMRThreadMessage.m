@@ -1,6 +1,6 @@
 //: CMRThreadMessage.m
 /**
-  * $Id: CMRThreadMessage.m,v 1.3 2006/02/02 13:00:47 tsawada2 Exp $
+  * $Id: CMRThreadMessage.m,v 1.4 2006/04/11 17:31:21 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.

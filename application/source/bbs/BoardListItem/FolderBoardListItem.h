@@ -13,9 +13,8 @@
 @interface FolderBoardListItem : BoardListItem
 {
 	NSMutableArray *items;
-	NSString *name;
 }
 
--(id)initWithFolderName:(NSString *)name;
+- (id) initWithFolderName : (NSString *) name;
 
 @end

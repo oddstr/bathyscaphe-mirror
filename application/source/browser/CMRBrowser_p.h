@@ -12,7 +12,7 @@
 
 #import "AppDefaults.h"
 #import "BoardManager.h"
-#import "BoardList.h"
+#import "SmartBoardList.h"
 
 #import "Browser.h"
 #import "CMRThreadDocument.h"
@@ -20,6 +20,8 @@
 #import "CMRBrowserTbDelegate.h"
 #import "CMRThreadsList.h"
 #import "CMXDateFormatter.h"
+
+#import "BSDBThreadList.h"
 
 #import "ThreadsListTable.h"
 #import "CMXScrollView.h"

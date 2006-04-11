@@ -1,0 +1,394 @@
+================================================= CVS  Tag : MERGED-v120_FINAL
+2006-04-11 masakih <masakih@users.sourceforge.jp>
+	トランクよりマージ
+	cvs -z3 up -j v111-BASED-BRANCH-MERGE-POINT-03 -j v120_FINAL
+2006-03-31 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+		時間のかかる処理を CMRTask として外部に押し出した。
+		呼び出しはクラス名を用いた無理矢理方式。後日直す。
+	* application/source/browser/BSThreadListCollectAllThreadAttrTask.m
+	* application/source/browser/BSThreadListDBUpdateTask.m
+	* application/source/browser/BSThreadListSmartItemDBUpdateTask.m
+	* application/source/browser/BSThreadListUpdateTask.m
+		[新規追加] BSDBThreadList で時間のかかる処理を CMRTask として外部に押し出した。
+		BSThreadListCollectAllThreadAttrTask  表示中のすべてのスレッドの属性の配列を作成する。
+		ただし、メインスレッド上で呼ばれるため偽の配列である BSFakeThreadAttributeArray をすぐに返し、
+		BSFakeThreadAttributeArray が別スレッド上で情報を収集している。
+		実際のデータを返すのは -[BSFakeThreadAttributeArray objectEnumerator] である。
+		( Future パターン、Proxy パターン)。
+		BSThreadListDBUpdateTask 通常の板の更新時に更新内容をデータベースに反映する。
+		現在、非マルチスレッド。マルチスレッド化を検討中。
+		BSThreadListSmartItemDBUpdateTask スマートボードの更新時に更新内容をデータベースに反映する。
+		BSThreadListUpdateTask スレッド一覧に表示するデータを収集。
+		機能上、非マルチスレッド。
+	* application/source/manager/DatabaseManager.m
+		スキーマ変更。
+		どうやら、一時テーブルが作成したスレッド以外から見えないらしいので、
+		BoardThreadInfoView を通常のビューに変更した。
+	* application/source/manager/SQLiteDB.m
+		CFMutableArrayRef(), CFDictionaryCreateMutable() で上限が設定可能なものは上限を設定した。
+2006-03-29 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+	* application/source/manager/SQLiteDB.m
+		CoreFoundation を導入して最適化。
+2006-03-27 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+	* application/source/manager/DatabaseManager-DatabaseAccess.m
+		-[DatabaseManager boardIDsForName:] でキャッシュを使用するようにした。
+2006-03-20 masakih <masakih@users.sourceforge.jp>
+	トランクよりマージ
+	cvs -z3 up -j v111-BASED-BRANCH-MERGE-POINT-02 -j v111-BASED-BRANCH-MERGE-POINT-03
+	
+	トランクに一時タグを作成。
+	cvs -z3 tag -D "Mar 9 14:00:00 2006 UTC" v111-BASED-BRANCH-MERGE-POINT-03
+2006-03-19 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m
+		初期化時に日付を現在の日付で初期化。
+	* application/source/browser/BSDBThreadList.m
+		-[BSDBThreadList allThreadAttributes]  を最適化。
+2006-03-06 masakih <masakih@users.sourceforge.jp>
+	* application/Resources/Japanese.lproj/SmartBLIEditorComponents.nib
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m
+	* application/source/bbs/BoardListItem/SmartBoardListItem.m
+	* application/source/bbs/BoardListItem/SmartBoardListItemEditor.m
+	* application/source/bbs/BoardListItem/SmartCondition.h
+	* application/source/bbs/BoardListItem/SmartCondition.m
+		相対的日付条件を実装＆バグ取り。
+	* application/source/browser/BSDBThreadList.m
+		-[BSDBThreadList favoritesHEADCheckTaskDidFinish:] を少し最適化。
+2006-03-04 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+		掲示板カラム、作成日カラムでのソートをサポート。
+	* application/source/browser/BSDBThreadList.m
+	* application/source/manager/DatabaseManager-DatabaseAccess.m
+	* application/source/manager/DatabaseManager.m
+		ThreadIDColumn カラムをなぜか TEXTで定義していた。このため様々な不具合を生んでいた。
+		ThreadIDColumn カラムを INTEGER に定義し直した。
+		**この変更は過去に作成された BathyScaphe.db には作用しない。
+		データベースバージョンへの移行用に用意しているBSDataImporter を
+		'BS Another Story' 用に変更したものを用意した。
+		(http://www.geocities.jp/svc9826/app/BSDataImporterForBSAS.zip)
+		一度 BathyScaphe.db を削除してからこれを実行すると、データベースを再構築できる。
+	* application/source/manager/SQLiteDB.m
+		fix: インスタンス変数 mPath を dealloc 時に2重リリースしていた。
+2006-03-02 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/SmartCondition.m
+	* application/source/browser/BSDBThreadList.m
+	* application/source/manager/SQLiteDB.m
+		オブジェクトが NSNull のインスタンスであるかどうかの判定に、[NSNull null] のポインタとの直接比較を使用するようにした。
+	* application/source/browser/BSDBThreadList.m
+		numberOfDifference カラムを使用するように変更。
+	* application/source/manager/DatabaseManager.h
+	* application/source/manager/DatabaseManager.m
+		BoardThreadInfoView ビューに numberOfDifference カラムを追加。
+		... SELECT *,(numberOfAll - numberOfRead) AS numberOfDifference ...
+2006-03-01 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/CMRBrowser-BLEditor.m
+	* application/source/browser/CMRBrowser-Validation.m
+		スマートリストの削除、名称変更に対応。
+	* application/source/bbs/BoardListItem/ConcreteBoardListItem.m
+	* application/source/bbs/BoardListItem/SmartBoardList.m
+	* application/source/bbs/BoardListItem/SmartBoardListItem.m
+	* application/source/bbs/BoardListItem/SmartCondition.m
+		スマートリストの掲示板リスト上でのドラッグアンドドロップに対応。
+		してみたら、board.plist からの読み込みも対応された。
+		board.plist がヒューマンリーダブルではなくなってしまった。
+2006-02-28 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+		掲示板、作成日カラムのサポート
+	
+	トランクよりマージ
+	cvs -z3 up -j v111-BASED-BRANCH-MERGE-POINT-01 -j v111-BASED-BRANCH-MERGE-POINT-02
+	
+	トランクに一時タグを作成。
+	cvs -z3 tag -D "Feb 19 10:00:00 2006 UTC" v111-BASED-BRANCH-MERGE-POINT-02
+	
+	* application/source/browser/BSDBThreadList.m
+		2006-02-24 の変更は間違い。revert.
+	* application/Resources/Japanese.lproj/ConditionTypes.plist
+		[新規追加] SmartConditionの型を規定する。
+	* application/Resources/Japanese.lproj/CriteriaSpecifications.plist
+	* application/Resources/Japanese.lproj/Browser.nib
+	* application/Resources/Japanese.lproj/SmartBLIEditorComponents.nib
+	* application/Resources/Japanese.lproj/SmartBoardItemEditor.nib
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.h
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m
+	* application/source/bbs/BoardListItem/SmartBoardListItem.h
+	* application/source/bbs/BoardListItem/SmartBoardListItem.m
+	* application/source/bbs/BoardListItem/SmartBoardListItemEditor.m
+	* application/source/bbs/BoardListItem/SmartCondition.h
+	* application/source/bbs/BoardListItem/SmartCondition.m
+	* application/source/browser/BSDBThreadList.m
+	* application/source/browser/CMRBrowser-BLEditor.m
+	* application/source/browser/CMRBrowser-Delegate.m
+	* application/source/browser/CMRBrowser-List.m
+		スマートリストを仮実装。
+		**注意** スマートリストを追加するとboard.plist が壊れます。
+2006-02-24 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+		お気に入りからスレッドを更新するとスレッド一覧でステータスが正しく表示されない現象を修正。
+		-[CMRThreadsList seachThreadByPath:]をオーバーライドし、データベース上から検索するようにした。
+2006-02-22 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+			-[id<SQLiteRow> valueForColumn] が NSNullを返した場合の処理を忘れていたので追加。
+2006-02-11 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/BoardBoardListItem.m
+		ThreadBoardInfoViewを使用するように変更。
+	* application/source/manager/DatabaseManager.h
+	* application/source/manager/DatabaseManager.m
+		スキーマ変更。
+		未使用のResponseテーブルの削除。
+		新たに ThreadBoardInfoView ビューを作成。
+	* application/source/manager/SQLiteDB.m
+		若干の最適化	
+2006-02-03 masakih <masakih@users.sourceforge.jp>
+	* application/source/manager/SQLiteDB.m
+		SQLiteDB
+のデータ格納法を変更。すべてのテーブル名を常に小文字で持つようにした。
+		これにより速度向上を確認。
+2006-02-02 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+		お気に入りの更新に対応。
+		これはスマートリストの更新も出来るようになったことを意味する。
+		いくつかのエラーチェックを追加。
+2006-02-01 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/BoardListItem.h
+	* application/source/bbs/BoardListItem/BoardListItem.m
+	* application/source/bbs/BoardListItem/ConcreteBoardListItem.m
+	* application/source/bbs/BoardListItem/SmartBoardList.h
+	* application/source/bbs/BoardListItem/SmartBoardList.m
+		BoardListItemType の宣言を BoardListItem.h に移動。
+		新たに BoardListSmartBoardItem と BoardListAnyTypeItem を追加。
+		それに伴い、直値を使っていた部分を置換。
+2006-01-30 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/SmartBoardList.m
+		カテゴリと板、スマートボードの重複名を許すようにした。
+	* application/source/bbs/BoardListItem/BoardListItem.h
+	* application/source/bbs/BoardListItem/BoardListItem.m
+	* application/source/bbs/BoardListItem/ConcreteBoardListItem.m
+	* application/source/bbs/BoardListItem/FolderBoardListItem.m
+	* application/subproj/editor/BoardListEditor.m
+		-[BoardListItem type] を新設。
+		+[BoardListItem typeForItem:] を使用している部分をこれに変更\
+2006-01-29 masakih <masakih@users.sourceforge.jp>
+	トランクよりマージ
+	cvs -z3 up -j v113_FINAL -j v111-BASED-BRANCH-MERGE-POINT-01
+	
+	トランクに一時タグを作成。
+	cvs -z3 tag -D "Jan 29 06:55:54 2006 UTC" v111-BASED-BRANCH-MERGE-POINT-01
+	
+	* misc/sqlite/pager.c
+	* misc/sqlite/sqlite3.h
+		sqlite-3.2.8 からマージ。
+================================================= CVS  Tag : MERGED-v113_FINAL
+2006-01-29 masakih <masakih@users.sourceforge.jp>
+	トランクよりマージ
+	cvs -z3 up -j v122_FINAL -j v113_FINAL 
+2006-01-22 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+		ログ削除時にデータベースを更新するようにした。
+	* application/source/browser/BSDBThreadList.m
+		スレッドステータスがスレッド読み込み時に更新されていなかったのを修正。
+	* application/Resources/Japanese.lproj/SmartBLIEditorComponents.nib
+		スマートボード編集ウインドウの日付フィールドをBSDatePickerにした。
+	* application/source/view/BSDatePicker.h
+	* application/source/view/BSDatePicker.m
+	* application/source/view/BSDatePickerCell.h
+	* application/source/view/BSDatePickerCell.m
+		[新規追加]Pantherで駆動するDatePicker.
+2006-01-06 masakih <masakih@users.sourceforge.jp>
+	* application/Resources/Japanese.lproj/CriteriaSpecifications.plist
+		[新規追加]スマートボード編集ウインドウの条件のアイテムの並びを
+		定義するプロパティーリスト。
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m
+		スマートボード編集ウインドウの条件に相対的日付を付加。
+2006-01-05 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m
+		スマートボード編集ウインドウのアニメーション部分にあったバグを解消。
+2006-01-03 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m
+		条件の増減時のアニメーションを自力で行うようにした。
+	* application/source/bbs/BoardListItem/SmartBoardListItemEditor.m
+	* application/source/bbs/BoardListItem/SmartCondition.m
+		内部だけで使うC関数を static inline にした。
+	* application/Resources/Japanese.lproj/SmartBLIEditorComponents.nib
+	* application/Resources/Japanese.lproj/SmartBoardItemEditor.nib
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.h
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m
+	* application/source/bbs/BoardListItem/SmartBoardListItemEditor.h
+	* application/source/bbs/BoardListItem/SmartBoardListItemEditor.m
+	* application/source/bbs/BoardListItem/SmartCondition.h
+	* application/source/bbs/BoardListItem/SmartCondition.m
+		[新規追加]スマートボードを作成、編集するためのクラスを投入。
+		ただし、現在未使用。
+	* application/source/manager/SQLiteDB.m
+		バグフィックス。
+2005-12-28 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+		スレッド名に"'"が含まれているとき"''"の様にダブって登録されていたのを修正。
+2005-12-25 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+		-[BSDBThreadList setThread:]を最適化。
+	* application/source/browser/BSDBThreadList.h
+	* application/source/browser/BSDBThreadList.m
+		スレッド一覧のフィルター処理をするようにした。
+2005-12-24 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/ConcreteBoardListItem.m
+	* application/source/bbs/BoardListItem/FolderBoardListItem.m
+	* application/source/browser/BSDBThreadList.h
+	* application/source/browser/BSDBThreadList.m
+	* application/source/manager/SQLiteDB.h
+	* application/source/manager/SQLiteDB.m
+		設定に沿って新着スレッドを常に上部に表示するようにした。
+2005-12-23 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/SmartBoardList.m
+		掲示板リスト編集ウインドウからのドロップが出来なかったのを修正。
+	* application/source/bbs/BoardListItem/BoardBoardListItem.m
+	* application/source/bbs/BoardListItem/ConcreteBoardListItem.m
+		２重リリースしていた部分を発見。修正。
+2005-12-22 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/BoardBoardListItem.m
+	* application/source/bbs/BoardListItem/BoardListItem.h
+	* application/source/bbs/BoardListItem/BoardListItem.m
+	* application/source/bbs/BoardListItem/ConcreteBoardListItem.m
+	* application/source/bbs/BoardListItem/FolderBoardListItem.m
+	* application/source/bbs/BoardListItem/SmartBoardList.m
+		掲示板リストのD & Dを実装。
+2005-12-19 masakih <masakih@users.sourceforge.jp>
+	* application/source/manager/DatabaseManager.h
+	* application/source/manager/DatabaseManager.m
+		今後の可能性をふまえて、LastWrittenDateカラムをThreadInfoTableに追加。
+		プログラム上では未使用、且つ存在検証もしていない。
+	* application/Makefile
+	* application/source/libRBSplitView.a
+		nmatz さんのご指摘を受けてterminal上でメイクできるように変更
+		また、マージできていなかったlibRBSplitView.aをマージ。
+================================================= CVS  Tag : MERGED-v112_FINAL
+2005-12-18 masakih <masakih@users.sourceforge.jp>
+		不要となったタグ MERGED-v111-BASED-BRANCH-MERGE-POINT-01 と
+		v111-BASED-BRANCH-MERGE-POINT-01 を削除
+		トランクよりマージ
+		cvs -z3 up -j v111-BASED-BRANCH-MERGE-POINT-01  -j v112_FINAL 
+2005-12-17 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+		スレッド一覧変更時に以前のソートに沿うようにした。
+	* application/source/bbs/BoardListItem/BoardListItem.h
+	* application/source/bbs/BoardListItem/BoardListItem.m
+	* application/source/bbs/BoardListItem/ConcreteBoardListItem.m
+	* application/source/bbs/BoardListItem/SmartBoardList.m
+	* application/source/browser/BSDBThreadList.m
+	* application/source/browser/CMRBrowser-BLEditor.m
+		BoardListItem に一時インスタンス生成クラスメソッドを追加。
+		それらを使った方が良いものはそれに変更。
+2005-12-16 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/BoardBoardListItem.m
+		BoardBoardListItem を baordID 一つにつき一つのインスタンス
+		だけ生成するようにした。
+		Flyweight パターン。
+		メモリ節約より生成/解放を減らすのが主目的。
+	* application/source/browser/BSDBThreadList.m
+		カーソルの排他処理をより確実にした。
+	* application/source/browser/BSDBThreadList.h
+	* application/source/browser/BSDBThreadList.m
+	* application/source/browser/CMRThreadsList-Download.m
+		お気に入り選択時にスレッド一覧が表示されないのが試験的に導入した
+		BSDBThreadList のインスタンス変数が原因だと判明。
+		インスタンス変数を削除し、CMRThreadsList-Download.m は元に戻した。
+2005-12-15 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+	* application/source/browser/CMRThreadsList-Download.m
+		マージによりお気に入り選択時にスレッド一覧のreloadDataが
+		呼ばれなくなっていたのを直した
+	* application/source/browser/BSDBThreadList.m
+	* application/source/browser/CMRBrowser-List.m
+	* application/source/browser/CMRBrowser_p.h
+		スレッドリストの生成を名前ベースに変更。
+2005-12-15 masakih <masakih@users.sourceforge.jp>
+		トランクの TestaRosssa の位置に一時タグ'v111-BASED-BRANCH-MERGE-POINT-01'を付けた
+		rtag -D'2005-12-10 19:00 UCT' v111-BASED-BRANCH-MERGE-POINT-01
+		トランクよりマージ
+		cvs -z3 up -j v111-BASED-BRANCH-MERGE-POINT-01
+2005-12-14 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+	* application/source/bbs/BoardListItem/SmartBoardList.m
+	* application/source/manager/DatabaseManager-DatabaseAccess.m
+		お気に入りが削除されたときに、スレッド一覧を更新するようにした。
+		ついでにBathyScaphe Style にコードを直すスクリプトのバグで混入した
+		文字リテラル内の不要なスペースによるバグを解消。
+	* application/source/browser/BSDBThreadList.m
+	* application/source/browser/Browser.m
+	* application/source/browser/CMRBrowser-Action.m 
+		検索フィールドが空になった時にスレッド一覧を正しく表示するようにした。
+2005-12-13 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardList.h
+	* application/source/bbs/BoardList.m
+	* application/source/bbs/BoardList-OVDataSource.m
+		置き換えが完了していたのでプロジェクトから外した。
+2005-12-12 masakih <masakih@users.sorceforge.jp>
+	* application/source/bbs/BoardListItem/BoardListItem.h
+	* application/source/bbs/BoardListItem/BoardListItem.m
+	* application/source/bbs/BoardListItem/ConcreteBoardListItem.h
+	* application/source/bbs/BoardListItem/ConcreteBoardListItem.m
+	* application/source/bbs/BoardListItem/FolderBoardListItem.h
+	* application/source/bbs/BoardListItem/FolderBoardListItem.m
+	* application/source/bbs/BoardListItem/AbstractDBBoardListItem.h
+	* application/source/bbs/BoardListItem/AbstractDBBoardListItem.m
+	* application/source/bbs/BoardListItem/BoardBoardListItem.h
+	* application/source/bbs/BoardListItem/BoardBoardListItem.m
+	* application/source/bbs/BoardListItem/FavoritesBoardListItem.h
+	* application/source/bbs/BoardListItem/FavoritesBoardListItem.m
+	* application/source/bbs/BoardListItem/SmartBoardListItem.h
+	* application/source/bbs/BoardListItem/SmartBoardListItem.m
+		いろいろ変更。
+		板リストに表示されるアイテムたち。
+		現在 NSDictionary でやり取りされているものをすべてこれに変更するのが目的。
+	* application/source/bbs/BoardListItem/SmartBoardList.h
+	* application/source/bbs/BoardListItem/SmartBoardList.m
+		いろいろ変更。
+		板リストのデータソース。
+	* application/source/browser/BSDBThreadList.h
+	* application/source/browser/BSDBThreadList.m
+		[新規追加] CMRThreadList のデータソース部分を切り離し、BoardListItem および SQL を利用するようにしている。
+		ほとんどの機能を継承できていない。
+		ただし、検索フィールドでスペース区切りによるAND検索、!を頭に付けることによるNOT検索が可能になった。
+		現状では大文字小文字の区別はない。
+	* application/source/manager/DatabaseManager-DatabaseAccess.m
+	* application/source/manager/DatabaseManager.h
+	* application/source/manager/DatabaseManager.m
+	* application/source/manager/SQLiteDB.h
+	* application/source/manager/SQLiteDB.m
+	* misc/sqlite
+		[新規追加] DatabaseManager は BathyScaphe.db の作成管理およびデータ登録のためのクラス。
+		SQLiteDB は sqlite のCocoaラッパー。
+	* misc/sqlite/util.c
+		malloc系の関数をNSZoneを使う関数に置換。
+		sqlite, DatabaseManager, SQLiteManager専用NSZoneを使用するようにした。
+		このため このファイルに限りファイルタイプをsourcecode.c.objcにし、
+		gcc -x objective-c でコンパイルされるようにしている。
+		これが速度面で有効であるかどうかは不明。
+	* application/source/main.m
+		DatabaseManager の初期化
+	* application/source/browser/AddBoardSheetController.m(.h)
+	* application/source/bbs/BoardManager.m(.h)(_p.h)
+	* application/source/browser/CMRBrowser.m(_p.h)
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/browser/CMRBrowser-BLEditor.m
+	* application/source/browser/CMRBrowser-Delegate.m
+	* application/source/browser/CMRBrowser-List.m
+	* application/source/browser/CMRBrowser-Validation.m
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/source/browser/CMRThreadsList-DataSource.m
+	* application/source/browser/CMRThreadsListReadFileTask.m
+	* application/source/browser/CMRThreadsUpdateListTask.m
+	* application/subproj/editor/BoardListEditor.m(.h)(_p.h)
+		SmartBoardList ,BoardListItem, BSDBThreadList を使用するように変更
+
+	* application/source/browser/CMRFavoritesManager.m
+		DatabaseManager を使用するように変更
+	* application/Makefile
+	* application/subproj/Makefile
+	* frameworks/Makefile
+	* metadataimporter/BathyScaphe/Makefile
+		[新規追加] application/subproj/Makefile
+		コンポーネントごとにメイク可能にした。
+================================================= CVS Branch Tag : v111-BASED-BRANCH

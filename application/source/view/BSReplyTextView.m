@@ -1,5 +1,5 @@
 //
-//  $Id: BSReplyTextView.m,v 1.1 2006/03/13 13:24:08 tsawada2 Exp $
+//  $Id: BSReplyTextView.m,v 1.2 2006/04/11 17:31:21 masakih Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/03/13.

@@ -2,12 +2,14 @@
 # makefile for BathyScaphe application
 #
 
-PBXBUILD = xcodebuild
+PBXBUILD = /usr/bin/xcodebuild
 BUILD_OPTION = -configuration Deployment
 BUILD_DIR = build
+ 
+BUILD_OPTION := -target "bs another story" $(BUILD_OPTION)
 
 all:
-	$(PBXBUILD) -target bathyscaphe $(BUILD_OPTION)
+	$(PBXBUILD) $(BUILD_OPTION)
 
 clean:
 	$(PBXBUILD) -alltargets clean

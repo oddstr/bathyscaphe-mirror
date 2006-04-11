@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.42 2006/03/17 17:52:34 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.43 2006/04/11 17:31:21 masakih Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -24,16 +24,16 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 - (void) selectRowWhoseNameIs : (NSString *) brdname_
 {
 	NSOutlineView	*bLT = [self boardListTable];
-    BoardList       *source;
+    SmartBoardList       *source;
     NSDictionary	*selected;
     int				index;
 
-    source = (BoardList *)[bLT dataSource];
+    source = (SmartBoardList *)[bLT dataSource];
     
     selected = [source itemForName : brdname_];
-
+	
     if (nil == selected) { // ŒfŽ¦”Â‚ðŽ©“®“I‚É’Ç‰Á
-		BoardList	*defaultList_ = [[BoardManager defaultManager] defaultList];
+		id defaultList_ = [[BoardManager defaultManager] defaultList];
 		NSDictionary *willAdd_ = [defaultList_ itemForName : brdname_];
 		if(nil == willAdd_) {
 			NSLog(@"No data for board %@ found.", brdname_);
@@ -474,12 +474,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 {
 	BOOL		result = NO;
 	
-	if (nil == aString || [aString isEmpty]) {
-		int		mask_;
-		
-		mask_ = [[self currentThreadsList] filteringMask];
-		[self changeThreadsFilteringMask : mask_];
-	} else {
+	if (nil != aString) {
 		result = [[self document] searchThreadsInListWithString : aString];
 		[self showSearchResultAppInfoWithFound : result];
 	}

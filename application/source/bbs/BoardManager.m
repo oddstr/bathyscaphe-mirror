@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.m,v 1.5 2006/03/16 02:53:27 tsawada2 Exp $
+ * $Id: BoardManager.m,v 1.6 2006/04/11 17:31:21 masakih Exp $
  * 
  * BoardManager.m
  *
@@ -9,6 +9,8 @@
 
 #import "BoardManager_p.h"
 #import "CMRDocumentFileManager.h"
+
+#import "DatabaseManager.h"
 
 // for debugging only
 #define UTIL_DEBUGGING		0
@@ -91,10 +93,10 @@ static id kDefaultManager;
 }
 
 
-- (BoardList *) makeBoardList : (Class     ) aClass
-           withContentsOfFile : (NSString *) aFile
+- (SmartBoardList *) makeBoardList : (Class     ) aClass
+				withContentsOfFile : (NSString *) aFile
 {
-    BoardList *list;
+    SmartBoardList *list;
     
     list = [[aClass alloc] initWithContentsOfFile : aFile];
     [[NSNotificationCenter defaultCenter]
@@ -105,7 +107,7 @@ static id kDefaultManager;
     
     return list;
 }
-- (BoardList *) defaultList
+- (SmartBoardList *) defaultList
 {
     if (nil == _defaultList) {
 		NSFileManager	*dfm;
@@ -118,16 +120,16 @@ static id kDefaultManager;
 			[dfm copyPath : [self spareDefaultBoardListPath] toPath : dListPath handler : nil];
 		}
         _defaultList = 
-          [self makeBoardList : [BoardList class]
+          [self makeBoardList : [SmartBoardList class]
            withContentsOfFile : dListPath];
     }
     return _defaultList;
 }
-- (BoardList *) userList
+- (SmartBoardList *) userList
 {
     if (nil == _userList) {
         _userList = 
-          [self makeBoardList : [FavoritesList class]
+          [self makeBoardList : [SmartBoardList class]
            withContentsOfFile : [self userBoardListPath]];
     }
     return _userList;
@@ -135,26 +137,43 @@ static id kDefaultManager;
 
 - (NSURL *) URLForBoardName : (NSString *) boardName
 {
-	NSURL	*url_;
+	NSURL	*url_ = nil;
+	NSString *urlString;
+	DatabaseManager *dbm = [DatabaseManager defaultManager];
+	NSArray *ids;
 	
-	if (nil == boardName) return nil;
-	url_ = [[self userList] URLForBoardName : boardName];
-	return url_ ? url_ : [[self defaultList] URLForBoardName : boardName];
+	ids = [dbm boardIDsForName:boardName];
+	/* TODO ï°êîÇÃèÍçáÇÃèàóù */
+	urlString = [dbm urlStringForBoardID:[[ids objectAtIndex:0] unsignedIntValue]];
+	if( urlString ) {
+		url_ = [NSURL URLWithString:urlString];
+	}
+	
+	return url_;
 }
 - (NSString *) boardNameForURL : (NSURL *) theURL
 {
 	NSString	*name_;
+	DatabaseManager *dbm = [DatabaseManager defaultManager];
+	unsigned boardID;
 	
-	if (nil == theURL) return nil;
-	name_ = [[self userList] boardNameForURL : theURL];
-	return name_ ? name_ : [[self defaultList] boardNameForURL : theURL];
+	boardID = [dbm boardIDForURLString:[theURL absoluteString]];
+	name_ = [dbm nameForBoardID:boardID];
+	
+	return name_;
 }
 
 - (void) updateURL : (NSURL    *) anURL
       forBoardName : (NSString *) aName
 {
-    [[self userList] updateURL:anURL forBoardName:aName];
-    [[self defaultList] updateURL:anURL forBoardName:aName];
+	DatabaseManager *dbm = [DatabaseManager defaultManager];
+	NSArray *ids;
+	unsigned boardID;
+	
+	ids = [dbm boardIDsForName:aName];
+	/* TODO ï°êîÇÃèÍçáÇÃèàóù */
+	boardID = [[ids objectAtIndex:0] unsignedIntValue];
+	[dbm moveBoardID:boardID toURLString:[anURL absoluteString]];
 }
 
 /*** detect moved BBS ***/
@@ -297,7 +316,7 @@ static id kDefaultManager;
 	UTILAssertNotificationName(
 		notification,
 		CMRBBSListDidChangeNotification);
-	UTILAssertKindOfClass([notification object], BoardList);
+	UTILAssertKindOfClass([notification object], SmartBoardList);
 	
 	[[NSNotificationCenter defaultCenter]
 			 postNotificationName : ([notification object] == [self defaultList])

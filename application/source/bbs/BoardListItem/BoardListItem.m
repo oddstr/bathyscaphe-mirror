@@ -7,303 +7,343 @@
 //
 
 #import "BoardListItem.h"
+#import "ConcreteBoardListItem.h"
 
-// SledgeHammer ‚Å‚Í‚Ü‚¾Žg—p‚µ‚È‚¢
-//#import "DatabaseManager.h"
-
-@interface ConcreteBoardListItem : BoardListItem
-+(id)sharedInstance;
-@end
-
+#import "DatabaseManager.h"
 
 NSString *BoardListItemUpdateChildrenNotification = @"BoardListItemUpdateChildrenNotification";
 NSString *BoardListItemUpdateThreadsNotification = @"BoardListItemUpdateThreadsNotification";
 
 @implementation BoardListItem
 
-+(id)allocWithZone:(NSZone *)zone
++ (id) allocWithZone : (NSZone *) zone
 {
-	if( [self class] == [BoardListItem class] ) {
+	if ([self class] == [BoardListItem class]) {
 		return [ConcreteBoardListItem sharedInstance];
 	}
 	
-	return [super allocWithZone:zone];
+	return [super allocWithZone : zone];
 }
 
--(NSImage *)icon
-{
-	[self doesNotRecognizeSelector:_cmd];
-	
-	return nil;
+- (NSImage *) icon
+{	
+	return _icon;
 }
--(NSString *)name
+- (void) setIcon : (NSImage *) icon
 {
-	[self doesNotRecognizeSelector:_cmd];
-	
-	return nil;
+	id temp = _icon;
+	_icon = [icon retain];
+	[temp release];
 }
--(void)setName:(NSString *)newName
+- (NSString *) name
 {
-	[self doesNotRecognizeSelector:_cmd];
+	return _name;
+}
+- (void) setName : (NSString *) newName
+{
+	id temp = _name;
+	_name = [newName retain];
+	[temp release];
 }
 
--(BOOL)hasURL
+- (BOOL) hasURL
 {
 	return NO;
 }
--(NSString *)url
+- (NSURL *) url
 {
-	[self doesNotRecognizeSelector:_cmd];
+	[self doesNotRecognizeSelector : _cmd];
 	
 	return nil;
 }
--(void)setURLString:(NSString *)urlString
+- (void) setURLString : (NSString *) urlString
 {
-	[self doesNotRecognizeSelector:_cmd];
+	[self doesNotRecognizeSelector : _cmd];
 }
 
--(BOOL)hasChildren
+- (BOOL) hasChildren
 {
 	return NO;
 }
--(unsigned)numberOfItem
+- (BoardListItem *) parentForItem : (BoardListItem *) item
+{
+	return nil;
+}
+- (unsigned) numberOfItem
 {	
 	return 0;
 }
--(id)itemAtIndex:(unsigned)index
+- (unsigned) indexOfItem : (id) item
+{
+	return NSNotFound;
+}
+- (id) itemAtIndex : (unsigned) index
 {	
 	return nil;
 }
-
--(id)propertyListRepresentation
+- (NSArray *) items
 {
-	NSLog(@"Enter <%@:%p> <%@>", NSStringFromClass([self class]), self,NSStringFromSelector(_cmd));
-	return self;
+	return [NSArray array];
+}
+- (id) itemForName : (NSString *) name
+{
+	return [self itemForName : name deepSearch : NO];
+}
+- (id) itemForName : (NSString *) name deepSearch : (BOOL) isDeep
+{
+	return [self itemForName : name ofType : BoardListAnyTypeItem deepSearch : isDeep];
+}
+- (id) itemForRepresentName : (NSString *) name
+{
+	return [self itemForRepresentName : name deepSearch : NO];
+}
+- (id) itemForRepresentName : (NSString *) name deepSearch : (BOOL) isDeep
+{
+	return [self itemForName : name deepSearch : isDeep];
+}
+- (id) itemForName : (NSString *)name ofType: (BoardListItemType)type
+{
+	return [self itemForName : name ofType : type deepSearch : NO];
+}
+
+// primitive
+- (id) itemForName : (NSString *)name ofType: (BoardListItemType)type deepSearch : (BOOL) isDeep
+{
+	return nil;
+}
+- (id) itemForRepresentName : (NSString *)name ofType: (BoardListItemType)type
+{
+	return [self itemForRepresentName : name ofType : type deepSearch : NO];
+}
+- (id) itemForRepresentName : (NSString *)name ofType: (BoardListItemType)type deepSearch : (BOOL) isDeep
+{
+	return [self itemForName : name ofType : type deepSearch : isDeep];
+}
+
+- (NSString *) representName
+{
+	return [self name];
+}
+- (void) setRepresentName : (NSString *) newRepresentName
+{
+	[self setName : newRepresentName];
+}
+
+- (id) description
+{
+	return [super description];
+}
+- (id)plist
+{
+	return [NSString stringWithFormat : @"%@ (%p)", NSStringFromClass([self class]), self];
 }
 
 #pragma mark## NSCoding protocol ##
-- (void)encodeWithCoder:(NSCoder *)aCoder
+- (void) encodeWithCoder : (NSCoder *) aCoder
 {
 	//
 }
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (id) initWithCoder : (NSCoder *) aDecoder
 {
 	return [self init];
 }
+
+#pragma mark## CMRPropertyListCoding protocol ##
++ (id) objectWithPropertyListRepresentation : (id) rep
+{
+	return [[[self alloc] initWithPropertyListRepresentation : rep] autorelease];
+}
+- (id) propertyListRepresentation
+{
+	NSLog(@"Enter <%@ : %p> <%@>", NSStringFromClass ([self class]) , self, NSStringFromSelector (_cmd) );
+	[self doesNotRecognizeSelector : _cmd];
+	return nil;
+}
+- (id) initWithPropertyListRepresentation : (id) rep
+{
+	[self doesNotRecognizeSelector : _cmd];
+	
+	return nil;
+}
+- (BOOL) isHistoryEqual : (id) anObject
+{
+	if ([anObject isEqual : self]) return YES;
+	
+	if ([anObject isKindOfClass : [self class]]) return YES;
+	
+	return NO;
+}
+
+#ifdef DEBUG
+- (id) objectForKey : (id) key
+{
+	NSLog(@"Enter <%@ : %p> <%@>", NSStringFromClass ([self class]) , self, NSStringFromSelector (_cmd) );
+	return nil;
+}
+#endif
 @end
 
-/*
+
 @implementation BoardListItem (ThreadsList)
 
--(id <SQLiteCursor>)cursorForThreadList
+- (id <SQLiteCursor>) cursorForThreadList
 {
 	return nil;
 }
--(NSString *)query
+- (NSString *) query
 {
 	return nil;
 }
 
--(void)postUpdateThreadsNotification
+- (void) postUpdateThreadsNotification
 {
 	NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
 	
-	[center postNotificationName:BoardListItemUpdateThreadsNotification
-						  object:self];
+	[center postNotificationName : BoardListItemUpdateThreadsNotification
+						  object : self];
 }
 	
 @end
-*/
+
 
 @implementation BoardListItem (Creation)
--(id)initForFavorites
++ (id) favoritesItem
 {
-	NSLog(@"Oh! what do you do?");
+	return [ConcreteBoardListItem favoritesItem];
+}
++ (id) boardListItemWithFolderName : (NSString *) name
+{
+	return [ConcreteBoardListItem boardListItemWithFolderName : name];
+}
++ (id) baordListItemWithBoradID : (unsigned) boardID
+{
+	return [ConcreteBoardListItem baordListItemWithBoradID : boardID];
+}
++ (id) boardListItemWithURLString : (NSString *) urlString
+{
+	return [ConcreteBoardListItem boardListItemWithURLString : urlString];
+}
++ (id) baordListItemWithName : (NSString *) name condition : (id) condition
+{
+	return [ConcreteBoardListItem baordListItemWithName : name condition : condition];
+}
++ (id) baordListItemFromPlist : (id) plist
+{
+	return [ConcreteBoardListItem baordListItemFromPlist : plist];
+}
+- (id) initForFavorites
+{
+	NSLog(@"Oh! what do you do?") ;
 	
 	return nil;
 }
--(id)initWithFolderName:(NSString *)name
+- (id) initWithFolderName : (NSString *) name
 {
-	NSLog(@"Oh! what do you do?");
+	NSLog(@"Oh! what do you do?") ;
 	
 	return nil;
 }
--(id)initWithBoardID:(unsigned)boardID
+- (id) initWithBoardID : (unsigned) boardID
 {
-	NSLog(@"Oh! what do you do?");
+	NSLog(@"Oh! what do you do?") ;
 	
 	return nil;
 }
--(id)initWithName:(NSString *)name condition:(id)condition;
+- (id) initWithURLString : (NSString *) urlString
 {
-	NSLog(@"Oh! what do you do?");
+	NSLog(@"Oh! what do you do?") ;
 	
 	return nil;
 }
--(id)initWithContentsOfFile:(NSString *)path;
+- (id) initWithName : (NSString *) name condition : (id) condition;
 {
-	NSLog(@"Oh! what do you do?");
+	NSLog(@"Oh! what do you do?") ;
+	
+	return nil;
+}
+- (id) initWithContentsOfFile : (NSString *) path;
+{
+	NSLog(@"Oh! what do you do?") ;
 	
 	return nil;
 }
 
+@end
+
+@implementation BoardListItem (TypeCheck)
+
++ (BOOL) isBoardItem : (BoardListItem *) item
+{
+	return [ConcreteBoardListItem isBoardItem : item];
+}
++ (BOOL) isFavoriteItem : (BoardListItem *) item
+{
+	return [ConcreteBoardListItem isFavoriteItem : item];
+}
++ (BOOL) isFolderItem : (BoardListItem *) item
+{
+	return [ConcreteBoardListItem isFolderItem : item];
+}
++ (BOOL) isSmartItem : (BoardListItem *) item
+{
+	return [ConcreteBoardListItem isSmartItem : item];
+}
++ (BOOL) isCategory : (BoardListItem *) item
+{
+	return [ConcreteBoardListItem isFolderItem : item];
+}
+
++ (BoardListItemType) typeForItem : (BoardListItem *) item
+{
+	return [ConcreteBoardListItem typeForItem : item];
+}
+- (BoardListItemType) type
+{
+	return [BoardListItem typeForItem : self];
+}
 @end
 
 @implementation BoardListItem (Mutable)
 
--(BOOL)isMutable
+- (BOOL) isMutable
 {
 	return NO;
 }
--(void)addItem:(BoardListItem *)item
+- (void) addItem : (BoardListItem *) item
 {
-	[self doesNotRecognizeSelector:_cmd];
+	[self doesNotRecognizeSelector : _cmd];
 }
--(void)insertItem:(BoardListItem *)item atIndex:(unsigned)index
+- (void) insertItem : (BoardListItem *) item atIndex : (unsigned) index
 {
-	[self doesNotRecognizeSelector:_cmd];
+	[self doesNotRecognizeSelector : _cmd];
 }
--(void)removeItem:(BoardListItem *)item
+- (void) insertItem : (BoardListItem *) item afterItem : (BoardListItem *) object
 {
-	[self doesNotRecognizeSelector:_cmd];
+	[self insertItem : item afterItem : object deepSearch : NO];
 }
--(void)removeItemAtIndex:(unsigned)index
+- (void) insertItem : (BoardListItem *) item afterItem : (BoardListItem *) object deepSearch : (BOOL) isDeep
 {
-	[self doesNotRecognizeSelector:_cmd];
+	[self doesNotRecognizeSelector : _cmd];
+}
+- (void) removeItem : (BoardListItem *) item
+{
+	[self removeItem : item deepSearch : NO];
+}
+- (void) removeItem : (BoardListItem *) item deepSearch : (BOOL) isDeep
+{
+	[self doesNotRecognizeSelector : _cmd];
+}
+- (void) removeItemAtIndex : (unsigned) index
+{
+	[self doesNotRecognizeSelector : _cmd];
 }
 
--(void)postUpdateChildrenNotification
+- (void) postUpdateChildrenNotification
 {
 	NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
 	
-	[center postNotificationName:BoardListItemUpdateChildrenNotification
-						  object:self];
+	[center postNotificationName : BoardListItemUpdateChildrenNotification
+						  object : self];
 }
 
 @end
-
-@class FavoritesBoardListItem, SmartBoardListItem, FolderBoardListItem, BoardBoardListItem;
-
-static ConcreteBoardListItem *_sharedInstance;
-
-@implementation ConcreteBoardListItem
-
-+(id)sharedInstance
-{
-	if( !_sharedInstance ) {
-		_sharedInstance = [[self alloc] init];
-	}
-	
-	return _sharedInstance;
-}
-
--(id)retain { return self; }
--(oneway void)release {}
--(unsigned)retainCount { return UINT_MAX; }
-
--(id)initForFavorites
-{
-	return [[FavoritesBoardListItem alloc] init];
-}
--(id)initWithFolderName:(NSString *)name
-{
-	return [[FolderBoardListItem alloc] initWithFolderName:name];
-}
--(id)initWithBoardID:(unsigned)boardID
-{
-	return [[BoardBoardListItem alloc] initWithBoardID:boardID];
-}
--(id)initWithName:(NSString *)name condition:(id)condition
-{
-	return [[SmartBoardListItem alloc] initWithName:name condition:condition];
-}
-
-
--(BoardListItem *)folderItemFromPlist:(NSDictionary *)plist
-{
-	BoardListItem *result;
-	NSString *name;
-	NSArray *contents;
-	int i, count;
-	DatabaseManager *dbm = [DatabaseManager defaultManager];
-	
-	name = [plist objectForKey:@"Name"];
-	if( !name ) return nil;
-	contents = [plist objectForKey:@"Contents"];
-	if( !contents ) return nil;
-	
-	result = [[[BoardListItem alloc] initWithFolderName:name] autorelease];
-	
-	count = [contents count];
-	for( i = 0; i < count; i++ ) {
-		id item = [contents objectAtIndex:i];
-		NSString *boardName;
-		NSString *url;
-		unsigned boardID;
-		BoardListItem *boardItem;
-		
-		if( !item ) continue;
-		
-		boardName = [item objectForKey:@"Name"];
-		url = [item objectForKey:@"URL"];
-		
-		boardID = [dbm boardIDForURLString:url];
-		if( NSNotFound == boardID ) {
-			BOOL isOK = [dbm registerBoardName:boardName URLString:url];
-			boardID = [dbm boardIDForURLString:url];
-			if( !isOK || NSNotFound == boardID ) {
-				NSLog(@"Fail Import Board. %@", item );
-				continue;
-			}
-		}
-		
-		boardItem = [[[BoardListItem alloc] initWithBoardID:boardID] autorelease];
-		[boardItem setName:boardName];
-		[result addItem:boardItem];
-	}
-	
-	return result;
-}
-		
-
--(id)initWithContentsOfFile:(NSString *)path;
-{
-	id result = nil;
-	NSArray *array;
-	NSEnumerator *elemsEnum;
-	id object;
-	
-	SQLiteDB *db;
-	
-	result = [[BoardListItem alloc] initWithFolderName:@"Top"];
-	
-	array = [NSArray arrayWithContentsOfFile:path];
-	if( !array ) {
-		NSLog(@"File Import BoardListFile. %@", path);
-		goto final;
-	}
-	
-	db = [[DatabaseManager defaultManager] databaseForCurrentThread];
-	if( !db ) {
-		return nil;
-	}
-	
-	if( [db beginTransaction] ) {
-		elemsEnum = [array objectEnumerator];
-		while( object = [elemsEnum nextObject] ) {
-			id item;
-			
-			item = [self folderItemFromPlist:object];
-			if( item ) {
-				[result addItem:item];
-			}
-		}
-		[db commitTransaction];
-	}
-	
-final:
-	
-	return result;
-}
-@end
-

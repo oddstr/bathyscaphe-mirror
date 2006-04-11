@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.38 2006/03/08 15:40:57 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.39 2006/04/11 17:31:21 masakih Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -15,6 +15,8 @@
 #import "CMRTextColumnCell.h"
 #import <SGAppKit/CMRPullDownIconBtn.h>
 #import <SGAppKit/BSIconAndTextCell.h>
+
+#import "DatabaseManager.h"
 
 @implementation CMRBrowser(ViewAccessor)
 - (CMRThreadViewer *) threadViewer
@@ -277,9 +279,56 @@
     [column setDataCell : imageCell_];
     [imageCell_ release];
 }
+/*
+- (id)sortDescriptorKeyForIdentifier:(id)identifier
+{
+	if( [identifier isEqual:CMRThreadTitleKey] ) {
+		return [ThreadNameColumn lowercaseString];
+	} else if( [identifier isEqual:CMRThreadNumberOfMessagesKey] ) {
+		return [NumberOfAllColumn lowercaseString];
+	} else if( [identifier isEqual:CMRThreadLastLoadedNumberKey] ) {
+		return [NumberOfReadColumn lowercaseString];
+	} else if( [identifier isEqual:CMRThreadSubjectIndexKey] ) {
+		return [TempThreadThreadNumberColumn lowercaseString];
+	} else if( [identifier isEqual:CMRThreadModifiedDateKey] ) {
+		return [ModifiedDateColumn lowercaseString];
+	} 
+	return nil;
+}
+- (SEL)sortDescriptorSelectorForIdentifier:(id)identifier
+{
+	if( [identifier isEqual:CMRThreadTitleKey] ) {
+		return @selector(compareForBS:);
+	} else if( [identifier isEqual:CMRThreadNumberOfMessagesKey] ) {
+		return @selector(compareForBS:);
+	} else if( [identifier isEqual:CMRThreadLastLoadedNumberKey] ) {
+		return @selector(compareForBS:);
+	} else if( [identifier isEqual:CMRThreadSubjectIndexKey] ) {
+		return @selector(compareForBS:);
+	} else if( [identifier isEqual:CMRThreadModifiedDateKey] ) {
+		return @selector(compareForBS:);
+	} 
+	return Nil;
+}
+*/
 - (void) setupTableColumn : (NSTableColumn *) column
 {
     CMRTextColumnCell    *cell_;
+/*	
+	NSSortDescriptor *desc;
+	id key = nil;
+	SEL sel = Nil;
+	
+	key = [self sortDescriptorKeyForIdentifier:[column identifier]];
+	sel = [self sortDescriptorSelectorForIdentifier:[column identifier]];
+	
+	if( key && sel ) {
+		desc = [[[NSSortDescriptor alloc] initWithKey:key
+											ascending:YES
+											 selector:sel] autorelease];
+		[column setSortDescriptorPrototype:desc];
+	}
+ */
     
     if ([CMRThreadStatusKey isEqualToString : [column identifier]]) {
         [self setupStatusColumnWithTableColumn : column];
@@ -290,7 +339,7 @@
     [cell_ setAttributesFromCell : [column dataCell]];
     [column setDataCell : cell_];
     [cell_ release];
-    
+
     if ( [CMRThreadModifiedDateKey isEqualToString : [column identifier]] ||
          [CMRThreadCreatedDateKey isEqualToString : [column identifier]])
         [self setupDateFormaterWithTableColumn : column];

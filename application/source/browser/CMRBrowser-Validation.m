@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-Validation.m,v 1.17 2006/03/07 15:17:40 tsawada2 Exp $
+ * $Id: CMRBrowser-Validation.m,v 1.18 2006/04/11 17:31:21 masakih Exp $
  * BathyScaphe
  *
  * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -7,6 +7,8 @@
  */
 
 #import "CMRBrowser_p.h"
+
+#import "SmartBoardList.h"
 
 @implementation CMRBrowser(Validation)
 - (BOOL) validateUIItem : (id) theItem
@@ -81,7 +83,7 @@
 		case 0:
 			return NO;
 		case 1:
-			return (NO == [BoardList isFavorites : [bLT itemAtRow : [bLT selectedRow]]]);
+			return (NO == [SmartBoardList isFavorites : [bLT itemAtRow : [bLT selectedRow]]]);
 		default:
 			return (tag_ == kBLDeleteItemViaMenubarItemTag);
 		}
@@ -116,12 +118,12 @@
 
 		if (rowIndex_ >= [bLT_ numberOfRows]) return NO;
 
-		NSDictionary		*item_ = [bLT_ itemAtRow : rowIndex_];
+		id item_ = [bLT_ itemAtRow : rowIndex_];
 		if (nil == item_) return NO;
 
-		if ([BoardList isBoard : item_]) {
+		if ([BoardListItem isBoardItem : item_] || [BoardListItem isSmartItem : item_]) {
 			return YES;
-		} else if ([BoardList isCategory : item_]) {
+		} else if ([BoardListItem isFolderItem : item_]) {
 			if (tag_ == kBLShowInspectorViaContMenuItemTag || tag_ == kBLOpenBoardItemViaContMenuItemTag)
 				return NO;
 			else

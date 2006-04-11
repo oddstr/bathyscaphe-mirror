@@ -15,4 +15,6 @@
 	
 }
 
++ (id) sharedInstance;
+
 @end

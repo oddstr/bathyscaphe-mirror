@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIFullScreenWindow.h,v 1.1 2006/01/13 23:47:59 tsawada2 Exp $
+//  $Id: BSIPIFullScreenWindow.h,v 1.2 2006/04/11 17:31:21 masakih Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.

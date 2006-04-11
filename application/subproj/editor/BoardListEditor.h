@@ -1,5 +1,5 @@
 /**
-  * $Id: BoardListEditor.h,v 1.2 2005/05/22 05:58:39 tsawada2 Exp $
+  * $Id: BoardListEditor.h,v 1.3 2006/04/11 17:31:21 masakih Exp $
   * 
   * BoardListEditor.h
   *
@@ -9,7 +9,7 @@
 
 
 #import <Cocoa/Cocoa.h>
-@class BoardList;
+@class SmartBoardList;
 
 
 
@@ -42,14 +42,14 @@
 	IBOutlet NSButton			*_launchButton;
 	IBOutlet NSButton			*_helpButton;
 	
-	BoardList					*_userList;
-	BoardList					*_defaultList;
+	SmartBoardList					*_userList;
+	SmartBoardList					*_defaultList;
 }
-- (id) initWithDefaultList : (BoardList *) defaultList 
-				  userList : (BoardList *) userList;
+- (id) initWithDefaultList : (SmartBoardList *) defaultList 
+				  userList : (SmartBoardList *) userList;
 
-- (BoardList *) defaultList;
-- (BoardList *) userList;
+- (SmartBoardList *) defaultList;
+- (SmartBoardList *) userList;
 - (NSArray *) defaultListWithContentsOfFile : (NSString *) thePath;
 
 

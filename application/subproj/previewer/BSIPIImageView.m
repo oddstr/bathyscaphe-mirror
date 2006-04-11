@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIImageView.m,v 1.1 2006/01/07 11:56:50 tsawada2 Exp $
+//  $Id: BSIPIImageView.m,v 1.2 2006/04/11 17:31:21 masakih Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/07.

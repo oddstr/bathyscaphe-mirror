@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>criteria</key>
+	<dict>
+		<key>1</key>
+		<dict>
+			<key>name</key>
+			<string>boardName</string>
+			<key>type</key>
+			<string>string type</string>
+		</dict>
+		<key>2</key>
+		<dict>
+			<key>name</key>
+			<string>threadName</string>
+			<key>type</key>
+			<string>string type</string>
+		</dict>
+		<key>3</key>
+		<dict>
+			<key>name</key>
+			<string>numberOfAll</string>
+			<key>type</key>
+			<string>number type</string>
+		</dict>
+		<key>4</key>
+		<dict>
+			<key>name</key>
+			<string>numberOfRead</string>
+			<key>type</key>
+			<string>number type</string>
+		</dict>
+		<key>5</key>
+		<dict>
+			<key>name</key>
+			<string>NumberOfAllColumn - NumberOfReadColumn</string>
+			<key>type</key>
+			<string>number type</string>
+		</dict>
+		<key>6</key>
+		<dict>
+			<key>name</key>
+			<string>threadID</string>
+			<key>type</key>
+			<string>date type</string>
+		</dict>
+		<key>7</key>
+		<dict>
+			<key>name</key>
+			<string>modifiedDate</string>
+			<key>type</key>
+			<string>date type</string>
+		</dict>
+		<key>8</key>
+		<dict>
+			<key>name</key>
+			<string>LastWrittenDateColumn</string>
+			<key>type</key>
+			<string>date type</string>
+		</dict>
+	</dict>
+	<key>orders</key>
+	<dict>
+		<key>1</key>
+		<array>
+			<string>criterion popup</string>
+			<string>expression field</string>
+			<string>qualifier popup</string>
+		</array>
+		<key>10</key>
+		<array>
+			<string>criterion popup</string>
+			<string>number field</string>
+			<string>qualifier popup</string>
+		</array>
+		<key>1000</key>
+		<array>
+			<string>criterion popup</string>
+			<string>qualifier popup</string>
+		</array>
+		<key>1001</key>
+		<array>
+			<string>criterion popup</string>
+			<string>qualifier popup</string>
+		</array>
+		<key>1007</key>
+		<array>
+			<string>criterion popup</string>
+			<string>qualifier popup</string>
+		</array>
+		<key>1014</key>
+		<array>
+			<string>criterion popup</string>
+			<string>qualifier popup</string>
+		</array>
+		<key>11</key>
+		<array>
+			<string>criterion popup</string>
+			<string>beginning number field</string>
+			<string>and string</string>
+			<string>ending number field</string>
+			<string>qualifier popup</string>
+		</array>
+		<key>2</key>
+		<array>
+			<string>criterion popup</string>
+			<string>expression field</string>
+			<string>qualifier popup</string>
+		</array>
+		<key>2007</key>
+		<array>
+			<string>criterion popup</string>
+			<string>days field</string>
+			<string>units popup</string>
+			<string>ago string</string>
+			<string>qualifier popup</string>
+		</array>
+		<key>2009</key>
+		<array>
+			<string>criterion popup</string>
+			<string>days field</string>
+			<string>units popup</string>
+			<string>qualifier popup</string>
+		</array>
+		<key>2010</key>
+		<array>
+			<string>criterion popup</string>
+			<string>days field</string>
+			<string>units popup</string>
+			<string>qualifier popup</string>
+		</array>
+		<key>2011</key>
+		<array>
+			<string>criterion popup</string>
+			<string>beginning days field</string>
+			<string>and string</string>
+			<string>ending days field</string>
+			<string>units popup</string>
+			<string>ago string</string>
+			<string>qualifier popup</string>
+		</array>
+		<key>3</key>
+		<array>
+			<string>criterion popup</string>
+			<string>expression field</string>
+			<string>qualifier popup</string>
+		</array>
+		<key>3007</key>
+		<array>
+			<string>criterion popup</string>
+			<string>date field</string>
+			<string>qualifier popup</string>
+		</array>
+		<key>3008</key>
+		<array>
+			<string>criterion popup</string>
+			<string>date field</string>
+			<string>qualifier popup</string>
+		</array>
+		<key>3009</key>
+		<array>
+			<string>criterion popup</string>
+			<string>date field</string>
+			<string>qualifier popup</string>
+		</array>
+		<key>3010</key>
+		<array>
+			<string>criterion popup</string>
+			<string>date field</string>
+			<string>qualifier popup</string>
+		</array>
+		<key>3011</key>
+		<array>
+			<string>criterion popup</string>
+			<string>beginning date field</string>
+			<string>to string</string>
+			<string>ending date field</string>
+			<string>qualifier popup</string>
+		</array>
+		<key>4</key>
+		<array>
+			<string>criterion popup</string>
+			<string>expression field</string>
+			<string>qualifier popup</string>
+		</array>
+		<key>5</key>
+		<array>
+			<string>criterion popup</string>
+			<string>expression field</string>
+			<string>qualifier popup</string>
+		</array>
+		<key>6</key>
+		<array>
+			<string>criterion popup</string>
+			<string>expression field</string>
+			<string>qualifier popup</string>
+		</array>
+		<key>7</key>
+		<array>
+			<string>criterion popup</string>
+			<string>number field</string>
+			<string>qualifier popup</string>
+		</array>
+		<key>8</key>
+		<array>
+			<string>criterion popup</string>
+			<string>number field</string>
+			<string>qualifier popup</string>
+		</array>
+		<key>9</key>
+		<array>
+			<string>criterion popup</string>
+			<string>number field</string>
+			<string>qualifier popup</string>
+		</array>
+	</dict>
+</dict>
+</plist>

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadUserStatusMask.h,v 1.3 2006/01/27 23:02:19 tsawada2 Exp $
+  * $Id: CMRThreadUserStatusMask.h,v 1.4 2006/04/11 17:31:21 masakih Exp $
   * 
   * CMRThreadUserStatusMask.h
   *

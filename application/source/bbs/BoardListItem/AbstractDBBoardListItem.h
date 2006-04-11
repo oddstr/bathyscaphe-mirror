@@ -19,7 +19,7 @@
 }
 
 // setting up QuickLiteCursor.
--(void)setQuery:(NSString *)query;
--(NSString *)query;
+- (void) setQuery: (NSString *) query;
+- (NSString *) query;
 
 @end

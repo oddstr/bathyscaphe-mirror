@@ -1,0 +1,23 @@
+{
+    IBClasses = (
+        {CLASS = BSDatePicker; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
+        {CLASS = ColorBackgroundView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {addCriterion = id; changeCriterionPop = id; removeCriterion = id; }; 
+            CLASS = SmartBLIEditorHelper; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                allOrAnyPopUp = NSPopUpButton; 
+                container = NSScrollView; 
+                dateView = id; 
+                expressionView = id; 
+                includeFallInDATCheck = NSButton; 
+                nameField = NSTextField; 
+                numberView = id; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

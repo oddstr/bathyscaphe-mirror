@@ -1,0 +1,32 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {addCriterion = id; changeCriterionPop = id; removeCriterion = id; }; 
+            CLASS = SmartBLIEditorHelper; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                allOrAnyPopUp = NSPopUpButton; 
+                container = NSScrollView; 
+                dateView = id; 
+                expressionView = id; 
+                includeFallInDATCheck = NSButton; 
+                nameField = NSTextField; 
+                numberView = id; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {cancel = id; ok = id; }; 
+            CLASS = SmartBoardListItemEditor; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                editorWindow = NSWindow; 
+                helper = SmartBLIEditorHelper; 
+                nameField = NSTextField; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

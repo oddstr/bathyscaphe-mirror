@@ -1,5 +1,5 @@
 //
-//  $Id: CMRReplyMessenger-Connector.m,v 1.7 2006/03/17 17:52:34 tsawada2 Exp $
+//  $Id: CMRReplyMessenger-Connector.m,v 1.8 2006/04/11 17:31:21 masakih Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/07/04.

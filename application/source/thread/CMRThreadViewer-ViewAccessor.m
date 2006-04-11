@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.6 2006/02/14 15:09:41 tsawada2 Exp $
+  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.7 2006/04/11 17:31:21 masakih Exp $
   * 
   * CMRThreadViewer-ViewAccessor.m
   *

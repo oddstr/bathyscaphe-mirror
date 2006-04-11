@@ -12,6 +12,7 @@
   */
 #import "CMRThreadsUpdateListTask_p.h"
 #import "CMRFavoritesManager.h"
+#import "BSDBThreadList.h"
 
 //////////////////////////////////////////////////////////////////////
 ////////////////////// [ 定数やマクロ置換 ] //////////////////////////
@@ -75,7 +76,7 @@ static void collectAttributesFromPath(NSString *path, NSMutableDictionary *threa
     
     // ログファイルから各種情報を取得
     fileContents_ = 
-        [CMRThreadsList attributesForThreadsListWithContentsOfFile : path];
+        [BSDBThreadList attributesForThreadsListWithContentsOfFile : path];
     
     if (nil != fileContents_)
         setAttributesFromDictionary(fileContents_, thread);

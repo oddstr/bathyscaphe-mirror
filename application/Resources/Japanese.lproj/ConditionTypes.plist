@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>boardName</key>
+	<dict>
+		<key>acceptValueType</key>
+		<string>NSString</string>
+		<key>name</key>
+		<string>板名</string>
+	</dict>
+	<key>modifiedDate</key>
+	<dict>
+		<key>acceptValueType</key>
+		<string>NSDate</string>
+		<key>name</key>
+		<string>最終読み込み日時</string>
+	</dict>
+	<key>numberOfAll</key>
+	<dict>
+		<key>acceptValueType</key>
+		<string>NSNumber</string>
+		<key>name</key>
+		<string>レス数</string>
+	</dict>
+	<key>numberOfRead</key>
+	<dict>
+		<key>acceptValueType</key>
+		<string>NSNumber</string>
+		<key>name</key>
+		<string>既得レス数</string>
+	</dict>
+	<key>threadName</key>
+	<dict>
+		<key>acceptValueType</key>
+		<string>NSString</string>
+		<key>name</key>
+		<string>スレ名</string>
+	</dict>
+	<key>threadID</key>
+	<dict>
+		<key>acceptValueType</key>
+		<string>NSDate</string>
+		<key>name</key>
+		<string>dat番号</string>
+	</dict>
+</dict>
+</plist>

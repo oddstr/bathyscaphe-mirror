@@ -8,34 +8,34 @@
 
 #import "AbstractDBBoardListItem.h"
 
-//#import "DatabaseManager.h"
+#import "DatabaseManager.h"
 
 @implementation AbstractDBBoardListItem
 
--(void)setQuery:(NSString *)query
+- (void) setQuery : (NSString *) query
 {
 	id temp = mQuery;
 	
 	mQuery = [query copy];
 	[temp release];
 }
--(NSString *)query
+- (NSString *) query
 {
 	return mQuery;
 }
-/*
--(id <SQLiteCursor>)cursorForThreadList
+
+- (id <SQLiteCursor>) cursorForThreadList
 {
 	SQLiteDB *db;
 	id result;
 	
 	db = [[DatabaseManager defaultManager] databaseForCurrentThread];
 	
-//	[db setIsInDebugMode:YES];
-	result = [db performQuery:mQuery];
-//	[db setIsInDebugMode:NO];
+//	[db setIsInDebugMode : YES];
+	result = [db performQuery : mQuery];
+//	[db setIsInDebugMode : NO];
 		
 	return result;
 }
-*/
+
 @end

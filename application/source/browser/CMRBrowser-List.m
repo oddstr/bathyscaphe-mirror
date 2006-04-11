@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.12 2006/03/15 18:55:17 tsawada2 Exp $
+  * $Id: CMRBrowser-List.m,v 1.13 2006/04/11 17:31:21 masakih Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -22,11 +22,11 @@
 	[self clearSearchFilter];
 	[self synchronizeWindowTitleWithDocumentName];
 }
-- (CMRThreadsList *) currentThreadsList
+- (id) currentThreadsList
 {
 	return [[self document] currentThreadsList];
 }
-- (void) setCurrentThreadsList : (CMRThreadsList *) newList
+- (void) setCurrentThreadsList : (id) newList
 {
 	[self exchangeNotificationObserver :
 						CMRThreadsListDidUpdateNotification
@@ -57,21 +57,22 @@
 
 	UTILNotifyName(CMRBrowserDidChangeBoardNotification);
 }
+
 - (void) showThreadsListWithBoardName : (NSString *) boardName
 {
-	CMRThreadsList		*list_;
+	id		list_;
 	NSString			*sortColumnIdentifier_;
 	BOOL				isAscending_;
 	
 	if(nil == boardName) return;
-	if([[[self currentThreadsList] boardName] isEqualToString : boardName]){
+	if([[[[self currentThreadsList] boardListItem] name] isEqual : boardName]){
 		return;
 	}
 	
 	[[self threadsListTable] deselectAll : nil];
 	[[self threadsListTable] setDataSource : nil];
 	
-	list_ = [CMRThreadsList threadsListWithBBSName : boardName];
+	list_ = [BSDBThreadList threadsListWithBBSName : boardName];
 	if(nil == list_)
 		return;
 	
@@ -93,14 +94,42 @@
 	[self boardChanged : boardName];
 }
 
-- (void) showThreadsListForBoard : (NSDictionary *) board;
-{
-	NSString			*bname_;
+- (void) showThreadsListForBoard : (id) board;
+{	
+	id		list_;
+	NSString *boardName;
+	NSString			*sortColumnIdentifier_;
+	BOOL				isAscending_;
 	
-	bname_ = [board objectForKey : BoardPlistNameKey];
-	if(nil == bname_) return;
+	boardName = [board name];
+	if(nil == boardName) return;
+	if([[[[self currentThreadsList] boardListItem] name] isEqual : boardName]){
+		return;
+	}
 	
-	[self showThreadsListWithBoardName : bname_];
+	[[self threadsListTable] deselectAll : nil];
+	[[self threadsListTable] setDataSource : nil];
+	
+	list_ = [BSDBThreadList threadListWithBoardListItem : board];
+	if(nil == list_)
+		return;
+	
+	[self setCurrentThreadsList : list_];
+	
+	// sort column change
+	BoardManager	*bm_ = [BoardManager defaultManager];
+	sortColumnIdentifier_ = [bm_ sortColumnForBoard : boardName];
+	isAscending_ = [bm_ sortColumnIsAscendingAtBoard : boardName];
+	
+	[list_ setIsAscending : isAscending_];
+	[self changeHighLightedTableColumnTo : sortColumnIdentifier_ isAscending : isAscending_];
+	
+	[self synchronizeWindowTitleWithDocumentName];
+	[[self window] makeFirstResponder : [self threadsListTable]];
+	
+	// リストの読み込みを開始する。
+	[list_ startLoadingThreadsList : [self threadLayout]];
+	[self boardChanged : boardName];
 }
 
 - (unsigned) selectRowWithThreadPath : (NSString *) filepath
@@ -113,6 +142,7 @@
 	
 	return index_;
 }
+
 @end
 
 

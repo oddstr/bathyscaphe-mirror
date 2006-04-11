@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.21 2006/03/08 18:26:11 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.22 2006/04/11 17:31:21 masakih Exp $
  * 
  * CMRAppDelegate.m
  *

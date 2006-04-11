@@ -9,6 +9,12 @@
 #import "BSWindow.h"
 #import "CMRStatusLineWindowController_p.h"
 
+#if MAC_OS_X_VERSION_MAX_ALLOWED < 1040
+enum {
+	NSUnifiedTitleAndToolbarWindowMask = 1 << 12,
+};
+#endif
+
 #define NSAppKitVersionNumber10_3 743	// ここに書かなくてもいいと思うが、念のため
 
 @implementation BSWindow

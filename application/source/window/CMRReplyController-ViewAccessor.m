@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyController-ViewAccessor.m,v 1.11 2006/03/17 17:52:34 tsawada2 Exp $
+  * $Id: CMRReplyController-ViewAccessor.m,v 1.12 2006/04/11 17:31:21 masakih Exp $
   * 
   * CMRReplyController-ViewAccessor.m
   *
