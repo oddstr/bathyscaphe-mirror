@@ -1,6 +1,5 @@
 #include <CoreFoundation/CoreFoundation.h>
 #include <CoreServices/CoreServices.h>
-#include <Foundation/Foundation.h>
 
 #define MA_VERSION_MASK			(0x3800000)		// 24-26 (3bit)
 #define MA_FL_NOT_TEMP_MASK		(0xfffff)		// 20bit
@@ -10,32 +9,22 @@
 #define INVISIBLE_ABONED_FLAG	(0x100)			// 9
 #define SPAM_FLAG				(0x400)			// 11
 
-static BOOL isNotAbonedRes(id rep)
+static Boolean isNotAbonedRes(CFNumberRef rep)
 {
-	//UInt32		version_;
 	UInt32		flags_;
+	Boolean		got_;
 	
-	if (rep == nil) return YES;
-		
-	flags_ = [rep unsignedIntValue];
-	
-	/*version_ = (flags_ & MA_VERSION_MASK);
-	if (0 == version_) {
-		if (flags_ & MA_VERSION_1_0_MAGIC) {
-			flags_ &= (~MA_VERSION_1_0_MAGIC);
-			flags_ &= MA_VERSION_1_1_MAGIC;
-		}
-	}
-	
-	if((flags_ & MA_VERSION_1_1_MAGIC) <= 0) return NO; */
+	if (rep == NULL) return true;	
+	got_ = CFNumberGetValue(rep, kCFNumberIntType, &flags_);
+	if (got_ == false) return true;
 	
 	flags_ &= MA_FL_NOT_TEMP_MASK;
 	if (((flags_ & SPAM_FLAG) > 0) ||
 		((flags_ & INVISIBLE_ABONED_FLAG) > 0) ||
 		((flags_ & ABONED_FLAG) > 0))
-		return NO;
+		return false;
 	else
-		return YES;
+		return true;
 }
 
 CFPropertyListRef CreatePropertiesFromXMLFile(const CFURLRef pCFURLRef)
@@ -67,12 +56,11 @@ Boolean GetMetadataForFile(void* thisInterface,
 			   CFStringRef contentTypeUTI,
 			   CFStringRef pathToFile)
 {
-    Boolean success = NO;
+    Boolean success = false;
 
 	CFDictionaryRef	tempDictRef;
 	CFStringRef		tempTitleRef;
 	CFArrayRef		tempContentRef;
-    NSAutoreleasePool *pool;
 
 	// load the document at the specified location	
 	CFURLRef		pathToFileURL;
@@ -109,100 +97,90 @@ Boolean GetMetadataForFile(void* thisInterface,
 			CFDictionarySetValue(attributes, CFSTR("jp_tsawada2_bathyscaphe_thread_DatSize"), tempLengthRef);
 
 		tempCreatedDateRef = CFDictionaryGetValue(tempDictRef, CFSTR("CreatedDate"));
-		if (tempBrdNameRef != NULL)
-			CFDictionarySetValue(attributes, kMDItemContentCreationDate, tempBrdNameRef);
+		if (tempCreatedDateRef != NULL)
+			CFDictionarySetValue(attributes, kMDItemContentCreationDate, tempCreatedDateRef);
 
 		tempModifiedDateRef = CFDictionaryGetValue(tempDictRef, CFSTR("ModifiedDate"));
-		if (tempBrdNameRef != NULL)
-			CFDictionarySetValue(attributes, kMDItemContentModificationDate, tempBrdNameRef);
+		if (tempModifiedDateRef != NULL)
+			CFDictionarySetValue(attributes, kMDItemContentModificationDate, tempModifiedDateRef);
 
-		pool = [[NSAutoreleasePool alloc] init];
-
-		tempContentRef = (CFArrayRef)[(NSDictionary *)tempDictRef objectForKey: @"Contents"];
+		tempContentRef = CFDictionaryGetValue(tempDictRef, CFSTR("Contents"));
 		if (tempContentRef) {
-			CFIndex	count_;
+			CFIndex	i, count_;
 			CFNumberRef	countRef_;
+			CFMutableStringRef	cont_ = CFStringCreateMutable(kCFAllocatorDefault, 0);
+			CFMutableArrayRef	nameArray_ = CFArrayCreateMutable(kCFAllocatorDefault, 0, &kCFTypeArrayCallBacks);
+			CFDictionaryRef	obj;
+			CFNumberRef		statusStr;
+
 			count_ = CFArrayGetCount(tempContentRef);
+
 			countRef_ = CFNumberCreate(kCFAllocatorDefault, kCFNumberCFIndexType, &count_);
 			CFDictionarySetValue(attributes, CFSTR("jp_tsawada2_bathyscaphe_thread_ResCount"), countRef_);
-
 			CFRelease(countRef_);
+			
+			for (i=0; i<count_; i++) {
+				obj = CFArrayGetValueAtIndex(tempContentRef, i);
 
-			// Foundation Part
-			CFMutableStringRef	cont_ = CFStringCreateMutable(kCFAllocatorDefault, 0);
-			CFMutableArrayRef	nameArray_ = (CFMutableArrayRef)[NSMutableArray array];
-			NSEnumerator	*e_;
-			id				obj;
+				if (obj == NULL) continue;
+				statusStr = CFDictionaryGetValue(obj, CFSTR("Status"));
+				if (isNotAbonedRes(statusStr)) {
+					CFStringRef	msg_;
+					CFStringRef	name_;
 
-			e_ = [(NSArray *)tempContentRef objectEnumerator];
-
-			while ((obj = [e_ nextObject]) != nil) {
-				if (isNotAbonedRes([obj objectForKey: @"Status"])) {
-					NSString	*msg_;
-					NSString	*name_; 
-					
-					msg_ = [obj objectForKey: @"Message"];
+					msg_ = CFDictionaryGetValue(obj, CFSTR("Message"));
 					if (msg_) {
 						CFStringAppend(cont_, msg_);
 					}
-					name_ = [obj objectForKey: @"Name"];
-					if (name_ && ![(NSMutableArray *)nameArray_ containsObject: name_])
-						CFArrayAppendValue(nameArray_, name_);
+
+					name_ = CFDictionaryGetValue(obj, CFSTR("Name"));
+					if (name_) {
+						Boolean already_ = CFArrayContainsValue(nameArray_, CFRangeMake(0, CFArrayGetCount(nameArray_)), name_);
+						if (already_ == false) CFArrayAppendValue(nameArray_, name_);
+					}
 				}
 			}
 
-			CFRange cf_range = CFRangeMake(0, CFStringGetLength((CFStringRef)cont_));
-			CFStringFindAndReplace(cont_, CFSTR(" <br> "), CFSTR(""), cf_range, 0);
+			CFStringFindAndReplace(cont_, CFSTR(" <br> "), CFSTR(""), CFRangeMake(0, CFStringGetLength(cont_)), 0);
 			CFStringTrimWhitespace(cont_);
 																	
-			{
-				unsigned int	len;
-				NSRange			resultRange;
-				NSRange			searchRange;
+			CFIndex	len;
+			CFRange	searchRange;
+			CFRange	resultRange;
+			CFRange	gtRange;
 
-				len = [(NSMutableString *)cont_ length];
-				searchRange = NSMakeRange(0, len);
+			len = CFStringGetLength(cont_);
+			searchRange = CFRangeMake(0, len);
 
-				while (1) {
-					NSRange		gtRange;
-					
-					resultRange = [(NSMutableString *)cont_ rangeOfString: @"<a "
-											   options: (NSLiteralSearch|NSCaseInsensitiveSearch)
-												 range: searchRange];
-					if (resultRange.length == 0) {
-						break;
-					}
-					// Start searching next to "<"
-					searchRange.location = NSMaxRange(resultRange);
-					searchRange.length = (len - searchRange.location);
-					gtRange = [(NSMutableString *)cont_ rangeOfString: @"</a>"
-										   options: (NSLiteralSearch|NSCaseInsensitiveSearch)
-											 range: searchRange];
-					if (gtRange.length == 0) {
-						break;
-					}
-					resultRange.length = NSMaxRange(gtRange) - resultRange.location;
-					CFStringDelete(cont_, *(CFRange *)&resultRange);
+			while (1) {
+				Boolean	found_ = CFStringFindWithOptions(cont_, CFSTR("<a "), searchRange, kCFCompareCaseInsensitive, &resultRange);
+				if (found_ == false) break;
+				// Start searching next to "<"
+				searchRange.location = resultRange.location + resultRange.length;
+				searchRange.length = (len - searchRange.location);
 
-					searchRange.length -= resultRange.length;
-					len -= resultRange.length;
-					
-					if (searchRange.location >= len) break;
-				}
+				found_ = CFStringFindWithOptions(cont_, CFSTR("</a>"), searchRange, kCFCompareCaseInsensitive, &gtRange);
+				if (found_ == false) break;
+				resultRange.length = gtRange.location + gtRange.length - resultRange.location;
+				CFStringDelete(cont_, resultRange);
+
+				searchRange.length -= resultRange.length;
+				len -= resultRange.length;
+				
+				if (searchRange.location >= len) break;
 			}
 
 			CFDictionarySetValue(attributes, kMDItemTextContent, cont_);
 			CFDictionarySetValue(attributes, kMDItemContributors, nameArray_);
 			
 			CFRelease(cont_);
+			CFRelease(nameArray_);
 		}
-		[pool release];
-
-		// return YES so that the attributes are imported
-		success = YES;
-		CFRelease(pathToFileURL);
 		// release the loaded document
+		CFRelease(pathToFileURL);
 		CFRelease(tempDictRef);
+		// return YES so that the attributes are imported
+		success = true;
     }
     return success;
 }

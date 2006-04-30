@@ -1,3 +1,8 @@
+2006-05-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* metadataimporter/BathyScaphe/GetMetadataForFile.c
+        [名称変更] .m → .c（CVS 上では削除／新規追加扱い）
+        Spotlight プラグイン：完全 CoreFoundation レベルのソースに書き直し、Foundation.framework
+        をリンクしなくなった。また、一部のメタデータが昨日の修正で収集されなくなっていた問題を修正。
 2006-04-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* metadataimporter/BathyScaphe/GetMetadataForFile.m
 		Spotlight プラグイン：速度と内容収集方法のチューニング。
