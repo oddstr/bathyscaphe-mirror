@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer.m,v 1.15 2006/03/13 00:30:55 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer.m,v 1.16 2006/05/17 01:07:53 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -335,21 +335,31 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 	NSString					*beRep_;
 	NSString					*beStr_;
 	NSMutableAttributedString	*format_;
+	int							count_;
+	BOOL						makeLink = YES;
 		
 	if (messageIsLocalAboned_(aMessage))
 		return;
 	
 	tmpAry_ = [aMessage beProfile];
-	if (tmpAry_ == nil || [tmpAry_ count] < 2) return;
-	
-	beRep_ = [tmpAry_ objectAtIndex : 1];
-
-	if ([[NSScanner scannerWithString : beRep_] scanCharactersFromSet : [NSCharacterSet decimalDigitCharacterSet]
-														   intoString : nil])
-	{
-		beStr_ = [NSString stringWithFormat : @"Lv.%@", beRep_];
+	//if (tmpAry_ == nil || [tmpAry_ count] < 2) return;
+	if (tmpAry_ == nil) return;
+	count_ = [tmpAry_ count];
+	if (count_ == 0 || count_ > 2) return;
+	if (count_ == 1) {
+		// kabunushi yutai
+		beStr_ = [tmpAry_ objectAtIndex: 0];
+		makeLink = NO;
 	} else {
-		beStr_ = [NSString stringWithFormat : @"?%@", beRep_];
+		beRep_ = [tmpAry_ objectAtIndex : 1];
+
+		if ([[NSScanner scannerWithString : beRep_] scanCharactersFromSet : [NSCharacterSet decimalDigitCharacterSet]
+															   intoString : nil])
+		{
+			beStr_ = [NSString stringWithFormat : @"Lv.%@", beRep_];
+		} else {
+			beStr_ = [NSString stringWithFormat : @"?%@", beRep_];
+		}
 	}
 
 	format_   = SGTemporaryAttributedString();
@@ -357,10 +367,12 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 	[[format_ mutableString] appendString : beStr_];
 	[format_ addAttributes : [ATTR_TEMPLATE attributesForBeProfileLink]
 					 range : [format_ range]];
-	[format_ addAttribute : NSLinkAttributeName
-					value : CMRLocalBeProfileLinkWithString([tmpAry_ objectAtIndex : 0])
-					range : [format_ range]];
 
+	if (makeLink) {
+		[format_ addAttribute : NSLinkAttributeName
+						value : CMRLocalBeProfileLinkWithString([tmpAry_ objectAtIndex : 0])
+						range : [format_ range]];
+	}
 	mas_ = [self contentsStorage];
 
 	[mas_ appendAttributedString : format_];

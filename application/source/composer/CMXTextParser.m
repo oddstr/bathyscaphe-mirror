@@ -1,5 +1,5 @@
 /**
-  * $Id: CMXTextParser.m,v 1.17 2006/04/11 17:31:21 masakih Exp $
+  * $Id: CMXTextParser.m,v 1.18 2006/05/17 01:07:53 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -368,18 +368,18 @@ static void resolveInvalidAmpEntity(NSMutableString *aSource)
 + (NSString *) stringWithData : (NSData         *) aData
                    CFEncoding : (CFStringEncoding) enc;
 {
-	CFStringEncoding ShiftJISFamily[] = {
-		kCFStringEncodingDOSJapanese,	/* CP932 (Windows) */
-		kCFStringEncodingMacJapanese,	/* X-MAC-JAPANESE (Mac) */
-		kCFStringEncodingShiftJIS,		/* SHIFT_JIS (JIS) */
-	};
+//	CFStringEncoding ShiftJISFamily[] = {
+//		kCFStringEncodingDOSJapanese,	/* CP932 (Windows) */
+//		kCFStringEncodingMacJapanese,	/* X-MAC-JAPANESE (Mac) */
+//		kCFStringEncodingShiftJIS,		/* SHIFT_JIS (JIS) */
+//	};
 	
-	int			i, cnt;
-	NSString	*result = nil;
-	
+//	int			i, cnt;
+//	NSString	*result = nil;
+	NSString	*result;
 	
 	UTIL_DEBUG_METHOD;
-	
+/*	
 	cnt = UTILNumberOfCArray(ShiftJISFamily);
 	// ShiftJIS か？
 	for (i = 0; i < cnt; i++) {
@@ -429,16 +429,16 @@ OTHER_ENCODINGS:
 			false);
 	
 RET_RESULT:
-	
-	if (nil == result) {
+*/	
+//	if (nil == result) {
 		UTIL_DEBUG_WRITE2(@"We can't convert bytes into unicode characters, \n"
 		@"but we can use TEC instead of CFStringCreateWithBytes()\n"
 		@"  Using CES (0x%X):%@",
 		enc, (NSString*)CFStringConvertEncodingToIANACharSetName(enc));
 		
 		result = [[NSString alloc] initWithDataUsingTEC : aData 
-								encoding : CF2TextEncoding(enc)];
-	}
+											   encoding : CF2TextEncoding(enc)];
+//	}
 	return [result autorelease];
 }
 
@@ -797,6 +797,7 @@ static BOOL _parseExtraField(NSString *extraField, CMRThreadMessage *aMessage)
 
 	static NSSet	*clientCodeSet;
 	static NSString	*siberiaIPKey;
+	static NSString	*kabunushiKey;
 
 	/*
 		2005-02-03 tsawada2<ben-sawa@td5.so-net.ne.jp>
@@ -819,6 +820,10 @@ static BOOL _parseExtraField(NSString *extraField, CMRThreadMessage *aMessage)
 	// シベリア超速報などで出てくる「発信元:」という文字列
 	if (siberiaIPKey == nil)
 		siberiaIPKey = [NSLocalizedString(@"siberia IP field", @"siberia IP field") retain];
+
+	// 「株主優待」
+	if (kabunushiKey == nil)
+		kabunushiKey = [NSLocalizedString(@"kabunushi yutai", @"kabunushi yutai") retain];
 	
 	{
 		NSRange		hostRange_;
@@ -839,6 +844,15 @@ static BOOL _parseExtraField(NSString *extraField, CMRThreadMessage *aMessage)
 			if (hostRange_.location == 0) return YES; // HOST: より前に文字列が無いならもう終了
 			extraField = [extraField substringToIndex : (hostRange_.location-1)]; // extraField から host を削り取る
 			length_ = [extraField length]; // length を再設定
+		}
+		
+		// 株主優待を探す
+		hostRange_ = [extraField rangeOfString : kabunushiKey
+									   options : NSLiteralSearch | NSBackwardsSearch];
+
+		if (hostRange_.location != NSNotFound) {
+			NSArray	*dummyAry_ = [NSArray arrayWithObjects: kabunushiKey, nil];
+			[aMessage setBeProfile : dummyAry_];
 		}
 	}
 
