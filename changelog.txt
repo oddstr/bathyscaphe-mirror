@@ -1,6 +1,11 @@
 2006-05-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/preferences/CMRHostHTMLHandler.m
 		チェックを緩めてしたらばの新着レスが取得できない問題を修正
+	* application/source/browser/BSThreadListUpdateTask.m
+	    カラムをクリックしてソート順を変更する際、progress indicator が回りっぱなしになってしまう
+	    問題を修正。
+	* application/source/thread/CMRThreadLayout.m
+	    ソースの表記を若干修正。
 2006-05-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/composer/CMXTextParser.m
 	* application/Resources/Japanese.lproj/Localizable.strings
