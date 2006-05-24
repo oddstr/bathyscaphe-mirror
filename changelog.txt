@@ -1,3 +1,4 @@
+================================================= 1.2.1(v176) / CVS Tag : v121_FINAL
 2006-05-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/text/KeyValueTemplates.plist
 		"Thread - FieldSeparater" のデフォルト値を変更（"："→": "）。
