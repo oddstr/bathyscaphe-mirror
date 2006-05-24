@@ -525,6 +525,8 @@
 		87464E390864368F000F0371 /* RBSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87464E380864368F000F0371 /* RBSplitView.h */; };
 		87517B8A0864B4F0002DA082 /* SplitterHandle.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87517B890864B4F0002DA082 /* SplitterHandle.tiff */; };
 		87517BAF0864BE33002DA082 /* Spacer.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87517BAE0864BE33002DA082 /* Spacer.tiff */; };
+		875257FD0A234BB100A991D1 /* CMRFavoritesManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC3D04C698FA00A80005 /* CMRFavoritesManager.h */; };
+		875257FE0A234BB100A991D1 /* CMRFavoritesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC3E04C698FA00A80005 /* CMRFavoritesManager.m */; };
 		8770BF5D087F0095008907C5 /* BSHistoryMenuManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8770BF5B087F0095008907C5 /* BSHistoryMenuManager.h */; };
 		8770BF5E087F0096008907C5 /* BSHistoryMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8770BF5C087F0095008907C5 /* BSHistoryMenuManager.m */; };
 		87751824097818E7009D4A9C /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F36067F8044D4DD500A80005 /* ApplicationServices.framework */; };
@@ -643,7 +645,6 @@
 		F4904AE5088C096D00EA9BA8 /* Browser.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC2D04C698FA00A80005 /* Browser.h */; };
 		F4904AE8088C096D00EA9BA8 /* CMRBrowser.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC3A04C698FA00A80005 /* CMRBrowser.h */; };
 		F4904AE9088C096D00EA9BA8 /* CMRBrowser_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC3C04C698FA00A80005 /* CMRBrowser_p.h */; };
-		F4904AEA088C096D00EA9BA8 /* CMRFavoritesManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC3D04C698FA00A80005 /* CMRFavoritesManager.h */; };
 		F4904AEC088C096D00EA9BA8 /* CMRThreadsList.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC4804C698FA00A80005 /* CMRThreadsList.h */; };
 		F4904AED088C096D00EA9BA8 /* CMRThreadsList_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC4A04C698FA00A80005 /* CMRThreadsList_p.h */; };
 		F4904AEE088C096D00EA9BA8 /* CMRThreadsListReadFileTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC4B04C698FA00A80005 /* CMRThreadsListReadFileTask.h */; };
@@ -881,7 +882,6 @@
 		F4904C2E088C096D00EA9BA8 /* CMRBrowser-Validation.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC3804C698FA00A80005 /* CMRBrowser-Validation.m */; };
 		F4904C2F088C096D00EA9BA8 /* CMRBrowser-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC3904C698FA00A80005 /* CMRBrowser-ViewAccessor.m */; };
 		F4904C30088C096D00EA9BA8 /* CMRBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC3B04C698FA00A80005 /* CMRBrowser.m */; };
-		F4904C31088C096D00EA9BA8 /* CMRFavoritesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC3E04C698FA00A80005 /* CMRFavoritesManager.m */; };
 		F4904C32088C096D00EA9BA8 /* CMRThreadsList-DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC4004C698FA00A80005 /* CMRThreadsList-DataSource.m */; };
 		F4904C33088C096D00EA9BA8 /* CMRThreadsList-Download.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC4104C698FA00A80005 /* CMRThreadsList-Download.m */; };
 		F4904C34088C096D00EA9BA8 /* CMRThreadsList-Filter.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC4304C698FA00A80005 /* CMRThreadsList-Filter.m */; };
@@ -3673,7 +3673,6 @@
 				F4904AE5088C096D00EA9BA8 /* Browser.h in Headers */,
 				F4904AE8088C096D00EA9BA8 /* CMRBrowser.h in Headers */,
 				F4904AE9088C096D00EA9BA8 /* CMRBrowser_p.h in Headers */,
-				F4904AEA088C096D00EA9BA8 /* CMRFavoritesManager.h in Headers */,
 				F4904AEC088C096D00EA9BA8 /* CMRThreadsList.h in Headers */,
 				F4904AED088C096D00EA9BA8 /* CMRThreadsList_p.h in Headers */,
 				F4904AEE088C096D00EA9BA8 /* CMRThreadsListReadFileTask.h in Headers */,
@@ -3849,6 +3848,7 @@
 				F4E8FB5E09DAEA55006F453C /* BSThreadListCollectAllThreadAttrTask.h in Headers */,
 				F47F6EDD09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.h in Headers */,
 				F4B3ADFA09EAC7A2003B9195 /* BSReplyTextView.h in Headers */,
+				875257FD0A234BB100A991D1 /* CMRFavoritesManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4798,7 +4798,6 @@
 				F4904C2E088C096D00EA9BA8 /* CMRBrowser-Validation.m in Sources */,
 				F4904C2F088C096D00EA9BA8 /* CMRBrowser-ViewAccessor.m in Sources */,
 				F4904C30088C096D00EA9BA8 /* CMRBrowser.m in Sources */,
-				F4904C31088C096D00EA9BA8 /* CMRFavoritesManager.m in Sources */,
 				F4904C32088C096D00EA9BA8 /* CMRThreadsList-DataSource.m in Sources */,
 				F4904C33088C096D00EA9BA8 /* CMRThreadsList-Download.m in Sources */,
 				F4904C34088C096D00EA9BA8 /* CMRThreadsList-Filter.m in Sources */,
@@ -4966,6 +4965,7 @@
 				F4E8FB5F09DAEA55006F453C /* BSThreadListCollectAllThreadAttrTask.m in Sources */,
 				F47F6EDE09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.m in Sources */,
 				F4B3ADF909EAC7A1003B9195 /* BSReplyTextView.m in Sources */,
+				875257FE0A234BB100A991D1 /* CMRFavoritesManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -323,6 +323,8 @@ final:
 - (void) postTaskDidFinishNotification
 {
 	NSNotificationCenter	*nc_;
+
+	progress = NO;
 	
 	nc_ = [NSNotificationCenter defaultCenter];
 	[nc_ postNotificationName : CMRTaskDidFinishNotification
