@@ -1,34 +1,32 @@
 2006-05-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	* application/source/preferences/CMRHostHTMLHandler.m
-		チェックを緩めてしたらばの新着レスが取得できない問題を修正
-	* application/source/browser/BSThreadListUpdateTask.m
-	    カラムをクリックしてソート順を変更する際、progress indicator が回りっぱなしになってしまう
-	    問題を修正。
-	* application/source/thread/CMRThreadLayout.m
-	    ソースの表記を若干修正。
-2006-05-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	* application/source/composer/CMXTextParser.m
-	* application/Resources/Japanese.lproj/Localizable.strings
+	* application/Resources/text/KeyValueTemplates.plist
+		"Thread - FieldSeparater" のデフォルト値を変更（"："→": "）。
 	* application/source/composer/CMRAttributedMessageComposer.m
-		「株主優待」表示に対応。
-		- 「株主優待」表示が、「Be ログイン状態をステルスする」ということから、「株主優待」という情報は
-		　.thread ファイルにおいて Be プロフィールリンクの情報と同じ場所に格納することにした。
-2006-05-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	* metadataimporter/BathyScaphe/GetMetadataForFile.c
-        [名称変更] .m → .c（CVS 上では削除／新規追加扱い）
-        Spotlight プラグイン：完全 CoreFoundation レベルのソースに書き直し、Foundation.framework
-        をリンクしなくなった。また、一部のメタデータが昨日の修正で収集されなくなっていた問題を修正。
-2006-04-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	* metadataimporter/BathyScaphe/GetMetadataForFile.m
-		Spotlight プラグイン：速度と内容収集方法のチューニング。
-2006-04-12 masakih <masakih@users.sourceforge.jp>
-	v111-BASED-BRANCH  上の MERGED-v120_FINAL タグからマージ。
-	cvs -z3 up  -j MERGED-v120_FINAL
-	* v111BasedBranchChangelog.txt
-		[新規追加] v111-BASED-BRANCH のログ。
-	* mics/sqlite/*
-	* 他多数。（v111BasedBranchChangelog.txt 参照）
-		[新規追加] sqlite-3.2.8 他。
+		「名前：」や「投稿日：」などの文字の直後に強制的に半角スペースを付加するのをやめた。
+		もし、今後もスペースを空けて表示したい場合、KeyValueTemplate.plist 側で "Thread - FieldSeparater"
+		の文字列にスペースを付け加えればよい。
+	* application/source/browser/BSFavoritesHEADCheckTask.m
+		HEADCheck - HEAD メソッド投げのタイムアウトを 30 秒から 15 秒に変更。
+	* application/source/preferences/CMRHostHTMLHandler.m
+		デバッグ用 NSLog() が残っていたので修正。
+	* application/Resources/Japanese.lproj/board_default.plist
+		最新のものに更新。
+	* application/source/preferences/CMRHostHTMLHandler.m
+	* metadataimporter/BathyScaphe/BathyScapheMDI.xcodeproj
+	* metadataimporter/BathyScaphe/Info.plist
+	* metadataimporter/BathyScaphe/GetMetadataForFile.(m|c)
+	* metadataimporter/BathyScaphe/Makefile
+	* application/Resources/Japanese.lproj/Localizable.strings
+	* application/source/composer/CMXTextParser.m
+	* application/source/composer/CMRAttributedMessageComposer.m
+	* application/source/composer/CMRAttributedMessageComposer-Convert.m
+		トランクからマージ。これには Spotlight プラグインのアップデート（ただし、2chスレで出ていたパッチの内容は
+		含まない）・「株主優待」表示への対応・およびしたらばのレス取得不具合への対応が含まれる。
+	* application/Resources/Japanese.lproj/AddBoardSheet.nib
+		[Bug 8434] とりあえず最低限の修正。
+	* application/Resources/Japanese.lproj/InfoPlist.strings
+	* application/Info-bathyscaphe.plist
+		1.2.1 のためのバージョン表記修正。
 ================================================= 1.2(v174.1) / Hayate / CVS Tag : v120_FINAL
 2006-03-27 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/board_default.plist

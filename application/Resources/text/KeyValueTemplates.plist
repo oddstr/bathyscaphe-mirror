@@ -44,7 +44,7 @@
 	<key>Thread - DateDescription</key>
 	<string>%Y/%m/%d(%a) %H:%M:%S</string>
 	<key>Thread - FieldSeparater</key>
-	<string>：</string>
+	<string>: </string>
 	<key>Thread - GoogleQuery</key>
 	<string>http://www.google.com/search?q=%%%Query%%%&amp;ie=UTF-8&amp;oe=UTF-8</string>
 	<key>Thread - Host Format</key>

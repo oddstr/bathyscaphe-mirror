@@ -1,5 +1,5 @@
 /**
-  * $Id: CMXTextParser.m,v 1.18 2006/05/17 01:07:53 tsawada2 Exp $
+  * $Id: CMXTextParser.m,v 1.16.2.1 2006/05/24 19:50:29 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.

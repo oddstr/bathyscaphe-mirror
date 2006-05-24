@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer.m,v 1.16 2006/05/17 01:07:53 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer.m,v 1.15.2.1 2006/05/24 19:50:29 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -562,5 +562,5 @@ static void appendFiledTitle(NSMutableAttributedString *buffer, NSString *title)
 	[tmp appendString : fieldSeparater];
 	
 	[buffer appendString:tmp withAttributes:[ATTR_TEMPLATE attributesForItemName]];
-	appendWhiteSpaceSeparator(buffer);
+	//appendWhiteSpaceSeparator(buffer);
 }
