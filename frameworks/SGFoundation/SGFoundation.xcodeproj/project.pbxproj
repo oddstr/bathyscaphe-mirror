@@ -17,23 +17,6 @@
 				F3894D57051A86B300C679D7 /* Frameworks */,
 				F3894D58051A86B300C679D7 /* Rez */,
 			);
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					/Users/takanori/Library/Frameworks,
-					"/Users/takanori/Development/Tools/ObjcUnit 1.2/ObjcUnit/build",
-				);
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = "Performance Test";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = app;
-			};
 			dependencies = (
 			);
 			name = "Performance Test";
@@ -298,40 +281,6 @@
 		F5C6966D02CA157601A80002 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F515AE260267BAE601A80002 /* CoreServices.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXBuildStyle section */
-		014CEA440018CDF011CA2923 /* Development */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				OPTIMIZATION_CFLAGS = "-O0";
-				OTHER_CFLAGS = "";
-				ZERO_LINK = NO;
-			};
-			name = Development;
-		};
-		014CEA450018CDF011CA2923 /* Deployment */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUGGING_SYMBOLS = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				OPTIMIZATION_CFLAGS = "-O2";
-				OTHER_CFLAGS = (
-					"-DUTIL_BLOCK_DEBUG_WRITE",
-					"-DNS_BLOCK_ASSERTIONS",
-					"-DUTK_BLOCK_ASSERTIONS",
-					"-DUTK_BLOCK_DEBUG_WRITE",
-				);
-				ZERO_LINK = NO;
-			};
-			name = Deployment;
-		};
-/* End PBXBuildStyle section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		F5157C5D0257715501A80002 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -492,7 +441,7 @@
 		F3FB8AB30445894800A80005 /* TestSGBaseUnicode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TestSGBaseUnicode.m; sourceTree = "<group>"; };
 		F50DAD8502CB355501A80002 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
 		F515AE260267BAE601A80002 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
-		F5167AD40256EF7901A80002 /* Framework Tests */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "Framework Tests"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F5167AD40256EF7901A80002 /* Framework Tests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = "Framework Tests"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F51DA639024DFED301A80002 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		F5292B1D02ACD9CF01A80002 /* xhtml-lat1.ent */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = text; path = "xhtml-lat1.ent"; sourceTree = "<group>"; };
 		F5292B1E02ACD9CF01A80002 /* xhtml-special.ent */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = text; path = "xhtml-special.ent"; sourceTree = "<group>"; };
@@ -1360,33 +1309,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = "";
-				FRAMEWORK_VERSION = A;
-				HEADER_SEARCH_PATHS = "";
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/3.1;
-				OPTIMIZATION_CFLAGS = "-O0";
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0x31000000,
-					"-lz",
-				);
-				PRECOMPILE_PREFIX_HEADER = YES;
-				PREFIX_HEADER = framework/source/private/SGFoundation_Prefix.h;
-				PRODUCT_NAME = SGFoundation;
-				SECTORDER_FLAGS = "";
-				USE_GCC3_PFE_SUPPORT = NO;
-				WARNING_CFLAGS = (
-					"\U0001-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-					"-Wno-format-extra-args",
-				);
-				WRAPPER_EXTENSION = framework;
-			};
 			dependencies = (
 			);
 			name = SGFoundation;
@@ -1401,12 +1323,6 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 874A34C2086E21E0004E7805 /* Build configuration list for PBXProject "SGFoundation" */;
-			buildSettings = {
-			};
-			buildStyles = (
-				014CEA440018CDF011CA2923 /* Development */,
-				014CEA450018CDF011CA2923 /* Deployment */,
-			);
 			hasScannedForEncodings = 1;
 			mainGroup = 0867D691FE84028FC02AAC07 /* SGFoundation */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
@@ -1575,25 +1491,6 @@
 				F5167AD90256EF7901A80002 /* Rez */,
 				F5157C5D0257715501A80002 /* CopyFiles */,
 			);
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					/Users/takanori/Library/Frameworks,
-					"/Users/takanori/Development/Tools/ObjcUnit 1.2/ObjcUnit/build",
-				);
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PREBINDING = NO;
-				PRECOMPILE_PREFIX_HEADER = YES;
-				PREFIX_HEADER = test/src/UnitTest_Prefix.h;
-				PRODUCT_NAME = "Framework Tests";
-				REZ_EXECUTABLE = YES;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
 			dependencies = (
 			);
 			name = "Framework Tests";
