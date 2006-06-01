@@ -1,3 +1,12 @@
+2006-06-02 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/text/KeyValueTemplates.plist
+	* application/source/composer/CMRAttributedMessageComposer.m
+	* application/source/browser/BSFavoritesHEADCheckTask.m
+	* application/source/preferences/CMRHostHTMLHandler.m
+		遅ればせながら 1.2.1 での修正点（@v120-BASED-BRANCH）をトランクにマージ。
+2006-06-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* frameworks/SGFoundation/framework/source/classes/xml/SGXmlPullParser.m
+		XML パーサが、引用符で囲まれていない属性・値を取得する際に先頭の一文字が欠けてしまう問題を修正。
 2006-05-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/preferences/CMRHostHTMLHandler.m
 		チェックを緩めてしたらばの新着レスが取得できない問題を修正
