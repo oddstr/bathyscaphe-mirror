@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRHostHTMLHandler.m,v 1.3 2006/05/24 18:16:33 tsawada2 Exp $
+  * $Id: CMRHostHTMLHandler.m,v 1.4 2006/06/01 15:11:16 tsawada2 Exp $
   * 
   * CMRHostHTMLHandler.m
   *
@@ -260,7 +260,6 @@ tmp = @"ê·ÇÒéq  <><> 2003/09/01(åé) 20:00:12 ID:Bc0TyiNc [ ntt2-ppp758.tokyo.san
 {
 	int			type_;
 	unsigned	index_ = loadedCount;
-	NSLog(@"Pu");
 	type_ = [xpp next];
 	while (1) {
 		if (XMLPULL_END_DOCUMENT == type_) break;

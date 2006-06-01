@@ -1,6 +1,6 @@
 //: CMRHostHandler.m
 /**
-  * $Id: CMRHostHandler.m,v 1.3 2005/12/02 14:41:57 tsawada2 Exp $
+  * $Id: CMRHostHandler.m,v 1.4 2006/06/01 15:11:16 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -274,16 +274,12 @@ ErrReadURL:
 	NSString		*paramKey_;
 	NSString	*base_;
 	
-	/*location_ = [self readURLWithBoard:boardURL datName:datName];
-	UTILRequireCondition(location_, ErrReadURL);*/
-	
 	properties_ = [[self properties] objectForKey : kReadCGIPropertiesKey];
 	UTILRequireCondition(properties_, ErrReadURL);
 	base_ = [self makeURLStringWithBoard : boardURL datName : datName];
 	UTILRequireCondition(base_, ErrReadURL);
 	
 	tmp = SGTemporaryString();
-	//[tmp setString : [location_ absoluteString]];
 	[tmp setString : base_];
 	if (startIndex != NSNotFound) {
 		paramKey_ = [properties_ objectForKey : kReadCGIParamStartKey];
@@ -523,6 +519,7 @@ ErrParse:
 #define kWriteCGIPropertiesKey		@"CGI - Write"
 #define kFormKeyDictKey				@"FormKeys"
 #define kWriteCGISubmitValueKey		@"submitValue"
+#define kWriteCGIMogeraValueKey		@"mogeraValue"
 
 // write.cgi
 - (NSDictionary *) writeCGIProperties
@@ -553,6 +550,10 @@ ErrParse:
 - (NSString *) submitValue
 {
 	return [[self writeCGIProperties] stringForKey : kWriteCGISubmitValueKey];
+}
+- (NSString *) mogeraValue
+{
+	return [[self writeCGIProperties] stringForKey : kWriteCGIMogeraValueKey];
 }
 @end
 
@@ -620,26 +621,8 @@ ErrReadURL:
                      datName : (NSString *) datName
 {
 	NSString		*absolute_;
-	//const char		*bbs_ = NULL;
 	NSURL			*location_;
-	//NSDictionary	*properties_;
-	
-	/*UTILRequireCondition(boardURL && datName, ErrReadURL);
 
-	location_ = [self readURLWithBoard:boardURL];
-	UTILRequireCondition(location_, ErrReadURL);
-	
-	properties_ = [self readCGIProperties];
-	UTILRequireCondition(properties_, ErrReadURL);
-	
-	CMRGetHostCStringFromBoardURL(boardURL, &bbs_);
-	UTILRequireCondition(bbs_, ErrReadURL);
-
-	absolute_ = [NSString stringWithFormat :
-					READ_URL_FORMAT_2CH,
-					[location_ absoluteString],
-					bbs_,
-					datName];*/
 	absolute_ = [self makeURLStringWithBoard : boardURL datName : datName];
 	UTILRequireCondition(absolute_, ErrReadURL);
 	
@@ -684,13 +667,11 @@ ErrReadURL:
 	id				tmp;
 	NSURL			*location_;
 	NSString		*base_;
-	//location_ = [self readURLWithBoard:boardURL datName:datName];
-	//UTILRequireCondition(location_, ErrReadURL);
+
 	base_ = [self makeURLStringWithBoard : boardURL datName : datName];
 	UTILRequireCondition(base_, ErrReadURL);
 
 	tmp = SGTemporaryString();
-	//[tmp setString : [location_ absoluteString]];
 	[tmp setString : base_];
 	if (startIndex != NSNotFound)
 		[tmp appendFormat : @"%u", startIndex];
@@ -829,27 +810,8 @@ ErrReadURL:
                      datName : (NSString *) datName
 {
 	NSString		*absolute_;
-	//const char		*bbs_ = NULL;
 	NSURL			*location_;
-	//NSDictionary	*properties_;
-	
-	//UTILRequireCondition(boardURL && datName, ErrReadURL);
 
-	/*location_ = [self readURLWithBoard:boardURL];
-	UTILRequireCondition(location_, ErrReadURL);
-	
-	properties_ = [self readCGIProperties];
-	UTILRequireCondition(properties_, ErrReadURL);
-	
-	CMRGetHostCStringFromBoardURL(boardURL, &bbs_);
-	UTILRequireCondition(bbs_, ErrReadURL);
-
-	absolute_ = [NSString stringWithFormat :
-					READ_URL_FORMAT_SHITARABA,
-					[location_ absoluteString],
-					[[[boardURL path] pathComponents] objectAtIndex : 1],
-					bbs_,
-					datName];*/
 	absolute_ = [self makeURLStringWithBoard : boardURL datName : datName];
 	UTILRequireCondition(absolute_, ErrReadURL);
 	
@@ -894,12 +856,10 @@ ErrReadURL:
 	id				tmp;
 	NSURL			*location_;
 	NSString		*base_;
-	//location_ = [self readURLWithBoard:boardURL datName:datName];
-	//UTILRequireCondition(location_, ErrReadURL);
+
 	base_ = [self makeURLStringWithBoard : boardURL datName : datName];
 	UTILRequireCondition(base_, ErrReadURL);
 	tmp = SGTemporaryString();
-	//[tmp setString : [location_ absoluteString]];
 	[tmp setString : base_];
 	if (startIndex != NSNotFound)
 		[tmp appendFormat : @"%u-", startIndex];
