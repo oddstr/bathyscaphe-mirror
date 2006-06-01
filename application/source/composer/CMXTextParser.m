@@ -1,5 +1,5 @@
 /**
-  * $Id: CMXTextParser.m,v 1.18 2006/05/17 01:07:53 tsawada2 Exp $
+  * $Id: CMXTextParser.m,v 1.19 2006/06/01 15:06:43 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -368,18 +368,18 @@ static void resolveInvalidAmpEntity(NSMutableString *aSource)
 + (NSString *) stringWithData : (NSData         *) aData
                    CFEncoding : (CFStringEncoding) enc;
 {
-//	CFStringEncoding ShiftJISFamily[] = {
-//		kCFStringEncodingDOSJapanese,	/* CP932 (Windows) */
-//		kCFStringEncodingMacJapanese,	/* X-MAC-JAPANESE (Mac) */
-//		kCFStringEncodingShiftJIS,		/* SHIFT_JIS (JIS) */
-//	};
+	CFStringEncoding ShiftJISFamily[] = {
+		kCFStringEncodingDOSJapanese,	/* CP932 (Windows) */
+		kCFStringEncodingMacJapanese,	/* X-MAC-JAPANESE (Mac) */
+		kCFStringEncodingShiftJIS,		/* SHIFT_JIS (JIS) */
+	};
 	
-//	int			i, cnt;
-//	NSString	*result = nil;
+	int			i, cnt;
+	NSString	*result = nil;
 	NSString	*result;
 	
 	UTIL_DEBUG_METHOD;
-/*	
+	
 	cnt = UTILNumberOfCArray(ShiftJISFamily);
 	// ShiftJIS Ç©ÅH
 	for (i = 0; i < cnt; i++) {
@@ -429,8 +429,8 @@ OTHER_ENCODINGS:
 			false);
 	
 RET_RESULT:
-*/	
-//	if (nil == result) {
+	
+	if (nil == result) {
 		UTIL_DEBUG_WRITE2(@"We can't convert bytes into unicode characters, \n"
 		@"but we can use TEC instead of CFStringCreateWithBytes()\n"
 		@"  Using CES (0x%X):%@",
@@ -438,7 +438,7 @@ RET_RESULT:
 		
 		result = [[NSString alloc] initWithDataUsingTEC : aData 
 											   encoding : CF2TextEncoding(enc)];
-//	}
+	}
 	return [result autorelease];
 }
 
