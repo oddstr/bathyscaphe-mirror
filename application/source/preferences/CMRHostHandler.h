@@ -1,6 +1,6 @@
 //: CMRHostHandler.h
 /**
-  * $Id: CMRHostHandler.h,v 1.3 2006/06/01 15:11:16 tsawada2 Exp $
+  * $Id: CMRHostHandler.h,v 1.4 2006/06/01 15:12:33 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -117,10 +117,8 @@ NOTE:
 #define CMRHostFormIDKey		@"key"
 #define CMRHostFormDirectoryKey	@"directory"
 #define CMRHostFormTimeKey		@"time"
-#define BSHostFormHanaKey		@"hana" // available in BathyScaphe 1.2.2/1.5 and later.
 - (NSDictionary *) formKeyDictionary;
 
 - (NSURL *) writeURLWithBoard : (NSURL *) boardURL;
 - (NSString *) submitValue;
-- (NSString *) mogeraValue; // available in BathyScaphe 1.2.2/1.5 and later.
 @end

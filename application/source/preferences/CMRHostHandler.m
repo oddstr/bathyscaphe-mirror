@@ -1,6 +1,6 @@
 //: CMRHostHandler.m
 /**
-  * $Id: CMRHostHandler.m,v 1.4 2006/06/01 15:11:16 tsawada2 Exp $
+  * $Id: CMRHostHandler.m,v 1.5 2006/06/01 15:12:33 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -550,10 +550,6 @@ ErrParse:
 - (NSString *) submitValue
 {
 	return [[self writeCGIProperties] stringForKey : kWriteCGISubmitValueKey];
-}
-- (NSString *) mogeraValue
-{
-	return [[self writeCGIProperties] stringForKey : kWriteCGIMogeraValueKey];
 }
 @end
 
