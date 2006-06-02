@@ -1,5 +1,5 @@
 //
-//  $Id: CMRReplyMessenger-Connector.m,v 1.8 2006/04/11 17:31:21 masakih Exp $
+//  $Id: CMRReplyMessenger-Connector.m,v 1.9 2006/06/02 19:21:14 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/07/04.
@@ -25,6 +25,16 @@
 + (NSString *) formItemDirectoryWithBoardURL : (NSURL *) boardURL
 {
 	return [[[boardURL path] stringByDeletingLastPathComponent] lastPathComponent];
+}
+- (NSDictionary *) additionalForms
+{
+	return _additionalForms;
+}
+- (void) setAdditionalForms : (NSDictionary *) anAdditionalForms
+{
+	[anAdditionalForms retain];
+	[_additionalForms release];
+	_additionalForms = anAdditionalForms;
 }
 @end
 
@@ -111,7 +121,7 @@
 								  contextInfo : (void *) contextInfo
 {
 	if (NSAlertFirstButtonReturn == returnCode)
-		[self sendMessage : self];
+		[self sendMessage : self withHanaMogeraForms : ([self additionalForms] != nil)];
 }
 
 - (void) beginErrorInformationalAlertSheet : (NSString *) title
@@ -166,9 +176,14 @@
 	[self didFailPosting : [sender HTTPConnector]];
 	contribution = [self isCookieOrContributionCheckError : [handler recentError]];
 	
-	if (contribution)	// 書き込み確認、クッキー確認
+	if (contribution) {	// 書き込み確認、クッキー確認
+		NSLog(@"Hoge");
 		[self receiveCookiesWithResponse : [sender responseHeaders]];
-	
+		
+		if ([handler respondsToSelector: @selector(additionalFormsData)]) {
+			[self setAdditionalForms : [handler additionalFormsData]];
+		}
+	}
 	[self beginErrorInformationalAlertSheet : [handler recentErrorTitle]
 									message : [handler recentErrorMessage]
 							   contribution : contribution];
@@ -231,6 +246,14 @@ static inline NSString *removeObjectReplacementCharacter(NSString *str)
                              name : (NSString *) name
                              mail : (NSString *) mail
 {
+	return [self formDictionary: replyMessage name: name mail: mail hanamogera: NO];
+}
+
+- (NSDictionary *) formDictionary : (NSString *) replyMessage
+                             name : (NSString *) name
+                             mail : (NSString *) mail
+					   hanamogera : (BOOL) addForms
+{
 	CMRHostHandler		*handler_;
 	NSDictionary		*formKeys_;
 	NSString			*key_;
@@ -278,6 +301,10 @@ static inline NSString *removeObjectReplacementCharacter(NSString *str)
 
 	key_ = [formKeys_ stringForKey : CMRHostFormTimeKey];
 	[form_ setNoneNil:time_ forKey:key_];
+
+	// for 2ch (after 2006-05-27, hana=mogera)
+	if (addForms && [self additionalForms] != nil)
+		[form_ addEntriesFromDictionary: [self additionalForms]];
 	
 	// for Jbbs_shita
 	key_ = [formKeys_ stringForKey : CMRHostFormDirectoryKey];
@@ -291,6 +318,14 @@ static inline NSString *removeObjectReplacementCharacter(NSString *str)
 - (void) sendMessageWithContents : (NSString *) replyMessage
                             name : (NSString *) name
                             mail : (NSString *) mail
+{
+	[self sendMessageWithContents: replyMessage name: name mail: mail hanamogera: NO];
+}
+
+- (void) sendMessageWithContents : (NSString *) replyMessage
+							name : (NSString *) name
+							mail : (NSString *) mail
+					  hanamogera : (BOOL ) addForms
 {
     id<w2chConnect>     connector_;
     NSMutableDictionary *headers_;
@@ -318,7 +353,7 @@ static inline NSString *removeObjectReplacementCharacter(NSString *str)
                                   properties : headers_];
     formDictionary_ = [self formDictionary : replyMessage
                                       name : name
-                                      mail : mail];
+                                      mail : mail hanamogera : addForms];
 
     UTILDebugWrite1(@"targetURL = %@", [[self targetURL] absoluteString]);
     UTILDebugWrite2(@"name = %@, mail = %@", name, mail);

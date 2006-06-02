@@ -1,3 +1,17 @@
+2006-06-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/window/CMRReplyMessenger_p.h
+	* application/source/window/CMRReplyMessenger.m
+	* application/source/window/CMRReplyMessenger-Connector.m
+	* application/subproj/reply/error/SG2chErrorHandler.m
+		2ch の書き込み仕様変更（hana=mogera）への対応方法を変更。
+		- hana=mogera 以外に変更された場合でもそのまま対応できるようにした。具体的には、
+		  http://qb5.2ch.net/test/read.cgi/operate/1130918407/783 の方法とほぼ同様のことを
+		  行うようにした。
+	* frameworks/SGNetwork/src/util/SGHTTPDefines.h
+	* application/source/network/CMRDATDownloader.m
+		調整中
+	* application/source/manager/Cookie.m
+		内部用の識別子を BathyScaphe 用に修正。
 2006-06-02 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/text/KeyValueTemplates.plist
 	* application/source/composer/CMRAttributedMessageComposer.m

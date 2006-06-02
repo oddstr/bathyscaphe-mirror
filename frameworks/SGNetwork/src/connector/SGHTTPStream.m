@@ -1,5 +1,5 @@
 /**
-  * $Id: SGHTTPStream.m,v 1.2 2006/02/01 17:39:08 tsawada2 Exp $
+  * $Id: SGHTTPStream.m,v 1.3 2006/06/02 19:21:14 tsawada2 Exp $
   * 
   * SGHTTPStream.m
   *
@@ -261,9 +261,9 @@ static void processReadStreamReadingEnd(CFReadStreamRef stream,
 	UTILCAssertNotNil(Self);
 	
 	status = [Self status];
-	UTIL_DEBUG_WRITE2(@"Self status:%@(%d)", 
-		NSURLHandleStatusToString_(status),
-		status);
+	//UTIL_DEBUG_WRITE2(@"Self status:%@(%d)", 
+	//	NSURLHandleStatusToString_(status),
+	//	status);
 	
 	if (status != NSURLHandleLoadInProgress && 
 		status != NSURLHandleNotLoaded)
@@ -344,13 +344,13 @@ static void readStreamClientCallBack_( CFReadStreamRef   stream,
 				if (readStreamIsAtEnd_(stream)) {
 					// Ç∑Ç◊Çƒì«Ç›çûÇÒÇæÇ†Ç∆Ç≈Ç‡Ç±Ç±Ç…óàÇÈÅB
 					if (NSURLHandleLoadInProgress != [httpStream_ status]) {
-						UTIL_DEBUG_WRITE3(
+						/*UTIL_DEBUG_WRITE3(
 							@"kCFStreamEventHasBytesAvailable but bytesRead:0 \n"
 							@"status: %@(%d) \n"
 							@"but NSURLHandleLoadInProgress: %d",
 							NSURLHandleStatusToString_([httpStream_ status]),
 							[httpStream_ status], 
-							NSURLHandleLoadInProgress);
+							NSURLHandleLoadInProgress);*/
 						break;
 					}
 					UTIL_DEBUG_WRITE1(@"[CFStream] END::bytesRead: %d", bytesRead_);

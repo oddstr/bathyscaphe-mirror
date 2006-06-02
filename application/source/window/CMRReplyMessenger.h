@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyMessenger.h,v 1.4 2005/09/30 18:52:03 tsawada2 Exp $
+  * $Id: CMRReplyMessenger.h,v 1.5 2006/06/02 19:21:14 tsawada2 Exp $
   * 
   * CMRReplyMessenger.h
   *
@@ -20,6 +20,7 @@
 	BOOL					_isEndPost;
 	BOOL					_isInProgress;
 	BOOL					_shouldSendBeCookie;
+	NSDictionary			*_additionalForms;
 }
 - (NSTextStorage *) textStorage;
 - (void) setMessageContents : (NSString *) aContents

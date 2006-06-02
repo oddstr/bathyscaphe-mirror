@@ -1,5 +1,5 @@
 /**
-  * $Id: SG2chErrorHandler.m,v 1.1 2005/05/11 17:51:12 tsawada2 Exp $
+  * $Id: SG2chErrorHandler.m,v 1.2 2006/06/02 19:21:14 tsawada2 Exp $
   * 
   * SG2chErrorHandler.m
   *
@@ -25,7 +25,7 @@ static NSString *scan2ch_XCommentStringWithHTML(NSString *contents);
 // Error Code Dictionary
 static NSDictionary *replyErrorCodeDictionary(void);
 
-
+static NSDictionary *scanAdditionalFormsWithHTML(NSString *contents);
 
 static NSDictionary *replyErrorCodeDictionary(void)
 {
@@ -59,6 +59,7 @@ static NSDictionary *replyErrorCodeDictionary(void)
 	}
 	if (self = [super init]) {
 		[self setRequestURL : anURL];
+		[self setAdditionalFormsData: nil];
 	}
 	return self;
 }
@@ -68,6 +69,7 @@ static NSDictionary *replyErrorCodeDictionary(void)
 	[m_requestURL release];
 	[m_recentErrorTitle release];
 	[m_recentErrorMessage release];
+	[m_additionalFormsData release];
 	[super dealloc];
 }
 
@@ -128,6 +130,14 @@ static NSDictionary *replyErrorCodeDictionary(void)
 			error.type = [replyErrorCodeDictionary() 
 									integerForKey : mark_
 									 defaultValue : k2chUnknownErrorType];
+		}
+		
+		// hana=mogera
+		if (k2chContributionCheckErrorType == error.type || k2chSPIDCookieErrorType == error.type) {
+			NSDictionary	*tmp_;
+			tmp_ = scanAdditionalFormsWithHTML(contents);
+			if (tmp_ != nil)
+				[self setAdditionalFormsData : tmp_];
 		}
 	} else {
 		const char	*host_ = [[[self requestURL] host] UTF8String];
@@ -208,6 +218,19 @@ static NSDictionary *replyErrorCodeDictionary(void)
 - (void) setRecentErrorCode : (int) code
 {
 	m_recentError.error = code;
+}
+
+#pragma mark CometBlaster
+- (NSDictionary *) additionalFormsData
+{
+	return m_additionalFormsData;
+}
+
+- (void) setAdditionalFormsData : (NSDictionary *) anAdditionalFormsData
+{
+	[anAdditionalFormsData retain];
+	[m_additionalFormsData release];
+	m_additionalFormsData = anAdditionalFormsData;
 }
 @end
 
@@ -311,6 +334,56 @@ NS_ENDHANDLER
 	return YES;
 }
 
+static NSDictionary *scanAdditionalFormsWithHTML(NSString *contents)
+{
+	if (nil == contents) return nil;
+	id<XmlPullParser>	xpp_;
+	int					type_;
+
+	NSMutableDictionary *additionalFormData_ = [[[NSMutableDictionary alloc] init] autorelease];
+	NSSet *defaultKeys_ = [NSSet setWithObjects: @"bbs", @"key", @"time", @"FROM", @"mail", @"MESSAGE", @"subject", nil];
+
+	xpp_ = [[[SGXmlPullParser alloc] initHTMLParser] autorelease];
+	[xpp_ setInputSource : contents];
+	
+NS_DURING
+	while ((type_ = [xpp_ next]) != XMLPULL_END_DOCUMENT) {
+		if (HTML_TAG(xpp_, @"form", XMLPULL_START_TAG)) {
+			while ((type_ = [xpp_ next]) != XMLPULL_END_DOCUMENT) {
+				if (HTML_TAG(xpp_, @"form", XMLPULL_END_TAG))
+					break;
+				
+				if (HTML_TAG(xpp_, @"input", XMLPULL_START_TAG)) {
+
+					if ([[xpp_ attributeForName : @"type"] isEqualToString : @"hidden"]) {
+						NSString *value_ = [xpp_ attributeForName : @"name"];
+						if (value_ == NULL) break;
+						if (![defaultKeys_ containsObject : value_]) {
+							// hanamogera
+							NSString *value2_ = [xpp_ attributeForName : @"value"];
+							if(value2_ == NULL) break;
+							[additionalFormData_ setObject: value2_ forKey: value_];
+						}
+
+					}
+				}
+			}
+		}
+	}
+NS_HANDLER
+	
+	UTILCatchException(XmlPullParserException) {
+		NSLog(@"***XMLPULL_EXCEPTION***%@", localException);
+		
+	} else {
+		[localException raise];
+	}
+	
+NS_ENDHANDLER
+	NSLog(@"%@", [additionalFormData_ description]);
+	if ([additionalFormData_ count] == 0) return nil;
+	return additionalFormData_;
+}
 
 
 //////////////////////////////////////////////////////////////////////

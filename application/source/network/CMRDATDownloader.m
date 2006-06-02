@@ -1,6 +1,6 @@
 //: CMRDATDownloader.m
 /**
-  * $Id: CMRDATDownloader.m,v 1.2 2005/12/10 12:39:44 tsawada2 Exp $
+  * $Id: CMRDATDownloader.m,v 1.3 2006/06/02 19:21:14 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -142,6 +142,10 @@
 	case HTTP_RANGE_NOT_SATISFIABLE:  /* Requested Range Not Satisfiable */
 		NSLog(@"Server Response: %@", [res statusLine]);
 		[self cancelDownloadWithInvalidPartial];
+		return;
+		break;
+	case HTTP_FOUND:
+		NSLog(@"302 - Nanika Kangaetokou");
 		return;
 		break;
 	default:

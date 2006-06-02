@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyMessenger.m,v 1.7 2006/02/27 20:21:20 tsawada2 Exp $
+  * $Id: CMRReplyMessenger.m,v 1.8 2006/06/02 19:21:14 tsawada2 Exp $
   * 
   * CMRReplyMessenger.m
   *
@@ -21,6 +21,7 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 {
 	[_textStorage release];
 	[_attributes release];
+	[_additionalForms release];
 	[super dealloc];
 }
 
@@ -353,11 +354,16 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 @implementation CMRReplyMessenger(Action)
 - (IBAction) sendMessage : (id) sender
 {
+	[self sendMessage : sender withHanaMogeraForms : NO];
+}
+
+- (IBAction) sendMessage : (id) sender withHanaMogeraForms : (BOOL) withForms
+{
 
 	[self synchronizeDocumentContentsWithWindowControllers];
 	[self sendMessageWithContents : [self replyMessage]
 							 name : [self name]
-							 mail : [self mail]];
+							 mail : [self mail] hanamogera : withForms];
 }
 - (IBAction) openLogfile : (id) sender
 {

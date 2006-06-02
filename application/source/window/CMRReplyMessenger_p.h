@@ -29,24 +29,15 @@
 #define MESSENGER_ERROR_POST					@"ERROR Send Message"
 #define REPLY_MESSENGER_WINDOW_TITLE_FORMAT		@"Window Title"
 #define REPLY_MESSENGER_SUBMIT					@"submit"
-/*
-#define kToolTipForNeededLogin	@"BeLoginOnNeededToolTip"
-#define kToolTipForTrivialLoginOff	@"BeLoginOffTrivialToolTip"
-#define kToolTipForCantLoginOn	@"BeLoginOffCantLoginToolTip"
-#define kToolTipForLoginOn		@"BeLoginOnToolTip"
-#define kToolTipForLoginOff		@"BeLoginOffToolTip"
-
-#define kLabelForLoginOn		@"Be Login On"
-#define kLabelForLoginOff		@"Be Login Off"
-
-#define kImageForLoginOn		@"beEnabled"
-#define kImageForLoginOff		@"beDisabled"*/
 
 
 @interface CMRReplyMessenger(Private)
 + (NSURL *) targetURLWithBoardURL : (NSURL *) boardURL;
 + (NSString *) formItemBBSWithBoardURL : (NSURL *) boardURL;
 + (NSString *) formItemDirectoryWithBoardURL : (NSURL *) boardURL;
+
+- (NSDictionary *) additionalForms;
+- (void) setAdditionalForms : (NSDictionary *) anAdditionalForms;
 @end
 
 

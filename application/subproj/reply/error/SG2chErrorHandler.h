@@ -1,5 +1,5 @@
 /**
-  * $Id: SG2chErrorHandler.h,v 1.1 2005/05/11 17:51:12 tsawada2 Exp $
+  * $Id: SG2chErrorHandler.h,v 1.2 2006/06/02 19:21:14 tsawada2 Exp $
   * 
   * SG2chErrorHandler.h
   *
@@ -18,6 +18,9 @@
 	SG2chServerError	m_recentError;
 	NSString			*m_recentErrorTitle;
 	NSString			*m_recentErrorMessage;
+	
+	// available in CometBlaster and later.
+	NSDictionary		*m_additionalFormsData;
 }
 //////////////////////////////////////////////////////////////////////
 /////////////////////// [ èâä˙âªÅEå„énññ ] ///////////////////////////
@@ -62,6 +65,9 @@
 - (void) setRecentErrorTitle : (NSString *) aRecentErrorTitle;
 /* Accessor for m_recentErrorMessage */
 - (void) setRecentErrorMessage : (NSString *) aRecentErrorMessage;
+
+- (NSDictionary *) additionalFormsData;
+- (void) setAdditionalFormsData : (NSDictionary *) anAdditionalFormsData;
 @end
 
 extern SG2chServerError SGMake2chServerError(int type, 

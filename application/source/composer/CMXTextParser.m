@@ -1,5 +1,5 @@
 /**
-  * $Id: CMXTextParser.m,v 1.19 2006/06/01 15:06:43 tsawada2 Exp $
+  * $Id: CMXTextParser.m,v 1.20 2006/06/02 19:21:14 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -376,7 +376,7 @@ static void resolveInvalidAmpEntity(NSMutableString *aSource)
 	
 	int			i, cnt;
 	NSString	*result = nil;
-	NSString	*result;
+	//NSString	*result;
 	
 	UTIL_DEBUG_METHOD;
 	
