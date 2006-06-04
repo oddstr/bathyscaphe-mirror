@@ -1,6 +1,6 @@
 //: SGHTTPDefines.h
 /**
-  * $Id: SGHTTPDefines.h,v 1.1 2005/05/11 17:51:50 tsawada2 Exp $
+  * $Id: SGHTTPDefines.h,v 1.1.1.1.6.1 2006/06/04 16:16:05 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -66,7 +66,6 @@
 #define		HTTP_LAST_MODIFIED_KEY			@"Last-Modified"
 #define		HTTP_EXTENSION_HEADER_KEY		@"extension-header"
 
-
 #define		HTTP_COOKIE_HEADER_KEY			@"Cookie"
 #define		HTTP_SET_COOKIE_HEADER_KEY		@"Set-Cookie"
 
@@ -85,6 +84,7 @@
 enum {
 	HTTP_OK									= 200,
 	HTTP_PERTIAL							= 206,
+	HTTP_FOUND								= 302, // available in BathyScaphe 1.2.2/1.5 and later.
 	HTTP_NOT_MODIFIED						= 304,
 	HTTP_UNAUTHORIZED						= 401,
 	HTTP_PROXY_AUTHENTICATION_REQUIRED		= 407,

@@ -1,3 +1,14 @@
+2006-06-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/window/CMRReplyMessenger_p.h
+	* application/source/window/CMRReplyMessenger.(h|m)
+	* application/source/window/CMRReplyMessenger-Connector.m
+	* application/source/network/CMRDATDownloader.(h|m)
+	* application/source/thread/CMRThreadViewer-Download.m
+	* application/subproj/reply/error/SG2chErrorHandler.(h|m)
+	* frameworks/SGNetwork/src/util/SGHTTPDefines.h
+	* application/source/manager/Cookie.m
+	* frameworks/SGFoundation/framework/source/classes/xml/SGXmlPullParser.m
+		HEAD の変更をマージ。cvs -q update -j v121_FINAL -j HEAD
 ================================================= 1.2.1(v176) / CVS Tag : v121_FINAL
 2006-05-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/text/KeyValueTemplates.plist

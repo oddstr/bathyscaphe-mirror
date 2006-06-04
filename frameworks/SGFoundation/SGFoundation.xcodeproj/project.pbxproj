@@ -17,23 +17,6 @@
 				F3894D57051A86B300C679D7 /* Frameworks */,
 				F3894D58051A86B300C679D7 /* Rez */,
 			);
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					/Users/takanori/Library/Frameworks,
-					"/Users/takanori/Development/Tools/ObjcUnit 1.2/ObjcUnit/build",
-				);
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = "Performance Test";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = app;
-			};
 			dependencies = (
 			);
 			name = "Performance Test";
@@ -297,40 +280,6 @@
 		F5C64EE803252C9101A80002 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5C64E5503252C8B01A80002 /* Carbon.framework */; };
 		F5C6966D02CA157601A80002 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F515AE260267BAE601A80002 /* CoreServices.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXBuildStyle section */
-		014CEA440018CDF011CA2923 /* Development */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				OPTIMIZATION_CFLAGS = "-O0";
-				OTHER_CFLAGS = "";
-				ZERO_LINK = NO;
-			};
-			name = Development;
-		};
-		014CEA450018CDF011CA2923 /* Deployment */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUGGING_SYMBOLS = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				OPTIMIZATION_CFLAGS = "-O2";
-				OTHER_CFLAGS = (
-					"-DUTIL_BLOCK_DEBUG_WRITE",
-					"-DNS_BLOCK_ASSERTIONS",
-					"-DUTK_BLOCK_ASSERTIONS",
-					"-DUTK_BLOCK_DEBUG_WRITE",
-				);
-				ZERO_LINK = NO;
-			};
-			name = Deployment;
-		};
-/* End PBXBuildStyle section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		F5157C5D0257715501A80002 /* CopyFiles */ = {
@@ -1360,33 +1309,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = "";
-				FRAMEWORK_VERSION = A;
-				HEADER_SEARCH_PATHS = "";
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/3.1;
-				OPTIMIZATION_CFLAGS = "-O0";
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0x31000000,
-					"-lz",
-				);
-				PRECOMPILE_PREFIX_HEADER = YES;
-				PREFIX_HEADER = framework/source/private/SGFoundation_Prefix.h;
-				PRODUCT_NAME = SGFoundation;
-				SECTORDER_FLAGS = "";
-				USE_GCC3_PFE_SUPPORT = NO;
-				WARNING_CFLAGS = (
-					"\U0001-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-					"-Wno-format-extra-args",
-				);
-				WRAPPER_EXTENSION = framework;
-			};
 			dependencies = (
 			);
 			name = SGFoundation;
@@ -1401,12 +1323,6 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 874A34C2086E21E0004E7805 /* Build configuration list for PBXProject "SGFoundation" */;
-			buildSettings = {
-			};
-			buildStyles = (
-				014CEA440018CDF011CA2923 /* Development */,
-				014CEA450018CDF011CA2923 /* Deployment */,
-			);
 			hasScannedForEncodings = 1;
 			mainGroup = 0867D691FE84028FC02AAC07 /* SGFoundation */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
@@ -1575,25 +1491,6 @@
 				F5167AD90256EF7901A80002 /* Rez */,
 				F5157C5D0257715501A80002 /* CopyFiles */,
 			);
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					/Users/takanori/Library/Frameworks,
-					"/Users/takanori/Development/Tools/ObjcUnit 1.2/ObjcUnit/build",
-				);
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PREBINDING = NO;
-				PRECOMPILE_PREFIX_HEADER = YES;
-				PREFIX_HEADER = test/src/UnitTest_Prefix.h;
-				PRODUCT_NAME = "Framework Tests";
-				REZ_EXECUTABLE = YES;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
 			dependencies = (
 			);
 			name = "Framework Tests";

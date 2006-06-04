@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyMessenger.m,v 1.7 2006/02/27 20:21:20 tsawada2 Exp $
+  * $Id: CMRReplyMessenger.m,v 1.7.2.1 2006/06/04 16:16:05 tsawada2 Exp $
   * 
   * CMRReplyMessenger.m
   *
@@ -21,6 +21,7 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 {
 	[_textStorage release];
 	[_attributes release];
+	[_additionalForms release];
 	[super dealloc];
 }
 
@@ -192,13 +193,14 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 	BSBeLoginPolicyType	policy_;
 	NSString			*bName_ = [self boardName];
 	BOOL				tmp = NO;
+	BoardManager		*bM_ = [BoardManager defaultManager];
 
-	policy_	 = [[BoardManager defaultManager] typeOfBeLoginPolicyForBoard : bName_];
+	policy_	 = [bM_ typeOfBeLoginPolicyForBoard : bName_];
 	
 	if (policy_ == BSBeLoginTriviallyNeeded) {
 		tmp = YES;
 	} else if (policy_ == BSBeLoginDecidedByUser) {
-		tmp = [[BoardManager defaultManager] alwaysBeLoginAtBoard : bName_];
+		tmp = [bM_ alwaysBeLoginAtBoard : bName_];
 	}
 
 	[self setShouldSendBeCookie : tmp];
@@ -351,14 +353,20 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 @end
 
 @implementation CMRReplyMessenger(Action)
-- (IBAction) sendMessage : (id) sender
+- (IBAction) sendMessage : (id) sender withHanaMogeraForms : (BOOL) withForms
 {
-
 	[self synchronizeDocumentContentsWithWindowControllers];
 	[self sendMessageWithContents : [self replyMessage]
 							 name : [self name]
-							 mail : [self mail]];
+							 mail : [self mail]
+					   hanamogera : withForms];
 }
+
+- (IBAction) sendMessage : (id) sender
+{
+	[self sendMessage : sender withHanaMogeraForms : NO];
+}
+
 - (IBAction) openLogfile : (id) sender
 {
 	[[NSWorkspace sharedWorkspace]

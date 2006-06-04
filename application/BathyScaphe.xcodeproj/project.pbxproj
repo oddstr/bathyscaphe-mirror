@@ -591,48 +591,6 @@
 		F49CCDF60849B87500835BE3 /* BSScriptsMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F49CCDF40849B87500835BE3 /* BSScriptsMenuManager.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXBuildStyle section */
-		4A9504D0FFE6A4CB11CA0CBA /* Development */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = source/CocoMonar_Prefix.h;
-				OPTIMIZATION_CFLAGS = "-O0";
-				OTHER_CFLAGS = (
-					"-DDEBUG",
-					"-DBUILD_COCOMONAR",
-					"-DPATCH=1",
-				);
-				ZERO_LINK = NO;
-			};
-			name = Development;
-		};
-		4A9504D1FFE6A4CB11CA0CBA /* Deployment */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUGGING_SYMBOLS = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				OPTIMIZATION_CFLAGS = "-O2";
-				OTHER_CFLAGS = (
-					"-DBUILD_COCOMONAR",
-					"-DUTIL_BLOCK_ASSERTIONS",
-					"-DNS_BLOCK_ASSERTIONS",
-					"-DUTIL_BLOCK_DEBUG_WRITE",
-					"-DPATCH=1",
-				);
-				ZERO_LINK = NO;
-			};
-			name = Deployment;
-		};
-/* End PBXBuildStyle section */
-
 /* Begin PBXContainerItemProxy section */
 		871CA1860858600900C3A044 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -2827,30 +2785,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build,
-					../frameworks/SGFoundation/build,
-					../frameworks/SGNetwork/build,
-					../frameworks/Keychain/build,
-					../frameworks/SGAppKit/build,
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = source/CocoMonar_Prefix.h;
-				GCC_USE_GCC3_PFE_SUPPORT = NO;
-				INFOPLIST_FILE = "Info-bathyscaphe.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = BathyScaphe;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = app;
-			};
 			dependencies = (
 				871CA1870858600900C3A044 /* PBXTargetDependency */,
 				871CA1890858601A00C3A044 /* PBXTargetDependency */,
@@ -2874,24 +2808,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build,
-					../frameworks/SGFoundation/build,
-				);
-				INSTALL_PATH = "@executable_path/../Plugins";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = BoardListEditor;
-				SECTORDER_FLAGS = "";
-				USE_GCC3_PFE_SUPPORT = NO;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = plugin;
-			};
 			dependencies = (
 			);
 			name = editor;
@@ -2912,23 +2828,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build,
-					../frameworks/SGFoundation/build,
-				);
-				INSTALL_PATH = "@executable_path/../Plugins";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = PreferencesPane;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = plugin;
-			};
 			dependencies = (
 			);
 			name = preferences;
@@ -2949,25 +2848,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build,
-					../frameworks/SGFoundation/build,
-					../frameworks/SGNetwork/build,
-				);
-				INSTALL_PATH = "@executable_path/../Plugins";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = 2chConnector;
-				SECTORDER_FLAGS = "";
-				USE_GCC3_PFE_SUPPORT = NO;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = plugin;
-			};
 			dependencies = (
 			);
 			name = reply;
@@ -2988,24 +2868,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build,
-					../frameworks/SGFoundation/build,
-				);
-				INSTALL_PATH = "@executable_path/../Plugins";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = BoardListEditor;
-				SECTORDER_FLAGS = "";
-				USE_GCC3_PFE_SUPPORT = NO;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = plugin;
-			};
 			dependencies = (
 			);
 			name = previewer;
@@ -3020,12 +2882,6 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 87E15B530858090F00C345E0 /* Build configuration list for PBXProject "BathyScaphe" */;
-			buildSettings = {
-			};
-			buildStyles = (
-				4A9504D0FFE6A4CB11CA0CBA /* Development */,
-				4A9504D1FFE6A4CB11CA0CBA /* Deployment */,
-			);
 			hasScannedForEncodings = 1;
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* iTteyoshi002 */;
 			projectDirPath = "";
