@@ -1,3 +1,9 @@
+2006-06-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/window/CMRReplyMessenger_p.h
+	* application/source/window/CMRReplyMessenger.m
+	* application/source/window/CMRReplyMessenger-Connector.m
+	* application/subproj/reply/error/SG2chErrorHandler.m
+		ソースの整理。
 2006-06-04 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/network/CMRDATDownloader.m
 	* application/source/thread/CMRThreadViewer-Download.m

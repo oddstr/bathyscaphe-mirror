@@ -1,5 +1,5 @@
 /**
-  * $Id: SG2chErrorHandler.h,v 1.2 2006/06/02 19:21:14 tsawada2 Exp $
+  * $Id: SG2chErrorHandler.h,v 1.3 2006/06/04 16:01:10 tsawada2 Exp $
   * 
   * SG2chErrorHandler.h
   *
@@ -68,6 +68,10 @@
 
 - (NSDictionary *) additionalFormsData;
 - (void) setAdditionalFormsData : (NSDictionary *) anAdditionalFormsData;
+- (BOOL) parseHTMLContents: (NSString *) htmlContents
+				 intoTitle: (NSString **) ptitle
+			   intoMessage: (NSString **) pbody;
+- (NSDictionary *) scanAdditionalFormsWithHTML: (NSString *) htmlContents;
 @end
 
 extern SG2chServerError SGMake2chServerError(int type, 

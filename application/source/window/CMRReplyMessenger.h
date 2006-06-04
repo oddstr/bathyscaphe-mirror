@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyMessenger.h,v 1.5 2006/06/02 19:21:14 tsawada2 Exp $
+  * $Id: CMRReplyMessenger.h,v 1.6 2006/06/04 16:01:10 tsawada2 Exp $
   * 
   * CMRReplyMessenger.h
   *
@@ -20,7 +20,7 @@
 	BOOL					_isEndPost;
 	BOOL					_isInProgress;
 	BOOL					_shouldSendBeCookie;
-	NSDictionary			*_additionalForms;
+	NSDictionary			*_additionalForms; // added in CometBlaster and later.
 }
 - (NSTextStorage *) textStorage;
 - (void) setMessageContents : (NSString *) aContents
@@ -48,9 +48,6 @@
 - (void) setMail : (NSString *) aMail;
 - (void) setName : (NSString *) aName;
 - (void) setReplyMessage : (NSString *) aMessage;
-// deprecated in BathyScaphe 1.0.2
-//- (void) setReplyTextFont : (NSFont *) aFont;
-//- (void) setReplyTextColor : (NSColor *) aColor;
 
 // available in PrincessBride and later
 - (BOOL) shouldSendBeCookie;
@@ -86,9 +83,9 @@
 
 @interface CMRReplyMessenger(Action)
 - (IBAction) sendMessage : (id) sender;
+- (IBAction) sendMessage : (id) sender withHanaMogeraForms : (BOOL) withForms; // Available in CometBlaster and later.
 - (IBAction) openLogfile : (id) sender;
 @end
-
 
 
 /* Task */

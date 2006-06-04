@@ -1,4 +1,11 @@
-//:CMRReplyMessenger_p.h
+/*
+ * $Id: CMRReplyMessenger_p.h,v 1.7 2006/06/04 16:01:10 tsawada2 Exp $
+ * BathyScaphe
+ *
+ * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
+ *
+ */
+
 #import "CMRReplyMessenger.h"
 
 #import "CocoMonar_Prefix.h"
@@ -36,6 +43,7 @@
 + (NSString *) formItemBBSWithBoardURL : (NSURL *) boardURL;
 + (NSString *) formItemDirectoryWithBoardURL : (NSURL *) boardURL;
 
+// added in CometBlaster and later
 - (NSDictionary *) additionalForms;
 - (void) setAdditionalForms : (NSDictionary *) anAdditionalForms;
 @end
@@ -43,12 +51,28 @@
 
 
 @interface CMRReplyMessenger(SendMeesage)
+// Deprecated in CometBlaster and later. Use formDictionary:name:mail:hanamogera: instead.
 - (NSDictionary *) formDictionary : (NSString *) message
                              name : (NSString *) name
                              mail : (NSString *) mail;
+
+// Available in CometBlaster and later.
+- (NSDictionary *) formDictionary : (NSString *) replyMessage
+                             name : (NSString *) name
+                             mail : (NSString *) mail
+					   hanamogera : (BOOL) addForms;
+
+// Available in CometBlaster and later.
+- (void) sendMessageWithContents : (NSString *) replyMessage
+							name : (NSString *) name
+							mail : (NSString *) mail
+					  hanamogera : (BOOL ) addForms;
+
+// Deprecated in CometBlaster and later. Use sendMessageWithContents:name:mail:hanamogera: instead.
 - (void) sendMessageWithContents : (NSString *) message
                             name : (NSString *) name
                             mail : (NSString *) mail;
+
 - (NSString *) refererParameter;
 - (void) receiveCookiesWithResponse : (NSDictionary *) headers;
 @end
@@ -64,7 +88,6 @@
 
 @interface CMRReplyMessenger(PrivateAccessor)
 - (CMRReplyController *) replyControllerRespondsTo : (SEL) aSelector;
-//- (BOOL) checkBe2chAccount; // deprecated in LittleWish and later. Use AppDefault's availableBe2chAccount instead.
 
 - (NSString *) threadTitle;
 
@@ -72,7 +95,6 @@
 - (NSString *) formItemKey;
 // require for Jbbs_shita
 - (NSString *) formItemDirectory;
-
 
 - (id) boardIdentifier;
 - (id) threadIdentifier;

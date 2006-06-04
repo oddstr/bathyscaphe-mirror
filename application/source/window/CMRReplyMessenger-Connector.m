@@ -1,5 +1,5 @@
 //
-//  $Id: CMRReplyMessenger-Connector.m,v 1.9 2006/06/02 19:21:14 tsawada2 Exp $
+//  $Id: CMRReplyMessenger-Connector.m,v 1.10 2006/06/04 16:01:10 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/07/04.
@@ -177,7 +177,6 @@
 	contribution = [self isCookieOrContributionCheckError : [handler recentError]];
 	
 	if (contribution) {	// 書き込み確認、クッキー確認
-		NSLog(@"Hoge");
 		[self receiveCookiesWithResponse : [sender responseHeaders]];
 		
 		if ([handler respondsToSelector: @selector(additionalFormsData)]) {
@@ -353,7 +352,8 @@ static inline NSString *removeObjectReplacementCharacter(NSString *str)
                                   properties : headers_];
     formDictionary_ = [self formDictionary : replyMessage
                                       name : name
-                                      mail : mail hanamogera : addForms];
+                                      mail : mail
+								hanamogera : addForms];
 
     UTILDebugWrite1(@"targetURL = %@", [[self targetURL] absoluteString]);
     UTILDebugWrite2(@"name = %@, mail = %@", name, mail);

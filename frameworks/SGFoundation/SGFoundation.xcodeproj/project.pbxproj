@@ -441,7 +441,7 @@
 		F3FB8AB30445894800A80005 /* TestSGBaseUnicode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TestSGBaseUnicode.m; sourceTree = "<group>"; };
 		F50DAD8502CB355501A80002 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
 		F515AE260267BAE601A80002 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
-		F5167AD40256EF7901A80002 /* Framework Tests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = "Framework Tests"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F5167AD40256EF7901A80002 /* Framework Tests */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "Framework Tests"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F51DA639024DFED301A80002 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		F5292B1D02ACD9CF01A80002 /* xhtml-lat1.ent */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = text; path = "xhtml-lat1.ent"; sourceTree = "<group>"; };
 		F5292B1E02ACD9CF01A80002 /* xhtml-special.ent */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = text; path = "xhtml-special.ent"; sourceTree = "<group>"; };
