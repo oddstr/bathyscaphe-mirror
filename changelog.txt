@@ -1,3 +1,9 @@
+2006-06-04 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/network/CMRDATDownloader.m
+	* application/source/thread/CMRThreadViewer-Download.m
+		ステータスコードが 416 で、「再取得が必要です」を出さなければならないのに、先に「そんな板 or スレッドないです」
+		用の Notification が発行されて、「再取得〜」用の notification の観察が中止されてしまっていた問題を修正。
+		ついでに、ステータスコード 302 の場合は、とくにシートは出さず、自動的にスレッドに「dat 落ち」印を設定するようにした。
 2006-06-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/window/CMRReplyMessenger_p.h
 	* application/source/window/CMRReplyMessenger.m
@@ -8,8 +14,7 @@
 		  http://qb5.2ch.net/test/read.cgi/operate/1130918407/783 の方法とほぼ同様のことを
 		  行うようにした。
 	* frameworks/SGNetwork/src/util/SGHTTPDefines.h
-	* application/source/network/CMRDATDownloader.m
-		調整中
+		#define HTTP_FOUND（ステータスコード 302）を追加。
 	* application/source/manager/Cookie.m
 		内部用の識別子を BathyScaphe 用に修正。
 2006-06-02 tsawada2 <ben-sawa@td5.so-net.ne.jp>

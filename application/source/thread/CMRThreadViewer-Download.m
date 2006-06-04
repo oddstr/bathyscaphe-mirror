@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Download.m,v 1.11 2006/04/11 17:31:21 masakih Exp $
+  * $Id: CMRThreadViewer-Download.m,v 1.12 2006/06/04 13:14:39 tsawada2 Exp $
   * BathyScaphe
   * 
   *
@@ -9,6 +9,7 @@
 #import "CMRThreadViewer_p.h"
 #import "CMRDownloader.h"
 #import "ThreadTextDownloader.h"
+#import "CMRDATDownloader.h"
 
 // ‚»‚ñ‚È”Â or ƒXƒŒƒbƒh‚ ‚è‚Ü‚¹‚ñ
 #define kNotFoundTitleKey				@"Not Found Title"
@@ -19,7 +20,6 @@
 #define kNotFoundHelpKeywordKey			@"NotFoundSheet Help Anchor"
 #define kInvalidPerticalContentsHelpKeywordKey	@"InvalidPerticalSheet Help Anchor"
 #define kNotFoundCancelLabelKey			@"Do Not Reload Button Label"
-
 
 
 @implementation CMRThreadViewer(Download)
@@ -50,6 +50,10 @@
 			    name : CMRDownloaderNotFoundNotification
 			  object : downloader];
 	[ncenter addObserver : self
+			selector : @selector(threadTextDownloaderDidDetectDatOchi:)
+			    name : CMRDATDownloaderDidDetectDatOchiNotification
+			  object : downloader];
+	[ncenter addObserver : self
 			selector : @selector(threadTextDownloaderDidFinishLoading:)
 			    name : ThreadTextDownloaderDidFinishLoadingNotification
 			  object : downloader];
@@ -71,6 +75,9 @@
 				 object : downloader];
 	[nc_ removeObserver : self
 				   name : CMRDownloaderNotFoundNotification
+				 object : downloader];
+	[nc_ removeObserver : self
+				   name : CMRDATDownloaderDidDetectDatOchiNotification
 				 object : downloader];
 	[nc_ removeObserver : self
 				   name : ThreadTextDownloaderDidFinishLoadingNotification
@@ -133,7 +140,21 @@
 	return;
 }
 
-
+- (void) threadTextDownloaderDidDetectDatOchi : (NSNotification *) notification
+{
+	CMRDATDownloader	*downloader_;
+	
+	UTILAssertNotificationName(
+		notification,
+		CMRDATDownloaderDidDetectDatOchiNotification);
+		
+	downloader_ = [notification object];
+	UTILAssertKindOfClass(downloader_, CMRDATDownloader);
+	[self removeFromNotificationCeterWithDownloader : downloader_];
+	
+	NSLog(@"Auto-Detect DatOchi");
+	[self setDatOchiThread : YES];
+}
 
 - (void) threadTextDownloaderNotFound : (NSNotification *) notification
 {

@@ -1,6 +1,6 @@
 //: CMRDATDownloader.m
 /**
-  * $Id: CMRDATDownloader.m,v 1.3 2006/06/02 19:21:14 tsawada2 Exp $
+  * $Id: CMRDATDownloader.m,v 1.4 2006/06/04 13:14:39 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -26,6 +26,7 @@
  */
 #define REPLACE_IVALID_CHARS		0
 
+NSString *const CMRDATDownloaderDidDetectDatOchiNotification = @"CMRDATDownloaderDidDetectDatOchiNotification";
 
 
 @implementation CMRDATDownloader
@@ -53,6 +54,11 @@
 	UTILAssertNotNil([self threadSignature]);
 	handler_ = [CMRHostHandler hostHandlerForURL : [self boardURL]];
 	return [handler_ datURLWithBoard:[self boardURL] datName:[[self threadSignature] datFilename]];
+}
+
+- (void) cancelDownloadWithDetectingDatOchi
+{
+	[self cancelDownloadWithPostingNotificationName : CMRDATDownloaderDidDetectDatOchiNotification];
 }
 @end
 
@@ -144,8 +150,9 @@
 		[self cancelDownloadWithInvalidPartial];
 		return;
 		break;
-	case HTTP_FOUND:
-		NSLog(@"302 - Nanika Kangaetokou");
+	case HTTP_FOUND: /* Maybe Dat Ochi */
+		NSLog(@"302 - Maybe Dat Ochi");
+		[self cancelDownloadWithDetectingDatOchi];
 		return;
 		break;
 	default:
@@ -167,10 +174,25 @@
 - (void) URLHandle               : (NSURLHandle *) sender
   resourceDataDidBecomeAvailable : (NSData      *) newBytes
 {
-	[super URLHandle:sender resourceDataDidBecomeAvailable:newBytes];
+	//[super URLHandle:sender resourceDataDidBecomeAvailable:newBytes];
+	NSData				*data;
+	SGHTTPConnector		*con;
 	
-	if ([self pertialContentsRequested]) {
-		[self handlePartialContentsCheck_ : [self HTTPConnectorCastURLHandle : sender]];
+	con  = [self HTTPConnectorCastURLHandle : sender];
+	if ([self isFirstArrivalWithURLHandle : con resourceDataDidBecomeAvailable : newBytes])
+	{
+		[self synchronizeServerClock : con];
+
+		data = [con availableResourceData];
+		if ([self pertialContentsRequested]) {
+			[self handlePartialContentsCheck_ : [self HTTPConnectorCastURLHandle : sender]];
+			return;
+		}
+		if ([self shouldCancelWithFirstArrivalData : data]) {
+			[self cancelDownloadWithPostingNotificationName :
+								CMRDownloaderNotFoundNotification];
+			return;
+		}
 	}
 }
 @end
