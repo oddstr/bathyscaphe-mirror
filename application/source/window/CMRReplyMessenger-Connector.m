@@ -1,5 +1,5 @@
 //
-//  $Id: CMRReplyMessenger-Connector.m,v 1.7.2.1 2006/06/04 16:16:05 tsawada2 Exp $
+//  $Id: CMRReplyMessenger-Connector.m,v 1.7.2.2 2006/06/04 16:24:20 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/07/04.
@@ -304,9 +304,6 @@ static inline NSString *removeObjectReplacementCharacter(NSString *str)
 	// for 2ch (after 2006-05-27, hana=mogera)
 	if (addForms && [self additionalForms] != nil)
 		[form_ addEntriesFromDictionary: [self additionalForms]];
-	
-	// 2006-05-27 暫定対策
-	[form_ setNoneNil:@"mogera" forKey:@"hana"];
 	
 	// for Jbbs_shita
 	key_ = [formKeys_ stringForKey : CMRHostFormDirectoryKey];

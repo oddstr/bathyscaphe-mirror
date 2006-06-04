@@ -1,4 +1,6 @@
 2006-06-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/window/CMRReplyMessenger-Connector.m
+		v177 の暫定コード（この変更は CVS にコミットしていなかった）が残っていたので削除。
 	* application/source/window/CMRReplyMessenger_p.h
 	* application/source/window/CMRReplyMessenger.(h|m)
 	* application/source/window/CMRReplyMessenger-Connector.m
