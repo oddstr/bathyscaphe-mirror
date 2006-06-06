@@ -1,6 +1,16 @@
+2006-06-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/bbs/BoardManager.(h|m)
+	* application/source/browser/AddBoardSheetController.(h|m)
+	* application/Resources/Japanese.lproj/AddBoardSheet.nib
+		「掲示板の追加」シートを改良し、検索フィールドで検索したときに、該当する項目のみをリストに表示する
+		ようにした（つまり、スレッド一覧の検索と同じような挙動に）。項目数を表示するフィールドは廃止した。
+		この変更は当面、1.2 ブランチのみとする（1.5 向けはもう少し仕様が固まってから）。
+	* application/source/thread/CMRThreadViewer-Download.m
+		HEAD の変更をマージ。
 2006-06-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/window/CMRReplyMessenger-Connector.m
 		v177 の暫定コード（この変更は CVS にコミットしていなかった）が残っていたので削除。
+	* application/source/composer/CMXTextParser.m
 	* application/source/window/CMRReplyMessenger_p.h
 	* application/source/window/CMRReplyMessenger.(h|m)
 	* application/source/window/CMRReplyMessenger-Connector.m
