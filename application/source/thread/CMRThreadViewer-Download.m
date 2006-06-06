@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Download.m,v 1.12 2006/06/04 13:14:39 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Download.m,v 1.13 2006/06/06 19:26:32 tsawada2 Exp $
   * BathyScaphe
   * 
   *
@@ -10,6 +10,7 @@
 #import "CMRDownloader.h"
 #import "ThreadTextDownloader.h"
 #import "CMRDATDownloader.h"
+#import "BoardManager.h"
 
 // ‚»‚ñ‚È”Â or ƒXƒŒƒbƒh‚ ‚è‚Ü‚¹‚ñ
 #define kNotFoundTitleKey				@"Not Found Title"
@@ -140,6 +141,19 @@
 	return;
 }
 
+- (void) validateWhetherDatOchi
+{
+	NSString *boardName_ = [self boardName];
+	BOOL	URLIsInvalidAndChanged;
+	URLIsInvalidAndChanged = [[BoardManager defaultManager] tryToDetectMovedBoard : boardName_];
+	
+	if(URLIsInvalidAndChanged) {
+		[self reloadThread: nil];
+	} else {
+		[self setDatOchiThread: YES];
+	}
+}
+
 - (void) threadTextDownloaderDidDetectDatOchi : (NSNotification *) notification
 {
 	CMRDATDownloader	*downloader_;
@@ -152,8 +166,9 @@
 	UTILAssertKindOfClass(downloader_, CMRDATDownloader);
 	[self removeFromNotificationCeterWithDownloader : downloader_];
 	
-	NSLog(@"Auto-Detect DatOchi");
-	[self setDatOchiThread : YES];
+	//NSLog(@"Auto-Detect DatOchi");
+	//[self setDatOchiThread : YES];
+	[self validateWhetherDatOchi];
 }
 
 - (void) threadTextDownloaderNotFound : (NSNotification *) notification

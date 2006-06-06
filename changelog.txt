@@ -1,3 +1,7 @@
+2006-06-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-Download.m
+		ステータスコード 302 は、間違った URL によるアクセスの結果として返される場合もあるので、302 の場合は
+		まず掲示板が移転していないかどうかをチェックして、そうでない場合のみ Dat 落ちと見なすようにした。
 2006-06-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/window/CMRReplyMessenger_p.h
 	* application/source/window/CMRReplyMessenger.m
