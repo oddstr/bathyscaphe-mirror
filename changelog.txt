@@ -1,3 +1,23 @@
+================================================= 1.2.2(v188) / CometBlaster / CVS Tag : v122_FINAL
+2006-06-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/board_default.plist
+		最新のものに更新。
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/mark_the_thread.html
+	* application/Resources/Japanese.lproj/BathyScapheHelp/BathyScapheHelp.helpindex
+	* application/Resources/Japanese.lproj/BathyScapheHelp/BathyScapheHelp idx
+		「スレッドに印を付ける」トピックについて、1.2.2 からは「dat 落ち」印を自動で付ける場合があるので、そのへんの
+		記述のみ修正。それに伴い索引再構築。
+	* application/source/thread/CMRThreadViewer-Validation.m
+		「dat 落ち」印が付いたスレッドでは、「スレッドの更新」を使用不可能にした。
+		- 「書き込み...」も出来なくした方が良さそうだが、ちょっと問題があるため当分見送りとした。
+	* application/source/thread/CMRThreadViewer-Download.m
+		自動 dat 落ち判定で、2006-06-05 の方法がでは平均的に見て負担が高すぎるため、方法を簡易化。
+		ステータスコード 302 かつ、レス数がすでに 1001 以上のときのみ自動で「dat 落ち」印を付けることにした。
+		そうでない場合は今まで同様、「見つかりません」アラートが表示される。
+	* application/source/preferences/AppDefaults.(h|m)
+		Hidden Option: "InformWhenDatOchi" を追加（TRUE/FALSE）。デフォルトは TRUE。
+		FALSE にすると、「BathyScaphe によって dat 落ちと判断されました。」メッセージを表示しない。
+		ただし、自動 dat 落ち判定は黙って実施される。
 ================================================= 1.2.2(v186)(Not Released) / CVS Tag : v120-BASED-BRANCH-MERGE-POINT-186
 2006-06-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/image] benchan% cvs add titleRulerInfoIcon.tiff

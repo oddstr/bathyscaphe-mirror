@@ -578,7 +578,7 @@
 <key>URL</key>
 <string>http://hobby8.2ch.net/siki/</string></dict>
 <dict><key>Name</key>
-<string>占い性格診断</string>
+<string>占い</string>
 <key>URL</key>
 <string>http://hobby8.2ch.net/fortune/</string></dict>
 <dict><key>Name</key>
@@ -633,7 +633,7 @@
 <key>URL</key>
 <string>http://science4.2ch.net/denki/</string></dict>
 <dict><key>Name</key>
-<string>ロボット</string>
+<string>ロボット技術</string>
 <key>URL</key>
 <string>http://that4.2ch.net/robot/</string></dict>
 <dict><key>Name</key>
@@ -1997,7 +1997,7 @@
 <key>Contents</key>
 <array>
 <dict><key>Name</key>
-<string>芸能有名人</string>
+<string>芸能</string>
 <key>URL</key>
 <string>http://tv7.2ch.net/geino/</string></dict>
 <dict><key>Name</key>
@@ -4722,10 +4722,6 @@
 <string>アニ特臨時避難所</string>
 <key>URL</key>
 <string>http://midori.sakura.ne.jp/cha2/anitoku/</string></dict>
-<dict><key>Name</key>
-<string>能登実況</string>
-<key>URL</key>
-<string>http://midori.sakura.ne.jp/cha2/noto/</string></dict>
 <dict><key>Name</key>
 <string>アニラジ実況</string>
 <key>URL</key>

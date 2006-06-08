@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadView.h,v 1.1 2005/05/11 17:51:08 tsawada2 Exp $
+  * $Id: CMRThreadView.h,v 1.1.1.1.6.1 2006/06/08 18:33:08 tsawada2 Exp $
   * 
   * CMRThreadView.h
   *
@@ -46,4 +46,8 @@
 	   mouseClicked : (NSEvent       *) theEvent
 	        atIndex : (unsigned       ) charIndex
 	   messageIndex : (unsigned       ) aMessageIndex;
+
+// Available in CometBlaster and later. but currently not used.
+- (BOOL) threadView: (CMRThreadView *) aView
+	 validateAction: (SEL) aSelector;
 @end
