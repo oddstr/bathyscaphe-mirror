@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Download.m,v 1.10.2.4 2006/06/08 18:33:08 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Download.m,v 1.10.2.5 2006/06/08 22:32:28 tsawada2 Exp $
   * BathyScaphe
   * 
   *
@@ -178,8 +178,8 @@
 - (void) validateWhetherDatOchiWithDownloader: (ThreadTextDownloader *) downloader_
 {
 	unsigned	resCount;
-	resCount = [[self threadAttributes] numberOfMessages];
-	
+	resCount = [downloader_ nextIndex];
+
 	if(resCount < 1001) {
 		[self beginNotFoundAlertSheetWithDownloader: downloader_];
 	} else {

@@ -1,3 +1,7 @@
+================================================= 1.2.2(v188.1)
+2006-06-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-Download.m
+		自動 dat 落ち判定が、レス数の検知方法に問題があったために動作しない問題があったため、検知方法を変更。
 ================================================= 1.2.2(v188) / CometBlaster / CVS Tag : v122_FINAL
 2006-06-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/board_default.plist
