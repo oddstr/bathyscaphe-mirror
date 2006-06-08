@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.26 2006/03/11 14:42:22 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.26.2.1 2006/06/08 00:04:49 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -52,10 +52,7 @@ NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEnd
 	}
 	return self;
 }
-/*- (BOOL) shouldCascadeWindows
-{
-	return NO;
-}*/
+
 - (void) dealloc
 {
 	[CMRPopUpMgr closePopUpWindowForOwner:self];
@@ -64,7 +61,6 @@ NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEnd
 	[m_indexingStepper release];
 	[m_componentsView release];
 	[_layout release];
-	//[_textStorage release];
 	
 	[_history release];
 	[super dealloc];
@@ -76,15 +72,22 @@ NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEnd
 	return @"CMRThreadViewer";
 }
 
-- (NSString *) windowTitleForDocumentDisplayName : (NSString *) displayName
+- (NSString *) titleForTitleBar
 {
 	NSString *bName_ = [self boardName];
 	NSString *tTitle_ = [self title];
 
 	if ((bName_ == nil) || (tTitle_ == nil))
-		return displayName;
-
+		return nil;
+	
 	return [NSString stringWithFormat:@"%@ - %@", tTitle_, bName_];
+}
+
+- (NSString *) windowTitleForDocumentDisplayName : (NSString *) displayName
+{
+	NSString *alternateName = [self titleForTitleBar];
+
+	return (alternateName ? alternateName : displayName);
 }
 
 /**
@@ -469,14 +472,7 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 		// ファイルからの読み込み、変換が終了
 		// すでにレイアウトのタスクを開始したので、
 		// オンラインモードなら更新する
-		//
-		
-		// 2006-01-17 tsawada2<ben-sawa@td5.so-net.ne.jp>
-		// 内容を表示しないで「スレッドを更新」した場合（スレッド一覧から更新した）でも、AA スレッドのレスを
-		// AA フォントでレンダリングするために、このタイミングで changeAllMessageAttributes: flags: を実行する。
-		//if([[self threadAttributes] isAAThread])
-		//	[[self threadLayout] changeAllMessageAttributes : YES flags : CMRAsciiArtMask];
-		
+		//		
 		if(![self isDatOchiThread])
 			[self reloadIfOnlineMode : self];
 	} else {

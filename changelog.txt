@@ -1,3 +1,21 @@
+================================================= 1.2.2(v186)(Not Released) / CVS Tag : v120-BASED-BRANCH-MERGE-POINT-186
+2006-06-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/image] benchan% cvs add titleRulerInfoIcon.tiff
+		[v120-BASED-BRANCH 新規追加] 「BathyScaphe によって dat 落ちと判断されました。」というメッセージ
+		 の左に表示されるアイコン。
+	* application/source/thread/CMRThreadViewer.(h|m)
+	* application/source/thread/CMRThreadViewer_p.h
+	* application/source/thread/CMRThreadViewer-ViewAccessor.m
+	* application/source/thread/CMRThreadViewer-Download.m
+	* application/Resources/Japanese.lproj/ThreadViewer.strings
+	* application/source/browser/CMRBrowser.m
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+		BSTitleRulerView クラス全面見直しに伴う変更および、自動 dat 落ち判定を知らせるためのインタフェースを
+		整備。また、若干のリファクタリング。
+		- BathyScaphe が自動的にスレッドを「dat 落ち」と見なして印を付けたとき、スレッド上部に
+		「BathyScaphe によって dat 落ちと判断されました。」というメッセージを5秒間表示してユーザに知らせる。
+	* application/source/browser/BSTitleRulerView.(h|m)
+		BSTitleRulerView クラスを全面見直し。
 2006-06-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/bbs/BoardManager.(h|m)
 	* application/source/browser/AddBoardSheetController.(h|m)

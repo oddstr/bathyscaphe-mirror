@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.12 2006/03/11 14:42:22 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.12.2.1 2006/06/08 00:04:49 tsawada2 Exp $
   * 
   * CMRThreadViewer.h
   *
@@ -17,9 +17,7 @@
 
 
 @interface CMRThreadViewer : CMRStatusLineWindowController
-{
-	//NSTextStorage				*_textStorage;
-	
+{	
 	// History
 	unsigned					_historyIndex;
 	NSMutableArray				*_history;
@@ -67,6 +65,8 @@
 
 - (CMRThreadLayout *) threadLayout;
 - (CMRThreadAttributes *) threadAttributes;
+
+- (NSString *) titleForTitleBar;
 
 /* called when thread did be changed */
 - (void) didChangeThread;

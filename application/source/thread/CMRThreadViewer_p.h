@@ -1,6 +1,6 @@
 //:ThreadViewer_p.h
 #import "CMRThreadViewer.h"
-
+#import "BSTitleRulerView.h"
 #import "CMRStatusLineWindowController_p.h";
 #import "AppDefaults.h"
 
@@ -197,4 +197,8 @@ extern NSString *const CMRThreadViewerRunSpamFilterNotification;
 - (void) setupTextViewBackground;
 - (void) setWindowFrameUsingCache;
 - (void) setupKeyLoops;
+
++ (BOOL) shouldShowTitleRulerView;
++ (BSTitleRulerModeType) rulerModeForInformDatOchi;
+- (void) cleanUpTitleRuler: (NSTimer *) aTimer;
 @end

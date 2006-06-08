@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Download.m,v 1.10.2.2 2006/06/06 19:32:31 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Download.m,v 1.10.2.3 2006/06/08 00:04:49 tsawada2 Exp $
   * BathyScaphe
   * 
   *
@@ -150,7 +150,14 @@
 	if(URLIsInvalidAndChanged) {
 		[self reloadThread: nil];
 	} else {
+		BSTitleRulerView *view_ = (BSTitleRulerView *)[[self scrollView] horizontalRulerView];
 		[self setDatOchiThread: YES];
+
+		[view_ setCurrentMode: [[self class] rulerModeForInformDatOchi]];
+		[view_ setInfoStr: [self localizedString: @"titleRuler info auto-detected title"]];
+		[[self scrollView] setRulersVisible: YES];
+		
+		[NSTimer scheduledTimerWithTimeInterval: 5.0 target: self selector: @selector(cleanUpTitleRuler:) userInfo: nil repeats: NO];
 	}
 }
 
