@@ -1,3 +1,10 @@
+================================================= 1.2.2(v188.2)
+2006-06-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/CMRThreadView.m
+		実験の残骸が残っていたために、Mac OS X 10.3.x でスレッド内容表示領域のコンテクストメニューが
+		出なくなっていた問題を修正。
+		- 多分、存在しないデリゲートメソッドへの問い合わせで selector not recognized だったんだと思う。
+		  Mac OS X 10.4.x では何となく動いていたので気付かなかった。
 ================================================= 1.2.2(v188.1)
 2006-06-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadViewer-Download.m

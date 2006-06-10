@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadView.m,v 1.9.2.1 2006/06/08 18:33:08 tsawada2 Exp $
+  * $Id: CMRThreadView.m,v 1.9.2.2 2006/06/10 00:58:31 tsawada2 Exp $
   * 
   * CMRThreadView.m
   *
@@ -755,8 +755,9 @@ static void showPoofAnimationForInvisibleAbone(CMRThreadView *tView, unsigned in
 	if (@selector(messageCopy:) == action_)
 		return ([indexEnum_ nextObject] != nil);
 	if (@selector(messageReply:) == action_) {
-		if ([indexEnum_ nextObject] == nil) return NO;
-		return [[self delegate] threadView:self validateAction: action_];
+		//if ([indexEnum_ nextObject] == nil) return NO;
+		//return [[self delegate] threadView:self validateAction: action_];
+		return ([indexEnum_ nextObject] != nil);
 	}
 	if (@selector(changeMessageAttributes:) == action_) {
 		int		tag   = [theItem tag];
