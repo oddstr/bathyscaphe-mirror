@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.14 2006/02/01 17:39:08 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.15 2006/06/11 23:47:26 tsawada2 Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -422,6 +422,14 @@ ErrInvalidLink:
 	[messenger_ append:@"" quote:NO replyTo:anIndexRange.location];
 }
 
+// CometBlaster Addition
+/*
+- (BOOL) threadView: (CMRThreadView *) aView
+	 validateAction: (SEL) aSelector
+{
+	// 将来のために
+}
+*/
 
 // Spam Filter
 - (IBAction) runSpamFilter : (id) sender

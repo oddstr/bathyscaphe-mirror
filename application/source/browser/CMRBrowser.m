@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.24 2006/04/11 17:31:21 masakih Exp $
+  * $Id: CMRBrowser.m,v 1.25 2006/06/11 23:47:26 tsawada2 Exp $
   * 
   * CMRBrowser.m
   *
@@ -77,9 +77,12 @@ CMRBrowser *CMRMainBrowser = nil;
 
 - (void) didChangeThread
 {
+	NSString *threadTitleAndBoardName;
 	// 履歴メニューから選択した可能性もあるので、
 	// 表示したスレッドを一覧でも選択させる
 	[super didChangeThread];
+	threadTitleAndBoardName = [self titleForTitleBar];
+	[(BSTitleRulerView *)[[self scrollView] horizontalRulerView] setTitleStr: (threadTitleAndBoardName ? threadTitleAndBoardName : @"")];
 	[self selectRowWithCurrentThread];
 }
 

@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.22 2006/04/11 17:31:21 masakih Exp $
+ * $Id: CMRAppDelegate.m,v 1.23 2006/06/11 23:47:26 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -11,7 +11,12 @@
 #import "CMRMainMenuManager.h"
 #import "BSHistoryMenuManager.h"
 #import <SGAppKit/NSColor-SGExtensions.h>
+#import <SGAppKit/NSImage-SGExtensions.h>
 
+#define kOnlineItemKey				@"On Line"
+#define kOfflineItemKey				@"Off Line"
+#define kOnlineItemImageName		@"online"
+#define kOfflineItemImageName		@"offline"
 
 @implementation CMRAppDelegate
 - (void) awakeFromNib
@@ -123,10 +128,22 @@
     [[NSWorkspace sharedWorkspace] launchApplication: [CMRPref helperAppPath]];
 }
 
+- (IBAction) runBoardWarrior: (id) sender
+{
+	NSBundle* mainBundle;
+    NSString* fileName;
+
+    mainBundle = [NSBundle mainBundle];
+    fileName = [mainBundle pathForResource:@"BWAgent" ofType:@"app"];
+	
+    [[NSWorkspace sharedWorkspace] launchApplication:fileName];
+}
+
 #pragma mark validation
 - (BOOL) validateToolbarItem : (NSToolbarItem *) theItem
 {
-	if ([theItem action] == @selector(launchCMLF:)) {
+	SEL action_ = [theItem action];
+	if (action_ == @selector(launchCMLF:)) {
 		NSString	*name_ = [CMRPref helperAppDisplayName];
 
 		if (nil == name_) {
@@ -137,6 +154,24 @@
 			return YES;
 		}
 	}
+
+	if (action_ == @selector(toggleOnlineMode:)) {
+		NSString		*title_;
+		NSImage			*image_;
+		
+		title_ = [CMRPref isOnlineMode]
+					? [self localizedString : kOnlineItemKey]
+					: [self localizedString : kOfflineItemKey];
+
+		image_ = [CMRPref isOnlineMode]
+					? [NSImage imageAppNamed : kOnlineItemImageName]
+					: [NSImage imageAppNamed : kOfflineItemImageName];
+		
+		[theItem setImage : image_];
+		[theItem setLabel : title_];
+		return YES;
+	}
+
 	return YES;
 }
 

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.26 2006/04/11 17:31:21 masakih Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.27 2006/06/11 23:47:26 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -710,10 +710,6 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 			[[CMRFavoritesManager defaultManager] removeFromFavoritesWithFilePath : path_];
 	}
 }
-- (IBAction) toggleOnlineMode : (id) sender
-{
-	[CMRPref toggleOnlineMode : sender];
-}
 
 - (void) updateVisibleRange
 {
@@ -746,16 +742,6 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 	[self updateVisibleRange];
 }
 
-- (IBAction) launchBWAgent : (id) sender
-{
-	NSBundle* mainBundle;
-    NSString* fileName;
-
-    mainBundle = [NSBundle mainBundle];
-    fileName = [mainBundle pathForResource:@"BWAgent" ofType:@"app"];
-	
-    [[NSWorkspace sharedWorkspace] launchApplication:fileName];
-}
 // make text area to be first responder
 - (IBAction) focus : (id) sender
 {

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Download.m,v 1.13 2006/06/06 19:26:32 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Download.m,v 1.14 2006/06/11 23:47:26 tsawada2 Exp $
   * BathyScaphe
   * 
   *
@@ -141,53 +141,12 @@
 	return;
 }
 
-- (void) validateWhetherDatOchi
+- (void) beginNotFoundAlertSheetWithDownloader: (ThreadTextDownloader *) downloader_
 {
-	NSString *boardName_ = [self boardName];
-	BOOL	URLIsInvalidAndChanged;
-	URLIsInvalidAndChanged = [[BoardManager defaultManager] tryToDetectMovedBoard : boardName_];
-	
-	if(URLIsInvalidAndChanged) {
-		[self reloadThread: nil];
-	} else {
-		[self setDatOchiThread: YES];
-	}
-}
-
-- (void) threadTextDownloaderDidDetectDatOchi : (NSNotification *) notification
-{
-	CMRDATDownloader	*downloader_;
-	
-	UTILAssertNotificationName(
-		notification,
-		CMRDATDownloaderDidDetectDatOchiNotification);
-		
-	downloader_ = [notification object];
-	UTILAssertKindOfClass(downloader_, CMRDATDownloader);
-	[self removeFromNotificationCeterWithDownloader : downloader_];
-	
-	//NSLog(@"Auto-Detect DatOchi");
-	//[self setDatOchiThread : YES];
-	[self validateWhetherDatOchi];
-}
-
-- (void) threadTextDownloaderNotFound : (NSNotification *) notification
-{
-	ThreadTextDownloader	*downloader_;
-	// âﬂãéÉçÉOåüçı
 	NSURL					*threadURL_;
 	//NSString				*alternateButton_ = nil;
 	NSString				*filePath_;
 	BOOL					fileExists_;
-	
-	UTILAssertNotificationName(
-		notification,
-		CMRDownloaderNotFoundNotification);
-	
-	downloader_ = [notification object];
-	UTILAssertKindOfClass(downloader_, ThreadTextDownloader);
-	[self removeFromNotificationCeterWithDownloader : downloader_];
-	
 	threadURL_ = [downloader_ threadURL];
 	filePath_ = [downloader_ filePathToWrite];
 	
@@ -214,8 +173,58 @@
 					   modalDelegate : self
 					  didEndSelector : @selector(threadNotFoundSheetDidEnd:returnCode:contextInfo:)
 						 contextInfo : [downloader_ retain]];
+}
 
-	return;
+- (void) validateWhetherDatOchiWithDownloader: (ThreadTextDownloader *) downloader_
+{
+	unsigned	resCount;
+	resCount = [downloader_ nextIndex];
+
+	if(resCount < 1001) {
+		[self beginNotFoundAlertSheetWithDownloader: downloader_];
+	} else {
+		[self setDatOchiThread: YES];
+
+		if ([CMRPref informWhenDetectDatOchi]) {
+			BSTitleRulerView *view_ = (BSTitleRulerView *)[[self scrollView] horizontalRulerView];
+
+			[view_ setCurrentMode: [[self class] rulerModeForInformDatOchi]];
+			[view_ setInfoStr: [self localizedString: @"titleRuler info auto-detected title"]];
+			[[self scrollView] setRulersVisible: YES];
+			
+			[NSTimer scheduledTimerWithTimeInterval: 5.0 target: self selector: @selector(cleanUpTitleRuler:) userInfo: nil repeats: NO];
+		}
+	}
+}
+
+- (void) threadTextDownloaderDidDetectDatOchi : (NSNotification *) notification
+{
+	CMRDATDownloader	*downloader_;
+	
+	UTILAssertNotificationName(
+		notification,
+		CMRDATDownloaderDidDetectDatOchiNotification);
+		
+	downloader_ = [notification object];
+	UTILAssertKindOfClass(downloader_, CMRDATDownloader);
+	[self removeFromNotificationCeterWithDownloader : downloader_];
+	
+	[self validateWhetherDatOchiWithDownloader: downloader_];
+}
+
+- (void) threadTextDownloaderNotFound : (NSNotification *) notification
+{
+	ThreadTextDownloader	*downloader_;
+	
+	UTILAssertNotificationName(
+		notification,
+		CMRDownloaderNotFoundNotification);
+	
+	downloader_ = [notification object];
+	UTILAssertKindOfClass(downloader_, ThreadTextDownloader);
+	[self removeFromNotificationCeterWithDownloader : downloader_];
+
+	[self beginNotFoundAlertSheetWithDownloader: downloader_];
 }
 
 - (BOOL) alertShowHelp : (NSAlert *) alert

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadView.m,v 1.9 2006/01/25 11:22:03 tsawada2 Exp $
+  * $Id: CMRThreadView.m,v 1.10 2006/06/11 23:47:26 tsawada2 Exp $
   * 
   * CMRThreadView.m
   *
@@ -417,6 +417,7 @@ static NSString *mActionGetKeysForTag[] = {
 							  forIndexes : [indexes_ objectEnumerator]
 					   withAttributeName : mActionGetKeysForTag[tag]];
 	}
+	//[menu_ setAutoenablesItems : YES];
 	
 	return menu_;
 }
@@ -723,7 +724,6 @@ static void showPoofAnimationForInvisibleAbone(CMRThreadView *tView, unsigned in
 	id					prev  = nil;
 	int					state = NSOffState;
 	NSNumber			*mIndex;
-	
 	while (mIndex = [anIndexEnum nextObject]) {
 		m = [L messageAtIndex : [mIndex unsignedIntValue]];
 		v = [m valueForKey : aName];
@@ -754,9 +754,11 @@ static void showPoofAnimationForInvisibleAbone(CMRThreadView *tView, unsigned in
 	
 	if (@selector(messageCopy:) == action_)
 		return ([indexEnum_ nextObject] != nil);
-	if (@selector(messageReply:) == action_)
+	if (@selector(messageReply:) == action_) {
+		//if ([indexEnum_ nextObject] == nil) return NO;
+		//return [[self delegate] threadView:self validateAction: action_];
 		return ([indexEnum_ nextObject] != nil);
-	
+	}
 	if (@selector(changeMessageAttributes:) == action_) {
 		int		tag   = [theItem tag];
 		

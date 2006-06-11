@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.13 2006/04/11 17:31:21 masakih Exp $
+  * $Id: AppDefaults.m,v 1.14 2006/06/11 23:47:26 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -33,6 +33,8 @@ NSString *const AppDefaultsWillSaveNotification = @"AppDefaultsWillSaveNotificat
 
 #define AppDefaultsOpenInBgKey				@"OpenLinkInBg"
 #define AppDefaultsQuietDeletionKey			@"QuietDeletion"
+
+#define	AppDefaultsInformDatOchiKey			@"InformWhenDatOchi"
 
 // History
 #define AppDefaultsHistoryThreadsKey		@"ThreadHistoryItemLimit"
@@ -666,6 +668,15 @@ ErrGetHTTPProxySetting:
 - (void) setMaxCountForSearchHistory : (int) counts
 {
 	[[self defaults] setInteger : counts forKey : AppDefaultsHistorySearchKey];
+}
+#pragma mark CometBlaster Addition
+- (BOOL) informWhenDetectDatOchi
+{
+	return [[self defaults] boolForKey: AppDefaultsInformDatOchiKey defaultValue: YES];
+}
+- (void) setInformWhenDetectDatOchi: (BOOL) shouldInform
+{
+	[[self defaults] setBool: shouldInform forKey: AppDefaultsInformDatOchiKey];
 }
 @end
 

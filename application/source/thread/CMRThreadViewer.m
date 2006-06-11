@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.26 2006/03/11 14:42:22 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.27 2006/06/11 23:47:26 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -52,10 +52,7 @@ NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEnd
 	}
 	return self;
 }
-/*- (BOOL) shouldCascadeWindows
-{
-	return NO;
-}*/
+
 - (void) dealloc
 {
 	[CMRPopUpMgr closePopUpWindowForOwner:self];
@@ -64,7 +61,6 @@ NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEnd
 	[m_indexingStepper release];
 	[m_componentsView release];
 	[_layout release];
-	//[_textStorage release];
 	
 	[_history release];
 	[super dealloc];
@@ -76,15 +72,22 @@ NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEnd
 	return @"CMRThreadViewer";
 }
 
-- (NSString *) windowTitleForDocumentDisplayName : (NSString *) displayName
+- (NSString *) titleForTitleBar
 {
 	NSString *bName_ = [self boardName];
 	NSString *tTitle_ = [self title];
 
 	if ((bName_ == nil) || (tTitle_ == nil))
-		return displayName;
-
+		return nil;
+	
 	return [NSString stringWithFormat:@"%@ - %@", tTitle_, bName_];
+}
+
+- (NSString *) windowTitleForDocumentDisplayName : (NSString *) displayName
+{
+	NSString *alternateName = [self titleForTitleBar];
+
+	return (alternateName ? alternateName : displayName);
 }
 
 /**
@@ -251,29 +254,30 @@ FileNotExistsAutoReloadIfNeeded:
 	title_ = [self title];
 	if (nil == title_)
 		title_ = [self datIdentifier];
+	// datIdentifier をとってもなお nil の場合がある
+	if (nil != title_) {
+		[[CMRHistoryManager defaultManager]
+			addItemWithTitle : title_
+						type : CMRHistoryThreadEntryType
+					  object : [self threadIdentifier]];
 		
-	[[CMRHistoryManager defaultManager]
-		addItemWithTitle : title_
-					type : CMRHistoryThreadEntryType
-				  object : [self threadIdentifier]];
-	
-	// 履歴メニューの更新（丸ごと書き換える）
-	[[BSHistoryMenuManager defaultManager] updateHistoryMenuWithDefaultMenu];
-	
-	// 2004-04-10 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
-	// ----------------------------------------
-	//フォントの変更を反映させる。
-	// Mac OS X 10.3 から TextView のフォントを変更すると、即座に
-	// 結果が反映されるようになったため、内容が空のときに反映しないと
-	// 既存のスレッドのフォントがすべて変更されてしまう。
-	{
-		NSFont	*font = [CMRPref threadsViewFont];
+		// 履歴メニューの更新（丸ごと書き換える）
+		[[BSHistoryMenuManager defaultManager] updateHistoryMenuWithDefaultMenu];
 		
-		if (NO == [[[self textView] font] isEqual : font])
-			[[self textView] setFont : font];
+		// 2004-04-10 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+		// ----------------------------------------
+		//フォントの変更を反映させる。
+		// Mac OS X 10.3 から TextView のフォントを変更すると、即座に
+		// 結果が反映されるようになったため、内容が空のときに反映しないと
+		// 既存のスレッドのフォントがすべて変更されてしまう。
+		{
+			NSFont	*font = [CMRPref threadsViewFont];
+			
+			if (NO == [[[self textView] font] isEqual : font])
+				[[self textView] setFont : font];
+		}
+		UTILNotifyName(CMRThreadViewerDidChangeThreadNotification);
 	}
-	
-	UTILNotifyName(CMRThreadViewerDidChangeThreadNotification);
 }
 - (CMRThreadAttributes *) threadAttributes
 {
@@ -469,14 +473,7 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 		// ファイルからの読み込み、変換が終了
 		// すでにレイアウトのタスクを開始したので、
 		// オンラインモードなら更新する
-		//
-		
-		// 2006-01-17 tsawada2<ben-sawa@td5.so-net.ne.jp>
-		// 内容を表示しないで「スレッドを更新」した場合（スレッド一覧から更新した）でも、AA スレッドのレスを
-		// AA フォントでレンダリングするために、このタイミングで changeAllMessageAttributes: flags: を実行する。
-		//if([[self threadAttributes] isAAThread])
-		//	[[self threadLayout] changeAllMessageAttributes : YES flags : CMRAsciiArtMask];
-		
+		//		
 		if(![self isDatOchiThread])
 			[self reloadIfOnlineMode : self];
 	} else {

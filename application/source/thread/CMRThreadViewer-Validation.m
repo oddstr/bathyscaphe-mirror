@@ -1,5 +1,5 @@
 /*
-    $Id: CMRThreadViewer-Validation.m,v 1.17 2006/03/07 15:17:40 tsawada2 Exp $
+    $Id: CMRThreadViewer-Validation.m,v 1.18 2006/06/11 23:47:26 tsawada2 Exp $
     CMRThreadViewer-Action.m から独立
     Created at 2005-02-16 by tsawada2.
 */
@@ -15,11 +15,6 @@
 //////////////////////////////////////////////////////////////////////
 #pragma mark Define and Constants
 //////////////////////////////////////////////////////////////////////
-#define kOnlineItemKey				@"On Line"
-#define kOfflineItemKey				@"Off Line"
-#define kOnlineItemImageName		@"online"
-#define kOfflineItemImageName		@"offline"
-
 #define kReplyItemKey				@"Reply..."
 #define kReplyToItemKey				@"Reply 2..."
 
@@ -191,23 +186,7 @@ static int messageMaskForTag(int tag)
 			([self isDatOchiThread] ? NSOnState : NSOffState)];
 		return isSelected_;
 	}
-	// オンライン
-	if (@selector(toggleOnlineMode:) == action_) {
-		NSString		*title_;
-		NSImage			*image_;
-		
-		title_ = [CMRPref isOnlineMode]
-					? [self localizedString : kOnlineItemKey]
-					: [self localizedString : kOfflineItemKey];
 
-		image_ = [CMRPref isOnlineMode]
-					? [NSImage imageAppNamed : kOnlineItemImageName]
-					: [NSImage imageAppNamed : kOfflineItemImageName];
-		
-		[theItem setImage : image_];
-		[theItem setTitle : title_];
-		return YES;
-	}
 	// レス
 	if (action_ == @selector(reply:)) {
 		NSString		*title_;
@@ -278,8 +257,7 @@ static int messageMaskForTag(int tag)
 	   )
 	{ return [self shouldShowContents]; }
 	
-	if (action_ == @selector(launchBWAgent:)			||
-	   action_ == @selector(openDefaultNoNameInputPanel:) ||
+	if (action_ == @selector(openDefaultNoNameInputPanel:) ||
 	   action_ == @selector(showThreadWithMenuItem:)
 	   )
 	{ return YES; }
@@ -321,7 +299,7 @@ static int messageMaskForTag(int tag)
 	
 	if (action_ == @selector(selectFirstVisibleRange:)	 ||
 	   action_ == @selector(selectLastVisibleRange:)	 ||
-	   action_ == @selector(reloadThread:)				 ||
+//	   action_ == @selector(reloadThread:)				 ||
 	   action_ == @selector(copyURL:)					 ||
 	   action_ == @selector(copyThreadAttributes:)		 ||
 	   action_ == @selector(copyInfoFromContextualMenu:) ||
@@ -330,6 +308,9 @@ static int messageMaskForTag(int tag)
 	   action_ == @selector(openBBSInBrowser:) 
 	   )
 	{ return isSelected_; }
+	
+	if (action_ == @selector(reloadThread:))
+		return (isSelected_ && ![self isDatOchiThread]);
 	
 	if (action_ == @selector(openLogfile:)		||
 	   action_ == @selector(openInBrowser:)		||

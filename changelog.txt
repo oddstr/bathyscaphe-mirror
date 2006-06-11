@@ -1,3 +1,28 @@
+2006-06-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/MainMenu.nib
+	* application/Resources/Japanese.lproj/Browser.nib
+	* application/Resources/Japanese.lproj/ThreadViewer.strings
+	* application/Resources/Japanese.lproj/Localizable.strings
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/mark_the_thread.html
+	* application/Resources/Japanese.lproj/BathyScapheHelp/BathyScapheHelp.helpindex
+	* application/Resources/Japanese.lproj/BathyScapheHelp/BathyScapheHelp idx
+		v120-BASED-BRANCH の変更をマージ（正確には、ブランチのファイルに置き換え）。
+	* application/Resources/image/titleRulerInfoIcon.tiff
+		[新規追加] v120-BASED-BRANCH 同様に新規追加。
+	* application/source/browser/BSTitleRulerView.(h|m)
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/source/browser/CMRBrowser.m
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/thread/CMRThreadViewer-Download.m
+	* application/source/thread/CMRThreadViewer-Link.m
+	* application/source/thread/CMRThreadViewer-Validation.m
+	* application/source/thread/CMRThreadViewer-ViewAccessor.m
+	* application/source/thread/CMRThreadViewer.(h|m)
+	* application/source/thread/CMRThreadViewer_p.h
+	* application/source/preferences/AppDefaults.(h|m)
+	* pplication/source/view/CMRThreadView.(h|m)
+	* application/source/CMRAppDelegate.(h|m)
+		v120-BASED-BRANCH の変更をマージ。
 2006-06-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadViewer-Download.m
 		ステータスコード 302 は、間違った URL によるアクセスの結果として返される場合もあるので、302 の場合は

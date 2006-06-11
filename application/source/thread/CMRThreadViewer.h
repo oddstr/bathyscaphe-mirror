@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.12 2006/03/11 14:42:22 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.13 2006/06/11 23:47:26 tsawada2 Exp $
   * 
   * CMRThreadViewer.h
   *
@@ -17,9 +17,7 @@
 
 
 @interface CMRThreadViewer : CMRStatusLineWindowController
-{
-	//NSTextStorage				*_textStorage;
-	
+{	
 	// History
 	unsigned					_historyIndex;
 	NSMutableArray				*_history;
@@ -67,6 +65,8 @@
 
 - (CMRThreadLayout *) threadLayout;
 - (CMRThreadAttributes *) threadAttributes;
+
+- (NSString *) titleForTitleBar;
 
 /* called when thread did be changed */
 - (void) didChangeThread;
@@ -120,12 +120,14 @@
 - (IBAction) openBBSInBrowser : (id) sender;
 - (IBAction) openLogfile : (id) sender;
 - (IBAction) addFavorites : (id) sender;
-- (IBAction) toggleOnlineMode : (id) sender;
+// deprecated in BathyScaphe 1.5 and later. Use CMRAppDelegate's toggleOnlineMode: instead.
+//- (IBAction) toggleOnlineMode : (id) sender;
 - (IBAction) selectFirstVisibleRange : (id) sender;
 - (IBAction) selectLastVisibleRange : (id) sender;
 
 // Sync BoardList
-- (IBAction) launchBWAgent : (id) sender;
+// deprecated in BathyScaphe 1.5 and later. Use CMRAppDelegate's runBoardWarrior: instead.
+//- (IBAction) launchBWAgent : (id) sender;
 // make text area to be first responder
 - (IBAction) focus : (id) sender;
 // NOTE: It is a history item's action.

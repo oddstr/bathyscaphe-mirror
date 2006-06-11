@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.7 2006/04/11 17:31:21 masakih Exp $
+  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.8 2006/06/11 23:47:26 tsawada2 Exp $
   * 
   * CMRThreadViewer-ViewAccessor.m
   *
@@ -14,7 +14,6 @@
 #import "CMRThreadView.h"
 #import "CMRMainMenuManager.h"
 #import "CMRMessageAttributesTemplate.h"
-
 
 // for debugging only
 #define UTIL_DEBUGGING		0
@@ -334,9 +333,20 @@
 	[super setupStatusLine];
 }*/
 
++ (BOOL) shouldShowTitleRulerView
+{
+	return NO;
+}
+
++ (BSTitleRulerModeType) rulerModeForInformDatOchi
+{
+	return BSTitleRulerShowInfoOnlyMode;
+}
+
 - (void) setupScrollView
 {
-	CMXScrollView	*scrollView_ = [self scrollView];;
+	CMXScrollView	*scrollView_ = [self scrollView];
+	id ruler;
 	
 	{
 		NSNotificationCenter	*center_;
@@ -366,6 +376,23 @@
 						alignment : CMXScrollViewHorizontalRight];
 	[scrollView_ addAccessoryView : [[self indexingStepper] contentView] 
 						alignment : CMXScrollViewHorizontalRight];
+
+	// Title Ruler
+	[[scrollView_ class] setRulerViewClass : [BSTitleRulerView class]];
+	ruler = [[BSTitleRulerView alloc] initWithScrollView : scrollView_ orientation : NSHorizontalRuler];
+
+	[scrollView_ setHorizontalRulerView : ruler];
+
+	[scrollView_ setHasHorizontalRuler : YES];
+	[scrollView_ setRulersVisible : [[self class] shouldShowTitleRulerView]];
+}
+
+- (void) cleanUpTitleRuler: (NSTimer *) aTimer
+{
+	BSTitleRulerView *view_ = (BSTitleRulerView *)[[self scrollView] horizontalRulerView];
+
+	[[self scrollView] setRulersVisible: [[self class] shouldShowTitleRulerView]];
+	[view_ setCurrentMode: BSTitleRulerShowTitleOnlyMode];
 }
 
 - (void) setupTextView

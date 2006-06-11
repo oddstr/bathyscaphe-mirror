@@ -1,39 +1,30 @@
 //
-//  BSTitleRulerView.m
+//  $Id: BSTitleRulerView.m,v 1.11 2006/06/11 23:47:26 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/09/22.
-//  Copyright 2005 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2006 BathyScaphe Project. All rights reserved.
 //
 
 #import "BSTitleRulerView.h"
-#import "CMRThreadAttributes.h"
 #import "AppDefaults.h"
 
 static NSString *const kTRViewBgImgBlueKey				= @"titleRulerBgAquaBlue";
 static NSString *const kTRViewBgImgGraphiteKey			= @"titleRulerBgAquaGraphite";
 static NSString *const kTitleRulerViewDefaultTitleKey	= @"titleRuler default title";
-static NSString *const kTitleRulerViewNilTitleKey		= @"titleRuler nil title";
-static NSString *const kTitleRulerViewNilBNameKey		= @"titleRuler nil boardName";
-
 static NSString *const kTRViewBgImageNonActiveKey		= @"titleRulerBgNotActive";
+static NSString *const kTRViewInfoIconKey				= @"titleRulerInfoIcon";
 
-@implementation BSTitleRulerView
-
-//float	imgWidth, imgHeight;
-//float	imgNAWidth, imgNAHeight; 
 NSRect	bgImgRect;
 NSRect	bgImgNARect;
 
+@implementation BSTitleRulerView
+
 #pragma mark Accessors
+
 - (NSImage *) bgImage
 {
 	return m_bgImage;
-}
-
-- (NSString *) titleStr
-{
-	return m_titleStr;
 }
 
 - (NSImage *) bgImageNonActive
@@ -41,21 +32,93 @@ NSRect	bgImgNARect;
 	return m_bgImageNonActive;
 }
 
-#pragma mark Private
+- (NSString *) titleStr
+{
+	return m_titleStr;
+}
+
+- (void) setTitleStr : (NSString *) aString
+{
+	[self setTitleStrWithoutNeedingDisplay: aString];
+	[self setNeedsDisplay: YES];
+}
+
+- (void) setTitleStrWithoutNeedingDisplay: (NSString *) aString
+{
+	[aString retain];
+	[m_titleStr release];
+	m_titleStr = aString;
+}
+
+- (NSString *) infoStr
+{
+	return m_infoStr;
+}
+
+- (void) setInfoStr: (NSString *) aString
+{
+	[self setInfoStrWithoutNeedingDisplay: aString];
+	[self setNeedsDisplay: YES];
+}
+
+- (void) setInfoStrWithoutNeedingDisplay: (NSString *) aString
+{
+	[aString retain];
+	[m_infoStr release];
+	m_infoStr = aString;
+}
+
+- (NSColor *) textColor
+{
+	return m_textColor;
+}
+
+- (void) setTextColor: (NSColor *) aColor
+{
+	[aColor retain];
+	[m_textColor release];
+	m_textColor = aColor;
+}
+
+- (BSTitleRulerModeType) currentMode
+{
+	return _currentMode;
+}
+
+- (void) setCurrentMode: (BSTitleRulerModeType) newType
+{
+	float newThickness;
+	_currentMode = newType;
+
+	switch(newType) {
+	case BSTitleRulerShowTitleOnlyMode:
+		newThickness = 22.0;
+		break;
+	case BSTitleRulerShowInfoOnlyMode:
+		newThickness = 36.0;
+		break;
+	case BSTitleRulerShowTitleAndInfoMode:
+		newThickness = 58.0;
+		break;
+	default:
+		newThickness = 22.0;
+		break;
+	}
+	
+	[self setRuleThickness: newThickness];
+}
+
+#pragma mark Private Utilities
 
 - (void) setBgImage : (NSImage *) anImage
 {
 	[anImage retain];
 	[m_bgImage release];
 	m_bgImage = anImage;
-
-	//imgWidth	= [m_bgImage size].width;
-	//imgHeight	= [m_bgImage size].height;
 	
 	NSSize	tmp_ = [m_bgImage size];
 	bgImgRect = NSMakeRect(0, 0, tmp_.width, tmp_.height);
 
-	// 意外と重要
 	[m_bgImage setFlipped : [self isFlipped]];
 }
 
@@ -65,23 +128,13 @@ NSRect	bgImgNARect;
 	[m_bgImageNonActive release];
 	m_bgImageNonActive = anImage;
 	
-	//imgNAWidth	= [m_bgImageNonActive size].width;
-	//imgNAHeight	= [m_bgImageNonActive size].height;
-	
 	NSSize	tmp_ = [m_bgImageNonActive size];
 	bgImgNARect = NSMakeRect(0, 0, tmp_.width, tmp_.height);
 	
 	[m_bgImageNonActive setFlipped : [self isFlipped]];
 }
 
-- (void) setTitleStr : (NSString *) aString
-{
-	[aString retain];
-	[m_titleStr release];
-	m_titleStr = aString;
-}
-
-+ (NSDictionary *) attrTemplate
++ (NSDictionary *) attrTemplateForTitle
 {
 	NSDictionary	*tmp;
 	NSColor			*color_;
@@ -104,9 +157,34 @@ NSRect	bgImgNARect;
 	return tmp;
 }
 
++ (NSDictionary *) attrTemplateForInfo
+{
+	NSDictionary	*tmp;
+	NSColor			*color_;
+
+	color_ = [NSColor blackColor];
+
+	tmp = [NSDictionary dictionaryWithObjectsAndKeys :
+				[NSFont systemFontOfSize : 13.0], NSFontAttributeName,
+				color_, NSForegroundColorAttributeName,
+				nil];
+
+	return tmp;
+}
+
++ (NSColor *) infoBgColor
+{
+	return [NSColor colorWithCalibratedRed: 0.918 green: 0.847 blue: 0.714 alpha: 1.0];
+}
+
 - (NSAttributedString *) titleForDrawing
 {
-	return [[[NSAttributedString alloc] initWithString : m_titleStr attributes : [[self class] attrTemplate]] autorelease];
+	return [[[NSAttributedString alloc] initWithString: [self titleStr] attributes: [[self class] attrTemplateForTitle]] autorelease];
+}
+
+- (NSAttributedString *) infoForDrawing
+{
+	return [[[NSAttributedString alloc] initWithString: [self infoStr] attributes: [[self class] attrTemplateForInfo]] autorelease];
 }
 
 - (BOOL) isGraphiteNow
@@ -117,104 +195,48 @@ NSRect	bgImgNARect;
 	return NO;
 }
 
-#pragma mark -
+#pragma mark Setup & Cleanup
 
-- (id) initWithScrollView : (NSScrollView *) scrollView ofBrowser : (CMRBrowser *) browser
+- (id) initWithScrollView: (NSScrollView *) aScrollView orientation: (NSRulerOrientation) orientation
 {
-	[self setTitleStr : NSLocalizedString(kTitleRulerViewDefaultTitleKey, @"BathyScaphe")];
-	[self setBgImage : ([self isGraphiteNow] ? [NSImage imageAppNamed : kTRViewBgImgGraphiteKey]
-											 : [NSImage imageAppNamed : kTRViewBgImgBlueKey])];
-	
-	[self setBgImageNonActive : [NSImage imageAppNamed : kTRViewBgImageNonActiveKey]];
+	if (self = [super initWithScrollView : aScrollView orientation : NSHorizontalRuler]) {
+		// Original NSRulerView Properties
+		[self setMarkers : nil];
+		[self setReservedThicknessForMarkers : 0.0];
 
-	[super initWithScrollView : scrollView orientation : NSHorizontalRuler];
+		// Notifications
+		[[NSNotificationCenter defaultCenter]
+			 addObserver : self
+				selector : @selector(userDidChangeSystemColors:)
+					name : NSSystemColorsDidChangeNotification
+				  object : nil];
 
-	[self setMarkers : nil];
-	[self setReservedThicknessForMarkers : 0.0];
-	[self setRuleThickness : 22.0];
+		[[NSNotificationCenter defaultCenter]
+			 addObserver : self
+				selector : @selector(keyWindowDidChange:)
+					name : NSWindowDidBecomeKeyNotification
+				  object : [self window]];
 
-	[[NSNotificationCenter defaultCenter]
-	     addObserver : self
-	        selector : @selector(threadViewerDidChangeThread:)
-	            name : CMRThreadViewerDidChangeThreadNotification
-	          object : browser]; // 通知の発信元が browser のもののみ観察する
+		[[NSNotificationCenter defaultCenter]
+			 addObserver : self
+				selector : @selector(keyWindowDidChange:)
+					name : NSWindowDidResignKeyNotification
+				  object : [self window]];
 
-	[[NSNotificationCenter defaultCenter]
-	     addObserver : self
-	        selector : @selector(userDidChangeSystemColors:)
-	            name : NSSystemColorsDidChangeNotification
-	          object : nil];
+		// BSTitleRulerView Settings
+		[self setBgImage : ([self isGraphiteNow] ? [NSImage imageAppNamed : kTRViewBgImgGraphiteKey]
+												 : [NSImage imageAppNamed : kTRViewBgImgBlueKey])];
+		
+		[self setBgImageNonActive : [NSImage imageAppNamed : kTRViewBgImageNonActiveKey]];
+		[self setCurrentMode : BSTitleRulerShowTitleOnlyMode];
 
-	[[NSNotificationCenter defaultCenter]
-	     addObserver : self
-	        selector : @selector(keyWindowDidChange:)
-	            name : NSWindowDidBecomeKeyNotification
-	          object : [self window]];
-
-	[[NSNotificationCenter defaultCenter]
-	     addObserver : self
-	        selector : @selector(keyWindowDidChange:)
-	            name : NSWindowDidResignKeyNotification
-	          object : [self window]];
-  
+		[self setTitleStr : NSLocalizedString(kTitleRulerViewDefaultTitleKey, @"BathyScaphe")];
+	}
 	return self;
-}
-
-- (void) drawRect : (NSRect) aRect
-{
-	NSRect	rect_;
-	BOOL	isKeyWin_;
-	NSImage	*img_;
-	NSRect	img_Rect;
-
-	// 完全に領域を塗りつぶすため、微調整
-	rect_ = [self frame];
-	rect_.origin.x -= 1.0;
-	rect_.origin.y -= 1.0;
-
-	isKeyWin_ = [[self window] isKeyWindow];
-	img_ = isKeyWin_ ? [self bgImage] : [self bgImageNonActive];
-	img_Rect = isKeyWin_ ? bgImgRect : bgImgNARect;
-	// 背景を描く
-	[img_ drawInRect : rect_ fromRect : img_Rect operation : NSCompositeCopy fraction : 1.0];
-	// スレッドタイトルを描く
-	[[self titleForDrawing] drawInRect : NSInsetRect(rect_, 5.0, 2.0)];
-}
-
-- (void) threadViewerDidChangeThread : (NSNotification *) theNotification
-{
-	NSString				*title_, *bName_;
-	CMRThreadAttributes		*threadAttributes_;
-
-	threadAttributes_ = [[theNotification object] threadAttributes];
-	title_ = [threadAttributes_ threadTitle];
-	bName_ = [threadAttributes_ boardName];
-	if(nil == title_)
-		title_ = NSLocalizedString(kTitleRulerViewNilTitleKey, @"Title is nil");
-	if(nil == bName_)
-		bName_ = NSLocalizedString(kTitleRulerViewNilBNameKey, @"Board name is nil");
-	[self setTitleStr : [[NSString alloc] initWithFormat : @"%@ - %@", title_, bName_]];
-	[self setNeedsDisplay : YES];	// 再描画させるのが大切
-}
-
-- (void) userDidChangeSystemColors : (NSNotification *) theNotification
-{
-	[self setBgImage : ([self isGraphiteNow] ? [NSImage imageAppNamed : kTRViewBgImgGraphiteKey]
-											 : [NSImage imageAppNamed : kTRViewBgImgBlueKey])];
-	[self setNeedsDisplay : YES];
-}
-
-- (void) keyWindowDidChange : (NSNotification *) theNotification
-{
-	[self setNeedsDisplay : YES];
 }
 
 - (void) dealloc
 {
-	[[NSNotificationCenter defaultCenter]
-	  removeObserver : self
-	            name : CMRThreadViewerDidChangeThreadNotification
-	          object : nil];
 	[[NSNotificationCenter defaultCenter]
 	  removeObserver : self
 	            name : NSSystemColorsDidChangeNotification
@@ -230,7 +252,84 @@ NSRect	bgImgNARect;
 	          object : [self window]];
 
 	[m_titleStr release];
+	[m_infoStr release];
 	[m_bgImage release];
+	[m_bgImageNonActive release];
+	[m_textColor release];
 	[super dealloc];
+}
+
+#pragma mark Drawing
+
+- (void) drawTitleBarInRect: (NSRect) aRect
+{
+	BOOL	isKeyWin_;
+	NSImage	*img_;
+	NSRect	img_Rect;
+
+	isKeyWin_ = [[self window] isKeyWindow];
+	img_ = isKeyWin_ ? [self bgImage] : [self bgImageNonActive];
+	img_Rect = isKeyWin_ ? bgImgRect : bgImgNARect;
+
+	[img_ drawInRect : aRect fromRect : img_Rect operation : NSCompositeCopy fraction : 1.0];
+	[[self titleForDrawing] drawInRect : NSInsetRect(aRect, 5.0, 2.0)];
+}
+
+- (void) drawInfoBarInRect: (NSRect) aRect
+{
+	NSRect	iconRect;
+	NSImage	*icon_ = [NSImage imageAppNamed: kTRViewInfoIconKey];
+	[icon_ setFlipped: [self isFlipped]];
+	[[[self class] infoBgColor] set];
+	NSRectFill(aRect);	
+
+	iconRect = NSMakeRect(NSMinX(aRect)+5.0, NSMinY(aRect)+2.0, 32, 32);
+
+	[icon_ drawInRect: iconRect fromRect: NSMakeRect(0,0,32,32) operation: NSCompositeSourceOver fraction: 1.0];
+
+	aRect = NSInsetRect(aRect, 5.0, 7.0);
+	aRect.origin.x += 36.0;
+	[[self infoForDrawing] drawInRect : NSInsetRect(aRect, 5.0, 2.0)];
+}
+
+- (void) drawRect : (NSRect) aRect
+{
+	NSRect	rect_;
+
+	// 完全に領域を塗りつぶすため、微調整
+	rect_ = [self frame];
+	rect_.origin.x -= 1.0;
+	rect_.origin.y -= 1.0;
+
+	switch ([self currentMode]) {
+	case BSTitleRulerShowTitleOnlyMode:
+		[self drawTitleBarInRect: rect_];
+		break;
+	case BSTitleRulerShowInfoOnlyMode:
+		[self drawInfoBarInRect: rect_];
+		break;
+	case BSTitleRulerShowTitleAndInfoMode:
+		{
+			NSRect titleRect, infoRect;
+			NSDivideRect(rect_, &infoRect, &titleRect, 36.0, NSMaxYEdge);
+			[self drawTitleBarInRect: titleRect];
+			[self drawInfoBarInRect: infoRect];
+		}
+		break;
+	}
+}
+
+#pragma mark Notifications
+
+- (void) userDidChangeSystemColors : (NSNotification *) theNotification
+{
+	[self setBgImage : ([self isGraphiteNow] ? [NSImage imageAppNamed : kTRViewBgImgGraphiteKey]
+											 : [NSImage imageAppNamed : kTRViewBgImgBlueKey])];
+	[self setNeedsDisplay : YES];
+}
+
+- (void) keyWindowDidChange : (NSNotification *) theNotification
+{
+	[self setNeedsDisplay : YES];
 }
 @end

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.39 2006/04/11 17:31:21 masakih Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.40 2006/06/11 23:47:26 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -11,7 +11,6 @@
 #import "NSTableColumn+CMXAdditions.h"
 #import "CMRMainMenuManager.h"
 #import "AddBoardSheetController.h"
-#import "BSTitleRulerView.h"
 #import "CMRTextColumnCell.h"
 #import <SGAppKit/CMRPullDownIconBtn.h>
 #import <SGAppKit/BSIconAndTextCell.h>
@@ -357,17 +356,20 @@
 {
     return APP_BROWSER_STATUSLINE_IDENTIFIER;
 }
-- (void) setupScrollView
++ (BOOL) shouldShowTitleRulerView
 {
-	CMXScrollView *scView = [self scrollView];
-	id ruler;
-	[[scView class] setRulerViewClass : [BSTitleRulerView class]];
-	ruler = [[BSTitleRulerView alloc] initWithScrollView : scView ofBrowser : self];
-	[scView setHorizontalRulerView : ruler];
+	return YES;
+}
 
-	[super setupScrollView];
-	[scView setHasHorizontalRuler : YES];
-	[scView setRulersVisible : YES];
++ (BSTitleRulerModeType) rulerModeForInformDatOchi
+{
+	return BSTitleRulerShowTitleAndInfoMode;
+}
+
+- (void) cleanUpTitleRuler: (NSTimer *) aTimer
+{
+	[super cleanUpTitleRuler: aTimer];
+	[[[self scrollView] horizontalRulerView] setNeedsDisplay: YES];
 }
 
 - (void) setupSplitView

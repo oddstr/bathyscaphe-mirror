@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.33 2006/03/08 18:26:11 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.34 2006/06/11 23:47:26 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -100,6 +100,10 @@
 /* ç≈å„Ç…äJÇ¢ÇΩî¬ */
 - (NSString *) browserLastBoard;
 - (void) setBrowserLastBoard : (NSString *) boardName;
+
+/* CometBlaster Additions */
+- (BOOL) informWhenDetectDatOchi;
+- (void) setInformWhenDetectDatOchi: (BOOL) shouldInform;
 
 #pragma mark ThreadsList
 
