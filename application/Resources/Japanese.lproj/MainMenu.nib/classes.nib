@@ -50,7 +50,6 @@
                 googleSearch = id; 
                 historyMenuPerformBack = id; 
                 historyMenuPerformForward = id; 
-                launchBWAgent = id; 
                 openBBSInBrowser = id; 
                 openInBrowser = id; 
                 openLogfile = id; 
@@ -61,6 +60,7 @@
                 reloadThreadsList = id; 
                 removeDrawerItem = id; 
                 reply = id; 
+                runBoardWarrior = id; 
                 runSpamFilter = id; 
                 saveAsDefaultFrame = id; 
                 scrollFirstMessage = id; 

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.12.2.1 2006/06/08 00:04:49 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.12.2.2 2006/06/11 22:52:12 tsawada2 Exp $
   * 
   * CMRThreadViewer.h
   *
@@ -120,12 +120,14 @@
 - (IBAction) openBBSInBrowser : (id) sender;
 - (IBAction) openLogfile : (id) sender;
 - (IBAction) addFavorites : (id) sender;
-- (IBAction) toggleOnlineMode : (id) sender;
+// deprecated in BathyScaphe 1.5 and later. Use CMRAppDelegate's toggleOnlineMode: instead.
+//- (IBAction) toggleOnlineMode : (id) sender;
 - (IBAction) selectFirstVisibleRange : (id) sender;
 - (IBAction) selectLastVisibleRange : (id) sender;
 
 // Sync BoardList
-- (IBAction) launchBWAgent : (id) sender;
+// deprecated in BathyScaphe 1.5 and later. Use CMRAppDelegate's runBoardWarrior: instead.
+//- (IBAction) launchBWAgent : (id) sender;
 // make text area to be first responder
 - (IBAction) focus : (id) sender;
 // NOTE: It is a history item's action.

@@ -153,7 +153,6 @@
         {
             ACTIONS = {
                 addFavorites = id; 
-                addSmartItem = id; 
                 copyInfoFromContextualMenu = id; 
                 copyThreadAttributes = id; 
                 deleteThread = id; 
@@ -163,6 +162,7 @@
                 openThread = id; 
                 reloadThread = id; 
                 reply = id; 
+                runBoardWarrior = id; 
                 showBoardInspectorPanel = id; 
             }; 
             CLASS = FirstResponder; 

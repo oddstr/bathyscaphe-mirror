@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.h,v 1.12 2006/03/08 18:26:11 tsawada2 Exp $
+ * $Id: CMRAppDelegate.h,v 1.12.2.1 2006/06/11 22:52:12 tsawada2 Exp $
  * 
  * CMRAppDelegate.h
  *
@@ -37,6 +37,7 @@
 - (IBAction) miniaturizeAll : (id) sender;
 
 //- (IBAction) togglePreviewPanel : (id) sender;
+- (IBAction) runBoardWarrior: (id) sender;
 @end
 
 @interface NSApplication(ScriptingSupport)

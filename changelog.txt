@@ -1,3 +1,18 @@
+2006-06-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/MainMenu.nib
+	* application/Resources/Japanese.lproj/Browser.nib
+	* application/Resources/Japanese.lproj/ThreadViewer.strings
+	* application/Resources/Japanese.lproj/Localizable.strings
+	* application/source/CMRAppDelegate.(h|m)
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/thread/CMRThreadViewer.h
+	* application/source/thread/CMRThreadViewer-Validation.m
+		「掲示板リストの同期...」および「オンライン／オフラインの切り替え」について、CMRThreadViewer が
+		担当するのは不自然であり、CMRAppDelegate で処理するように変更。
+	* application/source/thread/CMRThreadViewer.m
+		スレッド一覧からスレッドを（表示させずに）更新したとき、そのスレッドであぼーん等によるログ詰まりが
+		発生していた場合の「削除して再取得」アラートで、「削除して再取得」をクリックすると、削除後に虹色カーソルが
+		出たまま応答しなくなる問題に対する最低限の対処（応答不能にはならないようにしたが、再取得が行われない）。
 ================================================= 1.2.2(v188.2)
 2006-06-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/view/CMRThreadView.m

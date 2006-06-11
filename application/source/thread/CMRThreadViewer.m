@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.26.2.1 2006/06/08 00:04:49 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.26.2.2 2006/06/11 22:52:12 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -254,29 +254,30 @@ FileNotExistsAutoReloadIfNeeded:
 	title_ = [self title];
 	if (nil == title_)
 		title_ = [self datIdentifier];
+	// datIdentifier をとってもなお nil の場合がある
+	if (nil != title_) {
+		[[CMRHistoryManager defaultManager]
+			addItemWithTitle : title_
+						type : CMRHistoryThreadEntryType
+					  object : [self threadIdentifier]];
 		
-	[[CMRHistoryManager defaultManager]
-		addItemWithTitle : title_
-					type : CMRHistoryThreadEntryType
-				  object : [self threadIdentifier]];
-	
-	// 履歴メニューの更新（丸ごと書き換える）
-	[[BSHistoryMenuManager defaultManager] updateHistoryMenuWithDefaultMenu];
-	
-	// 2004-04-10 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
-	// ----------------------------------------
-	//フォントの変更を反映させる。
-	// Mac OS X 10.3 から TextView のフォントを変更すると、即座に
-	// 結果が反映されるようになったため、内容が空のときに反映しないと
-	// 既存のスレッドのフォントがすべて変更されてしまう。
-	{
-		NSFont	*font = [CMRPref threadsViewFont];
+		// 履歴メニューの更新（丸ごと書き換える）
+		[[BSHistoryMenuManager defaultManager] updateHistoryMenuWithDefaultMenu];
 		
-		if (NO == [[[self textView] font] isEqual : font])
-			[[self textView] setFont : font];
+		// 2004-04-10 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+		// ----------------------------------------
+		//フォントの変更を反映させる。
+		// Mac OS X 10.3 から TextView のフォントを変更すると、即座に
+		// 結果が反映されるようになったため、内容が空のときに反映しないと
+		// 既存のスレッドのフォントがすべて変更されてしまう。
+		{
+			NSFont	*font = [CMRPref threadsViewFont];
+			
+			if (NO == [[[self textView] font] isEqual : font])
+				[[self textView] setFont : font];
+		}
+		UTILNotifyName(CMRThreadViewerDidChangeThreadNotification);
 	}
-	
-	UTILNotifyName(CMRThreadViewerDidChangeThreadNotification);
 }
 - (CMRThreadAttributes *) threadAttributes
 {
