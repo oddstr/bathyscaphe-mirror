@@ -1,3 +1,4 @@
+================================================= 1.2.2(v190)(Not Released) / CVS Tag : v120-BASED-BRANCH-MERGE-POINT-190
 2006-06-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/MainMenu.nib
 	* application/Resources/Japanese.lproj/Browser.nib
@@ -46,7 +47,7 @@
 		ただし、自動 dat 落ち判定は黙って実施される。
 ================================================= 1.2.2(v186)(Not Released) / CVS Tag : v120-BASED-BRANCH-MERGE-POINT-186
 2006-06-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	* application/Resources/image] benchan% cvs add titleRulerInfoIcon.tiff
+	* application/Resources/image/titleRulerInfoIcon.tiff
 		[v120-BASED-BRANCH 新規追加] 「BathyScaphe によって dat 落ちと判断されました。」というメッセージ
 		 の左に表示されるアイコン。
 	* application/source/thread/CMRThreadViewer.(h|m)
