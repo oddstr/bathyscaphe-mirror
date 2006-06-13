@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.15 2006/06/11 23:47:26 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.16 2006/06/13 01:16:35 tsawada2 Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -419,6 +419,7 @@ ErrInvalidLink:
 
 	[self reply : aView];
 	messenger_ = [self messenger : YES];
+	[self addMessenger: messenger_]; // 2006-06-06 Patch posted at CocoMonar Thread
 	[messenger_ append:@"" quote:NO replyTo:anIndexRange.location];
 }
 

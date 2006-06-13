@@ -1,3 +1,8 @@
+2006-06-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-Link.m
+		CocoMonar スレッドに 2006-06-06 に投稿されたパッチについて検討した結果、BathyScaphe でも
+		このパッチが必要で有効であることが確認できたため、このパッチを適用。
+		http://pc7.2ch.net/test/read.cgi/mac/1119974879/892 ほか。
 2006-06-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/MainMenu.nib
 	* application/Resources/Japanese.lproj/Browser.nib
