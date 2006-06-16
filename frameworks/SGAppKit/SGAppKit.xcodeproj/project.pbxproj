@@ -18,20 +18,6 @@
 				F5CF84CC02DB610E01A80002 /* CopyFiles */,
 				F5CF84B902DB5DCA01A80002 /* Rez */,
 			);
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = TestContainerTableView;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = app;
-			};
 			dependencies = (
 			);
 			name = TestContainerTableView;
@@ -179,40 +165,6 @@
 		F5CF84DA02DB66F101A80002 /* ItemController.h in Headers */ = {isa = PBXBuildFile; fileRef = F5CF84D802DB66F101A80002 /* ItemController.h */; };
 		F5CF84DB02DB66F101A80002 /* ItemController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5CF84D902DB66F101A80002 /* ItemController.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXBuildStyle section */
-		014CEA440018CDF011CA2923 /* Development */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = "PATCH=1";
-				OPTIMIZATION_CFLAGS = "-O0";
-				OTHER_CFLAGS = "-DPATCH=1";
-				ZERO_LINK = YES;
-			};
-			name = Development;
-		};
-		014CEA450018CDF011CA2923 /* Deployment */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUGGING_SYMBOLS = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				OPTIMIZATION_CFLAGS = "-O2";
-				OTHER_CFLAGS = (
-					"-DUTIL_BLOCK_DEBUG_WRITE",
-					"-DPATCH=1",
-				);
-				ZERO_LINK = NO;
-			};
-			name = Deployment;
-		};
-/* End PBXBuildStyle section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		F3FB8BA204459DF500A80005 /* CopyFiles */ = {
@@ -1005,29 +957,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = ../SGFoundation/build/;
-				FRAMEWORK_VERSION = A;
-				HEADER_SEARCH_PATHS = "";
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0x31960000,
-				);
-				PRODUCT_NAME = SGAppKit;
-				SECTORDER_FLAGS = "";
-				USE_GCC3_PFE_SUPPORT = NO;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = framework;
-			};
 			dependencies = (
 			);
 			name = SGAppKit;
@@ -1042,12 +971,6 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 871C7D13085BA38E009E0E53 /* Build configuration list for PBXProject "SGAppKit" */;
-			buildSettings = {
-			};
-			buildStyles = (
-				014CEA440018CDF011CA2923 /* Development */,
-				014CEA450018CDF011CA2923 /* Deployment */,
-			);
 			hasScannedForEncodings = 1;
 			mainGroup = 0867D691FE84028FC02AAC07 /* SGAppKit */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
@@ -1178,25 +1101,6 @@
 				F3FB8BA204459DF500A80005 /* CopyFiles */,
 				F3FB8B8004459A6E00A80005 /* Rez */,
 			);
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					/Users/takanori/Library/Frameworks,
-					../SGFoundation/build/,
-				);
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = "Product Unit Test";
-				REZ_EXECUTABLE = YES;
-				SECTORDER_FLAGS = "";
-				USE_GCC3_PFE_SUPPORT = NO;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
 			dependencies = (
 			);
 			name = "Product Unit Test";

@@ -1,27 +1,23 @@
 //
-//  BSSegmentedControlTbItem.h
+//  $Id: BSSegmentedControlTbItem.h,v 1.1.6.1 2006/06/16 00:33:11 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/08/30.
-//  Copyright 2005 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2006 BathyScaphe Project. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
-#import "CocoMonar_Prefix.h"
-
-/*!
-    @class			BSSegmentedControlTbItem
-    @abstract		BSSegmentedControlTbItem は、NSToolbarItem のサブクラスで、「戻る／進む」ボタンの
-					適切な validation のために用意されています。この toolbarItem は NSSegmentedControl を
-					view として持っています。
-    @discussion		このクラスはほとんどオリジナルの NSToolbarItem と変わりませんが、view item を適切に validate
-					するために、validate メソッドをオーバーライドしています。また、NSSegmentedControl を作成する
-					作業を一括して行うため、setupItemViewWithTarget: メソッドを独自に持っています。これは
-					ツールバー作成時に、CMRThreadViewerTbDelegate から呼び出されます。
-*/
 
 @interface BSSegmentedControlTbItem : NSToolbarItem {
-
+	@private
+	id	_delegate;
 }
-- (void) setupItemViewWithTarget : (id) windowController_;
+// validation は delegate が行う
+- (id) delegate;
+- (void) setDelegate: (id) aDelegate;
+@end
+
+@interface NSObject(BSSegmentedControlTbItemValidation)
+- (BOOL) segCtrlTbItem: (BSSegmentedControlTbItem *) item
+	   validateSegment: (int) segment;
 @end

@@ -1,5 +1,5 @@
 //
-//  $Id: BSTitleRulerView.m,v 1.10.2.1 2006/06/08 00:04:49 tsawada2 Exp $
+//  $Id: BSTitleRulerView.m,v 1.10.2.2 2006/06/16 00:33:11 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/09/22.
@@ -7,7 +7,6 @@
 //
 
 #import "BSTitleRulerView.h"
-#import "AppDefaults.h"
 
 static NSString *const kTRViewBgImgBlueKey				= @"titleRulerBgAquaBlue";
 static NSString *const kTRViewBgImgGraphiteKey			= @"titleRulerBgAquaGraphite";
@@ -15,22 +14,21 @@ static NSString *const kTitleRulerViewDefaultTitleKey	= @"titleRuler default tit
 static NSString *const kTRViewBgImageNonActiveKey		= @"titleRulerBgNotActive";
 static NSString *const kTRViewInfoIconKey				= @"titleRulerInfoIcon";
 
-NSRect	bgImgRect;
-NSRect	bgImgNARect;
+static NSRect	bgImgRect;
+static NSRect	bgImgNARect;
+
+static NSImage	*m_bgImage;
+static NSImage	*m_bgImageNonActive;
+static NSColor	*m_titleTextColor;
+
+#define	THICKNESS_FOR_TITLE	22.0
+#define	THICKNESS_FOR_INFO	36.0
+#define	TITLE_FONT_SIZE		12.0
+#define	INFO_FONT_SIZE		13.0
 
 @implementation BSTitleRulerView
 
 #pragma mark Accessors
-
-- (NSImage *) bgImage
-{
-	return m_bgImage;
-}
-
-- (NSImage *) bgImageNonActive
-{
-	return m_bgImageNonActive;
-}
 
 - (NSString *) titleStr
 {
@@ -68,18 +66,6 @@ NSRect	bgImgNARect;
 	m_infoStr = aString;
 }
 
-- (NSColor *) textColor
-{
-	return m_textColor;
-}
-
-- (void) setTextColor: (NSColor *) aColor
-{
-	[aColor retain];
-	[m_textColor release];
-	m_textColor = aColor;
-}
-
 - (BSTitleRulerModeType) currentMode
 {
 	return _currentMode;
@@ -92,46 +78,48 @@ NSRect	bgImgNARect;
 
 	switch(newType) {
 	case BSTitleRulerShowTitleOnlyMode:
-		newThickness = 22.0;
+		newThickness = THICKNESS_FOR_TITLE;
 		break;
 	case BSTitleRulerShowInfoOnlyMode:
-		newThickness = 36.0;
+		newThickness = THICKNESS_FOR_INFO;
 		break;
 	case BSTitleRulerShowTitleAndInfoMode:
-		newThickness = 58.0;
+		newThickness = (THICKNESS_FOR_TITLE + THICKNESS_FOR_INFO);
 		break;
 	default:
-		newThickness = 22.0;
+		newThickness = THICKNESS_FOR_TITLE;
 		break;
 	}
 	
 	[self setRuleThickness: newThickness];
 }
 
++ (NSColor *) titleTextColor
+{
+	return m_titleTextColor;
+}
+
++ (void) setTitleTextColor: (NSColor *) aColor
+{
+	m_titleTextColor = aColor;
+}
+
 #pragma mark Private Utilities
 
-- (void) setBgImage : (NSImage *) anImage
++ (void) registerBgImage: (NSImage *) anImage
 {
-	[anImage retain];
-	[m_bgImage release];
 	m_bgImage = anImage;
 	
 	NSSize	tmp_ = [m_bgImage size];
 	bgImgRect = NSMakeRect(0, 0, tmp_.width, tmp_.height);
-
-	[m_bgImage setFlipped : [self isFlipped]];
 }
 
-- (void) setBgImageNonActive : (NSImage *) anImage
++ (void) registerBgImageNonActive : (NSImage *) anImage
 {
-	[anImage retain];
-	[m_bgImageNonActive release];
 	m_bgImageNonActive = anImage;
 	
 	NSSize	tmp_ = [m_bgImageNonActive size];
 	bgImgNARect = NSMakeRect(0, 0, tmp_.width, tmp_.height);
-	
-	[m_bgImageNonActive setFlipped : [self isFlipped]];
 }
 
 + (NSDictionary *) attrTemplateForTitle
@@ -140,14 +128,14 @@ NSRect	bgImgNARect;
 	NSColor			*color_;
 	NSShadow		*shadow_;
 
-	color_ = ([CMRPref titleRulerViewTextUsesBlackColor] ? [NSColor blackColor] : [NSColor whiteColor]);
+	color_ = [self titleTextColor];
 
 	shadow_ = [[NSShadow alloc] init];
 	[shadow_ setShadowOffset     : NSMakeSize(1.5, -1.5)];
 	[shadow_ setShadowBlurRadius : 0.3];
 
 	tmp = [NSDictionary dictionaryWithObjectsAndKeys :
-				[NSFont boldSystemFontOfSize : 12.0], NSFontAttributeName,
+				[NSFont boldSystemFontOfSize : TITLE_FONT_SIZE], NSFontAttributeName,
 				color_, NSForegroundColorAttributeName,
 				shadow_, NSShadowAttributeName,
 				nil];
@@ -165,7 +153,7 @@ NSRect	bgImgNARect;
 	color_ = [NSColor blackColor];
 
 	tmp = [NSDictionary dictionaryWithObjectsAndKeys :
-				[NSFont systemFontOfSize : 13.0], NSFontAttributeName,
+				[NSFont systemFontOfSize : INFO_FONT_SIZE], NSFontAttributeName,
 				color_, NSForegroundColorAttributeName,
 				nil];
 
@@ -187,7 +175,7 @@ NSRect	bgImgNARect;
 	return [[[NSAttributedString alloc] initWithString: [self infoStr] attributes: [[self class] attrTemplateForInfo]] autorelease];
 }
 
-- (BOOL) isGraphiteNow
++ (BOOL) isGraphiteNow
 {
 	if ([NSColor currentControlTint] == NSGraphiteControlTint)
 		return YES;
@@ -197,6 +185,18 @@ NSRect	bgImgNARect;
 
 #pragma mark Setup & Cleanup
 
++ (void) initialize
+{
+	if (self == [BSTitleRulerView class]) {
+		[self registerBgImage: ([self isGraphiteNow] ? [NSImage imageAppNamed : kTRViewBgImgGraphiteKey]
+													 : [NSImage imageAppNamed : kTRViewBgImgBlueKey])];
+		[self registerBgImageNonActive: [NSImage imageAppNamed : kTRViewBgImageNonActiveKey]];
+
+		// initialize text color
+		[self setTitleTextColor: [NSColor whiteColor]];
+	}
+}
+		
 - (id) initWithScrollView: (NSScrollView *) aScrollView orientation: (NSRulerOrientation) orientation
 {
 	if (self = [super initWithScrollView : aScrollView orientation : NSHorizontalRuler]) {
@@ -223,13 +223,8 @@ NSRect	bgImgNARect;
 					name : NSWindowDidResignKeyNotification
 				  object : [self window]];
 
-		// BSTitleRulerView Settings
-		[self setBgImage : ([self isGraphiteNow] ? [NSImage imageAppNamed : kTRViewBgImgGraphiteKey]
-												 : [NSImage imageAppNamed : kTRViewBgImgBlueKey])];
-		
-		[self setBgImageNonActive : [NSImage imageAppNamed : kTRViewBgImageNonActiveKey]];
+		// BSTitleRulerView Properties
 		[self setCurrentMode : BSTitleRulerShowTitleOnlyMode];
-
 		[self setTitleStr : NSLocalizedString(kTitleRulerViewDefaultTitleKey, @"BathyScaphe")];
 	}
 	return self;
@@ -253,9 +248,7 @@ NSRect	bgImgNARect;
 
 	[m_titleStr release];
 	[m_infoStr release];
-	[m_bgImage release];
-	[m_bgImageNonActive release];
-	[m_textColor release];
+
 	[super dealloc];
 }
 
@@ -268,8 +261,10 @@ NSRect	bgImgNARect;
 	NSRect	img_Rect;
 
 	isKeyWin_ = [[self window] isKeyWindow];
-	img_ = isKeyWin_ ? [self bgImage] : [self bgImageNonActive];
+	img_ = isKeyWin_ ? m_bgImage : m_bgImageNonActive;
 	img_Rect = isKeyWin_ ? bgImgRect : bgImgNARect;
+
+	[img_ setFlipped: [self isFlipped]];
 
 	[img_ drawInRect : aRect fromRect : img_Rect operation : NSCompositeCopy fraction : 1.0];
 	[[self titleForDrawing] drawInRect : NSInsetRect(aRect, 5.0, 2.0)];
@@ -311,7 +306,7 @@ NSRect	bgImgNARect;
 	case BSTitleRulerShowTitleAndInfoMode:
 		{
 			NSRect titleRect, infoRect;
-			NSDivideRect(rect_, &infoRect, &titleRect, 36.0, NSMaxYEdge);
+			NSDivideRect(rect_, &infoRect, &titleRect, THICKNESS_FOR_INFO, NSMaxYEdge);
 			[self drawTitleBarInRect: titleRect];
 			[self drawInfoBarInRect: infoRect];
 		}
@@ -323,8 +318,9 @@ NSRect	bgImgNARect;
 
 - (void) userDidChangeSystemColors : (NSNotification *) theNotification
 {
-	[self setBgImage : ([self isGraphiteNow] ? [NSImage imageAppNamed : kTRViewBgImgGraphiteKey]
-											 : [NSImage imageAppNamed : kTRViewBgImgBlueKey])];
+	[[self class] registerBgImage : ([[self class] isGraphiteNow] ? [NSImage imageAppNamed : kTRViewBgImgGraphiteKey]
+																  : [NSImage imageAppNamed : kTRViewBgImgBlueKey])];
+
 	[self setNeedsDisplay : YES];
 }
 

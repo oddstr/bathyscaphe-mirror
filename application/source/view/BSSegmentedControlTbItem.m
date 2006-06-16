@@ -1,81 +1,53 @@
 //
-//  BSSegmentedControlTbItem.m
+//  $Id: BSSegmentedControlTbItem.m,v 1.2.4.1 2006/06/16 00:33:11 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/08/30.
-//  Copyright 2005 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2006 BathyScaphe Project. All rights reserved.
 //
 
 #import "BSSegmentedControlTbItem.h"
-#import "CMRThreadViewer_p.h"
-
-static NSString *const st_localizableStringsTableName	= @"ToolbarItems";
-
-static NSString *const st_historySC_seg0_ToolTipKey	= @"historySC_0_ToolTip";
-static NSString *const st_historySC_seg1_ToolTipKey = @"historySC_1_ToolTip";
 
 @implementation BSSegmentedControlTbItem
+- (id) delegate
+{
+	return _delegate;
+}
+
+- (void) setDelegate: (id) aDelegate
+{
+	_delegate = aDelegate;
+}
+
 - (void) validate
 {
 	id	segmentedControl_ = [self view];
-	id	wc_ = [self target];
+	id	myDelegate = [self delegate];
+	int	i, numOfSegments;
 
-	if (!segmentedControl_) return;
+	if(!segmentedControl_)
+		return;
 	
-	if (!wc_) {
-		[segmentedControl_ setEnabled : NO];
+	if(!myDelegate) {
+		[segmentedControl_ setEnabled: NO];
 		return;
 	}
 
-	if(![wc_ shouldShowContents]) {
-		[segmentedControl_ setEnabled : NO];
-	} else {
-		[segmentedControl_ setEnabled : YES];
-		if ([wc_ threadIdentifierFromHistoryWithRelativeIndex : 1] != nil) {
-			[segmentedControl_ setEnabled : YES forSegment : 1];
-		} else {
-			[segmentedControl_ setEnabled : NO forSegment : 1];
-		}
-		if ([wc_ threadIdentifierFromHistoryWithRelativeIndex : -1] != nil) {
-			[segmentedControl_ setEnabled : YES forSegment : 0];
-		} else {
-			[segmentedControl_ setEnabled : NO forSegment : 0];
-		}
+	if(![myDelegate respondsToSelector: @selector(segCtrlTbItem:validateSegment:)]) {
+		[segmentedControl_ setEnabled: NO];
+		return;
+	}
+
+	numOfSegments = [segmentedControl_ segmentCount];
+	for(i=0; i < numOfSegments; i++) {
+		BOOL	validation = [myDelegate segCtrlTbItem: self validateSegment: i];
+		[segmentedControl_ setEnabled: validation forSegment: i];
 	}
 }
 
-- (void) setupItemViewWithTarget : (id) windowController_
+- (void) dealloc
 {
-	NSSegmentedControl	*tmp_;
-	id  theCell = nil;
-	
-	// frame の幅 53px, segment の幅 23px は現物合わせで得た値
-	tmp_ = [[NSSegmentedControl alloc] initWithFrame : NSMakeRect(0,0,53,25)];
-
-	[tmp_ setSegmentCount: 2 ];
-	[tmp_ setImage: [ NSImage imageNamed: @"HistoryBack" ] forSegment: 0 ];
-	[tmp_ setImage: [ NSImage imageNamed: @"HistoryForward" ] forSegment: 1 ];
-	[tmp_ setWidth: 23 forSegment: 0];
-	[tmp_ setWidth: 23 forSegment: 1];
-	[tmp_ setTarget: windowController_];
-	[tmp_ setAction: @selector(historySegmentedControlPushed:)];
-	theCell = [ tmp_ cell ];
-	[theCell setTrackingMode: NSSegmentSwitchTrackingMomentary ];
-	[theCell setToolTip: [self localizedString : st_historySC_seg0_ToolTipKey] forSegment: 0 ];
-	[theCell setToolTip: [self localizedString : st_historySC_seg1_ToolTipKey] forSegment: 1 ];
-
-	[self setView : tmp_];
-	if([self view] != nil){
-		NSSize		size_;
-
-		size_ = [tmp_ bounds].size;
-		[self setMinSize : size_];
-		[self setMaxSize : size_];
-	}
-}
-
-+ (NSString *) localizableStringsTableName
-{
-	return st_localizableStringsTableName;
+	[self setDelegate: nil];
+	[super dealloc];
 }
 @end

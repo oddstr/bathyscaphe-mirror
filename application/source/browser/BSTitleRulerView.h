@@ -1,5 +1,5 @@
 //
-//  $Id: BSTitleRulerView.h,v 1.4.2.1 2006/06/08 00:04:49 tsawada2 Exp $
+//  $Id: BSTitleRulerView.h,v 1.4.2.2 2006/06/16 00:33:11 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/09/22.
@@ -19,9 +19,6 @@ typedef enum _BSTitleRulerModeType {
 	@private
 	NSString	*m_titleStr;
 	NSString	*m_infoStr;
-	NSImage		*m_bgImage;
-	NSImage		*m_bgImageNonActive;
-	NSColor		*m_textColor;
 
 	BSTitleRulerModeType	_currentMode;
 }
@@ -34,11 +31,7 @@ typedef enum _BSTitleRulerModeType {
 - (void) setInfoStr : (NSString *) aString;
 - (void) setInfoStrWithoutNeedingDisplay: (NSString *) aString;
 
-- (NSImage *) bgImage;
-- (NSImage *) bgImageNonActive;
-
-- (NSColor *) textColor;
-- (void) setTextColor: (NSColor *) aColor;
++ (void) setTitleTextColor: (NSColor *) aColor;
 
 - (BSTitleRulerModeType) currentMode;
 - (void) setCurrentMode: (BSTitleRulerModeType) newType;

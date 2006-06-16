@@ -1,3 +1,17 @@
+2006-06-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-OwnHistory.m
+	* application/source/view/BSSegmentedControlTbItem.(h|m)
+	* application/source/window/CMRThreadViewerTbDelegate.m
+	* application/source/view/BSProgressIndicatorTbItem.m
+	* application/source/window/CMRToolbarDelegateImp.m
+		「戻る／進む」ボタンの validation 方法、及び
+		BSSegmentedControlTbItem - CMRThreadViewerTbDelegate - CMRThreadViewer 間の役割分担を見直し。
+		BSProgressIndicator - CMRToolbarDelegateImp 間の役割分担を見直し。
+	* application/source/browser/BSTitleRulerView.(h|m)
+	* application/source/thread/CMRThreadViewer-ViewAccessor.m
+		リファクタリングみたいなこと。各インスタンス間で変わらない画像リソース等をクラス変数に変更。
+		threadTitlebarTextUsesBlackColor の設定は CMRThreadViewer 側からセットするようにして、BSTitleRulerView は
+		AppDefaults.h を import する必要がなくなった。
 ================================================= 1.2.2(v190)(Not Released) / CVS Tag : v120-BASED-BRANCH-MERGE-POINT-190
 2006-06-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/MainMenu.nib
