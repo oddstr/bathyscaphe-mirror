@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyController-ViewAccessor.m,v 1.12 2006/04/11 17:31:21 masakih Exp $
+  * $Id: CMRReplyController-ViewAccessor.m,v 1.13 2006/06/17 07:52:28 tsawada2 Exp $
   * 
   * CMRReplyController-ViewAccessor.m
   *
@@ -9,7 +9,7 @@
 #import "CMRReplyController_p.h"
 #import "CMRLayoutManager.h"
 #import "AppDefaults.h"
-#import "BSReplyTextView.h"
+#import <SGAppKit/BSReplyTextView.h>
 
 @implementation CMRReplyController(View)
 + (Class) toolbarDelegateImpClass 

@@ -8,7 +8,7 @@
   */
 #import "CMRThreadViewerTbDelegate_p.h"
 #import "AppDefaults.h"
-#import "BSSegmentedControlTbItem.h"
+#import <SGAppKit/BSSegmentedControlTbItem.h>
 
 //////////////////////////////////////////////////////////////////////
 ////////////////////// [ íËêîÇ‚É}ÉNÉçíuä∑ ] //////////////////////////

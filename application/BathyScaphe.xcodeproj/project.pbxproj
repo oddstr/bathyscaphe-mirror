@@ -66,7 +66,6 @@
 		870161E4082BE67100AEFDD0 /* CMRIndexingStepper.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD9604C698FB00A80005 /* CMRIndexingStepper.h */; };
 		870161E5082BE67100AEFDD0 /* CMRIndexingStepper_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD9804C698FB00A80005 /* CMRIndexingStepper_p.h */; };
 		870161E7082BE67100AEFDD0 /* CMRStatusLine.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDA304C698FB00A80005 /* CMRStatusLine.h */; };
-		870161E9082BE67100AEFDD0 /* IndexField.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDA604C698FB00A80005 /* IndexField.h */; };
 		870161EA082BE67100AEFDD0 /* SGFunctor.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDAE04C698FB00A80005 /* SGFunctor.h */; };
 		870161EB082BE67100AEFDD0 /* SGHTMLView.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDB104C698FB00A80005 /* SGHTMLView.h */; };
 		870161EC082BE67100AEFDD0 /* SGHTMLView_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDB304C698FB00A80005 /* SGHTMLView_p.h */; };
@@ -217,7 +216,6 @@
 		8701632B082BE67100AEFDD0 /* CMRIndexingStepper-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD9504C698FB00A80005 /* CMRIndexingStepper-ViewAccessor.m */; };
 		8701632C082BE67100AEFDD0 /* CMRIndexingStepper.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD9704C698FB00A80005 /* CMRIndexingStepper.m */; };
 		8701632F082BE67100AEFDD0 /* CMRStatusLine.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDA404C698FB00A80005 /* CMRStatusLine.m */; };
-		87016330082BE67100AEFDD0 /* IndexField.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDA704C698FB00A80005 /* IndexField.m */; };
 		87016331082BE67100AEFDD0 /* SGFunctor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDAF04C698FB00A80005 /* SGFunctor.m */; };
 		87016332082BE67100AEFDD0 /* SGHTMLView.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDB204C698FB00A80005 /* SGHTMLView.m */; };
 		87016333082BE67100AEFDD0 /* SGLinkCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDB504C698FB00A80005 /* SGLinkCommand.m */; };
@@ -539,8 +537,6 @@
 		87751AE309783D3F009D4A9C /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F36067F4044D4DB600A80005 /* Carbon.framework */; };
 		877B78FC08E416C900184BB2 /* BSProgressIndicatorTbItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 877B78FA08E416C900184BB2 /* BSProgressIndicatorTbItem.h */; };
 		877B78FD08E416C900184BB2 /* BSProgressIndicatorTbItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 877B78FB08E416C900184BB2 /* BSProgressIndicatorTbItem.m */; };
-		877D634708C4531500DEE475 /* BSSegmentedControlTbItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 877D634508C4531500DEE475 /* BSSegmentedControlTbItem.h */; };
-		877D634808C4531500DEE475 /* BSSegmentedControlTbItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 877D634608C4531500DEE475 /* BSSegmentedControlTbItem.m */; };
 		878018E1097CF76A002FBA1F /* titleRulerBgNotActive.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 878018E0097CF76A002FBA1F /* titleRulerBgNotActive.tiff */; };
 		8782A66E096FAAB90099B65F /* BSImagePreviewInspector-Tb.m in Sources */ = {isa = PBXBuildFile; fileRef = 8782A66D096FAAB90099B65F /* BSImagePreviewInspector-Tb.m */; };
 		8782A6B2096FB46A0099B65F /* Save.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8782A6B0096FB4690099B65F /* Save.tiff */; };
@@ -576,15 +572,11 @@
 		87C9DD3009404CA3004E6596 /* AppDefaults-Alert.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCDD04C698FB00A80005 /* AppDefaults-Alert.m */; };
 		87CD85CC098170ED002C4372 /* BSFavoritesHEADCheckTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 87CD85CA098170ED002C4372 /* BSFavoritesHEADCheckTask.h */; };
 		87CD85CD098170ED002C4372 /* BSFavoritesHEADCheckTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CD85CB098170ED002C4372 /* BSFavoritesHEADCheckTask.m */; };
-		87CE913B09C589B70040A09B /* BSReplyTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87CE913909C589B70040A09B /* BSReplyTextView.h */; };
-		87CE913C09C589B70040A09B /* BSReplyTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CE913A09C589B70040A09B /* BSReplyTextView.m */; };
 		87CF646A097A335D00DE8B16 /* Acknowledgments.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 87CF6468097A335D00DE8B16 /* Acknowledgments.rtf */; };
 		87D5D8D108DF0FCC0039A9EB /* boardListSelBgFocused.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87D5D8CF08DF0FCC0039A9EB /* boardListSelBgFocused.tiff */; };
 		87D5D8D208DF0FCC0039A9EB /* boardListSelBg.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87D5D8D008DF0FCC0039A9EB /* boardListSelBg.tiff */; };
 		87E2264E0833AA5D00E7FC85 /* BathyScaphe.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 87E2264C0833AA5D00E7FC85 /* BathyScaphe.scriptSuite */; };
 		87E2264F0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 87E2264D0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology */; };
-		87E4752A085C57C100B3E45E /* BSWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 87E47528085C57C100B3E45E /* BSWindow.h */; };
-		87E4752B085C57C100B3E45E /* BSWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 87E47529085C57C100B3E45E /* BSWindow.m */; };
 		87F3D5B20976921C00A1217A /* BSIPIHistoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 87F3D5B00976921C00A1217A /* BSIPIHistoryManager.h */; };
 		87F3D5B30976921C00A1217A /* BSIPIHistoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F3D5B10976921C00A1217A /* BSIPIHistoryManager.m */; };
 		87F3D60C0976A20300A1217A /* CocoMonar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3924488043610AE00A80005 /* CocoMonar.framework */; };
@@ -697,7 +689,6 @@
 		F4904B25088C096D00EA9BA8 /* CMRIndexingStepper.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD9604C698FB00A80005 /* CMRIndexingStepper.h */; };
 		F4904B26088C096D00EA9BA8 /* CMRIndexingStepper_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD9804C698FB00A80005 /* CMRIndexingStepper_p.h */; };
 		F4904B27088C096D00EA9BA8 /* CMRStatusLine.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDA304C698FB00A80005 /* CMRStatusLine.h */; };
-		F4904B29088C096D00EA9BA8 /* IndexField.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDA604C698FB00A80005 /* IndexField.h */; };
 		F4904B2A088C096D00EA9BA8 /* SGFunctor.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDAE04C698FB00A80005 /* SGFunctor.h */; };
 		F4904B2B088C096D00EA9BA8 /* SGHTMLView.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDB104C698FB00A80005 /* SGHTMLView.h */; };
 		F4904B2C088C096D00EA9BA8 /* SGHTMLView_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDB304C698FB00A80005 /* SGHTMLView_p.h */; };
@@ -783,7 +774,6 @@
 		F4904B8E088C096D00EA9BA8 /* CMXPopUpWindowController_p.h in Headers */ = {isa = PBXBuildFile; fileRef = 8729971708325E2500CBD740 /* CMXPopUpWindowController_p.h */; };
 		F4904B8F088C096D00EA9BA8 /* CMXPopUpWindowManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8729971808325E2500CBD740 /* CMXPopUpWindowManager.h */; };
 		F4904B92088C096D00EA9BA8 /* BSScriptsMenuManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F49CCDF30849B87500835BE3 /* BSScriptsMenuManager.h */; };
-		F4904B93088C096D00EA9BA8 /* BSWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 87E47528085C57C100B3E45E /* BSWindow.h */; };
 		F4904B94088C096D00EA9BA8 /* RBSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87464E380864368F000F0371 /* RBSplitView.h */; };
 		F4904B95088C096D00EA9BA8 /* RBSplitSubview.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB791F0864401A00ED8757 /* RBSplitSubview.h */; };
 		F4904B96088C096D00EA9BA8 /* RBSplitViewPrivateDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB79200864401A00ED8757 /* RBSplitViewPrivateDefines.h */; };
@@ -945,7 +935,6 @@
 		F4904C73088C096D00EA9BA8 /* CMRIndexingStepper-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD9504C698FB00A80005 /* CMRIndexingStepper-ViewAccessor.m */; };
 		F4904C74088C096D00EA9BA8 /* CMRIndexingStepper.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD9704C698FB00A80005 /* CMRIndexingStepper.m */; };
 		F4904C77088C096D00EA9BA8 /* CMRStatusLine.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDA404C698FB00A80005 /* CMRStatusLine.m */; };
-		F4904C78088C096D00EA9BA8 /* IndexField.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDA704C698FB00A80005 /* IndexField.m */; };
 		F4904C79088C096D00EA9BA8 /* SGFunctor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDAF04C698FB00A80005 /* SGFunctor.m */; };
 		F4904C7A088C096D00EA9BA8 /* SGHTMLView.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDB204C698FB00A80005 /* SGHTMLView.m */; };
 		F4904C7B088C096D00EA9BA8 /* SGLinkCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDB504C698FB00A80005 /* SGLinkCommand.m */; };
@@ -1009,7 +998,6 @@
 		F4904CC1088C096D00EA9BA8 /* CMXPopUpWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8729971608325E2500CBD740 /* CMXPopUpWindowController.m */; };
 		F4904CC2088C096D00EA9BA8 /* CMXPopUpWindowManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8729971908325E2500CBD740 /* CMXPopUpWindowManager.m */; };
 		F4904CC4088C096D00EA9BA8 /* BSScriptsMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F49CCDF40849B87500835BE3 /* BSScriptsMenuManager.m */; };
-		F4904CC5088C096D00EA9BA8 /* BSWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 87E47529085C57C100B3E45E /* BSWindow.m */; };
 		F4904CC7088C096D00EA9BA8 /* NSTableView+BSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BD61EF0865D0230080A7CA /* NSTableView+BSAdditions.m */; };
 		F4904CC8088C096D00EA9BA8 /* CMRReplyMessenger-Connector.m in Sources */ = {isa = PBXBuildFile; fileRef = 8709E6530879713D009A65FC /* CMRReplyMessenger-Connector.m */; };
 		F4904CC9088C096D00EA9BA8 /* BSHistoryMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8770BF5C087F0095008907C5 /* BSHistoryMenuManager.m */; };
@@ -1047,8 +1035,6 @@
 		F4976FBA098CF163008E838D /* w2chFavoriteItemList.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC5504C698FA00A80005 /* w2chFavoriteItemList.m */; };
 		F49CCDF50849B87500835BE3 /* BSScriptsMenuManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F49CCDF30849B87500835BE3 /* BSScriptsMenuManager.h */; };
 		F49CCDF60849B87500835BE3 /* BSScriptsMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F49CCDF40849B87500835BE3 /* BSScriptsMenuManager.m */; };
-		F4B3ADF909EAC7A1003B9195 /* BSReplyTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CE913A09C589B70040A09B /* BSReplyTextView.m */; };
-		F4B3ADFA09EAC7A2003B9195 /* BSReplyTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87CE913909C589B70040A09B /* BSReplyTextView.h */; };
 		F4C3954D08B8ABD800D20E01 /* SQLiteDB.h in Headers */ = {isa = PBXBuildFile; fileRef = F4C3954B08B8ABD800D20E01 /* SQLiteDB.h */; };
 		F4C3954E08B8ABD800D20E01 /* SQLiteDB.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C3954C08B8ABD800D20E01 /* SQLiteDB.m */; };
 		F4CB530509699670001256C8 /* SmartBLIEditorHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = F4CB52FF09699670001256C8 /* SmartBLIEditorHelper.h */; };
@@ -1103,7 +1089,6 @@
 		F4F63CC709CD0F9B005FF2DE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87C8FBDC09B3631800039203 /* Security.framework */; };
 		F4F85756096E2F9300C7E9F5 /* CriteriaSpecifications.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4F85754096E2F9300C7E9F5 /* CriteriaSpecifications.plist */; };
 		F4FA684E0942DE5E00BE3F27 /* libsqlite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F406943A0942DC950045317C /* libsqlite.a */; };
-		F4FA68690942E13200BE3F27 /* BSSegmentedControlTbItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 877D634608C4531500DEE475 /* BSSegmentedControlTbItem.m */; };
 		F4FA693B0942EBDA00BE3F27 /* BoardManager-BSAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 8718EFA508D4257200FFAAEE /* BoardManager-BSAddition.m */; };
 		F4FA693C0942EBDE00BE3F27 /* NoNameInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8718EFDD08D43F7D00FFAAEE /* NoNameInputController.m */; };
 		F4FA6A4B094311E000BE3F27 /* AbstractDBBoardListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 87E8726108DD63F40055370D /* AbstractDBBoardListItem.m */; };
@@ -1132,7 +1117,6 @@
 		F4FA7036094357B600BE3F27 /* NoNameInputController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8718EFDC08D43F7D00FFAAEE /* NoNameInputController.h */; };
 		F4FA7037094357B700BE3F27 /* SmartBoardList.h in Headers */ = {isa = PBXBuildFile; fileRef = 87E8726A08DD63F40055370D /* SmartBoardList.h */; };
 		F4FA7038094357B700BE3F27 /* SmartBoardListItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 87E8726C08DD63F40055370D /* SmartBoardListItem.h */; };
-		F4FA703B094357C100BE3F27 /* BSSegmentedControlTbItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 877D634508C4531500DEE475 /* BSSegmentedControlTbItem.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1425,8 +1409,6 @@
 		87751AB4097838A0009D4A9C /* FullScreen.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = FullScreen.tiff; sourceTree = "<group>"; };
 		877B78FA08E416C900184BB2 /* BSProgressIndicatorTbItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSProgressIndicatorTbItem.h; sourceTree = "<group>"; };
 		877B78FB08E416C900184BB2 /* BSProgressIndicatorTbItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSProgressIndicatorTbItem.m; sourceTree = "<group>"; };
-		877D634508C4531500DEE475 /* BSSegmentedControlTbItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSSegmentedControlTbItem.h; sourceTree = "<group>"; };
-		877D634608C4531500DEE475 /* BSSegmentedControlTbItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSSegmentedControlTbItem.m; sourceTree = "<group>"; };
 		878018E0097CF76A002FBA1F /* titleRulerBgNotActive.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = titleRulerBgNotActive.tiff; sourceTree = "<group>"; };
 		8782A66D096FAAB90099B65F /* BSImagePreviewInspector-Tb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BSImagePreviewInspector-Tb.m"; sourceTree = "<group>"; };
 		8782A6B0096FB4690099B65F /* Save.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Save.tiff; sourceTree = "<group>"; };
@@ -1473,15 +1455,11 @@
 		87C8FBDC09B3631800039203 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		87CD85CA098170ED002C4372 /* BSFavoritesHEADCheckTask.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = BSFavoritesHEADCheckTask.h; sourceTree = "<group>"; };
 		87CD85CB098170ED002C4372 /* BSFavoritesHEADCheckTask.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = BSFavoritesHEADCheckTask.m; sourceTree = "<group>"; };
-		87CE913909C589B70040A09B /* BSReplyTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSReplyTextView.h; sourceTree = "<group>"; };
-		87CE913A09C589B70040A09B /* BSReplyTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSReplyTextView.m; sourceTree = "<group>"; };
 		87CF6469097A335D00DE8B16 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Japanese; path = Japanese.lproj/Acknowledgments.rtf; sourceTree = "<group>"; };
 		87D5D8CF08DF0FCC0039A9EB /* boardListSelBgFocused.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = boardListSelBgFocused.tiff; sourceTree = "<group>"; };
 		87D5D8D008DF0FCC0039A9EB /* boardListSelBg.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = boardListSelBg.tiff; sourceTree = "<group>"; };
 		87E2264C0833AA5D00E7FC85 /* BathyScaphe.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = BathyScaphe.scriptSuite; sourceTree = "<group>"; };
 		87E2264D0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = BathyScaphe.scriptTerminology; sourceTree = "<group>"; };
-		87E47528085C57C100B3E45E /* BSWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSWindow.h; sourceTree = "<group>"; };
-		87E47529085C57C100B3E45E /* BSWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSWindow.m; sourceTree = "<group>"; };
 		87E8726008DD63F40055370D /* AbstractDBBoardListItem.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = AbstractDBBoardListItem.h; sourceTree = "<group>"; };
 		87E8726108DD63F40055370D /* AbstractDBBoardListItem.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = AbstractDBBoardListItem.m; sourceTree = "<group>"; };
 		87E8726208DD63F40055370D /* BoardBoardListItem.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = BoardBoardListItem.h; sourceTree = "<group>"; };
@@ -1703,8 +1681,6 @@
 		F324DD9804C698FB00A80005 /* CMRIndexingStepper_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRIndexingStepper_p.h; sourceTree = "<group>"; };
 		F324DDA304C698FB00A80005 /* CMRStatusLine.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRStatusLine.h; sourceTree = "<group>"; };
 		F324DDA404C698FB00A80005 /* CMRStatusLine.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRStatusLine.m; sourceTree = "<group>"; };
-		F324DDA604C698FB00A80005 /* IndexField.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = IndexField.h; sourceTree = "<group>"; };
-		F324DDA704C698FB00A80005 /* IndexField.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = IndexField.m; sourceTree = "<group>"; };
 		F324DDA804C698FB00A80005 /* SGContextHelpPanel.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = SGContextHelpPanel.h; sourceTree = "<group>"; };
 		F324DDA904C698FB00A80005 /* SGContextHelpPanel.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = SGContextHelpPanel.m; sourceTree = "<group>"; };
 		F324DDAE04C698FB00A80005 /* SGFunctor.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = SGFunctor.h; sourceTree = "<group>"; };
@@ -2961,20 +2937,14 @@
 				F324DD9804C698FB00A80005 /* CMRIndexingStepper_p.h */,
 				F324DD9704C698FB00A80005 /* CMRIndexingStepper.m */,
 				F324DD9504C698FB00A80005 /* CMRIndexingStepper-ViewAccessor.m */,
-				F324DDA604C698FB00A80005 /* IndexField.h */,
-				F324DDA704C698FB00A80005 /* IndexField.m */,
 				F324DDAE04C698FB00A80005 /* SGFunctor.h */,
 				F324DDAF04C698FB00A80005 /* SGFunctor.m */,
 				F324DDB404C698FB00A80005 /* SGLinkCommand.h */,
 				F324DDB504C698FB00A80005 /* SGLinkCommand.m */,
 				F324DDBB04C698FB00A80005 /* ThreadsListTable.h */,
 				F324DDBC04C698FB00A80005 /* ThreadsListTable.m */,
-				877D634508C4531500DEE475 /* BSSegmentedControlTbItem.h */,
-				877D634608C4531500DEE475 /* BSSegmentedControlTbItem.m */,
 				877B78FA08E416C900184BB2 /* BSProgressIndicatorTbItem.h */,
 				877B78FB08E416C900184BB2 /* BSProgressIndicatorTbItem.m */,
-				87CE913909C589B70040A09B /* BSReplyTextView.h */,
-				87CE913A09C589B70040A09B /* BSReplyTextView.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -2985,8 +2955,6 @@
 				87823FA00823A82900C52066 /* Toolbar */,
 				F33E994D04C6A20C00A80005 /* abstract */,
 				F33E994B04C6A16800A80005 /* status line */,
-				87E47528085C57C100B3E45E /* BSWindow.h */,
-				87E47529085C57C100B3E45E /* BSWindow.m */,
 			);
 			path = window;
 			sourceTree = "<group>";
@@ -3417,7 +3385,6 @@
 				870161E4082BE67100AEFDD0 /* CMRIndexingStepper.h in Headers */,
 				870161E5082BE67100AEFDD0 /* CMRIndexingStepper_p.h in Headers */,
 				870161E7082BE67100AEFDD0 /* CMRStatusLine.h in Headers */,
-				870161E9082BE67100AEFDD0 /* IndexField.h in Headers */,
 				870161EA082BE67100AEFDD0 /* SGFunctor.h in Headers */,
 				870161EB082BE67100AEFDD0 /* SGHTMLView.h in Headers */,
 				870161EC082BE67100AEFDD0 /* SGHTMLView_p.h in Headers */,
@@ -3504,7 +3471,6 @@
 				8729971F08325E2500CBD740 /* CMXPopUpWindowController_p.h in Headers */,
 				8729972008325E2500CBD740 /* CMXPopUpWindowManager.h in Headers */,
 				F49CCDF50849B87500835BE3 /* BSScriptsMenuManager.h in Headers */,
-				87E4752A085C57C100B3E45E /* BSWindow.h in Headers */,
 				87464E390864368F000F0371 /* RBSplitView.h in Headers */,
 				87BB79210864401A00ED8757 /* RBSplitSubview.h in Headers */,
 				87BB79220864401A00ED8757 /* RBSplitViewPrivateDefines.h in Headers */,
@@ -3512,7 +3478,6 @@
 				8770BF5D087F0095008907C5 /* BSHistoryMenuManager.h in Headers */,
 				F4559444088A106E00557B17 /* DatabaseManager.h in Headers */,
 				F4904D24088C116700EA9BA8 /* BSDBThreadList.h in Headers */,
-				877D634708C4531500DEE475 /* BSSegmentedControlTbItem.h in Headers */,
 				8718EFDE08D43F7D00FFAAEE /* NoNameInputController.h in Headers */,
 				877B78FC08E416C900184BB2 /* BSProgressIndicatorTbItem.h in Headers */,
 				87BF52CB08F789D500998C4E /* BSBoardInfoInspector.h in Headers */,
@@ -3522,7 +3487,6 @@
 				871265B9097D84ED00B90FF2 /* CMRAccessorySheetController.h in Headers */,
 				871265BD097D84ED00B90FF2 /* CMRTextColumnCell.h in Headers */,
 				87CD85CC098170ED002C4372 /* BSFavoritesHEADCheckTask.h in Headers */,
-				87CE913B09C589B70040A09B /* BSReplyTextView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3683,7 +3647,6 @@
 				F4904B25088C096D00EA9BA8 /* CMRIndexingStepper.h in Headers */,
 				F4904B26088C096D00EA9BA8 /* CMRIndexingStepper_p.h in Headers */,
 				F4904B27088C096D00EA9BA8 /* CMRStatusLine.h in Headers */,
-				F4904B29088C096D00EA9BA8 /* IndexField.h in Headers */,
 				F4904B2A088C096D00EA9BA8 /* SGFunctor.h in Headers */,
 				F4904B2B088C096D00EA9BA8 /* SGHTMLView.h in Headers */,
 				F4904B2C088C096D00EA9BA8 /* SGHTMLView_p.h in Headers */,
@@ -3769,7 +3732,6 @@
 				F4904B8E088C096D00EA9BA8 /* CMXPopUpWindowController_p.h in Headers */,
 				F4904B8F088C096D00EA9BA8 /* CMXPopUpWindowManager.h in Headers */,
 				F4904B92088C096D00EA9BA8 /* BSScriptsMenuManager.h in Headers */,
-				F4904B93088C096D00EA9BA8 /* BSWindow.h in Headers */,
 				F4904B94088C096D00EA9BA8 /* RBSplitView.h in Headers */,
 				F4904B95088C096D00EA9BA8 /* RBSplitSubview.h in Headers */,
 				F4904B96088C096D00EA9BA8 /* RBSplitViewPrivateDefines.h in Headers */,
@@ -3788,7 +3750,6 @@
 				F4FA7036094357B600BE3F27 /* NoNameInputController.h in Headers */,
 				F4FA7037094357B700BE3F27 /* SmartBoardList.h in Headers */,
 				F4FA7038094357B700BE3F27 /* SmartBoardListItem.h in Headers */,
-				F4FA703B094357C100BE3F27 /* BSSegmentedControlTbItem.h in Headers */,
 				F4F5821F0945C9CC004DF9DB /* ConcreteBoardListItem.h in Headers */,
 				F4CB530509699670001256C8 /* SmartBLIEditorHelper.h in Headers */,
 				F4CB530709699670001256C8 /* SmartBoardListItemEditor.h in Headers */,
@@ -3805,7 +3766,6 @@
 				F4E8FADE09DAE1F0006F453C /* BSThreadListDBUpdateTask.h in Headers */,
 				F4E8FB5E09DAEA55006F453C /* BSThreadListCollectAllThreadAttrTask.h in Headers */,
 				F47F6EDD09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.h in Headers */,
-				F4B3ADFA09EAC7A2003B9195 /* BSReplyTextView.h in Headers */,
 				875257FD0A234BB100A991D1 /* CMRFavoritesManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4414,7 +4374,6 @@
 				8701632B082BE67100AEFDD0 /* CMRIndexingStepper-ViewAccessor.m in Sources */,
 				8701632C082BE67100AEFDD0 /* CMRIndexingStepper.m in Sources */,
 				8701632F082BE67100AEFDD0 /* CMRStatusLine.m in Sources */,
-				87016330082BE67100AEFDD0 /* IndexField.m in Sources */,
 				87016331082BE67100AEFDD0 /* SGFunctor.m in Sources */,
 				87016332082BE67100AEFDD0 /* SGHTMLView.m in Sources */,
 				87016333082BE67100AEFDD0 /* SGLinkCommand.m in Sources */,
@@ -4478,7 +4437,6 @@
 				8729971E08325E2500CBD740 /* CMXPopUpWindowController.m in Sources */,
 				8729972108325E2500CBD740 /* CMXPopUpWindowManager.m in Sources */,
 				F49CCDF60849B87500835BE3 /* BSScriptsMenuManager.m in Sources */,
-				87E4752B085C57C100B3E45E /* BSWindow.m in Sources */,
 				87BD61F10865D0230080A7CA /* NSTableView+BSAdditions.m in Sources */,
 				8709E6540879713D009A65FC /* CMRReplyMessenger-Connector.m in Sources */,
 				8770BF5E087F0096008907C5 /* BSHistoryMenuManager.m in Sources */,
@@ -4487,7 +4445,6 @@
 				F4904D25088C116700EA9BA8 /* BSDBThreadList.m in Sources */,
 				F490522A088E703400EA9BA8 /* DatabaseManager-DatabaseAccess.m in Sources */,
 				8794CC10089C033300161BAB /* BoardManager.m in Sources */,
-				877D634808C4531500DEE475 /* BSSegmentedControlTbItem.m in Sources */,
 				8718EFA608D4257200FFAAEE /* BoardManager-BSAddition.m in Sources */,
 				8718EFDF08D43F7D00FFAAEE /* NoNameInputController.m in Sources */,
 				877B78FD08E416C900184BB2 /* BSProgressIndicatorTbItem.m in Sources */,
@@ -4499,7 +4456,6 @@
 				871265BA097D84ED00B90FF2 /* CMRAccessorySheetController.m in Sources */,
 				871265BE097D84ED00B90FF2 /* CMRTextColumnCell.m in Sources */,
 				87CD85CD098170ED002C4372 /* BSFavoritesHEADCheckTask.m in Sources */,
-				87CE913C09C589B70040A09B /* BSReplyTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4685,7 +4641,6 @@
 				F4904C73088C096D00EA9BA8 /* CMRIndexingStepper-ViewAccessor.m in Sources */,
 				F4904C74088C096D00EA9BA8 /* CMRIndexingStepper.m in Sources */,
 				F4904C77088C096D00EA9BA8 /* CMRStatusLine.m in Sources */,
-				F4904C78088C096D00EA9BA8 /* IndexField.m in Sources */,
 				F4904C79088C096D00EA9BA8 /* SGFunctor.m in Sources */,
 				F4904C7A088C096D00EA9BA8 /* SGHTMLView.m in Sources */,
 				F4904C7B088C096D00EA9BA8 /* SGLinkCommand.m in Sources */,
@@ -4749,7 +4704,6 @@
 				F4904CC1088C096D00EA9BA8 /* CMXPopUpWindowController.m in Sources */,
 				F4904CC2088C096D00EA9BA8 /* CMXPopUpWindowManager.m in Sources */,
 				F4904CC4088C096D00EA9BA8 /* BSScriptsMenuManager.m in Sources */,
-				F4904CC5088C096D00EA9BA8 /* BSWindow.m in Sources */,
 				F4904CC7088C096D00EA9BA8 /* NSTableView+BSAdditions.m in Sources */,
 				F4904CC8088C096D00EA9BA8 /* CMRReplyMessenger-Connector.m in Sources */,
 				F4904CC9088C096D00EA9BA8 /* BSHistoryMenuManager.m in Sources */,
@@ -4759,7 +4713,6 @@
 				F490522B088E704500EA9BA8 /* DatabaseManager-DatabaseAccess.m in Sources */,
 				F4E2E0BB08B5FB3A00177310 /* BoardManager.m in Sources */,
 				F4C3954E08B8ABD800D20E01 /* SQLiteDB.m in Sources */,
-				F4FA68690942E13200BE3F27 /* BSSegmentedControlTbItem.m in Sources */,
 				F4FA693B0942EBDA00BE3F27 /* BoardManager-BSAddition.m in Sources */,
 				F4FA693C0942EBDE00BE3F27 /* NoNameInputController.m in Sources */,
 				F4FA6A4B094311E000BE3F27 /* AbstractDBBoardListItem.m in Sources */,
@@ -4788,7 +4741,6 @@
 				F4E8FADF09DAE1F0006F453C /* BSThreadListDBUpdateTask.m in Sources */,
 				F4E8FB5F09DAEA55006F453C /* BSThreadListCollectAllThreadAttrTask.m in Sources */,
 				F47F6EDE09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.m in Sources */,
-				F4B3ADF909EAC7A1003B9195 /* BSReplyTextView.m in Sources */,
 				875257FE0A234BB100A991D1 /* CMRFavoritesManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

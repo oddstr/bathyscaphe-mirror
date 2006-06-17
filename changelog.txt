@@ -1,4 +1,8 @@
 2006-06-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/window/CMRReplyController-ViewAccessor.m
+	* application/source/window/CMRThreadViewerTbDelegate.m
+	* application/source/thread/CMRThreadViewer-OwnHistory.m
+		クラスの移動に伴う修正。
 	* frameworks/SGAppKit/framework/src/SGAppKit.h
 		クラス追加に伴う修正。
 	* frameworks/SGAppKit/framework/src/custom/bathyscaphe/BSBoardListView.(h|m)
