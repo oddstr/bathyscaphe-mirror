@@ -1,4 +1,8 @@
 2006-06-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* frameworks/SGAppKit/framework/src/custom/
+		[削除] 未使用になっていたクラスのソースファイルをばっさり削除。
+	* frameworks/Keychain/
+		[削除] 削除。
 	* application/source/window/CMRReplyController-ViewAccessor.m
 	* application/source/window/CMRThreadViewerTbDelegate.m
 	* application/source/thread/CMRThreadViewer-OwnHistory.m
