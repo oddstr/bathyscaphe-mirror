@@ -1,3 +1,8 @@
+2006-06-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/window/BSWindow.(h|m)
+	* application/source/window/CMRStatusLineWindowController.m
+		ツールバーカスタマイズ時のプログレスインジケータの一時的な表示に関する、BSWindow - CMRStatusLineWindowController
+		間の役割分担を見直し。BSWindow は他のクラスに非依存になった。
 2006-06-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadViewer-OwnHistory.m
 	* application/source/view/BSSegmentedControlTbItem.(h|m)

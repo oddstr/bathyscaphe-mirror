@@ -1,13 +1,12 @@
 //
-//  BSWindow.m
+//  $Id: BSWindow.m,v 1.7.4.2 2006/06/17 06:28:37 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/06/12.
-//  Copyright 2005 tsawada2. All rights reserved.
+//  Copyright 2005-2006 BathyScaphe Project. All rights reserved.
 //
 
 #import "BSWindow.h"
-#import "CMRStatusLineWindowController_p.h"
 
 #if MAC_OS_X_VERSION_MAX_ALLOWED < 1040
 enum {
@@ -46,13 +45,12 @@ enum {
    あとは NSToolbar をサブクラス化するか、カテゴリを使って runCustomizationPalette をオーバーライドする手があるが…
    面倒だから今はいいや…
 */
+// 2006-06-16 追記：プログレスインジケータの実際の操作は delegate 側で行うことにする。
 - (void) runToolbarCustomizationPalette : (id) sender
 {
-	id wc_ = [self windowController];
-
-	if (wc_) {
-		if ([wc_ respondsToSelector : @selector(statusLine)])
-			[[[(CMRStatusLineWindowController *)wc_ statusLine] progressIndicator] setDisplayedWhenStopped : YES];
+	id	delegate_ = [self delegate];
+	if (delegate_ && [delegate_ respondsToSelector: @selector(windowWillRunToolbarCustomizationPalette:)]) {
+		[delegate_ windowWillRunToolbarCustomizationPalette: self];
 	}
 	[super runToolbarCustomizationPalette : sender];
 }
