@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.8 2006/06/11 23:47:26 tsawada2 Exp $
+  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.9 2006/06/17 06:37:15 tsawada2 Exp $
   * 
   * CMRThreadViewer-ViewAccessor.m
   *
@@ -380,6 +380,7 @@
 	// Title Ruler
 	[[scrollView_ class] setRulerViewClass : [BSTitleRulerView class]];
 	ruler = [[BSTitleRulerView alloc] initWithScrollView : scrollView_ orientation : NSHorizontalRuler];
+	[[ruler class] setTitleTextColor: ([CMRPref titleRulerViewTextUsesBlackColor] ? [NSColor blackColor] : [NSColor whiteColor])];
 
 	[scrollView_ setHorizontalRulerView : ruler];
 

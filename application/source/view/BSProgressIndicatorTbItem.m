@@ -7,23 +7,16 @@
 //
 
 #import "BSProgressIndicatorTbItem.h"
-#import "CMRStatusLineWindowController_p.h"
 
 @implementation BSProgressIndicatorTbItem
-- (void) setupItemViewWithTarget : (id) windowController_
+- (void) setupItemViewWithContentView : (NSView *) aView
 {
-	id	part_;
-
-	part_ = [[(CMRStatusLineWindowController *)windowController_ statusLine] progressIndicator];
-	if(part_) {
+	if(aView) {
 		NSSize		size_;
-		[part_ retain];
-		[part_ removeFromSuperviewWithoutNeedingDisplay];
 
-		[self setView : part_];
-		[part_ release];
-		
-		size_ = [part_ bounds].size;
+		[self setView : aView];
+
+		size_ = [aView bounds].size;
 		[self setMinSize : size_];
 		[self setMaxSize : size_];
 	}

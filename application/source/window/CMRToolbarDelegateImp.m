@@ -1,6 +1,7 @@
 //:CMRToolbarDelegateImp.m
 #import "CMRToolbarDelegateImp_p.h"
 #import "CMRStatusLine.h"
+#import "CMRStatusLineWindowController.h"
 #import "BSProgressIndicatorTbItem.h"
 
 // プログレスバー
@@ -114,10 +115,14 @@ static NSString *const st_localizableStringsTableName	= @"ToolbarItems";
 {
 	NSToolbarItem			*item_;
 	NSWindowController		*wcontroller_;
+	NSView					*progressIndicator_;
 	
 	wcontroller_ = [aWindow windowController];
 	UTILAssertNotNil(wcontroller_);
 
+	progressIndicator_ = [[(CMRStatusLineWindowController *)wcontroller_ statusLine] progressIndicator];
+	[progressIndicator_ retain];
+	[progressIndicator_ removeFromSuperviewWithoutNeedingDisplay];
 	
 	item_ = [self appendToolbarItemWithClass : [BSProgressIndicatorTbItem class]
 							  itemIdentifier : [self pIndicatorItemIdentifier]
@@ -127,7 +132,9 @@ static NSString *const st_localizableStringsTableName	= @"ToolbarItems";
 									  action : nil
 									  target : nil];
 
-	[(BSProgressIndicatorTbItem *)item_ setupItemViewWithTarget : wcontroller_];
+	//[(BSProgressIndicatorTbItem *)item_ setupItemViewWithTarget : wcontroller_];
+	[(BSProgressIndicatorTbItem *)item_ setupItemViewWithContentView : progressIndicator_];
+	[progressIndicator_ release];
 }
 
 - (void) configureToolbar : (NSToolbar *) aToolbar

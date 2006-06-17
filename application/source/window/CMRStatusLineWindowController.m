@@ -83,10 +83,10 @@
 
 
 // delegate
-/*- (void)windowWillBeginSheet:(NSNotification *)aNotification
+- (void) windowWillRunToolbarCustomizationPalette: (NSWindow *) sender
 {
 	[[[self statusLine] progressIndicator] setDisplayedWhenStopped : YES];
-}*/
+}
 
 - (void)windowDidEndSheet:(NSNotification *)aNotification
 {

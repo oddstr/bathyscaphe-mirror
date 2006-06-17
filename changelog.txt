@@ -1,3 +1,15 @@
+2006-06-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/window/BSWindow.(h|m)
+	* application/source/window/CMRStatusLineWindowController.m
+	* application/source/thread/CMRThreadViewer-OwnHistory.m
+	* application/source/view/BSSegmentedControlTbItem.(h|m)
+	* application/source/window/CMRThreadViewerTbDelegate.m
+	* application/source/view/BSProgressIndicatorTbItem.m
+	* application/source/window/CMRToolbarDelegateImp.m
+	* application/source/browser/BSTitleRulerView.(h|m)
+	* application/source/thread/CMRThreadViewer-ViewAccessor.m
+		v120-BASED-BRANCH の 2006-06-16,17 の変更に問題がないようなので、トランクにマージ。
+		（変更内容はブランチの changelog を参照）
 2006-06-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadViewer-Link.m
 		CocoMonar スレッドに 2006-06-06 に投稿されたパッチについて検討した結果、BathyScaphe でも

@@ -1,5 +1,5 @@
 /*
- * $Id: CMRThreadViewer-OwnHistory.m,v 1.4 2005/11/25 15:27:54 tsawada2 Exp $
+ * $Id: CMRThreadViewer-OwnHistory.m,v 1.5 2006/06/17 06:37:15 tsawada2 Exp $
  *
  * それぞれのスレッドビューア内での履歴（グローバルな履歴と一致するとは限らない）の管理と移動アクションのサポート
  * CMRThreadViewer.m から分割
@@ -10,6 +10,7 @@
 
 #import "CMRHistoryManager.h"
 #import "BSHistoryMenuManager.h"
+#import "BSSegmentedControlTbItem.h"
 
 @implementation CMRThreadViewer(History)
 - (id) threadIdentifierFromHistoryWithRelativeIndex : (int) relativeIndex
@@ -174,5 +175,24 @@
 	} else {
 		[self historyMenuPerformBack : nil];
 	}
+}
+
+#pragma mark BSSegmentedControlTbItem delegate
+- (BOOL) segCtrlTbItem: (BSSegmentedControlTbItem *) item
+	   validateSegment: (int) segment
+{
+	if (![self shouldShowContents])
+		return NO;
+
+	int relativeIdx;
+
+	if (segment == 0)
+		relativeIdx = -1;
+	else if (segment == 1)
+		relativeIdx = 1;
+	else
+		return NO;
+
+	return ([self threadIdentifierFromHistoryWithRelativeIndex: relativeIdx] != nil);
 }
 @end
