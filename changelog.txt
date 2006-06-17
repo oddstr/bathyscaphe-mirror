@@ -1,4 +1,26 @@
 2006-06-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* frameworks/SGAppKit/framework/src/SGAppKit.h
+		クラス追加に伴う修正。
+	* frameworks/SGAppKit/framework/src/custom/bathyscaphe/BSBoardListView.(h|m)
+	* frameworks/SGAppKit/framework/src/custom/bathyscaphe/BSWindow.(h|m)
+	* frameworks/SGAppKit/framework/src/custom/bathyscaphe/BSSegmentedControlTbItem.(h|m)
+	* frameworks/SGAppKit/framework/src/custom/bathyscaphe/BSReplyTextView.(h|m)
+	* frameworks/SGAppKit/framework/src/custom/bathyscaphe/BSIconAndTextView.(h|m)
+	* frameworks/SGAppKit/framework/src/custom/indexfield/IndexField.(h|m)
+	* frameworks/SGAppKit/framework/src/extensions/layoutmanager/NSLayoutManager+CMXAdditions.(h|m)
+		[新規追加] 実質は単なるファイル位置の移動なのだが…下記も参照。
+	* application/source/view/BSBoardListView.(h|m)
+	* application/source/view/BSIconAndTextView.(h|m)
+	* application/source/extensions/NSLayoutManager+CMXAdditions.(h|m)
+		[削除] これらのクラスは既に SGAppKit に移動済みだったが、ソースファイルの場所は変更されていなかった。
+		今回、分かりやすくするためこれらのファイルについても配置を移動することにした。上記も参照。
+	* application/source/window/BSWindow.(h|m)
+	* application/source/view/BSSegmentedControlTbItem.(h|m)
+	* application/source/view/BSReplyTextView.(h|m)
+	* application/source/view/IndexField.(h|m)
+		[削除] これらのクラスは SGAppKit に移動した。これに伴いソースファイルの位置を application ディレクトリから
+		SGAppKit のディレクトリに移動した（上記も参照）。
+2006-06-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/window/BSWindow.(h|m)
 	* application/source/window/CMRStatusLineWindowController.m
 	* application/source/thread/CMRThreadViewer-OwnHistory.m

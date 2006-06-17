@@ -1,6 +1,6 @@
 //: SGAppKit.h
 /**
-  * $Id: SGAppKit.h,v 1.8 2006/02/02 13:00:47 tsawada2 Exp $
+  * $Id: SGAppKit.h,v 1.9 2006/06/17 07:37:54 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -33,26 +33,16 @@ extern void SGAppKitFrameworkInit(void);
 #import <SGAppKit/NSUserDefaults+SGAppKitExtensions.h>
 
 #import <SGAppKit/SGContainerTableView.h>
-//#import <SGAppKit/SGSplitView.h>
-//#import <SGAppKit/SGTableViewBase.h>
-//#import <SGAppKit/SGTableView.h>
-//#import <SGAppKit/SGOutlineView.h>
 
-/* buggy...
-#import <SGAppKit/SGBezelStyleTextField.h>
-#import <SGAppKit/SGBezelStyleTextFieldCell.h>
-*/
-
-//#import <SGAppKit/SGBackgroundSurfaceView.h>
-//#import <SGAppKit/SGTextAccessoryFieldController.h>
 #import <SGAppKit/KFSplitView.h>
 #import <SGAppKit/BSKFSplitView.h>
 #import <SGAppKit/BSIconAndTextCell.h>
 #import <SGAppKit/BSBoardListView.h>
 #import <SGAppKit/CMRPullDownIconBtn.h>
-//#import <SGAppKit/SGFixImageButtonCell.h>
-//#import <SGAppKit/SGToolbarIconItemButton.h>
-//#import <SGAppKit/SGControlToolbarItem.h>
+#import <SGAppKit/BSReplyTextView.h>
+#import <SGAppKit/BSWindow.h>
+#import <SGAppKit/BSSegmentedControlTbItem.h>
+#import <SGAppKit/IndexField.h>
 
 #import <SGAppKit/SGKeyBindingSupport.h>
 

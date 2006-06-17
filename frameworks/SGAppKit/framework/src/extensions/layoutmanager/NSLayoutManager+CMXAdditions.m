@@ -1,6 +1,6 @@
 //: NSLayoutManager+CMXAdditions.m
 /**
-  * $Id: NSLayoutManager+CMXAdditions.m,v 1.2 2006/01/25 11:22:03 tsawada2 Exp $
+  * $Id: NSLayoutManager+CMXAdditions.m,v 1.1 2006/06/17 07:37:54 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.

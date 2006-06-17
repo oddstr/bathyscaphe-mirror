@@ -1,5 +1,5 @@
 //
-//  $Id: BSBoardListView.h,v 1.4 2006/02/02 13:00:47 tsawada2 Exp $
+//  $Id: BSBoardListView.h,v 1.1 2006/06/17 07:37:54 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/09/20.

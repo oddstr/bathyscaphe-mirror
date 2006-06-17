@@ -1,5 +1,5 @@
 //
-//  $Id: BSWindow.h,v 1.2 2006/06/17 06:37:15 tsawada2 Exp $
+//  $Id: BSWindow.h,v 1.1 2006/06/17 07:37:54 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/06/12.
