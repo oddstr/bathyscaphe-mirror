@@ -224,7 +224,6 @@
 		F3BF09650627A582009DAAFE /* UtkDescription.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = UtkDescription.h; sourceTree = "<group>"; };
 		F3BF09660627A582009DAAFE /* UtkError.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = UtkError.h; sourceTree = "<group>"; };
 		F3C928CD04DC0E5400A80005 /* SGKeybindingMacros.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = SGKeybindingMacros.plist; sourceTree = "<group>"; };
-		F3C928CF04DC0E5F00A80005 /* genKeybindngMacros.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; name = genKeybindngMacros.m; path = framework/resource/genKeybindngMacros.m; sourceTree = SOURCE_ROOT; };
 		F3FB8B7904459A3F00A80005 /* SGKeyBindingSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGKeyBindingSupport.h; sourceTree = "<group>"; };
 		F3FB8B7A04459A3F00A80005 /* SGKeyBindingSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGKeyBindingSupport.m; sourceTree = "<group>"; };
 		F3FB8BA004459CE800A80005 /* SGFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SGFoundation.framework; path = ../SGFoundation/build/Deployment/SGFoundation.framework; sourceTree = SOURCE_ROOT; };
@@ -268,10 +267,6 @@
 		F58144EC037B01E001A80002 /* NSCell-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSCell-SGExtensions.m"; sourceTree = "<group>"; };
 		F581BD1F037BA85D01A80002 /* NSTextField-SGExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSTextField-SGExtensions.h"; sourceTree = "<group>"; };
 		F581BD20037BA85D01A80002 /* NSTextField-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSTextField-SGExtensions.m"; sourceTree = "<group>"; };
-		F581BD33037BABD901A80002 /* RoundedTextFieldSurfaceLeft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RoundedTextFieldSurfaceLeft.png; sourceTree = "<group>"; };
-		F581BD34037BABD901A80002 /* RoundedTextFieldSurfaceMiddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RoundedTextFieldSurfaceMiddle.png; sourceTree = "<group>"; };
-		F581BD35037BABD901A80002 /* RoundedTextFieldSurfaceRight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RoundedTextFieldSurfaceRight.png; sourceTree = "<group>"; };
-		F581BD36037BABD901A80002 /* clearInput.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clearInput.png; sourceTree = "<group>"; };
 		F5823B6D037D2CC001A80002 /* NSControl-SGExtensions.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSControl-SGExtensions.h"; sourceTree = "<group>"; };
 		F5823B6E037D2CC001A80002 /* NSControl-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSControl-SGExtensions.m"; sourceTree = "<group>"; };
 		F5AC4BB00378150501A80002 /* NSPasteboard-SGExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSPasteboard-SGExtensions.h"; sourceTree = "<group>"; };
@@ -435,7 +430,6 @@
 			children = (
 				F3FB8B7904459A3F00A80005 /* SGKeyBindingSupport.h */,
 				F3FB8B7A04459A3F00A80005 /* SGKeyBindingSupport.m */,
-				F3C928CF04DC0E5F00A80005 /* genKeybindngMacros.m */,
 			);
 			name = "Event Handling";
 			path = src/event;
@@ -662,7 +656,6 @@
 			isa = PBXGroup;
 			children = (
 				F581BD31037BABD901A80002 /* background */,
-				F581BD36037BABD901A80002 /* clearInput.png */,
 			);
 			path = images;
 			sourceTree = "<group>";
@@ -670,9 +663,6 @@
 		F581BD31037BABD901A80002 /* background */ = {
 			isa = PBXGroup;
 			children = (
-				F581BD33037BABD901A80002 /* RoundedTextFieldSurfaceLeft.png */,
-				F581BD34037BABD901A80002 /* RoundedTextFieldSurfaceMiddle.png */,
-				F581BD35037BABD901A80002 /* RoundedTextFieldSurfaceRight.png */,
 			);
 			path = background;
 			sourceTree = "<group>";
