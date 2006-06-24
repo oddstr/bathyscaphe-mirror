@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.25 2006/06/11 23:47:26 tsawada2 Exp $
+  * $Id: CMRBrowser.m,v 1.26 2006/06/24 16:23:38 tsawada2 Exp $
   * 
   * CMRBrowser.m
   *
@@ -8,7 +8,7 @@
   */
 #import "CMRBrowser_p.h"
 #import "BSBoardInfoInspector.h"
-
+#import "CMRDocumentController.h";
 static NSString *const CMRBrowserLoadNibName              = @"Browser";
 
 NSString *const CMRBrowserDidChangeBoardNotification = @"CMRBrowserDidChangeBoardNotification";
@@ -24,21 +24,32 @@ CMRBrowser *CMRMainBrowser = nil;
 - (id) init
 {
 	if (self = [super init]) {
-		if(shouldCascadeBrowser) {
+		/*if(shouldCascadeBrowser) {
 			[self setShouldCascadeWindows : YES];
 			shouldCascadeBrowser = NO;
 		} else {
 			[self setShouldCascadeWindows : NO];
-		}
+		}*/
 		if (CMRMainBrowser == nil)
 			CMRMainBrowser = self;
 	}
 	return self;
 }
 
-- (NSString *) windowNibName
+//- (NSString *) windowNibName
++ (NSString *) nibNameToInitialize
 {
 	return CMRBrowserLoadNibName;
+}
+
++ (BOOL) defaultSettingForCascading
+{
+	if ([CMRDocumentController shouldCascadeBrowserWindow]) {
+		//[CMRDocumentController setShouldCascadeBrowserWindow: NO];
+		return YES;
+	} else {
+		return NO;
+	}
 }
 
 - (NSString *) windowTitleForDocumentDisplayName : (NSString *) displayName
@@ -94,21 +105,16 @@ CMRBrowser *CMRMainBrowser = nil;
 {
 	return [super threadIdentifier];
 }
-/*
-- (IBAction) showWindow : (id) sender
+- (NSString *) boardNameArrowingSecondSource
 {
-	BOOL	isWindowLoaded_ = [self isWindowLoaded];
+	NSString *firstSource = [self boardName];
+	if(firstSource)
+		return firstSource;
 
-	[super showWindow : sender];
-	if (isWindowLoaded_) return;
-	
-	// どこで間違ったのか、必ずTextViewがfirstResponderに
-	// なってしまうため、ここで改めて、スレッド一覧をfirstResponder
-	// に設定する。
-	[[self window] setInitialFirstResponder : [self threadsListTable]];
-	[[self window] makeFirstResponder : [self threadsListTable]];
+	NSString *secondSource = [[self currentThreadsList] BBSName];
+	return secondSource;
 }
-*/
+
 // CMRThreadViewer:
 /**
   * 
@@ -136,8 +142,8 @@ willRemoveController : (NSWindowController *) aController;
 - (IBAction) showBoardInspectorPanel : (id) sender
 {
 	NSString			*board;
-	board = [(CMRBBSSignature *)[self boardIdentifier] name];
-	
+	//board = [(CMRBBSSignature *)[self boardIdentifier] name];
+	board = [[self currentThreadsList] BBSName];
 	if (nil == board)
 		return;
 

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.43 2006/04/11 17:31:21 masakih Exp $
+  * $Id: CMRBrowser-Action.m,v 1.44 2006/06/24 16:23:38 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -394,9 +394,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 - (void) _threadDeletionSheetDidEnd : (NSAlert *) alert
 						 returnCode : (int      ) returnCode
 						contextInfo : (void	   *) contextInfo
-{	
-	UTILAssertKindOfClass(contextInfo, [NSArray class]);
-
+{
 	switch(returnCode){
 	case NSAlertFirstButtonReturn: // delete
 		{

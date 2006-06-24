@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRExports.h,v 1.7 2006/03/07 15:17:40 tsawada2 Exp $
+  * $Id: CMRExports.h,v 1.8 2006/06/24 16:23:38 tsawada2 Exp $
   * 
   * CMRExports.h
   *
@@ -50,7 +50,7 @@ extern SGUtilLogger *CMRLogger;
  */
 #define CMXFavoritesDirectoryName	NSLocalizedString(@"Favorites", nil)
 
-extern BOOL shouldCascadeBrowser;
+//extern BOOL shouldCascadeBrowser;
 
 
 #ifdef __cplusplus

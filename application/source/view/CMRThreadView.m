@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadView.m,v 1.10 2006/06/11 23:47:26 tsawada2 Exp $
+  * $Id: CMRThreadView.m,v 1.11 2006/06/24 16:23:38 tsawada2 Exp $
   * 
   * CMRThreadView.m
   *
@@ -86,7 +86,7 @@
 	}
 	return self;
 }
-
+	
 - (void)updateRuler
 {
 	// Ruler の更新をブロックする。

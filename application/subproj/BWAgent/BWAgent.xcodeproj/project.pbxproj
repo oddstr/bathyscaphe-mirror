@@ -34,32 +34,6 @@
 		876A9C2C08E3D68A00902FF2 /* AppleScriptKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA206CF1015C4E2903C91932 /* AppleScriptKit.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXBuildStyle section */
-		4A9504CCFFE6A4B311CA0CBA /* Development */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				OPTIMIZATION_CFLAGS = "-O0";
-				ZERO_LINK = YES;
-			};
-			name = Development;
-		};
-		4A9504CDFFE6A4B311CA0CBA /* Deployment */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				OTHER_OSAFLAGS = "-x";
-				ZERO_LINK = NO;
-			};
-			name = Deployment;
-		};
-/* End PBXBuildStyle section */
-
 /* Begin PBXFileReference section */
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -71,7 +45,7 @@
 		87421B4A0653FDE60078F237 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		8752DA1D06BD31C8006AF500 /* warrior.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = warrior.icns; sourceTree = "<group>"; };
 		876A9C3108E3D68A00902FF2 /* Info-BWAgent.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-BWAgent.plist"; sourceTree = "<group>"; };
-		876A9C3208E3D68A00902FF2 /* BWAgent.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BWAgent.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		876A9C3208E3D68A00902FF2 /* BWAgent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BWAgent.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		877534C00653B22F00B81444 /* SJIS2UTF8 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = SJIS2UTF8; sourceTree = "<group>"; };
 		87CA02B306660CC900FC76B4 /* rosetta.pl */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = text.script.perl; path = rosetta.pl; sourceTree = "<group>"; };
 		87CA02B406660CC900FC76B4 /* sora.pl */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = text.script.perl; path = sora.pl; sourceTree = "<group>"; };
@@ -198,23 +172,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				DEBUGGING_SYMBOLS = NO;
-				FRAMEWORK_SEARCH_PATHS = "";
-				HEADER_SEARCH_PATHS = "";
-				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = "";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = BWAgent;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = app;
-			};
 			dependencies = (
 			);
 			name = BWAgent;
@@ -229,12 +186,6 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 876A9C3508E3D68E00902FF2 /* Build configuration list for PBXProject "BWAgent" */;
-			buildSettings = {
-			};
-			buildStyles = (
-				4A9504CCFFE6A4B311CA0CBA /* Development */,
-				4A9504CDFFE6A4B311CA0CBA /* Deployment */,
-			);
 			hasScannedForEncodings = 1;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* Application */;
 			projectDirPath = "";

@@ -12,7 +12,7 @@
 #import "CMRThreadMessage.h"
 
 #import "CMRIndexingStepper.h"
-#import "CMXScrollView.h"
+#import "BSIndexingPopupper.h"
 
 #import "CMRFavoritesManager.h"
 #import "CMRTrashbox.h"
@@ -37,10 +37,6 @@ extern NSString *const CMRThreadViewerRunSpamFilterNotification;
 #define APP_TVIEWER_INVALID_THREAD_MSG_FMT	@"Invalidated Thread Contents Message"
 #define APP_TVIEWER_DO_RELOAD_LABEL			@"Reload From File Button Label"
 #define APP_TVIEWER_NOT_RELOAD_LABEL		@"Do Not Reload Button Label"
-#define APP_TVIEW_FIRST_VISIBLE_LABEL_KEY	@"First Visibles"
-#define APP_TVIEW_LAST_VISIBLE_LABEL_KEY	@"Last Visibles"
-#define APP_TVIEW_SHOW_ALL_LABEL_KEY		@"Show All"
-#define APP_TVIEW_SHOW_NONE_LABEL_KEY		@"Show None"
 
 #define kDeleteThreadTitleKey	@"Delete Thread Title"
 #define kDeleteThreadMessageKey	@"Delete Thread Message"
@@ -94,8 +90,6 @@ extern NSString *const CMRThreadViewerRunSpamFilterNotification;
 
 
 @interface CMRThreadViewer(ThreadDataNotification)
-- (void) synchronizeVisibleLength : (BOOL					) isFirst
-					 visibleRange : (CMRThreadVisibleRange *) visibleRange;
 - (void) synchronizeVisibleRange;
 - (void) synchronizeAttributes;
 - (void) synchronizeLayoutAttributes;
@@ -143,19 +137,14 @@ extern NSString *const CMRThreadViewerRunSpamFilterNotification;
 
 //:CMRThreadViewer-ViewAccessor.m
 @interface CMRThreadViewer(ViewAccessor)
-/* Accessor for m_textView */
 - (NSTextView *) textView;
 - (void) setTextView : (NSTextView *) aTextView;
-/* Accessor for m_scrollView */
-- (CMXScrollView *) scrollView;
+- (NSScrollView *) scrollView;
 
-/* Accessor for m_firstVisibleRangePopUpButton */
-- (NSPopUpButton *) firstVisibleRangePopUpButton;
-/* Accessor for m_lastVisibleRangePopUpButton */
-- (NSPopUpButton *) lastVisibleRangePopUpButton;
-
-/* Accessor for m_indexingStepper */
+- (BSIndexingPopupper *) indexingPopupper;
 - (CMRIndexingStepper *) indexingStepper;
+
+- (NSView *) navigationBar;
 @end
 
 
@@ -165,27 +154,6 @@ extern NSString *const CMRThreadViewerRunSpamFilterNotification;
 - (NSView *) containerView;
 - (void) setupLoadedComponents;
 @end
-
-
-@interface CMRThreadViewer(VisibleNumbersPopUpSetup)
-+ (NSArray *) firstVisibleNumbersArray;
-+ (NSArray *) lastVisibleNumbersArray;
-
-- (NSString *) localizedVisibleStringWithFormat : (NSString *) fotmat
-								  visibleLength : (unsigned  ) visibleLength;
-- (NSString *) localizedFirstVisibleStringWithNumber : (NSNumber *) visibleNumber;
-- (NSString *) localizedLastVisibleStringWithNumber : (NSNumber *) visibleNumber;
-- (NSMenuItem *) addItemWithVisibleRangePopUpButton : (NSPopUpButton *) popUpBtn
-                           isFirstVisibles : (BOOL           ) isFirst
-                          representedIndex : (NSNumber      *) aNum;
-
-- (void) setupVisibleRangePopUpButtonCell : (NSPopUpButtonCell *) popUpBtnCell;
-- (void) setupVisibleRangePopUpButton : (NSPopUpButton *) popUpBtn;
-- (void) setupVisibleRangePopUpButtonAttributes : (NSPopUpButton *) popUpBtn
-								isFirstVisibles : (BOOL           ) isFirst;
-- (void) setupVisibleRangePopUp;
-@end
-
 
 
 @interface CMRThreadViewer(ViewInitializer)

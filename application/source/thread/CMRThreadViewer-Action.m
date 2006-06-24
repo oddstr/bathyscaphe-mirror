@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.27 2006/06/11 23:47:26 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.28 2006/06/24 16:23:38 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -179,7 +179,7 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 
 #pragma mark Reloading thread
 
-- (IBAction) reloadThread
+- (void) reloadThread
 {
 	[self downloadThread : [[self threadAttributes] threadSignature]
 				   title : [self title]
@@ -228,13 +228,13 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 
 // invoke by CMRThreadDownloadTask...
 // NOTE: it should be removed!
+/*
 - (id) startDownload_veryPrivate
 {
-	/* XXX */
 	[self reloadThread];
 	return [NSNull null];
 }
-
+*/
 #pragma mark Show & Copy Thread Info
 
 - (NSPoint) locationForInformationPopUp
@@ -710,43 +710,20 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 			[[CMRFavoritesManager defaultManager] removeFromFavoritesWithFilePath : path_];
 	}
 }
-
-- (void) updateVisibleRange
-{
-	CMRThreadVisibleRange	*visibleRange_;
-	NSNumber				*number_;
-	unsigned				firstLength_, lastLength_;
-	
-	number_ = [[[self firstVisibleRangePopUpButton] selectedItem] representedObject];
-	UTILAssertKindOfClass(number_, NSNumber);
-	firstLength_ = [number_ unsignedIntValue];
-	
-	number_ = [[[self lastVisibleRangePopUpButton] selectedItem] representedObject];
-	UTILAssertKindOfClass(number_, NSNumber);
-	lastLength_ = [number_ unsignedIntValue];
-	
-	visibleRange_ = [CMRThreadVisibleRange 
-						visibleRangeWithFirstVisibleLength : firstLength_
-						lastVisibleLength : lastLength_];
-	
-	[[self threadAttributes] setVisibleRange : visibleRange_];
-	if ([self synchronize])
-		[self loadFromContentsOfFile : [self path]];
-}
-- (IBAction) selectFirstVisibleRange : (id) sender
-{
-	[self updateVisibleRange];
-}
-- (IBAction) selectLastVisibleRange : (id) sender
-{
-	[self updateVisibleRange];
-}
-
 // make text area to be first responder
 - (IBAction) focus : (id) sender
 {
     [[self window] makeFirstResponder : 
         [[self textView] enclosingScrollView]];
+}
+
+#pragma mark BSIndexingPopupper delegate
+- (void) indexingPopupper: (BSIndexingPopupper *) popupper
+	didChangeVisibleRange: (CMRThreadVisibleRange *) newRange
+{
+	[[self threadAttributes] setVisibleRange: newRange];
+	if ([self synchronize])
+		[self loadFromContentsOfFile: [self path]];
 }
 
 #pragma mark Available in SledgeHammer and Later

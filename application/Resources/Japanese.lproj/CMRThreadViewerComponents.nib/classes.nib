@@ -1,5 +1,6 @@
 {
     IBClasses = (
+        {CLASS = BSTsuruPetaView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {
             ACTIONS = {collapseSecondView = id; expandSecondView = id; }; 
             CLASS = BrowserSplitView; 
@@ -16,32 +17,48 @@
         {
             ACTIONS = {
                 addFavorites = id; 
+                copyInfoFromContextualMenu = id; 
+                copySelectedResURL = id; 
+                copyThreadAttributes = id; 
                 deleteThread = id; 
+                findAll = id; 
+                findAllByFilter = id; 
                 findFirstText = id; 
                 findNextText = id; 
                 findPreviousText = id; 
+                findTextInSelection = id; 
+                focus = id; 
+                historyMenuPerformBack = id; 
+                historyMenuPerformForward = id; 
                 openBBSInBrowser = id; 
                 openInBrowser = id; 
                 openLogfile = id; 
+                orderFrontMainBrowser = id; 
+                reloadIfOnlineMode = id; 
                 reloadThread = id; 
                 reply = id; 
                 scrollFirstMessage = id; 
                 scrollLastMessage = id; 
+                scrollNextBookmark = id; 
                 scrollNextMessage = id; 
                 scrollPrevMessage = id; 
+                scrollPreviousBookmark = id; 
+                scrollPreviousMessage = id; 
                 scrollToLastReadedIndex = id; 
-                selectFirstVisibleRange = id; 
-                selectLastVisibleRange = id; 
-                toggleOnlineMode = id; 
+                scrollToLastUpdatedIndex = id; 
+                showThreadAttributes = id; 
+                showThreadWithMenuItem = id; 
+                toggleAAThread = id; 
+                toggleDatOchiThread = id; 
+                toggleMarkedThread = id; 
             }; 
             CLASS = CMRThreadViewer; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 "m_componentsView" = NSView; 
                 "m_containerView" = NSView; 
-                "m_firstVisibleRangePopUpButton" = NSPopUpButton; 
-                "m_lastVisibleRangePopUpButton" = NSPopUpButton; 
-                "m_scrollView" = SGScrollView; 
+                "m_navigationBar" = NSView; 
+                "m_scrollView" = CMXScrollView; 
                 "m_textView" = NSTextView; 
                 "m_windowContentView" = NSView; 
             }; 
@@ -55,7 +72,8 @@
         }, 
         {CLASS = CMXScrollView; LANGUAGE = ObjC; SUPERCLASS = NSScrollView; }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {CLASS = IndexField; LANGUAGE = ObjC; SUPERCLASS = NSTextField; }
+        {CLASS = IndexField; LANGUAGE = ObjC; SUPERCLASS = NSTextField; }, 
+        {CLASS = NSSegmentedControl; LANGUAGE = ObjC; SUPERCLASS = NSControl; }
     ); 
     IBVersion = 1; 
 }

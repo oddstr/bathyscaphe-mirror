@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.9 2006/06/17 06:37:15 tsawada2 Exp $
+  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.10 2006/06/24 16:23:38 tsawada2 Exp $
   * 
   * CMRThreadViewer-ViewAccessor.m
   *
@@ -20,20 +20,13 @@
 #import "UTILDebugging.h"
 
 
-
-//////////////////////////////////////////////////////////////////////
-////////////////////// [ 定数やマクロ置換 ] //////////////////////////
-//////////////////////////////////////////////////////////////////////
-#define kFirstVisibleNumbersPlist	@"firstVisibleNumbers.plist"
-#define kLastVisibleNumbersPlist	@"lastVisibleNumbers.plist"
-
 #define kComponentsLoadNibName	@"CMRThreadViewerComponents"
 #define HTMLVIEW_CLASS			CMRThreadView
 
 
-
 @implementation CMRThreadViewer(ViewAccessor)
-- (CMXScrollView *) scrollView
+//- (CMXScrollView *) scrollView
+- (NSScrollView *) scrollView
 {
 	return m_scrollView;
 }
@@ -45,19 +38,22 @@
 {
 	m_textView = aTextView;
 }
-- (NSPopUpButton *) firstVisibleRangePopUpButton
+
+- (BSIndexingPopupper *) indexingPopupper
 {
-	return m_firstVisibleRangePopUpButton;
-}
-- (NSPopUpButton *) lastVisibleRangePopUpButton
-{
-	return m_lastVisibleRangePopUpButton;
+	if (nil == m_indexingPopupper)
+		m_indexingPopupper = [[BSIndexingPopupper alloc] init];
+	return m_indexingPopupper;
 }
 - (CMRIndexingStepper *) indexingStepper
 {
 	if (nil == m_indexingStepper)
 		m_indexingStepper = [[CMRIndexingStepper alloc] init];
 	return m_indexingStepper;
+}
+- (NSView *) navigationBar
+{
+	return m_navigationBar;
 }
 @end
 
@@ -106,168 +102,9 @@
 }
 @end
 
-
-
-@implementation CMRThreadViewer(VisibleNumbersPopUpSetup)
-+ (NSString *) visibleNumbersFilepathWithName : (NSString *) filename
-{
-	NSBundle	*bundles[] = {
-			[NSBundle applicationSpecificBundle],
-			[NSBundle mainBundle],
-			nil};
-	NSBundle	**p;
-	NSString	*s = nil;
-	
-	for (p = bundles; *p != nil; p++)
-		if ((s = [*p pathForResourceWithName : filename]) != nil)
-			break;
-	
-	return s;
-}
-
-+ (NSArray *) visibleNumbersArrayWithName : (NSString *) filename
-{
-	NSMutableArray		*values;
-	int					i;
-	
-	values = [NSMutableArray arrayWithContentsOfFile : 
-				[self visibleNumbersFilepathWithName : filename]];
-	if (nil == values) values = [NSMutableArray array];
-	
-	for (i = [values count] -1; i >= 0; i--) {
-		id		v = [values objectAtIndex : i];
-		
-		if (NO == [v isKindOfClass : [NSNumber class]]) {
-			[values removeObjectAtIndex : i];
-			continue;
-		}
-		
-		if ([v intValue] < 0) {
-			[values replaceObjectAtIndex : i
-			  withObject : [NSNumber numberWithUnsignedInt : CMRThreadShowAll]];
-		}
-	}
-	return values;
-}
-+ (NSArray *) firstVisibleNumbersArray
-{
-	return [self visibleNumbersArrayWithName : kFirstVisibleNumbersPlist];
-}
-+ (NSArray *) lastVisibleNumbersArray
-{
-	return [self visibleNumbersArrayWithName : kLastVisibleNumbersPlist];
-}
-
-- (NSString *) localizedVisibleStringWithFormat : (NSString *) format
-								  visibleLength : (unsigned  ) visibleLength
-{
-	if (0 == visibleLength)
-		return [self localizedString : APP_TVIEW_SHOW_NONE_LABEL_KEY];
-	if (CMRThreadShowAll == visibleLength)
-		return [self localizedString : APP_TVIEW_SHOW_ALL_LABEL_KEY];
-	
-	return [NSString stringWithFormat : 
-							format,
-							visibleLength];
-}
-- (NSString *) localizedFirstVisibleStringWithNumber : (NSNumber *) visibleNumber
-{
-	NSString			*format_;
-	
-	if (nil == visibleNumber) return nil;
-	
-	format_ = [self localizedString : APP_TVIEW_FIRST_VISIBLE_LABEL_KEY];
-	return [self localizedVisibleStringWithFormat : format_
-						visibleLength : [visibleNumber unsignedIntValue]];
-}
-- (NSString *) localizedLastVisibleStringWithNumber : (NSNumber *) visibleNumber
-{
-	NSString			*format_;
-	
-	if (nil == visibleNumber) return nil;
-	
-	format_ = [self localizedString : APP_TVIEW_LAST_VISIBLE_LABEL_KEY];
-	return [self localizedVisibleStringWithFormat : format_
-						visibleLength : [visibleNumber unsignedIntValue]];
-}
-
-- (void) setupVisibleRangePopUpButtonCell : (NSPopUpButtonCell *) aCell
-{
-	[aCell setControlSize : NSSmallControlSize];
-	[aCell setArrowPosition : NSPopUpArrowAtBottom];
-	[aCell setPullsDown : NO];
-}
-- (void) setupVisibleRangePopUpButton : (NSPopUpButton *) popUpBtn
-{
-	[popUpBtn setFont : 
-		[NSFont systemFontOfSize : 
-			[NSFont smallSystemFontSize]]];
-	[popUpBtn setBezelStyle : NSShadowlessSquareBezelStyle];
-	[popUpBtn setBordered : YES];
-
-	[popUpBtn setTarget : nil];
-	[popUpBtn setAction : NULL];
-	
-	
-	[self setupVisibleRangePopUpButtonCell : [popUpBtn cell]];
-}
-
-- (NSMenuItem *) addItemWithVisibleRangePopUpButton : (NSPopUpButton *) popUpBtn
-                           isFirstVisibles : (BOOL           ) isFirst
-                          representedIndex : (NSNumber      *) aNum
-{
-    NSString   *title;
-    NSMenuItem *item;
-    
-    if (isFirst)
-      title = [self localizedFirstVisibleStringWithNumber : aNum];
-    else
-      title = [self localizedLastVisibleStringWithNumber : aNum];
-    
-    [popUpBtn addItemWithTitle : title];
-    
-    item = (NSMenuItem *)[popUpBtn lastItem];
-    [item setRepresentedObject : aNum];
-    [item setTarget : self];
-    [item setAction : isFirst 	? 
-        @selector(selectFirstVisibleRange:)
-        : @selector(selectLastVisibleRange:)];
-    return item;
-}
-- (void) setupVisibleRangePopUpButtonAttributes : (NSPopUpButton *) popUpBtn
-								isFirstVisibles : (BOOL           ) isFirst
-{
-	NSArray			*visibleNumbers_;
-	NSEnumerator	*iter_;
-	NSNumber		*number_;
-	
-	[popUpBtn removeAllItems];
-	visibleNumbers_ = isFirst 	? [[self class] firstVisibleNumbersArray]
-								: [[self class] lastVisibleNumbersArray];
-	iter_ = [visibleNumbers_ objectEnumerator];
-	while (number_ = [iter_ nextObject]) {
-        [self addItemWithVisibleRangePopUpButton : popUpBtn
-            isFirstVisibles : isFirst
-            representedIndex : number_];
-    }
-}
-- (void) setupVisibleRangePopUp
-{
-	[self setupVisibleRangePopUpButton : [self firstVisibleRangePopUpButton]];
-	[self setupVisibleRangePopUpButton : [self lastVisibleRangePopUpButton]];
-	[self setupVisibleRangePopUpButtonAttributes : [self firstVisibleRangePopUpButton]
-								 isFirstVisibles : YES];
-	[self setupVisibleRangePopUpButtonAttributes : [self lastVisibleRangePopUpButton]
-								 isFirstVisibles : NO];
-}
-@end
-
-
-
 @implementation CMRThreadViewer(ViewInitializer)
-// ----------------------------------------
-// Contextual Menu Stuff
-// ----------------------------------------
+
+#pragma mark Contextual Menu Stuff
 + (NSMenu *) clearkeyEquivalentInMenu : (NSMenu *) aMenu
 {
 	NSEnumerator	*iter_;
@@ -316,8 +153,7 @@
 }
 
 
-
-// Override super implementation
+#pragma mark Override super implementation
 + (Class) toolbarDelegateImpClass
 {
 	return [CMRThreadViewerTbDelegate class];
@@ -332,7 +168,7 @@
 {
 	[super setupStatusLine];
 }*/
-
+#pragma mark Others
 + (BOOL) shouldShowTitleRulerView
 {
 	return NO;
@@ -345,7 +181,8 @@
 
 - (void) setupScrollView
 {
-	CMXScrollView	*scrollView_ = [self scrollView];
+	//CMXScrollView	*scrollView_ = [self scrollView];
+	NSScrollView	*scrollView_ = [self scrollView];
 	id ruler;
 	
 	{
@@ -363,20 +200,46 @@
 	}
 	
 	[scrollView_ setBorderType : NSBezelBorder];
-	[scrollView_ setHasHorizontalScroller : YES];
+	[scrollView_ setHasHorizontalScroller : NO];//YES];
 	[scrollView_ setHasVerticalScroller : YES];
 
 	// Accessory View
-	[self setupVisibleRangePopUp];
+	[[self indexingPopupper] setDelegate: self];
 	[[self indexingStepper] setDelegate : self];
-	
-	[scrollView_ addAccessoryView : [self firstVisibleRangePopUpButton]
-						alignment : CMXScrollViewHorizontalRight];
-	[scrollView_ addAccessoryView : [self lastVisibleRangePopUpButton]
-						alignment : CMXScrollViewHorizontalRight];
+	/*
+	[scrollView_ addAccessoryView: [[self indexingPopupper] contentView]
+						alignment: CMXScrollViewHorizontalRight];
 	[scrollView_ addAccessoryView : [[self indexingStepper] contentView] 
 						alignment : CMXScrollViewHorizontalRight];
+	*/
+	[[self navigationBar] addSubview: [[self indexingStepper] contentView]];
+	[[self navigationBar] addSubview: [[self indexingPopupper] contentView]];
+	//[[[self indexingPopupper] contentView] setFrameOrigin: NSMakePoint(10,0)];
+	//[[self navigationBar] addSubview: [[self statusLine] statusTextField]];
+	{
+		NSRect	idxStepperFrame, scrollViewFrame, idxPopupperFrame;
+		NSPoint origin_;
+		idxStepperFrame = [[[self indexingStepper] contentView] frame];
+		scrollViewFrame = [[self navigationBar] frame];
 
+		origin_ = scrollViewFrame.origin;
+		origin_.x = NSMaxX(scrollViewFrame);
+		
+		origin_.x -= NSWidth(idxStepperFrame);
+		origin_.x -= 15.0;
+		
+		idxStepperFrame.origin = origin_;
+		[[[self indexingStepper] contentView] setFrame: idxStepperFrame];
+		
+		idxPopupperFrame = [[[self indexingPopupper] contentView] frame];
+		
+		origin_.x -= NSWidth(idxPopupperFrame);
+		
+		idxPopupperFrame.origin = NSMakePoint(origin_.x, origin_.y-1);
+		[[[self indexingPopupper] contentView] setFrame: idxPopupperFrame];
+		
+		//[[[self statusLine] statusTextField] setFrame: NSInsetRect(scrollViewFrame, 4.0, 2.0)];
+	}
 	// Title Ruler
 	[[scrollView_ class] setRulerViewClass : [BSTitleRulerView class]];
 	ruler = [[BSTitleRulerView alloc] initWithScrollView : scrollView_ orientation : NSHorizontalRuler];
@@ -516,7 +379,7 @@
 	
 	// ロードしたComponentsの配置
 	[self setupLoadedComponents];
-
+	[[self window] setPreservesContentDuringLiveResize: NO];
 	[self setupScrollView];
 	[self setupTextView];
 	

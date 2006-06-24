@@ -67,10 +67,15 @@
 {
 	UTILAssertNotNilArgument(button, @"button");
 	
-	[button setFrameSize : [[self class] defaultButtonSize]];
+	//[button setFrameSize : [[self class] defaultButtonSize]];
 	[button setContinuous : YES];
-	[button  setImagePosition : NSImageOnly];
-	[button  setImage : icon];
+	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_3) {
+		[button setBezelStyle: NSSmallSquareBezelStyle]; // Tiger or later
+	} else {
+		[button setBezelStyle: NSShadowlessSquareBezelStyle];
+	}
+	//[button  setImagePosition : NSImageOnly];
+	//[button  setImage : icon];
 }
 @end
 
@@ -131,7 +136,7 @@
 
 	[[self indexField] setDelegate : self];
 	//[[self indexField] setAction : @selector(moveToScanedIndex:)];
-	[[self indexField] setFocusRingType : NSFocusRingTypeNone];
+	//[[self indexField] setFocusRingType : NSFocusRingTypeNone];
 }
 //- (void) setupFrameView
 //{

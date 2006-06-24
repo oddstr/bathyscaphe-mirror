@@ -24,7 +24,6 @@
 #import "BSDBThreadList.h"
 
 #import "ThreadsListTable.h"
-#import "CMXScrollView.h"
 #import "CMRAccessorySheetController.h"
 
 #import "CMRSearchOptions.h"
@@ -124,15 +123,10 @@
 
 //:CMRBrowser-ViewAccessor.m
 @interface CMRBrowser(ViewAccessor)
-/* Accessor for m_splitView */
 - (BSKFSplitView *) splitView;
-/* Accessor for m_threadsListTable */
+
 - (ThreadsListTable *) threadsListTable;
-/* Accessor for m_threadsListScrollView */
-- (CMXScrollView *) threadsListScrollView;
-/* Accessor for m_threadsFilterPopUp */
-//- (NSPopUpButton *) threadsFilterPopUp;
-/* Accessor for m_boardListTable */
+
 - (NSOutlineView *) boardListTable;
 - (id) brdListActMenuBtn;
 - (RBSplitSubview *) boardListSubView;
@@ -167,8 +161,6 @@
 
 - (void) setupSplitView;
 - (void) setupThreadsListTable;
-//- (void) setupThreadsListScrollView;
-//- (void) setupThreadsFilterPopUp;
 
 - (void) setupBoardListTable;
 

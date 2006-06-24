@@ -16,7 +16,7 @@
 /* for Debugging */
 SGUtilLogger *CMRLogger = nil;
 
-BOOL shouldCascadeBrowser = YES;
+//BOOL shouldCascadeBrowser = YES;
 
 void CMXServicesInit(void)
 {

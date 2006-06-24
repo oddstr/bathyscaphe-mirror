@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.40 2006/06/11 23:47:26 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.41 2006/06/24 16:23:38 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -33,15 +33,6 @@
 - (ThreadsListTable *) threadsListTable
 {
     return m_threadsListTable;
-}
-- (CMXScrollView *) threadsListScrollView
-{
-    CMXScrollView    *sview_;
-    
-    sview_ = (CMXScrollView*)[[self threadsListTable] enclosingScrollView];
-    UTILAssertKindOfClass(sview_, CMXScrollView);
-    
-    return sview_;
 }
 
 - (NSOutlineView *) boardListTable
@@ -379,10 +370,12 @@
 	NSArray			*subviewsAry_ = [splitView_ subviews];
 
     [splitView_ setVertical : isGoingToVertical];
-	[[self threadsListScrollView] setHasHorizontalScroller : isGoingToVertical];
+	[[[self threadsListTable] enclosingScrollView] setHasHorizontalScroller : isGoingToVertical];
 
     topSubview = [subviewsAry_ objectAtIndex : 0];
     bottomSubview = [subviewsAry_ objectAtIndex : 1];
+	
+	NSRect hoge_ = [bottomSubview frame];
 }
 
 - (void) updateDefaultsWithTableView : (NSTableView *) tbview

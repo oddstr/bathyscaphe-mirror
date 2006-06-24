@@ -1,5 +1,5 @@
 /*
-    $Id: CMRThreadViewer-Validation.m,v 1.18 2006/06/11 23:47:26 tsawada2 Exp $
+    $Id: CMRThreadViewer-Validation.m,v 1.19 2006/06/24 16:23:38 tsawada2 Exp $
     CMRThreadViewer-Action.m から独立
     Created at 2005-02-16 by tsawada2.
 */
@@ -8,7 +8,7 @@
 #import "CMRThreadsList.h"
 #import "CMRThreadView.h"
 #import "CMRThreadVisibleRange.h"
-#import "CMRThreadDownloadTask.h"
+#import "CMRThreadLayout.h"
 #import "CMXPopUpWindowManager.h"
 #import "BSBoardInfoInspector.h"
 
@@ -163,7 +163,7 @@ static int messageMaskForTag(int tag)
 - (BOOL) validateUIItem : (id) theItem
 {
 	SEL		action_;
-	BOOL		isSelected_;
+	BOOL	isSelected_;
 	
 	if (nil == theItem) return NO;
 	
@@ -172,18 +172,15 @@ static int messageMaskForTag(int tag)
         
 	// AA スレ
 	if (@selector(toggleAAThread:) == action_) {
-		[theItem setState : 
-			([self isAAThread] ? NSOnState : NSOffState)];
+		[theItem setState : ([self isAAThread] ? NSOnState : NSOffState)];
 		return isSelected_;
 	}
 	if (@selector(toggleMarkedThread:) == action_) {
-		[theItem setState : 
-			([self isMarkedThread] ? NSOnState : NSOffState)];
+		[theItem setState : ([self isMarkedThread] ? NSOnState : NSOffState)];
 		return isSelected_;
 	}
 	if (@selector(toggleDatOchiThread:) == action_) {
-		[theItem setState : 
-			([self isDatOchiThread] ? NSOnState : NSOffState)];
+		[theItem setState : ([self isDatOchiThread] ? NSOnState : NSOffState)];
 		return isSelected_;
 	}
 
@@ -257,14 +254,11 @@ static int messageMaskForTag(int tag)
 	   )
 	{ return [self shouldShowContents]; }
 	
-	if (action_ == @selector(openDefaultNoNameInputPanel:) ||
-	   action_ == @selector(showThreadWithMenuItem:)
-	   )
-	{ return YES; }
+	if (action_ == @selector(showThreadWithMenuItem:))
+		return YES;
 
-	if (action_ == @selector(orderFrontMainBrowser:)) {
+	if (action_ == @selector(orderFrontMainBrowser:))
 		return [self shouldShowContents] && [self threadAttributes];
-	}
 
 	if (action_ == @selector(showBoardInspectorPanel:)) {
 		BOOL tmpBool = [[[BSBoardInfoInspector sharedInstance] window] isVisible];
@@ -272,7 +266,6 @@ static int messageMaskForTag(int tag)
 									 : NSLocalizedString(@"Show Board Inspector", @"Hide Board Options"))];
 		return YES;
 	}
-
 	
 	// 履歴：戻る／進む
 	if (action_ == @selector(historyMenuPerformForward:)) {
@@ -282,7 +275,7 @@ static int messageMaskForTag(int tag)
 			return NO;
 		}
 	}
-	
+
 	if (action_ == @selector(historyMenuPerformBack:)) {
 		if([self shouldShowContents]) {
 			return ([self threadIdentifierFromHistoryWithRelativeIndex : -1] != nil);
@@ -297,10 +290,7 @@ static int messageMaskForTag(int tag)
 	   )
 	{ return ([[self textView] selectedRange].length != 0); }
 	
-	if (action_ == @selector(selectFirstVisibleRange:)	 ||
-	   action_ == @selector(selectLastVisibleRange:)	 ||
-//	   action_ == @selector(reloadThread:)				 ||
-	   action_ == @selector(copyURL:)					 ||
+	if (action_ == @selector(copyURL:)					 ||
 	   action_ == @selector(copyThreadAttributes:)		 ||
 	   action_ == @selector(copyInfoFromContextualMenu:) ||
 	   action_ == @selector(showThreadAttributes:)		 ||	  

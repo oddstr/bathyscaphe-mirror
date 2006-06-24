@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRStatusLine.m,v 1.8 2006/01/25 11:22:03 tsawada2 Exp $
+  * $Id: CMRStatusLine.m,v 1.9 2006/06/24 16:23:38 tsawada2 Exp $
   * 
   * CMRStatusLine.m
   *
@@ -270,10 +270,12 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 
     if (NO == [[CMRTaskManager defaultManager] isInProgress]) {
         [[self progressIndicator] stopAnimation : nil];
+		//[[self statusTextField] setHidden: YES];
         [[self statusTextField] setStringValue : @""];
         
     } else {
         [[self progressIndicator] startAnimation : nil];
+		//[[self statusTextField] setHidden: NO];
         [[self statusTextField] setStringValue : ([aTask message] ? [aTask message] : @"")];
     }
 }

@@ -19,4 +19,6 @@
 
 
 @interface CMRDocumentController : NSDocumentController
++ (BOOL) shouldCascadeBrowserWindow; // test BathyScaphe 1.5
++ (void) setShouldCascadeBrowserWindow: (BOOL) nextTime;
 @end

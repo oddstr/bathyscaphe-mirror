@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.27 2006/06/11 23:47:26 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.28 2006/06/24 16:23:38 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -39,7 +39,8 @@ NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEnd
 @implementation CMRThreadViewer
 - (id) init
 {
-	if (self = [super initWithWindowNibName : [self windowNibName]]) {
+	//if (self = [super initWithWindowNibName : [self windowNibName]]) {
+	if (self = [super initWithWindowNibName : [[self class] nibNameToInitialize]]) {
 		[self setInvalidate : NO];
 		
 		if (NO == [self loadComponents]) {
@@ -47,8 +48,8 @@ NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEnd
 			return nil;
 		}
 		
-		[self setShouldCascadeWindows : NO];
 		[self registerToNotificationCenter];
+		[self setShouldCascadeWindows : [[self class] defaultSettingForCascading]];
 	}
 	return self;
 }
@@ -59,6 +60,7 @@ NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEnd
 	[[NSNotificationCenter defaultCenter] removeObserver : self];
 	
 	[m_indexingStepper release];
+	[m_indexingPopupper release];
 	[m_componentsView release];
 	[_layout release];
 	
@@ -67,9 +69,15 @@ NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEnd
 }
 
 // NSWindowController:
-- (NSString *) windowNibName
+//- (NSString *) windowNibName
++ (NSString *) nibNameToInitialize
 {
 	return @"CMRThreadViewer";
+}
+
++ (BOOL) defaultSettingForCascading
+{
+	return NO;
 }
 
 - (NSString *) titleForTitleBar
@@ -233,9 +241,10 @@ FileNotExistsAutoReloadIfNeeded:
 	
 	{
 		NSString *bName_;
-		bName_ = [self boardName];
-		if (nil == bName_)
-			bName_ = [(CMRBBSSignature *)[self boardIdentifier] name];
+		//bName_ = [self boardName];
+		//if (nil == bName_)
+		//	bName_ = [(CMRBBSSignature *)[self boardIdentifier] name];
+		bName_ = [self boardNameArrowingSecondSource];
 		
 		if ([[BoardManager defaultManager] allThreadsShouldAAThreadAtBoard : bName_])
 			[self setAAThread : YES];
@@ -489,17 +498,18 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 	// まだ名無しさんが決定していなければ決定
 	// この時点では WorkerThread が動いており、
 	// プログレス・バーもそのままなので少し遅らせる
-	[self performSelector:@selector(setupDefaultNoNameIfNeeded_:) 
+	/*[self performSelector:@selector(setupDefaultNoNameIfNeeded_:) 
 			withObject:self
-			afterDelay:1];
+			afterDelay:1];*/
+	[self performSelector: @selector(setupDefaultNoNameIfNeeded) withObject: nil afterDelay: 1.0];
 }
-
+/*
 - (id) setupDefaultNoNameIfNeeded_ : (id) sender
 {
 	[self setupDefaultNoNameIfNeeded];
 	return sender;
 }
-
+*/
 // CMRThreadTaskInterruptedNotification
 - (void) threadTaskInterrupted : (NSNotification *) aNotification
 {
@@ -570,49 +580,55 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 	
 	return name ? [name autorelease] : @"";
 }
-- (NSString *) setupDefaultNoName : (BOOL) forceOpenInputPanel
+- (NSString *) setupDefaultNoNameIfNeeded
+//- (NSString *) setupDefaultNoName : (BOOL) forceOpenInputPanel
 {
 	BoardManager		*mgr;
 	NSString			*name;
 	NSString			*board;
-	
+	/*
 	board = [[self threadAttributes] boardName];
 	if (nil == board)
 		board = [(CMRBBSSignature *)[self boardIdentifier] name];
-	
+	*/
+	board = [self boardNameArrowingSecondSource];
 	if (nil == board)
 		return nil;
-	
+
 	mgr = [BoardManager defaultManager];
 	name = [mgr defaultNoNameForBoard : board];
-	if (nil == name || forceOpenInputPanel) {
-		if (nil == name)
-			name = [self detectDefaultNoName];
+	//if (nil == name || forceOpenInputPanel) {
+	//	if (nil == name)
+	if (nil == name) {
+		//	name = [self detectDefaultNoName];
+		NSString *nameEntry = [self detectDefaultNoName];
 		
 		name = [mgr askUserAboutDefaultNoNameForBoard : board
-							presetValue : name ? name : @""];
+		//					presetValue : name ? name : @""];
+							presetValue: nameEntry]; 
 	}
 	
 	return name;
 }
-- (NSString *) setupDefaultNoNameIfNeeded
-{
-	return [self setupDefaultNoName : NO];
-}
-- (IBAction) openDefaultNoNameInputPanel : (id) sender
+//- (NSString *) setupDefaultNoNameIfNeeded
+//{
+//	return [self setupDefaultNoName : NO];
+//}
+/*- (IBAction) openDefaultNoNameInputPanel : (id) sender
 {
 	[self setupDefaultNoName : YES];
-}
+}*/
 - (IBAction) showBoardInspectorPanel : (id) sender
 {
 	NSString			*board;
 	
-	board = [self boardName];
+	/*board = [self boardName];
 	if (nil == board)
 		board = [(CMRBBSSignature *)[self boardIdentifier] name];
 	
 	if (nil == board)
-		return;
+		return;*/
+	board = [self boardNameArrowingSecondSource];
 
 	[[BSBoardInfoInspector sharedInstance] showInspectorForTargetBoard : board];
 }
@@ -641,6 +657,10 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 - (NSString *) boardName
 {
 	return [[self threadAttributes] boardName];
+}
+- (NSString *) boardNameArrowingSecondSource // subclass should override this method
+{
+	return [self boardName];
 }
 - (NSURL *) boardURL
 {

@@ -1,3 +1,55 @@
+2006-06-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/CMRStatusLine.m
+		ステータスバーは廃止してつるぺたナビゲーションバーに統合するかもしれない。あるいは、他のことを
+		考えるかもしれない。とりあえずまだ何もしていないが。
+		- 注意：現在 CVS ビルドでは別窓で開いたスレッドでステータスバーの表示切り替えなどで不具合が
+		  発生するが、作業が中途のためなので気にしないように。
+	* application/source/view/CMRIndexingStepper-ViewAccessor.m
+		レス番号フィールドは、（レイアウトに余裕ができたため）再びフォーカスリングを表示するようにした。
+	* application/source/thread/CMRThreadDownloadTask.m
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/thread/CMRThreadViewer-Contents.m
+	* application/source/thread/CMRThreadViewer-Find.m
+	* application/source/thread/CMRThreadViewer-Validation.m
+	* application/source/thread/CMRThreadViewer-ViewAccessor.m
+	* application/source/thread/CMRThreadViewer.h
+	* application/source/thread/CMRThreadViewer.m
+	* application/source/thread/CMRThreadViewer_p.h
+		不要メソッドの整理、一部メソッドを BSIndexingPopupper へ追い出し、その他のソース整理など。
+		また、CMXScrollView サブクラスにする必要がなくなったので普通の NSScrollView に変更。
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/browser/CMRBrowser-Delegate.m
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/source/browser/CMRBrowser_p.h
+		不要メソッドの整理、その他の整理など。
+	* application/source/CMRExports.h
+	* application/source/main.m
+	* application/source/manager/CMRDocumentController.(h|m)
+	* application/source/browser/CMRBrowser.m
+		ブラウザウインドウのカスケード制御の方法を 1.2 のものから見直すべく変更中。まだうまくいっていないので
+		気にしないこと。
+	* application/Resources/image/Action.tiff
+	* application/Resources/image/Action_Pressed.tiff
+	* application/Resources/image/AddBoard.tiff
+	* application/Resources/image/AddBoard_Pressed.tiff
+	* application/Resources/image/Spacer.tiff
+	* application/Resources/image/SplitterHandle.tiff
+		32*25 → 32*23 にサイズ変更し、微調整。
+	* application/Resources/Japanese.lproj/Browser.nib
+	* application/Resources/Japanese.lproj/CMRThreadViewer.nib
+		nib ファイルの更新。レイアウト上の微調整や、つるぺたナビゲーションバーの追加など。
+	* application/source/view/BSTsuruPetaView.(h|m)
+	* application/source/view/BSTsuruPetaPopUpBtnCell.(h|m)
+		[新規追加] つるぺたナビゲーションバー。BSTsuruPetaPopUpBtnCell は、つるぺたナビゲーションバー上に
+		bordered: NO な NSPopUpButton を最適な外観でカスタム描画するためのサブクラス。
+	* application/Resources/Japanese.lproj/CMRIndexingStepper.nib
+	* application/Resources/Japanese.lproj/CMRThreadViewerComponents.nib
+		nib ファイルの変更 -- とくにこれらの nib は、CVS の管理上パッケージ内の objects.nib が remove され、
+		keyedobjects.nib が add されているので注意すること。
+	* application/Resources/Japanese.lproj/BSIndexingPopupper.nib
+	* application/source/view/BSIndexingPopupper.(h|m)
+		[新規追加] レス表示範囲選択のポップアップボタン関連のコードを CMRThreadViewer から独立したクラスに
+		分割した。nib ファイルも CMRThreadViewerComponents.nib から分割。
 2006-06-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* frameworks/SGAppKit/framework/src/custom/
 		[削除] 未使用になっていたクラスのソースファイルをばっさり削除。

@@ -18,8 +18,11 @@
 }
 - (void) doExecuteWithLayout : (CMRThreadLayout *) layout
 {
+//	[CMRMainMessenger target : _threadViewer
+//			 performSelector : @selector(startDownload_veryPrivate)
+//				  withResult : YES];
 	[CMRMainMessenger target : _threadViewer
-			 performSelector : @selector(startDownload_veryPrivate)
+			 performSelector : @selector(reloadThread)
 				  withResult : YES];
 }
 
