@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadView.m,v 1.11 2006/06/24 16:23:38 tsawada2 Exp $
+  * $Id: CMRThreadView.m,v 1.12 2006/06/25 17:06:42 tsawada2 Exp $
   * 
   * CMRThreadView.m
   *
@@ -9,9 +9,7 @@
 #import "CMRThreadView_p.h"
 #import "CMXMenuHolder.h"
 #import "AppDefaults.h"
-//#import "NSTextView+CMXAdditions.h"
-
-
+#import "CMRLayoutManager.h"
 
 #define kDefaultMenuNibName		@"CMRThreadMenu"
 
@@ -85,6 +83,21 @@
 		_lastCharIndex = NSNotFound;
 	}
 	return self;
+}
+
+// ライブリサイズ中のレイアウト再計算を抑制する
+- (void) viewWillStartLiveResize
+{
+	[(CMRLayoutManager *)[self layoutManager] setTextContainerInLiveResize: YES];
+	[super viewWillStartLiveResize];
+}
+
+- (void) viewDidEndLiveResize
+{
+	[(CMRLayoutManager *)[self layoutManager] setTextContainerInLiveResize: NO];
+	[[self layoutManager] textContainerChangedGeometry: [self textContainer]];
+	[self setNeedsDisplay: YES];
+	[super viewDidEndLiveResize];
 }
 	
 - (void)updateRuler

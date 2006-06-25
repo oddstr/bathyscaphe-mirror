@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.41 2006/06/24 16:23:38 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.42 2006/06/25 17:06:42 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -363,6 +363,11 @@
 	[[[self scrollView] horizontalRulerView] setNeedsDisplay: YES];
 }
 
++ (float) navBarSubviewsAdjustValue
+{
+	return 0.0;
+}
+
 - (void) setupSplitView
 {
 	BOOL			isGoingToVertical = [CMRPref isSplitViewVertical];
@@ -374,8 +379,6 @@
 
     topSubview = [subviewsAry_ objectAtIndex : 0];
     bottomSubview = [subviewsAry_ objectAtIndex : 1];
-	
-	NSRect hoge_ = [bottomSubview frame];
 }
 
 - (void) updateDefaultsWithTableView : (NSTableView *) tbview

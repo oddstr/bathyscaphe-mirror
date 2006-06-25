@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRStatusLine.m,v 1.9 2006/06/24 16:23:38 tsawada2 Exp $
+  * $Id: CMRStatusLine.m,v 1.10 2006/06/25 17:06:42 tsawada2 Exp $
   * 
   * CMRStatusLine.m
   *
@@ -39,7 +39,7 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 }
 - (void) dealloc
 {
-	[self setWindow : nil];
+	//[self setWindow : nil];
 	[self removeFromNotificationCenter];
 
 	[_identifier release];
@@ -64,12 +64,12 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 {
     return _progressIndicator;
 }
-
+/*
 - (NSWindow *) window
 {
 	return _window;
 }
-
+*/
 - (NSString *) identifier
 {
 	return _identifier;
@@ -91,11 +91,12 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 {
 	_delegate = aDelegate;
 }
-
+/*
 #pragma mark Window
 
 - (void) setWindow : (NSWindow *) aWindow
 {
+	NSLog(@"method setWindow: of CMRStatusLine will be deprecated in BathyScaphe 1.5.");
 	[self setWindow : aWindow
 			visible : [[self preferencesObject] 
 						  boolForKey : [self statusLineShownUserDefaultsKey]
@@ -104,6 +105,7 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 - (void) setWindow : (NSWindow *) aWindow
 		   visible : (BOOL      ) shown
 {
+	NSLog(@"method setWindow: visible: of CMRStatusLine will be deprecated.");
 	_window = aWindow;
 	if(nil == _window) return;
 	
@@ -114,6 +116,7 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
                    animate : (BOOL      ) animateFlag
            statusLineShown : (BOOL      ) willBeShown
 {
+	NSLog(@"method changeWindowFrame: animate: statusLineShown: will be deprecated.");
 	NSRect		windowFrame_  = [aWindow frame];
 	NSRect		lineFrame_    = [[self statusLineView] frame];
 	float		statusBarHeight_;
@@ -187,12 +190,14 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 
 - (BOOL) isVisible
 {
-	return ([[self statusLineView] window] != nil);
+	//return ([[self statusLineView] window] != nil);
+	return NO;
 }
 
 - (void) setVisible : (BOOL) shown
             animate : (BOOL) isAnimate
 {
+	NSLog(@"method setVisible: animate: will be deprecated.");
 	if(shown == [self isVisible]) return;
 	
 	if(NO == [self isVisible]){
@@ -209,7 +214,7 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 			setBool : [self isVisible]
 			 forKey : [self statusLineShownUserDefaultsKey]];
 }
-
+*/
 - (void) setInfoText : (id) aText;
 {
     id        v = aText;
@@ -228,11 +233,12 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 {
 	[[CMRTaskManager defaultManager] cancel : sender];
 }
-- (IBAction) toggleStatusLineShown : (id) sender
+/*- (IBAction) toggleStatusLineShown : (id) sender
 {
-	[self setVisible:(NO == [self isVisible]) animate:YES];
-}
-
+	NSLog(@"method toggleStatusLineShown: will be deprecated.");
+	//[self setVisible:(NO == [self isVisible]) animate:YES];
+}*/
+/*
 #pragma mark User Defaults
 
 - (NSString *) userDefaultsKeyWithKey : (NSString *) key
@@ -253,7 +259,7 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 {
 	return [NSUserDefaults standardUserDefaults];
 }
-
+*/
 #pragma mark Other Actions
 
 - (void) setupUIComponents
@@ -264,26 +270,27 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
     autoresizingMask_ |= NSViewWidthSizable;
     [[self statusLineView] setAutoresizingMask : autoresizingMask_];
 }
-
-- (void) updateStatusLineWithTask : (id<CMRTask>) aTask;
+	
+- (void) updateStatusLineWithTask: (id<CMRTask>) aTask
 {
-
-    if (NO == [[CMRTaskManager defaultManager] isInProgress]) {
-        [[self progressIndicator] stopAnimation : nil];
-		//[[self statusTextField] setHidden: YES];
-        [[self statusTextField] setStringValue : @""];
-        
+    if ([[CMRTaskManager defaultManager] isInProgress]) {
+        [[self progressIndicator] startAnimation: nil];
+		[[self statusTextField] setHidden: NO];
+		if ([self delegate] && [[self delegate] respondsToSelector: @selector(statusLineDidShowTheirViews:)]) {
+			[[self delegate] statusLineDidShowTheirViews: self];
+		}
+		[[self statusTextField] setStringValue: ([aTask message] ? [aTask message] : @"")];
     } else {
-        [[self progressIndicator] startAnimation : nil];
-		//[[self statusTextField] setHidden: NO];
-        [[self statusTextField] setStringValue : ([aTask message] ? [aTask message] : @"")];
+        [[self progressIndicator] stopAnimation: nil];
+		[[self statusTextField] setHidden: YES];
+		if ([self delegate] && [[self delegate] respondsToSelector: @selector(statusLineDidHideTheirViews:)]) {
+			[[self delegate] statusLineDidHideTheirViews: self];
+		}
+		[[self statusTextField] setStringValue: @""];
     }
 }
-@end
 
-#pragma mark -
-
-@implementation CMRStatusLine(Notification)
+#pragma mark Notifications
 - (void) registerToNotificationCenter
 {
     [[NSNotificationCenter defaultCenter]

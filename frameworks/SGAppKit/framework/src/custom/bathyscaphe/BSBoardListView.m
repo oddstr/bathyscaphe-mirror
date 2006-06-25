@@ -1,5 +1,5 @@
 //
-//  $Id: BSBoardListView.m,v 1.1 2006/06/17 07:37:54 tsawada2 Exp $
+//  $Id: BSBoardListView.m,v 1.2 2006/06/25 17:06:42 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/09/20.
@@ -13,6 +13,8 @@ static NSString	*const bgImage_focused	= @"boardListSelBgFocused";
 static NSString *const bgImage_normal	= @"boardListSelBg";
 
 @implementation BSBoardListView
+static NSImage *imgNormal;
+static NSImage *imgFocused;
 static NSRect	imgRectNormal;
 static NSRect	imgRectFocused;
 
@@ -21,52 +23,43 @@ static NSRect	imgRectFocused;
 	return _semiSelectedRow;
 }
 
-- (NSImage *) imageNormal
+- (NSRect) semiSelectedRowRect
 {
-	return _imageNormal;
+	return _semiSelectedRowRect;
 }
 
-- (void) setImageNormal : (NSImage *) anImage
++ (NSImage *) imageNormal
 {
-	[anImage retain];
-	[_imageNormal release];
-	_imageNormal = anImage;
-	
-	NSSize	tmp_ = [_imageNormal size];
-	imgRectNormal = NSMakeRect(0, 0, tmp_.width, tmp_.height);
-
-	[_imageNormal setFlipped : [self isFlipped]];
+	return imgNormal;
 }
 
-- (NSImage *) imageFocused
++ (NSImage *) imageFocused
 {
-	return _imageFocused;
+	return imgFocused;
 }
 
-- (void) setImageFocused : (NSImage *) anImage
++ (void) initialize
 {
-	[anImage retain];
-	[_imageFocused release];
-	_imageFocused = anImage;
-	
-	NSSize	tmp_ = [_imageFocused size];
-	imgRectFocused = NSMakeRect(0, 0, tmp_.width, tmp_.height);
+	if (self == [BSBoardListView class]) {
+		imgNormal = [NSImage imageAppNamed: bgImage_normal];
+		imgFocused = [NSImage imageAppNamed: bgImage_focused];
+		
+		[imgNormal setFlipped: YES];
+		[imgFocused setFlipped: YES];
 
-	[_imageFocused setFlipped : [self isFlipped]];
+		NSSize	tmp_ = [imgNormal size];
+		imgRectNormal = NSMakeRect(0, 0, tmp_.width, tmp_.height);
+
+		NSSize	tmp2_ = [imgFocused size];
+		imgRectFocused = NSMakeRect(0, 0, tmp2_.width, tmp2_.height);
+
+	}
 }
 
 - (void) awakeFromNib
 {
 	_semiSelectedRow = -1;
-	[self setImageNormal : [NSImage imageAppNamed : bgImage_normal]];
-	[self setImageFocused : [NSImage imageAppNamed : bgImage_focused]];
-}
-
-- (void) dealloc
-{
-	[_imageNormal release];
-	[_imageFocused release];
-	[super dealloc];
+	_semiSelectedRowRect = NSZeroRect;
 }
 
 #pragma mark Custom highlight drawing
@@ -78,14 +71,14 @@ static NSRect	imgRectFocused;
 	NSRect	sourceRect;
 
 	if (([[self window] firstResponder] == self) && [[self window] isKeyWindow]) {
-		image_ = [self imageFocused];
+		image_ = [[self class] imageFocused];
 		sourceRect = imgRectFocused;
 	} else {
-		image_ = [self imageNormal];
+		image_ = [[self class] imageNormal];
 		sourceRect = imgRectNormal;
 	}
 
-	// 参考：<http://www.cocoadev.com/index.pl?NSIndexSet>
+	// cf. <http://www.cocoadev.com/index.pl?NSIndexSet>
 	{
 		NSIndexSet *selected = [self selectedRowIndexes];
 		int size = [selected lastIndex]+1;
@@ -106,8 +99,10 @@ static NSRect	imgRectFocused;
 #pragma mark Contextual menu handling
 - (void) cleanUpSemiHighlightBorder : (NSNotification *) theNotification
 {
-	[self setNeedsDisplay : YES]; // あまりスマートではないが、丸ごと描画し直す＝描いた枠を消す
+	// erase the border
+	[self setNeedsDisplayInRect: _semiSelectedRowRect];
 	[[NSNotificationCenter defaultCenter] removeObserver : self];	
+	_semiSelectedRowRect = NSZeroRect;
 }
 
 - (NSMenu *) menuForEvent : (NSEvent *) theEvent
@@ -115,12 +110,12 @@ static NSRect	imgRectFocused;
 	int row = [self rowAtPoint : [self convertPoint : [theEvent locationInWindow] fromView : nil]];
 
 	if(![self isRowSelected : row]) {
-		NSRect	tmpRect;
-		tmpRect = [self rectOfRow : row];
+		_semiSelectedRowRect = [self rectOfRow : row];
+		// draw the border
 		[self lockFocus];
-		NSFrameRectWithWidth(tmpRect, 2.0); // 枠を描く
+		NSFrameRectWithWidth(_semiSelectedRowRect, 2.0);
 		[self unlockFocus];
-		[self displayIfNeeded];
+		[self displayIfNeededInRect: _semiSelectedRowRect];
 
 		// This Notification is available in Mac OS X 10.3 and later.
  		[[NSNotificationCenter defaultCenter] addObserver : self

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.10 2006/06/24 16:23:38 tsawada2 Exp $
+  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.11 2006/06/25 17:06:42 tsawada2 Exp $
   * 
   * CMRThreadViewer-ViewAccessor.m
   *
@@ -163,12 +163,7 @@
 	return APP_TVIEW_STATUSLINE_IDENTIFIER;
 }
 
-
-/*- (void) setupStatusLine
-{
-	[super setupStatusLine];
-}*/
-#pragma mark Others
+#pragma mark Title Ruler
 + (BOOL) shouldShowTitleRulerView
 {
 	return NO;
@@ -179,68 +174,10 @@
 	return BSTitleRulerShowInfoOnlyMode;
 }
 
-- (void) setupScrollView
+- (void) setupTitleRulerWithScrollView: (NSScrollView *) scrollView_
 {
-	//CMXScrollView	*scrollView_ = [self scrollView];
-	NSScrollView	*scrollView_ = [self scrollView];
 	id ruler;
-	
-	{
-		NSNotificationCenter	*center_;
-		NSClipView				*contentView_;
-		
-		contentView_ = [scrollView_ contentView];
-		[contentView_ setPostsBoundsChangedNotifications : YES];
-		
-		center_ = [NSNotificationCenter defaultCenter];
-		[center_ addObserver : self
-					selector : @selector(contentViewBoudnsDidChange:)
-						name : NSViewBoundsDidChangeNotification
-					  object : contentView_];
-	}
-	
-	[scrollView_ setBorderType : NSBezelBorder];
-	[scrollView_ setHasHorizontalScroller : NO];//YES];
-	[scrollView_ setHasVerticalScroller : YES];
 
-	// Accessory View
-	[[self indexingPopupper] setDelegate: self];
-	[[self indexingStepper] setDelegate : self];
-	/*
-	[scrollView_ addAccessoryView: [[self indexingPopupper] contentView]
-						alignment: CMXScrollViewHorizontalRight];
-	[scrollView_ addAccessoryView : [[self indexingStepper] contentView] 
-						alignment : CMXScrollViewHorizontalRight];
-	*/
-	[[self navigationBar] addSubview: [[self indexingStepper] contentView]];
-	[[self navigationBar] addSubview: [[self indexingPopupper] contentView]];
-	//[[[self indexingPopupper] contentView] setFrameOrigin: NSMakePoint(10,0)];
-	//[[self navigationBar] addSubview: [[self statusLine] statusTextField]];
-	{
-		NSRect	idxStepperFrame, scrollViewFrame, idxPopupperFrame;
-		NSPoint origin_;
-		idxStepperFrame = [[[self indexingStepper] contentView] frame];
-		scrollViewFrame = [[self navigationBar] frame];
-
-		origin_ = scrollViewFrame.origin;
-		origin_.x = NSMaxX(scrollViewFrame);
-		
-		origin_.x -= NSWidth(idxStepperFrame);
-		origin_.x -= 15.0;
-		
-		idxStepperFrame.origin = origin_;
-		[[[self indexingStepper] contentView] setFrame: idxStepperFrame];
-		
-		idxPopupperFrame = [[[self indexingPopupper] contentView] frame];
-		
-		origin_.x -= NSWidth(idxPopupperFrame);
-		
-		idxPopupperFrame.origin = NSMakePoint(origin_.x, origin_.y-1);
-		[[[self indexingPopupper] contentView] setFrame: idxPopupperFrame];
-		
-		//[[[self statusLine] statusTextField] setFrame: NSInsetRect(scrollViewFrame, 4.0, 2.0)];
-	}
-	// Title Ruler
 	[[scrollView_ class] setRulerViewClass : [BSTitleRulerView class]];
 	ruler = [[BSTitleRulerView alloc] initWithScrollView : scrollView_ orientation : NSHorizontalRuler];
 	[[ruler class] setTitleTextColor: ([CMRPref titleRulerViewTextUsesBlackColor] ? [NSColor blackColor] : [NSColor whiteColor])];
@@ -257,6 +194,124 @@
 
 	[[self scrollView] setRulersVisible: [[self class] shouldShowTitleRulerView]];
 	[view_ setCurrentMode: BSTitleRulerShowTitleOnlyMode];
+}
+
+#pragma mark NavigationBar
++ (float) navBarSubviewsAdjustValue
+{
+	return 1.0;
+}
+
+- (void) layoutNavigationBarComponents
+{
+	NSRect	idxStepperFrame, scrollViewFrame, idxPopupperFrame, textFieldFrame;
+	NSPoint origin_;
+	float	dy, txtFldHeight;
+
+	idxStepperFrame = [[[self indexingStepper] contentView] frame];
+	scrollViewFrame = [[self navigationBar] frame];
+
+	origin_ = scrollViewFrame.origin;
+	dy = [[self class] navBarSubviewsAdjustValue];
+	
+	origin_.y += dy;
+	origin_.x = NSMaxX(scrollViewFrame);
+	
+	origin_.x -= NSWidth(idxStepperFrame);
+	origin_.x -= 15.0;
+	
+	idxStepperFrame.origin = origin_;
+	[[[self indexingStepper] contentView] setFrame: idxStepperFrame];
+	
+	idxPopupperFrame = [[[self indexingPopupper] contentView] frame];
+	
+	origin_.x -= NSWidth(idxPopupperFrame);
+	
+	idxPopupperFrame.origin = NSMakePoint(origin_.x, origin_.y-1);
+	[[[self indexingPopupper] contentView] setFrame: idxPopupperFrame];
+	
+	textFieldFrame = [[[self statusLine] statusTextField] frame];
+	txtFldHeight = NSHeight(textFieldFrame);
+	textFieldFrame.origin = NSMakePoint(scrollViewFrame.origin.x+6.0, (scrollViewFrame.size.height - txtFldHeight) / 2);
+	textFieldFrame.size.width = NSWidth(scrollViewFrame) - 21.0;
+	[[[self statusLine] statusTextField] setFrame: textFieldFrame];
+	
+}
+
+- (void) setupNavigationBar
+{
+	id	statusTxtFld;
+	statusTxtFld = [[self statusLine] statusTextField];
+	[statusTxtFld retain];
+	[statusTxtFld removeFromSuperviewWithoutNeedingDisplay];
+
+	[[self indexingPopupper] setDelegate: self];
+	[[self indexingStepper] setDelegate : self];
+
+	[[self navigationBar] addSubview: [[self indexingStepper] contentView]];
+	[[self navigationBar] addSubview: [[self indexingPopupper] contentView]];
+	
+	[[self navigationBar] addSubview: statusTxtFld];
+	[statusTxtFld release];
+	
+	[self layoutNavigationBarComponents];
+}
+
+- (void) statusLineDidShowTheirViews: (CMRStatusLine *) statusLine
+{
+	if ([self statusLine] != statusLine) {
+		NSLog(@"WARNING: statusLineDidShowTheirViews");
+		return;
+	}
+	
+	if ([self shouldShowContents]) {
+		[[[self indexingStepper] contentView] setHidden: YES];
+		[[[self indexingPopupper] contentView] setHidden: YES];
+	}
+	
+	[[self navigationBar] setNeedsDisplay: YES];
+}
+
+- (void) statusLineDidHideTheirViews: (CMRStatusLine *) statusLine
+{
+	if ([self statusLine] != statusLine) {
+		NSLog(@"WARNING: statusLineDidHideTheirViews");
+		return;
+	}
+	
+	if ([self shouldShowContents]) {
+		[[[self indexingStepper] contentView] setHidden: NO];
+		[[[self indexingPopupper] contentView] setHidden: NO];
+	}
+	
+	[[self navigationBar] setNeedsDisplay: YES];
+}
+
+
+#pragma mark Others
+- (void) setupScrollView
+{
+	NSScrollView	*scrollView_ = [self scrollView];
+	
+	{
+		NSNotificationCenter	*center_;
+		NSClipView				*contentView_;
+		
+		contentView_ = [scrollView_ contentView];
+		[contentView_ setPostsBoundsChangedNotifications : YES];
+		
+		center_ = [NSNotificationCenter defaultCenter];
+		[center_ addObserver : self
+					selector : @selector(contentViewBoudnsDidChange:)
+						name : NSViewBoundsDidChangeNotification
+					  object : contentView_];
+	}
+	
+	[scrollView_ setBorderType : NSBezelBorder];
+	[scrollView_ setHasHorizontalScroller : NO];
+	[scrollView_ setHasVerticalScroller : YES];
+
+	[self setupTitleRulerWithScrollView: scrollView_];
 }
 
 - (void) setupTextView
@@ -300,14 +355,15 @@
 
 	// 2005-09-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	// リンク文字列の書式は、NSTextView が自動的に付けてくれる。その属性辞書をここでセットしておく。
-	[view setLinkTextAttributes : [[CMRMessageAttributesTemplate sharedTemplate] attributesForAnchor]];
+	//[view setLinkTextAttributes : [[CMRMessageAttributesTemplate sharedTemplate] attributesForAnchor]];
 	
-	[view setFont : [CMRPref threadsViewFont]];
+	//[view setFont : [CMRPref threadsViewFont]];
 	[view setMenu : [[self class] loadContextualMenuForTextView]];
 	[view setDelegate : self];
 	
 	[self setTextView : view];
-	[self setupTextViewBackground];
+	[self updateLayoutSettings];
+	//[self setupTextViewBackground];
 	[[self scrollView] setDocumentView : view];
 	
 	[view release];
@@ -320,6 +376,7 @@
 	Since [NSTextView setFont:] causes textStorage's font changing,
 	I moved this code to.
 */
+	[(CMRLayoutManager *)[[self textView] layoutManager] setShouldDrawAntiAliasingGlyph: [CMRPref shouldThreadAntialias]];
 #if 0
 	[[self textView] setFont : [CMRPref threadsViewFont]];
 #endif
@@ -379,7 +436,9 @@
 	
 	// ロードしたComponentsの配置
 	[self setupLoadedComponents];
-	[[self window] setPreservesContentDuringLiveResize: NO];
+
+	[self setupNavigationBar];
+
 	[self setupScrollView];
 	[self setupTextView];
 	

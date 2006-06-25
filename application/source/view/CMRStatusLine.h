@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRStatusLine.h,v 1.4 2005/10/23 09:15:39 tsawada2 Exp $
+  * $Id: CMRStatusLine.h,v 1.5 2006/06/25 17:06:42 tsawada2 Exp $
   * 
   * CMRStatusLine.h
   *
@@ -13,7 +13,7 @@
 
 @interface CMRStatusLine : NSObject
 {
-	NSWindow						*_window;
+	//NSWindow						*_window;
 	NSString						*_identifier;
 	id								_delegate;
 	
@@ -29,7 +29,7 @@
 
 - (id) delegate;
 - (void) setDelegate : (id) aDelegate;
-
+/*
 - (NSWindow *) window;
 - (void) setWindow : (NSWindow *) aWindow
 		   visible : (BOOL) shown;
@@ -38,19 +38,19 @@
 - (BOOL) isVisible;
 - (void) setVisible : (BOOL) shown
             animate : (BOOL) isAnimate;
-
+*/
 - (void) setInfoText : (id) aText;
 
 // Action
 - (IBAction) cancel : (id) sender;
-- (IBAction) toggleStatusLineShown : (id) sender;
+//- (IBAction) toggleStatusLineShown : (id) sender;
 
 // User defaults
-- (NSString *) userDefaultsKeyWithKey : (NSString *) key;
-- (NSString *) statusLineShownUserDefaultsKey;
+//- (NSString *) userDefaultsKeyWithKey : (NSString *) key;
+//- (NSString *) statusLineShownUserDefaultsKey;
 
 // NSUserDefaults / NSMutableDictionary ...
-- (id) preferencesObject;
+//- (id) preferencesObject;
 
 - (NSView *) statusLineView;
 - (NSTextField *) statusTextField;
@@ -58,4 +58,9 @@
 
 - (void) setupUIComponents;
 - (void) updateStatusLineWithTask : (id<CMRTask>) aTask;
+@end
+
+@interface NSObject(CMRStatusLineDelegateAddition)
+- (void) statusLineDidShowTheirViews: (CMRStatusLine *) statusLine;
+- (void) statusLineDidHideTheirViews: (CMRStatusLine *) statusLine;
 @end

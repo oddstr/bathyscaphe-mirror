@@ -26,7 +26,9 @@
 
 - (IBAction) toggleStatusLineShown : (id) sender
 {
-	[[self statusLine] toggleStatusLineShown : sender];
+	NSBeep();
+	NSLog(@"toggleStatusLineShown: is deprecated.");
+	//[[self statusLine] toggleStatusLineShown : sender];
 }
 // board / thread signature for historyManager .etc
 - (id) boardIdentifier
@@ -48,7 +50,7 @@
 	action_ = [theItem action];
 	
 	if (action_ == @selector(toggleStatusLineShown:)) {
-		NSString		*title_;
+		/*NSString		*title_;
 		
 		title_ = [[self statusLine] isVisible]
 					? NSLocalizedString(APP_STATUSLINE_WINDOW_HIDDEN_KEY, nil)
@@ -56,7 +58,8 @@
 		UTILAssertNotNil(title_);
 		
 		[theItem setTitle : title_];
-		return ([self statusLine] != nil);
+		return ([self statusLine] != nil);*/
+		return NO;
 	}
 	// 「ウインドウの位置と領域を記憶」
 	if (action_ == @selector(saveAsDefaultFrame:)) {
@@ -109,7 +112,7 @@
 - (void) setupStatusLine
 {
 	UTILAssertNotNil([self statusLine]);
-	[[self statusLine] setWindow : [self window]];
+	//[[self statusLine] setWindow : [self window]];
 }
 - (void) setupUIComponents
 {

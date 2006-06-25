@@ -1,3 +1,27 @@
+2006-06-26 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/Browser.nib
+	* application/Resources/Japanese.lproj/CMRThreadViewer.nib
+		レイアウトの微調整。
+	* application/Resources/Japanese.lproj/CMRStatusView.nib
+		テキストフィールドの属性などを調整。
+	* application/source/view/BSTsuruPetaView.m
+		コードの整理と描画速度の改善。
+	* application/source/preferences/AppDefaults-FontColor.m
+		「アンチエイリアスを適用する」オプションの変更も即座に反映させるようにした。
+	* application/source/view/CMRThreadView.m
+	* application/source/thread/CMRLayoutManager.(h|m)
+		CMRLayoutManager クラスを AppDefaults.h をインポートしないように変更して独立化。
+		いずれ SGAppKit に移す予定。また、テキストビューをリサイズしている間の文字のレイアウト作業を
+		抑制することで、リサイズ時のもたつきを軽減するようにした。
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/source/thread/CMRThreadViewer-ViewAccessor.m
+	* application/source/view/CMRStatusLine.(h|m)
+	* application/source/window/CMRStatusLineWindowController.m
+		ステータスバーを廃止して、つるぺたナビゲーションバーに統合した。これに伴い CMRStatusLine
+		クラスの「抜け殻」化がさらに進むことになる。
+		また、つるぺたナビゲーションバー関連のコードのリファクタリングを実施。
+	* frameworks/SGAppKit/framework/src/custom/bathyscaphe/BSBoardListView.m
+		描画処理の最適化などに取り組んだ。
 2006-06-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/view/CMRStatusLine.m
 		ステータスバーは廃止してつるぺたナビゲーションバーに統合するかもしれない。あるいは、他のことを
