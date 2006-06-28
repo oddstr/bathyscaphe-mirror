@@ -1,3 +1,33 @@
+2006-06-29 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/main.m
+		CMRFavoritesManager の初期化前に、確実に CMRTrashbox の共有インスタンスが生成されるようにした。
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/thread/CMRThreadViewer-MoveAction.m
+	* application/source/thread/CMRThreadViewer-Validation.m
+		CMRFavoritesManager の見直しに伴う変更など。
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/browser/CMRFavoritesManager.(h|m)
+		CMRFavoritesManager の整理を開始。
+		- スレッドが削除された後、もしそのスレがお気に入りに登録されていた場合は、CMRFavoritesManager が
+		  自動的にお気に入りから削除するようにした（これまでは「削除を依頼した人」が各自の責任で行っていた）。
+		- 多くのメソッドが削除予定としてまずヘッダから消えた。
+		- 新しいメソッド（引数に thread identifier と board name を取る形に統一）を追加した。
+	* application/source/browser/CMRThreadsList-Notification.m
+	* application/source/browser/CMRThreadsList-Remove.m
+	* application/source/browser/CMRThreadsUpdateListTask.m
+		ごちょごちょ修正したが、後でまた色々改変される、ないしは、改変する。
+	* application/source/thread/CMRAbstructThreadDocument.m
+		#if 0 と #endif で囲まれていた部分をばっさり削除。その他微修正。
+	* application/source/thread/CMRThreadViewer-ViewAccessor.m
+	* application/source/thread/CMRThreadViewer.m
+	* application/source/view/CMRThreadView.m
+	* application/source/view/popup/CMXPopUpWindowController+View.m
+	* application/source/window/CMRReplyController-ViewAccessor.m
+		BSLayoutManager への変更に伴う修正など。
+	* frameworks/SGAppKit/framework/src/SGAppKit.h
+		BSLayoutManager をインポート。
+	* frameworks/SGAppKit/framework/src/custom/bathyscaphe/BSLayoutManager.(h|m)
+		[新規追加] CMRLayoutManager の機能を SGAppKit に移動した。同時にクラス名を BSLayoutManager に変更。
 2006-06-26 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/Browser.nib
 	* application/Resources/Japanese.lproj/CMRThreadViewer.nib

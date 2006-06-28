@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.28 2006/06/24 16:23:38 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.29 2006/06/28 18:37:32 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -27,21 +27,6 @@
 static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBrowserSelectCurThreadNotification";
 
 @implementation CMRThreadViewer(ActionSupport)
-- (CMRFavoritesOperation) favoritesOperationForThreads : (NSArray *) threadsArray
-{
-	NSDictionary	*thread_;
-	NSString		*path_;
-	
-	if (nil == threadsArray || 0 == [threadsArray count])
-		return CMRFavoritesOperationNone;
-	
-	thread_ = [threadsArray objectAtIndex : 0];
-	path_ = [CMRThreadAttributes pathFromDictionary : thread_];
-	UTILAssertNotNil(path_);
-	
-	return ([[CMRFavoritesManager defaultManager] availableOperationWithPath : path_]);
-}
-
 - (CMRReplyMessenger *) messenger : (BOOL) create
 {
 	NSDocumentController		*docc_;
@@ -165,20 +150,8 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 #pragma mark -
 
 @implementation CMRThreadViewer(Action)
-/* NOTE: It is a history item's action. */	 
-- (IBAction) showThreadWithMenuItem : (id) sender	 
-{	 
-	id historyItem = nil;
-
-	if ([sender respondsToSelector : @selector(representedObject)]) {
-		id o = [sender representedObject];
-		historyItem = o;
-	}
-	[self setThreadContentWithThreadIdentifier : historyItem];
-}
 
 #pragma mark Reloading thread
-
 - (void) reloadThread
 {
 	[self downloadThread : [[self threadAttributes] threadSignature]
@@ -477,7 +450,11 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 
 	return [[CMRTrashbox trash] performWithFiles : filePathArray_];
 }
-
+/*
+// 2006-06-29 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+// スレッドを削除した後、お気に入りからスレッドを削除する必要がある場合は（CMRTrashbox からの通知を受け取って）
+// CMRFavoritesManager が自動的にそれを行ってくれるようになった。「捨ててくれと指令を出した人が気にする必要はない」ということ。
+//
 - (void) checkIfFavItemThenRemove : (NSString *) aPath
 {
 	CMRFavoritesManager	*favManager = [CMRFavoritesManager defaultManager];
@@ -486,7 +463,7 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 	}
 		[favManager addItemToPoolWithFilePath : aPath]; // お気に入り項目でなくてもプールに追加する（削除ステータスを同期させるため）
 }
-
+*/
 - (IBAction) deleteThread : (id) sender
 {
 	if ([CMRPref quietDeletion]) {
@@ -494,7 +471,7 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 		[[self window] performClose : sender];
 
 		if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
-			[self checkIfFavItemThenRemove : path_];
+			//[self checkIfFavItemThenRemove : path_];
 		} else {
 			NSBeep();
 			NSLog(@"Deletion failed : %@", path_);
@@ -538,7 +515,7 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 			[[self window] performClose : contextInfo];
 
 			if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
-				[self checkIfFavItemThenRemove : path_];
+				//[self checkIfFavItemThenRemove : path_];
 			} else {
 				NSBeep();
 				NSLog(@"Deletion failed : %@", path_);
@@ -577,6 +554,18 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 - (IBAction) toggleMarkedThread : (id) sender
 {
 	[self setMarkedThread : ![self isMarkedThread]];
+}
+
+/* NOTE: It is a history item's action. */	 
+- (IBAction) showThreadWithMenuItem : (id) sender	 
+{	 
+	id historyItem = nil;
+
+	if ([sender respondsToSelector : @selector(representedObject)]) {
+		id o = [sender representedObject];
+		historyItem = o;
+	}
+	[self setThreadContentWithThreadIdentifier : historyItem];
 }
 
 // Save window frame
@@ -683,38 +672,38 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 {
 	NSEnumerator			*Iter_;
 	NSDictionary			*threadAttributes_;
-	CMRFavoritesOperation	operation_;
 	NSArray *selectedThreads_;
 	
+	CMRFavoritesManager		*fM_ = [CMRFavoritesManager defaultManager];
+	
 	selectedThreads_ = [self selectedThreads];
-	operation_ = [self favoritesOperationForThreads : selectedThreads_];
-	if (CMRFavoritesOperationNone == operation_)
-		return;
 	
 	Iter_ = [selectedThreads_ objectEnumerator];
 	while ((threadAttributes_ = [Iter_ nextObject])) {
-		NSString			*path_;
+		id	identifier_;
+		NSString	*bName_;
+		CMRFavoritesOperation	operation_;
+
+		identifier_ = [CMRThreadAttributes identifierFromDictionary: threadAttributes_];
+		bName_ = [threadAttributes_ valueForKey: ThreadPlistBoardNameKey];
+
+		UTILAssertNotNil(identifier_);
+		UTILAssertNotNil(bName_);
 		
-		path_ = [CMRThreadAttributes pathFromDictionary : threadAttributes_];
-		
-		UTILAssertNotNil(path_);
-		if (CMRFavoritesOperationLink == operation_)
-			if([threadAttributes_ count] < 6) {
-				// Maybe added from separate document window.
-				[[CMRFavoritesManager defaultManager] addFavoriteWithFilePath : path_];
-			} else {
-				// Maybe added from browser or 3-pain viewer.
-				[[CMRFavoritesManager defaultManager] addFavoriteWithThread : threadAttributes_];
-			}
-		else
-			[[CMRFavoritesManager defaultManager] removeFromFavoritesWithFilePath : path_];
+		operation_ = [fM_ availableOperationWithThread: identifier_ ofBoard: bName_];
+		if (CMRFavoritesOperationNone == operation_) {
+			continue;	
+		} else if (CMRFavoritesOperationLink == operation_) {
+			[fM_ addFavoriteWithThread: identifier_ ofBoard: bName_];
+		} else {
+			[fM_ removeFavoriteWithThread: identifier_ ofBoard: bName_];
+		}
 	}
 }
 // make text area to be first responder
 - (IBAction) focus : (id) sender
 {
-    [[self window] makeFirstResponder : 
-        [[self textView] enclosingScrollView]];
+    [[self window] makeFirstResponder: [[self textView] enclosingScrollView]];
 }
 
 #pragma mark BSIndexingPopupper delegate

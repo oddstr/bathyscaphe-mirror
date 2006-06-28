@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.44 2006/06/24 16:23:38 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.45 2006/06/28 18:37:32 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -355,7 +355,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 		NSString *path_ = [CMRThreadAttributes pathFromDictionary : [targets_ lastObject]];
 		if ([CMRPref quietDeletion]) {
 			if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
-				[self checkIfFavItemThenRemove : path_];
+				//[self checkIfFavItemThenRemove : path_];
 			} else {
 				NSBeep();
 				NSLog(@"Deletion failed : %@", path_);
@@ -374,7 +374,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 			while ((eachItem_ = [enumerator_ nextObject])) {
 				NSString	*path_ = [CMRThreadAttributes pathFromDictionary : eachItem_];
 				if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
-					[self checkIfFavItemThenRemove : path_];
+					//[self checkIfFavItemThenRemove : path_];
 				} else {
 					NSBeep();
 					NSLog(@"Deletion failed : %@", path_);
@@ -404,7 +404,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 			while ((eachItem_ = [enumerator_ nextObject])) {
 				NSString	*path_ = [CMRThreadAttributes pathFromDictionary : eachItem_];
 				if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
-					[self checkIfFavItemThenRemove : path_];
+					//[self checkIfFavItemThenRemove : path_];
 				} else {
 					NSBeep();
 					NSLog(@"Deletion failed : %@", path_);

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-Notification.m,v 1.4 2006/03/14 15:22:03 tsawada2 Exp $
+  * $Id: CMRThreadsList-Notification.m,v 1.5 2006/06/28 18:37:32 tsawada2 Exp $
   * 
   * CMRThreadsList-Notification.m
   *
@@ -114,7 +114,7 @@ static void margeThreadAttributesWithContentDict(NSMutableDictionary *thread, NS
 
 - (void) syncFavIfNeededWithAttr : (NSMutableDictionary *) thread forPath : (NSString *) filePath
 {
-	CMRFavoritesManager *fM_ = [CMRFavoritesManager defaultManager];
+	/*CMRFavoritesManager *fM_ = [CMRFavoritesManager defaultManager];
 	int					i;
 	
 	i = [[fM_ favoritesItemsIndex] indexOfObject : filePath];
@@ -122,7 +122,7 @@ static void margeThreadAttributesWithContentDict(NSMutableDictionary *thread, NS
 		[[fM_ favoritesItemsArray] replaceObjectAtIndex : i withObject : thread];
 
 	// 2006-03-14 削除プールに入っていたとしたら、今、ダウンロードしたのだからプールから取り除いておかなければならない。
-	[fM_ removeFromPoolWithFilePath : filePath];
+	[fM_ removeFromPoolWithFilePath : filePath];*/
 }
 
 // スレッドの読み込みが完了。

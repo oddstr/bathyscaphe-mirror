@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFavoritesManager.m,v 1.11 2006/04/11 17:31:21 masakih Exp $
+  * $Id: CMRFavoritesManager.m,v 1.12 2006/06/28 18:37:32 tsawada2 Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
@@ -8,11 +8,12 @@
 #import "CocoMonar_Prefix.h"
 
 #import "CMRThreadAttributes.h"
-#import "CMRThreadsList_p.h"
-#import <AppKit/NSDocumentController.h>
 
 #import "BSDBThreadList.h"
 #import "DatabaseManager.h"
+
+#import "CMRTrashbox.h"
+#import "CMRDocumentFileManager.h"
 
 NSString *const CMRFavoritesManagerDidLinkFavoritesNotification = @"CMRFavoritesManagerDidLinkFavoritesNotification";
 NSString *const CMRFavoritesManagerDidRemoveFavoritesNotification = @"CMRFavoritesManagerDidRemoveFavoritesNotification";
@@ -20,6 +21,113 @@ NSString *const CMRFavoritesManagerDidRemoveFavoritesNotification = @"CMRFavorit
 @implementation CMRFavoritesManager
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
+- (id) init
+{
+	if (self = [super init]) {
+		[[NSNotificationCenter defaultCenter]
+				 addObserver : self
+					selector : @selector(trashDidPerform:)
+					    name : CMRTrashboxDidPerformNotification
+					  object : [CMRTrashbox trash]];
+	}
+	return self;
+}
+
+- (void) dealloc
+{
+	[[NSNotificationCenter defaultCenter] removeObserver : self];
+	[super dealloc];
+}
+
+- (CMRFavoritesOperation) availableOperationWithThread: (id) threadIdentifier ofBoard: (NSString *) boardName
+{
+	id boardIDs;
+	boardIDs = [[DatabaseManager defaultManager] boardIDsForName:boardName];
+	
+	if (!boardIDs) return CMRFavoritesOperationNone;
+
+	/* TODO ï°êîë∂ç›Ç∑ÇÈèÍçáÇÃèàóù */
+	unsigned boardID;
+	boardID = [[boardIDs objectAtIndex:0] unsignedIntValue];
+	
+	BOOL isFavorite;
+	isFavorite = [[DatabaseManager defaultManager] isFavoriteThreadIdentifier: threadIdentifier onBoardID: boardID];
+	
+	return isFavorite ? CMRFavoritesOperationRemove : CMRFavoritesOperationLink;
+}
+
+- (BOOL) addFavoriteWithThread: (id) threadIdentifier ofBoard: (NSString *) boardName
+{
+	id			boardIDs; /* TODO ï°êîë∂ç›Ç∑ÇÈèÍçáÇÃèàóù */
+	BOOL		isSuccess = NO;
+	
+	boardIDs = [[DatabaseManager defaultManager] boardIDsForName: boardName];
+	if (!boardIDs) return NO;
+	
+	isSuccess = [[DatabaseManager defaultManager] appendFavoriteThreadIdentifier: threadIdentifier
+																	   onBoardID: [[boardIDs objectAtIndex:0] unsignedIntValue]];
+
+	if (isSuccess)
+		UTILNotifyName(CMRFavoritesManagerDidLinkFavoritesNotification);
+
+	return isSuccess;
+}
+
+- (BOOL) removeFavoriteWithThread: (id) threadIdentifier ofBoard: (NSString *) boardName
+{
+	id			boardIDs; /* TODO ï°êîë∂ç›Ç∑ÇÈèÍçáÇÃèàóù */
+	BOOL		isSuccess = NO;
+	
+	boardIDs = [[DatabaseManager defaultManager] boardIDsForName: boardName];
+	if (!boardIDs) return NO;
+	
+	isSuccess = [[DatabaseManager defaultManager] removeFavoriteThreadIdentifier: threadIdentifier
+																	   onBoardID: [[boardIDs objectAtIndex:0] unsignedIntValue]];
+
+	if (isSuccess)
+		UTILNotifyName(CMRFavoritesManagerDidRemoveFavoritesNotification);
+
+	return isSuccess;
+}
+
+- (void) trashDidPerform : (NSNotification *) notification
+{	
+	UTILAssertNotificationName(
+		notification,
+		CMRTrashboxDidPerformNotification);
+	UTILAssertNotificationObject(
+		notification,
+		[CMRTrashbox trash]);	
+	
+	NSDictionary *userInfo_ = [notification userInfo];
+	if ([userInfo_ integerForKey: kAppTrashUserInfoStatusKey] != noErr) return;
+	
+	NSArray			*pathArray_ = [userInfo_ objectForKey: kAppTrashUserInfoFilesKey];
+	CMRDocumentFileManager	*dFM_ = [CMRDocumentFileManager defaultManager];
+	NSEnumerator	*iter_;
+	NSString		*aPath_;
+
+	iter_ = [pathArray_ objectEnumerator];
+
+	while ((aPath_ = [iter_ nextObject]) != nil) {
+		id identifier_;
+		NSString *bName_;
+		
+		identifier_ = [dFM_ datIdentifierWithLogPath: aPath_];
+		bName_ = [dFM_ boardNameWithLogPath: aPath_];
+
+		UTILAssertNotNil(identifier_);
+		UTILAssertNotNil(bName_);
+
+		if ([self availableOperationWithThread: identifier_ ofBoard: bName_] == CMRFavoritesOperationRemove) {
+			[self removeFavoriteWithThread: identifier_ ofBoard: bName_];
+		}
+	}
+
+}
+
+
+#pragma mark WILL BE REMOVED (Deprecated Methods)
 + (NSString *) defaultFilepath
 {
 	return [[CMRFileManager defaultManager]
@@ -34,7 +142,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 				 supportFilepathWithName : CMRFavMemoFile
 						resolvingFileRef : NULL];
 }
-
+/*
 - (id) init
 {
 	if (self = [super init]) {
@@ -45,15 +153,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 					  object : NSApp];
 	}
 	return self;
-}
-
-- (void) dealloc
-{
-	[[NSNotificationCenter defaultCenter] removeObserver : self];
-	[_favoritesItemsArray release];
-	[_favoritesItemsIndex release];
-	[_changedFavItemsPool release];
-	[super dealloc];
 }
 
 - (void) applicationWillTerminate : (NSNotification *) notification
@@ -71,8 +170,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 								 atomically : YES];
 
 }
-
-#pragma mark -
+*/
 
 - (NSMutableArray *) favoritesItemsArray
 {
@@ -197,87 +295,23 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 	return array_;
 }
-@end
-
-#pragma mark -
-
-@implementation CMRFavoritesManager(Management)
-- (CMRFavoritesOperation)availableOperationWithThread:(id)thread
-{
-	id identifier;
-	id boardName = [thread valueForKey:ThreadPlistBoardNameKey];
-	id boardIDs;
-	
-	identifier = [CMRThreadAttributes identifierFromDictionary:thread];
-	boardIDs = [[DatabaseManager defaultManager] boardIDsForName:boardName];
-	
-	if( !identifier || !boardIDs ) return CMRFavoritesOperationNone;
-	
-	/* TODO 
-		ï°êîë∂ç›Ç∑ÇÈèÍçáÇÃèàóù
-*/
-	unsigned boardID;
-	boardID = [[boardIDs objectAtIndex:0] unsignedIntValue];
-	
-	BOOL isFavorite;
-	isFavorite = [[DatabaseManager defaultManager] isFavoriteThreadIdentifier:identifier
-																	onBoardID:boardID];
-	
-	return isFavorite ? CMRFavoritesOperationRemove : CMRFavoritesOperationLink;
-}
-- (CMRFavoritesOperation) availableOperationWithPath : (NSString *) filepath
-{
-	NSDictionary	*attr_;
-	
-	if(filepath == nil)
-		return CMRFavoritesOperationNone;
-	
-	attr_ = [BSDBThreadList attributesForThreadsListWithContentsOfFile : filepath];
-	if (attr_ == nil) return CMRFavoritesOperationNone;
-	
-	return [self availableOperationWithThread : attr_];
-}
-
-- (BOOL) canCreateFavoriteLinkFromPath : (NSString *) filepath
-{
-	return (CMRFavoritesOperationLink == [self availableOperationWithPath : filepath]);
-}
-
-- (BOOL) favoriteItemExistsOfThreadPath : (NSString *) filepath
-{
-	UTILAssertNotNil(filepath);
-	return [[self favoritesItemsIndex] containsObject : filepath];
-}
 
 - (BOOL) addFavoriteWithThread : (NSDictionary *) thread
 {
 	id identifier;
 	id boardName = [thread valueForKey:ThreadPlistBoardNameKey];
-	id boardIDs;
-	BOOL isSuccess = NO;
-	
+
+	NSLog(@"WARNING: method addFavoriteWithThread: has been deprecated. Try to use addFavoriteWithThread:ofBoard: instead.");
 	identifier = [CMRThreadAttributes identifierFromDictionary:thread];
-	boardIDs = [[DatabaseManager defaultManager] boardIDsForName:boardName];
-	
-	if( !identifier || !boardIDs ) return NO;
-	
-	/* TODO 
-		ï°êîë∂ç›Ç∑ÇÈèÍçáÇÃèàóù
-*/
-	unsigned boardID;
-	boardID = [[boardIDs objectAtIndex:0] unsignedIntValue];
-	
-	if( isSuccess ) {
-		UTILNotifyName( CMRFavoritesManagerDidLinkFavoritesNotification );
-	}
-	
-	return isSuccess;
+
+	if(!identifier) return NO;
+	return [self addFavoriteWithThread: identifier ofBoard: boardName];
 }
 - (BOOL) addFavoriteWithFilePath : (NSString *) filepath
 {
 	NSDictionary	*attr_;
-	
-	if(filepath == nil || NO == [self canCreateFavoriteLinkFromPath : filepath]) return NO;
+	NSLog(@"WARNING: method addFavoriteWithFilePath: has been deprecated. Try to use addFavoriteWithThread:ofBoard: instead.");	
+	//if(filepath == nil || NO == [self canCreateFavoriteLinkFromPath : filepath]) return NO;
 	
 	attr_ = [BSDBThreadList attributesForThreadsListWithContentsOfFile : filepath];
 	if (attr_ == nil) return NO;
@@ -289,32 +323,18 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 {
 	id identifier;
 	id boardName = [thread valueForKey:ThreadPlistBoardNameKey];
-	id boardIDs;
-	BOOL isSuccess;
-	
+
+	NSLog(@"WARNING: method removeFromFavoritesWithThread: has been deprecated. Try to use removeFavoriteWithThread:ofBoard: instead.");		
 	identifier = [CMRThreadAttributes identifierFromDictionary:thread];
-	boardIDs = [[DatabaseManager defaultManager] boardIDsForName:boardName];
-	
-	if( !identifier || !boardIDs ) return NO;
-	
-	/* TODO 
-		ï°êîë∂ç›Ç∑ÇÈèÍçáÇÃèàóù
-*/
-	unsigned boardID;
-	boardID = [[boardIDs objectAtIndex:0] unsignedIntValue];
-	
-	isSuccess = [[DatabaseManager defaultManager] removeFavoriteThreadIdentifier:identifier
-																	   onBoardID:boardID];
-	if( isSuccess ) {
-		UTILNotifyName( CMRFavoritesManagerDidRemoveFavoritesNotification );
-	}
-	
-	return isSuccess;
+
+	if (!identifier) return NO;
+	return [self removeFavoriteWithThread: identifier ofBoard: boardName];
 }
 
 - (BOOL) removeFromFavoritesWithFilePath : (NSString *) filepath
 {
 	NSDictionary	*attr_;
+	NSLog(@"WARNING: method removeFromFavoritesWithFilePath: has been deprecated. Try to use removeFavoriteWithThread:ofBoard: instead.");		
 	
 	attr_ = [BSDBThreadList attributesForThreadsListWithContentsOfFile : filepath];
 	if (attr_ == nil) return NO;
@@ -331,13 +351,11 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	iter_ = [pathArray_ objectEnumerator];
 
 	while ((aPath_ = [iter_ nextObject]) != nil) {
-		if ([[self favoritesItemsIndex] containsObject : aPath_]) {
+		//if ([[self favoritesItemsIndex] containsObject : aPath_]) {
 			[self removeFromFavoritesWithFilePath : aPath_];
-		}
+		//}
 	}
 }
-
-#pragma mark -
 
 - (int) insertFavItemsTo : (int) index withIndexArray : (NSArray *) indexArray_ isAscending : (BOOL) isAscending_
 {
@@ -393,7 +411,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	return isAscending_ ? [aboveArray_ count] : [belowArray_ count];
 }
 
-#pragma mark -
 
 //ébíËé¿ëï
 - (void) addItemToPoolWithFilePath : (NSString *) filepath

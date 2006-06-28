@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.11 2006/06/25 17:06:42 tsawada2 Exp $
+  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.12 2006/06/28 18:37:32 tsawada2 Exp $
   * 
   * CMRThreadViewer-ViewAccessor.m
   *
@@ -10,10 +10,10 @@
 #import "CMRThreadViewer_p.h"
 #import "CMRThreadVisibleRange.h"
 #import "CMRThreadViewerTbDelegate.h"
-#import "CMRLayoutManager.h"
 #import "CMRThreadView.h"
 #import "CMRMainMenuManager.h"
 #import "CMRMessageAttributesTemplate.h"
+#import <SGAppKit/BSLayoutManager.h>
 
 // for debugging only
 #define UTIL_DEBUGGING		0
@@ -25,7 +25,6 @@
 
 
 @implementation CMRThreadViewer(ViewAccessor)
-//- (CMXScrollView *) scrollView
 - (NSScrollView *) scrollView
 {
 	return m_scrollView;
@@ -255,6 +254,11 @@
 	[statusTxtFld release];
 	
 	[self layoutNavigationBarComponents];
+
+	if (![self shouldShowContents]) {
+		[[[self indexingStepper] contentView] setHidden: YES];
+		[[[self indexingPopupper] contentView] setHidden: YES];
+	}
 }
 
 - (void) statusLineDidShowTheirViews: (CMRStatusLine *) statusLine
@@ -302,7 +306,7 @@
 		
 		center_ = [NSNotificationCenter defaultCenter];
 		[center_ addObserver : self
-					selector : @selector(contentViewBoudnsDidChange:)
+					selector : @selector(contentViewBoundsDidChange:)
 						name : NSViewBoundsDidChangeNotification
 					  object : contentView_];
 	}
@@ -316,28 +320,26 @@
 
 - (void) setupTextView
 {
-	NSLayoutManager	*layout;
-	NSTextContainer	*container;
-	NSTextView		*view;
-	NSRect			cFrame;
+	NSLayoutManager		*layout;
+	NSTextContainer		*container;
+	NSTextView			*view;
+	NSRect				cFrame;
 	
 	cFrame.origin = NSZeroPoint; 
 	cFrame.size = [[self scrollView] contentSize];
 	
 	/* LayoutManager */
-	layout = [[CMRLayoutManager alloc] init];
+	layout = [[BSLayoutManager alloc] init];
 	[[self threadContent] addLayoutManager : layout];
 	[layout release];
 	
 	/* TextContainer */
-	container = [[NSTextContainer alloc] initWithContainerSize : 
-					NSMakeSize(NSWidth(cFrame), 1e7)];
+	container = [[NSTextContainer alloc] initWithContainerSize : NSMakeSize(NSWidth(cFrame), 1e7)];
 	[layout addTextContainer : container];
 	[container release];
 	
 	/* TextView */
-	view = [[HTMLVIEW_CLASS alloc] initWithFrame : cFrame 
-								textContainer : container];
+	view = [[HTMLVIEW_CLASS alloc] initWithFrame : cFrame textContainer : container];
 	
 	[view setMinSize : NSMakeSize(0.0, NSHeight(cFrame))];
 	[view setMaxSize : NSMakeSize(1e7, 1e7)];
@@ -353,33 +355,20 @@
 	[view setImportsGraphics : NO];
 	[view setFieldEditor : NO];
 
-	// 2005-09-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	// リンク文字列の書式は、NSTextView が自動的に付けてくれる。その属性辞書をここでセットしておく。
-	//[view setLinkTextAttributes : [[CMRMessageAttributesTemplate sharedTemplate] attributesForAnchor]];
-	
-	//[view setFont : [CMRPref threadsViewFont]];
 	[view setMenu : [[self class] loadContextualMenuForTextView]];
 	[view setDelegate : self];
 	
 	[self setTextView : view];
+
 	[self updateLayoutSettings];
-	//[self setupTextViewBackground];
+
 	[[self scrollView] setDocumentView : view];
 	
 	[view release];
 }
 - (void) updateLayoutSettings
 {
-/*
-	2004-03-06 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
-	----------------------------------------
-	Since [NSTextView setFont:] causes textStorage's font changing,
-	I moved this code to.
-*/
-	[(CMRLayoutManager *)[[self textView] layoutManager] setShouldDrawAntiAliasingGlyph: [CMRPref shouldThreadAntialias]];
-#if 0
-	[[self textView] setFont : [CMRPref threadsViewFont]];
-#endif
+	[(BSLayoutManager *)[[self textView] layoutManager] setShouldAntialias: [CMRPref shouldThreadAntialias]];
 	[[self textView] setLinkTextAttributes : [[CMRMessageAttributesTemplate sharedTemplate] attributesForAnchor]];
 	[self setupTextViewBackground];
 }
@@ -398,10 +387,8 @@
 	// scrollView
 	[[self scrollView] setDrawsBackground : draws];
 	[[self scrollView] setBackgroundColor : color];
-	// 背景透過
-	//[[self window] setOpaque : NO];
-
 }
+
 - (void) setupKeyLoops
 {
 	[[self textView] setNextKeyView : [[self indexingStepper] textField]];

@@ -54,7 +54,7 @@
 /////////////////////////// [ DELEGATE] //////////////////////////////
 //////////////////////////////////////////////////////////////////////
 /* ScrollView-ContentView: NSViewBoundsDidChangeNotification */
-- (void) contentViewBoudnsDidChange : (NSNotification *) notification
+- (void) contentViewBoundsDidChange : (NSNotification *) notification
 {
 	UTILAssertNotificationName(
 		notification,

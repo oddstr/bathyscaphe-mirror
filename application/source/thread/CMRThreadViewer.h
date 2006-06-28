@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.14 2006/06/24 16:23:38 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.15 2006/06/28 18:37:32 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright (c) 2003, Takanori Ishikawa.
@@ -105,7 +105,7 @@
 - (BOOL) forceDeleteThreadAtPath : (NSString *) filepath
 				   alsoReplyFile : (BOOL      ) deleteReply;
 
-- (void) checkIfFavItemThenRemove : (NSString *) aPath;
+//- (void) checkIfFavItemThenRemove : (NSString *) aPath;
 - (void) copyThreadInfoOf : (NSEnumerator *) Iter_;
 
 // KeyBinding...

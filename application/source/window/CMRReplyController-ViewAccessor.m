@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyController-ViewAccessor.m,v 1.13 2006/06/17 07:52:28 tsawada2 Exp $
+  * $Id: CMRReplyController-ViewAccessor.m,v 1.14 2006/06/28 18:37:32 tsawada2 Exp $
   * 
   * CMRReplyController-ViewAccessor.m
   *
@@ -7,9 +7,9 @@
   * See the file LICENSE for copying permission.
   */
 #import "CMRReplyController_p.h"
-#import "CMRLayoutManager.h"
 #import "AppDefaults.h"
 #import <SGAppKit/BSReplyTextView.h>
+#import <SGAppKit/BSLayoutManager.h>
 
 @implementation CMRReplyController(View)
 + (Class) toolbarDelegateImpClass 
@@ -34,7 +34,6 @@
 
 - (void) updateTextView
 {
-	//NSTextView	*textView_ = [self textView];
 	BSReplyTextView	*textView_ = (BSReplyTextView *)[self textView];
 	NSColor		*bgColor_ = [CMRPref replyBackgroundColor];
 	
@@ -77,19 +76,17 @@
 	cFrame.size = [[self scrollView] contentSize];
 	
 	/* LayoutManager */
-	layout = [[CMRLayoutManager alloc] init];
+	layout = [[BSLayoutManager alloc] init];
 	[[[self document] textStorage] addLayoutManager : layout];
 	[layout release];
 	
 	/* TextContainer */
-	container = [[NSTextContainer alloc] initWithContainerSize : 
-					NSMakeSize(NSWidth(cFrame), 1e7)];
+	container = [[NSTextContainer alloc] initWithContainerSize : NSMakeSize(NSWidth(cFrame), 1e7)];
 	[layout addTextContainer : container];
 	[container release];
 	
 	/* TextView */
-	view = [[[BSReplyTextView alloc] initWithFrame : cFrame 
-								 textContainer : container] autorelease];
+	view = [[[BSReplyTextView alloc] initWithFrame : cFrame textContainer : container] autorelease];
 	
 	[view setMinSize : NSMakeSize(0.0, NSHeight(cFrame))];
 	[view setMaxSize : NSMakeSize(1e7, 1e7)];

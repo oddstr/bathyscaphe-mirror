@@ -51,7 +51,6 @@
 		870161D0082BE67100AEFDD0 /* AppDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCE604C698FB00A80005 /* AppDefaults.h */; };
 		870161D1082BE67100AEFDD0 /* AppDefaults_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCE804C698FB00A80005 /* AppDefaults_p.h */; };
 		870161D2082BE67100AEFDD0 /* CMRAbstructThreadDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD3A04C698FB00A80005 /* CMRAbstructThreadDocument.h */; };
-		870161D3082BE67100AEFDD0 /* CMRLayoutManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD3D04C698FB00A80005 /* CMRLayoutManager.h */; };
 		870161D4082BE67100AEFDD0 /* CMRThreadAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD4404C698FB00A80005 /* CMRThreadAttributes.h */; };
 		870161D5082BE67100AEFDD0 /* CMRThreadComposingTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD4904C698FB00A80005 /* CMRThreadComposingTask.h */; };
 		870161D6082BE67100AEFDD0 /* CMRThreadDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD4C04C698FB00A80005 /* CMRThreadDocument.h */; };
@@ -197,7 +196,6 @@
 		87016313082BE67100AEFDD0 /* AppDefaults-ThreadViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCE404C698FB00A80005 /* AppDefaults-ThreadViewer.m */; };
 		87016314082BE67100AEFDD0 /* AppDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCE704C698FB00A80005 /* AppDefaults.m */; };
 		87016315082BE67100AEFDD0 /* CMRAbstructThreadDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD3B04C698FB00A80005 /* CMRAbstructThreadDocument.m */; };
-		87016316082BE67100AEFDD0 /* CMRLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD3E04C698FB00A80005 /* CMRLayoutManager.m */; };
 		87016317082BE67100AEFDD0 /* CMRThreadAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD4504C698FB00A80005 /* CMRThreadAttributes.m */; };
 		87016318082BE67100AEFDD0 /* CMRThreadComposingTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD4A04C698FB00A80005 /* CMRThreadComposingTask.m */; };
 		87016319082BE67100AEFDD0 /* CMRThreadDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD4D04C698FB00A80005 /* CMRThreadDocument.m */; };
@@ -680,7 +678,6 @@
 		F4904B11088C096D00EA9BA8 /* AppDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCE604C698FB00A80005 /* AppDefaults.h */; };
 		F4904B12088C096D00EA9BA8 /* AppDefaults_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCE804C698FB00A80005 /* AppDefaults_p.h */; };
 		F4904B13088C096D00EA9BA8 /* CMRAbstructThreadDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD3A04C698FB00A80005 /* CMRAbstructThreadDocument.h */; };
-		F4904B14088C096D00EA9BA8 /* CMRLayoutManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD3D04C698FB00A80005 /* CMRLayoutManager.h */; };
 		F4904B15088C096D00EA9BA8 /* CMRThreadAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD4404C698FB00A80005 /* CMRThreadAttributes.h */; };
 		F4904B16088C096D00EA9BA8 /* CMRThreadComposingTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD4904C698FB00A80005 /* CMRThreadComposingTask.h */; };
 		F4904B17088C096D00EA9BA8 /* CMRThreadDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD4C04C698FB00A80005 /* CMRThreadDocument.h */; };
@@ -921,7 +918,6 @@
 		F4904C5B088C096D00EA9BA8 /* AppDefaults-ThreadViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCE404C698FB00A80005 /* AppDefaults-ThreadViewer.m */; };
 		F4904C5C088C096D00EA9BA8 /* AppDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCE704C698FB00A80005 /* AppDefaults.m */; };
 		F4904C5D088C096D00EA9BA8 /* CMRAbstructThreadDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD3B04C698FB00A80005 /* CMRAbstructThreadDocument.m */; };
-		F4904C5E088C096D00EA9BA8 /* CMRLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD3E04C698FB00A80005 /* CMRLayoutManager.m */; };
 		F4904C5F088C096D00EA9BA8 /* CMRThreadAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD4504C698FB00A80005 /* CMRThreadAttributes.m */; };
 		F4904C60088C096D00EA9BA8 /* CMRThreadComposingTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD4A04C698FB00A80005 /* CMRThreadComposingTask.m */; };
 		F4904C61088C096D00EA9BA8 /* CMRThreadDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD4D04C698FB00A80005 /* CMRThreadDocument.m */; };
@@ -1656,8 +1652,6 @@
 		F324DCE804C698FB00A80005 /* AppDefaults_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = AppDefaults_p.h; sourceTree = "<group>"; };
 		F324DD3A04C698FB00A80005 /* CMRAbstructThreadDocument.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRAbstructThreadDocument.h; sourceTree = "<group>"; };
 		F324DD3B04C698FB00A80005 /* CMRAbstructThreadDocument.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRAbstructThreadDocument.m; sourceTree = "<group>"; };
-		F324DD3D04C698FB00A80005 /* CMRLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRLayoutManager.h; sourceTree = "<group>"; };
-		F324DD3E04C698FB00A80005 /* CMRLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRLayoutManager.m; sourceTree = "<group>"; };
 		F324DD4404C698FB00A80005 /* CMRThreadAttributes.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRThreadAttributes.h; sourceTree = "<group>"; };
 		F324DD4504C698FB00A80005 /* CMRThreadAttributes.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRThreadAttributes.m; sourceTree = "<group>"; };
 		F324DD4904C698FB00A80005 /* CMRThreadComposingTask.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRThreadComposingTask.h; sourceTree = "<group>"; };
@@ -2524,8 +2518,6 @@
 				F3959F1004D3050600A80005 /* CMRThreadLayout_p.h */,
 				F324DD5A04C698FB00A80005 /* CMRThreadLayout.m */,
 				F324DD5804C698FB00A80005 /* CMRThreadLayout-MessageRange.m */,
-				F324DD3D04C698FB00A80005 /* CMRLayoutManager.h */,
-				F324DD3E04C698FB00A80005 /* CMRLayoutManager.m */,
 			);
 			name = Layout;
 			sourceTree = "<group>";
@@ -3396,7 +3388,6 @@
 				870161D0082BE67100AEFDD0 /* AppDefaults.h in Headers */,
 				870161D1082BE67100AEFDD0 /* AppDefaults_p.h in Headers */,
 				870161D2082BE67100AEFDD0 /* CMRAbstructThreadDocument.h in Headers */,
-				870161D3082BE67100AEFDD0 /* CMRLayoutManager.h in Headers */,
 				870161D4082BE67100AEFDD0 /* CMRThreadAttributes.h in Headers */,
 				870161D5082BE67100AEFDD0 /* CMRThreadComposingTask.h in Headers */,
 				870161D6082BE67100AEFDD0 /* CMRThreadDocument.h in Headers */,
@@ -3658,7 +3649,6 @@
 				F4904B11088C096D00EA9BA8 /* AppDefaults.h in Headers */,
 				F4904B12088C096D00EA9BA8 /* AppDefaults_p.h in Headers */,
 				F4904B13088C096D00EA9BA8 /* CMRAbstructThreadDocument.h in Headers */,
-				F4904B14088C096D00EA9BA8 /* CMRLayoutManager.h in Headers */,
 				F4904B15088C096D00EA9BA8 /* CMRThreadAttributes.h in Headers */,
 				F4904B16088C096D00EA9BA8 /* CMRThreadComposingTask.h in Headers */,
 				F4904B17088C096D00EA9BA8 /* CMRThreadDocument.h in Headers */,
@@ -4385,7 +4375,6 @@
 				87016313082BE67100AEFDD0 /* AppDefaults-ThreadViewer.m in Sources */,
 				87016314082BE67100AEFDD0 /* AppDefaults.m in Sources */,
 				87016315082BE67100AEFDD0 /* CMRAbstructThreadDocument.m in Sources */,
-				87016316082BE67100AEFDD0 /* CMRLayoutManager.m in Sources */,
 				87016317082BE67100AEFDD0 /* CMRThreadAttributes.m in Sources */,
 				87016318082BE67100AEFDD0 /* CMRThreadComposingTask.m in Sources */,
 				87016319082BE67100AEFDD0 /* CMRThreadDocument.m in Sources */,
@@ -4652,7 +4641,6 @@
 				F4904C5B088C096D00EA9BA8 /* AppDefaults-ThreadViewer.m in Sources */,
 				F4904C5C088C096D00EA9BA8 /* AppDefaults.m in Sources */,
 				F4904C5D088C096D00EA9BA8 /* CMRAbstructThreadDocument.m in Sources */,
-				F4904C5E088C096D00EA9BA8 /* CMRLayoutManager.m in Sources */,
 				F4904C5F088C096D00EA9BA8 /* CMRThreadAttributes.m in Sources */,
 				F4904C60088C096D00EA9BA8 /* CMRThreadComposingTask.m in Sources */,
 				F4904C61088C096D00EA9BA8 /* CMRThreadDocument.m in Sources */,

@@ -98,7 +98,7 @@ extern NSString *const CMRThreadViewerRunSpamFilterNotification;
 
 
 @interface CMRThreadViewer(ActionSupport)
-- (CMRFavoritesOperation) favoritesOperationForThreads : (NSArray *) threadsArray;
+//- (CMRFavoritesOperation) favoritesOperationForThreads : (NSArray *) threadsArray;
 - (void) addMessenger : (CMRReplyMessenger *) aMessenger;
 - (CMRReplyMessenger *) messenger : (BOOL) create;
 - (void) replyMessengerDidFinishPosting : (NSNotification *) aNotification;

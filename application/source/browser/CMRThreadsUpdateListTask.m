@@ -11,7 +11,7 @@
   *
   */
 #import "CMRThreadsUpdateListTask_p.h"
-#import "CMRFavoritesManager.h"
+//#import "CMRFavoritesManager.h"
 #import "BSDBThreadList.h"
 
 //////////////////////////////////////////////////////////////////////
@@ -162,7 +162,7 @@ RECACHE:
         //if (cache == nil) {
             [cachedInfoTbl setObject:[NSNull null] forKey:path_];
         //}
-	} else if (isUpdated && (s == ThreadUpdatedStatus)) {
+	/*} else if (isUpdated && (s == ThreadUpdatedStatus)) {
 		// お気に入りに含まれていないか探す
 		// 新着ありの既得スレのみについて調べれば良い。
 		// さらに subject.txt を取ってきて更新した場合のみ調べれば良い。
@@ -176,7 +176,7 @@ RECACHE:
 		}
 
         [cachedInfoTbl setObject:thread forKey:path_];
-
+	*/
     } else {
         [cachedInfoTbl setObject:thread forKey:path_];
     }

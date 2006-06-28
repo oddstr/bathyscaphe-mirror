@@ -11,7 +11,7 @@
 #import "BoardManager.h"
 #import "CMRNetGrobalLock.h"
 #import "DatabaseManager.h"
-
+#import "CMRTrashbox.h"
 
 /* for Debugging */
 SGUtilLogger *CMRLogger = nil;
@@ -38,6 +38,7 @@ void CMXServicesInit(void)
     // Managers
     [CMRFileManager defaultManager];
     [CMRMainMenuManager defaultManager];
+	[CMRTrashbox trash]; // 2006-06-29: FavoritesManager より先に用意できている必要がある！
     //[BoardManager defaultManager];
 	//[CMRFavoritesManager defaultManager];
     [CMRNetGrobalLock sharedInstance];
