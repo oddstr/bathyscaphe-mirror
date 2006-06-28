@@ -79,6 +79,8 @@
 		87160821098AA8DE00A27F63 /* browserSplitterVertical.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8716081D098AA8DE00A27F63 /* browserSplitterVertical.tiff */; };
 		8751C4760862204100998A38 /* SGContainerTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = F57D5E05037B6D8601A80002 /* SGContainerTableView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8751C4770862204200998A38 /* SGContainerTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F57D5E06037B6D8601A80002 /* SGContainerTableView.m */; };
+		878041DF0A52813D00979D68 /* BSLayoutManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 878041DD0A52813D00979D68 /* BSLayoutManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		878041E00A52813D00979D68 /* BSLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 878041DE0A52813D00979D68 /* BSLayoutManager.m */; };
 		87D29C3609913620007D26B4 /* BSBoardListView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D29C3209913620007D26B4 /* BSBoardListView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87D29C3709913620007D26B4 /* BSBoardListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D29C3309913620007D26B4 /* BSBoardListView.m */; };
 		87D29C3809913620007D26B4 /* BSIconAndTextCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D29C3409913620007D26B4 /* BSIconAndTextCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -197,6 +199,8 @@
 		8716081B098AA8DE00A27F63 /* browserSplitterDimple.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = browserSplitterDimple.tiff; path = images/browserSplitterDimple.tiff; sourceTree = "<group>"; };
 		8716081C098AA8DE00A27F63 /* browserSplitterDimpleVertical.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = browserSplitterDimpleVertical.tiff; path = images/browserSplitterDimpleVertical.tiff; sourceTree = "<group>"; };
 		8716081D098AA8DE00A27F63 /* browserSplitterVertical.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = browserSplitterVertical.tiff; path = images/browserSplitterVertical.tiff; sourceTree = "<group>"; };
+		878041DD0A52813D00979D68 /* BSLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; name = BSLayoutManager.h; path = bathyscaphe/BSLayoutManager.h; sourceTree = "<group>"; };
+		878041DE0A52813D00979D68 /* BSLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; name = BSLayoutManager.m; path = bathyscaphe/BSLayoutManager.m; sourceTree = "<group>"; };
 		87D29C3209913620007D26B4 /* BSBoardListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSBoardListView.h; path = bathyscaphe/BSBoardListView.h; sourceTree = "<group>"; };
 		87D29C3309913620007D26B4 /* BSBoardListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSBoardListView.m; path = bathyscaphe/BSBoardListView.m; sourceTree = "<group>"; };
 		87D29C3409913620007D26B4 /* BSIconAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSIconAndTextCell.h; path = bathyscaphe/BSIconAndTextCell.h; sourceTree = "<group>"; };
@@ -512,6 +516,8 @@
 		F57BBEE00377FA7001A80002 /* custom */ = {
 			isa = PBXGroup;
 			children = (
+				878041DD0A52813D00979D68 /* BSLayoutManager.h */,
+				878041DE0A52813D00979D68 /* BSLayoutManager.m */,
 				87D991AB09922E91006C5821 /* CMRPullDownIconBtn.h */,
 				87D991AC09922E91006C5821 /* CMRPullDownIconBtn.m */,
 				87D29C3209913620007D26B4 /* BSBoardListView.h */,
@@ -788,6 +794,7 @@
 				870904780A43DF9F00636062 /* BSWindow.h in Headers */,
 				8709047C0A43DFB000636062 /* BSSegmentedControlTbItem.h in Headers */,
 				870904800A43DFBC00636062 /* IndexField.h in Headers */,
+				878041DF0A52813D00979D68 /* BSLayoutManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -919,6 +926,7 @@
 				870904790A43DF9F00636062 /* BSWindow.m in Sources */,
 				8709047D0A43DFB000636062 /* BSSegmentedControlTbItem.m in Sources */,
 				870904810A43DFBC00636062 /* IndexField.m in Sources */,
+				878041E00A52813D00979D68 /* BSLayoutManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

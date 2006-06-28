@@ -1,6 +1,6 @@
 //: SGAppKit.h
 /**
-  * $Id: SGAppKit.h,v 1.9 2006/06/17 07:37:54 tsawada2 Exp $
+  * $Id: SGAppKit.h,v 1.10 2006/06/28 18:36:38 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -43,6 +43,7 @@ extern void SGAppKitFrameworkInit(void);
 #import <SGAppKit/BSWindow.h>
 #import <SGAppKit/BSSegmentedControlTbItem.h>
 #import <SGAppKit/IndexField.h>
+#import <SGAppKit/BSLayoutManager.h>
 
 #import <SGAppKit/SGKeyBindingSupport.h>
 
