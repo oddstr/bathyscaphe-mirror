@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.29 2006/06/28 18:37:32 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.30 2006/06/29 18:49:41 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -23,7 +23,6 @@
 #import "CMRThreadPlistComposer.h"
 #import "CMRNetGrobalLock.h"    /* for Locking */
 #import "BSHistoryMenuManager.h"
-#import "BSBoardInfoInspector.h"
 
 #import "missing.h"
 
@@ -585,15 +584,6 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 	}
 	
 	return name;
-}
-
-- (IBAction) showBoardInspectorPanel : (id) sender
-{
-	NSString			*board;
-	
-	board = [self boardNameArrowingSecondSource];
-
-	[[BSBoardInfoInspector sharedInstance] showInspectorForTargetBoard : board];
 }
 
 #pragma mark board / thread signature for historyManager .etc

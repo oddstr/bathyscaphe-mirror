@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.29 2006/06/28 18:37:32 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.30 2006/06/29 18:49:41 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -17,6 +17,7 @@
 #import "CMXPopUpWindowManager.h"
 #import "CMRDocumentController.h"
 #import "CMRBrowser.h"
+#import "BSBoardInfoInspector.h"
 
 // for debugging only
 #define UTIL_DEBUGGING		0
@@ -450,29 +451,14 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 
 	return [[CMRTrashbox trash] performWithFiles : filePathArray_];
 }
-/*
-// 2006-06-29 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-// スレッドを削除した後、お気に入りからスレッドを削除する必要がある場合は（CMRTrashbox からの通知を受け取って）
-// CMRFavoritesManager が自動的にそれを行ってくれるようになった。「捨ててくれと指令を出した人が気にする必要はない」ということ。
-//
-- (void) checkIfFavItemThenRemove : (NSString *) aPath
-{
-	CMRFavoritesManager	*favManager = [CMRFavoritesManager defaultManager];
-	if ([favManager favoriteItemExistsOfThreadPath : aPath]) {
-		[favManager removeFromFavoritesWithFilePath : aPath];
-	}
-		[favManager addItemToPoolWithFilePath : aPath]; // お気に入り項目でなくてもプールに追加する（削除ステータスを同期させるため）
-}
-*/
+
 - (IBAction) deleteThread : (id) sender
 {
 	if ([CMRPref quietDeletion]) {
 		NSString	*path_ = [[self path] copy];
 		[[self window] performClose : sender];
 
-		if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
-			//[self checkIfFavItemThenRemove : path_];
-		} else {
+		if (![self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
 			NSBeep();
 			NSLog(@"Deletion failed : %@", path_);
 		}
@@ -493,7 +479,6 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 			[retryBtn_ setKeyEquivalent : @"r"];
 		}
 
-		//NSBeep();
 		[alert_ beginSheetModalForWindow : [self window]
 						   modalDelegate : self
 						  didEndSelector : @selector(_threadDeletionSheetDidEnd:returnCode:contextInfo:)
@@ -514,9 +499,7 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 			[[alert window] orderOut : nil]; 
 			[[self window] performClose : contextInfo];
 
-			if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
-				//[self checkIfFavItemThenRemove : path_];
-			} else {
+			if (![self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
 				NSBeep();
 				NSLog(@"Deletion failed : %@", path_);
 			}
@@ -706,15 +689,6 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
     [[self window] makeFirstResponder: [[self textView] enclosingScrollView]];
 }
 
-#pragma mark BSIndexingPopupper delegate
-- (void) indexingPopupper: (BSIndexingPopupper *) popupper
-	didChangeVisibleRange: (CMRThreadVisibleRange *) newRange
-{
-	[[self threadAttributes] setVisibleRange: newRange];
-	if ([self synchronize])
-		[self loadFromContentsOfFile: [self path]];
-}
-
 #pragma mark Available in SledgeHammer and Later
 
 - (void) mainBrowserDidFinishShowThList : (NSNotification *) aNotification
@@ -765,5 +739,14 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 		[CMRMainBrowser showThreadsListWithBoardName : boardName];
 		[CMRMainBrowser selectRowWhoseNameIs : boardName];
 	}
+}
+
+- (IBAction) showBoardInspectorPanel : (id) sender
+{
+	NSString			*board;
+	
+	board = [self boardNameArrowingSecondSource];
+
+	[[BSBoardInfoInspector sharedInstance] showInspectorForTargetBoard : board];
 }
 @end

@@ -176,6 +176,15 @@
 {
 	[self scrollToLastUpdatedIndex:stepper];
 }
+
+- (void) indexingPopupper: (BSIndexingPopupper *) popupper
+	didChangeVisibleRange: (CMRThreadVisibleRange *) newRange
+{
+	[[self threadAttributes] setVisibleRange: newRange];
+	if ([self synchronize])
+		[self loadFromContentsOfFile: [self path]];
+}
+
 @end
 
 
