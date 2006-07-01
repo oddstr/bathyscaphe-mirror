@@ -1,3 +1,6 @@
+2006-07-02 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/window/CMRToolbarDelegateImp.m
+		BSProgressIndicatorTbItem サブクラスを廃止した。
 2006-06-29 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/main.m
 		CMRFavoritesManager の初期化前に、確実に CMRTrashbox の共有インスタンスが生成されるようにした。

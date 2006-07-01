@@ -780,7 +780,6 @@
 		F4904B92088C096D00EA9BA8 /* BSScriptsMenuManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F49CCDF30849B87500835BE3 /* BSScriptsMenuManager.h */; };
 		F4904B94088C096D00EA9BA8 /* RBSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87464E380864368F000F0371 /* RBSplitView.h */; };
 		F4904B95088C096D00EA9BA8 /* RBSplitSubview.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB791F0864401A00ED8757 /* RBSplitSubview.h */; };
-		F4904B96088C096D00EA9BA8 /* RBSplitViewPrivateDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB79200864401A00ED8757 /* RBSplitViewPrivateDefines.h */; };
 		F4904B99088C096D00EA9BA8 /* NSTableView+BSAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BD61EE0865D0230080A7CA /* NSTableView+BSAdditions.h */; };
 		F4904B9A088C096D00EA9BA8 /* BSHistoryMenuManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8770BF5B087F0095008907C5 /* BSHistoryMenuManager.h */; };
 		F4904BA1088C096D00EA9BA8 /* DatabaseManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F4559442088A106E00557B17 /* DatabaseManager.h */; };
@@ -1100,8 +1099,6 @@
 		F4FA6A4F094311E500BE3F27 /* FolderBoardListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 87E8726908DD63F40055370D /* FolderBoardListItem.m */; };
 		F4FA6A50094311E500BE3F27 /* SmartBoardList.m in Sources */ = {isa = PBXBuildFile; fileRef = 87E8726B08DD63F40055370D /* SmartBoardList.m */; };
 		F4FA6A51094311E600BE3F27 /* SmartBoardListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 87E8726D08DD63F40055370D /* SmartBoardListItem.m */; };
-		F4FA6A5D0943134000BE3F27 /* BSProgressIndicatorTbItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 877B78FA08E416C900184BB2 /* BSProgressIndicatorTbItem.h */; };
-		F4FA6A5F0943135200BE3F27 /* BSProgressIndicatorTbItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 877B78FB08E416C900184BB2 /* BSProgressIndicatorTbItem.m */; };
 		F4FA6A9E09431AE100BE3F27 /* boardListSelBg.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87D5D8D008DF0FCC0039A9EB /* boardListSelBg.tiff */; };
 		F4FA6A9F09431AE100BE3F27 /* boardListSelBgFocused.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87D5D8CF08DF0FCC0039A9EB /* boardListSelBgFocused.tiff */; };
 		F4FA6AA009431AE600BE3F27 /* HistoryBack.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 878A7567088AA85B00539B6F /* HistoryBack.tiff */; };
@@ -3751,13 +3748,11 @@
 				F4904B92088C096D00EA9BA8 /* BSScriptsMenuManager.h in Headers */,
 				F4904B94088C096D00EA9BA8 /* RBSplitView.h in Headers */,
 				F4904B95088C096D00EA9BA8 /* RBSplitSubview.h in Headers */,
-				F4904B96088C096D00EA9BA8 /* RBSplitViewPrivateDefines.h in Headers */,
 				F4904B99088C096D00EA9BA8 /* NSTableView+BSAdditions.h in Headers */,
 				F4904B9A088C096D00EA9BA8 /* BSHistoryMenuManager.h in Headers */,
 				F4904BA1088C096D00EA9BA8 /* DatabaseManager.h in Headers */,
 				F4904D70088C143B00EA9BA8 /* BSDBThreadList.h in Headers */,
 				F4C3954D08B8ABD800D20E01 /* SQLiteDB.h in Headers */,
-				F4FA6A5D0943134000BE3F27 /* BSProgressIndicatorTbItem.h in Headers */,
 				F4FA702F094357B000BE3F27 /* AbstractDBBoardListItem.h in Headers */,
 				F4FA7030094357B100BE3F27 /* BoardBoardListItem.h in Headers */,
 				F4FA7031094357B100BE3F27 /* BoardListItem.h in Headers */,
@@ -4741,7 +4736,6 @@
 				F4FA6A4F094311E500BE3F27 /* FolderBoardListItem.m in Sources */,
 				F4FA6A50094311E500BE3F27 /* SmartBoardList.m in Sources */,
 				F4FA6A51094311E600BE3F27 /* SmartBoardListItem.m in Sources */,
-				F4FA6A5F0943135200BE3F27 /* BSProgressIndicatorTbItem.m in Sources */,
 				F4FA7033094357B300BE3F27 /* BSBoardInfoInspector.m in Sources */,
 				F469D74C0943606C007D7EDC /* CMRBrowser-BLEditor.m in Sources */,
 				F4F582200945C9CC004DF9DB /* ConcreteBoardListItem.m in Sources */,
