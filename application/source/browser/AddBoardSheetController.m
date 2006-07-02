@@ -13,6 +13,8 @@
 #import <SGFoundation/SGFoundation.h>
 #import <CocoMonar/CocoMonar.h>
 
+#import "DatabaseManager.h"
+
 #import "UTILKit.h"
 
 static NSString *const kABSNibFileNameKey					= @"AddBoardSheet";
@@ -251,11 +253,15 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 				 informativeTextWithFormat : [self localizedString : @"So could not add to your Boards List."]] runModal];
 			return NO;
 		}
-		newItem_ = [NSDictionary dictionaryWithObjectsAndKeys :
-							name_, BoardPlistNameKey, url_, BoardPlistURLKey, nil];
+//		newItem_ = [NSDictionary dictionaryWithObjectsAndKeys :
+//							name_, BoardPlistNameKey, url_, BoardPlistURLKey, nil];
+		if([[DatabaseManager defaultManager] boardIDForURLString:url_] == NSNotFound) {
+			[[DatabaseManager defaultManager] registerBoardName:name_ URLString:url_];
+		}
+		newItem_ = [BoardListItem boardListItemWithURLString:url_];
 
 		[userList addItem : newItem_ afterObject : nil];
-//		[userList postBoardListDidChangeNotification];
+		[userList postBoardListDidChangeNotification];
 		return YES;
 	}
 }

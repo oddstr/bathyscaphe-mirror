@@ -31,7 +31,7 @@
 {
 	if (self = [super init]) {
 		NSMutableString *query = [NSMutableString string];
-		[query appendFormat : @"SELECT * FROM %@ INNER JOIN %@\n", ThreadInfoTableName, BoardInfoTableName];
+		[query appendFormat : @"SELECT * FROM %@\n", BoardThreadInfoViewName];
 		[query appendFormat : @"\t\tUSING (%@) \n", BoardIDColumn];
 		[query appendFormat : @"WHERE %@ IN (SELECT %@ FROM %@) ",
 			ThreadIDColumn, ThreadIDColumn, FavoritesTableName];

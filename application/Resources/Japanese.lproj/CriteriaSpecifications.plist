@@ -35,7 +35,7 @@
 		<key>5</key>
 		<dict>
 			<key>name</key>
-			<string>NumberOfAllColumn - NumberOfReadColumn</string>
+			<string>numberOfDifference</string>
 			<key>type</key>
 			<string>number type</string>
 		</dict>

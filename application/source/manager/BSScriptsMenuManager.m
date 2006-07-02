@@ -277,22 +277,7 @@ static void setKeyEquivalent(BSScriptsMenu *inMenu, int *nextKeyEquivalent)
 
 // アプリケーション化されたアップルスクリプトに対応。
 static inline BOOL isRunnableAppleScriptFile(NSString *path)
-{/*
-	NSURL *url;
-	NSAppleScript *as;
-	
-	if (![[NSFileManager defaultManager] isExecutableFileAtPath : path]) {
-		return NO;
-	}	
-	
-	url = [[[NSURL alloc] initWithScheme : @"file"
-									host : @""
-									path : path] autorelease];
-	as = [[[NSAppleScript alloc] initWithContentsOfURL : url
-												 error : nil] autorelease];
-	
-	return as ? YES : NO;*/
-	
+{
 	NSFileManager *fm = [NSFileManager defaultManager];
 	BOOL isDirectory;
 	
