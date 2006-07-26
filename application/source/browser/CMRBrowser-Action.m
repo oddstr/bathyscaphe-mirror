@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.45 2006/06/28 18:37:32 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.46 2006/07/26 16:28:25 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -241,6 +241,17 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 		[self showThreadsListWithBoardName : boardName];
 	}
 	[self selectRowWhoseNameIs : boardName];
+}
+
+#pragma mark Test
+- (IBAction) scrollPageDownThreadViewWithoutFocus: (id) sender
+{
+	if(![self shouldShowContents]) {
+		NSBeep();
+		return;
+	}
+	
+	[[self textView] scrollPageDown: sender];
 }
 
 #pragma mark History Menu

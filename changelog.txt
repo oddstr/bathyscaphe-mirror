@@ -1,3 +1,37 @@
+2006-07-27 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Action.m
+	* application/Resources/text/BrowserKeyBindings.plist
+		Mail.app のようにフォーカス無しでスレッド内容領域をスクロールさせることの是非をちょっと検討中。
+		微妙なところだなぁ…
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/BSIPIActionBtnTbItem.m
+	* application/subproj/previewer/BSIPIFullScreenController.m
+	* application/subproj/previewer/BSIPIFullScreenWindow.m
+	* application/subproj/previewer/BSIPIHistoryManager.m
+	* application/subproj/previewer/BSIPIImageView.m
+		プレビューインスペクタ 2.0：
+		- キャッシュ機能を応用してキャッシュの一覧表示機能をつけた。
+		- ドラッグ＆ドロップの動作を改良した。
+		- キーウインドウの状態を維持できるよう改良した。
+		- クラス間の役割分担を見直し、ソースをかなり書き換えた。
+		- 他にもたくさん！
+	* application/subproj/previewer/BSImagePreviewInspector-View.m
+		[新規追加] BSImagePreviewInspector.m が長くなり過ぎたので分割。
+	* application/subproj/previewer/BSIPIDownload.m
+		[新規追加] プレビューインスペクタのダウンロード処理担当部を別のクラスに分割。
+	* application/subproj/previewer/BSIPIPathTransformer.m
+	* application/subproj/previewer/BSIPITableView.m
+	* application/subproj/previewer/BSIPITextFieldCell.m
+		[新規追加] プレビューインスペクタで利用するこまごまとしたサブクラス。
+	* application/subproj/previewer/imageView.tiff
+	* application/subproj/previewer/IPIHistoryBack.tiff
+	* application/subproj/previewer/IPIHistoryForward.tiff
+	* application/subproj/previewer/tableView.tiff
+		[新規追加] プレビューインスペクタで利用する追加のアイコン。
+	* application/source/CMRAppDelegate.m
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		プレビューインスペクタを表示／隠すためのメニューを「ウインドウ」メニューに追加。
 2006-07-02 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/window/CMRToolbarDelegateImp.m
 		BSProgressIndicatorTbItem サブクラスを廃止した。

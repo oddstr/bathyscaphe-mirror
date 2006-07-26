@@ -1,5 +1,5 @@
 /*
- * $Id: BSImagePreviewInspector-Tb.m,v 1.8 2006/03/13 13:24:08 tsawada2 Exp $
+ * $Id: BSImagePreviewInspector-Tb.m,v 1.9 2006/07/26 16:28:25 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -7,6 +7,9 @@
 
 #import "BSImagePreviewInspector.h"
 #import "BSIPIActionBtnTbItem.h"
+#import <SGFoundation/NSDictionary-SGExtensions.h>
+#import <SGFoundation/NSMutableDictionary-SGExtensions.h>
+#import <SGAppKit/BSSegmentedControlTbItem.h>
 
 static NSString *const kIPITbActionBtnId		= @"Actions";
 static NSString *const kIPITbSettingsBtnId		= @"Settings";
@@ -14,7 +17,14 @@ static NSString *const kIPITbCancelBtnId		= @"CancelAndSave";
 static NSString *const kIPITbPreviewBtnId		= @"OpenWithPreview";
 static NSString *const kIPITbFullscreenBtnId	= @"StartFullscreen";
 static NSString *const kIPITbBrowserBtnId		= @"OpenWithBrowser";
+static NSString *const kIPITbNaviBtnId			= @"History";
+static NSString *const kIPITbPaneBtnId			= @"Panes";
 static NSString *const kIPIToobarId				= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Toolbar";
+static NSString *const kIPIAlwaysKeyWindowKey	= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Always Key Window";
+static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Save Directory";
+static NSString *const kIPIAlphaValueKey		= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Window Alpha Value";
+static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.ImagePreviewer:Opaque When Key Window";
+static NSString *const kIPIResetWhenHideWindowKey = @"jp.tsawada2.BathyScaphe.ImagePreviewer:Reset When Hide Window";
 
 @implementation BSImagePreviewInspector(ToolbarAndUtils)
 #pragma mark Utilities
@@ -55,8 +65,6 @@ static NSImage *_imageForDefaultBrowser()
 - (NSString *) calcImageSize : (NSImage *) image_
 {
 	int	wi, he;
-	//NSArray	*ary_ = [image_ representations];
-	//NSImageRep	*tmp_ = [ary_ objectAtIndex : 0];
 	NSImageRep	*tmp_ = [image_ bestRepresentationForDevice : nil];
 	NSString *msg_;
 	
@@ -71,15 +79,17 @@ static NSImage *_imageForDefaultBrowser()
 	return msg_;
 }
 
-- (void) startProgressIndicator : (NSProgressIndicator *) indicator indeterminately : (BOOL) indeterminately
+- (void) startProgressIndicator
 {
-	[indicator setIndeterminate : indeterminately];
+	NSProgressIndicator *indicator = [self progIndicator];
+	[indicator setIndeterminate : YES];
 	[indicator setHidden : NO];
 	[indicator startAnimation : self];
 }
 
-- (void) stopProgressIndicator : (NSProgressIndicator *) indicator
+- (void) stopProgressIndicator
 {
+	NSProgressIndicator *indicator = [self progIndicator];
 	[indicator stopAnimation : self];
 	[indicator setHidden : YES];
 }
@@ -177,23 +187,57 @@ static NSImage *_imageForDefaultBrowser()
 		[toolbarItem setMaxSize: size_];
 
 		[toolbarItem setTarget : self];
+		[(BSIPIActionBtnTbItem *)toolbarItem setDelegate: self]; // 2006-07-05 added
 
-    }
+    } else if ([itemIdent isEqual: kIPITbNaviBtnId]) {
+		NSSize	size_;
+		NSView	*tmp_;
+		toolbarItem = [[[BSSegmentedControlTbItem alloc] initWithItemIdentifier: itemIdent] autorelease];
+		
+		[toolbarItem setLabel: [self localizedStrForKey: @"History"]];
+		[toolbarItem setPaletteLabel: [self localizedStrForKey: @"History"]];
+		[toolbarItem setToolTip: [self localizedStrForKey: @"HistoryTip"]];
+		
+		tmp_ = [[self cacheNavigationControl] retain];
+		[toolbarItem setView: tmp_];
+		size_ = [tmp_ bounds].size;
+		[toolbarItem setMinSize: size_];
+		[toolbarItem setMaxSize: size_];
+		[(BSSegmentedControlTbItem *)toolbarItem setDelegate: self];
+		
+    } else if ([itemIdent isEqual: kIPITbPaneBtnId]) {
+		NSSize	size_;
+		NSView	*tmp_;
+		toolbarItem = [[[BSSegmentedControlTbItem alloc] initWithItemIdentifier: itemIdent] autorelease];
+		
+		[toolbarItem setLabel: [self localizedStrForKey: @"Panes"]];
+		[toolbarItem setPaletteLabel: [self localizedStrForKey: @"Panes"]];
+		[toolbarItem setToolTip: [self localizedStrForKey: @"PanesTip"]];
+		
+		tmp_ = [[self paneChangeBtn] retain];
+		[toolbarItem setView: tmp_];
+		size_ = [tmp_ bounds].size;
+		[toolbarItem setMinSize: size_];
+		[toolbarItem setMaxSize: size_];
+		[(BSSegmentedControlTbItem *)toolbarItem setDelegate: self];
+
+	}
 
     return toolbarItem;
 }
 
 - (NSArray *) toolbarDefaultItemIdentifiers : (NSToolbar *) toolbar
 {
-    return [NSArray arrayWithObjects: kIPITbActionBtnId, kIPITbCancelBtnId, kIPITbFullscreenBtnId, 
-									  NSToolbarFlexibleSpaceItemIdentifier, kIPITbSettingsBtnId, nil];
+    return [NSArray arrayWithObjects: kIPITbNaviBtnId, kIPITbPaneBtnId, kIPITbActionBtnId, NSToolbarFlexibleSpaceItemIdentifier,
+									  kIPITbCancelBtnId, nil];
 }
 
 - (NSArray *) toolbarAllowedItemIdentifiers : (NSToolbar *) toolbar
 {
-    return [NSArray arrayWithObjects: kIPITbActionBtnId, kIPITbCancelBtnId, kIPITbBrowserBtnId, kIPITbPreviewBtnId, kIPITbFullscreenBtnId,
-									  kIPITbSettingsBtnId, NSToolbarCustomizeToolbarItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier,
-									  NSToolbarSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier, nil];
+    return [NSArray arrayWithObjects: kIPITbNaviBtnId, kIPITbPaneBtnId, kIPITbActionBtnId, kIPITbCancelBtnId, kIPITbBrowserBtnId,
+									  kIPITbPreviewBtnId, kIPITbFullscreenBtnId, kIPITbSettingsBtnId, NSToolbarCustomizeToolbarItemIdentifier,
+									  NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSpaceItemIdentifier,
+									  NSToolbarSeparatorItemIdentifier, nil];
 }
 
 
@@ -215,15 +259,125 @@ static NSImage *_imageForDefaultBrowser()
 			[toolbarItem setImage: [self imageResourceWithName: @"Save"]];
 			[toolbarItem setTarget : self];
 			[toolbarItem setAction : @selector(saveImage:)];
-			return ([self downloadedFileDestination] != nil);
+			//return ([self downloadedFileDestination] != nil);
+			return ([self sourceURL] != nil);
 		}
 	} else if ([identifier_ isEqualToString : kIPITbPreviewBtnId]) {
-		return ((_currentDownload == nil) && ([self downloadedFileDestination] != nil));
+		//return ((_currentDownload == nil) && ([self downloadedFileDestination] != nil));
+		return ((_currentDownload == nil) && ([self sourceURL] != nil));
 	} else if ([identifier_ isEqualToString : kIPITbFullscreenBtnId]) {
 		return ((_currentDownload == nil) && ([[self imageView] image] != nil));
 	} else if ([identifier_ isEqualToString : kIPITbBrowserBtnId]) {
 		return ([self sourceURL] != nil);
 	}
     return YES;
+}
+
+- (BOOL) validateActionBtnTbItem: (BSIPIActionBtnTbItem *) aTbItem
+{
+	/*if(_currentDownload) {
+		return NO;
+	} else {
+		return ([[self imageView] image] != nil);
+	}*/
+	return YES;
+}
+
+// action button's menu
+- (BOOL) validateMenuItem: (id <NSMenuItem>) menuItem
+{
+	int tag_ = [menuItem tag];
+	if (tag_ == 573) {
+		return ([self sourceURL] != nil);
+	} else if (tag_ == 575) {
+		return ([[self imageView] image] != nil);
+	} else if (tag_ == 574) {
+		if (_currentDownload) {
+			[menuItem setTitle: [self localizedStrForKey: @"StopMenu"]];
+			[menuItem setAction: @selector(cancelDownload:)];
+			return YES;
+		} else {
+			[menuItem setTitle: [self localizedStrForKey: @"SaveMenu"]];
+			[menuItem setAction: @selector(saveImage:)];
+			return ([self sourceURL] != nil);
+		}
+	}
+	return YES;
+}
+
+- (BOOL) segCtrlTbItem: (BSSegmentedControlTbItem *) item
+	   validateSegment: (int) segment
+{
+	if ([item view] == [self paneChangeBtn]) return YES;
+
+	NSURL *source_ = [self sourceURL];
+	//if (source_ == nil)
+	//	return NO;
+
+	if (segment == 0) {
+		return ([[BSIPIHistoryManager sharedManager] cachedPrevFilePathForURL: source_] != nil);
+	} else if (segment == 1) {
+		return ([[BSIPIHistoryManager sharedManager] cachedNextFilePathForURL: source_] != nil);
+	}
+	return NO;
+}
+@end
+
+@implementation BSImagePreviewInspector(Settings)
+- (NSMutableDictionary *) prefsDict
+{
+	return [[self preferences] imagePreviewerPrefsDict];
+}
+
+- (BOOL) alwaysBecomeKey
+{
+	return [[self prefsDict] boolForKey: kIPIAlwaysKeyWindowKey defaultValue: NO];
+}
+- (void) setAlwaysBecomeKey : (BOOL) alwaysKey
+{
+	[[self prefsDict] setBool: alwaysKey forKey: kIPIAlwaysKeyWindowKey];
+	[(NSPanel *)[self window] setBecomesKeyOnlyIfNeeded: (NO == alwaysKey)];
+}
+
+- (NSString *) saveDirectory
+{
+	return [[self prefsDict] objectForKey: kIPISaveDirectoryKey
+							defaultObject: [NSHomeDirectory() stringByAppendingPathComponent: @"Desktop"]];
+}
+
+- (void) setSaveDirectory : (NSString *) aString
+{
+	[[self prefsDict] setObject: aString forKey: kIPISaveDirectoryKey];
+}
+
+- (float) alphaValue
+{
+	return [[self prefsDict] floatForKey: kIPIAlphaValueKey defaultValue: 1.0];
+}
+
+- (void) setAlphaValue : (float) newValue
+{
+	[[self prefsDict] setFloat: newValue forKey: kIPIAlphaValueKey];
+	[[self window] setAlphaValue: newValue];
+}
+
+- (BOOL) opaqueWhenKey
+{
+	return [[self prefsDict] boolForKey: kIPIOpaqueWhenKeyWindowKey defaultValue: NO];
+}
+
+- (void) setOpaqueWhenKey : (BOOL) opaqueWhenKey
+{
+	[[self prefsDict] setBool: opaqueWhenKey forKey: kIPIOpaqueWhenKeyWindowKey];
+}
+
+- (BOOL) resetWhenHide
+{
+	return [[self prefsDict] boolForKey: kIPIResetWhenHideWindowKey defaultValue: YES];
+}
+
+- (void) setResetWhenHide : (BOOL) reset
+{
+	[[self prefsDict] setBool: reset forKey: kIPIResetWhenHideWindowKey];
 }
 @end

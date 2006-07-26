@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIFullScreenWindow.h,v 1.2 2006/04/11 17:31:21 masakih Exp $
+//  $Id: BSIPIFullScreenWindow.h,v 1.3 2006/07/26 16:28:25 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.
@@ -17,4 +17,6 @@
 @interface NSObject(BSIPIFullScreenWindowAddition)
 - (BOOL) handlesKeyDown : (NSEvent *) keyDown inWindow : (NSWindow *) window;
 - (BOOL) handlesMouseDown : (NSEvent *) mouseDown inWindow: (NSWindow *) window;
+
+- (void) windowDidOrderOut: (NSWindow *) window;
 @end

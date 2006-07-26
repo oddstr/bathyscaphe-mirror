@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIFullScreenWindow.m,v 1.2 2006/04/11 17:31:21 masakih Exp $
+//  $Id: BSIPIFullScreenWindow.m,v 1.3 2006/07/26 16:28:25 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.
@@ -38,6 +38,13 @@
     return YES;
 }
 
+- (void) orderOut: (id) sender
+{
+	[super orderOut: sender];
+	if ([[self delegate] respondsToSelector: @selector(windowDidOrderOut:)])
+		[[self delegate] windowDidOrderOut: self];
+}
+
 //  Ask our delegate if it wants to handle keystroke or mouse events before we route them.
 - (void) sendEvent : (NSEvent *) theEvent
 {
@@ -48,11 +55,11 @@
                 return;
 
     //  Offer mouse-down events (lefty or righty) to the delegate
-    if ([theEvent type] == NSLeftMouseDown)
+   if ([theEvent type] == NSLeftMouseDown) {
         if ([[self delegate] respondsToSelector : @selector(handlesMouseDown:inWindow:)])
             if ([[self delegate] handlesMouseDown : theEvent  inWindow: self])
-                return;
-
+                /*return*/;
+	}
     //  Delegate wasn't interested, so do the usual routing.
     [super sendEvent: theEvent];
 }

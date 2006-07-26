@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIFullScreenController.m,v 1.4 2006/02/24 16:54:13 tsawada2 Exp $
+//  $Id: BSIPIFullScreenController.m,v 1.5 2006/07/26 16:28:25 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.
@@ -42,6 +42,20 @@
     }
 }
 
+- (id) delegate
+{
+	return m_delegate;
+}
+- (void) setDelegate: (id) aDelegate
+{
+	m_delegate = aDelegate;
+}
+
+- (void) dealloc
+{
+	m_delegate = nil;
+	[super dealloc];
+}
 /*- (void) _showPanelWithPath : (NSString *) aPath
 {
 	NSImage	*tmp0_ = [[NSImage alloc] initWithContentsOfFile : aPath];
@@ -63,8 +77,13 @@
 	[Rep_ setSize : NSMakeSize(imgX*dT, imgY*dT)];
 	[self showPanelWithImage : tmp0_];
 }*/
+- (void) setImage: (NSImage *) anImage
+{
+	[_imageView setImage: anImage];
+}
 
-- (void) showPanelWithImage : (NSImage *) anImage;
+//- (void) showPanelWithImage : (NSImage *) anImage;
+- (void) startFullScreen
 {
 	CGDisplayFadeReservationToken tokenPtr1, tokenPtr2;
 
@@ -99,16 +118,16 @@
 
 		CGReleaseDisplayFadeReservation (tokenPtr2);
 	}
-	[_imageView setImage : anImage];
+	//[_imageView setImage : anImage];
 	[NSCursor setHiddenUntilMouseMoves : YES];
 }
 
-- (void) hidePanel
+- (void) endFullScreen
 {
 	CGDisplayFadeReservationToken tokenPtr;
 
 	[NSCursor setHiddenUntilMouseMoves : NO]; // 念のため
-	[_imageView setImage : nil];
+	//[_imageView setImage : nil];
 
 	if (kCGErrorSuccess == CGAcquireDisplayFadeReservation(kCGMaxDisplayReservationInterval, &tokenPtr)) {
 		CGDisplayFade(
@@ -125,7 +144,6 @@
     [_fullScreenWindow orderOut: nil];
 
 	SetSystemUIMode(kUIModeNormal, 0);
-
 }
 
 #pragma mark Delegates
@@ -135,10 +153,14 @@
     //	Close the panel on any keystroke.
     //	We could also check for the Escape key by testing
     //		[[keyDown characters] isEqualToString: @"\033"]
-	//if([[keyDown charactersIgnoringModifiers] isEqualToString : @" "]) {
-	//	[self _toggleFitMode];
-	//} else {
-		[self hidePanel];
+	/*if([[keyDown charactersIgnoringModifiers] isEqualToString : [NSString stringWithFormat : @"%C", 0xF702]]) {
+		if ([[self delegate] respondsToSelector: @selector(showPrevImage:)])
+			[[self delegate] showPrevImage: nil];
+	} else if([[keyDown charactersIgnoringModifiers] isEqualToString : [NSString stringWithFormat : @"%C", 0xF703]]) {
+		if ([[self delegate] respondsToSelector: @selector(showNextImage:)])
+			[[self delegate] showNextImage: nil];
+	} else {*/
+		[self endFullScreen];
 	//}
     return YES;
 }
@@ -146,7 +168,13 @@
 - (BOOL) handlesMouseDown : (NSEvent *) mouseDown inWindow: (NSWindow *) window
 {
     //	Close the panel on any click
-    [self hidePanel];
+    [self endFullScreen];
     return YES;
+}
+
+- (void) windowDidOrderOut: (NSWindow *) window
+{
+	if([[self delegate] respondsToSelector: @selector(fullScreenDidEnd:)])
+		[[self delegate] fullScreenDidEnd: window];
 }
 @end
