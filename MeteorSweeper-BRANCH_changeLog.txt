@@ -1,0 +1,10 @@
+2006-07-31 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/bbs/BoardList-OVDataSource.m	* application/source/bbs/BoardManager_p.h	* application/source/bbs/BoardManager-BSAddition.m	* application/source/bbs/BoardManager.(h|m)
+	* application/source/browser/AddBoardSheetController.(h|m)	* application/source/browser/Browser.m	* application/source/browser/BSFavoritesHEADCheckTask.m	* application/source/browser/CMRFavoritesManager.(h|m)	* application/source/browser/CMRThreadsList-Download.m	* application/source/browser/CMRThreadsList-listImport.m	* application/source/browser/CMRThreadsList-Notification.m	* application/source/browser/CMRThreadsList-Remove.m	* application/source/browser/CMRThreadsListReadFileTask.m	* application/source/browser/CMRThreadsUpdateListTask.m		v120-BASED-BRANCH の先端から丸ごとこれらのファイルを差し替え。
+		とりあえず 1.2.2 ベースの動作に戻すため。もちろん、他にも何カ所か擦り合わせが必要。
+	* MeteorSweeper-BRANCH_changeLog.txt
+		[新規追加]このブランチ用の changeLog.txt (UTF-8)。
+2006-07-31 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	*トランクから分岐。
+	 - トランク上の分岐点目印タグ：Root-of-MeteorSweeper
+	 - ブランチタグ：MeteorSweeper-BRANCH
