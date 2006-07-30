@@ -1,5 +1,5 @@
 //
-//  $Id: AddBoardSheetController.m,v 1.7.2.1 2006/06/06 22:17:55 tsawada2 Exp $
+//  $Id: AddBoardSheetController.m,v 1.7.2.2 2006/07/30 20:47:46 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/12.
@@ -53,6 +53,7 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 	[[self defaultListOLView] setDataSource : [[BoardManager defaultManager] defaultList]];
 	[[self defaultListOLView] setAutoresizesOutlineColumn : NO];
 	[[self defaultListOLView] setVerticalMotionCanBeginDrag : NO];
+	[[self defaultListOLView] setDoubleAction: @selector(doAddAndClose:)];
 	[[self OKButton] setEnabled : NO];
 }
 
@@ -122,20 +123,26 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 - (IBAction) doAddAndClose : (id) sender
 {
 	BOOL	shouldClose;
-
-	if ([[self defaultListOLView] selectedRow] == -1) {
-		shouldClose = [self addToUserListFromForm : sender];
-	} else {
-		NSString *name_;
-		NSString *url_;
-
-		name_ = [[self brdNameField] stringValue];
-		url_  = [[self brdURLField] stringValue];
+	//NSLog(@"%@",[sender description]);
+	if (sender == [self defaultListOLView]) { //  Maybe OLView doucle-clicked
+		if ([[self defaultListOLView] clickedRow] == -1) return; // Maybe double click table column!!
 		
-		if ([name_ isEqualToString : @""] && [url_ isEqualToString : @""]) {
-			shouldClose = [self addToUserListFromOLView : sender];
-		} else {
+		shouldClose = [self addToUserListFromOLView: sender];
+	} else {
+		if ([[self defaultListOLView] selectedRow] == -1) {
 			shouldClose = [self addToUserListFromForm : sender];
+		} else {
+			NSString *name_;
+			NSString *url_;
+
+			name_ = [[self brdNameField] stringValue];
+			url_  = [[self brdURLField] stringValue];
+			
+			if ([name_ isEqualToString : @""] && [url_ isEqualToString : @""]) {
+				shouldClose = [self addToUserListFromOLView : sender];
+			} else {
+				shouldClose = [self addToUserListFromForm : sender];
+			}
 		}
 	}
 

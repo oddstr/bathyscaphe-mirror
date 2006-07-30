@@ -1,3 +1,6 @@
+2006-07-29 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/AddBoardSheetController.m
+		「掲示板の追加」シートで、アウトライン・ビューの項目をダブルクリックするとその項目を「追加」できるようにした。
 2006-06-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/window/BSWindow.(h|m)
 	* application/source/window/CMRStatusLineWindowController.m
