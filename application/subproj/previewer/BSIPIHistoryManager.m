@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIHistoryManager.m,v 1.3 2006/07/26 16:28:25 tsawada2 Exp $
+//  $Id: BSIPIHistoryManager.m,v 1.4 2006/07/30 02:39:25 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/12.
@@ -150,7 +150,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 	
 	NSImage *image_ = [[NSImage alloc] initWithSize: NSMakeSize(thumbX, 32.0)];
 	[image_ addRepresentation: imageRep_];
-	//[imageRep_ release];
+	[image_ setDataRetained: NO];
 	
 	return [image_ autorelease];
 }

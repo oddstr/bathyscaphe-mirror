@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIFullScreenController.h,v 1.3 2006/07/26 16:28:25 tsawada2 Exp $
+//  $Id: BSIPIFullScreenController.h,v 1.4 2006/07/30 02:39:25 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.
@@ -26,6 +26,7 @@
 - (void) setDelegate: (id) aDelegate;
 
 - (void) startFullScreen;
+- (void) startFullScreen: (NSScreen *) whichScreen;
 - (void) endFullScreen;
 @end
 

@@ -1,3 +1,18 @@
+2006-07-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/BSIPIActionBtnTbItem.m
+	* application/subproj/previewer/BSIPIFullScreenController.m
+	* application/subproj/previewer/BSIPIFullScreenWindow.m
+	* application/subproj/previewer/BSIPIHistoryManager.m
+		プレビューインスペクタ（2.0→2.0.1）：
+		- フルスクリーン表示時に←／→キーでそれぞれ前のイメージ／次のイメージを表示、さらに s キーで
+		  現在のイメージを保存できるようにした。
+		- メモリリークの可能性があった部分をいくつか修正した。
+		- キーウインドウの状態を維持するための改良をさらに追加した。
+	* application/source/browser/CMRBrowser-BLEditor.m
+		NSRunAlertPanel() → NSAlert
 2006-07-27 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-Action.m
 	* application/Resources/text/BrowserKeyBindings.plist

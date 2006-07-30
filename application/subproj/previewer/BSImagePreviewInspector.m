@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.17 2006/07/26 16:28:25 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.18 2006/07/30 02:39:25 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -16,6 +16,7 @@
 #import "BSIPIImageView.h"
 
 @class BSIPITableView;
+@class BSIPIFullScreenWindow;
 
 static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 
@@ -144,7 +145,7 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 	[[BSIPIFullScreenController sharedInstance] setDelegate: self];
 	[[BSIPIFullScreenController sharedInstance] setImage : [[self imageView] image]];
 
-	[[BSIPIFullScreenController sharedInstance] startFullScreen];
+	[[BSIPIFullScreenController sharedInstance] startFullScreen: [[self window] screen]];
 }
 
 - (IBAction) saveImage : (id) sender
@@ -178,6 +179,11 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 		[self showCachedImageWithPath: filePath_];
 	} else {
 		NSBeep();
+		return;
+	}
+	
+	if ([sender isKindOfClass: [BSIPIFullScreenWindow class]]) {
+		[[BSIPIFullScreenController sharedInstance] setImage: [[self imageView] image]];
 	}
 }
 
@@ -191,6 +197,11 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 		[self showCachedImageWithPath: filePath_];
 	} else {
 		NSBeep();
+		return;
+	}
+	
+	if ([sender isKindOfClass: [BSIPIFullScreenWindow class]]) {
+		[[BSIPIFullScreenController sharedInstance] setImage: [[self imageView] image]];
 	}
 }
 
@@ -241,6 +252,9 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 	newDownload_ = [[BSIPIDownload alloc] initWithURLIdentifier: anURL delegate: self destination: [[self dlFolder] path]];
 	if (newDownload_) {
 		[self setCurrentDownload: newDownload_];
+		NSLog(@"_currentDownload count: %i", [newDownload_ retainCount]);
+		[newDownload_ release];
+		NSLog(@"_currentDownload count: %i", [newDownload_ retainCount]);
 		[self startProgressIndicator];
 		return YES;
 	}
@@ -267,8 +281,11 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 - (BOOL) showImageWithURL : (NSURL *) imageURL
 {
 	NSString *cachedFilePath;
-	if (![[self window] isVisible])
+	if (![[self window] isVisible]) {
 		[self showWindow : self];
+	} else {
+		if ([self alwaysBecomeKey]) [[self window] makeKeyWindow];
+	}
 
 	cachedFilePath = [[BSIPIHistoryManager sharedManager] cachedFilePathForURL : imageURL];
 

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.46 2006/07/26 16:28:25 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.47 2006/07/30 02:39:25 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -252,6 +252,16 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 	}
 	
 	[[self textView] scrollPageDown: sender];
+}
+
+- (IBAction) scrollPageUpThreadViewWithoutFocus: (id) sender
+{
+	if(![self shouldShowContents]) {
+		NSBeep();
+		return;
+	}
+	
+	[[self textView] scrollPageUp: sender];
 }
 
 #pragma mark History Menu

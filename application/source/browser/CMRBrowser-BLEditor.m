@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-BLEditor.m,v 1.12 2006/04/11 17:31:21 masakih Exp $
+ * $Id: CMRBrowser-BLEditor.m,v 1.13 2006/07/30 02:39:25 tsawada2 Exp $
  * BathyScaphe
  * CMRBrowser-Action.m, CMRBrowser-ViewAccessor.m から分割
  *
@@ -187,8 +187,21 @@
 	id	item_;
 	item_ = [boardListTable_ itemAtRow : rowIndex_];
 		
+	NSAlert *alert_ = [[NSAlert alloc] init];
+	NSString *alertMsgTxt_ = [NSString stringWithFormat: [self localizedString : kRemoveDrawerItemMsgKey],[item_ name]];
+	[alert_ setAlertStyle: NSWarningAlertStyle];
+	[alert_ setMessageText: [self localizedString: kRemoveDrawerItemTitleKey]];
+	[alert_ setInformativeText: alertMsgTxt_];
+	[alert_ addButtonWithTitle: [self localizedString: kDeleteOKBtnKey]];
+	[alert_ addButtonWithTitle: [self localizedString: kDeleteCancelBtnKey]];
+
 	NSBeep();
-	NSBeginAlertSheet(
+	[alert_ beginSheetModalForWindow: [self window]
+					   modalDelegate: self
+					  didEndSelector: @selector(boardItemDeletionSheetDidEnd:returnCode:contextInfo:)
+						 contextInfo: item];
+	[alert_ release];
+	/*NSBeginAlertSheet(
 		[self localizedString : kRemoveDrawerItemTitleKey],
 		[self localizedString : kDeleteOKBtnKey],
 		nil,
@@ -199,7 +212,7 @@
 		NULL,
 		item_,
 		[self localizedString : kRemoveDrawerItemMsgKey],[item_ name]
-	);
+	);*/
 }
 
 - (IBAction) endEditSheet : (id) sender
@@ -297,6 +310,17 @@
 	[sheet close];
 }
 
+- (void) boardItemDeletionSheetDidEnd: (NSAlert *) alert
+						   returnCode: (int) returnCode
+						  contextInfo: (id) contextInfo
+{
+	if (returnCode == NSAlertFirstButtonReturn) {
+		[(id)[[BoardManager defaultManager] userList] removeItem: contextInfo];
+		[[self boardListTable] reloadData];
+		[[self boardListTable] deselectAll: nil];
+	}
+}
+/*
 - (void) _drawerItemDeletionSheetDidEnd : (NSWindow *) sheet
 							 returnCode : (int       ) returnCode
 							contextInfo : (id        ) contextInfo
@@ -311,7 +335,7 @@
 		break;
 	}
 }
-
+*/
 - (void) _multipleItemDeletionSheetDidEnd : (NSWindow *) sheet
 							   returnCode : (int	   ) returnCode
 							  contextInfo : (id		   ) contextInfo

@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector-View.m,v 1.1 2006/07/26 16:28:25 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector-View.m,v 1.2 2006/07/30 02:39:25 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/07/15.
@@ -14,6 +14,7 @@
 @class BSIPIDownload;
 
 static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInspector Panel Autosave";
+static NSString *const kIPIMenuItemForOldBSKey	= @"IPIWindowsMenuItemForOldBS";
 
 @implementation BSImagePreviewInspector(ViewAccessor)
 - (NSPopUpButton *) actionBtn
@@ -141,13 +142,13 @@ static NSImage *bsIPI_iconForPath(NSString *sourcePath)
 	[window_ useOptimizedDrawing: YES];
 }
 
-// WARNING: ONLY FOR BATHYSCAPHE 1.2.x
+// WARNING: ONLY FOR BATHYSCAPHE 1.1.x - 1.2.x
 - (void) setupMenu
 {
 	NSMenuItem	*cometBlasterItem;
 	NSMenu		*windowsMenu;
 
-	cometBlasterItem = [[[NSMenuItem alloc] initWithTitle: [self localizedStrForKey: @"IPIWindowsMenuItemForOldBS"]
+	cometBlasterItem = [[[NSMenuItem alloc] initWithTitle: [self localizedStrForKey: kIPIMenuItemForOldBSKey]
 												   action: @selector(togglePreviewPanel:)
 											keyEquivalent: @"p"] autorelease];
 	[cometBlasterItem setTarget: self];
@@ -155,6 +156,19 @@ static NSImage *bsIPI_iconForPath(NSString *sourcePath)
 	
 	windowsMenu = [[[NSApp mainMenu] itemWithTag: 6] submenu];
 	[windowsMenu insertItem: cometBlasterItem atIndex: 6];
+}
+
+- (void) setupMenuIfNeeded
+{
+	NSBundle *bathyScaphe_ = [NSBundle mainBundle];
+	if (!bathyScaphe_) return;
+	
+	NSString *version_ = [bathyScaphe_ objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
+	
+	if ([version_ hasPrefix: @"1.2"] || [version_ hasPrefix: @"1.1"]) {
+		// install menu item into Windows Menu
+		[self setupMenu];
+	}
 }
 
 - (void) setupTableView
@@ -188,7 +202,7 @@ static NSImage *bsIPI_iconForPath(NSString *sourcePath)
 - (void) awakeFromNib
 {
 	[self setupWindow];
-	//[self setupMenu]; // WARNING: ONLY FOR BATHYSCAPHE 1.2.x
+	[self setupMenuIfNeeded];
 	[self setupTableView];
 	[self setupControls];
 	[self setupToolbar];

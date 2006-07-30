@@ -1261,7 +1261,7 @@
 		870022280A4B0E7500F29F97 /* BSTsuruPetaPopUpBtnCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSTsuruPetaPopUpBtnCell.h; sourceTree = "<group>"; };
 		870022290A4B0E7500F29F97 /* BSTsuruPetaPopUpBtnCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSTsuruPetaPopUpBtnCell.m; sourceTree = "<group>"; };
 		87016395082BE67200AEFDD0 /* Info-bathyscaphe.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-bathyscaphe.plist"; sourceTree = "<group>"; };
-		87016396082BE67200AEFDD0 /* BathyScaphe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BathyScaphe.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		87016396082BE67200AEFDD0 /* BathyScaphe.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BathyScaphe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87078CD1090E970F007FF9C3 /* beDisabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beDisabled.png; sourceTree = "<group>"; };
 		87078CD2090E970F007FF9C3 /* beEnabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beEnabled.png; sourceTree = "<group>"; };
 		87078CD3090E970F007FF9C3 /* BoardList.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BoardList.png; sourceTree = "<group>"; };

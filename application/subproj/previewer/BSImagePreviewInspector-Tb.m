@@ -1,5 +1,5 @@
 /*
- * $Id: BSImagePreviewInspector-Tb.m,v 1.9 2006/07/26 16:28:25 tsawada2 Exp $
+ * $Id: BSImagePreviewInspector-Tb.m,v 1.10 2006/07/30 02:39:25 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -259,11 +259,9 @@ static NSImage *_imageForDefaultBrowser()
 			[toolbarItem setImage: [self imageResourceWithName: @"Save"]];
 			[toolbarItem setTarget : self];
 			[toolbarItem setAction : @selector(saveImage:)];
-			//return ([self downloadedFileDestination] != nil);
 			return ([self sourceURL] != nil);
 		}
 	} else if ([identifier_ isEqualToString : kIPITbPreviewBtnId]) {
-		//return ((_currentDownload == nil) && ([self downloadedFileDestination] != nil));
 		return ((_currentDownload == nil) && ([self sourceURL] != nil));
 	} else if ([identifier_ isEqualToString : kIPITbFullscreenBtnId]) {
 		return ((_currentDownload == nil) && ([[self imageView] image] != nil));
@@ -275,11 +273,6 @@ static NSImage *_imageForDefaultBrowser()
 
 - (BOOL) validateActionBtnTbItem: (BSIPIActionBtnTbItem *) aTbItem
 {
-	/*if(_currentDownload) {
-		return NO;
-	} else {
-		return ([[self imageView] image] != nil);
-	}*/
 	return YES;
 }
 
@@ -311,8 +304,6 @@ static NSImage *_imageForDefaultBrowser()
 	if ([item view] == [self paneChangeBtn]) return YES;
 
 	NSURL *source_ = [self sourceURL];
-	//if (source_ == nil)
-	//	return NO;
 
 	if (segment == 0) {
 		return ([[BSIPIHistoryManager sharedManager] cachedPrevFilePathForURL: source_] != nil);

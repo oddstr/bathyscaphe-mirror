@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIFullScreenWindow.m,v 1.3 2006/07/26 16:28:25 tsawada2 Exp $
+//  $Id: BSIPIFullScreenWindow.m,v 1.4 2006/07/30 02:39:25 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.
@@ -36,13 +36,6 @@
 - (BOOL) canBecomeKeyWindow
 {
     return YES;
-}
-
-- (void) orderOut: (id) sender
-{
-	[super orderOut: sender];
-	if ([[self delegate] respondsToSelector: @selector(windowDidOrderOut:)])
-		[[self delegate] windowDidOrderOut: self];
 }
 
 //  Ask our delegate if it wants to handle keystroke or mouse events before we route them.
