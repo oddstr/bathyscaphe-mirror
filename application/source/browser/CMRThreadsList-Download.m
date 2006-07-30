@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-Download.m,v 1.4 2006/04/11 17:31:21 masakih Exp $
+  * $Id: CMRThreadsList-Download.m,v 1.4.2.1 2006/07/30 21:40:35 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -28,7 +28,7 @@
 	[downloader_ startLoadInBackground];
 }
 
-- (void) postListDidUpdateNotification : (int) mask
+- (void) postListDidUpdateNotification : (int) mask;
 {
 	id		obj_;
 	

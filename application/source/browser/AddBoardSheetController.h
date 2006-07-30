@@ -1,13 +1,13 @@
 //
-//  AddBoardSheetController.h
+//  $Id: AddBoardSheetController.h,v 1.4.2.1 2006/07/30 21:40:35 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/12.
-//  Copyright 2005 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2006 BathyScaphe Project. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
-@class SmartBoardList;
+@class BoardList;
 
 /*!
     @header AddBoardSheetController
@@ -52,9 +52,9 @@
 
 - (BOOL) addToUserListFromOLView : (id) sender;
 - (BOOL) addToUserListFromForm : (id) sender;
-- (BOOL) selectMatchedItem: (NSString*) keyword
-                     items: (NSArray*) items;
-- (void) selectMatchedItem: (NSString*) keyword;
+
+- (void) showMatchedItemsWithCurrentSearchStr;
+- (void) showMatchedItems: (NSString*) keyword;
 
 - (void) beginSheetModalForWindow : (NSWindow *) docWindow
 					modalDelegate : (id        ) modalDelegate

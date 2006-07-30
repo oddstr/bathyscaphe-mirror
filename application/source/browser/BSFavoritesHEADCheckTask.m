@@ -1,5 +1,5 @@
 /**
-  * $Id: BSFavoritesHEADCheckTask.m,v 1.8 2006/06/01 15:13:14 tsawada2 Exp $
+  * $Id: BSFavoritesHEADCheckTask.m,v 1.8.2.1 2006/07/30 21:40:35 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2006 BathyScaphe Project. All rights reserved.

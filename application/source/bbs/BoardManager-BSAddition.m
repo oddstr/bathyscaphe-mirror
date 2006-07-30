@@ -424,28 +424,18 @@ extern NSImage  *imageForType(BoardListItemType type); // described in BoardList
 	[mdict_ release];
 }
 
-- (id)itemForName : (NSString *) boardName
-{
-	id list_;
-	id item_;
-	
-	list_ = [self userList];
-	item_ = [list_ itemForName : boardName];
-	if(item_) return item_;
-	
-	list_ = [self defaultList];
-	item_ = [list_ itemForName : boardName];
-	
-	return item_;
-}
-	
 - (NSImage *) iconForBoard : (NSString *) boardName
 {
 	// Future will be...
-	BoardListItem	*item_;
+	/*BoardListItem	*item_;
 	item_ = [self itemForName : boardName];
 	
-	return [item_ icon];
+	return [item_ icon];*/
+	if ([boardName isEqualToString : CMXFavoritesDirectoryName]) {
+		return imageForType(BoardListFavoritesItem);
+	} else {
+		return imageForType(BoardListBoardItem);
+	}
 }
 
 - (BSBeLoginPolicyType) typeOfBeLoginPolicyForBoard : (NSString *) boardName

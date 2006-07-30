@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-Remove.m,v 1.6 2006/06/28 18:37:32 tsawada2 Exp $
+  * $Id: CMRThreadsList-Remove.m,v 1.6.2.1 2006/07/30 21:40:35 tsawada2 Exp $
   * 
   * CMRThreadsList-Remove.m
   *
@@ -86,7 +86,7 @@
 		tmp = [[CMRTrashbox trash] performWithFiles : files];
 	}
 
-	//if(tmp && flag) [[CMRFavoritesManager defaultManager] removeFromFavoritesWithPathArray : files];
+	if(tmp && flag) [[CMRFavoritesManager defaultManager] removeFromFavoritesWithPathArray : files];
 	if(tmp)[self cleanUpItemsToBeRemoved : files];
 	
 	return tmp;

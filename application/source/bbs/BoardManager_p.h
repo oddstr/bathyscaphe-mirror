@@ -2,7 +2,7 @@
 #import "BoardManager.h"
 #import "AppDefaults.h"
 #import "CocoMonar_Prefix.h"
-#import "SmartBoardList.h"
+#import "BoardList.h"
 
 #import <AppKit/NSApplication.h>
 

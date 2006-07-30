@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.m,v 1.13 2006/04/11 17:31:21 masakih Exp $
+  * $Id: Browser.m,v 1.13.2.1 2006/07/30 21:40:35 tsawada2 Exp $
   * BathyScaphe 
   *
   * Copyright 2005-2006 BathyScaphe Project.
@@ -15,7 +15,7 @@
 #import "CMRThreadAttributes.h"
 
 #import "BoardManager.h"
-//#import "BoardList.h"
+#import "BoardList.h"
 #import "CMRSearchOptions.h"
 
 
@@ -158,7 +158,7 @@
 	NSNumber			*info_;
 
 	if(nil == [self currentThreadsList]) return NO;
-	if(nil == text) return NO;
+	if(nil == text || [text isEmpty]) return NO;
 	
 	
 	searchOption_ = [CMRPref threadSearchOption];
