@@ -21,10 +21,10 @@
 	<integer>3</integer>
 	<key>IBOpenObjects</key>
 	<array>
-		<integer>196</integer>
-		<integer>41</integer>
-		<integer>86</integer>
 		<integer>5</integer>
+		<integer>196</integer>
+		<integer>86</integer>
+		<integer>41</integer>
 	</array>
 	<key>IBSystem Version</key>
 	<string>8J135</string>
@@ -34,8 +34,8 @@
 		<dict>
 			<key>guideLocations</key>
 			<array>
-				<string>Horizontal:10.000000</string>
-				<string>Vertical:267.000000</string>
+				<string>Horizontal:16.000000</string>
+				<string>Vertical:268.000000</string>
 			</array>
 			<key>guidesLocked</key>
 			<false/>

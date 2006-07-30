@@ -1824,7 +1824,7 @@
 		F38D3D4F04FBE7D000DCB099 /* CMRHistoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRHistoryManager.m; sourceTree = "<group>"; };
 		F3924488043610AE00A80005 /* CocoMonar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoMonar.framework; path = ../frameworks/CocoMonar/build/Deployment/CocoMonar.framework; sourceTree = SOURCE_ROOT; };
 		F39244F5043610D600A80005 /* SGAppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SGAppKit.framework; path = ../frameworks/SGAppKit/build/Deployment/SGAppKit.framework; sourceTree = SOURCE_ROOT; };
-		F39244FA043610EB00A80005 /* SGFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SGFoundation.framework; path = ../frameworks/SGFoundation/build/Development/SGFoundation.framework; sourceTree = SOURCE_ROOT; };
+		F39244FA043610EB00A80005 /* SGFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SGFoundation.framework; path = ../frameworks/SGFoundation/build/Deployment/SGFoundation.framework; sourceTree = SOURCE_ROOT; };
 		F39244FF043610FB00A80005 /* SGNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SGNetwork.framework; path = ../frameworks/SGNetwork/build/Deployment/SGNetwork.framework; sourceTree = SOURCE_ROOT; };
 		F3959F0C04D3050600A80005 /* CMRAbstructThreadDocument_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRAbstructThreadDocument_p.h; sourceTree = "<group>"; };
 		F3959F0D04D3050600A80005 /* CMRThreadComposingTask_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRThreadComposingTask_p.h; sourceTree = "<group>"; };
@@ -2514,8 +2514,8 @@
 				875342550A663FAC009C0205 /* custom classes */,
 				87C2033B08FF40B8006DC42C /* Info-previewer.plist */,
 				87C2032B08FF3F81006DC42C /* BSImagePreviewInspector.nib */,
-				87BE9E9E0912F54300D2F339 /* Localizable.strings */,
 				87751A7909782FAE009D4A9C /* BSIPIFullScreen.nib */,
+				87BE9E9E0912F54300D2F339 /* Localizable.strings */,
 				875342560A663FDF009C0205 /* picts */,
 			);
 			path = previewer;

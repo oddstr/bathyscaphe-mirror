@@ -24,6 +24,7 @@
 	IBOutlet NSSegmentedControl		*m_paneChangeBtn;
 	IBOutlet NSTableColumn			*m_nameColumn;
 	IBOutlet NSPopUpButton			*m_directoryChooser;
+	IBOutlet NSTextField			*m_versionInfoField;
 
 	@private
 	NSURL			*_sourceURL;
@@ -72,6 +73,9 @@
 
 - (BOOL) resetWhenHide;
 - (void) setResetWhenHide: (BOOL) reset;
+
+- (BOOL) floating;
+- (void) setFloating: (BOOL) floatOrNot;
 @end
 
 @interface BSImagePreviewInspector(ToolbarAndUtils)
@@ -94,6 +98,7 @@
 - (NSSegmentedControl *) paneChangeBtn;
 - (NSTableColumn *) nameColumn;
 - (NSPopUpButton *) directoryChooser;
+- (NSTextField *) versionInfoField;
 
 - (BSIPIDownload *) currentDownload;
 - (void) setCurrentDownload : (BSIPIDownload *) aDownload;

@@ -1,5 +1,5 @@
 /*
- * $Id: BSImagePreviewInspector-Tb.m,v 1.10 2006/07/30 02:39:25 tsawada2 Exp $
+ * $Id: BSImagePreviewInspector-Tb.m,v 1.11 2006/07/30 18:54:04 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -25,6 +25,7 @@ static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePr
 static NSString *const kIPIAlphaValueKey		= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Window Alpha Value";
 static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.ImagePreviewer:Opaque When Key Window";
 static NSString *const kIPIResetWhenHideWindowKey = @"jp.tsawada2.BathyScaphe.ImagePreviewer:Reset When Hide Window";
+static NSString *const kIPIFloatingWindowKey	= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Floating Window";
 
 @implementation BSImagePreviewInspector(ToolbarAndUtils)
 #pragma mark Utilities
@@ -322,7 +323,7 @@ static NSImage *_imageForDefaultBrowser()
 
 - (BOOL) alwaysBecomeKey
 {
-	return [[self prefsDict] boolForKey: kIPIAlwaysKeyWindowKey defaultValue: NO];
+	return [[self prefsDict] boolForKey: kIPIAlwaysKeyWindowKey defaultValue: YES];
 }
 - (void) setAlwaysBecomeKey : (BOOL) alwaysKey
 {
@@ -364,11 +365,23 @@ static NSImage *_imageForDefaultBrowser()
 
 - (BOOL) resetWhenHide
 {
-	return [[self prefsDict] boolForKey: kIPIResetWhenHideWindowKey defaultValue: YES];
+	return [[self prefsDict] boolForKey: kIPIResetWhenHideWindowKey defaultValue: NO];
 }
 
 - (void) setResetWhenHide : (BOOL) reset
 {
 	[[self prefsDict] setBool: reset forKey: kIPIResetWhenHideWindowKey];
+}
+
+
+- (BOOL) floating
+{
+	return [[self prefsDict] boolForKey: kIPIFloatingWindowKey defaultValue: YES];
+}
+
+- (void) setFloating: (BOOL) floatOrNot
+{
+	[[self prefsDict] setBool: floatOrNot forKey: kIPIFloatingWindowKey];
+	[(NSPanel *)[self window] setFloatingPanel: floatOrNot];
 }
 @end

@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.18 2006/07/30 02:39:25 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.19 2006/07/30 18:54:04 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -252,9 +252,7 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 	newDownload_ = [[BSIPIDownload alloc] initWithURLIdentifier: anURL delegate: self destination: [[self dlFolder] path]];
 	if (newDownload_) {
 		[self setCurrentDownload: newDownload_];
-		NSLog(@"_currentDownload count: %i", [newDownload_ retainCount]);
 		[newDownload_ release];
-		NSLog(@"_currentDownload count: %i", [newDownload_ retainCount]);
 		[self startProgressIndicator];
 		return YES;
 	}
@@ -281,11 +279,15 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 - (BOOL) showImageWithURL : (NSURL *) imageURL
 {
 	NSString *cachedFilePath;
-	if (![[self window] isVisible]) {
+	/* showWindow:
+	   If the window is an NSPanel object and has its becomesKeyOnlyIfNeeded flag set to YES, the window is displayed in front of
+	   all other windows but is not made key; otherwise it is displayed in front and is made key. This method is useful for menu actions.
+	*/
+	//if (![[self window] isVisible]) {
 		[self showWindow : self];
-	} else {
-		if ([self alwaysBecomeKey]) [[self window] makeKeyWindow];
-	}
+	//} else {
+	//	if ([self alwaysBecomeKey]) [[self window] makeKeyAndOrderFront: self];
+	//}
 
 	cachedFilePath = [[BSIPIHistoryManager sharedManager] cachedFilePathForURL : imageURL];
 

@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector-View.m,v 1.2 2006/07/30 02:39:25 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector-View.m,v 1.3 2006/07/30 18:54:04 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/07/15.
@@ -62,6 +62,10 @@ static NSString *const kIPIMenuItemForOldBSKey	= @"IPIWindowsMenuItemForOldBS";
 - (NSPopUpButton *) directoryChooser
 {
 	return m_directoryChooser;
+}
+- (NSTextField *) versionInfoField
+{
+	return m_versionInfoField;
 }
 
 - (BSIPIDownload *) currentDownload
@@ -138,6 +142,7 @@ static NSImage *bsIPI_iconForPath(NSString *sourcePath)
 	[window_ setFrameAutosaveName : kIPIFrameAutoSaveNameKey];
 	[window_ setDelegate : self];
 	[(NSPanel *)window_ setBecomesKeyOnlyIfNeeded : (NO == [self alwaysBecomeKey])];
+	[(NSPanel *)window_ setFloatingPanel: [self floating]];
 	[window_ setAlphaValue : [self alphaValue]];
 	[window_ useOptimizedDrawing: YES];
 }
@@ -150,9 +155,9 @@ static NSImage *bsIPI_iconForPath(NSString *sourcePath)
 
 	cometBlasterItem = [[[NSMenuItem alloc] initWithTitle: [self localizedStrForKey: kIPIMenuItemForOldBSKey]
 												   action: @selector(togglePreviewPanel:)
-											keyEquivalent: @"p"] autorelease];
+											keyEquivalent: @"y"] autorelease];
 	[cometBlasterItem setTarget: self];
-	[cometBlasterItem setKeyEquivalentModifierMask: (NSCommandKeyMask|NSAlternateKeyMask)];
+	//[cometBlasterItem setKeyEquivalentModifierMask: (NSCommandKeyMask|NSAlternateKeyMask)];
 	
 	windowsMenu = [[[NSApp mainMenu] itemWithTag: 6] submenu];
 	[windowsMenu insertItem: cometBlasterItem atIndex: 6];
@@ -199,12 +204,24 @@ static NSImage *bsIPI_iconForPath(NSString *sourcePath)
 	[(BSIPIImageView *)[self imageView] setDelegate: self];
 }
 
+- (void) setupVersionInfoField
+{
+	NSBundle *myself = [NSBundle bundleForClass: [self class]];
+	if (!myself) return;
+	
+	NSString *versionNum = [myself objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
+	if (!versionNum) return;
+	
+	[[self versionInfoField] setStringValue: versionNum];
+}
+
 - (void) awakeFromNib
 {
 	[self setupWindow];
 	[self setupMenuIfNeeded];
 	[self setupTableView];
 	[self setupControls];
+	[self setupVersionInfoField];
 	[self setupToolbar];
 }
 @end

@@ -1,5 +1,17 @@
-2006-07-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+2006-07-31 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSImagePreviewInspector-View.m
 	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
+		プレビューインスペクタ（2.0.1→2.0.4）：
+		- 環境設定シートにバージョン番号を表示するようにした。
+		- 一部の UI の表記を見直した。
+		- インスペクタを常に最前面に表示するかどうかを選択するオプションを追加した。
+		- デバッグ用の NSLog() が残っていた部分を削除した。
+		- 2.0.4 は BathyScaphe 1.3 以降（正確には SGAppKit が BSSegmentedControlTbItem.h を含んでいる
+		　新しいバージョンであること）が必要です。
+2006-07-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSImagePreviewInspector-View.m
 	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
 	* application/subproj/previewer/BSImagePreviewInspector.m
 	* application/subproj/previewer/BSIPIActionBtnTbItem.m
