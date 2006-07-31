@@ -10,7 +10,6 @@ SGFOUNDATION_FRWK = SGFoundation
 SGAPPKIT_FRWK = SGAppKit
 SGNETWORK_FRWK = SGNetwork
 COCOMONAR_FRWK = CocoMonar
-KEYCHAIN_FRWK = Keychain
 
 .PHONY: SGFoundation  SGAppKit SGNetwork CocoMonar Keychain
 
@@ -28,9 +27,6 @@ SGNetwork: SGFoundation
 CocoMonar: SGFoundation
 	cd $(COCOMONAR_FRWK) && $(PBXBUILD) $(BUILD_OPTION)
 
-Keychain:
-	cd $(KEYCHAIN_FRWK) && $(PBXBUILD) $(BUILD_OPTION)
-
 clean: clean-SGFoundation clean-SGAppKit clean-SGNetwork clean-CocoMonar clean-Keychain
 
 clean-SGFoundation: 
@@ -44,7 +40,4 @@ clean-SGNetwork:
 
 clean-CocoMonar:
 	cd $(COCOMONAR_FRWK) && $(PBXBUILD) clean && rm -fr $(BUILD_DIR)
-
-clean-Keychain:
-	cd $(KEYCHAIN_FRWK) && $(PBXBUILD) clean && rm -fr $(BUILD_DIR)
 

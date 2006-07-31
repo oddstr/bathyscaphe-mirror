@@ -1,6 +1,49 @@
 2006-07-31 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	* application/source/bbs/BoardList-OVDataSource.m	* application/source/bbs/BoardManager_p.h	* application/source/bbs/BoardManager-BSAddition.m	* application/source/bbs/BoardManager.(h|m)
-	* application/source/browser/AddBoardSheetController.(h|m)	* application/source/browser/Browser.m	* application/source/browser/BSFavoritesHEADCheckTask.m	* application/source/browser/CMRFavoritesManager.(h|m)	* application/source/browser/CMRThreadsList-Download.m	* application/source/browser/CMRThreadsList-listImport.m	* application/source/browser/CMRThreadsList-Notification.m	* application/source/browser/CMRThreadsList-Remove.m	* application/source/browser/CMRThreadsListReadFileTask.m	* application/source/browser/CMRThreadsUpdateListTask.m		v120-BASED-BRANCH の先端から丸ごとこれらのファイルを差し替え。
+    * application/Makefile
+        ビルドターゲットを bs another story から bathyscaphe に変更
+        （トランクから持ってきたのでそうなっていた）。
+    * application/BathyScaphe.xcodeproj/project.pbxproj
+        とりあえず MeteorSweeper のためだけのブランチなので、他のターゲットや
+        不要なソースへの参照を削除して混乱を防ぐようにした。
+    * application/Resources/Japanese.lproj/InfoPlist.strings
+        ローカライズされたバージョン文字列を 1.3 ベースに更新。
+    * application/Resources/Japanese.lproj/MainMenu.nib
+        トランクから取ってきたものは「ウインドウ」＞「ログ管理」が抹消されていたので、復帰。
+    * application/Resources/Japanese.lproj/AddBoardSheet.nib
+        1.2.2 のものに差し替え。
+    * application/source/libRBSplitView.a
+        ranlib し直した。
+    * application/source/main.m
+    * application/source/bbs/BoardList-OVDataSource.m
+    * application/source/browser/AddBoardSheetController.(h|m)
+    * application/source/browser/CMRBrowser-Action.m
+    * application/source/browser/CMRBrowser-BLEditor.m
+    * application/source/browser/CMRBrowser-Delegate.m
+    * application/source/browser/CMRBrowser-List.m
+    * application/source/browser/CMRBrowser-Validation.m
+    * application/source/browser/CMRBrowser-ViewAccessor.m
+    * application/source/browser/CMRBrowser_p.h
+        ビルドが通るように、v120-BASED-BRANCH のものと差し替えたり、一部コメントアウト
+        したりした。
+    * application/source/thread/CMRThreadViewer-Action.m
+    * application/source/thread/CMRThreadViewer-Validation.m
+        とりあえずビルドだけ通るようにコメントアウトなど。後で直す。
+    * frameworks/Makefile
+        KeyChain.framework は make しません。
+	* application/source/bbs/BoardList-OVDataSource.m
+	* application/source/bbs/BoardManager_p.h
+	* application/source/bbs/BoardManager-BSAddition.m
+	* application/source/bbs/BoardManager.(h|m)
+	* application/source/browser/Browser.m
+	* application/source/browser/BSFavoritesHEADCheckTask.m
+	* application/source/browser/CMRFavoritesManager.(h|m)
+	* application/source/browser/CMRThreadsList-Download.m
+	* application/source/browser/CMRThreadsList-listImport.m
+	* application/source/browser/CMRThreadsList-Notification.m
+	* application/source/browser/CMRThreadsList-Remove.m
+	* application/source/browser/CMRThreadsListReadFileTask.m
+	* application/source/browser/CMRThreadsUpdateListTask.m
+		v120-BASED-BRANCH の先端から丸ごとこれらのファイルを差し替え。
 		とりあえず 1.2.2 ベースの動作に戻すため。もちろん、他にも何カ所か擦り合わせが必要。
 	* MeteorSweeper-BRANCH_changeLog.txt
 		[新規追加]このブランチ用の changeLog.txt (UTF-8)。

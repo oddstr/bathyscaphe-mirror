@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.20 2006/06/24 16:23:38 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.20.2.1 2006/07/31 00:05:10 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -9,8 +9,6 @@
 #import "CMRBrowser_p.h"
 #import "BoardManager.h"
 #import "missing.h"
-
-#import "BoardListItem.h"
 
 extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
 
@@ -58,16 +56,12 @@ BOOL isOptionKeyDown(unsigned flag_)
 	
 	if(currentState) {
 		//2 ‚©‚ç 3 ‚É‚È‚Á‚½
-		[[[self indexingStepper] contentView] setHidden: NO];
-		[[[self indexingPopupper] contentView] setHidden: NO];
 		[[self threadsListTable] setNextKeyView : [self textView]];
 		[[self textView] setNextKeyView : [[self indexingStepper] textField]];
 		[[[self indexingStepper] textField] setNextKeyView : [self searchField]];
 	} else {
 		//3 ‚©‚ç 2 ‚É‚È‚Á‚½
 		[[self threadsListTable] setNextKeyView : [self searchField]];
-		[[[self indexingStepper] contentView] setHidden: YES];
-		[[[self indexingPopupper] contentView] setHidden: YES];
 	}
 }
 
@@ -189,7 +183,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 {
 	int					rowIndex_;
 	NSOutlineView		*brdListTable_;
-	id					item_;
+	NSDictionary		*item_;
 	
 	brdListTable_ = [self boardListTable];
 
@@ -210,7 +204,8 @@ BOOL isOptionKeyDown(unsigned flag_)
 	item_ = [brdListTable_ itemAtRow : rowIndex_];
 
 	if (nil == item_) return;
-	if (![item_ hasURL] && ![BoardListItem isFavoriteItem:item_] && ![BoardListItem isSmartItem:item_]) return;
+	UTILAssertKindOfClass(item_, NSDictionary);
+	if ([BoardList isCategory : item_]) return;
 	
 	[self showThreadsListForBoard : item_];
 }
@@ -416,7 +411,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 	if (nil == [self threadsListTable]) 
 		return;
 	
-	[BSDBThreadList resetDataSourceTemplates];
+	[CMRThreadsList resetDataSourceTemplates];
 	[self updateDefaultsWithTableView : [self threadsListTable]];
 	[self setupBoardListOutlineView : [self boardListTable]];
 	[[self threadsListTable] setNeedsDisplay : YES];
@@ -534,4 +529,3 @@ BOOL isOptionKeyDown(unsigned flag_)
 	}
 }
 @end
-

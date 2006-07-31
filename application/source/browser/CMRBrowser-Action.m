@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.47 2006/07/30 02:39:25 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.47.2.1 2006/07/31 00:05:10 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -24,16 +24,16 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 - (void) selectRowWhoseNameIs : (NSString *) brdname_
 {
 	NSOutlineView	*bLT = [self boardListTable];
-    SmartBoardList       *source;
+    BoardList       *source;
     NSDictionary	*selected;
     int				index;
 
-    source = (SmartBoardList *)[bLT dataSource];
+    source = (BoardList *)[bLT dataSource];
     
     selected = [source itemForName : brdname_];
-	
+
     if (nil == selected) { // ŒfŽ¦”Â‚ðŽ©“®“I‚É’Ç‰Á
-		id defaultList_ = [[BoardManager defaultManager] defaultList];
+		BoardList	*defaultList_ = [[BoardManager defaultManager] defaultList];
 		NSDictionary *willAdd_ = [defaultList_ itemForName : brdname_];
 		if(nil == willAdd_) {
 			NSLog(@"No data for board %@ found.", brdname_);

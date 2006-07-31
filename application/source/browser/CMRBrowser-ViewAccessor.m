@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.42 2006/06/25 17:06:42 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.42.2.1 2006/07/31 00:05:10 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -15,7 +15,6 @@
 #import <SGAppKit/CMRPullDownIconBtn.h>
 #import <SGAppKit/BSIconAndTextCell.h>
 
-#import "DatabaseManager.h"
 
 @implementation CMRBrowser(ViewAccessor)
 - (CMRThreadViewer *) threadViewer

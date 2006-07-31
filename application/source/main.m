@@ -10,7 +10,6 @@
 #import "CMRMainMenuManager.h"
 #import "BoardManager.h"
 #import "CMRNetGrobalLock.h"
-#import "DatabaseManager.h"
 #import "CMRTrashbox.h"
 
 /* for Debugging */
@@ -42,9 +41,6 @@ void CMXServicesInit(void)
     //[BoardManager defaultManager];
 	//[CMRFavoritesManager defaultManager];
     [CMRNetGrobalLock sharedInstance];
-	
-	[DatabaseManager defaultManager];
-	[DatabaseManager setupDatabase];
     
     // Inter-thread messaging
     CMRMainThread = [NSThread currentThread];
