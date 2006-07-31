@@ -500,7 +500,6 @@
 		873BAE9A090931B0009E9B41 /* BSImagePreviewerInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 8745CD280900DE9800A28AC0 /* BSImagePreviewerInterface.h */; };
 		873C0DCF08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 873C0DCE08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m */; };
 		8745CD290900DE9800A28AC0 /* BSImagePreviewerInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 8745CD280900DE9800A28AC0 /* BSImagePreviewerInterface.h */; };
-		8745CE870900F18300A28AC0 /* SGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FA043610EB00A80005 /* SGFoundation.framework */; };
 		87464E3708643673000F0371 /* libRBSplitView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87464E3608643673000F0371 /* libRBSplitView.a */; };
 		87464E390864368F000F0371 /* RBSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87464E380864368F000F0371 /* RBSplitView.h */; };
 		87517B8A0864B4F0002DA082 /* SplitterHandle.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87517B890864B4F0002DA082 /* SplitterHandle.tiff */; };
@@ -541,11 +540,14 @@
 		87BF52CC08F789D500998C4E /* BSBoardInfoInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BF52CA08F789D400998C4E /* BSBoardInfoInspector.m */; };
 		87BF52D508F7913400998C4E /* BSBoardInfoInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87BF52D308F7913400998C4E /* BSBoardInfoInspector.nib */; };
 		87BF7CA50840423900CC7D7C /* BathyScapheHelp in Resources */ = {isa = PBXBuildFile; fileRef = 87BF7CA40840423900CC7D7C /* BathyScapheHelp */; };
+		87C1A6300A7E26B00004079B /* BSIPIAppKitExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 87C1A62C0A7E26B00004079B /* BSIPIAppKitExtensions.h */; };
+		87C1A6310A7E26B00004079B /* BSIPIAppKitExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C1A62D0A7E26B00004079B /* BSIPIAppKitExtensions.m */; };
+		87C1A6320A7E26B00004079B /* BSIPIFoundationExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 87C1A62E0A7E26B00004079B /* BSIPIFoundationExtensions.h */; };
+		87C1A6330A7E26B00004079B /* BSIPIFoundationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C1A62F0A7E26B00004079B /* BSIPIFoundationExtensions.m */; };
 		87C2031708FF3E2B006DC42C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		87C2032D08FF3F81006DC42C /* BSImagePreviewInspector.h in Headers */ = {isa = PBXBuildFile; fileRef = 87C2032908FF3F81006DC42C /* BSImagePreviewInspector.h */; };
 		87C2032E08FF3F81006DC42C /* BSImagePreviewInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C2032A08FF3F81006DC42C /* BSImagePreviewInspector.m */; };
 		87C2032F08FF3F81006DC42C /* BSImagePreviewInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87C2032B08FF3F81006DC42C /* BSImagePreviewInspector.nib */; };
-		87C2038508FF419C006DC42C /* SGAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244F5043610D600A80005 /* SGAppKit.framework */; };
 		87C2041208FF4873006DC42C /* ImagePreviewer.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87C2031D08FF3E2B006DC42C /* ImagePreviewer.plugin */; };
 		87C2E1A50A68E3C100E40698 /* BSImagePreviewInspector-View.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C2E1A40A68E3C100E40698 /* BSImagePreviewInspector-View.m */; };
 		87C3977B0A61600F0095AD06 /* BSIPIPathTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 87C397790A61600F0095AD06 /* BSIPIPathTransformer.h */; };
@@ -573,7 +575,6 @@
 		87E2264F0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 87E2264D0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology */; };
 		87F3D5B20976921C00A1217A /* BSIPIHistoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 87F3D5B00976921C00A1217A /* BSIPIHistoryManager.h */; };
 		87F3D5B30976921C00A1217A /* BSIPIHistoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F3D5B10976921C00A1217A /* BSIPIHistoryManager.m */; };
-		87F3D60C0976A20300A1217A /* CocoMonar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3924488043610AE00A80005 /* CocoMonar.framework */; };
 		F424609908462452000803EA /* Scripts.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F424609808462452000803EA /* Scripts.tiff */; };
 		F49CCDF50849B87500835BE3 /* BSScriptsMenuManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F49CCDF30849B87500835BE3 /* BSScriptsMenuManager.h */; };
 		F49CCDF60849B87500835BE3 /* BSScriptsMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F49CCDF40849B87500835BE3 /* BSScriptsMenuManager.m */; };
@@ -848,6 +849,10 @@
 		87BF52CA08F789D400998C4E /* BSBoardInfoInspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSBoardInfoInspector.m; sourceTree = "<group>"; };
 		87BF52D408F7913400998C4E /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSBoardInfoInspector.nib; sourceTree = "<group>"; };
 		87BF7CAE0840424200CC7D7C /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Japanese; path = Japanese.lproj/BathyScapheHelp; sourceTree = "<group>"; };
+		87C1A62C0A7E26B00004079B /* BSIPIAppKitExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIAppKitExtensions.h; sourceTree = "<group>"; };
+		87C1A62D0A7E26B00004079B /* BSIPIAppKitExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIAppKitExtensions.m; sourceTree = "<group>"; };
+		87C1A62E0A7E26B00004079B /* BSIPIFoundationExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIFoundationExtensions.h; sourceTree = "<group>"; };
+		87C1A62F0A7E26B00004079B /* BSIPIFoundationExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIFoundationExtensions.m; sourceTree = "<group>"; };
 		87C2031D08FF3E2B006DC42C /* ImagePreviewer.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImagePreviewer.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		87C2032908FF3F81006DC42C /* BSImagePreviewInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSImagePreviewInspector.h; sourceTree = "<group>"; };
 		87C2032A08FF3F81006DC42C /* BSImagePreviewInspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSImagePreviewInspector.m; sourceTree = "<group>"; };
@@ -1271,9 +1276,6 @@
 			files = (
 				87751AE309783D3F009D4A9C /* Carbon.framework in Frameworks */,
 				87751824097818E7009D4A9C /* ApplicationServices.framework in Frameworks */,
-				87F3D60C0976A20300A1217A /* CocoMonar.framework in Frameworks */,
-				8745CE870900F18300A28AC0 /* SGFoundation.framework in Frameworks */,
-				87C2038508FF419C006DC42C /* SGAppKit.framework in Frameworks */,
 				87C2031708FF3E2B006DC42C /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1725,6 +1727,17 @@
 			name = Advanced;
 			sourceTree = "<group>";
 		};
+		87C1A6340A7E26BE0004079B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				87C1A62C0A7E26B00004079B /* BSIPIAppKitExtensions.h */,
+				87C1A62D0A7E26B00004079B /* BSIPIAppKitExtensions.m */,
+				87C1A62E0A7E26B00004079B /* BSIPIFoundationExtensions.h */,
+				87C1A62F0A7E26B00004079B /* BSIPIFoundationExtensions.m */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		87C2032808FF3F81006DC42C /* previewer */ = {
 			isa = PBXGroup;
 			children = (
@@ -1742,6 +1755,7 @@
 				87D3524D0A68AC3A0041410F /* BSIPIDownload.h */,
 				87D3524E0A68AC3A0041410F /* BSIPIDownload.m */,
 				875342550A663FAC009C0205 /* custom classes */,
+				87C1A6340A7E26BE0004079B /* Extensions */,
 				87C2033B08FF40B8006DC42C /* Info-previewer.plist */,
 				87C2032B08FF3F81006DC42C /* BSImagePreviewInspector.nib */,
 				87751A7909782FAE009D4A9C /* BSIPIFullScreen.nib */,
@@ -2751,6 +2765,8 @@
 				87C397900A6164E30095AD06 /* BSIPITextFieldCell.h in Headers */,
 				87C397F20A6171AB0095AD06 /* BSIPITableView.h in Headers */,
 				87D3524F0A68AC3A0041410F /* BSIPIDownload.h in Headers */,
+				87C1A6300A7E26B00004079B /* BSIPIAppKitExtensions.h in Headers */,
+				87C1A6320A7E26B00004079B /* BSIPIFoundationExtensions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3284,6 +3300,8 @@
 				87C397F30A6171AB0095AD06 /* BSIPITableView.m in Sources */,
 				87D352500A68AC3A0041410F /* BSIPIDownload.m in Sources */,
 				87C2E1A50A68E3C100E40698 /* BSImagePreviewInspector-View.m in Sources */,
+				87C1A6310A7E26B00004079B /* BSIPIAppKitExtensions.m in Sources */,
+				87C1A6330A7E26B00004079B /* BSIPIFoundationExtensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3937,12 +3955,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build/Deployment,
-					../frameworks/SGFoundation/build/Deployment,
-					../frameworks/SGAppKit/build/Deployment,
-					"$(SRCROOT)/../frameworks/CocoMonar/build/Deployment",
-				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -3979,11 +3991,6 @@
 					i386,
 				);
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/SGFoundation/build/Deployment,
-					../frameworks/SGAppKit/build/Deployment,
-					../frameworks/CocoMonar/build/Deployment,
-				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_OPTIMIZATION_LEVEL = s;
@@ -4008,14 +4015,6 @@
 		87C2031C08FF3E2B006DC42C /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build/Deployment,
-					../frameworks/SGFoundation/build/Deployment,
-					../frameworks/SGAppKit/build/Deployment,
-					"$(SRCROOT)/../frameworks/SGAppKit/build/Deployment",
-					"$(SRCROOT)/../frameworks/SGFoundation/build/Deployment",
-					"$(SRCROOT)/../frameworks/CocoMonar/build/Deployment",
-				);
 				GCC_USE_GCC3_PFE_SUPPORT = NO;
 				INFOPLIST_FILE = "Info-previewer.plist";
 				INSTALL_PATH = "@executable_path/../Plugins";

@@ -1,4 +1,15 @@
 2006-07-31 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSImagePreviewInspector-View.m
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/BSIPIHistoryManager.m
+		プレビューインスペクタ（2.0.4→2.0.5）：
+		- SGFoundation, SGAppKit, CocoMonar Framework にリンクしないようにした。
+		- これらのフレームワークに含まれていた必要なクラス、カテゴリは自前で用意（下の
+		　新規追加したファイル）することにした。
+	* application/subproj/previewer/BSIPIFoundationExtensions.(h|m)
+	* application/subproj/previewer/BSIPIAppKitExtensions.(h|m)
+		[新規追加]いくつかの必要なカテゴリ、カスタムクラスをまとめたユーティリティ。
     * application/Makefile
         ビルドターゲットを bs another story から bathyscaphe に変更
         （トランクから持ってきたのでそうなっていた）。

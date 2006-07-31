@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector-View.m,v 1.3 2006/07/30 18:54:04 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector-View.m,v 1.3.2.1 2006/07/31 12:43:13 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/07/15.
@@ -10,7 +10,8 @@
 #import "BSIPIHistoryManager.h"
 #import "BSIPITextFieldCell.h"
 #import "BSIPIImageView.h"
-#import <SGAppKit/NSCell-SGExtensions.h>
+#import "BSIPIAppKitExtensions.h"
+
 @class BSIPIDownload;
 
 static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInspector Panel Autosave";

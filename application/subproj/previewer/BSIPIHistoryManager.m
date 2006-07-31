@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIHistoryManager.m,v 1.4 2006/07/30 02:39:25 tsawada2 Exp $
+//  $Id: BSIPIHistoryManager.m,v 1.4.2.1 2006/07/31 12:43:13 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/12.
@@ -7,7 +7,7 @@
 //
 
 #import "BSIPIHistoryManager.h"
-#import <CocoMonar/CMRSingletonObject.h>
+#import "BSIPIFoundationExtensions.h"
 
 NSString *const kIPIHistoryItemURLKey	= @"PassedURL";
 NSString *const kIPIHistoryItemPathKey	= @"DownloadedFilePath";
