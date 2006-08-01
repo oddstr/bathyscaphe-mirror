@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.20.2.1 2006/07/31 00:05:10 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.20.2.2 2006/08/01 01:11:56 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -53,19 +53,27 @@ BOOL isOptionKeyDown(unsigned flag_)
 	BOOL currentState = [sender isSubviewCollapsed : bottomSubview];
 	[sender setSubview : bottomSubview isCollapsed : !currentState];
 	[sender resizeSubviewsWithOldSize : [sender frame].size];
-	
-	if(currentState) {
-		//2 ‚©‚ç 3 ‚É‚È‚Á‚½
-		[[self threadsListTable] setNextKeyView : [self textView]];
-		[[self textView] setNextKeyView : [[self indexingStepper] textField]];
-		[[[self indexingStepper] textField] setNextKeyView : [self searchField]];
-	} else {
-		//3 ‚©‚ç 2 ‚É‚È‚Á‚½
-		[[self threadsListTable] setNextKeyView : [self searchField]];
-	}
 }
 
-- (void)splitView:(id)sender resizeSubviewsWithOldSize:(NSSize)oldSize
+- (void) splitViewDidCollapseSubview: (NSNotification *) notification
+{
+	[[self threadsListTable] setNextKeyView : [self searchField]];
+
+	[[[self indexingStepper] contentView] setHidden: YES];
+	[[[self indexingPopupper] contentView] setHidden: YES];
+}
+
+- (void) splitViewDidExpandSubview: (NSNotification *) notification
+{
+	[[self threadsListTable] setNextKeyView : [self textView]];
+	[[self textView] setNextKeyView : [[self indexingStepper] textField]];
+	[[[self indexingStepper] textField] setNextKeyView : [self searchField]];
+
+	[[[self indexingStepper] contentView] setHidden: NO];
+	[[[self indexingPopupper] contentView] setHidden: NO];
+}
+
+- (void) splitView: (id) sender resizeSubviewsWithOldSize: (NSSize) oldSize
 {
     // It's our responsibility to set the frame rectangles of
     // all uncollapsed subviews.

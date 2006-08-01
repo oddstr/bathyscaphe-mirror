@@ -1,5 +1,5 @@
 /*
- * $Id: BSImagePreviewInspector-Tb.m,v 1.11.2.1 2006/07/31 12:43:13 tsawada2 Exp $
+ * $Id: BSImagePreviewInspector-Tb.m,v 1.11.2.2 2006/08/01 01:11:56 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -192,7 +192,7 @@ static NSImage *_imageForDefaultBrowser()
     } else if ([itemIdent isEqual: kIPITbNaviBtnId]) {
 		NSSize	size_;
 		NSView	*tmp_;
-		toolbarItem = [[[BSSegmentedControlTbItem alloc] initWithItemIdentifier: itemIdent] autorelease];
+		toolbarItem = [[[BSIPISegmentedControlTbItem alloc] initWithItemIdentifier: itemIdent] autorelease];
 		
 		[toolbarItem setLabel: [self localizedStrForKey: @"History"]];
 		[toolbarItem setPaletteLabel: [self localizedStrForKey: @"History"]];
@@ -203,12 +203,12 @@ static NSImage *_imageForDefaultBrowser()
 		size_ = [tmp_ bounds].size;
 		[toolbarItem setMinSize: size_];
 		[toolbarItem setMaxSize: size_];
-		[(BSSegmentedControlTbItem *)toolbarItem setDelegate: self];
+		[(BSIPISegmentedControlTbItem *)toolbarItem setDelegate: self];
 		
     } else if ([itemIdent isEqual: kIPITbPaneBtnId]) {
 		NSSize	size_;
 		NSView	*tmp_;
-		toolbarItem = [[[BSSegmentedControlTbItem alloc] initWithItemIdentifier: itemIdent] autorelease];
+		toolbarItem = [[[BSIPISegmentedControlTbItem alloc] initWithItemIdentifier: itemIdent] autorelease];
 		
 		[toolbarItem setLabel: [self localizedStrForKey: @"Panes"]];
 		[toolbarItem setPaletteLabel: [self localizedStrForKey: @"Panes"]];
@@ -219,7 +219,7 @@ static NSImage *_imageForDefaultBrowser()
 		size_ = [tmp_ bounds].size;
 		[toolbarItem setMinSize: size_];
 		[toolbarItem setMaxSize: size_];
-		[(BSSegmentedControlTbItem *)toolbarItem setDelegate: self];
+		[(BSIPISegmentedControlTbItem *)toolbarItem setDelegate: self];
 
 	}
 
@@ -298,7 +298,7 @@ static NSImage *_imageForDefaultBrowser()
 	return YES;
 }
 
-- (BOOL) segCtrlTbItem: (BSSegmentedControlTbItem *) item
+- (BOOL) segCtrlTbItem: (BSIPISegmentedControlTbItem *) item
 	   validateSegment: (int) segment
 {
 	if ([item view] == [self paneChangeBtn]) return YES;

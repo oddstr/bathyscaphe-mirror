@@ -1,3 +1,18 @@
+2006-08-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-ViewAccessor.m
+	* application/source/browser/CMRBrowser-Delegate.m
+		ブラウザウインドウで、2ペインと3ペインを切り替えた際に、スレッドナビゲーションの表示／非表示を
+		切り替える作業が行われないケースがあったのを修正。
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+	* application/subproj/previewer/BSIPIAppKitExtensions.(h|m)
+		プレビューインスペクタ（2.0.5→2.0.6）：
+		- BSSegmentedControlTbItem クラスを BSIPISegmentedControlTbItem に名称変更した。
+		- BathyScaphe 1.2.2 以前では、BathyScaphe.app 本体に BSSegmentedControlTbItem
+		  クラスが存在する。これはプレビューインスペクタ 2.0.x で使っているものより古いクラスで、
+		  互換性がない。ところが、プレビューインスペクタは BathyScaphe に読み込まれて動作するため、
+		  その互換性のない古い BSSegmentedControlTbItem クラスが優先して使われてしまうようだ。
+		  このため、クラス名を変更した。
+		- BathyScaphe 1.3 以降に限定する場合は、このようなことは必要ないのだが。
 2006-07-31 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/previewer/BSImagePreviewInspector-View.m
 	* application/subproj/previewer/BSImagePreviewInspector-Tb.m

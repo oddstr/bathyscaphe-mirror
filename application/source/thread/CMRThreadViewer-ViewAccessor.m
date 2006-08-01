@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.12 2006/06/28 18:37:32 tsawada2 Exp $
+  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.12.2.1 2006/08/01 01:11:56 tsawada2 Exp $
   * 
   * CMRThreadViewer-ViewAccessor.m
   *
@@ -254,11 +254,6 @@
 	[statusTxtFld release];
 	
 	[self layoutNavigationBarComponents];
-
-	if (![self shouldShowContents]) {
-		[[[self indexingStepper] contentView] setHidden: YES];
-		[[[self indexingPopupper] contentView] setHidden: YES];
-	}
 }
 
 - (void) statusLineDidShowTheirViews: (CMRStatusLine *) statusLine
