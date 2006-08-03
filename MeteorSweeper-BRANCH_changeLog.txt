@@ -1,3 +1,22 @@
+2006-08-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/general/GeneralPrefController.m
+	* application/subproj/preference/Japanese.lproj/GeneralPreferences.nib
+		「一般」ペインで、（実験的に）直接 AppDefaults と各 UI を bind させる方法を大幅に取り入れた。
+		- 今まで：各 UI <--bind--> GeneralPrefController <--Accessor Methods--> AppDefaults
+		- これから：各 UI <--bind--> NSObjectController(selection object: AppDefaults)
+		「一般」ペインでの成績が良好なら順次他のペインにもこの仕組みを取り入れていく。
+	* application/subproj/preference/pane/PreferencesPane.m
+		BSTagValueTransformer を initWithPreferences: のタイミングで登録。
+		- nib がロードされる前に登録しないと間に合わない！
+	* application/subproj/preference/general/BSTagValueTransformer.(h|m)
+		[新規追加] Cocoa Binding 用のちょっとした Value Transformer。
+		- メニューアイテムの tag と、設定の値（integer）を bind させたいのだが、設定値 = NSNotFound のとき
+		　だけは tag "-1" と bind させたい。その値変換を行うもの。
+	* application/source/thread/CMRThreadViewer.m
+		記法の修正。
+	* application/source/window/CMRStatusLineWindowController.h
+		application/source/window/CMRStatusLineWindowController_p.h と統合。_p.h はターゲットから
+		外した。_p.h を import していたいくつかのファイルをそれに伴い修正。
 2006-08-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadViewer-ViewAccessor.m
 	* application/source/browser/CMRBrowser-Delegate.m

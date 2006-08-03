@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.26 2006/06/24 16:23:38 tsawada2 Exp $
+  * $Id: CMRBrowser.m,v 1.26.2.1 2006/08/03 15:06:32 tsawada2 Exp $
   * 
   * CMRBrowser.m
   *
@@ -9,7 +9,6 @@
 #import "CMRBrowser_p.h"
 #import "BSBoardInfoInspector.h"
 #import "CMRDocumentController.h";
-static NSString *const CMRBrowserLoadNibName              = @"Browser";
 
 NSString *const CMRBrowserDidChangeBoardNotification = @"CMRBrowserDidChangeBoardNotification";
 NSString *const CMRBrowserThListUpdateDelegateTaskDidFinishNotification = @"CMRBrThListUpdateDelgTaskDidFinishNotification";
@@ -36,10 +35,9 @@ CMRBrowser *CMRMainBrowser = nil;
 	return self;
 }
 
-//- (NSString *) windowNibName
-+ (NSString *) nibNameToInitialize
+- (NSString *) windowNibName
 {
-	return CMRBrowserLoadNibName;
+	return @"Browser";
 }
 
 + (BOOL) defaultSettingForCascading

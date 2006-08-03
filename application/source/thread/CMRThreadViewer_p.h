@@ -1,7 +1,7 @@
 //:ThreadViewer_p.h
 #import "CMRThreadViewer.h"
 #import "BSTitleRulerView.h"
-#import "CMRStatusLineWindowController_p.h";
+#import "CMRStatusLineWindowController.h";
 #import "AppDefaults.h"
 
 #import "CMRBBSSignature.h"

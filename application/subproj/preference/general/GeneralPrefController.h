@@ -1,5 +1,5 @@
 /**
-  * $Id: GeneralPrefController.h,v 1.9 2006/05/17 01:07:53 tsawada2 Exp $
+  * $Id: GeneralPrefController.h,v 1.9.2.1 2006/08/03 15:06:32 tsawada2 Exp $
   * 
   * GeneralPrefController.h
   *
@@ -10,29 +10,19 @@
 #import "PreferencesController.h"
 
 
-
 @interface GeneralPrefController : PreferencesController
 {
 	IBOutlet NSMatrix		*_autoscrollMaskCheckBox;
 }
 
-- (IBAction) changeAutoscrollMask : (id) sender;
+- (NSMatrix *) autoscrollMaskCheckBox;
 
-// ShortCircuit Additions - Binding
-/*- (int) firstVisible;
-- (void) setFirstVisible : (int) tag_;
-- (int) lastVisible;
-- (void) setLastVisible : (int) tag_;*/
+- (IBAction) changeAutoscrollMask : (id) sender;
 
 // Vita Additions
 - (int) mailFieldOption;
 - (void) setMailFieldOption : (int) selectedTag;
-@end
 
-
-
-@interface GeneralPrefController(View)
 // List
 - (int) autoscrollMaskForTag : (int) tag;
-- (NSMatrix *) autoscrollMaskCheckBox;
 @end

@@ -78,7 +78,6 @@
 		870161F4082BE67100AEFDD0 /* CMRReplyMessenger.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDD104C698FB00A80005 /* CMRReplyMessenger.h */; };
 		870161F5082BE67100AEFDD0 /* CMRReplyMessenger_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDD304C698FB00A80005 /* CMRReplyMessenger_p.h */; };
 		870161F6082BE67100AEFDD0 /* CMRStatusLineWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDD404C698FB00A80005 /* CMRStatusLineWindowController.h */; };
-		870161F7082BE67100AEFDD0 /* CMRStatusLineWindowController_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDD604C698FB00A80005 /* CMRStatusLineWindowController_p.h */; };
 		870161F8082BE67100AEFDD0 /* CMRThreadViewerTbDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDD704C698FB00A80005 /* CMRThreadViewerTbDelegate.h */; };
 		870161F9082BE67100AEFDD0 /* CMRThreadViewerTbDelegate_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDD904C698FB00A80005 /* CMRThreadViewerTbDelegate_p.h */; };
 		870161FA082BE67100AEFDD0 /* CMRToolbarDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDDA04C698FB00A80005 /* CMRToolbarDelegate.h */; };
@@ -405,6 +404,8 @@
 		8724A6DD09127E69009CC855 /* board_default.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8724A6DB09127E69009CC855 /* board_default.plist */; };
 		8724A8100912A213009CC855 /* TemporaryFolder.h in Headers */ = {isa = PBXBuildFile; fileRef = 8724A80E0912A213009CC855 /* TemporaryFolder.h */; };
 		8724A8110912A213009CC855 /* TemporaryFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8724A80F0912A213009CC855 /* TemporaryFolder.m */; };
+		8727F4C20A822EFB00E9C2F9 /* BSTagValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 8727F4C00A822EFB00E9C2F9 /* BSTagValueTransformer.h */; };
+		8727F4C30A822EFB00E9C2F9 /* BSTagValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8727F4C10A822EFB00E9C2F9 /* BSTagValueTransformer.m */; };
 		8729965F0832556200CBD740 /* NSTableColumn+CMXAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 872996530832556100CBD740 /* NSTableColumn+CMXAdditions.h */; };
 		872996600832556200CBD740 /* NSTableColumn+CMXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 872996540832556100CBD740 /* NSTableColumn+CMXAdditions.m */; };
 		8729967E0832561E00CBD740 /* CMRThreadMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 872996720832561E00CBD740 /* CMRThreadMessage.h */; };
@@ -514,8 +515,6 @@
 		87751A7B09782FAE009D4A9C /* BSIPIFullScreen.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87751A7909782FAE009D4A9C /* BSIPIFullScreen.nib */; };
 		87751AB5097838A0009D4A9C /* FullScreen.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87751AB4097838A0009D4A9C /* FullScreen.tiff */; };
 		87751AE309783D3F009D4A9C /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F36067F4044D4DB600A80005 /* Carbon.framework */; };
-		877B78FC08E416C900184BB2 /* BSProgressIndicatorTbItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 877B78FA08E416C900184BB2 /* BSProgressIndicatorTbItem.h */; };
-		877B78FD08E416C900184BB2 /* BSProgressIndicatorTbItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 877B78FB08E416C900184BB2 /* BSProgressIndicatorTbItem.m */; };
 		878018E1097CF76A002FBA1F /* titleRulerBgNotActive.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 878018E0097CF76A002FBA1F /* titleRulerBgNotActive.tiff */; };
 		8782A66E096FAAB90099B65F /* BSImagePreviewInspector-Tb.m in Sources */ = {isa = PBXBuildFile; fileRef = 8782A66D096FAAB90099B65F /* BSImagePreviewInspector-Tb.m */; };
 		8782A6B2096FB46A0099B65F /* Save.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8782A6B0096FB4690099B65F /* Save.tiff */; };
@@ -696,6 +695,8 @@
 		8724A6DC09127E69009CC855 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Japanese; path = Japanese.lproj/board_default.plist; sourceTree = "<group>"; };
 		8724A80E0912A213009CC855 /* TemporaryFolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemporaryFolder.h; sourceTree = "<group>"; };
 		8724A80F0912A213009CC855 /* TemporaryFolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemporaryFolder.m; sourceTree = "<group>"; };
+		8727F4C00A822EFB00E9C2F9 /* BSTagValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSTagValueTransformer.h; sourceTree = "<group>"; };
+		8727F4C10A822EFB00E9C2F9 /* BSTagValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSTagValueTransformer.m; sourceTree = "<group>"; };
 		872996530832556100CBD740 /* NSTableColumn+CMXAdditions.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = "NSTableColumn+CMXAdditions.h"; sourceTree = "<group>"; };
 		872996540832556100CBD740 /* NSTableColumn+CMXAdditions.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "NSTableColumn+CMXAdditions.m"; sourceTree = "<group>"; };
 		872996720832561E00CBD740 /* CMRThreadMessage.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRThreadMessage.h; sourceTree = "<group>"; };
@@ -1406,7 +1407,6 @@
 		872998690832616D00CBD740 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				8714F38F0A49700400AB8691 /* BSIndexingPopupper.nib */,
 				87CF6468097A335D00DE8B16 /* Acknowledgments.rtf */,
 				8724A6DB09127E69009CC855 /* board_default.plist */,
 				87E2264C0833AA5D00E7FC85 /* BathyScaphe.scriptSuite */,
@@ -1418,6 +1418,7 @@
 				872998EB0832617F00CBD740 /* Browser.nib */,
 				872998F10832617F00CBD740 /* CMRAccessorySheet.nib */,
 				872998F40832617F00CBD740 /* CMRIndexingStepper.nib */,
+				8714F38F0A49700400AB8691 /* BSIndexingPopupper.nib */,
 				872998FA0832617F00CBD740 /* CMRNoNameInput.nib */,
 				872998FD0832617F00CBD740 /* CMROpenURL.nib */,
 				872999060832617F00CBD740 /* CMRReplyWindow.nib */,
@@ -2245,6 +2246,8 @@
 			children = (
 				F334140104F11CCA00DAC789 /* GeneralPrefController.h */,
 				F334140204F11CCA00DAC789 /* GeneralPrefController.m */,
+				8727F4C00A822EFB00E9C2F9 /* BSTagValueTransformer.h */,
+				8727F4C10A822EFB00E9C2F9 /* BSTagValueTransformer.m */,
 			);
 			name = General;
 			path = general;
@@ -2609,7 +2612,6 @@
 				870161F4082BE67100AEFDD0 /* CMRReplyMessenger.h in Headers */,
 				870161F5082BE67100AEFDD0 /* CMRReplyMessenger_p.h in Headers */,
 				870161F6082BE67100AEFDD0 /* CMRStatusLineWindowController.h in Headers */,
-				870161F7082BE67100AEFDD0 /* CMRStatusLineWindowController_p.h in Headers */,
 				870161F8082BE67100AEFDD0 /* CMRThreadViewerTbDelegate.h in Headers */,
 				870161F9082BE67100AEFDD0 /* CMRThreadViewerTbDelegate_p.h in Headers */,
 				870161FA082BE67100AEFDD0 /* CMRToolbarDelegate.h in Headers */,
@@ -2687,7 +2689,6 @@
 				87BD61F00865D0230080A7CA /* NSTableView+BSAdditions.h in Headers */,
 				8770BF5D087F0095008907C5 /* BSHistoryMenuManager.h in Headers */,
 				8718EFDE08D43F7D00FFAAEE /* NoNameInputController.h in Headers */,
-				877B78FC08E416C900184BB2 /* BSProgressIndicatorTbItem.h in Headers */,
 				87BF52CB08F789D500998C4E /* BSBoardInfoInspector.h in Headers */,
 				873BAE9A090931B0009E9B41 /* BSImagePreviewerInterface.h in Headers */,
 				871265B5097D84ED00B90FF2 /* AddBoardSheetController.h in Headers */,
@@ -2723,6 +2724,7 @@
 				871CA12608585F8100C3A044 /* FontWell.h in Headers */,
 				871CA12708585F8100C3A044 /* AdvancedPrefController.h in Headers */,
 				87160662098A338500A27F63 /* SoundsPaneController.h in Headers */,
+				8727F4C20A822EFB00E9C2F9 /* BSTagValueTransformer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3230,7 +3232,6 @@
 				8794CC10089C033300161BAB /* BoardManager.m in Sources */,
 				8718EFA608D4257200FFAAEE /* BoardManager-BSAddition.m in Sources */,
 				8718EFDF08D43F7D00FFAAEE /* NoNameInputController.m in Sources */,
-				877B78FD08E416C900184BB2 /* BSProgressIndicatorTbItem.m in Sources */,
 				87BF52CC08F789D500998C4E /* BSBoardInfoInspector.m in Sources */,
 				873C0DCF08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m in Sources */,
 				87C9DD3009404CA3004E6596 /* AppDefaults-Alert.m in Sources */,
@@ -3265,6 +3266,7 @@
 				871CA14A08585F8100C3A044 /* FontWell.m in Sources */,
 				871CA14B08585F8100C3A044 /* AdvancedPrefController.m in Sources */,
 				87160663098A338500A27F63 /* SoundsPaneController.m in Sources */,
+				8727F4C30A822EFB00E9C2F9 /* BSTagValueTransformer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

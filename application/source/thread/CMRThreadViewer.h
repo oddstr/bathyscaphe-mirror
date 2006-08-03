@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.15 2006/06/28 18:37:32 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.15.2.1 2006/08/03 15:06:32 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright (c) 2003, Takanori Ishikawa.
@@ -43,7 +43,6 @@
 	} _flags;
 }
 
-+ (NSString *) nibNameToInitialize;
 + (BOOL) defaultSettingForCascading;
 
 /* Register history list if relativeIndex == 0 */

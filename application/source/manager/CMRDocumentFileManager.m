@@ -55,14 +55,10 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	if(nil == boardName || nil == datIdentifier)
 		return nil;
 
-	//NSLog(@"Info - boardName is %@ (length: %i), and datIdentifier is %@", boardName, [boardName length], datIdentifier);
 	filepath_ = [self directoryWithBoardName : boardName];
-	//NSLog(@"dirWithBName result : %@", filepath_);
 	filepath_ = [filepath_ stringByAppendingPathComponent : datIdentifier];
-	//NSLog(@"strByApdPathCpt result : %@", filepath_);
 	filepath_ = [filepath_ stringByDeletingPathExtension];
-	//NSLog(@"strByDelPathExt result : %@", filepath_);
-	
+
 	return [filepath_ stringByAppendingPathExtension : 
 						[self threadDocumentFileExtention]];
 }

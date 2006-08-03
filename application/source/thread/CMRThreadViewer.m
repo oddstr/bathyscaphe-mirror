@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.30 2006/06/29 18:49:41 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.30.2.1 2006/08/03 15:06:32 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -38,7 +38,7 @@ NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEnd
 @implementation CMRThreadViewer
 - (id) init
 {
-	if (self = [super initWithWindowNibName : [[self class] nibNameToInitialize]]) {
+	if (self = [super initWithWindowNibName : [self windowNibName]]) {
 		[self setInvalidate : NO];
 		
 		if (NO == [self loadComponents]) {
@@ -66,7 +66,7 @@ NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEnd
 	[super dealloc];
 }
 
-+ (NSString *) nibNameToInitialize
+- (NSString *) windowNibName
 {
 	return @"CMRThreadViewer";
 }

@@ -8,12 +8,14 @@
   * @version 1.0.0d1 (02/09/24  11:19:36 AM)
   *
   */
-#import "CMRStatusLineWindowController_p.h"
+#import "CMRStatusLineWindowController.h"
 #import "CocoMonar_Prefix.h"
 
 #import "CMRTask.h"
 #import "CMRTaskManager.h"
 
+//#define APP_STATUSLINE_WINDOW_SHOWN_KEY			@"Show StatusLine"
+//#define APP_STATUSLINE_WINDOW_HIDDEN_KEY		@"Hide StatusLine"
 
 
 @implementation CMRStatusLineWindowController

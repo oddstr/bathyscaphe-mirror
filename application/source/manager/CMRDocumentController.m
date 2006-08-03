@@ -38,7 +38,6 @@ static BOOL shouldCascadeBrowser = NO;
 
 - (IBAction) newDocument: (id) sender
 {
-	NSLog(@"NN");
 	shouldCascadeBrowser = (numOfBrowsers == 0) ? NO : YES;
 	[super newDocument : sender];
 }
