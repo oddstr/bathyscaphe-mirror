@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-listImport.m,v 1.10.2.1 2006/07/30 21:40:35 tsawada2 Exp $
+  * $Id: CMRThreadsList-listImport.m,v 1.10.2.2 2006/08/04 14:04:01 tsawada2 Exp $
   * BathyScaphe
   *
   *
@@ -11,20 +11,23 @@
 #import "CMRThreadsUpdateListTask.h"
 #import "CMRThreadsListReadFileTask.h"
 
-static BOOL synchronizeThAttrForSync2(NSMutableDictionary *theThread, NSDictionary *fromFavorite)
+static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, NSDictionary *fromFavorite)
 {
 	unsigned		nCorrectLoaded_;
 	ThreadStatus	status_;
 	
-	nCorrectLoaded_ = [fromFavorite unsignedIntForKey : CMRThreadLastLoadedNumberKey defaultValue : 0];
+	nCorrectLoaded_ = [fromFavorite unsignedIntForKey : CMRThreadLastLoadedNumberKey];
 
-	[theThread setUnsignedInt : nCorrectLoaded_
-					   forKey : CMRThreadLastLoadedNumberKey];
-
-	if (nCorrectLoaded_ == 0) {
+	if (nCorrectLoaded_ == 0) { // No Entry for CMRThreadLastLoadedNumberKey
 		status_ = ThreadNoCacheStatus;
+		[theThread removeObjectForKey: CMRThreadLastLoadedNumberKey];
 	} else {
-		unsigned	nRes_ = [theThread unsignedIntForKey : CMRThreadNumberOfMessagesKey];
+		unsigned	nRes_;
+
+		[theThread setUnsignedInt : nCorrectLoaded_
+						   forKey : CMRThreadLastLoadedNumberKey];
+
+		nRes_ = [theThread unsignedIntForKey : CMRThreadNumberOfMessagesKey];
 		if (nCorrectLoaded_ >= nRes_) {
 			status_ = ThreadLogCachedStatus;
 			[theThread setObject : [fromFavorite objectForKey : CMRThreadModifiedDateKey] forKey : CMRThreadModifiedDateKey];
@@ -296,7 +299,7 @@ static BOOL synchronizeThAttrForSync2(NSMutableDictionary *theThread, NSDictiona
 	iter_ = [array_ objectEnumerator];
 	while(path_ = [iter_ nextObject]){
 		NSMutableDictionary		*thread_;
-		
+
 		thread_ = [self seachThreadByPath : path_];
 		if (thread_ != nil) {
 			int		i;
@@ -304,7 +307,7 @@ static BOOL synchronizeThAttrForSync2(NSMutableDictionary *theThread, NSDictiona
 			i = [[fm_ favoritesItemsIndex] indexOfObject : path_];
 			if (i == NSNotFound) break;
 
-			if(synchronizeThAttrForSync2(thread_, [[fm_ favoritesItemsArray] objectAtIndex : i])) {
+			if(synchronizeThAttrForSync(thread_, [[fm_ favoritesItemsArray] objectAtIndex : i])) {
 				// Œã•Ð•t‚¯‚Í‚«‚¿‚ñ‚Æ
 				[fm_ removeFromPoolWithFilePath : path_];
 			}

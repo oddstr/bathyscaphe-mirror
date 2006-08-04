@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFavoritesManager.m,v 1.12.2.1 2006/07/30 21:40:35 tsawada2 Exp $
+  * $Id: CMRFavoritesManager.m,v 1.12.2.2 2006/08/04 14:04:01 tsawada2 Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
@@ -10,6 +10,8 @@
 #import "CMRThreadAttributes.h"
 #import "CMRThreadsList_p.h"
 #import <AppKit/NSDocumentController.h>
+
+#import "CMRTrashbox.h"
 
 NSString *const CMRFavoritesManagerDidLinkFavoritesNotification = @"CMRFavoritesManagerDidLinkFavoritesNotification";
 NSString *const CMRFavoritesManagerDidRemoveFavoritesNotification = @"CMRFavoritesManagerDidRemoveFavoritesNotification";
@@ -40,6 +42,12 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 					selector : @selector(applicationWillTerminate:)
 					    name : NSApplicationWillTerminateNotification
 					  object : NSApp];
+
+		[[NSNotificationCenter defaultCenter]
+				 addObserver : self
+					selector : @selector(trashDidPerform:)
+					    name : CMRTrashboxDidPerformNotification
+					  object : [CMRTrashbox trash]];
 	}
 	return self;
 }
@@ -66,6 +74,36 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 								 atomically : YES];
 	[[self changedFavItemsPool] writeToFile : [[self class] subFilepath]
 								 atomically : YES];
+
+}
+
+
+- (void) trashDidPerform : (NSNotification *) notification
+{	
+	UTILAssertNotificationName(
+		notification,
+		CMRTrashboxDidPerformNotification);
+	UTILAssertNotificationObject(
+		notification,
+		[CMRTrashbox trash]);
+	
+	NSLog(@"FavoriteManager received CMRTrashboxDidPerformNotification");
+	
+	NSDictionary *userInfo_ = [notification userInfo];
+	if ([userInfo_ integerForKey: kAppTrashUserInfoStatusKey] != noErr) return;
+	
+	NSArray			*pathArray_ = [userInfo_ objectForKey: kAppTrashUserInfoFilesKey];
+	//CMRDocumentFileManager	*dFM_ = [CMRDocumentFileManager defaultManager];
+	NSEnumerator	*iter_;
+	NSString		*aPath_;
+
+	iter_ = [pathArray_ objectEnumerator];
+
+	while ((aPath_ = [iter_ nextObject]) != nil) {
+		if ([self availableOperationWithPath: aPath_] == CMRFavoritesOperationRemove) {
+			[self removeFromFavoritesWithFilePath: aPath_];
+		}
+	}
 
 }
 

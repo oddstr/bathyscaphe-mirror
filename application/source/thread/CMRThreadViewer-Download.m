@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Download.m,v 1.14 2006/06/11 23:47:26 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Download.m,v 1.14.2.1 2006/08/04 14:04:01 tsawada2 Exp $
   * BathyScaphe
   * 
   *
@@ -239,9 +239,9 @@
 	[self loadFromContentsOfFile : filePath_];
 }
 
-- (void) threadInvalidPerticalContentsSheetDidEnd : (NSWindow *) sheet
-									   returnCode : (int       ) returnCode
-									  contextInfo : (void     *) contextInfo;
+- (void) threadInvalidPerticalContentsSheetDidEnd : (NSAlert *) sheet
+									   returnCode : (int      ) returnCode
+									  contextInfo : (void    *) contextInfo;
 {
 	ThreadTextDownloader	*downloader_;
 	NSString				*filePathToWrite_;
@@ -275,9 +275,9 @@
 	}
 }
 
-- (void) threadNotFoundSheetDidEnd : (NSWindow *) sheet
-						returnCode : (int       ) returnCode
-					   contextInfo : (void     *) contextInfo
+- (void) threadNotFoundSheetDidEnd : (NSAlert *) sheet
+						returnCode : (int      ) returnCode
+					   contextInfo : (void    *) contextInfo
 {
 	ThreadTextDownloader	*downloader_;
 	NSString				*filePathToWrite_;

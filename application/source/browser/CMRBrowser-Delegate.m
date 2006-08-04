@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.20.2.2 2006/08/01 01:11:56 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.20.2.3 2006/08/04 14:04:01 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -523,9 +523,12 @@ BOOL isOptionKeyDown(unsigned flag_)
 	UTILAssertNotificationObject(
 		notification,
 		[CMRFavoritesManager defaultManager]);
-	
+	NSLog(@"CMRBrowser received CMRFavoritesManagerDidRemoveFavoritesNotification");
 	if ([[self currentThreadsList] isFavorites]) {
-		[[self threadsListTable] deselectAll : nil];
+		//NSLog(@"AAA");
+		//[[self threadsListTable] deselectAll : nil];
+		//[[self threadsListTable] reloadData];
+		[[self currentThreadsList] setFilteredThreads: nil];
     }
 }
 

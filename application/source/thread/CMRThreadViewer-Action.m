@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.30.2.1 2006/07/31 00:05:10 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.30.2.2 2006/08/04 14:04:01 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -663,24 +663,27 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 	
 	Iter_ = [selectedThreads_ objectEnumerator];
 	while ((threadAttributes_ = [Iter_ nextObject])) {
-		id	identifier_;
-		NSString	*bName_;
+		NSString	*path_;
 		CMRFavoritesOperation	operation_;
 
-		identifier_ = [CMRThreadAttributes identifierFromDictionary: threadAttributes_];
-		bName_ = [threadAttributes_ valueForKey: ThreadPlistBoardNameKey];
+		path_ = [CMRThreadAttributes pathFromDictionary: threadAttributes_];
 
-		UTILAssertNotNil(identifier_);
-		UTILAssertNotNil(bName_);
-		/*
-		operation_ = [fM_ availableOperationWithThread: identifier_ ofBoard: bName_];
+		UTILAssertNotNil(path_);
+		
+		operation_ = [fM_ availableOperationWithPath: path_];
 		if (CMRFavoritesOperationNone == operation_) {
 			continue;	
 		} else if (CMRFavoritesOperationLink == operation_) {
-			[fM_ addFavoriteWithThread: identifier_ ofBoard: bName_];
+			if([threadAttributes_ count] < 6) {
+				// Maybe added from separate document window.
+				[fM_ addFavoriteWithFilePath: path_];
+			} else {
+				// Maybe added from browser or 3-pain viewer.
+				[fM_ addFavoriteWithThread: threadAttributes_];
+			}
 		} else {
-			[fM_ removeFavoriteWithThread: identifier_ ofBoard: bName_];
-		}*/
+			[fM_ removeFromFavoritesWithFilePath: path_];
+		}
 	}
 }
 // make text area to be first responder

@@ -812,8 +812,6 @@
 		87751A6309782DD7009D4A9C /* BSIPIFullScreenWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIFullScreenWindow.m; sourceTree = "<group>"; };
 		87751A7A09782FAE009D4A9C /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSIPIFullScreen.nib; sourceTree = "<group>"; };
 		87751AB4097838A0009D4A9C /* FullScreen.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = FullScreen.tiff; sourceTree = "<group>"; };
-		877B78FA08E416C900184BB2 /* BSProgressIndicatorTbItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSProgressIndicatorTbItem.h; sourceTree = "<group>"; };
-		877B78FB08E416C900184BB2 /* BSProgressIndicatorTbItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSProgressIndicatorTbItem.m; sourceTree = "<group>"; };
 		878018E0097CF76A002FBA1F /* titleRulerBgNotActive.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = titleRulerBgNotActive.tiff; sourceTree = "<group>"; };
 		8782A66D096FAAB90099B65F /* BSImagePreviewInspector-Tb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BSImagePreviewInspector-Tb.m"; sourceTree = "<group>"; };
 		8782A6B0096FB4690099B65F /* Save.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Save.tiff; sourceTree = "<group>"; };
@@ -1184,8 +1182,6 @@
 		F38262FA0513585900A80005 /* CMXDateFormatter.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMXDateFormatter.m; sourceTree = "<group>"; };
 		F38263000513585900A80005 /* CMXTextParser.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMXTextParser.h; sourceTree = "<group>"; };
 		F38263010513585900A80005 /* CMXTextParser.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMXTextParser.m; sourceTree = "<group>"; };
-		F3826311051358D400A80005 /* CMXScrollView.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMXScrollView.h; sourceTree = "<group>"; };
-		F3826312051358D400A80005 /* CMXScrollView.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMXScrollView.m; sourceTree = "<group>"; };
 		F3826315051358E500A80005 /* CMXImageAttachmentCell.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMXImageAttachmentCell.h; sourceTree = "<group>"; };
 		F3826316051358E500A80005 /* CMXImageAttachmentCell.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMXImageAttachmentCell.m; sourceTree = "<group>"; };
 		F3826332051359B700A80005 /* CMXInternalMessaging.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMXInternalMessaging.h; sourceTree = "<group>"; };
@@ -2208,8 +2204,6 @@
 				F33E994C04C6A1AB00A80005 /* statusLine */,
 				F3826315051358E500A80005 /* CMXImageAttachmentCell.h */,
 				F3826316051358E500A80005 /* CMXImageAttachmentCell.m */,
-				F3826311051358D400A80005 /* CMXScrollView.h */,
-				F3826312051358D400A80005 /* CMXScrollView.m */,
 				F324DDB104C698FB00A80005 /* SGHTMLView.h */,
 				F324DDB304C698FB00A80005 /* SGHTMLView_p.h */,
 				F324DDB204C698FB00A80005 /* SGHTMLView.m */,
@@ -2225,8 +2219,6 @@
 				F324DDB504C698FB00A80005 /* SGLinkCommand.m */,
 				F324DDBB04C698FB00A80005 /* ThreadsListTable.h */,
 				F324DDBC04C698FB00A80005 /* ThreadsListTable.m */,
-				877B78FA08E416C900184BB2 /* BSProgressIndicatorTbItem.h */,
-				877B78FB08E416C900184BB2 /* BSProgressIndicatorTbItem.m */,
 			);
 			path = view;
 			sourceTree = "<group>";

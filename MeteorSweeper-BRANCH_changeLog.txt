@@ -1,3 +1,17 @@
+2006-08-04 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/w2chFavoriteItemList.m
+	* application/source/browser/CMRThreadsList-Remove.m
+		お気に入りに登録されているスレッドの「ログを削除」したときの挙動、および「ログを削除」しても
+		該当板のスレッド一覧でステータス等がクリアされないことがある問題を改善すべく取り組み中。
+		また、「お気に入り」一覧の読み込みは CMRThreadsListReadFileTask を介さず直接
+		CMRFavoritesManager を参照するようにした。
+	* application/source/browser/CMRThreadsList-listImport.m
+	* application/source/thread/CMRThreadViewer-Download.m
+		メソッドまたは関数名の修正、引数の型の修正など。
+	* application/source/thread/CMRThreadViewer-Validation.m
+	* application/source/thread/CMRThreadViewer-Action.m
+		addFavorites: が正しく動作するようにした（1.2.2 ベースに戻した）。
+		同様に、addFavorites: に対する validation が正しく動作するように戻した。
 2006-08-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/preference/general/GeneralPrefController.m
 	* application/subproj/preference/Japanese.lproj/GeneralPreferences.nib

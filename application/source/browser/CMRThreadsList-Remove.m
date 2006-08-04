@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-Remove.m,v 1.6.2.1 2006/07/30 21:40:35 tsawada2 Exp $
+  * $Id: CMRThreadsList-Remove.m,v 1.6.2.2 2006/08/04 14:04:01 tsawada2 Exp $
   * 
   * CMRThreadsList-Remove.m
   *
@@ -43,7 +43,12 @@
 		NSMutableDictionary		*thread_;
 		
 		thread_ = [self seachThreadByPath : path_];
-		[[self class] clearAttributes : thread_];
+		if (thread_ != nil) {
+			[[self class] clearAttributes : thread_];
+		} else {
+			NSLog(@"CMRThreadsList: cleanUpItemsToBeRemoved: - seachThreadByPath: returns nil, so add this item to pool");
+			[[CMRFavoritesManager defaultManager] addItemToPoolWithFilePath: path_];
+		}
 	}
 	[_threadsListUpdateLock unlock];
 	

@@ -1,5 +1,5 @@
 /**
-  * $Id: w2chFavoriteItemList.m,v 1.9 2006/02/24 16:54:13 tsawada2 Exp $
+  * $Id: w2chFavoriteItemList.m,v 1.9.4.1 2006/08/04 14:04:01 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -199,6 +199,7 @@
 	UTILAssertNotNil(filepath_);
 
 	//Is it OK? Hmm... (05-03-05 tsawada2)
+	NSLog(@"w2chFavoriteItemList received CMRFavoritesManagerDidRemoveFavoritesNotification");
 	[self startLoadingThreadsList : [self worker]];
 }
 
@@ -242,6 +243,18 @@
 @end
 
 @implementation w2chFavoriteItemList(ReadThreadsList)
+- (void) doLoadThreadsList : (CMRThreadLayout *) worker
+{
+	UTILAssertNotNilArgument(worker, @"Thread Layout(Worker)");
+	[self setWorker : worker];
+	
+	[_threadsListUpdateLock lock];
+	[self setThreads: [[CMRFavoritesManager defaultManager] favoritesItemsArray]];
+	[_threadsListUpdateLock unlock];
+
+	[self postListDidUpdateNotification : CMRAutoscrollWhenTLUpdate];
+}
+
 - (void) _applyFavItemsPool
 {
 	// Nothing need to be done.

@@ -1,5 +1,5 @@
 /*
-    $Id: CMRThreadViewer-Validation.m,v 1.20.2.1 2006/07/31 00:05:10 tsawada2 Exp $
+    $Id: CMRThreadViewer-Validation.m,v 1.20.2.2 2006/08/04 14:04:01 tsawada2 Exp $
     CMRThreadViewer-Action.m から独立
     Created at 2005-02-16 by tsawada2.
 */
@@ -163,23 +163,17 @@ static int messageMaskForTag(int tag)
 - (CMRFavoritesOperation) favoritesOperationForThreads : (NSArray *) threadsArray
 {
 	NSDictionary	*thread_;
-	//NSString		*path_;
-	id				identifier_;
-	NSString		*bName_;
+	NSString		*path_;
 	
 	if (nil == threadsArray || 0 == [threadsArray count])
 		return CMRFavoritesOperationNone;
 	
 	thread_ = [threadsArray objectAtIndex : 0];
-	//path_ = [CMRThreadAttributes pathFromDictionary : thread_];
-	identifier_ = [CMRThreadAttributes identifierFromDictionary : thread_];
-	bName_ = [thread_ valueForKey: ThreadPlistBoardNameKey];
+	path_ = [CMRThreadAttributes pathFromDictionary : thread_];
 
-	//UTILAssertNotNil(path_);
-	UTILAssertNotNil(identifier_);
-	UTILAssertNotNil(bName_);
+	UTILAssertNotNil(path_);
 	
-	return CMRFavoritesOperationNone;//([[CMRFavoritesManager defaultManager] availableOperationWithThread : identifier_ ofBoard: bName_]);
+	return [[CMRFavoritesManager defaultManager] availableOperationWithPath: path_];
 }
 
 - (BOOL) validateUIItem : (id) theItem
