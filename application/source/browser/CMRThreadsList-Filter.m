@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-Filter.m,v 1.7 2006/01/27 23:02:19 tsawada2 Exp $
+  * $Id: CMRThreadsList-Filter.m,v 1.7.4.1 2006/08/04 19:35:09 tsawada2 Exp $
   * 
   * CMRThreadsList-Filter.m
   *
@@ -169,8 +169,52 @@
 }
 
 //-------------------------------------------------------------------
-//------- Filter(search) --------------------------------------------
+#pragma mark Filter(search)
 //-------------------------------------------------------------------
+- (id) temporaryArrayWithSearchString: (NSString *) searchStr fromArray: (NSArray *) targetArray
+{
+	NSMutableArray	*foundArray_;
+	NSEnumerator	*iter_;
+	NSString		*precomposedSearchStr;
+	id				thread_;
+	
+	if(!targetArray || [targetArray count] == 0) return nil;
+	
+	if(!searchStr || [searchStr isEqualToString: @""]) {
+		//NSLog(@"searchStr is Empty");
+		return targetArray;
+	}
+	precomposedSearchStr = [searchStr precomposedStringWithCompatibilityMapping];
+	if(!precomposedSearchStr || [precomposedSearchStr isEqualToString: @""]) return targetArray;
+	
+	foundArray_ = [NSMutableArray array];
+	iter_ = [targetArray objectEnumerator];
+	
+	while(thread_ = [iter_ nextObject]) {
+		NSString	*title_;
+		NSRange		foundRange;
+		NSRange		searchRange;
+		
+		UTILAssertKindOfClass(thread_, NSDictionary);
+		title_ = [thread_ objectForKey : CMRThreadTitleKey];
+		UTILAssertNotNil(title_);
+
+		title_ = [title_ precomposedStringWithCompatibilityMapping]; // Unicode KC
+		
+		searchRange = NSMakeRange(0, [title_ length]);
+		foundRange = [title_ rangeOfString: precomposedSearchStr 
+								   options: NSCaseInsensitiveSearch
+									 range: searchRange];
+		
+		if(0 == foundRange.length) continue;
+		
+		[foundArray_ addObject: thread_];
+	}
+	if ([foundArray_ count] == 0) [foundArray_ addObject : @"SearchNotFound"];
+
+	return foundArray_;
+}
+/*
 - (id) temporaryArrayWithFindOperation : (CMRSearchOptions *) operation
 							 fromArray : (NSArray       *) array
 {
@@ -178,13 +222,10 @@
 	NSEnumerator			*iter_;
 	id						thread_;
 	NSString				*searchString_;
-	//CMRSearchMask			searchOption_;
-	//id						userInfo_;
-	//NSCharacterSet			*ignoreSet_ = nil;
-	//BOOL					ignoreSpecificCharacters_;
 	
-	foundArray_ = SGTemporaryArray();
-	
+	//foundArray_ = SGTemporaryArray();
+	foundArray_ = [NSMutableArray array];
+
 	searchString_ = [operation findObject];
 	UTILRequireCondition(array && operation, ErrSearch);
 	UTILRequireCondition(
@@ -194,30 +235,7 @@
 		ErrSearch);
 	
 	iter_ = [array objectEnumerator];
-	
-	//searchOption_ = 0;
-	//userInfo_ = [operation userInfo];
-	//if(userInfo_ && [userInfo_ respondsToSelector : @selector(unsignedIntValue)])
-	//	searchOption_ = [userInfo_ unsignedIntValue];
-	
-	
-	//ignoreSpecificCharacters_ = (searchOption_ & CMRSearchOptionIgnoreSpecified);
-	
-	
-	/*if(ignoreSpecificCharacters_){
-		if(nil == ignoreSet_){
-			NSString		*igchars_;
-			
-			igchars_ = [CMRPref ignoreTitleCharacters];
-			ignoreSet_ = [NSCharacterSet 
-							characterSetWithCharactersInString : igchars_];
-		}
-		
-		// 検索文字列から無視する文字は取り除く。
-		searchString_ = [searchString_ stringByDeleteCharactersInSet : ignoreSet_];
-		UTILRequireCondition(NO == [searchString_ isEmpty], ErrSearch);
-	}*/
-	
+
 	searchString_ = [searchString_ precomposedStringWithCompatibilityMapping];
 	UTILRequireCondition(NO == [searchString_ isEmpty], ErrSearch);
 	
@@ -229,11 +247,7 @@
 		UTILAssertKindOfClass(thread_, NSDictionary);
 		title_ = [thread_ objectForKey : CMRThreadTitleKey];
 		UTILAssertNotNil(title_);
-		
-		
-		//if(ignoreSpecificCharacters_)
-		//	title_ = [title_ stringByDeleteCharactersInSet : ignoreSet_];
-			
+
 		title_ = [title_ precomposedStringWithCompatibilityMapping]; // Unicode KC
 		
 		searchRng_ = NSMakeRange(0, [title_ length]);
@@ -253,12 +267,12 @@
 	ErrSearch:
 		return foundArray_;
 }
-- (BOOL) filterByFindOperation : (CMRSearchOptions *) operation
+*/
+- (BOOL) filterByString : (NSString *) searchString
 {
 	id				result;
 	NSMutableArray	*filtered_;
 		
-	[self setFilteredThreads : nil];
 	/*
 		2004-12-05 tsawada2 チラシの裏
 		_filteredThreadsをnilにすることで、-filteredThreads:で「全スレッドをステータスでフィルタしたもの」が返ってくる。
@@ -266,9 +280,12 @@
 		もしnilにしないと、-filteredThreads:で「全スレッドを直前の検索結果でフィルタしたもの」が返ってきてしまうため、
 		検索結果を表示した状態で別の語句で検索をやり直すときに不都合である。
 	*/
-	result = [self temporaryArrayWithFindOperation:operation fromArray:[self filteredThreads]];
-	//NSLog(@"%d",[result count]);
+	[self setFilteredThreads : nil];
+
+	result = [self temporaryArrayWithSearchString: searchString fromArray: [self filteredThreads]];
+
 	UTILRequireCondition(result && [result count], ErrFilterByFindOperation);
+
 	filtered_ = [result mutableCopyWithZone : [self zone]];
 	[self setFilteredThreads : filtered_];
 	[filtered_ release];
@@ -286,6 +303,41 @@ ErrFilterByFindOperation:
 	return NO;
 }
 
+/*
+- (BOOL) filterByFindOperation : (CMRSearchOptions *) operation
+{
+	id				result;
+	NSMutableArray	*filtered_;
+		
+	[self setFilteredThreads : nil];
+	//result = [self temporaryArrayWithFindOperation:operation fromArray:[self filteredThreads]];
+	result = [self temporaryArrayWithSearchString: [operation findObject] fromArray: [self filteredThreads]];
+
+	UTILRequireCondition(result && [result count], ErrFilterByFindOperation);
+	if ([result isKindOfClass: [NSMutableArray class]]) {
+		NSMutableArray *mutableResult;
+		NSLog(@"tempAryWithSearchStr: fromAry: returns immutable array, so we must mutableCopy it");
+		mutableResult = [result mutableCopyWithZone : [self zone]];
+		[self setFilteredThreads: mutableResult];
+		[mutableResult release];
+	} else {
+		[self setFilteredThreads: result];
+	}
+
+	if ([result containsObject : @"SearchNotFound"]) {
+		// 検索結果が空だった場合でも、result をキレイにしておく必要がある。
+		[result removeAllObjects];
+		return NO;
+	} else {
+		[result removeAllObjects];	
+		return YES;
+	}
+	
+ErrFilterByFindOperation:
+	NSLog(@"Hoge");
+	return NO;
+}
+*/
 
 - (void) _filteredThreadsLock
 {

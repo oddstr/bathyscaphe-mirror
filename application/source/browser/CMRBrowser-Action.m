@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.47.2.1 2006/07/31 00:05:10 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.47.2.2 2006/08/04 19:35:09 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -462,7 +462,8 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 #pragma mark Search
 
 - (void) showSearchResultAppInfoWithFound : (BOOL) aResult
-{	
+{
+	NSString	*_filterResultMessage;
 	if (NO == aResult) {
 		_filterResultMessage = [self localizedString : kSearchListNotFoundKey];
 	} else {
@@ -472,45 +473,38 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 
 	[[self window] setTitle : [NSString stringWithFormat : @"%@ (%@)", [[self document] displayName], _filterResultMessage]];
 }
-- (BOOL) showsSearchResult
-{
-	return (_filterString != nil);
-}
+
 - (void) clearSearchFilter
 {
-	[_filterString release];
-	_filterString = nil;
+	[self setCurrentSearchString: nil];
 	
 	// 検索結果の表示@タイトルバーを解除
+	//_filterResultMessage = nil;
 	[self synchronizeWindowTitleWithDocumentName];
-	_filterResultMessage = nil;
 }
 - (void) synchronizeWithSearchField
 {
-	[self searchThreadWithString : _filterString];
+	[self searchThreadWithString : [self currentSearchString]];
 }
 - (void) searchThreadWithString : (NSString *) aString
 {
 	BOOL		result = NO;
 	
-	if (nil != aString) {
-		result = [[self document] searchThreadsInListWithString : aString];
+	result = [[self document] searchThreadsInListWithString : aString];
+
+	if (nil == aString ||[aString isEqualToString: @""]) {
+		//NSLog(@"Hoge");
+		[self clearSearchFilter];
+	} else {
 		[self showSearchResultAppInfoWithFound : result];
-	}
-	
-	if (result && _filterString != aString) {
-		[_filterString autorelease]; 
-		_filterString = [aString copy];
 	}
 
 	[[self threadsListTable] reloadData];
 }
+
 - (IBAction) searchThread : (id) sender
 {
-	if (NO == [sender respondsToSelector : @selector(stringValue)])
-		return;
-
-	[self searchThreadWithString : [sender stringValue]];
+	[self synchronizeWithSearchField];
 }
 
 - (BOOL) ifSearchFieldIsInToolbar
@@ -572,7 +566,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 		contentView : (NSView					 *) contentView
 		contextInfo : (id						  ) info;
 {
-
+	// Nothing to be done.
 }
 
 #pragma mark View Menu

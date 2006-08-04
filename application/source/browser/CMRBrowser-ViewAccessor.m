@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.42.2.1 2006/07/31 00:05:10 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.42.2.2 2006/08/04 19:35:09 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -86,6 +86,18 @@
 		m_addBoardSheetController = [[AddBoardSheetController alloc] init];
 	}
 	return m_addBoardSheetController;
+}
+
+- (NSString *) currentSearchString
+{
+	return _filterString;
+}
+
+- (void) setCurrentSearchString: (NSString *) newString
+{
+	[newString retain];
+	[_filterString release];
+	_filterString = newString;
 }
 @end
 

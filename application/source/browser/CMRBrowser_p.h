@@ -136,6 +136,9 @@
 - (NSSearchField *) searchField;
 - (CMRAccessorySheetController *) listSorterSheetController;
 - (AddBoardSheetController *) addBoardSheetController;
+
+- (NSString *) currentSearchString;
+- (void) setCurrentSearchString: (NSString *) newString;
 @end
 
 @interface CMRBrowser(UIComponents)

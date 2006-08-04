@@ -1,3 +1,12 @@
+2006-08-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/browser/CMRBrowser.m
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/Resources/Japanese.lproj/Browser.nib
+	* application/source/browser/CMRThreadsList-Filter.m
+	* application/source/browser/Browser.m
+		なぜかスレッド一覧の検索で、絞り込まれた状態を検索語句を空にすることで解除しようとしても一覧が絞り込み解除
+		されなくなっていたのを修正している途中。ついでにこのへんのソースを簡略化。
 2006-08-04 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/w2chFavoriteItemList.m
 	* application/source/browser/CMRThreadsList-Remove.m
