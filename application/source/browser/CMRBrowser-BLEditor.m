@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-BLEditor.m,v 1.13.2.1 2006/07/31 00:05:10 tsawada2 Exp $
+ * $Id: CMRBrowser-BLEditor.m,v 1.13.2.2 2006/08/05 10:57:17 tsawada2 Exp $
  * BathyScaphe
  * CMRBrowser-Action.m, CMRBrowser-ViewAccessor.m から分割
  *
@@ -112,7 +112,22 @@
 - (void) _removeMultipleItem : (id) sender
 {
 	NSBeep();
-	NSBeginAlertSheet(
+	NSAlert *alert_ = [[NSAlert alloc] init];
+	NSString *alertMsgTxt_;
+	alertMsgTxt_ = [self localizedString : kRemoveMultipleItemMsgKey];
+	[alert_ setAlertStyle: NSWarningAlertStyle];
+	[alert_ setMessageText: [self localizedString : kRemoveMultipleItemTitleKey]];
+	[alert_ setInformativeText: alertMsgTxt_];
+	[alert_ addButtonWithTitle: [self localizedString: kDeleteOKBtnKey]];
+	[alert_ addButtonWithTitle: [self localizedString: kDeleteCancelBtnKey]];
+
+	NSBeep();
+	[alert_ beginSheetModalForWindow: [self window]
+					   modalDelegate: self
+					  didEndSelector: @selector(boardItemMultipleDelSheetDidEnd:returnCode:contextInfo:)
+						 contextInfo: nil];
+	[alert_ release];
+	/*NSBeginAlertSheet(
 		[self localizedString : kRemoveMultipleItemTitleKey],
 		[self localizedString : kDeleteOKBtnKey],
 		nil,
@@ -123,7 +138,7 @@
 		NULL,
 		nil,
 		[self localizedString : kRemoveMultipleItemMsgKey]
-	);
+	);*/
 }
 
 - (IBAction) removeDrawerItem : (id) sender
@@ -161,6 +176,22 @@
 	NSDictionary	*item_;
 	item_ = [boardListTable_ itemAtRow : rowIndex_];
 		
+	NSAlert *alert_ = [[NSAlert alloc] init];
+	NSString *alertMsgTxt_;
+	alertMsgTxt_ = [NSString stringWithFormat: [self localizedString : kRemoveDrawerItemMsgKey],[item_ objectForKey : BoardPlistNameKey]];
+	[alert_ setAlertStyle: NSWarningAlertStyle];
+	[alert_ setMessageText: [self localizedString: kRemoveDrawerItemTitleKey]];
+	[alert_ setInformativeText: alertMsgTxt_];
+	[alert_ addButtonWithTitle: [self localizedString: kDeleteOKBtnKey]];
+	[alert_ addButtonWithTitle: [self localizedString: kDeleteCancelBtnKey]];
+
+	NSBeep();
+	[alert_ beginSheetModalForWindow: [self window]
+					   modalDelegate: self
+					  didEndSelector: @selector(boardItemDeletionSheetDidEnd:returnCode:contextInfo:)
+						 contextInfo: item_];
+	[alert_ release];
+/*
 	NSBeep();
 	NSBeginAlertSheet(
 		[self localizedString : kRemoveDrawerItemTitleKey],
@@ -174,6 +205,7 @@
 		item_,
 		[self localizedString : kRemoveDrawerItemMsgKey],[item_ objectForKey : BoardPlistNameKey]
 	);
+*/
 }
 
 - (IBAction) endEditSheet : (id) sender
@@ -294,63 +326,51 @@
 	[sheet close];
 }
 
-- (void) _drawerItemDeletionSheetDidEnd : (NSWindow *) sheet
-							 returnCode : (int       ) returnCode
-							contextInfo : (NSDictionary *) contextInfo
+- (void) boardItemDeletionSheetDidEnd: (NSAlert *) alert returnCode: (int) returnCode contextInfo: (id) contextInfo
 {
-	switch (returnCode) {
-	case NSAlertDefaultReturn:
+	if (returnCode == NSAlertFirstButtonReturn) {
 		[[[BoardManager defaultManager] userList] removeItemWithName : [contextInfo objectForKey : BoardPlistNameKey]
 															  ofType : [[BoardList class] typeForItem : contextInfo]];
 		[[self boardListTable] reloadData];
-		[[self boardListTable] deselectAll : nil];
-		break;
-	default:
-		break;
+		[[self boardListTable] deselectAll: nil];
 	}
 }
 
-- (void) _multipleItemDeletionSheetDidEnd : (NSWindow *) sheet
-							   returnCode : (int	   ) returnCode
-							  contextInfo : (id		   ) contextInfo
+- (void) boardItemMultipleDelSheetDidEnd: (NSAlert *) alert returnCode: (int) returnCode contextInfo: (id) contextInfo
 {
-	switch (returnCode) {
-	case NSAlertDefaultReturn:
+	if (returnCode == NSAlertFirstButtonReturn)
 		// 参考：<http://www.cocoadev.com/index.pl?NSIndexSet>
+	{
+		NSIndexSet		*selected = [[self boardListTable] selectedRowIndexes];
+		unsigned int	arrayElement;
+		NSDictionary	*item_;
+		int				size = [selected lastIndex]+1;
+		NSRange			e = NSMakeRange(0, size);
+		BoardList		*list_ = [[BoardManager defaultManager] userList];
+		
+		NSMutableArray	*tmp = [NSMutableArray array];
+
+		[[self boardListTable] deselectAll : nil]; // 先に選択を解除しておく
+
+		while ([selected getIndexes:&arrayElement maxCount:1 inIndexRange:&e] > 0)
 		{
-			NSIndexSet		*selected = [[self boardListTable] selectedRowIndexes];
-			unsigned int	arrayElement;
-			NSDictionary	*item_;
-			int				size = [selected lastIndex]+1;
-			NSRange			e = NSMakeRange(0, size);
-			BoardList		*list_ = [[BoardManager defaultManager] userList];
-			
-			NSMutableArray	*tmp = [NSMutableArray array];
+			item_ = [[self boardListTable] itemAtRow : arrayElement];
 
-			while ([selected getIndexes:&arrayElement maxCount:1 inIndexRange:&e] > 0)
-			{
-				item_ = [[self boardListTable] itemAtRow : arrayElement];
-
-				if (item_ != nil) [tmp addObject : item_];
-			}
-			
-			if([tmp count] > 0) {
-				NSEnumerator	*enum_ = [tmp objectEnumerator];
-				id				eachItem;
-
-				while ((eachItem = [enum_ nextObject]) != nil) {
-					[list_ removeItemWithName : [eachItem objectForKey : BoardPlistNameKey]
-									   ofType : [[BoardList class] typeForItem : eachItem]];
-				}
-			
-				[[self boardListTable] reloadData];
-			}
-			[[self boardListTable] deselectAll : nil];
+			if (item_ != nil) [tmp addObject : item_];
 		}
-		break;
-	default:
-		break;
+		
+		if([tmp count] > 0) {
+			NSEnumerator	*enum_ = [tmp objectEnumerator];
+			id				eachItem;
+
+			while ((eachItem = [enum_ nextObject]) != nil) {
+				[list_ removeItemWithName : [eachItem objectForKey : BoardPlistNameKey]
+								   ofType : [[BoardList class] typeForItem : eachItem]];
+			}
+		
+			[[self boardListTable] reloadData];
+		}
+
 	}
 }
-
 @end

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFavoritesManager.m,v 1.12.2.2 2006/08/04 14:04:01 tsawada2 Exp $
+  * $Id: CMRFavoritesManager.m,v 1.12.2.3 2006/08/05 10:57:17 tsawada2 Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
@@ -92,14 +92,17 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	NSDictionary *userInfo_ = [notification userInfo];
 	if ([userInfo_ integerForKey: kAppTrashUserInfoStatusKey] != noErr) return;
 	
+	BOOL	doNotDelFav_ = [userInfo_ boolForKey: kAppTrashUserInfoAfterFetchKey];
+	
 	NSArray			*pathArray_ = [userInfo_ objectForKey: kAppTrashUserInfoFilesKey];
-	//CMRDocumentFileManager	*dFM_ = [CMRDocumentFileManager defaultManager];
 	NSEnumerator	*iter_;
 	NSString		*aPath_;
 
 	iter_ = [pathArray_ objectEnumerator];
 
 	while ((aPath_ = [iter_ nextObject]) != nil) {
+		if (doNotDelFav_) continue;
+
 		if ([self availableOperationWithPath: aPath_] == CMRFavoritesOperationRemove) {
 			[self removeFromFavoritesWithFilePath: aPath_];
 		}

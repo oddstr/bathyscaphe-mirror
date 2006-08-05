@@ -9,6 +9,7 @@ NSString *const CMRTrashboxDidPerformNotification	= @"CMRTrashboxDidPerformNotif
 
 NSString *const kAppTrashUserInfoFilesKey		= @"Files";
 NSString *const kAppTrashUserInfoStatusKey		= @"Status";
+NSString *const kAppTrashUserInfoAfterFetchKey  = @"Fetch";
 
 @implementation CMRTrashbox
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(trash);
@@ -16,16 +17,24 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(trash);
 
 
 @implementation CMRTrashbox(FileOperation)
-- (BOOL) performWithFiles : (NSArray *) filenames
+- (BOOL) performWithFiles: (NSArray *) filenames
+{
+	return [self performWithFiles: filenames fetchAfterDeletion: NO];
+}
+
+- (BOOL) performWithFiles: (NSArray *) filenames fetchAfterDeletion: (BOOL) shouldFetch
 {
 	BOOL				isSucceeded_;
 	NSMutableDictionary	*info_;
+	NSNumber			*fetch_;
 	OSErr				error_;
 	
 	if(nil == filenames || 0 == [filenames count]) return NO;
 	
-	info_ = [NSMutableDictionary dictionaryWithObject : filenames 
-											   forKey : kAppTrashUserInfoFilesKey];
+	fetch_ = [NSNumber numberWithBool: shouldFetch];
+	
+	info_ = [NSMutableDictionary dictionaryWithObjectsAndKeys: filenames, kAppTrashUserInfoFilesKey,
+															   fetch_, kAppTrashUserInfoAfterFetchKey, NULL];
 	UTILNotifyInfo(
 		CMRTrashboxWillPerformNotification,
 		info_);

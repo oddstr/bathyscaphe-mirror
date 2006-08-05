@@ -1,4 +1,11 @@
 2006-08-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRFavoritesManager.m
+	* application/source/manager/CMRTrashbox.m
+	* application/source/browser/CMRThreadsList-Remove.m
+	* application/source/thread/CMRThreadViewer-Action.m
+		お気に入りに登録されているスレッドを「削除して再取得」する際、お気に入りからは削除しないまま作業を行える
+		ように新しい仕組みを導入した。CMRTrashboxDidPerformNotification に「再取得しようとしているかどうか」
+		の情報を載せて運べるようにした。
 	* application/source/browser/CMRBrowser-Action.m
 	* application/source/browser/CMRBrowser.m
 	* application/source/browser/CMRBrowser-ViewAccessor.m

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.20.2.3 2006/08/04 14:04:01 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.20.2.4 2006/08/05 10:57:17 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -511,9 +511,9 @@ BOOL isOptionKeyDown(unsigned flag_)
 		notification,
 		[CMRFavoritesManager defaultManager]);
 	
-	//if ([[self currentThreadsList] isFavorites]) {
-	//	;
-    //}
+	/*if ([[self currentThreadsList] isFavorites]) {
+		;
+    }*/
 }
 - (void) favoritesManagerDidRemoveFavorites : (NSNotification *) notification
 {
@@ -524,12 +524,9 @@ BOOL isOptionKeyDown(unsigned flag_)
 		notification,
 		[CMRFavoritesManager defaultManager]);
 	NSLog(@"CMRBrowser received CMRFavoritesManagerDidRemoveFavoritesNotification");
-	if ([[self currentThreadsList] isFavorites]) {
-		//NSLog(@"AAA");
-		//[[self threadsListTable] deselectAll : nil];
-		//[[self threadsListTable] reloadData];
-		[[self currentThreadsList] setFilteredThreads: nil];
-    }
+	/*if ([[self currentThreadsList] isFavorites]) {
+		;
+    }*/
 }
 
 // Added in InnocentStarter.

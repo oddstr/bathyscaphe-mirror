@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.30.2.2 2006/08/04 14:04:01 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.30.2.3 2006/08/05 10:57:17 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -446,10 +446,10 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 		NSArray		*alsoReplyFile_;		
 		alsoReplyFile_ = [[CMRReplyDocumentFileManager defaultManager]
 								replyDocumentFilesArrayWithLogsArray : filePathArray_];
-		return [[CMRTrashbox trash] performWithFiles : alsoReplyFile_];
+		return [[CMRTrashbox trash] performWithFiles : alsoReplyFile_ fetchAfterDeletion: NO];
 	}
 
-	return [[CMRTrashbox trash] performWithFiles : filePathArray_];
+	return [[CMRTrashbox trash] performWithFiles : filePathArray_ fetchAfterDeletion: YES];
 }
 
 - (IBAction) deleteThread : (id) sender

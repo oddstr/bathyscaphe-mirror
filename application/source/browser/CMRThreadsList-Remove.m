@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-Remove.m,v 1.6.2.2 2006/08/04 14:04:01 tsawada2 Exp $
+  * $Id: CMRThreadsList-Remove.m,v 1.6.2.3 2006/08/05 10:57:17 tsawada2 Exp $
   * 
   * CMRThreadsList-Remove.m
   *
@@ -86,9 +86,9 @@
 		NSArray	*alsoReplyFiles_;
 
 		alsoReplyFiles_ = [[CMRReplyDocumentFileManager defaultManager] replyDocumentFilesArrayWithLogsArray : files];
-		tmp = [[CMRTrashbox trash] performWithFiles : alsoReplyFiles_];
+		tmp = [[CMRTrashbox trash] performWithFiles : alsoReplyFiles_ fetchAfterDeletion: NO];
 	} else {
-		tmp = [[CMRTrashbox trash] performWithFiles : files];
+		tmp = [[CMRTrashbox trash] performWithFiles : files fetchAfterDeletion: YES];
 	}
 
 	if(tmp && flag) [[CMRFavoritesManager defaultManager] removeFromFavoritesWithPathArray : files];
