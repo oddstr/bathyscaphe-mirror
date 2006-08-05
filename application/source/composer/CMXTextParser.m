@@ -1,5 +1,5 @@
 /**
-  * $Id: CMXTextParser.m,v 1.20 2006/06/02 19:21:14 tsawada2 Exp $
+  * $Id: CMXTextParser.m,v 1.20.2.1 2006/08/05 16:50:23 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -376,7 +376,6 @@ static void resolveInvalidAmpEntity(NSMutableString *aSource)
 	
 	int			i, cnt;
 	NSString	*result = nil;
-	//NSString	*result;
 	
 	UTIL_DEBUG_METHOD;
 	
@@ -853,6 +852,18 @@ static BOOL _parseExtraField(NSString *extraField, CMRThreadMessage *aMessage)
 		if (hostRange_.location != NSNotFound) {
 			NSArray	*dummyAry_ = [NSArray arrayWithObjects: kabunushiKey, nil];
 			[aMessage setBeProfile : dummyAry_];
+		} else {
+		// BE も先に探す（株主優待と同時には起きない）
+			hostRange_ = [extraField rangeOfString: @"BE:" options: NSLiteralSearch | NSBackwardsSearch];
+		
+			if (hostRange_.location != NSNotFound) {
+				NSString *beStr_ = [extraField substringFromIndex: (hostRange_.location+3)];
+				[aMessage setBeProfile : [beStr_ componentsSeparatedByString : @"-"]];
+				
+				if (hostRange_.location == 0) return YES; // BE: より前に文字列が無いならもう終了
+				extraField = [extraField substringToIndex : (hostRange_.location-1)]; // extraField から BE を削り取る
+				length_ = [extraField length]; // length を再設定
+			}
 		}
 	}
 
@@ -912,19 +923,7 @@ static BOOL _parseExtraField(NSString *extraField, CMRThreadMessage *aMessage)
 
 		if ([name_ rangeOfString : @"ID"].length != 0) {
 			[aMessage setIDString : value_];
-		}else if ([name_ rangeOfString : @"BE"].length != 0) {
-			//
-			// be profile link
-			//
-			if ([value_ hasSuffix : @">"]) {
-				// in 'be.2ch.net/be' the Be-ID format is different from other boards.
-				value_ = [value_ substringToIndex : ([value_ length]-1)];
-				[aMessage setBeProfile : [value_ componentsSeparatedByString : CMXTextParserBSColon]];
-			} else {
-				// standard be profile ID format
-				[aMessage setBeProfile : [value_ componentsSeparatedByString : @"-"]];
-			}
-		}else if ([name_ rangeOfString : siberiaIPKey].length != 0) {
+		} else if ([name_ rangeOfString : siberiaIPKey].length != 0) {
 			[aMessage setHost : value_];
 		} else {
 			;

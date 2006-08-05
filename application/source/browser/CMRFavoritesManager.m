@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFavoritesManager.m,v 1.12.2.4 2006/08/05 13:55:27 tsawada2 Exp $
+  * $Id: CMRFavoritesManager.m,v 1.12.2.5 2006/08/05 16:50:23 tsawada2 Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
@@ -87,7 +87,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 		notification,
 		[CMRTrashbox trash]);
 	
-	NSLog(@"FavoriteManager received CMRTrashboxDidPerformNotification");
+	//NSLog(@"FavoriteManager received CMRTrashboxDidPerformNotification");
 	
 	NSDictionary *userInfo_ = [notification userInfo];
 	if ([userInfo_ integerForKey: kAppTrashUserInfoStatusKey] != noErr) return;

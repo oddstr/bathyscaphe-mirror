@@ -1,3 +1,9 @@
+2006-08-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/composer/CMXTextParser.m
+	* application/source/composer/CMRAttributedMessageComposer.m
+	* application/Resources/Japanese.lproj/MessageComposer.strings
+		Be 表示の仕様変更に対応。
+		- ★を赤く表示することは、現在の BathyScaphe の内部構造上不可能であった。勘弁な。
 2006-08-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRFavoritesManager.m
 		2006-08-04 の変更によって、一部のお気に入り項目で「レス数」「差分」が空欄になる現象が起きているだろう。
