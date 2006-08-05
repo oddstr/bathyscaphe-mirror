@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.20.2.4 2006/08/05 10:57:17 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.20.2.5 2006/08/05 13:55:27 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -523,7 +523,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 	UTILAssertNotificationObject(
 		notification,
 		[CMRFavoritesManager defaultManager]);
-	NSLog(@"CMRBrowser received CMRFavoritesManagerDidRemoveFavoritesNotification");
+//	NSLog(@"CMRBrowser received CMRFavoritesManagerDidRemoveFavoritesNotification");
 	/*if ([[self currentThreadsList] isFavorites]) {
 		;
     }*/

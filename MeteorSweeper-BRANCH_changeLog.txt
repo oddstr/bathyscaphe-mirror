@@ -1,5 +1,14 @@
 2006-08-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRFavoritesManager.m
+		2006-08-04 の変更によって、一部のお気に入り項目で「レス数」「差分」が空欄になる現象が起きているだろう。
+		これは元々そのスレを「お気に入りに追加」したときに、それらの情報がなかった場合に起きる。
+		- このようなケースは、2ペイン別ウインドウで開いたスレッドを「お気に入りに追加」した際に発生する。
+		今までは CMRThreadsListReadFileTask - CMRThreadsUpdateListTask でこの「足りない情報」が補完されていた。
+		しかし、より方法を簡素化し、かつ、確実に正しい情報を取得するために、「お気に入りを追加」するときに
+		「レス数」情報がなければ、CMRFavoritesManager 側でそれを補完してから登録するように変更。
+		- もちろん、既に「情報が足りない状態で」登録されているお気に入りについては力が及ばないが、「スレッドの更新」
+		　を行ったり、あるいは最悪でも「いったん登録解除→再びお気に入りに追加」すれば大丈夫。
+	* application/source/browser/CMRFavoritesManager.m
 	* application/source/manager/CMRTrashbox.m
 	* application/source/browser/CMRThreadsList-Remove.m
 	* application/source/thread/CMRThreadViewer-Action.m
@@ -14,6 +23,8 @@
 	* application/source/browser/Browser.m
 		なぜかスレッド一覧の検索で、絞り込まれた状態を検索語句を空にすることで解除しようとしても一覧が絞り込み解除
 		されなくなっていたのを修正している途中。ついでにこのへんのソースを簡略化。
+		- 副作用的な仕様変更：検索フィールドに語句が残ったまま他の板に一覧を切り替えると、検索フィールドは空になる
+		　ようになった。
 2006-08-04 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/w2chFavoriteItemList.m
 	* application/source/browser/CMRThreadsList-Remove.m

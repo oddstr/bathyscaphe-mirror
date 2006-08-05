@@ -1,5 +1,5 @@
 /**
-  * $Id: w2chFavoriteItemList.m,v 1.9.4.1 2006/08/04 14:04:01 tsawada2 Exp $
+  * $Id: w2chFavoriteItemList.m,v 1.9.4.2 2006/08/05 13:55:27 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -180,7 +180,6 @@
 		notification,
 		[CMRFavoritesManager defaultManager]);
 		
-	//NSLog(@"Favorites Added...");
 	[self startLoadingThreadsList : [self worker]];
 }
 - (void) favoritesManagerDidRemoveFavorites : (NSNotification *) notification
@@ -198,8 +197,7 @@
 		objectForKey : kAppFavoritesManagerInfoFilesKey];
 	UTILAssertNotNil(filepath_);
 
-	//Is it OK? Hmm... (05-03-05 tsawada2)
-	NSLog(@"w2chFavoriteItemList received CMRFavoritesManagerDidRemoveFavoritesNotification");
+	//NSLog(@"w2chFavoriteItemList received CMRFavoritesManagerDidRemoveFavoritesNotification");
 	[self startLoadingThreadsList : [self worker]];
 }
 

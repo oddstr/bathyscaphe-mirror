@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFavoritesManager.m,v 1.12.2.3 2006/08/05 10:57:17 tsawada2 Exp $
+  * $Id: CMRFavoritesManager.m,v 1.12.2.4 2006/08/05 13:55:27 tsawada2 Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
@@ -299,14 +299,24 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 - (BOOL) addFavoriteWithFilePath : (NSString *) filepath
 {
-	NSDictionary	*attr_;
+	NSMutableDictionary	*baseAttr_;
+	unsigned			numOfMsgs, lastLoadedNum;
 	
 	if(filepath == nil || NO == [self canCreateFavoriteLinkFromPath : filepath]) return NO;
 	
-	attr_ = [CMRThreadsList attributesForThreadsListWithContentsOfFile : filepath];
-	if (attr_ == nil) return NO;
+	baseAttr_ = [[CMRThreadsList attributesForThreadsListWithContentsOfFile : filepath] mutableCopy];
+	if (baseAttr_ == nil) return NO;
+
+	// baseAttr_ には「サーバー上のレス数」が含まれていないので、強引に（！）ThreadsList.plist から探し出してくる
+	numOfMsgs = [self getNumOfMsgsWithFilePath: filepath];
+	lastLoadedNum = [baseAttr_ unsignedIntForKey: CMRThreadLastLoadedNumberKey];
+	if (numOfMsgs == 0) numOfMsgs = lastLoadedNum; // numOfMegs が見つからなかった場合は 0 が返されているので、lastLoadedNum と同じ値にする
+	[baseAttr_ setUnsignedInt: numOfMsgs forKey: CMRThreadNumberOfMessagesKey];
+	// レス数 > 既得数 だったら、ここでステータスも青丸にしておいてあげる必要がある
+	if (numOfMsgs > lastLoadedNum) [baseAttr_ setUnsignedInt: ThreadUpdatedStatus forKey: CMRThreadStatusKey];
+	[baseAttr_ autorelease];
 	
-	return [self addFavoriteWithThread : attr_];
+	return [self addFavoriteWithThread : baseAttr_];
 }
 
 - (BOOL) removeFromFavoritesWithThread : (NSDictionary *) thread
@@ -433,5 +443,31 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	if (filepath == nil) return;
 	
 	[[self changedFavItemsPool] removeObject : filepath];
+}
+
+- (unsigned int) getNumOfMsgsWithFilePath: (NSString *) filepath
+{
+	// ThreadsList.plist があるか
+	NSString		*boardName_ = [[CMRDocumentFileManager defaultManager] boardNameWithLogPath: filepath];
+	NSString		*plistPath_;
+	plistPath_ = [[CMRDocumentFileManager defaultManager] threadsListPathWithBoardName: boardName_];
+
+	if ([[NSFileManager defaultManager] isReadableFileAtPath: plistPath_] ) {
+		// ThreadsList.plist がある
+		NSArray	*threadsList_, *idArray_;
+		int tIndex_ = 0;
+
+		threadsList_ = [NSArray arrayWithContentsOfFile : plistPath_];
+		// valueForKey: is available in Mac OS X 10.3 and later.
+		idArray_ = [threadsList_ valueForKey : ThreadPlistIdentifierKey];
+		tIndex_ = [idArray_ indexOfObject : [[filepath stringByDeletingPathExtension] lastPathComponent]];
+
+		if (tIndex_ != NSNotFound) {
+			unsigned	numOfMsgs_ = [[threadsList_ objectAtIndex : tIndex_] unsignedIntForKey : CMRThreadNumberOfMessagesKey];
+			return numOfMsgs_;
+		}
+	}
+	
+	return 0;
 }
 @end

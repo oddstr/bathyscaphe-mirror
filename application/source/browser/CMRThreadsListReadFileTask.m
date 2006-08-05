@@ -139,11 +139,11 @@
 	
 	bName_ = [self boardName];
 
-	if ([bName_ isEqualToString : CMXFavoritesDirectoryName]) {
-		list_ = [[CMRFavoritesManager defaultManager] favoritesItemsArray];
-	} else {
+	//if ([bName_ isEqualToString : CMXFavoritesDirectoryName]) {
+	//	list_ = [[CMRFavoritesManager defaultManager] favoritesItemsArray];
+	//} else {
 		list_ = [NSArray arrayWithContentsOfFile : [self threadsListPath]];
-	}
+	//}
 	
 	if(nil == list_) {
 		SGFileRef			*folder;
