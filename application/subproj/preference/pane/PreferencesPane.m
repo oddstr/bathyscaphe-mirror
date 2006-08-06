@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesPane.m,v 1.3.4.1 2006/08/03 15:06:32 tsawada2 Exp $
+  * $Id: PreferencesPane.m,v 1.3.4.2 2006/08/06 20:39:12 tsawada2 Exp $
   * 
   * PreferencesPane.m
   *
@@ -25,6 +25,7 @@ DefineConstStr(PPAccountSettingsIdentifier, @"AccountSettings");
 DefineConstStr(PPFontsAndColorsIdentifier, @"FontsAndColors");
 DefineConstStr(PPReplyDefaultIdentifier, @"ReplyDefaults");
 DefineConstStr(PPSoundsPreferencesIdentifier, @"Sounds");
+DefineConstStr(PPSyncPreferencesIdentifier, @"Sync");
 
 
 @implementation PreferencesPane
@@ -37,6 +38,10 @@ DefineConstStr(PPSoundsPreferencesIdentifier, @"Sounds");
 		// For use in GeneralPref
 		id transformer = [[[BSTagValueTransformer alloc] init] autorelease];
 		[NSValueTransformer setValueTransformer: transformer forName: @"BSTagValueTransformer"];
+
+		// For use in SyncPane
+		id transformer2 = [[[BSURLStringTransformer alloc] init] autorelease];
+		[NSValueTransformer setValueTransformer: transformer2 forName: @"BSURLStringTransformer"];
 	}
 	return self;
 }

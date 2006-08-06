@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.34 2006/06/11 23:47:26 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.34.2.1 2006/08/06 20:39:12 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -21,6 +21,12 @@
  */
 #define CMRPref		[AppDefaults sharedInstance]
 
+typedef enum _BSAutoSyncIntervalType {
+	BSAutoSyncByWeek	= 1,
+	BSAutoSyncBy2weeks	= 2,
+	BSAutoSyncByMonth	= 3,
+	BSAutoSyncWhereAddBrd = 11,
+} BSAutoSyncIntervalType;
 
 
 /*** Preference's Value Proxy ***/
@@ -48,6 +54,7 @@
 	NSMutableDictionary		*_dictAppearance;
 	NSMutableDictionary		*_dictFilter;
 	NSMutableDictionary		*m_soundsDictionary;
+	NSMutableDictionary		*m_boardWarriorDictionary;
 	
 	NSMutableDictionary		*_proxyCache;
 	
@@ -495,6 +502,26 @@
 
 - (void) _loadSoundsSettings;
 - (BOOL) _saveSoundsSettings;
+@end
+
+/* MeteorSweeper Additions */
+@interface AppDefaults(BoardWarriorSupport)
+- (void) letBoardWarriorStartSyncing: (id) sender;
+
+- (NSURL *) BBSMenuURL;
+- (void) setBBSMenuURL: (NSURL *) anURL;
+
+- (BOOL) autoSyncBoardList;
+- (void) setAutoSyncBoardList: (BOOL) autoSync;
+
+- (BSAutoSyncIntervalType) autoSyncIntervalTag;
+- (void) setAutoSyncIntervalTag: (BSAutoSyncIntervalType) aType;
+
+- (NSDate *) lastSyncDate;
+- (void) setLastSyncDate: (NSDate *) finishedDate;
+
+- (void) _loadBWSettings;
+- (BOOL) _saveBWSettings;
 @end
 
 #pragma mark Constants

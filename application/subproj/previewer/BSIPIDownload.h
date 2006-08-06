@@ -8,8 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class TemporaryFolder;
-
 @interface BSIPIDownload : NSObject {
 	NSURL			*m_URLIdentifier;
 	NSURLDownload	*m_download;

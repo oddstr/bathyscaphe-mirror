@@ -1,4 +1,39 @@
 {
-    IBClasses = ({CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }); 
+    IBClasses = (
+        {
+            ACTIONS = {"" = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {openHelp = id; }; 
+            CLASS = PreferencesController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"_contentView" = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {selectController = id; }; 
+            CLASS = PreferencesPane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"_contentView" = NSView; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {comboBoxDidEndEditing = id; startSync = id; }; 
+            CLASS = SyncPaneController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "m_comboBox" = NSComboBox; 
+                "m_startBtn" = NSButton; 
+                "m_statusBar" = NSProgressIndicator; 
+                "m_statusField" = NSTextField; 
+                "m_statusIconView" = NSImageView; 
+                "m_statusTitle" = NSTextField; 
+            }; 
+            SUPERCLASS = PreferencesController; 
+        }
+    ); 
     IBVersion = 1; 
 }

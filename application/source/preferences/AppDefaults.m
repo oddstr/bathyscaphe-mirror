@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.14 2006/06/11 23:47:26 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.14.2.1 2006/08/06 20:39:12 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -97,6 +97,7 @@ static id _singletonAppDefaultsLock;
 	[_dictAppearance release];
 	[_proxyCache release];
 	[m_soundsDictionary release];
+	[m_boardWarriorDictionary release];
 	
 	[super dealloc];
 }
@@ -121,6 +122,7 @@ static id _singletonAppDefaultsLock;
 	[self _loadImagePreviewerSettings];
 	[self loadAccountSettings];
 	[self _loadSoundsSettings];
+	[self _loadBWSettings];
 	
 	return YES;
 }
@@ -139,6 +141,7 @@ NS_DURING
 	[self _saveImagePreviewerSettings];
 	[self _saveFilter];
 	[self _saveSoundsSettings];
+	[self _saveBWSettings];
 
 	syncResult = [[self defaults] synchronize];
 	

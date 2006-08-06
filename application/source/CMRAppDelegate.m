@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.24 2006/07/26 16:28:25 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.24.2.1 2006/08/06 20:39:12 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -130,13 +130,18 @@
 
 - (IBAction) runBoardWarrior: (id) sender
 {
-	NSBundle* mainBundle;
+/*	NSBundle* mainBundle;
     NSString* fileName;
 
     mainBundle = [NSBundle mainBundle];
     fileName = [mainBundle pathForResource:@"BWAgent" ofType:@"app"];
 	
-    [[NSWorkspace sharedWorkspace] launchApplication:fileName];
+    [[NSWorkspace sharedWorkspace] launchApplication:fileName];*/
+	[self showPreferencesPane: sender];
+	
+	id syncPaneController_ = [[CMRPref sharedPreferencesPane] controllerWithIdentifier: @"Sync"];
+	[[[[CMRPref sharedPreferencesPane] window] toolbar] setSelectedItemIdentifier: @"Sync"];
+	[[CMRPref sharedPreferencesPane] setContentViewWithController: syncPaneController_];
 }
 
 #pragma mark validation

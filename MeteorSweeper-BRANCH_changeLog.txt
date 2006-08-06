@@ -1,3 +1,44 @@
+2006-08-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/CMRAppDelegate.m
+		暫定的に、「掲示板」＞「掲示板リストの同期...」を選ぶと「環境設定」＞「同期」ペインを表示する
+		ようにした（今後ふるまいは変わるかもしれない）。
+	* application/subproj/preference/rsrc/syncFail.tiff
+	* application/subproj/preference/rsrc/syncFinish.tiff
+		[新規追加]「環境設定」>「同期」ペインで使用する画像。
+	* application/subproj/preference/general/BSTagValueTransformer.m
+		「同期」ペインで使おうと思って NSURL <--> NSString 変換の valueTransformer を書いた（が、
+		諸事情により使わないことになった）。ソースが少ないので BSTagValueTransformer.(h|m) に
+		居候して書いてある。
+	* application/subproj/preference/Japanese.lproj/SyncPane.nib
+	* application/subproj/preference/Japanese.lproj/Localizable.strings
+	* application/subproj/preference/rsrc/Sync.tiff
+	* application/subproj/preference/SyncPaneController.m
+	* application/subproj/preference/pane/PreferencesPane-PCManagement.m
+	* application/subproj/preference/pane/PreferencesPane-Toolbar.m
+	* application/subproj/preference/pane/PreferencesPane.m
+	* application/subproj/preference/PreferencePanes_Prefix.h
+		環境設定に「同期」ペインを追加した。BWAgent の機能（のフロントエンド）はここに統合された。
+		- 注意：「自動的に同期」関連の項目は、設定はできるが実際には機能がインプリメントされていないので、
+		　今のところ意味がない。
+		また、環境設定パネルのツールバー項目の並び順を変更した。
+	* application/source/preferences/AppDefaults-Bundle.m
+	* application/source/preferences/AppDefaults.h
+		掲示板リストの同期に関連する環境設定項目群を追加。
+		- 注意：BWAgent.app の設定は引き継がれない。
+	* application/Resources/na-na.scpt
+	* application/Resources/himeko.scpt
+		[新規追加] BoardWarrior クラスが使用する AppleScript（コンパイル済み）。
+		- sora.pl や rosetta.pl を走らせるのに、NSTask を使えば良さそうなのだがどうもうまく使えない。
+		仕方ないので、すでに実績のある BWAgent.app の AppleScript ソースの一部を再利用して、
+		これを NSAppleScript を使って走らせるようにした（AppleScript の中で、do shell script 命令を
+		使用して perl スクリプトを走らせている訳だ）。この程度の作業ならパフォーマンスも気にならないし、いいだろう。
+	* application/source/bbs/BoardWarrior.m
+		[新規追加] BoardWarrior クラスの共有インスタンスが、BWAgent.app の後継となる。
+		短期間で安定した動作を得るため、極力 BWAgent.app 時代と「流れ」は変わらないように作った。つまり、
+		BoardWarrior クラスは board_default.plist を作成し、board.plist を書き換えるだけである。
+		それらの観察、反映等は今までどおり BoardList/CMRFileManager 等が行っている。
+		また、BWAgent.app 内に含まれていた sora.pl/rosetta.pl/SJIS2UTF8 もそのまま流用した。
+		- 注意：まだ自動的に同期するための機能を書いていない。
 2006-08-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/composer/CMXTextParser.m
 	* application/source/composer/CMRAttributedMessageComposer.m

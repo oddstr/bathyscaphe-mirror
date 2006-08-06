@@ -56,3 +56,40 @@
     return [NSNumber numberWithInt: returnValue];
 }
 @end
+
+@implementation BSURLStringTransformer
++ (Class) transformedValueClass
+{
+    return [NSString class];
+}
+ 
++ (BOOL) allowsReverseTransformation
+{
+    return YES;
+}
+ 
+- (id) transformedValue: (id) beforeObject
+{
+	NSString	*tmp;
+	if (beforeObject != nil) {
+		if ([beforeObject respondsToSelector: @selector(absoluteString)]) {
+			tmp = [beforeObject absoluteString];
+		} else {
+			[NSException raise: NSInternalInconsistencyException
+						format: @"Value (%@) does not respond to -absoluteString.", [beforeObject class]];
+		}
+	}
+
+	return [tmp autorelease];
+}
+
+- (id) reverseTransformedValue: (id) value;
+{
+    if (value == nil) {
+		return nil;
+	}
+
+    return [NSURL URLWithString: value];
+}
+@end
+

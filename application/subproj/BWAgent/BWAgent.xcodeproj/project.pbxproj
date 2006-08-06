@@ -45,7 +45,7 @@
 		87421B4A0653FDE60078F237 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		8752DA1D06BD31C8006AF500 /* warrior.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = warrior.icns; sourceTree = "<group>"; };
 		876A9C3108E3D68A00902FF2 /* Info-BWAgent.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-BWAgent.plist"; sourceTree = "<group>"; };
-		876A9C3208E3D68A00902FF2 /* BWAgent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BWAgent.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		876A9C3208E3D68A00902FF2 /* BWAgent.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BWAgent.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		877534C00653B22F00B81444 /* SJIS2UTF8 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = SJIS2UTF8; sourceTree = "<group>"; };
 		87CA02B306660CC900FC76B4 /* rosetta.pl */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = text.script.perl; path = rosetta.pl; sourceTree = "<group>"; };
 		87CA02B406660CC900FC76B4 /* sora.pl */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = text.script.perl; path = sora.pl; sourceTree = "<group>"; };

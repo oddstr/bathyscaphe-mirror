@@ -10,12 +10,22 @@
 #import "PreferencesController.h"
 
 @interface SyncPaneController : PreferencesController {
-	IBOutlet	*NSButton	_startBtn;
-	IBOutlet	*NSTextField	*_statusField;
-	IBOutlet	*NSProgressIndicator	*_statusBar;
+	IBOutlet NSButton				*m_startBtn;
+	IBOutlet NSTextField			*m_statusField;
+	IBOutlet NSProgressIndicator	*m_statusBar;
+	IBOutlet NSTextField			*m_statusTitle;
+	IBOutlet NSComboBox				*m_comboBox;
+	IBOutlet NSImageView			*m_statusIconView;
 }
 
 - (NSButton *) startBtn;
 - (NSTextField *) statusField;
 - (NSProgressIndicator *) statusBar;
+- (NSTextField *) statusTitle;
+- (NSComboBox *) comboBox;
+- (NSImageView *) statusIconView;
+
+- (IBAction) startSync: (id) sender;
+
+- (IBAction) comboBoxDidEndEditing: (id) sender;
 @end

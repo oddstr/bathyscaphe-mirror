@@ -14,3 +14,9 @@
 }
 
 @end
+
+@interface BSURLStringTransformer : NSValueTransformer {
+
+}
+
+@end
