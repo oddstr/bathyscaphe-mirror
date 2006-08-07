@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.h,v 1.13 2006/06/11 23:47:26 tsawada2 Exp $
+ * $Id: CMRAppDelegate.h,v 1.13.2.1 2006/08/07 10:40:42 tsawada2 Exp $
  * 
  * CMRAppDelegate.h
  *
@@ -18,7 +18,13 @@
  */
 @interface CMRAppDelegate : NSObject
 {
+	@private
+	BOOL	m_shouldCascadeBrowserWindow;
 }
+
+- (BOOL) shouldCascadeBrowserWindow;
+- (void) setShouldCascadeBrowserWindow: (BOOL) flag;
+
 - (IBAction) showPreferencesPane : (id) sender;
 - (IBAction) showStandardFindPanel : (id) sender;
 - (IBAction) toggleOnlineMode : (id) sender;
@@ -36,7 +42,7 @@
 - (IBAction) closeAll : (id) sender;
 - (IBAction) miniaturizeAll : (id) sender;
 
-//- (IBAction) togglePreviewPanel : (id) sender;
+- (IBAction) togglePreviewPanel : (id) sender;
 - (IBAction) runBoardWarrior: (id) sender;
 @end
 

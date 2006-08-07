@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.47.2.2 2006/08/04 19:35:09 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.47.2.3 2006/08/07 10:40:42 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -479,7 +479,6 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 	[self setCurrentSearchString: nil];
 	
 	// 検索結果の表示@タイトルバーを解除
-	//_filterResultMessage = nil;
 	[self synchronizeWindowTitleWithDocumentName];
 }
 - (void) synchronizeWithSearchField
@@ -493,7 +492,6 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 	result = [[self document] searchThreadsInListWithString : aString];
 
 	if (nil == aString ||[aString isEqualToString: @""]) {
-		//NSLog(@"Hoge");
 		[self clearSearchFilter];
 	} else {
 		[self showSearchResultAppInfoWithFound : result];

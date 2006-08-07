@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.30.2.1 2006/08/03 15:06:32 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.30.2.2 2006/08/07 10:40:42 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -47,7 +47,7 @@ NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEnd
 		}
 		
 		[self registerToNotificationCenter];
-		[self setShouldCascadeWindows : [[self class] defaultSettingForCascading]];
+		[self setShouldCascadeWindows: NO];
 	}
 	return self;
 }
@@ -69,11 +69,6 @@ NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEnd
 - (NSString *) windowNibName
 {
 	return @"CMRThreadViewer";
-}
-
-+ (BOOL) defaultSettingForCascading
-{
-	return NO;
 }
 
 - (NSString *) titleForTitleBar

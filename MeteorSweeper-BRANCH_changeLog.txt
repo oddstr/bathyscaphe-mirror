@@ -1,4 +1,25 @@
 2006-08-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser.m
+	* application/source/thread/CMRThreadViewer.m
+	* application/source/manager/CMRDocumentController.m
+	* application/source/CMRAppDelegate.m
+		ブラウザウインドウのカスケード処理方法を見直した。
+		- カスケードしてほしいときと、してほしくないとき…この切り替えが予想以上に難しい。
+		- 今まで CMRDocumentController を中心に処理していたが、CMRAppDelegate 中心に変更。
+		また、CMRMainBrowser インスタンスが指しているブラウザウインドウを閉じた（dealloc した）ときは、
+		今までは無条件に CMRMainBrowser を nil にしていたが、他にブラウザウインドウが開いていればそちらを
+		新しい CMRMainBrowser の指し示すモノにするようにした。
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		「スレッド」＞「印を付ける」＞「フラグ付き」を command-shift-L から command-shift-E に変更。
+		- サービスメニューとアプリケーションのショートカットが衝突した場合は、アプリケーションのショートカットが
+		　優先される。サービスメニュー側でぶつからないよう慎重にショートカット選べや！と突っぱねたい気もするが、
+		　件の「サービス」＞「Google 検索」は Apple 提供のものであるため、事実上システム標準のショートカットと
+		　同格と見なさざるを得ない。そういうわけでサービスメニュー側にこのショートカットを渋々譲ることとした。
+		- Mail.app の「フラグ付き」と合わせる形で Cmd-shift-L にしていたが、無念。
+		- 新しい Cmd-shift-E は、「Emphasis」の頭文字と覚えよう。
+		あと、書き忘れていたが「掲示板」＞「Web ブラウザで開く」を「掲示板を Web ブラウザで開く」に変更した。
+		- 「掲示板」メニューにあるのだからわざわざ「掲示板を」と付けなくてもいいのだが、かねてより
+		　「スレッド」＞「Web ブラウザで開く」と表記が同じために問題を起こす場合があったので、思い切って変更した。
 	* application/source/CMRAppDelegate.m
 		暫定的に、「掲示板」＞「掲示板リストの同期...」を選ぶと「環境設定」＞「同期」ペインを表示する
 		ようにした（今後ふるまいは変わるかもしれない）。

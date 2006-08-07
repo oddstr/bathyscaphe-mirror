@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.15.2.1 2006/08/03 15:06:32 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.15.2.2 2006/08/07 10:40:42 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright (c) 2003, Takanori Ishikawa.
@@ -42,8 +42,6 @@
 		unsigned int reserved   :31;
 	} _flags;
 }
-
-+ (BOOL) defaultSettingForCascading;
 
 /* Register history list if relativeIndex == 0 */
 - (void) setThreadContentWithThreadIdentifier : (id  ) aThreadIdentifier

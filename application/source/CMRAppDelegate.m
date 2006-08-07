@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.24.2.1 2006/08/06 20:39:12 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.24.2.2 2006/08/07 10:40:42 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -21,7 +21,19 @@
 @implementation CMRAppDelegate
 - (void) awakeFromNib
 {
+	m_shouldCascadeBrowserWindow = YES;
     [self setupMenu];
+}
+
+
+- (BOOL) shouldCascadeBrowserWindow
+{
+	return m_shouldCascadeBrowserWindow;
+}
+
+- (void) setShouldCascadeBrowserWindow: (BOOL) flag
+{
+	m_shouldCascadeBrowserWindow = flag;
 }
 
 #pragma mark IBAction
@@ -130,13 +142,6 @@
 
 - (IBAction) runBoardWarrior: (id) sender
 {
-/*	NSBundle* mainBundle;
-    NSString* fileName;
-
-    mainBundle = [NSBundle mainBundle];
-    fileName = [mainBundle pathForResource:@"BWAgent" ofType:@"app"];
-	
-    [[NSWorkspace sharedWorkspace] launchApplication:fileName];*/
 	[self showPreferencesPane: sender];
 	
 	id syncPaneController_ = [[CMRPref sharedPreferencesPane] controllerWithIdentifier: @"Sync"];
@@ -244,6 +249,14 @@
     {
             [[tmp fileMenu] removeItemAtIndex : openURLMenuItemIndex+1];
     }
+}
+
+- (BOOL) applicationShouldHandleReopen: (NSApplication *) theApplication hasVisibleWindows: (BOOL) flag
+{
+	if (NO == flag) {
+		m_shouldCascadeBrowserWindow = NO;
+	}
+	return YES;
 }
 @end
 

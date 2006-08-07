@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.26.2.2 2006/08/04 19:35:09 tsawada2 Exp $
+  * $Id: CMRBrowser.m,v 1.26.2.3 2006/08/07 10:40:42 tsawada2 Exp $
   * 
   * CMRBrowser.m
   *
@@ -9,6 +9,7 @@
 #import "CMRBrowser_p.h"
 #import "BSBoardInfoInspector.h"
 #import "CMRDocumentController.h";
+#import "CMRAppDelegate.h"
 
 NSString *const CMRBrowserDidChangeBoardNotification = @"CMRBrowserDidChangeBoardNotification";
 NSString *const CMRBrowserThListUpdateDelegateTaskDidFinishNotification = @"CMRBrThListUpdateDelgTaskDidFinishNotification";
@@ -23,12 +24,13 @@ CMRBrowser *CMRMainBrowser = nil;
 - (id) init
 {
 	if (self = [super init]) {
-		/*if(shouldCascadeBrowser) {
+		if([(CMRAppDelegate *)[NSApp delegate] shouldCascadeBrowserWindow]) {
 			[self setShouldCascadeWindows : YES];
-			shouldCascadeBrowser = NO;
 		} else {
 			[self setShouldCascadeWindows : NO];
-		}*/
+			[(CMRAppDelegate *)[NSApp delegate] setShouldCascadeBrowserWindow: YES];
+		}
+
 		if (CMRMainBrowser == nil)
 			CMRMainBrowser = self;
 	}
@@ -40,21 +42,10 @@ CMRBrowser *CMRMainBrowser = nil;
 	return @"Browser";
 }
 
-+ (BOOL) defaultSettingForCascading
-{
-	if ([CMRDocumentController shouldCascadeBrowserWindow]) {
-		//[CMRDocumentController setShouldCascadeBrowserWindow: NO];
-		return YES;
-	} else {
-		return NO;
-	}
-}
-
 - (NSString *) windowTitleForDocumentDisplayName : (NSString *) displayName
 {
 	NSString		*threadTitle_ = [[[self currentThreadsList] objectValueForBoardInfo] stringValue];
 
-	//if (_filterResultMessage != nil) {
 	if ([self currentSearchString]) {
 		/* 2005-09-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 		   検索結果を表示している間は、それを優先し、ウインドウタイトルの変更を抑制する。*/
@@ -67,16 +58,46 @@ CMRBrowser *CMRMainBrowser = nil;
 	return [NSString stringWithFormat:@"%@ (%@)", displayName, threadTitle_];
 }
 
+- (void) exchangeOrDisposeMainBrowser
+{
+	NSArray *curWindows = [NSApp orderedWindows];
+	if (!curWindows || [curWindows count] == 0) {
+		CMRMainBrowser = nil;
+		return;
+	}
+
+	NSEnumerator *iter_ = [curWindows objectEnumerator];
+	NSWindow *eachItem;
+	
+	while ((eachItem = [iter_ nextObject]) != nil) {
+		NSWindowController *winController = [eachItem windowController];
+
+		if (winController == self) {
+			continue;
+		}
+
+		if ([winController isKindOfClass: [self class]]) {
+			CMRMainBrowser = (CMRBrowser *)winController;
+			break;
+		}
+	}
+	
+	if (CMRMainBrowser == self) {
+		CMRMainBrowser = nil;
+		[(CMRAppDelegate *)[NSApp delegate] setShouldCascadeBrowserWindow: NO];
+	}
+}
+
 - (void) dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver : self];
 
 	// dispose main browser...
-	if (CMRMainBrowser == self)
-		CMRMainBrowser = nil;
-	
+	if (CMRMainBrowser == self) {
+		[self exchangeOrDisposeMainBrowser];
+	}
+
 	[_filterString release];
-	//[_filterResultMessage release];
 
 	[m_listSorterSheetController release];
 	[m_addBoardSheetController release];
