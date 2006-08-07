@@ -80,6 +80,8 @@
 
 - (IBAction) startSync: (id) sender
 {
+	[[self window] endEditingFor: nil];
+
 	[[self statusTitle] setStringValue: PPLocalizedString(@"sync status")];
 	[[self statusField] setStringValue: PPLocalizedString(@"downloading")];
 
@@ -91,10 +93,14 @@
 - (IBAction) comboBoxDidEndEditing: (id) sender
 {
 	NSString *typedText = [sender stringValue];
+	NSString *currentURLStr = [[[self preferences] BBSMenuURL] absoluteString];
+
 	if (!typedText || [typedText isEqualToString: @""]) {
-		[sender setStringValue: [[[self preferences] BBSMenuURL] absoluteString]];
+		[sender setStringValue: currentURLStr];
 		return;
 	}
+	
+	if ([typedText isEqualToString: currentURLStr]) return;
 	
 	[[self preferences] setBBSMenuURL: [NSURL URLWithString: typedText]]; 
 }

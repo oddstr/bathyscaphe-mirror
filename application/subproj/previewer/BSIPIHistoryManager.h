@@ -37,6 +37,9 @@
 
 - (void) openCachedFileForURLWithPreviewApp: (NSURL *) anURL;
 - (void) copyCachedFileForURL: (NSURL *) anURL intoFolder: (NSString *) folderPath;
+- (BOOL) copyCachedFileForPath: (NSString *) cacheFilePath toPath: (NSString *) copiedFilePath;
+
+- (void) saveCachedFileForURL: (NSURL *) anURL savePanelAttachToWindow: (NSWindow *) aWindow;
 
 - (BOOL) appendDataForURL: (NSURL *) source toPasteboard: (NSPasteboard *) pboard withFilenamesPboardType: (BOOL) filenamesType;
 @end

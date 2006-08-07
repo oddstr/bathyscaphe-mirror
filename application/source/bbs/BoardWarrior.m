@@ -102,7 +102,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 	[CMRPref setLastSyncDate: [NSDate date]];
 	m_isInProgress = NO;
 
-	UTILNotifyName(BoardWarriorDidFinishAllTaskNotification);	
+	UTILNotifyName(BoardWarriorDidFinishAllTaskNotification);
+	[[CMRFileManager defaultManager] updateWatchedFiles]; // This is CMRFileManager's private method. 
 }
 
 #pragma mark BSIPIDownload Delegate
@@ -135,7 +136,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 	[aDownload release];
 	m_isInProgress = NO;
 
-	NSDictionary *info_ = [NSDictionary dictionaryWithObject: @"Some error occurred when downloading BBSMenu." forKey: kBWInfoErrorStringKey];
+	NSDictionary *info_ = [NSDictionary dictionaryWithObject: @"Some error occurred while downloading BBSMenu." forKey: kBWInfoErrorStringKey];
 	UTILNotifyInfo(BoardWarriorDidFailDownloadNotification, info_);
 }
 
@@ -221,7 +222,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 	}
 
 	if ([scriptResult descriptorType]) {
-        NSLog(@"script %@.scpt executed sucessfully.", scriptName);
+        NSLog(@"script %@.scpt executed successfully.", scriptName);
         /*if (kAENullEvent!=[scriptResult descriptorType]) {
 			NSLog(@"%@",[scriptResult stringValue]);
         } else {

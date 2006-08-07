@@ -1,5 +1,5 @@
 /*
- * $Id: BSImagePreviewInspector-Tb.m,v 1.11.2.2 2006/08/01 01:11:56 tsawada2 Exp $
+ * $Id: BSImagePreviewInspector-Tb.m,v 1.11.2.3 2006/08/07 19:19:24 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -136,7 +136,7 @@ static NSImage *_imageForDefaultBrowser()
 		
 		[toolbarItem setTarget: self];
 		[toolbarItem setAction: @selector(cancelDownload:)];
-	
+
 	} else if ([itemIdent isEqual: kIPITbPreviewBtnId]) {
 		NSString *previewPath = [[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier : @"com.apple.Preview"];
         toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdent] autorelease];
@@ -174,6 +174,8 @@ static NSImage *_imageForDefaultBrowser()
     } else if([itemIdent isEqual: kIPITbActionBtnId]) {
 		NSSize	size_;
 		NSView	*tmp_;
+		NSMenuItem	*attachMenuItem_;
+		NSMenu		*attachMenu_;
         toolbarItem = [[[BSIPIActionBtnTbItem alloc] initWithItemIdentifier: itemIdent] autorelease];
 
 		[toolbarItem setLabel: [self localizedStrForKey : @"Actions"]];
@@ -181,7 +183,15 @@ static NSImage *_imageForDefaultBrowser()
 		[toolbarItem setToolTip: [self localizedStrForKey : @"ActionsTip"]];
 
 		tmp_ = [[self actionBtn] retain]; // 2006-02-24 added
+		
+		attachMenuItem_ = [[[NSMenuItem alloc] initWithTitle: [self localizedStrForKey : @"Actions"] action: NULL keyEquivalent: @""] autorelease];
+		[attachMenuItem_ setImage : [self imageResourceWithName: @"Gear"]];
+		attachMenu_ = [[[self actionBtn] menu] copy];
+		[attachMenu_ removeItemAtIndex: 0];
+		[attachMenuItem_ setSubmenu: [attachMenu_ autorelease]];
+
 		[toolbarItem setView: tmp_];
+		[toolbarItem setMenuFormRepresentation: attachMenuItem_];
 		size_ = [tmp_ bounds].size;
 		[toolbarItem setMinSize: size_];
 		[toolbarItem setMaxSize: size_];
@@ -192,6 +202,7 @@ static NSImage *_imageForDefaultBrowser()
     } else if ([itemIdent isEqual: kIPITbNaviBtnId]) {
 		NSSize	size_;
 		NSView	*tmp_;
+		NSMenuItem	*attachMenuItem_;
 		toolbarItem = [[[BSIPISegmentedControlTbItem alloc] initWithItemIdentifier: itemIdent] autorelease];
 		
 		[toolbarItem setLabel: [self localizedStrForKey: @"History"]];
@@ -199,7 +210,15 @@ static NSImage *_imageForDefaultBrowser()
 		[toolbarItem setToolTip: [self localizedStrForKey: @"HistoryTip"]];
 		
 		tmp_ = [[self cacheNavigationControl] retain];
+		
+		attachMenuItem_ = [[[NSMenuItem alloc] initWithTitle: [self localizedStrForKey: @"HistoryTextOnly"]
+													  action: NULL
+											   keyEquivalent: @""] autorelease];
+		[attachMenuItem_ setImage: [self imageResourceWithName: @"HistoryFolder"]];
+		[attachMenuItem_ setSubmenu: [self cacheNaviMenuFormRep]];
+		
 		[toolbarItem setView: tmp_];
+		[toolbarItem setMenuFormRepresentation: attachMenuItem_];
 		size_ = [tmp_ bounds].size;
 		[toolbarItem setMinSize: size_];
 		[toolbarItem setMaxSize: size_];
@@ -208,6 +227,7 @@ static NSImage *_imageForDefaultBrowser()
     } else if ([itemIdent isEqual: kIPITbPaneBtnId]) {
 		NSSize	size_;
 		NSView	*tmp_;
+		NSMenuItem	*attachMenuItem_;
 		toolbarItem = [[[BSIPISegmentedControlTbItem alloc] initWithItemIdentifier: itemIdent] autorelease];
 		
 		[toolbarItem setLabel: [self localizedStrForKey: @"Panes"]];
@@ -215,7 +235,14 @@ static NSImage *_imageForDefaultBrowser()
 		[toolbarItem setToolTip: [self localizedStrForKey: @"PanesTip"]];
 		
 		tmp_ = [[self paneChangeBtn] retain];
+		attachMenuItem_ = [[[NSMenuItem alloc] initWithTitle: [self localizedStrForKey : @"PanesTextOnly"]
+													  action: @selector(changePane:)
+											   keyEquivalent: @""] autorelease];
+		[attachMenuItem_ setTarget: self];
+		[attachMenuItem_ setImage : [self imageResourceWithName: @"imageView"]];
+											   
 		[toolbarItem setView: tmp_];
+		[toolbarItem setMenuFormRepresentation: attachMenuItem_];
 		size_ = [tmp_ bounds].size;
 		[toolbarItem setMinSize: size_];
 		[toolbarItem setMaxSize: size_];
@@ -294,6 +321,10 @@ static NSImage *_imageForDefaultBrowser()
 			[menuItem setAction: @selector(saveImage:)];
 			return ([self sourceURL] != nil);
 		}
+	} else if (tag_ == 571) {
+		return ([[BSIPIHistoryManager sharedManager] cachedPrevFilePathForURL: [self sourceURL]] != nil);
+	} else if (tag_ == 572) {
+		return ([[BSIPIHistoryManager sharedManager] cachedNextFilePathForURL: [self sourceURL]] != nil);
 	}
 	return YES;
 }

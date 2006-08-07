@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIHistoryManager.m,v 1.4.2.1 2006/07/31 12:43:13 tsawada2 Exp $
+//  $Id: BSIPIHistoryManager.m,v 1.4.2.2 2006/08/07 19:19:24 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/12.
@@ -120,7 +120,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 
 - (void) copyCachedFileForURL: (NSURL *) anURL intoFolder: (NSString *) folderPath
 {
-	NSFileManager	*fm_ = [NSFileManager defaultManager];
+	/*NSFileManager	*fm_ = [NSFileManager defaultManager];
 	NSString		*fPath_ = [self cachedFilePathForURL: anURL];
 	NSString		*dest_ = [folderPath stringByAppendingPathComponent : [fPath_ lastPathComponent]];
 
@@ -129,8 +129,59 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 	} else {
 		NSBeep();
 		NSLog(@"Could not save the file %@ because same file already exists.", [fPath_ lastPathComponent]);
+	}*/
+	NSString	*fPath_ = [self cachedFilePathForURL: anURL];
+	NSString	*dest_ = [folderPath stringByAppendingPathComponent: [fPath_ lastPathComponent]];
+	[self copyCachedFileForPath: fPath_ toPath: dest_];
+}
+
+//- (void) copyCachedFileForURL: (NSURL *) anURL toPath: (NSString *) filePath
+- (BOOL) copyCachedFileForPath: (NSString *) cacheFilePath toPath: (NSString *) copiedFilePath
+{
+	NSFileManager	*fm_ = [NSFileManager defaultManager];
+	//NSString		*fPath_ = [self cachedFilePathForURL: anURL];
+
+	if (NO == [fm_ copyPath: cacheFilePath toPath: copiedFilePath handler: nil]) {
+		NSBeep();
+		NSLog(@"Could not save file: %@", [cacheFilePath lastPathComponent]);
+		return NO;
+	}
+	return YES;
+}
+
+- (void) saveCachedFileForURL: (NSURL *) anURL savePanelAttachToWindow: (NSWindow *) aWindow
+{
+	NSString	*filePath_ = [self cachedFilePathForURL: anURL];
+	NSString	*extension_ = [filePath_ pathExtension];
+
+	NSSavePanel *sP = [NSSavePanel savePanel];
+	[sP setRequiredFileType: ([extension_ isEqualToString: @""] ? nil : extension_)];
+	[sP setAllowsOtherFileTypes: YES];
+	[sP setCanCreateDirectories: YES];
+	[sP setCanSelectHiddenExtension: YES];
+
+	[sP beginSheetForDirectory : nil
+						  file : [filePath_ lastPathComponent]
+				modalForWindow : aWindow
+				 modalDelegate : self
+				didEndSelector : @selector(savePanelDidEnd:returnCode:contextInfo:)
+				   contextInfo : filePath_];
+}
+
+- (void) savePanelDidEnd : (NSSavePanel *) sheet returnCode : (int) returnCode  contextInfo : (void *) contextInfo
+{
+	if (returnCode == NSOKButton) {
+		NSString *savePath = [sheet filename];
+		if ([self copyCachedFileForPath: (NSString *)contextInfo toPath: savePath]) {
+			NSDictionary *tmpDict;
+			tmpDict = [NSDictionary dictionaryWithObject : [NSNumber numberWithBool : [sheet isExtensionHidden]]
+												  forKey : NSFileExtensionHidden];
+
+			[[NSFileManager defaultManager] changeFileAttributes : tmpDict atPath : savePath];
+		}
 	}
 }
+
 
 - (NSImage *) makeThumbnailWithPath: (NSString *) aPath
 {

@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector-View.m,v 1.3.2.1 2006/07/31 12:43:13 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector-View.m,v 1.3.2.2 2006/08/07 19:19:24 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/07/15.
@@ -67,6 +67,10 @@ static NSString *const kIPIMenuItemForOldBSKey	= @"IPIWindowsMenuItemForOldBS";
 - (NSTextField *) versionInfoField
 {
 	return m_versionInfoField;
+}
+- (NSMenu *) cacheNaviMenuFormRep
+{
+	return m_cacheNaviMenuFormRep;
 }
 
 - (BSIPIDownload *) currentDownload

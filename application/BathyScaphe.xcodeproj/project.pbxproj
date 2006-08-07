@@ -511,6 +511,7 @@
 		8762E8CB0A8635C200062504 /* sora.pl in Resources */ = {isa = PBXBuildFile; fileRef = 8762E8C80A8635C200062504 /* sora.pl */; };
 		8770BF5D087F0095008907C5 /* BSHistoryMenuManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8770BF5B087F0095008907C5 /* BSHistoryMenuManager.h */; };
 		8770BF5E087F0096008907C5 /* BSHistoryMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8770BF5C087F0095008907C5 /* BSHistoryMenuManager.m */; };
+		87749E070A878F120008A679 /* HistoryFolder.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CD5090E970F007FF9C3 /* HistoryFolder.png */; };
 		87751824097818E7009D4A9C /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F36067F8044D4DD500A80005 /* ApplicationServices.framework */; };
 		87751A5A09782B82009D4A9C /* BSIPIFullScreenController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87751A5809782B82009D4A9C /* BSIPIFullScreenController.h */; };
 		87751A5B09782B82009D4A9C /* BSIPIFullScreenController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87751A5909782B82009D4A9C /* BSIPIFullScreenController.m */; };
@@ -3085,6 +3086,7 @@
 				87C398050A6174970095AD06 /* tableView.tiff in Resources */,
 				87C398290A6181590095AD06 /* IPIHistoryBack.tiff in Resources */,
 				87C3982A0A6181590095AD06 /* IPIHistoryForward.tiff in Resources */,
+				87749E070A878F120008A679 /* HistoryFolder.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -25,6 +25,7 @@
 	IBOutlet NSTableColumn			*m_nameColumn;
 	IBOutlet NSPopUpButton			*m_directoryChooser;
 	IBOutlet NSTextField			*m_versionInfoField;
+	IBOutlet NSMenu					*m_cacheNaviMenuFormRep;
 
 	@private
 	NSURL			*_sourceURL;
@@ -42,6 +43,7 @@
 - (IBAction) openImage : (id) sender;
 - (IBAction) openImageWithPreviewApp : (id) sender;
 - (IBAction) saveImage : (id) sender;
+- (IBAction) saveImageAs: (id) sender;
 - (IBAction) copyURL : (id) sender;
 - (IBAction) beginSettingsSheet : (id) sender;
 - (IBAction) endSettingsSheet : (id) sender;
@@ -51,6 +53,9 @@
 - (IBAction) togglePreviewPanel : (id) sender;
 - (IBAction) historyNavigationPushed: (id) sender;
 - (IBAction) changePane: (id) sender;
+
+- (IBAction) showPrevImage: (id) sender;
+- (IBAction) showNextImage: (id) sender;
 
 - (IBAction) forceRunTbCustomizationPalette: (id) sender;
 - (IBAction) deleteCachedImage: (id) sender;
@@ -99,6 +104,7 @@
 - (NSTableColumn *) nameColumn;
 - (NSPopUpButton *) directoryChooser;
 - (NSTextField *) versionInfoField;
+- (NSMenu *) cacheNaviMenuFormRep;
 
 - (BSIPIDownload *) currentDownload;
 - (void) setCurrentDownload : (BSIPIDownload *) aDownload;

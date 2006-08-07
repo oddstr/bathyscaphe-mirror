@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.19.2.1 2006/07/31 12:43:13 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.19.2.2 2006/08/07 19:19:24 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -153,6 +153,13 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 	[[BSIPIHistoryManager sharedManager] copyCachedFileForURL: [self sourceURL] intoFolder: [self saveDirectory]];
 }
 
+- (IBAction) saveImageAs: (id) sender
+{
+	m_shouldRestoreKeyWindow = [[self window] isKeyWindow];
+
+	[[BSIPIHistoryManager sharedManager] saveCachedFileForURL: [self sourceURL] savePanelAttachToWindow: [self window]];
+}
+
 - (IBAction) cancelDownload : (id) sender
 {
 	[self clearAttributes];
@@ -169,7 +176,7 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 	}
 }
 
-- (void) showPrevImage: (id) sender
+- (IBAction) showPrevImage: (id) sender
 {
 	NSString *filePath_;
 	filePath_ = [[BSIPIHistoryManager sharedManager] cachedPrevFilePathForURL: [self sourceURL]];
@@ -187,7 +194,7 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 	}
 }
 
-- (void) showNextImage: (id) sender
+- (IBAction) showNextImage: (id) sender
 {
 	NSString *filePath_;
 	filePath_ = [[BSIPIHistoryManager sharedManager] cachedNextFilePathForURL: [self sourceURL]];
@@ -217,11 +224,21 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 
 - (IBAction) changePane: (id) sender
 {
-	[[self tabView] selectTabViewItemAtIndex: [sender selectedSegment]];
+	if ([sender isKindOfClass: [NSSegmentedControl class]]) {
+		[[self tabView] selectTabViewItemAtIndex: [sender selectedSegment]];
+	} else {
+		int current_ = [[self tabView] indexOfTabViewItem: [[self tabView] selectedTabViewItem]];
+		[[self tabView] selectTabViewItemAtIndex: (current_ == 0) ? 1 : 0];
+		[[self paneChangeBtn] setSelectedSegment: (current_ == 0) ? 1 : 0];
+	}
 }
 
 - (IBAction) changePaneAndShow: (id) sender
 {
+	if (_currentDownload) { // ダウンロード中のリスト・ビューダブルクリックは受け付けない
+		NSBeep();
+		return;
+	}
 	unsigned	modifier_ = [[NSApp currentEvent] modifierFlags];
 	if (modifier_ & NSAlternateKeyMask) {
 		[self startFullscreen: sender];

@@ -1,4 +1,22 @@
+2006-08-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+	* application/subproj/previewer/BSImagePreviewInspector-View.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
+	* application/subproj/previewer/BSIPIHistoryManager.m
+		プレビューインスペクタ（2.0.6→2.1）：
+		- ツールバーを「テキストのみ」表示にしているときや、ツールバーからはみ出しているときでも
+		　「アクション」「表示」「前へ／次へ」各項目が動作するようにした。
+		- 「イメージを別名で保存...」をアクションボタンのメニューとコンテクストメニューに追加した。
+		- ダウンロード処理中にリスト・ビューをダブルクリックした際の問題を修正した。
 2006-08-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/SyncPaneController.m
+		操作方法によっては、新しくコンボボックスに入力された URL ではなく、古い URL のまま
+		掲示板リストの同期が行われてしまっていた問題を修正。
+	* application/source/bbs/BoardWarrior.m
+		掲示板リストの同期を行った後、新しい掲示板リストを読み込みに行かない問題を修正。
+	* application/Resources/Japanese.lproj/Acknowledgments.rtf
+		文言を修正。
 	* application/source/browser/CMRBrowser.m
 	* application/source/thread/CMRThreadViewer.m
 	* application/source/manager/CMRDocumentController.m
