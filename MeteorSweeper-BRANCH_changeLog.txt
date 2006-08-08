@@ -1,3 +1,14 @@
+2006-08-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+	* application/subproj/previewer/BSImagePreviewInspector-View.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
+	* application/subproj/previewer/BSIPIFoundationExtensions.m
+		プレビューインスペクタ（2.1→2.1.1）：
+		- デフォルトで表示するビュー（イメージ・ビュー／リスト・ビュー／前回最後に表示していたビュー）を
+		　環境設定で選択できるようにした。
+		- そろそろ環境設定が胸いっぱいお腹いっぱいになってきたなぁ…シンプルに、シンプルに…
+================================================================================= Sneaky v219
 2006-08-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
 	* application/subproj/previewer/BSImagePreviewInspector-View.m

@@ -32,6 +32,7 @@
                 "m_infoField" = NSTextField; 
                 "m_nameColumn" = NSTableColumn; 
                 "m_paneChangeBtn" = NSSegmentedControl; 
+                "m_preferredViewSelector" = NSSegmentedControl; 
                 "m_progIndicator" = NSProgressIndicator; 
                 "m_settingsPanel" = NSPanel; 
                 "m_tabView" = NSTabView; 

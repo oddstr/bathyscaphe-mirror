@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.19.2.2 2006/08/07 19:19:24 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.19.2.3 2006/08/08 20:53:46 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -462,6 +462,12 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 - (BOOL) selectionShouldChangeInTableView: (NSTableView *) aTableView
 {
 	return (_currentDownload == nil);
+}
+
+#pragma mark NSTabView Delegate
+- (void) tabView: (NSTabView *) tabView didSelectTabViewItem: (NSTabViewItem *) tabViewItem
+{
+	[self setLastShownViewTag: [tabView indexOfTabViewItem: tabViewItem]];
 }
 
 #pragma mark BSIPIImageView Delegate

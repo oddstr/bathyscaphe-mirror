@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector-View.m,v 1.3.2.2 2006/08/07 19:19:24 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector-View.m,v 1.3.2.3 2006/08/08 20:53:46 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/07/15.
@@ -71,6 +71,10 @@ static NSString *const kIPIMenuItemForOldBSKey	= @"IPIWindowsMenuItemForOldBS";
 - (NSMenu *) cacheNaviMenuFormRep
 {
 	return m_cacheNaviMenuFormRep;
+}
+- (NSSegmentedControl *) preferredViewSelector
+{
+	return m_preferredViewSelector;
 }
 
 - (BSIPIDownload *) currentDownload
@@ -205,8 +209,17 @@ static NSImage *bsIPI_iconForPath(NSString *sourcePath)
 	[[self paneChangeBtn] setLabel: nil forSegment: 1];
 	[[self cacheNavigationControl] setLabel: nil forSegment: 0];
 	[[self cacheNavigationControl] setLabel: nil forSegment: 1];
+	[[self preferredViewSelector] setLabel: nil forSegment: 0];
+	[[self preferredViewSelector] setLabel: nil forSegment: 1];
 	
 	[(BSIPIImageView *)[self imageView] setDelegate: self];
+
+	int	tabIndex = [self preferredView];
+	if (tabIndex == -1)
+		tabIndex = [self lastShownViewTag];
+
+	[[self tabView] selectTabViewItemAtIndex: tabIndex];
+	[[self paneChangeBtn] setSelectedSegment: tabIndex];
 }
 
 - (void) setupVersionInfoField

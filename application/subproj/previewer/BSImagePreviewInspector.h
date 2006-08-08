@@ -13,6 +13,7 @@
 @class TemporaryFolder;
 @class BSIPIDownload;
 
+
 @interface BSImagePreviewInspector : NSWindowController <BSImagePreviewerProtocol> {
 	IBOutlet NSTextField			*m_infoField;
 	IBOutlet NSPopUpButton			*m_actionBtn;
@@ -26,6 +27,7 @@
 	IBOutlet NSPopUpButton			*m_directoryChooser;
 	IBOutlet NSTextField			*m_versionInfoField;
 	IBOutlet NSMenu					*m_cacheNaviMenuFormRep;
+	IBOutlet NSSegmentedControl		*m_preferredViewSelector;
 
 	@private
 	NSURL			*_sourceURL;
@@ -81,6 +83,12 @@
 
 - (BOOL) floating;
 - (void) setFloating: (BOOL) floatOrNot;
+
+- (int) preferredView;
+- (void) setPreferredView: (int) aType;
+
+- (int) lastShownViewTag;
+- (void) setLastShownViewTag: (int) aTag;
 @end
 
 @interface BSImagePreviewInspector(ToolbarAndUtils)
@@ -105,6 +113,7 @@
 - (NSPopUpButton *) directoryChooser;
 - (NSTextField *) versionInfoField;
 - (NSMenu *) cacheNaviMenuFormRep;
+- (NSSegmentedControl *) preferredViewSelector;
 
 - (BSIPIDownload *) currentDownload;
 - (void) setCurrentDownload : (BSIPIDownload *) aDownload;

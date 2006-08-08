@@ -1,5 +1,5 @@
 /*
- * $Id: BSImagePreviewInspector-Tb.m,v 1.11.2.3 2006/08/07 19:19:24 tsawada2 Exp $
+ * $Id: BSImagePreviewInspector-Tb.m,v 1.11.2.4 2006/08/08 20:53:46 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -25,6 +25,8 @@ static NSString *const kIPIAlphaValueKey		= @"jp.tsawada2.BathyScaphe.ImagePrevi
 static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.ImagePreviewer:Opaque When Key Window";
 static NSString *const kIPIResetWhenHideWindowKey = @"jp.tsawada2.BathyScaphe.ImagePreviewer:Reset When Hide Window";
 static NSString *const kIPIFloatingWindowKey	= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Floating Window";
+static NSString *const kIPIPreferredViewTypeKey = @"jp.tsawada2.BathyScaphe.ImagePreviewer:Preferred View";
+static NSString *const kIPILastShownViewTagKey	= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Last Shown View";
 
 @implementation BSImagePreviewInspector(ToolbarAndUtils)
 #pragma mark Utilities
@@ -413,5 +415,25 @@ static NSImage *_imageForDefaultBrowser()
 {
 	[[self prefsDict] setBool: floatOrNot forKey: kIPIFloatingWindowKey];
 	[(NSPanel *)[self window] setFloatingPanel: floatOrNot];
+}
+
+- (int) preferredView
+{
+	return [[self prefsDict] integerForKey: kIPIPreferredViewTypeKey defaultValue: 0];
+}
+
+- (void) setPreferredView: (int) aType
+{
+	[[self prefsDict] setInteger: aType forKey: kIPIPreferredViewTypeKey];
+}
+
+- (int) lastShownViewTag
+{
+	return [[self prefsDict] integerForKey: kIPILastShownViewTagKey defaultValue: 0];
+}
+
+- (void) setLastShownViewTag: (int) aTag
+{
+	[[self prefsDict] setInteger: aTag forKey: kIPILastShownViewTagKey];
 }
 @end

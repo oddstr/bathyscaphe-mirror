@@ -53,6 +53,13 @@ NSLock *CMRSingletonObjectFactoryLock = nil;
 	obj = [self objectForKey : key];
 	return (nil == obj) ? defaultObject : obj;
 }
+
+- (int) integerForKey: (id) key defaultValue: (int) defaultValue
+{
+	NSNumber *num_;
+	num_ = [self numberForKey : key];
+	return (num_ != nil) ? [num_ intValue] : defaultValue;
+}
 @end
 
 @implementation NSMutableDictionary(BSIPIExtensionFromSG)
@@ -71,6 +78,10 @@ NSLock *CMRSingletonObjectFactoryLock = nil;
 - (void) setBool: (BOOL) aValue forKey: (id) aKey
 {
 	PRIV_SET_NUMERIC_VALUE(aValue, aKey, numberWithBool);
+}
+- (void) setInteger: (int) aValue forKey: (id) aKey
+{
+	PRIV_SET_NUMERIC_VALUE(aValue, aKey, numberWithInt);
 }
 #undef PRIV_SET_NUMERIC_VALUE
 @end
