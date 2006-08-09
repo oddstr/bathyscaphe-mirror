@@ -1,6 +1,6 @@
 //: CMRFileManager.m
 /**
-  * $Id: CMRFileManager.m,v 1.3 2006/01/29 06:55:54 tsawada2 Exp $
+  * $Id: CMRFileManager.m,v 1.3.4.1 2006/08/09 13:44:33 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -101,14 +101,6 @@ NSString *const CMRFileManagerDidUpdateFileNotification = @"CMRFileManagerDidUpd
     [tmp release];
 }
 @end
-
-
-
-@interface CMRFileManager(Cache)
-- (NSMutableSet *) watchFileSet;
-- (void) updateDataRootDirectory;
-@end
-
 
 
 @implementation CMRFileManager

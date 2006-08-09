@@ -8,8 +8,8 @@
 
 #import "BoardWarrior.h"
 #import "CocoMonar_Prefix.h"
-#import "BSIPIDownload.h"
 #import "AppDefaults.h"
+#import <SGNetwork/BSIPIDownload.h>
 
 NSString *const BoardWarriorWillStartDownloadNotification =	@"BoardWarriorWillStartDownloadNotification";
 NSString *const BoardWarriorDidFinishDownloadNotification =	@"BoardWarriorDidFinishDownloadNotification";

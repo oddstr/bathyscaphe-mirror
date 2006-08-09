@@ -11,9 +11,9 @@ SGAPPKIT_FRWK = SGAppKit
 SGNETWORK_FRWK = SGNetwork
 COCOMONAR_FRWK = CocoMonar
 
-.PHONY: SGFoundation  SGAppKit SGNetwork CocoMonar Keychain
+.PHONY: SGFoundation  SGAppKit SGNetwork CocoMonar
 
-all: SGFoundation SGAppKit SGNetwork CocoMonar Keychain
+all: SGFoundation SGAppKit SGNetwork CocoMonar
 	
 SGFoundation: 
 	cd $(SGFOUNDATION_FRWK) && $(PBXBUILD) $(BUILD_OPTION)

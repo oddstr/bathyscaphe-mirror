@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.19.2.3 2006/08/08 20:53:46 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.19.2.4 2006/08/09 13:44:33 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -11,9 +11,9 @@
 #import "TemporaryFolder.h"
 #import "BSIPIFullScreenController.h"
 #import "BSIPIPathTransformer.h"
-#import "BSIPIDownload.h"
+#import <SGNetwork/BSIPIDownload.h>
 #import "BSIPIImageView.h"
-#import "BSIPIAppKitExtensions.h"
+#import <SGAppKit/NSWorkspace-SGExtensions.h>
 
 @class BSIPITableView;
 @class BSIPIFullScreenWindow;

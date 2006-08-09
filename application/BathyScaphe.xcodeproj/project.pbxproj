@@ -504,6 +504,10 @@
 		87464E390864368F000F0371 /* RBSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87464E380864368F000F0371 /* RBSplitView.h */; };
 		87517B8A0864B4F0002DA082 /* SplitterHandle.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87517B890864B4F0002DA082 /* SplitterHandle.tiff */; };
 		87517BAF0864BE33002DA082 /* Spacer.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87517BAE0864BE33002DA082 /* Spacer.tiff */; };
+		875D98200A8A02180061C86D /* SGAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244F5043610D600A80005 /* SGAppKit.framework */; };
+		875D98210A8A02190061C86D /* SGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FA043610EB00A80005 /* SGFoundation.framework */; };
+		875D98220A8A021A0061C86D /* SGNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FF043610FB00A80005 /* SGNetwork.framework */; };
+		875D98230A8A021E0061C86D /* CocoMonar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3924488043610AE00A80005 /* CocoMonar.framework */; };
 		8762E8C30A86359C00062504 /* na-na.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 8762E8C10A86359C00062504 /* na-na.scpt */; };
 		8762E8C40A86359D00062504 /* himeko.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 8762E8C20A86359C00062504 /* himeko.scpt */; };
 		8762E8C90A8635C200062504 /* rosetta.pl in Resources */ = {isa = PBXBuildFile; fileRef = 8762E8C60A8635C200062504 /* rosetta.pl */; };
@@ -539,8 +543,6 @@
 		87A475580A85736A00FC13E6 /* BSIPIDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D3524E0A68AC3A0041410F /* BSIPIDownload.m */; };
 		87A475DE0A8585BE00FC13E6 /* BoardWarrior.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D7F03B0A85136900623EA5 /* BoardWarrior.h */; };
 		87A475DF0A8585BF00FC13E6 /* BoardWarrior.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D7F03C0A85136900623EA5 /* BoardWarrior.m */; };
-		87A476240A85909700FC13E6 /* BSIPIDownload.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D3524D0A68AC3A0041410F /* BSIPIDownload.h */; };
-		87A476250A85909800FC13E6 /* BSIPIDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D3524E0A68AC3A0041410F /* BSIPIDownload.m */; };
 		87B19D7E08FB7C4100D15053 /* AddBoard_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B19D7C08FB7C4100D15053 /* AddBoard_Pressed.tiff */; };
 		87B19D7F08FB7C4100D15053 /* AddBoard.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B19D7D08FB7C4100D15053 /* AddBoard.tiff */; };
 		87B652990840625F008AE2BE /* SendMessage.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B652980840625F008AE2BE /* SendMessage.tiff */; };
@@ -553,10 +555,6 @@
 		87BF52CC08F789D500998C4E /* BSBoardInfoInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BF52CA08F789D400998C4E /* BSBoardInfoInspector.m */; };
 		87BF52D508F7913400998C4E /* BSBoardInfoInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87BF52D308F7913400998C4E /* BSBoardInfoInspector.nib */; };
 		87BF7CA50840423900CC7D7C /* BathyScapheHelp in Resources */ = {isa = PBXBuildFile; fileRef = 87BF7CA40840423900CC7D7C /* BathyScapheHelp */; };
-		87C1A6300A7E26B00004079B /* BSIPIAppKitExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 87C1A62C0A7E26B00004079B /* BSIPIAppKitExtensions.h */; };
-		87C1A6310A7E26B00004079B /* BSIPIAppKitExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C1A62D0A7E26B00004079B /* BSIPIAppKitExtensions.m */; };
-		87C1A6320A7E26B00004079B /* BSIPIFoundationExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 87C1A62E0A7E26B00004079B /* BSIPIFoundationExtensions.h */; };
-		87C1A6330A7E26B00004079B /* BSIPIFoundationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C1A62F0A7E26B00004079B /* BSIPIFoundationExtensions.m */; };
 		87C2031708FF3E2B006DC42C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		87C2032D08FF3F81006DC42C /* BSImagePreviewInspector.h in Headers */ = {isa = PBXBuildFile; fileRef = 87C2032908FF3F81006DC42C /* BSImagePreviewInspector.h */; };
 		87C2032E08FF3F81006DC42C /* BSImagePreviewInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C2032A08FF3F81006DC42C /* BSImagePreviewInspector.m */; };
@@ -579,8 +577,6 @@
 		87CD85CC098170ED002C4372 /* BSFavoritesHEADCheckTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 87CD85CA098170ED002C4372 /* BSFavoritesHEADCheckTask.h */; };
 		87CD85CD098170ED002C4372 /* BSFavoritesHEADCheckTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CD85CB098170ED002C4372 /* BSFavoritesHEADCheckTask.m */; };
 		87CF646A097A335D00DE8B16 /* Acknowledgments.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 87CF6468097A335D00DE8B16 /* Acknowledgments.rtf */; };
-		87D3524F0A68AC3A0041410F /* BSIPIDownload.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D3524D0A68AC3A0041410F /* BSIPIDownload.h */; };
-		87D352500A68AC3A0041410F /* BSIPIDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D3524E0A68AC3A0041410F /* BSIPIDownload.m */; };
 		87D5D8D108DF0FCC0039A9EB /* boardListSelBgFocused.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87D5D8CF08DF0FCC0039A9EB /* boardListSelBgFocused.tiff */; };
 		87D5D8D208DF0FCC0039A9EB /* boardListSelBg.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87D5D8D008DF0FCC0039A9EB /* boardListSelBg.tiff */; };
 		87DBC6990A867C6D00A1C058 /* syncFail.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87DBC6970A867C6D00A1C058 /* syncFail.tiff */; };
@@ -1298,6 +1294,10 @@
 				87751AE309783D3F009D4A9C /* Carbon.framework in Frameworks */,
 				87751824097818E7009D4A9C /* ApplicationServices.framework in Frameworks */,
 				87C2031708FF3E2B006DC42C /* Cocoa.framework in Frameworks */,
+				875D98200A8A02180061C86D /* SGAppKit.framework in Frameworks */,
+				875D98210A8A02190061C86D /* SGFoundation.framework in Frameworks */,
+				875D98220A8A021A0061C86D /* SGNetwork.framework in Frameworks */,
+				875D98230A8A021E0061C86D /* CocoMonar.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2724,7 +2724,6 @@
 				870D4BE20A7D6035008BBAB4 /* BSTsuruPetaPopUpBtnCell.h in Headers */,
 				870D4BE40A7D6037008BBAB4 /* BSTsuruPetaView.h in Headers */,
 				87A475DE0A8585BE00FC13E6 /* BoardWarrior.h in Headers */,
-				87A476240A85909700FC13E6 /* BSIPIDownload.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2794,9 +2793,6 @@
 				87C3977B0A61600F0095AD06 /* BSIPIPathTransformer.h in Headers */,
 				87C397900A6164E30095AD06 /* BSIPITextFieldCell.h in Headers */,
 				87C397F20A6171AB0095AD06 /* BSIPITableView.h in Headers */,
-				87D3524F0A68AC3A0041410F /* BSIPIDownload.h in Headers */,
-				87C1A6300A7E26B00004079B /* BSIPIAppKitExtensions.h in Headers */,
-				87C1A6320A7E26B00004079B /* BSIPIFoundationExtensions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3281,7 +3277,6 @@
 				870D4BE50A7D6038008BBAB4 /* BSTsuruPetaView.m in Sources */,
 				87DFDDA80A7D6A0F0074D3EA /* CookieManager.m in Sources */,
 				87A475DF0A8585BF00FC13E6 /* BoardWarrior.m in Sources */,
-				87A476250A85909800FC13E6 /* BSIPIDownload.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3340,10 +3335,7 @@
 				87C3977C0A61600F0095AD06 /* BSIPIPathTransformer.m in Sources */,
 				87C397910A6164E30095AD06 /* BSIPITextFieldCell.m in Sources */,
 				87C397F30A6171AB0095AD06 /* BSIPITableView.m in Sources */,
-				87D352500A68AC3A0041410F /* BSIPIDownload.m in Sources */,
 				87C2E1A50A68E3C100E40698 /* BSImagePreviewInspector-View.m in Sources */,
-				87C1A6310A7E26B00004079B /* BSIPIAppKitExtensions.m in Sources */,
-				87C1A6330A7E26B00004079B /* BSIPIFoundationExtensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3997,6 +3989,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_2)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_3)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_4)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../frameworks/SGAppKit/build/Deployment\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../frameworks/SGFoundation/build/Deployment\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../frameworks/SGNetwork/build/Deployment\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_4 = "\"$(SRCROOT)/../frameworks/CocoMonar/build/Deployment\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -4033,6 +4036,17 @@
 					i386,
 				);
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_2)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_3)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_4)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../frameworks/SGAppKit/build/Deployment\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../frameworks/SGFoundation/build/Deployment\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../frameworks/SGNetwork/build/Deployment\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_4 = "\"$(SRCROOT)/../frameworks/CocoMonar/build/Deployment\"";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_OPTIMIZATION_LEVEL = s;
@@ -4057,6 +4071,17 @@
 		87C2031C08FF3E2B006DC42C /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_2)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_3)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_4)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../frameworks/SGAppKit/build/Deployment\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../frameworks/SGFoundation/build/Deployment\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../frameworks/SGNetwork/build/Deployment\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_4 = "\"$(SRCROOT)/../frameworks/CocoMonar/build/Deployment\"";
 				GCC_USE_GCC3_PFE_SUPPORT = NO;
 				INFOPLIST_FILE = "Info-previewer.plist";
 				INSTALL_PATH = "@executable_path/../Plugins";

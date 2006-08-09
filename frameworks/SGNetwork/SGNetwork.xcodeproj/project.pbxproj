@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		875D977C0A89FFC40061C86D /* BSIPIDownload.h in Headers */ = {isa = PBXBuildFile; fileRef = 875D977A0A89FFC40061C86D /* BSIPIDownload.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		875D977D0A89FFC40061C86D /* BSIPIDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 875D977B0A89FFC40061C86D /* BSIPIDownload.m */; };
 		87F56FE8086E4C09002A18AD /* SGHTTPConnector.h in Headers */ = {isa = PBXBuildFile; fileRef = F39242FB0435FC1B00A80005 /* SGHTTPConnector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87F56FE9086E4C09002A18AD /* SGHTTPSecureSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = F39242FE0435FC1B00A80005 /* SGHTTPSecureSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87F56FEA086E4C09002A18AD /* SGHTTPSocketHandle.h in Headers */ = {isa = PBXBuildFile; fileRef = F39243000435FC1B00A80005 /* SGHTTPSocketHandle.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -51,6 +53,8 @@
 		87299B890832641600CBD740 /* UtkDebugging.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UtkDebugging.h; sourceTree = "<group>"; };
 		87299B8A0832641600CBD740 /* UtkDescription.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UtkDescription.h; sourceTree = "<group>"; };
 		87299B8B0832641600CBD740 /* UtkError.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UtkError.h; sourceTree = "<group>"; };
+		875D977A0A89FFC40061C86D /* BSIPIDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSIPIDownload.h; path = ../../application/subproj/previewer/BSIPIDownload.h; sourceTree = SOURCE_ROOT; };
+		875D977B0A89FFC40061C86D /* BSIPIDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSIPIDownload.m; path = ../../application/subproj/previewer/BSIPIDownload.m; sourceTree = SOURCE_ROOT; };
 		87F57013086E4C09002A18AD /* Info-SGNetwork.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-SGNetwork.plist"; sourceTree = "<group>"; };
 		87F57014086E4C0A002A18AD /* SGNetwork.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SGNetwork.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F36940E105E7815900A31B61 /* UTILAssertion.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = UTILAssertion.h; sourceTree = "<group>"; };
@@ -204,6 +208,8 @@
 		F39242F80435FC1B00A80005 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				875D977A0A89FFC40061C86D /* BSIPIDownload.h */,
+				875D977B0A89FFC40061C86D /* BSIPIDownload.m */,
 				F392430E0435FC1B00A80005 /* SGNetwork.h */,
 				F39243060435FC1B00A80005 /* main.c */,
 				F39243050435FC1B00A80005 /* FrameworkDefines.h */,
@@ -292,6 +298,7 @@
 				87F56FFA086E4C09002A18AD /* UtkDebugging.h in Headers */,
 				87F56FFB086E4C09002A18AD /* UtkDescription.h in Headers */,
 				87F56FFC086E4C09002A18AD /* UtkError.h in Headers */,
+				875D977C0A89FFC40061C86D /* BSIPIDownload.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,6 +376,7 @@
 				87F57006086E4C09002A18AD /* SGHTTPRequest.m in Sources */,
 				87F57007086E4C09002A18AD /* SGHTTPResponse.m in Sources */,
 				87F57008086E4C09002A18AD /* SGHTTPSocketUtilities.m in Sources */,
+				875D977D0A89FFC40061C86D /* BSIPIDownload.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

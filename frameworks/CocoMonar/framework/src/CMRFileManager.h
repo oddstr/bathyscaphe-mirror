@@ -1,5 +1,5 @@
 /**
- * $Id: CMRFileManager.h,v 1.1 2005/05/11 17:51:19 tsawada2 Exp $
+ * $Id: CMRFileManager.h,v 1.1.1.1.8.1 2006/08/09 13:44:33 tsawada2 Exp $
  * 
  * CMRFileManager.h
  *
@@ -64,6 +64,11 @@
 @end
 
 
+@interface CMRFileManager(Cache)
+- (NSMutableSet *) watchFileSet;
+- (void) updateWatchedFiles;
+- (void) updateDataRootDirectory;
+@end
 
 // ----------------------------------------
 // N o t i f i c a t i o n s

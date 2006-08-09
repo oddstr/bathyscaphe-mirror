@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector-View.m,v 1.3.2.3 2006/08/08 20:53:46 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector-View.m,v 1.3.2.4 2006/08/09 13:44:33 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/07/15.
@@ -10,7 +10,7 @@
 #import "BSIPIHistoryManager.h"
 #import "BSIPITextFieldCell.h"
 #import "BSIPIImageView.h"
-#import "BSIPIAppKitExtensions.h"
+#import <SGAppKit/NSCell-SGExtensions.h>
 
 @class BSIPIDownload;
 
@@ -236,7 +236,7 @@ static NSImage *bsIPI_iconForPath(NSString *sourcePath)
 - (void) awakeFromNib
 {
 	[self setupWindow];
-	[self setupMenuIfNeeded];
+	//[self setupMenuIfNeeded];
 	[self setupTableView];
 	[self setupControls];
 	[self setupVersionInfoField];

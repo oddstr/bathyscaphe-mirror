@@ -1,4 +1,30 @@
+================================================================================= Sneaky v221
 2006-08-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* このビルドから Xcode 2.4 を使用しています
+		一応記しておく。
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+	* application/subproj/previewer/BSImagePreviewInspector-View.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/BSIPIHistoryManager.m
+		プレビューインスペクタ（2.1.1→2.1.2）：
+		2.0.4→2.0.5 の変更時のポリシーを棄却して、やはり SGFoundation/SGAppKit/CocoMonar フレームワークに
+		リンクしてそれらのコードを使うようにした。さらに SGNetwork にもリンクして、BSIPIDownload を使うようにした。
+		これに伴い、BSIPIFoundationExtensions.m/BSIPIAppKitExtensions.m はターゲットから外れている。
+		- これらの変更のため、プレビュープラグイン 2.1.2 を v219 以前の BathyScaphe.app と組み合わせて使うことは
+		　できない（フレームワークも含めて差し替えれば動くかもしれないが）。
+	* application/source/bbs/BoardWarrior.m
+		下記変更に伴う修正。
+	* SGNetwork フレームワーク：
+		プレビューインスペクタ 2.x および v219 までの BoardWarrior クラスで利用していた BSIPIDownload クラスを
+		SGNetwork フレームワークに移動した。
+		- プレビュープラグイン内の BSIPIDownload バイナリと BathyScaphe.app 内の BSIPIDownload バイナリが
+		　コンフリクトすることで問題が発生するのを回避するため。Tiger は耐性が高いようで動くのだが、Panther 以前だと
+		　これが原因でクラッシュするらしい。バグトッキングに寄せられたクラッシュログと、
+		　http://www.tech-arts.co.jp/macosx/macosx-dev-jp/htdocs/4600/4647.html
+		　http://www.cocoabuilder.com/archive/message/xcode/2005/11/28/1525
+		 などを参考にした。
+	* frameworks/CocoMonar/framework/src/CMRFileManager.(h|m)
+		プライベートメソッドをパブリックメソッドに格上げしただけで、本質的な変更ではないが一応。
 	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
 	* application/subproj/previewer/BSImagePreviewInspector-View.m
 	* application/subproj/previewer/BSImagePreviewInspector.m

@@ -8,8 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class BSIPIDownload;
-
 @interface BoardWarrior : NSObject {
 	@private
 	BOOL			m_isInProgress;

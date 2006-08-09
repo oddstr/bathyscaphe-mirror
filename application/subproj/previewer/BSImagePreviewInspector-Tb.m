@@ -1,5 +1,5 @@
 /*
- * $Id: BSImagePreviewInspector-Tb.m,v 1.11.2.4 2006/08/08 20:53:46 tsawada2 Exp $
+ * $Id: BSImagePreviewInspector-Tb.m,v 1.11.2.5 2006/08/09 13:44:33 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -7,8 +7,9 @@
 
 #import "BSImagePreviewInspector.h"
 #import "BSIPIActionBtnTbItem.h"
-#import "BSIPIFoundationExtensions.h"
-#import "BSIPIAppKitExtensions.h"
+#import <SGFoundation/NSDictionary-SGExtensions.h>
+#import <SGfoundation/NSMutableDictionary-SGExtensions.h>
+#import <SGAppKit/BSSegmentedControlTbItem.h>
 
 static NSString *const kIPITbActionBtnId		= @"Actions";
 static NSString *const kIPITbSettingsBtnId		= @"Settings";
@@ -205,7 +206,7 @@ static NSImage *_imageForDefaultBrowser()
 		NSSize	size_;
 		NSView	*tmp_;
 		NSMenuItem	*attachMenuItem_;
-		toolbarItem = [[[BSIPISegmentedControlTbItem alloc] initWithItemIdentifier: itemIdent] autorelease];
+		toolbarItem = [[[BSSegmentedControlTbItem alloc] initWithItemIdentifier: itemIdent] autorelease];
 		
 		[toolbarItem setLabel: [self localizedStrForKey: @"History"]];
 		[toolbarItem setPaletteLabel: [self localizedStrForKey: @"History"]];
@@ -224,13 +225,13 @@ static NSImage *_imageForDefaultBrowser()
 		size_ = [tmp_ bounds].size;
 		[toolbarItem setMinSize: size_];
 		[toolbarItem setMaxSize: size_];
-		[(BSIPISegmentedControlTbItem *)toolbarItem setDelegate: self];
+		[(BSSegmentedControlTbItem *)toolbarItem setDelegate: self];
 		
     } else if ([itemIdent isEqual: kIPITbPaneBtnId]) {
 		NSSize	size_;
 		NSView	*tmp_;
 		NSMenuItem	*attachMenuItem_;
-		toolbarItem = [[[BSIPISegmentedControlTbItem alloc] initWithItemIdentifier: itemIdent] autorelease];
+		toolbarItem = [[[BSSegmentedControlTbItem alloc] initWithItemIdentifier: itemIdent] autorelease];
 		
 		[toolbarItem setLabel: [self localizedStrForKey: @"Panes"]];
 		[toolbarItem setPaletteLabel: [self localizedStrForKey: @"Panes"]];
@@ -248,7 +249,7 @@ static NSImage *_imageForDefaultBrowser()
 		size_ = [tmp_ bounds].size;
 		[toolbarItem setMinSize: size_];
 		[toolbarItem setMaxSize: size_];
-		[(BSIPISegmentedControlTbItem *)toolbarItem setDelegate: self];
+		[(BSSegmentedControlTbItem *)toolbarItem setDelegate: self];
 
 	}
 
@@ -331,7 +332,7 @@ static NSImage *_imageForDefaultBrowser()
 	return YES;
 }
 
-- (BOOL) segCtrlTbItem: (BSIPISegmentedControlTbItem *) item
+- (BOOL) segCtrlTbItem: (BSSegmentedControlTbItem *) item
 	   validateSegment: (int) segment
 {
 	if ([item view] == [self paneChangeBtn]) return YES;
