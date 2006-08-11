@@ -56,7 +56,7 @@
     return [NSNumber numberWithInt: returnValue];
 }
 @end
-
+/*
 @implementation BSURLStringTransformer
 + (Class) transformedValueClass
 {
@@ -92,4 +92,4 @@
     return [NSURL URLWithString: value];
 }
 @end
-
+*/

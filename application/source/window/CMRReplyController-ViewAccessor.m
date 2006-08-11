@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyController-ViewAccessor.m,v 1.14 2006/06/28 18:37:32 tsawada2 Exp $
+  * $Id: CMRReplyController-ViewAccessor.m,v 1.14.2.1 2006/08/11 14:44:17 tsawada2 Exp $
   * 
   * CMRReplyController-ViewAccessor.m
   *
@@ -39,6 +39,8 @@
 	
 	if (nil == textView_)
 		return;
+
+	[(BSLayoutManager *)[textView_ layoutManager] setShouldAntialias: [CMRPref shouldThreadAntialias]];
 
 	NSColor		*textColor_ = [[self document] replyTextColor];
 	[textView_ setFont : [[self document] replyTextFont]];

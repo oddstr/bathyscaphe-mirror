@@ -1,3 +1,22 @@
+2006-08-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/popup/CMXPopUpWindowController+View.m
+	* application/source/view/popup/CMXPopUpWindowController.m
+	* application/source/view/popup/CMXPopUpWindowManager.m
+		ポップアップウインドウの属性（テキストカラー、ウインドウカラー、透明度、テキストのアンチエイリアス、
+		NSScroller の controlSize、およびリンク下線の有無）は、ポップアップウインドウを表示しようとする
+		たびに設定するようにした。これによって以下が解決：
+		- ポップアップの属性を「環境設定」から変更しても、ポップアップウインドウにそれが反映されないことが
+		　あった問題（これは以前からあった問題）
+		- とくに、v219 以降で、「アンチエイリアスを適用する」オプションが無視されていた問題。
+		また、CMXPopUpWindowController は AppDefaults 非依存になった（CMXPopUpWindowManager 側が
+		それらを供給する）。
+	* application/source/window/CMRReplyController-ViewAccessor.m
+		v219 以降で、書き込みウインドウで「アンチエイリアスを適用する」オプションが無視されていた問題を修正。
+	* preferences ターゲット
+		どういうわけか、BSIPIDownload クラスをターゲットに含んでいた。このため、2006-08-09 の修正後もなお
+		SGNetwork と preferencesPane に同時に BSIPIDownload クラスが存在してしまい、コンフリクトが解消
+		されていなかった。preferencesPane では BSIPIDownload を使用しないので、ターゲットから外して解決。
+		- これでようやく 10.3.x でも同期機能が動くようになった。
 ================================================================================= Sneaky v221
 2006-08-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* このビルドから Xcode 2.4 を使用しています

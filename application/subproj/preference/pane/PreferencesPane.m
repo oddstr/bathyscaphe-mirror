@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesPane.m,v 1.3.4.2 2006/08/06 20:39:12 tsawada2 Exp $
+  * $Id: PreferencesPane.m,v 1.3.4.3 2006/08/11 14:44:17 tsawada2 Exp $
   * 
   * PreferencesPane.m
   *
@@ -40,8 +40,8 @@ DefineConstStr(PPSyncPreferencesIdentifier, @"Sync");
 		[NSValueTransformer setValueTransformer: transformer forName: @"BSTagValueTransformer"];
 
 		// For use in SyncPane
-		id transformer2 = [[[BSURLStringTransformer alloc] init] autorelease];
-		[NSValueTransformer setValueTransformer: transformer2 forName: @"BSURLStringTransformer"];
+		//id transformer2 = [[[BSURLStringTransformer alloc] init] autorelease];
+		//[NSValueTransformer setValueTransformer: transformer2 forName: @"BSURLStringTransformer"];
 	}
 	return self;
 }

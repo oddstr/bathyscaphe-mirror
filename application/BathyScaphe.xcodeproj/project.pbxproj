@@ -466,7 +466,6 @@
 		87299A55083261F200CBD740 /* moveNext.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A1B083261F200CBD740 /* moveNext.png */; };
 		87299A56083261F200CBD740 /* movePrev.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A1C083261F200CBD740 /* movePrev.png */; };
 		87299A57083261F200CBD740 /* moveTop.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A1D083261F200CBD740 /* moveTop.png */; };
-		87299A58083261F200CBD740 /* moveUpdated.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A1E083261F200CBD740 /* moveUpdated.png */; };
 		87299A59083261F200CBD740 /* offline.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A1F083261F200CBD740 /* offline.png */; };
 		87299A5A083261F200CBD740 /* online.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A20083261F200CBD740 /* online.png */; };
 		87299A5E083261F200CBD740 /* EllipsisDownMouseDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A25083261F200CBD740 /* EllipsisDownMouseDown.png */; };
@@ -539,8 +538,6 @@
 		87A474F80A85684000FC13E6 /* Sync.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 871607EE098AA48400A27F63 /* Sync.tiff */; };
 		87A474F90A85684100FC13E6 /* SyncPaneController.h in Headers */ = {isa = PBXBuildFile; fileRef = 871607E4098A9A8700A27F63 /* SyncPaneController.h */; };
 		87A474FA0A85684200FC13E6 /* SyncPaneController.m in Sources */ = {isa = PBXBuildFile; fileRef = 871607E5098A9A8700A27F63 /* SyncPaneController.m */; };
-		87A475570A85736900FC13E6 /* BSIPIDownload.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D3524D0A68AC3A0041410F /* BSIPIDownload.h */; };
-		87A475580A85736A00FC13E6 /* BSIPIDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D3524E0A68AC3A0041410F /* BSIPIDownload.m */; };
 		87A475DE0A8585BE00FC13E6 /* BoardWarrior.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D7F03B0A85136900623EA5 /* BoardWarrior.h */; };
 		87A475DF0A8585BF00FC13E6 /* BoardWarrior.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D7F03C0A85136900623EA5 /* BoardWarrior.m */; };
 		87B19D7E08FB7C4100D15053 /* AddBoard_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B19D7C08FB7C4100D15053 /* AddBoard_Pressed.tiff */; };
@@ -2751,7 +2748,6 @@
 				87160662098A338500A27F63 /* SoundsPaneController.h in Headers */,
 				8727F4C20A822EFB00E9C2F9 /* BSTagValueTransformer.h in Headers */,
 				87A474F90A85684100FC13E6 /* SyncPaneController.h in Headers */,
-				87A475570A85736900FC13E6 /* BSIPIDownload.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2955,7 +2951,6 @@
 				87299A55083261F200CBD740 /* moveNext.png in Resources */,
 				87299A56083261F200CBD740 /* movePrev.png in Resources */,
 				87299A57083261F200CBD740 /* moveTop.png in Resources */,
-				87299A58083261F200CBD740 /* moveUpdated.png in Resources */,
 				87299A59083261F200CBD740 /* offline.png in Resources */,
 				87299A5A083261F200CBD740 /* online.png in Resources */,
 				87299A5E083261F200CBD740 /* EllipsisDownMouseDown.png in Resources */,
@@ -3301,7 +3296,6 @@
 				87160663098A338500A27F63 /* SoundsPaneController.m in Sources */,
 				8727F4C30A822EFB00E9C2F9 /* BSTagValueTransformer.m in Sources */,
 				87A474FA0A85684200FC13E6 /* SyncPaneController.m in Sources */,
-				87A475580A85736A00FC13E6 /* BSIPIDownload.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
