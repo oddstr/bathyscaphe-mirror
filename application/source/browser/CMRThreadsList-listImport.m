@@ -1,11 +1,12 @@
 /**
-  * $Id: CMRThreadsList-listImport.m,v 1.1.1.1.4.4 2006/04/10 17:10:21 masakih Exp $
+  * $Id: CMRThreadsList-listImport.m,v 1.1.1.1.4.5 2006/08/15 13:43:23 masakih Exp $
   * BathyScaphe
   *
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
   *
   */
+
 #import "CMRThreadsList_p.h"
 #import "CMRThreadLayout.h"
 #import "CMRThreadsUpdateListTask.h"
@@ -107,7 +108,6 @@ static BOOL synchronizeThAttrForSync2(NSMutableDictionary *theThread, NSDictiona
 }
 
 
-
 /**
   * path直下にスレッド一覧のplist形式ファイルが存在しない場合は
   * このメソッドが自動的に作成する。
@@ -187,7 +187,7 @@ static BOOL synchronizeThAttrForSync2(NSMutableDictionary *theThread, NSDictiona
 @end
 
 
-
+#if 0
 @implementation CMRThreadsList(ReadThreadsList)
 - (void) doLoadThreadsList : (CMRThreadLayout *) worker
 {
@@ -379,3 +379,5 @@ static BOOL synchronizeThAttrForSync2(NSMutableDictionary *theThread, NSDictiona
 			object : [aNotification object]];
 }
 @end
+
+#endif

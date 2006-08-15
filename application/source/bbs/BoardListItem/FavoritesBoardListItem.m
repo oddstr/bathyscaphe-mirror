@@ -12,6 +12,7 @@
 
 #import "DatabaseManager.h"
 #import "CMRBBSListTemplateKeys.h"
+#import <SGAppKit/NSImage-SGExtensions.h>
 
 
 @implementation FavoritesBoardListItem

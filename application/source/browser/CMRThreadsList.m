@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.m,v 1.3.2.4 2006/03/19 15:09:53 masakih Exp $
+  * $Id: CMRThreadsList.m,v 1.3.2.5 2006/08/15 13:43:23 masakih Exp $
   * 
   * CMRThreadsList.m
   *
@@ -111,11 +111,11 @@ standard_writing:*/
 - (void) dealloc
 {
 	[self removeFromNotificationCenter];
-
+/*
 	if (NO == [self isFavorites]) {
 		[self writeListToFileNow];
 	}
-	
+*/	
 	[_BBSName release];
 
 	[_worker release];

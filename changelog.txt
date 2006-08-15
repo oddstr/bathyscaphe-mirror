@@ -1,3 +1,42 @@
+2006-08-15 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardManager-BSAddition.m
+		-[BoardManager iconForBoard:] 再実装。
+	* application/source/bbs/BoardListItem/FavoritesBoardListItem.m
+		SGAppKit/NSImage-SGExtensions.hをインポート
+	* application/source/bbs/BoardListItem/SmartBoardListItem.{h|m}
+		Condition のsetter/getterを実装。
+	* application/source/bbs/BoardListItem/SmartCondition.{h.m}
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m
+		列挙子SCOperation,SCCOperationの名称変更とそれに伴う変更
+	* application/source/browser/AddBoardSheetController.m
+		[userList postBoardListDidChangeNotification];が２度呼ばれているので、削除。
+	* application/source/browser/BSDBThreadList.m
+	* application/source/browser/BSBoardListItemHEADCheckTask.{h|m}
+	* application/source/browser/BSDBThreadsListDBUpdateTask2.{h|m}
+	* application/source/browser/BSDBThreadsListUpdateTask.{h|m}
+	* application/source/browser/BSDownloadTask.{h|m}
+	* application/source/browser/BSThreadListUpdateTask.m
+	* application/source/browser/BSThreadsListOPTask.{h|m}
+		いろいろ追加
+		処理を細分化し、オブジェクトの粒度を下げた。& データベース使用を意識。
+		ThreadsList.plist生成をやめる。
+		すべてテストのための仮実装。クラス名もかなり適当。
+	* application/source/browser/CMRThreadsList-Filter.m
+	* application/source/browser/CMRThreadsList-listImport.m
+	* application/source/browser/CMRThreadsList.m
+	* application/source/browser/CMRThreadsUpdateListTask.m
+		上の変更に伴う＆以前から不要になったメソッドを切り捨て。
+	* application/source/bbs/BoardListItem/SmartBoardListItemEditor.{h|m}
+	* application/source/browser/CMRBrowser-BLEditor.m
+		スマートボードの編集への第一段階。
+	* application/source/manager/DatabaseManager.m
+		TempThreadNumberTableNameを一時テーブルから通常テーブルに変更。
+	* application/source/manager/SQLiteDB.m
+		不要な部分を削除。
+	* application/source/task/CMRTaskItemController.m
+	* application/source/task/CMRTaskManager-Management.m
+		メインスレッド以外からタスクを登録されることを意識して修正。
+		タイマーが常にメインスレッド上のランループに登録されるように修正。
 2006-07-03 masakih <masakih@users.sourceforge.jp>
 	* application/Resources/Japanese.lproj/ConditionTypes.plist
 	* application/Resources/Japanese.lproj/CriteriaSpecifications.plist

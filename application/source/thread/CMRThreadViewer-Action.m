@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.13.2.5 2006/04/10 17:10:21 masakih Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.13.2.6 2006/08/15 13:43:23 masakih Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -769,10 +769,10 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 {
 	if (CMRMainBrowser == nil) return;
 	UTILAssertNotificationName(
-		notification,
+		aNotification,
 		CMRBrowserThListUpdateDelegateTaskDidFinishNotification);
 	UTILAssertNotificationObject(
-		notification,
+		aNotification,
 		CMRMainBrowser);
 	
 	[CMRMainBrowser selectRowWithThreadPath : [self path]

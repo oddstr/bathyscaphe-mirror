@@ -626,6 +626,14 @@
 		F411449F09D6EE6C00DDF200 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F411449E09D6EE6C00DDF200 /* CoreFoundation.framework */; };
 		F411498609DABFD500DDF200 /* BSThreadListUpdateTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F411498409DABFD500DDF200 /* BSThreadListUpdateTask.h */; };
 		F411498709DABFD500DDF200 /* BSThreadListUpdateTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F411498509DABFD500DDF200 /* BSThreadListUpdateTask.m */; };
+		F41308B20A8E279300740620 /* BSDBThreadsListDBUpdateTask2.h in Headers */ = {isa = PBXBuildFile; fileRef = F41308AC0A8E279300740620 /* BSDBThreadsListDBUpdateTask2.h */; };
+		F41308B30A8E279300740620 /* BSDBThreadsListDBUpdateTask2.m in Sources */ = {isa = PBXBuildFile; fileRef = F41308AD0A8E279300740620 /* BSDBThreadsListDBUpdateTask2.m */; };
+		F41308B40A8E279300740620 /* BSDBThreadsListUpdateTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F41308AE0A8E279300740620 /* BSDBThreadsListUpdateTask.h */; };
+		F41308B50A8E279300740620 /* BSDBThreadsListUpdateTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F41308AF0A8E279300740620 /* BSDBThreadsListUpdateTask.m */; };
+		F41308B60A8E279300740620 /* BSDownloadTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F41308B00A8E279300740620 /* BSDownloadTask.h */; };
+		F41308B70A8E279300740620 /* BSDownloadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F41308B10A8E279300740620 /* BSDownloadTask.m */; };
+		F41308BA0A8E27A400740620 /* BSThreadsListOPTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F41308B80A8E27A400740620 /* BSThreadsListOPTask.h */; };
+		F41308BB0A8E27A400740620 /* BSThreadsListOPTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F41308B90A8E27A400740620 /* BSThreadsListOPTask.m */; };
 		F424609908462452000803EA /* Scripts.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F424609808462452000803EA /* Scripts.tiff */; };
 		F4559444088A106E00557B17 /* DatabaseManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F4559442088A106E00557B17 /* DatabaseManager.h */; };
 		F4559445088A106E00557B17 /* DatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F4559443088A106E00557B17 /* DatabaseManager.m */; };
@@ -638,6 +646,9 @@
 		F46BD77F09B3413B0069AEB6 /* ConditionTypes.plist in Resources */ = {isa = PBXBuildFile; fileRef = F46BD77D09B3413B0069AEB6 /* ConditionTypes.plist */; };
 		F47F6EDD09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F47F6EDB09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.h */; };
 		F47F6EDE09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F47F6EDC09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.m */; };
+		F486FBFE0A8E2C4800D44828 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F486FBFD0A8E2C4800D44828 /* OgreKit.framework */; };
+		F486FC650A8F69EA00D44828 /* BSBoardListItemHEADCheckTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F486FC630A8F69EA00D44828 /* BSBoardListItemHEADCheckTask.h */; };
+		F486FC660A8F69EA00D44828 /* BSBoardListItemHEADCheckTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F486FC640A8F69EA00D44828 /* BSBoardListItemHEADCheckTask.m */; };
 		F4904AE3088C096D00EA9BA8 /* BoardManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC2704C698FA00A80005 /* BoardManager.h */; };
 		F4904AE4088C096D00EA9BA8 /* BoardManager_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC2904C698FA00A80005 /* BoardManager_p.h */; };
 		F4904AE5088C096D00EA9BA8 /* Browser.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC2D04C698FA00A80005 /* Browser.h */; };
@@ -1134,48 +1145,6 @@
 		F4FA7038094357B700BE3F27 /* SmartBoardListItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 87E8726C08DD63F40055370D /* SmartBoardListItem.h */; };
 		F4FA703B094357C100BE3F27 /* BSSegmentedControlTbItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 877D634508C4531500DEE475 /* BSSegmentedControlTbItem.h */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXBuildStyle section */
-		4A9504D0FFE6A4CB11CA0CBA /* Development */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = source/CocoMonar_Prefix.h;
-				OPTIMIZATION_CFLAGS = "-O0";
-				OTHER_CFLAGS = (
-					"-DDEBUG",
-					"-DBUILD_COCOMONAR",
-					"-DPATCH=1",
-				);
-				ZERO_LINK = NO;
-			};
-			name = Development;
-		};
-		4A9504D1FFE6A4CB11CA0CBA /* Deployment */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUGGING_SYMBOLS = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				OPTIMIZATION_CFLAGS = "-O2";
-				OTHER_CFLAGS = (
-					"-DBUILD_COCOMONAR",
-					"-DUTIL_BLOCK_ASSERTIONS",
-					"-DNS_BLOCK_ASSERTIONS",
-					"-DUTIL_BLOCK_DEBUG_WRITE",
-					"-DPATCH=1",
-				);
-				ZERO_LINK = NO;
-			};
-			name = Deployment;
-		};
-/* End PBXBuildStyle section */
 
 /* Begin PBXContainerItemProxy section */
 		F469D81B094366BE007D7EDC /* PBXContainerItemProxy */ = {
@@ -1886,12 +1855,23 @@
 		F411449E09D6EE6C00DDF200 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
 		F411498409DABFD500DDF200 /* BSThreadListUpdateTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSThreadListUpdateTask.h; sourceTree = "<group>"; };
 		F411498509DABFD500DDF200 /* BSThreadListUpdateTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSThreadListUpdateTask.m; sourceTree = "<group>"; };
+		F41308AC0A8E279300740620 /* BSDBThreadsListDBUpdateTask2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSDBThreadsListDBUpdateTask2.h; sourceTree = "<group>"; };
+		F41308AD0A8E279300740620 /* BSDBThreadsListDBUpdateTask2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSDBThreadsListDBUpdateTask2.m; sourceTree = "<group>"; };
+		F41308AE0A8E279300740620 /* BSDBThreadsListUpdateTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSDBThreadsListUpdateTask.h; sourceTree = "<group>"; };
+		F41308AF0A8E279300740620 /* BSDBThreadsListUpdateTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSDBThreadsListUpdateTask.m; sourceTree = "<group>"; };
+		F41308B00A8E279300740620 /* BSDownloadTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSDownloadTask.h; sourceTree = "<group>"; };
+		F41308B10A8E279300740620 /* BSDownloadTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSDownloadTask.m; sourceTree = "<group>"; };
+		F41308B80A8E27A400740620 /* BSThreadsListOPTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSThreadsListOPTask.h; sourceTree = "<group>"; };
+		F41308B90A8E27A400740620 /* BSThreadsListOPTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSThreadsListOPTask.m; sourceTree = "<group>"; };
 		F424609808462452000803EA /* Scripts.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Scripts.tiff; sourceTree = "<group>"; };
 		F4559442088A106E00557B17 /* DatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseManager.h; sourceTree = "<group>"; };
 		F4559443088A106E00557B17 /* DatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabaseManager.m; sourceTree = "<group>"; };
 		F46BD77E09B3413B0069AEB6 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Japanese; path = Japanese.lproj/ConditionTypes.plist; sourceTree = "<group>"; };
 		F47F6EDB09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSThreadListSmartItemDBUpdateTask.h; sourceTree = "<group>"; };
 		F47F6EDC09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSThreadListSmartItemDBUpdateTask.m; sourceTree = "<group>"; };
+		F486FBFD0A8E2C4800D44828 /* OgreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OgreKit.framework; path = ../../../Library/Frameworks/OgreKit.framework; sourceTree = SOURCE_ROOT; };
+		F486FC630A8F69EA00D44828 /* BSBoardListItemHEADCheckTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSBoardListItemHEADCheckTask.h; sourceTree = "<group>"; };
+		F486FC640A8F69EA00D44828 /* BSBoardListItemHEADCheckTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSBoardListItemHEADCheckTask.m; sourceTree = "<group>"; };
 		F4904CE9088C096D00EA9BA8 /* BS Another Story.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BS Another Story.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4904CED088C096E00EA9BA8 /* Info-bs-another-story.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-bs-another-story.plist"; sourceTree = "<group>"; };
 		F4904D22088C116700EA9BA8 /* BSDBThreadList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSDBThreadList.h; sourceTree = "<group>"; };
@@ -2064,6 +2044,7 @@
 				F4FA684E0942DE5E00BE3F27 /* libsqlite.a in Frameworks */,
 				F4F63CC709CD0F9B005FF2DE /* Security.framework in Frameworks */,
 				F411449F09D6EE6C00DDF200 /* CoreFoundation.framework in Frameworks */,
+				F486FBFE0A8E2C4800D44828 /* OgreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2104,6 +2085,7 @@
 		2A37F4C3FDCFA73011CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F486FBFD0A8E2C4800D44828 /* OgreKit.framework */,
 				F411449E09D6EE6C00DDF200 /* CoreFoundation.framework */,
 				F4E2F23408B8A27800177310 /* sqlite */,
 				87C8FBDC09B3631800039203 /* Security.framework */,
@@ -2419,6 +2401,16 @@
 		87B4E68207D82C5300D09944 /* ThreadsList */ = {
 			isa = PBXGroup;
 			children = (
+				F486FC630A8F69EA00D44828 /* BSBoardListItemHEADCheckTask.h */,
+				F486FC640A8F69EA00D44828 /* BSBoardListItemHEADCheckTask.m */,
+				F41308B80A8E27A400740620 /* BSThreadsListOPTask.h */,
+				F41308B90A8E27A400740620 /* BSThreadsListOPTask.m */,
+				F41308AC0A8E279300740620 /* BSDBThreadsListDBUpdateTask2.h */,
+				F41308AD0A8E279300740620 /* BSDBThreadsListDBUpdateTask2.m */,
+				F41308AE0A8E279300740620 /* BSDBThreadsListUpdateTask.h */,
+				F41308AF0A8E279300740620 /* BSDBThreadsListUpdateTask.m */,
+				F41308B00A8E279300740620 /* BSDownloadTask.h */,
+				F41308B10A8E279300740620 /* BSDownloadTask.m */,
 				F47F6EDB09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.h */,
 				F47F6EDC09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.m */,
 				F4E8FB5C09DAEA55006F453C /* BSThreadListCollectAllThreadAttrTask.h */,
@@ -3849,6 +3841,11 @@
 				F4E8FB5E09DAEA55006F453C /* BSThreadListCollectAllThreadAttrTask.h in Headers */,
 				F47F6EDD09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.h in Headers */,
 				F4B3ADFA09EAC7A2003B9195 /* BSReplyTextView.h in Headers */,
+				F41308B20A8E279300740620 /* BSDBThreadsListDBUpdateTask2.h in Headers */,
+				F41308B40A8E279300740620 /* BSDBThreadsListUpdateTask.h in Headers */,
+				F41308B60A8E279300740620 /* BSDownloadTask.h in Headers */,
+				F41308BA0A8E27A400740620 /* BSThreadsListOPTask.h in Headers */,
+				F486FC650A8F69EA00D44828 /* BSBoardListItemHEADCheckTask.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3870,30 +3867,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build,
-					../frameworks/SGFoundation/build,
-					../frameworks/SGNetwork/build,
-					../frameworks/Keychain/build,
-					../frameworks/SGAppKit/build,
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = source/CocoMonar_Prefix.h;
-				GCC_USE_GCC3_PFE_SUPPORT = NO;
-				INFOPLIST_FILE = "Info-bathyscaphe.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = BathyScaphe;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = app;
-			};
 			dependencies = (
 				871CA1870858600900C3A044 /* PBXTargetDependency */,
 				871CA1890858601A00C3A044 /* PBXTargetDependency */,
@@ -3917,24 +3890,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build,
-					../frameworks/SGFoundation/build,
-				);
-				INSTALL_PATH = "@executable_path/../Plugins";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = BoardListEditor;
-				SECTORDER_FLAGS = "";
-				USE_GCC3_PFE_SUPPORT = NO;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = plugin;
-			};
 			dependencies = (
 			);
 			name = editor;
@@ -3955,23 +3910,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build,
-					../frameworks/SGFoundation/build,
-				);
-				INSTALL_PATH = "@executable_path/../Plugins";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = PreferencesPane;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = plugin;
-			};
 			dependencies = (
 			);
 			name = preferences;
@@ -3992,25 +3930,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build,
-					../frameworks/SGFoundation/build,
-					../frameworks/SGNetwork/build,
-				);
-				INSTALL_PATH = "@executable_path/../Plugins";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = 2chConnector;
-				SECTORDER_FLAGS = "";
-				USE_GCC3_PFE_SUPPORT = NO;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = plugin;
-			};
 			dependencies = (
 			);
 			name = reply;
@@ -4031,24 +3950,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build,
-					../frameworks/SGFoundation/build,
-				);
-				INSTALL_PATH = "@executable_path/../Plugins";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = BoardListEditor;
-				SECTORDER_FLAGS = "";
-				USE_GCC3_PFE_SUPPORT = NO;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = plugin;
-			};
 			dependencies = (
 			);
 			name = previewer;
@@ -4067,14 +3968,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				INSTALL_PATH = /usr/local/lib;
-				PREBINDING = NO;
-				PRODUCT_NAME = sqlite;
-				ZERO_LINK = YES;
-			};
 			dependencies = (
 			);
 			name = sqlite;
@@ -4097,30 +3990,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build,
-					../frameworks/SGFoundation/build,
-					../frameworks/SGNetwork/build,
-					../frameworks/Keychain/build,
-					../frameworks/SGAppKit/build,
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = source/CocoMonar_Prefix.h;
-				GCC_USE_GCC3_PFE_SUPPORT = NO;
-				INFOPLIST_FILE = "Info-bathyscaphe.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = BathyScaphe;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = app;
-			};
 			dependencies = (
 				F469D820094366CA007D7EDC /* PBXTargetDependency */,
 				F469D81C094366BE007D7EDC /* PBXTargetDependency */,
@@ -4139,12 +4008,6 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 87E15B530858090F00C345E0 /* Build configuration list for PBXProject "BathyScaphe" */;
-			buildSettings = {
-			};
-			buildStyles = (
-				4A9504D0FFE6A4CB11CA0CBA /* Development */,
-				4A9504D1FFE6A4CB11CA0CBA /* Deployment */,
-			);
 			hasScannedForEncodings = 1;
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* iTteyoshi002 */;
 			projectDirPath = "";
@@ -4966,6 +4829,11 @@
 				F4E8FB5F09DAEA55006F453C /* BSThreadListCollectAllThreadAttrTask.m in Sources */,
 				F47F6EDE09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.m in Sources */,
 				F4B3ADF909EAC7A1003B9195 /* BSReplyTextView.m in Sources */,
+				F41308B30A8E279300740620 /* BSDBThreadsListDBUpdateTask2.m in Sources */,
+				F41308B50A8E279300740620 /* BSDBThreadsListUpdateTask.m in Sources */,
+				F41308B70A8E279300740620 /* BSDownloadTask.m in Sources */,
+				F41308BB0A8E27A400740620 /* BSThreadsListOPTask.m in Sources */,
+				F486FC660A8F69EA00D44828 /* BSBoardListItemHEADCheckTask.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6101,7 +5969,9 @@
 					../frameworks/Keychain/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
 					"$(SRCROOT)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
 				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../Library/Frameworks\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -6150,7 +6020,9 @@
 					../frameworks/Keychain/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
 					"$(SRCROOT)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
 				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../Library/Frameworks\"";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = "";
@@ -6194,7 +6066,9 @@
 					../frameworks/Keychain/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
 					"$(SRCROOT)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
 				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../Library/Frameworks\"";
 				GCC_MODEL_TUNING = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = source/CocoMonar_Prefix.h;

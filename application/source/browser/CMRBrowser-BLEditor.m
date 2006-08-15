@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-BLEditor.m,v 1.8.2.7 2006/03/19 15:09:53 masakih Exp $
+ * $Id: CMRBrowser-BLEditor.m,v 1.8.2.8 2006/08/15 13:43:23 masakih Exp $
  * BathyScaphe
  * CMRBrowser-Action.m, CMRBrowser-ViewAccessor.m から分割
  *
@@ -121,11 +121,15 @@
 		[[self dItemEditSheetLabelField] setStringValue : [self localizedString : kEditDrawerItemTitleForBoardKey]];
 		[[self dItemEditSheetInputField] setStringValue : [[item_ url] absoluteString]]; //objectForKey : BoardPlistURLKey]];
 
-	} else if ([BoardListItem isFolderItem : item_] || [BoardListItem isSmartItem : item_]) {
+	} else if ([BoardListItem isFolderItem : item_]) {
 		[[self dItemEditSheetMsgField]   setStringValue :
 					 [NSString localizedStringWithFormat: [self localizedString : kEditDrawerItemMsgForCategoryKey],name_]];
 		[[self dItemEditSheetLabelField] setStringValue : [self localizedString : kEditDrawerItemTitleForCategoryKey]];
 		[[self dItemEditSheetInputField] setStringValue : name_];
+	} else if ([BoardListItem isSmartItem : item_]) {
+		[[SmartBoardListItemEditor editor] editWithUIWindow:[self window]
+											 smartBoardItem:item_];
+		return;
 	}
 	
 	[NSApp beginSheet : [self drawerItemEditSheet]

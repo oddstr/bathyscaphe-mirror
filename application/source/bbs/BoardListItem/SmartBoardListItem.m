@@ -40,6 +40,17 @@
 	[self setQuery:query];
 }
 
+- (id) condition
+{
+	return mConditions;
+}
+- (void) setCondition:(id)condition
+{
+	id tmp = mConditions;
+	mConditions = [condition retain];
+	[tmp release];
+}
+
 #pragma mark## CMRPropertyListCoding protocol ##
 static NSString *SmartConditionNameKey = @"Name";
 static NSString *SmartConditionConditionKey = @"SmartConditionConditionKey";

@@ -17,6 +17,8 @@
 #import "CMRSearchOptions.h"
 #import "missing.h"
 
+#import "BSThreadsListOPTask.h"
+
 #import "BoardListItem.h"
 
 #import "DatabaseManager.h"
@@ -28,7 +30,7 @@
 - (void)threadViewerDidChangeThread:(id)notification;
 @end
 @interface BSDBThreadList (ToBeRefactoring)
-- (void)updateDateBaseForThreads : (id) aThread;
+- (void)updateDataBaseForThreads : (id) aThread;
 @end
 
 @implementation BSDBThreadList
@@ -49,6 +51,11 @@
 //			[self release];
 //			self = nil;
 //		}
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(didUpdateDBNotification:)
+													 name:@"DidUpdateDBNotification"
+												   object:nil];
 	}
 	
 	return self;
@@ -95,6 +102,8 @@
 	mSortKey = nil;
 	[mSearchString release];
 	mSearchString = nil;
+	
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	[super dealloc];
 }
@@ -168,6 +177,17 @@
 	
 - (void) updateCursor
 {
+	static id lock = nil;
+	static id task = nil;
+	
+	if(!lock) {
+		[mCursorLock lock];
+		if(!lock) {
+			lock = [[NSLock alloc] init];
+		}
+		[mCursorLock unlock];
+	}
+	
 	Class taskClass = NSClassFromString(@"BSThreadListUpdateTask");
 	if(!taskClass) return;
 	
@@ -175,11 +195,22 @@
 	if(!tmClass) return;
 	
 	id tm = [tmClass defaultManager];
-	id t = [taskClass taskWithBSDBThreadList:self];
+//	id t = [taskClass taskWithBSDBThreadList:self];
+	[lock lock];
+	if(task) {
+		[task cancel:self];
+	}
+	task = [taskClass taskWithBSDBThreadList:self];
+	[lock unlock];
 	
-	[tm addTask:t];
+	[tm addTask:task];
 	
-	id temp = [t cursor];
+	id temp = [[[task cursor] retain] autorelease];
+	
+	[lock lock];
+	task = nil;
+	[lock unlock];
+	
 	if(temp) {
 		[mCursorLock lock];
 		{
@@ -187,6 +218,8 @@
 		}
 		[mCursorLock unlock];
 	}
+	
+	NSLog(@"cursor count -> %ld", [mCursor rowCount]);
 	
 	UTILNotifyName(CMRThreadsListDidChangeNotification);
 }
@@ -218,11 +251,20 @@
 
 - (void) sortByKey : (NSString *) key
 {
+	// お気に入りとスマートボードではindexは飾り
+	// TODO 要変更
+	if([self isFavorites] || [self isSmartItem]) {
+		if([key isEqualTo : CMRThreadSubjectIndexKey]) {
+			return;
+		}
+	}
+	
 	id tmp = mSortKey;
 	mSortKey = [key retain];
 	[tmp release];
-	
+
 	[self updateCursor];
+	
 }
 
 #pragma mark## Filter ##
@@ -403,8 +445,11 @@ enum {
 	kValueTemplateNewArrivalType,
 	kValueTemplateNewUnknownType
 };
+
 - (int)numberOfRowsInTableView : (NSTableView *)tableView
 {
+	NSLog(@"numberOfRowsInTableView -> %ld", [self numberOfFilteredThreads]);
+	
 	return [self numberOfFilteredThreads];
 }
 
@@ -502,11 +547,12 @@ This method is called after it has been determined that a drag should begin, but
 
 Compatability Note: This method replaces tableView : writeRows : toPasteboard : .  If present, this is used instead of the deprecated method.
 */
+/*
 - (BOOL)tableView : (NSTableView *)tv writeRowsWithIndexes : (NSIndexSet *)rowIndexes toPasteboard : (NSPasteboard*)pboard
 {
 	return [super tableView : tv writeRowsWithIndexes : rowIndexes toPasteboard : pboard];
 }
-
+*/
 /* This method is used by NSTableView to determine a valid drop target.  Based on the mouse position, the table view will suggest a proposed drop location.  This method must return a value that indicates which dragging operation the data source will perform.  The data source may "re-target" a drop if desired by calling setDropRow : dropOperation: and returning something other than NSDragOperationNone.  One may choose to re-target for various reasons (eg. for better visual feedback when inserting into a sorted position).
 */
 //- (NSDragOperation)tableView : (NSTableView*)tv validateDrop : (id <NSDraggingInfo>)info proposedRow : (int)row proposedDropOperation : (NSTableViewDropOperation)op;
@@ -658,6 +704,10 @@ fail:
 					object : [notification object]];
 }
 
+- (void)didUpdateDBNotification:(id)notification
+{
+	[self updateCursor];
+}
 
 #pragma mark## SearchThread ##
 - (NSMutableDictionary *)seachThreadByPath : (NSString *)filePath
@@ -678,16 +728,17 @@ fail:
 
 
 #pragma mark## Download ##
-- (void) downloadThreadsList
+- (void) loadAndDownloadThreadsList : (CMRThreadLayout *) worker forceDownload : (BOOL) forceDL
 {
 	if( [self isFavorites] || [self isSmartItem] ) {
+#if 1
 		BSFavoritesHEADCheckTask		*task_;
 		
 		task_ = [[BSFavoritesHEADCheckTask alloc]
 				initWithFavItemsArray : [self allThreadAttributes]];
 		[task_ setBoardName : [self boardName]];
 		[task_ setIdentifier : [self boardName]];
-//		[task_ setIdentifier : [NSValue valueWithPointer:task_]];
+		//		[task_ setIdentifier : [NSValue valueWithPointer:task_]];
 		
 		
 		[[NSNotificationCenter defaultCenter]
@@ -696,12 +747,33 @@ fail:
 				   name : BSFavoritesHEADCheckTaskDidFinishNotification
 				 object : task_];
 		
-		[[self worker] push : task_];
+		[worker push : task_];
 		
 		[task_ release];
+#else
+		id task;
+		
+		task = [[NSClassFromString(@"BSBoardListItemHEADCheckTask") alloc] initWithBoardListItem:[self boardListItem]];
+		[worker push:task];
+		[task release];
+#endif
 	} else {
-		[super downloadThreadsList];
+		BSThreadsListOPTask *task;
+		
+		task = [[BSThreadsListOPTask alloc] initWithBBSName:[self boardName] forceDownload:forceDL];
+		
+		[worker push : task];
+		[task release];
 	}
+}
+- (void) doLoadThreadsList : (CMRThreadLayout *) worker
+{
+	[self setWorker : worker]; // ????
+	[self loadAndDownloadThreadsList : worker forceDownload : NO];
+}
+- (void) downloadThreadsList
+{
+	[self loadAndDownloadThreadsList : [self worker] forceDownload : YES];
 }
 
 - (void) cleanUpItemsToBeRemoved : (NSArray *) files
@@ -751,13 +823,13 @@ fail:
 
 - (void) setThreads : (NSMutableArray *) aThreads
 {
-	[self updateDateBaseForThreads : aThreads];
+	[self updateDataBaseForThreads : aThreads];
 	[self updateCursor];
 	
 	[super setThreads : aThreads];
 }
 
-- (void) updateDateBaseForThreads : (id) aThreads
+- (void) updateDataBaseForThreads : (id) aThreads
 {
 	Class taskClass = NSClassFromString(@"BSThreadListDBUpdateTask");
 	if(!taskClass) return;

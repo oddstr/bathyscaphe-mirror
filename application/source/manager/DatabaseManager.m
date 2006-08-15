@@ -466,7 +466,8 @@ abort:
 	}
 	
 	if ([db beginTransaction]) {
-		isOK = [db createTemporaryTable : TempThreadNumberTableName
+		isOK = //[db createTemporaryTable : TempThreadNumberTableName
+			[db createTable : TempThreadNumberTableName
 							withColumns : [self tempThreadNumberColumns]
 						   andDatatypes : [self tempThreadNumberDataTypes]];
 		if (!isOK) goto abort;

@@ -261,7 +261,7 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 		newItem_ = [BoardListItem boardListItemWithURLString:url_];
 
 		[userList addItem : newItem_ afterObject : nil];
-		[userList postBoardListDidChangeNotification];
+//		[userList postBoardListDidChangeNotification];
 		return YES;
 	}
 }

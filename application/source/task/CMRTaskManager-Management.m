@@ -1,6 +1,6 @@
 //: CMRTaskManager-Management.m
 /**
-  * $Id: CMRTaskManager-Management.m,v 1.1 2005/05/11 17:51:07 tsawada2 Exp $
+  * $Id: CMRTaskManager-Management.m,v 1.1.1.1.4.1 2006/08/15 13:43:23 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -72,6 +72,17 @@ static const NSTimeInterval		kNotifyTimeInterval = (12 / 60) * 2;
 	if(shouldCheck_)
 		[self checkTasks];
 }
+- (void) setTimerOnMainThread : (NSMutableArray *)container
+{
+	id t;
+	
+	t = [NSTimer scheduledTimerWithTimeInterval : kNotifyTimeInterval
+										 target : self
+									   selector : @selector(taskWillProgressProcessing:)
+									   userInfo : nil
+										repeats : YES];
+	[container addObject:t];
+}
 - (void) addTaskInProgress : (id<CMRTask>) aTask
 {
 	CMRTaskItemController		*controller_;
@@ -94,12 +105,18 @@ static const NSTimeInterval		kNotifyTimeInterval = (12 / 60) * 2;
 			nil == _notificationTimer,
 			@"Timer was already assigned");
 		
+		NSArray *container = [NSMutableArray arrayWithCapacity:1]; 
+		[self performSelectorOnMainThread:@selector(setTimerOnMainThread:)
+							   withObject:container
+							waitUntilDone:YES];
+		timer_ = [container objectAtIndex:0];
+/*		
 		timer_ = [NSTimer scheduledTimerWithTimeInterval : kNotifyTimeInterval
 						target : self
 						selector : @selector(taskWillProgressProcessing:)
 						userInfo : nil
 						repeats : YES];
-		
+*/		
 		_notificationTimer = [timer_ retain];
 	}
 }

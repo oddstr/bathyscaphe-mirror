@@ -1,6 +1,6 @@
 //: CMRTaskItemController.m
 /**
-  * $Id: CMRTaskItemController.m,v 1.1 2005/05/11 17:51:07 tsawada2 Exp $
+  * $Id: CMRTaskItemController.m,v 1.1.1.1.4.1 2006/08/15 13:43:23 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -137,8 +137,8 @@
 - (void) updateUIComponents
 {
 	double					amount_;
-	id<CMRTask>				task_ = [self task];
-	NSProgressIndicator		*indicator_ = [self indicator];
+	id<CMRTask>				task_ = [[[self task] retain] autorelease]; // 別スレッドで削除される可能性あり
+	NSProgressIndicator		*indicator_ = [[[self indicator] retain] autorelease];
 	
 	if(nil == task_) return;
 	

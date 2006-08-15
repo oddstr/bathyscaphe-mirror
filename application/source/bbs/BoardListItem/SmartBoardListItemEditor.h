@@ -31,6 +31,9 @@
 			settingSelector : (SEL)settingSelector
 				   userInfo : (void *)userInfo;
 
+- (void)editWithUIWindow : (NSWindow *)modalForWindow
+		  smartBoardItem : (BoardListItem *)smartBoardItem;
+
 - (IBAction)ok:(id)sender;
 - (IBAction)cancel:(id)sender;
 

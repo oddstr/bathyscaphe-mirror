@@ -16,40 +16,46 @@
 
 // description method must be return same as conditionString method's returns.
 - (NSString *)description;
+
+- (int)operator;
 @end
 
-typedef enum _SCOperation
+typedef enum _SCOperator
 {
-	SCUnknownOperation = 0,
+	SCUnknownOperator = 0,
 	
-	SCContaionsOperation,
-	SCNotContainsOperation,
-	SCExactOperation,
-	SCNotExactOperation,
-	SCBeginsWithOperation,
-	SCEndsWithOperation,
+	SCContaionsOperator,
+	SCNotContainsOperator,
+	SCExactOperator,
+	SCNotExactOperator,
+	SCBeginsWithOperator,
+	SCEndsWithOperator,
 	
-	SCEqualOperation,
-	SCNotEqualOperation,
-	SCLargerOperation,
-	SCSmallerOperation,
-	SCRangeOperation,
-} SCOperation;
+	SCEqualOperator,
+	SCNotEqualOperator,
+	SCLargerOperator,
+	SCSmallerOperator,
+	SCRangeOperator,
+} SCOperator;
 
 @interface SmartCondition : NSObject <SmartCondition>
 {
 	@protected
 	id mTarget;
-	SCOperation mOperation;
+	SCOperator mOperator;
 	id mValue1;
 	id mValue2;
 }
 
-+ (id) conditionWithTarget : (NSString *)target operation : (SCOperation)operation value : (id)value;
-+ (id) conditionWithTarget : (NSString *)target operation : (SCOperation)operation value : (id)value1 value : (id) value2;
++ (id) conditionWithTarget : (NSString *)target operator : (SCOperator)operator value : (id)value;
++ (id) conditionWithTarget : (NSString *)target operator : (SCOperator)operator value : (id)value1 value : (id) value2;
 
-- (id) initWithTarget : (NSString *)target operation : (SCOperation)operation value : (id)value;
-- (id) initWithTarget : (NSString *)target operation : (SCOperation)operation value : (id)value1 value : (id) value2;
+- (id) initWithTarget : (NSString *)target operator : (SCOperator)operator value : (id)value;
+- (id) initWithTarget : (NSString *)target operator : (SCOperator)operator value : (id)value1 value : (id) value2;
+
+- (id)key;
+- (id)value;
+- (SCOperator)operator;
 
 - (NSString *) conditionString;
 @end
@@ -63,15 +69,15 @@ typedef enum _SCOperation
 @end
 
 
-typedef enum _SCCOperation
+typedef enum _SCCOperator
 {
-	SCCUnionOperation,
-	SCCIntersectionOperation,
-} SCCOperation;
+	SCCUnionOperator,
+	SCCIntersectionOperator,
+} SCCOperator;
 
 @interface SmartConditionComposit : NSObject <SmartCondition>
 {
-	SCCOperation mOperation;
+	SCCOperator mOperator;
 	id mConditions;
 }
 
@@ -81,7 +87,7 @@ typedef enum _SCCOperation
 + (id)intersectionCompositWithConditions : (id)firstCondition, ...;
 
 	// primitive method.
-- (id)initCompositWithOperation:(SCCOperation)ope conditions:(NSArray *)conditions;
+- (id)initCompositWithOperator:(SCCOperator)ope conditions:(NSArray *)conditions;
 
 - (id)initUnionCompositWithArray : (NSArray *)conditions;
 - (id)initUnionCompositWithConditions : (id)firstCondition, ...;
@@ -91,5 +97,5 @@ typedef enum _SCCOperation
 - (NSString *) conditionString;
 
 - (NSArray *)conditions;
-- (SCCOperation)operation;
+- (SCCOperator)operator;
 @end

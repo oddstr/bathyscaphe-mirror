@@ -137,6 +137,23 @@ static inline NSInvocation *checkMethodSignature(id obj, SEL selector)
 	}
 }
 
+- (void)editWithUIWindow : (NSWindow *)inModalForWindow
+		  smartBoardItem : (BoardListItem *)smartBoardItem;
+{
+	[nameField setStringValue:[smartBoardItem name]];
+	[helper buildHelperFromCondition:[smartBoardItem condition]];
+	if(inModalForWindow) {
+		[NSApp beginSheet:editorWindow
+		   modalForWindow:inModalForWindow
+			modalDelegate:self
+		   didEndSelector:@selector(endSelector:returnCode:contextInfo:)
+			  contextInfo:NULL];
+	} else {
+		[editorWindow makeKeyAndOrderFront:self];
+	}
+	
+}
+
 // windowWillClose: で[self cancel:self]を呼ぶと、[NSWindow close] が呼ばれるため無限ループに陥る。
 - (BOOL)windowShouldClose:(id)sender
 {

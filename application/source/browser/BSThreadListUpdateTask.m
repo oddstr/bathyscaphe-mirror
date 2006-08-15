@@ -266,9 +266,9 @@ static inline NSString *orderBy( NSString *sortKey, BOOL isAscending )
 		sql = [self sqlForListForType : kAllThreadType];
 	}
 	
-	// if(userCanceled) goto final;
-	//	sql = [sql stringByAppendingString:@"\nLIMIT 10000"];
-	//	newersSQL = [newersSQL stringByAppendingString:@"\nLIMIT 10000"];
+	if(userCanceled) goto final;
+	sql = [sql stringByAppendingString:@"\nLIMIT 10000"];
+	newersSQL = [newersSQL stringByAppendingString:@"\nLIMIT 10000"];
 	
 	do {
 		if(userCanceled) goto final;
@@ -323,6 +323,8 @@ final:
 - (void) postTaskDidFinishNotification
 {
 	NSNotificationCenter	*nc_;
+	
+	progress = NO;
 	
 	nc_ = [NSNotificationCenter defaultCenter];
 	[nc_ postNotificationName : CMRTaskDidFinishNotification

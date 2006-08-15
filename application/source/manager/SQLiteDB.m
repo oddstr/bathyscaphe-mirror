@@ -121,9 +121,9 @@ int progressHandler(void *obj)
 		mDatabase = NULL;
 		
 		return NO;
-	} else {
+	}/* else {
 		sqlite3_progress_handler(mDatabase, 1, progressHandler, self);
-	}
+	}*/
 	
 	_isOpen = YES;
 	

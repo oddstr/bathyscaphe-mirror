@@ -424,11 +424,26 @@ static NSString *const NNDAllThreadsAAKey	= @"AABoard";
 	[mdict_ release];
 }
 
+- (id)itemForName : (NSString *) boardName
+{
+	id list_;
+	id item_;
+	
+	list_ = [self userList];
+	item_ = [list_ itemForName : boardName];
+	if(item_) return item_;
+	
+	list_ = [self defaultList];
+	item_ = [list_ itemForName : boardName];
+	
+	return item_;
+}
+	
 - (NSImage *) iconForBoard : (NSString *) boardName
 {
 	// Future will be...
 	BoardListItem	*item_;
-	item_ = [[self defaultList] itemForName : boardName];
+	item_ = [self itemForName : boardName];
 	
 	return [item_ icon];
 }
