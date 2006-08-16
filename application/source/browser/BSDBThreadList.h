@@ -29,6 +29,7 @@
 - (id) initWithBoardListItem : (BoardListItem *)item;
 + (id) threadListWithBoardListItem : (BoardListItem *)item;
 
+- (void)setBoardListItem:(BoardListItem *)item;
 - (id) boardListItem;
 - (id) searchString;
 - (id) sortKey;

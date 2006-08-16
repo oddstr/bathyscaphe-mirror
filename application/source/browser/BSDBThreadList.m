@@ -43,8 +43,8 @@
 	self = [super init];
 	if (self) {
 		[self setBBSName : [item name]];
-		mBoardListItem = [item retain];
-		mSortKey = [[[BoardManager defaultManager] sortColumnForBoard : [self boardName]] retain];
+		[self setBoardListItem:item];
+		
 		mCursorLock = [[NSLock alloc] init];
 //		[self updateCursor];
 //		if (!mCursor) {
@@ -148,6 +148,15 @@
 	          object : [CMRFavoritesManager defaultManager]];
 	
 	[super removeFromNotificationCenter];
+}
+
+- (void)setBoardListItem:(BoardListItem *)item
+{
+	id temp = mBoardListItem;
+	mBoardListItem = [item retain];
+	[temp release];
+	
+	mSortKey = [[[BoardManager defaultManager] sortColumnForBoard : [self boardName]] retain];
 }
 
 - (BOOL)isFavorites

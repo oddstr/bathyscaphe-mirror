@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.7.2.7 2006/04/10 17:10:21 masakih Exp $
+  * $Id: CMRBrowser-List.m,v 1.7.2.8 2006/08/16 00:01:48 masakih Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -39,7 +39,9 @@
 		 oldDelegate : [self currentThreadsList]
 		 newDelegate : newList];
 	
-	[[self threadsListTable] setDataSource : newList];
+	if(![[self threadsListTable] dataSource]) {
+		[[self threadsListTable] setDataSource : newList];
+	}
 	[[self document] setCurrentThreadsList : newList];
 
 	[self clearSearchFilter];
@@ -70,7 +72,7 @@
 	}
 	
 	[[self threadsListTable] deselectAll : nil];
-	[[self threadsListTable] setDataSource : nil];
+//	[[self threadsListTable] setDataSource : nil];
 	
 	list_ = [BSDBThreadList threadsListWithBBSName : boardName];
 	if(nil == list_)
@@ -108,12 +110,18 @@
 	}
 	
 	[[self threadsListTable] deselectAll : nil];
-	[[self threadsListTable] setDataSource : nil];
-	
+//	[[self threadsListTable] setDataSource : nil];
+/*	
 	list_ = [BSDBThreadList threadListWithBoardListItem : board];
 	if(nil == list_)
 		return;
-	
+*/
+	if(![self currentThreadsList]) {
+		list_ = [BSDBThreadList threadListWithBoardListItem : board];
+	} else {
+		list_ = [self currentThreadsList];
+		[list_ setBoardListItem:board];
+	}
 	[self setCurrentThreadsList : list_];
 	
 	// sort column change
