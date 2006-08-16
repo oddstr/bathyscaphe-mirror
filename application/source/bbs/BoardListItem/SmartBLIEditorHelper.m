@@ -815,11 +815,11 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 		} else if(qualifier < dateItemExtension) {	// 相対日付
 			int v = [[self uiItemForTag:daysExpressionFieldTag] intValue];
 			v *= [[[self uiItemForTag:daysUnitPopUpTag] selectedItem] tag];
-			value1 = [NSNumber numberWithInt:v];
+			value1 = [NSNumber numberWithInt:-1 * v];
 			if(qualifier == daysRangeQualifierItemTag) {
 				v = [[self uiItemForTag:daysExpressionField2Tag] intValue];
 				v *= [[[self uiItemForTag:daysUnitPopUpTag] selectedItem] tag];
-				value2 = [NSNumber numberWithInt:v];
+				value2 = [NSNumber numberWithInt:-1 * v];
 			}
 			condClasss = [RelativeDateLiveCondition class];
 		} else if(qualifier < lastExtensionsLabel) { // 絶対日付

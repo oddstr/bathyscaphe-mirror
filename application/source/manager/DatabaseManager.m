@@ -350,6 +350,7 @@ abort:
 {
 	BOOL isOK = NO;
 	NSString *query;
+	NSMutableArray *indexies;
 	
 	SQLiteDB *db = [self databaseForCurrentThread];
 	if (!db) return NO;
@@ -358,14 +359,24 @@ abort:
 		return YES;
 	}
 	
+	indexies =[NSMutableArray arrayWithCapacity:3];
+	query = [self queryForCreateIndexWithMultiColumn : [NSString stringWithFormat : @"%@", BoardIDColumn]
+											 inTable : ThreadInfoTableName
+											isUnique : NO];
+	[indexies addObject:query];
+	query = [self queryForCreateIndexWithMultiColumn : [NSString stringWithFormat : @"%@", ThreadIDColumn]
+											 inTable : ThreadInfoTableName
+											isUnique : NO];
+	[indexies addObject:query];
 	query = [self queryForCreateIndexWithMultiColumn : [NSString stringWithFormat : @"%@,%@", BoardIDColumn, ThreadIDColumn]
 											 inTable : ThreadInfoTableName
 											isUnique : YES];
+	[indexies addObject:query];
 	if ([db beginTransaction]) {
 		isOK = [self createTable : ThreadInfoTableName
 					 withColumns : [self threadInfoColumns]
 					andDataTypes : [self threadInfoDataTypes]
-				 andIndexQueries : [NSArray arrayWithObject : query]];
+				 andIndexQueries : indexies];
 		if (!isOK) goto abort;
 		
 		// dummy data for set ThreadIDColumn to 0.
@@ -457,6 +468,7 @@ abort:
 - (BOOL) createTempThreadNumberTable
 {
 	BOOL isOK = NO;
+	NSString *query;
 	
 	SQLiteDB *db = [self databaseForCurrentThread];
 	if (!db) return NO;
@@ -465,11 +477,15 @@ abort:
 		return YES;
 	}
 	
+	query = [self queryForCreateIndexWithMultiColumn : [NSString stringWithFormat : @"%@,%@", BoardIDColumn, ThreadIDColumn]
+											 inTable : TempThreadNumberTableName
+											isUnique : YES];
+	
 	if ([db beginTransaction]) {
-		isOK = //[db createTemporaryTable : TempThreadNumberTableName
-			[db createTable : TempThreadNumberTableName
-							withColumns : [self tempThreadNumberColumns]
-						   andDatatypes : [self tempThreadNumberDataTypes]];
+		isOK = [self createTable : TempThreadNumberTableName
+					 withColumns : [self tempThreadNumberColumns]
+					andDataTypes : [self tempThreadNumberDataTypes]
+				 andIndexQueries : [NSArray arrayWithObject : query]];
 		if (!isOK) goto abort;
 		
 		[db commitTransaction];

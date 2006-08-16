@@ -144,6 +144,14 @@ static NSDictionary *sConditionTypes = nil;
 		}
 		mTarget = [target retain];
 		mOperator = operator;
+		
+		if(mOperator == SCRangeOperator) {
+			if([value1 floatValue] > [value2 floatValue]) {
+				id t = value1;
+				value1 = value2;
+				value2 = t;
+			}
+		}
 		[self _setValue1 : value1];
 		[self _setValue2 : value2];
 	}
@@ -153,6 +161,7 @@ static NSDictionary *sConditionTypes = nil;
 
 - (NSString *)conditionString
 {
+	NSString *result = nil;
 	NSString *format = nil;
 	BOOL useValue2 = NO;
 	
@@ -200,9 +209,14 @@ static NSDictionary *sConditionTypes = nil;
 	if(!mValue1) return nil;
 	if(useValue2 && !mValue2) return nil;
 	
-	return (useValue2) ? [NSString stringWithFormat : format, mTarget, mValue1, mTarget, mValue2] :
-		[NSString stringWithFormat:format, mTarget, mValue1];
-		
+	if(useValue2) {
+		result = [NSString stringWithFormat : format, 
+			[self key], [self value], [self key], [self value2]];
+	} else {
+		result = [NSString stringWithFormat:format, [self key], [self value]];
+	}
+	
+	return result;
 }
 
 - (NSString *)description
@@ -234,6 +248,22 @@ static inline void setValueToValue( id value, id *toValue )
 - (void) _setValue2 : (id) value
 {
 	setValueToValue(value, &mValue2);
+}
+- (id)key
+{
+	return mTarget;
+}
+- (id)value
+{
+	return mValue1;
+}
+- (id)value2
+{
+	return mValue2;
+}
+- (SCOperator)operator
+{
+	return mOperator;
 }
 
 
@@ -288,84 +318,24 @@ static NSString *SCValue2CodingKey = @"SCValue2CodingKey";
 	
 	return self;
 }
+
 @end
 
 @implementation RelativeDateLiveCondition
-- (id) initWithTarget : (NSString *)target operator : (SCOperator)operator value : (id)value
+
+- (id)value
 {
-	if( self = [super initWithTarget:target operator:operator value:value] ) {
-		mAbsoluteDate1 = [value retain];
-		[self update];
-	}
+	NSDate *date = [NSDate dateWithTimeIntervalSinceNow:[mValue1 intValue]];
 	
-	return self;
+	return [NSNumber numberWithInt:[date timeIntervalSince1970]];
 }
-- (id) initWithTarget : (NSString *)target operator : (SCOperator)operator value : (id)value1 value : (id) value2
+- (id)value2
 {
-	if( self = [super initWithTarget:target operator:operator value:value1 value:value2] ) {
-		mAbsoluteDate1 = [value1 retain];
-		mAbsoluteDate2 = [value2 retain];
-		[self update];
-	}
+	NSDate *date = [NSDate dateWithTimeIntervalSinceNow:[mValue2 intValue]];
 	
-	return self;
-}
-- (NSString *)conditionString
-{
-	[self update];
-	return [super conditionString];
-}
-- (NSString *) description
-{
-	return [super description];
-}
-- (void)update
-{
-	id now = [NSDate dateWithTimeIntervalSinceNow:0.0];
-	//	@synchronized(self) {
-	[self _setValue1:[NSNumber numberWithInt:[now timeIntervalSince1970] - [mAbsoluteDate1 intValue]]];
-	if(mAbsoluteDate2) {
-		[self _setValue2:[NSNumber numberWithInt:[now timeIntervalSince1970] - [mAbsoluteDate2 intValue]]];
-	}
-	//	}
+	return [NSNumber numberWithInt:[date timeIntervalSince1970]];
 }
 
-#pragma mark## NSCoding ##
-static NSString *ADValue1CodingKey = @"ADValue1CodingKey";
-static NSString *ADValue2CodingKey = @"ADValue2CodingKey";
-
-- (void)encodeWithCoder:(NSCoder *)aCoder
-{
-	[super encodeWithCoder:aCoder];
-	
-	if([aCoder allowsKeyedCoding]) {
-		[aCoder encodeObject:mAbsoluteDate1 forKey:ADValue1CodingKey];
-		if(mAbsoluteDate2) {
-			[aCoder encodeObject:mAbsoluteDate2 forKey:ADValue2CodingKey];
-		}
-	} else {
-		[aCoder encodeObject:mAbsoluteDate1];
-		if(mAbsoluteDate2) {
-			[aCoder encodeObject:mAbsoluteDate2];
-		}
-	}
-}
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-	if( self = [super initWithCoder:aDecoder]) {
-		if([aDecoder allowsKeyedCoding]) {
-			mAbsoluteDate1 = [[aDecoder decodeObjectForKey:ADValue1CodingKey] retain];
-			mAbsoluteDate2 = [[aDecoder decodeObjectForKey:ADValue2CodingKey] retain];
-		} else {
-			mAbsoluteDate1 = [[aDecoder decodeObject] retain];
-			if(mOperator == SCRangeOperator) {
-				mAbsoluteDate2 = [[aDecoder decodeObject] retain];
-			}
-		}
-	}
-	
-	return self;
-}
 @end
 
 

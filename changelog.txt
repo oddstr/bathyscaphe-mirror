@@ -1,4 +1,12 @@
 2006-08-16 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m
+		相対日付の時の値の正負が逆だったので直した。
+	* application/source/bbs/BoardListItem/SmartCondition.{h|m}
+	* application/source/bbs/BoardListItem/SmartBoardListItem.m
+		相対日付に関する条件をややこしく考えていたのを分かりやすくした。
+	* application/source/manager/DatabaseManager.m
+		SELECT を重視してインデックスを付けてパフォーマンスを向上させた。
+2006-08-16 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSDBThreadList.h
 	* application/source/browser/BSDBThreadList.m
 	* application/source/browser/CMRBrowser-List.m

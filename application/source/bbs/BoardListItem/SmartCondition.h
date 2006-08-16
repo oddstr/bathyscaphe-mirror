@@ -55,17 +55,13 @@ typedef enum _SCOperator
 
 - (id)key;
 - (id)value;
+- (id)value2;
 - (SCOperator)operator;
 
 - (NSString *) conditionString;
 @end
 
-@interface RelativeDateLiveCondition : SmartCondition <SmartCondition>
-{
-	id mAbsoluteDate1;
-	id mAbsoluteDate2;
-}
-- (void)update;
+@interface RelativeDateLiveCondition : SmartCondition //<SmartCondition>
 @end
 
 

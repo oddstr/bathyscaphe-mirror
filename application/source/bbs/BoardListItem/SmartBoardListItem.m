@@ -30,6 +30,11 @@
 	return [NSImage imageAppNamed : @"SmartBoard"];
 }
 
+- (id)query
+{
+	return [NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@",
+		BoardThreadInfoViewName, mConditions];
+}
 - (void)updateQuery
 {
 	NSString *query;
