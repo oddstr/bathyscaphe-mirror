@@ -8,6 +8,7 @@
 
 #import "SmartBoardListItemEditor.h"
 
+#import "BoardManager.h"
 
 @implementation SmartBoardListItemEditor
 
@@ -72,6 +73,30 @@ static inline NSInvocation *checkMethodSignature(id obj, SEL selector)
 	return result;
 }
 
+- (NSString *)newItemName
+{
+	NSString *result = NSLocalizedString(@"New SmartBoard", @"New SmartBoard");
+	SmartBoardList *bl = [[BoardManager defaultManager] userList];
+	id item;
+	
+	item = [bl itemForName:result];
+	if(!item) {
+		return result;
+	}
+	
+	unsigned i;
+	for(i = 2; i < UINT_MAX; i++) {
+		result = [[NSString alloc] initWithFormat:NSLocalizedString(@"New SmartBoard %u", @"New SmartBoard %u"), i];
+		if(![bl itemForName:result]) {
+			break;
+		}
+		[result release];
+		result = nil;
+	}
+	
+	return result;
+}
+
 - (void) cretateFromUIWindow : (NSWindow *)inModalForWindow
 					delegate : (id)delegate
 			 settingSelector : (SEL)settingSelector
@@ -87,8 +112,7 @@ static inline NSInvocation *checkMethodSignature(id obj, SEL selector)
 		[mInvocation retain];
 	}
 	
-	NSLog(@"Must Be Change!!!");
-	[nameField setStringValue:NSLocalizedString(@"New SmartBoard 1", @"New SmartBoard 1")];
+	[nameField setStringValue:[self newItemName]];
 	if(inModalForWindow) {
 		[NSApp beginSheet:editorWindow
 		   modalForWindow:inModalForWindow
