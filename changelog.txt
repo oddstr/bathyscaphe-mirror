@@ -3,6 +3,8 @@
 		新規スマートリストの名前の生成をHIGに適合。
 	* application/source/browser/BSDBThreadList.{h|m}
 		生成するCMRTaskの管理をちゃんとするようにした。
+	* application/source/browser/BSThreadsListOPTask.{h|m}
+		ややこしいので単一のスレッドで全部実行するようにした。
 2006-08-16 masakih <masakih@users.sourceforge.jp>
 	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m
 		相対日付の時の値の正負が逆だったので直した。

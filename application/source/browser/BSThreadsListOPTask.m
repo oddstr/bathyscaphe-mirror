@@ -18,26 +18,7 @@
 #import "BoardManager.h"
 #import "CMRHostHandler.h"
 
-static CMXWorkerContext *sDLWorker;
-static CMXWorkerContext *sUpWorker;
-
 @implementation BSThreadsListOPTask
-
-+ (void)initialize
-{
-	static BOOL isFirst = YES;
-	if(isFirst) {
-		isFirst = NO;
-		if(!sDLWorker) {
-			sDLWorker = [[CMXWorkerContext alloc] initWithUsingDrawingThread:YES];
-			[sDLWorker run];
-		}
-		if(!sUpWorker) {
-			sUpWorker = [[CMXWorkerContext alloc] initWithUsingDrawingThread:YES];
-			[sUpWorker run];
-		}
-	}
-}
 
 + (id)taskWithBBSName:(NSString *)name forceDownload:(BOOL)forceDownload
 {
@@ -54,9 +35,7 @@ static CMXWorkerContext *sUpWorker;
 		if(!u) goto fail;
 		
 		bbsName = [name retain];
-		statusLock = [[NSLock alloc] init];
 		[self setURL:u];
-		status = BSThreadsListOPTaskStart;
 		forceDL = forceDownload;
 	}
 	
@@ -70,7 +49,8 @@ fail:{
 
 - (void)dealloc
 {
-	[statusLock release];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
 	[targetURL release];
 	[dlTask release];
 	[dbloadTask release];
@@ -91,22 +71,6 @@ fail:{
 - (NSURL *)url
 {
 	return targetURL;
-}
-- (void)addStatus:(int)stat
-{
-	[statusLock lock];
-	status |= stat;
-	[statusLock unlock];
-}
-- (void)setStatus:(int)stat
-{
-	[statusLock lock];
-	status = stat;
-	[statusLock unlock];
-}
-- (int)status
-{
-	return status;
 }
 
 #pragma mark-
@@ -154,53 +118,34 @@ fail:{
 #pragma mark-
 - (void) doExecuteWithLayout : (CMRThreadLayout *) layout
 {
-	[self setStatus:BSThreadsListOPTaskStart];
+	dbloadTask = [self makeUpdateTask];
+	[dbloadTask run];
 	
-//	CMRTaskManager *tm = [CMRTaskManager defaultManager];
-	
+	[self checkIsInterrupted];
 	if([CMRPref isOnlineMode] || forceDL) {
 		dlTask = [self makeDownloadTask];
+		[dlTask run];
 		
-//		[tm addTask:dlTask];
-		[sDLWorker push:dlTask];
-	} else {
-		[self addStatus:BSThreadsListOPTaskFinishDL];
-	}
-	dbloadTask = [self makeUpdateTask];
-	//	[tm addTask:dlTask];
-	[sUpWorker push:dbloadTask];
-	
-	// 双方の処理が終わるまで待つ。
-	while(BSThreadsListOPTaskFinishAll != [self status]) {
-		[self checkIsInterrupted];
+		id temp = dlTask;
+		dlTask = nil;
+		[temp release];
 	}
 	
+	[self checkIsInterrupted];
 	if([CMRPref isOnlineMode] || forceDL) {
-		//
 		if(downloadData && [downloadData length] != 0) {
-			[self setStatus:BSThreadsListOPTaskStart];
 			dbupTask = [[BSDBThreadsListDBUpdateTask2 alloc] initWithBBSName:bbsName
 																		data:downloadData];
 			[[NSNotificationCenter defaultCenter] addObserver:self
 													 selector:@selector(dbloadDidFinishUpdateDBNotification:)
 														 name:BSDBThreadsListDBUpdateTask2DidFinishNotification
 													   object:dbupTask];
+			[dbupTask run];
 			
-			[sUpWorker push:dbupTask];
-			
-			while( !(BSThreadsListOPTaskFinishUpdateDB & [self status]) ) {
-				[self checkIsInterrupted];
-			}
-			
+			[self checkIsInterrupted];
 			
 			// 再表示
-			[self setStatus:BSThreadsListOPTaskStart];
-			//	[tm addTask:dlTask];
-			[sUpWorker push:dbloadTask];
-			
-			while( !(BSThreadsListOPTaskFinishUp & [self status]) ) {
-				[self checkIsInterrupted];
-			}
+			[dbloadTask run];
 		}
 	}
 	
@@ -209,21 +154,17 @@ fail:{
 
 - (void) finalizeWhenInterrupted
 {
-	[dlTask cancel:self];
-	[dbloadTask cancel:self];
-	[dbupTask cancel:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 	
 	
 - (void)dlDidFinishDownlocadNotification:(id)notification
 {
 	downloadData = [[[notification object] receivedData] retain];
-	
-	[self addStatus:BSThreadsListOPTaskFinishDL];
 }
 - (void)dbloadDidFinishUpdateNotification:(id)notification
 {
-	[self addStatus:BSThreadsListOPTaskFinishUp];
+	//
 }
 -(void)dlCancelDownlocadNotification:(id)notification
 {
@@ -233,7 +174,7 @@ fail:{
 }
 - (void)dbloadDidFinishUpdateDBNotification:(id)notification
 {
-	[self addStatus:BSThreadsListOPTaskFinishUpdateDB];
+	//
 }
 
 #pragma mark-
@@ -251,17 +192,11 @@ fail:{
 	return [NSString stringWithFormat:NSLocalizedString(@"Update threads list. %@", @"Update threads list for %@."),
 		bbsName];
 }
-/*
-- (double)amount
-{
-	return -1;
-}
-*/
+
 -(IBAction)cancel:(id)sender
 {
 	[dlTask cancel:self];
 	[dbloadTask cancel:self];
-	[self setStatus:BSThreadsListOPTaskFinishAll];
 	
 	[super cancel:sender];
 }

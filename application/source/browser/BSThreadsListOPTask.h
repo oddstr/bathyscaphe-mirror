@@ -15,20 +15,9 @@
 
 @class BSDownloadTask,BSDBThreadsListUpdateTask, BSDBThreadsListDBUpdateTask2;
 
-enum {
-	BSThreadsListOPTaskStart = 0,
-	BSThreadsListOPTaskFinishDL = 0x01,
-	BSThreadsListOPTaskFinishUp = 0x02,
-	BSThreadsListOPTaskFinishAll = BSThreadsListOPTaskFinishDL + BSThreadsListOPTaskFinishUp,
-	
-	BSThreadsListOPTaskFinishUpdateDB = 0x04,
-};
-
 @interface BSThreadsListOPTask : CMRThreadLayoutConcreateTask //NSObject <CMRTask, CMXRunnable>
 {
 	BOOL forceDL;
-	int status;
-	NSLock *statusLock;
 	
 	NSURL *targetURL;
 	NSString *bbsName;
