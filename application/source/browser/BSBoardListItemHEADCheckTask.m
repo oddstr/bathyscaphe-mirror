@@ -58,20 +58,53 @@ static BOOL shouldCheckItemHeader(id dict);
 }
 - (NSString *)title
 {
-	return NSLocalizedString(@"ProgressBoardListItemHEADCheck.", @"ProgressBoardListItemHEADCheck.");
+	NSString *format = NSLocalizedString(@"Checking SmartBoard(%@).", @"ProgressBoardListItemHEADCheck.");
+	return [NSString stringWithFormat:format, [item name]];
+}
+- (void)setAmountString:(NSString *)str
+{
+	id temp = amountString;
+	amountString = [str retain];
+	[temp release];
+}
+- (NSString *)amountString
+{
+	return amountString;
+}
+- (void)setDescString:(NSString *)str
+{
+	id temp = descString;
+	descString = [str retain];
+	[temp release];
+}
+- (NSString *)descString
+{
+	return descString;
 }
 - (NSString *) messageInProgress
 {
+	if([self descString] && [self amountString]) {
+		return [NSString stringWithFormat:@"%@ (%@)", [self descString], [self amountString]];
+	}
 	return [NSString stringWithFormat:NSLocalizedString(@"ProgressBoardListItemHEADCheck.", "ProgressBoardListItemHEADCheck.")];
 }
 - (void) doExecuteWithLayout : (CMRThreadLayout *) layout
 {
+	[self updateNewCreate];
+	
 	NSArray *threads = [self threadInfomations];
 	NSEnumerator *threadsEnum;
 	id thread;
 	NSMutableArray *updatedThreads = [NSMutableArray array];
-	
 	id nsnull = [NSNull null];
+	
+//	[self checkHOGE];
+	
+	int numberOfAllTarget = [threads count];
+	int numberOfFinishCheck = 0;
+	int numberOfSkip = 0;
+	[self setAmountString:[NSString stringWithFormat:@"%d/%d (%d skiped)", numberOfFinishCheck, numberOfAllTarget, numberOfSkip]];
+	[self setDescString:NSLocalizedString(@"checking thread", @"")];
 	
 	threadsEnum = [threads objectEnumerator];
 	while(thread = [threadsEnum nextObject]) {
@@ -81,9 +114,12 @@ static BOOL shouldCheckItemHeader(id dict);
 		id response;
 		id newMod;
 		
+		[self checkIsInterrupted];
+		[self setAmountString:[NSString stringWithFormat:@"%d/%d (%d skiped)", ++numberOfFinishCheck, numberOfAllTarget, numberOfSkip]];
+		
 		if(!shouldCheckItemHeader(thread)) {
 			[pool release];
-			NSLog(@"skip %@", thread);
+			numberOfSkip++;
 			continue;
 		}
 		
@@ -109,7 +145,6 @@ static BOOL shouldCheckItemHeader(id dict);
 			NSCalendarDate	*dateLastMod = [NSCalendarDate dateWithHTTPTimeRepresentation : newMod];
 			NSDate *prevMod = [NSDate dateWithTimeIntervalSince1970:[modDate floatValue]];
 			if([dateLastMod isAfterDate:prevMod]) {
-				NSLog(@"Board(%@) Thread(%@) is updated!", boardName, threadID);
 				[updatedThreads addObject:thread];
 			}
 		}
@@ -151,6 +186,73 @@ static BOOL shouldCheckItemHeader(id dict);
 	
 abort:
 	[db rollbackTransaction];
+	return nil;
+}
+
+
+/*  同一の板に存在するスレッドが 50 以上あれば、 subject.txt での更新作業に切り替えるべきかな？？？ */
+/* ってことでとりあえず作ってみた。 */
+- (NSDictionary *)checkHOGE
+{
+	NSMutableDictionary *result = [NSMutableDictionary dictionary];
+	SQLiteDB *db;
+	NSString *table = [item query];
+	if(!table) return nil;
+	
+	db = [[DatabaseManager defaultManager] databaseForCurrentThread];
+	
+	if(db && [db beginTransaction]) {
+		NSString *query = [NSString stringWithFormat:
+			@"SELECT DISTINCT %@ FROM (%@)",
+			BoardIDColumn,
+			table];
+		
+		id cursor = [db cursorForSQL:query];
+		if(!cursor) goto abort;
+		
+		query = [NSString stringWithFormat:
+			@"SELECT count(%@) AS %@ FROM (%@) WHERE %@ = ?",
+			BoardIDColumn, @"c",
+			table,
+			BoardIDColumn];
+		id r = [SQLiteReservedQuery sqliteReservedQueryWithQuery:query usingSQLiteDB:db];
+		if(!r) goto abort;
+		
+		int c, i;
+		id b;
+		for(i=0,c=[cursor rowCount];i<c;i++) {
+			id pool = [[NSAutoreleasePool alloc] init];
+			
+			id p;
+			b = [cursor valueForColumn:BoardIDColumn atRow:i];
+			if(!b) {
+				[pool release];
+				goto abort;
+			}
+			
+			p = [r cursorForBindValues:[NSArray arrayWithObject:b]];
+			if(!p) {
+				[pool release];
+				goto abort;
+			}
+			
+			id v = [p valueForColumn:@"c" atRow:0];
+			if(!v) goto abort;
+			
+			if(50 < [v intValue]) {
+				[result setObject:v forKey:b];
+			}
+			
+			[pool release];
+		}
+		
+		[db commitTransaction];
+	}
+	
+	return result;
+	
+abort:
+		[db rollbackTransaction];
 	return nil;
 }
 
@@ -219,10 +321,34 @@ static NSURL *urlForBoardNameAndThredID(NSString *boardName, NSString *threadID)
 	
 	return dlTask;
 }
-
+- (void)updateNewCreate
+{
+	SQLiteDB *db = [[DatabaseManager defaultManager] databaseForCurrentThread];
+	
+	if(db && [db beginTransaction]) {
+		NSString *query = [NSString stringWithFormat:
+			@"UPDATE %@ "
+			@"SET %@ = %d "
+			@"WHERE %@ = %d "
+			@"AND "
+			@"%@.ROWID IN (SELECT %@.ROWID FROM (%@))",
+			ThreadInfoTableName,
+			ThreadStatusColumn, ThreadNoCacheStatus,
+			ThreadStatusColumn, ThreadNewCreatedStatus,
+			ThreadInfoTableName, ThreadInfoTableName, [item query]];
+		[db performQuery:query];
+		
+		[db commitTransaction];
+	}
+}
 - (void)updateDB:(id)threads
 {
 	if(!threads || [threads count] == 0) return;
+	
+	int numberOfAllTarget = [threads count];
+	int numberOfFinishCheck = 0;
+	[self setAmountString:[NSString stringWithFormat:@"%d/%d", numberOfFinishCheck, numberOfAllTarget]];
+	[self setDescString:NSLocalizedString(@"updating database", @"")];
 	
 	SQLiteDB *db = [[DatabaseManager defaultManager] databaseForCurrentThread];
 	
@@ -231,6 +357,9 @@ static NSURL *urlForBoardNameAndThredID(NSString *boardName, NSString *threadID)
 		id thread;
 		
 		while(thread = [threadsEnum nextObject]) {
+			[self checkIsInterrupted];
+			[self setAmountString:[NSString stringWithFormat:@"%d/%d", ++numberOfFinishCheck, numberOfAllTarget]];
+			
 			NSString *query = [NSString stringWithFormat:
 				@"UPDATE %@ "
 				@"SET %@ = %d "
@@ -253,7 +382,7 @@ static NSURL *urlForBoardNameAndThredID(NSString *boardName, NSString *threadID)
 	id obj = [[notification userInfo] objectForKey:BSDownloadTaskServerResponseKey];
 	
 	if([obj isKindOfClass:[NSHTTPURLResponse class]]) {
-		NSLog(@"%@", [obj allHeaderFields]);
+//		NSLog(@"%@", [obj allHeaderFields]);
 	}
 	
 	finishdDLTaskNum++;
