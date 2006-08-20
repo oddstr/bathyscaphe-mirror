@@ -46,6 +46,7 @@
 		[self setBoardListItem:item];
 		
 		mCursorLock = [[NSLock alloc] init];
+		mTaskLock = [[NSLock alloc] init];
 //		[self updateCursor];
 //		if (!mCursor) {
 //			[self release];
@@ -156,7 +157,9 @@
 	mBoardListItem = [item retain];
 	[temp release];
 	
+	temp = mSortKey;
 	mSortKey = [[[BoardManager defaultManager] sortColumnForBoard : [self boardName]] retain];
+	[temp release];
 }
 
 - (BOOL)isFavorites
@@ -186,17 +189,6 @@
 	
 - (void) updateCursor
 {
-	static id lock = nil;
-	static id task = nil;
-	
-	if(!lock) {
-		[mCursorLock lock];
-		if(!lock) {
-			lock = [[NSLock alloc] init];
-		}
-		[mCursorLock unlock];
-	}
-	
 	Class taskClass = NSClassFromString(@"BSThreadListUpdateTask");
 	if(!taskClass) return;
 	
@@ -204,21 +196,16 @@
 	if(!tmClass) return;
 	
 	id tm = [tmClass defaultManager];
-//	id t = [taskClass taskWithBSDBThreadList:self];
-	[lock lock];
-	if(task) {
-		[task cancel:self];
+	if(mUpdateTask) {
+		if([mUpdateTask isInProgress]) {
+			[mUpdateTask cancel:self];
+		}
+		[mUpdateTask release];
 	}
-	task = [taskClass taskWithBSDBThreadList:self];
-	[lock unlock];
+	mUpdateTask = [[taskClass taskWithBSDBThreadList:self] retain];
+	[tm addTask:mUpdateTask];
 	
-	[tm addTask:task];
-	
-	id temp = [[[task cursor] retain] autorelease];
-	
-	[lock lock];
-	task = nil;
-	[lock unlock];
+	id temp = [[[mUpdateTask cursor] retain] autorelease];
 	
 	if(temp) {
 		[mCursorLock lock];
@@ -228,7 +215,7 @@
 		[mCursorLock unlock];
 	}
 	
-	NSLog(@"cursor count -> %ld", [mCursor rowCount]);
+	UTILDebugWrite1(@"cursor count -> %ld", [mCursor rowCount]);
 	
 	UTILNotifyName(CMRThreadsListDidChangeNotification);
 }
@@ -457,7 +444,7 @@ enum {
 
 - (int)numberOfRowsInTableView : (NSTableView *)tableView
 {
-	NSLog(@"numberOfRowsInTableView -> %ld", [self numberOfFilteredThreads]);
+	UTILDebugWrite1(@"numberOfRowsInTableView -> %ld", [self numberOfFilteredThreads]);
 	
 	return [self numberOfFilteredThreads];
 }
@@ -502,7 +489,7 @@ enum {
 		result = [row valueForColumn : NumberOfReadColumn];
 	} else if ( [identifier isEqualTo : CMRThreadSubjectIndexKey] ) {
 		result = [row valueForColumn : TempThreadThreadNumberColumn];
-		if(!result) {
+		if(!result || result == [NSNull null]) {
 			result = [NSNumber numberWithInt:rowIndex + 1];
 		}
 	} else if([identifier isEqualToString : ThreadPlistIdentifierKey]) {
@@ -739,14 +726,26 @@ fail:
 #pragma mark## Download ##
 - (void) loadAndDownloadThreadsList : (CMRThreadLayout *) worker forceDownload : (BOOL) forceDL
 {
+	[mTaskLock lock];
+	if(mTask) {
+		if([mTask isInProgress]) {
+			[mTask cancel:self];
+		}
+		[mTask release];
+		mTask = nil;
+	}
+	[mTaskLock unlock];
+	
 	if( [self isFavorites] || [self isSmartItem] ) {
-#if 1
-		BSFavoritesHEADCheckTask		*task_;
+#if 0
+//		BSFavoritesHEADCheckTask		*task_;
 		
-		task_ = [[BSFavoritesHEADCheckTask alloc]
+		[mTaskLock lock];
+		mTask = [[BSFavoritesHEADCheckTask alloc]
 				initWithFavItemsArray : [self allThreadAttributes]];
-		[task_ setBoardName : [self boardName]];
-		[task_ setIdentifier : [self boardName]];
+		
+		[mTask setBoardName : [self boardName]];
+		[mTask setIdentifier : [self boardName]];
 		//		[task_ setIdentifier : [NSValue valueWithPointer:task_]];
 		
 		
@@ -754,25 +753,30 @@ fail:
 			addObserver : self
 			   selector : @selector(favoritesHEADCheckTaskDidFinish:)
 				   name : BSFavoritesHEADCheckTaskDidFinishNotification
-				 object : task_];
+				 object : mTask];
 		
-		[worker push : task_];
+		[worker push : mTask];
 		
-		[task_ release];
+		[mTaskLock unlock];
+		
+//		[task_ release];
+
 #else
-		id task;
+//		id task_;
+		[mTaskLock lock];
+		mTask = [[NSClassFromString(@"BSBoardListItemHEADCheckTask") alloc] initWithBoardListItem:[self boardListItem]];
+		[worker push:mTask];
+		[mTaskLock unlock];
+//		[task_ release];
 		
-		task = [[NSClassFromString(@"BSBoardListItemHEADCheckTask") alloc] initWithBoardListItem:[self boardListItem]];
-		[worker push:task];
-		[task release];
 #endif
 	} else {
-		BSThreadsListOPTask *task;
-		
-		task = [[BSThreadsListOPTask alloc] initWithBBSName:[self boardName] forceDownload:forceDL];
-		
-		[worker push : task];
-		[task release];
+//		BSThreadsListOPTask *task_;
+		[mTaskLock lock];
+		mTask = [[BSThreadsListOPTask alloc] initWithBBSName:[self boardName] forceDownload:forceDL];
+		[worker push : mTask];
+		[mTaskLock unlock];
+//		[task_ release];
 	}
 }
 - (void) doLoadThreadsList : (CMRThreadLayout *) worker
