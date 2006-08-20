@@ -5,6 +5,9 @@
 		生成するCMRTaskの管理をちゃんとするようにした。
 	* application/source/browser/BSThreadsListOPTask.{h|m}
 		ややこしいので単一のスレッドで全部実行するようにした。
+	* application/source/manager/SQLiteDB.m
+		NULL なデータを NSNull で保持せず、key 自体を持たないように変更。
+		ただし、外部からは変更が内容に見せるため、値がnill なら NSNull  を返すようにしている。
 2006-08-16 masakih <masakih@users.sourceforge.jp>
 	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m
 		相対日付の時の値の正負が逆だったので直した。
