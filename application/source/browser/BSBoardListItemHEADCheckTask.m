@@ -35,9 +35,6 @@ static BOOL shouldCheckItemHeader(id dict);
 {
 	if(self = [super init]) {
 		item = [inItem retain];
-		downloadTaskNum = 0;
-		finishdDLTaskNum = 0;
-		tasks = [[NSMutableArray array] retain];
 	}
 	
 	return self;
@@ -46,7 +43,6 @@ static BOOL shouldCheckItemHeader(id dict);
 - (void)dealloc
 {
 	[item release];
-	[tasks release];
 	
 	[super dealloc];
 }
@@ -85,12 +81,16 @@ static BOOL shouldCheckItemHeader(id dict);
 {
 	if([self descString] && [self amountString]) {
 		return [NSString stringWithFormat:@"%@ (%@)", [self descString], [self amountString]];
+	} else if([self descString]) {
+		return [self descString];
 	}
 	return [NSString stringWithFormat:NSLocalizedString(@"ProgressBoardListItemHEADCheck.", "ProgressBoardListItemHEADCheck.")];
 }
 - (void) doExecuteWithLayout : (CMRThreadLayout *) layout
 {
+	[self setDescString:NSLocalizedString(@"Collectiong infomation of thread", @"")];
 	[self updateNewCreate];
+	[self updateHEADChecked];
 	
 	NSArray *threads = [self threadInfomations];
 	NSEnumerator *threadsEnum;
@@ -104,7 +104,7 @@ static BOOL shouldCheckItemHeader(id dict);
 	int numberOfFinishCheck = 0;
 	int numberOfSkip = 0;
 	[self setAmountString:[NSString stringWithFormat:@"%d/%d (%d skiped)", numberOfFinishCheck, numberOfAllTarget, numberOfSkip]];
-	[self setDescString:NSLocalizedString(@"checking thread", @"")];
+	[self setDescString:NSLocalizedString(@"Checking thread", @"")];
 	
 	threadsEnum = [threads objectEnumerator];
 	while(thread = [threadsEnum nextObject]) {
@@ -129,10 +129,12 @@ static BOOL shouldCheckItemHeader(id dict);
 		
 		if(!boardName || !threadID  || !modDate) {
 			[pool release];
+			numberOfSkip++;
 			continue;
 		}
 		if(boardName == nsnull || threadID == nsnull || modDate == nsnull) {
 			[pool release];
+			numberOfSkip++;
 			continue;
 		}
 		
@@ -143,8 +145,8 @@ static BOOL shouldCheckItemHeader(id dict);
 		if([response statusCode] == 200) {
 			newMod = [[response allHeaderFields] objectForKey:BSFavHEADerLMKey];
 			NSCalendarDate	*dateLastMod = [NSCalendarDate dateWithHTTPTimeRepresentation : newMod];
-			NSDate *prevMod = [NSDate dateWithTimeIntervalSince1970:[modDate floatValue]];
-			if([dateLastMod isAfterDate:prevMod]) {
+			NSDate *prevMod = [NSDate dateWithTimeIntervalSince1970:[modDate intValue]];
+			if([prevMod isAfterDate:dateLastMod]) {
 				[updatedThreads addObject:thread];
 			}
 		}
@@ -286,38 +288,8 @@ static NSURL *urlForBoardNameAndThredID(NSString *boardName, NSString *threadID)
 
 - (BSDownloadTask *)sendHEADMethod:(NSURL *)url
 {
-	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-	
 	BSDownloadTask *dlTask = [[BSDownloadTask alloc] initWithURL:url method:@"HEAD"];
-//	[nc addObserver:self
-//		   selector:@selector(dlDidFinishDownlocadNotification:)
-//			   name:BSDownloadTaskFinishDownloadNotification
-//			 object:dlTask];
-	[nc addObserver:self
-		   selector:@selector(dlDidAbortDownlocadNotification:)
-			   name:BSDownloadTaskInternalErrorNotification
-			 object:dlTask];
-	[nc addObserver:self
-		   selector:@selector(dlDidAbortDownlocadNotification:)
-			   name:BSDownloadTaskAbortDownloadNotification
-			 object:dlTask];
-	[nc addObserver:self
-		   selector:@selector(dlDidAbortDownlocadNotification:)
-			   name:BSDownloadTaskFailDownloadNotification
-			 object:dlTask];
-	[nc addObserver:self
-		   selector:@selector(dlCancelDownlocadNotification:)
-			   name:BSDownloadTaskCanceledNotification
-			 object:dlTask];
-	[nc addObserver:self
-		   selector:@selector(dlDidFinishDownlocadNotification:)
-			   name:BSDownloadTaskReceiveResponceNotification
-			 object:dlTask];
-	
-	[tasks addObject:dlTask];
-//	[dlTask run];
 	[dlTask doExecuteWithLayout:nil];
-	downloadTaskNum++;
 	
 	return dlTask;
 }
@@ -341,6 +313,26 @@ static NSURL *urlForBoardNameAndThredID(NSString *boardName, NSString *threadID)
 		[db commitTransaction];
 	}
 }
+- (void)updateHEADChecked
+{
+	SQLiteDB *db = [[DatabaseManager defaultManager] databaseForCurrentThread];
+	
+	if(db && [db beginTransaction]) {
+		NSString *query = [NSString stringWithFormat:
+			@"UPDATE %@ "
+			@"SET %@ = %d "
+			@"WHERE %@ = %d "
+			@"AND "
+			@"%@.ROWID IN (SELECT %@.ROWID FROM (%@))",
+			ThreadInfoTableName,
+			ThreadStatusColumn, ThreadLogCachedStatus,
+			ThreadStatusColumn, ThreadHeadModifiedStatus,
+			ThreadInfoTableName, ThreadInfoTableName, [item query]];
+		[db performQuery:query];
+		
+		[db commitTransaction];
+	}
+}
 - (void)updateDB:(id)threads
 {
 	if(!threads || [threads count] == 0) return;
@@ -348,7 +340,7 @@ static NSURL *urlForBoardNameAndThredID(NSString *boardName, NSString *threadID)
 	int numberOfAllTarget = [threads count];
 	int numberOfFinishCheck = 0;
 	[self setAmountString:[NSString stringWithFormat:@"%d/%d", numberOfFinishCheck, numberOfAllTarget]];
-	[self setDescString:NSLocalizedString(@"updating database", @"")];
+	[self setDescString:NSLocalizedString(@"Updating database", @"")];
 	
 	SQLiteDB *db = [[DatabaseManager defaultManager] databaseForCurrentThread];
 	
@@ -382,20 +374,16 @@ static NSURL *urlForBoardNameAndThredID(NSString *boardName, NSString *threadID)
 	id obj = [[notification userInfo] objectForKey:BSDownloadTaskServerResponseKey];
 	
 	if([obj isKindOfClass:[NSHTTPURLResponse class]]) {
-//		NSLog(@"%@", [obj allHeaderFields]);
 	}
 	
-	finishdDLTaskNum++;
 }
 - (void)dlDidAbortDownlocadNotification:(id)notification
 {
 	//
-	finishdDLTaskNum++;
 }
 - (void)dlCancelDownlocadNotification:(id)notification
 {
 	//
-	finishdDLTaskNum++;
 }
 
 @end

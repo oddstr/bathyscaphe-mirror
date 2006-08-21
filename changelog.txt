@@ -1,3 +1,6 @@
+2006-08-22 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSBoardListItemHEADCheckTask.{h|m}
+		不要な処理を削除。
 2006-08-21 masakih <masakih@users.sourceforge.jp>
 	* application/source/bbs/BoardListItem/SmartBoardListItemEditor.m
 		新規スマートリストの名前の生成をHIGに適合。

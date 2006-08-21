@@ -14,10 +14,6 @@
 {
 	BoardListItem *item;
 	
-	int downloadTaskNum;
-	int finishdDLTaskNum;
-	NSMutableArray *tasks;
-	
 	NSString *amountString;
 	NSString *descString;
 }
