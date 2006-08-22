@@ -112,7 +112,7 @@ int progressHandler(void *obj)
 		[self close];
 	}
 	
-	NSLog(@"Start Open database.");
+	UTILDebugWrite(@"Start Open database.");
 	result = sqlite3_open(filepath, &mDatabase);
 	if(result != SQLITE_OK) {
 		NSLog(@"Can not open database. \nFile -> %@.\nError Code : %d", mPath, result);
@@ -177,11 +177,11 @@ id <SQLiteRow> makeRowFromSTMT(sqlite3_stmt *stmt, NSArray *columns)
 											  (const char*)value,
 											  kCFStringEncodingUTF8);
 		}
-		if (!v) {
-			v = nsNull;
+		if (v) {
+			CFDictionaryAddValue(result, CFArrayGetValueAtIndex((CFArrayRef)columns, i), v);
 		}
 		
-		CFDictionaryAddValue(result, CFArrayGetValueAtIndex((CFArrayRef)columns, i), v);
+		
 		if(v && v != nsNull) {
 			CFRelease(v);
 		}
@@ -565,7 +565,8 @@ void objectDeallocator(void *obj)
 - (id) valueForColumn : (NSString *) column
 {
 	NSString *lower = [column lowercaseString];
-	return [self objectForKey : lower];
+	id result = [self objectForKey : lower];
+	return result ? result : [NSNull null];
 }
 @end
 
@@ -587,7 +588,7 @@ void objectDeallocator(void *obj)
 - (id) valueForColumn : (NSString *) column atRow : (unsigned) row
 {
 	id lower = [column lowercaseString];
-	return [[[self objectForKey : TestValues] objectAtIndex : row] objectForKey : lower];
+	return [[self rowAtIndex : row] valueForColumn : lower];
 }
 - (NSArray *) valuesForColumn : (NSString *) column;
 {
