@@ -182,6 +182,44 @@
 {
 	return mSortKey;
 }
+- (NSArray *)sortDescriptors
+{
+	return [NSArray arrayWithArray:mSortDescriptors];
+}
+- (void)setSortDescriptors:(NSArray *)inDescs
+{
+	UTILAssertKindOfClass(inDescs, NSArray);
+	
+	id temp = mSortDescriptors;
+	mSortDescriptors = [[NSMutableArray arrayWithArray:inDescs] retain];;
+	[temp release];
+}
+- (void)setSortDescriptor:(NSSortDescriptor *)inDesc
+{
+	UTILAssertKindOfClass(inDesc, NSSortDescriptor);
+	
+	id temp = mSortDescriptors;
+	mSortDescriptors = [[NSMutableArray arrayWithObject:inDesc] retain];;
+	[temp releaase];
+}
+- (void)addSortDescriptor:(NSSortDescriptor *)inDesc
+{
+	UTILAssertKindOfClass(inDesc, NSSortDescriptor);
+	
+	id key = [inDesc key];
+	
+	int i, c; id o;
+	for(i = 0,c = [mSortDescriptors count]; i < c; i++) {
+		o = [mSortDescriptors objectAtIndex:i];
+		
+		if([key isEqual:[o key]]) {
+			[mSortDescriptors removeObjectAtIndex:i];
+			break;
+		}
+	}
+	
+	[mSortDescriptors insertObject:inDesc atIndex:0];
+}
 - (ThreadStatus) status
 {
 	return mStatus;
@@ -200,9 +238,10 @@
 		if([mUpdateTask isInProgress]) {
 			[mUpdateTask cancel:self];
 		}
-		[mUpdateTask release];
+//		[mUpdateTask release];
+	} else {
+		mUpdateTask = [[taskClass taskWithBSDBThreadList:self] retain];
 	}
-	mUpdateTask = [[taskClass taskWithBSDBThreadList:self] retain];
 	[tm addTask:mUpdateTask];
 	
 	id temp = [[[mUpdateTask cursor] retain] autorelease];

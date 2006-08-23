@@ -31,6 +31,8 @@
 	NSLock *mTaskLock;
 	
 	id<CMRTask> mUpdateTask;
+	
+	id mSortDescriptors;
 }
 
 - (id) initWithBoardListItem : (BoardListItem *)item;

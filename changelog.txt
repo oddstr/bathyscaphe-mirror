@@ -1,4 +1,11 @@
 2006-08-23 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.h
+	* application/source/browser/BSDBThreadList.m
+	* application/source/browser/BSThreadListUpdateTask.m
+	* application/source/browser/CMRBrowser-List.m
+		ソートをSQLite側で行っていた物をNSSortDiscriptorで行うようにした。
+		かなりの速度面での改善を確認。
+		また問題が色々あるため2006-08-16の変更を取り消し。
 	* application/source/browser/BSDBThreadsListDBUpdateTask2.m
 	* application/source/browser/BSDBThreadsListUpdateTask.m
 		NSLog() -> UTILDebugWrite() に変更。

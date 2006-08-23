@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.7.2.8 2006/08/16 00:01:48 masakih Exp $
+  * $Id: CMRBrowser-List.m,v 1.7.2.9 2006/08/23 14:41:59 masakih Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -110,18 +110,12 @@
 	}
 	
 	[[self threadsListTable] deselectAll : nil];
-//	[[self threadsListTable] setDataSource : nil];
-/*	
+	[[self threadsListTable] setDataSource : nil];
+	
 	list_ = [BSDBThreadList threadListWithBoardListItem : board];
 	if(nil == list_)
 		return;
-*/
-	if(![self currentThreadsList]) {
-		list_ = [BSDBThreadList threadListWithBoardListItem : board];
-	} else {
-		list_ = [self currentThreadsList];
-		[list_ setBoardListItem:board];
-	}
+ 
 	[self setCurrentThreadsList : list_];
 	
 	// sort column change
