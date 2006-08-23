@@ -32,7 +32,7 @@ NSString *BSDBThreadsListUpdateTaskDidFinishNotification = @"BSDBThreadsListUpda
 - (void)run
 {
 
-	NSLog(@"Start BSDBThreadsListUpdateTask.");
+	UTILDebugWrite(@"Start BSDBThreadsListUpdateTask.");
 	// メインスレッド上でなければきちんと表示されない
 	[self performSelectorOnMainThread:@selector(runOnMainThread:)
 						   withObject:nil
@@ -43,7 +43,7 @@ NSString *BSDBThreadsListUpdateTaskDidFinishNotification = @"BSDBThreadsListUpda
 	 */
 	[[NSNotificationCenter defaultCenter] postNotificationName:BSDBThreadsListUpdateTaskDidFinishNotification
 														object:self];
-	NSLog(@"End BSDBThreadsListUpdateTask.");
+	UTILDebugWrite(@"End BSDBThreadsListUpdateTask.");
 }
 
 - (void)cancel:(id)sender

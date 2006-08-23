@@ -193,7 +193,7 @@ abort:
 	NSString *title;
 	NSString *numString;
 	
-	NSLog(@"Start BSDBThreadsListDBUpdateTask2.");
+	UTILDebugWrite(@"Start BSDBThreadsListDBUpdateTask2.");
 	
 	str = [NSString stringWithDataUsingTEC:subjectData
 								  encoding:NS2CFEncoding(NSShiftJISStringEncoding)];
@@ -272,7 +272,7 @@ abort:
 	[nc_ postNotificationName : name
 					   object : self];
 	
-	NSLog(@"End BSDBThreadsListDBUpdateTask2.");
+	UTILDebugWrite(@"End BSDBThreadsListDBUpdateTask2.");
 //	[self postTaskDidFinishNotification];
 }
 
@@ -284,7 +284,7 @@ abort:
 	[nc_ postNotificationName : CMRTaskWillStartNotification
 					   object : self];
 	
-	NSLog(@"Start BSDBThreadsListDBUpdateTask2.");
+	UTILDebugWrite(@"Start BSDBThreadsListDBUpdateTask2.");
 }
 
 - (void) postTaskDidFinishNotification
@@ -295,6 +295,6 @@ abort:
 	[nc_ postNotificationName : CMRTaskDidFinishNotification
 					   object : self];
 	
-	NSLog(@"End BSDBThreadsListDBUpdateTask2.");
+	UTILDebugWrite(@"End BSDBThreadsListDBUpdateTask2.");
 }
 @end

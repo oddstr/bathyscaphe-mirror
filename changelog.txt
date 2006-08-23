@@ -1,3 +1,7 @@
+2006-08-23 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadsListDBUpdateTask2.m
+	* application/source/browser/BSDBThreadsListUpdateTask.m
+		NSLog() -> UTILDebugWrite() に変更。
 2006-08-22 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSBoardListItemHEADCheckTask.{h|m}
 		不要な処理を削除。
