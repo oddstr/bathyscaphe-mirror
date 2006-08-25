@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.15 2006/02/19 08:49:19 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.15.4.1 2006/08/25 17:48:01 masakih Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -327,7 +327,7 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	[self _filteredThreadsLock];
 	//threadsArray_ = [[self threadsForTableView : tableView] retain];
 	threadsArray_ = [[self filteredThreads] retain];
-	[self _filteredThreadsUnlock];
+	
 	
 	if(rowIndex < 0 || rowIndex >= [threadsArray_ count])
 		return nil;
@@ -339,6 +339,9 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 		rowIndex);
 	
 	thread_ = [threadsArray_ objectAtIndex : rowIndex];
+	
+	[self _filteredThreadsUnlock];
+	
 	[thread_ retain];
 	[threadsArray_ release];
 	

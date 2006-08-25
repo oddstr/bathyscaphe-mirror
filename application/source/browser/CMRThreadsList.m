@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.m,v 1.10 2006/02/24 13:41:39 tsawada2 Exp $
+  * $Id: CMRThreadsList.m,v 1.10.4.1 2006/08/25 17:48:01 masakih Exp $
   * 
   * CMRThreadsList.m
   *
@@ -268,7 +268,9 @@ standard_writing:*/
 }
 - (void) sortByKey : (NSString *) key
 {
+	[self _filteredThreadsLock];
 	[self _sortArrayByKey:key array:[self filteredThreads]];
+	[self _filteredThreadsUnlock];
 }
 - (void) _sortArrayByKey : (NSString       *) key
                    array : (NSMutableArray *) theArray

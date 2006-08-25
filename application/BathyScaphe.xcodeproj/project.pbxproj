@@ -4119,6 +4119,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = BathyScaphe;
 				SECTORDER_FLAGS = "";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/source\"";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -4157,6 +4158,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = BathyScaphe;
 				SECTORDER_FLAGS = "";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/source\"";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -4187,6 +4189,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = BathyScaphe;
 				SECTORDER_FLAGS = "";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/source\"";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -4201,6 +4204,7 @@
 			buildSettings = {
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Development;
 		};

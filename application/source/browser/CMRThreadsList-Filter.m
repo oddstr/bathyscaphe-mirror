@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-Filter.m,v 1.7.4.1 2006/08/04 19:35:09 tsawada2 Exp $
+  * $Id: CMRThreadsList-Filter.m,v 1.7.4.2 2006/08/25 17:48:01 masakih Exp $
   * 
   * CMRThreadsList-Filter.m
   *
@@ -22,6 +22,8 @@
 	matched_ = [self seachThreadByPath : filepath];
 	if(nil == matched_) return;
 	
+	[self _filteredThreadsLock];
+	
 	// 指定されたログファイルを持つスレッドがフィルター後の
 	// 配列に含まれていなければ追加。
 	index_ = [[self filteredThreads] indexOfObject : matched_];
@@ -33,6 +35,8 @@
 		sortKey_ = [[BoardManager defaultManager] sortColumnForBoard : [self boardName]];
 		[self _sortArrayByKey:sortKey_ array:[self filteredThreads]];
 	}
+	
+	[self _filteredThreadsUnlock];
 }
 - (void) filterByDisplayingThreadAtPath : (NSString *) filepath
 {

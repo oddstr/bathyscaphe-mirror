@@ -1,3 +1,9 @@
+2006-08-26 masakih <masakih@users.sourceforge.jp>
+	* application/BathyScaphe.xcodeproj/project.pbxproj
+	* application/source/browser/CMRThreadsList-DataSource.m
+	* application/source/browser/CMRThreadsList-Filter.m
+	* application/source/browser/CMRThreadsList.m
+		インスタンス変数 _filteredThreads に対する排他処理を強化。
 2006-08-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/view/popup/CMXPopUpWindowController+View.m
 	* application/source/view/popup/CMXPopUpWindowController.m
