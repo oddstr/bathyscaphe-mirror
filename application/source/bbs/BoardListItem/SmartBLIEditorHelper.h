@@ -11,6 +11,7 @@
     IBOutlet NSPopUpButton *allOrAnyPopUp;
     IBOutlet NSScrollView *container;
     IBOutlet NSButton *includeFallInDATCheck;
+	IBOutlet NSButton *excludeAdThreadCheck;
     IBOutlet NSTextField *nameField;
 	
 	IBOutlet id expressionView;

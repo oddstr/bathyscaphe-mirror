@@ -10,6 +10,7 @@
 //	IBOutlet NSPopUpButton *allOrAnyPopUp;
 //	IBOutlet NSScrollView *container;
 //	IBOutlet NSButton *includeFallInDATCheck;
+//	IBOutlet NSButton *excludeAdThreadCheck;
 //	IBOutlet NSTextField *nameField;
 //はrootHelperにのみ存在し、(SmartBoardListItemEditor.nib内で接続）
 //	IBOutlet id expressionView;
@@ -885,6 +886,16 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 - (BOOL)buildHelperFromCondition:(id<SmartCondition>)condition
 {
 	//
+	// SmartConditionComposit かどうか。
+	
+	
+	// SmartCondition なら、
+	// key = [cond key];
+	// v1 = [cond value];
+	// if(SCRangeOperator == [cond operator]) {
+	//		v1 = [cond value2];
+	// }
+	// 
 }
 
 @end

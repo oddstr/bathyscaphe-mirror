@@ -162,7 +162,7 @@ static inline NSInvocation *checkMethodSignature(id obj, SEL selector)
 }
 
 - (void)editWithUIWindow : (NSWindow *)inModalForWindow
-		  smartBoardItem : (BoardListItem *)smartBoardItem;
+		  smartBoardItem : (BoardListItem *)smartBoardItem
 {
 	[nameField setStringValue:[smartBoardItem name]];
 	[helper buildHelperFromCondition:[smartBoardItem condition]];
@@ -170,8 +170,8 @@ static inline NSInvocation *checkMethodSignature(id obj, SEL selector)
 		[NSApp beginSheet:editorWindow
 		   modalForWindow:inModalForWindow
 			modalDelegate:self
-		   didEndSelector:@selector(endSelector:returnCode:contextInfo:)
-			  contextInfo:NULL];
+		   didEndSelector:@selector(endEditSelector:returnCode:contextInfo:)
+			  contextInfo:smartBoardItem];
 	} else {
 		[editorWindow makeKeyAndOrderFront:self];
 	}

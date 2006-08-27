@@ -1,3 +1,7 @@
+2006-08-27 masakih <masakih@users.sourceforge.jp>
+	* application/Resources/Japanese.lproj/SmartBoardItemEditor.nib
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.{h|m}
+		広告スレッド(924)を除外できるように準備
 2006-08-23 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSDBThreadList.h
 	* application/source/browser/BSDBThreadList.m
