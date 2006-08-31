@@ -1,5 +1,5 @@
 /**
-  * $Id: CMXTextParser.m,v 1.20.2.1 2006/08/05 16:50:23 tsawada2 Exp $
+  * $Id: CMXTextParser.m,v 1.20.2.2 2006/08/31 16:25:24 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -614,10 +614,20 @@ static BOOL divideDateExtraField(
 						  options : NSLiteralSearch
 						    range : search_];
 	
-	if (0 == found_.length || NSNotFound == found_.location)
-		goto only_date_field;
-	
-	substringIndex_ = found_.location;
+	if (0 == found_.length || NSNotFound == found_.location) {
+		// BBSPINK のあぼーん（うふーん）で、「ID:DELETED」というのがくっついてくる。これを切り出すための
+		// とりあえずの対応
+		NSRange delRange_;
+		delRange_ = [field rangeOfString: @"DELETED" options: NSLiteralSearch range: search_];
+		if (delRange_.length == 0) {
+			goto only_date_field;
+		} else {
+			substringIndex_ = delRange_.location-4;
+		}
+	} else {
+		substringIndex_ = found_.location;
+	}
+
 	if (datePart != NULL)
 		*datePart = [field substringToIndex : substringIndex_];
 	

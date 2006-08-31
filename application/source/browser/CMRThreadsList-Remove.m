@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-Remove.m,v 1.6.2.3 2006/08/05 10:57:17 tsawada2 Exp $
+  * $Id: CMRThreadsList-Remove.m,v 1.6.2.4 2006/08/31 16:25:24 tsawada2 Exp $
   * 
   * CMRThreadsList-Remove.m
   *
@@ -46,7 +46,7 @@
 		if (thread_ != nil) {
 			[[self class] clearAttributes : thread_];
 		} else {
-			NSLog(@"CMRThreadsList: cleanUpItemsToBeRemoved: - seachThreadByPath: returns nil, so add this item to pool");
+			//NSLog(@"CMRThreadsList: cleanUpItemsToBeRemoved: - seachThreadByPath: returns nil, so add this item to pool");
 			[[CMRFavoritesManager defaultManager] addItemToPoolWithFilePath: path_];
 		}
 	}

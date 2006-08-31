@@ -27,7 +27,7 @@ SGNetwork: SGFoundation
 CocoMonar: SGFoundation
 	cd $(COCOMONAR_FRWK) && $(PBXBUILD) $(BUILD_OPTION)
 
-clean: clean-SGFoundation clean-SGAppKit clean-SGNetwork clean-CocoMonar clean-Keychain
+clean: clean-SGFoundation clean-SGAppKit clean-SGNetwork clean-CocoMonar
 
 clean-SGFoundation: 
 	cd $(SGFOUNDATION_FRWK) && $(PBXBUILD) clean && rm -fr $(BUILD_DIR)

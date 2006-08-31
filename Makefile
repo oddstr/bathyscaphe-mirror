@@ -32,7 +32,7 @@ clean-bathyscaphe:
 
 
 # make components
-components: frameworks subprojects $(MAKE_MDI)
+components: frameworks $(MAKE_MDI)
 
 frameworks: 
 	cd $(FRAMEWORK_ROOT) && $(MAKE) all
@@ -47,7 +47,7 @@ makemdidir:
 	mkdir -p $(DUMMY_MDI_DIR)
 
 # cleaning compoments
-clean-components: clean-frameworks clean-subprojects clean-$(MAKE_MDI)
+clean-components: clean-frameworks clean-$(MAKE_MDI)
 
 clean-frameworks:
 	cd $(FRAMEWORK_ROOT) && $(MAKE) clean

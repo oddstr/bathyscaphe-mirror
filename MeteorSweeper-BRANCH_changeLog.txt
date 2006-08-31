@@ -1,3 +1,8 @@
+2006-09-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/composer/CMXTextParser.m
+		「ID:DELETED」が ID として切り出されない問題に対処（BBSPINK などでのあぼーん表示）。
+	* application/source/browser/CMRThreadsList-Remove.m
+		手違いでデバッグ用 NSLog() が残っていたのを削除。
 2006-08-31 (2006-08-29) tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* bathyscaphe ターゲット
 		ビルド設定：Objective-C 例外処理を有効にした（-fobjc-exceptions）。
