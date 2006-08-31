@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.14.2.1 2006/08/06 20:39:12 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.14.2.2 2006/08/31 10:18:40 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -29,12 +29,13 @@ NSString *const AppDefaultsWillSaveNotification = @"AppDefaultsWillSaveNotificat
 #define AppDefaultsBrowserSortAscendingKey				@"ThreadSortAscending"
 #define AppDefaultsBrowserStatusFilteringMaskKey		@"StatusFilteringMask"
 
-#define AppDefaultsIsFavImportedKey			@"Old Favorites Imported"
+#define AppDefaultsIsFavImportedKey			@"Old Favorites Updated"
 
 #define AppDefaultsOpenInBgKey				@"OpenLinkInBg"
 #define AppDefaultsQuietDeletionKey			@"QuietDeletion"
 
 #define	AppDefaultsInformDatOchiKey			@"InformWhenDatOchi"
+#define AppDefaultsMoveFocusKey				@"MoveFocusToViewerWhenShowThreadAtRow"
 
 // History
 #define AppDefaultsHistoryThreadsKey		@"ThreadHistoryItemLimit"
@@ -42,8 +43,8 @@ NSString *const AppDefaultsWillSaveNotification = @"AppDefaultsWillSaveNotificat
 #define AppDefaultsHistorySearchKey			@"RecentSearchItemLimit"
 
 // Proxy
-#define AppDefaultsUsesProxyKey				@"UsesProxy"
-#define AppDefaultsUsesSystemConfigProxy	@"UsesSystemConfigProxy"
+//#define AppDefaultsUsesProxyKey				@"UsesProxy"
+//#define AppDefaultsUsesSystemConfigProxy	@"UsesSystemConfigProxy"
 #define AppDefaultsProxyURLKey				@"ProxyURL"
 #define AppDefaultsProxyPortKey				@"ProxyPort"
 
@@ -328,20 +329,20 @@ NS_ENDHANDLER
 						forKey : AppDefaultsDefaultKoteHanListKey];
 }
 
-/*#pragma mark -
+#pragma mark -
 
-- (BOOL) isFavoritesImported
+- (BOOL) oldFavoritesUpdated
 {
 	return [[self defaults] 
 				boolForKey : AppDefaultsIsFavImportedKey
-			  defaultValue : DEFAULT_FAVORITES_IMPORTED];
+			  defaultValue : NO];
 }
 
-- (void) setIsFavoritesImported : (BOOL) TorF
+- (void) setOldFavoritesUpdated: (BOOL) flag
 {
-	[[self defaults] setBool : TorF
+	[[self defaults] setBool : flag
 					  forKey : AppDefaultsIsFavImportedKey];
-}*/
+}
 /*#pragma mark DANGER
 - (BOOL) saveThreadListAsBinaryPlist
 {
@@ -429,7 +430,7 @@ default_browserLastBoard:
 #pragma mark -
 
 // Proxy
-- (BOOL) usesSystemConfigProxy
+/*- (BOOL) usesSystemConfigProxy
 {
 	return [[self defaults] boolForKey : AppDefaultsUsesSystemConfigProxy
 						  defaultValue : NO];
@@ -473,8 +474,11 @@ enum {
 - (void) setUsesProxy : (BOOL) flag { [self setUsesProxyStatus:kEnableProxy flagOn:flag]; }
 - (BOOL) usesProxyOnlyWhenPOST { return [self usesProxyWithStatus : kEnableProxyOnlyWhenPOST]; }
 - (void) setUsesProxyOnlyWhenPOST : (BOOL) flag { [self setUsesProxyStatus:kEnableProxyOnlyWhenPOST flagOn:flag]; }
-
-
+*/
+- (BOOL) usesOwnProxy
+{
+	return [[self defaults] boolForKey: @"UsesBSsOwnProxySettings" defaultValue: NO];
+}
 /*
 Function
 ----------------------------------------
@@ -487,7 +491,7 @@ kSCPropNetProxiesHTTPProxy
 kSCPropNetProxiesHTTPPort
 
 */
-static struct {
+/*static struct {
 	CFDictionaryRef (*copyProxies)(void *);
 	CFStringRef	proxyKey;
 	CFStringRef	portKey;
@@ -641,6 +645,17 @@ ErrGetHTTPProxySetting:
 	else
 		[[self defaults] setObject:aHost forKey:AppDefaultsProxyURLKey];
 }
+*/
+- (void) getOwnProxy: (NSString **)host port:(CFIndex *)port
+{
+	if (host != NULL)
+		*host = [[self defaults] stringForKey: AppDefaultsProxyURLKey];
+	
+	if (port != NULL) {
+		*port = [[self defaults] integerForKey: AppDefaultsProxyPortKey
+								  defaultValue: 8080];
+	}
+}
 
 #pragma mark -
 
@@ -680,6 +695,15 @@ ErrGetHTTPProxySetting:
 - (void) setInformWhenDetectDatOchi: (BOOL) shouldInform
 {
 	[[self defaults] setBool: shouldInform forKey: AppDefaultsInformDatOchiKey];
+}
+#pragma mark MeteorSweeper Addition
+- (BOOL) moveFocusToViewerWhenShowThreadAtRow
+{
+	return [[self defaults] boolForKey: AppDefaultsMoveFocusKey defaultValue: YES];
+}
+- (void) setMoveFocusToViewerWhenShowThreadAtRow: (BOOL) shouldMove
+{
+	[[self defaults] setBool: shouldMove forKey: AppDefaultsMoveFocusKey];
 }
 @end
 

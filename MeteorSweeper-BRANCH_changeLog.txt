@@ -1,9 +1,163 @@
+2006-08-31 (2006-08-29) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* bathyscaphe ターゲット
+		ビルド設定：Objective-C 例外処理を有効にした（-fobjc-exceptions）。
+		- @catch/@throw 系よりは、@synchronized() を使ってみたかったので。
+	* application/source/browser/w2chFavoriteItemList.m
+	* application/source/browser/CMRFavoritesManager.m
+	* application/source/preferences/AppDefaults.m
+		BathyScaphe 1.2.2 以前のお気に入りを引き継いだとき、足りないデータを自動的に収集して補うように
+		した（2006-08-05 の修正コメントを参照）。この作業は一度だけ行われる。
+2006-08-31 (2006-08-28) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/image/moveEnd.png
+	* application/Resources/image/moveNext.png
+	* application/Resources/image/movePrev.png
+	* application/Resources/image/moveTop.png
+	* application/Resources/Japanese.lproj/CMRIndexingStepper.nib
+	* application/source/view/CMRIndexingStepper-ViewAccessor.m
+		レス移動ボタンのアイコン画像が App Support 以下に置いても参照されなくなっていた問題を修正。
+		レス移動ボタンのアイコン画像が不適切にクリップされて描画されていた問題を修正（どういうわけか、NSImageOnly
+		にすべきものが NSImageAbove に設定されていたため）。
+		レス移動ボタンのデフォルトのアイコン画像をリファイン。
+2006-08-31 (2006-08-26) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSIPIFullScreenController.m
+		フルスクリーン表示中に delete キーを押すとそのイメージを削除して、フルスクリーンを解除するようにした。
+	* frameworks/SGNetwork/src/connector/SGHTTPStream.m
+		プロキシ関連の修正。Mac OS X v10.1/10.2 に配慮した冗長な記述はもはや必要ないので、いくつかを削除。
+		また、SGNetwork は SystemConfiguration.framework を最初からリンクするようにした。
+	* application/subproj/reply/connector/SG2chConnector.m
+	* application/source/network/CMRDownloader.m
+		プロキシ関連の修正。システムでプロキシが設定されている場合は、自動的にそれを使うようにした。
+	* application/subproj/preference/Japanese.lproj/AdvancedPane.nib
+	* application/subproj/preference/AdvancedPrefController.m
+		「環境設定」＞「詳細」ペインから、プロキシ関連の設定項目をすべて削除。「設定を変更...」ボタンをクリックすると
+		「ネットワーク」システム環境設定を開くようにした。
+	* application/source/preferences/AppDefaults.m
+		プロキシ関連のメソッド群をかなり廃止した。
+		今後、BathyScaphe で独自にプロキシを設定する機能は基本的に廃止する方向で。ただ、突然廃止するとアレかなと
+		も思うので、「当面の間」隠し設定
+		defaults write jp.tsawada2.BathyScaphe UsesBSsOwnProxySettings -bool YES
+		で独自プロキシを使用し続けることができるようにする（URL、ポートは上の文を ProxyURL, ProxyPort に置き換え、
+		-bool YES の替わりに直接値を書けば良い。または、以前のバージョンで入力済みならそのままでよい）。
+		
+		しかし、「いつかは」この隠し設定も無効になる予定。それは、SGNetwork フレームワークの大幅刷新、CFNetwork に
+		さようなら、こんにちは NSURLConnection/NSURLDownload/NSURLRequest 三兄弟、となったとき。
+		
+		大切なことは、「今後は常にシステムのプロキシ設定に従う」ということであって、「プロキシが一切使えなくなる」などと
+		いう誤解や意図的な誤報のないよう周知に努める必要がある。
+		
+		なお、「書き込むときのみ有効」オプションは一足先に完全廃止した。
+	
+2006-08-31 (2006-08-25) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSIPIImageView.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+		イメージ・ビューに対するキーボード・ショートカットによる操作をサポートした。
+2006-08-31 (2006-08-24) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSImagePreviewerInterface.h
+		プロトコル定義自体に変更はないが、BathyScaphe 1.3 以降での「ウインドウ」＞「プレビュー」項目に関するコメントを追加した。
+	* application/subproj/previewer/BSIPIImageView.m
+		プレビューインスペクタ（2.1.2→2.1.4）
+		- masakih 氏による遅延ドラッグ＆ドロップコードを取り込み（激しくThx）。
+		- 2.1.3 は tsawada2 のみが知る、幻。
+	* application/source/thread/CMRThreadLayout-MessageRange.m
+		迷惑レスを「表示しない（透明あぼーん）」設定にしているとき、迷惑レスをまたいで「次のレスに移動／前のレスに移動」
+		することができなかった問題を修正。
+2006-08-31 (2006-08-23) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		「スレッド」＞「ログを開く」メニュー項目を削除した（一般ユーザ向けの項目とは言えないため。今まで何となくだらだら
+		残っていたが、落ち着いて考えるとあえてメニュー項目に設けるほどではない）。
+		「ウインドウ」＞「プレビューインスペクタ」を「プレビュー」に変更。
+	* application/source/bbs/BSBoardInfoInspector.m
+	* application/Resources/Japanese.lproj/BSBoardInfoInspector.nib
+		「掲示板オプション」インスペクタを、板の名無しさんの複数登録に対応させて強化した。また、Cocoa Binding を
+		さらに取り入れて省力化を図った。
+	* application/Resources/image/smallSquareMinus.tiff
+	* application/Resources/image/smallSquarePlus.tiff
+		[新規追加] 「＋」「−」ボタン用のアイコン。「掲示板オプション」インスペクタで使用する。
+	* application/source/composer/CMRMessageFilter.m
+	* application/source/composer/CMRSpamFilter.m
+	* application/source/thread/CMRThreadViewer-Link.m
+		迷惑レスフィルタの効率化（ほんの少し）
+		- 板のデフォルト名無しをいちいち BoardManager に問い合わせるのを止めて、フィルタ実行前に外部から
+		　（CMRThreadViewer から）デフォルト名無し集合を set してもらう。
+		- 他、細部の無駄をちょっと省いた。
+		- SpamFilter.plist は肥大化しやすいため、バイナリ化して読み書きするように変更。
+		　旧バージョンの BathyScaphe と併用した際のトラブルを防ぐため、ファイル名を「BSSpamFilter.plist」に
+		　変更した（はじめて参照しようとしたときに見つからなければ、SpamFilter.plist から読み込み、終了時に
+		　BSSpamFilter.plist に新しく書き出す）。
+	* application/source/bbs/BoardManager-BSAddition.m
+	* application/source/bbs/BoardManager-SettingTxt.m
+	* application/source/bbs/BoardManager.m
+	* application/source/thread/CMRThreadViewer.m
+		板の名無しさんを複数登録できるようにした。NSSet で保持し、ファイルには NSArray に変換して読み書きされる。
+		- 関連する各部を変更（「掲示板オプション」関連はまだ）
+		また、NoNames.plist はバイナリ化して読み書きするように変更。
+		旧バージョンの BathyScaphe と併用した際のトラブルを防ぐため、ファイル名を「BoardProperties.plist」に
+		変更した（はじめて参照しようとしたときに見つからなければ、NoNames.plist から読み込み、終了時に
+		BoardProperties.plist に新しく書き出す）。
+		- プロパティリストのバイナリ化は NSPropertyListSerialization を使っていて、これは Mac OS X v10.2 以降で
+		　サポートされているので、「バイナリ化？！Panther で大丈夫？！」と心配する必要はない。また、Intel - PowerPC
+		　でファイルを相互移動しても全く問題ない。
+		-　ユーザが普段 Finder から開いて覗くことが少ないであろう設定ファイルは、バイナリ化してもいいだろう、と。
+2006-08-31 (2006-08-21) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/CMROpenURL.nib
+	* application/Resources/Japanese.lproj/CMROpenURLManager.strings
+	* application/source/manager/CMROpenURLManager.m
+		スレッドだけでなく板の URL も開けるようになったことに伴い、アラート中のメッセージを一部変更。
+		また、URL 入力フィールドが空のときは OK ボタンが押せないようにした（これを手軽に実装する方法として
+		Cocoa binding を活用できるように、若干 openURLController クラスを変更した）。
+	* application/Resources/Japanese.lproj/BSDockMenuItem.nib
+		[新規追加] Dock Menu 用の nib ファイル。
+		- Dock メニューには「URL を開く...」と「お気に入りの更新チェック」を入れておいた。Dock メニューは
+		　項目数が多いと煩わしいので、この二つに厳選した（つもり）。
+	* application/source/CMRAppDelegate.m
+		Dock メニューから「お気に入りの更新チェック」を行うためにアクションメソッドを追加した。
+		また、「URL を開く」パネルを表示する際、必要なら BathyScaphe を最前面に持ってくるようにした（他のアプリを
+		使用中に Dock メニューから「URL を開く...」を選んだときのために）。
+	* application/Info-bathyscaphe.plist
+		AppleDockMenu キーを追加した。
+		- アプリケーションの Dock メニューを追加する方法についての説明は NSApplication クラスリファレンスの
+		　applicationDockMenu: の項を参照。
+2006-08-31 (2006-08-20) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Action.m
+		「掲示板を表示」などの動作で、掲示板リストでその掲示板を正しく選択させるようにした。
+		- 今までは、その掲示板が閉じたカテゴリの中にあると選択されなかった。
+	* application/source/thread/CMRThreadViewer-Link.m
+		レスに含まれている掲示板の URL をクリックした場合は、可能ならその掲示板のスレッド一覧を
+		ブラウザウインドウで表示させるようにした（掲示板が掲示板リストに無い場合は自動的に追加する）。
+	* application/source/manager/CMROpenURLManager.m
+	* application/source/CMRAppDelegate.m
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/browser/CMRBrowser-List.m
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/thread/CMRThreadLinkProcessor.m
+		「URL を開く」で掲示板の URL （例：http://pc7.2ch.net/mac/）を入力したとき、これまでは
+		Web ブラウザで開くかどうか聞いていたが、BathyScaphe でその板のスレッド一覧を（可能なら）
+		表示させるように改良。サービスメニューおよび AppleScript 経由での操作も同様。
+		- これに伴い、動作が類似している「スレッド」＞「掲示板を表示」とコードを共用できるように、
+		　一部のコードを CMRAppDelegate に移動させるなどの改良も同時に行った。
+		- http://pc7.2ch.net/mac/index.html のように末尾に余計なものがくっついている URL が
+		　渡された場合、CMRThreadLinkProcessor は last path component を除去してから評価を試みる。
+2006-08-31 (2006-08-15) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/Localizable.strings
+	* application/source/bbs/BoardManager-BSAddition.m
+	* application/source/thread/CMRThreadViewer.m
+		掲示板の名無しさんの名前を SETTING.TXT から自動取得するためのクラス追加に伴う変更。
+		- オフラインモードのときは自動取得して良いかどうか確認アラートを表示する。
+		また、Be ログイン必須かどうかを記録するメソッドを追加。
+	* application/source/bbs/BoardManager-SettingTxt.m
+		[新規追加] BoardManager に、SETTING.TXT の取得と解析に関するメソッドを追加した。その部分の
+		カテゴリを新規ファイルとして追加。
+	* application/source/bbs/BSSettingTxtDetector.m
+		[新規追加] このクラスが実際に SETTING.TXT の取得と解析を行う。
+		- 掲示板の名無しさんの名前、および、Be ログイン必須かどうかを調べる。
+======= 2006-08-31：上記分をコミットする前にマージ済み
 2006-08-26 masakih <masakih@users.sourceforge.jp>
 	* application/BathyScaphe.xcodeproj/project.pbxproj
 	* application/source/browser/CMRThreadsList-DataSource.m
 	* application/source/browser/CMRThreadsList-Filter.m
 	* application/source/browser/CMRThreadsList.m
 		インスタンス変数 _filteredThreads に対する排他処理を強化。
+================================================================================= Sneaky v224
 2006-08-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/view/popup/CMXPopUpWindowController+View.m
 	* application/source/view/popup/CMXPopUpWindowController.m

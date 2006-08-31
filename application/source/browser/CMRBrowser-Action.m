@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.47.2.3 2006/08/07 10:40:42 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.47.2.4 2006/08/31 10:18:40 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -16,6 +16,29 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 @class IndexField;
 
 @implementation CMRBrowser(Action)
+static int expandAndSelectItem(NSDictionary *selected, NSArray *anArray, NSOutlineView *bLT)
+{
+	NSEnumerator *iter_ = [anArray objectEnumerator];
+	id	eachItem;
+	int index = -1;
+	while (eachItem = [iter_ nextObject]) {
+		if (![BoardList isCategory: eachItem]) continue;
+		// カテゴリだったら…
+		if ([bLT isItemExpanded: eachItem]) continue; // すでに開かれているならスルー
+		[bLT expandItem: eachItem]; // 閉じているカテゴリを開く
+
+		index = [bLT rowForItem: selected];
+		if (-1 != index) { // 当たり！
+			return index;
+		} else { // カテゴリ内のサブカテゴリを開いて検査する
+			index = expandAndSelectItem(selected, [eachItem objectForKey: BoardPlistContentsKey], bLT);
+			if (-1 == index) // このカテゴリのどのサブカテゴリにも見つからなかった
+				[bLT collapseItem: eachItem]; // このカテゴリは閉じる
+		}
+	}
+	return index;
+}
+
 - (IBAction) focus : (id) sender
 {
     [[self window] makeFirstResponder : [[self threadsListTable] enclosingScrollView]];
@@ -46,11 +69,11 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 		
     index = [bLT rowForItem : selected];
     if (-1 == index) {
-		// 将来の課題：カテゴリを自動的に開いて選択する
-		[bLT deselectAll : nil];
-        return;
-    }
-    
+		index = expandAndSelectItem(selected, [source boardItems], bLT);
+    } else if ([bLT isRowSelected: index]) { // すでに選択したい行は選択されている
+		UTILNotifyName(CMRBrowserThListUpdateDelegateTaskDidFinishNotification);
+	}
+
     [bLT selectRow : index byExtendingSelection : NO];
     [bLT scrollRowToVisible : index];
 }
@@ -197,7 +220,9 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 		[self setThreadContentWithFilePath : path_
 								 boardInfo : thread_];
 		// フォーカス
-		[[self window] makeFirstResponder : [self textView]];
+		if ([CMRPref moveFocusToViewerWhenShowThreadAtRow]) {
+			[[self window] makeFirstResponder : [self textView]];
+		}
 		[self synchronizeWindowTitleWithDocumentName];
 	}
 }
@@ -226,24 +251,25 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 	}
 }
 
-#pragma mark Available in BathyScaphe 1.2 and later.
-
-- (IBAction) orderFrontMainBrowser : (id) sender
+#pragma mark MeteorSweeper Key Binding Action Additions
+- (IBAction) scrollPageDownThViewOrThListProperly: (id) sender
 {
-	// overriden
-
-	NSString *boardName = [self boardName];
-	if(!boardName) return; 
-
-	if([[[self currentThreadsList] boardName] isEqualToString : boardName]) {
-		[self selectCurrentThreadWithMask : CMRAutoscrollAny];
+	if ([CMRPref moveFocusToViewerWhenShowThreadAtRow] || ![self shouldShowContents]) {
+		[[[self threadsListTable] enclosingScrollView] pageDown: sender];
 	} else {
-		[self showThreadsListWithBoardName : boardName];
+		[[self textView] scrollPageDown: sender];
 	}
-	[self selectRowWhoseNameIs : boardName];
 }
 
-#pragma mark Test
+- (IBAction) scrollPageUpThViewOrThListProperly: (id) sender
+{
+	if ([CMRPref moveFocusToViewerWhenShowThreadAtRow] || ![self shouldShowContents]) {
+		[[[self threadsListTable] enclosingScrollView] pageUp: sender];
+	} else {
+		[[self textView] scrollPageUp: sender];
+	}
+}
+
 - (IBAction) scrollPageDownThreadViewWithoutFocus: (id) sender
 {
 	if(![self shouldShowContents]) {
@@ -289,26 +315,6 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 		[CMRThreadDocument showDocumentWithContentOfFile : path_
 											 contentInfo : info_];	
 	}
-}
-
-#pragma mark Filter, Search Popup
-- (IBAction) selectFilteringMask : (id) sender
-{
-	NSNumber	*represent_;
-	int			mask_;
-	
-	if (NO == [sender respondsToSelector : @selector(representedObject)]) {
-		UTILDebugWrite(@"Sender must respondsToSelector : -representedObject");
-		return;
-	}
-	
-	represent_ = [sender representedObject];
-	UTILAssertKindOfClass(represent_, NSNumber);
-
-	mask_ = [represent_ unsignedIntValue];
-	[self changeThreadsFilteringMask : mask_];
-
-	[[CMRMainMenuManager defaultManager] synchronizeStatusFilteringMenuItemState];
 }
 
 #pragma mark Deletion
@@ -361,8 +367,6 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 					   modalDelegate : self
 					  didEndSelector : @selector(_threadDeletionSheetDidEnd:returnCode:contextInfo:)
 					     contextInfo : [threadsArray retain]];
-
-	[alert_ release];
 }
 
 - (IBAction) deleteThread : (id) sender
@@ -375,9 +379,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 	if (numOfSelected_ == 1) {
 		NSString *path_ = [CMRThreadAttributes pathFromDictionary : [targets_ lastObject]];
 		if ([CMRPref quietDeletion]) {
-			if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
-				//[self checkIfFavItemThenRemove : path_];
-			} else {
+			if (NO == [self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
 				NSBeep();
 				NSLog(@"Deletion failed : %@", path_);
 			}
@@ -394,9 +396,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 			enumerator_ = [targets_ objectEnumerator];
 			while ((eachItem_ = [enumerator_ nextObject])) {
 				NSString	*path_ = [CMRThreadAttributes pathFromDictionary : eachItem_];
-				if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
-					//[self checkIfFavItemThenRemove : path_];
-				} else {
+				if (NO == [self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
 					NSBeep();
 					NSLog(@"Deletion failed : %@", path_);
 					continue;
@@ -424,9 +424,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 			enumerator_ = [(NSArray *)contextInfo objectEnumerator];
 			while ((eachItem_ = [enumerator_ nextObject])) {
 				NSString	*path_ = [CMRThreadAttributes pathFromDictionary : eachItem_];
-				if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
-					//[self checkIfFavItemThenRemove : path_];
-				} else {
+				if (NO == [self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
 					NSBeep();
 					NSLog(@"Deletion failed : %@", path_);
 					continue;
@@ -457,9 +455,28 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 	default:
 		break;
 	}
+	[alert release];
 }
 
-#pragma mark Search
+#pragma mark Filter, Search
+- (IBAction) selectFilteringMask : (id) sender
+{
+	NSNumber	*represent_;
+	int			mask_;
+	
+	if (NO == [sender respondsToSelector : @selector(representedObject)]) {
+		UTILDebugWrite(@"Sender must respondsToSelector : -representedObject");
+		return;
+	}
+	
+	represent_ = [sender representedObject];
+	UTILAssertKindOfClass(represent_, NSNumber);
+
+	mask_ = [represent_ unsignedIntValue];
+	[self changeThreadsFilteringMask : mask_];
+
+	[[CMRMainMenuManager defaultManager] synchronizeStatusFilteringMenuItemState];
+}
 
 - (void) showSearchResultAppInfoWithFound : (BOOL) aResult
 {
@@ -481,15 +498,13 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 	// 検索結果の表示@タイトルバーを解除
 	[self synchronizeWindowTitleWithDocumentName];
 }
+
 - (void) synchronizeWithSearchField
 {
-	[self searchThreadWithString : [self currentSearchString]];
-}
-- (void) searchThreadWithString : (NSString *) aString
-{
 	BOOL		result = NO;
+	NSString	*aString = [self currentSearchString];
 	
-	result = [[self document] searchThreadsInListWithString : aString];
+	result = [[self document] searchThreadsInListWithCurrentSearchString];
 
 	if (nil == aString ||[aString isEqualToString: @""]) {
 		[self clearSearchFilter];

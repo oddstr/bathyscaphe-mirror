@@ -1,5 +1,5 @@
 /**
-  * $Id: SGHTTPStream.m,v 1.3 2006/06/02 19:21:14 tsawada2 Exp $
+  * $Id: SGHTTPStream.m,v 1.3.2.1 2006/08/31 10:18:41 tsawada2 Exp $
   * 
   * SGHTTPStream.m
   *
@@ -23,7 +23,7 @@
 #define UTIL_DEBUGGING		1
 #import "UTILDebugging.h"
 
-
+#import <SystemConfiguration/SCDynamicStoreCopySpecific.h>
 
 @interface SGHTTPStream(Private)
 - (CFReadStreamRef) readStreamRef;
@@ -563,9 +563,10 @@ static NSData *HTTPStreamOpenAndRead(CFReadStreamRef stream)
 
 
 @implementation SGHTTPStream(Attributes)
-static CFStringRef localCFStreamPropertyHTTPProxy;		/* kCFStreamPropertyHTTPProxy */
-static CFStringRef localCFStreamPropertyHTTPProxyHost;	/* kCFStreamPropertyHTTPProxyHost */
-static CFStringRef localCFStreamPropertyHTTPProxyPort;	/* kCFStreamPropertyHTTPProxyPort */
+/*
+static CFStringRef localCFStreamPropertyHTTPProxy;		// kCFStreamPropertyHTTPProxy
+static CFStringRef localCFStreamPropertyHTTPProxyHost;	// kCFStreamPropertyHTTPProxyHost
+static CFStringRef localCFStreamPropertyHTTPProxyPort;	// kCFStreamPropertyHTTPProxyPort
 static Boolean localCFStreamPropertyInit(void)
 {
     static Boolean isFirst = true;
@@ -610,51 +611,50 @@ static Boolean localCFStreamPropertyInit(void)
 RET_LOADED:
     return (localCFStreamPropertyHTTPProxy != NULL);
 }
+*/
 - (void) setUpProxyUsingSetProperty : (NSString *) proxy
 							   port : (CFIndex   ) port
 {
 	CFDictionaryRef		property;
 	
 	if (NULL == proxy) return;
-	if (false == localCFStreamPropertyInit()) return;
+//	if (false == localCFStreamPropertyInit()) return;
 	
 	property = (CFDictionaryRef)[NSDictionary dictionaryWithObjectsAndKeys :
 					proxy,
-					localCFStreamPropertyHTTPProxyHost,
+					kCFStreamPropertyHTTPProxyHost,//localCFStreamPropertyHTTPProxyHost,
 					[NSNumber numberWithInt : port],
-					localCFStreamPropertyHTTPProxyPort,
+					kCFStreamPropertyHTTPProxyPort,//localCFStreamPropertyHTTPProxyPort,
 					nil];
 	
 	if (NULL == property) return;
-	
-	UTILDebugWrite2(@"  CFReadStreamSetProperty:%@ :%@",
-		(NSString*)localCFStreamPropertyHTTPProxy,
-		[(id)property description]);
+//	
+//	UTILDebugWrite2(@"  CFReadStreamSetProperty:%@ :%@",
+//		(NSString*)localCFStreamPropertyHTTPProxy,
+//		[(id)property description]);
 	CFReadStreamSetProperty(
 		[self readStreamRef],
-		localCFStreamPropertyHTTPProxy,
+		kCFStreamPropertyHTTPProxy,//localCFStreamPropertyHTTPProxy,
 		property);
 }
 
 - (void) setProxy : (NSString *) proxy
 			 port : (CFIndex   ) port
 {
-	//double version = floor(NSAppKitVersionNumber);
+	[self setUpProxyUsingSetProperty: proxy port: port];
+}
 
-	/*
-	in version 10.2 and later in CoreServices.framework,
-	CFHTTPReadStreamSetProxy is deprecated;
-	call SetProperty(kCFStreamPropertyHTTPProxy) instead
-	*/
+- (void) setProxyIfNeeded
+{
+	CFDictionaryRef	proxyDict;
 	
-	/*if (version <= NSAppKitVersionNumber10_1) {
-		CFHTTPReadStreamSetProxy(
-			[self readStreamRef],
-			(CFStringRef)proxy,
-			port);
-	} else {*/
-		[self setUpProxyUsingSetProperty:proxy port:port];
-	//}
+	proxyDict = SCDynamicStoreCopyProxies(NULL);
+	if (proxyDict == NULL) {
+		//NSLog(@"no proxy settings found.");
+		return;
+	}
+
+	CFReadStreamSetProperty([self readStreamRef], kCFStreamPropertyHTTPProxy, proxyDict);
 }
 @end
 

@@ -1,29 +1,10 @@
 {
     IBClasses = (
         {
-            ACTIONS = {
-                changeProxyPort = id; 
-                changeProxyURL = id; 
-                chooseApplication = id; 
-                closeSheet = id; 
-                enableProxy = id; 
-                enableProxyWhenPOST = id; 
-                openSheet = id; 
-                syncSystemConfigProxy = id; 
-            }; 
+            ACTIONS = {chooseApplication = id; openNetworkPrefsPane = id; }; 
             CLASS = AdvancedPrefController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {
-                "_closeSheetBtn" = NSButton; 
-                "_helperAppBtn" = NSPopUpButton; 
-                "_openSheetBtn" = NSButton; 
-                "_proxyPortField" = NSTextField; 
-                "_proxySheet" = NSWindow; 
-                "_proxyURLField" = NSTextField; 
-                "_proxyWhenPOSTCheckBox" = NSButton; 
-                "_usesProxyCheckBox" = NSButton; 
-                "_usesSystemConfigProxyCheckBox" = NSButton; 
-            }; 
+            OUTLETS = {"_helperAppBtn" = NSPopUpButton; "_openNetworkPaneBtn" = NSButton; }; 
             SUPERCLASS = PreferencesController; 
         }, 
         {CLASS = BSIconTextFieldCell; LANGUAGE = ObjC; SUPERCLASS = NSTextFieldCell; }, 

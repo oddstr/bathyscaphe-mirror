@@ -2,15 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key> </key>
+	<string>scrollPageDownThreadViewWithoutFocus:</string>
+	<key>$ </key>
+	<string>scrollPageUpThreadViewWithoutFocus:</string>
 	<key>&lt;CarriageReturn&gt;</key>
 	<string>showOrOpenSelectedThread:</string>
 	<key>&lt;Delete&gt;</key>
 	<string>deleteThread:</string>
 	<key>@&lt;DownArrow&gt;</key>
 	<string>scrollRowToEnd:</string>
+	<key>&lt;PageDown&gt;</key>
+	<string>scrollPageDownThViewOrThListProperly:</string>
+	<key>&lt;PageUp&gt;</key>
+	<string>scrollPageUpThViewOrThListProperly:</string>
 	<key>@&lt;UpArrow&gt;</key>
 	<string>scrollRowToTop:</string>
-	<key> </key>
-	<string>scrollPageDownThreadViewWithoutFocus:</string>
 </dict>
 </plist>

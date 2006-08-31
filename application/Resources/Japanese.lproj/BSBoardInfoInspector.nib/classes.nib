@@ -1,13 +1,15 @@
 {
     IBClasses = (
         {
-            ACTIONS = {changeDefaultNanashi = id; openHelpForMe = id; }; 
+            ACTIONS = {addNoName = id; editNoName = id; openHelpForMe = id; }; 
             CLASS = BSBoardInfoInspector; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                "m_changeKotehanBtn" = NSButton; 
+                "m_addNoNameBtn" = NSButton; 
+                "m_editNoNameBtn" = NSButton; 
+                "m_greenCube" = NSArrayController; 
                 "m_helpButton" = NSButton; 
-                "m_nanashiField" = NSTextField; 
+                "m_removeNoNameBtn" = NSButton; 
             }; 
             SUPERCLASS = NSWindowController; 
         }, 

@@ -44,6 +44,7 @@
 		87F5700B086E4C09002A18AD /* libssl.0.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F590B43B0296C03E01A80002 /* libssl.0.9.dylib */; };
 		87F5700C086E4C09002A18AD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F516C8F70232206E01DCB281 /* Cocoa.framework */; };
 		87F5700D086E4C09002A18AD /* SGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3DB3AAA043776DD00A80005 /* SGFoundation.framework */; };
+		87F7D7160AA024CA007E5B86 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87F7D7150AA024CA007E5B86 /* SystemConfiguration.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +58,7 @@
 		875D977B0A89FFC40061C86D /* BSIPIDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSIPIDownload.m; path = ../../application/subproj/previewer/BSIPIDownload.m; sourceTree = SOURCE_ROOT; };
 		87F57013086E4C09002A18AD /* Info-SGNetwork.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-SGNetwork.plist"; sourceTree = "<group>"; };
 		87F57014086E4C0A002A18AD /* SGNetwork.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SGNetwork.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		87F7D7150AA024CA007E5B86 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		F36940E105E7815900A31B61 /* UTILAssertion.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = UTILAssertion.h; sourceTree = "<group>"; };
 		F36940E205E7815900A31B61 /* UTILDebugging.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = UTILDebugging.h; sourceTree = "<group>"; };
 		F36940E305E7815900A31B61 /* UTILDescription.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = UTILDescription.h; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				87F5700B086E4C09002A18AD /* libssl.0.9.dylib in Frameworks */,
 				87F5700C086E4C09002A18AD /* Cocoa.framework in Frameworks */,
 				87F5700D086E4C09002A18AD /* SGFoundation.framework in Frameworks */,
+				87F7D7160AA024CA007E5B86 /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,6 +139,7 @@
 		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				87F7D7150AA024CA007E5B86 /* SystemConfiguration.framework */,
 				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
 				1058C7B2FEA5585E11CA2CBB /* Other Frameworks */,
 			);

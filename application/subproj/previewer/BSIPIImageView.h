@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIImageView.h,v 1.3 2006/07/26 16:28:25 tsawada2 Exp $
+//  $Id: BSIPIImageView.h,v 1.3.2.1 2006/08/31 10:18:41 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/07.
@@ -21,3 +21,7 @@
 @interface NSObject(BSIPIImageViewDraggingSource)
 - (BOOL) imageView: (BSIPIImageView *) aImageView writeSomethingToPasteboard: (NSPasteboard *) pboard;
 @end 
+
+@interface NSObject(BSIPIImageViewResponderDelegate)
+- (BOOL) imageView: (BSIPIImageView *) aImageView shouldPerformKeyEquivalent: (NSEvent *) theEvent;
+@end

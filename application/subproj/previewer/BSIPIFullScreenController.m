@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIFullScreenController.m,v 1.6 2006/07/30 02:39:25 tsawada2 Exp $
+//  $Id: BSIPIFullScreenController.m,v 1.6.2.1 2006/08/31 10:18:41 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.
@@ -10,6 +10,13 @@
 #import <Carbon/Carbon.h>
 
 @class BSIPIFullScreenWindow;
+
+@interface NSObject(FullScreenDelegateMethodsStub)
+- (void) showPrevImage: (id) sender;
+- (void) showNextImage: (id) sender;
+- (void) saveImage: (id) sender;
+- (void) deleteCachedImage: (id) sender;
+@end
 
 @implementation BSIPIFullScreenController
 + (BSIPIFullScreenController *) sharedInstance
@@ -176,6 +183,7 @@
     //	We could also check for the Escape key by testing
     //		[[keyDown characters] isEqualToString: @"\033"]
 	NSString	*pressedKey = [keyDown charactersIgnoringModifiers];
+	unsigned short	keyCode = [keyDown keyCode];
 	
 	if ([pressedKey isEqualToString: [NSString stringWithFormat: @"%C", 0xF702]]) {
 		if ([[self delegate] respondsToSelector: @selector(showPrevImage:)]) {
@@ -194,6 +202,14 @@
 	if ([pressedKey isEqualToString: @"s"]) {
 		if ([[self delegate] respondsToSelector: @selector(saveImage:)]) {
 			[[self delegate] saveImage: window];
+			return YES;
+		}
+	}
+	
+	if (keyCode == 51) { // delete key
+		if ([[self delegate] respondsToSelector: @selector(deleteCachedImage:)]) {
+			[[self delegate] deleteCachedImage: window];
+			[self endFullScreen];
 			return YES;
 		}
 	}

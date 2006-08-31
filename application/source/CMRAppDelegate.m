@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.24.2.2 2006/08/07 10:40:42 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.24.2.3 2006/08/31 10:18:40 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -7,11 +7,13 @@
  * See the file LICENSE for copying permission.
  */
 #import "CMRAppDelegate_p.h"
-#import "CMRTaskManager.h"
-#import "CMRMainMenuManager.h"
-#import "BSHistoryMenuManager.h"
+#import "BoardWarrior.h"
+#import "CMRBrowser.h"
+
 #import <SGAppKit/NSColor-SGExtensions.h>
 #import <SGAppKit/NSImage-SGExtensions.h>
+
+@class CMRDocumentController;
 
 #define kOnlineItemKey				@"On Line"
 #define kOfflineItemKey				@"Off Line"
@@ -67,6 +69,8 @@
 {
     [[CMRTaskManager defaultManager] showWindow : sender];
 }
+
+// For Help Menu
 - (IBAction) openURL : (id) sender
 {
     NSURL *url;
@@ -93,7 +97,8 @@
 
 - (IBAction) openURLPanel : (id) sender
 {
-    [[CMROpenURLManager defaultManager] askUserURL];
+	if (NO == [NSApp isActive]) [NSApp activateIgnoringOtherApps: YES];
+	[[CMROpenURLManager defaultManager] askUserURL];
 }
 
 - (IBAction) clearHistory : (id) sender
@@ -142,11 +147,38 @@
 
 - (IBAction) runBoardWarrior: (id) sender
 {
-	[self showPreferencesPane: sender];
+	BoardWarrior *bw = [BoardWarrior warrior];
 	
-	id syncPaneController_ = [[CMRPref sharedPreferencesPane] controllerWithIdentifier: @"Sync"];
-	[[[[CMRPref sharedPreferencesPane] window] toolbar] setSelectedItemIdentifier: @"Sync"];
-	[[CMRPref sharedPreferencesPane] setContentViewWithController: syncPaneController_];
+	if ([bw isInProgress]) return;
+	[bw syncBoardLists];
+}
+
+- (void) orderFrontMainBrowserAndShowThListForBrd: (NSString *) boardName
+						  addBrdToUsrListIfNeeded: (BOOL) addToList
+{
+	if (CMRMainBrowser != nil) {
+		[[CMRMainBrowser window] makeKeyAndOrderFront : self];
+	} else {
+		[[CMRDocumentController sharedDocumentController] newDocument : self];
+	}
+
+	// addBrdToUsrListIfNeeded オプションは当面の間無視（常に YES 扱いで）
+	[CMRMainBrowser selectRowWhoseNameIs : boardName]; // この結果として outlineView の selectionDidChange: が「確実に」
+													   // 呼び出される限り、そこから showThreadsListForBoardName: が呼び出される
+}
+
+- (IBAction) startHEADCheckDirectly: (id) sender
+{
+	BOOL	hasBeenOnline = [CMRPref isOnlineMode];
+
+	// 簡単のため、いったんオンラインモードを切る
+	if(hasBeenOnline) [self toggleOnlineMode: sender];
+	
+	[self orderFrontMainBrowserAndShowThListForBrd: CMXFavoritesDirectoryName addBrdToUsrListIfNeeded: NO];
+	[CMRMainBrowser reloadThreadsList: sender];
+
+	// 必要ならオンラインに復帰
+	if(hasBeenOnline) [self toggleOnlineMode: sender];
 }
 
 #pragma mark validation
@@ -204,7 +236,7 @@
 	} else if (action_ == @selector(miniaturizeAll:)) {
 		return ([NSApp makeWindowsPerform : @selector(isNotMiniaturizedButCanMinimize) inOrder : YES] != nil);
 	} else if (action_ == @selector(togglePreviewPanel:)) {
-		id tmp_ = [CMRPref sharedImagePreviewer]; // WARNING が出るだろうけど気にせず…
+		id tmp_ = [CMRPref sharedImagePreviewer];
 		return [tmp_ respondsToSelector : @selector(togglePreviewPanel:)];
 	}
 	return YES;

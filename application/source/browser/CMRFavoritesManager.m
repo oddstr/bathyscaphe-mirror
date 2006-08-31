@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFavoritesManager.m,v 1.12.2.5 2006/08/05 16:50:23 tsawada2 Exp $
+  * $Id: CMRFavoritesManager.m,v 1.12.2.6 2006/08/31 10:18:40 tsawada2 Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
@@ -244,7 +244,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 {
 	NSString	*fileType_;
 	
-	if(nil == filepath) return NO;
+	if(nil == filepath) return CMRFavoritesOperationNone;
 	
 	if([[self favoritesItemsIndex] containsObject : filepath])
 		return CMRFavoritesOperationRemove;
@@ -255,12 +255,16 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 		//else
 			return CMRFavoritesOperationNone;
 	}
-	
+/*	
 	fileType_ = [[NSDocumentController sharedDocumentController] typeFromFileExtension : [filepath pathExtension]];
 	
 	return [fileType_ isEqualToString : CMRThreadDocumentType]
 				? CMRFavoritesOperationLink
 				: CMRFavoritesOperationNone;
+*/
+	// ä»ó™âªÇµÇƒÇ®Ç¢ÇƒÇ‡ìññ ÅAñ‚ëËñ≥Çµ
+	fileType_ = [filepath pathExtension];
+	return [fileType_ isEqualToString: @"thread"] ? CMRFavoritesOperationLink : CMRFavoritesOperationNone;
 }
 
 - (BOOL) canCreateFavoriteLinkFromPath : (NSString *) filepath
@@ -469,5 +473,51 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	}
 	
 	return 0;
+}
+
+- (void) updateFavItemsArrayWithAppendingNumOfMsgs
+{
+	NSMutableArray *favItmsAry = [[self favoritesItemsArray] mutableCopy];
+
+	[CMRPref setOldFavoritesUpdated: YES];
+
+	NSArray	*checkAry_ = [favItmsAry valueForKey: CMRThreadNumberOfMessagesKey];
+	if (![checkAry_ containsObject: [NSNull null]]) return;
+
+	NSLog(@"Need to update Favorites.plist");
+	NSEnumerator	*iter_ = [favItmsAry objectEnumerator];
+	id				eachObject;
+	
+	NSMutableArray *newAry_ = [NSMutableArray arrayWithCapacity: [favItmsAry count]];
+
+	while (eachObject = [iter_ nextObject]) {
+		if ([eachObject objectForKey: CMRThreadNumberOfMessagesKey] != nil) {
+			[newAry_ addObject: eachObject];
+			continue;
+		}
+
+		id newObject = [eachObject mutableCopy];
+
+		unsigned int num_ = 0;
+		unsigned int lastLoadedNum_;
+		NSString *filePath_ = [CMRThreadAttributes pathFromDictionary: eachObject];
+		lastLoadedNum_ = [eachObject unsignedIntForKey: CMRThreadLastLoadedNumberKey];
+		num_ = [self getNumOfMsgsWithFilePath: filePath_];
+		
+		if (num_ != 0) {
+			[newObject setUnsignedInt: num_ forKey: CMRThreadNumberOfMessagesKey];
+			if (lastLoadedNum_ < num_) [newObject setUnsignedInt: ThreadUpdatedStatus forKey: CMRThreadStatusKey];
+		} else {
+			[newObject setUnsignedInt: lastLoadedNum_ forKey: CMRThreadNumberOfMessagesKey];
+		}
+		
+		[newAry_ addObject: newObject];
+		[newObject release];
+	}
+
+	@synchronized(self) {
+		[self setFavoritesItemsArray: newAry_];
+	}
+	NSLog(@"Update finished.");
 }
 @end

@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate_p.h,v 1.7 2006/04/11 17:31:21 masakih Exp $
+ * $Id: CMRAppDelegate_p.h,v 1.7.2.1 2006/08/31 10:18:40 tsawada2 Exp $
  * 
  * CMRAppDelegate_p.h
  *
@@ -13,7 +13,6 @@
 #import "TextFinder.h"
 #import "CMRTaskManager.h"
 #import "CMRMainMenuManager.h"
-#import "BSScriptsMenuManager.h"
 #import "CMROpenURLManager.h"
 #import "BSHistoryMenuManager.h"
 
@@ -28,4 +27,25 @@
 //:CMRAppDelegate+Menu.m
 @interface CMRAppDelegate(MenuSetup)
 - (void) setupMenu;
+@end
+
+// For AppleScript
+@interface NSApplication(ScriptingSupport)
+/* Property Support (Key-Value coding) */
+- (BOOL) isOnlineMode;
+- (void) setIsOnlineMode : (BOOL) flag;
+
+/* Who needs these stupid properties... Huh! */
+- (NSArray *) browserTableViewColor;
+- (void) setBrowserTableViewColor : (NSArray *) colorValue;
+
+- (NSArray *) boardListColor;
+- (void) setBoardListColor : (NSArray *) colorValue;
+
+/* Command Support */
+- (void) handleOpenURLCommand : (NSScriptCommand *) command;
+@end
+
+@interface NSWindow(BSAddition)
+- (BOOL) isNotMiniaturizedButCanMinimize;
 @end

@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.34.2.1 2006/08/06 20:39:12 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.34.2.2 2006/08/31 10:18:40 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -112,6 +112,13 @@ typedef enum _BSAutoSyncIntervalType {
 - (BOOL) informWhenDetectDatOchi;
 - (void) setInformWhenDetectDatOchi: (BOOL) shouldInform;
 
+/* MeteorSweeper Additions */
+- (BOOL) moveFocusToViewerWhenShowThreadAtRow;
+- (void) setMoveFocusToViewerWhenShowThreadAtRow: (BOOL) shouldMove;
+
+- (BOOL) oldFavoritesUpdated;
+- (void) setOldFavoritesUpdated: (BOOL) flag;
+
 #pragma mark ThreadsList
 
 /* É\Å[Ég */
@@ -132,19 +139,23 @@ typedef enum _BSAutoSyncIntervalType {
 
 
 // Proxy
-- (BOOL) usesProxy;
-- (void) setUsesProxy : (BOOL) anUsesProxy;
-- (BOOL) usesProxyOnlyWhenPOST;
-- (void) setUsesProxyOnlyWhenPOST : (BOOL) anUsesProxy;
+//- (BOOL) usesProxy;
+//- (void) setUsesProxy : (BOOL) anUsesProxy;
+//- (BOOL) usesProxyOnlyWhenPOST;
+//- (void) setUsesProxyOnlyWhenPOST : (BOOL) anUsesProxy;
 
-- (BOOL) usesSystemConfigProxy;
-- (void) setUsesSystemConfigProxy : (BOOL) flag;
+//- (BOOL) usesSystemConfigProxy;
+//- (void) setUsesSystemConfigProxy : (BOOL) flag;
 
-- (void) getProxy:(NSString**)host port:(CFIndex*)port;
-- (CFIndex) proxyPort;
-- (void) setProxyPort : (CFIndex) aProxyPort;
-- (NSString *) proxyHost;
-- (void) setProxyHost : (NSString *) aProxyURL;
+//- (void) getProxy:(NSString**)host port:(CFIndex*)port;
+//- (CFIndex) proxyPort;
+//- (void) setProxyPort : (CFIndex) aProxyPort;
+//- (NSString *) proxyHost;
+//- (void) setProxyHost : (NSString *) aProxyURL;
+
+- (BOOL) usesOwnProxy;
+
+- (void) getOwnProxy: (NSString **) host port: (CFIndex *) port;
 
 #pragma mark History
 

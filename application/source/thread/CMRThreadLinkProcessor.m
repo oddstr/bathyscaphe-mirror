@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadLinkProcessor.m,v 1.3 2006/02/01 17:39:08 tsawada2 Exp $
+  * $Id: CMRThreadLinkProcessor.m,v 1.3.4.1 2006/08/31 10:18:40 tsawada2 Exp $
   * 
   * CMRThreadLinkProcessor.m
   *
@@ -14,7 +14,6 @@
 #import "CMXPopUpWindowManager.h"
 #import "CMRDocumentFileManager.h"
 
-//#import "NSCharacterSet+CMXAdditions.h"
 #import "CMRHostHandler.h"
 
 
@@ -32,6 +31,39 @@ static int scanResLinkElement_(NSString *str, SGBaseRangeArray *buffer);
 
 
 @implementation CMRThreadLinkProcessor
++ (BOOL) parseBoardLink: (id) aLink boardName: (NSString **) pBoardName boardURL: (NSURL **) pBoardURL
+{
+	NSURL			*link_;
+
+	NSString	*boardName_ = nil;
+	
+	BOOL		result_ = NO;
+	
+	
+	link_ = [NSURL URLWithLink : aLink];
+	UTILRequireCondition(link_, ReturnResult);
+
+	// 最低限の救済措置として、末尾に「index.html」などがくっついていた場合は除去を試みる
+	{
+		CFStringRef lastPathExt = CFURLCopyPathExtension((CFURLRef)link_);
+		if ([(NSString *)lastPathExt isEqualToString: @"html"]) {
+			link_ = (NSURL *)CFURLCreateCopyDeletingLastPathComponent(kCFAllocatorDefault, (CFURLRef)link_);
+		}
+		//CFRelease(lastPathExt);
+	}
+
+	boardName_ = [[BoardManager defaultManager] boardNameForURL : link_];
+
+	UTILRequireCondition(boardName_, ReturnResult);
+	result_ = YES;
+
+ReturnResult:
+	if (pBoardName != NULL) *pBoardName = boardName_;
+	if (pBoardURL  != NULL) *pBoardURL = link_;
+	
+	return result_;
+}
+
 + (BOOL) parseThreadLink : (id         ) aLink
                boardName : (NSString **) pBoardName
                 boardURL : (NSURL    **) pBoardURL

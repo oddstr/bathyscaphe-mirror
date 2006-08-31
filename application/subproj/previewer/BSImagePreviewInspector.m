@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.19.2.4 2006/08/09 13:44:33 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.19.2.5 2006/08/31 10:18:41 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -84,6 +84,17 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 	return [[BSIPIHistoryManager sharedManager] historyBacket];
 }
 
+#pragma mark For BathyScaphe 1.3 Additions
+- (IBAction) togglePreviewPanel : (id) sender
+{
+	if ([[self window] isVisible]) {
+		// orderOut: では windowWillClose: はもちろん呼ばれない。
+		if ([self resetWhenHide]) [self clearAttributes];
+		[[self window] orderOut : sender];
+	} else {
+		[self showWindow : sender];
+	}
+}
 
 #pragma mark Actions
 - (IBAction) copyURL : (id) sender
@@ -163,17 +174,6 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 - (IBAction) cancelDownload : (id) sender
 {
 	[self clearAttributes];
-}
-
-- (IBAction) togglePreviewPanel : (id) sender
-{
-	if ([[self window] isVisible]) {
-		// orderOut: では windowWillClose: はもちろん呼ばれない。
-		if ([self resetWhenHide]) [self clearAttributes];
-		[[self window] orderOut : sender];
-	} else {
-		[self showWindow : sender];
-	}
 }
 
 - (IBAction) showPrevImage: (id) sender
@@ -476,5 +476,23 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 	return [[BSIPIHistoryManager sharedManager] appendDataForURL: [self sourceURL]
 													toPasteboard: pboard
 										 withFilenamesPboardType: YES];
+}
+
+- (BOOL) imageView: (BSIPIImageView *) aImageView shouldPerformKeyEquivalent: (NSEvent *) theEvent
+{
+	if ([aImageView image] == nil) return NO;
+	
+	int whichKey_ = [theEvent keyCode];
+
+	if (whichKey_ == 51) { // delete key
+		[self deleteCachedImage: aImageView];
+		return YES;
+	}
+	
+	if (whichKey_ == 36) { // return key
+		[self startFullscreen: aImageView];
+		return YES;
+	}
+	return NO;
 }
 @end

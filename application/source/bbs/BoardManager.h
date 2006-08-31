@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.h,v 1.10.2.1 2006/07/30 21:37:18 tsawada2 Exp $
+ * $Id: BoardManager.h,v 1.10.2.2 2006/08/31 10:18:40 tsawada2 Exp $
  * 
  * BoardManager.h
  *
@@ -40,7 +40,7 @@ typedef enum _BSBeLoginPolicyType {
     @private
 	BoardList			*_defaultList;
 	BoardList			*_userList;
-	NSDictionary		*_noNameDict;	// NoNameManager を統合
+	NSMutableDictionary		*_noNameDict;	// NoNameManager を統合
 }
 + (id) defaultManager;
 
@@ -51,7 +51,8 @@ typedef enum _BSBeLoginPolicyType {
 
 - (NSString *) defaultBoardListPath;
 - (NSString *) userBoardListPath;
-+ (NSString *) NNDFilepath;
++ (NSString *) NNDFilepath; // (BoardProperties.plist)
++ (NSString *) oldNNDFilepath; // available in MeteorSweeper. (NoNames.plist)
 
 - (NSURL *) URLForBoardName : (NSString *) boardName;
 - (NSString *) boardNameForURL : (NSURL *) anURL;
@@ -93,12 +94,21 @@ typedef enum _BSBeLoginPolicyType {
 // NoNameManager はすべて CMRBBSSignature を引数にとっていたが、BoardManager への
 // 統合に伴い、すべて NSString に変更したので注意。
 
-- (NSDictionary *) noNameDict;
+- (NSMutableDictionary *) noNameDict;
 
 /* 名無しさんの名前 */
-- (NSString *) defaultNoNameForBoard : (NSString *) boardName;
-- (void) setDefaultNoName : (NSString *) aName
-			 	 forBoard : (NSString *) boardName;
+// Deprecated in MeteorSweeper.
+//- (NSString *) defaultNoNameForBoard : (NSString *) boardName;
+//- (void) setDefaultNoName : (NSString *) aName
+//			 	 forBoard : (NSString *) boardName;
+
+// Available in MeteorSweeper.
+- (NSSet *) defaultNoNameSetForBoard: (NSString *) boardName;
+- (void) setDefaultNoNameSet: (NSSet *) newSet forBoard: (NSString *) boardName;
+- (void) addNoName: (NSString *) additionalNoName forBoard: (NSString *) boardName;
+- (void) removeNoName: (NSString *) removingNoName forBoard: (NSString *) boardName;
+- (void) exchangeNoName: (NSString *) oldName toNewValue: (NSString *) newName forBoard: (NSString *) boardName;
+				 
 /* ソート基準カラム */
 - (NSString *) sortColumnForBoard : (NSString *) boardName;
 - (void) setSortColumn : (NSString *) anIdentifier
@@ -119,7 +129,7 @@ typedef enum _BSBeLoginPolicyType {
 			   forBoard : (NSString *) boardName;
 
 // LittleWish Addition
-/* 注意：1.1.x ではまだインタフェースのみ */
+/* 注意：1.1.x ではインタフェースのみ */
 // available in BathyScaphe 1.2 and later.
 - (BOOL) allThreadsShouldAAThreadAtBoard : (NSString *) boardName;
 - (void) setAllThreadsShouldAAThread : (BOOL      ) shouldAAThread
@@ -128,6 +138,9 @@ typedef enum _BSBeLoginPolicyType {
 // LittleWish Addtion : Read-only Properties
 - (NSImage *) iconForBoard : (NSString *) boardName;
 - (BSBeLoginPolicyType) typeOfBeLoginPolicyForBoard : (NSString *) boardName;
+
+// MeteorSweeper Addition
+- (void) setTypeOfBeLoginPolicy: (BSBeLoginPolicyType) aType forBoard: (NSString *) boardName;
 
 /*
 	ユーザからの入力を受けつける。
@@ -138,6 +151,14 @@ typedef enum _BSBeLoginPolicyType {
 */
 - (NSString *) askUserAboutDefaultNoNameForBoard : (NSString *) boardName
 									 presetValue : (NSString *) aValue;
+
+// available in MeteorSweeper and later.
+- (BOOL) needToDetectNoNameForBoard: (NSString *) boardName;
+@end
+
+// MeteorSweeper Addition
+@interface BoardManager(SettingTxtDetector)
+- (BOOL) startDownloadSettingTxtForBoard: (NSString *) boardName;
 @end
 
 ///////////////////////////////////////////////////////////////

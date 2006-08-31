@@ -1,5 +1,5 @@
 //
-//  $Id: CMRReplyMessenger-Connector.m,v 1.10 2006/06/04 16:01:10 tsawada2 Exp $
+//  $Id: CMRReplyMessenger-Connector.m,v 1.10.2.1 2006/08/31 10:18:41 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/07/04.
@@ -120,8 +120,10 @@
 								   returnCode : (int) returnCode
 								  contextInfo : (void *) contextInfo
 {
-	if (NSAlertFirstButtonReturn == returnCode)
+	if (NSAlertFirstButtonReturn == returnCode) {
 		[self sendMessage : self withHanaMogeraForms : ([self additionalForms] != nil)];
+	}
+	[alert release];
 }
 
 - (void) beginErrorInformationalAlertSheet : (NSString *) title
@@ -160,7 +162,6 @@
 					   modalDelegate : (contribution ? self : nil)
 					  didEndSelector : didEndSelector
 					     contextInfo : nil];
-	[alert_ release];
 }
 
 - (BOOL) isCookieOrContributionCheckError : (SG2chServerError) error

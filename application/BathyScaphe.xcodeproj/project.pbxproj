@@ -311,7 +311,6 @@
 		8716066D098A44AB00A27F63 /* SoundsPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8716066B098A44AB00A27F63 /* SoundsPane.nib */; };
 		871606AF098A646500A27F63 /* Sounds.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 871606AE098A646400A27F63 /* Sounds.tiff */; };
 		871607ED098AA42200A27F63 /* SyncPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = 871607EB098AA42200A27F63 /* SyncPane.nib */; };
-		8718EFA608D4257200FFAAEE /* BoardManager-BSAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 8718EFA508D4257200FFAAEE /* BoardManager-BSAddition.m */; };
 		8718EFDE08D43F7D00FFAAEE /* NoNameInputController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8718EFDC08D43F7D00FFAAEE /* NoNameInputController.h */; };
 		8718EFDF08D43F7D00FFAAEE /* NoNameInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8718EFDD08D43F7D00FFAAEE /* NoNameInputController.m */; };
 		8719F06A088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 8719F069088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m */; };
@@ -494,6 +493,7 @@
 		87299B1D0832622200CBD740 /* ThreadKeyBindings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87299B060832622200CBD740 /* ThreadKeyBindings.plist */; };
 		87299B1E0832622200CBD740 /* URLBookmarks.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87299B070832622200CBD740 /* URLBookmarks.plist */; };
 		87299C1F0832673000CBD740 /* BathyScaphe.mdimporter in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87299C09083266F700CBD740 /* BathyScaphe.mdimporter */; };
+		873158DE0A9948B400854BD8 /* BSDockMenuItem.nib in Resources */ = {isa = PBXBuildFile; fileRef = 873158DC0A9948B400854BD8 /* BSDockMenuItem.nib */; };
 		8732FCBA08C2F79B00779F20 /* HistoryBack.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 878A7567088AA85B00539B6F /* HistoryBack.tiff */; };
 		8732FCBB08C2F79D00779F20 /* HistoryForward.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 878A7568088AA85B00539B6F /* HistoryForward.tiff */; };
 		873BAE9A090931B0009E9B41 /* BSImagePreviewerInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 8745CD280900DE9800A28AC0 /* BSImagePreviewerInterface.h */; };
@@ -535,6 +535,8 @@
 		8791EE2A097A5BC200EA7475 /* Status_HeadModified.png in Resources */ = {isa = PBXBuildFile; fileRef = 8791EE29097A5BC200EA7475 /* Status_HeadModified.png */; };
 		8794CC10089C033300161BAB /* BoardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8794CC0F089C033300161BAB /* BoardManager.m */; };
 		8795B91F08E3A7E3005C7C5B /* ToolbarItems.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8795B91E08E3A7E3005C7C5B /* ToolbarItems.strings */; };
+		8796FA420A9189D400DE3A90 /* BSSettingTxtDetector.h in Headers */ = {isa = PBXBuildFile; fileRef = 8796FA400A9189D400DE3A90 /* BSSettingTxtDetector.h */; };
+		8796FA430A9189D400DE3A90 /* BSSettingTxtDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 8796FA410A9189D400DE3A90 /* BSSettingTxtDetector.m */; };
 		87A474F80A85684000FC13E6 /* Sync.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 871607EE098AA48400A27F63 /* Sync.tiff */; };
 		87A474F90A85684100FC13E6 /* SyncPaneController.h in Headers */ = {isa = PBXBuildFile; fileRef = 871607E4098A9A8700A27F63 /* SyncPaneController.h */; };
 		87A474FA0A85684200FC13E6 /* SyncPaneController.m in Sources */ = {isa = PBXBuildFile; fileRef = 871607E5098A9A8700A27F63 /* SyncPaneController.m */; };
@@ -544,7 +546,6 @@
 		87B19D7F08FB7C4100D15053 /* AddBoard.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B19D7D08FB7C4100D15053 /* AddBoard.tiff */; };
 		87B652990840625F008AE2BE /* SendMessage.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B652980840625F008AE2BE /* SendMessage.tiff */; };
 		87BB79210864401A00ED8757 /* RBSplitSubview.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB791F0864401A00ED8757 /* RBSplitSubview.h */; };
-		87BB79220864401A00ED8757 /* RBSplitViewPrivateDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB79200864401A00ED8757 /* RBSplitViewPrivateDefines.h */; };
 		87BD61F00865D0230080A7CA /* NSTableView+BSAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BD61EE0865D0230080A7CA /* NSTableView+BSAdditions.h */; };
 		87BD61F10865D0230080A7CA /* NSTableView+BSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BD61EF0865D0230080A7CA /* NSTableView+BSAdditions.m */; };
 		87BE9E9F0912F54300D2F339 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87BE9E9E0912F54300D2F339 /* Localizable.strings */; };
@@ -581,8 +582,12 @@
 		87DFDDA80A7D6A0F0074D3EA /* CookieManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCB604C698FB00A80005 /* CookieManager.m */; };
 		87E2264E0833AA5D00E7FC85 /* BathyScaphe.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 87E2264C0833AA5D00E7FC85 /* BathyScaphe.scriptSuite */; };
 		87E2264F0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 87E2264D0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology */; };
+		87F0B3550A9C4CFA0002D317 /* smallSquarePlus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87F0B3530A9C4CFA0002D317 /* smallSquarePlus.tiff */; };
+		87F0B3560A9C4CFA0002D317 /* smallSquareMinus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87F0B3540A9C4CFA0002D317 /* smallSquareMinus.tiff */; };
 		87F3D5B20976921C00A1217A /* BSIPIHistoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 87F3D5B00976921C00A1217A /* BSIPIHistoryManager.h */; };
 		87F3D5B30976921C00A1217A /* BSIPIHistoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F3D5B10976921C00A1217A /* BSIPIHistoryManager.m */; };
+		87F6214D0A906B890082E8DB /* BoardManager-SettingTxt.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F6214C0A906B890082E8DB /* BoardManager-SettingTxt.m */; };
+		87F621A10A9186920082E8DB /* BoardManager-BSAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F621A00A9186920082E8DB /* BoardManager-BSAddition.m */; };
 		F424609908462452000803EA /* Scripts.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F424609808462452000803EA /* Scripts.tiff */; };
 		F49CCDF50849B87500835BE3 /* BSScriptsMenuManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F49CCDF30849B87500835BE3 /* BSScriptsMenuManager.h */; };
 		F49CCDF60849B87500835BE3 /* BSScriptsMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F49CCDF40849B87500835BE3 /* BSScriptsMenuManager.m */; };
@@ -692,7 +697,6 @@
 		871607E5098A9A8700A27F63 /* SyncPaneController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncPaneController.m; sourceTree = "<group>"; };
 		871607EC098AA42200A27F63 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/SyncPane.nib; sourceTree = "<group>"; };
 		871607EE098AA48400A27F63 /* Sync.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Sync.tiff; sourceTree = "<group>"; };
-		8718EFA508D4257200FFAAEE /* BoardManager-BSAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BoardManager-BSAddition.m"; sourceTree = "<group>"; };
 		8718EFDC08D43F7D00FFAAEE /* NoNameInputController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoNameInputController.h; sourceTree = "<group>"; };
 		8718EFDD08D43F7D00FFAAEE /* NoNameInputController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoNameInputController.m; sourceTree = "<group>"; };
 		8719F069088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-OwnHistory.m"; sourceTree = "<group>"; };
@@ -799,6 +803,7 @@
 		87299B060832622200CBD740 /* ThreadKeyBindings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ThreadKeyBindings.plist; sourceTree = "<group>"; };
 		87299B070832622200CBD740 /* URLBookmarks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = URLBookmarks.plist; sourceTree = "<group>"; };
 		87299C09083266F700CBD740 /* BathyScaphe.mdimporter */ = {isa = PBXFileReference; explicitFileType = "wrapper.plug-in"; name = BathyScaphe.mdimporter; path = ../metadataimporter/BathyScaphe/build/Deployment/BathyScaphe.mdimporter; sourceTree = SOURCE_ROOT; };
+		873158DD0A9948B400854BD8 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSDockMenuItem.nib; sourceTree = "<group>"; };
 		873C0DCE08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRBrowser-BLEditor.m"; sourceTree = "<group>"; };
 		8745CD280900DE9800A28AC0 /* BSImagePreviewerInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSImagePreviewerInterface.h; sourceTree = "<group>"; };
 		87464E3608643673000F0371 /* libRBSplitView.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libRBSplitView.a; sourceTree = "<group>"; };
@@ -843,6 +848,8 @@
 		8792D83B05E21AE20074B2BE /* UTILError.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; name = UTILError.h; path = ../misc/utilkit/UTILError.h; sourceTree = SOURCE_ROOT; };
 		8794CC0F089C033300161BAB /* BoardManager.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = BoardManager.m; sourceTree = "<group>"; };
 		8795B92008E3A7EC005C7C5B /* Japanese */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; lineEnding = 0; name = Japanese; path = Japanese.lproj/ToolbarItems.strings; sourceTree = "<group>"; };
+		8796FA400A9189D400DE3A90 /* BSSettingTxtDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSSettingTxtDetector.h; sourceTree = "<group>"; };
+		8796FA410A9189D400DE3A90 /* BSSettingTxtDetector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSSettingTxtDetector.m; sourceTree = "<group>"; };
 		87AC05B5082D3E4200823807 /* FontWell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FontWell.h; sourceTree = "<group>"; };
 		87AC05B6082D3E4200823807 /* FontWell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FontWell.m; sourceTree = "<group>"; };
 		87AF6CFD07425DC0001D08ED /* add_idle.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = add_idle.tiff; sourceTree = "<group>"; };
@@ -899,8 +906,12 @@
 		87DBC6980A867C6D00A1C058 /* syncFinish.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = syncFinish.tiff; sourceTree = "<group>"; };
 		87E2264C0833AA5D00E7FC85 /* BathyScaphe.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = BathyScaphe.scriptSuite; sourceTree = "<group>"; };
 		87E2264D0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = BathyScaphe.scriptTerminology; sourceTree = "<group>"; };
+		87F0B3530A9C4CFA0002D317 /* smallSquarePlus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = smallSquarePlus.tiff; sourceTree = "<group>"; };
+		87F0B3540A9C4CFA0002D317 /* smallSquareMinus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = smallSquareMinus.tiff; sourceTree = "<group>"; };
 		87F3D5B00976921C00A1217A /* BSIPIHistoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIHistoryManager.h; sourceTree = "<group>"; };
 		87F3D5B10976921C00A1217A /* BSIPIHistoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIHistoryManager.m; sourceTree = "<group>"; };
+		87F6214C0A906B890082E8DB /* BoardManager-SettingTxt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BoardManager-SettingTxt.m"; sourceTree = "<group>"; };
+		87F621A00A9186920082E8DB /* BoardManager-BSAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BoardManager-BSAddition.m"; sourceTree = "<group>"; };
 		87FECDE40840DDF100787C68 /* AdvancedPreferences.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AdvancedPreferences.tiff; sourceTree = "<group>"; };
 		E8894DD805C3A3A30004317F /* CMROpenURLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMROpenURLManager.h; sourceTree = "<group>"; };
 		E8894DD905C3A3A30004317F /* CMROpenURLManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMROpenURLManager.m; sourceTree = "<group>"; };
@@ -1424,6 +1435,7 @@
 		872998690832616D00CBD740 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				873158DC0A9948B400854BD8 /* BSDockMenuItem.nib */,
 				8762E8C60A8635C200062504 /* rosetta.pl */,
 				8762E8C70A8635C200062504 /* SJIS2UTF8 */,
 				8762E8C80A8635C200062504 /* sora.pl */,
@@ -1476,6 +1488,8 @@
 		87299A02083261F200CBD740 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				87F0B3530A9C4CFA0002D317 /* smallSquarePlus.tiff */,
+				87F0B3540A9C4CFA0002D317 /* smallSquareMinus.tiff */,
 				870D4BE80A7D6115008BBAB4 /* titleRulerInfoIcon.tiff */,
 				87078CD1090E970F007FF9C3 /* beDisabled.png */,
 				87078CD2090E970F007FF9C3 /* beEnabled.png */,
@@ -2098,21 +2112,23 @@
 		F324DC2204C698FA00A80005 /* bbs */ = {
 			isa = PBXGroup;
 			children = (
+				8796FA400A9189D400DE3A90 /* BSSettingTxtDetector.h */,
+				8796FA410A9189D400DE3A90 /* BSSettingTxtDetector.m */,
+				87F621A00A9186920082E8DB /* BoardManager-BSAddition.m */,
 				F324DC2704C698FA00A80005 /* BoardManager.h */,
 				8794CC0F089C033300161BAB /* BoardManager.m */,
-				8718EFA508D4257200FFAAEE /* BoardManager-BSAddition.m */,
 				F324DC2904C698FA00A80005 /* BoardManager_p.h */,
 				F34E37C9050743B600A80005 /* CMRBBSListTemplateKeys.h */,
 				F324DC2504C698FA00A80005 /* BoardList.h */,
 				F324DC2604C698FA00A80005 /* BoardList.m */,
 				F324DC2404C698FA00A80005 /* BoardList-OVDataSource.m */,
-				8718EFA508D4257200FFAAEE /* BoardManager-BSAddition.m */,
 				8718EFDC08D43F7D00FFAAEE /* NoNameInputController.h */,
 				8718EFDD08D43F7D00FFAAEE /* NoNameInputController.m */,
 				87BF52C908F789D400998C4E /* BSBoardInfoInspector.h */,
 				87BF52CA08F789D400998C4E /* BSBoardInfoInspector.m */,
 				87D7F03B0A85136900623EA5 /* BoardWarrior.h */,
 				87D7F03C0A85136900623EA5 /* BoardWarrior.m */,
+				87F6214C0A906B890082E8DB /* BoardManager-SettingTxt.m */,
 			);
 			path = bbs;
 			sourceTree = "<group>";
@@ -2224,7 +2240,6 @@
 		F324DD8D04C698FB00A80005 /* view */ = {
 			isa = PBXGroup;
 			children = (
-				F4E4313B0982A31000119842 /* DatePicker */,
 				8757833A0A4CED150004F8F9 /* navigationBar */,
 				F3733DC405BA28CD009D1038 /* CMXMenuHolder.h */,
 				F3733DC505BA28CD009D1038 /* CMXMenuHolder.m */,
@@ -2548,13 +2563,6 @@
 			name = Filter;
 			sourceTree = "<group>";
 		};
-		F4E4313B0982A31000119842 /* DatePicker */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = DatePicker;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -2706,7 +2714,6 @@
 				F49CCDF50849B87500835BE3 /* BSScriptsMenuManager.h in Headers */,
 				87464E390864368F000F0371 /* RBSplitView.h in Headers */,
 				87BB79210864401A00ED8757 /* RBSplitSubview.h in Headers */,
-				87BB79220864401A00ED8757 /* RBSplitViewPrivateDefines.h in Headers */,
 				87BD61F00865D0230080A7CA /* NSTableView+BSAdditions.h in Headers */,
 				8770BF5D087F0095008907C5 /* BSHistoryMenuManager.h in Headers */,
 				8718EFDE08D43F7D00FFAAEE /* NoNameInputController.h in Headers */,
@@ -2721,6 +2728,7 @@
 				870D4BE20A7D6035008BBAB4 /* BSTsuruPetaPopUpBtnCell.h in Headers */,
 				870D4BE40A7D6037008BBAB4 /* BSTsuruPetaView.h in Headers */,
 				87A475DE0A8585BE00FC13E6 /* BoardWarrior.h in Headers */,
+				8796FA420A9189D400DE3A90 /* BSSettingTxtDetector.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3016,6 +3024,9 @@
 				8762E8C90A8635C200062504 /* rosetta.pl in Resources */,
 				8762E8CA0A8635C200062504 /* SJIS2UTF8 in Resources */,
 				8762E8CB0A8635C200062504 /* sora.pl in Resources */,
+				873158DE0A9948B400854BD8 /* BSDockMenuItem.nib in Resources */,
+				87F0B3550A9C4CFA0002D317 /* smallSquarePlus.tiff in Resources */,
+				87F0B3560A9C4CFA0002D317 /* smallSquareMinus.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3257,7 +3268,6 @@
 				8770BF5E087F0096008907C5 /* BSHistoryMenuManager.m in Sources */,
 				8719F06A088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m in Sources */,
 				8794CC10089C033300161BAB /* BoardManager.m in Sources */,
-				8718EFA608D4257200FFAAEE /* BoardManager-BSAddition.m in Sources */,
 				8718EFDF08D43F7D00FFAAEE /* NoNameInputController.m in Sources */,
 				87BF52CC08F789D500998C4E /* BSBoardInfoInspector.m in Sources */,
 				873C0DCF08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m in Sources */,
@@ -3272,6 +3282,9 @@
 				870D4BE50A7D6038008BBAB4 /* BSTsuruPetaView.m in Sources */,
 				87DFDDA80A7D6A0F0074D3EA /* CookieManager.m in Sources */,
 				87A475DF0A8585BF00FC13E6 /* BoardWarrior.m in Sources */,
+				87F6214D0A906B890082E8DB /* BoardManager-SettingTxt.m in Sources */,
+				87F621A10A9186920082E8DB /* BoardManager-BSAddition.m in Sources */,
+				8796FA430A9189D400DE3A90 /* BSSettingTxtDetector.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3641,6 +3654,14 @@
 				872999800832618900CBD740 /* Japanese */,
 			);
 			name = ThreadViewer.strings;
+			sourceTree = "<group>";
+		};
+		873158DC0A9948B400854BD8 /* BSDockMenuItem.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				873158DD0A9948B400854BD8 /* Japanese */,
+			);
+			name = BSDockMenuItem.nib;
 			sourceTree = "<group>";
 		};
 		8764157F0840AF4F00F66D78 /* AdvancedPane.nib */ = {
@@ -4104,6 +4125,7 @@
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = source/CocoMonar_Prefix.h;
@@ -4142,6 +4164,7 @@
 					../frameworks/SGNetwork/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
 				);
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = source/CocoMonar_Prefix.h;
 				GCC_USE_GCC3_PFE_SUPPORT = NO;
@@ -4180,6 +4203,7 @@
 					"$(SRCROOT)",
 					"$(SRCROOT)/../../Desktop/OgreKit_2_0_2/build/Deployment",
 				);
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = source/CocoMonar_Prefix.h;
 				GCC_USE_GCC3_PFE_SUPPORT = NO;

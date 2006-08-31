@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-BLEditor.m,v 1.13.2.2 2006/08/05 10:57:17 tsawada2 Exp $
+ * $Id: CMRBrowser-BLEditor.m,v 1.13.2.3 2006/08/31 10:18:40 tsawada2 Exp $
  * BathyScaphe
  * CMRBrowser-Action.m, CMRBrowser-ViewAccessor.m から分割
  *
@@ -126,7 +126,6 @@
 					   modalDelegate: self
 					  didEndSelector: @selector(boardItemMultipleDelSheetDidEnd:returnCode:contextInfo:)
 						 contextInfo: nil];
-	[alert_ release];
 	/*NSBeginAlertSheet(
 		[self localizedString : kRemoveMultipleItemTitleKey],
 		[self localizedString : kDeleteOKBtnKey],
@@ -190,7 +189,6 @@
 					   modalDelegate: self
 					  didEndSelector: @selector(boardItemDeletionSheetDidEnd:returnCode:contextInfo:)
 						 contextInfo: item_];
-	[alert_ release];
 /*
 	NSBeep();
 	NSBeginAlertSheet(
@@ -334,6 +332,7 @@
 		[[self boardListTable] reloadData];
 		[[self boardListTable] deselectAll: nil];
 	}
+	[alert release];
 }
 
 - (void) boardItemMultipleDelSheetDidEnd: (NSAlert *) alert returnCode: (int) returnCode contextInfo: (id) contextInfo
@@ -372,5 +371,6 @@
 		}
 
 	}
+	[alert release];
 }
 @end

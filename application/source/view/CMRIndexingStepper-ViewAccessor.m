@@ -54,16 +54,17 @@
 
 
 @implementation CMRIndexingStepper(ViewInitializeHelper)
-+ (NSSize) defaultButtonSize
+/*+ (NSSize) defaultButtonSize
 {
 	return NSMakeSize(
 				APP_INDEXINGSTEPPER_BUTTON_WIDTH,
 				APP_INDEXINGSTEPPER_BUTTON_HEIGHT);
-}
+}*/
 
 
-- (void) setupButton : (NSButton *) button
-		   iconImage : (NSImage  *) icon
+//- (void) setupButton : (NSButton *) button
+//		   iconImage : (NSImage  *) icon
+- (void) setupButton: (NSButton *) button iconImageName: (NSString *) imageName
 {
 	UTILAssertNotNilArgument(button, @"button");
 	
@@ -76,6 +77,9 @@
 	}
 	//[button  setImagePosition : NSImageOnly];
 	//[button  setImage : icon];
+	if (imageName != nil) {
+		[button setImage: [NSImage imageAppNamed: imageName]];
+	}
 }
 @end
 
@@ -84,47 +88,29 @@
 @implementation CMRIndexingStepper(ViewInitializer)
 - (void) setupMoveTopButton
 {
-	NSImage		*image_;
-	
-	image_ = [NSImage imageAppNamed : APP_INDEXINGSTEPPER_MIN_BUTTON_NAME];
-	[self setupButton : [self moveTopButton] 
-			iconImage : image_];
+	[self setupButton: [self moveTopButton] iconImageName: APP_INDEXINGSTEPPER_MIN_BUTTON_NAME];
 }
+
 - (void) setupMoveEndButton
 {
-	NSImage		*image_;
-	
-	image_ = [NSImage imageAppNamed : APP_INDEXINGSTEPPER_MAX_BUTTON_NAME];
-	[self setupButton : [self moveEndButton]
-			iconImage : image_];
+	[self setupButton: [self moveEndButton] iconImageName: APP_INDEXINGSTEPPER_MAX_BUTTON_NAME];
 }
+
 - (void) setupMovePrevButton
 {
-	NSImage		*image_;
-	
-	image_ = [NSImage imageAppNamed : APP_INDEXINGSTEPPER_DEC_BUTTON_NAME];
-	
-	[self setupButton : [self movePrevButton]
-			iconImage : image_];
+	[self setupButton: [self movePrevButton] iconImageName: APP_INDEXINGSTEPPER_DEC_BUTTON_NAME];
 }
+
 - (void) setupMoveNextButton
 {
-	NSImage		*image_;
-	
-	image_ = [NSImage imageAppNamed : APP_INDEXINGSTEPPER_INC_BUTTON_NAME];
-	[self setupButton : [self moveNextButton]
-			iconImage : image_];
-
+	[self setupButton: [self moveNextButton] iconImageName: APP_INDEXINGSTEPPER_INC_BUTTON_NAME];
 }
+
 - (void) setupMoveUpdatedButton
 {
-	NSImage		*image_;
-	
-	image_ = [NSImage imageAppNamed : APP_INDEXINGSTEPPER_UPDATED_BUTTON_NAME];
-	[self setupButton : [self moveUpdatedButton]
-			iconImage : image_];
-	
+	[self setupButton: [self moveUpdatedButton] iconImageName: nil];
 }
+
 - (void) setupIndexField
 {
 	NSFont			*labelFont_;
@@ -136,11 +122,7 @@
 
 	[[self indexField] setDelegate : self];
 	//[[self indexField] setAction : @selector(moveToScanedIndex:)];
-	//[[self indexField] setFocusRingType : NSFocusRingTypeNone];
 }
-//- (void) setupFrameView
-//{
-//}
 @end
 
 
@@ -194,7 +176,6 @@
 	[self setupMoveNextButton];
 	[self setupMoveUpdatedButton];
 	[self setupIndexField];
-	//[self setupFrameView];
 	
 	[self updateUIComponents];
 }

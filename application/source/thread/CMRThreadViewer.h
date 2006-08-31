@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.15.2.2 2006/08/07 10:40:42 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.15.2.3 2006/08/31 10:18:40 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright (c) 2003, Takanori Ishikawa.
@@ -72,7 +72,7 @@
 
 /*** NO_NAME properties ***/
 - (NSString *) detectDefaultNoName;
-- (NSString *) setupDefaultNoNameIfNeeded;
+- (void) setupDefaultNoNameIfNeeded;
 
 - (NSString *) path;
 - (NSString *) title;

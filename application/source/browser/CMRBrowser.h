@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.h,v 1.21.4.2 2006/08/07 10:40:42 tsawada2 Exp $
+  * $Id: CMRBrowser.h,v 1.21.4.3 2006/08/31 10:18:40 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -48,7 +48,7 @@ typedef enum _BSThreadDeletionType {
 	// PrincessBride Addition
 	IBOutlet NSSearchField		*m_searchField;
 	
-	NSString					*_filterString;
+	//NSString					*_filterString;
 	//NSString					*_filterResultMessage;	// added in LeafTicket.
 	
 	CMRAccessorySheetController	*m_listSorterSheetController;
@@ -75,7 +75,7 @@ typedef enum _BSThreadDeletionType {
 - (void) clearSearchFilter;
 
 - (void) synchronizeWithSearchField;
-- (void) searchThreadWithString : (NSString *) aString;
+//- (void) searchThreadWithString : (NSString *) aString;
 
 - (BOOL) ifSearchFieldIsInToolbar;
 

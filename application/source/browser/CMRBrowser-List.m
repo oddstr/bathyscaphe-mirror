@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.13.2.1 2006/07/31 00:05:10 tsawada2 Exp $
+  * $Id: CMRBrowser-List.m,v 1.13.2.2 2006/08/31 10:18:40 tsawada2 Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -65,6 +65,8 @@
 	
 	if(nil == boardName) return;
 	if([[[self currentThreadsList] boardName] isEqualToString : boardName]){
+		// 2006-08-19 「掲示板を表示」処理の関係上この通知をここで発行しておく
+		UTILNotifyName(CMRBrowserThListUpdateDelegateTaskDidFinishNotification);
 		return;
 	}
 	

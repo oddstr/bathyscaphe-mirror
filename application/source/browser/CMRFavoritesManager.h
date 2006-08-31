@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFavoritesManager.h,v 1.5.2.2 2006/08/05 13:55:27 tsawada2 Exp $
+  * $Id: CMRFavoritesManager.h,v 1.5.2.3 2006/08/31 10:18:40 tsawada2 Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
@@ -55,6 +55,7 @@ typedef enum {
 - (void) removeFromPoolWithFilePath : (NSString *) filepath;
 
 - (unsigned int) getNumOfMsgsWithFilePath: (NSString *) filepath;
+- (void) updateFavItemsArrayWithAppendingNumOfMsgs;
 @end
 
 

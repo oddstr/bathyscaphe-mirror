@@ -20,7 +20,6 @@
 
 static NSString *const BIINibFileNameKey		= @"BSBoardInfoInspector";
 static NSString *const BIIFrameAutoSaveNameKey	= @"BathyScaphe:BoardInfoInspector Panel Autosave";
-static NSString *const BIITitlebarFormatKey		= @"BoardInspector TitleBar";
 static NSString *const BIIHelpKeywordKey		= @"BoardInspector Help Keyword";
 
 @implementation BSBoardInfoInspector
@@ -46,12 +45,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 				selector : @selector(viewerThreadChanged:)
 					name : CMRThreadViewerDidChangeThreadNotification
 				  object : nil];
-
-		/*[[NSNotificationCenter defaultCenter]
-			 addObserver : self
-				selector : @selector(windowWillCloseNow:)
-					name : NSWindowWillCloseNotification
-				  object : nil];*/
 	}
 	return self;
 }
@@ -65,8 +58,12 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 
 - (void) awakeFromNib
 {
-	//[(NSPanel*)[self window] setBecomesKeyOnlyIfNeeded : YES];
 	[(NSPanel*)[self window] setFrameAutosaveName : BIIFrameAutoSaveNameKey];
+	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_3) {
+		[[self addNoNameBtn] setBezelStyle: NSSmallSquareBezelStyle];
+		[[self removeNoNameBtn] setBezelStyle: NSSmallSquareBezelStyle];
+		[[self editNoNameBtn] setBezelStyle: NSSmallSquareBezelStyle];
+	}
 }
 
 #pragma mark Accessors
@@ -77,10 +74,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 - (void) setCurrentTargetBoardName : (NSString *) newTarget
 {
 	// 参考：<http://www.cocoadev.com/index.pl?KeyValueObserving>
-	[self willChangeValueForKey:@"defaultNanashi"];
+	[self willChangeValueForKey:@"noNamesArray"];
 	[self willChangeValueForKey:@"boardURLAsString"];
 	[self willChangeValueForKey:@"shouldEnableUI"];
-	[self willChangeValueForKey:@"titleBarString"];
 	[self willChangeValueForKey:@"defaultKotehan"];
 	[self willChangeValueForKey:@"defaultMail"];
 	[self willChangeValueForKey:@"shouldAlwaysBeLogin"];
@@ -92,10 +88,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	[_currentTargetBoardName release];
 	_currentTargetBoardName = newTarget;
 
-	[self didChangeValueForKey:@"defaultNanashi"];
+	[self didChangeValueForKey:@"noNamesArray"];
 	[self didChangeValueForKey:@"boardURLAsString"];
 	[self didChangeValueForKey:@"shouldEnableUI"];
-	[self didChangeValueForKey:@"titleBarString"];
 	[self didChangeValueForKey:@"defaultKotehan"];
 	[self didChangeValueForKey:@"defaultMail"];
 	[self didChangeValueForKey:@"shouldAlwaysBeLogin"];
@@ -108,13 +103,25 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 {
 	return m_helpButton;
 }
-- (NSButton *) changeKotehanBtn
+- (NSButton *) addNoNameBtn
 {
-	return m_changeKotehanBtn;
+	return m_addNoNameBtn;
 }
-- (NSTextField *) nanashiField;
+- (NSButton *) removeNoNameBtn
 {
-	return m_nanashiField;
+	return m_removeNoNameBtn;
+}
+- (NSButton *) editNoNameBtn
+{
+	return m_editNoNameBtn;
+}
+/*- (NSButton *) detectSettingTxtBtn
+{
+	return m_detectSettingTxtBtn;
+}*/
+- (NSArrayController *) greenCube
+{
+	return m_greenCube;
 }
 
 #pragma mark IBActions
@@ -128,23 +135,50 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	}
 }
 
-- (IBAction) changeDefaultNanashi : (id) sender
+- (IBAction) addNoName : (id) sender;
 {
 	NSString	*newNanashi;
 	newNanashi = [BrdMgr askUserAboutDefaultNoNameForBoard : [self currentTargetBoardName]
-											   presetValue : [self defaultNanashi]];
-	if(newNanashi != nil) [[self nanashiField] setStringValue : newNanashi];
+											   presetValue : nil];
+	if (!newNanashi) return;
+	[self willChangeValueForKey: @"noNamesArray"];
+	[BrdMgr addNoName: newNanashi forBoard: [self currentTargetBoardName]];
+	[self didChangeValueForKey: @"noNamesArray"];
 }
+
+- (IBAction) editNoName: (id) sender
+{
+	NSString	*newNanashi;
+	id			tmp_ = [[[self greenCube] selectedObjects] objectAtIndex: 0];
+//	NSLog(@"%@",tmp_);
+	newNanashi = [BrdMgr askUserAboutDefaultNoNameForBoard : [self currentTargetBoardName]
+											   presetValue : tmp_];
+	if (!newNanashi) return;
+	[self willChangeValueForKey: @"noNamesArray"];
+	[BrdMgr exchangeNoName: tmp_ toNewValue: newNanashi forBoard: [self currentTargetBoardName]];
+	[self didChangeValueForKey: @"noNamesArray"];
+}
+/*
+- (IBAction) startDetect: (id) sender
+{
+	;
+}
+*/
 - (IBAction) openHelpForMe : (id) sender
 {
 	[[NSHelpManager sharedHelpManager] openHelpAnchor : NSLocalizedString(BIIHelpKeywordKey, @"Board options")
 											   inBook : [NSBundle applicationHelpBookName]];
 }
 
-#pragma mark Accesors for Binding
-- (NSString *) defaultNanashi
+#pragma mark Accesors For Binding
+- (NSMutableArray *) noNamesArray
 {
-	return [BrdMgr defaultNoNameForBoard : [self currentTargetBoardName]];
+	return [[[[BrdMgr defaultNoNameSetForBoard: [self currentTargetBoardName]] allObjects] mutableCopy] autorelease];
+}
+
+- (void) setNoNamesArray: (NSMutableArray *) anArray
+{
+	[BrdMgr setDefaultNoNameSet: [NSSet setWithArray: anArray] forBoard: [self currentTargetBoardName]];
 }
 
 - (NSString *) boardURLAsString
@@ -155,11 +189,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 - (BOOL) shouldEnableUI
 {
 	return (![[self currentTargetBoardName] isEqualToString : CMXFavoritesDirectoryName]);
-}
-
-- (NSString *) titleBarString
-{
-	return [NSString stringWithFormat : NSLocalizedString(BIITitlebarFormatKey, @"%@ options"), [self currentTargetBoardName]];
 }
 
 - (NSString *) defaultKotehan
@@ -276,9 +305,4 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 		[[self window] update];
 	}
 }
-
-/*- (void) windowWillCloseNow : (NSNotification *) theNotification
-{
-	// ウインドウが一つもなくなったらインスペクタを閉じたいけど、なんかうまくいかないのでとりあえず何もしない。
-}*/
 @end

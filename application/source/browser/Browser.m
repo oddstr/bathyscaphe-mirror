@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.m,v 1.13.2.2 2006/08/04 19:35:09 tsawada2 Exp $
+  * $Id: Browser.m,v 1.13.2.3 2006/08/31 10:18:40 tsawada2 Exp $
   * BathyScaphe 
   *
   * Copyright 2005-2006 BathyScaphe Project.
@@ -24,6 +24,7 @@
 	[[NSNotificationCenter defaultCenter] removeObserver : self];
 	[self setCurrentThreadsList : nil];
 	[self setThreadAttributes : nil];
+	[m_searchString release];
 	
 	[super dealloc];
 }
@@ -45,6 +46,18 @@
 	tmp = m_currentThreadsList;
 	m_currentThreadsList = [aCurrentThreadsList retain];
 	[tmp release];
+}
+
+- (NSString *) searchString
+{
+	return m_searchString;
+}
+
+- (void) setSearchString: (NSString *) text
+{
+	[text retain];
+	[m_searchString release];
+	m_searchString = text;
 }
 
 #pragma mark NSDocument
@@ -146,6 +159,13 @@
 - (void) reloadThreadsList
 {
 	[[self currentThreadsList] downloadThreadsList];
+}
+
+- (BOOL) searchThreadsInListWithCurrentSearchString
+{
+	if(nil == [self currentThreadsList]) return NO;
+
+	return [[self currentThreadsList] filterByString: [self searchString]];
 }
 
 - (BOOL) searchThreadsInListWithString : (NSString *) text

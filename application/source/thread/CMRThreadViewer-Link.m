@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.16.2.1 2006/08/04 14:04:01 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.16.2.2 2006/08/31 10:18:40 tsawada2 Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -393,6 +393,13 @@ ErrInvalidLink:
 		[dm ensureDirectoryExistsWithBoardName:boardName_];
 		return [CMRThreadDocument showDocumentWithContentOfFile : filepath_
 													contentInfo : contentInfo_];
+	}
+	
+	// 2ch (or other) BBS
+	if ([CMRThreadLinkProcessor parseBoardLink: aLink boardName: &boardName_ boardURL: &boardURL_]) {
+		[[NSApp delegate] orderFrontMainBrowserAndShowThListForBrd: boardName_ addBrdToUsrListIfNeeded: YES];
+		
+		return YES;
 	}
 
 	if ([self tryPreviewLink:aLink]) {

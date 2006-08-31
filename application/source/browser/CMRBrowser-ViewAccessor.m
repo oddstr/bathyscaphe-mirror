@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.42.2.2 2006/08/04 19:35:09 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.42.2.3 2006/08/31 10:18:40 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -90,14 +90,12 @@
 
 - (NSString *) currentSearchString
 {
-	return _filterString;
+	return [[self document] searchString];
 }
 
 - (void) setCurrentSearchString: (NSString *) newString
 {
-	[newString retain];
-	[_filterString release];
-	_filterString = newString;
+	[[self document] setSearchString: newString];
 }
 @end
 

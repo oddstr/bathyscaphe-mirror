@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.26.2.3 2006/08/07 10:40:42 tsawada2 Exp $
+  * $Id: CMRBrowser.m,v 1.26.2.4 2006/08/31 10:18:40 tsawada2 Exp $
   * 
   * CMRBrowser.m
   *
@@ -97,7 +97,7 @@ CMRBrowser *CMRMainBrowser = nil;
 		[self exchangeOrDisposeMainBrowser];
 	}
 
-	[_filterString release];
+	//[_filterString release];
 
 	[m_listSorterSheetController release];
 	[m_addBoardSheetController release];

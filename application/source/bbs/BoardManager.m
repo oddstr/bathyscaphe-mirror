@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.m,v 1.6.2.1 2006/07/30 21:37:18 tsawada2 Exp $
+ * $Id: BoardManager.m,v 1.6.2.2 2006/08/31 10:18:40 tsawada2 Exp $
  * 
  * BoardManager.m
  *
@@ -86,10 +86,16 @@ static id kDefaultManager;
 + (NSString *) NNDFilepath
 {
 	return [[CMRFileManager defaultManager]
-				 supportFilepathWithName : CMRNoNamesFile
+				 supportFilepathWithName : @"BoardProperties.plist"
 						resolvingFileRef : NULL];
 }
 
++ (NSString *) oldNNDFilepath
+{
+	return [[CMRFileManager defaultManager]
+				 supportFilepathWithName : CMRNoNamesFile
+						resolvingFileRef : NULL];
+}
 
 - (BoardList *) makeBoardList : (Class     ) aClass
            withContentsOfFile : (NSString *) aFile
@@ -336,6 +342,24 @@ static id kDefaultManager;
     
     [self saveListsIfNeed];
 }
+
+- (BOOL) saveNoNameDict
+{
+	NSString *errorStr = nil;
+	NSMutableDictionary	*noNameDict_ = [self noNameDict];
+	NSData *binaryData_ = [NSPropertyListSerialization dataFromPropertyList: noNameDict_
+																	 format: NSPropertyListBinaryFormat_v1_0
+														   errorDescription: &errorStr];
+
+	if (errorStr) {
+		NSLog(@"BoardManager failed to serialize noNameDict. NSPropertyListSerialization said: %@", errorStr);
+		[errorStr release];
+		return [noNameDict_ writeToFile: [[self class] NNDFilepath] atomically: YES];
+	}
+	
+	return [binaryData_ writeToFile: [[self class] NNDFilepath] atomically: YES];
+}
+
 - (void) applicationWillTerminate : (NSNotification *) notification
 {
 	UTILAssertNotificationName(
@@ -348,8 +372,9 @@ static id kDefaultManager;
 	[self saveListsIfNeed];
 
 	// NoNames.plist ÇÕèÌÇ…ï€ë∂
-	[[self noNameDict] writeToFile : [[self class] NNDFilepath]
-						atomically : YES];
+	//[[self noNameDict] writeToFile : [[self class] NNDFilepath]
+	//					atomically : YES];
+	[self saveNoNameDict];
 }
 
 - (BOOL) saveListsIfNeed

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMessageFilter.m,v 1.6 2006/02/26 15:34:22 tsawada2 Exp $
+  * $Id: CMRMessageFilter.m,v 1.6.4.1 2006/08/31 10:18:40 tsawada2 Exp $
   * 
   * CMRMessageFilter.m
   *
@@ -10,7 +10,7 @@
 #import "CocoMonar_Prefix.h"
 #import "CMRThreadMessage.h"
 #import "CMRThreadSignature.h"
-#import "BoardManager.h"
+//#import "BoardManager.h"
 #import "CMXTextParser.h"
 
 
@@ -184,16 +184,16 @@
 #pragma mark -
 #pragma mark stuff
 
-static void setupAppendingSample_(CMRMessageSample *sample, NSMutableDictionary *table);
+static void setupAppendingSample_(CMRMessageSample *sample, NSMutableDictionary *table, NSSet *noNamesSet);
 static int detectMessageAny_(
 				CMRMessageSample *s,
 				CMRThreadMessage *m,
-				CMRThreadSignature *t);
+				CMRThreadSignature *t, NSSet *noNamesSet);
 static int doDetectMessageAny_(
 				CMRThreadMessage	*m1,	// sample
 				CMRThreadSignature	*t1,	// sample
 				CMRThreadMessage	*m2,	// target
-				CMRThreadSignature	*t2);	// target
+				CMRThreadSignature	*t2, NSSet *noNamesSet);	// target
 // 設定されていないID や よくある名前等は比較対象にしない
 static BOOL checkMailIsNonSignificant_(NSString *mail);
 static BOOL checkNameIsNonSignificant_(NSString *name);
@@ -221,7 +221,9 @@ static BOOL checkIDIsNonSignificant_(NSString *idStr_);
 - (void) dealloc
 {
 	[_samples release];
+	[_corpus release];
 	[_table release];
+	[_noNameSet release];
 	[super dealloc];
 }
 
@@ -351,9 +353,22 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	_corpus = [aCorpus retain];
 	[tmp release];
 }
+
+- (NSSet *) noNameSetAtWorkingBoard
+{
+	return _noNameSet;
+}
+- (void) setNoNameSetAtWorkingBoard: (NSSet *) aSet
+{
+	[aSet retain];
+	[_noNameSet release];
+	
+	_noNameSet = aSet;
+}
+
 - (void) addNewMessageSample : (CMRMessageSample *) aSample
 {
-	setupAppendingSample_(aSample, [self samplesTable]);
+	setupAppendingSample_(aSample, [self samplesTable], [self noNameSetAtWorkingBoard]);
 	[[self samples] addObject : aSample];
 }
 - (void) addSamplesFromDetecter : (CMRSamplingDetecter *) aDetecter
@@ -428,12 +443,13 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 
 	SGBaseCArrayWrapper	*mArray = [self samples];
 	CMRMessageSample	*mSample;
+	NSSet				*mSet = [self noNameSetAtWorkingBoard];
 	int					i;
 	
 	// 一致するものをすべて取り除く
 	for (i = [mArray count] -1; i >= 0; i--) {
 		mSample = SGBaseCArrayWrapperObjectAtIndex(mArray, i);
-		if (detectMessageAny_(mSample, aMessage, aThread)) {
+		if (detectMessageAny_(mSample, aMessage, aThread, mSet)) {
 			UTIL_DEBUG_WRITE2(@"Sample:%u %@ was removed.", i, mSample);
 			[self removeSampleCache:mSample with:aThread];
 			[mArray removeObjectAtIndex : i];
@@ -472,10 +488,11 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 		// 名前
 		field = [aMessage name];
 		if (NO == checkNameIsNonSignificant_(field)) {
-			NSString *b = [aThread BBSName];
-			NSString *nn = [[BoardManager defaultManager] defaultNoNameForBoard : b];
-			
-			if (NO == [field isEqualToString : nn])
+			//NSString *b = [aThread BBSName];
+			//NSSet *nnSet = [[BoardManager defaultManager] defaultNoNameSetForBoard : b];
+			NSSet *nnSet = [self noNameSetAtWorkingBoard];
+
+			if (NO == [nnSet containsObject: field])
 				[tmp appendString : field];
 		}
 		
@@ -509,6 +526,7 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 {
 	SGBaseCArrayWrapper	*sampleArray = [self samples];
 	NSDictionary		*cacheDict = [self samplesTable];
+	NSSet				*set_ = [self noNameSetAtWorkingBoard];
 	CMRMessageSample	*sample;
 	int					i, cnt;
 	id cache[4];
@@ -526,7 +544,7 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	for (i = 0, cnt = UTILNumberOfCArray(cache); i < cnt; i++) {
 		sample = [cacheDict objectForKey : cache[i]];
 		if (sample != nil) {
-			if (detectMessageAny_(sample, aMessage, aThread)) {
+			if (detectMessageAny_(sample, aMessage, aThread, set_)) {
 				return YES;
 			}
 		}
@@ -535,7 +553,7 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 
 	for (i = 0, cnt = [sampleArray count]; i < cnt; i++) {
 		sample = SGBaseCArrayWrapperObjectAtIndex(sampleArray, i);
-		if (detectMessageAny_(sample, aMessage, aThread))
+		if (detectMessageAny_(sample, aMessage, aThread, set_))
 			return YES;
 	}
 	
@@ -553,11 +571,11 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 static int detectMessageAny_(
 				CMRMessageSample *s,
 				CMRThreadMessage *m,
-				CMRThreadSignature *t)
+				CMRThreadSignature *t, NSSet *noNamesSet)
 {
 	int		match;
 	
-	match = doDetectMessageAny_([s message], [s threadIdentifier], m, t);
+	match = doDetectMessageAny_([s message], [s threadIdentifier], m, t, noNamesSet);
 	if (match != 0) { 
 		UTIL_DEBUG_WRITE2(@"detectMessage:%u match=%d", [m index], match);
 		[s incrementMatchedCount];
@@ -568,19 +586,20 @@ static int doDetectMessageAny_(
 				CMRThreadMessage	*m1,	// sample
 				CMRThreadSignature	*t1,	// sample
 				CMRThreadMessage	*m2,	// target
-				CMRThreadSignature	*t2)	// target
+				CMRThreadSignature	*t2,	// target
+				NSSet	*noNamesSet)
 {
 	BOOL				Eq_b, Eq_t;
 	unsigned			mask = [m1 property];
 	
-	BoardManager		*nnMgr = [BoardManager defaultManager];
+//	BoardManager		*nnMgr = [BoardManager defaultManager];
 	NSString			*b1 = [t1 BBSName];
 	NSString			*b2 = [t2 BBSName];
 	NSString			*s1, *s2;
 	
 	Eq_t = [t1 isEqual : t2];
 	Eq_b = (NO == Eq_t) ? [b1 isEqualToString : b2] : YES;
-
+/*
 	if (kSampleAsIDMask & mask) { 
 		if (b1 == b2 || Eq_b) {
 			s1 = [m1 IDString];
@@ -605,24 +624,51 @@ static int doDetectMessageAny_(
 			}
 		}
 	}
-	// 名前（スレッド限定）
-	if (kSampleAsThreadLocalMask & mask) { 
-		if (t1 == t2 || Eq_t) {
-			s1 = [m1 name];
-			s2 = [m2 name];
+*/
+	if (b1 == b2 || Eq_b) { // 同一板、ID または Host の一致をチェック（同一板でないなら ID、Host は見る可能性がない）（スレ限定名前も）
+		if (kSampleAsIDMask & mask) {
+			s1 = [m1 IDString];
+			s2 = [m2 IDString];
 			
 			if ([s1 isEqualToString : s2]) {
-				// 同一スレッドでかつ名前が一致
-				return kSampleAsThreadLocalMask;
+				// 同一板でかつ、ID が一致
+				return kSampleAsIDMask;
+			}
+		}
+		
+		if (kSampleAsHostMask & mask) {
+			s1 = [m1 host];
+			//s2 = [m2 host];
+
+			if ([s1 length] > 1 && [s1 isEqualToString : [m2 host]]) {
+				// 同一板でかつ、Host が一致
+				// 2005-02-13 修正：同一板でかつ、Host が二文字以上、かつ、Host が一致
+				// 携帯・PC 区別の0,o対策
+				return kSampleAsHostMask;
+			}
+		}
+//	}
+	
+		// 名前（スレッド限定）// 当然、同一板
+		if (kSampleAsThreadLocalMask & mask) { 
+			if (t1 == t2 || Eq_t) {
+				s1 = [m1 name];
+				s2 = [m2 name];
+				
+				if ([s1 isEqualToString : s2]) {
+					// 同一スレッドでかつ名前が一致
+					return kSampleAsThreadLocalMask;
+				}
 			}
 		}
 	}
 	// 名前
 	if (kSampleAsNameMask & mask) { 
-		s1 = [m1 name];
+		//NSSet *nnSet = [nnMgr defaultNoNameSetForBoard: b2];
+		//s1 = [m1 name];
 		s2 = [m2 name];
-		if (NO == [s2 isEqualToString : [nnMgr defaultNoNameForBoard : b2]]) {
-			if ([s1 isEqualToString : s2]) {
+		if (NO == [noNamesSet containsObject: s2]) {
+			if ([[m1 name] isEqualToString : s2]) {
 				return kSampleAsNameMask;
 			}
 		}
@@ -751,11 +797,11 @@ static BOOL checkNameHasResLink_(NSString *name)
 			　キーは名前かID（エンティティ解決等はしない）
 */
 
-static void setupAppendingSample_(CMRMessageSample *sample, NSMutableDictionary *table)
+static void setupAppendingSample_(CMRMessageSample *sample, NSMutableDictionary *table, NSSet *noNamesSet)
 {
 	CMRThreadMessage	*m = [sample message];
 	CMRThreadSignature	*t = [sample threadIdentifier];
-	NSString			*b = [t BBSName];
+//	NSString			*b = [t BBSName];
 	unsigned			sign;		// 考慮する項目のフラグ
 	NSString			*s;
 	id					tmp;
@@ -800,8 +846,9 @@ static void setupAppendingSample_(CMRMessageSample *sample, NSMutableDictionary 
 	// 板の名無しと同じ名前なら無視
 	tmpString = [m name];
 	s = [tmpString stringByReplaceEntityReference];
-	tmp = [[BoardManager defaultManager] defaultNoNameForBoard : b];
-	if (s != nil && [s isEqualToString : tmp]) {
+	//tmp = [[BoardManager defaultManager] defaultNoNameSetForBoard : b];
+//	if (s != nil && [s isEqualToString : tmp]) {
+	if (s != nil && [noNamesSet containsObject: s]) {
 		UTIL_DEBUG_WRITE1(
 			@"name:%@ was default NO_NAME, was nonsignificant.", s);
 		sign &= ~kSampleAsNameMask;

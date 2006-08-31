@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.30.2.2 2006/08/07 10:40:42 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.30.2.3 2006/08/31 10:18:40 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -559,26 +559,31 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 	
 	return name ? [name autorelease] : @"";
 }
-- (NSString *) setupDefaultNoNameIfNeeded
+- (void) setupDefaultNoNameIfNeeded
+//- (NSString *) setupDefaultNoNameIfNeeded
 {
 	BoardManager		*mgr;
-	NSString			*name;
+//	NSString			*name;
 	NSString			*board;
 
 	board = [self boardNameArrowingSecondSource];
 	if (nil == board)
-		return nil;
+		return /*nil*/;
 
 	mgr = [BoardManager defaultManager];
-	name = [mgr defaultNoNameForBoard : board];
+	//name = [mgr defaultNoNameForBoard : board];
 
-	if (nil == name) {
-		NSString *nameEntry = [self detectDefaultNoName];
+	//if (nil == name) {
+	if ([mgr needToDetectNoNameForBoard: board]) {
+		//NSLog(@"CMRThreadViewer: noName is nil, so we start detecting SETTING.TXT");
+		if (NO == [mgr startDownloadSettingTxtForBoard: board]) {
+			NSString *nameEntry = [self detectDefaultNoName];
 		
-		name = [mgr askUserAboutDefaultNoNameForBoard : board presetValue: nameEntry]; 
+			/*name =*/ [mgr askUserAboutDefaultNoNameForBoard : board presetValue: nameEntry];
+		}
 	}
 	
-	return name;
+	//return name;
 }
 
 #pragma mark board / thread signature for historyManager .etc

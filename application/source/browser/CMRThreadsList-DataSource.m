@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.15.4.1 2006/08/25 17:48:01 masakih Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.15.4.2 2006/08/31 10:18:40 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -150,10 +150,10 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 			diff_ = [CMRThreadAttributes numberOfUpdatedFromDictionary : thread];
 			v = (diff_ >= 0) ? [NSNumber numberWithInt : diff_] : nil;
 		}
-	} else if ([self isFavorites] && [CMRThreadSubjectIndexKey isEqualToString : identifier]) {
+	/*} else if ([self isFavorites] && [CMRThreadSubjectIndexKey isEqualToString : identifier]) {
 		// 番号（お気に入り）
 		v = [NSNumber numberWithInt : ([[[CMRFavoritesManager defaultManager] favoritesItemsIndex]
-											indexOfObject : [CMRThreadAttributes pathFromDictionary : thread]]+1)];
+											indexOfObject : [CMRThreadAttributes pathFromDictionary : thread]]+1)];*/
 	} else if ([identifier isEqualToString : ThreadPlistIdentifierKey]) {
 		// スレッドの立った日付（dat 番号を変換）available in RainbowJerk and later.
 		v = [NSDate dateWithTimeIntervalSince1970 : (NSTimeInterval)[[thread objectForKey : identifier] doubleValue]];

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.20.2.5 2006/08/05 13:55:27 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.20.2.6 2006/08/31 10:18:40 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -207,14 +207,14 @@ BOOL isOptionKeyDown(unsigned flag_)
 	if ([brdListTable_ numberOfSelectedRows] > 1) return;
 	if (rowIndex_ < 0) return;
 	if (rowIndex_ >= [brdListTable_ numberOfRows]) return;
-	if (isCommandKeyDown([[NSApp currentEvent] modifierFlags])) return;
+	//if (isCommandKeyDown([[NSApp currentEvent] modifierFlags])) return;
 
 	item_ = [brdListTable_ itemAtRow : rowIndex_];
 
 	if (nil == item_) return;
 	UTILAssertKindOfClass(item_, NSDictionary);
 	if ([BoardList isCategory : item_]) return;
-	
+
 	[self showThreadsListForBoard : item_];
 }
 

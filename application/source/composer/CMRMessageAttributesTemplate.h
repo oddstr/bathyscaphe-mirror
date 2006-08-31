@@ -23,8 +23,6 @@
 	
 	NSMutableDictionary *_messageAttributesForBeProfileLink;	//Be プロフィールリンクの書式
 	NSMutableDictionary *_messageAttributesForHost;	//Hostの書式
-	
-	NSParagraphStyle	*_blockQuoteParagraphStyle;
 }
 + (NSDictionary *) defaultAttributes;
 + (id) sharedTemplate;

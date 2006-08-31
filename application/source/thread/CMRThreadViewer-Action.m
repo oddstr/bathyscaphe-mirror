@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.30.2.3 2006/08/05 10:57:17 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.30.2.4 2006/08/31 10:18:40 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -15,7 +15,7 @@
 #import "CMRThreadVisibleRange.h"
 #import "CMRThreadDownloadTask.h"
 #import "CMXPopUpWindowManager.h"
-#import "CMRDocumentController.h"
+#import "CMRAppDelegate.h"
 #import "CMRBrowser.h"
 #import "BSBoardInfoInspector.h"
 
@@ -24,8 +24,6 @@
 #import "UTILDebugging.h"
 
 #pragma mark -
-
-static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBrowserSelectCurThreadNotification";
 
 @implementation CMRThreadViewer(ActionSupport)
 - (CMRReplyMessenger *) messenger : (BOOL) create
@@ -483,7 +481,6 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 						   modalDelegate : self
 						  didEndSelector : @selector(_threadDeletionSheetDidEnd:returnCode:contextInfo:)
 							 contextInfo : sender];
-		[alert_ release];
 	}
 }
 
@@ -521,6 +518,7 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 	default:
 		break;
 	}
+	[alert release];
 }
 
 #pragma mark Other IBActions
@@ -696,17 +694,11 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 
 - (void) mainBrowserDidFinishShowThList : (NSNotification *) aNotification
 {
-	if (CMRMainBrowser == nil) return;
 	UTILAssertNotificationName(
 		aNotification,
 		CMRBrowserThListUpdateDelegateTaskDidFinishNotification);
-	UTILAssertNotificationObject(
-		aNotification,
-		CMRMainBrowser);
-	
-	[CMRMainBrowser selectRowWithThreadPath : [self path]
-					   byExtendingSelection : NO
-							scrollToVisible : YES];
+
+	[CMRMainBrowser selectRowWithThreadPath: [self path] byExtendingSelection: NO scrollToVisible: YES];
 
 	[[NSNotificationCenter defaultCenter] removeObserver : self
 													name : CMRBrowserThListUpdateDelegateTaskDidFinishNotification
@@ -715,33 +707,15 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 
 - (IBAction) orderFrontMainBrowser : (id) sender
 {
-	if (CMRMainBrowser != nil) {
-		[[CMRMainBrowser window] makeKeyAndOrderFront : sender];
-	} else {
-		[[CMRDocumentController sharedDocumentController] newDocument : sender];
-	}
-
-	// この時点で CMRMainBrowser は必ず存在している
 	NSString *boardName = [self boardName];
 	if(!boardName) return; 
 
-	if([[[CMRMainBrowser currentThreadsList] boardName] isEqualToString : boardName]) {
-		// ブラウザの表示を切り替える必要は無い
-		[CMRMainBrowser selectRowWhoseNameIs : boardName];
-		[CMRMainBrowser selectRowWithThreadPath : [self path]
-						   byExtendingSelection : NO
-								scrollToVisible : YES];
-		
-		return;
-	} else {
-		[[NSNotificationCenter defaultCenter] addObserver : self
-												 selector : @selector(mainBrowserDidFinishShowThList:)
-													 name : CMRBrowserThListUpdateDelegateTaskDidFinishNotification
-												   object : CMRMainBrowser];
+	[[NSNotificationCenter defaultCenter] addObserver : self
+											 selector : @selector(mainBrowserDidFinishShowThList:)
+												 name : CMRBrowserThListUpdateDelegateTaskDidFinishNotification
+											   object : CMRMainBrowser];
 
-		[CMRMainBrowser showThreadsListWithBoardName : boardName];
-		[CMRMainBrowser selectRowWhoseNameIs : boardName];
-	}
+	[(CMRAppDelegate *)[NSApp delegate] orderFrontMainBrowserAndShowThListForBrd: boardName addBrdToUsrListIfNeeded: YES];
 }
 
 - (IBAction) showBoardInspectorPanel : (id) sender

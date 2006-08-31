@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.h,v 1.13.2.1 2006/08/07 10:40:42 tsawada2 Exp $
+ * $Id: CMRAppDelegate.h,v 1.13.2.2 2006/08/31 10:18:40 tsawada2 Exp $
  * 
  * CMRAppDelegate.h
  *
@@ -44,24 +44,9 @@
 
 - (IBAction) togglePreviewPanel : (id) sender;
 - (IBAction) runBoardWarrior: (id) sender;
-@end
 
-@interface NSApplication(ScriptingSupport)
-/* Property Support (Key-Value coding) */
-- (BOOL) isOnlineMode;
-- (void) setIsOnlineMode : (BOOL) flag;
-
-/* Who needs these stupid properties... Huh! */
-- (NSArray *) browserTableViewColor;
-- (void) setBrowserTableViewColor : (NSArray *) colorValue;
-
-- (NSArray *) boardListColor;
-- (void) setBoardListColor : (NSArray *) colorValue;
-
-/* Command Support */
-- (void) handleOpenURLCommand : (NSScriptCommand *) command;
-@end
-
-@interface NSWindow(BSAddition)
-- (BOOL) isNotMiniaturizedButCanMinimize;
+// available in MeteorSweeper and later.
+- (void) orderFrontMainBrowserAndShowThListForBrd: (NSString *) boardName
+						  addBrdToUsrListIfNeeded: (BOOL) addToList;
+- (IBAction) startHEADCheckDirectly: (id) sender; // for Dock menu
 @end

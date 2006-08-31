@@ -371,16 +371,26 @@
 	return [self previousVisibleMessageIndexOfIndex : 
 				[self messageIndexForDocuemntVisibleRect]];
 }
+
+static UInt32 attributeMaskForVisibleMessageIndexDetection()
+{
+	if (kSpamFilterInvisibleAbonedBehavior == [CMRPref spamFilterBehavior]) {
+		return (CMRInvisibleAbonedMask | CMRSpamMask);
+	} else {
+		return CMRInvisibleAbonedMask;
+	}
+}
+
 - (unsigned int) nextVisibleMessageIndexOfIndex : (unsigned int) anIndex
 {
 	return [self nextMessageIndexOfIndex : anIndex 
-							   attribute : CMRInvisibleAbonedMask
+							   attribute : attributeMaskForVisibleMessageIndexDetection()//CMRInvisibleAbonedMask
 								   value : NO];
 }
 - (unsigned int) previousVisibleMessageIndexOfIndex : (unsigned int) anIndex
 {
 	return [self previousMessageIndexOfIndex : anIndex 
-								   attribute : CMRInvisibleAbonedMask
+								   attribute : attributeMaskForVisibleMessageIndexDetection()//CMRInvisibleAbonedMask
 									   value : NO];
 }
 

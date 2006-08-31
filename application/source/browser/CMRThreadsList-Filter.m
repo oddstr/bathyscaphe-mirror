@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-Filter.m,v 1.7.4.2 2006/08/25 17:48:01 masakih Exp $
+  * $Id: CMRThreadsList-Filter.m,v 1.7.4.3 2006/08/31 10:18:40 tsawada2 Exp $
   * 
   * CMRThreadsList-Filter.m
   *
@@ -214,64 +214,11 @@
 		
 		[foundArray_ addObject: thread_];
 	}
-	if ([foundArray_ count] == 0) [foundArray_ addObject : @"SearchNotFound"];
+//	if ([foundArray_ count] == 0) [foundArray_ addObject : @"SearchNotFound"];
 
 	return foundArray_;
 }
-/*
-- (id) temporaryArrayWithFindOperation : (CMRSearchOptions *) operation
-							 fromArray : (NSArray       *) array
-{
-	NSMutableArray			*foundArray_;
-	NSEnumerator			*iter_;
-	id						thread_;
-	NSString				*searchString_;
-	
-	//foundArray_ = SGTemporaryArray();
-	foundArray_ = [NSMutableArray array];
 
-	searchString_ = [operation findObject];
-	UTILRequireCondition(array && operation, ErrSearch);
-	UTILRequireCondition(
-		searchString_ && 
-		[searchString_ isKindOfClass : [NSString class]] &&
-		NO == [searchString_ isEmpty],
-		ErrSearch);
-	
-	iter_ = [array objectEnumerator];
-
-	searchString_ = [searchString_ precomposedStringWithCompatibilityMapping];
-	UTILRequireCondition(NO == [searchString_ isEmpty], ErrSearch);
-	
-	while(thread_ = [iter_ nextObject]){
-		NSString	*title_;
-		NSRange		include_;
-		NSRange		searchRng_;
-		
-		UTILAssertKindOfClass(thread_, NSDictionary);
-		title_ = [thread_ objectForKey : CMRThreadTitleKey];
-		UTILAssertNotNil(title_);
-
-		title_ = [title_ precomposedStringWithCompatibilityMapping]; // Unicode KC
-		
-		searchRng_ = NSMakeRange(0, [title_ length]);
-		include_ = [title_ rangeOfString : searchString_ 
-								 options : NSCaseInsensitiveSearch
-								   range : searchRng_];
-		
-		if(0 == include_.length || NSNotFound == include_.location)
-			continue;
-		
-		[foundArray_ addObject : thread_];
-	}
-	//配列が空、つまり検索結果が「見つかりません」だったときは特別な配列を作って返す。
-	//詳細は CMRThreadsList.m の filteredThreads メソッド辺りのコメントを参照。
-	if ([foundArray_ count] == 0)
-		[foundArray_ addObject : @"SearchNotFound"];
-	ErrSearch:
-		return foundArray_;
-}
-*/
 - (BOOL) filterByString : (NSString *) searchString
 {
 	id				result;
@@ -288,15 +235,16 @@
 
 	result = [self temporaryArrayWithSearchString: searchString fromArray: [self filteredThreads]];
 
-	UTILRequireCondition(result && [result count], ErrFilterByFindOperation);
+	//UTILRequireCondition(result && [result count], ErrFilterByFindOperation);
+	UTILRequireCondition(result, ErrFilterByFindOperation);
 
 	filtered_ = [result mutableCopyWithZone : [self zone]];
 	[self setFilteredThreads : filtered_];
 	[filtered_ release];
 
-	if ([result containsObject : @"SearchNotFound"]) {
+	if ([result count] == 0) {//[result containsObject : @"SearchNotFound"]) {
 		// 検索結果が空だった場合でも、result をキレイにしておく必要がある。
-		[result removeAllObjects];
+		//[result removeAllObjects];
 		return NO;
 	} else {
 		[result removeAllObjects];	
@@ -306,42 +254,6 @@
 ErrFilterByFindOperation:
 	return NO;
 }
-
-/*
-- (BOOL) filterByFindOperation : (CMRSearchOptions *) operation
-{
-	id				result;
-	NSMutableArray	*filtered_;
-		
-	[self setFilteredThreads : nil];
-	//result = [self temporaryArrayWithFindOperation:operation fromArray:[self filteredThreads]];
-	result = [self temporaryArrayWithSearchString: [operation findObject] fromArray: [self filteredThreads]];
-
-	UTILRequireCondition(result && [result count], ErrFilterByFindOperation);
-	if ([result isKindOfClass: [NSMutableArray class]]) {
-		NSMutableArray *mutableResult;
-		NSLog(@"tempAryWithSearchStr: fromAry: returns immutable array, so we must mutableCopy it");
-		mutableResult = [result mutableCopyWithZone : [self zone]];
-		[self setFilteredThreads: mutableResult];
-		[mutableResult release];
-	} else {
-		[self setFilteredThreads: result];
-	}
-
-	if ([result containsObject : @"SearchNotFound"]) {
-		// 検索結果が空だった場合でも、result をキレイにしておく必要がある。
-		[result removeAllObjects];
-		return NO;
-	} else {
-		[result removeAllObjects];	
-		return YES;
-	}
-	
-ErrFilterByFindOperation:
-	NSLog(@"Hoge");
-	return NO;
-}
-*/
 
 - (void) _filteredThreadsLock
 {
