@@ -200,7 +200,7 @@
 	
 	id temp = mSortDescriptors;
 	mSortDescriptors = [[NSMutableArray arrayWithObject:inDesc] retain];;
-	[temp releaase];
+	[temp release];
 }
 - (void)addSortDescriptor:(NSSortDescriptor *)inDesc
 {

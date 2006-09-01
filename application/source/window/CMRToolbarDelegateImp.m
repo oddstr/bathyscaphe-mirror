@@ -1,7 +1,8 @@
 //:CMRToolbarDelegateImp.m
 #import "CMRToolbarDelegateImp_p.h"
 #import "CMRStatusLine.h"
-#import "BSProgressIndicatorTbItem.h"
+#import "CMRStatusLineWindowController.h"
+//#import "BSProgressIndicatorTbItem.h"
 
 // プログレスバー
 static NSString *const st_pIndicatorItemIdentifier		= @"progressIndicator";
@@ -114,20 +115,42 @@ static NSString *const st_localizableStringsTableName	= @"ToolbarItems";
 {
 	NSToolbarItem			*item_;
 	NSWindowController		*wcontroller_;
+	NSView					*progressIndicator_;
 	
 	wcontroller_ = [aWindow windowController];
 	UTILAssertNotNil(wcontroller_);
 
+	progressIndicator_ = [[(CMRStatusLineWindowController *)wcontroller_ statusLine] progressIndicator];
+	[progressIndicator_ retain];
+	[progressIndicator_ removeFromSuperviewWithoutNeedingDisplay];
 	
-	item_ = [self appendToolbarItemWithClass : [BSProgressIndicatorTbItem class]
+	/*item_ = [self appendToolbarItemWithClass : [BSProgressIndicatorTbItem class]
 							  itemIdentifier : [self pIndicatorItemIdentifier]
 						   localizedLabelKey : st_pIndicatorItemLabelKey
 					localizedPaletteLabelKey : st_pIndicatorItemPaletteLabelKey
 						 localizedToolTipKey : st_pIndicatorItemToolTipKey
 									  action : nil
-									  target : nil];
+									  target : nil];*/
+	item_ = [self appendToolbarItemWithItemIdentifier : [self pIndicatorItemIdentifier]
+									localizedLabelKey : st_pIndicatorItemLabelKey
+							 localizedPaletteLabelKey : st_pIndicatorItemPaletteLabelKey
+								  localizedToolTipKey : st_pIndicatorItemToolTipKey
+											   action : nil
+											   target : nil];
 
-	[(BSProgressIndicatorTbItem *)item_ setupItemViewWithTarget : wcontroller_];
+
+	//[(BSProgressIndicatorTbItem *)item_ setupItemViewWithTarget : wcontroller_];
+	//[(BSProgressIndicatorTbItem *)item_ setupItemViewWithContentView : progressIndicator_];
+	{
+		NSSize		size_;
+
+		[item_ setView : progressIndicator_];
+
+		size_ = [progressIndicator_ bounds].size;
+		[item_ setMinSize : size_];
+		[item_ setMaxSize : size_];
+	}
+	[progressIndicator_ release];
 }
 
 - (void) configureToolbar : (NSToolbar *) aToolbar

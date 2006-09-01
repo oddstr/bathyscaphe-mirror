@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.14.2.3 2006/03/19 15:09:53 masakih Exp $
+ * $Id: CMRAppDelegate.m,v 1.14.2.4 2006/09/01 13:46:54 masakih Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -11,7 +11,12 @@
 #import "CMRMainMenuManager.h"
 #import "BSHistoryMenuManager.h"
 #import <SGAppKit/NSColor-SGExtensions.h>
+#import <SGAppKit/NSImage-SGExtensions.h>
 
+#define kOnlineItemKey				@"On Line"
+#define kOfflineItemKey				@"Off Line"
+#define kOnlineItemImageName		@"online"
+#define kOfflineItemImageName		@"offline"
 
 @implementation CMRAppDelegate
 - (void) awakeFromNib
@@ -35,7 +40,7 @@
                    to : CMRPref
                  from : sender];
 }
-/*
+
 - (IBAction) togglePreviewPanel : (id) sender
 {
 	BOOL	result_;
@@ -45,7 +50,7 @@
 
 	if(NO == result_) NSLog(@"togglePreviewPanel: fail to send action.");
 }
-*/
+
 - (IBAction) showTaskInfoPanel : (id) sender
 {
     [[CMRTaskManager defaultManager] showWindow : sender];
@@ -123,10 +128,22 @@
     [[NSWorkspace sharedWorkspace] launchApplication: [CMRPref helperAppPath]];
 }
 
+- (IBAction) runBoardWarrior: (id) sender
+{
+	NSBundle* mainBundle;
+    NSString* fileName;
+
+    mainBundle = [NSBundle mainBundle];
+    fileName = [mainBundle pathForResource:@"BWAgent" ofType:@"app"];
+	
+    [[NSWorkspace sharedWorkspace] launchApplication:fileName];
+}
+
 #pragma mark validation
 - (BOOL) validateToolbarItem : (NSToolbarItem *) theItem
 {
-	if ([theItem action] == @selector(launchCMLF:)) {
+	SEL action_ = [theItem action];
+	if (action_ == @selector(launchCMLF:)) {
 		NSString	*name_ = [CMRPref helperAppDisplayName];
 
 		if (nil == name_) {
@@ -137,6 +154,24 @@
 			return YES;
 		}
 	}
+
+	if (action_ == @selector(toggleOnlineMode:)) {
+		NSString		*title_;
+		NSImage			*image_;
+		
+		title_ = [CMRPref isOnlineMode]
+					? [self localizedString : kOnlineItemKey]
+					: [self localizedString : kOfflineItemKey];
+
+		image_ = [CMRPref isOnlineMode]
+					? [NSImage imageAppNamed : kOnlineItemImageName]
+					: [NSImage imageAppNamed : kOfflineItemImageName];
+		
+		[theItem setImage : image_];
+		[theItem setLabel : title_];
+		return YES;
+	}
+
 	return YES;
 }
 
@@ -158,9 +193,9 @@
 		return ([NSApp makeWindowsPerform : @selector(isVisible) inOrder : YES] != nil);
 	} else if (action_ == @selector(miniaturizeAll:)) {
 		return ([NSApp makeWindowsPerform : @selector(isNotMiniaturizedButCanMinimize) inOrder : YES] != nil);
-	/*} else if (action_ == @selector(togglePreviewPanel:)) {
-		id<NSObject> tmp_ = [CMRPref sharedImagePreviewer];
-		return [tmp_ respondsToSelector : @selector(togglePreviewPanel:)];*/
+	} else if (action_ == @selector(togglePreviewPanel:)) {
+		id tmp_ = [CMRPref sharedImagePreviewer]; // WARNING Ç™èoÇÈÇæÇÎÇ§ÇØÇ«ãCÇ…ÇπÇ∏Åc
+		return [tmp_ respondsToSelector : @selector(togglePreviewPanel:)];
 	}
 	return YES;
 }

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.25.2.6 2006/04/10 17:10:21 masakih Exp $
+  * $Id: CMRBrowser-Action.m,v 1.25.2.7 2006/09/01 13:46:54 masakih Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -23,8 +23,8 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 
 - (void) selectRowWhoseNameIs : (NSString *) brdname_
 {
-    SmartBoardList       *source;
 	NSOutlineView	*bLT = [self boardListTable];
+    SmartBoardList       *source;
     NSDictionary	*selected;
     int				index;
 
@@ -243,6 +243,27 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 	[self selectRowWhoseNameIs : boardName];
 }
 
+#pragma mark Test
+- (IBAction) scrollPageDownThreadViewWithoutFocus: (id) sender
+{
+	if(![self shouldShowContents]) {
+		NSBeep();
+		return;
+	}
+	
+	[[self textView] scrollPageDown: sender];
+}
+
+- (IBAction) scrollPageUpThreadViewWithoutFocus: (id) sender
+{
+	if(![self shouldShowContents]) {
+		NSBeep();
+		return;
+	}
+	
+	[[self textView] scrollPageUp: sender];
+}
+
 #pragma mark History Menu
 - (IBAction) showThreadWithMenuItem : (id) sender
 {
@@ -355,7 +376,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 		NSString *path_ = [CMRThreadAttributes pathFromDictionary : [targets_ lastObject]];
 		if ([CMRPref quietDeletion]) {
 			if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
-				[self checkIfFavItemThenRemove : path_];
+				//[self checkIfFavItemThenRemove : path_];
 			} else {
 				NSBeep();
 				NSLog(@"Deletion failed : %@", path_);
@@ -374,7 +395,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 			while ((eachItem_ = [enumerator_ nextObject])) {
 				NSString	*path_ = [CMRThreadAttributes pathFromDictionary : eachItem_];
 				if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
-					[self checkIfFavItemThenRemove : path_];
+					//[self checkIfFavItemThenRemove : path_];
 				} else {
 					NSBeep();
 					NSLog(@"Deletion failed : %@", path_);
@@ -394,9 +415,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 - (void) _threadDeletionSheetDidEnd : (NSAlert *) alert
 						 returnCode : (int      ) returnCode
 						contextInfo : (void	   *) contextInfo
-{	
-	UTILAssertKindOfClass(contextInfo, [NSArray class]);
-
+{
 	switch(returnCode){
 	case NSAlertFirstButtonReturn: // delete
 		{
@@ -406,7 +425,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 			while ((eachItem_ = [enumerator_ nextObject])) {
 				NSString	*path_ = [CMRThreadAttributes pathFromDictionary : eachItem_];
 				if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
-					[self checkIfFavItemThenRemove : path_];
+					//[self checkIfFavItemThenRemove : path_];
 				} else {
 					NSBeep();
 					NSLog(@"Deletion failed : %@", path_);

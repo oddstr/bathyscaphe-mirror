@@ -1,5 +1,5 @@
 /**
-  * $Id: TextFinder.m,v 1.1.1.1.4.1 2005/12/14 16:05:06 masakih Exp $
+  * $Id: TextFinder.m,v 1.1.1.1.4.2 2006/09/01 13:46:54 masakih Exp $
   *
   * Copyright 2005 BathyScaphe Project. All rights reserved.
   *

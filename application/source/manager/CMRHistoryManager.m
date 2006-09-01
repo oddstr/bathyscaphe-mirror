@@ -1,6 +1,6 @@
 //: CMRHistoryManager.m
 /**
-  * $Id: CMRHistoryManager.m,v 1.4.4.1 2005/12/14 16:05:06 masakih Exp $
+  * $Id: CMRHistoryManager.m,v 1.4.4.2 2006/09/01 13:46:54 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.

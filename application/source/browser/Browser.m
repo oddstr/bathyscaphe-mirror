@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.m,v 1.6.2.6 2006/04/10 17:10:21 masakih Exp $
+  * $Id: Browser.m,v 1.6.2.7 2006/09/01 13:46:54 masakih Exp $
   * BathyScaphe 
   *
   * Copyright 2005-2006 BathyScaphe Project.

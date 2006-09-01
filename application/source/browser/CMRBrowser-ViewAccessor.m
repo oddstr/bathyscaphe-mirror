@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.25.2.5 2006/03/19 15:09:53 masakih Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.25.2.6 2006/09/01 13:46:54 masakih Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -11,7 +11,6 @@
 #import "NSTableColumn+CMXAdditions.h"
 #import "CMRMainMenuManager.h"
 #import "AddBoardSheetController.h"
-#import "BSTitleRulerView.h"
 #import "CMRTextColumnCell.h"
 #import <SGAppKit/CMRPullDownIconBtn.h>
 #import <SGAppKit/BSIconAndTextCell.h>
@@ -34,15 +33,6 @@
 - (ThreadsListTable *) threadsListTable
 {
     return m_threadsListTable;
-}
-- (CMXScrollView *) threadsListScrollView
-{
-    CMXScrollView    *sview_;
-    
-    sview_ = (CMXScrollView*)[[self threadsListTable] enclosingScrollView];
-    UTILAssertKindOfClass(sview_, CMXScrollView);
-    
-    return sview_;
 }
 
 - (NSOutlineView *) boardListTable
@@ -357,17 +347,25 @@
 {
     return APP_BROWSER_STATUSLINE_IDENTIFIER;
 }
-- (void) setupScrollView
++ (BOOL) shouldShowTitleRulerView
 {
-	CMXScrollView *scView = [self scrollView];
-	id ruler;
-	[[scView class] setRulerViewClass : [BSTitleRulerView class]];
-	ruler = [[BSTitleRulerView alloc] initWithScrollView : scView ofBrowser : self];
-	[scView setHorizontalRulerView : ruler];
+	return YES;
+}
 
-	[super setupScrollView];
-	[scView setHasHorizontalRuler : YES];
-	[scView setRulersVisible : YES];
++ (BSTitleRulerModeType) rulerModeForInformDatOchi
+{
+	return BSTitleRulerShowTitleAndInfoMode;
+}
+
+- (void) cleanUpTitleRuler: (NSTimer *) aTimer
+{
+	[super cleanUpTitleRuler: aTimer];
+	[[[self scrollView] horizontalRulerView] setNeedsDisplay: YES];
+}
+
++ (float) navBarSubviewsAdjustValue
+{
+	return 0.0;
 }
 
 - (void) setupSplitView
@@ -377,7 +375,7 @@
 	NSArray			*subviewsAry_ = [splitView_ subviews];
 
     [splitView_ setVertical : isGoingToVertical];
-	[[self threadsListScrollView] setHasHorizontalScroller : isGoingToVertical];
+	[[[self threadsListTable] enclosingScrollView] setHasHorizontalScroller : isGoingToVertical];
 
     topSubview = [subviewsAry_ objectAtIndex : 0];
     bottomSubview = [subviewsAry_ objectAtIndex : 1];

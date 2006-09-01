@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIFullScreenController.m,v 1.3.2.2 2006/03/19 15:09:53 masakih Exp $
+//  $Id: BSIPIFullScreenController.m,v 1.3.2.3 2006/09/01 13:46:54 masakih Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.
@@ -42,6 +42,20 @@
     }
 }
 
+- (id) delegate
+{
+	return m_delegate;
+}
+- (void) setDelegate: (id) aDelegate
+{
+	m_delegate = aDelegate;
+}
+
+- (void) dealloc
+{
+	m_delegate = nil;
+	[super dealloc];
+}
 /*- (void) _showPanelWithPath : (NSString *) aPath
 {
 	NSImage	*tmp0_ = [[NSImage alloc] initWithContentsOfFile : aPath];
@@ -63,13 +77,39 @@
 	[Rep_ setSize : NSMakeSize(imgX*dT, imgY*dT)];
 	[self showPanelWithImage : tmp0_];
 }*/
-
-- (void) showPanelWithImage : (NSImage *) anImage;
+- (void) setImage: (NSImage *) anImage
 {
-	CGDisplayFadeReservationToken tokenPtr1, tokenPtr2;
+	[_imageView setImage: anImage];
+}
 
-	// Carbon!
-	SetSystemUIMode(kUIModeAllHidden, kUIOptionDisableProcessSwitch);
+- (void) startFullScreen
+{
+	[self startFullScreen: [NSScreen mainScreen]];
+}
+
+- (void) startFullScreen: (NSScreen *) whichScreen
+{
+	CGDisplayFadeReservationToken	tokenPtr1, tokenPtr2;
+	NSRect							curWinRect, curScreenRect;
+
+	// if whichScreen is the screen which contains the menu bar, ...
+	if (whichScreen == nil) return;
+	NSArray *allScreens = [NSScreen screens];
+	if ([allScreens count] == 0) return;
+	
+	if (whichScreen == [allScreens objectAtIndex: 0]) {
+		SetSystemUIMode(kUIModeAllHidden, kUIOptionDisableProcessSwitch);
+	} else {
+		SetSystemUIMode(kUIModeContentHidden, kUIOptionDisableProcessSwitch);
+	}
+
+	// adjust fullScreenWindow frame
+	curWinRect = [_fullScreenWindow frame];
+	curScreenRect = [whichScreen frame];
+	
+	if (NO == NSEqualRects(curWinRect, curScreenRect)) {
+		[_fullScreenWindow setFrame: curScreenRect display: YES];
+	}
 
 	// Quartz!
 	if (kCGErrorSuccess == CGAcquireDisplayFadeReservation(kCGMaxDisplayReservationInterval, &tokenPtr1)) {
@@ -99,16 +139,15 @@
 
 		CGReleaseDisplayFadeReservation (tokenPtr2);
 	}
-	[_imageView setImage : anImage];
+
 	[NSCursor setHiddenUntilMouseMoves : YES];
 }
 
-- (void) hidePanel
+- (void) endFullScreen
 {
 	CGDisplayFadeReservationToken tokenPtr;
 
 	[NSCursor setHiddenUntilMouseMoves : NO]; // 念のため
-	[_imageView setImage : nil];
 
 	if (kCGErrorSuccess == CGAcquireDisplayFadeReservation(kCGMaxDisplayReservationInterval, &tokenPtr)) {
 		CGDisplayFade(
@@ -126,27 +165,47 @@
 
 	SetSystemUIMode(kUIModeNormal, 0);
 
+	if([[self delegate] respondsToSelector: @selector(fullScreenDidEnd:)])
+		[[self delegate] fullScreenDidEnd: _fullScreenWindow];
 }
 
 #pragma mark Delegates
 
 - (BOOL) handlesKeyDown : (NSEvent *) keyDown inWindow : (NSWindow *) window
 {
-    //	Close the panel on any keystroke.
     //	We could also check for the Escape key by testing
     //		[[keyDown characters] isEqualToString: @"\033"]
-	//if([[keyDown charactersIgnoringModifiers] isEqualToString : @" "]) {
-	//	[self _toggleFitMode];
-	//} else {
-		[self hidePanel];
-	//}
-    return YES;
+	NSString	*pressedKey = [keyDown charactersIgnoringModifiers];
+	
+	if ([pressedKey isEqualToString: [NSString stringWithFormat: @"%C", 0xF702]]) {
+		if ([[self delegate] respondsToSelector: @selector(showPrevImage:)]) {
+			[[self delegate] showPrevImage: window];
+			return YES;
+		}
+	}
+	
+	if ([pressedKey isEqualToString: [NSString stringWithFormat: @"%C", 0xF703]]) {
+		if ([[self delegate] respondsToSelector: @selector(showNextImage:)]) {
+			[[self delegate] showNextImage: window];
+			return YES;
+		}
+	}
+	
+	if ([pressedKey isEqualToString: @"s"]) {
+		if ([[self delegate] respondsToSelector: @selector(saveImage:)]) {
+			[[self delegate] saveImage: window];
+			return YES;
+		}
+	}
+	
+	[self endFullScreen];
+	return YES;
 }
 
 - (BOOL) handlesMouseDown : (NSEvent *) mouseDown inWindow: (NSWindow *) window
 {
     //	Close the panel on any click
-    [self hidePanel];
+    [self endFullScreen];
     return YES;
 }
 @end

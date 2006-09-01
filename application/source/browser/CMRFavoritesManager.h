@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFavoritesManager.h,v 1.3.2.1 2005/12/14 16:05:06 masakih Exp $
+  * $Id: CMRFavoritesManager.h,v 1.3.2.2 2006/09/01 13:46:54 masakih Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
@@ -22,7 +22,7 @@ typedef enum {
 }
 
 + (id) defaultManager;
-
+/*
 - (NSMutableArray *) favoritesItemsArray;
 - (void) setFavoritesItemsArray : (NSMutableArray *) anArray;
 - (NSMutableArray *) favoritesItemsIndex;
@@ -33,26 +33,32 @@ typedef enum {
 
 - (NSMutableArray *) itemsForRemoving;
 - (NSMutableArray *) itemsForChange;
-@end
+*/
+//@end
 
 
 
-@interface CMRFavoritesManager(Management)
-- (CMRFavoritesOperation) availableOperationWithPath : (NSString *) filepath;
-- (BOOL) canCreateFavoriteLinkFromPath : (NSString *) filepath;
-- (BOOL) favoriteItemExistsOfThreadPath : (NSString *) filepath;
-
+//@interface CMRFavoritesManager(Management)
+- (CMRFavoritesOperation) availableOperationWithThread: (id) threadIdentifier ofBoard: (NSString *) boardName;
+//- (CMRFavoritesOperation) availableOperationWithPath : (NSString *) filepath;
+//- (BOOL) canCreateFavoriteLinkFromPath : (NSString *) filepath;
+//- (BOOL) favoriteItemExistsOfThreadPath : (NSString *) filepath;
+/*
 - (BOOL) addFavoriteWithThread : (NSDictionary *) thread;
 - (BOOL) addFavoriteWithFilePath : (NSString *) filepath;
 - (BOOL) removeFromFavoritesWithThread : (NSDictionary *) thread;
 - (BOOL) removeFromFavoritesWithFilePath : (NSString *) filepath;
+*/
+- (BOOL) addFavoriteWithThread: (id) threadIdentifier ofBoard: (NSString *) boardName;
+- (BOOL) removeFavoriteWithThread: (id) threadIdentifier ofBoard: (NSString *) boardName;
 
-- (void) removeFromFavoritesWithPathArray : (NSArray *) pathArray_;
-
+//- (void) removeFromFavoritesWithPathArray : (NSArray *) pathArray_;
+/*
 - (int) insertFavItemsTo : (int) index withIndexArray : (NSArray *) indexArray_ isAscending : (BOOL) isAscending_;
 
 - (void) addItemToPoolWithFilePath : (NSString *) filepath;
 - (void) removeFromPoolWithFilePath : (NSString *) filepath;
+*/
 @end
 
 

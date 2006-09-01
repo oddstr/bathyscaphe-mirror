@@ -1,6 +1,6 @@
 //: CMXScrollView.m
 /**
-  * $Id: CMXScrollView.m,v 1.2.2.1 2005/12/12 15:28:28 masakih Exp $
+  * $Id: CMXScrollView.m,v 1.2.2.2 2006/09/01 13:46:54 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.

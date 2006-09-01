@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Contents.m,v 1.2.2.2 2006/02/27 17:31:50 masakih Exp $
+  * $Id: CMRThreadViewer-Contents.m,v 1.2.2.3 2006/09/01 13:46:54 masakih Exp $
   * 
   * CMRThreadViewer-Contents.m
   *
@@ -118,43 +118,9 @@
 
 
 @implementation CMRThreadViewer(ThreadAttributesNotification)
-- (void) synchronizeVisibleLength : (BOOL					) isFirst
-					 visibleRange : (CMRThreadVisibleRange *) visibleRange
-{
-    NSPopUpButton *popUp;
-    unsigned       length;
-    id             num;
-    int            idx = -1;
-    
-    if (nil == visibleRange) {
-        return;
-    }
-    
-    popUp = isFirst ? [self firstVisibleRangePopUpButton]
-                    : [self lastVisibleRangePopUpButton];
-    
-    length = isFirst ? [visibleRange firstVisibleLength]
-                     : [visibleRange lastVisibleLength];
-    
-    num = [NSNumber numberWithUnsignedInt : length];
-    idx = [popUp indexOfItemWithRepresentedObject : num];
-    if (-1 == idx) {
-        NSMenuItem *item;
-        
-        item = [self addItemWithVisibleRangePopUpButton : popUp
-            isFirstVisibles : isFirst
-            representedIndex : num];
-        idx = [popUp indexOfItem : item];
-    }
-    [popUp selectItemAtIndex : idx];
-}
 - (void) synchronizeVisibleRange
 {
-	CMRThreadVisibleRange	*visibleRange_;
-	
-	visibleRange_ = [[self threadAttributes] visibleRange];
-	[self synchronizeVisibleLength:YES visibleRange:visibleRange_];
-	[self synchronizeVisibleLength:NO visibleRange:visibleRange_];
+	[[self indexingPopupper] setVisibleRange: [[self threadAttributes] visibleRange]];
 }
 - (void) synchronizeAttributes
 {

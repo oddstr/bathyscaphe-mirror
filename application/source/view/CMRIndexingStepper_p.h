@@ -1,7 +1,7 @@
 //:CMRIndexingStepper_p.h
 #import "CMRIndexingStepper.h"
 #import "CocoMonar_Prefix.h"
-#import "IndexField.h"
+#import <SGAppKit/IndexField.h>
 
 
 #define APP_INDEXINGSTEPPER_LOADNIB_NAME		@"CMRIndexingStepper"

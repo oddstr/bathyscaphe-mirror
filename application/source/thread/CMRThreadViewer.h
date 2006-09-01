@@ -1,25 +1,23 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.6.2.3 2006/04/10 17:10:21 masakih Exp $
-  * 
-  * CMRThreadViewer.h
+  * $Id: CMRThreadViewer.h,v 1.6.2.4 2006/09/01 13:46:54 masakih Exp $
+  * BathyScaphe
   *
   * Copyright (c) 2003, Takanori Ishikawa.
+  * Copyright (c) 2005-2006, BathyScaphe Project.
   * See the file LICENSE for copying permission.
   */
+
 #import <Cocoa/Cocoa.h>
 #import "CMRStatusLineWindowController.h"
 
-@class CMXScrollView;
 @class CMRIndexingStepper;
 @class CMRThreadLayout;
 @class CMRThreadAttributes;
 @class CMRThreadSignature;
-
+@class BSIndexingPopupper;
 
 @interface CMRThreadViewer : CMRStatusLineWindowController
-{
-	//NSTextStorage				*_textStorage;
-	
+{	
 	// History
 	unsigned					_historyIndex;
 	NSMutableArray				*_history;
@@ -29,22 +27,24 @@
 	
 	// Interface
 	CMRIndexingStepper			*m_indexingStepper;
+	BSIndexingPopupper			*m_indexingPopupper;
+	IBOutlet NSView				*m_navigationBar;
 	
 	IBOutlet NSView				*m_componentsView;
 	IBOutlet NSView				*m_containerView;
 	IBOutlet NSView				*m_windowContentView;	// dummy
 	
-	IBOutlet CMXScrollView		*m_scrollView;
+	IBOutlet NSScrollView		*m_scrollView;
 	IBOutlet NSTextView			*m_textView;
-	
-	IBOutlet NSPopUpButton		*m_firstVisibleRangePopUpButton;
-	IBOutlet NSPopUpButton		*m_lastVisibleRangePopUpButton;
 	
 	struct {
 		unsigned int invalidate :1;		/* invalid contents */
 		unsigned int reserved   :31;
 	} _flags;
 }
+
++ (NSString *) nibNameToInitialize;
++ (BOOL) defaultSettingForCascading;
 
 /* Register history list if relativeIndex == 0 */
 - (void) setThreadContentWithThreadIdentifier : (id  ) aThreadIdentifier
@@ -68,6 +68,8 @@
 - (CMRThreadLayout *) threadLayout;
 - (CMRThreadAttributes *) threadAttributes;
 
+- (NSString *) titleForTitleBar;
+
 /* called when thread did be changed */
 - (void) didChangeThread;
 
@@ -90,6 +92,9 @@
 - (void) setDatOchiThread : (BOOL) flag;
 - (BOOL) isMarkedThread;
 - (void) setMarkedThread : (BOOL) flag;
+
+// testing: BathyScaphe 1.5
+- (NSString *) boardNameArrowingSecondSource;
 @end
 
 
@@ -100,7 +105,7 @@
 - (BOOL) forceDeleteThreadAtPath : (NSString *) filepath
 				   alsoReplyFile : (BOOL      ) deleteReply;
 
-- (void) checkIfFavItemThenRemove : (NSString *) aPath;
+//- (void) checkIfFavItemThenRemove : (NSString *) aPath;
 - (void) copyThreadInfoOf : (NSEnumerator *) Iter_;
 
 // KeyBinding...
@@ -120,12 +125,7 @@
 - (IBAction) openBBSInBrowser : (id) sender;
 - (IBAction) openLogfile : (id) sender;
 - (IBAction) addFavorites : (id) sender;
-- (IBAction) toggleOnlineMode : (id) sender;
-- (IBAction) selectFirstVisibleRange : (id) sender;
-- (IBAction) selectLastVisibleRange : (id) sender;
 
-// Sync BoardList
-- (IBAction) launchBWAgent : (id) sender;
 // make text area to be first responder
 - (IBAction) focus : (id) sender;
 // NOTE: It is a history item's action.
@@ -187,9 +187,6 @@
 - (IBAction) findTextInSelection : (id) sender;
 - (IBAction) findAll : (id) sender;
 - (IBAction) findAllByFilter : (id) sender;
-// Deprecated in TestaRossa and later. Use findTextByFilter:targetKey:searchOption:locationHint:hilite: instead.
-//- (void) findTextByFilter : (NSString    *) aString
-//			 searchOption : (CMRSearchMask) searchOption;
 
 // Available in TestaRossa and later.
 - (void) findTextByFilter : (NSString    *) aString

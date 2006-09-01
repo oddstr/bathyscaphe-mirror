@@ -1,5 +1,5 @@
 /**
-  * $Id: BSFavoritesHEADCheckTask.m,v 1.5.2.3 2006/03/19 15:09:53 masakih Exp $
+  * $Id: BSFavoritesHEADCheckTask.m,v 1.5.2.4 2006/09/01 13:46:54 masakih Exp $
   * BathyScaphe
   *
   * Copyright 2006 BathyScaphe Project. All rights reserved.
@@ -70,7 +70,7 @@ static NSDictionary *replaceAttributesIfNeeded(NSDictionary *thread, NSURL *chec
 
 	theRequest = [NSMutableURLRequest requestWithURL : checkURL];
 	[theRequest setHTTPMethod : BSFavCheckMethodKey];
-	[theRequest setTimeoutInterval : 30.0];
+	[theRequest setTimeoutInterval : 15.0];
 	[theRequest setValue : monazillaUserAgent() forHTTPHeaderField : BSFavHEADerUAKey];
 
 	[NSURLConnection sendSynchronousRequest: theRequest returningResponse: &response error: &ifErr];

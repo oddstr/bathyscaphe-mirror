@@ -10,6 +10,8 @@
 
 #import "DatabaseManager.h"
 
+#import <SGAppKit/NSImage-SGExtensions.h>
+
 @interface SmartBoardListItem(Private)
 - (void)updateQuery;
 @end
@@ -93,3 +95,4 @@ static NSString *SmartConditionConditionKey = @"SmartConditionConditionKey";
 	return [[self plist] description];
 }
 @end
+

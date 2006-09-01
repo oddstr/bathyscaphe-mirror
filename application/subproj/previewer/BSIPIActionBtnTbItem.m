@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIActionBtnTbItem.m,v 1.1.2.2 2006/03/19 15:09:53 masakih Exp $
+//  $Id: BSIPIActionBtnTbItem.m,v 1.1.2.3 2006/09/01 13:46:54 masakih Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/07.
@@ -7,20 +7,35 @@
 //
 
 #import "BSIPIActionBtnTbItem.h"
-#import "BSImagePreviewInspector.h"
 
 @implementation BSIPIActionBtnTbItem
+- (id) delegate
+{
+	return bsIPIABTI_delegate;
+}
+
+- (void) setDelegate: (id) aDelegate
+{
+	bsIPIABTI_delegate = aDelegate;
+}
+
 - (void) validate
 {
 	id	popupBtn = [self view];
-	BSImagePreviewInspector	*wc_ = [self target];
+	id	myDelegate = [self delegate]; 
 
-	if (!wc_ || !popupBtn) return;
-
-	if([wc_ currentDownload]) {
-		[popupBtn setEnabled : NO];
-	} else {
-		[popupBtn setEnabled : ([[wc_ imageView] image] != nil)];
+	if (!popupBtn) return;
+	if (!myDelegate || ![myDelegate respondsToSelector: @selector(validateActionBtnTbItem:)]) {
+		[popupBtn setEnabled: NO];
+		return;
 	}
+
+	[popupBtn setEnabled: [myDelegate validateActionBtnTbItem: self]];
+}
+
+- (void) dealloc
+{
+	[self setDelegate: nil];
+	[super dealloc];
 }
 @end

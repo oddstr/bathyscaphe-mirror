@@ -11,12 +11,12 @@
 #import "BoardManager.h"
 #import "CMRNetGrobalLock.h"
 #import "DatabaseManager.h"
-
+#import "CMRTrashbox.h"
 
 /* for Debugging */
 SGUtilLogger *CMRLogger = nil;
 
-BOOL shouldCascadeBrowser = YES;
+//BOOL shouldCascadeBrowser = YES;
 
 void CMXServicesInit(void)
 {
@@ -38,12 +38,13 @@ void CMXServicesInit(void)
     // Managers
     [CMRFileManager defaultManager];
     [CMRMainMenuManager defaultManager];
+	[CMRTrashbox trash]; // 2006-06-29: FavoritesManager より先に用意できている必要がある！
     //[BoardManager defaultManager];
 	//[CMRFavoritesManager defaultManager];
     [CMRNetGrobalLock sharedInstance];
+
 	[DatabaseManager defaultManager];
 	[DatabaseManager setupDatabase];
-	
     
     // Inter-thread messaging
     CMRMainThread = [NSThread currentThread];

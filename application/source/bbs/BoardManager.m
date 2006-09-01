@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.m,v 1.4.2.2 2006/04/10 17:10:21 masakih Exp $
+ * $Id: BoardManager.m,v 1.4.2.3 2006/09/01 13:46:54 masakih Exp $
  * 
  * BoardManager.m
  *

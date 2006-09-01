@@ -14,7 +14,6 @@
 #import "CMRBBSListTemplateKeys.h"
 #import <SGAppKit/NSImage-SGExtensions.h>
 
-
 @implementation FavoritesBoardListItem
 //APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance) ;
 + (id) sharedInstance
@@ -33,7 +32,6 @@
 	if (self = [super init]) {
 		NSMutableString *query = [NSMutableString string];
 		[query appendFormat : @"SELECT * FROM %@\n", BoardThreadInfoViewName];
-		[query appendFormat : @"\t\tUSING (%@) \n", BoardIDColumn];
 		[query appendFormat : @"WHERE %@ IN (SELECT %@ FROM %@) ",
 			ThreadIDColumn, ThreadIDColumn, FavoritesTableName];
 		[self setQuery : query];

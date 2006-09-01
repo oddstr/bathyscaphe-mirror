@@ -1,0 +1,19 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {selectFirstVisibleRange = id; selectLastVisibleRange = id; }; 
+            CLASS = BSIndexingPopupper; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "m_delegate" = id; 
+                "m_firstVisibleRangePopUpButton" = NSPopUpButton; 
+                "m_frameView" = NSView; 
+                "m_lastVisibleRangePopUpButton" = NSPopUpButton; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }
+    ); 
+    IBVersion = 1; 
+}

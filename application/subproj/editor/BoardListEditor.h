@@ -1,5 +1,5 @@
 /**
-  * $Id: BoardListEditor.h,v 1.2.4.1 2005/12/12 15:28:28 masakih Exp $
+  * $Id: BoardListEditor.h,v 1.2.4.2 2006/09/01 13:46:54 masakih Exp $
   * 
   * BoardListEditor.h
   *

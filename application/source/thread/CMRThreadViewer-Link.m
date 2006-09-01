@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.9.2.2 2006/02/27 17:31:50 masakih Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.9.2.3 2006/09/01 13:46:54 masakih Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -419,9 +419,18 @@ ErrInvalidLink:
 
 	[self reply : aView];
 	messenger_ = [self messenger : YES];
+	[self addMessenger: messenger_]; // 2006-06-06 Patch posted at CocoMonar Thread
 	[messenger_ append:@"" quote:NO replyTo:anIndexRange.location];
 }
 
+// CometBlaster Addition
+/*
+- (BOOL) threadView: (CMRThreadView *) aView
+	 validateAction: (SEL) aSelector
+{
+	// 将来のために
+}
+*/
 
 // Spam Filter
 - (IBAction) runSpamFilter : (id) sender

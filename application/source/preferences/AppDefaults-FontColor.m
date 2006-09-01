@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-FontColor.m,v 1.10.2.1 2005/12/17 14:59:49 masakih Exp $
+  * $Id: AppDefaults-FontColor.m,v 1.10.2.2 2006/09/01 13:46:54 masakih Exp $
   * BathyScaphe
   *
   * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -197,6 +197,7 @@ static float getDefaultLineHeightForFont(NSFont *font_)
 	[[self appearances] setBool : flag
 						 forKey : kPrefAntialiasKey];
 	PFlags.enableAntialias = flag ? 1 : 0;
+	[self postLayoutSettingsUpdateNotification];
 }
 
 - (BOOL) hasMessageAnchorUnderline

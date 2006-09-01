@@ -1,26 +1,24 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.7.2.6 2006/04/10 17:10:21 masakih Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.7.2.7 2006/09/01 13:46:54 masakih Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
-//  Copyright 2005 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2006 BathyScaphe Project. All rights reserved.
 //
 
 #import "BSImagePreviewInspector.h"
 
 #import <SGAppKit/NSWorkspace-SGExtensions.h>
-#import <SGFoundation/NSDictionary-SGExtensions.h>
-#import <SGFoundation/NSMutableDictionary-SGExtensions.h>
 #import "TemporaryFolder.h"
-#import "BSIPIHistoryManager.h"
 #import "BSIPIFullScreenController.h"
+#import "BSIPIPathTransformer.h"
+#import "BSIPIDownload.h"
+#import "BSIPIImageView.h"
+
+@class BSIPITableView;
+@class BSIPIFullScreenWindow;
 
 static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
-static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInspector Panel Autosave";
-static NSString *const kIPIAlwaysKeyWindowKey	= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Always Key Window";
-static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Save Directory";
-static NSString *const kIPIAlphaValueKey		= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Window Alpha Value";
-static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.ImagePreviewer:Opaque When Key Window";
 
 @implementation BSImagePreviewInspector
 - (id) initWithPreferences : (AppDefaults *) prefs
@@ -28,6 +26,10 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 	if (self = [super initWithWindowNibName : kIPINibFileNameKey]) {
 		[self setPreferences : prefs];
 		_dlFolder = [[TemporaryFolder alloc] init];
+
+		id transformer = [[[BSIPIPathTransformer alloc] init] autorelease];
+		[NSValueTransformer setValueTransformer: transformer forName: @"BSIPIPathTransformer"];
+
 		[[NSNotificationCenter defaultCenter]
 				 addObserver : self
 					selector : @selector(applicationWillTerminate:)
@@ -46,28 +48,11 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 {
 	[_preferences release];
 	[_currentDownload release];
-	[_downloadedFileDestination release];
 	[_dlFolder release];
 	[_sourceURL release];
 	[super dealloc];
 }
 
-- (void) awakeFromNib
-{
-	id<NSMenuItem>	iter;
-	[[self window] setFrameAutosaveName : kIPIFrameAutoSaveNameKey];
-	[[self window] setDelegate : self];
-	[(NSPanel *)[self window] setBecomesKeyOnlyIfNeeded : (NO == [self alwaysBecomeKey])];
-	[[self window] setAlphaValue : [self alphaValue]];
-
-	iter = [[[self actionBtn] menu] itemAtIndex : 0];
-	[iter setImage : [self imageResourceWithName: @"Gear"]];
-	
-	[self setupToolbar];
-	[[self window] useOptimizedDrawing : YES];
-}
-
-#pragma mark Accessors
 - (AppDefaults *) preferences
 {
 	return _preferences;
@@ -81,161 +66,36 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 	[tmp release];
 }
 
-- (NSPopUpButton *) actionBtn
-{
-	return m_actionBtn;
-}
-
-- (NSTextField *) infoField
-{
-	return m_infoField;
-}
-
-- (NSImageView *) imageView
-{
-	return m_imageView;
-}
-
-- (NSProgressIndicator *) progIndicator
-{
-	return m_progIndicator;
-}
-
-- (NSPanel *) settingsPanel
-{
-	return m_settingsPanel;
-}
-
-- (NSURLDownload *) currentDownload
-{
-	return _currentDownload;
-}
-- (void) setCurrentDownload : (NSURLDownload *) aDownload
-{
-	id		tmp;
-	
-	tmp = _currentDownload;
-	_currentDownload = [aDownload retain];
-	[tmp release];
-}
-
-- (TemporaryFolder *) dlFolder
-{
-	if (_dlFolder == nil) {
-		_dlFolder = [[TemporaryFolder alloc] init];
-	}
-	return _dlFolder;
-}
-
-- (NSString *) downloadedFileDestination
-{
-	return _downloadedFileDestination;
-}
-
-- (void) setDownloadedFileDestination : (NSString *) aPath
-{
-	[aPath retain];
-	[_downloadedFileDestination release];
-	_downloadedFileDestination = aPath;
-}
-
 #pragma mark For Cocoa Binding
-- (NSString *) sourceURLAsString
-{
-	return [[[self sourceURL] absoluteString] lastPathComponent];
-}
-
 - (NSURL *) sourceURL
 {
 	return _sourceURL;
 }
+
 - (void) setSourceURL : (NSURL *) newURL
 {
-	[self willChangeValueForKey:@"sourceURLAsString"];
-
 	[newURL retain];
 	[_sourceURL release];
 	_sourceURL = newURL;
-
-	[self didChangeValueForKey:@"sourceURLAsString"];
 }
 
-- (BOOL) alwaysBecomeKey
+- (NSMutableArray *) historyItems
 {
-	return [[[self preferences] imagePreviewerPrefsDict] boolForKey : kIPIAlwaysKeyWindowKey
-													   defaultValue : NO];
-}
-- (void) setAlwaysBecomeKey : (BOOL) alwaysKey
-{
-	[[[self preferences] imagePreviewerPrefsDict] setBool : alwaysKey forKey : kIPIAlwaysKeyWindowKey];
-	[(NSPanel *)[self window] setBecomesKeyOnlyIfNeeded : (NO == alwaysKey)];
+	return [[BSIPIHistoryManager sharedManager] historyBacket];
 }
 
-- (NSString *) saveDirectory
-{
-	return [[[self preferences] imagePreviewerPrefsDict] objectForKey : kIPISaveDirectoryKey
-														defaultObject : [NSHomeDirectory() stringByAppendingPathComponent : @"Desktop"]];
-}
-
-- (void) setSaveDirectory : (NSString *) aString
-{
-	[[[self preferences] imagePreviewerPrefsDict] setObject : aString forKey : kIPISaveDirectoryKey];
-}
-
-- (float) alphaValue
-{
-	return [[[self preferences] imagePreviewerPrefsDict] floatForKey : kIPIAlphaValueKey
-														defaultValue : 1.0];
-}
-
-- (void) setAlphaValue : (float) newValue
-{
-	[[[self preferences] imagePreviewerPrefsDict] setFloat : newValue forKey : kIPIAlphaValueKey];
-	[[self window] setAlphaValue : newValue];
-}
-
-- (BOOL) opaqueWhenKey
-{
-	return [[[self preferences] imagePreviewerPrefsDict] boolForKey : kIPIOpaqueWhenKeyWindowKey
-													   defaultValue : NO];
-}
-
-- (void) setOpaqueWhenKey : (BOOL) opaqueWhenKey
-{
-	[[[self preferences] imagePreviewerPrefsDict] setBool : opaqueWhenKey forKey : kIPIOpaqueWhenKeyWindowKey];
-}
 
 #pragma mark Actions
-- (void) _resetAttributes
-{
-	NSImageView *imageView_ = [self imageView];
-	
-	[self setSourceURL : nil];
-	[self setDownloadedFileDestination : nil];
-	[[self infoField] setStringValue : @""];
-
-	if([imageView_ image] != nil)
-		[imageView_ setImage : nil];
-}
-
 - (IBAction) copyURL : (id) sender
 {
-	NSPasteboard	*pboard_   = [NSPasteboard generalPasteboard];
-	NSArray			*types_;
-
-	types_ = [NSArray arrayWithObjects : 
-				NSURLPboardType,
-				NSStringPboardType,
-				nil];
-	
-	[pboard_ declareTypes:types_ owner:nil];
-	
-	[[self sourceURL] writeToPasteboard : pboard_];
-	[pboard_ setString : [[self sourceURL] absoluteString] forType : NSStringPboardType];
+	[[BSIPIHistoryManager sharedManager] appendDataForURL: [self sourceURL]
+											 toPasteboard: [NSPasteboard generalPasteboard]
+								  withFilenamesPboardType: NO];
 }
 
 - (IBAction) beginSettingsSheet : (id) sender
 {
+	[self updateDirectoryChooser];
 	[NSApp beginSheet : [self settingsPanel]
 	   modalForWindow : [self window]
 		modalDelegate : self
@@ -260,6 +120,13 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 	[panel_ setResolvesAliases : YES];
 	if([panel_ runModalForTypes : nil] == NSOKButton)
 		[self setSaveDirectory : [panel_ directory]];
+
+	[self updateDirectoryChooser];
+}
+
+- (IBAction) forceRunTbCustomizationPalette: (id) sender
+{
+	[[self window] runToolbarCustomizationPalette: self];
 }
 
 - (IBAction) openImage : (id) sender
@@ -269,130 +136,173 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 
 - (IBAction) openImageWithPreviewApp : (id) sender
 {
-	NSWorkspace	*ws_ = [NSWorkspace sharedWorkspace];
-	NSString *appName_ = [ws_ absolutePathForAppBundleWithIdentifier : @"com.apple.Preview"];
-	[ws_ openFile : [self downloadedFileDestination] withApplication : appName_];
+	[[BSIPIHistoryManager sharedManager] openCachedFileForURLWithPreviewApp: [self sourceURL]];
 }
 
 - (IBAction) startFullscreen : (id) sender
 {
-	[[BSIPIFullScreenController sharedInstance] showPanelWithImage : [[self imageView] image]];
+	m_shouldRestoreKeyWindow = [[self window] isKeyWindow];
+	[[BSIPIFullScreenController sharedInstance] setDelegate: self];
+	[[BSIPIFullScreenController sharedInstance] setImage : [[self imageView] image]];
+
+	[[BSIPIFullScreenController sharedInstance] startFullScreen: [[self window] screen]];
 }
 
 - (IBAction) saveImage : (id) sender
 {
-	NSFileManager	*fm_ = [NSFileManager defaultManager];
-	NSString		*fPath_ = [self downloadedFileDestination];
-	NSString		*dest_ = [[self saveDirectory] stringByAppendingPathComponent : [fPath_ lastPathComponent]];
-
-	if (![fm_ fileExistsAtPath : dest_]) {
-		[fm_ copyPath : fPath_ toPath : dest_ handler : nil];
-	} else {
-		NSBeep();
-		NSLog(@"Could not save the file %@ because same file already exists.", [fPath_ lastPathComponent]);
-	}
+	[[BSIPIHistoryManager sharedManager] copyCachedFileForURL: [self sourceURL] intoFolder: [self saveDirectory]];
 }
 
 - (IBAction) cancelDownload : (id) sender
 {
-	if(_currentDownload) {
-		[_currentDownload cancel];
-
-		[self setCurrentDownload : nil];
-		[self stopProgressIndicator : [self progIndicator]];
-
-		[self _resetAttributes];
-	}
+	[self clearAttributes];
 }
-/*
+
 - (IBAction) togglePreviewPanel : (id) sender
 {
 	if ([[self window] isVisible]) {
 		// orderOut: では windowWillClose: はもちろん呼ばれない。
+		if ([self resetWhenHide]) [self clearAttributes];
 		[[self window] orderOut : sender];
-
-		if(_currentDownload) {
-			[_currentDownload cancel];
-			[self setCurrentDownload : nil];
-		}	
-
-		[self _resetAttributes];
-
 	} else {
 		[self showWindow : sender];
 	}
 }
-*/
-- (BOOL) downloadImageInBkgnd : (NSURL *) anURL
+
+- (void) showPrevImage: (id) sender
 {
-	NSURLRequest	*theRequest = [NSURLRequest requestWithURL : anURL];
-
-	if(_currentDownload)
-		[_currentDownload cancel];
-
-	_currentDownload  = [[NSURLDownload alloc] initWithRequest : theRequest
-													  delegate : self ];
-
-	[self _resetAttributes];
-
-	[self setSourceURL : anURL];
-	[self startProgressIndicator : [self progIndicator] indeterminately : YES];
-
-	return YES;
+	NSString *filePath_;
+	filePath_ = [[BSIPIHistoryManager sharedManager] cachedPrevFilePathForURL: [self sourceURL]];
+	
+	if (filePath_ != nil) {
+		[self setSourceURL: [[BSIPIHistoryManager sharedManager] cachedURLForFilePath: filePath_]];
+		[self showCachedImageWithPath: filePath_];
+	} else {
+		NSBeep();
+		return;
+	}
+	
+	if ([sender isKindOfClass: [BSIPIFullScreenWindow class]]) {
+		[[BSIPIFullScreenController sharedInstance] setImage: [[self imageView] image]];
+	}
 }
 
-- (BOOL) showCachedImage : (NSString *) path ofURL : (NSURL *) anURL
+- (void) showNextImage: (id) sender
 {
+	NSString *filePath_;
+	filePath_ = [[BSIPIHistoryManager sharedManager] cachedNextFilePathForURL: [self sourceURL]];
+
+	if (filePath_ != nil) {
+		[self setSourceURL: [[BSIPIHistoryManager sharedManager] cachedURLForFilePath: filePath_]];
+		[self showCachedImageWithPath: filePath_];
+	} else {
+		NSBeep();
+		return;
+	}
+	
+	if ([sender isKindOfClass: [BSIPIFullScreenWindow class]]) {
+		[[BSIPIFullScreenController sharedInstance] setImage: [[self imageView] image]];
+	}
+}
+
+- (IBAction) historyNavigationPushed: (id) sender
+{
+	int segNum = [sender selectedSegment];
+	if (segNum == 0) {
+		[self showPrevImage: sender];
+	} else if (segNum == 1) {
+		[self showNextImage: sender];
+	}
+}
+
+- (IBAction) changePane: (id) sender
+{
+	[[self tabView] selectTabViewItemAtIndex: [sender selectedSegment]];
+}
+
+- (IBAction) changePaneAndShow: (id) sender
+{
+	unsigned	modifier_ = [[NSApp currentEvent] modifierFlags];
+	if (modifier_ & NSAlternateKeyMask) {
+		[self startFullscreen: sender];
+		return;
+	}
+	[[self tabView] selectTabViewItemAtIndex: 0];
+	[[self paneChangeBtn] setSelectedSegment: 0];
+}
+
+- (IBAction) deleteCachedImage: (id) sender
+{
+	[self willChangeValueForKey: @"historyItems"];
+	[[BSIPIHistoryManager sharedManager] removeItemOfURL: [self sourceURL]];
+	[self didChangeValueForKey: @"historyItems"];
+
+	[self clearAttributes];
+}
+
+- (BOOL) downloadImageInBkgnd : (NSURL *) anURL
+{
+	BSIPIDownload *newDownload_;
+
 	if(_currentDownload) {
 		[_currentDownload cancel];
-		[self setCurrentDownload : nil];
-	}	
+		[self setCurrentDownload: nil];
+	}
 
+	newDownload_ = [[BSIPIDownload alloc] initWithURLIdentifier: anURL delegate: self destination: [[self dlFolder] path]];
+	if (newDownload_) {
+		[self setCurrentDownload: newDownload_];
+		[newDownload_ release];
+		[self startProgressIndicator];
+		return YES;
+	}
+	
+	return NO;
+}
 
-	[self _resetAttributes];
-
-	[self setSourceURL : anURL];
-	[self startProgressIndicator : [self progIndicator] indeterminately : YES];
-
-	[self setDownloadedFileDestination : path];
-
+- (BOOL) showCachedImageWithPath: (NSString *) path
+{
 	NSImage *img = [[[NSImage alloc] initWithContentsOfFile : path] autorelease];
 
-	[self stopProgressIndicator : [self progIndicator]];
-
 	if (img) {
-		//NSLog(@"Load from temporary (already downloaded) file.");
 		[[self infoField] setStringValue : [self calcImageSize : img]];
 		[[self imageView] setImage : img];
+		[self synchronizeImageAndSelectedRow];
 		return YES;
 	} else {
-		NSLog(@"Can't load from temp file, so download it again.");
-		return [self downloadImageInBkgnd : anURL];
+		NSLog(@"Can't load from temp file");
+		[self synchronizeImageAndSelectedRow];
+		return NO;
 	}
 }
 
 - (BOOL) showImageWithURL : (NSURL *) imageURL
 {
 	NSString *cachedFilePath;
-	if (![[self window] isVisible])
+	/* showWindow:
+	   If the window is an NSPanel object and has its becomesKeyOnlyIfNeeded flag set to YES, the window is displayed in front of
+	   all other windows but is not made key; otherwise it is displayed in front and is made key. This method is useful for menu actions.
+	*/
+	//if (![[self window] isVisible]) {
 		[self showWindow : self];
+	//} else {
+	//	if ([self alwaysBecomeKey]) [[self window] makeKeyAndOrderFront: self];
+	//}
 
 	cachedFilePath = [[BSIPIHistoryManager sharedManager] cachedFilePathForURL : imageURL];
-	return (cachedFilePath != nil) ? [self showCachedImage : cachedFilePath ofURL : imageURL] : [self downloadImageInBkgnd : imageURL];
+
+	[self clearAttributes];
+	[self setSourceURL : imageURL];
+
+	return (cachedFilePath != nil) ? [self showCachedImageWithPath: cachedFilePath] : [self downloadImageInBkgnd: imageURL];
 }
 
-- (BOOL) validateLink : (NSURL *) anURL
+- (BOOL) validateLink: (NSURL *) anURL
 {
-	// from MosaicPreview
-	NSArray		*imageExtensions;
-	NSString	*extension;
-	
-	extension = [[[anURL path] pathExtension] lowercaseString];
+	NSString	*extension = [[[anURL path] pathExtension] lowercaseString];
 	if(!extension) return NO;
-	
-	imageExtensions = [NSImage imageFileTypes];
-	
-	return [imageExtensions containsObject : extension];
+		
+	return [[NSImage imageFileTypes] containsObject: extension];
 }
 
 #pragma mark Notifications
@@ -416,90 +326,132 @@ static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.Im
 	}
 }
 
-#pragma mark NSWindow Delegate
 - (void) windowWillClose : (NSNotification *) aNotification
 {
-	if(_currentDownload) {
-		[_currentDownload cancel];
-		[self setCurrentDownload : nil];
-	}	
-
-	[self _resetAttributes];
+	if ([self resetWhenHide]) [self clearAttributes];
 }
-	
-#pragma mark NSURLDownload Delegate
 
-- (void)  download : (NSURLDownload *) dl didReceiveResponse : (NSURLResponse *) response
+- (void) windowWillBeginSheet: (NSNotification *) aNotification
+{
+	NSWindow *window_ = [aNotification object];
+	m_shouldRestoreKeyWindow = [window_ isKeyWindow];
+}
+
+- (void) windowDidEndSheet: (NSNotification *) aNotification
+{
+	if (m_shouldRestoreKeyWindow) {
+		[[aNotification object] makeKeyWindow];
+	}
+	m_shouldRestoreKeyWindow = NO;
+}
+
+- (void) fullScreenDidEnd: (NSWindow *) fullScreenWindow
+{
+	[[BSIPIFullScreenController sharedInstance] setImage: nil];
+	if (m_shouldRestoreKeyWindow) {
+		[[self window] makeKeyWindow];
+	}
+	m_shouldRestoreKeyWindow = NO;
+}
+
+#pragma mark BSIPIDownload Delegate
+- (void) bsIPIdownload: (BSIPIDownload *) aDownload willDownloadContentOfSize: (double) expectedLength
 {
 	NSProgressIndicator	*bar_ =[self progIndicator];
-	lExLength = [response expectedContentLength];
 
-	if (lExLength != NSURLResponseUnknownLength) {
-		[bar_ setIndeterminate : NO];
-		[bar_ setMinValue : 0];
-		[bar_ setMaxValue : lExLength];
-	}
-
-	lDlLength = 0;
+	[bar_ setIndeterminate : NO];
+	[bar_ setMinValue : 0];
+	[bar_ setMaxValue : expectedLength];
 }
 
-- (NSURLRequest *) download : (NSURLDownload *) download willSendRequest : (NSURLRequest *) request
-		   redirectResponse : (NSURLResponse *) redirectResponse
+- (void) bsIPIdownload: (BSIPIDownload *) aDownload didDownloadContentOfSize: (double) downloadedLength
 {
-	if(![self validateLink : [request URL]]) {
-		NSLog(@"Redirection blocked");
-		return nil;
-	}
-	return request;
+	[[self progIndicator] setDoubleValue: downloadedLength];
 }
 
-- (void) download : (NSURLDownload *) dl decideDestinationWithSuggestedFilename : (NSString *) filename
+- (void) bsIPIdownloadDidFinish: (BSIPIDownload *) aDownload
 {
-	NSString *savePath;
-	savePath = [[[self dlFolder] path] stringByAppendingPathComponent : filename];
+	NSString *downloadedFilePath_;
+	[self stopProgressIndicator];	
 
-	[dl setDestination : savePath allowOverwrite : YES];
+	downloadedFilePath_ = [aDownload downloadedFilePath];
+
+	[self willChangeValueForKey:@"historyItems"];
+	[[BSIPIHistoryManager sharedManager] addItemOfURL : [self sourceURL] andPath : downloadedFilePath_];
+	[self didChangeValueForKey:@"historyItems"];
+
+	[self showCachedImageWithPath: downloadedFilePath_];
+	[self setCurrentDownload: nil];
 }
 
-- (void) download : (NSURLDownload *) dl didCreateDestination : (NSString *) asDstPath
+
+- (BOOL) bsIPIdownload: (BSIPIDownload *) aDownload didRedirectToURL: (NSURL *) newURL
 {
-	[self setDownloadedFileDestination : asDstPath];
+	return [self validateLink: newURL];
 }
 
-- (void) download : (NSURLDownload *) dl didReceiveDataOfLength : (unsigned) len
+- (void) bsIPIdownloadDidAbortRedirection: (BSIPIDownload *) aDownload
 {
-	NSProgressIndicator	*bar_ = [self progIndicator];
+	NSLog(@"Redirection Aborted, so we try to open URL with Web browser");
+	[self openImage: self];
 
-	lDlLength += len;
-
-	if (lExLength != NSURLResponseUnknownLength)
-		[bar_ setDoubleValue : lExLength];
+	[self clearAttributes];
 }
 
-- (void) downloadDidFinish : (NSURLDownload *) dl
-{
-	[self setCurrentDownload : nil];
-	[self stopProgressIndicator : [self progIndicator]];	
-
-	NSImage *img = [[[NSImage alloc] initWithContentsOfFile : [self downloadedFileDestination]] autorelease];
-	if (img) {
-		[[self infoField] setStringValue : [self calcImageSize : img]];
-
-		[[BSIPIHistoryManager sharedManager] addItemOfURL : [self sourceURL] andPath : [self downloadedFileDestination]];
-		[[self imageView] setImage : img];
-	} else {
-		[self setSourceURL : nil];
-	}
-}
-
-- (void) download : (NSURLDownload *) dl didFailWithError : (NSError *) err
+- (void) bsIPIdownload: (BSIPIDownload *) aDownload didFailWithError: (NSError *) aError
 {
 	NSBeep();
-	NSLog(@"%@",[err localizedDescription]);
-	
-	[self setCurrentDownload : nil];
-	[self stopProgressIndicator : [self progIndicator]];
+	NSLog(@"%@",[aError localizedDescription]);
 
-	[self _resetAttributes];
+	[self clearAttributes];
+}
+
+#pragma mark NSTableView Delegate
+- (void) tableViewSelectionDidChange: (NSNotification *) aNotification
+{
+	int row_ = [[aNotification object] selectedRow];
+	if (row_ == -1) {
+		[self clearAttributes];
+		return;
+	}
+
+	NSString *fPath_ = [[[BSIPIHistoryManager sharedManager] arrayOfPaths] objectAtIndex: row_];
+	NSURL	*url_ = [[BSIPIHistoryManager sharedManager] cachedURLForFilePath: fPath_];
+
+	if (![url_ isEqual: [self sourceURL]]) {
+		[self setSourceURL: url_];
+		[self showCachedImageWithPath: fPath_];
+	}
+}
+
+- (BOOL) tableView: (BSIPITableView *) aTableView shouldPerformKeyEquivalent: (NSEvent *) theEvent
+{
+	if ([aTableView selectedRow] == -1) return NO;
+	
+	int whichKey_ = [theEvent keyCode];
+
+	if (whichKey_ == 51) { // delete key
+		[self deleteCachedImage: aTableView];
+		return YES;
+	}
+	
+	if (whichKey_ == 36) { // return key, option-return ro start fullscreen
+		[self changePaneAndShow: aTableView];
+		return YES;
+	}
+	return NO;
+}
+
+- (BOOL) selectionShouldChangeInTableView: (NSTableView *) aTableView
+{
+	return (_currentDownload == nil);
+}
+
+#pragma mark BSIPIImageView Delegate
+- (BOOL) imageView: (BSIPIImageView *) aImageView writeSomethingToPasteboard: (NSPasteboard *) pboard
+{
+	return [[BSIPIHistoryManager sharedManager] appendDataForURL: [self sourceURL]
+													toPasteboard: pboard
+										 withFilenamesPboardType: YES];
 }
 @end

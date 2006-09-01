@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.5.2.1 2006/02/27 17:31:50 masakih Exp $
+  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.5.2.2 2006/09/01 13:46:54 masakih Exp $
   * 
   * CMRThreadViewer-ViewAccessor.m
   *
@@ -10,31 +10,22 @@
 #import "CMRThreadViewer_p.h"
 #import "CMRThreadVisibleRange.h"
 #import "CMRThreadViewerTbDelegate.h"
-#import "CMRLayoutManager.h"
 #import "CMRThreadView.h"
 #import "CMRMainMenuManager.h"
 #import "CMRMessageAttributesTemplate.h"
-
+#import <SGAppKit/BSLayoutManager.h>
 
 // for debugging only
 #define UTIL_DEBUGGING		0
 #import "UTILDebugging.h"
 
 
-
-//////////////////////////////////////////////////////////////////////
-////////////////////// [ 定数やマクロ置換 ] //////////////////////////
-//////////////////////////////////////////////////////////////////////
-#define kFirstVisibleNumbersPlist	@"firstVisibleNumbers.plist"
-#define kLastVisibleNumbersPlist	@"lastVisibleNumbers.plist"
-
 #define kComponentsLoadNibName	@"CMRThreadViewerComponents"
 #define HTMLVIEW_CLASS			CMRThreadView
 
 
-
 @implementation CMRThreadViewer(ViewAccessor)
-- (CMXScrollView *) scrollView
+- (NSScrollView *) scrollView
 {
 	return m_scrollView;
 }
@@ -46,19 +37,22 @@
 {
 	m_textView = aTextView;
 }
-- (NSPopUpButton *) firstVisibleRangePopUpButton
+
+- (BSIndexingPopupper *) indexingPopupper
 {
-	return m_firstVisibleRangePopUpButton;
-}
-- (NSPopUpButton *) lastVisibleRangePopUpButton
-{
-	return m_lastVisibleRangePopUpButton;
+	if (nil == m_indexingPopupper)
+		m_indexingPopupper = [[BSIndexingPopupper alloc] init];
+	return m_indexingPopupper;
 }
 - (CMRIndexingStepper *) indexingStepper
 {
 	if (nil == m_indexingStepper)
 		m_indexingStepper = [[CMRIndexingStepper alloc] init];
 	return m_indexingStepper;
+}
+- (NSView *) navigationBar
+{
+	return m_navigationBar;
 }
 @end
 
@@ -107,168 +101,9 @@
 }
 @end
 
-
-
-@implementation CMRThreadViewer(VisibleNumbersPopUpSetup)
-+ (NSString *) visibleNumbersFilepathWithName : (NSString *) filename
-{
-	NSBundle	*bundles[] = {
-			[NSBundle applicationSpecificBundle],
-			[NSBundle mainBundle],
-			nil};
-	NSBundle	**p;
-	NSString	*s = nil;
-	
-	for (p = bundles; *p != nil; p++)
-		if ((s = [*p pathForResourceWithName : filename]) != nil)
-			break;
-	
-	return s;
-}
-
-+ (NSArray *) visibleNumbersArrayWithName : (NSString *) filename
-{
-	NSMutableArray		*values;
-	int					i;
-	
-	values = [NSMutableArray arrayWithContentsOfFile : 
-				[self visibleNumbersFilepathWithName : filename]];
-	if (nil == values) values = [NSMutableArray array];
-	
-	for (i = [values count] -1; i >= 0; i--) {
-		id		v = [values objectAtIndex : i];
-		
-		if (NO == [v isKindOfClass : [NSNumber class]]) {
-			[values removeObjectAtIndex : i];
-			continue;
-		}
-		
-		if ([v intValue] < 0) {
-			[values replaceObjectAtIndex : i
-			  withObject : [NSNumber numberWithUnsignedInt : CMRThreadShowAll]];
-		}
-	}
-	return values;
-}
-+ (NSArray *) firstVisibleNumbersArray
-{
-	return [self visibleNumbersArrayWithName : kFirstVisibleNumbersPlist];
-}
-+ (NSArray *) lastVisibleNumbersArray
-{
-	return [self visibleNumbersArrayWithName : kLastVisibleNumbersPlist];
-}
-
-- (NSString *) localizedVisibleStringWithFormat : (NSString *) format
-								  visibleLength : (unsigned  ) visibleLength
-{
-	if (0 == visibleLength)
-		return [self localizedString : APP_TVIEW_SHOW_NONE_LABEL_KEY];
-	if (CMRThreadShowAll == visibleLength)
-		return [self localizedString : APP_TVIEW_SHOW_ALL_LABEL_KEY];
-	
-	return [NSString stringWithFormat : 
-							format,
-							visibleLength];
-}
-- (NSString *) localizedFirstVisibleStringWithNumber : (NSNumber *) visibleNumber
-{
-	NSString			*format_;
-	
-	if (nil == visibleNumber) return nil;
-	
-	format_ = [self localizedString : APP_TVIEW_FIRST_VISIBLE_LABEL_KEY];
-	return [self localizedVisibleStringWithFormat : format_
-						visibleLength : [visibleNumber unsignedIntValue]];
-}
-- (NSString *) localizedLastVisibleStringWithNumber : (NSNumber *) visibleNumber
-{
-	NSString			*format_;
-	
-	if (nil == visibleNumber) return nil;
-	
-	format_ = [self localizedString : APP_TVIEW_LAST_VISIBLE_LABEL_KEY];
-	return [self localizedVisibleStringWithFormat : format_
-						visibleLength : [visibleNumber unsignedIntValue]];
-}
-
-- (void) setupVisibleRangePopUpButtonCell : (NSPopUpButtonCell *) aCell
-{
-	[aCell setControlSize : NSSmallControlSize];
-	[aCell setArrowPosition : NSPopUpArrowAtBottom];
-	[aCell setPullsDown : NO];
-}
-- (void) setupVisibleRangePopUpButton : (NSPopUpButton *) popUpBtn
-{
-	[popUpBtn setFont : 
-		[NSFont systemFontOfSize : 
-			[NSFont smallSystemFontSize]]];
-	[popUpBtn setBezelStyle : NSShadowlessSquareBezelStyle];
-	[popUpBtn setBordered : YES];
-
-	[popUpBtn setTarget : nil];
-	[popUpBtn setAction : NULL];
-	
-	
-	[self setupVisibleRangePopUpButtonCell : [popUpBtn cell]];
-}
-
-- (NSMenuItem *) addItemWithVisibleRangePopUpButton : (NSPopUpButton *) popUpBtn
-                           isFirstVisibles : (BOOL           ) isFirst
-                          representedIndex : (NSNumber      *) aNum
-{
-    NSString   *title;
-    NSMenuItem *item;
-    
-    if (isFirst)
-      title = [self localizedFirstVisibleStringWithNumber : aNum];
-    else
-      title = [self localizedLastVisibleStringWithNumber : aNum];
-    
-    [popUpBtn addItemWithTitle : title];
-    
-    item = (NSMenuItem *)[popUpBtn lastItem];
-    [item setRepresentedObject : aNum];
-    [item setTarget : self];
-    [item setAction : isFirst 	? 
-        @selector(selectFirstVisibleRange:)
-        : @selector(selectLastVisibleRange:)];
-    return item;
-}
-- (void) setupVisibleRangePopUpButtonAttributes : (NSPopUpButton *) popUpBtn
-								isFirstVisibles : (BOOL           ) isFirst
-{
-	NSArray			*visibleNumbers_;
-	NSEnumerator	*iter_;
-	NSNumber		*number_;
-	
-	[popUpBtn removeAllItems];
-	visibleNumbers_ = isFirst 	? [[self class] firstVisibleNumbersArray]
-								: [[self class] lastVisibleNumbersArray];
-	iter_ = [visibleNumbers_ objectEnumerator];
-	while (number_ = [iter_ nextObject]) {
-        [self addItemWithVisibleRangePopUpButton : popUpBtn
-            isFirstVisibles : isFirst
-            representedIndex : number_];
-    }
-}
-- (void) setupVisibleRangePopUp
-{
-	[self setupVisibleRangePopUpButton : [self firstVisibleRangePopUpButton]];
-	[self setupVisibleRangePopUpButton : [self lastVisibleRangePopUpButton]];
-	[self setupVisibleRangePopUpButtonAttributes : [self firstVisibleRangePopUpButton]
-								 isFirstVisibles : YES];
-	[self setupVisibleRangePopUpButtonAttributes : [self lastVisibleRangePopUpButton]
-								 isFirstVisibles : NO];
-}
-@end
-
-
-
 @implementation CMRThreadViewer(ViewInitializer)
-// ----------------------------------------
-// Contextual Menu Stuff
-// ----------------------------------------
+
+#pragma mark Contextual Menu Stuff
 + (NSMenu *) clearkeyEquivalentInMenu : (NSMenu *) aMenu
 {
 	NSEnumerator	*iter_;
@@ -317,8 +152,7 @@
 }
 
 
-
-// Override super implementation
+#pragma mark Override super implementation
 + (Class) toolbarDelegateImpClass
 {
 	return [CMRThreadViewerTbDelegate class];
@@ -328,15 +162,140 @@
 	return APP_TVIEW_STATUSLINE_IDENTIFIER;
 }
 
-
-/*- (void) setupStatusLine
+#pragma mark Title Ruler
++ (BOOL) shouldShowTitleRulerView
 {
-	[super setupStatusLine];
-}*/
+	return NO;
+}
 
++ (BSTitleRulerModeType) rulerModeForInformDatOchi
+{
+	return BSTitleRulerShowInfoOnlyMode;
+}
+
+- (void) setupTitleRulerWithScrollView: (NSScrollView *) scrollView_
+{
+	id ruler;
+
+	[[scrollView_ class] setRulerViewClass : [BSTitleRulerView class]];
+	ruler = [[BSTitleRulerView alloc] initWithScrollView : scrollView_ orientation : NSHorizontalRuler];
+	[[ruler class] setTitleTextColor: ([CMRPref titleRulerViewTextUsesBlackColor] ? [NSColor blackColor] : [NSColor whiteColor])];
+
+	[scrollView_ setHorizontalRulerView : ruler];
+
+	[scrollView_ setHasHorizontalRuler : YES];
+	[scrollView_ setRulersVisible : [[self class] shouldShowTitleRulerView]];
+}
+
+- (void) cleanUpTitleRuler: (NSTimer *) aTimer
+{
+	BSTitleRulerView *view_ = (BSTitleRulerView *)[[self scrollView] horizontalRulerView];
+
+	[[self scrollView] setRulersVisible: [[self class] shouldShowTitleRulerView]];
+	[view_ setCurrentMode: BSTitleRulerShowTitleOnlyMode];
+}
+
+#pragma mark NavigationBar
++ (float) navBarSubviewsAdjustValue
+{
+	return 1.0;
+}
+
+- (void) layoutNavigationBarComponents
+{
+	NSRect	idxStepperFrame, scrollViewFrame, idxPopupperFrame, textFieldFrame;
+	NSPoint origin_;
+	float	dy, txtFldHeight;
+
+	idxStepperFrame = [[[self indexingStepper] contentView] frame];
+	scrollViewFrame = [[self navigationBar] frame];
+
+	origin_ = scrollViewFrame.origin;
+	dy = [[self class] navBarSubviewsAdjustValue];
+	
+	origin_.y += dy;
+	origin_.x = NSMaxX(scrollViewFrame);
+	
+	origin_.x -= NSWidth(idxStepperFrame);
+	origin_.x -= 15.0;
+	
+	idxStepperFrame.origin = origin_;
+	[[[self indexingStepper] contentView] setFrame: idxStepperFrame];
+	
+	idxPopupperFrame = [[[self indexingPopupper] contentView] frame];
+	
+	origin_.x -= NSWidth(idxPopupperFrame);
+	
+	idxPopupperFrame.origin = NSMakePoint(origin_.x, origin_.y-1);
+	[[[self indexingPopupper] contentView] setFrame: idxPopupperFrame];
+	
+	textFieldFrame = [[[self statusLine] statusTextField] frame];
+	txtFldHeight = NSHeight(textFieldFrame);
+	textFieldFrame.origin = NSMakePoint(scrollViewFrame.origin.x+6.0, (scrollViewFrame.size.height - txtFldHeight) / 2);
+	textFieldFrame.size.width = NSWidth(scrollViewFrame) - 21.0;
+	[[[self statusLine] statusTextField] setFrame: textFieldFrame];
+	
+}
+
+- (void) setupNavigationBar
+{
+	id	statusTxtFld;
+	statusTxtFld = [[self statusLine] statusTextField];
+	[statusTxtFld retain];
+	[statusTxtFld removeFromSuperviewWithoutNeedingDisplay];
+
+	[[self indexingPopupper] setDelegate: self];
+	[[self indexingStepper] setDelegate : self];
+
+	[[self navigationBar] addSubview: [[self indexingStepper] contentView]];
+	[[self navigationBar] addSubview: [[self indexingPopupper] contentView]];
+	
+	[[self navigationBar] addSubview: statusTxtFld];
+	[statusTxtFld release];
+	
+	[self layoutNavigationBarComponents];
+
+	if (![self shouldShowContents]) {
+		[[[self indexingStepper] contentView] setHidden: YES];
+		[[[self indexingPopupper] contentView] setHidden: YES];
+	}
+}
+
+- (void) statusLineDidShowTheirViews: (CMRStatusLine *) statusLine
+{
+	if ([self statusLine] != statusLine) {
+		NSLog(@"WARNING: statusLineDidShowTheirViews");
+		return;
+	}
+	
+	if ([self shouldShowContents]) {
+		[[[self indexingStepper] contentView] setHidden: YES];
+		[[[self indexingPopupper] contentView] setHidden: YES];
+	}
+	
+	[[self navigationBar] setNeedsDisplay: YES];
+}
+
+- (void) statusLineDidHideTheirViews: (CMRStatusLine *) statusLine
+{
+	if ([self statusLine] != statusLine) {
+		NSLog(@"WARNING: statusLineDidHideTheirViews");
+		return;
+	}
+	
+	if ([self shouldShowContents]) {
+		[[[self indexingStepper] contentView] setHidden: NO];
+		[[[self indexingPopupper] contentView] setHidden: NO];
+	}
+	
+	[[self navigationBar] setNeedsDisplay: YES];
+}
+
+
+#pragma mark Others
 - (void) setupScrollView
 {
-	CMXScrollView	*scrollView_ = [self scrollView];;
+	NSScrollView	*scrollView_ = [self scrollView];
 	
 	{
 		NSNotificationCenter	*center_;
@@ -347,51 +306,40 @@
 		
 		center_ = [NSNotificationCenter defaultCenter];
 		[center_ addObserver : self
-					selector : @selector(contentViewBoudnsDidChange:)
+					selector : @selector(contentViewBoundsDidChange:)
 						name : NSViewBoundsDidChangeNotification
 					  object : contentView_];
 	}
 	
 	[scrollView_ setBorderType : NSBezelBorder];
-	[scrollView_ setHasHorizontalScroller : YES];
+	[scrollView_ setHasHorizontalScroller : NO];
 	[scrollView_ setHasVerticalScroller : YES];
 
-	// Accessory View
-	[self setupVisibleRangePopUp];
-	[[self indexingStepper] setDelegate : self];
-	
-	[scrollView_ addAccessoryView : [self firstVisibleRangePopUpButton]
-						alignment : CMXScrollViewHorizontalRight];
-	[scrollView_ addAccessoryView : [self lastVisibleRangePopUpButton]
-						alignment : CMXScrollViewHorizontalRight];
-	[scrollView_ addAccessoryView : [[self indexingStepper] contentView] 
-						alignment : CMXScrollViewHorizontalRight];
+	[self setupTitleRulerWithScrollView: scrollView_];
 }
 
 - (void) setupTextView
 {
-	NSLayoutManager	*layout;
-	NSTextContainer	*container;
-	NSTextView		*view;
-	NSRect			cFrame;
+	NSLayoutManager		*layout;
+	NSTextContainer		*container;
+	NSTextView			*view;
+	NSRect				cFrame;
 	
 	cFrame.origin = NSZeroPoint; 
 	cFrame.size = [[self scrollView] contentSize];
 	
 	/* LayoutManager */
-	layout = [[CMRLayoutManager alloc] init];
+	layout = [[BSLayoutManager alloc] init];
 	[[self threadContent] addLayoutManager : layout];
 	[layout release];
 	
 	/* TextContainer */
-	container = [[NSTextContainer alloc] initWithContainerSize : 
-					NSMakeSize(NSWidth(cFrame), 1e7)];
+	container = [[NSTextContainer alloc] initWithContainerSize : NSMakeSize(NSWidth(cFrame), 1e7)];
 	[layout addTextContainer : container];
 	[container release];
 	
 	/* TextView */
-	view = [[HTMLVIEW_CLASS alloc] initWithFrame : cFrame 
-								textContainer : container];
+	view = [[HTMLVIEW_CLASS alloc] initWithFrame : cFrame textContainer : container];
 	
 	[view setMinSize : NSMakeSize(0.0, NSHeight(cFrame))];
 	[view setMaxSize : NSMakeSize(1e7, 1e7)];
@@ -407,31 +355,20 @@
 	[view setImportsGraphics : NO];
 	[view setFieldEditor : NO];
 
-	// 2005-09-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	// リンク文字列の書式は、NSTextView が自動的に付けてくれる。その属性辞書をここでセットしておく。
-	[view setLinkTextAttributes : [[CMRMessageAttributesTemplate sharedTemplate] attributesForAnchor]];
-	
-	[view setFont : [CMRPref threadsViewFont]];
 	[view setMenu : [[self class] loadContextualMenuForTextView]];
 	[view setDelegate : self];
 	
 	[self setTextView : view];
-	[self setupTextViewBackground];
+
+	[self updateLayoutSettings];
+
 	[[self scrollView] setDocumentView : view];
 	
 	[view release];
 }
 - (void) updateLayoutSettings
 {
-/*
-	2004-03-06 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
-	----------------------------------------
-	Since [NSTextView setFont:] causes textStorage's font changing,
-	I moved this code to.
-*/
-#if 0
-	[[self textView] setFont : [CMRPref threadsViewFont]];
-#endif
+	[(BSLayoutManager *)[[self textView] layoutManager] setShouldAntialias: [CMRPref shouldThreadAntialias]];
 	[[self textView] setLinkTextAttributes : [[CMRMessageAttributesTemplate sharedTemplate] attributesForAnchor]];
 	[self setupTextViewBackground];
 }
@@ -450,10 +387,8 @@
 	// scrollView
 	[[self scrollView] setDrawsBackground : draws];
 	[[self scrollView] setBackgroundColor : color];
-	// 背景透過
-	//[[self window] setOpaque : NO];
-
 }
+
 - (void) setupKeyLoops
 {
 	[[self textView] setNextKeyView : [[self indexingStepper] textField]];
@@ -488,6 +423,8 @@
 	
 	// ロードしたComponentsの配置
 	[self setupLoadedComponents];
+
+	[self setupNavigationBar];
 
 	[self setupScrollView];
 	[self setupTextView];

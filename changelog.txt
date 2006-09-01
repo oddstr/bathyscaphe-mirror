@@ -1,3 +1,6 @@
+2006-09-01 masakih <masakih@users.sourceforge.jp>
+	トランクよりマージ
+	cvs -z3 up -j v120_FINAL -j Root-of-MeteorSweeper
 2006-08-27 masakih <masakih@users.sourceforge.jp>
 	* application/Resources/Japanese.lproj/SmartBoardItemEditor.nib
 	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.{h|m}

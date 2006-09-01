@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.h,v 1.3.2.3 2006/02/27 17:31:49 masakih Exp $
+ * $Id: BoardManager.h,v 1.3.2.4 2006/09/01 13:46:54 masakih Exp $
  * 
  * BoardManager.h
  *

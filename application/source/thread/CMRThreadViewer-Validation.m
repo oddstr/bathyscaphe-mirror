@@ -1,5 +1,5 @@
 /*
-    $Id: CMRThreadViewer-Validation.m,v 1.12.2.4 2006/03/19 15:09:53 masakih Exp $
+    $Id: CMRThreadViewer-Validation.m,v 1.12.2.5 2006/09/01 13:46:54 masakih Exp $
     CMRThreadViewer-Action.m から独立
     Created at 2005-02-16 by tsawada2.
 */
@@ -8,18 +8,13 @@
 #import "CMRThreadsList.h"
 #import "CMRThreadView.h"
 #import "CMRThreadVisibleRange.h"
-#import "CMRThreadDownloadTask.h"
+#import "CMRThreadLayout.h"
 #import "CMXPopUpWindowManager.h"
 #import "BSBoardInfoInspector.h"
 
 //////////////////////////////////////////////////////////////////////
 #pragma mark Define and Constants
 //////////////////////////////////////////////////////////////////////
-#define kOnlineItemKey				@"On Line"
-#define kOfflineItemKey				@"Off Line"
-#define kOnlineItemImageName		@"online"
-#define kOfflineItemImageName		@"offline"
-
 #define kReplyItemKey				@"Reply..."
 #define kReplyToItemKey				@"Reply 2..."
 
@@ -165,10 +160,32 @@ static int messageMaskForTag(int tag)
 	return NO;
 }
 
+- (CMRFavoritesOperation) favoritesOperationForThreads : (NSArray *) threadsArray
+{
+	NSDictionary	*thread_;
+	//NSString		*path_;
+	id				identifier_;
+	NSString		*bName_;
+	
+	if (nil == threadsArray || 0 == [threadsArray count])
+		return CMRFavoritesOperationNone;
+	
+	thread_ = [threadsArray objectAtIndex : 0];
+	//path_ = [CMRThreadAttributes pathFromDictionary : thread_];
+	identifier_ = [CMRThreadAttributes identifierFromDictionary : thread_];
+	bName_ = [thread_ valueForKey: ThreadPlistBoardNameKey];
+
+	//UTILAssertNotNil(path_);
+	UTILAssertNotNil(identifier_);
+	UTILAssertNotNil(bName_);
+	
+	return ([[CMRFavoritesManager defaultManager] availableOperationWithThread : identifier_ ofBoard: bName_]);
+}
+
 - (BOOL) validateUIItem : (id) theItem
 {
 	SEL		action_;
-	BOOL		isSelected_;
+	BOOL	isSelected_;
 	
 	if (nil == theItem) return NO;
 	
@@ -177,37 +194,18 @@ static int messageMaskForTag(int tag)
         
 	// AA スレ
 	if (@selector(toggleAAThread:) == action_) {
-		[theItem setState : 
-			([self isAAThread] ? NSOnState : NSOffState)];
+		[theItem setState : ([self isAAThread] ? NSOnState : NSOffState)];
 		return isSelected_;
 	}
 	if (@selector(toggleMarkedThread:) == action_) {
-		[theItem setState : 
-			([self isMarkedThread] ? NSOnState : NSOffState)];
+		[theItem setState : ([self isMarkedThread] ? NSOnState : NSOffState)];
 		return isSelected_;
 	}
 	if (@selector(toggleDatOchiThread:) == action_) {
-		[theItem setState : 
-			([self isDatOchiThread] ? NSOnState : NSOffState)];
+		[theItem setState : ([self isDatOchiThread] ? NSOnState : NSOffState)];
 		return isSelected_;
 	}
-	// オンライン
-	if (@selector(toggleOnlineMode:) == action_) {
-		NSString		*title_;
-		NSImage			*image_;
-		
-		title_ = [CMRPref isOnlineMode]
-					? [self localizedString : kOnlineItemKey]
-					: [self localizedString : kOfflineItemKey];
 
-		image_ = [CMRPref isOnlineMode]
-					? [NSImage imageAppNamed : kOnlineItemImageName]
-					: [NSImage imageAppNamed : kOfflineItemImageName];
-		
-		[theItem setImage : image_];
-		[theItem setTitle : title_];
-		return YES;
-	}
 	// レス
 	if (action_ == @selector(reply:)) {
 		NSString		*title_;
@@ -278,15 +276,11 @@ static int messageMaskForTag(int tag)
 	   )
 	{ return [self shouldShowContents]; }
 	
-	if (action_ == @selector(launchBWAgent:)			||
-	   action_ == @selector(openDefaultNoNameInputPanel:) ||
-	   action_ == @selector(showThreadWithMenuItem:)
-	   )
-	{ return YES; }
+	if (action_ == @selector(showThreadWithMenuItem:))
+		return YES;
 
-	if (action_ == @selector(orderFrontMainBrowser:)) {
+	if (action_ == @selector(orderFrontMainBrowser:))
 		return [self shouldShowContents] && [self threadAttributes];
-	}
 
 	if (action_ == @selector(showBoardInspectorPanel:)) {
 		BOOL tmpBool = [[[BSBoardInfoInspector sharedInstance] window] isVisible];
@@ -294,7 +288,6 @@ static int messageMaskForTag(int tag)
 									 : NSLocalizedString(@"Show Board Inspector", @"Hide Board Options"))];
 		return YES;
 	}
-
 	
 	// 履歴：戻る／進む
 	if (action_ == @selector(historyMenuPerformForward:)) {
@@ -304,7 +297,7 @@ static int messageMaskForTag(int tag)
 			return NO;
 		}
 	}
-	
+
 	if (action_ == @selector(historyMenuPerformBack:)) {
 		if([self shouldShowContents]) {
 			return ([self threadIdentifierFromHistoryWithRelativeIndex : -1] != nil);
@@ -319,10 +312,7 @@ static int messageMaskForTag(int tag)
 	   )
 	{ return ([[self textView] selectedRange].length != 0); }
 	
-	if (action_ == @selector(selectFirstVisibleRange:)	 ||
-	   action_ == @selector(selectLastVisibleRange:)	 ||
-	   action_ == @selector(reloadThread:)				 ||
-	   action_ == @selector(copyURL:)					 ||
+	if (action_ == @selector(copyURL:)					 ||
 	   action_ == @selector(copyThreadAttributes:)		 ||
 	   action_ == @selector(copyInfoFromContextualMenu:) ||
 	   action_ == @selector(showThreadAttributes:)		 ||	  
@@ -330,6 +320,9 @@ static int messageMaskForTag(int tag)
 	   action_ == @selector(openBBSInBrowser:) 
 	   )
 	{ return isSelected_; }
+	
+	if (action_ == @selector(reloadThread:))
+		return (isSelected_ && ![self isDatOchiThread]);
 	
 	if (action_ == @selector(openLogfile:)		||
 	   action_ == @selector(openInBrowser:)		||

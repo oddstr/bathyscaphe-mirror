@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.14.2.7 2006/08/20 18:30:24 masakih Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.14.2.8 2006/09/01 13:46:54 masakih Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -58,12 +58,16 @@ BOOL isOptionKeyDown(unsigned flag_)
 	
 	if(currentState) {
 		//2 ‚©‚ç 3 ‚É‚È‚Á‚½
+		[[[self indexingStepper] contentView] setHidden: NO];
+		[[[self indexingPopupper] contentView] setHidden: NO];
 		[[self threadsListTable] setNextKeyView : [self textView]];
 		[[self textView] setNextKeyView : [[self indexingStepper] textField]];
 		[[[self indexingStepper] textField] setNextKeyView : [self searchField]];
 	} else {
 		//3 ‚©‚ç 2 ‚É‚È‚Á‚½
 		[[self threadsListTable] setNextKeyView : [self searchField]];
+		[[[self indexingStepper] contentView] setHidden: YES];
+		[[[self indexingPopupper] contentView] setHidden: YES];
 	}
 }
 

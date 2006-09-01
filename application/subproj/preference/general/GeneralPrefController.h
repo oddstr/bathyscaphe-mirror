@@ -1,5 +1,5 @@
 /**
-  * $Id: GeneralPrefController.h,v 1.5.2.2 2006/01/29 12:58:10 masakih Exp $
+  * $Id: GeneralPrefController.h,v 1.5.2.3 2006/09/01 13:46:54 masakih Exp $
   * 
   * GeneralPrefController.h
   *
@@ -19,29 +19,14 @@
 - (IBAction) changeAutoscrollMask : (id) sender;
 
 // ShortCircuit Additions - Binding
-- (int) firstVisible;
+/*- (int) firstVisible;
 - (void) setFirstVisible : (int) tag_;
 - (int) lastVisible;
-- (void) setLastVisible : (int) tag_;
-
-// InnocentStarter Additions
-- (BOOL) autoReloadListWhenWake;
-- (void) setAutoReloadListWhenWake : (BOOL) boxState_;
+- (void) setLastVisible : (int) tag_;*/
 
 // Vita Additions
 - (int) mailFieldOption;
 - (void) setMailFieldOption : (int) selectedTag;
-
-- (int) resAnchorAction;
-- (void) setResAnchorAction : (int) tag_;
-
-- (BOOL) collectByNew;
-- (void) setCollectByNew : (BOOL) boxState_;
-- (BOOL) showsAllFirstTime;
-- (void) setShowsAllFirstTime : (BOOL) boxState_;
-
-- (BOOL) scrollToLastUpdated;
-- (void) setScrollToLastUpdated : (BOOL) boxState_;
 @end
 
 

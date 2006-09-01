@@ -13,6 +13,7 @@
 #define kCookieOptionSecure			@"secure"
 /* 内部用 */
 #define kCookieOptionEnabled		@"x-application/CocoMonar enabled"
+#define kCookieOptionBSEnabled		@"x-application/BathyScaphe enabled" // available in BathyScaphe 1.2.2/1.5 and later.
 
 
 
@@ -248,7 +249,7 @@
 	[dict_ setBool : [self secure]
 		    forKey : kCookieOptionSecure];
 	[dict_ setBool : [self isEnabled]
-		    forKey : kCookieOptionEnabled];
+		    forKey : kCookieOptionBSEnabled];
 	//クッキーを保存
 	if([self name] != nil && [self value] != nil){
 		[dict_ setObject : [self value]
@@ -286,7 +287,7 @@
 		if(NO == [aValue respondsToSelector : @selector(boolValue)])
 			[self setSecure : NO];
 		[self setSecure : [aValue boolValue]];
-	}else if([aName isEqualToString : kCookieOptionEnabled]){
+	}else if([aName isEqualToString : kCookieOptionEnabled] || [aName isEqualToString : kCookieOptionBSEnabled]){
 		if(NO == [aValue respondsToSelector : @selector(boolValue)])
 			[self setIsEnabled : YES];
 		[self setIsEnabled : [aValue boolValue]];
@@ -316,19 +317,19 @@
 	NSEnumerator *iter_;		//順次検査
 	NSString     *item_;		//各組
 	
-/*	SGDebug;
-*/	if(nil == anyCookies) return;
-/*	UTILDebugLog(@"anyCookies = %@", anyCookies);
-*/	comps_ = [anyCookies componentsSeparatedByString : @";"];
+	if(nil == anyCookies) return;
+	//UTILDebugLog(@"anyCookies = %@", anyCookies);
+	comps_ = [anyCookies componentsSeparatedByString : @";"];
 	if(nil == comps_ || 0 == [comps_ count]) return;
-/*	UTILDebugLog(@"comps_ = (%d)", [comps_ count]);
-*/	iter_ = [comps_ objectEnumerator];
+	//UTILDebugLog(@"comps_ = (%d)", [comps_ count]);
+
+	iter_ = [comps_ objectEnumerator];
 	while(item_ = [iter_ nextObject]){
 		NSArray         *pair_;				//名前、値
 		NSMutableString *name_, *value_;
 		
-/*		UTILDebugLog(@"item_ = %@", item_);
-*/		pair_ = [item_ componentsSeparatedByString : @"="];
+		//UTILDebugLog(@"item_ = %@", item_);
+		pair_ = [item_ componentsSeparatedByString : @"="];
 		if(nil == pair_) continue;
 		
 		//Secure
@@ -349,8 +350,8 @@
 		//先頭、末尾の空白を削除
 		[name_ strip];
 		[value_ strip];
-/*		UTILDebugLog(@"name = %@", name_);
-*/		[self setCookie : value_
+		//UTILDebugLog(@"name = %@", name_);
+		[self setCookie : value_
 		        forName : name_];
 	}
 }

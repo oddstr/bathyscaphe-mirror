@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-Validation.m,v 1.9.2.6 2006/03/19 15:09:53 masakih Exp $
+ * $Id: CMRBrowser-Validation.m,v 1.9.2.7 2006/09/01 13:46:54 masakih Exp $
  * BathyScaphe
  *
  * Copyright 2005 BathyScaphe Project. All rights reserved.

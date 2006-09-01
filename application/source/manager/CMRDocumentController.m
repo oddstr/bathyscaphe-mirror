@@ -28,30 +28,22 @@
 @end*/
 
 static int	numOfBrowsers = 0;
+static BOOL shouldCascadeBrowser = NO;
 
-@implementation CMRDocumentController : NSDocumentController
+@implementation CMRDocumentController
 - (void) noteNewRecentDocumentURL : (NSURL *) aURL
 {
-	/*NSString		*pathExtension_;
-	NSString		*replyDocExtension_;
-	
-	pathExtension_ = [[aURL path] pathExtension];
-	replyDocExtension_ = 
-		[[CMRReplyDocumentFileManager defaultManager]
-								replyDocumentFileExtention];
-	if([replyDocExtension_ isEqualToString : pathExtension_])
-		return;
-	
-	[super noteNewRecentDocumentURL : aURL];*/
+	// block!
 }
 
-- (IBAction)newDocument:(id)sender
-{	
+- (IBAction) newDocument: (id) sender
+{
+	NSLog(@"NN");
 	shouldCascadeBrowser = (numOfBrowsers == 0) ? NO : YES;
 	[super newDocument : sender];
 }
 
-- (void)addDocument:(NSDocument *)document
+- (void) addDocument: (NSDocument *) document
 {
 	[super addDocument : document];
 	if ([[document fileType] isEqualToString: CMRBrowserDocumentType]) {
@@ -59,12 +51,21 @@ static int	numOfBrowsers = 0;
 	}
 }
 
-- (void)removeDocument:(NSDocument *)document
+- (void)removeDocument: (NSDocument *) document
 {
 	if ([[document fileType] isEqualToString: CMRBrowserDocumentType]) {
 		numOfBrowsers--;
 	}
 	[super removeDocument : document];
 }
-		
+
++ (BOOL) shouldCascadeBrowserWindow
+{
+	return shouldCascadeBrowser;
+}
+
++ (void) setShouldCascadeBrowserWindow: (BOOL) nextTime
+{
+	shouldCascadeBrowser = nextTime;
+}
 @end

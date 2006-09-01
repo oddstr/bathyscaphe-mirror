@@ -2,6 +2,7 @@
     IBClasses = (
         {CLASS = BSBoardListView; LANGUAGE = ObjC; SUPERCLASS = NSOutlineView; }, 
         {CLASS = BSKFSplitView; LANGUAGE = ObjC; SUPERCLASS = KFSplitView; }, 
+        {CLASS = BSTsuruPetaView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {CLASS = BSWindow; LANGUAGE = ObjC; SUPERCLASS = NSWindow; }, 
         {
             ACTIONS = {
@@ -44,6 +45,7 @@
             ACTIONS = {
                 addCategoryItem = id; 
                 addDrawerItem = id; 
+                addSmartItem = id; 
                 changeBrowserArrangement = id; 
                 collapseOrExpandBoardList = id; 
                 editDrawerItem = id; 
@@ -106,7 +108,6 @@
                 focus = id; 
                 historyMenuPerformBack = id; 
                 historyMenuPerformForward = id; 
-                launchBWAgent = id; 
                 openBBSInBrowser = id; 
                 openInBrowser = id; 
                 openLogfile = id; 
@@ -123,20 +124,18 @@
                 scrollPreviousMessage = id; 
                 scrollToLastReadedIndex = id; 
                 scrollToLastUpdatedIndex = id; 
-                selectFirstVisibleRange = id; 
-                selectLastVisibleRange = id; 
                 showThreadAttributes = id; 
                 showThreadWithMenuItem = id; 
                 toggleAAThread = id; 
-                toggleOnlineMode = id; 
+                toggleDatOchiThread = id; 
+                toggleMarkedThread = id; 
             }; 
             CLASS = CMRThreadViewer; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 "m_componentsView" = NSView; 
                 "m_containerView" = NSView; 
-                "m_firstVisibleRangePopUpButton" = NSPopUpButton; 
-                "m_lastVisibleRangePopUpButton" = NSPopUpButton; 
+                "m_navigationBar" = NSView; 
                 "m_scrollView" = CMXScrollView; 
                 "m_textView" = NSTextView; 
                 "m_windowContentView" = NSView; 
@@ -153,7 +152,6 @@
         {
             ACTIONS = {
                 addFavorites = id; 
-                addSmartItem = id; 
                 copyInfoFromContextualMenu = id; 
                 copyThreadAttributes = id; 
                 deleteThread = id; 
@@ -163,6 +161,7 @@
                 openThread = id; 
                 reloadThread = id; 
                 reply = id; 
+                runBoardWarrior = id; 
                 showBoardInspectorPanel = id; 
             }; 
             CLASS = FirstResponder; 

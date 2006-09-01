@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.11.2.4 2006/04/10 17:10:21 masakih Exp $
+  * $Id: CMRThreadViewer.m,v 1.11.2.5 2006/09/01 13:46:54 masakih Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -23,7 +23,6 @@
 #import "CMRThreadPlistComposer.h"
 #import "CMRNetGrobalLock.h"    /* for Locking */
 #import "BSHistoryMenuManager.h"
-#import "BSBoardInfoInspector.h"
 
 #import "missing.h"
 
@@ -39,7 +38,7 @@ NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEnd
 @implementation CMRThreadViewer
 - (id) init
 {
-	if (self = [super initWithWindowNibName : [self windowNibName]]) {
+	if (self = [super initWithWindowNibName : [[self class] nibNameToInitialize]]) {
 		[self setInvalidate : NO];
 		
 		if (NO == [self loadComponents]) {
@@ -47,44 +46,52 @@ NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEnd
 			return nil;
 		}
 		
-		[self setShouldCascadeWindows : NO];
 		[self registerToNotificationCenter];
+		[self setShouldCascadeWindows : [[self class] defaultSettingForCascading]];
 	}
 	return self;
 }
-/*- (BOOL) shouldCascadeWindows
-{
-	return NO;
-}*/
+
 - (void) dealloc
 {
 	[CMRPopUpMgr closePopUpWindowForOwner:self];
 	[[NSNotificationCenter defaultCenter] removeObserver : self];
 	
 	[m_indexingStepper release];
+	[m_indexingPopupper release];
 	[m_componentsView release];
 	[_layout release];
-	//[_textStorage release];
 	
 	[_history release];
 	[super dealloc];
 }
 
-// NSWindowController:
-- (NSString *) windowNibName
++ (NSString *) nibNameToInitialize
 {
 	return @"CMRThreadViewer";
 }
 
-- (NSString *) windowTitleForDocumentDisplayName : (NSString *) displayName
++ (BOOL) defaultSettingForCascading
+{
+	return NO;
+}
+
+- (NSString *) titleForTitleBar
 {
 	NSString *bName_ = [self boardName];
 	NSString *tTitle_ = [self title];
 
 	if ((bName_ == nil) || (tTitle_ == nil))
-		return displayName;
-
+		return nil;
+	
 	return [NSString stringWithFormat:@"%@ - %@", tTitle_, bName_];
+}
+
+- (NSString *) windowTitleForDocumentDisplayName : (NSString *) displayName
+{
+	NSString *alternateName = [self titleForTitleBar];
+
+	return (alternateName ? alternateName : displayName);
 }
 
 /**
@@ -230,9 +237,7 @@ FileNotExistsAutoReloadIfNeeded:
 	
 	{
 		NSString *bName_;
-		bName_ = [self boardName];
-		if (nil == bName_)
-			bName_ = [(CMRBBSSignature *)[self boardIdentifier] name];
+		bName_ = [self boardNameArrowingSecondSource];
 		
 		if ([[BoardManager defaultManager] allThreadsShouldAAThreadAtBoard : bName_])
 			[self setAAThread : YES];
@@ -251,29 +256,30 @@ FileNotExistsAutoReloadIfNeeded:
 	title_ = [self title];
 	if (nil == title_)
 		title_ = [self datIdentifier];
+	// datIdentifier をとってもなお nil の場合がある
+	if (nil != title_) {
+		[[CMRHistoryManager defaultManager]
+			addItemWithTitle : title_
+						type : CMRHistoryThreadEntryType
+					  object : [self threadIdentifier]];
 		
-	[[CMRHistoryManager defaultManager]
-		addItemWithTitle : title_
-					type : CMRHistoryThreadEntryType
-				  object : [self threadIdentifier]];
-	
-	// 履歴メニューの更新（丸ごと書き換える）
-	[[BSHistoryMenuManager defaultManager] updateHistoryMenuWithDefaultMenu];
-	
-	// 2004-04-10 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
-	// ----------------------------------------
-	//フォントの変更を反映させる。
-	// Mac OS X 10.3 から TextView のフォントを変更すると、即座に
-	// 結果が反映されるようになったため、内容が空のときに反映しないと
-	// 既存のスレッドのフォントがすべて変更されてしまう。
-	{
-		NSFont	*font = [CMRPref threadsViewFont];
+		// 履歴メニューの更新（丸ごと書き換える）
+		[[BSHistoryMenuManager defaultManager] updateHistoryMenuWithDefaultMenu];
 		
-		if (NO == [[[self textView] font] isEqual : font])
-			[[self textView] setFont : font];
+		// 2004-04-10 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+		// ----------------------------------------
+		//フォントの変更を反映させる。
+		// Mac OS X 10.3 から TextView のフォントを変更すると、即座に
+		// 結果が反映されるようになったため、内容が空のときに反映しないと
+		// 既存のスレッドのフォントがすべて変更されてしまう。
+		{
+			NSFont	*font = [CMRPref threadsViewFont];
+			
+			if (NO == [[[self textView] font] isEqual : font])
+				[[self textView] setFont : font];
+		}
+		UTILNotifyName(CMRThreadViewerDidChangeThreadNotification);
 	}
-	
-	UTILNotifyName(CMRThreadViewerDidChangeThreadNotification);
 }
 - (CMRThreadAttributes *) threadAttributes
 {
@@ -469,14 +475,7 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 		// ファイルからの読み込み、変換が終了
 		// すでにレイアウトのタスクを開始したので、
 		// オンラインモードなら更新する
-		//
-		
-		// 2006-01-17 tsawada2<ben-sawa@td5.so-net.ne.jp>
-		// 内容を表示しないで「スレッドを更新」した場合（スレッド一覧から更新した）でも、AA スレッドのレスを
-		// AA フォントでレンダリングするために、このタイミングで changeAllMessageAttributes: flags: を実行する。
-		//if([[self threadAttributes] isAAThread])
-		//	[[self threadLayout] changeAllMessageAttributes : YES flags : CMRAsciiArtMask];
-		
+		//		
 		if(![self isDatOchiThread])
 			[self reloadIfOnlineMode : self];
 	} else {
@@ -492,15 +491,7 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 	// まだ名無しさんが決定していなければ決定
 	// この時点では WorkerThread が動いており、
 	// プログレス・バーもそのままなので少し遅らせる
-	[self performSelector:@selector(setupDefaultNoNameIfNeeded_:) 
-			withObject:self
-			afterDelay:1];
-}
-
-- (id) setupDefaultNoNameIfNeeded_ : (id) sender
-{
-	[self setupDefaultNoNameIfNeeded];
-	return sender;
+	[self performSelector: @selector(setupDefaultNoNameIfNeeded) withObject: nil afterDelay: 1.0];
 }
 
 // CMRThreadTaskInterruptedNotification
@@ -573,51 +564,26 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 	
 	return name ? [name autorelease] : @"";
 }
-- (NSString *) setupDefaultNoName : (BOOL) forceOpenInputPanel
+- (NSString *) setupDefaultNoNameIfNeeded
 {
 	BoardManager		*mgr;
 	NSString			*name;
 	NSString			*board;
-	
-	board = [[self threadAttributes] boardName];
-	if (nil == board)
-		board = [(CMRBBSSignature *)[self boardIdentifier] name];
-	
+
+	board = [self boardNameArrowingSecondSource];
 	if (nil == board)
 		return nil;
-	
+
 	mgr = [BoardManager defaultManager];
 	name = [mgr defaultNoNameForBoard : board];
-	if (nil == name || forceOpenInputPanel) {
-		if (nil == name)
-			name = [self detectDefaultNoName];
+
+	if (nil == name) {
+		NSString *nameEntry = [self detectDefaultNoName];
 		
-		name = [mgr askUserAboutDefaultNoNameForBoard : board
-							presetValue : name ? name : @""];
+		name = [mgr askUserAboutDefaultNoNameForBoard : board presetValue: nameEntry]; 
 	}
 	
 	return name;
-}
-- (NSString *) setupDefaultNoNameIfNeeded
-{
-	return [self setupDefaultNoName : NO];
-}
-- (IBAction) openDefaultNoNameInputPanel : (id) sender
-{
-	[self setupDefaultNoName : YES];
-}
-- (IBAction) showBoardInspectorPanel : (id) sender
-{
-	NSString			*board;
-	
-	board = [self boardName];
-	if (nil == board)
-		board = [(CMRBBSSignature *)[self boardIdentifier] name];
-	
-	if (nil == board)
-		return;
-
-	[[BSBoardInfoInspector sharedInstance] showInspectorForTargetBoard : board];
 }
 
 #pragma mark board / thread signature for historyManager .etc
@@ -644,6 +610,10 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 - (NSString *) boardName
 {
 	return [[self threadAttributes] boardName];
+}
+- (NSString *) boardNameArrowingSecondSource // subclass should override this method
+{
+	return [self boardName];
 }
 - (NSURL *) boardURL
 {

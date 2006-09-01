@@ -1,5 +1,5 @@
 /**
- * $Id: BoardListEditor.m,v 1.3.4.2 2006/01/29 17:10:34 masakih Exp $
+ * $Id: BoardListEditor.m,v 1.3.4.3 2006/09/01 13:46:54 masakih Exp $
  * 
  * BoardListEditor.m
  *

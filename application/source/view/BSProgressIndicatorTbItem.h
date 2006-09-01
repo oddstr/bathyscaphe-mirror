@@ -13,5 +13,5 @@
 
 }
 
-- (void) setupItemViewWithTarget : (id) windowController_;
+- (void) setupItemViewWithContentView : (NSView *) aView;
 @end

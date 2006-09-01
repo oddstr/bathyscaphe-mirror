@@ -1,6 +1,6 @@
 //: CMXPopUpWindowController.m
 /**
-  * $Id: CMXPopUpWindowController.m,v 1.5 2005/10/16 11:18:11 tsawada2 Exp $
+  * $Id: CMXPopUpWindowController.m,v 1.5.2.1 2006/09/01 13:46:54 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -87,7 +87,7 @@
 	
 	[self setContext : context];
 	[self setOwner : owner];
-	
+
 	wframe_ = [[self window] frame];
 	wframe_.origin = point;
 	

@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesPane-Toolbar.m,v 1.2.4.1 2006/01/29 12:58:10 masakih Exp $
+  * $Id: PreferencesPane-Toolbar.m,v 1.2.4.2 2006/09/01 13:46:54 masakih Exp $
   * 
   * PreferencesPane-Toolbar.m
   *

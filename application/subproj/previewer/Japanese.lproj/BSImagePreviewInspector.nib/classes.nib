@@ -1,34 +1,42 @@
 {
     IBClasses = (
         {CLASS = BSIPIImageView; LANGUAGE = ObjC; SUPERCLASS = NSImageView; }, 
+        {CLASS = BSIPITableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
         {
             ACTIONS = {
                 beginSettingsSheet = id; 
+                changePane = id; 
                 copyURL = id; 
+                deleteCachedImage = id; 
                 endSettingsSheet = id; 
+                forceRunTbCustomizationPalette = id; 
+                historyNavigationPushed = id; 
                 openImage = id; 
                 openImageWithPreviewApp = id; 
                 openOpenPanel = id; 
+                saveImage = id; 
                 startFullscreen = id; 
+                togglePreviewPanel = id; 
             }; 
             CLASS = BSImagePreviewInspector; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 "m_actionBtn" = NSPopUpButton; 
+                "m_cacheNaviBtn" = NSSegmentedControl; 
+                "m_directoryChooser" = NSPopUpButton; 
                 "m_imageView" = NSImageView; 
                 "m_infoField" = NSTextField; 
+                "m_nameColumn" = NSTableColumn; 
+                "m_paneChangeBtn" = NSSegmentedControl; 
                 "m_progIndicator" = NSProgressIndicator; 
                 "m_settingsPanel" = NSPanel; 
+                "m_tabView" = NSTabView; 
+                "m_versionInfoField" = NSTextField; 
             }; 
             SUPERCLASS = NSWindowController; 
         }, 
-        {
-            ACTIONS = {"" = id; }; 
-            CLASS = FirstResponder; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {CLASS = NSObject; LANGUAGE = ObjC; }
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {CLASS = NSSegmentedControl; LANGUAGE = ObjC; SUPERCLASS = NSControl; }
     ); 
     IBVersion = 1; 
 }

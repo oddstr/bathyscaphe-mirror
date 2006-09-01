@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Download.m,v 1.3.2.4 2006/04/10 17:10:21 masakih Exp $
+  * $Id: CMRThreadViewer-Download.m,v 1.3.2.5 2006/09/01 13:46:54 masakih Exp $
   * BathyScaphe
   * 
   *
@@ -9,6 +9,8 @@
 #import "CMRThreadViewer_p.h"
 #import "CMRDownloader.h"
 #import "ThreadTextDownloader.h"
+#import "CMRDATDownloader.h"
+#import "BoardManager.h"
 
 // そんな板 or スレッドありません
 #define kNotFoundTitleKey				@"Not Found Title"
@@ -19,7 +21,6 @@
 #define kNotFoundHelpKeywordKey			@"NotFoundSheet Help Anchor"
 #define kInvalidPerticalContentsHelpKeywordKey	@"InvalidPerticalSheet Help Anchor"
 #define kNotFoundCancelLabelKey			@"Do Not Reload Button Label"
-
 
 
 @implementation CMRThreadViewer(Download)
@@ -50,6 +51,10 @@
 			    name : CMRDownloaderNotFoundNotification
 			  object : downloader];
 	[ncenter addObserver : self
+			selector : @selector(threadTextDownloaderDidDetectDatOchi:)
+			    name : CMRDATDownloaderDidDetectDatOchiNotification
+			  object : downloader];
+	[ncenter addObserver : self
 			selector : @selector(threadTextDownloaderDidFinishLoading:)
 			    name : ThreadTextDownloaderDidFinishLoadingNotification
 			  object : downloader];
@@ -71,6 +76,9 @@
 				 object : downloader];
 	[nc_ removeObserver : self
 				   name : CMRDownloaderNotFoundNotification
+				 object : downloader];
+	[nc_ removeObserver : self
+				   name : CMRDATDownloaderDidDetectDatOchiNotification
 				 object : downloader];
 	[nc_ removeObserver : self
 				   name : ThreadTextDownloaderDidFinishLoadingNotification
@@ -133,25 +141,12 @@
 	return;
 }
 
-
-
-- (void) threadTextDownloaderNotFound : (NSNotification *) notification
+- (void) beginNotFoundAlertSheetWithDownloader: (ThreadTextDownloader *) downloader_
 {
-	ThreadTextDownloader	*downloader_;
-	// 過去ログ検索
 	NSURL					*threadURL_;
 	//NSString				*alternateButton_ = nil;
 	NSString				*filePath_;
 	BOOL					fileExists_;
-	
-	UTILAssertNotificationName(
-		notification,
-		CMRDownloaderNotFoundNotification);
-	
-	downloader_ = [notification object];
-	UTILAssertKindOfClass(downloader_, ThreadTextDownloader);
-	[self removeFromNotificationCeterWithDownloader : downloader_];
-	
 	threadURL_ = [downloader_ threadURL];
 	filePath_ = [downloader_ filePathToWrite];
 	
@@ -178,8 +173,58 @@
 					   modalDelegate : self
 					  didEndSelector : @selector(threadNotFoundSheetDidEnd:returnCode:contextInfo:)
 						 contextInfo : [downloader_ retain]];
+}
 
-	return;
+- (void) validateWhetherDatOchiWithDownloader: (ThreadTextDownloader *) downloader_
+{
+	unsigned	resCount;
+	resCount = [downloader_ nextIndex];
+
+	if(resCount < 1001) {
+		[self beginNotFoundAlertSheetWithDownloader: downloader_];
+	} else {
+		[self setDatOchiThread: YES];
+
+		if ([CMRPref informWhenDetectDatOchi]) {
+			BSTitleRulerView *view_ = (BSTitleRulerView *)[[self scrollView] horizontalRulerView];
+
+			[view_ setCurrentMode: [[self class] rulerModeForInformDatOchi]];
+			[view_ setInfoStr: [self localizedString: @"titleRuler info auto-detected title"]];
+			[[self scrollView] setRulersVisible: YES];
+			
+			[NSTimer scheduledTimerWithTimeInterval: 5.0 target: self selector: @selector(cleanUpTitleRuler:) userInfo: nil repeats: NO];
+		}
+	}
+}
+
+- (void) threadTextDownloaderDidDetectDatOchi : (NSNotification *) notification
+{
+	CMRDATDownloader	*downloader_;
+	
+	UTILAssertNotificationName(
+		notification,
+		CMRDATDownloaderDidDetectDatOchiNotification);
+		
+	downloader_ = [notification object];
+	UTILAssertKindOfClass(downloader_, CMRDATDownloader);
+	[self removeFromNotificationCeterWithDownloader : downloader_];
+	
+	[self validateWhetherDatOchiWithDownloader: downloader_];
+}
+
+- (void) threadTextDownloaderNotFound : (NSNotification *) notification
+{
+	ThreadTextDownloader	*downloader_;
+	
+	UTILAssertNotificationName(
+		notification,
+		CMRDownloaderNotFoundNotification);
+	
+	downloader_ = [notification object];
+	UTILAssertKindOfClass(downloader_, ThreadTextDownloader);
+	[self removeFromNotificationCeterWithDownloader : downloader_];
+
+	[self beginNotFoundAlertSheetWithDownloader: downloader_];
 }
 
 - (BOOL) alertShowHelp : (NSAlert *) alert

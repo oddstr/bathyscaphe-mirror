@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadView.m,v 1.7.2.2 2006/01/29 12:58:10 masakih Exp $
+  * $Id: CMRThreadView.m,v 1.7.2.3 2006/09/01 13:46:54 masakih Exp $
   * 
   * CMRThreadView.m
   *
@@ -9,9 +9,7 @@
 #import "CMRThreadView_p.h"
 #import "CMXMenuHolder.h"
 #import "AppDefaults.h"
-//#import "NSTextView+CMXAdditions.h"
-
-
+#import <SGAppKit/BSLayoutManager.h>
 
 #define kDefaultMenuNibName		@"CMRThreadMenu"
 
@@ -87,6 +85,21 @@
 	return self;
 }
 
+// ライブリサイズ中のレイアウト再計算を抑制する
+- (void) viewWillStartLiveResize
+{
+	[(BSLayoutManager *)[self layoutManager] setTextContainerInLiveResize: YES];
+	[super viewWillStartLiveResize];
+}
+
+- (void) viewDidEndLiveResize
+{
+	[(BSLayoutManager *)[self layoutManager] setTextContainerInLiveResize: NO];
+	[[self layoutManager] textContainerChangedGeometry: [self textContainer]];
+	[self setNeedsDisplay: YES];
+	[super viewDidEndLiveResize];
+}
+	
 - (void)updateRuler
 {
 	// Ruler の更新をブロックする。
@@ -417,6 +430,7 @@ static NSString *mActionGetKeysForTag[] = {
 							  forIndexes : [indexes_ objectEnumerator]
 					   withAttributeName : mActionGetKeysForTag[tag]];
 	}
+	//[menu_ setAutoenablesItems : YES];
 	
 	return menu_;
 }
@@ -723,7 +737,6 @@ static void showPoofAnimationForInvisibleAbone(CMRThreadView *tView, unsigned in
 	id					prev  = nil;
 	int					state = NSOffState;
 	NSNumber			*mIndex;
-	
 	while (mIndex = [anIndexEnum nextObject]) {
 		m = [L messageAtIndex : [mIndex unsignedIntValue]];
 		v = [m valueForKey : aName];
@@ -754,9 +767,11 @@ static void showPoofAnimationForInvisibleAbone(CMRThreadView *tView, unsigned in
 	
 	if (@selector(messageCopy:) == action_)
 		return ([indexEnum_ nextObject] != nil);
-	if (@selector(messageReply:) == action_)
+	if (@selector(messageReply:) == action_) {
+		//if ([indexEnum_ nextObject] == nil) return NO;
+		//return [[self delegate] threadView:self validateAction: action_];
 		return ([indexEnum_ nextObject] != nil);
-	
+	}
 	if (@selector(changeMessageAttributes:) == action_) {
 		int		tag   = [theItem tag];
 		

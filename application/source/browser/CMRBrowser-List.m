@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.7.2.9 2006/08/23 14:41:59 masakih Exp $
+  * $Id: CMRBrowser-List.m,v 1.7.2.10 2006/09/01 13:46:54 masakih Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -115,12 +115,13 @@
 	list_ = [BSDBThreadList threadListWithBoardListItem : board];
 	if(nil == list_)
 		return;
- 
+	
 	[self setCurrentThreadsList : list_];
 	
 	// sort column change
-	sortColumnIdentifier_ = [[BoardManager defaultManager] sortColumnForBoard : boardName];
-	isAscending_ = [[BoardManager defaultManager] sortColumnIsAscendingAtBoard : boardName];
+	BoardManager	*bm_ = [BoardManager defaultManager];
+	sortColumnIdentifier_ = [bm_ sortColumnForBoard : boardName];
+	isAscending_ = [bm_ sortColumnIsAscendingAtBoard : boardName];
 	
 	[list_ setIsAscending : isAscending_];
 	[self changeHighLightedTableColumnTo : sortColumnIdentifier_ isAscending : isAscending_];
@@ -143,6 +144,7 @@
 	
 	return index_;
 }
+
 @end
 
 

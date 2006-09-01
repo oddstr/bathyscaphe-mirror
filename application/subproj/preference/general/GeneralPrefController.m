@@ -1,5 +1,5 @@
 /**
-  * $Id: GeneralPrefController.m,v 1.6.2.2 2006/01/29 12:58:10 masakih Exp $
+  * $Id: GeneralPrefController.m,v 1.6.2.3 2006/09/01 13:46:54 masakih Exp $
   * 
   * GeneralPrefController.m
   *
@@ -46,7 +46,7 @@
 	他の項目は、メニューの「xxレス」のxxと tag が同じ数字になっている（やや汎用性に欠ける？）。
 	lastVisible も同様。
 */
-- (int) firstVisible
+/*- (int) firstVisible
 {
 	if ([[self preferences] firstVisibleCount] == NSNotFound) {
 		//NSLog(@"NSNotFound converted to -1");
@@ -79,17 +79,7 @@
 	}
 	[[self preferences] setLastVisibleCount : tag_];
 }
-
-#pragma mark InnocentStarter Additions
-- (BOOL) autoReloadListWhenWake
-{
-	return [[self preferences] autoReloadListWhenWake];
-}
-- (void) setAutoReloadListWhenWake : (BOOL) boxState_
-{
-	[[self preferences] setAutoReloadListWhenWake : boxState_];
-}
-
+*/
 #pragma mark Vita Additions
 - (int) mailFieldOption
 {
@@ -123,46 +113,6 @@
 	default:
 		break;
 	}
-}
-
-- (int) resAnchorAction
-{
-	return [[self preferences] threadViewerLinkType];
-}
-
-- (void) setResAnchorAction : (int) tag_
-{
-	[[self preferences] setThreadViewerLinkType : tag_];
-}
-
-- (BOOL) collectByNew
-{
-	return [[self preferences] collectByNew];
-}
-
-- (void) setCollectByNew : (BOOL) boxState_
-{
-	[[self preferences] setCollectByNew : boxState_];
-}
-
-- (BOOL) showsAllFirstTime
-{
-	return [[self preferences] showsAllMessagesWhenDownloaded];
-}
-
-- (void) setShowsAllFirstTime : (BOOL) boxState_
-{
-	[[self preferences] setShowsAllMessagesWhenDownloaded : boxState_];
-}
-
-- (BOOL) scrollToLastUpdated
-{
-	return [[self preferences] scrollToLastUpdated];
-}
-
-- (void) setScrollToLastUpdated : (BOOL) boxState_
-{
-	[[self preferences] setScrollToLastUpdated : boxState_];
 }
 @end
 

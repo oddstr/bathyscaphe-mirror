@@ -1,14 +1,13 @@
 //: CMXPopUpWindowController+View.m
 /**
-  * $Id: CMXPopUpWindowController+View.m,v 1.5.2.1 2006/01/29 12:58:10 masakih Exp $
+  * $Id: CMXPopUpWindowController+View.m,v 1.5.2.2 2006/09/01 13:46:54 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
   */
 
 #import "CMXPopUpWindowController_p.h"
-//#import "NSLayoutManager+CMXAdditions.h"
-#import "CMRLayoutManager.h"
+#import <SGAppKit/BSLayoutManager.h>
 #import "CMRPopUpTemplateKeys.h"
 #import "CMXPopUpWindowManager.h"
 #import "AppDefaults.h"
@@ -111,7 +110,7 @@
 				contentSize_.width,
 				contentSize_.height);
 	
-	layoutManager_ = [[CMRLayoutManager alloc] init];
+	layoutManager_ = [[BSLayoutManager alloc] init];
 	[[self textStorage] addLayoutManager : layoutManager_];
 	[layoutManager_ release];
 	

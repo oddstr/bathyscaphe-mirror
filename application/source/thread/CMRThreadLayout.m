@@ -1,6 +1,6 @@
 //: CMRThreadLayout.m
 /**
-  * $Id: CMRThreadLayout.m,v 1.5.2.3 2006/03/19 15:09:53 masakih Exp $
+  * $Id: CMRThreadLayout.m,v 1.5.2.4 2006/09/01 13:46:54 masakih Exp $
   * 
   * CMRThreadLayout.m
   *
@@ -11,7 +11,6 @@
   * See the file LICENSE for copying permission.
   */
 #import "CMRThreadLayout_p.h"
-//#import "NSTextView+CMXAdditions.h"
 #import "CMRMessageAttributesStyling.h"
 #import "CMRMessageAttributesTemplate_p.h"
 #import "CMRAttributedMessageComposer.h"
@@ -193,47 +192,28 @@
 	if ((mIndex = [[self messageBuffer] indexOfMessage : m]) != NSNotFound) {
 		[self updateMessageAtIndex : mIndex];
 		// 2005-09-09 tsawada2 様子見中（Tiger 描画乱れ対策）
-		[[self scrollView] setNeedsDisplay: YES];
+		//[[self scrollView] setNeedsDisplay: YES];
 	}
 }
 
-- (void) wakeUpLayoutManagerWithRange : (NSRange) aRange
+- (void) wakeUpLayoutManagerForVisibleRect
 {
 	/* 2006-03-09 tsawada2
 	　　念には念を入れて、aRange に関わらず documentVisibleRect 全体を
 	　　invalidate させる。 */
-	//NSLog(@"Wake Up!");
-	//NSRect			glyphRect_;
-	NSRect			visibleRect_;
-	//NSPoint			newOrigin_;
+
 	id				textView_;
 	NSClipView		*clipview_;
-	
-	//if (NSNotFound == aRange.location || 0 == aRange.length) {
-		//In case of invisible abone, etc.
-	//	//NSBeep();
-	//	[[self textView] setNeedsDisplay : YES];
-	//	return;
-	//}
+	NSRect			visibleRect_;
 	
 	textView_ = [self textView];
-	//glyphRect_ = [textView_ boundingRectForCharacterInRange : aRange];
-	//if (NSEqualRects(NSZeroRect, glyphRect_)) return;
-	
-	
-	clipview_ = [[self scrollView] contentView];
-	//newOrigin_ = [textView_ bounds].origin;
-	//newOrigin_.y = glyphRect_.origin.y;
-	
+	clipview_ = [[self scrollView] contentView];	
 	visibleRect_ = [clipview_ documentVisibleRect];
-	//visibleRect_.origin = newOrigin_;
 	
 	// LayoutManager にハッパをかける。
 	// これが効いているのかどうか…？とにかく、症状は緩和されるようだが。
-	[[textView_ layoutManager]
-		glyphRangeForBoundingRect : visibleRect_
-				  inTextContainer : [textView_ textContainer]];
-	
+	[[textView_ layoutManager] glyphRangeForBoundingRect : visibleRect_
+										 inTextContainer : [textView_ textContainer]];
 }
 
 - (void) updateMessageAtIndex : (unsigned) anIndex
@@ -284,7 +264,7 @@
 		[[self messageRanges] setRange:mesRange_ atIndex:anIndex];
 	}
 	// Tiger 白抜け対策（手探り様子見中）
-	[self wakeUpLayoutManagerWithRange : mesRange_];
+	[self wakeUpLayoutManagerForVisibleRect];
 	[self setMessagesEdited : YES];
 }
 - (void) changeAllMessageAttributes : (BOOL  ) onOffFlag

@@ -11,6 +11,8 @@
 #import "DatabaseManager.h"
 #import "CMRBBSListTemplateKeys.h"
 
+#import <SGAppKit/NSImage-SGExtensions.h>
+
 static NSMutableDictionary *_commonInstances = nil;
 static NSLock *_commonInstancesLock = nil;
 

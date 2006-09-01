@@ -1,5 +1,5 @@
 /** 
-  * $Id: CMRThreadViewer-Find.m,v 1.2.2.2 2006/01/29 12:58:10 masakih Exp $
+  * $Id: CMRThreadViewer-Find.m,v 1.2.2.3 2006/09/01 13:46:54 masakih Exp $
   *
   * Copyright (c) 2003, Takanori Ishikawa.
   * CMRThreadViewer-Action.m から分割 - 2005-02-16 by tsawada2.
@@ -11,7 +11,7 @@
 #import "CMRReplyMessenger.h"
 #import "CMRReplyDocumentFileManager.h"
 #import "CMRThreadVisibleRange.h"
-#import "CMRThreadDownloadTask.h"
+#import "CMRThreadLayout.h"
 
 #import "CMRSearchOptions.h"
 #import "TextFinder.h"
@@ -20,7 +20,6 @@
 
 #import "CMXPopUpWindowManager.h"
 #import "CMRAttributedMessageComposer.h"
-//#import "NSTextView+CMXAdditions.h"
 
 // for debugging only
 #define UTIL_DEBUGGING		0

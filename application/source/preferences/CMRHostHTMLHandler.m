@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRHostHTMLHandler.m,v 1.2 2005/09/12 08:02:20 tsawada2 Exp $
+  * $Id: CMRHostHTMLHandler.m,v 1.2.2.1 2006/09/01 13:46:54 masakih Exp $
   * 
   * CMRHostHTMLHandler.m
   *
@@ -260,12 +260,11 @@ tmp = @"ê·ÇÒéq  <><> 2003/09/01(åé) 20:00:12 ID:Bc0TyiNc [ ntt2-ppp758.tokyo.san
 {
 	int			type_;
 	unsigned	index_ = loadedCount;
-	
 	type_ = [xpp next];
 	while (1) {
 		if (XMLPULL_END_DOCUMENT == type_) break;
-		if (HTML_TAG(xpp, @"body", XMLPULL_END_TAG)) break;
-		
+		//if (HTML_TAG(xpp, @"body", XMLPULL_END_TAG))
+		//	break;
 		if (HTML_TAG(xpp, @"dt", XMLPULL_START_TAG)) {
 			[self scanFields:xpp with:thread index:&index_];
 			continue;

@@ -1,6 +1,6 @@
 //: SGXmlPullParser.m
 /**
-  * $Id: SGXmlPullParser.m,v 1.1 2005/05/11 17:51:44 tsawada2 Exp $
+  * $Id: SGXmlPullParser.m,v 1.1.1.1.4.1 2006/09/01 13:46:58 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -329,6 +329,8 @@ so we just skip it, and use it like a NULL character.
         // value
         c = PEEK(0);
         if ('=' == c) {
+			NSString *tmp_ = nil;
+
             READ_ENSURE('=');
             [self skip];
             
@@ -341,6 +343,7 @@ so we just skip it, and use it like a NULL character.
                                 [self getProcessingDescription],
                                 name_];
                 }
+				tmp_ = [NSString stringWithCharacter:delemiter_];
                 delemiter_ = ' ';
             }
             
@@ -348,7 +351,8 @@ so we just skip it, and use it like a NULL character.
             [self parseText:delemiter_ resolveEntity:YES];
             value_ = [NSString stringWithCharacters : SGXmlUniCharBufferGetBuffer(_textBuf)
                                             length : SGXmlUniCharBufferGetCount(_textBuf)];
-            
+            if(tmp_)
+				value_ = [NSString stringWithFormat:@"%@%@",tmp_,value_];
             
             if (delemiter_ != ' ')
                 READ;
