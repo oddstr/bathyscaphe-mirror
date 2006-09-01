@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector-View.m,v 1.3.2.4 2006/08/09 13:44:33 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector-View.m,v 1.3.2.5 2006/09/01 14:34:10 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/07/15.
@@ -15,7 +15,6 @@
 @class BSIPIDownload;
 
 static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInspector Panel Autosave";
-static NSString *const kIPIMenuItemForOldBSKey	= @"IPIWindowsMenuItemForOldBS";
 
 @implementation BSImagePreviewInspector(ViewAccessor)
 - (NSPopUpButton *) actionBtn
@@ -156,35 +155,6 @@ static NSImage *bsIPI_iconForPath(NSString *sourcePath)
 	[window_ useOptimizedDrawing: YES];
 }
 
-// WARNING: ONLY FOR BATHYSCAPHE 1.1.x - 1.2.x
-- (void) setupMenu
-{
-	NSMenuItem	*cometBlasterItem;
-	NSMenu		*windowsMenu;
-
-	cometBlasterItem = [[[NSMenuItem alloc] initWithTitle: [self localizedStrForKey: kIPIMenuItemForOldBSKey]
-												   action: @selector(togglePreviewPanel:)
-											keyEquivalent: @"y"] autorelease];
-	[cometBlasterItem setTarget: self];
-	//[cometBlasterItem setKeyEquivalentModifierMask: (NSCommandKeyMask|NSAlternateKeyMask)];
-	
-	windowsMenu = [[[NSApp mainMenu] itemWithTag: 6] submenu];
-	[windowsMenu insertItem: cometBlasterItem atIndex: 6];
-}
-
-- (void) setupMenuIfNeeded
-{
-	NSBundle *bathyScaphe_ = [NSBundle mainBundle];
-	if (!bathyScaphe_) return;
-	
-	NSString *version_ = [bathyScaphe_ objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
-	
-	if ([version_ hasPrefix: @"1.2"] || [version_ hasPrefix: @"1.1"]) {
-		// install menu item into Windows Menu
-		[self setupMenu];
-	}
-}
-
 - (void) setupTableView
 {
 	BSIPITextFieldCell	*cell;
@@ -236,7 +206,6 @@ static NSImage *bsIPI_iconForPath(NSString *sourcePath)
 - (void) awakeFromNib
 {
 	[self setupWindow];
-	//[self setupMenuIfNeeded];
 	[self setupTableView];
 	[self setupControls];
 	[self setupVersionInfoField];

@@ -1,4 +1,16 @@
 2006-09-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSIPIImageView.m
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+		プレビューインスペクタ（2.2）：
+		- イメージ・ビューのフォーカスリング描画処理を BSIPIImageView から、その Cell に移した。
+		- そのためのサブクラス BSIPIImageCell のコードは、BSIPIImageView.m 内に居候している。
+		- ツールバーに「削除」ボタンを追加可能にした。
+	* application/subproj/previewer/BSIPIAppKitExtensions.m
+	* application/subproj/previewer/BSIPIFoundationExtensions.m
+		[削除] 削除。
+	* application/source/bbs/BoardManager-BSAddition.m
+		名無しさんの名前集合（NSSet）が空（nilではないが、countが0）のときは、空の NSArray エントリをプロパティリストに
+		保存するのではなく、エントリをプロパティリストから削除するようにした。
 	* application/source/composer/CMXTextParser.m
 		「ID:DELETED」が ID として切り出されない問題に対処（BBSPINK などでのあぼーん表示）。
 	* application/source/browser/CMRThreadsList-Remove.m

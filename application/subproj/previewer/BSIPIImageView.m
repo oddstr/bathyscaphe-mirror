@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIImageView.m,v 1.3.2.1 2006/08/31 10:18:41 tsawada2 Exp $
+//  $Id: BSIPIImageView.m,v 1.3.2.2 2006/09/01 14:34:10 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/07.
@@ -8,7 +8,92 @@
 
 #import "BSIPIImageView.h"
 
+// フォーカスリングを描いてくれる NSImageCell
+@interface BSIPIImageCell: NSImageCell
+{
+}
+- (void) copyAttributesFromCell: (NSImageCell *) baseCell;
+@end
+
+@implementation BSIPIImageCell
++ (NSFocusRingType) defaultFocusRingType
+{
+    return NSFocusRingTypeExterior;
+}
+
+- (void) copyAttributesFromCell: (NSImageCell *) baseCell
+{
+	[self setImageAlignment: [baseCell imageAlignment]];
+	[self setImageFrameStyle: [baseCell imageFrameStyle]];
+	[self setImageScaling: [baseCell imageScaling]];
+}
+
+// 少しだけ丸みを帯びた四角形
+- (NSBezierPath *) calcRoundedRectForRect: (NSRect) bgRect
+{
+    int minX = NSMinX(bgRect);
+    int midX = NSMidX(bgRect);
+    int maxX = NSMaxX(bgRect);
+    int minY = NSMinY(bgRect);
+    int midY = NSMidY(bgRect);
+    int maxY = NSMaxY(bgRect);
+    float radius = 4.5; // 試行錯誤の末の値
+    NSBezierPath *bgPath = [NSBezierPath bezierPath];
+    
+    // Bottom edge and bottom-right curve
+    [bgPath moveToPoint:NSMakePoint(midX, minY)];
+    [bgPath appendBezierPathWithArcFromPoint:NSMakePoint(maxX, minY) 
+                                     toPoint:NSMakePoint(maxX, midY) 
+                                      radius:radius];
+    
+    // Right edge and top-right curve
+    [bgPath appendBezierPathWithArcFromPoint:NSMakePoint(maxX, maxY) 
+                                     toPoint:NSMakePoint(midX, maxY) 
+                                      radius:radius];
+    
+    // Top edge and top-left curve
+    [bgPath appendBezierPathWithArcFromPoint:NSMakePoint(minX, maxY) 
+                                     toPoint:NSMakePoint(minX, midY) 
+                                      radius:radius];
+    
+    // Left edge and bottom-left curve
+    [bgPath appendBezierPathWithArcFromPoint:bgRect.origin 
+                                     toPoint:NSMakePoint(midX, minY) 
+                                      radius:radius];
+    [bgPath closePath];
+    
+    return bgPath;
+}
+
+- (void) drawInteriorWithFrame: (NSRect) cellFrame inView: (NSView *) controlView
+{
+    [super drawInteriorWithFrame: cellFrame inView: controlView];
+	// NSFocusRingTypeNone が指定されているなら、描かない
+    if ([self focusRingType] == NSFocusRingTypeNone) return;
+    
+    NSWindow *window_ = [controlView window];
+    if (!window_) return;
+
+	if ([window_ isKeyWindow] && ([window_ firstResponder] == controlView)) {
+		[NSGraphicsContext saveGraphicsState];
+		NSSetFocusRingStyle(NSFocusRingOnly);
+		[[self calcRoundedRectForRect: cellFrame] fill];
+		[NSGraphicsContext restoreGraphicsState];
+	}
+}
+@end
+
+#pragma mark -
+
 @implementation BSIPIImageView
+- (void) awakeFromNib
+{
+	BSIPIImageCell *cell_ = [[BSIPIImageCell alloc] init];
+	[cell_ copyAttributesFromCell: [self cell]];
+	[self setCell: cell_];
+	[cell_ release];
+}
+
 - (id) delegate
 {
 	return bsIPIImageView_delegate;
@@ -70,7 +155,6 @@
 
 /* マウスが四方に delta 移動するまでドラッグを開始しない */
 - (void) dragImageFileWithEvent: (NSEvent *)theEvent
-//- (void) dragImageFile:(NSString *)path event:(NSEvent *)theEvent
 {
 	NSRect koreguraiHaNotDragRect;
 	NSPoint clickPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
@@ -85,7 +169,7 @@
 										 inMode:NSEventTrackingRunLoopMode
 										dequeue:YES];
 		if( [theEvent type] == NSLeftMouseUp ) break;
-		
+
 		mouse = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 		if( !NSMouseInRect( mouse, koreguraiHaNotDragRect, [self isFlipped] ) ) {
 			NSImage *image;
@@ -94,10 +178,7 @@
 			NSSize offset;
 			
 			pb = [NSPasteboard pasteboardWithName:NSDragPboard];
-			/*[pb declareTypes:[NSArray arrayWithObject:NSFilenamesPboardType] owner:self];
-			[pb setPropertyList:[NSArray arrayWithObject:path]
-						forType:NSFilenamesPboardType];
-			*/
+
 			[[self delegate] imageView: self writeSomethingToPasteboard: pb];
 			
 			image = [self imageForDragging];
@@ -123,21 +204,7 @@
 		
 - (void) mouseDown : (NSEvent *) theEvent
 {
-//	if ([self image] != nil) {
-//		BSImagePreviewInspector *tmp_ = [[self window] windowController];
-//		NSString				*path_ = [tmp_ downloadedFileDestination];
-//		NSPoint					event_location = [theEvent locationInWindow];
-//		NSPoint					local_point = [self convertPoint:event_location fromView:nil];
-//
-//		if(path_)
-//			[self dragFile : path_
-//				  fromRect : NSMakeRect(local_point.x-16, local_point.y-16, 32, 32)
-//				 slideBack : YES
-//					 event : theEvent];
 	if ([self image] != nil && [[self delegate] respondsToSelector: @selector(imageView:writeSomethingToPasteboard:)]) {
-//		if(path_) {
-//			[self dragImageFile:path_ event:theEvent];
-//		}
         [self dragImageFileWithEvent: theEvent];
 	} else {
 		[super mouseDown : theEvent];
@@ -159,58 +226,6 @@
 - (BOOL) acceptsFirstResponder
 {
 	return YES;
-}
-
-// 少しだけ丸みを帯びた四角形
-- (NSBezierPath *) calcRoundedRectForRect: (NSRect) bgRect
-{
-    int minX = NSMinX(bgRect);
-    int midX = NSMidX(bgRect);
-    int maxX = NSMaxX(bgRect);
-    int minY = NSMinY(bgRect);
-    int midY = NSMidY(bgRect);
-    int maxY = NSMaxY(bgRect);
-    float radius = 4.5; // 試行錯誤の末の値
-    NSBezierPath *bgPath = [NSBezierPath bezierPath];
-    
-    // Bottom edge and bottom-right curve
-    [bgPath moveToPoint:NSMakePoint(midX, minY)];
-    [bgPath appendBezierPathWithArcFromPoint:NSMakePoint(maxX, minY) 
-                                     toPoint:NSMakePoint(maxX, midY) 
-                                      radius:radius];
-    
-    // Right edge and top-right curve
-    [bgPath appendBezierPathWithArcFromPoint:NSMakePoint(maxX, maxY) 
-                                     toPoint:NSMakePoint(midX, maxY) 
-                                      radius:radius];
-    
-    // Top edge and top-left curve
-    [bgPath appendBezierPathWithArcFromPoint:NSMakePoint(minX, maxY) 
-                                     toPoint:NSMakePoint(minX, midY) 
-                                      radius:radius];
-    
-    // Left edge and bottom-left curve
-    [bgPath appendBezierPathWithArcFromPoint:bgRect.origin 
-                                     toPoint:NSMakePoint(midX, minY) 
-                                      radius:radius];
-    [bgPath closePath];
-    
-    return bgPath;
-}
-
-- (void) drawRect: (NSRect) aRect
-{
-	[super drawRect: aRect];
-	if (([[self window] firstResponder] == self) && [[self window] isKeyWindow]) {
-		//NSSetFocusRingStyle(NSFocusRingOnly);
-		//NSRectFill(aRect);
-	[NSGraphicsContext saveGraphicsState];
-	NSSetFocusRingStyle(NSFocusRingOnly);
-	//[NSBezierPath setDefaultLineJoinStyle: NSRoundLineJoinStyle];
-	[[self calcRoundedRectForRect: aRect] fill];
-	[NSGraphicsContext restoreGraphicsState];
-
-	}
 }
 
 - (BOOL) performKeyEquivalent: (NSEvent *) theEvent

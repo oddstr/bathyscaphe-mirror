@@ -47,10 +47,11 @@ extern NSImage  *imageForType(BoardListItemType type); // described in BoardList
 }
 - (void) setNoNameDict : (NSMutableDictionary *) aNoNameDict
 {
-    [aNoNameDict retain];
-	[_noNameDict release];
-
-	_noNameDict = aNoNameDict;
+	@synchronized(self) {
+		[aNoNameDict retain];
+		[_noNameDict release];
+		_noNameDict = aNoNameDict;
+	}
 }
 
 - (id) entryForBoardName : (NSString *) aBoardName
@@ -354,17 +355,28 @@ extern NSImage  *imageForType(BoardListItemType type); // described in BoardList
 	UTILAssertNotNil(newSet);
 	UTILAssertNotNil(boardName);
 
+	BOOL	shouldRemove = ([newSet count] == 0) ? YES : NO;
+
     NSMutableDictionary *nnd_ = [self noNameDict]; 	
 	id entry_ = [self entryForBoardName : boardName];
 	
 	if (entry_ == nil || [entry_ isKindOfClass : [NSString class]]) {
-		[nnd_ setObject: [NSDictionary dictionaryWithObject: [newSet allObjects] forKey: NNDNoNameKey]
-				 forKey: boardName];
+		if (shouldRemove) {
+			[nnd_ removeObjectForKey: boardName];
+		} else {
+			[nnd_ setObject: [NSDictionary dictionaryWithObject: [newSet allObjects] forKey: NNDNoNameKey]
+					 forKey: boardName];
+		}
 	} else {
 		NSMutableDictionary		*mutableEntry_;
 		
 		mutableEntry_ = [entry_ mutableCopy];
-		[mutableEntry_ setObject : [newSet allObjects] forKey : NNDNoNameKey];
+		
+		if (shouldRemove) {
+			[mutableEntry_ removeObjectForKey: NNDNoNameKey];
+		} else {
+			[mutableEntry_ setObject : [newSet allObjects] forKey : NNDNoNameKey];
+		}
 		[nnd_ setObject: mutableEntry_ forKey: boardName];
 		[mutableEntry_ release];
 	}

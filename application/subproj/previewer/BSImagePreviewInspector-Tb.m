@@ -1,5 +1,5 @@
 /*
- * $Id: BSImagePreviewInspector-Tb.m,v 1.11.2.5 2006/08/09 13:44:33 tsawada2 Exp $
+ * $Id: BSImagePreviewInspector-Tb.m,v 1.11.2.6 2006/09/01 14:34:10 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -19,6 +19,7 @@ static NSString *const kIPITbFullscreenBtnId	= @"StartFullscreen";
 static NSString *const kIPITbBrowserBtnId		= @"OpenWithBrowser";
 static NSString *const kIPITbNaviBtnId			= @"History";
 static NSString *const kIPITbPaneBtnId			= @"Panes";
+static NSString *const kIPITbDeleteBtnId		= @"Delete";
 static NSString *const kIPIToobarId				= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Toolbar";
 static NSString *const kIPIAlwaysKeyWindowKey	= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Always Key Window";
 static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Save Directory";
@@ -174,6 +175,17 @@ static NSImage *_imageForDefaultBrowser()
 		[toolbarItem setTarget: self];
 		[toolbarItem setAction: @selector(openImage:)];
 	
+	} else if ([itemIdent isEqual: kIPITbDeleteBtnId]) {
+        toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdent] autorelease];
+	
+		[toolbarItem setLabel: [self localizedStrForKey : @"Delete"]];
+		[toolbarItem setPaletteLabel: [self localizedStrForKey : @"Delete"]];
+		[toolbarItem setToolTip: [self localizedStrForKey : @"DeleteTip"]];
+		[toolbarItem setImage: [NSImage imageNamed: @"Delete"]];
+		
+		[toolbarItem setTarget: self];
+		[toolbarItem setAction: @selector(deleteCachedImage:)];
+	
     } else if([itemIdent isEqual: kIPITbActionBtnId]) {
 		NSSize	size_;
 		NSView	*tmp_;
@@ -264,7 +276,7 @@ static NSImage *_imageForDefaultBrowser()
 
 - (NSArray *) toolbarAllowedItemIdentifiers : (NSToolbar *) toolbar
 {
-    return [NSArray arrayWithObjects: kIPITbNaviBtnId, kIPITbPaneBtnId, kIPITbActionBtnId, kIPITbCancelBtnId, kIPITbBrowserBtnId,
+    return [NSArray arrayWithObjects: kIPITbNaviBtnId, kIPITbPaneBtnId, kIPITbActionBtnId, kIPITbCancelBtnId, kIPITbDeleteBtnId, kIPITbBrowserBtnId,
 									  kIPITbPreviewBtnId, kIPITbFullscreenBtnId, kIPITbSettingsBtnId, NSToolbarCustomizeToolbarItemIdentifier,
 									  NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSpaceItemIdentifier,
 									  NSToolbarSeparatorItemIdentifier, nil];
@@ -293,7 +305,7 @@ static NSImage *_imageForDefaultBrowser()
 		}
 	} else if ([identifier_ isEqualToString : kIPITbPreviewBtnId]) {
 		return ((_currentDownload == nil) && ([self sourceURL] != nil));
-	} else if ([identifier_ isEqualToString : kIPITbFullscreenBtnId]) {
+	} else if ([identifier_ isEqualToString : kIPITbFullscreenBtnId] || [identifier_ isEqualToString: kIPITbDeleteBtnId]) {
 		return ((_currentDownload == nil) && ([[self imageView] image] != nil));
 	} else if ([identifier_ isEqualToString : kIPITbBrowserBtnId]) {
 		return ([self sourceURL] != nil);

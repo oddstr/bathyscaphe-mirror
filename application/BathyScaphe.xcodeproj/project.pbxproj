@@ -868,10 +868,6 @@
 		87BF52CA08F789D400998C4E /* BSBoardInfoInspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSBoardInfoInspector.m; sourceTree = "<group>"; };
 		87BF52D408F7913400998C4E /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSBoardInfoInspector.nib; sourceTree = "<group>"; };
 		87BF7CAE0840424200CC7D7C /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Japanese; path = Japanese.lproj/BathyScapheHelp; sourceTree = "<group>"; };
-		87C1A62C0A7E26B00004079B /* BSIPIAppKitExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIAppKitExtensions.h; sourceTree = "<group>"; };
-		87C1A62D0A7E26B00004079B /* BSIPIAppKitExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIAppKitExtensions.m; sourceTree = "<group>"; };
-		87C1A62E0A7E26B00004079B /* BSIPIFoundationExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIFoundationExtensions.h; sourceTree = "<group>"; };
-		87C1A62F0A7E26B00004079B /* BSIPIFoundationExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIFoundationExtensions.m; sourceTree = "<group>"; };
 		87C2031D08FF3E2B006DC42C /* ImagePreviewer.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImagePreviewer.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		87C2032908FF3F81006DC42C /* BSImagePreviewInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSImagePreviewInspector.h; sourceTree = "<group>"; };
 		87C2032A08FF3F81006DC42C /* BSImagePreviewInspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSImagePreviewInspector.m; sourceTree = "<group>"; };
@@ -1766,10 +1762,6 @@
 		87C1A6340A7E26BE0004079B /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				87C1A62C0A7E26B00004079B /* BSIPIAppKitExtensions.h */,
-				87C1A62D0A7E26B00004079B /* BSIPIAppKitExtensions.m */,
-				87C1A62E0A7E26B00004079B /* BSIPIFoundationExtensions.h */,
-				87C1A62F0A7E26B00004079B /* BSIPIFoundationExtensions.m */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
