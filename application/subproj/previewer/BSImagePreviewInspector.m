@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.19.2.5 2006/08/31 10:18:41 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.19.2.6 2006/09/02 17:03:52 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -406,12 +406,39 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 {
 	return [self validateLink: newURL];
 }
-
+/*
 - (void) bsIPIdownloadDidAbortRedirection: (BSIPIDownload *) aDownload
 {
 	NSLog(@"Redirection Aborted, so we try to open URL with Web browser");
 	[self openImage: self];
 
+	[self clearAttributes];
+}
+*/
+- (void) bsIPIdownload: (BSIPIDownload *) aDownload didAbortRedirectionToURL: (NSURL *) anURL
+{
+	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	NSString *message = [NSString stringWithFormat: [self localizedStrForKey: @"RedirectionAlert Msg %@"], [anURL absoluteString]];
+	
+	[alert setAlertStyle: NSCriticalAlertStyle];
+	[alert setInformativeText: message];
+	[alert setMessageText: [self localizedStrForKey: @"RedirectionAlert Title"]];
+	
+	[alert addButtonWithTitle: [self localizedStrForKey: @"RedirectionGo"]];
+	[alert addButtonWithTitle: [self localizedStrForKey: @"RedirectionNone"]];
+	
+	[alert beginSheetModalForWindow: [self window]
+					  modalDelegate: self
+					 didEndSelector: @selector(redirectionAlertDidEnd:returnCode:contextInfo:)
+						contextInfo: nil];
+}
+
+- (void) redirectionAlertDidEnd: (NSAlert *) alert returnCode: (int) returnCode contextInfo: (void *) contextInfo
+{
+	if (returnCode == NSAlertFirstButtonReturn) {
+		[self openImage: self];
+	}
+	
 	[self clearAttributes];
 }
 
