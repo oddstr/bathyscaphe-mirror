@@ -18,4 +18,7 @@
 
 - (id) initWithName : (NSString *) name condition : (id) condition;
 
+- (id) condition;
+- (void) setCondition:(id)condition;
+
 @end

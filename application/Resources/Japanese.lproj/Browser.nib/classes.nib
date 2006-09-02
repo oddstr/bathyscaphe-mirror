@@ -45,6 +45,7 @@
             ACTIONS = {
                 addCategoryItem = id; 
                 addDrawerItem = id; 
+                addSmartItem = id; 
                 changeBrowserArrangement = id; 
                 collapseOrExpandBoardList = id; 
                 editDrawerItem = id; 

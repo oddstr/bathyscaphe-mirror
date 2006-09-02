@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIFullScreenController.h,v 1.4 2006/07/30 02:39:25 tsawada2 Exp $
+//  $Id: BSIPIFullScreenController.h,v 1.5 2006/09/02 11:41:01 masakih Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.
@@ -33,3 +33,4 @@
 @interface NSObject(BSIPIFullScreenAdditions)
 - (void) fullScreenDidEnd: (NSWindow *) fullScreenWindow;
 @end
+

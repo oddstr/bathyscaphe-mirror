@@ -9,6 +9,7 @@
                 allOrAnyPopUp = NSPopUpButton; 
                 container = NSScrollView; 
                 dateView = id; 
+                excludeAdThreadCheck = NSButton; 
                 expressionView = id; 
                 includeFallInDATCheck = NSButton; 
                 nameField = NSTextField; 

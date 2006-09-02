@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-BLEditor.m,v 1.13 2006/07/30 02:39:25 tsawada2 Exp $
+ * $Id: CMRBrowser-BLEditor.m,v 1.14 2006/09/02 11:41:01 masakih Exp $
  * BathyScaphe
  * CMRBrowser-Action.m, CMRBrowser-ViewAccessor.m から分割
  *
@@ -121,11 +121,15 @@
 		[[self dItemEditSheetLabelField] setStringValue : [self localizedString : kEditDrawerItemTitleForBoardKey]];
 		[[self dItemEditSheetInputField] setStringValue : [[item_ url] absoluteString]]; //objectForKey : BoardPlistURLKey]];
 
-	} else if ([BoardListItem isFolderItem : item_] || [BoardListItem isSmartItem : item_]) {
+	} else if ([BoardListItem isFolderItem : item_]) {
 		[[self dItemEditSheetMsgField]   setStringValue :
 					 [NSString localizedStringWithFormat: [self localizedString : kEditDrawerItemMsgForCategoryKey],name_]];
 		[[self dItemEditSheetLabelField] setStringValue : [self localizedString : kEditDrawerItemTitleForCategoryKey]];
 		[[self dItemEditSheetInputField] setStringValue : name_];
+	} else if ([BoardListItem isSmartItem : item_]) {
+		[[SmartBoardListItemEditor editor] editWithUIWindow:[self window]
+											 smartBoardItem:item_];
+		return;
 	}
 	
 	[NSApp beginSheet : [self drawerItemEditSheet]
@@ -199,7 +203,7 @@
 	[alert_ beginSheetModalForWindow: [self window]
 					   modalDelegate: self
 					  didEndSelector: @selector(boardItemDeletionSheetDidEnd:returnCode:contextInfo:)
-						 contextInfo: item];
+						 contextInfo: item_];
 	[alert_ release];
 	/*NSBeginAlertSheet(
 		[self localizedString : kRemoveDrawerItemTitleKey],

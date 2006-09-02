@@ -1,3 +1,6 @@
+2006-09-02 masakih <masakih@users.sourceforge.jp>
+	v111-BASED-BRANCH  上の MERGED-Root-of-MeteorSweeper タグからマージ。
+	cvs -z3 up  -j MERGED-v120_FINAL -j MERGED-Root-of-MeteorSweeper
 2006-07-31 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/previewer/BSImagePreviewInspector-View.m
 	* application/subproj/previewer/BSImagePreviewInspector-Tb.m

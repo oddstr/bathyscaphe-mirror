@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRStatusLine.h,v 1.5 2006/06/25 17:06:42 tsawada2 Exp $
+  * $Id: CMRStatusLine.h,v 1.6 2006/09/02 11:41:01 masakih Exp $
   * 
   * CMRStatusLine.h
   *

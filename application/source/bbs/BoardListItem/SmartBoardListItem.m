@@ -10,6 +10,8 @@
 
 #import "DatabaseManager.h"
 
+#import <SGAppKit/NSImage-SGExtensions.h>
+
 @interface SmartBoardListItem(Private)
 - (void)updateQuery;
 @end
@@ -30,6 +32,11 @@
 	return [NSImage imageAppNamed : @"SmartBoard"];
 }
 
+- (id)query
+{
+	return [NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@",
+		BoardThreadInfoViewName, mConditions];
+}
 - (void)updateQuery
 {
 	NSString *query;
@@ -38,6 +45,17 @@
 		BoardThreadInfoViewName, mConditions];
 	
 	[self setQuery:query];
+}
+
+- (id) condition
+{
+	return mConditions;
+}
+- (void) setCondition:(id)condition
+{
+	id tmp = mConditions;
+	mConditions = [condition retain];
+	[tmp release];
 }
 
 #pragma mark## CMRPropertyListCoding protocol ##
@@ -77,3 +95,4 @@ static NSString *SmartConditionConditionKey = @"SmartConditionConditionKey";
 	return [[self plist] description];
 }
 @end
+

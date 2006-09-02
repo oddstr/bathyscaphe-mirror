@@ -11,6 +11,8 @@
 
 #import <SQLiteDB.h>
 
+#import "CMRTask.h"
+
 @class BoardListItem;
 
 @interface BSDBThreadList : CMRThreadsList
@@ -24,11 +26,19 @@
 	ThreadStatus mStatus;
 	
 	NSLock *mCursorLock;
+	
+	id<CMRTask> mTask;
+	NSLock *mTaskLock;
+	
+	id<CMRTask> mUpdateTask;
+	
+	id mSortDescriptors;
 }
 
 - (id) initWithBoardListItem : (BoardListItem *)item;
 + (id) threadListWithBoardListItem : (BoardListItem *)item;
 
+- (void)setBoardListItem:(BoardListItem *)item;
 - (id) boardListItem;
 - (id) searchString;
 - (id) sortKey;

@@ -8,6 +8,7 @@
 
 #import "SmartBoardListItemEditor.h"
 
+#import "BoardManager.h"
 
 @implementation SmartBoardListItemEditor
 
@@ -72,6 +73,30 @@ static inline NSInvocation *checkMethodSignature(id obj, SEL selector)
 	return result;
 }
 
+- (NSString *)newItemName
+{
+	NSString *result = NSLocalizedString(@"New SmartBoard", @"New SmartBoard");
+	SmartBoardList *bl = [[BoardManager defaultManager] userList];
+	id item;
+	
+	item = [bl itemForName:result];
+	if(!item) {
+		return result;
+	}
+	
+	unsigned i;
+	for(i = 2; i < UINT_MAX; i++) {
+		result = [[NSString alloc] initWithFormat:NSLocalizedString(@"New SmartBoard %u", @"New SmartBoard %u"), i];
+		if(![bl itemForName:result]) {
+			break;
+		}
+		[result release];
+		result = nil;
+	}
+	
+	return result;
+}
+
 - (void) cretateFromUIWindow : (NSWindow *)inModalForWindow
 					delegate : (id)delegate
 			 settingSelector : (SEL)settingSelector
@@ -87,8 +112,7 @@ static inline NSInvocation *checkMethodSignature(id obj, SEL selector)
 		[mInvocation retain];
 	}
 	
-	NSLog(@"Must Be Change!!!");
-	[nameField setStringValue:NSLocalizedString(@"New SmartBoard 1", @"New SmartBoard 1")];
+	[nameField setStringValue:[self newItemName]];
 	if(inModalForWindow) {
 		[NSApp beginSheet:editorWindow
 		   modalForWindow:inModalForWindow
@@ -107,11 +131,8 @@ static inline NSInvocation *checkMethodSignature(id obj, SEL selector)
 	
 	[editorWindow orderOut:self];
 	if(returnCode) {
-		////
 		newItem = [BoardListItem baordListItemWithName:[nameField stringValue]
 											 condition:[helper condition]];
-		
-		/////
 	}
 	
 	if(mInvocation) {
@@ -138,6 +159,23 @@ static inline NSInvocation *checkMethodSignature(id obj, SEL selector)
 	} else {
 		[self endSelector:editorWindow returnCode:NSCancelButton contextInfo:NULL];
 	}
+}
+
+- (void)editWithUIWindow : (NSWindow *)inModalForWindow
+		  smartBoardItem : (BoardListItem *)smartBoardItem
+{
+	[nameField setStringValue:[smartBoardItem name]];
+	[helper buildHelperFromCondition:[smartBoardItem condition]];
+	if(inModalForWindow) {
+		[NSApp beginSheet:editorWindow
+		   modalForWindow:inModalForWindow
+			modalDelegate:self
+		   didEndSelector:@selector(endEditSelector:returnCode:contextInfo:)
+			  contextInfo:smartBoardItem];
+	} else {
+		[editorWindow makeKeyAndOrderFront:self];
+	}
+	
 }
 
 // windowWillClose: で[self cancel:self]を呼ぶと、[NSWindow close] が呼ばれるため無限ループに陥る。

@@ -21,7 +21,7 @@
 - (id)initWithBSDBThreadList:(BSDBThreadList *)threadList
 {
 	if(self = [super init]) {
-		target = [threadList retain];
+		target = threadList; //[threadList retain];
 		progress = YES;
 		userCanceled = NO;
 	}
@@ -30,7 +30,7 @@
 }
 - (void)dealloc
 {
-	[target release];
+//	[target release];
 	
 	[super dealloc];
 }
@@ -205,11 +205,12 @@ static inline NSString *orderBy( NSString *sortKey, BOOL isAscending )
 		sortCol = BoardNameColumn;
 	}
 	
-	if(sortCol) {
-		result = [NSString stringWithFormat : @"ORDER BY %@ %@",sortCol, ascending];
-	}
-	
-	return result;
+//	if(sortCol) {
+//		result = [NSString stringWithFormat : @"ORDER BY %@ %@",sortCol, ascending];
+//	}
+//	
+//	return result;
+	return [sortCol lowercaseString];
 }
 - (NSString *) sqlForListForType : (int) type
 {
@@ -231,15 +232,15 @@ static inline NSString *orderBy( NSString *sortKey, BOOL isAscending )
 	}
 	
 	filterCondition = conditionFromStatusAndType( [target status], type);
-	if(filterCondition) {
+	if(filterCondition && [filterCondition length] != 0) {
 		[sql appendFormat : @"%@ %@\n", whereOrAnd, filterCondition];
 		//		whereOrAnd = @" AND ";
 	}
 	
-	order = orderBy( [target sortKey], [target isAscending]);
-	if(order) {
-		[sql appendString : order];
-	}
+//	order = orderBy( [target sortKey], [target isAscending]);
+//	if(order) {
+//		[sql appendString : order];
+//	}
 	
 	return sql;
 }
@@ -266,9 +267,9 @@ static inline NSString *orderBy( NSString *sortKey, BOOL isAscending )
 		sql = [self sqlForListForType : kAllThreadType];
 	}
 	
-	// if(userCanceled) goto final;
-	//	sql = [sql stringByAppendingString:@"\nLIMIT 10000"];
-	//	newersSQL = [newersSQL stringByAppendingString:@"\nLIMIT 10000"];
+//	if(userCanceled) goto final;
+//	sql = [sql stringByAppendingString:@"\nLIMIT 5000"];
+//	newersSQL = [newersSQL stringByAppendingString:@"\nLIMIT 5000"];
 	
 	do {
 		if(userCanceled) goto final;
@@ -287,6 +288,33 @@ static inline NSString *orderBy( NSString *sortKey, BOOL isAscending )
 				break;
 			}
 		}
+		
+		if(userCanceled) goto final;
+		id sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:orderBy([target sortKey], 0)
+														 ascending:[target isAscending]
+														  selector:@selector(numericCompare:)] autorelease];
+		id sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+		if(newerCursor) {
+			NSArray *data = [newerCursor arrayForTableView];
+			NSArray *col = [newerCursor columnNames];
+			NSArrayController *acon = [[[NSArrayController alloc] initWithContent:data] autorelease];
+			
+			[acon setSortDescriptors:sortDescriptors];
+			data = [acon arrangeObjects:data];
+			
+			newerCursor = [NSDictionary dictionaryWithObjectsAndKeys:data, @"Values", col, @"ColumnNames", nil];
+		}
+		if(olderCursor) {
+			NSArray *data = [olderCursor arrayForTableView];
+			NSArray *col = [olderCursor columnNames];
+			NSArrayController *acon = [[[NSArrayController alloc] initWithContent:data] autorelease];
+			
+			[acon setSortDescriptors:sortDescriptors];
+			data = [acon arrangeObjects:data];
+			
+			olderCursor = [NSDictionary dictionaryWithObjectsAndKeys:data, @"Values", col, @"ColumnNames", nil];
+		}
+		
 		if(userCanceled) goto final;
 		if(newerCursor && [newerCursor rowCount]) {
 			[newerCursor appendCursor : olderCursor];
@@ -326,8 +354,23 @@ final:
 
 	progress = NO;
 	
+	progress = NO;
+	
 	nc_ = [NSNotificationCenter defaultCenter];
 	[nc_ postNotificationName : CMRTaskDidFinishNotification
 					   object : self];
+}
+@end
+
+@implementation NSString(BSThreadListUpdateTaskAddition)
+- (NSComparisonResult)numericCompare:(NSString *)string
+{
+	return [self compare:string options:NSNumericSearch];
+}
+@end
+@implementation NSNumber(BSThreadListUpdateTaskAddition)
+- (NSComparisonResult)numericCompare:(id)obj
+{
+	return [self compare:obj];
 }
 @end

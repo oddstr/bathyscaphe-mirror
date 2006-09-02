@@ -42,7 +42,7 @@ void CMXServicesInit(void)
     //[BoardManager defaultManager];
 	//[CMRFavoritesManager defaultManager];
     [CMRNetGrobalLock sharedInstance];
-	
+
 	[DatabaseManager defaultManager];
 	[DatabaseManager setupDatabase];
     

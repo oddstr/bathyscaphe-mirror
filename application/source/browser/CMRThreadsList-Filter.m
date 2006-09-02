@@ -1,11 +1,14 @@
 /**
-  * $Id: CMRThreadsList-Filter.m,v 1.7 2006/01/27 23:02:19 tsawada2 Exp $
+  * $Id: CMRThreadsList-Filter.m,v 1.8 2006/09/02 11:41:01 masakih Exp $
   * 
   * CMRThreadsList-Filter.m
   *
   * Copyright (c) 2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
   */
+
+#if 0
+
 #import "CMRThreadsList_p.h"
 #import "BoardManager.h"
 #import "CMRSearchOptions.h"
@@ -354,3 +357,5 @@ ErrFilterByFindOperation:
 	return result_;
 }
 @end
+
+#endif

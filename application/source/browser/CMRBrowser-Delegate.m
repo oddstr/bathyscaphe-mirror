@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.20 2006/06/24 16:23:38 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.21 2006/09/02 11:41:01 masakih Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -487,7 +487,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 				? CMRAutoscrollWhenTLUpdate
 				: [maskNum_ unsignedIntValue];
 	
-	[[self currentThreadsList] filterByDisplayingThreadAtPath : [self path]];
+//	[[self currentThreadsList] filterByDisplayingThreadAtPath : [self path]];
 	[self synchronizeWithSearchField];
 
 //	NSLog(@"threadsListDidFinishUpdate updateDateFormatter");

@@ -10,6 +10,8 @@
 
 #import "CMRBBSListTemplateKeys.h"
 
+#import <SGAppKit/NSImage-SGExtensions.h>
+
 static NSString *FolderBoardListItemItemsKey = @"FolderBoardListItemItemsKey";
 
 @implementation FolderBoardListItem

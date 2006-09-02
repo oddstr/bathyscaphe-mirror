@@ -10,6 +10,7 @@
 //	IBOutlet NSPopUpButton *allOrAnyPopUp;
 //	IBOutlet NSScrollView *container;
 //	IBOutlet NSButton *includeFallInDATCheck;
+//	IBOutlet NSButton *excludeAdThreadCheck;
 //	IBOutlet NSTextField *nameField;
 //はrootHelperにのみ存在し、(SmartBoardListItemEditor.nib内で接続）
 //	IBOutlet id expressionView;
@@ -726,7 +727,7 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 	NSString *criterion;
 	id value1, value2 = nil;
 	
-	SCOperation operation = SCUnknownOperation;
+	SCOperator operator = SCUnknownOperator;
 	QualifierMenuItemTags qualifier = [self currentQualifierItemTag];
 	
 	int tag;
@@ -738,61 +739,61 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 	{
 		switch(qualifier) {
 			case containsQualifierItemTag:
-				operation = SCContaionsOperation;
+				operator = SCContaionsOperator;
 				break;
 			case notContainsQualifierItemTag:
-				operation = SCNotContainsOperation;
+				operator = SCNotContainsOperator;
 				break;
 			case exactQualifierItemTag:
-				operation = SCExactOperation;
+				operator = SCExactOperator;
 				break;
 			case notExactQualifierItemTag:
-				operation = SCNotExactOperation;
+				operator = SCNotExactOperator;
 				break;
 			case beginsWithQualifierItemTag:
-				operation = SCBeginsWithOperation;
+				operator = SCBeginsWithOperator;
 				break;
 			case endsWithQualifierItemTag:
-				operation = SCEndsWithOperation;
+				operator = SCEndsWithOperator;
 				break;
 			case isEqualQualifierItemTag:
 			case daysIsEqualQualifierItemTag:
 			case dateIsEqualQualifierItemTag:
-				operation = SCEqualOperation;
+				operator = SCEqualOperator;
 				break;
 			case notEqualQualifierItemTag:
 			case dateNotEqualQualifierItemTag:
-				operation = SCNotEqualOperation;
+				operator = SCNotEqualOperator;
 				break;
 			case largerThanQualifierItemTag:
 			case daysLargerThanQualifierItemTaag:
 			case dateLargerThanQualifierItemTaag:
-				operation = SCLargerOperation;
+				operator = SCLargerOperator;
 				break;
 			case smallerThanQualifierItemTag:
 			case daysSmallerThanQualifierItemTag:
 			case dateSmallerThanQualifierItemTag:
-				operation = SCSmallerOperation;
+				operator = SCSmallerOperator;
 				break;
 			case rangeQualifierItemTag:
 			case daysRangeQualifierItemTag:
 			case dateRangeQualifierItemTag:
-				operation = SCRangeOperation;
+				operator = SCRangeOperator;
 				break;
 			case daysTodayQualifierItemTag:
 			case daysYesterdayQualifierItemTag:
 			case daysThisWeekQualifierItemTag:
 			case daysLastWeekQualifierItemTag:
-				operation = -2;
+				operator = -2;
 				break;
 			default:
-				operation = -1;
+				operator = -1;
 				break;
 		}
 		
-		if(operation == -2) {
+		if(operator == -2) {
 			return [self daysDateCondition];
-		} else if(operation == -1) {
+		} else if(operator == -1) {
 			return nil;
 		}
 	}
@@ -815,11 +816,11 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 		} else if(qualifier < dateItemExtension) {	// 相対日付
 			int v = [[self uiItemForTag:daysExpressionFieldTag] intValue];
 			v *= [[[self uiItemForTag:daysUnitPopUpTag] selectedItem] tag];
-			value1 = [NSNumber numberWithInt:v];
+			value1 = [NSNumber numberWithInt:-1 * v];
 			if(qualifier == daysRangeQualifierItemTag) {
 				v = [[self uiItemForTag:daysExpressionField2Tag] intValue];
 				v *= [[[self uiItemForTag:daysUnitPopUpTag] selectedItem] tag];
-				value2 = [NSNumber numberWithInt:v];
+				value2 = [NSNumber numberWithInt:-1 * v];
 			}
 			condClasss = [RelativeDateLiveCondition class];
 		} else if(qualifier < lastExtensionsLabel) { // 絶対日付
@@ -841,12 +842,12 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 		//
 		if(value2) {
 			result = [condClasss conditionWithTarget:criterion
-										   operation:operation
+										   operator:operator
 											   value:value1
 											   value:value2];
 		} else {
 			result = [condClasss conditionWithTarget:criterion
-										   operation:operation
+										   operator:operator
 											   value:value1];
 		}
 	}
@@ -858,7 +859,7 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 {
 	NSMutableArray *array;
 	SmartBLIEditorHelper *helper;
-	SCCOperation ope;
+	SCCOperator ope;
 	
 	if(self != [self rootHelper]) return nil;
 	
@@ -873,7 +874,7 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 	
 	ope = [[allOrAnyPopUp selectedItem] tag];
 	
-	return [[[SmartConditionComposit alloc] initCompositWithOperation:ope
+	return [[[SmartConditionComposit alloc] initCompositWithOperator:ope
 														   conditions:array] autorelease];
 }
 
@@ -885,6 +886,16 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 - (BOOL)buildHelperFromCondition:(id<SmartCondition>)condition
 {
 	//
+	// SmartConditionComposit かどうか。
+	
+	
+	// SmartCondition なら、
+	// key = [cond key];
+	// v1 = [cond value];
+	// if(SCRangeOperator == [cond operator]) {
+	//		v2 = [cond value2];
+	// }
+	// 
 }
 
 @end

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFavoritesManager.m,v 1.12 2006/06/28 18:37:32 tsawada2 Exp $
+  * $Id: CMRFavoritesManager.m,v 1.13 2006/09/02 11:41:01 masakih Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
@@ -8,6 +8,12 @@
 #import "CocoMonar_Prefix.h"
 
 #import "CMRThreadAttributes.h"
+
+#import "BSDBThreadList.h"
+#import "DatabaseManager.h"
+
+#import "CMRTrashbox.h"
+#import "CMRDocumentFileManager.h"
 
 #import "BSDBThreadList.h"
 #import "DatabaseManager.h"

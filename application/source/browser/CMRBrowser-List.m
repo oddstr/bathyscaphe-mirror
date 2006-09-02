@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.13 2006/04/11 17:31:21 masakih Exp $
+  * $Id: CMRBrowser-List.m,v 1.14 2006/09/02 11:41:01 masakih Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -39,7 +39,9 @@
 		 oldDelegate : [self currentThreadsList]
 		 newDelegate : newList];
 	
-	[[self threadsListTable] setDataSource : newList];
+	if(![[self threadsListTable] dataSource]) {
+		[[self threadsListTable] setDataSource : newList];
+	}
 	[[self document] setCurrentThreadsList : newList];
 
 	[self clearSearchFilter];
@@ -70,7 +72,7 @@
 	}
 	
 	[[self threadsListTable] deselectAll : nil];
-	[[self threadsListTable] setDataSource : nil];
+//	[[self threadsListTable] setDataSource : nil];
 	
 	list_ = [BSDBThreadList threadsListWithBBSName : boardName];
 	if(nil == list_)

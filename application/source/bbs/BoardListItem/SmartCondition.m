@@ -35,7 +35,7 @@ static NSDictionary *sConditionTypes = nil;
 	}
 //	}
 }
-+ (BOOL) checkCoordinationTarget : (NSString *)target andOperation : (SCOperation)operation
++ (BOOL) checkCoordinationTarget : (NSString *)target andOperator : (SCOperator)operator
 {
 	BOOL result = NO;
 	id dict = [sConditionTypes objectForKey : target];
@@ -47,22 +47,22 @@ static NSDictionary *sConditionTypes = nil;
 	if(!valueType) return NO;
 	if(![valueType isKindOfClass : [NSString class]]) return NO;
 	
-	switch(operation) {
-		case SCBeginsWithOperation:
-		case SCEndsWithOperation:
-		case SCContaionsOperation:
-		case SCNotContainsOperation:
-		case SCExactOperation:
-		case SCNotExactOperation:
+	switch(operator) {
+		case SCBeginsWithOperator:
+		case SCEndsWithOperator:
+		case SCContaionsOperator:
+		case SCNotContainsOperator:
+		case SCExactOperator:
+		case SCNotExactOperator:
 			if([valueType isEqualTo : @"NSString"]) {
 				result = YES;
 			}
 			break;
-		case SCLargerOperation:
-		case SCEqualOperation:
-		case SCNotEqualOperation:
-		case SCSmallerOperation:
-		case SCRangeOperation:
+		case SCLargerOperator:
+		case SCEqualOperator:
+		case SCNotEqualOperator:
+		case SCSmallerOperator:
+		case SCRangeOperator:
 			if([valueType isEqualTo : @"NSNumber"]
 			   || [valueType isEqualTo : @"NSDate"]) {
 				result = YES;
@@ -99,16 +99,16 @@ static NSDictionary *sConditionTypes = nil;
 	return NO;
 }
 
-+ (id) conditionWithTarget : (NSString *)target operation : (SCOperation)operation value : (id)value
++ (id) conditionWithTarget : (NSString *)target operator : (SCOperator)operator value : (id)value
 {
-	return [[[[self class] alloc] initWithTarget : target operation : operation value : value] autorelease];
+	return [[[[self class] alloc] initWithTarget : target operator : operator value : value] autorelease];
 }
-+ (id) conditionWithTarget : (NSString *)target operation : (SCOperation)operation value : (id)value1 value : (id) value2
++ (id) conditionWithTarget : (NSString *)target operator : (SCOperator)operator value : (id)value1 value : (id) value2
 {
-	return [[[[self class] alloc] initWithTarget : target operation : operation value : value1 value : value2] autorelease];
+	return [[[[self class] alloc] initWithTarget : target operator : operator value : value1 value : value2] autorelease];
 }
 
-- (id) initWithTarget : (NSString *)target operation : (SCOperation)operation value : (id)value
+- (id) initWithTarget : (NSString *)target operator : (SCOperator)operator value : (id)value
 {
 	UTILAssertNotNilArgument(target, @"target");
 	
@@ -117,18 +117,18 @@ static NSDictionary *sConditionTypes = nil;
 			[self release];
 			return nil;
 		}
-		if(![[self class] checkCoordinationTarget : target andOperation : operation]) {
+		if(![[self class] checkCoordinationTarget : target andOperator : operator]) {
 			[self release];
 			return nil;
 		}
 		mTarget = [target retain];
-		mOperation = operation;
+		mOperator = operator;
 		[self _setValue1 : value];
 	}
 	
 	return self;
 }
-- (id) initWithTarget : (NSString *)target operation : (SCOperation)operation value : (id)value1 value : (id) value2
+- (id) initWithTarget : (NSString *)target operator : (SCOperator)operator value : (id)value1 value : (id) value2
 {
 	UTILAssertNotNilArgument(target, @"target");
 	
@@ -138,12 +138,20 @@ static NSDictionary *sConditionTypes = nil;
 			[self release];
 			return nil;
 		}
-		if(![[self class] checkCoordinationTarget : target andOperation : operation]) {
+		if(![[self class] checkCoordinationTarget : target andOperator : operator]) {
 			[self release];
 			return nil;
 		}
 		mTarget = [target retain];
-		mOperation = operation;
+		mOperator = operator;
+		
+		if(mOperator == SCRangeOperator) {
+			if([value1 floatValue] > [value2 floatValue]) {
+				id t = value1;
+				value1 = value2;
+				value2 = t;
+			}
+		}
 		[self _setValue1 : value1];
 		[self _setValue2 : value2];
 	}
@@ -153,46 +161,47 @@ static NSDictionary *sConditionTypes = nil;
 
 - (NSString *)conditionString
 {
+	NSString *result = nil;
 	NSString *format = nil;
 	BOOL useValue2 = NO;
 	
-	switch(mOperation) {
-		case SCBeginsWithOperation:
+	switch(mOperator) {
+		case SCBeginsWithOperator:
 			format = @"%@ LIKE '%@%%'";
 			break;
-		case SCEndsWithOperation:
+		case SCEndsWithOperator:
 			format = @"%@ LIKE '%%%@'";
 			break;
-		case SCContaionsOperation:
+		case SCContaionsOperator:
 			format = @"%@ LIKE '%%%@%%'";
 			break;
-		case SCNotContainsOperation:
+		case SCNotContainsOperator:
 			format = @"%@ NOT LIKE '%%%@%%'";
 			break;
-		case SCExactOperation:
+		case SCExactOperator:
 			format = @"%@ LIKE '%@'";
 			break;
-		case SCNotExactOperation:
+		case SCNotExactOperator:
 			format = @"%@ NOT LIKE '%@'";
 			break;
-		case SCLargerOperation:
+		case SCLargerOperator:
 			format = @"%@ > %@";
 			break;
-		case SCEqualOperation:
+		case SCEqualOperator:
 			format = @"%@ = %@";
 			break;
-		case SCNotEqualOperation:
+		case SCNotEqualOperator:
 			format = @"%@ != %@";
 			break;
-		case SCSmallerOperation:
+		case SCSmallerOperator:
 			format = @"%@ < %@";
 			break;
-		case SCRangeOperation:
+		case SCRangeOperator:
 			format = @"(%@ > %@ AND %@ < %@)";
 			useValue2 = YES;
 			break;
 		default:
-			UTILUnknownCSwitchCase(mOperation);
+			UTILUnknownCSwitchCase(mOperator);
 			break;
 	}
 	
@@ -200,9 +209,14 @@ static NSDictionary *sConditionTypes = nil;
 	if(!mValue1) return nil;
 	if(useValue2 && !mValue2) return nil;
 	
-	return (useValue2) ? [NSString stringWithFormat : format, mTarget, mValue1, mTarget, mValue2] :
-		[NSString stringWithFormat:format, mTarget, mValue1];
-		
+	if(useValue2) {
+		result = [NSString stringWithFormat : format, 
+			[self key], [self value], [self key], [self value2]];
+	} else {
+		result = [NSString stringWithFormat:format, [self key], [self value]];
+	}
+	
+	return result;
 }
 
 - (NSString *)description
@@ -235,6 +249,22 @@ static inline void setValueToValue( id value, id *toValue )
 {
 	setValueToValue(value, &mValue2);
 }
+- (id)key
+{
+	return mTarget;
+}
+- (id)value
+{
+	return mValue1;
+}
+- (id)value2
+{
+	return mValue2;
+}
+- (SCOperator)operator
+{
+	return mOperator;
+}
 
 
 #pragma mark## NSCoding ##
@@ -247,14 +277,14 @@ static NSString *SCValue2CodingKey = @"SCValue2CodingKey";
 {
 	if([aCoder allowsKeyedCoding]) {
 		[aCoder encodeObject:mTarget forKey:SCTargetCodingKey];
-		[aCoder encodeObject:[NSNumber numberWithInt:mOperation] forKey:SCOperationCodingKey];
+		[aCoder encodeObject:[NSNumber numberWithInt:mOperator] forKey:SCOperationCodingKey];
 		[aCoder encodeObject:mValue1 forKey:SCValue1CodingKey];
 		if(mValue2) {
 			[aCoder encodeObject:mValue2 forKey:SCValue2CodingKey];
 		}
 	} else {
 		[aCoder encodeObject:mTarget];
-		[aCoder encodeObject:[NSNumber numberWithInt:mOperation]];
+		[aCoder encodeObject:[NSNumber numberWithInt:mOperator]];
 		[aCoder encodeObject:mValue1];
 		if(mValue2) {
 			[aCoder encodeObject:mValue2];
@@ -275,99 +305,37 @@ static NSString *SCValue2CodingKey = @"SCValue2CodingKey";
 		target = [aDecoder decodeObject];
 		ope = [[aDecoder decodeObject] intValue];
 		value1 = [aDecoder decodeObject];
-		if(ope == SCRangeOperation) {
+		if(ope == SCRangeOperator) {
 			value2 = [aDecoder decodeObject];
 		}
 	}
 	
 	if(value2) {
-		self = [self initWithTarget:target operation:ope value:value1 value:value2];
+		self = [self initWithTarget:target operator:ope value:value1 value:value2];
 	} else {
-		self = [self initWithTarget:target operation:ope value:value1];
+		self = [self initWithTarget:target operator:ope value:value1];
 	}
 	
 	return self;
 }
+
 @end
 
 @implementation RelativeDateLiveCondition
-- (id) initWithTarget : (NSString *)target operation : (SCOperation)operation value : (id)value
+
+- (id)value
 {
-	if( self = [super initWithTarget:target operation:operation value:value] ) {
-		mAbsoluteDate1 = [value retain];
-		[self update];
-	}
+	NSDate *date = [NSDate dateWithTimeIntervalSinceNow:[mValue1 intValue]];
 	
-	return self;
+	return [NSNumber numberWithInt:[date timeIntervalSince1970]];
 }
-- (id) initWithTarget : (NSString *)target operation : (SCOperation)operation value : (id)value1 value : (id) value2
+- (id)value2
 {
-	if( self = [super initWithTarget:target operation:operation value:value1 value:value2] ) {
-		mAbsoluteDate1 = [value1 retain];
-		mAbsoluteDate2 = [value2 retain];
-		[self update];
-	}
+	NSDate *date = [NSDate dateWithTimeIntervalSinceNow:[mValue2 intValue]];
 	
-	return self;
-	
-	return self;
-}
-- (NSString *)conditionString
-{
-	[self update];
-	return [super conditionString];
-}
-- (NSString *) description
-{
-	return [super description];
-}
-- (void)update
-{
-	id now = [NSDate dateWithTimeIntervalSinceNow:0.0];
-	//	@synchronized(self) {
-	[self _setValue1:[NSNumber numberWithInt:[now timeIntervalSince1970] - [mAbsoluteDate1 intValue]]];
-	if(mAbsoluteDate2) {
-		[self _setValue2:[NSNumber numberWithInt:[now timeIntervalSince1970] - [mAbsoluteDate2 intValue]]];
-	}
-	//	}
+	return [NSNumber numberWithInt:[date timeIntervalSince1970]];
 }
 
-#pragma mark## NSCoding ##
-static NSString *ADValue1CodingKey = @"ADValue1CodingKey";
-static NSString *ADValue2CodingKey = @"ADValue2CodingKey";
-
-- (void)encodeWithCoder:(NSCoder *)aCoder
-{
-	[super encodeWithCoder:aCoder];
-	
-	if([aCoder allowsKeyedCoding]) {
-		[aCoder encodeObject:mAbsoluteDate1 forKey:ADValue1CodingKey];
-		if(mAbsoluteDate2) {
-			[aCoder encodeObject:mAbsoluteDate2 forKey:ADValue2CodingKey];
-		}
-	} else {
-		[aCoder encodeObject:mAbsoluteDate1];
-		if(mAbsoluteDate2) {
-			[aCoder encodeObject:mAbsoluteDate2];
-		}
-	}
-}
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-	if( self = [super initWithCoder:aDecoder]) {
-		if([aDecoder allowsKeyedCoding]) {
-			mAbsoluteDate1 = [[aDecoder decodeObjectForKey:ADValue1CodingKey] retain];
-			mAbsoluteDate2 = [[aDecoder decodeObjectForKey:ADValue2CodingKey] retain];
-		} else {
-			mAbsoluteDate1 = [[aDecoder decodeObject] retain];
-			if(mOperation == SCRangeOperation) {
-				mAbsoluteDate2 = [[aDecoder decodeObject] retain];
-			}
-		}
-	}
-	
-	return self;
-}
 @end
 
 
@@ -405,7 +373,7 @@ NSArray *arrayFromValist( id firstCondition, va_list ap )
 	id result;
 	
 	va_start(ap, firstCondition);
-	result = [[[[self class] alloc] initCompositWithOperation:SCCUnionOperation
+	result = [[[[self class] alloc] initCompositWithOperator:SCCUnionOperator
 												   conditions:arrayFromValist(firstCondition, ap)] autorelease];
 	va_end(ap);
 	
@@ -417,16 +385,16 @@ NSArray *arrayFromValist( id firstCondition, va_list ap )
 	id result;
 	
 	va_start(ap, firstCondition);
-	result = [[[[self class] alloc] initCompositWithOperation:SCCIntersectionOperation
+	result = [[[[self class] alloc] initCompositWithOperator:SCCIntersectionOperator
 												   conditions:arrayFromValist(firstCondition, ap)] autorelease];
 	va_end(ap);
 	
 	return result;
 }
 
-static inline BOOL checkOperation( SCCOperation ope)
+static inline BOOL checkOperator( SCCOperator ope)
 {
-	return (ope == SCCUnionOperation || ope == SCCIntersectionOperation) ? YES : NO;
+	return (ope == SCCUnionOperator || ope == SCCIntersectionOperator) ? YES : NO;
 }
 static inline BOOL checkConditions( NSArray *conditions)
 {
@@ -444,17 +412,17 @@ static inline BOOL checkConditions( NSArray *conditions)
 	return YES;
 }
 // primitive method.
-- (id)initCompositWithOperation:(SCCOperation)ope conditions:(NSArray *)conditions
+- (id)initCompositWithOperator:(SCCOperator)ope conditions:(NSArray *)conditions
 {
 	if(self = [super init]) {
-		if(!checkOperation(ope)) {
+		if(!checkOperator(ope)) {
 			goto fail;
 		}
 		if(!checkConditions(conditions)) {
 			goto fail;
 		}
 		
-		mOperation = ope;
+		mOperator = ope;
 		mConditions = [[NSArray alloc] initWithArray:conditions];
 	}
 	
@@ -467,12 +435,12 @@ fail:{
 }
 - (id)initUnionCompositWithArray : (NSArray *)conditions
 {
-	return [self initCompositWithOperation:SCCUnionOperation
+	return [self initCompositWithOperator:SCCUnionOperator
 								conditions:conditions];
 }
 - (id)initIntersectionCompositWithArray : (NSArray *)conditions
 {
-	return [self initCompositWithOperation:SCCIntersectionOperation
+	return [self initCompositWithOperator:SCCIntersectionOperator
 								conditions:conditions];
 }
 - (id)initUnionCompositWithConditions : (id)firstCondition, ...
@@ -503,15 +471,15 @@ fail:{
 	NSMutableString *result;
 	NSString *comp = nil;
 	
-	switch(mOperation) {
-		case SCCUnionOperation:
+	switch(mOperator) {
+		case SCCUnionOperator:
 			comp = @") AND (";
 			break;
-		case SCCIntersectionOperation:
+		case SCCIntersectionOperator:
 			comp = @") OR (";
 			break;
 		default:
-			UTILUnknownSwitchCase(mOperation);
+			UTILUnknownSwitchCase(mOperator);
 			break;
 	}
 	
@@ -533,9 +501,9 @@ fail:{
 {
 	return mConditions;
 }
-- (SCCOperation)operation
+- (SCCOperator)operator
 {
-	return mOperation;
+	return mOperator;
 }
 
 #pragma mark## NSCoding ##
@@ -545,10 +513,10 @@ static NSString *SCCConditionsCodingKey = @"SCValue1CodingKey";
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
 	if([aCoder allowsKeyedCoding]) {
-		[aCoder encodeObject:[NSNumber numberWithInt:mOperation] forKey:SCCOperationCodingKey];
+		[aCoder encodeObject:[NSNumber numberWithInt:mOperator] forKey:SCCOperationCodingKey];
 		[aCoder encodeObject:mConditions forKey:SCCConditionsCodingKey];
 	} else {
-		[aCoder encodeObject:[NSNumber numberWithInt:mOperation]];
+		[aCoder encodeObject:[NSNumber numberWithInt:mOperator]];
 		[aCoder encodeObject:mConditions];
 	}
 }
@@ -565,6 +533,6 @@ static NSString *SCCConditionsCodingKey = @"SCValue1CodingKey";
 		cond = [aDecoder decodeObject];
 	}
 	
-	return [self initCompositWithOperation:ope conditions:cond];
+	return [self initCompositWithOperator:ope conditions:cond];
 }
 @end
