@@ -22,17 +22,24 @@ extern NSImage  *imageForType(BoardListItemType type); // described in BoardList
 {
 	if (nil == _noNameDict) {
 		NSString *errorStr;
-//		_noNameDict = [[NSMutableDictionary alloc] initWithContentsOfFile: [[self class] NNDFilepath]];
-		_noNameDict = [[NSPropertyListSerialization propertyListFromData: [NSMutableData dataWithContentsOfFile: [[self class] NNDFilepath]]
-														mutabilityOption: NSPropertyListMutableContainersAndLeaves
-																  format: NULL
-														errorDescription: &errorStr] retain];
-		if (errorStr != nil) {
-			NSLog(@"BoardManager failed to read BoardProperties.plist. NSPropertyListSerialization said %@", errorStr);
-			[errorStr release];
+		NSMutableData	*plistData;
+		
+		plistData = [NSMutableData dataWithContentsOfFile: [[self class] NNDFilepath]];
+		if (plistData) {
+			_noNameDict = [NSPropertyListSerialization propertyListFromData: plistData
+														   mutabilityOption: NSPropertyListMutableContainersAndLeaves
+																	 format: NULL
+														   errorDescription: &errorStr];
+			if (!_noNameDict) {
+				NSLog(@"BoardManager failed to read BoardProperties.plist using NSPropertyListSerialization.");
+				//NSLog(errorStr);
+				//[errorStr release];
+			} else {
+				[_noNameDict retain];
+			}
 		}
-
 	}
+
 	if (nil == _noNameDict) {
 		_noNameDict = [[NSMutableDictionary alloc] initWithContentsOfFile: [[self class] NNDFilepath]];
 	}
@@ -151,17 +158,6 @@ extern NSImage  *imageForType(BoardListItemType type); // described in BoardList
 #pragma mark DEPRECATED IN METEORSWEEPER
 - (NSString *) defaultNoNameForBoard : (NSString *) boardName
 {
-	/*id entry_;
-	
-	entry_ = [self entryForBoardName : boardName];
-
-	if ([entry_ isKindOfClass : [NSString class]]) {
-		return [[self noNameDict] stringForKey : boardName];
-	} else if ([entry_ isKindOfClass : [NSDictionary class]]) {
-		return [entry_ stringForKey : NNDNoNameKey];
-	} else {
-		return nil;
-	}*/
 	NSLog(@"Method -defaultNoNameForBoard: has been deprecated. Use -defaultNoNameSetForBoard: instead.");
 	return nil;
 }
@@ -169,23 +165,6 @@ extern NSImage  *imageForType(BoardListItemType type); // described in BoardList
 - (void) setDefaultNoName : (NSString *) aName
 			 	 forBoard : (NSString *) boardName
 {
-	/*UTILAssertNotNil(aName);
-	UTILAssertNotNil(boardName);
-
-    NSMutableDictionary *nnd_ = [self noNameDict]; 	
-	id entry_ = [self entryForBoardName : boardName];
-	
-	if (entry_ == nil || [entry_ isKindOfClass : [NSString class]]) {
-		[nnd_ setObject: [NSDictionary dictionaryWithObject: aName forKey: NNDNoNameKey]
-				 forKey: boardName];
-	} else {
-		NSMutableDictionary		*mutableEntry_;
-		
-		mutableEntry_ = [entry_ mutableCopy];
-		[mutableEntry_ setObject : aName forKey : NNDNoNameKey];
-		[nnd_ setObject: mutableEntry_ forKey: boardName];
-		[mutableEntry_ release];
-	}*/
 	NSLog(@"Method -setDefaultNoName:forBoard: has been deprecated. Use -setDefaultNoNameSet:forBoard: instead.");
 }
 #pragma mark -

@@ -1,3 +1,12 @@
+2006-09-02 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/CMRThreadView.m
+		透明あぼーん時の poof animation を滑らかに表示するように変更。
+		- 今までは、「透明あぼーんしてから poof」していたが、「poof してから、透明あぼーん」に変えた。
+	* application/source/bbs/BoardManager-BSAddition.m
+	* application/source/bbs/BoardManager.m
+	* application/source/composer/CMRSpamFilter.m
+		Mac OS X 10.3.x: NSLog() でクラッシュする可能性のあった箇所を修正。
+================================================================================= Sneaky v242
 2006-09-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/previewer/BSIPIImageView.m
 	* application/subproj/previewer/BSImagePreviewInspector-Tb.m

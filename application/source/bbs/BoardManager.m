@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.m,v 1.6.2.2 2006/08/31 10:18:40 tsawada2 Exp $
+ * $Id: BoardManager.m,v 1.6.2.3 2006/09/02 14:30:12 tsawada2 Exp $
  * 
  * BoardManager.m
  *
@@ -351,9 +351,10 @@ static id kDefaultManager;
 																	 format: NSPropertyListBinaryFormat_v1_0
 														   errorDescription: &errorStr];
 
-	if (errorStr) {
-		NSLog(@"BoardManager failed to serialize noNameDict. NSPropertyListSerialization said: %@", errorStr);
-		[errorStr release];
+	if (!binaryData_) {
+		NSLog(@"BoardManager failed to serialize noNameDict using NSPropertyListSerialization.");
+		//NSLog(errorStr);
+		//[errorStr release];
 		return [noNameDict_ writeToFile: [[self class] NNDFilepath] atomically: YES];
 	}
 	
@@ -372,8 +373,6 @@ static id kDefaultManager;
 	[self saveListsIfNeed];
 
 	// NoNames.plist ÇÕèÌÇ…ï€ë∂
-	//[[self noNameDict] writeToFile : [[self class] NNDFilepath]
-	//					atomically : YES];
 	[self saveNoNameDict];
 }
 

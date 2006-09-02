@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRSpamFilter.m,v 1.1.1.1.8.1 2006/08/31 10:18:40 tsawada2 Exp $
+  * $Id: CMRSpamFilter.m,v 1.1.1.1.8.2 2006/09/02 14:30:12 tsawada2 Exp $
   * 
   * CMRSpamFilter.m
   *
@@ -55,27 +55,33 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 					    name : NSApplicationWillTerminateNotification
 					  object : NSApp];
 		if (nil == _detecter) {
+			NSData			*data;
 			NSDictionary	*rep;
 			id				v;
 			
 			NSString *errorStr;
+			
+			data = [NSData dataWithContentsOfFile: [[self class] defaultFilepath]];
+			
+			if (data) {
+				rep = [NSPropertyListSerialization propertyListFromData: data
+													   mutabilityOption: NSPropertyListImmutable
+																 format: NULL
+													   errorDescription: &errorStr];
+				
+				if (!rep) {
+					NSLog(@"CMRSpamFilter failed to read BSSpamFilter.plist with NSPropertyListSerialization");
+					//NSLog(errorStr);
+					//[errorStr release];
 
-			rep = [NSPropertyListSerialization propertyListFromData: [NSMutableData dataWithContentsOfFile: [[self class] defaultFilepath]]
-															mutabilityOption: NSPropertyListImmutable
-																	  format: NULL
-															errorDescription: &errorStr];
-			if (errorStr != nil) {
-				NSLog(@"CMRSpamFilter failed to read BSSpamFilter.plist. NSPropertyListSerialization said %@", errorStr);
-				[errorStr release];
-			}
-			
-			if (!rep) {
-				rep = [NSDictionary dictionaryWithContentsOfFile : [[self class] defaultFilepath]];
-			}
-			
-			if (!rep) {
+					rep = [NSDictionary dictionaryWithContentsOfFile : [[self class] defaultFilepath]];
+					if (!rep) {
+						rep = [NSDictionary dictionaryWithContentsOfFile: [[self class] oldDefaultFilepath]];
+					}
+				}
+			} else {
 				rep = [NSDictionary dictionaryWithContentsOfFile : [[self class] oldDefaultFilepath]];
-			}			
+			}
 
 			v = [[rep arrayForKey : kDetectersKey] head];
 			_detecter = [[CMRSamplingDetecter alloc] initWithDictionaryRepresentation : v];
@@ -85,6 +91,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	}
 	return self;
 }
+
 - (void) dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver : self];
@@ -134,9 +141,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 																	 format: NSPropertyListBinaryFormat_v1_0
 														   errorDescription: &errorStr];
 
-	if (errorStr) {
-		NSLog(@"BoardManager failed to serialize noNameDict. NSPropertyListSerialization said: %@", errorStr);
-		[errorStr release];
+	if (!binaryData_) {
+		NSLog(@"BoardManager failed to serialize noNameDict with NSPropertyListSerialization.");
 		return [rep writeToFile: [[self class] defaultFilepath] atomically: YES];
 	}
 	
@@ -166,8 +172,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 		[rep setObject : [NSArray arrayWithObject : v]
 				forKey : kDetectersKey];
 	}
-	//[rep writeToFile : [[self class] defaultFilepath]
-	//	  atomically : YES];
+
 	[self saveRepresentation: rep];
 }
 - (void) postDidChangeNotification
