@@ -32,6 +32,8 @@ static NSString *const kBWTempmlateConvertToolKey = @"%%%SJIS%%%";
 static NSString *const kBWTemplateBBSMenuHTMLKey = @"%%%HTML%%%";
 static NSString *const kBWTemplateLogFolderPathKey = @"%%%LOGFOLDER%%%";
 
+static NSString *const kBWLogFileName = @"BathyScaphe BoardWarrior.log";
+
 @implementation BoardWarrior
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 
@@ -52,6 +54,13 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 }
 
 #pragma mark -
+static NSData *encodedLocalizedStringForKey(NSString *key, NSString *format)
+{
+	NSString *str = NSLocalizedString(key, key);
+	
+	return [[NSString stringWithFormat: str, format] dataUsingEncoding: NSUTF8StringEncoding];
+}
+
 - (BOOL) syncBoardLists
 {
 	return [self syncBoardListsWithURL: [CMRPref BBSMenuURL]];
@@ -69,6 +78,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 	newDownload_ = [[BSIPIDownload alloc] initWithURLIdentifier: anURL delegate: self destination: tmpDir_];
 	if (newDownload_) {
 		m_isInProgress = YES;
+		[self writeLogsToFileWithUTF8Data: encodedLocalizedStringForKey(@"BW_start at date %@", [[NSDate date] description])];
 	} else {
 		return NO;
 	}
@@ -83,6 +93,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 
 	if (errMsg) {
 		NSDictionary *info_ = [NSDictionary dictionaryWithObject: errMsg forKey: kBWInfoErrorStringKey];
+		[self writeLogsToFileWithUTF8Data: [errMsg dataUsingEncoding: NSUTF8StringEncoding]];
 		UTILNotifyInfo(BoardWarriorDidFailCreateDefaultListTaskNotification, info_);
 		return;
 	}
@@ -92,6 +103,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 	
 	if (errMsg2) {
 		NSDictionary *info_ = [NSDictionary dictionaryWithObject: errMsg2 forKey: kBWInfoErrorStringKey];
+		[self writeLogsToFileWithUTF8Data: [errMsg2 dataUsingEncoding: NSUTF8StringEncoding]];
 		UTILNotifyInfo(BoardWarriorDidFailSyncUserListTaskNotification, info_);
 		return;
 	}
@@ -99,8 +111,11 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 	// delete bbsmenu.html
 	[[NSFileManager defaultManager] removeFileAtPath: htmlPath handler: nil];
 
-	[CMRPref setLastSyncDate: [NSDate date]];
+	NSDate *date_ = [NSDate date];
+
+	[CMRPref setLastSyncDate: date_];
 	m_isInProgress = NO;
+	[self writeLogsToFileWithUTF8Data: encodedLocalizedStringForKey(@"BW_finish at date %@", [date_ description])];
 
 	UTILNotifyName(BoardWarriorDidFinishAllTaskNotification);
 	[[CMRFileManager defaultManager] updateWatchedFiles]; // This is CMRFileManager's private method. 
@@ -111,6 +126,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 {
 	NSDictionary *info_ = [NSDictionary dictionaryWithObject: [NSNumber numberWithDouble: expectedLength] forKey: kBWInfoExpectedLengthKey];
 	m_expectedContentLength = expectedLength;
+
+	[self writeLogsToFileWithUTF8Data: encodedLocalizedStringForKey(@"BW_download from %@", [[aDownload URLIdentifier] absoluteString])];	
 	UTILNotifyInfo(BoardWarriorWillStartDownloadNotification, info_);
 }
 
@@ -122,6 +139,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 - (void) bsIPIdownloadDidFinish: (BSIPIDownload *) aDownload
 {
 	NSString *downloadedFilePath_ = [aDownload downloadedFilePath];
+	[self writeLogsToFileWithUTF8Data: [NSLocalizedString(@"BW_download finish", @"Download finished.") dataUsingEncoding: NSUTF8StringEncoding]];
 	UTILNotifyName(BoardWarriorDidFinishDownloadNotification);
 
 	[aDownload release];
@@ -131,7 +149,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 
 - (void) bsIPIdownload: (BSIPIDownload *) aDownload didFailWithError: (NSError *) aError
 {
-	NSLog(@"%@",[aError description]);
+	//NSLog(@"%@",[aError description]);
+	[self writeLogsToFileWithUTF8Data: encodedLocalizedStringForKey(@"BW_download fail %@", [aError description])];
 
 	[aDownload release];
 	m_isInProgress = NO;
@@ -198,7 +217,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 	
 	NSURL *url_ = [self fileURLWithResource: scriptName ofType: @"scpt"];
 	if (!url_) {
-		return [NSString stringWithFormat: @"Script file %@.scpt not found.", scriptName];
+		return [NSString stringWithFormat: NSLocalizedString(@"BW_fail_script1", @"Script file %@.scpt not found."), scriptName];
 	}
 
 	NSAppleScript *script_ = [[NSAppleScript alloc] initWithContentsOfURL: url_ error: &errInfo];
@@ -211,7 +230,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 	[script_ release];
 
 	if (NO == [self replaceTemplateTags: hoge_ withHTMLPath: htmlPath]) {
-		return @"Can't replace template tags."; 
+		return NSLocalizedString(@"BW_fail_script2", @"Can't replace template tags."); 
 	}
 
 	NSAppleScript *newScript_ = [[NSAppleScript alloc] initWithSource: hoge_];
@@ -222,7 +241,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 	}
 
 	if ([scriptResult descriptorType]) {
-        NSLog(@"script %@.scpt executed successfully.", scriptName);
+        //NSLog(@"script %@.scpt executed successfully.", scriptName);
+		[self writeLogsToFileWithUTF8Data: encodedLocalizedStringForKey(@"BW_run %@", scriptName)];
         /*if (kAENullEvent!=[scriptResult descriptorType]) {
 			NSLog(@"%@",[scriptResult stringValue]);
         } else {
@@ -233,5 +253,34 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 	[hoge_ release];
 	[newScript_ release];
 	return nil;
+}
+
+- (BOOL) writeLogsToFileWithUTF8Data: (NSData *) encodedData
+{
+	if (!encodedData) return NO;
+
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+	BOOL	isDir;
+
+	if ([paths count] == 1) {
+		NSFileManager *fileManager = [NSFileManager defaultManager];
+		NSString *logsPath = [[paths objectAtIndex: 0] stringByAppendingPathComponent: @"Logs"];
+		NSString *logFilePath = [logsPath stringByAppendingPathComponent: kBWLogFileName];
+ 
+		if ([fileManager fileExistsAtPath: logsPath isDirectory: &isDir] && isDir) {
+			NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath: logFilePath];
+			
+			if (fileHandle) {
+				[fileHandle seekToEndOfFile];
+				[fileHandle writeData: encodedData];
+				[fileHandle closeFile];
+				return YES;
+			} else {
+				return [fileManager createFileAtPath: logFilePath contents: encodedData attributes: nil];
+			}
+		}
+	}
+	
+	return NO;
 }
 @end

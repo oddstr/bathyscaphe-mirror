@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.19.2.6 2006/09/02 17:03:52 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.19.2.7 2006/09/03 13:50:37 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -503,6 +503,12 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 	return [[BSIPIHistoryManager sharedManager] appendDataForURL: [self sourceURL]
 													toPasteboard: pboard
 										 withFilenamesPboardType: YES];
+}
+
+- (void) imageView: (BSIPIImageView *) aImageView mouseDoubleClicked: (NSEvent *) theEvent
+{
+	if ([aImageView image])
+		[self startFullscreen: aImageView];
 }
 
 - (BOOL) imageView: (BSIPIImageView *) aImageView shouldPerformKeyEquivalent: (NSEvent *) theEvent

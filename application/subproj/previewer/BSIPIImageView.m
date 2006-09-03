@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIImageView.m,v 1.3.2.2 2006/09/01 14:34:10 tsawada2 Exp $
+//  $Id: BSIPIImageView.m,v 1.3.2.3 2006/09/03 13:50:37 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/07.
@@ -168,8 +168,12 @@
 									  untilDate:[NSDate distantFuture]
 										 inMode:NSEventTrackingRunLoopMode
 										dequeue:YES];
-		if( [theEvent type] == NSLeftMouseUp ) break;
-
+		if( [theEvent type] == NSLeftMouseUp ) {
+			if (([theEvent clickCount] == 2) && [[self delegate] respondsToSelector: @selector(imageView:mouseDoubleClicked:)]) {
+				[[self delegate] imageView: self mouseDoubleClicked: theEvent];
+			}
+			break;
+		}
 		mouse = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 		if( !NSMouseInRect( mouse, koreguraiHaNotDragRect, [self isFlipped] ) ) {
 			NSImage *image;

@@ -1,10 +1,16 @@
 2006-09-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/bbs/BoardWarrior.m
+	* application/Resources/Japanese.lproj/Localizable.strings
+		掲示板リストの同期作業のログを作成するようにした。
+		- "$HOME/Library/Logs/BathyScaphe BoardWarrior.log" ファイルに蓄積されていく。
+	* application/subproj/previewer/BSIPIImageView.m
 	* application/subproj/previewer/BSImagePreviewInspector.m
 	* application/subproj/previewer/Japanese.lproj/Localizable.strings
 	* application/subproj/previewer/BSIPIDownload.m
 		プレビューインスペクタ：
 		- リダイレクトされた URL がプレビューできない場合は、自動的に Web ブラウザに投げていたが、これを
 		　アラートで確認してから投げるように変更。
+		- イメージ・ビューのダブルクリックでイメージをフルスクリーン表示するように改良。
 2006-09-02 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/view/CMRThreadView.m
 		透明あぼーん時の poof animation を滑らかに表示するように変更。

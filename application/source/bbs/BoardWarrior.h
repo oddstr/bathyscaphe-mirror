@@ -24,6 +24,7 @@
 
 - (double) expectedContentLength;
 - (double) downloadedContentLength;
+- (BOOL) writeLogsToFileWithUTF8Data: (NSData *) encodedData;
 
 // on error, returns Error Description (as NSString.) on success, nil is returned.
 - (NSString *) startKaleidoStage: (NSString *) scriptName withHTMLPath: (NSString *) htmlPath;

@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIImageView.h,v 1.3.2.1 2006/08/31 10:18:41 tsawada2 Exp $
+//  $Id: BSIPIImageView.h,v 1.3.2.2 2006/09/03 13:50:37 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/07.
@@ -24,4 +24,5 @@
 
 @interface NSObject(BSIPIImageViewResponderDelegate)
 - (BOOL) imageView: (BSIPIImageView *) aImageView shouldPerformKeyEquivalent: (NSEvent *) theEvent;
+- (void) imageView: (BSIPIImageView *) aImageView mouseDoubleClicked: (NSEvent *) theEvent;
 @end
