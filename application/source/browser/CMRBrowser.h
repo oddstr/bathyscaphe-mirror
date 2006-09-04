@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.h,v 1.21.4.3 2006/08/31 10:18:40 tsawada2 Exp $
+  * $Id: CMRBrowser.h,v 1.21.4.4 2006/09/04 16:34:39 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -13,6 +13,7 @@
 @class CMRThreadsList;
 @class CMRAccessorySheetController;
 @class AddBoardSheetController;
+@class EditBoardSheetController;
 
 typedef enum _BSThreadDeletionType {
 	BSThreadAtBrowserDeletionType	= 0,
@@ -36,14 +37,14 @@ typedef enum _BSThreadDeletionType {
 	IBOutlet NSMenu				*m_drawerContextualMenu;
 
 	// Direct Editing BoardList
-	IBOutlet NSPanel			*m_drawerItemEditSheet;
+	/*IBOutlet NSPanel			*m_drawerItemEditSheet;
 	IBOutlet NSTextField		*m_dItemEditSheetTitleField;
 	IBOutlet NSTextField		*m_dItemEditSheetMsgField;
 	IBOutlet NSTextField		*m_dItemEditSheetLabelField;
-	IBOutlet NSTextField		*m_dItemEditSheetInputField;
+	IBOutlet NSTextField		*m_dItemEditSheetInputField;*/
 	
 	// Vita Addition
-	IBOutlet NSButton			*m_dItemEditSheetHelpBtn;
+	//IBOutlet NSButton			*m_dItemEditSheetHelpBtn;
 	
 	// PrincessBride Addition
 	IBOutlet NSSearchField		*m_searchField;
@@ -54,6 +55,7 @@ typedef enum _BSThreadDeletionType {
 	CMRAccessorySheetController	*m_listSorterSheetController;
 	
 	AddBoardSheetController		*m_addBoardSheetController; // added in Lemonade.
+	EditBoardSheetController	*m_editBoardSheetController; // added in MeteorSweeper.
     // note - these can't be connected in IB
     // you'll get, for example, a text view where you meant to get
     // its enclosing scroll view
@@ -95,19 +97,19 @@ typedef enum _BSThreadDeletionType {
 
 @interface CMRBrowser(BoardListEditor)
 // ReStructured on Lemonade.
-- (NSPanel *) drawerItemEditSheet;
+/*- (NSPanel *) drawerItemEditSheet;
 - (NSTextField *) dItemEditSheetMsgField;
 - (NSTextField *) dItemEditSheetLabelField;
 - (NSTextField *) dItemEditSheetInputField;
-- (NSTextField *) dItemEditSheetTitleField;
+- (NSTextField *) dItemEditSheetTitleField;*/
 
 - (IBAction) addDrawerItem : (id) sender;
 - (IBAction) addCategoryItem : (id) sender;
 - (IBAction) editDrawerItem : (id) sender;
 - (IBAction) removeDrawerItem : (id) sender;
-- (IBAction) endEditSheet : (id) sender;
+//- (IBAction) endEditSheet : (id) sender;
 
-- (IBAction) openHelpForEditSheet : (id) sender; // available in Vita
+//- (IBAction) openHelpForEditSheet : (id) sender; // available in Vita
 @end
 
 

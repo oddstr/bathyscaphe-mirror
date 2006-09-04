@@ -1,3 +1,23 @@
+2006-09-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/EditBoardSheetController.m
+		[新規追加] 掲示板リストの編集用シートを担当するコントローラクラスを独立させた。
+	* application/Resources/Japanese.lproj/EditBoardSheet.nib
+		[新規追加] 掲示板リストの編集用シートを Browser.nib から独立させた。
+	* application/source/bbs/BoardManager-SettingTxt.m
+		掲示板リスト編集の実務については、BoardManager が担うようにした。
+	* application/Resources/Japanese.lproj/Browser.nib
+	* application/source/browser/CMRBrowser-BLEditor.m
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+		掲示板リストの編集部分（カテゴリの追加／名称変更、掲示板の URL 変更）を CMRBrowser から他のクラスに
+		移動させた。まだ細かいところが荒削り。
+		- インタフェースは、EditBoardSheetController クラスへ。
+		- 実際の作業は、BoardManager クラスへ。
+		この目的は、肥大化している CMRBrowser のダイエットと、CMRBrowser 以外（例えば、BSBoardInfoInspector）
+		からでも掲示板リストの編集をサクッと行えるようにするための準備である。
+2006-09-04 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer.m
+		v242 で、板の名無しさんが未設定の板のスレッドを表示したときに表示される「名無しさんの設定」ダイアログで名無しさんを
+		入力しても、それが反映されず、何度も「名無しさんの設定」ダイアログが出ることがあった問題を修正。
 2006-09-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/bbs/BoardWarrior.m
 	* application/Resources/Japanese.lproj/Localizable.strings

@@ -1,5 +1,5 @@
 /**
- * $Id: BoardList.h,v 1.3 2005/11/30 23:22:51 tsawada2 Exp $
+ * $Id: BoardList.h,v 1.3.4.1 2006/09/04 16:34:39 tsawada2 Exp $
  * 
  * BoardList.h
  *
@@ -74,6 +74,7 @@ typedef enum _BoardListItemType {
 - (void) moveItem:(NSDictionary *)item direction:(int)direction;
 
 - (NSDictionary *) itemForName : (NSString *) name;
+- (NSDictionary *) itemForName : (NSString *) name ofType: (BoardListItemType) aType;
 
 
 - (NSDictionary *) itemForURL : (NSURL *) url;

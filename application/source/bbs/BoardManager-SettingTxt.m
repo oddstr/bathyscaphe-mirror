@@ -3,6 +3,7 @@
 #import "BoardManager.h"
 #import "BSSettingTxtDetector.h"
 #import "AppDefaults.h"
+#import "BoardList.h"
 
 @implementation BoardManager(SettingTxtDetector)
 - (BOOL) doDownloadSettingTxtForBoard: (NSString *) boardName
@@ -102,4 +103,80 @@
 
 	[detector_ release];
 }
+@end
+
+@implementation BoardManager(UserListEditorCore)
+- (BOOL) addCategoryOfName: (NSString *) name
+{
+	NSMutableDictionary *newItem_;
+
+	if (!name) {
+		NSBeep();
+		return NO;
+	}
+
+	if ([[self userList] containsItemWithName: name ofType: (BoardListFavoritesItem | BoardListCategoryItem)]) {
+		NSBeep();
+		/*NSBeginInformationalAlertSheet(
+			[self localizedString : @"Same Name Exists"],
+			[self localizedString : @"OK"], nil, nil, [self window], self, NULL, NULL, nil,
+			[self localizedString : @"So cannot add category."]
+		);*/
+		NSLog(@"Same Name Exists");
+		return NO;
+	}
+
+	newItem_ = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+				name, BoardPlistNameKey, [NSMutableArray array], BoardPlistContentsKey, nil];
+
+	[[[self userList] boardItems] addObject: newItem_];
+	[[self userList] postBoardListDidChangeNotification];
+	return YES;
+}
+
+- (BOOL) editBoardOfName: (NSString *) boardName newURLString: (NSString *) newURLString
+{
+	NSMutableDictionary *newItem_;
+
+	if (!newURLString || !boardName) {
+		NSBeep();
+		return NO;
+	}
+
+	newItem_ = [[self userList] itemForName: boardName ofType: BoardListBoardItem];
+	UTILAssertKindOfClass(newItem_, NSMutableDictionary);
+
+	[[self userList] item: newItem_ setName: boardName setURL: newURLString];
+	return YES;
+}
+
+- (BOOL) editCategoryOfName: (NSString *) oldName newName: (NSString *) newName
+{
+	NSMutableDictionary *newItem_;
+
+	if (!newName || !oldName) {
+		NSBeep();
+		return NO;
+	}
+
+	newItem_ = [[self userList] itemForName: oldName ofType: BoardListCategoryItem];
+	UTILAssertKindOfClass(newItem_, NSMutableDictionary);
+
+	if ([[self userList] containsItemWithName : newName ofType : (BoardListFavoritesItem | BoardListCategoryItem)] &&
+		(NO == [oldName isEqualToString : newName]))
+	{
+/*		NSBeginInformationalAlertSheet(
+			[self localizedString : @"Same Name Exists"],
+			[self localizedString : @"OK"], nil, nil, [self window], self, NULL, NULL, nil,
+			[self localizedString : @"So cannot change name."]
+		);*/
+		NSLog(@"Same Name Exists");
+		return NO;
+	}
+
+	[[self userList] item: newItem_ setName: newName setURL: nil];
+	return YES;
+}
+
+- (BOOL) removeItemOfIndexes: (NSIndexSet *) indexes{return NO;}
 @end

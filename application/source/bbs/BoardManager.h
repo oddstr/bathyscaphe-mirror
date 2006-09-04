@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.h,v 1.10.2.2 2006/08/31 10:18:40 tsawada2 Exp $
+ * $Id: BoardManager.h,v 1.10.2.3 2006/09/04 16:34:39 tsawada2 Exp $
  * 
  * BoardManager.h
  *
@@ -161,6 +161,12 @@ typedef enum _BSBeLoginPolicyType {
 - (BOOL) startDownloadSettingTxtForBoard: (NSString *) boardName;
 @end
 
+@interface BoardManager(UserListEditorCore)
+- (BOOL) addCategoryOfName: (NSString *) name;
+- (BOOL) editBoardOfName: (NSString *) boardName newURLString: (NSString *) newURLString;
+- (BOOL) editCategoryOfName: (NSString *) oldName newName: (NSString *) newName;
+- (BOOL) removeItemOfIndexes: (NSIndexSet *) indexes;
+@end
 ///////////////////////////////////////////////////////////////
 ///////////////// [ N o t i f i c a t i o n ] /////////////////
 ///////////////////////////////////////////////////////////////

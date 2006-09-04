@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-BLEditor.m,v 1.13.2.3 2006/08/31 10:18:40 tsawada2 Exp $
+ * $Id: CMRBrowser-BLEditor.m,v 1.13.2.4 2006/09/04 16:34:39 tsawada2 Exp $
  * BathyScaphe
  * CMRBrowser-Action.m, CMRBrowser-ViewAccessor.m から分割
  *
@@ -10,9 +10,10 @@
 
 #import "CMRBrowser_p.h"
 #import "AddBoardSheetController.h"
+#import "EditBoardSheetController.h"
 
 @implementation CMRBrowser(BoardListEditor)
-#pragma mark Accessors
+/*#pragma mark Accessors
 
 - (NSPanel *) drawerItemEditSheet
 {
@@ -38,7 +39,7 @@
 {
 	return m_dItemEditSheetHelpBtn;
 }
-
+*/
 #pragma mark IBActions and private methods
 
 - (IBAction) addDrawerItem : (id) sender
@@ -55,19 +56,9 @@
 	// Currently, we have nothing to do here.
 }
 */
-
 - (IBAction) addCategoryItem : (id) sender
 {
-	[[self dItemEditSheetTitleField] setStringValue : [self localizedString : kAddCategoryTitleKey]];
-	[[self dItemEditSheetMsgField]   setStringValue : [self localizedString : kEditDrawerItemMsgForAdditionKey]];
-	[[self dItemEditSheetLabelField] setStringValue : [self localizedString : kEditDrawerItemTitleForCategoryKey]];
-	[[self dItemEditSheetInputField] setStringValue : @""];
-	
-	[NSApp beginSheet : [self drawerItemEditSheet]
-	   modalForWindow : [self window]
-		modalDelegate : self
-	   didEndSelector : @selector(_drawerAddCategorySheetDidEnd:returnCode:contextInfo:)
-		  contextInfo : nil];
+	[[self editBoardSheetController] beginAddCategorySheetForWindow: [self window] modalDelegate: self contextInfo: nil];
 }
 
 - (IBAction) editDrawerItem : (id) sender
@@ -88,25 +79,27 @@
 	item_ = [boardListTable_ itemAtRow : rowIndex_];
 	name_ = [item_ objectForKey : BoardPlistNameKey];
 	
-	[[self dItemEditSheetTitleField] setStringValue : [self localizedString : kEditDrawerTitleKey]];
+//	[[self dItemEditSheetTitleField] setStringValue : [self localizedString : kEditDrawerTitleKey]];
 	if ([BoardList isBoard : item_]) {
-		[[self dItemEditSheetMsgField]   setStringValue :
-					 [NSString localizedStringWithFormat: [self localizedString : kEditDrawerItemMsgForBoardKey],name_]];
-		[[self dItemEditSheetLabelField] setStringValue : [self localizedString : kEditDrawerItemTitleForBoardKey]];
-		[[self dItemEditSheetInputField] setStringValue : [item_ objectForKey : BoardPlistURLKey]];
+//		[[self dItemEditSheetMsgField]   setStringValue :
+//					 [NSString localizedStringWithFormat: [self localizedString : kEditDrawerItemMsgForBoardKey],name_]];
+//		[[self dItemEditSheetLabelField] setStringValue : [self localizedString : kEditDrawerItemTitleForBoardKey]];
+//		[[self dItemEditSheetInputField] setStringValue : [item_ objectForKey : BoardPlistURLKey]];
+		[[self editBoardSheetController] beginEditBoardSheetForWindow: [self window] modalDelegate: self contextInfo: item_];
 
 	} else if ([BoardList isCategory : item_]) {
-		[[self dItemEditSheetMsgField]   setStringValue :
-					 [NSString localizedStringWithFormat: [self localizedString : kEditDrawerItemMsgForCategoryKey],name_]];
-		[[self dItemEditSheetLabelField] setStringValue : [self localizedString : kEditDrawerItemTitleForCategoryKey]];
-		[[self dItemEditSheetInputField] setStringValue : name_];
+//		[[self dItemEditSheetMsgField]   setStringValue :
+//					 [NSString localizedStringWithFormat: [self localizedString : kEditDrawerItemMsgForCategoryKey],name_]];
+//		[[self dItemEditSheetLabelField] setStringValue : [self localizedString : kEditDrawerItemTitleForCategoryKey]];
+//		[[self dItemEditSheetInputField] setStringValue : name_];
+		[[self editBoardSheetController] beginEditCategorySheetForWindow: [self window] modalDelegate: self contextInfo: name_];
 	}
-	
+/*	
 	[NSApp beginSheet : [self drawerItemEditSheet]
 	   modalForWindow : [self window]
 		modalDelegate : self
 	   didEndSelector : @selector(_drawerItemEditSheetDidEnd:returnCode:contextInfo:)
-		  contextInfo : item_];
+		  contextInfo : item_];*/
 }
 
 - (void) _removeMultipleItem : (id) sender
@@ -126,18 +119,6 @@
 					   modalDelegate: self
 					  didEndSelector: @selector(boardItemMultipleDelSheetDidEnd:returnCode:contextInfo:)
 						 contextInfo: nil];
-	/*NSBeginAlertSheet(
-		[self localizedString : kRemoveMultipleItemTitleKey],
-		[self localizedString : kDeleteOKBtnKey],
-		nil,
-		[self localizedString : kDeleteCancelBtnKey],
-		[self window],
-		self,
-		@selector(_multipleItemDeletionSheetDidEnd:returnCode:contextInfo:),
-		NULL,
-		nil,
-		[self localizedString : kRemoveMultipleItemMsgKey]
-	);*/
 }
 
 - (IBAction) removeDrawerItem : (id) sender
@@ -189,23 +170,8 @@
 					   modalDelegate: self
 					  didEndSelector: @selector(boardItemDeletionSheetDidEnd:returnCode:contextInfo:)
 						 contextInfo: item_];
-/*
-	NSBeep();
-	NSBeginAlertSheet(
-		[self localizedString : kRemoveDrawerItemTitleKey],
-		[self localizedString : kDeleteOKBtnKey],
-		nil,
-		[self localizedString : kDeleteCancelBtnKey],
-		[self window],
-		self,
-		@selector(_drawerItemDeletionSheetDidEnd:returnCode:contextInfo:),
-		NULL,
-		item_,
-		[self localizedString : kRemoveDrawerItemMsgKey],[item_ objectForKey : BoardPlistNameKey]
-	);
-*/
 }
-
+/*
 - (IBAction) endEditSheet : (id) sender
 {	
 	[NSApp endSheet : [sender window]
@@ -217,12 +183,13 @@
 	[[NSHelpManager sharedHelpManager] findString : [self localizedString : kEditDrawerItemHelpKeyword]
 										   inBook : [NSBundle applicationHelpBookName]];
 }
-
+*/
 #pragma mark Private (Sheet delegate) methods
-
+/*
 - (void) _drawerAddCategorySheetDidEnd : (NSWindow *) sheet
 							returnCode : (int       ) returnCode
 						   contextInfo : (id) contextInfo
+
 {
 	if (NSOKButton == returnCode) {
 
@@ -323,7 +290,7 @@
 	}
 	[sheet close];
 }
-
+*/
 - (void) boardItemDeletionSheetDidEnd: (NSAlert *) alert returnCode: (int) returnCode contextInfo: (id) contextInfo
 {
 	if (returnCode == NSAlertFirstButtonReturn) {

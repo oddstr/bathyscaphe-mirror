@@ -1,5 +1,5 @@
 //
-//  $Id: NoNameInputController.h,v 1.2 2006/03/17 21:16:19 tsawada2 Exp $
+//  $Id: NoNameInputController.h,v 1.2.4.1 2006/09/04 16:34:39 tsawada2 Exp $
 //  NoNameInputController.h - CMRNoNameManager.m から分割
 //
 //  Created by Tsutomu Sawada on 05/09/11.
@@ -11,14 +11,21 @@
 
 @interface NoNameInputController : NSWindowController
 {
-	IBOutlet NSTextField	*_messageField;
-	IBOutlet NSTextField	*_textField;
+	IBOutlet NSTextField	*m_titleField;
+	NSString				*m_enteredText;
 }
-- (NSString *) askUserAboutDefaultNoNameForBoard : (NSString *) boardName
-									 presetValue : (NSString *) aValue;
-- (IBAction) ok : (id) sender;
-- (IBAction) cancel : (id) sender;
+
+- (NSTextField *) titleField;
+
+// For Cocoa Binding
+- (NSString *) enteredText;
+- (void) setEnteredText: (NSString *) someText;
+
+- (NSString *) askUserAboutDefaultNoNameForBoard: (NSString *) boardName
+									 presetValue: (NSString *) aValue;
+- (IBAction) ok: (id) sender;
+- (IBAction) cancel: (id) sender;
 
 // available in Levantine and later.
-- (IBAction) showHelpForNoNameInput : (id) sender;
+- (IBAction) showHelpForNoNameInput: (id) sender;
 @end

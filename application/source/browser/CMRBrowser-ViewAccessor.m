@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.42.2.3 2006/08/31 10:18:40 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.42.2.4 2006/09/04 16:34:39 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -86,6 +86,14 @@
 		m_addBoardSheetController = [[AddBoardSheetController alloc] init];
 	}
 	return m_addBoardSheetController;
+}
+
+- (EditBoardSheetController *) editBoardSheetController
+{
+    if (nil == m_editBoardSheetController) {
+		m_editBoardSheetController = [[EditBoardSheetController alloc] init];
+	}
+	return m_editBoardSheetController;
 }
 
 - (NSString *) currentSearchString

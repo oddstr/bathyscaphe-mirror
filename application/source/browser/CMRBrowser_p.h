@@ -42,7 +42,7 @@
 #define kSelectLastBBSNotification @"kSelectLastBBSNotification"
 
 // åfé¶î¬ÉäÉXÉgÇÃï“èW
-#define kEditDrawerTitleKey					@"Edit Title"
+/*#define kEditDrawerTitleKey					@"Edit Title"
 #define kAddCategoryTitleKey				@"Add Category Title"
 
 #define kEditDrawerItemMsgForAdditionKey	@"Add Category Msg"
@@ -51,7 +51,7 @@
 #define kEditDrawerItemTitleForBoardKey		@"PleaseInputURL"
 
 #define kEditDrawerItemMsgForCategoryKey	@"Edit Category Msg"
-#define kEditDrawerItemTitleForCategoryKey	@"PleaseInputName"
+#define kEditDrawerItemTitleForCategoryKey	@"PleaseInputName"*/
 
 #define kRemoveDrawerItemTitleKey			@"Browser Del Drawer Item Title"
 #define kRemoveDrawerItemMsgKey				@"Browser Del Drawer Item Message"
@@ -59,7 +59,7 @@
 #define kRemoveMultipleItemTitleKey			@"Browser Del Multiple Item Title"
 #define kRemoveMultipleItemMsgKey			@"Browser Del Multiple Item Message"
 
-#define kEditDrawerItemHelpKeyword			@"Browser Edit Drawer Item Help"
+//#define kEditDrawerItemHelpKeyword			@"Browser Edit Drawer Item Help"
 
 // PropertyList
 #define kThreadsListTableICSKey				@"Browser - ListViewInterCellSpacing"
@@ -136,6 +136,7 @@
 - (NSSearchField *) searchField;
 - (CMRAccessorySheetController *) listSorterSheetController;
 - (AddBoardSheetController *) addBoardSheetController;
+- (EditBoardSheetController *) editBoardSheetController;
 
 - (NSString *) currentSearchString;
 - (void) setCurrentSearchString: (NSString *) newString;

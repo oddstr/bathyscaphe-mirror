@@ -1,5 +1,5 @@
 /**
- * $Id: BoardList.m,v 1.2 2005/07/22 16:42:21 tsawada2 Exp $
+ * $Id: BoardList.m,v 1.2.8.1 2006/09/04 16:34:39 tsawada2 Exp $
  * 
  * BoardList.m
  *
@@ -363,6 +363,23 @@ static NSDictionary *_searchItemInArray(NSMutableArray   *items,
 	[item release];
 	[self postBoardListDidChangeNotification];
 }
+- (NSDictionary *) itemForName : (NSString *) name ofType: (BoardListItemType) aType
+{
+	NSDictionary *item_;
+	
+	if(nil == name) return nil;
+	if([CMXFavoritesDirectoryName isSameAsString : name])
+		return [[self class] favoritesItem];
+	
+	item_ = [self itemForAttribute : name
+			          attributeKey : BoardPlistNameKey
+			             seachMask : aType
+		             containsArray : NULL
+			               atIndex : NULL];
+		
+	return item_;
+}
+
 - (NSDictionary *) itemForName : (NSString *) name
 {
 	NSDictionary *item_;
