@@ -1,3 +1,9 @@
+2006-09-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/EditBoardSheetController.m
+	* application/source/bbs/BoardManager-SettingTxt.m
+	* application/source/browser/CMRBrowser-BLEditor.m
+	* application/source/bbs/BoardList.m
+		2006-09-05 の変更に引き続き、掲示板リストの編集部分をリニューアル。
 2006-09-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/EditBoardSheetController.m
 		[新規追加] 掲示板リストの編集用シートを担当するコントローラクラスを独立させた。

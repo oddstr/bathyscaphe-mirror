@@ -1,5 +1,5 @@
 /**
- * $Id: BoardList.m,v 1.2.8.1 2006/09/04 16:34:39 tsawada2 Exp $
+ * $Id: BoardList.m,v 1.2.8.2 2006/09/06 17:36:37 tsawada2 Exp $
  * 
  * BoardList.m
  *
@@ -166,20 +166,27 @@ static NSDictionary *_searchItemInArray(NSMutableArray   *items,
 	
 	if([self containsItemWithName : name_ ofType : [[self class] typeForItem : item]])
 		return NO;
-	
-	item_ = [self itemForAttribute : [target objectForKey : BoardPlistNameKey]
-					  attributeKey : BoardPlistNameKey
-					     seachMask : [[self class] typeForItem : item]//(BoardListBoardItem | BoardListCategoryItem)
-				     containsArray : &container_
-					       atIndex : &index_];
-	index_++;
-	if(nil == item_){
-		[[self boardItems] addObject : item];
-	}else if(index_ == [container_ count]){
-		[container_ addObject : item];
-	}else{
-		[container_ insertObject : item atIndex : index_];
+
+	if (target != nil) {
+		item_ = [self itemForAttribute : [target objectForKey : BoardPlistNameKey]
+						  attributeKey : BoardPlistNameKey
+							 seachMask : [[self class] typeForItem : item]//(BoardListBoardItem | BoardListCategoryItem)
+						 containsArray : &container_
+							   atIndex : &index_];
+	} else {
+		item_ = nil;
 	}
+
+	index_++;
+
+	if (nil == item_) {
+		[[self boardItems] addObject: item];
+	} else if (index_ == [container_ count]) {
+		[container_ addObject: item];
+	} else {
+		[container_ insertObject: item atIndex: index_];
+	}
+
 	[self postBoardListDidChangeNotification];
 	return YES;
 }

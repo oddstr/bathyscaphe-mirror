@@ -51,13 +51,13 @@
 #define kEditDrawerItemTitleForBoardKey		@"PleaseInputURL"
 
 #define kEditDrawerItemMsgForCategoryKey	@"Edit Category Msg"
-#define kEditDrawerItemTitleForCategoryKey	@"PleaseInputName"*/
+#define kEditDrawerItemTitleForCategoryKey	@"PleaseInputName"
 
 #define kRemoveDrawerItemTitleKey			@"Browser Del Drawer Item Title"
 #define kRemoveDrawerItemMsgKey				@"Browser Del Drawer Item Message"
 
 #define kRemoveMultipleItemTitleKey			@"Browser Del Multiple Item Title"
-#define kRemoveMultipleItemMsgKey			@"Browser Del Multiple Item Message"
+#define kRemoveMultipleItemMsgKey			@"Browser Del Multiple Item Message"*/
 
 //#define kEditDrawerItemHelpKeyword			@"Browser Edit Drawer Item Help"
 

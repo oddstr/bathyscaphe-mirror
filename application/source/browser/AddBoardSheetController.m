@@ -1,5 +1,5 @@
 //
-//  $Id: AddBoardSheetController.m,v 1.8.2.2 2006/07/31 00:05:10 tsawada2 Exp $
+//  $Id: AddBoardSheetController.m,v 1.8.2.3 2006/09/06 17:36:37 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/12.
@@ -193,7 +193,7 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 		}
 	}
 
-	[[[BoardManager defaultManager] userList] postBoardListDidChangeNotification];
+//	[[[BoardManager defaultManager] userList] postBoardListDidChangeNotification];
 
 	if ([error_names_ count] > 0) {
 		NSString *message_;
@@ -240,7 +240,7 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 							name_, BoardPlistNameKey, url_, BoardPlistURLKey, nil];
 
 		[userList addItem : newItem_ afterObject : nil];
-		[userList postBoardListDidChangeNotification];
+//		[userList postBoardListDidChangeNotification];
 		return YES;
 	}
 }

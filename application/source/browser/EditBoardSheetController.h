@@ -30,10 +30,10 @@
 
 - (void) beginEditBoardSheetForWindow: (NSWindow *) targetWindow
 						modalDelegate: (id) aDelegate
-						  contextInfo: (id) contextInfo; // 通常、対象 Board を表すオブジェクトが渡される
+						  contextInfo: (id) contextInfo; // 通常、対象 Board の名前（NSString）が渡される
 - (void) beginEditCategorySheetForWindow: (NSWindow *) targetWindow
 						   modalDelegate: (id) aDelegate
-							 contextInfo: (id) contextInfo; // 通常、対象 Category を表すオブジェクトが渡される
+							 contextInfo: (id) contextInfo; // 通常、対象 Category を表すオブジェクト（NSDictionary）が渡される
 - (void) beginAddCategorySheetForWindow: (NSWindow *) targetWindow
 						  modalDelegate: (id) aDelegate
 						    contextInfo: (id) contextInfo; // 通常、nil が渡される

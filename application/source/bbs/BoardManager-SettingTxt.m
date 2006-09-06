@@ -95,7 +95,6 @@
 
 	NSString *board = [infoDict_ objectForKey: kBSSTDBoardNameKey];
 
-//	[self setDefaultNoName: [infoDict_ objectForKey: kBSSTDNoNameValueKey] forBoard: board];
 	[self addNoName: [infoDict_ objectForKey: kBSSTDNoNameValueKey] forBoard: board];
 	[self setTypeOfBeLoginPolicy: [infoDict_ unsignedIntForKey: kBSSTDBeLoginPolicyTypeValueKey] forBoard: board];
 
@@ -106,6 +105,22 @@
 @end
 
 @implementation BoardManager(UserListEditorCore)
+- (int) showSameNameExistsAlert: (NSString *) messageString
+{
+	int returnValue;
+	NSAlert *alert = [[NSAlert alloc] init];
+	[alert setAlertStyle: NSWarningAlertStyle];
+	[alert setInformativeText: messageString];
+	[alert setMessageText: NSLocalizedString(@"Same Name Exists", @"Same Name Exists")];
+	[alert addButtonWithTitle: NSLocalizedString(@"Cancel", @"Cancel")];
+
+	NSBeep();
+	returnValue = [alert runModal];
+	[alert release];
+	
+	return returnValue;
+}
+
 - (BOOL) addCategoryOfName: (NSString *) name
 {
 	NSMutableDictionary *newItem_;
@@ -116,21 +131,15 @@
 	}
 
 	if ([[self userList] containsItemWithName: name ofType: (BoardListFavoritesItem | BoardListCategoryItem)]) {
-		NSBeep();
-		/*NSBeginInformationalAlertSheet(
-			[self localizedString : @"Same Name Exists"],
-			[self localizedString : @"OK"], nil, nil, [self window], self, NULL, NULL, nil,
-			[self localizedString : @"So cannot add category."]
-		);*/
-		NSLog(@"Same Name Exists");
+		[self showSameNameExistsAlert: NSLocalizedString(@"So cannot add category.", @"So cannot add category.")];
 		return NO;
 	}
 
 	newItem_ = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 				name, BoardPlistNameKey, [NSMutableArray array], BoardPlistContentsKey, nil];
 
-	[[[self userList] boardItems] addObject: newItem_];
-	[[self userList] postBoardListDidChangeNotification];
+	[[self userList] addItem: newItem_ afterObject: nil];
+//	[[self userList] postBoardListDidChangeNotification];
 	return YES;
 }
 
@@ -165,12 +174,7 @@
 	if ([[self userList] containsItemWithName : newName ofType : (BoardListFavoritesItem | BoardListCategoryItem)] &&
 		(NO == [oldName isEqualToString : newName]))
 	{
-/*		NSBeginInformationalAlertSheet(
-			[self localizedString : @"Same Name Exists"],
-			[self localizedString : @"OK"], nil, nil, [self window], self, NULL, NULL, nil,
-			[self localizedString : @"So cannot change name."]
-		);*/
-		NSLog(@"Same Name Exists");
+		[self showSameNameExistsAlert: NSLocalizedString(@"So cannot change name.", @"So cannot change name.")];
 		return NO;
 	}
 
@@ -178,5 +182,18 @@
 	return YES;
 }
 
-- (BOOL) removeItemOfIndexes: (NSIndexSet *) indexes{return NO;}
+- (BOOL) removeBoardItems: (NSArray *) boardItemsForRemoval
+{		
+	if (!boardItemsForRemoval || [boardItemsForRemoval count] == 0) return NO;
+	
+	NSEnumerator	*iter_ = [boardItemsForRemoval objectEnumerator];
+	id				eachItem;
+
+	while ((eachItem = [iter_ nextObject]) != nil) {
+		[[self userList] removeItemWithName: [eachItem objectForKey: BoardPlistNameKey]
+									 ofType: [[BoardList class] typeForItem: eachItem]];
+	}
+
+	return YES;
+}
 @end
