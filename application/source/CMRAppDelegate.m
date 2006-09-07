@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.24.2.3 2006/08/31 10:18:40 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.24.2.4 2006/09/07 19:35:16 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -281,6 +281,14 @@
     {
             [[tmp fileMenu] removeItemAtIndex : openURLMenuItemIndex+1];
     }
+	
+	/* BoardWarrior Task */
+	if ([CMRPref isOnlineMode] && [CMRPref autoSyncBoardList]) {
+		NSDate *lastDate = [CMRPref lastSyncDate];
+		if (!lastDate || [[NSDate date] timeIntervalSinceDate: lastDate] > [CMRPref timeIntervalForAutoSyncPrefs]) {
+			[self runBoardWarrior: nil];
+		}
+	}
 }
 
 - (BOOL) applicationShouldHandleReopen: (NSApplication *) theApplication hasVisibleWindows: (BOOL) flag

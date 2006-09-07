@@ -1,37 +1,26 @@
-//:CMRReplyDefaultsController.h
-/**
-  *
-  * 
-  *
-  * @author  Takanori Ishikawa
-  * @author  http://www15.big.or.jp/~takanori/
-  * @version Mon Sep 16 2002
-  *
-  */
+//
+//  CMRReplyDefaultsController.h
+//  BathyScaphe
+//
+//  Modified by Tsutomu Sawada on 06/09/08.
+//  Copyright 2006 BathyScaphe Project. All rights reserved.
+//
+
 #import <Cocoa/Cocoa.h>
 #import "PreferencesController.h"
 
 
-@interface CMRReplyDefaultsController : PreferencesController
+@interface CMRReplyDefaultsController: PreferencesController
 {
-	IBOutlet NSTextField *m_defaultNameField;
-	IBOutlet NSTextField *m_defaultMailField;
-	
-	IBOutlet NSTableView *m_nameListTable;
-	IBOutlet NSButton *m_addRowBtn;
-	IBOutlet NSButton *m_removeRowBtn;
-	
-	NSMutableArray *_nameList;
+	IBOutlet NSPanel	*m_addKoteHanSheet;
+	NSString			*m_temporaryKoteHan;
 }
 
-- (NSTextField *) defaultNameField;
-- (NSTextField *) defaultMailField;
-- (NSTableView *) nameListTable;
-- (NSButton *) removeRowBtn;
+- (NSPanel *) addKoteHanSheet;
 
-- (IBAction) changeDefaultName : (id) sender;
-- (IBAction) changeDefaultMail : (id) sender;
+- (NSString *) temporaryKoteHan;
+- (void) setTemporaryKoteHan: (NSString *) someText;
 
-- (IBAction) addRow : (id) sender;
-- (IBAction) removeRow : (id) sender;
+- (IBAction) addKoteHan : (id) sender;
+- (IBAction) closeKoteHanSheet: (id) sender;
 @end

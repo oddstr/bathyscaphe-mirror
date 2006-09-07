@@ -77,7 +77,7 @@
 		(NSOnState == [[self shouldLoginCheckBox] state]);
 	[[self preferences] setShouldLoginIfNeeded : shouldLoginIfNeeded_];
 }
-
+/*
 - (IBAction) changeShouldLoginBe2chAnytime : (id) sender
 {
 	BOOL			tmp_;
@@ -88,7 +88,7 @@
 		(NSOnState == [[self shouldLoginBe2chCheckBox] state]);
 	[[self preferences] setShouldLoginBe2chAnyTime : tmp_];
 }
-
+*/
 - (IBAction) changeAddressField : (id) sender
 {
 	[[self preferences] setBe2chAccountMailAddress : [sender stringValue]];

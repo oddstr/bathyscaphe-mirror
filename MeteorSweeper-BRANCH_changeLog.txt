@@ -1,3 +1,23 @@
+2006-09-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/preferences/AppDefaults-Bundle.m
+	* application/source/CMRAppDelegate.m
+		掲示板リストの自動同期を実装した。
+	* application/Resources/Japanese.lproj/CMRReplyWindow.nib
+		「メールアドレス：」を「メール：」に表記変更。
+	* application/Resources/Japanese.lproj/BSBoardInfoInspector.nib
+		「メール欄：」を「メール：」に表記変更。
+	* application/subproj/preference/reply/CMRReplyDefaultsController.m
+	* application/subproj/preference/Japanese.lproj/ReplySetting.nib
+	* application/subproj/preference/Japanese.lproj/AccountPane.nib
+	* application/subproj/preference/account/AccountController-ViewAccessor.m
+	* application/subproj/preference/account/AccountController.m
+		環境設定パネルについて以下のように変更：
+		- 「be カテゴリ以外の掲示板でも Be ログインする」チェックボックスを「アカウント」から「書き込み」ペインに
+		　移動した（「掲示板オプション」のインタフェースと統一を図るため）。
+		- 「書き込み」ペインの各表記も「掲示板オプション」と統一した（「メールアドレス：」を「メール：」にしたことに
+		　注意。これは「掲示板オプション」側で「メールアドレス：」と書くと長過ぎて邪魔なため、「メール：」に短縮・統一することにした）。
+		- 「書き込み」ペインのコントロールに Cocoa Binding を取り入れ、CMRReplyDefaultsController を書き直し。
+		- 名前欄入力補完リストに改行を含む語句を追加しようとした際は、改行ごとに区切った複数の語句として追加するようにした。
 2006-09-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/BSBoardInfoInspector.nib
 	* application/source/bbs/BSBoardInfoInspector.m

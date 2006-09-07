@@ -1,19 +1,18 @@
 {
     IBClasses = (
         {
-            ACTIONS = {addRow = id; changeDefaultMail = id; changeDefaultName = id; removeRow = id; }; 
+            ACTIONS = {addKoteHan = id; closeKoteHanSheet = id; }; 
             CLASS = CMRReplyDefaultsController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {
-                "m_addRowBtn" = NSButton; 
-                "m_defaultMailField" = NSTextField; 
-                "m_defaultNameField" = NSTextField; 
-                "m_nameListTable" = NSTableView; 
-                "m_removeRowBtn" = NSButton; 
-            }; 
+            OUTLETS = {"m_addKoteHanSheet" = NSPanel; }; 
             SUPERCLASS = PreferencesController; 
         }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {"" = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
         {
             ACTIONS = {openHelp = id; }; 
             CLASS = PreferencesController; 

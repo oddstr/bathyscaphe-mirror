@@ -4,7 +4,6 @@
             ACTIONS = {
                 changeAddressField = id; 
                 changeCodeField = id; 
-                changeShouldLoginBe2chAnytime = id; 
                 changeShouldLoginIfNeeded = id; 
                 changeShouldSavePassword = id; 
                 saveAccount = id; 
@@ -16,7 +15,6 @@
                 "m_beMailAddressField" = NSTextField; 
                 "m_passwordField" = NSSecureTextField; 
                 "m_saveButton" = NSButton; 
-                "m_shouldLoginBe2chCheckBox" = NSButton; 
                 "m_shouldLoginCheckBox" = NSButton; 
                 "m_shouldSavePWCheckBox" = NSButton; 
                 "m_userIDField" = NSTextField; 

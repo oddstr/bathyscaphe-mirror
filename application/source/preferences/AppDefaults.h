@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.34.2.2 2006/08/31 10:18:40 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.34.2.3 2006/09/07 19:35:16 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -25,7 +25,7 @@ typedef enum _BSAutoSyncIntervalType {
 	BSAutoSyncByWeek	= 1,
 	BSAutoSyncBy2weeks	= 2,
 	BSAutoSyncByMonth	= 3,
-	BSAutoSyncWhereAddBrd = 11,
+	BSAutoSyncByEveryStartUp = 11,
 } BSAutoSyncIntervalType;
 
 
@@ -101,8 +101,8 @@ typedef enum _BSAutoSyncIntervalType {
 - (void) setDefaultReplyName : (NSString *) name;
 - (NSString *) defaultReplyMailAddress;
 - (void) setDefaultReplyMailAddress : (NSString *) mail;
-- (NSArray *) defaultKoteHanList;
-- (void) setDefaultKoteHanList : (NSArray *) array;
+- (NSMutableArray *) defaultKoteHanList;
+- (void) setDefaultKoteHanList : (NSMutableArray *) array;
 
 /* ç≈å„Ç…äJÇ¢ÇΩî¬ */
 - (NSString *) browserLastBoard;
@@ -527,6 +527,8 @@ typedef enum _BSAutoSyncIntervalType {
 
 - (BSAutoSyncIntervalType) autoSyncIntervalTag;
 - (void) setAutoSyncIntervalTag: (BSAutoSyncIntervalType) aType;
+
+- (NSTimeInterval) timeIntervalForAutoSyncPrefs;
 
 - (NSDate *) lastSyncDate;
 - (void) setLastSyncDate: (NSDate *) finishedDate;
