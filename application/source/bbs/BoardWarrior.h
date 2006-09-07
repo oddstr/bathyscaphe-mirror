@@ -7,20 +7,27 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "CMRTask.h"
 
-@interface BoardWarrior : NSObject {
+@class BSIPIDownload;
+
+@interface BoardWarrior : NSObject<CMRTask> {
 	@private
 	BOOL			m_isInProgress;
+	NSString		*m_progressMessage;
 
 	double			m_expectedContentLength;
 	double			m_downloadedContentLength;
+	
+	BSIPIDownload	*m_currentDownload; // No retain/release
 }
 
 + (id) warrior;
 
+- (void) setMessage: (NSString *) progressMessage;
+
 - (BOOL) syncBoardListsWithURL: (NSURL *) anURL;
 - (BOOL) syncBoardLists;
-- (BOOL) isInProgress;
 
 - (double) expectedContentLength;
 - (double) downloadedContentLength;

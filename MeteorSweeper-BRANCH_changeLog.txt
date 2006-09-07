@@ -1,4 +1,20 @@
 2006-09-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/BSBoardInfoInspector.nib
+	* application/source/bbs/BSBoardInfoInspector.m
+		「掲示板オプション」インスペクタから掲示板の URL を編集できるようにした。
+		- 「掲示板オプション」を表示したまま、掲示板オプション以外の場所から（「掲示板」メニューや掲示板リストのコンテクスト
+		　メニューなど）URL を編集すると、「掲示板オプション」の表示に反映されないことがある。これはそのうち直す（この場合、
+		　一度インスペクタを隠して再度表示すると正しく反映される）。
+	* application/source/preferences/CMRHostHTMLHandler.m
+		html を dat 形式に内部変換する際、</dl>タグ以下のソースはカットしてからパースするようにした。
+		- とくに、しばしばひどい html を吐くJBBSライブドアに対する耐性を上げるための修正。
+		- 数日前からJBBSライブドアでスレッドタイトルが空になる問題はこれで解決できるはず。
+	* application/Resources/Japanese.lproj/BoardWarrior.strings
+		[新規追加] Localizable.strings から掲示板リストの同期関連のストリングスを分離。
+	* application/Resources/Japanese.lproj/Localizable.strings
+	* application/source/bbs/BoardWarrior.m
+		BoardWarrior クラスを CMRTask プロトコルに適合させた。これにより、同期の進行状況を「進行状況」パネルや
+		つるつるナビゲーションバーで確認できるようになった。
 	* application/source/browser/EditBoardSheetController.m
 	* application/source/bbs/BoardManager-SettingTxt.m
 	* application/source/browser/CMRBrowser-BLEditor.m

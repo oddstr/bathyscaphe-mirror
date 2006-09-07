@@ -523,6 +523,7 @@
 		87751A7B09782FAE009D4A9C /* BSIPIFullScreen.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87751A7909782FAE009D4A9C /* BSIPIFullScreen.nib */; };
 		87751AB5097838A0009D4A9C /* FullScreen.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87751AB4097838A0009D4A9C /* FullScreen.tiff */; };
 		87751AE309783D3F009D4A9C /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F36067F4044D4DB600A80005 /* Carbon.framework */; };
+		87764C600AB0399000507EBA /* BoardWarrior.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87764C5E0AB0399000507EBA /* BoardWarrior.strings */; };
 		878018E1097CF76A002FBA1F /* titleRulerBgNotActive.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 878018E0097CF76A002FBA1F /* titleRulerBgNotActive.tiff */; };
 		8782A66E096FAAB90099B65F /* BSImagePreviewInspector-Tb.m in Sources */ = {isa = PBXBuildFile; fileRef = 8782A66D096FAAB90099B65F /* BSImagePreviewInspector-Tb.m */; };
 		8782A6B2096FB46A0099B65F /* Save.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8782A6B0096FB4690099B65F /* Save.tiff */; };
@@ -833,6 +834,7 @@
 		87751A6309782DD7009D4A9C /* BSIPIFullScreenWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIFullScreenWindow.m; sourceTree = "<group>"; };
 		87751A7A09782FAE009D4A9C /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSIPIFullScreen.nib; sourceTree = "<group>"; };
 		87751AB4097838A0009D4A9C /* FullScreen.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = FullScreen.tiff; sourceTree = "<group>"; };
+		87764C5F0AB0399000507EBA /* Japanese */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/BoardWarrior.strings; sourceTree = "<group>"; };
 		878018E0097CF76A002FBA1F /* titleRulerBgNotActive.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = titleRulerBgNotActive.tiff; sourceTree = "<group>"; };
 		8782A66D096FAAB90099B65F /* BSImagePreviewInspector-Tb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BSImagePreviewInspector-Tb.m"; sourceTree = "<group>"; };
 		8782A6B0096FB4690099B65F /* Save.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Save.tiff; sourceTree = "<group>"; };
@@ -1439,6 +1441,7 @@
 		872998690832616D00CBD740 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				87764C5E0AB0399000507EBA /* BoardWarrior.strings */,
 				8762E8C60A8635C200062504 /* rosetta.pl */,
 				8762E8C70A8635C200062504 /* SJIS2UTF8 */,
 				8762E8C80A8635C200062504 /* sora.pl */,
@@ -2097,8 +2100,8 @@
 				F3826330051359B700A80005 /* interthread messaging */,
 				F324DCCA04C698FB00A80005 /* object */,
 				F324DC2204C698FA00A80005 /* bbs */,
-				F324DC8604C698FA00A80005 /* manager */,
 				F324DCB704C698FB00A80005 /* network */,
+				F324DC8604C698FA00A80005 /* manager */,
 				F324DCDA04C698FB00A80005 /* preferences */,
 				F324DC2A04C698FA00A80005 /* browser */,
 				F324DC5804C698FA00A80005 /* composer */,
@@ -3030,6 +3033,7 @@
 				87F0B3550A9C4CFA0002D317 /* smallSquarePlus.tiff in Resources */,
 				87F0B3560A9C4CFA0002D317 /* smallSquareMinus.tiff in Resources */,
 				87BD58E90AAC58D700F6412D /* EditBoardSheet.nib in Resources */,
+				87764C600AB0399000507EBA /* BoardWarrior.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3682,6 +3686,14 @@
 				87751A7A09782FAE009D4A9C /* Japanese */,
 			);
 			name = BSIPIFullScreen.nib;
+			sourceTree = "<group>";
+		};
+		87764C5E0AB0399000507EBA /* BoardWarrior.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				87764C5F0AB0399000507EBA /* Japanese */,
+			);
+			name = BoardWarrior.strings;
 			sourceTree = "<group>";
 		};
 		8795B91E08E3A7E3005C7C5B /* ToolbarItems.strings */ = {

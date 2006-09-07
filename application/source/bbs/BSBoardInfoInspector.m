@@ -186,6 +186,21 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	return [[BrdMgr URLForBoardName : [self currentTargetBoardName]] stringValue];
 }
 
+- (void) setBoardURLAsString: (NSString *) stringValue
+{
+	[BrdMgr editBoardOfName: [self currentTargetBoardName] newURLString: stringValue];
+}
+
+// URL フィールドが空欄にされるのを防止
+- (BOOL) control: (NSControl *) control textShouldEndEditing: (NSText *) fieldEditor
+{
+	if ([[fieldEditor string] isEqualToString: @""]) {
+		[fieldEditor setString: [self boardURLAsString]];
+		return YES;
+	}
+	return YES;
+}
+
 - (BOOL) shouldEnableUI
 {
 	return (![[self currentTargetBoardName] isEqualToString : CMXFavoritesDirectoryName]);

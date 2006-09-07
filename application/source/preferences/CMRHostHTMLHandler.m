@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRHostHTMLHandler.m,v 1.4 2006/06/01 15:11:16 tsawada2 Exp $
+  * $Id: CMRHostHTMLHandler.m,v 1.4.2.1 2006/09/07 15:03:28 tsawada2 Exp $
   * 
   * CMRHostHTMLHandler.m
   *
@@ -47,9 +47,8 @@
 	
 	while ((type_ = [xpp next]) != XMLPULL_END_DOCUMENT) {
 		if (HTML_TAG(xpp, @"head", XMLPULL_END_TAG)) {
-			return title_;
-		
-		}else if (HTML_TAG(xpp, @"title", XMLPULL_START_TAG)) {
+			return title_;		
+		} else if (HTML_TAG(xpp, @"title", XMLPULL_START_TAG)) {
 			[xpp nextText];
 			title_ = [[[xpp text] copy] autorelease];
 		}
@@ -285,6 +284,10 @@ tmp = @"雪ん子  <><> 2003/09/01(月) 20:00:12 ID:Bc0TyiNc [ ntt2-ppp758.tokyo.san
 	id<XmlPullParser>		xpp_;
 	
 	xpp_ = [[[SGXmlPullParser alloc] initHTMLParser] autorelease];
+
+	// 2006-09-07 不必要な部分は切り落とし、パースエラーの可能性を出来る限り減少させる
+	NSRange msgBodyRange = [inputSource rangeOfString: @"</dl>" options: (NSCaseInsensitiveSearch|NSLiteralSearch)];
+	inputSource = [inputSource substringToIndex: NSMaxRange(msgBodyRange)];
 	
 	[xpp_ setInputSource : inputSource];
 	// 生のdatに変換するので
