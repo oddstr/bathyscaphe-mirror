@@ -32,17 +32,6 @@
 {
 	return _newThreadFontButton;
 }
-
-- (NSTextField *) rowHeightField
-{
-	return m_rowHeightField;
-}
-
-- (NSStepper *) rowHeightStepper
-{
-	return m_rowHeightStepper;
-}
-
 - (NSButton *) replyFontButton
 {
 	return m_replyFontButton;
@@ -60,14 +49,6 @@
 - (NSButton *) beProfileFontButton
 {
 	return _beProfileFontButton;
-}
-- (NSTextField *) boardListRowHeightField
-{
-	return m_BLrowHeightField;
-}
-- (NSStepper *) boardListRowHeightStepper
-{
-	return m_BLrowHeightStepper;
 }
 
 #pragma mark -
@@ -122,40 +103,12 @@
 	}
 }
 
-- (void) updateTableRowSettings
-{
-	AppDefaults		*pref_;
-	
-	pref_ = [self preferences];
-	if ([[self rowHeightField] isEnabled]) {
-		[[self rowHeightField] setFloatValue :
-			[pref_ threadsListRowHeight]];
-		[[self rowHeightStepper] setFloatValue :
-			[pref_ threadsListRowHeight]];
-	}
-}
-
-- (void) updateBoardListRowSettings
-{
-	AppDefaults		*pref_;
-	
-	pref_ = [self preferences];
-	if ([[self boardListRowHeightField] isEnabled]) {
-		[[self boardListRowHeightField] setFloatValue :
-			[pref_ boardListRowHeight]];
-		[[self boardListRowHeightStepper] setFloatValue :
-			[pref_ boardListRowHeight]];
-	}
-}
-
 - (void) updateUIComponents
 {
 	AppDefaults *pref_ = [self preferences];
 	
 	if (nil == _contentView || nil == pref_) return;
 	
-	[self updateTableRowSettings];
-	[self updateBoardListRowSettings];
 	[self updateFontWellComponents];
 }
 @end

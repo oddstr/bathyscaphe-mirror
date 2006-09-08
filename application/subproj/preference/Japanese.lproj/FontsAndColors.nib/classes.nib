@@ -1,12 +1,7 @@
 {
     IBClasses = (
         {
-            ACTIONS = {
-                changeBoardListRowHeight = id; 
-                changeTableRowSpace = id; 
-                fixRowHeightToFont = id; 
-                fixRowHeightToFontOfBoardList = id; 
-            }; 
+            ACTIONS = {fixRowHeightToFont = id; fixRowHeightToFontOfBoardList = id; }; 
             CLASS = FCController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
@@ -18,12 +13,8 @@
                 "_newThreadFontButton" = NSButton; 
                 "_threadViewFontButton" = NSButton; 
                 "_threadsListFontButton" = NSButton; 
-                "m_BLrowHeightField" = NSTextField; 
-                "m_BLrowHeightStepper" = NSStepper; 
                 "m_BLtextFontButton" = NSButton; 
                 "m_replyFontButton" = NSButton; 
-                "m_rowHeightField" = NSTextField; 
-                "m_rowHeightStepper" = NSStepper; 
             }; 
             SUPERCLASS = PreferencesController; 
         }, 

@@ -1,4 +1,12 @@
 2006-09-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/preferences/CMRHostHTMLHandler.m
+		2006-09-07 の変更では、「</dl>」から後ろを切り落としていたが、まちBBS では</dl>がないため（省略している）、
+		例外が発生していた問題を修正。
+	* application/subproj/preference/font_color/FCController.m
+	* application/subproj/preference/Japanese.lproj/FontsAndColors.nib
+		bind 方法を見直し、「環境設定」＞「表示」ペイン関連のソースコードを大幅に減らした。
+		- 今まで何て無駄なコードを書いていたのだろうか？！…これに伴い FCController-ViewAccessor.m および
+		　FCController_p.h は FCController.(h|m) に統合し、ターゲットから外した。
 	* application/source/preferences/AppDefaults-Bundle.m
 	* application/source/CMRAppDelegate.m
 		掲示板リストの自動同期を実装した。
@@ -69,7 +77,7 @@
 	* application/subproj/previewer/BSImagePreviewInspector.m
 	* application/subproj/previewer/Japanese.lproj/Localizable.strings
 	* application/subproj/previewer/BSIPIDownload.m
-		プレビューインスペクタ：
+		プレビューインスペクタ（2.2→2.2.1）：
 		- リダイレクトされた URL がプレビューできない場合は、自動的に Web ブラウザに投げていたが、これを
 		　アラートで確認してから投げるように変更。
 		- イメージ・ビューのダブルクリックでイメージをフルスクリーン表示するように改良。

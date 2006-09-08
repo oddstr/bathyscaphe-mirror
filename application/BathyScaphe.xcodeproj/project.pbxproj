@@ -318,7 +318,6 @@
 		871CA11708585F8100C3A044 /* AccountController.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DB3504C6959800A80005 /* AccountController.h */; };
 		871CA11808585F8100C3A044 /* AccountController_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DB3704C6959800A80005 /* AccountController_p.h */; };
 		871CA11908585F8100C3A044 /* FCController.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DB3B04C6959800A80005 /* FCController.h */; };
-		871CA11A08585F8100C3A044 /* FCController_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DB3D04C6959800A80005 /* FCController_p.h */; };
 		871CA11B08585F8100C3A044 /* PreferencesPane.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DB6204C6959800A80005 /* PreferencesPane.h */; };
 		871CA11C08585F8100C3A044 /* PreferencePanes_Prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DB6404C6959800A80005 /* PreferencePanes_Prefix.h */; };
 		871CA11D08585F8100C3A044 /* CMRReplyDefaultsController.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DB6704C6959800A80005 /* CMRReplyDefaultsController.h */; };
@@ -351,7 +350,6 @@
 		871CA13C08585F8100C3A044 /* PreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DB3104C6959800A80005 /* PreferencesController.m */; };
 		871CA13D08585F8100C3A044 /* AccountController-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DB3404C6959800A80005 /* AccountController-ViewAccessor.m */; };
 		871CA13E08585F8100C3A044 /* AccountController.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DB3604C6959800A80005 /* AccountController.m */; };
-		871CA13F08585F8100C3A044 /* FCController-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DB3A04C6959800A80005 /* FCController-ViewAccessor.m */; };
 		871CA14008585F8100C3A044 /* FCController.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DB3C04C6959800A80005 /* FCController.m */; };
 		871CA14108585F8100C3A044 /* PreferencesPane-PCManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DB5F04C6959800A80005 /* PreferencesPane-PCManagement.m */; };
 		871CA14208585F8100C3A044 /* PreferencesPane-Toolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DB6004C6959800A80005 /* PreferencesPane-Toolbar.m */; };
@@ -2745,7 +2743,6 @@
 				871CA11708585F8100C3A044 /* AccountController.h in Headers */,
 				871CA11808585F8100C3A044 /* AccountController_p.h in Headers */,
 				871CA11908585F8100C3A044 /* FCController.h in Headers */,
-				871CA11A08585F8100C3A044 /* FCController_p.h in Headers */,
 				871CA11B08585F8100C3A044 /* PreferencesPane.h in Headers */,
 				871CA11C08585F8100C3A044 /* PreferencePanes_Prefix.h in Headers */,
 				871CA11D08585F8100C3A044 /* CMRReplyDefaultsController.h in Headers */,
@@ -3303,7 +3300,6 @@
 				871CA13C08585F8100C3A044 /* PreferencesController.m in Sources */,
 				871CA13D08585F8100C3A044 /* AccountController-ViewAccessor.m in Sources */,
 				871CA13E08585F8100C3A044 /* AccountController.m in Sources */,
-				871CA13F08585F8100C3A044 /* FCController-ViewAccessor.m in Sources */,
 				871CA14008585F8100C3A044 /* FCController.m in Sources */,
 				871CA14108585F8100C3A044 /* PreferencesPane-PCManagement.m in Sources */,
 				871CA14208585F8100C3A044 /* PreferencesPane-Toolbar.m in Sources */,
