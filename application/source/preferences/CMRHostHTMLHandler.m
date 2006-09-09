@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRHostHTMLHandler.m,v 1.4.2.2 2006/09/08 15:21:44 tsawada2 Exp $
+  * $Id: CMRHostHTMLHandler.m,v 1.4.2.3 2006/09/09 20:35:56 tsawada2 Exp $
   * 
   * CMRHostHTMLHandler.m
   *
@@ -287,8 +287,10 @@ tmp = @"雪ん子  <><> 2003/09/01(月) 20:00:12 ID:Bc0TyiNc [ ntt2-ppp758.tokyo.san
 
 	// 2006-09-07 不必要な部分は切り落とし、パースエラーの可能性を出来る限り減少させる
 	NSRange msgBodyRange = [inputSource rangeOfString: @"</dl>" options: (NSCaseInsensitiveSearch|NSLiteralSearch)];
-	if (msgBodyRange.location != NSNotFound) inputSource = [inputSource substringToIndex: NSMaxRange(msgBodyRange)];
-	
+	if (msgBodyRange.location != NSNotFound) {
+		inputSource = [inputSource substringToIndex: NSMaxRange(msgBodyRange)];
+		inputSource = [inputSource stringByAppendingString: @"<br><hr></body></html>"];
+	}
 	[xpp_ setInputSource : inputSource];
 	// 生のdatに変換するので
 	// エンティティは解決しない

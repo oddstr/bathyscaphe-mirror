@@ -1,3 +1,18 @@
+2006-09-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/preferences/AppDefaults-Filter.m
+	* application/subproj/preference/Japanese.lproj/FontsAndColors.nib
+		AAD を使用するかどうかの設定項目を追加した。
+	* application/source/thread/CMRThreadViewer.m
+		環境設定でオンになっていれば、迷惑レスフィルタなどと同じタイミングで AAD を実行する。
+	* application/source/composer/BSAsciiArtDetector.(h|m)
+		[新規追加] AAD (Ascii Art Detector) をとりあえず導入。CMRSpamFilter とインタフェースは似ているが、
+		判定ルーチンはとてもシンプルである。いずれ進化を遂げていくであろう。
+	* application/source/browser/CMRBrowser-Delegate.m
+		以前にコメントアウトしていた、スレッド一覧で長過ぎるスレタイに対してツールチップを表示する機能を
+		復活。判定の甘さは割り切る。なお、Tiger が必要。
+	* application/source/preferences/CMRHostHTMLHandler.m
+		v250 の変更で、JBBS ライブドアのスレッドで最後のレスの本文が表示されなくなっていた問題を修正。
+================================================================================= Sneaky v250
 2006-09-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/preferences/CMRHostHTMLHandler.m
 		2006-09-07 の変更では、「</dl>」から後ろを切り落としていたが、まちBBS では</dl>がないため（省略している）、

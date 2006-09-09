@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.20.2.6 2006/08/31 10:18:40 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.20.2.7 2006/09/09 20:35:56 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -279,7 +279,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 }
 
 
-/* そのセルの内容が「...」で省略表示されているのかどうか判別する方法が見つかるまで凍結
+// そのセルの内容が「...」で省略表示されているのかどうか判別するよい方法が無いなぁ
 - (NSString *) tableView : (NSTableView *) aTableView
 		  toolTipForCell : (NSCell *) aCell
 					rect : (NSRectPointer) rect
@@ -287,15 +287,16 @@ BOOL isOptionKeyDown(unsigned flag_)
 					 row : (int) row
 		   mouseLocation : (NSPoint) mouseLocation
 {
-	if (([[aTableColumn identifier] isEqualToString : CMRThreadTitleKey]) &&
-		([[aCell objectValue] size].width > ([aTableColumn width])	)	 ) // ここがちょっとダメ
-	{
-		return [[aCell objectValue] stringValue];
-	} else {
-		return nil;
+	if ([[aTableColumn identifier] isEqualToString : CMRThreadTitleKey]) {
+		NSAttributedString *attrStr_ = [aCell objectValue];
+		if ([attrStr_ size].width > [aTableColumn width]) { // この判定ではちょっと不正確
+			return [attrStr_ string];
+		}
 	}
+
+	return nil;
 }
-*/
+
 
 #pragma mark RBSplitView Delegate
 

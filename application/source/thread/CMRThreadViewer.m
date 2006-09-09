@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.30.2.4 2006/09/04 16:34:39 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.30.2.5 2006/09/09 20:35:56 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -23,6 +23,7 @@
 #import "CMRThreadPlistComposer.h"
 #import "CMRNetGrobalLock.h"    /* for Locking */
 #import "BSHistoryMenuManager.h"
+#import "BSAsciiArtDetector.h"
 
 #import "missing.h"
 
@@ -309,6 +310,10 @@ cancel, if this method returns NO.
 	// AA
 	if ([self isAAThread]) {
 		[aMessageBuffer changeAllMessageAttributes:YES flags:CMRAsciiArtMask];
+	} else {
+		if ([CMRPref asciiArtDetectorEnabled]) {
+			[[BSAsciiArtDetector sharedInstance] runDetectorWithMessages: aMessageBuffer with: threadID];
+		}
 	}
 	
 	// Delegate

@@ -510,6 +510,8 @@
 		8762E8C90A8635C200062504 /* rosetta.pl in Resources */ = {isa = PBXBuildFile; fileRef = 8762E8C60A8635C200062504 /* rosetta.pl */; };
 		8762E8CA0A8635C200062504 /* SJIS2UTF8 in Resources */ = {isa = PBXBuildFile; fileRef = 8762E8C70A8635C200062504 /* SJIS2UTF8 */; };
 		8762E8CB0A8635C200062504 /* sora.pl in Resources */ = {isa = PBXBuildFile; fileRef = 8762E8C80A8635C200062504 /* sora.pl */; };
+		876371710AB3455E005D5996 /* BSAsciiArtDetector.h in Headers */ = {isa = PBXBuildFile; fileRef = 8763716F0AB3455E005D5996 /* BSAsciiArtDetector.h */; };
+		876371720AB3455E005D5996 /* BSAsciiArtDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 876371700AB3455E005D5996 /* BSAsciiArtDetector.m */; };
 		8770BF5D087F0095008907C5 /* BSHistoryMenuManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8770BF5B087F0095008907C5 /* BSHistoryMenuManager.h */; };
 		8770BF5E087F0096008907C5 /* BSHistoryMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8770BF5C087F0095008907C5 /* BSHistoryMenuManager.m */; };
 		87749E070A878F120008A679 /* HistoryFolder.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CD5090E970F007FF9C3 /* HistoryFolder.png */; };
@@ -821,6 +823,8 @@
 		8762E8C60A8635C200062504 /* rosetta.pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; name = rosetta.pl; path = subproj/BWAgent/rosetta.pl; sourceTree = SOURCE_ROOT; };
 		8762E8C70A8635C200062504 /* SJIS2UTF8 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = SJIS2UTF8; path = subproj/BWAgent/SJIS2UTF8; sourceTree = SOURCE_ROOT; };
 		8762E8C80A8635C200062504 /* sora.pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; name = sora.pl; path = subproj/BWAgent/sora.pl; sourceTree = SOURCE_ROOT; };
+		8763716F0AB3455E005D5996 /* BSAsciiArtDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSAsciiArtDetector.h; sourceTree = "<group>"; };
+		876371700AB3455E005D5996 /* BSAsciiArtDetector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSAsciiArtDetector.m; sourceTree = "<group>"; };
 		876415700840A95000F66D78 /* AdvancedPrefController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdvancedPrefController.h; sourceTree = "<group>"; };
 		876415710840A95000F66D78 /* AdvancedPrefController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdvancedPrefController.m; sourceTree = "<group>"; };
 		876415810840AF5500F66D78 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/AdvancedPane.nib; sourceTree = "<group>"; };
@@ -2557,6 +2561,8 @@
 		F3FF60F505BCCF7C00BDEBFA /* Filter */ = {
 			isa = PBXGroup;
 			children = (
+				8763716F0AB3455E005D5996 /* BSAsciiArtDetector.h */,
+				876371700AB3455E005D5996 /* BSAsciiArtDetector.m */,
 				F3733D9A05B9EEE5009D1038 /* CMRMessageFilter.h */,
 				F3733D9B05B9EEE5009D1038 /* CMRMessageFilter.m */,
 				F3FF61F905BD5AD200BDEBFA /* CMRSpamFilter.h */,
@@ -2732,6 +2738,7 @@
 				87A475DE0A8585BE00FC13E6 /* BoardWarrior.h in Headers */,
 				8796FA420A9189D400DE3A90 /* BSSettingTxtDetector.h in Headers */,
 				87BD58E00AAC551100F6412D /* EditBoardSheetController.h in Headers */,
+				876371710AB3455E005D5996 /* BSAsciiArtDetector.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3290,6 +3297,7 @@
 				87F621A10A9186920082E8DB /* BoardManager-BSAddition.m in Sources */,
 				8796FA430A9189D400DE3A90 /* BSSettingTxtDetector.m in Sources */,
 				87BD58E10AAC551100F6412D /* EditBoardSheetController.m in Sources */,
+				876371720AB3455E005D5996 /* BSAsciiArtDetector.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

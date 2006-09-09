@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-Filter.m,v 1.1 2005/05/11 17:51:06 tsawada2 Exp $
+  * $Id: AppDefaults-Filter.m,v 1.1.1.1.8.1 2006/09/09 20:35:56 tsawada2 Exp $
   * 
   * AppDefaults-Filter.m
   *
@@ -15,6 +15,7 @@
 #define kPrefSpamFilterEnabledKey		@"Spam Filter Enabled"
 #define kPrefUsesSpamMessageCorpusKey	@"Uses Spam Message Corpus"
 #define kPrefSpamFilterBehaviorKey		@"Spam Filter Behavior"
+#define kPrefAADEnabledKey				@"AA Detector Enabled"
 
 
 @implementation AppDefaults(Filter)
@@ -99,6 +100,14 @@
 	[[CMRSpamFilter sharedInstance] resetSpamFilter];
 }
 
+- (BOOL) asciiArtDetectorEnabled
+{
+	return [[self filterPrefs] boolForKey: kPrefAADEnabledKey defaultValue: YES];
+}
+- (void) setAsciiArtDetectorEnabled: (BOOL) flag
+{
+	[[self filterPrefs] setBool: flag forKey: kPrefAADEnabledKey];
+}
 
 - (void) _loadFilter
 {
