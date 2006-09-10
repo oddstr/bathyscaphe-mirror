@@ -22,6 +22,9 @@
 	IBOutlet NSButton		*m_editNoNameBtn;
 	//IBOutlet NSButton		*m_detectSettingTxtBtn;
 	IBOutlet NSButton		*m_helpButton;
+	IBOutlet NSButton		*m_lockButton;
+	IBOutlet NSTextField	*m_URLField;
+	IBOutlet NSView			*m_namesTable;
 	IBOutlet NSArrayController	*m_greenCube;
 }
 
@@ -36,6 +39,8 @@
 - (NSButton *) removeNoNameBtn;
 - (NSButton *) editNoNameBtn;
 //- (NSButton *) detectSettingTxtBtn;
+- (NSButton *) lockButton;
+- (NSTextField *) URLField;
 - (NSArrayController *) greenCube;
 
 // IBAction
@@ -68,6 +73,7 @@
 
 // method
 - (void) showInspectorForTargetBoard : (NSString *) boardName;
+- (IBAction) toggleAllowEditingBoardURL: (id) sender;
 
 - (void) mainWindowChanged : (NSNotification *) theNotification;
 - (void) browserBoardChanged : (NSNotification *) theNotification;

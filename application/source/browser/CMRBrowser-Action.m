@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.47.2.4 2006/08/31 10:18:40 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.47.2.5 2006/09/10 13:11:46 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -220,9 +220,9 @@ static int expandAndSelectItem(NSDictionary *selected, NSArray *anArray, NSOutli
 		[self setThreadContentWithFilePath : path_
 								 boardInfo : thread_];
 		// フォーカス
-		if ([CMRPref moveFocusToViewerWhenShowThreadAtRow]) {
+		//if ([CMRPref moveFocusToViewerWhenShowThreadAtRow]) {
 			[[self window] makeFirstResponder : [self textView]];
-		}
+		//}
 		[self synchronizeWindowTitleWithDocumentName];
 	}
 }
@@ -250,7 +250,7 @@ static int expandAndSelectItem(NSDictionary *selected, NSArray *anArray, NSOutli
 		[self openSelectedThreads : sender];
 	}
 }
-
+/*
 #pragma mark MeteorSweeper Key Binding Action Additions
 - (IBAction) scrollPageDownThViewOrThListProperly: (id) sender
 {
@@ -289,7 +289,7 @@ static int expandAndSelectItem(NSDictionary *selected, NSArray *anArray, NSOutli
 	
 	[[self textView] scrollPageUp: sender];
 }
-
+*/
 #pragma mark History Menu
 - (IBAction) showThreadWithMenuItem : (id) sender
 {

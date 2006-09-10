@@ -64,6 +64,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 		[[self removeNoNameBtn] setBezelStyle: NSSmallSquareBezelStyle];
 		[[self editNoNameBtn] setBezelStyle: NSSmallSquareBezelStyle];
 	}
+	[[self URLField] setAllowsEditingTextAttributes: NO];
+	[[self URLField] setImportsGraphics: NO];
 }
 
 #pragma mark Accessors
@@ -119,6 +121,14 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 {
 	return m_detectSettingTxtBtn;
 }*/
+- (NSButton *) lockButton
+{
+	return m_lockButton;
+}
+- (NSTextField *) URLField
+{
+	return m_URLField;
+}
 - (NSArrayController *) greenCube
 {
 	return m_greenCube;
@@ -261,6 +271,20 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 {
 	[self setCurrentTargetBoardName : boardName];
 	[self showWindow : self];
+}
+
+- (IBAction) toggleAllowEditingBoardURL: (id) sender
+{
+	int state_ = [sender state];
+	
+	if (state_ == NSOffState) { // unlock --> lock
+		[[self window] makeFirstResponder: m_namesTable];
+		[[self URLField] setEditable: NO];
+		[[self URLField] setNeedsDisplay: YES];
+	} else if (state_ == NSOnState) {
+		[[self URLField] setEditable: YES];
+		[[self URLField] selectText: nil];
+	}
 }
 
 - (void) mainWindowChanged : (NSNotification *) theNotification

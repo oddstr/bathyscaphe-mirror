@@ -1,4 +1,22 @@
 2006-09-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/text/BrowserKeyBindings.plist
+	* application/source/browser/CMRBrowser-Action.m
+		しばらく前から隠し設定で「3ペイン時にスレッド一覧からスレッドを表示するとき、フォーカスを内容表示領域に移さない」
+		動作をテストしていたのだが、インタフェース的に細かい問題が多く、1.3 の段階ではサポートしないことにした。
+		よって該当部分をコメントアウトして封印した。
+	* application/source/bbs/BoardManager-SettingTxt.m
+	* application/source/bbs/BoardManager.m
+		掲示板オプション以外の場所から掲示板の URL が変更された場合でも、すみやかに「掲示板オプション」の表示に
+		反映されるようにした。
+	* application/Resources/image/smallUnlocked.tiff
+	* application/Resources/image/smallLocked.tiff
+		[新規追加] 鍵のアイコン。
+	* application/source/bbs/BSBoardInfoInspector.m
+	* application/Resources/Japanese.lproj/BSBoardInfoInspector.nib
+		「掲示板オプション」インスペクタの URL フィールドは、誤って URL の一部を削除してしまうなどのトラブルを
+		防止するため、鍵のアイコンをクリックしてフィールドの編集可／不可を切り替えられるようにした。
+	* application/source/bbs/BoardList-OVDataSource.m
+		掲示板リストで、カテゴリを自らの内部にドラッグ＆ドロップして移動できないように変更。
 	* application/source/preferences/AppDefaults-Filter.m
 	* application/subproj/preference/Japanese.lproj/FontsAndColors.nib
 		AAD を使用するかどうかの設定項目を追加した。

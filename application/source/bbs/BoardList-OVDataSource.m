@@ -1,5 +1,5 @@
 /**
-  * $Id: BoardList-OVDataSource.m,v 1.11.2.2 2006/07/31 00:05:10 tsawada2 Exp $
+  * $Id: BoardList-OVDataSource.m,v 1.11.2.3 2006/09/10 13:11:46 tsawada2 Exp $
   * 
   * BoardList-OVDataSource.m
   *
@@ -209,6 +209,10 @@ not_writtable:
 	target_ = (nil == item) ? [self boardItems]
 							: [item objectForKey : BoardPlistContentsKey];
 	if(nil == target_)
+		return NO;
+
+	// 2006-09-10 カテゴリを自らの内部に突っ込んでしまい、恐ろしいことが起こるのを防ぐ
+	if ([items_ containsObject: item])
 		return NO;
 	
 	iter_ = [items_ reverseObjectEnumerator];

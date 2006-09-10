@@ -4,6 +4,7 @@
 #import "BSSettingTxtDetector.h"
 #import "AppDefaults.h"
 #import "BoardList.h"
+#import "BSBoardInfoInspector.h"
 
 @implementation BoardManager(SettingTxtDetector)
 - (BOOL) doDownloadSettingTxtForBoard: (NSString *) boardName
@@ -155,7 +156,9 @@
 	newItem_ = [[self userList] itemForName: boardName ofType: BoardListBoardItem];
 	UTILAssertKindOfClass(newItem_, NSMutableDictionary);
 
+	[[BSBoardInfoInspector sharedInstance] willChangeValueForKey: @"boardURLAsString"];
 	[[self userList] item: newItem_ setName: boardName setURL: newURLString];
+	[[BSBoardInfoInspector sharedInstance] didChangeValueForKey: @"boardURLAsString"];
 	return YES;
 }
 

@@ -1,14 +1,22 @@
 {
     IBClasses = (
         {
-            ACTIONS = {addNoName = id; editNoName = id; openHelpForMe = id; }; 
+            ACTIONS = {
+                addNoName = id; 
+                editNoName = id; 
+                openHelpForMe = id; 
+                toggleAllowEditingBoardURL = id; 
+            }; 
             CLASS = BSBoardInfoInspector; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                "m_URLField" = NSTextField; 
                 "m_addNoNameBtn" = NSButton; 
                 "m_editNoNameBtn" = NSButton; 
                 "m_greenCube" = NSArrayController; 
                 "m_helpButton" = NSButton; 
+                "m_lockButton" = NSButton; 
+                "m_namesTable" = NSView; 
                 "m_removeNoNameBtn" = NSButton; 
             }; 
             SUPERCLASS = NSWindowController; 

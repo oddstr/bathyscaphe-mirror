@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.m,v 1.6.2.3 2006/09/02 14:30:12 tsawada2 Exp $
+ * $Id: BoardManager.m,v 1.6.2.4 2006/09/10 13:11:46 tsawada2 Exp $
  * 
  * BoardManager.m
  *
@@ -9,6 +9,7 @@
 
 #import "BoardManager_p.h"
 #import "CMRDocumentFileManager.h"
+#import "BSBoardInfoInspector.h"
 
 // for debugging only
 #define UTIL_DEBUGGING		0
@@ -201,8 +202,11 @@ static id kDefaultManager;
 - (void) updateURL : (NSURL    *) anURL
       forBoardName : (NSString *) aName
 {
+	[[BSBoardInfoInspector sharedInstance] willChangeValueForKey: @"boardURLAsString"];
     [[self userList] updateURL:anURL forBoardName:aName];
     [[self defaultList] updateURL:anURL forBoardName:aName];
+
+	[[BSBoardInfoInspector sharedInstance] didChangeValueForKey: @"boardURLAsString"];
 }
 
 #pragma mark detect moved BBS
