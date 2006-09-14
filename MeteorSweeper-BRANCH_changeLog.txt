@@ -1,3 +1,18 @@
+2006-09-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/thread/CMRThreadViewer-Link.m
+	* application/source/thread/CMRThreadViewer-Validation.m
+		「お気に入りに追加／削除」の挙動が3ペイン時に好ましくなかったのを改良。対象スレッドの取得に selectedThreads: を
+		用いていたのを、他のアクションのように targetThreadsForAction: での取得に統一した。
+		また、掲示板のアドレスが本文中に書き込まれているとき、掲示板の名前がわかればそれをポップアップするように
+		（スレッドへのリンクの場合は、ポップアップにスレッドタイトルに加えて、掲示板名も付加するように）した。
+	* application/subproj/preference/filter/CMRFilterPrefController.m
+	* application/subproj/preference/Japanese.lproj/FilterPreferences.nib
+	* application/subproj/preference/general/BSTagValueTransformer.m
+	* application/subproj/preference/pane/PreferencesPane.m
+		「環境設定」＞「フィルタ」ペイン関連のソースコードを bind 方法の見直しで減らした。
+		CMRFilterPrefController-View.m および CMRFilterPrefController_p.h は統廃合されて
+		ターゲットから外れた。
 2006-09-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/composer/BSAsciiArtDetector.m
 		AAD の判定方法を変更した。

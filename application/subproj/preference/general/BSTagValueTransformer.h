@@ -8,16 +8,17 @@
 
 #import <Cocoa/Cocoa.h>
 
+// これらの NSValueTransformer subClasses にはあまり汎用性がない。
 
+//「一般」ペインで使用する
 @interface BSTagValueTransformer : NSValueTransformer {
 
 }
 
 @end
-/*
-@interface BSURLStringTransformer : NSValueTransformer {
+//「フィルタ」ペインで使用する
+@interface BSTagToBoolTransformer : NSValueTransformer {
 
 }
 
 @end
-*/

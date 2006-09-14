@@ -323,7 +323,6 @@
 		871CA11D08585F8100C3A044 /* CMRReplyDefaultsController.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DB6704C6959800A80005 /* CMRReplyDefaultsController.h */; };
 		871CA11F08585F8100C3A044 /* GeneralPrefController.h in Headers */ = {isa = PBXBuildFile; fileRef = F334140104F11CCA00DAC789 /* GeneralPrefController.h */; };
 		871CA12008585F8100C3A044 /* CMRFilterPrefController.h in Headers */ = {isa = PBXBuildFile; fileRef = F33AE22205BE50F7002448CC /* CMRFilterPrefController.h */; };
-		871CA12108585F8100C3A044 /* CMRFilterPrefController_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F33AE22405BE50F7002448CC /* CMRFilterPrefController_p.h */; };
 		871CA12208585F8100C3A044 /* UTILAssertion.h in Headers */ = {isa = PBXBuildFile; fileRef = F376F1FB05D3A805000452AB /* UTILAssertion.h */; };
 		871CA12308585F8100C3A044 /* UTILKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F376F1FE05D3A805000452AB /* UTILKit.h */; };
 		871CA12408585F8100C3A044 /* UTILDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = F376F1FD05D3A805000452AB /* UTILDescription.h */; };
@@ -357,7 +356,6 @@
 		871CA14508585F8100C3A044 /* CMRReplyDefaultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DB6804C6959800A80005 /* CMRReplyDefaultsController.m */; };
 		871CA14708585F8100C3A044 /* GeneralPrefController.m in Sources */ = {isa = PBXBuildFile; fileRef = F334140204F11CCA00DAC789 /* GeneralPrefController.m */; };
 		871CA14808585F8100C3A044 /* CMRFilterPrefController.m in Sources */ = {isa = PBXBuildFile; fileRef = F33AE22305BE50F7002448CC /* CMRFilterPrefController.m */; };
-		871CA14908585F8100C3A044 /* CMRFilterPrefController-View.m in Sources */ = {isa = PBXBuildFile; fileRef = F33AE23605BE5B0B002448CC /* CMRFilterPrefController-View.m */; };
 		871CA14A08585F8100C3A044 /* FontWell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87AC05B6082D3E4200823807 /* FontWell.m */; };
 		871CA14B08585F8100C3A044 /* AdvancedPrefController.m in Sources */ = {isa = PBXBuildFile; fileRef = 876415710840A95000F66D78 /* AdvancedPrefController.m */; };
 		871CA14D08585F8100C3A044 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
@@ -2761,7 +2759,6 @@
 				871CA11D08585F8100C3A044 /* CMRReplyDefaultsController.h in Headers */,
 				871CA11F08585F8100C3A044 /* GeneralPrefController.h in Headers */,
 				871CA12008585F8100C3A044 /* CMRFilterPrefController.h in Headers */,
-				871CA12108585F8100C3A044 /* CMRFilterPrefController_p.h in Headers */,
 				871CA12208585F8100C3A044 /* UTILAssertion.h in Headers */,
 				871CA12308585F8100C3A044 /* UTILKit.h in Headers */,
 				871CA12408585F8100C3A044 /* UTILDescription.h in Headers */,
@@ -3323,7 +3320,6 @@
 				871CA14508585F8100C3A044 /* CMRReplyDefaultsController.m in Sources */,
 				871CA14708585F8100C3A044 /* GeneralPrefController.m in Sources */,
 				871CA14808585F8100C3A044 /* CMRFilterPrefController.m in Sources */,
-				871CA14908585F8100C3A044 /* CMRFilterPrefController-View.m in Sources */,
 				871CA14A08585F8100C3A044 /* FontWell.m in Sources */,
 				871CA14B08585F8100C3A044 /* AdvancedPrefController.m in Sources */,
 				87160663098A338500A27F63 /* SoundsPaneController.m in Sources */,

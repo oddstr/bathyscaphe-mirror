@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.15.2.3 2006/08/31 10:18:40 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.15.2.4 2006/09/14 20:37:04 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright (c) 2003, Takanori Ishikawa.
@@ -99,11 +99,11 @@
 @interface CMRThreadViewer(Action)
 - (NSPoint) locationForInformationPopUp;
 
+// NOTE: CMRBrowser overrides this method.
+- (NSArray *) targetThreadsForAction: (SEL) action;
+
 - (BOOL) forceDeleteThreadAtPath : (NSString *) filepath
 				   alsoReplyFile : (BOOL      ) deleteReply;
-
-//- (void) checkIfFavItemThenRemove : (NSString *) aPath;
-- (void) copyThreadInfoOf : (NSEnumerator *) Iter_;
 
 // KeyBinding...
 - (IBAction) deleteThread : (id) sender;
@@ -113,7 +113,6 @@
 - (IBAction) toggleAAThread : (id) sender;
 
 - (IBAction) copyThreadAttributes : (id) sender;
-- (IBAction) copyInfoFromContextualMenu : (id) sender;
 - (IBAction) showThreadAttributes : (id) sender;
 
 - (IBAction) copySelectedResURL : (id) sender;

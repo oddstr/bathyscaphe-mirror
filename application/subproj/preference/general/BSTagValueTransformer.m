@@ -56,40 +56,30 @@
     return [NSNumber numberWithInt: returnValue];
 }
 @end
-/*
-@implementation BSURLStringTransformer
+
+@implementation BSTagToBoolTransformer
 + (Class) transformedValueClass
 {
-    return [NSString class];
+    return [NSNumber class];
 }
  
 + (BOOL) allowsReverseTransformation
 {
-    return YES;
+    return NO;
 }
  
 - (id) transformedValue: (id) beforeObject
 {
-	NSString	*tmp;
+	BOOL	tmp = NO;
 	if (beforeObject != nil) {
-		if ([beforeObject respondsToSelector: @selector(absoluteString)]) {
-			tmp = [beforeObject absoluteString];
+		if ([beforeObject respondsToSelector: @selector(intValue)]) {
+			tmp = ([beforeObject intValue] != 3) ? YES : NO;
 		} else {
 			[NSException raise: NSInternalInconsistencyException
-						format: @"Value (%@) does not respond to -absoluteString.", [beforeObject class]];
+						format: @"Value (%@) does not respond to -intValue.", [beforeObject class]];
 		}
 	}
 
-	return [tmp autorelease];
-}
-
-- (id) reverseTransformedValue: (id) value;
-{
-    if (value == nil) {
-		return nil;
-	}
-
-    return [NSURL URLWithString: value];
+	return [NSNumber numberWithBool: tmp];
 }
 @end
-*/

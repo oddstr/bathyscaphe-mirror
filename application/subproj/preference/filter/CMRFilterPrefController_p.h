@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFilterPrefController_p.h,v 1.1 2005/05/11 17:51:10 tsawada2 Exp $
+  * $Id: CMRFilterPrefController_p.h,v 1.1.1.1.8.1 2006/09/14 20:37:04 tsawada2 Exp $
   * 
   * CMRFilterPrefController_p.h
   *
@@ -12,9 +12,9 @@
 
 
 @interface CMRFilterPrefController(View)
-- (NSButton *) spamFilterEnabledCheckBox;
+/*- (NSButton *) spamFilterEnabledCheckBox;
 - (NSButton *) usesSpamMessageCorpusCheckBox;
-- (NSMatrix *) spamFilterBehaviorMatrix;
+- (NSMatrix *) spamFilterBehaviorMatrix;*/
 
 - (NSWindow *) detailSheet;
 - (NSTextView *) spamMessageCorpusTextView;

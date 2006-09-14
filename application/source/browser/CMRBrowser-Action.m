@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.47.2.5 2006/09/10 13:11:46 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.47.2.6 2006/09/14 20:37:04 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -115,7 +115,7 @@ static int expandAndSelectItem(NSDictionary *selected, NSArray *anArray, NSOutli
 	NSPoint mouse = [event locationInWindow];
 	NSView *targetView = [[[self window] contentView] hitTest : mouse];
 	NSArray *result = nil;
-	
+	//NSLog(@"%@", NSStringFromClass([targetView class]));
 	if ([targetView isKindOfClass : [m_threadsListTable class]] /*|| nil == targetView*/) {	// スレッドリストから
 		result = [self selectedThreadsReallySelected];
 		if (0 == [result count]) {
@@ -168,7 +168,7 @@ static int expandAndSelectItem(NSDictionary *selected, NSArray *anArray, NSOutli
 		[super openBBSInBrowser : sender];
 	}
 }
-
+/*
 - (IBAction) openLogfile : (id) sender
 {
 	[self openThreadsLogFiles :  [self targetThreadsForAction : _cmd]];
@@ -177,7 +177,7 @@ static int expandAndSelectItem(NSDictionary *selected, NSArray *anArray, NSOutli
 {
 	[self openThreadsInBrowser : [self targetThreadsForAction : _cmd]];
 }
-
+*/
 - (IBAction) openSelectedThreads : (id) sender
 {
 	[self openThreadsInThreadWindow : [self targetThreadsForAction : _cmd]];

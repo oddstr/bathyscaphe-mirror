@@ -1,23 +1,10 @@
 {
     IBClasses = (
         {
-            ACTIONS = {
-                changeSpamFilterBehavior = id; 
-                changeSpamFilterEnabled = id; 
-                changeUsesSpamMessageCorpus = id; 
-                closeDetailSheet = id; 
-                openDetailSheet = id; 
-                resetSpamDB = id; 
-            }; 
+            ACTIONS = {closeDetailSheet = id; openDetailSheet = id; resetSpamDB = id; }; 
             CLASS = CMRFilterPrefController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {
-                "_detailSheet" = NSWindow; 
-                "_spamFilterBehaviorMatrix" = NSMatrix; 
-                "_spamFilterEnabledCheckBox" = NSButton; 
-                "_spamMessageCorpusTextView" = NSTextView; 
-                "_usesSpamMessageCorpusCheckBox" = NSButton; 
-            }; 
+            OUTLETS = {"_detailSheet" = NSWindow; "_spamMessageCorpusTextView" = NSTextView; }; 
             SUPERCLASS = PreferencesController; 
         }, 
         {

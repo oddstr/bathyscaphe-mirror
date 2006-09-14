@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.30.2.4 2006/08/31 10:18:40 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.30.2.5 2006/09/14 20:37:04 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -82,7 +82,7 @@
 					 object : aMessenger];
 }
 
-- (void) openThreadsInThreadWindow : (NSArray *) threads {}
+- (void) openThreadsInThreadWindow : (NSArray *) threads {} // subclass should override this method
 
 - (void) openThreadsInBrowser : (NSArray *) threads
 {
@@ -149,7 +149,10 @@
 #pragma mark -
 
 @implementation CMRThreadViewer(Action)
-
+- (NSArray *) targetThreadsForAction : (SEL) action
+{
+	return [self selectedThreads];
+}
 #pragma mark Reloading thread
 - (void) reloadThread
 {
@@ -339,34 +342,15 @@
 
 - (IBAction) copyThreadAttributes : (id) sender
 {
-	NSEnumerator	*Iter_;
+	NSEnumerator	*iter_;
 
-	Iter_ = [[self selectedThreads] objectEnumerator];
-	if (nil == Iter_) return;
+	iter_ = [[self targetThreadsForAction: _cmd] objectEnumerator];
+	if (!iter_) return;
 
-	[self copyThreadInfoOf : Iter_];
-}
-
-- (IBAction) copyInfoFromContextualMenu : (id) sender
-{
-	// 2004-12-12 tsawada2
-	/* 今のところ、スレッド一覧でのコンテクストメニューのみ、このアクションを呼び出す。
-		真に選択されているスレッドのみ情報をコピーする。
-		（これに対して、copyThreadAttributes:は「選択されていないが、3ペイン下部に表示されている」スレッドも
-		含めて情報をコピーする） */
-	NSEnumerator		*Iter_;
-	
-	Iter_ = [[self selectedThreadsReallySelected] objectEnumerator];
-
-	[self copyThreadInfoOf : Iter_];
-}
-
-- (void) copyThreadInfoOf : (NSEnumerator *) Iter_
-{
 	NSMutableString	*tmp;
 	NSString		*template_;
 	NSURL			*url_ = nil;
-	NSPasteboard	*pboard_   = [NSPasteboard generalPasteboard];
+	NSPasteboard	*pboard_ = [NSPasteboard generalPasteboard];
 	NSArray			*types_;
 	NSDictionary	*dict_;
 
@@ -374,21 +358,18 @@
 	UTILAssertKindOfClass(template_, NSString);
 	
 	tmp = SGTemporaryString();
-	while (dict_ = [Iter_ nextObject]) {
-		[tmp appendString : template_];
-		[self replaceKeywords:tmp dictionary:dict_];
-		url_ = [CMRThreadAttributes threadURLFromDictionary : dict_];
+
+	while (dict_ = [iter_ nextObject]) {
+		[tmp appendString: template_];
+		[self replaceKeywords: tmp dictionary: dict_];
+		url_ = [CMRThreadAttributes threadURLFromDictionary: dict_];
 	}
 	
-	types_ = [NSArray arrayWithObjects : 
-				NSURLPboardType,
-				NSStringPboardType,
-				nil];
+	types_ = [NSArray arrayWithObjects: NSURLPboardType, NSStringPboardType, nil];
+	[pboard_ declareTypes: types_ owner: nil];
 	
-	[pboard_ declareTypes:types_ owner:nil];
-	
-	[url_ writeToPasteboard : pboard_];
-	[pboard_ setString:tmp forType:NSStringPboardType];
+	[url_ writeToPasteboard: pboard_];
+	[pboard_ setString: tmp forType: NSStringPboardType];
 	
 	[tmp deleteCharactersInRange : [tmp range]];
 }
@@ -606,20 +587,6 @@
 	}
 }
 
-- (IBAction) openInBrowser : (id) sender
-{
-	NSArray				*selectedThreads_;
-	
-	selectedThreads_ = [self selectedThreadsReallySelected];
-	if (0 == [selectedThreads_ count]) {
-		if (nil == [self threadURL]) {
-			return;
-		}
-		selectedThreads_ = [self selectedThreads];
-	}
-	
-	[self openThreadsInBrowser : selectedThreads_];
-}
 - (IBAction) openBBSInBrowser : (id) sender
 {
 	NSEnumerator		*Iter_;
@@ -634,19 +601,14 @@
 	}
 }
 
+- (IBAction) openInBrowser : (id) sender
+{
+	[self openThreadsInBrowser: [self targetThreadsForAction: _cmd]];
+}
+
 - (IBAction) openLogfile : (id) sender
 {
-	NSArray				*selectedThreads_;
-	
-	selectedThreads_ = [self selectedThreadsReallySelected];
-	if (0 == [selectedThreads_ count]) {
-		if (nil == [self threadURL]) {
-			return;
-		}
-		selectedThreads_ = [self selectedThreads];
-	}
-	
-	[self openThreadsLogFiles: selectedThreads_];
+	[self openThreadsLogFiles: [self targetThreadsForAction: _cmd]];
 }
 
 - (IBAction) addFavorites : (id) sender
@@ -657,7 +619,8 @@
 	
 	CMRFavoritesManager		*fM_ = [CMRFavoritesManager defaultManager];
 	
-	selectedThreads_ = [self selectedThreads];
+	//selectedThreads_ = [self selectedThreads];
+	selectedThreads_ = [self targetThreadsForAction: _cmd];
 	
 	Iter_ = [selectedThreads_ objectEnumerator];
 	while ((threadAttributes_ = [Iter_ nextObject])) {

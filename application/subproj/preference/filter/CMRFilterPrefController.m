@@ -1,13 +1,13 @@
 /**
-  * $Id: CMRFilterPrefController.m,v 1.4 2005/10/11 08:04:17 tsawada2 Exp $
+  * $Id: CMRFilterPrefController.m,v 1.4.6.1 2006/09/14 20:37:04 tsawada2 Exp $
   * 
   * CMRFilterPrefController.m
   *
   * Copyright (c) 2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
   */
-#import "CMRFilterPrefController_p.h"
-
+#import "CMRFilterPrefController.h"
+#import "PreferencePanes_Prefix.h"
 
 #define kLabelKey		@"Filter Label"
 #define kToolTipKey		@"Filter ToolTip"
@@ -27,25 +27,16 @@
 	[_detailSheet release];
 	[super dealloc];
 }
-- (IBAction) changeSpamFilterEnabled : (id) sender
+
+- (NSWindow *) detailSheet
 {
-	UTILAssertRespondsTo(sender, @selector(state));
-	[[self preferences] setSpamFilterEnabled : 
-		(NSOnState == [sender state])];
+	return _detailSheet;
 }
-- (IBAction) changeUsesSpamMessageCorpus : (id) sender
+- (NSTextView *) spamMessageCorpusTextView
 {
-	UTILAssertRespondsTo(sender, @selector(state));
-	[[self preferences] setUsesSpamMessageCorpus : 
-		(NSOnState == [sender state])];
+	return _spamMessageCorpusTextView;
 }
-- (IBAction) changeSpamFilterBehavior : (id) sender
-{
-	UTILAssertRespondsTo(sender, @selector(selectedCell));
-	[self willChangeValueForKey:@"isColorWellEnabled"];
-	[[self preferences] setSpamFilterBehavior : [[sender selectedCell] tag]];
-	[self didChangeValueForKey:@"isColorWellEnabled"];
-}
+
 - (IBAction) resetSpamDB : (id) sender
 {
 	int		result;
@@ -64,41 +55,28 @@
 	[[self preferences] resetSpamFilter];
 }
 
-- (void)detailSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void) detailSheetDidEnd: (NSWindow *) sheet returnCode: (int) returnCode contextInfo: (void *) contextInfo
 {
 	[sheet close];
-	[[self preferences] setUpSpamMessageCorpusWithString : [[self spamMessageCorpusTextView] string]];
-}
-- (IBAction) openDetailSheet : (id) sender
-{
-	[[self spamMessageCorpusTextView] setString :
-		[[self preferences] spamMessageCorpusStringRepresentation]];
-	
-	[NSApp beginSheet : [self detailSheet]
-		modalForWindow : [self window]
-		modalDelegate : self
-		didEndSelector : @selector(detailSheetDidEnd:returnCode:contextInfo:) 
-		contextInfo : NULL];
-}
-- (IBAction) closeDetailSheet : (id) sender
-{
-	[NSApp endSheet : [self detailSheet]];
-}
-- (NSColor *) spamColor
-{
-	return [[self preferences] messageFilteredColor];
-}
-- (void) setSpamColor : (NSColor *) newColor;
-{
-	[[self preferences] setMessageFilteredColor : newColor];
+	[[self preferences] setUpSpamMessageCorpusWithString: [[self spamMessageCorpusTextView] string]];
 }
 
-- (BOOL) isColorWellEnabled
+- (IBAction) openDetailSheet: (id) sender
 {
-	return ([[self preferences] spamFilterBehavior] != 3);
+	[[self spamMessageCorpusTextView] setString: [[self preferences] spamMessageCorpusStringRepresentation]];
+	
+	[NSApp beginSheet: [self detailSheet]
+	   modalForWindow: [self window]
+		modalDelegate: self
+	   didEndSelector: @selector(detailSheetDidEnd:returnCode:contextInfo:) 
+		  contextInfo: NULL];
+}
+
+- (IBAction) closeDetailSheet: (id) sender
+{
+	[NSApp endSheet: [self detailSheet]];
 }
 @end
-
 
 
 

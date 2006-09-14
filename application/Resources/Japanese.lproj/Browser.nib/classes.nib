@@ -143,7 +143,6 @@
         {
             ACTIONS = {
                 addFavorites = id; 
-                copyInfoFromContextualMenu = id; 
                 copyThreadAttributes = id; 
                 deleteThread = id; 
                 openBBSInBrowser = id; 
