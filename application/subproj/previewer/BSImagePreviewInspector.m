@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.19.2.7 2006/09/03 13:50:37 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.19.2.8 2006/09/14 23:54:36 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -417,20 +417,28 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 */
 - (void) bsIPIdownload: (BSIPIDownload *) aDownload didAbortRedirectionToURL: (NSURL *) anURL
 {
-	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-	NSString *message = [NSString stringWithFormat: [self localizedStrForKey: @"RedirectionAlert Msg %@"], [anURL absoluteString]];
-	
-	[alert setAlertStyle: NSCriticalAlertStyle];
-	[alert setInformativeText: message];
-	[alert setMessageText: [self localizedStrForKey: @"RedirectionAlert Title"]];
-	
-	[alert addButtonWithTitle: [self localizedStrForKey: @"RedirectionGo"]];
-	[alert addButtonWithTitle: [self localizedStrForKey: @"RedirectionNone"]];
-	
-	[alert beginSheetModalForWindow: [self window]
-					  modalDelegate: self
-					 didEndSelector: @selector(redirectionAlertDidEnd:returnCode:contextInfo:)
-						contextInfo: nil];
+	if ([self redirectionBehavior] == BSIPIAlwaysAsk) {
+		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+		NSString *message = [NSString stringWithFormat: [self localizedStrForKey: @"RedirectionAlert Msg %@"], [anURL absoluteString]];
+		
+		[alert setAlertStyle: NSCriticalAlertStyle];
+		[alert setInformativeText: message];
+		[alert setMessageText: [self localizedStrForKey: @"RedirectionAlert Title"]];
+		
+		[alert addButtonWithTitle: [self localizedStrForKey: @"RedirectionGo"]];
+		[alert addButtonWithTitle: [self localizedStrForKey: @"RedirectionNone"]];
+		
+		[alert beginSheetModalForWindow: [self window]
+						  modalDelegate: self
+						 didEndSelector: @selector(redirectionAlertDidEnd:returnCode:contextInfo:)
+							contextInfo: nil];
+	} else if ([self redirectionBehavior] == BSIPIAlwaysPass) {
+		[self openImage: self];
+		[self clearAttributes];
+	} else {
+		NSBeep();
+		[self clearAttributes];
+	}
 }
 
 - (void) redirectionAlertDidEnd: (NSAlert *) alert returnCode: (int) returnCode contextInfo: (void *) contextInfo

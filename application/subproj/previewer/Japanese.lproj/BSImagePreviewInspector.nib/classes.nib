@@ -1,6 +1,12 @@
 {
     IBClasses = (
         {CLASS = BSIPIImageView; LANGUAGE = ObjC; SUPERCLASS = NSImageView; }, 
+        {
+            CLASS = BSIPIPrefsTbDelegate; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"m_prefsTabView" = NSTabView; "m_prefsWindow" = NSPanel; }; 
+            SUPERCLASS = NSObject; 
+        }, 
         {CLASS = BSIPITableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
         {
             ACTIONS = {

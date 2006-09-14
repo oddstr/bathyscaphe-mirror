@@ -13,6 +13,11 @@
 @class TemporaryFolder;
 @class BSIPIDownload;
 
+typedef enum _BSIPIRedirectionBehavior {
+	BSIPIAlwaysAsk		= -1,
+	BSIPIAlwaysAbort	= 0,
+	BSIPIAlwaysPass		= 1,
+} BSIPIRedirectionBehavior;
 
 @interface BSImagePreviewInspector : NSWindowController <BSImagePreviewerProtocol> {
 	IBOutlet NSTextField			*m_infoField;
@@ -89,6 +94,9 @@
 
 - (int) lastShownViewTag;
 - (void) setLastShownViewTag: (int) aTag;
+
+- (BSIPIRedirectionBehavior) redirectionBehavior;
+- (void) setRedirectionBehavior: (BSIPIRedirectionBehavior) aTag;
 @end
 
 @interface BSImagePreviewInspector(ToolbarAndUtils)

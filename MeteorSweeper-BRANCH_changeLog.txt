@@ -1,4 +1,13 @@
 2006-09-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
+	* application/subproj/previewer/Japanese.lproj/Localizable.strings
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+		プレビューインスペクタ（2.2.1→2.3）：
+		- 表示できない URL へリダイレクトされていた場合の挙動を選択可能にした。
+		- これに伴い、「環境設定」パネルが窮屈になってきたのでペイン切り替え式にした。
+	* application/subproj/previewer/BSIPIPrefsTbDelegate.m
+		[新規追加] プレビューインスペクタの「環境設定」パネルのツールバーのデリゲートクラス。
 	* application/source/thread/CMRThreadViewer-Action.m
 	* application/source/thread/CMRThreadViewer-Link.m
 	* application/source/thread/CMRThreadViewer-Validation.m

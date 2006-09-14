@@ -1,5 +1,5 @@
 /*
- * $Id: BSImagePreviewInspector-Tb.m,v 1.11.2.6 2006/09/01 14:34:10 tsawada2 Exp $
+ * $Id: BSImagePreviewInspector-Tb.m,v 1.11.2.7 2006/09/14 23:54:36 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -29,6 +29,7 @@ static NSString *const kIPIResetWhenHideWindowKey = @"jp.tsawada2.BathyScaphe.Im
 static NSString *const kIPIFloatingWindowKey	= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Floating Window";
 static NSString *const kIPIPreferredViewTypeKey = @"jp.tsawada2.BathyScaphe.ImagePreviewer:Preferred View";
 static NSString *const kIPILastShownViewTagKey	= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Last Shown View";
+static NSString *const kIPIRedirBehaviorKey		= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Redirection Behavior";
 
 @implementation BSImagePreviewInspector(ToolbarAndUtils)
 #pragma mark Utilities
@@ -448,5 +449,14 @@ static NSImage *_imageForDefaultBrowser()
 - (void) setLastShownViewTag: (int) aTag
 {
 	[[self prefsDict] setInteger: aTag forKey: kIPILastShownViewTagKey];
+}
+
+- (BSIPIRedirectionBehavior) redirectionBehavior
+{
+	return [[self prefsDict] integerForKey: kIPIRedirBehaviorKey defaultValue: BSIPIAlwaysAsk];
+}
+- (void) setRedirectionBehavior: (BSIPIRedirectionBehavior) aTag;
+{
+	[[self prefsDict] setInteger: aTag forKey: kIPIRedirBehaviorKey];
 }
 @end
