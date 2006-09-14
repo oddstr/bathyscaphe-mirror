@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.34.2.4 2006/09/09 20:35:56 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.34.2.5 2006/09/14 04:48:21 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -101,8 +101,8 @@ typedef enum _BSAutoSyncIntervalType {
 - (void) setDefaultReplyName : (NSString *) name;
 - (NSString *) defaultReplyMailAddress;
 - (void) setDefaultReplyMailAddress : (NSString *) mail;
-- (NSMutableArray *) defaultKoteHanList;
-- (void) setDefaultKoteHanList : (NSMutableArray *) array;
+- (NSArray *) defaultKoteHanList;
+- (void) setDefaultKoteHanList : (NSArray *) anArray;
 
 /* ç≈å„Ç…äJÇ¢ÇΩî¬ */
 - (NSString *) browserLastBoard;

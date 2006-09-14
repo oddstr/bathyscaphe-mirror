@@ -1,3 +1,15 @@
+2006-09-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/composer/BSAsciiArtDetector.m
+		AAD の判定方法を変更した。
+	* application/subproj/preference/reply/CMRReplyDefaultsController.m
+	* application/subproj/preference/Japanese.lproj/ReplySetting.nib
+		「環境設定」＞「書き込み」ペインで、名前欄の入力補完リストが空の状態から新規追加しようとしても反映されない
+		可能性があった部分を修正。
+	* application/source/composer/CMXTextParser.m
+		日付文字列の NSDate への変換に、NSCalendarDate を用いるのを止めて、CFDateFormatter を利用するようにした。
+		- NSCalendarDate は将来 deprecated になることが発表されているので、今後ぼつぼつ NSCalendarDate を使っている
+		　部分を可能なら他のクラスで置き換えていこうと思っている。
+================================================================================= Sneaky v255
 2006-09-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/text/BrowserKeyBindings.plist
 	* application/source/browser/CMRBrowser-Action.m

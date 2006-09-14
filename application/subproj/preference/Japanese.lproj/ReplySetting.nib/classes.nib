@@ -4,7 +4,7 @@
             ACTIONS = {addKoteHan = id; closeKoteHanSheet = id; }; 
             CLASS = CMRReplyDefaultsController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {"m_addKoteHanSheet" = NSPanel; }; 
+            OUTLETS = {"m_addKoteHanSheet" = NSPanel; "m_koteHanListTable" = NSTableView; }; 
             SUPERCLASS = PreferencesController; 
         }, 
         {

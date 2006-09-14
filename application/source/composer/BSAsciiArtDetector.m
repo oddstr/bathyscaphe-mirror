@@ -12,10 +12,12 @@
 #import "CMRThreadMessage.h"
 #import "CMRThreadSignature.h"
 
+//将来、AA のサンプルなどをカスタマイズ／拡張可能にする際に使う予定
 //static NSString *const kAASamplesFile = @"BSAADetector.plist";
 
 @implementation BSAsciiArtDetector
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
+
 /*
 + (NSString *) defaultFilepath
 {
@@ -23,53 +25,47 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
                                                    resolvingFileRef: NULL];
 }
 */
+
 - (id) init
 {
 	if (self = [super init]) {
-		/*[[NSNotificationCenter defaultCenter]
-				 addObserver : self
-					selector : @selector(applicationWillTerminate:)
-					    name : NSApplicationWillTerminateNotification
-					  object : NSApp];*/
-	}
+        ;
+    }
 	return self;
 }
 
-- (void) dealloc
-{
-	//[[NSNotificationCenter defaultCenter] removeObserver : self];
-	[super dealloc];
-}
-/*
-- (void) applicationWillTerminate : (NSNotification *) notification
-{
-	id		rep;
-	id		v;
-	
-	UTILAssertNotificationName(
-		notification,
-		NSApplicationWillTerminateNotification);
-	UTILAssertNotificationObject(
-		notification,
-		NSApp);
-}
-*/
-
 static BOOL detectIfAA(NSString *source)
 {
-    static NSString *pattern1 = nil;
+    //static NSString *pattern1 = nil;
     static NSString *pattern2 = nil;
     
-    if (!pattern1) {
-        pattern1 = [[NSString alloc] initWithFormat: @" %C", 0x3000];
+    if (!pattern2) {
+        //pattern1 = [[NSString alloc] initWithFormat: @" %C", 0x3000];
         pattern2 = [[NSString alloc] initWithFormat: @"%C ", 0x3000];
     }
 
-    if (!source || [source length] < 5) return NO;
+    if (!source || [source length] < 7) return NO;
     
-    if ([source rangeOfString: pattern1 options: NSLiteralSearch].length != 0) return YES;
-    if ([source rangeOfString: pattern2 options: NSLiteralSearch].length != 0) return YES;
+    NSMutableString *mSource;
+    unsigned int    numOfParagraphs;
+    mSource = [source mutableCopy];
+    numOfParagraphs = [mSource replaceOccurrencesOfString: @" <br> "
+                                               withString: @"\n"
+                                                  options: NSLiteralSearch|NSCaseInsensitiveSearch
+                                                    range: NSMakeRange(0, [mSource length])];
+
+    if(numOfParagraphs < 1) {
+        [mSource release];
+        return NO;    
+    }
+
+    //if ([source rangeOfString: pattern1 options: NSLiteralSearch].length != 0) return YES;
+    if ([mSource rangeOfString: pattern2 options: NSLiteralSearch].length != 0) {
+        [mSource release];
+        return YES;
+    }
     
+    [mSource release];
     return NO;
 }
 

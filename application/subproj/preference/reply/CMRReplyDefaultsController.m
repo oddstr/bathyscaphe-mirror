@@ -52,7 +52,12 @@ static NSString *const kReplyDefaultsControllerNibName = @"ReplySetting";
 	return m_addKoteHanSheet;
 }
 
-- (IBAction) addKoteHan : (id) sender
+- (NSTableView *) koteHanListTable
+{
+	return m_koteHanListTable;
+}
+
+- (IBAction) addKoteHan: (id) sender
 {
 	[self setTemporaryKoteHan: nil];
 
@@ -71,11 +76,19 @@ static NSString *const kReplyDefaultsControllerNibName = @"ReplySetting";
 - (void) addKoteHanSheetDidEnd: (NSWindow *) sheet returnCode: (int) returnCode contextInfo: (void *) contextInfo
 {
 	if (returnCode == NSOKButton) {
-		NSMutableArray	*hoge_ = [[[self preferences] defaultKoteHanList] mutableCopy];
+		NSMutableArray	*newKoteHanList = [[[self preferences] defaultKoteHanList] mutableCopy];
+		if (!newKoteHanList) {
+			newKoteHanList = [[NSMutableArray alloc] init];
+		}
+
 		NSArray			*adds_ = [[self temporaryKoteHan] componentsSeparatedByString: @"\n"];
-		[hoge_ addObjectsFromArray: adds_];
-		[[self preferences] setDefaultKoteHanList: hoge_];
-		[hoge_ release];
+		[newKoteHanList addObjectsFromArray: adds_];
+		[[self preferences] setDefaultKoteHanList: newKoteHanList];
+		[newKoteHanList release];
+
+		unsigned int index_ = [[[self preferences] defaultKoteHanList] count] -1;
+		[[self koteHanListTable] selectRowIndexes: [NSIndexSet indexSetWithIndex: index_] byExtendingSelection: NO];
+		[[self koteHanListTable] scrollRowToVisible: index_];
 	}
 	
 	[sheet close];

@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.14.2.3 2006/09/07 19:35:16 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.14.2.4 2006/09/14 04:48:21 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -312,21 +312,18 @@ NS_ENDHANDLER
 	[[self defaults] setObject : mail
 						forKey : AppDefaultsDefaultReplyMailKey];
 }
-- (NSMutableArray *) defaultKoteHanList
+- (NSArray *) defaultKoteHanList
 {
-	NSArray	*kote_;
-	
-    kote_ = [[self defaults] stringArrayForKey : AppDefaultsDefaultKoteHanListKey];
-	return [[kote_ mutableCopy] autorelease];
+    return [[self defaults] stringArrayForKey : AppDefaultsDefaultKoteHanListKey];
 }
-- (void) setDefaultKoteHanList : (NSMutableArray *) array
+
+- (void) setDefaultKoteHanList : (NSArray *) anArray
 {
-	if (nil == array) {
-		[[self defaults] removeObjectForKey : AppDefaultsDefaultKoteHanListKey];
-		return;
+	if (nil == anArray) {
+		[[self defaults] removeObjectForKey: AppDefaultsDefaultKoteHanListKey];
+	} else {
+		[[self defaults] setObject: anArray forKey: AppDefaultsDefaultKoteHanListKey];
 	}
-	[[self defaults] setObject : array
-						forKey : AppDefaultsDefaultKoteHanListKey];
 }
 
 #pragma mark -

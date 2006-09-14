@@ -13,6 +13,7 @@
 @interface CMRReplyDefaultsController: PreferencesController
 {
 	IBOutlet NSPanel	*m_addKoteHanSheet;
+	IBOutlet NSTableView	*m_koteHanListTable;
 	NSString			*m_temporaryKoteHan;
 }
 
@@ -21,6 +22,6 @@
 - (NSString *) temporaryKoteHan;
 - (void) setTemporaryKoteHan: (NSString *) someText;
 
-- (IBAction) addKoteHan : (id) sender;
+- (IBAction) addKoteHan: (id) sender;
 - (IBAction) closeKoteHanSheet: (id) sender;
 @end
