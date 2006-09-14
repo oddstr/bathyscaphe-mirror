@@ -20,6 +20,17 @@ static NSDictionary *sConditionTypes = nil;
 
 @implementation SmartCondition
 
+- (void)setTarget:(NSString *)target
+{
+	id temp = mTarget;
+	mTarget = [target retain];
+	[temp release];
+}
+- (void)setOperator:(SCOperator)operator
+{
+	mOperator = operator;
+}
+
 + (void)initialize
 {
 	static BOOL isFirst = YES;
@@ -34,46 +45,6 @@ static NSDictionary *sConditionTypes = nil;
 		UTILAssertNotNil(sConditionTypes);
 	}
 //	}
-}
-+ (BOOL) checkCoordinationTarget : (NSString *)target andOperator : (SCOperator)operator
-{
-	BOOL result = NO;
-	id dict = [sConditionTypes objectForKey : target];
-	id valueType;
-	
-	if(!dict) return NO;
-	
-	valueType = [dict objectForKey : sAcceptValueTypeKey];
-	if(!valueType) return NO;
-	if(![valueType isKindOfClass : [NSString class]]) return NO;
-	
-	switch(operator) {
-		case SCBeginsWithOperator:
-		case SCEndsWithOperator:
-		case SCContaionsOperator:
-		case SCNotContainsOperator:
-		case SCExactOperator:
-		case SCNotExactOperator:
-			if([valueType isEqualTo : @"NSString"]) {
-				result = YES;
-			}
-			break;
-		case SCLargerOperator:
-		case SCEqualOperator:
-		case SCNotEqualOperator:
-		case SCSmallerOperator:
-		case SCRangeOperator:
-			if([valueType isEqualTo : @"NSNumber"]
-			   || [valueType isEqualTo : @"NSDate"]) {
-				result = YES;
-			}
-			break;
-		default:
-			// Do nothing.
-			break;
-	}
-	
-	return result;
 }
 + (BOOL) checkCoordinationTarget : (NSString *)target andValue : (id)value
 {
@@ -98,6 +69,51 @@ static NSDictionary *sConditionTypes = nil;
 	
 	return NO;
 }
++ (Class)classForOperation:(SCOperator)operator
+{
+	switch(operator) {
+		case SCContaionsOperator:
+		case SCNotContainsOperator:
+		case SCExactOperator:
+		case SCNotExactOperator:
+		case SCBeginsWithOperator:
+		case SCEndsWithOperator:
+			return [StringCondition class];
+			break;
+		case SCEqualOperator:
+		case SCNotEqualOperator:
+		case SCLargerOperator:
+		case SCSmallerOperator:
+		case SCRangeOperator:
+			return [NumberCondition class];
+			break;
+		case SCDaysTodayOperator:
+		case SCDaysYesterdayOperator:
+		case SCDaysThisWeekOperator:
+		case SCDaysLastWeekOperator:
+			return [DaysCondition class];
+			break;
+		case SCDaysEqualOperator:
+		case SCDaysNotEqualOperator:
+		case SCDaysLargerOperator:
+		case SCDaysSmallerOperator:
+		case SCDaysRangeOperator:
+			return [RelativeDateLiveCondition class];
+			break;
+		case SCDateEqualOperator:
+		case SCDateNotEqualOperator:
+		case SCDateLargerOperator:
+		case SCDateSmallerOperator:
+		case SCDateRangeOperator:
+			return [AbsoluteDateLiveCondition class];
+			break;
+		default:
+			// return Nil;
+			break;
+	}
+	
+	return Nil;
+}
 
 + (id) conditionWithTarget : (NSString *)target operator : (SCOperator)operator value : (id)value
 {
@@ -112,51 +128,53 @@ static NSDictionary *sConditionTypes = nil;
 {
 	UTILAssertNotNilArgument(target, @"target");
 	
-	if( self = [super init] ) {
-		if(![[self class] checkCoordinationTarget : target andValue : value]) {
-			[self release];
+	id newInstance = [[[[self class] classForOperation:operator] alloc] init];
+	[self autorelease];
+	
+	if( newInstance ) {
+		if(![[newInstance class] checkCoordinationTarget : target andValue : value]) {
+			[newInstance release];
 			return nil;
 		}
-		if(![[self class] checkCoordinationTarget : target andOperator : operator]) {
-			[self release];
-			return nil;
-		}
-		mTarget = [target retain];
-		mOperator = operator;
-		[self _setValue1 : value];
+		[newInstance setTarget:target];
+		[newInstance setOperator:operator];
+		[newInstance _setValue1 : value];
 	}
 	
-	return self;
+	return newInstance;
 }
 - (id) initWithTarget : (NSString *)target operator : (SCOperator)operator value : (id)value1 value : (id) value2
 {
 	UTILAssertNotNilArgument(target, @"target");
 	
-	if( self = [super init] ) {
-		if(![[self class] checkCoordinationTarget : target andValue : value1]
-		   || ![[self class] checkCoordinationTarget : target andValue : value2]) {
-			[self release];
+	id newInstance = [[[[self class] classForOperation:operator] alloc] init];
+	[self autorelease];
+	
+	if( newInstance ) {
+		if(![[newInstance class] checkCoordinationTarget : target andValue : value1]) {
+			[newInstance release];
 			return nil;
 		}
-		if(![[self class] checkCoordinationTarget : target andOperator : operator]) {
-			[self release];
+		[newInstance setTarget:target];
+		[newInstance setOperator:operator];
+		if(operator == SCRangeOperator &&
+		   ![[newInstance class] checkCoordinationTarget : target andValue : value2]) {
+			[newInstance release];
 			return nil;
 		}
-		mTarget = [target retain];
-		mOperator = operator;
 		
-		if(mOperator == SCRangeOperator) {
+		if(operator == SCRangeOperator) {
 			if([value1 floatValue] > [value2 floatValue]) {
 				id t = value1;
 				value1 = value2;
 				value2 = t;
 			}
 		}
-		[self _setValue1 : value1];
-		[self _setValue2 : value2];
+		[newInstance _setValue1 : value1];
+		[newInstance _setValue2 : value2];
 	}
 	
-	return self;
+	return newInstance;
 }
 
 - (NSString *)conditionString
@@ -238,7 +256,7 @@ static inline void setValueToValue( id value, id *toValue )
 		*toValue = [NSNumber numberWithDouble : [value timeIntervalSince1970]];
 		[*toValue retain];
 	} else {
-		NSLog(@"value must be NSString, NSNumber, NSDate or nil");
+		NSLog(@"value type must be NSString, NSNumber, NSDate or NSNull");
 	}
 }
 - (void) _setValue1 : (id) value
@@ -321,6 +339,101 @@ static NSString *SCValue2CodingKey = @"SCValue2CodingKey";
 
 @end
 
+@implementation StringCondition
+@end
+@implementation NumberCondition
+@end
+@implementation DaysCondition
+- (NSString *)conditionString
+{
+	NSCalendarDate *today;
+	NSCalendarDate *begineTime;
+	NSCalendarDate *endTime;
+	
+	int week;
+	
+	today = [NSCalendarDate date];
+	
+	switch(mOperator) {
+		case SCDaysTodayOperator:
+			begineTime = [NSCalendarDate dateWithYear:[today yearOfCommonEra]
+												month:[today monthOfYear]
+												  day:[today dayOfMonth]
+												 hour:0
+											   minute:0
+											   second:0
+											 timeZone:nil];
+			endTime = [begineTime dateByAddingYears:0
+											 months:0
+											   days:0
+											  hours:23
+											minutes:59
+											seconds:59];
+			break;
+		case SCDaysYesterdayOperator:
+			begineTime = [NSCalendarDate dateWithYear:[today yearOfCommonEra]
+												month:[today monthOfYear]
+												  day:[today dayOfMonth] - 1
+												 hour:0
+											   minute:0
+											   second:0
+											 timeZone:nil];
+			endTime = [begineTime dateByAddingYears:0
+											 months:0
+											   days:0
+											  hours:23
+											minutes:59
+											seconds:59];
+			break;
+		case SCDaysThisWeekOperator:
+			week = [today dayOfWeek];
+			begineTime = [NSCalendarDate dateWithYear:[today yearOfCommonEra]
+												month:[today monthOfYear]
+												  day:[today dayOfMonth] - week
+												 hour:0
+											   minute:0
+											   second:0
+											 timeZone:nil];
+			endTime = [begineTime dateByAddingYears:0
+											 months:0
+											   days:6
+											  hours:23
+											minutes:59
+											seconds:59];
+			break;
+		case SCDaysLastWeekOperator:
+			week = [today dayOfWeek];
+			begineTime = [NSCalendarDate dateWithYear:[today yearOfCommonEra]
+												month:[today monthOfYear]
+												  day:[today dayOfMonth] - week - 7
+												 hour:0
+											   minute:0
+											   second:0
+											 timeZone:nil];
+			endTime = [begineTime dateByAddingYears:0
+											 months:0
+											   days:6
+											  hours:23
+											minutes:59
+											seconds:59];
+			break;
+		default:
+			UTILUnknownSwitchCase(mOperator);
+			break;
+	}
+		
+	NSString *res;
+	res = [NSString stringWithFormat:@"(%@ > %ld AND %@ < %ld)",
+		[self key], (long)[begineTime timeIntervalSince1970],
+		[self key], (long)[endTime timeIntervalSince1970]];
+	
+	return res;
+}
+
+@end
+@implementation AbsoluteDateLiveCondition
+@end
+
 @implementation RelativeDateLiveCondition
 
 - (id)value
@@ -348,9 +461,9 @@ NSArray *arrayFromValist( id firstCondition, va_list ap )
 	
 	cond = firstCondition;
 	while( cond ) {
-		if(![cond conformsToProtocol:@protocol(SmartCondition)]) {
-			return nil;
-		}
+//		if(![cond conformsToProtocol:@protocol(SmartCondition)]) {
+//			return nil;
+//		}
 		[result addObject:cond];
 //		NSLog(@"add!!");
 		cond = va_arg( ap, id );

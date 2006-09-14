@@ -722,8 +722,6 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 {
 	SmartCondition *result;
 	
-	Class condClasss = [SmartCondition class];
-	
 	NSString *criterion;
 	id value1, value2 = nil;
 	
@@ -757,43 +755,65 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 				operator = SCEndsWithOperator;
 				break;
 			case isEqualQualifierItemTag:
-			case daysIsEqualQualifierItemTag:
-			case dateIsEqualQualifierItemTag:
 				operator = SCEqualOperator;
 				break;
 			case notEqualQualifierItemTag:
-			case dateNotEqualQualifierItemTag:
 				operator = SCNotEqualOperator;
 				break;
 			case largerThanQualifierItemTag:
-			case daysLargerThanQualifierItemTaag:
-			case dateLargerThanQualifierItemTaag:
 				operator = SCLargerOperator;
 				break;
 			case smallerThanQualifierItemTag:
-			case daysSmallerThanQualifierItemTag:
-			case dateSmallerThanQualifierItemTag:
 				operator = SCSmallerOperator;
 				break;
 			case rangeQualifierItemTag:
-			case daysRangeQualifierItemTag:
-			case dateRangeQualifierItemTag:
 				operator = SCRangeOperator;
 				break;
 			case daysTodayQualifierItemTag:
+				operator = SCDaysTodayOperator;
+				break;
 			case daysYesterdayQualifierItemTag:
+				operator = SCDaysYesterdayOperator;
+				break;
 			case daysThisWeekQualifierItemTag:
+				operator = SCDaysThisWeekOperator;
+				break;
 			case daysLastWeekQualifierItemTag:
-				operator = -2;
+				operator = SCDaysLastWeekOperator;
+				break;
+			case daysIsEqualQualifierItemTag:
+				operator = SCDaysEqualOperator;
+				break;
+			case daysLargerThanQualifierItemTaag:
+				operator = SCDaysLargerOperator;
+				break;
+			case daysSmallerThanQualifierItemTag:
+				operator = SCDaysSmallerOperator;
+				break;
+			case daysRangeQualifierItemTag:
+				operator = SCDaysRangeOperator;
+				break;
+			case dateIsEqualQualifierItemTag:
+				operator = SCDateEqualOperator;
+				break;
+			case dateNotEqualQualifierItemTag:
+				operator = SCDateNotEqualOperator;
+				break;
+			case dateLargerThanQualifierItemTaag:
+				operator = SCDateLargerOperator;
+				break;
+			case dateSmallerThanQualifierItemTag:
+				operator = SCDateSmallerOperator;
+				break;
+			case dateRangeQualifierItemTag:
+				operator = SCDateRangeOperator;
 				break;
 			default:
 				operator = -1;
 				break;
 		}
 		
-		if(operator == -2) {
-			return [self daysDateCondition];
-		} else if(operator == -1) {
+		if(operator == -1) {
 			return nil;
 		}
 	}
@@ -822,7 +842,6 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 				v *= [[[self uiItemForTag:daysUnitPopUpTag] selectedItem] tag];
 				value2 = [NSNumber numberWithInt:-1 * v];
 			}
-			condClasss = [RelativeDateLiveCondition class];
 		} else if(qualifier < lastExtensionsLabel) { // 絶対日付
 			NSTimeInterval t = [[self uiItemForTag:dateExpressionFieldTag] epoch];
 			value1 = [NSNumber numberWithInt:t];
@@ -841,14 +860,14 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 	{
 		//
 		if(value2) {
-			result = [condClasss conditionWithTarget:criterion
-										   operator:operator
-											   value:value1
-											   value:value2];
+			result = [SmartCondition conditionWithTarget:criterion
+												operator:operator
+												   value:value1
+												   value:value2];
 		} else {
-			result = [condClasss conditionWithTarget:criterion
-										   operator:operator
-											   value:value1];
+			result = [SmartCondition conditionWithTarget:criterion
+												operator:operator
+												   value:value1];
 		}
 	}
 	
@@ -883,19 +902,125 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 	return [[self rootHelper] compositCondition];
 }
 
-- (BOOL)buildHelperFromCondition:(id<SmartCondition>)condition
+- (int)tagFromConditionKey:(NSString *)key
 {
+	if(!key || [key isKindOfClass:[NSString class]]) return -1;
+	
+	if([key isEqualTo:@"boardName"]) {
+		return boardNameItemTag;
+	} else if([key isEqualTo:@"threadName"]) {
+		return threadNameItemTag;
+	} else if([key isEqualTo:@"numberOfAll"]) {
+		return numberOfResponseItemTag;
+	} else if([key isEqualTo:@"numberOfRead"]) {
+		return numberOfReadItemTag;
+	} else if([key isEqualTo:@"numberOfDifference"]) {
+		return numberOfUnreadItemTag;
+	} else if([key isEqualTo:@"threadID"]) {
+		return dateOfThreadCreateItemTag;
+	} else if([key isEqualTo:@"modifiedDate"]) {
+		return dateOfModifierItemTag;
+	} else if([key isEqualTo:@"LastWrittenDateColumn"]) {
+		return dateOfLastWritenItemTag;
+	}
+	
+	return -1;
+}
+- (int)valueTagFromCondition:(SmartCondition *)condition
+{
+	id key = [condition key];
+		
+	if([key isEqualTo:@"boardName"]) {
+		return stringExpressionFieldTag;
+	} else if([key isEqualTo:@"threadName"]) {
+		return stringExpressionFieldTag;
+	} else if([key isEqualTo:@"numberOfAll"]) {
+		return numberExpressionFieldTag;
+	} else if([key isEqualTo:@"numberOfRead"]) {
+		return numberExpressionFieldTag;
+	} else if([key isEqualTo:@"numberOfDifference"]) {
+		return numberExpressionFieldTag;
+	} else if([key isEqualTo:@"threadID"]) {
+		return dateExpressionFieldTag;
+	} else if([key isEqualTo:@"modifiedDate"]) {
+		return dateExpressionFieldTag;
+	} else if([key isEqualTo:@"LastWrittenDateColumn"]) {
+		return dateExpressionFieldTag;
+	}
+	
+	return -1;
+}
+- (int)value2TagFromKey:(NSString *)key
+{
+}
+- (BOOL)buildAHelperFromCondition:(SmartCondition *)condition
+{
+	id key, v1, v2 = nil;
+	
+	if(self == [self rootHelper]) return NO;
+	
+	key = [condition key];
+	v1 = [condition value];
+	if(SCRangeOperator == [condition operator]) {
+		v2 = [condition value2];
+	}
+	
+	// key から　CriterionMenu　を選択
+	int tag = [self tagFromConditionKey:key];
+	int index = [[self uiItemForTag:criterionPopUpTag] indexOfItemWithTag:tag];
+	[[self uiItemForTag:criterionPopUpTag] selectItemAtIndex:index];
+	[self builExpressionViews];
+	
+	// 値をセット
+	int valueCtrlTag;
+	id valueCtrl;
+	
+	valueCtrlTag = [self valueTagFromCondition:condition];
+	valueCtrl = [self uiItemForTag:valueCtrlTag];
+	[valueCtrl setStringValue:v1];
+	//[valueCtrl setFloatValue:[v1 floatValue]];
+	//[valueCtrl setDate:v1];
+	
+	if(v2) {
+		// valueCtrlTag = ???;
+		valueCtrlTag = [self value2TagFromCondition:condition];
+		valueCtrl = [self uiItemForTag:valueCtrlTag];
+		[valueCtrl setStringValue:v2];
+		//[valueCtrl setFloatValue:[v2 floatValue]];
+		//[valueCtrl setDate:v2];
+	}
+		
+	return NO;
+}
+- (BOOL)buildHelpersFromCondition:(id<SmartCondition>)condition
+{
+	if(self != [self rootHelper]) return NO;
+	
+	id prevHelper = self;
 	//
-	// SmartConditionComposit かどうか。
+	// SmartConditionComposit でなければならない。
 	
+	// 広告スレッド
+	// dat落ち
 	
-	// SmartCondition なら、
-	// key = [cond key];
-	// v1 = [cond value];
-	// if(SCRangeOperator == [cond operator]) {
-	//		v2 = [cond value2];
-	// }
-	// 
+	// 真の条件（Helper に表れる）
+	// conds = ???;
+	NSEnumerator *condsEnum; // = [conds objectEnumerator];
+	id cond;
+	
+	while(cond = [condsEnum nextObject]) {
+		id newHelper;
+		
+		newHelper = [[[[self class] alloc] init] autorelease];
+		[newHelper loadComponent];
+		[self insertHelper:newHelper after:prevHelper];
+		[newHelper addConditionView];
+		if(![newHelper buildAHelperFromCondition:cond]) return NO;
+		
+		prevHelper = newHelper;
+	}
+	
+	return NO;
 }
 
 @end

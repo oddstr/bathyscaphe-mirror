@@ -1,3 +1,8 @@
+2006-09-14 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m
+	* application/source/bbs/BoardListItem/SmartCondition.{h|m}
+	* application/source/browser/BSDBThreadsListDBUpdateTask2.m
+		コンディションを少し変更。
 2006-09-02 masakih <masakih@users.sourceforge.jp>
 	v111-BASED-BRANCH  上の MERGED-Root-of-MeteorSweeper タグからマージ。
 	cvs -z3 up  -j MERGED-v120_FINAL -j MERGED-Root-of-MeteorSweeper

@@ -24,18 +24,35 @@ typedef enum _SCOperator
 {
 	SCUnknownOperator = 0,
 	
-	SCContaionsOperator,
+	SCContaionsOperator = 0x0001,
 	SCNotContainsOperator,
 	SCExactOperator,
 	SCNotExactOperator,
 	SCBeginsWithOperator,
 	SCEndsWithOperator,
 	
-	SCEqualOperator,
+	SCEqualOperator = 0x0011,
 	SCNotEqualOperator,
 	SCLargerOperator,
 	SCSmallerOperator,
 	SCRangeOperator,
+	
+	SCDaysTodayOperator = 0x0021,
+	SCDaysYesterdayOperator,
+	SCDaysThisWeekOperator,
+	SCDaysLastWeekOperator,
+		
+	SCDaysEqualOperator = 0x031,
+	SCDaysNotEqualOperator,
+	SCDaysLargerOperator,
+	SCDaysSmallerOperator,
+	SCDaysRangeOperator,
+	
+	SCDateEqualOperator = 0x041,
+	SCDateNotEqualOperator,
+	SCDateLargerOperator,
+	SCDateSmallerOperator,
+	SCDateRangeOperator,
 } SCOperator;
 
 @interface SmartCondition : NSObject <SmartCondition>
@@ -61,7 +78,15 @@ typedef enum _SCOperator
 - (NSString *) conditionString;
 @end
 
+@interface StringCondition : SmartCondition
+@end
+@interface NumberCondition : SmartCondition
+@end
+@interface DaysCondition : SmartCondition
+@end
 @interface RelativeDateLiveCondition : SmartCondition //<SmartCondition>
+@end
+@interface AbsoluteDateLiveCondition : SmartCondition
 @end
 
 

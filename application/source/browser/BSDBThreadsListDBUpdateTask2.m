@@ -195,6 +195,7 @@ abort:
 	
 	UTILDebugWrite(@"Start BSDBThreadsListDBUpdateTask2.");
 	
+	NSLog(@"error Must change , encoding check.");
 	str = [NSString stringWithDataUsingTEC:subjectData
 								  encoding:NS2CFEncoding(NSShiftJISStringEncoding)];
 	// 行分割
