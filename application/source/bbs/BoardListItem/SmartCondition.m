@@ -203,20 +203,36 @@ static NSDictionary *sConditionTypes = nil;
 			format = @"%@ NOT LIKE '%@'";
 			break;
 		case SCLargerOperator:
+		case SCDaysLargerOperator:
+		case SCDateLargerOperator:
 			format = @"%@ > %@";
 			break;
 		case SCEqualOperator:
+		case SCDaysEqualOperator:
+		case SCDateEqualOperator:
 			format = @"%@ = %@";
 			break;
 		case SCNotEqualOperator:
+		case SCDaysNotEqualOperator:
+		case SCDateNotEqualOperator:
 			format = @"%@ != %@";
 			break;
 		case SCSmallerOperator:
+		case SCDaysSmallerOperator:
+		case SCDateSmallerOperator:
 			format = @"%@ < %@";
 			break;
 		case SCRangeOperator:
+		case SCDaysRangeOperator:
+		case SCDateRangeOperator:
 			format = @"(%@ > %@ AND %@ < %@)";
 			useValue2 = YES;
+			break;
+		case SCDaysTodayOperator:
+		case SCDaysYesterdayOperator:
+		case SCDaysThisWeekOperator:
+		case SCDaysLastWeekOperator:
+			UTILUnknownCSwitchCase(mOperator);
 			break;
 		default:
 			UTILUnknownCSwitchCase(mOperator);

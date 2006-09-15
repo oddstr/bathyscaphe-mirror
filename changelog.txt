@@ -1,3 +1,6 @@
+2006-09-15 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/SmartCondition.m
+		SmartCondition とりあえず完成。
 2006-09-14 masakih <masakih@users.sourceforge.jp>
 	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m
 	* application/source/bbs/BoardListItem/SmartCondition.{h|m}
