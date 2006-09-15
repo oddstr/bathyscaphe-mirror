@@ -3,9 +3,11 @@
 	* application/subproj/previewer/Japanese.lproj/Localizable.strings
 	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
 	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/TemporaryFolder.m
 		プレビューインスペクタ（2.2.1→2.3）：
 		- 表示できない URL へリダイレクトされていた場合の挙動を選択可能にした。
 		- これに伴い、「環境設定」パネルが窮屈になってきたのでペイン切り替え式にした。
+		- 一時フォルダの命名方法を変更した。
 	* application/subproj/previewer/BSIPIPrefsTbDelegate.m
 		[新規追加] プレビューインスペクタの「環境設定」パネルのツールバーのデリゲートクラス。
 	* application/source/thread/CMRThreadViewer-Action.m
