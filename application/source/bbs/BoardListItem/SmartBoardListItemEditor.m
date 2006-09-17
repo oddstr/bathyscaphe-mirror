@@ -177,6 +177,17 @@ static inline NSInvocation *checkMethodSignature(id obj, SEL selector)
 	}
 	
 }
+- (void)endEditSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)context
+{
+	if(returnCode && context) {
+		[context setName:[nameField stringValue]];
+		[context setCondition:[helper condition]];
+	}
+	
+	[editorWindow close];
+	[self autorelease];
+}
+
 
 // windowWillClose: で[self cancel:self]を呼ぶと、[NSWindow close] が呼ばれるため無限ループに陥る。
 - (BOOL)windowShouldClose:(id)sender

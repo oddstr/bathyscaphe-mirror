@@ -466,6 +466,20 @@ static NSString *SCValue2CodingKey = @"SCValue2CodingKey";
 }
 
 @end
+@implementation IncludeDatOtiCondition
+- (NSString *)conditionString
+{
+	/* TODO implement this. */
+	NSLog(@"%@(%@) is not implement.", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+	return @"";
+}
+@end
+@implementation ExcludeAdThreadCondition
+- (NSString *)conditionString
+{
+	return [NSString stringWithFormat:@"substr(%@, 0, 3) <> '924'", ThreadIDColumn];
+}
+@end
 
 
 @implementation SmartConditionComposit

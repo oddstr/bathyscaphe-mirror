@@ -11,7 +11,7 @@
 #import "DatabaseManager.h"
 
 
-@protocol SmartCondition <NSCoding>
+@protocol SmartCondition <NSObject, NSCoding>
 - (NSString *) conditionString;
 
 // description method must be return same as conditionString method's returns.
@@ -87,6 +87,10 @@ typedef enum _SCOperator
 @interface RelativeDateLiveCondition : SmartCondition //<SmartCondition>
 @end
 @interface AbsoluteDateLiveCondition : SmartCondition
+@end
+@interface IncludeDatOtiCondition : SmartCondition
+@end
+@interface ExcludeAdThreadCondition : SmartCondition
 @end
 
 
