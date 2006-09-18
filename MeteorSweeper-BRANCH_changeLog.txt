@@ -1,4 +1,22 @@
 2006-09-18 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSIPIImageView.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+		プレビューインスペクタ（2.3→2.3.1）：
+		-イメージ・ビューで←／→キーを押すと「前のイメージ／次のイメージへ移動」できるようにした。
+		-「BathyScaphe をリセット...」を実行すると、プレビューインスペクタの履歴もすべて削除されるようにした。
+		　ヒント：BathyScaphe のリセットを検知するには CocoMonar.framework の CMRPropertyKeys.h を
+		　インポートして、CMRApplicationWillResetNotification を捕まえれば良い。
+	* application/source/preferences/AppDefaults-Bundle.m
+		「自動的に掲示板リストを同期：」の設定に関わらず、「おおよそ1ヶ月おき」にしか同期されない問題を修正。
+	* application/source/bbs/BSSettingTxtDetector.m
+		BSIPIDownload クラスのデリゲート・メソッドについての微修正。
+	* application/source/thread/CMRThreadViewer.m
+		テキスト・ビューの -invalidateCursorRectsForView: 呼び出し頻度を増やした。
+		- [Bug 8170] の発生可能性を低減させる。Bug 8170 は、テキスト・ビューの cursor tracking がきちんと
+		　できていないときに発生する（だから、発生直前にはレスアンカーがポップアップしなかったりするのだ）。ではそれを防止する
+		　にはどうすればいいのか。残念ながら -invalidateCursorRectsForView: をどこでどれだけ呼び出せば完全に安全に
+		　なるのか（そもそも完全に安全にできるのか）は定かではない。しかしとりあえず -invalidateCursorRectsForView: の
+		　呼び出し頻度を増やして、リスクを低減させることにした。
 	* application/source/browser/CMRBrowser-Validation.m
 	* application/source/thread/CMRThreadViewer-Validation.m
 	* application/Resources/Japanese.lproj/Browser.nib

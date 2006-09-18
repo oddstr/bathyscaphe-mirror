@@ -67,6 +67,8 @@ typedef enum _BSIPIRedirectionBehavior {
 - (IBAction) forceRunTbCustomizationPalette: (id) sender;
 - (IBAction) deleteCachedImage: (id) sender;
 
+- (IBAction) resetCache: (id) sender;
+
 - (BOOL) showCachedImageWithPath: (NSString *) path;
 @end
 

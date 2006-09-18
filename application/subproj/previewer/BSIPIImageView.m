@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIImageView.m,v 1.3.2.3 2006/09/03 13:50:37 tsawada2 Exp $
+//  $Id: BSIPIImageView.m,v 1.3.2.4 2006/09/18 11:26:22 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/07.
@@ -234,8 +234,10 @@
 
 - (BOOL) performKeyEquivalent: (NSEvent *) theEvent
 {
-	if([self delegate] && [[self delegate] respondsToSelector: @selector(imageView:shouldPerformKeyEquivalent:)]) {
-		return [[self delegate] imageView: self shouldPerformKeyEquivalent: theEvent];
+	if ([theEvent type] == NSKeyDown) { // keyUp で二重に呼び出されるのを防ぐ
+		if([self delegate] && [[self delegate] respondsToSelector: @selector(imageView:shouldPerformKeyEquivalent:)]) {
+			return [[self delegate] imageView: self shouldPerformKeyEquivalent: theEvent];
+		}
 	}
 
 	return [super performKeyEquivalent: theEvent];

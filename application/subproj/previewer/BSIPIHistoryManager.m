@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIHistoryManager.m,v 1.4.2.3 2006/08/09 13:44:33 tsawada2 Exp $
+//  $Id: BSIPIHistoryManager.m,v 1.4.2.4 2006/09/18 11:26:22 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/12.
@@ -120,26 +120,14 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 
 - (void) copyCachedFileForURL: (NSURL *) anURL intoFolder: (NSString *) folderPath
 {
-	/*NSFileManager	*fm_ = [NSFileManager defaultManager];
-	NSString		*fPath_ = [self cachedFilePathForURL: anURL];
-	NSString		*dest_ = [folderPath stringByAppendingPathComponent : [fPath_ lastPathComponent]];
-
-	if (![fm_ fileExistsAtPath : dest_]) {
-		[fm_ copyPath : fPath_ toPath : dest_ handler : nil];
-	} else {
-		NSBeep();
-		NSLog(@"Could not save the file %@ because same file already exists.", [fPath_ lastPathComponent]);
-	}*/
 	NSString	*fPath_ = [self cachedFilePathForURL: anURL];
 	NSString	*dest_ = [folderPath stringByAppendingPathComponent: [fPath_ lastPathComponent]];
 	[self copyCachedFileForPath: fPath_ toPath: dest_];
 }
 
-//- (void) copyCachedFileForURL: (NSURL *) anURL toPath: (NSString *) filePath
 - (BOOL) copyCachedFileForPath: (NSString *) cacheFilePath toPath: (NSString *) copiedFilePath
 {
 	NSFileManager	*fm_ = [NSFileManager defaultManager];
-	//NSString		*fPath_ = [self cachedFilePathForURL: anURL];
 
 	if (NO == [fm_ copyPath: cacheFilePath toPath: copiedFilePath handler: nil]) {
 		NSBeep();
@@ -185,13 +173,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 
 - (NSImage *) makeThumbnailWithPath: (NSString *) aPath
 {
-	//NSImage *image_ = [[NSImage alloc] initWithContentsOfFile: aPath];
-	//if (!image_)
-	//	return [[NSWorkspace sharedWorkspace] iconForFile: aPath];
-
 	NSImageRep	*imageRep_;
 	float initX, initY, thumbX;
-	//imageRep_ = [image_ bestRepresentationForDevice: nil];
+
 	imageRep_ = [NSImageRep imageRepWithContentsOfFile: aPath];
 	initX = [imageRep_ pixelsWide];
 	initY = [imageRep_ pixelsHigh];
@@ -214,7 +198,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 	NSImage *image_ = [self makeThumbnailWithPath: aPath];
 	tmpDict = [NSDictionary dictionaryWithObjectsAndKeys : anURL, kIPIHistoryItemURLKey, aPath, kIPIHistoryItemPathKey, image_, @"imageRef",NULL];
 	[[self historyBacket] addObject : tmpDict];
-	//[image_ release];
+
 	return YES;
 }
 

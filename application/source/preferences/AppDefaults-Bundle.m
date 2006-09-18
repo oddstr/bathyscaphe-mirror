@@ -1,5 +1,5 @@
 /**
- * $Id: AppDefaults-Bundle.m,v 1.10.4.2 2006/09/07 19:35:16 tsawada2 Exp $
+ * $Id: AppDefaults-Bundle.m,v 1.10.4.3 2006/09/18 11:26:21 tsawada2 Exp $
  * 
  * AppDefaults-Bundle.m
  *
@@ -334,18 +334,20 @@ static NSString *const kBWLastSyncDateKey = @"BoardWarrior:Last Sync Date";
 
 - (NSTimeInterval) timeIntervalForAutoSyncPrefs
 {
-	NSTimeInterval interval_;
+	double interval_;
 
 	switch ([self autoSyncIntervalTag]) {
 	case BSAutoSyncByWeek:
-		interval_ = 60*60*24*7;
+		interval_ = 604800.0;
+		break;
 	case BSAutoSyncBy2weeks:
-		interval_ = 60*60*24*14;
+		interval_ = 1209600.0;
+		break;
 	case BSAutoSyncByMonth:
-		interval_ = 60*60*24*30;
+		interval_ = 2592000.0;
 		break;
 	default:
-		interval_ = 0;
+		interval_ = 0.0;
 		break;
 	}
 	return interval_;

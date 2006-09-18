@@ -174,7 +174,7 @@ Err_Failed:
 	return NO;
 }
 
-- (void) bsIPIdownloadDidAbortRedirection: (BSIPIDownload *) aDownload
+- (void) bsIPIdownload: (BSIPIDownload *) aDownload didAbortRedirectionToURL: (NSURL *) anURL
 {
 	NSLog(@"BSSTD - Redirection Aborted");
 	[aDownload release];

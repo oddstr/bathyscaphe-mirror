@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.30.2.5 2006/09/09 20:35:56 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.30.2.6 2006/09/18 11:26:21 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -440,6 +440,9 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 			name : CMRThreadComposingCallbackNotification
 			object : [aNotification object]];
 	[self scrollToLastReadedIndex : self];
+
+	// 2006-09-18 Ç±Ç±Ç…Ç‡ì¸ÇÍÇƒÇ®Ç≠ÅiBug #8170 ÇÃî≠ê∂â¬î\ê´åyå∏Åj
+	[[self window] invalidateCursorRectsForView : [[[self threadLayout] scrollView] contentView]];
 }
 
 // CMRThreadComposingDidFinishNotification

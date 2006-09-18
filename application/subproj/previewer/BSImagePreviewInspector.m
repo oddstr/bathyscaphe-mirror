@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.19.2.8 2006/09/14 23:54:36 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.19.2.9 2006/09/18 11:26:22 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -14,6 +14,7 @@
 #import <SGNetwork/BSIPIDownload.h>
 #import "BSIPIImageView.h"
 #import <SGAppKit/NSWorkspace-SGExtensions.h>
+#import <CocoMonar/CMRPropertyKeys.h>
 
 @class BSIPITableView;
 @class BSIPIFullScreenWindow;
@@ -35,6 +36,11 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 					selector : @selector(applicationWillTerminate:)
 					    name : NSApplicationWillTerminateNotification
 					  object : NSApp];
+		[[NSNotificationCenter defaultCenter]
+		  addObserver : self
+			 selector : @selector(applicationWillReset:)
+				 name : CMRApplicationWillResetNotification
+			   object : nil];
 		[[NSNotificationCenter defaultCenter]
 				 addObserver : self
 					selector : @selector(keyWindowChanged:)
@@ -257,6 +263,15 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 	[self clearAttributes];
 }
 
+- (IBAction) resetCache: (id) sender
+{
+	[self willChangeValueForKey: @"historyItems"];
+	[[BSIPIHistoryManager sharedManager] setHistoryBacket: [NSMutableArray array]];
+	[self didChangeValueForKey: @"historyItems"];
+	
+	[self clearAttributes];
+}
+
 - (BOOL) downloadImageInBkgnd : (NSURL *) anURL
 {
 	BSIPIDownload *newDownload_;
@@ -300,11 +315,7 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 	   If the window is an NSPanel object and has its becomesKeyOnlyIfNeeded flag set to YES, the window is displayed in front of
 	   all other windows but is not made key; otherwise it is displayed in front and is made key. This method is useful for menu actions.
 	*/
-	//if (![[self window] isVisible]) {
-		[self showWindow : self];
-	//} else {
-	//	if ([self alwaysBecomeKey]) [[self window] makeKeyAndOrderFront: self];
-	//}
+	[self showWindow : self];
 
 	cachedFilePath = [[BSIPIHistoryManager sharedManager] cachedFilePathForURL : imageURL];
 
@@ -329,6 +340,11 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 	_dlFolder = nil;
 
 	[[NSNotificationCenter defaultCenter] removeObserver : self];
+}
+
+- (void) applicationWillReset: (NSNotification *) aNotification
+{
+	[self resetCache: nil];
 }
 
 - (void) keyWindowChanged : (NSNotification *) aNotification
@@ -406,15 +422,7 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 {
 	return [self validateLink: newURL];
 }
-/*
-- (void) bsIPIdownloadDidAbortRedirection: (BSIPIDownload *) aDownload
-{
-	NSLog(@"Redirection Aborted, so we try to open URL with Web browser");
-	[self openImage: self];
 
-	[self clearAttributes];
-}
-*/
 - (void) bsIPIdownload: (BSIPIDownload *) aDownload didAbortRedirectionToURL: (NSURL *) anURL
 {
 	if ([self redirectionBehavior] == BSIPIAlwaysAsk) {
@@ -521,17 +529,30 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 
 - (BOOL) imageView: (BSIPIImageView *) aImageView shouldPerformKeyEquivalent: (NSEvent *) theEvent
 {
-	if ([aImageView image] == nil) return NO;
-	
+	//if ([aImageView image] == nil) return NO;
+
+	NSString	*pressedKey = [theEvent charactersIgnoringModifiers];
 	int whichKey_ = [theEvent keyCode];
 
-	if (whichKey_ == 51) { // delete key
+	if ((whichKey_ == 51) && [aImageView image]) { // delete key
 		[self deleteCachedImage: aImageView];
 		return YES;
 	}
 	
-	if (whichKey_ == 36) { // return key
+	if ((whichKey_ == 36) && [aImageView image]) { // return key
 		[self startFullscreen: aImageView];
+		return YES;
+	}
+	
+	if ([pressedKey isEqualToString: [NSString stringWithFormat: @"%C", 0xF702]] &&
+	   ([[BSIPIHistoryManager sharedManager] cachedPrevFilePathForURL: [self sourceURL]] != nil)) {
+		[self showPrevImage: aImageView];
+		return YES;
+	}
+	
+	if ([pressedKey isEqualToString: [NSString stringWithFormat: @"%C", 0xF703]] &&
+	   ([[BSIPIHistoryManager sharedManager] cachedNextFilePathForURL: [self sourceURL]] != nil)) {
+		[self showNextImage: aImageView];
 		return YES;
 	}
 	return NO;
