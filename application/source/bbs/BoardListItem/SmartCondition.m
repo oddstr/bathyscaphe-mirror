@@ -452,26 +452,66 @@ static NSString *SCValue2CodingKey = @"SCValue2CodingKey";
 
 @implementation RelativeDateLiveCondition
 
-- (id)value
+- (id)processedvalue
 {
 	NSDate *date = [NSDate dateWithTimeIntervalSinceNow:[mValue1 intValue]];
 	
 	return [NSNumber numberWithInt:[date timeIntervalSince1970]];
 }
-- (id)value2
+- (id)processedValue2
 {
 	NSDate *date = [NSDate dateWithTimeIntervalSinceNow:[mValue2 intValue]];
 	
 	return [NSNumber numberWithInt:[date timeIntervalSince1970]];
 }
-
+- (NSString *)conditionString
+{
+	NSString *result = nil;
+	NSString *format = nil;
+	BOOL useValue2 = NO;
+	
+	switch(mOperator) {
+		case SCDaysLargerOperator:
+			format = @"%@ > %@";
+			break;
+		case SCDaysEqualOperator:
+			format = @"%@ = %@";
+			break;
+		case SCDaysNotEqualOperator:
+			format = @"%@ != %@";
+			break;
+		case SCDaysSmallerOperator:
+			format = @"%@ < %@";
+			break;
+		case SCDaysRangeOperator:
+			format = @"(%@ > %@ AND %@ < %@)";
+			useValue2 = YES;
+			break;
+		default:
+			UTILUnknownCSwitchCase(mOperator);
+			break;
+	}
+	
+	if(!mTarget) return nil;
+	if(!mValue1) return nil;
+	if(useValue2 && !mValue2) return nil;
+	
+	if(useValue2) {
+		result = [NSString stringWithFormat : format, 
+			[self key], [self processedvalue], [self key], [self processedValue2]];
+	} else {
+		result = [NSString stringWithFormat:format, [self key], [self processedvalue]];
+	}
+	
+	return result;
+}
 @end
 @implementation IncludeDatOtiCondition
 - (NSString *)conditionString
 {
 	/* TODO implement this. */
 	NSLog(@"%@(%@) is not implement.", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
-	return @"";
+	return @"1 = 1"; // anytime true.
 }
 @end
 @implementation ExcludeAdThreadCondition

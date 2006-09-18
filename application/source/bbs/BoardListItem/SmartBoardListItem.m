@@ -21,7 +21,8 @@
 {
 	if (self = [super init]) {
 		[self setName : inName];
-		[self setCondition:condition];
+		mConditions = [condition retain];
+		[self updateQuery];
 	}
 	
 	return self;
@@ -57,6 +58,8 @@
 	[tmp release];
 	
 	[self updateQuery];
+	
+	[self postUpdateThreadsNotification];
 }
 
 #pragma mark## CMRPropertyListCoding protocol ##

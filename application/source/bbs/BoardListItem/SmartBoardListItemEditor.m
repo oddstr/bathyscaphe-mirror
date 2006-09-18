@@ -180,8 +180,8 @@ static inline NSInvocation *checkMethodSignature(id obj, SEL selector)
 - (void)endEditSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)context
 {
 	if(returnCode && context) {
-		[context setName:[nameField stringValue]];
-		[context setCondition:[helper condition]];
+		[(id)context setName:[nameField stringValue]];
+		[(id)context setCondition:[helper condition]];
 	}
 	
 	[editorWindow close];

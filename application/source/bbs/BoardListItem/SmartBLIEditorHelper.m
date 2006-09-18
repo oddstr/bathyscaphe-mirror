@@ -913,10 +913,15 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 
 - (id<SmartCondition>)condition
 {
+	// TODO ダット落ちと広告スレの条件付加
+	
 	return [[self rootHelper] compositCondition];
 }
 
-- (int)tagFromConditionKey:(NSString *)key
+
+#pragma mark-
+#pragma mark Edit SmartItem
+- (CriterionMenuItemTags)tagFromConditionKey:(NSString *)key
 {
 	if(!key || ![key isKindOfClass:[NSString class]]) return -1;
 	
@@ -940,7 +945,7 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 	
 	return -1;
 }
-- (int)valueFieldTagFromCondition:(SmartCondition *)condition
+- (UIItemTags)valueFieldTagFromCondition:(SmartCondition *)condition
 {		
 	if([condition isKindOfClass:[StringCondition class]]) {
 		return stringExpressionFieldTag;
@@ -956,7 +961,7 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 	
 	return -1;
 }
-- (int)value2FieldTagFromCondition:(SmartCondition *)condition
+- (UIItemTags)value2FieldTagFromCondition:(SmartCondition *)condition
 {
 	if([condition isKindOfClass:[StringCondition class]]) {
 		return -1;
@@ -972,7 +977,7 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 	
 	return -1;
 }
-- (int)qualifierMenuItemTagFromCondition:(SmartCondition *)condition
+- (QualifierMenuItemTags)qualifierMenuItemTagFromCondition:(SmartCondition *)condition
 {
 	int result = -1;
 	
@@ -1059,7 +1064,7 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 	
 	return result;
 }
-- (int)qualifierPopupTagFromCondition:(SmartCondition *)condition
+- (UIItemTags)qualifierPopupTagFromCondition:(SmartCondition *)condition
 {
 	int result = -1;
 	
@@ -1102,6 +1107,54 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 	
 	return result;
 }
+- (BOOL)setRelaviceDateValueFromCondition:(SmartCondition *)condition
+{
+	NSNumber *v1 = [condition value];
+	NSNumber *v2 = [condition value2];
+	long value1 = [v1 longValue] * -1;
+	long value2 = [v2 longValue] * -1;
+	int tag = -1;
+	
+	const long hourUnit = 3600;
+	const long dayUnit = 86400;
+	const long weekUnit = 604800;
+	const long monthUnit = 2592000;
+	
+	if(value1 % monthUnit == 0) {
+		if(!v2 || value2 % monthUnit == 0) {
+			tag = monthUnit;
+		}
+	} else if(value1 % weekUnit == 0) {
+		if(!v2 || value2 % weekUnit) {
+			tag = weekUnit;
+		}
+	} else if(value1 % dayUnit == 0) {
+		if(!v2 || value2 % dayUnit == 0) {
+			tag = dayUnit;
+		}
+	} else if(value1 % hourUnit == 0) {
+		if(!v2 || value2 % hourUnit == 0) {
+			tag = hourUnit;
+		}
+	}
+	
+	if(tag == -1) return NO;
+	
+	id unitPopUp = [self uiItemForTag:daysUnitPopUpTag];
+	int index = [unitPopUp indexOfItemWithTag:tag];
+	[unitPopUp selectItemAtIndex:index];
+	
+	id valueCtrl = [self uiItemForTag:daysExpressionFieldTag];
+	[valueCtrl setIntValue:value1 / tag];
+	
+	if(v2) {
+		valueCtrl = [self uiItemForTag:daysExpressionField2Tag];
+		[valueCtrl setIntValue:value2 / tag];
+	}
+	
+	return YES;
+}
+
 - (BOOL)buildAHelperFromSmartCondition:(SmartCondition *)condition
 {
 	id key, v1, v2 = nil;
@@ -1139,9 +1192,12 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 	[self builExpressionViews];
 	
 	// 値をセット
-	// TODO 時間のユニットを
 	int valueCtrlTag;
 	id valueCtrl;
+	
+	if([condition isKindOfClass:[RelativeDateLiveCondition class]]) {
+		return [self setRelaviceDateValueFromCondition:condition];
+	}
 	
 	valueCtrlTag = [self valueFieldTagFromCondition:condition];
 	if(valueCtrlTag == dateQualifierPopUpTag) {
@@ -1193,13 +1249,11 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 	if(![condition isKindOfClass:[SmartConditionComposit class]]) return NO;
 	
 	// すべて もしくは または
-	//
-	//
+	int tag = [condition operator];
+	[allOrAnyPopUp selectItemAtIndex:[allOrAnyPopUp indexOfItemWithTag:tag]];
 	
-	// すべての条件を削除
-//	while([self nextHelper]) {
-//		[[self nextHelper] removeConditionView];
-//	}
+	[includeFallInDATCheck setState:NSOffState];
+	[excludeAdThreadCheck setState:NSOffState];
 	
 	if(![self buildHelpers:condition]) {
 		return NO;

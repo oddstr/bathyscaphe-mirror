@@ -11,9 +11,6 @@
 #import "BoardManager.h"
 #import "AppDefaults.h"
 
-@interface SmartBoardList (Test)
-@end
-
 @implementation SmartBoardList
 
 - (id) initWithContentsOfFile : (NSString *) path
@@ -31,6 +28,7 @@
 			}
 		}
 		isEdited = NO;
+		[self registerNotification];
 	}
 	
 	return self;
@@ -38,6 +36,7 @@
 
 - (void) dealloc
 {
+	[self unregisterNotification];
 	[topLevelItem release];
 	
 	[super dealloc];
@@ -164,9 +163,26 @@
 	[self postBoardListDidChangeNotification];
 }
 
-@end
+- (void)updateItem:(id)notification
+{
+	[self postBoardListDidChangeNotification];
+}
+- (void)registerNotification
+{
+	id nc = [NSNotificationCenter defaultCenter];
+	
+	[nc addObserver:self
+		   selector:@selector(updateItem:)
+			   name:BoardListItemUpdateThreadsNotification
+			 object:nil];
+}
 
-@implementation SmartBoardList (Test)
+- (void)unregisterNotification
+{
+	id nc = [NSNotificationCenter defaultCenter];
+	
+	[nc removeObserver:self];
+}
 
 @end
 

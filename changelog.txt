@@ -1,3 +1,11 @@
+2006-09-18 masakih <masakih@users.sourceforge.jp>
+	* application/Resources/Japanese.lproj/SmartBoardItemEditor.nib/keyedobjects.nib
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m
+	* application/source/bbs/BoardListItem/SmartBoardList.m
+	* application/source/bbs/BoardListItem/SmartBoardListItem.m
+	* application/source/bbs/BoardListItem/SmartBoardListItemEditor.m
+	* application/source/bbs/BoardListItem/SmartCondition.m
+		スマートボード関連の微調整。形は出来た。
 2006-09-17 masakih <masakih@users.sourceforge.jp>
 	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m
 	* application/source/bbs/BoardListItem/SmartBoardListItem.m
