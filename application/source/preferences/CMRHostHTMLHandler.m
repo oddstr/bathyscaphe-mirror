@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRHostHTMLHandler.m,v 1.4.2.3 2006/09/09 20:35:56 tsawada2 Exp $
+  * $Id: CMRHostHTMLHandler.m,v 1.4.2.4 2006/09/18 04:44:26 tsawada2 Exp $
   * 
   * CMRHostHTMLHandler.m
   *
@@ -34,7 +34,7 @@
 #define kNamePrefixKey	@"HTML - NamePrefix"
 #define kDatePrefixKey	@"HTML - DatePrefix"
 #define kAllowedTag		@"HTML - AllowedTag"
-
+#define kBrBrTag		@"HTML - MsgSuffixBrTag"
 
 
 @implementation CMRHostHTMLHandler : CMRHostHandler
@@ -161,13 +161,18 @@ static void formatHostField(NSMutableString *str)
 			// とりあえずここで詰まって先へ進めないと困るので場当たり的対処。
 			if (mail_ != nil) [tmp insertString:mail_ atIndex:found.location];
 			[tmp insertString:@"<>" atIndex:found.location];
-			
+
+			[tmp deleteCharactersInRange: NSMakeRange(found.location-2, 2)]; // v260 added
+
 			[tmp replaceCharacters:@"\n" toString:@""];
 			[tmp strip];
 
 /*
-この時点で：
+この時点で（v259 まで）：
 tmp = @"雪ん子  <><> 2003/09/01(月) 20:00:12 ID:Bc0TyiNc [ ntt2-ppp758.tokyo.sannet.ne.jp ]"
+
+この時点で（v260 以降）：
+tmp = @"雪ん子<><> 2003/09/01(月) 20:00:12 ID:Bc0TyiNc [ ntt2-ppp758.tokyo.sannet.ne.jp ]"
 */
 			// ホストを整形
 			formatHostField(tmp);
@@ -229,10 +234,13 @@ tmp = @"雪ん子  <><> 2003/09/01(月) 20:00:12 ID:Bc0TyiNc [ ntt2-ppp758.tokyo.san
 		
 		if ([self isMessageStopTag : xpp]) {
 			NSRange		found;
+			NSString	*brbrTag = GET_PROPERTY(kBrBrTag);
+			if(!brbrTag) brbrTag = @"<br><br>";
 			
 			[tmp replaceCharacters:@"\n" toString:@""];
 			
-			found = [tmp rangeOfString:@"<br><br>" options:NSBackwardsSearch];
+//			found = [tmp rangeOfString:@"<br><br>" options:NSBackwardsSearch];
+			found = [tmp rangeOfString: brbrTag options: NSBackwardsSearch];
 			if (found.length != 0)
 				[tmp deleteCharactersInRange : found];
 			

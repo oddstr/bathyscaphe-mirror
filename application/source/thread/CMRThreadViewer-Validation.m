@@ -1,5 +1,5 @@
 /*
-    $Id: CMRThreadViewer-Validation.m,v 1.20.2.3 2006/09/14 20:37:04 tsawada2 Exp $
+    $Id: CMRThreadViewer-Validation.m,v 1.20.2.4 2006/09/18 04:44:26 tsawada2 Exp $
     CMRThreadViewer-Action.m から独立
     Created at 2005-02-16 by tsawada2.
 */
@@ -160,7 +160,7 @@ static int messageMaskForTag(int tag)
 	return NO;
 }
 
-- (CMRFavoritesOperation) favoritesOperationForThreads : (NSArray *) threadsArray
+- (CMRFavoritesOperation) favoritesOperationForThreads: (NSArray *) threadsArray
 {
 	NSDictionary	*thread_;
 	NSString		*path_;
@@ -176,6 +176,29 @@ static int messageMaskForTag(int tag)
 	return [[CMRFavoritesManager defaultManager] availableOperationWithPath: path_];
 }
 
+- (BOOL) validateAddFavoritesItem: (id) theItem forOperation: (CMRFavoritesOperation) operation
+{
+	NSString				*title_;
+	NSImage					*image_;
+
+	if (CMRFavoritesOperationNone == operation) {
+		return NO;
+	}
+
+	title_ = (CMRFavoritesOperationLink == operation)
+				? [self localizedString: kAddFavaritesItemKey]
+				: [self localizedString: kRemoveFavaritesItemKey];
+
+	image_ = (CMRFavoritesOperationLink == operation)
+				? [NSImage imageAppNamed: kAddFavaritesItemImageName]
+				: [NSImage imageAppNamed: kRemoveFavaritesItemImageName];
+	
+	[theItem setTitle: title_];
+	if ([theItem image] != nil) [theItem setImage: image_];
+	
+	return YES;
+}
+
 - (BOOL) validateUIItem : (id) theItem
 {
 	SEL		action_;
@@ -186,7 +209,7 @@ static int messageMaskForTag(int tag)
 	action_ = [theItem action];
 	isSelected_ = ([self selectedThreads] && [self numberOfSelectedThreads]);
         
-	// AA スレ
+	// 印を付ける
 	if (@selector(toggleAAThread:) == action_) {
 		[theItem setState : ([self isAAThread] ? NSOnState : NSOffState)];
 		return isSelected_;
@@ -212,35 +235,10 @@ static int messageMaskForTag(int tag)
 		
 		return ([self threadAttributes] && [self shouldShowContents]);
 	}
+
 	// お気に入りに追加
 	if (action_ == @selector(addFavorites:)) {
-		NSString				*title_;
-		NSImage					*image_;
-		CMRFavoritesOperation	operation_;
-		
-		if (NO == isSelected_) {
-			return NO;
-		}
-
-//		operation_ = [self favoritesOperationForThreads : [self selectedThreads]];
-		operation_ = [self favoritesOperationForThreads : [self targetThreadsForAction: action_]];
-		if (CMRFavoritesOperationNone == operation_) {
-			return NO;
-		}
-
-		title_ = (CMRFavoritesOperationLink == operation_)
-					? [self localizedString : kAddFavaritesItemKey]
-					: [self localizedString : kRemoveFavaritesItemKey];
-
-		image_ = (CMRFavoritesOperationLink == operation_)
-					? [NSImage imageAppNamed : kAddFavaritesItemImageName]
-					: [NSImage imageAppNamed : kRemoveFavaritesItemImageName];
-		
-		[theItem setTitle : title_];
-		if ([theItem image] != nil)
-			[theItem setImage : image_];
-		
-		return YES;
+		return [self validateAddFavoritesItem: theItem forOperation: [self favoritesOperationForThreads: [self selectedThreads]]];
 	}
 	
 	// 移動

@@ -14,7 +14,6 @@
 #import "CMRIndexingStepper.h"
 #import "BSIndexingPopupper.h"
 
-#import "CMRFavoritesManager.h"
 #import "CMRTrashbox.h"
 #import "CMRTaskManager.h"
 #import "CMRDocumentFileManager.h"
@@ -98,7 +97,6 @@ extern NSString *const CMRThreadViewerRunSpamFilterNotification;
 
 
 @interface CMRThreadViewer(ActionSupport)
-//- (CMRFavoritesOperation) favoritesOperationForThreads : (NSArray *) threadsArray;
 - (void) addMessenger : (CMRReplyMessenger *) aMessenger;
 - (CMRReplyMessenger *) messenger : (BOOL) create;
 - (void) replyMessengerDidFinishPosting : (NSNotification *) aNotification;

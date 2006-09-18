@@ -191,6 +191,8 @@
 		<string>a&lt;&gt;br&lt;&gt;</string>
 		<key>HTML - DatePrefix</key>
 		<string>投稿日：</string>
+		<key>HTML - MsgSuffixBrTag</key>
+		<string>&lt;br&gt;&lt;br&gt;</string>
 		<key>HTML - NamePrefix</key>
 		<string>名前：</string>
 		<key>HTML - mailto:</key>
@@ -263,6 +265,8 @@
 		<string>a&lt;&gt;br&lt;&gt;</string>
 		<key>HTML - DatePrefix</key>
 		<string>投稿日：</string>
+		<key>HTML - MsgSuffixBrTag</key>
+		<string> &lt;br&gt;&lt;br&gt;</string>
 		<key>HTML - NamePrefix</key>
 		<string>名前：</string>
 		<key>HTML - mailto:</key>

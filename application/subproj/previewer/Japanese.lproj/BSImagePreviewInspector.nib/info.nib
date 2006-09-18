@@ -34,9 +34,9 @@
 		<dict>
 			<key>guideLocations</key>
 			<array>
-				<string>Horizontal:222.000000</string>
-				<string>Vertical:268.000000</string>
-				<string>Horizontal:213.000000</string>
+				<string>Horizontal:248.000000</string>
+				<string>Vertical:149.000000</string>
+				<string>Horizontal:12.000000</string>
 			</array>
 			<key>guidesLocked</key>
 			<false/>

@@ -579,9 +579,6 @@
 		87CD85CC098170ED002C4372 /* BSFavoritesHEADCheckTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 87CD85CA098170ED002C4372 /* BSFavoritesHEADCheckTask.h */; };
 		87CD85CD098170ED002C4372 /* BSFavoritesHEADCheckTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CD85CB098170ED002C4372 /* BSFavoritesHEADCheckTask.m */; };
 		87CF646A097A335D00DE8B16 /* Acknowledgments.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 87CF6468097A335D00DE8B16 /* Acknowledgments.rtf */; };
-		87D5D1A80ABA0BDD00AE087C /* BSIPIPrefsTbDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D5D1A60ABA0BDD00AE087C /* BSIPIPrefsTbDelegate.h */; };
-		87D5D1A90ABA0BDD00AE087C /* BSIPIPrefsTbDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D5D1A70ABA0BDD00AE087C /* BSIPIPrefsTbDelegate.m */; };
-		87D5D1D70ABA174A00AE087C /* AppearancePreferences.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F379B59F04F1BB8D000E3011 /* AppearancePreferences.tiff */; };
 		87D5D8D108DF0FCC0039A9EB /* boardListSelBgFocused.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87D5D8CF08DF0FCC0039A9EB /* boardListSelBgFocused.tiff */; };
 		87D5D8D208DF0FCC0039A9EB /* boardListSelBg.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87D5D8D008DF0FCC0039A9EB /* boardListSelBg.tiff */; };
 		87DBC6990A867C6D00A1C058 /* syncFail.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87DBC6970A867C6D00A1C058 /* syncFail.tiff */; };
@@ -2816,7 +2813,6 @@
 				87C3977B0A61600F0095AD06 /* BSIPIPathTransformer.h in Headers */,
 				87C397900A6164E30095AD06 /* BSIPITextFieldCell.h in Headers */,
 				87C397F20A6171AB0095AD06 /* BSIPITableView.h in Headers */,
-				87D5D1A80ABA0BDD00AE087C /* BSIPIPrefsTbDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3113,7 +3109,6 @@
 				87C398290A6181590095AD06 /* IPIHistoryBack.tiff in Resources */,
 				87C3982A0A6181590095AD06 /* IPIHistoryForward.tiff in Resources */,
 				87749E070A878F120008A679 /* HistoryFolder.png in Resources */,
-				87D5D1D70ABA174A00AE087C /* AppearancePreferences.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3368,7 +3363,6 @@
 				87C397910A6164E30095AD06 /* BSIPITextFieldCell.m in Sources */,
 				87C397F30A6171AB0095AD06 /* BSIPITableView.m in Sources */,
 				87C2E1A50A68E3C100E40698 /* BSImagePreviewInspector-View.m in Sources */,
-				87D5D1A90ABA0BDD00AE087C /* BSIPIPrefsTbDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

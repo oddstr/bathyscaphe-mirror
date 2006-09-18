@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-Validation.m,v 1.18.2.1 2006/07/31 00:05:10 tsawada2 Exp $
+ * $Id: CMRBrowser-Validation.m,v 1.18.2.2 2006/09/18 04:44:26 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -20,6 +20,28 @@
 	
 	if(action_ == @selector(openBBSInBrowser:)) return ([[self document] boardURL] != nil);
 	
+	if (action_ == @selector(addFavorites:)) {
+		int						tag_ = [theItem tag];
+		CMRFavoritesOperation	operation_;
+
+		if (tag_ == 781) { // Browser Contextual Menu
+			operation_ = [self favoritesOperationForThreads: [self selectedThreadsReallySelected]];
+		} else {
+			// ちょっとトリッキーで危ない判定方法
+			if([theItem isKindOfClass: [NSMenuItem class]] && [[theItem keyEquivalent] isEqualToString: @""]) { // Thread Contextual Menu
+				operation_ = [[CMRFavoritesManager defaultManager] availableOperationWithPath: [self path]];
+			} else {
+				NSView *focusedView_ = (NSView *)[[self window] firstResponder];
+				if (focusedView_ == [self textView] || [[[focusedView_ superview] superview] isKindOfClass : [IndexField class]]) {
+					operation_ = [[CMRFavoritesManager defaultManager] availableOperationWithPath: [self path]];
+				} else {
+					operation_ = [self favoritesOperationForThreads: [self selectedThreadsReallySelected]];
+				}
+			}
+		}
+		return [self validateAddFavoritesItem: theItem forOperation: operation_];
+	}
+
 	if(action_ == @selector(deleteThread:) || action_ == @selector(openLogfile:)) {
 		NSEnumerator		*Iter_;
 		NSDictionary		*thread_;

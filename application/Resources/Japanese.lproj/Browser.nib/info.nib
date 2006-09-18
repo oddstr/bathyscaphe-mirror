@@ -21,10 +21,10 @@
 	<integer>3</integer>
 	<key>IBOpenObjects</key>
 	<array>
-		<integer>5</integer>
-		<integer>187</integer>
 		<integer>743</integer>
 		<integer>672</integer>
+		<integer>5</integer>
+		<integer>187</integer>
 	</array>
 	<key>IBSystem Version</key>
 	<string>8J135</string>

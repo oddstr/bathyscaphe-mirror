@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.15.2.4 2006/09/14 20:37:04 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.15.2.5 2006/09/18 04:44:26 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright (c) 2003, Takanori Ishikawa.
@@ -9,6 +9,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "CMRStatusLineWindowController.h"
+#import "CMRFavoritesManager.h"
 
 @class CMRIndexingStepper;
 @class CMRThreadLayout;
@@ -195,6 +196,8 @@
 
 
 @interface CMRThreadViewer(Validation)
+- (CMRFavoritesOperation) favoritesOperationForThreads: (NSArray *) threadsArray;
+- (BOOL) validateAddFavoritesItem: (id) theItem forOperation: (CMRFavoritesOperation) operation;
 - (BOOL) validateUIItem : (id) theItem;
 @end
 

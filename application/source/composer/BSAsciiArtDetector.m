@@ -36,12 +36,10 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 
 static BOOL detectIfAA(NSString *source)
 {
-    //static NSString *pattern1 = nil;
-    static NSString *pattern2 = nil;
+    static NSString *pattern = nil;
     
-    if (!pattern2) {
-        //pattern1 = [[NSString alloc] initWithFormat: @" %C", 0x3000];
-        pattern2 = [[NSString alloc] initWithFormat: @"%C ", 0x3000];
+    if (!pattern) {
+        pattern = [[NSString alloc] initWithFormat: @"%C ", 0x3000];
     }
 
     if (!source || [source length] < 7) return NO;
@@ -49,6 +47,9 @@ static BOOL detectIfAA(NSString *source)
     NSMutableString *mSource;
     unsigned int    numOfParagraphs;
     mSource = [source mutableCopy];
+	
+	[mSource deleteCharactersInRange: NSMakeRange([mSource length]-1, 1)];
+
     numOfParagraphs = [mSource replaceOccurrencesOfString: @" <br> "
                                                withString: @"\n"
                                                   options: NSLiteralSearch|NSCaseInsensitiveSearch
@@ -59,8 +60,7 @@ static BOOL detectIfAA(NSString *source)
         return NO;    
     }
 
-    //if ([source rangeOfString: pattern1 options: NSLiteralSearch].length != 0) return YES;
-    if ([mSource rangeOfString: pattern2 options: NSLiteralSearch].length != 0) {
+    if ([mSource rangeOfString: pattern options: NSLiteralSearch].length != 0) {
         [mSource release];
         return YES;
     }

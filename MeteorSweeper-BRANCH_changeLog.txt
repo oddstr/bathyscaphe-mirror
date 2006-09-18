@@ -1,3 +1,26 @@
+2006-09-18 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Validation.m
+	* application/source/thread/CMRThreadViewer-Validation.m
+	* application/Resources/Japanese.lproj/Browser.nib
+		v259 での「お気に入りに追加／削除」の Validation 方法の変更のために、ブラウザウインドウのツールバーで
+		「お気に入りに追加／削除」ボタンがちらつく（enable/disable がチラチラ切り替わる）問題が環境によって発生していた
+		（targetThreadsForAction: を Validation 時にも用いてみたのだが、この中で -hitTest: が呼ばれることが原因と思われる。
+		もちろん targetThreadsForAction: メソッドに罪は無い）。ちらつきが想像以上にうっとうしいので、Validation の
+		方法を変更して -hitTest:（を含んだ -targetThreadsForAction:） はここで用いないようにした。
+	* application/source/composer/BSAsciiArtDetector.m
+		AAD：本文の末尾が全角スペースだと、AA と誤判定する問題を修正。
+	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
+		プレビューインスペクタ：「環境設定」シートのツールバーを廃止。これに伴い、BSIPIPrefsTbDelegate.(h|m) は
+		ターゲットから外れた。
+2006-09-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/preferences/CMRHostHTMLHandler.m
+	* application/Resources/text/HostProperties.plist
+		まちBBSで、本文の一番最後に余計な半角スペースがくっついていたのを、削除するようにした。
+		まちBBSおよびJBBSライブドアで、名前の末尾に余計な半角スペースが二つくっついていたのを、削除するようにした。
+		- いずれも CocoMonar 時代からの症状。バグと言うほどでもないが…
+		- 画面への表示時には元々トリミングされていたのだが、ログファイルを覗いてみると余分な半角スペースがくっついているのが
+		　はっきりわかる。
+================================================================================= Sneaky v259
 2006-09-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
 	* application/subproj/previewer/Japanese.lproj/Localizable.strings
