@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyMessenger.m,v 1.9 2006/06/04 16:01:10 tsawada2 Exp $
+  * $Id: CMRReplyMessenger.m,v 1.9.2.1 2006/09/20 01:54:49 tsawada2 Exp $
   * 
   * CMRReplyMessenger.m
   *
@@ -367,13 +367,6 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 	[self sendMessage : sender withHanaMogeraForms : NO];
 }
 
-- (IBAction) openLogfile : (id) sender
-{
-	[[NSWorkspace sharedWorkspace]
-				openFile : [self fileName]
-		 withApplication : @"Property List Editor.app"];
-}
-
 - (BOOL) validateToolbarItem : (NSToolbarItem *) theItem
 {
 	SEL		action_;
@@ -382,7 +375,6 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 
 	action_ = [theItem action];
 	
-	if (action_ == @selector(openLogfile:)) return YES;
 	if (action_ == @selector(sendMessage:)) {
 		return (NO == [self isEndPost]);
 	}

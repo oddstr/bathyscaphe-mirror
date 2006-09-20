@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.15.2.5 2006/09/18 04:44:26 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.15.2.6 2006/09/20 01:54:49 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright (c) 2003, Takanori Ishikawa.
@@ -120,7 +120,6 @@
 - (IBAction) reloadIfOnlineMode : (id) sender;
 - (IBAction) openInBrowser : (id) sender;
 - (IBAction) openBBSInBrowser : (id) sender;
-- (IBAction) openLogfile : (id) sender;
 - (IBAction) addFavorites : (id) sender;
 
 // make text area to be first responder
@@ -196,6 +195,8 @@
 
 
 @interface CMRThreadViewer(Validation)
+- (BOOL) validateDeleteThreadItemEnabling: (NSString *) threadPath;
+- (void) validateDeleteThreadItemTitle: (id) theItem;
 - (CMRFavoritesOperation) favoritesOperationForThreads: (NSArray *) threadsArray;
 - (BOOL) validateAddFavoritesItem: (id) theItem forOperation: (CMRFavoritesOperation) operation;
 - (BOOL) validateUIItem : (id) theItem;

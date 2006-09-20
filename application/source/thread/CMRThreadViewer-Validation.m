@@ -1,5 +1,5 @@
 /*
-    $Id: CMRThreadViewer-Validation.m,v 1.20.2.4 2006/09/18 04:44:26 tsawada2 Exp $
+    $Id: CMRThreadViewer-Validation.m,v 1.20.2.5 2006/09/20 01:54:49 tsawada2 Exp $
     CMRThreadViewer-Action.m から独立
     Created at 2005-02-16 by tsawada2.
 */
@@ -22,6 +22,9 @@
 #define kRemoveFavaritesItemKey			@"Remove Favorites"
 #define kAddFavaritesItemImageName		@"AddFavorites"
 #define kRemoveFavaritesItemImageName	@"RemoveFavorites"
+
+#define kDeleteWithoutAlertKey			@"Delete Log"
+#define kDeleteWithAlertKey				@"Delete Log..."
 
 /*** アクション・メニュー ***/
 #define kActionMenuItemTag				(100)	/* 「アクション」 */
@@ -160,6 +163,22 @@ static int messageMaskForTag(int tag)
 	return NO;
 }
 
+- (void) validateDeleteThreadItemTitle: (id) theItem
+{
+	if ([theItem isKindOfClass: [NSMenuItem class]]) {
+		[theItem setTitle: [CMRPref quietDeletion] ? [self localizedString: kDeleteWithoutAlertKey] : [self localizedString: kDeleteWithAlertKey]];
+	}
+}
+
+- (BOOL) validateDeleteThreadItemEnabling: (NSString *) threadPath
+{
+	if (threadPath && [[NSFileManager defaultManager] fileExistsAtPath: threadPath]) {
+		return YES;
+	} else {
+		return NO;
+	}
+}
+
 - (CMRFavoritesOperation) favoritesOperationForThreads: (NSArray *) threadsArray
 {
 	NSDictionary	*thread_;
@@ -240,6 +259,12 @@ static int messageMaskForTag(int tag)
 	if (action_ == @selector(addFavorites:)) {
 		return [self validateAddFavoritesItem: theItem forOperation: [self favoritesOperationForThreads: [self selectedThreads]]];
 	}
+
+	// ログを削除(...)
+	if (action_ == @selector(deleteThread:)) {
+		[self validateDeleteThreadItemTitle: theItem];
+		return [self validateDeleteThreadItemEnabling: [self path]];
+	}
 	
 	// 移動
 	if (action_ == @selector(scrollFirstMessage:))
@@ -308,7 +333,6 @@ static int messageMaskForTag(int tag)
 	if (action_ == @selector(copyURL:)					 ||
 	   action_ == @selector(copyThreadAttributes:)		 ||
 	   action_ == @selector(showThreadAttributes:)		 ||	  
-	   action_ == @selector(deleteThread:)				 ||
 	   action_ == @selector(openBBSInBrowser:) 
 	   )
 	{ return isSelected_; }
@@ -316,12 +340,9 @@ static int messageMaskForTag(int tag)
 	if (action_ == @selector(reloadThread:))
 		return (isSelected_ && ![self isDatOchiThread]);
 	
-	if (action_ == @selector(openLogfile:)		||
-	   action_ == @selector(openInBrowser:)		||
-	   action_ == @selector(openSelectedThreads:)
-	   )
-	{ return ([[self selectedThreadsReallySelected] count] || [self threadURL]); }
-	
+	if (action_ == @selector(openInBrowser:) || action_ == @selector(openSelectedThreads:)) {
+		return ([[self selectedThreadsReallySelected] count] || [self threadURL]);
+	}
 	return NO;
 }
 

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.30.2.5 2006/09/14 20:37:04 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.30.2.6 2006/09/20 01:54:49 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -109,7 +109,7 @@
 		[[NSWorkspace sharedWorkspace] openURL : url_ inBackGround : [CMRPref openInBg]];
 	}
 }
-
+/*
 - (void) openThreadsLogFiles : (NSArray *) threads
 {
 	NSEnumerator		*Iter_;
@@ -125,7 +125,7 @@
 			 withApplication : @"Property List Editor.app"];
 	}
 }	
-	
+*/	
 @end
 
 #pragma mark -
@@ -605,12 +605,12 @@
 {
 	[self openThreadsInBrowser: [self targetThreadsForAction: _cmd]];
 }
-
+/*
 - (IBAction) openLogfile : (id) sender
 {
 	[self openThreadsLogFiles: [self targetThreadsForAction: _cmd]];
 }
-
+*/
 - (IBAction) addFavorites : (id) sender
 {
 	NSEnumerator			*Iter_;

@@ -18,7 +18,7 @@
 	@private
 	CMRStatusLine				*m_statusLine;
 }
-- (IBAction) toggleStatusLineShown : (id) sender;
+//- (IBAction) toggleStatusLineShown : (id) sender;
 
 // board / thread signature for historyManager .etc
 - (id) boardIdentifier;

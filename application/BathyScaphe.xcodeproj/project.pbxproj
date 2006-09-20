@@ -857,8 +857,8 @@
 		8795B92008E3A7EC005C7C5B /* Japanese */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; lineEnding = 0; name = Japanese; path = Japanese.lproj/ToolbarItems.strings; sourceTree = "<group>"; };
 		8796FA400A9189D400DE3A90 /* BSSettingTxtDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSSettingTxtDetector.h; sourceTree = "<group>"; };
 		8796FA410A9189D400DE3A90 /* BSSettingTxtDetector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSSettingTxtDetector.m; sourceTree = "<group>"; };
-		87AC05B5082D3E4200823807 /* FontWell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FontWell.h; sourceTree = "<group>"; };
-		87AC05B6082D3E4200823807 /* FontWell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FontWell.m; sourceTree = "<group>"; };
+		87AC05B5082D3E4200823807 /* FontWell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FontWell.h; path = ../FontWell.h; sourceTree = "<group>"; };
+		87AC05B6082D3E4200823807 /* FontWell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = FontWell.m; path = ../FontWell.m; sourceTree = "<group>"; };
 		87AF6CFD07425DC0001D08ED /* add_idle.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = add_idle.tiff; sourceTree = "<group>"; };
 		87AF6CFE07425DC0001D08ED /* add_pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = add_pressed.tiff; sourceTree = "<group>"; };
 		87AF6CFF07425DC0001D08ED /* remove_idle.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = remove_idle.tiff; sourceTree = "<group>"; };
@@ -1940,8 +1940,6 @@
 			children = (
 				871CA15508585F8100C3A044 /* Info-preferences.plist */,
 				F324DB6404C6959800A80005 /* PreferencePanes_Prefix.h */,
-				87AC05B5082D3E4200823807 /* FontWell.h */,
-				87AC05B6082D3E4200823807 /* FontWell.m */,
 				F324DB5E04C6959800A80005 /* PreferencesPane */,
 				F324DB2F04C6959800A80005 /* Abstract */,
 				F33413FF04F11CCA00DAC789 /* General */,
@@ -1982,6 +1980,8 @@
 		F324DB3804C6959800A80005 /* Appearance */ = {
 			isa = PBXGroup;
 			children = (
+				87AC05B5082D3E4200823807 /* FontWell.h */,
+				87AC05B6082D3E4200823807 /* FontWell.m */,
 				F324DB3B04C6959800A80005 /* FCController.h */,
 				F324DB3D04C6959800A80005 /* FCController_p.h */,
 				F324DB3C04C6959800A80005 /* FCController.m */,

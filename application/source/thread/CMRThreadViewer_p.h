@@ -104,7 +104,6 @@ extern NSString *const CMRThreadViewerRunSpamFilterNotification;
 
 - (void) openThreadsInThreadWindow : (NSArray *) threads;
 - (void) openThreadsInBrowser : (NSArray *) threads;
-- (void) openThreadsLogFiles : (NSArray *) threads;
 @end
 
 

@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-Validation.m,v 1.18.2.2 2006/09/18 04:44:26 tsawada2 Exp $
+ * $Id: CMRBrowser-Validation.m,v 1.18.2.3 2006/09/20 01:54:49 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -9,6 +9,28 @@
 #import "CMRBrowser_p.h"
 
 @implementation CMRBrowser(Validation)
+- (BOOL) validateDeleteThreadItemsEnabling: (NSArray *) threads
+{
+	NSEnumerator		*Iter_;
+	NSDictionary		*thread_;
+
+	if (!threads || [threads count] == 0) return NO;
+	
+	Iter_ = [threads objectEnumerator];
+	while((thread_ = [Iter_ nextObject])){
+		NSNumber	*status_;
+		
+		status_ = [thread_ objectForKey: CMRThreadStatusKey];
+		if(nil == status_) continue;
+		
+		if(ThreadLogCachedStatus & [status_ unsignedIntValue]) {
+			return YES;
+		}
+	}
+
+	return NO;
+}
+
 - (BOOL) validateUIItem : (id) theItem
 {
 	SEL			action_;
@@ -42,23 +64,26 @@
 		return [self validateAddFavoritesItem: theItem forOperation: operation_];
 	}
 
-	if(action_ == @selector(deleteThread:) || action_ == @selector(openLogfile:)) {
-		NSEnumerator		*Iter_;
-		NSDictionary		*thread_;
-		
-		Iter_ = [[self selectedThreads] objectEnumerator];
-		while((thread_ = [Iter_ nextObject])){
-			NSNumber				*status_;
-			
-			status_ = [thread_ objectForKey : CMRThreadStatusKey];
-			if(nil == status_) continue;
-			
-			if(ThreadLogCachedStatus & [status_ unsignedIntValue])
-				return YES;
-		}
-		if([self shouldShowContents])
-			return [super validateUIItem : theItem];
+	if(action_ == @selector(deleteThread:)) {
+		int itemTag_ = [theItem tag];
 
+		[self validateDeleteThreadItemTitle: theItem];
+		
+		if (itemTag_ == 780) { // Browser Contextual Menu
+			return [self validateDeleteThreadItemsEnabling: [self selectedThreadsReallySelected]];
+		} else {
+			if ([theItem isKindOfClass: [NSMenuItem class]] && [[theItem keyEquivalent] isEqualToString: @""]) { // Thread Contexual Menu
+				return [super validateDeleteThreadItemEnabling: [self path]];
+			} else {
+				NSView *focusedView_ = (NSView *)[[self window] firstResponder];
+				if (focusedView_ == [self textView] || [[[focusedView_ superview] superview] isKindOfClass : [IndexField class]]) {
+					return [super validateDeleteThreadItemEnabling: [self path]];
+				} else {
+					return [self validateDeleteThreadItemsEnabling: [self selectedThreadsReallySelected]];
+				}
+			}
+		}
+		
 		return NO;
 	}
 	

@@ -1,3 +1,14 @@
+2006-09-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Validation.m
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/thread/CMRThreadViewer-Validation.m
+		ログの削除については、「環境設定」＞「詳細」で削除前に警告を表示するかどうかを設定できるが、設定内容に合わせて
+		「スレッド」＞「ログを削除...」または「ログを削除」と、「...」の表記が連動するように改良した。
+		また、validation が適切になるよう改良した。
+	* application/subproj/previewer/BSImagePreviewInspector.m
+		プレビューインスペクタ（2.3.1→2.3.2）：
+		-プレビューインスペクタの履歴をすべて削除したときに、キャッシュ（TemporaryFolder）も削除するようにした。
+================================================================================= Sneaky v261
 2006-09-18 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/previewer/BSIPIImageView.m
 	* application/subproj/previewer/BSImagePreviewInspector.m

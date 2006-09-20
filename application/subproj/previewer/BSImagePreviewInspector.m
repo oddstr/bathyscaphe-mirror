@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.19.2.9 2006/09/18 11:26:22 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.19.2.10 2006/09/20 01:54:49 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -268,6 +268,9 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 	[self willChangeValueForKey: @"historyItems"];
 	[[BSIPIHistoryManager sharedManager] setHistoryBacket: [NSMutableArray array]];
 	[self didChangeValueForKey: @"historyItems"];
+
+	[_dlFolder release];
+	_dlFolder = [[TemporaryFolder alloc] init];
 	
 	[self clearAttributes];
 }
