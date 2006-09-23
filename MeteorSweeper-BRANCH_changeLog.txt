@@ -1,3 +1,10 @@
+2006-09-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Validation.m
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/thread/CMRThreadViewer-Validation.m
+	* application/Resources/Japanese.lproj/Browser.nib
+		「スレッドの更新」についても、対象スレッドを -selectedThreads ではなく、-targetsThreadsForAction: で
+		調べるようにした。validation 方法も見直した。
 2006-09-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-Validation.m
 	* application/source/thread/CMRThreadViewer-Action.m

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.30.2.6 2006/09/20 01:54:49 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.30.2.7 2006/09/23 14:00:46 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -165,7 +165,8 @@
 	NSEnumerator		*Iter_;
 	NSDictionary		*threadAttributes_;
 
-	Iter_ = [[self selectedThreads] objectEnumerator];
+//	Iter_ = [[self selectedThreads] objectEnumerator];
+    Iter_ = [[self targetThreadsForAction: _cmd] objectEnumerator];
 	while ((threadAttributes_ = [Iter_ nextObject])) {
 		NSString			*path_;
 		NSString			*title_;

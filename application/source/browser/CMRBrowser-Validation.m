@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-Validation.m,v 1.18.2.3 2006/09/20 01:54:49 tsawada2 Exp $
+ * $Id: CMRBrowser-Validation.m,v 1.18.2.4 2006/09/23 14:00:46 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -43,10 +43,9 @@
 	if(action_ == @selector(openBBSInBrowser:)) return ([[self document] boardURL] != nil);
 	
 	if (action_ == @selector(addFavorites:)) {
-		int						tag_ = [theItem tag];
 		CMRFavoritesOperation	operation_;
 
-		if (tag_ == 781) { // Browser Contextual Menu
+		if ([theItem tag] == 781) { // Browser Contextual Menu
 			operation_ = [self favoritesOperationForThreads: [self selectedThreadsReallySelected]];
 		} else {
 			// ちょっとトリッキーで危ない判定方法
@@ -65,11 +64,10 @@
 	}
 
 	if(action_ == @selector(deleteThread:)) {
-		int itemTag_ = [theItem tag];
 
 		[self validateDeleteThreadItemTitle: theItem];
 		
-		if (itemTag_ == 780) { // Browser Contextual Menu
+		if ([theItem tag] == 780) { // Browser Contextual Menu
 			return [self validateDeleteThreadItemsEnabling: [self selectedThreadsReallySelected]];
 		} else {
 			if ([theItem isKindOfClass: [NSMenuItem class]] && [[theItem keyEquivalent] isEqualToString: @""]) { // Thread Contexual Menu
@@ -80,6 +78,25 @@
 					return [super validateDeleteThreadItemEnabling: [self path]];
 				} else {
 					return [self validateDeleteThreadItemsEnabling: [self selectedThreadsReallySelected]];
+				}
+			}
+		}
+		
+		return NO;
+	}
+	
+	if (action_ == @selector(reloadThread:)) {
+		if ([theItem tag] == 782) { // browser contextual menu
+			return YES;
+		} else {
+			if ([theItem isKindOfClass: [NSMenuItem class]] && [[theItem keyEquivalent] isEqualToString: @""]) { // Thread Contextual Menu
+				return [self threadAttributes] && ![self isDatOchiThread];
+			} else {
+				NSView *focusedView_ = (NSView *)[[self window] firstResponder];
+				if (focusedView_ == [self textView] || [[[focusedView_ superview] superview] isKindOfClass : [IndexField class]]) {
+					return [self threadAttributes] && ![self isDatOchiThread];
+				} else {
+					return ([[self selectedThreadsReallySelected] count] > 0);
 				}
 			}
 		}
