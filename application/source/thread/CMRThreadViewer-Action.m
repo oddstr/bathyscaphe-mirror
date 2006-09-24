@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.30.2.7 2006/09/23 14:00:46 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.30.2.8 2006/09/24 03:39:13 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -488,9 +488,7 @@
 	case NSAlertThirdButtonReturn:
 		{
 			NSString *path_ = [[self path] copy];
-			if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : NO]) {
-				[self reloadAfterDeletion : path_];
-			} else {
+			if (![self forceDeleteThreadAtPath : path_ alsoReplyFile : NO]) {
 				NSBeep();
 				NSLog(@"Deletion failed : %@\n...So reloading operation has been canceled.", path_);
 			}

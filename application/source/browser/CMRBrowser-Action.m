@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.47.2.6 2006/09/14 20:37:04 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.47.2.7 2006/09/24 03:39:13 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -440,8 +440,8 @@ static int expandAndSelectItem(NSDictionary *selected, NSArray *anArray, NSOutli
 			while ((eachItem_ = [enumerator_ nextObject])) {
 				NSString	*path_ = [CMRThreadAttributes pathFromDictionary : eachItem_];
 				if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : NO]) {
-					[self reloadAfterDeletion : path_];
-					[[self threadsListTable] reloadData]; // really need?
+					//[self reloadAfterDeletion : path_];
+					//[[self threadsListTable] reloadData]; // really need?
 				} else {
 					NSBeep();
 					NSLog(@"Deletion failed : %@, so reloading opreation has been canceled.", path_);

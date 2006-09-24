@@ -1,3 +1,10 @@
+2006-09-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer.m
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/thread/CMRThreadViewer-Download.m
+	* application/source/browser/CMRBrowser-Action.m
+		スレッドを「削除して再取得」する場合の、再取得するタイミングを変更した。CMRTrashBoxDidPerformNotification の
+		タイミングで、-cleanUpItemsToBeRemoved: を実行後に -reloadAfterDeletion: するようにした。
 2006-09-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-Validation.m
 	* application/source/thread/CMRThreadViewer-Action.m

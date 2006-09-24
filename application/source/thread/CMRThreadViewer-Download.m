@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Download.m,v 1.14.2.1 2006/08/04 14:04:01 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Download.m,v 1.14.2.2 2006/09/24 03:39:13 tsawada2 Exp $
   * BathyScaphe
   * 
   *
@@ -254,9 +254,7 @@
 	switch(returnCode) {
 	case NSAlertDefaultReturn: // Delete and try again
 	{
-		if ([self forceDeleteThreadAtPath : filePathToWrite_ alsoReplyFile : NO]) {
-			[self reloadAfterDeletion : filePathToWrite_];
-		} else {
+		if (![self forceDeleteThreadAtPath : filePathToWrite_ alsoReplyFile : NO]) {
 			NSBeep();
 			NSLog(@"Deletion failed : %@\n...So reloading operation has been canceled.", filePathToWrite_);
 		}

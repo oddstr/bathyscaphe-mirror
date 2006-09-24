@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.30.2.6 2006/09/18 11:26:21 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.30.2.7 2006/09/24 03:39:13 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -898,6 +898,8 @@ NSString *kComposingNotificationNames[] = {
 {
 	NSArray		*files_;
 	NSNumber	*err_;
+	NSNumber	*reload_;
+	BOOL		shouldReload_;
 	
 	UTILAssertNotificationName(
 		notification,
@@ -914,7 +916,14 @@ NSString *kComposingNotificationNames[] = {
 	files_ = [[notification userInfo] objectForKey : kAppTrashUserInfoFilesKey];
 	UTILAssertKindOfClass(files_, NSArray);
 	
+	reload_ = [[notification userInfo] objectForKey: kAppTrashUserInfoAfterFetchKey];
+	UTILAssertKindOfClass(reload_, NSNumber);
+	shouldReload_ = [reload_ boolValue];
+	
 	[self cleanUpItemsToBeRemoved : files_];
+	if (shouldReload_ && [files_ containsObject: [self path]]) {
+		[self reloadAfterDeletion: [files_ objectAtIndex: 0]];
+	}
 }
 
 - (void) registerToNotificationCenter
