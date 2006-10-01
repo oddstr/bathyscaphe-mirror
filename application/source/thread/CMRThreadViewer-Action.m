@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.30.2.8 2006/09/24 03:39:13 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.30.2.9 2006/10/01 10:08:43 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -22,6 +22,26 @@
 // for debugging only
 #define UTIL_DEBUGGING		0
 #import "UTILDebugging.h"
+
+// 1.3 Žb’è
+// ‚¢‚¸‚ê SGAppKit ‚ÉˆÚ‚·—\’è
+// From http://hetima.com/pblog/article.php?id=48
+@interface NSEvent(HistoryMenuItemActionHelper)
++ (unsigned int) currentCarbonModifierFlags;
+@end
+
+@implementation NSEvent(HistoryMenuItemActionHelper)
++ (unsigned int) currentCarbonModifierFlags
+{
+    unsigned int    cocoaModFlag = 0;
+    UInt32 carbonModFlag = GetCurrentEventKeyModifiers();
+    if (carbonModFlag & cmdKey)     cocoaModFlag |= NSCommandKeyMask;
+    if (carbonModFlag & optionKey)  cocoaModFlag |= NSAlternateKeyMask;
+    if (carbonModFlag & shiftKey)   cocoaModFlag |= NSShiftKeyMask;
+    if (carbonModFlag & controlKey) cocoaModFlag |= NSControlKeyMask;
+    return cocoaModFlag;
+}
+@end
 
 #pragma mark -
 
@@ -519,14 +539,24 @@
 
 /* NOTE: It is a history item's action. */	 
 - (IBAction) showThreadWithMenuItem : (id) sender	 
-{	 
+{
 	id historyItem = nil;
 
 	if ([sender respondsToSelector : @selector(representedObject)]) {
 		id o = [sender representedObject];
 		historyItem = o;
 	}
-	[self setThreadContentWithThreadIdentifier : historyItem];
+
+	if ([sender isKindOfClass: [NSMenuItem class]] && ([NSEvent currentCarbonModifierFlags] & NSCommandKeyMask)) {
+		NSDictionary	*info_;
+		NSString *path_ = [historyItem threadDocumentPath];
+		
+		info_ = [NSDictionary dictionaryWithObjectsAndKeys: 
+						[historyItem BBSName], ThreadPlistBoardNameKey, [historyItem identifier], ThreadPlistIdentifierKey, nil];
+		[CMRThreadDocument showDocumentWithContentOfFile: path_ contentInfo: info_];	
+	} else {
+		[self setThreadContentWithThreadIdentifier: historyItem];
+	}
 }
 
 // Save window frame
