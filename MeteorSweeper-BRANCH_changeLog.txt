@@ -1,3 +1,9 @@
+2006-10-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/preferences/AppDefaults-FontColor.m
+		行の高さを設定するときに、「フォントに合わせる」をクリックした際は、フォントサイズから計算される高さの他に、
+		掲示板リストやステータスのアイコンの縦サイズを考慮するようにした。
+	* application/Resources/Japanese.lproj/browserListColumns.plist
+		「番号」カラムもリサイズできるようにした。また、いくつかのカラムの最小幅をより小さい値にした。
 2006-10-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadViewer-Action.m
 		「履歴」メニューから command キーを押しながらスレッドを選んだときは、常にスレッドを新規ウインドウで開くようにした。

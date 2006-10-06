@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-FontColor.m,v 1.12 2006/06/25 17:06:42 tsawada2 Exp $
+  * $Id: AppDefaults-FontColor.m,v 1.12.2.1 2006/10/06 14:22:46 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -168,7 +168,7 @@ static NSString *const kPrefThreadViewerMsgSpacingAfterKey	= @"Message Content S
 
 #pragma mark -
 
-static float getDefaultLineHeightForFont(NSFont *font_)
+static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 {
 	/*
 	2005-09-18 tsawada2 <ben-sawa@td5.so-net.ne.jp>
@@ -183,6 +183,8 @@ static float getDefaultLineHeightForFont(NSFont *font_)
 	tmp_ = [[NSLayoutManager alloc] init];
 	value_ = [tmp_ defaultLineHeightForFont : font_];
 	[tmp_ release];
+
+	if (value_ < minValue_) value_ = minValue_;
 	
 	return value_;
 }
@@ -543,7 +545,7 @@ static float getDefaultLineHeightForFont(NSFont *font_)
 
 - (void) fixRowHeightToFontSize
 {
-	[self setThreadsListRowHeight : getDefaultLineHeightForFont([self threadsListFont])];
+	[self setThreadsListRowHeight : getDefaultLineHeightForFont([self threadsListFont], 16.0)];
 }
 
 - (BOOL) threadsListDrawsGrid
@@ -618,7 +620,7 @@ static float getDefaultLineHeightForFont(NSFont *font_)
 
 - (void) fixBoardListRowHeightToFontSize
 {
-	[self setBoardListRowHeight : getDefaultLineHeightForFont([self boardListFont])];
+	[self setBoardListRowHeight : getDefaultLineHeightForFont([self boardListFont], 18.0)];
 }
 
 - (NSFont *) boardListFont
