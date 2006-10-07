@@ -11,6 +11,7 @@
 		[新規追加]ヘルプの図版。
 	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/del_attribute_response.html
 	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/setting_synchronization.html
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/open_url_thread_etc.html
 		[新規追加]ヘルプの新しいトピック。
 	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/post_with_sage_always.html
 		[削除]ヘルプの削除されたトピック。
