@@ -1,3 +1,26 @@
+2006-10-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/board_default.plist
+		最新の board_default.plist に更新。
+	* ヘルプの更新 - ほとんどのファイルが更新されている。
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/addBrdSheet130.png
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/boardoption130.png
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/browserwin130.png
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/navigationBar130.png
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/previewer130.png
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/syncpane.png
+		[新規追加]ヘルプの図版。
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/del_attribute_response.html
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/setting_synchronization.html
+		[新規追加]ヘルプの新しいトピック。
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/post_with_sage_always.html
+		[削除]ヘルプの削除されたトピック。
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/boardoption.png
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/browserwin.png
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/bwagent.png
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/headcheck.png
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/previewer.png
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/res_btn.png
+		[削除]ヘルプの削除された図版。
 2006-10-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/preferences/AppDefaults-FontColor.m
 		行の高さを設定するときに、「フォントに合わせる」をクリックした際は、フォントサイズから計算される高さの他に、
