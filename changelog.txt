@@ -1,5 +1,13 @@
+2006-10-12 masakih <masakih@users.sourceforge.jp>
+	* application/Resources/Japanese.lproj/Browser.nib
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		スマート掲示板を追加の表記を統一
+	* application/source/browser/BSBoardListItemHEADCheckTask.m
+	* application/source/browser/BSThreadsListOPTask.m
+	* application/source/browser/BSDBThreadList.m
+		メモリリーク解消。
 2006-09-18 masakih <masakih@users.sourceforge.jp>
-	* application/Resources/Japanese.lproj/SmartBoardItemEditor.nib/keyedobjects.nib
+	* application/Resources/Japanese.lproj/SmartBoardItemEditor.nib
 	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m
 	* application/source/bbs/BoardListItem/SmartBoardList.m
 	* application/source/bbs/BoardListItem/SmartBoardListItem.m

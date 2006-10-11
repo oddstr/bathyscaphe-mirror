@@ -33,6 +33,7 @@
                 addCategoryItem = id; 
                 addDrawerItem = id; 
                 addFavorites = id; 
+                addSmartItem = id; 
                 cancelCurrentTask = id; 
                 changeBrowserArrangement = id; 
                 clearMessageAttributes = id; 

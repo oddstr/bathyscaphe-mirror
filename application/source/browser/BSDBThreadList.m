@@ -104,6 +104,11 @@
 	[mSearchString release];
 	mSearchString = nil;
 	
+	[mTask release];
+	[mUpdateTask release];
+	[mSortDescriptors release];
+	[mTaskLock release];
+	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	[super dealloc];
@@ -765,6 +770,7 @@ fail:
 #pragma mark## Download ##
 - (void) loadAndDownloadThreadsList : (CMRThreadLayout *) worker forceDownload : (BOOL) forceDL
 {
+	//　既に起動中の更新タスクを強制終了させる
 	[mTaskLock lock];
 	if(mTask) {
 		if([mTask isInProgress]) {

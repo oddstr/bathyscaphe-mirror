@@ -129,10 +129,8 @@ fail:{
 		id temp = dlTask;
 		dlTask = nil;
 		[temp release];
-	}
-	
-	[self checkIsInterrupted];
-	if([CMRPref isOnlineMode] || forceDL) {
+		
+		[self checkIsInterrupted];
 		if(downloadData && [downloadData length] != 0) {
 			dbupTask = [[BSDBThreadsListDBUpdateTask2 alloc] initWithBBSName:bbsName
 																		data:downloadData];

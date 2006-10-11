@@ -157,13 +157,14 @@ static BOOL shouldCheckItemHeader(id dict);
 	
 	BSDBThreadsListUpdateTask *dbloadTask = [[BSDBThreadsListUpdateTask alloc] initWithBBSName:nil];
 	[dbloadTask run];
+	[dbloadTask release];
 	
 }
 // - (void) finalizeWhenInterrupted;
 
 - (NSArray *)threadInfomations
 {
-	NSArray *result;
+	NSArray *result = nil;
 	SQLiteDB *db;
 	NSString *table = [item query];
 	if(!table) return nil;
@@ -291,7 +292,7 @@ static NSURL *urlForBoardNameAndThredID(NSString *boardName, NSString *threadID)
 	BSDownloadTask *dlTask = [[BSDownloadTask alloc] initWithURL:url method:@"HEAD"];
 	[dlTask doExecuteWithLayout:nil];
 	
-	return dlTask;
+	return [dlTask autorelease];;
 }
 - (void)updateNewCreate
 {

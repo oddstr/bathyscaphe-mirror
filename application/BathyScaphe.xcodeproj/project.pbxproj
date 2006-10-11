@@ -6062,7 +6062,7 @@
 				DEBUGGING_SYMBOLS = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					../frameworks/CocoMonar/build/Deployment,
-					../frameworks/SGFoundation/build/Development,
+					../frameworks/SGFoundation/build/Deployment,
 					../frameworks/SGNetwork/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
 					"$(SRCROOT)",
