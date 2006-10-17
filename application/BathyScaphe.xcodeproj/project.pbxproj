@@ -592,7 +592,6 @@
 		87F3D5B20976921C00A1217A /* BSIPIHistoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 87F3D5B00976921C00A1217A /* BSIPIHistoryManager.h */; };
 		87F3D5B30976921C00A1217A /* BSIPIHistoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F3D5B10976921C00A1217A /* BSIPIHistoryManager.m */; };
 		87F3D60C0976A20300A1217A /* CocoMonar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3924488043610AE00A80005 /* CocoMonar.framework */; };
-		F40694410942DCEA0045317C /* md5.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E2F24708B8A27800177310 /* md5.c */; };
 		F40694420942DCEB0045317C /* date.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E2F23C08B8A27800177310 /* date.c */; };
 		F40694430942DCEC0045317C /* where.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E2F26A08B8A27800177310 /* where.c */; };
 		F40694440942DCED0045317C /* callback.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E2F23B08B8A27800177310 /* callback.c */; };
@@ -1075,6 +1074,7 @@
 		F4E431460982A34000119842 /* BSDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E431420982A34000119842 /* BSDatePicker.m */; };
 		F4E431470982A34000119842 /* BSDatePickerCell.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E431430982A34000119842 /* BSDatePickerCell.h */; };
 		F4E431480982A34000119842 /* BSDatePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E431440982A34000119842 /* BSDatePickerCell.m */; };
+		F4E84F4C0AE5046600B3AE97 /* os.c in Sources */ = {isa = PBXBuildFile; fileRef = F4E84F4B0AE5046600B3AE97 /* os.c */; };
 		F4E8FADE09DAE1F0006F453C /* BSThreadListDBUpdateTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E8FADC09DAE1F0006F453C /* BSThreadListDBUpdateTask.h */; };
 		F4E8FADF09DAE1F0006F453C /* BSThreadListDBUpdateTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E8FADD09DAE1F0006F453C /* BSThreadListDBUpdateTask.m */; };
 		F4E8FB5E09DAEA55006F453C /* BSThreadListCollectAllThreadAttrTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E8FB5C09DAEA55006F453C /* BSThreadListCollectAllThreadAttrTask.h */; };
@@ -1105,7 +1105,6 @@
 		F4F5870709472B34004DF9DB /* pager.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E2F25308B8A27800177310 /* pager.h */; };
 		F4F5870809472B35004DF9DB /* opcodes.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E2F24908B8A27800177310 /* opcodes.h */; };
 		F4F5870909472B36004DF9DB /* vdbeInt.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E2F26808B8A27800177310 /* vdbeInt.h */; };
-		F4F5870A09472B37004DF9DB /* os_unix.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E2F24F08B8A27800177310 /* os_unix.h */; };
 		F4F5870B09472B37004DF9DB /* sqlite3.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E2F25B08B8A27800177310 /* sqlite3.h */; };
 		F4F5870C09472B38004DF9DB /* parse.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E2F25508B8A27800177310 /* parse.h */; };
 		F4F5871409472D8F004DF9DB /* analyze.c in Sources */ = {isa = PBXBuildFile; fileRef = F4F5871109472D8F004DF9DB /* analyze.c */; };
@@ -1913,17 +1912,11 @@
 		F4E2F24408B8A27800177310 /* keywordhash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = keywordhash.h; sourceTree = "<group>"; };
 		F4E2F24508B8A27800177310 /* legacy.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = legacy.c; sourceTree = "<group>"; };
 		F4E2F24608B8A27800177310 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
-		F4E2F24708B8A27800177310 /* md5.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = md5.c; sourceTree = "<group>"; };
 		F4E2F24808B8A27800177310 /* opcodes.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = opcodes.c; sourceTree = "<group>"; };
 		F4E2F24908B8A27800177310 /* opcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = opcodes.h; sourceTree = "<group>"; };
 		F4E2F24A08B8A27800177310 /* os.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = os.h; sourceTree = "<group>"; };
 		F4E2F24B08B8A27800177310 /* os_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = os_common.h; sourceTree = "<group>"; };
-		F4E2F24C08B8A27800177310 /* os_test.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = os_test.c; sourceTree = "<group>"; };
-		F4E2F24D08B8A27800177310 /* os_test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = os_test.h; sourceTree = "<group>"; };
 		F4E2F24E08B8A27800177310 /* os_unix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = os_unix.c; sourceTree = "<group>"; };
-		F4E2F24F08B8A27800177310 /* os_unix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = os_unix.h; sourceTree = "<group>"; };
-		F4E2F25008B8A27800177310 /* os_win.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = os_win.c; sourceTree = "<group>"; };
-		F4E2F25108B8A27800177310 /* os_win.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = os_win.h; sourceTree = "<group>"; };
 		F4E2F25208B8A27800177310 /* pager.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pager.c; sourceTree = "<group>"; };
 		F4E2F25308B8A27800177310 /* pager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pager.h; sourceTree = "<group>"; };
 		F4E2F25408B8A27800177310 /* parse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = parse.c; sourceTree = "<group>"; };
@@ -1953,6 +1946,7 @@
 		F4E431420982A34000119842 /* BSDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSDatePicker.m; sourceTree = "<group>"; };
 		F4E431430982A34000119842 /* BSDatePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSDatePickerCell.h; sourceTree = "<group>"; };
 		F4E431440982A34000119842 /* BSDatePickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSDatePickerCell.m; sourceTree = "<group>"; };
+		F4E84F4B0AE5046600B3AE97 /* os.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = os.c; sourceTree = "<group>"; };
 		F4E8FADC09DAE1F0006F453C /* BSThreadListDBUpdateTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSThreadListDBUpdateTask.h; sourceTree = "<group>"; };
 		F4E8FADD09DAE1F0006F453C /* BSThreadListDBUpdateTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSThreadListDBUpdateTask.m; sourceTree = "<group>"; };
 		F4E8FB5C09DAEA55006F453C /* BSThreadListCollectAllThreadAttrTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSThreadListCollectAllThreadAttrTask.h; sourceTree = "<group>"; };
@@ -3353,6 +3347,7 @@
 		F4E2F23408B8A27800177310 /* sqlite */ = {
 			isa = PBXGroup;
 			children = (
+				F4E84F4B0AE5046600B3AE97 /* os.c */,
 				F4F5871109472D8F004DF9DB /* analyze.c */,
 				F4F5871209472D8F004DF9DB /* complete.c */,
 				F4F5871309472D8F004DF9DB /* vdbefifo.c */,
@@ -3374,17 +3369,11 @@
 				F4E2F24408B8A27800177310 /* keywordhash.h */,
 				F4E2F24508B8A27800177310 /* legacy.c */,
 				F4E2F24608B8A27800177310 /* main.c */,
-				F4E2F24708B8A27800177310 /* md5.c */,
 				F4E2F24808B8A27800177310 /* opcodes.c */,
 				F4E2F24908B8A27800177310 /* opcodes.h */,
 				F4E2F24A08B8A27800177310 /* os.h */,
 				F4E2F24B08B8A27800177310 /* os_common.h */,
-				F4E2F24C08B8A27800177310 /* os_test.c */,
-				F4E2F24D08B8A27800177310 /* os_test.h */,
 				F4E2F24E08B8A27800177310 /* os_unix.c */,
-				F4E2F24F08B8A27800177310 /* os_unix.h */,
-				F4E2F25008B8A27800177310 /* os_win.c */,
-				F4E2F25108B8A27800177310 /* os_win.h */,
 				F4E2F25208B8A27800177310 /* pager.c */,
 				F4E2F25308B8A27800177310 /* pager.h */,
 				F4E2F25408B8A27800177310 /* parse.c */,
@@ -3690,7 +3679,6 @@
 				F4F5870709472B34004DF9DB /* pager.h in Headers */,
 				F4F5870809472B35004DF9DB /* opcodes.h in Headers */,
 				F4F5870909472B36004DF9DB /* vdbeInt.h in Headers */,
-				F4F5870A09472B37004DF9DB /* os_unix.h in Headers */,
 				F4F5870B09472B37004DF9DB /* sqlite3.h in Headers */,
 				F4F5870C09472B38004DF9DB /* parse.h in Headers */,
 			);
@@ -4648,7 +4636,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F40694410942DCEA0045317C /* md5.c in Sources */,
 				F40694420942DCEB0045317C /* date.c in Sources */,
 				F40694430942DCEC0045317C /* where.c in Sources */,
 				F40694440942DCED0045317C /* callback.c in Sources */,
@@ -4688,6 +4675,7 @@
 				F4F5871409472D8F004DF9DB /* analyze.c in Sources */,
 				F4F5871509472D8F004DF9DB /* complete.c in Sources */,
 				F4F5871609472D8F004DF9DB /* vdbefifo.c in Sources */,
+				F4E84F4C0AE5046600B3AE97 /* os.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

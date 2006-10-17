@@ -1,3 +1,6 @@
+2006-10-17 masakih <masakih@users.sourceforge.jp>
+	* misc/sqlite/*.[h|c]
+		sqliteを3.3.6にバージョンアップ。
 2006-10-12 masakih <masakih@users.sourceforge.jp>
 	* application/Resources/Japanese.lproj/Browser.nib
 	* application/Resources/Japanese.lproj/MainMenu.nib
