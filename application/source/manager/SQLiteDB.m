@@ -265,63 +265,67 @@ NSArray *valuesForSTMT(sqlite3_stmt *stmt, NSArray *culumns)
 	return [(id)values autorelease];
 }
 
+id<SQLiteMutableCursor> cursorFromSTMT(sqlite3_stmt *stmt)
+{
+	id columns, values;
+	id<SQLiteMutableCursor> cursor;
+	
+	double time00, time01;
+#ifdef DEBUG_SQLITEDB_LOGGING
+#	define TIME(t) do{	\
+		struct timeval tv;	\
+		gettimeofday(&tv, NULL);	\
+		t = tv.tv_sec + (double)tv.tv_usec*1e-6;	\
+	}while(0)
+	
+#	define T_LOG(t1, t2)	\
+	fprintf( stderr, "total time : \t%02.4lf\n",(t2) - (t1))
+#else
+#	define TIME(t)
+#	define T_LOG(t1, t2)
+#endif
+	TIME(time00);
+	columns = columnsFromSTMT(stmt);
+	values = valuesForSTMT(stmt, columns);
+	TIME(time01);
+	T_LOG(time00, time01);
+	
+#undef TIME(t)
+#undef T_LOG()
+	
+	if(!columns || !values) {
+		return nil;
+	}
+	cursor = [NSDictionary dictionaryWithObjectsAndKeys : columns, TestColumnNames,
+		values, TestValues, nil];
+	
+	return cursor;
+}
+
 - (id <SQLiteMutableCursor>) cursorForSQL : (NSString *) sqlString
 {
 	const char *sql;
 	sqlite3_stmt *stmt;
 	int result;
-	NSArray *values;
-	id columns;
 	id <SQLiteMutableCursor> cursor;
-	
 	
 	if (!mDatabase) {
 		return nil;
 	}
 	if (!sqlString) {
-		//	[self showError : @"SQL query string is nil."];
 		return nil;
 	}
 	
 	sql = [sqlString UTF8String];
 	
-#ifdef DEBUG_SQLiteDB
-	clock_t time00, time01, time02, time03, time04;
-	
-	time00 = clock();
-#endif
 	result = sqlite3_prepare(mDatabase, sql, strlen(sql) , &stmt, &sql);
 	if(result != SQLITE_OK) return nil;
 	
-#ifdef DEBUG_SQLiteDB
-	time01 = clock();
+#ifdef DEBUG_SQLITEDB_LOGGING
+	fprintf(stderr, "send query %s\n", [sqlString UTF8String]);
 #endif
-	columns = columnsFromSTMT(stmt);
-#ifdef DEBUG_SQLiteDB
-	time02 = clock();
-#endif
-	values = valuesForSTMT(stmt, columns);
-#ifdef DEBUG_SQLiteDB
-	time03 = clock();
-#endif
-	
+	cursor = cursorFromSTMT(stmt);
 	sqlite3_finalize(stmt);
-#ifdef DEBUG_SQLiteDB
-	time04 = clock();
-	
-	printf("total time : \t%ld\n"
-		   "prepare time : \t%ld\n"
-		   "cretae colmns : \t%ld\n"
-		   "create values : \t%ld\n"
-		   "finalize time : \t%ld\n",
-		   time04 - time00, time01 - time00, time02 - time01, time03 -time02, time04 - time03);
-#endif
-	
-	if (!columns || !values) {
-		return nil;
-	}
-	cursor = [NSDictionary dictionaryWithObjectsAndKeys : columns, TestColumnNames,
-		values, TestValues, nil];
 	
 	return cursor;
 }
@@ -475,6 +479,10 @@ NSArray *valuesForSTMT(sqlite3_stmt *stmt, NSArray *culumns)
 		
 		result = sqlite3_prepare([db rowDatabase], sql, strlen(sql) , &m_stmt, &sql);
 		if (result != SQLITE_OK) goto fail;
+		
+#ifdef DEBUG_SQLITEDB_LOGGING
+		fprintf(stderr, "create statment %s\n", [sqlString UTF8String]);
+#endif
 	}
 	
 	return self;
@@ -502,8 +510,6 @@ void objectDeallocator(void *obj)
 	unsigned i, valuesCount;
 	id value;
 	
-	NSArray *values;
-	id columns;
 	id <SQLiteMutableCursor> cursor;
 	
 	error = sqlite3_reset(m_stmt);
@@ -537,16 +543,9 @@ void objectDeallocator(void *obj)
 		}
 	}
 	
-	columns = columnsFromSTMT(m_stmt);
-	values = valuesForSTMT(m_stmt, columns);
+	cursor = cursorFromSTMT(m_stmt);
 	
 	error = sqlite3_reset(m_stmt);
-	
-	if (!values) {
-		return nil;
-	}
-	cursor = [NSDictionary dictionaryWithObjectsAndKeys : columns, TestColumnNames,
-		values, TestValues, nil];
 	
 	return cursor;
 }

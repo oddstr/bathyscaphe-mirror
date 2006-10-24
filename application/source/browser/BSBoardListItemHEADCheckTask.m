@@ -146,7 +146,7 @@ static BOOL shouldCheckItemHeader(id dict);
 			newMod = [[response allHeaderFields] objectForKey:BSFavHEADerLMKey];
 			NSCalendarDate	*dateLastMod = [NSCalendarDate dateWithHTTPTimeRepresentation : newMod];
 			NSDate *prevMod = [NSDate dateWithTimeIntervalSince1970:[modDate intValue]];
-			if([prevMod isAfterDate:dateLastMod]) {
+			if([dateLastMod isAfterDate:prevMod]) {
 				[updatedThreads addObject:thread];
 			}
 		}
