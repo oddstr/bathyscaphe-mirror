@@ -11,6 +11,8 @@
         このディレクトリ以下を機械的にすべてマージ。
         ただし、Browser.nib と MainMenu.nib がうまくマージされなかったので
         MeteorSweeper-BRANCH の先端のものから丸ごと置き換えた。
+        また、EditBoardSheet.nib と BSDockMenuItem.nib がうまく配置できなかったので
+        直接新規追加扱いにした。
     * frameworks
         このディレクトリ以下を機械的にすべてマージ。
     * docs
