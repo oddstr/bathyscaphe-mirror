@@ -1,6 +1,6 @@
 //: CMXPopUpWindowManager.m
 /**
-  * $Id: CMXPopUpWindowManager.m,v 1.3 2005/09/24 06:07:49 tsawada2 Exp $
+  * $Id: CMXPopUpWindowManager.m,v 1.4 2006/11/05 12:53:48 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -20,17 +20,18 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 - (void) dealloc
 {
 	[_controllerArray release];
+	[[NSNotificationCenter defaultCenter] removeObserver: self];
 	[super dealloc];
 }
+
 - (SGBaseCArrayWrapper *) controllerArray
 {
 	if(nil == _controllerArray){
-		_controllerArray = 
-			[[SGBaseCArrayWrapper alloc] 
-				initWithCapacity : kCMXPopUpWindowDefaultCapacity];
+		_controllerArray = [[SGBaseCArrayWrapper alloc] initWithCapacity: kCMXPopUpWindowDefaultCapacity];
 	}
 	return _controllerArray;
 }
+
 - (CMXPopUpWindowController *) availableController
 {
 	unsigned					i, cnt;
@@ -48,19 +49,16 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	
 	if(nil == controller_ || (NO == [controller_ canPopUpWindow])){
 		// 
-		// Ç∑Ç◊ÇƒégópíÜ
+		// „Åô„Åπ„Å¶‰ΩøÁî®‰∏≠
 		// 
 		controller_ = [[CMXPopUpWindowController alloc] init];
 		[controller_ window];
-		[controller_ setBackgroundColor : [self backgroundColor]];
-		[controller_ setIsSeeThrough : [self isSeeThrough]];
+
 		[[self controllerArray] addObject : controller_];
-		[controller_ release];
-		
+		[controller_ release];		
 	}
 	return controller_;
 }
-
 
 - (BOOL) isPopUpWindowVisible
 {
@@ -72,13 +70,12 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	cnt = [array_ count];
 	for(i = 0; i < cnt; i++){
 		controller_ = SGBaseCArrayWrapperObjectAtIndex(array_, i);
-		if(NO == [controller_ canPopUpWindow]){
+		if(NO == [controller_ canPopUpWindow]) {
 			return YES;
 		}
 	}
 	return NO;
 }
-
 
 - (CMXPopUpWindowController *) controllerForObject : (id) object
 {
@@ -109,6 +106,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	return [[self windowForObject : object] isVisible];
 }
 
+#pragma mark PopUp or Close PopUp
 - (id) showPopUpWindowWithContext : (NSAttributedString *) context
                         forObject : (id                  ) object
                             owner : (id                  ) owner
@@ -119,9 +117,16 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	UTILAssertNotNilArgument(context, @"context");
 	controller_ = [self availableController];
 	[controller_ setObject : object];
-	[controller_ setBackgroundColor : [self backgroundColor]];
-	[controller_ setIsSeeThrough : [self isSeeThrough]];
 	
+	// setup UI
+	[controller_ setBackgroundColor: [self backgroundColor]];
+	[controller_ setAlphaValue: [self popUpAlphaValue]];
+	[controller_ setUsesAlternateTextColor: [self popUpUsesAlternateTextColor]];
+	[controller_ setAlternateTextColor: [self popUpAlternateTextColor]];
+	[controller_ setUsesSmallScroller: [self popUpUsesSmallScroller]];	
+	[controller_ setShouldAntialias: [self popUpShouldAntialias]];
+	[controller_ setLinkTextHasUnderline: [self popUpLinkTextHasUnderline]];
+
 	[controller_ showPopUpWindowWithContext : context
 					                  owner : owner
 							   locationHint : point];
@@ -161,13 +166,33 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 }
 
 
-
+#pragma mark CMRPref Accessors
 - (NSColor *) backgroundColor
 {
 	return [CMRPref resPopUpBackgroundColor];
 }
-- (BOOL) isSeeThrough
+- (float) popUpAlphaValue
 {
-	return ([CMRPref resPopUpBgAlphaValue] < 1.0);
+	return [CMRPref resPopUpBgAlphaValue];
+}
+- (BOOL) popUpUsesSmallScroller
+{
+	return [CMRPref popUpWindowVerticalScrollerIsSmall];
+}
+- (BOOL) popUpUsesAlternateTextColor
+{
+	return [CMRPref isResPopUpTextDefaultColor];
+}
+- (NSColor *) popUpAlternateTextColor
+{
+	return [CMRPref resPopUpDefaultTextColor];
+}
+- (BOOL) popUpShouldAntialias
+{
+	return [CMRPref shouldThreadAntialias];
+}
+- (BOOL) popUpLinkTextHasUnderline
+{
+	return [CMRPref hasMessageAnchorUnderline];
 }
 @end

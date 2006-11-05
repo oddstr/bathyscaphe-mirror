@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.34 2006/06/11 23:47:26 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.35 2006/11/05 12:53:48 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -21,6 +21,12 @@
  */
 #define CMRPref		[AppDefaults sharedInstance]
 
+typedef enum _BSAutoSyncIntervalType {
+	BSAutoSyncByWeek	= 1,
+	BSAutoSyncBy2weeks	= 2,
+	BSAutoSyncByMonth	= 3,
+	BSAutoSyncByEveryStartUp = 11,
+} BSAutoSyncIntervalType;
 
 
 /*** Preference's Value Proxy ***/
@@ -48,6 +54,7 @@
 	NSMutableDictionary		*_dictAppearance;
 	NSMutableDictionary		*_dictFilter;
 	NSMutableDictionary		*m_soundsDictionary;
+	NSMutableDictionary		*m_boardWarriorDictionary;
 	
 	NSMutableDictionary		*_proxyCache;
 	
@@ -95,7 +102,7 @@
 - (NSString *) defaultReplyMailAddress;
 - (void) setDefaultReplyMailAddress : (NSString *) mail;
 - (NSArray *) defaultKoteHanList;
-- (void) setDefaultKoteHanList : (NSArray *) array;
+- (void) setDefaultKoteHanList : (NSArray *) anArray;
 
 /* ç≈å„Ç…äJÇ¢ÇΩî¬ */
 - (NSString *) browserLastBoard;
@@ -104,6 +111,13 @@
 /* CometBlaster Additions */
 - (BOOL) informWhenDetectDatOchi;
 - (void) setInformWhenDetectDatOchi: (BOOL) shouldInform;
+
+/* MeteorSweeper Additions */
+- (BOOL) moveFocusToViewerWhenShowThreadAtRow;
+- (void) setMoveFocusToViewerWhenShowThreadAtRow: (BOOL) shouldMove;
+
+- (BOOL) oldFavoritesUpdated;
+- (void) setOldFavoritesUpdated: (BOOL) flag;
 
 #pragma mark ThreadsList
 
@@ -125,19 +139,23 @@
 
 
 // Proxy
-- (BOOL) usesProxy;
-- (void) setUsesProxy : (BOOL) anUsesProxy;
-- (BOOL) usesProxyOnlyWhenPOST;
-- (void) setUsesProxyOnlyWhenPOST : (BOOL) anUsesProxy;
+//- (BOOL) usesProxy;
+//- (void) setUsesProxy : (BOOL) anUsesProxy;
+//- (BOOL) usesProxyOnlyWhenPOST;
+//- (void) setUsesProxyOnlyWhenPOST : (BOOL) anUsesProxy;
 
-- (BOOL) usesSystemConfigProxy;
-- (void) setUsesSystemConfigProxy : (BOOL) flag;
+//- (BOOL) usesSystemConfigProxy;
+//- (void) setUsesSystemConfigProxy : (BOOL) flag;
 
-- (void) getProxy:(NSString**)host port:(CFIndex*)port;
-- (CFIndex) proxyPort;
-- (void) setProxyPort : (CFIndex) aProxyPort;
-- (NSString *) proxyHost;
-- (void) setProxyHost : (NSString *) aProxyURL;
+//- (void) getProxy:(NSString**)host port:(CFIndex*)port;
+//- (CFIndex) proxyPort;
+//- (void) setProxyPort : (CFIndex) aProxyPort;
+//- (NSString *) proxyHost;
+//- (void) setProxyHost : (NSString *) aProxyURL;
+
+- (BOOL) usesOwnProxy;
+
+- (void) getOwnProxy: (NSString **) host port: (CFIndex *) port;
 
 #pragma mark History
 
@@ -207,6 +225,10 @@
 - (void) setSpamFilterBehavior : (int) mask;
 
 - (void) resetSpamFilter;
+
+// AAD(Ascii Art Detector). Available in MeteorSweeper and later.
+- (BOOL) asciiArtDetectorEnabled;
+- (void) setAsciiArtDetectorEnabled: (BOOL) flag;
 
 - (void) _loadFilter;
 - (BOOL) _saveFilter;
@@ -495,6 +517,28 @@
 
 - (void) _loadSoundsSettings;
 - (BOOL) _saveSoundsSettings;
+@end
+
+/* MeteorSweeper Additions */
+@interface AppDefaults(BoardWarriorSupport)
+- (void) letBoardWarriorStartSyncing: (id) sender;
+
+- (NSURL *) BBSMenuURL;
+- (void) setBBSMenuURL: (NSURL *) anURL;
+
+- (BOOL) autoSyncBoardList;
+- (void) setAutoSyncBoardList: (BOOL) autoSync;
+
+- (BSAutoSyncIntervalType) autoSyncIntervalTag;
+- (void) setAutoSyncIntervalTag: (BSAutoSyncIntervalType) aType;
+
+- (NSTimeInterval) timeIntervalForAutoSyncPrefs;
+
+- (NSDate *) lastSyncDate;
+- (void) setLastSyncDate: (NSDate *) finishedDate;
+
+- (void) _loadBWSettings;
+- (BOOL) _saveBWSettings;
 @end
 
 #pragma mark Constants

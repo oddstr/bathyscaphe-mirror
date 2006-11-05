@@ -1,5 +1,5 @@
 //
-//  $Id: CMROpenURLManager.m,v 1.4 2006/03/17 17:52:34 tsawada2 Exp $
+//  $Id: CMROpenURLManager.m,v 1.5 2006/11/05 12:53:48 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by minamie on Sun Jan 25 2004.
@@ -14,6 +14,8 @@
 #import "CMRDocumentFileManager.h"
 #import "CMRThreadDocument.h"
 
+#import "CMRAppDelegate.h"
+
 /* .nib file name */
 #define kOpenURLControllerNib	@"CMROpenURL"
 
@@ -21,8 +23,11 @@
 @interface OpenURLController : NSWindowController
 {
 	IBOutlet NSTextField	*_textField;
+	NSString				*_typedText;
 }
 - (NSURL *) askUserURL;
+- (NSString *) typedText;
+- (void) setTypedText: (NSString *) aText;
 - (IBAction) ok : (id) sender;
 - (IBAction) cancel : (id) sender;
 @end
@@ -34,21 +39,34 @@
 {
 	return [self initWithWindowNibName : kOpenURLControllerNib];
 }
+- (void) dealloc
+{
+	[_typedText release];
+	[super dealloc];
+}
 - (IBAction) ok : (id) sender { [NSApp stopModalWithCode : NSOKButton]; }
 - (IBAction) cancel : (id) sender { [NSApp stopModalWithCode : NSCancelButton]; }
+- (NSString *) typedText { return _typedText; }
+- (void) setTypedText: (NSString *) aText
+{
+	[aText retain];
+	[_typedText release];
+	_typedText = aText;
+}
 
 - (NSURL *) askUserURL
 {	
 	int				code;
-	
+
+	[self setTypedText: nil];
 	[self window];
-	[_textField setStringValue:@""];
+	//[_textField setStringValue:@""];
 	[_textField selectText:self];
 	code = [NSApp runModalForWindow : [self window]];
 	
 	[[self window] close];
 	return (NSOKButton == code)
-		? [NSURL URLWithString:[_textField stringValue]]
+		? [NSURL URLWithString:[self typedText]]//[_textField stringValue]]
 		: nil;
 }
 @end
@@ -107,6 +125,10 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 		[dm ensureDirectoryExistsWithBoardName:boardName_];
 		return [CMRThreadDocument showDocumentWithContentOfFile : filepath_
 													contentInfo : contentInfo_];
+	} else if ([CMRThreadLinkProcessor parseBoardLink: url boardName: &boardName_ boardURL: &boardURL_]) {
+		//NSLog(@"Success - %@ (%@)", boardName_, boardURL_);
+		[(CMRAppDelegate *)[NSApp delegate] orderFrontMainBrowserAndShowThListForBrd: boardName_ addBrdToUsrListIfNeeded: YES];
+		return YES;
 	} else {
 		int		code;
 		NSAlert	*alert_ = [[NSAlert alloc] init];

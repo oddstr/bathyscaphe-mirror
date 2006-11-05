@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMessageFilter.h,v 1.1 2005/05/11 17:51:04 tsawada2 Exp $
+  * $Id: CMRMessageFilter.h,v 1.2 2006/11/05 12:53:47 tsawada2 Exp $
   * 
   * CMRMessageFilter.h
   *
@@ -69,6 +69,7 @@ enum {
 	NSMutableDictionary		*_table;	/* key: name or ID */
 	SGBaseCArrayWrapper		*_samples;
 	NSArray					*_corpus;
+	NSSet					*_noNameSet;
 }
 - (id) initWithDictionaryRepresentation : (NSDictionary *) aDictionary;
 - (NSDictionary *) dictionaryRepresentation;
@@ -78,6 +79,10 @@ enum {
 
 - (NSArray *) corpus;
 - (void) setCorpus : (NSArray *) aCorpus;
+
+// MeteorSweeper Additions
+- (NSSet *) noNameSetAtWorkingBoard;
+- (void) setNoNameSetAtWorkingBoard: (NSSet *) aSet;
 
 - (void) addNewMessageSample : (CMRMessageSample *) aSample;
 - (void) addSamplesFromDetecter : (CMRSamplingDetecter *) aDetecter;

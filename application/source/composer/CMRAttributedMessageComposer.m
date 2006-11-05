@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer.m,v 1.17 2006/06/01 15:06:43 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer.m,v 1.18 2006/11/05 12:53:47 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -332,34 +332,43 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 {
 	NSMutableAttributedString	*mas_;
 	NSArray						*tmpAry_ = nil;
-	NSString					*beRep_;
 	NSString					*beStr_;
 	NSMutableAttributedString	*format_;
 	int							count_;
 	BOOL						makeLink = YES;
-		
+	//NSRange						starRange = NSMakeRange(0,0);
+
 	if (messageIsLocalAboned_(aMessage))
 		return;
 	
 	tmpAry_ = [aMessage beProfile];
-	//if (tmpAry_ == nil || [tmpAry_ count] < 2) return;
 	if (tmpAry_ == nil) return;
+
 	count_ = [tmpAry_ count];
 	if (count_ == 0 || count_ > 2) return;
+
 	if (count_ == 1) {
 		// kabunushi yutai
 		beStr_ = [tmpAry_ objectAtIndex: 0];
 		makeLink = NO;
 	} else {
-		beRep_ = [tmpAry_ objectAtIndex : 1];
+		NSMutableString	*beRep_;
+		beRep_ = [[tmpAry_ objectAtIndex : 1] mutableCopy];
 
-		if ([[NSScanner scannerWithString : beRep_] scanCharactersFromSet : [NSCharacterSet decimalDigitCharacterSet]
-															   intoString : nil])
-		{
-			beStr_ = [NSString stringWithFormat : @"Lv.%@", beRep_];
-		} else {
-			beStr_ = [NSString stringWithFormat : @"?%@", beRep_];
+		NSRange	fontTag = [beRep_ rangeOfString : @"<font color=" options : (NSCaseInsensitiveSearch|NSLiteralSearch)];
+		if (fontTag.length != 0) {
+			NSRange fontTagEnd;
+			fontTagEnd = [beRep_ rangeOfString : @"</font>" options: (NSCaseInsensitiveSearch|NSLiteralSearch|NSBackwardsSearch)];
+			
+			if (fontTagEnd.length != 0) {
+				fontTag.length = fontTagEnd.location - fontTag.location + fontTagEnd.length;
+				[beRep_ replaceCharactersInRange: fontTag withString: LOCALIZED_STR(@"BE_Solitaire")];
+				//starRange = NSMakeRange(fontTag.location, 1);
+			}
 		}
+
+		beStr_ = [NSString stringWithFormat: @"?%@", beRep_];
+		[beRep_ release];
 	}
 
 	format_   = SGTemporaryAttributedString();
@@ -373,6 +382,13 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 						value : CMRLocalBeProfileLinkWithString([tmpAry_ objectAtIndex : 0])
 						range : [format_ range]];
 	}
+/*
+	if (NO == NSEqualRanges(NSMakeRange(0,0), starRange)) {
+		[format_ addAttribute: NSForegroundColorAttributeName
+						value: [NSColor redColor]
+						range: starRange];
+	}
+*/
 	mas_ = [self contentsStorage];
 
 	[mas_ appendAttributedString : format_];

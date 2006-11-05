@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.m,v 1.13 2006/04/11 17:31:21 masakih Exp $
+  * $Id: Browser.m,v 1.14 2006/11/05 12:53:47 tsawada2 Exp $
   * BathyScaphe 
   *
   * Copyright 2005-2006 BathyScaphe Project.
@@ -15,8 +15,7 @@
 #import "CMRThreadAttributes.h"
 
 #import "BoardManager.h"
-//#import "BoardList.h"
-#import "CMRSearchOptions.h"
+#import "BoardList.h"
 
 
 @implementation Browser
@@ -25,6 +24,7 @@
 	[[NSNotificationCenter defaultCenter] removeObserver : self];
 	[self setCurrentThreadsList : nil];
 	[self setThreadAttributes : nil];
+	[m_searchString release];
 	
 	[super dealloc];
 }
@@ -46,6 +46,18 @@
 	tmp = m_currentThreadsList;
 	m_currentThreadsList = [aCurrentThreadsList retain];
 	[tmp release];
+}
+
+- (NSString *) searchString
+{
+	return m_searchString;
+}
+
+- (void) setSearchString: (NSString *) text
+{
+	[text retain];
+	[m_searchString release];
+	m_searchString = text;
 }
 
 #pragma mark NSDocument
@@ -149,31 +161,18 @@
 	[[self currentThreadsList] downloadThreadsList];
 }
 
+- (BOOL) searchThreadsInListWithCurrentSearchString
+{
+	if(nil == [self currentThreadsList]) return NO;
+
+	return [[self currentThreadsList] filterByString: [self searchString]];
+}
+
 - (BOOL) searchThreadsInListWithString : (NSString *) text
 {
-	CMRSearchOptions		*operation_;
-	unsigned int		options_ = 0;
-
-	CMRSearchMask		searchOption_;
-	NSNumber			*info_;
-
 	if(nil == [self currentThreadsList]) return NO;
-	if(nil == text) return NO;
-	
-	
-	searchOption_ = [CMRPref threadSearchOption];
-	if(CMRSearchOptionCaseInsensitive & searchOption_)
-		options_ |= NSCaseInsensitiveSearch;
-	if(CMRSearchOptionBackwards & searchOption_)
-		options_ |= NSBackwardsSearch;
-	
-	info_ = [NSNumber numberWithUnsignedInt : searchOption_];
-	operation_ = [CMRSearchOptions operationWithFindObject : text
-												   replace : nil
-												  userInfo : info_
-													option : options_];
-	
-	return [[self currentThreadsList] filterByFindOperation : operation_];
+
+	return [[self currentThreadsList] filterByString: text];
 }
 
 - (void) sortThreadsByKey : (NSString *) key

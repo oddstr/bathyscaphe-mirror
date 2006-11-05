@@ -1,5 +1,5 @@
 /**
- * $Id: AppDefaults-Bundle.m,v 1.10 2005/12/02 10:10:02 tsawada2 Exp $
+ * $Id: AppDefaults-Bundle.m,v 1.11 2006/11/05 12:53:48 tsawada2 Exp $
  * 
  * AppDefaults-Bundle.m
  *
@@ -11,6 +11,7 @@
 #import "w2chConnect.h"
 #import "UTILKit.h"
 #import "CMRMainMenuManager.h"
+#import "BoardWarrior.h"
 
 @protocol BSImagePreviewerProtocol;
 
@@ -31,6 +32,13 @@
 
 static NSString *const AppDefaultsHelperAppNameKey = @"Helper Application Path";
 static NSString *const AppDefaultsImagePreviewerSettingsKey = @"Preferences - ImagePreviewer Plugin";
+
+static NSString *const AppDefaultsBWSettingsKey = @"Preferences - BoardWarrior";
+
+static NSString *const kBWBBSMenuURLKey = @"BoardWarrior:bbsmenu URL";
+static NSString *const kBWAutoSyncBoardListKey = @"BoardWarrior:Auto Sync";
+static NSString *const kBWAutoSyncIntervalKey = @"BoardWarrior:Auto Sync Interval";
+static NSString *const kBWLastSyncDateKey = @"BoardWarrior:Last Sync Date";
 
 #pragma mark -
 
@@ -271,6 +279,150 @@ static NSString *const AppDefaultsImagePreviewerSettingsKey = @"Preferences - Im
 	UTILAssertNotNil(dict_);
 	[[self defaults] setObject : dict_
 						forKey : AppDefaultsImagePreviewerSettingsKey];
+	return YES;
+}
+@end
+
+
+@implementation AppDefaults(BoardWarriorSupport)
+- (NSMutableDictionary *) boardWarriorSettingsDictionary
+{
+	if(nil == m_boardWarriorDictionary){
+		NSDictionary	*dict_;
+		
+		dict_ = [[self defaults] dictionaryForKey : AppDefaultsBWSettingsKey];
+		m_boardWarriorDictionary = [dict_ mutableCopy];
+	}
+	
+	if(nil == m_boardWarriorDictionary)
+		m_boardWarriorDictionary = [[NSMutableDictionary alloc] init];
+	
+	return m_boardWarriorDictionary;
+}
+
+- (NSURL *) BBSMenuURL
+{
+	NSString *tmp_ = [[self boardWarriorSettingsDictionary] objectForKey: kBWBBSMenuURLKey
+														   defaultObject: @"http://azlucky.s25.xrea.com/2chboard/bbsmenu2.html"];
+
+	return [NSURL URLWithString: tmp_];
+}
+- (void) setBBSMenuURL : (NSURL *) anURL
+{
+	if (anURL == nil) return;
+	NSString *tmp_ = [anURL absoluteString];
+	[[self boardWarriorSettingsDictionary] setObject: tmp_ forKey : kBWBBSMenuURLKey];
+}
+
+- (BOOL) autoSyncBoardList
+{
+	return [[self boardWarriorSettingsDictionary] boolForKey: kBWAutoSyncBoardListKey defaultValue: NO];
+}
+- (void) setAutoSyncBoardList: (BOOL) autoSync
+{
+	[[self boardWarriorSettingsDictionary] setBool: autoSync forKey: kBWAutoSyncBoardListKey];
+}
+
+- (BSAutoSyncIntervalType) autoSyncIntervalTag
+{
+	return [[self boardWarriorSettingsDictionary] integerForKey: kBWAutoSyncIntervalKey defaultValue: BSAutoSyncByWeek];
+}
+- (void) setAutoSyncIntervalTag: (BSAutoSyncIntervalType) aType
+{
+	[[self boardWarriorSettingsDictionary] setInteger: aType forKey: kBWAutoSyncIntervalKey];
+}
+
+- (NSTimeInterval) timeIntervalForAutoSyncPrefs
+{
+	double interval_;
+
+	switch ([self autoSyncIntervalTag]) {
+	case BSAutoSyncByWeek:
+		interval_ = 604800.0;
+		break;
+	case BSAutoSyncBy2weeks:
+		interval_ = 1209600.0;
+		break;
+	case BSAutoSyncByMonth:
+		interval_ = 2592000.0;
+		break;
+	default:
+		interval_ = 0.0;
+		break;
+	}
+	return interval_;
+}
+
+- (NSDate *) lastSyncDate
+{
+	return [[self boardWarriorSettingsDictionary] objectForKey: kBWLastSyncDateKey];
+}
+- (void) setLastSyncDate : (NSDate *) finishedDate
+{
+	[[self boardWarriorSettingsDictionary] setObject: finishedDate forKey: kBWLastSyncDateKey];
+}
+
+- (void) letBoardWarriorStartSyncing : (id) sender
+{
+	[[NSNotificationCenter defaultCenter]
+	     addObserver : sender
+	        selector : @selector(taskDidFail:)
+	            name : BoardWarriorDidFailDownloadNotification
+	          object : [BoardWarrior warrior]];
+	[[NSNotificationCenter defaultCenter]
+	     addObserver : sender
+	        selector : @selector(taskDidFail:)
+	            name : BoardWarriorDidFailCreateDefaultListTaskNotification
+	          object : [BoardWarrior warrior]];
+	[[NSNotificationCenter defaultCenter]
+	     addObserver : sender
+	        selector : @selector(taskDidFail:)
+	            name : BoardWarriorDidFailSyncUserListTaskNotification
+	          object : [BoardWarrior warrior]];
+
+	[[NSNotificationCenter defaultCenter]
+	     addObserver : sender
+	        selector : @selector(downloadBBSMenuDidFinish:)
+	            name : BoardWarriorDidFinishDownloadNotification
+	          object : [BoardWarrior warrior]];
+	[[NSNotificationCenter defaultCenter]
+	     addObserver : sender
+	        selector : @selector(createDefaultListWillStart:)
+	            name : BoardWarriorWillStartCreateDefaultListTaskNotification
+	          object : [BoardWarrior warrior]];
+	[[NSNotificationCenter defaultCenter]
+	     addObserver : sender
+	        selector : @selector(syncUserListWillStart:)
+	            name : BoardWarriorWillStartSyncUserListTaskNotification
+	          object : [BoardWarrior warrior]];
+
+	[[NSNotificationCenter defaultCenter]
+	     addObserver : sender
+	        selector : @selector(allSyncTaskDidFinish:)
+	            name : BoardWarriorDidFinishAllTaskNotification
+	          object : [BoardWarrior warrior]];
+
+	[[BoardWarrior warrior] syncBoardLists];
+}
+/*
+- (BOOL) canStartSyncTask
+{
+	return (NO == [[BoardWarrior warrior] isInProgress]);
+}
+*/
+- (void) _loadBWSettings
+{
+}
+
+- (BOOL) _saveBWSettings
+{
+	NSDictionary			*dict_;
+	
+	dict_ = [self boardWarriorSettingsDictionary];
+	
+	UTILAssertNotNil(dict_);
+	[[self defaults] setObject : dict_
+						forKey : AppDefaultsBWSettingsKey];
 	return YES;
 }
 @end

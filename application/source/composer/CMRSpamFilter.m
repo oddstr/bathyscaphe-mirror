@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRSpamFilter.m,v 1.1 2005/05/11 17:51:04 tsawada2 Exp $
+  * $Id: CMRSpamFilter.m,v 1.2 2006/11/05 12:53:47 tsawada2 Exp $
   * 
   * CMRSpamFilter.m
   *
@@ -13,8 +13,10 @@
 #import "CMRThreadMessage.h"
 #import "CMRThreadSignature.h"
 #import "AppDefaults.h"
+#import "BoardManager.h"
 
 #define CMRFilterFile		@"SpamFilter.plist"
+#define BSFilterFile		@"BSSpamFilter.plist"
 
 #define kFilterIdentifierKey	@"FilterIdentifier"
 #define CMRSpamFilterIdentifier	@"SpamFilter"
@@ -29,11 +31,18 @@ NSString *const CMRSpamFilterDidChangeNotification = @"CMRSpamFilterDidChangeNot
 
 @implementation CMRSpamFilter
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
++ (NSString *) oldDefaultFilepath
+{
+	return [[CMRFileManager defaultManager]
+				 supportFilepathWithName : CMRFilterFile
+						resolvingFileRef : NULL];
+}
+
 
 + (NSString *) defaultFilepath
 {
 	return [[CMRFileManager defaultManager]
-				 supportFilepathWithName : CMRFilterFile
+				 supportFilepathWithName : BSFilterFile
 						resolvingFileRef : NULL];
 }
 
@@ -46,21 +55,43 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 					    name : NSApplicationWillTerminateNotification
 					  object : NSApp];
 		if (nil == _detecter) {
+			NSData			*data;
 			NSDictionary	*rep;
 			id				v;
 			
-			rep = [NSDictionary dictionaryWithContentsOfFile : 
-										[[self class] defaultFilepath]];
+			NSString *errorStr;
 			
+			data = [NSData dataWithContentsOfFile: [[self class] defaultFilepath]];
+			
+			if (data) {
+				rep = [NSPropertyListSerialization propertyListFromData: data
+													   mutabilityOption: NSPropertyListImmutable
+																 format: NULL
+													   errorDescription: &errorStr];
+				
+				if (!rep) {
+					NSLog(@"CMRSpamFilter failed to read BSSpamFilter.plist with NSPropertyListSerialization");
+					//NSLog(errorStr);
+					//[errorStr release];
+
+					rep = [NSDictionary dictionaryWithContentsOfFile : [[self class] defaultFilepath]];
+					if (!rep) {
+						rep = [NSDictionary dictionaryWithContentsOfFile: [[self class] oldDefaultFilepath]];
+					}
+				}
+			} else {
+				rep = [NSDictionary dictionaryWithContentsOfFile : [[self class] oldDefaultFilepath]];
+			}
+
 			v = [[rep arrayForKey : kDetectersKey] head];
-			_detecter = [[CMRSamplingDetecter alloc] 
-							initWithDictionaryRepresentation : v];
+			_detecter = [[CMRSamplingDetecter alloc] initWithDictionaryRepresentation : v];
 			v = [rep arrayForKey : kSpamCorpusKey];
 			[self setSpamCorpus : v];
 		}
 	}
 	return self;
 }
+
 - (void) dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver : self];
@@ -103,6 +134,21 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	[tmp release];
 }
 
+- (BOOL) saveRepresentation: (id) rep
+{
+	NSString *errorStr = nil;
+	NSData *binaryData_ = [NSPropertyListSerialization dataFromPropertyList: rep
+																	 format: NSPropertyListBinaryFormat_v1_0
+														   errorDescription: &errorStr];
+
+	if (!binaryData_) {
+		NSLog(@"BoardManager failed to serialize noNameDict with NSPropertyListSerialization.");
+		return [rep writeToFile: [[self class] defaultFilepath] atomically: YES];
+	}
+	
+	return [binaryData_ writeToFile: [[self class] defaultFilepath] atomically: YES];
+}
+
 - (void) applicationWillTerminate : (NSNotification *) notification
 {
 	id		rep;
@@ -126,21 +172,30 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 		[rep setObject : [NSArray arrayWithObject : v]
 				forKey : kDetectersKey];
 	}
-	[rep writeToFile : [[self class] defaultFilepath]
-		  atomically : YES];
+
+	[self saveRepresentation: rep];
 }
 - (void) postDidChangeNotification
 {
 }
+
+- (void) setNoNameSetAtBoardOfThread: (CMRThreadSignature *) aThread forDetecter: (CMRSamplingDetecter *) detecter
+{
+	NSString *boardName_ = [aThread BBSName];
+	[detecter setNoNameSetAtWorkingBoard: [[BoardManager defaultManager] defaultNoNameSetForBoard: boardName_]];
+}
+
 - (void) addSample : (CMRThreadMessage   *) aMessage
 			  with : (CMRThreadSignature *) aThread
 {
+	[self setNoNameSetAtBoardOfThread: aThread forDetecter: [self detecter]];
 	[[self detecter] addSample:aMessage with:aThread];
 	[self postDidChangeNotification];
 }
 - (void) removeSample : (CMRThreadMessage   *) aMessage
 			     with : (CMRThreadSignature *) aThread
 {
+	[self setNoNameSetAtBoardOfThread: aThread forDetecter: [self detecter]];
 	[[self detecter] removeSample:aMessage with:aThread];
 	[self postDidChangeNotification];
 }
@@ -166,6 +221,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 		[detecter setCorpus : [self spamCorpus]];
 	else
 		[detecter setCorpus : nil];
+
+	[self setNoNameSetAtBoardOfThread: aThread forDetecter: detecter];
 	
 	iter_ = [[aBuffer messages] objectEnumerator];
 	while (m = [iter_ nextObject]) {

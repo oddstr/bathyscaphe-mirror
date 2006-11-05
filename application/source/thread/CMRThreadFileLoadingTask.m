@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadFileLoadingTask.m,v 1.1 2005/05/11 17:51:07 tsawada2 Exp $
+  * $Id: CMRThreadFileLoadingTask.m,v 1.2 2006/11/05 12:53:48 tsawada2 Exp $
   * 
   * CMRThreadFileLoadingTask.m
   *
@@ -88,7 +88,7 @@ NSString *const CMRThreadFileLoadingTaskDidLoadAttributesNotification = @"CMRThr
 - (NSString *) messageInProgress;
 {
 	return [self messageFormat] 
-		? [NSString stringWithFormat : [self messageFormat], [self filepath]]
+		? [NSString stringWithFormat : [self messageFormat], [[self filepath] lastPathComponent]]
 		: [self filepath];
 }
 @end

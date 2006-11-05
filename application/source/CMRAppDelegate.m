@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.24 2006/07/26 16:28:25 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.25 2006/11/05 12:53:47 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -7,11 +7,13 @@
  * See the file LICENSE for copying permission.
  */
 #import "CMRAppDelegate_p.h"
-#import "CMRTaskManager.h"
-#import "CMRMainMenuManager.h"
-#import "BSHistoryMenuManager.h"
+#import "BoardWarrior.h"
+#import "CMRBrowser.h"
+
 #import <SGAppKit/NSColor-SGExtensions.h>
 #import <SGAppKit/NSImage-SGExtensions.h>
+
+@class CMRDocumentController;
 
 #define kOnlineItemKey				@"On Line"
 #define kOfflineItemKey				@"Off Line"
@@ -21,7 +23,19 @@
 @implementation CMRAppDelegate
 - (void) awakeFromNib
 {
+	m_shouldCascadeBrowserWindow = YES;
     [self setupMenu];
+}
+
+
+- (BOOL) shouldCascadeBrowserWindow
+{
+	return m_shouldCascadeBrowserWindow;
+}
+
+- (void) setShouldCascadeBrowserWindow: (BOOL) flag
+{
+	m_shouldCascadeBrowserWindow = flag;
 }
 
 #pragma mark IBAction
@@ -55,6 +69,8 @@
 {
     [[CMRTaskManager defaultManager] showWindow : sender];
 }
+
+// For Help Menu
 - (IBAction) openURL : (id) sender
 {
     NSURL *url;
@@ -81,7 +97,8 @@
 
 - (IBAction) openURLPanel : (id) sender
 {
-    [[CMROpenURLManager defaultManager] askUserURL];
+	if (NO == [NSApp isActive]) [NSApp activateIgnoringOtherApps: YES];
+	[[CMROpenURLManager defaultManager] askUserURL];
 }
 
 - (IBAction) clearHistory : (id) sender
@@ -130,13 +147,38 @@
 
 - (IBAction) runBoardWarrior: (id) sender
 {
-	NSBundle* mainBundle;
-    NSString* fileName;
-
-    mainBundle = [NSBundle mainBundle];
-    fileName = [mainBundle pathForResource:@"BWAgent" ofType:@"app"];
+	BoardWarrior *bw = [BoardWarrior warrior];
 	
-    [[NSWorkspace sharedWorkspace] launchApplication:fileName];
+	if ([bw isInProgress]) return;
+	[bw syncBoardLists];
+}
+
+- (void) orderFrontMainBrowserAndShowThListForBrd: (NSString *) boardName
+						  addBrdToUsrListIfNeeded: (BOOL) addToList
+{
+	if (CMRMainBrowser != nil) {
+		[[CMRMainBrowser window] makeKeyAndOrderFront : self];
+	} else {
+		[[CMRDocumentController sharedDocumentController] newDocument : self];
+	}
+
+	// addBrdToUsrListIfNeeded オプションは当面の間無視（常に YES 扱いで）
+	[CMRMainBrowser selectRowWhoseNameIs : boardName]; // この結果として outlineView の selectionDidChange: が「確実に」
+													   // 呼び出される限り、そこから showThreadsListForBoardName: が呼び出される
+}
+
+- (IBAction) startHEADCheckDirectly: (id) sender
+{
+	BOOL	hasBeenOnline = [CMRPref isOnlineMode];
+
+	// 簡単のため、いったんオンラインモードを切る
+	if(hasBeenOnline) [self toggleOnlineMode: sender];
+	
+	[self orderFrontMainBrowserAndShowThListForBrd: CMXFavoritesDirectoryName addBrdToUsrListIfNeeded: NO];
+	[CMRMainBrowser reloadThreadsList: sender];
+
+	// 必要ならオンラインに復帰
+	if(hasBeenOnline) [self toggleOnlineMode: sender];
 }
 
 #pragma mark validation
@@ -194,7 +236,7 @@
 	} else if (action_ == @selector(miniaturizeAll:)) {
 		return ([NSApp makeWindowsPerform : @selector(isNotMiniaturizedButCanMinimize) inOrder : YES] != nil);
 	} else if (action_ == @selector(togglePreviewPanel:)) {
-		id tmp_ = [CMRPref sharedImagePreviewer]; // WARNING が出るだろうけど気にせず…
+		id tmp_ = [CMRPref sharedImagePreviewer];
 		return [tmp_ respondsToSelector : @selector(togglePreviewPanel:)];
 	}
 	return YES;
@@ -239,6 +281,22 @@
     {
             [[tmp fileMenu] removeItemAtIndex : openURLMenuItemIndex+1];
     }
+	
+	/* BoardWarrior Task */
+	if ([CMRPref isOnlineMode] && [CMRPref autoSyncBoardList]) {
+		NSDate *lastDate = [CMRPref lastSyncDate];
+		if (!lastDate || [[NSDate date] timeIntervalSinceDate: lastDate] > [CMRPref timeIntervalForAutoSyncPrefs]) {
+			[self runBoardWarrior: nil];
+		}
+	}
+}
+
+- (BOOL) applicationShouldHandleReopen: (NSApplication *) theApplication hasVisibleWindows: (BOOL) flag
+{
+	if (NO == flag) {
+		m_shouldCascadeBrowserWindow = NO;
+	}
+	return YES;
 }
 @end
 

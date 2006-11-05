@@ -1,6 +1,6 @@
 //: CMXPopUpWindowController_p.h
 /**
-  * $Id: CMXPopUpWindowController_p.h,v 1.1 2005/05/11 17:51:09 tsawada2 Exp $
+  * $Id: CMXPopUpWindowController_p.h,v 1.2 2006/11/05 12:53:48 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -30,6 +30,9 @@
 - (void) createHelpWindow;
 - (void) createScrollView;
 - (void) createHTMLTextView;
+- (void) updateLinkTextAttributes;
+- (void) updateAntiAlias;
+
 @end
 
 

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.15 2006/06/28 18:37:32 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.16 2006/11/05 12:53:48 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright (c) 2003, Takanori Ishikawa.
@@ -9,6 +9,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "CMRStatusLineWindowController.h"
+#import "CMRFavoritesManager.h"
 
 @class CMRIndexingStepper;
 @class CMRThreadLayout;
@@ -43,9 +44,6 @@
 	} _flags;
 }
 
-+ (NSString *) nibNameToInitialize;
-+ (BOOL) defaultSettingForCascading;
-
 /* Register history list if relativeIndex == 0 */
 - (void) setThreadContentWithThreadIdentifier : (id  ) aThreadIdentifier
 							  noteHistoryList : (int ) relativeIndex;
@@ -75,7 +73,7 @@
 
 /*** NO_NAME properties ***/
 - (NSString *) detectDefaultNoName;
-- (NSString *) setupDefaultNoNameIfNeeded;
+- (void) setupDefaultNoNameIfNeeded;
 
 - (NSString *) path;
 - (NSString *) title;
@@ -102,11 +100,11 @@
 @interface CMRThreadViewer(Action)
 - (NSPoint) locationForInformationPopUp;
 
+// NOTE: CMRBrowser overrides this method.
+- (NSArray *) targetThreadsForAction: (SEL) action;
+
 - (BOOL) forceDeleteThreadAtPath : (NSString *) filepath
 				   alsoReplyFile : (BOOL      ) deleteReply;
-
-//- (void) checkIfFavItemThenRemove : (NSString *) aPath;
-- (void) copyThreadInfoOf : (NSEnumerator *) Iter_;
 
 // KeyBinding...
 - (IBAction) deleteThread : (id) sender;
@@ -116,14 +114,12 @@
 - (IBAction) toggleAAThread : (id) sender;
 
 - (IBAction) copyThreadAttributes : (id) sender;
-- (IBAction) copyInfoFromContextualMenu : (id) sender;
 - (IBAction) showThreadAttributes : (id) sender;
 
 - (IBAction) copySelectedResURL : (id) sender;
 - (IBAction) reloadIfOnlineMode : (id) sender;
 - (IBAction) openInBrowser : (id) sender;
 - (IBAction) openBBSInBrowser : (id) sender;
-- (IBAction) openLogfile : (id) sender;
 - (IBAction) addFavorites : (id) sender;
 
 // make text area to be first responder
@@ -199,6 +195,10 @@
 
 
 @interface CMRThreadViewer(Validation)
+- (BOOL) validateDeleteThreadItemEnabling: (NSString *) threadPath;
+- (void) validateDeleteThreadItemTitle: (id) theItem;
+- (CMRFavoritesOperation) favoritesOperationForThreads: (NSArray *) threadsArray;
+- (BOOL) validateAddFavoritesItem: (id) theItem forOperation: (CMRFavoritesOperation) operation;
 - (BOOL) validateUIItem : (id) theItem;
 @end
 

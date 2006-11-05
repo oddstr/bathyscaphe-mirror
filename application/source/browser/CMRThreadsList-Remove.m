@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-Remove.m,v 1.6 2006/06/28 18:37:32 tsawada2 Exp $
+  * $Id: CMRThreadsList-Remove.m,v 1.7 2006/11/05 12:53:47 tsawada2 Exp $
   * 
   * CMRThreadsList-Remove.m
   *
@@ -43,7 +43,12 @@
 		NSMutableDictionary		*thread_;
 		
 		thread_ = [self seachThreadByPath : path_];
-		[[self class] clearAttributes : thread_];
+		if (thread_ != nil) {
+			[[self class] clearAttributes : thread_];
+		} else {
+			//NSLog(@"CMRThreadsList: cleanUpItemsToBeRemoved: - seachThreadByPath: returns nil, so add this item to pool");
+			[[CMRFavoritesManager defaultManager] addItemToPoolWithFilePath: path_];
+		}
 	}
 	[_threadsListUpdateLock unlock];
 	
@@ -81,12 +86,12 @@
 		NSArray	*alsoReplyFiles_;
 
 		alsoReplyFiles_ = [[CMRReplyDocumentFileManager defaultManager] replyDocumentFilesArrayWithLogsArray : files];
-		tmp = [[CMRTrashbox trash] performWithFiles : alsoReplyFiles_];
+		tmp = [[CMRTrashbox trash] performWithFiles : alsoReplyFiles_ fetchAfterDeletion: NO];
 	} else {
-		tmp = [[CMRTrashbox trash] performWithFiles : files];
+		tmp = [[CMRTrashbox trash] performWithFiles : files fetchAfterDeletion: YES];
 	}
 
-	//if(tmp && flag) [[CMRFavoritesManager defaultManager] removeFromFavoritesWithPathArray : files];
+	if(tmp && flag) [[CMRFavoritesManager defaultManager] removeFromFavoritesWithPathArray : files];
 	if(tmp)[self cleanUpItemsToBeRemoved : files];
 	
 	return tmp;

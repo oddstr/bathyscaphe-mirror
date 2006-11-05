@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRHostHTMLHandler.m,v 1.4 2006/06/01 15:11:16 tsawada2 Exp $
+  * $Id: CMRHostHTMLHandler.m,v 1.5 2006/11/05 12:53:48 tsawada2 Exp $
   * 
   * CMRHostHTMLHandler.m
   *
@@ -34,7 +34,7 @@
 #define kNamePrefixKey	@"HTML - NamePrefix"
 #define kDatePrefixKey	@"HTML - DatePrefix"
 #define kAllowedTag		@"HTML - AllowedTag"
-
+#define kBrBrTag		@"HTML - MsgSuffixBrTag"
 
 
 @implementation CMRHostHTMLHandler : CMRHostHandler
@@ -47,9 +47,8 @@
 	
 	while ((type_ = [xpp next]) != XMLPULL_END_DOCUMENT) {
 		if (HTML_TAG(xpp, @"head", XMLPULL_END_TAG)) {
-			return title_;
-		
-		}else if (HTML_TAG(xpp, @"title", XMLPULL_START_TAG)) {
+			return title_;		
+		} else if (HTML_TAG(xpp, @"title", XMLPULL_START_TAG)) {
 			[xpp nextText];
 			title_ = [[[xpp text] copy] autorelease];
 		}
@@ -162,13 +161,18 @@ static void formatHostField(NSMutableString *str)
 			// とりあえずここで詰まって先へ進めないと困るので場当たり的対処。
 			if (mail_ != nil) [tmp insertString:mail_ atIndex:found.location];
 			[tmp insertString:@"<>" atIndex:found.location];
-			
+
+			[tmp deleteCharactersInRange: NSMakeRange(found.location-2, 2)]; // v260 added
+
 			[tmp replaceCharacters:@"\n" toString:@""];
 			[tmp strip];
 
 /*
-この時点で：
+この時点で（v259 まで）：
 tmp = @"雪ん子  <><> 2003/09/01(月) 20:00:12 ID:Bc0TyiNc [ ntt2-ppp758.tokyo.sannet.ne.jp ]"
+
+この時点で（v260 以降）：
+tmp = @"雪ん子<><> 2003/09/01(月) 20:00:12 ID:Bc0TyiNc [ ntt2-ppp758.tokyo.sannet.ne.jp ]"
 */
 			// ホストを整形
 			formatHostField(tmp);
@@ -230,10 +234,13 @@ tmp = @"雪ん子  <><> 2003/09/01(月) 20:00:12 ID:Bc0TyiNc [ ntt2-ppp758.tokyo.san
 		
 		if ([self isMessageStopTag : xpp]) {
 			NSRange		found;
+			NSString	*brbrTag = GET_PROPERTY(kBrBrTag);
+			if(!brbrTag) brbrTag = @"<br><br>";
 			
 			[tmp replaceCharacters:@"\n" toString:@""];
 			
-			found = [tmp rangeOfString:@"<br><br>" options:NSBackwardsSearch];
+//			found = [tmp rangeOfString:@"<br><br>" options:NSBackwardsSearch];
+			found = [tmp rangeOfString: brbrTag options: NSBackwardsSearch];
 			if (found.length != 0)
 				[tmp deleteCharactersInRange : found];
 			
@@ -285,7 +292,13 @@ tmp = @"雪ん子  <><> 2003/09/01(月) 20:00:12 ID:Bc0TyiNc [ ntt2-ppp758.tokyo.san
 	id<XmlPullParser>		xpp_;
 	
 	xpp_ = [[[SGXmlPullParser alloc] initHTMLParser] autorelease];
-	
+
+	// 2006-09-07 不必要な部分は切り落とし、パースエラーの可能性を出来る限り減少させる
+	NSRange msgBodyRange = [inputSource rangeOfString: @"</dl>" options: (NSCaseInsensitiveSearch|NSLiteralSearch)];
+	if (msgBodyRange.location != NSNotFound) {
+		inputSource = [inputSource substringToIndex: NSMaxRange(msgBodyRange)];
+		inputSource = [inputSource stringByAppendingString: @"<br><hr></body></html>"];
+	}
 	[xpp_ setInputSource : inputSource];
 	// 生のdatに変換するので
 	// エンティティは解決しない

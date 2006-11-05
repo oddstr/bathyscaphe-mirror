@@ -6,13 +6,13 @@
 
 #define APP_INDEXINGSTEPPER_LOADNIB_NAME		@"CMRIndexingStepper"
 #define APP_INDEXINGSTEPPER_FORMAT				@"%d/%d"
-#define APP_INDEXINGSTEPPER_BUTTON_WIDTH		16.0f
-#define APP_INDEXINGSTEPPER_BUTTON_HEIGHT		18.0f
+//#define APP_INDEXINGSTEPPER_BUTTON_WIDTH		16.0f // Deprecated. Set it with Interface Builder.
+//#define APP_INDEXINGSTEPPER_BUTTON_HEIGHT		18.0f // Deprecated. Set it with Interface Builder.
 #define APP_INDEXINGSTEPPER_MIN_BUTTON_NAME		@"moveTop"
 #define APP_INDEXINGSTEPPER_DEC_BUTTON_NAME		@"movePrev"
 #define APP_INDEXINGSTEPPER_INC_BUTTON_NAME		@"moveNext"
 #define APP_INDEXINGSTEPPER_MAX_BUTTON_NAME		@"moveEnd"
-#define APP_INDEXINGSTEPPER_UPDATED_BUTTON_NAME		@"moveUpdated"
+//#define APP_INDEXINGSTEPPER_UPDATED_BUTTON_NAME		@"moveUpdated" // Deprecated. This button no longer use icon.
 
 
 @interface CMRIndexingStepper(Private)
@@ -54,9 +54,10 @@
 
 
 @interface CMRIndexingStepper(ViewInitializeHelper)
-+ (NSSize) defaultButtonSize;
-- (void) setupButton : (NSButton *) button
-		   iconImage : (NSImage  *) icon;
+//+ (NSSize) defaultButtonSize;
+//- (void) setupButton : (NSButton *) button
+//		   iconImage : (NSImage  *) icon;
+- (void) setupButton: (NSButton *) button iconImageName: (NSString *) imageName;
 @end
 
 

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.m,v 1.11 2006/09/02 11:41:01 masakih Exp $
+  * $Id: CMRThreadsList.m,v 1.12 2006/11/05 12:53:47 tsawada2 Exp $
   * 
   * CMRThreadsList.m
   *
@@ -116,6 +116,8 @@ standard_writing:*/
 		[self writeListToFileNow];
 	}
 */	
+
+	
 	[_BBSName release];
 
 	[_worker release];
@@ -217,7 +219,7 @@ standard_writing:*/
 {
 	if(nil == _filteredThreads) {
 		[self filterByStatus : [self filteringMask]];
-	} else if ([_filteredThreads containsObject : @"SearchNotFound"]) {
+	} else if ([_filteredThreads count] == 0) {//[_filteredThreads containsObject : @"SearchNotFound"]) {
 		//NSLog(@"Contains SearchNotFound.");
 		return nil;
 	}
@@ -268,7 +270,9 @@ standard_writing:*/
 }
 - (void) sortByKey : (NSString *) key
 {
+	[self _filteredThreadsLock];
 	[self _sortArrayByKey:key array:[self filteredThreads]];
+	[self _filteredThreadsUnlock];
 }
 - (void) _sortArrayByKey : (NSString       *) key
                    array : (NSMutableArray *) theArray

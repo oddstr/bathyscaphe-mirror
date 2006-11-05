@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.42 2006/06/25 17:06:42 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.43 2006/11/05 12:53:47 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -15,7 +15,6 @@
 #import <SGAppKit/CMRPullDownIconBtn.h>
 #import <SGAppKit/BSIconAndTextCell.h>
 
-#import "DatabaseManager.h"
 
 @implementation CMRBrowser(ViewAccessor)
 - (CMRThreadViewer *) threadViewer
@@ -87,6 +86,24 @@
 		m_addBoardSheetController = [[AddBoardSheetController alloc] init];
 	}
 	return m_addBoardSheetController;
+}
+
+- (EditBoardSheetController *) editBoardSheetController
+{
+    if (nil == m_editBoardSheetController) {
+		m_editBoardSheetController = [[EditBoardSheetController alloc] init];
+	}
+	return m_editBoardSheetController;
+}
+
+- (NSString *) currentSearchString
+{
+	return [[self document] searchString];
+}
+
+- (void) setCurrentSearchString: (NSString *) newString
+{
+	[[self document] setSearchString: newString];
 }
 @end
 

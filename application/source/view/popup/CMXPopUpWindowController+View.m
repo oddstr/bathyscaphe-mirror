@@ -1,6 +1,6 @@
 //: CMXPopUpWindowController+View.m
 /**
-  * $Id: CMXPopUpWindowController+View.m,v 1.7 2006/06/28 18:37:32 tsawada2 Exp $
+  * $Id: CMXPopUpWindowController+View.m,v 1.8 2006/11/05 12:53:48 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -10,7 +10,6 @@
 #import <SGAppKit/BSLayoutManager.h>
 #import "CMRPopUpTemplateKeys.h"
 #import "CMXPopUpWindowManager.h"
-#import "AppDefaults.h"
 #import "SGContextHelpPanel.h"
 #import "CMRMessageAttributesTemplate.h"
 
@@ -27,6 +26,7 @@
 		name : SGHTMLViewMouseExitedNotification
 		object : [self textView]];
 }
+
 - (void) createUIComponents
 {
 	[self createHelpWindow];
@@ -91,6 +91,27 @@
 	[self setScrollView : scrollview_];
 }
 
+- (void) updateLinkTextAttributes
+{
+	NSTextView *textView_ = [self textView];
+	// リンク文字列の書式
+	if ([self usesAlternateTextColor]) {
+		if ([self linkTextHasUnderline]) {
+			[textView_ setLinkTextAttributes : [NSDictionary dictionaryWithObject : [NSNumber numberWithInt : NSUnderlineStyleSingle]
+																		   forKey : NSUnderlineStyleAttributeName]];
+		} else {
+			[textView_ setLinkTextAttributes : [NSDictionary empty]];
+		}
+	} else {
+		[textView_ setLinkTextAttributes : [[CMRMessageAttributesTemplate sharedTemplate] attributesForAnchor]];
+	}
+}
+
+- (void) updateAntiAlias
+{
+	[(BSLayoutManager *)[[self textView] layoutManager] setShouldAntialias: [self shouldAntialias]];
+}
+
 - (void) createHTMLTextView
 {
 	NSLayoutManager		*layoutManager_;
@@ -129,17 +150,6 @@
 	[textView_ setMinSize : NSMakeSize(0.0, contentSize_.height)];
 	[textView_ setMaxSize : NSMakeSize(1e7, 1e7)];
 	
-	// リンク文字列の書式はここでセットしておく
-	if ([CMRPref isResPopUpTextDefaultColor]) {
-		if ([CMRPref hasMessageAnchorUnderline]) {
-			[textView_ setLinkTextAttributes : [NSDictionary dictionaryWithObject : [NSNumber numberWithInt : NSUnderlineStyleSingle]
-																		   forKey : NSUnderlineStyleAttributeName]];
-		} else {
-			[textView_ setLinkTextAttributes : [NSDictionary empty]];
-		}
-	} else {
-		[textView_ setLinkTextAttributes : [[CMRMessageAttributesTemplate sharedTemplate] attributesForAnchor]];
-	}
 	[textView_ setTextContainerInset : POPUP_TEXTINSET];
 	
 	[textView_ setVerticallyResizable :YES];
@@ -281,32 +291,36 @@
 	return usedRect_;
 }
 
-- (void) setUpScrollers
+- (void) updateScrollerSize
 {
-	BOOL			flag_ = YES;
+	if (NO == [[self scrollView] hasVerticalScroller]) return;
+
 	NSScroller		*scroller_;
-	
-	if (NO == [self hasVerticalScroller])
-		return;
-	
-	if ([self autohidesScrollers]) {
-		float	contentHeight_;
-		
-		contentHeight_ = ([[self scrollView] contentSize]).height;
-		flag_ = contentHeight_ < NSHeight([[self textView] frame]);
-	}
-	[[self scrollView] setHasVerticalScroller : flag_];
-	
-	if (NO == flag_)
-		return;
-	
+
 	scroller_ = [[self scrollView] verticalScroller];
-	if ([self verticalScrollerIsSmall]) {
+	if ([self usesSmallScroller]) {
 		[scroller_ setControlSize : NSSmallControlSize];
 	} else {
 		[scroller_ setControlSize : NSRegularControlSize];
 	}
 }
+
+- (void) setUpScrollers
+{
+	BOOL			flag_ = YES;
+	float	contentHeight_;
+	
+	contentHeight_ = ([[self scrollView] contentSize]).height;
+	flag_ = contentHeight_ < NSHeight([[self textView] frame]);
+
+	[[self scrollView] setHasVerticalScroller : flag_];
+	
+	if (NO == flag_)
+		return;
+
+	[self updateScrollerSize];
+}
+
 - (void) sizeToFit
 {
 	NSScrollView		*scrollView_ = [self scrollView];
@@ -329,7 +343,6 @@
 	if (scrollViewSize_.height > maxSize_.height) 
 		scrollViewSize_.height = maxSize_.height;
 	
-	//[textView_ setFrameSize : textViewSize_];
 	[[self window] setContentSize : scrollViewSize_];
 	
 	// ScrollViewにtextViewを合わせて、再度レイアウト
@@ -344,13 +357,11 @@
 
 
 @implementation CMXPopUpWindowController(Accessor)
-+ (float) windowAlphaValue
+- (NSColor *) backgroundColor
 {
-	/*id	tmp = SGTemplateResource(kPopUpWindowAlphaKey);
-	UTILAssertKindOfClass(tmp, NSNumber);
-	return [tmp floatValue];*/
-	return [CMRPref resPopUpBgAlphaValue];
+	return [[self window] backgroundColor];
 }
+
 - (void) setBackgroundColor : (NSColor *) aColor
 {
 	// window
@@ -362,29 +373,54 @@
 	[[self textView] setDrawsBackground : NO];
 	[[self textView] setBackgroundColor : aColor];
 }
-- (NSColor *) backgroundColor
+
+- (float) alphaValue
 {
-	return [[self window] backgroundColor];
+	return [[self window] alphaValue];
 }
-- (void) setIsSeeThrough : (BOOL) flag
+- (void) setAlphaValue: (float) floatValue
 {
-	[[self window] setAlphaValue : 
-		(flag ? [[self class] windowAlphaValue] : 1.0f)];
+	[[self window] setAlphaValue: floatValue];
 }
-- (BOOL) isSeeThrough
+- (BOOL) usesAlternateTextColor
 {
-	return ([[self class] windowAlphaValue] == [[self window] alphaValue]);
+	return bs_usesAlternateTextColor;
 }
-- (BOOL) autohidesScrollers
+- (void) setUsesAlternateTextColor: (BOOL) TorF
 {
-	return YES;
+	bs_usesAlternateTextColor = TorF;
 }
-- (BOOL) hasVerticalScroller
+- (NSColor *) alternateTextColor
 {
-	return YES;
+	return bs_alternateTextColor;
 }
-- (BOOL) verticalScrollerIsSmall
+- (void) setAlternateTextColor: (NSColor *) aColor
 {
-	return [CMRPref popUpWindowVerticalScrollerIsSmall];
+	bs_alternateTextColor = aColor;
+}
+
+- (BOOL) usesSmallScroller
+{
+	return bs_usesSmallScroller;
+}
+- (void) setUsesSmallScroller: (BOOL) TorF
+{
+	bs_usesSmallScroller = TorF;
+}
+- (BOOL) shouldAntialias
+{
+	return bs_shouldAntialias;
+}
+- (void) setShouldAntialias: (BOOL) TorF
+{
+	bs_shouldAntialias = TorF;
+}
+- (BOOL) linkTextHasUnderline
+{
+	return bs_linkTextHasUnderline;
+}
+- (void) setLinkTextHasUnderline: (BOOL) TorF
+{
+	bs_linkTextHasUnderline = TorF;
 }
 @end

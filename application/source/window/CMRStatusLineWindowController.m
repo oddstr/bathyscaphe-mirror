@@ -8,12 +8,10 @@
   * @version 1.0.0d1 (02/09/24  11:19:36 AM)
   *
   */
-#import "CMRStatusLineWindowController_p.h"
+#import "CMRStatusLineWindowController.h"
 #import "CocoMonar_Prefix.h"
-
 #import "CMRTask.h"
 #import "CMRTaskManager.h"
-
 
 
 @implementation CMRStatusLineWindowController
@@ -24,12 +22,6 @@
 	[super dealloc];
 }
 
-- (IBAction) toggleStatusLineShown : (id) sender
-{
-	NSBeep();
-	NSLog(@"toggleStatusLineShown: is deprecated.");
-	//[[self statusLine] toggleStatusLineShown : sender];
-}
 // board / thread signature for historyManager .etc
 - (id) boardIdentifier
 {
@@ -49,25 +41,13 @@
 	if (nil == theItem) return NO;
 	action_ = [theItem action];
 	
-	if (action_ == @selector(toggleStatusLineShown:)) {
-		/*NSString		*title_;
-		
-		title_ = [[self statusLine] isVisible]
-					? NSLocalizedString(APP_STATUSLINE_WINDOW_HIDDEN_KEY, nil)
-					: NSLocalizedString(APP_STATUSLINE_WINDOW_SHOWN_KEY, nil);
-		UTILAssertNotNil(title_);
-		
-		[theItem setTitle : title_];
-		return ([self statusLine] != nil);*/
-		return NO;
-	}
 	// 「ウインドウの位置と領域を記憶」
 	if (action_ == @selector(saveAsDefaultFrame:)) {
 		return YES;
 	}
 	if (action_ == @selector(cancelCurrentTask:)) {
 		id<CMRTask> tm = [CMRTaskManager defaultManager];
-		return ([tm isInProgress] != NO);
+		return ([tm isInProgress]);
 	}	
 	return NO;
 }
@@ -78,7 +58,7 @@
 	action_ = [item_ action];
 	if (action_ == @selector(cancelCurrentTask:))
 	{ 
-		return ([[CMRTaskManager defaultManager] isInProgress] != NO); 
+		return ([[CMRTaskManager defaultManager] isInProgress]); 
 	}
 	
 	return [super validateToolbarItem : item_];
@@ -112,7 +92,6 @@
 - (void) setupStatusLine
 {
 	UTILAssertNotNil([self statusLine]);
-	//[[self statusLine] setWindow : [self window]];
 }
 - (void) setupUIComponents
 {

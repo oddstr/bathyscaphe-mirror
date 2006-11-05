@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.16 2006/06/13 01:16:35 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.17 2006/11/05 12:53:48 tsawada2 Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -19,7 +19,6 @@
 #import "CMRThreadView.h"
 #import "CMRNetRequestQueue.h"
 
-//#import "NSCharacterSet+CMXAdditions.h"
 #import <SGAppKit/NSWorkspace-SGExtensions.h>
 
 
@@ -78,49 +77,46 @@ NSString *const CMRThreadViewerRunSpamFilterNotification = @"CMRThreadViewerRunS
 		NSDictionary			*dict_;
 		CMRThreadAttributes		*attr_;
 		NSAttributedString		*template_;
+		NSString				*title_;
 		
-		dict_ = [[[NSDictionary alloc] initWithContentsOfFile:logPath_] autorelease];
+		dict_ = [[[NSDictionary alloc] initWithContentsOfFile: logPath_] autorelease];
 		if (!dict_) {
 			// ThreadsList.plist があるか
-			NSString		*plistPath_;
-			plistPath_ = [[CMRDocumentFileManager defaultManager] threadsListPathWithBoardName : boardName_];
+			NSString		*plistPath_ = [[CMRDocumentFileManager defaultManager] threadsListPathWithBoardName: boardName_];
 
-			if ([[NSFileManager defaultManager] isReadableFileAtPath:plistPath_] ) {
-				// ThreadsList.plist がある
-				NSArray	*threadsList_, *idArray_;
-				int tIndex_ = 0;
+			if (NO == [[NSFileManager defaultManager] isReadableFileAtPath: plistPath_] ) goto ErrInvalidLink;
 
-				threadsList_ = [NSArray arrayWithContentsOfFile : plistPath_];
-				// valueForKey: is available in Mac OS X 10.3 and later.
-				idArray_ = [threadsList_ valueForKey : ThreadPlistIdentifierKey];
-				tIndex_ = [idArray_ indexOfObject : [[logPath_ stringByDeletingPathExtension] lastPathComponent]];
-				// ThreadsList.plist の中にスレタイがある場合はそれを使う
-				if (tIndex_ != NSNotFound) {
-					NSString *title_ = [[threadsList_ objectAtIndex : tIndex_] valueForKey : CMRThreadTitleKey];
-					template_ = [[[NSAttributedString alloc] initWithString : title_] autorelease];
-					if (!template_) goto ErrInvalidLink;
+			NSArray	*threadsList_, *idArray_;
+			int tIndex_ = 0;
 
-					[kBuffer setAttributedString : template_];
-				} else {
-					goto ErrInvalidLink;
-				}
-			} else {
-				goto ErrInvalidLink;
-			}
+			threadsList_ = [NSArray arrayWithContentsOfFile: plistPath_];
+
+			idArray_ = [threadsList_ valueForKey: ThreadPlistIdentifierKey];
+			tIndex_ = [idArray_ indexOfObject: [[logPath_ stringByDeletingPathExtension] lastPathComponent]];
+
+			// ThreadsList.plist の中にスレタイがあるか
+			if (tIndex_ == NSNotFound) goto ErrInvalidLink;
+
+			title_ = [NSString stringWithFormat: @"%@ - %@",
+												 [[threadsList_ objectAtIndex: tIndex_] valueForKey: CMRThreadTitleKey],
+												 boardName_];
+
+			template_ = [[[NSAttributedString alloc] initWithString: title_] autorelease];
+			if (!template_) goto ErrInvalidLink;
+
+			[kBuffer setAttributedString: template_];
+
 		} else {
-			attr_ = [[[CMRThreadAttributes alloc] initWithDictionary:dict_] autorelease];
-		
-			// 暫定的に表示内容は「情報を表示」のものをそのまま借用してます。
-			// ポップアップが大きすぎると言う苦情がくるかもしれません。 by masakih
-		
-			/* 2005-06-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-			   やはりポップアップが大きすぎる気がするので、表示内容をスレタイのみに限定してみる。
-			*/
-			template_ = [[[NSAttributedString alloc] initWithString : [attr_ threadTitle]] autorelease];
+			attr_ = [[[CMRThreadAttributes alloc] initWithDictionary: dict_] autorelease];
+			title_ = [NSString stringWithFormat: @"%@ - %@", [attr_ threadTitle], boardName_];
+
+			template_ = [[[NSAttributedString alloc] initWithString: title_] autorelease];
 			if (!template_) goto ErrInvalidLink;
 		
-			[kBuffer setAttributedString : template_];
+			[kBuffer setAttributedString: template_];
 		}
+	} else if ([CMRThreadLinkProcessor parseBoardLink: aLink boardName: &boardName_ boardURL: &boardURL_]) {
+		[kBuffer setAttributedString: [[[NSAttributedString alloc] initWithString: boardName_] autorelease]];
 	} else {
 		SGBaseRangeArray		*indexRanges_;
 		SGBaseRangeEnumerator	*iter_;
@@ -394,6 +390,13 @@ ErrInvalidLink:
 		[dm ensureDirectoryExistsWithBoardName:boardName_];
 		return [CMRThreadDocument showDocumentWithContentOfFile : filepath_
 													contentInfo : contentInfo_];
+	}
+	
+	// 2ch (or other) BBS
+	if ([CMRThreadLinkProcessor parseBoardLink: aLink boardName: &boardName_ boardURL: &boardURL_]) {
+		[[NSApp delegate] orderFrontMainBrowserAndShowThListForBrd: boardName_ addBrdToUsrListIfNeeded: YES];
+		
+		return YES;
 	}
 
 	if ([self tryPreviewLink:aLink]) {

@@ -25,4 +25,7 @@
 
 + (BOOL) isBeProfileLinkUsingLocalScheme : (id		   ) aLink
 							   linkParam : (NSString **) aParam;
+
+// available in MeteorSweeper and later.
++ (BOOL) parseBoardLink: (id) aLink boardName: (NSString **) pBoardName boardURL: (NSURL **) pBoardURL;
 @end

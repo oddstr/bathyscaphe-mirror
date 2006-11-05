@@ -49,7 +49,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 	[_messageAttributesForText release];
 	[_messageAttributesForBeProfileLink release];
 	[_messageAttributesForHost release];
-	[_blockQuoteParagraphStyle release];
 	
 	[super dealloc];
 }
@@ -93,24 +92,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 {
 	return [self messageAttributesForHost];
 }
-
-//#pragma mark Other Attributes
-/* <ul> */
-// deprecated in LittleWish and later.
-/*- (NSParagraphStyle *) blockQuoteParagraphStyle
-{
-	float		indent_;
-	
-	if(_blockQuoteParagraphStyle != nil)
-		return _blockQuoteParagraphStyle;
-	
-	indent_ = [CMRPref messageHeadIndent];
-	indent_ *= 2;
-	_blockQuoteParagraphStyle = [self messageParagraphStyleWithIndent : indent_];
-	[_blockQuoteParagraphStyle retain];
-	
-	return _blockQuoteParagraphStyle;
-}*/
 
 #pragma mark Text Attachments
 - (NSAttributedString *) mailAttachmentStringWithMail : (NSString *) address
@@ -187,6 +168,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 	}
 	return st_lastUpdatedHeaderAttachment;
 }
+
 /* 省略されたレスがあります */
 - (NSTextAttachment *) ellipsisProxyAttachmentWithName : (NSString *) aName
 											 mouseDown : (NSString *) mouseDownImg
@@ -445,130 +427,10 @@ ErrCreateAttachment:
 	}
 }
 
-/* Accessor for _messageAttributesForAnchor */
-- (NSMutableDictionary *) messageAttributesForAnchor
+- (NSNumber *) underlineStyleWithBool : (BOOL) hasUnderline
 {
-	if(nil == _messageAttributesForAnchor){
-		BOOL		hasUnderline_;
-		
-		_messageAttributesForAnchor = 
-			[[[self class] defaultAttributes] mutableCopyWithZone : nil];
-		[self setAttributeInDictionary : _messageAttributesForAnchor
-						 attributeName : NSForegroundColorAttributeName
-								 value : [CMRPref messageAnchorColor]];
-		
-		hasUnderline_ = [CMRPref hasMessageAnchorUnderline];
-		[self setAttributeInDictionary : _messageAttributesForAnchor
-						 attributeName : NSUnderlineStyleAttributeName
-								 value : [self underlineStyleWithBool : hasUnderline_]];
-	}
-	return _messageAttributesForAnchor;
-}
-
-/* Accessor for _messageAttributesForName */
-- (NSMutableDictionary *) messageAttributesForName
-{
-	if(nil == _messageAttributesForName){
-		_messageAttributesForName = 
-			[[[self class] defaultAttributes] mutableCopyWithZone : nil];
-		[self setAttributeInDictionary : _messageAttributesForName
-						 attributeName : NSForegroundColorAttributeName
-								 value : [CMRPref messageNameColor]];
-		// フォントは標準テキストと同じ。
-		[self setAttributeInDictionary : _messageAttributesForName
-						 attributeName : NSFontAttributeName
-								 value : [CMRPref threadsViewFont]];
-	}
-	return _messageAttributesForName;
-
-}
-
-/* Accessor for _messageAttributesForTitle */
-- (NSMutableDictionary *) messageAttributesForTitle
-{
-	if(nil == _messageAttributesForTitle){
-		_messageAttributesForTitle = 
-			[[[self class] defaultAttributes] mutableCopyWithZone : nil];
-		[self setAttributeInDictionary : _messageAttributesForTitle
-						 attributeName : NSForegroundColorAttributeName
-								 value : [CMRPref messageTitleColor]];
-		[self setAttributeInDictionary : _messageAttributesForTitle
-						 attributeName : NSFontAttributeName
-								 value : [CMRPref messageTitleFont]];
-	}
-	return _messageAttributesForTitle;
-}
-
-/* Accessor for _messageAttributes */
-- (NSMutableDictionary *) messageAttributes
-{
-	if(nil == _messageAttributes){
-		float					indent_;
-		NSParagraphStyle		*messageParagraphStyle_;
-		
-		indent_ = [CMRPref messageHeadIndent];
-		messageParagraphStyle_ = [self messageParagraphStyleWithIndent : indent_];
-		
-		_messageAttributes = 
-			[[[self class] defaultAttributes] mutableCopyWithZone : nil];
-		[self setAttributeInDictionary : _messageAttributes
-						 attributeName : NSParagraphStyleAttributeName
-								 value : messageParagraphStyle_];
-		[self setAttributeInDictionary : _messageAttributes
-						 attributeName : NSForegroundColorAttributeName
-								 value : [CMRPref messageColor]];
-		[self setAttributeInDictionary : _messageAttributes
-						 attributeName : NSFontAttributeName
-								 value : [CMRPref messageFont]];
-	}
-	return _messageAttributes;
-}
-
-/* Accessor for _messageAttributesForText */
-- (NSMutableDictionary *) messageAttributesForText
-{
-	if(nil == _messageAttributesForText){
-		_messageAttributesForText = 
-			[[[self class] defaultAttributes] mutableCopyWithZone : nil];
-		
-		[self setAttributeInDictionary : _messageAttributesForText
-						 attributeName : NSParagraphStyleAttributeName
-								 value : [self indexParagraphStyleWithSpacingBefore : [CMRPref msgIdxSpacingBefore]
-																	andSpacingAfter : [CMRPref msgIdxSpacingAfter]
-										 ]];
-		[self setAttributeInDictionary : _messageAttributesForText
-						 attributeName : NSFontAttributeName
-								 value : [CMRPref threadsViewFont]];
-		[self setAttributeInDictionary : _messageAttributesForText
-						 attributeName : NSForegroundColorAttributeName
-								 value : [CMRPref threadsViewColor]];
-	}
-	return _messageAttributesForText;
-}
-- (NSMutableDictionary *) messageAttributesForBeProfileLink
-{
-	if(nil == _messageAttributesForBeProfileLink){
-		_messageAttributesForBeProfileLink = 
-			[[[self class] defaultAttributes] mutableCopyWithZone : nil];
-		[self setAttributeInDictionary : _messageAttributesForBeProfileLink
-						 attributeName : NSFontAttributeName
-								 value : [CMRPref messageBeProfileFont]];
-	}
-	return _messageAttributesForBeProfileLink;
-}
-- (NSMutableDictionary *) messageAttributesForHost
-{
-	if(nil == _messageAttributesForHost){
-		_messageAttributesForHost = 
-			[[[self class] defaultAttributes] mutableCopyWithZone : nil];
-		[self setAttributeInDictionary : _messageAttributesForHost
-						 attributeName : NSForegroundColorAttributeName
-								 value : [CMRPref messageHostColor]];
-		[self setAttributeInDictionary : _messageAttributesForHost
-						 attributeName : NSFontAttributeName
-								 value : [CMRPref messageHostFont]];
-	}
-	return _messageAttributesForHost;
+	// 2005-09-09 tsawada2 : Mac OS X 10.3 以前とは互換性がないので注意
+	return hasUnderline ? [NSNumber numberWithInt : NSUnderlineStyleSingle] : [NSNumber numberWithInt : NSUnderlineStyleNone];
 }
 
 - (NSParagraphStyle *) messageParagraphStyleWithIndent : (float) anIndent
@@ -595,10 +457,126 @@ ErrCreateAttachment:
 	return [paraStyle_ autorelease];
 }
 
-
-- (NSNumber *) underlineStyleWithBool : (BOOL) hasUnderline
+#pragma mark Accessors
+/* Accessor for _messageAttributesForAnchor */
+- (NSMutableDictionary *) messageAttributesForAnchor
 {
-	// 2005-09-09 tsawada2 : Mac OS X 10.3 以前とは互換性がないので注意
-	return hasUnderline ? [NSNumber numberWithInt : NSUnderlineStyleSingle] : [NSNumber numberWithInt : NSUnderlineStyleNone];
+	if(nil == _messageAttributesForAnchor){		
+		_messageAttributesForAnchor = [[[self class] defaultAttributes] mutableCopyWithZone : nil];
+
+		[self setAttributeInDictionary : _messageAttributesForAnchor
+						 attributeName : NSForegroundColorAttributeName
+								 value : [CMRPref messageAnchorColor]];
+		
+		[self setAttributeInDictionary : _messageAttributesForAnchor
+						 attributeName : NSUnderlineStyleAttributeName
+								 value : [self underlineStyleWithBool : [CMRPref hasMessageAnchorUnderline]]];
+	}
+	return _messageAttributesForAnchor;
+}
+
+/* Accessor for _messageAttributesForName */
+- (NSMutableDictionary *) messageAttributesForName
+{
+	if(nil == _messageAttributesForName){
+		_messageAttributesForName = [[[self class] defaultAttributes] mutableCopyWithZone : nil];
+
+		[self setAttributeInDictionary : _messageAttributesForName
+						 attributeName : NSForegroundColorAttributeName
+								 value : [CMRPref messageNameColor]];
+		// フォントは標準テキストと同じ。
+		[self setAttributeInDictionary : _messageAttributesForName
+						 attributeName : NSFontAttributeName
+								 value : [CMRPref threadsViewFont]];
+	}
+	return _messageAttributesForName;
+}
+
+/* Accessor for _messageAttributesForTitle */
+- (NSMutableDictionary *) messageAttributesForTitle
+{
+	if(nil == _messageAttributesForTitle){
+		_messageAttributesForTitle = [[[self class] defaultAttributes] mutableCopyWithZone : nil];
+
+		[self setAttributeInDictionary : _messageAttributesForTitle
+						 attributeName : NSForegroundColorAttributeName
+								 value : [CMRPref messageTitleColor]];
+		[self setAttributeInDictionary : _messageAttributesForTitle
+						 attributeName : NSFontAttributeName
+								 value : [CMRPref messageTitleFont]];
+	}
+	return _messageAttributesForTitle;
+}
+
+/* Accessor for _messageAttributes */
+- (NSMutableDictionary *) messageAttributes
+{
+	if(nil == _messageAttributes){
+		float					indent_;
+		NSParagraphStyle		*messageParagraphStyle_;
+		
+		indent_ = [CMRPref messageHeadIndent];
+		messageParagraphStyle_ = [self messageParagraphStyleWithIndent : indent_];
+		
+		_messageAttributes = [[[self class] defaultAttributes] mutableCopyWithZone : nil];
+
+		[self setAttributeInDictionary : _messageAttributes
+						 attributeName : NSParagraphStyleAttributeName
+								 value : messageParagraphStyle_];
+		[self setAttributeInDictionary : _messageAttributes
+						 attributeName : NSForegroundColorAttributeName
+								 value : [CMRPref messageColor]];
+		[self setAttributeInDictionary : _messageAttributes
+						 attributeName : NSFontAttributeName
+								 value : [CMRPref messageFont]];
+	}
+	return _messageAttributes;
+}
+
+/* Accessor for _messageAttributesForText */
+- (NSMutableDictionary *) messageAttributesForText
+{
+	if(nil == _messageAttributesForText){
+		_messageAttributesForText = [[[self class] defaultAttributes] mutableCopyWithZone : nil];
+		
+		[self setAttributeInDictionary : _messageAttributesForText
+						 attributeName : NSParagraphStyleAttributeName
+								 value : [self indexParagraphStyleWithSpacingBefore : [CMRPref msgIdxSpacingBefore]
+																	andSpacingAfter : [CMRPref msgIdxSpacingAfter]]];
+		[self setAttributeInDictionary : _messageAttributesForText
+						 attributeName : NSFontAttributeName
+								 value : [CMRPref threadsViewFont]];
+		[self setAttributeInDictionary : _messageAttributesForText
+						 attributeName : NSForegroundColorAttributeName
+								 value : [CMRPref threadsViewColor]];
+	}
+	return _messageAttributesForText;
+}
+
+- (NSMutableDictionary *) messageAttributesForBeProfileLink
+{
+	if(nil == _messageAttributesForBeProfileLink){
+		_messageAttributesForBeProfileLink = [[[self class] defaultAttributes] mutableCopyWithZone : nil];
+
+		[self setAttributeInDictionary : _messageAttributesForBeProfileLink
+						 attributeName : NSFontAttributeName
+								 value : [CMRPref messageBeProfileFont]];
+	}
+	return _messageAttributesForBeProfileLink;
+}
+
+- (NSMutableDictionary *) messageAttributesForHost
+{
+	if(nil == _messageAttributesForHost){
+		_messageAttributesForHost = [[[self class] defaultAttributes] mutableCopyWithZone : nil];
+
+		[self setAttributeInDictionary : _messageAttributesForHost
+						 attributeName : NSForegroundColorAttributeName
+								 value : [CMRPref messageHostColor]];
+		[self setAttributeInDictionary : _messageAttributesForHost
+						 attributeName : NSFontAttributeName
+								 value : [CMRPref messageHostFont]];
+	}
+	return _messageAttributesForHost;
 }
 @end

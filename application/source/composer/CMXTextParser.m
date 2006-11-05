@@ -1,5 +1,5 @@
 /**
-  * $Id: CMXTextParser.m,v 1.20 2006/06/02 19:21:14 tsawada2 Exp $
+  * $Id: CMXTextParser.m,v 1.21 2006/11/05 12:53:47 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -18,11 +18,11 @@
 @defined     DATE2CH_CALENDAR_FORMAT
 @discussion  2channel Data Format
 */
-#define DATE2CH_CALENDAR_FORMAT_LATE2005	@"%Y/%m/%d %H:%M:%S.%F"
-#define DATE2CH_CALENDAR_FORMAT_SEC			@"%y/%m/%d %H:%M:%S"
-#define DATE2CH_CALENDAR_FORMAT_SEC_4KETA	@"%Y/%m/%d %H:%M:%S"
-#define DATE2CH_CALENDAR_FORMAT				@"%y/%m/%d %H:%M"
-#define DATE2CH_CALENDAR_FORMAT_4KETA		@"%Y/%m/%d %H:%M"
+//#define DATE2CH_CALENDAR_FORMAT_LATE2005	@"%Y/%m/%d %H:%M:%S.%F"
+//#define DATE2CH_CALENDAR_FORMAT_SEC			@"%y/%m/%d %H:%M:%S"
+//#define DATE2CH_CALENDAR_FORMAT_SEC_4KETA	@"%Y/%m/%d %H:%M:%S"
+//#define DATE2CH_CALENDAR_FORMAT				@"%y/%m/%d %H:%M"
+//#define DATE2CH_CALENDAR_FORMAT_4KETA		@"%Y/%m/%d %H:%M"
 
 static NSString *const CMXTextParserDate2chSeparater		= @"(";
 static NSString *const CMXTextParserDate2chSeparater_close  = @")";
@@ -376,7 +376,6 @@ static void resolveInvalidAmpEntity(NSMutableString *aSource)
 	
 	int			i, cnt;
 	NSString	*result = nil;
-	//NSString	*result;
 	
 	UTIL_DEBUG_METHOD;
 	
@@ -615,10 +614,20 @@ static BOOL divideDateExtraField(
 						  options : NSLiteralSearch
 						    range : search_];
 	
-	if (0 == found_.length || NSNotFound == found_.location)
-		goto only_date_field;
-	
-	substringIndex_ = found_.location;
+	if (0 == found_.length || NSNotFound == found_.location) {
+		// BBSPINK のあぼーん（うふーん）で、「ID:DELETED」というのがくっついてくる。これを切り出すための
+		// とりあえずの対応
+		NSRange delRange_;
+		delRange_ = [field rangeOfString: @"DELETED" options: NSLiteralSearch range: search_];
+		if (delRange_.length == 0) {
+			goto only_date_field;
+		} else {
+			substringIndex_ = delRange_.location-4;
+		}
+	} else {
+		substringIndex_ = found_.location;
+	}
+
 	if (datePart != NULL)
 		*datePart = [field substringToIndex : substringIndex_];
 	
@@ -639,6 +648,9 @@ only_date_field:
 
 static id dateWith2chDateString(NSString *theString)
 {
+    static CFDateFormatterRef   kDateFormatterStd = NULL;
+    static CFDateFormatterRef   kDateFormatterAlt = NULL;
+
 	id					date_ = nil;
 	NSMutableString		*dateString_ = nil;
 	NSRange				found_;
@@ -649,12 +661,21 @@ static id dateWith2chDateString(NSString *theString)
 	NSLog(@"dateWith2chDateString: %@", theString);
 #endif
 
+    if (kDateFormatterStd == NULL) {
+		CFLocaleRef locale = CFLocaleCopyCurrent();
+		kDateFormatterStd = CFDateFormatterCreate(NULL, locale, kCFDateFormatterNoStyle, kCFDateFormatterNoStyle);
+        kDateFormatterAlt = CFDateFormatterCreate(NULL, locale, kCFDateFormatterNoStyle, kCFDateFormatterNoStyle);
+
+        // 片方のフォーマッタはフォーマットを「最もありそうなもの」に固定。
+		CFDateFormatterSetFormat(kDateFormatterStd, CFSTR("yy/MM/dd HH:mm:ss"));
+        // もう片方のフォーマッタは「残りの可能性」に合わせて随時フォーマットを再指定する
+    }
+
 	// 前後の空白を除去し、さらに曜日欄をカッコを含めて除去する。
 	dateString_ = SGTemporaryString();
-	[dateString_ setString : theString];
-	//[dateString_ strip]; // parseDateExtraField: convertToMessage: 内で先にやってしまう
+	[dateString_ setString: theString];
 	
-	found_ = [dateString_ rangeOfString : CMXTextParserDate2chSeparater];
+	found_ = [dateString_ rangeOfString: CMXTextParserDate2chSeparater];
 
 	if (found_.length != 0) {
 		// 2001/08/06(月) 21:45 --> 2001/08/06 21:45
@@ -669,9 +690,9 @@ static id dateWith2chDateString(NSString *theString)
 
 		if (cur_len >= week_len && [dateString_ characterAtIndex: week_len-1] != c_CMXTextParserDate2chSeparater_close) {
 			weekday_.length = cur_len - weekday_.location;
-			weekday_close_ = [dateString_ rangeOfString : CMXTextParserDate2chSeparater_close
-												options : NSLiteralSearch
-												  range : weekday_];
+			weekday_close_ = [dateString_ rangeOfString: CMXTextParserDate2chSeparater_close
+												options: NSLiteralSearch
+												  range: weekday_];
 
 			if (weekday_close_.location != NSNotFound)
 				weekday_.length = NSMaxRange(weekday_close_) - weekday_.location;
@@ -682,45 +703,52 @@ static id dateWith2chDateString(NSString *theString)
 		if (NSMaxRange(weekday_) > cur_len)
 			goto return_date;
 
-		[dateString_ deleteCharactersInRange : weekday_];
+		[dateString_ deleteCharactersInRange: weekday_];
 	}
 
 	// 1/100 -> 1/1000
 	{
 		NSRange	commaFound_;
-		commaFound_ = [dateString_ rangeOfString : CMXTextParserBSPeriod
-										 options : NSLiteralSearch | NSBackwardsSearch];
+		commaFound_ = [dateString_ rangeOfString: CMXTextParserBSPeriod
+										 options: (NSLiteralSearch|NSBackwardsSearch)];
 
 		if (commaFound_.location != NSNotFound) {
-			[dateString_ appendString : CMXTextParserBSZero];
-			date_ = [NSCalendarDate dateWithString : dateString_
-									calendarFormat : DATE2CH_CALENDAR_FORMAT_LATE2005];
-			if(date_)
-				return date_;
-			else
+			[dateString_ appendString: CMXTextParserBSZero];
+
+    		CFDateFormatterSetFormat(kDateFormatterAlt, CFSTR("yyyy/MM/dd HH:mm:ss.SSS"));
+			date_ = (NSDate *)CFDateFormatterCreateDateFromString(NULL, kDateFormatterAlt, (CFStringRef)dateString_, NULL);
+
+			if(date_) {
+				[date_ retain];
+				CFRelease((CFDateRef)date_);
+				return [date_ autorelease];
+			} else {
 				goto return_date;
+			}
 		}
 	}
 
 	// 総当たり戦開始 
-	{
-		// 順番が重要。多い方から。年は2桁表記を先に試すこと。
-		date_ = [NSCalendarDate dateWithString : dateString_
-								calendarFormat : DATE2CH_CALENDAR_FORMAT_SEC];
-		if(date_) return date_;
-		date_ = [NSCalendarDate dateWithString : dateString_
-								calendarFormat : DATE2CH_CALENDAR_FORMAT_SEC_4KETA];
-		if(date_) return date_;
-		date_ = [NSCalendarDate dateWithString : dateString_
-								calendarFormat : DATE2CH_CALENDAR_FORMAT];
-		if(date_) return date_;
-		date_ = [NSCalendarDate dateWithString : dateString_
-								calendarFormat : DATE2CH_CALENDAR_FORMAT_4KETA];
-		if(date_) return date_;	
+	{ 
+		date_ = (NSDate *)CFDateFormatterCreateDateFromString(NULL, kDateFormatterStd, (CFStringRef)dateString_, NULL);
+
+		if(date_) {
+			[date_ retain];
+            CFRelease((CFDateRef)date_);
+			return [date_ autorelease];
+		} else {
+			CFDateFormatterSetFormat(kDateFormatterAlt, CFSTR("yy/MM/dd HH:mm"));
+			date_ = (NSDate *)CFDateFormatterCreateDateFromString(NULL, kDateFormatterAlt, (CFStringRef)dateString_, NULL);
+			if (date_) {
+				[date_ retain];
+				CFRelease((CFDateRef)date_);
+                return [date_ autorelease];
+			}
+		}
 	}
 
 #if DEBUG_LOG
-	NSLog(@"dateWith2chDateString: ret: %@ (src: %@)", date_, dateString_);
+	NSLog(@"dateWith2chDateString: ret: %@ (src: %@)", date_ ? date_ : @"(nil date)", dateString_);
 #endif
 
 return_date:
@@ -853,6 +881,18 @@ static BOOL _parseExtraField(NSString *extraField, CMRThreadMessage *aMessage)
 		if (hostRange_.location != NSNotFound) {
 			NSArray	*dummyAry_ = [NSArray arrayWithObjects: kabunushiKey, nil];
 			[aMessage setBeProfile : dummyAry_];
+		} else {
+		// BE も先に探す（株主優待と同時には起きない）
+			hostRange_ = [extraField rangeOfString: @"BE:" options: NSLiteralSearch | NSBackwardsSearch];
+		
+			if (hostRange_.location != NSNotFound) {
+				NSString *beStr_ = [extraField substringFromIndex: (hostRange_.location+3)];
+				[aMessage setBeProfile : [beStr_ componentsSeparatedByString : @"-"]];
+				
+				if (hostRange_.location == 0) return YES; // BE: より前に文字列が無いならもう終了
+				extraField = [extraField substringToIndex : (hostRange_.location-1)]; // extraField から BE を削り取る
+				length_ = [extraField length]; // length を再設定
+			}
 		}
 	}
 
@@ -912,19 +952,7 @@ static BOOL _parseExtraField(NSString *extraField, CMRThreadMessage *aMessage)
 
 		if ([name_ rangeOfString : @"ID"].length != 0) {
 			[aMessage setIDString : value_];
-		}else if ([name_ rangeOfString : @"BE"].length != 0) {
-			//
-			// be profile link
-			//
-			if ([value_ hasSuffix : @">"]) {
-				// in 'be.2ch.net/be' the Be-ID format is different from other boards.
-				value_ = [value_ substringToIndex : ([value_ length]-1)];
-				[aMessage setBeProfile : [value_ componentsSeparatedByString : CMXTextParserBSColon]];
-			} else {
-				// standard be profile ID format
-				[aMessage setBeProfile : [value_ componentsSeparatedByString : @"-"]];
-			}
-		}else if ([name_ rangeOfString : siberiaIPKey].length != 0) {
+		} else if ([name_ rangeOfString : siberiaIPKey].length != 0) {
 			[aMessage setHost : value_];
 		} else {
 			;

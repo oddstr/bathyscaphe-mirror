@@ -1,29 +1,27 @@
 //: CMXPopUpWindowController.m
 /**
-  * $Id: CMXPopUpWindowController.m,v 1.6 2006/06/24 16:23:38 tsawada2 Exp $
+  * $Id: CMXPopUpWindowController.m,v 1.7 2006/11/05 12:53:48 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
   */
 
 #import "CMXPopUpWindowController_p.h"
-#import "AppDefaults.h"
 #import "CMRPopUpTemplateKeys.h"
 #import "CMXPopUpWindowManager.h"
-
 
 
 @implementation CMXPopUpWindowController
 - (void) removeFromNotificationCenter
 {
-	[[NSNotificationCenter defaultCenter]
-		removeObserver : self
-		name : SGHTMLViewMouseExitedNotification
-		object : [self textView]];
+	[[NSNotificationCenter defaultCenter] removeObserver: self
+													name: SGHTMLViewMouseExitedNotification
+												  object: [self textView]];
 }
+
 - (id) init
 {
-	if(self = [super initWithWindow : nil]){
+	if (self = [super initWithWindow : nil]) {
 		_closable = YES;
 	}
 	return self;
@@ -45,8 +43,28 @@
 	if(nil == tmp)
 		return 5.0f;
 	
-	UTILAssertRespondsTo(tmp, @selector(doubleValue));
+	UTILAssertRespondsTo(tmp, @selector(floatValue));
 	return [tmp floatValue];
+}
+
+- (void) changeContextColorIfNeeded
+{
+	// ポップアップ表示のテキストを標準の色で
+	// 表示する場合は生成した書式つき文字列
+	// のカラー属性を変更する。
+	NSTextStorage *storage_ = [self textStorage];
+
+	if(([storage_ length] != 0) && [self usesAlternateTextColor]) {
+		NSRange contentRng_ = NSMakeRange(0, [storage_ length]);
+		
+		NSColor *color_ = [self alternateTextColor];
+		
+		[storage_ removeAttribute: NSForegroundColorAttributeName
+							range: contentRng_];
+		[storage_ addAttribute: NSForegroundColorAttributeName
+						 value: color_
+						 range: contentRng_];
+	}
 }
 
 - (void) setContext : (NSAttributedString *) context
@@ -54,29 +72,10 @@
 	if(nil == context || nil == [self textStorage]) return;
 	
 	[[self textStorage] setAttributedString : context];
-	
-	if([CMRPref isResPopUpTextDefaultColor]){
-		NSRange contentRng_;
-		
-		// ポップアップ表示のテキストを標準の色で
-		// 表示する場合は生成した書式つき文字列
-		// のカラー属性を変更する。
-		contentRng_ =NSMakeRange(0, [[self textStorage] length]);
-		if(contentRng_.length != 0){
-			NSColor *color_;		//標準のテキストカラー
-			
-			color_ = [CMRPref resPopUpDefaultTextColor];
-			[[self textStorage] 
-				   removeAttribute : NSForegroundColorAttributeName
-						     range : contentRng_];
-			[[self textStorage] 
-				  addAttribute : NSForegroundColorAttributeName
-						 value : color_
-					     range : contentRng_];
-		}
-	}
+	[self changeContextColorIfNeeded];
 	[self sizeToFit];
 }
+
 - (void) showPopUpWindowWithContext : (NSAttributedString *) context
                               owner : (id<CMXPopUpOwner>   ) owner
                        locationHint : (NSPoint             ) point
@@ -84,6 +83,9 @@
 	NSRect		wframe_;
 	
 	UTILAssertNotNil([self window]);
+
+	[self updateLinkTextAttributes];
+	[self updateAntiAlias];
 	
 	[self setContext : context];
 	[self setOwner : owner];
@@ -96,6 +98,7 @@
 	
 	[self showWindow : self];
 }
+
 - (void) close
 {
 	id		ms = [self textStorage];
@@ -105,14 +108,17 @@
 	[ms deleteCharactersInRange : [ms range]];
 	[super close];
 }
+
 - (void) performClose
 {
 	[self close];
 }
+
 - (NSWindow *) ownerWindow
 {
 	return [[self owner] window];
 }
+
 - (id<CMXPopUpOwner>) owner;
 {
 	id		owner_;
@@ -188,7 +194,6 @@
 	return [view_ mouse:mouseLocation_ inRect:NSInsetRect([view_ frame], anInset, anInset)];
 }
 @end
-
 
 
 @implementation CMXPopUpWindowController(Private)

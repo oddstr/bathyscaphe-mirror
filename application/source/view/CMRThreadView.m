@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadView.m,v 1.13 2006/06/28 18:37:32 tsawada2 Exp $
+  * $Id: CMRThreadView.m,v 1.14 2006/11/05 12:53:48 tsawada2 Exp $
   * 
   * CMRThreadView.m
   *
@@ -634,6 +634,15 @@ static NSString *mActionGetKeysForTag[] = {
 	return m;
 }
 
+- (void) invisibleAbonePoofEffectDidEnd: (void *) contextInfo
+{
+	unsigned int	mIndexNum = [[(NSArray *)contextInfo objectAtIndex: 0] unsignedIntValue];
+	int				actionType = [[(NSArray *)contextInfo objectAtIndex: 1] intValue];
+
+	[self toggleMessageAttributesAtIndex: mIndexNum senderTag: actionType];
+	[(NSArray *)contextInfo release];
+}
+/*
 static void showPoofAnimationForInvisibleAbone(CMRThreadView *tView, unsigned int messageIndex)
 {		
 	// クリックされたレスの番号から座標を計算（煩雑！）
@@ -648,6 +657,24 @@ static void showPoofAnimationForInvisibleAbone(CMRThreadView *tView, unsigned in
 	point_ = [[tView window] convertBaseToScreen : point_];
 	// 5.この関数で poof を発生させる。Tiger でテキストビューの文字がにじむことがある。おそらくバグ（他のアプリでも見られる）。
 	NSShowAnimationEffect(NSAnimationEffectDisappearingItemDefault, point_, NSZeroSize, nil, nil, nil);
+}
+*/
+- (void) showPoofEffectForInvisibleAboneWithIndex: (NSNumber *) mIndex actionType: (int) actionType
+{
+	unsigned int mIndexNum = [mIndex unsignedIntValue];
+	NSArray	*infoAry;
+
+	NSRange	range_ = [[[self threadLayout] messageRanges] rangeAtIndex : mIndexNum];
+
+	NSRect	rect_ = [self boundingRectForCharacterInRange : range_];
+
+	NSPoint	point_ = NSMakePoint(NSMinX(rect_), NSMinY(rect_));
+
+	point_ = [self convertPoint : point_ toView : nil];
+	point_ = [[self window] convertBaseToScreen : point_];
+	
+	infoAry = [[NSArray alloc] initWithObjects: mIndex, [NSNumber numberWithInt: actionType], nil];
+	NSShowAnimationEffect(NSAnimationEffectDisappearingItemDefault, point_, NSZeroSize, self, @selector(invisibleAbonePoofEffectDidEnd:), infoAry);
 }
 
 - (IBAction) changeMessageAttributes : (id) sender
@@ -672,7 +699,7 @@ static void showPoofAnimationForInvisibleAbone(CMRThreadView *tView, unsigned in
 
 		while (mIndex = [mIndexEnum_ nextObject]) {
 			UTILAssertRespondsTo(mIndex, @selector(unsignedIntValue));
-
+/*
 			[self toggleMessageAttributesAtIndex : [mIndex unsignedIntValue]
 									   senderTag : actionType];
 
@@ -692,7 +719,17 @@ static void showPoofAnimationForInvisibleAbone(CMRThreadView *tView, unsigned in
 			default:
 				break;
 			}
-
+*/
+			if ((actionType == kInvisibleAboneTag) && !poofDone) {
+				[self showPoofEffectForInvisibleAboneWithIndex: mIndex actionType: actionType];
+				poofDone = YES;
+			} else if (([CMRPref spamFilterBehavior] == kSpamFilterInvisibleAbonedBehavior) && (actionType == kSpamTag) && !poofDone) {
+				[self showPoofEffectForInvisibleAboneWithIndex: mIndex actionType: actionType];
+				poofDone = YES;
+			} else {
+				[self toggleMessageAttributesAtIndex: [mIndex unsignedIntValue]
+										   senderTag: actionType];
+			}
 		}
 	}
 }

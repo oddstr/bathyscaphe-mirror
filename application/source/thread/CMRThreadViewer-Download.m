@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Download.m,v 1.14 2006/06/11 23:47:26 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Download.m,v 1.15 2006/11/05 12:53:48 tsawada2 Exp $
   * BathyScaphe
   * 
   *
@@ -239,9 +239,9 @@
 	[self loadFromContentsOfFile : filePath_];
 }
 
-- (void) threadInvalidPerticalContentsSheetDidEnd : (NSWindow *) sheet
-									   returnCode : (int       ) returnCode
-									  contextInfo : (void     *) contextInfo;
+- (void) threadInvalidPerticalContentsSheetDidEnd : (NSAlert *) sheet
+									   returnCode : (int      ) returnCode
+									  contextInfo : (void    *) contextInfo;
 {
 	ThreadTextDownloader	*downloader_;
 	NSString				*filePathToWrite_;
@@ -254,9 +254,7 @@
 	switch(returnCode) {
 	case NSAlertDefaultReturn: // Delete and try again
 	{
-		if ([self forceDeleteThreadAtPath : filePathToWrite_ alsoReplyFile : NO]) {
-			[self reloadAfterDeletion : filePathToWrite_];
-		} else {
+		if (![self forceDeleteThreadAtPath : filePathToWrite_ alsoReplyFile : NO]) {
 			NSBeep();
 			NSLog(@"Deletion failed : %@\n...So reloading operation has been canceled.", filePathToWrite_);
 		}
@@ -275,9 +273,9 @@
 	}
 }
 
-- (void) threadNotFoundSheetDidEnd : (NSWindow *) sheet
-						returnCode : (int       ) returnCode
-					   contextInfo : (void     *) contextInfo
+- (void) threadNotFoundSheetDidEnd : (NSAlert *) sheet
+						returnCode : (int      ) returnCode
+					   contextInfo : (void    *) contextInfo
 {
 	ThreadTextDownloader	*downloader_;
 	NSString				*filePathToWrite_;

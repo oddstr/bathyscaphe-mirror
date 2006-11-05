@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.30 2006/06/29 18:49:41 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.31 2006/11/05 12:53:48 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -15,7 +15,7 @@
 #import "CMRThreadVisibleRange.h"
 #import "CMRThreadDownloadTask.h"
 #import "CMXPopUpWindowManager.h"
-#import "CMRDocumentController.h"
+#import "CMRAppDelegate.h"
 #import "CMRBrowser.h"
 #import "BSBoardInfoInspector.h"
 
@@ -23,9 +23,27 @@
 #define UTIL_DEBUGGING		0
 #import "UTILDebugging.h"
 
-#pragma mark -
+// 1.3 暫定
+// いずれ SGAppKit に移す予定
+// From http://hetima.com/pblog/article.php?id=48
+@interface NSEvent(HistoryMenuItemActionHelper)
++ (unsigned int) currentCarbonModifierFlags;
+@end
 
-static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBrowserSelectCurThreadNotification";
+@implementation NSEvent(HistoryMenuItemActionHelper)
++ (unsigned int) currentCarbonModifierFlags
+{
+    unsigned int    cocoaModFlag = 0;
+    UInt32 carbonModFlag = GetCurrentEventKeyModifiers();
+    if (carbonModFlag & cmdKey)     cocoaModFlag |= NSCommandKeyMask;
+    if (carbonModFlag & optionKey)  cocoaModFlag |= NSAlternateKeyMask;
+    if (carbonModFlag & shiftKey)   cocoaModFlag |= NSShiftKeyMask;
+    if (carbonModFlag & controlKey) cocoaModFlag |= NSControlKeyMask;
+    return cocoaModFlag;
+}
+@end
+
+#pragma mark -
 
 @implementation CMRThreadViewer(ActionSupport)
 - (CMRReplyMessenger *) messenger : (BOOL) create
@@ -84,7 +102,7 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 					 object : aMessenger];
 }
 
-- (void) openThreadsInThreadWindow : (NSArray *) threads {}
+- (void) openThreadsInThreadWindow : (NSArray *) threads {} // subclass should override this method
 
 - (void) openThreadsInBrowser : (NSArray *) threads
 {
@@ -111,7 +129,7 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 		[[NSWorkspace sharedWorkspace] openURL : url_ inBackGround : [CMRPref openInBg]];
 	}
 }
-
+/*
 - (void) openThreadsLogFiles : (NSArray *) threads
 {
 	NSEnumerator		*Iter_;
@@ -127,7 +145,7 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 			 withApplication : @"Property List Editor.app"];
 	}
 }	
-	
+*/	
 @end
 
 #pragma mark -
@@ -151,7 +169,10 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 #pragma mark -
 
 @implementation CMRThreadViewer(Action)
-
+- (NSArray *) targetThreadsForAction : (SEL) action
+{
+	return [self selectedThreads];
+}
 #pragma mark Reloading thread
 - (void) reloadThread
 {
@@ -164,7 +185,8 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 	NSEnumerator		*Iter_;
 	NSDictionary		*threadAttributes_;
 
-	Iter_ = [[self selectedThreads] objectEnumerator];
+//	Iter_ = [[self selectedThreads] objectEnumerator];
+    Iter_ = [[self targetThreadsForAction: _cmd] objectEnumerator];
 	while ((threadAttributes_ = [Iter_ nextObject])) {
 		NSString			*path_;
 		NSString			*title_;
@@ -341,34 +363,15 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 
 - (IBAction) copyThreadAttributes : (id) sender
 {
-	NSEnumerator	*Iter_;
+	NSEnumerator	*iter_;
 
-	Iter_ = [[self selectedThreads] objectEnumerator];
-	if (nil == Iter_) return;
+	iter_ = [[self targetThreadsForAction: _cmd] objectEnumerator];
+	if (!iter_) return;
 
-	[self copyThreadInfoOf : Iter_];
-}
-
-- (IBAction) copyInfoFromContextualMenu : (id) sender
-{
-	// 2004-12-12 tsawada2
-	/* 今のところ、スレッド一覧でのコンテクストメニューのみ、このアクションを呼び出す。
-		真に選択されているスレッドのみ情報をコピーする。
-		（これに対して、copyThreadAttributes:は「選択されていないが、3ペイン下部に表示されている」スレッドも
-		含めて情報をコピーする） */
-	NSEnumerator		*Iter_;
-	
-	Iter_ = [[self selectedThreadsReallySelected] objectEnumerator];
-
-	[self copyThreadInfoOf : Iter_];
-}
-
-- (void) copyThreadInfoOf : (NSEnumerator *) Iter_
-{
 	NSMutableString	*tmp;
 	NSString		*template_;
 	NSURL			*url_ = nil;
-	NSPasteboard	*pboard_   = [NSPasteboard generalPasteboard];
+	NSPasteboard	*pboard_ = [NSPasteboard generalPasteboard];
 	NSArray			*types_;
 	NSDictionary	*dict_;
 
@@ -376,21 +379,18 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 	UTILAssertKindOfClass(template_, NSString);
 	
 	tmp = SGTemporaryString();
-	while (dict_ = [Iter_ nextObject]) {
-		[tmp appendString : template_];
-		[self replaceKeywords:tmp dictionary:dict_];
-		url_ = [CMRThreadAttributes threadURLFromDictionary : dict_];
+
+	while (dict_ = [iter_ nextObject]) {
+		[tmp appendString: template_];
+		[self replaceKeywords: tmp dictionary: dict_];
+		url_ = [CMRThreadAttributes threadURLFromDictionary: dict_];
 	}
 	
-	types_ = [NSArray arrayWithObjects : 
-				NSURLPboardType,
-				NSStringPboardType,
-				nil];
+	types_ = [NSArray arrayWithObjects: NSURLPboardType, NSStringPboardType, nil];
+	[pboard_ declareTypes: types_ owner: nil];
 	
-	[pboard_ declareTypes:types_ owner:nil];
-	
-	[url_ writeToPasteboard : pboard_];
-	[pboard_ setString:tmp forType:NSStringPboardType];
+	[url_ writeToPasteboard: pboard_];
+	[pboard_ setString: tmp forType: NSStringPboardType];
 	
 	[tmp deleteCharactersInRange : [tmp range]];
 }
@@ -446,10 +446,10 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 		NSArray		*alsoReplyFile_;		
 		alsoReplyFile_ = [[CMRReplyDocumentFileManager defaultManager]
 								replyDocumentFilesArrayWithLogsArray : filePathArray_];
-		return [[CMRTrashbox trash] performWithFiles : alsoReplyFile_];
+		return [[CMRTrashbox trash] performWithFiles : alsoReplyFile_ fetchAfterDeletion: NO];
 	}
 
-	return [[CMRTrashbox trash] performWithFiles : filePathArray_];
+	return [[CMRTrashbox trash] performWithFiles : filePathArray_ fetchAfterDeletion: YES];
 }
 
 - (IBAction) deleteThread : (id) sender
@@ -483,7 +483,6 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 						   modalDelegate : self
 						  didEndSelector : @selector(_threadDeletionSheetDidEnd:returnCode:contextInfo:)
 							 contextInfo : sender];
-		[alert_ release];
 	}
 }
 
@@ -509,9 +508,7 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 	case NSAlertThirdButtonReturn:
 		{
 			NSString *path_ = [[self path] copy];
-			if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : NO]) {
-				[self reloadAfterDeletion : path_];
-			} else {
+			if (![self forceDeleteThreadAtPath : path_ alsoReplyFile : NO]) {
 				NSBeep();
 				NSLog(@"Deletion failed : %@\n...So reloading operation has been canceled.", path_);
 			}
@@ -521,6 +518,7 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 	default:
 		break;
 	}
+	[alert release];
 }
 
 #pragma mark Other IBActions
@@ -541,14 +539,24 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 
 /* NOTE: It is a history item's action. */	 
 - (IBAction) showThreadWithMenuItem : (id) sender	 
-{	 
+{
 	id historyItem = nil;
 
 	if ([sender respondsToSelector : @selector(representedObject)]) {
 		id o = [sender representedObject];
 		historyItem = o;
 	}
-	[self setThreadContentWithThreadIdentifier : historyItem];
+
+	if ([sender isKindOfClass: [NSMenuItem class]] && ([NSEvent currentCarbonModifierFlags] & NSCommandKeyMask)) {
+		NSDictionary	*info_;
+		NSString *path_ = [historyItem threadDocumentPath];
+		
+		info_ = [NSDictionary dictionaryWithObjectsAndKeys: 
+						[historyItem BBSName], ThreadPlistBoardNameKey, [historyItem identifier], ThreadPlistIdentifierKey, nil];
+		[CMRThreadDocument showDocumentWithContentOfFile: path_ contentInfo: info_];	
+	} else {
+		[self setThreadContentWithThreadIdentifier: historyItem];
+	}
 }
 
 // Save window frame
@@ -608,20 +616,6 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 	}
 }
 
-- (IBAction) openInBrowser : (id) sender
-{
-	NSArray				*selectedThreads_;
-	
-	selectedThreads_ = [self selectedThreadsReallySelected];
-	if (0 == [selectedThreads_ count]) {
-		if (nil == [self threadURL]) {
-			return;
-		}
-		selectedThreads_ = [self selectedThreads];
-	}
-	
-	[self openThreadsInBrowser : selectedThreads_];
-}
 - (IBAction) openBBSInBrowser : (id) sender
 {
 	NSEnumerator		*Iter_;
@@ -636,21 +630,16 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 	}
 }
 
+- (IBAction) openInBrowser : (id) sender
+{
+	[self openThreadsInBrowser: [self targetThreadsForAction: _cmd]];
+}
+/*
 - (IBAction) openLogfile : (id) sender
 {
-	NSArray				*selectedThreads_;
-	
-	selectedThreads_ = [self selectedThreadsReallySelected];
-	if (0 == [selectedThreads_ count]) {
-		if (nil == [self threadURL]) {
-			return;
-		}
-		selectedThreads_ = [self selectedThreads];
-	}
-	
-	[self openThreadsLogFiles: selectedThreads_];
+	[self openThreadsLogFiles: [self targetThreadsForAction: _cmd]];
 }
-
+*/
 - (IBAction) addFavorites : (id) sender
 {
 	NSEnumerator			*Iter_;
@@ -659,27 +648,31 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 	
 	CMRFavoritesManager		*fM_ = [CMRFavoritesManager defaultManager];
 	
-	selectedThreads_ = [self selectedThreads];
+	//selectedThreads_ = [self selectedThreads];
+	selectedThreads_ = [self targetThreadsForAction: _cmd];
 	
 	Iter_ = [selectedThreads_ objectEnumerator];
 	while ((threadAttributes_ = [Iter_ nextObject])) {
-		id	identifier_;
-		NSString	*bName_;
+		NSString	*path_;
 		CMRFavoritesOperation	operation_;
 
-		identifier_ = [CMRThreadAttributes identifierFromDictionary: threadAttributes_];
-		bName_ = [threadAttributes_ valueForKey: ThreadPlistBoardNameKey];
+		path_ = [CMRThreadAttributes pathFromDictionary: threadAttributes_];
 
-		UTILAssertNotNil(identifier_);
-		UTILAssertNotNil(bName_);
+		UTILAssertNotNil(path_);
 		
-		operation_ = [fM_ availableOperationWithThread: identifier_ ofBoard: bName_];
+		operation_ = [fM_ availableOperationWithPath: path_];
 		if (CMRFavoritesOperationNone == operation_) {
 			continue;	
 		} else if (CMRFavoritesOperationLink == operation_) {
-			[fM_ addFavoriteWithThread: identifier_ ofBoard: bName_];
+			if([threadAttributes_ count] < 6) {
+				// Maybe added from separate document window.
+				[fM_ addFavoriteWithFilePath: path_];
+			} else {
+				// Maybe added from browser or 3-pain viewer.
+				[fM_ addFavoriteWithThread: threadAttributes_];
+			}
 		} else {
-			[fM_ removeFavoriteWithThread: identifier_ ofBoard: bName_];
+			[fM_ removeFromFavoritesWithFilePath: path_];
 		}
 	}
 }
@@ -693,17 +686,11 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 
 - (void) mainBrowserDidFinishShowThList : (NSNotification *) aNotification
 {
-	if (CMRMainBrowser == nil) return;
 	UTILAssertNotificationName(
 		aNotification,
 		CMRBrowserThListUpdateDelegateTaskDidFinishNotification);
-	UTILAssertNotificationObject(
-		aNotification,
-		CMRMainBrowser);
-	
-	[CMRMainBrowser selectRowWithThreadPath : [self path]
-					   byExtendingSelection : NO
-							scrollToVisible : YES];
+
+	[CMRMainBrowser selectRowWithThreadPath: [self path] byExtendingSelection: NO scrollToVisible: YES];
 
 	[[NSNotificationCenter defaultCenter] removeObserver : self
 													name : CMRBrowserThListUpdateDelegateTaskDidFinishNotification
@@ -712,33 +699,15 @@ static NSString *const kCMRMainBrowserSelectCurThreadNotification = @"CMRMainBro
 
 - (IBAction) orderFrontMainBrowser : (id) sender
 {
-	if (CMRMainBrowser != nil) {
-		[[CMRMainBrowser window] makeKeyAndOrderFront : sender];
-	} else {
-		[[CMRDocumentController sharedDocumentController] newDocument : sender];
-	}
-
-	// この時点で CMRMainBrowser は必ず存在している
 	NSString *boardName = [self boardName];
 	if(!boardName) return; 
 
-	if([[[CMRMainBrowser currentThreadsList] boardName] isEqualToString : boardName]) {
-		// ブラウザの表示を切り替える必要は無い
-		[CMRMainBrowser selectRowWhoseNameIs : boardName];
-		[CMRMainBrowser selectRowWithThreadPath : [self path]
-						   byExtendingSelection : NO
-								scrollToVisible : YES];
-		
-		return;
-	} else {
-		[[NSNotificationCenter defaultCenter] addObserver : self
-												 selector : @selector(mainBrowserDidFinishShowThList:)
-													 name : CMRBrowserThListUpdateDelegateTaskDidFinishNotification
-												   object : CMRMainBrowser];
+	[[NSNotificationCenter defaultCenter] addObserver : self
+											 selector : @selector(mainBrowserDidFinishShowThList:)
+												 name : CMRBrowserThListUpdateDelegateTaskDidFinishNotification
+											   object : CMRMainBrowser];
 
-		[CMRMainBrowser showThreadsListWithBoardName : boardName];
-		[CMRMainBrowser selectRowWhoseNameIs : boardName];
-	}
+	[(CMRAppDelegate *)[NSApp delegate] orderFrontMainBrowserAndShowThListForBrd: boardName addBrdToUsrListIfNeeded: YES];
 }
 
 - (IBAction) showBoardInspectorPanel : (id) sender

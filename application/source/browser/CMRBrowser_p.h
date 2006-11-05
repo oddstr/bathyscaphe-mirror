@@ -12,8 +12,7 @@
 
 #import "AppDefaults.h"
 #import "BoardManager.h"
-#import "SmartBoardList.h"
-
+#import "BoardList.h"
 #import "Browser.h"
 #import "CMRThreadDocument.h"
 
@@ -21,7 +20,6 @@
 #import "CMRThreadsList.h"
 #import "CMXDateFormatter.h"
 
-#import "BSDBThreadList.h"
 
 #import "ThreadsListTable.h"
 #import "CMRAccessorySheetController.h"
@@ -44,7 +42,7 @@
 #define kSelectLastBBSNotification @"kSelectLastBBSNotification"
 
 // åfé¶î¬ÉäÉXÉgÇÃï“èW
-#define kEditDrawerTitleKey					@"Edit Title"
+/*#define kEditDrawerTitleKey					@"Edit Title"
 #define kAddCategoryTitleKey				@"Add Category Title"
 
 #define kEditDrawerItemMsgForAdditionKey	@"Add Category Msg"
@@ -59,9 +57,9 @@
 #define kRemoveDrawerItemMsgKey				@"Browser Del Drawer Item Message"
 
 #define kRemoveMultipleItemTitleKey			@"Browser Del Multiple Item Title"
-#define kRemoveMultipleItemMsgKey			@"Browser Del Multiple Item Message"
+#define kRemoveMultipleItemMsgKey			@"Browser Del Multiple Item Message"*/
 
-#define kEditDrawerItemHelpKeyword			@"Browser Edit Drawer Item Help"
+//#define kEditDrawerItemHelpKeyword			@"Browser Edit Drawer Item Help"
 
 // PropertyList
 #define kThreadsListTableICSKey				@"Browser - ListViewInterCellSpacing"
@@ -138,6 +136,10 @@
 - (NSSearchField *) searchField;
 - (CMRAccessorySheetController *) listSorterSheetController;
 - (AddBoardSheetController *) addBoardSheetController;
+- (EditBoardSheetController *) editBoardSheetController;
+
+- (NSString *) currentSearchString;
+- (void) setCurrentSearchString: (NSString *) newString;
 @end
 
 @interface CMRBrowser(UIComponents)

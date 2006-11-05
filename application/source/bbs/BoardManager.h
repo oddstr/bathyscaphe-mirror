@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.h,v 1.10 2006/04/11 17:31:21 masakih Exp $
+ * $Id: BoardManager.h,v 1.11 2006/11/05 12:53:47 tsawada2 Exp $
  * 
  * BoardManager.h
  *
@@ -9,7 +9,7 @@
 
 #import <SGFoundation/SGFoundation.h>
 
-@class SmartBoardList;
+@class BoardList;
 /*!
     @class		BoardManager
     @abstract   掲示板リストの dataSource 提供と、各掲示板の属性へのアクセスを一括して取り扱うマネージャ
@@ -38,18 +38,21 @@ typedef enum _BSBeLoginPolicyType {
 @interface BoardManager : NSObject
 {
     @private
-	SmartBoardList		*_defaultList;
-	SmartBoardList		*_userList;
-	NSDictionary		*_noNameDict;	// NoNameManager を統合
+	BoardList			*_defaultList;
+	BoardList			*_userList;
+	NSMutableDictionary		*_noNameDict;	// NoNameManager を統合
 }
 + (id) defaultManager;
 
-- (SmartBoardList *) defaultList;
-- (SmartBoardList *) userList;
+- (BoardList *) defaultList;
+- (BoardList *) userList;
+
+- (BoardList *) filteredListWithString: (NSString *) keyword; // available in CometBlaster.
 
 - (NSString *) defaultBoardListPath;
 - (NSString *) userBoardListPath;
-+ (NSString *) NNDFilepath;
++ (NSString *) NNDFilepath; // (BoardProperties.plist)
++ (NSString *) oldNNDFilepath; // available in MeteorSweeper. (NoNames.plist)
 
 - (NSURL *) URLForBoardName : (NSString *) boardName;
 - (NSString *) boardNameForURL : (NSURL *) anURL;
@@ -91,12 +94,21 @@ typedef enum _BSBeLoginPolicyType {
 // NoNameManager はすべて CMRBBSSignature を引数にとっていたが、BoardManager への
 // 統合に伴い、すべて NSString に変更したので注意。
 
-- (NSDictionary *) noNameDict;
+- (NSMutableDictionary *) noNameDict;
 
 /* 名無しさんの名前 */
-- (NSString *) defaultNoNameForBoard : (NSString *) boardName;
-- (void) setDefaultNoName : (NSString *) aName
-			 	 forBoard : (NSString *) boardName;
+// Deprecated in MeteorSweeper.
+//- (NSString *) defaultNoNameForBoard : (NSString *) boardName;
+//- (void) setDefaultNoName : (NSString *) aName
+//			 	 forBoard : (NSString *) boardName;
+
+// Available in MeteorSweeper.
+- (NSSet *) defaultNoNameSetForBoard: (NSString *) boardName;
+- (void) setDefaultNoNameSet: (NSSet *) newSet forBoard: (NSString *) boardName;
+- (void) addNoName: (NSString *) additionalNoName forBoard: (NSString *) boardName;
+- (void) removeNoName: (NSString *) removingNoName forBoard: (NSString *) boardName;
+- (void) exchangeNoName: (NSString *) oldName toNewValue: (NSString *) newName forBoard: (NSString *) boardName;
+				 
 /* ソート基準カラム */
 - (NSString *) sortColumnForBoard : (NSString *) boardName;
 - (void) setSortColumn : (NSString *) anIdentifier
@@ -117,7 +129,7 @@ typedef enum _BSBeLoginPolicyType {
 			   forBoard : (NSString *) boardName;
 
 // LittleWish Addition
-/* 注意：1.1.x ではまだインタフェースのみ */
+/* 注意：1.1.x ではインタフェースのみ */
 // available in BathyScaphe 1.2 and later.
 - (BOOL) allThreadsShouldAAThreadAtBoard : (NSString *) boardName;
 - (void) setAllThreadsShouldAAThread : (BOOL      ) shouldAAThread
@@ -126,6 +138,9 @@ typedef enum _BSBeLoginPolicyType {
 // LittleWish Addtion : Read-only Properties
 - (NSImage *) iconForBoard : (NSString *) boardName;
 - (BSBeLoginPolicyType) typeOfBeLoginPolicyForBoard : (NSString *) boardName;
+
+// MeteorSweeper Addition
+- (void) setTypeOfBeLoginPolicy: (BSBeLoginPolicyType) aType forBoard: (NSString *) boardName;
 
 /*
 	ユーザからの入力を受けつける。
@@ -136,8 +151,22 @@ typedef enum _BSBeLoginPolicyType {
 */
 - (NSString *) askUserAboutDefaultNoNameForBoard : (NSString *) boardName
 									 presetValue : (NSString *) aValue;
+
+// available in MeteorSweeper and later.
+- (BOOL) needToDetectNoNameForBoard: (NSString *) boardName;
 @end
 
+// MeteorSweeper Addition
+@interface BoardManager(SettingTxtDetector)
+- (BOOL) startDownloadSettingTxtForBoard: (NSString *) boardName;
+@end
+
+@interface BoardManager(UserListEditorCore)
+- (BOOL) addCategoryOfName: (NSString *) name;
+- (BOOL) editBoardOfName: (NSString *) boardName newURLString: (NSString *) newURLString;
+- (BOOL) editCategoryOfName: (NSString *) oldName newName: (NSString *) newName;
+- (BOOL) removeBoardItems: (NSArray *) boardItemsForRemoval;
+@end
 ///////////////////////////////////////////////////////////////
 ///////////////// [ N o t i f i c a t i o n ] /////////////////
 ///////////////////////////////////////////////////////////////

@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate+Menu.m,v 1.10 2006/01/22 07:10:52 tsawada2 Exp $
+ * $Id: CMRAppDelegate+Menu.m,v 1.11 2006/11/05 12:53:47 tsawada2 Exp $
  * 
  * CMRAppDelegate+Menu.m
  *
@@ -7,7 +7,7 @@
  * See the file LICENSE for copying permission.
  */
 #import "CMRAppDelegate_p.h"
-
+#import "BSScriptsMenuManager.h"
 
 // ----------------------------------------
 // D e f i n e d

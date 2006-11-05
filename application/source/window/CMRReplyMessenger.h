@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyMessenger.h,v 1.6 2006/06/04 16:01:10 tsawada2 Exp $
+  * $Id: CMRReplyMessenger.h,v 1.7 2006/11/05 12:53:48 tsawada2 Exp $
   * 
   * CMRReplyMessenger.h
   *
@@ -84,7 +84,6 @@
 @interface CMRReplyMessenger(Action)
 - (IBAction) sendMessage : (id) sender;
 - (IBAction) sendMessage : (id) sender withHanaMogeraForms : (BOOL) withForms; // Available in CometBlaster and later.
-- (IBAction) openLogfile : (id) sender;
 @end
 
 

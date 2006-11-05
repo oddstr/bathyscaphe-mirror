@@ -1,14 +1,14 @@
 //
-//  AddBoardSheetController.m
+//  $Id: AddBoardSheetController.m,v 1.10 2006/11/05 12:53:47 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/12.
-//  Copyright 2005 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2006 BathyScaphe Project. All rights reserved.
 //
 
 #import "AddBoardSheetController.h"
 
-#import "SmartBoardList.h"
+#import "BoardList.h"
 #import "BoardManager.h"
 #import <SGFoundation/SGFoundation.h>
 #import <CocoMonar/CocoMonar.h>
@@ -55,6 +55,7 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 	[[self defaultListOLView] setDataSource : [[BoardManager defaultManager] defaultList]];
 	[[self defaultListOLView] setAutoresizesOutlineColumn : NO];
 	[[self defaultListOLView] setVerticalMotionCanBeginDrag : NO];
+	[[self defaultListOLView] setDoubleAction: @selector(doAddAndClose:)];
 	[[self OKButton] setEnabled : NO];
 }
 
@@ -102,33 +103,11 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 	_currentSearchStr = newStr;
 }
 
-- (int) numOfSelectedItems
-{
-	return [[self defaultListOLView] numberOfSelectedRows];
-}
-
-- (BOOL) shouldHideCounts
-{
-	return ([self numOfSelectedItems] == 0);
-}
-
 #pragma mark IBActions
 
 - (IBAction) searchBoards : (id) sender
 {
-    NSString		*searchString = [sender stringValue];
-	NSOutlineView	*view_ = [self defaultListOLView];
-
-    if ([searchString isEqualToString : [self currentSearchStr]]) {
-        [self selectMatchedItem : searchString];        
-    } else {
-        [self setCurrentSearchStr : searchString];
-        
-        [view_ deselectAll : self];
-		[self selectMatchedItem : searchString];
-    }
-
-    [view_ scrollRowToVisible : [[view_ selectedRowIndexes] firstIndex]];
+	[self showMatchedItemsWithCurrentSearchStr];
 }
 
 - (IBAction) openHelp : (id) sender
@@ -146,20 +125,26 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 - (IBAction) doAddAndClose : (id) sender
 {
 	BOOL	shouldClose;
-
-	if ([[self defaultListOLView] selectedRow] == -1) {
-		shouldClose = [self addToUserListFromForm : sender];
-	} else {
-		NSString *name_;
-		NSString *url_;
-
-		name_ = [[self brdNameField] stringValue];
-		url_  = [[self brdURLField] stringValue];
+	//NSLog(@"%@",[sender description]);
+	if (sender == [self defaultListOLView]) { //  Maybe OLView doucle-clicked
+		if ([[self defaultListOLView] clickedRow] == -1) return; // Maybe double click table column!!
 		
-		if ([name_ isEqualToString : @""] && [url_ isEqualToString : @""]) {
-			shouldClose = [self addToUserListFromOLView : sender];
-		} else {
+		shouldClose = [self addToUserListFromOLView: sender];
+	} else {
+		if ([[self defaultListOLView] selectedRow] == -1) {
 			shouldClose = [self addToUserListFromForm : sender];
+		} else {
+			NSString *name_;
+			NSString *url_;
+
+			name_ = [[self brdNameField] stringValue];
+			url_  = [[self brdURLField] stringValue];
+			
+			if ([name_ isEqualToString : @""] && [url_ isEqualToString : @""]) {
+				shouldClose = [self addToUserListFromOLView : sender];
+			} else {
+				shouldClose = [self addToUserListFromForm : sender];
+			}
 		}
 	}
 
@@ -244,7 +229,7 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 	} else {
 		id userList = [[BoardManager defaultManager] userList];
 
-		if ([userList itemForName : name_]) {
+		if ([userList containsItemWithName : name_ ofType : (BoardListBoardItem | BoardListFavoritesItem)]) {
 			NSBeep();
 			[[NSAlert alertWithMessageText : [self localizedString : @"Same Name Exists"]
 							 defaultButton : [self localizedString : @"Cancel"]
@@ -266,49 +251,29 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 	}
 }
 
-// From SevenFour :-b
-- (BOOL) selectMatchedItem : (NSString *) keyword
-                     items : (NSArray  *) items
+- (void) showMatchedItems : (NSString *) keyword
 {
-    int i;
-    BOOL found = NO;
-	NSOutlineView	*outlineView = [self defaultListOLView];
+	id				newSource_;
 
-    for (i = 0; i < [items count]; i++) {
-        id				root = [items objectAtIndex : i];
-        NSRange			range;
-
-        range = [[root name] rangeOfString : keyword
-								   options : NSCaseInsensitiveSearch];
-        if (range.location != NSNotFound) {
-            int row = [outlineView rowForItem : root];
-            [outlineView selectRowIndexes : [NSIndexSet indexSetWithIndex : row]
-                     byExtendingSelection : YES];
-            found |= YES;
-        } else {
-            found |= NO;
-        }
-        
-		if( [root hasChildren] ) {
-			[outlineView expandItem : root];
-			if (![self selectMatchedItem : keyword
-								   items : [root items]]) {
-				[outlineView collapseItem : root];
-			}
-		}
-    }
-    return found;
+	if (keyword == nil || [keyword isEqualToString: @""]) {
+		newSource_ = [[BoardManager defaultManager] defaultList];
+	} else {
+		newSource_ = [[[BoardManager defaultManager] filteredListWithString: keyword] retain];
+	}
+	
+	[[self defaultListOLView] setDataSource: newSource_];
+	[[self defaultListOLView] reloadData];
 }
 
-- (void) selectMatchedItem : (NSString *) keyword
+- (void) showMatchedItemsWithCurrentSearchStr
 {
-    [self selectMatchedItem : keyword
-                      items : [[[BoardManager defaultManager] defaultList] boardItems]];
+	[self showMatchedItems: [self currentSearchStr]];
 }
 
 - (void) cleanUpUI
 {
-	[[self searchField] setStringValue : @""];
+	[self setCurrentSearchStr: @""];
+	[self showMatchedItemsWithCurrentSearchStr];
 
 	[[self brdNameField] setStringValue : @""];
 	[[self brdURLField] setStringValue : @""];
@@ -316,6 +281,7 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 	[[self OKButton] setEnabled : NO];
 	
 	[[self defaultListOLView] deselectAll : self];
+	[[self window] makeFirstResponder: [self searchField]];
 }
 
 #pragma mark Delegate & Notifications
@@ -352,10 +318,6 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
         notification,
         NSOutlineViewSelectionDidChangeNotification);
 
-
-	[self willChangeValueForKey : @"numOfSelectedItems"];
-	[self willChangeValueForKey : @"shouldHideCounts"];
-
 	if ([[self defaultListOLView] selectedRow] != -1) {
 		[[self OKButton] setEnabled : YES];
 		[[self brdNameField] setStringValue : @""];
@@ -363,9 +325,6 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 	} else {
 		[[self OKButton] setEnabled : NO];
 	}
-
-	[self didChangeValueForKey : @"numOfSelectedItems"];
-	[self didChangeValueForKey : @"shouldHideCounts"];
 }
 
 - (void) windowWillClose : (NSNotification *) aNotification
@@ -393,7 +352,8 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
         notification,
         CMRBBSListDidChangeNotification);
     
-	if ([notification object] == [[BoardManager defaultManager] defaultList])
-        [[self defaultListOLView] reloadData];
+	if ([notification object] == [[BoardManager defaultManager] defaultList]) {
+		[self showMatchedItemsWithCurrentSearchStr];
+	}
 }
 @end

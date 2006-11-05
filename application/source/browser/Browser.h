@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.h,v 1.1 2005/05/11 17:51:03 tsawada2 Exp $
+  * $Id: Browser.h,v 1.2 2006/11/05 12:53:47 tsawada2 Exp $
   * 
   * Browser.h
   *
@@ -18,6 +18,7 @@
 {
 	@private
 	CMRThreadsList			*m_currentThreadsList;
+	NSString				*m_searchString;
 }
 - (NSURL *) boardURL;
 
@@ -32,6 +33,10 @@
 
 - (void) toggleThreadsListIsAscending;
 - (void) changeThreadsFilteringMask : (int) mask;
+
+- (NSString *) searchString;
+- (void) setSearchString: (NSString *) text;
+- (BOOL) searchThreadsInListWithCurrentSearchString;
 @end
 
 /* for AppleScript */

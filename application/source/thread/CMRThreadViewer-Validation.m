@@ -1,5 +1,5 @@
 /*
-    $Id: CMRThreadViewer-Validation.m,v 1.20 2006/06/28 18:37:32 tsawada2 Exp $
+    $Id: CMRThreadViewer-Validation.m,v 1.21 2006/11/05 12:53:48 tsawada2 Exp $
     CMRThreadViewer-Action.m から独立
     Created at 2005-02-16 by tsawada2.
 */
@@ -22,6 +22,9 @@
 #define kRemoveFavaritesItemKey			@"Remove Favorites"
 #define kAddFavaritesItemImageName		@"AddFavorites"
 #define kRemoveFavaritesItemImageName	@"RemoveFavorites"
+
+#define kDeleteWithoutAlertKey			@"Delete Log"
+#define kDeleteWithAlertKey				@"Delete Log..."
 
 /*** アクション・メニュー ***/
 #define kActionMenuItemTag				(100)	/* 「アクション」 */
@@ -160,26 +163,59 @@ static int messageMaskForTag(int tag)
 	return NO;
 }
 
-- (CMRFavoritesOperation) favoritesOperationForThreads : (NSArray *) threadsArray
+- (void) validateDeleteThreadItemTitle: (id) theItem
+{
+	if ([theItem isKindOfClass: [NSMenuItem class]]) {
+		[theItem setTitle: [CMRPref quietDeletion] ? [self localizedString: kDeleteWithoutAlertKey] : [self localizedString: kDeleteWithAlertKey]];
+	}
+}
+
+- (BOOL) validateDeleteThreadItemEnabling: (NSString *) threadPath
+{
+	if (threadPath && [[NSFileManager defaultManager] fileExistsAtPath: threadPath]) {
+		return YES;
+	} else {
+		return NO;
+	}
+}
+
+- (CMRFavoritesOperation) favoritesOperationForThreads: (NSArray *) threadsArray
 {
 	NSDictionary	*thread_;
-	//NSString		*path_;
-	id				identifier_;
-	NSString		*bName_;
+	NSString		*path_;
 	
 	if (nil == threadsArray || 0 == [threadsArray count])
 		return CMRFavoritesOperationNone;
 	
 	thread_ = [threadsArray objectAtIndex : 0];
-	//path_ = [CMRThreadAttributes pathFromDictionary : thread_];
-	identifier_ = [CMRThreadAttributes identifierFromDictionary : thread_];
-	bName_ = [thread_ valueForKey: ThreadPlistBoardNameKey];
+	path_ = [CMRThreadAttributes pathFromDictionary : thread_];
 
-	//UTILAssertNotNil(path_);
-	UTILAssertNotNil(identifier_);
-	UTILAssertNotNil(bName_);
+	UTILAssertNotNil(path_);
 	
-	return ([[CMRFavoritesManager defaultManager] availableOperationWithThread : identifier_ ofBoard: bName_]);
+	return [[CMRFavoritesManager defaultManager] availableOperationWithPath: path_];
+}
+
+- (BOOL) validateAddFavoritesItem: (id) theItem forOperation: (CMRFavoritesOperation) operation
+{
+	NSString				*title_;
+	NSImage					*image_;
+
+	if (CMRFavoritesOperationNone == operation) {
+		return NO;
+	}
+
+	title_ = (CMRFavoritesOperationLink == operation)
+				? [self localizedString: kAddFavaritesItemKey]
+				: [self localizedString: kRemoveFavaritesItemKey];
+
+	image_ = (CMRFavoritesOperationLink == operation)
+				? [NSImage imageAppNamed: kAddFavaritesItemImageName]
+				: [NSImage imageAppNamed: kRemoveFavaritesItemImageName];
+	
+	[theItem setTitle: title_];
+	if ([theItem image] != nil) [theItem setImage: image_];
+	
+	return YES;
 }
 
 - (BOOL) validateUIItem : (id) theItem
@@ -192,7 +228,7 @@ static int messageMaskForTag(int tag)
 	action_ = [theItem action];
 	isSelected_ = ([self selectedThreads] && [self numberOfSelectedThreads]);
         
-	// AA スレ
+	// 印を付ける
 	if (@selector(toggleAAThread:) == action_) {
 		[theItem setState : ([self isAAThread] ? NSOnState : NSOffState)];
 		return isSelected_;
@@ -218,34 +254,16 @@ static int messageMaskForTag(int tag)
 		
 		return ([self threadAttributes] && [self shouldShowContents]);
 	}
+
 	// お気に入りに追加
 	if (action_ == @selector(addFavorites:)) {
-		NSString				*title_;
-		NSImage					*image_;
-		CMRFavoritesOperation	operation_;
-		
-		if (NO == isSelected_) {
-			return NO;
-		}
+		return [self validateAddFavoritesItem: theItem forOperation: [self favoritesOperationForThreads: [self selectedThreads]]];
+	}
 
-		operation_ = [self favoritesOperationForThreads : [self selectedThreads]];
-		if (CMRFavoritesOperationNone == operation_) {
-			return NO;
-		}
-
-		title_ = (CMRFavoritesOperationLink == operation_)
-					? [self localizedString : kAddFavaritesItemKey]
-					: [self localizedString : kRemoveFavaritesItemKey];
-
-		image_ = (CMRFavoritesOperationLink == operation_)
-					? [NSImage imageAppNamed : kAddFavaritesItemImageName]
-					: [NSImage imageAppNamed : kRemoveFavaritesItemImageName];
-		
-		[theItem setTitle : title_];
-		if ([theItem image] != nil)
-			[theItem setImage : image_];
-		
-		return YES;
+	// ログを削除(...)
+	if (action_ == @selector(deleteThread:)) {
+		[self validateDeleteThreadItemTitle: theItem];
+		return [self validateDeleteThreadItemEnabling: [self path]];
 	}
 	
 	// 移動
@@ -314,22 +332,18 @@ static int messageMaskForTag(int tag)
 	
 	if (action_ == @selector(copyURL:)					 ||
 	   action_ == @selector(copyThreadAttributes:)		 ||
-	   action_ == @selector(copyInfoFromContextualMenu:) ||
 	   action_ == @selector(showThreadAttributes:)		 ||	  
-	   action_ == @selector(deleteThread:)				 ||
 	   action_ == @selector(openBBSInBrowser:) 
 	   )
 	{ return isSelected_; }
 	
 	if (action_ == @selector(reloadThread:))
-		return (isSelected_ && ![self isDatOchiThread]);
+		//return (isSelected_ && ![self isDatOchiThread]);
+		return ([self threadAttributes] && ![self isDatOchiThread]);
 	
-	if (action_ == @selector(openLogfile:)		||
-	   action_ == @selector(openInBrowser:)		||
-	   action_ == @selector(openSelectedThreads:)
-	   )
-	{ return ([[self selectedThreadsReallySelected] count] || [self threadURL]); }
-	
+	if (action_ == @selector(openInBrowser:) || action_ == @selector(openSelectedThreads:)) {
+		return ([[self selectedThreadsReallySelected] count] || [self threadURL]);
+	}
 	return NO;
 }
 

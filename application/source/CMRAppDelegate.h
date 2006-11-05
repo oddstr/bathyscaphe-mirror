@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.h,v 1.13 2006/06/11 23:47:26 tsawada2 Exp $
+ * $Id: CMRAppDelegate.h,v 1.14 2006/11/05 12:53:47 tsawada2 Exp $
  * 
  * CMRAppDelegate.h
  *
@@ -18,7 +18,13 @@
  */
 @interface CMRAppDelegate : NSObject
 {
+	@private
+	BOOL	m_shouldCascadeBrowserWindow;
 }
+
+- (BOOL) shouldCascadeBrowserWindow;
+- (void) setShouldCascadeBrowserWindow: (BOOL) flag;
+
 - (IBAction) showPreferencesPane : (id) sender;
 - (IBAction) showStandardFindPanel : (id) sender;
 - (IBAction) toggleOnlineMode : (id) sender;
@@ -36,26 +42,11 @@
 - (IBAction) closeAll : (id) sender;
 - (IBAction) miniaturizeAll : (id) sender;
 
-//- (IBAction) togglePreviewPanel : (id) sender;
+- (IBAction) togglePreviewPanel : (id) sender;
 - (IBAction) runBoardWarrior: (id) sender;
-@end
 
-@interface NSApplication(ScriptingSupport)
-/* Property Support (Key-Value coding) */
-- (BOOL) isOnlineMode;
-- (void) setIsOnlineMode : (BOOL) flag;
-
-/* Who needs these stupid properties... Huh! */
-- (NSArray *) browserTableViewColor;
-- (void) setBrowserTableViewColor : (NSArray *) colorValue;
-
-- (NSArray *) boardListColor;
-- (void) setBoardListColor : (NSArray *) colorValue;
-
-/* Command Support */
-- (void) handleOpenURLCommand : (NSScriptCommand *) command;
-@end
-
-@interface NSWindow(BSAddition)
-- (BOOL) isNotMiniaturizedButCanMinimize;
+// available in MeteorSweeper and later.
+- (void) orderFrontMainBrowserAndShowThListForBrd: (NSString *) boardName
+						  addBrdToUsrListIfNeeded: (BOOL) addToList;
+- (IBAction) startHEADCheckDirectly: (id) sender; // for Dock menu
 @end

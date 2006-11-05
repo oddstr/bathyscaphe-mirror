@@ -1,5 +1,5 @@
 /**
- * $Id: BoardList.m,v 1.2 2005/07/22 16:42:21 tsawada2 Exp $
+ * $Id: BoardList.m,v 1.3 2006/11/05 12:53:47 tsawada2 Exp $
  * 
  * BoardList.m
  *
@@ -166,20 +166,27 @@ static NSDictionary *_searchItemInArray(NSMutableArray   *items,
 	
 	if([self containsItemWithName : name_ ofType : [[self class] typeForItem : item]])
 		return NO;
-	
-	item_ = [self itemForAttribute : [target objectForKey : BoardPlistNameKey]
-					  attributeKey : BoardPlistNameKey
-					     seachMask : [[self class] typeForItem : item]//(BoardListBoardItem | BoardListCategoryItem)
-				     containsArray : &container_
-					       atIndex : &index_];
-	index_++;
-	if(nil == item_){
-		[[self boardItems] addObject : item];
-	}else if(index_ == [container_ count]){
-		[container_ addObject : item];
-	}else{
-		[container_ insertObject : item atIndex : index_];
+
+	if (target != nil) {
+		item_ = [self itemForAttribute : [target objectForKey : BoardPlistNameKey]
+						  attributeKey : BoardPlistNameKey
+							 seachMask : [[self class] typeForItem : item]//(BoardListBoardItem | BoardListCategoryItem)
+						 containsArray : &container_
+							   atIndex : &index_];
+	} else {
+		item_ = nil;
 	}
+
+	index_++;
+
+	if (nil == item_) {
+		[[self boardItems] addObject: item];
+	} else if (index_ == [container_ count]) {
+		[container_ addObject: item];
+	} else {
+		[container_ insertObject: item atIndex: index_];
+	}
+
 	[self postBoardListDidChangeNotification];
 	return YES;
 }
@@ -363,6 +370,23 @@ static NSDictionary *_searchItemInArray(NSMutableArray   *items,
 	[item release];
 	[self postBoardListDidChangeNotification];
 }
+- (NSDictionary *) itemForName : (NSString *) name ofType: (BoardListItemType) aType
+{
+	NSDictionary *item_;
+	
+	if(nil == name) return nil;
+	if([CMXFavoritesDirectoryName isSameAsString : name])
+		return [[self class] favoritesItem];
+	
+	item_ = [self itemForAttribute : name
+			          attributeKey : BoardPlistNameKey
+			             seachMask : aType
+		             containsArray : NULL
+			               atIndex : NULL];
+		
+	return item_;
+}
+
 - (NSDictionary *) itemForName : (NSString *) name
 {
 	NSDictionary *item_;

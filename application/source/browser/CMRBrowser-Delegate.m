@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.21 2006/09/02 11:41:01 masakih Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.22 2006/11/05 12:53:47 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -9,8 +9,6 @@
 #import "CMRBrowser_p.h"
 #import "BoardManager.h"
 #import "missing.h"
-
-#import "BoardListItem.h"
 
 extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
 
@@ -55,23 +53,27 @@ BOOL isOptionKeyDown(unsigned flag_)
 	BOOL currentState = [sender isSubviewCollapsed : bottomSubview];
 	[sender setSubview : bottomSubview isCollapsed : !currentState];
 	[sender resizeSubviewsWithOldSize : [sender frame].size];
-	
-	if(currentState) {
-		//2 から 3 になった
-		[[[self indexingStepper] contentView] setHidden: NO];
-		[[[self indexingPopupper] contentView] setHidden: NO];
-		[[self threadsListTable] setNextKeyView : [self textView]];
-		[[self textView] setNextKeyView : [[self indexingStepper] textField]];
-		[[[self indexingStepper] textField] setNextKeyView : [self searchField]];
-	} else {
-		//3 から 2 になった
-		[[self threadsListTable] setNextKeyView : [self searchField]];
-		[[[self indexingStepper] contentView] setHidden: YES];
-		[[[self indexingPopupper] contentView] setHidden: YES];
-	}
 }
 
-- (void)splitView:(id)sender resizeSubviewsWithOldSize:(NSSize)oldSize
+- (void) splitViewDidCollapseSubview: (NSNotification *) notification
+{
+	[[self threadsListTable] setNextKeyView : [self searchField]];
+
+	[[[self indexingStepper] contentView] setHidden: YES];
+	[[[self indexingPopupper] contentView] setHidden: YES];
+}
+
+- (void) splitViewDidExpandSubview: (NSNotification *) notification
+{
+	[[self threadsListTable] setNextKeyView : [self textView]];
+	[[self textView] setNextKeyView : [[self indexingStepper] textField]];
+	[[[self indexingStepper] textField] setNextKeyView : [self searchField]];
+
+	[[[self indexingStepper] contentView] setHidden: NO];
+	[[[self indexingPopupper] contentView] setHidden: NO];
+}
+
+- (void) splitView: (id) sender resizeSubviewsWithOldSize: (NSSize) oldSize
 {
     // It's our responsibility to set the frame rectangles of
     // all uncollapsed subviews.
@@ -189,7 +191,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 {
 	int					rowIndex_;
 	NSOutlineView		*brdListTable_;
-	id					item_;
+	NSDictionary		*item_;
 	
 	brdListTable_ = [self boardListTable];
 
@@ -205,13 +207,14 @@ BOOL isOptionKeyDown(unsigned flag_)
 	if ([brdListTable_ numberOfSelectedRows] > 1) return;
 	if (rowIndex_ < 0) return;
 	if (rowIndex_ >= [brdListTable_ numberOfRows]) return;
-	if (isCommandKeyDown([[NSApp currentEvent] modifierFlags])) return;
+	//if (isCommandKeyDown([[NSApp currentEvent] modifierFlags])) return;
 
 	item_ = [brdListTable_ itemAtRow : rowIndex_];
 
 	if (nil == item_) return;
-	if (![item_ hasURL] && ![BoardListItem isFavoriteItem:item_] && ![BoardListItem isSmartItem:item_]) return;
-	
+	UTILAssertKindOfClass(item_, NSDictionary);
+	if ([BoardList isCategory : item_]) return;
+
 	[self showThreadsListForBoard : item_];
 }
 
@@ -276,7 +279,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 }
 
 
-/* そのセルの内容が「...」で省略表示されているのかどうか判別する方法が見つかるまで凍結
+// そのセルの内容が「...」で省略表示されているのかどうか判別するよい方法が無いなぁ
 - (NSString *) tableView : (NSTableView *) aTableView
 		  toolTipForCell : (NSCell *) aCell
 					rect : (NSRectPointer) rect
@@ -284,15 +287,16 @@ BOOL isOptionKeyDown(unsigned flag_)
 					 row : (int) row
 		   mouseLocation : (NSPoint) mouseLocation
 {
-	if (([[aTableColumn identifier] isEqualToString : CMRThreadTitleKey]) &&
-		([[aCell objectValue] size].width > ([aTableColumn width])	)	 ) // ここがちょっとダメ
-	{
-		return [[aCell objectValue] stringValue];
-	} else {
-		return nil;
+	if ([[aTableColumn identifier] isEqualToString : CMRThreadTitleKey]) {
+		NSAttributedString *attrStr_ = [aCell objectValue];
+		if ([attrStr_ size].width > [aTableColumn width]) { // この判定ではちょっと不正確
+			return [attrStr_ string];
+		}
 	}
+
+	return nil;
 }
-*/
+
 
 #pragma mark RBSplitView Delegate
 
@@ -416,7 +420,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 	if (nil == [self threadsListTable]) 
 		return;
 	
-	[BSDBThreadList resetDataSourceTemplates];
+	[CMRThreadsList resetDataSourceTemplates];
 	[self updateDefaultsWithTableView : [self threadsListTable]];
 	[self setupBoardListOutlineView : [self boardListTable]];
 	[[self threadsListTable] setNeedsDisplay : YES];
@@ -508,9 +512,9 @@ BOOL isOptionKeyDown(unsigned flag_)
 		notification,
 		[CMRFavoritesManager defaultManager]);
 	
-	//if ([[self currentThreadsList] isFavorites]) {
-	//	;
-    //}
+	/*if ([[self currentThreadsList] isFavorites]) {
+		;
+    }*/
 }
 - (void) favoritesManagerDidRemoveFavorites : (NSNotification *) notification
 {
@@ -520,10 +524,10 @@ BOOL isOptionKeyDown(unsigned flag_)
 	UTILAssertNotificationObject(
 		notification,
 		[CMRFavoritesManager defaultManager]);
-	
-	if ([[self currentThreadsList] isFavorites]) {
-		[[self threadsListTable] deselectAll : nil];
-    }
+//	NSLog(@"CMRBrowser received CMRFavoritesManagerDidRemoveFavoritesNotification");
+	/*if ([[self currentThreadsList] isFavorites]) {
+		;
+    }*/
 }
 
 // Added in InnocentStarter.
@@ -534,4 +538,3 @@ BOOL isOptionKeyDown(unsigned flag_)
 	}
 }
 @end
-

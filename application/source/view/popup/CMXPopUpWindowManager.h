@@ -1,6 +1,6 @@
 //: CMXPopUpWindowManager.h
 /**
-  * $Id: CMXPopUpWindowManager.h,v 1.1 2005/05/11 17:51:09 tsawada2 Exp $
+  * $Id: CMXPopUpWindowManager.h,v 1.2 2006/11/05 12:53:48 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -8,7 +8,7 @@
 
 /*!
  * @header     CMXPopUpWindowManager
- * @discussion ƒ|ƒbƒvƒAƒbƒvƒEƒBƒ“ƒhƒE‚ÌŠÇ—
+ * @discussion ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ç®¡ç†
  */
 #import <Cocoa/Cocoa.h>
 #import "CMXPopUpWindowController.h"
@@ -25,21 +25,21 @@
 }
 /*!
  * @method      defaultManager
- * @abstract    ‹¤—LƒIƒuƒWƒFƒNƒg‚ğ•Ô‚·B
- * @discussion  ‹¤—LƒIƒuƒWƒFƒNƒg‚ğ•Ô‚·B
- * @result      ‹¤—LƒIƒuƒWƒFƒNƒg‚ğ•Ô‚·B
+ * @abstract    å…±æœ‰ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿”ã™ã€‚
+ * @discussion  å…±æœ‰ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿”ã™ã€‚
+ * @result      å…±æœ‰ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿”ã™ã€‚
  */
 + (id) defaultManager;
 
 - (BOOL) isPopUpWindowVisible;
 /*!
  * @method         showPopUpWindowWithContext:forObject:owner:locationHint:
- * @abstract       ƒ|ƒbƒvƒAƒbƒvƒEƒBƒ“ƒhƒE‚ğ•\¦‚·‚é
- * @discussion     ƒ|ƒbƒvƒAƒbƒvƒEƒBƒ“ƒhƒE‚ğ•\¦‚·‚é
- * @param context  •\¦‚·‚é“à—e
- * @param object   ŠÖ˜A‚Ã‚¯‚ÌƒL[‚Æ‚È‚éƒIƒuƒWƒFƒNƒg
+ * @abstract       ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’è¡¨ç¤ºã™ã‚‹
+ * @discussion     ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’è¡¨ç¤ºã™ã‚‹
+ * @param context  è¡¨ç¤ºã™ã‚‹å†…å®¹
+ * @param object   é–¢é€£ã¥ã‘ã®ã‚­ãƒ¼ã¨ãªã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
  * @param owner    delegate
- * @param point    •\¦ˆÊ’u
+ * @param point    è¡¨ç¤ºä½ç½®
  * 
  * @result         CMXPopUpWindowController
  */
@@ -53,15 +53,19 @@
 - (void) closePopUpWindowForOwner : (id) owner;
 /*!
  * @method        performClosePopUpWindowForObject:
- * @abstract      ƒ|ƒbƒvƒAƒbƒvƒEƒBƒ“ƒhƒE‚ğ•Â‚¶‚é
- * @discussion    ƒ|ƒbƒvƒAƒbƒvƒEƒBƒ“ƒhƒE‚ğ•Â‚¶‚é
- * @param object  ŠÖ˜A‚Ã‚¯‚ÌƒL[‚Æ‚È‚éƒIƒuƒWƒFƒNƒg
- * @result		  •Â‚¶‚½ê‡‚ÍYES
+ * @abstract      ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‰ã˜ã‚‹
+ * @discussion    ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‰ã˜ã‚‹
+ * @param object  é–¢é€£ã¥ã‘ã®ã‚­ãƒ¼ã¨ãªã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+ * @result		  é–‰ã˜ãŸå ´åˆã¯YES
  */
 - (BOOL) performClosePopUpWindowForObject : (id) object;
 
-
-
+// CMRPref Accessors
 - (NSColor *) backgroundColor;
-- (BOOL) isSeeThrough;
+- (float) popUpAlphaValue;
+- (BOOL) popUpUsesSmallScroller;
+- (BOOL) popUpUsesAlternateTextColor;
+- (NSColor *) popUpAlternateTextColor;
+- (BOOL) popUpShouldAntialias;
+- (BOOL) popUpLinkTextHasUnderline;
 @end

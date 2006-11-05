@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.30 2006/06/29 18:49:41 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.31 2006/11/05 12:53:48 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -23,6 +23,7 @@
 #import "CMRThreadPlistComposer.h"
 #import "CMRNetGrobalLock.h"    /* for Locking */
 #import "BSHistoryMenuManager.h"
+#import "BSAsciiArtDetector.h"
 
 #import "missing.h"
 
@@ -38,7 +39,7 @@ NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEnd
 @implementation CMRThreadViewer
 - (id) init
 {
-	if (self = [super initWithWindowNibName : [[self class] nibNameToInitialize]]) {
+	if (self = [super initWithWindowNibName : [self windowNibName]]) {
 		[self setInvalidate : NO];
 		
 		if (NO == [self loadComponents]) {
@@ -47,7 +48,7 @@ NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEnd
 		}
 		
 		[self registerToNotificationCenter];
-		[self setShouldCascadeWindows : [[self class] defaultSettingForCascading]];
+		[self setShouldCascadeWindows: NO];
 	}
 	return self;
 }
@@ -66,14 +67,9 @@ NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEnd
 	[super dealloc];
 }
 
-+ (NSString *) nibNameToInitialize
+- (NSString *) windowNibName
 {
 	return @"CMRThreadViewer";
-}
-
-+ (BOOL) defaultSettingForCascading
-{
-	return NO;
 }
 
 - (NSString *) titleForTitleBar
@@ -314,6 +310,10 @@ cancel, if this method returns NO.
 	// AA
 	if ([self isAAThread]) {
 		[aMessageBuffer changeAllMessageAttributes:YES flags:CMRAsciiArtMask];
+	} else {
+		if ([CMRPref asciiArtDetectorEnabled]) {
+			[[BSAsciiArtDetector sharedInstance] runDetectorWithMessages: aMessageBuffer with: threadID];
+		}
 	}
 	
 	// Delegate
@@ -440,6 +440,9 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 			name : CMRThreadComposingCallbackNotification
 			object : [aNotification object]];
 	[self scrollToLastReadedIndex : self];
+
+	// 2006-09-18 Ç±Ç±Ç…Ç‡ì¸ÇÍÇƒÇ®Ç≠ÅiBug #8170 ÇÃî≠ê∂â¬î\ê´åyå∏Åj
+	[[self window] invalidateCursorRectsForView : [[[self threadLayout] scrollView] contentView]];
 }
 
 // CMRThreadComposingDidFinishNotification
@@ -564,26 +567,22 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 	
 	return name ? [name autorelease] : @"";
 }
-- (NSString *) setupDefaultNoNameIfNeeded
+- (void) setupDefaultNoNameIfNeeded
 {
-	BoardManager		*mgr;
-	NSString			*name;
+	BoardManager		*mgr = [BoardManager defaultManager];
 	NSString			*board;
 
 	board = [self boardNameArrowingSecondSource];
-	if (nil == board)
-		return nil;
+	if (!board) return;
 
-	mgr = [BoardManager defaultManager];
-	name = [mgr defaultNoNameForBoard : board];
-
-	if (nil == name) {
-		NSString *nameEntry = [self detectDefaultNoName];
-		
-		name = [mgr askUserAboutDefaultNoNameForBoard : board presetValue: nameEntry]; 
+	if ([mgr needToDetectNoNameForBoard: board]) {
+		//NSLog(@"CMRThreadViewer: noName is nil, so we start detecting SETTING.TXT");
+		if (NO == [mgr startDownloadSettingTxtForBoard: board]) {
+			NSString *nameEntry = [self detectDefaultNoName];		
+			NSString *name = [mgr askUserAboutDefaultNoNameForBoard: board presetValue: nameEntry];
+			if (name) [mgr addNoName: name forBoard: board];
+		}
 	}
-	
-	return name;
 }
 
 #pragma mark board / thread signature for historyManager .etc
@@ -899,6 +898,8 @@ NSString *kComposingNotificationNames[] = {
 {
 	NSArray		*files_;
 	NSNumber	*err_;
+	NSNumber	*reload_;
+	BOOL		shouldReload_;
 	
 	UTILAssertNotificationName(
 		notification,
@@ -915,7 +916,14 @@ NSString *kComposingNotificationNames[] = {
 	files_ = [[notification userInfo] objectForKey : kAppTrashUserInfoFilesKey];
 	UTILAssertKindOfClass(files_, NSArray);
 	
+	reload_ = [[notification userInfo] objectForKey: kAppTrashUserInfoAfterFetchKey];
+	UTILAssertKindOfClass(reload_, NSNumber);
+	shouldReload_ = [reload_ boolValue];
+	
 	[self cleanUpItemsToBeRemoved : files_];
+	if (shouldReload_ && [files_ containsObject: [self path]]) {
+		[self reloadAfterDeletion: [files_ objectAtIndex: 0]];
+	}
 }
 
 - (void) registerToNotificationCenter

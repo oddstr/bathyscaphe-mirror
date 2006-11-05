@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-Validation.m,v 1.18 2006/04/11 17:31:21 masakih Exp $
+ * $Id: CMRBrowser-Validation.m,v 1.19 2006/11/05 12:53:47 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -8,9 +8,29 @@
 
 #import "CMRBrowser_p.h"
 
-#import "SmartBoardList.h"
-
 @implementation CMRBrowser(Validation)
+- (BOOL) validateDeleteThreadItemsEnabling: (NSArray *) threads
+{
+	NSEnumerator		*Iter_;
+	NSDictionary		*thread_;
+
+	if (!threads || [threads count] == 0) return NO;
+	
+	Iter_ = [threads objectEnumerator];
+	while((thread_ = [Iter_ nextObject])){
+		NSNumber	*status_;
+		
+		status_ = [thread_ objectForKey: CMRThreadStatusKey];
+		if(nil == status_) continue;
+		
+		if(ThreadLogCachedStatus & [status_ unsignedIntValue]) {
+			return YES;
+		}
+	}
+
+	return NO;
+}
+
 - (BOOL) validateUIItem : (id) theItem
 {
 	SEL			action_;
@@ -22,23 +42,65 @@
 	
 	if(action_ == @selector(openBBSInBrowser:)) return ([[self document] boardURL] != nil);
 	
-	if(action_ == @selector(deleteThread:) || action_ == @selector(openLogfile:)) {
-		NSEnumerator		*Iter_;
-		NSDictionary		*thread_;
-		
-		Iter_ = [[self selectedThreads] objectEnumerator];
-		while((thread_ = [Iter_ nextObject])){
-			NSNumber				*status_;
-			
-			status_ = [thread_ objectForKey : CMRThreadStatusKey];
-			if(nil == status_) continue;
-			
-			if(ThreadLogCachedStatus & [status_ unsignedIntValue])
-				return YES;
-		}
-		if([self shouldShowContents])
-			return [super validateUIItem : theItem];
+	if (action_ == @selector(addFavorites:)) {
+		CMRFavoritesOperation	operation_;
 
+		if ([theItem tag] == 781) { // Browser Contextual Menu
+			operation_ = [self favoritesOperationForThreads: [self selectedThreadsReallySelected]];
+		} else {
+			// ちょっとトリッキーで危ない判定方法
+			if([theItem isKindOfClass: [NSMenuItem class]] && [[theItem keyEquivalent] isEqualToString: @""]) { // Thread Contextual Menu
+				operation_ = [[CMRFavoritesManager defaultManager] availableOperationWithPath: [self path]];
+			} else {
+				NSView *focusedView_ = (NSView *)[[self window] firstResponder];
+				if (focusedView_ == [self textView] || [[[focusedView_ superview] superview] isKindOfClass : [IndexField class]]) {
+					operation_ = [[CMRFavoritesManager defaultManager] availableOperationWithPath: [self path]];
+				} else {
+					operation_ = [self favoritesOperationForThreads: [self selectedThreadsReallySelected]];
+				}
+			}
+		}
+		return [self validateAddFavoritesItem: theItem forOperation: operation_];
+	}
+
+	if(action_ == @selector(deleteThread:)) {
+
+		[self validateDeleteThreadItemTitle: theItem];
+		
+		if ([theItem tag] == 780) { // Browser Contextual Menu
+			return [self validateDeleteThreadItemsEnabling: [self selectedThreadsReallySelected]];
+		} else {
+			if ([theItem isKindOfClass: [NSMenuItem class]] && [[theItem keyEquivalent] isEqualToString: @""]) { // Thread Contexual Menu
+				return [super validateDeleteThreadItemEnabling: [self path]];
+			} else {
+				NSView *focusedView_ = (NSView *)[[self window] firstResponder];
+				if (focusedView_ == [self textView] || [[[focusedView_ superview] superview] isKindOfClass : [IndexField class]]) {
+					return [super validateDeleteThreadItemEnabling: [self path]];
+				} else {
+					return [self validateDeleteThreadItemsEnabling: [self selectedThreadsReallySelected]];
+				}
+			}
+		}
+		
+		return NO;
+	}
+	
+	if (action_ == @selector(reloadThread:)) {
+		if ([theItem tag] == 782) { // browser contextual menu
+			return YES;
+		} else {
+			if ([theItem isKindOfClass: [NSMenuItem class]] && [[theItem keyEquivalent] isEqualToString: @""]) { // Thread Contextual Menu
+				return [self threadAttributes] && ![self isDatOchiThread];
+			} else {
+				NSView *focusedView_ = (NSView *)[[self window] firstResponder];
+				if (focusedView_ == [self textView] || [[[focusedView_ superview] superview] isKindOfClass : [IndexField class]]) {
+					return [self threadAttributes] && ![self isDatOchiThread];
+				} else {
+					return ([[self selectedThreadsReallySelected] count] > 0);
+				}
+			}
+		}
+		
 		return NO;
 	}
 	
@@ -83,7 +145,7 @@
 		case 0:
 			return NO;
 		case 1:
-			return (NO == [SmartBoardList isFavorites : [bLT itemAtRow : [bLT selectedRow]]]);
+			return (NO == [BoardList isFavorites : [bLT itemAtRow : [bLT selectedRow]]]);
 		default:
 			return (tag_ == kBLDeleteItemViaMenubarItemTag);
 		}
@@ -118,12 +180,12 @@
 
 		if (rowIndex_ >= [bLT_ numberOfRows]) return NO;
 
-		id item_ = [bLT_ itemAtRow : rowIndex_];
+		NSDictionary		*item_ = [bLT_ itemAtRow : rowIndex_];
 		if (nil == item_) return NO;
 
-		if ([BoardListItem isBoardItem : item_] || [BoardListItem isSmartItem : item_]) {
+		if ([BoardList isBoard : item_]) {
 			return YES;
-		} else if ([BoardListItem isFolderItem : item_]) {
+		} else if ([BoardList isCategory : item_]) {
 			if (tag_ == kBLShowInspectorViaContMenuItemTag || tag_ == kBLOpenBoardItemViaContMenuItemTag)
 				return NO;
 			else

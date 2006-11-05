@@ -1,5 +1,5 @@
 /**
-  * $Id: w2chFavoriteItemList.m,v 1.9 2006/02/24 16:54:13 tsawada2 Exp $
+  * $Id: w2chFavoriteItemList.m,v 1.10 2006/11/05 12:53:47 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -43,6 +43,11 @@
 	          object : [CMRFavoritesManager defaultManager]];
 	
 	[super removeFromNotificationCenter];
+}
+
+- (BOOL) writeListToFileNow
+{
+	return YES;
 }
 
 - (NSString *) boardName
@@ -108,6 +113,30 @@
 
 
 @implementation w2chFavoriteItemList(DataSource)
+
+- (id) objectValueForIdentifier : (NSString *) identifier
+					threadArray : (NSArray  *) threadArray
+						atIndex : (int       ) index
+{
+	id				v = nil;
+	
+	if ([CMRThreadSubjectIndexKey isEqualToString : identifier]) {
+		NSDictionary	*thread = [threadArray objectAtIndex : index];
+		// 番号（お気に入り）
+		v = [NSNumber numberWithInt : ([[[CMRFavoritesManager defaultManager] favoritesItemsIndex]
+											indexOfObject : [CMRThreadAttributes pathFromDictionary : thread]]+1)];
+	} else {
+		// それ以外
+		return [super objectValueForIdentifier: identifier threadArray: threadArray atIndex: index];
+	}
+
+	// 新着スレッド／通常のスレッド
+	if(v) {
+		v = [[self class] objectValueTemplate: v forType: 0];//kValueTemplateDefaultType];
+	}
+	return v;
+}
+
 - (BOOL) tableView : (NSTableView *) tableView
 		 writeRows : (NSArray *) rows
 	  toPasteboard : (NSPasteboard *) pasteBoard
@@ -180,7 +209,6 @@
 		notification,
 		[CMRFavoritesManager defaultManager]);
 		
-	//NSLog(@"Favorites Added...");
 	[self startLoadingThreadsList : [self worker]];
 }
 - (void) favoritesManagerDidRemoveFavorites : (NSNotification *) notification
@@ -198,7 +226,7 @@
 		objectForKey : kAppFavoritesManagerInfoFilesKey];
 	UTILAssertNotNil(filepath_);
 
-	//Is it OK? Hmm... (05-03-05 tsawada2)
+	//NSLog(@"w2chFavoriteItemList received CMRFavoritesManagerDidRemoveFavoritesNotification");
 	[self startLoadingThreadsList : [self worker]];
 }
 
@@ -242,6 +270,28 @@
 @end
 
 @implementation w2chFavoriteItemList(ReadThreadsList)
+- (void) meteorSweeperUpdateFavorites
+{
+	if ([CMRPref oldFavoritesUpdated]) return;
+
+	[[CMRFavoritesManager defaultManager] updateFavItemsArrayWithAppendingNumOfMsgs];
+}
+
+- (void) doLoadThreadsList : (CMRThreadLayout *) worker
+{
+	UTILAssertNotNilArgument(worker, @"Thread Layout(Worker)");
+	/* MeteorSweeper Special */
+	[self meteorSweeperUpdateFavorites];
+
+	[self setWorker : worker];
+	
+	[_threadsListUpdateLock lock];
+	[self setThreads: [[CMRFavoritesManager defaultManager] favoritesItemsArray]];
+	[_threadsListUpdateLock unlock];
+
+	[self postListDidUpdateNotification : CMRAutoscrollWhenTLUpdate];
+}
+
 - (void) _applyFavItemsPool
 {
 	// Nothing need to be done.

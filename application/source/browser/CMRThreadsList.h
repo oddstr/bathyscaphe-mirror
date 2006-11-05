@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.h,v 1.6 2006/02/12 15:39:46 tsawada2 Exp $
+  * $Id: CMRThreadsList.h,v 1.7 2006/11/05 12:53:47 tsawada2 Exp $
   * 
   * CMRThreadsList.h
   *
@@ -10,7 +10,6 @@
 #import "CocoMonar_Prefix.h"
 
 @class CMRDownloader;
-@class CMRSearchOptions;
 @class CMRThreadLayout;
 @class CMXDateFormatter;
 
@@ -91,7 +90,11 @@
 @interface CMRThreadsList(Filter)
 - (void) filterByDisplayingThreadAtPath : (NSString *) filepath;
 - (void) filterByStatus : (int) status;
-- (BOOL) filterByFindOperation : (CMRSearchOptions *) operation;
+// Deprecated. Use filterByString: instead.
+//- (BOOL) filterByFindOperation : (CMRSearchOptions *) operation;
+
+// Available in MeteorSweeper.
+- (BOOL) filterByString: (NSString *) searchString;
 
 - (NSArray *) _arrayWithStatus : (ThreadStatus    ) status
                fromSortedArray : (NSMutableArray *) array

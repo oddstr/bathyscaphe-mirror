@@ -1,7 +1,7 @@
 //:ThreadViewer_p.h
 #import "CMRThreadViewer.h"
 #import "BSTitleRulerView.h"
-#import "CMRStatusLineWindowController_p.h";
+#import "CMRStatusLineWindowController.h";
 #import "AppDefaults.h"
 
 #import "CMRBBSSignature.h"
@@ -14,7 +14,6 @@
 #import "CMRIndexingStepper.h"
 #import "BSIndexingPopupper.h"
 
-#import "CMRFavoritesManager.h"
 #import "CMRTrashbox.h"
 #import "CMRTaskManager.h"
 #import "CMRDocumentFileManager.h"
@@ -98,7 +97,6 @@ extern NSString *const CMRThreadViewerRunSpamFilterNotification;
 
 
 @interface CMRThreadViewer(ActionSupport)
-//- (CMRFavoritesOperation) favoritesOperationForThreads : (NSArray *) threadsArray;
 - (void) addMessenger : (CMRReplyMessenger *) aMessenger;
 - (CMRReplyMessenger *) messenger : (BOOL) create;
 - (void) replyMessengerDidFinishPosting : (NSNotification *) aNotification;
@@ -106,7 +104,6 @@ extern NSString *const CMRThreadViewerRunSpamFilterNotification;
 
 - (void) openThreadsInThreadWindow : (NSArray *) threads;
 - (void) openThreadsInBrowser : (NSArray *) threads;
-- (void) openThreadsLogFiles : (NSArray *) threads;
 @end
 
 

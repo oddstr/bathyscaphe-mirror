@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.15 2006/02/19 08:49:19 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.16 2006/11/05 12:53:47 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -150,10 +150,10 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 			diff_ = [CMRThreadAttributes numberOfUpdatedFromDictionary : thread];
 			v = (diff_ >= 0) ? [NSNumber numberWithInt : diff_] : nil;
 		}
-	} else if ([self isFavorites] && [CMRThreadSubjectIndexKey isEqualToString : identifier]) {
+	/*} else if ([self isFavorites] && [CMRThreadSubjectIndexKey isEqualToString : identifier]) {
 		// 番号（お気に入り）
 		v = [NSNumber numberWithInt : ([[[CMRFavoritesManager defaultManager] favoritesItemsIndex]
-											indexOfObject : [CMRThreadAttributes pathFromDictionary : thread]]+1)];
+											indexOfObject : [CMRThreadAttributes pathFromDictionary : thread]]+1)];*/
 	} else if ([identifier isEqualToString : ThreadPlistIdentifierKey]) {
 		// スレッドの立った日付（dat 番号を変換）available in RainbowJerk and later.
 		v = [NSDate dateWithTimeIntervalSince1970 : (NSTimeInterval)[[thread objectForKey : identifier] doubleValue]];
@@ -327,7 +327,7 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	[self _filteredThreadsLock];
 	//threadsArray_ = [[self threadsForTableView : tableView] retain];
 	threadsArray_ = [[self filteredThreads] retain];
-	[self _filteredThreadsUnlock];
+	
 	
 	if(rowIndex < 0 || rowIndex >= [threadsArray_ count])
 		return nil;
@@ -339,6 +339,9 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 		rowIndex);
 	
 	thread_ = [threadsArray_ objectAtIndex : rowIndex];
+	
+	[self _filteredThreadsUnlock];
+	
 	[thread_ retain];
 	[threadsArray_ release];
 	

@@ -1,6 +1,6 @@
 //: CMRTaskManager-Management.m
 /**
-  * $Id: CMRTaskManager-Management.m,v 1.2 2006/09/02 11:41:01 masakih Exp $
+  * $Id: CMRTaskManager-Management.m,v 1.3 2006/11/05 12:53:48 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.

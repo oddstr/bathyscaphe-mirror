@@ -14,8 +14,6 @@
 #import "CMRFavoritesManager.h"
 #import "AppDefaults.h"
 
-#import "BSDBThreadList.h"
-
 @implementation CMRThreadsListReadFileTask(Private)
 - (NSString *) threadsListPath
 {
@@ -141,16 +139,18 @@
 	
 	bName_ = [self boardName];
 
-	if ([bName_ isEqualToString : CMXFavoritesDirectoryName]) {
-		list_ = [[CMRFavoritesManager defaultManager] favoritesItemsArray];
-	} else {
+	//if ([bName_ isEqualToString : CMXFavoritesDirectoryName]) {
+	//	list_ = [[CMRFavoritesManager defaultManager] favoritesItemsArray];
+	//} else {
 		list_ = [NSArray arrayWithContentsOfFile : [self threadsListPath]];
-	}
-	if (nil == list_) {
+	//}
+	
+	if(nil == list_) {
 		SGFileRef			*folder;
 		folder = [[CMRDocumentFileManager defaultManager] ensureDirectoryExistsWithBoardName : bName_];
 		UTILAssertNotNil(folder);
-		list_ = [BSDBThreadList threadsListTemplateWithPath : [folder filepath]];
+
+		list_ = [CMRThreadsList threadsListTemplateWithPath : [folder filepath]];
 	}
 	
 	converted_ = [self convertThreadsList : list_];
