@@ -1,5 +1,5 @@
 /**
-  * $Id: GeneralPrefController.m,v 1.10 2006/05/17 01:07:53 tsawada2 Exp $
+  * $Id: GeneralPrefController.m,v 1.11 2006/11/05 13:02:22 tsawada2 Exp $
   * 
   * GeneralPrefController.m
   *
@@ -38,49 +38,54 @@
 	[[self preferences] setThreadsListAutoscrollMask : mask_];
 }
 
-#pragma mark ShortCircuit Additions
-/*
-	2005-10-08 tsawada2<ben-sawa@td5.so-net.ne.jp>
-	firstVisible メソッドの返り値が、ポップアップボタンの各項目の tag とバインドされている。
-	ただし、NSNotFound だけは -1 に変換する。NSNotFound は「すべてを表示」に対応している。
-	他の項目は、メニューの「xxレス」のxxと tag が同じ数字になっている（やや汎用性に欠ける？）。
-	lastVisible も同様。
-*/
-/*- (int) firstVisible
+- (int) autoscrollMaskForTag : (int) tag
 {
-	if ([[self preferences] firstVisibleCount] == NSNotFound) {
-		//NSLog(@"NSNotFound converted to -1");
-		return -1;
-	}
-	return [[self preferences] firstVisibleCount];
+	static int masks_[] = {
+					CMRAutoscrollWhenTLUpdate,
+					CMRAutoscrollWhenTLSort,
+					CMRAutoscrollWhenThreadUpdate
+			};
+
+	NSAssert2(
+		tag >= 0 && tag < UTILNumberOfCArray(masks_),
+		@"Accessing over bounds(%d) length = %u",
+		tag,
+		UTILNumberOfCArray(masks_));
+	return masks_[tag];
 }
 
-- (void) setFirstVisible : (int) tag_
+- (NSMatrix *) autoscrollMaskCheckBox
 {
-	if (tag_ == -1) {
-		[[self preferences] setFirstVisibleCount : NSNotFound];
-		return;
-	}
-	[[self preferences] setFirstVisibleCount : tag_];
+	return _autoscrollMaskCheckBox;
 }
-- (int) lastVisible
+/*
+- (void) updateListUIComponents
 {
-	if ([[self preferences] lastVisibleCount] == NSNotFound) {
-		//NSLog(@"NSNotFound converted to -1");
-		return -1;
-	}
-	return [[self preferences] lastVisibleCount];
-}
-- (void) setLastVisible : (int) tag_;
-{
-	if (tag_ == -1) {
-		[[self preferences] setLastVisibleCount : NSNotFound];
-		return;
-	}
-	[[self preferences] setLastVisibleCount : tag_];
 }
 */
-#pragma mark Vita Additions
+- (void) updateUIComponents
+{
+	int	i;
+	int	cnt		= [[self autoscrollMaskCheckBox] numberOfRows];
+	int	mask_	= [[self preferences] threadsListAutoscrollMask];
+	
+	for (i = 0; i < cnt; i++) {
+		[[[self autoscrollMaskCheckBox] cellWithTag : i] setState : 
+			(([self autoscrollMaskForTag : i] & mask_)
+				? NSOnState
+				: NSOffState)];
+	}
+	//[self updateListUIComponents];
+}
+
+- (void) setupUIComponents
+{
+	if (nil == _contentView) return;
+	
+	[self updateUIComponents];
+}
+
+#pragma mark Vita Additions (Binding)
 - (int) mailFieldOption
 {
 	BOOL	_mailAddressShown = [[self preferences] mailAddressShown];
@@ -113,57 +118,6 @@
 	default:
 		break;
 	}
-}
-@end
-
-
-@implementation GeneralPrefController(View)
-- (int) autoscrollMaskForTag : (int) tag
-{
-	static int masks_[] = {
-					CMRAutoscrollWhenTLUpdate,
-					CMRAutoscrollWhenTLSort,
-					CMRAutoscrollWhenThreadUpdate
-			};
-
-	NSAssert2(
-		tag >= 0 && tag < UTILNumberOfCArray(masks_),
-		@"Accessing over bounds(%d) length = %u",
-		tag,
-		UTILNumberOfCArray(masks_));
-	return masks_[tag];
-}
-
-- (NSMatrix *) autoscrollMaskCheckBox
-{
-	return _autoscrollMaskCheckBox;
-}
-
-- (void) updateListUIComponents
-{
-	int	i;
-	int	cnt		= [[self autoscrollMaskCheckBox] numberOfRows];
-	int	mask_	= [[self preferences] threadsListAutoscrollMask];
-	
-	for (i = 0; i < cnt; i++) {
-		[[[self autoscrollMaskCheckBox] cellWithTag : i] setState : 
-			(([self autoscrollMaskForTag : i] & mask_)
-				? NSOnState
-				: NSOffState)];
-	}
-}
-
-- (void) updateUIComponents
-{
-	[self updateListUIComponents];
-}
-
-- (void) setupUIComponents
-{
-	if (nil == _contentView)
-		return;
-	
-	[self updateUIComponents];
 }
 @end
 

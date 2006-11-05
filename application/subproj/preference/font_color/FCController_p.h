@@ -15,14 +15,11 @@
 - (NSButton *) boardListTextFontButton;
 - (NSButton *) beProfileFontButton;
 
-- (NSTextField *) rowHeightField;
-- (NSStepper *) rowHeightStepper;
+//- (NSTextField *) rowHeightField;
+//- (NSStepper *) rowHeightStepper;
 
-- (NSTextField *) boardListRowHeightField;
-- (NSStepper *) boardListRowHeightStepper;
-
-- (void) updateTableRowSettings;
-- (void) updateBoardListRowSettings;
+//- (void) updateTableRowSettings;
+//- (void) updateBoardListRowSettings;
 
 - (NSFont *) getFontOf : (int) btnTag;
 @end

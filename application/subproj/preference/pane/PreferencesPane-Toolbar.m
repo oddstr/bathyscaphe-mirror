@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesPane-Toolbar.m,v 1.4 2006/04/11 17:31:21 masakih Exp $
+  * $Id: PreferencesPane-Toolbar.m,v 1.5 2006/11/05 13:02:22 tsawada2 Exp $
   * 
   * PreferencesPane-Toolbar.m
   *
@@ -69,11 +69,12 @@
 	
 	return [NSArray arrayWithObjects :
 				PPGeneralPreferencesIdentifier,
-				PPAccountSettingsIdentifier,
-				PPFilterPreferencesIdentifier,
 				PPFontsAndColorsIdentifier,
-				PPSoundsPreferencesIdentifier,
+				PPAccountSettingsIdentifier,
+				PPSyncPreferencesIdentifier,
+				PPFilterPreferencesIdentifier,
 				PPReplyDefaultIdentifier,
+				PPSoundsPreferencesIdentifier,
 				PPAdvancedPreferencesIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,
 				nil];
@@ -86,11 +87,12 @@
 	
 	return [NSArray arrayWithObjects :
 				PPGeneralPreferencesIdentifier,
-				PPAccountSettingsIdentifier,
-				PPFilterPreferencesIdentifier,
 				PPFontsAndColorsIdentifier,
-				PPSoundsPreferencesIdentifier,
+				PPAccountSettingsIdentifier,
+				PPSyncPreferencesIdentifier,
+				PPFilterPreferencesIdentifier,
 				PPReplyDefaultIdentifier,
+				PPSoundsPreferencesIdentifier,
 				PPAdvancedPreferencesIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,
 				nil];
@@ -103,11 +105,12 @@
 	
 	return [NSArray arrayWithObjects :
 				PPGeneralPreferencesIdentifier,
-				PPAccountSettingsIdentifier,
-				PPFilterPreferencesIdentifier,
 				PPFontsAndColorsIdentifier,
-				PPSoundsPreferencesIdentifier,
+				PPAccountSettingsIdentifier,
+				PPSyncPreferencesIdentifier,
+				PPFilterPreferencesIdentifier,
 				PPReplyDefaultIdentifier,
+				PPSoundsPreferencesIdentifier,
 				PPAdvancedPreferencesIdentifier,
 				nil];
 }

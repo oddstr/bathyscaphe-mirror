@@ -18,3 +18,4 @@ extern NSString *const PPFontsAndColorsIdentifier;
 extern NSString *const PPAccountSettingsIdentifier;
 extern NSString *const PPReplyDefaultIdentifier;
 extern NSString *const PPSoundsPreferencesIdentifier; // available in BathyScaphe 1.2 and later.
+extern NSString *const PPSyncPreferencesIdentifier; // available in BathyScaphe 1.3 and later.

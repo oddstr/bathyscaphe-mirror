@@ -22,7 +22,7 @@
 }
 #pragma mark -
 // Proxy
-- (IBAction) changeProxyURL : (id) sender
+/*- (IBAction) changeProxyURL : (id) sender
 {
 	id		location_;
 	
@@ -60,7 +60,7 @@
 	[[self preferences] setUsesSystemConfigProxy : 
 		([sender state] == NSOnState)];
 	[self updateProxyUIComponents];
-}
+}*/
 
 - (void) updateHelperAppUI
 {
@@ -119,32 +119,38 @@
 		didEndSelector : @selector(didEndChooseAppSheet:returnCode:contextInfo:)
 		   contextInfo : nil];
 }
-
+/*
 - (void)proxySheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
 	[sheet close];
 }
-
-- (IBAction) openSheet : (id) sender
+*/
+- (IBAction) openNetworkPrefsPane : (id) sender;
 {
+	/*
 	[self updateProxyUIComponents];
 	[NSApp beginSheet : [self proxySheet]
 		modalForWindow : [self window]
 		modalDelegate : self
 		didEndSelector : @selector(proxySheetDidEnd:returnCode:contextInfo:) 
-		contextInfo : NULL];
+		contextInfo : NULL];*/
+	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
+	NSString *systemPrefsAppPath = [ws absolutePathForAppBundleWithIdentifier: @"com.apple.systempreferences"];
+	NSString *netWorkPrefPanePath = @"/System/Library/PreferencePanes/Network.prefPane";
+	
+	[ws openFile: netWorkPrefPanePath withApplication: [systemPrefsAppPath lastPathComponent]];
 }
-- (IBAction) closeSheet : (id) sender
+/*- (IBAction) closeSheet : (id) sender
 {
 	[self changeProxyURL : nil];	// 念のため
 	[self changeProxyPort : nil]; // 念のため
 	[NSApp endSheet : [self proxySheet]];
-}
+}*/
 
 
 #pragma mark Accessors (IB outlet)
 // Proxy
-- (NSButton *) usesProxyCheckBox
+/*- (NSButton *) usesProxyCheckBox
 {
 	return _usesProxyCheckBox;
 }
@@ -163,40 +169,33 @@
 - (NSTextField *) proxyPortField
 {
 	return _proxyPortField;
-}
+}*/
 - (NSPopUpButton *) helperAppBtn
 {
 	return _helperAppBtn;
 }
-
+/*
 - (NSWindow *) proxySheet
 {
 	return _proxySheet;
-}
+}*/
 
-- (NSButton *) openSheetBtn
+- (NSButton *) openNetworkPaneBtn
 {
-	return _openSheetBtn;
+	return _openNetworkPaneBtn;
 }
-- (NSButton *) closeSheetBtn
+/*- (NSButton *) closeSheetBtn
 {
 	return _closeSheetBtn;
-}
+}*/
 
 #pragma mark setting up UIs
-- (void) updateProxyUIComponents
+/*- (void) updateProxyUIComponents
 {
 	BOOL		usesProxy_;
 	BOOL		syncSysConfing;
 	NSString	*proxyHost_;
 	CFIndex		proxyPort_;
-	
-	/*if (NO == [[self usesProxyCheckBox] isEnabled] &&
-	   NO == [[self proxyWhenPOSTCheckBox] isEnabled] &&
-	   NO == [[self proxyURLField] isEnabled] &&
-	   NO == [[self proxyPortField] isEnabled] &&
-	   NO == [[self usesSystemConfigProxyCheckBox] isEnabled])
-	{ return; }*/
 	
 	usesProxy_ = [[self preferences] usesProxy];
 	syncSysConfing = [[self preferences] usesSystemConfigProxy];
@@ -209,7 +208,7 @@
 	[[self usesSystemConfigProxyCheckBox] setState : 
 		(syncSysConfing ? NSOnState : NSOffState)];
 	
-	/* configure UI components */
+	// configure UI components
 	[[self usesSystemConfigProxyCheckBox] setEnabled : usesProxy_];
 	[[self proxyWhenPOSTCheckBox] setEnabled : usesProxy_];
 	[[self proxyURLField] setEnabled : usesProxy_];
@@ -226,7 +225,7 @@
 			? (id)[NSNumber numberWithInt : proxyPort_]
 			: (id)@""];
 	
-}
+}*/
 /*
 - (void) setupProxyUIComponents
 {

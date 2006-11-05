@@ -41,10 +41,10 @@
 {
 	return m_shouldLoginCheckBox;
 }
-- (NSButton *) shouldLoginBe2chCheckBox
+/*- (NSButton *) shouldLoginBe2chCheckBox
 {
 	return m_shouldLoginBe2chCheckBox;
-}
+}*/
 @end
 
 
@@ -84,8 +84,8 @@
 			hasAccountInKeychain_ ? NSOnState : NSOffState];
 	[[self shouldLoginCheckBox] setState : 
 			shouldLoginIfNeeded_ ? NSOnState : NSOffState];
-	[[self shouldLoginBe2chCheckBox] setState : 
-			[[self preferences] shouldLoginBe2chAnyTime] ? NSOnState : NSOffState];
+	//[[self shouldLoginBe2chCheckBox] setState : 
+	//		[[self preferences] shouldLoginBe2chAnyTime] ? NSOnState : NSOffState];
 	
 	if(hasAccountInKeychain_){
 		password_ = [[self preferences] password];

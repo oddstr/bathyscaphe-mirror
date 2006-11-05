@@ -1,145 +1,101 @@
-//:CMRReplyDefaultsController.m
+//
+//  CMRReplyDefaultsController.m
+//  BathyScaphe
+//
+//  Modified by Tsutomu Sawada on 06/09/08.
+//  Copyright 2006 BathyScaphe Project. All rights reserved.
+//
+
 #import "CMRReplyDefaultsController.h"
 #import "PreferencePanes_Prefix.h"
 
+static NSString *const kLabelKey	= @"Reply Label";
+static NSString *const kToolTipKey	= @"Reply ToolTip";
+static NSString *const kImageName	= @"ResToThread";
+static NSString *const kHelpKey		= @"Help_Reply";
 
-#define kLabelKey		@"Reply Label"
-#define kToolTipKey		@"Reply ToolTip"
-#define kImageName		@"ResToThread"
-
-#define REPLYDEFAULTSCONTROLLER_LOAD_NIB_NAME		@"ReplySetting"
+static NSString *const kReplyDefaultsControllerNibName = @"ReplySetting";
 
 @implementation CMRReplyDefaultsController
 - (NSString *) mainNibName
 {
-	return REPLYDEFAULTSCONTROLLER_LOAD_NIB_NAME;
+	return kReplyDefaultsControllerNibName;
 }
 
-#pragma mark Accessors
-- (NSTextField *) defaultNameField
+- (void) dealloc
 {
-	return m_defaultNameField;
-}
-- (NSTextField *) defaultMailField
-{
-	return m_defaultMailField;
-}
-- (NSTableView *) nameListTable
-{
-	return m_nameListTable;
-}
-- (NSButton *) removeRowBtn
-{
-	return m_removeRowBtn;
+	[m_temporaryKoteHan release];
+	m_temporaryKoteHan = nil;
+	[m_addKoteHanSheet release];
+	[super dealloc];
 }
 
-#pragma mark IBActions
-- (IBAction) changeDefaultName : (id) sender
-{
-	UTILAssertKindOfClass(sender, NSTextField);
-	[[self preferences] setDefaultReplyName : [sender stringValue]];
-}
-- (IBAction) changeDefaultMail : (id) sender
-{
-	UTILAssertKindOfClass(sender, NSTextField);
-	[[self preferences] setDefaultReplyMailAddress : [sender stringValue]];
-}
-
-- (IBAction) addRow : (id) sender
-{
-	if (nil == _nameList){
-		_nameList = [[NSMutableArray alloc] init];
-	}
-	[_nameList addObject : @""];
-	[[self nameListTable] reloadData];
-	int rowIndex = ([_nameList count]-1);
-	[[self nameListTable] selectRow : rowIndex byExtendingSelection: NO]; //deprecated on 10.3
-	[[self nameListTable] editColumn: 0 row:rowIndex withEvent:nil select:YES];//追加された項目を編集可能状態にする
-}
-- (IBAction) removeRow : (id) sender
-{
-	int row = [[self nameListTable] selectedRow];
-	if (row != -1){
-		[_nameList removeObjectAtIndex : row];
-		[[self nameListTable] reloadData];
-		
-		[[self preferences] setDefaultKoteHanList : _nameList];
-	} else {
-		NSBeep();
-	}
-}
-
-#pragma mark Override Methods
 - (void) setupUIComponents
 {
-	[self updateUIComponents];
-}
-- (void) updateUIComponents
-{
-	NSString		*value_;
-	
-	if(nil == _contentView || nil == [self preferences]) return;
-	
-	_nameList = [[[self preferences] defaultKoteHanList] mutableCopy];
-	//if(nil == _nameList) NSLog(@"No KoteHan List Found, so we cannot mutablecopy...");
-	
-	value_ = [[self preferences] defaultReplyName];
-	[[self defaultNameField] setStringValue : value_];
-	value_ = [[self preferences] defaultReplyMailAddress];
-	[[self defaultMailField] setStringValue : value_];
-	
-	[[self nameListTable] reloadData];
+	[self addKoteHanSheet];
 }
 
-
-#pragma mark TableView Data Source
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+#pragma mark -
+- (NSString *) temporaryKoteHan
 {
-    return [_nameList count];
+	return m_temporaryKoteHan;
+}
+- (void) setTemporaryKoteHan: (NSString *) someText
+{
+	[someText retain];
+	[m_temporaryKoteHan release];
+	m_temporaryKoteHan = someText;
 }
 
-- (id)tableView:(NSTableView *)aTableView
-        objectValueForTableColumn:(NSTableColumn *)aTableColumn
-        row:(int)rowIndex
+- (NSPanel *) addKoteHanSheet
 {
-	if([[aTableColumn identifier] isEqualToString:@"name"]) {
-		return [_nameList objectAtIndex:rowIndex];
-    }
-	return nil;
+	return m_addKoteHanSheet;
 }
 
-- (void)tableView:(NSTableView *)aTableView
-        setObjectValue:(id)anObject
-		forTableColumn:(NSTableColumn *)aTableColumn
-        row:(int)rowIndex
+- (NSTableView *) koteHanListTable
 {
-	if([[aTableColumn identifier] isEqualToString:@"name"]) {
-		// 内容が空でないときのみそれをDefaultKoteHanListに追加／更新する。
-		if(![anObject isEqualToString:@""]){
-			//NSLog(@"Not Empty, so we replaceObjectAtIndex...");
-			[_nameList replaceObjectAtIndex:rowIndex withObject:anObject];
+	return m_koteHanListTable;
+}
 
-			[[self preferences] setDefaultKoteHanList : _nameList];
+- (IBAction) addKoteHan: (id) sender
+{
+	[self setTemporaryKoteHan: nil];
+
+	[NSApp beginSheet: [self addKoteHanSheet]
+	   modalForWindow: [self window]
+	    modalDelegate: self
+	   didEndSelector: @selector(addKoteHanSheetDidEnd:returnCode:contextInfo:)
+		  contextInfo: nil];
+}
+
+- (IBAction) closeKoteHanSheet: (id) sender
+{
+	[NSApp endSheet: [self addKoteHanSheet] returnCode: [sender tag]];
+}
+
+- (void) addKoteHanSheetDidEnd: (NSWindow *) sheet returnCode: (int) returnCode contextInfo: (void *) contextInfo
+{
+	if (returnCode == NSOKButton) {
+		NSMutableArray	*newKoteHanList = [[[self preferences] defaultKoteHanList] mutableCopy];
+		if (!newKoteHanList) {
+			newKoteHanList = [[NSMutableArray alloc] init];
 		}
-    }
-}
 
+		NSArray			*adds_ = [[self temporaryKoteHan] componentsSeparatedByString: @"\n"];
+		[newKoteHanList addObjectsFromArray: adds_];
+		[[self preferences] setDefaultKoteHanList: newKoteHanList];
+		[newKoteHanList release];
 
-#pragma mark TableView Delegate
-- (void)tableViewSelectionDidChange:(NSNotification *)aNotification
-{
-	int row = [[self nameListTable] selectedRow];
-	if (row == -1){
-		[[self removeRowBtn] setEnabled : NO];
-	} else {
-		[[self removeRowBtn] setEnabled : YES];
+		unsigned int index_ = [[[self preferences] defaultKoteHanList] count] -1;
+		[[self koteHanListTable] selectRowIndexes: [NSIndexSet indexSetWithIndex: index_] byExtendingSelection: NO];
+		[[self koteHanListTable] scrollRowToVisible: index_];
 	}
+	
+	[sheet close];
 }
-
 @end
 
-
-
+#pragma mark -
 @implementation CMRReplyDefaultsController(Toolbar)
 - (NSString *) identifier
 {
@@ -147,7 +103,7 @@
 }
 - (NSString *) helpKeyword
 {
-	return PPLocalizedString(@"Help_Reply");
+	return PPLocalizedString(kHelpKey);
 }
 - (NSString *) label
 {

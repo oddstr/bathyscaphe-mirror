@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesPane.m,v 1.3 2006/01/27 17:52:53 tsawada2 Exp $
+  * $Id: PreferencesPane.m,v 1.4 2006/11/05 13:02:22 tsawada2 Exp $
   * 
   * PreferencesPane.m
   *
@@ -9,6 +9,8 @@
 #import "PreferencesPane.h"
 #import "AppDefaults.h"
 #import "PreferencesController.h"
+
+#import "BSTagValueTransformer.h"
 
 #define DefineConstStr(symbol, value)		NSString *const symbol = value
 
@@ -23,6 +25,7 @@ DefineConstStr(PPAccountSettingsIdentifier, @"AccountSettings");
 DefineConstStr(PPFontsAndColorsIdentifier, @"FontsAndColors");
 DefineConstStr(PPReplyDefaultIdentifier, @"ReplyDefaults");
 DefineConstStr(PPSoundsPreferencesIdentifier, @"Sounds");
+DefineConstStr(PPSyncPreferencesIdentifier, @"Sync");
 
 
 @implementation PreferencesPane
@@ -31,6 +34,14 @@ DefineConstStr(PPSoundsPreferencesIdentifier, @"Sounds");
 	if (self = [super initWithWindowNibName : @"PreferencesPane"]) {
 		[self setPreferences : prefs];
 		[self makePreferencesControllers];
+
+		// For use in GeneralPref
+		id transformer = [[[BSTagValueTransformer alloc] init] autorelease];
+		[NSValueTransformer setValueTransformer: transformer forName: @"BSTagValueTransformer"];
+
+		// For use in FilterPane
+		id transformer2 = [[[BSTagToBoolTransformer alloc] init] autorelease];
+		[NSValueTransformer setValueTransformer: transformer2 forName: @"BSTagToBoolTransformer"];
 	}
 	return self;
 }

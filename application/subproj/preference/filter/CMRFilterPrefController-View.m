@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFilterPrefController-View.m,v 1.1 2005/05/11 17:51:10 tsawada2 Exp $
+  * $Id: CMRFilterPrefController-View.m,v 1.2 2006/11/05 13:02:21 tsawada2 Exp $
   * 
   * CMRFilterPrefController-View.m
   *
@@ -11,7 +11,7 @@
 
 
 @implementation CMRFilterPrefController(View)
-- (NSButton *) spamFilterEnabledCheckBox
+/*- (NSButton *) spamFilterEnabledCheckBox
 {
 	return _spamFilterEnabledCheckBox;
 }
@@ -22,7 +22,7 @@
 - (NSMatrix *) spamFilterBehaviorMatrix
 {
 	return _spamFilterBehaviorMatrix;
-}
+}*/
 - (NSWindow *) detailSheet
 {
 	return _detailSheet;
@@ -33,7 +33,7 @@
 }
 
 
-- (void) setupSpamFilterComponents
+/*- (void) setupSpamFilterComponents
 {
 	[self preferencesRespondsTo : @selector(spamFilterEnabled)
 					  ofControl : [self spamFilterEnabledCheckBox]];
@@ -51,18 +51,18 @@
 	
 	[self syncSelectedTag : [self spamFilterBehaviorMatrix]
 					 with : @selector(spamFilterBehavior)];
-}
+}*/
 
 - (void) updateUIComponents
 {
-	[self updateSpamFilterComponents];
+	//[self updateSpamFilterComponents];
 }
 - (void) setupUIComponents
 {
 	if (nil == _contentView)
 		return;
 	
-	[self setupSpamFilterComponents];
-	[self updateUIComponents];
+	//[self setupSpamFilterComponents];
+	//[self updateUIComponents];
 }
 @end

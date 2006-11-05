@@ -21,7 +21,7 @@
 	
 	IBOutlet NSButton			*m_shouldSavePWCheckBox;
 	IBOutlet NSButton			*m_shouldLoginCheckBox;
-	IBOutlet NSButton			*m_shouldLoginBe2chCheckBox;
+//	IBOutlet NSButton			*m_shouldLoginBe2chCheckBox;
 	
 	IBOutlet NSButton			*m_saveButton;
 }
@@ -34,7 +34,7 @@
 
 - (IBAction) changeShouldSavePassword : (id) sender;
 - (IBAction) changeShouldLoginIfNeeded : (id) sender;
-- (IBAction) changeShouldLoginBe2chAnytime : (id) sender;
+//- (IBAction) changeShouldLoginBe2chAnytime : (id) sender;
 
 - (IBAction) changeAddressField : (id) sender;
 - (IBAction) changeCodeField : (id) sender;
