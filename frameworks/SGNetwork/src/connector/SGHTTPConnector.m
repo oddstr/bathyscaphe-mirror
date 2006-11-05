@@ -1,5 +1,5 @@
 /**
-  * $Id: SGHTTPConnector.m,v 1.1 2005/05/11 17:51:50 tsawada2 Exp $
+  * $Id: SGHTTPConnector.m,v 1.2 2006/11/05 13:35:34 tsawada2 Exp $
   * 
   * SGHTTPConnector.m
   *
@@ -225,6 +225,10 @@
 }
 - (void) setProxy : (NSString *) proxy
 			 port : (CFIndex   ) port
+{
+	NSLog(@"Method setProxy:port: in SGHTTPConnector has been deprecated.");
+}
+- (void) setProxyIfNeeded
 {
 }
 @end

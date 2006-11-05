@@ -1,6 +1,6 @@
 //: SGHTTPConnector.h
 /**
-  * $Id: SGHTTPConnector.h,v 1.1 2005/05/11 17:51:50 tsawada2 Exp $
+  * $Id: SGHTTPConnector.h,v 1.2 2006/11/05 13:35:34 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -49,9 +49,11 @@
 - (NSURL *) requestURL;
 - (NSString *) requestMethod;
 - (void) writePropertiesFromDictionary : (NSDictionary *) otherDictionary;
-
+// Deprecated. Use -setProxyIfNeeded instead.
 - (void) setProxy : (NSString *) proxy
 			 port : (CFIndex   ) port;
+// Available in MeteorSweeper. Copy system's proxy settings (if no settings, do nothing).
+- (void) setProxyIfNeeded;
 @end
 
 
