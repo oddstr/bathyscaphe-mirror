@@ -34,12 +34,8 @@
 
 @interface NSObject(ProxySettingsStub)
 // Proxy
-- (BOOL) usesProxy;
-- (BOOL) usesSystemConfigProxy;
-
-- (void) getProxy:(NSString**)host port:(CFIndex*)port;
-- (CFIndex) proxyPort;
-- (NSString *) proxyHost;
+- (BOOL) usesOwnProxy;
+- (void) getOwnProxy:(NSString**)host port:(CFIndex*)port;
 @end
 
 
@@ -358,7 +354,7 @@ static id fnc_stringByURLEncodingUsingEncoding(id obj, NSStringEncoding enc)
 	UTILAssertRespondsTo(pref, @selector(getProxy:port:));
 	
 	// proxy
-	if ([pref usesProxy]) {
+	/*if ([pref usesProxy]) {
 		NSString	*host;
 		CFIndex		port;
 		
@@ -367,8 +363,18 @@ static id fnc_stringByURLEncodingUsingEncoding(id obj, NSStringEncoding enc)
 		UTILDebugWrite3(
 			@"  using proxy (Host:%@ Port:%d)\n\t"
 			@"  for %@", host, port, [[self requestURL] stringValue]);
+	}*/
+	if ([pref usesOwnProxy]) {
+		NSLog(@"WARNING: You are using BathyScaphe's own proxy settings, but this feature will be deprecated in the future.");
+		NSString	*host;
+		CFIndex		port;
+		[pref getOwnProxy: &host port: &port];
+		[[self connector] setProxy: host port: port];
+	} else {
+		[[self connector] setProxyIfNeeded];
 	}
 }
+
 - (NSData *) loadInForeground
 {
 	[self setUpProxy];
