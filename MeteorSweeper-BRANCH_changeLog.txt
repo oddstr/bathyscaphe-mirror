@@ -1,0 +1,720 @@
+2006-10-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/board_default.plist
+		最新の board_default.plist に更新。
+	* ヘルプの更新 - ほとんどのファイルが更新されている。
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/addBrdSheet130.png
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/boardoption130.png
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/browserwin130.png
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/navigationBar130.png
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/previewer130.png
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/syncpane.png
+		[新規追加]ヘルプの図版。
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/del_attribute_response.html
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/setting_synchronization.html
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/open_url_thread_etc.html
+		[新規追加]ヘルプの新しいトピック。
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/post_with_sage_always.html
+		[削除]ヘルプの削除されたトピック。
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/boardoption.png
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/browserwin.png
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/bwagent.png
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/headcheck.png
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/previewer.png
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/res_btn.png
+		[削除]ヘルプの削除された図版。
+2006-10-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/preferences/AppDefaults-FontColor.m
+		行の高さを設定するときに、「フォントに合わせる」をクリックした際は、フォントサイズから計算される高さの他に、
+		掲示板リストやステータスのアイコンの縦サイズを考慮するようにした。
+	* application/Resources/Japanese.lproj/browserListColumns.plist
+		「番号」カラムもリサイズできるようにした。また、いくつかのカラムの最小幅をより小さい値にした。
+2006-10-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-Action.m
+		「履歴」メニューから command キーを押しながらスレッドを選んだときは、常にスレッドを新規ウインドウで開くようにした。
+2006-09-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer.m
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/thread/CMRThreadViewer-Download.m
+	* application/source/browser/CMRBrowser-Action.m
+		スレッドを「削除して再取得」する場合の、再取得するタイミングを変更した。CMRTrashBoxDidPerformNotification の
+		タイミングで、-cleanUpItemsToBeRemoved: を実行後に -reloadAfterDeletion: するようにした。
+2006-09-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Validation.m
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/thread/CMRThreadViewer-Validation.m
+	* application/Resources/Japanese.lproj/Browser.nib
+		「スレッドの更新」についても、対象スレッドを -selectedThreads ではなく、-targetsThreadsForAction: で
+		調べるようにした。validation 方法も見直した。
+2006-09-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Validation.m
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/thread/CMRThreadViewer-Validation.m
+		ログの削除については、「環境設定」＞「詳細」で削除前に警告を表示するかどうかを設定できるが、設定内容に合わせて
+		「スレッド」＞「ログを削除...」または「ログを削除」と、「...」の表記が連動するように改良した。
+		また、validation が適切になるよう改良した。
+	* application/subproj/previewer/BSImagePreviewInspector.m
+		プレビューインスペクタ（2.3.1→2.3.2）：
+		-プレビューインスペクタの履歴をすべて削除したときに、キャッシュ（TemporaryFolder）も削除するようにした。
+================================================================================= Sneaky v261
+2006-09-18 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSIPIImageView.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+		プレビューインスペクタ（2.3→2.3.1）：
+		-イメージ・ビューで←／→キーを押すと「前のイメージ／次のイメージへ移動」できるようにした。
+		-「BathyScaphe をリセット...」を実行すると、プレビューインスペクタの履歴もすべて削除されるようにした。
+		　ヒント：BathyScaphe のリセットを検知するには CocoMonar.framework の CMRPropertyKeys.h を
+		　インポートして、CMRApplicationWillResetNotification を捕まえれば良い。
+	* application/source/preferences/AppDefaults-Bundle.m
+		「自動的に掲示板リストを同期：」の設定に関わらず、「おおよそ1ヶ月おき」にしか同期されない問題を修正。
+	* application/source/bbs/BSSettingTxtDetector.m
+		BSIPIDownload クラスのデリゲート・メソッドについての微修正。
+	* application/source/thread/CMRThreadViewer.m
+		テキスト・ビューの -invalidateCursorRectsForView: 呼び出し頻度を増やした。
+		- [Bug 8170] の発生可能性を低減させる。Bug 8170 は、テキスト・ビューの cursor tracking がきちんと
+		　できていないときに発生する（だから、発生直前にはレスアンカーがポップアップしなかったりするのだ）。ではそれを防止する
+		　にはどうすればいいのか。残念ながら -invalidateCursorRectsForView: をどこでどれだけ呼び出せば完全に安全に
+		　なるのか（そもそも完全に安全にできるのか）は定かではない。しかしとりあえず -invalidateCursorRectsForView: の
+		　呼び出し頻度を増やして、リスクを低減させることにした。
+	* application/source/browser/CMRBrowser-Validation.m
+	* application/source/thread/CMRThreadViewer-Validation.m
+	* application/Resources/Japanese.lproj/Browser.nib
+		v259 での「お気に入りに追加／削除」の Validation 方法の変更のために、ブラウザウインドウのツールバーで
+		「お気に入りに追加／削除」ボタンがちらつく（enable/disable がチラチラ切り替わる）問題が環境によって発生していた
+		（targetThreadsForAction: を Validation 時にも用いてみたのだが、この中で -hitTest: が呼ばれることが原因と思われる。
+		もちろん targetThreadsForAction: メソッドに罪は無い）。ちらつきが想像以上にうっとうしいので、Validation の
+		方法を変更して -hitTest:（を含んだ -targetThreadsForAction:） はここで用いないようにした。
+	* application/source/composer/BSAsciiArtDetector.m
+		AAD：本文の末尾が全角スペースだと、AA と誤判定する問題を修正。
+	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
+		プレビューインスペクタ：「環境設定」シートのツールバーを廃止。これに伴い、BSIPIPrefsTbDelegate.(h|m) は
+		ターゲットから外れた。
+2006-09-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/preferences/CMRHostHTMLHandler.m
+	* application/Resources/text/HostProperties.plist
+		まちBBSで、本文の一番最後に余計な半角スペースがくっついていたのを、削除するようにした。
+		まちBBSおよびJBBSライブドアで、名前の末尾に余計な半角スペースが二つくっついていたのを、削除するようにした。
+		- いずれも CocoMonar 時代からの症状。バグと言うほどでもないが…
+		- 画面への表示時には元々トリミングされていたのだが、ログファイルを覗いてみると余分な半角スペースがくっついているのが
+		　はっきりわかる。
+================================================================================= Sneaky v259
+2006-09-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
+	* application/subproj/previewer/Japanese.lproj/Localizable.strings
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/TemporaryFolder.m
+		プレビューインスペクタ（2.2.1→2.3）：
+		- 表示できない URL へリダイレクトされていた場合の挙動を選択可能にした。
+		- これに伴い、「環境設定」パネルが窮屈になってきたのでペイン切り替え式にした。
+		- 一時フォルダの命名方法を変更した。
+	* application/subproj/previewer/BSIPIPrefsTbDelegate.m
+		[新規追加] プレビューインスペクタの「環境設定」パネルのツールバーのデリゲートクラス。
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/thread/CMRThreadViewer-Link.m
+	* application/source/thread/CMRThreadViewer-Validation.m
+		「お気に入りに追加／削除」の挙動が3ペイン時に好ましくなかったのを改良。対象スレッドの取得に selectedThreads: を
+		用いていたのを、他のアクションのように targetThreadsForAction: での取得に統一した。
+		また、掲示板のアドレスが本文中に書き込まれているとき、掲示板の名前がわかればそれをポップアップするように
+		（スレッドへのリンクの場合は、ポップアップにスレッドタイトルに加えて、掲示板名も付加するように）した。
+	* application/subproj/preference/filter/CMRFilterPrefController.m
+	* application/subproj/preference/Japanese.lproj/FilterPreferences.nib
+	* application/subproj/preference/general/BSTagValueTransformer.m
+	* application/subproj/preference/pane/PreferencesPane.m
+		「環境設定」＞「フィルタ」ペイン関連のソースコードを bind 方法の見直しで減らした。
+		CMRFilterPrefController-View.m および CMRFilterPrefController_p.h は統廃合されて
+		ターゲットから外れた。
+2006-09-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/composer/BSAsciiArtDetector.m
+		AAD の判定方法を変更した。
+	* application/subproj/preference/reply/CMRReplyDefaultsController.m
+	* application/subproj/preference/Japanese.lproj/ReplySetting.nib
+		「環境設定」＞「書き込み」ペインで、名前欄の入力補完リストが空の状態から新規追加しようとしても反映されない
+		可能性があった部分を修正。
+	* application/source/composer/CMXTextParser.m
+		日付文字列の NSDate への変換に、NSCalendarDate を用いるのを止めて、CFDateFormatter を利用するようにした。
+		- NSCalendarDate は将来 deprecated になることが発表されているので、今後ぼつぼつ NSCalendarDate を使っている
+		　部分を可能なら他のクラスで置き換えていこうと思っている。
+================================================================================= Sneaky v255
+2006-09-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/text/BrowserKeyBindings.plist
+	* application/source/browser/CMRBrowser-Action.m
+		しばらく前から隠し設定で「3ペイン時にスレッド一覧からスレッドを表示するとき、フォーカスを内容表示領域に移さない」
+		動作をテストしていたのだが、インタフェース的に細かい問題が多く、1.3 の段階ではサポートしないことにした。
+		よって該当部分をコメントアウトして封印した。
+	* application/source/bbs/BoardManager-SettingTxt.m
+	* application/source/bbs/BoardManager.m
+		掲示板オプション以外の場所から掲示板の URL が変更された場合でも、すみやかに「掲示板オプション」の表示に
+		反映されるようにした。
+	* application/Resources/image/smallUnlocked.tiff
+	* application/Resources/image/smallLocked.tiff
+		[新規追加] 鍵のアイコン。
+	* application/source/bbs/BSBoardInfoInspector.m
+	* application/Resources/Japanese.lproj/BSBoardInfoInspector.nib
+		「掲示板オプション」インスペクタの URL フィールドは、誤って URL の一部を削除してしまうなどのトラブルを
+		防止するため、鍵のアイコンをクリックしてフィールドの編集可／不可を切り替えられるようにした。
+	* application/source/bbs/BoardList-OVDataSource.m
+		掲示板リストで、カテゴリを自らの内部にドラッグ＆ドロップして移動できないように変更。
+	* application/source/preferences/AppDefaults-Filter.m
+	* application/subproj/preference/Japanese.lproj/FontsAndColors.nib
+		AAD を使用するかどうかの設定項目を追加した。
+	* application/source/thread/CMRThreadViewer.m
+		環境設定でオンになっていれば、迷惑レスフィルタなどと同じタイミングで AAD を実行する。
+	* application/source/composer/BSAsciiArtDetector.(h|m)
+		[新規追加] AAD (Ascii Art Detector) をとりあえず導入。CMRSpamFilter とインタフェースは似ているが、
+		判定ルーチンはとてもシンプルである。いずれ進化を遂げていくであろう。
+	* application/source/browser/CMRBrowser-Delegate.m
+		以前にコメントアウトしていた、スレッド一覧で長過ぎるスレタイに対してツールチップを表示する機能を
+		復活。判定の甘さは割り切る。なお、Tiger が必要。
+	* application/source/preferences/CMRHostHTMLHandler.m
+		v250 の変更で、JBBS ライブドアのスレッドで最後のレスの本文が表示されなくなっていた問題を修正。
+================================================================================= Sneaky v250
+2006-09-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/preferences/CMRHostHTMLHandler.m
+		2006-09-07 の変更では、「</dl>」から後ろを切り落としていたが、まちBBS では</dl>がないため（省略している）、
+		例外が発生していた問題を修正。
+	* application/subproj/preference/font_color/FCController.m
+	* application/subproj/preference/Japanese.lproj/FontsAndColors.nib
+		bind 方法を見直し、「環境設定」＞「表示」ペイン関連のソースコードを大幅に減らした。
+		- 今まで何て無駄なコードを書いていたのだろうか？！…これに伴い FCController-ViewAccessor.m および
+		　FCController_p.h は FCController.(h|m) に統合し、ターゲットから外した。
+	* application/source/preferences/AppDefaults-Bundle.m
+	* application/source/CMRAppDelegate.m
+		掲示板リストの自動同期を実装した。
+	* application/Resources/Japanese.lproj/CMRReplyWindow.nib
+		「メールアドレス：」を「メール：」に表記変更。
+	* application/Resources/Japanese.lproj/BSBoardInfoInspector.nib
+		「メール欄：」を「メール：」に表記変更。
+	* application/subproj/preference/reply/CMRReplyDefaultsController.m
+	* application/subproj/preference/Japanese.lproj/ReplySetting.nib
+	* application/subproj/preference/Japanese.lproj/AccountPane.nib
+	* application/subproj/preference/account/AccountController-ViewAccessor.m
+	* application/subproj/preference/account/AccountController.m
+		環境設定パネルについて以下のように変更：
+		- 「be カテゴリ以外の掲示板でも Be ログインする」チェックボックスを「アカウント」から「書き込み」ペインに
+		　移動した（「掲示板オプション」のインタフェースと統一を図るため）。
+		- 「書き込み」ペインの各表記も「掲示板オプション」と統一した（「メールアドレス：」を「メール：」にしたことに
+		　注意。これは「掲示板オプション」側で「メールアドレス：」と書くと長過ぎて邪魔なため、「メール：」に短縮・統一することにした）。
+		- 「書き込み」ペインのコントロールに Cocoa Binding を取り入れ、CMRReplyDefaultsController を書き直し。
+		- 名前欄入力補完リストに改行を含む語句を追加しようとした際は、改行ごとに区切った複数の語句として追加するようにした。
+2006-09-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/BSBoardInfoInspector.nib
+	* application/source/bbs/BSBoardInfoInspector.m
+		「掲示板オプション」インスペクタから掲示板の URL を編集できるようにした。
+		- 「掲示板オプション」を表示したまま、掲示板オプション以外の場所から（「掲示板」メニューや掲示板リストのコンテクスト
+		　メニューなど）URL を編集すると、「掲示板オプション」の表示に反映されないことがある。これはそのうち直す（この場合、
+		　一度インスペクタを隠して再度表示すると正しく反映される）。
+	* application/source/preferences/CMRHostHTMLHandler.m
+		html を dat 形式に内部変換する際、</dl>タグ以下のソースはカットしてからパースするようにした。
+		- とくに、しばしばひどい html を吐くJBBSライブドアに対する耐性を上げるための修正。
+		- 数日前からJBBSライブドアでスレッドタイトルが空になる問題はこれで解決できるはず。
+	* application/Resources/Japanese.lproj/BoardWarrior.strings
+		[新規追加] Localizable.strings から掲示板リストの同期関連のストリングスを分離。
+	* application/Resources/Japanese.lproj/Localizable.strings
+	* application/source/bbs/BoardWarrior.m
+		BoardWarrior クラスを CMRTask プロトコルに適合させた。これにより、同期の進行状況を「進行状況」パネルや
+		つるつるナビゲーションバーで確認できるようになった。
+	* application/source/browser/EditBoardSheetController.m
+	* application/source/bbs/BoardManager-SettingTxt.m
+	* application/source/browser/CMRBrowser-BLEditor.m
+	* application/source/bbs/BoardList.m
+		2006-09-05 の変更に引き続き、掲示板リストの編集部分をリニューアル。
+2006-09-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/EditBoardSheetController.m
+		[新規追加] 掲示板リストの編集用シートを担当するコントローラクラスを独立させた。
+	* application/Resources/Japanese.lproj/EditBoardSheet.nib
+		[新規追加] 掲示板リストの編集用シートを Browser.nib から独立させた。
+	* application/source/bbs/BoardManager-SettingTxt.m
+		掲示板リスト編集の実務については、BoardManager が担うようにした。
+	* application/Resources/Japanese.lproj/Browser.nib
+	* application/source/browser/CMRBrowser-BLEditor.m
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+		掲示板リストの編集部分（カテゴリの追加／名称変更、掲示板の URL 変更）を CMRBrowser から他のクラスに
+		移動させた。まだ細かいところが荒削り。
+		- インタフェースは、EditBoardSheetController クラスへ。
+		- 実際の作業は、BoardManager クラスへ。
+		この目的は、肥大化している CMRBrowser のダイエットと、CMRBrowser 以外（例えば、BSBoardInfoInspector）
+		からでも掲示板リストの編集をサクッと行えるようにするための準備である。
+2006-09-04 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer.m
+		v242 で、板の名無しさんが未設定の板のスレッドを表示したときに表示される「名無しさんの設定」ダイアログで名無しさんを
+		入力しても、それが反映されず、何度も「名無しさんの設定」ダイアログが出ることがあった問題を修正。
+2006-09-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/bbs/BoardWarrior.m
+	* application/Resources/Japanese.lproj/Localizable.strings
+		掲示板リストの同期作業のログを作成するようにした。
+		- "$HOME/Library/Logs/BathyScaphe BoardWarrior.log" ファイルに蓄積されていく。
+	* application/subproj/previewer/BSIPIImageView.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/Japanese.lproj/Localizable.strings
+	* application/subproj/previewer/BSIPIDownload.m
+		プレビューインスペクタ（2.2→2.2.1）：
+		- リダイレクトされた URL がプレビューできない場合は、自動的に Web ブラウザに投げていたが、これを
+		　アラートで確認してから投げるように変更。
+		- イメージ・ビューのダブルクリックでイメージをフルスクリーン表示するように改良。
+2006-09-02 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/CMRThreadView.m
+		透明あぼーん時の poof animation を滑らかに表示するように変更。
+		- 今までは、「透明あぼーんしてから poof」していたが、「poof してから、透明あぼーん」に変えた。
+	* application/source/bbs/BoardManager-BSAddition.m
+	* application/source/bbs/BoardManager.m
+	* application/source/composer/CMRSpamFilter.m
+		Mac OS X 10.3.x: NSLog() でクラッシュする可能性のあった箇所を修正。
+================================================================================= Sneaky v242
+2006-09-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSIPIImageView.m
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+		プレビューインスペクタ（2.2）：
+		- イメージ・ビューのフォーカスリング描画処理を BSIPIImageView から、その Cell に移した。
+		- そのためのサブクラス BSIPIImageCell のコードは、BSIPIImageView.m 内に居候している。
+		- ツールバーに「削除」ボタンを追加可能にした。
+	* application/subproj/previewer/BSIPIAppKitExtensions.m
+	* application/subproj/previewer/BSIPIFoundationExtensions.m
+		[削除] 削除。
+	* application/source/bbs/BoardManager-BSAddition.m
+		名無しさんの名前集合（NSSet）が空（nilではないが、countが0）のときは、空の NSArray エントリをプロパティリストに
+		保存するのではなく、エントリをプロパティリストから削除するようにした。
+	* application/source/composer/CMXTextParser.m
+		「ID:DELETED」が ID として切り出されない問題に対処（BBSPINK などでのあぼーん表示）。
+	* application/source/browser/CMRThreadsList-Remove.m
+		手違いでデバッグ用 NSLog() が残っていたのを削除。
+2006-08-31 (2006-08-29) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* bathyscaphe ターゲット
+		ビルド設定：Objective-C 例外処理を有効にした（-fobjc-exceptions）。
+		- @catch/@throw 系よりは、@synchronized() を使ってみたかったので。
+	* application/source/browser/w2chFavoriteItemList.m
+	* application/source/browser/CMRFavoritesManager.m
+	* application/source/preferences/AppDefaults.m
+		BathyScaphe 1.2.2 以前のお気に入りを引き継いだとき、足りないデータを自動的に収集して補うように
+		した（2006-08-05 の修正コメントを参照）。この作業は一度だけ行われる。
+2006-08-31 (2006-08-28) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/image/moveEnd.png
+	* application/Resources/image/moveNext.png
+	* application/Resources/image/movePrev.png
+	* application/Resources/image/moveTop.png
+	* application/Resources/Japanese.lproj/CMRIndexingStepper.nib
+	* application/source/view/CMRIndexingStepper-ViewAccessor.m
+		レス移動ボタンのアイコン画像が App Support 以下に置いても参照されなくなっていた問題を修正。
+		レス移動ボタンのアイコン画像が不適切にクリップされて描画されていた問題を修正（どういうわけか、NSImageOnly
+		にすべきものが NSImageAbove に設定されていたため）。
+		レス移動ボタンのデフォルトのアイコン画像をリファイン。
+2006-08-31 (2006-08-26) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSIPIFullScreenController.m
+		フルスクリーン表示中に delete キーを押すとそのイメージを削除して、フルスクリーンを解除するようにした。
+	* frameworks/SGNetwork/src/connector/SGHTTPStream.m
+		プロキシ関連の修正。Mac OS X v10.1/10.2 に配慮した冗長な記述はもはや必要ないので、いくつかを削除。
+		また、SGNetwork は SystemConfiguration.framework を最初からリンクするようにした。
+	* application/subproj/reply/connector/SG2chConnector.m
+	* application/source/network/CMRDownloader.m
+		プロキシ関連の修正。システムでプロキシが設定されている場合は、自動的にそれを使うようにした。
+	* application/subproj/preference/Japanese.lproj/AdvancedPane.nib
+	* application/subproj/preference/AdvancedPrefController.m
+		「環境設定」＞「詳細」ペインから、プロキシ関連の設定項目をすべて削除。「設定を変更...」ボタンをクリックすると
+		「ネットワーク」システム環境設定を開くようにした。
+	* application/source/preferences/AppDefaults.m
+		プロキシ関連のメソッド群をかなり廃止した。
+		今後、BathyScaphe で独自にプロキシを設定する機能は基本的に廃止する方向で。ただ、突然廃止するとアレかなと
+		も思うので、「当面の間」隠し設定
+		defaults write jp.tsawada2.BathyScaphe UsesBSsOwnProxySettings -bool YES
+		で独自プロキシを使用し続けることができるようにする（URL、ポートは上の文を ProxyURL, ProxyPort に置き換え、
+		-bool YES の替わりに直接値を書けば良い。または、以前のバージョンで入力済みならそのままでよい）。
+		
+		しかし、「いつかは」この隠し設定も無効になる予定。それは、SGNetwork フレームワークの大幅刷新、CFNetwork に
+		さようなら、こんにちは NSURLConnection/NSURLDownload/NSURLRequest 三兄弟、となったとき。
+		
+		大切なことは、「今後は常にシステムのプロキシ設定に従う」ということであって、「プロキシが一切使えなくなる」などと
+		いう誤解や意図的な誤報のないよう周知に努める必要がある。
+		
+		なお、「書き込むときのみ有効」オプションは一足先に完全廃止した。
+	
+2006-08-31 (2006-08-25) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSIPIImageView.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+		イメージ・ビューに対するキーボード・ショートカットによる操作をサポートした。
+2006-08-31 (2006-08-24) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSImagePreviewerInterface.h
+		プロトコル定義自体に変更はないが、BathyScaphe 1.3 以降での「ウインドウ」＞「プレビュー」項目に関するコメントを追加した。
+	* application/subproj/previewer/BSIPIImageView.m
+		プレビューインスペクタ（2.1.2→2.1.4）
+		- masakih 氏による遅延ドラッグ＆ドロップコードを取り込み（激しくThx）。
+		- 2.1.3 は tsawada2 のみが知る、幻。
+	* application/source/thread/CMRThreadLayout-MessageRange.m
+		迷惑レスを「表示しない（透明あぼーん）」設定にしているとき、迷惑レスをまたいで「次のレスに移動／前のレスに移動」
+		することができなかった問題を修正。
+2006-08-31 (2006-08-23) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		「スレッド」＞「ログを開く」メニュー項目を削除した（一般ユーザ向けの項目とは言えないため。今まで何となくだらだら
+		残っていたが、落ち着いて考えるとあえてメニュー項目に設けるほどではない）。
+		「ウインドウ」＞「プレビューインスペクタ」を「プレビュー」に変更。
+	* application/source/bbs/BSBoardInfoInspector.m
+	* application/Resources/Japanese.lproj/BSBoardInfoInspector.nib
+		「掲示板オプション」インスペクタを、板の名無しさんの複数登録に対応させて強化した。また、Cocoa Binding を
+		さらに取り入れて省力化を図った。
+	* application/Resources/image/smallSquareMinus.tiff
+	* application/Resources/image/smallSquarePlus.tiff
+		[新規追加] 「＋」「−」ボタン用のアイコン。「掲示板オプション」インスペクタで使用する。
+	* application/source/composer/CMRMessageFilter.m
+	* application/source/composer/CMRSpamFilter.m
+	* application/source/thread/CMRThreadViewer-Link.m
+		迷惑レスフィルタの効率化（ほんの少し）
+		- 板のデフォルト名無しをいちいち BoardManager に問い合わせるのを止めて、フィルタ実行前に外部から
+		　（CMRThreadViewer から）デフォルト名無し集合を set してもらう。
+		- 他、細部の無駄をちょっと省いた。
+		- SpamFilter.plist は肥大化しやすいため、バイナリ化して読み書きするように変更。
+		　旧バージョンの BathyScaphe と併用した際のトラブルを防ぐため、ファイル名を「BSSpamFilter.plist」に
+		　変更した（はじめて参照しようとしたときに見つからなければ、SpamFilter.plist から読み込み、終了時に
+		　BSSpamFilter.plist に新しく書き出す）。
+	* application/source/bbs/BoardManager-BSAddition.m
+	* application/source/bbs/BoardManager-SettingTxt.m
+	* application/source/bbs/BoardManager.m
+	* application/source/thread/CMRThreadViewer.m
+		板の名無しさんを複数登録できるようにした。NSSet で保持し、ファイルには NSArray に変換して読み書きされる。
+		- 関連する各部を変更（「掲示板オプション」関連はまだ）
+		また、NoNames.plist はバイナリ化して読み書きするように変更。
+		旧バージョンの BathyScaphe と併用した際のトラブルを防ぐため、ファイル名を「BoardProperties.plist」に
+		変更した（はじめて参照しようとしたときに見つからなければ、NoNames.plist から読み込み、終了時に
+		BoardProperties.plist に新しく書き出す）。
+		- プロパティリストのバイナリ化は NSPropertyListSerialization を使っていて、これは Mac OS X v10.2 以降で
+		　サポートされているので、「バイナリ化？！Panther で大丈夫？！」と心配する必要はない。また、Intel - PowerPC
+		　でファイルを相互移動しても全く問題ない。
+		-　ユーザが普段 Finder から開いて覗くことが少ないであろう設定ファイルは、バイナリ化してもいいだろう、と。
+2006-08-31 (2006-08-21) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/CMROpenURL.nib
+	* application/Resources/Japanese.lproj/CMROpenURLManager.strings
+	* application/source/manager/CMROpenURLManager.m
+		スレッドだけでなく板の URL も開けるようになったことに伴い、アラート中のメッセージを一部変更。
+		また、URL 入力フィールドが空のときは OK ボタンが押せないようにした（これを手軽に実装する方法として
+		Cocoa binding を活用できるように、若干 openURLController クラスを変更した）。
+	* application/Resources/Japanese.lproj/BSDockMenuItem.nib
+		[新規追加] Dock Menu 用の nib ファイル。
+		- Dock メニューには「URL を開く...」と「お気に入りの更新チェック」を入れておいた。Dock メニューは
+		　項目数が多いと煩わしいので、この二つに厳選した（つもり）。
+	* application/source/CMRAppDelegate.m
+		Dock メニューから「お気に入りの更新チェック」を行うためにアクションメソッドを追加した。
+		また、「URL を開く」パネルを表示する際、必要なら BathyScaphe を最前面に持ってくるようにした（他のアプリを
+		使用中に Dock メニューから「URL を開く...」を選んだときのために）。
+	* application/Info-bathyscaphe.plist
+		AppleDockMenu キーを追加した。
+		- アプリケーションの Dock メニューを追加する方法についての説明は NSApplication クラスリファレンスの
+		　applicationDockMenu: の項を参照。
+2006-08-31 (2006-08-20) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Action.m
+		「掲示板を表示」などの動作で、掲示板リストでその掲示板を正しく選択させるようにした。
+		- 今までは、その掲示板が閉じたカテゴリの中にあると選択されなかった。
+	* application/source/thread/CMRThreadViewer-Link.m
+		レスに含まれている掲示板の URL をクリックした場合は、可能ならその掲示板のスレッド一覧を
+		ブラウザウインドウで表示させるようにした（掲示板が掲示板リストに無い場合は自動的に追加する）。
+	* application/source/manager/CMROpenURLManager.m
+	* application/source/CMRAppDelegate.m
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/browser/CMRBrowser-List.m
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/thread/CMRThreadLinkProcessor.m
+		「URL を開く」で掲示板の URL （例：http://pc7.2ch.net/mac/）を入力したとき、これまでは
+		Web ブラウザで開くかどうか聞いていたが、BathyScaphe でその板のスレッド一覧を（可能なら）
+		表示させるように改良。サービスメニューおよび AppleScript 経由での操作も同様。
+		- これに伴い、動作が類似している「スレッド」＞「掲示板を表示」とコードを共用できるように、
+		　一部のコードを CMRAppDelegate に移動させるなどの改良も同時に行った。
+		- http://pc7.2ch.net/mac/index.html のように末尾に余計なものがくっついている URL が
+		　渡された場合、CMRThreadLinkProcessor は last path component を除去してから評価を試みる。
+2006-08-31 (2006-08-15) tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/Localizable.strings
+	* application/source/bbs/BoardManager-BSAddition.m
+	* application/source/thread/CMRThreadViewer.m
+		掲示板の名無しさんの名前を SETTING.TXT から自動取得するためのクラス追加に伴う変更。
+		- オフラインモードのときは自動取得して良いかどうか確認アラートを表示する。
+		また、Be ログイン必須かどうかを記録するメソッドを追加。
+	* application/source/bbs/BoardManager-SettingTxt.m
+		[新規追加] BoardManager に、SETTING.TXT の取得と解析に関するメソッドを追加した。その部分の
+		カテゴリを新規ファイルとして追加。
+	* application/source/bbs/BSSettingTxtDetector.m
+		[新規追加] このクラスが実際に SETTING.TXT の取得と解析を行う。
+		- 掲示板の名無しさんの名前、および、Be ログイン必須かどうかを調べる。
+======= 2006-08-31：上記分をコミットする前にマージ済み
+2006-08-26 masakih <masakih@users.sourceforge.jp>
+	* application/BathyScaphe.xcodeproj/project.pbxproj
+	* application/source/browser/CMRThreadsList-DataSource.m
+	* application/source/browser/CMRThreadsList-Filter.m
+	* application/source/browser/CMRThreadsList.m
+		インスタンス変数 _filteredThreads に対する排他処理を強化。
+================================================================================= Sneaky v224
+2006-08-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/popup/CMXPopUpWindowController+View.m
+	* application/source/view/popup/CMXPopUpWindowController.m
+	* application/source/view/popup/CMXPopUpWindowManager.m
+		ポップアップウインドウの属性（テキストカラー、ウインドウカラー、透明度、テキストのアンチエイリアス、
+		NSScroller の controlSize、およびリンク下線の有無）は、ポップアップウインドウを表示しようとする
+		たびに設定するようにした。これによって以下が解決：
+		- ポップアップの属性を「環境設定」から変更しても、ポップアップウインドウにそれが反映されないことが
+		　あった問題（これは以前からあった問題）
+		- とくに、v219 以降で、「アンチエイリアスを適用する」オプションが無視されていた問題。
+		また、CMXPopUpWindowController は AppDefaults 非依存になった（CMXPopUpWindowManager 側が
+		それらを供給する）。
+	* application/source/window/CMRReplyController-ViewAccessor.m
+		v219 以降で、書き込みウインドウで「アンチエイリアスを適用する」オプションが無視されていた問題を修正。
+	* preferences ターゲット
+		どういうわけか、BSIPIDownload クラスをターゲットに含んでいた。このため、2006-08-09 の修正後もなお
+		SGNetwork と preferencesPane に同時に BSIPIDownload クラスが存在してしまい、コンフリクトが解消
+		されていなかった。preferencesPane では BSIPIDownload を使用しないので、ターゲットから外して解決。
+		- これでようやく 10.3.x でも同期機能が動くようになった。
+================================================================================= Sneaky v221
+2006-08-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* このビルドから Xcode 2.4 を使用しています
+		一応記しておく。
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+	* application/subproj/previewer/BSImagePreviewInspector-View.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/BSIPIHistoryManager.m
+		プレビューインスペクタ（2.1.1→2.1.2）：
+		2.0.4→2.0.5 の変更時のポリシーを棄却して、やはり SGFoundation/SGAppKit/CocoMonar フレームワークに
+		リンクしてそれらのコードを使うようにした。さらに SGNetwork にもリンクして、BSIPIDownload を使うようにした。
+		これに伴い、BSIPIFoundationExtensions.m/BSIPIAppKitExtensions.m はターゲットから外れている。
+		- これらの変更のため、プレビュープラグイン 2.1.2 を v219 以前の BathyScaphe.app と組み合わせて使うことは
+		　できない（フレームワークも含めて差し替えれば動くかもしれないが）。
+	* application/source/bbs/BoardWarrior.m
+		下記変更に伴う修正。
+	* SGNetwork フレームワーク：
+		プレビューインスペクタ 2.x および v219 までの BoardWarrior クラスで利用していた BSIPIDownload クラスを
+		SGNetwork フレームワークに移動した。
+		- プレビュープラグイン内の BSIPIDownload バイナリと BathyScaphe.app 内の BSIPIDownload バイナリが
+		　コンフリクトすることで問題が発生するのを回避するため。Tiger は耐性が高いようで動くのだが、Panther 以前だと
+		　これが原因でクラッシュするらしい。バグトッキングに寄せられたクラッシュログと、
+		　http://www.tech-arts.co.jp/macosx/macosx-dev-jp/htdocs/4600/4647.html
+		　http://www.cocoabuilder.com/archive/message/xcode/2005/11/28/1525
+		 などを参考にした。
+	* frameworks/CocoMonar/framework/src/CMRFileManager.(h|m)
+		プライベートメソッドをパブリックメソッドに格上げしただけで、本質的な変更ではないが一応。
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+	* application/subproj/previewer/BSImagePreviewInspector-View.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
+	* application/subproj/previewer/BSIPIFoundationExtensions.m
+		プレビューインスペクタ（2.1→2.1.1）：
+		- デフォルトで表示するビュー（イメージ・ビュー／リスト・ビュー／前回最後に表示していたビュー）を
+		　環境設定で選択できるようにした。
+		- そろそろ環境設定が胸いっぱいお腹いっぱいになってきたなぁ…シンプルに、シンプルに…
+================================================================================= Sneaky v219
+2006-08-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+	* application/subproj/previewer/BSImagePreviewInspector-View.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
+	* application/subproj/previewer/BSIPIHistoryManager.m
+		プレビューインスペクタ（2.0.6→2.1）：
+		- ツールバーを「テキストのみ」表示にしているときや、ツールバーからはみ出しているときでも
+		　「アクション」「表示」「前へ／次へ」各項目が動作するようにした。
+		- 「イメージを別名で保存...」をアクションボタンのメニューとコンテクストメニューに追加した。
+		- ダウンロード処理中にリスト・ビューをダブルクリックした際の問題を修正した。
+2006-08-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/SyncPaneController.m
+		操作方法によっては、新しくコンボボックスに入力された URL ではなく、古い URL のまま
+		掲示板リストの同期が行われてしまっていた問題を修正。
+	* application/source/bbs/BoardWarrior.m
+		掲示板リストの同期を行った後、新しい掲示板リストを読み込みに行かない問題を修正。
+	* application/Resources/Japanese.lproj/Acknowledgments.rtf
+		文言を修正。
+	* application/source/browser/CMRBrowser.m
+	* application/source/thread/CMRThreadViewer.m
+	* application/source/manager/CMRDocumentController.m
+	* application/source/CMRAppDelegate.m
+		ブラウザウインドウのカスケード処理方法を見直した。
+		- カスケードしてほしいときと、してほしくないとき…この切り替えが予想以上に難しい。
+		- 今まで CMRDocumentController を中心に処理していたが、CMRAppDelegate 中心に変更。
+		また、CMRMainBrowser インスタンスが指しているブラウザウインドウを閉じた（dealloc した）ときは、
+		今までは無条件に CMRMainBrowser を nil にしていたが、他にブラウザウインドウが開いていればそちらを
+		新しい CMRMainBrowser の指し示すモノにするようにした。
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		「スレッド」＞「印を付ける」＞「フラグ付き」を command-shift-L から command-shift-E に変更。
+		- サービスメニューとアプリケーションのショートカットが衝突した場合は、アプリケーションのショートカットが
+		　優先される。サービスメニュー側でぶつからないよう慎重にショートカット選べや！と突っぱねたい気もするが、
+		　件の「サービス」＞「Google 検索」は Apple 提供のものであるため、事実上システム標準のショートカットと
+		　同格と見なさざるを得ない。そういうわけでサービスメニュー側にこのショートカットを渋々譲ることとした。
+		- Mail.app の「フラグ付き」と合わせる形で Cmd-shift-L にしていたが、無念。
+		- 新しい Cmd-shift-E は、「Emphasis」の頭文字と覚えよう。
+		あと、書き忘れていたが「掲示板」＞「Web ブラウザで開く」を「掲示板を Web ブラウザで開く」に変更した。
+		- 「掲示板」メニューにあるのだからわざわざ「掲示板を」と付けなくてもいいのだが、かねてより
+		　「スレッド」＞「Web ブラウザで開く」と表記が同じために問題を起こす場合があったので、思い切って変更した。
+	* application/source/CMRAppDelegate.m
+		暫定的に、「掲示板」＞「掲示板リストの同期...」を選ぶと「環境設定」＞「同期」ペインを表示する
+		ようにした（今後ふるまいは変わるかもしれない）。
+	* application/subproj/preference/rsrc/syncFail.tiff
+	* application/subproj/preference/rsrc/syncFinish.tiff
+		[新規追加]「環境設定」>「同期」ペインで使用する画像。
+	* application/subproj/preference/general/BSTagValueTransformer.m
+		「同期」ペインで使おうと思って NSURL <--> NSString 変換の valueTransformer を書いた（が、
+		諸事情により使わないことになった）。ソースが少ないので BSTagValueTransformer.(h|m) に
+		居候して書いてある。
+	* application/subproj/preference/Japanese.lproj/SyncPane.nib
+	* application/subproj/preference/Japanese.lproj/Localizable.strings
+	* application/subproj/preference/rsrc/Sync.tiff
+	* application/subproj/preference/SyncPaneController.m
+	* application/subproj/preference/pane/PreferencesPane-PCManagement.m
+	* application/subproj/preference/pane/PreferencesPane-Toolbar.m
+	* application/subproj/preference/pane/PreferencesPane.m
+	* application/subproj/preference/PreferencePanes_Prefix.h
+		環境設定に「同期」ペインを追加した。BWAgent の機能（のフロントエンド）はここに統合された。
+		- 注意：「自動的に同期」関連の項目は、設定はできるが実際には機能がインプリメントされていないので、
+		　今のところ意味がない。
+		また、環境設定パネルのツールバー項目の並び順を変更した。
+	* application/source/preferences/AppDefaults-Bundle.m
+	* application/source/preferences/AppDefaults.h
+		掲示板リストの同期に関連する環境設定項目群を追加。
+		- 注意：BWAgent.app の設定は引き継がれない。
+	* application/Resources/na-na.scpt
+	* application/Resources/himeko.scpt
+		[新規追加] BoardWarrior クラスが使用する AppleScript（コンパイル済み）。
+		- sora.pl や rosetta.pl を走らせるのに、NSTask を使えば良さそうなのだがどうもうまく使えない。
+		仕方ないので、すでに実績のある BWAgent.app の AppleScript ソースの一部を再利用して、
+		これを NSAppleScript を使って走らせるようにした（AppleScript の中で、do shell script 命令を
+		使用して perl スクリプトを走らせている訳だ）。この程度の作業ならパフォーマンスも気にならないし、いいだろう。
+	* application/source/bbs/BoardWarrior.m
+		[新規追加] BoardWarrior クラスの共有インスタンスが、BWAgent.app の後継となる。
+		短期間で安定した動作を得るため、極力 BWAgent.app 時代と「流れ」は変わらないように作った。つまり、
+		BoardWarrior クラスは board_default.plist を作成し、board.plist を書き換えるだけである。
+		それらの観察、反映等は今までどおり BoardList/CMRFileManager 等が行っている。
+		また、BWAgent.app 内に含まれていた sora.pl/rosetta.pl/SJIS2UTF8 もそのまま流用した。
+		- 注意：まだ自動的に同期するための機能を書いていない。
+2006-08-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/composer/CMXTextParser.m
+	* application/source/composer/CMRAttributedMessageComposer.m
+	* application/Resources/Japanese.lproj/MessageComposer.strings
+		Be 表示の仕様変更に対応。
+		- ★を赤く表示することは、現在の BathyScaphe の内部構造上不可能であった。勘弁な。
+2006-08-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRFavoritesManager.m
+		2006-08-04 の変更によって、一部のお気に入り項目で「レス数」「差分」が空欄になる現象が起きているだろう。
+		これは元々そのスレを「お気に入りに追加」したときに、それらの情報がなかった場合に起きる。
+		- このようなケースは、2ペイン別ウインドウで開いたスレッドを「お気に入りに追加」した際に発生する。
+		今までは CMRThreadsListReadFileTask - CMRThreadsUpdateListTask でこの「足りない情報」が補完されていた。
+		しかし、より方法を簡素化し、かつ、確実に正しい情報を取得するために、「お気に入りを追加」するときに
+		「レス数」情報がなければ、CMRFavoritesManager 側でそれを補完してから登録するように変更。
+		- もちろん、既に「情報が足りない状態で」登録されているお気に入りについては力が及ばないが、「スレッドの更新」
+		　を行ったり、あるいは最悪でも「いったん登録解除→再びお気に入りに追加」すれば大丈夫。
+	* application/source/browser/CMRFavoritesManager.m
+	* application/source/manager/CMRTrashbox.m
+	* application/source/browser/CMRThreadsList-Remove.m
+	* application/source/thread/CMRThreadViewer-Action.m
+		お気に入りに登録されているスレッドを「削除して再取得」する際、お気に入りからは削除しないまま作業を行える
+		ように新しい仕組みを導入した。CMRTrashboxDidPerformNotification に「再取得しようとしているかどうか」
+		の情報を載せて運べるようにした。
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/browser/CMRBrowser.m
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/Resources/Japanese.lproj/Browser.nib
+	* application/source/browser/CMRThreadsList-Filter.m
+	* application/source/browser/Browser.m
+		なぜかスレッド一覧の検索で、絞り込まれた状態を検索語句を空にすることで解除しようとしても一覧が絞り込み解除
+		されなくなっていたのを修正している途中。ついでにこのへんのソースを簡略化。
+		- 副作用的な仕様変更：検索フィールドに語句が残ったまま他の板に一覧を切り替えると、検索フィールドは空になる
+		　ようになった。
+2006-08-04 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/w2chFavoriteItemList.m
+	* application/source/browser/CMRThreadsList-Remove.m
+		お気に入りに登録されているスレッドの「ログを削除」したときの挙動、および「ログを削除」しても
+		該当板のスレッド一覧でステータス等がクリアされないことがある問題を改善すべく取り組み中。
+		また、「お気に入り」一覧の読み込みは CMRThreadsListReadFileTask を介さず直接
+		CMRFavoritesManager を参照するようにした。
+	* application/source/browser/CMRThreadsList-listImport.m
+	* application/source/thread/CMRThreadViewer-Download.m
+		メソッドまたは関数名の修正、引数の型の修正など。
+	* application/source/thread/CMRThreadViewer-Validation.m
+	* application/source/thread/CMRThreadViewer-Action.m
+		addFavorites: が正しく動作するようにした（1.2.2 ベースに戻した）。
+		同様に、addFavorites: に対する validation が正しく動作するように戻した。
+2006-08-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/general/GeneralPrefController.m
+	* application/subproj/preference/Japanese.lproj/GeneralPreferences.nib
+		「一般」ペインで、（実験的に）直接 AppDefaults と各 UI を bind させる方法を大幅に取り入れた。
+		- 今まで：各 UI <--bind--> GeneralPrefController <--Accessor Methods--> AppDefaults
+		- これから：各 UI <--bind--> NSObjectController(selection object: AppDefaults)
+		「一般」ペインでの成績が良好なら順次他のペインにもこの仕組みを取り入れていく。
+	* application/subproj/preference/pane/PreferencesPane.m
+		BSTagValueTransformer を initWithPreferences: のタイミングで登録。
+		- nib がロードされる前に登録しないと間に合わない！
+	* application/subproj/preference/general/BSTagValueTransformer.(h|m)
+		[新規追加] Cocoa Binding 用のちょっとした Value Transformer。
+		- メニューアイテムの tag と、設定の値（integer）を bind させたいのだが、設定値 = NSNotFound のとき
+		　だけは tag "-1" と bind させたい。その値変換を行うもの。
+	* application/source/thread/CMRThreadViewer.m
+		記法の修正。
+	* application/source/window/CMRStatusLineWindowController.h
+		application/source/window/CMRStatusLineWindowController_p.h と統合。_p.h はターゲットから
+		外した。_p.h を import していたいくつかのファイルをそれに伴い修正。
+2006-08-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-ViewAccessor.m
+	* application/source/browser/CMRBrowser-Delegate.m
+		ブラウザウインドウで、2ペインと3ペインを切り替えた際に、スレッドナビゲーションの表示／非表示を
+		切り替える作業が行われないケースがあったのを修正。
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+	* application/subproj/previewer/BSIPIAppKitExtensions.(h|m)
+		プレビューインスペクタ（2.0.5→2.0.6）：
+		- BSSegmentedControlTbItem クラスを BSIPISegmentedControlTbItem に名称変更した。
+		- BathyScaphe 1.2.2 以前では、BathyScaphe.app 本体に BSSegmentedControlTbItem
+		  クラスが存在する。これはプレビューインスペクタ 2.0.x で使っているものより古いクラスで、
+		  互換性がない。ところが、プレビューインスペクタは BathyScaphe に読み込まれて動作するため、
+		  その互換性のない古い BSSegmentedControlTbItem クラスが優先して使われてしまうようだ。
+		  このため、クラス名を変更した。
+		- BathyScaphe 1.3 以降に限定する場合は、このようなことは必要ないのだが。
+2006-07-31 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSImagePreviewInspector-View.m
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/BSIPIHistoryManager.m
+		プレビューインスペクタ（2.0.4→2.0.5）：
+		- SGFoundation, SGAppKit, CocoMonar Framework にリンクしないようにした。
+		- これらのフレームワークに含まれていた必要なクラス、カテゴリは自前で用意（下の
+		　新規追加したファイル）することにした。
+	* application/subproj/previewer/BSIPIFoundationExtensions.(h|m)
+	* application/subproj/previewer/BSIPIAppKitExtensions.(h|m)
+		[新規追加]いくつかの必要なカテゴリ、カスタムクラスをまとめたユーティリティ。
+    * application/Makefile
+        ビルドターゲットを bs another story から bathyscaphe に変更
+        （トランクから持ってきたのでそうなっていた）。
+    * application/BathyScaphe.xcodeproj/project.pbxproj
+        とりあえず MeteorSweeper のためだけのブランチなので、他のターゲットや
+        不要なソースへの参照を削除して混乱を防ぐようにした。
+    * application/Resources/Japanese.lproj/InfoPlist.strings
+        ローカライズされたバージョン文字列を 1.3 ベースに更新。
+    * application/Resources/Japanese.lproj/MainMenu.nib
+        トランクから取ってきたものは「ウインドウ」＞「ログ管理」が抹消されていたので、復帰。
+    * application/Resources/Japanese.lproj/AddBoardSheet.nib
+        1.2.2 のものに差し替え。
+    * application/source/libRBSplitView.a
+        ranlib し直した。
+    * application/source/main.m
+    * application/source/bbs/BoardList-OVDataSource.m
+    * application/source/browser/AddBoardSheetController.(h|m)
+    * application/source/browser/CMRBrowser-Action.m
+    * application/source/browser/CMRBrowser-BLEditor.m
+    * application/source/browser/CMRBrowser-Delegate.m
+    * application/source/browser/CMRBrowser-List.m
+    * application/source/browser/CMRBrowser-Validation.m
+    * application/source/browser/CMRBrowser-ViewAccessor.m
+    * application/source/browser/CMRBrowser_p.h
+        ビルドが通るように、v120-BASED-BRANCH のものと差し替えたり、一部コメントアウト
+        したりした。
+    * application/source/thread/CMRThreadViewer-Action.m
+    * application/source/thread/CMRThreadViewer-Validation.m
+        とりあえずビルドだけ通るようにコメントアウトなど。後で直す。
+    * frameworks/Makefile
+        KeyChain.framework は make しません。
+	* application/source/bbs/BoardList-OVDataSource.m
+	* application/source/bbs/BoardManager_p.h
+	* application/source/bbs/BoardManager-BSAddition.m
+	* application/source/bbs/BoardManager.(h|m)
+	* application/source/browser/Browser.m
+	* application/source/browser/BSFavoritesHEADCheckTask.m
+	* application/source/browser/CMRFavoritesManager.(h|m)
+	* application/source/browser/CMRThreadsList-Download.m
+	* application/source/browser/CMRThreadsList-listImport.m
+	* application/source/browser/CMRThreadsList-Notification.m
+	* application/source/browser/CMRThreadsList-Remove.m
+	* application/source/browser/CMRThreadsListReadFileTask.m
+	* application/source/browser/CMRThreadsUpdateListTask.m
+		v120-BASED-BRANCH の先端から丸ごとこれらのファイルを差し替え。
+		とりあえず 1.2.2 ベースの動作に戻すため。もちろん、他にも何カ所か擦り合わせが必要。
+	* MeteorSweeper-BRANCH_changeLog.txt
+		[新規追加]このブランチ用の changeLog.txt (UTF-8)。
+2006-07-31 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	*トランクから分岐。
+	 - トランク上の分岐点目印タグ：Root-of-MeteorSweeper
+	 - ブランチタグ：MeteorSweeper-BRANCH

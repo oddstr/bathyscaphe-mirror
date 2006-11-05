@@ -1,3 +1,24 @@
+2006-11-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+    MeteorSweeper-BRANCH からマージ。
+    * application/BathyScaphe.xcodeproj
+        機械的にマージ。コンフリクトはテキストエディタで pbxproj ファイル開いて直したけど、大丈夫かな？
+    * application/source
+        このディレクトリ以下をすべてマージ。
+    * application/subproj
+        BWAgent, および editor ディレクトリを除いてマージ。
+        - 両ディレクトリは変更されていないか、またはすでに未使用で意味がない。
+    * application/Resources
+        このディレクトリ以下を機械的にすべてマージ。
+        ただし、Browser.nib と MainMenu.nib がうまくマージされなかったので
+        MeteorSweeper-BRANCH の先端のものから丸ごと置き換えた。
+    * frameworks
+        このディレクトリ以下を機械的にすべてマージ。
+    * docs
+    * metadataimporter
+    * misc
+        マージ省略
+    * トップディレクトリのその他のファイル
+        機械的にすべてマージ。MeteorSweeper-BRANCH_changeLog.txt を追加した。
 2006-10-24 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSBoardListItemHEADCheckTask.m
 		更新チェックが出来てなかったのを修正。
