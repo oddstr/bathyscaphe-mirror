@@ -10,7 +10,5 @@
 	<string>scrollRowToEnd:</string>
 	<key>@&lt;UpArrow&gt;</key>
 	<string>scrollRowToTop:</string>
-	<key> </key>
-	<string>scrollPageDownThreadViewWithoutFocus:</string>
 </dict>
 </plist>

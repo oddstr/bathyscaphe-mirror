@@ -30,11 +30,11 @@
 		<key>Identifier</key>
 		<string>Number</string>
 		<key>Max Width</key>
-		<integer>40</integer>
+		<integer>1000</integer>
 		<key>Min Width</key>
-		<integer>40</integer>
+		<integer>30</integer>
 		<key>Resizable</key>
-		<false/>
+		<true/>
 		<key>Title</key>
 		<string>番号</string>
 		<key>Title Alignment</key>
@@ -70,7 +70,7 @@
 		<key>Identifier</key>
 		<string>BoardName</string>
 		<key>Max Width</key>
-		<integer>500</integer>
+		<integer>1000</integer>
 		<key>Min Width</key>
 		<integer>40</integer>
 		<key>Resizable</key>
@@ -92,7 +92,7 @@
 		<key>Max Width</key>
 		<integer>1000</integer>
 		<key>Min Width</key>
-		<integer>40</integer>
+		<integer>30</integer>
 		<key>Resizable</key>
 		<true/>
 		<key>Title</key>
@@ -112,7 +112,7 @@
 		<key>Max Width</key>
 		<integer>1000</integer>
 		<key>Min Width</key>
-		<integer>40</integer>
+		<integer>30</integer>
 		<key>Resizable</key>
 		<true/>
 		<key>Title</key>
