@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.19 2006/07/30 18:54:04 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.20 2006/11/05 13:15:07 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -8,12 +8,13 @@
 
 #import "BSImagePreviewInspector.h"
 
-#import <SGAppKit/NSWorkspace-SGExtensions.h>
 #import "TemporaryFolder.h"
 #import "BSIPIFullScreenController.h"
 #import "BSIPIPathTransformer.h"
-#import "BSIPIDownload.h"
+#import <SGNetwork/BSIPIDownload.h>
 #import "BSIPIImageView.h"
+#import <SGAppKit/NSWorkspace-SGExtensions.h>
+#import <CocoMonar/CMRPropertyKeys.h>
 
 @class BSIPITableView;
 @class BSIPIFullScreenWindow;
@@ -35,6 +36,11 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 					selector : @selector(applicationWillTerminate:)
 					    name : NSApplicationWillTerminateNotification
 					  object : NSApp];
+		[[NSNotificationCenter defaultCenter]
+		  addObserver : self
+			 selector : @selector(applicationWillReset:)
+				 name : CMRApplicationWillResetNotification
+			   object : nil];
 		[[NSNotificationCenter defaultCenter]
 				 addObserver : self
 					selector : @selector(keyWindowChanged:)
@@ -84,6 +90,17 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 	return [[BSIPIHistoryManager sharedManager] historyBacket];
 }
 
+#pragma mark For BathyScaphe 1.3 Additions
+- (IBAction) togglePreviewPanel : (id) sender
+{
+	if ([[self window] isVisible]) {
+		// orderOut: では windowWillClose: はもちろん呼ばれない。
+		if ([self resetWhenHide]) [self clearAttributes];
+		[[self window] orderOut : sender];
+	} else {
+		[self showWindow : sender];
+	}
+}
 
 #pragma mark Actions
 - (IBAction) copyURL : (id) sender
@@ -153,23 +170,19 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 	[[BSIPIHistoryManager sharedManager] copyCachedFileForURL: [self sourceURL] intoFolder: [self saveDirectory]];
 }
 
+- (IBAction) saveImageAs: (id) sender
+{
+	m_shouldRestoreKeyWindow = [[self window] isKeyWindow];
+
+	[[BSIPIHistoryManager sharedManager] saveCachedFileForURL: [self sourceURL] savePanelAttachToWindow: [self window]];
+}
+
 - (IBAction) cancelDownload : (id) sender
 {
 	[self clearAttributes];
 }
 
-- (IBAction) togglePreviewPanel : (id) sender
-{
-	if ([[self window] isVisible]) {
-		// orderOut: では windowWillClose: はもちろん呼ばれない。
-		if ([self resetWhenHide]) [self clearAttributes];
-		[[self window] orderOut : sender];
-	} else {
-		[self showWindow : sender];
-	}
-}
-
-- (void) showPrevImage: (id) sender
+- (IBAction) showPrevImage: (id) sender
 {
 	NSString *filePath_;
 	filePath_ = [[BSIPIHistoryManager sharedManager] cachedPrevFilePathForURL: [self sourceURL]];
@@ -187,7 +200,7 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 	}
 }
 
-- (void) showNextImage: (id) sender
+- (IBAction) showNextImage: (id) sender
 {
 	NSString *filePath_;
 	filePath_ = [[BSIPIHistoryManager sharedManager] cachedNextFilePathForURL: [self sourceURL]];
@@ -217,11 +230,21 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 
 - (IBAction) changePane: (id) sender
 {
-	[[self tabView] selectTabViewItemAtIndex: [sender selectedSegment]];
+	if ([sender isKindOfClass: [NSSegmentedControl class]]) {
+		[[self tabView] selectTabViewItemAtIndex: [sender selectedSegment]];
+	} else {
+		int current_ = [[self tabView] indexOfTabViewItem: [[self tabView] selectedTabViewItem]];
+		[[self tabView] selectTabViewItemAtIndex: (current_ == 0) ? 1 : 0];
+		[[self paneChangeBtn] setSelectedSegment: (current_ == 0) ? 1 : 0];
+	}
 }
 
 - (IBAction) changePaneAndShow: (id) sender
 {
+	if (_currentDownload) { // ダウンロード中のリスト・ビューダブルクリックは受け付けない
+		NSBeep();
+		return;
+	}
 	unsigned	modifier_ = [[NSApp currentEvent] modifierFlags];
 	if (modifier_ & NSAlternateKeyMask) {
 		[self startFullscreen: sender];
@@ -237,6 +260,18 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 	[[BSIPIHistoryManager sharedManager] removeItemOfURL: [self sourceURL]];
 	[self didChangeValueForKey: @"historyItems"];
 
+	[self clearAttributes];
+}
+
+- (IBAction) resetCache: (id) sender
+{
+	[self willChangeValueForKey: @"historyItems"];
+	[[BSIPIHistoryManager sharedManager] setHistoryBacket: [NSMutableArray array]];
+	[self didChangeValueForKey: @"historyItems"];
+
+	[_dlFolder release];
+	_dlFolder = [[TemporaryFolder alloc] init];
+	
 	[self clearAttributes];
 }
 
@@ -283,11 +318,7 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 	   If the window is an NSPanel object and has its becomesKeyOnlyIfNeeded flag set to YES, the window is displayed in front of
 	   all other windows but is not made key; otherwise it is displayed in front and is made key. This method is useful for menu actions.
 	*/
-	//if (![[self window] isVisible]) {
-		[self showWindow : self];
-	//} else {
-	//	if ([self alwaysBecomeKey]) [[self window] makeKeyAndOrderFront: self];
-	//}
+	[self showWindow : self];
 
 	cachedFilePath = [[BSIPIHistoryManager sharedManager] cachedFilePathForURL : imageURL];
 
@@ -312,6 +343,11 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 	_dlFolder = nil;
 
 	[[NSNotificationCenter defaultCenter] removeObserver : self];
+}
+
+- (void) applicationWillReset: (NSNotification *) aNotification
+{
+	[self resetCache: nil];
 }
 
 - (void) keyWindowChanged : (NSNotification *) aNotification
@@ -390,11 +426,38 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 	return [self validateLink: newURL];
 }
 
-- (void) bsIPIdownloadDidAbortRedirection: (BSIPIDownload *) aDownload
+- (void) bsIPIdownload: (BSIPIDownload *) aDownload didAbortRedirectionToURL: (NSURL *) anURL
 {
-	NSLog(@"Redirection Aborted, so we try to open URL with Web browser");
-	[self openImage: self];
+	if ([self redirectionBehavior] == BSIPIAlwaysAsk) {
+		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+		NSString *message = [NSString stringWithFormat: [self localizedStrForKey: @"RedirectionAlert Msg %@"], [anURL absoluteString]];
+		
+		[alert setAlertStyle: NSCriticalAlertStyle];
+		[alert setInformativeText: message];
+		[alert setMessageText: [self localizedStrForKey: @"RedirectionAlert Title"]];
+		
+		[alert addButtonWithTitle: [self localizedStrForKey: @"RedirectionGo"]];
+		[alert addButtonWithTitle: [self localizedStrForKey: @"RedirectionNone"]];
+		
+		[alert beginSheetModalForWindow: [self window]
+						  modalDelegate: self
+						 didEndSelector: @selector(redirectionAlertDidEnd:returnCode:contextInfo:)
+							contextInfo: nil];
+	} else if ([self redirectionBehavior] == BSIPIAlwaysPass) {
+		[self openImage: self];
+		[self clearAttributes];
+	} else {
+		NSBeep();
+		[self clearAttributes];
+	}
+}
 
+- (void) redirectionAlertDidEnd: (NSAlert *) alert returnCode: (int) returnCode contextInfo: (void *) contextInfo
+{
+	if (returnCode == NSAlertFirstButtonReturn) {
+		[self openImage: self];
+	}
+	
 	[self clearAttributes];
 }
 
@@ -447,11 +510,54 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 	return (_currentDownload == nil);
 }
 
+#pragma mark NSTabView Delegate
+- (void) tabView: (NSTabView *) tabView didSelectTabViewItem: (NSTabViewItem *) tabViewItem
+{
+	[self setLastShownViewTag: [tabView indexOfTabViewItem: tabViewItem]];
+}
+
 #pragma mark BSIPIImageView Delegate
 - (BOOL) imageView: (BSIPIImageView *) aImageView writeSomethingToPasteboard: (NSPasteboard *) pboard
 {
 	return [[BSIPIHistoryManager sharedManager] appendDataForURL: [self sourceURL]
 													toPasteboard: pboard
 										 withFilenamesPboardType: YES];
+}
+
+- (void) imageView: (BSIPIImageView *) aImageView mouseDoubleClicked: (NSEvent *) theEvent
+{
+	if ([aImageView image])
+		[self startFullscreen: aImageView];
+}
+
+- (BOOL) imageView: (BSIPIImageView *) aImageView shouldPerformKeyEquivalent: (NSEvent *) theEvent
+{
+	//if ([aImageView image] == nil) return NO;
+
+	NSString	*pressedKey = [theEvent charactersIgnoringModifiers];
+	int whichKey_ = [theEvent keyCode];
+
+	if ((whichKey_ == 51) && [aImageView image]) { // delete key
+		[self deleteCachedImage: aImageView];
+		return YES;
+	}
+	
+	if ((whichKey_ == 36) && [aImageView image]) { // return key
+		[self startFullscreen: aImageView];
+		return YES;
+	}
+	
+	if ([pressedKey isEqualToString: [NSString stringWithFormat: @"%C", 0xF702]] &&
+	   ([[BSIPIHistoryManager sharedManager] cachedPrevFilePathForURL: [self sourceURL]] != nil)) {
+		[self showPrevImage: aImageView];
+		return YES;
+	}
+	
+	if ([pressedKey isEqualToString: [NSString stringWithFormat: @"%C", 0xF703]] &&
+	   ([[BSIPIHistoryManager sharedManager] cachedNextFilePathForURL: [self sourceURL]] != nil)) {
+		[self showNextImage: aImageView];
+		return YES;
+	}
+	return NO;
 }
 @end

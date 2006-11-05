@@ -15,6 +15,9 @@
                 openImageWithPreviewApp = id; 
                 openOpenPanel = id; 
                 saveImage = id; 
+                saveImageAs = id; 
+                showNextImage = id; 
+                showPrevImage = id; 
                 startFullscreen = id; 
                 togglePreviewPanel = id; 
             }; 
@@ -23,11 +26,13 @@
             OUTLETS = {
                 "m_actionBtn" = NSPopUpButton; 
                 "m_cacheNaviBtn" = NSSegmentedControl; 
+                "m_cacheNaviMenuFormRep" = NSMenu; 
                 "m_directoryChooser" = NSPopUpButton; 
                 "m_imageView" = NSImageView; 
                 "m_infoField" = NSTextField; 
                 "m_nameColumn" = NSTableColumn; 
                 "m_paneChangeBtn" = NSSegmentedControl; 
+                "m_preferredViewSelector" = NSSegmentedControl; 
                 "m_progIndicator" = NSProgressIndicator; 
                 "m_settingsPanel" = NSPanel; 
                 "m_tabView" = NSTabView; 

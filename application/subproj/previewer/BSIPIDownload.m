@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIDownload.m,v 1.1 2006/07/26 16:28:25 tsawada2 Exp $
+//  $Id: BSIPIDownload.m,v 1.2 2006/11/05 13:15:07 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/07/15.
@@ -107,15 +107,20 @@
 	id delegate_ = [self delegate];
 
 	if([delegate_ respondsToSelector: @selector(bsIPIdownload:didRedirectToURL:)]) {
-		BOOL	shouldContinue = [delegate_ bsIPIdownload: self didRedirectToURL: [request URL]];
+		NSURL	*newURL = [[request URL] copy];
+		BOOL	shouldContinue = [delegate_ bsIPIdownload: self didRedirectToURL: newURL];
 		if(NO == shouldContinue) {
 			[download cancel];
-			if ([delegate_ respondsToSelector: @selector(bsIPIdownloadDidAbortRedirection:)]) {
+			if ([delegate_ respondsToSelector: @selector(bsIPIdownload:didAbortRedirectionToURL:)]) {
+				[delegate_ bsIPIdownload: self didAbortRedirectionToURL: newURL];
+			} else if ([delegate_ respondsToSelector: @selector(bsIPIdownloadDidAbortRedirection:)]) {
+				NSLog(@"WARNING: BSIPIDownload's delegate method -bsIPIdownloadDidAbortRedirection: has been deprecated.");
 				[delegate_ bsIPIdownloadDidAbortRedirection: self];
 			} else {
 				[download release];
 			}
 		}
+		[newURL release];
 	}
 	return request;
 }

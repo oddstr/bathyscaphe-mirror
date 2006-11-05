@@ -1,5 +1,5 @@
 /*
- * $Id: BSImagePreviewInspector-Tb.m,v 1.11 2006/07/30 18:54:04 tsawada2 Exp $
+ * $Id: BSImagePreviewInspector-Tb.m,v 1.12 2006/11/05 13:15:07 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -8,7 +8,7 @@
 #import "BSImagePreviewInspector.h"
 #import "BSIPIActionBtnTbItem.h"
 #import <SGFoundation/NSDictionary-SGExtensions.h>
-#import <SGFoundation/NSMutableDictionary-SGExtensions.h>
+#import <SGfoundation/NSMutableDictionary-SGExtensions.h>
 #import <SGAppKit/BSSegmentedControlTbItem.h>
 
 static NSString *const kIPITbActionBtnId		= @"Actions";
@@ -19,6 +19,7 @@ static NSString *const kIPITbFullscreenBtnId	= @"StartFullscreen";
 static NSString *const kIPITbBrowserBtnId		= @"OpenWithBrowser";
 static NSString *const kIPITbNaviBtnId			= @"History";
 static NSString *const kIPITbPaneBtnId			= @"Panes";
+static NSString *const kIPITbDeleteBtnId		= @"Delete";
 static NSString *const kIPIToobarId				= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Toolbar";
 static NSString *const kIPIAlwaysKeyWindowKey	= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Always Key Window";
 static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Save Directory";
@@ -26,6 +27,9 @@ static NSString *const kIPIAlphaValueKey		= @"jp.tsawada2.BathyScaphe.ImagePrevi
 static NSString *const kIPIOpaqueWhenKeyWindowKey = @"jp.tsawada2.BathyScaphe.ImagePreviewer:Opaque When Key Window";
 static NSString *const kIPIResetWhenHideWindowKey = @"jp.tsawada2.BathyScaphe.ImagePreviewer:Reset When Hide Window";
 static NSString *const kIPIFloatingWindowKey	= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Floating Window";
+static NSString *const kIPIPreferredViewTypeKey = @"jp.tsawada2.BathyScaphe.ImagePreviewer:Preferred View";
+static NSString *const kIPILastShownViewTagKey	= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Last Shown View";
+static NSString *const kIPIRedirBehaviorKey		= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Redirection Behavior";
 
 @implementation BSImagePreviewInspector(ToolbarAndUtils)
 #pragma mark Utilities
@@ -137,7 +141,7 @@ static NSImage *_imageForDefaultBrowser()
 		
 		[toolbarItem setTarget: self];
 		[toolbarItem setAction: @selector(cancelDownload:)];
-	
+
 	} else if ([itemIdent isEqual: kIPITbPreviewBtnId]) {
 		NSString *previewPath = [[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier : @"com.apple.Preview"];
         toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdent] autorelease];
@@ -172,9 +176,22 @@ static NSImage *_imageForDefaultBrowser()
 		[toolbarItem setTarget: self];
 		[toolbarItem setAction: @selector(openImage:)];
 	
+	} else if ([itemIdent isEqual: kIPITbDeleteBtnId]) {
+        toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdent] autorelease];
+	
+		[toolbarItem setLabel: [self localizedStrForKey : @"Delete"]];
+		[toolbarItem setPaletteLabel: [self localizedStrForKey : @"Delete"]];
+		[toolbarItem setToolTip: [self localizedStrForKey : @"DeleteTip"]];
+		[toolbarItem setImage: [NSImage imageNamed: @"Delete"]];
+		
+		[toolbarItem setTarget: self];
+		[toolbarItem setAction: @selector(deleteCachedImage:)];
+	
     } else if([itemIdent isEqual: kIPITbActionBtnId]) {
 		NSSize	size_;
 		NSView	*tmp_;
+		NSMenuItem	*attachMenuItem_;
+		NSMenu		*attachMenu_;
         toolbarItem = [[[BSIPIActionBtnTbItem alloc] initWithItemIdentifier: itemIdent] autorelease];
 
 		[toolbarItem setLabel: [self localizedStrForKey : @"Actions"]];
@@ -182,7 +199,15 @@ static NSImage *_imageForDefaultBrowser()
 		[toolbarItem setToolTip: [self localizedStrForKey : @"ActionsTip"]];
 
 		tmp_ = [[self actionBtn] retain]; // 2006-02-24 added
+		
+		attachMenuItem_ = [[[NSMenuItem alloc] initWithTitle: [self localizedStrForKey : @"Actions"] action: NULL keyEquivalent: @""] autorelease];
+		[attachMenuItem_ setImage : [self imageResourceWithName: @"Gear"]];
+		attachMenu_ = [[[self actionBtn] menu] copy];
+		[attachMenu_ removeItemAtIndex: 0];
+		[attachMenuItem_ setSubmenu: [attachMenu_ autorelease]];
+
 		[toolbarItem setView: tmp_];
+		[toolbarItem setMenuFormRepresentation: attachMenuItem_];
 		size_ = [tmp_ bounds].size;
 		[toolbarItem setMinSize: size_];
 		[toolbarItem setMaxSize: size_];
@@ -193,6 +218,7 @@ static NSImage *_imageForDefaultBrowser()
     } else if ([itemIdent isEqual: kIPITbNaviBtnId]) {
 		NSSize	size_;
 		NSView	*tmp_;
+		NSMenuItem	*attachMenuItem_;
 		toolbarItem = [[[BSSegmentedControlTbItem alloc] initWithItemIdentifier: itemIdent] autorelease];
 		
 		[toolbarItem setLabel: [self localizedStrForKey: @"History"]];
@@ -200,7 +226,15 @@ static NSImage *_imageForDefaultBrowser()
 		[toolbarItem setToolTip: [self localizedStrForKey: @"HistoryTip"]];
 		
 		tmp_ = [[self cacheNavigationControl] retain];
+		
+		attachMenuItem_ = [[[NSMenuItem alloc] initWithTitle: [self localizedStrForKey: @"HistoryTextOnly"]
+													  action: NULL
+											   keyEquivalent: @""] autorelease];
+		[attachMenuItem_ setImage: [self imageResourceWithName: @"HistoryFolder"]];
+		[attachMenuItem_ setSubmenu: [self cacheNaviMenuFormRep]];
+		
 		[toolbarItem setView: tmp_];
+		[toolbarItem setMenuFormRepresentation: attachMenuItem_];
 		size_ = [tmp_ bounds].size;
 		[toolbarItem setMinSize: size_];
 		[toolbarItem setMaxSize: size_];
@@ -209,6 +243,7 @@ static NSImage *_imageForDefaultBrowser()
     } else if ([itemIdent isEqual: kIPITbPaneBtnId]) {
 		NSSize	size_;
 		NSView	*tmp_;
+		NSMenuItem	*attachMenuItem_;
 		toolbarItem = [[[BSSegmentedControlTbItem alloc] initWithItemIdentifier: itemIdent] autorelease];
 		
 		[toolbarItem setLabel: [self localizedStrForKey: @"Panes"]];
@@ -216,7 +251,14 @@ static NSImage *_imageForDefaultBrowser()
 		[toolbarItem setToolTip: [self localizedStrForKey: @"PanesTip"]];
 		
 		tmp_ = [[self paneChangeBtn] retain];
+		attachMenuItem_ = [[[NSMenuItem alloc] initWithTitle: [self localizedStrForKey : @"PanesTextOnly"]
+													  action: @selector(changePane:)
+											   keyEquivalent: @""] autorelease];
+		[attachMenuItem_ setTarget: self];
+		[attachMenuItem_ setImage : [self imageResourceWithName: @"imageView"]];
+											   
 		[toolbarItem setView: tmp_];
+		[toolbarItem setMenuFormRepresentation: attachMenuItem_];
 		size_ = [tmp_ bounds].size;
 		[toolbarItem setMinSize: size_];
 		[toolbarItem setMaxSize: size_];
@@ -235,7 +277,7 @@ static NSImage *_imageForDefaultBrowser()
 
 - (NSArray *) toolbarAllowedItemIdentifiers : (NSToolbar *) toolbar
 {
-    return [NSArray arrayWithObjects: kIPITbNaviBtnId, kIPITbPaneBtnId, kIPITbActionBtnId, kIPITbCancelBtnId, kIPITbBrowserBtnId,
+    return [NSArray arrayWithObjects: kIPITbNaviBtnId, kIPITbPaneBtnId, kIPITbActionBtnId, kIPITbCancelBtnId, kIPITbDeleteBtnId, kIPITbBrowserBtnId,
 									  kIPITbPreviewBtnId, kIPITbFullscreenBtnId, kIPITbSettingsBtnId, NSToolbarCustomizeToolbarItemIdentifier,
 									  NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSpaceItemIdentifier,
 									  NSToolbarSeparatorItemIdentifier, nil];
@@ -264,7 +306,7 @@ static NSImage *_imageForDefaultBrowser()
 		}
 	} else if ([identifier_ isEqualToString : kIPITbPreviewBtnId]) {
 		return ((_currentDownload == nil) && ([self sourceURL] != nil));
-	} else if ([identifier_ isEqualToString : kIPITbFullscreenBtnId]) {
+	} else if ([identifier_ isEqualToString : kIPITbFullscreenBtnId] || [identifier_ isEqualToString: kIPITbDeleteBtnId]) {
 		return ((_currentDownload == nil) && ([[self imageView] image] != nil));
 	} else if ([identifier_ isEqualToString : kIPITbBrowserBtnId]) {
 		return ([self sourceURL] != nil);
@@ -295,6 +337,10 @@ static NSImage *_imageForDefaultBrowser()
 			[menuItem setAction: @selector(saveImage:)];
 			return ([self sourceURL] != nil);
 		}
+	} else if (tag_ == 571) {
+		return ([[BSIPIHistoryManager sharedManager] cachedPrevFilePathForURL: [self sourceURL]] != nil);
+	} else if (tag_ == 572) {
+		return ([[BSIPIHistoryManager sharedManager] cachedNextFilePathForURL: [self sourceURL]] != nil);
 	}
 	return YES;
 }
@@ -383,5 +429,34 @@ static NSImage *_imageForDefaultBrowser()
 {
 	[[self prefsDict] setBool: floatOrNot forKey: kIPIFloatingWindowKey];
 	[(NSPanel *)[self window] setFloatingPanel: floatOrNot];
+}
+
+- (int) preferredView
+{
+	return [[self prefsDict] integerForKey: kIPIPreferredViewTypeKey defaultValue: 0];
+}
+
+- (void) setPreferredView: (int) aType
+{
+	[[self prefsDict] setInteger: aType forKey: kIPIPreferredViewTypeKey];
+}
+
+- (int) lastShownViewTag
+{
+	return [[self prefsDict] integerForKey: kIPILastShownViewTagKey defaultValue: 0];
+}
+
+- (void) setLastShownViewTag: (int) aTag
+{
+	[[self prefsDict] setInteger: aTag forKey: kIPILastShownViewTagKey];
+}
+
+- (BSIPIRedirectionBehavior) redirectionBehavior
+{
+	return [[self prefsDict] integerForKey: kIPIRedirBehaviorKey defaultValue: BSIPIAlwaysAsk];
+}
+- (void) setRedirectionBehavior: (BSIPIRedirectionBehavior) aTag;
+{
+	[[self prefsDict] setInteger: aTag forKey: kIPIRedirBehaviorKey];
 }
 @end

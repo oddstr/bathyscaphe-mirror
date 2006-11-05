@@ -7,23 +7,23 @@
 	<key>IBEditorPositions</key>
 	<dict>
 		<key>196</key>
-		<string>89 266 167 168 0 0 1024 746 </string>
+		<string>89 266 189 187 0 0 1024 746 </string>
+		<key>249</key>
+		<string>91 482 134 68 0 0 1024 746 </string>
 		<key>86</key>
-		<string>405 447 210 99 0 0 1024 746 </string>
+		<string>392 436 236 121 0 0 1024 746 </string>
 	</dict>
 	<key>IBFramework Version</key>
 	<string>446.1</string>
 	<key>IBLockedTabItems</key>
 	<array>
+		<integer>280</integer>
 		<integer>112</integer>
 	</array>
 	<key>IBOldestOS</key>
 	<integer>3</integer>
 	<key>IBOpenObjects</key>
 	<array>
-		<integer>5</integer>
-		<integer>196</integer>
-		<integer>86</integer>
 		<integer>41</integer>
 	</array>
 	<key>IBSystem Version</key>
@@ -34,8 +34,9 @@
 		<dict>
 			<key>guideLocations</key>
 			<array>
-				<string>Horizontal:16.000000</string>
-				<string>Vertical:268.000000</string>
+				<string>Horizontal:248.000000</string>
+				<string>Vertical:149.000000</string>
+				<string>Horizontal:12.000000</string>
 			</array>
 			<key>guidesLocked</key>
 			<false/>

@@ -8,8 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class TemporaryFolder;
-
 @interface BSIPIDownload : NSObject {
 	NSURL			*m_URLIdentifier;
 	NSURLDownload	*m_download;
@@ -56,7 +54,10 @@
 - (BOOL) bsIPIdownload: (BSIPIDownload *) aDownload didRedirectToURL: (NSURL *) newURL;
 
 // リダイレクトをブロックしたときに送られる
+// Deprecated. Use -bsIPIdownload:didAbortRedirectionToURL: instead.
 - (void) bsIPIdownloadDidAbortRedirection: (BSIPIDownload *) aDownload;
+// Available in MeteorSweeper (v244) and later.
+- (void) bsIPIdownload: (BSIPIDownload *) aDownload didAbortRedirectionToURL: (NSURL *) canceledURL;
 
 // ダウンロード失敗
 - (void) bsIPIdownload: (BSIPIDownload *) aDownload didFailWithError: (NSError *) aError;

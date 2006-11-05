@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector-View.m,v 1.3 2006/07/30 18:54:04 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector-View.m,v 1.4 2006/11/05 13:15:07 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/07/15.
@@ -11,10 +11,10 @@
 #import "BSIPITextFieldCell.h"
 #import "BSIPIImageView.h"
 #import <SGAppKit/NSCell-SGExtensions.h>
+
 @class BSIPIDownload;
 
 static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInspector Panel Autosave";
-static NSString *const kIPIMenuItemForOldBSKey	= @"IPIWindowsMenuItemForOldBS";
 
 @implementation BSImagePreviewInspector(ViewAccessor)
 - (NSPopUpButton *) actionBtn
@@ -66,6 +66,14 @@ static NSString *const kIPIMenuItemForOldBSKey	= @"IPIWindowsMenuItemForOldBS";
 - (NSTextField *) versionInfoField
 {
 	return m_versionInfoField;
+}
+- (NSMenu *) cacheNaviMenuFormRep
+{
+	return m_cacheNaviMenuFormRep;
+}
+- (NSSegmentedControl *) preferredViewSelector
+{
+	return m_preferredViewSelector;
 }
 
 - (BSIPIDownload *) currentDownload
@@ -147,35 +155,6 @@ static NSImage *bsIPI_iconForPath(NSString *sourcePath)
 	[window_ useOptimizedDrawing: YES];
 }
 
-// WARNING: ONLY FOR BATHYSCAPHE 1.1.x - 1.2.x
-- (void) setupMenu
-{
-	NSMenuItem	*cometBlasterItem;
-	NSMenu		*windowsMenu;
-
-	cometBlasterItem = [[[NSMenuItem alloc] initWithTitle: [self localizedStrForKey: kIPIMenuItemForOldBSKey]
-												   action: @selector(togglePreviewPanel:)
-											keyEquivalent: @"y"] autorelease];
-	[cometBlasterItem setTarget: self];
-	//[cometBlasterItem setKeyEquivalentModifierMask: (NSCommandKeyMask|NSAlternateKeyMask)];
-	
-	windowsMenu = [[[NSApp mainMenu] itemWithTag: 6] submenu];
-	[windowsMenu insertItem: cometBlasterItem atIndex: 6];
-}
-
-- (void) setupMenuIfNeeded
-{
-	NSBundle *bathyScaphe_ = [NSBundle mainBundle];
-	if (!bathyScaphe_) return;
-	
-	NSString *version_ = [bathyScaphe_ objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
-	
-	if ([version_ hasPrefix: @"1.2"] || [version_ hasPrefix: @"1.1"]) {
-		// install menu item into Windows Menu
-		[self setupMenu];
-	}
-}
-
 - (void) setupTableView
 {
 	BSIPITextFieldCell	*cell;
@@ -200,8 +179,17 @@ static NSImage *bsIPI_iconForPath(NSString *sourcePath)
 	[[self paneChangeBtn] setLabel: nil forSegment: 1];
 	[[self cacheNavigationControl] setLabel: nil forSegment: 0];
 	[[self cacheNavigationControl] setLabel: nil forSegment: 1];
+	[[self preferredViewSelector] setLabel: nil forSegment: 0];
+	[[self preferredViewSelector] setLabel: nil forSegment: 1];
 	
 	[(BSIPIImageView *)[self imageView] setDelegate: self];
+
+	int	tabIndex = [self preferredView];
+	if (tabIndex == -1)
+		tabIndex = [self lastShownViewTag];
+
+	[[self tabView] selectTabViewItemAtIndex: tabIndex];
+	[[self paneChangeBtn] setSelectedSegment: tabIndex];
 }
 
 - (void) setupVersionInfoField
@@ -218,7 +206,6 @@ static NSImage *bsIPI_iconForPath(NSString *sourcePath)
 - (void) awakeFromNib
 {
 	[self setupWindow];
-	[self setupMenuIfNeeded];
 	[self setupTableView];
 	[self setupControls];
 	[self setupVersionInfoField];

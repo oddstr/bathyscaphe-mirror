@@ -13,6 +13,12 @@
 @class TemporaryFolder;
 @class BSIPIDownload;
 
+typedef enum _BSIPIRedirectionBehavior {
+	BSIPIAlwaysAsk		= -1,
+	BSIPIAlwaysAbort	= 0,
+	BSIPIAlwaysPass		= 1,
+} BSIPIRedirectionBehavior;
+
 @interface BSImagePreviewInspector : NSWindowController <BSImagePreviewerProtocol> {
 	IBOutlet NSTextField			*m_infoField;
 	IBOutlet NSPopUpButton			*m_actionBtn;
@@ -25,6 +31,8 @@
 	IBOutlet NSTableColumn			*m_nameColumn;
 	IBOutlet NSPopUpButton			*m_directoryChooser;
 	IBOutlet NSTextField			*m_versionInfoField;
+	IBOutlet NSMenu					*m_cacheNaviMenuFormRep;
+	IBOutlet NSSegmentedControl		*m_preferredViewSelector;
 
 	@private
 	NSURL			*_sourceURL;
@@ -42,6 +50,7 @@
 - (IBAction) openImage : (id) sender;
 - (IBAction) openImageWithPreviewApp : (id) sender;
 - (IBAction) saveImage : (id) sender;
+- (IBAction) saveImageAs: (id) sender;
 - (IBAction) copyURL : (id) sender;
 - (IBAction) beginSettingsSheet : (id) sender;
 - (IBAction) endSettingsSheet : (id) sender;
@@ -52,8 +61,13 @@
 - (IBAction) historyNavigationPushed: (id) sender;
 - (IBAction) changePane: (id) sender;
 
+- (IBAction) showPrevImage: (id) sender;
+- (IBAction) showNextImage: (id) sender;
+
 - (IBAction) forceRunTbCustomizationPalette: (id) sender;
 - (IBAction) deleteCachedImage: (id) sender;
+
+- (IBAction) resetCache: (id) sender;
 
 - (BOOL) showCachedImageWithPath: (NSString *) path;
 @end
@@ -76,6 +90,15 @@
 
 - (BOOL) floating;
 - (void) setFloating: (BOOL) floatOrNot;
+
+- (int) preferredView;
+- (void) setPreferredView: (int) aType;
+
+- (int) lastShownViewTag;
+- (void) setLastShownViewTag: (int) aTag;
+
+- (BSIPIRedirectionBehavior) redirectionBehavior;
+- (void) setRedirectionBehavior: (BSIPIRedirectionBehavior) aTag;
 @end
 
 @interface BSImagePreviewInspector(ToolbarAndUtils)
@@ -99,6 +122,8 @@
 - (NSTableColumn *) nameColumn;
 - (NSPopUpButton *) directoryChooser;
 - (NSTextField *) versionInfoField;
+- (NSMenu *) cacheNaviMenuFormRep;
+- (NSSegmentedControl *) preferredViewSelector;
 
 - (BSIPIDownload *) currentDownload;
 - (void) setCurrentDownload : (BSIPIDownload *) aDownload;
