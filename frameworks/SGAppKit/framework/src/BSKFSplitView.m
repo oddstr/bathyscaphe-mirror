@@ -1,5 +1,5 @@
 /**
-  * $Id: BSKFSplitView.m,v 1.2 2006/02/02 13:00:47 tsawada2 Exp $
+  * $Id: BSKFSplitView.m,v 1.2.4.1 2006/11/06 13:24:45 tsawada2 Exp $
   * 
   * BathyScaphe
   *
@@ -79,25 +79,25 @@ static NSRect	bSDimVerRect;
 
 - (float)dividerThickness
 {
-	return 8.0;
+	return 10.0;
 }
 
 - (void) drawDividerInRect : (NSRect) aRect
 {
 	if (![self isVertical]) {
 		float dX;
-		[[self splitterBg] drawInRect : NSInsetRect(aRect, 0, -1.0) fromRect : bSRect
+		[[self splitterBg] drawInRect : aRect/*NSInsetRect(aRect, 0, -1.0)*/ fromRect : bSRect
 							operation : NSCompositeCopy fraction : 1.0];
 		
 		dX = (NSWidth(aRect) - 8.0) * 0.5;
-		[[self splitterDimple] drawInRect : NSInsetRect(aRect, dX, -1.0) fromRect : bSDimRect
+		[[self splitterDimple] drawInRect : NSInsetRect(aRect, dX, 0)/*-1.0)*/ fromRect : bSDimRect
 								operation : NSCompositeCopy fraction : 1.0];
 	} else {
 		float dY;
-		[[self splitterBgVertical] drawInRect : NSInsetRect(aRect, -1.0, 0) fromRect : bSVerRect 
+		[[self splitterBgVertical] drawInRect : aRect/*NSInsetRect(aRect, -1.0, 0)*/ fromRect : bSVerRect 
 									operation : NSCompositeCopy fraction : 1.0];
 		dY = (NSHeight(aRect) - 10.0) * 0.5;
-		[[self splitterDimpleVertical] drawInRect : NSInsetRect(aRect, -1.0, dY) fromRect : bSDimVerRect
+		[[self splitterDimpleVertical] drawInRect : NSInsetRect(aRect, 0, dY) fromRect : bSDimVerRect
 										operation : NSCompositeCopy fraction : 1.0];
 	}
 }

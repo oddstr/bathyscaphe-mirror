@@ -1,5 +1,5 @@
 //
-//  $Id: BSTitleRulerView.m,v 1.12 2006/06/17 06:37:15 tsawada2 Exp $
+//  $Id: BSTitleRulerView.m,v 1.12.2.1 2006/11/06 13:24:45 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/09/22.
@@ -293,8 +293,8 @@ static NSColor	*m_titleTextColor;
 
 	// 完全に領域を塗りつぶすため、微調整
 	rect_ = [self frame];
-	rect_.origin.x -= 1.0;
-	rect_.origin.y -= 1.0;
+	//rect_.origin.x -= 1.0;
+	//rect_.origin.y -= 1.0;
 
 	switch ([self currentMode]) {
 	case BSTitleRulerShowTitleOnlyMode:

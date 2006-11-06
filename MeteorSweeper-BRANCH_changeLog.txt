@@ -1,3 +1,24 @@
+2006-11-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/BSTitleRulerView.m
+	* frameworks/SGAppKit/framework/src/BSKFSplitView.m
+		下記レイアウトの微修正に伴い、BSTitleRulerView や BSKFSplitView で、描画時に
+		レクタングルの細かい補正を行う必要がなくなったので修正。
+		- いままでスプリッターの border が上下を挟むスクロールビューのボーダーで隠れていたが、それも解消。
+		- BSKFSplitView.m はもう少し直したいことがある。まだ途中。
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/Resources/Japanese.lproj/Browser.nib
+		下と同じ理由で、レイアウトを微修正。
+	* application/source/window/CMRReplyController-ViewAccessor.m
+	* application/source/thread/CMRThreadViewer-ViewAccessor.m
+	* application/Resources/Japanese.lproj/CMRReplyWindow.nib
+	* application/Resources/Japanese.lproj/CMRThreadViewer.nib
+		スクロール・ビューの border を隠すのに、四方を1ピクセルマイナスの位置に配置して対処していたのだが、
+		よく考えたら単に NSNoBorder を指定すればいいのである。そのように変更。
+	* application/source/thread/CMRThreadComposingTask.m
+	* application/source/thread/CMRThreadComposingTask_p.h
+	* application/source/thread/CMRThreadViewer.m
+		レイアウト中のコールバックをしないようにした。
+================================================= 1.3(v265) / MeteorSweeper / CVS Tag : v130_FINAL
 2006-10-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/board_default.plist
 		最新の board_default.plist に更新。

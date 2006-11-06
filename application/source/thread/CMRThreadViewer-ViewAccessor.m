@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.12.2.1 2006/08/01 01:11:56 tsawada2 Exp $
+  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.12.2.2 2006/11/06 13:24:45 tsawada2 Exp $
   * 
   * CMRThreadViewer-ViewAccessor.m
   *
@@ -211,7 +211,7 @@
 	scrollViewFrame = [[self navigationBar] frame];
 
 	origin_ = scrollViewFrame.origin;
-	dy = [[self class] navBarSubviewsAdjustValue];
+	dy = 1.0;//[[self class] navBarSubviewsAdjustValue];
 	
 	origin_.y += dy;
 	origin_.x = NSMaxX(scrollViewFrame);
@@ -306,7 +306,7 @@
 					  object : contentView_];
 	}
 	
-	[scrollView_ setBorderType : NSBezelBorder];
+	[scrollView_ setBorderType : NSNoBorder];//NSBezelBorder];
 	[scrollView_ setHasHorizontalScroller : NO];
 	[scrollView_ setHasVerticalScroller : YES];
 

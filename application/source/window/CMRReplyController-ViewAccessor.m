@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyController-ViewAccessor.m,v 1.14.2.1 2006/08/11 14:44:17 tsawada2 Exp $
+  * $Id: CMRReplyController-ViewAccessor.m,v 1.14.2.2 2006/11/06 13:24:45 tsawada2 Exp $
   * 
   * CMRReplyController-ViewAccessor.m
   *
@@ -61,7 +61,7 @@
 {
 	NSScrollView	*scrollView_ = [self scrollView];
 
-	[scrollView_ setBorderType : NSBezelBorder];
+	[scrollView_ setBorderType : NSNoBorder];//NSBezelBorder];
 	[scrollView_ setHasHorizontalScroller : NO];
 	[scrollView_ setHasVerticalScroller : YES];
 }

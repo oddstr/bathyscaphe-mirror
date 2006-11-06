@@ -12,5 +12,5 @@
  * @defined     NMESSAGES_PER_LAYOUT
  * @discussion  一度にレイアウトするレス数
  */
-#define NMESSAGES_PER_LAYOUT		32
+#define NMESSAGES_PER_LAYOUT		30
 

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.30.2.7 2006/09/24 03:39:13 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.30.2.8 2006/11/06 13:24:45 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -317,7 +317,7 @@ cancel, if this method returns NO.
 	}
 	
 	// Delegate
-	[aTask setDelegate : nil];
+	//[aTask setDelegate : nil];
 	return YES;
 }
 - (void) pushComposingTaskWithThreadReader : (CMRThreadContentsReader *) aReader
@@ -429,7 +429,7 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 }
 
 // CMRThreadComposingCallbackNotification
-- (void) threadComposingCallback : (NSNotification *) aNotification
+/*- (void) threadComposingCallback : (NSNotification *) aNotification
 {
 	UTILAssertNotificationName(
 		aNotification,
@@ -443,7 +443,7 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 
 	// 2006-09-18 ここにも入れておく（Bug #8170 の発生可能性軽減）
 	[[self window] invalidateCursorRectsForView : [[[self threadLayout] scrollView] contentView]];
-}
+}*/
 
 // CMRThreadComposingDidFinishNotification
 - (void) threadComposingDidFinished : (NSNotification *) aNotification
@@ -479,6 +479,9 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 		// すでにレイアウトのタスクを開始したので、
 		// オンラインモードなら更新する
 		//		
+
+		if (![CMRPref scrollToLastUpdated]) [self scrollToLastReadedIndex : self]; // ここでいいのかな
+
 		if(![self isDatOchiThread])
 			[self reloadIfOnlineMode : self];
 	} else {
@@ -684,12 +687,12 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 NSString *kComposingNotificationNames[] = {
 						CMRThreadComposingDidFinishNotification,
 						CMRThreadTaskInterruptedNotification,
-						CMRThreadComposingCallbackNotification,
+						//CMRThreadComposingCallbackNotification,
 						nil };
 SEL kComposingNotificationSelectors[] = {
 								@selector(threadComposingDidFinished:),
 								@selector(threadTaskInterrupted:),
-								@selector(threadComposingCallback:),
+								//@selector(threadComposingCallback:),
 								NULL};
 	NSNotificationCenter	*nc = [NSNotificationCenter defaultCenter];
 	NSString				**pnm = kComposingNotificationNames;
@@ -703,7 +706,7 @@ SEL kComposingNotificationSelectors[] = {
 NSString *kComposingNotificationNames[] = {
 						CMRThreadComposingDidFinishNotification,
 						CMRThreadTaskInterruptedNotification,
-						CMRThreadComposingCallbackNotification,
+						//CMRThreadComposingCallbackNotification,
 						nil };
 	NSNotificationCenter	*nc = [NSNotificationCenter defaultCenter];
 	NSString				**p = kComposingNotificationNames;

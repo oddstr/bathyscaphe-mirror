@@ -13,14 +13,14 @@
 		<integer>12</integer>
 	</array>
 	<key>IBSystem Version</key>
-	<string>8J135</string>
+	<string>8L127</string>
 	<key>IBUserGuides</key>
 	<dict>
 		<key>12</key>
 		<dict>
 			<key>guideLocations</key>
 			<array>
-				<string>Horizontal:190.000000</string>
+				<string>Horizontal:208.000000</string>
 			</array>
 			<key>guidesLocked</key>
 			<false/>

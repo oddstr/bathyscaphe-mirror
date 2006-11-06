@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadComposingTask.m,v 1.2 2006/02/08 21:24:39 tsawada2 Exp $
+  * $Id: CMRThreadComposingTask.m,v 1.2.4.1 2006/11/06 13:24:45 tsawada2 Exp $
   * 
   * CMRThreadComposingTask.m
   *
@@ -44,7 +44,8 @@ NSString *const CMRThreadComposingCallbackNotification = @"CMRThreadComposingCal
 {
 	[_threadTitle release];
 	[_reader release];
-	[_delegate release];
+	_delegate = nil;
+//	[_delegate release];
 	[super dealloc];
 }
 
@@ -163,8 +164,8 @@ NSString *const CMRThreadComposingCallbackNotification = @"CMRThreadComposingCal
 }
 - (void) setDelegate : (id) aDelegate
 {
-	[aDelegate retain];
-	[_delegate release];
+	//[aDelegate retain];
+	//[_delegate release];
 
 	_delegate = aDelegate;
 }
@@ -250,8 +251,8 @@ NSString *const CMRThreadComposingCallbackNotification = @"CMRThreadComposingCal
 			[self performsAppendingTextFromBuffer : textBuffer_];
 			textLength_ = [textStorage_ length];
 			// コールバック
-			if ([m index] >= [self callbackIndex])
-				[self postCallbackIndexNotification];
+//			if ([m index] >= [self callbackIndex])
+//				[self postCallbackIndexNotification];
 		}
 	}
 	
@@ -261,7 +262,7 @@ NSString *const CMRThreadComposingCallbackNotification = @"CMRThreadComposingCal
 			fromIndex:ellipsisIndex toIndex:[[buffer_ lastMessage] index]];
 	}
 	[self performsAppendingTextFromBuffer : textBuffer_];
-	[self postCallbackIndexNotification];
+//	[self postCallbackIndexNotification];
 	
 	
 	[CMRMainMessenger postNotificationName : CMRThreadComposingDidFinishNotification

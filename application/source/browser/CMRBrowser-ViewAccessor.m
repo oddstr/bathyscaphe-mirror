@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.42.2.4 2006/09/04 16:34:39 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.42.2.5 2006/11/06 13:24:45 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -382,7 +382,7 @@
 
 + (float) navBarSubviewsAdjustValue
 {
-	return 0.0;
+	return 1.0;
 }
 
 - (void) setupSplitView
@@ -392,6 +392,7 @@
 	NSArray			*subviewsAry_ = [splitView_ subviews];
 
     [splitView_ setVertical : isGoingToVertical];
+	[[[self threadsListTable] enclosingScrollView] setBorderType: NSNoBorder];
 	[[[self threadsListTable] enclosingScrollView] setHasHorizontalScroller : isGoingToVertical];
 
     topSubview = [subviewsAry_ objectAtIndex : 0];
@@ -493,6 +494,7 @@
 - (void) setupBoardListTableDefaults
 {
     [self setupBoardListOutlineView : [self boardListTable]];
+	[[[self boardListTable] enclosingScrollView] setBorderType: NSNoBorder];
     
     [[self boardListTable] setDelegate : self];
 	[[self boardListTable] setAutosaveName : APP_BROWSER_THREADSLIST_TABLE_AUTOSAVE_NAME];
