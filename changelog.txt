@@ -1,3 +1,8 @@
+2006-11-06 masakih <masakih@users.sourceforge.jp>
+	* application/Resources/Japanese.lproj/CMRThreadMenu.nib
+	* application/Resources/text/KeyValueTemplates.plist
+	* application/source/view/CMRThreadView.m
+		選択範囲をWikipediaのエントリとして表示するようにした。
 2006-07-31 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/previewer/BSImagePreviewInspector-View.m
 	* application/subproj/previewer/BSImagePreviewInspector-Tb.m

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadView.m,v 1.13.2.1 2006/09/02 14:30:12 tsawada2 Exp $
+  * $Id: CMRThreadView.m,v 1.13.2.2 2006/11/06 13:34:32 masakih Exp $
   * 
   * CMRThreadView.m
   *
@@ -299,6 +299,8 @@ NOT_FOUND:
 // @see googleSearch:
 #define kPropertyListGoogleQueryKey		@"Thread - GoogleQuery"
 #define kGoogleQueryValiableKey			@"%%%Query%%%"
+// @see openWithWikipedia:
+#define kPropertyListWikipediaQueryKey		@"Thread - WikipediaQuery"
 + (void) setupMenuItemInMenu : (NSMenu *) aMenu
 		   representedObject : (id      ) anObject
 {
@@ -738,6 +740,25 @@ static void showPoofAnimationForInvisibleAbone(CMRThreadView *tView, unsigned in
 
 
 @implementation CMRThreadView(Action)
+- (IBAction) openWithWikipedia : (id) sender
+{
+	NSRange			selectedRange_ = [self selectedRange];
+	NSString		*string_;
+	id				query_;
+	NSURL *url;
+	
+	string_ = [[self string] substringWithRange : selectedRange_];
+	string_ = [string_ stringByURLEncodingUsingEncoding : NSUTF8StringEncoding];
+	if(!string_ || [string_ isEmpty]) return;
+	
+	query_ = SGTemplateResource(kPropertyListWikipediaQueryKey);
+	UTILAssertNotNil(query_);
+	
+	query_ = [NSMutableString stringWithString:query_];
+	[query_ replaceCharacters:kGoogleQueryValiableKey toString:string_];
+	url = [NSURL URLWithString : query_];
+	[[NSWorkspace sharedWorkspace] openURL : url];
+}
 - (IBAction) googleSearch : (id) sender;
 {
 	NSRange			selectedRange_ = [self selectedRange];
@@ -800,6 +821,8 @@ static void showPoofAnimationForInvisibleAbone(CMRThreadView *tView, unsigned in
 	NSEnumerator	*indexEnum_ = [self selectedMessageIndexEnumerator];
 	
 	if (@selector(googleSearch:) == action_)
+		return ([self selectedRange]).length != 0;
+	if (@selector(openWithWikipedia:) == action_)
 		return ([self selectedRange]).length != 0;
 	
 	if (@selector(messageCopy:) == action_)
