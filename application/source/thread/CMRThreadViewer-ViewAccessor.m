@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.12.2.2 2006/11/06 13:24:45 tsawada2 Exp $
+  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.12.2.3 2006/11/06 15:12:08 tsawada2 Exp $
   * 
   * CMRThreadViewer-ViewAccessor.m
   *
@@ -91,7 +91,7 @@
 										   with : containerView_];
 	[m_windowContentView release];
 	m_windowContentView = nil;
-	[m_windowContentView addSubview : containerView_];
+	//[m_windowContentView addSubview : containerView_];
 	
 	[containerView_ release];
 	
@@ -196,10 +196,10 @@
 }
 
 #pragma mark NavigationBar
-+ (float) navBarSubviewsAdjustValue
+/*+ (float) navBarSubviewsAdjustValue
 {
 	return 1.0;
-}
+}*/
 
 - (void) layoutNavigationBarComponents
 {

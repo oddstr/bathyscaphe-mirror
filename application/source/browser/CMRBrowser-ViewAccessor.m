@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.42.2.5 2006/11/06 13:24:45 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.42.2.6 2006/11/06 15:12:08 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -380,10 +380,10 @@
 	[[[self scrollView] horizontalRulerView] setNeedsDisplay: YES];
 }
 
-+ (float) navBarSubviewsAdjustValue
+/*+ (float) navBarSubviewsAdjustValue
 {
 	return 1.0;
-}
+}*/
 
 - (void) setupSplitView
 {

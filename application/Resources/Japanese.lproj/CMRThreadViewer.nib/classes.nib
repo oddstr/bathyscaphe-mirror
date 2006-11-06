@@ -3,15 +3,15 @@
         {CLASS = BSTsuruPetaView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {CLASS = BSWindow; LANGUAGE = ObjC; SUPERCLASS = NSWindow; }, 
         {
-            ACTIONS = {toggleStatusLineShown = id; }; 
+            ACTIONS = {cancelCurrentTask = id; saveAsDefaultFrame = id; }; 
             CLASS = CMRStatusLineWindowController; 
             LANGUAGE = ObjC; 
-            SUPERCLASS = CMRToolbarWindowController; 
+            OUTLETS = {"m_toolbarDelegateImp" = id; }; 
+            SUPERCLASS = NSWindowController; 
         }, 
         {
             ACTIONS = {
                 addFavorites = id; 
-                copyInfoFromContextualMenu = id; 
                 copySelectedResURL = id; 
                 copyThreadAttributes = id; 
                 deleteThread = id; 
@@ -26,7 +26,6 @@
                 historyMenuPerformForward = id; 
                 openBBSInBrowser = id; 
                 openInBrowser = id; 
-                openLogfile = id; 
                 orderFrontMainBrowser = id; 
                 reloadIfOnlineMode = id; 
                 reloadThread = id; 
@@ -52,17 +51,11 @@
                 "m_componentsView" = NSView; 
                 "m_containerView" = NSView; 
                 "m_navigationBar" = NSView; 
-                "m_scrollView" = CMXScrollView; 
+                "m_scrollView" = NSScrollView; 
                 "m_textView" = NSTextView; 
                 "m_windowContentView" = NSView; 
             }; 
             SUPERCLASS = CMRStatusLineWindowController; 
-        }, 
-        {
-            CLASS = CMRToolbarWindowController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {"m_toolbarDelegateImp" = id; }; 
-            SUPERCLASS = NSWindowController; 
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
     ); 

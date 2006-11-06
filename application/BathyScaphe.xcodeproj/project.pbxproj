@@ -83,8 +83,6 @@
 		870161FA082BE67100AEFDD0 /* CMRToolbarDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDDA04C698FB00A80005 /* CMRToolbarDelegate.h */; };
 		870161FB082BE67100AEFDD0 /* CMRToolbarDelegateImp.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDDB04C698FB00A80005 /* CMRToolbarDelegateImp.h */; };
 		870161FC082BE67100AEFDD0 /* CMRToolbarDelegateImp_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDDD04C698FB00A80005 /* CMRToolbarDelegateImp_p.h */; };
-		870161FD082BE67100AEFDD0 /* CMRToolbarWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDDE04C698FB00A80005 /* CMRToolbarWindowController.h */; };
-		870161FE082BE67100AEFDD0 /* CMRToolbarWindowController_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDE004C698FB00A80005 /* CMRToolbarWindowController_p.h */; };
 		87016200082BE67100AEFDD0 /* CMR2chDATReader.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC5A04C698FA00A80005 /* CMR2chDATReader.h */; };
 		87016201082BE67100AEFDD0 /* CMRThreadContentsReader.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D5383404CE78FC00A80005 /* CMRThreadContentsReader.h */; };
 		87016202082BE67100AEFDD0 /* CMRThreadUpdatedHeaderTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F31D7F9604D2F00E003EEDDD /* CMRThreadUpdatedHeaderTask.h */; };
@@ -223,7 +221,6 @@
 		8701633A082BE67100AEFDD0 /* CMRStatusLineWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDD504C698FB00A80005 /* CMRStatusLineWindowController.m */; };
 		8701633B082BE67100AEFDD0 /* CMRThreadViewerTbDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDD804C698FB00A80005 /* CMRThreadViewerTbDelegate.m */; };
 		8701633C082BE67100AEFDD0 /* CMRToolbarDelegateImp.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDDC04C698FB00A80005 /* CMRToolbarDelegateImp.m */; };
-		8701633D082BE67100AEFDD0 /* CMRToolbarWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDDF04C698FB00A80005 /* CMRToolbarWindowController.m */; };
 		8701633F082BE67100AEFDD0 /* CMR2chDATReader.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC5B04C698FA00A80005 /* CMR2chDATReader.m */; };
 		87016340082BE67100AEFDD0 /* CMRThreadContentsReader.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D5383504CE78FC00A80005 /* CMRThreadContentsReader.m */; };
 		87016341082BE67100AEFDD0 /* CMRThreadUpdatedHeaderTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F31D7F9704D2F00E003EEDDD /* CMRThreadUpdatedHeaderTask.m */; };
@@ -2662,8 +2659,6 @@
 				870161FA082BE67100AEFDD0 /* CMRToolbarDelegate.h in Headers */,
 				870161FB082BE67100AEFDD0 /* CMRToolbarDelegateImp.h in Headers */,
 				870161FC082BE67100AEFDD0 /* CMRToolbarDelegateImp_p.h in Headers */,
-				870161FD082BE67100AEFDD0 /* CMRToolbarWindowController.h in Headers */,
-				870161FE082BE67100AEFDD0 /* CMRToolbarWindowController_p.h in Headers */,
 				87016200082BE67100AEFDD0 /* CMR2chDATReader.h in Headers */,
 				87016201082BE67100AEFDD0 /* CMRThreadContentsReader.h in Headers */,
 				87016202082BE67100AEFDD0 /* CMRThreadUpdatedHeaderTask.h in Headers */,
@@ -3233,7 +3228,6 @@
 				8701633A082BE67100AEFDD0 /* CMRStatusLineWindowController.m in Sources */,
 				8701633B082BE67100AEFDD0 /* CMRThreadViewerTbDelegate.m in Sources */,
 				8701633C082BE67100AEFDD0 /* CMRToolbarDelegateImp.m in Sources */,
-				8701633D082BE67100AEFDD0 /* CMRToolbarWindowController.m in Sources */,
 				8701633F082BE67100AEFDD0 /* CMR2chDATReader.m in Sources */,
 				87016340082BE67100AEFDD0 /* CMRThreadContentsReader.m in Sources */,
 				87016341082BE67100AEFDD0 /* CMRThreadUpdatedHeaderTask.m in Sources */,

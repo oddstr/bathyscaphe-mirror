@@ -1,24 +1,28 @@
-//:CMRStatusLineWindowController.h
 /**
+  * $Id: CMRStatusLineWindowController.h,v 1.4.6.3 2006/11/06 15:12:08 tsawada2 Exp $
+  * BathyScaphe
   *
-  * 
-  *
-  * @author Takanori Ishikawa
-  * @author http://www15.big.or.jp/~takanori/
-  * @version 1.0.0d1 (02/09/24  11:18:18 AM)
+  * ãå CMRStatusLineWindowController Ç∆ CMRToolbarWindowController Çìùçá
+  * Copyright 2006 BathyScaphe Project. All rights reserved.
   *
   */
+
 #import <Cocoa/Cocoa.h>
 #import <SGAppKit/SGAppKit.h>
-#import "CMRToolbarWindowController.h"
+#import "CocoMonar_Prefix.h"
+#import "CMRToolbarDelegate.h"
 #import "CMRStatusLine.h"
 
-@interface CMRStatusLineWindowController : CMRToolbarWindowController
+@protocol CMRToolbarDelegate;
+
+@interface CMRStatusLineWindowController: NSWindowController
 {
 	@private
 	CMRStatusLine				*m_statusLine;
+	id<CMRToolbarDelegate>		m_toolbarDelegateImp;
 }
-//- (IBAction) toggleStatusLineShown : (id) sender;
++ (Class) toolbarDelegateImpClass;
+- (id<CMRToolbarDelegate>) toolbarDelegate;
 
 // board / thread signature for historyManager .etc
 - (id) boardIdentifier;
@@ -26,16 +30,15 @@
 @end
 
 @interface CMRStatusLineWindowController(Action)
-- (IBAction) saveAsDefaultFrame : (id) sender;
-- (IBAction) cancelCurrentTask : (id) sender;
+- (IBAction) saveAsDefaultFrame: (id) sender;
+- (IBAction) cancelCurrentTask: (id) sender;
 @end
 
 @interface CMRStatusLineWindowController(ViewInitializer)
+- (void) setupUIComponents;
+
 + (Class) statusLineClass;
 - (NSString *) statusLineFrameAutosaveName;
 - (void) setupStatusLine;
-
 - (CMRStatusLine *) statusLine;
 @end
-
-

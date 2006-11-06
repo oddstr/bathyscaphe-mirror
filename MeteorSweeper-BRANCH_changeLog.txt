@@ -1,3 +1,11 @@
+2006-11-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/Browser.nib
+	* application/Resources/Japanese.lproj/CMRReplyWindow.nib
+	* application/Resources/Japanese.lproj/CMRThreadViewer.nib
+		下記クラス統合に伴い、nib ファイルも修正。
+	* application/source/window/CMRStatusLineWindowController.m
+		CMRStatusLineWindowController と CMRToolbarWindowController を統合した。
+		CMRToolbarWindowController(_p.h|.h|.m) はターゲットから外れた。
 2006-11-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/BSTitleRulerView.m
 	* frameworks/SGAppKit/framework/src/BSKFSplitView.m
