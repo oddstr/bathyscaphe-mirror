@@ -1,4 +1,10 @@
 2006-11-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRThreadsList-DataSource.m
+	* application/source/view/ThreadsListTable.m
+		スレッド一覧からドラッグ＆ドロップしたときに、ペーストボードに NSURLPboardType のデータが
+		適切に格納されないことがあった問題を修正。
+		ログファイルの存在しないスレッドを一つだけドラッグ＆ドロップしようとした時は、thread ファイルの
+		アイコンではなくスレッドタイトルと URL を記した半透明の角丸長方形をドラッグイメージに使うようにした。
 	* application/Resources/Japanese.lproj/Browser.nib
 	* application/Resources/Japanese.lproj/CMRReplyWindow.nib
 	* application/Resources/Japanese.lproj/CMRThreadViewer.nib

@@ -1,5 +1,5 @@
 /**
-  * $Id: ThreadsListTable.m,v 1.8 2006/03/08 15:40:57 tsawada2 Exp $
+  * $Id: ThreadsListTable.m,v 1.8.4.1 2006/11/06 20:24:51 tsawada2 Exp $
   * 
   * ThreadsListTable.m
   *
@@ -88,7 +88,8 @@
 	if ([dragRows count] == 1) {
 		return [[self dataSource] isFavorites]
 						? [super dragImageForRowsWithIndexes : dragRows tableColumns : tableColumns event : dragEvent offset : dragImageOffset]
-						: [[NSWorkspace sharedWorkspace] iconForFileType : @"thread"];
+						//: [[NSWorkspace sharedWorkspace] iconForFileType : @"thread"];
+						: [[self dataSource] dragImageForTheRow: [dragRows firstIndex] inTableView: self offset: dragImageOffset];
 	} else {
 		return [self _draggingBadgeForRowCount : [dragRows count]];
 	}
