@@ -6,10 +6,11 @@
 #import "RBSplitView.h"
 #import "CookieManager.h"
 #import "CMRHistoryManager.h"
-#import "CMRFavoritesManager.h"
+// #import "CMRFavoritesManager.h"
 #import "CMRMainMenuManager.h"
 #import "BoardManager.h"
 #import "CMRNetGrobalLock.h"
+#import "DatabaseManager.h"
 #import "CMRTrashbox.h"
 
 /* for Debugging */

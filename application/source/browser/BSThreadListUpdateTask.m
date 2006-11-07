@@ -179,7 +179,7 @@ static inline NSString *conditionFromStatusAndType( int status, int type )
 }
 static inline NSString *orderBy( NSString *sortKey, BOOL isAscending )
 {
-	NSString *result = nil;
+//	NSString *result = nil;
 	NSString *sortCol = nil;
 	NSString *ascending = @"";
 	
@@ -219,7 +219,7 @@ static inline NSString *orderBy( NSString *sortKey, BOOL isAscending )
 	NSString *whereOrAnd = @" WHERE ";
 	NSString *searchCondition;
 	NSString *filterCondition;
-	NSString *order;
+//	NSString *order;
 	
 	sql = [NSMutableString stringWithFormat : @"SELECT * FROM (%@) ",targetTable];
 	
@@ -290,10 +290,14 @@ static inline NSString *orderBy( NSString *sortKey, BOOL isAscending )
 		}
 		
 		if(userCanceled) goto final;
+		
+		/*
 		id sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:orderBy([target sortKey], 0)
 														 ascending:[target isAscending]
 														  selector:@selector(numericCompare:)] autorelease];
 		id sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+		 */
+		id sortDescriptors = [target sortDescriptors];
 		if(newerCursor) {
 			NSArray *data = [newerCursor arrayForTableView];
 			NSArray *col = [newerCursor columnNames];

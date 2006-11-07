@@ -162,9 +162,8 @@
 	mBoardListItem = [item retain];
 	[temp release];
 	
-	temp = mSortKey;
-	mSortKey = [[[BoardManager defaultManager] sortColumnForBoard : [self boardName]] retain];
-	[temp release];
+	temp = [[BoardManager defaultManager] sortColumnForBoard : [self boardName]];
+	[self sortByKeyWithoutUpdateList:temp];
 }
 
 - (BOOL)isFavorites
@@ -204,12 +203,16 @@
 	UTILAssertKindOfClass(inDesc, NSSortDescriptor);
 	
 	id temp = mSortDescriptors;
-	mSortDescriptors = [[NSMutableArray arrayWithObject:inDesc] retain];;
+	mSortDescriptors = [[NSMutableArray arrayWithObject:inDesc] retain];
 	[temp release];
 }
 - (void)addSortDescriptor:(NSSortDescriptor *)inDesc
 {
 	UTILAssertKindOfClass(inDesc, NSSortDescriptor);
+	
+	if(!mSortDescriptors) {
+		mSortDescriptors = [[NSMutableArray array] retain];
+	}
 	
 	id key = [inDesc key];
 	
@@ -289,6 +292,48 @@
 	return [self numberOfThreads];
 }
 
+static inline NSString *keyFromKey( NSString *sortKey )
+{
+	NSString *sortCol = nil;
+		
+	if ([sortKey isEqualTo : CMRThreadTitleKey]) {
+		sortCol = ThreadNameColumn;
+	} else if ([sortKey isEqualTo : CMRThreadLastLoadedNumberKey]) {
+		sortCol = NumberOfReadColumn;
+	} else if ([sortKey isEqualTo : CMRThreadNumberOfMessagesKey]) {
+		sortCol = NumberOfAllColumn;
+	} else if ([sortKey isEqualTo : CMRThreadNumberOfUpdatedKey]) {
+		sortCol = NumberOfDifferenceColumn;
+	} else if ([sortKey isEqualTo : CMRThreadSubjectIndexKey]) {
+		sortCol = TempThreadThreadNumberColumn;
+	} else if ([sortKey isEqualTo : CMRThreadStatusKey]) {
+		sortCol = ThreadStatusColumn;
+	} else if ([sortKey isEqualTo : CMRThreadModifiedDateKey]) {
+		sortCol = ModifiedDateColumn;
+	} else if ([sortKey isEqualTo : ThreadPlistIdentifierKey]) {
+		sortCol = ThreadIDColumn;
+	} else if ([sortKey isEqualTo : ThreadPlistBoardNameKey]) {
+		sortCol = BoardNameColumn;
+	}
+	
+	return [sortCol lowercaseString];
+}
+- (void) sortByKeyWithoutUpdateList : (NSString *) key
+{
+	id tmp = mSortKey;
+	mSortKey = [key retain];
+	[tmp release];
+	
+	{
+		id sortDescriptor;
+		
+		sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:keyFromKey(mSortKey)
+													  ascending:[self isAscending]
+													   selector:@selector(numericCompare:)] autorelease];
+		
+		[self addSortDescriptor:sortDescriptor];
+	}
+}
 - (void) sortByKey : (NSString *) key
 {
 	// お気に入りとスマートボードではindexは飾り
@@ -299,25 +344,17 @@
 		}
 	}
 	
-	id tmp = mSortKey;
-	mSortKey = [key retain];
-	[tmp release];
+	[self sortByKeyWithoutUpdateList:key];
 
 	[self updateCursor];
 	
 }
 
 #pragma mark## Filter ##
-- (BOOL) filterByFindOperation : (CMRSearchOptions *) operation
+- (BOOL) filterByString : (NSString *)string
 {
 	id tmp = mSearchString;
-	id newSearchString = [operation findObject];
-	
-	if (![newSearchString isKindOfClass : [NSString class]]) {
-		return NO;
-	}
-	
-	mSearchString = [newSearchString retain];
+	mSearchString = [string retain];
 	[tmp release];
 	
 	[self updateCursor];

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.48 2006/11/05 12:53:47 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.49 2006/11/07 12:50:31 masakih Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -22,7 +22,7 @@ static int expandAndSelectItem(NSDictionary *selected, NSArray *anArray, NSOutli
 	id	eachItem;
 	int index = -1;
 	while (eachItem = [iter_ nextObject]) {
-		if (![BoardList isCategory: eachItem]) continue;
+		if (![SmartBoardList isCategory: eachItem]) continue;
 		// カテゴリだったら…
 		if ([bLT isItemExpanded: eachItem]) continue; // すでに開かれているならスルー
 		[bLT expandItem: eachItem]; // 閉じているカテゴリを開く
@@ -47,16 +47,16 @@ static int expandAndSelectItem(NSDictionary *selected, NSArray *anArray, NSOutli
 - (void) selectRowWhoseNameIs : (NSString *) brdname_
 {
 	NSOutlineView	*bLT = [self boardListTable];
-    BoardList       *source;
+    SmartBoardList       *source;
     NSDictionary	*selected;
     int				index;
 
-    source = (BoardList *)[bLT dataSource];
+    source = (SmartBoardList *)[bLT dataSource];
     
     selected = [source itemForName : brdname_];
 
     if (nil == selected) { // 掲示板を自動的に追加
-		BoardList	*defaultList_ = [[BoardManager defaultManager] defaultList];
+		SmartBoardList	*defaultList_ = [[BoardManager defaultManager] defaultList];
 		NSDictionary *willAdd_ = [defaultList_ itemForName : brdname_];
 		if(nil == willAdd_) {
 			NSLog(@"No data for board %@ found.", brdname_);

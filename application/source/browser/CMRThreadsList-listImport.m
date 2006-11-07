@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-listImport.m,v 1.12 2006/11/05 12:53:47 tsawada2 Exp $
+  * $Id: CMRThreadsList-listImport.m,v 1.13 2006/11/07 12:50:31 masakih Exp $
   * BathyScaphe
   *
   *
@@ -381,10 +381,6 @@ static BOOL synchronizeThAttrForSync(NSMutableDictionary *theThread, NSDictionar
 			name : [aNotification name]
 			object : [aNotification object]];
 }
-//<<<<<<< CMRThreadsList-listImport.m
-//@end
+@end
 
 #endif
-
-//=======
-@end//>>>>>>> 1.10.2.2

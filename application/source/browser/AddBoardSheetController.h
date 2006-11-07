@@ -1,5 +1,5 @@
 //
-//  $Id: AddBoardSheetController.h,v 1.5 2006/11/05 12:53:47 tsawada2 Exp $
+//  $Id: AddBoardSheetController.h,v 1.6 2006/11/07 12:50:31 masakih Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/12.
@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-@class BoardList;
+@class SmartBoardList;
 
 /*!
     @header AddBoardSheetController

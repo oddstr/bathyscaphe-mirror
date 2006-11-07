@@ -1,3 +1,16 @@
+2006-11-07 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSBoardListItemHEADCheckTask.m
+		ThreadNewCreatedStatusのリセットクエリを変更。
+		ThreadHeadModifiedStatusのリセットは不要なので削除。
+	* application/source/browser/BSDBThreadList.m
+	* application/source/browser/BSThreadListUpdateTask.m
+		スレッド一覧のソートにNSSortDescriptor(s)を使用。
+		保存場所は決まってない。
+	* application/BathyScaphe.xcodeproj/project.pbxproj
+	* application/Resources/Japanese.lproj/Browser.nib
+	* application/subproj/preference/Japanese.lproj/*.nib
+	* application/source
+		   マージに関する修正。
 2006-11-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
     MeteorSweeper-BRANCH からマージ。
     * application/BathyScaphe.xcodeproj

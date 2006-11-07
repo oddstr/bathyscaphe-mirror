@@ -88,9 +88,7 @@ static BOOL shouldCheckItemHeader(id dict);
 }
 - (void) doExecuteWithLayout : (CMRThreadLayout *) layout
 {
-	[self setDescString:NSLocalizedString(@"Collectiong infomation of thread", @"")];
-	[self updateNewCreate];
-	[self updateHEADChecked];
+	[self resetNewStatus];
 	
 	NSArray *threads = [self threadInfomations];
 	NSEnumerator *threadsEnum;
@@ -168,6 +166,8 @@ static BOOL shouldCheckItemHeader(id dict);
 	SQLiteDB *db;
 	NSString *table = [item query];
 	if(!table) return nil;
+	
+	[self setDescString:NSLocalizedString(@"Collectiong infomation of thread", @"")];
 	
 	db = [[DatabaseManager defaultManager] databaseForCurrentThread];
 	
@@ -294,46 +294,26 @@ static NSURL *urlForBoardNameAndThredID(NSString *boardName, NSString *threadID)
 	
 	return [dlTask autorelease];;
 }
-- (void)updateNewCreate
+- (void)resetNewStatus
 {
 	SQLiteDB *db = [[DatabaseManager defaultManager] databaseForCurrentThread];
+	
+	[self setDescString:NSLocalizedString(@"Reseting new threads status.", @"")];
 	
 	if(db && [db beginTransaction]) {
 		NSString *query = [NSString stringWithFormat:
 			@"UPDATE %@ "
 			@"SET %@ = %d "
-			@"WHERE %@ = %d "
-			@"AND "
-			@"%@.ROWID IN (SELECT %@.ROWID FROM (%@))",
+			@"WHERE EXISTS (SELECT * FROM (%@) WHERE %@ = %d)",
 			ThreadInfoTableName,
 			ThreadStatusColumn, ThreadNoCacheStatus,
-			ThreadStatusColumn, ThreadNewCreatedStatus,
-			ThreadInfoTableName, ThreadInfoTableName, [item query]];
+			[item query], ThreadStatusColumn, ThreadNewCreatedStatus];
 		[db performQuery:query];
 		
 		[db commitTransaction];
 	}
 }
-- (void)updateHEADChecked
-{
-	SQLiteDB *db = [[DatabaseManager defaultManager] databaseForCurrentThread];
-	
-	if(db && [db beginTransaction]) {
-		NSString *query = [NSString stringWithFormat:
-			@"UPDATE %@ "
-			@"SET %@ = %d "
-			@"WHERE %@ = %d "
-			@"AND "
-			@"%@.ROWID IN (SELECT %@.ROWID FROM (%@))",
-			ThreadInfoTableName,
-			ThreadStatusColumn, ThreadLogCachedStatus,
-			ThreadStatusColumn, ThreadHeadModifiedStatus,
-			ThreadInfoTableName, ThreadInfoTableName, [item query]];
-		[db performQuery:query];
-		
-		[db commitTransaction];
-	}
-}
+
 - (void)updateDB:(id)threads
 {
 	if(!threads || [threads count] == 0) return;

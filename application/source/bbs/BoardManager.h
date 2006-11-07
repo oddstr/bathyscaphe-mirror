@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.h,v 1.11 2006/11/05 12:53:47 tsawada2 Exp $
+ * $Id: BoardManager.h,v 1.12 2006/11/07 12:50:31 masakih Exp $
  * 
  * BoardManager.h
  *
@@ -9,7 +9,7 @@
 
 #import <SGFoundation/SGFoundation.h>
 
-@class BoardList;
+@class SmartBoardList;
 /*!
     @class		BoardManager
     @abstract   掲示板リストの dataSource 提供と、各掲示板の属性へのアクセスを一括して取り扱うマネージャ
@@ -38,16 +38,16 @@ typedef enum _BSBeLoginPolicyType {
 @interface BoardManager : NSObject
 {
     @private
-	BoardList			*_defaultList;
-	BoardList			*_userList;
+	SmartBoardList			*_defaultList;
+	SmartBoardList			*_userList;
 	NSMutableDictionary		*_noNameDict;	// NoNameManager を統合
 }
 + (id) defaultManager;
 
-- (BoardList *) defaultList;
-- (BoardList *) userList;
+- (SmartBoardList *) defaultList;
+- (SmartBoardList *) userList;
 
-- (BoardList *) filteredListWithString: (NSString *) keyword; // available in CometBlaster.
+// - (SmartBoardList *) filteredListWithString: (NSString *) keyword; // available in CometBlaster.
 
 - (NSString *) defaultBoardListPath;
 - (NSString *) userBoardListPath;

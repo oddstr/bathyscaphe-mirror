@@ -3,7 +3,7 @@
 #import "BoardManager.h"
 #import "BSSettingTxtDetector.h"
 #import "AppDefaults.h"
-#import "BoardList.h"
+#import "SmartBoardList.h"
 #import "BSBoardInfoInspector.h"
 
 @implementation BoardManager(SettingTxtDetector)
@@ -194,7 +194,7 @@
 
 	while ((eachItem = [iter_ nextObject]) != nil) {
 		[[self userList] removeItemWithName: [eachItem objectForKey: BoardPlistNameKey]
-									 ofType: [[BoardList class] typeForItem: eachItem]];
+									 ofType: [[SmartBoardList class] typeForItem: eachItem]];
 	}
 
 	return YES;

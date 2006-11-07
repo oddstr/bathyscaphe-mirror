@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.m,v 1.14 2006/11/05 12:53:47 tsawada2 Exp $
+  * $Id: Browser.m,v 1.15 2006/11/07 12:50:31 masakih Exp $
   * BathyScaphe 
   *
   * Copyright 2005-2006 BathyScaphe Project.
@@ -15,7 +15,7 @@
 #import "CMRThreadAttributes.h"
 
 #import "BoardManager.h"
-#import "BoardList.h"
+// #import "BoardList.h"
 
 
 @implementation Browser

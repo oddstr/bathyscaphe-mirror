@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.22 2006/11/05 12:53:47 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.23 2006/11/07 12:50:31 masakih Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -212,8 +212,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 	item_ = [brdListTable_ itemAtRow : rowIndex_];
 
 	if (nil == item_) return;
-	UTILAssertKindOfClass(item_, NSDictionary);
-	if ([BoardList isCategory : item_]) return;
+	if (![item_ hasURL] && ![BoardListItem isFavoriteItem:item_] && ![BoardListItem isSmartItem:item_]) return;
 
 	[self showThreadsListForBoard : item_];
 }
@@ -420,7 +419,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 	if (nil == [self threadsListTable]) 
 		return;
 	
-	[CMRThreadsList resetDataSourceTemplates];
+	[BSDBThreadList resetDataSourceTemplates];
 	[self updateDefaultsWithTableView : [self threadsListTable]];
 	[self setupBoardListOutlineView : [self boardListTable]];
 	[[self threadsListTable] setNeedsDisplay : YES];

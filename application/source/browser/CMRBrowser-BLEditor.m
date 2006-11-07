@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-BLEditor.m,v 1.15 2006/11/05 12:53:47 tsawada2 Exp $
+ * $Id: CMRBrowser-BLEditor.m,v 1.16 2006/11/07 12:50:31 masakih Exp $
  * BathyScaphe
  * CMRBrowser-Action.m, CMRBrowser-ViewAccessor.m から分割
  *
@@ -12,10 +12,36 @@
 #import "AddBoardSheetController.h"
 #import "EditBoardSheetController.h"
 
+#import "SmartBoardList.h"
+#import "BoardListItem.h"
+#import "SmartBoardListItemEditor.h"
+
 static NSString *const kRemoveDrawerItemTitleKey	= @"Browser Del Drawer Item Title";
 static NSString *const kRemoveDrawerItemMsgKey		= @"Browser Del Board Items Message";
 
 @implementation CMRBrowser(BoardListEditor)
+- (void)setItem : (id) item : (int *) userInfo
+{
+	//
+	if(item) {
+		int rowIndex;
+		id selectedItem;
+		id userList = [[BoardManager defaultManager] userList];
+		
+		rowIndex = [[self boardListTable] selectedRow];
+		selectedItem = (rowIndex >= 0) ? [[self boardListTable] itemAtRow : rowIndex]: nil;
+		
+		[userList addItem:item afterObject:selectedItem];
+		[[self boardListTable] reloadData];
+	}
+}
+- (IBAction) addSmartItem : (id) sender
+{
+	[[SmartBoardListItemEditor editor] cretateFromUIWindow:[self window]
+												  delegate:self
+										   settingSelector:@selector(setItem::)
+												  userInfo:NULL];
+}
 - (IBAction) addDrawerItem : (id) sender
 {
 	[[self addBoardSheetController] beginSheetModalForWindow : [self window]
@@ -40,12 +66,12 @@ static NSString *const kRemoveDrawerItemMsgKey		= @"Browser Del Board Items Mess
 		rowIndex_ = [boardListTable_ selectedRow];
 	}
 
-	NSDictionary	*item_;
+	id	item_;
 	NSString	*name_;
 	NSWindow	*window_;
 
 	item_ = [boardListTable_ itemAtRow : rowIndex_];
-//<<<<<<< CMRBrowser-BLEditor.m
+/*
 	name_ = [item_ representName]; //[item_ objectForKey : BoardPlistNameKey];
 	
 	[[self dItemEditSheetTitleField] setStringValue : [self localizedString : kEditDrawerTitleKey]];
@@ -64,15 +90,18 @@ static NSString *const kRemoveDrawerItemMsgKey		= @"Browser Del Board Items Mess
 		[[SmartBoardListItemEditor editor] editWithUIWindow:[self window]
 											 smartBoardItem:item_];
 		return;
-/*=======
-	name_ = [item_ objectForKey : BoardPlistNameKey];
+======= */
+	name_ = [item_ representName];
 	window_ = [self window];
 
-	if ([BoardList isBoard : item_]) {
+	if ([BoardListItem isBoardItem : item_]) {
 		[[self editBoardSheetController] beginEditBoardSheetForWindow: window_ modalDelegate: self contextInfo: item_];
-	} else if ([BoardList isCategory : item_]) {
+	} else if ([BoardListItem isFolderItem : item_]) {
 		[[self editBoardSheetController] beginEditCategorySheetForWindow: window_ modalDelegate: self contextInfo: name_];
->>>>>>> 1.13.2.5*/
+//>>>>>>> 1.13.2.5
+	} else if ([BoardListItem isSmartItem : item_]) {
+		[[SmartBoardListItemEditor editor] editWithUIWindow:[self window]
+											 smartBoardItem:item_];
 	}
 }
 

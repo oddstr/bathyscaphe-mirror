@@ -119,7 +119,7 @@ fail:{
 - (void) doExecuteWithLayout : (CMRThreadLayout *) layout
 {
 	dbloadTask = [self makeUpdateTask];
-	[dbloadTask run];
+//	[dbloadTask run];
 	
 	[self checkIsInterrupted];
 	if([CMRPref isOnlineMode] || forceDL) {

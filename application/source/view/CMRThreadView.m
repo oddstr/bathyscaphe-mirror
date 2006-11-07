@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadView.m,v 1.14 2006/11/05 12:53:48 tsawada2 Exp $
+  * $Id: CMRThreadView.m,v 1.15 2006/11/07 12:50:31 masakih Exp $
   * 
   * CMRThreadView.m
   *
@@ -800,6 +800,8 @@ static void showPoofAnimationForInvisibleAbone(CMRThreadView *tView, unsigned in
 	NSEnumerator	*indexEnum_ = [self selectedMessageIndexEnumerator];
 	
 	if (@selector(googleSearch:) == action_)
+		return ([self selectedRange]).length != 0;
+	if (@selector(openWithWikipedia:) == action_)
 		return ([self selectedRange]).length != 0;
 	
 	if (@selector(messageCopy:) == action_)

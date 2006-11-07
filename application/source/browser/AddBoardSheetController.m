@@ -1,5 +1,5 @@
 //
-//  $Id: AddBoardSheetController.m,v 1.10 2006/11/05 12:53:47 tsawada2 Exp $
+//  $Id: AddBoardSheetController.m,v 1.11 2006/11/07 12:50:31 masakih Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/12.
@@ -8,7 +8,7 @@
 
 #import "AddBoardSheetController.h"
 
-#import "BoardList.h"
+#import "SmartBoardList.h"
 #import "BoardManager.h"
 #import <SGFoundation/SGFoundation.h>
 #import <CocoMonar/CocoMonar.h>
@@ -229,7 +229,7 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 	} else {
 		id userList = [[BoardManager defaultManager] userList];
 
-		if ([userList containsItemWithName : name_ ofType : (BoardListBoardItem | BoardListFavoritesItem)]) {
+		if ([userList itemForName : name_]) {
 			NSBeep();
 			[[NSAlert alertWithMessageText : [self localizedString : @"Same Name Exists"]
 							 defaultButton : [self localizedString : @"Cancel"]
