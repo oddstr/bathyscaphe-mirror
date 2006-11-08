@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadAttributes.h,v 1.4 2006/01/24 11:00:54 tsawada2 Exp $
+  * $Id: CMRThreadAttributes.h,v 1.4.4.1 2006/11/08 19:00:36 tsawada2 Exp $
   * 
   * CMRThreadAttributes.h
   *
@@ -91,6 +91,13 @@
 // Available in LittleWish and later.
 + (NSURL *) threadURLWithLatestParamFromDict : (NSDictionary *) dict resCount : (int) count;
 + (NSURL *) threadURLWithHeaderParamFromDict : (NSDictionary *) dict resCount : (int) count;
+
+// Available in ReinforceII and later.
++ (NSURL *) threadURLWithDefaultParameterFromDictionary: (NSDictionary *) dict;
+
++ (void) replaceKeywords: (NSMutableString *) theBuffer dictionary: (NSDictionary *) theThread;
++ (void) replaceKeywords: (NSMutableString *) theBuffer attributes: (CMRThreadAttributes *) theThread;
++ (void) fillBuffer: (NSMutableString *) theBuffer withThreadInfoForCopying: (NSArray *) threadAttrsAry;
 @end
 
 

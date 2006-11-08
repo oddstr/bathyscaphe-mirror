@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.h,v 1.6.4.1 2006/08/04 19:35:09 tsawada2 Exp $
+  * $Id: CMRThreadsList.h,v 1.6.4.2 2006/11/08 19:00:36 tsawada2 Exp $
   * 
   * CMRThreadsList.h
   *
@@ -142,6 +142,11 @@
 - (unsigned int) indexOfThreadWithPath : (NSString *) filepath;
 
 - (void) updateDateFormatter;
+
+// available in ReinforceII and later.
+- (NSImage *) dragImageForTheRow: (unsigned int) rowIndex
+					 inTableView: (NSTableView *) tableView
+						  offset: (NSPointPointer) dragImageOffset;
 @end
 
 

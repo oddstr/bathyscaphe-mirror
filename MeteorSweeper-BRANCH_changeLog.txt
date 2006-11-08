@@ -1,3 +1,19 @@
+2006-11-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/thread/CMRThreadAttributes-Convert.m
+		下記改良に伴い、スレッドの情報文字列を生成したり、スレッドのURLを取得するコードを共通化するため、
+		CMRThreadViewer から CMRThreadAttributes クラスに一部メソッドを移動した。
+	* application/source/browser/CMRThreadsList-DataSource.m
+		スレッド一覧からドラッグ＆ドロップするときの動作で、以下の点を変更：
+		- NSURLPboardType のデータとして格納される URL は、「環境設定」＞「一般」の「Web ブラウザで開くときの
+		　レス数」に従うように変更。
+		- NSStringPboardType のデータとして格納される文字列の書式は、KeyValueTemplates.plist の
+		　「Thread - CopyInfoFormat」を反映するように変更。
+		全体としては、「スレッド」＞「情報をコピー」および「Web ブラウザで開く」と動作を統一したという訳。
+		さらに
+		- ログファイルの存在するスレッドを一つだけドラッグ＆ドロップしようとしたときにマウスポインタに付随するイメージを
+		　よりわかりやすいものに変更。
+		- 複数のスレッドをドラッグ＆ドロップしようとしたときに付随するイメージも不透明度を見直して見やすいように変更。
 2006-11-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRThreadsList-DataSource.m
 	* application/source/view/ThreadsListTable.m

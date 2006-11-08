@@ -1,5 +1,5 @@
 /**
-  * $Id: ThreadsListTable.m,v 1.8.4.1 2006/11/06 20:24:51 tsawada2 Exp $
+  * $Id: ThreadsListTable.m,v 1.8.4.2 2006/11/08 19:00:36 tsawada2 Exp $
   * 
   * ThreadsListTable.m
   *
@@ -60,7 +60,7 @@
 													   operation : NSCompositeDestinationOver];
 	[[[NSWorkspace sharedWorkspace] iconForFileType : @"thread"] compositeToPoint : NSMakePoint(4.0, 0.0)
 																		operation : NSCompositeDestinationOver
-																		fraction : 0.7];
+																		fraction : 0.9];
 	[anImg unlockFocus];
 
 	return [anImg autorelease];
@@ -73,7 +73,10 @@
 	if ([dragRows count] == 1) {
 		return [[self dataSource] isFavorites]
 						? [super dragImageForRows : dragRows event : dragEvent dragImageOffset : dragImageOffset]
-						: [[NSWorkspace sharedWorkspace] iconForFileType : @"thread"];
+//						: [[NSWorkspace sharedWorkspace] iconForFileType : @"thread"];
+						: [[self dataSource] dragImageForTheRow: [[dragRows lastObject] unsignedIntValue]
+													inTableView: self
+														 offset: dragImageOffset];
 	} else {
 		return [self _draggingBadgeForRowCount : [dragRows count]];
 	}

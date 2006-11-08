@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.15.4.3 2006/11/06 20:24:51 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.15.4.4 2006/11/08 19:00:36 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -150,10 +150,6 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 			diff_ = [CMRThreadAttributes numberOfUpdatedFromDictionary : thread];
 			v = (diff_ >= 0) ? [NSNumber numberWithInt : diff_] : nil;
 		}
-	/*} else if ([self isFavorites] && [CMRThreadSubjectIndexKey isEqualToString : identifier]) {
-		// 番号（お気に入り）
-		v = [NSNumber numberWithInt : ([[[CMRFavoritesManager defaultManager] favoritesItemsIndex]
-											indexOfObject : [CMRThreadAttributes pathFromDictionary : thread]]+1)];*/
 	} else if ([identifier isEqualToString : ThreadPlistIdentifierKey]) {
 		// スレッドの立った日付（dat 番号を変換）available in RainbowJerk and later.
 		v = [NSDate dateWithTimeIntervalSince1970 : (NSTimeInterval)[[thread objectForKey : identifier] doubleValue]];
@@ -207,125 +203,41 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 }
 
 #pragma mark Drag and Drop support
-/*- (BOOL) tableView : (NSTableView  *) tableView
-         writeRows : (NSArray      *) rows
-      toPasteboard : (NSPasteboard *) pboard
-{
-	NSArray			*types_;
-	NSMutableArray	*filenames_;
-	NSMutableArray	*readables_;
-	NSMutableArray	*urls_;
-	
-	NSEnumerator	*iter_;
-	NSNumber		*indexNum_;
-	
-	if([self isFavorites]) return NO;
-	
-	
-	filenames_ = [NSMutableArray arrayWithCapacity : [rows count]];
-	readables_ = [NSMutableArray arrayWithCapacity : [rows count]];
-	urls_ = [NSMutableArray arrayWithCapacity : [rows count]];
-	iter_ = [rows objectEnumerator];
-	
-	while(indexNum_ = [iter_ nextObject]){
-		NSDictionary	*thread_;
-		unsigned int	index_;
-		
-		NSString		*path_;
-		NSString		*title_;
-		NSString		*readableData_;
-		NSString		*datName_;
-		NSURL			*url_;
-
-		index_  = [indexNum_ unsignedIntValue];
-		thread_ = [self threadAttributesAtRowIndex : index_ inTableView : tableView];
-		
-		if(nil == thread_) continue;
-		
-		path_ = [CMRThreadAttributes pathFromDictionary : thread_];
-		datName_ = [CMRThreadAttributes identifierFromDictionary : thread_];
-		title_ = [thread_ objectForKey : CMRThreadTitleKey];
-		
-		url_ = [CMRThreadAttributes threadURLFromDictionary : thread_];
-
-		readableData_ = [NSString stringWithFormat : @"%@\n%@",
-								[url_ absoluteString],
-								title_];
-		
-		
-		[readables_ addObject : readableData_];
-		
-		if(NO == [[NSFileManager defaultManager] fileExistsAtPath : path_]){
-			continue;
-		}
-		[urls_ addObject : url_];
-		[filenames_ addObject : path_];
-	}
-	
-	// 書き込み
-	if([filenames_ count] > 0){
-		types_ = [NSArray arrayWithObjects : 
-							NSFilenamesPboardType,
-							NSURLPboardType,
-							NSStringPboardType,
-							nil];
-	}else if([readables_ count] > 0){
-		types_ = [NSArray arrayWithObject : NSStringPboardType];
-	}else{
-		return NO;
-	}
-	
-	[pboard declareTypes : types_ 
-				   owner : NSApp];
-	if([filenames_ count] > 0){
-		
-		[pboard setPropertyList : filenames_
-						forType : NSFilenamesPboardType];
-		[[urls_ lastObject] writeToPasteboard : pboard];
-	}
-	[pboard setString : [readables_ componentsJoinedByString : @"\n"] 
-			  forType : NSStringPboardType];
-	
-	return YES;
-}*/
 - (BOOL) tableView : (NSTableView  *) tableView
          writeRows : (NSArray      *) rows
       toPasteboard : (NSPasteboard *) pboard
 {
 	NSArray			*types_;
 	NSMutableArray	*filenames_;
-	NSMutableArray	*readables_;
 	NSMutableArray	*urls_;
 	
 	NSEnumerator	*iter_;
 	NSNumber		*indexNum_;
+	NSMutableString	*tmp_;
 	
 	filenames_ = [NSMutableArray arrayWithCapacity: [rows count]];
-	readables_ = [NSMutableArray arrayWithCapacity: [rows count]];
 	urls_ = [NSMutableArray arrayWithCapacity: [rows count]];
+
 	iter_ = [rows objectEnumerator];
-	
+	tmp_ = SGTemporaryString();
+
 	while(indexNum_ = [iter_ nextObject]){
 		NSDictionary	*thread_;
 		unsigned int	index_;
 		
 		NSString		*path_;
-		NSString		*title_;
-		NSString		*readableData_;
 		NSURL			*url_;
 
 		index_  = [indexNum_ unsignedIntValue];
 		thread_ = [self threadAttributesAtRowIndex : index_ inTableView : tableView];
 		
-		if(nil == thread_) continue;
+		if (nil == thread_) continue;
 		
-		path_ = [CMRThreadAttributes pathFromDictionary : thread_];
-		title_ = [thread_ objectForKey : CMRThreadTitleKey];
-		url_ = [CMRThreadAttributes threadURLFromDictionary : thread_];
+		path_ = [CMRThreadAttributes pathFromDictionary: thread_];
+		url_ = [CMRThreadAttributes threadURLWithDefaultParameterFromDictionary: thread_];
 
-		readableData_ = [NSString stringWithFormat : @"%@\n%@", [url_ absoluteString], title_];
+		[CMRThreadAttributes fillBuffer: tmp_ withThreadInfoForCopying: [NSArray arrayWithObject: thread_]];
 		
-		[readables_ addObject: readableData_];
 		[urls_ addObject: url_];
 		
 		if([[NSFileManager defaultManager] fileExistsAtPath : path_]){
@@ -336,7 +248,7 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	// 書き込み
 	if([filenames_ count] > 0){
 		types_ = [NSArray arrayWithObjects: NSFilenamesPboardType, NSURLPboardType, NSStringPboardType, nil];
-	}else if([readables_ count] > 0){
+	}else if([tmp_ length] > 0){
 		types_ = [NSArray arrayWithObjects: NSURLPboardType, NSStringPboardType, nil];
 	}else{
 		return NO;
@@ -347,9 +259,11 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	if([filenames_ count] > 0){
         [pboard setPropertyList: filenames_ forType: NSFilenamesPboardType];
 	}
-	[pboard setString: [readables_ componentsJoinedByString : @"\n"] forType: NSStringPboardType];
+
+	[pboard setString: tmp_ forType: NSStringPboardType];
 	[[urls_ lastObject] writeToPasteboard: pboard];
-	
+
+	[tmp_ deleteCharactersInRange : [tmp_ range]];
 	return YES;
 }
 
@@ -361,7 +275,7 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
     int minY = NSMinY(bgRect);
     int midY = NSMidY(bgRect);
     int maxY = NSMaxY(bgRect);
-    float radius = 5.0; // 試行錯誤の末の値
+    float radius = 5.0;
     NSBezierPath *bgPath = [NSBezierPath bezierPath];
     
     // Bottom edge and bottom-right curve
@@ -415,18 +329,61 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	return [attrStr_ autorelease];
 }
 
+- (NSImage *) dragImageWithIconForAttributes: (NSDictionary *) attr offset: (NSPointPointer) dragImageOffset
+{
+	NSString	*title_ = [attr objectForKey: CMRThreadTitleKey];
+	//ThreadStatus	s = [self threadStatusForThread: attr];
+	//int			aType = (s == ThreadNewCreatedStatus) ? kValueTemplateNewArrivalType : kValueTemplateDefaultType;
+
+	//NSAttributedString	*titleAttrStr_ = [[self class] objectValueTemplate: title_ forType: aType];
+	NSAttributedString	*titleAttrStr_ = [[self class] objectValueTemplate: title_ forType: kValueTemplateDefaultType];
+		
+	NSImage *titleImg = [[NSImage alloc] init];
+	NSSize	strSize_ = [titleAttrStr_ size];
+	
+	[titleImg setSize: strSize_];
+	[titleImg lockFocus];
+	[titleAttrStr_ drawInRect: NSMakeRect(0,0,strSize_.width,strSize_.height)];
+	[titleImg unlockFocus];
+
+	NSImage	*icon_ = [[NSWorkspace sharedWorkspace] iconForFileType : @"thread"];
+	[icon_ setSize : NSMakeSize(16, 16)];
+	
+	NSImage *finalImg = [[NSImage alloc] init];
+//	NSRect	strBounds;
+
+	float	whichHeight = [CMRPref threadsListRowHeight];
+	if (whichHeight < strSize_.height) whichHeight = strSize_.height;
+	NSRect	imageRect_ = NSMakeRect(0, 0, strSize_.width+19.0, whichHeight);
+/*	
+	strBounds.origin = NSMakePoint(19.0, 0);
+	strBounds.size = strSize_;
+*/	
+	[finalImg setSize: imageRect_.size];
+	[finalImg lockFocus];
+
+	[icon_ compositeToPoint: NSMakePoint(0,0) operation: NSCompositeCopy fraction: 0.9];
+	[titleImg compositeToPoint: NSMakePoint(19.0,0) operation: NSCompositeCopy fraction: 0.8];
+	
+	[finalImg unlockFocus];
+	
+	[titleImg release];
+	return [finalImg autorelease];
+}	
+	
 - (NSImage *) dragImageForTheRow: (unsigned int) rowIndex inTableView: (NSTableView *) tableView offset: (NSPointPointer) dragImageOffset
 {
 	NSDictionary	*thread_;
 	thread_ = [self threadAttributesAtRowIndex : rowIndex inTableView : tableView];
 	
-	if(nil == thread_) return [[NSWorkspace sharedWorkspace] iconForFileType : @"thread"];
+	if(nil == thread_) return nil;//[[NSWorkspace sharedWorkspace] iconForFileType : @"thread"];
 
 	NSString		*path_;
 	path_ = [CMRThreadAttributes pathFromDictionary : thread_];
 
 	if([[NSFileManager defaultManager] fileExistsAtPath : path_])
-		 return [[NSWorkspace sharedWorkspace] iconForFileType : @"thread"];
+//		return [[NSWorkspace sharedWorkspace] iconForFileType : @"thread"];
+		return [self dragImageWithIconForAttributes: thread_ offset: dragImageOffset];
 
 	NSString		*title_;
 	NSAttributedString	*attrStr_;
@@ -588,10 +545,11 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 - (unsigned int) draggingSourceOperationMaskForLocal : (BOOL) localFlag
 {
 	if(localFlag)
-		return (NSDragOperationCopy | NSDragOperationGeneric | NSDragOperationMove | NSDragOperationDelete | NSDragOperationLink);
+		return NSDragOperationEvery;
 	
-	return (NSDragOperationDelete | NSDragOperationGeneric | NSDragOperationLink);
+	return (NSDragOperationCopy|NSDragOperationDelete|NSDragOperationLink);
 }
+
 - (void) draggedImage : (NSImage	   *) anImage
 			  endedAt : (NSPoint		) aPoint
 			operation : (NSDragOperation) operation

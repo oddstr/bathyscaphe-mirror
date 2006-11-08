@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.30.2.9 2006/10/01 10:08:43 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.30.2.10 2006/11/08 19:00:36 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -109,12 +109,12 @@
 	NSEnumerator		*Iter_;
 	NSDictionary		*threadAttributes_;
 	
-	int aType = [CMRPref openInBrowserType];
+	//int aType = [CMRPref openInBrowserType];
 	
 	Iter_ = [threads objectEnumerator];
 	while ((threadAttributes_ = [Iter_ nextObject])) {
 		NSURL			*url_;
-		
+/*		
 		switch(aType) {
 		case BSOpenInBrowserLatestFifty:
 			url_ = [CMRThreadAttributes threadURLWithLatestParamFromDict : threadAttributes_ resCount : 50];
@@ -125,7 +125,8 @@
 		default:
 			url_ = [CMRThreadAttributes threadURLFromDictionary : threadAttributes_];
 			break;
-		}
+		}*/
+		url_ = [CMRThreadAttributes threadURLWithDefaultParameterFromDictionary: threadAttributes_];
 		[[NSWorkspace sharedWorkspace] openURL : url_ inBackGround : [CMRPref openInBg]];
 	}
 }
@@ -153,9 +154,9 @@
 //
 // Show Thread's Information
 //
-#define kCopyThreadFormatKey		@"Thread - CopyThreadFormat"
+//#define kCopyThreadFormatKey		@"Thread - CopyThreadFormat"
 #define kThreadInfoTempFile			@"ThreadInfoTemplate.rtf"
-
+/*
 #define kCopyThreadBBSNameKey		@"%%%BBSName%%%"
 #define kCopyThreadBBSURLKey		@"%%%BBSURL%%%"
 #define kCopyThreadTitleKey			@"%%%ThreadTitle%%%"
@@ -165,8 +166,7 @@
 #define kCopyThreadDATSizeKey		@"%%%DATSize%%%"
 #define kCopyThreadCreatedDateKey	@"%%%CreatedDate%%%"
 #define kCopyThreadModifiedDateKey	@"%%%ModifiedDate%%%"
-
-#pragma mark -
+*/
 
 @implementation CMRThreadViewer(Action)
 - (NSArray *) targetThreadsForAction : (SEL) action
@@ -249,7 +249,7 @@
 	loc = [[docView_ window] convertBaseToScreen : loc];
 	return loc;
 }
-- (void) replaceKeywords : (NSMutableString *) theBuffer
+/*- (void) replaceKeywords : (NSMutableString *) theBuffer
               dictionary : (NSDictionary    *) theThread
 {
 	static NSString *const kNFStringValue = @" - ";
@@ -309,7 +309,7 @@
 {
 	[self replaceKeywords:theBuffer dictionary:[theThread dictionaryRepresentation]];
 }
-
+*/
 - (NSString *) templateFilepathForInfoPopUp
 {
 	NSBundle	*bundles[] = {
@@ -352,8 +352,9 @@
 	
 	location_ = [self locationForInformationPopUp];
 	
-	[self replaceKeywords : [tmp mutableString] 
-	           attributes : [self threadAttributes]];
+	[CMRThreadAttributes replaceKeywords: [tmp mutableString] attributes: [self threadAttributes]];
+//	[self replaceKeywords : [tmp mutableString] 
+//	           attributes : [self threadAttributes]];
 	[CMRPopUpMgr showPopUpWindowWithContext : tmp
 								  forObject : [self path]
 									  owner : self
@@ -361,6 +362,29 @@
 	[tmp deleteCharactersInRange : [tmp range]];
 }
 
+- (IBAction) copyThreadAttributes : (id) sender
+{
+	NSArray *array_ = [self targetThreadsForAction: _cmd];
+
+	NSMutableString	*tmp;
+	NSURL			*url_ = nil;
+	NSPasteboard	*pboard_ = [NSPasteboard generalPasteboard];
+	NSArray			*types_;
+	
+	tmp = SGTemporaryString();
+
+	[CMRThreadAttributes fillBuffer: tmp withThreadInfoForCopying: array_];
+	url_ = [CMRThreadAttributes threadURLFromDictionary: [array_ lastObject]];
+	
+	types_ = [NSArray arrayWithObjects: NSURLPboardType, NSStringPboardType, nil];
+	[pboard_ declareTypes: types_ owner: nil];
+	
+	[url_ writeToPasteboard: pboard_];
+	[pboard_ setString: tmp forType: NSStringPboardType];
+	
+	[tmp deleteCharactersInRange : [tmp range]];
+}
+/*
 - (IBAction) copyThreadAttributes : (id) sender
 {
 	NSEnumerator	*iter_;
@@ -382,7 +406,8 @@
 
 	while (dict_ = [iter_ nextObject]) {
 		[tmp appendString: template_];
-		[self replaceKeywords: tmp dictionary: dict_];
+		[CMRThreadAttributes replaceKeywords: tmp dictionary: dict_];
+//		[self replaceKeywords: tmp dictionary: dict_];
 		url_ = [CMRThreadAttributes threadURLFromDictionary: dict_];
 	}
 	
@@ -394,7 +419,7 @@
 	
 	[tmp deleteCharactersInRange : [tmp range]];
 }
-
+*/
 - (IBAction) copySelectedResURL : (id) sender
 {
 	NSRange			selectedRange_;
