@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIImageView.m,v 1.3.2.4 2006/09/18 11:26:22 tsawada2 Exp $
+//  $Id: BSIPIImageView.m,v 1.3.2.5 2006/11/09 12:46:28 masakih Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/07.
@@ -111,15 +111,13 @@
 }
 
 #pragma mark Drag and Drop
-- (NSSize)fitSizeForDragging
+- (NSRect)draggingImageRect
 {
-	NSSize targetSize = [self frame].size;
+	NSRect drwaingRect = [[self cell] drawingRectForBounds:[self bounds]];
+	NSSize targetSize = drwaingRect.size;
 	NSSize originalSize = [[self image] size];
+	NSSize imageSize;
 	
- /* フレームサイズより小さい方がいいかも。*/
-	targetSize.width -= 5;
-	targetSize.height -= 5;
- 
 	float dx, dy;
 	dx = targetSize.width / originalSize.width;
 	dy = targetSize.height / originalSize.height;
@@ -133,7 +131,51 @@
 		dx = dy = 1;
 	}
 	
-	return NSMakeSize(originalSize.width * dx, originalSize.height * dy);
+	imageSize = NSMakeSize(originalSize.width * dx, originalSize.height * dy);
+	
+	float offsetX, offsetY;
+	
+	switch([self imageAlignment]) {
+		case NSImageAlignCenter:
+		case NSImageAlignTop:
+		case NSImageAlignBottom:
+			offsetX = NSMidX([self frame]) - imageSize.width * 0.5;
+			break;
+		case NSImageAlignTopLeft:
+		case NSImageAlignLeft:
+		case NSImageAlignBottomLeft:
+			offsetX = NSMinX(drwaingRect);
+			break;
+		case NSImageAlignTopRight:
+		case NSImageAlignBottomRight:
+		case NSImageAlignRight:
+			offsetX = NSMaxX(drwaingRect) - imageSize.width;
+			break;
+	}
+	
+	switch([self imageAlignment]) {
+		case NSImageAlignCenter:
+		case NSImageAlignLeft:
+		case NSImageAlignRight:
+			offsetY = NSMidY([self frame]) - imageSize.height * 0.5;
+			break;
+		case NSImageAlignTop:
+		case NSImageAlignTopLeft:
+		case NSImageAlignTopRight:
+			offsetY = NSMinY(drwaingRect);
+			break;
+		case NSImageAlignBottom:
+		case NSImageAlignBottomLeft:
+		case NSImageAlignBottomRight:
+			offsetY = NSMaxY(drwaingRect) - imageSize.height;
+			break;
+	}
+	
+	return NSMakeRect(offsetX, offsetY, imageSize.width, imageSize.height);
+}
+- (NSSize)fitSizeForDragging
+{
+	return [self draggingImageRect].size;
 }
 
 /* サイズ調整された、半透明画像 */
@@ -186,11 +228,7 @@
 			[[self delegate] imageView: self writeSomethingToPasteboard: pb];
 			
 			image = [self imageForDragging];
-			
-			imageLoc = mouse;
-			imageLoc.x -= [image size].width * 0.5;
-			imageLoc.y -= [image size].height * 0.5 * ([self isFlipped] ? -1 : 1);
-			
+			imageLoc = [self draggingImageRect].origin;
 			offset = NSMakeSize( mouse.x - clickPoint.x, mouse.y - clickPoint.y );
 			
 			[self dragImage:image

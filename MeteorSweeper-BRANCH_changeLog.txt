@@ -1,3 +1,6 @@
+2006-11-09 masakih <masakih@users.sourceforge.jp>
+	* application/subproj/previewer/BSIPIImageView.m
+		ドラッグの最適化。
 2006-11-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadViewer-Action.m
 	* application/source/thread/CMRThreadAttributes-Convert.m
