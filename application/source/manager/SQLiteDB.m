@@ -2,6 +2,8 @@
 
 #import "sqlite3.h"
 
+#import <sys/time.h>
+
 @interface NSDictionary (SQLiteRow) <SQLiteRow>
 @end
 @interface NSMutableDictionary (SQLiteMutableCursor) <SQLiteMutableCursor>
@@ -32,6 +34,29 @@ NSString *NUMERIC_NOTNULL_UNIQUE = @"NUMERIC UNIQUE NOT NULL";
 NSString *NONE_NOTNULL = @"NOT NULL";
 NSString *NONE_UNIQUE = @"UNIQUE";
 NSString *NONE_NOTNULL_UNIQUE = @"UNIQUE NOT NULL";
+
+double debug_clock()
+{
+	double t;
+	struct timeval tv;
+	gettimeofday(&tv, NULL);
+	t = tv.tv_sec + (double)tv.tv_usec*1e-6;
+	return t;
+}
+void debug_log(const char *p,...)
+{
+	NSUserDefaults *d = [NSUserDefaults standardUserDefaults];
+	
+	if([d boolForKey:@"SQLITE_DEBUG_LOG"]) {
+		va_list args;
+		va_start(args, p);
+		vfprintf(stderr, p, args);
+	}
+}
+void debug_log_time(double t1, double t2)
+{
+	debug_log( "total time : \t%02.4lf\n",(t2) - (t1));
+}
 
 int progressHandler(void *obj)
 {
@@ -271,27 +296,12 @@ id<SQLiteMutableCursor> cursorFromSTMT(sqlite3_stmt *stmt)
 	id<SQLiteMutableCursor> cursor;
 	
 	double time00, time01;
-#ifdef DEBUG_SQLITEDB_LOGGING
-#	define TIME(t) do{	\
-		struct timeval tv;	\
-		gettimeofday(&tv, NULL);	\
-		t = tv.tv_sec + (double)tv.tv_usec*1e-6;	\
-	}while(0)
-	
-#	define T_LOG(t1, t2)	\
-	fprintf( stderr, "total time : \t%02.4lf\n",(t2) - (t1))
-#else
-#	define TIME(t)
-#	define T_LOG(t1, t2)
-#endif
-	TIME(time00);
+
+	time00 = debug_clock();
 	columns = columnsFromSTMT(stmt);
 	values = valuesForSTMT(stmt, columns);
-	TIME(time01);
-	T_LOG(time00, time01);
-	
-#undef TIME(t)
-#undef T_LOG()
+	time01 = debug_clock();
+	debug_log_time(time00, time01);
 	
 	if(!columns || !values) {
 		return nil;
@@ -321,9 +331,8 @@ id<SQLiteMutableCursor> cursorFromSTMT(sqlite3_stmt *stmt)
 	result = sqlite3_prepare(mDatabase, sql, strlen(sql) , &stmt, &sql);
 	if(result != SQLITE_OK) return nil;
 	
-#ifdef DEBUG_SQLITEDB_LOGGING
-	fprintf(stderr, "send query %s\n", [sqlString UTF8String]);
-#endif
+	debug_log("send query %s\n", [sqlString UTF8String]);
+	
 	cursor = cursorFromSTMT(stmt);
 	sqlite3_finalize(stmt);
 	
@@ -480,9 +489,7 @@ id<SQLiteMutableCursor> cursorFromSTMT(sqlite3_stmt *stmt)
 		result = sqlite3_prepare([db rowDatabase], sql, strlen(sql) , &m_stmt, &sql);
 		if (result != SQLITE_OK) goto fail;
 		
-#ifdef DEBUG_SQLITEDB_LOGGING
-		fprintf(stderr, "create statment %s\n", [sqlString UTF8String]);
-#endif
+		debug_log("create statment %s\n", [sqlString UTF8String]);
 	}
 	
 	return self;
