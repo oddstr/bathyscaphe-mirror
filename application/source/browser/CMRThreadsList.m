@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.m,v 1.12 2006/11/05 12:53:47 tsawada2 Exp $
+  * $Id: CMRThreadsList.m,v 1.13 2006/11/09 16:54:52 masakih Exp $
   * 
   * CMRThreadsList.m
   *
@@ -53,7 +53,7 @@ struct SortContext {
 	NSURL		*boardURL_;
 	
 	boardURL_ = [[BoardManager defaultManager] URLForBoardName : boardName];
-	if((NO == [CMXFavoritesDirectoryName isSameAsString : boardName]) && nil == boardURL_){
+	if(/*(NO == [CMXFavoritesDirectoryName isSameAsString : boardName]) && */nil == boardURL_){
 		[self autorelease];
 		return nil;
 	}
@@ -66,11 +66,11 @@ struct SortContext {
 
 - (id) initWithBBSName : (NSString *) boardName
 {
-	if([CMXFavoritesDirectoryName isSameAsString : boardName]){
+/*	if([CMXFavoritesDirectoryName isSameAsString : boardName]){
 		[self autorelease];
 		return [[w2chFavoriteItemList alloc] 
 					initConcreateWithBBSName : boardName];
-	}
+	} */
 	
 	return [self initConcreateWithBBSName : boardName];
 }

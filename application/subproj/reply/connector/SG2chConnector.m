@@ -351,7 +351,7 @@ static id fnc_stringByURLEncodingUsingEncoding(id obj, NSStringEncoding enc)
 	
 	pref = [NSClassFromString(@"AppDefaults") sharedInstance];
 	UTILAssertNotNil(pref);
-	UTILAssertRespondsTo(pref, @selector(getProxy:port:));
+//	UTILAssertRespondsTo(pref, @selector(getProxy:port:));
 	
 	// proxy
 	/*if ([pref usesProxy]) {

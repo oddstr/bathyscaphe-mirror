@@ -1,4 +1,13 @@
 2006-11-10 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardManager.m
+	* application/source/bbs/BoardListItem/SmartBoardList.m
+		掲示板の検索をちゃんと動くようにした。
+	* application/source/browser/CMRFavoritesManager.m
+	* application/source/browser/CMRThreadsList.m
+		お気に入りの追加削除を元に戻した。
+	* application/source/manager/DatabaseManager.[m|h]
+		データベースファイルのバージョンを記録できるようにした。
+2006-11-10 masakih <masakih@users.sourceforge.jp>
 	* application/source/manager/SQLiteDB.m
 		SQLiteDB のログがうるさすぎるのでUserDefaultsでon/off可能にした。
 		キーはSQLITE_DEBUG_LOG。

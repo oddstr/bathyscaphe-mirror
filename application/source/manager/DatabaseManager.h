@@ -66,6 +66,7 @@
 	// - (BOOL) createResponseTable;
 
 - (BOOL) createTempThreadNumberTable;
+- (BOOL) createVersionTable;
 
 	/*
 	 - (BOOL) createFavThraedInfoView;
@@ -109,6 +110,8 @@ extern NSString *BoardInfoHistoryTableName;
 //extern		NSString *ContentsColumn;
 //extern		NSString *ResAboneTypeColumn;
 //extern		NSString *ResLabelColumn;
+extern	NSString *VersionTableName;
+extern		NSString *VersionColumn;
 
 extern NSString *TempThreadNumberTableName;
 // extern		NSString *BoardIDColumn;

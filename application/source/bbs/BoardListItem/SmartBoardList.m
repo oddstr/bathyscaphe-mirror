@@ -12,7 +12,14 @@
 #import "AppDefaults.h"
 
 @implementation SmartBoardList
-
+- (id)init
+{
+	if(self = [super init]) {
+		topLevelItem = [[BoardListItem alloc] initWithFolderName:@"Top"];
+	}
+	
+	return self;
+}
 - (id) initWithContentsOfFile : (NSString *) path
 {
 	if (self = [super init]) {
@@ -66,7 +73,7 @@
 {
 	isEdited = flag;
 }
-// â‘Î•ÏX•s‰Â
+// çµ¶å¯¾å¤‰æ›´ä¸å¯
 - (NSArray *) boardItems
 {
 	return [topLevelItem items];
@@ -376,10 +383,10 @@ not_writtable:
 		name_ = [dropped_ name];
 		original_ = [topLevelItem itemForName : name_ ofType : [dropped_ type] deepSearch : YES];
 		parent_ = [topLevelItem parentForItem : original_];
-		/* TODO SmartBoardListItem ‚Ì‚Ìˆ— */
+		/* TODO SmartBoardListItem ã®æ™‚ã®å‡¦ç† */
 		if(parent_ && [parent_ isMutable]) {
 			[parent_ removeItem : original_];
-		} else if(parent_) { /* e‚ª‚ ‚Á‚ÄŠ‚Âimmutable */
+		} else if(parent_) { /* è¦ªãŒã‚ã£ã¦ä¸”ã¤immutable */
 			continue;
 		}
 		if(index < 0 || index >= [target_ numberOfItem]) {

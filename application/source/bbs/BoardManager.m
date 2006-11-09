@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.m,v 1.8 2006/11/07 12:50:31 masakih Exp $
+ * $Id: BoardManager.m,v 1.9 2006/11/09 16:54:52 masakih Exp $
  * 
  * BoardManager.m
  *
@@ -140,22 +140,22 @@ static id kDefaultManager;
     }
     return _userList;
 }
-/*
+
 #pragma mark -
 #pragma mark CometBlaster Addition
 - (BOOL) copyMatchedItem : (NSString *) keyword
 				   items : (NSArray  *) items
-				  toList : (BoardList *) filteredList
+				  toList : (SmartBoardList *) filteredList
 {
     int i;
     BOOL found = NO;
 
     for (i = 0; i < [items count]; i++) {
-        NSDictionary	*root = [items objectAtIndex : i];
+        BoardListItem	*root = [items objectAtIndex : i];
         NSRange			range;
-
-        range = [[root objectForKey : BoardPlistNameKey] rangeOfString : keyword
-															   options : NSCaseInsensitiveSearch];
+		
+        range = [[root representName] rangeOfString : keyword
+											options : NSCaseInsensitiveSearch];
         if (range.location != NSNotFound) {
 			[filteredList addItem: root afterObject: nil];
             found |= YES;
@@ -163,9 +163,9 @@ static id kDefaultManager;
             found |= NO;
         }
         
-        if (![self copyMatchedItem : keyword
-							 items : [root objectForKey : BoardPlistContentsKey]
-							toList : filteredList]) {
+        if ([root numberOfItem] != 0 && ![self copyMatchedItem : keyword
+														 items : [root items]
+														toList : filteredList]) {
 			continue;
         }
     }
@@ -174,14 +174,14 @@ static id kDefaultManager;
 
 - (SmartBoardList *) filteredListWithString: (NSString *) keyword
 {
-	BoardList *result_ = [[BoardList alloc] init];
+	SmartBoardList *result_ = [[SmartBoardList alloc] init];
 
     [self copyMatchedItem : keyword
 					items : [[self defaultList] boardItems]
 				   toList : result_];
 
 	return [result_ autorelease];
-}*/
+}
 #pragma mark -
 - (NSURL *) URLForBoardName : (NSString *) boardName
 {

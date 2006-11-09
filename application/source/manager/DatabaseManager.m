@@ -15,6 +15,8 @@ NSString *BoardInfoTableName = @"BoardInfo";
 NSString *ThreadInfoTableName = @"ThreadInfo";
 NSString *BoardInfoHistoryTableName = @"BoardInfoHistory";
 //NSString *ResponseTableName = @"Response";
+NSString *VersionTableName = @"Version";
+NSString *VersionColumn = @"version";
 
 NSString *FavThreadInfoViewName = @"FavThreadInfoView";
 NSString *BoardThreadInfoViewName = @"BoardThreadInfoView";
@@ -47,6 +49,10 @@ NSString *TempThreadThreadNumberColumn = @"threadNumber";
 
 static NSString *ThreadDatabaseKey = @"ThreadDatabaseKey";
 
+//------ static ------//
+static long sDatabaseFileVersion = 1;
+
+
 @implementation DatabaseManager
 
 #ifdef USE_NSZONE_MALLOC
@@ -74,8 +80,14 @@ extern void setSQLiteZone(NSZone *zone);
 	return _instance;
 }
 
++ (void) checkDatabaseFileVersion
+{
+	//
+}
 + (void) setupDatabase
 {
+	[self checkDatabaseFileVersion];
+	
 	if (![[self defaultManager] createFavoritesTable]) {
 		NSLog(@"Can not create Favorites tables");
 	}
@@ -93,6 +105,9 @@ extern void setSQLiteZone(NSZone *zone);
 //	}
 	if (![[self defaultManager] createTempThreadNumberTable]) {
 		NSLog(@"Can not create TempThreadNumber tables");
+	}
+	if (![[self defaultManager] createVersionTable]) {
+		NSLog(@"Can not create Version table");
 	}
 	
 	/*
@@ -488,6 +503,36 @@ abort:
 				 andIndexQueries : [NSArray arrayWithObject : query]];
 		if (!isOK) goto abort;
 		
+		[db commitTransaction];
+		[db save];
+	}
+	
+	return isOK;
+	
+abort:
+		NSLog(@"Fail Database operation. Reson: \n%@", [db lastError]);
+	[db rollbackTransaction];
+	return NO;
+}
+
+- (BOOL) createVersionTable
+{
+	BOOL isOK = NO;
+	
+	SQLiteDB *db = [self databaseForCurrentThread];
+	if (!db) return NO;
+	
+	if ([[db tables] containsObject : VersionTableName]) {
+		return YES;
+	}
+	
+	if ([db beginTransaction]) {
+		isOK = [self createTable : VersionTableName
+					 withColumns : [NSArray arrayWithObject:VersionColumn]
+					andDataTypes : [NSArray arrayWithObject:NUMERIC_NOTNULL]
+				 andIndexQueries : nil];
+		if (!isOK) goto abort;
+				
 		[db commitTransaction];
 		[db save];
 	}
