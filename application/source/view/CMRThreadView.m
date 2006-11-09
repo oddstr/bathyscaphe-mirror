@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadView.m,v 1.13.2.2 2006/11/06 13:34:32 masakih Exp $
+  * $Id: CMRThreadView.m,v 1.13.2.3 2006/11/09 18:11:38 tsawada2 Exp $
   * 
   * CMRThreadView.m
   *
@@ -77,10 +77,13 @@
 
 
 @implementation CMRThreadView
-- (id) initWithFrame : (NSRect) aFrame
+- (id) initWithFrame : (NSRect) aFrame textContainer: (NSTextContainer *) aTextContainer
 {
-	if (self = [super initWithFrame : aFrame]) {
+	if (self = [super initWithFrame : aFrame textContainer: aTextContainer]) {
 		_lastCharIndex = NSNotFound;
+
+		// Reinforce II
+		[self registerForDraggedTypes: [NSArray arrayWithObject: BSThreadItemsPboardType]];
 	}
 	return self;
 }

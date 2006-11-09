@@ -1,3 +1,23 @@
+2006-11-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/InfoPlist.strings
+		1.3 → 1.3.1 に表記変更。
+	* application/source/browser/CMRThreadsList-DataSource.m
+		スレッドをドラッグ開始したとき、ドラッグペーストボードに BSThreadItemPboardType データも
+		書き込むようにした。
+		- 要するに、スレッド一覧からスレッドをテキスト・ビューにドラッグすると、そのスレッドを表示する
+		　新機能を付けた。
+		また、ドラッグイメージの描画処理を細かく見直した。
+	* application/source/view/CMRThreadView-Drop.m
+		[新規追加] CMRThreadView に NSDraggingDestination 関連のメソッド群を追加するにあたり、
+		別ファイルに立てることにした。
+		- BSThreadItemPboardType データがドロップされると、そのスレッドに切り替える（「履歴」メニューから
+		選んだときのように）。
+	* application/source/view/CMRThreadView.m
+		長年気付かれていなかったが、initWithFrame: は実際には呼び出されていなかった（！）。
+		initWithFrame:textContainer: に変更。また、この際にドラッグ＆ドロップを受け入れる登録処理を。
+	* frameworks/CocoMonar/framework/src/CMRPropertyKeys.(h|m)
+		新しいペーストボードタイプ、BSThreadItemPboardType を定義した。
+		CMRThreadSignature の propertyListRepresentation を要素に持つ NSArray である。
 2006-11-09 masakih <masakih@users.sourceforge.jp>
 	* application/subproj/previewer/BSIPIImageView.m
 		ドラッグの最適化。

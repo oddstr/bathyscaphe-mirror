@@ -519,6 +519,7 @@
 		87751AB5097838A0009D4A9C /* FullScreen.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87751AB4097838A0009D4A9C /* FullScreen.tiff */; };
 		87751AE309783D3F009D4A9C /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F36067F4044D4DB600A80005 /* Carbon.framework */; };
 		87764C600AB0399000507EBA /* BoardWarrior.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87764C5E0AB0399000507EBA /* BoardWarrior.strings */; };
+		877AC2910B027447005365C0 /* CMRThreadView-Drop.m in Sources */ = {isa = PBXBuildFile; fileRef = 877AC2900B027447005365C0 /* CMRThreadView-Drop.m */; };
 		878018E1097CF76A002FBA1F /* titleRulerBgNotActive.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 878018E0097CF76A002FBA1F /* titleRulerBgNotActive.tiff */; };
 		8782A66E096FAAB90099B65F /* BSImagePreviewInspector-Tb.m in Sources */ = {isa = PBXBuildFile; fileRef = 8782A66D096FAAB90099B65F /* BSImagePreviewInspector-Tb.m */; };
 		8782A6B2096FB46A0099B65F /* Save.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8782A6B0096FB4690099B65F /* Save.tiff */; };
@@ -834,6 +835,7 @@
 		87751A7A09782FAE009D4A9C /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSIPIFullScreen.nib; sourceTree = "<group>"; };
 		87751AB4097838A0009D4A9C /* FullScreen.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = FullScreen.tiff; sourceTree = "<group>"; };
 		87764C5F0AB0399000507EBA /* Japanese */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/BoardWarrior.strings; sourceTree = "<group>"; };
+		877AC2900B027447005365C0 /* CMRThreadView-Drop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadView-Drop.m"; sourceTree = "<group>"; };
 		878018E0097CF76A002FBA1F /* titleRulerBgNotActive.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = titleRulerBgNotActive.tiff; sourceTree = "<group>"; };
 		8782A66D096FAAB90099B65F /* BSImagePreviewInspector-Tb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BSImagePreviewInspector-Tb.m"; sourceTree = "<group>"; };
 		8782A6B0096FB4690099B65F /* Save.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Save.tiff; sourceTree = "<group>"; };
@@ -2274,6 +2276,7 @@
 				F324DDB504C698FB00A80005 /* SGLinkCommand.m */,
 				F324DDBB04C698FB00A80005 /* ThreadsListTable.h */,
 				F324DDBC04C698FB00A80005 /* ThreadsListTable.m */,
+				877AC2900B027447005365C0 /* CMRThreadView-Drop.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -3301,6 +3304,7 @@
 				8796FA430A9189D400DE3A90 /* BSSettingTxtDetector.m in Sources */,
 				87BD58E10AAC551100F6412D /* EditBoardSheetController.m in Sources */,
 				876371720AB3455E005D5996 /* BSAsciiArtDetector.m in Sources */,
+				877AC2910B027447005365C0 /* CMRThreadView-Drop.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,6 +1,6 @@
 //: CMRPropertyKeys.h
 /**
-  * $Id: CMRPropertyKeys.h,v 1.2 2006/01/05 14:16:44 tsawada2 Exp $
+  * $Id: CMRPropertyKeys.h,v 1.2.4.1 2006/11/09 18:11:38 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -66,6 +66,6 @@ extern NSString *const AppDefaultsLayoutSettingsUpdatedNotification;
 extern NSString *const CMRApplicationWillResetNotification;
 extern NSString *const CMRApplicationDidResetNotification;
 
-
+extern NSString *const BSThreadItemsPboardType;
 
 #define APP_APPLICATION_NAME				@"CocoMonar"

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.15.4.4 2006/11/08 19:00:36 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.15.4.5 2006/11/09 18:11:38 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -9,7 +9,7 @@
 #import "CMRThreadsList_p.h"
 #import "CMXDateFormatter.h"
 #import "CMRReplyDocumentFileManager.h"
-
+#import "CMRThreadSignature.h"
 
 // Status image
 #define kStatusUpdatedImageName		@"Status_updated"
@@ -210,6 +210,7 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	NSArray			*types_;
 	NSMutableArray	*filenames_;
 	NSMutableArray	*urls_;
+	NSMutableArray	*thSigs_;
 	
 	NSEnumerator	*iter_;
 	NSNumber		*indexNum_;
@@ -217,6 +218,7 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	
 	filenames_ = [NSMutableArray arrayWithCapacity: [rows count]];
 	urls_ = [NSMutableArray arrayWithCapacity: [rows count]];
+	thSigs_ = [NSMutableArray arrayWithCapacity: [rows count]];
 
 	iter_ = [rows objectEnumerator];
 	tmp_ = SGTemporaryString();
@@ -239,17 +241,19 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 		[CMRThreadAttributes fillBuffer: tmp_ withThreadInfoForCopying: [NSArray arrayWithObject: thread_]];
 		
 		[urls_ addObject: url_];
-		
+        [thSigs_ addObject: [[CMRThreadSignature threadSignatureFromFilepath: path_] propertyListRepresentation]];		
+
 		if([[NSFileManager defaultManager] fileExistsAtPath : path_]){
 			[filenames_ addObject: path_];
+			
 		}
 	}
 	
 	// ‘‚«ž‚Ý
 	if([filenames_ count] > 0){
-		types_ = [NSArray arrayWithObjects: NSFilenamesPboardType, NSURLPboardType, NSStringPboardType, nil];
+		types_ = [NSArray arrayWithObjects: NSFilenamesPboardType, NSURLPboardType, NSStringPboardType, BSThreadItemsPboardType, nil];
 	}else if([tmp_ length] > 0){
-		types_ = [NSArray arrayWithObjects: NSURLPboardType, NSStringPboardType, nil];
+		types_ = [NSArray arrayWithObjects: NSURLPboardType, NSStringPboardType, BSThreadItemsPboardType, nil];
 	}else{
 		return NO;
 	}
@@ -262,6 +266,7 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 
 	[pboard setString: tmp_ forType: NSStringPboardType];
 	[[urls_ lastObject] writeToPasteboard: pboard];
+	[pboard setPropertyList: thSigs_ forType: BSThreadItemsPboardType];
 
 	[tmp_ deleteCharactersInRange : [tmp_ range]];
 	return YES;
@@ -351,9 +356,21 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	
 	NSImage *finalImg = [[NSImage alloc] init];
 //	NSRect	strBounds;
+    float dy = 0;
+    float dyTitle = 0;
 
 	float	whichHeight = [CMRPref threadsListRowHeight];
-	if (whichHeight < strSize_.height) whichHeight = strSize_.height;
+	if (whichHeight < strSize_.height) {
+	   whichHeight = strSize_.height;
+	} else if (whichHeight > strSize_.height) {
+	   dyTitle = (whichHeight - strSize_.height)*0.5;
+	}
+	if (whichHeight < 16.0) {
+	   whichHeight = 16.0;
+	   dyTitle = (16.0 - strSize_.height)*0.5;
+	} else if (whichHeight > 16.0) {
+	   dy = (whichHeight - 16.0)*0.5;
+	}
 	NSRect	imageRect_ = NSMakeRect(0, 0, strSize_.width+19.0, whichHeight);
 /*	
 	strBounds.origin = NSMakePoint(19.0, 0);
@@ -361,13 +378,17 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 */	
 	[finalImg setSize: imageRect_.size];
 	[finalImg lockFocus];
-
-	[icon_ compositeToPoint: NSMakePoint(0,0) operation: NSCompositeCopy fraction: 0.9];
-	[titleImg compositeToPoint: NSMakePoint(19.0,0) operation: NSCompositeCopy fraction: 0.8];
+	[icon_ compositeToPoint: NSMakePoint(0, dy) operation: NSCompositeCopy fraction: 0.9];
+	[titleImg compositeToPoint: NSMakePoint(19.0,dyTitle) operation: NSCompositeCopy fraction: 0.8];
+//    NSFrameRect(imageRect_);//for debug
 	
 	[finalImg unlockFocus];
 	
 	[titleImg release];
+
+	dragImageOffset->x = imageRect_.size.width * 0.5 - 8.0;
+//	dragImageOffset->y = 10.0;
+
 	return [finalImg autorelease];
 }	
 	

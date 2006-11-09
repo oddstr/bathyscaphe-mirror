@@ -1,6 +1,6 @@
 //: CMRPropertyKeys.m
 /**
-  * $Id: CMRPropertyKeys.m,v 1.2 2006/01/05 14:16:44 tsawada2 Exp $
+  * $Id: CMRPropertyKeys.m,v 1.2.4.1 2006/11/09 18:11:38 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -55,7 +55,7 @@ NSString *const BoardPlistNameKey		= @"Name";
 //PboardTypes
 NSString *const CMRBBSListItemsPboardType = @"CMRBBSListItemsPboardType";
 NSString *const CMRFavoritesItemsPboardType = @"CMRFavoritesItemsPboardType";
-
+NSString *const BSThreadItemsPboardType = @"BSThreadItemsPboardType";
 
 NSString *const CMRBBSManagerUserListDidChangeNotification = @"CMRBBSManagerUserListDidChangeNotification";
 NSString *const CMRBBSManagerDefaultListDidChangeNotification = @"CMRBBSManagerDefaultListDidChangeNotification";
