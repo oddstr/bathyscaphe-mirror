@@ -9,6 +9,7 @@
 #import "EditBoardSheetController.h"
 #import "CocoMonar_Prefix.h"
 #import "BoardManager.h"
+#import "BoardListItem.h"
 
 static NSString *const kEditBoardSheetNibName		= @"EditBoardSheet";
 static NSString *const kEditBoardSheetStringsName	= @"ThreadViewer"; // 今のところ共用
@@ -84,10 +85,10 @@ static NSString *const kEditDrawerItemTitleForCategoryKey = @"PleaseInputName";
 						modalDelegate: (id) aDelegate
 						  contextInfo: (id) contextInfo
 {
-	UTILAssertKindOfClass(contextInfo, NSDictionary);
+	UTILAssertKindOfClass(contextInfo, BoardListItem);
 
-	NSString *name_ = [contextInfo objectForKey: BoardPlistNameKey];
-	NSString *URLStr_ = [contextInfo objectForKey: BoardPlistURLKey];
+	NSString *name_ = [contextInfo representName];
+	NSString *URLStr_ = [[contextInfo url] absoluteString];
 
 	NSString *messageTemplate = [self localizedString: kEditDrawerItemMsgForBoardKey];
 

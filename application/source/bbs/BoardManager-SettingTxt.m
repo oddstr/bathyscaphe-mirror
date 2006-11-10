@@ -193,8 +193,7 @@
 	id				eachItem;
 
 	while ((eachItem = [iter_ nextObject]) != nil) {
-		[[self userList] removeItemWithName: [eachItem objectForKey: BoardPlistNameKey]
-									 ofType: [[SmartBoardList class] typeForItem: eachItem]];
+		[[self userList] removeItem : eachItem];
 	}
 
 	return YES;

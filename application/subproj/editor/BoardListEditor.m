@@ -1,5 +1,5 @@
 /**
- * $Id: BoardListEditor.m,v 1.4 2006/04/11 17:31:21 masakih Exp $
+ * $Id: BoardListEditor.m,v 1.5 2006/11/10 12:45:57 masakih Exp $
  * 
  * BoardListEditor.m
  *
@@ -593,13 +593,12 @@
 	
 	iter_ = [[[[self userListTable] selectedRowEnumerator] allObjects] reverseObjectEnumerator];
 	while (rowIndex_ = [iter_ nextObject]) {
-		NSDictionary	*item_;
+		id	item_;
 		int				index_;
 		
 		index_ = [rowIndex_ intValue];
 		item_ = [[self userListTable] itemAtRow : index_];
-		[[self userList] removeItemWithName : [item_ objectForKey : BoardPlistNameKey]
-									 ofType : [item_ type]];
+		[[self userList] removeItem : item];
 	}
 	[[self userListTable] reloadData];
 	[[self userListTable] deselectAll : nil];

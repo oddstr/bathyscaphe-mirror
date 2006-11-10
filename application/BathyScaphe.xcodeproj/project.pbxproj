@@ -1202,7 +1202,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = F4369C0B0AFF7CFC005ABD68 /* sqlite */;
+			remoteGlobalIDString = F4369C0B0AFF7CFC005ABD68;
 			remoteInfo = sqlite;
 		};
 /* End PBXContainerItemProxy section */

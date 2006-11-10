@@ -1,4 +1,11 @@
 2006-11-10 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardManager-SettingTxt.m
+	* application/source/bbs/BoardListItem/SmartBoardList.m
+	* application/source/browser/CMRThreadsList-Notification.m
+	* application/source/browser/EditBoardSheetController.m
+	* application/subproj/editor/BoardListEditor.m
+		掲示板リストの掲示板の追加と削除が出来るようにした。
+2006-11-10 masakih <masakih@users.sourceforge.jp>
 	* application/source/bbs/BoardManager.m
 	* application/source/bbs/BoardListItem/SmartBoardList.m
 		掲示板の検索をちゃんと動くようにした。

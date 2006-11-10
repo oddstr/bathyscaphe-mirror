@@ -148,6 +148,7 @@
 	
 	if (!target) {
 		[topLevelItem addItem : item];
+		[self postBoardListDidChangeNotification];
 		return YES;
 	}
 	
