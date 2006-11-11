@@ -289,10 +289,6 @@
 		870B892E08ED56B3001664CC /* titleRulerBgAquaGraphite.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 870B892C08ED56B3001664CC /* titleRulerBgAquaGraphite.tiff */; };
 		870D4BE00A7D6033008BBAB4 /* BSIndexingPopupper.h in Headers */ = {isa = PBXBuildFile; fileRef = 8714F3690A4966CB00AB8691 /* BSIndexingPopupper.h */; };
 		870D4BE10A7D6034008BBAB4 /* BSIndexingPopupper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8714F36A0A4966CB00AB8691 /* BSIndexingPopupper.m */; };
-		870D4BE20A7D6035008BBAB4 /* BSTsuruPetaPopUpBtnCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 870022280A4B0E7500F29F97 /* BSTsuruPetaPopUpBtnCell.h */; };
-		870D4BE30A7D6036008BBAB4 /* BSTsuruPetaPopUpBtnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 870022290A4B0E7500F29F97 /* BSTsuruPetaPopUpBtnCell.m */; };
-		870D4BE40A7D6037008BBAB4 /* BSTsuruPetaView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87C5D0F50A4AC84B00E96099 /* BSTsuruPetaView.h */; };
-		870D4BE50A7D6038008BBAB4 /* BSTsuruPetaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C5D0F60A4AC84B00E96099 /* BSTsuruPetaView.m */; };
 		870D4BE70A7D609F008BBAB4 /* BSIndexingPopupper.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8714F38F0A49700400AB8691 /* BSIndexingPopupper.nib */; };
 		870D4BE90A7D6115008BBAB4 /* titleRulerInfoIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 870D4BE80A7D6115008BBAB4 /* titleRulerInfoIcon.tiff */; };
 		871265B5097D84ED00B90FF2 /* AddBoardSheetController.h in Headers */ = {isa = PBXBuildFile; fileRef = 871265AB097D84ED00B90FF2 /* AddBoardSheetController.h */; };
@@ -495,7 +491,6 @@
 		87464E3708643673000F0371 /* libRBSplitView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87464E3608643673000F0371 /* libRBSplitView.a */; };
 		87464E390864368F000F0371 /* RBSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87464E380864368F000F0371 /* RBSplitView.h */; };
 		87517B8A0864B4F0002DA082 /* SplitterHandle.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87517B890864B4F0002DA082 /* SplitterHandle.tiff */; };
-		87517BAF0864BE33002DA082 /* Spacer.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87517BAE0864BE33002DA082 /* Spacer.tiff */; };
 		875D98200A8A02180061C86D /* SGAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244F5043610D600A80005 /* SGAppKit.framework */; };
 		875D98210A8A02190061C86D /* SGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FA043610EB00A80005 /* SGFoundation.framework */; };
 		875D98220A8A021A0061C86D /* SGNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FF043610FB00A80005 /* SGNetwork.framework */; };
@@ -543,8 +538,6 @@
 		87B19D7F08FB7C4100D15053 /* AddBoard.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B19D7D08FB7C4100D15053 /* AddBoard.tiff */; };
 		87B652990840625F008AE2BE /* SendMessage.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B652980840625F008AE2BE /* SendMessage.tiff */; };
 		87BB79210864401A00ED8757 /* RBSplitSubview.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB791F0864401A00ED8757 /* RBSplitSubview.h */; };
-		87BBABF50AB4257E0061D85A /* smallUnlocked.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87BBABF30AB4257E0061D85A /* smallUnlocked.tiff */; };
-		87BBABF60AB4257E0061D85A /* smallLocked.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87BBABF40AB4257E0061D85A /* smallLocked.tiff */; };
 		87BD58E00AAC551100F6412D /* EditBoardSheetController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BD58DE0AAC551100F6412D /* EditBoardSheetController.h */; };
 		87BD58E10AAC551100F6412D /* EditBoardSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BD58DF0AAC551100F6412D /* EditBoardSheetController.m */; };
 		87BD58E90AAC58D700F6412D /* EditBoardSheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87BD58E70AAC58D700F6412D /* EditBoardSheet.nib */; };
@@ -659,8 +652,6 @@
 
 /* Begin PBXFileReference section */
 		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		870022280A4B0E7500F29F97 /* BSTsuruPetaPopUpBtnCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSTsuruPetaPopUpBtnCell.h; sourceTree = "<group>"; };
-		870022290A4B0E7500F29F97 /* BSTsuruPetaPopUpBtnCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSTsuruPetaPopUpBtnCell.m; sourceTree = "<group>"; };
 		87016395082BE67200AEFDD0 /* Info-bathyscaphe.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-bathyscaphe.plist"; sourceTree = "<group>"; };
 		87016396082BE67200AEFDD0 /* BathyScaphe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BathyScaphe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87078CD1090E970F007FF9C3 /* beDisabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beDisabled.png; sourceTree = "<group>"; };
@@ -896,8 +887,6 @@
 		87C398270A6181590095AD06 /* IPIHistoryBack.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = IPIHistoryBack.tiff; sourceTree = "<group>"; };
 		87C398280A6181590095AD06 /* IPIHistoryForward.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = IPIHistoryForward.tiff; sourceTree = "<group>"; };
 		87C4813E08FD05A300F91054 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/AddBoardSheet.nib; sourceTree = "<group>"; };
-		87C5D0F50A4AC84B00E96099 /* BSTsuruPetaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSTsuruPetaView.h; sourceTree = "<group>"; };
-		87C5D0F60A4AC84B00E96099 /* BSTsuruPetaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSTsuruPetaView.m; sourceTree = "<group>"; };
 		87C633C4087F53A60093559B /* AppDefaults-Deprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDefaults-Deprecated.h"; sourceTree = "<group>"; };
 		87C8FBDC09B3631800039203 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		87CD85CA098170ED002C4372 /* BSFavoritesHEADCheckTask.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = BSFavoritesHEADCheckTask.h; sourceTree = "<group>"; };
@@ -1640,10 +1629,6 @@
 				F324DD9504C698FB00A80005 /* CMRIndexingStepper-ViewAccessor.m */,
 				8714F3690A4966CB00AB8691 /* BSIndexingPopupper.h */,
 				8714F36A0A4966CB00AB8691 /* BSIndexingPopupper.m */,
-				87C5D0F50A4AC84B00E96099 /* BSTsuruPetaView.h */,
-				87C5D0F60A4AC84B00E96099 /* BSTsuruPetaView.m */,
-				870022280A4B0E7500F29F97 /* BSTsuruPetaPopUpBtnCell.h */,
-				870022290A4B0E7500F29F97 /* BSTsuruPetaPopUpBtnCell.m */,
 			);
 			name = navigationBar;
 			sourceTree = "<group>";
@@ -2739,8 +2724,6 @@
 				871265BD097D84ED00B90FF2 /* CMRTextColumnCell.h in Headers */,
 				87CD85CC098170ED002C4372 /* BSFavoritesHEADCheckTask.h in Headers */,
 				870D4BE00A7D6033008BBAB4 /* BSIndexingPopupper.h in Headers */,
-				870D4BE20A7D6035008BBAB4 /* BSTsuruPetaPopUpBtnCell.h in Headers */,
-				870D4BE40A7D6037008BBAB4 /* BSTsuruPetaView.h in Headers */,
 				87A475DE0A8585BE00FC13E6 /* BoardWarrior.h in Headers */,
 				8796FA420A9189D400DE3A90 /* BSSettingTxtDetector.h in Headers */,
 				87BD58E00AAC551100F6412D /* EditBoardSheetController.h in Headers */,
@@ -3006,7 +2989,6 @@
 				87B652990840625F008AE2BE /* SendMessage.tiff in Resources */,
 				F424609908462452000803EA /* Scripts.tiff in Resources */,
 				87517B8A0864B4F0002DA082 /* SplitterHandle.tiff in Resources */,
-				87517BAF0864BE33002DA082 /* Spacer.tiff in Resources */,
 				8732FCBA08C2F79B00779F20 /* HistoryBack.tiff in Resources */,
 				8732FCBB08C2F79D00779F20 /* HistoryForward.tiff in Resources */,
 				87D5D8D108DF0FCC0039A9EB /* boardListSelBgFocused.tiff in Resources */,
@@ -3043,8 +3025,6 @@
 				87F0B3560A9C4CFA0002D317 /* smallSquareMinus.tiff in Resources */,
 				87BD58E90AAC58D700F6412D /* EditBoardSheet.nib in Resources */,
 				87764C600AB0399000507EBA /* BoardWarrior.strings in Resources */,
-				87BBABF50AB4257E0061D85A /* smallUnlocked.tiff in Resources */,
-				87BBABF60AB4257E0061D85A /* smallLocked.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3295,8 +3275,6 @@
 				871265BE097D84ED00B90FF2 /* CMRTextColumnCell.m in Sources */,
 				87CD85CD098170ED002C4372 /* BSFavoritesHEADCheckTask.m in Sources */,
 				870D4BE10A7D6034008BBAB4 /* BSIndexingPopupper.m in Sources */,
-				870D4BE30A7D6036008BBAB4 /* BSTsuruPetaPopUpBtnCell.m in Sources */,
-				870D4BE50A7D6038008BBAB4 /* BSTsuruPetaView.m in Sources */,
 				87DFDDA80A7D6A0F0074D3EA /* CookieManager.m in Sources */,
 				87A475DF0A8585BF00FC13E6 /* BoardWarrior.m in Sources */,
 				87F6214D0A906B890082E8DB /* BoardManager-SettingTxt.m in Sources */,

@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.14.2.4 2006/09/14 04:48:21 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.14.2.5 2006/11/11 19:03:08 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -30,6 +30,7 @@ NSString *const AppDefaultsWillSaveNotification = @"AppDefaultsWillSaveNotificat
 #define AppDefaultsBrowserStatusFilteringMaskKey		@"StatusFilteringMask"
 
 #define AppDefaultsIsFavImportedKey			@"Old Favorites Updated"
+#define AppDefaultsOldMsgScrlBehvrKey		@"Old Message Scrolling Behavior"
 
 #define AppDefaultsOpenInBgKey				@"OpenLinkInBg"
 #define AppDefaultsQuietDeletionKey			@"QuietDeletion"
@@ -339,6 +340,16 @@ NS_ENDHANDLER
 {
 	[[self defaults] setBool : flag
 					  forKey : AppDefaultsIsFavImportedKey];
+}
+
+- (BOOL) oldMessageScrollingBehavior
+{
+	return [[self defaults] boolForKey: AppDefaultsOldMsgScrlBehvrKey defaultValue: NO];
+}
+
+- (void) setOldMessageScrollingBehavior: (BOOL) flag
+{
+	[[self defaults] setBool: flag forKey: AppDefaultsOldMsgScrlBehvrKey];
 }
 /*#pragma mark DANGER
 - (BOOL) saveThreadListAsBinaryPlist

@@ -1,6 +1,6 @@
 //: NSWorkspace-SGExtensions.m
 /**
-  * $Id: NSWorkspace-SGExtensions.m,v 1.2 2006/01/27 23:02:19 tsawada2 Exp $
+  * $Id: NSWorkspace-SGExtensions.m,v 1.2.4.1 2006/11/11 19:03:08 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -93,14 +93,15 @@
 	UTILRequireCondition(noErr == err, bail);
 	
 	// Send the event to the Finder
-	err = AESend(
+/*	err = AESend(
 			&event,
 			&reply,
 			kAENoReply,
 			kAENormalPriority,
 			kAEDefaultTimeout,
 			NULL,
-			NULL);
+			NULL);*/
+	err = AESendMessage(&event, &reply, kAEWaitReply, kAEDefaultTimeout); // wait until event is done
 	
 	// Clean up and leave
 bail:
@@ -135,12 +136,42 @@ bail:
 {
 	if(url_ == nil) return NO;
 	if(inBG) {
-		NSArray	*tempArray_;
-		tempArray_ = [NSArray arrayWithObject : url_];
-		return [self _openURLsInBackGround : tempArray_];
+		return [self _openURLsInBackGround: [NSArray arrayWithObject: url_]];
 	} else {
-		return [self openURL : url_];
+		return [self openURL: url_];
 	}
 	return NO;
+}
+@end
+
+@implementation NSWorkspace(BSIconServicesUtil)
+- (NSImage *) systemIconForType: (OSType) iconType
+{
+    IconRef             iconRef;
+    IconFamilyHandle    iconFamily;
+    OSErr	result;
+
+    result = GetIconRef(kOnSystemDisk, kSystemIconsCreator, iconType, &iconRef);
+
+    if (result != noErr) {
+        return nil;
+    }
+
+    result = IconRefToIconFamily(iconRef, kSelectorAllAvailableData, &iconFamily);
+
+    if (result != noErr || !iconFamily)
+    {
+        return nil;
+    }
+
+    ReleaseIconRef(iconRef);
+    
+    NSData  *iconData;
+    NSImage *iconImage = nil;
+
+    iconData = [NSData dataWithBytes: *iconFamily length: GetHandleSize((Handle)iconFamily)];
+    iconImage = [[[NSImage alloc] initWithData: iconData] autorelease];
+    
+    return iconImage;
 }
 @end

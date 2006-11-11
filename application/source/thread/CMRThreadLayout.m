@@ -1,6 +1,6 @@
 //: CMRThreadLayout.m
 /**
-  * $Id: CMRThreadLayout.m,v 1.11.2.1 2006/11/11 14:45:57 tsawada2 Exp $
+  * $Id: CMRThreadLayout.m,v 1.11.2.2 2006/11/11 19:03:08 tsawada2 Exp $
   * 
   * CMRThreadLayout.m
   *
@@ -376,7 +376,7 @@
 	NSRect			visibleRect_, curVisibleRect_;
 	NSPoint			newOrigin_;
 	NSClipView		*clipview_;
-//	BOOL			newMsgScrollingBehavior = (NO == [CMRPref oldMessageScrollingBehavior]);
+	BOOL			newMsgScrollingBehavior = (NO == [CMRPref oldMessageScrollingBehavior]);
 	
 	if (NSNotFound == aRange.location || 0 == aRange.length) {
 		NSBeep();
@@ -394,7 +394,7 @@
 	visibleRect_ = [clipview_ documentVisibleRect];
 	curVisibleRect_ = visibleRect_;
 	visibleRect_.origin = newOrigin_;
-/*
+
 	if (newMsgScrollingBehavior) {
 		// スクロール量の調整
 		// スクロールビューのコンテンツ・ビューの下部に「空き」ができないようにする
@@ -405,8 +405,8 @@
 			visibleRect_.origin.y -= dY;
 		}
 	}
-*/	
-//	if (newMsgScrollingBehavior && (NO == NSEqualRects(visibleRect_, curVisibleRect_))) {
+	
+	if (newMsgScrollingBehavior && (NO == NSEqualRects(visibleRect_, curVisibleRect_))) {
 		// 表示予定領域(visibleRect_)のGlyphをまだレイアウトされていなければ、
 		// 生成、レイアウトさせる。
 		[[textView_ layoutManager] glyphRangeForBoundingRect: visibleRect_ inTextContainer: [textView_ textContainer]];
@@ -417,7 +417,7 @@
 		visibleRect_ = [[clipview_ documentView] adjustScroll : visibleRect_];
 		[clipview_ scrollToPoint : visibleRect_.origin];
 		[[self scrollView] reflectScrolledClipView : clipview_];
-//	}
+	}
 	[textView_ setSelectedRange : NSMakeRange(aRange.location, 0)];
 }
 - (IBAction) scrollToLastUpdatedIndex : (id) sender

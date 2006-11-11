@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.34.2.5 2006/09/14 04:48:21 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.34.2.6 2006/11/11 19:03:08 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -118,6 +118,10 @@ typedef enum _BSAutoSyncIntervalType {
 
 - (BOOL) oldFavoritesUpdated;
 - (void) setOldFavoritesUpdated: (BOOL) flag;
+
+/* ReinforceII Hidden Option */
+- (BOOL) oldMessageScrollingBehavior;
+- (void) setOldMessageScrollingBehavior: (BOOL) flag;
 
 #pragma mark ThreadsList
 

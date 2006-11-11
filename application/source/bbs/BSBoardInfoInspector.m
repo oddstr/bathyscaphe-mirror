@@ -58,12 +58,18 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 
 - (void) awakeFromNib
 {
+	NSWorkspace *ws_ = [NSWorkspace sharedWorkspace];
+
 	[(NSPanel*)[self window] setFrameAutosaveName : BIIFrameAutoSaveNameKey];
 	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_3) {
 		[[self addNoNameBtn] setBezelStyle: NSSmallSquareBezelStyle];
 		[[self removeNoNameBtn] setBezelStyle: NSSmallSquareBezelStyle];
 		[[self editNoNameBtn] setBezelStyle: NSSmallSquareBezelStyle];
 	}
+	
+	[[self lockButton] setImage: [ws_ systemIconForType: kLockedIcon]];
+	[[self lockButton] setAlternateImage: [ws_ systemIconForType: kUnlockedIcon]];
+	
 	[[self URLField] setAllowsEditingTextAttributes: NO];
 	[[self URLField] setImportsGraphics: NO];
 }

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.42.2.6 2006/11/06 15:12:08 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.42.2.7 2006/11/11 19:03:08 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -397,6 +397,8 @@
 
     topSubview = [subviewsAry_ objectAtIndex : 0];
     bottomSubview = [subviewsAry_ objectAtIndex : 1];
+	
+	[RBSplitView setCursor: RBSVDragCursor toCursor: [NSCursor resizeLeftRightCursor]];
 }
 
 - (void) updateDefaultsWithTableView : (NSTableView *) tbview

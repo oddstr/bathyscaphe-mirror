@@ -79,6 +79,14 @@
 		87160821098AA8DE00A27F63 /* browserSplitterVertical.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8716081D098AA8DE00A27F63 /* browserSplitterVertical.tiff */; };
 		8751C4760862204100998A38 /* SGContainerTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = F57D5E05037B6D8601A80002 /* SGContainerTableView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8751C4770862204200998A38 /* SGContainerTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F57D5E06037B6D8601A80002 /* SGContainerTableView.m */; };
+		876885F20B061EDD00150A36 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 876885F10B061EDD00150A36 /* ApplicationServices.framework */; };
+		876887B10B062D4F00150A36 /* NSToolbar-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F57D5E1A037B6DE401A80002 /* NSToolbar-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		876887B20B062D5000150A36 /* NSToolbar-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F57D5E1B037B6DE401A80002 /* NSToolbar-SGExtensions.m */; };
+		876887C00B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 876887BC0B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.h */; };
+		876887C10B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 876887BD0B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.m */; };
+		876887C20B062DCE00150A36 /* BSTsuruPetaView.h in Headers */ = {isa = PBXBuildFile; fileRef = 876887BE0B062DCE00150A36 /* BSTsuruPetaView.h */; };
+		876887C30B062DCE00150A36 /* BSTsuruPetaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 876887BF0B062DCE00150A36 /* BSTsuruPetaView.m */; };
+		876887C90B062E5900150A36 /* Spacer.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 876887C80B062E5900150A36 /* Spacer.tiff */; };
 		878041DF0A52813D00979D68 /* BSLayoutManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 878041DD0A52813D00979D68 /* BSLayoutManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		878041E00A52813D00979D68 /* BSLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 878041DE0A52813D00979D68 /* BSLayoutManager.m */; };
 		87D29C3609913620007D26B4 /* BSBoardListView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D29C3209913620007D26B4 /* BSBoardListView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -98,16 +106,12 @@
 		87E4525A085ED89D00F2ACB3 /* NSView-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F577539C0373B14901A80002 /* NSView-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87E4525B085ED89D00F2ACB3 /* NSView-SGExtensions_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F577539E0373B14901A80002 /* NSView-SGExtensions_p.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		87E4525C085ED89D00F2ACB3 /* NSPasteboard-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F5AC4BB00378150501A80002 /* NSPasteboard-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		87E4525D085ED89D00F2ACB3 /* NSBrowserCell-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F58144E5037B01BB01A80002 /* NSBrowserCell-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		87E4525E085ED89D00F2ACB3 /* NSBrowserCell-SGExtensions_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F58144E4037B01BB01A80002 /* NSBrowserCell-SGExtensions_p.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		87E4525F085ED89D00F2ACB3 /* NSCell-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F58144EB037B01E001A80002 /* NSCell-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87E45260085ED89D00F2ACB3 /* NSCell-SGExtensions_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F58144EA037B01E001A80002 /* NSCell-SGExtensions_p.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		87E45261085ED89D00F2ACB3 /* NSMenu-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F57D5E12037B6DE401A80002 /* NSMenu-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87E45262085ED89D00F2ACB3 /* NSMenu-SGExtensions_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F57D5E14037B6DE401A80002 /* NSMenu-SGExtensions_p.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		87E45263085ED89D00F2ACB3 /* NSScrollView-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F57D5E16037B6DE401A80002 /* NSScrollView-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87E45264085ED89D00F2ACB3 /* NSScrollView-SGExtensions_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F57D5E18037B6DE401A80002 /* NSScrollView-SGExtensions_p.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		87E45265085ED89D00F2ACB3 /* NSToolbar-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F57D5E1A037B6DE401A80002 /* NSToolbar-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		87E45266085ED89D00F2ACB3 /* NSToolbar-SGExtensions_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F57D5E1C037B6DE401A80002 /* NSToolbar-SGExtensions_p.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		87E45267085ED89D00F2ACB3 /* NSWindow-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F57D5E1E037B6DE401A80002 /* NSWindow-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87E45268085ED89D00F2ACB3 /* NSWindow-SGExtensions_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F57D5E20037B6DE401A80002 /* NSWindow-SGExtensions_p.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		87E45269085ED89D00F2ACB3 /* SGAppKitFrameworkDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = F57D6222037B875801A80002 /* SGAppKitFrameworkDefines.h */; };
@@ -117,7 +121,6 @@
 		87E4526D085ED89D00F2ACB3 /* NSControl-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F5823B6D037D2CC001A80002 /* NSControl-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87E45271085ED89D00F2ACB3 /* NSTextView-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F576919303811AE001A80002 /* NSTextView-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87E45272085ED89D00F2ACB3 /* NSTextView-SGExtensions_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F576919503811AE001A80002 /* NSTextView-SGExtensions_p.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		87E45273085ED89D00F2ACB3 /* NSColor-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F391134D03D6A7EC00A80002 /* NSColor-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87E45274085ED89D00F2ACB3 /* SGKeyBindingSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = F3FB8B7904459A3F00A80005 /* SGKeyBindingSupport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87E45275085ED89D00F2ACB3 /* NSUserDefaults+SGAppKitExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F303886F0484C45700A80005 /* NSUserDefaults+SGAppKitExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87E45276085ED89D00F2ACB3 /* UTILAssertion.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BF095A0627A581009DAAFE /* UTILAssertion.h */; };
@@ -136,18 +139,14 @@
 		87E45286085ED89D00F2ACB3 /* NSImage-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F57753960373B06001A80002 /* NSImage-SGExtensions.m */; };
 		87E45287085ED89D00F2ACB3 /* NSView-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F577539D0373B14901A80002 /* NSView-SGExtensions.m */; };
 		87E45288085ED89D00F2ACB3 /* NSPasteboard-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F5AC4BB10378150501A80002 /* NSPasteboard-SGExtensions.m */; };
-		87E45289085ED89D00F2ACB3 /* SGAppKit.m in Sources */ = {isa = PBXBuildFile; fileRef = F5EBEC07037927CA01A80002 /* SGAppKit.m */; };
-		87E4528A085ED89D00F2ACB3 /* NSBrowserCell-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F58144E6037B01BB01A80002 /* NSBrowserCell-SGExtensions.m */; };
 		87E4528B085ED89D00F2ACB3 /* NSCell-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F58144EC037B01E001A80002 /* NSCell-SGExtensions.m */; };
 		87E4528C085ED89D00F2ACB3 /* NSMenu-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F57D5E13037B6DE401A80002 /* NSMenu-SGExtensions.m */; };
 		87E4528D085ED89D00F2ACB3 /* NSScrollView-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F57D5E17037B6DE401A80002 /* NSScrollView-SGExtensions.m */; };
-		87E4528E085ED89D00F2ACB3 /* NSToolbar-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F57D5E1B037B6DE401A80002 /* NSToolbar-SGExtensions.m */; };
 		87E4528F085ED89D00F2ACB3 /* NSWindow-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F57D5E1F037B6DE401A80002 /* NSWindow-SGExtensions.m */; };
 		87E45290085ED89D00F2ACB3 /* NSTextField-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F581BD20037BA85D01A80002 /* NSTextField-SGExtensions.m */; };
 		87E45291085ED89D00F2ACB3 /* NSWorkspace-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F523B0C8037C028C01A80002 /* NSWorkspace-SGExtensions.m */; };
 		87E45292085ED89D00F2ACB3 /* NSControl-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F5823B6E037D2CC001A80002 /* NSControl-SGExtensions.m */; };
 		87E45295085ED89D00F2ACB3 /* NSTextView-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F576919403811AE001A80002 /* NSTextView-SGExtensions.m */; };
-		87E45296085ED89D00F2ACB3 /* NSColor-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F391134E03D6A7EC00A80002 /* NSColor-SGExtensions.m */; };
 		87E45297085ED89D00F2ACB3 /* SGKeyBindingSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = F3FB8B7A04459A3F00A80005 /* SGKeyBindingSupport.m */; };
 		87E45298085ED89D00F2ACB3 /* NSUserDefaults+SGAppKitExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F30388700484C45700A80005 /* NSUserDefaults+SGAppKitExtensions.m */; };
 		87E4529A085ED89D00F2ACB3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
@@ -183,14 +182,14 @@
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		08FB77B4FE84181DC02AAC07 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; name = main.c; path = src/main.c; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		870904720A43DF7A00636062 /* BSReplyTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSReplyTextView.h; path = framework/src/custom/bathyscaphe/BSReplyTextView.h; sourceTree = SOURCE_ROOT; };
-		870904730A43DF7A00636062 /* BSReplyTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSReplyTextView.m; path = framework/src/custom/bathyscaphe/BSReplyTextView.m; sourceTree = SOURCE_ROOT; };
-		870904760A43DF9F00636062 /* BSWindow.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; name = BSWindow.h; path = framework/src/custom/bathyscaphe/BSWindow.h; sourceTree = SOURCE_ROOT; };
-		870904770A43DF9F00636062 /* BSWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSWindow.m; path = framework/src/custom/bathyscaphe/BSWindow.m; sourceTree = SOURCE_ROOT; };
-		8709047A0A43DFB000636062 /* BSSegmentedControlTbItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSSegmentedControlTbItem.h; path = framework/src/custom/bathyscaphe/BSSegmentedControlTbItem.h; sourceTree = SOURCE_ROOT; };
-		8709047B0A43DFB000636062 /* BSSegmentedControlTbItem.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; name = BSSegmentedControlTbItem.m; path = framework/src/custom/bathyscaphe/BSSegmentedControlTbItem.m; sourceTree = SOURCE_ROOT; };
-		8709047E0A43DFBC00636062 /* IndexField.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; name = IndexField.h; path = framework/src/custom/indexfield/IndexField.h; sourceTree = SOURCE_ROOT; };
-		8709047F0A43DFBC00636062 /* IndexField.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; name = IndexField.m; path = framework/src/custom/indexfield/IndexField.m; sourceTree = SOURCE_ROOT; };
+		870904720A43DF7A00636062 /* BSReplyTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSReplyTextView.h; path = bathyscaphe/BSReplyTextView.h; sourceTree = "<group>"; };
+		870904730A43DF7A00636062 /* BSReplyTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSReplyTextView.m; path = bathyscaphe/BSReplyTextView.m; sourceTree = "<group>"; };
+		870904760A43DF9F00636062 /* BSWindow.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; name = BSWindow.h; path = bathyscaphe/BSWindow.h; sourceTree = "<group>"; };
+		870904770A43DF9F00636062 /* BSWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSWindow.m; path = bathyscaphe/BSWindow.m; sourceTree = "<group>"; };
+		8709047A0A43DFB000636062 /* BSSegmentedControlTbItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSSegmentedControlTbItem.h; path = bathyscaphe/BSSegmentedControlTbItem.h; sourceTree = "<group>"; };
+		8709047B0A43DFB000636062 /* BSSegmentedControlTbItem.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; name = BSSegmentedControlTbItem.m; path = bathyscaphe/BSSegmentedControlTbItem.m; sourceTree = "<group>"; };
+		8709047E0A43DFBC00636062 /* IndexField.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; name = IndexField.h; path = indexfield/IndexField.h; sourceTree = "<group>"; };
+		8709047F0A43DFBC00636062 /* IndexField.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; name = IndexField.m; path = indexfield/IndexField.m; sourceTree = "<group>"; };
 		8716080B098AA7F900A27F63 /* BSKFSplitView.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; name = BSKFSplitView.h; path = ../BSKFSplitView.h; sourceTree = "<group>"; };
 		8716080C098AA7F900A27F63 /* BSKFSplitView.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; name = BSKFSplitView.m; path = ../BSKFSplitView.m; sourceTree = "<group>"; };
 		8716080D098AA7F900A27F63 /* KFSplitView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = KFSplitView.h; path = ../KFSplitView.h; sourceTree = "<group>"; };
@@ -199,6 +198,12 @@
 		8716081B098AA8DE00A27F63 /* browserSplitterDimple.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = browserSplitterDimple.tiff; path = images/browserSplitterDimple.tiff; sourceTree = "<group>"; };
 		8716081C098AA8DE00A27F63 /* browserSplitterDimpleVertical.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = browserSplitterDimpleVertical.tiff; path = images/browserSplitterDimpleVertical.tiff; sourceTree = "<group>"; };
 		8716081D098AA8DE00A27F63 /* browserSplitterVertical.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = browserSplitterVertical.tiff; path = images/browserSplitterVertical.tiff; sourceTree = "<group>"; };
+		876885F10B061EDD00150A36 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
+		876887BC0B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSTsuruPetaPopUpBtnCell.h; path = ../../application/source/view/BSTsuruPetaPopUpBtnCell.h; sourceTree = SOURCE_ROOT; };
+		876887BD0B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSTsuruPetaPopUpBtnCell.m; path = ../../application/source/view/BSTsuruPetaPopUpBtnCell.m; sourceTree = SOURCE_ROOT; };
+		876887BE0B062DCE00150A36 /* BSTsuruPetaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSTsuruPetaView.h; path = ../../application/source/view/BSTsuruPetaView.h; sourceTree = SOURCE_ROOT; };
+		876887BF0B062DCE00150A36 /* BSTsuruPetaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSTsuruPetaView.m; path = ../../application/source/view/BSTsuruPetaView.m; sourceTree = SOURCE_ROOT; };
+		876887C80B062E5900150A36 /* Spacer.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Spacer.tiff; path = ../../application/Resources/image/Spacer.tiff; sourceTree = SOURCE_ROOT; };
 		878041DD0A52813D00979D68 /* BSLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; name = BSLayoutManager.h; path = bathyscaphe/BSLayoutManager.h; sourceTree = "<group>"; };
 		878041DE0A52813D00979D68 /* BSLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; name = BSLayoutManager.m; path = bathyscaphe/BSLayoutManager.m; sourceTree = "<group>"; };
 		87D29C3209913620007D26B4 /* BSBoardListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSBoardListView.h; path = bathyscaphe/BSBoardListView.h; sourceTree = "<group>"; };
@@ -296,6 +301,7 @@
 				87E4529B085ED89D00F2ACB3 /* CoreServices.framework in Frameworks */,
 				87E4529C085ED89D00F2ACB3 /* Carbon.framework in Frameworks */,
 				87E4529D085ED89D00F2ACB3 /* SGFoundation.framework in Frameworks */,
+				876885F20B061EDD00150A36 /* ApplicationServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,6 +350,7 @@
 		089C1665FE841158C02AAC07 /* resource */ = {
 			isa = PBXGroup;
 			children = (
+				876887C80B062E5900150A36 /* Spacer.tiff */,
 				87D991A709922E6F006C5821 /* Action_Pressed.tiff */,
 				87D991A809922E6F006C5821 /* Action.tiff */,
 				8716081A098AA8DE00A27F63 /* browserSplitter.tiff */,
@@ -360,6 +367,7 @@
 		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				876885F10B061EDD00150A36 /* ApplicationServices.framework */,
 				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
 				F523B0CD037C02E601A80002 /* CoreServices.framework */,
 				F523B0CF037C02F501A80002 /* Carbon.framework */,
@@ -516,6 +524,10 @@
 		F57BBEE00377FA7001A80002 /* custom */ = {
 			isa = PBXGroup;
 			children = (
+				876887BC0B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.h */,
+				876887BD0B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.m */,
+				876887BE0B062DCE00150A36 /* BSTsuruPetaView.h */,
+				876887BF0B062DCE00150A36 /* BSTsuruPetaView.m */,
 				878041DD0A52813D00979D68 /* BSLayoutManager.h */,
 				878041DE0A52813D00979D68 /* BSLayoutManager.m */,
 				87D991AB09922E91006C5821 /* CMRPullDownIconBtn.h */,
@@ -528,44 +540,18 @@
 				8716080C098AA7F900A27F63 /* BSKFSplitView.m */,
 				8716080D098AA7F900A27F63 /* KFSplitView.h */,
 				8716080E098AA7F900A27F63 /* KFSplitView.m */,
+				870904720A43DF7A00636062 /* BSReplyTextView.h */,
+				870904730A43DF7A00636062 /* BSReplyTextView.m */,
+				870904760A43DF9F00636062 /* BSWindow.h */,
+				870904770A43DF9F00636062 /* BSWindow.m */,
+				8709047A0A43DFB000636062 /* BSSegmentedControlTbItem.h */,
+				8709047B0A43DFB000636062 /* BSSegmentedControlTbItem.m */,
+				8709047E0A43DFBC00636062 /* IndexField.h */,
+				8709047F0A43DFBC00636062 /* IndexField.m */,
 				F57D5E04037B6D8601A80002 /* container */,
-				F57BBF180377FF6401A80002 /* textview */,
-				F57BBEE10377FA7001A80002 /* window */,
-				F57BBF140377FF6401A80002 /* toolbarItem */,
-				F58144FD037B24E001A80002 /* indexField */,
 			);
 			name = custom;
 			path = src/custom;
-			sourceTree = "<group>";
-		};
-		F57BBEE10377FA7001A80002 /* window */ = {
-			isa = PBXGroup;
-			children = (
-				870904760A43DF9F00636062 /* BSWindow.h */,
-				870904770A43DF9F00636062 /* BSWindow.m */,
-			);
-			name = window;
-			path = outlineview;
-			sourceTree = "<group>";
-		};
-		F57BBF140377FF6401A80002 /* toolbarItem */ = {
-			isa = PBXGroup;
-			children = (
-				8709047A0A43DFB000636062 /* BSSegmentedControlTbItem.h */,
-				8709047B0A43DFB000636062 /* BSSegmentedControlTbItem.m */,
-			);
-			name = toolbarItem;
-			path = splitview;
-			sourceTree = "<group>";
-		};
-		F57BBF180377FF6401A80002 /* textview */ = {
-			isa = PBXGroup;
-			children = (
-				870904720A43DF7A00636062 /* BSReplyTextView.h */,
-				870904730A43DF7A00636062 /* BSReplyTextView.m */,
-			);
-			name = textview;
-			path = tableview;
 			sourceTree = "<group>";
 		};
 		F57D5E04037B6D8601A80002 /* container */ = {
@@ -637,16 +623,6 @@
 				F58144E6037B01BB01A80002 /* NSBrowserCell-SGExtensions.m */,
 			);
 			path = cell;
-			sourceTree = "<group>";
-		};
-		F58144FD037B24E001A80002 /* indexField */ = {
-			isa = PBXGroup;
-			children = (
-				8709047E0A43DFBC00636062 /* IndexField.h */,
-				8709047F0A43DFBC00636062 /* IndexField.m */,
-			);
-			name = indexField;
-			path = bezelStyleTextField;
 			sourceTree = "<group>";
 		};
 		F581BD1E037BA85D01A80002 /* textfield */ = {
@@ -751,16 +727,12 @@
 				87E4525A085ED89D00F2ACB3 /* NSView-SGExtensions.h in Headers */,
 				87E4525B085ED89D00F2ACB3 /* NSView-SGExtensions_p.h in Headers */,
 				87E4525C085ED89D00F2ACB3 /* NSPasteboard-SGExtensions.h in Headers */,
-				87E4525D085ED89D00F2ACB3 /* NSBrowserCell-SGExtensions.h in Headers */,
-				87E4525E085ED89D00F2ACB3 /* NSBrowserCell-SGExtensions_p.h in Headers */,
 				87E4525F085ED89D00F2ACB3 /* NSCell-SGExtensions.h in Headers */,
 				87E45260085ED89D00F2ACB3 /* NSCell-SGExtensions_p.h in Headers */,
 				87E45261085ED89D00F2ACB3 /* NSMenu-SGExtensions.h in Headers */,
 				87E45262085ED89D00F2ACB3 /* NSMenu-SGExtensions_p.h in Headers */,
 				87E45263085ED89D00F2ACB3 /* NSScrollView-SGExtensions.h in Headers */,
 				87E45264085ED89D00F2ACB3 /* NSScrollView-SGExtensions_p.h in Headers */,
-				87E45265085ED89D00F2ACB3 /* NSToolbar-SGExtensions.h in Headers */,
-				87E45266085ED89D00F2ACB3 /* NSToolbar-SGExtensions_p.h in Headers */,
 				87E45267085ED89D00F2ACB3 /* NSWindow-SGExtensions.h in Headers */,
 				87E45268085ED89D00F2ACB3 /* NSWindow-SGExtensions_p.h in Headers */,
 				87E45269085ED89D00F2ACB3 /* SGAppKitFrameworkDefines.h in Headers */,
@@ -770,7 +742,6 @@
 				87E4526D085ED89D00F2ACB3 /* NSControl-SGExtensions.h in Headers */,
 				87E45271085ED89D00F2ACB3 /* NSTextView-SGExtensions.h in Headers */,
 				87E45272085ED89D00F2ACB3 /* NSTextView-SGExtensions_p.h in Headers */,
-				87E45273085ED89D00F2ACB3 /* NSColor-SGExtensions.h in Headers */,
 				87E45274085ED89D00F2ACB3 /* SGKeyBindingSupport.h in Headers */,
 				87E45275085ED89D00F2ACB3 /* NSUserDefaults+SGAppKitExtensions.h in Headers */,
 				87E45276085ED89D00F2ACB3 /* UTILAssertion.h in Headers */,
@@ -795,6 +766,9 @@
 				8709047C0A43DFB000636062 /* BSSegmentedControlTbItem.h in Headers */,
 				870904800A43DFBC00636062 /* IndexField.h in Headers */,
 				878041DF0A52813D00979D68 /* BSLayoutManager.h in Headers */,
+				876887B10B062D4F00150A36 /* NSToolbar-SGExtensions.h in Headers */,
+				876887C00B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.h in Headers */,
+				876887C20B062DCE00150A36 /* BSTsuruPetaView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -860,6 +834,7 @@
 				87160821098AA8DE00A27F63 /* browserSplitterVertical.tiff in Resources */,
 				87D991A909922E6F006C5821 /* Action_Pressed.tiff in Resources */,
 				87D991AA09922E6F006C5821 /* Action.tiff in Resources */,
+				876887C90B062E5900150A36 /* Spacer.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -901,18 +876,14 @@
 				87E45286085ED89D00F2ACB3 /* NSImage-SGExtensions.m in Sources */,
 				87E45287085ED89D00F2ACB3 /* NSView-SGExtensions.m in Sources */,
 				87E45288085ED89D00F2ACB3 /* NSPasteboard-SGExtensions.m in Sources */,
-				87E45289085ED89D00F2ACB3 /* SGAppKit.m in Sources */,
-				87E4528A085ED89D00F2ACB3 /* NSBrowserCell-SGExtensions.m in Sources */,
 				87E4528B085ED89D00F2ACB3 /* NSCell-SGExtensions.m in Sources */,
 				87E4528C085ED89D00F2ACB3 /* NSMenu-SGExtensions.m in Sources */,
 				87E4528D085ED89D00F2ACB3 /* NSScrollView-SGExtensions.m in Sources */,
-				87E4528E085ED89D00F2ACB3 /* NSToolbar-SGExtensions.m in Sources */,
 				87E4528F085ED89D00F2ACB3 /* NSWindow-SGExtensions.m in Sources */,
 				87E45290085ED89D00F2ACB3 /* NSTextField-SGExtensions.m in Sources */,
 				87E45291085ED89D00F2ACB3 /* NSWorkspace-SGExtensions.m in Sources */,
 				87E45292085ED89D00F2ACB3 /* NSControl-SGExtensions.m in Sources */,
 				87E45295085ED89D00F2ACB3 /* NSTextView-SGExtensions.m in Sources */,
-				87E45296085ED89D00F2ACB3 /* NSColor-SGExtensions.m in Sources */,
 				87E45297085ED89D00F2ACB3 /* SGKeyBindingSupport.m in Sources */,
 				87E45298085ED89D00F2ACB3 /* NSUserDefaults+SGAppKitExtensions.m in Sources */,
 				8751C4770862204200998A38 /* SGContainerTableView.m in Sources */,
@@ -927,6 +898,9 @@
 				8709047D0A43DFB000636062 /* BSSegmentedControlTbItem.m in Sources */,
 				870904810A43DFBC00636062 /* IndexField.m in Sources */,
 				878041E00A52813D00979D68 /* BSLayoutManager.m in Sources */,
+				876887B20B062D5000150A36 /* NSToolbar-SGExtensions.m in Sources */,
+				876887C10B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.m in Sources */,
+				876887C30B062DCE00150A36 /* BSTsuruPetaView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

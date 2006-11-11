@@ -1,7 +1,43 @@
+2006-11-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/BSBoardInfoInspector.nib
+	* application/source/bbs/BSBoardInfoInspector.m
+		小さな南京錠のアイコンは、システムに用意されているものを使うようにした。
+	* application/Recources/image/smallLocked.tiff
+	* application/Resources/image/smallUnlocked.tiff
+		これらの画像ファイルは未使用になった。いずれリポジトリから削除される。
+	* application/source/CMRAppDelegate.m
+		廃止された SGAppKit のヘッダファイルをインポートしないようにした。
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+		掲示板リストをリサイズする際のカーソルを手のひら型から、一般的な ←||→ 型に変更。
+		- ずーーーーーっと以前に要望されていた。今日、ふとこれを実現するメソッドが RBSplitView に
+		　存在することに気付いた。
+	* application/source/preferences/AppDefaults.m
+		Hidden Option "Old Message Scrolling Behavior" を追加（BOOL value, default: NO）。
+		これを YES にすると、1.3 以前の挙動に戻る。
+	* application/source/thread/CMRThreadLayout.m
+		2006-11-11 の変更にある、下部余白が生じないようなスクロール量の補正機能をコメント解除した。
+		必要なら上記 Hidden Option で 1.3 以前の挙動に戻せる。
+	* frameworks/SGAppKit/framework/src/SGAppKit.h
+	* frameworks/SGAppKit/framework/src/extensions/toolbar/NSToolbar-SGExtensions.m
+	* frameworks/SGAppKit/framework/src/extensions/userdefaults/NSUserDefaults+SGAppKitExtensions.m
+	* frameworks/SGAppKit/framework/src/extensions/workspace/NSWorkspace-SGExtensions.m
+		SGAppKit (1.5 -> 1.6)
+		- NSColor-SGExtensions, NSBrowserCell-SGExtensions カテゴリを廃止（未使用だった）。
+		- NSToolbar-SGExtension では、NSToolbarItem のカテゴリのみ残し、他は廃止（未使用だった）。
+		- BSTsuruPetaView, BSTsuruPetaPopUpBtnCell クラスが追加。
+		- NSWorkspace に新しいカテゴリを追加。システムアイコンを NSImage で取得できる（Icon Services のラッパー）。
+	* frameworks/SGAppKit/framework/src/BSKFSplitView.m
+		スプリッターの中央にある丸いくぼみ（ディンプル）が、潰れて描画されることがあった問題を修正。
+	* application/source/view/BSTsuruPetaView.(h|m)
+	* application/source/view/BSTsuruPetaPopUpBtnCell.(h|m)
+	* application/Resources/image/Spacer.tiff
+		これらのクラス／リソースは SGAppKit に移動した。ソースファイルの位置は今のところ変更されていないが、
+		いずれ frameworks/SGAppKit/ 以下の適切なディレクトリに移動されるだろう。
+		また、BSTsuruPetaView.m についてはフレームワークへの移動に伴い必要なソースの修正を行った。
 2006-11-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadLayout.m
 		特定のレス番号位置までスクロールする際、場合によってはテキスト・ビューの下部（正確には、スクロール・ビューの
-		内部）に余白が生じていたが、補正計算を追加して、余白が生じないようにスクロール量を調整できるようにした。
+		内部）に余白が生じていたが、補正計算を追加して、余白が生じないようにスクロール量を調整するようにした。
 		- スクロール・ビューの高さに対して、内包するテキスト・ビューの「これからスクロールされる部分の」高さが
 		　小さい場合にこの現象が発生していた。
 		- この補正によって不自然な余白が消えるが、かわりにレス移動ボタンやレス番号フィールドの操作で、若干の違和感が
