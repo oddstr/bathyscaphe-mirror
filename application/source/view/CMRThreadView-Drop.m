@@ -9,6 +9,9 @@
 	NSPasteboard *pboard = [sender draggingPasteboard];
 
     if ([[pboard types] containsObject: BSThreadItemsPboardType]) {
+        draggingHilited = YES;
+		draggingTimer = [NSDate timeIntervalSinceReferenceDate];
+        [self setNeedsDisplay: YES];
 		return NSDragOperationCopy;
 	}
 
@@ -20,17 +23,26 @@
 	NSPasteboard *pboard = [sender draggingPasteboard];
 
     if ([[pboard types] containsObject: BSThreadItemsPboardType]) {
+		NSWindow *window_ = [sender draggingDestinationWindow];
+		if (![window_ isKeyWindow]) {
+			if (([NSDate timeIntervalSinceReferenceDate] - draggingTimer) > 1.5) {
+				[window_ makeKeyAndOrderFront: nil];
+			}
+		}
+		[self setNeedsDisplay: YES];
 		return NSDragOperationCopy;
 	}
 
     return [super draggingUpdated: sender];
 }
-/*
+
 - (void) draggingExited: (id <NSDraggingInfo>) sender
 {
-	NSLog(@"Dragging Exited");
+	draggingHilited = NO;
+	draggingTimer = 0.0;
+    [self setNeedsDisplay: YES];
 }
-*/
+
 - (BOOL) prepareForDragOperation: (id <NSDraggingInfo>) sender
 {
 	return YES;
@@ -53,6 +65,10 @@
 			[delegate_ setThreadContentWithThreadIdentifier: [CMRThreadSignature objectWithPropertyListRepresentation: threadSignature_]];
 		}
     }
+
+	draggingHilited = NO;
+	draggingTimer = 0.0;
+	[self setNeedsDisplay: YES];
 
 	[super concludeDragOperation: sender];
 }

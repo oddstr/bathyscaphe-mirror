@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadView.m,v 1.13.2.3 2006/11/09 18:11:38 tsawada2 Exp $
+  * $Id: CMRThreadView.m,v 1.13.2.4 2006/11/11 04:56:09 tsawada2 Exp $
   * 
   * CMRThreadView.m
   *
@@ -84,6 +84,8 @@
 
 		// Reinforce II
 		[self registerForDraggedTypes: [NSArray arrayWithObject: BSThreadItemsPboardType]];
+		draggingHilited = NO;
+		draggingTimer = 0.0;
 	}
 	return self;
 }
@@ -103,9 +105,19 @@
 	[super viewDidEndLiveResize];
 }
 	
-- (void)updateRuler
+- (void) updateRuler
 {
 	// Ruler の更新をブロックする。
+}
+
+- (void) drawRect: (NSRect) rect
+{
+	[super drawRect: rect];
+	
+	if (draggingHilited) {
+        [[NSColor keyboardFocusIndicatorColor] set];
+        NSFrameRectWithWidth([self visibleRect], 3.0);
+	}
 }
 
 - (CMRThreadSignature *) threadSignature

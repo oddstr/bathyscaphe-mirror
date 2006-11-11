@@ -1,3 +1,10 @@
+2006-11-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/CMRThreadView-Drop.m
+	* application/source/view/CMRThreadView.m
+		スレッドをテキスト・ビューにドラッグした時の処理を改善。
+		- テキスト・ビューの枠をハイライトさせるようにした。
+		- スプリングウインドウ機能を追加した。背面のウインドウ（にあるテキスト・ビュー）にドラッグしたとき、
+		　1.5 秒程度待つとそのウインドウが前面に出てくる。すぐにドロップすれば背面のまま。
 2006-11-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/InfoPlist.strings
 		1.3 → 1.3.1 に表記変更。
