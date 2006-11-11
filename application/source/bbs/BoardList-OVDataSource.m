@@ -1,5 +1,5 @@
 /**
-  * $Id: BoardList-OVDataSource.m,v 1.11.2.3 2006/09/10 13:11:46 tsawada2 Exp $
+  * $Id: BoardList-OVDataSource.m,v 1.11.2.4 2006/11/11 14:45:57 tsawada2 Exp $
   * 
   * BoardList-OVDataSource.m
   *
@@ -343,7 +343,7 @@ not_writtable:
 		[outlineView setDropItem : [[self class] favoritesItem]
 				  dropChildIndex : NSOutlineViewDropOnItemIndex];
 
-		return NSDragOperationLink;
+		return NSDragOperationCopy;
 	}
 	
 	return [super outlineView : outlineView
