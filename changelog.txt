@@ -1,3 +1,12 @@
+2006-11-12 masakih <masakih@users.sourceforge.jp>
+	* application/Resources/Japanese.lproj/Browser.nib
+		検索フィールドのbinding が抜け落ちていたので直した。
+	* application/source/browser/BSDBThreadList.m
+		不要な部分を削除。
+	* application/source/browser/BSThreadListCollectAllThreadAttrTask.[m|h]
+		ターゲットから外した
+	* application/source/browser/BSThreadsListOPTask.m
+		offlineモードで正しく動くように直した。
 2006-11-10 masakih <masakih@users.sourceforge.jp>
 	* application/source/bbs/BoardManager-SettingTxt.m
 	* application/source/bbs/BoardListItem/SmartBoardList.m

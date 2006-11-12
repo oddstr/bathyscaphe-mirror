@@ -141,11 +141,10 @@ fail:{
 			[dbupTask run];
 			
 			[self checkIsInterrupted];
-			
-			// 再表示
-			[dbloadTask run];
 		}
 	}
+	
+	[dbloadTask run];
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }

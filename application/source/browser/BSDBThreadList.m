@@ -486,15 +486,6 @@ abort:{
 	return threadAttributesForBoardIDAndThreadID([boardID intValue], dat);
 }
 
-- (NSArray *) allThreadAttributes
-{
-	Class taskClass = NSClassFromString(@"BSThreadListAllThreadAttrCollector");
-	if(!taskClass) return nil;
-	
-	id t = [taskClass collectorWithBSDBThreadList:self];
-		
-	return [t allThread];
-}
 - (NSDictionary *) threadAttributesAtRowIndex : (int          ) rowIndex
                                   inTableView : (NSTableView *) tableView
 {
@@ -819,46 +810,16 @@ fail:
 	[mTaskLock unlock];
 	
 	if( [self isFavorites] || [self isSmartItem] ) {
-#if 0
-//		BSFavoritesHEADCheckTask		*task_;
-		
-		[mTaskLock lock];
-		mTask = [[BSFavoritesHEADCheckTask alloc]
-				initWithFavItemsArray : [self allThreadAttributes]];
-		
-		[mTask setBoardName : [self boardName]];
-		[mTask setIdentifier : [self boardName]];
-		//		[task_ setIdentifier : [NSValue valueWithPointer:task_]];
-		
-		
-		[[NSNotificationCenter defaultCenter]
-			addObserver : self
-			   selector : @selector(favoritesHEADCheckTaskDidFinish:)
-				   name : BSFavoritesHEADCheckTaskDidFinishNotification
-				 object : mTask];
-		
-		[worker push : mTask];
-		
-		[mTaskLock unlock];
-		
-//		[task_ release];
-
-#else
-//		id task_;
 		[mTaskLock lock];
 		mTask = [[NSClassFromString(@"BSBoardListItemHEADCheckTask") alloc] initWithBoardListItem:[self boardListItem]];
 		[worker push:mTask];
 		[mTaskLock unlock];
-//		[task_ release];
 		
-#endif
 	} else {
-//		BSThreadsListOPTask *task_;
 		[mTaskLock lock];
 		mTask = [[BSThreadsListOPTask alloc] initWithBBSName:[self boardName] forceDownload:forceDL];
 		[worker push : mTask];
 		[mTaskLock unlock];
-//		[task_ release];
 	}
 }
 - (void) doLoadThreadsList : (CMRThreadLayout *) worker
