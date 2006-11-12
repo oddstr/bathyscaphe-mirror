@@ -1,4 +1,6 @@
 2006-11-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/window/CMRBrowserTbDelegate.m
+		ブラウザウインドウのツールバーに「縮小／拡大」を置けるようにするのを忘れていた。
 	* frameworks/SGAppKit/framework/src/extensions/workspace/NSWorkspace-SGExtensions.m
 		メモリリークを修正。
 	* frameworks/CocoMonar/framework/src/CMRSingletonObject.h
