@@ -30,6 +30,8 @@
 
 + (id) sharedInstance;
 
+- (void) showInspectorForTargetBoard : (NSString *) boardName;
+
 // Accessor
 - (NSString *) currentTargetBoardName;
 - (void) setCurrentTargetBoardName : (NSString *) newTarget;
@@ -47,13 +49,17 @@
 - (IBAction) addNoName : (id) sender;
 - (IBAction) editNoName: (id) sender;
 //- (IBAction) startDetect: (id) sender;
+- (IBAction) toggleAllowEditingBoardURL: (id) sender;
 - (IBAction) openHelpForMe : (id) sender;
 
 // Binding
 - (NSMutableArray *) noNamesArray;
+- (void) setNoNamesArray: (NSMutableArray *) anArray;
 
 - (NSString *) boardURLAsString;
 - (BOOL) shouldEnableUI;
+- (BOOL) shouldEnableBeBtn;
+- (BOOL) shouldEnableURLEditing;
 
 - (NSString *) defaultKotehan;
 - (void) setDefaultKotehan : (NSString *) fieldValue;
@@ -64,17 +70,12 @@
 - (BOOL) shouldAlwaysBeLogin;
 - (void) setShouldAlwaysBeLogin : (BOOL) checkboxState;
 
-// Availabe in LittleWish and later.
 - (BOOL) shouldAllThreadsAAThread;
 - (void) setShouldAllThreadsAAThread : (BOOL) checkboxState;
 
 - (NSImage *) icon;
-- (BOOL) shouldEnableBeBtn;
 
-// method
-- (void) showInspectorForTargetBoard : (NSString *) boardName;
-- (IBAction) toggleAllowEditingBoardURL: (id) sender;
-
+// Notification
 - (void) mainWindowChanged : (NSNotification *) theNotification;
 - (void) browserBoardChanged : (NSNotification *) theNotification;
 - (void) viewerThreadChanged : (NSNotification *) theNotification;

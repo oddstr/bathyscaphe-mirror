@@ -1,3 +1,24 @@
+2006-11-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* frameworks/SGAppKit/framework/src/extensions/workspace/NSWorkspace-SGExtensions.m
+		メモリリークを修正。
+	* frameworks/CocoMonar/framework/src/CMRSingletonObject.h
+		BathyScaphe のいくつかのクラスで利用されている APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION マクロの中身を
+		更新し、@synchronized を利用する（そして NSLock は利用しない）ことにした。
+		- Apple の Cocoa Fundamentals Guide に載っているコードをベースに：
+		http://developer.apple.com/documentation/Cocoa/Conceptual/CocoaFundamentals/CocoaObjects/chapter_3_section_10.html
+		- @synchronized 構文がマクロ中に含まれているので、このマクロを利用するクラスを含んでいるすべてのターゲットは obj-C 例外処理を有効にして
+		　ビルドする必要がある（そのようにプロジェクトの設定を変更した）。
+	* application/source/bbs/BSBoardInfoInspector.m
+	* application/source/bbs/BoardManager-BSAddition.m
+		速報headline 板では、「掲示板オプション」の設定項目を（URL 欄を除いて）使用不可にした。
+		また、速報headline 板のスレッドを開いたときに板の名無しさんを推定する作業を行わないようにした
+		（この板には SETTING.TXT がないので、BSSettingTxtDetector が毎回コンソールにエラーを吐いていた）。
+		ほか、「掲示板オプション」パネルのインタフェースについて細かい修正。
+	* application/source/thread/CMRThreadViewer-Validation.m
+		「文字の縮小」「文字の拡大」の validation をちゃんとした。
+	* application/source/CMRExports.h
+	* application/Resources/Japanese.lproj/Localizable.strings
+		新しく BSbbynewsBoardName を定義した。Localizable.strings に書かれている現在の値は「速報headline」。
 2006-11-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadViewer-Action.m
 	* application/source/thread/CMRThreadViewer-Validation.m

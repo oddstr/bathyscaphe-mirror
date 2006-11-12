@@ -1,6 +1,6 @@
 //: NSWorkspace-SGExtensions.m
 /**
-  * $Id: NSWorkspace-SGExtensions.m,v 1.2.4.1 2006/11/11 19:03:08 tsawada2 Exp $
+  * $Id: NSWorkspace-SGExtensions.m,v 1.2.4.2 2006/11/12 22:43:27 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -171,6 +171,8 @@ bail:
 
     iconData = [NSData dataWithBytes: *iconFamily length: GetHandleSize((Handle)iconFamily)];
     iconImage = [[[NSImage alloc] initWithData: iconData] autorelease];
+	
+	DisposeHandle((Handle)iconFamily);
     
     return iconImage;
 }

@@ -1,6 +1,6 @@
 //: NSUserDefaults+SGAppKitExtensions.m
 /**
-  * $Id: NSUserDefaults+SGAppKitExtensions.m,v 1.1.1.1.8.1 2006/11/11 19:03:08 tsawada2 Exp $
+  * $Id: NSUserDefaults+SGAppKitExtensions.m,v 1.1.1.1.8.2 2006/11/12 22:43:27 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -10,7 +10,7 @@
 #import "SGAppKitFrameworkDefines.h"
 
 #import <SGAppKit/NSUserDefaults+SGAppKitExtensions.h>
-#import <SGAppKit/NSColor-SGExtensions.h>
+//#import <SGAppKit/NSColor-SGExtensions.h>
 
 
 

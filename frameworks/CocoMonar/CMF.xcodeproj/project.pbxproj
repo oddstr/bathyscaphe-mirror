@@ -43,7 +43,6 @@
 		87F5706C086E5217002A18AD /* CMRLocalizableStringsOwner.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B756FD0508BD6C00A80005 /* CMRLocalizableStringsOwner.m */; };
 		87F5706D086E5217002A18AD /* CMRPropertyKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B756FF0508BD6C00A80005 /* CMRPropertyKeys.m */; };
 		87F5706E086E5217002A18AD /* CMRResourceFileReader.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B757020508BD6C00A80005 /* CMRResourceFileReader.m */; };
-		87F5706F086E5217002A18AD /* CMRSingletonObject.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B757040508BD6C00A80005 /* CMRSingletonObject.m */; };
 		87F57070086E5217002A18AD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B757060508BD6C00A80005 /* main.m */; };
 		87F57072086E5217002A18AD /* CMRFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B02DAF0509F1D600A80005 /* CMRFileManager.m */; };
 		87F57074086E5217002A18AD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
@@ -352,7 +351,6 @@
 				87F5706C086E5217002A18AD /* CMRLocalizableStringsOwner.m in Sources */,
 				87F5706D086E5217002A18AD /* CMRPropertyKeys.m in Sources */,
 				87F5706E086E5217002A18AD /* CMRResourceFileReader.m in Sources */,
-				87F5706F086E5217002A18AD /* CMRSingletonObject.m in Sources */,
 				87F57070086E5217002A18AD /* main.m in Sources */,
 				87F57072086E5217002A18AD /* CMRFileManager.m in Sources */,
 				87E8CDFC0991180A00703486 /* NSCharacterSet+CMXAdditions.m in Sources */,
@@ -473,6 +471,7 @@
 		87F5707E086E5218002A18AD /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
@@ -485,6 +484,7 @@
 					ppc,
 					i386,
 				);
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -495,6 +495,7 @@
 		87F57080086E5218002A18AD /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};

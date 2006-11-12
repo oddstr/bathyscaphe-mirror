@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRExports.h,v 1.8 2006/06/24 16:23:38 tsawada2 Exp $
+  * $Id: CMRExports.h,v 1.8.2.1 2006/11/12 22:43:27 tsawada2 Exp $
   * 
   * CMRExports.h
   *
@@ -50,8 +50,11 @@ extern SGUtilLogger *CMRLogger;
  */
 #define CMXFavoritesDirectoryName	NSLocalizedString(@"Favorites", nil)
 
-//extern BOOL shouldCascadeBrowser;
-
+/*!
+ * @category    BSbbynewsBoardName
+ * @discussion  ‘¬•ñheadline ”Â‚Ì–¼‘O (Available in ReinforceII and later)
+ */
+#define BSbbynewsBoardName			NSLocalizedString(@"Headline", nil)
 
 #ifdef __cplusplus
 }  /* End of the 'extern "C"' block */

@@ -1,5 +1,5 @@
 /*
-    $Id: CMRThreadViewer-Validation.m,v 1.20.2.7 2006/11/12 00:17:09 tsawada2 Exp $
+    $Id: CMRThreadViewer-Validation.m,v 1.20.2.8 2006/11/12 22:43:27 tsawada2 Exp $
     CMRThreadViewer-Action.m から独立
     Created at 2005-02-16 by tsawada2.
 */
@@ -286,12 +286,13 @@ static int messageMaskForTag(int tag)
 		return ([[self threadLayout] nextBookmarkIndex] != NSNotFound);
 	
 	// 常に使えるアイテムたち
-	if (action_ == @selector(findNextText:)			||
-	   action_ == @selector(findPreviousText:)		||
-	   action_ == @selector(findFirstText:)			||
-	   action_ == @selector(findAll:)				||
-	   action_ == @selector(findAllByFilter:)
-	   )
+	if (action_ == @selector(findNextText:)		||
+	   action_ == @selector(findPreviousText:)	||
+	   action_ == @selector(findFirstText:)		||
+	   action_ == @selector(findAll:)			||
+	   action_ == @selector(findAllByFilter:)	||
+	   action_ == @selector(biggerText:)		||
+	   action_ == @selector(smallerText:))
 	{ return [self shouldShowContents]; }
 	
 	if (action_ == @selector(showThreadWithMenuItem:))
@@ -344,8 +345,7 @@ static int messageMaskForTag(int tag)
 	if (action_ == @selector(openInBrowser:) || action_ == @selector(openSelectedThreads:)) {
 		return ([[self selectedThreadsReallySelected] count] || [self threadURL]);
 	}
-	
-	if (action_ == @selector(biggerText:) || action_ == @selector(smallerText:)) return YES; // 暫定
+
 	return NO;
 }
 
