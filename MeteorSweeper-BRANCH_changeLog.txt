@@ -1,4 +1,17 @@
 2006-11-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/thread/CMRThreadViewer-Validation.m
+	* application/source/thread/CMRThreadViewer-MoveAction.m
+	* application/source/window/CMRThreadViewerTbDelegate.m
+	* application/Resources/Japanese.lproj/ToolbarItems.strings
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		テキスト・ビューの文字を縮小／拡大する機能を追加した。
+		-「表示」メニューおよびツールバーから実行可能。
+		- なお、メニューおよびツールバー項目の validation はまだ作りかけのため常時 YES だが、
+		　もちろん後でより適切にする。
+	* application/Resources/image/FontBigger.tiff
+	* application/Resources/image/FontSmaller.tiff
+		[新規追加] 縮小／拡大ボタンのアイコン。
 	* application/Resources/Japanese.lproj/BSBoardInfoInspector.nib
 	* application/source/bbs/BSBoardInfoInspector.m
 		小さな南京錠のアイコンは、システムに用意されているものを使うようにした。

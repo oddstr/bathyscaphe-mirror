@@ -33,6 +33,7 @@
                 addCategoryItem = id; 
                 addDrawerItem = id; 
                 addFavorites = id; 
+                biggerText = id; 
                 cancelCurrentTask = id; 
                 changeBrowserArrangement = id; 
                 clearMessageAttributes = id; 
@@ -78,6 +79,7 @@
                 showSearchThreadPanel = id; 
                 showStandardFindPanel = id; 
                 showThreadAttributes = id; 
+                smallerText = id; 
                 toggleAAThread = id; 
                 toggleDatOchiThread = id; 
                 toggleMarkedThread = id; 

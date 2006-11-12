@@ -1,6 +1,6 @@
 //: CMRThreadLayout.m
 /**
-  * $Id: CMRThreadLayout.m,v 1.11.2.2 2006/11/11 19:03:08 tsawada2 Exp $
+  * $Id: CMRThreadLayout.m,v 1.11.2.3 2006/11/12 00:17:09 tsawada2 Exp $
   * 
   * CMRThreadLayout.m
   *
@@ -431,7 +431,7 @@
 	
 	if (NSNotFound == anIndex || [self firstUnlaidMessageIndex] <= anIndex)
 		return;
-	
+
 	[self ensureMessageToBeVisibleAtIndex : anIndex];
 	[self scrollMessageWithRange : 
 		[[self messageRanges] rangeAtIndex : anIndex]];
