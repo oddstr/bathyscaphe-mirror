@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-Remove.m,v 1.7 2006/11/05 12:53:47 tsawada2 Exp $
+  * $Id: CMRThreadsList-Remove.m,v 1.8 2006/11/13 14:07:41 masakih Exp $
   * 
   * CMRThreadsList-Remove.m
   *
@@ -32,28 +32,28 @@
 	
 	[self cleanUpItemsToBeRemoved : files_];
 }
-- (void) cleanUpItemsToBeRemoved : (NSArray *) files
-{
-	NSEnumerator		*iter_;
-	NSString			*path_;
-	
-	iter_ = [files objectEnumerator];
-	[_threadsListUpdateLock lock];
-	while(path_ = [iter_ nextObject]){
-		NSMutableDictionary		*thread_;
-		
-		thread_ = [self seachThreadByPath : path_];
-		if (thread_ != nil) {
-			[[self class] clearAttributes : thread_];
-		} else {
-			//NSLog(@"CMRThreadsList: cleanUpItemsToBeRemoved: - seachThreadByPath: returns nil, so add this item to pool");
-			[[CMRFavoritesManager defaultManager] addItemToPoolWithFilePath: path_];
-		}
-	}
-	[_threadsListUpdateLock unlock];
-	
-	UTILNotifyName(CMRThreadsListDidChangeNotification);
-}
+//- (void) cleanUpItemsToBeRemoved : (NSArray *) files
+//{
+//	NSEnumerator		*iter_;
+//	NSString			*path_;
+//	
+//	iter_ = [files objectEnumerator];
+//	[_threadsListUpdateLock lock];
+//	while(path_ = [iter_ nextObject]){
+//		NSMutableDictionary		*thread_;
+//		
+//		thread_ = [self seachThreadByPath : path_];
+//		if (thread_ != nil) {
+//			[[self class] clearAttributes : thread_];
+//		} else {
+//			//NSLog(@"CMRThreadsList: cleanUpItemsToBeRemoved: - seachThreadByPath: returns nil, so add this item to pool");
+//			[[CMRFavoritesManager defaultManager] addItemToPoolWithFilePath: path_];
+//		}
+//	}
+//	[_threadsListUpdateLock unlock];
+//	
+//	UTILNotifyName(CMRThreadsListDidChangeNotification);
+//}
 - (BOOL) tableView : (NSTableView *) tableView
 	   removeItems : (NSArray	  *) rows
  delFavIfNecessary : (BOOL         ) flag

@@ -167,7 +167,7 @@ static BOOL shouldCheckItemHeader(id dict);
 	NSString *table = [item query];
 	if(!table) return nil;
 	
-	[self setDescString:NSLocalizedString(@"Collectiong infomation of thread", @"")];
+	[self setDescString:NSLocalizedString(@"Collecting infomation of thread", @"")];
 	
 	db = [[DatabaseManager defaultManager] databaseForCurrentThread];
 	
@@ -197,6 +197,7 @@ abort:
 /* ってことでとりあえず作ってみた。 */
 - (NSDictionary *)checkHOGE
 {
+	NSString *countColumn = @"count";
 	NSMutableDictionary *result = [NSMutableDictionary dictionary];
 	SQLiteDB *db;
 	NSString *table = [item query];
@@ -215,7 +216,7 @@ abort:
 		
 		query = [NSString stringWithFormat:
 			@"SELECT count(%@) AS %@ FROM (%@) WHERE %@ = ?",
-			BoardIDColumn, @"c",
+			BoardIDColumn, countColumn,
 			table,
 			BoardIDColumn];
 		id r = [SQLiteReservedQuery sqliteReservedQueryWithQuery:query usingSQLiteDB:db];
@@ -239,7 +240,7 @@ abort:
 				goto abort;
 			}
 			
-			id v = [p valueForColumn:@"c" atRow:0];
+			id v = [p valueForColumn:countColumn atRow:0];
 			if(!v) goto abort;
 			
 			if(50 < [v intValue]) {
@@ -300,15 +301,48 @@ static NSURL *urlForBoardNameAndThredID(NSString *boardName, NSString *threadID)
 	
 	[self setDescString:NSLocalizedString(@"Reseting new threads status.", @"")];
 	
+//	if(db && [db beginTransaction]) {
+//		NSString *query = [NSString stringWithFormat:
+//			@"UPDATE %@ "
+//			@"SET %@ = %d "
+//			@"WHERE EXISTS (SELECT %@ FROM (%@) WHERE %@ = %d)",
+//			ThreadInfoTableName,
+//			ThreadStatusColumn, ThreadNoCacheStatus,
+//			BoardIDColumn,
+//			[item query], ThreadStatusColumn, ThreadNewCreatedStatus];
+//		[db performQuery:query];
+//		
+//		[db commitTransaction];
+//	}
 	if(db && [db beginTransaction]) {
+		id cursor = nil;
 		NSString *query = [NSString stringWithFormat:
+			@"SELECT %@, %@ FROM (%@) WHERE %@ = %d",
+			BoardIDColumn, ThreadIDColumn,
+			[item query], ThreadStatusColumn, ThreadNewCreatedStatus];
+		cursor = [db performQuery:query];
+		if([cursor rowCount] == 0) {
+			[db commitTransaction];
+			return;
+		}
+		
+		query = [NSString stringWithFormat:
 			@"UPDATE %@ "
 			@"SET %@ = %d "
-			@"WHERE EXISTS (SELECT * FROM (%@) WHERE %@ = %d)",
+			@"WHERE %@ = ? AND %@ = ?",
 			ThreadInfoTableName,
 			ThreadStatusColumn, ThreadNoCacheStatus,
-			[item query], ThreadStatusColumn, ThreadNewCreatedStatus];
-		[db performQuery:query];
+			BoardIDColumn, ThreadIDColumn];
+		id statment = [db reservedQuery:query];
+		
+		unsigned i, count;
+		for(i = 0, count = [cursor rowCount]; i < count; i++) {
+			[statment cursorForBindValues:
+				[NSArray arrayWithObjects:
+					[cursor valueForColumn:BoardIDColumn atRow:i],
+					[cursor valueForColumn:ThreadIDColumn atRow:i],
+					nil]];
+		}
 		
 		[db commitTransaction];
 	}

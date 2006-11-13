@@ -735,7 +735,7 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 		
 	} while ( NO );
 	
-	[super downloaderTextUpdatedNotified : notification];
+//	[super downloaderTextUpdatedNotified : notification];
 }
 
 - (void)favoritesHEADCheckTaskDidFinish:(id)notification
@@ -777,8 +777,21 @@ fail:
 	[self updateCursor];
 }
 
+- (void) postListDidUpdateNotification : (int) mask;
+{
+	id		obj_;
+	
+	obj_ = [NSNumber numberWithUnsignedInt : mask];
+	UTILNotifyInfo3(
+					CMRThreadsListDidUpdateNotification,
+					obj_,
+					ThreadsListUserInfoSelectionHoldingMaskKey);
+	UTILNotifyName(CMRThreadsListDidChangeNotification);
+//	[self writeListToFileNow];
+}
+
 #pragma mark## SearchThread ##
-- (NSMutableDictionary *)seachThreadByPath : (NSString *)filePath
++ (NSMutableDictionary *) attributesForThreadsListWithContentsOfFile : (NSString *) filePath
 {
 	int boardID;
 	id threadID;
@@ -789,12 +802,14 @@ fail:
 	
 	return nil;
 }
+- (NSMutableDictionary *)seachThreadByPath : (NSString *)filePath
+{
+	return [[self class] attributesForThreadsListWithContentsOfFile:filePath];
+}
 
 @end
 
 @implementation BSDBThreadList (ToBeRefactoring)
-
-
 #pragma mark## Download ##
 - (void) loadAndDownloadThreadsList : (CMRThreadLayout *) worker forceDownload : (BOOL) forceDL
 {
@@ -874,30 +889,30 @@ fail:
 	}
 	
 	[self updateCursor];
-	[super cleanUpItemsToBeRemoved : files];
+//	[super cleanUpItemsToBeRemoved : files];
 }
 
-- (void) setThreads : (NSMutableArray *) aThreads
-{
-	[self updateDataBaseForThreads : aThreads];
-	[self updateCursor];
-	
-	[super setThreads : aThreads];
-}
-
-- (void) updateDataBaseForThreads : (id) aThreads
-{
-	Class taskClass = NSClassFromString(@"BSThreadListDBUpdateTask");
-	if(!taskClass) return;
-	
-	Class tmClass = NSClassFromString(@"CMRTaskManager");
-	if(!tmClass) return;
-	
-	id tm = [tmClass defaultManager];
-	id t = [taskClass taskWithUpdateThreads:aThreads];
-	
-	[tm addTask:t];
-	
-	[t update];
-}
+//- (void) setThreads : (NSMutableArray *) aThreads
+//{
+//	[self updateDataBaseForThreads : aThreads];
+//	[self updateCursor];
+//	
+//	[super setThreads : aThreads];
+//}
+//
+//- (void) updateDataBaseForThreads : (id) aThreads
+//{
+//	Class taskClass = NSClassFromString(@"BSThreadListDBUpdateTask");
+//	if(!taskClass) return;
+//	
+//	Class tmClass = NSClassFromString(@"CMRTaskManager");
+//	if(!tmClass) return;
+//	
+//	id tm = [tmClass defaultManager];
+//	id t = [taskClass taskWithUpdateThreads:aThreads];
+//	
+//	[tm addTask:t];
+//	
+//	[t update];
+//}
 @end

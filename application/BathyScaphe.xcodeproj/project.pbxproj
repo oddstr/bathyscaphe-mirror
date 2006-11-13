@@ -602,10 +602,6 @@
 		F47361C40AFF8758009B6189 /* CMRBrowser_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC3C04C698FA00A80005 /* CMRBrowser_p.h */; };
 		F47361C60AFF8758009B6189 /* CMRThreadsList.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC4804C698FA00A80005 /* CMRThreadsList.h */; };
 		F47361C70AFF8758009B6189 /* CMRThreadsList_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC4A04C698FA00A80005 /* CMRThreadsList_p.h */; };
-		F47361C80AFF8758009B6189 /* CMRThreadsListReadFileTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC4B04C698FA00A80005 /* CMRThreadsListReadFileTask.h */; };
-		F47361C90AFF8758009B6189 /* CMRThreadsListReadFileTask_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC4D04C698FA00A80005 /* CMRThreadsListReadFileTask_p.h */; };
-		F47361CA0AFF8758009B6189 /* CMRThreadsUpdateListTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC5104C698FA00A80005 /* CMRThreadsUpdateListTask.h */; };
-		F47361CB0AFF8758009B6189 /* CMRThreadsUpdateListTask_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC5304C698FA00A80005 /* CMRThreadsUpdateListTask_p.h */; };
 		F47361CC0AFF8758009B6189 /* CMRAttributedMessageComposer.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC6304C698FA00A80005 /* CMRAttributedMessageComposer.h */; };
 		F47361CD0AFF8758009B6189 /* CMRAttributedMessageComposer_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC6504C698FA00A80005 /* CMRAttributedMessageComposer_p.h */; };
 		F47361CE0AFF8758009B6189 /* CMRMessageAttributesStyling.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC6804C698FA00A80005 /* CMRMessageAttributesStyling.h */; };
@@ -884,13 +880,9 @@
 		F47362E60AFF8758009B6189 /* CMRBrowser-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC3904C698FA00A80005 /* CMRBrowser-ViewAccessor.m */; };
 		F47362E70AFF8758009B6189 /* CMRBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC3B04C698FA00A80005 /* CMRBrowser.m */; };
 		F47362E90AFF8758009B6189 /* CMRThreadsList-DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC4004C698FA00A80005 /* CMRThreadsList-DataSource.m */; };
-		F47362EA0AFF8758009B6189 /* CMRThreadsList-Download.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC4104C698FA00A80005 /* CMRThreadsList-Download.m */; };
-		F47362EC0AFF8758009B6189 /* CMRThreadsList-listImport.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC4404C698FA00A80005 /* CMRThreadsList-listImport.m */; };
 		F47362ED0AFF8758009B6189 /* CMRThreadsList-Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC4504C698FA00A80005 /* CMRThreadsList-Notification.m */; };
 		F47362EE0AFF8758009B6189 /* CMRThreadsList-Remove.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC4604C698FA00A80005 /* CMRThreadsList-Remove.m */; };
 		F47362EF0AFF8758009B6189 /* CMRThreadsList.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC4904C698FA00A80005 /* CMRThreadsList.m */; };
-		F47362F00AFF8758009B6189 /* CMRThreadsListReadFileTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC4C04C698FA00A80005 /* CMRThreadsListReadFileTask.m */; };
-		F47362F10AFF8758009B6189 /* CMRThreadsUpdateListTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC5204C698FA00A80005 /* CMRThreadsUpdateListTask.m */; };
 		F47362F30AFF8758009B6189 /* CMRAttributedMessageComposer-Anchor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC6104C698FA00A80005 /* CMRAttributedMessageComposer-Anchor.m */; };
 		F47362F40AFF8758009B6189 /* CMRAttributedMessageComposer-Convert.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC6204C698FA00A80005 /* CMRAttributedMessageComposer-Convert.m */; };
 		F47362F50AFF8758009B6189 /* CMRAttributedMessageComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC6404C698FA00A80005 /* CMRAttributedMessageComposer.m */; };
@@ -1116,8 +1108,6 @@
 		F4FEF9EF0AFF89AC0099853B /* BSThreadsListOPTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F41308B80A8E27A400740620 /* BSThreadsListOPTask.h */; };
 		F4FEF9F00AFF89AD0099853B /* ConcreteBoardListItem.h in Headers */ = {isa = PBXBuildFile; fileRef = F47A66C70AFF807100EB5137 /* ConcreteBoardListItem.h */; };
 		F4FEF9F10AFF89B10099853B /* SQLiteDB.m in Sources */ = {isa = PBXBuildFile; fileRef = F47A66DB0AFF808D00EB5137 /* SQLiteDB.m */; };
-		F4FEF9F20AFF89B20099853B /* BSThreadListDBUpdateTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E8FADD09DAE1F0006F453C /* BSThreadListDBUpdateTask.m */; };
-		F4FEF9F30AFF89B50099853B /* BSThreadListDBUpdateTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F4E8FADC09DAE1F0006F453C /* BSThreadListDBUpdateTask.h */; };
 		F4FEF9F40AFF89B60099853B /* SmartBoardListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F47A66D20AFF807100EB5137 /* SmartBoardListItem.m */; };
 		F4FEF9F60AFF89BB0099853B /* SmartBoardList.m in Sources */ = {isa = PBXBuildFile; fileRef = F47A66D00AFF807100EB5137 /* SmartBoardList.m */; };
 		F4FEF9F70AFF89BB0099853B /* BSThreadListUpdateTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F411498509DABFD500DDF200 /* BSThreadListUpdateTask.m */; };
@@ -3727,10 +3717,6 @@
 				F47361C40AFF8758009B6189 /* CMRBrowser_p.h in Headers */,
 				F47361C60AFF8758009B6189 /* CMRThreadsList.h in Headers */,
 				F47361C70AFF8758009B6189 /* CMRThreadsList_p.h in Headers */,
-				F47361C80AFF8758009B6189 /* CMRThreadsListReadFileTask.h in Headers */,
-				F47361C90AFF8758009B6189 /* CMRThreadsListReadFileTask_p.h in Headers */,
-				F47361CA0AFF8758009B6189 /* CMRThreadsUpdateListTask.h in Headers */,
-				F47361CB0AFF8758009B6189 /* CMRThreadsUpdateListTask_p.h in Headers */,
 				F47361CC0AFF8758009B6189 /* CMRAttributedMessageComposer.h in Headers */,
 				F47361CD0AFF8758009B6189 /* CMRAttributedMessageComposer_p.h in Headers */,
 				F47361CE0AFF8758009B6189 /* CMRMessageAttributesStyling.h in Headers */,
@@ -3893,7 +3879,6 @@
 				F4FEF9EC0AFF89A90099853B /* BSBoardListItemHEADCheckTask.h in Headers */,
 				F4FEF9EF0AFF89AC0099853B /* BSThreadsListOPTask.h in Headers */,
 				F4FEF9F00AFF89AD0099853B /* ConcreteBoardListItem.h in Headers */,
-				F4FEF9F30AFF89B50099853B /* BSThreadListDBUpdateTask.h in Headers */,
 				F4FEF9FB0AFF89C10099853B /* SmartCondition.h in Headers */,
 				F4FEF9FC0AFF89C30099853B /* FavoritesBoardListItem.h in Headers */,
 				F4FEF9FD0AFF89C30099853B /* BSDBThreadsListUpdateTask.h in Headers */,
@@ -4700,13 +4685,9 @@
 				F47362E60AFF8758009B6189 /* CMRBrowser-ViewAccessor.m in Sources */,
 				F47362E70AFF8758009B6189 /* CMRBrowser.m in Sources */,
 				F47362E90AFF8758009B6189 /* CMRThreadsList-DataSource.m in Sources */,
-				F47362EA0AFF8758009B6189 /* CMRThreadsList-Download.m in Sources */,
-				F47362EC0AFF8758009B6189 /* CMRThreadsList-listImport.m in Sources */,
 				F47362ED0AFF8758009B6189 /* CMRThreadsList-Notification.m in Sources */,
 				F47362EE0AFF8758009B6189 /* CMRThreadsList-Remove.m in Sources */,
 				F47362EF0AFF8758009B6189 /* CMRThreadsList.m in Sources */,
-				F47362F00AFF8758009B6189 /* CMRThreadsListReadFileTask.m in Sources */,
-				F47362F10AFF8758009B6189 /* CMRThreadsUpdateListTask.m in Sources */,
 				F47362F30AFF8758009B6189 /* CMRAttributedMessageComposer-Anchor.m in Sources */,
 				F47362F40AFF8758009B6189 /* CMRAttributedMessageComposer-Convert.m in Sources */,
 				F47362F50AFF8758009B6189 /* CMRAttributedMessageComposer.m in Sources */,
@@ -4851,7 +4832,6 @@
 				F4FEF9ED0AFF89AB0099853B /* FolderBoardListItem.m in Sources */,
 				F4FEF9EE0AFF89AB0099853B /* FavoritesBoardListItem.m in Sources */,
 				F4FEF9F10AFF89B10099853B /* SQLiteDB.m in Sources */,
-				F4FEF9F20AFF89B20099853B /* BSThreadListDBUpdateTask.m in Sources */,
 				F4FEF9F40AFF89B60099853B /* SmartBoardListItem.m in Sources */,
 				F4FEF9F60AFF89BB0099853B /* SmartBoardList.m in Sources */,
 				F4FEF9F70AFF89BB0099853B /* BSThreadListUpdateTask.m in Sources */,
