@@ -9,28 +9,20 @@
 #import "BSDBThreadList.h"
 
 #import "CMRThreadsList_p.h"
-#import "CMRThreadsListReadFileTask.h"
 #import "CMRThreadViewer.h"
-#import "BSFavoritesHEADCheckTask.h"
-// #import "CMRThreadSignature.h"
 #import "ThreadTextDownloader.h"
 #import "CMRSearchOptions.h"
 #import "missing.h"
 
 #import "BSThreadsListOPTask.h"
-
 #import "BoardListItem.h"
-
 #import "DatabaseManager.h"
 
 
-@interface CMRThreadsList (PPPPP)
-+ (id)statusImageWithStatus : (ThreadStatus)s;
-- (void)downloaderTextUpdatedNotified:(id)notification;
-- (void)threadViewerDidChangeThread:(id)notification;
+@interface BSDBThreadList (Private)
+- (void) sortByKeyWithoutUpdateList : (NSString *) key;
 @end
 @interface BSDBThreadList (ToBeRefactoring)
-- (void)updateDataBaseForThreads : (id) aThread;
 @end
 
 @implementation BSDBThreadList
@@ -38,8 +30,6 @@
 // primitive
 - (id)initWithBoardListItem : (BoardListItem *) item
 {
-//	CMRBBSSignature *sig = [CMRBBSSignature BBSSignatureWithName : [item name]];
-	
 	self = [super init];
 	if (self) {
 		[self setBBSName : [item name]];
@@ -47,11 +37,6 @@
 		
 		mCursorLock = [[NSLock alloc] init];
 		mTaskLock = [[NSLock alloc] init];
-//		[self updateCursor];
-//		if (!mCursor) {
-//			[self release];
-//			self = nil;
-//		}
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(didUpdateDBNotification:)
@@ -113,20 +98,7 @@
 	
 	[super dealloc];
 }
-/*
-- (id) initWithBBSSignature : (CMRBBSSignature *) aSignature
-{
-	if([CMXFavoritesDirectoryName isSameAsString : [aSignature name]]){
-		if(self = [self init]){
-			[self setBBSSignature : aSignature];
-		}
-	} else {
-		self = [super initWithBBSSignature : aSignature];
-	}
-	
-	return self;
-}
-*/
+
 - (void) registerToNotificationCenter
 {
 	[[NSNotificationCenter defaultCenter]
@@ -246,7 +218,6 @@
 		if([mUpdateTask isInProgress]) {
 			[mUpdateTask cancel:self];
 		}
-//		[mUpdateTask release];
 	} else {
 		mUpdateTask = [[taskClass taskWithBSDBThreadList:self] retain];
 	}
@@ -677,7 +648,6 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 	CMRDownloader			*downloader_;
 	NSDictionary			*userInfo_;
 	NSDictionary			*newContents_;
-	//	NSMutableDictionary		*thread_;
 	
 	UTILAssertNotificationName(
 							   notification,
@@ -735,41 +705,6 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 		
 	} while ( NO );
 	
-//	[super downloaderTextUpdatedNotified : notification];
-}
-
-- (void)favoritesHEADCheckTaskDidFinish:(id)notification
-{
-	UTILAssertNotificationName(
-							   notification,
-							   BSFavoritesHEADCheckTaskDidFinishNotification);
-	
-	id					object_;
-	NSDictionary		*userInfo_;
-	NSMutableArray		*threadsArray_;
-	
-	object_ = [notification object];
-	UTILAssertKindOfClass(object_, BSFavoritesHEADCheckTask);
-	if(NO == [[object_ identifier] isEqual : [self boardName]])
-		goto fail;
-	
-	userInfo_ = [notification userInfo];
-	
-	threadsArray_	= [userInfo_ objectForKey : kBSUserInfoThreadsArrayKey];
-	UTILAssertKindOfClass(threadsArray_, NSArray);
-	
-	Class taskClass = NSClassFromString(@"BSThreadListSmartItemDBUpdateTask");
-	if(!taskClass) return;
-	
-	id t = [taskClass taskWithUpdateThreads:threadsArray_];
-	[t setTarget:self];
-	[[self worker] push:t];
-	
-fail:
-	[[NSNotificationCenter defaultCenter]
-			removeObserver : self
-					  name : [notification name]
-					object : [notification object]];
 }
 
 - (void)didUpdateDBNotification:(id)notification
@@ -787,7 +722,6 @@ fail:
 					obj_,
 					ThreadsListUserInfoSelectionHoldingMaskKey);
 	UTILNotifyName(CMRThreadsListDidChangeNotification);
-//	[self writeListToFileNow];
 }
 
 #pragma mark## SearchThread ##
@@ -889,30 +823,5 @@ fail:
 	}
 	
 	[self updateCursor];
-//	[super cleanUpItemsToBeRemoved : files];
 }
-
-//- (void) setThreads : (NSMutableArray *) aThreads
-//{
-//	[self updateDataBaseForThreads : aThreads];
-//	[self updateCursor];
-//	
-//	[super setThreads : aThreads];
-//}
-//
-//- (void) updateDataBaseForThreads : (id) aThreads
-//{
-//	Class taskClass = NSClassFromString(@"BSThreadListDBUpdateTask");
-//	if(!taskClass) return;
-//	
-//	Class tmClass = NSClassFromString(@"CMRTaskManager");
-//	if(!tmClass) return;
-//	
-//	id tm = [tmClass defaultManager];
-//	id t = [taskClass taskWithUpdateThreads:aThreads];
-//	
-//	[tm addTask:t];
-//	
-//	[t update];
-//}
 @end

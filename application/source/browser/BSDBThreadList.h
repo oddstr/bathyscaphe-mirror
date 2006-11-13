@@ -11,7 +11,7 @@
 
 #import <SQLiteDB.h>
 
-#import "CMRTask.h"
+#import "CMRThreadLayoutTask.h"
 
 @class BoardListItem;
 
@@ -27,7 +27,7 @@
 	
 	NSLock *mCursorLock;
 	
-	id<CMRTask> mTask;
+	id<CMRThreadLayoutTask> mTask;
 	NSLock *mTaskLock;
 	
 	id<CMRTask> mUpdateTask;

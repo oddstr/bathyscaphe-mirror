@@ -593,8 +593,6 @@
 		87F6214D0A906B890082E8DB /* BoardManager-SettingTxt.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F6214C0A906B890082E8DB /* BoardManager-SettingTxt.m */; };
 		87F621A10A9186920082E8DB /* BoardManager-BSAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F621A00A9186920082E8DB /* BoardManager-BSAddition.m */; };
 		F424609908462452000803EA /* Scripts.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F424609808462452000803EA /* Scripts.tiff */; };
-		F45F30F80B04D34C001F2C85 /* BSFavoritesHEADCheckTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CD85CB098170ED002C4372 /* BSFavoritesHEADCheckTask.m */; };
-		F45F30F90B04D34C001F2C85 /* BSFavoritesHEADCheckTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 87CD85CA098170ED002C4372 /* BSFavoritesHEADCheckTask.h */; };
 		F47361C00AFF8758009B6189 /* BoardManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC2704C698FA00A80005 /* BoardManager.h */; };
 		F47361C10AFF8758009B6189 /* BoardManager_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC2904C698FA00A80005 /* BoardManager_p.h */; };
 		F47361C20AFF8758009B6189 /* Browser.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC2D04C698FA00A80005 /* Browser.h */; };
@@ -3888,7 +3886,6 @@
 				F4FEFB8B0AFFA0100099853B /* CMRFavoritesManager.h in Headers */,
 				F4FEFC0D0AFFA9920099853B /* BSDatePicker.h in Headers */,
 				F4FEFC0F0AFFA9920099853B /* BSDatePickerCell.h in Headers */,
-				F45F30F90B04D34C001F2C85 /* BSFavoritesHEADCheckTask.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4849,7 +4846,6 @@
 				F4FEFB8A0AFFA0100099853B /* CMRFavoritesManager.m in Sources */,
 				F4FEFC0E0AFFA9920099853B /* BSDatePicker.m in Sources */,
 				F4FEFC100AFFA9920099853B /* BSDatePickerCell.m in Sources */,
-				F45F30F80B04D34C001F2C85 /* BSFavoritesHEADCheckTask.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

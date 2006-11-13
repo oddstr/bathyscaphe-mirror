@@ -4,6 +4,7 @@
 	* application/source/browser/BSBoardListItemHEADCheckTask.m
 		新着ステータスのリセットをプログラム側でループを回すようにした。
 		この方が効率が良いようである。
+	* application/source/browser/BSFavoritesHEADCheckTask.[m|h]
 	* application/source/browser/BSThreadListDBUpdateTask.[m|h]
 	* application/source/browser/CMRThreadsList-Download.m
 	* application/source/browser/CMRThreadsList-Filter.m
@@ -15,6 +16,7 @@
 		ターゲットから外した
 	* application/source/browser/BSDBThreadList.m
 		ターゲットから外したもののうち、どうしても必要なメソッドをこちらに移動および変更。
+		不要な部分をすべて削除。
 	* application/source/browser/CMRThreadsList-DataSource.m
 	* application/source/browser/CMRThreadsList-Notification.m
 	* application/source/browser/CMRThreadsList-Remove.m

@@ -25,6 +25,11 @@
 
 - (void)update;
 
+- (NSString *)amountString;
+- (void)setAmountString:(NSString *)new;
+- (unsigned)progress;
+- (void)setProgress:(unsigned) new;
+
 @end
 
 @interface BSThreadListSmartItemDBUpdateTask(TaskNotification)

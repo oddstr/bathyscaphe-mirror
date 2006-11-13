@@ -22,6 +22,7 @@ static BOOL shouldCheckItemHeader(id dict);
 @interface BSBoardListItemHEADCheckTask(Private)
 - (NSArray *)threadInfomations;
 - (BSDownloadTask *)sendHEADMethod:(NSURL *)url;
+- (void)resetNewStatus;
 - (void)updateDB:(id)threads;
 @end
 
