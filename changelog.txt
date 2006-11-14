@@ -2,6 +2,7 @@
 	* application/source/browser/BSDBThreadList.[h|m]
 	* application/source/browser/BSDBThreadsListUpdateTask.m
 		スレッド一覧表示の適正化。
+		お気に入り、スマート掲示板への切り替え時に更新をしないようにした。
 	* application/source/browser/BSThreadListUpdateTask.[h|m]
 		CMRTask protocol -> CMRThreadLayoutConcreateTaskのサブクラス。
 2006-11-14 masakih <masakih@users.sourceforge.jp>
