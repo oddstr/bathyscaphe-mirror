@@ -1,0 +1,13 @@
+{
+    IBClasses = (
+        {
+            CLASS = BSDatePickerInspector; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {dateDate = id; tagField = id; }; 
+            SUPERCLASS = IBInspector; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = NSDatePicker; LANGUAGE = ObjC; SUPERCLASS = NSControl; }
+    ); 
+    IBVersion = 1; 
+}

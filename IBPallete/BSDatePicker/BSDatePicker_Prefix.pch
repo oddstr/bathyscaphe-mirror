@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'BSDatePicker' target in the 'BSDatePicker' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+    #import <InterfaceBuilder/InterfaceBuilder.h>
+#endif

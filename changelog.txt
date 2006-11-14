@@ -1,3 +1,26 @@
+2006-11-14 masakih <masakih@users.sourceforge.jp>
+	* IBPallete/BSDatePicker/BSDatePicker.xcodeproj
+	* IBPallete/BSDatePicker/BSDatePicker_Prefix.pch
+	* IBPallete/BSDatePicker/BSDatePickerCell.[h|m]
+	* IBPallete/BSDatePicker/BSDatePicker.[h|m]
+	* IBPallete/BSDatePicker/BSDatePickerInspector.[h|m]
+	* IBPallete/BSDatePicker/BSDatePickerPalette.[h|m]
+	* IBPallete/BSDatePicker/BSDatePickerFramework-Info.plist
+	* IBPallete/BSDatePicker/Info.plist
+	* IBPallete/BSDatePicker/English.lproj/InfoPlist.strings
+	* IBPallete/BSDatePicker/BSDatePicker.ibclassdescription
+	* IBPallete/BSDatePicker/palette.table
+	* IBPallete/BSDatePicker/BSDatePicker.png
+	* IBPallete/BSDatePicker/BSDatePickerCell.png
+	* IBPallete/BSDatePicker/English.lproj/BSDatePickerInspector.nib
+	* IBPallete/BSDatePicker/English.lproj/BSDatePickerPalette.nib
+	* IBPallete/Makefile
+		[新規追加] BSDatePickerのIBPalleteを追加。
+	* application/source/view/BSDatePicker.[h|m]
+	* application/source/view/BSDatePickerCell.[h|m]
+		[削除] IBPallete側に移動。
+	* Makefile
+		IBPalleteがメイクできるようにした。
 2006-11-13 masakih <masakih@users.sourceforge.jp>
 	* application/Resources/Japanese.lproj/Browser.nib/info.nib
 		メニューアイテムタグが抜け落ちていたのを直した。

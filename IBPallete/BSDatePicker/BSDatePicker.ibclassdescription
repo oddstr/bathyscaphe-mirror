@@ -1,0 +1,9 @@
+{
+	BSDatePicker = {
+		SuperClass = NSControl;
+		Attributes = {
+			tag = {};
+			date = {};
+		};
+	};
+}

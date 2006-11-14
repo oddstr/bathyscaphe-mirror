@@ -22,6 +22,8 @@ typedef enum BSDateColumn {
 	NSFormatter *formatter;
 	
 	BSDateColumn selectedColumn;
+	
+	NSRect frame;
 }
 
 - (void)setDate:(NSCalendarDate *)date;

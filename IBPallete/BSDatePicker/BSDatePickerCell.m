@@ -35,6 +35,8 @@ static inline NSPoint stringDrawingPointForFrame(NSRect );
 		[self setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
 		
 		[self setSelectedColumn:BSDateColumnYear];
+		
+		frame = NSMakeRect(0, 0, 0, 0);
 	}
 	
 	return self;
@@ -60,17 +62,27 @@ static inline NSPoint stringDrawingPointForFrame(NSRect );
 	return NSTextCellType;
 }
 
+
+- (void)setCellFrame:(NSRect)new
+{
+	frame = new;
+}
+- (NSRect)cellFrame
+{
+	return frame;
+}
+
 - (float)textFieldWidth
 {
 	float result;
 	
-	result = [[self controlView] frame].size.width - [stepper cellSize].width - kPadding;
+	result = NSWidth([self cellFrame]) - [stepper cellSize].width - kPadding;
 	
 	return (result < kMinTextWidth) ? kMinTextWidth : result;
 }
 - (NSPoint)stepperOrigin
 {
-	return NSMakePoint([self textFieldWidth] + kPadding, 0);
+	return NSMakePoint(NSMaxX([self cellFrame]) - [stepper cellSize].width, NSMinY([self cellFrame]));
 }
 - (NSRect)stepperFrame
 {
@@ -85,11 +97,10 @@ static inline NSPoint stringDrawingPointForFrame(NSRect );
 {
 	NSRect textFrame;
 	
-	textFrame = [[self controlView] frame];
-	textFrame.origin = NSZeroPoint;
+	textFrame = [self cellFrame];
 	textFrame.size.height = 19;
 	textFrame.size.width = [self textFieldWidth];
-	textFrame.origin.y += ([self stepperFrame].size.height - textFrame.size.height) / 2.0;
+	textFrame.origin.y += (NSHeight([self stepperFrame]) - NSHeight(textFrame)) / 2.0;
 	
 	return textFrame;
 }
@@ -125,7 +136,7 @@ static inline NSPoint stringDrawingPointForFrame(NSRect );
 		nil];
 	r.size = [string sizeWithAttributes:attr];
 	r.origin = stringDrawingPointForFrame([self textFieldFrame]);
-	r.origin.x += r.size.width;
+	r.origin.x += NSWidth(r);
 	
 	string = [NSString stringWithFormat:MONTH_FORMAT_FORMAT, [self month]];
 	r.size = [string sizeWithAttributes:attr];
@@ -150,7 +161,7 @@ static inline NSPoint stringDrawingPointForFrame(NSRect );
 		nil];
 	r.size = [string sizeWithAttributes:attr];
 	r.origin = stringDrawingPointForFrame([self textFieldFrame]);
-	r.origin.x += r.size.width;
+	r.origin.x += NSWidth(r);
 	
 	string = [NSString stringWithFormat:DAY_FORMAT_FORMAT, [self day]];
 	r.size = [string sizeWithAttributes:attr];
@@ -176,7 +187,7 @@ static inline NSPoint stringDrawingPointForFrame(NSRect );
 		nil];
 	r.size = [string sizeWithAttributes:attr];
 	r.origin = stringDrawingPointForFrame([self textFieldFrame]);
-	r.origin.x += r.size.width;
+	r.origin.x += NSWidth(r);
 	
 	string = [NSString stringWithFormat:HOUR_FORMAT_FORMAT, [self hour]];
 	r.size = [string sizeWithAttributes:attr];
@@ -203,7 +214,7 @@ static inline NSPoint stringDrawingPointForFrame(NSRect );
 		nil];
 	r.size = [string sizeWithAttributes:attr];
 	r.origin = stringDrawingPointForFrame([self textFieldFrame]);
-	r.origin.x += r.size.width;
+	r.origin.x += NSWidth(r);
 	
 	string = [NSString stringWithFormat:MINUTE_FORMAT_FORMAT, [self minute]];
 	r.size = [string sizeWithAttributes:attr];
@@ -343,6 +354,8 @@ static inline NSPoint stringDrawingPointForFrame(NSRect frame)
 }
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
+	[self setCellFrame:cellFrame];
+	
 	[stepper drawWithFrame:[self stepperFrame] inView:controlView];
 	
 	[self drawField];
@@ -368,6 +381,8 @@ static inline NSPoint stringDrawingPointForFrame(NSRect frame)
 - (BOOL)trackMouse:(NSEvent *)theEvent inRect:(NSRect)cellFrame ofView:(NSView *)controlView untilMouseUp:(BOOL)flag
 {
 	NSPoint mouse;
+	
+	[self setCellFrame:cellFrame];
 	
 	mouse = [controlView convertPoint:[theEvent locationInWindow] fromView:nil];
 	if(NSMouseInRect(mouse,[self stepperFrame], [controlView isFlipped])) {
@@ -453,6 +468,9 @@ static inline int maxDayFor(int year, int month)
 	return 29;
 }
 
+// ある年ある月からnewYear newMonth に変わった時、oldDayがどうなるか。
+// ex.) 2000/02/29 の年を2001年に変えると、29日は28日にならなければならない。
+// ex.2) xxxx/01/31 の月を2月に変えると、31日は28 or 29日にならなければならない。
 static inline int calcDayFor(int newYear, int newMonth, int oldDay)
 {
 	int newMaxDay;
@@ -781,6 +799,20 @@ static inline int calcDayFor(int newYear, int newMonth, int oldDay)
 - (BSDateColumn)selectedColumn
 {
 	return selectedColumn;
+}
+
+@end
+
+@implementation BSDatePickerCell(BSDatePickerCell_NSCopying)
+- (id)copyWithZone:(NSZone *)zone
+{
+	id res = [[[self class] allocWithZone:zone] init];
+	
+	[res setFont:[self font]];
+	[res setDate:[self date]];
+	[res setSelectedColumn:[self selectedColumn]];
+	
+	return res;
 }
 
 @end

@@ -7,13 +7,18 @@
 }
 - (void)drawRect:(NSRect)rect
 {
-	[[self cell] drawWithFrame:[self frame] inView:self];
+	NSRect cellFrame = [self frame];
+	cellFrame.origin = NSZeroPoint;
+	[[self cell] drawWithFrame:cellFrame inView:self];
 }
 - (void)mouseDown:(NSEvent *)theEvent
 {
 	[[self window] makeFirstResponder:self];
 	
-	[[self cell] trackMouse:theEvent inRect:[self frame] ofView:self untilMouseUp:YES];
+	NSRect cellFrame = [self frame];
+	cellFrame.origin = NSZeroPoint;
+	
+	[[self cell] trackMouse:theEvent inRect:cellFrame ofView:self untilMouseUp:YES];
 }
 #define BSDatePickerBuffSize 6
 - (void)keyDown:(NSEvent *)theEvent

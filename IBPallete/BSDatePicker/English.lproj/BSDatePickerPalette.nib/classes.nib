@@ -1,0 +1,19 @@
+{
+    IBClasses = (
+        {CLASS = BSDatePicker; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
+        {CLASS = BSDatePickerCell; LANGUAGE = ObjC; SUPERCLASS = NSActionCell; }, 
+        {
+            CLASS = BSDatePickerPalette; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                datePickerCellObject = id; 
+                datePickerCellView = id; 
+                datePickerObject = id; 
+                datePickerView = id; 
+            }; 
+            SUPERCLASS = IBPalette; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

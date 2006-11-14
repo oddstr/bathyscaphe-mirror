@@ -7,6 +7,7 @@ PROJECT_ROOT	= $(CURDIR)
 APPLICATION_ROOT = $(PROJECT_ROOT)/application
 SUBPROJECTS_ROOT = $(APPLICATION_ROOT)/subproj
 FRAMEWORK_ROOT	= $(PROJECT_ROOT)/frameworks
+IBPALLETE = $(PROJECT_ROOT)/IBPallete
 
 DARWIN_VER = $(shell uname -r | sed -e 's/\..*//')
 ENABLE_MDI = $(shell if [ $(DARWIN_VER) -ge 8 ] ;then echo YES ;fi)
@@ -18,7 +19,7 @@ else
 	DUMMY_MDI_DIR = $(PROJECT_ROOT)/metadataimporter/BathyScaphe/build/BathyScaphe.mdimporter
 endif
 
-.PHONY: frameworks
+.PHONY: frameworks ibpallete
 
 all: bathyscaphe
 
@@ -60,4 +61,10 @@ clean-mdimporter:
 
 clean-makemdidir:
 	rm -fr $(DUMMY_MDI_DIR)
+
+# make IBPalletes
+ibpallete:
+	cd $(IBPALLETE) && $(MAKE) all
+clean-ibpallete:
+	cd $(IBPALLETE) && $(MAKE) clean
 
