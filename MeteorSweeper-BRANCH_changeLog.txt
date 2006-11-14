@@ -163,6 +163,11 @@
 	* application/source/window/CMRStatusLineWindowController.m
 		CMRStatusLineWindowController と CMRToolbarWindowController を統合した。
 		CMRToolbarWindowController(_p.h|.h|.m) はターゲットから外れた。
+2006-11-06 masakih <masakih@users.sourceforge.jp>
+	* application/Resources/Japanese.lproj/CMRThreadMenu.nib
+	* application/Resources/text/KeyValueTemplates.plist
+	* application/source/view/CMRThreadView.m
+		選択範囲をWikipediaのエントリとして表示するようにした。
 2006-11-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/BSTitleRulerView.m
 	* frameworks/SGAppKit/framework/src/BSKFSplitView.m
