@@ -12,6 +12,8 @@
 #import "DatabaseManager.h"
 #import "AppDefaults.h"
 
+NSString *BSThreadListUpdateTaskDidFinishNotification = @"BSThreadListUpdateTaskDidFinishNotification";
+
 @implementation BSThreadListUpdateTask
 
 + (id)taskWithBSDBThreadList:(BSDBThreadList *)threadList
@@ -48,15 +50,11 @@
 {
 	return [NSString stringWithFormat:@"Updating -- %@", [[target boardListItem] representName]];
 }
-- (BOOL) isInProgress
+- (NSString *) messageInProgress
 {
-	return progress;
-}
-
-	// from 0.0 to 100.0 (or -1: Indeterminate)
-- (double) amount
-{
-	return ([self isInProgress]) ? 0 : -1;
+	return [NSString stringWithFormat:
+		NSLocalizedString(@"Updating Thread(%@)", @"Updating Thread(%@)"),
+		[target boardName]];
 }
 
 - (IBAction) cancel : (id) sender
@@ -246,9 +244,19 @@ static inline NSString *orderBy( NSString *sortKey, BOOL isAscending )
 }
 - (id)cursor
 {
+	return cursor;
+}
+- (void) setCursor:(id)new
+{
+	id temp = cursor;
+	cursor = [new retain];
+	[temp release];
+}
+- (void) doExecuteWithLayout : (CMRThreadLayout *) layout
+{
 	id result = nil;
 	
-	[self postTaskWillStartNotification];
+//	[self postTaskWillStartNotification];
 	
 	SQLiteDB *db = [[DatabaseManager defaultManager] databaseForCurrentThread];
 	NSString *newersSQL = nil;
@@ -335,33 +343,20 @@ static inline NSString *orderBy( NSString *sortKey, BOOL isAscending )
 	}
 	
 final:
+	[self setCursor:result];
 	[self postTaskDidFinishNotification];
-	
-	return result;
 }
 
 @end
 
-@implementation BSThreadListUpdateTask(TaskNotification)
-- (void) postTaskWillStartNotification
-{
-	NSNotificationCenter	*nc_;
-	
-	nc_ = [NSNotificationCenter defaultCenter];
-	[nc_ postNotificationName : CMRTaskWillStartNotification
-					   object : self];
-}
+@implementation BSThreadListUpdateTask(Notification)
 
 - (void) postTaskDidFinishNotification
 {
 	NSNotificationCenter	*nc_;
-
-	progress = NO;
-	
-	progress = NO;
-	
+		
 	nc_ = [NSNotificationCenter defaultCenter];
-	[nc_ postNotificationName : CMRTaskDidFinishNotification
+	[nc_ postNotificationName : BSThreadListUpdateTaskDidFinishNotification
 					   object : self];
 }
 @end

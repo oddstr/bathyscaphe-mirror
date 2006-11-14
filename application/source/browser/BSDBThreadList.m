@@ -14,7 +14,9 @@
 #import "CMRSearchOptions.h"
 #import "missing.h"
 
+#import "BSThreadListUpdateTask.h"
 #import "BSThreadsListOPTask.h"
+#import "BSBoardListItemHEADCheckTask.h"
 #import "BoardListItem.h"
 #import "DatabaseManager.h"
 
@@ -116,14 +118,20 @@
 }
 - (void) removeFromNotificationCenter
 {
-	[[NSNotificationCenter defaultCenter]
-	  removeObserver : self
-	            name : CMRFavoritesManagerDidLinkFavoritesNotification
-	          object : [CMRFavoritesManager defaultManager]];
-	[[NSNotificationCenter defaultCenter]
-	  removeObserver : self
-	            name : CMRFavoritesManagerDidRemoveFavoritesNotification
-	          object : [CMRFavoritesManager defaultManager]];
+	id nc = [NSNotificationCenter defaultCenter];
+	
+	[nc removeObserver : self
+				  name : CMRFavoritesManagerDidLinkFavoritesNotification
+				object : [CMRFavoritesManager defaultManager]];
+	[nc removeObserver : self
+				  name : CMRFavoritesManagerDidRemoveFavoritesNotification
+				object : [CMRFavoritesManager defaultManager]];
+	[nc removeObserver : self
+				  name : BSThreadListUpdateTaskDidFinishNotification
+				object : nil];
+	[nc removeObserver : self
+				  name : @"DidUpdateDBNotification"
+				object : nil];
 	
 	[super removeFromNotificationCenter];
 }
@@ -207,28 +215,28 @@
 	
 - (void) updateCursor
 {
-	Class taskClass = NSClassFromString(@"BSThreadListUpdateTask");
-	if(!taskClass) return;
-	
-	Class tmClass = NSClassFromString(@"CMRTaskManager");
-	if(!tmClass) return;
-	
-	id tm = [tmClass defaultManager];
 	if(mUpdateTask) {
 		if([mUpdateTask isInProgress]) {
 			[mUpdateTask cancel:self];
 		}
 	} else {
-		mUpdateTask = [[taskClass taskWithBSDBThreadList:self] retain];
+		mUpdateTask = [[BSThreadListUpdateTask taskWithBSDBThreadList:self] retain];
+		
+		[[NSNotificationCenter defaultCenter]
+			addObserver:self
+			   selector:@selector(didFinishiCreateCursor:)
+				   name:BSThreadListUpdateTaskDidFinishNotification
+				 object:mUpdateTask];
 	}
-	[tm addTask:mUpdateTask];
-	
-	id temp = [[[mUpdateTask cursor] retain] autorelease];
-	
-	if(temp) {
+	[[self worker] push:mUpdateTask];
+}
+
+- (void)setCursorOnMainThread:(id)cursor
+{
+	if(cursor) {
 		[mCursorLock lock];
 		{
-			mCursor = [temp retain];
+			mCursor = [cursor retain];
 		}
 		[mCursorLock unlock];
 	}
@@ -236,6 +244,21 @@
 	UTILDebugWrite1(@"cursor count -> %ld", [mCursor rowCount]);
 	
 	UTILNotifyName(CMRThreadsListDidChangeNotification);
+}
+
+- (void)didFinishiCreateCursor:(id)notification
+{
+	id obj = [notification object];
+	
+	if(![obj isKindOfClass:[BSThreadListUpdateTask class]]) {
+		return;
+	}
+	
+	id temp = [[[obj cursor] retain] autorelease];
+	
+	[self performSelectorOnMainThread:@selector(setCursorOnMainThread:)
+						   withObject:temp
+						waitUntilDone:YES];
 }
 
 	
@@ -709,6 +732,9 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 
 - (void)didUpdateDBNotification:(id)notification
 {
+	// TODO
+	// 自分自身への更新要請であることを確認すること。
+	// BSDBThreadsListUpdateTask と絡む。
 	[self updateCursor];
 }
 
@@ -759,11 +785,14 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 	[mTaskLock unlock];
 	
 	if( [self isFavorites] || [self isSmartItem] ) {
-		[mTaskLock lock];
-		mTask = [[NSClassFromString(@"BSBoardListItemHEADCheckTask") alloc] initWithBoardListItem:[self boardListItem]];
-		[worker push:mTask];
-		[mTaskLock unlock];
-		
+		if(forceDL) {
+			[mTaskLock lock];
+			mTask = [[BSBoardListItemHEADCheckTask alloc] initWithBoardListItem:[self boardListItem]];
+			[worker push:mTask];
+			[mTaskLock unlock];
+		} else {
+			[self updateCursor];
+		}
 	} else {
 		[mTaskLock lock];
 		mTask = [[BSThreadsListOPTask alloc] initWithBBSName:[self boardName] forceDownload:forceDL];

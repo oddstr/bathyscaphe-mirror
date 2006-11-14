@@ -8,15 +8,17 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "CMRTask.h"
+#import "CMRThreadLayoutTask.h"
 
 @class BSDBThreadList;
 
-@interface BSThreadListUpdateTask : NSObject <CMRTask>
+@interface BSThreadListUpdateTask : CMRThreadLayoutConcreateTask //NSObject <CMRTask>
 {
 	BSDBThreadList *target;
 	BOOL progress;
 	BOOL userCanceled;
+	
+	id cursor;
 }
 
 + (id)taskWithBSDBThreadList:(BSDBThreadList *)threadList;
@@ -26,7 +28,8 @@
 
 @end
 
-@interface BSThreadListUpdateTask(TaskNotification)
-- (void) postTaskWillStartNotification;
+@interface BSThreadListUpdateTask(Notification)
 - (void) postTaskDidFinishNotification;
 @end
+
+extern NSString *BSThreadListUpdateTaskDidFinishNotification;

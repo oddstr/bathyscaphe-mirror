@@ -1,3 +1,9 @@
+2006-11-15 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.[h|m]
+	* application/source/browser/BSDBThreadsListUpdateTask.m
+		スレッド一覧表示の適正化。
+	* application/source/browser/BSThreadListUpdateTask.[h|m]
+		CMRTask protocol -> CMRThreadLayoutConcreateTaskのサブクラス。
 2006-11-14 masakih <masakih@users.sourceforge.jp>
 	* IBPallete/BSDatePicker/BSDatePicker.xcodeproj
 	* IBPallete/BSDatePicker/BSDatePicker_Prefix.pch

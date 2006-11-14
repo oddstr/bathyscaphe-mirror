@@ -24,23 +24,12 @@ NSString *BSDBThreadsListUpdateTaskDidFinishNotification = @"BSDBThreadsListUpda
 	
 	return self;
 }
-- (void)runOnMainThread:(id)dummy
-{
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"DidUpdateDBNotification"
-														object:self];
-}
 - (void)run
 {
 
 	UTILDebugWrite(@"Start BSDBThreadsListUpdateTask.");
-	// メインスレッド上でなければきちんと表示されない
-	[self performSelectorOnMainThread:@selector(runOnMainThread:)
-						   withObject:nil
-						waitUntilDone:YES];
-	/*
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"DidUpdateDBNotification"
 														object:self];
-	 */
 	[[NSNotificationCenter defaultCenter] postNotificationName:BSDBThreadsListUpdateTaskDidFinishNotification
 														object:self];
 	UTILDebugWrite(@"End BSDBThreadsListUpdateTask.");

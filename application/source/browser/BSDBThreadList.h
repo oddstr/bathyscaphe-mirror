@@ -30,7 +30,7 @@
 	id<CMRThreadLayoutTask> mTask;
 	NSLock *mTaskLock;
 	
-	id<CMRTask> mUpdateTask;
+	id<CMRThreadLayoutTask> mUpdateTask;
 	
 	id mSortDescriptors;
 }
