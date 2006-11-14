@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRDownloader.m,v 1.1.1.1.8.1 2006/08/31 10:18:40 tsawada2 Exp $
+  * $Id: CMRDownloader.m,v 1.1.1.1.8.2 2006/11/14 03:25:25 tsawada2 Exp $
   * 
   * CMRDownloader.m
   *
@@ -170,13 +170,14 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 				@"no-cache",				HTTP_CACHE_CONTROL_KEY,
 				@"no-cache",				HTTP_PRAGMA_KEY,
 				@"Close",					HTTP_CONNECTION_KEY,
-				[self monazillaUserAgent],	HTTP_USER_AGENT_KEY,
+//				[self monazillaUserAgent],	HTTP_USER_AGENT_KEY,
+				[NSBundle monazillaUserAgent],	HTTP_USER_AGENT_KEY,
 				@"text/plain",				HTTP_ACCEPT_KEY,
 				@"gzip",					HTTP_ACCEPT_ENCODING_KEY,
 				@"ja",						HTTP_ACCEPT_LANGUAGE_KEY,
 				nil];
 }
-
+/*
 + (NSString *) applicationUserAgent
 {
 	return [NSString stringWithFormat :
@@ -195,7 +196,7 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 					dolibVersion_ >> 16,
 					dolibVersion_ & 0xffff,
 					[self applicationUserAgent]];
-}
+}*/
 @end
 
 

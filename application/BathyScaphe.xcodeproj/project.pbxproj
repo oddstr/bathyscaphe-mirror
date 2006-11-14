@@ -292,7 +292,6 @@
 		870D4BE00A7D6033008BBAB4 /* BSIndexingPopupper.h in Headers */ = {isa = PBXBuildFile; fileRef = 8714F3690A4966CB00AB8691 /* BSIndexingPopupper.h */; };
 		870D4BE10A7D6034008BBAB4 /* BSIndexingPopupper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8714F36A0A4966CB00AB8691 /* BSIndexingPopupper.m */; };
 		870D4BE70A7D609F008BBAB4 /* BSIndexingPopupper.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8714F38F0A49700400AB8691 /* BSIndexingPopupper.nib */; };
-		870D4BE90A7D6115008BBAB4 /* titleRulerInfoIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 870D4BE80A7D6115008BBAB4 /* titleRulerInfoIcon.tiff */; };
 		871265B5097D84ED00B90FF2 /* AddBoardSheetController.h in Headers */ = {isa = PBXBuildFile; fileRef = 871265AB097D84ED00B90FF2 /* AddBoardSheetController.h */; };
 		871265B6097D84ED00B90FF2 /* AddBoardSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 871265AC097D84ED00B90FF2 /* AddBoardSheetController.m */; };
 		871265B7097D84ED00B90FF2 /* BSTitleRulerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 871265AD097D84ED00B90FF2 /* BSTitleRulerView.h */; };
@@ -3020,7 +3019,6 @@
 				87CF646A097A335D00DE8B16 /* Acknowledgments.rtf in Resources */,
 				8791EE2A097A5BC200EA7475 /* Status_HeadModified.png in Resources */,
 				878018E1097CF76A002FBA1F /* titleRulerBgNotActive.tiff in Resources */,
-				870D4BE90A7D6115008BBAB4 /* titleRulerInfoIcon.tiff in Resources */,
 				8762E8C40A86359D00062504 /* himeko.scpt in Resources */,
 				8762E8C30A86359C00062504 /* na-na.scpt in Resources */,
 				8762E8C90A8635C200062504 /* rosetta.pl in Resources */,

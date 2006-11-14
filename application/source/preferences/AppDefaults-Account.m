@@ -52,10 +52,11 @@ NS_ENDHANDLER
 {
 	static NSString *_userAgent;
 	if(nil == _userAgent){
-		_userAgent = [[NSString alloc] initWithFormat :
+		/*_userAgent = [[NSString alloc] initWithFormat :
 						@"%@/%@",
 						[NSBundle applicationName],
-						[NSBundle applicationVersion]];
+						[NSBundle applicationVersion]];*/
+		_userAgent = [[NSBundle applicationUserAgent] retain];
 	}
 	return _userAgent;
 }

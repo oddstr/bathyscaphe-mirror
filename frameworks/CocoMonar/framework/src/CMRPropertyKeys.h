@@ -1,6 +1,6 @@
 //: CMRPropertyKeys.h
 /**
-  * $Id: CMRPropertyKeys.h,v 1.2.4.1 2006/11/09 18:11:38 tsawada2 Exp $
+  * $Id: CMRPropertyKeys.h,v 1.2.4.2 2006/11/14 03:25:25 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -68,4 +68,10 @@ extern NSString *const CMRApplicationDidResetNotification;
 
 extern NSString *const BSThreadItemsPboardType;
 
-#define APP_APPLICATION_NAME				@"CocoMonar"
+#define APP_APPLICATION_NAME				@"BathyScaphe"
+
+// Available in ReinforceII and later.
+@interface NSBundle(UserAgentString)
++ (NSString *) applicationUserAgent; // e.g. "BathyScaphe/277.5"
++ (NSString *) monazillaUserAgent; // e.g. "Monazilla(1.00) BathyScaphe/277.5"
+@end

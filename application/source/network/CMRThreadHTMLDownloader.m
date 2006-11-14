@@ -1,6 +1,6 @@
 //: CMRThreadHTMLDownloader.m
 /**
-  * $Id: CMRThreadHTMLDownloader.m,v 1.3 2006/02/11 08:19:26 tsawada2 Exp $
+  * $Id: CMRThreadHTMLDownloader.m,v 1.3.4.1 2006/11/14 03:25:25 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -87,7 +87,8 @@
 				@"no-cache",				HTTP_CACHE_CONTROL_KEY,
 				@"no-cache",				HTTP_PRAGMA_KEY,
 				@"Close",					HTTP_CONNECTION_KEY,
-				[self monazillaUserAgent],	HTTP_USER_AGENT_KEY,
+//				[self monazillaUserAgent],	HTTP_USER_AGENT_KEY,
+				[NSBundle monazillaUserAgent],	HTTP_USER_AGENT_KEY,
 				@"text/html",				HTTP_ACCEPT_KEY,
 				@"ja",						HTTP_ACCEPT_LANGUAGE_KEY,
 				nil];

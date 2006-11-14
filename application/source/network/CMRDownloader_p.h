@@ -17,8 +17,8 @@
 
 @interface CMRDownloader(HTTPRequestHeader)
 + (NSMutableDictionary *) defaultRequestHeaders;
-+ (NSString *) applicationUserAgent;
-+ (NSString *) monazillaUserAgent;
+//+ (NSString *) applicationUserAgent;
+//+ (NSString *) monazillaUserAgent;
 @end
 
 

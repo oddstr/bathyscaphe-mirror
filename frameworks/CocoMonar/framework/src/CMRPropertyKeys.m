@@ -1,13 +1,13 @@
 //: CMRPropertyKeys.m
 /**
-  * $Id: CMRPropertyKeys.m,v 1.2.4.1 2006/11/09 18:11:38 tsawada2 Exp $
+  * $Id: CMRPropertyKeys.m,v 1.2.4.2 2006/11/14 03:25:25 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
   */
 
 #import "CMRPropertyKeys.h"
-
+#import <SGFoundation/NSBundle-SGExtensions.h>
 
 NSString *const ThreadPlistContentsIndexKey		= @"Index";
 
@@ -64,3 +64,24 @@ NSString *const AppDefaultsLayoutSettingsUpdatedNotification = @"AppDefaultsLayo
 
 NSString *const CMRApplicationWillResetNotification = @"CMRApplicationWillResetNotification";
 NSString *const CMRApplicationDidResetNotification = @"CMRApplicationDidResetNotification";
+
+@implementation NSBundle(UserAgentString)
++ (NSString *) applicationUserAgent
+{
+	return [NSString stringWithFormat :
+						@"%@/%@",
+						[NSBundle applicationName],
+						[NSBundle applicationVersion]];
+}
+
++ (NSString *) monazillaUserAgent
+{
+	const long	dolibVersion_ = (1 << 16);
+		
+	return [NSString stringWithFormat :
+					@"Monazilla/%d.%02d (%@)",
+					dolibVersion_ >> 16,
+					dolibVersion_ & 0xffff,
+					[self applicationUserAgent]];
+}
+@end

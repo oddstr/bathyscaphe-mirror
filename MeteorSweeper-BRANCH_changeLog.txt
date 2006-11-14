@@ -1,3 +1,29 @@
+2006-11-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/BSFavoritesHEADCheckTask.m
+	* application/Resources/Japanese.lproj/CMRTaskDescription.strings
+		HEADCheck の改良：
+		- ステータスメッセージをわかりやすくした。
+		- 一度に30件までの制限を撤廃した。最短 300 秒、以後一スレッドにつき20秒ずつ加算するインターバルのみを
+		　制限とする。
+		- 更新チェックの対象外であるスレッドを除外する部分を中心に見直して、少しだけ効率化を図った。
+	* application/source/network/CMRDownloader.m
+	* application/source/network/CMRDownloader_p.h
+	* application/source/network/CMRThreadHTMLDownloader.m
+	* application/source/preferences/AppDefaults-Account.m
+		下記変更に伴う変更。
+	* frameworks/CocoMonar/framework/src/CMRPropertyKeys.m
+		Monazilla User Agent（"Monazilla(1.00) BathyScaphe/278" のような） および Application User Agent
+		（"BathyScaphe/278" のような）を取得するメソッドは、これまで必要なところで個別に書かれていたが、それを統一するため
+		CocoMonar.framework に NSBundle のカテゴリとして追加した。
+		+ [NSBundle monazillaUserAgent] など。
+	* application/source/thread/CMRThreadViewer-Validation.m
+	* application/source/thread/CMRThreadViewer-OwnHistory.m
+		「文字の縮小」「文字の拡大」の validation をさらに改良し、テキスト・ビューが空のときは使用できないように
+		した。
+	* application/source/browser/BSTitleRulerView.m
+		「BathyScaphe によって dat 落ちと判断されました。」メッセージの横に表示されるアイコンをシステムから
+		取ってくるように変更（Alert icon の info スタイルを使用する）。
+		これに伴い、titleRulerInfoIcon.tiff はターゲットから外した。いずれリポジトリから削除される。
 2006-11-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/window/CMRBrowserTbDelegate.m
 		ブラウザウインドウのツールバーに「縮小／拡大」を置けるようにするのを忘れていた。
