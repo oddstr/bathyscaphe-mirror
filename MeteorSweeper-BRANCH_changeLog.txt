@@ -1,3 +1,12 @@
+2006-11-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/BSFavoritesHEADCheckTask.m
+		HEADCheck の不具合を修正。
+		- "http://foo.2ch.net/bar/dat/123456789.dat" というURLを生成すべきところを、なんと
+		　"http://foo.2ch.net/bar/dat/123456789.thread" としてしまっていた致命的なミスを修正。
+		- 不規則なクラッシュの原因は、おそらく上記URLミスによる、NSURLConnection でのリダイレクト大量発生による
+		　クラッシュと思われる（NSURLConnection はリダイレクトが多いとランダムにクラッシュするらしい）。
+		- その他、細かい修正。
+================================================================================= Sneaky v278
 2006-11-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/BSFavoritesHEADCheckTask.m
 	* application/Resources/Japanese.lproj/CMRTaskDescription.strings

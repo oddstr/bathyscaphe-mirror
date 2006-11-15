@@ -1,5 +1,5 @@
 /**
-  * $Id: BSFavoritesHEADCheckTask.m,v 1.8.2.2 2006/11/14 03:25:25 tsawada2 Exp $
+  * $Id: BSFavoritesHEADCheckTask.m,v 1.8.2.3 2006/11/15 02:01:06 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2006 BathyScaphe Project. All rights reserved.
@@ -18,16 +18,13 @@ static NSString *const BSFavHEADerUAKey	= @"User-Agent";
 static NSString *const BSFavHEADerLMKey	= @"Last-Modified";
 static NSString *const BSFavCheckMethodKey = @"HEAD";
 
+// CMRTaskDescription.strings
+static NSString *const BSFavLoStrTitleKey = @"Checking Favorites Title";
+static NSString *const BSFavLoStrMsgKey = @"Checking Favorites Message";
+static NSString *const BSFavLoStrStatusKey = @"Checking Favorites Status";
+
 static NSString	*userAgent_ = nil;
 static int modified_ = 0;
-
-static NSString *cachedMonazillaUserAgent()
-{
-	if (userAgent_ == nil) {
-		userAgent_ = [NSBundle monazillaUserAgent];
-	}
-	return userAgent_;
-}
 
 static NSURL *getDATURL(NSDictionary *dict)
 {
@@ -36,7 +33,7 @@ static NSURL *getDATURL(NSDictionary *dict)
 	NSURL				*boardURL_;
 	NSURL				*url_;
 	
-	datName_ = [[dict objectForKey: CMRThreadLogFilepathKey] lastPathComponent];
+	datName_ = [[dict objectForKey: ThreadPlistIdentifierKey] stringByAppendingPathExtension: @"dat"];
 
 	boardURL_ = [[BoardManager defaultManager] URLForBoardName: [dict objectForKey: ThreadPlistBoardNameKey]];
 	handler_ = [CMRHostHandler hostHandlerForURL: boardURL_];
@@ -51,10 +48,10 @@ static NSURL *getDATURL(NSDictionary *dict)
 {
 	NSMutableURLRequest	*theRequest;
 
-	theRequest = [NSMutableURLRequest requestWithURL: url cachePolicy: NSURLRequestReloadIgnoringCacheData timeoutInterval: 15.0];
+	theRequest = [NSMutableURLRequest requestWithURL: url cachePolicy: NSURLRequestUseProtocolCachePolicy timeoutInterval: 15.0];
 
 	[theRequest setHTTPMethod: BSFavCheckMethodKey];
-	[theRequest setValue: cachedMonazillaUserAgent() forHTTPHeaderField: BSFavHEADerUAKey];
+	[theRequest setValue: userAgent_ forHTTPHeaderField: BSFavHEADerUAKey];
 	
 	return theRequest;
 }
@@ -103,7 +100,7 @@ static NSURL *getDATURL(NSDictionary *dict)
 - (id) initWithFavItemsArray : (NSMutableArray *) loadedList
 {
     if (self = [super init]) {
-        
+		userAgent_ = [[NSBundle monazillaUserAgent] retain];        
         [self setProgress : 0];
         [self setThreadsArray : loadedList];
 		[self setAmountString : @"0"];
@@ -202,7 +199,7 @@ static NSURL *getDATURL(NSDictionary *dict)
 
         nEnded_++;
         [self setProgress : (((double)nEnded_ / (double)nElem_) * 100)];
-		[self setAmountString : [NSString stringWithFormat: [self localizedString: @"Checking Favorites Status"], nEnded_, nElem_, nDidntCheck_]];
+		[self setAmountString : [NSString stringWithFormat: [self localizedString: BSFavLoStrStatusKey], nEnded_, nElem_, nDidntCheck_]];
     }
 
 	soundName_ = [CMRPref HEADCheckNewArrivedSound];
@@ -261,7 +258,7 @@ static NSURL *getDATURL(NSDictionary *dict)
     NSString        *name_;
     
     name_ = [self boardName];
-    format_ = [self localizedString : @"Checking Favorites Title"];
+    format_ = [self localizedString : BSFavLoStrTitleKey];
     
     return [NSString stringWithFormat : 
                         format_ ? format_ : @"%@",
@@ -274,7 +271,7 @@ static NSURL *getDATURL(NSDictionary *dict)
     NSString        *title_;
     
     title_ = [self title];
-    format_ = [self localizedString : @"Checking Favorites Message"];
+    format_ = [self localizedString : BSFavLoStrMsgKey];
     
     return [NSString stringWithFormat : 
                         format_ ? format_ : @"%@ (%@)",
