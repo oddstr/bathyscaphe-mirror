@@ -12,7 +12,6 @@
 #import "BoardManager.h"
 #import "CMRHostHandler.h"
 #import "BSDownloadTask.h"
-#import "BSDBThreadsListUpdateTask.h"
 
 static NSString *const BSFavHEADerLMKey	= @"Last-Modified";
 
@@ -27,15 +26,15 @@ static BOOL shouldCheckItemHeader(id dict);
 @end
 
 @implementation BSBoardListItemHEADCheckTask
-
-+ (id)taskWithBoardListItem:(BoardListItem *)inItem
++ (id)taskWithThreadList:(BSDBThreadList *)list
 {
-	return [[[self alloc] initWithBoardListItem:inItem] autorelease];
+	return [[[self alloc] initWithThreadList:list] autorelease];
 }
-- (id)initWithBoardListItem:(BoardListItem *)inItem
+- (id)initWithThreadList:(BSDBThreadList *)list
 {
 	if(self = [super init]) {
-		item = [inItem retain];
+		targetList = [list retain];
+		item = [[list boardListItem] retain];
 	}
 	
 	return self;
@@ -154,9 +153,7 @@ static BOOL shouldCheckItemHeader(id dict);
 	
 	[self updateDB:updatedThreads];
 	
-	BSDBThreadsListUpdateTask *dbloadTask = [[BSDBThreadsListUpdateTask alloc] initWithBBSName:nil];
-	[dbloadTask run];
-	[dbloadTask release];
+	[targetList updateCursor];
 	
 }
 // - (void) finalizeWhenInterrupted;
@@ -196,6 +193,7 @@ abort:
 
 /*  同一の板に存在するスレッドが 50 以上あれば、 subject.txt での更新作業に切り替えるべきかな？？？ */
 /* ってことでとりあえず作ってみた。 */
+const int minimumThreadCount = 50;
 - (NSDictionary *)checkHOGE
 {
 	NSString *countColumn = @"count";
@@ -244,7 +242,7 @@ abort:
 			id v = [p valueForColumn:countColumn atRow:0];
 			if(!v) goto abort;
 			
-			if(50 < [v intValue]) {
+			if(minimumThreadCount < [v intValue]) {
 				[result setObject:v forKey:b];
 			}
 			
@@ -302,19 +300,6 @@ static NSURL *urlForBoardNameAndThredID(NSString *boardName, NSString *threadID)
 	
 	[self setDescString:NSLocalizedString(@"Reseting new threads status.", @"")];
 	
-//	if(db && [db beginTransaction]) {
-//		NSString *query = [NSString stringWithFormat:
-//			@"UPDATE %@ "
-//			@"SET %@ = %d "
-//			@"WHERE EXISTS (SELECT %@ FROM (%@) WHERE %@ = %d)",
-//			ThreadInfoTableName,
-//			ThreadStatusColumn, ThreadNoCacheStatus,
-//			BoardIDColumn,
-//			[item query], ThreadStatusColumn, ThreadNewCreatedStatus];
-//		[db performQuery:query];
-//		
-//		[db commitTransaction];
-//	}
 	if(db && [db beginTransaction]) {
 		id cursor = nil;
 		NSString *query = [NSString stringWithFormat:

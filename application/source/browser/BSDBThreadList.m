@@ -39,11 +39,6 @@
 		
 		mCursorLock = [[NSLock alloc] init];
 		mTaskLock = [[NSLock alloc] init];
-		
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(didUpdateDBNotification:)
-													 name:@"DidUpdateDBNotification"
-												   object:nil];
 	}
 	
 	return self;
@@ -129,10 +124,7 @@
 	[nc removeObserver : self
 				  name : BSThreadListUpdateTaskDidFinishNotification
 				object : nil];
-	[nc removeObserver : self
-				  name : @"DidUpdateDBNotification"
-				object : nil];
-	
+
 	[super removeFromNotificationCenter];
 }
 
@@ -730,14 +722,6 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 	
 }
 
-- (void)didUpdateDBNotification:(id)notification
-{
-	// TODO
-	// 自分自身への更新要請であることを確認すること。
-	// BSDBThreadsListUpdateTask と絡む。
-	[self updateCursor];
-}
-
 - (void) postListDidUpdateNotification : (int) mask;
 {
 	id		obj_;
@@ -787,7 +771,7 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 	if( [self isFavorites] || [self isSmartItem] ) {
 		if(forceDL) {
 			[mTaskLock lock];
-			mTask = [[BSBoardListItemHEADCheckTask alloc] initWithBoardListItem:[self boardListItem]];
+			mTask = [[BSBoardListItemHEADCheckTask alloc] initWithThreadList:self];
 			[worker push:mTask];
 			[mTaskLock unlock];
 		} else {
@@ -795,7 +779,7 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 		}
 	} else {
 		[mTaskLock lock];
-		mTask = [[BSThreadsListOPTask alloc] initWithBBSName:[self boardName] forceDownload:forceDL];
+		mTask = [[BSThreadsListOPTask alloc] initWithThreadList:self forceDownload:forceDL];
 		[worker push : mTask];
 		[mTaskLock unlock];
 	}

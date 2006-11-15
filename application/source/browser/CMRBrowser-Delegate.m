@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.23 2006/11/07 12:50:31 masakih Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.24 2006/11/15 14:41:18 masakih Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -233,7 +233,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 {
 	NSString		*theId_;
 	NSString		*currentBoard_;
-	CMRThreadsList	*currentList_;
+	BSDBThreadList	*currentList_;
 	
 	theId_ = [tableColumn identifier];
 	currentBoard_ = [[self currentThreadsList] boardName];
@@ -446,7 +446,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 
 - (void) threadsListDidChange : (NSNotification *) notification
 {
-	CMRThreadsList	*currentList;
+	BSDBThreadList	*currentList;
 
 	currentList = [self currentThreadsList];	
 

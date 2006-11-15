@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.h,v 1.2 2006/11/05 12:53:47 tsawada2 Exp $
+  * $Id: Browser.h,v 1.3 2006/11/15 14:41:18 masakih Exp $
   * 
   * Browser.h
   *
@@ -10,20 +10,20 @@
 #import "CocoMonar_Prefix.h"
 #import "CMRAbstructThreadDocument.h"
 
-@class CMRThreadsList;
+@class CMRThreadsList, BSDBThreadList;
 
 
 
 @interface Browser : CMRAbstructThreadDocument
 {
 	@private
-	CMRThreadsList			*m_currentThreadsList;
+	BSDBThreadList			*m_currentThreadsList;
 	NSString				*m_searchString;
 }
 - (NSURL *) boardURL;
 
-- (CMRThreadsList *) currentThreadsList;
-- (void) setCurrentThreadsList : (CMRThreadsList *) newList;
+- (BSDBThreadList *) currentThreadsList;
+- (void) setCurrentThreadsList : (BSDBThreadList *) newList;
 
 - (void) reloadThreadsList;
 

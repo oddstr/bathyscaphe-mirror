@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.16 2006/11/07 12:50:31 masakih Exp $
+  * $Id: CMRBrowser-List.m,v 1.17 2006/11/15 14:41:18 masakih Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -22,11 +22,11 @@
 	[self clearSearchFilter];
 	[self synchronizeWindowTitleWithDocumentName];
 }
-- (CMRThreadsList *) currentThreadsList
+- (BSDBThreadList *) currentThreadsList
 {
 	return [[self document] currentThreadsList];
 }
-- (void) setCurrentThreadsList : (CMRThreadsList *) newList
+- (void) setCurrentThreadsList : (BSDBThreadList *) newList
 {
 	[self exchangeNotificationObserver :
 						CMRThreadsListDidUpdateNotification
@@ -61,7 +61,7 @@
 }
 - (void) showThreadsListWithBoardName : (NSString *) boardName
 {
-	CMRThreadsList		*list_;
+	BSDBThreadList		*list_;
 	NSString			*sortColumnIdentifier_;
 	BOOL				isAscending_;
 	
@@ -205,7 +205,7 @@ static NSImage *fnc_indicatorImageWithDirection(BOOL isAscending)
 - (unsigned) selectRowWithThreadPath : (NSString *) filepath
                 byExtendingSelection : (BOOL      ) flag
 {
-	CMRThreadsList	*tlist_ = [self currentThreadsList];
+	BSDBThreadList	*tlist_ = [self currentThreadsList];
 	NSTableView		*tview_ = [self threadsListTable];
 	NSIndexSet		*indexes_;
 	unsigned int	index_;

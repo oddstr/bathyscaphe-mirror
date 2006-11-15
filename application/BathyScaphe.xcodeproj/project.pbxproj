@@ -1111,10 +1111,8 @@
 		F4FEF9F70AFF89BB0099853B /* BSThreadListUpdateTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F411498509DABFD500DDF200 /* BSThreadListUpdateTask.m */; };
 		F4FEF9F80AFF89BD0099853B /* BSDBThreadsListDBUpdateTask2.m in Sources */ = {isa = PBXBuildFile; fileRef = F41308AD0A8E279300740620 /* BSDBThreadsListDBUpdateTask2.m */; };
 		F4FEF9F90AFF89BE0099853B /* SmartCondition.m in Sources */ = {isa = PBXBuildFile; fileRef = F47A66D60AFF807100EB5137 /* SmartCondition.m */; };
-		F4FEF9FA0AFF89C10099853B /* BSDBThreadsListUpdateTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F41308AF0A8E279300740620 /* BSDBThreadsListUpdateTask.m */; };
 		F4FEF9FB0AFF89C10099853B /* SmartCondition.h in Headers */ = {isa = PBXBuildFile; fileRef = F47A66D50AFF807100EB5137 /* SmartCondition.h */; };
 		F4FEF9FC0AFF89C30099853B /* FavoritesBoardListItem.h in Headers */ = {isa = PBXBuildFile; fileRef = F47A66C90AFF807100EB5137 /* FavoritesBoardListItem.h */; };
-		F4FEF9FD0AFF89C30099853B /* BSDBThreadsListUpdateTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F41308AE0A8E279300740620 /* BSDBThreadsListUpdateTask.h */; };
 		F4FEF9FE0AFF89C40099853B /* SmartBLIEditorHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F47A66CE0AFF807100EB5137 /* SmartBLIEditorHelper.m */; };
 		F4FEF9FF0AFF89C50099853B /* FolderBoardListItem.h in Headers */ = {isa = PBXBuildFile; fileRef = F47A66CB0AFF807100EB5137 /* FolderBoardListItem.h */; };
 		F4FEFA000AFF89C80099853B /* DatabaseManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F47A66D80AFF808D00EB5137 /* DatabaseManager.h */; };
@@ -3879,7 +3877,6 @@
 				F4FEF9F00AFF89AD0099853B /* ConcreteBoardListItem.h in Headers */,
 				F4FEF9FB0AFF89C10099853B /* SmartCondition.h in Headers */,
 				F4FEF9FC0AFF89C30099853B /* FavoritesBoardListItem.h in Headers */,
-				F4FEF9FD0AFF89C30099853B /* BSDBThreadsListUpdateTask.h in Headers */,
 				F4FEF9FF0AFF89C50099853B /* FolderBoardListItem.h in Headers */,
 				F4FEFA000AFF89C80099853B /* DatabaseManager.h in Headers */,
 				F4FEFA020AFF89CB0099853B /* BoardListItem.h in Headers */,
@@ -4834,7 +4831,6 @@
 				F4FEF9F70AFF89BB0099853B /* BSThreadListUpdateTask.m in Sources */,
 				F4FEF9F80AFF89BD0099853B /* BSDBThreadsListDBUpdateTask2.m in Sources */,
 				F4FEF9F90AFF89BE0099853B /* SmartCondition.m in Sources */,
-				F4FEF9FA0AFF89C10099853B /* BSDBThreadsListUpdateTask.m in Sources */,
 				F4FEF9FE0AFF89C40099853B /* SmartBLIEditorHelper.m in Sources */,
 				F4FEFA010AFF89CA0099853B /* AbstractDBBoardListItem.m in Sources */,
 				F4FEFA030AFF89CC0099853B /* ConcreteBoardListItem.m in Sources */,

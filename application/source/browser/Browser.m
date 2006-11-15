@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.m,v 1.15 2006/11/07 12:50:31 masakih Exp $
+  * $Id: Browser.m,v 1.16 2006/11/15 14:41:18 masakih Exp $
   * BathyScaphe 
   *
   * Copyright 2005-2006 BathyScaphe Project.
@@ -34,12 +34,12 @@
 	return [[self currentThreadsList] boardURL];
 }
 
-- (CMRThreadsList *) currentThreadsList
+- (BSDBThreadList *) currentThreadsList
 {
 	return m_currentThreadsList;
 }
 
-- (void) setCurrentThreadsList : (CMRThreadsList *) aCurrentThreadsList
+- (void) setCurrentThreadsList : (BSDBThreadList *) aCurrentThreadsList
 {
 	id tmp;
 	
@@ -73,7 +73,7 @@
 
 - (NSString *) displayName
 {
-	CMRThreadsList		*list_;
+	BSDBThreadList		*list_;
 	
 	list_ = [self currentThreadsList];
 	return list_ ? [list_ boardName] : nil;

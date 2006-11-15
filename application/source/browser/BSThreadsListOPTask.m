@@ -9,7 +9,6 @@
 #import "BSThreadsListOPTask.h"
 
 #import "BSDownloadTask.h"
-#import "BSDBThreadsListUpdateTask.h"
 #import "BSDBThreadsListDBUpdateTask2.h"
 
 #import "CMRTaskManager.h"
@@ -19,32 +18,24 @@
 #import "CMRHostHandler.h"
 
 @implementation BSThreadsListOPTask
-
-+ (id)taskWithBBSName:(NSString *)name forceDownload:(BOOL)forceDownload
++ (id)taskWithThreadList:(BSDBThreadList *)list forceDownload:(BOOL)forceDownload
 {
-	return [[[[self class] alloc] initWithBBSName:name forceDownload:forceDownload] autorelease];
+	return [[[[self class] alloc] initWithThreadList:list forceDownload:forceDownload] autorelease];
 }
-- (id)initWithBBSName:(NSString *)name forceDownload:(BOOL)forceDownload
+- (id)initWithThreadList:(BSDBThreadList *)list forceDownload:(BOOL)forceDownload
 {
 	if(self = [super init]) {
-		if(!name || ![name isKindOfClass:[NSString class]]) goto fail;
-		
-		id u = [[BoardManager defaultManager] URLForBoardName:name];
-		u = [NSURL URLWithString : CMRAppSubjectTextFileName
-				   relativeToURL : u];
-		if(!u) goto fail;
-		
-		bbsName = [name retain];
-		[self setURL:u];
+		targetList = [list retain];
 		forceDL = forceDownload;
+		[self setBoardName:[list boardName]];
+		
+		if(![self boardName]) goto fail;
 	}
 	
 	return self;
-	
-fail:{
+fail:
 	[self release];
 	return nil;
-}
 }
 
 - (void)dealloc
@@ -53,10 +44,10 @@ fail:{
 	
 	[targetURL release];
 	[dlTask release];
-	[dbloadTask release];
 	[dbupTask release];
 	[downloadData release];
 	[bbsName release];
+	[targetList release];
 	
 	[super dealloc];
 }
@@ -71,6 +62,23 @@ fail:{
 - (NSURL *)url
 {
 	return targetURL;
+}
+- (void)setBoardName:(NSString *)name
+{
+	id u = [[BoardManager defaultManager] URLForBoardName:name];
+	u = [NSURL URLWithString : CMRAppSubjectTextFileName
+			   relativeToURL : u];
+	if(!u) return;
+	
+	id temp = bbsName;
+	bbsName = [name retain];
+	[temp release];
+	
+	[self setURL:u];
+}
+- (NSString *)boardName
+{
+	return bbsName;
 }
 
 #pragma mark-
@@ -102,25 +110,10 @@ fail:{
 	
 	return dlTask;
 }
-- (id)makeUpdateTask
-{
-	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-	
-	dbloadTask = [[BSDBThreadsListUpdateTask alloc] initWithBBSName:bbsName];
-	[nc addObserver:self
-		   selector:@selector(dbloadDidFinishUpdateNotification:)
-			   name:BSDBThreadsListUpdateTaskDidFinishNotification
-			 object:dbloadTask];
-	
-	return dbloadTask;
-}
 
 #pragma mark-
 - (void) doExecuteWithLayout : (CMRThreadLayout *) layout
 {
-	dbloadTask = [self makeUpdateTask];
-//	[dbloadTask run];
-	
 	[self checkIsInterrupted];
 	if([CMRPref isOnlineMode] || forceDL) {
 		dlTask = [self makeDownloadTask];
@@ -144,7 +137,7 @@ fail:{
 		}
 	}
 	
-	[dbloadTask run];
+	[targetList updateCursor];
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -158,10 +151,6 @@ fail:{
 - (void)dlDidFinishDownlocadNotification:(id)notification
 {
 	downloadData = [[[notification object] receivedData] retain];
-}
-- (void)dbloadDidFinishUpdateNotification:(id)notification
-{
-	//
 }
 -(void)dlCancelDownlocadNotification:(id)notification
 {
@@ -193,7 +182,6 @@ fail:{
 -(IBAction)cancel:(id)sender
 {
 	[dlTask cancel:self];
-	[dbloadTask cancel:self];
 	
 	[super cancel:sender];
 }

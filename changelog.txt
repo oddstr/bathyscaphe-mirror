@@ -1,4 +1,16 @@
 2006-11-15 masakih <masakih@users.sourceforge.jp>
+	* application/BathyScaphe.xcodeproj/project.pbxproj
+		application/source/browser/BSDBThreadsListUpdateTask.[h|m]
+		をターゲットから外した。
+	* application/source/browser/BSBoardListItemHEADCheckTask.[h|m]
+	* application/source/browser/BSDBThreadList.[h|m]
+	* application/source/browser/BSThreadsListOPTask.[h|m]
+		スレッド一覧の表示更新部分を分かりやすくした。
+	* application/source/browser/Browser.[h|m]
+	* application/source/browser/CMRBrowser-Delegate.m
+	* application/source/browser/CMRBrowser-List.m
+	* application/source/browser/CMRBrowser.[h|m]
+		警告抑止のため CMRThreadList -> BSDBThreadList に変更。
 	* application/source/browser/BSDBThreadList.[h|m]
 	* application/source/browser/BSDBThreadsListUpdateTask.m
 		スレッド一覧表示の適正化。

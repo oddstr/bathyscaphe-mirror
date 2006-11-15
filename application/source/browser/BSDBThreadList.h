@@ -42,6 +42,7 @@
 - (id) boardListItem;
 - (id) searchString;
 - (id) sortKey;
+- (NSArray *)sortDescriptors;
 - (ThreadStatus) status;
 
 - (void) updateCursor;

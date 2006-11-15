@@ -8,29 +8,32 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "BSDBThreadList.h"
+
 #import "CMRTask.h"
 #import "CMXWorkerContext.h"
 
 #import "CMRThreadLayoutTask.h"
 
-@class BSDownloadTask,BSDBThreadsListUpdateTask, BSDBThreadsListDBUpdateTask2;
+@class BSDownloadTask, BSDBThreadsListDBUpdateTask2;
 
 @interface BSThreadsListOPTask : CMRThreadLayoutConcreateTask //NSObject <CMRTask, CMXRunnable>
 {
+	BSDBThreadList *targetList;
 	BOOL forceDL;
 	
 	NSURL *targetURL;
 	NSString *bbsName;
 	BSDownloadTask *dlTask;
-	BSDBThreadsListUpdateTask *dbloadTask;
 	BSDBThreadsListDBUpdateTask2 *dbupTask;
 	
 	NSData *downloadData;
 }
 
-+ (id)taskWithBBSName:(NSString *)bbsName forceDownload:(BOOL)forceDL;
-- (id)initWithBBSName:(NSString *)bbsName forceDownload:(BOOL)forceDL;
++ (id)taskWithThreadList:(BSDBThreadList *)list forceDownload:(BOOL)forceDL;
+- (id)initWithThreadList:(BSDBThreadList *)list forceDownload:(BOOL)forceDL;
 
-- (void)setURL:(NSURL *)url;
-- (NSURL *)url;
+- (void)setBoardName:(NSString *)name;
+- (NSString *)boardName;
+
 @end

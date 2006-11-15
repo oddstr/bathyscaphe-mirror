@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.h,v 1.23 2006/11/07 12:50:31 masakih Exp $
+  * $Id: CMRBrowser.h,v 1.24 2006/11/15 14:41:18 masakih Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -10,7 +10,7 @@
 
 @class BSKFSplitView;
 @class ThreadsListTable;
-@class CMRThreadsList;
+@class CMRThreadsList, BSDBThreadList;
 @class CMRAccessorySheetController;
 @class AddBoardSheetController;
 @class EditBoardSheetController;
@@ -92,8 +92,8 @@ typedef enum _BSThreadDeletionType {
 @interface CMRBrowser(List)
 - (void) changeThreadsFilteringMask : (int) aMask;
 
-- (CMRThreadsList *) currentThreadsList;
-- (void) setCurrentThreadsList : (CMRThreadsList *) newList;
+- (BSDBThreadList *) currentThreadsList;
+- (void) setCurrentThreadsList : (BSDBThreadList *) newList;
 
 - (void) showThreadsListForBoard : (id) board;
 - (void) showThreadsListWithBoardName : (NSString *) boardName;

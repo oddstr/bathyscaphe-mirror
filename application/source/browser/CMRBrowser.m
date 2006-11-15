@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.27 2006/11/05 12:53:47 tsawada2 Exp $
+  * $Id: CMRBrowser.m,v 1.28 2006/11/15 14:41:18 masakih Exp $
   * 
   * CMRBrowser.m
   *
@@ -249,7 +249,7 @@ static BOOL threadDictionaryCompare(NSDictionary *dict1, NSDictionary *dict2)
 	NSEnumerator	*indexIter_;
 	NSMutableArray	*threads_;
 	NSNumber		*indexNum_;
-	CMRThreadsList	*threadsList_;
+	BSDBThreadList	*threadsList_;
 	
 	// 選択していないが表示しているかもしれない
 	// しかし、このメソッドは「真に選択されている」ものしか返さない(see selectedThreads)
