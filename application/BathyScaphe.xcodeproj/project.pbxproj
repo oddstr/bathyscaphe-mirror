@@ -1868,8 +1868,6 @@
 		F411498509DABFD500DDF200 /* BSThreadListUpdateTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSThreadListUpdateTask.m; sourceTree = "<group>"; };
 		F41308AC0A8E279300740620 /* BSDBThreadsListDBUpdateTask2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSDBThreadsListDBUpdateTask2.h; sourceTree = "<group>"; };
 		F41308AD0A8E279300740620 /* BSDBThreadsListDBUpdateTask2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSDBThreadsListDBUpdateTask2.m; sourceTree = "<group>"; };
-		F41308AE0A8E279300740620 /* BSDBThreadsListUpdateTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSDBThreadsListUpdateTask.h; sourceTree = "<group>"; };
-		F41308AF0A8E279300740620 /* BSDBThreadsListUpdateTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSDBThreadsListUpdateTask.m; sourceTree = "<group>"; };
 		F41308B00A8E279300740620 /* BSDownloadTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSDownloadTask.h; sourceTree = "<group>"; };
 		F41308B10A8E279300740620 /* BSDownloadTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSDownloadTask.m; sourceTree = "<group>"; };
 		F41308B80A8E27A400740620 /* BSThreadsListOPTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSThreadsListOPTask.h; sourceTree = "<group>"; };
@@ -1965,10 +1963,6 @@
 		F486FC640A8F69EA00D44828 /* BSBoardListItemHEADCheckTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSBoardListItemHEADCheckTask.m; sourceTree = "<group>"; };
 		F49CCDF30849B87500835BE3 /* BSScriptsMenuManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSScriptsMenuManager.h; sourceTree = "<group>"; };
 		F49CCDF40849B87500835BE3 /* BSScriptsMenuManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSScriptsMenuManager.m; sourceTree = "<group>"; };
-		F4E8FADC09DAE1F0006F453C /* BSThreadListDBUpdateTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSThreadListDBUpdateTask.h; sourceTree = "<group>"; };
-		F4E8FADD09DAE1F0006F453C /* BSThreadListDBUpdateTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSThreadListDBUpdateTask.m; sourceTree = "<group>"; };
-		F4E8FB5C09DAEA55006F453C /* BSThreadListCollectAllThreadAttrTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSThreadListCollectAllThreadAttrTask.h; sourceTree = "<group>"; };
-		F4E8FB5D09DAEA55006F453C /* BSThreadListCollectAllThreadAttrTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSThreadListCollectAllThreadAttrTask.m; sourceTree = "<group>"; };
 		F4FEFB400AFF9CD90099853B /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/SmartBoardItemEditor.nib; sourceTree = "<group>"; };
 		F4FEFB430AFF9CE80099853B /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/SmartBLIEditorComponents.nib; sourceTree = "<group>"; };
 		F4FEFB460AFF9CFC0099853B /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Japanese; path = Japanese.lproj/ConditionTypes.plist; sourceTree = "<group>"; };
@@ -2486,16 +2480,10 @@
 				F41308B90A8E27A400740620 /* BSThreadsListOPTask.m */,
 				F41308AC0A8E279300740620 /* BSDBThreadsListDBUpdateTask2.h */,
 				F41308AD0A8E279300740620 /* BSDBThreadsListDBUpdateTask2.m */,
-				F41308AE0A8E279300740620 /* BSDBThreadsListUpdateTask.h */,
-				F41308AF0A8E279300740620 /* BSDBThreadsListUpdateTask.m */,
 				F41308B00A8E279300740620 /* BSDownloadTask.h */,
 				F41308B10A8E279300740620 /* BSDownloadTask.m */,
 				F47F6EDB09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.h */,
 				F47F6EDC09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.m */,
-				F4E8FB5C09DAEA55006F453C /* BSThreadListCollectAllThreadAttrTask.h */,
-				F4E8FB5D09DAEA55006F453C /* BSThreadListCollectAllThreadAttrTask.m */,
-				F4E8FADC09DAE1F0006F453C /* BSThreadListDBUpdateTask.h */,
-				F4E8FADD09DAE1F0006F453C /* BSThreadListDBUpdateTask.m */,
 				F411498409DABFD500DDF200 /* BSThreadListUpdateTask.h */,
 				F411498509DABFD500DDF200 /* BSThreadListUpdateTask.m */,
 				87CD85CA098170ED002C4372 /* BSFavoritesHEADCheckTask.h */,

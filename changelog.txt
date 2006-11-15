@@ -1,7 +1,8 @@
 2006-11-15 masakih <masakih@users.sourceforge.jp>
-	* application/BathyScaphe.xcodeproj/project.pbxproj
-		application/source/browser/BSDBThreadsListUpdateTask.[h|m]
-		をターゲットから外した。
+	* application/source/browser/BSDBThreadsListUpdateTask.[h|m]
+	* application/source/browser/BSThreadListCollectAllThreadAttrTask.[h|m]
+	* application/source/browser/BSThreadListDBUpdateTask.[h|m]
+		[削除] リファクタリングにより不要になったため。
 	* application/source/browser/BSBoardListItemHEADCheckTask.[h|m]
 	* application/source/browser/BSDBThreadList.[h|m]
 	* application/source/browser/BSThreadsListOPTask.[h|m]
