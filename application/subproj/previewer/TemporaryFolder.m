@@ -32,7 +32,10 @@
 		
 		do {
 			NSString *folderName;
-			folderName = [NSString stringWithFormat: @"%@.%d", appName, [[NSDate date] timeIntervalSince1970]];
+			folderName = [NSString stringWithFormat:@"%@-%@",
+				appName, 
+				[[NSCalendarDate dateWithTimeIntervalSinceNow:0.0]
+							descriptionWithCalendarFormat:@"%Y%m%d%H%M%S%F"] ];
 			_path = [tmpDir stringByAppendingPathComponent:folderName];
 			
 			if( ![fm fileExistsAtPath:_path] &&

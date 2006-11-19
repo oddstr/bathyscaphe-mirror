@@ -141,6 +141,63 @@ int sqlite3_open_file_count = 0;
 ** If neither memory-management or debugging is enabled, the second
 ** set of implementations is used instead.
 */
+
+#ifdef USE_NSZONE_MALLOC
+#import <Foundation/NSZone.h>
+
+static NSZone *__malloc__zone = NULL;
+
+inline void setSQLiteZone( NSZone *zone )
+{
+	__malloc__zone = zone;
+}
+
+static inline void *malloc_osx( unsigned n )
+{
+	NSZone *zone;
+	
+	if( !__malloc__zone ) {
+		zone = NSDefaultMallocZone();
+	} else {
+		zone = __malloc__zone;
+	}
+	
+	return NSZoneMalloc( zone, n );
+}
+
+static inline void *realloc_osx( void *p, unsigned n )
+{
+	NSZone *zone;
+	
+	if( !__malloc__zone ) {
+		zone = NSDefaultMallocZone();
+	} else {
+		zone = __malloc__zone;
+	}
+	
+	return NSZoneRealloc( zone, p, n );
+}
+
+static inline void free_osx( void *p )
+{
+	NSZone *zone;
+	
+	if( !__malloc__zone ) {
+		zone = NSDefaultMallocZone();
+	} else {
+		zone = __malloc__zone;
+	}
+	
+	return NSZoneFree( zone, p );
+}
+
+#define malloc malloc_osx
+#define realloc realloc_osx
+#define free free_osx
+
+#endif 
+/* end defined USE_NSZONE_MALLOC */
+
 #if defined(SQLITE_ENABLE_MEMORY_MANAGEMENT) || defined (SQLITE_MEMDEBUG)
 void *sqlite3GenericMalloc(int n){
   char *p = (char *)malloc(n+8);
@@ -185,4 +242,12 @@ void sqlite3GenericFree(void *p){
 }
 /* Never actually used, but needed for the linker */
 int sqlite3GenericAllocationSize(void *p){ return 0; }
+#endif
+
+#ifdef USE_NSZONE_MALLOC
+
+#undef malloc
+#undef realloc
+#undef free
+
 #endif

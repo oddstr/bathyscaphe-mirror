@@ -1,3 +1,16 @@
+2006-11-19 masakih <masakih@users.sourceforge.jp>
+	* application/Info-bs-another-story.plist
+		DockMenu 追加。
+	* application/source/browser/BSBoardListItemHEADCheckTask.m
+	* application/source/browser/BSDBThreadList.m
+	* application/source/browser/BSThreadListUpdateTask.m
+	* application/source/browser/BSThreadsListOPTask.m
+		メモリリーク解消。
+	* application/subproj/previewer/TemporaryFolder.m
+		一意ファイル名の生成精度を元に戻した。
+	* misc/sqlite/os_common.h
+	* misc/sqlite/util.c
+		alloc系関数の上書きコードを移動。
 2006-11-15 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSDBThreadsListUpdateTask.[h|m]
 	* application/source/browser/BSThreadListCollectAllThreadAttrTask.[h|m]

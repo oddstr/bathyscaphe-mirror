@@ -25,7 +25,7 @@
 - (id)initWithThreadList:(BSDBThreadList *)list forceDownload:(BOOL)forceDownload
 {
 	if(self = [super init]) {
-		targetList = [list retain];
+		targetList = list; //[list retain];
 		forceDL = forceDownload;
 		[self setBoardName:[list boardName]];
 		
@@ -47,7 +47,7 @@ fail:
 	[dbupTask release];
 	[downloadData release];
 	[bbsName release];
-	[targetList release];
+//	[targetList release];
 	
 	[super dealloc];
 }

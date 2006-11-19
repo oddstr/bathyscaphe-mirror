@@ -1897,8 +1897,8 @@
 		F47A66670AFF7EFA00EB5137 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = main.c; path = ../misc/sqlite/main.c; sourceTree = SOURCE_ROOT; };
 		F47A66680AFF7EFA00EB5137 /* opcodes.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = opcodes.c; path = ../misc/sqlite/opcodes.c; sourceTree = SOURCE_ROOT; };
 		F47A66690AFF7EFA00EB5137 /* opcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = opcodes.h; path = ../misc/sqlite/opcodes.h; sourceTree = SOURCE_ROOT; };
-		F47A666A0AFF7EFA00EB5137 /* os_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = os_common.h; path = ../misc/sqlite/os_common.h; sourceTree = SOURCE_ROOT; };
-		F47A666B0AFF7EFA00EB5137 /* os_unix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = os_unix.c; path = ../misc/sqlite/os_unix.c; sourceTree = SOURCE_ROOT; };
+		F47A666A0AFF7EFA00EB5137 /* os_common.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = os_common.h; path = ../misc/sqlite/os_common.h; sourceTree = SOURCE_ROOT; };
+		F47A666B0AFF7EFA00EB5137 /* os_unix.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = os_unix.c; path = ../misc/sqlite/os_unix.c; sourceTree = SOURCE_ROOT; };
 		F47A666C0AFF7EFA00EB5137 /* os.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = os.c; path = ../misc/sqlite/os.c; sourceTree = SOURCE_ROOT; };
 		F47A666D0AFF7EFA00EB5137 /* os.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = os.h; path = ../misc/sqlite/os.h; sourceTree = SOURCE_ROOT; };
 		F47A666E0AFF7EFA00EB5137 /* pager.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pager.c; path = ../misc/sqlite/pager.c; sourceTree = SOURCE_ROOT; };
@@ -1917,7 +1917,7 @@
 		F47A667B0AFF7EFA00EB5137 /* trigger.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = trigger.c; path = ../misc/sqlite/trigger.c; sourceTree = SOURCE_ROOT; };
 		F47A667C0AFF7EFA00EB5137 /* update.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = update.c; path = ../misc/sqlite/update.c; sourceTree = SOURCE_ROOT; };
 		F47A667D0AFF7EFA00EB5137 /* utf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = utf.c; path = ../misc/sqlite/utf.c; sourceTree = SOURCE_ROOT; };
-		F47A667E0AFF7EFA00EB5137 /* util.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = util.c; path = ../misc/sqlite/util.c; sourceTree = SOURCE_ROOT; };
+		F47A667E0AFF7EFA00EB5137 /* util.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = util.c; path = ../misc/sqlite/util.c; sourceTree = SOURCE_ROOT; };
 		F47A667F0AFF7EFA00EB5137 /* vacuum.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = vacuum.c; path = ../misc/sqlite/vacuum.c; sourceTree = SOURCE_ROOT; };
 		F47A66800AFF7EFA00EB5137 /* vdbe.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = vdbe.c; path = ../misc/sqlite/vdbe.c; sourceTree = SOURCE_ROOT; };
 		F47A66810AFF7EFA00EB5137 /* vdbe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vdbe.h; path = ../misc/sqlite/vdbe.h; sourceTree = SOURCE_ROOT; };

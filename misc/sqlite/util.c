@@ -14,68 +14,12 @@
 ** This file contains functions for allocating memory, comparing
 ** strings, and stuff like that.
 **
-** $Id: util.c,v 1.3 2006/10/17 13:23:19 masakih Exp $
+** $Id: util.c,v 1.4 2006/11/19 13:23:48 masakih Exp $
 */
 #include "sqliteInt.h"
 #include "os.h"
 #include <stdarg.h>
 #include <ctype.h>
-
-#ifdef USE_NSZONE_MALLOC
-#import <Foundation/NSZone.h>
-
-static NSZone *__malloc__zone = NULL;
-
-inline void setSQLiteZone( NSZone *zone )
-{
-	__malloc__zone = zone;
-}
-
-static inline void *malloc_osx( unsigned n )
-{
-	NSZone *zone;
-	
-	if( !__malloc__zone ) {
-		zone = NSDefaultMallocZone();
-	} else {
-		zone = __malloc__zone;
-	}
-	
-	return NSZoneMalloc( zone, n );
-}
-
-static inline void *realloc_osx( void *p, unsigned n )
-{
-	NSZone *zone;
-	
-	if( !__malloc__zone ) {
-		zone = NSDefaultMallocZone();
-	} else {
-		zone = __malloc__zone;
-	}
-	
-	return NSZoneRealloc( zone, p, n );
-}
-
-static inline void free_osx( void *p )
-{
-	NSZone *zone;
-	
-	if( !__malloc__zone ) {
-		zone = NSDefaultMallocZone();
-	} else {
-		zone = __malloc__zone;
-	}
-	
-	return NSZoneFree( zone, p );
-}
-
-#define malloc malloc_osx
-#define realloc realloc_osx
-#define free free_osx
-
-#endif 
-/* end defined USE_NSZONE_MALLOC */
 
 /*
 ** MALLOC WRAPPER ARCHITECTURE
@@ -120,9 +64,7 @@ static inline void free_osx( void *p )
 **     * Audit outstanding memory allocations (i.e check for leaks).
 */
 
-#ifndef MAX
 #define MAX(x,y) ((x)>(y)?(x):(y))
-#endif
 
 #if defined(SQLITE_ENABLE_MEMORY_MANAGEMENT) && !defined(SQLITE_OMIT_DISKIO)
 /*
@@ -1540,12 +1482,4 @@ void sqlite3MallocAllow(){
   assert( sqlite3_mallocDisallowed>0 );
   sqlite3_mallocDisallowed--;
 }
-#endif
-
-#ifdef USE_NSZONE_MALLOC
-
-#undef malloc
-#undef realloc
-#undef free
-
 #endif

@@ -186,8 +186,8 @@
 		mSortDescriptors = [[NSMutableArray array] retain];
 	}
 	
+	// 同じキーのNSSortDescriptorを取り除く
 	id key = [inDesc key];
-	
 	int i, c; id o;
 	for(i = 0,c = [mSortDescriptors count]; i < c; i++) {
 		o = [mSortDescriptors objectAtIndex:i];
@@ -237,7 +237,6 @@
 	
 	UTILNotifyName(CMRThreadsListDidChangeNotification);
 }
-
 - (void)didFinishiCreateCursor:(id)notification
 {
 	id obj = [notification object];

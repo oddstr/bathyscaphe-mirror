@@ -33,7 +33,7 @@ static BOOL shouldCheckItemHeader(id dict);
 - (id)initWithThreadList:(BSDBThreadList *)list
 {
 	if(self = [super init]) {
-		targetList = [list retain];
+		targetList = list; //[list retain];
 		item = [[list boardListItem] retain];
 	}
 	
@@ -42,7 +42,10 @@ static BOOL shouldCheckItemHeader(id dict);
 
 - (void)dealloc
 {
+//	[targetList release];
 	[item release];
+	[amountString release];
+	[descString release];
 	
 	[super dealloc];
 }

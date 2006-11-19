@@ -33,6 +33,7 @@ NSString *BSThreadListUpdateTaskDidFinishNotification = @"BSThreadListUpdateTask
 - (void)dealloc
 {
 //	[target release];
+	[cursor release];
 	
 	[super dealloc];
 }
