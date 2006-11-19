@@ -1,4 +1,10 @@
 2006-11-19 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/ThreadsList.strings
+	* application/source/browser/w2chFavoriteItemList.m
+		「お気に入り」からスレッドをドラッグ＆ドロップする場合も、通常のスレッド一覧と同等のデータを
+		ペーストボードに入れるようにした。
+		また、「お気に入り」からゴミ箱にドラッグ＆ドロップした場合は、お気に入りだけでなくログファイルが削除
+		されることを警告するアラートを表示するようにした。
 	* application/source/bbs/BoardList-OVDataSource.m
 		掲示板リストにスレッドをドラッグ＆ドロップして「お気に入り」に追加しようとする場合に、
 		そのスレッドが既に「お気に入り」に登録されている場合はドロップを受け付けないように視覚的フィードバックを改善。

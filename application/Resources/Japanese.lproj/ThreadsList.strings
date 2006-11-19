@@ -15,3 +15,7 @@
 "Cancel" = "OK";
 "%@ are not added to your Boards List." = "同じ名前の掲示板を重複して登録することはできません。よって、%@ は掲示板リストに追加できませんでした。";
 
+"DragDropTrashAlert" = "ゴミ箱にドラッグしたスレッドのログを削除してもよろしいですか？";
+"DragDropTrashMessage" = "“お気に入り” からゴミ箱にドラッグした場合、そのスレッドが “お気に入り” から削除されるだけでなく、ログファイルもゴミ箱に移動されます。";
+"DragDropTrashOK" = "OK";
+"DragDropTrashCancel" = "キャンセル";

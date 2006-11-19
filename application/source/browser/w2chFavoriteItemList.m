@@ -1,5 +1,5 @@
 /**
-  * $Id: w2chFavoriteItemList.m,v 1.9.4.4 2006/11/19 04:12:59 tsawada2 Exp $
+  * $Id: w2chFavoriteItemList.m,v 1.9.4.5 2006/11/19 08:36:32 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -148,7 +148,11 @@
 
 - (BOOL) tableView: (NSTableView *) tableView writeRowsWithIndexes: (NSIndexSet *) rowIndexes toPasteboard: (NSPasteboard *) pboard
 {
-	[pboard declareTypes: [NSArray arrayWithObjects: BSFavoritesIndexSetPboardType, nil] owner: self];
+	if ([super tableView: tableView writeRowsWithIndexes: rowIndexes toPasteboard: pboard]) {
+		[pboard addTypes: [NSArray arrayWithObject: BSFavoritesIndexSetPboardType] owner: self];
+	} else {
+		[pboard declareTypes: [NSArray arrayWithObjects: BSFavoritesIndexSetPboardType, nil] owner: self];
+	}
 	[pboard setData: [NSArchiver archivedDataWithRootObject: rowIndexes] forType: BSFavoritesIndexSetPboardType];
 	return YES;
 }
@@ -342,11 +346,31 @@
 @end
 
 @implementation w2chFavoriteItemList(NSDraggingSource)
-- (unsigned int) draggingSourceOperationMaskForLocal : (BOOL) localFlag
+- (void) draggedImage: (NSImage	   *) anImage
+			  endedAt: (NSPoint		) aPoint
+			operation: (NSDragOperation) operation
 {
-	if(localFlag)
-		return NSDragOperationEvery;
+	NSPasteboard	*pboard_;
+	NSArray			*filenames_;
+	// ÅuÉSÉ~î†ÅvÇ÷ÇÃà⁄ìÆ
+	if(NO == (NSDragOperationDelete & operation)) {
+		return;
+	}
+	pboard_ = [NSPasteboard pasteboardWithName : NSDragPboard];
+	if(NO == [[pboard_ types] containsObject : NSFilenamesPboardType]) {
+		return;
+	}
+
+	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	[alert setAlertStyle: NSWarningAlertStyle];
+	[alert setMessageText: [self localizedString: @"DragDropTrashAlert"]];
+	[alert setInformativeText: [self localizedString: @"DragDropTrashMessage"]];
+	[alert addButtonWithTitle: [self localizedString: @"DragDropTrashOK"]];
+	[alert addButtonWithTitle: [self localizedString: @"DragDropTrashCancel"]];
 	
-	return NSDragOperationNone; // ébíË
+	if (NSAlertFirstButtonReturn == [alert runModal]) {
+		filenames_ = [pboard_ propertyListForType : NSFilenamesPboardType];
+		[self tableView : nil removeFiles : filenames_ delFavIfNecessary : YES];
+	}
 }
 @end
