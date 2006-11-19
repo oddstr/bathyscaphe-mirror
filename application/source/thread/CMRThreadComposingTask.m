@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadComposingTask.m,v 1.2.4.1 2006/11/06 13:24:45 tsawada2 Exp $
+  * $Id: CMRThreadComposingTask.m,v 1.2.4.2 2006/11/19 04:12:59 tsawada2 Exp $
   * 
   * CMRThreadComposingTask.m
   *
@@ -17,7 +17,7 @@
 #define MARKED_RANGE_LENGTH		5
 
 NSString *const CMRThreadComposingDidFinishNotification = @"CMRThreadComposingDidFinishNotification";
-NSString *const CMRThreadComposingCallbackNotification = @"CMRThreadComposingCallbackNotification";
+//NSString *const CMRThreadComposingCallbackNotification = @"CMRThreadComposingCallbackNotification";
 
 
 
@@ -28,9 +28,9 @@ NSString *const CMRThreadComposingCallbackNotification = @"CMRThreadComposingCal
 }
 - (id) init
 {
-	if (self = [super init]) 
+	if (self = [super init]) {
 		[self setCallbackIndex : NSNotFound];
-	
+	}
 	return self;
 }
 - (id) initWithThreadReader : (CMRThreadContentsReader *) aReader
@@ -44,8 +44,8 @@ NSString *const CMRThreadComposingCallbackNotification = @"CMRThreadComposingCal
 {
 	[_threadTitle release];
 	[_reader release];
+
 	_delegate = nil;
-//	[_delegate release];
 	[super dealloc];
 }
 
@@ -103,7 +103,7 @@ NSString *const CMRThreadComposingCallbackNotification = @"CMRThreadComposingCal
 	_callbackIndex = aCallbackIndex;
 }
 
-- (void) postCallbackIndexNotification
+/*- (void) postCallbackIndexNotification
 {
 	[self checkIsInterrupted];
 	if ([self callbackIndex] != NSNotFound) {
@@ -113,7 +113,7 @@ NSString *const CMRThreadComposingCallbackNotification = @"CMRThreadComposingCal
 		[self setCallbackIndex : NSNotFound];
 	}
 	[self checkIsInterrupted];
-}
+}*/
 // 追加して、バッファを消去
 - (void) performsAppendingTextFromBuffer : (NSMutableAttributedString *) aTextBuffer
 {
@@ -164,9 +164,6 @@ NSString *const CMRThreadComposingCallbackNotification = @"CMRThreadComposingCal
 }
 - (void) setDelegate : (id) aDelegate
 {
-	//[aDelegate retain];
-	//[_delegate release];
-
 	_delegate = aDelegate;
 }
 - (BOOL) delegate_willCompleteMessages : (CMRThreadMessageBuffer *) aMessageBuffer

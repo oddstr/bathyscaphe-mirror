@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.15.4.5 2006/11/09 18:11:38 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.15.4.6 2006/11/19 04:12:59 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -10,6 +10,7 @@
 #import "CMXDateFormatter.h"
 #import "CMRReplyDocumentFileManager.h"
 #import "CMRThreadSignature.h"
+#import "NSIndexSet+BSAddition.h"
 
 // Status image
 #define kStatusUpdatedImageName		@"Status_updated"
@@ -203,34 +204,35 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 }
 
 #pragma mark Drag and Drop support
+// Deprecated in Mac OS X 10.4 and later.
 - (BOOL) tableView : (NSTableView  *) tableView
          writeRows : (NSArray      *) rows
       toPasteboard : (NSPasteboard *) pboard
 {
-	NSArray			*types_;
-	NSMutableArray	*filenames_;
-	NSMutableArray	*urls_;
-	NSMutableArray	*thSigs_;
-	
-	NSEnumerator	*iter_;
-	NSNumber		*indexNum_;
-	NSMutableString	*tmp_;
-	
-	filenames_ = [NSMutableArray arrayWithCapacity: [rows count]];
-	urls_ = [NSMutableArray arrayWithCapacity: [rows count]];
-	thSigs_ = [NSMutableArray arrayWithCapacity: [rows count]];
+	NSIndexSet *indexSet = [NSIndexSet rowIndexesWithRows: rows];
+	return [self tableView: tableView writeRowsWithIndexes: indexSet toPasteboard: pboard];
+}
 
-	iter_ = [rows objectEnumerator];
+- (BOOL) tableView: (NSTableView *) tableView writeRowsWithIndexes: (NSIndexSet *) rowIndexes toPasteboard: (NSPasteboard *) pboard
+{
+	NSArray			*types_;
+	unsigned int	numOfRows, index_;
+	NSMutableArray	*filenames_, *urls_, *thSigs_;
+	NSRange			indexRange;
+	NSMutableString	*tmp_;
+
+	numOfRows = [rowIndexes count];
+	filenames_ = [NSMutableArray arrayWithCapacity: numOfRows];
+	urls_ = [NSMutableArray arrayWithCapacity: numOfRows];
+	thSigs_ = [NSMutableArray arrayWithCapacity: numOfRows];
+	indexRange = NSMakeRange(0, [rowIndexes lastIndex]+1);
 	tmp_ = SGTemporaryString();
 
-	while(indexNum_ = [iter_ nextObject]){
+	while ([rowIndexes getIndexes: &index_ maxCount: 1 inIndexRange: &indexRange] > 0) {
 		NSDictionary	*thread_;
-		unsigned int	index_;
-		
 		NSString		*path_;
 		NSURL			*url_;
 
-		index_  = [indexNum_ unsignedIntValue];
 		thread_ = [self threadAttributesAtRowIndex : index_ inTableView : tableView];
 		
 		if (nil == thread_) continue;
@@ -244,14 +246,12 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
         [thSigs_ addObject: [[CMRThreadSignature threadSignatureFromFilepath: path_] propertyListRepresentation]];		
 
 		if([[NSFileManager defaultManager] fileExistsAtPath : path_]){
-			[filenames_ addObject: path_];
-			
+			[filenames_ addObject: path_];			
 		}
 	}
 	
-	// ‘‚«ž‚Ý
 	if([filenames_ count] > 0){
-		types_ = [NSArray arrayWithObjects: NSFilenamesPboardType, NSURLPboardType, NSStringPboardType, BSThreadItemsPboardType, nil];
+		types_ = [NSArray arrayWithObjects: NSURLPboardType, NSStringPboardType,  NSFilenamesPboardType, BSThreadItemsPboardType, nil];
 	}else if([tmp_ length] > 0){
 		types_ = [NSArray arrayWithObjects: NSURLPboardType, NSStringPboardType, BSThreadItemsPboardType, nil];
 	}else{
@@ -535,7 +535,7 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 
 	return pathArray_;
 }
-
+/*
 - (NSArray *) threadFilePathArrayWithRowIndexArray : (NSArray	  *) anIndexArray
 									   inTableView : (NSTableView *) tableView
 {
@@ -557,7 +557,7 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 		[pathArray_ addObject : path_];
 	}
 	return pathArray_;
-}
+}*/
 @end
 
 

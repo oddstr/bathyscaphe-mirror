@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFavoritesManager.h,v 1.5.2.3 2006/08/31 10:18:40 tsawada2 Exp $
+  * $Id: CMRFavoritesManager.h,v 1.5.2.4 2006/11/19 04:12:59 tsawada2 Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
@@ -48,8 +48,10 @@ typedef enum {
 - (BOOL) removeFromFavoritesWithFilePath : (NSString *) filepath;
 
 - (void) removeFromFavoritesWithPathArray : (NSArray *) pathArray_;
-
-- (int) insertFavItemsTo : (int) index withIndexArray : (NSArray *) indexArray_ isAscending : (BOOL) isAscending_;
+// Removed in ReinforceII and later.
+//- (int) insertFavItemsTo : (int) index withIndexArray : (NSArray *) indexArray_ isAscending : (BOOL) isAscending_;
+// Available in ReinforceII and later.
+- (NSIndexSet *) insertFavItemsWithIndexes: (NSIndexSet *) indexSet atIndex: (unsigned int) index isAscending: (BOOL) isAscending;
 
 - (void) addItemToPoolWithFilePath : (NSString *) filepath;
 - (void) removeFromPoolWithFilePath : (NSString *) filepath;

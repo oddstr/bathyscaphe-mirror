@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.30.2.8 2006/11/06 13:24:45 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.30.2.9 2006/11/19 04:12:59 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -472,15 +472,13 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 	[self updateIndexField];
 	[self setInvalidate : NO];
 	
-
 	if ([object_ isKindOfClass : [CMRThreadFileLoadingTask class]]) {
 		// 
 		// ファイルからの読み込み、変換が終了
 		// すでにレイアウトのタスクを開始したので、
 		// オンラインモードなら更新する
 		//		
-
-		if (![CMRPref scrollToLastUpdated]) [self scrollToLastReadedIndex : self]; // ここでいいのかな
+		[self scrollToLastReadedIndex : self]; // その前に最後に読んだ位置までスクロールさせておく
 
 		if(![self isDatOchiThread])
 			[self reloadIfOnlineMode : self];

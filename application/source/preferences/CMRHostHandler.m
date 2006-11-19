@@ -1,6 +1,6 @@
 //: CMRHostHandler.m
 /**
-  * $Id: CMRHostHandler.m,v 1.5 2006/06/01 15:12:33 tsawada2 Exp $
+  * $Id: CMRHostHandler.m,v 1.5.2.1 2006/11/19 04:12:59 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -876,6 +876,35 @@ ErrReadURL:
 	
 ErrReadURL:
 	return nil;
+}
+
+// parsing HTML
+- (void) deleteExtraSpaceAtEndOfNameIfNeeded: (NSMutableString *) str locationHint: (unsigned int) startPoint
+{
+	// JBBS livedoor should override this method
+	[str deleteCharactersInRange: NSMakeRange(startPoint-1, 1)];
+}
+
+- (void) formatHostField: (NSMutableString *) str
+{
+	// JBBS livedoor should override this method
+	// HOST ではなく ID として解釈する（8文字以下の場合）
+	char		c;
+	NSRange		hostPrefixRange_;
+	
+	if (nil == str || [str isEmpty]) return;
+	
+	c = ([str characterAtIndex : ([str length] -1)] & 0x7f);
+	if (c != ']') return;
+	
+	[str deleteCharactersInRange : NSMakeRange([str length] -1, 1)];
+	hostPrefixRange_ = [str rangeOfString:@"[" options:(NSBackwardsSearch | NSLiteralSearch)];
+	if (NSNotFound == hostPrefixRange_.location)
+		return;
+	//NSLog(@"str is '%@'", str);
+	[str replaceCharactersInRange:hostPrefixRange_ withString: ([str length] - hostPrefixRange_.location < 12 ? @"ID:" : @"HOST:")];
+	
+	[str stripAtEnd];
 }
 @end
 

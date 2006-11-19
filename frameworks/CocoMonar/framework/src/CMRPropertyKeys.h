@@ -1,6 +1,6 @@
 //: CMRPropertyKeys.h
 /**
-  * $Id: CMRPropertyKeys.h,v 1.2.4.2 2006/11/14 03:25:25 tsawada2 Exp $
+  * $Id: CMRPropertyKeys.h,v 1.2.4.3 2006/11/19 04:12:59 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -50,10 +50,10 @@ extern NSString *const CMRThreadModifiedDateKey;
 
 
 extern NSString *const CMRBBSListItemsPboardType;
-extern NSString *const CMRFavoritesItemsPboardType;
+extern NSString *const CMRFavoritesItemsPboardType; // Deprecated in ReinforceII and later.
 extern NSString *const CMRAttributeInnerLinkScheme;
 
-
+extern NSString *const BSFavoritesIndexSetPboardType; // Available in ReinforceII and later.
 
 extern NSString *const CMRBBSManagerUserListDidChangeNotification;
 extern NSString *const CMRBBSManagerDefaultListDidChangeNotification;
@@ -66,7 +66,7 @@ extern NSString *const AppDefaultsLayoutSettingsUpdatedNotification;
 extern NSString *const CMRApplicationWillResetNotification;
 extern NSString *const CMRApplicationDidResetNotification;
 
-extern NSString *const BSThreadItemsPboardType;
+extern NSString *const BSThreadItemsPboardType; // Available in ReinforceII and later.
 
 #define APP_APPLICATION_NAME				@"BathyScaphe"
 

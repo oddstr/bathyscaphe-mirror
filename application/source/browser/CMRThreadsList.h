@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.h,v 1.6.4.2 2006/11/08 19:00:36 tsawada2 Exp $
+  * $Id: CMRThreadsList.h,v 1.6.4.3 2006/11/19 04:12:59 tsawada2 Exp $
   * 
   * CMRThreadsList.h
   *
@@ -127,8 +127,9 @@
 @interface CMRThreadsList(DataSource)
 - (NSArray *) threadFilePathArrayWithRowIndexSet : (NSIndexSet	*) anIndexSet
 									 inTableView : (NSTableView	*) tableView;
-- (NSArray *) threadFilePathArrayWithRowIndexArray : (NSArray	  *) anIndexArray
-									   inTableView : (NSTableView *)tableView;
+// Removed in ReinforceII and later. Use threadFilePathArrayWithRowIndexSet:inTableView: instead.
+//- (NSArray *) threadFilePathArrayWithRowIndexArray : (NSArray	  *) anIndexArray
+//									   inTableView : (NSTableView *)tableView;
 - (ThreadStatus) threadStatusForThread : (NSDictionary *) aThread;
 - (id) objectValueForIdentifier : (NSString *) identifier
 					threadArray : (NSArray  *) threadArray

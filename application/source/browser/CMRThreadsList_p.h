@@ -56,9 +56,10 @@
 @interface CMRThreadsList(CleanUp)
 - (void) trashDidPerformNotification : (NSNotification *) theNotification;
 - (void) cleanUpItemsToBeRemoved : (NSArray *) files;
-- (BOOL) tableView : (NSTableView *) tableView
-	   removeItems : (NSArray	  *) rows
- delFavIfNecessary : (BOOL         ) flag;
+// Deprecated in ReinforceII and later. Use tableView:removeIndexSet:delFavIfNecessary: instead.
+//- (BOOL) tableView : (NSTableView *) tableView
+//	   removeItems : (NSArray	  *) rows
+// delFavIfNecessary : (BOOL         ) flag;
 - (BOOL) tableView : (NSTableView	*) tableView
 	removeIndexSet : (NSIndexSet	*) indexSet
  delFavIfNecessary : (BOOL			 ) flag;

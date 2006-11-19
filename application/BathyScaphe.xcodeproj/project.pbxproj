@@ -538,6 +538,8 @@
 		87B19D7E08FB7C4100D15053 /* AddBoard_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B19D7C08FB7C4100D15053 /* AddBoard_Pressed.tiff */; };
 		87B19D7F08FB7C4100D15053 /* AddBoard.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B19D7D08FB7C4100D15053 /* AddBoard.tiff */; };
 		87B652990840625F008AE2BE /* SendMessage.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B652980840625F008AE2BE /* SendMessage.tiff */; };
+		87B803010B0ED4980001339F /* NSIndexSet+BSAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 87B802FF0B0ED4980001339F /* NSIndexSet+BSAddition.m */; };
+		87B803020B0ED4980001339F /* NSIndexSet+BSAddition.h in Headers */ = {isa = PBXBuildFile; fileRef = 87B803000B0ED4980001339F /* NSIndexSet+BSAddition.h */; };
 		87BB79210864401A00ED8757 /* RBSplitSubview.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB791F0864401A00ED8757 /* RBSplitSubview.h */; };
 		87BD58E00AAC551100F6412D /* EditBoardSheetController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BD58DE0AAC551100F6412D /* EditBoardSheetController.h */; };
 		87BD58E10AAC551100F6412D /* EditBoardSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BD58DF0AAC551100F6412D /* EditBoardSheetController.m */; };
@@ -859,6 +861,8 @@
 		87B19D7C08FB7C4100D15053 /* AddBoard_Pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AddBoard_Pressed.tiff; sourceTree = "<group>"; };
 		87B19D7D08FB7C4100D15053 /* AddBoard.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AddBoard.tiff; sourceTree = "<group>"; };
 		87B652980840625F008AE2BE /* SendMessage.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SendMessage.tiff; sourceTree = "<group>"; };
+		87B802FF0B0ED4980001339F /* NSIndexSet+BSAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSIndexSet+BSAddition.m"; sourceTree = "<group>"; };
+		87B803000B0ED4980001339F /* NSIndexSet+BSAddition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSIndexSet+BSAddition.h"; sourceTree = "<group>"; };
 		87BB791F0864401A00ED8757 /* RBSplitSubview.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RBSplitSubview.h; path = ../RBSplitSubview.h; sourceTree = "<group>"; };
 		87BB79200864401A00ED8757 /* RBSplitViewPrivateDefines.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RBSplitViewPrivateDefines.h; path = ../RBSplitViewPrivateDefines.h; sourceTree = "<group>"; };
 		87BBABF30AB4257E0061D85A /* smallUnlocked.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = smallUnlocked.tiff; sourceTree = "<group>"; };
@@ -1398,6 +1402,8 @@
 		8729964C0832556100CBD740 /* extensions */ = {
 			isa = PBXGroup;
 			children = (
+				87B802FF0B0ED4980001339F /* NSIndexSet+BSAddition.m */,
+				87B803000B0ED4980001339F /* NSIndexSet+BSAddition.h */,
 				F324DD8704C698FB00A80005 /* missing.h */,
 				F324DD8804C698FB00A80005 /* missing.m */,
 				872996530832556100CBD740 /* NSTableColumn+CMXAdditions.h */,
@@ -2733,6 +2739,7 @@
 				8796FA420A9189D400DE3A90 /* BSSettingTxtDetector.h in Headers */,
 				87BD58E00AAC551100F6412D /* EditBoardSheetController.h in Headers */,
 				876371710AB3455E005D5996 /* BSAsciiArtDetector.h in Headers */,
+				87B803020B0ED4980001339F /* NSIndexSet+BSAddition.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3289,6 +3296,7 @@
 				87BD58E10AAC551100F6412D /* EditBoardSheetController.m in Sources */,
 				876371720AB3455E005D5996 /* BSAsciiArtDetector.m in Sources */,
 				877AC2910B027447005365C0 /* CMRThreadView-Drop.m in Sources */,
+				87B803010B0ED4980001339F /* NSIndexSet+BSAddition.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,5 +1,5 @@
 /**
-  * $Id: BoardList-OVDataSource.m,v 1.11.2.4 2006/11/11 14:45:57 tsawada2 Exp $
+  * $Id: BoardList-OVDataSource.m,v 1.11.2.5 2006/11/19 04:12:59 tsawada2 Exp $
   * 
   * BoardList-OVDataSource.m
   *
@@ -330,20 +330,24 @@ not_writtable:
                    proposedItem : (id                 ) item
              proposedChildIndex : (int                ) index;
 {
-	NSPasteboard *pboard_;
-	NSString     *availableType_;
-	
-	pboard_ = [info draggingPasteboard];
-	availableType_ =
-		[pboard_ availableTypeFromArray : 
-			[NSArray arrayWithObjects : NSFilenamesPboardType, 
-										nil]];
-	
-	if([availableType_ isEqualToString : NSFilenamesPboardType]){
-		[outlineView setDropItem : [[self class] favoritesItem]
-				  dropChildIndex : NSOutlineViewDropOnItemIndex];
+	NSPasteboard *pboard_ = [info draggingPasteboard];
 
-		return NSDragOperationCopy;
+	if ([pboard_ availableTypeFromArray: [NSArray arrayWithObjects: NSFilenamesPboardType, nil]] != nil) {
+		NSArray			*filenames_;
+		NSEnumerator	*iter_;
+		NSString		*path_;
+		CMRFavoritesManager	*fM = [CMRFavoritesManager defaultManager];
+
+		filenames_ = [pboard_ propertyListForType: NSFilenamesPboardType];
+		iter_ = [filenames_ objectEnumerator];
+		while (path_ = [iter_ nextObject]) {
+			if (NO == [fM favoriteItemExistsOfThreadPath: path_]) {
+				[outlineView setDropItem: [[self class] favoritesItem] dropChildIndex: NSOutlineViewDropOnItemIndex];
+				return NSDragOperationCopy;
+			}
+		}
+		
+		return NSDragOperationNone;
 	}
 	
 	return [super outlineView : outlineView

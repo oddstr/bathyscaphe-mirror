@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.42.2.7 2006/11/11 19:03:08 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.42.2.8 2006/11/19 04:12:59 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -444,7 +444,7 @@
     [tbView_ setDoubleAction : @selector(listViewDoubleAction:)];
 	
 	// Favorites Item's Drag & Drop operation support:
-	[tbView_ registerForDraggedTypes : [NSArray arrayWithObjects : CMRFavoritesItemsPboardType, nil]];
+	[tbView_ registerForDraggedTypes : [NSArray arrayWithObjects : BSFavoritesIndexSetPboardType, nil]];
     
     [tbView_ setAutosaveTableColumns : NO];
     [tbView_ setVerticalMotionCanBeginDrag : NO];
