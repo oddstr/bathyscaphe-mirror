@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.14.2.5 2006/11/11 19:03:08 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.14.2.6 2006/11/25 05:14:23 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -30,7 +30,7 @@ NSString *const AppDefaultsWillSaveNotification = @"AppDefaultsWillSaveNotificat
 #define AppDefaultsBrowserStatusFilteringMaskKey		@"StatusFilteringMask"
 
 #define AppDefaultsIsFavImportedKey			@"Old Favorites Updated"
-#define AppDefaultsOldMsgScrlBehvrKey		@"Old Message Scrolling Behavior"
+#define AppDefaultsOldMsgScrlBehvrKey		@"OldScrollingBehavior"
 
 #define AppDefaultsOpenInBgKey				@"OpenLinkInBg"
 #define AppDefaultsQuietDeletionKey			@"QuietDeletion"

@@ -1,3 +1,10 @@
+2006-11-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadLayout.m
+		2006-11-11 の修正箇所：スクロール量の補正計算方法を変更した。
+	* application/source/preferences/AppDefaults.m
+		Hidden Option "Old Message Scrolling Behavior" を "OldScrollingBehavior" に名称変更。
+		key にスペースを含まない方が Terminal でタイプするときに楽なので…
+================================================================================= Sneaky v283
 2006-11-19 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/ThreadsList.strings
 	* application/source/browser/w2chFavoriteItemList.m
