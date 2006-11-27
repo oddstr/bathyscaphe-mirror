@@ -4,6 +4,8 @@
 	* application/subproj/previewer/BSImagePreviewInspector-View.m
 	* application/subproj/previewer/BSIPIHistoryManager.m
 	* application/subproj/previewer/BSIPIPathTransformer.m
+	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
+	* application/subproj/previewer/Japanese.lproj/Localizable.strings
 		プレビューインスペクタ（2.3.2→2.5）（まだ途中）：
 		- 内部の構造が大きく変化した。
 		- 中枢部分はほとんど BSIPIToken と、BSIPIHistoryManager が担うようになった。
