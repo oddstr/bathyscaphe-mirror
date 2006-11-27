@@ -391,8 +391,6 @@
 		871CA1B908586CFC00C3A044 /* PreferencesPane.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 871CA15608585F8100C3A044 /* PreferencesPane.plugin */; };
 		871CA1BC08586D1600C3A044 /* 2chConnector.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 871CA18308585FD200C3A044 /* 2chConnector.plugin */; };
 		8724A6DD09127E69009CC855 /* board_default.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8724A6DB09127E69009CC855 /* board_default.plist */; };
-		8724A8100912A213009CC855 /* TemporaryFolder.h in Headers */ = {isa = PBXBuildFile; fileRef = 8724A80E0912A213009CC855 /* TemporaryFolder.h */; };
-		8724A8110912A213009CC855 /* TemporaryFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8724A80F0912A213009CC855 /* TemporaryFolder.m */; };
 		8727F4C20A822EFB00E9C2F9 /* BSTagValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 8727F4C00A822EFB00E9C2F9 /* BSTagValueTransformer.h */; };
 		8727F4C30A822EFB00E9C2F9 /* BSTagValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8727F4C10A822EFB00E9C2F9 /* BSTagValueTransformer.m */; };
 		8729965F0832556200CBD740 /* NSTableColumn+CMXAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 872996530832556100CBD740 /* NSTableColumn+CMXAdditions.h */; };
@@ -541,6 +539,8 @@
 		87B803010B0ED4980001339F /* NSIndexSet+BSAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 87B802FF0B0ED4980001339F /* NSIndexSet+BSAddition.m */; };
 		87B803020B0ED4980001339F /* NSIndexSet+BSAddition.h in Headers */ = {isa = PBXBuildFile; fileRef = 87B803000B0ED4980001339F /* NSIndexSet+BSAddition.h */; };
 		87BB79210864401A00ED8757 /* RBSplitSubview.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB791F0864401A00ED8757 /* RBSplitSubview.h */; };
+		87BB87890B195B4E00472D3F /* BSIPIToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB87870B195B4E00472D3F /* BSIPIToken.h */; };
+		87BB878A0B195B4E00472D3F /* BSIPIToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BB87880B195B4E00472D3F /* BSIPIToken.m */; };
 		87BD58E00AAC551100F6412D /* EditBoardSheetController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BD58DE0AAC551100F6412D /* EditBoardSheetController.h */; };
 		87BD58E10AAC551100F6412D /* EditBoardSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BD58DF0AAC551100F6412D /* EditBoardSheetController.m */; };
 		87BD58E90AAC58D700F6412D /* EditBoardSheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87BD58E70AAC58D700F6412D /* EditBoardSheet.nib */; };
@@ -570,6 +570,7 @@
 		87C4813F08FD05A300F91054 /* AddBoardSheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87C4813D08FD05A300F91054 /* AddBoardSheet.nib */; };
 		87C8FBDD09B3631800039203 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87C8FBDC09B3631800039203 /* Security.framework */; };
 		87C9DD3009404CA3004E6596 /* AppDefaults-Alert.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCDD04C698FB00A80005 /* AppDefaults-Alert.m */; };
+		87CC89590B198A7E003FB764 /* Loading.png in Resources */ = {isa = PBXBuildFile; fileRef = 87CC89580B198A7E003FB764 /* Loading.png */; };
 		87CD85CC098170ED002C4372 /* BSFavoritesHEADCheckTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 87CD85CA098170ED002C4372 /* BSFavoritesHEADCheckTask.h */; };
 		87CD85CD098170ED002C4372 /* BSFavoritesHEADCheckTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CD85CB098170ED002C4372 /* BSFavoritesHEADCheckTask.m */; };
 		87CF646A097A335D00DE8B16 /* Acknowledgments.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 87CF6468097A335D00DE8B16 /* Acknowledgments.rtf */; };
@@ -704,8 +705,6 @@
 		871CA18208585FD200C3A044 /* Info-reply.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Info-reply.plist"; path = "../../Info-reply.plist"; sourceTree = "<group>"; };
 		871CA18308585FD200C3A044 /* 2chConnector.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = 2chConnector.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		8724A6DC09127E69009CC855 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Japanese; path = Japanese.lproj/board_default.plist; sourceTree = "<group>"; };
-		8724A80E0912A213009CC855 /* TemporaryFolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemporaryFolder.h; sourceTree = "<group>"; };
-		8724A80F0912A213009CC855 /* TemporaryFolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemporaryFolder.m; sourceTree = "<group>"; };
 		8727F4C00A822EFB00E9C2F9 /* BSTagValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSTagValueTransformer.h; sourceTree = "<group>"; };
 		8727F4C10A822EFB00E9C2F9 /* BSTagValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSTagValueTransformer.m; sourceTree = "<group>"; };
 		872996530832556100CBD740 /* NSTableColumn+CMXAdditions.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = "NSTableColumn+CMXAdditions.h"; sourceTree = "<group>"; };
@@ -865,6 +864,8 @@
 		87B803000B0ED4980001339F /* NSIndexSet+BSAddition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSIndexSet+BSAddition.h"; sourceTree = "<group>"; };
 		87BB791F0864401A00ED8757 /* RBSplitSubview.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RBSplitSubview.h; path = ../RBSplitSubview.h; sourceTree = "<group>"; };
 		87BB79200864401A00ED8757 /* RBSplitViewPrivateDefines.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RBSplitViewPrivateDefines.h; path = ../RBSplitViewPrivateDefines.h; sourceTree = "<group>"; };
+		87BB87870B195B4E00472D3F /* BSIPIToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIToken.h; sourceTree = "<group>"; };
+		87BB87880B195B4E00472D3F /* BSIPIToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIToken.m; sourceTree = "<group>"; };
 		87BBABF30AB4257E0061D85A /* smallUnlocked.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = smallUnlocked.tiff; sourceTree = "<group>"; };
 		87BBABF40AB4257E0061D85A /* smallLocked.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = smallLocked.tiff; sourceTree = "<group>"; };
 		87BD58DE0AAC551100F6412D /* EditBoardSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditBoardSheetController.h; sourceTree = "<group>"; };
@@ -896,13 +897,11 @@
 		87C4813E08FD05A300F91054 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/AddBoardSheet.nib; sourceTree = "<group>"; };
 		87C633C4087F53A60093559B /* AppDefaults-Deprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDefaults-Deprecated.h"; sourceTree = "<group>"; };
 		87C8FBDC09B3631800039203 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
+		87CC89580B198A7E003FB764 /* Loading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Loading.png; sourceTree = "<group>"; };
 		87CD85CA098170ED002C4372 /* BSFavoritesHEADCheckTask.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = BSFavoritesHEADCheckTask.h; sourceTree = "<group>"; };
 		87CD85CB098170ED002C4372 /* BSFavoritesHEADCheckTask.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = BSFavoritesHEADCheckTask.m; sourceTree = "<group>"; };
 		87CF6469097A335D00DE8B16 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Japanese; path = Japanese.lproj/Acknowledgments.rtf; sourceTree = "<group>"; };
 		87D3524D0A68AC3A0041410F /* BSIPIDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIDownload.h; sourceTree = "<group>"; };
-		87D3524E0A68AC3A0041410F /* BSIPIDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIDownload.m; sourceTree = "<group>"; };
-		87D5D1A60ABA0BDD00AE087C /* BSIPIPrefsTbDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIPrefsTbDelegate.h; sourceTree = "<group>"; };
-		87D5D1A70ABA0BDD00AE087C /* BSIPIPrefsTbDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIPrefsTbDelegate.m; sourceTree = "<group>"; };
 		87D5D8CF08DF0FCC0039A9EB /* boardListSelBgFocused.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = boardListSelBgFocused.tiff; sourceTree = "<group>"; };
 		87D5D8D008DF0FCC0039A9EB /* boardListSelBg.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = boardListSelBg.tiff; sourceTree = "<group>"; };
 		87D7F03B0A85136900623EA5 /* BoardWarrior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardWarrior.h; sourceTree = "<group>"; };
@@ -1619,6 +1618,7 @@
 		875342560A663FDF009C0205 /* picts */ = {
 			isa = PBXGroup;
 			children = (
+				87CC89580B198A7E003FB764 /* Loading.png */,
 				87C398270A6181590095AD06 /* IPIHistoryBack.tiff */,
 				87C398280A6181590095AD06 /* IPIHistoryForward.tiff */,
 				87C398020A6174970095AD06 /* imageView.tiff */,
@@ -1705,6 +1705,22 @@
 			name = ThreadViewer;
 			sourceTree = "<group>";
 		};
+		87A4603B0B1AA9B9005FCDCA /* core */ = {
+			isa = PBXGroup;
+			children = (
+				8745CD280900DE9800A28AC0 /* BSImagePreviewerInterface.h */,
+				87C2032908FF3F81006DC42C /* BSImagePreviewInspector.h */,
+				87C2032A08FF3F81006DC42C /* BSImagePreviewInspector.m */,
+				8782A66D096FAAB90099B65F /* BSImagePreviewInspector-Tb.m */,
+				87C2E1A40A68E3C100E40698 /* BSImagePreviewInspector-View.m */,
+				87751A5809782B82009D4A9C /* BSIPIFullScreenController.h */,
+				87751A5909782B82009D4A9C /* BSIPIFullScreenController.m */,
+				87F3D5B00976921C00A1217A /* BSIPIHistoryManager.h */,
+				87F3D5B10976921C00A1217A /* BSIPIHistoryManager.m */,
+			);
+			name = core;
+			sourceTree = "<group>";
+		};
 		87AE387909405F6500E10F36 /* reply */ = {
 			isa = PBXGroup;
 			children = (
@@ -1774,38 +1790,27 @@
 			name = Advanced;
 			sourceTree = "<group>";
 		};
-		87C1A6340A7E26BE0004079B /* Extensions */ = {
+		87C1A6340A7E26BE0004079B /* objects */ = {
 			isa = PBXGroup;
 			children = (
+				87D3524D0A68AC3A0041410F /* BSIPIDownload.h */,
+				87BB87870B195B4E00472D3F /* BSIPIToken.h */,
+				87BB87880B195B4E00472D3F /* BSIPIToken.m */,
 			);
-			name = Extensions;
+			name = objects;
 			sourceTree = "<group>";
 		};
 		87C2032808FF3F81006DC42C /* previewer */ = {
 			isa = PBXGroup;
 			children = (
-				8745CD280900DE9800A28AC0 /* BSImagePreviewerInterface.h */,
-				87C2032908FF3F81006DC42C /* BSImagePreviewInspector.h */,
-				87C2032A08FF3F81006DC42C /* BSImagePreviewInspector.m */,
-				8782A66D096FAAB90099B65F /* BSImagePreviewInspector-Tb.m */,
-				87C2E1A40A68E3C100E40698 /* BSImagePreviewInspector-View.m */,
-				87751A5809782B82009D4A9C /* BSIPIFullScreenController.h */,
-				87751A5909782B82009D4A9C /* BSIPIFullScreenController.m */,
-				8724A80E0912A213009CC855 /* TemporaryFolder.h */,
-				8724A80F0912A213009CC855 /* TemporaryFolder.m */,
-				87F3D5B00976921C00A1217A /* BSIPIHistoryManager.h */,
-				87F3D5B10976921C00A1217A /* BSIPIHistoryManager.m */,
-				87D3524D0A68AC3A0041410F /* BSIPIDownload.h */,
-				87D3524E0A68AC3A0041410F /* BSIPIDownload.m */,
+				87A4603B0B1AA9B9005FCDCA /* core */,
 				875342550A663FAC009C0205 /* custom classes */,
-				87C1A6340A7E26BE0004079B /* Extensions */,
+				87C1A6340A7E26BE0004079B /* objects */,
 				87C2033B08FF40B8006DC42C /* Info-previewer.plist */,
 				87C2032B08FF3F81006DC42C /* BSImagePreviewInspector.nib */,
 				87751A7909782FAE009D4A9C /* BSIPIFullScreen.nib */,
 				87BE9E9E0912F54300D2F339 /* Localizable.strings */,
 				875342560A663FDF009C0205 /* picts */,
-				87D5D1A60ABA0BDD00AE087C /* BSIPIPrefsTbDelegate.h */,
-				87D5D1A70ABA0BDD00AE087C /* BSIPIPrefsTbDelegate.m */,
 			);
 			path = previewer;
 			sourceTree = "<group>";
@@ -2797,7 +2802,6 @@
 			files = (
 				87C2032D08FF3F81006DC42C /* BSImagePreviewInspector.h in Headers */,
 				8745CD290900DE9800A28AC0 /* BSImagePreviewerInterface.h in Headers */,
-				8724A8100912A213009CC855 /* TemporaryFolder.h in Headers */,
 				8782A763096FD2F40099B65F /* BSIPIImageView.h in Headers */,
 				8782A79E096FDBCE0099B65F /* BSIPIActionBtnTbItem.h in Headers */,
 				87F3D5B20976921C00A1217A /* BSIPIHistoryManager.h in Headers */,
@@ -2806,6 +2810,7 @@
 				87C3977B0A61600F0095AD06 /* BSIPIPathTransformer.h in Headers */,
 				87C397900A6164E30095AD06 /* BSIPITextFieldCell.h in Headers */,
 				87C397F20A6171AB0095AD06 /* BSIPITableView.h in Headers */,
+				87BB87890B195B4E00472D3F /* BSIPIToken.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3100,6 +3105,7 @@
 				87C398290A6181590095AD06 /* IPIHistoryBack.tiff in Resources */,
 				87C3982A0A6181590095AD06 /* IPIHistoryForward.tiff in Resources */,
 				87749E070A878F120008A679 /* HistoryFolder.png in Resources */,
+				87CC89590B198A7E003FB764 /* Loading.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3342,7 +3348,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				87C2032E08FF3F81006DC42C /* BSImagePreviewInspector.m in Sources */,
-				8724A8110912A213009CC855 /* TemporaryFolder.m in Sources */,
 				8782A66E096FAAB90099B65F /* BSImagePreviewInspector-Tb.m in Sources */,
 				8782A764096FD2F40099B65F /* BSIPIImageView.m in Sources */,
 				8782A79F096FDBCE0099B65F /* BSIPIActionBtnTbItem.m in Sources */,
@@ -3353,6 +3358,7 @@
 				87C397910A6164E30095AD06 /* BSIPITextFieldCell.m in Sources */,
 				87C397F30A6171AB0095AD06 /* BSIPITableView.m in Sources */,
 				87C2E1A50A68E3C100E40698 /* BSImagePreviewInspector-View.m in Sources */,
+				87BB878A0B195B4E00472D3F /* BSIPIToken.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

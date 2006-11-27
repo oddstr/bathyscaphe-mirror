@@ -1,3 +1,26 @@
+2006-11-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+	* application/subproj/previewer/BSImagePreviewInspector-View.m
+	* application/subproj/previewer/BSIPIHistoryManager.m
+	* application/subproj/previewer/BSIPIPathTransformer.m
+		プレビューインスペクタ（2.3.2→2.5）（まだ途中）：
+		- 内部の構造が大きく変化した。
+		- 中枢部分はほとんど BSIPIToken と、BSIPIHistoryManager が担うようになった。
+		- BSImagePreviewInspector はウインドウ・コントローラとしての役割に徹するよう心がけた。
+		- 複数のイメージを同時にダウンロードできる。
+		- リスト・ビューで複数の項目を選択／操作できる。
+		- まだ細かい所があちこち作りかけなので、これから仕上げていく。とりあえずそこそこ動くようになったので
+		　コミット。（URL をコピー／ドラッグ＆ドロップ系はまだ動作しないので留意のこと）。
+	* application/subproj/previewer/Loading.png
+		[新規追加] プレビューインスペクタで、リンクをダウンロード中にリスト・ビューに表示される静止画の
+		プログレスインジケータ（本物の NSProgressIndicator を回すよりずっと簡単）。
+	* application/subproj/previewer/BSIPIToken.m
+		[新規追加] プレビューインスペクタで、一つ一つのリンク先（イメージのサムネイル、URL、ダウンロードされた
+		ファイルのパスなど）を表すオブジェクトのクラス。ダウンロードもコイツが行う。
+	* application/subproj/previewer/BSIPIPrefsTbDelegate.(h|m)
+	* application/subproj/previewer/TemporaryFolder.(h|m)
+		[削除] プレビューインスペクタ：未使用になったクラスを削除。
 2006-11-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadLayout.m
 		2006-11-11 の修正箇所：スクロール量の補正計算方法を変更した。

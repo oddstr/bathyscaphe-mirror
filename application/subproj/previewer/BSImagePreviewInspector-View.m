@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector-View.m,v 1.3.2.5 2006/09/01 14:34:10 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector-View.m,v 1.3.2.6 2006/11/27 16:16:15 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/07/15.
@@ -7,12 +7,9 @@
 //
 
 #import "BSImagePreviewInspector.h"
-#import "BSIPIHistoryManager.h"
 #import "BSIPITextFieldCell.h"
 #import "BSIPIImageView.h"
 #import <SGAppKit/NSCell-SGExtensions.h>
-
-@class BSIPIDownload;
 
 static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInspector Panel Autosave";
 
@@ -75,50 +72,9 @@ static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInsp
 {
 	return m_preferredViewSelector;
 }
-
-- (BSIPIDownload *) currentDownload
+- (NSArrayController *) tripleGreenCubes
 {
-	return _currentDownload;
-}
-- (void) setCurrentDownload : (BSIPIDownload *) aDownload
-{
-	[aDownload retain];
-	[_currentDownload release];
-	_currentDownload = aDownload;
-}
-
-- (TemporaryFolder *) dlFolder
-{
-	if (_dlFolder == nil) {
-		_dlFolder = [[TemporaryFolder alloc] init];
-	}
-	return _dlFolder;
-}
-
-#pragma mark -
-- (void) clearAttributes
-{
-	if(_currentDownload) {
-		[_currentDownload cancel];
-		[self setCurrentDownload : nil];
-		[self stopProgressIndicator];
-	}
-	
-	[self setSourceURL: nil];
-	[[self infoField] setStringValue: @""];
-	[[self imageView] setImage: nil];
-	[self synchronizeImageAndSelectedRow];
-}
-
-- (void) synchronizeImageAndSelectedRow
-{
-	unsigned idx = [[BSIPIHistoryManager sharedManager] indexOfURL: [self sourceURL]];
-	if (idx == NSNotFound) {
-		[[[self nameColumn] tableView] deselectAll: nil];
-	} else {
-		[[[self nameColumn] tableView] selectRowIndexes: [NSIndexSet indexSetWithIndex: idx] byExtendingSelection: NO];
-		[[[self nameColumn] tableView] scrollRowToVisible: idx];
-	}
+	return m_tripleGreenCubes;
 }
 
 #pragma mark -

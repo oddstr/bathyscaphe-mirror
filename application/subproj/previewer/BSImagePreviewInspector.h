@@ -10,15 +10,14 @@
 #import "BSImagePreviewerInterface.h"
 #import "BSIPIHistoryManager.h"
 
-@class TemporaryFolder;
-@class BSIPIDownload;
-
+@class BSIPIToken;
+/*
 typedef enum _BSIPIRedirectionBehavior {
 	BSIPIAlwaysAsk		= -1,
 	BSIPIAlwaysAbort	= 0,
 	BSIPIAlwaysPass		= 1,
 } BSIPIRedirectionBehavior;
-
+*/
 @interface BSImagePreviewInspector : NSWindowController <BSImagePreviewerProtocol> {
 	IBOutlet NSTextField			*m_infoField;
 	IBOutlet NSPopUpButton			*m_actionBtn;
@@ -33,18 +32,14 @@ typedef enum _BSIPIRedirectionBehavior {
 	IBOutlet NSTextField			*m_versionInfoField;
 	IBOutlet NSMenu					*m_cacheNaviMenuFormRep;
 	IBOutlet NSSegmentedControl		*m_preferredViewSelector;
+	IBOutlet NSArrayController		*m_tripleGreenCubes;
 
 	@private
-	NSURL			*_sourceURL;
-	BSIPIDownload	*_currentDownload;
-	TemporaryFolder	*_dlFolder;
 	AppDefaults		*_preferences;
 	BOOL			m_shouldRestoreKeyWindow;
 }
 
-// Binding
-- (NSURL *) sourceURL;
-- (void) setSourceURL : (NSURL *) newURL;
+- (NSMutableArray *) historyItems;
 
 // Actions
 - (IBAction) openImage : (id) sender;
@@ -68,8 +63,6 @@ typedef enum _BSIPIRedirectionBehavior {
 - (IBAction) deleteCachedImage: (id) sender;
 
 - (IBAction) resetCache: (id) sender;
-
-- (BOOL) showCachedImageWithPath: (NSString *) path;
 @end
 
 @interface BSImagePreviewInspector(Settings)
@@ -97,17 +90,14 @@ typedef enum _BSIPIRedirectionBehavior {
 - (int) lastShownViewTag;
 - (void) setLastShownViewTag: (int) aTag;
 
-- (BSIPIRedirectionBehavior) redirectionBehavior;
-- (void) setRedirectionBehavior: (BSIPIRedirectionBehavior) aTag;
+//- (BSIPIRedirectionBehavior) redirectionBehavior;
+//- (void) setRedirectionBehavior: (BSIPIRedirectionBehavior) aTag;
 @end
 
 @interface BSImagePreviewInspector(ToolbarAndUtils)
 - (NSString *) localizedStrForKey : (NSString *) key;
 - (NSImage *) imageResourceWithName : (NSString *) name;
-- (NSString *) calcImageSize : (NSImage *) image_;
 - (void) setupToolbar;
-- (void) startProgressIndicator;
-- (void) stopProgressIndicator;
 @end
 
 @interface BSImagePreviewInspector(ViewAccessor)
@@ -124,14 +114,7 @@ typedef enum _BSIPIRedirectionBehavior {
 - (NSTextField *) versionInfoField;
 - (NSMenu *) cacheNaviMenuFormRep;
 - (NSSegmentedControl *) preferredViewSelector;
-
-- (BSIPIDownload *) currentDownload;
-- (void) setCurrentDownload : (BSIPIDownload *) aDownload;
-
-- (TemporaryFolder *) dlFolder;
+- (NSArrayController *) tripleGreenCubes;
 
 - (void) updateDirectoryChooser;
-
-- (void) clearAttributes;
-- (void) synchronizeImageAndSelectedRow;
 @end
