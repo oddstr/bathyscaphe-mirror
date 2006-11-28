@@ -1,4 +1,8 @@
 2006-11-28 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m:
+		ソートの方向も初期化時に取得するようにした。データソースがそれをするのが正しいのかは謎。
+	* application/source/browser/CMRBrowser-List.m:
+		showThreadsListWithBoardName: と showThreadListForBoard: の共通処理をメソッド化。
 	* application/source/browser/BSDBThreadsListDBUpdateTask2.m:
 		subject.txtのエンコードを掲示板にあわせるようにした。
 2006-11-19 masakih <masakih@users.sourceforge.jp>

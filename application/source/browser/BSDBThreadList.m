@@ -134,6 +134,8 @@
 	mBoardListItem = [item retain];
 	[temp release];
 	
+	BOOL isAsc = [[BoardManager defaultManager] sortColumnIsAscendingAtBoard : [self boardName]];
+	[self setIsAscending:isAsc];
 	temp = [[BoardManager defaultManager] sortColumnForBoard : [self boardName]];
 	[self sortByKeyWithoutUpdateList:temp];
 }
