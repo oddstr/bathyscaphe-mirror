@@ -1,4 +1,13 @@
 2006-11-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+	* application/subproj/previewer/BSIPIHistoryManager.m
+		プレビューインスペクタの複数箇所で必要としていたデフォルトWeb ブラウザの情報取得に、
+		下記 SGAppKit に組み込まれた NSWorkspace のカテゴリを使用するように変更。
+		このために、プレビューインスペクタ 2.5 には SGAppKit 1.6.1 以降が必要となる。
+	* frameworks/SGAppKit/framework/src/extensions/workspace/NSWorkspace-SGExtensions.m
+		SGAppKit (1.6→1.6.1）
+		- NSWorkspaceに、デフォルトWeb ブラウザの bundleIdetifier や icon を取得するための
+		　メソッドを集めたカテゴリを追加した。
 	* application/subproj/previewer/BSImagePreviewInspector.m
 	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
 	* application/subproj/previewer/BSImagePreviewInspector-View.m

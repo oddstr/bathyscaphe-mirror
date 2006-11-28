@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIHistoryManager.m,v 1.4.2.5 2006/11/27 16:16:15 tsawada2 Exp $
+//  $Id: BSIPIHistoryManager.m,v 1.4.2.6 2006/11/28 13:29:47 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/12.
@@ -8,6 +8,7 @@
 
 #import "BSIPIHistoryManager.h"
 #import "BSIPIToken.h"
+#import <SGAppKit/NSWorkspace-SGExtensions.h>
 #import <CocoMonar/CMRSingletonObject.h>
 
 @implementation BSIPIHistoryManager
@@ -185,7 +186,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 		if (inBg) options |= NSWorkspaceLaunchWithoutActivation;
 
 		[[NSWorkspace sharedWorkspace] openURLs: urlArray
-						withAppBundleIdentifier: @"com.apple.Safari"
+						withAppBundleIdentifier: [[NSWorkspace sharedWorkspace] bundleIdentifierForDefaultWebBrowser]
 										options: options
 				 additionalEventParamDescriptor: nil
 							  launchIdentifiers: nil];

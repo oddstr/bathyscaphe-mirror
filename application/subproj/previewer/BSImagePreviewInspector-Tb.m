@@ -1,5 +1,5 @@
 /*
- * $Id: BSImagePreviewInspector-Tb.m,v 1.11.2.8 2006/11/27 16:16:15 tsawada2 Exp $
+ * $Id: BSImagePreviewInspector-Tb.m,v 1.11.2.9 2006/11/28 13:29:47 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -35,7 +35,7 @@ static NSString *const kIPILastShownViewTagKey	= @"jp.tsawada2.BathyScaphe.Image
 
 @implementation BSImagePreviewInspector(ToolbarAndUtils)
 #pragma mark Utilities
-static NSImage *_imageForDefaultBrowser()
+/*static NSImage *_imageForDefaultBrowser()
 {
 	NSURL	*dummyURL = [NSURL URLWithString : @"http://www.apple.com/"];
 	OSStatus	err;
@@ -49,7 +49,7 @@ static NSImage *_imageForDefaultBrowser()
 		image_ = [[NSWorkspace sharedWorkspace] iconForFile : (NSString *)appPath];
 	}
 	return image_;
-}
+}*/
 
 - (NSString *) localizedStrForKey : (NSString *) key
 {
@@ -141,7 +141,7 @@ static NSImage *_imageForDefaultBrowser()
 		[toolbarItem setLabel: [self localizedStrForKey : @"Browser"]];
 		[toolbarItem setPaletteLabel: [self localizedStrForKey : @"OpenWithBrowser"]];
 		[toolbarItem setToolTip: [self localizedStrForKey : @"BrowserTip"]];
-		[toolbarItem setImage: _imageForDefaultBrowser()];
+		[toolbarItem setImage: [[NSWorkspace sharedWorkspace] iconForDefaultWebBrowser]];
 		
 		[toolbarItem setTarget: self];
 		[toolbarItem setAction: @selector(openImage:)];

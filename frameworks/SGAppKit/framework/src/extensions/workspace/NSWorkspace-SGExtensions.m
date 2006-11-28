@@ -1,6 +1,6 @@
 //: NSWorkspace-SGExtensions.m
 /**
-  * $Id: NSWorkspace-SGExtensions.m,v 1.2.4.2 2006/11/12 22:43:27 tsawada2 Exp $
+  * $Id: NSWorkspace-SGExtensions.m,v 1.2.4.3 2006/11/28 13:29:47 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -175,5 +175,38 @@ bail:
 	DisposeHandle((Handle)iconFamily);
     
     return iconImage;
+}
+@end
+
+@implementation NSWorkspace(BSDefaultWebBrowserUtils)
+- (NSString *) absolutePathForDefaultWebBrowser
+{
+	NSURL	*dummyURL = [NSURL URLWithString : @"http://www.apple.com/"];
+	OSStatus	err;
+	FSRef	outAppRef;
+	CFURLRef	outAppURL;
+	CFStringRef	appPath;
+	NSString	*result_ = nil;
+
+	err = LSGetApplicationForURL((CFURLRef )dummyURL, kLSRolesAll, &outAppRef, &outAppURL);
+	if (err == noErr && outAppURL) {
+		appPath = CFURLCopyFileSystemPath(outAppURL, kCFURLPOSIXPathStyle);
+		result_ = [NSString stringWithString: (NSString *)appPath];
+		CFRelease(appPath);
+	}
+
+	return result_;
+}
+
+- (NSImage *) iconForDefaultWebBrowser
+{
+	return [self iconForFile: [self absolutePathForDefaultWebBrowser]];
+}
+
+- (NSString *) bundleIdentifierForDefaultWebBrowser;
+{
+	NSBundle *bundle = [NSBundle bundleWithPath: [self absolutePathForDefaultWebBrowser]];
+	
+	return [bundle bundleIdentifier];
 }
 @end
