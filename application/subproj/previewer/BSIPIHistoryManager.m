@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIHistoryManager.m,v 1.4.2.6 2006/11/28 13:29:47 tsawada2 Exp $
+//  $Id: BSIPIHistoryManager.m,v 1.4.2.7 2006/11/28 14:47:12 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/12.
@@ -359,40 +359,54 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 }
 
 #pragma mark NSTableDataSource
+- (NSArray *) arrayForDeclaringTypes
+{
+	static NSArray *array_ = nil;
+	if (array_ == nil) {
+		array_ = [[NSArray alloc] initWithObjects: NSURLPboardType, NSStringPboardType, nil];
+	}
+
+	return array_;
+}
+
+- (NSArray *) arrayForAddingTypes
+{
+	static NSArray	*additionalArray_ = nil;
+	if (additionalArray_ == nil) {
+		additionalArray_ = [[NSArray alloc] initWithObjects: NSFilenamesPboardType, nil];
+	}
+	
+	return additionalArray_;
+}
+
 - (BOOL) appendDataForTokenAtIndexes: (NSIndexSet *) indexes
 						toPasteboard: (NSPasteboard *) pboard
 			 withFilenamesPboardType: (BOOL) filenamesType
 {
-	NSLog(@"Sorry...");
-	return NO;
-}
-/*
-- (BOOL) appendDataForURL: (NSURL *) source toPasteboard: (NSPasteboard *) pboard withFilenamesPboardType: (BOOL) filenamesType
-{
-	if (!source) return NO;
+	NSArray		*tokens_ = [self cachedTokensArrayAtIndexes: indexes];
+	NSArray		*urlArray_ = [tokens_ valueForKey: @"sourceURL"];
+	NSString	*joinedURLString_ = [[urlArray_ valueForKey: @"absoluteString"] componentsJoinedByString: @"\n"];
 	
-	NSString *fPath_ = [self cachedFilePathForURL: source];
-	if(!fPath_ && filenamesType) return NO;
+	NSURL		*url_ = [[self cachedTokenAtIndex: [indexes firstIndex]] sourceURL];
 	
+	[pboard declareTypes: [self arrayForDeclaringTypes] owner: nil];
+
 	if (filenamesType) {
-		[pboard declareTypes: [NSArray arrayWithObjects: NSFilenamesPboardType, NSURLPboardType, nil] owner: nil];
-		[pboard setPropertyList: [NSArray arrayWithObject: fPath_] forType: NSFilenamesPboardType];
-	} else {
-		[pboard declareTypes: [NSArray arrayWithObjects: NSURLPboardType, NSStringPboardType, nil] owner: nil];
-		[pboard setString: [source absoluteString] forType: NSStringPboardType];
+		NSMutableArray *pathAry_ = [[tokens_ valueForKey: @"downloadedFilePath"] mutableCopy];
+		[pathAry_ removeObjectIdenticalTo: [NSNull null]];
+		if ([pathAry_ count] > 0) {
+			[pboard addTypes: [self arrayForAddingTypes] owner: nil];
+			[pboard setPropertyList: pathAry_ forType: NSFilenamesPboardType];
+		}
+		[pathAry_ release];
 	}
-	
-	[source writeToPasteboard: pboard];
+	[pboard setString: joinedURLString_ forType: NSStringPboardType];
+	[url_ writeToPasteboard: pboard];
 	return YES;
 }
 
 - (BOOL) tableView: (NSTableView *) aTableView writeRowsWithIndexes: (NSIndexSet *) rowIndexes toPasteboard: (NSPasteboard*) pboard
 {
-	// とりあえず一つだけ
-	unsigned int rowIndex = [rowIndexes firstIndex];
-	NSURL		*fileURL_ = [[self arrayOfURLs] objectAtIndex: rowIndex];
-
-	return [self appendDataForURL: fileURL_ toPasteboard: pboard withFilenamesPboardType: YES];
+	return [self appendDataForTokenAtIndexes: rowIndexes toPasteboard: pboard withFilenamesPboardType: YES];
 }
-*/
 @end
