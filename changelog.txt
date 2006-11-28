@@ -1,3 +1,6 @@
+2006-11-28 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadsListDBUpdateTask2.m:
+		subject.txtのエンコードを掲示板にあわせるようにした。
 2006-11-19 masakih <masakih@users.sourceforge.jp>
 	* application/Info-bs-another-story.plist
 		DockMenu 追加。

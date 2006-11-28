@@ -11,6 +11,7 @@
 #import <OgreKit/OgreKit.h>
 
 #import "DatabaseManager.h"
+#import "CMRHostHandler.h"
 
 
 NSString *BSDBThreadsListDBUpdateTask2DidFinishNotification = @"BSDBThreadsListDBUpdateTask2DidFinishNotification";
@@ -195,9 +196,31 @@ abort:
 	
 	UTILDebugWrite(@"Start BSDBThreadsListDBUpdateTask2.");
 	
-	NSLog(@"error Must change , encoding check.");
+	CFStringEncoding enc;
+	DatabaseManager *dbm = [DatabaseManager defaultManager];
+	NSArray *array = [dbm boardIDsForName:bbsName];
+	NSString *urlStr;
+	NSURL *url;
+	CMRHostHandler *handler;
+	
+	if(!array || [array count] == 0 ) {
+		NSLog(@"Can not found bbs named %@.",bbsName);
+		return;
+	}
+	urlStr = [dbm urlStringForBoardID:[[array objectAtIndex:0] intValue]];
+	url = [NSURL URLWithString:urlStr];
+	if(!url) {
+		NSLog(@"Can not create url from bbs named %@.",bbsName);
+		return;
+	}
+	handler = [CMRHostHandler hostHandlerForURL:url];
+	if(!handler) {
+		NSLog(@"Can not create host handler from url %@.",url);
+		return;
+	}
+	enc = [handler subjectEncoding];
 	str = [NSString stringWithDataUsingTEC:subjectData
-								  encoding:NS2CFEncoding(NSShiftJISStringEncoding)];
+								  encoding:enc];
 	// 行分割
 	lines = [str componentsSeparatedByNewline];	
 	
