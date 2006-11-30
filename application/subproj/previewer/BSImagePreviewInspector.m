@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.19.2.11 2006/11/27 16:16:15 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.19.2.12 2006/11/30 17:51:47 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -11,6 +11,7 @@
 #import "BSIPIFullScreenController.h"
 #import "BSIPIPathTransformer.h"
 #import "BSIPIImageView.h"
+#import "BSIPIToken.h"
 #import <SGNetwork/BSIPIDownload.h>
 #import <CocoMonar/CMRPropertyKeys.h>
 
@@ -44,12 +45,17 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 				selector: @selector(keyWindowChanged:)
 					name: NSWindowDidBecomeKeyNotification
 				  object: nil];
+		[dnc addObserver: self
+				selector: @selector(tokenDidFailDownload:)
+					name: BSIPITokenDownloadErrorNotification
+				  object: nil];
 	}
 	return self;
 }
 
 - (void) dealloc
 {
+	[[NSNotificationCenter defaultCenter] removeObserver: self];
 	[_preferences release];
 	[super dealloc];
 }
@@ -142,7 +148,7 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 {
 	m_shouldRestoreKeyWindow = [[self window] isKeyWindow];
 	[[BSIPIFullScreenController sharedInstance] setDelegate: self];
-	[[BSIPIFullScreenController sharedInstance] setImage : [[self imageView] image]];
+	[[BSIPIFullScreenController sharedInstance] setArrayController: [self tripleGreenCubes]];
 
 	[[BSIPIFullScreenController sharedInstance] startFullScreen: [[self window] screen]];
 }
@@ -169,19 +175,11 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 - (IBAction) showPrevImage: (id) sender
 {
 	[[self tripleGreenCubes] selectPrevious: sender];
-	
-	if ([sender isKindOfClass: [BSIPIFullScreenWindow class]]) {
-		[[BSIPIFullScreenController sharedInstance] setImage: [[self imageView] image]];
-	}
 }
 
 - (IBAction) showNextImage: (id) sender
 {
 	[[self tripleGreenCubes] selectNext: sender];
-	
-	if ([sender isKindOfClass: [BSIPIFullScreenWindow class]]) {
-		[[BSIPIFullScreenController sharedInstance] setImage: [[self imageView] image]];
-	}
 }
 
 - (IBAction) historyNavigationPushed: (id) sender
@@ -237,7 +235,6 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 	   all other windows but is not made key; otherwise it is displayed in front and is made key. This method is useful for menu actions.
 	*/
 	[self showWindow : self];
-
 	unsigned	index = [[BSIPIHistoryManager sharedManager] cachedTokenIndexForURL: imageURL];
 	if (index == NSNotFound) {
 		[self willChangeValueForKey: @"historyItems"];
@@ -304,11 +301,18 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 
 - (void) fullScreenDidEnd: (NSWindow *) fullScreenWindow
 {
-	[[BSIPIFullScreenController sharedInstance] setImage: nil];
 	if (m_shouldRestoreKeyWindow) {
 		[[self window] makeKeyWindow];
 	}
 	m_shouldRestoreKeyWindow = NO;
+}
+
+- (void) tokenDidFailDownload: (NSNotification *) aNotification
+{
+	[self willChangeValueForKey: @"historyItems"];
+	[[BSIPIHistoryManager sharedManager] removeToken: [aNotification object]];
+	[self didChangeValueForKey: @"historyItems"];
+	[[self tripleGreenCubes] setSelectionIndex: NSNotFound];
 }
 
 #pragma mark NSTableView Delegate
@@ -331,8 +335,12 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 }
 
 #pragma mark NSTabView Delegate
-- (void) tabView: (NSTabView *) tabView didSelectTabViewItem: (NSTabViewItem *) tabViewItem
+- (void) tabView: (NSTabView *) tabView willSelectTabViewItem: (NSTabViewItem *) tabViewItem
 {
+	NSIndexSet *tmp_ = [[self tripleGreenCubes] selectionIndexes];
+	if ([tmp_ count] > 1) {
+		[[self tripleGreenCubes] setSelectionIndex: [tmp_ firstIndex]];
+	}
 	[self setLastShownViewTag: [tabView indexOfTabViewItem: tabViewItem]];
 }
 
@@ -352,12 +360,10 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 
 - (BOOL) imageView: (BSIPIImageView *) aImageView shouldPerformKeyEquivalent: (NSEvent *) theEvent
 {
-	if ([aImageView image] == nil) return NO;
-
 	NSString	*pressedKey = [theEvent charactersIgnoringModifiers];
 	int whichKey_ = [theEvent keyCode];
 
-	if ((whichKey_ == 51) && [aImageView image]) { // delete key
+	if (whichKey_ == 51) { // delete key
 		[self deleteCachedImage: aImageView];
 		return YES;
 	}

@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIFullScreenController.m,v 1.6.2.1 2006/08/31 10:18:41 tsawada2 Exp $
+//  $Id: BSIPIFullScreenController.m,v 1.6.2.2 2006/11/30 17:51:47 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.
@@ -7,7 +7,11 @@
 //
 
 #import "BSIPIFullScreenController.h"
+#import "BSIPIPathTransformer.h"
 #import <Carbon/Carbon.h>
+#import <ApplicationServices/ApplicationServices.h>
+#import <CocoMonar/CMRSingletonObject.h>
+
 
 @class BSIPIFullScreenWindow;
 
@@ -19,17 +23,19 @@
 @end
 
 @implementation BSIPIFullScreenController
-+ (BSIPIFullScreenController *) sharedInstance
-{
-    static BSIPIFullScreenController	*sharedInstance = nil;
+APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)	
 
-    if (sharedInstance == nil) {
-        sharedInstance = [[self alloc] init];
-        [NSBundle loadNibNamed: @"BSIPIFullScreen" owner: sharedInstance];
-    }
+- (id) init {
+	self = [super init];
+	if (self != nil) {
+		id transformer = [[[BSIPIImageIgnoringDPITransformer alloc] init] autorelease];
+		[NSValueTransformer setValueTransformer: transformer forName: @"BSIPIImageIgnoringDPITransformer"];
 
-    return sharedInstance;
+		[NSBundle loadNibNamed: @"BSIPIFullScreen" owner: self];
+	}
+	return self;
 }
+
 
 - (void) awakeFromNib
 {
@@ -58,35 +64,32 @@
 	m_delegate = aDelegate;
 }
 
+- (NSArrayController *) arrayController
+{
+	return m_cube;
+}
+
+- (void) setArrayController: (id) aController
+{
+	if (aController != m_cube) {
+		m_cube = aController;
+	}
+}
+
 - (void) dealloc
 {
 	m_delegate = nil;
+	m_cube = nil;
 	[super dealloc];
 }
-/*- (void) _showPanelWithPath : (NSString *) aPath
+
+- (NSDictionary *) cachedBindingOptionDict
 {
-	NSImage	*tmp0_ = [[NSImage alloc] initWithContentsOfFile : aPath];
-
-	NSImageRep		*rep_ = [[tmp0_ representations] objectAtIndex : 0];
-	//NSSize	viewSize = [_imageView bounds].size;
-	//NSSize	imageSize = [anImage size];
-	//float	dX, dY;
-	[rep_ setSize : NSMakeSize([rep_ pixelsWide], [rep_ pixelsHigh])];
-
-	dX = viewSize.width / imgX;
-	dY = viewSize.height / imgY;
-	
-	if (dX <= 1.0 && dY <= 1.0) {
-		return anImage;
+	static NSDictionary *dict_ = nil;
+	if (dict_ == nil) {
+		dict_ = [[NSDictionary alloc] initWithObjectsAndKeys: @"BSIPIImageIgnoringDPITransformer", NSValueTransformerNameBindingOption, NULL];
 	}
-	float	dT = (dX > dY) ? dY : dX;
-	
-	[Rep_ setSize : NSMakeSize(imgX*dT, imgY*dT)];
-	[self showPanelWithImage : tmp0_];
-}*/
-- (void) setImage: (NSImage *) anImage
-{
-	[_imageView setImage: anImage];
+	return dict_;
 }
 
 - (void) startFullScreen
@@ -132,6 +135,11 @@
 		CGReleaseDisplayFadeReservation (tokenPtr1);
 	}
 
+	[_imageView bind: @"value"
+			toObject: [self arrayController]
+		 withKeyPath: @"selection.downloadedFilePath"
+			 options: [self cachedBindingOptionDict]];
+
     [_fullScreenWindow makeKeyAndOrderFront: nil];
 	
 	if (kCGErrorSuccess == CGAcquireDisplayFadeReservation(kCGMaxDisplayReservationInterval, &tokenPtr2)) {
@@ -169,6 +177,7 @@
 		CGReleaseDisplayFadeReservation (tokenPtr);
 	}
     [_fullScreenWindow orderOut: nil];
+	[_imageView unbind: @"value"];
 
 	SetSystemUIMode(kUIModeNormal, 0);
 
@@ -185,14 +194,14 @@
 	NSString	*pressedKey = [keyDown charactersIgnoringModifiers];
 	unsigned short	keyCode = [keyDown keyCode];
 	
-	if ([pressedKey isEqualToString: [NSString stringWithFormat: @"%C", 0xF702]]) {
+	if ([pressedKey isEqualToString: [NSString stringWithFormat: @"%C", NSLeftArrowFunctionKey]]) {
 		if ([[self delegate] respondsToSelector: @selector(showPrevImage:)]) {
 			[[self delegate] showPrevImage: window];
 			return YES;
 		}
 	}
 	
-	if ([pressedKey isEqualToString: [NSString stringWithFormat: @"%C", 0xF703]]) {
+	if ([pressedKey isEqualToString: [NSString stringWithFormat: @"%C", NSRightArrowFunctionKey]]) {
 		if ([[self delegate] respondsToSelector: @selector(showNextImage:)]) {
 			[[self delegate] showNextImage: window];
 			return YES;

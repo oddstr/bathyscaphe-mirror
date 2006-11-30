@@ -1,5 +1,5 @@
 /*
- * $Id: BSImagePreviewInspector-Tb.m,v 1.11.2.9 2006/11/28 13:29:47 tsawada2 Exp $
+ * $Id: BSImagePreviewInspector-Tb.m,v 1.11.2.10 2006/11/30 17:51:47 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -331,7 +331,10 @@ static NSString *const kIPILastShownViewTagKey	= @"jp.tsawada2.BathyScaphe.Image
 			return ([[BSIPIHistoryManager sharedManager] cachedTokensArrayContainsNotNullObjectAtIndexes: [cube_ selectionIndexes]]);
 		}
 	}
-
+	
+	if ([menuItem action] == @selector(resetCache:)) {
+		return ([[self historyItems] count] > 0);
+	}
 	return YES;
 }
 

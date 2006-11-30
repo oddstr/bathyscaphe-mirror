@@ -1,3 +1,13 @@
+2006-12-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSIPIFullScreenController.m
+	* application/subproj/previewer/BSIPIToken.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/BSIPIFullScreenWindow.m
+		プレビューインスペクタの改良（続き）：
+		- フルスクリーン表示のための内部構造（BSIPIFullScreenController）が大幅に変更。
+		- しかし、見た目や動作は今までと変わらない。
+		- 細部の動作の調整。
+		- まだやり残していること：環境設定シートの工事など。
 2006-11-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/previewer/BSImagePreviewInspector-View.m
 	* application/subproj/previewer/BSImagePreviewInspector-Tb.m

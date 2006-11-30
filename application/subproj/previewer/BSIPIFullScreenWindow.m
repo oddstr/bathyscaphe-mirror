@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIFullScreenWindow.m,v 1.4 2006/07/30 02:39:25 tsawada2 Exp $
+//  $Id: BSIPIFullScreenWindow.m,v 1.4.2.1 2006/11/30 17:51:47 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.
@@ -37,6 +37,12 @@
 {
     return YES;
 }
+/*
+- (BOOL) performKeyEquivalent: (NSEvent *) theEvent
+{
+	NSLog(@"performKeyEquivalent:");
+	return YES;
+}*/
 
 //  Ask our delegate if it wants to handle keystroke or mouse events before we route them.
 - (void) sendEvent : (NSEvent *) theEvent

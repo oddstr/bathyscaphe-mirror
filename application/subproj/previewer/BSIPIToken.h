@@ -44,3 +44,5 @@
 
 - (void) cancelDownload;
 @end
+
+extern NSString *const BSIPITokenDownloadErrorNotification;

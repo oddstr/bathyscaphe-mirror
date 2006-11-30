@@ -10,6 +10,8 @@
 #import <SGNetwork/BSIPIDownload.h>
 #import <SGAppKit/NSWorkspace-SGExtensions.h>
 
+NSString *const BSIPITokenDownloadErrorNotification = @"BSIPITokenDownloadErrorNotification";
+
 @interface BSIPIToken(Private)
 + (NSImage *) loadingIndicator;
 - (void) createThumbnailAndCalcImgSizeForPath: (NSString *) filePath;
@@ -157,6 +159,11 @@
 	return ([self currentDownload] != nil);
 }
 
+- (void) postErrorNotification
+{
+	[[NSNotificationCenter defaultCenter] postNotificationName: BSIPITokenDownloadErrorNotification object: self];
+}
+
 - (void) cancelDownload
 {
 	BSIPIDownload *curDl = [self currentDownload];
@@ -165,6 +172,7 @@
 		[self setCurrentDownload: nil];
 		[self setThumbnail: [[NSWorkspace sharedWorkspace] systemIconForType: kQuestionMarkIcon]];
 		[self setStatusMessage: [self localizedStrForKey: @"Download Canceled"]];
+		[self postErrorNotification];
 	}
 }
 
@@ -212,15 +220,15 @@
 
 - (void) bsIPIdownload: (BSIPIDownload *) aDownload didAbortRedirectionToURL: (NSURL *) anURL
 {
-//	[self setCurrentDownload: nil];
-	[self cancelDownload];
+	NSBeep();
+
+	[self setStatusMessage: [self localizedStrForKey: @"Download Canceled"]];
+	[self setThumbnail: [[NSWorkspace sharedWorkspace] systemIconForType: kQuestionMarkIcon]];
+	[self setCurrentDownload: nil];
 	[self setStatusMessage: [self localizedStrForKey: @"Redirection Aborted"]];
+	[self postErrorNotification];
 }
-/*
-- (void) redirectionAlertDidEnd: (NSAlert *) alert returnCode: (int) returnCode contextInfo: (void *) contextInfo
-{
-}
-*/
+
 - (void) bsIPIdownload: (BSIPIDownload *) aDownload didFailWithError: (NSError *) aError
 {
 	NSBeep();
@@ -228,5 +236,6 @@
 	[self setStatusMessage: [NSString stringWithFormat: [self localizedStrForKey: @"Download Error (%i)"], [aError code]]];
 	[self setThumbnail: [[NSWorkspace sharedWorkspace] systemIconForType: kAlertCautionIcon]];
 	[self setCurrentDownload: nil];
+	[self postErrorNotification];
 }
 @end
