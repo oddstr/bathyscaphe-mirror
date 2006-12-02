@@ -1,3 +1,16 @@
+2006-12-02 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadLinkProcessor.m
+		メモリリークを修正。
+	* application/subproj/previewer/BSIPIToken.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/BSIPIFullScreenWindow.m
+	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
+	* application/subproj/previewer/Japanese.lproj/Localizable.strings
+		プレビューインスペクタの改良（続き）：
+		- 「プレビューできないURLに転送された場合：」オプションは廃止された。今後は（このオプションが
+		　　できる前と同様に）イメージファイル以外へのリダイレクトは常にブロックされ、プレビューが中止される。
+		- 環境設定シートもそれに伴い、以前のようなシンプルなレイアウトに戻した。
+		- アクションボタンのメニューに「履歴を消去」を追加。
 2006-12-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/previewer/BSIPIFullScreenController.m
 	* application/subproj/previewer/BSIPIToken.m

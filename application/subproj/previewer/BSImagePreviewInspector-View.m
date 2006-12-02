@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector-View.m,v 1.3.2.6 2006/11/27 16:16:15 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector-View.m,v 1.3.2.7 2006/12/02 13:26:47 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/07/15.
@@ -56,49 +56,16 @@ static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInsp
 {
 	return m_nameColumn;
 }
-- (NSPopUpButton *) directoryChooser
-{
-	return m_directoryChooser;
-}
-- (NSTextField *) versionInfoField
-{
-	return m_versionInfoField;
-}
 - (NSMenu *) cacheNaviMenuFormRep
 {
 	return m_cacheNaviMenuFormRep;
-}
-- (NSSegmentedControl *) preferredViewSelector
-{
-	return m_preferredViewSelector;
 }
 - (NSArrayController *) tripleGreenCubes
 {
 	return m_tripleGreenCubes;
 }
 
-#pragma mark -
-static NSImage *bsIPI_iconForPath(NSString *sourcePath)
-{
-	NSImage	*icon_ = [[NSWorkspace sharedWorkspace] iconForFile : sourcePath];
-	[icon_ setSize : NSMakeSize(16, 16)];
-	return icon_;
-}
-
-- (void) updateDirectoryChooser
-{
-	NSString	*fullPathTip = [self saveDirectory];
-	NSString	*title = [[NSFileManager defaultManager] displayNameAtPath: fullPathTip];
-	id<NSMenuItem>	theItem = [[self directoryChooser] itemAtIndex : 0];
-	
-	[theItem setTitle : title];
-	[theItem setToolTip: fullPathTip];
-	[theItem setImage : bsIPI_iconForPath(fullPathTip)];
-
-	[[self directoryChooser] selectItem : nil];
-	[[self directoryChooser] synchronizeTitleAndSelectedItem];
-}
-
+#pragma mark Setup UIs
 - (void) setupWindow
 {
 	NSWindow	*window_ = [self window];
@@ -135,8 +102,6 @@ static NSImage *bsIPI_iconForPath(NSString *sourcePath)
 	[[self paneChangeBtn] setLabel: nil forSegment: 1];
 	[[self cacheNavigationControl] setLabel: nil forSegment: 0];
 	[[self cacheNavigationControl] setLabel: nil forSegment: 1];
-	[[self preferredViewSelector] setLabel: nil forSegment: 0];
-	[[self preferredViewSelector] setLabel: nil forSegment: 1];
 	
 	[(BSIPIImageView *)[self imageView] setDelegate: self];
 
@@ -148,7 +113,7 @@ static NSImage *bsIPI_iconForPath(NSString *sourcePath)
 	[[self paneChangeBtn] setSelectedSegment: tabIndex];
 }
 
-- (void) setupVersionInfoField
+- (void) setupSettingsSheet
 {
 	NSBundle *myself = [NSBundle bundleForClass: [self class]];
 	if (!myself) return;
@@ -157,6 +122,9 @@ static NSImage *bsIPI_iconForPath(NSString *sourcePath)
 	if (!versionNum) return;
 	
 	[[self versionInfoField] setStringValue: versionNum];
+
+	[[self preferredViewSelector] setLabel: nil forSegment: 0];
+	[[self preferredViewSelector] setLabel: nil forSegment: 1];
 }
 
 - (void) awakeFromNib
@@ -164,7 +132,66 @@ static NSImage *bsIPI_iconForPath(NSString *sourcePath)
 	[self setupWindow];
 	[self setupTableView];
 	[self setupControls];
-	[self setupVersionInfoField];
+	[self setupSettingsSheet];
 	[self setupToolbar];
+}
+@end
+
+@implementation BSImagePreviewInspector(Preferences)
+- (NSPopUpButton *) directoryChooser
+{
+	return m_directoryChooser;
+}
+
+- (NSSegmentedControl *) preferredViewSelector
+{
+	return m_preferredViewSelector;
+}
+
+- (NSTextField *) versionInfoField
+{
+	return m_versionInfoField;
+}
+
+- (IBAction) endSettingsSheet : (id) sender
+{
+	NSWindow *sheet_ = [sender window];
+	[NSApp endSheet : sheet_
+		 returnCode : NSOKButton];
+
+	[sheet_ close];
+}
+
+- (IBAction) openOpenPanel : (id) sender
+{
+	NSOpenPanel	*panel_ = [NSOpenPanel openPanel];
+	[panel_ setCanChooseFiles : NO];
+	[panel_ setCanChooseDirectories : YES];
+	[panel_ setResolvesAliases : YES];
+	if([panel_ runModalForTypes : nil] == NSOKButton)
+		[self setSaveDirectory : [panel_ directory]];
+
+	[self updateDirectoryChooser];
+}
+
+static NSImage *bsIPI_iconForPath(NSString *sourcePath)
+{
+	NSImage	*icon_ = [[NSWorkspace sharedWorkspace] iconForFile : sourcePath];
+	[icon_ setSize : NSMakeSize(16, 16)];
+	return icon_;
+}
+
+- (void) updateDirectoryChooser
+{
+	NSString	*fullPathTip = [self saveDirectory];
+	NSString	*title = [[NSFileManager defaultManager] displayNameAtPath: fullPathTip];
+	id<NSMenuItem>	theItem = [[self directoryChooser] itemAtIndex : 0];
+	
+	[theItem setTitle : title];
+	[theItem setToolTip: fullPathTip];
+	[theItem setImage : bsIPI_iconForPath(fullPathTip)];
+
+	[[self directoryChooser] selectItem : nil];
+	[[self directoryChooser] synchronizeTitleAndSelectedItem];
 }
 @end

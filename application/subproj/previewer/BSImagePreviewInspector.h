@@ -1,6 +1,6 @@
 //
 //  BSImagePreviewInspector.h
-//  BathyScaphe
+//  BathyScaphe Preview Inspector 2.5
 //
 //  Created by Tsutomu Sawada on 05/10/10.
 //  Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -48,8 +48,6 @@ typedef enum _BSIPIRedirectionBehavior {
 - (IBAction) saveImageAs: (id) sender;
 - (IBAction) copyURL : (id) sender;
 - (IBAction) beginSettingsSheet : (id) sender;
-- (IBAction) endSettingsSheet : (id) sender;
-- (IBAction) openOpenPanel : (id) sender;
 - (IBAction) startFullscreen : (id) sender;
 
 - (IBAction) togglePreviewPanel : (id) sender;
@@ -110,11 +108,17 @@ typedef enum _BSIPIRedirectionBehavior {
 - (NSTabView *) tabView;
 - (NSSegmentedControl *) paneChangeBtn;
 - (NSTableColumn *) nameColumn;
+- (NSMenu *) cacheNaviMenuFormRep;
+- (NSArrayController *) tripleGreenCubes;
+@end
+
+@interface BSImagePreviewInspector(Preferences)
+- (IBAction) endSettingsSheet: (id) sender;
+- (IBAction) openOpenPanel: (id) sender;
+
 - (NSPopUpButton *) directoryChooser;
 - (NSTextField *) versionInfoField;
-- (NSMenu *) cacheNaviMenuFormRep;
 - (NSSegmentedControl *) preferredViewSelector;
-- (NSArrayController *) tripleGreenCubes;
 
 - (void) updateDirectoryChooser;
 @end

@@ -1,6 +1,6 @@
 //
 //  BSIPIHistoryManager.h
-//  BathyScaphe
+//  BathyScaphe Preview Inspector 2.5
 //
 //  Created by Tsutomu Sawada on 06/01/12.
 //  Copyright 2006 BathyScaphe Project. All rights reserved.

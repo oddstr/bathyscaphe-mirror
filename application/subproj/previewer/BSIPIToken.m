@@ -215,7 +215,10 @@ NSString *const BSIPITokenDownloadErrorNotification = @"BSIPITokenDownloadErrorN
 
 - (BOOL) bsIPIdownload: (BSIPIDownload *) aDownload didRedirectToURL: (NSURL *) newURL
 {
-	return NO;
+	NSString	*extension = [[[newURL path] pathExtension] lowercaseString];
+	if(!extension) return NO;
+		
+	return [[NSImage imageFileTypes] containsObject: extension];
 }
 
 - (void) bsIPIdownload: (BSIPIDownload *) aDownload didAbortRedirectionToURL: (NSURL *) anURL

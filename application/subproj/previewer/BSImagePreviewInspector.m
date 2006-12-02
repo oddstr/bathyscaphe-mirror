@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.19.2.12 2006/11/30 17:51:47 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.19.2.13 2006/12/02 13:26:47 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -105,27 +105,6 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 		modalDelegate : self
 	   didEndSelector : nil
 		  contextInfo : nil];
-}
-
-- (IBAction) endSettingsSheet : (id) sender
-{
-	NSWindow *sheet_ = [sender window];
-	[NSApp endSheet : sheet_
-		 returnCode : NSOKButton];
-
-	[sheet_ close];
-}
-
-- (IBAction) openOpenPanel : (id) sender
-{
-	NSOpenPanel	*panel_ = [NSOpenPanel openPanel];
-	[panel_ setCanChooseFiles : NO];
-	[panel_ setCanChooseDirectories : YES];
-	[panel_ setResolvesAliases : YES];
-	if([panel_ runModalForTypes : nil] == NSOKButton)
-		[self setSaveDirectory : [panel_ directory]];
-
-	[self updateDirectoryChooser];
 }
 
 - (IBAction) forceRunTbCustomizationPalette: (id) sender
@@ -373,12 +352,12 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 		return YES;
 	}
 	
-	if ([pressedKey isEqualToString: [NSString stringWithFormat: @"%C", 0xF702]] && [[self tripleGreenCubes] canSelectPrevious]) {
+	if ([pressedKey isEqualToString: [NSString stringWithFormat: @"%C", NSLeftArrowFunctionKey]] && [[self tripleGreenCubes] canSelectPrevious]) {
 		[self showPrevImage: aImageView];
 		return YES;
 	}
 	
-	if ([pressedKey isEqualToString: [NSString stringWithFormat: @"%C", 0xF703]] && [[self tripleGreenCubes] canSelectNext]) {
+	if ([pressedKey isEqualToString: [NSString stringWithFormat: @"%C", NSRightArrowFunctionKey]] && [[self tripleGreenCubes] canSelectNext]) {
 		[self showNextImage: aImageView];
 		return YES;
 	}
