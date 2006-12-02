@@ -20,12 +20,13 @@
 	IBOutlet NSButton		*m_addNoNameBtn;
 	IBOutlet NSButton		*m_removeNoNameBtn;
 	IBOutlet NSButton		*m_editNoNameBtn;
-	//IBOutlet NSButton		*m_detectSettingTxtBtn;
+	IBOutlet NSButton		*m_detectSettingTxtBtn;
 	IBOutlet NSButton		*m_helpButton;
 	IBOutlet NSButton		*m_lockButton;
 	IBOutlet NSTextField	*m_URLField;
 	IBOutlet NSView			*m_namesTable;
 	IBOutlet NSArrayController	*m_greenCube;
+	IBOutlet NSProgressIndicator	*m_spin;
 }
 
 + (id) sharedInstance;
@@ -40,15 +41,16 @@
 - (NSButton *) addNoNameBtn;
 - (NSButton *) removeNoNameBtn;
 - (NSButton *) editNoNameBtn;
-//- (NSButton *) detectSettingTxtBtn;
+- (NSButton *) detectSettingTxtBtn;
 - (NSButton *) lockButton;
 - (NSTextField *) URLField;
 - (NSArrayController *) greenCube;
+- (NSProgressIndicator *) spin;
 
 // IBAction
 - (IBAction) addNoName : (id) sender;
 - (IBAction) editNoName: (id) sender;
-//- (IBAction) startDetect: (id) sender;
+- (IBAction) startDetect: (id) sender;
 - (IBAction) toggleAllowEditingBoardURL: (id) sender;
 - (IBAction) openHelpForMe : (id) sender;
 
@@ -74,6 +76,8 @@
 - (void) setShouldAllThreadsAAThread : (BOOL) checkboxState;
 
 - (NSImage *) icon;
+
+- (int) nanashiAllowed;
 
 // Notification
 - (void) mainWindowChanged : (NSNotification *) theNotification;

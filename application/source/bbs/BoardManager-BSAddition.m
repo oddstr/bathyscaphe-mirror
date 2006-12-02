@@ -13,6 +13,7 @@ static NSString *const NNDDefaultKotehanKey = @"DefaultReplyName";
 static NSString *const NNDDefaultMailKey	= @"DefaultReplyMail";
 static NSString *const NNDAllThreadsAAKey	= @"AABoard";
 static NSString *const NNDBeLoginPolicyTypeKey = @"BeLoginPolicy";
+static NSString *const NNDAllowsNanashiKey	= @"AllowsNanashi";
 
 extern NSImage  *imageForType(BoardListItemType type); // described in BoardList-OVDatasource.m
 
@@ -455,6 +456,19 @@ extern NSImage  *imageForType(BoardListItemType type); // described in BoardList
 		[nnd_ setObject : mutableEntry_ forKey : boardName];
 		[mutableEntry_ release];
 	}
+}
+
+#pragma mark ReinforceII Addition
+- (BOOL) allowsNanashiAtBoard: (NSString *) boardName
+{
+	return [self boolValueForBoard: boardName
+	                           key: NNDAllowsNanashiKey
+	                  defaultValue: YES];
+}
+
+- (void) setAllowsNanashi: (BOOL) allows atBoard: (NSString *) boardName
+{
+    [self setBoolValue: allows forKey: NNDAllowsNanashiKey atBoard: boardName];
 }
 
 #pragma mark -

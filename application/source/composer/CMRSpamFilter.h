@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRSpamFilter.h,v 1.1 2005/05/11 17:51:04 tsawada2 Exp $
+  * $Id: CMRSpamFilter.h,v 1.1.1.1.8.1 2006/12/02 18:44:14 tsawada2 Exp $
   * 
   * CMRSpamFilter.h
   *
@@ -8,6 +8,7 @@
   */
 #import <Foundation/Foundation.h>
 #import "CMRMessageFilter.h"
+#import "CMRMessageSample.h"
 
 @class CMRSamplingDetecter;
 @class CMRThreadMessageBuffer;

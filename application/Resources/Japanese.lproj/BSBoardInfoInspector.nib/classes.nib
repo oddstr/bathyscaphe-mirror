@@ -5,6 +5,7 @@
                 addNoName = id; 
                 editNoName = id; 
                 openHelpForMe = id; 
+                startDetect = id; 
                 toggleAllowEditingBoardURL = id; 
             }; 
             CLASS = BSBoardInfoInspector; 
@@ -12,12 +13,14 @@
             OUTLETS = {
                 "m_URLField" = NSTextField; 
                 "m_addNoNameBtn" = NSButton; 
+                "m_detectSettingTxtBtn" = NSButton; 
                 "m_editNoNameBtn" = NSButton; 
                 "m_greenCube" = NSArrayController; 
                 "m_helpButton" = NSButton; 
                 "m_lockButton" = NSButton; 
                 "m_namesTable" = NSView; 
                 "m_removeNoNameBtn" = NSButton; 
+                "m_spin" = NSProgressIndicator; 
             }; 
             SUPERCLASS = NSWindowController; 
         }, 

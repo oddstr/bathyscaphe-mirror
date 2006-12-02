@@ -35,3 +35,4 @@ extern NSString *const BSSettingTxtDetectorDidFailNotification;
 extern NSString *const kBSSTDBoardNameKey;
 extern NSString *const kBSSTDNoNameValueKey;
 extern NSString *const kBSSTDBeLoginPolicyTypeValueKey;
+extern NSString *const kBSSTDAllowsNanashiBoolValueKey;

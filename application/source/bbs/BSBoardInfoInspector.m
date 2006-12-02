@@ -40,6 +40,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 		[self setKeys: keyArray triggerChangeNotificationsForDependentKey: @"icon"];
 		[self setKeys: keyArray triggerChangeNotificationsForDependentKey: @"shouldEnableBeBtn"];
 		[self setKeys: keyArray triggerChangeNotificationsForDependentKey: @"shouldEnableURLEditing"];
+		[self setKeys: keyArray triggerChangeNotificationsForDependentKey: @"nanashiAllowed"];
 	}
 }
 
@@ -126,10 +127,10 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 {
 	return m_editNoNameBtn;
 }
-/*- (NSButton *) detectSettingTxtBtn
+- (NSButton *) detectSettingTxtBtn
 {
 	return m_detectSettingTxtBtn;
-}*/
+}
 - (NSButton *) lockButton
 {
 	return m_lockButton;
@@ -141,6 +142,10 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 - (NSArrayController *) greenCube
 {
 	return m_greenCube;
+}
+- (NSProgressIndicator *) spin
+{
+	return m_spin;
 }
 
 #pragma mark IBActions
@@ -177,12 +182,23 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	[BrdMgr exchangeNoName: tmp_ toNewValue: newNanashi forBoard: [self currentTargetBoardName]];
 	[self didChangeValueForKey: @"noNamesArray"];
 }
-/*
+
 - (IBAction) startDetect: (id) sender
 {
-	;
+	if ([BrdMgr startDownloadSettingTxtForBoard: [self currentTargetBoardName]]) {
+		[[NSNotificationCenter defaultCenter]
+			 addObserver : self
+				selector : @selector(boardManagerDidDetectSettingTxt:)
+					name : BoardManagerDidFinishDetectingSettingTxtNotification
+				  object : BrdMgr];
+		[[self spin] startAnimation: nil];
+		[[self detectSettingTxtBtn] setEnabled: NO];
+	} else {
+		NSBeep();
+		NSLog(@"Sorry... non-2ch boards are not supported.");
+	}
 }
-*/
+
 - (IBAction) toggleAllowEditingBoardURL: (id) sender
 {
 	int state_ = [sender state];
@@ -301,6 +317,11 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	return [BrdMgr iconForBoard : [self currentTargetBoardName]];
 }
 
+- (int) nanashiAllowed
+{
+	return [BrdMgr allowsNanashiAtBoard: [self currentTargetBoardName]] ? 0 : 1;
+}
+
 #pragma mark Notification
 - (void) mainWindowChanged : (NSNotification *) theNotification
 {
@@ -356,5 +377,18 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 		[self setCurrentTargetBoardName : tmp_];
 		[[self window] update];
 	}
+}
+
+- (void) boardManagerDidDetectSettingTxt: (NSNotification *) aNotification
+{
+	[[self spin] stopAnimation: nil];
+	[[self detectSettingTxtBtn] setEnabled: YES];
+
+	if ([[self window] isVisible]) {
+		[self setCurrentTargetBoardName : _currentTargetBoardName];
+		[[self window] update];
+	}
+	
+	[[NSNotificationCenter defaultCenter] removeObserver: self name: BoardManagerDidFinishDetectingSettingTxtNotification object: BrdMgr];
 }
 @end

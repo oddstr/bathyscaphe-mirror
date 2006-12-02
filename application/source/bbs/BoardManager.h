@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.h,v 1.10.2.4 2006/09/06 17:36:37 tsawada2 Exp $
+ * $Id: BoardManager.h,v 1.10.2.5 2006/12/02 18:44:14 tsawada2 Exp $
  * 
  * BoardManager.h
  *
@@ -154,6 +154,10 @@ typedef enum _BSBeLoginPolicyType {
 
 // available in MeteorSweeper and later.
 - (BOOL) needToDetectNoNameForBoard: (NSString *) boardName;
+
+// available in ReinforceII and later.
+- (BOOL) allowsNanashiAtBoard: (NSString *) boardName;
+- (void) setAllowsNanashi: (BOOL) allows atBoard: (NSString *) boardName;
 @end
 
 // MeteorSweeper Addition
@@ -173,3 +177,4 @@ typedef enum _BSBeLoginPolicyType {
 
 extern NSString *const CMRBBSManagerUserListDidChangeNotification;
 extern NSString *const CMRBBSManagerDefaultListDidChangeNotification;
+extern NSString *const BoardManagerDidFinishDetectingSettingTxtNotification; // available in ReinforceII and later

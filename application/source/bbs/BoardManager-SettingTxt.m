@@ -6,6 +6,8 @@
 #import "BoardList.h"
 #import "BSBoardInfoInspector.h"
 
+NSString *const BoardManagerDidFinishDetectingSettingTxtNotification = @"BoardManagerDidFinishDetectingSettingTxtNotification";
+
 @implementation BoardManager(SettingTxtDetector)
 - (BOOL) doDownloadSettingTxtForBoard: (NSString *) boardName
 {
@@ -82,6 +84,7 @@
 												  object: detector_];
 
 	[detector_ release];
+	UTILNotifyName(BoardManagerDidFinishDetectingSettingTxtNotification);
 }
 
 - (void) detectorDidFinish: (NSNotification *) aNotification
@@ -98,10 +101,12 @@
 
 	[self addNoName: [infoDict_ objectForKey: kBSSTDNoNameValueKey] forBoard: board];
 	[self setTypeOfBeLoginPolicy: [infoDict_ unsignedIntForKey: kBSSTDBeLoginPolicyTypeValueKey] forBoard: board];
+	[self setAllowsNanashi: [infoDict_ boolForKey: kBSSTDAllowsNanashiBoolValueKey] atBoard: board];
 
 	NSLog(@"BoardManager - Successfully set properties detected by BSSTD.");
 
 	[detector_ release];
+	UTILNotifyName(BoardManagerDidFinishDetectingSettingTxtNotification);
 }
 @end
 

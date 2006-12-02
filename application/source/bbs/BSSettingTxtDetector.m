@@ -18,6 +18,7 @@ NSString *const BSSettingTxtDetectorDidFailNotification = @"BSSTDDidFailNotifica
 NSString *const kBSSTDBoardNameKey = @"boardName";
 NSString *const kBSSTDNoNameValueKey = @"defaultNoName";
 NSString *const kBSSTDBeLoginPolicyTypeValueKey = @"beLoginPolicyType";
+NSString *const kBSSTDAllowsNanashiBoolValueKey = @"allowsNanashi";
 
 @implementation BSSettingTxtDetector
 - (id) initWithBoardName: (NSString *) boardName settingTxtURL: (NSURL *) anURL
@@ -118,6 +119,7 @@ Err_Failed:
 	id	eachItem;
 	NSString   *noNameValue = @"";
 	BSBeLoginPolicyType    typeValue = BSBeLoginDecidedByUser;
+	BOOL	nanashiOK = YES;
 	
 	while ((eachItem = [iter_ nextObject]) != nil) {
 		NSArray *ary2;
@@ -128,8 +130,12 @@ Err_Failed:
 			noNameValue = [ary2 objectAtIndex: 1];
 		} else if ([ary2 containsObject: @"BBS_BE_ID"]) {
             if (NO == [[ary2 objectAtIndex: 1] isEqualToString: @""]) {
-			     typeValue = BSBeLoginTriviallyNeeded;
+				typeValue = BSBeLoginTriviallyNeeded;
             }
+		} else if ([ary2 containsObject: @"NANASHI_CHECK"]) {
+			if (NO == [[ary2 objectAtIndex: 1] isEqualToString: @""]) {
+				nanashiOK = NO;
+			}
 			break;
 		}
 	}
@@ -138,6 +144,7 @@ Err_Failed:
 	returnDict = [NSDictionary dictionaryWithObjectsAndKeys:
                     noNameValue, kBSSTDNoNameValueKey,
 	               [NSNumber numberWithUnsignedInt: typeValue], kBSSTDBeLoginPolicyTypeValueKey,
+				   [NSNumber numberWithBool: nanashiOK], kBSSTDAllowsNanashiBoolValueKey,
 	               [self boardName], kBSSTDBoardNameKey,
 	               NULL];
 

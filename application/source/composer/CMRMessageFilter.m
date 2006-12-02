@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMessageFilter.m,v 1.6.4.1 2006/08/31 10:18:40 tsawada2 Exp $
+  * $Id: CMRMessageFilter.m,v 1.6.4.2 2006/12/02 18:44:14 tsawada2 Exp $
   * 
   * CMRMessageFilter.m
   *
@@ -10,181 +10,12 @@
 #import "CocoMonar_Prefix.h"
 #import "CMRThreadMessage.h"
 #import "CMRThreadSignature.h"
-//#import "BoardManager.h"
 #import "CMXTextParser.h"
-
 
 // for debugging only
 #define UTIL_DEBUGGING		0
 #import "UTILDebugging.h"
 
-
-
-@implementation CMRMessageDetecter
-/* primitive */
-- (BOOL) detectMessage : (CMRThreadMessage *) aMessage
-{ return NO; }
-@end
-
-#pragma mark -
-
-@implementation CMRMessageSample
-+ (id) sampleWithMessage : (CMRThreadMessage   *) aMessage
-			  withThread : (CMRThreadSignature *) aThreadIdentifier
-{
-	return [[[self alloc] initWithMessage:aMessage withThread:aThreadIdentifier] autorelease];
-}
-- (id) initWithMessage : (CMRThreadMessage   *) aMessage
-			withThread : (CMRThreadSignature *) aThreadIdentifier
-{
-	if (self = [super init]) {
-		[self setMessage : aMessage];
-		[self setThreadIdentifier : aThreadIdentifier];
-	}
-	return self;
-}
-
-- (void) dealloc
-{
-	[_message release];
-	[_threadIdentifier release];
-	[super dealloc];
-}
-
-- (BOOL) isEqual : (id) anObject
-{
-	CMRThreadMessage	*m1, *m2;
-	
-	if (nil == anObject) return NO;
-	if (self == anObject) return YES;
-	
-	if (NO == [anObject isKindOfClass : [self class]])
-		return NO;
-	if (NO == [[self threadIdentifier] isEqual : [anObject threadIdentifier]])
-		return NO;
-	
-	m1 = [self message];
-	m2 = [(CMRMessageSample*)anObject message];
-	
-	if (m1 == m2) return YES;
-	if (NO == [[m1 name] isEqualToString : [m2 name]]) return NO;
-	if (NO == [[m1 IDString] isEqualToString : [m2 IDString]]) return NO;
-	if (NO == [[m1 messageSource] isEqualToString : [m2 messageSource]]) return NO;
-	
-	
-	return YES;
-}
-
-- (UInt32) flags
-{
-	return _flags;
-}
-- (void) setFlags : (UInt32) aFlags
-{
-	_flags = aFlags;
-}
-- (UInt32) matchedCount
-{
-	return _matchedCount;
-}
-- (void) setMatchedCount : (UInt32) aMatchedCount
-{
-	_matchedCount = aMatchedCount;
-}
-- (void) incrementMatchedCount
-{
-	_matchedCount++;
-}
-
-- (CMRThreadMessage *) message
-{
-	return _message;
-}
-- (CMRThreadSignature *) threadIdentifier
-{
-	return _threadIdentifier;
-}
-- (void) setMessage : (CMRThreadMessage *) aMessage
-{
-	id		tmp;
-	
-	tmp = _message;
-	_message = [aMessage retain];
-	[tmp release];
-}
-- (void) setThreadIdentifier : (CMRThreadSignature *) aThreadIdentifier
-{
-	id		tmp;
-	
-	tmp = _threadIdentifier;
-	_threadIdentifier = [aThreadIdentifier retain];
-	[tmp release];
-}
-
-#pragma mark  CMRPropertyListCoding
-
-#define kMessageKey			@"Message"
-#define kThreadIDKey		@"Thread"
-#define kFlagsKey			@"Flags"
-#define kMatchedCount		@"MatchedCount"
-
-- (BOOL) initializeWithPropertyListRepresentation : (id) rep
-{
-	id		v;
-	
-	if (NO == [rep isKindOfClass : [NSDictionary class]]) {
-		return NO;
-	}
-	[self setMessage :
-		[CMRThreadMessage objectWithPropertyListRepresentation :
-			[rep objectForKey : kMessageKey]]];
-	[self setThreadIdentifier :
-		[CMRThreadSignature objectWithPropertyListRepresentation :
-			[rep objectForKey : kThreadIDKey]]];
-	
-	v = [rep numberForKey : kFlagsKey];
-	if (v != nil) [self setFlags : [v unsignedIntValue]];
-	v = [rep numberForKey : kMatchedCount];
-	if (v != nil) [self setMatchedCount : [v unsignedIntValue]];
-	
-	return YES;
-}
-- (id) initWithPropertyListRepresentation : (id) rep
-{
-	if (self = [self init]) {
-		if (NO == [self initializeWithPropertyListRepresentation:rep]) {
-			[self release];
-			return nil;
-		}
-	}
-	return self;
-}
-+ (id) objectWithPropertyListRepresentation : (id) rep
-{
-	return [[[self alloc] initWithPropertyListRepresentation : rep] autorelease];
-}
-- (id) propertyListRepresentation
-{
-	NSMutableDictionary		*rep;
-	
-	rep = [NSMutableDictionary dictionary];
-	[rep setNoneNil : [[self message] propertyListRepresentation]
-			 forKey : kMessageKey];
-	[rep setNoneNil : [[self threadIdentifier] propertyListRepresentation]
-			 forKey : kThreadIDKey];
-	[rep setUnsignedInt : [self flags]
-			 	 forKey : kFlagsKey];
-	[rep setUnsignedInt : [self matchedCount]
-			 	 forKey : kMatchedCount];
-	
-	return rep;
-}
-@end
-
-#pragma mark -
-#pragma mark stuff
-
-static void setupAppendingSample_(CMRMessageSample *sample, NSMutableDictionary *table, NSSet *noNamesSet);
 static int detectMessageAny_(
 				CMRMessageSample *s,
 				CMRThreadMessage *m,
@@ -198,8 +29,16 @@ static int doDetectMessageAny_(
 static BOOL checkMailIsNonSignificant_(NSString *mail);
 static BOOL checkNameIsNonSignificant_(NSString *name);
 static BOOL checkIDIsNonSignificant_(NSString *idStr_);
+static BOOL checkNameHasResLink_(NSString *name);
 
-#pragma mark -
+
+@implementation CMRMessageDetecter
+/* primitive */
+- (BOOL) detectMessage: (CMRThreadMessage *) aMessage
+{
+	return NO;
+}
+@end
 
 @implementation CMRSamplingDetecter
 - (SGBaseCArrayWrapper *) samples
@@ -317,8 +156,6 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 									   forKey : kSamplesKey];
 }
 
-#pragma mark -
-
 - (id) initWithDictionaryRepresentation : (NSDictionary *) aDictionary
 {
 	return [self initWithPropertyListRepresentation : aDictionary];
@@ -328,6 +165,7 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	return [self propertyListRepresentation];
 }
 
+#pragma mark Detecting
 - (NSMutableDictionary *) samplesTable
 {
 	if (nil == _table) {
@@ -366,9 +204,18 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	_noNameSet = aSet;
 }
 
+- (BOOL) nanashiAllowedAtWorkingBoard
+{
+	return _nanashiAllowed;
+}
+- (void) setNanashiAllowedAtWorkingBoard: (BOOL) allowed
+{
+	_nanashiAllowed = allowed;
+}
+
 - (void) addNewMessageSample : (CMRMessageSample *) aSample
 {
-	setupAppendingSample_(aSample, [self samplesTable], [self noNameSetAtWorkingBoard]);
+	[self setupAppendingSampleForSample: aSample table: [self samplesTable]];
 	[[self samples] addObject : aSample];
 }
 - (void) addSamplesFromDetecter : (CMRSamplingDetecter *) aDetecter
@@ -488,8 +335,6 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 		// 名前
 		field = [aMessage name];
 		if (NO == checkNameIsNonSignificant_(field)) {
-			//NSString *b = [aThread BBSName];
-			//NSSet *nnSet = [[BoardManager defaultManager] defaultNoNameSetForBoard : b];
 			NSSet *nnSet = [self noNameSetAtWorkingBoard];
 
 			if (NO == [nnSet containsObject: field])
@@ -563,9 +408,147 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	
 	return NO;
 }
+
+/*
+無視リスト：
+メール欄："sage", "age", "0"
+名前：レスリンク、板の名無し
+
+
+（ID）板と ID が一致
+（名前）サンプルに同じ名前が複数あり、ID が異なる場合は名前を使用する
+（メール欄）名前もIDも無視する場合は考慮する
+（本文）内容が一致
+
+@param sample 追加予定のサンプル
+@param table  これまで追加されたサンプルの辞書。
+			　キーは名前かID（エンティティ解決等はしない）
+*/
+- (void) setupAppendingSampleForSample: (CMRMessageSample *) sample table: (NSMutableDictionary *) table
+{
+	CMRThreadMessage	*m = [sample message];
+	CMRThreadSignature	*threadIdentifier = [sample threadIdentifier];
+	unsigned			sign;		// 考慮する項目のフラグ
+	NSString			*s;
+	id					tmp;
+	CMRThreadMessage	*tmp_m;
+	NSString			*tmpString;
+	
+	UTILCAssertNotNil(sample);
+	UTILCAssertNotNil(table);
+	
+	// 基本的にメール欄とホスト、名前欄（スレッド限定）は無視する
+	sign = kSampleAsAny;
+	sign &= ~kSampleAsMailMask;
+	sign &= ~kSampleAsHostMask;
+	sign &= ~kSampleAsThreadLocalMask;
+	
+	
+	/* ID */
+	tmpString = [m IDString];
+
+	if ((tmpString == nil) || checkIDIsNonSignificant_([tmpString stringByStriped]))
+	{
+	   // ID がないか、重要でない。ID を無視。
+		sign &= ~kSampleAsIDMask; 
+	} else {
+		// ID で登録
+		[table setObject:sample forKey:tmpString];
+	}
+
+	/* Host */
+	tmpString = [m host];
+	s = [tmpString stringByStriped];
+	if ([s length] != 0) {
+		// Host で登録
+		sign |= kSampleAsHostMask; 
+		[table setObject:sample forKey:tmpString];
+	}
+	
+	/* Name */
+	// エンティティ参照を解決し、名前を正規化
+	tmpString = [m name];
+	s = [tmpString stringByReplaceEntityReference];
+
+    if (s == nil) sign &= ~kSampleAsNameMask;
+
+	if (NO == [self nanashiAllowedAtWorkingBoard] || [[self noNameSetAtWorkingBoard] containsObject: s]) {
+    	// 板の名無しと同じ名前。または板の名無しと同じ名前ではないが、この板では名前欄必須。無視。
+	    sign &= ~kSampleAsNameMask;
+	} else {
+		// 名前の文字列で検証
+		s = [s stringByStriped];
+		if (checkNameIsNonSignificant_(s)) {
+            // 重要でない名前
+			sign &= ~kSampleAsNameMask;
+		} else if (checkNameHasResLink_(s)) {
+			// レスへのリンク
+			// 同一スレッド上でひとつ前に登録されていれば
+			// スレッドローカルで考慮する
+			sign &= ~kSampleAsNameMask;
+			
+			tmp = [table objectForKey : threadIdentifier];
+			tmp_m = [(CMRMessageSample*)tmp message];
+			if (tmp && tmp_m && [[tmp_m name] isEqualToString : tmpString]) {
+				if (0 == ([tmp_m property] & kSampleAsThreadLocalMask)) {
+					sign |= kSampleAsThreadLocalMask;
+				}
+			} else if (threadIdentifier != nil){
+				// スレッド で登録
+				[table setObject:sample forKey:threadIdentifier];
+			}
+		}
+	}
+
+    // ここまでのフィルタリングで名前を考慮から外しきれていない
+	if ((sign & kSampleAsNameMask) != 0) {
+		if ((sign & kSampleAsIDMask) || (sign & kSampleAsHostMask)) {
+			// すでに一度名前で登録されており、かつ
+			// ID/Host が異なる（または ID/Host がない）場合に、
+			// 名前で登録
+			
+			sign &= ~kSampleAsNameMask;
+			tmp = [table objectForKey : tmpString];
+			tmp_m = [(CMRMessageSample*)tmp message];
+			if (tmp && tmp_m && (0 == ([tmp_m property] & kSampleAsNameMask))) {
+				BOOL	q = YES;
+				
+				if ((sign & kSampleAsIDMask))
+					q = q && (NO == [[tmp_m IDString] isEqualToString : [m IDString]]);
+				if ((sign & kSampleAsHostMask))
+					q = q && (NO == [[tmp_m host] isEqualToString : [m host]]);
+				
+				if (q) {
+					sign |= kSampleAsNameMask;
+					[table setObject:sample forKey:tmpString];
+				}
+			} else {
+				// 名前で登録
+				[table setObject:sample forKey:tmpString];
+			}
+		} else {
+			// ID も Host もないので、名前で登録
+			sign |= kSampleAsNameMask;
+			[table setObject:sample forKey:tmpString];
+		}
+	} else {
+		if (0 == (sign & kSampleAsIDMask)) {
+			/* Name */
+			// 名前もIDも使えない場合のみ
+			// メール欄の文字列で検証
+			s = [[[m mail] stringByReplaceEntityReference] stringByStriped];
+			if (NO == checkMailIsNonSignificant_(s)) {
+				sign |= kSampleAsMailMask;
+			} else {
+				// ID、名前、メール欄、いずれでも区別できない
+			}
+		}
+	}
+	
+	[m setProperty : sign];
+}
 @end
 
-#pragma mark -
 #pragma mark Static Funcs
 
 static int detectMessageAny_(
@@ -592,39 +575,13 @@ static int doDetectMessageAny_(
 	BOOL				Eq_b, Eq_t;
 	unsigned			mask = [m1 property];
 	
-//	BoardManager		*nnMgr = [BoardManager defaultManager];
 	NSString			*b1 = [t1 BBSName];
 	NSString			*b2 = [t2 BBSName];
 	NSString			*s1, *s2;
 	
 	Eq_t = [t1 isEqual : t2];
 	Eq_b = (NO == Eq_t) ? [b1 isEqualToString : b2] : YES;
-/*
-	if (kSampleAsIDMask & mask) { 
-		if (b1 == b2 || Eq_b) {
-			s1 = [m1 IDString];
-			s2 = [m2 IDString];
-			
-			if ([s1 isEqualToString : s2]) {
-				// 同一板でかつ、ID が一致
-				return kSampleAsIDMask;
-			}
-		}
-	}
-	if (kSampleAsHostMask & mask) { 
-		if (b1 == b2 || Eq_b) {
-			s1 = [m1 host];
-			s2 = [m2 host];
 
-			if ([s1 length] > 1 && [s1 isEqualToString : s2]) {
-				// 同一板でかつ、Host が一致
-				// 2005-02-13 修正：同一板でかつ、Host が二文字以上、かつ、Host が一致
-				// 携帯・PC 区別の0,o対策
-				return kSampleAsHostMask;
-			}
-		}
-	}
-*/
 	if (b1 == b2 || Eq_b) { // 同一板、ID または Host の一致をチェック（同一板でないなら ID、Host は見る可能性がない）（スレ限定名前も）
 		if (kSampleAsIDMask & mask) {
 			s1 = [m1 IDString];
@@ -638,7 +595,6 @@ static int doDetectMessageAny_(
 		
 		if (kSampleAsHostMask & mask) {
 			s1 = [m1 host];
-			//s2 = [m2 host];
 
 			if ([s1 length] > 1 && [s1 isEqualToString : [m2 host]]) {
 				// 同一板でかつ、Host が一致
@@ -647,7 +603,6 @@ static int doDetectMessageAny_(
 				return kSampleAsHostMask;
 			}
 		}
-//	}
 	
 		// 名前（スレッド限定）// 当然、同一板
 		if (kSampleAsThreadLocalMask & mask) { 
@@ -664,8 +619,6 @@ static int doDetectMessageAny_(
 	}
 	// 名前
 	if (kSampleAsNameMask & mask) { 
-		//NSSet *nnSet = [nnMgr defaultNoNameSetForBoard: b2];
-		//s1 = [m1 name];
 		s2 = [m2 name];
 		if (NO == [noNamesSet containsObject: s2]) {
 			if ([[m1 name] isEqualToString : s2]) {
@@ -748,20 +701,21 @@ static BOOL checkNameHasResLink_(NSString *name)
 {
 	NSScanner		*scanner;
 	NSCharacterSet	*cset;
+	NSCharacterSet	*whiteCset = [NSCharacterSet whitespaceCharacterSet];
 	
 	// >> xx: レスへのリンクも無視する
 	scanner = [NSScanner scannerWithString : name];
 	cset = [NSCharacterSet innerLinkPrefixCharacterSet];
 	[scanner scanCharactersFromSet:cset intoString:NULL];
-	cset = [NSCharacterSet whitespaceCharacterSet];
-	[scanner scanCharactersFromSet:cset intoString:NULL];
+
+	[scanner scanCharactersFromSet: whiteCset intoString: NULL];
 	
 	while (1) {
 		cset = [NSCharacterSet numberCharacterSet_JP];
 		if (NO == [scanner scanCharactersFromSet:cset intoString:NULL])
 			break;
-		cset = [NSCharacterSet whitespaceCharacterSet];
-		[scanner scanCharactersFromSet:cset intoString:NULL];
+
+		[scanner scanCharactersFromSet: whiteCset intoString: NULL];
 		if ([scanner isAtEnd]) {
 			
 			UTIL_DEBUG_WRITE1(
@@ -775,167 +729,9 @@ static BOOL checkNameHasResLink_(NSString *name)
 		[scanner scanCharactersFromSet:cset intoString:NULL];
 		cset = [NSCharacterSet innerLinkSeparaterCharacterSet];
 		[scanner scanCharactersFromSet:cset intoString:NULL];
-		cset = [NSCharacterSet whitespaceCharacterSet];
-		[scanner scanCharactersFromSet:cset intoString:NULL];
+
+		[scanner scanCharactersFromSet: whiteCset intoString: NULL];
 	}
 	
 	return NO;
 }
-/*
-無視リスト：
-メール欄："sage", "age", "0"
-名前：レスリンク、板の名無し
-
-
-（ID）板と ID が一致
-（名前）サンプルに同じ名前が複数あり、ID が異なる場合は名前を使用する
-（メール欄）名前もIDも無視する場合は考慮する
-（本文）内容が一致
-
-@param sample 追加予定のサンプル
-@param table  これまで追加されたサンプルの辞書。
-			　キーは名前かID（エンティティ解決等はしない）
-*/
-
-static void setupAppendingSample_(CMRMessageSample *sample, NSMutableDictionary *table, NSSet *noNamesSet)
-{
-	CMRThreadMessage	*m = [sample message];
-	CMRThreadSignature	*t = [sample threadIdentifier];
-//	NSString			*b = [t BBSName];
-	unsigned			sign;		// 考慮する項目のフラグ
-	NSString			*s;
-	id					tmp;
-	CMRThreadMessage	*tmp_m;
-	NSString			*tmpString;
-	
-	UTILCAssertNotNil(sample);
-	UTILCAssertNotNil(table);
-	
-	// 基本的にメール欄とホスト、名前欄（スレッド限定）は無視する
-	sign = kSampleAsAny;
-	sign &= ~kSampleAsMailMask;
-	sign &= ~kSampleAsHostMask;
-	sign &= ~kSampleAsThreadLocalMask;
-	
-	
-	/* ID */
-	tmpString = [m IDString];
-	//s = [tmpString stringByStriped];
-
-	if ((tmpString == nil) || checkIDIsNonSignificant_([tmpString stringByStriped]))
-	{
-		UTIL_DEBUG_WRITE1(@"ID:%@ was nonsignificant.", tmpString);
-		sign &= ~kSampleAsIDMask; 
-	} else {
-		// ID で登録
-		[table setObject:sample forKey:tmpString];
-	}
-
-	/* Host */
-	tmpString = [m host];
-	s = [tmpString stringByStriped];
-	if ([s length] != 0) {
-		// Host で登録
-		sign |= kSampleAsHostMask; 
-		[table setObject:sample forKey:tmpString];
-	}
-	
-	
-	/* Name */
-	// エンティティ参照を解決し、名前を正規化
-	// 板の名無しと同じ名前なら無視
-	tmpString = [m name];
-	s = [tmpString stringByReplaceEntityReference];
-	//tmp = [[BoardManager defaultManager] defaultNoNameSetForBoard : b];
-//	if (s != nil && [s isEqualToString : tmp]) {
-	if (s != nil && [noNamesSet containsObject: s]) {
-		UTIL_DEBUG_WRITE1(
-			@"name:%@ was default NO_NAME, was nonsignificant.", s);
-		sign &= ~kSampleAsNameMask;
-	} else {
-		// 名前の文字列で検証
-		s = [s stringByStriped];
-		if (checkNameIsNonSignificant_(s)) {
-			sign &= ~kSampleAsNameMask;
-		} else if (checkNameHasResLink_(s)) {
-			// レスへのリンク
-			// 同一スレッド上でひとつ前に登録されていれば
-			// スレッドローカルで考慮する
-			sign &= ~kSampleAsNameMask;
-			
-			tmp = [table objectForKey : t];
-			tmp_m = [(CMRMessageSample*)tmp message];
-			if (tmp && tmp_m && [[tmp_m name] isEqualToString : tmpString]) {
-				if (0 == ([tmp_m property] & kSampleAsThreadLocalMask)) {
-					UTIL_DEBUG_WRITE2(
-						@"name:%@ was duplicate ResLink in thread(%@)"
-						@", so it will be added as thread-local", 
-						s, t);
-					sign |= kSampleAsThreadLocalMask;
-				}
-			} else if (t != nil){
-				UTIL_DEBUG_WRITE2(
-					@"name:%@ was ResLink in thread(%@)"
-					@", but it can be added as thread-local", 
-					s, t);
-				// スレッド で登録
-				[table setObject:sample forKey:t];
-			}
-		}
-	}
-	
-	if ((sign & kSampleAsNameMask) != 0) {
-		if ((sign & kSampleAsIDMask) || (sign & kSampleAsHostMask)) {
-			// すでに一度名前で登録されており、かつ
-			// ID/Host が異なり（または ID/Host がない）、
-			// すでに有効になっていない場合のみ
-			// 名前も考慮に含める
-			
-			sign &= ~kSampleAsNameMask;
-			tmp = [table objectForKey : tmpString];
-			tmp_m = [(CMRMessageSample*)tmp message];
-			if (tmp && tmp_m && (0 == ([tmp_m property] & kSampleAsNameMask))) {
-				BOOL	q = YES;
-				
-				if ((sign & kSampleAsIDMask))
-					q = q && (NO == [[tmp_m IDString] isEqualToString : [m IDString]]);
-				if ((sign & kSampleAsHostMask))
-					q = q && (NO == [[tmp_m host] isEqualToString : [m host]]);
-				
-				if (q) {
-					sign |= kSampleAsNameMask;
-					UTIL_DEBUG_WRITE1(
-						@"name:%@ was duplicate and has identical ID"
-						@", so it will be added.", s);
-					[table setObject:sample forKey:tmpString];
-				}
-			} else {
-				// 名前 で登録
-				[table setObject:sample forKey:tmpString];
-			}
-		} else {
-			// ID/Host がなければ名前
-			sign |= kSampleAsNameMask;
-			UTIL_DEBUG_WRITE1(
-				@"name:%@ will be added.", s);
-			[table setObject:sample forKey:tmpString];
-		}
-	} else {
-		if (0 == (sign & kSampleAsIDMask)) {
-			/* Name */
-			// 名前もIDも使えない場合のみ
-			// メール欄の文字列で検証
-			s = [[[m mail] stringByReplaceEntityReference] stringByStriped];
-			if (NO == checkMailIsNonSignificant_(s)) {
-				UTIL_DEBUG_WRITE1(
-					@"mail:%@ will be added.", s);
-				sign |= kSampleAsMailMask;
-			} else {
-				// ID、名前、メール欄、いずれでも区別できない
-			}
-		}
-	}
-	
-	[m setProperty : sign];
-}
-
