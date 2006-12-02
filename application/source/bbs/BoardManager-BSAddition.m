@@ -2,12 +2,14 @@
 #import "BoardManager_p.h"
 #import "NoNameInputController.h"
 
+#import "DatabaseManager.h"
 
 /* constants */
 // NND means 'NoNameDict'.
 static NSString *const NNDNoNameKey			= @"NoName";
 static NSString *const NNDSortColumnKey		= @"SortColumn";
 static NSString *const NNDIsAscendingKey	= @"IsAscending";
+static NSString *const NNDSortDescriptors	= @"SortDescriptors";
 static NSString *const NNDAlwaysBeLoginKey	= @"AlwaysBeLogin";
 static NSString *const NNDDefaultKotehanKey = @"DefaultReplyName";
 static NSString *const NNDDefaultMailKey	= @"DefaultReplyMail";
@@ -64,6 +66,61 @@ extern NSImage  *imageForType(BoardListItemType type); // described in BoardList
 - (id) entryForBoardName : (NSString *) aBoardName
 {
 	return [[self noNameDict] objectForKey : aBoardName];
+}
+
+- (id) valueForBoard: (NSString *) boardName
+				 key: (NSString *) key
+		defaultValue: (id) value
+{
+	id entry_ = [self entryForBoardName: boardName];
+	id value_ = nil;
+	
+	if ([entry_ isKindOfClass: [NSDictionary class]]) {
+		value_ = [entry_ valueForKey: key];
+	}
+	
+	if (value_ == nil) value_ = value;
+	return value_;
+}
+- (void) setValue: (id) value forKey: (NSString *) key atBoard: (NSString *) boardName
+{
+	UTILAssertNotNil(value);
+	UTILAssertNotNil(boardName);
+	
+	// can serialize using NSPropertyListSerialization.
+	{
+		id obj;
+		obj = [NSPropertyListSerialization dataFromPropertyList: value
+														 format: NSPropertyListBinaryFormat_v1_0
+											   errorDescription: nil];
+		if(!obj) {
+			NSLog(@"It is not permitted though you try to put object which can not serialize using NSPropertyListSerialization into NoNameDict.");
+			return;
+		}
+	}
+	
+	NSMutableDictionary		*nnd_ = [self noNameDict];
+	id entry_ = [self entryForBoardName : boardName];
+	
+	if (entry_ == nil || [entry_ isKindOfClass : [NSString class]]) {
+		NSArray	*tempObjects, *tempKeys;
+		
+		if (entry_ != nil) {
+			tempObjects = [NSArray arrayWithObjects : entry_, value, nil];
+			tempKeys	= [NSArray arrayWithObjects : NNDNoNameKey, key, nil];
+		} else {
+			tempObjects = [NSArray arrayWithObjects : value, nil];
+			tempKeys	= [NSArray arrayWithObjects : key, nil];
+		}
+		[nnd_ setObject: [NSDictionary dictionaryWithObjects : tempObjects forKeys : tempKeys]
+				 forKey: boardName];
+	} else {
+		NSMutableDictionary		*mutableEntry_;
+		mutableEntry_ = [entry_ mutableCopy];
+		[mutableEntry_ setObject: value forKey: key];
+		[nnd_ setObject: mutableEntry_ forKey: boardName];
+		[mutableEntry_ release];
+	}
 }
 
 - (NSString *) stringValueForBoard: (NSString *) boardName
@@ -192,6 +249,89 @@ extern NSImage  *imageForType(BoardListItemType type); // described in BoardList
 						  atBoard : (NSString *) boardName;
 {
     [self setBoolValue: isAscending forKey: NNDIsAscendingKey atBoard: boardName];
+}
+
+// 1.4 or 1.5 addition
+// NSSortDescriptor は NSDictionary に分解されて保存されている。
+static inline NSDictionary *dctionaryFromSortDescriptor(NSSortDescriptor *sortDescriptor)
+{
+	return [NSDictionary dictionaryWithObjectsAndKeys:
+		[NSNumber numberWithBool:[sortDescriptor ascending]], NNDIsAscendingKey,
+		[sortDescriptor key], NNDSortColumnKey,
+		nil];
+}
+static NSArray *plistArrayFromSortDescriptors(NSArray *sortDescriptors)
+{
+	NSMutableArray *result;
+	id enume, obj;
+	
+	result = [NSMutableArray arrayWithCapacity:[sortDescriptors count]];
+	enume = [sortDescriptors objectEnumerator];
+	while(obj = [enume nextObject]) {
+		[result addObject:dctionaryFromSortDescriptor(obj)];
+	}
+	
+	return result;
+}
+static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
+{
+	NSMutableArray *result;
+	id enume, obj;
+	
+	result = [NSMutableArray arrayWithCapacity:[plist count]];
+	enume = [plist objectEnumerator];
+	while(obj = [enume nextObject]) {
+		NSSortDescriptor *sortDescriptor;
+		
+		sortDescriptor = [[NSSortDescriptor alloc] initWithKey:[obj valueForKey:NNDSortColumnKey]
+													 ascending:[[obj valueForKey:NNDIsAscendingKey] boolValue]
+													  selector:@selector(numericCompare:)];
+		[result addObject:sortDescriptor];
+		[sortDescriptor release];
+	}
+	
+	return result;
+}
+- (NSArray *) sortDescriptorsForBoard : (NSString *) boardName
+{
+	NSArray *array;
+	NSSortDescriptor *sortDescriptor;
+	
+	array = [self valueForBoard: boardName
+							key: NNDSortDescriptors
+				   defaultValue: nil];
+	
+	// ここでデフォルトを生成。
+	if(!array) {
+		NSMutableArray *result = [NSMutableArray array];
+		id key = [CMRPref browserSortColumnIdentifier];
+		BOOL asc = [CMRPref browserSortAscending];
+		
+		sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:tableNameForKey(key)
+													  ascending:asc
+													   selector:@selector(numericCompare:)] autorelease];
+		[result addObject:sortDescriptor];
+		
+		// index でソートしないと変なので。
+		if(![key isEqualTo:CMRThreadSubjectIndexKey]) {
+			sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:tableNameForKey(CMRThreadSubjectIndexKey)
+														  ascending:YES
+														   selector:@selector(numericCompare:)] autorelease];
+			[result addObject:sortDescriptor];
+		}
+		
+		return result;
+	}
+	
+	return sortDescriptorsFromPlistArray(array);
+}
+
+- (void) setSortDescriptors : (NSArray *) sortDescriptors
+				   forBoard : (NSString *) boardName
+{
+	[self setValue: plistArrayFromSortDescriptors(sortDescriptors)
+			forKey: NNDSortDescriptors
+		   atBoard: boardName];
 }
 
 #pragma mark (SledgeHammer Addition)

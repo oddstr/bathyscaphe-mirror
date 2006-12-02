@@ -22,6 +22,7 @@
 
 
 @interface BSDBThreadList (Private)
+- (void)setSortDescriptors:(NSArray *)inDescs;
 - (void) sortByKeyWithoutUpdateList : (NSString *) key;
 @end
 @interface BSDBThreadList (ToBeRefactoring)
@@ -134,10 +135,12 @@
 	mBoardListItem = [item retain];
 	[temp release];
 	
-	BOOL isAsc = [[BoardManager defaultManager] sortColumnIsAscendingAtBoard : [self boardName]];
-	[self setIsAscending:isAsc];
-	temp = [[BoardManager defaultManager] sortColumnForBoard : [self boardName]];
-	[self sortByKeyWithoutUpdateList:temp];
+//	BOOL isAsc = [[BoardManager defaultManager] sortColumnIsAscendingAtBoard : [self boardName]];
+//	[self setIsAscending:isAsc];
+//	temp = [[BoardManager defaultManager] sortColumnForBoard : [self boardName]];
+//	[self sortByKeyWithoutUpdateList:temp];
+	temp = [[BoardManager defaultManager] sortDescriptorsForBoard : [self boardName]];
+	[self setSortDescriptors:temp];	
 }
 
 - (BOOL)isFavorites
@@ -279,32 +282,6 @@
 	return [self numberOfThreads];
 }
 
-static inline NSString *keyFromKey( NSString *sortKey )
-{
-	NSString *sortCol = nil;
-		
-	if ([sortKey isEqualTo : CMRThreadTitleKey]) {
-		sortCol = ThreadNameColumn;
-	} else if ([sortKey isEqualTo : CMRThreadLastLoadedNumberKey]) {
-		sortCol = NumberOfReadColumn;
-	} else if ([sortKey isEqualTo : CMRThreadNumberOfMessagesKey]) {
-		sortCol = NumberOfAllColumn;
-	} else if ([sortKey isEqualTo : CMRThreadNumberOfUpdatedKey]) {
-		sortCol = NumberOfDifferenceColumn;
-	} else if ([sortKey isEqualTo : CMRThreadSubjectIndexKey]) {
-		sortCol = TempThreadThreadNumberColumn;
-	} else if ([sortKey isEqualTo : CMRThreadStatusKey]) {
-		sortCol = ThreadStatusColumn;
-	} else if ([sortKey isEqualTo : CMRThreadModifiedDateKey]) {
-		sortCol = ModifiedDateColumn;
-	} else if ([sortKey isEqualTo : ThreadPlistIdentifierKey]) {
-		sortCol = ThreadIDColumn;
-	} else if ([sortKey isEqualTo : ThreadPlistBoardNameKey]) {
-		sortCol = BoardNameColumn;
-	}
-	
-	return [sortCol lowercaseString];
-}
 - (void) sortByKeyWithoutUpdateList : (NSString *) key
 {
 	id tmp = mSortKey;
@@ -314,7 +291,7 @@ static inline NSString *keyFromKey( NSString *sortKey )
 	{
 		id sortDescriptor;
 		
-		sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:keyFromKey(mSortKey)
+		sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:tableNameForKey(mSortKey)
 													  ascending:[self isAscending]
 													   selector:@selector(numericCompare:)] autorelease];
 		

@@ -74,6 +74,9 @@
 - (BOOL) createBoardThreadInfoView;
 @end
 
+// スレッド一覧テーブルカラムのIDからデータベース上のテーブル名を取得。
+NSString *tableNameForKey(NSString *key);
+
 
 
 extern NSString *BoardInfoTableName;

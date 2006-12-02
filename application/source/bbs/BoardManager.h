@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.h,v 1.12 2006/11/07 12:50:31 masakih Exp $
+ * $Id: BoardManager.h,v 1.13 2006/12/02 16:17:59 masakih Exp $
  * 
  * BoardManager.h
  *
@@ -116,6 +116,10 @@ typedef enum _BSBeLoginPolicyType {
 - (BOOL) sortColumnIsAscendingAtBoard : (NSString *) boardName;
 - (void) setSortColumnIsAscending : (BOOL	   ) isAscending
 						  atBoard : (NSString *) boardName;
+// 1.4 or 1.5 addition
+- (NSArray *) sortDescriptorsForBoard : (NSString *) boardName;
+- (void) setSortDescriptors : (NSArray *) sortDescriptors
+				   forBoard : (NSString *) boardName;
 
 // SledgeHammer Addition
 - (BOOL) alwaysBeLoginAtBoard : (NSString *) boardName;

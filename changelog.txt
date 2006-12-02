@@ -1,3 +1,20 @@
+2006-12-03 masakih <masakih@users.sourceforge.jp>
+	* application/Resources/Japanese.lproj/Acknowledgments.rtf:
+		SQLite のライセンス表示。
+	* application/source/bbs/BoardManager-BSAddition.m:
+	* application/source/bbs/BoardManager.h:
+		スレッド一覧のSortDescriptorsを保存するようにした。
+		保存場所はNoNameManagerの示す場所。
+		キーは「SortDescriptors」。
+		NSSortDescriptorは直接保存できない、また可読性の問題から、
+		キー「SortColumn」にkeyを、キー「IsAscending」にascendingをそれぞれ入れた
+		NSDictionary に変換して保存されている。	
+	* application/source/manager/DatabaseManager.[h|m]:
+		データベース上のテーブル名とスレッド一覧のテーブルカラムのidentifier の変換関数を追加。
+	* application/source/browser/BSDBThreadList.m:
+		初期化時にSortDescriptorを取り出し、自身に適応。
+	* application/source/browser/CMRBrowser-Delegate.m:
+		ソート変更時にSortDescriptorsを保存するようにした。
 2006-11-28 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSDBThreadList.m:
 		ソートの方向も初期化時に取得するようにした。データソースがそれをするのが正しいのかは謎。

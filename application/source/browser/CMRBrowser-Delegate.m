@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.24 2006/11/15 14:41:18 masakih Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.25 2006/12/02 16:17:59 masakih Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -255,6 +255,8 @@ BOOL isOptionKeyDown(unsigned flag_)
 	[self changeHighLightedTableColumnTo : theId_ isAscending : [currentList_ isAscending]];
 
 	[[BoardManager defaultManager] setSortColumn : theId_
+										forBoard : currentBoard_];
+	[[BoardManager defaultManager] setSortDescriptors : [currentList_ sortDescriptors]
 										forBoard : currentBoard_];
 
 	// option キーを押しながらヘッダをクリックした場合は、変更後の設定を CMRPref に保存する（グローバルな設定の変更）。

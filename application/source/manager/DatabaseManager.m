@@ -616,3 +616,30 @@ abort:
  }
  
 @end
+
+NSString *tableNameForKey( NSString *sortKey )
+{
+	NSString *sortCol = nil;
+	
+	if ([sortKey isEqualTo : CMRThreadTitleKey]) {
+		sortCol = ThreadNameColumn;
+	} else if ([sortKey isEqualTo : CMRThreadLastLoadedNumberKey]) {
+		sortCol = NumberOfReadColumn;
+	} else if ([sortKey isEqualTo : CMRThreadNumberOfMessagesKey]) {
+		sortCol = NumberOfAllColumn;
+	} else if ([sortKey isEqualTo : CMRThreadNumberOfUpdatedKey]) {
+		sortCol = NumberOfDifferenceColumn;
+	} else if ([sortKey isEqualTo : CMRThreadSubjectIndexKey]) {
+		sortCol = TempThreadThreadNumberColumn;
+	} else if ([sortKey isEqualTo : CMRThreadStatusKey]) {
+		sortCol = ThreadStatusColumn;
+	} else if ([sortKey isEqualTo : CMRThreadModifiedDateKey]) {
+		sortCol = ModifiedDateColumn;
+	} else if ([sortKey isEqualTo : ThreadPlistIdentifierKey]) {
+		sortCol = ThreadIDColumn;
+	} else if ([sortKey isEqualTo : ThreadPlistBoardNameKey]) {
+		sortCol = BoardNameColumn;
+	}
+	
+	return [sortCol lowercaseString];
+}
