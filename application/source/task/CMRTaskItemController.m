@@ -1,6 +1,6 @@
 //: CMRTaskItemController.m
 /**
-  * $Id: CMRTaskItemController.m,v 1.1 2005/05/11 17:51:07 tsawada2 Exp $
+  * $Id: CMRTaskItemController.m,v 1.1.1.1.8.1 2006/12/04 21:54:46 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -87,8 +87,9 @@
 	if([self finishedDate] != nil){
 		NSString	*dateDesc_;
 		
-		dateDesc_ = [[CMXDateFormatter sharedInstance]
-						stringForObjectValue : [self finishedDate]];
+//		dateDesc_ = [[CMXDateFormatter sharedInstance]
+//						stringForObjectValue : [self finishedDate]];
+		dateDesc_ = [[BSDateFormatter sharedDateFormatter] stringForObjectValue: [self finishedDate]];
 		if(nil == dateDesc_)
 			dateDesc_ = [[self finishedDate] description];
 		

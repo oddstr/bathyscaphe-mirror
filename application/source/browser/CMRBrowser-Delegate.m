@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.20.2.7 2006/09/09 20:35:56 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.20.2.8 2006/12/04 21:54:46 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -275,7 +275,20 @@ BOOL isOptionKeyDown(unsigned flag_)
 
 - (void) tableViewColumnDidResize : (NSNotification *) aNotification
 {
+    NSTableColumn   *whichColumn = [[aNotification userInfo] objectForKey: @"NSTableColumn"];
+    NSString        *identifier_ = [whichColumn identifier];
 	[CMRPref setThreadsListTableColumnState : [[self threadsListTable] columnState]];
+
+    if ([identifier_ isEqualToString: CMRThreadModifiedDateKey] ||
+        [identifier_ isEqualToString: ThreadPlistIdentifierKey])
+    {
+		NSTableView	*tv = [self threadsListTable];
+        NSSize  inter = [tv intercellSpacing];
+        float   hoge_ = [whichColumn width];
+        hoge_ -= inter.width*2;
+        [CMRThreadsList resetDataSourceTemplateForColumnIdentifier: identifier_ width: hoge_];
+		[tv reloadData]; 
+    }
 }
 
 
@@ -459,7 +472,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 		currentList);
 	
 //	NSLog(@"threadsListDidChange updateDateFormatter");
-	[[[self threadsListTable] dataSource] updateDateFormatter];
+//	[[[self threadsListTable] dataSource] updateDateFormatter];
 
 	[[self threadsListTable] reloadData];
 
@@ -495,7 +508,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 	[self synchronizeWithSearchField];
 
 //	NSLog(@"threadsListDidFinishUpdate updateDateFormatter");
-	[[[self threadsListTable] dataSource] updateDateFormatter];
+//	[[[self threadsListTable] dataSource] updateDateFormatter];
 
 	[[self threadsListTable] reloadData];
 	[self selectCurrentThreadWithMask : mask_];

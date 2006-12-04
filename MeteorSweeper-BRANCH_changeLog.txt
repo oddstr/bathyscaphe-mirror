@@ -1,4 +1,33 @@
+2006-12-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/bbs/BoardManager-BSAddition.m
+		速報Headline では SETTING.TXT の解析を行わない…ようにしたつもりがそうなっていなかったので
+		今度こそそのようにした。
+	* application/source/browser/CMRThreadsList-DataSource.m
+	* application/source/browser/CMRThreadsList.m
+	* application/source/browser/CMRBrowser-Delegate.m
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+		BSDateFormatter を使うように変更。また、この機会に date formatter 関連で
+		無駄なことをしている部分が何カ所かあったので修正。
+		さらに、日付表記で日付と時間の間に右寄せタブを入れ、Mail.app のようにぴったり右端と左端に
+		時間と日付が揃うようにした。カラムの幅に応じて、右寄せタブの幅を計算するためにごちゃごちゃ細工が
+		必要なのが難点。
+		- メモ：カラムを追加／削除した際にもカラム幅の再計算が必要かもしれない。
+	* application/source/task/CMRTaskItemController.m
+		BSDateFormatter を使うように変更。
+	* application/source/composer/BSDateFormatter.m
+		[新規追加] CMXDateFormatter の使用をやめ、新しく BSDateFormatter を書き起こした。
+		CMXDateFormatter に比べて以下の点が改良されている：
+		- 日付の書式がシステム環境設定で設定したものに従う（今のところ、短い表記を常に用いる）。
+		- 内部で CFDateFormatter（これは Panther でも使える）を利用するようになった。
+		- 日付と時間の間に半角スペースではなくタブ文字を入れている。
+		- 日付が変わったとき、相対日時（昨日／今日）を自動的に正しく表記し直す。
+		これに伴い CMXDateFormatter はターゲットから外した。いずれリポジトリからも削除される。
+================================================================================= Sneaky v288
 2006-12-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSImagePreviewInspector.m
+		プレビューインスペクタ：
+		- 複数項目をリスト・ビューで選択した状態で「フルスクリーン表示」を選択すると、真っ暗になってしまう
+		　問題を修正（選択項目の最初の一つをフルスクリーン表示するようにした）。
 	* application/source/bbs/BSBoardInfoInspector.m
 	* application/Resources/Japanese.lproj/BSBoardInfoInspector.nib
 		「掲示板オプション」インスペクタに、「SETTING.TXT を解析」ボタンを追加した。

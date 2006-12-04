@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.19.2.13 2006/12/02 13:26:47 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.19.2.14 2006/12/04 21:54:46 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -126,6 +126,12 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 - (IBAction) startFullscreen : (id) sender
 {
 	m_shouldRestoreKeyWindow = [[self window] isKeyWindow];
+
+	NSIndexSet *tmp_ = [[self tripleGreenCubes] selectionIndexes];
+	if ([tmp_ count] > 1) {
+		[[self tripleGreenCubes] setSelectionIndex: [tmp_ firstIndex]];
+	}
+
 	[[BSIPIFullScreenController sharedInstance] setDelegate: self];
 	[[BSIPIFullScreenController sharedInstance] setArrayController: [self tripleGreenCubes]];
 

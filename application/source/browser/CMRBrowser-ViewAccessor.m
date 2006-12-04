@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.42.2.8 2006/11/19 04:12:59 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.42.2.9 2006/12/04 21:54:46 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -14,7 +14,6 @@
 #import "CMRTextColumnCell.h"
 #import <SGAppKit/CMRPullDownIconBtn.h>
 #import <SGAppKit/BSIconAndTextCell.h>
-
 
 @implementation CMRBrowser(ViewAccessor)
 - (CMRThreadViewer *) threadViewer
@@ -256,16 +255,19 @@
 
 - (void) setupDateFormaterWithTableColumn : (NSTableColumn *) column
 {
-    NSCell                *dataCell_;
-    NSDateFormatter        *formater_;
-    
+/*    NSCell                *dataCell_;
+//    NSDateFormatter        *formater_;
+	BSDateFormatter			*formatter_;
     if (nil == column) return;
     
     dataCell_ = [column dataCell];
     UTILAssertNotNil(dataCell_);
-    
-    formater_ = [CMXDateFormatter sharedInstance];
-    [dataCell_ setFormatter : formater_];
+//    
+//    formater_ = [CMXDateFormatter sharedInstance];
+//    [dataCell_ setFormatter : formater_];
+	formatter_ = [[BSDateFormatter alloc] init];
+	[dataCell_ setFormatter: formatter_];
+	[formatter_ release];*/
 }
 
 - (void) setupStatusColumnWithTableColumn : (NSTableColumn *) column
@@ -321,6 +323,7 @@
 - (void) setupTableColumn : (NSTableColumn *) column
 {
     CMRTextColumnCell    *cell_;
+	NSString			 *identifier_ = [column identifier];
 /*	
 	NSSortDescriptor *desc;
 	id key = nil;
@@ -347,10 +350,12 @@
     [column setDataCell : cell_];
     [cell_ release];
 
-    if ( [CMRThreadModifiedDateKey isEqualToString : [column identifier]] ||
-         [CMRThreadCreatedDateKey isEqualToString : [column identifier]])
-        [self setupDateFormaterWithTableColumn : column];
-		
+    if ([CMRThreadModifiedDateKey isEqualToString : identifier_] ||
+		[CMRThreadCreatedDateKey isEqualToString : identifier_]) {
+		float hoge_ = [column width];
+		hoge_ -= [[column tableView] intercellSpacing].width*2;
+        [CMRThreadsList resetDataSourceTemplateForColumnIdentifier: identifier_ width: hoge_];
+	}
 	[[column dataCell] setWraps : YES];
 }
 @end

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.15.4.6 2006/11/19 04:12:59 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.15.4.7 2006/12/04 21:54:46 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -7,11 +7,10 @@
   * See the file LICENSE for copying permission.
   */
 #import "CMRThreadsList_p.h"
-#import "CMXDateFormatter.h"
 #import "CMRReplyDocumentFileManager.h"
 #import "CMRThreadSignature.h"
 #import "NSIndexSet+BSAddition.h"
-
+#import "BSDateFormatter.h"
 // Status image
 #define kStatusUpdatedImageName		@"Status_updated"
 #define kStatusCachedImageName		@"Status_logcached"
@@ -30,13 +29,55 @@ enum {
 static id kNewThreadAttrTemplate;
 static id kThreadAttrTemplate;
 
+static id kNewThreadCreatedDateAttrTemplate;
+static id kThreadCreatedDateAttrTemplate;
+static id kThreadModifiedDateAttrTemplate;
+
++ (void) resetDataSourceTemplateForColumnIdentifier: (NSString *) identifier width: (float) loc
+{
+	NSMutableParagraphStyle *style_;
+    NSTextTab	*hoge_ = [[NSTextTab alloc] initWithType: NSRightTabStopType location: loc];
+	
+	style_ = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+	[style_ setLineBreakMode : NSLineBreakByWordWrapping];
+	[style_ setTabStops: [NSArray array]];
+    [style_ addTabStop: hoge_];
+
+    if ([identifier isEqualToString: ThreadPlistIdentifierKey]) {
+        kNewThreadCreatedDateAttrTemplate = [[NSDictionary alloc] initWithObjectsAndKeys :
+								[CMRPref threadsListNewThreadFont], NSFontAttributeName,
+								[CMRPref threadsListNewThreadColor], NSForegroundColorAttributeName,
+								style_, NSParagraphStyleAttributeName,
+								nil];
+
+        kThreadCreatedDateAttrTemplate = [[NSDictionary alloc] initWithObjectsAndKeys :
+							[CMRPref threadsListFont], NSFontAttributeName,
+							[CMRPref threadsListColor], NSForegroundColorAttributeName,
+							style_, NSParagraphStyleAttributeName,
+							nil];
+    } else if ([identifier isEqualToString: CMRThreadModifiedDateKey]) {
+        kThreadModifiedDateAttrTemplate = [[NSDictionary alloc] initWithObjectsAndKeys :
+							[CMRPref threadsListFont], NSFontAttributeName,
+							[CMRPref threadsListColor], NSForegroundColorAttributeName,
+							style_, NSParagraphStyleAttributeName,
+							nil];
+	}
+	[hoge_ release];
+	[style_ release];
+}
+
 + (void) resetDataSourceTemplates
 {
 	NSMutableParagraphStyle *style_;
+	NSTextTab	*hoge_ = [[NSTextTab alloc] initWithType: NSRightTabStopType location: 100];
 	
 	// 長過ぎる内容を「...」で省略
 	style_ = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 	[style_ setLineBreakMode : NSLineBreakByTruncatingTail];
+	// 暫定
+	[style_ setTabStops: [NSArray array]];
+	[style_ addTabStop: hoge_];
+	[hoge_ release];
 
 	// default object value:
 	kThreadAttrTemplate = [[NSDictionary alloc] initWithObjectsAndKeys :
@@ -154,6 +195,9 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	} else if ([identifier isEqualToString : ThreadPlistIdentifierKey]) {
 		// スレッドの立った日付（dat 番号を変換）available in RainbowJerk and later.
 		v = [NSDate dateWithTimeIntervalSince1970 : (NSTimeInterval)[[thread objectForKey : identifier] doubleValue]];
+		return [[BSDateFormatter sharedDateFormatter] attributedStringForObjectValue: v
+													  withDefaultAttributes: ((s == ThreadNewCreatedStatus) ? kNewThreadCreatedDateAttrTemplate
+																											: kThreadCreatedDateAttrTemplate)];
 	} else {
 		// それ以外
 		v = [thread objectForKey : identifier];
@@ -161,14 +205,7 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	
 	// 日付
 	if([v isKindOfClass : [NSDate class]]) {
-#if 0 // test
-		if (!dateFormatter)
-			dateFormatter = [[CMXDateFormatter alloc] init];
-#endif
-		if (dateFormatter)
-			v = [dateFormatter stringForObjectValue : v];
-		else
-			v = [[CMXDateFormatter sharedInstance] stringForObjectValue : v];
+		return [[BSDateFormatter sharedDateFormatter] attributedStringForObjectValue: v withDefaultAttributes: kThreadModifiedDateAttrTemplate];
 	}
 
 	// 新着スレッド／通常のスレッド
@@ -195,12 +232,6 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	return [self objectValueForIdentifier : [aTableColumn identifier]
 							  threadArray : threads_
 								  atIndex : rowIndex];
-}
-
-- (void) updateDateFormatter {
-	if (dateFormatter)
-		[dateFormatter release];
-	dateFormatter = [[CMXDateFormatter alloc] init];
 }
 
 #pragma mark Drag and Drop support
@@ -337,10 +368,6 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 - (NSImage *) dragImageWithIconForAttributes: (NSDictionary *) attr offset: (NSPointPointer) dragImageOffset
 {
 	NSString	*title_ = [attr objectForKey: CMRThreadTitleKey];
-	//ThreadStatus	s = [self threadStatusForThread: attr];
-	//int			aType = (s == ThreadNewCreatedStatus) ? kValueTemplateNewArrivalType : kValueTemplateDefaultType;
-
-	//NSAttributedString	*titleAttrStr_ = [[self class] objectValueTemplate: title_ forType: aType];
 	NSAttributedString	*titleAttrStr_ = [[self class] objectValueTemplate: title_ forType: kValueTemplateDefaultType];
 		
 	NSImage *titleImg = [[NSImage alloc] init];
@@ -355,7 +382,6 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	[icon_ setSize : NSMakeSize(16, 16)];
 	
 	NSImage *finalImg = [[NSImage alloc] init];
-//	NSRect	strBounds;
     float dy = 0;
     float dyTitle = 0;
 
@@ -371,23 +397,18 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	} else if (whichHeight > 16.0) {
 	   dy = (whichHeight - 16.0)*0.5;
 	}
+
 	NSRect	imageRect_ = NSMakeRect(0, 0, strSize_.width+19.0, whichHeight);
-/*	
-	strBounds.origin = NSMakePoint(19.0, 0);
-	strBounds.size = strSize_;
-*/	
 	[finalImg setSize: imageRect_.size];
 	[finalImg lockFocus];
 	[icon_ compositeToPoint: NSMakePoint(0, dy) operation: NSCompositeCopy fraction: 0.9];
 	[titleImg compositeToPoint: NSMakePoint(19.0,dyTitle) operation: NSCompositeCopy fraction: 0.8];
-//    NSFrameRect(imageRect_);//for debug
 	
 	[finalImg unlockFocus];
 	
 	[titleImg release];
 
 	dragImageOffset->x = imageRect_.size.width * 0.5 - 8.0;
-//	dragImageOffset->y = 10.0;
 
 	return [finalImg autorelease];
 }	
@@ -397,13 +418,12 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	NSDictionary	*thread_;
 	thread_ = [self threadAttributesAtRowIndex : rowIndex inTableView : tableView];
 	
-	if(nil == thread_) return nil;//[[NSWorkspace sharedWorkspace] iconForFileType : @"thread"];
+	if(nil == thread_) return nil;
 
 	NSString		*path_;
 	path_ = [CMRThreadAttributes pathFromDictionary : thread_];
 
 	if([[NSFileManager defaultManager] fileExistsAtPath : path_])
-//		return [[NSWorkspace sharedWorkspace] iconForFileType : @"thread"];
 		return [self dragImageWithIconForAttributes: thread_ offset: dragImageOffset];
 
 	NSString		*title_;
@@ -498,7 +518,6 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	return [thread_ autorelease];
 }
 
-
 - (unsigned int) indexOfThreadWithPath : (NSString *) filepath
 {
 	unsigned int  rowIndex_;
@@ -535,31 +554,7 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 
 	return pathArray_;
 }
-/*
-- (NSArray *) threadFilePathArrayWithRowIndexArray : (NSArray	  *) anIndexArray
-									   inTableView : (NSTableView *) tableView
-{
-	NSEnumerator		*iter_;
-	NSNumber			*num_;
-	NSMutableArray		*pathArray_;
-	
-	pathArray_ = [NSMutableArray array];
-	iter_ = [anIndexArray objectEnumerator];
-	while(num_ = [iter_ nextObject]){
-		int				rowIndex_;
-		NSString		*path_;
-		
-		rowIndex_ = [num_ intValue];
-		if(rowIndex_ < 0) continue;
-		path_ = [self threadFilePathAtRowIndex : rowIndex_
-								   inTableView : tableView
-										status : NULL];
-		[pathArray_ addObject : path_];
-	}
-	return pathArray_;
-}*/
 @end
-
 
 
 @implementation CMRThreadsList(NSDraggingSource)

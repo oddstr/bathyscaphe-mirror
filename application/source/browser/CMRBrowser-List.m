@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.13.2.2 2006/08/31 10:18:40 tsawada2 Exp $
+  * $Id: CMRBrowser-List.m,v 1.13.2.3 2006/12/04 21:54:46 tsawada2 Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -26,6 +26,7 @@
 {
 	return [[self document] currentThreadsList];
 }
+
 - (void) setCurrentThreadsList : (CMRThreadsList *) newList
 {
 	[self exchangeNotificationObserver :
@@ -38,7 +39,7 @@
 			selector : @selector(threadsListDidChange:)
 		 oldDelegate : [self currentThreadsList]
 		 newDelegate : newList];
-	
+
 	[[self threadsListTable] setDataSource : newList];
 	[[self document] setCurrentThreadsList : newList];
 

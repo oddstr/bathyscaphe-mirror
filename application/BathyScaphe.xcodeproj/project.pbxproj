@@ -109,7 +109,6 @@
 		87016226082BE67100AEFDD0 /* CMRTaskItemController_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F38262E90513581100A80005 /* CMRTaskItemController_p.h */; };
 		87016227082BE67100AEFDD0 /* CMRTaskManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F38262EC0513581100A80005 /* CMRTaskManager.h */; };
 		87016228082BE67100AEFDD0 /* CMRTaskManager_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F38262EE0513581100A80005 /* CMRTaskManager_p.h */; };
-		87016229082BE67100AEFDD0 /* CMXDateFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = F38262F90513585900A80005 /* CMXDateFormatter.h */; };
 		8701622A082BE67100AEFDD0 /* CMXTextParser.h in Headers */ = {isa = PBXBuildFile; fileRef = F38263000513585900A80005 /* CMXTextParser.h */; };
 		8701622D082BE67100AEFDD0 /* CMXImageAttachmentCell.h in Headers */ = {isa = PBXBuildFile; fileRef = F3826315051358E500A80005 /* CMXImageAttachmentCell.h */; };
 		87016233082BE67100AEFDD0 /* CMXInternalMessaging.h in Headers */ = {isa = PBXBuildFile; fileRef = F3826332051359B700A80005 /* CMXInternalMessaging.h */; };
@@ -239,7 +238,6 @@
 		87016359082BE67100AEFDD0 /* CMRTaskItemController.m in Sources */ = {isa = PBXBuildFile; fileRef = F38262E80513581100A80005 /* CMRTaskItemController.m */; };
 		8701635A082BE67100AEFDD0 /* CMRTaskManager-Management.m in Sources */ = {isa = PBXBuildFile; fileRef = F38262EA0513581100A80005 /* CMRTaskManager-Management.m */; };
 		8701635C082BE67100AEFDD0 /* CMRTaskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F38262ED0513581100A80005 /* CMRTaskManager.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		8701635D082BE67100AEFDD0 /* CMXDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = F38262FA0513585900A80005 /* CMXDateFormatter.m */; };
 		8701635E082BE67100AEFDD0 /* CMXTextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F38263010513585900A80005 /* CMXTextParser.m */; };
 		87016360082BE67100AEFDD0 /* CMXImageAttachmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F3826316051358E500A80005 /* CMXImageAttachmentCell.m */; };
 		87016364082BE67100AEFDD0 /* CMXWorkerContext.m in Sources */ = {isa = PBXBuildFile; fileRef = F3826335051359B700A80005 /* CMXWorkerContext.m */; };
@@ -583,6 +581,8 @@
 		87DFDDA80A7D6A0F0074D3EA /* CookieManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCB604C698FB00A80005 /* CookieManager.m */; };
 		87E2264E0833AA5D00E7FC85 /* BathyScaphe.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 87E2264C0833AA5D00E7FC85 /* BathyScaphe.scriptSuite */; };
 		87E2264F0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 87E2264D0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology */; };
+		87E63BE90B247FA500290BB7 /* BSDateFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 87E63BE70B247FA500290BB7 /* BSDateFormatter.h */; };
+		87E63BEA0B247FA500290BB7 /* BSDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 87E63BE80B247FA500290BB7 /* BSDateFormatter.m */; };
 		87F0B3550A9C4CFA0002D317 /* smallSquarePlus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87F0B3530A9C4CFA0002D317 /* smallSquarePlus.tiff */; };
 		87F0B3560A9C4CFA0002D317 /* smallSquareMinus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87F0B3540A9C4CFA0002D317 /* smallSquareMinus.tiff */; };
 		87F3D5B20976921C00A1217A /* BSIPIHistoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 87F3D5B00976921C00A1217A /* BSIPIHistoryManager.h */; };
@@ -914,6 +914,8 @@
 		87DBC6980A867C6D00A1C058 /* syncFinish.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = syncFinish.tiff; sourceTree = "<group>"; };
 		87E2264C0833AA5D00E7FC85 /* BathyScaphe.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = BathyScaphe.scriptSuite; sourceTree = "<group>"; };
 		87E2264D0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = BathyScaphe.scriptTerminology; sourceTree = "<group>"; };
+		87E63BE70B247FA500290BB7 /* BSDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSDateFormatter.h; sourceTree = "<group>"; };
+		87E63BE80B247FA500290BB7 /* BSDateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSDateFormatter.m; sourceTree = "<group>"; };
 		87F0B3530A9C4CFA0002D317 /* smallSquarePlus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = smallSquarePlus.tiff; sourceTree = "<group>"; };
 		87F0B3540A9C4CFA0002D317 /* smallSquareMinus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = smallSquareMinus.tiff; sourceTree = "<group>"; };
 		87F3D5B00976921C00A1217A /* BSIPIHistoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIHistoryManager.h; sourceTree = "<group>"; };
@@ -2173,6 +2175,8 @@
 				F368966A05B088DA0006D567 /* Composer */,
 				F368966705B088C20006D567 /* Reader & Wrapper */,
 				F368966405B0889A0006D567 /* Subject */,
+				87E63BE70B247FA500290BB7 /* BSDateFormatter.h */,
+				87E63BE80B247FA500290BB7 /* BSDateFormatter.m */,
 			);
 			path = composer;
 			sourceTree = "<group>";
@@ -2695,7 +2699,6 @@
 				87016226082BE67100AEFDD0 /* CMRTaskItemController_p.h in Headers */,
 				87016227082BE67100AEFDD0 /* CMRTaskManager.h in Headers */,
 				87016228082BE67100AEFDD0 /* CMRTaskManager_p.h in Headers */,
-				87016229082BE67100AEFDD0 /* CMXDateFormatter.h in Headers */,
 				8701622A082BE67100AEFDD0 /* CMXTextParser.h in Headers */,
 				8701622D082BE67100AEFDD0 /* CMXImageAttachmentCell.h in Headers */,
 				87016233082BE67100AEFDD0 /* CMXInternalMessaging.h in Headers */,
@@ -2752,6 +2755,7 @@
 				876371710AB3455E005D5996 /* BSAsciiArtDetector.h in Headers */,
 				87B803020B0ED4980001339F /* NSIndexSet+BSAddition.h in Headers */,
 				87919F6E0B21DFEF00ADD73D /* CMRMessageSample.h in Headers */,
+				87E63BE90B247FA500290BB7 /* BSDateFormatter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3255,7 +3259,6 @@
 				87016359082BE67100AEFDD0 /* CMRTaskItemController.m in Sources */,
 				8701635A082BE67100AEFDD0 /* CMRTaskManager-Management.m in Sources */,
 				8701635C082BE67100AEFDD0 /* CMRTaskManager.m in Sources */,
-				8701635D082BE67100AEFDD0 /* CMXDateFormatter.m in Sources */,
 				8701635E082BE67100AEFDD0 /* CMXTextParser.m in Sources */,
 				87016360082BE67100AEFDD0 /* CMXImageAttachmentCell.m in Sources */,
 				87016364082BE67100AEFDD0 /* CMXWorkerContext.m in Sources */,
@@ -3311,6 +3314,7 @@
 				877AC2910B027447005365C0 /* CMRThreadView-Drop.m in Sources */,
 				87B803010B0ED4980001339F /* NSIndexSet+BSAddition.m in Sources */,
 				87919F6F0B21DFEF00ADD73D /* CMRMessageSample.m in Sources */,
+				87E63BEA0B247FA500290BB7 /* BSDateFormatter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

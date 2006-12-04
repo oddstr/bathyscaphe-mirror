@@ -493,6 +493,7 @@ extern NSImage  *imageForType(BoardListItemType type); // described in BoardList
 
 - (BOOL) needToDetectNoNameForBoard: (NSString *) boardName
 {
+	if ([boardName isEqualToString: BSbbynewsBoardName]) return NO;
 	NSSet *set_ = [self defaultNoNameSetForBoard: boardName];
 	if (!set_ || [set_ count] == 0) return YES;
 	

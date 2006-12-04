@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.h,v 1.6.4.3 2006/11/19 04:12:59 tsawada2 Exp $
+  * $Id: CMRThreadsList.h,v 1.6.4.4 2006/12/04 21:54:46 tsawada2 Exp $
   * 
   * CMRThreadsList.h
   *
@@ -11,7 +11,7 @@
 
 @class CMRDownloader;
 @class CMRThreadLayout;
-@class CMXDateFormatter;
+//@class CMXDateFormatter;
 
 @interface CMRThreadsList : NSObject 
 {
@@ -25,7 +25,7 @@
 	NSLock		*_threadsListUpdateLock;
 	NSLock		*_filteredThreadsLock;
 
-	CMXDateFormatter		*dateFormatter;
+//	CMXDateFormatter		*dateFormatter;
 
 	BOOL		_isAscending;
 }
@@ -118,6 +118,7 @@
 
 @interface CMRThreadsList(DataSourceTemplates)
 + (void) resetDataSourceTemplates;
++ (void) resetDataSourceTemplateForColumnIdentifier: (NSString *) identifier width: (float) loc;
 
 + (id) objectValueTemplate : (id ) aValue
 				   forType : (int) aType;
@@ -142,7 +143,7 @@
 
 - (unsigned int) indexOfThreadWithPath : (NSString *) filepath;
 
-- (void) updateDateFormatter;
+//- (void) updateDateFormatter;
 
 // available in ReinforceII and later.
 - (NSImage *) dragImageForTheRow: (unsigned int) rowIndex
