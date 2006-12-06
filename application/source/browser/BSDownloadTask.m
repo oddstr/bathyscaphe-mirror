@@ -13,9 +13,9 @@ NSString *BSDownloadTaskReceiveResponceNotification = @"BSDownloadTaskReceiveRes
 NSString *BSDownloadTaskCanceledNotification = @"BSDownloadTaskCanceledNotification";
 NSString *BSDownloadTaskInternalErrorNotification = @"BSDownloadTaskInternalErrorNotification";
 NSString *BSDownloadTaskAbortDownloadNotification = @"BSDownloadTaskAbortDownloadNotification";
-NSString	*BSDownloadTaskServerResponseKey = @"BSDownloadTaskServerResponseKey";	// NSURLResponse
-NSString	*BSDownloadTaskStatusCodeKey = @"BSDownloadTaskStatusCodeKey";	// NSNumber (int)
-NSString	*BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadNotification";
+NSString	*BSDownloadTaskServerResponseKey = @"BSDownloadTaskServerResponseKey"; // NSURLResponse
+NSString	*BSDownloadTaskStatusCodeKey = @"BSDownloadTaskStatusCodeKey"; // NSNumber (int)
+NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadNotification";
 
 
 @implementation BSDownloadTask
