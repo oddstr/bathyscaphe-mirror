@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRTextColumnCell.m,v 1.2 2005/10/08 02:46:39 tsawada2 Exp $
+  * $Id: CMRTextColumnCell.m,v 1.2.6.1 2006/12/06 02:33:30 tsawada2 Exp $
   * 
   * CMRTextColumnCell.m
   *
@@ -29,10 +29,10 @@ static id rightParagraphStyle(void)
 	as = SGTemporaryAttributedString();
 	[as setAttributedString : [super attributedStringValue]];
 	
-	if(NSRightTextAlignment == [self alignment]){
+//	if(NSRightTextAlignment == [self alignment]){
 		[as addAttribute : NSParagraphStyleAttributeName
 				   value : rightParagraphStyle()];
-	}
+//	}
 	return as;
 }
 @end

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.20.2.8 2006/12/04 21:54:46 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.20.2.9 2006/12/06 02:33:30 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -275,22 +275,8 @@ BOOL isOptionKeyDown(unsigned flag_)
 
 - (void) tableViewColumnDidResize : (NSNotification *) aNotification
 {
-    NSTableColumn   *whichColumn = [[aNotification userInfo] objectForKey: @"NSTableColumn"];
-    NSString        *identifier_ = [whichColumn identifier];
 	[CMRPref setThreadsListTableColumnState : [[self threadsListTable] columnState]];
-
-    if ([identifier_ isEqualToString: CMRThreadModifiedDateKey] ||
-        [identifier_ isEqualToString: ThreadPlistIdentifierKey])
-    {
-		NSTableView	*tv = [self threadsListTable];
-        NSSize  inter = [tv intercellSpacing];
-        float   hoge_ = [whichColumn width];
-        hoge_ -= inter.width*2;
-        [CMRThreadsList resetDataSourceTemplateForColumnIdentifier: identifier_ width: hoge_];
-		[tv reloadData]; 
-    }
 }
-
 
 // そのセルの内容が「...」で省略表示されているのかどうか判別するよい方法が無いなぁ
 - (NSString *) tableView : (NSTableView *) aTableView
@@ -434,6 +420,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 		return;
 	
 	[CMRThreadsList resetDataSourceTemplates];
+	[CMRThreadsList resetDataSourceTemplateForDateColumn];
 	[self updateDefaultsWithTableView : [self threadsListTable]];
 	[self setupBoardListOutlineView : [self boardListTable]];
 	[[self threadsListTable] setNeedsDisplay : YES];
@@ -470,9 +457,6 @@ BOOL isOptionKeyDown(unsigned flag_)
 	UTILAssertNotificationObject(
 		notification,
 		currentList);
-	
-//	NSLog(@"threadsListDidChange updateDateFormatter");
-//	[[[self threadsListTable] dataSource] updateDateFormatter];
 
 	[[self threadsListTable] reloadData];
 
@@ -506,9 +490,6 @@ BOOL isOptionKeyDown(unsigned flag_)
 	
 	[[self currentThreadsList] filterByDisplayingThreadAtPath : [self path]];
 	[self synchronizeWithSearchField];
-
-//	NSLog(@"threadsListDidFinishUpdate updateDateFormatter");
-//	[[[self threadsListTable] dataSource] updateDateFormatter];
 
 	[[self threadsListTable] reloadData];
 	[self selectCurrentThreadWithMask : mask_];

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.15.4.7 2006/12/04 21:54:46 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.15.4.8 2006/12/06 02:33:30 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -25,59 +25,81 @@ enum {
 };
 
 
-@implementation CMRThreadsList(DataSourceTemplates)
+@implementation CMRThreadsList(DataSource)
 static id kNewThreadAttrTemplate;
 static id kThreadAttrTemplate;
 
-static id kNewThreadCreatedDateAttrTemplate;
-static id kThreadCreatedDateAttrTemplate;
-static id kThreadModifiedDateAttrTemplate;
+static NSMutableDictionary *kNewThreadCreatedDateAttrTemplate;
+static NSMutableDictionary *kThreadCreatedDateAttrTemplate;
+static NSMutableDictionary *kThreadModifiedDateAttrTemplate;
 
-+ (void) resetDataSourceTemplateForColumnIdentifier: (NSString *) identifier width: (float) loc
+static NSMutableParagraphStyle	*pStyleForDateColumnWithWidth (float tabWidth)
 {
 	NSMutableParagraphStyle *style_;
-    NSTextTab	*hoge_ = [[NSTextTab alloc] initWithType: NSRightTabStopType location: loc];
+    NSTextTab	*tab_ = [[NSTextTab alloc] initWithType: NSRightTabStopType location: tabWidth];
 	
 	style_ = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 	[style_ setLineBreakMode : NSLineBreakByWordWrapping];
 	[style_ setTabStops: [NSArray array]];
-    [style_ addTabStop: hoge_];
+    [style_ addTabStop: tab_];
+	[tab_ release];
+
+	return [style_ autorelease];
+}
+
++ (void) resetDataSourceTemplateForDateColumn
+{
+	if (kNewThreadCreatedDateAttrTemplate == nil || kThreadCreatedDateAttrTemplate == nil || kThreadModifiedDateAttrTemplate == nil) {
+		if (nil == kNewThreadAttrTemplate || nil == kThreadAttrTemplate) {
+			[self resetDataSourceTemplates];
+		}
+		kNewThreadCreatedDateAttrTemplate = [kNewThreadAttrTemplate mutableCopy];
+		kThreadCreatedDateAttrTemplate = [kThreadAttrTemplate mutableCopy];
+		kThreadModifiedDateAttrTemplate = [kThreadAttrTemplate mutableCopy];
+	} else {
+		[kNewThreadCreatedDateAttrTemplate setObject: [CMRPref threadsListNewThreadFont] forKey: NSFontAttributeName];
+		[kNewThreadCreatedDateAttrTemplate setObject: [CMRPref threadsListNewThreadColor] forKey: NSForegroundColorAttributeName];
+		[kThreadCreatedDateAttrTemplate setObject: [CMRPref threadsListFont] forKey: NSFontAttributeName];
+		[kThreadCreatedDateAttrTemplate setObject: [CMRPref threadsListColor] forKey: NSForegroundColorAttributeName];
+		[kThreadModifiedDateAttrTemplate setObject: [CMRPref threadsListFont] forKey: NSFontAttributeName];
+		[kThreadModifiedDateAttrTemplate setObject: [CMRPref threadsListColor] forKey: NSForegroundColorAttributeName];
+	}
+}
+
++ (void) resetDataSourceTemplateForColumnIdentifier: (NSString *) identifier width: (float) loc
+{
+    static float cachedLoc1 = 0;
+    static float cachedLoc2 = 0;
+
+	if (kNewThreadCreatedDateAttrTemplate == nil || kThreadCreatedDateAttrTemplate == nil || kThreadModifiedDateAttrTemplate == nil) {
+		[self resetDataSourceTemplateForDateColumn];
+	}
 
     if ([identifier isEqualToString: ThreadPlistIdentifierKey]) {
-        kNewThreadCreatedDateAttrTemplate = [[NSDictionary alloc] initWithObjectsAndKeys :
-								[CMRPref threadsListNewThreadFont], NSFontAttributeName,
-								[CMRPref threadsListNewThreadColor], NSForegroundColorAttributeName,
-								style_, NSParagraphStyleAttributeName,
-								nil];
+        if (cachedLoc1 == 0 || loc != cachedLoc1) {
+            cachedLoc1 = loc;
+			NSParagraphStyle	*ps = pStyleForDateColumnWithWidth(cachedLoc1);
 
-        kThreadCreatedDateAttrTemplate = [[NSDictionary alloc] initWithObjectsAndKeys :
-							[CMRPref threadsListFont], NSFontAttributeName,
-							[CMRPref threadsListColor], NSForegroundColorAttributeName,
-							style_, NSParagraphStyleAttributeName,
-							nil];
+			[kNewThreadCreatedDateAttrTemplate setObject: ps forKey: NSParagraphStyleAttributeName];
+			[kThreadCreatedDateAttrTemplate setObject: ps forKey: NSParagraphStyleAttributeName];
+		}
     } else if ([identifier isEqualToString: CMRThreadModifiedDateKey]) {
-        kThreadModifiedDateAttrTemplate = [[NSDictionary alloc] initWithObjectsAndKeys :
-							[CMRPref threadsListFont], NSFontAttributeName,
-							[CMRPref threadsListColor], NSForegroundColorAttributeName,
-							style_, NSParagraphStyleAttributeName,
-							nil];
+        if (cachedLoc2 == 0 || loc != cachedLoc2) {
+            cachedLoc2 = loc;
+			NSParagraphStyle	*ps2 = pStyleForDateColumnWithWidth(cachedLoc2);
+
+			[kThreadModifiedDateAttrTemplate setObject: ps2 forKey: NSParagraphStyleAttributeName];
+		}
 	}
-	[hoge_ release];
-	[style_ release];
 }
 
 + (void) resetDataSourceTemplates
 {
 	NSMutableParagraphStyle *style_;
-	NSTextTab	*hoge_ = [[NSTextTab alloc] initWithType: NSRightTabStopType location: 100];
 	
 	// ’·‰ß‚¬‚é“à—e‚ðu...v‚ÅÈ—ª
 	style_ = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 	[style_ setLineBreakMode : NSLineBreakByTruncatingTail];
-	// Žb’è
-	[style_ setTabStops: [NSArray array]];
-	[style_ addTabStop: hoge_];
-	[hoge_ release];
 
 	// default object value:
 	kThreadAttrTemplate = [[NSDictionary alloc] initWithObjectsAndKeys :
@@ -123,11 +145,7 @@ static id kThreadModifiedDateAttrTemplate;
 	
 	return [temp autorelease]; // autorelease ‚µ‚È‚¢‚Æ˜R‚ê‚Ü‚­‚è	
 }
-@end
 
-
-
-@implementation CMRThreadsList(DataSource)
 - (NSArray *) threadsForTableView : (NSTableView *) tableView
 {
 	return [self filteredThreads];
@@ -220,18 +238,20 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
   objectValueForTableColumn : (NSTableColumn *) aTableColumn
                         row : (int            ) rowIndex
 {
-	NSArray			*threads_;
-	
-	threads_ = [self filteredThreads];//[self threadsForTableView : aTableView];
-	NSAssert2(
-		(rowIndex >= 0 && rowIndex <= [threads_ count]),
-		@"Threads Count(%u) but Accessed Index = %d.",
-		[threads_ count],
-		rowIndex);
-		
-	return [self objectValueForIdentifier : [aTableColumn identifier]
-							  threadArray : threads_
-								  atIndex : rowIndex];
+	NSArray			*threads_ = [self filteredThreads];
+	NSString		*identifier_ = [aTableColumn identifier];
+	NSAssert2((rowIndex >= 0 && rowIndex <= [threads_ count]),
+	   @"Threads Count(%u) but Accessed Index = %d.", [threads_ count], rowIndex);
+
+    if ([identifier_ isEqualToString: ThreadPlistIdentifierKey] ||
+        [identifier_ isEqualToString: CMRThreadModifiedDateKey])
+    {
+        float location_ = [aTableColumn width];
+        location_ -= [aTableView intercellSpacing].width * 2;
+        [[self class] resetDataSourceTemplateForColumnIdentifier: identifier_ width: location_];
+    }
+
+	return [self objectValueForIdentifier: identifier_ threadArray: threads_ atIndex: rowIndex];
 }
 
 #pragma mark Drag and Drop support
@@ -554,10 +574,8 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 
 	return pathArray_;
 }
-@end
 
-
-@implementation CMRThreadsList(NSDraggingSource)
+#pragma mark NSDraggingSource
 - (unsigned int) draggingSourceOperationMaskForLocal : (BOOL) localFlag
 {
 	if(localFlag)

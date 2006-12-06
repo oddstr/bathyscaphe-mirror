@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.42.2.9 2006/12/04 21:54:46 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.42.2.10 2006/12/06 02:33:30 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -252,24 +252,6 @@
 	[(ThreadsListTable *)tableView setInitialState];
 }
 
-
-- (void) setupDateFormaterWithTableColumn : (NSTableColumn *) column
-{
-/*    NSCell                *dataCell_;
-//    NSDateFormatter        *formater_;
-	BSDateFormatter			*formatter_;
-    if (nil == column) return;
-    
-    dataCell_ = [column dataCell];
-    UTILAssertNotNil(dataCell_);
-//    
-//    formater_ = [CMXDateFormatter sharedInstance];
-//    [dataCell_ setFormatter : formater_];
-	formatter_ = [[BSDateFormatter alloc] init];
-	[dataCell_ setFormatter: formatter_];
-	[formatter_ release];*/
-}
-
 - (void) setupStatusColumnWithTableColumn : (NSTableColumn *) column
 {
     NSImage            *statusImage_;
@@ -322,8 +304,8 @@
 */
 - (void) setupTableColumn : (NSTableColumn *) column
 {
-    CMRTextColumnCell    *cell_;
-	NSString			 *identifier_ = [column identifier];
+//    CMRTextColumnCell    *cell_;
+//	NSString			 *identifier_ = [column identifier];
 /*	
 	NSSortDescriptor *desc;
 	id key = nil;
@@ -344,19 +326,22 @@
         [self setupStatusColumnWithTableColumn : column];
         return;
     }
-    
-    cell_ = [[CMRTextColumnCell alloc] initTextCell : @""];
-    [cell_ setAttributesFromCell : [column dataCell]];
-    [column setDataCell : cell_];
-    [cell_ release];
 
-    if ([CMRThreadModifiedDateKey isEqualToString : identifier_] ||
-		[CMRThreadCreatedDateKey isEqualToString : identifier_]) {
-		float hoge_ = [column width];
-		hoge_ -= [[column tableView] intercellSpacing].width*2;
-        [CMRThreadsList resetDataSourceTemplateForColumnIdentifier: identifier_ width: hoge_];
+	id dataCell = [column dataCell];
+	[dataCell setWraps: YES];
+
+	if ([dataCell alignment] == NSRightTextAlignment) {
+		CMRTextColumnCell	*cell_ = [[CMRTextColumnCell alloc] initTextCell: @""];
+		[cell_ setAttributesFromCell: dataCell];
+		[column setDataCell: cell_];
+		[cell_ release];
 	}
-	[[column dataCell] setWraps : YES];
+//    cell_ = [[CMRTextColumnCell alloc] initTextCell : @""];
+//    [cell_ setAttributesFromCell : [column dataCell]];
+//    [column setDataCell : cell_];
+//    [cell_ release];
+
+//	[[column dataCell] setWraps : YES];
 }
 @end
 

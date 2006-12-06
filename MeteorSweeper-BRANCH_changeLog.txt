@@ -1,3 +1,13 @@
+2006-12-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRTextColumnCell.m
+	* application/source/browser/CMRThreadsList-DataSource.m
+	* application/source/browser/CMRBrowser-Delegate.m
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+		スレッド一覧の描画時の無駄を省くための（雀の涙ほどの）効率化。
+		また、右寄せタブ幅の再計算方法を変更し、リサイズ中に随時再計算、再描画が行われるようにした
+		（昨日の時点では、リサイズが完了しないと再計算、再描画が行われなかった）。
+		さらに、昨日の修正でスレッド一覧のフォント、カラーを変更した際に「更新日」「作成日」のフォント、カラーが
+		適切に変更されていなかった問題を修正。
 2006-12-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/bbs/BoardManager-BSAddition.m
 		速報Headline では SETTING.TXT の解析を行わない…ようにしたつもりがそうなっていなかったので
