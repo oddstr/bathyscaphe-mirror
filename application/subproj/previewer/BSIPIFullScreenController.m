@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIFullScreenController.m,v 1.6.2.2 2006/11/30 17:51:47 tsawada2 Exp $
+//  $Id: BSIPIFullScreenController.m,v 1.6.2.3 2006/12/07 20:56:20 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.
@@ -83,11 +83,12 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 	[super dealloc];
 }
 
+// NSValueTransformerNameBindingOption = @"NSValueTransformerName"
 - (NSDictionary *) cachedBindingOptionDict
 {
 	static NSDictionary *dict_ = nil;
 	if (dict_ == nil) {
-		dict_ = [[NSDictionary alloc] initWithObjectsAndKeys: @"BSIPIImageIgnoringDPITransformer", NSValueTransformerNameBindingOption, NULL];
+		dict_ = [[NSDictionary alloc] initWithObjectsAndKeys: @"BSIPIImageIgnoringDPITransformer", @"NSValueTransformerName", NULL];
 	}
 	return dict_;
 }

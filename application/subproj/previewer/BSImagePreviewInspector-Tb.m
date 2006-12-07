@@ -1,5 +1,5 @@
 /*
- * $Id: BSImagePreviewInspector-Tb.m,v 1.11.2.10 2006/11/30 17:51:47 tsawada2 Exp $
+ * $Id: BSImagePreviewInspector-Tb.m,v 1.11.2.11 2006/12/07 20:56:20 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -32,25 +32,10 @@ static NSString *const kIPIFloatingWindowKey	= @"jp.tsawada2.BathyScaphe.ImagePr
 static NSString *const kIPIPreferredViewTypeKey = @"jp.tsawada2.BathyScaphe.ImagePreviewer:Preferred View";
 static NSString *const kIPILastShownViewTagKey	= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Last Shown View";
 //static NSString *const kIPIRedirBehaviorKey		= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Redirection Behavior";
+static NSString *const kIPILeaveFailedTokenKey	= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Leave Failed Tokens";
 
 @implementation BSImagePreviewInspector(ToolbarAndUtils)
 #pragma mark Utilities
-/*static NSImage *_imageForDefaultBrowser()
-{
-	NSURL	*dummyURL = [NSURL URLWithString : @"http://www.apple.com/"];
-	OSStatus	err;
-	FSRef	outAppRef;
-	CFURLRef	outAppURL;
-	NSImage	*image_ = nil;
-
-	err = LSGetApplicationForURL((CFURLRef )dummyURL, kLSRolesAll, &outAppRef, &outAppURL);
-	if(outAppURL) {
-		CFStringRef appPath = CFURLCopyFileSystemPath(outAppURL, kCFURLPOSIXPathStyle);
-		image_ = [[NSWorkspace sharedWorkspace] iconForFile : (NSString *)appPath];
-	}
-	return image_;
-}*/
-
 - (NSString *) localizedStrForKey : (NSString *) key
 {
 	NSBundle *selfBundle = [NSBundle bundleForClass : [self class]];
@@ -452,4 +437,14 @@ static NSString *const kIPILastShownViewTagKey	= @"jp.tsawada2.BathyScaphe.Image
 {
 	[[self prefsDict] setInteger: aTag forKey: kIPIRedirBehaviorKey];
 }*/
+
+- (BOOL) leaveFailedToken
+{
+	return [[self prefsDict] boolForKey: kIPILeaveFailedTokenKey defaultValue: NO];
+}
+
+- (void) setLeaveFailedToken: (BOOL) leave
+{
+	[[self prefsDict] setBool: leave forKey: kIPILeaveFailedTokenKey];
+}
 @end

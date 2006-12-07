@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.19.2.14 2006/12/04 21:54:46 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.19.2.15 2006/12/07 20:56:20 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -294,10 +294,12 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 
 - (void) tokenDidFailDownload: (NSNotification *) aNotification
 {
-	[self willChangeValueForKey: @"historyItems"];
-	[[BSIPIHistoryManager sharedManager] removeToken: [aNotification object]];
-	[self didChangeValueForKey: @"historyItems"];
-	[[self tripleGreenCubes] setSelectionIndex: NSNotFound];
+	if (NO == [self leaveFailedToken]) {
+		[self willChangeValueForKey: @"historyItems"];
+		[[BSIPIHistoryManager sharedManager] removeToken: [aNotification object]];
+		[self didChangeValueForKey: @"historyItems"];
+		[[self tripleGreenCubes] setSelectionIndex: NSNotFound];
+	}
 }
 
 #pragma mark NSTableView Delegate

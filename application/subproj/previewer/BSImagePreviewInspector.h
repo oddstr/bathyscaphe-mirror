@@ -90,6 +90,9 @@ typedef enum _BSIPIRedirectionBehavior {
 
 //- (BSIPIRedirectionBehavior) redirectionBehavior;
 //- (void) setRedirectionBehavior: (BSIPIRedirectionBehavior) aTag;
+
+- (BOOL) leaveFailedToken;
+- (void) setLeaveFailedToken: (BOOL) leave;
 @end
 
 @interface BSImagePreviewInspector(ToolbarAndUtils)

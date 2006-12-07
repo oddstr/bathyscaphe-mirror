@@ -1,3 +1,12 @@
+2006-12-08 tsawada2 <ben-sawa@td5.so-net.ne.jp.
+	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
+	* application/subproj/previewer/Japanese.lproj/Localizable.strings
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+		プレビューインスペクタ：「ダウンロードに失敗したイメージを自動的に履歴から消去する」オプションを
+		選択可能にした。
+	* application/subproj/previewer/BSIPIFullScreenController.m
+		10.3.x でフルスクリーン表示しようとするとクラッシュする問題を修正（したつもり）。
 2006-12-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRTextColumnCell.m
 	* application/source/browser/CMRThreadsList-DataSource.m
