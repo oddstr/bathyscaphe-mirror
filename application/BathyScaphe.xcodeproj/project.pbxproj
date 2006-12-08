@@ -594,6 +594,7 @@
 		87F621A10A9186920082E8DB /* BoardManager-BSAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F621A00A9186920082E8DB /* BoardManager-BSAddition.m */; };
 		F424609908462452000803EA /* Scripts.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F424609808462452000803EA /* Scripts.tiff */; };
 		F472216E0B26EF8F004FAD24 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F472216D0B26EF8F004FAD24 /* OgreKit.framework */; };
+		F47222E30B270D31004FAD24 /* OgreKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F472216D0B26EF8F004FAD24 /* OgreKit.framework */; };
 		F47361C00AFF8758009B6189 /* BoardManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC2704C698FA00A80005 /* BoardManager.h */; };
 		F47361C10AFF8758009B6189 /* BoardManager_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC2904C698FA00A80005 /* BoardManager_p.h */; };
 		F47361C20AFF8758009B6189 /* Browser.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC2D04C698FA00A80005 /* Browser.h */; };
@@ -1255,6 +1256,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				F47222E30B270D31004FAD24 /* OgreKit.framework in CopyFiles */,
 				F47363860AFF8758009B6189 /* CocoMonar.framework in CopyFiles */,
 				F47363870AFF8758009B6189 /* SGFoundation.framework in CopyFiles */,
 				F47363880AFF8758009B6189 /* SGNetwork.framework in CopyFiles */,
