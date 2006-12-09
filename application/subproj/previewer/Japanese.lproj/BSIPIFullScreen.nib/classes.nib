@@ -3,10 +3,16 @@
         {
             CLASS = BSIPIFullScreenController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {"_baseWindow" = NSWindow; "_imageView" = NSImageView; }; 
+            OUTLETS = {
+                "_baseWindow" = NSWindow; 
+                "_imageView" = NSImageView; 
+                "_statusField" = NSTextField; 
+                "m_delegate" = id; 
+            }; 
             SUPERCLASS = NSObject; 
         }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }
     ); 
     IBVersion = 1; 
 }

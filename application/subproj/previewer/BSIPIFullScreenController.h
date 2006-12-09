@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIFullScreenController.h,v 1.4.2.1 2006/11/30 17:51:47 tsawada2 Exp $
+//  $Id: BSIPIFullScreenController.h,v 1.4.2.2 2006/12/09 20:00:50 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.
@@ -12,6 +12,7 @@
 	IBOutlet NSWindow		*_baseWindow; // @ nib file
 	NSWindow				*_fullScreenWindow;
 	IBOutlet NSImageView	*_imageView;
+	IBOutlet NSTextField	*_statusField;
 	id						m_delegate;
 	NSArrayController		*m_cube; // do not retain/release
 }

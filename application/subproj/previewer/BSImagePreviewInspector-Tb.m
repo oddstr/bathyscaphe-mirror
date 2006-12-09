@@ -1,5 +1,5 @@
 /*
- * $Id: BSImagePreviewInspector-Tb.m,v 1.11.2.11 2006/12/07 20:56:20 tsawada2 Exp $
+ * $Id: BSImagePreviewInspector-Tb.m,v 1.11.2.12 2006/12/09 20:00:50 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -251,7 +251,7 @@ static NSString *const kIPILeaveFailedTokenKey	= @"jp.tsawada2.BathyScaphe.Image
 	unsigned	idx_ = [cube_ selectionIndex];
 	BOOL		selected = (idx_ != NSNotFound);
 
-	if ([identifier_ isEqualToString : kIPITbBrowserBtnId]) {
+	if ([identifier_ isEqualToString : kIPITbBrowserBtnId] || [identifier_ isEqualToString: kIPITbFullscreenBtnId]) {
 		return selected;
 	} else if ([identifier_ isEqualToString : kIPITbCancelBtnId]) {
 		if (!selected) return NO;
@@ -270,7 +270,7 @@ static NSString *const kIPILeaveFailedTokenKey	= @"jp.tsawada2.BathyScaphe.Image
 			[toolbarItem setAction : @selector(saveImage:)];
 			return ([[BSIPIHistoryManager sharedManager] cachedTokensArrayContainsNotNullObjectAtIndexes: [cube_ selectionIndexes]]);
 		}
-	} else if ([identifier_ isEqualToString: kIPITbPreviewBtnId] || [identifier_ isEqualToString: kIPITbFullscreenBtnId]) {
+	} else if ([identifier_ isEqualToString: kIPITbPreviewBtnId]) {
 		return (selected && [[BSIPIHistoryManager sharedManager] cachedTokensArrayContainsNotNullObjectAtIndexes: [cube_ selectionIndexes]]);
 	}
     return YES;

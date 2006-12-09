@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIFullScreenController.m,v 1.6.2.3 2006/12/07 20:56:20 tsawada2 Exp $
+//  $Id: BSIPIFullScreenController.m,v 1.6.2.4 2006/12/09 20:00:50 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.
@@ -93,6 +93,28 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 	return dict_;
 }
 
+- (NSDictionary *) cachedBindingOptDictForStatusField
+{
+	static NSDictionary *dictTemplate3_ = nil;
+	if (dictTemplate3_ == nil) {
+		dictTemplate3_ = [[NSDictionary alloc] initWithObjectsAndKeys: NSIsNotNilTransformerName, @"NSValueTransformerName", NULL];
+	}
+	return dictTemplate3_;
+}
+
+- (NSDictionary *) cachedBindingOptDictForStatusMsg
+{
+	static NSDictionary *dictTemplate2_ = nil;
+	if (dictTemplate2_ == nil) {
+		NSBundle *selfBundle = [NSBundle bundleForClass: [self class]];
+		NSString *key_ = @"%{value2}@\nCan't show image: %{value1}@";
+		NSString *tmp_ = [selfBundle localizedStringForKey: key_ value: key_ table: nil];
+		
+		dictTemplate2_ = [[NSDictionary alloc] initWithObjectsAndKeys: tmp_, @"NSDisplayPattern", NULL];
+	}
+	return dictTemplate2_;
+}
+
 - (void) startFullScreen
 {
 	[self startFullScreen: [NSScreen mainScreen]];
@@ -141,6 +163,21 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 		 withKeyPath: @"selection.downloadedFilePath"
 			 options: [self cachedBindingOptionDict]];
 
+	[_statusField bind: @"hidden"
+			toObject: [self arrayController]
+		 withKeyPath: @"selection.downloadedFilePath"
+			 options: [self cachedBindingOptDictForStatusField]];
+
+	[_statusField bind: @"displayPatternValue1"
+			toObject: [self arrayController]
+		 withKeyPath: @"selection.statusMessage"
+			 options: [self cachedBindingOptDictForStatusMsg]];
+
+	[_statusField bind: @"displayPatternValue2"
+			toObject: [self arrayController]
+		 withKeyPath: @"selection.sourceURL"
+			 options: nil];
+
     [_fullScreenWindow makeKeyAndOrderFront: nil];
 	
 	if (kCGErrorSuccess == CGAcquireDisplayFadeReservation(kCGMaxDisplayReservationInterval, &tokenPtr2)) {
@@ -179,6 +216,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 	}
     [_fullScreenWindow orderOut: nil];
 	[_imageView unbind: @"value"];
+	[_statusField unbind: @"displayPatternValue2"];
+	[_statusField unbind: @"displayPatternValue1"];
+	[_statusField unbind: @"hidden"];
 
 	SetSystemUIMode(kUIModeNormal, 0);
 

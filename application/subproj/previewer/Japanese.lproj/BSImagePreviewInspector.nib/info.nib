@@ -23,11 +23,11 @@
 	<integer>3</integer>
 	<key>IBOpenObjects</key>
 	<array>
-		<integer>249</integer>
 		<integer>5</integer>
-		<integer>196</integer>
-		<integer>86</integer>
 		<integer>379</integer>
+		<integer>86</integer>
+		<integer>196</integer>
+		<integer>249</integer>
 	</array>
 	<key>IBSystem Version</key>
 	<string>8L127</string>

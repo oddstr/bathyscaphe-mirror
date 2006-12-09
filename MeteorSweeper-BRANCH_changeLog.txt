@@ -1,4 +1,13 @@
 2006-12-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/Japanese.lproj/BSIPIFullScreen.nib
+	* application/subproj/previewer/BSIPIFullScreenController.m
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+	* application/subproj/previewer/Japanese.lproj/Localizable.strings
+		プレビューインスペクタ（2.5.1→2.5.2）：
+		- イメージのダウンロードに失敗したトークンをフルスクリーン表示する際は、フルスクリーンの中央に
+		　かわりに URL とステータスメッセージを表示するようにした。
+		- 「フルスクリーンで表示」ツールバー／メニュー項目は、イメージの無いトークンが選択されていても
+		　実行できるようにした。
 	* application/source/network/CMRThreadHTMLDownloader.m
 	* application/source/preferences/CMRHostHandler.m
 	* application/source/preferences/CMRHostHTMLHandler.m
