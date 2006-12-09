@@ -61,6 +61,7 @@ NSString *BSThreadListUpdateTaskDidFinishNotification = @"BSThreadListUpdateTask
 - (IBAction) cancel : (id) sender
 {
 	userCanceled = YES;
+	target = nil;
 }
 
 

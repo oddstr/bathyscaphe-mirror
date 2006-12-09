@@ -182,6 +182,7 @@ fail:
 -(IBAction)cancel:(id)sender
 {
 	[dlTask cancel:self];
+	targetList = nil;
 	
 	[super cancel:sender];
 }

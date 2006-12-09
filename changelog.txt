@@ -1,3 +1,9 @@
+2006-12-09 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSThreadListUpdateTask.m:
+	* application/source/browser/BSThreadsListOPTask.m:
+		スレッドセーフでない部分を直した。
+	* application/source/browser/BSDBThreadList.m:
+		スレッドセーフにしたBSThreadListUpdateTaskに対応。
 2006-12-08 masakih <masakih@users.sourceforge.jp>
 	* application/Resources/Japanese.lproj/Acknowledgments.rtf:
 		SQLite の謝辞を変更。

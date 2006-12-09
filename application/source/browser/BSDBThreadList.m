@@ -87,10 +87,13 @@
 	[mSearchString release];
 	mSearchString = nil;
 	
-	[mTask release];
-	[mUpdateTask release];
-	[mSortDescriptors release];
+	[mTask cancel:self];
+	[mTask autorelease];
+	[mUpdateTask cancel:self];
+	[mUpdateTask autorelease];
 	[mTaskLock release];
+	
+	[mSortDescriptors release];
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
@@ -212,11 +215,18 @@
 	
 - (void) updateCursor
 {
+	/* TODO これはスレッドセーフではない。直すべし。 */
 	if(mUpdateTask) {
 		if([mUpdateTask isInProgress]) {
 			[mUpdateTask cancel:self];
 		}
-	} else {
+		[[NSNotificationCenter defaultCenter]
+				removeObserver:self
+						  name:BSThreadListUpdateTaskDidFinishNotification
+						object:mUpdateTask];
+		[mUpdateTask release];
+	} 
+	{
 		mUpdateTask = [[BSThreadListUpdateTask taskWithBSDBThreadList:self] retain];
 		
 		[[NSNotificationCenter defaultCenter]
@@ -666,7 +676,7 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 		NSArray		*messages_;
 		NSDate *modDate = [newContents_ objectForKey : CMRThreadModifiedDateKey];
 		
-		int baordID;
+		int baordID = 0;
 		NSString *threadID;
 		
 		db = [[DatabaseManager defaultManager] databaseForCurrentThread];
@@ -715,7 +725,7 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 #pragma mark## SearchThread ##
 + (NSMutableDictionary *) attributesForThreadsListWithContentsOfFile : (NSString *) filePath
 {
-	int boardID;
+	int boardID = 0;
 	id threadID;
 	
 	if( searchBoardIDAndThreadIDFromFilePath(&boardID,&threadID,filePath) ) {
@@ -783,7 +793,7 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 	if([db beginTransaction]) {
 		filesEnum = [files objectEnumerator];
 		while(path = [filesEnum nextObject]) {
-			int boardID;
+			int boardID = 0;
 			NSString *threadID;
 			
 			if(searchBoardIDAndThreadIDFromFilePath(&boardID, &threadID, path)) {
