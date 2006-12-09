@@ -1,3 +1,6 @@
+2006-12-10 masakih <masakih@users.sourceforge.jp>
+	* application/source/manager/DatabaseManager.m:
+		databaseファイルのバージョンが古かった場合の処理のひな形作成。
 2006-12-09 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSThreadListUpdateTask.m:
 	* application/source/browser/BSThreadsListOPTask.m:

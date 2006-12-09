@@ -80,9 +80,48 @@ extern void setSQLiteZone(NSZone *zone);
 	return _instance;
 }
 
++ (Class) databaseFileUpdaterClassFrom:(int)currentVersion to:(int)newVersion
+{
+	return Nil;
+}
++ (int) currentDatabaseFileVersion
+{
+	SQLiteDB *db = [[self defaultManager] databaseForCurrentThread];
+	if (!db) return -1;
+	
+	if (![[db tables] containsObject : VersionTableName]) {
+		return 0;
+	}
+	
+	int version = -1;
+	if([db beginTransaction]) {
+		id query = [NSString stringWithFormat : @"SELEST %@ FROM %@",
+			VersionColumn, VersionTableName];
+		id cursor = [db cursorForSQL : query];
+		if ([db lastErrorID] != 0) goto abort;
+		
+		id verStr = [cursor valueForColumn:VersionColumn atRow:0];
+		version = [verStr intValue];
+		
+		[db commitTransaction];
+		[db save];
+	}
+	
+	return version;
+	
+abort:
+	[db rollbackTransaction];
+	return -1;
+}
 + (void) checkDatabaseFileVersion
 {
-	//
+	int currentDatabaseFileVersion = [self currentDatabaseFileVersion];
+	if(currentDatabaseFileVersion < sDatabaseFileVersion) {
+		Class updaterClass = [self databaseFileUpdaterClassFrom:currentDatabaseFileVersion
+															 to:sDatabaseFileVersion];
+		id updater = [[updaterClass alloc] init];
+		[updater update];
+	}
 }
 + (void) setupDatabase
 {
@@ -532,6 +571,13 @@ abort:
 					andDataTypes : [NSArray arrayWithObject:NUMERIC_NOTNULL]
 				 andIndexQueries : nil];
 		if (!isOK) goto abort;
+		
+		// 
+		id query = [NSString stringWithFormat : @"REPLACE INTO %@ (%@) VALUES(%ld)",
+			VersionTableName, VersionColumn, sDatabaseFileVersion];
+		[db performQuery : query];
+		isOK = ([db lastErrorID] == 0);
+		if (!isOK) goto abort;
 				
 		[db commitTransaction];
 		[db save];
@@ -540,7 +586,7 @@ abort:
 	return isOK;
 	
 abort:
-		NSLog(@"Fail Database operation. Reson: \n%@", [db lastError]);
+	NSLog(@"Fail Database operation. Reson: \n%@", [db lastError]);
 	[db rollbackTransaction];
 	return NO;
 }
