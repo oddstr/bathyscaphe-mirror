@@ -1,4 +1,14 @@
-2006-12-08 tsawada2 <ben-sawa@td5.so-net.ne.jp.
+2006-12-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/network/CMRThreadHTMLDownloader.m
+	* application/source/preferences/CMRHostHandler.m
+	* application/source/preferences/CMRHostHTMLHandler.m
+	* application/Resources/text/HostProperties.plist
+		livedoorしたらば では、rawmode.cgi を使ってデータを取得するようにした。
+		- 今のところ、レスポンスヘッダを解析しないので、ERROR: ヘッダに応じた適切な処理は行わない。
+		　将来は行うかもしれない。
+	* application/source/preferences/BSHostLivedoorHandler.m
+		[新規追加] livedoorしたらばの解析用サブクラス（以前の CMRJbbsShitarabaHandler クラスに置き換わるもの）。
+2006-12-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
 	* application/subproj/previewer/Japanese.lproj/Localizable.strings
 	* application/subproj/previewer/BSImagePreviewInspector-Tb.m

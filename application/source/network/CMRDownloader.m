@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRDownloader.m,v 1.1.1.1.8.2 2006/11/14 03:25:25 tsawada2 Exp $
+  * $Id: CMRDownloader.m,v 1.1.1.1.8.3 2006/12/09 17:00:21 tsawada2 Exp $
   * 
   * CMRDownloader.m
   *
@@ -407,8 +407,7 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 		[self cancelDownloadWithPostingNotificationName :
 							CMRDownloaderNotFoundNotification];
 		return;
-	}
-	
+	}	
 }
 
 - (void) URLHandle                 : (NSURLHandle *) sender

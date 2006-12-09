@@ -1,6 +1,6 @@
 //: CMRHostHandler.h
 /**
-  * $Id: CMRHostHandler.h,v 1.4 2006/06/01 15:12:33 tsawada2 Exp $
+  * $Id: CMRHostHandler.h,v 1.4.2.1 2006/12/09 17:00:21 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -97,7 +97,11 @@ NOTE:
                                  to : (unsigned int *) endIndex
                           showFirst : (BOOL         *) showFirst;
 
-
+- (NSURL *) rawmodeURLWithBoard: (NSURL    *) boardURL
+						datName: (NSString *) datName
+						  start: (unsigned  ) startIndex
+							end: (unsigned  ) endIndex
+						nofirst: (BOOL      ) nofirst;
 
 // parse HTML
 - (id) parseHTML : (NSString *) inputSource

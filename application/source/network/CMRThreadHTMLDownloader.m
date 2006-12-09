@@ -1,6 +1,6 @@
 //: CMRThreadHTMLDownloader.m
 /**
-  * $Id: CMRThreadHTMLDownloader.m,v 1.3.4.1 2006/11/14 03:25:25 tsawada2 Exp $
+  * $Id: CMRThreadHTMLDownloader.m,v 1.3.4.2 2006/12/09 17:00:21 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -10,7 +10,7 @@
 #import "ThreadTextDownloader_p.h"
 #import "CMRHostHandler.h"
 
-
+@class BSHostLivedoorHandler;
 
 @implementation CMRThreadHTMLDownloader
 + (BOOL) canInitWithURL : (NSURL *) url
@@ -33,7 +33,7 @@
 	handler_ = [CMRHostHandler hostHandlerForURL : boardURL_];
 	nextIndex = ([self nextIndex] != NSNotFound) ? [self nextIndex] : 0;
 	
-	threadURL_ = [handler_ readURLWithBoard : boardURL_
+	threadURL_ = [handler_ rawmodeURLWithBoard : boardURL_
 							datName : [[self threadSignature] identifier]
 							start : nextIndex +1
 							end : NSNotFound
@@ -55,6 +55,11 @@
 	handler_ = [CMRHostHandler hostHandlerForURL : [self boardURL]];
 	inputSource_ = [self contentsWithData : resourceData];
 	thread_ = [[[NSMutableString alloc] init] autorelease];
+
+	if (nil == resourceData) {
+		NSLog(@"No data. -- BathyScaphe 1.3.1 CMRThreadHTMLDownloader");
+		return YES;
+	}
 	
 	if(nil == inputSource_){
 		NSLog(@"\n"
@@ -74,6 +79,11 @@
 }
 - (BOOL) shouldCancelWithFirstArrivalData : (NSData *) theData
 {
+	CMRHostHandler *handler_;
+	handler_ = [CMRHostHandler hostHandlerForURL : [self boardURL]];
+
+	if ([handler_ isKindOfClass: [BSHostLivedoorHandler class]]) return NO;
+
 	return !CHECK_HTML([theData bytes], [theData length]);
 }
 @end

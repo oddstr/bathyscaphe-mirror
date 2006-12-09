@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRHostHTMLHandler.m,v 1.4.2.5 2006/11/19 04:12:59 tsawada2 Exp $
+  * $Id: CMRHostHTMLHandler.m,v 1.4.2.6 2006/12/09 17:00:21 tsawada2 Exp $
   * 
   * CMRHostHTMLHandler.m
   *
@@ -38,6 +38,16 @@
 
 
 @implementation CMRHostHTMLHandler : CMRHostHandler
+- (NSURL *) rawmodeURLWithBoard: (NSURL    *) boardURL
+						datName: (NSString *) datName
+						  start: (unsigned  ) startIndex
+							end: (unsigned  ) endIndex
+						nofirst: (BOOL      ) nofirst
+{
+	return [self readURLWithBoard: boardURL datName: datName start: startIndex end: endIndex nofirst: nofirst];
+}
+
+#pragma mark HTML Parser
 // return title
 - (NSString *) scanHead : (id<XmlPullParser>) xpp
 		           with : (id               ) thread
