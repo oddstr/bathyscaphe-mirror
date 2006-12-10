@@ -25,7 +25,7 @@
     if ([[pboard types] containsObject: BSThreadItemsPboardType]) {
 		NSWindow *window_ = [sender draggingDestinationWindow];
 		if (![window_ isKeyWindow]) {
-			if (([NSDate timeIntervalSinceReferenceDate] - draggingTimer) > 1.5) {
+			if (([NSDate timeIntervalSinceReferenceDate] - draggingTimer) > 1.0) {
 				[window_ makeKeyAndOrderFront: nil];
 			}
 		}

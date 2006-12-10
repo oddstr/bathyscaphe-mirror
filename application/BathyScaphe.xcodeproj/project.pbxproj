@@ -249,7 +249,7 @@
 		8701636C082BE67100AEFDD0 /* CMRAttachmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F3BA419F05B605BF00D03A0D /* CMRAttachmentCell.m */; };
 		8701636D082BE67100AEFDD0 /* CMRMessageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = F3733D9B05B9EEE5009D1038 /* CMRMessageFilter.m */; };
 		8701636E082BE67100AEFDD0 /* CMXMenuHolder.m in Sources */ = {isa = PBXBuildFile; fileRef = F3733DC505BA28CD009D1038 /* CMXMenuHolder.m */; };
-		8701636F082BE67100AEFDD0 /* CMRThreadView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3FF60D505BC9A5800BDEBFA /* CMRThreadView.m */; };
+		8701636F082BE67100AEFDD0 /* CMRThreadView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3FF60D505BC9A5800BDEBFA /* CMRThreadView.m */; settings = {COMPILER_FLAGS = "-DPATCH=1"; }; };
 		87016371082BE67100AEFDD0 /* CMRSpamFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = F3FF61FA05BD5AD200BDEBFA /* CMRSpamFilter.m */; };
 		87016372082BE67100AEFDD0 /* AppDefaults-Filter.m in Sources */ = {isa = PBXBuildFile; fileRef = F33AE23405BE587D002448CC /* AppDefaults-Filter.m */; };
 		87016373082BE67100AEFDD0 /* CMRThreadMessageBufferReader.m in Sources */ = {isa = PBXBuildFile; fileRef = F370621405BFED85007484CE /* CMRThreadMessageBufferReader.m */; };
@@ -3876,7 +3876,6 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					DEBUG,
 					BUILD_COCOMONAR,
-					"PATCH=1",
 				);
 				INFOPLIST_FILE = "Info-preferences.plist";
 				INSTALL_PATH = "@executable_path/../Plugins";
@@ -3910,7 +3909,6 @@
 					UTIL_BLOCK_ASSERTIONS,
 					NS_BLOCK_ASSERTIONS,
 					UTIL_BLOCK_DEBUG_WRITE,
-					"PATCH=1",
 				);
 				INFOPLIST_FILE = "Info-preferences.plist";
 				INSTALL_PATH = "@executable_path/../Plugins";
@@ -3967,7 +3965,6 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					DEBUG,
 					BUILD_COCOMONAR,
-					"PATCH=1",
 				);
 				GCC_USE_GCC3_PFE_SUPPORT = NO;
 				INFOPLIST_FILE = "Info-reply.plist";
@@ -4004,7 +4001,6 @@
 					UTIL_BLOCK_ASSERTIONS,
 					NS_BLOCK_ASSERTIONS,
 					UTIL_BLOCK_DEBUG_WRITE,
-					"PATCH=1",
 				);
 				GCC_USE_GCC3_PFE_SUPPORT = NO;
 				INFOPLIST_FILE = "Info-reply.plist";
@@ -4053,16 +4049,11 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_2)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_3)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_4)",
+					../frameworks/CocoMonar/build/Deployment,
+					../frameworks/SGFoundation/build/Deployment,
+					../frameworks/SGAppKit/build/Deployment,
+					../frameworks/SGNetwork/build/Deployment,
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../frameworks/SGAppKit/build/Deployment\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../frameworks/SGFoundation/build/Deployment\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../frameworks/SGNetwork/build/Deployment\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_4 = "\"$(SRCROOT)/../frameworks/CocoMonar/build/Deployment\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -4078,7 +4069,6 @@
 				INSTALL_PATH = "@executable_path/../Plugins";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = ImagePreviewer;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -4100,16 +4090,11 @@
 				);
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_2)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_3)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_4)",
+					../frameworks/CocoMonar/build/Deployment,
+					../frameworks/SGFoundation/build/Deployment,
+					../frameworks/SGAppKit/build/Deployment,
+					../frameworks/SGNetwork/build/Deployment,
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../frameworks/SGAppKit/build/Deployment\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../frameworks/SGFoundation/build/Deployment\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../frameworks/SGNetwork/build/Deployment\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_4 = "\"$(SRCROOT)/../frameworks/CocoMonar/build/Deployment\"";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_OPTIMIZATION_LEVEL = s;
@@ -4118,7 +4103,6 @@
 				INSTALL_PATH = "@executable_path/../Plugins";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = ImagePreviewer;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -4135,21 +4119,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_2)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_3)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_4)",
+					../frameworks/CocoMonar/build/Deployment,
+					../frameworks/SGFoundation/build/Deployment,
+					../frameworks/SGAppKit/build/Deployment,
+					../frameworks/SGNetwork/build/Deployment,
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../frameworks/SGAppKit/build/Deployment\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../frameworks/SGFoundation/build/Deployment\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../frameworks/SGNetwork/build/Deployment\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_4 = "\"$(SRCROOT)/../frameworks/CocoMonar/build/Deployment\"";
 				GCC_USE_GCC3_PFE_SUPPORT = NO;
 				INFOPLIST_FILE = "Info-previewer.plist";
 				INSTALL_PATH = "@executable_path/../Plugins";
 				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = ImagePreviewer;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -4184,7 +4162,6 @@
 				OTHER_CFLAGS = (
 					"-DDEBUG",
 					"-DBUILD_COCOMONAR",
-					"-DPATCH=1",
 				);
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = BathyScaphe;
@@ -4224,7 +4201,6 @@
 					"-DUTIL_BLOCK_ASSERTIONS",
 					"-DNS_BLOCK_ASSERTIONS",
 					"-DUTIL_BLOCK_DEBUG_WRITE",
-					"-DPATCH=1",
 				);
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = BathyScaphe;
@@ -4250,6 +4226,7 @@
 					../frameworks/SGAppKit/build/Deployment,
 					"$(SRCROOT)",
 					"$(SRCROOT)/../../Desktop/OgreKit_2_0_2/build/Deployment",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
 				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -4290,7 +4267,7 @@
 				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = "";
+				GCC_MODEL_TUNING = G4;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};

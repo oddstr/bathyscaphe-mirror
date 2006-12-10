@@ -1,3 +1,28 @@
+2006-12-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/BathyScaphe.xcodeproj/project.pbxproj
+		ビルド設定を細かく見直した。とくに、-DPATCH=1 フラグは現在 CMRThreadView.m でしか
+		意味がないので、CMRThreadView.m にのみ -DPATCH=1 フラグを渡すようにして、プロジェクト
+		全体のビルド設定からはこのフラグを削除した。
+		他にフレームワークの参照パスなどで余りよくない部分をちょこちょこ修正した。
+	* application/source/preferences/AppDefaults.m
+		AppDefaults の sharedInstance 生成にも <CocoMonar/CMRSingletonObject.h> 記載の
+		マクロを使うように統一した。
+	* application/source/preferences/BSHostLivedoorHandler.m
+		livedoorしたらばで、透明あぼーんされたレスがあるスレッドを取得しようとするとレス数が
+		とてつもなく膨れ上がった上、レイアウトが完了しない問題を修正。
+	* application/source/view/CMRThreadView-Drop.m
+		スレッド一覧からスレッドを背面のウインドウにドロップして、そのウインドウが手前に出てくる
+		までの待ち時間を短縮（1.5 sec -> 1.0 sec）した。
+	* application/subproj/preference/AdvancedPrefController.m
+	* application/subproj/preference/Japanese.lproj/AdvancedPane.nib
+		「環境設定」＞「詳細」ペインのソースコードを整理。また、プロキシの「設定を変更...」ボタンを
+		取り除いた。
+	* application/subproj/preference/Japanese.lproj/FilterPreferences.nib
+		「環境設定」＞「フィルタ」ペインの「詳細...」ボタンをクリックして表れるシートで、語句の
+		検索対象が本文、名前、およびメール欄であることを説明するようにした。
+	* application/subproj/preference/pane/PreferencesPane-PCManagement.m
+		よく見ると #import "hogehoge.h" しなくても @class hogehoge; で十分だったので、そのようにした。
+================================================================================= Sneaky v294
 2006-12-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/previewer/Japanese.lproj/BSIPIFullScreen.nib
 	* application/subproj/previewer/BSIPIFullScreenController.m

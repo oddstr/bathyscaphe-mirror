@@ -190,21 +190,23 @@ ErrReadURL:
     return tmp;
 }
 
-- (void) addDatLine: (NSArray *) components with: (id) thread count: (unsigned) loadedCount
+- (void) addDatLine: (NSArray *) components with: (id) thread count: (unsigned *) pLoadedCount
 {
     unsigned actualIndex = [[components objectAtIndex: 0] intValue];
 
     if (actualIndex == 0) return;
 
-	if (loadedCount != NSNotFound && loadedCount +1 != actualIndex) {
+	if (*pLoadedCount != NSNotFound && *pLoadedCount +1 != actualIndex) {
 		unsigned	i;
 
         // 適当に行を詰める
         NSLog(@"Invisible Abone Occurred(%u)", actualIndex);
-        for (i = loadedCount +1; i < actualIndex; i++) {
+        for (i = *pLoadedCount +1; i < actualIndex; i++) {
             [thread appendString : @"<><><><>\n"];
         }
     }
+
+	*pLoadedCount = actualIndex;
 
     NSString *extraFields = [self convertObjectsToExtraFields: components];
 
@@ -235,7 +237,7 @@ NS_DURING
         3<>名無しさん<><>2006/08/10(木) 23:36:41<>ぬるぽ<><>ZCWPDDtE
         */
         
-        [self addDatLine: components_ with: thread count: parsedCount];
+        [self addDatLine: components_ with: thread count: &parsedCount];
         
         if (NO == titleParsed_) {
             NSString *title_ = [components_ objectAtIndex: 5];
@@ -250,7 +252,7 @@ NS_DURING
             titleParsed_ = YES;
         }
 		
-		parsedCount++;
+//		parsedCount++;
     }
 	
 NS_HANDLER

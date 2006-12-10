@@ -1,5 +1,5 @@
 //
-//  $Id: AdvancedPrefController.h,v 1.7.4.1 2006/08/31 10:18:41 tsawada2 Exp $
+//  $Id: AdvancedPrefController.h,v 1.7.4.2 2006/12/10 21:10:12 tsawada2 Exp $
 //  BachyScaphe
 //
 //  Created by tsawada2 on 05/05/22.
@@ -11,66 +11,19 @@
 
 
 @interface AdvancedPrefController : PreferencesController {
-	// Proxy
-	//IBOutlet NSWindow		*_proxySheet;
-	//IBOutlet NSButton		*_usesProxyCheckBox;
-	//IBOutlet NSButton		*_proxyWhenPOSTCheckBox;
-	//IBOutlet NSButton		*_usesSystemConfigProxyCheckBox;
-	//IBOutlet NSTextField	*_proxyURLField;
-	//IBOutlet NSTextField	*_proxyPortField;
-	
-	IBOutlet NSButton		*_openNetworkPaneBtn;
-	//IBOutlet NSButton		*_closeSheetBtn;
-	
-	IBOutlet NSPopUpButton	*_helperAppBtn;
+//	IBOutlet NSButton		*m_checkNowBtn;	
+	IBOutlet NSPopUpButton	*m_helperAppBtn;
 }
 
-// Proxy
-//- (IBAction) changeProxyURL : (id) sender;
-//- (IBAction) changeProxyPort : (id) sender;
-//- (IBAction) enableProxy : (id) sender;
-//- (IBAction) enableProxyWhenPOST : (id) sender;
-//- (IBAction) syncSystemConfigProxy : (id) sender;
+//- (IBAction) startCheckingForUpdate: (id) sender;
+- (IBAction) chooseApplication: (id) sender;
 
-- (IBAction) chooseApplication : (id) sender;
-
-- (IBAction) openNetworkPrefsPane : (id) sender;
-//- (IBAction) closeSheet : (id) sender;
-
-// Proxy
-//- (NSButton *) usesProxyCheckBox;
-//- (NSButton *) proxyWhenPOSTCheckBox;
-//- (NSButton *) usesSystemConfigProxyCheckBox;
-//- (NSTextField *) proxyURLField;
-//- (NSTextField *) proxyPortField;
-
+//- (NSButton *) checkNowBtn;
 - (NSPopUpButton *) helperAppBtn;
 
-//- (NSWindow *) proxySheet;
-
-- (NSButton *) openNetworkPaneBtn;
-//- (NSButton *) closeSheetBtn;
-
-// ShortCircuit Additions
-// 「ブラウザで開くときのレス数：」が、「一般」から「詳細」ペインに移動
-- (int) openInBrowserType;
-- (void) setOpenInBrowserType : (int) aType;
-
-// InnocentStarter Additions
-- (float) mouseDownTrackingTime;
-- (void) setMouseDownTrackingTime : (float) sliderValue;
-
-// Vita Additions
-- (NSString *) helperAppName;
-- (NSImage *) helperAppIcon;
-
+// Binding
 - (int) previewOption;
-- (void) setPreviewOption : (int) selectedTag;
+- (void) setPreviewOption: (int) selectedTag;
 
-- (BOOL) quietDeletion;
-- (void) setQuietDeletion : (BOOL) boxState;
-- (BOOL) openLinkInBg;
-- (void) setOpenLinkInBg : (BOOL) boxState;
-
-//- (void) updateProxyUIComponents;
+- (void) updateHelperAppUI;
 @end

@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.34.2.6 2006/11/11 19:03:08 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.34.2.7 2006/12/10 21:10:12 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -12,8 +12,7 @@
 
 #import "BSImagePreviewerInterface.h"
 
-@protocol	w2chConnect;
-//@class		CMRBBSSignature;
+@protocol w2chConnect;
 
 /*!
  * @define      CMRPref
@@ -26,6 +25,7 @@ typedef enum _BSAutoSyncIntervalType {
 	BSAutoSyncBy2weeks	= 2,
 	BSAutoSyncByMonth	= 3,
 	BSAutoSyncByEveryStartUp = 11,
+	BSAutoSyncEveryDay	= 12, // available in ReinforceII and later.
 } BSAutoSyncIntervalType;
 
 
@@ -141,24 +141,8 @@ typedef enum _BSAutoSyncIntervalType {
 - (CMRSearchMask) contentsSearchOption;
 - (void) setContentsSearchOption : (CMRSearchMask) option;
 
-
-// Proxy
-//- (BOOL) usesProxy;
-//- (void) setUsesProxy : (BOOL) anUsesProxy;
-//- (BOOL) usesProxyOnlyWhenPOST;
-//- (void) setUsesProxyOnlyWhenPOST : (BOOL) anUsesProxy;
-
-//- (BOOL) usesSystemConfigProxy;
-//- (void) setUsesSystemConfigProxy : (BOOL) flag;
-
-//- (void) getProxy:(NSString**)host port:(CFIndex*)port;
-//- (CFIndex) proxyPort;
-//- (void) setProxyPort : (CFIndex) aProxyPort;
-//- (NSString *) proxyHost;
-//- (void) setProxyHost : (NSString *) aProxyURL;
-
+/* MeteorSweeper: Hidden Proxy Options */
 - (BOOL) usesOwnProxy;
-
 - (void) getOwnProxy: (NSString **) host port: (CFIndex *) port;
 
 #pragma mark History
@@ -348,9 +332,6 @@ typedef enum _BSAutoSyncIntervalType {
 @interface AppDefaults(ThreadsListSettings)
 - (int) threadsListAutoscrollMask;
 - (void) setThreadsListAutoscrollMask : (int) mask;
-// Deprecated in BathyScaphe 1.2.
-//- (NSString *) ignoreTitleCharacters;
-//- (void) setIgnoreTitleCharacters : (NSString *) ignoreChars;
 
 - (BOOL) useIncrementalSearch;
 - (void) setUseIncrementalSearch : (BOOL) TorF;

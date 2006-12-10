@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.14.2.6 2006/11/25 05:14:23 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.14.2.7 2006/12/10 21:10:12 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -8,7 +8,6 @@
   */
 #import "AppDefaults_p.h"
 #import "CMRMainMenuManager.h"
-// #import "BoardList.h"
 #import <AppKit/NSFont.h>
 
 
@@ -49,12 +48,12 @@ NSString *const AppDefaultsWillSaveNotification = @"AppDefaultsWillSaveNotificat
 #define AppDefaultsProxyURLKey				@"ProxyURL"
 #define AppDefaultsProxyPortKey				@"ProxyPort"
 
-static id _singletonAppDefaultsLock;
+//static id _singletonAppDefaultsLock;
 
 #pragma mark -
 
 @implementation AppDefaults
-+ (void) initialize
+/*+ (void) initialize
 {
 	static BOOL nomore_ = NO;
 	if (nomore_) return;
@@ -74,7 +73,9 @@ static id _singletonAppDefaultsLock;
 		[_singletonAppDefaultsLock unlock];
 	}
 	return instance_;
-}
+}*/
+APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
+
 - (id) init
 {
 	if (self = [super init]) {
@@ -435,225 +436,12 @@ default_browserLastBoard:
 	[[self defaults] setInteger:mask forKey:AppDefaultsBrowserStatusFilteringMaskKey];
 }
 
-#pragma mark -
-
-// Proxy
-/*- (BOOL) usesSystemConfigProxy
-{
-	return [[self defaults] boolForKey : AppDefaultsUsesSystemConfigProxy
-						  defaultValue : NO];
-}
-- (void) setUsesSystemConfigProxy : (BOOL) flag
-{
-	[[self defaults] setBool:flag forKey:AppDefaultsUsesSystemConfigProxy];
-}
-
-
-enum {
-	kDisableProxy = 0,
-	kEnableProxy = 1,
-	kEnableProxyOnlyWhenPOST = 2,
-	kEnableProxyReserved = 4
-};
-
-- (int) usesProxyStatus
-{
-	return [[self defaults] integerForKey : AppDefaultsUsesProxyKey];
-}
-- (void) setUsesProxyStatus : (int) status
-{
-	[[self defaults] setInteger:status forKey:AppDefaultsUsesProxyKey];
-}
-- (BOOL) usesProxyWithStatus : (int) flag
-{
-	int		s;
-	s = [self usesProxyStatus];
-	return (s & flag);
-}
-- (void) setUsesProxyStatus : (int) flag
-					 flagOn : (BOOL) flagOn
-{
-	int		s;
-	
-	s = [self usesProxyStatus];
-	[self setUsesProxyStatus : (flagOn ? s | flag : s & ~flag)];
-}
-- (BOOL) usesProxy { return [self usesProxyWithStatus : kEnableProxy]; }
-- (void) setUsesProxy : (BOOL) flag { [self setUsesProxyStatus:kEnableProxy flagOn:flag]; }
-- (BOOL) usesProxyOnlyWhenPOST { return [self usesProxyWithStatus : kEnableProxyOnlyWhenPOST]; }
-- (void) setUsesProxyOnlyWhenPOST : (BOOL) flag { [self setUsesProxyStatus:kEnableProxyOnlyWhenPOST flagOn:flag]; }
-*/
+#pragma mark Proxy
 - (BOOL) usesOwnProxy
 {
 	return [[self defaults] boolForKey: @"UsesBSsOwnProxySettings" defaultValue: NO];
 }
-/*
-Function
-----------------------------------------
-SCDynamicStoreCopyProxies
 
-Constants
-----------------------------------------
-kSCPropNetProxiesHTTPEnable
-kSCPropNetProxiesHTTPProxy
-kSCPropNetProxiesHTTPPort
-
-*/
-/*static struct {
-	CFDictionaryRef (*copyProxies)(void *);
-	CFStringRef	proxyKey;
-	CFStringRef	portKey;
-} localSCProxyInfo = { NULL, NULL, false};
-
-static CFURLRef CopySystemConfigurationURL(void)
-{
-	return CFURLCreateWithFileSystemPath(NULL, 
-		CFSTR("/System/Library/Frameworks/SystemConfiguration.framework"),
-		kCFURLPOSIXPathStyle,
-		true);
-}
-static Boolean localSCProxyInfoInit(void)
-{
-	static Boolean		isFirst  = true;
-	static CFBundleRef	scBundle = NULL;
-	
-	Boolean				ret       = false;
-	CFURLRef			bundleURL = NULL;
-	CFStringRef			*sym;
-	CFDictionaryRef		(*fnCopyProxies)(void *);
-	
-	if (false == isFirst) {
-		return localSCProxyInfo.copyProxies != NULL;
-	}
-	isFirst = false;
-	
-	bundleURL = CopySystemConfigurationURL();
-	UTILRequireCondition(bundleURL, ErrLocalSCProxyInfoInit);
-	
-	if (NULL == bundleURL) return 2;
-	scBundle = CFBundleCreate(NULL, bundleURL);
-	UTILDebugRequire1(scBundle, ErrLocalSCProxyInfoInit,
-		@"Can't create bundle for %@",
-		[(NSURL*)bundleURL description]);
-	if (false == CFBundleLoadExecutable(scBundle)) {
-		NSLog(@"***WARNING*** Can't load executable code from %@",
-			[(NSURL*)bundleURL description]);
-		CFRelease(scBundle);
-		scBundle = NULL;
-		goto ErrLocalSCProxyInfoInit;
-	}
-	
-	sym = (CFStringRef*)CFBundleGetDataPointerForName(scBundle,
-					CFSTR("kSCPropNetProxiesHTTPProxy"));
-	UTILRequireCondition(sym, ErrLocalSCProxyInfoInit);
-	UTILDebugWrite1(@"  load symbol %@", (NSString*)*sym);
-	localSCProxyInfo.proxyKey = *sym;
-	
-	sym = (CFStringRef*)CFBundleGetDataPointerForName(scBundle,
-					CFSTR("kSCPropNetProxiesHTTPPort"));
-	UTILRequireCondition(sym, ErrLocalSCProxyInfoInit);
-	UTILDebugWrite1(@"  load symbol %@", (NSString*)*sym);
-	localSCProxyInfo.portKey = *sym;
-	
-	fnCopyProxies = CFBundleGetFunctionPointerForName(scBundle,
-						CFSTR("SCDynamicStoreCopyProxies"));
-	UTILRequireCondition(fnCopyProxies, ErrLocalSCProxyInfoInit);
-	UTILDebugWrite1(@"  load Function %@", @"SCDynamicStoreCopyProxies");
-	localSCProxyInfo.copyProxies = fnCopyProxies;
-	
-	ret = true;
-ErrLocalSCProxyInfoInit:
-	if (bundleURL != NULL) CFRelease(bundleURL);
-	return ret;
-}
-
-static Boolean GetHTTPProxySetting(NSString **host, CFIndex *port)
-{
-	Boolean			ret = false;
-	NSDictionary	*proxyDict;
-	NSString		*hostStr;
-	NSNumber		*portNum;
-	
-	if (host != NULL) *host = nil;
-	if (port != NULL) *port = 0;
-	
-	if (false == localSCProxyInfoInit()) {
-		return false;
-	}
-	NSCAssert(
-		localSCProxyInfo.copyProxies &&
-		localSCProxyInfo.proxyKey &&
-		localSCProxyInfo.portKey,
-		@"localSCProxyInfo was not initialized.");
-		
-	
-	proxyDict = (NSDictionary*)localSCProxyInfo.copyProxies(NULL);
-	UTILDebugRequire(proxyDict && [proxyDict isKindOfClass : [NSDictionary class]],
-		ErrGetHTTPProxySetting,
-		@"SCDynamicStoreCopyProxies() returns NULL");
-	[proxyDict autorelease];
-	
-	hostStr = [proxyDict objectForKey : (NSString*)localSCProxyInfo.proxyKey];
-	UTILDebugRequire1(hostStr && [hostStr isKindOfClass : [NSString class]],
-		ErrGetHTTPProxySetting,
-		@"No Entry: %@", localSCProxyInfo.proxyKey);
-	
-	portNum = [proxyDict objectForKey : (NSString*)localSCProxyInfo.portKey];
-	UTILDebugRequire1(portNum && [portNum isKindOfClass : [NSNumber class]],
-		ErrGetHTTPProxySetting,
-		@"No Entry: %@", localSCProxyInfo.portKey);
-	
-	if (host != NULL) *host = hostStr;
-	if (port != NULL) *port = [portNum intValue];
-	
-	
-	ret = true;
-ErrGetHTTPProxySetting:
-	return ret;
-}
-- (void) getProxy:(NSString**)host port:(CFIndex*)port
-{
-	if ([self usesSystemConfigProxy]) {
-		if (GetHTTPProxySetting(host, port))
-			return;
-		
-		// IGNORE if SystemConfiguration.framework was not supported
-	}
-	if (host != NULL)
-		*host = [[self defaults] stringForKey : AppDefaultsProxyURLKey];
-	
-	if (port != NULL) {
-		*port = [[self defaults] integerForKey : AppDefaultsProxyPortKey
-								  defaultValue : 8080];
-	}
-}
-
-- (CFIndex) proxyPort
-{
-	CFIndex		port;
-	
-	[self getProxy:NULL port:&port];
-	return port;
-}
-- (void) setProxyPort : (CFIndex) aProxyPort
-{
-	[[self defaults] setInteger:aProxyPort forKey:AppDefaultsProxyPortKey];
-}
-- (NSString *) proxyHost
-{
-	NSString		*host;
-	
-	[self getProxy:&host port:NULL];
-	return host;
-}
-- (void) setProxyHost : (NSString *) aHost
-{
-	if (nil == aHost)
-		[[self defaults] removeObjectForKey:AppDefaultsProxyURLKey];
-	else
-		[[self defaults] setObject:aHost forKey:AppDefaultsProxyURLKey];
-}
-*/
 - (void) getOwnProxy: (NSString **)host port:(CFIndex *)port
 {
 	if (host != NULL)
@@ -665,9 +453,7 @@ ErrGetHTTPProxySetting:
 	}
 }
 
-#pragma mark -
-
-// History
+#pragma mark History
 - (int) maxCountForThreadsHistory
 {
 	return [[self defaults] integerForKey : AppDefaultsHistoryThreadsKey

@@ -1,10 +1,10 @@
 {
     IBClasses = (
         {
-            ACTIONS = {chooseApplication = id; openNetworkPrefsPane = id; }; 
+            ACTIONS = {chooseApplication = id; }; 
             CLASS = AdvancedPrefController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {"_helperAppBtn" = NSPopUpButton; "_openNetworkPaneBtn" = NSButton; }; 
+            OUTLETS = {"m_helperAppBtn" = NSPopUpButton; }; 
             SUPERCLASS = PreferencesController; 
         }, 
         {CLASS = BSIconTextFieldCell; LANGUAGE = ObjC; SUPERCLASS = NSTextFieldCell; }, 
