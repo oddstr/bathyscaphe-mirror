@@ -2894,6 +2894,7 @@
 				8796FA400A9189D400DE3A90 /* BSSettingTxtDetector.h */,
 				8796FA410A9189D400DE3A90 /* BSSettingTxtDetector.m */,
 				87F621A00A9186920082E8DB /* BoardManager-BSAddition.m */,
+				87F6214C0A906B890082E8DB /* BoardManager-SettingTxt.m */,
 				F324DC2704C698FA00A80005 /* BoardManager.h */,
 				8794CC0F089C033300161BAB /* BoardManager.m */,
 				F324DC2904C698FA00A80005 /* BoardManager_p.h */,
@@ -2907,7 +2908,6 @@
 				87BF52CA08F789D400998C4E /* BSBoardInfoInspector.m */,
 				87D7F03B0A85136900623EA5 /* BoardWarrior.h */,
 				87D7F03C0A85136900623EA5 /* BoardWarrior.m */,
-				87F6214C0A906B890082E8DB /* BoardManager-SettingTxt.m */,
 			);
 			path = bbs;
 			sourceTree = "<group>";

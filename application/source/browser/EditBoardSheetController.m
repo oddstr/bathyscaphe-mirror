@@ -102,7 +102,7 @@ static NSString *const kEditDrawerItemTitleForCategoryKey = @"PleaseInputName";
 	   modalForWindow: targetWindow
 	    modalDelegate: self
 	   didEndSelector: @selector(editBoardSheetDidEnd:returnCode:contextInfo:)
-	      contextInfo: [[NSArray alloc] initWithObjects: (aDelegate ? aDelegate : [NSNull null]), name_, nil]];
+	      contextInfo: [[NSArray alloc] initWithObjects: (aDelegate ? aDelegate : [NSNull null]), contextInfo, nil]];
 }
 
 - (void) beginEditCategorySheetForWindow: (NSWindow *) targetWindow
@@ -189,7 +189,8 @@ static NSString *const kEditDrawerItemTitleForCategoryKey = @"PleaseInputName";
 	id delegate_ = [contextInfo objectAtIndex: 0];
 
 	if (NSOKButton == returnCode) {
-		[[BoardManager defaultManager] editBoardOfName: [contextInfo objectAtIndex: 1] newURLString: [self enteredText]];
+//		[[BoardManager defaultManager] editBoardOfName: [contextInfo objectAtIndex: 1] newURLString: [self enteredText]];
+		[[BoardManager defaultManager] editBoardItem: [contextInfo objectAtIndex: 1] newURLString: [self enteredText]];
 	}
 	
 	[sheet close];

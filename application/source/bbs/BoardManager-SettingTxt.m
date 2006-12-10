@@ -144,6 +144,19 @@
 	return YES;
 }
 
+- (BOOL) editBoardItem: (id) item newURLString: (NSString *)newURLString
+{
+	if(!newURLString || !item) {
+		NSBeep();
+		return NO;
+	}
+	
+	[[BSBoardInfoInspector sharedInstance] willChangeValueForKey: @"boardURLAsString"];
+	[[self userList] setURL: newURLString toItem: item];
+	[[BSBoardInfoInspector sharedInstance] didChangeValueForKey: @"boardURLAsString"];
+	return YES;
+}
+
 - (BOOL) editBoardOfName: (NSString *) boardName newURLString: (NSString *) newURLString
 {
 	NSMutableDictionary *newItem_;

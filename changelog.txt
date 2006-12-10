@@ -1,4 +1,9 @@
 2006-12-10 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardManager-SettingTxt.m:
+	* application/source/bbs/BoardManager.h:
+	* application/source/browser/EditBoardSheetController.m:
+		 掲示板リストの板のURLを変更できるようにした。
+2006-12-10 masakih <masakih@users.sourceforge.jp>
 	* application/source/manager/DatabaseManager.m:
 		databaseファイルのバージョンが古かった場合の処理のひな形作成。
 2006-12-09 masakih <masakih@users.sourceforge.jp>
