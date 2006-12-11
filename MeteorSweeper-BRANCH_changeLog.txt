@@ -1,4 +1,10 @@
 2006-12-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+		Mac OS X 10.3.x での NSTableView のバグを回避するため、明示的に
+		-[[tableVolumn dataCell] setDrawsBackground: NO]; するようにした。
+	* application/source/bbs/BoardList-OVDataSource.m
+		掲示板リストのカテゴリをデスクトップなどにドラッグすると、空のテキストクリッピングができてしまう問題を修正
+		（クリッピングを作成しないようにした）。
 	* application/source/browser/Browser.m
 		ブラウザウインドウからの「別名で保存...」処理を若干見直した。
 	* application/BathyScaphe.xcodeproj/project.pbxproj

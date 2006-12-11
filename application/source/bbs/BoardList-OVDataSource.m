@@ -1,5 +1,5 @@
 /**
-  * $Id: BoardList-OVDataSource.m,v 1.11.2.5 2006/11/19 04:12:59 tsawada2 Exp $
+  * $Id: BoardList-OVDataSource.m,v 1.11.2.6 2006/12/11 13:40:12 tsawada2 Exp $
   * 
   * BoardList-OVDataSource.m
   *
@@ -155,32 +155,28 @@ static NSMutableAttributedString *makeAttrStrFromStr(NSString *source)
 	NSArray			*types_;
 	NSDictionary	*board_;
 	NSString		*path_;
-	NSURL			*url_;
+
 	if([items containsObject : [FavoritesList favoritesItem]])
 		return NO;
-	
-	types_ = [NSArray arrayWithObjects : CMRBBSListItemsPboardType,
-										 NSURLPboardType,
-										 NSStringPboardType,
-										 nil];
-	[pboard declareTypes : types_ 
-				   owner : NSApp];
-	[pboard setPropertyList : [items description] 
-					forType : CMRBBSListItemsPboardType];
-	
-	board_ = [items lastObject];
-	path_ = [board_ objectForKey : BoardPlistURLKey];
-	UTILRequireCondition(path_ != nil, not_writtable);
-	url_ = [NSURL URLWithString : path_];
-	UTILRequireCondition(url_ != nil, not_writtable);
-	
-	[url_ writeToPasteboard : pboard];
-	[pboard setString : [url_ absoluteString] 
-			  forType : NSStringPboardType];
-	
-	return YES;
 
-not_writtable:
+	types_ = [NSArray arrayWithObject: CMRBBSListItemsPboardType];
+	[pboard declareTypes: types_ owner: NSApp];
+	[pboard setPropertyList: [items description] forType: CMRBBSListItemsPboardType];
+
+	board_ = [items lastObject];
+	path_ = [board_ objectForKey: BoardPlistURLKey];
+	if (path_) {
+		NSURL	*url_;
+		[pboard addTypes: [NSArray arrayWithObject: NSStringPboardType] owner: NSApp];
+		[pboard setString: path_ forType: NSStringPboardType];
+
+		url_ = [NSURL URLWithString: path_];
+		if (url_) {
+			[pboard addTypes: [NSArray arrayWithObject: NSURLPboardType] owner: NSApp];
+			[url_ writeToPasteboard: pboard];
+		}
+	}
+
 	return YES;
 }
 

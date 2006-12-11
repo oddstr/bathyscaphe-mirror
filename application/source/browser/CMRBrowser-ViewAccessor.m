@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.42.2.10 2006/12/06 02:33:30 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.42.2.11 2006/12/11 13:40:12 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -304,8 +304,6 @@
 */
 - (void) setupTableColumn : (NSTableColumn *) column
 {
-//    CMRTextColumnCell    *cell_;
-//	NSString			 *identifier_ = [column identifier];
 /*	
 	NSSortDescriptor *desc;
 	id key = nil;
@@ -329,6 +327,7 @@
 
 	id dataCell = [column dataCell];
 	[dataCell setWraps: YES];
+	[dataCell setDrawsBackground: NO];
 
 	if ([dataCell alignment] == NSRightTextAlignment) {
 		CMRTextColumnCell	*cell_ = [[CMRTextColumnCell alloc] initTextCell: @""];
@@ -336,12 +335,6 @@
 		[column setDataCell: cell_];
 		[cell_ release];
 	}
-//    cell_ = [[CMRTextColumnCell alloc] initTextCell : @""];
-//    [cell_ setAttributesFromCell : [column dataCell]];
-//    [column setDataCell : cell_];
-//    [cell_ release];
-
-//	[[column dataCell] setWraps : YES];
 }
 @end
 
