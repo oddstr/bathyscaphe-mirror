@@ -1,4 +1,7 @@
 2006-12-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/image/FontBigger.tiff
+	* application/Resources/image/FontSmaller.tiff
+		アイコンを差し替えた。
 	* application/source/browser/CMRBrowser-ViewAccessor.m
 		Mac OS X 10.3.x での NSTableView のバグを回避するため、明示的に
 		-[[tableVolumn dataCell] setDrawsBackground: NO]; するようにした。
