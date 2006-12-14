@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.49 2006/11/07 12:50:31 masakih Exp $
+  * $Id: CMRBrowser-Action.m,v 1.50 2006/12/14 13:45:22 masakih Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -478,19 +478,6 @@ static int expandAndSelectItem(NSDictionary *selected, NSArray *anArray, NSOutli
 	[[CMRMainMenuManager defaultManager] synchronizeStatusFilteringMenuItemState];
 }
 
-- (void) showSearchResultAppInfoWithFound : (BOOL) aResult
-{
-	NSString	*_filterResultMessage;
-	if (NO == aResult) {
-		_filterResultMessage = [self localizedString : kSearchListNotFoundKey];
-	} else {
-		_filterResultMessage = [NSString stringWithFormat : [self localizedString : kSearchListResultKey],
-															[[self currentThreadsList] numberOfFilteredThreads]];
-	}
-
-	[[self window] setTitle : [NSString stringWithFormat : @"%@ (%@)", [[self document] displayName], _filterResultMessage]];
-}
-
 - (void) clearSearchFilter
 {
 	[self setCurrentSearchString: nil];
@@ -501,16 +488,8 @@ static int expandAndSelectItem(NSDictionary *selected, NSArray *anArray, NSOutli
 
 - (void) synchronizeWithSearchField
 {
-	BOOL		result = NO;
-	NSString	*aString = [self currentSearchString];
-	
-	result = [[self document] searchThreadsInListWithCurrentSearchString];
-
-	if (nil == aString ||[aString isEqualToString: @""]) {
-		[self clearSearchFilter];
-	} else {
-		[self showSearchResultAppInfoWithFound : result];
-	}
+	[[self document] searchThreadsInListWithCurrentSearchString];
+	[self synchronizeWindowTitleWithDocumentName];
 
 	[[self threadsListTable] reloadData];
 }

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.28 2006/11/15 14:41:18 masakih Exp $
+  * $Id: CMRBrowser.m,v 1.29 2006/12/14 13:45:22 masakih Exp $
   * 
   * CMRBrowser.m
   *
@@ -49,7 +49,16 @@ CMRBrowser *CMRMainBrowser = nil;
 	if ([self currentSearchString]) {
 		/* 2005-09-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 		   検索結果を表示している間は、それを優先し、ウインドウタイトルの変更を抑制する。*/
-		return [[self window] title];
+		/* 2006-12-14 masakih <masakih@users.sourceforge.jp>
+		   ではここで検索結果を表示してしまえばいい。 */
+		unsigned foundNum = [[self currentThreadsList] numberOfFilteredThreads];
+		
+		if (0 == foundNum) {
+			threadTitle_ = [self localizedString : kSearchListNotFoundKey];
+		} else {
+			threadTitle_ = [NSString stringWithFormat : [self localizedString : kSearchListResultKey],
+				foundNum];
+		}
 	}
 	
 	if (nil == threadTitle_)

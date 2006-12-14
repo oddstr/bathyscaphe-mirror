@@ -12,6 +12,7 @@
 #import "BoardManager.h"
 #import "CMRHostHandler.h"
 #import "BSDownloadTask.h"
+#import "AppDefaults.h"
 
 static NSString *const BSFavHEADerLMKey	= @"Last-Modified";
 
@@ -89,6 +90,20 @@ static BOOL shouldCheckItemHeader(id dict);
 	}
 	return [NSString stringWithFormat:NSLocalizedString(@"ProgressBoardListItemHEADCheck.", "ProgressBoardListItemHEADCheck.")];
 }
+- (void)playFinishSoundIsUpdate:(BOOL)isUpDate
+{
+	NSSound *finishedSound_ = nil;
+	NSString *soundName_ = [CMRPref HEADCheckNewArrivedSound];
+	
+	if (isUpDate && ![soundName_ isEqualToString : @""]) {
+		finishedSound_ = [NSSound soundNamed :soundName_];
+	} else {
+		soundName_ = [CMRPref HEADCheckNoUpdateSound];
+		if (![soundName_ isEqualToString : @""])
+			finishedSound_ = [NSSound soundNamed : soundName_];
+	}
+	[finishedSound_ play];
+}
 - (void) doExecuteWithLayout : (CMRThreadLayout *) layout
 {
 	[self resetNewStatus];
@@ -153,6 +168,12 @@ static BOOL shouldCheckItemHeader(id dict);
 		}
 		[pool release];
 	}
+	
+	[self playFinishSoundIsUpdate:numberOfFinishCheck != 0];
+	
+	[CMRPref setLastHEADCheckedDate : [NSDate date]];
+	double interval_ = (double)numberOfFinishCheck * 20.0;
+	[CMRPref setHEADCheckTimeInterval : ((interval_ < 300.0) ? 300.0 : interval_)];
 	
 	[self updateDB:updatedThreads];
 	
