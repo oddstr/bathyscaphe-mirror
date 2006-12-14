@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.42.2.11 2006/12/11 13:40:12 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.42.2.12 2006/12/14 03:27:24 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -94,7 +94,7 @@
 	}
 	return m_editBoardSheetController;
 }
-
+/*
 - (NSString *) currentSearchString
 {
 	return [[self document] searchString];
@@ -103,7 +103,7 @@
 - (void) setCurrentSearchString: (NSString *) newString
 {
 	[[self document] setSearchString: newString];
-}
+}*/
 @end
 
 @implementation CMRBrowser(UIComponents)

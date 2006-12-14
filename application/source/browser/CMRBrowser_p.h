@@ -138,8 +138,8 @@
 - (AddBoardSheetController *) addBoardSheetController;
 - (EditBoardSheetController *) editBoardSheetController;
 
-- (NSString *) currentSearchString;
-- (void) setCurrentSearchString: (NSString *) newString;
+//- (NSString *) currentSearchString;
+//- (void) setCurrentSearchString: (NSString *) newString;
 @end
 
 @interface CMRBrowser(UIComponents)

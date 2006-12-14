@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.26.2.5 2006/09/04 16:34:39 tsawada2 Exp $
+  * $Id: CMRBrowser.m,v 1.26.2.6 2006/12/14 03:27:24 tsawada2 Exp $
   * 
   * CMRBrowser.m
   *
@@ -46,7 +46,7 @@ CMRBrowser *CMRMainBrowser = nil;
 {
 	NSString		*threadTitle_ = [[[self currentThreadsList] objectValueForBoardInfo] stringValue];
 
-	if ([self currentSearchString]) {
+	if ([[self document] searchString]) {
 		/* 2005-09-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 		   検索結果を表示している間は、それを優先し、ウインドウタイトルの変更を抑制する。*/
 		return [[self window] title];

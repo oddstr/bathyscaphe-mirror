@@ -1,7 +1,23 @@
-2006-12-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+2006-12-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRFavoritesManager.m
+		お気に入りを追加する度にファイルに書き込むとガリガリうっとうしいので、タイマーで3分おきに書き込むようにした。
+		削除する度にファイルに書き込む必要も無いね。
+	* application/Resources/Japanese.lproj/Browser.nib
+		検索フィールドの value のバインド先 keyPath を currentSearchString から document.searchString にした。
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/source/browser/CMRBrowser.m
+		アクセッサメソッド -currentSearchString, -setCurrentSearchString: を廃止した。これらは実際には
+		[self document] の searchString アクセサメソッドへのブリッジだったが、ウインドウコントローラとドキュメントの
+		関係をはっきりさせるため、このブリッジをやめて（使われている箇所も少ないので）、必要な所には直接
+		- [[self document] searchString] などと書くようにした。
+	* application/source/bbs/BSBoardInfoInspector.m
+		「掲示板オプション」の対象板切り替え処理を少し改善。
+2006-12-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/image/FontBigger.tiff
 	* application/Resources/image/FontSmaller.tiff
 		アイコンを差し替えた。
+2006-12-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-ViewAccessor.m
 		Mac OS X 10.3.x での NSTableView のバグを回避するため、明示的に
 		-[[tableVolumn dataCell] setDrawsBackground: NO]; するようにした。

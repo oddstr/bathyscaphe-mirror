@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.47.2.7 2006/09/24 03:39:13 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.47.2.8 2006/12/14 03:27:24 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -493,7 +493,7 @@ static int expandAndSelectItem(NSDictionary *selected, NSArray *anArray, NSOutli
 
 - (void) clearSearchFilter
 {
-	[self setCurrentSearchString: nil];
+	[[self document] setSearchString: nil];
 	
 	// 検索結果の表示@タイトルバーを解除
 	[self synchronizeWindowTitleWithDocumentName];
@@ -501,15 +501,15 @@ static int expandAndSelectItem(NSDictionary *selected, NSArray *anArray, NSOutli
 
 - (void) synchronizeWithSearchField
 {
+	NSString	*aString = [[self document] searchString];
 	BOOL		result = NO;
-	NSString	*aString = [self currentSearchString];
-	
+
 	result = [[self document] searchThreadsInListWithCurrentSearchString];
 
 	if (nil == aString ||[aString isEqualToString: @""]) {
 		[self clearSearchFilter];
 	} else {
-		[self showSearchResultAppInfoWithFound : result];
+		[self showSearchResultAppInfoWithFound: result];
 	}
 
 	[[self threadsListTable] reloadData];

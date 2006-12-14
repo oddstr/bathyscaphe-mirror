@@ -328,7 +328,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	if (![[self window] isVisible]) return;
 
 	id winController_ = [[theNotification object] windowController];
-
+/*
 	if (([winController_ class] == [CMRThreadViewer class]) || ([winController_ class] == [CMRBrowser class])) {
 		NSString *tmp_;
 		tmp_ = [(CMRThreadViewer *)winController_ boardName];
@@ -339,6 +339,14 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 			return;
 		[self setCurrentTargetBoardName : tmp_];
 		[[self window] update];
+	}*/
+	if ([winController_ respondsToSelector: @selector(boardIdentifier)]) {
+		NSString *tmp_ = [winController_ boardIdentifier];
+				
+		if (!tmp_) return;
+		
+		[self setCurrentTargetBoardName: [(CMRBBSSignature *)tmp_ name]];
+		[[self window] update];
 	}
 }
 
@@ -347,9 +355,12 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	if (![[self window] isVisible]) return;
 	id winController_ = [theNotification object];
 
-	if ([winController_ class] == [CMRBrowser class]) {
+	if (NO == [(NSWindow *)[winController_ window] isMainWindow]) return;
+
+//	if ([winController_ class] == [CMRBrowser class]) { // 発信者は常に CMRBrowser class
+	if ([winController_ respondsToSelector: @selector(boardIdentifier)]) {
 		NSString *tmp_;
-		tmp_ = [(CMRBBSSignature *)[(CMRBrowser *)winController_ boardIdentifier] name];
+		tmp_ = [(CMRBBSSignature *)[winController_ boardIdentifier] name];
 	
 		if (nil == tmp_)
 			return;
@@ -363,7 +374,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	if (![[self window] isVisible]) return;
 	id winController_ = [theNotification object];
 
-	if ([winController_ class] == [CMRThreadViewer class]) {
+//	if ([winController_ class] == [CMRThreadViewer class]) {
+	if ([winController_ isMemberOfClass: [CMRThreadViewer class]]) {
 		NSString *tmp_;
 		tmp_ = [(CMRThreadViewer *)winController_ boardName];
 		if(tmp_ == nil)

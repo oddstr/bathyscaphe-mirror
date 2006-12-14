@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFavoritesManager.m,v 1.12.2.7 2006/11/19 04:12:59 tsawada2 Exp $
+  * $Id: CMRFavoritesManager.m,v 1.12.2.8 2006/12/14 03:27:24 tsawada2 Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
@@ -48,13 +48,29 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 					selector : @selector(trashDidPerform:)
 					    name : CMRTrashboxDidPerformNotification
 					  object : [CMRTrashbox trash]];
+
+		m_writeTimer = [[NSTimer scheduledTimerWithTimeInterval: 180.0
+														 target: self
+													   selector: @selector(saveToFile:)
+													   userInfo: nil
+													    repeats: YES] retain];
 	}
 	return self;
+}
+
+- (void) saveToFile: (NSTimer *) aTimer
+{
+	[[self favoritesItemsArray] writeToFile : [[self class] defaultFilepath]
+								 atomically : YES];
+	[[self changedFavItemsPool] writeToFile : [[self class] subFilepath]
+								 atomically : YES];
 }
 
 - (void) dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver : self];
+	[m_writeTimer invalidate];
+	[m_writeTimer release];
 	[_favoritesItemsArray release];
 	[_favoritesItemsIndex release];
 	[_changedFavItemsPool release];
@@ -69,12 +85,13 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	UTILAssertNotificationObject(
 		notification,
 		NSApp);	
-	
+/*	
 	[[self favoritesItemsArray] writeToFile : [[self class] defaultFilepath]
 								 atomically : YES];
 	[[self changedFavItemsPool] writeToFile : [[self class] subFilepath]
 								 atomically : YES];
-
+*/
+	[self saveToFile: nil];
 }
 
 
@@ -290,8 +307,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	[[self favoritesItemsIndex] addObject : path_];
 	
 	// write Now
-	[[self favoritesItemsArray] writeToFile : [[self class] defaultFilepath]
-								 atomically : YES];
+//	[[self favoritesItemsArray] writeToFile : [[self class] defaultFilepath]
+//								 atomically : YES];
 
 	UTILNotifyInfo3(
 		CMRFavoritesManagerDidLinkFavoritesNotification,
