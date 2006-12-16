@@ -144,8 +144,45 @@ static inline NSInvocation *checkMethodSignature(id obj, SEL selector)
 	[self autorelease];
 }
 
+- (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+	[[alert window] orderOut:self];
+}
 - (void) ok : (id)sender
 {
+	if(![nameField stringValue] || [[nameField stringValue] length] == 0) {
+		NSAlert *alert = [NSAlert alertWithMessageText:[self localizedString:@"Error"]
+										 defaultButton:[self localizedString:@"OK"]
+									   alternateButton:nil
+										   otherButton:nil
+							 informativeTextWithFormat:[self localizedString:@"Name is empty"]];
+		if([sender isKindOfClass:[NSView class]] && [sender window]) {
+			[alert beginSheetModalForWindow:[sender window]
+							  modalDelegate:self
+							 didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+								contextInfo:NULL];
+		} else {
+			[alert runModal];
+		}
+		return;
+	}
+	if(![helper isValid]) {
+		NSAlert *alert = [NSAlert alertWithMessageText:[self localizedString:@"Error"]
+										 defaultButton:[self localizedString:@"OK"]
+									   alternateButton:nil
+										   otherButton:nil
+							 informativeTextWithFormat:[self localizedString:@"Should not empty"]];
+		if([sender isKindOfClass:[NSView class]] && [sender window]) {
+			[alert beginSheetModalForWindow:[sender window]
+							  modalDelegate:self
+							 didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+								contextInfo:NULL];
+		} else {
+			[alert runModal];
+		}
+		return;
+	}
+	
 	if([editorWindow isSheet]) {
 		[NSApp endSheet : editorWindow returnCode : NSOKButton];
 	} else {
@@ -196,4 +233,11 @@ static inline NSInvocation *checkMethodSignature(id obj, SEL selector)
 	return YES;
 }
 
+@end
+
+@implementation SmartBoardListItemEditor(CMRLocalizableStringsOwner)
++ (NSString *) localizableStringsTableName
+{
+	return NSStringFromClass(self);
+}
 @end

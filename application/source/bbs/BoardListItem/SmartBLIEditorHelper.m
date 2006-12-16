@@ -732,6 +732,122 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 
 @implementation SmartBLIEditorHelper(SmartConditionAccesor)
 
+- (id)value1
+{
+	id value1 = [NSNull null];
+	QualifierMenuItemTags qualifier = [self currentQualifierItemTag];
+	id field;
+	id strValue;
+	
+	{
+		if(qualifier < isEqualQualifierItemTag) {	// 文字列
+			field = [self uiItemForTag:stringExpressionFieldTag];
+			strValue = [field stringValue];
+			if([strValue length] != 0) {
+				value1 = strValue;
+			}
+		} else if(qualifier < daysItemExtension) {	// 数字
+			field = [self uiItemForTag:numberExpressionFieldTag];
+			strValue = [field stringValue];
+			if([strValue length] != 0) {
+				int v = [field intValue];
+				value1 = [NSNumber numberWithInt:v];
+			}
+		} else if(qualifier < dateItemExtension) {	// 相対日付
+			field = [self uiItemForTag:daysExpressionFieldTag];
+			strValue = [field stringValue];
+			if([strValue length] != 0) {
+				int v = [field intValue];
+				v *= [[[self uiItemForTag:daysUnitPopUpTag] selectedItem] tag];
+				value1 = [NSNumber numberWithInt:-1 * v];
+			}
+		} else if(qualifier < lastExtensionsLabel) { // 絶対日付
+			field = [self uiItemForTag:dateExpressionFieldTag];
+			strValue = [field stringValue];
+			if([strValue length] != 0) {
+				NSTimeInterval t = [field epoch];
+				value1 = [NSNumber numberWithInt:t];
+			}
+		} else {
+			//
+			//
+		}
+	}
+	
+	return value1;
+}
+- (id)value2
+{
+	id value2 = nil;
+	QualifierMenuItemTags qualifier = [self currentQualifierItemTag];
+	id field;
+	id strValue;
+	
+	{
+		if(qualifier < isEqualQualifierItemTag) {	// 文字列
+			//
+		}else if(qualifier < daysItemExtension) {	// 数字
+			if(qualifier == rangeQualifierItemTag) {
+				field = [self uiItemForTag:numberExpression2FieldTag];
+				strValue = [field stringValue];
+				if([strValue length] != 0) {
+					int v = [field intValue];
+					value2 = [NSNumber numberWithInt:v];
+				} else {
+					value2 = [NSNull null];
+				}
+			}
+		} else if(qualifier < dateItemExtension) {	// 相対日付
+			if(qualifier == daysRangeQualifierItemTag) {
+				field = [self uiItemForTag:daysExpressionField2Tag];
+				strValue = [field stringValue];
+				if([strValue length] != 0) {
+					int v = [field intValue];
+					v *= [[[self uiItemForTag:daysUnitPopUpTag] selectedItem] tag];
+					value2 = [NSNumber numberWithInt:-1 * v];
+				} else {
+					value2 = [NSNull null];
+				}
+			}
+		} else if(qualifier < lastExtensionsLabel) { // 絶対日付
+			if(qualifier == dateRangeQualifierItemTag) {
+				field = [self uiItemForTag:dateExpression2FieldTag];
+				strValue = [field stringValue];
+				if([strValue length] != 0) {
+					NSTimeInterval t = [field epoch];
+					value2 = [NSNumber numberWithInt:t];
+				} else {
+					value2 = [NSNull null];
+				}
+			}
+		} else {
+			//
+			//
+		}
+	}
+	
+	return value2;
+}
+- (BOOL)isValidAItem
+{
+	if([self value1] == [NSNull null] || [self value2] == [NSNull null]) {
+		return NO;
+	}
+	
+	return YES;
+}
+- (BOOL)isValid
+{
+	SmartBLIEditorHelper *helper = [self rootHelper];
+	
+	while(helper = [helper nextHelper]) {
+		if(![helper isValidAItem]) {
+			return NO;
+		}
+	}
+	
+	return YES;
+}
 - (SmartCondition *)aCondition
 {
 	SmartCondition *result;
@@ -837,39 +953,11 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 	criteria = [sCriteriaSpecifications objectForKey:CriteriaSpecificationsCriteriaKey];
 	criterion = [[criteria objectForKey:typesKey] objectForKey:CriteriaNameKey];
 	
-	{
-		if(qualifier < isEqualQualifierItemTag) {	// 文字列
-			value1 = [[self uiItemForTag:stringExpressionFieldTag] stringValue];
-		} else if(qualifier < daysItemExtension) {	// 数字
-			int v = [[self uiItemForTag:numberExpressionFieldTag] intValue];
-			value1 = [NSNumber numberWithInt:v];
-			if(qualifier == rangeQualifierItemTag) {
-				v = [[self uiItemForTag:numberExpression2FieldTag] intValue];
-				value2 = [NSNumber numberWithInt:v];
-			}
-		} else if(qualifier < dateItemExtension) {	// 相対日付
-			int v = [[self uiItemForTag:daysExpressionFieldTag] intValue];
-			v *= [[[self uiItemForTag:daysUnitPopUpTag] selectedItem] tag];
-			value1 = [NSNumber numberWithInt:-1 * v];
-			if(qualifier == daysRangeQualifierItemTag) {
-				v = [[self uiItemForTag:daysExpressionField2Tag] intValue];
-				v *= [[[self uiItemForTag:daysUnitPopUpTag] selectedItem] tag];
-				value2 = [NSNumber numberWithInt:-1 * v];
-			}
-		} else if(qualifier < lastExtensionsLabel) { // 絶対日付
-			NSTimeInterval t = [[self uiItemForTag:dateExpressionFieldTag] epoch];
-			value1 = [NSNumber numberWithInt:t];
-			if(qualifier == dateRangeQualifierItemTag) {
-				t = [[self uiItemForTag:dateExpression2FieldTag] epoch];
-				value2 = [NSNumber numberWithInt:t];
-			}
-		} else {
-			//
-			//
-			return nil;
-		}
+	value1 = [self value1];
+	value2 = [self value2];
+	if(value1 == [NSNull null] || value2 == [NSNull null]) {
+		return nil;
 	}
-	
 	
 	{
 		//

@@ -27,6 +27,7 @@
 @end
 
 @interface SmartBLIEditorHelper(SmartConditionAccesor)
+- (BOOL)isValid;
 - (id<SmartCondition>)condition;
 - (BOOL)buildHelperFromCondition:(id<SmartCondition>)condition;
 @end

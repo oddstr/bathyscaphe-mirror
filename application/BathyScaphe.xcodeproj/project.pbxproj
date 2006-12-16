@@ -1084,6 +1084,7 @@
 		F47A66B20AFF7EFA00EB5137 /* where.c in Sources */ = {isa = PBXBuildFile; fileRef = F47A66870AFF7EFA00EB5137 /* where.c */; };
 		F49CCDF50849B87500835BE3 /* BSScriptsMenuManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F49CCDF30849B87500835BE3 /* BSScriptsMenuManager.h */; };
 		F49CCDF60849B87500835BE3 /* BSScriptsMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F49CCDF40849B87500835BE3 /* BSScriptsMenuManager.m */; };
+		F4D8CB680B33021C00B8FDB7 /* SmartBoardListItemEditor.strings in Resources */ = {isa = PBXBuildFile; fileRef = F4D8CB660B33021C00B8FDB7 /* SmartBoardListItemEditor.strings */; };
 		F4FEF9D90AFF897F0099853B /* SmartBoardListItem.h in Headers */ = {isa = PBXBuildFile; fileRef = F47A66D10AFF807100EB5137 /* SmartBoardListItem.h */; };
 		F4FEF9DA0AFF89810099853B /* SQLiteDB.h in Headers */ = {isa = PBXBuildFile; fileRef = F47A66DA0AFF808D00EB5137 /* SQLiteDB.h */; };
 		F4FEF9DB0AFF89820099853B /* SmartBoardList.h in Headers */ = {isa = PBXBuildFile; fileRef = F47A66CF0AFF807100EB5137 /* SmartBoardList.h */; };
@@ -1965,6 +1966,7 @@
 		F486FC640A8F69EA00D44828 /* BSBoardListItemHEADCheckTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSBoardListItemHEADCheckTask.m; sourceTree = "<group>"; };
 		F49CCDF30849B87500835BE3 /* BSScriptsMenuManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSScriptsMenuManager.h; sourceTree = "<group>"; };
 		F49CCDF40849B87500835BE3 /* BSScriptsMenuManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSScriptsMenuManager.m; sourceTree = "<group>"; };
+		F4D8CB670B33021C00B8FDB7 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Japanese; path = Japanese.lproj/SmartBoardListItemEditor.strings; sourceTree = "<group>"; };
 		F4FEFB400AFF9CD90099853B /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/SmartBoardItemEditor.nib; sourceTree = "<group>"; };
 		F4FEFB430AFF9CE80099853B /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/SmartBLIEditorComponents.nib; sourceTree = "<group>"; };
 		F4FEFB460AFF9CFC0099853B /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Japanese; path = Japanese.lproj/ConditionTypes.plist; sourceTree = "<group>"; };
@@ -2225,6 +2227,7 @@
 				873158DC0A9948B400854BD8 /* BSDockMenuItem.nib */,
 				87C4813D08FD05A300F91054 /* AddBoardSheet.nib */,
 				87BD58E70AAC58D700F6412D /* EditBoardSheet.nib */,
+				F4D8CB660B33021C00B8FDB7 /* SmartBoardListItemEditor.strings */,
 				872998E20832617E00CBD740 /* AlertPanel.strings */,
 				872998EE0832617F00CBD740 /* browserListColumns.plist */,
 				872999030832617F00CBD740 /* CMROpenURLManager.strings */,
@@ -4346,6 +4349,7 @@
 				F4FEFB470AFF9CFC0099853B /* ConditionTypes.plist in Resources */,
 				F4FEFB4A0AFF9D0B0099853B /* CriteriaSpecifications.plist in Resources */,
 				F4FEFBE40AFFA5E80099853B /* SmartBoard.png in Resources */,
+				F4D8CB680B33021C00B8FDB7 /* SmartBoardListItemEditor.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5331,6 +5335,14 @@
 				F33AE22905BE525A002448CC /* Japanese */,
 			);
 			name = FilterPreferences.nib;
+			sourceTree = "<group>";
+		};
+		F4D8CB660B33021C00B8FDB7 /* SmartBoardListItemEditor.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F4D8CB670B33021C00B8FDB7 /* Japanese */,
+			);
+			name = SmartBoardListItemEditor.strings;
 			sourceTree = "<group>";
 		};
 		F4FEFB3F0AFF9CD90099853B /* SmartBoardItemEditor.nib */ = {

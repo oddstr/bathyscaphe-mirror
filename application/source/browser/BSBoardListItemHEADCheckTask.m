@@ -119,6 +119,7 @@ static BOOL shouldCheckItemHeader(id dict);
 	int numberOfAllTarget = [threads count];
 	int numberOfFinishCheck = 0;
 	int numberOfSkip = 0;
+	int numberOFChecked = 0;
 	[self setAmountString:[NSString stringWithFormat:@"%d/%d (%d skiped)", numberOfFinishCheck, numberOfAllTarget, numberOfSkip]];
 	[self setDescString:NSLocalizedString(@"Checking thread", @"")];
 	
@@ -164,18 +165,19 @@ static BOOL shouldCheckItemHeader(id dict);
 			NSDate *prevMod = [NSDate dateWithTimeIntervalSince1970:[modDate intValue]];
 			if([dateLastMod isAfterDate:prevMod]) {
 				[updatedThreads addObject:thread];
+				numberOFChecked++;
 			}
 		}
 		[pool release];
 	}
 	
-	[self playFinishSoundIsUpdate:numberOfFinishCheck != 0];
+	[self updateDB:updatedThreads];
+	
+	[self playFinishSoundIsUpdate:numberOFChecked != 0];
 	
 	[CMRPref setLastHEADCheckedDate : [NSDate date]];
 	double interval_ = (double)numberOfFinishCheck * 20.0;
 	[CMRPref setHEADCheckTimeInterval : ((interval_ < 300.0) ? 300.0 : interval_)];
-	
-	[self updateDB:updatedThreads];
 	
 	[targetList updateCursor];
 	
