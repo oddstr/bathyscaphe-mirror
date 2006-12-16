@@ -1,3 +1,16 @@
+2006-12-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/BathyScapheHelp/BathyScapheHelp.helpindex
+	* application/Resources/Japanese.lproj/BathyScapheHelp/BathyScapheHelp idx
+		 索引の更新。
+	* application/Resources/Japanese.lproj/Localizable.strings
+		ヘルプアンカーの修正。
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs2/first.html
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/add_board.html
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/check_updating_favorites.html
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/setting_details.html
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/setting_unknown.html
+		ヘルプ内容の修正。
+================================================================================= Sneaky v298
 2006-12-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRFavoritesManager.m
 		お気に入りを追加する度にファイルに書き込むとガリガリうっとうしいので、タイマーで3分おきに書き込むようにした。
