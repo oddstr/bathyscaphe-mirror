@@ -17,6 +17,11 @@
 #import "BoardManager.h"
 #import "CMRHostHandler.h"
 
+
+#import "ThreadsListDownloader.h"
+
+
+
 @implementation BSThreadsListOPTask
 + (id)taskWithThreadList:(BSDBThreadList *)list forceDownload:(BOOL)forceDownload
 {
@@ -92,11 +97,11 @@ fail:
 			   name:BSDownloadTaskFinishDownloadNotification
 			 object:dlTask];
 	[nc addObserver:self
-		   selector:@selector(dlDidFinishDownlocadNotification:)
+		   selector:@selector(dlAbortDownlocadNotification:)
 			   name:BSDownloadTaskInternalErrorNotification
 			 object:dlTask];
 	[nc addObserver:self
-		   selector:@selector(dlDidFinishDownlocadNotification:)
+		   selector:@selector(dlAbortDownlocadNotification:)
 			   name:BSDownloadTaskAbortDownloadNotification
 			 object:dlTask];
 	[nc addObserver:self
@@ -157,6 +162,15 @@ fail:
 	[dlTask release];
 	dlTask = nil;
 	[self setIsInterrupted:YES];
+}
+-(void)dlAbortDownlocadNotification:(id)notification
+{
+	BoardManager *bm = [BoardManager defaultManager];
+	if([bm tryToDetectMovedBoard:[self boardName]]) {
+		UTILNotifyName(ThreadsListDownloaderShouldRetryUpdateNotification);
+	}
+	[dlTask release];
+	dlTask = nil;
 }
 - (void)dbloadDidFinishUpdateDBNotification:(id)notification
 {
