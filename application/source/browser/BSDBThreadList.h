@@ -43,6 +43,8 @@
 - (id) searchString;
 - (id) sortKey;
 - (NSArray *)sortDescriptors;
+- (BOOL)isAscendingForKey:(NSString *)key;
+- (void)toggleIsAscendingForKey:(NSString *)key;
 - (ThreadStatus) status;
 
 - (void) updateCursor;

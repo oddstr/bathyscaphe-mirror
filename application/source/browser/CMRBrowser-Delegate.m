@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.25 2006/12/02 16:17:59 masakih Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.26 2006/12/30 12:19:51 masakih Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -240,15 +240,22 @@ BOOL isOptionKeyDown(unsigned flag_)
 	currentList_ = [self currentThreadsList];
 	
 	// Sort:
+	// Mac OS標準的ソート変更 (Finderのリスト表示参照)
+	// ソートの向きは各カラムごとに保存されており、
+	// ハイライトされているカラムヘッダがクリックされた時以外は、
+	// 保存されている向きでソートされる。
 	// 既にハイライトされているヘッダをクリックした場合は
 	// 昇順／降順の切り替えと見なす。
 	if (tableColumn == [tableView highlightedTableColumn]) {
-		[currentList_ toggleIsAscending];
+//		[currentList_ toggleIsAscending];
+		[currentList_ toggleIsAscendingForKey: theId_];
 		[[BoardManager defaultManager] setSortColumnIsAscending : [currentList_ isAscending]
 														atBoard : currentBoard_];
 	}
 		
 	// 実際のソート
+	// 保存されている向きに戻す。
+	[currentList_ setIsAscending: [currentList_ isAscendingForKey: theId_]];
 	[currentList_ sortByKey : theId_];
 	
 	// カラムヘッダの描画を更新

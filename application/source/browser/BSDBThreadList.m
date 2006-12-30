@@ -208,6 +208,46 @@
 	
 	[mSortDescriptors insertObject:inDesc atIndex:0];
 }
+- (BOOL)isAscendingForKey:(NSString *)key
+{
+	id enume;
+	NSSortDescriptor *sortDesc;
+	NSString *sortKey = tableNameForKey(key);
+	
+	if(!sortKey) return NO;
+	
+	enume = [mSortDescriptors objectEnumerator];
+	while(sortDesc = [enume nextObject]) {
+		if([sortKey isEqualTo:[sortDesc key]]) {
+			return [sortDesc ascending];
+		}
+	}
+	
+	return NO;
+}
+- (void)toggleIsAscendingForKey:(NSString *)key
+{
+	id enume;
+	NSSortDescriptor *sortDesc;
+	NSSortDescriptor *newDesc = nil;
+	NSString *sortKey = tableNameForKey(key);
+	
+	if(!sortKey) return;
+	
+	enume = [mSortDescriptors objectEnumerator];
+	while(sortDesc = [enume nextObject]) {
+		if([sortKey isEqualTo:[sortDesc key]]) {
+			newDesc = [sortDesc reversedSortDescriptor];
+			break;
+		}
+	}
+	
+	if(newDesc) {
+		[self addSortDescriptor:newDesc];
+	}
+	
+	return;
+}
 - (ThreadStatus) status
 {
 	return mStatus;

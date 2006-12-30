@@ -1,3 +1,7 @@
+2006-12-30 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.[m|h]:
+	* application/source/browser/CMRBrowser-Delegate.m:
+		スレット一覧のソート方法をMac OS 標準にした。
 2006-12-16 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSBoardListItemHEADCheckTask.[m|h]:
 		更新チェックサウンドの選択条件を間違えていたので直した。
