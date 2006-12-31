@@ -1,3 +1,9 @@
+2006-12-31 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSThreadsListOPTask.m:
+		subject.txt の取得ミスエラー表示。
+	* application/source/manager/DatabaseManager-DatabaseAccess.m:
+	* application/source/manager/DatabaseManager.m:
+		エラーハンドリング。
 2006-12-30 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSThreadsListOPTask.m:
 		ホスト移動に追随するようにした。

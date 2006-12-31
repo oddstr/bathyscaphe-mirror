@@ -274,7 +274,7 @@ static NSLock *boardIDNumberCacheLock = nil;
 		
 		[db performQuery : query];
 		if ([db lastErrorID] != 0) {
-			NSLog(@"Fail insert into %@", BoardInfoHistoryTableName);
+			NSLog(@"Fail update %@", BoardInfoTableName);
 			[db rollbackTransaction];
 			
 			return NO;

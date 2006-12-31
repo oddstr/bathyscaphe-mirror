@@ -100,11 +100,11 @@ extern void setSQLiteZone(NSZone *zone);
 		id cursor = [db cursorForSQL : query];
 		if ([db lastErrorID] != 0) goto abort;
 		
+		if([cursor rowCount] == 0) {
+			return 0;
+		}
 		id verStr = [cursor valueForColumn:VersionColumn atRow:0];
 		version = [verStr intValue];
-		
-		[db commitTransaction];
-		[db save];
 	}
 	
 	return version;

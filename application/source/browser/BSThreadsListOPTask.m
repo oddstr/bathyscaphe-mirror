@@ -8,6 +8,8 @@
 
 #import "BSThreadsListOPTask.h"
 
+#import "CMRThreadsList_p.h"
+
 #import "BSDownloadTask.h"
 #import "BSDBThreadsListDBUpdateTask2.h"
 
@@ -152,7 +154,6 @@ fail:
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 	
-	
 - (void)dlDidFinishDownlocadNotification:(id)notification
 {
 	downloadData = [[[notification object] receivedData] retain];
@@ -168,7 +169,20 @@ fail:
 	BoardManager *bm = [BoardManager defaultManager];
 	if([bm tryToDetectMovedBoard:[self boardName]]) {
 		UTILNotifyName(ThreadsListDownloaderShouldRetryUpdateNotification);
+	} else {
+		NSString *message = [NSString stringWithFormat:
+			NSLocalizedStringFromTable(APP_TLIST_NOT_FOUND_MSG_FMT, @"ThreadsList", nil),
+			[targetURL absoluteString]];
+		
+		NSBeep();
+		NSRunAlertPanel(
+						NSLocalizedStringFromTable(APP_TLIST_NOT_FOUND_TITLE, @"ThreadsList", nil),
+						message,
+						nil,
+						nil,
+						nil);
 	}
+	
 	[dlTask release];
 	dlTask = nil;
 }
