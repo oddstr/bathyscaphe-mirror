@@ -24,16 +24,8 @@
 {
 	if (self = [super init]) {
 		
-		topLevelItem = [[BoardListItem alloc] initWithContentsOfFile : path];
-		
-		if (![path isEqualTo : [[BoardManager defaultManager] defaultBoardListPath]]) {
-			id favorites;
-			
-			favorites = [BoardListItem favoritesItem];
-			if (favorites && [topLevelItem isMutable]) {
-				[topLevelItem insertItem : favorites atIndex : 0];
-			}
-		}
+		[self synchronizeWithFile: path];
+		[self registerFileManager:path];
 		isEdited = NO;
 		[self registerNotification];
 	}
@@ -45,6 +37,7 @@
 {
 	[self unregisterNotification];
 	[topLevelItem release];
+	[listFilePath release];
 	
 	[super dealloc];
 }
@@ -62,6 +55,53 @@
 	
 	return [list writeToFile : filepath
 				  atomically : flag];
+}
+- (void) registerFileManager : (NSString *) filepath
+{
+    SGFileLocation *f;
+	
+	if(!listFilePath || ![listFilePath isEqualTo:filepath]) {
+		
+		f = [SGFileLocation fileLocationAtPath : filepath];
+		if (nil == f) return;
+		
+		[[CMRFileManager defaultManager]
+        addFileChangedObserver : self
+					  selector : @selector(didUpdateBoardFile:)
+					  location : f];
+		
+		id t = listFilePath;
+		listFilePath = [filepath copy];
+		[t release];
+	}
+}
+- (BOOL) synchronizeWithFile:(NSString *)filepath
+{
+	id items;
+	
+	if(!filepath) return NO;
+	
+	items = [[BoardListItem alloc] initWithContentsOfFile : filepath];
+	if(!items) {
+		return NO;
+	}
+	
+	if (![filepath isEqualTo : [[BoardManager defaultManager] defaultBoardListPath]]) {
+		id favorites;
+		
+		favorites = [BoardListItem favoritesItem];
+		if (favorites && [items isMutable]) {
+			[items insertItem : favorites atIndex : 0];
+		}
+	}
+	
+	id temp = topLevelItem;
+	topLevelItem = items;
+	[temp release];
+	
+	[self setIsEdited:NO];
+	
+	return YES;
 }
 
 - (BOOL) isEdited
@@ -192,6 +232,32 @@
 	[nc removeObserver:self];
 }
 
+- (void) didUpdateBoardFile:(NSNotification *) aNotification
+{
+    SGFileRef *f;
+    NSString  *name;
+	
+    UTILAssertNotificationName(
+							   aNotification,
+							   CMRFileManagerDidUpdateFileNotification);
+	UTILAssertNotificationObject(
+								 aNotification,
+								 [CMRFileManager defaultManager]);
+    
+    f = [[aNotification userInfo] objectForKey: kCMRChangedFileRef];
+	name = [f filepath];
+    name = [name lastPathComponent];
+    
+    if (NO == [name isEqualToString : [listFilePath lastPathComponent]]) {
+        return;
+    }
+    
+    [self synchronizeWithFile: [f filepath]];
+	[self setIsEdited: NO];
+    [[NSNotificationCenter defaultCenter]
+			postNotificationName : CMRBBSListDidChangeNotification
+					      object : self];
+}
 @end
 
 @implementation SmartBoardList (OutlineViewDelegate)
@@ -285,8 +351,11 @@ objectValueForTableColumn : (NSTableColumn *) tableColumn
 	if ([BoardPlistNameKey isEqualTo : [tableColumn identifier]]) {
         id obj = [item representName];
 		
-		
-        result = makeAttrStrFromStr( obj );
+		if(obj) {
+			result = makeAttrStrFromStr( obj );
+		} else {
+			UTILDebugWrite(@"can not get represent name.");
+		}
 	}
 	
 	return result;

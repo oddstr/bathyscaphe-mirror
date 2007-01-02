@@ -14,6 +14,7 @@
 {
 	id topLevelItem;
 	
+	NSString *listFilePath;
 	BOOL isEdited;
 }
 

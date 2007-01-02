@@ -238,6 +238,8 @@ static NSLock *boardIDNumberCacheLock = nil;
 	NSString *currentURLString;
 	NSString *prepareURLString;
 	
+	BOOL inTransactionBlock = NO;
+	
 	if (!urlString || ![urlString length]) {
 		NSLog(@"urlString MUST NOT be nil or NOT zero length.");
 		return NO;
@@ -251,41 +253,47 @@ static NSLock *boardIDNumberCacheLock = nil;
 	currentURLString = [self urlStringForBoardID : boardID];
 	if ([currentURLString isEqualTo : urlString]) return YES;
 	
-	if ([db beginTransaction]) {
-		prepareURLString = [SQLiteDB prepareStringForQuery : currentURLString];
-		query = [NSMutableString string];
-		[query appendFormat : @"INSERT INTO %@", BoardInfoHistoryTableName];
-		[query appendFormat : @"\t (%@, %@) ", BoardIDColumn, BoardURLColumn];
-		[query appendFormat : @"\tVALUES (%u, '%@') ", boardID, prepareURLString];
-		
-		[db performQuery : query];
-		if ([db lastErrorID] != 0 && [db lastErrorID] != SQLITE_CONSTRAINT) {
-			NSLog(@"Fail insert into %@", BoardInfoHistoryTableName);
-			[db rollbackTransaction];
-			
+	if(![db beginTransaction]) {
+		if([db lastErrorID] == 0) {
+			inTransactionBlock = YES;
+		} else {
 			return NO;
 		}
-		
-		prepareURLString = [SQLiteDB prepareStringForQuery : urlString];
-		query = [NSMutableString string];
-		[query appendFormat : @"UPDATE %@", BoardInfoTableName];
-		[query appendFormat : @"\tSET %@ = '%@'", BoardURLColumn, prepareURLString];
-		[query appendFormat : @"\tWHERE %@ = %u", BoardIDColumn, boardID];
-		
-		[db performQuery : query];
-		if ([db lastErrorID] != 0) {
-			NSLog(@"Fail update %@", BoardInfoTableName);
-			[db rollbackTransaction];
-			
-			return NO;
-		}
-		
-		[db commitTransaction];
-		
-		return YES;
 	}
 	
-	return NO;
+	prepareURLString = [SQLiteDB prepareStringForQuery : currentURLString];
+	query = [NSMutableString string];
+	[query appendFormat : @"INSERT INTO %@", BoardInfoHistoryTableName];
+	[query appendFormat : @"\t (%@, %@) ", BoardIDColumn, BoardURLColumn];
+	[query appendFormat : @"\tVALUES (%u, '%@') ", boardID, prepareURLString];
+	
+	[db performQuery : query];
+	if ([db lastErrorID] != 0 && [db lastErrorID] != SQLITE_CONSTRAINT) {
+		NSLog(@"Fail insert into %@", BoardInfoHistoryTableName);
+		[db rollbackTransaction];
+		
+		return NO;
+	}
+	
+	prepareURLString = [SQLiteDB prepareStringForQuery : urlString];
+	query = [NSMutableString string];
+	[query appendFormat : @"UPDATE %@", BoardInfoTableName];
+	[query appendFormat : @"\tSET %@ = '%@'", BoardURLColumn, prepareURLString];
+	[query appendFormat : @"\tWHERE %@ = %u", BoardIDColumn, boardID];
+	
+	[db performQuery : query];
+	if ([db lastErrorID] != 0) {
+		NSLog(@"Fail update %@", BoardInfoTableName);
+		[db rollbackTransaction];
+		
+		return NO;
+	}
+	
+	if(!inTransactionBlock) {
+		[db commitTransaction];
+	}
+	
+	return YES;
 }
 
 - (BOOL) renameBoardID : (unsigned) boardID
@@ -295,6 +303,8 @@ static NSLock *boardIDNumberCacheLock = nil;
 	SQLiteDB *db;
 	NSString *currentName;
 	NSString *prepareName;
+	
+	BOOL inTransactionBlock = NO;
 	
 	if (!name || ![name length]) {
 		NSLog(@"name MUST NOT be nil or NOT zero length.");
@@ -309,41 +319,46 @@ static NSLock *boardIDNumberCacheLock = nil;
 	currentName = [self nameForBoardID : boardID];
 	if ([currentName isEqualTo : name]) return YES;
 	
-	if ([db beginTransaction]) {
-		prepareName = [SQLiteDB prepareStringForQuery : currentName];
-		query = [NSMutableString string];
-		[query appendFormat : @"INSERT INTO %@", BoardInfoHistoryTableName];
-		[query appendFormat : @"\t (%@, %@) ", BoardIDColumn, BoardNameColumn];
-		[query appendFormat : @"\tVALUES (%u, '%@') ", boardID, prepareName];
-		
-		[db performQuery : query];
-		if ([db lastErrorID] != 0 && [db lastErrorID] != SQLITE_CONSTRAINT) {
-			NSLog(@"Fail insert into %@", BoardInfoHistoryTableName);
-			[db rollbackTransaction];
-			
+	if(![db beginTransaction]) {
+		if([db lastErrorID] == 0) {
+			inTransactionBlock = YES;
+		} else {
 			return NO;
 		}
-		
-		prepareName = [SQLiteDB prepareStringForQuery : name];
-		query = [NSMutableString string];
-		[query appendFormat : @"UPDATE %@", BoardInfoTableName];
-		[query appendFormat : @"\tSET %@ = '%@'", BoardNameColumn, prepareName];
-		[query appendFormat : @"\tWHERE %@ = %u", BoardIDColumn, boardID];
-		
-		[db performQuery : query];
-		if ([db lastErrorID] != 0) {
-			NSLog(@"Fail insert into %@", BoardInfoHistoryTableName);
-			[db rollbackTransaction];
-			
-			return NO;
-		}
-		
-		[db commitTransaction];
-		
-		return YES;
 	}
 	
-	return NO;
+	prepareName = [SQLiteDB prepareStringForQuery : currentName];
+	query = [NSMutableString string];
+	[query appendFormat : @"INSERT INTO %@", BoardInfoHistoryTableName];
+	[query appendFormat : @"\t (%@, %@) ", BoardIDColumn, BoardNameColumn];
+	[query appendFormat : @"\tVALUES (%u, '%@') ", boardID, prepareName];
+	
+	[db performQuery : query];
+	if ([db lastErrorID] != 0 && [db lastErrorID] != SQLITE_CONSTRAINT) {
+		NSLog(@"Fail insert into %@", BoardInfoHistoryTableName);
+		[db rollbackTransaction];
+		
+		return NO;
+	}
+	
+	prepareName = [SQLiteDB prepareStringForQuery : name];
+	query = [NSMutableString string];
+	[query appendFormat : @"UPDATE %@", BoardInfoTableName];
+	[query appendFormat : @"\tSET %@ = '%@'", BoardNameColumn, prepareName];
+	[query appendFormat : @"\tWHERE %@ = %u", BoardIDColumn, boardID];
+	
+	[db performQuery : query];
+	if ([db lastErrorID] != 0) {
+		NSLog(@"Fail insert into %@", BoardInfoHistoryTableName);
+		[db rollbackTransaction];
+		
+		return NO;
+	}
+	
+	if(!inTransactionBlock) {
+		[db commitTransaction];
+	}
+	return YES;
 }
 
 /*

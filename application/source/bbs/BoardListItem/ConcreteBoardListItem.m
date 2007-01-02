@@ -90,10 +90,27 @@ static ConcreteBoardListItem *_sharedInstance;
 	
 	boardID = [dbm boardIDForURLString : url];
 	if (NSNotFound == boardID) {
-		BOOL isOK = [dbm registerBoardName : boardName URLString : url];
-		boardID = [dbm boardIDForURLString : url];
-		if (!isOK || NSNotFound == boardID) {
-			goto failCreation;
+		NSArray *boardIDs = [dbm boardIDsForName: boardName];
+		if(!boardIDs || [boardIDs count] == 0) {
+			BOOL isOK = [dbm registerBoardName : boardName URLString : url];
+			boardID = [dbm boardIDForURLString : url];
+			if (!isOK || NSNotFound == boardID) {
+				goto failCreation;
+			}
+		} else if([boardIDs count] == 1) {
+			NSString *oldURL = [dbm urlStringForBoardID:[[boardIDs objectAtIndex:0] intValue]];
+			if(![oldURL isEqualTo:url]) {
+				[dbm moveBoardID:[[boardIDs objectAtIndex:0] intValue]
+					 toURLString:url];
+			}
+		} else {
+			// TODO 明らかにおかしい。
+			// 
+			NSString *oldURL = [dbm urlStringForBoardID:[[boardIDs objectAtIndex:0] intValue]];
+			if(![oldURL isEqualTo:url]) {
+				[dbm moveBoardID:[[boardIDs objectAtIndex:0] intValue]
+					 toURLString:url];
+			}
 		}
 	}
 	
