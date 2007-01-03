@@ -1098,8 +1098,6 @@
 		F4FEF9E40AFF89A00099853B /* BSDownloadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F41308B10A8E279300740620 /* BSDownloadTask.m */; };
 		F4FEF9E50AFF89A10099853B /* BSThreadsListOPTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F41308B90A8E27A400740620 /* BSThreadsListOPTask.m */; };
 		F4FEF9E60AFF89A30099853B /* BSThreadListUpdateTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F411498409DABFD500DDF200 /* BSThreadListUpdateTask.h */; };
-		F4FEF9E70AFF89A40099853B /* BSThreadListSmartItemDBUpdateTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F47F6EDC09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.m */; };
-		F4FEF9E80AFF89A50099853B /* BSThreadListSmartItemDBUpdateTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F47F6EDB09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.h */; };
 		F4FEF9E90AFF89A60099853B /* BSBoardListItemHEADCheckTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F486FC640A8F69EA00D44828 /* BSBoardListItemHEADCheckTask.m */; };
 		F4FEF9EA0AFF89A80099853B /* DatabaseManager-DatabaseAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = F47A66D70AFF808D00EB5137 /* DatabaseManager-DatabaseAccess.m */; };
 		F4FEF9EB0AFF89A80099853B /* BoardListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F47A66C60AFF807100EB5137 /* BoardListItem.m */; };
@@ -1960,8 +1958,6 @@
 		F47A66DB0AFF808D00EB5137 /* SQLiteDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLiteDB.m; sourceTree = "<group>"; };
 		F47A66DC0AFF80B700EB5137 /* BSDBThreadList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSDBThreadList.h; sourceTree = "<group>"; };
 		F47A66DD0AFF80B700EB5137 /* BSDBThreadList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSDBThreadList.m; sourceTree = "<group>"; };
-		F47F6EDB09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSThreadListSmartItemDBUpdateTask.h; sourceTree = "<group>"; };
-		F47F6EDC09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSThreadListSmartItemDBUpdateTask.m; sourceTree = "<group>"; };
 		F486FC630A8F69EA00D44828 /* BSBoardListItemHEADCheckTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSBoardListItemHEADCheckTask.h; sourceTree = "<group>"; };
 		F486FC640A8F69EA00D44828 /* BSBoardListItemHEADCheckTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSBoardListItemHEADCheckTask.m; sourceTree = "<group>"; };
 		F49CCDF30849B87500835BE3 /* BSScriptsMenuManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSScriptsMenuManager.h; sourceTree = "<group>"; };
@@ -2487,8 +2483,6 @@
 				F41308AD0A8E279300740620 /* BSDBThreadsListDBUpdateTask2.m */,
 				F41308B00A8E279300740620 /* BSDownloadTask.h */,
 				F41308B10A8E279300740620 /* BSDownloadTask.m */,
-				F47F6EDB09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.h */,
-				F47F6EDC09DD65410090D1F9 /* BSThreadListSmartItemDBUpdateTask.m */,
 				F411498409DABFD500DDF200 /* BSThreadListUpdateTask.h */,
 				F411498509DABFD500DDF200 /* BSThreadListUpdateTask.m */,
 				87CD85CA098170ED002C4372 /* BSFavoritesHEADCheckTask.h */,
@@ -3864,7 +3858,6 @@
 				F4FEF9E20AFF89970099853B /* AbstractDBBoardListItem.h in Headers */,
 				F4FEF9E30AFF899F0099853B /* BSDBThreadsListDBUpdateTask2.h in Headers */,
 				F4FEF9E60AFF89A30099853B /* BSThreadListUpdateTask.h in Headers */,
-				F4FEF9E80AFF89A50099853B /* BSThreadListSmartItemDBUpdateTask.h in Headers */,
 				F4FEF9EC0AFF89A90099853B /* BSBoardListItemHEADCheckTask.h in Headers */,
 				F4FEF9EF0AFF89AC0099853B /* BSThreadsListOPTask.h in Headers */,
 				F4FEF9F00AFF89AD0099853B /* ConcreteBoardListItem.h in Headers */,
@@ -4813,7 +4806,6 @@
 				F473637B0AFF8758009B6189 /* BSAsciiArtDetector.m in Sources */,
 				F4FEF9E40AFF89A00099853B /* BSDownloadTask.m in Sources */,
 				F4FEF9E50AFF89A10099853B /* BSThreadsListOPTask.m in Sources */,
-				F4FEF9E70AFF89A40099853B /* BSThreadListSmartItemDBUpdateTask.m in Sources */,
 				F4FEF9E90AFF89A60099853B /* BSBoardListItemHEADCheckTask.m in Sources */,
 				F4FEF9EA0AFF89A80099853B /* DatabaseManager-DatabaseAccess.m in Sources */,
 				F4FEF9EB0AFF89A80099853B /* BoardListItem.m in Sources */,

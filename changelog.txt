@@ -1,3 +1,6 @@
+2007-01-03 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSThreadListSmartItemDBUpdateTask.h:
+		[削除] 不要になったため。以前から使用していなかった
 2007-01-02 masakih <masakih@users.sourceforge.jp>
 	* application/source/bbs/BoardListItem/ConcreteBoardListItem.m:
 	* application/source/bbs/BoardListItem/SmartBoardList.[m|h]:
