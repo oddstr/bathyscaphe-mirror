@@ -1,3 +1,16 @@
+2007-01-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/InfoPlist.strings
+	* application/Info-bs-another-story.plist
+		CFBundleName も "Starlight Breaker" にすることにした。
+		（メニューバーでパッと見て、通常の BathyScaphe と混同しないように）
+		コピーライト文字列、バージョン番号の修正。
+		バージョン番号のポリシーについて：
+		BathyScaphe 1.5 の beta ということで混乱を招かないよう、バージョン番号は
+		1.5 として、接尾語「SBx（xは数字）」を付ける。
+		また、CFBundleVersion は通常通りビルド番号的なものにした（ただし、1 から
+		数える… v299 の続きではない！）。今回は v3。
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		目につく所のメニュー項目を「Starlight Breaker」に書き換えておいた。
 2007-01-03 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSThreadListSmartItemDBUpdateTask.h:
 		[削除] 不要になったため。以前から使用していなかった
