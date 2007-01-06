@@ -207,6 +207,12 @@ static NSDictionary *sCriteriaSpecifications = nil;
 		d = [[[FlippedView alloc] initWithFrame:[container documentVisibleRect]] autorelease];
 		[container setDocumentView:d];
 		[self addCriterion:self];
+	} else {
+		id item;
+		
+		item = [self uiItemForTag:criterionPopUpTag];
+		item = [item menu];
+		[item setDelegate:item];
 	}
 }
 
@@ -727,6 +733,17 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 	
 	return nil;
 }
+
+- (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem
+{
+	int tag = [menuItem tag];
+	if(tag == dateOfLastWritenItemTag) {
+		return NO;
+	}
+	
+	return YES;
+}
+	
 
 @end
 

@@ -1,3 +1,8 @@
+2007-01-06 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m:
+		「最終書き込み日」ポップアップメニューを無効にした。
+	* application/source/browser/CMRBrowser-Validation.m:
+		更新に関して、スマート掲示板もお気に入りと同様の制限を受けるようにした。
 2007-01-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/InfoPlist.strings
 	* application/Info-bs-another-story.plist

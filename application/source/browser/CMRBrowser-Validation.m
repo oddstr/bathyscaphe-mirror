@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-Validation.m,v 1.20 2006/11/07 12:50:31 masakih Exp $
+ * $Id: CMRBrowser-Validation.m,v 1.21 2007/01/06 07:59:15 masakih Exp $
  * BathyScaphe
  *
  * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -110,7 +110,7 @@
 		id tmp_ = [self currentThreadsList];
 		if(nil == tmp_) return NO;
 
-		if([tmp_ isFavorites] && ![CMRPref canHEADCheck]) {
+		if(([tmp_ isFavorites] || [tmp_ isSmartItem]) && ![CMRPref canHEADCheck]) {
 			if ([theItem respondsToSelector : @selector(setToolTip:)]) {
 				NSDate *newDate_ = [CMRPref nextHEADCheckAvailableDate];
 				NSString *dateStr_ =
