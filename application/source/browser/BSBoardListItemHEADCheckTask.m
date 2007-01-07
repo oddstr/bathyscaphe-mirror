@@ -119,7 +119,7 @@ static BOOL shouldCheckItemHeader(id dict);
 	int numberOfAllTarget = [threads count];
 	int numberOfFinishCheck = 0;
 	int numberOfSkip = 0;
-	int numberOFChecked = 0;
+	int numberOFChecked = 0; // HEAD を送信した回数
 	[self setAmountString:[NSString stringWithFormat:@"%d/%d (%d skiped)", numberOfFinishCheck, numberOfAllTarget, numberOfSkip]];
 	[self setDescString:NSLocalizedString(@"Checking thread", @"")];
 	
@@ -165,7 +165,6 @@ static BOOL shouldCheckItemHeader(id dict);
 			NSDate *prevMod = [NSDate dateWithTimeIntervalSince1970:[modDate intValue]];
 			if([dateLastMod isAfterDate:prevMod]) {
 				[updatedThreads addObject:thread];
-				numberOFChecked++;
 			}
 		}
 		[pool release];
@@ -173,10 +172,11 @@ static BOOL shouldCheckItemHeader(id dict);
 	
 	[self updateDB:updatedThreads];
 	
+	numberOFChecked = numberOfAllTarget - numberOfSkip;
 	[self playFinishSoundIsUpdate:numberOFChecked != 0];
 	
 	[CMRPref setLastHEADCheckedDate : [NSDate date]];
-	double interval_ = (double)numberOfFinishCheck * 20.0;
+	double interval_ = (double)numberOFChecked * 20.0;
 	[CMRPref setHEADCheckTimeInterval : ((interval_ < 300.0) ? 300.0 : interval_)];
 	
 	[targetList updateCursor];
