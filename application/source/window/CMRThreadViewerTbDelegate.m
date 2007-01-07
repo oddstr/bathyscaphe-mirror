@@ -70,6 +70,13 @@ static NSString *const st_historySegmentedControlPaletteLabelKey	= @"historySC P
 static NSString *const st_historySC_seg0_ToolTipKey	= @"historySC_0_ToolTip";
 static NSString *const st_historySC_seg1_ToolTipKey = @"historySC_1_ToolTip";
 
+// ägëÂÅ^èkè¨
+static NSString *const st_scaleSegmentedControlIdentifier			= @"scaleSC";	
+static NSString *const st_scaleSegmentedControlLabelKey			= @"scaleSC Label";
+static NSString *const st_scaleSegmentedControlPaletteLabelKey	= @"scaleSC Palette Label";
+static NSString *const st_scaleSC_seg0_ToolTipKey	= @"scaleSC_0_ToolTip";
+static NSString *const st_scaleSC_seg1_ToolTipKey = @"scaleSC_1_ToolTip";
+
 // ÉuÉâÉEÉU
 static NSString *const st_browserItemIdentifier			= @"Main Browser";
 static NSString *const st_browserItemLabelKey			= @"Main Browser Label";
@@ -127,6 +134,10 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 {
 	return st_historySegmentedControlIdentifier;
 }
+- (NSString *) scaleSegmentedControlIdentifier
+{
+	return st_scaleSegmentedControlIdentifier;
+}
 - (NSString *) orderFrontBrowserItemIdentifier
 {
 	return st_browserItemIdentifier;
@@ -164,6 +175,37 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 	[theCell setTrackingMode: NSSegmentSwitchTrackingMomentary];
 	[theCell setToolTip: [self localizedString: st_historySC_seg0_ToolTipKey] forSegment: 0];
 	[theCell setToolTip: [self localizedString: st_historySC_seg1_ToolTipKey] forSegment: 1];
+
+	[anItem setView: tmp_];
+	if([anItem view] != nil){
+		NSSize		size_;
+
+		size_ = [tmp_ bounds].size;
+		[anItem setMinSize : size_];
+		[anItem setMaxSize : size_];
+	}
+	
+	[tmp_ release];
+}
+- (void) setupScaleSCItem: (NSToolbarItem *) anItem target: (NSWindowController *) windowController_
+{
+	NSSegmentedControl	*tmp_;
+	id  theCell = nil;
+	
+	// frame ÇÃïù 53px, segment ÇÃïù 23px ÇÕåªï®çáÇÌÇπÇ≈ìæÇΩíl
+	tmp_ = [[NSSegmentedControl alloc] initWithFrame: NSMakeRect(0, 0, 53, 25)];
+
+	[tmp_ setSegmentCount: 2];
+	[tmp_ setImage: [NSImage imageNamed: @"FontSmaller"] forSegment: 0];
+	[tmp_ setImage: [NSImage imageNamed: @"FontBigger"] forSegment: 1];
+	[tmp_ setWidth: 23 forSegment: 0];
+	[tmp_ setWidth: 23 forSegment: 1];
+	[tmp_ setTarget: windowController_];
+	[tmp_ setAction: @selector(scaleSegmentedControlPushed:)];
+	theCell = [tmp_ cell];
+	[theCell setTrackingMode: NSSegmentSwitchTrackingMomentary];
+	[theCell setToolTip: [self localizedString: st_scaleSC_seg0_ToolTipKey] forSegment: 0];
+	[theCell setToolTip: [self localizedString: st_scaleSC_seg1_ToolTipKey] forSegment: 1];
 
 	[anItem setView: tmp_];
 	if([anItem view] != nil){
@@ -261,6 +303,17 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 
 	[self setuphistorySCItem: item_ target: wcontroller_];
 	[(BSSegmentedControlTbItem *)item_ setDelegate: wcontroller_];
+	
+	item_ = [self appendToolbarItemWithClass : [BSSegmentedControlTbItem class]
+								itemIdentifier : [self scaleSegmentedControlIdentifier]
+							 localizedLabelKey : st_scaleSegmentedControlLabelKey
+					  localizedPaletteLabelKey : st_scaleSegmentedControlPaletteLabelKey
+						   localizedToolTipKey : nil
+										action : NULL
+										target : wcontroller_];
+
+	[self setupScaleSCItem: item_ target: wcontroller_];
+	[(BSSegmentedControlTbItem *)item_ setDelegate: wcontroller_];
 }
 
 - (void) configureToolbar : (NSToolbar *) aToolbar
@@ -314,6 +367,7 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 				[self replyItemIdentifier],
 				[self toggleOnlineModeIdentifier],
 				[self launchCMLFIdentifier],
+				[self scaleSegmentedControlIdentifier],
 				[self historySegmentedControlIdentifier],
 				[self orderFrontBrowserItemIdentifier],
 				[self pIndicatorItemIdentifier],

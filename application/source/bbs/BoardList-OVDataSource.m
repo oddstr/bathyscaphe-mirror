@@ -1,5 +1,5 @@
 /**
-  * $Id: BoardList-OVDataSource.m,v 1.12 2006/11/05 12:53:47 tsawada2 Exp $
+  * $Id: BoardList-OVDataSource.m,v 1.13 2007/01/07 17:04:23 masakih Exp $
   * 
   * BoardList-OVDataSource.m
   *
@@ -155,32 +155,28 @@ static NSMutableAttributedString *makeAttrStrFromStr(NSString *source)
 	NSArray			*types_;
 	NSDictionary	*board_;
 	NSString		*path_;
-	NSURL			*url_;
+
 	if([items containsObject : [FavoritesList favoritesItem]])
 		return NO;
-	
-	types_ = [NSArray arrayWithObjects : CMRBBSListItemsPboardType,
-										 NSURLPboardType,
-										 NSStringPboardType,
-										 nil];
-	[pboard declareTypes : types_ 
-				   owner : NSApp];
-	[pboard setPropertyList : [items description] 
-					forType : CMRBBSListItemsPboardType];
-	
-	board_ = [items lastObject];
-	path_ = [board_ objectForKey : BoardPlistURLKey];
-	UTILRequireCondition(path_ != nil, not_writtable);
-	url_ = [NSURL URLWithString : path_];
-	UTILRequireCondition(url_ != nil, not_writtable);
-	
-	[url_ writeToPasteboard : pboard];
-	[pboard setString : [url_ absoluteString] 
-			  forType : NSStringPboardType];
-	
-	return YES;
 
-not_writtable:
+	types_ = [NSArray arrayWithObject: CMRBBSListItemsPboardType];
+	[pboard declareTypes: types_ owner: NSApp];
+	[pboard setPropertyList: [items description] forType: CMRBBSListItemsPboardType];
+
+	board_ = [items lastObject];
+	path_ = [board_ objectForKey: BoardPlistURLKey];
+	if (path_) {
+		NSURL	*url_;
+		[pboard addTypes: [NSArray arrayWithObject: NSStringPboardType] owner: NSApp];
+		[pboard setString: path_ forType: NSStringPboardType];
+
+		url_ = [NSURL URLWithString: path_];
+		if (url_) {
+			[pboard addTypes: [NSArray arrayWithObject: NSURLPboardType] owner: NSApp];
+			[url_ writeToPasteboard: pboard];
+		}
+	}
+
 	return YES;
 }
 
@@ -330,20 +326,24 @@ not_writtable:
                    proposedItem : (id                 ) item
              proposedChildIndex : (int                ) index;
 {
-	NSPasteboard *pboard_;
-	NSString     *availableType_;
-	
-	pboard_ = [info draggingPasteboard];
-	availableType_ =
-		[pboard_ availableTypeFromArray : 
-			[NSArray arrayWithObjects : NSFilenamesPboardType, 
-										nil]];
-	
-	if([availableType_ isEqualToString : NSFilenamesPboardType]){
-		[outlineView setDropItem : [[self class] favoritesItem]
-				  dropChildIndex : NSOutlineViewDropOnItemIndex];
+	NSPasteboard *pboard_ = [info draggingPasteboard];
 
-		return NSDragOperationLink;
+	if ([pboard_ availableTypeFromArray: [NSArray arrayWithObjects: NSFilenamesPboardType, nil]] != nil) {
+		NSArray			*filenames_;
+		NSEnumerator	*iter_;
+		NSString		*path_;
+		CMRFavoritesManager	*fM = [CMRFavoritesManager defaultManager];
+
+		filenames_ = [pboard_ propertyListForType: NSFilenamesPboardType];
+		iter_ = [filenames_ objectEnumerator];
+		while (path_ = [iter_ nextObject]) {
+			if (NO == [fM favoriteItemExistsOfThreadPath: path_]) {
+				[outlineView setDropItem: [[self class] favoritesItem] dropChildIndex: NSOutlineViewDropOnItemIndex];
+				return NSDragOperationCopy;
+			}
+		}
+		
+		return NSDragOperationNone;
 	}
 	
 	return [super outlineView : outlineView

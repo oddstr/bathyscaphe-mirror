@@ -13,6 +13,7 @@
 #import "ThreadTextDownloader.h"
 #import "CMRSearchOptions.h"
 #import "missing.h"
+#import "BSDateFormatter.h"
 
 #import "BSThreadListUpdateTask.h"
 #import "BSThreadsListOPTask.h"
@@ -545,15 +546,16 @@ enum {
 	return [self numberOfFilteredThreads];
 }
 
-- (id)tableView : (NSTableView *)tableView objectValueForTableColumn : (NSTableColumn *)tableColumn row : (int)rowIndex
+- (id) objectValueForIdentifier : (NSString *) identifier
+					threadArray : (NSArray  *) threadArray
+						atIndex : (int       ) index
 {
-	NSString *identifier = [tableColumn identifier];
 	id <SQLiteRow> row;
 	id result = nil;
 	ThreadStatus s;
 	
 	[mCursorLock lock];
-	row = [[[mCursor rowAtIndex : rowIndex] retain] autorelease];
+	row = [[[mCursor rowAtIndex : index] retain] autorelease];
 	[mCursorLock unlock];
 	
 	s = [[row valueForColumn : ThreadStatusColumn] intValue];
@@ -571,11 +573,6 @@ enum {
 		
 		if (mod != [NSNull null]) {
 			result = [NSDate dateWithTimeIntervalSince1970 : [mod doubleValue]];
-			
-			if (dateFormatter)
-				result = [dateFormatter stringForObjectValue : result];
-			else
-				result = [[CMXDateFormatter sharedInstance] stringForObjectValue : result];
 		}
 	} else if ( [identifier isEqualTo : CMRThreadTitleKey] ) {
 		result = [row valueForColumn : ThreadNameColumn];
@@ -586,11 +583,14 @@ enum {
 	} else if ( [identifier isEqualTo : CMRThreadSubjectIndexKey] ) {
 		result = [row valueForColumn : TempThreadThreadNumberColumn];
 		if(!result || result == [NSNull null]) {
-			result = [NSNumber numberWithInt:rowIndex + 1];
+			result = [NSNumber numberWithInt:index + 1];
 		}
 	} else if([identifier isEqualToString : ThreadPlistIdentifierKey]) {
 		// スレッドの立った日付（dat 番号を変換）available in RainbowJerk and later.
 		result = [NSDate dateWithTimeIntervalSince1970 : (NSTimeInterval)[[row valueForColumn : ThreadIDColumn] doubleValue]];
+		return [[BSDateFormatter sharedDateFormatter] attributedStringForObjectValue: result
+															   withDefaultAttributes: ((s == ThreadNewCreatedStatus) ? [[self class] newThreadCreatedDateAttrTemplate]
+																													 : [[self class] threadCreatedDateAttrTemplate])];
 	} else {
 		result = [row valueForColumn : identifier];
 	}
@@ -601,10 +601,8 @@ enum {
 	
 	// 日付
 	if([result isKindOfClass : [NSDate class]]) {
-		if (dateFormatter)
-			result = [dateFormatter stringForObjectValue : result];
-		else
-			result = [[CMXDateFormatter sharedInstance] stringForObjectValue : result];
+		return [[BSDateFormatter sharedDateFormatter] attributedStringForObjectValue: result
+															   withDefaultAttributes: [[self class] threadModifiedDateAttrTemplate]];
 	}
 	
 	result = [[self class] objectValueTemplate : result
@@ -613,6 +611,25 @@ enum {
 												  : kValueTemplateDefaultType)];
 	
 	return result;
+}
+- (id)            tableView : (NSTableView   *) aTableView
+  objectValueForTableColumn : (NSTableColumn *) aTableColumn
+                        row : (int            ) rowIndex
+{
+//	NSArray			*threads_ = [self filteredThreads];
+	NSString		*identifier_ = [aTableColumn identifier];
+//	NSAssert2((rowIndex >= 0 && rowIndex <= [threads_ count]),
+//			  @"Threads Count(%u) but Accessed Index = %d.", [threads_ count], rowIndex);
+	
+    if ([identifier_ isEqualToString: ThreadPlistIdentifierKey] ||
+        [identifier_ isEqualToString: CMRThreadModifiedDateKey])
+    {
+        float location_ = [aTableColumn width];
+        location_ -= [aTableView intercellSpacing].width * 2;
+        [[self class] resetDataSourceTemplateForColumnIdentifier: identifier_ width: location_];
+    }
+	
+	return [self objectValueForIdentifier: identifier_ threadArray: nil atIndex: rowIndex];
 }
 /* optional - editing support
 */

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadLinkProcessor.m,v 1.4 2006/11/05 12:53:48 tsawada2 Exp $
+  * $Id: CMRThreadLinkProcessor.m,v 1.5 2007/01/07 17:04:23 masakih Exp $
   * 
   * CMRThreadLinkProcessor.m
   *
@@ -46,10 +46,12 @@ static int scanResLinkElement_(NSString *str, SGBaseRangeArray *buffer);
 	// 最低限の救済措置として、末尾に「index.html」などがくっついていた場合は除去を試みる
 	{
 		CFStringRef lastPathExt = CFURLCopyPathExtension((CFURLRef)link_);
-		if ([(NSString *)lastPathExt isEqualToString: @"html"]) {
-			link_ = (NSURL *)CFURLCreateCopyDeletingLastPathComponent(kCFAllocatorDefault, (CFURLRef)link_);
+		if (lastPathExt != NULL) {
+			CFURLRef	anotherLink_ = CFURLCreateCopyDeletingLastPathComponent(kCFAllocatorDefault, (CFURLRef)link_);
+			link_ = [[(NSURL *)anotherLink_ copy] autorelease];
+			CFRelease(anotherLink_);
+			CFRelease(lastPathExt);
 		}
-		//CFRelease(lastPathExt);
 	}
 
 	boardName_ = [[BoardManager defaultManager] boardNameForURL : link_];

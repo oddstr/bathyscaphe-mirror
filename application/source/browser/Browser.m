@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.m,v 1.16 2006/11/15 14:41:18 masakih Exp $
+  * $Id: Browser.m,v 1.17 2007/01/07 17:04:23 masakih Exp $
   * BathyScaphe 
   *
   * Copyright 2005-2006 BathyScaphe Project.
@@ -99,44 +99,31 @@
 - (IBAction) saveDocumentAs : (id) sender
 {
 	if ([self threadAttributes] == nil) return;
-	
+
+	NSFileManager	*fM_ = [NSFileManager defaultManager];
 	NSString *filePath_ = [[self threadAttributes] path];
-	if (filePath_ == nil) return;
+	if (filePath_ == nil || NO == [fM_ fileExistsAtPath: filePath_]) return;
 
-	NSWindowController	*winControllerForMe_ = [[self windowControllers] lastObject];
-	if (winControllerForMe_ == nil) return;
-	
-	NSSavePanel *sP = [NSSavePanel savePanel];
-	[sP setRequiredFileType : CMRThreadDocumentPathExtension];
-	[sP setCanCreateDirectories : YES];
-	[sP setCanSelectHiddenExtension : YES];
+	NSSavePanel *savePanel_ = [NSSavePanel savePanel];
+	int			resultCode;
 
-	[sP beginSheetForDirectory : nil
-						  file : [filePath_ lastPathComponent]
-				modalForWindow : [winControllerForMe_ window]
-				 modalDelegate : self
-				didEndSelector : @selector(savePanelDidEnd:returnCode:contextInfo:)
-				   contextInfo : nil];
-}
+	[savePanel_ setRequiredFileType : CMRThreadDocumentPathExtension];
+	[savePanel_ setCanCreateDirectories : YES];
+	[savePanel_ setCanSelectHiddenExtension : YES];
 
-- (void) savePanelDidEnd : (NSSavePanel *) sheet returnCode : (int) returnCode  contextInfo : (void *) contextInfo
-{
-	if (returnCode == NSOKButton) {
-		NSDictionary	*fileContents_;
-		
-		fileContents_ = [NSDictionary dictionaryWithContentsOfFile : [[self threadAttributes] path]];
-		if (nil == fileContents_) return;
-		
-		NSString *savePath = [sheet filename];
-		if ([fileContents_ writeToFile : savePath atomically : YES]) {
-			NSDictionary *tmpDict;
-			tmpDict = [NSDictionary dictionaryWithObject : [NSNumber numberWithBool : [sheet isExtensionHidden]]
-												  forKey : NSFileExtensionHidden];
+	resultCode = [savePanel_ runModalForDirectory: nil file: [filePath_ lastPathComponent]];
 
-			[[NSFileManager defaultManager] changeFileAttributes : tmpDict atPath : savePath];
+	if (resultCode == NSFileHandlingPanelOKButton) {
+		NSString *savePath_ = [savePanel_ filename];
+		if ([fM_ copyPath: filePath_ toPath: savePath_ handler: nil]) {
+			NSDate	*curDate_ = [NSDate date];
+			NSDictionary *tmp_;
+			tmp_ = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool: [savePanel_ isExtensionHidden]], NSFileExtensionHidden,
+															   curDate_, NSFileModificationDate, curDate_, NSFileCreationDate, NULL];
+			[fM_ changeFileAttributes: tmp_ atPath: savePath_];
 		} else {
 			NSBeep();
-			NSLog(@"Save failure - %@", savePath);
+			NSLog(@"Save failure - %@", savePath_);
 		}
 	}
 }

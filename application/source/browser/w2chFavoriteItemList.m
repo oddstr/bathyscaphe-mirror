@@ -1,5 +1,5 @@
 /**
-  * $Id: w2chFavoriteItemList.m,v 1.10 2006/11/05 12:53:47 tsawada2 Exp $
+  * $Id: w2chFavoriteItemList.m,v 1.11 2007/01/07 17:04:23 masakih Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -14,6 +14,7 @@
 #import "CMRHostHandler.h"
 #import "CMRThreadSignature.h"
 #import "BSFavoritesHEADCheckTask.h"
+#import "NSIndexSet+BSAddition.h"
 
 @implementation w2chFavoriteItemList
 - (void) registerToNotificationCenter
@@ -141,9 +142,18 @@
 		 writeRows : (NSArray *) rows
 	  toPasteboard : (NSPasteboard *) pasteBoard
 {
-	[pasteBoard declareTypes : [NSArray arrayWithObjects : CMRFavoritesItemsPboardType, nil] owner : self];
-	[pasteBoard setPropertyList : rows forType : @"row"];
-	
+	NSIndexSet *indexSet = [NSIndexSet rowIndexesWithRows: rows];
+	return [self tableView: tableView writeRowsWithIndexes: indexSet toPasteboard: pasteBoard];
+}
+
+- (BOOL) tableView: (NSTableView *) tableView writeRowsWithIndexes: (NSIndexSet *) rowIndexes toPasteboard: (NSPasteboard *) pboard
+{
+	if ([super tableView: tableView writeRowsWithIndexes: rowIndexes toPasteboard: pboard]) {
+		[pboard addTypes: [NSArray arrayWithObject: BSFavoritesIndexSetPboardType] owner: self];
+	} else {
+		[pboard declareTypes: [NSArray arrayWithObjects: BSFavoritesIndexSetPboardType, nil] owner: self];
+	}
+	[pboard setData: [NSArchiver archivedDataWithRootObject: rowIndexes] forType: BSFavoritesIndexSetPboardType];
 	return YES;
 }
 
@@ -159,7 +169,7 @@
 	if (![_identifier isEqualToString : CMRThreadSubjectIndexKey]) return NSDragOperationNone;
 	
 	if (operation == NSTableViewDropAbove &&
-			[pboard availableTypeFromArray : [NSArray arrayWithObjects : CMRFavoritesItemsPboardType, nil]] != nil)
+			[pboard availableTypeFromArray : [NSArray arrayWithObjects : BSFavoritesIndexSetPboardType, nil]] != nil)
 	{
 		return NSDragOperationGeneric;
 	} else {
@@ -173,28 +183,24 @@
 	 dropOperation : (NSTableViewDropOperation) operation
 {
 	NSPasteboard	*pboard = [info draggingPasteboard];
-	NSArray			*draggedRows_ = [pboard propertyListForType: @"row"];
+	NSString		*available = [pboard availableTypeFromArray: [NSArray arrayWithObjects: BSFavoritesIndexSetPboardType, nil]];
+	
+	if ((operation == NSTableViewDropAbove) && (available != nil)) {
+		NSData	*data_ = [pboard dataForType: BSFavoritesIndexSetPboardType];
+		NSIndexSet *draggedRows_ = [NSUnarchiver unarchiveObjectWithData: data_];
+		NSIndexSet *shouldSelect;
+		shouldSelect = [[CMRFavoritesManager defaultManager] insertFavItemsWithIndexes: draggedRows_
+																			   atIndex: rowIndex
+																		   isAscending: [self isAscending]];
 
-	int				i, s;
-
-	if (operation == NSTableViewDropAbove &&
-		[pboard availableTypeFromArray : [NSArray arrayWithObjects : CMRFavoritesItemsPboardType, nil]] != nil)
-	{
-		s = [[CMRFavoritesManager defaultManager] insertFavItemsTo : rowIndex
-													withIndexArray : draggedRows_
-													   isAscending : [self isAscending]];
-		
-		[self startLoadingThreadsList : [self worker]];
-		[tableView deselectAll : nil];
-        
-		for (i = s; i < (s + [draggedRows_ count]); i++) {
-				[tableView selectRow : i byExtendingSelection : YES];
+		if (shouldSelect) {
+			[self startLoadingThreadsList : [self worker]];
+			[tableView selectRowIndexes: shouldSelect byExtendingSelection: NO];
+			return YES;
 		}
-		return YES;
-
-	} else {
-		return NO;
 	}
+
+	return NO;
 }
 @end
 
@@ -336,5 +342,35 @@
 	}
 
 	return YES;
+}
+@end
+
+@implementation w2chFavoriteItemList(NSDraggingSource)
+- (void) draggedImage: (NSImage	   *) anImage
+			  endedAt: (NSPoint		) aPoint
+			operation: (NSDragOperation) operation
+{
+	NSPasteboard	*pboard_;
+	NSArray			*filenames_;
+	// uƒSƒ~” v‚Ö‚ÌˆÚ“®
+	if(NO == (NSDragOperationDelete & operation)) {
+		return;
+	}
+	pboard_ = [NSPasteboard pasteboardWithName : NSDragPboard];
+	if(NO == [[pboard_ types] containsObject : NSFilenamesPboardType]) {
+		return;
+	}
+
+	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	[alert setAlertStyle: NSWarningAlertStyle];
+	[alert setMessageText: [self localizedString: @"DragDropTrashAlert"]];
+	[alert setInformativeText: [self localizedString: @"DragDropTrashMessage"]];
+	[alert addButtonWithTitle: [self localizedString: @"DragDropTrashOK"]];
+	[alert addButtonWithTitle: [self localizedString: @"DragDropTrashCancel"]];
+	
+	if (NSAlertFirstButtonReturn == [alert runModal]) {
+		filenames_ = [pboard_ propertyListForType : NSFilenamesPboardType];
+		[self tableView : nil removeFiles : filenames_ delFavIfNecessary : YES];
+	}
 }
 @end

@@ -55,5 +55,7 @@
 	<integer>5</integer>
 	<key>Thread - On-The-Fly MessageCount</key>
 	<integer>20</integer>
+	<key>Thread - WikipediaQuery</key>
+	<string>http://ja.wikipedia.org/wiki/%E7%89%B9%E5%88%A5:Search?search=%%%Query%%%</string>
 </dict>
 </plist>

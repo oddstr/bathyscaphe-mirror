@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIFullScreenController.m,v 1.7 2006/11/05 13:15:07 tsawada2 Exp $
+//  $Id: BSIPIFullScreenController.m,v 1.8 2007/01/07 17:04:24 masakih Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.
@@ -7,7 +7,11 @@
 //
 
 #import "BSIPIFullScreenController.h"
+#import "BSIPIPathTransformer.h"
 #import <Carbon/Carbon.h>
+#import <ApplicationServices/ApplicationServices.h>
+#import <CocoMonar/CMRSingletonObject.h>
+
 
 @class BSIPIFullScreenWindow;
 
@@ -19,17 +23,19 @@
 @end
 
 @implementation BSIPIFullScreenController
-+ (BSIPIFullScreenController *) sharedInstance
-{
-    static BSIPIFullScreenController	*sharedInstance = nil;
+APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)	
 
-    if (sharedInstance == nil) {
-        sharedInstance = [[self alloc] init];
-        [NSBundle loadNibNamed: @"BSIPIFullScreen" owner: sharedInstance];
-    }
+- (id) init {
+	self = [super init];
+	if (self != nil) {
+		id transformer = [[[BSIPIImageIgnoringDPITransformer alloc] init] autorelease];
+		[NSValueTransformer setValueTransformer: transformer forName: @"BSIPIImageIgnoringDPITransformer"];
 
-    return sharedInstance;
+		[NSBundle loadNibNamed: @"BSIPIFullScreen" owner: self];
+	}
+	return self;
 }
+
 
 - (void) awakeFromNib
 {
@@ -58,35 +64,55 @@
 	m_delegate = aDelegate;
 }
 
+- (NSArrayController *) arrayController
+{
+	return m_cube;
+}
+
+- (void) setArrayController: (id) aController
+{
+	if (aController != m_cube) {
+		m_cube = aController;
+	}
+}
+
 - (void) dealloc
 {
 	m_delegate = nil;
+	m_cube = nil;
 	[super dealloc];
 }
-/*- (void) _showPanelWithPath : (NSString *) aPath
+
+// NSValueTransformerNameBindingOption = @"NSValueTransformerName"
+- (NSDictionary *) cachedBindingOptionDict
 {
-	NSImage	*tmp0_ = [[NSImage alloc] initWithContentsOfFile : aPath];
-
-	NSImageRep		*rep_ = [[tmp0_ representations] objectAtIndex : 0];
-	//NSSize	viewSize = [_imageView bounds].size;
-	//NSSize	imageSize = [anImage size];
-	//float	dX, dY;
-	[rep_ setSize : NSMakeSize([rep_ pixelsWide], [rep_ pixelsHigh])];
-
-	dX = viewSize.width / imgX;
-	dY = viewSize.height / imgY;
-	
-	if (dX <= 1.0 && dY <= 1.0) {
-		return anImage;
+	static NSDictionary *dict_ = nil;
+	if (dict_ == nil) {
+		dict_ = [[NSDictionary alloc] initWithObjectsAndKeys: @"BSIPIImageIgnoringDPITransformer", @"NSValueTransformerName", NULL];
 	}
-	float	dT = (dX > dY) ? dY : dX;
-	
-	[Rep_ setSize : NSMakeSize(imgX*dT, imgY*dT)];
-	[self showPanelWithImage : tmp0_];
-}*/
-- (void) setImage: (NSImage *) anImage
+	return dict_;
+}
+
+- (NSDictionary *) cachedBindingOptDictForStatusField
 {
-	[_imageView setImage: anImage];
+	static NSDictionary *dictTemplate3_ = nil;
+	if (dictTemplate3_ == nil) {
+		dictTemplate3_ = [[NSDictionary alloc] initWithObjectsAndKeys: NSIsNotNilTransformerName, @"NSValueTransformerName", NULL];
+	}
+	return dictTemplate3_;
+}
+
+- (NSDictionary *) cachedBindingOptDictForStatusMsg
+{
+	static NSDictionary *dictTemplate2_ = nil;
+	if (dictTemplate2_ == nil) {
+		NSBundle *selfBundle = [NSBundle bundleForClass: [self class]];
+		NSString *key_ = @"%{value2}@\nCan't show image: %{value1}@";
+		NSString *tmp_ = [selfBundle localizedStringForKey: key_ value: key_ table: nil];
+		
+		dictTemplate2_ = [[NSDictionary alloc] initWithObjectsAndKeys: tmp_, @"NSDisplayPattern", NULL];
+	}
+	return dictTemplate2_;
 }
 
 - (void) startFullScreen
@@ -132,6 +158,26 @@
 		CGReleaseDisplayFadeReservation (tokenPtr1);
 	}
 
+	[_imageView bind: @"value"
+			toObject: [self arrayController]
+		 withKeyPath: @"selection.downloadedFilePath"
+			 options: [self cachedBindingOptionDict]];
+
+	[_statusField bind: @"hidden"
+			toObject: [self arrayController]
+		 withKeyPath: @"selection.downloadedFilePath"
+			 options: [self cachedBindingOptDictForStatusField]];
+
+	[_statusField bind: @"displayPatternValue1"
+			toObject: [self arrayController]
+		 withKeyPath: @"selection.statusMessage"
+			 options: [self cachedBindingOptDictForStatusMsg]];
+
+	[_statusField bind: @"displayPatternValue2"
+			toObject: [self arrayController]
+		 withKeyPath: @"selection.sourceURL"
+			 options: nil];
+
     [_fullScreenWindow makeKeyAndOrderFront: nil];
 	
 	if (kCGErrorSuccess == CGAcquireDisplayFadeReservation(kCGMaxDisplayReservationInterval, &tokenPtr2)) {
@@ -169,6 +215,10 @@
 		CGReleaseDisplayFadeReservation (tokenPtr);
 	}
     [_fullScreenWindow orderOut: nil];
+	[_imageView unbind: @"value"];
+	[_statusField unbind: @"displayPatternValue2"];
+	[_statusField unbind: @"displayPatternValue1"];
+	[_statusField unbind: @"hidden"];
 
 	SetSystemUIMode(kUIModeNormal, 0);
 
@@ -185,14 +235,14 @@
 	NSString	*pressedKey = [keyDown charactersIgnoringModifiers];
 	unsigned short	keyCode = [keyDown keyCode];
 	
-	if ([pressedKey isEqualToString: [NSString stringWithFormat: @"%C", 0xF702]]) {
+	if ([pressedKey isEqualToString: [NSString stringWithFormat: @"%C", NSLeftArrowFunctionKey]]) {
 		if ([[self delegate] respondsToSelector: @selector(showPrevImage:)]) {
 			[[self delegate] showPrevImage: window];
 			return YES;
 		}
 	}
 	
-	if ([pressedKey isEqualToString: [NSString stringWithFormat: @"%C", 0xF703]]) {
+	if ([pressedKey isEqualToString: [NSString stringWithFormat: @"%C", NSRightArrowFunctionKey]]) {
 		if ([[self delegate] respondsToSelector: @selector(showNextImage:)]) {
 			[[self delegate] showNextImage: window];
 			return YES;

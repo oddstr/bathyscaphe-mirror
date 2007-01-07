@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadView.m,v 1.15 2006/11/07 12:50:31 masakih Exp $
+  * $Id: CMRThreadView.m,v 1.16 2007/01/07 17:04:24 masakih Exp $
   * 
   * CMRThreadView.m
   *
@@ -77,10 +77,15 @@
 
 
 @implementation CMRThreadView
-- (id) initWithFrame : (NSRect) aFrame
+- (id) initWithFrame : (NSRect) aFrame textContainer: (NSTextContainer *) aTextContainer
 {
-	if (self = [super initWithFrame : aFrame]) {
+	if (self = [super initWithFrame : aFrame textContainer: aTextContainer]) {
 		_lastCharIndex = NSNotFound;
+
+		// Reinforce II
+		[self registerForDraggedTypes: [NSArray arrayWithObject: BSThreadItemsPboardType]];
+		draggingHilited = NO;
+		draggingTimer = 0.0;
 	}
 	return self;
 }
@@ -100,9 +105,19 @@
 	[super viewDidEndLiveResize];
 }
 	
-- (void)updateRuler
+- (void) updateRuler
 {
 	// Ruler の更新をブロックする。
+}
+
+- (void) drawRect: (NSRect) rect
+{
+	[super drawRect: rect];
+	
+	if (draggingHilited) {
+        [[NSColor keyboardFocusIndicatorColor] set];
+        NSFrameRectWithWidth([self visibleRect], 3.0);
+	}
 }
 
 - (CMRThreadSignature *) threadSignature
@@ -299,6 +314,8 @@ NOT_FOUND:
 // @see googleSearch:
 #define kPropertyListGoogleQueryKey		@"Thread - GoogleQuery"
 #define kGoogleQueryValiableKey			@"%%%Query%%%"
+// @see openWithWikipedia:
+#define kPropertyListWikipediaQueryKey		@"Thread - WikipediaQuery"
 + (void) setupMenuItemInMenu : (NSMenu *) aMenu
 		   representedObject : (id      ) anObject
 {
@@ -738,6 +755,25 @@ static void showPoofAnimationForInvisibleAbone(CMRThreadView *tView, unsigned in
 
 
 @implementation CMRThreadView(Action)
+- (IBAction) openWithWikipedia : (id) sender
+{
+	NSRange			selectedRange_ = [self selectedRange];
+	NSString		*string_;
+	id				query_;
+	NSURL *url;
+	
+	string_ = [[self string] substringWithRange : selectedRange_];
+	string_ = [string_ stringByURLEncodingUsingEncoding : NSUTF8StringEncoding];
+	if(!string_ || [string_ isEmpty]) return;
+	
+	query_ = SGTemplateResource(kPropertyListWikipediaQueryKey);
+	UTILAssertNotNil(query_);
+	
+	query_ = [NSMutableString stringWithString:query_];
+	[query_ replaceCharacters:kGoogleQueryValiableKey toString:string_];
+	url = [NSURL URLWithString : query_];
+	[[NSWorkspace sharedWorkspace] openURL : url];
+}
 - (IBAction) googleSearch : (id) sender;
 {
 	NSRange			selectedRange_ = [self selectedRange];

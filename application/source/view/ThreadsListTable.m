@@ -1,5 +1,5 @@
 /**
-  * $Id: ThreadsListTable.m,v 1.8 2006/03/08 15:40:57 tsawada2 Exp $
+  * $Id: ThreadsListTable.m,v 1.9 2007/01/07 17:04:24 masakih Exp $
   * 
   * ThreadsListTable.m
   *
@@ -60,7 +60,7 @@
 													   operation : NSCompositeDestinationOver];
 	[[[NSWorkspace sharedWorkspace] iconForFileType : @"thread"] compositeToPoint : NSMakePoint(4.0, 0.0)
 																		operation : NSCompositeDestinationOver
-																		fraction : 0.7];
+																		fraction : 0.9];
 	[anImg unlockFocus];
 
 	return [anImg autorelease];
@@ -73,7 +73,10 @@
 	if ([dragRows count] == 1) {
 		return [[self dataSource] isFavorites]
 						? [super dragImageForRows : dragRows event : dragEvent dragImageOffset : dragImageOffset]
-						: [[NSWorkspace sharedWorkspace] iconForFileType : @"thread"];
+//						: [[NSWorkspace sharedWorkspace] iconForFileType : @"thread"];
+						: [[self dataSource] dragImageForTheRow: [[dragRows lastObject] unsignedIntValue]
+													inTableView: self
+														 offset: dragImageOffset];
 	} else {
 		return [self _draggingBadgeForRowCount : [dragRows count]];
 	}
@@ -88,7 +91,8 @@
 	if ([dragRows count] == 1) {
 		return [[self dataSource] isFavorites]
 						? [super dragImageForRowsWithIndexes : dragRows tableColumns : tableColumns event : dragEvent offset : dragImageOffset]
-						: [[NSWorkspace sharedWorkspace] iconForFileType : @"thread"];
+						//: [[NSWorkspace sharedWorkspace] iconForFileType : @"thread"];
+						: [[self dataSource] dragImageForTheRow: [dragRows firstIndex] inTableView: self offset: dragImageOffset];
 	} else {
 		return [self _draggingBadgeForRowCount : [dragRows count]];
 	}

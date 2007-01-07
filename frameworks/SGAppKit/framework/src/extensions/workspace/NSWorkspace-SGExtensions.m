@@ -1,6 +1,6 @@
 //: NSWorkspace-SGExtensions.m
 /**
-  * $Id: NSWorkspace-SGExtensions.m,v 1.2 2006/01/27 23:02:19 tsawada2 Exp $
+  * $Id: NSWorkspace-SGExtensions.m,v 1.3 2007/01/07 17:04:24 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -93,14 +93,15 @@
 	UTILRequireCondition(noErr == err, bail);
 	
 	// Send the event to the Finder
-	err = AESend(
+/*	err = AESend(
 			&event,
 			&reply,
 			kAENoReply,
 			kAENormalPriority,
 			kAEDefaultTimeout,
 			NULL,
-			NULL);
+			NULL);*/
+	err = AESendMessage(&event, &reply, kAEWaitReply, kAEDefaultTimeout); // wait until event is done
 	
 	// Clean up and leave
 bail:
@@ -135,12 +136,77 @@ bail:
 {
 	if(url_ == nil) return NO;
 	if(inBG) {
-		NSArray	*tempArray_;
-		tempArray_ = [NSArray arrayWithObject : url_];
-		return [self _openURLsInBackGround : tempArray_];
+		return [self _openURLsInBackGround: [NSArray arrayWithObject: url_]];
 	} else {
-		return [self openURL : url_];
+		return [self openURL: url_];
 	}
 	return NO;
+}
+@end
+
+@implementation NSWorkspace(BSIconServicesUtil)
+- (NSImage *) systemIconForType: (OSType) iconType
+{
+    IconRef             iconRef;
+    IconFamilyHandle    iconFamily;
+    OSErr	result;
+
+    result = GetIconRef(kOnSystemDisk, kSystemIconsCreator, iconType, &iconRef);
+
+    if (result != noErr) {
+        return nil;
+    }
+
+    result = IconRefToIconFamily(iconRef, kSelectorAllAvailableData, &iconFamily);
+
+    if (result != noErr || !iconFamily)
+    {
+        return nil;
+    }
+
+    ReleaseIconRef(iconRef);
+    
+    NSData  *iconData;
+    NSImage *iconImage = nil;
+
+    iconData = [NSData dataWithBytes: *iconFamily length: GetHandleSize((Handle)iconFamily)];
+    iconImage = [[[NSImage alloc] initWithData: iconData] autorelease];
+	
+	DisposeHandle((Handle)iconFamily);
+    
+    return iconImage;
+}
+@end
+
+@implementation NSWorkspace(BSDefaultWebBrowserUtils)
+- (NSString *) absolutePathForDefaultWebBrowser
+{
+	NSURL	*dummyURL = [NSURL URLWithString : @"http://www.apple.com/"];
+	OSStatus	err;
+	FSRef	outAppRef;
+	CFURLRef	outAppURL;
+	CFStringRef	appPath;
+	NSString	*result_ = nil;
+
+	err = LSGetApplicationForURL((CFURLRef )dummyURL, kLSRolesAll, &outAppRef, &outAppURL);
+	if (err == noErr && outAppURL) {
+		appPath = CFURLCopyFileSystemPath(outAppURL, kCFURLPOSIXPathStyle);
+		result_ = [NSString stringWithString: (NSString *)appPath];
+		CFRelease(appPath);
+	}
+
+	return result_;
+}
+
+- (NSImage *) iconForDefaultWebBrowser
+{
+	return [self iconForFile: [self absolutePathForDefaultWebBrowser]];
+}
+
+- (NSString *) bundleIdentifierForDefaultWebBrowser;
+{
+	NSBundle *bundle = [NSBundle bundleWithPath: [self absolutePathForDefaultWebBrowser]];
+	
+	return [bundle bundleIdentifier];
 }
 @end

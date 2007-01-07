@@ -1,5 +1,4 @@
 #import "CMRThreadAttributes.h"
-//#import "CMRBBSSignature.h"
 #import "CMRThreadVisibleRange.h"
 #import "CMRThreadSignature.h"
 
@@ -7,9 +6,18 @@
 #import "BoardManager.h"
 #import "AppDefaults.h"
 #import "CMRHostHandler.h"
-//#import "CMRThreadUserStatus.h"
 
+#define kCopyThreadBBSNameKey		@"%%%BBSName%%%"
+#define kCopyThreadBBSURLKey		@"%%%BBSURL%%%"
+#define kCopyThreadTitleKey			@"%%%ThreadTitle%%%"
+#define kCopyThreadPathKey			@"%%%ThreadPath%%%"
+#define kCopyThreadURLKey			@"%%%ThreadURL%%%"
+#define kCopyThreadDATSizeKbKey		@"%%%DATSize-KB%%%"
+#define kCopyThreadDATSizeKey		@"%%%DATSize%%%"
+#define kCopyThreadCreatedDateKey	@"%%%CreatedDate%%%"
+#define kCopyThreadModifiedDateKey	@"%%%ModifiedDate%%%"
 
+#define kCopyThreadFormatKey		@"Thread - CopyThreadFormat"
 
 static NSString *const kCMROldVersionThreadURLKey = @"ThreadURL";
 
@@ -157,5 +165,96 @@ static NSString *const kCMROldVersionThreadURLKey = @"ThreadURL";
 	handler_ = [CMRHostHandler hostHandlerForURL : boardURL_];
 	
 	return [handler_ readURLWithBoard : boardURL_ datName : dat_ headCount : count];
+}
+
++ (NSURL *) threadURLWithDefaultParameterFromDictionary: (NSDictionary *) dict
+{
+	int aType = [CMRPref openInBrowserType];
+		
+	if (aType == BSOpenInBrowserLatestFifty) {
+		return [self threadURLWithLatestParamFromDict: dict resCount: 50];
+	} else if (aType == BSOpenInBrowserFirstHundred) {
+		return [self threadURLWithHeaderParamFromDict: dict resCount: 100];
+	}
+
+	return [self threadURLFromDictionary: dict];
+}
+
++ (void) replaceKeywords: (NSMutableString *) theBuffer dictionary: (NSDictionary *) theThread
+{
+	static NSString *const kNFStringValue = @" - ";
+	id		v = nil;
+	NSString	*s;
+	unsigned	 bytes;
+	
+	SEL		messages[] = {
+				@selector(boardURLFromDictionary:),
+				@selector(threadURLFromDictionary:),
+				@selector(boardNameFromDictionary:),
+				@selector(threadTitleFromDictionary:),
+				@selector(createdDateFromDictionary:),
+				@selector(modifiedDateFromDictionary:),
+				NULL};
+	NSString *keys[] = {
+				kCopyThreadBBSURLKey,
+				kCopyThreadURLKey,
+				kCopyThreadBBSNameKey,
+				kCopyThreadTitleKey,
+				kCopyThreadCreatedDateKey,
+				kCopyThreadModifiedDateKey,
+				nil};
+	
+	SEL			*mp;
+	NSString	**key;
+	
+	for (mp = messages, key = keys; *mp != NULL && *key != nil; mp++, key++) {
+		v = [self performSelector: *mp withObject: theThread];
+		s = v ? [v stringValue] : kNFStringValue;
+		[theBuffer replaceCharacters: *key toString: s];
+	}
+	
+	// dat size (bytes)
+	v = [theThread numberForKey: ThreadPlistLengthKey];
+	s = v ? [v stringValue] : kNFStringValue;
+	[theBuffer replaceCharacters: kCopyThreadDATSizeKey toString: s];
+	
+	// dat size (Kb)
+	v = [theThread numberForKey: ThreadPlistLengthKey];
+	bytes = v ? [v unsignedIntValue] : 0;
+	bytes /=  1024;
+	v = (0 == bytes) ? nil : [NSNumber numberWithUnsignedInt: bytes];
+	s = v ? [v stringValue] :  kNFStringValue;
+	[theBuffer replaceCharacters: kCopyThreadDATSizeKbKey toString: s];
+
+	// location of thread log file
+	s = [self pathFromDictionary: theThread];
+	v = s ? [SGFileRef fileRefWithPath: s] : nil;
+	s = [v displayPath];
+	if (nil == s) s = kNFStringValue;
+	[theBuffer replaceCharacters: kCopyThreadPathKey toString: s];
+}
+
++ (void) replaceKeywords: (NSMutableString *) theBuffer attributes: (CMRThreadAttributes *) theThread
+{
+	[self replaceKeywords: theBuffer dictionary: [theThread dictionaryRepresentation]];
+}
+
++ (void) fillBuffer: (NSMutableString *) theBuffer withThreadInfoForCopying: (NSArray *) threadAttrsAry
+{
+	NSString		*template_;
+	NSEnumerator	*iter_;
+	NSDictionary	*dict_;
+
+	template_ = SGTemplateResource(kCopyThreadFormatKey);
+	UTILAssertKindOfClass(template_, NSString);
+	
+	iter_ = [threadAttrsAry objectEnumerator];
+	
+	if (!iter_) return;
+
+	while (dict_ = [iter_ nextObject]) {
+		[theBuffer appendString: template_];
+		[self replaceKeywords: theBuffer dictionary: dict_];
+	}
 }
 @end

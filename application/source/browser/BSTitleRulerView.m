@@ -1,5 +1,5 @@
 //
-//  $Id: BSTitleRulerView.m,v 1.12 2006/06/17 06:37:15 tsawada2 Exp $
+//  $Id: BSTitleRulerView.m,v 1.13 2007/01/07 17:04:23 masakih Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/09/22.
@@ -12,7 +12,7 @@ static NSString *const kTRViewBgImgBlueKey				= @"titleRulerBgAquaBlue";
 static NSString *const kTRViewBgImgGraphiteKey			= @"titleRulerBgAquaGraphite";
 static NSString *const kTitleRulerViewDefaultTitleKey	= @"titleRuler default title";
 static NSString *const kTRViewBgImageNonActiveKey		= @"titleRulerBgNotActive";
-static NSString *const kTRViewInfoIconKey				= @"titleRulerInfoIcon";
+//static NSString *const kTRViewInfoIconKey				= @"titleRulerInfoIcon";
 
 static NSRect	bgImgRect;
 static NSRect	bgImgNARect;
@@ -273,7 +273,9 @@ static NSColor	*m_titleTextColor;
 - (void) drawInfoBarInRect: (NSRect) aRect
 {
 	NSRect	iconRect;
-	NSImage	*icon_ = [NSImage imageAppNamed: kTRViewInfoIconKey];
+	//NSImage	*icon_ = [NSImage imageAppNamed: kTRViewInfoIconKey];
+	NSImage *icon_ = [[NSWorkspace sharedWorkspace] systemIconForType: kAlertNoteIcon];
+	[icon_ setSize: NSMakeSize(32, 32)];
 	[icon_ setFlipped: [self isFlipped]];
 	[[[self class] infoBgColor] set];
 	NSRectFill(aRect);	
@@ -289,24 +291,17 @@ static NSColor	*m_titleTextColor;
 
 - (void) drawRect : (NSRect) aRect
 {
-	NSRect	rect_;
-
-	// 完全に領域を塗りつぶすため、微調整
-	rect_ = [self frame];
-	rect_.origin.x -= 1.0;
-	rect_.origin.y -= 1.0;
-
 	switch ([self currentMode]) {
 	case BSTitleRulerShowTitleOnlyMode:
-		[self drawTitleBarInRect: rect_];
+		[self drawTitleBarInRect: aRect];
 		break;
 	case BSTitleRulerShowInfoOnlyMode:
-		[self drawInfoBarInRect: rect_];
+		[self drawInfoBarInRect: aRect];
 		break;
 	case BSTitleRulerShowTitleAndInfoMode:
 		{
 			NSRect titleRect, infoRect;
-			NSDivideRect(rect_, &infoRect, &titleRect, THICKNESS_FOR_INFO, NSMaxYEdge);
+			NSDivideRect(aRect, &infoRect, &titleRect, THICKNESS_FOR_INFO, NSMaxYEdge);
 			[self drawTitleBarInRect: titleRect];
 			[self drawInfoBarInRect: infoRect];
 		}

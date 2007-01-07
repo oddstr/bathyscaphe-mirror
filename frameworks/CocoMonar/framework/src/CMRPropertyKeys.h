@@ -1,6 +1,6 @@
 //: CMRPropertyKeys.h
 /**
-  * $Id: CMRPropertyKeys.h,v 1.2 2006/01/05 14:16:44 tsawada2 Exp $
+  * $Id: CMRPropertyKeys.h,v 1.3 2007/01/07 17:04:24 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -50,10 +50,10 @@ extern NSString *const CMRThreadModifiedDateKey;
 
 
 extern NSString *const CMRBBSListItemsPboardType;
-extern NSString *const CMRFavoritesItemsPboardType;
+extern NSString *const CMRFavoritesItemsPboardType; // Deprecated in ReinforceII and later.
 extern NSString *const CMRAttributeInnerLinkScheme;
 
-
+extern NSString *const BSFavoritesIndexSetPboardType; // Available in ReinforceII and later.
 
 extern NSString *const CMRBBSManagerUserListDidChangeNotification;
 extern NSString *const CMRBBSManagerDefaultListDidChangeNotification;
@@ -66,6 +66,12 @@ extern NSString *const AppDefaultsLayoutSettingsUpdatedNotification;
 extern NSString *const CMRApplicationWillResetNotification;
 extern NSString *const CMRApplicationDidResetNotification;
 
+extern NSString *const BSThreadItemsPboardType; // Available in ReinforceII and later.
 
+#define APP_APPLICATION_NAME				@"BathyScaphe"
 
-#define APP_APPLICATION_NAME				@"CocoMonar"
+// Available in ReinforceII and later.
+@interface NSBundle(UserAgentString)
++ (NSString *) applicationUserAgent; // e.g. "BathyScaphe/277.5"
++ (NSString *) monazillaUserAgent; // e.g. "Monazilla(1.00) BathyScaphe/277.5"
+@end

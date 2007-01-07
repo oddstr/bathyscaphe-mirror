@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesPane-PCManagement.m,v 1.5 2006/11/05 13:02:22 tsawada2 Exp $
+  * $Id: PreferencesPane-PCManagement.m,v 1.6 2007/01/07 17:04:24 masakih Exp $
   * 
   * PreferencesPane-PCManagement.m
   *
@@ -9,7 +9,7 @@
 #import "PreferencesPane.h"
 #import "AppDefaults.h"
 #import "PreferencesController.h"
-
+/*
 #import "FCController.h"
 #import "AccountController.h"
 #import "CMRReplyDefaultsController.h"
@@ -18,6 +18,15 @@
 #import "CMRFilterPrefController.h"
 #import "SoundsPaneController.h"
 #import "SyncPaneController.h"
+*/
+@class FCController;
+@class AccountController;
+@class CMRReplyDefaultsController;
+@class GeneralPrefController;
+@class AdvancedPrefController;
+@class CMRFilterPrefController;
+@class SoundsPaneController;
+@class SyncPaneController;
 
 @implementation PreferencesPane(PreferencesControllerManagement)
 - (NSView *) contentView

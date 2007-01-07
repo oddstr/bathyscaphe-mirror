@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.m,v 1.14 2006/11/13 14:45:50 masakih Exp $
+  * $Id: CMRThreadsList.m,v 1.15 2007/01/07 17:04:23 masakih Exp $
   * 
   * CMRThreadsList.m
   *
@@ -126,7 +126,7 @@ standard_writing:*/
 	[_threads release];
 	[_filteredThreads release];
 	[_threadsInfo release];
-	[dateFormatter release];
+//	[dateFormatter release];
 	[super dealloc];
 }
 

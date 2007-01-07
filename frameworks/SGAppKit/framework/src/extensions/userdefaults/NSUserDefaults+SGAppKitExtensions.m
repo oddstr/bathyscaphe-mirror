@@ -1,6 +1,6 @@
 //: NSUserDefaults+SGAppKitExtensions.m
 /**
-  * $Id: NSUserDefaults+SGAppKitExtensions.m,v 1.1 2005/05/11 17:51:27 tsawada2 Exp $
+  * $Id: NSUserDefaults+SGAppKitExtensions.m,v 1.2 2007/01/07 17:04:24 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -10,7 +10,7 @@
 #import "SGAppKitFrameworkDefines.h"
 
 #import <SGAppKit/NSUserDefaults+SGAppKitExtensions.h>
-#import <SGAppKit/NSColor-SGExtensions.h>
+//#import <SGAppKit/NSColor-SGExtensions.h>
 
 
 
@@ -25,9 +25,9 @@ static NSColor *ColorForKeyImp(id me, id aKey)
 	
 	if([archived_ isKindOfClass : [NSData class]]){
 		color_ = [NSUnarchiver unarchiveObjectWithData : archived_];
-	}else if([archived_ isKindOfClass : [NSString class]]){
+	}/*else if([archived_ isKindOfClass : [NSString class]]){
 		color_ = SGColorFromString(archived_);
-	}
+	}*/
 	UTILRequireCondition(color_, ErrConvertion);
 	UTILRequireCondition(
 		[color_ isKindOfClass : [NSColor class]], ErrConvertion);
@@ -111,9 +111,8 @@ static void SetFontForKeyImp(id me, NSFont *aValue, id aKey)
 - (void) setColor : (NSColor  *) color
            forKey : (NSString *) key
 {
-	//SetColorForKeyImp(self, color, key);
-	NSData *theData=[NSArchiver archivedDataWithRootObject:color];
-    [self setObject:theData forKey:key];
+	NSData *theData=[NSArchiver archivedDataWithRootObject: color];
+    [self setObject: theData forKey: key];
 }
 - (void) setFont : (NSFont   *) aFont
           forKey : (NSString *) key

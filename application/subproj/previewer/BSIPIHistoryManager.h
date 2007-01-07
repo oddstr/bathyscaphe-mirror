@@ -1,6 +1,6 @@
 //
 //  BSIPIHistoryManager.h
-//  BathyScaphe
+//  BathyScaphe Preview Inspector 2.5
 //
 //  Created by Tsutomu Sawada on 06/01/12.
 //  Copyright 2006 BathyScaphe Project. All rights reserved.
@@ -8,9 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class BSIPIToken;
 
 @interface BSIPIHistoryManager : NSObject {
 	NSMutableArray	*_historyBacket;
+	NSString		*_dlFolderPath;
 }
 
 + (id) sharedManager;
@@ -18,31 +20,38 @@
 - (NSMutableArray *) historyBacket;
 - (void) setHistoryBacket : (NSMutableArray *) aMutableArray;
 
+- (NSString *) dlFolderPath;
+
+- (void) flushCache;
+
 - (NSArray *) arrayOfURLs;
 - (NSArray *) arrayOfPaths;
 
-- (unsigned) indexOfURL: (NSURL *) anURL;
-- (unsigned) indexOfPath: (NSString *) aPath;
+- (BOOL) isTokenCachedForURL: (NSURL *) anURL;
+- (BSIPIToken *) cachedTokenForURL: (NSURL *) anURL;
+- (BSIPIToken *) cachedTokenAtIndex: (unsigned) index;
+- (unsigned) cachedTokenIndexForURL: (NSURL *) anURL;
+- (NSArray *) cachedTokensArrayAtIndexes: (NSIndexSet *) indexes;
 
-- (NSString *) cachedFilePathForURL : (NSURL *) anURL;
-- (NSURL *) cachedURLForFilePath: (NSString *) aPath;
+- (BOOL) cachedTokensArrayContainsNotNullObjectAtIndexes: (NSIndexSet *) indexes;
+- (BOOL) cachedTokensArrayContainsDownloadingTokenAtIndexes: (NSIndexSet *) indexes;
 
-- (BOOL) addItemOfURL : (NSURL *) anURL andPath : (NSString *) aPath;
-- (BOOL) removeItemOfURL: (NSURL *) anURL;
+- (void) openURLForTokenAtIndexes: (NSIndexSet *) indexes inBackground: (BOOL) inBg;
+- (void) makeTokensCancelDownloadAtIndexes: (NSIndexSet *) indexes;
 
-- (NSString *) cachedNextFilePathForURL: (NSURL *) currentURL;
-- (NSString *) cachedPrevFilePathForURL: (NSURL *) currentURL;
-- (NSString *) cachedFirstFilePath;
-- (NSString *) cachedLastFilePath;
+- (void) openCachedFileForTokenAtIndexesWithPreviewApp: (NSIndexSet *) indexes;
+- (void) copyCachedFileForTokenAtIndexes: (NSIndexSet *) indexes intoFolder: (NSString *) folderPath;
 
-- (void) openCachedFileForURLWithPreviewApp: (NSURL *) anURL;
-- (void) copyCachedFileForURL: (NSURL *) anURL intoFolder: (NSString *) folderPath;
 - (BOOL) copyCachedFileForPath: (NSString *) cacheFilePath toPath: (NSString *) copiedFilePath;
 
-- (void) saveCachedFileForURL: (NSURL *) anURL savePanelAttachToWindow: (NSWindow *) aWindow;
+- (void) saveCachedFileForTokenAtIndex: (unsigned) index savePanelAttachToWindow: (NSWindow *) aWindow;
 
-- (BOOL) appendDataForURL: (NSURL *) source toPasteboard: (NSPasteboard *) pboard withFilenamesPboardType: (BOOL) filenamesType;
+- (void) addTokenForURL: (NSURL *) anURL;
+- (void) addToken: (BSIPIToken *) aToken;
+- (void) removeToken: (BSIPIToken *) aToken;
+- (void) removeTokenAtIndexes: (NSIndexSet *) indexes;
+
+- (BOOL) appendDataForTokenAtIndexes: (NSIndexSet *) indexes
+						toPasteboard: (NSPasteboard *) pboard
+			 withFilenamesPboardType: (BOOL) filenamesType;
 @end
-
-extern NSString *const kIPIHistoryItemURLKey;
-extern NSString *const kIPIHistoryItemPathKey;

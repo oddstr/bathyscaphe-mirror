@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRSpamFilter.m,v 1.2 2006/11/05 12:53:47 tsawada2 Exp $
+  * $Id: CMRSpamFilter.m,v 1.3 2007/01/07 17:04:23 masakih Exp $
   * 
   * CMRSpamFilter.m
   *
@@ -181,8 +181,10 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 
 - (void) setNoNameSetAtBoardOfThread: (CMRThreadSignature *) aThread forDetecter: (CMRSamplingDetecter *) detecter
 {
+	BoardManager *bM_ = [BoardManager defaultManager];
 	NSString *boardName_ = [aThread BBSName];
-	[detecter setNoNameSetAtWorkingBoard: [[BoardManager defaultManager] defaultNoNameSetForBoard: boardName_]];
+	[detecter setNoNameSetAtWorkingBoard: [bM_ defaultNoNameSetForBoard: boardName_]];
+	[detecter setNanashiAllowedAtWorkingBoard: [bM_ allowsNanashiAtBoard: boardName_]]; 
 }
 
 - (void) addSample : (CMRThreadMessage   *) aMessage

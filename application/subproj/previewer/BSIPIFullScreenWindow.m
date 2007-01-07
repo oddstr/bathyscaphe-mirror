@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIFullScreenWindow.m,v 1.4 2006/07/30 02:39:25 tsawada2 Exp $
+//  $Id: BSIPIFullScreenWindow.m,v 1.5 2007/01/07 17:04:24 masakih Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.
@@ -37,6 +37,24 @@
 {
     return YES;
 }
+
+// command+なんちゃらのキーボードショートカットをブロックする（メニューバーのあるウインドウがフルスクリーンに
+// なっているときのみ）
+/*- (BOOL) performKeyEquivalent: (NSEvent *) theEvent
+{
+	NSScreen *screen_ = [self screen];
+	if (!screen_) goto default_behavior;
+	
+	NSArray	*screens_ = [NSScreen screens];
+	if (!screens_ || [screens_ count] == 0) goto default_behavior;
+
+	if ((screen_ == [screens_ objectAtIndex: 0]) && ([theEvent modifierFlags] & NSCommandKeyMask > 0)) {
+		return YES;
+	}
+	
+default_behavior:
+	return [super performKeyEquivalent: theEvent];
+}*/
 
 //  Ask our delegate if it wants to handle keystroke or mouse events before we route them.
 - (void) sendEvent : (NSEvent *) theEvent

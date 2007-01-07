@@ -19,7 +19,7 @@
 
 #import "CMRBrowserTbDelegate.h"
 #import "CMRThreadsList.h"
-#import "CMXDateFormatter.h"
+//#import "CMXDateFormatter.h"
 
 #import "BSDBThreadList.h"
 
@@ -140,8 +140,8 @@
 - (AddBoardSheetController *) addBoardSheetController;
 - (EditBoardSheetController *) editBoardSheetController;
 
-- (NSString *) currentSearchString;
-- (void) setCurrentSearchString: (NSString *) newString;
+//- (NSString *) currentSearchString;
+//- (void) setCurrentSearchString: (NSString *) newString;
 @end
 
 @interface CMRBrowser(UIComponents)

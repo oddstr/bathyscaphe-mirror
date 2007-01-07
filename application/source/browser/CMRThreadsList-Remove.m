@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-Remove.m,v 1.8 2006/11/13 14:07:41 masakih Exp $
+  * $Id: CMRThreadsList-Remove.m,v 1.9 2007/01/07 17:04:23 masakih Exp $
   * 
   * CMRThreadsList-Remove.m
   *
@@ -8,6 +8,7 @@
   */
 #import "CMRThreadsList_p.h"
 #import "CMRReplyDocumentFileManager.h"
+#import "NSIndexSet+BSAddition.h"
 
 @implementation CMRThreadsList(CleanUp)
 - (void) trashDidPerformNotification : (NSNotification *) notification
@@ -58,12 +59,14 @@
 	   removeItems : (NSArray	  *) rows
  delFavIfNecessary : (BOOL         ) flag
 {
-	
+/*	
 	NSArray				*pathArray_;
 	
 	pathArray_ = [self threadFilePathArrayWithRowIndexArray : rows 
 												inTableView : tableView];
-	return [self tableView : tableView removeFiles : pathArray_ delFavIfNecessary : flag];
+	return [self tableView : tableView removeFiles : pathArray_ delFavIfNecessary : flag];*/
+	NSIndexSet	*indexSet = [NSIndexSet rowIndexesWithRows: rows];
+	return [self tableView: tableView removeIndexSet: indexSet delFavIfNecessary: flag];
 }
 
 - (BOOL) tableView : (NSTableView	*) tableView

@@ -1,3 +1,6 @@
+2007-01-08 masakih <masakih@users.sourceforge.jp>
+	MeteorSweeper-BRANCH よりマージ
+	cvs -z3 up -j v130_FINAL -j v131_FINAL
 2007-01-07 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSThreadsListOPTask.m:
 		HTTPレスポンスでステータス200を返すサーバ移動にも追随するようにした。

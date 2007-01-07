@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.27 2007/01/07 08:28:02 masakih Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.28 2007/01/07 17:04:23 masakih Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -286,7 +286,6 @@ BOOL isOptionKeyDown(unsigned flag_)
 	[CMRPref setThreadsListTableColumnState : [[self threadsListTable] columnState]];
 }
 
-
 // そのセルの内容が「...」で省略表示されているのかどうか判別するよい方法が無いなぁ
 - (NSString *) tableView : (NSTableView *) aTableView
 		  toolTipForCell : (NSCell *) aCell
@@ -429,6 +428,8 @@ BOOL isOptionKeyDown(unsigned flag_)
 		return;
 	
 	[BSDBThreadList resetDataSourceTemplates];
+	// MERGE check me!!
+	[BSDBThreadList resetDataSourceTemplateForDateColumn];
 	[self updateDefaultsWithTableView : [self threadsListTable]];
 	[self setupBoardListOutlineView : [self boardListTable]];
 	[[self threadsListTable] setNeedsDisplay : YES];
@@ -465,9 +466,6 @@ BOOL isOptionKeyDown(unsigned flag_)
 	UTILAssertNotificationObject(
 		notification,
 		currentList);
-	
-//	NSLog(@"threadsListDidChange updateDateFormatter");
-	[[[self threadsListTable] dataSource] updateDateFormatter];
 
 	[[self threadsListTable] reloadData];
 
@@ -501,9 +499,6 @@ BOOL isOptionKeyDown(unsigned flag_)
 	
 //	[[self currentThreadsList] filterByDisplayingThreadAtPath : [self path]];
 	[self synchronizeWithSearchField];
-
-//	NSLog(@"threadsListDidFinishUpdate updateDateFormatter");
-	[[[self threadsListTable] dataSource] updateDateFormatter];
 
 	[[self threadsListTable] reloadData];
 	[self selectCurrentThreadWithMask : mask_];

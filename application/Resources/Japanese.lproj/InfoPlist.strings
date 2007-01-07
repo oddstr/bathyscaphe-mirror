@@ -1,14 +1,22 @@
-/* Localized versions of Info.plist keys */
-
-CFBundleName = "Starlight Breaker";
-CFBundleShortVersionString = "1.5 SB1";
-/*CFBundleGetInfoString = "1.5 SB1, Copyright (c) 2005-2007 tsawada2.";*/
-NSHumanReadableCopyright = "Copyright © 2005-2007 tsawada2 & BathyScaphe Project, All Rights Reserved.";
-
-/* Help */
-CFBundleHelpBookName = "BathyScaphe ヘルプ";
-
-/* Document Types */
-"CocoMonar Log Format" = "BathyScaphe ログ書類";
-"CocoMonar 2ch Format" = "BathyScaphe 2ch Format";
-"CocoMonar Reply Format" = "BathyScaphe 下書き書類";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleGetInfoString</key>
+	<string>1.5 SB1, Copyright © 2005-2007 tsawada2.</string>
+	<key>CFBundleHelpBookName</key>
+	<string>Starlight Breaker ヘルプ</string>
+	<key>CFBundleName</key>
+	<string>Starlight Breaker</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.5 SB1</string>
+	<key>CocoMonar 2ch Format</key>
+	<string>BathyScaphe 2ch Format</string>
+	<key>CocoMonar Log Format</key>
+	<string>BathyScaphe ログ書類</string>
+	<key>CocoMonar Reply Format</key>
+	<string>BathyScaphe 下書き書類</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © 2005-2007 tsawada2, All Rights Reserved.</string>
+</dict>
+</plist>

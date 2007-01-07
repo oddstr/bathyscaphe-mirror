@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.31 2006/11/05 12:53:48 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.32 2007/01/07 17:04:23 masakih Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -22,6 +22,8 @@
 // for debugging only
 #define UTIL_DEBUGGING		0
 #import "UTILDebugging.h"
+
+#define kThreadInfoTempFile			@"ThreadInfoTemplate.rtf"
 
 // 1.3 暫定
 // いずれ SGAppKit に移す予定
@@ -109,64 +111,15 @@
 	NSEnumerator		*Iter_;
 	NSDictionary		*threadAttributes_;
 	
-	int aType = [CMRPref openInBrowserType];
-	
 	Iter_ = [threads objectEnumerator];
 	while ((threadAttributes_ = [Iter_ nextObject])) {
 		NSURL			*url_;
-		
-		switch(aType) {
-		case BSOpenInBrowserLatestFifty:
-			url_ = [CMRThreadAttributes threadURLWithLatestParamFromDict : threadAttributes_ resCount : 50];
-			break;
-		case BSOpenInBrowserFirstHundred:
-			url_ = [CMRThreadAttributes threadURLWithHeaderParamFromDict : threadAttributes_ resCount : 100];
-			break;
-		default:
-			url_ = [CMRThreadAttributes threadURLFromDictionary : threadAttributes_];
-			break;
-		}
+		url_ = [CMRThreadAttributes threadURLWithDefaultParameterFromDictionary: threadAttributes_];
 		[[NSWorkspace sharedWorkspace] openURL : url_ inBackGround : [CMRPref openInBg]];
 	}
 }
-/*
-- (void) openThreadsLogFiles : (NSArray *) threads
-{
-	NSEnumerator		*Iter_;
-	NSDictionary		*threadAttributes_;
-	
-	Iter_ = [threads objectEnumerator];
-	while ((threadAttributes_ = [Iter_ nextObject])) {
-		NSString			*filepath_;
-		
-		filepath_ =  [CMRThreadAttributes pathFromDictionary : threadAttributes_];
-		[[NSWorkspace sharedWorkspace]
-					openFile : filepath_
-			 withApplication : @"Property List Editor.app"];
-	}
-}	
-*/	
 @end
 
-#pragma mark -
-
-//
-// Show Thread's Information
-//
-#define kCopyThreadFormatKey		@"Thread - CopyThreadFormat"
-#define kThreadInfoTempFile			@"ThreadInfoTemplate.rtf"
-
-#define kCopyThreadBBSNameKey		@"%%%BBSName%%%"
-#define kCopyThreadBBSURLKey		@"%%%BBSURL%%%"
-#define kCopyThreadTitleKey			@"%%%ThreadTitle%%%"
-#define kCopyThreadPathKey			@"%%%ThreadPath%%%"
-#define kCopyThreadURLKey			@"%%%ThreadURL%%%"
-#define kCopyThreadDATSizeKbKey		@"%%%DATSize-KB%%%"
-#define kCopyThreadDATSizeKey		@"%%%DATSize%%%"
-#define kCopyThreadCreatedDateKey	@"%%%CreatedDate%%%"
-#define kCopyThreadModifiedDateKey	@"%%%ModifiedDate%%%"
-
-#pragma mark -
 
 @implementation CMRThreadViewer(Action)
 - (NSArray *) targetThreadsForAction : (SEL) action
@@ -222,15 +175,6 @@
 	[task release];
 }
 
-// invoke by CMRThreadDownloadTask...
-// NOTE: it should be removed!
-/*
-- (id) startDownload_veryPrivate
-{
-	[self reloadThread];
-	return [NSNull null];
-}
-*/
 #pragma mark Show & Copy Thread Info
 
 - (NSPoint) locationForInformationPopUp
@@ -248,66 +192,6 @@
 	loc = [docView_ convertPoint:loc toView:nil];
 	loc = [[docView_ window] convertBaseToScreen : loc];
 	return loc;
-}
-- (void) replaceKeywords : (NSMutableString *) theBuffer
-              dictionary : (NSDictionary    *) theThread
-{
-	static NSString *const kNFStringValue = @" - ";
-	id		v = nil;
-	NSString	*s;
-	unsigned	 bytes;
-	
-	SEL		messages[] = {
-				@selector(boardURLFromDictionary:),
-				@selector(threadURLFromDictionary:),
-				@selector(boardNameFromDictionary:),
-				@selector(threadTitleFromDictionary:),
-				@selector(createdDateFromDictionary:),
-				@selector(modifiedDateFromDictionary:),
-				NULL};
-	NSString *keys[] = {
-				kCopyThreadBBSURLKey,
-				kCopyThreadURLKey,
-				kCopyThreadBBSNameKey,
-				kCopyThreadTitleKey,
-				kCopyThreadCreatedDateKey,
-				kCopyThreadModifiedDateKey,
-				nil};
-	
-	SEL			*mp;
-	NSString	**key;
-	
-	for (mp = messages, key = keys; *mp != NULL && *key != nil; mp++, key++) {
-		v = [CMRThreadAttributes performSelector : *mp
-									  withObject : theThread];
-		s = v ? [v stringValue] : kNFStringValue;
-		[theBuffer replaceCharacters:*key toString:s];
-	}
-	
-	// dat size (bytes)
-	v = [theThread numberForKey : ThreadPlistLengthKey];
-	s = v ? [v stringValue] : kNFStringValue;
-	[theBuffer replaceCharacters:kCopyThreadDATSizeKey toString:s];
-	
-	// dat size (Kb)
-	v = [theThread numberForKey : ThreadPlistLengthKey];
-	bytes = v ? [v unsignedIntValue] : 0;
-	bytes /=  1024;
-	v = (0 == bytes) ? nil : [NSNumber numberWithUnsignedInt : bytes];
-	s = v ? [v stringValue] :  kNFStringValue;
-	[theBuffer replaceCharacters:kCopyThreadDATSizeKbKey toString:s];
-
-	// location of thread log file
-	s = [CMRThreadAttributes pathFromDictionary : theThread];
-	v = s ? [SGFileRef fileRefWithPath : s] : nil;
-	s = [v displayPath];
-	if (nil == s) s = kNFStringValue;
-	[theBuffer replaceCharacters:kCopyThreadPathKey toString:s];
-}
-- (void) replaceKeywords : (NSMutableString     *) theBuffer
-              attributes : (CMRThreadAttributes *) theThread
-{
-	[self replaceKeywords:theBuffer dictionary:[theThread dictionaryRepresentation]];
 }
 
 - (NSString *) templateFilepathForInfoPopUp
@@ -352,8 +236,7 @@
 	
 	location_ = [self locationForInformationPopUp];
 	
-	[self replaceKeywords : [tmp mutableString] 
-	           attributes : [self threadAttributes]];
+	[CMRThreadAttributes replaceKeywords: [tmp mutableString] attributes: [self threadAttributes]];
 	[CMRPopUpMgr showPopUpWindowWithContext : tmp
 								  forObject : [self path]
 									  owner : self
@@ -363,28 +246,17 @@
 
 - (IBAction) copyThreadAttributes : (id) sender
 {
-	NSEnumerator	*iter_;
-
-	iter_ = [[self targetThreadsForAction: _cmd] objectEnumerator];
-	if (!iter_) return;
+	NSArray *array_ = [self targetThreadsForAction: _cmd];
 
 	NSMutableString	*tmp;
-	NSString		*template_;
 	NSURL			*url_ = nil;
 	NSPasteboard	*pboard_ = [NSPasteboard generalPasteboard];
 	NSArray			*types_;
-	NSDictionary	*dict_;
-
-	template_ = SGTemplateResource(kCopyThreadFormatKey);
-	UTILAssertKindOfClass(template_, NSString);
 	
 	tmp = SGTemporaryString();
 
-	while (dict_ = [iter_ nextObject]) {
-		[tmp appendString: template_];
-		[self replaceKeywords: tmp dictionary: dict_];
-		url_ = [CMRThreadAttributes threadURLFromDictionary: dict_];
-	}
+	[CMRThreadAttributes fillBuffer: tmp withThreadInfoForCopying: array_];
+	url_ = [CMRThreadAttributes threadURLFromDictionary: [array_ lastObject]];
 	
 	types_ = [NSArray arrayWithObjects: NSURLPboardType, NSStringPboardType, nil];
 	[pboard_ declareTypes: types_ owner: nil];
@@ -634,12 +506,7 @@
 {
 	[self openThreadsInBrowser: [self targetThreadsForAction: _cmd]];
 }
-/*
-- (IBAction) openLogfile : (id) sender
-{
-	[self openThreadsLogFiles: [self targetThreadsForAction: _cmd]];
-}
-*/
+
 - (IBAction) addFavorites : (id) sender
 {
 	NSEnumerator			*Iter_;
@@ -717,5 +584,55 @@
 	board = [self boardNameArrowingSecondSource];
 
 	[[BSBoardInfoInspector sharedInstance] showInspectorForTargetBoard : board];
+}
+
+#pragma mark Available in ReinforceII and Later
+- (void) scaleTextView: (float) rate
+{
+	NSClipView *clipView_ = [[self scrollView] contentView];
+	NSTextView *textView_ = [self textView];
+
+	unsigned int curIndex = [[self threadLayout] messageIndexForDocuemntVisibleRect];
+
+	NSSize	curBoundsSize = [clipView_ bounds].size;	
+	NSSize	curFrameSize = [textView_ frame].size;
+
+	[clipView_ setBoundsSize: NSMakeSize(curBoundsSize.width*rate, curBoundsSize.height*rate)];
+	[textView_ setFrameSize: NSMakeSize(curFrameSize.width*rate, curFrameSize.height*rate)];
+
+	[clipView_ setNeedsDisplay: YES]; // really need?
+
+	[clipView_ setCopiesOnScroll: NO]; // これがキモ
+	[[self threadLayout] scrollMessageAtIndex: curIndex]; // スクロール位置補正
+
+	// テキストビューやクリップビューだけ再描画させても良さそうだが、
+	// 時々ツールバーとの境界線が消えてしまうことがあるので、ウインドウごと再描画させる
+	[[self window] display]; 
+	[clipView_ setCopiesOnScroll: YES];
+}
+
+- (IBAction) biggerText: (id) sender
+{
+	[self scaleTextView: 0.8];
+}
+
+- (IBAction) smallerText: (id) sender
+{
+	[self scaleTextView: 1.25];
+}
+
+
+- (IBAction) scaleSegmentedControlPushed : (id) sender
+{
+	int	i;
+	i = [sender selectedSegment];
+
+	if (i == -1) {
+		NSLog(@"No selection?");
+	} else if (i == 1) {
+		[self biggerText : nil];
+	} else {
+		[self smallerText : nil];
+	}
 }
 @end

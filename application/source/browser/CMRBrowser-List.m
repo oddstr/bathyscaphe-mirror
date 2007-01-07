@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.19 2007/01/07 08:28:02 masakih Exp $
+  * $Id: CMRBrowser-List.m,v 1.20 2007/01/07 17:04:23 masakih Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -43,9 +43,7 @@
 						   oldDelegate : [self currentThreadsList]
 						   newDelegate : newList];
 	
-	if(![[self threadsListTable] dataSource]) {
-		[[self threadsListTable] setDataSource : newList];
-	}
+	[[self threadsListTable] setDataSource : newList];
 	[[self document] setCurrentThreadsList : newList];
 
 	[self clearSearchFilter];

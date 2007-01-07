@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.43 2006/11/05 12:53:47 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.44 2007/01/07 17:04:23 masakih Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -14,7 +14,6 @@
 #import "CMRTextColumnCell.h"
 #import <SGAppKit/CMRPullDownIconBtn.h>
 #import <SGAppKit/BSIconAndTextCell.h>
-
 
 @implementation CMRBrowser(ViewAccessor)
 - (CMRThreadViewer *) threadViewer
@@ -95,7 +94,7 @@
 	}
 	return m_editBoardSheetController;
 }
-
+/*
 - (NSString *) currentSearchString
 {
 	return [[self document] searchString];
@@ -104,7 +103,7 @@
 - (void) setCurrentSearchString: (NSString *) newString
 {
 	[[self document] setSearchString: newString];
-}
+}*/
 @end
 
 @implementation CMRBrowser(UIComponents)
@@ -253,21 +252,6 @@
 	[(ThreadsListTable *)tableView setInitialState];
 }
 
-
-- (void) setupDateFormaterWithTableColumn : (NSTableColumn *) column
-{
-    NSCell                *dataCell_;
-    NSDateFormatter        *formater_;
-    
-    if (nil == column) return;
-    
-    dataCell_ = [column dataCell];
-    UTILAssertNotNil(dataCell_);
-    
-    formater_ = [CMXDateFormatter sharedInstance];
-    [dataCell_ setFormatter : formater_];
-}
-
 - (void) setupStatusColumnWithTableColumn : (NSTableColumn *) column
 {
     NSImage            *statusImage_;
@@ -320,7 +304,6 @@
 */
 - (void) setupTableColumn : (NSTableColumn *) column
 {
-    CMRTextColumnCell    *cell_;
 /*	
 	NSSortDescriptor *desc;
 	id key = nil;
@@ -341,17 +324,17 @@
         [self setupStatusColumnWithTableColumn : column];
         return;
     }
-    
-    cell_ = [[CMRTextColumnCell alloc] initTextCell : @""];
-    [cell_ setAttributesFromCell : [column dataCell]];
-    [column setDataCell : cell_];
-    [cell_ release];
 
-    if ( [CMRThreadModifiedDateKey isEqualToString : [column identifier]] ||
-         [CMRThreadCreatedDateKey isEqualToString : [column identifier]])
-        [self setupDateFormaterWithTableColumn : column];
-		
-	[[column dataCell] setWraps : YES];
+	id dataCell = [column dataCell];
+	[dataCell setWraps: YES];
+	[dataCell setDrawsBackground: NO];
+
+	if ([dataCell alignment] == NSRightTextAlignment) {
+		CMRTextColumnCell	*cell_ = [[CMRTextColumnCell alloc] initTextCell: @""];
+		[cell_ setAttributesFromCell: dataCell];
+		[column setDataCell: cell_];
+		[cell_ release];
+	}
 }
 @end
 
@@ -380,10 +363,10 @@
 	[[[self scrollView] horizontalRulerView] setNeedsDisplay: YES];
 }
 
-+ (float) navBarSubviewsAdjustValue
+/*+ (float) navBarSubviewsAdjustValue
 {
-	return 0.0;
-}
+	return 1.0;
+}*/
 
 - (void) setupSplitView
 {
@@ -392,10 +375,13 @@
 	NSArray			*subviewsAry_ = [splitView_ subviews];
 
     [splitView_ setVertical : isGoingToVertical];
+	[[[self threadsListTable] enclosingScrollView] setBorderType: NSNoBorder];
 	[[[self threadsListTable] enclosingScrollView] setHasHorizontalScroller : isGoingToVertical];
 
     topSubview = [subviewsAry_ objectAtIndex : 0];
     bottomSubview = [subviewsAry_ objectAtIndex : 1];
+	
+	[RBSplitView setCursor: RBSVDragCursor toCursor: [NSCursor resizeLeftRightCursor]];
 }
 
 - (void) updateDefaultsWithTableView : (NSTableView *) tbview
@@ -441,7 +427,7 @@
     [tbView_ setDoubleAction : @selector(listViewDoubleAction:)];
 	
 	// Favorites Item's Drag & Drop operation support:
-	[tbView_ registerForDraggedTypes : [NSArray arrayWithObjects : CMRFavoritesItemsPboardType, nil]];
+	[tbView_ registerForDraggedTypes : [NSArray arrayWithObjects : BSFavoritesIndexSetPboardType, nil]];
     
     [tbView_ setAutosaveTableColumns : NO];
     [tbView_ setVerticalMotionCanBeginDrag : NO];
@@ -493,6 +479,7 @@
 - (void) setupBoardListTableDefaults
 {
     [self setupBoardListOutlineView : [self boardListTable]];
+	[[[self boardListTable] enclosingScrollView] setBorderType: NSNoBorder];
     
     [[self boardListTable] setDelegate : self];
 	[[self boardListTable] setAutosaveName : APP_BROWSER_THREADSLIST_TABLE_AUTOSAVE_NAME];

@@ -20,15 +20,18 @@
 	IBOutlet NSButton		*m_addNoNameBtn;
 	IBOutlet NSButton		*m_removeNoNameBtn;
 	IBOutlet NSButton		*m_editNoNameBtn;
-	//IBOutlet NSButton		*m_detectSettingTxtBtn;
+	IBOutlet NSButton		*m_detectSettingTxtBtn;
 	IBOutlet NSButton		*m_helpButton;
 	IBOutlet NSButton		*m_lockButton;
 	IBOutlet NSTextField	*m_URLField;
 	IBOutlet NSView			*m_namesTable;
 	IBOutlet NSArrayController	*m_greenCube;
+	IBOutlet NSProgressIndicator	*m_spin;
 }
 
 + (id) sharedInstance;
+
+- (void) showInspectorForTargetBoard : (NSString *) boardName;
 
 // Accessor
 - (NSString *) currentTargetBoardName;
@@ -38,22 +41,27 @@
 - (NSButton *) addNoNameBtn;
 - (NSButton *) removeNoNameBtn;
 - (NSButton *) editNoNameBtn;
-//- (NSButton *) detectSettingTxtBtn;
+- (NSButton *) detectSettingTxtBtn;
 - (NSButton *) lockButton;
 - (NSTextField *) URLField;
 - (NSArrayController *) greenCube;
+- (NSProgressIndicator *) spin;
 
 // IBAction
 - (IBAction) addNoName : (id) sender;
 - (IBAction) editNoName: (id) sender;
-//- (IBAction) startDetect: (id) sender;
+- (IBAction) startDetect: (id) sender;
+- (IBAction) toggleAllowEditingBoardURL: (id) sender;
 - (IBAction) openHelpForMe : (id) sender;
 
 // Binding
 - (NSMutableArray *) noNamesArray;
+- (void) setNoNamesArray: (NSMutableArray *) anArray;
 
 - (NSString *) boardURLAsString;
 - (BOOL) shouldEnableUI;
+- (BOOL) shouldEnableBeBtn;
+- (BOOL) shouldEnableURLEditing;
 
 - (NSString *) defaultKotehan;
 - (void) setDefaultKotehan : (NSString *) fieldValue;
@@ -64,17 +72,14 @@
 - (BOOL) shouldAlwaysBeLogin;
 - (void) setShouldAlwaysBeLogin : (BOOL) checkboxState;
 
-// Availabe in LittleWish and later.
 - (BOOL) shouldAllThreadsAAThread;
 - (void) setShouldAllThreadsAAThread : (BOOL) checkboxState;
 
 - (NSImage *) icon;
-- (BOOL) shouldEnableBeBtn;
 
-// method
-- (void) showInspectorForTargetBoard : (NSString *) boardName;
-- (IBAction) toggleAllowEditingBoardURL: (id) sender;
+- (int) nanashiAllowed;
 
+// Notification
 - (void) mainWindowChanged : (NSNotification *) theNotification;
 - (void) browserBoardChanged : (NSNotification *) theNotification;
 - (void) viewerThreadChanged : (NSNotification *) theNotification;

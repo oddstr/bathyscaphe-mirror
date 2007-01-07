@@ -15,6 +15,7 @@ static NSString *const NNDDefaultKotehanKey = @"DefaultReplyName";
 static NSString *const NNDDefaultMailKey	= @"DefaultReplyMail";
 static NSString *const NNDAllThreadsAAKey	= @"AABoard";
 static NSString *const NNDBeLoginPolicyTypeKey = @"BeLoginPolicy";
+static NSString *const NNDAllowsNanashiKey	= @"AllowsNanashi";
 
 extern NSImage  *imageForType(BoardListItemType type); // described in BoardList-OVDatasource.m
 
@@ -606,6 +607,19 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 	}
 }
 
+#pragma mark ReinforceII Addition
+- (BOOL) allowsNanashiAtBoard: (NSString *) boardName
+{
+	return [self boolValueForBoard: boardName
+	                           key: NNDAllowsNanashiKey
+	                  defaultValue: YES];
+}
+
+- (void) setAllowsNanashi: (BOOL) allows atBoard: (NSString *) boardName
+{
+    [self setBoolValue: allows forKey: NNDAllowsNanashiKey atBoard: boardName];
+}
+
 #pragma mark -
 
 - (NSString *) askUserAboutDefaultNoNameForBoard : (NSString *) boardName
@@ -628,6 +642,7 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 
 - (BOOL) needToDetectNoNameForBoard: (NSString *) boardName
 {
+	if ([boardName isEqualToString: BSbbynewsBoardName]) return NO;
 	NSSet *set_ = [self defaultNoNameSetForBoard: boardName];
 	if (!set_ || [set_ count] == 0) return YES;
 	

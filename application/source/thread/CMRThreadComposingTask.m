@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadComposingTask.m,v 1.2 2006/02/08 21:24:39 tsawada2 Exp $
+  * $Id: CMRThreadComposingTask.m,v 1.3 2007/01/07 17:04:23 masakih Exp $
   * 
   * CMRThreadComposingTask.m
   *
@@ -17,7 +17,7 @@
 #define MARKED_RANGE_LENGTH		5
 
 NSString *const CMRThreadComposingDidFinishNotification = @"CMRThreadComposingDidFinishNotification";
-NSString *const CMRThreadComposingCallbackNotification = @"CMRThreadComposingCallbackNotification";
+//NSString *const CMRThreadComposingCallbackNotification = @"CMRThreadComposingCallbackNotification";
 
 
 
@@ -28,9 +28,9 @@ NSString *const CMRThreadComposingCallbackNotification = @"CMRThreadComposingCal
 }
 - (id) init
 {
-	if (self = [super init]) 
+	if (self = [super init]) {
 		[self setCallbackIndex : NSNotFound];
-	
+	}
 	return self;
 }
 - (id) initWithThreadReader : (CMRThreadContentsReader *) aReader
@@ -44,7 +44,8 @@ NSString *const CMRThreadComposingCallbackNotification = @"CMRThreadComposingCal
 {
 	[_threadTitle release];
 	[_reader release];
-	[_delegate release];
+
+	_delegate = nil;
 	[super dealloc];
 }
 
@@ -102,7 +103,7 @@ NSString *const CMRThreadComposingCallbackNotification = @"CMRThreadComposingCal
 	_callbackIndex = aCallbackIndex;
 }
 
-- (void) postCallbackIndexNotification
+/*- (void) postCallbackIndexNotification
 {
 	[self checkIsInterrupted];
 	if ([self callbackIndex] != NSNotFound) {
@@ -112,7 +113,7 @@ NSString *const CMRThreadComposingCallbackNotification = @"CMRThreadComposingCal
 		[self setCallbackIndex : NSNotFound];
 	}
 	[self checkIsInterrupted];
-}
+}*/
 // 追加して、バッファを消去
 - (void) performsAppendingTextFromBuffer : (NSMutableAttributedString *) aTextBuffer
 {
@@ -163,9 +164,6 @@ NSString *const CMRThreadComposingCallbackNotification = @"CMRThreadComposingCal
 }
 - (void) setDelegate : (id) aDelegate
 {
-	[aDelegate retain];
-	[_delegate release];
-
 	_delegate = aDelegate;
 }
 - (BOOL) delegate_willCompleteMessages : (CMRThreadMessageBuffer *) aMessageBuffer
@@ -250,8 +248,8 @@ NSString *const CMRThreadComposingCallbackNotification = @"CMRThreadComposingCal
 			[self performsAppendingTextFromBuffer : textBuffer_];
 			textLength_ = [textStorage_ length];
 			// コールバック
-			if ([m index] >= [self callbackIndex])
-				[self postCallbackIndexNotification];
+//			if ([m index] >= [self callbackIndex])
+//				[self postCallbackIndexNotification];
 		}
 	}
 	
@@ -261,7 +259,7 @@ NSString *const CMRThreadComposingCallbackNotification = @"CMRThreadComposingCal
 			fromIndex:ellipsisIndex toIndex:[[buffer_ lastMessage] index]];
 	}
 	[self performsAppendingTextFromBuffer : textBuffer_];
-	[self postCallbackIndexNotification];
+//	[self postCallbackIndexNotification];
 	
 	
 	[CMRMainMessenger postNotificationName : CMRThreadComposingDidFinishNotification

@@ -2,7 +2,7 @@
     IBClasses = (
         {CLASS = BSWindow; LANGUAGE = ObjC; SUPERCLASS = NSWindow; }, 
         {
-            ACTIONS = {deleteMail = id; insertSage = id; pasteAsQuotation = id; }; 
+            ACTIONS = {deleteMail = id; insertSage = id; pasteAsQuotation = id; toggleBeLogin = id; }; 
             CLASS = CMRReplyController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
@@ -34,12 +34,8 @@
             SUPERCLASS = NSObject; 
         }, 
         {
+            ACTIONS = {cancelCurrentTask = id; saveAsDefaultFrame = id; }; 
             CLASS = CMRStatusLineWindowController; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = CMRToolbarWindowController; 
-        }, 
-        {
-            CLASS = CMRToolbarWindowController; 
             LANGUAGE = ObjC; 
             OUTLETS = {"m_toolbarDelegateImp" = id; }; 
             SUPERCLASS = NSWindowController; 

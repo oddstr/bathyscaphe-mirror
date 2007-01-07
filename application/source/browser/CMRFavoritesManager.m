@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFavoritesManager.m,v 1.15 2006/11/09 16:54:52 masakih Exp $
+  * $Id: CMRFavoritesManager.m,v 1.16 2007/01/07 17:04:23 masakih Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
@@ -58,9 +58,19 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	return self;
 }
 
+- (void) saveToFile: (NSTimer *) aTimer
+{
+	[[self favoritesItemsArray] writeToFile : [[self class] defaultFilepath]
+								 atomically : YES];
+	[[self changedFavItemsPool] writeToFile : [[self class] subFilepath]
+								 atomically : YES];
+}
+
 - (void) dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver : self];
+	[m_writeTimer invalidate];
+	[m_writeTimer release];
 	[_favoritesItemsArray release];
 	[_favoritesItemsIndex release];
 	[_changedFavItemsPool release];
@@ -75,12 +85,13 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 //	UTILAssertNotificationObject(
 //		notification,
 //		NSApp);	
-//	
+///*	
 //	[[self favoritesItemsArray] writeToFile : [[self class] defaultFilepath]
 //								 atomically : YES];
 //	[[self changedFavItemsPool] writeToFile : [[self class] subFilepath]
 //								 atomically : YES];
-
+//*/
+//	[self saveToFile: nil];
 }
 
 
@@ -383,47 +394,61 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 }
 
 #pragma mark -
-
-- (int) insertFavItemsTo : (int) index withIndexArray : (NSArray *) indexArray_ isAscending : (BOOL) isAscending_
+- (NSIndexSet *) convertIndexesWithDescendingSortedRows: (NSIndexSet *) descendingIndexSet count: (unsigned int) count
 {
-	NSEnumerator	*iter_;
-	NSNumber		*num;
-	int				c;
+	NSMutableIndexSet	*result = [NSMutableIndexSet indexSet];
+	unsigned int	currentIndex, i, numOfElms = [descendingIndexSet count];
 	
-	NSMutableArray	*insertArray_;
-	NSMutableArray	*aboveArray_;
-	NSMutableArray	*belowArray_;
-
-	NSArray			*originalArray_ = [self favoritesItemsArray];
-
-	NSMutableArray	*newFavAry_;
-	
-	if (indexArray_ == nil || [indexArray_ count] == 0) return index;
-	c = [[self favoritesItemsArray] count];
-	
-	index = isAscending_ ? index : (c - index); 
-	
-	insertArray_ = [NSMutableArray arrayWithCapacity : c];
-	
-	aboveArray_ = [NSMutableArray arrayWithArray : 
-								[originalArray_ subarrayWithRange : NSMakeRange(0, index)]];
-	belowArray_ = [NSMutableArray arrayWithArray :
-								[originalArray_ subarrayWithRange : NSMakeRange(index, (c - index))]];
-	
-	iter_ = isAscending_ ? [indexArray_ objectEnumerator] : [indexArray_ reverseObjectEnumerator];
-	
-	while ((num = [iter_ nextObject]) != nil) {
-		id	favItem;
-		int	n = [num intValue];
-		favItem = isAscending_ ? [originalArray_ objectAtIndex : n]
-							   : [originalArray_ objectAtIndex : ((c - n) - 1)];
-
-		[insertArray_ addObject : favItem];
-		[aboveArray_ removeObject : favItem];
-		[belowArray_ removeObject : favItem];
+	currentIndex = [descendingIndexSet firstIndex];
+	for (i = 0; i < numOfElms; i++) {
+		unsigned int	convertedIndex = count - currentIndex - 1;
+		[result addIndex: convertedIndex];
+		
+		currentIndex = [descendingIndexSet indexGreaterThanIndex: currentIndex];
 	}
 	
-	newFavAry_ = [[NSMutableArray alloc] initWithCapacity : c];
+	return result;
+}
+
+- (NSIndexSet *) insertFavItemsWithIndexes: (NSIndexSet *) indexSet atIndex: (unsigned int) index isAscending: (BOOL) isAscending
+{
+	NSMutableArray	*insertArray_, *aboveArray_, *belowArray_, *newFavAry_;
+	NSRange			aboveAryRange, belowAryRange;
+	unsigned int	countOfFavItms, c_insertionIndex, numOfDraggedRows, insertedPoint;
+	unsigned int	currentIndex, i;
+	NSIndexSet		*c_indexes, *indexesForRowSelect;
+	NSArray			*favItmsAry = [self favoritesItemsArray];
+	
+	if (indexSet == nil || (numOfDraggedRows = [indexSet count]) == 0) return nil;
+
+	countOfFavItms = [favItmsAry count];
+	
+	c_insertionIndex = isAscending ? index : (countOfFavItms - index);
+	c_indexes = isAscending ? indexSet : [self convertIndexesWithDescendingSortedRows: indexSet count: countOfFavItms];
+	
+	insertArray_ = [[NSMutableArray alloc] initWithCapacity: numOfDraggedRows];
+
+	aboveAryRange = NSMakeRange(0, c_insertionIndex);
+	belowAryRange = NSMakeRange(c_insertionIndex, (countOfFavItms - c_insertionIndex));
+
+	aboveArray_ = [[NSMutableArray alloc] initWithArray: [favItmsAry subarrayWithRange: aboveAryRange]];
+	belowArray_ = [[NSMutableArray alloc] initWithArray: [favItmsAry subarrayWithRange: belowAryRange]];
+
+	currentIndex = [c_indexes firstIndex];
+	for (i = 0; i < numOfDraggedRows; i++) {
+		id item_ = [favItmsAry objectAtIndex: currentIndex];
+		[insertArray_ addObject: item_];
+
+		if (NSLocationInRange(currentIndex, aboveAryRange)) {
+			[aboveArray_ removeObject: item_];
+		} else if (NSLocationInRange(currentIndex, belowAryRange)) {
+			[belowArray_ removeObject: item_];
+		}
+
+		currentIndex = [c_indexes indexGreaterThanIndex: currentIndex];
+	}
+	
+	newFavAry_ = [[NSMutableArray alloc] initWithCapacity : countOfFavItms];
 	[newFavAry_ addObjectsFromArray : aboveArray_];
 	[newFavAry_ addObjectsFromArray : insertArray_];
 	[newFavAry_ addObjectsFromArray : belowArray_];
@@ -431,11 +456,17 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	[self setFavoritesItemsArray : newFavAry_];
 	[newFavAry_ release];
 
-	// Žè”²‚«
 	[self setFavoritesItemsIndex : nil];
 	[self favoritesItemsIndex];
 	
-	return isAscending_ ? [aboveArray_ count] : [belowArray_ count];
+	insertedPoint = isAscending ? [aboveArray_ count] : [belowArray_ count];
+	indexesForRowSelect = [NSIndexSet indexSetWithIndexesInRange: NSMakeRange(insertedPoint, numOfDraggedRows)];
+	
+	[aboveArray_ release];
+	[insertArray_ release];
+	[belowArray_ release];
+	
+	return indexesForRowSelect;
 }
 
 #pragma mark -

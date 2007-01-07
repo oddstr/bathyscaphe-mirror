@@ -1,6 +1,6 @@
 //: CMRHostHandler.m
 /**
-  * $Id: CMRHostHandler.m,v 1.5 2006/06/01 15:12:33 tsawada2 Exp $
+  * $Id: CMRHostHandler.m,v 1.6 2007/01/07 17:04:23 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -37,7 +37,7 @@
 // @see readURLWithBoard:datName:
 #define READ_URL_FORMAT_DEF		@"%@?%@=%@&%@=%@"
 #define READ_URL_FORMAT_2CH		@"%@/%s/%@/"
-#define READ_URL_FORMAT_SHITARABA	@"%@/%@/%s/%@/"
+//#define READ_URL_FORMAT_SHITARABA	@"%@/%@/%s/%@/"
 
 @implementation CMRHostHandler
 + (SGBaseCArrayWrapper *) registeredHostHandlers
@@ -55,7 +55,7 @@
 	[self registerHostHandlerClass : [CMR2channelBeHandler class]];
 	[self registerHostHandlerClass : [CMR2channelHandler class]];
 	[self registerHostHandlerClass : [CMRShitarabaHandler class]];
-	[self registerHostHandlerClass : [CMRJbbsShitarabaHandler class]];
+	[self registerHostHandlerClass : [BSHostLivedoorHandler class]];
 	[self registerHostHandlerClass : [CMRMachibbsaHandler class]];
 
 	// 上記以外 = 2channel互換
@@ -505,6 +505,16 @@ ErrParse:
 	return NO;
 }
 
+- (NSURL *) rawmodeURLWithBoard: (NSURL    *) boardURL
+						datName: (NSString *) datName
+						  start: (unsigned  ) startIndex
+							end: (unsigned  ) endIndex
+						nofirst: (BOOL      ) nofirst
+{
+	UTILAbstractMethodInvoked;
+	return nil;
+}
+
 - (id) parseHTML : (NSString *) inputSource
 			with : (id        ) thread
 		   count : (unsigned  ) loadedCount
@@ -555,7 +565,7 @@ ErrParse:
 
 
 
-static NSDictionary *CMRHostPropertiesForKey(NSString *aKey)
+/*static*/ NSDictionary *CMRHostPropertiesForKey(NSString *aKey)
 {
 	static NSDictionary		*allProperties_;
 	
@@ -741,146 +751,7 @@ ErrReadURL:
 }
 @end
 
-
-// JBBS@したらば
-@implementation CMRJbbsShitarabaHandler// : CMRHostHTMLHandler
-+ (BOOL) canHandleURL : (NSURL *) anURL
-{
-	const char *hostName_ = [[anURL host] UTF8String];
-         if ( NULL == hostName_ ) return NO;
-	return is_jbbs_shita( hostName_ );
-}
-- (NSDictionary *) properties
-{
-	return CMRHostPropertiesForKey(@"jbbs_shita");
-}
-- (NSURL *) boardURLWithURL : (NSURL    *) anURL
-						bbs : (NSString *) bbs;
-{
-	NSString	*absolute_;
-	NSArray		*paths_;
-	
-	paths_ = [[anURL path] pathComponents];
-	if ([paths_ count] < 2)
-		return nil;
-	
-	absolute_ = [NSString stringWithFormat :
-					@"http://%@/%@/%@/",
-					[anURL host],
-					bbs,
-					[paths_ objectAtIndex : 1]];
-	
-	return [NSURL URLWithString : absolute_];
-}
-- (NSString *) makeURLStringWithBoard : (NSURL *) boardURL datName : (NSString *) datName
-{
-	NSString		*absolute_;
-	const char		*bbs_ = NULL;
-	NSURL			*location_;
-	NSDictionary	*properties_;
-	
-	UTILRequireCondition(boardURL && datName, ErrReadURL);
-
-	location_ = [self readURLWithBoard:boardURL];
-	UTILRequireCondition(location_, ErrReadURL);
-	
-	properties_ = [self readCGIProperties];
-	UTILRequireCondition(properties_, ErrReadURL);
-	
-	CMRGetHostCStringFromBoardURL(boardURL, &bbs_);
-	UTILRequireCondition(bbs_, ErrReadURL);
-
-	absolute_ = [NSString stringWithFormat :
-					READ_URL_FORMAT_SHITARABA,
-					[location_ absoluteString],
-					[[[boardURL path] pathComponents] objectAtIndex : 1],
-					bbs_,
-					datName];
-
-	return absolute_;
-ErrReadURL:
-	return nil;
-}
-
-- (NSURL *) readURLWithBoard : (NSURL    *) boardURL
-                     datName : (NSString *) datName
-{
-	NSString		*absolute_;
-	NSURL			*location_;
-
-	absolute_ = [self makeURLStringWithBoard : boardURL datName : datName];
-	UTILRequireCondition(absolute_, ErrReadURL);
-	
-	location_ = [NSURL URLWithString : absolute_];
-	
-	return location_;
-	
-ErrReadURL:
-	return nil;
-}
-
-- (NSURL *) readURLWithBoard : (NSURL    *) boardURL
-                     datName : (NSString *) datName
-				 latestCount : (int) count
-{
-	NSString	*base_;
-	base_ = [self makeURLStringWithBoard : boardURL datName : datName];
-	if (base_ == nil)
-		return nil;
-
-	return [NSURL URLWithString : [base_ stringByAppendingFormat : @"l%i", count]];
-}
-
-- (NSURL *) readURLWithBoard : (NSURL    *) boardURL
-                     datName : (NSString *) datName
-				   headCount : (int) count
-{
-	NSString	*base_;
-	base_ = [self makeURLStringWithBoard : boardURL datName : datName];
-	if (base_ == nil)
-		return nil;
-
-	return [NSURL URLWithString : [base_ stringByAppendingFormat : @"-%i", count]];
-}
-
-- (NSURL *) readURLWithBoard : (NSURL    *) boardURL
-                     datName : (NSString *) datName
-					   start : (unsigned  ) startIndex
-					     end : (unsigned  ) endIndex
-					 nofirst : (BOOL      ) nofirst
-{
-	id				tmp;
-	NSURL			*location_;
-	NSString		*base_;
-
-	base_ = [self makeURLStringWithBoard : boardURL datName : datName];
-	UTILRequireCondition(base_, ErrReadURL);
-	tmp = SGTemporaryString();
-	[tmp setString : base_];
-	if (startIndex != NSNotFound)
-		[tmp appendFormat : @"%u-", startIndex];
-	
-	if (endIndex != NSNotFound && endIndex != startIndex) {
-		if (NSNotFound == startIndex)
-			[tmp appendString : @"1-"];
-		
-		[tmp appendFormat : @"%u", endIndex];
-	}
-	if (nofirst) {
-			[tmp appendString : @"n"];
-	}
-	
-	location_ = [NSURL URLWithString : tmp];
-	
-	return location_;
-	
-ErrReadURL:
-	return nil;
-}
-@end
-
-
-@implementation CMRMachibbsaHandler// : CMRHostHTMLHandler
+@implementation CMRMachibbsaHandler
 + (BOOL) canHandleURL : (NSURL *) anURL
 {
 	const char *hostName_ = [[anURL host] UTF8String];

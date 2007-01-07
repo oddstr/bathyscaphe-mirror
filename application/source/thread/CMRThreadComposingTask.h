@@ -60,4 +60,4 @@ cancel, if this method returns NO.
 
 
 extern NSString *const CMRThreadComposingDidFinishNotification;
-extern NSString *const CMRThreadComposingCallbackNotification;
+//extern NSString *const CMRThreadComposingCallbackNotification; // Deprecated in ReinforceII.

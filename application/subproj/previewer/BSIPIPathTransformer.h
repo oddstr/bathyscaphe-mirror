@@ -14,3 +14,8 @@
 }
 
 @end
+
+@interface BSIPIImageIgnoringDPITransformer: NSValueTransformer
+{
+}
+@end

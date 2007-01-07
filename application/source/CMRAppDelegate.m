@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.25 2006/11/05 12:53:47 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.26 2007/01/07 17:04:23 masakih Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -10,7 +10,7 @@
 #import "BoardWarrior.h"
 #import "CMRBrowser.h"
 
-#import <SGAppKit/NSColor-SGExtensions.h>
+//#import <SGAppKit/NSColor-SGExtensions.h>
 #import <SGAppKit/NSImage-SGExtensions.h>
 
 @class CMRDocumentController;

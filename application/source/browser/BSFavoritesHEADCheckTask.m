@@ -1,5 +1,5 @@
 /**
-  * $Id: BSFavoritesHEADCheckTask.m,v 1.9 2006/11/05 12:53:47 tsawada2 Exp $
+  * $Id: BSFavoritesHEADCheckTask.m,v 1.10 2007/01/07 17:04:23 masakih Exp $
   * BathyScaphe
   *
   * Copyright 2006 BathyScaphe Project. All rights reserved.
@@ -8,12 +8,9 @@
 
 #import "BSFavoritesHEADCheckTask.h"
 #import "BoardManager.h"
-#import "CMRThreadSignature.h"
 #import "CMRHostHandler.h"
 #import "AppDefaults.h"
 #import "CMRThreadAttributes.h"
-
-#define MAX_HEAD_COUNT	30
 
 NSString *const BSFavoritesHEADCheckTaskDidFinishNotification = @"BSFavoritesHEADCheckTaskDidFinishNotification";
 
@@ -21,70 +18,60 @@ static NSString *const BSFavHEADerUAKey	= @"User-Agent";
 static NSString *const BSFavHEADerLMKey	= @"Last-Modified";
 static NSString *const BSFavCheckMethodKey = @"HEAD";
 
+// CMRTaskDescription.strings
+static NSString *const BSFavLoStrTitleKey = @"Checking Favorites Title";
+static NSString *const BSFavLoStrMsgKey = @"Checking Favorites Message";
+static NSString *const BSFavLoStrStatusKey = @"Checking Favorites Status";
+
 static NSString	*userAgent_ = nil;
 static int modified_ = 0;
 
-static NSString *monazillaUserAgent()
-{
-	const long	dolibVersion_ = (1 << 16);
-		
-	// monazilla.org (02.01.20)
-	if (userAgent_ == nil) {
-		userAgent_ = [[NSString stringWithFormat : @"Monazilla/%d.%02d (%@/%@)",
-												   dolibVersion_ >> 16, dolibVersion_ & 0xffff,
-												   [NSBundle applicationName], [NSBundle applicationVersion]] retain];
-	}
-	return userAgent_;
-}
-
 static NSURL *getDATURL(NSDictionary *dict)
 {
+	NSString	*datName_;
 	CMRHostHandler		*handler_;
 	NSURL				*boardURL_;
 	NSURL				*url_;
-	CMRThreadSignature	*tmpSign_;
 	
-	tmpSign_ = [CMRThreadSignature threadSignatureFromFilepath : [dict objectForKey : CMRThreadLogFilepathKey]];
+	datName_ = [[dict objectForKey: ThreadPlistIdentifierKey] stringByAppendingPathExtension: @"dat"];
 
-	boardURL_ = [[BoardManager defaultManager] URLForBoardName : [dict objectForKey : ThreadPlistBoardNameKey]];
-	handler_ = [CMRHostHandler hostHandlerForURL : boardURL_];
-	
-	url_ = [handler_ datURLWithBoard :boardURL_ datName : [tmpSign_ datFilename]];
+	boardURL_ = [[BoardManager defaultManager] URLForBoardName: [dict objectForKey: ThreadPlistBoardNameKey]];
+	handler_ = [CMRHostHandler hostHandlerForURL: boardURL_];
+
+	url_ = [handler_ datURLWithBoard: boardURL_ datName: datName_];
 
 	return url_;
 }
 
-static NSDictionary *replaceAttributesIfNeeded(NSDictionary *thread, NSURL *checkURL)
+@implementation BSFavoritesHEADCheckTask
+- (NSMutableURLRequest *) setupURLRequestForURL: (NSURL *) url
+{
+	NSMutableURLRequest	*theRequest;
+
+	theRequest = [NSMutableURLRequest requestWithURL: url cachePolicy: NSURLRequestUseProtocolCachePolicy timeoutInterval: 15.0];
+
+	[theRequest setHTTPMethod: BSFavCheckMethodKey];
+	[theRequest setValue: userAgent_ forHTTPHeaderField: BSFavHEADerUAKey];
+	
+	return theRequest;
+}
+
+- (NSDictionary *) modifiedAttributesIfNeededForThread: (NSDictionary *) thread datURL: (NSURL *) checkURL
 {
 	NSURLResponse	*response = nil;
 	NSError			*ifErr = nil;
 
-	//NSURL		*checkURL;
-	NSMutableURLRequest	*theRequest;
-
-	/*checkURL = getDATURL(thread);
-	if (checkURL == nil) {
-		NSLog(@"DAT URL is nil at %@, skipped", [thread objectForKey : CMRThreadTitleKey]);
-		return thread;
-	}*/
-
-	theRequest = [NSMutableURLRequest requestWithURL : checkURL];
-	[theRequest setHTTPMethod : BSFavCheckMethodKey];
-	[theRequest setTimeoutInterval : 15.0];
-	[theRequest setValue : monazillaUserAgent() forHTTPHeaderField : BSFavHEADerUAKey];
+	NSMutableURLRequest	*theRequest = [self setupURLRequestForURL: checkURL];
 
 	[NSURLConnection sendSynchronousRequest: theRequest returningResponse: &response error: &ifErr];
 	
 	if (ifErr) {
-		NSLog(@"HEADCheck Error at %@", [thread objectForKey : CMRThreadTitleKey]);
+		NSLog(@"HEADCheck Error at %@", [thread objectForKey: CMRThreadTitleKey]);
 		return thread;
 	}
 
 	if([response isKindOfClass : [NSHTTPURLResponse class]]) {
 		NSDate			*lastDate_ = [thread objectForKey : CMRThreadModifiedDateKey];
-		
-		if (lastDate_ == nil) return thread;
-
 		NSDictionary	*dicHead = [(NSHTTPURLResponse *)response allHeaderFields];
 		NSString		*sLastMod = [dicHead objectForKey : BSFavHEADerLMKey];
 		NSCalendarDate	*dateLastMod = [NSCalendarDate dateWithHTTPTimeRepresentation : sLastMod]; // SGFoundation
@@ -105,8 +92,6 @@ static NSDictionary *replaceAttributesIfNeeded(NSDictionary *thread, NSURL *chec
 	return thread;
 }
 
-
-@implementation BSFavoritesHEADCheckTask
 + (id) taskWithFavItemsArray : (NSMutableArray *) loadedList
 {
     return [[[self alloc] initWithFavItemsArray : loadedList] autorelease];
@@ -115,7 +100,7 @@ static NSDictionary *replaceAttributesIfNeeded(NSDictionary *thread, NSURL *chec
 - (id) initWithFavItemsArray : (NSMutableArray *) loadedList
 {
     if (self = [super init]) {
-        
+		userAgent_ = [[NSBundle monazillaUserAgent] retain];        
         [self setProgress : 0];
         [self setThreadsArray : loadedList];
 		[self setAmountString : @"0"];
@@ -144,23 +129,25 @@ static NSDictionary *replaceAttributesIfNeeded(NSDictionary *thread, NSURL *chec
                                   userInfo : userInfo_];
 }
 
-- (BOOL) validateThreadBeforeHEADCheck : (NSDictionary *) thread
+- (NSURL *) validateThreadBeforeHEADCheck: (NSDictionary *) thread
 {
 	NSNumber	*status;
 	int			t;
 
 	status = [thread objectForKey : CMRThreadStatusKey];
-	if(status == nil) return NO;
+	if(status == nil) return nil;
 
-	if (!([status unsignedIntValue] == ThreadLogCachedStatus)) return NO;
+	if (!([status unsignedIntValue] == ThreadLogCachedStatus)) return nil;
+
+	if (![thread objectForKey : CMRThreadModifiedDateKey]) return nil;
 	
 	t = [thread integerForKey : CMRThreadNumberOfMessagesKey];
-	if (t > 1000) return NO;
+	if (t > 1000) return nil;
 
 	{
 		NSString *path_;
 		path_ = [CMRThreadAttributes pathFromDictionary : thread];
-		if (!path_) return NO;
+		if (!path_) return nil;
 		
 		NSDictionary	*tmp_;
 		id		rep_;
@@ -169,10 +156,10 @@ static NSDictionary *replaceAttributesIfNeeded(NSDictionary *thread, NSURL *chec
 		tmp_ = [NSDictionary dictionaryWithContentsOfFile : path_];
 		rep_ = [tmp_ objectForKey : CMRThreadUserStatusKey];
 		s = [CMRThreadUserStatus objectWithPropertyListRepresentation : rep_];
-		if((s != nil) && [s isDatOchiThread]) return NO;
+		if((s != nil) && [s isDatOchiThread]) return nil;
 	}
 
-	return YES;
+	return getDATURL(thread);
 }
 
 - (void) checkEachItemOfThreadsArray
@@ -185,6 +172,7 @@ static NSDictionary *replaceAttributesIfNeeded(NSDictionary *thread, NSURL *chec
     unsigned nEnded_ = 0;
     unsigned nElem_  = [[self threadsArray] count];
 	unsigned nActuallyEnded_ = 0;
+	unsigned nDidntCheck_ = 0;
 
     UTILAssertNotNilArgument([self threadsArray], @"Threads List Array");
 	
@@ -195,28 +183,23 @@ static NSDictionary *replaceAttributesIfNeeded(NSDictionary *thread, NSURL *chec
 
     iter = [[self threadsArray] objectEnumerator];
     while (thread_ = [iter nextObject]) {
-		
+		NSURL *datURL = nil;
 		[self checkIsInterrupted]; // ÉÜÅ[ÉUÇ™íÜé~Ç≈Ç´ÇÈÇÊÇ§Ç…
 
-
-		if((nActuallyEnded_ < MAX_HEAD_COUNT) && [self validateThreadBeforeHEADCheck : thread_]) {
-			NSURL	*datURL = getDATURL(thread_);
-			if (datURL != nil) {
-				NSDictionary *newItem;
-				newItem = replaceAttributesIfNeeded(thread_, datURL);
-				[newArray_ addObject : newItem];
-				
-				nActuallyEnded_++;
-			} else {
-				[newArray_ addObject : thread_];
-			}
+		if((datURL = [self validateThreadBeforeHEADCheck: thread_]) != nil) {
+			NSDictionary *newItem;
+			newItem = [self modifiedAttributesIfNeededForThread: thread_ datURL: datURL];
+			[newArray_ addObject : newItem];
+			
+			nActuallyEnded_++;
 		} else {
+			nDidntCheck_++;
 			[newArray_ addObject : thread_];
 		}
 
         nEnded_++;
         [self setProgress : (((double)nEnded_ / (double)nElem_) * 100)];
-		[self setAmountString : [NSString stringWithFormat : @"%i/%i (%i)",nEnded_,nElem_,nActuallyEnded_]];
+		[self setAmountString : [NSString stringWithFormat: [self localizedString: BSFavLoStrStatusKey], nEnded_, nElem_, nDidntCheck_]];
     }
 
 	soundName_ = [CMRPref HEADCheckNewArrivedSound];
@@ -275,7 +258,7 @@ static NSDictionary *replaceAttributesIfNeeded(NSDictionary *thread, NSURL *chec
     NSString        *name_;
     
     name_ = [self boardName];
-    format_ = [self localizedString : @"Checking Favorites Title"];
+    format_ = [self localizedString : BSFavLoStrTitleKey];
     
     return [NSString stringWithFormat : 
                         format_ ? format_ : @"%@",
@@ -288,7 +271,7 @@ static NSDictionary *replaceAttributesIfNeeded(NSDictionary *thread, NSURL *chec
     NSString        *title_;
     
     title_ = [self title];
-    format_ = [self localizedString : @"Checking Favorites Message"];
+    format_ = [self localizedString : BSFavLoStrMsgKey];
     
     return [NSString stringWithFormat : 
                         format_ ? format_ : @"%@ (%@)",

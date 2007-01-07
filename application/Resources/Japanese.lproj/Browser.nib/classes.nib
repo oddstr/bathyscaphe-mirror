@@ -45,13 +45,10 @@
             ACTIONS = {
                 addCategoryItem = id; 
                 addDrawerItem = id; 
-                addSmartItem = id; 
                 changeBrowserArrangement = id; 
                 collapseOrExpandBoardList = id; 
                 editDrawerItem = id; 
-                endEditSheet = id; 
                 focus = id; 
-                openHelpForEditSheet = id; 
                 openSelectedThreads = id; 
                 reloadThreadsList = id; 
                 removeDrawerItem = id; 
@@ -69,13 +66,7 @@
                 "m_boardListSubView" = RBSplitSubview; 
                 "m_boardListTable" = NSOutlineView; 
                 "m_brdListActMenuBtn" = id; 
-                "m_dItemEditSheetHelpBtn" = NSButton; 
-                "m_dItemEditSheetInputField" = NSTextField; 
-                "m_dItemEditSheetLabelField" = NSTextField; 
-                "m_dItemEditSheetMsgField" = NSTextField; 
-                "m_dItemEditSheetTitleField" = NSTextField; 
                 "m_drawerContextualMenu" = NSMenu; 
-                "m_drawerItemEditSheet" = NSPanel; 
                 "m_listContextualMenu" = NSMenu; 
                 "m_searchField" = NSSearchField; 
                 "m_splitView" = BSKFSplitView; 
@@ -87,15 +78,15 @@
         }, 
         {CLASS = CMRPullDownIconBtn; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButtonCell; }, 
         {
-            ACTIONS = {toggleStatusLineShown = id; }; 
+            ACTIONS = {cancelCurrentTask = id; saveAsDefaultFrame = id; }; 
             CLASS = CMRStatusLineWindowController; 
             LANGUAGE = ObjC; 
-            SUPERCLASS = CMRToolbarWindowController; 
+            OUTLETS = {"m_toolbarDelegateImp" = id; }; 
+            SUPERCLASS = NSWindowController; 
         }, 
         {
             ACTIONS = {
                 addFavorites = id; 
-                copyInfoFromContextualMenu = id; 
                 copySelectedResURL = id; 
                 copyThreadAttributes = id; 
                 deleteThread = id; 
@@ -110,7 +101,6 @@
                 historyMenuPerformForward = id; 
                 openBBSInBrowser = id; 
                 openInBrowser = id; 
-                openLogfile = id; 
                 orderFrontMainBrowser = id; 
                 reloadIfOnlineMode = id; 
                 reloadThread = id; 
@@ -136,23 +126,17 @@
                 "m_componentsView" = NSView; 
                 "m_containerView" = NSView; 
                 "m_navigationBar" = NSView; 
-                "m_scrollView" = CMXScrollView; 
+                "m_scrollView" = NSScrollView; 
                 "m_textView" = NSTextView; 
                 "m_windowContentView" = NSView; 
             }; 
             SUPERCLASS = CMRStatusLineWindowController; 
         }, 
-        {
-            CLASS = CMRToolbarWindowController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {"m_toolbarDelegateImp" = id; }; 
-            SUPERCLASS = NSWindowController; 
-        }, 
         {CLASS = CMXScrollView; LANGUAGE = ObjC; SUPERCLASS = NSScrollView; }, 
         {
             ACTIONS = {
                 addFavorites = id; 
-                copyInfoFromContextualMenu = id; 
+                addSmartItem = id; 
                 copyThreadAttributes = id; 
                 deleteThread = id; 
                 openBBSInBrowser = id; 

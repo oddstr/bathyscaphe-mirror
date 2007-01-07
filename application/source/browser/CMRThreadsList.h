@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.h,v 1.7 2006/11/05 12:53:47 tsawada2 Exp $
+  * $Id: CMRThreadsList.h,v 1.8 2007/01/07 17:04:23 masakih Exp $
   * 
   * CMRThreadsList.h
   *
@@ -11,7 +11,6 @@
 
 @class CMRDownloader;
 @class CMRThreadLayout;
-@class CMXDateFormatter;
 
 @interface CMRThreadsList : NSObject 
 {
@@ -24,8 +23,6 @@
 	
 	NSLock		*_threadsListUpdateLock;
 	NSLock		*_filteredThreadsLock;
-
-	CMXDateFormatter		*dateFormatter;
 
 	BOOL		_isAscending;
 }
@@ -90,8 +87,6 @@
 @interface CMRThreadsList(Filter)
 - (void) filterByDisplayingThreadAtPath : (NSString *) filepath;
 - (void) filterByStatus : (int) status;
-// Deprecated. Use filterByString: instead.
-//- (BOOL) filterByFindOperation : (CMRSearchOptions *) operation;
 
 // Available in MeteorSweeper.
 - (BOOL) filterByString: (NSString *) searchString;
@@ -116,19 +111,25 @@
 
 
 
-@interface CMRThreadsList(DataSourceTemplates)
+@interface CMRThreadsList(DataSource)
 + (void) resetDataSourceTemplates;
+// Available in ReinforceII.
++ (void) resetDataSourceTemplateForColumnIdentifier: (NSString *) identifier width: (float) loc;
++ (void) resetDataSourceTemplateForDateColumn;
+
++ (NSDictionary *)newThreadCreatedDateAttrTemplate;
++ (NSDictionary *)threadCreatedDateAttrTemplate;
++ (NSDictionary *)threadModifiedDateAttrTemplate;
 
 + (id) objectValueTemplate : (id ) aValue
 				   forType : (int) aType;
-@end
 
 
-@interface CMRThreadsList(DataSource)
 - (NSArray *) threadFilePathArrayWithRowIndexSet : (NSIndexSet	*) anIndexSet
 									 inTableView : (NSTableView	*) tableView;
-- (NSArray *) threadFilePathArrayWithRowIndexArray : (NSArray	  *) anIndexArray
-									   inTableView : (NSTableView *)tableView;
+// Removed in ReinforceII and later. Use threadFilePathArrayWithRowIndexSet:inTableView: instead.
+//- (NSArray *) threadFilePathArrayWithRowIndexArray : (NSArray	  *) anIndexArray
+//									   inTableView : (NSTableView *)tableView;
 - (ThreadStatus) threadStatusForThread : (NSDictionary *) aThread;
 - (id) objectValueForIdentifier : (NSString *) identifier
 					threadArray : (NSArray  *) threadArray
@@ -141,7 +142,10 @@
 
 - (unsigned int) indexOfThreadWithPath : (NSString *) filepath;
 
-- (void) updateDateFormatter;
+// available in ReinforceII and later.
+- (NSImage *) dragImageForTheRow: (unsigned int) rowIndex
+					 inTableView: (NSTableView *) tableView
+						  offset: (NSPointPointer) dragImageOffset;
 @end
 
 

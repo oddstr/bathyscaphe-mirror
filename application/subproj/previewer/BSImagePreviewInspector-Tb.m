@@ -1,5 +1,5 @@
 /*
- * $Id: BSImagePreviewInspector-Tb.m,v 1.12 2006/11/05 13:15:07 tsawada2 Exp $
+ * $Id: BSImagePreviewInspector-Tb.m,v 1.13 2007/01/07 17:04:24 masakih Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -7,9 +7,11 @@
 
 #import "BSImagePreviewInspector.h"
 #import "BSIPIActionBtnTbItem.h"
+#import "BSIPIToken.h"
 #import <SGFoundation/NSDictionary-SGExtensions.h>
-#import <SGfoundation/NSMutableDictionary-SGExtensions.h>
+#import <SGFoundation/NSMutableDictionary-SGExtensions.h>
 #import <SGAppKit/BSSegmentedControlTbItem.h>
+#import <SGAppKit/NSWorkspace-SGExtensions.h>
 
 static NSString *const kIPITbActionBtnId		= @"Actions";
 static NSString *const kIPITbSettingsBtnId		= @"Settings";
@@ -29,26 +31,11 @@ static NSString *const kIPIResetWhenHideWindowKey = @"jp.tsawada2.BathyScaphe.Im
 static NSString *const kIPIFloatingWindowKey	= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Floating Window";
 static NSString *const kIPIPreferredViewTypeKey = @"jp.tsawada2.BathyScaphe.ImagePreviewer:Preferred View";
 static NSString *const kIPILastShownViewTagKey	= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Last Shown View";
-static NSString *const kIPIRedirBehaviorKey		= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Redirection Behavior";
+//static NSString *const kIPIRedirBehaviorKey		= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Redirection Behavior";
+static NSString *const kIPILeaveFailedTokenKey	= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Leave Failed Tokens";
 
 @implementation BSImagePreviewInspector(ToolbarAndUtils)
 #pragma mark Utilities
-static NSImage *_imageForDefaultBrowser()
-{
-	NSURL	*dummyURL = [NSURL URLWithString : @"http://www.apple.com/"];
-	OSStatus	err;
-	FSRef	outAppRef;
-	CFURLRef	outAppURL;
-	NSImage	*image_ = nil;
-
-	err = LSGetApplicationForURL((CFURLRef )dummyURL, kLSRolesAll, &outAppRef, &outAppURL);
-	if(outAppURL) {
-		CFStringRef appPath = CFURLCopyFileSystemPath(outAppURL, kCFURLPOSIXPathStyle);
-		image_ = [[NSWorkspace sharedWorkspace] iconForFile : (NSString *)appPath];
-	}
-	return image_;
-}
-
 - (NSString *) localizedStrForKey : (NSString *) key
 {
 	NSBundle *selfBundle = [NSBundle bundleForClass : [self class]];
@@ -65,38 +52,6 @@ static NSImage *_imageForDefaultBrowser()
 	if(nil == filepath_) return nil;
 	
 	return [[[NSImage alloc] initWithContentsOfFile : filepath_] autorelease];
-}
-
-- (NSString *) calcImageSize : (NSImage *) image_
-{
-	int	wi, he;
-	NSImageRep	*tmp_ = [image_ bestRepresentationForDevice : nil];
-	NSString *msg_;
-	
-	wi = [tmp_ pixelsWide];
-	he = [tmp_ pixelsHigh];
-	
-	// ignore DPI
-	[tmp_ setSize : NSMakeSize(wi, he)];
-	
-	msg_ = [NSString stringWithFormat : [self localizedStrForKey : @"%i*%i pixel"], wi, he];
-
-	return msg_;
-}
-
-- (void) startProgressIndicator
-{
-	NSProgressIndicator *indicator = [self progIndicator];
-	[indicator setIndeterminate : YES];
-	[indicator setHidden : NO];
-	[indicator startAnimation : self];
-}
-
-- (void) stopProgressIndicator
-{
-	NSProgressIndicator *indicator = [self progIndicator];
-	[indicator stopAnimation : self];
-	[indicator setHidden : YES];
 }
 
 #pragma mark Toolbars	
@@ -171,7 +126,7 @@ static NSImage *_imageForDefaultBrowser()
 		[toolbarItem setLabel: [self localizedStrForKey : @"Browser"]];
 		[toolbarItem setPaletteLabel: [self localizedStrForKey : @"OpenWithBrowser"]];
 		[toolbarItem setToolTip: [self localizedStrForKey : @"BrowserTip"]];
-		[toolbarItem setImage: _imageForDefaultBrowser()];
+		[toolbarItem setImage: [[NSWorkspace sharedWorkspace] iconForDefaultWebBrowser]];
 		
 		[toolbarItem setTarget: self];
 		[toolbarItem setAction: @selector(openImage:)];
@@ -182,7 +137,7 @@ static NSImage *_imageForDefaultBrowser()
 		[toolbarItem setLabel: [self localizedStrForKey : @"Delete"]];
 		[toolbarItem setPaletteLabel: [self localizedStrForKey : @"Delete"]];
 		[toolbarItem setToolTip: [self localizedStrForKey : @"DeleteTip"]];
-		[toolbarItem setImage: [NSImage imageNamed: @"Delete"]];
+		[toolbarItem setImage: [[NSWorkspace sharedWorkspace] systemIconForType: kToolbarDeleteIcon]];
 		
 		[toolbarItem setTarget: self];
 		[toolbarItem setAction: @selector(deleteCachedImage:)];
@@ -283,13 +238,24 @@ static NSImage *_imageForDefaultBrowser()
 									  NSToolbarSeparatorItemIdentifier, nil];
 }
 
-
+#pragma mark Validation
 - (BOOL) validateToolbarItem : (NSToolbarItem *) toolbarItem
 {
 	NSString *identifier_ = [toolbarItem itemIdentifier];
+	NSArrayController	*cube_ = [self tripleGreenCubes];
+	
+	if ([identifier_ isEqualToString: kIPITbDeleteBtnId]) {
+		return [cube_ canRemove];
+	}
 
-	if ([identifier_ isEqualToString : kIPITbCancelBtnId]) {
-		if(_currentDownload) {
+	unsigned	idx_ = [cube_ selectionIndex];
+	BOOL		selected = (idx_ != NSNotFound);
+
+	if ([identifier_ isEqualToString : kIPITbBrowserBtnId] || [identifier_ isEqualToString: kIPITbFullscreenBtnId]) {
+		return selected;
+	} else if ([identifier_ isEqualToString : kIPITbCancelBtnId]) {
+		if (!selected) return NO;
+		if ([[BSIPIHistoryManager sharedManager] cachedTokensArrayContainsDownloadingTokenAtIndexes: [cube_ selectionIndexes]]) {
 			[toolbarItem setLabel : [self localizedStrForKey : @"Stop"]];
 			[toolbarItem setToolTip: [self localizedStrForKey : @"StopTip"]];
 			[toolbarItem setImage: [NSImage imageNamed: @"stopSign"]];
@@ -302,14 +268,10 @@ static NSImage *_imageForDefaultBrowser()
 			[toolbarItem setImage: [self imageResourceWithName: @"Save"]];
 			[toolbarItem setTarget : self];
 			[toolbarItem setAction : @selector(saveImage:)];
-			return ([self sourceURL] != nil);
+			return ([[BSIPIHistoryManager sharedManager] cachedTokensArrayContainsNotNullObjectAtIndexes: [cube_ selectionIndexes]]);
 		}
-	} else if ([identifier_ isEqualToString : kIPITbPreviewBtnId]) {
-		return ((_currentDownload == nil) && ([self sourceURL] != nil));
-	} else if ([identifier_ isEqualToString : kIPITbFullscreenBtnId] || [identifier_ isEqualToString: kIPITbDeleteBtnId]) {
-		return ((_currentDownload == nil) && ([[self imageView] image] != nil));
-	} else if ([identifier_ isEqualToString : kIPITbBrowserBtnId]) {
-		return ([self sourceURL] != nil);
+	} else if ([identifier_ isEqualToString: kIPITbPreviewBtnId]) {
+		return (selected && [[BSIPIHistoryManager sharedManager] cachedTokensArrayContainsNotNullObjectAtIndexes: [cube_ selectionIndexes]]);
 	}
     return YES;
 }
@@ -322,25 +284,41 @@ static NSImage *_imageForDefaultBrowser()
 // action button's menu
 - (BOOL) validateMenuItem: (id <NSMenuItem>) menuItem
 {
+	NSArrayController	*cube_ = [self tripleGreenCubes];
 	int tag_ = [menuItem tag];
+	if (tag_ == 571) {
+		return [cube_ canSelectPrevious];
+	} else if (tag_ == 572) {
+		return [cube_ canSelectNext];
+	} else if (tag_ == 577) {
+		return [cube_ canRemove];
+	}
+
+	unsigned	idx_ = [cube_ selectionIndex];
+	BOOL		selected = (idx_ != NSNotFound);
+
 	if (tag_ == 573) {
-		return ([self sourceURL] != nil);
+		return selected;
 	} else if (tag_ == 575) {
-		return ([[self imageView] image] != nil);
+		return (selected && [[BSIPIHistoryManager sharedManager] cachedTokensArrayContainsNotNullObjectAtIndexes: [cube_ selectionIndexes]]);
+	} else if (tag_ == 576) {
+		return (selected && ([[cube_ selectionIndexes] count] == 1) && 
+				[[[self historyItems] objectAtIndex: idx_] downloadedFilePath] != nil);
 	} else if (tag_ == 574) {
-		if (_currentDownload) {
+		if (!selected) return NO;
+		if ([[BSIPIHistoryManager sharedManager] cachedTokensArrayContainsDownloadingTokenAtIndexes: [cube_ selectionIndexes]]) {
 			[menuItem setTitle: [self localizedStrForKey: @"StopMenu"]];
 			[menuItem setAction: @selector(cancelDownload:)];
 			return YES;
 		} else {
 			[menuItem setTitle: [self localizedStrForKey: @"SaveMenu"]];
 			[menuItem setAction: @selector(saveImage:)];
-			return ([self sourceURL] != nil);
+			return ([[BSIPIHistoryManager sharedManager] cachedTokensArrayContainsNotNullObjectAtIndexes: [cube_ selectionIndexes]]);
 		}
-	} else if (tag_ == 571) {
-		return ([[BSIPIHistoryManager sharedManager] cachedPrevFilePathForURL: [self sourceURL]] != nil);
-	} else if (tag_ == 572) {
-		return ([[BSIPIHistoryManager sharedManager] cachedNextFilePathForURL: [self sourceURL]] != nil);
+	}
+	
+	if ([menuItem action] == @selector(resetCache:)) {
+		return ([[self historyItems] count] > 0);
 	}
 	return YES;
 }
@@ -350,12 +328,12 @@ static NSImage *_imageForDefaultBrowser()
 {
 	if ([item view] == [self paneChangeBtn]) return YES;
 
-	NSURL *source_ = [self sourceURL];
+	NSArrayController *cube_ = [self tripleGreenCubes];
 
 	if (segment == 0) {
-		return ([[BSIPIHistoryManager sharedManager] cachedPrevFilePathForURL: source_] != nil);
+		return [cube_ canSelectPrevious];
 	} else if (segment == 1) {
-		return ([[BSIPIHistoryManager sharedManager] cachedNextFilePathForURL: source_] != nil);
+		return [cube_ canSelectNext];
 	}
 	return NO;
 }
@@ -450,7 +428,7 @@ static NSImage *_imageForDefaultBrowser()
 {
 	[[self prefsDict] setInteger: aTag forKey: kIPILastShownViewTagKey];
 }
-
+/*
 - (BSIPIRedirectionBehavior) redirectionBehavior
 {
 	return [[self prefsDict] integerForKey: kIPIRedirBehaviorKey defaultValue: BSIPIAlwaysAsk];
@@ -458,5 +436,15 @@ static NSImage *_imageForDefaultBrowser()
 - (void) setRedirectionBehavior: (BSIPIRedirectionBehavior) aTag;
 {
 	[[self prefsDict] setInteger: aTag forKey: kIPIRedirBehaviorKey];
+}*/
+
+- (BOOL) leaveFailedToken
+{
+	return [[self prefsDict] boolForKey: kIPILeaveFailedTokenKey defaultValue: NO];
+}
+
+- (void) setLeaveFailedToken: (BOOL) leave
+{
+	[[self prefsDict] setBool: leave forKey: kIPILeaveFailedTokenKey];
 }
 @end

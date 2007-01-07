@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector-View.m,v 1.4 2006/11/05 13:15:07 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector-View.m,v 1.5 2007/01/07 17:04:24 masakih Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/07/15.
@@ -7,12 +7,9 @@
 //
 
 #import "BSImagePreviewInspector.h"
-#import "BSIPIHistoryManager.h"
 #import "BSIPITextFieldCell.h"
 #import "BSIPIImageView.h"
 #import <SGAppKit/NSCell-SGExtensions.h>
-
-@class BSIPIDownload;
 
 static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInspector Panel Autosave";
 
@@ -59,90 +56,16 @@ static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInsp
 {
 	return m_nameColumn;
 }
-- (NSPopUpButton *) directoryChooser
-{
-	return m_directoryChooser;
-}
-- (NSTextField *) versionInfoField
-{
-	return m_versionInfoField;
-}
 - (NSMenu *) cacheNaviMenuFormRep
 {
 	return m_cacheNaviMenuFormRep;
 }
-- (NSSegmentedControl *) preferredViewSelector
+- (NSArrayController *) tripleGreenCubes
 {
-	return m_preferredViewSelector;
+	return m_tripleGreenCubes;
 }
 
-- (BSIPIDownload *) currentDownload
-{
-	return _currentDownload;
-}
-- (void) setCurrentDownload : (BSIPIDownload *) aDownload
-{
-	[aDownload retain];
-	[_currentDownload release];
-	_currentDownload = aDownload;
-}
-
-- (TemporaryFolder *) dlFolder
-{
-	if (_dlFolder == nil) {
-		_dlFolder = [[TemporaryFolder alloc] init];
-	}
-	return _dlFolder;
-}
-
-#pragma mark -
-- (void) clearAttributes
-{
-	if(_currentDownload) {
-		[_currentDownload cancel];
-		[self setCurrentDownload : nil];
-		[self stopProgressIndicator];
-	}
-	
-	[self setSourceURL: nil];
-	[[self infoField] setStringValue: @""];
-	[[self imageView] setImage: nil];
-	[self synchronizeImageAndSelectedRow];
-}
-
-- (void) synchronizeImageAndSelectedRow
-{
-	unsigned idx = [[BSIPIHistoryManager sharedManager] indexOfURL: [self sourceURL]];
-	if (idx == NSNotFound) {
-		[[[self nameColumn] tableView] deselectAll: nil];
-	} else {
-		[[[self nameColumn] tableView] selectRowIndexes: [NSIndexSet indexSetWithIndex: idx] byExtendingSelection: NO];
-		[[[self nameColumn] tableView] scrollRowToVisible: idx];
-	}
-}
-
-#pragma mark -
-static NSImage *bsIPI_iconForPath(NSString *sourcePath)
-{
-	NSImage	*icon_ = [[NSWorkspace sharedWorkspace] iconForFile : sourcePath];
-	[icon_ setSize : NSMakeSize(16, 16)];
-	return icon_;
-}
-
-- (void) updateDirectoryChooser
-{
-	NSString	*fullPathTip = [self saveDirectory];
-	NSString	*title = [[NSFileManager defaultManager] displayNameAtPath: fullPathTip];
-	id<NSMenuItem>	theItem = [[self directoryChooser] itemAtIndex : 0];
-	
-	[theItem setTitle : title];
-	[theItem setToolTip: fullPathTip];
-	[theItem setImage : bsIPI_iconForPath(fullPathTip)];
-
-	[[self directoryChooser] selectItem : nil];
-	[[self directoryChooser] synchronizeTitleAndSelectedItem];
-}
-
+#pragma mark Setup UIs
 - (void) setupWindow
 {
 	NSWindow	*window_ = [self window];
@@ -179,8 +102,6 @@ static NSImage *bsIPI_iconForPath(NSString *sourcePath)
 	[[self paneChangeBtn] setLabel: nil forSegment: 1];
 	[[self cacheNavigationControl] setLabel: nil forSegment: 0];
 	[[self cacheNavigationControl] setLabel: nil forSegment: 1];
-	[[self preferredViewSelector] setLabel: nil forSegment: 0];
-	[[self preferredViewSelector] setLabel: nil forSegment: 1];
 	
 	[(BSIPIImageView *)[self imageView] setDelegate: self];
 
@@ -192,7 +113,7 @@ static NSImage *bsIPI_iconForPath(NSString *sourcePath)
 	[[self paneChangeBtn] setSelectedSegment: tabIndex];
 }
 
-- (void) setupVersionInfoField
+- (void) setupSettingsSheet
 {
 	NSBundle *myself = [NSBundle bundleForClass: [self class]];
 	if (!myself) return;
@@ -201,6 +122,9 @@ static NSImage *bsIPI_iconForPath(NSString *sourcePath)
 	if (!versionNum) return;
 	
 	[[self versionInfoField] setStringValue: versionNum];
+
+	[[self preferredViewSelector] setLabel: nil forSegment: 0];
+	[[self preferredViewSelector] setLabel: nil forSegment: 1];
 }
 
 - (void) awakeFromNib
@@ -208,7 +132,66 @@ static NSImage *bsIPI_iconForPath(NSString *sourcePath)
 	[self setupWindow];
 	[self setupTableView];
 	[self setupControls];
-	[self setupVersionInfoField];
+	[self setupSettingsSheet];
 	[self setupToolbar];
+}
+@end
+
+@implementation BSImagePreviewInspector(Preferences)
+- (NSPopUpButton *) directoryChooser
+{
+	return m_directoryChooser;
+}
+
+- (NSSegmentedControl *) preferredViewSelector
+{
+	return m_preferredViewSelector;
+}
+
+- (NSTextField *) versionInfoField
+{
+	return m_versionInfoField;
+}
+
+- (IBAction) endSettingsSheet : (id) sender
+{
+	NSWindow *sheet_ = [sender window];
+	[NSApp endSheet : sheet_
+		 returnCode : NSOKButton];
+
+	[sheet_ close];
+}
+
+- (IBAction) openOpenPanel : (id) sender
+{
+	NSOpenPanel	*panel_ = [NSOpenPanel openPanel];
+	[panel_ setCanChooseFiles : NO];
+	[panel_ setCanChooseDirectories : YES];
+	[panel_ setResolvesAliases : YES];
+	if([panel_ runModalForTypes : nil] == NSOKButton)
+		[self setSaveDirectory : [panel_ directory]];
+
+	[self updateDirectoryChooser];
+}
+
+static NSImage *bsIPI_iconForPath(NSString *sourcePath)
+{
+	NSImage	*icon_ = [[NSWorkspace sharedWorkspace] iconForFile : sourcePath];
+	[icon_ setSize : NSMakeSize(16, 16)];
+	return icon_;
+}
+
+- (void) updateDirectoryChooser
+{
+	NSString	*fullPathTip = [self saveDirectory];
+	NSString	*title = [[NSFileManager defaultManager] displayNameAtPath: fullPathTip];
+	id<NSMenuItem>	theItem = [[self directoryChooser] itemAtIndex : 0];
+	
+	[theItem setTitle : title];
+	[theItem setToolTip: fullPathTip];
+	[theItem setImage : bsIPI_iconForPath(fullPathTip)];
+
+	[[self directoryChooser] selectItem : nil];
+	[[self directoryChooser] synchronizeTitleAndSelectedItem];
 }
 @end

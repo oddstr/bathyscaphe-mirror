@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.13 2006/11/05 12:53:48 tsawada2 Exp $
+  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.14 2007/01/07 17:04:23 masakih Exp $
   * 
   * CMRThreadViewer-ViewAccessor.m
   *
@@ -91,7 +91,7 @@
 										   with : containerView_];
 	[m_windowContentView release];
 	m_windowContentView = nil;
-	[m_windowContentView addSubview : containerView_];
+	//[m_windowContentView addSubview : containerView_];
 	
 	[containerView_ release];
 	
@@ -196,10 +196,10 @@
 }
 
 #pragma mark NavigationBar
-+ (float) navBarSubviewsAdjustValue
+/*+ (float) navBarSubviewsAdjustValue
 {
 	return 1.0;
-}
+}*/
 
 - (void) layoutNavigationBarComponents
 {
@@ -211,7 +211,7 @@
 	scrollViewFrame = [[self navigationBar] frame];
 
 	origin_ = scrollViewFrame.origin;
-	dy = [[self class] navBarSubviewsAdjustValue];
+	dy = 1.0;//[[self class] navBarSubviewsAdjustValue];
 	
 	origin_.y += dy;
 	origin_.x = NSMaxX(scrollViewFrame);
@@ -306,7 +306,7 @@
 					  object : contentView_];
 	}
 	
-	[scrollView_ setBorderType : NSBezelBorder];
+	[scrollView_ setBorderType : NSNoBorder];//NSBezelBorder];
 	[scrollView_ setHasHorizontalScroller : NO];
 	[scrollView_ setHasVerticalScroller : YES];
 

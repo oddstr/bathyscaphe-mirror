@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.50 2006/12/14 13:45:22 masakih Exp $
+  * $Id: CMRBrowser-Action.m,v 1.51 2007/01/07 17:04:23 masakih Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -480,7 +480,7 @@ static int expandAndSelectItem(NSDictionary *selected, NSArray *anArray, NSOutli
 
 - (void) clearSearchFilter
 {
-	[self setCurrentSearchString: nil];
+	[[self document] setSearchString: nil];
 	
 	// 検索結果の表示@タイトルバーを解除
 	[self synchronizeWindowTitleWithDocumentName];

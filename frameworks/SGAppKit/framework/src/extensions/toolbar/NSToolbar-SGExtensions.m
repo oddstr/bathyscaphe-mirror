@@ -1,15 +1,15 @@
 //: NSToolbar-SGExtensions.m
 /**
-  * $Id: NSToolbar-SGExtensions.m,v 1.1 2005/05/11 17:51:27 tsawada2 Exp $
+  * $Id: NSToolbar-SGExtensions.m,v 1.2 2007/01/07 17:04:24 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
   */
 
-#import "NSToolbar-SGExtensions_p.h"
+#import "NSToolbar-SGExtensions.h"
 
 
-
+/*
 @implementation NSToolbar(UnsupportedAccessor)
 - (BOOL) allowsUserCustomizationByDragging
 {
@@ -66,7 +66,7 @@ static const NSSize kSmallControlIconSize	= {width:24, height:24};
 	return kRegularControlIconSize;
 }
 @end
-
+*/
 
 
 @implementation NSToolbarItem(SGExtensions)

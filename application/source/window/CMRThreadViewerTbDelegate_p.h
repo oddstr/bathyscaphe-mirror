@@ -16,4 +16,6 @@
 // Available in SledgeHammer and later.
 - (NSString *) historySegmentedControlIdentifier;
 - (NSString *) orderFrontBrowserItemIdentifier;
+// Available in ReinforceII and later.
+- (NSString *) scaleSegmentedControlIdentifier;
 @end

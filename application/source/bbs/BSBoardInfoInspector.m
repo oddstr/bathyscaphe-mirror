@@ -25,6 +25,25 @@ static NSString *const BIIHelpKeywordKey		= @"BoardInspector Help Keyword";
 @implementation BSBoardInfoInspector
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 
++ (void) initialize
+{
+	if (self == [BSBoardInfoInspector class]) {
+		NSArray	*keyArray = [NSArray arrayWithObject: @"currentTargetBoardName"];
+
+		[self setKeys: keyArray triggerChangeNotificationsForDependentKey: @"noNamesArray"];
+		[self setKeys: keyArray triggerChangeNotificationsForDependentKey: @"boardURLAsString"];
+		[self setKeys: keyArray triggerChangeNotificationsForDependentKey: @"shouldEnableUI"];
+		[self setKeys: keyArray triggerChangeNotificationsForDependentKey: @"defaultKotehan"];
+		[self setKeys: keyArray triggerChangeNotificationsForDependentKey: @"defaultMail"];
+		[self setKeys: keyArray triggerChangeNotificationsForDependentKey: @"shouldAlwaysBeLogin"];
+		[self setKeys: keyArray triggerChangeNotificationsForDependentKey: @"shouldAllThreadsAAThread"];
+		[self setKeys: keyArray triggerChangeNotificationsForDependentKey: @"icon"];
+		[self setKeys: keyArray triggerChangeNotificationsForDependentKey: @"shouldEnableBeBtn"];
+		[self setKeys: keyArray triggerChangeNotificationsForDependentKey: @"shouldEnableURLEditing"];
+		[self setKeys: keyArray triggerChangeNotificationsForDependentKey: @"nanashiAllowed"];
+	}
+}
+
 - (id) init
 {
 	if (self = [self initWithWindowNibName : BIINibFileNameKey]) {
@@ -58,14 +77,26 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 
 - (void) awakeFromNib
 {
-	[(NSPanel*)[self window] setFrameAutosaveName : BIIFrameAutoSaveNameKey];
+	NSWorkspace *ws_ = [NSWorkspace sharedWorkspace];
+
+	[[self window] setFrameAutosaveName : BIIFrameAutoSaveNameKey];
 	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_3) {
 		[[self addNoNameBtn] setBezelStyle: NSSmallSquareBezelStyle];
 		[[self removeNoNameBtn] setBezelStyle: NSSmallSquareBezelStyle];
 		[[self editNoNameBtn] setBezelStyle: NSSmallSquareBezelStyle];
 	}
+	
+	[[self lockButton] setImage: [ws_ systemIconForType: kLockedIcon]];
+	[[self lockButton] setAlternateImage: [ws_ systemIconForType: kUnlockedIcon]];
+	
 	[[self URLField] setAllowsEditingTextAttributes: NO];
 	[[self URLField] setImportsGraphics: NO];
+}
+
+- (void) showInspectorForTargetBoard : (NSString *) boardName
+{
+	[self setCurrentTargetBoardName : boardName];
+	[self showWindow : self];
 }
 
 #pragma mark Accessors
@@ -75,30 +106,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 }
 - (void) setCurrentTargetBoardName : (NSString *) newTarget
 {
-	// 参考：<http://www.cocoadev.com/index.pl?KeyValueObserving>
-	[self willChangeValueForKey:@"noNamesArray"];
-	[self willChangeValueForKey:@"boardURLAsString"];
-	[self willChangeValueForKey:@"shouldEnableUI"];
-	[self willChangeValueForKey:@"defaultKotehan"];
-	[self willChangeValueForKey:@"defaultMail"];
-	[self willChangeValueForKey:@"shouldAlwaysBeLogin"];
-	[self willChangeValueForKey:@"shouldAllThreadsAAThread"];
-	[self willChangeValueForKey:@"icon"];
-	[self willChangeValueForKey:@"shouldEnableBeBtn"];
-
 	[newTarget retain];
 	[_currentTargetBoardName release];
 	_currentTargetBoardName = newTarget;
-
-	[self didChangeValueForKey:@"noNamesArray"];
-	[self didChangeValueForKey:@"boardURLAsString"];
-	[self didChangeValueForKey:@"shouldEnableUI"];
-	[self didChangeValueForKey:@"defaultKotehan"];
-	[self didChangeValueForKey:@"defaultMail"];
-	[self didChangeValueForKey:@"shouldAlwaysBeLogin"];
-	[self didChangeValueForKey:@"shouldAllThreadsAAThread"];
-	[self didChangeValueForKey:@"icon"];
-	[self didChangeValueForKey:@"shouldEnableBeBtn"];
 }
 
 - (NSButton *) helpButton
@@ -117,10 +127,10 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 {
 	return m_editNoNameBtn;
 }
-/*- (NSButton *) detectSettingTxtBtn
+- (NSButton *) detectSettingTxtBtn
 {
 	return m_detectSettingTxtBtn;
-}*/
+}
 - (NSButton *) lockButton
 {
 	return m_lockButton;
@@ -132,6 +142,10 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 - (NSArrayController *) greenCube
 {
 	return m_greenCube;
+}
+- (NSProgressIndicator *) spin
+{
+	return m_spin;
 }
 
 #pragma mark IBActions
@@ -160,7 +174,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 {
 	NSString	*newNanashi;
 	id			tmp_ = [[[self greenCube] selectedObjects] objectAtIndex: 0];
-//	NSLog(@"%@",tmp_);
+
 	newNanashi = [BrdMgr askUserAboutDefaultNoNameForBoard : [self currentTargetBoardName]
 											   presetValue : tmp_];
 	if (!newNanashi) return;
@@ -168,12 +182,41 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	[BrdMgr exchangeNoName: tmp_ toNewValue: newNanashi forBoard: [self currentTargetBoardName]];
 	[self didChangeValueForKey: @"noNamesArray"];
 }
-/*
+
 - (IBAction) startDetect: (id) sender
 {
-	;
+	if ([BrdMgr startDownloadSettingTxtForBoard: [self currentTargetBoardName]]) {
+		[[NSNotificationCenter defaultCenter]
+			 addObserver : self
+				selector : @selector(boardManagerDidDetectSettingTxt:)
+					name : BoardManagerDidFinishDetectingSettingTxtNotification
+				  object : BrdMgr];
+		[[self spin] startAnimation: nil];
+		[[self detectSettingTxtBtn] setEnabled: NO];
+	} else {
+		NSBeep();
+		NSLog(@"Sorry... non-2ch boards are not supported.");
+	}
 }
-*/
+
+- (IBAction) toggleAllowEditingBoardURL: (id) sender
+{
+	int state_ = [sender state];
+	
+	if (state_ == NSOffState) { // unlock --> lock
+		if (NO == [[self currentTargetBoardName] isEqualToString: BSbbynewsBoardName]) {
+			[[self window] makeFirstResponder: m_namesTable];
+		} else {
+			[[self window] makeFirstResponder: [self window]];
+		}
+		[[self URLField] setEditable: NO];
+		[[self URLField] setNeedsDisplay: YES];
+	} else if (state_ == NSOnState) {
+		[[self URLField] setEditable: YES];
+		[[self URLField] selectText: nil];
+	}
+}
+
 - (IBAction) openHelpForMe : (id) sender
 {
 	[[NSHelpManager sharedHelpManager] openHelpAnchor : NSLocalizedString(BIIHelpKeywordKey, @"Board options")
@@ -212,6 +255,19 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 }
 
 - (BOOL) shouldEnableUI
+{
+	NSString *tmp_ = [self currentTargetBoardName];
+	if ([tmp_ isEqualToString : CMXFavoritesDirectoryName] || [tmp_ isEqualToString: BSbbynewsBoardName]) return NO;
+	
+	return YES;
+}
+
+- (BOOL) shouldEnableBeBtn
+{
+	return (BSBeLoginDecidedByUser == [BrdMgr typeOfBeLoginPolicyForBoard : [self currentTargetBoardName]]);
+}
+
+- (BOOL) shouldEnableURLEditing
 {
 	return (![[self currentTargetBoardName] isEqualToString : CMXFavoritesDirectoryName]);
 }
@@ -261,38 +317,18 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	return [BrdMgr iconForBoard : [self currentTargetBoardName]];
 }
 
-- (BOOL) shouldEnableBeBtn
+- (int) nanashiAllowed
 {
-	return (BSBeLoginDecidedByUser == [BrdMgr typeOfBeLoginPolicyForBoard : [self currentTargetBoardName]]);
+	return [BrdMgr allowsNanashiAtBoard: [self currentTargetBoardName]] ? 0 : 1;
 }
 
-#pragma mark -
-- (void) showInspectorForTargetBoard : (NSString *) boardName
-{
-	[self setCurrentTargetBoardName : boardName];
-	[self showWindow : self];
-}
-
-- (IBAction) toggleAllowEditingBoardURL: (id) sender
-{
-	int state_ = [sender state];
-	
-	if (state_ == NSOffState) { // unlock --> lock
-		[[self window] makeFirstResponder: m_namesTable];
-		[[self URLField] setEditable: NO];
-		[[self URLField] setNeedsDisplay: YES];
-	} else if (state_ == NSOnState) {
-		[[self URLField] setEditable: YES];
-		[[self URLField] selectText: nil];
-	}
-}
-
+#pragma mark Notification
 - (void) mainWindowChanged : (NSNotification *) theNotification
 {
 	if (![[self window] isVisible]) return;
 
 	id winController_ = [[theNotification object] windowController];
-
+/*
 	if (([winController_ class] == [CMRThreadViewer class]) || ([winController_ class] == [CMRBrowser class])) {
 		NSString *tmp_;
 		tmp_ = [(CMRThreadViewer *)winController_ boardName];
@@ -303,6 +339,14 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 			return;
 		[self setCurrentTargetBoardName : tmp_];
 		[[self window] update];
+	}*/
+	if ([winController_ respondsToSelector: @selector(boardIdentifier)]) {
+		NSString *tmp_ = [winController_ boardIdentifier];
+				
+		if (!tmp_) return;
+		
+		[self setCurrentTargetBoardName: [(CMRBBSSignature *)tmp_ name]];
+		[[self window] update];
 	}
 }
 
@@ -311,11 +355,12 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	if (![[self window] isVisible]) return;
 	id winController_ = [theNotification object];
 
-	if ([winController_ class] == [CMRBrowser class]) {
+	if (NO == [(NSWindow *)[winController_ window] isMainWindow]) return;
+
+//	if ([winController_ class] == [CMRBrowser class]) { // 発信者は常に CMRBrowser class
+	if ([winController_ respondsToSelector: @selector(boardIdentifier)]) {
 		NSString *tmp_;
-		//tmp_ = [(CMRBrowser *)winController_ boardName];
-		//if(tmp_ == nil)
-			tmp_ = [(CMRBBSSignature *)[(CMRBrowser *)winController_ boardIdentifier] name];
+		tmp_ = [(CMRBBSSignature *)[winController_ boardIdentifier] name];
 	
 		if (nil == tmp_)
 			return;
@@ -329,7 +374,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	if (![[self window] isVisible]) return;
 	id winController_ = [theNotification object];
 
-	if ([winController_ class] == [CMRThreadViewer class]) {
+//	if ([winController_ class] == [CMRThreadViewer class]) {
+	if ([winController_ isMemberOfClass: [CMRThreadViewer class]]) {
 		NSString *tmp_;
 		tmp_ = [(CMRThreadViewer *)winController_ boardName];
 		if(tmp_ == nil)
@@ -343,5 +389,18 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 		[self setCurrentTargetBoardName : tmp_];
 		[[self window] update];
 	}
+}
+
+- (void) boardManagerDidDetectSettingTxt: (NSNotification *) aNotification
+{
+	[[self spin] stopAnimation: nil];
+	[[self detectSettingTxtBtn] setEnabled: YES];
+
+	if ([[self window] isVisible]) {
+		[self setCurrentTargetBoardName : _currentTargetBoardName];
+		[[self window] update];
+	}
+	
+	[[NSNotificationCenter defaultCenter] removeObserver: self name: BoardManagerDidFinishDetectingSettingTxtNotification object: BrdMgr];
 }
 @end

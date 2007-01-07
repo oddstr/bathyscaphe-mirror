@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRHostHTMLHandler.m,v 1.5 2006/11/05 12:53:48 tsawada2 Exp $
+  * $Id: CMRHostHTMLHandler.m,v 1.6 2007/01/07 17:04:23 masakih Exp $
   * 
   * CMRHostHTMLHandler.m
   *
@@ -38,6 +38,16 @@
 
 
 @implementation CMRHostHTMLHandler : CMRHostHandler
+- (NSURL *) rawmodeURLWithBoard: (NSURL    *) boardURL
+						datName: (NSString *) datName
+						  start: (unsigned  ) startIndex
+							end: (unsigned  ) endIndex
+						nofirst: (BOOL      ) nofirst
+{
+	return [self readURLWithBoard: boardURL datName: datName start: startIndex end: endIndex nofirst: nofirst];
+}
+
+#pragma mark HTML Parser
 // return title
 - (NSString *) scanHead : (id<XmlPullParser>) xpp
 		           with : (id               ) thread
@@ -86,11 +96,19 @@
 	return index_;
 }
 
+//- (void) deleteExtraSpaceAtEndOfNameIfNeeded: (NSMutableString *) str range: (NSRange) range
+- (void) deleteExtraSpaceAtEndOfNameIfNeeded: (NSMutableString *) str locationHint: (unsigned int) startPoint
+{
+	// JBBS livedoor should override this method
+	[str deleteCharactersInRange: NSMakeRange(startPoint-2, 2)];
+}
 /*
 str = @"雪ん子  <><> 2003/09/01(月) 20:00:12 ID:Bc0TyiNc [ ntt2-ppp758.tokyo.sannet.ne.jp ]"
 */
-static void formatHostField(NSMutableString *str)
+//static void formatHostField(NSMutableString *str)
+- (void) formatHostField: (NSMutableString *) str
 {
+	// JBBS livedoor should override this method
 	char		c;
 	NSRange		hostPrefixRange_;
 	
@@ -162,7 +180,9 @@ static void formatHostField(NSMutableString *str)
 			if (mail_ != nil) [tmp insertString:mail_ atIndex:found.location];
 			[tmp insertString:@"<>" atIndex:found.location];
 
-			[tmp deleteCharactersInRange: NSMakeRange(found.location-2, 2)]; // v260 added
+//			[tmp deleteCharactersInRange: NSMakeRange(found.location-2, 2)]; // v260 added
+//			[self deleteExtraSpaceAtEndOfNameIfNeeded: tmp range: NSMakeRange(found.location-2, 2)];
+			[self deleteExtraSpaceAtEndOfNameIfNeeded: tmp locationHint: found.location];
 
 			[tmp replaceCharacters:@"\n" toString:@""];
 			[tmp strip];
@@ -175,7 +195,9 @@ tmp = @"雪ん子  <><> 2003/09/01(月) 20:00:12 ID:Bc0TyiNc [ ntt2-ppp758.tokyo.san
 tmp = @"雪ん子<><> 2003/09/01(月) 20:00:12 ID:Bc0TyiNc [ ntt2-ppp758.tokyo.sannet.ne.jp ]"
 */
 			// ホストを整形
-			formatHostField(tmp);
+//			formatHostField(tmp);
+			[self formatHostField: tmp];
+
 			[tmp appendString : @"<>"];
 			
 			[thread appendString : tmp];

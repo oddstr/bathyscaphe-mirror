@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIFullScreenController.h,v 1.5 2006/09/02 11:41:01 masakih Exp $
+//  $Id: BSIPIFullScreenController.h,v 1.6 2007/01/07 17:04:24 masakih Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.
@@ -7,23 +7,23 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <ApplicationServices/ApplicationServices.h>
 
 @interface BSIPIFullScreenController : NSObject {
 	IBOutlet NSWindow		*_baseWindow; // @ nib file
 	NSWindow				*_fullScreenWindow;
 	IBOutlet NSImageView	*_imageView;
+	IBOutlet NSTextField	*_statusField;
 	id						m_delegate;
+	NSArrayController		*m_cube; // do not retain/release
 }
 
-+ (BSIPIFullScreenController *) sharedInstance;
-
-//- (void) showPanelWithImage : (NSImage *) anImage;
-//- (void) hidePanel;
-- (void) setImage: (NSImage *) anImage;
++ (id) sharedInstance;
 
 - (id) delegate;
 - (void) setDelegate: (id) aDelegate;
+
+- (NSArrayController *) arrayController;
+- (void) setArrayController: (id) aController;
 
 - (void) startFullScreen;
 - (void) startFullScreen: (NSScreen *) whichScreen;

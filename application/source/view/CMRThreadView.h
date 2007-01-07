@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadView.h,v 1.2 2006/06/11 23:47:26 tsawada2 Exp $
+  * $Id: CMRThreadView.h,v 1.3 2007/01/07 17:04:24 masakih Exp $
   * 
   * CMRThreadView.h
   *
@@ -17,6 +17,9 @@
 {
 	@private
 	unsigned		_lastCharIndex;		/* menuForEvent: */
+	// ReinforceII
+	BOOL			draggingHilited;
+	NSTimeInterval	draggingTimer;
 }
 // delegate's layout
 - (CMRThreadLayout *) threadLayout;
@@ -50,4 +53,7 @@
 // Available in CometBlaster and later. but currently not used.
 - (BOOL) threadView: (CMRThreadView *) aView
 	 validateAction: (SEL) aSelector;
+
+// ReinforceII Drag & Drop behavior util
+- (void) setThreadContentWithThreadIdentifier : (id) aThreadIdentifier;
 @end

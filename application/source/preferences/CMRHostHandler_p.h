@@ -18,7 +18,15 @@
 @end
 
 // html
-@interface CMRJbbsShitarabaHandler : CMRHostHTMLHandler
+// Removed in BathyScaphe 1.3.1 and later. Use BSHostLivedoorHandler instead.
+//@interface CMRJbbsShitarabaHandler : CMRHostHTMLHandler
+//@end
+
+// Available in BathyScaphe 1.3.1 and later.
+@interface BSHostLivedoorHandler: CMRHostHTMLHandler
 @end
+
 @interface CMRMachibbsaHandler : CMRHostHTMLHandler
 @end
+
+extern NSDictionary *CMRHostPropertiesForKey(NSString *aKey);

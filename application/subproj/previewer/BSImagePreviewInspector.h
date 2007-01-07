@@ -1,6 +1,6 @@
 //
 //  BSImagePreviewInspector.h
-//  BathyScaphe
+//  BathyScaphe Preview Inspector 2.5
 //
 //  Created by Tsutomu Sawada on 05/10/10.
 //  Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -10,15 +10,14 @@
 #import "BSImagePreviewerInterface.h"
 #import "BSIPIHistoryManager.h"
 
-@class TemporaryFolder;
-@class BSIPIDownload;
-
+@class BSIPIToken;
+/*
 typedef enum _BSIPIRedirectionBehavior {
 	BSIPIAlwaysAsk		= -1,
 	BSIPIAlwaysAbort	= 0,
 	BSIPIAlwaysPass		= 1,
 } BSIPIRedirectionBehavior;
-
+*/
 @interface BSImagePreviewInspector : NSWindowController <BSImagePreviewerProtocol> {
 	IBOutlet NSTextField			*m_infoField;
 	IBOutlet NSPopUpButton			*m_actionBtn;
@@ -33,18 +32,14 @@ typedef enum _BSIPIRedirectionBehavior {
 	IBOutlet NSTextField			*m_versionInfoField;
 	IBOutlet NSMenu					*m_cacheNaviMenuFormRep;
 	IBOutlet NSSegmentedControl		*m_preferredViewSelector;
+	IBOutlet NSArrayController		*m_tripleGreenCubes;
 
 	@private
-	NSURL			*_sourceURL;
-	BSIPIDownload	*_currentDownload;
-	TemporaryFolder	*_dlFolder;
 	AppDefaults		*_preferences;
 	BOOL			m_shouldRestoreKeyWindow;
 }
 
-// Binding
-- (NSURL *) sourceURL;
-- (void) setSourceURL : (NSURL *) newURL;
+- (NSMutableArray *) historyItems;
 
 // Actions
 - (IBAction) openImage : (id) sender;
@@ -53,8 +48,6 @@ typedef enum _BSIPIRedirectionBehavior {
 - (IBAction) saveImageAs: (id) sender;
 - (IBAction) copyURL : (id) sender;
 - (IBAction) beginSettingsSheet : (id) sender;
-- (IBAction) endSettingsSheet : (id) sender;
-- (IBAction) openOpenPanel : (id) sender;
 - (IBAction) startFullscreen : (id) sender;
 
 - (IBAction) togglePreviewPanel : (id) sender;
@@ -68,8 +61,6 @@ typedef enum _BSIPIRedirectionBehavior {
 - (IBAction) deleteCachedImage: (id) sender;
 
 - (IBAction) resetCache: (id) sender;
-
-- (BOOL) showCachedImageWithPath: (NSString *) path;
 @end
 
 @interface BSImagePreviewInspector(Settings)
@@ -97,17 +88,17 @@ typedef enum _BSIPIRedirectionBehavior {
 - (int) lastShownViewTag;
 - (void) setLastShownViewTag: (int) aTag;
 
-- (BSIPIRedirectionBehavior) redirectionBehavior;
-- (void) setRedirectionBehavior: (BSIPIRedirectionBehavior) aTag;
+//- (BSIPIRedirectionBehavior) redirectionBehavior;
+//- (void) setRedirectionBehavior: (BSIPIRedirectionBehavior) aTag;
+
+- (BOOL) leaveFailedToken;
+- (void) setLeaveFailedToken: (BOOL) leave;
 @end
 
 @interface BSImagePreviewInspector(ToolbarAndUtils)
 - (NSString *) localizedStrForKey : (NSString *) key;
 - (NSImage *) imageResourceWithName : (NSString *) name;
-- (NSString *) calcImageSize : (NSImage *) image_;
 - (void) setupToolbar;
-- (void) startProgressIndicator;
-- (void) stopProgressIndicator;
 @end
 
 @interface BSImagePreviewInspector(ViewAccessor)
@@ -120,18 +111,17 @@ typedef enum _BSIPIRedirectionBehavior {
 - (NSTabView *) tabView;
 - (NSSegmentedControl *) paneChangeBtn;
 - (NSTableColumn *) nameColumn;
+- (NSMenu *) cacheNaviMenuFormRep;
+- (NSArrayController *) tripleGreenCubes;
+@end
+
+@interface BSImagePreviewInspector(Preferences)
+- (IBAction) endSettingsSheet: (id) sender;
+- (IBAction) openOpenPanel: (id) sender;
+
 - (NSPopUpButton *) directoryChooser;
 - (NSTextField *) versionInfoField;
-- (NSMenu *) cacheNaviMenuFormRep;
 - (NSSegmentedControl *) preferredViewSelector;
 
-- (BSIPIDownload *) currentDownload;
-- (void) setCurrentDownload : (BSIPIDownload *) aDownload;
-
-- (TemporaryFolder *) dlFolder;
-
 - (void) updateDirectoryChooser;
-
-- (void) clearAttributes;
-- (void) synchronizeImageAndSelectedRow;
 @end

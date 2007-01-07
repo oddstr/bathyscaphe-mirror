@@ -84,3 +84,24 @@
 // Deprecated in ShortCircuit and later.
 //- (int) threadViewerMailType;
 //- (void) setThreadViewerMailType : (int) aType;
+
+// Deprecated in BathyScaphe 1.2.
+//- (NSString *) ignoreTitleCharacters;
+//- (void) setIgnoreTitleCharacters : (NSString *) ignoreChars;
+
+
+// Proxy. Deprecated in MeteorSweeper and later.
+//- (BOOL) usesProxy;
+//- (void) setUsesProxy : (BOOL) anUsesProxy;
+//- (BOOL) usesProxyOnlyWhenPOST;
+//- (void) setUsesProxyOnlyWhenPOST : (BOOL) anUsesProxy;
+
+//- (BOOL) usesSystemConfigProxy;
+//- (void) setUsesSystemConfigProxy : (BOOL) flag;
+
+//- (void) getProxy:(NSString**)host port:(CFIndex*)port;
+//- (CFIndex) proxyPort;
+//- (void) setProxyPort : (CFIndex) aProxyPort;
+//- (NSString *) proxyHost;
+//- (void) setProxyHost : (NSString *) aProxyURL;
+

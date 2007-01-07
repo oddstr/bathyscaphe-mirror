@@ -1,6 +1,6 @@
 //: CMRTaskItemController.h
 /**
-  * $Id: CMRTaskItemController.h,v 1.1 2005/05/11 17:51:07 tsawada2 Exp $
+  * $Id: CMRTaskItemController.h,v 1.2 2007/01/07 17:04:23 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -14,7 +14,7 @@
 
 
 
-@interface CMRTaskItemController : SGBaseObject
+@interface CMRTaskItemController : NSObject//SGBaseObject
 {
 	IBOutlet NSView					*_contentView;
 	IBOutlet NSTextField			*_titleField;

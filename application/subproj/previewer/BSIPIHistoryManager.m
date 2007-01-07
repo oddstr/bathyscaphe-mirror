@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIHistoryManager.m,v 1.5 2006/11/05 13:15:07 tsawada2 Exp $
+//  $Id: BSIPIHistoryManager.m,v 1.6 2007/01/07 17:04:24 masakih Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/12.
@@ -7,10 +7,9 @@
 //
 
 #import "BSIPIHistoryManager.h"
+#import "BSIPIToken.h"
+#import <SGAppKit/NSWorkspace-SGExtensions.h>
 #import <CocoMonar/CMRSingletonObject.h>
-
-NSString *const kIPIHistoryItemURLKey	= @"PassedURL";
-NSString *const kIPIHistoryItemPathKey	= @"DownloadedFilePath";
 
 @implementation BSIPIHistoryManager
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)	
@@ -18,111 +17,242 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 - (void) dealloc
 {
 	[_historyBacket release];
+	[_dlFolderPath release];
 	[super dealloc];
 }
 
 - (NSMutableArray *) historyBacket
 {
-	if(_historyBacket == nil)
+	if (_historyBacket == nil) {
 		_historyBacket = [[NSMutableArray alloc] init];
-
+	}
 	return _historyBacket;
 }
 
 - (void) setHistoryBacket : (NSMutableArray *) aMutableArray
 {
-	id	tmp;
-	tmp = _historyBacket;
-	_historyBacket = [aMutableArray retain];
-	[tmp release];
+	[aMutableArray retain];
+	[_historyBacket release];
+	_historyBacket = aMutableArray;
+}
+
+- (NSString *) createDlFolder
+{
+	NSFileManager	*fm = [NSFileManager defaultManager];
+	NSString		*tmpDir = NSTemporaryDirectory();
+	NSString		*appName = [[NSBundle mainBundle] bundleIdentifier];
+	NSString		*path_;
+
+	BOOL created = NO;	
+	do {
+		NSString	*folderName = [NSString stringWithFormat: @"%@.%d", appName, [[NSDate date] timeIntervalSince1970]];
+		path_ = [tmpDir stringByAppendingPathComponent: folderName];
+		
+		if (![fm fileExistsAtPath: path_] && [fm createDirectoryAtPath: path_ attributes: nil]) {
+			created = YES;
+		}
+	} while(!created);
+	
+	return path_;
+}
+
+- (NSString *) dlFolderPath
+{
+	if (_dlFolderPath == nil) {
+		_dlFolderPath = [[self createDlFolder] retain];
+	}
+	return _dlFolderPath;
+}
+
+- (void) flushCache
+{
+	[self setHistoryBacket: [NSMutableArray array]];
+	
+	[[NSFileManager defaultManager] removeFileAtPath: [self dlFolderPath] handler: nil];
+	[_dlFolderPath release];
+	_dlFolderPath = nil;
 }
 
 - (NSArray *) arrayOfURLs
 {
 	NSMutableArray *tmp = [self historyBacket];
-	return ([tmp count] > 0) ? [tmp valueForKey : kIPIHistoryItemURLKey] : nil;
+	return ([tmp count] > 0) ? [tmp valueForKey: @"sourceURL"] : nil;
 }
 
 - (NSArray *) arrayOfPaths
 {
 	NSMutableArray *tmp = [self historyBacket];
-	return ([tmp count] > 0) ? [tmp valueForKey : kIPIHistoryItemPathKey] : nil;
+	return ([tmp count] > 0) ? [tmp valueForKey : @"downloadedFilePath"] : nil;
 }
 
-- (unsigned) indexOfURL: (NSURL *) anURL
+#pragma mark Token Accessors
+- (BSIPIToken *) searchCachedTokenBy: (NSArray *) array forKey: (id) key
 {
-	NSArray *tmp = [self arrayOfURLs];
-	if (tmp == nil)
-		return NSNotFound;
+	if (!array || !key) return nil;
 
-	return [tmp indexOfObject : anURL];
-}
-
-- (unsigned) indexOfPath: (NSString *) aPath
-{
-	NSArray *tmp = [self arrayOfPaths];
-	if (tmp == nil)
-		return NSNotFound;
-	
-	return [tmp indexOfObject: aPath];
-}
-
-- (NSString *) cachedFilePathForURL : (NSURL *) anURL
-{
-	unsigned	idx = [self indexOfURL: anURL];
+	unsigned idx = [array indexOfObject: key];
 	if (idx == NSNotFound) return nil;
 	
-	return [[self arrayOfPaths] objectAtIndex : idx];
+	return [[self historyBacket] objectAtIndex: idx];
 }
 
-- (NSURL *) cachedURLForFilePath: (NSString *) aPath
+- (BOOL) isTokenCachedForURL: (NSURL *) anURL
 {
-	unsigned	idx = [self indexOfPath: aPath];
-	if (idx == NSNotFound) return nil;
+	return ([self cachedTokenForURL: anURL] != nil);
+}
+
+- (BSIPIToken *) cachedTokenForURL: (NSURL *) anURL
+{
+	return [self searchCachedTokenBy: [self arrayOfURLs] forKey: anURL];
+}
+
+- (BSIPIToken *) cachedTokenAtIndex: (unsigned) index
+{
+	if (index == NSNotFound) return nil;
+	return [[self historyBacket] objectAtIndex: index];
+}
+
+- (unsigned) cachedTokenIndexForURL: (NSURL *) anURL
+{
+	if (nil == [self arrayOfURLs]) {
+		return NSNotFound;
+	}
+	return [[self arrayOfURLs] indexOfObject: anURL];
+}
+
+- (NSArray *) cachedTokensArrayAtIndexes: (NSIndexSet *) indexes
+{
+	if (indexes == nil) return nil;
 	
-	return [[self arrayOfURLs] objectAtIndex: idx];
+	NSMutableArray *array = [NSMutableArray array];
+
+	unsigned int	index;
+	unsigned int	size = [indexes lastIndex]+1;
+	NSRange			e = NSMakeRange(0, size);
+
+	while ([indexes getIndexes: &index maxCount: 1 inIndexRange: &e] > 0)
+	{
+		[array addObject: [[self historyBacket] objectAtIndex: index]];
+	}
+
+	return array;
 }
 
-- (NSString *) cachedNextFilePathForURL: (NSURL *) currentURL
+- (BOOL) cachedTokensArrayContainsNotNullObjectAtIndexes: (NSIndexSet *) indexes
 {
-	unsigned	idx = [self indexOfURL: currentURL];
-	if (idx == NSNotFound || idx == [[self arrayOfURLs] count]-1) return nil;
-
-	return [[self arrayOfPaths] objectAtIndex: idx+1];
-}
-
-- (NSString *) cachedPrevFilePathForURL: (NSURL *) currentURL
-{
-	if(!currentURL) return [self cachedLastFilePath];
-
-	unsigned	idx = [self indexOfURL: currentURL];
-	if (idx == NSNotFound || idx == 0) return nil;
+	NSArray *tokenArray = [self cachedTokensArrayAtIndexes: indexes];
 	
-	return [[self arrayOfPaths] objectAtIndex: idx-1];
+	if (tokenArray == nil) return NO;
+	
+	NSArray	*pathArray = [tokenArray valueForKey: @"downloadedFilePath"];
+	NSEnumerator *iter_ = [pathArray objectEnumerator];
+	NSString	*eachPath;
+	
+	while (eachPath = [iter_ nextObject]) {
+		if (NO == [eachPath isEqual: [NSNull null]]) return YES;
+	}
+	
+	return NO;
 }
 
-- (NSString *) cachedFirstFilePath
+- (BOOL) cachedTokensArrayContainsDownloadingTokenAtIndexes: (NSIndexSet *) indexes
 {
-	return [[self arrayOfPaths] objectAtIndex: 0];
+	NSArray *tokenArray = [self cachedTokensArrayAtIndexes: indexes];
+	
+	if (tokenArray == nil) return NO;
+	
+	NSArray	*boolArray = [tokenArray valueForKey: @"isDownloading"];
+	NSEnumerator *iter_ = [boolArray objectEnumerator];
+	NSNumber	*eachStatus;
+	
+	while (eachStatus = [iter_ nextObject]) {
+		if ([eachStatus boolValue]) return YES;
+	}
+	
+	return NO;
 }
 
-- (NSString *) cachedLastFilePath
+
+
+#pragma mark URL Operations
+- (void) openURLForTokenAtIndexes: (NSIndexSet *) indexes inBackground: (BOOL) inBg
 {
-	return [[self arrayOfPaths] lastObject];
+	NSArray	*tokenArray = [self cachedTokensArrayAtIndexes: indexes];
+	
+	if (tokenArray != nil) {
+		NSArray						*urlArray = [tokenArray valueForKey: @"sourceURL"];
+
+		NSWorkspaceLaunchOptions	options = NSWorkspaceLaunchDefault;
+		if (inBg) options |= NSWorkspaceLaunchWithoutActivation;
+
+		[[NSWorkspace sharedWorkspace] openURLs: urlArray
+						withAppBundleIdentifier: [[NSWorkspace sharedWorkspace] bundleIdentifierForDefaultWebBrowser]
+										options: options
+				 additionalEventParamDescriptor: nil
+							  launchIdentifiers: nil];
+	}
 }
 
-- (void) openCachedFileForURLWithPreviewApp: (NSURL *) anURL
+- (void) makeTokensCancelDownloadAtIndexes: (NSIndexSet *) indexes
 {
-	NSWorkspace	*ws_ = [NSWorkspace sharedWorkspace];
-	NSString *appName_ = [ws_ absolutePathForAppBundleWithIdentifier : @"com.apple.Preview"];
-	[ws_ openFile : [self cachedFilePathForURL: anURL] withApplication : appName_];
+	NSArray	*tokenArray = [self cachedTokensArrayAtIndexes: indexes];
+	
+	if (tokenArray != nil) {
+		[tokenArray makeObjectsPerformSelector: @selector(cancelDownload)];
+	}
 }
 
-- (void) copyCachedFileForURL: (NSURL *) anURL intoFolder: (NSString *) folderPath
+#pragma mark File Operations
+- (NSArray *) convertFilePathArrayToURLArray: (NSArray *) pathArray
 {
-	NSString	*fPath_ = [self cachedFilePathForURL: anURL];
-	NSString	*dest_ = [folderPath stringByAppendingPathComponent: [fPath_ lastPathComponent]];
-	[self copyCachedFileForPath: fPath_ toPath: dest_];
+	NSMutableArray	*urlArray = [NSMutableArray array];
+	NSEnumerator *iter_ = [pathArray objectEnumerator];
+	NSString	*eachPath;
+	
+	while (eachPath = [iter_ nextObject]) {
+		if ([eachPath isEqual: [NSNull null]]) continue;
+		
+		NSURL *url_ = (NSURL *)CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)eachPath, kCFURLPOSIXPathStyle, false);
+		[urlArray addObject: url_];
+		
+		CFRelease((CFURLRef)url_);
+	}
+	
+	return urlArray;
+}
+
+- (void) openCachedFileForTokenAtIndexesWithPreviewApp: (NSIndexSet *) indexes
+{
+	NSArray	*tokenArray = [self cachedTokensArrayAtIndexes: indexes];
+	
+	if (tokenArray != nil) {
+		NSArray *pathArray_ = [tokenArray valueForKey: @"downloadedFilePath"];
+		NSArray *fileURLArray_ = [self convertFilePathArrayToURLArray: pathArray_];
+
+		if ([fileURLArray_ count] > 0) {
+			[[NSWorkspace sharedWorkspace] openURLs: fileURLArray_
+							withAppBundleIdentifier: @"com.apple.Preview"
+											options: NSWorkspaceLaunchDefault
+					 additionalEventParamDescriptor: nil
+								  launchIdentifiers: nil];
+		}
+	}
+}
+
+- (void) copyCachedFileForTokenAtIndexes: (NSIndexSet *) indexes intoFolder: (NSString *) folderPath
+{
+	NSArray	*tokenArray = [self cachedTokensArrayAtIndexes: indexes];
+	
+	if (tokenArray != nil) {
+		NSArray *pathArray = [tokenArray valueForKey: @"downloadedFilePath"];
+		NSEnumerator *iter_ = [pathArray objectEnumerator];
+		NSString	*eachPath;
+		
+		while (eachPath = [iter_ nextObject]) {
+			if ([eachPath isEqual: [NSNull null]]) continue;
+			[self copyCachedFileForPath: eachPath toPath: [folderPath stringByAppendingPathComponent: [eachPath lastPathComponent]]];
+		}
+	}
 }
 
 - (BOOL) copyCachedFileForPath: (NSString *) cacheFilePath toPath: (NSString *) copiedFilePath
@@ -137,9 +267,13 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 	return YES;
 }
 
-- (void) saveCachedFileForURL: (NSURL *) anURL savePanelAttachToWindow: (NSWindow *) aWindow
+- (void) saveCachedFileForTokenAtIndex: (unsigned) index savePanelAttachToWindow: (NSWindow *) aWindow
 {
-	NSString	*filePath_ = [self cachedFilePathForURL: anURL];
+	BSIPIToken	*aToken = [self cachedTokenAtIndex: index];
+	if (aToken == nil) return;
+	NSString	*filePath_ = [aToken downloadedFilePath];
+	if (filePath_ == nil) return;
+
 	NSString	*extension_ = [filePath_ pathExtension];
 
 	NSSavePanel *sP = [NSSavePanel savePanel];
@@ -156,92 +290,123 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 				   contextInfo : filePath_];
 }
 
-- (void) savePanelDidEnd : (NSSavePanel *) sheet returnCode : (int) returnCode  contextInfo : (void *) contextInfo
+- (void) savePanelDidEnd: (NSSavePanel *) sheet returnCode: (int) returnCode contextInfo: (void *) contextInfo
 {
 	if (returnCode == NSOKButton) {
 		NSString *savePath = [sheet filename];
 		if ([self copyCachedFileForPath: (NSString *)contextInfo toPath: savePath]) {
 			NSDictionary *tmpDict;
-			tmpDict = [NSDictionary dictionaryWithObject : [NSNumber numberWithBool : [sheet isExtensionHidden]]
-												  forKey : NSFileExtensionHidden];
+			tmpDict = [NSDictionary dictionaryWithObject: [NSNumber numberWithBool: [sheet isExtensionHidden]]
+												  forKey: NSFileExtensionHidden];
 
-			[[NSFileManager defaultManager] changeFileAttributes : tmpDict atPath : savePath];
+			[[NSFileManager defaultManager] changeFileAttributes: tmpDict atPath: savePath];
 		}
 	}
 }
 
-
-- (NSImage *) makeThumbnailWithPath: (NSString *) aPath
+#pragma mark Add / Remove Token
+- (void) addTokenForURL: (NSURL *) anURL
 {
-	NSImageRep	*imageRep_;
-	float initX, initY, thumbX;
-
-	imageRep_ = [NSImageRep imageRepWithContentsOfFile: aPath];
-	initX = [imageRep_ pixelsWide];
-	initY = [imageRep_ pixelsHigh];
-
-	thumbX = 32.0 * initX / initY;
-	[imageRep_ setSize: NSMakeSize(thumbX, 32.0)];
-	
-	NSImage *image_ = [[NSImage alloc] initWithSize: NSMakeSize(thumbX, 32.0)];
-	[image_ addRepresentation: imageRep_];
-	[image_ setDataRetained: NO];
-	
-	return [image_ autorelease];
+	if (anURL == nil) return;
+	BSIPIToken	*token = [[BSIPIToken alloc] initWithURL: anURL destination: [self dlFolderPath]];
+	[[self historyBacket] addObject: token];
+	[token release];
 }
 
-- (BOOL) addItemOfURL : (NSURL *) anURL andPath : (NSString *) aPath
+- (void) addToken: (BSIPIToken *) aToken
 {
-	if (anURL == nil || aPath == nil) return NO;
-	
-	NSDictionary *tmpDict;
-	NSImage *image_ = [self makeThumbnailWithPath: aPath];
-	tmpDict = [NSDictionary dictionaryWithObjectsAndKeys : anURL, kIPIHistoryItemURLKey, aPath, kIPIHistoryItemPathKey, image_, @"imageRef",NULL];
-	[[self historyBacket] addObject : tmpDict];
-
-	return YES;
+	[[self historyBacket] addObject: aToken];
 }
 
-- (BOOL) removeItemOfURL: (NSURL *) anURL
+- (void) removeToken: (BSIPIToken *) aToken
 {
-	if (anURL == nil) return NO;
-	unsigned idx_ = [self indexOfURL: anURL];
+	NSString *filePath = [aToken downloadedFilePath];
+	if (filePath != nil) {
+		[[NSFileManager defaultManager] removeFileAtPath: filePath handler: nil];
+	}
+	[[self historyBacket] removeObject: aToken];
+}
+
+- (void) removeTokenAtIndexes: (NSIndexSet *) indexes
+{
+	NSArray	*tokenArray = [self cachedTokensArrayAtIndexes: indexes];
 	
-	if (idx_ == NSNotFound) return NO;
+	if (tokenArray != nil) {
+		NSArray *pathArray = [tokenArray valueForKey: @"downloadedFilePath"];
+		NSEnumerator *iter_ = [pathArray objectEnumerator];
+		NSString	*eachPath;
+		
+		while (eachPath = [iter_ nextObject]) {
+			if ([eachPath isEqual: [NSNull null]]) continue;
+			[[NSFileManager defaultManager] removeFileAtPath: eachPath handler: nil];
+		}
+	}
 
-	NSString *fPath_ = [self cachedFilePathForURL: anURL];
-	if (NO == [[NSFileManager defaultManager] removeFileAtPath: fPath_ handler: nil]) return NO;
+	unsigned int bufferSize;
+	unsigned int *buffer;
+	unsigned int count;
 
-	[[self historyBacket] removeObjectAtIndex: idx_];
-	return YES;
+	bufferSize = [indexes count];
+	buffer = malloc(sizeof(unsigned int) * bufferSize);
+
+	if (buffer == NULL) return;
+
+	count = [indexes getIndexes: buffer maxCount: bufferSize inIndexRange: nil];
+
+	[[self historyBacket] removeObjectsFromIndices: buffer numIndices: count];
+
+	free(buffer);
 }
 
 #pragma mark NSTableDataSource
-- (BOOL) appendDataForURL: (NSURL *) source toPasteboard: (NSPasteboard *) pboard withFilenamesPboardType: (BOOL) filenamesType
+- (NSArray *) arrayForDeclaringTypes
 {
-	if (!source) return NO;
-	
-	NSString *fPath_ = [self cachedFilePathForURL: source];
-	if(!fPath_ && filenamesType) return NO;
-	
-	if (filenamesType) {
-		[pboard declareTypes: [NSArray arrayWithObjects: NSFilenamesPboardType, NSURLPboardType, nil] owner: nil];
-		[pboard setPropertyList: [NSArray arrayWithObject: fPath_] forType: NSFilenamesPboardType];
-	} else {
-		[pboard declareTypes: [NSArray arrayWithObjects: NSURLPboardType, NSStringPboardType, nil] owner: nil];
-		[pboard setString: [source absoluteString] forType: NSStringPboardType];
+	static NSArray *array_ = nil;
+	if (array_ == nil) {
+		array_ = [[NSArray alloc] initWithObjects: NSURLPboardType, NSStringPboardType, nil];
+	}
+
+	return array_;
+}
+
+- (NSArray *) arrayForAddingTypes
+{
+	static NSArray	*additionalArray_ = nil;
+	if (additionalArray_ == nil) {
+		additionalArray_ = [[NSArray alloc] initWithObjects: NSFilenamesPboardType, nil];
 	}
 	
-	[source writeToPasteboard: pboard];
+	return additionalArray_;
+}
+
+- (BOOL) appendDataForTokenAtIndexes: (NSIndexSet *) indexes
+						toPasteboard: (NSPasteboard *) pboard
+			 withFilenamesPboardType: (BOOL) filenamesType
+{
+	NSArray		*tokens_ = [self cachedTokensArrayAtIndexes: indexes];
+	NSArray		*urlArray_ = [tokens_ valueForKey: @"sourceURL"];
+	NSString	*joinedURLString_ = [[urlArray_ valueForKey: @"absoluteString"] componentsJoinedByString: @"\n"];
+	
+	NSURL		*url_ = [[self cachedTokenAtIndex: [indexes firstIndex]] sourceURL];
+	
+	[pboard declareTypes: [self arrayForDeclaringTypes] owner: nil];
+
+	if (filenamesType) {
+		NSMutableArray *pathAry_ = [[tokens_ valueForKey: @"downloadedFilePath"] mutableCopy];
+		[pathAry_ removeObjectIdenticalTo: [NSNull null]];
+		if ([pathAry_ count] > 0) {
+			[pboard addTypes: [self arrayForAddingTypes] owner: nil];
+			[pboard setPropertyList: pathAry_ forType: NSFilenamesPboardType];
+		}
+		[pathAry_ release];
+	}
+	[pboard setString: joinedURLString_ forType: NSStringPboardType];
+	[url_ writeToPasteboard: pboard];
 	return YES;
 }
 
 - (BOOL) tableView: (NSTableView *) aTableView writeRowsWithIndexes: (NSIndexSet *) rowIndexes toPasteboard: (NSPasteboard*) pboard
 {
-	// とりあえず一つだけ
-	unsigned int rowIndex = [rowIndexes firstIndex];
-	NSURL		*fileURL_ = [[self arrayOfURLs] objectAtIndex: rowIndex];
-
-	return [self appendDataForURL: fileURL_ toPasteboard: pboard withFilenamesPboardType: YES];
+	return [self appendDataForTokenAtIndexes: rowIndexes toPasteboard: pboard withFilenamesPboardType: YES];
 }
 @end

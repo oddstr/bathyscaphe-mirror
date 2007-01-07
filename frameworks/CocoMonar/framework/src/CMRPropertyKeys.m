@@ -1,13 +1,13 @@
 //: CMRPropertyKeys.m
 /**
-  * $Id: CMRPropertyKeys.m,v 1.2 2006/01/05 14:16:44 tsawada2 Exp $
+  * $Id: CMRPropertyKeys.m,v 1.3 2007/01/07 17:04:24 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
   */
 
 #import "CMRPropertyKeys.h"
-
+#import <SGFoundation/NSBundle-SGExtensions.h>
 
 NSString *const ThreadPlistContentsIndexKey		= @"Index";
 
@@ -55,7 +55,8 @@ NSString *const BoardPlistNameKey		= @"Name";
 //PboardTypes
 NSString *const CMRBBSListItemsPboardType = @"CMRBBSListItemsPboardType";
 NSString *const CMRFavoritesItemsPboardType = @"CMRFavoritesItemsPboardType";
-
+NSString *const BSThreadItemsPboardType = @"BSThreadItemsPboardType";
+NSString *const BSFavoritesIndexSetPboardType = @"BSFavoritesIndexSetPboardType";
 
 NSString *const CMRBBSManagerUserListDidChangeNotification = @"CMRBBSManagerUserListDidChangeNotification";
 NSString *const CMRBBSManagerDefaultListDidChangeNotification = @"CMRBBSManagerDefaultListDidChangeNotification";
@@ -64,3 +65,24 @@ NSString *const AppDefaultsLayoutSettingsUpdatedNotification = @"AppDefaultsLayo
 
 NSString *const CMRApplicationWillResetNotification = @"CMRApplicationWillResetNotification";
 NSString *const CMRApplicationDidResetNotification = @"CMRApplicationDidResetNotification";
+
+@implementation NSBundle(UserAgentString)
++ (NSString *) applicationUserAgent
+{
+	return [NSString stringWithFormat :
+						@"%@/%@",
+						[NSBundle applicationName],
+						[NSBundle applicationVersion]];
+}
+
++ (NSString *) monazillaUserAgent
+{
+	const long	dolibVersion_ = (1 << 16);
+		
+	return [NSString stringWithFormat :
+					@"Monazilla/%d.%02d (%@)",
+					dolibVersion_ >> 16,
+					dolibVersion_ & 0xffff,
+					[self applicationUserAgent]];
+}
+@end

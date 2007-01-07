@@ -1,17 +1,17 @@
 //: CMRSingletonObject.h
 /**
-  * $Id: CMRSingletonObject.h,v 1.1 2005/05/11 17:51:19 tsawada2 Exp $
+  * $Id: CMRSingletonObject.h,v 1.2 2007/01/07 17:04:24 masakih Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
   */
 
-#import <Foundation/Foundation.h>
+//#import <Foundation/Foundation.h>
 
 
-extern NSLock *CMRSingletonObjectFactoryLock;
+//extern NSLock *CMRSingletonObjectFactoryLock;
 
-
+/*
 #define APP_RETURN_SINGLETON_CREATED_WITH_LOCK(lockObj)	\
 	static id st_instance = nil;\
 	\
@@ -36,5 +36,31 @@ extern NSLock *CMRSingletonObjectFactoryLock;
 {\
 	APP_RETURN_SINGLETON_CREATED_WITH_LOCK(CMRSingletonObjectFactoryLock);\
 }
-
-
+*/
+#define APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(methodName) \
+static id st_instance = nil;\
+\
++ (id) methodName\
+{\
+    @synchronized(self) {\
+        if (st_instance == nil) {\
+            [[self alloc] init];\
+        }\
+    }\
+    return st_instance;\
+}\
++ (id) allocWithZone: (NSZone *) zone\
+{\
+    @synchronized(self) {\
+        if (st_instance == nil) {\
+            st_instance = [super allocWithZone: zone];\
+            return st_instance;\
+        }\
+    }\
+    return nil;\
+}\
+- (id) copyWithZone: (NSZone *) zone {return self;}\
+- (id) retain {return self;}\
+- (unsigned) retainCount {return UINT_MAX;}\
+- (void) release{}\
+- (id) autorelease{return self;}

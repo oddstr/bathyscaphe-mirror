@@ -130,7 +130,7 @@
 		<key>name</key>
 		<string>BE@２ちゃんねる</string>
 	</dict>
-	<key>jbbs_shita</key>
+	<key>jbbs_livedoor</key>
 	<dict>
 		<key>CGI - Read</key>
 		<dict>
@@ -187,22 +187,12 @@
 		</dict>
 		<key>DAT - Readable</key>
 		<integer>0</integer>
-		<key>HTML - AllowedTag</key>
-		<string>a&lt;&gt;br&lt;&gt;</string>
-		<key>HTML - DatePrefix</key>
-		<string>投稿日：</string>
-		<key>HTML - MsgSuffixBrTag</key>
-		<string>&lt;br&gt;&lt;br&gt;</string>
-		<key>HTML - NamePrefix</key>
-		<string>名前：</string>
-		<key>HTML - mailto:</key>
-		<string>mailto:</string>
 		<key>SubjectEncoding</key>
 		<integer>2336</integer>
 		<key>ThreadEncoding</key>
 		<integer>2336</integer>
 		<key>identifier</key>
-		<string>jbbs_shita</string>
+		<string>jbbs_livedoor</string>
 		<key>name</key>
 		<string>JBBS@したらば</string>
 	</dict>
