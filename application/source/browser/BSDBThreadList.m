@@ -26,6 +26,7 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 @interface BSDBThreadList (Private)
 - (void)setSortDescriptors:(NSArray *)inDescs;
 - (void) sortByKeyWithoutUpdateList : (NSString *) key;
+- (void) filterByStatusWithoutUpdateList: (int) status;
 @end
 @interface BSDBThreadList (ToBeRefactoring)
 @end
@@ -39,6 +40,8 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	if (self) {
 		[self setBBSName : [item name]];
 		[self setBoardListItem:item];
+		
+		[self filterByStatusWithoutUpdateList:[CMRPref browserStatusFilteringMask]];
 		
 		mCursorLock = [[NSLock alloc] init];
 		mTaskLock = [[NSLock alloc] init];
@@ -379,9 +382,13 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	return YES;
 }
 
-- (void) filterByStatus : (int) status
+- (void) filterByStatusWithoutUpdateList: (int) status
 {
 	mStatus = status;
+}
+- (void) filterByStatus : (int) status
+{
+	[self filterByStatusWithoutUpdateList:status];
 	[self updateCursor];
 }
 

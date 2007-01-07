@@ -1,4 +1,6 @@
 2007-01-07 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m:
+		「一覧に表示するスレッド」に常に従うようにした。
 	* application/source/browser/BSDBThreadList.[m|h]:
 	* application/source/browser/CMRBrowser-Delegate.m:
 	* application/source/browser/CMRBrowser-List.m:
