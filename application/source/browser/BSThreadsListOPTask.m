@@ -54,7 +54,6 @@ fail:
 	[dbupTask release];
 	[downloadData release];
 	[bbsName release];
-//	[targetList release];
 	
 	[super dealloc];
 }
@@ -118,6 +117,25 @@ fail:
 	return dlTask;
 }
 
+- (void)tryToDetectMovedBoard
+{
+	BoardManager *bm = [BoardManager defaultManager];
+	if([bm tryToDetectMovedBoard:[self boardName]]) {
+		UTILNotifyName(ThreadsListDownloaderShouldRetryUpdateNotification);
+	} else {
+		NSString *message = [NSString stringWithFormat:
+			NSLocalizedStringFromTable(APP_TLIST_NOT_FOUND_MSG_FMT, @"ThreadsList", nil),
+			[targetURL absoluteString]];
+		
+		NSBeep();
+		NSRunAlertPanel(
+						NSLocalizedStringFromTable(APP_TLIST_NOT_FOUND_TITLE, @"ThreadsList", nil),
+						message,
+						nil,
+						nil,
+						nil);
+	}
+}
 #pragma mark-
 - (void) doExecuteWithLayout : (CMRThreadLayout *) layout
 {
@@ -141,6 +159,8 @@ fail:
 			[dbupTask run];
 			
 			[self checkIsInterrupted];
+		} else {
+			[self tryToDetectMovedBoard];
 		}
 	}
 	
@@ -160,31 +180,11 @@ fail:
 }
 -(void)dlCancelDownlocadNotification:(id)notification
 {
-	[dlTask release];
-	dlTask = nil;
 	[self setIsInterrupted:YES];
 }
 -(void)dlAbortDownlocadNotification:(id)notification
 {
-	BoardManager *bm = [BoardManager defaultManager];
-	if([bm tryToDetectMovedBoard:[self boardName]]) {
-		UTILNotifyName(ThreadsListDownloaderShouldRetryUpdateNotification);
-	} else {
-		NSString *message = [NSString stringWithFormat:
-			NSLocalizedStringFromTable(APP_TLIST_NOT_FOUND_MSG_FMT, @"ThreadsList", nil),
-			[targetURL absoluteString]];
-		
-		NSBeep();
-		NSRunAlertPanel(
-						NSLocalizedStringFromTable(APP_TLIST_NOT_FOUND_TITLE, @"ThreadsList", nil),
-						message,
-						nil,
-						nil,
-						nil);
-	}
-	
-	[dlTask release];
-	dlTask = nil;
+	downloadData = nil;
 }
 - (void)dbloadDidFinishUpdateDBNotification:(id)notification
 {

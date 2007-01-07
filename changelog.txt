@@ -1,4 +1,6 @@
 2007-01-07 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSThreadsListOPTask.m:
+		HTTPレスポンスでステータス200を返すサーバ移動にも追随するようにした。
 	* application/source/browser/BSBoardListItemHEADCheckTask.m:
 		お気に入り、スマート掲示板の更新の時間制限が間違っていたので直した。
 	* application/source/browser/BSDBThreadList.m:
