@@ -51,3 +51,5 @@
 
 
 @end
+
+extern NSString *BSDBThreadListDidFinishUpdateNotification;

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.26 2006/12/30 12:19:51 masakih Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.27 2007/01/07 08:28:02 masakih Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -543,6 +543,13 @@ BOOL isOptionKeyDown(unsigned flag_)
 {
 	if ([CMRPref isOnlineMode] && [CMRPref autoReloadListWhenWake] && ![[self currentThreadsList] isFavorites]) {
 		[self reloadThreadsList : nil];
+	}
+}
+
+- (void) reselectThreadIfNeeded : (NSNotification *) aNotification
+{
+	if([self shouldShowContents]) {
+		[self selectCurrentThreadWithMask:CMRAutoscrollWhenTLUpdate];
 	}
 }
 @end

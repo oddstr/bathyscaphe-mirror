@@ -20,6 +20,8 @@
 #import "BoardListItem.h"
 #import "DatabaseManager.h"
 
+NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishUpdateNotification";
+
 
 @interface BSDBThreadList (Private)
 - (void)setSortDescriptors:(NSArray *)inDescs;
@@ -291,6 +293,7 @@
 	UTILDebugWrite1(@"cursor count -> %ld", [mCursor rowCount]);
 	
 	UTILNotifyName(CMRThreadsListDidChangeNotification);
+	UTILNotifyName(BSDBThreadListDidFinishUpdateNotification);
 }
 - (void)didFinishiCreateCursor:(id)notification
 {

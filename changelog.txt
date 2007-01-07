@@ -1,3 +1,10 @@
+2007-01-07 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.[m|h]:
+	* application/source/browser/CMRBrowser-Delegate.m:
+	* application/source/browser/CMRBrowser-List.m:
+		3ペイン時にスレッド／スレッド一覧の更新時に表示しているスレッドをスレッド一覧で再選択するようにした。
+	* application/source/manager/CMRDocumentFileManager.m:
+		ログの板フォルダのパスを聞かれたときに、該当フォルダがなかった場合それを作成するようにした。
 2007-01-06 masakih <masakih@users.sourceforge.jp>
 	* application/subproj/preference/Japanese.lproj/SyncPane.nib:
 		環境設定の同期を選んだ時、Viewが表示されなくなっていたのを直した。

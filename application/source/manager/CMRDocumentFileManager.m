@@ -85,9 +85,10 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 }
 - (NSString *) directoryWithBoardName : (NSString *) boardName
 {
-	NSString	*filepath_;
-	
-	filepath_ = [[CMRFileManager defaultManager] dataRootDirectoryPath];
-	return [filepath_ stringByAppendingPathComponent : boardName];
+//	NSString	*filepath_;
+//	
+//	filepath_ = [[CMRFileManager defaultManager] dataRootDirectoryPath];
+//	return [filepath_ stringByAppendingPathComponent : boardName];
+	return [[self ensureDirectoryExistsWithBoardName:boardName] filepath];
 }
 @end

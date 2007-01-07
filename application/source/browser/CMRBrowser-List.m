@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.18 2006/11/28 14:00:21 masakih Exp $
+  * $Id: CMRBrowser-List.m,v 1.19 2007/01/07 08:28:02 masakih Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -38,6 +38,10 @@
 			selector : @selector(threadsListDidChange:)
 		 oldDelegate : [self currentThreadsList]
 		 newDelegate : newList];
+	[self exchangeNotificationObserver : BSDBThreadListDidFinishUpdateNotification
+							  selector : @selector(reselectThreadIfNeeded:)
+						   oldDelegate : [self currentThreadsList]
+						   newDelegate : newList];
 	
 	if(![[self threadsListTable] dataSource]) {
 		[[self threadsListTable] setDataSource : newList];
