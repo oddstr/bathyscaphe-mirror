@@ -1,3 +1,8 @@
+2007-01-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/BathyScaphe.xcodeproj/project.pbxproj
+		いくつかのファイルについて、ターゲットから外したりターゲットに追加したりした
+		（1.3 → 1.3.1 の間に外れた／追加されたファイルの一部）。問題が無いことが確認され次第、
+		ターゲットから外したものはファイル自体もリポジトリから削除する予定。
 2007-01-08 masakih <masakih@users.sourceforge.jp>
 	* IBPallete/BSDatePicker/BSDatePickerCell.m:
 	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m:
@@ -27,6 +32,7 @@
 		「最終書き込み日」ポップアップメニューを無効にした。
 	* application/source/browser/CMRBrowser-Validation.m:
 		更新に関して、スマート掲示板もお気に入りと同様の制限を受けるようにした。
+================================================= Starlight Breaker v3
 2007-01-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/InfoPlist.strings
 	* application/Info-bs-another-story.plist

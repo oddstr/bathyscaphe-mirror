@@ -577,6 +577,12 @@
 		87CF646A097A335D00DE8B16 /* Acknowledgments.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 87CF6468097A335D00DE8B16 /* Acknowledgments.rtf */; };
 		87D5D8D108DF0FCC0039A9EB /* boardListSelBgFocused.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87D5D8CF08DF0FCC0039A9EB /* boardListSelBgFocused.tiff */; };
 		87D5D8D208DF0FCC0039A9EB /* boardListSelBg.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87D5D8D008DF0FCC0039A9EB /* boardListSelBg.tiff */; };
+		87D8FBBC0B52575800CCB933 /* FontBigger.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8709CA7C0B06750B00525B8D /* FontBigger.tiff */; };
+		87D8FBBD0B52575900CCB933 /* FontSmaller.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8709CA7D0B06750B00525B8D /* FontSmaller.tiff */; };
+		87D8FBBE0B52575B00CCB933 /* HistoryFolder.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CD5090E970F007FF9C3 /* HistoryFolder.png */; };
+		87D8FBC10B5257ED00CCB933 /* CMRThreadView-Drop.m in Sources */ = {isa = PBXBuildFile; fileRef = 877AC2900B027447005365C0 /* CMRThreadView-Drop.m */; };
+		87D8FBC30B52587800CCB933 /* NSIndexSet+BSAddition.h in Headers */ = {isa = PBXBuildFile; fileRef = 87B803000B0ED4980001339F /* NSIndexSet+BSAddition.h */; };
+		87D8FBC40B52587900CCB933 /* NSIndexSet+BSAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 87B802FF0B0ED4980001339F /* NSIndexSet+BSAddition.m */; };
 		87DBC6990A867C6D00A1C058 /* syncFail.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87DBC6970A867C6D00A1C058 /* syncFail.tiff */; };
 		87DBC69A0A867C6D00A1C058 /* syncFinish.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87DBC6980A867C6D00A1C058 /* syncFinish.tiff */; };
 		87DFDDA80A7D6A0F0074D3EA /* CookieManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCB604C698FB00A80005 /* CookieManager.m */; };
@@ -663,8 +669,6 @@
 		F47362080AFF8758009B6189 /* CMRToolbarDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDDA04C698FB00A80005 /* CMRToolbarDelegate.h */; };
 		F47362090AFF8758009B6189 /* CMRToolbarDelegateImp.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDDB04C698FB00A80005 /* CMRToolbarDelegateImp.h */; };
 		F473620A0AFF8758009B6189 /* CMRToolbarDelegateImp_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDDD04C698FB00A80005 /* CMRToolbarDelegateImp_p.h */; };
-		F473620B0AFF8758009B6189 /* CMRToolbarWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDDE04C698FB00A80005 /* CMRToolbarWindowController.h */; };
-		F473620C0AFF8758009B6189 /* CMRToolbarWindowController_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDE004C698FB00A80005 /* CMRToolbarWindowController_p.h */; };
 		F473620D0AFF8758009B6189 /* CMR2chDATReader.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC5A04C698FA00A80005 /* CMR2chDATReader.h */; };
 		F473620E0AFF8758009B6189 /* CMRThreadContentsReader.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D5383404CE78FC00A80005 /* CMRThreadContentsReader.h */; };
 		F473620F0AFF8758009B6189 /* CMRThreadUpdatedHeaderTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F31D7F9604D2F00E003EEDDD /* CMRThreadUpdatedHeaderTask.h */; };
@@ -691,7 +695,6 @@
 		F47362240AFF8758009B6189 /* CMRTaskItemController_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F38262E90513581100A80005 /* CMRTaskItemController_p.h */; };
 		F47362250AFF8758009B6189 /* CMRTaskManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F38262EC0513581100A80005 /* CMRTaskManager.h */; };
 		F47362260AFF8758009B6189 /* CMRTaskManager_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F38262EE0513581100A80005 /* CMRTaskManager_p.h */; };
-		F47362270AFF8758009B6189 /* CMXDateFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = F38262F90513585900A80005 /* CMXDateFormatter.h */; };
 		F47362280AFF8758009B6189 /* CMXTextParser.h in Headers */ = {isa = PBXBuildFile; fileRef = F38263000513585900A80005 /* CMXTextParser.h */; };
 		F47362290AFF8758009B6189 /* CMXImageAttachmentCell.h in Headers */ = {isa = PBXBuildFile; fileRef = F3826315051358E500A80005 /* CMXImageAttachmentCell.h */; };
 		F473622A0AFF8758009B6189 /* CMXInternalMessaging.h in Headers */ = {isa = PBXBuildFile; fileRef = F3826332051359B700A80005 /* CMXInternalMessaging.h */; };
@@ -851,7 +854,6 @@
 		F47362C80AFF8758009B6189 /* Acknowledgments.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 87CF6468097A335D00DE8B16 /* Acknowledgments.rtf */; };
 		F47362C90AFF8758009B6189 /* Status_HeadModified.png in Resources */ = {isa = PBXBuildFile; fileRef = 8791EE29097A5BC200EA7475 /* Status_HeadModified.png */; };
 		F47362CA0AFF8758009B6189 /* titleRulerBgNotActive.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 878018E0097CF76A002FBA1F /* titleRulerBgNotActive.tiff */; };
-		F47362CB0AFF8758009B6189 /* titleRulerInfoIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 870D4BE80A7D6115008BBAB4 /* titleRulerInfoIcon.tiff */; };
 		F47362CC0AFF8758009B6189 /* himeko.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 8762E8C20A86359C00062504 /* himeko.scpt */; };
 		F47362CD0AFF8758009B6189 /* na-na.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 8762E8C10A86359C00062504 /* na-na.scpt */; };
 		F47362CE0AFF8758009B6189 /* rosetta.pl in Resources */ = {isa = PBXBuildFile; fileRef = 8762E8C60A8635C200062504 /* rosetta.pl */; };
@@ -862,8 +864,6 @@
 		F47362D30AFF8758009B6189 /* smallSquareMinus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87F0B3540A9C4CFA0002D317 /* smallSquareMinus.tiff */; };
 		F47362D40AFF8758009B6189 /* EditBoardSheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87BD58E70AAC58D700F6412D /* EditBoardSheet.nib */; };
 		F47362D50AFF8758009B6189 /* BoardWarrior.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87764C5E0AB0399000507EBA /* BoardWarrior.strings */; };
-		F47362D60AFF8758009B6189 /* smallUnlocked.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87BBABF30AB4257E0061D85A /* smallUnlocked.tiff */; };
-		F47362D70AFF8758009B6189 /* smallLocked.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87BBABF40AB4257E0061D85A /* smallLocked.tiff */; };
 		F47362D90AFF8758009B6189 /* ImagePreviewer.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87C2031D08FF3E2B006DC42C /* ImagePreviewer.plugin */; };
 		F47362DA0AFF8758009B6189 /* 2chConnector.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 871CA18308585FD200C3A044 /* 2chConnector.plugin */; };
 		F47362DB0AFF8758009B6189 /* PreferencesPane.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 871CA15608585F8100C3A044 /* PreferencesPane.plugin */; };
@@ -942,7 +942,6 @@
 		F473632F0AFF8758009B6189 /* CMRStatusLineWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDD504C698FB00A80005 /* CMRStatusLineWindowController.m */; };
 		F47363300AFF8758009B6189 /* CMRThreadViewerTbDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDD804C698FB00A80005 /* CMRThreadViewerTbDelegate.m */; };
 		F47363310AFF8758009B6189 /* CMRToolbarDelegateImp.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDDC04C698FB00A80005 /* CMRToolbarDelegateImp.m */; };
-		F47363320AFF8758009B6189 /* CMRToolbarWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDDF04C698FB00A80005 /* CMRToolbarWindowController.m */; };
 		F47363330AFF8758009B6189 /* CMR2chDATReader.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC5B04C698FA00A80005 /* CMR2chDATReader.m */; };
 		F47363340AFF8758009B6189 /* CMRThreadContentsReader.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D5383504CE78FC00A80005 /* CMRThreadContentsReader.m */; };
 		F47363350AFF8758009B6189 /* CMRThreadUpdatedHeaderTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F31D7F9704D2F00E003EEDDD /* CMRThreadUpdatedHeaderTask.m */; };
@@ -961,7 +960,6 @@
 		F47363420AFF8758009B6189 /* CMRTaskItemController.m in Sources */ = {isa = PBXBuildFile; fileRef = F38262E80513581100A80005 /* CMRTaskItemController.m */; };
 		F47363430AFF8758009B6189 /* CMRTaskManager-Management.m in Sources */ = {isa = PBXBuildFile; fileRef = F38262EA0513581100A80005 /* CMRTaskManager-Management.m */; };
 		F47363440AFF8758009B6189 /* CMRTaskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F38262ED0513581100A80005 /* CMRTaskManager.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		F47363450AFF8758009B6189 /* CMXDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = F38262FA0513585900A80005 /* CMXDateFormatter.m */; };
 		F47363460AFF8758009B6189 /* CMXTextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F38263010513585900A80005 /* CMXTextParser.m */; };
 		F47363470AFF8758009B6189 /* CMXImageAttachmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F3826316051358E500A80005 /* CMXImageAttachmentCell.m */; };
 		F47363480AFF8758009B6189 /* CMXWorkerContext.m in Sources */ = {isa = PBXBuildFile; fileRef = F3826335051359B700A80005 /* CMXWorkerContext.m */; };
@@ -1879,7 +1877,7 @@
 		F424609808462452000803EA /* Scripts.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Scripts.tiff; sourceTree = "<group>"; };
 		F4369C0C0AFF7CFC005ABD68 /* libsqlite.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libsqlite.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F472216D0B26EF8F004FAD24 /* OgreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OgreKit.framework; path = ../frameworks/OgreKit/build/Release/OgreKit.framework; sourceTree = SOURCE_ROOT; };
-		F473638F0AFF8758009B6189 /* Starlight Breaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Starlight Breaker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F473638F0AFF8758009B6189 /* Starlight Breaker.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "Starlight Breaker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F47A664B0AFF7EE600EB5137 /* alter.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = alter.c; path = ../misc/sqlite/alter.c; sourceTree = SOURCE_ROOT; };
 		F47A664C0AFF7EE600EB5137 /* analyze.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = analyze.c; path = ../misc/sqlite/analyze.c; sourceTree = SOURCE_ROOT; };
 		F47A664D0AFF7EE600EB5137 /* attach.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = attach.c; path = ../misc/sqlite/attach.c; sourceTree = SOURCE_ROOT; };
@@ -3776,8 +3774,6 @@
 				F47362080AFF8758009B6189 /* CMRToolbarDelegate.h in Headers */,
 				F47362090AFF8758009B6189 /* CMRToolbarDelegateImp.h in Headers */,
 				F473620A0AFF8758009B6189 /* CMRToolbarDelegateImp_p.h in Headers */,
-				F473620B0AFF8758009B6189 /* CMRToolbarWindowController.h in Headers */,
-				F473620C0AFF8758009B6189 /* CMRToolbarWindowController_p.h in Headers */,
 				F473620D0AFF8758009B6189 /* CMR2chDATReader.h in Headers */,
 				F473620E0AFF8758009B6189 /* CMRThreadContentsReader.h in Headers */,
 				F473620F0AFF8758009B6189 /* CMRThreadUpdatedHeaderTask.h in Headers */,
@@ -3804,7 +3800,6 @@
 				F47362240AFF8758009B6189 /* CMRTaskItemController_p.h in Headers */,
 				F47362250AFF8758009B6189 /* CMRTaskManager.h in Headers */,
 				F47362260AFF8758009B6189 /* CMRTaskManager_p.h in Headers */,
-				F47362270AFF8758009B6189 /* CMXDateFormatter.h in Headers */,
 				F47362280AFF8758009B6189 /* CMXTextParser.h in Headers */,
 				F47362290AFF8758009B6189 /* CMXImageAttachmentCell.h in Headers */,
 				F473622A0AFF8758009B6189 /* CMXInternalMessaging.h in Headers */,
@@ -3882,6 +3877,7 @@
 				F4FEFC0F0AFFA9920099853B /* BSDatePickerCell.h in Headers */,
 				F474D8570B514A510071A03C /* BSDateFormatter.h in Headers */,
 				F474D8610B514AA30071A03C /* CMRMessageSample.h in Headers */,
+				87D8FBC30B52587800CCB933 /* NSIndexSet+BSAddition.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4336,7 +4332,6 @@
 				F47362C80AFF8758009B6189 /* Acknowledgments.rtf in Resources */,
 				F47362C90AFF8758009B6189 /* Status_HeadModified.png in Resources */,
 				F47362CA0AFF8758009B6189 /* titleRulerBgNotActive.tiff in Resources */,
-				F47362CB0AFF8758009B6189 /* titleRulerInfoIcon.tiff in Resources */,
 				F47362CC0AFF8758009B6189 /* himeko.scpt in Resources */,
 				F47362CD0AFF8758009B6189 /* na-na.scpt in Resources */,
 				F47362CE0AFF8758009B6189 /* rosetta.pl in Resources */,
@@ -4347,14 +4342,15 @@
 				F47362D30AFF8758009B6189 /* smallSquareMinus.tiff in Resources */,
 				F47362D40AFF8758009B6189 /* EditBoardSheet.nib in Resources */,
 				F47362D50AFF8758009B6189 /* BoardWarrior.strings in Resources */,
-				F47362D60AFF8758009B6189 /* smallUnlocked.tiff in Resources */,
-				F47362D70AFF8758009B6189 /* smallLocked.tiff in Resources */,
 				F4FEFB410AFF9CD90099853B /* SmartBoardItemEditor.nib in Resources */,
 				F4FEFB440AFF9CE80099853B /* SmartBLIEditorComponents.nib in Resources */,
 				F4FEFB470AFF9CFC0099853B /* ConditionTypes.plist in Resources */,
 				F4FEFB4A0AFF9D0B0099853B /* CriteriaSpecifications.plist in Resources */,
 				F4FEFBE40AFFA5E80099853B /* SmartBoard.png in Resources */,
 				F4D8CB680B33021C00B8FDB7 /* SmartBoardListItemEditor.strings in Resources */,
+				87D8FBBC0B52575800CCB933 /* FontBigger.tiff in Resources */,
+				87D8FBBD0B52575900CCB933 /* FontSmaller.tiff in Resources */,
+				87D8FBBE0B52575B00CCB933 /* HistoryFolder.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4745,7 +4741,6 @@
 				F473632F0AFF8758009B6189 /* CMRStatusLineWindowController.m in Sources */,
 				F47363300AFF8758009B6189 /* CMRThreadViewerTbDelegate.m in Sources */,
 				F47363310AFF8758009B6189 /* CMRToolbarDelegateImp.m in Sources */,
-				F47363320AFF8758009B6189 /* CMRToolbarWindowController.m in Sources */,
 				F47363330AFF8758009B6189 /* CMR2chDATReader.m in Sources */,
 				F47363340AFF8758009B6189 /* CMRThreadContentsReader.m in Sources */,
 				F47363350AFF8758009B6189 /* CMRThreadUpdatedHeaderTask.m in Sources */,
@@ -4764,7 +4759,6 @@
 				F47363420AFF8758009B6189 /* CMRTaskItemController.m in Sources */,
 				F47363430AFF8758009B6189 /* CMRTaskManager-Management.m in Sources */,
 				F47363440AFF8758009B6189 /* CMRTaskManager.m in Sources */,
-				F47363450AFF8758009B6189 /* CMXDateFormatter.m in Sources */,
 				F47363460AFF8758009B6189 /* CMXTextParser.m in Sources */,
 				F47363470AFF8758009B6189 /* CMXImageAttachmentCell.m in Sources */,
 				F47363480AFF8758009B6189 /* CMXWorkerContext.m in Sources */,
@@ -4842,6 +4836,8 @@
 				F474D8560B514A510071A03C /* BSDateFormatter.m in Sources */,
 				F474D8590B514A5E0071A03C /* BSHostLivedoorHandler.m in Sources */,
 				F474D8600B514AA20071A03C /* CMRMessageSample.m in Sources */,
+				87D8FBC10B5257ED00CCB933 /* CMRThreadView-Drop.m in Sources */,
+				87D8FBC40B52587900CCB933 /* NSIndexSet+BSAddition.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
