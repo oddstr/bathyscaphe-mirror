@@ -199,6 +199,21 @@ static NSDictionary *sCriteriaSpecifications = nil;
 	//	}
 }
 
+- (void)dealloc
+{
+	if(previousHelper == nil && nextHelper != nil) {
+		nextHelper->previousHelper = nil;
+		[nextHelper release];
+		nextHelper = nil;
+	}
+	
+	[expressionView release];
+	[numberView release];
+	[dateView release];
+	
+	[super dealloc];
+}
+
 - (void)awakeFromNib
 {
 	// containerが存在するのは rootHelper のみ。
@@ -289,6 +304,7 @@ static inline NSColor *nextColor(NSColor *inColor)
 	if(helper->nextHelper) {
 		helper->nextHelper->previousHelper = helper->previousHelper;
 	}
+	helper->nextHelper = helper->previousHelper = nil;
 	[helper autorelease];
 }
 - (SmartBLIEditorHelper *)nextHelper

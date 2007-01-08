@@ -121,6 +121,13 @@ static NSDate * AppGetBasicDataOfToday()
 		unsigned int day_;
 		NSTimeZone	*timeZone_ = [NSTimeZone localTimeZone];
 		NSCalendarDate	*tomorrow_;
+		
+		if(cachedToday) {
+			[cachedToday release]; cachedToday = nil;
+		}
+		if(cachedYesterday) {
+			[cachedYesterday release]; cachedYesterday = nil;
+		}
 
 		AppGetTodayCalendarDate(&year_, &month_, &day_);
 			

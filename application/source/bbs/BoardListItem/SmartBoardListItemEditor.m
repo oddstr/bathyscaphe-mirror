@@ -29,6 +29,7 @@
 - (void) dealloc
 {
 	[mInvocation release];
+	[helper release];
 	
 	[super dealloc];
 }
@@ -94,7 +95,7 @@ static inline NSInvocation *checkMethodSignature(id obj, SEL selector)
 		result = nil;
 	}
 	
-	return result;
+	return [result autorelease];
 }
 
 - (void) cretateFromUIWindow : (NSWindow *)inModalForWindow

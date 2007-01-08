@@ -21,9 +21,9 @@ const float kMinTextWidth = 108;
 
 static inline NSPoint stringDrawingPointForFrame(NSRect );
 
-- (id)init
+- (id)initTextCell:(NSString *)text
 {
-	self = [super initTextCell:@""];
+	self = [super initTextCell:text];
 	if(self) {
 		formatter = [[NSDateFormatter alloc] initWithDateFormat:DATE_FORMAT
 												   allowNaturalLanguage:NO];

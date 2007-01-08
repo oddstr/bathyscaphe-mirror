@@ -1,4 +1,10 @@
 2007-01-08 masakih <masakih@users.sourceforge.jp>
+	* IBPallete/BSDatePicker/BSDatePickerCell.m:
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m:
+	* application/source/bbs/BoardListItem/SmartBoardListItemEditor.m:
+	* application/source/browser/BSDownloadTask.m:
+	* application/source/composer/BSDateFormatter.m:
+		メモリリークを解消。
 	MeteorSweeper-BRANCH よりマージ
 	cvs -z3 up -j v130_FINAL -j v131_FINAL
 2007-01-07 masakih <masakih@users.sourceforge.jp>

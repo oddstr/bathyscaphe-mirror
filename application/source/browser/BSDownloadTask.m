@@ -51,6 +51,7 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 	[con release];
 	[receivedData release];
 	[method release];
+	[_response release];
 	
 	[super dealloc];
 }
@@ -78,7 +79,9 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 }
 - (void)setResponse:(id)response
 {
+	id temp = _response;
 	_response = [response retain];
+	[temp release];
 }
 - (id)response
 {
