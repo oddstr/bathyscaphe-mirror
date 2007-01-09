@@ -1,4 +1,7 @@
 2007-01-10 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/AddBoardSheetController.m:
+		掲示板リストに既に存在する板を追加しようとしたときのエラーを直した。##9731
+2007-01-10 masakih <masakih@users.sourceforge.jp>
 	* application/BathyScaphe.xcodeproj/project.pbxproj:
 	* application/source/bbs/BoardManager-SettingTxt.m:
 	* application/source/bbs/BoardListItem/SmartBoardList.h:

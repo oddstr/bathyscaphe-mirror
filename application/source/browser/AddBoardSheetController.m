@@ -1,5 +1,5 @@
 //
-//  $Id: AddBoardSheetController.m,v 1.11 2006/11/07 12:50:31 masakih Exp $
+//  $Id: AddBoardSheetController.m,v 1.12 2007/01/09 18:13:01 masakih Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/12.
@@ -183,14 +183,14 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 	def_iter_ = [[self defaultListOLView] selectedRowEnumerator];
 	
 	while (def_index_ = [def_iter_ nextObject]) {
-		NSDictionary *item_;		
+		id item_;		
 		
 		item_ = [[self defaultListOLView] itemAtRow : [def_index_ intValue]];
 		if (NO == [[[BoardManager defaultManager] userList] addItem : item_
 														afterObject : nil])
 		{
 			NSString     *name_;
-			name_ = [item_ objectForKey : BoardPlistNameKey];
+			name_ = [item_ name];
 			[error_names_ addObject : name_];
 		}
 	}
