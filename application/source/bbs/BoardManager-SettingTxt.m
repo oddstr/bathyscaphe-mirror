@@ -129,7 +129,7 @@ NSString *const BoardManagerDidFinishDetectingSettingTxtNotification = @"BoardMa
 
 - (BOOL) addCategoryOfName: (NSString *) name
 {
-	NSMutableDictionary *newItem_;
+	BoardListItem *newItem_;
 
 	if (!name) {
 		NSBeep();
@@ -141,8 +141,7 @@ NSString *const BoardManagerDidFinishDetectingSettingTxtNotification = @"BoardMa
 		return NO;
 	}
 
-	newItem_ = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-				name, BoardPlistNameKey, [NSMutableArray array], BoardPlistContentsKey, nil];
+	newItem_ = [BoardListItem boardListItemWithFolderName:name];
 
 	[[self userList] addItem: newItem_ afterObject: nil];
 //	[[self userList] postBoardListDidChangeNotification];
@@ -164,7 +163,7 @@ NSString *const BoardManagerDidFinishDetectingSettingTxtNotification = @"BoardMa
 
 - (BOOL) editBoardOfName: (NSString *) boardName newURLString: (NSString *) newURLString
 {
-	NSMutableDictionary *newItem_;
+	BoardListItem *newItem_;
 
 	if (!newURLString || !boardName) {
 		NSBeep();
@@ -172,7 +171,7 @@ NSString *const BoardManagerDidFinishDetectingSettingTxtNotification = @"BoardMa
 	}
 
 	newItem_ = [[self userList] itemForName: boardName ofType: BoardListBoardItem];
-	UTILAssertKindOfClass(newItem_, NSMutableDictionary);
+	UTILAssertKindOfClass(newItem_, BoardListItem);
 
 	[[BSBoardInfoInspector sharedInstance] willChangeValueForKey: @"boardURLAsString"];
 	[[self userList] item: newItem_ setName: boardName setURL: newURLString];
@@ -182,7 +181,7 @@ NSString *const BoardManagerDidFinishDetectingSettingTxtNotification = @"BoardMa
 
 - (BOOL) editCategoryOfName: (NSString *) oldName newName: (NSString *) newName
 {
-	NSMutableDictionary *newItem_;
+	BoardListItem *newItem_;
 
 	if (!newName || !oldName) {
 		NSBeep();
@@ -190,7 +189,7 @@ NSString *const BoardManagerDidFinishDetectingSettingTxtNotification = @"BoardMa
 	}
 
 	newItem_ = [[self userList] itemForName: oldName ofType: BoardListCategoryItem];
-	UTILAssertKindOfClass(newItem_, NSMutableDictionary);
+	UTILAssertKindOfClass(newItem_, BoardListItem);
 
 	if ([[self userList] containsItemWithName : newName ofType : (BoardListFavoritesItem | BoardListCategoryItem)] &&
 		(NO == [oldName isEqualToString : newName]))

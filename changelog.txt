@@ -1,3 +1,9 @@
+2007-01-10 masakih <masakih@users.sourceforge.jp>
+	* application/BathyScaphe.xcodeproj/project.pbxproj:
+	* application/source/bbs/BoardManager-SettingTxt.m:
+	* application/source/bbs/BoardListItem/SmartBoardList.h:
+	* application/source/bbs/BoardListItem/SmartBoardList.m:
+		カテゴリの追加、編集等が出来なかったのを直した。
 2007-01-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/BathyScaphe.xcodeproj/project.pbxproj
 		いくつかのファイルについて、ターゲットから外したりターゲットに追加したりした

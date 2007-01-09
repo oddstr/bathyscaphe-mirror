@@ -27,8 +27,14 @@
 
 - (NSArray *) boardItems;
 
+- (BOOL) containsItemWithName: (NSString     *) name
+					   ofType: (BoardListItemType) aType;
 - (id) itemForName : (id) name;
+- (id) itemForName : (id) name ofType: (BoardListItemType) aType;
 
+- (void) item : (id) item
+      setName : (NSString     *) name
+       setURL : (NSString     *) url;
 - (void) setName : (NSString *) name toItem : (id) item;
 - (void) setURL : (NSString *) urlString toItem : (id) item;
 

@@ -126,11 +126,33 @@
 					      object : self];
 }
 
-- (id) itemForName : (id) name
+- (BOOL) containsItemWithName: (NSString     *) name
+					   ofType: (BoardListItemType) aType
 {
-	return [topLevelItem itemForRepresentName : name deepSearch : YES];
+	if([name isEqualToString: CMXFavoritesDirectoryName]) return YES;
+	
+	id item = [topLevelItem itemForRepresentName: name ofType: aType deepSearch: YES];
+	
+	return item != nil;
 }
 
+- (id) itemForName : (id) name
+{
+	return [topLevelItem itemForRepresentName: name deepSearch : YES];
+}
+
+- (id) itemForName : (id) name ofType: (BoardListItemType) aType
+{
+	return [topLevelItem itemForRepresentName: name ofType:aType deepSearch : YES];
+}
+
+- (void) item : (id) item
+      setName : (NSString     *) name
+       setURL : (NSString     *) url
+{
+	[self setName:name toItem:item];
+	[self setURL:url toItem:item];
+}
 - (void) setName : (NSString *) name toItem : (id) item
 {
 	[item setRepresentName : name];

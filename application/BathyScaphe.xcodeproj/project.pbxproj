@@ -1877,7 +1877,7 @@
 		F424609808462452000803EA /* Scripts.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Scripts.tiff; sourceTree = "<group>"; };
 		F4369C0C0AFF7CFC005ABD68 /* libsqlite.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libsqlite.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F472216D0B26EF8F004FAD24 /* OgreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OgreKit.framework; path = ../frameworks/OgreKit/build/Release/OgreKit.framework; sourceTree = SOURCE_ROOT; };
-		F473638F0AFF8758009B6189 /* Starlight Breaker.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "Starlight Breaker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F473638F0AFF8758009B6189 /* Starlight Breaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Starlight Breaker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F47A664B0AFF7EE600EB5137 /* alter.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = alter.c; path = ../misc/sqlite/alter.c; sourceTree = SOURCE_ROOT; };
 		F47A664C0AFF7EE600EB5137 /* analyze.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = analyze.c; path = ../misc/sqlite/analyze.c; sourceTree = SOURCE_ROOT; };
 		F47A664D0AFF7EE600EB5137 /* attach.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = attach.c; path = ../misc/sqlite/attach.c; sourceTree = SOURCE_ROOT; };
