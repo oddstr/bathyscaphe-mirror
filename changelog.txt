@@ -1,3 +1,10 @@
+2007-01-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/InfoPlist.strings
+		マージ時に内容が strings ファイルのフォーマットから plist の XML フォーマットに予期せず
+		変わってしまっていたようなので、修復した。
+	* application/source/thread/CMRThreadViewer-Validation.m
+		[Bug 9739]「掲示板」メニューをはじめてプルダウンする際にやたらと時間がかかる問題を回避するため、
+		menuItem の validation 方法を改良した。
 2007-01-10 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/AddBoardSheetController.m:
 		掲示板リストに既に存在する板を追加しようとしたときのエラーを直した。##9731

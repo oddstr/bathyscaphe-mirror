@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.44 2007/01/07 17:04:23 masakih Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.45 2007/01/10 16:09:29 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -14,7 +14,7 @@
 #import "CMRTextColumnCell.h"
 #import <SGAppKit/CMRPullDownIconBtn.h>
 #import <SGAppKit/BSIconAndTextCell.h>
-
+#import "BSBoardInfoInspector.h"
 @implementation CMRBrowser(ViewAccessor)
 - (CMRThreadViewer *) threadViewer
 {
@@ -507,7 +507,6 @@
 - (void) setupBoardListTable
 {
     [self setupBoardListTableDefaults];
-
     // Since selecting board kick-start another thread,
     // we should run this task after application did finish
     // launching.

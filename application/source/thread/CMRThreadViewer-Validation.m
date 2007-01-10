@@ -1,5 +1,5 @@
 /*
-    $Id: CMRThreadViewer-Validation.m,v 1.22 2007/01/07 17:04:23 masakih Exp $
+    $Id: CMRThreadViewer-Validation.m,v 1.23 2007/01/10 16:09:29 tsawada2 Exp $
     CMRThreadViewer-Action.m から独立
     Created at 2005-02-16 by tsawada2.
 */
@@ -226,7 +226,7 @@ static int messageMaskForTag(int tag)
 	if (nil == theItem) return NO;
 	
 	action_ = [theItem action];
-	isSelected_ = ([self selectedThreads] && [self numberOfSelectedThreads]);
+	isSelected_ = YES;//([self selectedThreads] && [self numberOfSelectedThreads]);
         
 	// 印を付ける
 	if (@selector(toggleAAThread:) == action_) {
@@ -303,9 +303,14 @@ static int messageMaskForTag(int tag)
 		return [self shouldShowContents] && [self threadAttributes];
 
 	if (action_ == @selector(showBoardInspectorPanel:)) {
-		BOOL tmpBool = [[[BSBoardInfoInspector sharedInstance] window] isVisible];
-		[theItem setTitle : (tmpBool ? NSLocalizedString(@"Hide Board Inspector", @"Show Board Options")
-									 : NSLocalizedString(@"Show Board Inspector", @"Hide Board Options"))];
+		NSWindowController *wc_ = [BSBoardInfoInspector sharedInstance];
+		if (NO == [wc_ isWindowLoaded]) {
+			[theItem setTitle: NSLocalizedString(@"Show Board Inspector", @"Hide Board Options")];
+		} else {
+			BOOL tmpBool = [[wc_ window] isVisible];
+			[theItem setTitle : (tmpBool ? NSLocalizedString(@"Hide Board Inspector", @"Show Board Options")
+										 : NSLocalizedString(@"Show Board Inspector", @"Hide Board Options"))];
+		}
 		return YES;
 	}
 	

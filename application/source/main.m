@@ -16,14 +16,11 @@
 /* for Debugging */
 SGUtilLogger *CMRLogger = nil;
 
-//BOOL shouldCascadeBrowser = YES;
-
 void CMXServicesInit(void)
 {
     static BOOL isInvoked = NO;
     NSAutoreleasePool    *pool_;
     unsigned int         seed_;
-    
     
     if (isInvoked) return;
     isInvoked = YES;
@@ -50,7 +47,6 @@ void CMXServicesInit(void)
     CMRMainThread = [NSThread currentThread];
     CMRMainRunLoop = [NSRunLoop currentRunLoop];
     CMRMainMessenger = [SGInternalMessenger currentMessenger];    
-    
     [pool_ release];
 }
 

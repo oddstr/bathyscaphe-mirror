@@ -46,7 +46,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 
 - (id) init
 {
-	if (self = [self initWithWindowNibName : BIINibFileNameKey]) {
+	if (self = [super initWithWindowNibName : BIINibFileNameKey]) {
 		[[NSNotificationCenter defaultCenter]
 			 addObserver : self
 				selector : @selector(browserBoardChanged:)
@@ -78,7 +78,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 - (void) awakeFromNib
 {
 	NSWorkspace *ws_ = [NSWorkspace sharedWorkspace];
-
 	[[self window] setFrameAutosaveName : BIIFrameAutoSaveNameKey];
 	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_3) {
 		[[self addNoNameBtn] setBezelStyle: NSSmallSquareBezelStyle];
