@@ -1,12 +1,30 @@
+2007-01-15 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/SmartBoardList.m:
+		-[NSObject outlineView:itemForPersistentObject:] と
+		-[NSObject outlineView:persistentObjectForItem:] の整合性が取れていなかったのを修正。
 2007-01-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	* IBPallete/BSFontWell/English.lproj/BSFontWellInspector.nib	* IBPallete/BSFontWell/English.lproj/BSFontWellPalette.nib	* IBPallete/BSFontWell/English.lproj/InfoPlist.strings
-	* IBPallete/BSFontWell/BSFontWell.xcodeproj	* IBPallete/BSFontWell/BSFontWell_Prefix.pch	* IBPallete/BSFontWell/BSFontWell.h	* IBPallete/BSFontWell/BSFontWell.ibclassdescription	* IBPallete/BSFontWell/BSFontWell.m	* IBPallete/BSFontWell/BSFontWellFramework-Info.plist	* IBPallete/BSFontWell/BSFontWellInspector.h	* IBPallete/BSFontWell/BSFontWellInspector.m	* IBPallete/BSFontWell/BSFontWellPalette.h	* IBPallete/BSFontWell/BSFontWellPalette.m	* IBPallete/BSFontWell/Info.plist	* IBPallete/BSFontWell/palette.table	* IBPallete/BSFontWell/paletteIcon.tiff
+	* IBPallete/BSFontWell/English.lproj/BSFontWellInspector.nib
+	* IBPallete/BSFontWell/English.lproj/BSFontWellPalette.nib
+	* IBPallete/BSFontWell/English.lproj/InfoPlist.strings
+	* IBPallete/BSFontWell/BSFontWell.xcodeproj
+	* IBPallete/BSFontWell/BSFontWell_Prefix.pch
+	* IBPallete/BSFontWell/BSFontWell.h
+	* IBPallete/BSFontWell/BSFontWell.ibclassdescription
+	* IBPallete/BSFontWell/BSFontWell.m
+	* IBPallete/BSFontWell/BSFontWellFramework-Info.plist
+	* IBPallete/BSFontWell/BSFontWellInspector.h
+	* IBPallete/BSFontWell/BSFontWellInspector.m
+	* IBPallete/BSFontWell/BSFontWellPalette.h
+	* IBPallete/BSFontWell/BSFontWellPalette.m
+	* IBPallete/BSFontWell/Info.plist
+	* IBPallete/BSFontWell/palette.table
+	* IBPallete/BSFontWell/paletteIcon.tiff
 		[新規追加] BSFontWell の IBPalette を先行追加。後日使用予定。
 2007-01-14 masakih <masakih@users.sourceforge.jp>
 	* application/source/bbs/BoardListItem/FolderBoardListItem.m:
 		-[NSObject hash] をオーバーライド。
 		Bug #9729 解消。
-	* application/source/browser/BSDBThreadList.m
+	* application/source/browser/BSDBThreadList.m:
 		Bug #9726 #9732 を回避。
 	* application/source/bbs/BoardListItem/FavoritesBoardListItem.m:
 	* application/source/bbs/BoardListItem/FolderBoardListItem.m:

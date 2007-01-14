@@ -118,12 +118,16 @@
 {
 	return [topLevelItem items];
 }
-- (void) postBoardListDidChangeNotification
+- (void) postBoardListDidChangeNotificationBoardEdited:(BOOL)flag
 {
-	[self setIsEdited : YES];
+	[self setIsEdited : flag];
 	[[NSNotificationCenter defaultCenter]
 			postNotificationName : CMRBBSListDidChangeNotification
 					      object : self];
+}
+- (void) postBoardListDidChangeNotification
+{
+	[self postBoardListDidChangeNotificationBoardEdited : YES];
 }
 
 - (BOOL) containsItemWithName: (NSString     *) name
@@ -275,10 +279,7 @@
     }
     
     [self synchronizeWithFile: [f filepath]];
-	[self setIsEdited: NO];
-    [[NSNotificationCenter defaultCenter]
-			postNotificationName : CMRBBSListDidChangeNotification
-					      object : self];
+	[self postBoardListDidChangeNotificationBoardEdited: NO];
 }
 @end
 
@@ -388,7 +389,7 @@ objectValueForTableColumn : (NSTableColumn *) tableColumn
 */
 - (id) outlineView : (NSOutlineView *) outlineView itemForPersistentObject : (id) object
 {
-	return [self itemForName : object];
+	return [topLevelItem itemForRepresentName: object deepSearch:YES];
 }
 - (id) outlineView : (NSOutlineView *) outlineView persistentObjectForItem : (id) item
 {
