@@ -8,6 +8,7 @@
 		Bug #9729 はわずかに改善されたが完全ではない。要調査。
 	* application/source/browser/BSThreadsListOPTask.m:
 		Bug #9719 #9720 を改善。
+================================================= Starlight Breaker v7
 2007-01-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/InfoPlist.strings
 		マージ時に内容が strings ファイルのフォーマットから plist の XML フォーマットに予期せず
