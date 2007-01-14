@@ -32,6 +32,10 @@ static NSString *FolderBoardListItemItemsKey = @"FolderBoardListItemItemsKey";
 	[super dealloc];
 }
 
+- (unsigned)hash
+{
+	return [[self name] hash];
+}
 - (BOOL)isEqual:(id)other
 {
 	if(self == other) return YES;

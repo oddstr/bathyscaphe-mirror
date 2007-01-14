@@ -1,4 +1,7 @@
 2007-01-14 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/FolderBoardListItem.m:
+		-[NSObject hash] をオーバーライド。
+		Bug #9729 解消。
 	* application/source/browser/BSDBThreadList.m
 		Bug #9726 #9732 を回避。
 	* application/source/bbs/BoardListItem/FavoritesBoardListItem.m:
