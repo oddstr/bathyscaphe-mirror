@@ -117,7 +117,7 @@ fail:
 	return dlTask;
 }
 
-- (void)tryToDetectMovedBoard
+- (void)tryToDetectMovedBoardOnMainThread:(id)dummy
 {
 	BoardManager *bm = [BoardManager defaultManager];
 	if([bm tryToDetectMovedBoard:[self boardName]]) {
@@ -135,6 +135,12 @@ fail:
 						nil,
 						nil);
 	}
+}
+- (void)tryToDetectMovedBoard
+{
+	[self performSelectorOnMainThread:@selector(tryToDetectMovedBoardOnMainThread:)
+						   withObject:nil
+						waitUntilDone:NO];
 }
 #pragma mark-
 - (void) doExecuteWithLayout : (CMRThreadLayout *) layout

@@ -32,6 +32,22 @@ static NSString *FolderBoardListItemItemsKey = @"FolderBoardListItemItemsKey";
 	[super dealloc];
 }
 
+- (BOOL)isEqual:(id)other
+{
+	if(self == other) return YES;
+	
+	if([self class] != [other class]) return NO;
+	if(![[self name] isEqualTo:[other name]]) return NO;
+	if([self numberOfItem] != [other numberOfItem]) return NO;
+	
+	unsigned i, count;
+	for(i = 0, count = [self numberOfItem]; i < count; i++) {
+		if(![[self itemAtIndex:i] isEqual:[other itemAtIndex:i]]) return NO;
+	}
+	
+	return YES;
+}	
+
 - (id) itemForName : (NSString *) name deepSearch : (BOOL) isDeep
 {
 	id result = nil;
@@ -136,7 +152,7 @@ static NSString *FolderBoardListItemItemsKey = @"FolderBoardListItemItemsKey";
 {
 	id result = nil;
 	
-	NSLog (@"MUST change!!!") ;
+	UTILDebugWrite(@"MUST change!!!") ;
 	
 	if ([[self name] isEqualTo : @"Top"]) {
 		result = [self itemsWithoutFavoriteItem];
@@ -151,7 +167,7 @@ static NSString *FolderBoardListItemItemsKey = @"FolderBoardListItemItemsKey";
 {
 	id result = nil;
 	
-	NSLog (@"MUST change!!!") ;
+	UTILDebugWrite(@"MUST change!!!") ;
 	
 	if ([[self name] isEqualTo : @"Top"]) {
 		result = [self itemsWithoutFavoriteItem];
@@ -237,8 +253,8 @@ static NSString *FolderBoardListItemItemsKey = @"FolderBoardListItemItemsKey";
 	
 	return result;
 }
-//ƒcƒŠ[“à‚É‚Q‚ÂˆÈã‚Ìobject‚ª‚ ‚Á‚½ê‡A‘‚­Œ©‚Â‚©‚Á‚½‚à‚Ì‚ª‘ÎÛ‚Æ‚È‚éB
-// TODO —v•ÏX
+//ãƒ„ãƒªãƒ¼å†…ã«ï¼’ã¤ä»¥ä¸Šã®objectãŒã‚ã£ãŸå ´åˆã€æ—©ãè¦‹ã¤ã‹ã£ãŸã‚‚ã®ãŒå¯¾è±¡ã¨ãªã‚‹ã€‚
+// TODO è¦å¤‰æ›´
 - (void) insertItem : (BoardListItem *) item afterItem : (BoardListItem *) object deepSearch : (BOOL) isDeep
 {
 	id obj;

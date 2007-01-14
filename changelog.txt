@@ -1,3 +1,13 @@
+2007-01-14 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+		Bug #9726 #9732 を回避。
+	* application/source/bbs/BoardListItem/FavoritesBoardListItem.m:
+	* application/source/bbs/BoardListItem/FolderBoardListItem.m:
+	* application/source/bbs/BoardListItem/SmartBoardListItem.m:
+		-[NSObject isEqual:] をオーバーライド。
+		Bug #9729 はわずかに改善されたが完全ではない。要調査。
+	* application/source/browser/BSThreadsListOPTask.m:
+		Bug #9719 #9720 を改善。
 2007-01-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/InfoPlist.strings
 		マージ時に内容が strings ファイルのフォーマットから plist の XML フォーマットに予期せず
@@ -7,7 +17,7 @@
 		menuItem の validation 方法を改良した。
 2007-01-10 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/AddBoardSheetController.m:
-		掲示板リストに既に存在する板を追加しようとしたときのエラーを直した。##9731
+		掲示板リストに既に存在する板を追加しようとしたときのエラーを直した。Bug #9731
 2007-01-10 masakih <masakih@users.sourceforge.jp>
 	* application/BathyScaphe.xcodeproj/project.pbxproj:
 	* application/source/bbs/BoardManager-SettingTxt.m:
@@ -30,7 +40,7 @@
 	cvs -z3 up -j v130_FINAL -j v131_FINAL
 2007-01-07 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSThreadsListOPTask.m:
-		HTTPレスポンスでステータス200を返すサーバ移動にも追随するようにした。
+		HTTPレスポンスでステータス200を返すサーバ移動にも追随するようにした。 Bug #9723
 	* application/source/browser/BSBoardListItemHEADCheckTask.m:
 		お気に入り、スマート掲示板の更新の時間制限が間違っていたので直した。
 	* application/source/browser/BSDBThreadList.m:

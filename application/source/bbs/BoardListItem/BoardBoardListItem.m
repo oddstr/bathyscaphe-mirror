@@ -155,7 +155,12 @@ static NSLock *_commonInstancesLock = nil;
 
 - (NSString *) name
 {
-	return [[DatabaseManager defaultManager] nameForBoardID : [self boardID]];
+	if(![super name]) {
+		id name = [[DatabaseManager defaultManager] nameForBoardID : [self boardID]];
+		[super setName:name];
+	}
+	
+	return [super name];
 }
 - (void) setName : (NSString *) name
 {

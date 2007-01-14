@@ -44,6 +44,11 @@
 - (oneway void) release {}
 - (unsigned) retainCount { return UINT_MAX; }
 
+- (BOOL)isEqual:(id)other
+{
+	return (self == other);
+}
+
 - (NSImage *) icon
 {
 	return [NSImage imageAppNamed : kFavoritesImageName];
