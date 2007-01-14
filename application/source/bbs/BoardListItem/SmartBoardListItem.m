@@ -27,6 +27,17 @@
 	
 	return self;
 }
+
+- (BOOL)isEqual:(id) other
+{
+	if(self == other) return YES;
+	
+	if([self class] != [other class]) return NO;
+	if(![[self name] isEqualTo:[other name]]) return NO;
+	if(![[self query] isEqualTo:[other query]]) return NO;
+	
+	return YES;
+}
 - (NSImage *) icon
 {
 	return [NSImage imageAppNamed : @"SmartBoard"];
