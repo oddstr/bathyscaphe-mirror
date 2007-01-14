@@ -1,0 +1,7 @@
+{
+	BSFontWell = {
+		SuperClass = NSView;
+		Attributes = {
+		};
+	};
+}

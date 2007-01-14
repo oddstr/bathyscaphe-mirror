@@ -1,0 +1,20 @@
+{
+    IBClasses = (
+        {
+            CLASS = BSFontWell; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"m_controller" = id; "m_delegate" = id; }; 
+            SUPERCLASS = NSButton; 
+        }, 
+        {
+            CLASS = BSFontWellInspector; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"m_fontWell" = BSFontWell; }; 
+            SUPERCLASS = IBInspector; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = NSButtonInspector; LANGUAGE = ObjC; SUPERCLASS = IBInspector; }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }
+    ); 
+    IBVersion = 1; 
+}

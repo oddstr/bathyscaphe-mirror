@@ -1,0 +1,13 @@
+{
+    IBClasses = (
+        {CLASS = BSFontWell; LANGUAGE = ObjC; SUPERCLASS = NSButton; }, 
+        {
+            CLASS = BSFontWellPalette; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {fontWell = BSFontWell; }; 
+            SUPERCLASS = IBPalette; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}
