@@ -1,5 +1,5 @@
 /**
-  * $Id: FCController.h,v 1.7 2006/11/05 13:02:21 tsawada2 Exp $
+  * $Id: FCController.h,v 1.8 2007/01/20 20:31:58 tsawada2 Exp $
   * 
   * FCController.h
   *
@@ -13,7 +13,7 @@
 
 @interface FCController : PreferencesController
 {	
-	IBOutlet NSButton		*_threadViewFontButton;
+/*	IBOutlet NSButton		*_threadViewFontButton;
 	IBOutlet NSButton		*_messageFontButton;
 	IBOutlet NSButton		*_itemTitleFontButton;
 	IBOutlet NSButton		*_alternateFontButton;
@@ -23,15 +23,15 @@
 	IBOutlet NSButton		*_newThreadFontButton;
 	IBOutlet NSButton		*m_replyFontButton;
 
-	IBOutlet NSButton		*m_BLtextFontButton;
+	IBOutlet NSButton		*m_BLtextFontButton;*/
 }
 
 - (IBAction) fixRowHeightToFont : (id) sender;
 - (IBAction) fixRowHeightToFontOfBoardList : (id) sender;
 
-- (void) changeFontOf : (int) tagNum To: (NSFont *) newFont;
+//- (void) changeFontOf : (int) tagNum To: (NSFont *) newFont;
 @end
-
+/*
 @interface FCController(ViewAccessor)
 - (NSButton *) alternateFontButton;
 - (NSButton *) threadViewFontButton;
@@ -45,4 +45,4 @@
 - (NSButton *) beProfileFontButton;
 
 - (NSFont *) getFontOf : (int) btnTag;
-@end
+@end*/

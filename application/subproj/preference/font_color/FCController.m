@@ -21,7 +21,7 @@
 {
 	[[self preferences] fixBoardListRowHeightToFontSize];
 }
-
+/*
 #pragma mark Font Setting
 - (void) changeFontOf : (int) tagNum To: (NSFont *) newFont
 {
@@ -46,12 +46,12 @@
 	[[self preferences] performSelector : selector_[tagNum]
 							 withObject : newFont];
 }
-
+*/
 - (unsigned int) validModesForFontPanel : (NSFontPanel *) fontPanel
 {
 	return (NSFontPanelFaceModeMask|NSFontPanelSizeModeMask|NSFontPanelCollectionModeMask);
 }
-@end
+/*@end
 
 @implementation FCController(ViewAccessor)
 - (NSButton *) threadViewFontButton
@@ -151,14 +151,14 @@
 		[field setTitle : [NSString stringWithFormat : @"%@ %0.0f",[font_ displayName], [font_ pointSize]]];
 	}
 }
-
+*/
 - (void) updateUIComponents
 {
-	AppDefaults *pref_ = [self preferences];
+/*	AppDefaults *pref_ = [self preferences];
 	
 	if (nil == _contentView || nil == pref_) return;
 	
-	[self updateFontWellComponents];
+	[self updateFontWellComponents];*/
 }
 @end
 

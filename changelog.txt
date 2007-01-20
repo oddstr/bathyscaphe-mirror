@@ -1,4 +1,12 @@
 2007-01-21 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/Japanese.lproj/FontsAndColors.nib
+	* application/subproj/preference/font_color/FCController.m
+		「環境設定」＞「表示」ペインの改良：
+		- すべて BSFontWell に置き換え、コード量を大幅に削減した。
+		- 透明度を設定するスライダは最小値を 0.1 にし、誤って 0.0 にして「何も見えない！！」などと
+		　いうトラブルを防止するようにした。
+	* application/subproj/preference/FontWell.(h|m)
+		[削除] 古い FontWell クラスは削除。
 	* application/source/libRBSplitView.a
 	* application/source/RBSplitView.h
 	* application/source/RBSplitSubview.h
@@ -15,6 +23,10 @@
 	* application/source/window/CMRStatusLineWindowController_p.h
 	* application/source/composer/CMXDateFormatter.(h|m)
 	* application/source/RBSplitViewPrivateDefines.h
+	* application/subproj/preference/filter/CMRFilterPrefController-View.m
+	* application/subproj/preference/filter/CMRFilterPrefController_p.h
+	* application/subproj/preference/font_color/FCController-ViewAccessor.m
+	* application/subproj/preference/font_color/FCController_p.h
 		[削除] 未使用になっていたファイルをリポジトリからも削除。
 	* application/source/thread/CMRThreadLayout.m
 		微修正。
