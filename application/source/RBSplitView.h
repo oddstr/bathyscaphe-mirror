@@ -1,10 +1,10 @@
 //
-//  RBSplitView.h version 1.1.3
+//  RBSplitView.h version 1.1.4
 //  RBSplitView
 //
 //  Created by Rainer Brockerhoff on 24/09/2004.
-//  Copyright 2004,2005 Rainer Brockerhoff.
-//	Some Rights Reserved under the Creative Commons Attribution License, version 2.0, and/or the MIT License.
+//  Copyright 2004-2006 Rainer Brockerhoff.
+//	Some Rights Reserved under the Creative Commons Attribution License, version 2.5, and/or the MIT License.
 //
 
 #import "RBSplitSubview.h"
@@ -35,6 +35,7 @@ typedef enum {
 	BOOL isCoupled;				// If YES, take some parameters from the containing RBSplitView, if any.
 	BOOL isAdjusting;			// Set internally while the subviews are being adjusted.
 	BOOL isDragging;			// Set internally while in a drag loop.
+	BOOL isInScrollView;		// Set internally if directly contained in an NSScrollView.
 }
 
 // These class methods get and set the cursor used for each type.
@@ -134,6 +135,9 @@ typedef enum {
 // Returns YES if we're in a dragging loop.
 - (BOOL)isDragging;
 
+// Returns YES if the view is directly contained in an NSScrollView.
+- (BOOL)isInScrollView;
+
 // Call this to recalculate all subview dimensions. Normally this is done automatically whenever
 // something relevant is changed, so you rarely will need to call this explicitly.
 - (void)adjustSubviews;
@@ -166,7 +170,7 @@ typedef enum {
 // You could also draw the divider yourself at this point and return NSZeroRect.
 - (NSRect)splitView:(RBSplitView*)sender willDrawDividerInRect:(NSRect)dividerRect betweenView:(RBSplitSubview*)leading andView:(RBSplitSubview*)trailing withProposedRect:(NSRect)imageRect;
 
-// These methods are called after a subview is completely collapsed or expanded. adjustSubviews may or not
+// These methods are called after a subview is completely collapsed or expanded. adjustSubviews may or may not
 // have been called, however.
 - (void)splitView:(RBSplitView*)sender didCollapse:(RBSplitSubview*)subview;
 - (void)splitView:(RBSplitView*)sender didExpand:(RBSplitSubview*)subview;
@@ -206,8 +210,7 @@ typedef enum {
 // This method is called whenever the event handlers want to check if some point within the RBSplitSubview
 // should act as an alternate drag view. Usually, the delegate will check the point (which is in sender's
 // local coordinates) against the frame of one or several auxiliary views, and return a valid divider number.
-// Returning NSNotFound means the point is not valid, returning -1 or -2 means that the window will
-// be resized along with the subview. Return -1 to grow the subview to the right, -2 to shrink it from the left.
+// Returning NSNotFound means the point is not valid.
 - (unsigned int)splitView:(RBSplitView*)sender dividerForPoint:(NSPoint)point inSubview:(RBSplitSubview*)subview;
 
 // This method is called continuously while a divider is dragged, just before the leading subview is resized.

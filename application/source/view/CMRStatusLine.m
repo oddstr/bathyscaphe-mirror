@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRStatusLine.m,v 1.10 2006/06/25 17:06:42 tsawada2 Exp $
+  * $Id: CMRStatusLine.m,v 1.11 2007/01/20 19:41:32 tsawada2 Exp $
   * 
   * CMRStatusLine.m
   *
@@ -11,7 +11,7 @@
 #import "CMRTask.h"
 #import "CMRTaskManager.h"
 #import "missing.h"
-#import "RBSplitView.h"
+//#import "RBSplitView.h"
 
 #define kLoadNibName				@"CMRStatusView"
 

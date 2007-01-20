@@ -1,4 +1,8 @@
 2007-01-21 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/libRBSplitView.a
+	* application/source/RBSplitView.h
+	* application/source/RBSplitSubview.h
+		（今さらながら）RBSplitView 1.1.4 に更新した。
 	* application/source/thread/CMRThreadViewer-Action.m
 		とりあえず「情報を見る」アクションを新しいパネルの表示にすり替え。
 	* application/source/window/BSThreadInfoPanelController.(h|m)

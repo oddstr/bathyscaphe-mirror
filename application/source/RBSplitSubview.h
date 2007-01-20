@@ -1,10 +1,10 @@
 //
-//  RBSplitSubview.h version 1.1.3
+//  RBSplitSubview.h version 1.1.4
 //  RBSplitView
 //
 //  Created by Rainer Brockerhoff on 19/11/2004.
-//  Copyright 2004,2005 Rainer Brockerhoff.
-//	Some Rights Reserved under the Creative Commons Attribution License, version 2.0, and/or the MIT License.
+//  Copyright 2004-2006 Rainer Brockerhoff.
+//	Some Rights Reserved under the Creative Commons Attribution License, version 2.5, and/or the MIT License.
 //
 
 #import <Cocoa/Cocoa.h>
@@ -36,6 +36,7 @@ typedef enum {
 	NSSize savedSize;				// This holds the size the subview had before it was resized beyond
 									// its minimum or maximum limits. Valid if notInLimits is YES.
 	unsigned int actDivider;		// This is set temporarily while an alternate drag view is being dragged.
+	BOOL canDragWindow;				// This is set temporarily during a mouseDown on a non-opaque subview.
 	BOOL canCollapse;				// YES if the subview can be collapsed.
 	BOOL notInLimits;				// YES if the subview's dimensions are outside the set limits.
 }
@@ -99,6 +100,10 @@ typedef enum {
 - (BOOL)canCollapse;
 - (void)setCanCollapse:(BOOL)flag;
 
+// Tests whether the subview can shrink or expand further.
+- (BOOL)canShrink;
+- (BOOL)canExpand;	
+
 // Sets and gets the minimum and maximum dimensions. They're set at the same time to make sure values
 // are consistent. Despite being floats, they'll always have integer values. The minimum value for the
 // minimum is 1.0. Pass 0.0 for the maximum to set it to some huge number.
@@ -135,7 +140,7 @@ typedef enum {
 // This method is used internally when a divider is dragged. It tries to change the subview's dimension
 // and returns the actual change, collapsing or expanding whenever possible. You usually won't need
 // to call this directly.
-- (float)changeDimensionBy:(float)increment mayCollapse:(BOOL)mayCollapse;
+- (float)changeDimensionBy:(float)increment mayCollapse:(BOOL)mayCollapse move:(BOOL)move;
 
 @end
 
