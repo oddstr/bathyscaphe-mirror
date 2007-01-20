@@ -1,5 +1,5 @@
 /*
- * $Id: CMRThreadViewer-OwnHistory.m,v 1.7 2007/01/07 17:04:23 masakih Exp $
+ * $Id: CMRThreadViewer-OwnHistory.m,v 1.8 2007/01/20 19:31:25 tsawada2 Exp $
  *
  * それぞれのスレッドビューア内での履歴（グローバルな履歴と一致するとは限らない）の管理と移動アクションのサポート
  * CMRThreadViewer.m から分割
@@ -43,7 +43,6 @@
 	// 「戻る／進む」では自身の履歴リストに登録せず、
 	// 代わりに履歴を移動
 	[self setThreadContentWithThreadIdentifier:threadIdentifier_ noteHistoryList:relativeIndex];
-	
 	return YES;
 }
 

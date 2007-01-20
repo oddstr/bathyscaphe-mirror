@@ -1,6 +1,6 @@
 //: CMRThreadLayout.m
 /**
-  * $Id: CMRThreadLayout.m,v 1.12 2007/01/07 17:04:23 masakih Exp $
+  * $Id: CMRThreadLayout.m,v 1.13 2007/01/20 19:31:25 tsawada2 Exp $
   * 
   * CMRThreadLayout.m
   *
@@ -34,7 +34,7 @@
 {
 	if (self = [super init]) {
 		_worker = [[CMXWorkerContext alloc] 
-					initWithUsingDrawingThread : YES];
+					initWithUsingDrawingThread : NO];//YES];
 		_messagesLock = [[NSLock alloc] init];
 		
 		// initialize local buffers

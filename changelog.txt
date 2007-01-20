@@ -1,3 +1,19 @@
+2007-01-21 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-Action.m
+		とりあえず「情報を見る」アクションを新しいパネルの表示にすり替え。
+	* application/source/window/BSThreadInfoPanelController.(h|m)
+	* application/Resources/Japanese.lproj/BSThreadInfoPanel.nib
+		[新規追加] 「スレッド」＞「情報を見る」は、専用のパネルで表示するように変更し、
+		「AA スレッド」「フラグ付き」「dat 落ち」の各印をこのパネルから設定／確認できるように
+		した。それに伴う新しいクラスと nib ファイル。
+	* application/source/window/CMRToolbarWindowController_p.h
+	* application/source/window/CMRToolbarWindowController.(h|m)
+	* application/source/window/CMRStatusLineWindowController_p.h
+	* application/source/composer/CMXDateFormatter.(h|m)
+	* application/source/RBSplitViewPrivateDefines.h
+		[削除] 未使用になっていたファイルをリポジトリからも削除。
+	* application/source/thread/CMRThreadLayout.m
+		微修正。
 2007-01-15 masakih <masakih@users.sourceforge.jp>
 	* application/source/bbs/BoardListItem/SmartBoardList.m:
 		-[NSObject outlineView:itemForPersistentObject:] と

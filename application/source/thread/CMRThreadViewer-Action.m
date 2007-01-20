@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.32 2007/01/07 17:04:23 masakih Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.33 2007/01/20 19:31:25 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -18,6 +18,7 @@
 #import "CMRAppDelegate.h"
 #import "CMRBrowser.h"
 #import "BSBoardInfoInspector.h"
+#import "BSThreadInfoPanelController.h"
 
 // for debugging only
 #define UTIL_DEBUGGING		0
@@ -193,7 +194,7 @@
 	loc = [[docView_ window] convertBaseToScreen : loc];
 	return loc;
 }
-
+/*
 - (NSString *) templateFilepathForInfoPopUp
 {
 	NSBundle	*bundles[] = {
@@ -220,10 +221,10 @@
 	
 	return [template_ autorelease];
 }
-
+*/
 - (IBAction) showThreadAttributes : (id) sender
 {
-	NSMutableAttributedString	*tmp;
+/*	NSMutableAttributedString	*tmp;
 	NSAttributedString			*template_;
 	NSPoint						location_;
 	
@@ -241,7 +242,8 @@
 								  forObject : [self path]
 									  owner : self
 							   locationHint : location_];
-	[tmp deleteCharactersInRange : [tmp range]];
+	[tmp deleteCharactersInRange : [tmp range]];*/
+	[[BSThreadInfoPanelController sharedInstance] showWindow: sender];
 }
 
 - (IBAction) copyThreadAttributes : (id) sender

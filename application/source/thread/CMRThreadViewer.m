@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.32 2007/01/07 17:04:23 masakih Exp $
+  * $Id: CMRThreadViewer.m,v 1.33 2007/01/20 19:31:25 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -367,9 +367,9 @@ cancel, if this method returns NO.
     [reader setNextMessageIndex : aNextIndex];
 
     // updates title, created date, etc...
-    if ([[self threadAttributes] needsToBeUpdatedFromLoadedContents]) 
+    if ([[self threadAttributes] needsToBeUpdatedFromLoadedContents])
         [[self threadAttributes] addEntriesFromDictionary : [reader threadAttributes]];
-    
+
     // inserts tag for new arrival messages.
     if (nMessages > 0) {
         [layout_ push : [CMRThreadUpdatedHeaderTask taskWithIndentifier : [self path]]];
@@ -417,7 +417,7 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 		// 更にCMRThreadDataDidChangeAttributesNotificationが通知されるはず。
 		// 
 		// また、この時点でウィンドウの領域なども設定する。
-		// 
+		//
 		[[self threadAttributes] addEntriesFromDictionary : attributes_];
 		[self synchronizeLayoutAttributes];
 	}

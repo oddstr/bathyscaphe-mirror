@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadAttributes.m,v 1.5 2006/02/01 17:39:08 tsawada2 Exp $
+  * $Id: CMRThreadAttributes.m,v 1.6 2007/01/20 19:31:25 tsawada2 Exp $
   * 
   * CMRThreadAttributes.m
   *
@@ -63,8 +63,18 @@ NSString *const CMRThreadAttributesDidChangeNotification =
 {
 	if (nil == newAttrs || 0 == [newAttrs count])
 		return;
-	
+
+	[self willChangeValueForKey: @"threadTitle"];
+	[self willChangeValueForKey: @"displaySize"];
+	[self willChangeValueForKey: @"displayPath"];
+	[self willChangeValueForKey: @"modifiedDate"];
+	[self willChangeValueForKey: @"createdDate"];
 	[[self getMutableAttributes] addEntriesFromDictionary : newAttrs];
+	[self didChangeValueForKey: @"createdDate"];
+	[self didChangeValueForKey: @"modifiedDate"];
+	[self didChangeValueForKey: @"displayPath"];
+	[self didChangeValueForKey: @"displaySize"];
+	[self didChangeValueForKey: @"threadTitle"];
 	[self notifyDidChangeAttributes];
 }
 
@@ -143,6 +153,46 @@ NSString *const CMRThreadAttributesDidChangeNotification =
 	return [[self class] threadURLFromDictionary : [self getMutableAttributes]];
 }
 
+#pragma mark SB3 Addition
+- (NSString *) displaySize
+{
+	NSString *str_;
+	id length_;
+
+	length_ = [[self getMutableAttributes] numberForKey: ThreadPlistLengthKey];
+
+	if (length_) {
+		unsigned bytes = [length_ unsignedIntValue];
+		unsigned kbytes = bytes / 1024;
+		str_ = [NSString stringWithFormat: @"%u KB (%u bytes)", kbytes, bytes];
+		return str_;
+	}
+	return nil;
+}
+
+- (NSString *) displayPath
+{
+	NSString	*path_;
+	SGFileRef	*fileRef_;
+
+	path_ = [[self class] pathFromDictionary: [self getMutableAttributes]];
+	if (path_ != nil) {
+		fileRef_ = [SGFileRef fileRefWithPath: path_];
+		return [fileRef_ displayPath];
+	}
+	return nil;
+}
+
+- (NSDate *) createdDate
+{
+	return [[self class] createdDateFromDictionary: [self getMutableAttributes]];
+}
+
+- (NSDate *) modifiedDate
+{
+	return [[self class] modifiedDateFromDictionary: [self getMutableAttributes]];
+}
+#pragma mark Addition End
 
 - (NSRect) windowFrame
 {	
@@ -263,7 +313,7 @@ NSString *const CMRThreadAttributesDidChangeNotification =
 {
 	return [[self userStatus] isAAThread];
 }
-- (void) setAAThread : (BOOL) flag
+- (void) setIsAAThread: (BOOL) flag
 {
 	CMRThreadUserStatus	*s = [self userStatus];
 	
@@ -277,12 +327,16 @@ NSString *const CMRThreadAttributesDidChangeNotification =
 						  forKey : CMRThreadUserStatusKey];
 	[self setNeedsToUpdateLogFile : YES];
 }
+- (void) setAAThread : (BOOL) flag
+{
+	[self setIsAAThread: flag];
+}
 #pragma mark Vita Additions
 - (BOOL) isDatOchiThread
 {
 	return [[self userStatus] isDatOchiThread];
 }
-- (void) setDatOchiThread : (BOOL) flag
+- (void) setIsDatOchiThread: (BOOL) flag
 {
 	CMRThreadUserStatus	*s = [self userStatus];
 	
@@ -296,10 +350,14 @@ NSString *const CMRThreadAttributesDidChangeNotification =
 						  forKey : CMRThreadUserStatusKey];
 	[self setNeedsToUpdateLogFile : YES];
 }
+- (void) setDatOchiThread : (BOOL) flag
+{
+	[self setIsDatOchiThread: flag];
+}
 - (BOOL) isMarkedThread
 {	return [[self userStatus] isMarkedThread];
 }
-- (void) setMarkedThread : (BOOL) flag
+- (void) setIsMarkedThread: (BOOL) flag
 {
 	CMRThreadUserStatus	*s = [self userStatus];
 	
@@ -312,5 +370,9 @@ NSString *const CMRThreadAttributesDidChangeNotification =
 					   setObject : [s propertyListRepresentation]
 						  forKey : CMRThreadUserStatusKey];
 	[self setNeedsToUpdateLogFile : YES];
+}
+- (void) setMarkedThread : (BOOL) flag
+{
+	[self setIsMarkedThread: flag];
 }
 @end

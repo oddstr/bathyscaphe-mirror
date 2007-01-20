@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate_p.h,v 1.8 2006/11/05 12:53:47 tsawada2 Exp $
+ * $Id: CMRAppDelegate_p.h,v 1.9 2007/01/20 19:31:25 tsawada2 Exp $
  * 
  * CMRAppDelegate_p.h
  *
@@ -15,7 +15,6 @@
 #import "CMRMainMenuManager.h"
 #import "CMROpenURLManager.h"
 #import "BSHistoryMenuManager.h"
-
 
 // CMRLocalizableStringsOwner
 #define APP_MAINMENU_LOCALIZABLE_FILE_NAME	@"Localizable"

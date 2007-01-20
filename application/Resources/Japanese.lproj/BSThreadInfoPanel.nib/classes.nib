@@ -1,0 +1,12 @@
+{
+    IBClasses = (
+        {
+            CLASS = BSThreadInfoPanelController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"m_greenCube" = NSObjectController; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}
