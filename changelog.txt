@@ -1,3 +1,10 @@
+2007-01-22 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/BSThreadInfoPanel.nib
+		レイアウトの調整。
+	* application/source/manager/BSHistoryMenuManager.m
+		長過ぎるスレッドタイトルは切り詰めてから「履歴」メニューに使用するようにした。
+	* frameworks/SGFoundation/framework/source/extensions/string/NSString-SGExtensions.(h|m)
+		NSString のカテゴリを追加した。
 2007-01-21 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/bbs/BSBoardInfoInspector.m
 		スマート掲示板で「掲示板オプション」インスペクタの各種コントロールが適切に使用不可能になるようにした。

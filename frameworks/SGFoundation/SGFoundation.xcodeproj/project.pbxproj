@@ -113,7 +113,6 @@
 		874A34FD086E21EF004E7805 /* SGXmlPullParser.h in Headers */ = {isa = PBXBuildFile; fileRef = F31D470E0489690600A80005 /* SGXmlPullParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A34FE086E21EF004E7805 /* XmlPullParser.h in Headers */ = {isa = PBXBuildFile; fileRef = F31D47100489690600A80005 /* XmlPullParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A34FF086E21EF004E7805 /* SGNSR.h in Headers */ = {isa = PBXBuildFile; fileRef = F3C37DCA04F5F957009E45E9 /* SGNSR.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		874A3500086E21EF004E7805 /* NSString+Japanese.h in Headers */ = {isa = PBXBuildFile; fileRef = F3746BE1050B6D5B00A80005 /* NSString+Japanese.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A3501086E21EF004E7805 /* NSCoder-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F39FA3A6050F2D0E00A80005 /* NSCoder-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A3502086E21EF004E7805 /* SGTemporaryObjects.h in Headers */ = {isa = PBXBuildFile; fileRef = F30ED0670510A8E600A80005 /* SGTemporaryObjects.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A3503086E21EF004E7805 /* SGFoundationAppSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = F30ED6A00510AF8D00A80005 /* SGFoundationAppSupport.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -166,7 +165,6 @@
 		874A3537086E21EF004E7805 /* SGXMLEntityReference.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EFE7BD0487B3C700A80005 /* SGXMLEntityReference.m */; };
 		874A3538086E21EF004E7805 /* SGXmlPullParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F31D470F0489690600A80005 /* SGXmlPullParser.m */; };
 		874A3539086E21EF004E7805 /* XmlPullParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F3363CD4048A71BC00A80005 /* XmlPullParser.m */; };
-		874A353A086E21EF004E7805 /* NSString+Japanese.m in Sources */ = {isa = PBXBuildFile; fileRef = F3746BE2050B6D5B00A80005 /* NSString+Japanese.m */; };
 		874A353B086E21EF004E7805 /* NSCoder-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F39FA3A7050F2D0E00A80005 /* NSCoder-SGExtensions.m */; };
 		874A353C086E21EF004E7805 /* SGTemporaryObjects.m in Sources */ = {isa = PBXBuildFile; fileRef = F30ED0680510A8E600A80005 /* SGTemporaryObjects.m */; };
 		874A353F086E21EF004E7805 /* SGTemplatesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F30ED6AB0510B4E900A80005 /* SGTemplatesManager.m */; };
@@ -1217,7 +1215,6 @@
 				874A34FD086E21EF004E7805 /* SGXmlPullParser.h in Headers */,
 				874A34FE086E21EF004E7805 /* XmlPullParser.h in Headers */,
 				874A34FF086E21EF004E7805 /* SGNSR.h in Headers */,
-				874A3500086E21EF004E7805 /* NSString+Japanese.h in Headers */,
 				874A3501086E21EF004E7805 /* NSCoder-SGExtensions.h in Headers */,
 				874A3502086E21EF004E7805 /* SGTemporaryObjects.h in Headers */,
 				874A3503086E21EF004E7805 /* SGFoundationAppSupport.h in Headers */,
@@ -1418,7 +1415,6 @@
 				874A3537086E21EF004E7805 /* SGXMLEntityReference.m in Sources */,
 				874A3538086E21EF004E7805 /* SGXmlPullParser.m in Sources */,
 				874A3539086E21EF004E7805 /* XmlPullParser.m in Sources */,
-				874A353A086E21EF004E7805 /* NSString+Japanese.m in Sources */,
 				874A353B086E21EF004E7805 /* NSCoder-SGExtensions.m in Sources */,
 				874A353C086E21EF004E7805 /* SGTemporaryObjects.m in Sources */,
 				874A353F086E21EF004E7805 /* SGTemplatesManager.m in Sources */,

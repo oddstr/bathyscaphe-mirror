@@ -1,6 +1,6 @@
 //: NSString-SGExtensions.h
 /**
-  * $Id: NSString-SGExtensions.h,v 1.1 2005/05/11 17:51:45 tsawada2 Exp $
+  * $Id: NSString-SGExtensions.h,v 1.2 2007/01/21 22:32:24 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -215,7 +215,7 @@
 @end
 
 
-
+/*
 @interface NSString(WorkingWithPascalString)
 + (id) stringWithPascalString : (ConstStr255Param) pStr;
 - (id) initWithPascalString : (ConstStr255Param) pStr;
@@ -223,4 +223,8 @@
 - (ConstStringPtr) pascalString;
 - (BOOL) getPascalString : (StringPtr) buffer
                maxLength : (unsigned ) maxLength;
+@end
+*/
+@interface NSString(StarlightBreakerAddition)
+- (NSString *) stringWithTruncatingForMenuItemOfWidth: (float) width indent: (BOOL) shouldIndent activeItem: (BOOL) isActiveItem;
 @end

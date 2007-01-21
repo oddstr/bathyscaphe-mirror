@@ -7,7 +7,7 @@
 //
 
 #import "BSHistoryMenuManager.h"
-
+#import <SGFoundation/SGFoundation.h>
 #import "CMRMainMenuManager.h"
 
 #define kHistoryMenuItemTagMaximalNumKey	900
@@ -87,18 +87,24 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
     iter_ = [historyItemsArray_ objectEnumerator];
     while (item_ = [iter_ nextObject]) {
         NSString		*title_;
+		NSString		*shortTitle_;
         NSMenuItem		*menuItem_;
         
         if (NO == [item_ isKindOfClass : [CMRHistoryItem class]]) continue;
         
         title_ = [item_ title];
         if (nil == title_) continue;
-        
+        shortTitle_ = [title_ stringWithTruncatingForMenuItemOfWidth: 350.0 indent: NO activeItem: YES];
+		
         menuItem_ = [[NSMenuItem alloc]
-                        initWithTitle : title_
+                        initWithTitle : shortTitle_//title_
                                action : @selector(showThreadWithMenuItem:)
                         keyEquivalent : @""];
-                            
+
+		if (NO == [shortTitle_ isEqualToString: title_]) {
+			[menuItem_ setToolTip: title_];
+		}
+
 		[menuItem_ setTarget : nil];
 		[menuItem_ setRepresentedObject : [item_ representedObject]];
 

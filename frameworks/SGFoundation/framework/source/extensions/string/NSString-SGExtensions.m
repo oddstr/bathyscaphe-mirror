@@ -1,6 +1,6 @@
 //: NSString-SGExtensions.m
 /**
-  * $Id: NSString-SGExtensions.m,v 1.2 2006/02/01 17:39:08 tsawada2 Exp $
+  * $Id: NSString-SGExtensions.m,v 1.3 2007/01/21 22:32:24 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -11,7 +11,7 @@
 #import <SGFoundation/NSMutableString-SGExtensions.h>
 #import <SGFoundation/NSCharacterSet-SGExtensions.h>
 #import "UTILKit.h"
-
+#import <Carbon/Carbon.h>
 
 
 @implementation NSString(SGExtensions)
@@ -373,7 +373,7 @@
 @end
 
 
-
+/*
 @implementation NSString(WorkingWithPascalString)
 + (id) stringWithPascalString : (ConstStr255Param) pStr
 {
@@ -401,71 +401,24 @@
 					NS2CFEncoding([[self class] defaultCStringEncoding]));
 }
 @end
-
-
-//////////////////////////////////////////////////////////////////////
-////////////////////// [ NSString-->FSSpec ] /////////////////////////
-//////////////////////////////////////////////////////////////////////
-// ˆê‰ž“®‚­
-/*
-@interface NSString(String2FSSpec)
-- (BOOL) getFSSpec : (FSSpec *) fsSpecPtr;
-@end
-
-
-
-@implementation NSString(String2FSSpec)
-- (BOOL) getFSSpec : (FSSpec *) fsSpecPtr
+*/
+@implementation NSString(StarlightBreakerAddition)
+- (NSString *) stringWithTruncatingForMenuItemOfWidth: (float) width indent: (BOOL) shouldIndent activeItem: (BOOL) isActiveItem
 {
-	NSString	*filepath_;
-	FSRef		parentRef_;
-	FSSpec		dirSpec_;
-	Boolean		isDirectory_;
-	OSStatus	err;
-	
-	filepath_ = [self stringByDeletingLastPathComponent];
-	err = FSPathMakeRef(
-			[filepath_ fileSystemRepresentation],
-			&parentRef_,
-			&isDirectory_);
-	require_noerr(err, ErrGetFSSpec);
-	if(NO == isDirectory_) goto ErrGetFSSpec;
-	
-	err = FSGetCatalogInfo(
-			&parentRef_,
-			(kFSCatInfoNodeID | kFSCatInfoVolume),
-			NULL,
-			NULL,
-			&dirSpec_,
-			NULL);
-	require_noerr(err, ErrGetFSSpec);
-	
-	FSSpec		fileSpec_;
-	Str255		nmBuffer_;
-	size_t		bufLength_;
-	Boolean		result_;
-	
-	bufLength_ = (sizeof(nmBuffer_) / nmBuffer_[0]);
-	filepath_ = [self lastPathComponent];
-	result_ = [filepath_ getFileSystemRepresentation : nmBuffer_  +1
-										   maxLength : bufLength_ -1];
-	if(NO == result_) goto ErrGetFSSpec;
+	NSMutableString *tmp;
+	OSStatus err;
 
-	nmBuffer_[0] = strlen(nmBuffer_ +1);
-	err = FSMakeFSSpec(
-			dirSpec_.vRefNum, 
-			dirSpec_.parID, 
-			nmBuffer_, 
-			&fileSpec_);
-	if(err != noErr && err != fnfErr) goto ErrGetFSSpec;
-	
-	if(fsSpecPtr != NULL)
-		*fsSpecPtr = fileSpec_;
-	
-	return YES;
-	
-ErrGetFSSpec:
-	return NO;
+	if (shouldIndent) {
+		tmp = [[NSMutableString alloc] initWithFormat: @"  %@", self];
+	} else {
+		tmp= [self mutableCopy];
+	}
+
+	err = TruncateThemeText((CFMutableStringRef)tmp, kThemeMenuItemFont,
+							(isActiveItem ? kThemeStateActive : kThemeStateInactive), width, truncMiddle, NULL);
+	if (err != noErr) {
+		NSLog(@"TruncateThemeText failed with error %d", err);
+	}
+	return [tmp autorelease];
 }
 @end
-*/
