@@ -89,6 +89,8 @@
 		876887C90B062E5900150A36 /* Spacer.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 876887C80B062E5900150A36 /* Spacer.tiff */; };
 		878041DF0A52813D00979D68 /* BSLayoutManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 878041DD0A52813D00979D68 /* BSLayoutManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		878041E00A52813D00979D68 /* BSLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 878041DE0A52813D00979D68 /* BSLayoutManager.m */; };
+		879A36C60B62EF5800C58316 /* NSEvent-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 879A36C40B62EF5800C58316 /* NSEvent-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		879A36C70B62EF5800C58316 /* NSEvent-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 879A36C50B62EF5800C58316 /* NSEvent-SGExtensions.m */; };
 		87D29C3609913620007D26B4 /* BSBoardListView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D29C3209913620007D26B4 /* BSBoardListView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87D29C3709913620007D26B4 /* BSBoardListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D29C3309913620007D26B4 /* BSBoardListView.m */; };
 		87D29C3809913620007D26B4 /* BSIconAndTextCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D29C3409913620007D26B4 /* BSIconAndTextCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -206,6 +208,8 @@
 		876887C80B062E5900150A36 /* Spacer.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Spacer.tiff; path = ../../application/Resources/image/Spacer.tiff; sourceTree = SOURCE_ROOT; };
 		878041DD0A52813D00979D68 /* BSLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; name = BSLayoutManager.h; path = bathyscaphe/BSLayoutManager.h; sourceTree = "<group>"; };
 		878041DE0A52813D00979D68 /* BSLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; name = BSLayoutManager.m; path = bathyscaphe/BSLayoutManager.m; sourceTree = "<group>"; };
+		879A36C40B62EF5800C58316 /* NSEvent-SGExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSEvent-SGExtensions.h"; sourceTree = "<group>"; };
+		879A36C50B62EF5800C58316 /* NSEvent-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSEvent-SGExtensions.m"; sourceTree = "<group>"; };
 		87D29C3209913620007D26B4 /* BSBoardListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSBoardListView.h; path = bathyscaphe/BSBoardListView.h; sourceTree = "<group>"; };
 		87D29C3309913620007D26B4 /* BSBoardListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSBoardListView.m; path = bathyscaphe/BSBoardListView.m; sourceTree = "<group>"; };
 		87D29C3409913620007D26B4 /* BSIconAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSIconAndTextCell.h; path = bathyscaphe/BSIconAndTextCell.h; sourceTree = "<group>"; };
@@ -280,7 +284,7 @@
 		F5823B6E037D2CC001A80002 /* NSControl-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSControl-SGExtensions.m"; sourceTree = "<group>"; };
 		F5AC4BB00378150501A80002 /* NSPasteboard-SGExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSPasteboard-SGExtensions.h"; sourceTree = "<group>"; };
 		F5AC4BB10378150501A80002 /* NSPasteboard-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSPasteboard-SGExtensions.m"; sourceTree = "<group>"; };
-		F5CF84AD02DB5DCA01A80002 /* TestContainerTableView.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; path = TestContainerTableView.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F5CF84AD02DB5DCA01A80002 /* TestContainerTableView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; path = TestContainerTableView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5CF84BE02DB5F4A01A80002 /* test_tableView_main.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; name = test_tableView_main.m; path = TestContainerTableView/test_tableView_main.m; sourceTree = "<group>"; };
 		F5CF84C102DB5FD601A80002 /* English */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = text.plist.strings; name = English; path = TestContainerTableView/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F5CF84C402DB605901A80002 /* MainMenu.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = MainMenu.nib; path = TestContainerTableView/English.lproj/MainMenu.nib; sourceTree = "<group>"; };
@@ -477,6 +481,8 @@
 				F303886E0484C37900A80005 /* userdefaults */,
 				F57D5E1D037B6DE401A80002 /* window */,
 				F523B0C6037C028C01A80002 /* workspace */,
+				879A36C40B62EF5800C58316 /* NSEvent-SGExtensions.h */,
+				879A36C50B62EF5800C58316 /* NSEvent-SGExtensions.m */,
 			);
 			name = extensions;
 			path = src/extensions;
@@ -769,6 +775,7 @@
 				876887B10B062D4F00150A36 /* NSToolbar-SGExtensions.h in Headers */,
 				876887C00B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.h in Headers */,
 				876887C20B062DCE00150A36 /* BSTsuruPetaView.h in Headers */,
+				879A36C60B62EF5800C58316 /* NSEvent-SGExtensions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -901,6 +908,7 @@
 				876887B20B062D5000150A36 /* NSToolbar-SGExtensions.m in Sources */,
 				876887C10B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.m in Sources */,
 				876887C30B062DCE00150A36 /* BSTsuruPetaView.m in Sources */,
+				879A36C70B62EF5800C58316 /* NSEvent-SGExtensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

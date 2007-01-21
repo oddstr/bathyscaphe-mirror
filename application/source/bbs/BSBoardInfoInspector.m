@@ -15,6 +15,7 @@
 #import "CMRThreadViewer.h"
 #import "CMRBBSSignature.h"
 #import "CMRBrowser.h"
+#import "BoardListItem.h"
 
 #define BrdMgr	[BoardManager defaultManager]
 
@@ -256,8 +257,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 - (BOOL) shouldEnableUI
 {
 	NSString *tmp_ = [self currentTargetBoardName];
-	if ([tmp_ isEqualToString : CMXFavoritesDirectoryName] || [tmp_ isEqualToString: BSbbynewsBoardName]) return NO;
-	
+	if (/*[tmp_ isEqualToString : CMXFavoritesDirectoryName] || */[tmp_ isEqualToString: BSbbynewsBoardName]) return NO;
+	if ([[BrdMgr itemForName: tmp_] type] != BoardListBoardItem) return NO;
 	return YES;
 }
 
@@ -327,18 +328,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	if (![[self window] isVisible]) return;
 
 	id winController_ = [[theNotification object] windowController];
-/*
-	if (([winController_ class] == [CMRThreadViewer class]) || ([winController_ class] == [CMRBrowser class])) {
-		NSString *tmp_;
-		tmp_ = [(CMRThreadViewer *)winController_ boardName];
-		if(tmp_ == nil)
-			tmp_ = [(CMRBBSSignature *)[(CMRThreadViewer *)winController_ boardIdentifier] name];
-	
-		if (nil == tmp_)
-			return;
-		[self setCurrentTargetBoardName : tmp_];
-		[[self window] update];
-	}*/
+
 	if ([winController_ respondsToSelector: @selector(boardIdentifier)]) {
 		NSString *tmp_ = [winController_ boardIdentifier];
 				
@@ -356,7 +346,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 
 	if (NO == [(NSWindow *)[winController_ window] isMainWindow]) return;
 
-//	if ([winController_ class] == [CMRBrowser class]) { // 発信者は常に CMRBrowser class
 	if ([winController_ respondsToSelector: @selector(boardIdentifier)]) {
 		NSString *tmp_;
 		tmp_ = [(CMRBBSSignature *)[winController_ boardIdentifier] name];
@@ -373,7 +362,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	if (![[self window] isVisible]) return;
 	id winController_ = [theNotification object];
 
-//	if ([winController_ class] == [CMRThreadViewer class]) {
 	if ([winController_ isMemberOfClass: [CMRThreadViewer class]]) {
 		NSString *tmp_;
 		tmp_ = [(CMRThreadViewer *)winController_ boardName];

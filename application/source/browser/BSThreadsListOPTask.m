@@ -22,7 +22,7 @@
 
 #import "ThreadsListDownloader.h"
 
-
+NSString *const ThreadsListDownloaderShouldRetryUpdateNotification = @"ThreadsListDownloaderShouldRetryUpdateNotification";
 
 @implementation BSThreadsListOPTask
 + (id)taskWithThreadList:(BSDBThreadList *)list forceDownload:(BOOL)forceDownload

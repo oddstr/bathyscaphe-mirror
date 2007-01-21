@@ -8,7 +8,6 @@
 
 #import "BSThreadInfoPanelController.h"
 #import <CocoMonar/CocoMonar.h>
-//#import "CMRThreadAttributes.h"
 
 @interface BSThreadInfoDateValueTransformer: NSValueTransformer
 @end
@@ -64,15 +63,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 {
 	g_isNonActivatingPanel = nonActivating;
 }
-/*
-- (void) threadAttrDidChange: (NSNotification *) aNotification
-{
-	NSLog(@"Catch Notification");
-	if ([self isWindowLoaded] && [[self window] isVisible]) {
-//		[[self window] setViewsNeedDisplay: YES];
-		[[self window] display];
-	}
-}*/
 
 #pragma mark Override
 - (id) init
@@ -80,11 +70,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	if (self = [super initWithWindowNibName : @"BSThreadInfoPanel"]) {
 		id transformer = [[[BSThreadInfoDateValueTransformer alloc] init] autorelease];
 		[NSValueTransformer setValueTransformer: transformer forName: @"BSThreadInfoDateValueTransformer"];
-/*
-		[[NSNotificationCenter defaultCenter] addObserver: self
-												 selector: @selector(threadAttrDidChange:)
-													 name: CMRThreadAttributesDidChangeNotification
-												   object: nil];*/
 	}
 	return self;
 }
@@ -94,16 +79,10 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	[[self window] setFrameAutosaveName : @"BathyScaphe:Thread Info Panel Autosave"];
 	[(NSPanel *)[self window] setBecomesKeyOnlyIfNeeded: g_isNonActivatingPanel];
 }
-/*
-- (void) dealloc
-{
-	[[NSNotificationCenter defaultCenter] removeObserver: self];
-	[super dealloc];
-}
-*/
+
 - (void) showWindow: (id) sender
 {
-	if ([self isWindowLoaded] && [[self window] isVisible]) {
+	if ([self isWindowLoaded] && [[self window] isVisible] && [[self window] isKeyWindow]) {
 		[[self window] orderOut : sender];
 	} else {
 		[super showWindow : sender];

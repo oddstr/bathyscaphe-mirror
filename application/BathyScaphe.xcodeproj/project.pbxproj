@@ -629,7 +629,6 @@
 		F47361DD0AFF8758009B6189 /* CookieManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCB504C698FB00A80005 /* CookieManager.h */; };
 		F47361DE0AFF8758009B6189 /* CMRDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCBD04C698FB00A80005 /* CMRDownloader.h */; };
 		F47361DF0AFF8758009B6189 /* CMRDownloader_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCBF04C698FB00A80005 /* CMRDownloader_p.h */; };
-		F47361E00AFF8758009B6189 /* ThreadsListDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCC304C698FB00A80005 /* ThreadsListDownloader.h */; };
 		F47361E10AFF8758009B6189 /* ThreadTextDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCC704C698FB00A80005 /* ThreadTextDownloader.h */; };
 		F47361E20AFF8758009B6189 /* ThreadTextDownloader_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCC904C698FB00A80005 /* ThreadTextDownloader_p.h */; };
 		F47361E30AFF8758009B6189 /* CMRBBSSignature.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCCC04C698FB00A80005 /* CMRBBSSignature.h */; };
@@ -899,7 +898,6 @@
 		F47363020AFF8758009B6189 /* Cookie.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCB404C698FB00A80005 /* Cookie.m */; };
 		F47363030AFF8758009B6189 /* CMRDownloader-Task.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCBC04C698FB00A80005 /* CMRDownloader-Task.m */; };
 		F47363040AFF8758009B6189 /* CMRDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCBE04C698FB00A80005 /* CMRDownloader.m */; };
-		F47363050AFF8758009B6189 /* ThreadsListDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCC404C698FB00A80005 /* ThreadsListDownloader.m */; };
 		F47363060AFF8758009B6189 /* ThreadTextDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCC804C698FB00A80005 /* ThreadTextDownloader.m */; };
 		F47363070AFF8758009B6189 /* CMRBBSSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCCD04C698FB00A80005 /* CMRBBSSignature.m */; };
 		F47363080AFF8758009B6189 /* CMRThreadSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCD804C698FB00A80005 /* CMRThreadSignature.m */; };
@@ -3709,7 +3707,6 @@
 				F47361DD0AFF8758009B6189 /* CookieManager.h in Headers */,
 				F47361DE0AFF8758009B6189 /* CMRDownloader.h in Headers */,
 				F47361DF0AFF8758009B6189 /* CMRDownloader_p.h in Headers */,
-				F47361E00AFF8758009B6189 /* ThreadsListDownloader.h in Headers */,
 				F47361E10AFF8758009B6189 /* ThreadTextDownloader.h in Headers */,
 				F47361E20AFF8758009B6189 /* ThreadTextDownloader_p.h in Headers */,
 				F47361E30AFF8758009B6189 /* CMRBBSSignature.h in Headers */,
@@ -4675,7 +4672,6 @@
 				F47363020AFF8758009B6189 /* Cookie.m in Sources */,
 				F47363030AFF8758009B6189 /* CMRDownloader-Task.m in Sources */,
 				F47363040AFF8758009B6189 /* CMRDownloader.m in Sources */,
-				F47363050AFF8758009B6189 /* ThreadsListDownloader.m in Sources */,
 				F47363060AFF8758009B6189 /* ThreadTextDownloader.m in Sources */,
 				F47363070AFF8758009B6189 /* CMRBBSSignature.m in Sources */,
 				F47363080AFF8758009B6189 /* CMRThreadSignature.m in Sources */,

@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.m,v 1.9 2006/11/09 16:54:52 masakih Exp $
+ * $Id: BoardManager.m,v 1.10 2007/01/21 02:27:41 tsawada2 Exp $
  * 
  * BoardManager.m
  *
@@ -11,17 +11,18 @@
 #import "CMRDocumentFileManager.h"
 #import "BSBoardInfoInspector.h"
 #import "DatabaseManager.h"
+#import <CocoMonar/CMRSingletonObject.h>
 
 // for debugging only
 #define UTIL_DEBUGGING		0
 #import "UTILDebugging.h"
 
 
-static id kDefaultManager;
+//static id kDefaultManager;
 
 @implementation BoardManager
-+ (id) defaultManager
-{
+//+ (id) defaultManager
+//{
     /*
     FROM COMONA'S SOURCE COMMENT
     
@@ -36,11 +37,13 @@ static id kDefaultManager;
     But, CMNAppGlobal itself is instanciate by NSApplicationMain(),
     (see an instance in MainMenu.nib), it's OK.
     */
-    if (nil == kDefaultManager) {
-        kDefaultManager = [[self alloc] init];
-    }
-    return kDefaultManager;
-}
+//    if (nil == kDefaultManager) {
+//        kDefaultManager = [[self alloc] init];
+//    }
+//    return kDefaultManager;
+//}
+APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
+
 - (id) init
 {
     if (self = [super init]) {

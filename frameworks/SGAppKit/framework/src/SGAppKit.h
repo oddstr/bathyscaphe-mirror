@@ -1,6 +1,6 @@
 //: SGAppKit.h
 /**
-  * $Id: SGAppKit.h,v 1.11 2007/01/07 17:04:24 masakih Exp $
+  * $Id: SGAppKit.h,v 1.12 2007/01/21 02:27:41 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -20,7 +20,7 @@
 #import <SGAppKit/NSControl-SGExtensions.h>
 #import <SGAppKit/NSView-SGExtensions.h>
 #import <SGAppKit/NSMenu-SGExtensions.h>
-//#import <SGAppKit/NSBrowserCell-SGExtensions.h>
+#import <SGAppKit/NSEvent-SGExtensions.h>
 #import <SGAppKit/NSImage-SGExtensions.h>
 #import <SGAppKit/NSMatrix-SGExtensions.h>
 #import <SGAppKit/NSPasteboard-SGExtensions.h>

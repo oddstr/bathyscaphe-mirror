@@ -1,4 +1,19 @@
 2007-01-21 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/bbs/BSBoardInfoInspector.m
+		スマート掲示板で「掲示板オプション」インスペクタの各種コントロールが適切に使用不可能になるようにした。
+	* application/Resources/Japanese.lproj/CMRTaskManager.nib
+	* application/Resources/Japanese.lproj/SmartBoardItemEditor.nib
+		レイアウトの微調整。
+	* application/source/bbs/BoardManager.m
+		BoardManager の singleton object を生成する部分を CMRSingletonObject.h にあるマクロを
+		利用する方法に変更した。
+	* application/source/thread/CMRThreadViewer-Action.m
+		このファイルに居候していた NSEvent のカテゴリを SGAppKit に移動させた。
+	* frameworks/SGAppKit/framework/src/extensions/NSEvent-SGExtensions.(h|m)
+		[新規追加] NSEvent のカテゴリ（上記参照）。
+	* frameworks/SGAppKit/framework/src/SGAppKit.h
+		SGAppKit (1.6.1 -> 1.6.2)
+		NSEvent のカテゴリを追加した。
 	* application/subproj/preference/Japanese.lproj/FontsAndColors.nib
 	* application/subproj/preference/font_color/FCController.m
 		「環境設定」＞「表示」ペインの改良：

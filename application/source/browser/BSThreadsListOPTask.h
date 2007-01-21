@@ -37,3 +37,5 @@
 - (NSString *)boardName;
 
 @end
+
+extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;

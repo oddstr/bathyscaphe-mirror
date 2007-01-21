@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.33 2007/01/20 19:31:25 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.34 2007/01/21 02:27:41 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -8,6 +8,7 @@
   */
 #import "CMRThreadViewer_p.h"
 
+#import <SGAppKit/NSEvent-SGExtensions.h>
 #import "CMRThreadsList.h"
 #import "SGLinkCommand.h"
 #import "CMRReplyMessenger.h"
@@ -24,29 +25,7 @@
 #define UTIL_DEBUGGING		0
 #import "UTILDebugging.h"
 
-#define kThreadInfoTempFile			@"ThreadInfoTemplate.rtf"
-
-// 1.3 Žb’è
-// ‚¢‚¸‚ê SGAppKit ‚ÉˆÚ‚·—\’è
-// From http://hetima.com/pblog/article.php?id=48
-@interface NSEvent(HistoryMenuItemActionHelper)
-+ (unsigned int) currentCarbonModifierFlags;
-@end
-
-@implementation NSEvent(HistoryMenuItemActionHelper)
-+ (unsigned int) currentCarbonModifierFlags
-{
-    unsigned int    cocoaModFlag = 0;
-    UInt32 carbonModFlag = GetCurrentEventKeyModifiers();
-    if (carbonModFlag & cmdKey)     cocoaModFlag |= NSCommandKeyMask;
-    if (carbonModFlag & optionKey)  cocoaModFlag |= NSAlternateKeyMask;
-    if (carbonModFlag & shiftKey)   cocoaModFlag |= NSShiftKeyMask;
-    if (carbonModFlag & controlKey) cocoaModFlag |= NSControlKeyMask;
-    return cocoaModFlag;
-}
-@end
-
-#pragma mark -
+//#define kThreadInfoTempFile			@"ThreadInfoTemplate.rtf"
 
 @implementation CMRThreadViewer(ActionSupport)
 - (CMRReplyMessenger *) messenger : (BOOL) create

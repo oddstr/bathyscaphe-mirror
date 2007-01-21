@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.h,v 1.8 2007/01/07 17:04:23 masakih Exp $
+  * $Id: CMRThreadsList.h,v 1.9 2007/01/21 02:27:41 tsawada2 Exp $
   * 
   * CMRThreadsList.h
   *
@@ -165,10 +165,10 @@
 @end
 
 
-
+/*
 @interface w2chFavoriteItemList : CMRThreadsList
 @end
-
+*/
 
 
 // Notification
