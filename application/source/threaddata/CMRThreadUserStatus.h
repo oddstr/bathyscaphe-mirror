@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadUserStatus.h,v 1.3 2006/02/01 17:39:08 tsawada2 Exp $
+  * $Id: CMRThreadUserStatus.h,v 1.4 2007/01/22 02:23:29 tsawada2 Exp $
   * 
   * CMRThreadUserStatus.h
   *
@@ -13,7 +13,7 @@
 
 
 
-@interface CMRThreadUserStatus : SGBaseObject<NSCopying, CMRPropertyListCoding>
+@interface CMRThreadUserStatus : NSObject<NSCopying, CMRPropertyListCoding>
 {
 	@private
 	UInt32		_flags;

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadSignature.h,v 1.3 2006/11/05 12:53:48 tsawada2 Exp $
+  * $Id: CMRThreadSignature.h,v 1.4 2007/01/22 02:23:29 tsawada2 Exp $
   * 
   * CMRThreadSignature.h
   *
@@ -13,7 +13,7 @@
 @class SGFileRef;
 
 
-@interface CMRThreadSignature : SGBaseObject<NSCopying, CMRHistoryObject, CMRPropertyListCoding>
+@interface CMRThreadSignature : NSObject<NSCopying, CMRHistoryObject, CMRPropertyListCoding>
 {
 	NSString			*m_identifier;
 	NSString			*m_BBSName; // ’u‚«Š·‚¦

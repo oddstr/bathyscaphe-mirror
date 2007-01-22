@@ -1,6 +1,6 @@
 //: PrivateDefines.h
 /**
-  * $Id: PrivateDefines.h,v 1.1 2005/05/11 17:51:45 tsawada2 Exp $
+  * $Id: PrivateDefines.h,v 1.2 2007/01/22 02:23:29 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -10,7 +10,7 @@
 #import <CoreServices/CoreServices.h>
 #import "UTILKit.h"
 #import <SGFoundation/SGBase.h>
-#import <SGFoundation/SGBaseObject.h>
+#import <SGFoundation/SGFileRef.h>
 
 
 #define FRWK_SGFILEREF_PATHSIZE				4096
@@ -23,4 +23,4 @@
 
 
 
-#define kSGFoundationBundle		[NSBundle bundleForClass : [SGBaseObject class]]
+#define kSGFoundationBundle		[NSBundle bundleForClass : [SGFileRef class]]

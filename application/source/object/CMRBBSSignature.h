@@ -18,7 +18,7 @@
 
 
 
-@interface CMRBBSSignature : SGBaseObject<NSCopying, CMRHistoryObject, CMRPropertyListCoding>
+@interface CMRBBSSignature : NSObject<NSCopying, CMRHistoryObject, CMRPropertyListCoding>
 {
 	NSString		*_name;
 }

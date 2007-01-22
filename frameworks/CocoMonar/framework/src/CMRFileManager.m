@@ -1,6 +1,6 @@
 //: CMRFileManager.m
 /**
-  * $Id: CMRFileManager.m,v 1.4 2006/11/05 13:35:34 tsawada2 Exp $
+  * $Id: CMRFileManager.m,v 1.5 2007/01/22 02:23:29 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -23,7 +23,7 @@
 NSString *const CMRFileManagerDidUpdateFileNotification = @"CMRFileManagerDidUpdateFileNotification";
 
 
-@interface CMRFileManagerWatchFile : SGBaseObject
+@interface CMRFileManagerWatchFile : NSObject
 {
     @private
     SGFileLocation *location;

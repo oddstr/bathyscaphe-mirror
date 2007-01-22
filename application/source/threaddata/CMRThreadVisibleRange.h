@@ -1,6 +1,6 @@
 //: CMRThreadVisibleRange.h
 /**
-  * $Id: CMRThreadVisibleRange.h,v 1.1 2005/05/11 17:51:08 tsawada2 Exp $
+  * $Id: CMRThreadVisibleRange.h,v 1.2 2007/01/22 02:23:29 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -15,7 +15,7 @@
  * @abstract    表示レス数
  * @discussion  表示レス数を指定するオブジェクト
  */
-@interface CMRThreadVisibleRange : SGBaseObject<NSCopying, CMRPropertyListCoding>
+@interface CMRThreadVisibleRange : NSObject<NSCopying, CMRPropertyListCoding>
 {
 	unsigned		_firstVisibleLength;
 	unsigned		_lastVisibleLength;

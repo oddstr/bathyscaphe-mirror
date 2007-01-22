@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRNetRequestQueue.h,v 1.1 2005/05/11 17:51:06 tsawada2 Exp $
+  * $Id: CMRNetRequestQueue.h,v 1.2 2007/01/22 02:23:29 tsawada2 Exp $
   * 
   * CMRNetRequestQueue.h
   *
@@ -13,7 +13,7 @@
 
 
 
-@interface CMRNetRequest : SGBaseObject <CMXRunnable>
+@interface CMRNetRequest : NSObject <CMXRunnable>
 {
 	@private
 	NSURL		*_requestURL;

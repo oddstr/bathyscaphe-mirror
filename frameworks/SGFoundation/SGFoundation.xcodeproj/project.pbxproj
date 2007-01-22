@@ -88,10 +88,6 @@
 		874A34E3086E21EF004E7805 /* MoreFilesX.h in Headers */ = {isa = PBXBuildFile; fileRef = F5996CBA0379020601A80002 /* MoreFilesX.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		874A34E4086E21EF004E7805 /* SGDeepCopying.h in Headers */ = {isa = PBXBuildFile; fileRef = F5996CCD0379027C01A80002 /* SGDeepCopying.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A34E5086E21EF004E7805 /* NSArray-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F5996CD0037903A001A80002 /* NSArray-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		874A34E6086E21EF004E7805 /* SGBaseChunk.h in Headers */ = {isa = PBXBuildFile; fileRef = F5612F480389897101A80002 /* SGBaseChunk.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		874A34E7086E21EF004E7805 /* SGBaseFixedAllocator.h in Headers */ = {isa = PBXBuildFile; fileRef = F5612F4D0389915401A80002 /* SGBaseFixedAllocator.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		874A34E9086E21EF004E7805 /* SGBaseObject.h in Headers */ = {isa = PBXBuildFile; fileRef = F572FD120389D58701A80002 /* SGBaseObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		874A34EA086E21EF004E7805 /* SGBaseObject_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F572FD160389D58E01A80002 /* SGBaseObject_p.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		874A34EB086E21EF004E7805 /* SGBaseCArrayWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = F5770196038BCCBD01A80002 /* SGBaseCArrayWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A34EC086E21EF004E7805 /* SGComparable.h in Headers */ = {isa = PBXBuildFile; fileRef = F39EFEA803C6285A00A80002 /* SGComparable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A34ED086E21EF004E7805 /* SGBaseRangeArray.h in Headers */ = {isa = PBXBuildFile; fileRef = F326543803DA233200A80002 /* SGBaseRangeArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -103,8 +99,6 @@
 		874A34F3086E21EF004E7805 /* SGUtilLogFileHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = F39DE5D80440673300A80005 /* SGUtilLogFileHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A34F4086E21EF004E7805 /* SGUtilLogFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BE162A0441370B00A80005 /* SGUtilLogFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A34F5086E21EF004E7805 /* SGFileRef.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AEC3810444D17F007086AB /* SGFileRef.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		874A34F6086E21EF004E7805 /* SGBaseUnicode.h in Headers */ = {isa = PBXBuildFile; fileRef = F3FB8AAE04457F4100A80005 /* SGBaseUnicode.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		874A34F7086E21EF004E7805 /* SGBaseBitArray.h in Headers */ = {isa = PBXBuildFile; fileRef = F36EC4AA04602F1900A80005 /* SGBaseBitArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A34F8086E21EF004E7805 /* String+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = F3A3BF26046CEDD300A80005 /* String+Utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A34F9086E21EF004E7805 /* SGBase64.h in Headers */ = {isa = PBXBuildFile; fileRef = F3A87CE20485015000A80005 /* SGBase64.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A34FA086E21EF004E7805 /* SGURLEscape.h in Headers */ = {isa = PBXBuildFile; fileRef = F389EC2C0485374B00A80005 /* SGURLEscape.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -144,8 +138,6 @@
 		874A3521086E21EF004E7805 /* NSString-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F5996C7C0379014401A80002 /* NSString-SGExtensions.m */; };
 		874A3522086E21EF004E7805 /* NSURL-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F5996C7F0379014401A80002 /* NSURL-SGExtensions.m */; };
 		874A3523086E21EF004E7805 /* NSArray-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F5996CD1037903A001A80002 /* NSArray-SGExtensions.m */; };
-		874A3524086E21EF004E7805 /* SGBaseFixedAllocator.m in Sources */ = {isa = PBXBuildFile; fileRef = F5612F4E0389915401A80002 /* SGBaseFixedAllocator.m */; };
-		874A3526086E21EF004E7805 /* SGBaseObject.m in Sources */ = {isa = PBXBuildFile; fileRef = F572FD130389D58701A80002 /* SGBaseObject.m */; };
 		874A3527086E21EF004E7805 /* SGBaseCArrayWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F5770197038BCCBD01A80002 /* SGBaseCArrayWrapper.m */; };
 		874A3528086E21EF004E7805 /* SGComparableImp.m in Sources */ = {isa = PBXBuildFile; fileRef = F39EFEAA03C62A2D00A80002 /* SGComparableImp.m */; };
 		874A3529086E21EF004E7805 /* SGBaseRangeArray.m in Sources */ = {isa = PBXBuildFile; fileRef = F326543903DA233200A80002 /* SGBaseRangeArray.m */; };
@@ -157,8 +149,6 @@
 		874A352F086E21EF004E7805 /* SGUtilLogFileHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F39DE5D90440673300A80005 /* SGUtilLogFileHandler.m */; };
 		874A3530086E21EF004E7805 /* SGUtilLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = F3BE162B0441370B00A80005 /* SGUtilLogFormatter.m */; };
 		874A3531086E21EF004E7805 /* SGFileRef.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AEC3820444D17F007086AB /* SGFileRef.m */; };
-		874A3532086E21EF004E7805 /* SGBaseUnicode.m in Sources */ = {isa = PBXBuildFile; fileRef = F3FB8AAF04457F4100A80005 /* SGBaseUnicode.m */; };
-		874A3533086E21EF004E7805 /* SGBaseBitArray.c in Sources */ = {isa = PBXBuildFile; fileRef = F36EC4A904602F1900A80005 /* SGBaseBitArray.c */; };
 		874A3534086E21EF004E7805 /* String+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A3BF27046CEDD300A80005 /* String+Utils.m */; };
 		874A3535086E21EF004E7805 /* SGBase64.c in Sources */ = {isa = PBXBuildFile; fileRef = F3A87CE10485015000A80005 /* SGBase64.c */; };
 		874A3536086E21EF004E7805 /* SGURLEscape.c in Sources */ = {isa = PBXBuildFile; fileRef = F389EC2B0485374B00A80005 /* SGURLEscape.c */; };
@@ -172,7 +162,6 @@
 		874A3541086E21EF004E7805 /* SGFoundationBase.m in Sources */ = {isa = PBXBuildFile; fileRef = F376B23805D430D200FF4DFA /* SGFoundationBase.m */; };
 		874A3542086E21EF004E7805 /* SGFoundationUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F376B2D405D445B700FF4DFA /* SGFoundationUtils.m */; };
 		874A3543086E21EF004E7805 /* SGBaseCArray.c in Sources */ = {isa = PBXBuildFile; fileRef = F3C762BC05D543C100CD425B /* SGBaseCArray.c */; };
-		874A3544086E21EF004E7805 /* SGBaseChunk.c in Sources */ = {isa = PBXBuildFile; fileRef = F3427E9F05D621F3000EBFB4 /* SGBaseChunk.c */; };
 		874A3545086E21EF004E7805 /* SGBufferedReader.m in Sources */ = {isa = PBXBuildFile; fileRef = F39D3F5C064CA88400CAF5C7 /* SGBufferedReader.m */; };
 		874A3546086E21EF004E7805 /* SGInputReader.m in Sources */ = {isa = PBXBuildFile; fileRef = F39D3F5E064CA88400CAF5C7 /* SGInputReader.m */; };
 		874A3547086E21EF004E7805 /* SGStringReader.m in Sources */ = {isa = PBXBuildFile; fileRef = F39D3F60064CA88400CAF5C7 /* SGStringReader.m */; };
@@ -182,8 +171,6 @@
 		874A354C086E21EF004E7805 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F515AE260267BAE601A80002 /* CoreServices.framework */; };
 		874A354D086E21EF004E7805 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F50DAD8502CB355501A80002 /* ApplicationServices.framework */; };
 		874A354E086E21EF004E7805 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5C64E5503252C8B01A80002 /* Carbon.framework */; };
-		87FD84F0098CF33F00ECD73C /* SGBaseAllocator.h in Headers */ = {isa = PBXBuildFile; fileRef = F5612F590389C7C801A80002 /* SGBaseAllocator.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		87FD84F1098CF34000ECD73C /* SGBaseAllocator.m in Sources */ = {isa = PBXBuildFile; fileRef = F5612F5A0389C7C801A80002 /* SGBaseAllocator.m */; };
 		87FD8518098CF59000ECD73C /* NSBundle+AppSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = F30ED6A60510B1C500A80005 /* NSBundle+AppSupport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87FD8519098CF59100ECD73C /* SGFile+AppSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = F30ED6A20510AFC700A80005 /* SGFile+AppSupport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F317F99704469DFC00A80005 /* TestCArrayWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = F317F99504469DFC00A80005 /* TestCArrayWrapper.h */; };
@@ -1190,10 +1177,6 @@
 				874A34E3086E21EF004E7805 /* MoreFilesX.h in Headers */,
 				874A34E4086E21EF004E7805 /* SGDeepCopying.h in Headers */,
 				874A34E5086E21EF004E7805 /* NSArray-SGExtensions.h in Headers */,
-				874A34E6086E21EF004E7805 /* SGBaseChunk.h in Headers */,
-				874A34E7086E21EF004E7805 /* SGBaseFixedAllocator.h in Headers */,
-				874A34E9086E21EF004E7805 /* SGBaseObject.h in Headers */,
-				874A34EA086E21EF004E7805 /* SGBaseObject_p.h in Headers */,
 				874A34EB086E21EF004E7805 /* SGBaseCArrayWrapper.h in Headers */,
 				874A34EC086E21EF004E7805 /* SGComparable.h in Headers */,
 				874A34ED086E21EF004E7805 /* SGBaseRangeArray.h in Headers */,
@@ -1205,8 +1188,6 @@
 				874A34F3086E21EF004E7805 /* SGUtilLogFileHandler.h in Headers */,
 				874A34F4086E21EF004E7805 /* SGUtilLogFormatter.h in Headers */,
 				874A34F5086E21EF004E7805 /* SGFileRef.h in Headers */,
-				874A34F6086E21EF004E7805 /* SGBaseUnicode.h in Headers */,
-				874A34F7086E21EF004E7805 /* SGBaseBitArray.h in Headers */,
 				874A34F8086E21EF004E7805 /* String+Utils.h in Headers */,
 				874A34F9086E21EF004E7805 /* SGBase64.h in Headers */,
 				874A34FA086E21EF004E7805 /* SGURLEscape.h in Headers */,
@@ -1232,7 +1213,6 @@
 				874A3511086E21EF004E7805 /* UtkDebugging.h in Headers */,
 				874A3512086E21EF004E7805 /* UtkDescription.h in Headers */,
 				874A3513086E21EF004E7805 /* UtkError.h in Headers */,
-				87FD84F0098CF33F00ECD73C /* SGBaseAllocator.h in Headers */,
 				87FD8518098CF59000ECD73C /* NSBundle+AppSupport.h in Headers */,
 				87FD8519098CF59100ECD73C /* SGFile+AppSupport.h in Headers */,
 			);
@@ -1394,8 +1374,6 @@
 				874A3521086E21EF004E7805 /* NSString-SGExtensions.m in Sources */,
 				874A3522086E21EF004E7805 /* NSURL-SGExtensions.m in Sources */,
 				874A3523086E21EF004E7805 /* NSArray-SGExtensions.m in Sources */,
-				874A3524086E21EF004E7805 /* SGBaseFixedAllocator.m in Sources */,
-				874A3526086E21EF004E7805 /* SGBaseObject.m in Sources */,
 				874A3527086E21EF004E7805 /* SGBaseCArrayWrapper.m in Sources */,
 				874A3528086E21EF004E7805 /* SGComparableImp.m in Sources */,
 				874A3529086E21EF004E7805 /* SGBaseRangeArray.m in Sources */,
@@ -1407,8 +1385,6 @@
 				874A352F086E21EF004E7805 /* SGUtilLogFileHandler.m in Sources */,
 				874A3530086E21EF004E7805 /* SGUtilLogFormatter.m in Sources */,
 				874A3531086E21EF004E7805 /* SGFileRef.m in Sources */,
-				874A3532086E21EF004E7805 /* SGBaseUnicode.m in Sources */,
-				874A3533086E21EF004E7805 /* SGBaseBitArray.c in Sources */,
 				874A3534086E21EF004E7805 /* String+Utils.m in Sources */,
 				874A3535086E21EF004E7805 /* SGBase64.c in Sources */,
 				874A3536086E21EF004E7805 /* SGURLEscape.c in Sources */,
@@ -1422,13 +1398,11 @@
 				874A3541086E21EF004E7805 /* SGFoundationBase.m in Sources */,
 				874A3542086E21EF004E7805 /* SGFoundationUtils.m in Sources */,
 				874A3543086E21EF004E7805 /* SGBaseCArray.c in Sources */,
-				874A3544086E21EF004E7805 /* SGBaseChunk.c in Sources */,
 				874A3545086E21EF004E7805 /* SGBufferedReader.m in Sources */,
 				874A3546086E21EF004E7805 /* SGInputReader.m in Sources */,
 				874A3547086E21EF004E7805 /* SGStringReader.m in Sources */,
 				874A3548086E21EF004E7805 /* SGFileLocation.m in Sources */,
 				874A3549086E21EF004E7805 /* MoreFilesX.c in Sources */,
-				87FD84F1098CF34000ECD73C /* SGBaseAllocator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

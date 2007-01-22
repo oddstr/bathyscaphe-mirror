@@ -1,6 +1,6 @@
 //: SGUtilLogRecord.h
 /**
-  * $Id: SGUtilLogRecord.h,v 1.1 2005/05/11 17:51:45 tsawada2 Exp $
+  * $Id: SGUtilLogRecord.h,v 1.2 2007/01/22 02:23:29 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -23,7 +23,7 @@
  *             に渡すために使われます。一度、生成されLogging APIに
  *             渡されたあとは各種属性を変更しないでください。
  */
-@interface SGUtilLogRecord : SGBaseObject<NSCopying>
+@interface SGUtilLogRecord : NSObject<NSCopying>
 {
 	NSString			*_message;
 	SGLoggingLevel		_level;

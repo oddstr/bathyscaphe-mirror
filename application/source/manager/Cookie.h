@@ -16,7 +16,7 @@
 
 
 
-@interface Cookie : SGBaseObject<NSCopying>
+@interface Cookie : NSObject<NSCopying>
 {
 	// 名前=値のペア
 	NSString *m_name;				//名前

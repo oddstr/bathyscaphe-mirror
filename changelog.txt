@@ -1,5 +1,45 @@
 2007-01-22 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/BSThreadInfoPanel.nib
+	* application/source/CMRAppDelegate.m
+	   バインディングに関する問題が見つかったが、まだ修正の途中。
+	* application/source/messaging/SGRunLoopMessenger.m
+	   SGBaseZoneMalloc(), SGBaseZoneFree() は使わないようにしてみた（大丈夫か？）。
+	* application/source/composer/CMRMessageComposer.h
+	* application/source/manager/CMRHistoryManager.h
+	* application/source/manager/Cookie.h
+	* application/source/network/CMRNetRequestQueue.h
+	* application/source/object/CMRBBSSignature.h
+	* application/source/object/CMRThreadSignature.h
+	* application/source/thread/CMRSearchOptions.h
+	* application/source/thread/CMRThreadAttributes.h
+	* application/source/thread/CMRThreadLayoutTask.h
+	* application/source/threaddata/CMRThreadMessageAttributes.h
+	* application/source/threaddata/CMRThreadUserStatus.h
+	* application/source/threaddata/CMRThreadVisibleRange.h
+	* frameworks/CocoMonar/framework/src/CMRFileManager.m
+	   SGBaseObject クラスを継承していたクラスは、すべて NSObject の継承に変更した。
+	* application/subproj/reply/connector/SG2chConnector.m
+	   Mac OS X v10.1 に配慮していた部分はもう要らないので、簡略化した。
+	* frameworks/SGFoundation/SGFoundation.xcodeproj/project.pbxproj
+	* frameworks/SGFoundation/framework/source/base/SGFoundationBase.h
+	* frameworks/SGFoundation/framework/source/extensions/SGFoundationAdditions.h
+	* frameworks/SGFoundation/framework/source/extensions/string/NSString-SGExtensions.h
+	* frameworks/SGFoundation/framework/source/extensions/string/NSString-SGExtensions.m
+	* frameworks/SGFoundation/framework/source/private/PrivateDefines.h
+	* frameworks/SGFoundation/framework/source/utilities/SGTemporaryObjects.h
+	* frameworks/SGFoundation/framework/source/utilities/SGTemporaryObjects.m
+	* frameworks/SGFoundation/framework/source/utilities/logging/SGUtilLogHandler.h
+	* frameworks/SGFoundation/framework/source/utilities/logging/SGUtilLogRecord.h
+        SGFoundation:
+        - SGBaseObject は完全に使用停止し、必要に応じて NSObject で代用した。
+        -- SGBaseObject クラス自体がしばらく前から「抜け殻」状態になっていて、実質 NSObject と何も
+        　　変わらなくなっていた。
+        - SGBase○○クラスのほとんどを使用停止にした（＝ターゲットから外した）。
+        - SGBaseUnicode 内にあった -[NSString componentsSeparatedByTextBreak] は、実装方法を
+          変更した上で NSString-SGExtensions に移動した（SGBaseUnicode はターゲットから外した）。
+	* frameworks/SGNetwork/src/SGNetwork.h
+        SGNetwork: Mac OS X v10.1 でしか使われていなかった古いクラスを使用停止にした。
+	* application/Resources/Japanese.lproj/BSThreadInfoPanel.nib
 		レイアウトの調整。
 	* application/source/manager/BSHistoryMenuManager.m
 		長過ぎるスレッドタイトルは切り詰めてから「履歴」メニューに使用するようにした。

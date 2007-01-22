@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMessageComposer.h,v 1.1 2005/05/11 17:51:04 tsawada2 Exp $
+  * $Id: CMRMessageComposer.h,v 1.2 2007/01/22 02:23:29 tsawada2 Exp $
   * 
   * CMRMessageComposer.h
   *
@@ -20,7 +20,7 @@
 
 
 
-@interface CMRMessageComposer : SGBaseObject<CMRMessageComposer>
+@interface CMRMessageComposer : NSObject<CMRMessageComposer>
 // Informal protocol.
 // You should never directly invoke these methods.
 - (void) prepareForComposing : (CMRThreadMessage *) aMessage;

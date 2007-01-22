@@ -11,7 +11,6 @@
 		875D977D0A89FFC40061C86D /* BSIPIDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 875D977B0A89FFC40061C86D /* BSIPIDownload.m */; };
 		87F56FE8086E4C09002A18AD /* SGHTTPConnector.h in Headers */ = {isa = PBXBuildFile; fileRef = F39242FB0435FC1B00A80005 /* SGHTTPConnector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87F56FE9086E4C09002A18AD /* SGHTTPSecureSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = F39242FE0435FC1B00A80005 /* SGHTTPSecureSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		87F56FEA086E4C09002A18AD /* SGHTTPSocketHandle.h in Headers */ = {isa = PBXBuildFile; fileRef = F39243000435FC1B00A80005 /* SGHTTPSocketHandle.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87F56FEB086E4C09002A18AD /* SGHTTPStream.h in Headers */ = {isa = PBXBuildFile; fileRef = F39243020435FC1B00A80005 /* SGHTTPStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87F56FEC086E4C09002A18AD /* FrameworkDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = F39243050435FC1B00A80005 /* FrameworkDefines.h */; settings = {ATTRIBUTES = (); }; };
 		87F56FED086E4C09002A18AD /* SGHTTPMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = F39243080435FC1B00A80005 /* SGHTTPMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -33,7 +32,6 @@
 		87F56FFE086E4C09002A18AD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		87F57000086E4C09002A18AD /* SGHTTPConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = F39242FC0435FC1B00A80005 /* SGHTTPConnector.m */; };
 		87F57001086E4C09002A18AD /* SGHTTPSecureSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = F39242FF0435FC1B00A80005 /* SGHTTPSecureSocket.m */; };
-		87F57002086E4C09002A18AD /* SGHTTPSocketHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = F39243010435FC1B00A80005 /* SGHTTPSocketHandle.m */; };
 		87F57003086E4C09002A18AD /* SGHTTPStream.m in Sources */ = {isa = PBXBuildFile; fileRef = F39243030435FC1B00A80005 /* SGHTTPStream.m */; };
 		87F57004086E4C09002A18AD /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F39243060435FC1B00A80005 /* main.c */; };
 		87F57005086E4C09002A18AD /* SGHTTPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F39243090435FC1B00A80005 /* SGHTTPMessage.m */; };
@@ -283,7 +281,6 @@
 			files = (
 				87F56FE8086E4C09002A18AD /* SGHTTPConnector.h in Headers */,
 				87F56FE9086E4C09002A18AD /* SGHTTPSecureSocket.h in Headers */,
-				87F56FEA086E4C09002A18AD /* SGHTTPSocketHandle.h in Headers */,
 				87F56FEB086E4C09002A18AD /* SGHTTPStream.h in Headers */,
 				87F56FEC086E4C09002A18AD /* FrameworkDefines.h in Headers */,
 				87F56FED086E4C09002A18AD /* SGHTTPMessage.h in Headers */,
@@ -373,7 +370,6 @@
 			files = (
 				87F57000086E4C09002A18AD /* SGHTTPConnector.m in Sources */,
 				87F57001086E4C09002A18AD /* SGHTTPSecureSocket.m in Sources */,
-				87F57002086E4C09002A18AD /* SGHTTPSocketHandle.m in Sources */,
 				87F57003086E4C09002A18AD /* SGHTTPStream.m in Sources */,
 				87F57004086E4C09002A18AD /* main.c in Sources */,
 				87F57005086E4C09002A18AD /* SGHTTPMessage.m in Sources */,

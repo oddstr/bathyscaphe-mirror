@@ -1,5 +1,5 @@
 /**
-  * $Id: SGTemporaryObjects.h,v 1.1 2005/05/11 17:51:45 tsawada2 Exp $
+  * $Id: SGTemporaryObjects.h,v 1.2 2007/01/22 02:23:29 tsawada2 Exp $
   * 
   * SGTemporaryObjects.h
   *
@@ -44,8 +44,8 @@ SG_EXPORT
 NSMutableData *SGTemporaryData(void);
 SG_EXPORT
 SGBaseRangeArray *SGTemporaryRangeArray(void);
-SG_EXPORT
-SGBaseBitArrayRef SGTemporaryBitArray(void);
+//SG_EXPORT
+//SGBaseBitArrayRef SGTemporaryBitArray(void);
 
 
 

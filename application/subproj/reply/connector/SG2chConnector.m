@@ -63,7 +63,7 @@
 }
 + (Class) connectorClass
 {
-	double version_ = floor(NSAppKitVersionNumber);
+//	double version_ = floor(NSAppKitVersionNumber);
 	
 /*
 	[Runtime Version Check]
@@ -74,9 +74,10 @@
 	since SGHTTPSocketHandle uses socket, and NSFileHandle, it did
 	not support proxy.
 */
-	return (version_ <= NSAppKitVersionNumber10_1) 
-			? [SGHTTPSocketHandle class]
-			: [SGHTTPStream class];
+//	return (version_ <= NSAppKitVersionNumber10_1) 
+//			? [SGHTTPSocketHandle class]
+//			: [SGHTTPStream class];
+	return [SGHTTPStream class];
 }
 
 - (id) initClusterWithURL : (NSURL        *) anURL

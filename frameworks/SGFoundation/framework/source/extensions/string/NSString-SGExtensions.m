@@ -1,6 +1,6 @@
 //: NSString-SGExtensions.m
 /**
-  * $Id: NSString-SGExtensions.m,v 1.3 2007/01/21 22:32:24 tsawada2 Exp $
+  * $Id: NSString-SGExtensions.m,v 1.4 2007/01/22 02:23:29 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -420,5 +420,24 @@
 		NSLog(@"TruncateThemeText failed with error %d", err);
 	}
 	return [tmp autorelease];
+}
+
+- (NSArray *) componentsSeparatedByTextBreak
+{
+    NSMutableArray  *array_ = [NSMutableArray array];
+    unsigned length_ = [self length];
+    unsigned i = 0;
+    NSRange aRange;
+
+    while (i < length_) {
+        aRange = [self rangeOfComposedCharacterSequenceAtIndex: i];
+
+        [array_ addObject: [self substringWithRange: aRange]];
+        i = NSMaxRange(aRange);
+    }
+
+	NSAssert([array_ count], @"***ERROR*** can't locate Unicode Text Break");
+    
+    return array_;
 }
 @end

@@ -26,7 +26,7 @@
 
 
 
-@interface CMRThreadLayoutConcreateTask : SGBaseObject<CMRThreadLayoutTask>
+@interface CMRThreadLayoutConcreateTask : NSObject<CMRThreadLayoutTask>
 {
 	BOOL		_isInterrupted;
 	BOOL		_didFinished;

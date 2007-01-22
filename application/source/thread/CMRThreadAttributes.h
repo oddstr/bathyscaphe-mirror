@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadAttributes.h,v 1.5 2007/01/07 17:04:23 masakih Exp $
+  * $Id: CMRThreadAttributes.h,v 1.6 2007/01/22 02:23:29 tsawada2 Exp $
   * 
   * CMRThreadAttributes.h
   *
@@ -14,7 +14,7 @@
 @class CMRThreadVisibleRange;
 
 
-@interface CMRThreadAttributes : SGBaseObject
+@interface CMRThreadAttributes : NSObject
 {
 	@private
 	BOOL					_changed;		/* needs to write file */

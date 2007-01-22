@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.26 2007/01/07 17:04:23 masakih Exp $
+ * $Id: CMRAppDelegate.m,v 1.27 2007/01/22 02:23:29 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -324,6 +324,20 @@
 
 #define kRGBColorSpace	@"NSCalibratedRGBColorSpace"
 @implementation NSApplication(ScriptingSupport)
+- (id) attributesForFrontDocument
+{
+	NSLog(@"AHoge");
+	NSArray *ary_ = [self orderedDocuments];
+	if (!ary_ || [ary_ count] == 0) return nil;
+
+	id doc_ = [ary_ objectAtIndex: 0];
+	if ([doc_ respondsToSelector: @selector(threadAttributes)]) {
+		return [doc_ threadAttributes];
+	} else {
+		return nil;
+	}
+}
+
 - (BOOL) isOnlineMode
 {
 	return [CMRPref isOnlineMode];

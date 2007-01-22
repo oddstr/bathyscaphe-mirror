@@ -1,6 +1,6 @@
 //: NSString-SGExtensions.h
 /**
-  * $Id: NSString-SGExtensions.h,v 1.2 2007/01/21 22:32:24 tsawada2 Exp $
+  * $Id: NSString-SGExtensions.h,v 1.3 2007/01/22 02:23:29 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -226,5 +226,9 @@
 @end
 */
 @interface NSString(StarlightBreakerAddition)
+// JellyBeans から移植
 - (NSString *) stringWithTruncatingForMenuItemOfWidth: (float) width indent: (BOOL) shouldIndent activeItem: (BOOL) isActiveItem;
+
+// SGBaseUnicode.h から移動（ただし実装方法は全く異なる）
+- (NSArray *) componentsSeparatedByTextBreak;
 @end

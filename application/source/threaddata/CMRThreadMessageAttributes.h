@@ -1,6 +1,6 @@
 //: CMRThreadMessageAttributes.h
 /**
-  * $Id: CMRThreadMessageAttributes.h,v 1.2 2006/02/02 13:00:47 tsawada2 Exp $
+  * $Id: CMRThreadMessageAttributes.h,v 1.3 2007/01/22 02:23:29 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -12,7 +12,7 @@
 #import "CMRThreadMessageAttributesMask.h"
 
 
-@interface CMRThreadMessageAttributes : SGBaseObject<NSCopying, CMRPropertyListCoding>
+@interface CMRThreadMessageAttributes : NSObject<NSCopying, CMRPropertyListCoding>
 {
 	@private
 	UInt32		_flags;

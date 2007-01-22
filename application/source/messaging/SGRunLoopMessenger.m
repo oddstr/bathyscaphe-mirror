@@ -1,6 +1,6 @@
 //: SGRunLoopMessenger.m
 /**
-  * $Id: SGRunLoopMessenger.m,v 1.1 2005/05/11 17:51:05 tsawada2 Exp $
+  * $Id: SGRunLoopMessenger.m,v 1.2 2007/01/22 02:23:29 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -133,7 +133,8 @@ static BOOL sendPortMessageData(NSData *aData, NSPort *aPort)
 	
 	UTILAssertNotNilArgument(anInvocation, @"Invocation");
 	
-	message_ = SGBaseZoneMalloc(NULL, sizeof(struct message_t));
+//	message_ = SGBaseZoneMalloc(NULL, sizeof(struct message_t));
+    message_ = malloc(sizeof(struct message_t));
 	NSAssert(message_, @"can't allocate memory.");
 	
 	// ‘—M‚ªI‚í‚é‚Ü‚Å•ÛŽ‚µ‚Ä‚¨‚­
@@ -171,7 +172,8 @@ static BOOL sendPortMessageData(NSData *aData, NSPort *aPort)
 		message_->resultLock = nil;
 	}
 	
-	SGBaseZoneFree(NULL, message_, sizeof(struct message_t));
+//	SGBaseZoneFree(NULL, message_, sizeof(struct message_t));
+    free(message_);
 }
 
 //

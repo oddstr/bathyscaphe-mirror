@@ -1,6 +1,6 @@
 //: SGFoundationBase.h
 /**
-  * $Id: SGFoundationBase.h,v 1.1 2005/05/11 17:51:43 tsawada2 Exp $
+  * $Id: SGFoundationBase.h,v 1.2 2007/01/22 02:23:29 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -10,16 +10,17 @@
 
 #import <SGFoundation/SGBase.h>
 
-#import <SGFoundation/SGBaseChunk.h>
-#import <SGFoundation/SGBaseFixedAllocator.h>
-#import <SGFoundation/SGBaseAllocator.h>
-#import <SGFoundation/SGBaseObject.h>
+// Removed in Starlight Breaker.
+//#import <SGFoundation/SGBaseChunk.h>
+//#import <SGFoundation/SGBaseFixedAllocator.h>
+//#import <SGFoundation/SGBaseAllocator.h>
+//#import <SGFoundation/SGBaseObject.h>
 
-#import <SGFoundation/SGBaseUnicode.h>
+//#import <SGFoundation/SGBaseUnicode.h>
 
 #import <SGFoundation/SGBaseCArray.h>
 #import <SGFoundation/SGBaseCArrayWrapper.h>
-#import <SGFoundation/SGBaseBitArray.h>
+//#import <SGFoundation/SGBaseBitArray.h>
 #import <SGFoundation/SGRangeArrayImp.h>
 #import <SGFoundation/SGBaseRangeArray.h>
 #import <SGFoundation/SGBaseQueue.h>

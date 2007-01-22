@@ -1,6 +1,6 @@
 //: CMRHistoryManager.h
 /**
-  * $Id: CMRHistoryManager.h,v 1.3 2005/10/14 02:13:21 tsawada2 Exp $
+  * $Id: CMRHistoryManager.h,v 1.4 2007/01/22 02:23:29 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -25,7 +25,7 @@ enum {
 //
 // ツールバーに使用するためにNSCodingが必要
 //
-@interface CMRHistoryItem : SGBaseObject<CMRPropertyListCoding, NSCoding>
+@interface CMRHistoryItem : NSObject<CMRPropertyListCoding, NSCoding>
 {
 	@private
 	int						_type;

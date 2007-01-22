@@ -1,6 +1,6 @@
 //: SGFoundationAdditions.h
 /**
-  * $Id: SGFoundationAdditions.h,v 1.1 2005/05/11 17:51:44 tsawada2 Exp $
+  * $Id: SGFoundationAdditions.h,v 1.2 2007/01/22 02:23:29 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -8,7 +8,7 @@
 
 #import <SGFoundation/String+Utils.h>
 #import <SGFoundation/NSString-SGExtensions.h>
-#import <SGFoundation/NSString+Japanese.h>
+//#import <SGFoundation/NSString+Japanese.h>
 #import <SGFoundation/NSMutableString-SGExtensions.h>
 #import <SGFoundation/NSMutableAttributedString-SGExtensions.h>
 

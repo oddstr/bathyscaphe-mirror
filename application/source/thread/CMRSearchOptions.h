@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRSearchOptions.h,v 1.1 2005/05/11 17:51:07 tsawada2 Exp $
+  * $Id: CMRSearchOptions.h,v 1.2 2007/01/22 02:23:29 tsawada2 Exp $
   * 
   * CMRSearchOptions.h
   *
@@ -14,7 +14,7 @@
 //
 // ツールバーに使用するためにNSCodingが必要
 //
-@interface CMRSearchOptions : SGBaseObject<NSCopying, CMRHistoryObject, CMRPropertyListCoding, NSCoding>
+@interface CMRSearchOptions : NSObject<NSCopying, CMRHistoryObject, CMRPropertyListCoding, NSCoding>
 {
 	@private
 	id			_findObject;
