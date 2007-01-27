@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.34 2007/01/21 02:27:41 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.35 2007/01/27 15:48:42 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -8,7 +8,6 @@
   */
 #import "CMRThreadViewer_p.h"
 
-#import <SGAppKit/NSEvent-SGExtensions.h>
 #import "CMRThreadsList.h"
 #import "SGLinkCommand.h"
 #import "CMRReplyMessenger.h"
@@ -24,8 +23,6 @@
 // for debugging only
 #define UTIL_DEBUGGING		0
 #import "UTILDebugging.h"
-
-//#define kThreadInfoTempFile			@"ThreadInfoTemplate.rtf"
 
 @implementation CMRThreadViewer(ActionSupport)
 - (CMRReplyMessenger *) messenger : (BOOL) create
@@ -400,16 +397,16 @@
 		historyItem = o;
 	}
 
-	if ([sender isKindOfClass: [NSMenuItem class]] && ([NSEvent currentCarbonModifierFlags] & NSCommandKeyMask)) {
-		NSDictionary	*info_;
-		NSString *path_ = [historyItem threadDocumentPath];
+//	if ([sender isKindOfClass: [NSMenuItem class]] && ([NSEvent currentCarbonModifierFlags] & NSCommandKeyMask)) {
+//		NSDictionary	*info_;
+//		NSString *path_ = [historyItem threadDocumentPath];
 		
-		info_ = [NSDictionary dictionaryWithObjectsAndKeys: 
-						[historyItem BBSName], ThreadPlistBoardNameKey, [historyItem identifier], ThreadPlistIdentifierKey, nil];
-		[CMRThreadDocument showDocumentWithContentOfFile: path_ contentInfo: info_];	
-	} else {
+//		info_ = [NSDictionary dictionaryWithObjectsAndKeys: 
+//						[historyItem BBSName], ThreadPlistBoardNameKey, [historyItem identifier], ThreadPlistIdentifierKey, nil];
+//		[CMRThreadDocument showDocumentWithContentOfFile: path_ contentInfo: info_];	
+//	} else {
 		[self setThreadContentWithThreadIdentifier: historyItem];
-	}
+//	}
 }
 
 // Save window frame

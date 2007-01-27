@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.51 2007/01/07 17:04:23 masakih Exp $
+  * $Id: CMRBrowser-Action.m,v 1.52 2007/01/27 15:48:42 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -305,15 +305,7 @@ static int expandAndSelectItem(NSDictionary *selected, NSArray *anArray, NSOutli
 			historyItem = o;
 		}
 		
-		NSDictionary	*info_;
-		NSString *path_ = [historyItem threadDocumentPath];
-		
-		info_ = [NSDictionary dictionaryWithObjectsAndKeys : 
-						[historyItem BBSName] ,	ThreadPlistBoardNameKey,
-						[historyItem identifier],	ThreadPlistIdentifierKey,
-						nil];
-		[CMRThreadDocument showDocumentWithContentOfFile : path_
-											 contentInfo : info_];	
+		[CMRThreadDocument showDocumentWithHistoryItem: historyItem];	
 	}
 }
 

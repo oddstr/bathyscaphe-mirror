@@ -9,14 +9,12 @@
   *
   */
 #import <Cocoa/Cocoa.h>
-//#import "SGDocument.h"
-#import "CMRThreadViewer.h"
 
 @class CMRThreadAttributes;
 
 
 
-@interface CMRAbstructThreadDocument : NSDocument//SGDocument
+@interface CMRAbstructThreadDocument : NSDocument
 {
 	CMRThreadAttributes			*_threadAttributes;
 	NSTextStorage				*_textStorage;
@@ -38,6 +36,8 @@
 
 - (NSTextStorage *) textStorage;
 - (void) setTextStorage : (NSTextStorage *) aTextStorage;
+
+- (BOOL) windowAlreadyExistsForPath : (NSString *) filePath;
 @end
 
 /* for AppleScript */

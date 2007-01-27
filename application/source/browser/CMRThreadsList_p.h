@@ -48,13 +48,13 @@
 
 @interface CMRThreadsList(NotificationCenterSupport)
 // added in LittleWish and later.
-- (void) syncFavIfNeededWithAttr : (NSMutableDictionary *) thread
-						 forPath : (NSString *) filePath;
+//- (void) syncFavIfNeededWithAttr : (NSMutableDictionary *) thread
+//						 forPath : (NSString *) filePath;
 @end
 
 
 @interface CMRThreadsList(CleanUp)
-- (void) trashDidPerformNotification : (NSNotification *) theNotification;
+//- (void) trashDidPerformNotification : (NSNotification *) theNotification;
 - (void) cleanUpItemsToBeRemoved : (NSArray *) files;
 // Deprecated in ReinforceII and later. Use tableView:removeIndexSet:delFavIfNecessary: instead.
 //- (BOOL) tableView : (NSTableView *) tableView

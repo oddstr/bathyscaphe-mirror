@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.h,v 1.14 2006/11/05 12:53:47 tsawada2 Exp $
+ * $Id: CMRAppDelegate.h,v 1.15 2007/01/27 15:48:41 tsawada2 Exp $
  * 
  * CMRAppDelegate.h
  *
@@ -36,17 +36,23 @@
 - (IBAction) openURLPanel : (id) sender;
 - (IBAction) launchCMLF : (id) sender;
 
+// For History Menu
 - (IBAction) clearHistory : (id) sender;
+- (IBAction) showThreadFromHistoryMenu: (id) sender;
+
 - (IBAction) showAcknowledgment : (id) sender;
-// available in GrafEisen and later.
+
+// Available in GrafEisen and later.
 - (IBAction) closeAll : (id) sender;
 - (IBAction) miniaturizeAll : (id) sender;
 
 - (IBAction) togglePreviewPanel : (id) sender;
 - (IBAction) runBoardWarrior: (id) sender;
 
-// available in MeteorSweeper and later.
+// Available in MeteorSweeper and later.
 - (void) orderFrontMainBrowserAndShowThListForBrd: (NSString *) boardName
 						  addBrdToUsrListIfNeeded: (BOOL) addToList;
-- (IBAction) startHEADCheckDirectly: (id) sender; // for Dock menu
+
+// For Dock menu
+- (IBAction) startHEADCheckDirectly: (id) sender;
 @end

@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.27 2007/01/22 02:23:29 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.28 2007/01/27 15:48:42 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -9,16 +9,17 @@
 #import "CMRAppDelegate_p.h"
 #import "BoardWarrior.h"
 #import "CMRBrowser.h"
-
-//#import <SGAppKit/NSColor-SGExtensions.h>
+#import "CMRThreadDocument.h"
+#import <SGAppKit/NSEvent-SGExtensions.h>
 #import <SGAppKit/NSImage-SGExtensions.h>
 
 @class CMRDocumentController;
 
-#define kOnlineItemKey				@"On Line"
-#define kOfflineItemKey				@"Off Line"
-#define kOnlineItemImageName		@"online"
-#define kOfflineItemImageName		@"offline"
+static NSString *const kOnlineItemKey = @"On Line";
+static NSString *const kOfflineItemKey = @"Off Line";
+static NSString *const kOnlineItemImageName = @"online";
+static NSString *const kOfflineItemImageName = @"offline";
+static NSString *const kRGBColorSpace = @"NSCalibratedRGBColorSpace";
 
 @implementation CMRAppDelegate
 - (void) awakeFromNib
@@ -105,6 +106,24 @@
 {
 	[[CMRHistoryManager defaultManager] removeAllItems];
 	[[BSHistoryMenuManager defaultManager] updateHistoryMenuWithMenu : [[[CMRMainMenuManager defaultManager] historyMenuItem] submenu]];
+}
+
+- (IBAction) showThreadFromHistoryMenu: (id) sender
+{
+	if (NO == [sender isKindOfClass: [NSMenuItem class]]) return;
+
+	id historyItem = [sender representedObject];
+	id winController_ = [[NSApp mainWindow] windowController];
+
+	if (winController_ && [winController_ respondsToSelector: @selector(showThreadWithMenuItem:)]) {
+		if ([NSEvent currentCarbonModifierFlags] & NSCommandKeyMask) {
+			[CMRThreadDocument showDocumentWithHistoryItem: historyItem];
+		} else {
+			[winController_ showThreadWithMenuItem: sender];
+		}
+	} else {
+		[CMRThreadDocument showDocumentWithHistoryItem: historyItem];
+	}
 }
 
 - (IBAction) showAcknowledgment : (id) sender
@@ -300,7 +319,7 @@
 }
 @end
 
-
+#pragma mark -
 @implementation CMRAppDelegate(CMRLocalizableStringsOwner)
 + (NSString *) localizableStringsTableName
 {
@@ -321,23 +340,7 @@
 @end
 
 #pragma mark -
-
-#define kRGBColorSpace	@"NSCalibratedRGBColorSpace"
 @implementation NSApplication(ScriptingSupport)
-- (id) attributesForFrontDocument
-{
-	NSLog(@"AHoge");
-	NSArray *ary_ = [self orderedDocuments];
-	if (!ary_ || [ary_ count] == 0) return nil;
-
-	id doc_ = [ary_ objectAtIndex: 0];
-	if ([doc_ respondsToSelector: @selector(threadAttributes)]) {
-		return [doc_ threadAttributes];
-	} else {
-		return nil;
-	}
-}
-
 - (BOOL) isOnlineMode
 {
 	return [CMRPref isOnlineMode];

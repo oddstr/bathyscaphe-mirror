@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Contents.m,v 1.5 2006/06/24 16:23:38 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Contents.m,v 1.6 2007/01/27 15:48:42 tsawada2 Exp $
   * 
   * CMRThreadViewer-Contents.m
   *
@@ -81,7 +81,7 @@
 	
 	tmp = [self threadAttributes];
 	if(tmp == newAttrs) return;
-	
+
 	[self disposeThreadAttributes : tmp];
 	[[self document] setThreadAttributes : newAttrs];
 	[self registerThreadAttributes : newAttrs];
@@ -124,9 +124,11 @@
 }
 - (void) synchronizeAttributes
 {
+	[self willChangeValueForKey: @"threadAttributes"];
 	[self window];
 	[self synchronizeVisibleRange];
 	[self synchronizeWindowTitleWithDocumentName];
+	[self didChangeValueForKey: @"threadAttributes"];
 }
 - (void) synchronizeLayoutAttributes
 {

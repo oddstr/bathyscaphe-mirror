@@ -711,7 +711,7 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 	
 	return YES;
 }
-
+/*
 // スレッドのダウンロードが終了した。
 - (void) downloaderTextUpdatedNotified : (NSNotification *) notification
 {
@@ -776,7 +776,7 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 	} while ( NO );
 	
 }
-
+*/
 - (void) postListDidUpdateNotification : (int) mask;
 {
 	id		obj_;
@@ -854,7 +854,7 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 {
 	[self loadAndDownloadThreadsList : [self worker] forceDownload : YES];
 }
-
+/*
 - (void) cleanUpItemsToBeRemoved : (NSArray *) files
 {
 	SQLiteDB *db = [[DatabaseManager defaultManager] databaseForCurrentThread];
@@ -897,5 +897,5 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 	}
 	
 	[self updateCursor];
-}
+}*/
 @end

@@ -97,8 +97,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
         shortTitle_ = [title_ stringWithTruncatingForMenuItemOfWidth: 350.0 indent: NO activeItem: YES];
 		
         menuItem_ = [[NSMenuItem alloc]
-                        initWithTitle : shortTitle_//title_
-                               action : @selector(showThreadWithMenuItem:)
+                        initWithTitle : shortTitle_
+                               action : @selector(showThreadFromHistoryMenu:)
                         keyEquivalent : @""];
 
 		if (NO == [shortTitle_ isEqualToString: title_]) {

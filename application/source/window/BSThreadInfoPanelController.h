@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @interface BSThreadInfoPanelController : NSWindowController {
+	IBOutlet NSObjectController *m_greenCube;
 }
 
 + (id) sharedInstance;

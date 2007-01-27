@@ -1,3 +1,24 @@
+2007-01-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/manager/DatabaseManager.m
+	* application/source/browser/CMRThreadsList-Notification.m
+	* application/source/browser/CMRThreadsList-Remove.m
+	* application/source/browser/BSDBThreadList.m
+		スレッドのダウンロードが完了したとき／スレッドを削除したとき の Notification を、
+		BSDBThreadList のインスタンスが受け取るのではなく、DatabaseManager の共有インスタンスが
+		受け取って処理するようにした。
+		- ブラウザウインドウがひとつも開いていないときにスレッドを更新／削除した際にも、
+		　データベースに正しく反映させるため。
+2007-01-27 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/CMRAppDelegate.m
+	* application/source/manager/BSHistoryMenuManager.m
+	* application/source/thread/CMRThreadDocument.m
+	* application/source/browser/CMRBrowser-Action.m
+		「履歴」メニューの項目が、ウインドウがひとつも開いていないと淡色表示になって選択できない
+		問題を修正した。即ち、「履歴」メニューの項目の action を CMRThreadViewer ではなく、
+		CMRAppDelegate に実装するようにした。
+	* application/Resources/Japanese.lproj/BSThreadInfoPanel.nib
+	* application/source/window/BSThreadInfoPanelController.m
+	   スレッドの「情報を見る」パネルのバインディングに関する諸問題の修正。
 2007-01-22 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/BSThreadInfoPanel.nib
 	* application/source/CMRAppDelegate.m

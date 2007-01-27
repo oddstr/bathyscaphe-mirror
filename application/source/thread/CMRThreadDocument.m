@@ -21,6 +21,8 @@
 	}
 	return self;
 }
+
+#pragma mark -
 - (NSString *) fileType
 {
 	return CMRThreadDocumentType;
@@ -121,11 +123,18 @@
 {
 	return nil;
 }
-@end
 
+#pragma mark -
++ (BOOL) showDocumentWithHistoryItem: (CMRThreadSignature *) historyItem
+{
+	NSDictionary	*info_;
+	NSString *path_ = [historyItem threadDocumentPath];
+	
+	info_ = [NSDictionary dictionaryWithObjectsAndKeys: 
+					[historyItem BBSName], ThreadPlistBoardNameKey, [historyItem identifier], ThreadPlistIdentifierKey, nil];
+	return [self showDocumentWithContentOfFile: path_ contentInfo: info_];	
+}
 
-
-@implementation CMRThreadDocument(Open)
 + (BOOL) showDocumentWithContentOfFile : (NSString     *) filepath
 						   contentInfo : (NSDictionary *) contentInfo
 {

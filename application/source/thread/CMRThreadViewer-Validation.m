@@ -1,5 +1,5 @@
 /*
-    $Id: CMRThreadViewer-Validation.m,v 1.23 2007/01/10 16:09:29 tsawada2 Exp $
+    $Id: CMRThreadViewer-Validation.m,v 1.24 2007/01/27 15:48:42 tsawada2 Exp $
     CMRThreadViewer-Action.m から独立
     Created at 2005-02-16 by tsawada2.
 */
@@ -226,7 +226,7 @@ static int messageMaskForTag(int tag)
 	if (nil == theItem) return NO;
 	
 	action_ = [theItem action];
-	isSelected_ = YES;//([self selectedThreads] && [self numberOfSelectedThreads]);
+	isSelected_ = ([self selectedThreads] && [self numberOfSelectedThreads]);
         
 	// 印を付ける
 	if (@selector(toggleAAThread:) == action_) {
@@ -295,10 +295,10 @@ static int messageMaskForTag(int tag)
 	   action_ == @selector(smallerText:)		||
 	   action_ == @selector(scaleSegmentedControlPushed:)) // For Segmented Control
 	{ return [self shouldShowContents] && [[[self textView] textStorage] length]; }
-	
+/*	
 	if (action_ == @selector(showThreadWithMenuItem:))
 		return YES;
-
+*/
 	if (action_ == @selector(orderFrontMainBrowser:))
 		return [self shouldShowContents] && [self threadAttributes];
 

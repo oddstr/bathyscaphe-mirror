@@ -7,6 +7,7 @@
 //
 
 #import "BSThreadInfoPanelController.h"
+#import "CMRThreadViewer.h"
 #import <CocoMonar/CocoMonar.h>
 
 @interface BSThreadInfoDateValueTransformer: NSValueTransformer
@@ -70,6 +71,12 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	if (self = [super initWithWindowNibName : @"BSThreadInfoPanel"]) {
 		id transformer = [[[BSThreadInfoDateValueTransformer alloc] init] autorelease];
 		[NSValueTransformer setValueTransformer: transformer forName: @"BSThreadInfoDateValueTransformer"];
+
+		[[NSNotificationCenter defaultCenter]
+			 addObserver : self
+				selector : @selector(mainWindowChanged:)
+					name : NSWindowDidBecomeMainNotification
+				  object : nil];
 	}
 	return self;
 }
@@ -86,6 +93,35 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 		[[self window] orderOut : sender];
 	} else {
 		[super showWindow : sender];
+		id winController_ = [[NSApp mainWindow] windowController];
+
+		if (winController_ && [winController_ respondsToSelector: @selector(threadAttributes)]) {
+			[m_greenCube bind: @"contentObject" toObject: winController_ withKeyPath: @"threadAttributes" options: nil];
+		}
 	}
+}
+
+- (void) dealloc
+{
+	[[NSNotificationCenter defaultCenter] removeObserver: self];
+	[super dealloc];
+}
+
+#pragma mark Delegate and Notification
+- (void) mainWindowChanged : (NSNotification *) aNotification
+{
+	if (NO == [self isWindowLoaded] || NO == [[self window] isVisible]) return;
+
+	id winController_ = [[aNotification object] windowController];
+
+	if ([winController_ respondsToSelector: @selector(threadAttributes)]) {
+		[m_greenCube unbind: @"contentObject"];
+		[m_greenCube bind: @"contentObject" toObject: winController_ withKeyPath: @"threadAttributes" options: nil];
+	}
+}
+
+- (void) windowWillClose : (NSNotification *) aNotification
+{
+	[m_greenCube unbind: @"contentObject"];
 }
 @end

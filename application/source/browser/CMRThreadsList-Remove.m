@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-Remove.m,v 1.10 2007/01/21 02:27:41 tsawada2 Exp $
+  * $Id: CMRThreadsList-Remove.m,v 1.11 2007/01/27 15:48:42 tsawada2 Exp $
   * 
   * CMRThreadsList-Remove.m
   *
@@ -11,7 +11,7 @@
 #import "NSIndexSet+BSAddition.h"
 
 @implementation CMRThreadsList(CleanUp)
-- (void) trashDidPerformNotification : (NSNotification *) notification
+/*- (void) trashDidPerformNotification : (NSNotification *) notification
 {
 	NSArray		*files_;
 	NSNumber	*err_;
@@ -32,7 +32,7 @@
 	UTILAssertKindOfClass(files_, NSArray);
 	
 	[self cleanUpItemsToBeRemoved : files_];
-}
+}*/
 - (void) cleanUpItemsToBeRemoved : (NSArray *) files
 {
 	UTILAbstractMethodInvoked;
@@ -71,8 +71,8 @@
 		tmp = [[CMRTrashbox trash] performWithFiles : files fetchAfterDeletion: YES];
 	}
 
-	if(tmp && flag) [[CMRFavoritesManager defaultManager] removeFromFavoritesWithPathArray : files];
-	if(tmp)[self cleanUpItemsToBeRemoved : files];
+//	if(tmp && flag) [[CMRFavoritesManager defaultManager] removeFromFavoritesWithPathArray : files];
+//	if(tmp)[self cleanUpItemsToBeRemoved : files];
 	
 	return tmp;
 }
