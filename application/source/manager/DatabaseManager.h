@@ -55,6 +55,11 @@
 - (BOOL) removeFavoriteThreadIdentifier : (NSString *) identifier
 							  onBoardID : (unsigned) boardID;
 
+
+//
+- (NSString *) threadTitleFromBoardName:(NSString *)boadName threadIdentifier:(NSString *)identifier;
+
+
 @end
 
 @interface DatabaseManager (CreateTable)

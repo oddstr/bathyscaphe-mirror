@@ -1,3 +1,10 @@
+2007-01-28 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSBoardListItemHEADCheckTask.m:
+		Head リクエストを一度も送信しなかった場合は、更新制限をしないようにした。
+	* application/source/manager/DatabaseManager-DatabaseAccess.m:
+	* application/source/manager/DatabaseManager.h:
+	* application/source/thread/CMRThreadViewer-Link.m:
+		スレッドポップアップ時にデータベースの内容を参照するようにした。
 2007-01-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/manager/DatabaseManager.m
 	* application/source/browser/CMRThreadsList-Notification.m

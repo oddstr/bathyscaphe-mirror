@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.17 2006/11/05 12:53:48 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.18 2007/01/28 00:09:51 masakih Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -18,6 +18,8 @@
 #import "CMRSpamFilter.h"
 #import "CMRThreadView.h"
 #import "CMRNetRequestQueue.h"
+
+#import "DatabaseManager.h"
 
 #import <SGAppKit/NSWorkspace-SGExtensions.h>
 
@@ -81,25 +83,18 @@ NSString *const CMRThreadViewerRunSpamFilterNotification = @"CMRThreadViewerRunS
 		
 		dict_ = [[[NSDictionary alloc] initWithContentsOfFile: logPath_] autorelease];
 		if (!dict_) {
-			// ThreadsList.plist があるか
-			NSString		*plistPath_ = [[CMRDocumentFileManager defaultManager] threadsListPathWithBoardName: boardName_];
+			// データベース上にあるか
+			NSString		*threadID = [[logPath_ stringByDeletingPathExtension] lastPathComponent];
 
-			if (NO == [[NSFileManager defaultManager] isReadableFileAtPath: plistPath_] ) goto ErrInvalidLink;
-
-			NSArray	*threadsList_, *idArray_;
-			int tIndex_ = 0;
-
-			threadsList_ = [NSArray arrayWithContentsOfFile: plistPath_];
-
-			idArray_ = [threadsList_ valueForKey: ThreadPlistIdentifierKey];
-			tIndex_ = [idArray_ indexOfObject: [[logPath_ stringByDeletingPathExtension] lastPathComponent]];
-
-			// ThreadsList.plist の中にスレタイがあるか
-			if (tIndex_ == NSNotFound) goto ErrInvalidLink;
-
-			title_ = [NSString stringWithFormat: @"%@ - %@",
-												 [[threadsList_ objectAtIndex: tIndex_] valueForKey: CMRThreadTitleKey],
+			NSString *threadTitle = [[DatabaseManager defaultManager] threadTitleFromBoardName:boardName_
+																			  threadIdentifier:threadID];
+			if(threadTitle) {
+				title_ = [NSString stringWithFormat: @"%@ - %@",
+												 threadTitle,
 												 boardName_];
+			} else {
+				title_ = boardName_;
+			}
 
 			template_ = [[[NSAttributedString alloc] initWithString: title_] autorelease];
 			if (!template_) goto ErrInvalidLink;

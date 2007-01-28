@@ -176,8 +176,10 @@ static BOOL shouldCheckItemHeader(id dict);
 	[self playFinishSoundIsUpdate:numberOFChecked != 0];
 	
 	[CMRPref setLastHEADCheckedDate : [NSDate date]];
-	double interval_ = (double)numberOFChecked * 20.0;
-	[CMRPref setHEADCheckTimeInterval : ((interval_ < 300.0) ? 300.0 : interval_)];
+	double interval_ = numberOFChecked * 20.0;
+	if(interval_ != 0) {
+		[CMRPref setHEADCheckTimeInterval : ((interval_ < 300.0) ? 300.0 : interval_)];
+	}
 	
 	[targetList updateCursor];
 	

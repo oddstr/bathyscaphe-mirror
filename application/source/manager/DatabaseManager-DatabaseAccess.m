@@ -388,7 +388,7 @@ static NSLock *boardIDNumberCacheLock = nil;
 	[query appendFormat : @" AND %@ LIKE '%@'", ThreadIDColumn, identifier];
 	
 	cursor = [db performQuery : query];
-	if ([cursor rowCount]) {
+	if (cursor && [cursor rowCount]) {
 		value = [cursor valueForColumn : @"count(*)" atRow : 0];
 		if ([value intValue]) {
 			isFavorite = YES;
@@ -434,4 +434,43 @@ static NSLock *boardIDNumberCacheLock = nil;
 	return ([db lastErrorID] == 0);
 }
 
+
+- (NSString *) threadTitleFromBoardName:(NSString *)boadName threadIdentifier:(NSString *)identifier
+{
+	NSString *boardID;
+	NSArray *boardIDs;
+	NSString *query;
+	SQLiteDB *db;
+	id<SQLiteCursor> cursor;
+	
+	NSString *title = nil;
+	
+	UTILAssertKindOfClass(boadName, NSString);
+	UTILAssertKindOfClass(identifier, NSString);
+	if([boadName length] == 0) return nil;
+	if([identifier length] == 0) return nil;
+	
+	boardIDs = [self boardIDsForName:boadName];
+	if(!boardIDs || [boardIDs count] == 0) return nil;
+	
+	boardID = [boardIDs objectAtIndex:0];
+	
+	db = [self databaseForCurrentThread];
+	if (!db) {
+		return nil;
+	}
+	
+	query = [NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@ = %@ AND %@ = %@",
+		ThreadNameColumn,
+		ThreadInfoTableName,
+		BoardIDColumn, boardID,
+		ThreadIDColumn, identifier,
+		nil];
+	cursor = [db performQuery: query];
+	if (cursor && [cursor rowCount]) {
+		title = [cursor valueForColumn : ThreadInfoTableName atRow : 0];
+	}
+	
+	return title;
+}
 @end
