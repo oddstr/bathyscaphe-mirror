@@ -1,3 +1,7 @@
+2007-01-29 masakih <masakih@users.sourceforge.jp>
+	* application/source/manager/DatabaseManager-DatabaseAccess.m:
+		スレッドポップアップ時にデータベースの内容を参照するようにした。
+		ちゃんと表示できていなかったので修正した。
 2007-01-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/previewer/BSIPIDownload.m
 		ファイルをダウンロードする際、同じ名前のファイルが既に存在していた場合は上書きせず、ユニークな

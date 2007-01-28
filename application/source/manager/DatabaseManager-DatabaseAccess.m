@@ -468,7 +468,7 @@ static NSLock *boardIDNumberCacheLock = nil;
 		nil];
 	cursor = [db performQuery: query];
 	if (cursor && [cursor rowCount]) {
-		title = [cursor valueForColumn : ThreadInfoTableName atRow : 0];
+		title = [cursor valueForColumn : ThreadNameColumn atRow : 0];
 	}
 	
 	return title;
