@@ -498,6 +498,7 @@ not_writtable:
                    proposedItem : (id                 ) item
              proposedChildIndex : (int                ) index;
 {
+	if (index == 0) return NSDragOperationNone; // 「お気に入り」の上に他のリスト項目をドロップさせない
 	if(item != nil && index < 0 &&  NO == [BoardListItem isFolderItem : item]){
 		return NSDragOperationNone;
 	}

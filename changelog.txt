@@ -1,4 +1,9 @@
 2007-01-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSIPIDownload.m
+		ファイルをダウンロードする際、同じ名前のファイルが既に存在していた場合は上書きせず、ユニークな
+		別の名前を付けるようにした。
+	* application/source/bbs/BoardListItem/SmartBoardList.m
+		「お気に入り」の上に掲示板やカテゴリをドロップして配置できないようにした。
 	* application/source/CMRAppDelegate.m
 	* application/source/browser/CMRBrowser-Action.m
 	* application/source/browser/CMRBrowser-Delegate.m

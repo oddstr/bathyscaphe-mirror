@@ -114,7 +114,7 @@
 	[finalImg lockFocus];
 	[icon_ compositeToPoint: NSMakePoint(0, dy) operation: NSCompositeCopy fraction: 0.9];
 	[titleImg compositeToPoint: NSMakePoint(19.0,dyTitle) operation: NSCompositeCopy fraction: 0.8];
-	
+
 	[finalImg unlockFocus];
 	
 	[titleImg release];

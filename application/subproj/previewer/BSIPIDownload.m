@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIDownload.m,v 1.2 2006/11/05 13:15:07 tsawada2 Exp $
+//  $Id: BSIPIDownload.m,v 1.3 2007/01/28 14:13:37 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/07/15.
@@ -130,7 +130,7 @@
 	NSString *savePath;
 	savePath = [[self destination] stringByAppendingPathComponent : filename];
 
-	[dl setDestination : savePath allowOverwrite : YES];
+	[dl setDestination : savePath allowOverwrite : NO];
 }
 
 - (void) download: (NSURLDownload *) dl didCreateDestination: (NSString *) asDstPath
