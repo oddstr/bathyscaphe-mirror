@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.35 2007/01/27 15:48:42 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.36 2007/01/28 11:59:02 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -16,7 +16,7 @@
 #import "CMRThreadDownloadTask.h"
 #import "CMXPopUpWindowManager.h"
 #import "CMRAppDelegate.h"
-#import "CMRBrowser.h"
+//#import "CMRBrowser.h"
 #import "BSBoardInfoInspector.h"
 #import "BSThreadInfoPanelController.h"
 
@@ -528,7 +528,7 @@
 }
 
 #pragma mark Available in SledgeHammer and Later
-
+/*
 - (void) mainBrowserDidFinishShowThList : (NSNotification *) aNotification
 {
 	UTILAssertNotificationName(
@@ -541,18 +541,20 @@
 													name : CMRBrowserThListUpdateDelegateTaskDidFinishNotification
 												  object : CMRMainBrowser];
 }
-
+*/
 - (IBAction) orderFrontMainBrowser : (id) sender
 {
 	NSString *boardName = [self boardName];
 	if(!boardName) return; 
-
+/*
 	[[NSNotificationCenter defaultCenter] addObserver : self
 											 selector : @selector(mainBrowserDidFinishShowThList:)
 												 name : CMRBrowserThListUpdateDelegateTaskDidFinishNotification
 											   object : CMRMainBrowser];
-
-	[(CMRAppDelegate *)[NSApp delegate] orderFrontMainBrowserAndShowThListForBrd: boardName addBrdToUsrListIfNeeded: YES];
+*/
+//	[(CMRAppDelegate *)[NSApp delegate] orderFrontMainBrowserAndShowThListForBrd: boardName addBrdToUsrListIfNeeded: YES];
+	CMRAppDelegate *delegate_ = (CMRAppDelegate *)[NSApp delegate];
+	[delegate_ showThreadsListForBoard: boardName selectThread: [self path] addToListIfNeeded: YES];
 }
 
 - (IBAction) showBoardInspectorPanel : (id) sender

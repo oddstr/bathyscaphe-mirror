@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.28 2007/01/27 15:48:42 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.29 2007/01/28 11:58:32 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -28,6 +28,11 @@ static NSString *const kRGBColorSpace = @"NSCalibratedRGBColorSpace";
     [self setupMenu];
 }
 
+- (void) dealloc
+{
+	[m_threadPath release];
+	[super dealloc];
+}
 
 - (BOOL) shouldCascadeBrowserWindow
 {
@@ -37,6 +42,18 @@ static NSString *const kRGBColorSpace = @"NSCalibratedRGBColorSpace";
 - (void) setShouldCascadeBrowserWindow: (BOOL) flag
 {
 	m_shouldCascadeBrowserWindow = flag;
+}
+
+- (NSString *) threadPath
+{
+	return m_threadPath;
+}
+
+- (void) setThreadPath: (NSString *) aString
+{
+	[aString retain];
+	[m_threadPath release];
+	m_threadPath = aString;
 }
 
 #pragma mark IBAction
@@ -172,7 +189,7 @@ static NSString *const kRGBColorSpace = @"NSCalibratedRGBColorSpace";
 	[bw syncBoardLists];
 }
 
-- (void) orderFrontMainBrowserAndShowThListForBrd: (NSString *) boardName
+/*- (void) orderFrontMainBrowserAndShowThListForBrd: (NSString *) boardName
 						  addBrdToUsrListIfNeeded: (BOOL) addToList
 {
 	if (CMRMainBrowser != nil) {
@@ -184,7 +201,42 @@ static NSString *const kRGBColorSpace = @"NSCalibratedRGBColorSpace";
 	// addBrdToUsrListIfNeeded オプションは当面の間無視（常に YES 扱いで）
 	[CMRMainBrowser selectRowWhoseNameIs : boardName]; // この結果として outlineView の selectionDidChange: が「確実に」
 													   // 呼び出される限り、そこから showThreadsListForBoardName: が呼び出される
+}*/
+- (void) mainBrowserDidFinishShowThList : (NSNotification *) aNotification
+{
+	UTILAssertNotificationName(
+		aNotification,
+		CMRBrowserThListUpdateDelegateTaskDidFinishNotification);
+
+	[CMRMainBrowser selectRowWithThreadPath: [self threadPath]
+					   byExtendingSelection: NO
+							scrollToVisible: YES];
+
+	[[NSNotificationCenter defaultCenter] removeObserver: self
+													name: CMRBrowserThListUpdateDelegateTaskDidFinishNotification
+												  object: CMRMainBrowser];
 }
+
+- (void) showThreadsListForBoard: (NSString *) boardName selectThread: (NSString *) path addToListIfNeeded: (BOOL) addToList
+{
+	if (CMRMainBrowser != nil) {
+		[[CMRMainBrowser window] makeKeyAndOrderFront : self];
+	} else {
+		[[CMRDocumentController sharedDocumentController] newDocument : self];
+	}
+
+	if (path) {
+		[self setThreadPath: path];
+		[[NSNotificationCenter defaultCenter] addObserver : self
+												 selector : @selector(mainBrowserDidFinishShowThList:)
+													 name : CMRBrowserThListUpdateDelegateTaskDidFinishNotification
+												   object : CMRMainBrowser];
+	}
+	// addBrdToUsrListIfNeeded オプションは当面の間無視（常に YES 扱いで）
+	[CMRMainBrowser selectRowWhoseNameIs: boardName]; // この結果として outlineView の selectionDidChange: が「確実に」
+													  // 呼び出される限り、そこから showThreadsListForBoardName: が呼び出される
+}
+
 
 - (IBAction) startHEADCheckDirectly: (id) sender
 {
@@ -193,7 +245,8 @@ static NSString *const kRGBColorSpace = @"NSCalibratedRGBColorSpace";
 	// 簡単のため、いったんオンラインモードを切る
 	if(hasBeenOnline) [self toggleOnlineMode: sender];
 	
-	[self orderFrontMainBrowserAndShowThListForBrd: CMXFavoritesDirectoryName addBrdToUsrListIfNeeded: NO];
+//	[self orderFrontMainBrowserAndShowThListForBrd: CMXFavoritesDirectoryName addBrdToUsrListIfNeeded: NO];
+	[self showThreadsListForBoard: CMXFavoritesDirectoryName selectThread: NO addToListIfNeeded: NO];
 	[CMRMainBrowser reloadThreadsList: sender];
 
 	// 必要ならオンラインに復帰

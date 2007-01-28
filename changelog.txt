@@ -1,4 +1,11 @@
 2007-01-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/CMRAppDelegate.m
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/browser/CMRBrowser-Delegate.m
+	* application/source/manager/CMROpenURLManager.m
+	* application/source/thread/CMRThreadViewer-Action.m
+		[Bug 9727]「スレッド」＞「掲示板を表示」がちゃんと動作していなかった問題を修正。また、この処理の一部を
+		CMRThreadViewer から CMRAppDelegate に持ち替えた。
 	* application/source/browser/BSDBThreadList.m
 	* application/source/browser/CMRThreadsList-DataSource.m
 	* application/source/view/ThreadsListTable.m

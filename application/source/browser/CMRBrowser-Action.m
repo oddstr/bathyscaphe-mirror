@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.52 2007/01/27 15:48:42 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.53 2007/01/28 11:58:32 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -10,7 +10,7 @@
 #import "CMRMainMenuManager.h"
 #import "CMRHistoryManager.h"
 #import "CMRThreadsList_p.h"
-
+#import "FolderBoardListItem.h"
 extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate.m
 
 @class IndexField;
@@ -31,9 +31,12 @@ static int expandAndSelectItem(NSDictionary *selected, NSArray *anArray, NSOutli
 		if (-1 != index) { // 当たり！
 			return index;
 		} else { // カテゴリ内のサブカテゴリを開いて検査する
-			index = expandAndSelectItem(selected, [eachItem objectForKey: BoardPlistContentsKey], bLT);
-			if (-1 == index) // このカテゴリのどのサブカテゴリにも見つからなかった
-				[bLT collapseItem: eachItem]; // このカテゴリは閉じる
+			if ([(FolderBoardListItem *)eachItem hasChildren]) { // カテゴリの中身が空でないことを確認
+//			index = expandAndSelectItem(selected, [eachItem objectForKey: BoardPlistContentsKey], bLT);
+				index = expandAndSelectItem(selected, [(FolderBoardListItem *)eachItem items], bLT);
+				if (-1 == index) // このカテゴリのどのサブカテゴリにも見つからなかった
+					[bLT collapseItem: eachItem]; // このカテゴリは閉じる
+			}
 		}
 	}
 	return index;

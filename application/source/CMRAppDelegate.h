@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.h,v 1.15 2007/01/27 15:48:41 tsawada2 Exp $
+ * $Id: CMRAppDelegate.h,v 1.16 2007/01/28 11:58:32 tsawada2 Exp $
  * 
  * CMRAppDelegate.h
  *
@@ -20,6 +20,7 @@
 {
 	@private
 	BOOL	m_shouldCascadeBrowserWindow;
+	NSString *m_threadPath;
 }
 
 - (BOOL) shouldCascadeBrowserWindow;
@@ -49,9 +50,8 @@
 - (IBAction) togglePreviewPanel : (id) sender;
 - (IBAction) runBoardWarrior: (id) sender;
 
-// Available in MeteorSweeper and later.
-- (void) orderFrontMainBrowserAndShowThListForBrd: (NSString *) boardName
-						  addBrdToUsrListIfNeeded: (BOOL) addToList;
+// Available in Starlight Breaker.
+- (void) showThreadsListForBoard: (NSString *) boardName selectThread: (NSString *) path addToListIfNeeded: (BOOL) addToList;
 
 // For Dock menu
 - (IBAction) startHEADCheckDirectly: (id) sender;

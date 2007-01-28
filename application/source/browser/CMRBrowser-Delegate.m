@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.28 2007/01/07 17:04:23 masakih Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.29 2007/01/28 11:58:32 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -470,6 +470,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 	[[self threadsListTable] reloadData];
 
 	[self synchronizeWindowTitleWithDocumentName];
+	UTILNotifyName(CMRBrowserThListUpdateDelegateTaskDidFinishNotification);
 }
 
 - (void) threadsListDownloaderShouldRetryUpdate : (NSNotification *) notification
@@ -480,14 +481,14 @@ BOOL isOptionKeyDown(unsigned flag_)
 {
 	NSNumber	*maskNum_;
 	int			mask_;
-	
+
 	UTILAssertNotificationName(
 		notification,
 		CMRThreadsListDidUpdateNotification);
 	UTILAssertNotificationObject(
 		notification,
 		[self currentThreadsList]);
-	
+
 	maskNum_ = [[notification userInfo] 
 					objectForKey : ThreadsListUserInfoSelectionHoldingMaskKey];
 	if (maskNum_ != nil)

@@ -1,5 +1,5 @@
 //
-//  $Id: CMROpenURLManager.m,v 1.5 2006/11/05 12:53:48 tsawada2 Exp $
+//  $Id: CMROpenURLManager.m,v 1.6 2007/01/28 11:58:32 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by minamie on Sun Jan 25 2004.
@@ -127,7 +127,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 													contentInfo : contentInfo_];
 	} else if ([CMRThreadLinkProcessor parseBoardLink: url boardName: &boardName_ boardURL: &boardURL_]) {
 		//NSLog(@"Success - %@ (%@)", boardName_, boardURL_);
-		[(CMRAppDelegate *)[NSApp delegate] orderFrontMainBrowserAndShowThListForBrd: boardName_ addBrdToUsrListIfNeeded: YES];
+//		[(CMRAppDelegate *)[NSApp delegate] orderFrontMainBrowserAndShowThListForBrd: boardName_ addBrdToUsrListIfNeeded: YES];
+		[(CMRAppDelegate *)[NSApp delegate] showThreadsListForBoard: boardName_ selectThread: nil addToListIfNeeded: YES];
 		return YES;
 	} else {
 		int		code;
