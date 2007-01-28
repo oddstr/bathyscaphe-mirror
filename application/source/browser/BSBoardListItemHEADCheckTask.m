@@ -175,9 +175,9 @@ static BOOL shouldCheckItemHeader(id dict);
 	numberOFChecked = numberOfAllTarget - numberOfSkip;
 	[self playFinishSoundIsUpdate:numberOFChecked != 0];
 	
-	[CMRPref setLastHEADCheckedDate : [NSDate date]];
 	double interval_ = numberOFChecked * 20.0;
 	if(interval_ != 0) {
+		[CMRPref setLastHEADCheckedDate : [NSDate date]];
 		[CMRPref setHEADCheckTimeInterval : ((interval_ < 300.0) ? 300.0 : interval_)];
 	}
 	
