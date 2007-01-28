@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.18 2007/01/07 17:04:23 masakih Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.19 2007/01/28 07:18:50 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -18,11 +18,11 @@
 #define kStatusHEADModImageName		@"Status_HeadModified"
 
 /* @see objectValueTemplate:forType: */
-enum {
+/*enum {
 	kValueTemplateDefaultType,
 	kValueTemplateNewArrivalType,
 	kValueTemplateNewUnknownType
-};
+};*/
 
 
 @implementation CMRThreadsList(DataSource)
@@ -336,7 +336,7 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	[tmp_ deleteCharactersInRange : [tmp_ range]];
 	return YES;
 }
-
+/*
 - (NSBezierPath *) calcRoundedRectForRect: (NSRect) bgRect
 {
     int minX = NSMinX(bgRect);
@@ -492,7 +492,7 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 
 	return [anImg autorelease];
 }
-
+*/
 #pragma mark Getting Thread Attributes
 - (NSString *) threadFilePathAtRowIndex : (int          ) rowIndex
 							inTableView : (NSTableView *) tableView

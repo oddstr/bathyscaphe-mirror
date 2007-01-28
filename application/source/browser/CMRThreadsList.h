@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.h,v 1.9 2007/01/21 02:27:41 tsawada2 Exp $
+  * $Id: CMRThreadsList.h,v 1.10 2007/01/28 07:18:50 tsawada2 Exp $
   * 
   * CMRThreadsList.h
   *
@@ -11,6 +11,13 @@
 
 @class CMRDownloader;
 @class CMRThreadLayout;
+
+enum {
+	kValueTemplateDefaultType,
+	kValueTemplateNewArrivalType,
+	kValueTemplateNewUnknownType,
+	kValueTemplateDatOchiType // Available in Starlight Breaker.
+};
 
 @interface CMRThreadsList : NSObject 
 {
@@ -143,11 +150,16 @@
 - (unsigned int) indexOfThreadWithPath : (NSString *) filepath;
 
 // available in ReinforceII and later.
-- (NSImage *) dragImageForTheRow: (unsigned int) rowIndex
-					 inTableView: (NSTableView *) tableView
-						  offset: (NSPointPointer) dragImageOffset;
+//- (NSImage *) dragImageForTheRow: (unsigned int) rowIndex
+//					 inTableView: (NSTableView *) tableView
+//						  offset: (NSPointPointer) dragImageOffset;
 @end
 
+@interface CMRThreadsList(DraggingImage)
+- (NSImage *) dragImageForRowIndexes: (NSIndexSet *) rowIndexes
+						 inTableView: (NSTableView *) tableView
+							  offset: (NSPointPointer) dragImageOffset;
+@end
 
 
 @interface CMRThreadsList(Download)

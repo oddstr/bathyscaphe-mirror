@@ -1,5 +1,5 @@
 /**
-  * $Id: ThreadsListTable.m,v 1.9 2007/01/07 17:04:24 masakih Exp $
+  * $Id: ThreadsListTable.m,v 1.10 2007/01/28 07:18:50 tsawada2 Exp $
   * 
   * ThreadsListTable.m
   *
@@ -9,77 +9,23 @@
 #import "ThreadsListTable.h"
 #import "CMRThreadsList.h"
 #import "AppDefaults.h"
+#import "NSIndexSet+BSAddition.h"
 
-#define kBrowserKeyBindingsFile		@"BrowserKeyBindings.plist"
-
-
+static NSString *const kBrowserKeyBindingsFile = @"BrowserKeyBindings.plist";
 
 @implementation ThreadsListTable
-- (void) dealloc
-{
-	[allColumns release];
-	[super dealloc];
-}
-
-- (void) _drawStringIn : (NSRect) rect withString : (NSString *) str
-{
-	NSMutableDictionary		*attr_;
-	NSPoint					stringOrigin;
-	NSSize					stringSize;
-	
-	attr_ = [[NSMutableDictionary alloc] init];
-
-	[attr_ setObject : [NSFont boldSystemFontOfSize : 12.0 ] forKey : NSFontAttributeName];
-	[attr_ setObject : [NSColor whiteColor] forKey : NSForegroundColorAttributeName];
-
-	stringSize = [str sizeWithAttributes : attr_];
-	stringOrigin.x = rect.origin.x + (rect.size.width - stringSize.width) / 2;
-	stringOrigin.y = rect.origin.y + (rect.size.height - stringSize.height) / 2;
-	
-	[str drawAtPoint : stringOrigin withAttributes : attr_];
-	
-	[attr_ release];
-}
-
-- (NSImage *) _draggingBadgeForRowCount : (unsigned int) countOfRows
-{
-	NSImage	*anImg = [[NSImage alloc] init];
-	NSRect	imageBounds;
-	NSString	*str_;
-
-	str_ = [NSString stringWithFormat : @"%i", countOfRows];
-
-	imageBounds.origin = NSMakePoint(16.0, 15.0);
-	imageBounds.size = NSMakeSize(26.0, 26.0);
-
-	[anImg setSize : NSMakeSize(40.0, 40.0)];
-
-	[anImg lockFocus];
-	[self _drawStringIn : imageBounds withString : str_];
-	[[NSImage imageAppNamed : @"DraggingBadge"] compositeToPoint : NSMakePoint(16.0, 14.0)
-													   operation : NSCompositeDestinationOver];
-	[[[NSWorkspace sharedWorkspace] iconForFileType : @"thread"] compositeToPoint : NSMakePoint(4.0, 0.0)
-																		operation : NSCompositeDestinationOver
-																		fraction : 0.9];
-	[anImg unlockFocus];
-
-	return [anImg autorelease];
-}
-
+#pragma mark Drag Image
+// Panther. Deprecated.
 - (NSImage*) dragImageForRows : (NSArray      *) dragRows
                         event : (NSEvent      *) dragEvent
               dragImageOffset : (NSPointPointer) dragImageOffset
 {
-	if ([dragRows count] == 1) {
-		return [[self dataSource] isFavorites]
-						? [super dragImageForRows : dragRows event : dragEvent dragImageOffset : dragImageOffset]
-//						: [[NSWorkspace sharedWorkspace] iconForFileType : @"thread"];
-						: [[self dataSource] dragImageForTheRow: [[dragRows lastObject] unsignedIntValue]
-													inTableView: self
-														 offset: dragImageOffset];
-	} else {
-		return [self _draggingBadgeForRowCount : [dragRows count]];
+	id	dataSource = [self dataSource];
+	if (dataSource && [dataSource respondsToSelector: @selector(dragImageForRowIndexes:inTableView:offset:)]) {
+		return [dataSource dragImageForRowIndexes: [NSIndexSet rowIndexesWithRows: dragRows] inTableView: self offset: dragImageOffset];
 	}
+	
+	return [super dragImageForRows: dragRows event: dragEvent dragImageOffset: dragImageOffset];
 }
 
 // For Tiger or later
@@ -88,18 +34,15 @@
 									event : (NSEvent *) dragEvent
 								   offset : (NSPointPointer) dragImageOffset
 {
-	if ([dragRows count] == 1) {
-		return [[self dataSource] isFavorites]
-						? [super dragImageForRowsWithIndexes : dragRows tableColumns : tableColumns event : dragEvent offset : dragImageOffset]
-						//: [[NSWorkspace sharedWorkspace] iconForFileType : @"thread"];
-						: [[self dataSource] dragImageForTheRow: [dragRows firstIndex] inTableView: self offset: dragImageOffset];
-	} else {
-		return [self _draggingBadgeForRowCount : [dragRows count]];
+	id	dataSource = [self dataSource];
+	if (dataSource && [dataSource respondsToSelector: @selector(dragImageForRowIndexes:inTableView:offset:)]) {
+		return [dataSource dragImageForRowIndexes: dragRows inTableView: self offset: dragImageOffset];
 	}
-
+	
+	return [super dragImageForRowsWithIndexes: dragRows tableColumns: tableColumns event: dragEvent offset: dragImageOffset];
 }
 	
-// KeyBindings
+#pragma mark KeyBindings
 + (SGKeyBindingSupport *) keyBindingSupport
 {
 	static SGKeyBindingSupport *stKeyBindingSupport_;
@@ -151,6 +94,17 @@
 	[super keyDown : theEvent];
 }
 
+- (void) scrollRowToTop : (id) sender
+{
+	[self scrollRowToVisible : 0];
+}
+
+- (void) scrollRowToEnd : (id) sender
+{
+	[self scrollRowToVisible : ([self numberOfRows]-1)];
+}
+
+#pragma mark Contextual Menu
 // Cocoaはさっぱり!!! version.4 スレッドの54-55 がドンピシャだった
 - (NSMenu *) menuForEvent : (NSEvent *) theEvent
 {
@@ -164,17 +118,7 @@
 	}
 }
 
-- (void) scrollRowToTop : (id) sender
-{
-	[self scrollRowToVisible : 0];
-}
-
-- (void) scrollRowToEnd : (id) sender
-{
-	[self scrollRowToVisible : ([self numberOfRows]-1)];
-}
-
-#pragma mark ShortCircuit Additions
+#pragma mark Manual-save Table columns
 
 /*
 	2005-10-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
@@ -214,6 +158,12 @@ Hope this helps...
 (You also have to add an instance variable of type NSArray named
 "allColumns". You also have to take care about its deallocation.)
 */
+
+- (void) dealloc
+{
+	[allColumns release];
+	[super dealloc];
+}
 
 - (NSObject<NSCoding> *) columnState
 {

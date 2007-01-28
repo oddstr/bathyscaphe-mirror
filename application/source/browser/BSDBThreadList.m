@@ -532,12 +532,12 @@ abort:{
 	
 	return result;
 }
-
-enum {
+// Described in CMRThreadsList.h (2007-01-28)
+/*enum {
 	kValueTemplateDefaultType,
 	kValueTemplateNewArrivalType,
 	kValueTemplateNewUnknownType
-};
+};*/
 
 - (int)numberOfRowsInTableView : (NSTableView *)tableView
 {

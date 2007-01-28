@@ -514,6 +514,7 @@
 		87764C600AB0399000507EBA /* BoardWarrior.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87764C5E0AB0399000507EBA /* BoardWarrior.strings */; };
 		877AC2910B027447005365C0 /* CMRThreadView-Drop.m in Sources */ = {isa = PBXBuildFile; fileRef = 877AC2900B027447005365C0 /* CMRThreadView-Drop.m */; };
 		878018E1097CF76A002FBA1F /* titleRulerBgNotActive.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 878018E0097CF76A002FBA1F /* titleRulerBgNotActive.tiff */; };
+		878088D00B6C773700027091 /* CMRThreadsList-DragDropOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 878088CF0B6C773700027091 /* CMRThreadsList-DragDropOp.m */; };
 		8782A66E096FAAB90099B65F /* BSImagePreviewInspector-Tb.m in Sources */ = {isa = PBXBuildFile; fileRef = 8782A66D096FAAB90099B65F /* BSImagePreviewInspector-Tb.m */; };
 		8782A6B2096FB46A0099B65F /* Save.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8782A6B0096FB4690099B65F /* Save.tiff */; };
 		8782A6B3096FB46A0099B65F /* Settings.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8782A6B1096FB46A0099B65F /* Settings.tiff */; };
@@ -1443,6 +1444,7 @@
 		87764C5F0AB0399000507EBA /* Japanese */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/BoardWarrior.strings; sourceTree = "<group>"; };
 		877AC2900B027447005365C0 /* CMRThreadView-Drop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadView-Drop.m"; sourceTree = "<group>"; };
 		878018E0097CF76A002FBA1F /* titleRulerBgNotActive.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = titleRulerBgNotActive.tiff; sourceTree = "<group>"; };
+		878088CF0B6C773700027091 /* CMRThreadsList-DragDropOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadsList-DragDropOp.m"; sourceTree = "<group>"; };
 		8782A66D096FAAB90099B65F /* BSImagePreviewInspector-Tb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BSImagePreviewInspector-Tb.m"; sourceTree = "<group>"; };
 		8782A6B0096FB4690099B65F /* Save.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Save.tiff; sourceTree = "<group>"; };
 		8782A6B1096FB46A0099B65F /* Settings.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Settings.tiff; sourceTree = "<group>"; };
@@ -2514,6 +2516,7 @@
 				F324DC5104C698FA00A80005 /* CMRThreadsUpdateListTask.h */,
 				F324DC5304C698FA00A80005 /* CMRThreadsUpdateListTask_p.h */,
 				F324DC5204C698FA00A80005 /* CMRThreadsUpdateListTask.m */,
+				878088CF0B6C773700027091 /* CMRThreadsList-DragDropOp.m */,
 			);
 			name = ThreadsList;
 			sourceTree = "<group>";
@@ -4814,6 +4817,7 @@
 				87D8FBC10B5257ED00CCB933 /* CMRThreadView-Drop.m in Sources */,
 				87D8FBC40B52587900CCB933 /* NSIndexSet+BSAddition.m in Sources */,
 				879B0B940B6239EF00EFD6D0 /* BSThreadInfoPanelController.m in Sources */,
+				878088D00B6C773700027091 /* CMRThreadsList-DragDropOp.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
