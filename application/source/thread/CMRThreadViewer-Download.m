@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Download.m,v 1.15 2006/11/05 12:53:48 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Download.m,v 1.16 2007/01/30 14:04:11 tsawada2 Exp $
   * BathyScaphe
   * 
   *
@@ -107,6 +107,7 @@
 	if (NO == [[self threadIdentifier] isEqual : [downloader_ identifier]]) {
 		return;
 	}
+[[self threadAttributes] addEntriesFromDictionary : [userInfo_ objectForKey: CMRDownloaderUserInfoAdditionalInfoKey]];
 	[self composeDATContents : contents_
 			 threadSignature : [downloader_ identifier]
 				   nextIndex : [downloader_ nextIndex]];

@@ -1,5 +1,5 @@
 /**
-  * $Id: ThreadTextDownloader.m,v 1.3 2006/02/11 08:19:26 tsawada2 Exp $
+  * $Id: ThreadTextDownloader.m,v 1.4 2007/01/30 14:04:11 tsawada2 Exp $
   * 
   * ThreadTextDownloader.m
   *
@@ -24,7 +24,7 @@
 NSString *const ThreadTextDownloaderDidFinishLoadingNotification = @"ThreadTextDownloaderDidFinishLoadingNotification";
 NSString *const ThreadTextDownloaderUpdatedNotification = @"ThreadTextIsUpdated";
 NSString *const ThreadTextDownloaderInvalidPerticalContentsNotification = @"ThreadTextDownloaderInvalidPerticalContentsNotification";
-
+NSString *const CMRDownloaderUserInfoAdditionalInfoKey = @"AddtionalInfo";
 
 
 @implementation ThreadTextDownloader
@@ -228,7 +228,8 @@ return_instance:
 
 
 @implementation ThreadTextDownloader(ThreadDataArchiver)
-- (void) postDATFinishedNotificationWithContetns : (NSString *) datContents
+- (void) postDATFinishedNotificationWithContents: (NSString *) datContents
+								  additionalInfo: (NSDictionary *) additionalInfo
 {
 	NSDictionary		*userInfo_;
 	
@@ -236,6 +237,7 @@ return_instance:
 					datContents,		CMRDownloaderUserInfoContentsKey,
 					[self resourceURL],	CMRDownloaderUserInfoResourceURLKey,
 					[self identifier],	CMRDownloaderUserInfoIdentifierKey,
+					additionalInfo,		CMRDownloaderUserInfoAdditionalInfoKey,
 					nil];
 	UTILNotifyInfo(
 		ThreadTextDownloaderDidFinishLoadingNotification,
@@ -258,6 +260,7 @@ return_instance:
 							   dataLength : (unsigned int) dataLength
 {
     NSDictionary *thread;
+	NSMutableDictionary *info_;
     BOOL          result = NO;
     
     
@@ -272,12 +275,17 @@ return_instance:
     }
     thread = [self dictionaryByAppendingContents : datContents
                    dataLength : dataLength];
+
+	info_ = [NSMutableDictionary dictionary];
+	[info_ setNoneNil: [thread objectForKey: ThreadPlistLengthKey] forKey: ThreadPlistLengthKey];
+	[info_ setNoneNil: [thread objectForKey: CMRThreadModifiedDateKey] forKey: CMRThreadModifiedDateKey];
+
     // It guarantees that file must exists.
     result = [thread writeToFile : [self filePathToWrite]
                                   atomically : YES];
     
     [self postUpdatedNotificationWithContents : thread];
-    [self postDATFinishedNotificationWithContetns : datContents];
+    [self postDATFinishedNotificationWithContents: datContents additionalInfo: info_];
     
     return result;
 }

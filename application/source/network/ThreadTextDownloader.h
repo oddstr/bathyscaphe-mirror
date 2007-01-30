@@ -1,5 +1,5 @@
 /**
-  * $Id: ThreadTextDownloader.h,v 1.2 2006/01/25 11:22:03 tsawada2 Exp $
+  * $Id: ThreadTextDownloader.h,v 1.3 2007/01/30 14:04:11 tsawada2 Exp $
   * 
   * ThreadTextDownloader.h
   *
@@ -9,9 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "CMRDownloader.h"
 
-
-
-//@class CMRBBSSignature;
 @class CMRThreadSignature;
 
 @interface ThreadTextDownloader : CMRDownloader
@@ -58,3 +55,6 @@ extern NSString *const ThreadTextDownloaderDidFinishLoadingNotification;
 extern NSString *const ThreadTextDownloaderUpdatedNotification;
 // some messages has beed aboned?
 extern NSString *const ThreadTextDownloaderInvalidPerticalContentsNotification;
+
+// Available in Starlight Breaker.
+extern NSString *const CMRDownloaderUserInfoAdditionalInfoKey;

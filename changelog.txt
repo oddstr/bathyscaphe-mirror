@@ -1,3 +1,9 @@
+2007-01-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/network/ThreadTextDownloader.m
+	* application/source/thread/CMRThreadViewer-Download.m
+		スレッドの内容を更新した際（はじめて取得した際も含む）、document の保持する CMRThreadAttributes に
+		dat サイズおよび最終更新日の最新データがすみやかに反映されていなかった問題を取り急ぎ修正。
+		- 「情報を見る」パネルのテスト中に気付いた。また、これは Starlight Breaker 固有の問題ではない（大昔から）。
 2007-01-29 masakih <masakih@users.sourceforge.jp>
 	* application/source/manager/DatabaseManager-DatabaseAccess.m:
 		スレッドポップアップ時にデータベースの内容を参照するようにした。
