@@ -289,8 +289,8 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 									localizedLabelKey : st_browserItemLabelKey
 							 localizedPaletteLabelKey : st_browserItemPaletteLabelKey
 								  localizedToolTipKey : st_browserItemToolTipKey
-											   action : @selector(orderFrontMainBrowser:)
-											   target : wcontroller_];
+											   action : @selector(showMainBrowser:)
+											   target : nil];
 	[item_ setImage : [NSImage imageAppNamed : st_browserItem_ImageName]];
 	
 	item_ = [self appendToolbarItemWithClass : [BSSegmentedControlTbItem class]

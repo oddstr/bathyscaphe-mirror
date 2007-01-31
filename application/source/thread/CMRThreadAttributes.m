@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadAttributes.m,v 1.6 2007/01/20 19:31:25 tsawada2 Exp $
+  * $Id: CMRThreadAttributes.m,v 1.7 2007/01/31 18:02:25 tsawada2 Exp $
   * 
   * CMRThreadAttributes.m
   *
@@ -63,13 +63,19 @@ NSString *const CMRThreadAttributesDidChangeNotification =
 {
 	if (nil == newAttrs || 0 == [newAttrs count])
 		return;
-
+	// Ç±ÇÃóÖóÒÇÕâΩÇ∆Ç©ÇµÇΩÇ¢Åc
 	[self willChangeValueForKey: @"threadTitle"];
 	[self willChangeValueForKey: @"displaySize"];
 	[self willChangeValueForKey: @"displayPath"];
 	[self willChangeValueForKey: @"modifiedDate"];
 	[self willChangeValueForKey: @"createdDate"];
+	[self willChangeValueForKey: @"isAAThread"];
+	[self willChangeValueForKey: @"isMarkedThread"];
+	[self willChangeValueForKey: @"isDatOchiThread"];
 	[[self getMutableAttributes] addEntriesFromDictionary : newAttrs];
+	[self didChangeValueForKey: @"isDatOchiThread"];
+	[self didChangeValueForKey: @"isMarkedThread"];
+	[self didChangeValueForKey: @"isAAThread"];
 	[self didChangeValueForKey: @"createdDate"];
 	[self didChangeValueForKey: @"modifiedDate"];
 	[self didChangeValueForKey: @"displayPath"];

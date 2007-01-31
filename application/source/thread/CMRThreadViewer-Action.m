@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.36 2007/01/28 11:59:02 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.37 2007/01/31 18:02:25 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -15,10 +15,7 @@
 #import "CMRThreadVisibleRange.h"
 #import "CMRThreadDownloadTask.h"
 #import "CMXPopUpWindowManager.h"
-#import "CMRAppDelegate.h"
-//#import "CMRBrowser.h"
 #import "BSBoardInfoInspector.h"
-#import "BSThreadInfoPanelController.h"
 
 // for debugging only
 #define UTIL_DEBUGGING		0
@@ -152,7 +149,7 @@
 	[task release];
 }
 
-#pragma mark Show & Copy Thread Info
+#pragma mark Copy Thread Info
 
 - (NSPoint) locationForInformationPopUp
 {
@@ -198,8 +195,8 @@
 	return [template_ autorelease];
 }
 */
-- (IBAction) showThreadAttributes : (id) sender
-{
+//- (IBAction) showThreadAttributes : (id) sender
+//{
 /*	NSMutableAttributedString	*tmp;
 	NSAttributedString			*template_;
 	NSPoint						location_;
@@ -219,8 +216,8 @@
 									  owner : self
 							   locationHint : location_];
 	[tmp deleteCharactersInRange : [tmp range]];*/
-	[[BSThreadInfoPanelController sharedInstance] showWindow: sender];
-}
+//	[[BSThreadInfoPanelController sharedInstance] showWindow: sender];
+//}
 
 - (IBAction) copyThreadAttributes : (id) sender
 {
@@ -374,18 +371,18 @@
 #pragma mark Other IBActions
 
 // AA
-- (IBAction) toggleAAThread : (id) sender
+/*- (IBAction) toggleAAThread : (id) sender
 {
 	[self setAAThread : ![self isAAThread]];
-}
-- (IBAction) toggleDatOchiThread : (id) sender
+}*/
+/*- (IBAction) toggleDatOchiThread : (id) sender
 {
 	[self setDatOchiThread : ![self isDatOchiThread]];
 }
 - (IBAction) toggleMarkedThread : (id) sender
 {
 	[self setMarkedThread : ![self isMarkedThread]];
-}
+}*/
 
 /* NOTE: It is a history item's action. */	 
 - (IBAction) showThreadWithMenuItem : (id) sender	 
@@ -528,35 +525,6 @@
 }
 
 #pragma mark Available in SledgeHammer and Later
-/*
-- (void) mainBrowserDidFinishShowThList : (NSNotification *) aNotification
-{
-	UTILAssertNotificationName(
-		aNotification,
-		CMRBrowserThListUpdateDelegateTaskDidFinishNotification);
-
-	[CMRMainBrowser selectRowWithThreadPath: [self path] byExtendingSelection: NO scrollToVisible: YES];
-
-	[[NSNotificationCenter defaultCenter] removeObserver : self
-													name : CMRBrowserThListUpdateDelegateTaskDidFinishNotification
-												  object : CMRMainBrowser];
-}
-*/
-- (IBAction) orderFrontMainBrowser : (id) sender
-{
-	NSString *boardName = [self boardName];
-	if(!boardName) return; 
-/*
-	[[NSNotificationCenter defaultCenter] addObserver : self
-											 selector : @selector(mainBrowserDidFinishShowThList:)
-												 name : CMRBrowserThListUpdateDelegateTaskDidFinishNotification
-											   object : CMRMainBrowser];
-*/
-//	[(CMRAppDelegate *)[NSApp delegate] orderFrontMainBrowserAndShowThListForBrd: boardName addBrdToUsrListIfNeeded: YES];
-	CMRAppDelegate *delegate_ = (CMRAppDelegate *)[NSApp delegate];
-	[delegate_ showThreadsListForBoard: boardName selectThread: [self path] addToListIfNeeded: YES];
-}
-
 - (IBAction) showBoardInspectorPanel : (id) sender
 {
 	NSString			*board;

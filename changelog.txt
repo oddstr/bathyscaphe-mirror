@@ -1,3 +1,14 @@
+2007-02-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRAbstructThreadDocument.m
+	* application/source/thread/CMRThreadViewer.m
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/thread/CMRThreadViewer-Validation.m
+	* application/Resources/Japanese.lproj/BSThreadInfoPanel.nib
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		CMRThreadViewer に実装されていた IBAction の一部を、CMRAbstructThreadDocument に
+		持ち替えた（NSWindowController 依存から NSDocument 中心スタイルへの移行という大きな目標への
+		小さな一歩）。
+		また、「情報を見る」パネルで、チェックボックスの表示が適切に更新されないことがあった問題を修正。
 2007-01-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/network/ThreadTextDownloader.m
 	* application/source/thread/CMRThreadViewer-Download.m

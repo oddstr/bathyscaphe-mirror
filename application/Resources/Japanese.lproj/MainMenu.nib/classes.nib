@@ -52,11 +52,11 @@
                 googleSearch = id; 
                 historyMenuPerformBack = id; 
                 historyMenuPerformForward = id; 
+                myAction = id; 
                 openBBSInBrowser = id; 
                 openInBrowser = id; 
                 openLogfile = id; 
                 openScriptsDirectory = id; 
-                orderFrontMainBrowser = id; 
                 pasteAsQuotation = id; 
                 reloadThread = id; 
                 reloadThreadsList = id; 
@@ -76,10 +76,11 @@
                 selectFilteringMask = id; 
                 setOnMessageAttributes = id; 
                 showBoardInspectorPanel = id; 
+                showDocumentInfo = id; 
+                showMainBrowser = id; 
                 showMessageMatchesAttributes = id; 
                 showSearchThreadPanel = id; 
                 showStandardFindPanel = id; 
-                showThreadAttributes = id; 
                 smallerText = id; 
                 toggleAAThread = id; 
                 toggleDatOchiThread = id; 

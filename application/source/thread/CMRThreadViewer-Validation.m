@@ -1,5 +1,5 @@
 /*
-    $Id: CMRThreadViewer-Validation.m,v 1.24 2007/01/27 15:48:42 tsawada2 Exp $
+    $Id: CMRThreadViewer-Validation.m,v 1.25 2007/01/31 18:02:25 tsawada2 Exp $
     CMRThreadViewer-Action.m から独立
     Created at 2005-02-16 by tsawada2.
 */
@@ -229,18 +229,10 @@ static int messageMaskForTag(int tag)
 	isSelected_ = ([self selectedThreads] && [self numberOfSelectedThreads]);
         
 	// 印を付ける
-	if (@selector(toggleAAThread:) == action_) {
+	/*if (@selector(toggleAAThread:) == action_) {
 		[theItem setState : ([self isAAThread] ? NSOnState : NSOffState)];
 		return isSelected_;
-	}
-	if (@selector(toggleMarkedThread:) == action_) {
-		[theItem setState : ([self isMarkedThread] ? NSOnState : NSOffState)];
-		return isSelected_;
-	}
-	if (@selector(toggleDatOchiThread:) == action_) {
-		[theItem setState : ([self isDatOchiThread] ? NSOnState : NSOffState)];
-		return isSelected_;
-	}
+	}*/
 
 	// レス
 	if (action_ == @selector(reply:)) {
@@ -295,12 +287,6 @@ static int messageMaskForTag(int tag)
 	   action_ == @selector(smallerText:)		||
 	   action_ == @selector(scaleSegmentedControlPushed:)) // For Segmented Control
 	{ return [self shouldShowContents] && [[[self textView] textStorage] length]; }
-/*	
-	if (action_ == @selector(showThreadWithMenuItem:))
-		return YES;
-*/
-	if (action_ == @selector(orderFrontMainBrowser:))
-		return [self shouldShowContents] && [self threadAttributes];
 
 	if (action_ == @selector(showBoardInspectorPanel:)) {
 		NSWindowController *wc_ = [BSBoardInfoInspector sharedInstance];
@@ -339,13 +325,11 @@ static int messageMaskForTag(int tag)
 	
 	if (action_ == @selector(copyURL:)					 ||
 	   action_ == @selector(copyThreadAttributes:)		 ||
-	   action_ == @selector(showThreadAttributes:)		 ||	  
 	   action_ == @selector(openBBSInBrowser:) 
 	   )
 	{ return isSelected_; }
 	
 	if (action_ == @selector(reloadThread:))
-		//return (isSelected_ && ![self isDatOchiThread]);
 		return ([self threadAttributes] && ![self isDatOchiThread]);
 	
 	if (action_ == @selector(openInBrowser:) || action_ == @selector(openSelectedThreads:)) {

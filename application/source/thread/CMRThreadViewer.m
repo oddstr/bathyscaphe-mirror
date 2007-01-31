@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.33 2007/01/20 19:31:25 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.34 2007/01/31 18:02:25 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -180,8 +180,9 @@ static NSDictionary *boardInfoWithFilepath(NSString *filepath)
 	
 	// 自身の管理する履歴に登録、または移動
 	[self noteHistoryThreadChanged : relativeIndex];
-
+[self willChangeValueForKey: @"document"];
 	[self loadFromContentsOfFile : filepath];
+	[self didChangeValueForKey: @"document"];
 }
 
 - (void) setThreadContentWithThreadIdentifier : (id) aThreadIdentifier
@@ -632,43 +633,47 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 	return [[self threadAttributes] bbsIdentifier];
 }
 
+#pragma mark Works with CMRAbstructThreadDocument
+- (void) changeAllMessageAttributesWithAAFlag: (id) flagObject
+{
+	UTILAssertKindOfClass(flagObject, NSNumber);
+	BOOL	flag = [flagObject boolValue];
+	[[self threadLayout] changeAllMessageAttributes: flag flags: CMRAsciiArtMask];
+}
+
+#pragma mark WILL BE DEPRECATED
 - (BOOL) isAAThread
 {
-	return [[self threadAttributes] isAAThread];
+//	return [[self threadAttributes] isAAThread];
+	return [(CMRThreadDocument *)[self document] isAAThread];
 }
 - (void) setAAThread : (BOOL) flag
 {
-	if ([self isAAThread] == flag)
-		return;
-	
-	[[self threadAttributes] setAAThread : flag];
+//	if ([self isAAThread] == flag)
+//		return;
+//	
+//	[[self threadAttributes] setAAThread : flag];
 
 	// すべてのレスのAA属性を変更
-	[[self threadLayout] changeAllMessageAttributes : flag flags : CMRAsciiArtMask];
+//	[[self threadLayout] changeAllMessageAttributes : flag flags : CMRAsciiArtMask];
+	[(CMRThreadDocument *)[self document] setIsAAThread: flag];
 }
 
-#pragma mark Vita Additions
 - (BOOL) isDatOchiThread
 {
-	return [[self threadAttributes] isDatOchiThread];
+	return [(CMRThreadDocument *)[self document] isDatOchiThread];
 }
 - (void) setDatOchiThread : (BOOL) flag
 {
-	if ([self isDatOchiThread] == flag)
-		return;
-	
-	[[self threadAttributes] setDatOchiThread : flag];
+	[(CMRThreadDocument *)[self document] setIsDatOchiThread: flag];
 }
 - (BOOL) isMarkedThread
 {
-	return [[self threadAttributes] isMarkedThread];
+	return [(CMRThreadDocument *)[self document] isMarkedThread];
 }
 - (void) setMarkedThread : (BOOL) flag
 {
-	if ([self isMarkedThread] == flag)
-		return;
-	
-	[[self threadAttributes] setMarkedThread : flag];
+	[(CMRThreadDocument *)[self document] setIsMarkedThread: flag];
 }
 @end
 

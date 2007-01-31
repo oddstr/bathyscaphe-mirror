@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.16 2006/11/05 12:53:48 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.17 2007/01/31 18:02:25 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright (c) 2003, Takanori Ishikawa.
@@ -111,10 +111,10 @@
 - (IBAction) reloadThread : (id) sender;
 - (IBAction) reply : (id) sender;
 
-- (IBAction) toggleAAThread : (id) sender;
+//- (IBAction) toggleAAThread : (id) sender; // Moved to CMRAbstructThreadDocument.
 
 - (IBAction) copyThreadAttributes : (id) sender;
-- (IBAction) showThreadAttributes : (id) sender;
+//- (IBAction) showThreadAttributes : (id) sender; // Moved to CMRAbstructThreadDocument.
 
 - (IBAction) copySelectedResURL : (id) sender;
 - (IBAction) reloadIfOnlineMode : (id) sender;
@@ -127,10 +127,10 @@
 // NOTE: It is a history item's action.
 - (IBAction) showThreadWithMenuItem : (id) sender;
 // available in SledgeHammer and later.
-- (IBAction) orderFrontMainBrowser : (id) sender;
+//- (IBAction) orderFrontMainBrowser : (id) sender; // Moved to CMRAbstructThreadDocument.
 // available in Vita and later.
-- (IBAction) toggleDatOchiThread : (id) sender;
-- (IBAction) toggleMarkedThread : (id) sender;
+//- (IBAction) toggleDatOchiThread : (id) sender; // Moved to CMRAbstructThreadDocument.
+//- (IBAction) toggleMarkedThread : (id) sender; // Moved to CMRAbstructThreadDocument.
 @end
 
 

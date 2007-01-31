@@ -22,6 +22,12 @@
 
 - (CMRThreadAttributes *) threadAttributes;
 - (void) setThreadAttributes : (CMRThreadAttributes *) attributes;
+- (BOOL) isAAThread;
+- (void) setIsAAThread: (BOOL) flag;
+- (BOOL) isDatOchiThread;
+- (void) setIsDatOchiThread: (BOOL) flag;
+- (BOOL) isMarkedThread;
+- (void) setIsMarkedThread: (BOOL) flag;
 
 /**
   *
@@ -38,6 +44,15 @@
 - (void) setTextStorage : (NSTextStorage *) aTextStorage;
 
 - (BOOL) windowAlreadyExistsForPath : (NSString *) filePath;
+
+// NSWindowController Ç©ÇÁ NSDocument Ç÷ÇÃ Action éùÇøë÷Ç¶ÅiÇ‚ÇËÇ‚Ç∑Ç¢Ç‡ÇÃÇ©ÇÁÇ‚Ç¡ÇƒÇ¢Ç≠Åj
+// Available in Starlight Breaker.
+- (IBAction) showDocumentInfo: (id) sender;
+- (IBAction) showMainBrowser: (id) sender;
+- (IBAction) toggleAAThread: (id) sender;
+- (IBAction) toggleDatOchiThread: (id) sender;
+- (IBAction) toggleMarkedThread: (id) sender;
+- (IBAction) toggleAAThreadFromInfoPanel: (id) sender;
 @end
 
 /* for AppleScript */

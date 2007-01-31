@@ -6,7 +6,12 @@
             OUTLETS = {"m_greenCube" = NSObjectController; }; 
             SUPERCLASS = NSWindowController; 
         }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+        {
+            ACTIONS = {toggleAAThreadFromInfoPanel = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }
     ); 
     IBVersion = 1; 
 }

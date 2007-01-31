@@ -10,62 +10,16 @@
   */
 #import "CMRAbstructThreadDocument_p.h"
 #import "CocoMonar_Prefix.h"
-
+#import "BSThreadInfoPanelController.h"
+#import "CMRAppDelegate.h"
 
 @implementation CMRAbstructThreadDocument
-- (void) dealloc
-{
-	[_threadAttributes release];
-	[_textStorage release];
-	[super dealloc];
-}
-
-// CMRAbstructThreadDocument:
-- (NSTextStorage *) textStorage
-{
-	if(nil == _textStorage) {
-		_textStorage = [[NSTextStorage alloc] init];
-	}
-	return _textStorage;
-}
-- (void) setTextStorage : (NSTextStorage *) aTextStorage
-{
-	id		tmp;
-	
-	tmp = _textStorage;
-	_textStorage = [aTextStorage retain];
-	[tmp release];
-}
-
-- (CMRThreadAttributes *) threadAttributes
-{
-	return _threadAttributes;
-}
-
-- (void) setThreadAttributes : (CMRThreadAttributes *) newAttributes
-{
-	CMRThreadAttributes		*oldAttributes_;
-	
-	oldAttributes_ = _threadAttributes;
-	_threadAttributes = [newAttributes retain];	
-	
-	[self replace:oldAttributes_ with:newAttributes];
-	
-	[oldAttributes_ release];
-}
 - (void) replace : (CMRThreadAttributes *) oldAttributes
 			with : (CMRThreadAttributes *) newAttributes
 {
 	//
 	// for subclass
 	//
-}
-
-
-- (void) makeWindowControllers
-{
-	
-	[super makeWindowControllers];
 }
 
 - (BOOL) windowAlreadyExistsForPath : (NSString *) filePath
@@ -94,7 +48,89 @@
 	}
 }
 
-/* override */
+#pragma mark Accessors
+- (NSTextStorage *) textStorage
+{
+	if(nil == _textStorage) {
+		_textStorage = [[NSTextStorage alloc] init];
+	}
+	return _textStorage;
+}
+- (void) setTextStorage : (NSTextStorage *) aTextStorage
+{
+	id		tmp;
+	
+	tmp = _textStorage;
+	_textStorage = [aTextStorage retain];
+	[tmp release];
+}
+
+- (CMRThreadAttributes *) threadAttributes
+{
+	return _threadAttributes;
+}
+- (void) setThreadAttributes : (CMRThreadAttributes *) newAttributes
+{
+	CMRThreadAttributes		*oldAttributes_;
+	
+	oldAttributes_ = _threadAttributes;
+	_threadAttributes = [newAttributes retain];	
+	
+	[self replace:oldAttributes_ with:newAttributes];
+	
+	[oldAttributes_ release];
+}
+
+- (BOOL) isAAThread
+{
+	return [[self threadAttributes] isAAThread];
+}
+- (void) setIsAAThread : (BOOL) flag
+{
+	if ([self isAAThread] == flag)
+		return;
+	
+	NSArray *winControllers;
+	[[self threadAttributes] setIsAAThread : flag];
+	winControllers = [self windowControllers];
+	if ([winControllers count] > 0) {
+		[winControllers makeObjectsPerformSelector: @selector(changeAllMessageAttributesWithAAFlag:)
+										withObject: [NSNumber numberWithBool: flag]];
+	}
+}
+
+- (BOOL) isDatOchiThread
+{
+	return [[self threadAttributes] isDatOchiThread];
+}
+- (void) setIsDatOchiThread : (BOOL) flag
+{
+	if ([self isDatOchiThread] == flag)
+		return;
+	
+	[[self threadAttributes] setIsDatOchiThread : flag];
+}
+
+- (BOOL) isMarkedThread
+{
+	return [[self threadAttributes] isMarkedThread];
+}
+- (void) setIsMarkedThread : (BOOL) flag
+{
+	if ([self isMarkedThread] == flag)
+		return;
+	
+	[[self threadAttributes] setIsMarkedThread : flag];
+}
+
+#pragma mark Override
+- (void) dealloc
+{
+	[_threadAttributes release];
+	[_textStorage release];
+	[super dealloc];
+}
+
 - (void) removeWindowController : (NSWindowController *) windowController
 {
 	NSEnumerator		*iter_;
@@ -114,24 +150,80 @@
 	[super removeWindowController : windowController];
 }
 
+#pragma mark Validation
 - (BOOL) validateMenuItem : (NSMenuItem *) theItem
 {
 	SEL action_;
 
 	action_ = [theItem action];
 	
-	if(action_ == @selector(saveDocumentAs:)) 
+	if (action_ == @selector(showDocumentInfo:) || action_ == @selector(showMainBrowser:)) {
+		return ([self threadAttributes] != nil);
+	}
+
+	if (action_ == @selector(saveDocumentAs:)) {
 		[theItem setTitle : NSLocalizedString(@"Save Menu Item Default", @"Save as...")];
-		
+	} else if (action_ == @selector(toggleAAThread:)) {
+		if ([self threadAttributes] == nil) return NO;
+		[theItem setState: ([self isAAThread] ? NSOnState : NSOffState)];
+	} else if (action_ == @selector(toggleMarkedThread:)) {
+		if ([self threadAttributes] == nil) return NO;
+		[theItem setState: ([self isMarkedThread] ? NSOnState : NSOffState)];
+	} else if (action_ == @selector(toggleDatOchiThread:)) {
+		if ([self threadAttributes] == nil) return NO;
+		[theItem setState: ([self isDatOchiThread] ? NSOnState : NSOffState)];
+	}
 	return [super validateMenuItem : theItem];
+}
+
+#pragma mark IBActions
+- (IBAction) showDocumentInfo: (id) sender
+{
+	[[BSThreadInfoPanelController sharedInstance] showWindow: sender];
+}
+
+- (IBAction) showMainBrowser: (id) sender
+{
+	CMRThreadAttributes *attr_ = [self threadAttributes];
+	NSString *boardName_ = [attr_ boardName];
+	if(!boardName_) return; 
+	CMRAppDelegate *delegate_ = (CMRAppDelegate *)[NSApp delegate];
+	[delegate_ showThreadsListForBoard: boardName_ selectThread: [attr_ path] addToListIfNeeded: YES];
+}
+
+- (IBAction) toggleAAThread: (id) sender
+{
+	[self setIsAAThread: ![self isAAThread]];
+}
+
+- (IBAction) toggleDatOchiThread: (id) sender
+{
+	[self setIsDatOchiThread: ![self isDatOchiThread]];
+}
+
+- (IBAction) toggleMarkedThread: (id) sender
+{
+	[self setIsMarkedThread: ![self isMarkedThread]];
+}
+
+- (IBAction) toggleAAThreadFromInfoPanel: (id) sender
+{
+	NSArray *winControllers;
+	BOOL	flag = [self isAAThread];
+	winControllers = [self windowControllers];
+	if ([winControllers count] > 0) {
+		[winControllers makeObjectsPerformSelector: @selector(changeAllMessageAttributesWithAAFlag:)
+										withObject: [NSNumber numberWithBool: flag]];
+	}
 }
 @end
 
-/* for AppleScript */
+#pragma mark -
 @implementation CMRAbstructThreadDocument(ScriptingSupport)
 - (NSTextStorage *) selectedText
 {
-	NSAttributedString* attrString = [[self textStorage] attributedSubstringFromRange:[[[[self windowControllers] lastObject] textView] selectedRange]];
+	NSAttributedString* attrString;
+	attrString = [[self textStorage] attributedSubstringFromRange:[[[[self windowControllers] lastObject] textView] selectedRange]];
 	NSTextStorage * storage = [[NSTextStorage alloc] initWithAttributedString:attrString];
 	return [storage autorelease];
 }
