@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMainMenuManager.h,v 1.9 2006/01/13 23:47:59 tsawada2 Exp $
+  * $Id: CMRMainMenuManager.h,v 1.10 2007/02/02 15:47:50 tsawada2 Exp $
   * BathyScaphe
   *
   *
@@ -25,7 +25,7 @@
 - (NSMenuItem *) scriptsMenuItem;
 
 - (int) historyItemInsertionIndex;
-
+- (NSMenu *) historyMenu;
 - (NSMenu *) fileMenu;
 @end
 

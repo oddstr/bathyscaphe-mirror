@@ -1,6 +1,6 @@
 //: CMRHistoryManager.m
 /**
-  * $Id: CMRHistoryManager.m,v 1.6 2006/04/11 17:31:21 masakih Exp $
+  * $Id: CMRHistoryManager.m,v 1.7 2007/02/02 15:47:50 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -450,6 +450,50 @@ static NSString *const stHistoryPropertyKey[] =
     dictionaryRepresentation_ = [self dictionaryRepresentation];
     [dictionaryRepresentation_ writeToFile : [[self class] defaultFilepath]
                                 atomically : YES];
+}
+@end
+
+@implementation CMRHistoryManager(NSMenuDelegate)
+- (void) menuNeedsUpdate: (NSMenu *) menu
+{
+	if ([menu delegate] != self) return;
+
+	if ([menu numberOfItems] > 4) {
+		int i;
+		for (i = [menu numberOfItems] - 2; i > 2; i--) {
+			[menu removeItemAtIndex: i];
+		}
+	}
+
+	NSArray	*historyItemsArray = [self historyItemArrayForType: CMRHistoryThreadEntryType];
+	if (!historyItemsArray || [historyItemsArray count] == 0) {
+		return;
+	} else {
+		NSEnumerator *iter = [historyItemsArray reverseObjectEnumerator];
+		CMRHistoryItem *eachItem;
+		NSMenuItem *menuItem;
+		NSString *title_;
+		NSString *shortTitle_;
+
+		[menu insertItem: [NSMenuItem separatorItem] atIndex: 3];
+
+		while (eachItem = [iter nextObject]) {
+			title_ = [eachItem title];
+			if (title_ == nil) title_ = @"";
+			shortTitle_ = [title_ stringWithTruncatingForMenuItemOfWidth: 350.0 indent: NO activeItem: YES];
+
+			menuItem = [[NSMenuItem alloc] initWithTitle: shortTitle_ action: @selector(showThreadFromHistoryMenu:) keyEquivalent: @""];
+
+			if (NO == [shortTitle_ isEqualToString: title_]) {
+				[menuItem setToolTip: title_];
+			}
+			[menuItem setTarget: nil];
+			[menuItem setRepresentedObject: [eachItem representedObject]];
+
+			[menu insertItem: menuItem atIndex: 3];
+			[menuItem release];
+		}
+	}
 }
 @end
 

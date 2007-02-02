@@ -151,7 +151,7 @@
 }
 
 #pragma mark Validation
-- (BOOL) validateMenuItem : (NSMenuItem *) theItem
+- (BOOL) validateUserInterfaceItem: (id <NSValidatedUserInterfaceItem>) theItem
 {
 	SEL action_;
 
@@ -161,19 +161,19 @@
 		return ([self threadAttributes] != nil);
 	}
 
-	if (action_ == @selector(saveDocumentAs:)) {
+	if (action_ == @selector(saveDocumentAs:) && [theItem respondsToSelector: @selector(setTitle:)]) {
 		[theItem setTitle : NSLocalizedString(@"Save Menu Item Default", @"Save as...")];
 	} else if (action_ == @selector(toggleAAThread:)) {
 		if ([self threadAttributes] == nil) return NO;
-		[theItem setState: ([self isAAThread] ? NSOnState : NSOffState)];
+		if ([theItem respondsToSelector: @selector(setState:)]) [theItem setState: ([self isAAThread] ? NSOnState : NSOffState)];
 	} else if (action_ == @selector(toggleMarkedThread:)) {
 		if ([self threadAttributes] == nil) return NO;
-		[theItem setState: ([self isMarkedThread] ? NSOnState : NSOffState)];
+		if ([theItem respondsToSelector: @selector(setState:)]) [theItem setState: ([self isMarkedThread] ? NSOnState : NSOffState)];
 	} else if (action_ == @selector(toggleDatOchiThread:)) {
 		if ([self threadAttributes] == nil) return NO;
-		[theItem setState: ([self isDatOchiThread] ? NSOnState : NSOffState)];
+		if ([theItem respondsToSelector: @selector(setState:)]) [theItem setState: ([self isDatOchiThread] ? NSOnState : NSOffState)];
 	}
-	return [super validateMenuItem : theItem];
+	return [super validateUserInterfaceItem: theItem];
 }
 
 #pragma mark IBActions

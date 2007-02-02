@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.18 2007/01/28 00:09:51 masakih Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.19 2007/02/02 15:47:50 tsawada2 Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -389,7 +389,7 @@ ErrInvalidLink:
 	
 	// 2ch (or other) BBS
 	if ([CMRThreadLinkProcessor parseBoardLink: aLink boardName: &boardName_ boardURL: &boardURL_]) {
-		[[NSApp delegate] orderFrontMainBrowserAndShowThListForBrd: boardName_ addBrdToUsrListIfNeeded: YES];
+		[[NSApp delegate] showThreadsListForBoard: boardName_ selectThread: nil addToListIfNeeded: YES];
 		
 		return YES;
 	}

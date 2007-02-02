@@ -500,8 +500,6 @@
 		8762E8CB0A8635C200062504 /* sora.pl in Resources */ = {isa = PBXBuildFile; fileRef = 8762E8C80A8635C200062504 /* sora.pl */; };
 		876371710AB3455E005D5996 /* BSAsciiArtDetector.h in Headers */ = {isa = PBXBuildFile; fileRef = 8763716F0AB3455E005D5996 /* BSAsciiArtDetector.h */; };
 		876371720AB3455E005D5996 /* BSAsciiArtDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 876371700AB3455E005D5996 /* BSAsciiArtDetector.m */; };
-		8770BF5D087F0095008907C5 /* BSHistoryMenuManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8770BF5B087F0095008907C5 /* BSHistoryMenuManager.h */; };
-		8770BF5E087F0096008907C5 /* BSHistoryMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8770BF5C087F0095008907C5 /* BSHistoryMenuManager.m */; };
 		87749E070A878F120008A679 /* HistoryFolder.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CD5090E970F007FF9C3 /* HistoryFolder.png */; };
 		87751824097818E7009D4A9C /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F36067F8044D4DD500A80005 /* ApplicationServices.framework */; };
 		87751A5A09782B82009D4A9C /* BSIPIFullScreenController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87751A5809782B82009D4A9C /* BSIPIFullScreenController.h */; };
@@ -738,7 +736,6 @@
 		F473624D0AFF8758009B6189 /* RBSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87464E380864368F000F0371 /* RBSplitView.h */; };
 		F473624E0AFF8758009B6189 /* RBSplitSubview.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB791F0864401A00ED8757 /* RBSplitSubview.h */; };
 		F473624F0AFF8758009B6189 /* NSTableView+BSAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BD61EE0865D0230080A7CA /* NSTableView+BSAdditions.h */; };
-		F47362500AFF8758009B6189 /* BSHistoryMenuManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8770BF5B087F0095008907C5 /* BSHistoryMenuManager.h */; };
 		F47362510AFF8758009B6189 /* NoNameInputController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8718EFDC08D43F7D00FFAAEE /* NoNameInputController.h */; };
 		F47362520AFF8758009B6189 /* BSBoardInfoInspector.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BF52C908F789D400998C4E /* BSBoardInfoInspector.h */; };
 		F47362530AFF8758009B6189 /* BSImagePreviewerInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 8745CD280900DE9800A28AC0 /* BSImagePreviewerInterface.h */; };
@@ -993,7 +990,6 @@
 		F47363630AFF8758009B6189 /* BSScriptsMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F49CCDF40849B87500835BE3 /* BSScriptsMenuManager.m */; };
 		F47363640AFF8758009B6189 /* NSTableView+BSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BD61EF0865D0230080A7CA /* NSTableView+BSAdditions.m */; };
 		F47363650AFF8758009B6189 /* CMRReplyMessenger-Connector.m in Sources */ = {isa = PBXBuildFile; fileRef = 8709E6530879713D009A65FC /* CMRReplyMessenger-Connector.m */; };
-		F47363660AFF8758009B6189 /* BSHistoryMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8770BF5C087F0095008907C5 /* BSHistoryMenuManager.m */; };
 		F47363670AFF8758009B6189 /* CMRThreadViewer-OwnHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 8719F069088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m */; };
 		F47363690AFF8758009B6189 /* NoNameInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8718EFDD08D43F7D00FFAAEE /* NoNameInputController.m */; };
 		F473636A0AFF8758009B6189 /* BSBoardInfoInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BF52CA08F789D400998C4E /* BSBoardInfoInspector.m */; };
@@ -1433,8 +1429,6 @@
 		876415700840A95000F66D78 /* AdvancedPrefController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdvancedPrefController.h; sourceTree = "<group>"; };
 		876415710840A95000F66D78 /* AdvancedPrefController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdvancedPrefController.m; sourceTree = "<group>"; };
 		876415810840AF5500F66D78 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/AdvancedPane.nib; sourceTree = "<group>"; };
-		8770BF5B087F0095008907C5 /* BSHistoryMenuManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSHistoryMenuManager.h; sourceTree = "<group>"; };
-		8770BF5C087F0095008907C5 /* BSHistoryMenuManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSHistoryMenuManager.m; sourceTree = "<group>"; };
 		87751A5809782B82009D4A9C /* BSIPIFullScreenController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIFullScreenController.h; sourceTree = "<group>"; };
 		87751A5909782B82009D4A9C /* BSIPIFullScreenController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIFullScreenController.m; sourceTree = "<group>"; };
 		87751A6209782DD7009D4A9C /* BSIPIFullScreenWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIFullScreenWindow.h; sourceTree = "<group>"; };
@@ -3286,8 +3280,6 @@
 				F49CCDF40849B87500835BE3 /* BSScriptsMenuManager.m */,
 				F324DC9D04C698FA00A80005 /* CMRMainMenuManager.h */,
 				F324DC9E04C698FA00A80005 /* CMRMainMenuManager.m */,
-				8770BF5B087F0095008907C5 /* BSHistoryMenuManager.h */,
-				8770BF5C087F0095008907C5 /* BSHistoryMenuManager.m */,
 			);
 			name = menu;
 			sourceTree = "<group>";
@@ -3574,7 +3566,6 @@
 				87464E390864368F000F0371 /* RBSplitView.h in Headers */,
 				87BB79210864401A00ED8757 /* RBSplitSubview.h in Headers */,
 				87BD61F00865D0230080A7CA /* NSTableView+BSAdditions.h in Headers */,
-				8770BF5D087F0095008907C5 /* BSHistoryMenuManager.h in Headers */,
 				8718EFDE08D43F7D00FFAAEE /* NoNameInputController.h in Headers */,
 				87BF52CB08F789D500998C4E /* BSBoardInfoInspector.h in Headers */,
 				873BAE9A090931B0009E9B41 /* BSImagePreviewerInterface.h in Headers */,
@@ -3818,7 +3809,6 @@
 				F473624D0AFF8758009B6189 /* RBSplitView.h in Headers */,
 				F473624E0AFF8758009B6189 /* RBSplitSubview.h in Headers */,
 				F473624F0AFF8758009B6189 /* NSTableView+BSAdditions.h in Headers */,
-				F47362500AFF8758009B6189 /* BSHistoryMenuManager.h in Headers */,
 				F47362510AFF8758009B6189 /* NoNameInputController.h in Headers */,
 				F47362520AFF8758009B6189 /* BSBoardInfoInspector.h in Headers */,
 				F47362530AFF8758009B6189 /* BSImagePreviewerInterface.h in Headers */,
@@ -4511,7 +4501,6 @@
 				F49CCDF60849B87500835BE3 /* BSScriptsMenuManager.m in Sources */,
 				87BD61F10865D0230080A7CA /* NSTableView+BSAdditions.m in Sources */,
 				8709E6540879713D009A65FC /* CMRReplyMessenger-Connector.m in Sources */,
-				8770BF5E087F0096008907C5 /* BSHistoryMenuManager.m in Sources */,
 				8719F06A088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m in Sources */,
 				8794CC10089C033300161BAB /* BoardManager.m in Sources */,
 				8718EFDF08D43F7D00FFAAEE /* NoNameInputController.m in Sources */,
@@ -4769,7 +4758,6 @@
 				F47363630AFF8758009B6189 /* BSScriptsMenuManager.m in Sources */,
 				F47363640AFF8758009B6189 /* NSTableView+BSAdditions.m in Sources */,
 				F47363650AFF8758009B6189 /* CMRReplyMessenger-Connector.m in Sources */,
-				F47363660AFF8758009B6189 /* BSHistoryMenuManager.m in Sources */,
 				F47363670AFF8758009B6189 /* CMRThreadViewer-OwnHistory.m in Sources */,
 				F47363690AFF8758009B6189 /* NoNameInputController.m in Sources */,
 				F473636A0AFF8758009B6189 /* BSBoardInfoInspector.m in Sources */,

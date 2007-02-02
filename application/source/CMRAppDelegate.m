@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.29 2007/01/28 11:58:32 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.30 2007/02/02 15:47:50 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -122,7 +122,7 @@ static NSString *const kRGBColorSpace = @"NSCalibratedRGBColorSpace";
 - (IBAction) clearHistory : (id) sender
 {
 	[[CMRHistoryManager defaultManager] removeAllItems];
-	[[BSHistoryMenuManager defaultManager] updateHistoryMenuWithMenu : [[[CMRMainMenuManager defaultManager] historyMenuItem] submenu]];
+//	[[BSHistoryMenuManager defaultManager] updateHistoryMenuWithMenu : [[[CMRMainMenuManager defaultManager] historyMenuItem] submenu]];
 }
 
 - (IBAction) showThreadFromHistoryMenu: (id) sender
@@ -246,7 +246,7 @@ static NSString *const kRGBColorSpace = @"NSCalibratedRGBColorSpace";
 	if(hasBeenOnline) [self toggleOnlineMode: sender];
 	
 //	[self orderFrontMainBrowserAndShowThListForBrd: CMXFavoritesDirectoryName addBrdToUsrListIfNeeded: NO];
-	[self showThreadsListForBoard: CMXFavoritesDirectoryName selectThread: NO addToListIfNeeded: NO];
+	[self showThreadsListForBoard: CMXFavoritesDirectoryName selectThread: nil addToListIfNeeded: NO];
 	[CMRMainBrowser reloadThreadsList: sender];
 
 	// 必要ならオンラインに復帰
@@ -351,7 +351,7 @@ static NSString *const kRGBColorSpace = @"NSCalibratedRGBColorSpace";
 
     if (openURLMenuItemIndex >= 0 && [[[tmp fileMenu] itemAtIndex : openURLMenuItemIndex+1] hasSubmenu])
     {
-            [[tmp fileMenu] removeItemAtIndex : openURLMenuItemIndex+1];
+		[[tmp fileMenu] removeItemAtIndex : openURLMenuItemIndex+1];
     }
 	
 	/* BoardWarrior Task */

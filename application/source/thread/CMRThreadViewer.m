@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.34 2007/01/31 18:02:25 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.35 2007/02/02 15:47:50 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -22,7 +22,7 @@
 #import "CMRSpamFilter.h"
 #import "CMRThreadPlistComposer.h"
 #import "CMRNetGrobalLock.h"    /* for Locking */
-#import "BSHistoryMenuManager.h"
+//#import "BSHistoryMenuManager.h"
 #import "BSAsciiArtDetector.h"
 
 #import "missing.h"
@@ -237,7 +237,7 @@ FileNotExistsAutoReloadIfNeeded:
 		bName_ = [self boardNameArrowingSecondSource];
 		
 		if ([[BoardManager defaultManager] allThreadsShouldAAThreadAtBoard : bName_])
-			[self setAAThread : YES];
+			[(CMRThreadDocument *)[self document] setIsAAThread : YES];
 	}
 	[self didChangeThread];
 	[[self threadLayout] clear];
@@ -261,7 +261,7 @@ FileNotExistsAutoReloadIfNeeded:
 					  object : [self threadIdentifier]];
 		
 		// 履歴メニューの更新（丸ごと書き換える）
-		[[BSHistoryMenuManager defaultManager] updateHistoryMenuWithDefaultMenu];
+//		[[BSHistoryMenuManager defaultManager] updateHistoryMenuWithDefaultMenu];
 		
 		// 2004-04-10 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
 		// ----------------------------------------
@@ -309,7 +309,7 @@ cancel, if this method returns NO.
 							 with : threadID];
 	}
 	// AA
-	if ([self isAAThread]) {
+	if ([(CMRThreadDocument *)[self document] isAAThread]) {
 		[aMessageBuffer changeAllMessageAttributes:YES flags:CMRAsciiArtMask];
 	} else {
 		if ([CMRPref asciiArtDetectorEnabled]) {
@@ -642,13 +642,13 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 }
 
 #pragma mark WILL BE DEPRECATED
-- (BOOL) isAAThread
-{
+//- (BOOL) isAAThread
+//{
 //	return [[self threadAttributes] isAAThread];
-	return [(CMRThreadDocument *)[self document] isAAThread];
-}
-- (void) setAAThread : (BOOL) flag
-{
+//	return [(CMRThreadDocument *)[self document] isAAThread];
+//}
+//- (void) setAAThread : (BOOL) flag
+//{
 //	if ([self isAAThread] == flag)
 //		return;
 //	
@@ -656,8 +656,8 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 
 	// すべてのレスのAA属性を変更
 //	[[self threadLayout] changeAllMessageAttributes : flag flags : CMRAsciiArtMask];
-	[(CMRThreadDocument *)[self document] setIsAAThread: flag];
-}
+//	[(CMRThreadDocument *)[self document] setIsAAThread: flag];
+//}
 
 - (BOOL) isDatOchiThread
 {

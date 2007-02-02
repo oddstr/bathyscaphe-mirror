@@ -1,3 +1,20 @@
+2007-02-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/manager/BSHistoryMenuManager.(h|m)
+		[削除] リファクタリングの結果、CMRHistoryManager に吸収合併される運びとなり、削除。
+	* application/source/CMRAppDelegate+Menu.m
+	* application/source/CMRAppDelegate.m
+	* application/source/CMRAppDelegate_p.h
+	* application/source/thread/CMRThreadViewer.m
+	* application/source/thread/CMRThreadViewer-Link.m
+	* application/source/thread/CMRThreadViewer-OwnHistory.m
+	* application/source/manager/CMRMainMenuManager.m
+		履歴メニュー周りの処理変更に伴う微修正。
+	* application/source/manager/CMRHistoryManager.m
+		「履歴」メニューの構成方法を見直し、-[NSMenu needsMenuUpdate:] デリゲートメソッドで
+		メニューを更新／構築するようにした（つまり、メニューを本当に表示しなければならなくなるときまで
+		メニューを更新しないようにした）。以前より負荷は減るはずだ。
+	* application/source/thread/CMRAbstructThreadDocument.m
+		User Interface Validation 関連の小変更。
 2007-02-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRAbstructThreadDocument.m
 	* application/source/thread/CMRThreadViewer.m
