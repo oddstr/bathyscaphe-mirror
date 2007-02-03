@@ -379,8 +379,13 @@ objectValueForTableColumn : (NSTableColumn *) tableColumn
 		} else {
 			UTILDebugWrite(@"can not get represent name.");
 		}
+	} else if ([BoardPlistURLKey isEqualToString: [tableColumn identifier]] && [item hasURL]) {
+		NSString *urlStr_ = [[item url] absoluteString];
+		
+		if (urlStr_) {
+			result = makeAttrStrFromStr(urlStr_);
+		}
 	}
-	
 	return result;
 }
 	

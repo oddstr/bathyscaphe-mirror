@@ -1,4 +1,8 @@
 2007-02-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSImagePreviewInspector-View.m
+		プレビューインスペクタ 2.5.3：リスト・ビューで setVerticalMotionCanBeginDrag: NO にした。
+	* application/source/bbs/BoardListItem/SmartBoardList.m
+		「掲示板の追加」シートで、アウトライン・ビューに URL が表示されなくなっていた問題を修正。
 	* application/source/manager/BSHistoryMenuManager.(h|m)
 		[削除] リファクタリングの結果、CMRHistoryManager に吸収合併される運びとなり、削除。
 	* application/source/CMRAppDelegate+Menu.m

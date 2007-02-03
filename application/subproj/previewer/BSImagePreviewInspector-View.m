@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector-View.m,v 1.5 2007/01/07 17:04:24 masakih Exp $
+//  $Id: BSImagePreviewInspector-View.m,v 1.6 2007/02/03 07:00:29 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/07/15.
@@ -89,6 +89,7 @@ static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInsp
 
 	[[[self nameColumn] tableView] setDataSource: [BSIPIHistoryManager sharedManager]];
 	[[[self nameColumn] tableView] setDoubleAction: @selector(changePaneAndShow:)];
+	[[[self nameColumn] tableView] setVerticalMotionCanBeginDrag: NO];
 }
 
 - (void) setupControls
