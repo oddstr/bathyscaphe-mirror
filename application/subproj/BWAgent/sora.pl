@@ -50,7 +50,7 @@ $out.=<<EOS;
 EOS
 }
 $out.="</array></plist>";
-open(OUT,"|'$ARGV[1]' ");
+open(OUT,"|\"$ARGV[1]\" ");
 print OUT $out;
 close(OUT);
 
