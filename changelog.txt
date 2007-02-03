@@ -1,3 +1,7 @@
+2007-02-04 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m:
+		2007-01-06 修正の「最終書き込み日」ポップアップメニューを無効にした。」
+		の時に誤って数値の「ではない」も無効にしてしまっていたのを修正。
 2007-02-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/BWAgent/sora.pl
 		BathyScaphe アプリケーションまでのパスに「'」が含まれていると、掲示板リストの同期が正しく動作しない問題を修正した。

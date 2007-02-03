@@ -754,7 +754,10 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 {
 	int tag = [menuItem tag];
 	if(tag == dateOfLastWritenItemTag) {
-		return NO;
+		id view = [self uiItemForTag:criterionPopUpTag];
+		if( [view indexOfItem:menuItem] != -1) {
+			return NO;
+		}
 	}
 	
 	return YES;
