@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.53 2007/01/28 11:58:32 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.54 2007/02/04 21:05:08 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -32,7 +32,6 @@ static int expandAndSelectItem(NSDictionary *selected, NSArray *anArray, NSOutli
 			return index;
 		} else { // カテゴリ内のサブカテゴリを開いて検査する
 			if ([(FolderBoardListItem *)eachItem hasChildren]) { // カテゴリの中身が空でないことを確認
-//			index = expandAndSelectItem(selected, [eachItem objectForKey: BoardPlistContentsKey], bLT);
 				index = expandAndSelectItem(selected, [(FolderBoardListItem *)eachItem items], bLT);
 				if (-1 == index) // このカテゴリのどのサブカテゴリにも見つからなかった
 					[bLT collapseItem: eachItem]; // このカテゴリは閉じる

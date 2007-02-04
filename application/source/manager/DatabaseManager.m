@@ -691,7 +691,9 @@ abort:
 	id	eachDoc;
 	while (eachDoc = [iter_ nextObject]) {
 		if ([eachDoc isMemberOfClass: [Browser class]]) {
-			[[(Browser *)eachDoc currentThreadsList] updateCursor];
+//			[[(Browser *)eachDoc currentThreadsList] updateCursor];
+			// Why this works well?
+			[[(Browser *)eachDoc currentThreadsList] performSelector: @selector(updateCursor) withObject: nil afterDelay: 0.0];
 		}
 	}
 }

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.35 2007/02/02 15:47:50 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.36 2007/02/04 21:05:08 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -891,7 +891,7 @@ NSString *kComposingNotificationNames[] = {
 - (void) cleanUpItemsToBeRemoved : (NSArray *) files
 {
 	if (NO == [files containsObject : [self path]]) return;
-	
+
 	[[self threadLayout] clear];
 	[[self threadAttributes] setLastIndex:NSNotFound];
 	[self synchronizeAttributes];

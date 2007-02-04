@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.29 2007/01/28 11:58:32 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.30 2007/02/04 21:05:08 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -450,7 +450,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 		[self selectCurrentThreadWithMask : [CMRPref threadsListAutoscrollMask]];
 	}
 	
-	if ([[self superclass] instancesRespondToSelector : _cmd])
+		if ([[self superclass] instancesRespondToSelector : _cmd])
 		[super cleanUpItemsToBeRemoved : files];
 }
 

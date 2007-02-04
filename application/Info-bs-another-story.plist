@@ -74,7 +74,7 @@
 	<key>CFBundleSignature</key>
 	<string>BsAs</string>
 	<key>CFBundleVersion</key>
-	<string>25</string>
+	<string>26</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.3.0</string>
 	<key>NSAppleScriptEnabled</key>

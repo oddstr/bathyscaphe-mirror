@@ -1,3 +1,7 @@
+2007-02-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/manager/DatabaseManager.m
+		2007-01-28 の修正の副作用と思われるが、
+		3ペインで表示中のスレッドを削除した後、スレッド一覧で該当スレッドのステータスが消えなくなっていた問題を修正。
 2007-02-04 masakih <masakih@users.sourceforge.jp>
 	* application/source/bbs/BoardListItem/FavoritesBoardListItem.m:
 		お気に入り抽出条件が間違っていたので直した。
