@@ -1,4 +1,6 @@
 2007-02-04 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/FavoritesBoardListItem.m:
+		お気に入り抽出条件が間違っていたので直した。
 	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m:
 		2007-01-06 修正の「最終書き込み日」ポップアップメニューを無効にした。」
 		の時に誤って数値の「ではない」も無効にしてしまっていたのを修正。

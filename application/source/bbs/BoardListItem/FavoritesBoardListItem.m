@@ -34,6 +34,8 @@
 		[query appendFormat : @"SELECT * FROM %@\n", BoardThreadInfoViewName];
 		[query appendFormat : @"WHERE %@ IN (SELECT %@ FROM %@) ",
 			ThreadIDColumn, ThreadIDColumn, FavoritesTableName];
+		[query appendFormat : @"AND %@ IN (SELECT %@ FROM %@)",
+			BoardIDColumn, BoardIDColumn, FavoritesTableName];
 		[self setQuery : query];
 	}
 	
