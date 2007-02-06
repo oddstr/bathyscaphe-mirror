@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFavoritesManager.h,v 1.7 2007/01/07 17:04:23 masakih Exp $
+  * $Id: CMRFavoritesManager.h,v 1.8 2007/02/06 13:36:37 tsawada2 Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
@@ -16,24 +16,24 @@ typedef enum {
 
 @interface CMRFavoritesManager : NSObject
 {
-	NSMutableArray	*_favoritesItemsArray;
-	NSMutableArray	*_favoritesItemsIndex;
-	NSMutableArray	*_changedFavItemsPool;
-	NSTimer			*m_writeTimer;
+//	NSMutableArray	*_favoritesItemsArray;
+//	NSMutableArray	*_favoritesItemsIndex;
+//	NSMutableArray	*_changedFavItemsPool;
+//	NSTimer			*m_writeTimer;
 }
 
 + (id) defaultManager;
 
-- (NSMutableArray *) favoritesItemsArray;
-- (void) setFavoritesItemsArray : (NSMutableArray *) anArray;
-- (NSMutableArray *) favoritesItemsIndex;
-- (void) setFavoritesItemsIndex : (NSMutableArray *) anArray;
+//- (NSMutableArray *) favoritesItemsArray;
+//- (void) setFavoritesItemsArray : (NSMutableArray *) anArray;
+//- (NSMutableArray *) favoritesItemsIndex;
+//- (void) setFavoritesItemsIndex : (NSMutableArray *) anArray;
 
-- (NSMutableArray *) changedFavItemsPool;
-- (void) setChangedFavItemsPool : (NSMutableArray *) anArray;
+//- (NSMutableArray *) changedFavItemsPool;
+//- (void) setChangedFavItemsPool : (NSMutableArray *) anArray;
 
-- (NSMutableArray *) itemsForRemoving;
-- (NSMutableArray *) itemsForChange;
+//- (NSMutableArray *) itemsForRemoving;
+//- (NSMutableArray *) itemsForChange;
 @end
 
 
@@ -54,11 +54,11 @@ typedef enum {
 // Available in ReinforceII and later.
 - (NSIndexSet *) insertFavItemsWithIndexes: (NSIndexSet *) indexSet atIndex: (unsigned int) index isAscending: (BOOL) isAscending;
 
-- (void) addItemToPoolWithFilePath : (NSString *) filepath;
-- (void) removeFromPoolWithFilePath : (NSString *) filepath;
+//- (void) addItemToPoolWithFilePath : (NSString *) filepath;
+//- (void) removeFromPoolWithFilePath : (NSString *) filepath;
 
-- (unsigned int) getNumOfMsgsWithFilePath: (NSString *) filepath;
-- (void) updateFavItemsArrayWithAppendingNumOfMsgs;
+//- (unsigned int) getNumOfMsgsWithFilePath: (NSString *) filepath;
+//- (void) updateFavItemsArrayWithAppendingNumOfMsgs;
 @end
 
 

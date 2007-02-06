@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.36 2007/02/04 21:05:08 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.37 2007/02/06 13:36:37 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -22,7 +22,6 @@
 #import "CMRSpamFilter.h"
 #import "CMRThreadPlistComposer.h"
 #import "CMRNetGrobalLock.h"    /* for Locking */
-//#import "BSHistoryMenuManager.h"
 #import "BSAsciiArtDetector.h"
 
 #import "missing.h"
@@ -180,9 +179,7 @@ static NSDictionary *boardInfoWithFilepath(NSString *filepath)
 	
 	// 自身の管理する履歴に登録、または移動
 	[self noteHistoryThreadChanged : relativeIndex];
-[self willChangeValueForKey: @"document"];
 	[self loadFromContentsOfFile : filepath];
-	[self didChangeValueForKey: @"document"];
 }
 
 - (void) setThreadContentWithThreadIdentifier : (id) aThreadIdentifier
@@ -259,10 +256,7 @@ FileNotExistsAutoReloadIfNeeded:
 			addItemWithTitle : title_
 						type : CMRHistoryThreadEntryType
 					  object : [self threadIdentifier]];
-		
-		// 履歴メニューの更新（丸ごと書き換える）
-//		[[BSHistoryMenuManager defaultManager] updateHistoryMenuWithDefaultMenu];
-		
+
 		// 2004-04-10 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
 		// ----------------------------------------
 		//フォントの変更を反映させる。

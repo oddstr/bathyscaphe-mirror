@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFavoritesManager.m,v 1.16 2007/01/07 17:04:23 masakih Exp $
+  * $Id: CMRFavoritesManager.m,v 1.17 2007/02/06 13:36:37 tsawada2 Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
@@ -24,7 +24,7 @@ NSString *const CMRFavoritesManagerDidRemoveFavoritesNotification = @"CMRFavorit
 
 @implementation CMRFavoritesManager
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
-
+/*
 + (NSString *) defaultFilepath
 {
 	return [[CMRFileManager defaultManager]
@@ -39,15 +39,15 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 				 supportFilepathWithName : CMRFavMemoFile
 						resolvingFileRef : NULL];
 }
-
+*/
 - (id) init
 {
 	if (self = [super init]) {
-		[[NSNotificationCenter defaultCenter]
+/*		[[NSNotificationCenter defaultCenter]
 				 addObserver : self
 					selector : @selector(applicationWillTerminate:)
 					    name : NSApplicationWillTerminateNotification
-					  object : NSApp];
+					  object : NSApp];*/
 
 		[[NSNotificationCenter defaultCenter]
 				 addObserver : self
@@ -57,7 +57,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	}
 	return self;
 }
-
+/*
 - (void) saveToFile: (NSTimer *) aTimer
 {
 	[[self favoritesItemsArray] writeToFile : [[self class] defaultFilepath]
@@ -65,20 +65,20 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	[[self changedFavItemsPool] writeToFile : [[self class] subFilepath]
 								 atomically : YES];
 }
-
+*/
 - (void) dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver : self];
-	[m_writeTimer invalidate];
-	[m_writeTimer release];
-	[_favoritesItemsArray release];
-	[_favoritesItemsIndex release];
-	[_changedFavItemsPool release];
+//	[m_writeTimer invalidate];
+//	[m_writeTimer release];
+//	[_favoritesItemsArray release];
+//	[_favoritesItemsIndex release];
+//	[_changedFavItemsPool release];
 	[super dealloc];
 }
 
-- (void) applicationWillTerminate : (NSNotification *) notification
-{	
+///- (void) applicationWillTerminate : (NSNotification *) notification
+//{	
 //	UTILAssertNotificationName(
 //		notification,
 //		NSApplicationWillTerminateNotification);
@@ -92,7 +92,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 //								 atomically : YES];
 //*/
 //	[self saveToFile: nil];
-}
+//}
 
 
 - (void) trashDidPerform : (NSNotification *) notification
@@ -301,7 +301,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 - (BOOL) favoriteItemExistsOfThreadPath : (NSString *) filepath
 {
 	UTILAssertNotNil(filepath);
-	return [[self favoritesItemsIndex] containsObject : filepath];
+//	return [[self favoritesItemsIndex] containsObject : filepath];
+	return (CMRFavoritesOperationRemove == [self availableOperationWithPath : filepath]);
 }
 
 - (BOOL) addFavoriteWithThread: (id) threadIdentifier ofBoard: (NSString *) boardName
@@ -380,7 +381,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 - (void) removeFromFavoritesWithPathArray : (NSArray *) pathArray_
 {
-	NSEnumerator	*iter_;
+/*	NSEnumerator	*iter_;
 	NSString		*aPath_;
 
 	if (nil == pathArray_ || [pathArray_ count] == 0 ) return;
@@ -390,14 +391,14 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 		if ([[self favoritesItemsIndex] containsObject : aPath_]) {
 			[self removeFromFavoritesWithFilePath : aPath_];
 		}
-	}
+	}*/
 }
 
 #pragma mark -
 - (NSIndexSet *) convertIndexesWithDescendingSortedRows: (NSIndexSet *) descendingIndexSet count: (unsigned int) count
 {
 	NSMutableIndexSet	*result = [NSMutableIndexSet indexSet];
-	unsigned int	currentIndex, i, numOfElms = [descendingIndexSet count];
+/*	unsigned int	currentIndex, i, numOfElms = [descendingIndexSet count];
 	
 	currentIndex = [descendingIndexSet firstIndex];
 	for (i = 0; i < numOfElms; i++) {
@@ -406,13 +407,13 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 		
 		currentIndex = [descendingIndexSet indexGreaterThanIndex: currentIndex];
 	}
-	
+*/	
 	return result;
 }
 
 - (NSIndexSet *) insertFavItemsWithIndexes: (NSIndexSet *) indexSet atIndex: (unsigned int) index isAscending: (BOOL) isAscending
 {
-	NSMutableArray	*insertArray_, *aboveArray_, *belowArray_, *newFavAry_;
+/*	NSMutableArray	*insertArray_, *aboveArray_, *belowArray_, *newFavAry_;
 	NSRange			aboveAryRange, belowAryRange;
 	unsigned int	countOfFavItms, c_insertionIndex, numOfDraggedRows, insertedPoint;
 	unsigned int	currentIndex, i;
@@ -466,7 +467,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	[insertArray_ release];
 	[belowArray_ release];
 	
-	return indexesForRowSelect;
+	return indexesForRowSelect;*/
+	return nil;
 }
 
 #pragma mark -

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.m,v 1.15 2007/01/07 17:04:23 masakih Exp $
+  * $Id: CMRThreadsList.m,v 1.16 2007/02/06 13:36:37 tsawada2 Exp $
   * 
   * CMRThreadsList.m
   *
@@ -455,7 +455,7 @@ static NSComparisonResult sortArrayByStatusAtFav(id arg1, id arg2, void *context
 
 static NSComparisonResult sortArrayByFavNumKey(id arg1, id arg2, void *context)
 {
-	struct SortContext	*context_ = (struct SortContext*)context;
+/*	struct SortContext	*context_ = (struct SortContext*)context;
 	NSNumber			*s1, *s2;
 	NSComparisonResult	result;
 	NSArray				*favItemsIdx_ = [[CMRFavoritesManager defaultManager] favoritesItemsIndex];
@@ -473,5 +473,6 @@ static NSComparisonResult sortArrayByFavNumKey(id arg1, id arg2, void *context)
 	
 	return (!SORT_ASCENDING(context_)) 
 				? UTILComparisionResultReversed(result)
-				: result;
+				: result;*/
+	return NSOrderedAscending; // Dummy
 }
