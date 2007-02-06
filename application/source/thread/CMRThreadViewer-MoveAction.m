@@ -10,7 +10,7 @@
   */
 #import "CMRThreadViewer_p.h"
 #import "CMRThreadLayout.h"
-
+#import "BSDateFormatter.h"
 
 
 @implementation CMRThreadViewer(MoveActionSupport)
@@ -119,6 +119,17 @@
 - (IBAction) scrollToLastUpdatedIndex : (id) sender
 {
 	[[self threadLayout] scrollToLastUpdatedIndex : sender];
+}
+
+- (IBAction) scrollToFirstTodayMessage: (id) sender
+{
+	NSDate *aDate = [[BSDateFormatter sharedDateFormatter] baseDateOfToday];
+	unsigned index_ = [[self threadLayout] messageIndexOfLaterDate: aDate];
+	if (index_ != NSNotFound) {
+		[[self threadLayout] scrollMessageAtIndex: index_];
+	} else {
+		NSBeep();
+	}
 }
 @end
 

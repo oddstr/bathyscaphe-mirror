@@ -93,6 +93,11 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedDateFormatter);
 	return NO;
 }
 
+- (NSDate *) baseDateOfToday
+{
+	return AppGetBasicDataOfToday();
+}
+
 #pragma mark Will be deprecated in the Future
 static NSCalendarDate *AppGetTodayCalendarDate(int *year, unsigned *month, unsigned *day)
 {

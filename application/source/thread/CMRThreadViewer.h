@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.18 2007/02/02 15:47:50 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.19 2007/02/06 16:20:14 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright (c) 2003, Takanori Ishikawa.
@@ -165,6 +165,9 @@
 
 - (IBAction) scrollToLastReadedIndex : (id) sender;
 - (IBAction) scrollToLastUpdatedIndex : (id) sender;
+
+/* ç°ì˙ÇÃÉåÉX (available in Starlight Breaker.) */
+- (IBAction) scrollToFirstTodayMessage: (id) sender;
 @end
 
 

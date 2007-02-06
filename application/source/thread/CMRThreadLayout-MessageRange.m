@@ -360,6 +360,31 @@
 	return NSNotFound;
 }
 
+- (unsigned int) messageIndexOfLaterDate: (NSDate *) baseDate attribute: (UInt32) flags value: (BOOL) attributeIsSet
+{
+	int					i, cnt;
+	CMRThreadMessage	*m;
+	id					msgDate;
+	
+	if (baseDate == nil)
+		return NSNotFound;
+		
+	cnt = [self numberOfReadedMessages];
+
+	for (i = 0; i < cnt; i++) {
+		m = [self messageAtIndex: i];
+		msgDate = [m date];
+		if (!msgDate || NO == [msgDate isKindOfClass: [NSDate class]]) continue;
+
+		if (([(NSDate *)msgDate compare: baseDate] != NSOrderedAscending) && (attributeIsSet == (([m flags] & flags) != 0))) {
+//			NSLog(@"msgDate:\n%@\nbaseDate:\n%@\nindex: %i\n", [msgDate description], [baseDate description], i);
+			return i;
+		}
+	}
+	
+	return NSNotFound;
+}
+
 #pragma mark Jumpable index
 - (unsigned) nextVisibleMessageIndex
 {
@@ -416,5 +441,11 @@ static UInt32 attributeMaskForVisibleMessageIndexDetection()
 	return [self previousMessageIndexOfIndex : anIndex 
 								   attribute : CMRBookmarkMask
 									   value : YES];
+}
+
+#pragma mark Jumping to Specific date's Message
+- (unsigned int) messageIndexOfLaterDate: (NSDate *) baseDate
+{
+	return [self messageIndexOfLaterDate: baseDate attribute: attributeMaskForVisibleMessageIndexDetection() value: NO];
 }
 @end

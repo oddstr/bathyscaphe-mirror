@@ -52,7 +52,6 @@
                 googleSearch = id; 
                 historyMenuPerformBack = id; 
                 historyMenuPerformForward = id; 
-                myAction = id; 
                 openBBSInBrowser = id; 
                 openInBrowser = id; 
                 openLogfile = id; 
@@ -71,6 +70,7 @@
                 scrollNextMessage = id; 
                 scrollPrevMessage = id; 
                 scrollPreviousBookmark = id; 
+                scrollToFirstTodayMessage = id; 
                 scrollToLastReadedIndex = id; 
                 scrollToLastUpdatedIndex = id; 
                 selectFilteringMask = id; 

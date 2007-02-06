@@ -1,6 +1,6 @@
 //: CMRThreadLayout.h
 /**
-  * $Id: CMRThreadLayout.h,v 1.4 2005/11/30 19:46:53 tsawada2 Exp $
+  * $Id: CMRThreadLayout.h,v 1.5 2007/02/06 16:20:14 tsawada2 Exp $
   * 
   * CMRThreadLayout.h
   *
@@ -94,7 +94,8 @@
 - (unsigned int) nextBookmarkIndexOfIndex : (unsigned int) index;
 - (unsigned int) previousBookmarkIndexOfIndex : (unsigned int) index;
 
-//- (void) drawViewBackgroundInRect : (NSRect) clipRect;
+// Available in Starlight Breaker.
+- (unsigned int) messageIndexOfLaterDate: (NSDate *) baseDate;
 @end
 
 

@@ -1,5 +1,5 @@
 /*
-    $Id: CMRThreadViewer-Validation.m,v 1.25 2007/01/31 18:02:25 tsawada2 Exp $
+    $Id: CMRThreadViewer-Validation.m,v 1.26 2007/02/06 16:20:14 tsawada2 Exp $
     CMRThreadViewer-Action.m から独立
     Created at 2005-02-16 by tsawada2.
 */
@@ -276,6 +276,8 @@ static int messageMaskForTag(int tag)
 		return ([[self threadLayout] previousBookmarkIndex] != NSNotFound);
 	if (action_ == @selector(scrollNextBookmark:)) 
 		return ([[self threadLayout] nextBookmarkIndex] != NSNotFound);
+	if (action_ == @selector(scrollToFirstTodayMessage:))
+		return [self canScrollToMessage]; // とりあえず
 	
 	// 常に使えるアイテムたち
 	if (action_ == @selector(findNextText:)		||

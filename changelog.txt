@@ -1,3 +1,12 @@
+2007-02-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadLayout-MessageRange.m
+	* application/source/thread/CMRThreadViewer-Validation.m
+	* application/source/thread/CMRThreadViewer-MoveAction.m
+	* application/source/composer/BSDateFormatter.m
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		「スレッド」＞「レスに移動」サブメニューに「今日のレス」（Cmd-Ctrl-T）を追加した。
+		今日書き込まれた最初のレスに移動する。
+		- 将来、任意の日付のレスに移動することも対応可能。
 2007-02-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* frameworks/SGAppKit/framework/src/custom/bathyscaphe/BSBoardListView.m
 		Type-To-Select 機能を追加。

@@ -13,4 +13,5 @@
 
 }
 + (id) sharedDateFormatter;
+- (NSDate *) baseDateOfToday;
 @end
