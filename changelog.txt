@@ -1,4 +1,12 @@
 2007-02-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* frameworks/SGAppKit/framework/src/custom/bathyscaphe/BSBoardListView.m
+		Type-To-Select 機能を追加。
+		掲示板リストにフォーカスがあるとき、掲示板の先頭数文字を入力するだけでその掲示板が選択できる。
+		Finder のように！
+		- この機能は、栗田哲郎氏の FileTreeView.m から取り込ませていただいた。感謝。
+		- 詳しくは下の Acknowledgments.rtf を参照してください。
+	* application/Resources/Japanese.lproj/Acknowledgments.rtf
+		謝辞の内容を更新。
 	* application/source/browser/CMRFavoritesManager.m
 	* application/source/browser/CMRThreadsList.m
 	* application/source/thread/CMRThreadViewer.m

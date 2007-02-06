@@ -1,5 +1,5 @@
 //
-//  $Id: BSBoardListView.h,v 1.2 2006/06/25 17:06:42 tsawada2 Exp $
+//  $Id: BSBoardListView.h,v 1.3 2007/02/06 14:35:46 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/09/20.
@@ -7,20 +7,40 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <Carbon/Carbon.h>
 
 @interface BSBoardListView : NSOutlineView {
 	@private
 	int _semiSelectedRow; // 選択されていないが、コンテキストメニューのターゲットになっている
 	NSRect _semiSelectedRowRect;
 	
-	//NSImage	*_imageNormal;
-	//NSImage	*_imageFocused;
+	// From FileTreeView.h
+	BOOL isInstalledTextInputEvent;
+	BOOL isFindBegin;
+	BOOL isUsingInputWindow;
+	NSText *fieldEditor;
+	NSTimer *resetTimer;
+	EventHandlerRef textInputEventHandler;
 }
+
 - (int) semiSelectedRow;
 - (NSRect) semiSelectedRowRect;
 
-//- (NSImage *) imageNormal;
-//- (NSImage *) imageFocused;
 + (NSImage *) imageNormal;
 + (NSImage *) imageFocused;
+@end
+
+//
+// Type-To-Select Support
+// Available in Starlight Breaker.
+//
+// From FileTreeView.m (part of StationaryPalette by 栗田哲郎)
+// BathyScaphe プロジェクトに対し、栗田氏のご厚意により特別に FileTreeView.m を
+// 修正 BSD ライセンスに基づいて使用する許可を得ています。
+//
+
+@interface BSBoardListView(TypeToSelect)
+- (void)findForString:(NSString *)aString;
+- (void)stopResetTimer;
+- (void)insertTextInputSendText:(NSString *)aString;
 @end
