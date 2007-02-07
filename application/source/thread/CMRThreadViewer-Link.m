@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.20 2007/02/07 13:26:13 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.21 2007/02/07 14:04:51 tsawada2 Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -420,6 +420,8 @@ ErrInvalidLink:
 	[self addMessenger: messenger_]; // 2006-06-06 Patch posted at CocoMonar Thread
 	[messenger_ append:@"" quote:NO replyTo:anIndexRange.location];
 }
+
+// Available in Starlight Breaker.
 - (void) threadView: (CMRThreadView *) aView reverseAnchorPopUp: (unsigned int) targetIndex
 {
 	NSRange				indexRange_;
@@ -430,19 +432,20 @@ ErrInvalidLink:
 	if (0 == indexRange_.length)
 		return;
 	
-	contents_ = [[self threadLayout] contentsForIndexRange : indexRange_ targetIndex : targetIndex
-	 					 composingMask : CMRInvisibleAbonedMask
-							   compose : NO
-						attributesMask : (CMRLocalAbonedMask | CMRSpamMask)];
-	
-	if (nil == contents_ || 0 == [contents_ length])
+	contents_ = [[self threadLayout] contentsForIndexRange: indexRange_
+											   targetIndex: targetIndex
+											 composingMask: CMRInvisibleAbonedMask
+												   compose: NO
+											attributesMask: (CMRLocalAbonedMask|CMRSpamMask)];
+	if (nil == contents_ || 0 == [contents_ length]) {
+		NSBeep();
 		return;
-	
+	}
 	location_ = [self locationForInformationPopUp];
-	[CMRPopUpMgr showPopUpWindowWithContext : contents_
-								  forObject : [self threadIdentifier]
-									  owner : self
-							   locationHint : location_];
+	[CMRPopUpMgr showPopUpWindowWithContext: contents_
+								  forObject: [self threadIdentifier]
+									  owner: self
+							   locationHint: location_];
 }
 
 // CometBlaster Addition
