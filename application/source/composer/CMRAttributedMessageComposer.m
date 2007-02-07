@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer.m,v 1.18 2006/11/05 12:53:47 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer.m,v 1.19 2007/02/07 13:26:13 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -63,6 +63,7 @@ static NSString				*threadDateFormat_ = nil;
 {
 	if (self = [super init]) {
 		[self setComposingMask:CMRInvisibleMask compose:NO];
+		bs_targetIndex = NSNotFound;
 	}
 	return self;
 }
@@ -102,6 +103,16 @@ static NSString				*threadDateFormat_ = nil;
 	_CCFlags.compose = flag ? 1 : 0;
 }
 
+- (void) setComposingTargetIndex: (unsigned int) index
+{
+	bs_targetIndex = index;
+}
+
+- (BOOL) shouldComposeMsgsOnlyForWhichContainsAnchorForTheIdx
+{
+	return (bs_targetIndex != NSNotFound);
+}
+
 #pragma mark Instance Methods
 
 static BOOL messageIsLocalAboned_(CMRThreadMessage *aMessage) 
@@ -137,6 +148,14 @@ static BOOL messageIsLocalAboned_(CMRThreadMessage *aMessage)
 	mRange_.location = [ms length];
 	[super composeThreadMessage : aMessage];
 	mRange_.length = [ms length] - mRange_.location;
+
+	if ([self shouldComposeMsgsOnlyForWhichContainsAnchorForTheIdx]) {
+		if (NO == [self attrString: [ms attributedSubstringFromRange: mRange_] containsAnchorForMsgIndex: bs_targetIndex]) {
+			[ms deleteCharactersInRange: mRange_];
+			[aMessage setFlags: flags_];
+			return;
+		}
+	}
 	
 	if (isSpam_ && (mRange_.length != 0)) {
 		//「迷惑レス」は色を変更する
@@ -484,6 +503,37 @@ ErrComposeHost:
 - (id) getMessages
 {
 	return [self contentsStorage];
+}
+
+- (BOOL) attrString: (NSAttributedString *) substring containsAnchorForMsgIndex: (unsigned int) index
+{
+	NSString *compareString = [NSString stringWithFormat: @"%@:%u", CMRAttributeInnerLinkScheme, index+1];
+//	NSLog(@"attrString:containsAnchorForMsgIndex: (step 1)\n%@", compareString);
+
+    NSRange     range;
+    int         i;
+	int			cnt = [substring length];
+    NSRange rangeLimit=NSMakeRange(0, cnt);
+
+    for(i = 0; i < cnt; i += range.length){
+        id aURLString=[substring attribute: NSLinkAttributeName 
+                        atIndex:i longestEffectiveRange:&range inRange:rangeLimit];
+
+        if(range.length<=0) break;
+
+        if(aURLString && [aURLString isKindOfClass:[NSString class]]) {
+            if([(NSString*)aURLString length]>0 && [(NSString *)aURLString hasPrefix:CMRAttributeInnerLinkScheme]) {
+                NSString *convertedString = [(NSString *)aURLString precomposedStringWithCompatibilityMapping];
+//				NSLog(@"attrString:containsAnchorForMsgIndex: (step 2)\n%@", convertedString);
+
+				if ([convertedString isEqualToString: compareString]) {
+//					NSLog(@"attrString:containsAnchorForMsgIndex: (step 3)\nYES RETURN");
+					return YES;
+				}
+            }
+        }
+    }
+	return NO;
 }
 @end
 

@@ -1,6 +1,6 @@
 //: CMXPopUpWindowManager.m
 /**
-  * $Id: CMXPopUpWindowManager.m,v 1.4 2006/11/05 12:53:48 tsawada2 Exp $
+  * $Id: CMXPopUpWindowManager.m,v 1.5 2007/02/07 13:26:13 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -19,30 +19,46 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 - (void) dealloc
 {
-	[_controllerArray release];
+//	[_controllerArray release];
+	[bs_controllersArray release];
 	[[NSNotificationCenter defaultCenter] removeObserver: self];
 	[super dealloc];
 }
 
-- (SGBaseCArrayWrapper *) controllerArray
+//- (SGBaseCArrayWrapper *) controllerArray
+- (NSMutableArray *) controllerArray
 {
-	if(nil == _controllerArray){
+/*	if(nil == _controllerArray){
 		_controllerArray = [[SGBaseCArrayWrapper alloc] initWithCapacity: kCMXPopUpWindowDefaultCapacity];
 	}
-	return _controllerArray;
+	return _controllerArray;*/
+	if (nil == bs_controllersArray) {
+		CFArrayCallBacks arrayCallBacks = kCFTypeArrayCallBacks;
+		arrayCallBacks.retain = NULL;
+		arrayCallBacks.release = NULL;
+		bs_controllersArray = (NSMutableArray *)CFArrayCreateMutable(NULL, 0, &arrayCallBacks);
+	}
+	return bs_controllersArray;
 }
 
 - (CMXPopUpWindowController *) availableController
 {
-	unsigned					i, cnt;
+//	unsigned					i, cnt;
 	CMXPopUpWindowController	*controller_ = nil;
-	SGBaseCArrayWrapper			*array_;
+//	SGBaseCArrayWrapper			*array_;
+	NSMutableArray	*array_= [self controllerArray];
+	NSEnumerator *iter_ = [array_ objectEnumerator];
 	
-	array_ = [self controllerArray];
-	cnt = [array_ count];
+//	array_ = [self controllerArray];
+/*	cnt = [array_ count];
 	for(i = 0; i < cnt; i++){
 		controller_ = SGBaseCArrayWrapperObjectAtIndex(array_, i);
 		if([controller_ canPopUpWindow]){
+			break;
+		}
+	}*/
+	while (controller_ = [iter_ nextObject]) {
+		if ([controller_ canPopUpWindow]) {
 			break;
 		}
 	}
@@ -54,36 +70,44 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 		controller_ = [[CMXPopUpWindowController alloc] init];
 		[controller_ window];
 
-		[[self controllerArray] addObject : controller_];
-		[controller_ release];		
+//		[[self controllerArray] addObject : controller_];
+		[array_ addObject: controller_];
+//		[controller_ release];		
 	}
 	return controller_;
 }
 
 - (BOOL) isPopUpWindowVisible
 {
-	unsigned					i, cnt;
+//	unsigned					i, cnt;
 	CMXPopUpWindowController	*controller_ = nil;
-	SGBaseCArrayWrapper			*array_;
+//	SGBaseCArrayWrapper			*array_;
+	NSMutableArray *array_ = [self controllerArray];
+	NSEnumerator *iter_ = [array_ objectEnumerator];
 	
-	array_ = [self controllerArray];
-	cnt = [array_ count];
+///	array_ = [self controllerArray];
+/*	cnt = [array_ count];
 	for(i = 0; i < cnt; i++){
 		controller_ = SGBaseCArrayWrapperObjectAtIndex(array_, i);
 		if(NO == [controller_ canPopUpWindow]) {
 			return YES;
 		}
+	}*/
+	while (controller_ = [iter_ nextObject]) {
+		if (NO == [controller_ canPopUpWindow]) return YES;
 	}
 	return NO;
 }
 
 - (CMXPopUpWindowController *) controllerForObject : (id) object
 {
-	unsigned					i, cnt;
+//	unsigned					i, cnt;
 	CMXPopUpWindowController	*controller_ = nil;
-	SGBaseCArrayWrapper			*array_;
+//	SGBaseCArrayWrapper			*array_;
+	NSMutableArray *array_ = [self controllerArray];
+	NSEnumerator *iter_ = [array_ objectEnumerator];
 	
-	array_ = [self controllerArray];
+/*	array_ = [self controllerArray];
 	cnt = [array_ count];
 	for(i = 0; i < cnt; i++){
 		id		obj_;
@@ -93,6 +117,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 		
 		if([obj_ isEqual : object])
 			return controller_;
+	}*/
+	while (controller_ = [iter_ nextObject]) {
+		if ([[controller_ object] isEqual: object]) return controller_;
 	}
 	return nil;
 }
@@ -135,16 +162,21 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 - (void) closePopUpWindowForOwner : (id) owner;
 {
-	unsigned					i, cnt;
+//	unsigned					i, cnt;
 	CMXPopUpWindowController	*controller_ = nil;
-	SGBaseCArrayWrapper			*array_;
+//	SGBaseCArrayWrapper			*array_;
+	NSMutableArray *array_ = [self controllerArray];
+	NSEnumerator *iter_ = [array_ objectEnumerator];
 	
-	array_ = [self controllerArray];
-	cnt = [array_ count];
+//	array_ = [self controllerArray];
+/*	cnt = [array_ count];
 	for(i = 0; i < cnt; i++){
 		controller_ = SGBaseCArrayWrapperObjectAtIndex(array_, i);
 		if([(id)[controller_ owner] isEqual : owner])
 			[controller_ performClose];
+	}*/
+	while (controller_ = [iter_ nextObject]) {
+		if ([(id)[controller_ owner] isEqual: owner]) [controller_ performClose];
 	}
 }
 - (BOOL) performClosePopUpWindowForObject : (id) object

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadView.m,v 1.16 2007/01/07 17:04:24 masakih Exp $
+  * $Id: CMRThreadView.m,v 1.17 2007/02/07 13:26:13 tsawada2 Exp $
   * 
   * CMRThreadView.m
   *
@@ -499,7 +499,6 @@ static NSString *mActionGetKeysForTag[] = {
 	[delegate_ threadView:self spam:aMessage messageRegister:flag];
 }
 
-
 /* スレコピー */
 - (IBAction) messageCopy : (id) sender
 {
@@ -559,6 +558,24 @@ static NSString *mActionGetKeysForTag[] = {
 
 	[contents_ writeToPasteboard : pboard_];
 	[contents_ release];
+}
+
+/* 逆参照 */
+- (IBAction) messageGyakuSansyouPopUp: (id) sender
+{
+	id				delegate_;
+	NSEnumerator	*mIndexEnum_;
+	NSNumber		*mIndex;
+	
+	mIndexEnum_ = [self representedObjectWithSender : sender];
+	mIndex = [mIndexEnum_ nextObject];
+	if (nil == mIndex) return;
+	
+	delegate_ = [self delegate];
+	if (nil == delegate_ || NO == [delegate_ respondsToSelector : @selector(threadView:reverseAnchorPopUp:)])
+		return;
+	
+	[delegate_ threadView:self reverseAnchorPopUp: [mIndex unsignedIntValue]];
 }
 
 #if PATCH
@@ -716,27 +733,7 @@ static void showPoofAnimationForInvisibleAbone(CMRThreadView *tView, unsigned in
 
 		while (mIndex = [mIndexEnum_ nextObject]) {
 			UTILAssertRespondsTo(mIndex, @selector(unsignedIntValue));
-/*
-			[self toggleMessageAttributesAtIndex : [mIndex unsignedIntValue]
-									   senderTag : actionType];
 
-			switch(actionType) {
-			case kInvisibleAboneTag:
-				if (!poofDone) {
-					showPoofAnimationForInvisibleAbone(self, [mIndex unsignedIntValue]);
-					poofDone = YES; // 一個 poof 雲を発生させたら、もうやらない
-				}
-				break;
-			case kSpamTag:
-				if (([CMRPref spamFilterBehavior] == kSpamFilterInvisibleAbonedBehavior) && (!poofDone)) {
-					showPoofAnimationForInvisibleAbone(self, [mIndex unsignedIntValue]);
-					poofDone = YES; // 一個 poof 雲を発生させたら、もうやらない
-				}
-				break;
-			default:
-				break;
-			}
-*/
 			if ((actionType == kInvisibleAboneTag) && !poofDone) {
 				[self showPoofEffectForInvisibleAboneWithIndex: mIndex actionType: actionType];
 				poofDone = YES;
@@ -845,6 +842,9 @@ static void showPoofAnimationForInvisibleAbone(CMRThreadView *tView, unsigned in
 	if (@selector(messageReply:) == action_) {
 		//if ([indexEnum_ nextObject] == nil) return NO;
 		//return [[self delegate] threadView:self validateAction: action_];
+		return ([indexEnum_ nextObject] != nil);
+	}
+	if (@selector(messageGyakuSansyouPopUp:) == action_) {
 		return ([indexEnum_ nextObject] != nil);
 	}
 	if (@selector(changeMessageAttributes:) == action_) {

@@ -1,4 +1,17 @@
 2007-02-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/CMXMessageMenu.nib
+	* application/source/thread/CMRThreadViewer-Link.m
+	* application/source/thread/CMRThreadViewer-Validation.m
+	* application/source/thread/CMRThreadLayout-MessageRange.m
+	* application/source/view/CMRThreadView.m
+	* application/source/composer/CMRAttributedMessageComposer.m
+		逆参照ポップアップ機能を付けた。
+		レス番号をクリックして表示されるメニューに「逆参照」を追加。そのレスに対してアンカーを打っている
+		レスを、そのレスより後のレスから抽出し、ポップアップする（見つからなければ beep が鳴る）。
+		アンカーは全角半角問わないが、単一レスへのアンカーでなければならない（>>1-5 のようなアンカーは認識しない）。
+		- 多少強引に実装したのでそれほどパフォーマンスは良くないかもしれない。
+	* application/source/view/popup/CMXPopUpWindowManager.m
+		コード量の削減。
 	* application/source/thread/CMRThreadLayout-MessageRange.m
 	* application/source/thread/CMRThreadViewer-Validation.m
 	* application/source/thread/CMRThreadViewer-MoveAction.m
@@ -31,6 +44,7 @@
 	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m:
 		2007-01-06 修正の「最終書き込み日」ポップアップメニューを無効にした。」
 		の時に誤って数値の「ではない」も無効にしてしまっていたのを修正。
+================================================= Starlight Breaker v25
 2007-02-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/BWAgent/sora.pl
 		BathyScaphe アプリケーションまでのパスに「'」が含まれていると、掲示板リストの同期が正しく動作しない問題を修正した。

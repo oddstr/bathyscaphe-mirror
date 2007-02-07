@@ -1,5 +1,5 @@
 /*
-    $Id: CMRThreadViewer-Validation.m,v 1.26 2007/02/06 16:20:14 tsawada2 Exp $
+    $Id: CMRThreadViewer-Validation.m,v 1.27 2007/02/07 13:26:13 tsawada2 Exp $
     CMRThreadViewer-Action.m から独立
     Created at 2005-02-16 by tsawada2.
 */
@@ -95,9 +95,10 @@ static int messageMaskForTag(int tag)
 							   compose : YES
 						attributesMask : attributeMask_];
 	
-	if (nil == contents_ || 0 == [contents_ length])
+	if (nil == contents_ || 0 == [contents_ length]) {
+		NSBeep();
 		return;
-	
+	}
 	location_ = [self locationForInformationPopUp];
 	[CMRPopUpMgr showPopUpWindowWithContext : contents_
 								  forObject : [self threadIdentifier]

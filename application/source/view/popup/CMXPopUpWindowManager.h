@@ -1,6 +1,6 @@
 //: CMXPopUpWindowManager.h
 /**
-  * $Id: CMXPopUpWindowManager.h,v 1.2 2006/11/05 12:53:48 tsawada2 Exp $
+  * $Id: CMXPopUpWindowManager.h,v 1.3 2007/02/07 13:26:13 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -14,14 +14,15 @@
 #import "CMXPopUpWindowController.h"
 
 
-@class SGBaseCArrayWrapper;
+//@class SGBaseCArrayWrapper;
 
 #define CMRPopUpMgr		[CMXPopUpWindowManager defaultManager]
 
 @interface CMXPopUpWindowManager : NSObject
 {
 	@private
-	SGBaseCArrayWrapper		*_controllerArray;
+//	SGBaseCArrayWrapper		*_controllerArray;
+	NSMutableArray	*bs_controllersArray;
 }
 /*!
  * @method      defaultManager

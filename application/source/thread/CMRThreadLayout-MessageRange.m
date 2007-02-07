@@ -157,6 +157,36 @@
 }
 
 - (NSAttributedString *) contentsForIndexRange : (NSRange) aRange
+								   targetIndex : (unsigned int ) messageIndex
+			 					 composingMask : (UInt32 ) composingMask
+									   compose : (BOOL   ) doCompose
+								attributesMask : (UInt32 ) attributesMask
+{
+	CMRThreadMessage	*m;
+	unsigned			i;
+	NSMutableAttributedString		*textBuffer_;
+	CMRAttributedMessageComposer	*composer_;
+	
+	if (NSNotFound == aRange.location || 0 == aRange.length) return nil;
+	if ([self firstUnlaidMessageIndex] < NSMaxRange(aRange)) return nil;
+
+	composer_ = [[CMRAttributedMessageComposer alloc] init];
+	textBuffer_ = [[NSMutableAttributedString alloc] init];
+	
+	[composer_ setAttributesMask : attributesMask];
+	[composer_ setComposingMask:composingMask compose:doCompose];
+	[composer_ setComposingTargetIndex: messageIndex];
+	[composer_ setContentsStorage : textBuffer_];
+	
+	for (i = 0; i < aRange.length; i++) {
+		m = [[self messageBuffer] messageAtIndex : aRange.location + i];
+		[composer_ composeThreadMessage : m];
+	}
+	[composer_ release];
+	return [textBuffer_ autorelease];
+}
+
+- (NSAttributedString *) contentsForIndexRange : (NSRange) aRange
 {
 	if (kSpamFilterInvisibleAbonedBehavior == [CMRPref spamFilterBehavior]) {
 		return [self contentsForIndexRange : aRange

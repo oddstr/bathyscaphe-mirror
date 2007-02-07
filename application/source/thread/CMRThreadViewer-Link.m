@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.19 2007/02/02 15:47:50 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.20 2007/02/07 13:26:13 tsawada2 Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -419,6 +419,30 @@ ErrInvalidLink:
 	messenger_ = [self messenger : YES];
 	[self addMessenger: messenger_]; // 2006-06-06 Patch posted at CocoMonar Thread
 	[messenger_ append:@"" quote:NO replyTo:anIndexRange.location];
+}
+- (void) threadView: (CMRThreadView *) aView reverseAnchorPopUp: (unsigned int) targetIndex
+{
+	NSRange				indexRange_;
+	NSAttributedString	*contents_;
+	NSPoint				location_;
+	
+	indexRange_ = NSMakeRange(targetIndex, [[self threadLayout] firstUnlaidMessageIndex] - targetIndex);
+	if (0 == indexRange_.length)
+		return;
+	
+	contents_ = [[self threadLayout] contentsForIndexRange : indexRange_ targetIndex : targetIndex
+	 					 composingMask : CMRInvisibleAbonedMask
+							   compose : NO
+						attributesMask : (CMRLocalAbonedMask | CMRSpamMask)];
+	
+	if (nil == contents_ || 0 == [contents_ length])
+		return;
+	
+	location_ = [self locationForInformationPopUp];
+	[CMRPopUpMgr showPopUpWindowWithContext : contents_
+								  forObject : [self threadIdentifier]
+									  owner : self
+							   locationHint : location_];
 }
 
 // CometBlaster Addition

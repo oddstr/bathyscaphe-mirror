@@ -10,6 +10,7 @@
             ACTIONS = {
                 changeMessageAttributes = id; 
                 messageCopy = id; 
+                messageGyakuSansyouPopUp = id; 
                 messageRegister = id; 
                 messageReply = id; 
             }; 

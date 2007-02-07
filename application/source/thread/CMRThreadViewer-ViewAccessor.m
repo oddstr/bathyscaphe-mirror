@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.14 2007/01/07 17:04:23 masakih Exp $
+  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.15 2007/02/07 13:26:13 tsawada2 Exp $
   * 
   * CMRThreadViewer-ViewAccessor.m
   *
@@ -335,7 +335,7 @@
 	
 	/* TextView */
 	view = [[HTMLVIEW_CLASS alloc] initWithFrame : cFrame textContainer : container];
-	
+
 	[view setMinSize : NSMakeSize(0.0, NSHeight(cFrame))];
 	[view setMaxSize : NSMakeSize(1e7, 1e7)];
 	[view setVerticallyResizable :YES];

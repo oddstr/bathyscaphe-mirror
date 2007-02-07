@@ -1,6 +1,6 @@
 //: CMXPopUpWindowController.h
 /**
-  * $Id: CMXPopUpWindowController.h,v 1.2 2006/11/05 12:53:48 tsawada2 Exp $
+  * $Id: CMXPopUpWindowController.h,v 1.3 2007/02/07 13:26:13 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -26,6 +26,7 @@
 	BOOL	bs_usesSmallScroller;
 	BOOL	bs_shouldAntialias;
 	BOOL	bs_linkTextHasUnderline;
+	NSTimer *m_timer;
 }
 + (float) popUpTrackingInsetWidth;
 

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer.h,v 1.2 2006/01/05 14:16:44 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer.h,v 1.3 2007/02/07 13:26:13 tsawada2 Exp $
   * 
   * CMRAttributedMessageComposer.h
   *
@@ -17,7 +17,7 @@
 	NSMutableAttributedString	*_contentsStorage;
 	NSMutableAttributedString	*_nameCache;
 	
-	//NSDictionary				*_localeDict;
+	unsigned int	bs_targetIndex;
 	
 	UInt32			_mask;
 	struct {
@@ -29,7 +29,7 @@
 + (id) composerWithContentsStorage : (NSMutableAttributedString *) storage;
 - (id) initWithContentsStorage : (NSMutableAttributedString *) storage;
 
-//- (NSDictionary *) localeDict;
+
 
 /* mask ‚Åw’è‚³‚ê‚½‘®«‚ğ–³‹‚·‚é */
 - (UInt32) attributesMask;
@@ -39,6 +39,11 @@
 - (void) setComposingMask : (UInt32) mask
 				  compose : (BOOL  ) flag;
 
+/* index ‚Ö‚ÌQÆ‚ğŠÜ‚ŞƒŒƒX‚Ì‚İ‚ğ¶¬ (index is 0-based) */
+- (void) setComposingTargetIndex: (unsigned int) index;
+
 - (NSMutableAttributedString *) contentsStorage;
 - (void) setContentsStorage : (NSMutableAttributedString *) aContentsStorage;
+
+- (BOOL) attrString: (NSAttributedString *) substring containsAnchorForMsgIndex: (unsigned int) index;
 @end

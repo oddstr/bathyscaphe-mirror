@@ -1,6 +1,6 @@
 //: CMXPopUpWindowController+View.m
 /**
-  * $Id: CMXPopUpWindowController+View.m,v 1.8 2006/11/05 12:53:48 tsawada2 Exp $
+  * $Id: CMXPopUpWindowController+View.m,v 1.9 2007/02/07 13:26:13 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -42,8 +42,7 @@
 
 	panel_ = [[SGContextHelpPanel alloc]
 	             initWithContentRect : DEFAULT_CONTENT_RECT
-						   styleMask : 
-			(NSBorderlessWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask)
+						   styleMask : NSBorderlessWindowMask
 						     backing : NSBackingStoreBuffered
 							   defer : YES];
 

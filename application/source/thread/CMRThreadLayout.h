@@ -1,6 +1,6 @@
 //: CMRThreadLayout.h
 /**
-  * $Id: CMRThreadLayout.h,v 1.5 2007/02/06 16:20:14 tsawada2 Exp $
+  * $Id: CMRThreadLayout.h,v 1.6 2007/02/07 13:26:13 tsawada2 Exp $
   * 
   * CMRThreadLayout.h
   *
@@ -64,6 +64,13 @@
 - (NSAttributedString *) contentsAtIndex : (unsigned int) index;
 - (NSAttributedString *) contentsForIndexRange : (NSRange) range;
 - (NSAttributedString *) contentsForIndexRange : (NSRange) range
+			 					 composingMask : (UInt32 ) composingMask
+									   compose : (BOOL   ) doCompose
+								attributesMask : (UInt32 ) attributesMask;
+
+// Available in Starlight Breaker.
+- (NSAttributedString *) contentsForIndexRange : (NSRange) aRange
+								   targetIndex : (unsigned int ) messageIndex
 			 					 composingMask : (UInt32 ) composingMask
 									   compose : (BOOL   ) doCompose
 								attributesMask : (UInt32 ) attributesMask;
