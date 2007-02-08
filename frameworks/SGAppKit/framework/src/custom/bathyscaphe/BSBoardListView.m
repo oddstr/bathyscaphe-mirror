@@ -1,5 +1,5 @@
 //
-//  $Id: BSBoardListView.m,v 1.3 2007/02/06 14:35:46 tsawada2 Exp $
+//  $Id: BSBoardListView.m,v 1.4 2007/02/08 00:20:26 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/09/20.
@@ -377,22 +377,26 @@ bail:
 	NSLog([NSString stringWithFormat:@"start findForString:%@", aString]);
 #endif
 	
-//	NSTableColumn *column = [self tableColumnWithIdentifier:searchColumnIdentifier];
-	NSTableColumn *column = [[self tableColumns] objectAtIndex: 0];
+/*	NSTableColumn *column = [self tableColumnWithIdentifier:searchColumnIdentifier];
 	int nrows = [self numberOfRows];
 	id dataSource = [self dataSource];
-	int i;
-	for (i = 0; i< nrows; i++) {
+	for (int i = 0; i< nrows; i++) {
 		id item = [self itemAtRow:i];
 		id display_name = [dataSource outlineView:self objectValueForTableColumn:column byItem:item];
-		if ([display_name isKindOfClass: [NSAttributedString class]]) { // added
-			display_name = [display_name stringValue];					// added
-		}																// added
 		if (NSOrderedSame == [display_name compare:aString options:NSCaseInsensitiveSearch range:NSMakeRange(0, [aString length])]) {
 			[self selectRowIndexes:[NSIndexSet indexSetWithIndex:i] byExtendingSelection:NO];
 			break;
 		}
 		
+	}*/
+	id			delegate_ = [self delegate];
+	NSIndexSet	*indexes = nil;
+
+	if (delegate_ && [delegate_ respondsToSelector: @selector(outlineView:findForString:)]) {
+		indexes = [delegate_ outlineView: self findForString: aString];
+	}
+	if (indexes != nil) {
+		[self selectRowIndexes: indexes byExtendingSelection: NO];
 	}
 }
 @end

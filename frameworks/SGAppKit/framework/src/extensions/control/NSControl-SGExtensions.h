@@ -1,6 +1,6 @@
 //: NSControl-SGExtensions.h
 /**
-  * $Id: NSControl-SGExtensions.h,v 1.1 2005/05/11 17:51:26 tsawada2 Exp $
+  * $Id: NSControl-SGExtensions.h,v 1.2 2007/02/08 00:20:26 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -13,7 +13,7 @@
 
 
 @interface NSControl(SGExtensions)
-- (BOOL) sendsAction;
+//- (BOOL) sendsAction;
 
 // for fix NSToolbar sizeMode
 - (NSControlSize) controlSize;

@@ -1,3 +1,14 @@
+2007-02-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Delegate.m
+		掲示板リストの Type-To-Select をいったん取り外して、再実装している途中。
+		（デリゲートに分離している途中）
+	* frameworks/SGAppKit/framework/src/SGAppKit.h
+	* frameworks/SGAppKit/framework/src/custom/bathyscaphe/BSBoardListView.m
+	* frameworks/SGAppKit/framework/src/extensions/cell/NSCell-SGExtensions.m
+	* frameworks/SGAppKit/framework/src/extensions/control/NSControl-SGExtensions.m
+	* frameworks/SGAppKit/framework/src/extensions/toolbar/NSToolbar-SGExtensions.m
+		SGAppKit: 未使用のコードをいくらか削除。NSCell-SGExtensions.m を若干改良。
+		BSBoardListView: Type-To-Select に関して、一部の動作をデリゲートにやらせるように構造変更。
 2007-02-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/CMXMessageMenu.nib
 	* application/source/thread/CMRThreadViewer-Link.m

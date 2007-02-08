@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.30 2007/02/04 21:05:08 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.31 2007/02/08 00:20:26 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -224,6 +224,12 @@ BOOL isOptionKeyDown(unsigned flag_)
 {
 	// 自身のデータソースにデリゲートメソッドを処理させる。
 	[[olv dataSource] outlineView : olv willDisplayCell : cell forTableColumn : tableColumn item : item];
+}
+
+- (NSIndexSet *) outlineView: (BSBoardListView *) boardListView findForString: (NSString *) aString
+{
+	NSLog(@"Unsupported");
+	return nil;
 }
 
 #pragma mark NSTableView Delegate

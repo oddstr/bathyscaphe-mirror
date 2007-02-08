@@ -1,5 +1,5 @@
 //
-//  $Id: BSBoardListView.h,v 1.3 2007/02/06 14:35:46 tsawada2 Exp $
+//  $Id: BSBoardListView.h,v 1.4 2007/02/08 00:20:26 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/09/20.
@@ -43,4 +43,8 @@
 - (void)findForString:(NSString *)aString;
 - (void)stopResetTimer;
 - (void)insertTextInputSendText:(NSString *)aString;
+@end
+
+@interface NSObject(BSBoardListViewTTSDelegate)
+- (NSIndexSet *) outlineView: (BSBoardListView *) boardListView findForString: (NSString *) typedString;
 @end
