@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.32 2007/02/10 10:22:06 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.33 2007/02/10 12:12:47 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -11,7 +11,6 @@
 #import "missing.h"
 
 extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
-extern int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutlineView *bLT);
 
 @implementation CMRBrowser(Delegate)
 BOOL isCommandKeyDown(unsigned flag_)
@@ -242,11 +241,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 		return nil;
 	}
 		
-    index = [boardListView rowForItem : matchedItem];
-    if (-1 == index) {
-		index = expandAndSelectItem(matchedItem, [source boardItems], boardListView);
-	}
-
+    index = [self searchRowForItemInDeep: matchedItem fromSource: [source boardItems] forView: boardListView];
 	if (-1 == index) return nil;
 	return [NSIndexSet indexSetWithIndex: index];
 }

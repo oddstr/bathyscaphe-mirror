@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.h,v 1.24 2006/11/15 14:41:18 masakih Exp $
+  * $Id: CMRBrowser.h,v 1.25 2007/02/10 12:12:47 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -12,8 +12,8 @@
 @class ThreadsListTable;
 @class CMRThreadsList, BSDBThreadList;
 @class CMRAccessorySheetController;
-@class AddBoardSheetController;
-@class EditBoardSheetController;
+@class AddBoardSheetController, EditBoardSheetController;
+@class BoardListItem;
 
 typedef enum _BSThreadDeletionType {
 	BSThreadAtBrowserDeletionType	= 0,
@@ -78,6 +78,7 @@ typedef enum _BSThreadDeletionType {
 - (IBAction) focus : (id) sender;
 
 - (void) selectRowWhoseNameIs : (NSString *) brdname_;
+- (int) searchRowForItemInDeep: (BoardListItem *) boardItem fromSource: (id) source forView: (NSOutlineView *) olView;
 @end
 
 @interface CMRBrowser(BoardListEditor)

@@ -1,9 +1,11 @@
 2007-02-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Action.m
 	* application/source/browser/CMRBrowser-Delegate.m
 	* application/source/bbs/BoardListItem/FolderBoardListItem.m
 	* application/source/bbs/BoardListItem/BoardListItem.m
 	* application/source/bbs/BoardListItem/SmartBoardList.m
 		掲示板リストの Type-To-Select を再実装し、閉じられているカテゴリの中にある項目でもマッチするようにした。
+		また、他の機能の実装と一部共有できるコードがあったので、まとめた。
 	* application/source/thread/CMRThreadViewer-Link.m
 		逆参照ポップアップを、レス番号を option-クリックすることでも表示できるようにした。
 2007-02-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>

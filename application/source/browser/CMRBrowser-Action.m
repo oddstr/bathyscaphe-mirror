@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.55 2007/02/10 10:22:06 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.56 2007/02/10 12:12:47 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -16,7 +16,7 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 @class IndexField;
 
 @implementation CMRBrowser(Action)
-/*static*/ int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutlineView *bLT)
+static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutlineView *bLT)
 {
 	NSEnumerator *iter_ = [anArray objectEnumerator];
 	id	eachItem;
@@ -39,6 +39,18 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 	return index;
 }
 
+- (int) searchRowForItemInDeep: (BoardListItem *) boardItem fromSource: (id) source forView: (NSOutlineView *) olView
+{
+	int	index = [olView rowForItem: boardItem];
+	
+	if (index == -1) {
+		index = expandAndSelectItem(boardItem, source, olView);
+	}
+	
+	return index;
+}
+
+#pragma mark -
 - (IBAction) focus : (id) sender
 {
     [[self window] makeFirstResponder : [[self threadsListTable] enclosingScrollView]];
@@ -67,15 +79,21 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 		}
 	}
 		
-    index = [bLT rowForItem : selected];
+/*    index = [bLT rowForItem : selected];
     if (-1 == index) {
 		index = expandAndSelectItem(selected, [source boardItems], bLT);
-    } else if ([bLT isRowSelected: index]) { // すでに選択したい行は選択されている
+    } else if ([bLT isRowSelected: index]) { 
 		UTILNotifyName(CMRBrowserThListUpdateDelegateTaskDidFinishNotification);
+	}*/
+	index = [self searchRowForItemInDeep: selected fromSource: [source boardItems] forView: bLT];
+	
+	if (index == -1) return;
+	if ([bLT isRowSelected: index]) { // すでに選択したい行が選択されている
+		UTILNotifyName(CMRBrowserThListUpdateDelegateTaskDidFinishNotification);
+	} else {
+		[bLT selectRowIndexes: [NSIndexSet indexSetWithIndex: index] byExtendingSelection: NO];
 	}
-
-    [bLT selectRowIndexes: [NSIndexSet indexSetWithIndex: index] byExtendingSelection: NO];
-    [bLT scrollRowToVisible : index];
+	[bLT scrollRowToVisible : index];
 }
 
 - (IBAction) reloadThreadsList : (id) sender
