@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.21 2007/02/07 14:04:51 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.22 2007/02/10 10:22:06 tsawada2 Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -422,11 +422,10 @@ ErrInvalidLink:
 }
 
 // Available in Starlight Breaker.
-- (void) threadView: (CMRThreadView *) aView reverseAnchorPopUp: (unsigned int) targetIndex
+- (void) threadView: (CMRThreadView *) aView reverseAnchorPopUp: (unsigned int) targetIndex locationHint: (NSPoint) location_
 {
 	NSRange				indexRange_;
 	NSAttributedString	*contents_;
-	NSPoint				location_;
 	
 	indexRange_ = NSMakeRange(targetIndex, [[self threadLayout] firstUnlaidMessageIndex] - targetIndex);
 	if (0 == indexRange_.length)
@@ -441,11 +440,16 @@ ErrInvalidLink:
 		NSBeep();
 		return;
 	}
-	location_ = [self locationForInformationPopUp];
+
 	[CMRPopUpMgr showPopUpWindowWithContext: contents_
 								  forObject: [self threadIdentifier]
 									  owner: self
 							   locationHint: location_];
+}
+
+- (void) threadView: (CMRThreadView *) aView reverseAnchorPopUp: (unsigned int) targetIndex
+{
+	[self threadView: aView reverseAnchorPopUp: targetIndex locationHint: [self locationForInformationPopUp]];
 }
 
 // CometBlaster Addition
@@ -537,11 +541,16 @@ ErrInvalidLink:
 	        atIndex : (unsigned       ) charIndex
 	   messageIndex : (unsigned       ) aMessageIndex
 {
+	if ([theEvent modifierFlags] & NSAlternateKeyMask) {
+		NSPoint	winLocation = [theEvent locationInWindow];
+		NSPoint	screenLocation = [[aView window] convertBaseToScreen: winLocation]; 
+		[self threadView: aView reverseAnchorPopUp: aMessageIndex locationHint: screenLocation];
+	} else {
 	NSMenu		*menu_;
 	
 	menu_ = [aView messageMenuWithMessageIndex : aMessageIndex];
 	[[menu_ class] popUpContextMenu:menu_ withEvent:theEvent forView:aView];
-	
+	}
 	return YES;
 }
 

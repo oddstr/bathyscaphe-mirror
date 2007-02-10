@@ -94,6 +94,29 @@ static NSString *FolderBoardListItemItemsKey = @"FolderBoardListItemItemsKey";
 	
 	return result;
 }
+// tsawada2 added 2007-02-10
+- (id) itemWithRepresentNameHavingPrefix: (NSString *) prefix deepSearch: (BOOL) isDeep // For Type-To-Select search.
+{
+	id result = nil;
+	NSEnumerator *objEnum;
+	id obj;
+	
+	// NON Thread safe.
+	objEnum = [items objectEnumerator];
+	while ((obj = [objEnum nextObject])) {
+		if ([[obj representName] hasPrefix : prefix]) {
+			result = obj;
+			break;
+		}
+		if (isDeep && [obj hasChildren]) {
+			result = [obj itemWithRepresentNameHavingPrefix : prefix deepSearch : YES];
+		}
+		if (result) break;
+	}
+	
+	return result;
+}
+
 - (id) itemForName : (NSString *) name ofType : (int) type deepSearch : (BOOL) isDeep
 {
 	id result = nil;

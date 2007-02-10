@@ -145,6 +145,11 @@
 	return [topLevelItem itemForRepresentName: name deepSearch : YES];
 }
 
+- (id) itemWithNameHavingPrefix : (id) prefix // tsawada2 2007-02-10 added, For Type-To-Select search.
+{
+	return [topLevelItem itemWithRepresentNameHavingPrefix: prefix deepSearch: YES];
+}
+
 - (id) itemForName : (id) name ofType: (BoardListItemType) aType
 {
 	return [topLevelItem itemForRepresentName: name ofType:aType deepSearch : YES];

@@ -69,6 +69,8 @@ typedef enum _BoardListItemType {
 - (id) description;
 - (id) plist;
 
+// tsawada2 added 2007-02-10
+- (id) itemWithRepresentNameHavingPrefix: (NSString *) prefix deepSearch: (BOOL) isDeep; // For Type-To-Select search.
 @end
 
 @interface BoardListItem (Creation)

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.54 2007/02/04 21:05:08 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.55 2007/02/10 10:22:06 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -16,26 +16,24 @@ extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate
 @class IndexField;
 
 @implementation CMRBrowser(Action)
-static int expandAndSelectItem(NSDictionary *selected, NSArray *anArray, NSOutlineView *bLT)
+/*static*/ int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutlineView *bLT)
 {
 	NSEnumerator *iter_ = [anArray objectEnumerator];
 	id	eachItem;
 	int index = -1;
 	while (eachItem = [iter_ nextObject]) {
-		if (![SmartBoardList isCategory: eachItem]) continue;
-		// カテゴリだったら…
-		if ([bLT isItemExpanded: eachItem]) continue; // すでに開かれているならスルー
-		[bLT expandItem: eachItem]; // 閉じているカテゴリを開く
+		// 「閉じているカテゴリ」だけに興味がある
+		if (NO == [SmartBoardList isCategory: eachItem] || NO == [(FolderBoardListItem *)eachItem hasChildren]) continue;
+
+		if (NO == [bLT isItemExpanded: eachItem]) [bLT expandItem: eachItem];
 
 		index = [bLT rowForItem: selected];
 		if (-1 != index) { // 当たり！
 			return index;
 		} else { // カテゴリ内のサブカテゴリを開いて検査する
-			if ([(FolderBoardListItem *)eachItem hasChildren]) { // カテゴリの中身が空でないことを確認
-				index = expandAndSelectItem(selected, [(FolderBoardListItem *)eachItem items], bLT);
-				if (-1 == index) // このカテゴリのどのサブカテゴリにも見つからなかった
-					[bLT collapseItem: eachItem]; // このカテゴリは閉じる
-			}
+			index = expandAndSelectItem(selected, [(FolderBoardListItem *)eachItem items], bLT);
+			if (-1 == index) // このカテゴリのどのサブカテゴリにも見つからなかった
+				[bLT collapseItem: eachItem]; // このカテゴリは閉じる
 		}
 	}
 	return index;
@@ -50,7 +48,7 @@ static int expandAndSelectItem(NSDictionary *selected, NSArray *anArray, NSOutli
 {
 	NSOutlineView	*bLT = [self boardListTable];
     SmartBoardList       *source;
-    NSDictionary	*selected;
+	BoardListItem	*selected;
     int				index;
 
     source = (SmartBoardList *)[bLT dataSource];
@@ -59,9 +57,9 @@ static int expandAndSelectItem(NSDictionary *selected, NSArray *anArray, NSOutli
 
     if (nil == selected) { // 掲示板を自動的に追加
 		SmartBoardList	*defaultList_ = [[BoardManager defaultManager] defaultList];
-		NSDictionary *willAdd_ = [defaultList_ itemForName : brdname_];
+		BoardListItem *willAdd_ = [defaultList_ itemForName: brdname_];
 		if(nil == willAdd_) {
-			NSLog(@"No data for board %@ found.", brdname_);
+			NSLog(@"No BoardListItem for board %@ found.", brdname_);
 			return;
 		} else {
 			[source addItem : willAdd_ afterObject : nil];
@@ -76,7 +74,7 @@ static int expandAndSelectItem(NSDictionary *selected, NSArray *anArray, NSOutli
 		UTILNotifyName(CMRBrowserThListUpdateDelegateTaskDidFinishNotification);
 	}
 
-    [bLT selectRow : index byExtendingSelection : NO];
+    [bLT selectRowIndexes: [NSIndexSet indexSetWithIndex: index] byExtendingSelection: NO];
     [bLT scrollRowToVisible : index];
 }
 

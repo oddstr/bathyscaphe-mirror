@@ -120,6 +120,12 @@ NSString *BoardListItemUpdateThreadsNotification = @"BoardListItemUpdateThreadsN
 	return [self itemForName : name ofType : type deepSearch : isDeep];
 }
 
+// tsawada2 added 2007-02-10
+- (id) itemWithRepresentNameHavingPrefix: (NSString *) prefix deepSearch: (BOOL) isDeep // For Type-To-Select search.
+{
+	return nil;
+}
+
 - (NSString *) representName
 {
 	return [self name];

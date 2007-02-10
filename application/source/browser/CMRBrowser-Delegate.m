@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.31 2007/02/08 00:20:26 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.32 2007/02/10 10:22:06 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -11,6 +11,7 @@
 #import "missing.h"
 
 extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
+extern int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutlineView *bLT);
 
 @implementation CMRBrowser(Delegate)
 BOOL isCommandKeyDown(unsigned flag_)
@@ -228,8 +229,26 @@ BOOL isOptionKeyDown(unsigned flag_)
 
 - (NSIndexSet *) outlineView: (BSBoardListView *) boardListView findForString: (NSString *) aString
 {
-	NSLog(@"Unsupported");
-	return nil;
+    SmartBoardList       *source;
+	BoardListItem	*matchedItem;
+    int				index;
+
+    source = (SmartBoardList *)[boardListView dataSource];
+    
+    matchedItem = [source itemWithNameHavingPrefix: aString];
+
+    if (nil == matchedItem) {
+//		NSLog(@"outlineView:findForString: -- selected is nil");
+		return nil;
+	}
+		
+    index = [boardListView rowForItem : matchedItem];
+    if (-1 == index) {
+		index = expandAndSelectItem(matchedItem, [source boardItems], boardListView);
+	}
+
+	if (-1 == index) return nil;
+	return [NSIndexSet indexSetWithIndex: index];
 }
 
 #pragma mark NSTableView Delegate

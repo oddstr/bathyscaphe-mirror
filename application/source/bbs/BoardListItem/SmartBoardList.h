@@ -30,6 +30,7 @@
 - (BOOL) containsItemWithName: (NSString     *) name
 					   ofType: (BoardListItemType) aType;
 - (id) itemForName : (id) name;
+- (id) itemWithNameHavingPrefix : (id) prefix; // tsawada2 2007-02-10 added, For Type-To-Select search.
 - (id) itemForName : (id) name ofType: (BoardListItemType) aType;
 
 - (void) item : (id) item
