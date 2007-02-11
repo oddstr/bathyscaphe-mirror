@@ -26,6 +26,8 @@ NSString *BSThreadListUpdateTaskDidFinishNotification = @"BSThreadListUpdateTask
 		target = threadList; //[threadList retain];
 		progress = YES;
 		userCanceled = NO;
+		
+		bbsName = [[[target boardListItem] representName] copy];
 	}
 	
 	return self;
@@ -45,17 +47,17 @@ NSString *BSThreadListUpdateTaskDidFinishNotification = @"BSThreadListUpdateTask
 
 - (NSString *) title
 {
-	return [[target boardListItem] representName];
+	return bbsName;
 }
-- (NSString *) message
-{
-	return [NSString stringWithFormat:@"Updating -- %@", [[target boardListItem] representName]];
-}
+//- (NSString *) message
+//{
+//	return [NSString stringWithFormat:@"Updating -- %@", bbsName];
+//}
 - (NSString *) messageInProgress
 {
 	return [NSString stringWithFormat:
 		NSLocalizedString(@"Updating Thread(%@)", @"Updating Thread(%@)"),
-		[target boardName]];
+		bbsName];
 }
 
 - (IBAction) cancel : (id) sender

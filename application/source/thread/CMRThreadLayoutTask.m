@@ -59,8 +59,6 @@
 }
 - (void) executeWithLayout : (CMRThreadLayout *) layout
 {
-	NSException			*exception_ = nil;
-
 	[CMRMainMessenger target : [CMRTaskManager defaultManager]
 		performSelector : @selector(addTask:)
 			 withObject : self
@@ -68,11 +66,12 @@
 	[CMRMainMessenger postNotificationName : CMRTaskWillStartNotification
 									object : self];
 	
-	NS_DURING
-		
+	@try{
+//		@synchronized([layout textStorage]) {
 		[self doExecuteWithLayout : layout];
-		
-	NS_HANDLER
+//		}
+	}
+	@catch(NSException *localException) {
 		NSString		*name_;
 		
 		name_ = [localException name];
@@ -89,18 +88,14 @@
 		}else{
 			NSLog(@"%@ - %@", name_, localException);
 		}
-		exception_ = [localException retain];
-		
-	NS_ENDHANDLER
-	
-	[self setDidFinished : YES];
-	[CMRMainMessenger postNotificationName : CMRTaskDidFinishNotification
-									object : self];
-
-	// 
-	// 例外が発生した場合はもう一度投げる。
-	// 
-	[[exception_ autorelease] raise];
+		// 例外が発生した場合はもう一度投げる。
+		@throw;
+	}
+	@finally {
+		[self setDidFinished : YES];
+		[CMRMainMessenger postNotificationName : CMRTaskDidFinishNotification
+										object : self];
+	}
 }
 - (void) doExecuteWithLayout : (CMRThreadLayout *) layout
 {

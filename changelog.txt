@@ -1,3 +1,30 @@
+2007-02-11 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardListItem/BoardBoardListItem.m:
+		不要になっていたコメントを削除。
+	* application/source/bbs/BoardListItem/BoardListItem.[h|m]:
+	* application/source/bbs/BoardListItem/FolderBoardListItem.m:
+		hash  メソッドFolderBoardListItem から削除し、BoardListItem で汎用的な hash メソッドを実装。
+	* application/source/bbs/BoardListItem/SmartBoardListItem.m:
+		イニシャライザの安全性向上。
+	* application/source/browser/BSDBThreadList.m:
+		updateCursorメソッドをスレッドセーフにした。
+	* application/source/browser/BSThreadListUpdateTask.[h|m]:
+		進行状況で(null)が表示されることがあったのを解消。
+	* application/source/manager/DatabaseManager.m:
+		データベースファイルのバージョンを2に更新。
+		BoardInfoHistoryTableName 上の BoardIDColumn のインデックスが 
+		UNIQUE インデックスになっていたのを通常のインデックスに変更。
+	* application/source/manager/SQLiteDB.[h|m]:
+		インデックスの削除を行うメソッドを追加。
+	* application/source/manager/DatabaseUpdater.h
+		[新規追加] データベースをアップデートするためのクラス。
+	* application/source/thread/CMRThreadLayoutTask.m:
+		NS_DURING - NS_HANDLER - NS_ENDHANDLER を
+		@try - @catch - @finally に変更。
+	* application/source/thread/CMRThreadUpdatedHeaderTask.m:
+		実際の処理をメインスレッド上で行うように変更。bug #9795 解消(?)
+	* misc/sqlite/os_common.h:
+		sqlite専用NSZone の安全性の向上。
 2007-02-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-Action.m
 	* application/source/browser/CMRBrowser-Delegate.m

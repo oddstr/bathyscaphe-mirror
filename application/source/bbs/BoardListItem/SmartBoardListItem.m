@@ -20,6 +20,10 @@
 - (id) initWithName : (NSString *) inName condition : (id) condition
 {
 	if (self = [super init]) {
+		if(!inName || !condition) {
+			[self release];
+			return nil;
+		}
 		[self setName : inName];
 		mConditions = [condition retain];
 		[self updateQuery];
@@ -88,7 +92,7 @@ static NSString *SmartConditionConditionKey = @"SmartConditionConditionKey";
 - (id) initWithPropertyListRepresentation : (id) rep
 {
 	id v;
-	id name, cond;
+	id name, cond = nil;
 	
 	name = [rep objectForKey:SmartConditionNameKey];
 	

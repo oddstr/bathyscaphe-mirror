@@ -15,7 +15,7 @@
 
 
 @implementation CMRThreadUpdatedHeaderTask
-- (void) doExecuteWithLayout : (CMRThreadLayout *) layout
+- (void) runOnMainThread:(CMRThreadLayout *)layout
 {
 	NSTextStorage		*textStorage_;
 	
@@ -23,9 +23,24 @@
 	
 	[self checkIsInterrupted];
 	[textStorage_ beginEditing];
-		[layout clearLastUpdatedHeader];
-		[layout appendLastUpdatedHeader];
+	[layout clearLastUpdatedHeader];
+	[layout appendLastUpdatedHeader];
 	[textStorage_ endEditing];
+}
+- (void) doExecuteWithLayout : (CMRThreadLayout *) layout
+{
+	[self performSelectorOnMainThread:@selector(runOnMainThread:)
+						   withObject:layout
+						waitUntilDone:NO];
+//	NSTextStorage		*textStorage_;
+//	
+//	textStorage_ = [layout textStorage];
+//	
+//	[self checkIsInterrupted];
+//	[textStorage_ beginEditing];
+//		[layout clearLastUpdatedHeader];
+//		[layout appendLastUpdatedHeader];
+//	[textStorage_ endEditing];
 }
 // CMRTask:
 - (id) identifier

@@ -53,6 +53,7 @@ typedef enum _BoardListItemType {
 
 // default retrun 0.
 - (unsigned) numberOfItem;
+// Raise NSRangeException, if index larger.
 - (id) itemAtIndex : (unsigned) index;
 - (unsigned) indexOfItem : (id) item;
 - (NSArray *) items;

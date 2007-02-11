@@ -213,16 +213,7 @@ static NSLock *_commonInstancesLock = nil;
 	NSMutableString *query;
 	
 	boardID = newBoardID;
-/*	
-	query = [NSMutableString stringWithFormat : @"SELECT * FROM %@ INNER JOIN \n",
-		TempThreadNumberTableName];
-	[query appendFormat : @" (SELECT * FROM %@ INNER JOIN %@\n",
-		ThreadInfoTableName, BoardInfoTableName];
-	[query appendFormat : @"\t\tUSING (%@) )", BoardIDColumn];
-	[query appendFormat : @"\t\tUSING (%@, %@) ", BoardIDColumn, ThreadIDColumn];
-	[query appendFormat : @"WHERE %@ = %d", BoardIDColumn, boardID];
 	
-*/
 	query = [NSMutableString stringWithFormat : @"SELECT * FROM %@ INNER JOIN %@ \n",
 		TempThreadNumberTableName, BoardThreadInfoViewName];
 	[query appendFormat : @"\t\tUSING (%@, %@) ", BoardIDColumn, ThreadIDColumn];

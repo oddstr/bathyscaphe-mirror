@@ -25,6 +25,11 @@ NSString *BoardListItemUpdateThreadsNotification = @"BoardListItemUpdateThreadsN
 	return [super allocWithZone : zone];
 }
 
+- (unsigned)hash
+{
+	return _name ? [_name hash] : [super hash];
+}
+
 - (NSImage *) icon
 {	
 	return _icon;
@@ -78,7 +83,9 @@ NSString *BoardListItemUpdateThreadsNotification = @"BoardListItemUpdateThreadsN
 	return NSNotFound;
 }
 - (id) itemAtIndex : (unsigned) index
-{	
+{
+	[NSException raise:NSRangeException
+				format:@"***%s:index (%d) beyond bounds (0)",sel_getName(_cmd), index];
 	return nil;
 }
 - (NSArray *) items

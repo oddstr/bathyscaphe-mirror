@@ -163,8 +163,6 @@ int progressHandler(void *obj)
 		do {
 			result = sqlite3_close(mDatabase);
 		} while (result == SQLITE_BUSY);
-		[mPath release];
-		mPath = nil;
 		mDatabase = NULL;
 		
 		NSLog(@"End Closing database.");
@@ -457,12 +455,30 @@ id<SQLiteMutableCursor> cursorFromSTMT(sqlite3_stmt *stmt)
 				 isTemporary : YES];
 }
 
+- (NSString *)indexNameForColumn:(NSString *)column inTable:(NSString *)table
+{
+	return [NSString stringWithFormat:@"%@_%@_INDEX", table, column];
+}
 - (BOOL) createIndexForColumn : (NSString *) column inTable : (NSString *) table isUnique : (BOOL) isUnique
 {
-	NSMutableString *sql;
+	NSString *sql;
 	
-	sql = [NSMutableString stringWithFormat : @"CREATE %@ INDEX %@_%@_INDEX ON %@ ( %@ ) ",
-					   isUnique ? @"UNIQUE" : @"", table, column, table, column];
+	sql = [NSString stringWithFormat : @"CREATE %@ INDEX %@ ON %@ ( %@ ) ",
+				isUnique ? @"UNIQUE" : @"",
+				[self indexNameForColumn:column inTable:table], 
+				table, column];
+	
+	[self performQuery : sql];
+	
+	return [self lastErrorID] == 0;
+}
+
+- (BOOL) deleteIndexForColumn:(NSString *)column inTable:(NSString *)table
+{
+	NSString *sql;
+	
+	sql = [NSString stringWithFormat : @"DROP INDEX %@",
+		[self indexNameForColumn:column inTable:table]];
 	
 	[self performQuery : sql];
 	

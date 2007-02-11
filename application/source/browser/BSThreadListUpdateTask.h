@@ -18,6 +18,8 @@
 	BOOL progress;
 	BOOL userCanceled;
 	
+	NSString *bbsName;
+	
 	id cursor;
 }
 

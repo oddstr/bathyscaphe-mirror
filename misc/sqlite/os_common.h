@@ -147,48 +147,37 @@ int sqlite3_open_file_count = 0;
 
 static NSZone *__malloc__zone = NULL;
 
-inline void setSQLiteZone( NSZone *zone )
+void setSQLiteZone( NSZone *zone )
 {
+	if(__malloc__zone) {
+		fprintf(stderr, "SQLite Zone already setting!\n");
+		return;
+	}
 	__malloc__zone = zone;
+}
+
+/*
+* この関数が呼ばれたあとに、__malloc__zone が変更されると、生成／解放のゾーンを別にしてしまう。
+* そのため、この関数が呼ばれた後は __malloc__zone が変更されないようにする。
+*/
+static inline NSZone *malloc_zone()
+{
+	return (__malloc__zone) ? __malloc__zone : (__malloc__zone = NSDefaultMallocZone());
 }
 
 static inline void *malloc_osx( unsigned n )
 {
-	NSZone *zone;
-	
-	if( !__malloc__zone ) {
-		zone = NSDefaultMallocZone();
-	} else {
-		zone = __malloc__zone;
-	}
-	
-	return NSZoneMalloc( zone, n );
+	return NSZoneMalloc( malloc_zone(), n );
 }
 
 static inline void *realloc_osx( void *p, unsigned n )
 {
-	NSZone *zone;
-	
-	if( !__malloc__zone ) {
-		zone = NSDefaultMallocZone();
-	} else {
-		zone = __malloc__zone;
-	}
-	
-	return NSZoneRealloc( zone, p, n );
+	return NSZoneRealloc( malloc_zone(), p, n );
 }
 
 static inline void free_osx( void *p )
 {
-	NSZone *zone;
-	
-	if( !__malloc__zone ) {
-		zone = NSDefaultMallocZone();
-	} else {
-		zone = __malloc__zone;
-	}
-	
-	return NSZoneFree( zone, p );
+	return NSZoneFree( malloc_zone(), p );
 }
 
 #define malloc malloc_osx

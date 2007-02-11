@@ -32,10 +32,6 @@ static NSString *FolderBoardListItemItemsKey = @"FolderBoardListItemItemsKey";
 	[super dealloc];
 }
 
-- (unsigned)hash
-{
-	return [[self name] hash];
-}
 - (BOOL)isEqual:(id)other
 {
 	if(self == other) return YES;
@@ -274,8 +270,8 @@ static NSString *FolderBoardListItemItemsKey = @"FolderBoardListItemItemsKey";
 	while ((obj = [objEnum nextObject])) {
 		if ([obj hasChildren]) {
 			result = [obj parentForItem : item];
+			if (result) break;
 		}
-		if (result) break;
 	}
 	
 	return result;
@@ -298,19 +294,16 @@ static NSString *FolderBoardListItemItemsKey = @"FolderBoardListItemItemsKey";
 			break;
 		}
 		if (isDeep && [obj hasChildren]) {
-			id exception = nil;
-			NS_DURING
+			@try {
 				[obj insertItem : item afterItem : object deepSearch : YES];
-			NS_HANDLER
-				exception = localException;
+			}
+			@catch(NSException *exception) {
 				if (![NSRangeException isEqualTo : [exception name]]) {
-					[exception raise];
+					@throw;
 				}
-			NS_ENDHANDLER
-			
-			if (!exception) {
-				isInserted = YES;
-				break;
+			}
+			@catch(id exp) {
+				@throw;
 			}
 		}
 	}

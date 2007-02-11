@@ -261,27 +261,29 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	
 - (void) updateCursor
 {
-	/* TODO これはスレッドセーフではない。直すべし。 */
-	if(mUpdateTask) {
-		if([mUpdateTask isInProgress]) {
-			[mUpdateTask cancel:self];
-		}
-		[[NSNotificationCenter defaultCenter]
+	@synchronized(self) {
+		if(mUpdateTask) {
+			if([mUpdateTask isInProgress]) {
+				[mUpdateTask cancel:self];
+			}
+			[[NSNotificationCenter defaultCenter]
 				removeObserver:self
 						  name:BSThreadListUpdateTaskDidFinishNotification
 						object:mUpdateTask];
-		[mUpdateTask release];
-	} 
-	{
-		mUpdateTask = [[BSThreadListUpdateTask taskWithBSDBThreadList:self] retain];
-		
-		[[NSNotificationCenter defaultCenter]
+			[mUpdateTask release];
+			mUpdateTask = nil;
+		} 
+		{
+			mUpdateTask = [[BSThreadListUpdateTask taskWithBSDBThreadList:self] retain];
+			
+			[[NSNotificationCenter defaultCenter]
 			addObserver:self
 			   selector:@selector(didFinishiCreateCursor:)
 				   name:BSThreadListUpdateTaskDidFinishNotification
 				 object:mUpdateTask];
+		}
+		[[self worker] push:mUpdateTask];
 	}
-	[[self worker] push:mUpdateTask];
 }
 
 - (void)setCursorOnMainThread:(id)cursor

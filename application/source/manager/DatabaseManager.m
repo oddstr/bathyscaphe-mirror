@@ -8,12 +8,14 @@
 
 #import "DatabaseManager.h"
 
-#import <SQLiteDB.h>
+#import "SQLiteDB.h"
+#import "DatabaseUpdater.h"
 
 #import "ThreadTextDownloader.h"
 #import "CMRDocumentFileManager.h"
 #import "CMRTrashbox.h"
 #import "Browser.h"
+
 NSString *FavoritesTableName = @"Favorites";
 NSString *BoardInfoTableName = @"BoardInfo";
 NSString *ThreadInfoTableName = @"ThreadInfo";
@@ -54,7 +56,7 @@ NSString *TempThreadThreadNumberColumn = @"threadNumber";
 static NSString *ThreadDatabaseKey = @"ThreadDatabaseKey";
 
 //------ static ------//
-static long sDatabaseFileVersion = 1;
+static long sDatabaseFileVersion = 2;
 
 
 @implementation DatabaseManager
@@ -103,7 +105,7 @@ extern void setSQLiteZone(NSZone *zone);
 
 + (Class) databaseFileUpdaterClassFrom:(int)currentVersion to:(int)newVersion
 {
-	return Nil;
+	return [DatabaseUpdater updaterFrom:currentVersion to:newVersion];
 }
 + (int) currentDatabaseFileVersion
 {
@@ -115,18 +117,16 @@ extern void setSQLiteZone(NSZone *zone);
 	}
 	
 	int version = -1;
-	if([db beginTransaction]) {
-		id query = [NSString stringWithFormat : @"SELEST %@ FROM %@",
-			VersionColumn, VersionTableName];
-		id cursor = [db cursorForSQL : query];
-		if ([db lastErrorID] != 0) goto abort;
-		
-		if([cursor rowCount] == 0) {
-			return 0;
-		}
-		id verStr = [cursor valueForColumn:VersionColumn atRow:0];
-		version = [verStr intValue];
+	id query = [NSString stringWithFormat : @"SELECT %@ FROM %@",
+		VersionColumn, VersionTableName];
+	id cursor = [db cursorForSQL : query];
+	if ([db lastErrorID] != 0) goto abort;
+	
+	if([cursor rowCount] == 0) {
+		return 0;
 	}
+	id verStr = [cursor valueForColumn:VersionColumn atRow:0];
+	version = [verStr intValue];
 	
 	return version;
 	
@@ -141,7 +141,8 @@ abort:
 		Class updaterClass = [self databaseFileUpdaterClassFrom:currentDatabaseFileVersion
 															 to:sDatabaseFileVersion];
 		id updater = [[updaterClass alloc] init];
-		[updater update];
+		[updater updateDB];
+		[updater release];
 	}
 }
 + (void) setupDatabase
@@ -492,7 +493,7 @@ abort:
 		
 		isOK = [db createIndexForColumn : BoardIDColumn
 								inTable : BoardInfoHistoryTableName
-							   isUnique : YES];
+							   isUnique : NO];
 		if (!isOK) goto abort;
 		
 		[db commitTransaction];

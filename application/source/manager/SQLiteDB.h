@@ -75,6 +75,9 @@
 
 - (BOOL) createIndexForColumn : (NSString *) column inTable : (NSString *) table isUnique : (BOOL) isUnique;
 
+
+- (BOOL) deleteIndexForColumn:(NSString *)column inTable:(NSString *)table;
+
 @end
 
 @interface SQLiteReservedQuery : NSObject

@@ -599,6 +599,8 @@
 		87F6214D0A906B890082E8DB /* BoardManager-SettingTxt.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F6214C0A906B890082E8DB /* BoardManager-SettingTxt.m */; };
 		87F621A10A9186920082E8DB /* BoardManager-BSAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F621A00A9186920082E8DB /* BoardManager-BSAddition.m */; };
 		F424609908462452000803EA /* Scripts.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F424609808462452000803EA /* Scripts.tiff */; };
+		F467955B0B74CD40001B0001 /* DatabaseUpdater.h in Headers */ = {isa = PBXBuildFile; fileRef = F46795590B74CD40001B0001 /* DatabaseUpdater.h */; };
+		F467955C0B74CD40001B0001 /* DatabaseUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = F467955A0B74CD40001B0001 /* DatabaseUpdater.m */; };
 		F472216E0B26EF8F004FAD24 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F472216D0B26EF8F004FAD24 /* OgreKit.framework */; };
 		F47222E30B270D31004FAD24 /* OgreKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F472216D0B26EF8F004FAD24 /* OgreKit.framework */; };
 		F47361C00AFF8758009B6189 /* BoardManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC2704C698FA00A80005 /* BoardManager.h */; };
@@ -1864,6 +1866,8 @@
 		F41308B90A8E27A400740620 /* BSThreadsListOPTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSThreadsListOPTask.m; sourceTree = "<group>"; };
 		F424609808462452000803EA /* Scripts.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Scripts.tiff; sourceTree = "<group>"; };
 		F4369C0C0AFF7CFC005ABD68 /* libsqlite.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libsqlite.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F46795590B74CD40001B0001 /* DatabaseUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseUpdater.h; sourceTree = "<group>"; };
+		F467955A0B74CD40001B0001 /* DatabaseUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabaseUpdater.m; sourceTree = "<group>"; };
 		F472216D0B26EF8F004FAD24 /* OgreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OgreKit.framework; path = ../frameworks/OgreKit/build/Release/OgreKit.framework; sourceTree = SOURCE_ROOT; };
 		F473638F0AFF8758009B6189 /* Starlight Breaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Starlight Breaker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F47A664B0AFF7EE600EB5137 /* alter.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = alter.c; path = ../misc/sqlite/alter.c; sourceTree = SOURCE_ROOT; };
@@ -2583,6 +2587,8 @@
 		87D64F9C0821141D00C44651 /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				F46795590B74CD40001B0001 /* DatabaseUpdater.h */,
+				F467955A0B74CD40001B0001 /* DatabaseUpdater.m */,
 				F47A66D70AFF808D00EB5137 /* DatabaseManager-DatabaseAccess.m */,
 				F47A66D80AFF808D00EB5137 /* DatabaseManager.h */,
 				F47A66D90AFF808D00EB5137 /* DatabaseManager.m */,
@@ -3847,6 +3853,7 @@
 				F474D8610B514AA30071A03C /* CMRMessageSample.h in Headers */,
 				87D8FBC30B52587800CCB933 /* NSIndexSet+BSAddition.h in Headers */,
 				879B0B930B6239EF00EFD6D0 /* BSThreadInfoPanelController.h in Headers */,
+				F467955B0B74CD40001B0001 /* DatabaseUpdater.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4806,6 +4813,7 @@
 				87D8FBC40B52587900CCB933 /* NSIndexSet+BSAddition.m in Sources */,
 				879B0B940B6239EF00EFD6D0 /* BSThreadInfoPanelController.m in Sources */,
 				878088D00B6C773700027091 /* CMRThreadsList-DragDropOp.m in Sources */,
+				F467955C0B74CD40001B0001 /* DatabaseUpdater.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
