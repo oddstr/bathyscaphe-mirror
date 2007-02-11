@@ -104,7 +104,7 @@
 				NSToolbarSeparatorItemIdentifier,
 				kSaveAsDraftIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,
-				[self pIndicatorItemIdentifier],
+//				[self pIndicatorItemIdentifier],
 				kBeLoginIdentifier,
 				nil];
 }
@@ -114,7 +114,7 @@
 				kSendMessageIdentifier,
 				kSaveAsDraftIdentifier,
 				kBeLoginIdentifier,
-				[self pIndicatorItemIdentifier],
+//				[self pIndicatorItemIdentifier],
 				NSToolbarSeparatorItemIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,
 				NSToolbarSpaceItemIdentifier,

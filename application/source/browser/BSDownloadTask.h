@@ -20,7 +20,7 @@
 //	BOOL isIndeterminate;
 	BOOL isFinished;
 	
-//	unsigned contLength;
+	long long contLength;
 	unsigned currentLength;
 	NSMutableData *receivedData;
 	

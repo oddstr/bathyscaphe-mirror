@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRStatusLine.m,v 1.11 2007/01/20 19:41:32 tsawada2 Exp $
+  * $Id: CMRStatusLine.m,v 1.12 2007/02/11 17:13:48 tsawada2 Exp $
   * 
   * CMRStatusLine.m
   *
@@ -11,7 +11,6 @@
 #import "CMRTask.h"
 #import "CMRTaskManager.h"
 #import "missing.h"
-//#import "RBSplitView.h"
 
 #define kLoadNibName				@"CMRStatusView"
 
@@ -39,7 +38,6 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 }
 - (void) dealloc
 {
-	//[self setWindow : nil];
 	[self removeFromNotificationCenter];
 
 	[_identifier release];
@@ -64,12 +62,6 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 {
     return _progressIndicator;
 }
-/*
-- (NSWindow *) window
-{
-	return _window;
-}
-*/
 - (NSString *) identifier
 {
 	return _identifier;
@@ -91,130 +83,7 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 {
 	_delegate = aDelegate;
 }
-/*
-#pragma mark Window
 
-- (void) setWindow : (NSWindow *) aWindow
-{
-	NSLog(@"method setWindow: of CMRStatusLine will be deprecated in BathyScaphe 1.5.");
-	[self setWindow : aWindow
-			visible : [[self preferencesObject] 
-						  boolForKey : [self statusLineShownUserDefaultsKey]
-						defaultValue : NO]];
-}
-- (void) setWindow : (NSWindow *) aWindow
-		   visible : (BOOL      ) shown
-{
-	NSLog(@"method setWindow: visible: of CMRStatusLine will be deprecated.");
-	_window = aWindow;
-	if(nil == _window) return;
-	
-	[self setVisible:shown animate:NO];
-}
-
-- (void) changeWindowFrame : (NSWindow *) aWindow
-                   animate : (BOOL      ) animateFlag
-           statusLineShown : (BOOL      ) willBeShown
-{
-	NSLog(@"method changeWindowFrame: animate: statusLineShown: will be deprecated.");
-	NSRect		windowFrame_  = [aWindow frame];
-	NSRect		lineFrame_    = [[self statusLineView] frame];
-	float		statusBarHeight_;
-	
-	if(willBeShown){
-		
-		// ウィンドウの下側にステータスバーを配置するが、その際
-		// ウィンドウのリサイズ部分を避ける
-		// resize indicatorのサイズが分からないので
-		// NSScrollerの幅で代用
-		lineFrame_.size.width = windowFrame_.size.width;
-		lineFrame_.size.width -= [NSScroller scrollerWidth];
-		
-		lineFrame_.origin = NSZeroPoint;
-		
-		[[self statusLineView] setFrame : lineFrame_];
-	}
-
-	// ビューの「境界線」が重なって太くならないように、1ピクセル余分に出し入れする
-	statusBarHeight_ = NSHeight(lineFrame_)+1 ;
-	
-	{
-		NSEnumerator	*iter_;
-		NSView			*view_;
-		
-		iter_ = [[[[self window] contentView] subviews] objectEnumerator];
-		while(view_ = [iter_ nextObject]){
-			NSRect		newRect;
-
-			if(view_ == [self statusLineView]) continue;
-			
-			if (willBeShown) {
-				// 最下部に接して配置されているビューの height を縮めて下部に余白を作り、そこに
-				// ステータスバーを押し込むと考える（ウインドウ自体のサイズは変えない）。
-				if([view_ frame].origin.y <= 0) {
-
-					float tmp_ = 0.0;
-				
-					if([view_ class] == [RBSplitView class]) {
-						// RBSplitView のリサイズ時の不審な挙動対策。RBSplitView の frame を
-						// 変更する前に、RBSplitSubview の dimension（幅）を記憶しておき、
-						// frame 変更後にその dimension に再設定してやる。
-						tmp_ = [[(RBSplitView *)view_ subviewWithIdentifier : @"boards"] dimension];
-					}
-					
-					newRect = [view_ frame];
-					newRect.origin.y += statusBarHeight_;
-					newRect.size.height -= statusBarHeight_;
-					[view_ setFrame : newRect];
-					
-					if([view_ class] == [RBSplitView class]) {
-						[[(RBSplitView *)view_ subviewWithIdentifier : @"boards"] setDimension : tmp_];
-					}
-				}
-
-			} else {
-			
-				// ステータスバーをよけて配置されていたビューの height を拡大して、最下部に接地させる。
-
-				if([view_ frame].origin.y <= statusBarHeight_) {
-					newRect = [view_ frame];
-					newRect.origin.y -= statusBarHeight_;
-					newRect.size.height += statusBarHeight_;
-					[view_ setFrame : newRect];
-				}
-			}
-		}
-	}
-	
-}
-
-- (BOOL) isVisible
-{
-	//return ([[self statusLineView] window] != nil);
-	return NO;
-}
-
-- (void) setVisible : (BOOL) shown
-            animate : (BOOL) isAnimate
-{
-	NSLog(@"method setVisible: animate: will be deprecated.");
-	if(shown == [self isVisible]) return;
-	
-	if(NO == [self isVisible]){
-		[[[self window] contentView] addSubview : [self statusLineView]];
-	}else{
-		[[self statusLineView] removeFromSuperviewWithoutNeedingDisplay];
-	}
-	[self changeWindowFrame : [self window]
-					animate : isAnimate
-			statusLineShown : [self isVisible]];
-	
-	// User Defaults
-	[[NSUserDefaults standardUserDefaults] 
-			setBool : [self isVisible]
-			 forKey : [self statusLineShownUserDefaultsKey]];
-}
-*/
 - (void) setInfoText : (id) aText;
 {
     id        v = aText;
@@ -233,33 +102,7 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 {
 	[[CMRTaskManager defaultManager] cancel : sender];
 }
-/*- (IBAction) toggleStatusLineShown : (id) sender
-{
-	NSLog(@"method toggleStatusLineShown: will be deprecated.");
-	//[self setVisible:(NO == [self isVisible]) animate:YES];
-}*/
-/*
-#pragma mark User Defaults
 
-- (NSString *) userDefaultsKeyWithKey : (NSString *) key
-{
-	if(nil == key || nil == [self identifier])
-		return key;
-	
-	return [NSString stringWithFormat :
-						@"%@ %@",
-						[self identifier],
-						key];
-}
-- (NSString *) statusLineShownUserDefaultsKey
-{
-	return [self userDefaultsKeyWithKey : CMRStatusLineShownKey];
-}
-- (id) preferencesObject
-{
-	return [NSUserDefaults standardUserDefaults];
-}
-*/
 #pragma mark Other Actions
 
 - (void) setupUIComponents
@@ -273,20 +116,30 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 	
 - (void) updateStatusLineWithTask: (id<CMRTask>) aTask
 {
-    if ([[CMRTaskManager defaultManager] isInProgress]) {
-        [[self progressIndicator] startAnimation: nil];
-		[[self statusTextField] setHidden: NO];
+	NSProgressIndicator *pgi = [self progressIndicator];
+	
+    if ([aTask isInProgress]) {
+		if ([aTask amount] != -1) {
+			[pgi setIndeterminate: NO];
+			[pgi setDoubleValue: [aTask amount]];
+		} else {
+			[pgi setIndeterminate: YES];
+			[pgi startAnimation: nil];
+		}
+		[[self statusTextField] setStringValue: ([aTask message] ? [aTask message] : @"")];
+		[[self statusLineView] setHidden: NO];
+
 		if ([self delegate] && [[self delegate] respondsToSelector: @selector(statusLineDidShowTheirViews:)]) {
 			[[self delegate] statusLineDidShowTheirViews: self];
 		}
-		[[self statusTextField] setStringValue: ([aTask message] ? [aTask message] : @"")];
     } else {
-        [[self progressIndicator] stopAnimation: nil];
-		[[self statusTextField] setHidden: YES];
+        [pgi stopAnimation: nil];
+		[[self statusLineView] setHidden: YES];
+		[[self statusTextField] setStringValue: @""];
+
 		if ([self delegate] && [[self delegate] respondsToSelector: @selector(statusLineDidHideTheirViews:)]) {
 			[[self delegate] statusLineDidHideTheirViews: self];
 		}
-		[[self statusTextField] setStringValue: @""];
     }
 }
 

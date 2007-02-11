@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRStatusLineWindowController.m,v 1.11 2007/01/07 17:04:24 masakih Exp $
+  * $Id: CMRStatusLineWindowController.m,v 1.12 2007/02/11 17:13:48 tsawada2 Exp $
   * BathyScaphe
   *
   * ãå CMRStatusLineWindowController Ç∆ CMRToolbarWindowController Çìùçá
@@ -107,7 +107,7 @@
 }
 
 // delegate
-- (void) windowWillRunToolbarCustomizationPalette: (NSWindow *) sender
+/*- (void) windowWillRunToolbarCustomizationPalette: (NSWindow *) sender
 {
 	[[[self statusLine] progressIndicator] setDisplayedWhenStopped : YES];
 }
@@ -115,7 +115,7 @@
 - (void)windowDidEndSheet:(NSNotification *)aNotification
 {
 	[[[self statusLine] progressIndicator] setDisplayedWhenStopped : NO];
-}
+}*/
 @end
 
 @implementation CMRStatusLineWindowController(ViewInitializer)

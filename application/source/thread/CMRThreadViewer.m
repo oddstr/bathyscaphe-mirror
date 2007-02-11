@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.37 2007/02/06 13:36:37 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.38 2007/02/11 17:13:48 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -446,7 +446,7 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 	id			object_;
 	unsigned	nReaded = NSNotFound;
 	unsigned	nLoaded = NSNotFound;
-	
+
 	UTILAssertNotificationName(
 		aNotification,
 		CMRThreadComposingDidFinishNotification);

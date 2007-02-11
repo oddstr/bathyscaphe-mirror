@@ -1,3 +1,34 @@
+2007-02-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/Localizable.strings
+		とりあえずいくつかローカライズ文字列が足りないのを補った。
+	* application/source/browser/BSDownloadTask.m
+		subject.txt ダウンロード中に、プログレスインジケータが床屋さんではなく棒グラフになるよう、
+		必要なデータを提供するようにした（-[<CMRTask> amount] の実装）。
+		また、User-Agent は +[NSBundle monazillaUserAgent] を使うようにした。
+	* application/source/thread/CMRThreadViewer-ViewAccessor.m
+	* application/source/view/CMRStatusLine.m
+	* application/source/window/CMRBrowserTbDelegate.m
+	* application/source/window/CMRReplyControllerTbDelegate.m
+	* application/source/window/CMRStatusLineWindowController.m
+	* application/source/window/CMRThreadViewerTbDelegate.m
+	* application/source/window/CMRToolbarDelegateImp.m
+	* application/Resources/Japanese.lproj/CMRStatusView.nib
+		「進行状況」プログレスインジケータ関係の再編成：
+		- ナビゲーションバーのちらつきを押さえる工夫を少し施した（状況によってはあまり効果が無い）。
+		- プログレスインジケータは、（再び）ツールバーからナビゲーションバーに移動した。
+		- しかもスピンスタイルから（再び）バースタイルに変更された。
+		- ナビゲーションバーの描画の無駄を少し減らした。
+		以上の変更は、
+		- BathyScaphe 1.3 以降では、ナビゲーションバーは常に表示されており、ツールバーより
+		　ナビゲーションバーにプログレスインジケータを置く方が適切な状況に変化したこと。
+		- バースタイルで進行状況をより具体的に表示した方が、心理的にスピード感を表現できる（かもしれない）こと。
+		- 「チラツクのがイラツク」というイライラした苦情が寄せられていること。
+		などを総合的に判断してのことである。
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/thread/CMRThreadViewer.m
+	* application/source/view/popup/CMXPopUpWindowManager.m
+		コメントアウトしていた部分を削除。
 2007-02-11 masakih <masakih@users.sourceforge.jp>
 	* application/source/bbs/BoardListItem/BoardBoardListItem.m:
 		不要になっていたコメントを削除。

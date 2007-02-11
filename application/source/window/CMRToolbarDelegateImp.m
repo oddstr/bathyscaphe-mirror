@@ -1,14 +1,14 @@
 //:CMRToolbarDelegateImp.m
 #import "CMRToolbarDelegateImp_p.h"
-#import "CMRStatusLine.h"
+//#import "CMRStatusLine.h"
 #import "CMRStatusLineWindowController.h"
 //#import "BSProgressIndicatorTbItem.h"
 
 // プログレスバー
 static NSString *const st_pIndicatorItemIdentifier		= @"progressIndicator";
-static NSString *const st_pIndicatorItemLabelKey		= @"progressIndicator Label";
-static NSString *const st_pIndicatorItemPaletteLabelKey	= @"progressIndicator Palette Label";
-static NSString *const st_pIndicatorItemToolTipKey		= @"progressIndicator ToolTip";
+//static NSString *const st_pIndicatorItemLabelKey		= @"progressIndicator Label";
+//static NSString *const st_pIndicatorItemPaletteLabelKey	= @"progressIndicator Palette Label";
+//static NSString *const st_pIndicatorItemToolTipKey		= @"progressIndicator ToolTip";
 
 static NSString *const st_localizableStringsTableName	= @"ToolbarItems";
 
@@ -26,6 +26,7 @@ static NSString *const st_localizableStringsTableName	= @"ToolbarItems";
 
 - (NSToolbarItem *) itemForItemIdentifier : (NSString *) anIdentifier
 {
+	if ([anIdentifier isEqualToString: st_pIndicatorItemIdentifier]) return nil;
 	return [self itemForItemIdentifier:anIdentifier itemClass:[NSToolbarItem class]];
 }
 
@@ -113,7 +114,7 @@ static NSString *const st_localizableStringsTableName	= @"ToolbarItems";
 @implementation CMRToolbarDelegateImp(Protected)
 - (void) initializeToolbarItems : (NSWindow *) aWindow
 {
-	NSToolbarItem			*item_;
+/*	NSToolbarItem			*item_;
 	NSWindowController		*wcontroller_;
 	NSView					*progressIndicator_;
 	
@@ -124,13 +125,13 @@ static NSString *const st_localizableStringsTableName	= @"ToolbarItems";
 	[progressIndicator_ retain];
 	[progressIndicator_ removeFromSuperviewWithoutNeedingDisplay];
 	
-	/*item_ = [self appendToolbarItemWithClass : [BSProgressIndicatorTbItem class]
+	item_ = [self appendToolbarItemWithClass : [BSProgressIndicatorTbItem class]
 							  itemIdentifier : [self pIndicatorItemIdentifier]
 						   localizedLabelKey : st_pIndicatorItemLabelKey
 					localizedPaletteLabelKey : st_pIndicatorItemPaletteLabelKey
 						 localizedToolTipKey : st_pIndicatorItemToolTipKey
 									  action : nil
-									  target : nil];*/
+									  target : nil];
 	item_ = [self appendToolbarItemWithItemIdentifier : [self pIndicatorItemIdentifier]
 									localizedLabelKey : st_pIndicatorItemLabelKey
 							 localizedPaletteLabelKey : st_pIndicatorItemPaletteLabelKey
@@ -150,7 +151,7 @@ static NSString *const st_localizableStringsTableName	= @"ToolbarItems";
 		[item_ setMinSize : size_];
 		[item_ setMaxSize : size_];
 	}
-	[progressIndicator_ release];
+	[progressIndicator_ release];*/
 }
 
 - (void) configureToolbar : (NSToolbar *) aToolbar

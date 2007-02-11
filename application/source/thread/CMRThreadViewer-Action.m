@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.37 2007/01/31 18:02:25 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.38 2007/02/11 17:13:48 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -143,7 +143,7 @@
 	
 	if (NO == [CMRPref isOnlineMode] || NO == [self shouldShowContents])
 		return;
-	
+
 	task = [[CMRThreadDownloadTask alloc] initWithThreadViewer : self];
 	[[self threadLayout] push : task];
 	[task release];
@@ -167,57 +167,6 @@
 	loc = [[docView_ window] convertBaseToScreen : loc];
 	return loc;
 }
-/*
-- (NSString *) templateFilepathForInfoPopUp
-{
-	NSBundle	*bundles[] = {
-			[NSBundle applicationSpecificBundle],
-			[NSBundle mainBundle],
-			nil};
-	NSBundle	**p;
-	NSString	*s = nil;
-	
-	for (p = bundles; *p != nil; p++)
-		if ((s = [*p pathForResourceWithName : kThreadInfoTempFile]) != nil)
-			break;
-	
-	return s;
-}
-- (NSAttributedString *) templateForInfoPopUp
-{
-	NSString			*filepath_;
-	NSAttributedString	*template_;
-	
-	filepath_ = [self templateFilepathForInfoPopUp];
-	template_ = filepath_ ? [NSAttributedString alloc] : nil;
-	template_ = [template_ initWithPath:filepath_ documentAttributes:NULL];
-	
-	return [template_ autorelease];
-}
-*/
-//- (IBAction) showThreadAttributes : (id) sender
-//{
-/*	NSMutableAttributedString	*tmp;
-	NSAttributedString			*template_;
-	NSPoint						location_;
-	
-	template_ = [self templateForInfoPopUp];
-	if (nil == template_)
-		return NSLog(@"ThreadInfo template not found.");
-	
-	tmp = SGTemporaryAttributedString();
-	[tmp setAttributedString : template_];
-	
-	location_ = [self locationForInformationPopUp];
-	
-	[CMRThreadAttributes replaceKeywords: [tmp mutableString] attributes: [self threadAttributes]];
-	[CMRPopUpMgr showPopUpWindowWithContext : tmp
-								  forObject : [self path]
-									  owner : self
-							   locationHint : location_];
-	[tmp deleteCharactersInRange : [tmp range]];*/
-//	[[BSThreadInfoPanelController sharedInstance] showWindow: sender];
-//}
 
 - (IBAction) copyThreadAttributes : (id) sender
 {
@@ -370,20 +319,6 @@
 
 #pragma mark Other IBActions
 
-// AA
-/*- (IBAction) toggleAAThread : (id) sender
-{
-	[self setAAThread : ![self isAAThread]];
-}*/
-/*- (IBAction) toggleDatOchiThread : (id) sender
-{
-	[self setDatOchiThread : ![self isDatOchiThread]];
-}
-- (IBAction) toggleMarkedThread : (id) sender
-{
-	[self setMarkedThread : ![self isMarkedThread]];
-}*/
-
 /* NOTE: It is a history item's action. */	 
 - (IBAction) showThreadWithMenuItem : (id) sender	 
 {
@@ -394,16 +329,7 @@
 		historyItem = o;
 	}
 
-//	if ([sender isKindOfClass: [NSMenuItem class]] && ([NSEvent currentCarbonModifierFlags] & NSCommandKeyMask)) {
-//		NSDictionary	*info_;
-//		NSString *path_ = [historyItem threadDocumentPath];
-		
-//		info_ = [NSDictionary dictionaryWithObjectsAndKeys: 
-//						[historyItem BBSName], ThreadPlistBoardNameKey, [historyItem identifier], ThreadPlistIdentifierKey, nil];
-//		[CMRThreadDocument showDocumentWithContentOfFile: path_ contentInfo: info_];	
-//	} else {
-		[self setThreadContentWithThreadIdentifier: historyItem];
-//	}
+	[self setThreadContentWithThreadIdentifier: historyItem];
 }
 
 // Save window frame
@@ -506,13 +432,13 @@
 		if (CMRFavoritesOperationNone == operation_) {
 			continue;	
 		} else if (CMRFavoritesOperationLink == operation_) {
-			if([threadAttributes_ count] < 6) {
+//			if([threadAttributes_ count] < 6) {
 				// Maybe added from separate document window.
 				[fM_ addFavoriteWithFilePath: path_];
-			} else {
+//			} else {
 				// Maybe added from browser or 3-pain viewer.
-				[fM_ addFavoriteWithThread: threadAttributes_];
-			}
+//				[fM_ addFavoriteWithThread: threadAttributes_];
+//			}
 		} else {
 			[fM_ removeFromFavoritesWithFilePath: path_];
 		}

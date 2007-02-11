@@ -144,7 +144,7 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 				NSToolbarSeparatorItemIdentifier,
 				[self replyItemIdentifier],
 				NSToolbarFlexibleSpaceItemIdentifier,
-				[self pIndicatorItemIdentifier],
+//				[self pIndicatorItemIdentifier],
 				st_searchThreadItemIdentifier,
 				nil];
 }
@@ -163,7 +163,7 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 				[self launchCMLFIdentifier],
 				[self scaleSegmentedControlIdentifier],
 				[self historySegmentedControlIdentifier],
-				[self pIndicatorItemIdentifier],
+//				[self pIndicatorItemIdentifier],
 				NSToolbarSeparatorItemIdentifier,
 				NSToolbarSpaceItemIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,

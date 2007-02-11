@@ -73,6 +73,14 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 {
 	return currentLength;
 }
+- (void)setContLength:(double)i
+{
+	contLength = i;
+}
+- (double)contLength
+{
+	return contLength;
+}
 - (NSData *)receivedData
 {
 	return receivedData;
@@ -104,6 +112,7 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 	[receivedData release];
 	receivedData = nil;
 	[self setCurrentLength:0];
+	[self setContLength:0];
 	
 	NSMutableURLRequest *request;
 	
@@ -112,7 +121,7 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 		[self postNotificationWithName:BSDownloadTaskInternalErrorNotification];
 		return;
 	}
-	[request setValue:@"Monazilla/1.0 (BS Another Story/0.3)"
+	[request setValue:[NSBundle monazillaUserAgent]//@"Monazilla/1.0 (Starlight Breaker/1.5 SBx)"
    forHTTPHeaderField:@"User-Agent"];
 	if(method) {
 		[request setHTTPMethod : method];
@@ -164,10 +173,15 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 }
 - (NSString *) messageInProgress
 {
-	return [NSString stringWithFormat:NSLocalizedString(@"Download url(%@) (%.2fk)", "Download url(%@) (%.2fk)"),
+	return [NSString stringWithFormat:NSLocalizedString(@"Download url(%@) (%.1fk)", "Download url(%@) (%.1fk)"),
 		[self url], [self currentLength] / 1024.0];
 }
-
+- (double) amount
+{
+	if ([self contLength] == 0) return -1;
+	double rate = ((double)[self currentLength] / [self contLength]) * 100.0;
+	return rate >= 100.0 ? 100.0 : rate;
+}
 @end
 
 
@@ -222,6 +236,7 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 	[self postNotificaionWithResponseDontFinish:response];
 	
 	[self setCurrentLength:0];
+	[self setContLength:[response expectedContentLength]];
 }
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {

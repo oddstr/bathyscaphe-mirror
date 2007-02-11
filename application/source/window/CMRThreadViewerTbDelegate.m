@@ -353,7 +353,7 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 				NSToolbarFlexibleSpaceItemIdentifier,
 				[self orderFrontBrowserItemIdentifier],
 				NSToolbarSeparatorItemIdentifier,
-				[self pIndicatorItemIdentifier],
+//				[self pIndicatorItemIdentifier],
 				[self replyItemIdentifier],
 				nil];
 }
@@ -370,7 +370,7 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 				[self scaleSegmentedControlIdentifier],
 				[self historySegmentedControlIdentifier],
 				[self orderFrontBrowserItemIdentifier],
-				[self pIndicatorItemIdentifier],
+//				[self pIndicatorItemIdentifier],
 				NSToolbarSeparatorItemIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,
 				NSToolbarSpaceItemIdentifier,

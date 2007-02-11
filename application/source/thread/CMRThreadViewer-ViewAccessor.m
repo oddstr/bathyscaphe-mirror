@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.15 2007/02/07 13:26:13 tsawada2 Exp $
+  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.16 2007/02/11 17:13:48 tsawada2 Exp $
   * 
   * CMRThreadViewer-ViewAccessor.m
   *
@@ -91,7 +91,6 @@
 										   with : containerView_];
 	[m_windowContentView release];
 	m_windowContentView = nil;
-	//[m_windowContentView addSubview : containerView_];
 	
 	[containerView_ release];
 	
@@ -196,62 +195,44 @@
 }
 
 #pragma mark NavigationBar
-/*+ (float) navBarSubviewsAdjustValue
-{
-	return 1.0;
-}*/
-
 - (void) layoutNavigationBarComponents
 {
-	NSRect	idxStepperFrame, scrollViewFrame, idxPopupperFrame, textFieldFrame;
+	NSRect	idxStepperFrame, scrollViewFrame, idxPopupperFrame, statusBarFrame;
 	NSPoint origin_;
-	float	dy, txtFldHeight;
 
-	idxStepperFrame = [[[self indexingStepper] contentView] frame];
 	scrollViewFrame = [[self navigationBar] frame];
-
+	idxStepperFrame = [[[self indexingStepper] contentView] frame];
+	idxPopupperFrame = [[[self indexingPopupper] contentView] frame];
+	statusBarFrame = [[[self statusLine] statusLineView] frame];
 	origin_ = scrollViewFrame.origin;
-	dy = 1.0;//[[self class] navBarSubviewsAdjustValue];
-	
-	origin_.y += dy;
+
 	origin_.x = NSMaxX(scrollViewFrame);
-	
 	origin_.x -= NSWidth(idxStepperFrame);
 	origin_.x -= 15.0;
 	
 	idxStepperFrame.origin = origin_;
+	idxStepperFrame.origin.y += 1.0;
 	[[[self indexingStepper] contentView] setFrame: idxStepperFrame];
 	
-	idxPopupperFrame = [[[self indexingPopupper] contentView] frame];
-	
 	origin_.x -= NSWidth(idxPopupperFrame);
-	
-	idxPopupperFrame.origin = NSMakePoint(origin_.x, origin_.y-1);
+	idxPopupperFrame.origin = NSMakePoint(origin_.x, origin_.y);
 	[[[self indexingPopupper] contentView] setFrame: idxPopupperFrame];
-	
-	textFieldFrame = [[[self statusLine] statusTextField] frame];
-	txtFldHeight = NSHeight(textFieldFrame);
-	textFieldFrame.origin = NSMakePoint(scrollViewFrame.origin.x+6.0, (scrollViewFrame.size.height - txtFldHeight) / 2);
-	textFieldFrame.size.width = NSWidth(scrollViewFrame) - 21.0;
-	[[[self statusLine] statusTextField] setFrame: textFieldFrame];
-	
+
+	// statusLineView ‚Ì height ‚Í‚ ‚ç‚©‚¶‚ß navigationBar ‚Ì height ‚Æ‘µ‚¦‚ç‚ê‚Ä‚¢‚é‚Æ‰¼’è‚µ‚Ä‚¢‚é
+	statusBarFrame.size.width = NSWidth(scrollViewFrame) - 15.0;
+	statusBarFrame.origin = scrollViewFrame.origin;
+	[[[self statusLine] statusLineView] setFrame: statusBarFrame];
 }
 
 - (void) setupNavigationBar
 {
-	id	statusTxtFld;
-	statusTxtFld = [[self statusLine] statusTextField];
-	[statusTxtFld retain];
-	[statusTxtFld removeFromSuperviewWithoutNeedingDisplay];
-
 	[[self indexingPopupper] setDelegate: self];
 	[[self indexingStepper] setDelegate : self];
 
 	[[self navigationBar] addSubview: [[self indexingStepper] contentView]];
 	[[self navigationBar] addSubview: [[self indexingPopupper] contentView]];
 	
-	[[self navigationBar] addSubview: statusTxtFld];
-	[statusTxtFld release];
+	[[self navigationBar] addSubview: [[self statusLine] statusLineView]];
 	
 	[self layoutNavigationBarComponents];
 }
@@ -268,13 +249,13 @@
 		[[[self indexingPopupper] contentView] setHidden: YES];
 	}
 	
-	[[self navigationBar] setNeedsDisplay: YES];
+	[[self navigationBar] setNeedsDisplayInRect: [[[self statusLine] statusLineView] frame]];
 }
 
 - (void) statusLineDidHideTheirViews: (CMRStatusLine *) statusLine
 {
-	if ([self statusLine] != statusLine) {
-		NSLog(@"WARNING: statusLineDidHideTheirViews");
+	if ([self statusLine] != statusLine || [[self threadLayout] isInProgress]) {
+//		NSLog(@"WARNING: statusLineDidHideTheirViews");
 		return;
 	}
 	
@@ -283,7 +264,7 @@
 		[[[self indexingPopupper] contentView] setHidden: NO];
 	}
 	
-	[[self navigationBar] setNeedsDisplay: YES];
+	[[self navigationBar] setNeedsDisplayInRect: [[[self statusLine] statusLineView] frame]];
 }
 
 

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.56 2007/02/10 12:12:47 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.57 2007/02/11 17:13:48 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -78,15 +78,8 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 			selected = [source itemForName : brdname_];
 		}
 	}
-		
-/*    index = [bLT rowForItem : selected];
-    if (-1 == index) {
-		index = expandAndSelectItem(selected, [source boardItems], bLT);
-    } else if ([bLT isRowSelected: index]) { 
-		UTILNotifyName(CMRBrowserThListUpdateDelegateTaskDidFinishNotification);
-	}*/
-	index = [self searchRowForItemInDeep: selected fromSource: [source boardItems] forView: bLT];
-	
+
+	index = [self searchRowForItemInDeep: selected fromSource: [source boardItems] forView: bLT];	
 	if (index == -1) return;
 	if ([bLT isRowSelected: index]) { // すでに選択したい行が選択されている
 		UTILNotifyName(CMRBrowserThListUpdateDelegateTaskDidFinishNotification);
@@ -640,17 +633,16 @@ NSTableView action, doubleAction はカラムのクリックでも
 }
 - (IBAction) boardListViewDoubleAction : (id) sender
 {
-	int	rowNum;
-	id	bLT = [self boardListTable];
+	UTILAssertKindOfClass(sender, NSOutlineView);
 
-	rowNum = [bLT clickedRow];
+	int	rowNum = [sender clickedRow];
 	if (-1 == rowNum) return;
 	
-	id item_ = [bLT itemAtRow : rowNum];
+	id item_ = [sender itemAtRow : rowNum];
 
-	if ([bLT isExpandable : item_]) {
-		if ([bLT isItemExpanded : item_]) [bLT collapseItem : item_];
-		else [bLT expandItem : item_];
+	if ([sender isExpandable : item_]) {
+		if ([sender isItemExpanded : item_]) [sender collapseItem : item_];
+		else [sender expandItem : item_];
 	}
 }	
 @end
