@@ -1,5 +1,5 @@
 //
-//  $Id: CMRPullDownIconBtn.h,v 1.2 2006/02/02 13:00:47 tsawada2 Exp $
+//  $Id: CMRPullDownIconBtn.h,v 1.3 2007/02/12 15:07:34 tsawada2 Exp $
 //  CocoMonar & BathyScaphe
 //
 //  Created by tsawada2 on 05/01/09.
@@ -13,5 +13,6 @@
 	NSImage	*_btnImg;
 	NSImage *_btnImgPressed;
 }
-
+- (void) setBtnImg : (NSImage *) anImage;
+- (void) setBtnImgPressed : (NSImage *) anImage;
 @end

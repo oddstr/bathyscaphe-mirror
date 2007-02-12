@@ -9,8 +9,6 @@
   *
   */
 #import "CMRIndexingStepper_p.h"
-#import <SGAppKit/SGAppKit.h>
-
 
 @implementation CMRIndexingStepper(ViewAccessor)
 /* Accessor for m_frameView */
@@ -52,40 +50,22 @@
 @end
 
 
-
-@implementation CMRIndexingStepper(ViewInitializeHelper)
-/*+ (NSSize) defaultButtonSize
-{
-	return NSMakeSize(
-				APP_INDEXINGSTEPPER_BUTTON_WIDTH,
-				APP_INDEXINGSTEPPER_BUTTON_HEIGHT);
-}*/
-
-
-//- (void) setupButton : (NSButton *) button
-//		   iconImage : (NSImage  *) icon
+@implementation CMRIndexingStepper(ViewInitializer)
 - (void) setupButton: (NSButton *) button iconImageName: (NSString *) imageName
 {
 	UTILAssertNotNilArgument(button, @"button");
 	
-	//[button setFrameSize : [[self class] defaultButtonSize]];
 	[button setContinuous : YES];
 	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_3) {
 		[button setBezelStyle: NSSmallSquareBezelStyle]; // Tiger or later
 	} else {
 		[button setBezelStyle: NSShadowlessSquareBezelStyle];
 	}
-	//[button  setImagePosition : NSImageOnly];
-	//[button  setImage : icon];
 	if (imageName != nil) {
 		[button setImage: [NSImage imageAppNamed: imageName]];
 	}
 }
-@end
 
-
-
-@implementation CMRIndexingStepper(ViewInitializer)
 - (void) setupMoveTopButton
 {
 	[self setupButton: [self moveTopButton] iconImageName: APP_INDEXINGSTEPPER_MIN_BUTTON_NAME];
@@ -121,7 +101,6 @@
 	[[self indexField] setAlignment : NSCenterTextAlignment];
 
 	[[self indexField] setDelegate : self];
-	//[[self indexField] setAction : @selector(moveToScanedIndex:)];
 }
 @end
 
@@ -165,9 +144,6 @@
 
 
 @implementation CMRIndexingStepper(NibOwner)
-- (void) validateNibSettings
-{
-}
 - (void) setupUIComponents
 {
 	[self setupMoveTopButton];

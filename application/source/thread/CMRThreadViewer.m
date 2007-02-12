@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.38 2007/02/11 17:13:48 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.39 2007/02/12 15:07:34 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -23,6 +23,7 @@
 #import "CMRThreadPlistComposer.h"
 #import "CMRNetGrobalLock.h"    /* for Locking */
 #import "BSAsciiArtDetector.h"
+#import "BSRelativeKeywordsCollector.h"
 
 #import "missing.h"
 
@@ -235,12 +236,37 @@ FileNotExistsAutoReloadIfNeeded:
 		
 		if ([[BoardManager defaultManager] allThreadsShouldAAThreadAtBoard : bName_])
 			[(CMRThreadDocument *)[self document] setIsAAThread : YES];
+		[self updateKeywordsCache];
 	}
 	[self didChangeThread];
 	[[self threadLayout] clear];
 	[self reloadIfOnlineMode : self];
 }
 
+#pragma mark -
+- (void) collector: (BSRelativeKeywordsCollector *) aCollector didCollectKeywords: (NSArray *) keywordsDict
+{
+//	NSLog(@"Finished updating cache");
+	[self setCachedKeywords: keywordsDict];
+	[[self indexingPopupper] updateKeywordsMenu];
+	[aCollector release];
+}
+- (void) collector: (BSRelativeKeywordsCollector *) aCollector didFailWithError: (NSError *) error
+{
+	NSLog(@"ERROR! %i", [error code]);
+	[self setCachedKeywords: [NSArray array]];
+	[aCollector release];
+}
+
+- (void) updateKeywordsCache
+{
+//	NSLog(@"Start updating keywords cache.");
+	if (NO == [CMRPref isOnlineMode]) return;
+	BSRelativeKeywordsCollector *collector = [[BSRelativeKeywordsCollector alloc] initWithThreadURL: [self threadURL] delegate: self];
+	[collector startCollecting];
+}
+
+#pragma mark -
 - (void) didChangeThread
 {
 	NSString	*title_;
@@ -423,23 +449,6 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 	[task_ setCallbackIndex : [[self threadAttributes] lastIndex]];
 }
 
-// CMRThreadComposingCallbackNotification
-/*- (void) threadComposingCallback : (NSNotification *) aNotification
-{
-	UTILAssertNotificationName(
-		aNotification,
-		CMRThreadComposingCallbackNotification);
-	
-	[[NSNotificationCenter defaultCenter]
-			removeObserver : self
-			name : CMRThreadComposingCallbackNotification
-			object : [aNotification object]];
-	[self scrollToLastReadedIndex : self];
-
-	// 2006-09-18 ここにも入れておく（Bug #8170 の発生可能性軽減）
-	[[self window] invalidateCursorRectsForView : [[[self threadLayout] scrollView] contentView]];
-}*/
-
 // CMRThreadComposingDidFinishNotification
 - (void) threadComposingDidFinished : (NSNotification *) aNotification
 {
@@ -475,8 +484,10 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 		//		
 		[self scrollToLastReadedIndex : self]; // その前に最後に読んだ位置までスクロールさせておく
 
-		if(![self isDatOchiThread])
+		if(![self isDatOchiThread]) {
+			[self updateKeywordsCache];
 			[self reloadIfOnlineMode : self];
+		}
 	} else {
 		if ([CMRPref scrollToLastUpdated] && [self canScrollToLastUpdatedMessage])
 			[self scrollToLastUpdatedIndex : self];
@@ -626,7 +637,14 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 {
 	return [[self threadAttributes] bbsIdentifier];
 }
-
+- (NSArray *) cachedKeywords
+{
+	return [[self document] cachedKeywords];
+}
+- (void) setCachedKeywords: (NSArray *) array
+{
+	[[self document] setCachedKeywords: array];
+}
 #pragma mark Works with CMRAbstructThreadDocument
 - (void) changeAllMessageAttributesWithAAFlag: (id) flagObject
 {
@@ -636,23 +654,6 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 }
 
 #pragma mark WILL BE DEPRECATED
-//- (BOOL) isAAThread
-//{
-//	return [[self threadAttributes] isAAThread];
-//	return [(CMRThreadDocument *)[self document] isAAThread];
-//}
-//- (void) setAAThread : (BOOL) flag
-//{
-//	if ([self isAAThread] == flag)
-//		return;
-//	
-//	[[self threadAttributes] setAAThread : flag];
-
-	// すべてのレスのAA属性を変更
-//	[[self threadLayout] changeAllMessageAttributes : flag flags : CMRAsciiArtMask];
-//	[(CMRThreadDocument *)[self document] setIsAAThread: flag];
-//}
-
 - (BOOL) isDatOchiThread
 {
 	return [(CMRThreadDocument *)[self document] isDatOchiThread];
@@ -684,12 +685,10 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 NSString *kComposingNotificationNames[] = {
 						CMRThreadComposingDidFinishNotification,
 						CMRThreadTaskInterruptedNotification,
-						//CMRThreadComposingCallbackNotification,
 						nil };
 SEL kComposingNotificationSelectors[] = {
 								@selector(threadComposingDidFinished:),
 								@selector(threadTaskInterrupted:),
-								//@selector(threadComposingCallback:),
 								NULL};
 	NSNotificationCenter	*nc = [NSNotificationCenter defaultCenter];
 	NSString				**pnm = kComposingNotificationNames;
@@ -703,7 +702,6 @@ SEL kComposingNotificationSelectors[] = {
 NSString *kComposingNotificationNames[] = {
 						CMRThreadComposingDidFinishNotification,
 						CMRThreadTaskInterruptedNotification,
-						//CMRThreadComposingCallbackNotification,
 						nil };
 	NSNotificationCenter	*nc = [NSNotificationCenter defaultCenter];
 	NSString				**p = kComposingNotificationNames;
@@ -938,11 +936,6 @@ NSString *kComposingNotificationNames[] = {
 	     selector : @selector(trashDidPerformNotification:)
 	         name : CMRTrashboxDidPerformNotification
 	       object : [CMRTrashbox trash]];
-	/*[[NSNotificationCenter defaultCenter]
-	  addObserver : self
-	     selector : @selector(applicationWillReset:)
-	         name : CMRApplicationWillResetNotification
-	       object : nil];*/
 	[[NSNotificationCenter defaultCenter]
 	  addObserver : self
 	     selector : @selector(applicationDidReset:)
@@ -965,10 +958,6 @@ NSString *kComposingNotificationNames[] = {
 	  removeObserver : self
 	            name : CMRTrashboxDidPerformNotification
 	          object : [CMRTrashbox trash]];
-	/*[[NSNotificationCenter defaultCenter]
-	  removeObserver : self
-	            name : CMRApplicationWillResetNotification
-	          object : nil];*/
 	[[NSNotificationCenter defaultCenter]
 	  removeObserver : self
 	            name : CMRApplicationDidResetNotification

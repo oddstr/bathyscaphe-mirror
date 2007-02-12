@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.38 2007/02/11 17:13:48 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.39 2007/02/12 15:07:34 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -168,6 +168,21 @@
 	return loc;
 }
 
+/*- (void) collector: (BSRelativeKeywordsCollector *) aCollector didCollectKeywords: (NSArray *) keywordsDict
+{
+	if ([keywordsDict count] == 0) {
+		NSLog(@"count zero");
+	} else {
+		NSString *str = [[keywordsDict valueForKey: BSRelativeKeywordsCollectionKeywordStringKey] componentsJoinedByString: @", "];
+		NSLog(@"Succeeded %@", str);
+	}
+//	[aCollector release];
+}
+- (void) collector: (BSRelativeKeywordsCollector *) aCollector didFailWithError: (NSError *) error
+{
+	NSLog(@"ERROR! %i", [error code]);
+//	[aCollector release];
+}*/
 - (IBAction) copyThreadAttributes : (id) sender
 {
 	NSArray *array_ = [self targetThreadsForAction: _cmd];

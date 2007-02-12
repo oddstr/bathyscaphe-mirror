@@ -80,7 +80,16 @@
 	
 	[oldAttributes_ release];
 }
-
+- (NSArray *) cachedKeywords
+{
+	return m_keywords;
+}
+- (void) setCachedKeywords: (NSArray *) array
+{
+	[array retain];
+	[m_keywords release];
+	m_keywords = array;
+}
 - (BOOL) isAAThread
 {
 	return [[self threadAttributes] isAAThread];
@@ -126,6 +135,7 @@
 #pragma mark Override
 - (void) dealloc
 {
+	[m_keywords release];
 	[_threadAttributes release];
 	[_textStorage release];
 	[super dealloc];

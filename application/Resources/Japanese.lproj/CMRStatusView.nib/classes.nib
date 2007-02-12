@@ -1,10 +1,5 @@
 {
     IBClasses = (
-        {
-            CLASS = CMRProgressIndicator; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSProgressIndicator; 
-        }, 
         {CLASS = CMRPullsDownButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
         {
             ACTIONS = {cancel = id; toggleStatusLineShown = id; }; 

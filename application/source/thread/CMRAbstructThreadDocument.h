@@ -18,6 +18,7 @@
 {
 	CMRThreadAttributes			*_threadAttributes;
 	NSTextStorage				*_textStorage;
+	NSArray				*m_keywords;
 }
 
 - (CMRThreadAttributes *) threadAttributes;
@@ -28,6 +29,8 @@
 - (void) setIsDatOchiThread: (BOOL) flag;
 - (BOOL) isMarkedThread;
 - (void) setIsMarkedThread: (BOOL) flag;
+- (NSArray *) cachedKeywords;
+- (void) setCachedKeywords: (NSArray *) array;
 
 /**
   *

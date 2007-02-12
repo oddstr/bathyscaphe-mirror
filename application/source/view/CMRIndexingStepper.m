@@ -41,18 +41,13 @@
 }
 - (BOOL) canScrollToLastUpdatedMessage
 {
-	if ( nil == [self delegate] ) {
+	id delegate_ = [self delegate];
+	if (!delegate_ || NO == [delegate_ respondsToSelector:@selector(indexingStepperCanScrollToLastUpdatedMessage:)])
 		return NO;
-	}
-	if ( NO == [[self delegate] respondsToSelector:@selector(canScrollToLastUpdatedMessage)] ) {
-		return NO;
-	} else {
-		int returnId = 0;
-		
-		returnId = (int)[[self delegate] performSelector:@selector(canScrollToLastUpdatedMessage)];
-		return (BOOL)returnId;
-	}
+
+	return [delegate_ indexingStepperCanScrollToLastUpdatedMessage: self];
 }
+
 - (void) controlTextDidEndEditing : (NSNotification *) aNotification
 {
 	unsigned	moveIndex_;

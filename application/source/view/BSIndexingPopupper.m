@@ -10,6 +10,8 @@
 #import "CMRThreadVisibleRange.h"
 #import <SGAppKit/SGAppKit.h>
 #import "BSTsuruPetaPopUpBtnCell.h"
+#import "AppDefaults.h"
+#import "BSRelativeKeywordsCollector.h"
 
 #define kFirstVisibleNumbersPlist	@"firstVisibleNumbers.plist"
 #define kLastVisibleNumbersPlist	@"lastVisibleNumbers.plist"
@@ -34,9 +36,68 @@
 	return self;
 }
 
+- (void) setupKeywordsButton
+{
+	CMRPullDownIconBtn	*cell_;
+	NSPopUpButtonCell	*btnCell_;
+
+	cell_ = [[CMRPullDownIconBtn alloc] initTextCell : @"" pullsDown:YES];
+	[cell_ setBtnImg: [NSImage imageNamed: @"Keywords"]];
+	[cell_ setBtnImgPressed: [NSImage imageNamed: @"Keywords_Pressed"]];
+	btnCell_ = [[self keywordsButton] cell];
+    [cell_ setAttributesFromCell : btnCell_];
+    [[self keywordsButton] setCell : cell_];
+    [cell_ release];
+
+	btnCell_ = [[self keywordsButton] cell];
+	[btnCell_ setArrowPosition:NSPopUpNoArrow];
+	[btnCell_ setControlSize: NSSmallControlSize];
+	[btnCell_ setFont: [NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+	[btnCell_ setMenu : m_keywordsMenuBase];
+	[[[btnCell_ menu] itemAtIndex: 1] setEnabled: NO];
+}
+
+- (void) updateKeywordsMenu
+{
+//	if ([self delegate]) NSLog(@"delegate ok");
+	NSMenu	*menu = m_keywordsMenuBase;
+
+	if ([menu numberOfItems] > 4) {
+		int i;
+		for (i = [menu numberOfItems] - 3; i > 1; i--) {
+			[menu removeItemAtIndex: i];
+		}
+	}
+
+	NSArray *array = [[self delegate] cachedKeywords];
+	if (!array || [array count] == 0) {
+		NSLog(@"array nil or empty");
+		return;
+	}
+
+	NSEnumerator *iter = [array reverseObjectEnumerator];
+	NSDictionary *eachItem;
+	NSMenuItem *menuItem;
+	NSString *title_;
+
+	while (eachItem = [iter nextObject]) {
+		title_ = [NSString stringWithFormat: @"  %@", [eachItem objectForKey: BSRelativeKeywordsCollectionKeywordStringKey]];
+
+		menuItem = [[NSMenuItem alloc] initWithTitle: title_ action: @selector(selectKeyword:) keyEquivalent: @""];
+
+		[menuItem setTarget: self];
+		[menuItem setRepresentedObject: [eachItem objectForKey: BSRelativeKeywordsCollectionKeywordURLKey]];
+
+		[menu insertItem: menuItem atIndex: 2];
+		[menuItem release];
+	}
+	[menu update];
+}
+
 - (void) awakeFromNib
 {
 	[self setupVisibleRangePopUp];
+	[self setupKeywordsButton];
 }
 
 - (void) dealloc
@@ -77,6 +138,11 @@
 - (NSPopUpButton *) lastVisibleRangePopUpButton
 {
 	return m_lastVisibleRangePopUpButton;
+}
+
+- (NSPopUpButton *) keywordsButton
+{
+	return m_keywordsButton;
 }
 
 - (CMRThreadVisibleRange *) visibleRange
@@ -284,6 +350,24 @@
 - (IBAction) selectLastVisibleRange : (id) sender
 {
 	[self updateVisibleRange];
+}
+
+- (IBAction) aboutKeywords: (id) sender
+{
+	// とりあえず
+	NSURL *url_ = [NSURL URLWithString: @"http://info.2ch.net/wiki/pukiwiki.php?cmd=read&page=%B4%D8%CF%A2%A5%AD%A1%BC%A5%EF%A1%BC%A5%C9"];
+	[[NSWorkspace sharedWorkspace] openURL: url_ inBackGround: [CMRPref openInBg]];
+}
+
+- (IBAction) selectKeyword: (id) sender
+{
+	NSString *strValue_;
+    
+    UTILAssertRespondsTo(sender, @selector(representedObject));
+    if (strValue_ = [sender representedObject]) {
+        UTILAssertKindOfClass(strValue_, NSString);
+        [[NSWorkspace sharedWorkspace] openURL : [NSURL URLWithString: strValue_] inBackGround: [CMRPref openInBg]];
+    }
 }
 
 #pragma mark Utilities

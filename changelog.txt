@@ -1,3 +1,25 @@
+2007-02-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRPullDownIconBtn.h
+		SGAppKit: CMRPullDownIconBtn の非公開メソッドを公開した。
+	* application/source/browser/CMRBrowser-Delegate.m
+	* application/source/thread/CMRThreadViewer.m
+	* application/source/thread/CMRThreadViewer-MoveAction.m
+	* application/source/thread/CMRThreadViewer-ViewAccessor.m
+	* application/source/thread/CMRAbstructThreadDocument.m
+		スレッドを読み込んだ際に、（オンラインモードなら）バックグラウンドでキーワードを取得するようにした。
+		また、キーワードボタンをナビゲーションバーに追加した。
+	* application/source/view/BSIndexingPopupper.m
+	* application/Resources/Japanese.lproj/BSIndexingPopupper.nib
+		BSIndexingPopupper は、キーワードボタンの管理運営も担当することになった。
+		（キーワードの内容は CMRAbstructThreadDocument が保持している）
+	* application/Resources/image/Keywords.tiff
+	* application/Resources/image/Keywords_Pressed.tiff
+		[新規追加] キーワードボタンのアイコン。
+	* application/source/thread/BSRelativeKeywordsCollector.[h|m]
+		[新規追加] 2chのキーワードを取得／解析するクラス。OgreKit も利用。
+	* application/source/view/CMRIndexingStepper-ViewAccessor.m
+	* application/source/view/CMRIndexingStepper.m
+		細かい整理。
 2007-02-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/Localizable.strings
 		とりあえずいくつかローカライズ文字列が足りないのを補った。
@@ -56,6 +78,7 @@
 		実際の処理をメインスレッド上で行うように変更。bug #9795 解消(?)
 	* misc/sqlite/os_common.h:
 		sqlite専用NSZone の安全性の向上。
+================================================= Starlight Breaker v33
 2007-02-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-Action.m
 	* application/source/browser/CMRBrowser-Delegate.m

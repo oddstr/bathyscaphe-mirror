@@ -196,6 +196,10 @@
 		[self loadFromContentsOfFile: [self path]];
 }
 
+- (BOOL) indexingStepperCanScrollToLastUpdatedMessage: (CMRIndexingStepper *) stepper
+{
+	return [self canScrollToLastUpdatedMessage];
+}
 @end
 
 

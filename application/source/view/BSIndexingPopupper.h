@@ -13,7 +13,8 @@
 	IBOutlet NSView				*m_frameView;
 	IBOutlet NSPopUpButton		*m_firstVisibleRangePopUpButton;
 	IBOutlet NSPopUpButton		*m_lastVisibleRangePopUpButton;
-
+	IBOutlet NSPopUpButton		*m_keywordsButton;
+	IBOutlet NSMenu				*m_keywordsMenuBase;
 	id							m_delegate;
 	CMRThreadVisibleRange		*m_visibleRange;
 }
@@ -24,13 +25,14 @@
 
 - (NSPopUpButton *) firstVisibleRangePopUpButton;
 - (NSPopUpButton *) lastVisibleRangePopUpButton;
-
+- (NSPopUpButton *) keywordsButton;
 - (CMRThreadVisibleRange *)	visibleRange;
 - (void) setVisibleRange: (CMRThreadVisibleRange *) aVisibleRange;
-
+- (void) updateKeywordsMenu;
 - (IBAction) selectFirstVisibleRange: (id) sender;
 - (IBAction) selectLastVisibleRange: (id) sender;
-
+- (IBAction) selectKeyword: (id) sender;
+- (IBAction) aboutKeywords: (id) sender;
 - (void) setupVisibleRangePopUp;
 - (void) syncButtonsWithCurrentRange;
 @end

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.16 2007/02/11 17:13:48 tsawada2 Exp $
+  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.17 2007/02/12 15:07:34 tsawada2 Exp $
   * 
   * CMRThreadViewer-ViewAccessor.m
   *
@@ -222,6 +222,8 @@
 	statusBarFrame.size.width = NSWidth(scrollViewFrame) - 15.0;
 	statusBarFrame.origin = scrollViewFrame.origin;
 	[[[self statusLine] statusLineView] setFrame: statusBarFrame];
+
+	[[[self indexingPopupper] keywordsButton] setFrameOrigin: scrollViewFrame.origin];
 }
 
 - (void) setupNavigationBar
@@ -231,6 +233,7 @@
 
 	[[self navigationBar] addSubview: [[self indexingStepper] contentView]];
 	[[self navigationBar] addSubview: [[self indexingPopupper] contentView]];
+	[[self navigationBar] addSubview: [[self indexingPopupper] keywordsButton]];
 	
 	[[self navigationBar] addSubview: [[self statusLine] statusLineView]];
 	
@@ -247,6 +250,7 @@
 	if ([self shouldShowContents]) {
 		[[[self indexingStepper] contentView] setHidden: YES];
 		[[[self indexingPopupper] contentView] setHidden: YES];
+		[[[self indexingPopupper] keywordsButton] setHidden: YES];
 	}
 	
 	[[self navigationBar] setNeedsDisplayInRect: [[[self statusLine] statusLineView] frame]];
@@ -262,11 +266,11 @@
 	if ([self shouldShowContents]) {
 		[[[self indexingStepper] contentView] setHidden: NO];
 		[[[self indexingPopupper] contentView] setHidden: NO];
+		[[[self indexingPopupper] keywordsButton] setHidden: NO];
 	}
 	
 	[[self navigationBar] setNeedsDisplayInRect: [[[self statusLine] statusLineView] frame]];
 }
-
 
 #pragma mark Others
 - (void) setupScrollView

@@ -69,4 +69,5 @@
 - (void) indexingStepperDidBecomeMin : (CMRIndexingStepper *) stepper;
 - (void) indexingStepperDidBecomeMax : (CMRIndexingStepper *) stepper;
 - (void) indexingStepperDidBecomeUpdated : (CMRIndexingStepper *) stepper;
+- (BOOL) indexingStepperCanScrollToLastUpdatedMessage: (CMRIndexingStepper *) stepper;
 @end
