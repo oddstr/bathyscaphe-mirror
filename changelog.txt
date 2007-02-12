@@ -1,3 +1,15 @@
+2007-02-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-Contents.m
+	* application/source/thread/CMRThreadViewer.m
+		キーワード関連のメソッドを CMRThreadViewer.m から CMRThreadViewer-Contents.m に配置換えして整理した。
+	* application/Resources/Japanese.lproj/ThreadViewer.strings
+	* application/source/view/BSIndexingPopupper.m
+		ソースを整理した。
+		また、キーワードボタンの一番上のメニュー項目のタイトルを、オフラインモードのときやキーワードが取得できないときなど
+		状況に応じて変えるようにした。さらに、「キーワードについて...」を選択すると簡単な説明を表示するようにした。
+	* application/Resources/Japanese.lproj/IndexingPopupper.strings
+		[新規追加] ThreadViewer.strings から BSIndexingPopupper で使っている部分を分離し、キーワードボタン関連の
+		Localized Strings とまとめて新しい strings ファイルを追加した。
 2007-02-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRPullDownIconBtn.h
 		SGAppKit: CMRPullDownIconBtn の非公開メソッドを公開した。

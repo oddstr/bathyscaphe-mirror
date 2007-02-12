@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Contents.m,v 1.6 2007/01/27 15:48:42 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Contents.m,v 1.7 2007/02/12 18:22:24 tsawada2 Exp $
   * 
   * CMRThreadViewer-Contents.m
   *
@@ -10,7 +10,7 @@
 #import "CMRThreadViewer_p.h"
 #import "CMRThreadLayout.h"
 #import "CMRThreadVisibleRange.h"
-
+#import "BSRelativeKeywordsCollector.h"
 
 @implementation CMRThreadViewer(ThreadContents)
 - (BOOL) shouldShowContents
@@ -112,6 +112,30 @@
 		            name : CMRThreadAttributesDidChangeNotification
 	              object : newAttrs];
 	[self synchronizeAttributes];
+}
+
+#pragma mark Keywords Support (Starlight Breaker Additions)
+- (void) collector: (BSRelativeKeywordsCollector *) aCollector didCollectKeywords: (NSArray *) keywordsDict
+{
+	[self setCachedKeywords: keywordsDict];
+	[[self indexingPopupper] updateKeywordsMenu];
+	[aCollector release];
+}
+- (void) collector: (BSRelativeKeywordsCollector *) aCollector didFailWithError: (NSError *) error
+{
+	NSLog(@"BSRKC - ERROR! %i", [error code]);
+	[self setCachedKeywords: [NSArray array]];
+	[aCollector release];
+}
+
+- (void) updateKeywordsCache
+{
+	if (NO == [CMRPref isOnlineMode]) {
+		[[self indexingPopupper] updateKeywordsMenuForOfflineMode];
+		return;
+	}
+	BSRelativeKeywordsCollector *collector = [[BSRelativeKeywordsCollector alloc] initWithThreadURL: [self threadURL] delegate: self];
+	[collector startCollecting];
 }
 @end
 

@@ -63,6 +63,8 @@ extern NSString *const CMRThreadViewerRunSpamFilterNotification;
 - (void) setThreadAttributes : (CMRThreadAttributes *) aThreadData;
 - (void) disposeThreadAttributes : (CMRThreadAttributes *) oldThread;
 - (void) registerThreadAttributes : (CMRThreadAttributes *) newThread;
+
+- (void) updateKeywordsCache; // Available in Starlight Breaker.
 @end
 
 

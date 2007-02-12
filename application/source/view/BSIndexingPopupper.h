@@ -26,18 +26,24 @@
 - (NSPopUpButton *) firstVisibleRangePopUpButton;
 - (NSPopUpButton *) lastVisibleRangePopUpButton;
 - (NSPopUpButton *) keywordsButton;
+- (NSMenu *) keywordsMenu;
 - (CMRThreadVisibleRange *)	visibleRange;
 - (void) setVisibleRange: (CMRThreadVisibleRange *) aVisibleRange;
+
 - (void) updateKeywordsMenu;
+- (void) updateKeywordsMenuForOfflineMode;
+
 - (IBAction) selectFirstVisibleRange: (id) sender;
 - (IBAction) selectLastVisibleRange: (id) sender;
 - (IBAction) selectKeyword: (id) sender;
 - (IBAction) aboutKeywords: (id) sender;
 - (void) setupVisibleRangePopUp;
+- (void) setupKeywordsButton;
 - (void) syncButtonsWithCurrentRange;
 @end
 
 @interface NSObject(BSIndexingPopupperDelegate)
 - (void) indexingPopupper: (BSIndexingPopupper *) popupper
 	didChangeVisibleRange: (CMRThreadVisibleRange *) newRange;
+- (NSArray *) cachedKeywords;
 @end

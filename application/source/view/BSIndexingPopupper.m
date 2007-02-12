@@ -13,85 +13,41 @@
 #import "AppDefaults.h"
 #import "BSRelativeKeywordsCollector.h"
 
-#define kFirstVisibleNumbersPlist	@"firstVisibleNumbers.plist"
-#define kLastVisibleNumbersPlist	@"lastVisibleNumbers.plist"
+static NSString *const kFirstVisibleNumbersPlist =	@"firstVisibleNumbers.plist";
+static NSString *const kLastVisibleNumbersPlist =	@"lastVisibleNumbers.plist";
 
-#define APP_TVIEW_FIRST_VISIBLE_LABEL_KEY	@"First Visibles"
-#define APP_TVIEW_LAST_VISIBLE_LABEL_KEY	@"Last Visibles"
-#define APP_TVIEW_SHOW_ALL_LABEL_KEY		@"Show All"
-#define APP_TVIEW_SHOW_NONE_LABEL_KEY		@"Show None"
+static NSString *const APP_TVIEW_FIRST_VISIBLE_LABEL_KEY =	@"First Visibles";
+static NSString *const APP_TVIEW_LAST_VISIBLE_LABEL_KEY =	@"Last Visibles";
+static NSString *const APP_TVIEW_SHOW_ALL_LABEL_KEY =	@"Show All";
+static NSString *const APP_TVIEW_SHOW_NONE_LABEL_KEY =	@"Show None";
+
+static NSString *const kIndexingPopupperNibFileKey =	@"BSIndexingPopupper";
+static NSString *const kIndexingPopupperStringsKey =	@"IndexingPopupper";
+
+static NSString *const kKeywordsMenuTitleDefaultKey =	@"Menu Keywords";
+static NSString *const kKeywordsMenuTitleOfflineKey =	@"Menu Offline";
+static NSString *const kKeywordsMenuTitkeFailedKey =	@"Menu No Keywords";
+
+static NSString *const kAboutKeywordsAlertTitleKey =	@"About Keywords Title";
+static NSString *const kAboutKeywordsAlertMsgBaseKey =	@"About Keywords Msg";
+static NSString *const kAboutKeywordsAlertOKBtnKey =	@"About Keywords OK Button";
+
+static NSString *const kKeywordsButtonImage = @"Keywords";
+static NSString *const kKeywordsButtonPressedImage = @"Keywords_Pressed";
 
 #pragma mark -
 
 @implementation BSIndexingPopupper
+#pragma mark Overrides
 - (id) init
 {
 	if (self = [super init]) {
-		if (NO == [NSBundle loadNibNamed: @"BSIndexingPopupper"
-								   owner: self]) {
+		if (NO == [NSBundle loadNibNamed: kIndexingPopupperNibFileKey owner: self]) {
 			[self release];
 			return nil;
 		}
 	}
 	return self;
-}
-
-- (void) setupKeywordsButton
-{
-	CMRPullDownIconBtn	*cell_;
-	NSPopUpButtonCell	*btnCell_;
-
-	cell_ = [[CMRPullDownIconBtn alloc] initTextCell : @"" pullsDown:YES];
-	[cell_ setBtnImg: [NSImage imageNamed: @"Keywords"]];
-	[cell_ setBtnImgPressed: [NSImage imageNamed: @"Keywords_Pressed"]];
-	btnCell_ = [[self keywordsButton] cell];
-    [cell_ setAttributesFromCell : btnCell_];
-    [[self keywordsButton] setCell : cell_];
-    [cell_ release];
-
-	btnCell_ = [[self keywordsButton] cell];
-	[btnCell_ setArrowPosition:NSPopUpNoArrow];
-	[btnCell_ setControlSize: NSSmallControlSize];
-	[btnCell_ setFont: [NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
-	[btnCell_ setMenu : m_keywordsMenuBase];
-	[[[btnCell_ menu] itemAtIndex: 1] setEnabled: NO];
-}
-
-- (void) updateKeywordsMenu
-{
-//	if ([self delegate]) NSLog(@"delegate ok");
-	NSMenu	*menu = m_keywordsMenuBase;
-
-	if ([menu numberOfItems] > 4) {
-		int i;
-		for (i = [menu numberOfItems] - 3; i > 1; i--) {
-			[menu removeItemAtIndex: i];
-		}
-	}
-
-	NSArray *array = [[self delegate] cachedKeywords];
-	if (!array || [array count] == 0) {
-		NSLog(@"array nil or empty");
-		return;
-	}
-
-	NSEnumerator *iter = [array reverseObjectEnumerator];
-	NSDictionary *eachItem;
-	NSMenuItem *menuItem;
-	NSString *title_;
-
-	while (eachItem = [iter nextObject]) {
-		title_ = [NSString stringWithFormat: @"  %@", [eachItem objectForKey: BSRelativeKeywordsCollectionKeywordStringKey]];
-
-		menuItem = [[NSMenuItem alloc] initWithTitle: title_ action: @selector(selectKeyword:) keyEquivalent: @""];
-
-		[menuItem setTarget: self];
-		[menuItem setRepresentedObject: [eachItem objectForKey: BSRelativeKeywordsCollectionKeywordURLKey]];
-
-		[menu insertItem: menuItem atIndex: 2];
-		[menuItem release];
-	}
-	[menu update];
 }
 
 - (void) awakeFromNib
@@ -145,6 +101,11 @@
 	return m_keywordsButton;
 }
 
+- (NSMenu *) keywordsMenu
+{
+	return m_keywordsMenuBase;
+}
+
 - (CMRThreadVisibleRange *) visibleRange
 {
 	return m_visibleRange;
@@ -159,7 +120,7 @@
 	[self syncButtonsWithCurrentRange];
 }
 
-#pragma mark Setup
+#pragma mark UI Setup
 + (NSString *) visibleNumbersFilepathWithName : (NSString *) filename
 {
 	NSBundle	*bundles[] = {
@@ -245,12 +206,12 @@
 	return [self localizedVisibleStringWithFormat : format_
 						visibleLength : [visibleNumber unsignedIntValue]];
 }
-
+/*
 - (void) setupVisibleRangePopUpButtonCell : (NSPopUpButtonCell *) aCell
 {
 	// Reserved...
 }
-
+*/
 - (void) setupVisibleRangePopUpButton : (NSPopUpButton *) popUpBtn
 {
 	BSTsuruPetaPopUpBtnCell *tmp_;
@@ -264,7 +225,7 @@
 	[popUpBtn setCell: tmp_];
 	[tmp_ release];
 
-	[self setupVisibleRangePopUpButtonCell : [popUpBtn cell]];
+//	[self setupVisibleRangePopUpButtonCell : [popUpBtn cell]];
 }
 
 - (NSMenuItem *) addItemWithVisibleRangePopUpButton: (NSPopUpButton *) popUpBtn
@@ -318,6 +279,27 @@
 								 isFirstVisibles : NO];
 }
 
+- (void) setupKeywordsButton
+{
+	CMRPullDownIconBtn	*cell_;
+	NSPopUpButtonCell	*btnCell_;
+
+	cell_ = [[CMRPullDownIconBtn alloc] initTextCell : @"" pullsDown:YES];
+	[cell_ setBtnImg: [NSImage imageNamed: kKeywordsButtonImage]];
+	[cell_ setBtnImgPressed: [NSImage imageNamed: kKeywordsButtonPressedImage]];
+	btnCell_ = [[self keywordsButton] cell];
+    [cell_ setAttributesFromCell : btnCell_];
+    [[self keywordsButton] setCell : cell_];
+    [cell_ release];
+
+	btnCell_ = [[self keywordsButton] cell];
+	[btnCell_ setArrowPosition: NSPopUpNoArrow];
+	[btnCell_ setControlSize: NSSmallControlSize];
+	[btnCell_ setFont: [NSFont systemFontOfSize: [NSFont systemFontSizeForControlSize: NSSmallControlSize]]];
+	[btnCell_ setMenu: [self keywordsMenu]];
+	[[[btnCell_ menu] itemAtIndex: 1] setEnabled: NO];
+}
+
 #pragma mark Actions
 - (void) updateVisibleRange
 {
@@ -354,9 +336,13 @@
 
 - (IBAction) aboutKeywords: (id) sender
 {
-	// とりあえず
-	NSURL *url_ = [NSURL URLWithString: @"http://info.2ch.net/wiki/pukiwiki.php?cmd=read&page=%B4%D8%CF%A2%A5%AD%A1%BC%A5%EF%A1%BC%A5%C9"];
-	[[NSWorkspace sharedWorkspace] openURL: url_ inBackGround: [CMRPref openInBg]];
+	NSString *informativeText_ = [NSString stringWithFormat: [self localizedString: kAboutKeywordsAlertMsgBaseKey], [NSBundle applicationName]];
+	NSAlert *alert_ = [[[NSAlert alloc] init] autorelease];
+	[alert_ setAlertStyle: NSInformationalAlertStyle];
+	[alert_ setInformativeText: informativeText_];
+	[alert_ setMessageText: [self localizedString: kAboutKeywordsAlertTitleKey]];
+	[alert_ addButtonWithTitle: [self localizedString: kAboutKeywordsAlertOKBtnKey]];
+	[alert_ runModal];
 }
 
 - (IBAction) selectKeyword: (id) sender
@@ -406,8 +392,62 @@
 	[self syncButtonsWithCurrentRangeAtFirst: NO];
 }
 
+- (void) cleanupMenu: (NSMenu *) menu
+{
+	if ([menu numberOfItems] > 4) {
+		int i;
+		for (i = [menu numberOfItems] - 3; i > 1; i--) {
+			[menu removeItemAtIndex: i];
+		}
+	}
+}
+
+- (void) updateKeywordsMenuForOfflineMode
+{
+	NSMenu	*menu = [self keywordsMenu];
+	[self cleanupMenu: menu];
+	[[menu itemAtIndex: 1] setTitle: [self localizedString: kKeywordsMenuTitleOfflineKey]];
+}
+
+- (void) updateKeywordsMenu
+{
+	NSMenu	*menu = [self keywordsMenu];
+	id		delegate_ = [self delegate];
+	NSArray	*array = nil;
+
+	[self cleanupMenu: menu];
+
+	if (delegate_ && [delegate_ respondsToSelector: @selector(cachedKeywords)]) {
+		array = [delegate_ cachedKeywords];
+	}
+
+	if (!array || [array count] == 0) {
+		[[menu itemAtIndex: 1] setTitle: [self localizedString: kKeywordsMenuTitkeFailedKey]];
+	} else {
+		NSEnumerator *iter = [array reverseObjectEnumerator];
+		NSDictionary *eachItem;
+		NSMenuItem *menuItem;
+		NSString *title_;
+
+		while (eachItem = [iter nextObject]) {
+			title_ = [NSString stringWithFormat: @"  %@", [eachItem objectForKey: BSRelativeKeywordsCollectionKeywordStringKey]];
+
+			menuItem = [[NSMenuItem alloc] initWithTitle: title_ action: @selector(selectKeyword:) keyEquivalent: @""];
+
+			[menuItem setTarget: self];
+			[menuItem setRepresentedObject: [eachItem objectForKey: BSRelativeKeywordsCollectionKeywordURLKey]];
+
+			[menu insertItem: menuItem atIndex: 2];
+			[menuItem release];
+		}
+
+		[[menu itemAtIndex: 1] setTitle: [self localizedString: kKeywordsMenuTitleDefaultKey]];
+	}
+	[menu update];
+}
+
 + (NSString *) localizableStringsTableName
 {
-	return @"ThreadViewer";
+	return kIndexingPopupperStringsKey;
 }
 @end

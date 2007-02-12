@@ -1,0 +1,19 @@
+/* BSIndexingPopupper */
+
+/* Visible Range */
+"First Visibles" = "最初の%uレス";
+"Last Visibles" = "最新%uレス";
+"Show All" = "すべてを表示";
+"Show None" = "表示しない";
+
+/* Keywords */
+"Menu No Keywords" = "キーワードを取得できませんでした";
+"Menu Keywords" = "キーワード";
+"Menu Offline" = "オフラインモードではキーワードを取得しません";
+
+"About Keywords Title" = "キーワードは、スレッドによく出てくる単語を集めたものです。";
+"About Keywords Msg" = "これらのキーワードは、２ちゃんねる側が提供しているデータです。
+%@ は、２ちゃんねるのスレッドから自動的にキーワードを取得します（オフラインモードのときを除きます）。
+
+メニューから各キーワードを選択すると、2ch検索 でそのキーワードを検索した結果を Web ブラウザで開きます。";
+"About Keywords OK Button" = "OK";

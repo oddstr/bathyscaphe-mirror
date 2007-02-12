@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.39 2007/02/12 15:07:34 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.40 2007/02/12 18:22:24 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -23,7 +23,6 @@
 #import "CMRThreadPlistComposer.h"
 #import "CMRNetGrobalLock.h"    /* for Locking */
 #import "BSAsciiArtDetector.h"
-#import "BSRelativeKeywordsCollector.h"
 
 #import "missing.h"
 
@@ -243,30 +242,6 @@ FileNotExistsAutoReloadIfNeeded:
 	[self reloadIfOnlineMode : self];
 }
 
-#pragma mark -
-- (void) collector: (BSRelativeKeywordsCollector *) aCollector didCollectKeywords: (NSArray *) keywordsDict
-{
-//	NSLog(@"Finished updating cache");
-	[self setCachedKeywords: keywordsDict];
-	[[self indexingPopupper] updateKeywordsMenu];
-	[aCollector release];
-}
-- (void) collector: (BSRelativeKeywordsCollector *) aCollector didFailWithError: (NSError *) error
-{
-	NSLog(@"ERROR! %i", [error code]);
-	[self setCachedKeywords: [NSArray array]];
-	[aCollector release];
-}
-
-- (void) updateKeywordsCache
-{
-//	NSLog(@"Start updating keywords cache.");
-	if (NO == [CMRPref isOnlineMode]) return;
-	BSRelativeKeywordsCollector *collector = [[BSRelativeKeywordsCollector alloc] initWithThreadURL: [self threadURL] delegate: self];
-	[collector startCollecting];
-}
-
-#pragma mark -
 - (void) didChangeThread
 {
 	NSString	*title_;
