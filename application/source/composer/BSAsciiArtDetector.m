@@ -7,10 +7,12 @@
 //
 
 #import "BSAsciiArtDetector.h"
-#import "CocoMonar_Prefix.h"
 #import "CMRThreadMessageBuffer.h"
 #import "CMRThreadMessage.h"
 #import "CMRThreadSignature.h"
+
+#import <CocoMonar/CocoMonar.h>
+#import <OgreKit/OgreKit.h>
 
 //将来、AA のサンプルなどをカスタマイズ／拡張可能にする際に使う予定
 //static NSString *const kAASamplesFile = @"BSAADetector.plist";
@@ -36,37 +38,19 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 
 static BOOL detectIfAA(NSString *source)
 {
-    static NSString *pattern = nil;
-    
-    if (!pattern) {
-        pattern = [[NSString alloc] initWithFormat: @"%C ", 0x3000];
-    }
+	static OGRegularExpression *regExp = nil;
 
     if (!source || [source length] < 7) return NO;
-    
-    NSMutableString *mSource;
-    unsigned int    numOfParagraphs;
-    mSource = [source mutableCopy];
-	
-	[mSource deleteCharactersInRange: NSMakeRange([mSource length]-1, 1)];
 
-    numOfParagraphs = [mSource replaceOccurrencesOfString: @" <br> "
-                                               withString: @"\n"
-                                                  options: NSLiteralSearch|NSCaseInsensitiveSearch
-                                                    range: NSMakeRange(0, [mSource length])];
+	if (!regExp) {
+		NSString *expStrForSpaces = [NSString stringWithFormat: @"%C{3}|(?: %C){2}", 0x3000, 0x3000];
+		NSString *expStrForKeisen = [NSString stringWithFormat: @"[%C%C%C]{4}", 0x2500, 0xFFE3, 0xFF3F];
+		NSString *expStr = [NSString stringWithFormat: @"(?:%@|%@)", expStrForSpaces, expStrForKeisen];
+		regExp = [[OGRegularExpression alloc] initWithString: expStr];
+	}
 
-    if(numOfParagraphs < 1) {
-        [mSource release];
-        return NO;    
-    }
-
-    if ([mSource rangeOfString: pattern options: NSLiteralSearch].length != 0) {
-        [mSource release];
-        return YES;
-    }
-    
-    [mSource release];
-    return NO;
+	OGRegularExpressionMatch *match = [regExp matchInString: source];
+	return (match != nil);
 }
 
 - (void) runDetectorWithMessages: (CMRThreadMessageBuffer *) aBuffer

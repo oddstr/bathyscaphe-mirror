@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.40 2007/02/12 18:22:24 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.41 2007/02/13 21:23:31 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -311,7 +311,6 @@ cancel, if this method returns NO.
 			[[BSAsciiArtDetector sharedInstance] runDetectorWithMessages: aMessageBuffer with: threadID];
 		}
 	}
-	
 	// Delegate
 	//[aTask setDelegate : nil];
 	return YES;
