@@ -93,7 +93,8 @@ NSString *const BSRelativeKeywordsCollectorErrorDomain = @"BSRelativeKeywordsCol
 	NSString *url_;
 	NSString *name_;
 	OGRegularExpressionMatch *match;
-	OGRegularExpression *regex = [OGRegularExpression regularExpressionWithString: @"<a href=\"(.*)\" target=\"_blank\">(.*)</a>"];
+//	OGRegularExpression *regex = [OGRegularExpression regularExpressionWithString: @"<a href=\"(.*)\" target=\"_blank\">(.*)</a>"];
+	OGRegularExpression *regex = [OGRegularExpression regularExpressionWithString: @"<a href=\"(.*)\".*>(.*)</a>"];
 
 	str = [NSString stringWithDataUsingTEC: data encoding: kCFStringEncodingDOSJapanese];
 	if (!str) return nil;

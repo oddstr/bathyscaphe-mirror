@@ -1,4 +1,6 @@
 2007-02-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/BSRelativeKeywordsCollector.m
+		2ch のちょっとした仕様変更でキーワードを解析できなくなっていたので修正。
 	* application/source/composer/BSAsciiArtDetector.m
 		AA 簡易自動判定が jbbsライブドアなどで上手く動作しない問題を修正。ついでに OgreKit を使うようにした。
 		判定精度／速度が少し向上した（はず）。
