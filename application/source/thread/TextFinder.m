@@ -1,5 +1,5 @@
 /**
-  * $Id: TextFinder.m,v 1.5 2006/04/11 17:31:21 masakih Exp $
+  * $Id: TextFinder.m,v 1.6 2007/02/17 15:34:10 tsawada2 Exp $
   *
   * Copyright 2005 BathyScaphe Project. All rights reserved.
   *
@@ -36,9 +36,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(standardTextFinder);
 	NSString		*s;		// from Pasteboard
 	
 	s = [self loadFindStringFromPasteboard];
-	if (s != nil) {
-		[[self findTextField] setStringValue : s];
-	}
+	if (s != nil)
+		[self setFindString: s];
 
 	[[self findTextField] setDelegate : self];
     [[self window] setFrameAutosaveName : APP_FIND_PANEL_AUTOSAVE_NAME];
@@ -46,13 +45,17 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(standardTextFinder);
 
 - (CMRSearchOptions *) currentOperation
 {
+	NSString		*string_ = [self findString];
 	CMRSearchMask	option = [CMRPref contentsSearchOption];
 	unsigned int  generalOption = 0;
-	
+
+	if (!string_)
+		return nil;
+
 	if (option & CMRSearchOptionCaseInsensitive)
 		generalOption |= NSCaseInsensitiveSearch;
 	
-	return [CMRSearchOptions operationWithFindObject : [[self findTextField] stringValue]
+	return [CMRSearchOptions operationWithFindObject : string_
 											 replace : nil
 											userInfo : [NSNumber numberWithUnsignedInt : option]
 											  option : generalOption];
@@ -60,15 +63,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(standardTextFinder);
 
 - (void) showWindow : (id) sender
 {
-	[[self window] makeKeyAndOrderFront : self];
+	[super showWindow: sender];
 	[[self findTextField] selectText : sender];
 	[[self notFoundField] setHidden : YES];
-}
-
-- (void) setFindString : (NSString *) aString
-{
-    if (aString)
-		[[self findTextField] setStringValue : aString];
 }
 
 #pragma mark Accessors
@@ -83,6 +80,18 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(standardTextFinder);
 }
 
 #pragma mark Cocoa Binding
+- (NSString *) findString
+{
+	return m_findString;
+}
+
+- (void) setFindString : (NSString *) aString
+{
+	[aString retain];
+	[m_findString release];
+	m_findString = aString;
+}
+
 - (BOOL) isCaseInsensitive
 {
 	CMRSearchMask	option = [CMRPref contentsSearchOption];
@@ -132,19 +141,15 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(standardTextFinder);
 
 - (void) setFindStringToPasteboard
 {
-	NSPasteboard *pasteboard;
-	
+	NSString		*string_ = [self findString];
+	NSPasteboard	*pasteboard;
+
+	if (string_ == nil)
+		return;
+
 	pasteboard = [NSPasteboard pasteboardWithName : NSFindPboard];
-	if ([[[self findTextField] stringValue] length] > 0) {
-		NSArray *types_;
-		
-		types_ = [NSArray arrayWithObject : NSStringPboardType];
-		
-		[pasteboard declareTypes : types_
-						   owner : nil];
-		[pasteboard setString : [[self findTextField] stringValue] 
-					  forType : NSStringPboardType];
-	}
+	[pasteboard declareTypes: [NSArray arrayWithObject: NSStringPboardType] owner: nil];
+	[pasteboard setString: string_ forType: NSStringPboardType];
 }
 
 #pragma mark Delegate
@@ -169,8 +174,10 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(standardTextFinder);
 	unsigned	num;
 	num = [[[aNotification userInfo] objectForKey : kAppThreadViewerFindInfoKey] unsignedIntValue];
 	//NSLog(@"%i", num);
-	if (num == 0) {
+	if (num != 1) {
 		[[self notFoundField] setHidden : NO];
+		[[self notFoundField] setStringValue: (num == 0) ? NSLocalizedString(@"No Match", @"No Match")
+														 : [NSString stringWithFormat: NSLocalizedString(@"%u Res(s)", @"%u Res(s)"), num]];
 	}
 }
 
@@ -186,8 +193,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(standardTextFinder);
 	        selector : @selector(findDidEnd:)
 	            name : BSThreadViewerDidEndFindingNotification
 	          object : nil];
-	
 }
+
 - (void) removeFromNotificationCenter
 {
 	[[NSNotificationCenter defaultCenter]
@@ -197,14 +204,13 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(standardTextFinder);
 	[[NSNotificationCenter defaultCenter]
 	  removeObserver : self
 	            name : BSThreadViewerDidEndFindingNotification
-	          object : nil];
-	
+	          object : nil];	
 }
 
 - (void) dealloc
 {
 	[self removeFromNotificationCenter];
+	[m_findString release];
 	[super dealloc];
 }
-
 @end

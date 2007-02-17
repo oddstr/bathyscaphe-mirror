@@ -1,5 +1,5 @@
 /** 
-  * $Id: CMRThreadViewer-Find.m,v 1.10 2006/06/24 16:23:38 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Find.m,v 1.11 2007/02/17 15:34:10 tsawada2 Exp $
   *
   * Copyright (c) 2003, Takanori Ishikawa.
   * CMRThreadViewer-Action.m から分割 - 2005-02-16 by tsawada2.
@@ -509,23 +509,19 @@ ErrNotFound:
 
 - (IBAction) findTextInSelection : (id) sender
 {
-	CMRSearchOptions	*findOperation_;
-	NSRange				searchRange_;
+	NSRange				selectedTextRange;
 	NSString			*selection;
 	TextFinder			*finder_ = [TextFinder standardTextFinder];
 	
-	findOperation_ = [finder_ currentOperation];
-	UTILRequireCondition(findOperation_, ErrNotFound);
-	searchRange_ = [[self textView] selectedRange];
-	UTILRequireCondition(searchRange_.length != 0, ErrNotFound);
+	selectedTextRange = [[self textView] selectedRange];
+	UTILRequireCondition(selectedTextRange.length != 0, ErrNoSelection);
 
-	selection = [[[self textView] string] substringWithRange : [[self textView] selectedRange]];
-	if (![[finder_ window] isVisible]) {
-	    [finder_ showWindow : nil];
-	}
-	[finder_ setFindString : selection];
+	selection = [[[self textView] string] substringWithRange : selectedTextRange];
+
+	[finder_ showWindow: sender];
+	[finder_ setFindString: selection];
 	
-ErrNotFound:
+ErrNoSelection:
 	return;
 }
 @end

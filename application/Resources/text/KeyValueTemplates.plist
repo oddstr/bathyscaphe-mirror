@@ -37,12 +37,12 @@
 	</array>
 	<key>System - be2ch Profile URL</key>
 	<string>http://be.2ch.net/test/p.php?i=%@&amp;u=d:%@</string>
+	<key>System - relatedKeywords URL</key>
+	<string>http://p2.2ch.io/getf.cgi?%@</string>
 	<key>Thread - CopyThreadFormat</key>
 	<string>%%%ThreadTitle%%%
 %%%ThreadURL%%%
 </string>
-	<key>Thread - DateDescription</key>
-	<string>%Y/%m/%d(%a) %H:%M:%S</string>
 	<key>Thread - FieldSeparater</key>
 	<string>: </string>
 	<key>Thread - GoogleQuery</key>

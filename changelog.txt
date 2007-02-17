@@ -1,3 +1,20 @@
+2007-02-18 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/Localizable.strings
+	* application/Resources/Japanese.lproj/TextFind.nib
+	* application/source/thread/CMRThreadViewer-Find.m
+	* application/source/thread/TextFinder.m
+	   「選択範囲を検索」したときは、選択範囲の語句を検索ペーストボードにも入れるようにした。
+	   また、TextFinder クラスのコードを少し整理した。
+	   また、「抽出」したときは、何個のレスが抽出されたか検索パネルに表示するようにした。
+	* application/Resources/text/KeyValueTemplates.plist
+        "Thread - DateDescription" キーを廃止（削除）した。
+        "System - RelatedKeywords URL" キーを追加した。
+	* application/source/composer/CMRAttributedMessageComposer.m
+	   コードを整理した。また、NSDate しか日付データをもっていない古いレスからの日付文字列生成処理について、
+	   NSCalendarDate を使わないようにした。これに伴い、"Thread - DateDescription" キー
+	   @KeyValueTemplates.plist も使用しなくなった。
+	* application/source/thread/BSRelativeKeywordsCollector.m
+        スレッドを開いた後すぐに閉じると、タイミングによってはクラッシュすることがあった問題を修正。
 2007-02-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/BSRelativeKeywordsCollector.m
 		2ch のちょっとした仕様変更でキーワードを解析できなくなっていたので修正。

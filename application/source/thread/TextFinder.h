@@ -1,5 +1,5 @@
 /**
-  * $Id: TextFinder.h,v 1.4 2005/12/09 00:01:41 tsawada2 Exp $
+  * $Id: TextFinder.h,v 1.5 2007/02/17 15:34:10 tsawada2 Exp $
   * 
   * Copyright 2005 BathyScaphe Project. All rights reserved.
   *
@@ -18,6 +18,7 @@
 	IBOutlet NSButton		*_findFromHeadBtn;
 	IBOutlet NSButton		*_findAllBtn;
 	IBOutlet NSButton		*_findPopupBtn;
+	NSString				*m_findString;
 }
 + (id) standardTextFinder;
 - (NSTextField *) findTextField;
@@ -26,7 +27,9 @@
 - (void) setupUIComponents;
 
 - (CMRSearchOptions *) currentOperation;
-- (void) setFindString: (NSString *)aString;
+
+- (NSString *) findString;
+- (void) setFindString: (NSString *) aString;
 
 // Binding...
 - (BOOL) isCaseInsensitive;

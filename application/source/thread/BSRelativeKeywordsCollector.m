@@ -16,7 +16,12 @@ NSString *const BSRelativeKeywordsCollectionKeywordStringKey = @"BSRKC_STR";
 NSString *const BSRelativeKeywordsCollectionKeywordURLKey = @"BSRKC_URL";
 NSString *const BSRelativeKeywordsCollectorErrorDomain = @"BSRelativeKeywordsCollectorErrorDomain";
 
+static NSString *const kBSRelativeKeywordsCollectorCgiURLKey = @"System - relatedKeywords URL";
+
 @implementation BSRelativeKeywordsCollector
+static NSString				*g_cgiURLString = nil;
+static OGRegularExpression	*g_regExp = nil;
+
 #pragma mark Accessors
 - (id) delegate
 {
@@ -71,7 +76,7 @@ NSString *const BSRelativeKeywordsCollectorErrorDomain = @"BSRelativeKeywordsCol
 	NSURL				*convertedURL;
 
 	strValue = [[self threadURL] absoluteString];
-	convertedURL = [NSURL URLWithString: [NSString stringWithFormat: @"http://p2.2ch.io/getf.cgi?%@", strValue]];
+	convertedURL = [NSURL URLWithString: [NSString stringWithFormat: g_cgiURLString, strValue]];
 
     req = [NSMutableURLRequest requestWithURL: convertedURL
                                   cachePolicy: NSURLRequestReloadIgnoringCacheData
@@ -93,8 +98,6 @@ NSString *const BSRelativeKeywordsCollectorErrorDomain = @"BSRelativeKeywordsCol
 	NSString *url_;
 	NSString *name_;
 	OGRegularExpressionMatch *match;
-//	OGRegularExpression *regex = [OGRegularExpression regularExpressionWithString: @"<a href=\"(.*)\" target=\"_blank\">(.*)</a>"];
-	OGRegularExpression *regex = [OGRegularExpression regularExpressionWithString: @"<a href=\"(.*)\".*>(.*)</a>"];
 
 	str = [NSString stringWithDataUsingTEC: data encoding: kCFStringEncodingDOSJapanese];
 	if (!str) return nil;
@@ -103,7 +106,7 @@ NSString *const BSRelativeKeywordsCollectorErrorDomain = @"BSRelativeKeywordsCol
 
 	result_ = [NSMutableArray array];
 			
-	iter_ = [regex matchEnumeratorInString: ampStr];
+	iter_ = [g_regExp matchEnumeratorInString: ampStr];
 
 	while (match = [iter_ nextObject]) {
 		url_ = [match substringAtIndex:1];
@@ -117,8 +120,17 @@ NSString *const BSRelativeKeywordsCollectorErrorDomain = @"BSRelativeKeywordsCol
 }
 
 #pragma mark Override
++ (void) initialize
+{
+	if (self == [BSRelativeKeywordsCollector class]) {
+		g_cgiURLString = SGTemplateResource(kBSRelativeKeywordsCollectorCgiURLKey);
+		g_regExp = [[OGRegularExpression alloc] initWithString: @"<a href=\"(.*)\".*>(.*)</a>"];
+	}
+}
+
 - (void) dealloc
 {
+	[m_currentConnection cancel];
 	[m_currentConnection release];
 	[m_receivedData release];
 	[m_threadURL release];

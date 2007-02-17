@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer.m,v 1.19 2007/02/07 13:26:13 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer.m,v 1.20 2007/02/17 15:34:10 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -20,10 +20,9 @@
 #define	kThreadIndexFormatKey		@"Thread - IndexFormat"
 #define	kThreadFieldSeparaterKey	@"Thread - FieldSeparater"
 #define kThreadHostFormatKey		@"Thread - Host Format"
-#define kThreadDateFormatKey		@"Thread - DateDescription"
+//#define kThreadDateFormatKey		@"Thread - DateDescription" // No longer used. (Starlight Breaker)
 
-
-static void appendDateString(NSMutableString *buffer, id theDate, NSString *prefix);
+static NSString *dateStringFromObject(id theDate, NSString *prefix);
 static void appendFiledTitle(NSMutableAttributedString *buffer, NSString *title);
 static void appendWhiteSpaceSeparator(NSMutableAttributedString *buffer);
 
@@ -40,8 +39,6 @@ static void appendWhiteSpaceSeparator(NSMutableAttributedString *buffer);
 @implementation CMRAttributedMessageComposer
 
 static NSAttributedString	*wSS = nil;
-static NSDictionary			*localeDict_ = nil;
-static NSString				*threadDateFormat_ = nil;
 
 + (void) initialize 
 {
@@ -297,7 +294,7 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 			[tmp setString : dateRep];
 		}
 	} else {
-		appendDateString(tmp, [aMessage date], [aMessage datePrefix]);
+		[tmp setString: dateStringFromObject([aMessage date], [aMessage datePrefix])];
 	}
 
 	simpleAppendFieldItem([self contentsStorage], FIELD_DATE, tmp);
@@ -355,7 +352,6 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 	NSMutableAttributedString	*format_;
 	int							count_;
 	BOOL						makeLink = YES;
-	//NSRange						starRange = NSMakeRange(0,0);
 
 	if (messageIsLocalAboned_(aMessage))
 		return;
@@ -382,7 +378,6 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 			if (fontTagEnd.length != 0) {
 				fontTag.length = fontTagEnd.location - fontTag.location + fontTagEnd.length;
 				[beRep_ replaceCharactersInRange: fontTag withString: LOCALIZED_STR(@"BE_Solitaire")];
-				//starRange = NSMakeRange(fontTag.location, 1);
 			}
 		}
 
@@ -401,13 +396,7 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 						value : CMRLocalBeProfileLinkWithString([tmpAry_ objectAtIndex : 0])
 						range : [format_ range]];
 	}
-/*
-	if (NO == NSEqualRanges(NSMakeRange(0,0), starRange)) {
-		[format_ addAttribute: NSForegroundColorAttributeName
-						value: [NSColor redColor]
-						range: starRange];
-	}
-*/
+
 	mas_ = [self contentsStorage];
 
 	[mas_ appendAttributedString : format_];
@@ -570,38 +559,36 @@ ErrComposeHost:
 
 #pragma mark -
 
-static void appendDateString(NSMutableString *buffer, id theDate, NSString *prefix){
-	NSCalendarDate		*cdate_;
-	
-	if (nil == theDate)
-		return;
-	
-	if (nil == threadDateFormat_) {
-		NSUserDefaults	*defaults_ = [NSUserDefaults standardUserDefaults];
-		NSArray		*tmp_ = [defaults_ arrayForKey : NSShortWeekDayNameArray];
-		NSArray		*tmp2_ = [defaults_ arrayForKey : NSWeekDayNameArray];
+static NSString *dateStringFromObject(id theDate, NSString *prefix)
+{
+    static CFDateFormatterRef   formatterRef = NULL;
 
-		threadDateFormat_ = [SGTemplateResource(kThreadDateFormatKey) retain];
-		localeDict_ = [[NSDictionary alloc] initWithObjectsAndKeys : 
-							tmp_,  NSShortWeekDayNameArray,
-							tmp2_, NSWeekDayNameArray,
-							NULL];
-	}
+	if ([theDate isKindOfClass : [NSString class]])
+		return theDate;
 	
-	if ([theDate isKindOfClass : [NSString class]]) {
-		[buffer setString : theDate];
-		return;
-	}
+	if ([theDate isKindOfClass: [NSDate class]]) {
+        NSLog(@"NSDate -> NSString");
+        CFStringRef			dayStrRef;
 
-	cdate_ = [NSCalendarDate dateWithTimeIntervalSince1970 : [theDate timeIntervalSince1970]];
-	[cdate_ setCalendarFormat : threadDateFormat_];
-	[buffer setString : [cdate_ descriptionWithLocale : localeDict_]];
-	if (prefix != nil) {
-		[buffer insertString : @" " atIndex : 0];
-		[buffer insertString : prefix atIndex : 0];
-	}
+		if (formatterRef == NULL) {
+			CFLocaleRef	localeRef = CFLocaleCopyCurrent();
+			formatterRef = CFDateFormatterCreate(kCFAllocatorDefault, localeRef, kCFDateFormatterShortStyle, kCFDateFormatterMediumStyle);
+			CFRelease(localeRef);
+		}
 
-	return;
+		dayStrRef = CFDateFormatterCreateStringWithDate(kCFAllocatorDefault, formatterRef, (CFDateRef)theDate);
+
+		if (dayStrRef != NULL) {
+			NSString *dayStr_ = [NSString stringWithString: (NSString *)dayStrRef];
+			CFRelease(dayStrRef);
+			if (prefix == nil) {
+				return dayStr_;
+			} else {
+				return [NSString stringWithFormat: @"%@ %@", prefix, dayStr_];
+			}
+		}
+    }
+	return @"";
 }
 
 static void appendWhiteSpaceSeparator(NSMutableAttributedString *buffer)
@@ -614,19 +601,21 @@ static void appendWhiteSpaceSeparator(NSMutableAttributedString *buffer)
 
 static void appendFiledTitle(NSMutableAttributedString *buffer, NSString *title)
 {
-	NSString *fieldSeparater;
-	static NSMutableString	*tmp;
+	static NSString *fieldSeparator = nil;
+	static NSMutableString	*tmp = nil;
 	
-	fieldSeparater = SGTemplateResource(kThreadFieldSeparaterKey);
-	if (nil == fieldSeparater)
-		fieldSeparater = @" : ";
+	if (fieldSeparator == nil) {
+		fieldSeparator = SGTemplateResource(kThreadFieldSeparaterKey);
+		if (fieldSeparator == nil) {
+			fieldSeparator = @": ";
+		}
+	}
 	
-	if (nil == tmp)
+	if (tmp == nil)
 		tmp = [[NSMutableString alloc] init];
 	
 	[tmp setString : title];
-	[tmp appendString : fieldSeparater];
+	[tmp appendString: fieldSeparator];
 	
 	[buffer appendString:tmp withAttributes:[ATTR_TEMPLATE attributesForItemName]];
-	//appendWhiteSpaceSeparator(buffer);
 }
