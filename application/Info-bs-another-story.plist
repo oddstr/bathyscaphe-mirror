@@ -70,11 +70,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.5 SB5</string>
+	<string>1.5 SB6</string>
 	<key>CFBundleSignature</key>
 	<string>BsAs</string>
 	<key>CFBundleVersion</key>
-	<string>41</string>
+	<string>41.5</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.3.0</string>
 	<key>NSAppleScriptEnabled</key>

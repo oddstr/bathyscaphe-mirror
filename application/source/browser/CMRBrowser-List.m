@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.20 2007/01/07 17:04:23 masakih Exp $
+  * $Id: CMRBrowser-List.m,v 1.21 2007/02/18 05:19:27 tsawada2 Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -28,19 +28,18 @@
 }
 - (void) setCurrentThreadsList : (BSDBThreadList *) newList
 {
-	[self exchangeNotificationObserver :
-						CMRThreadsListDidUpdateNotification
+	BSDBThreadList *oldList = [self currentThreadsList];
+	[self exchangeNotificationObserver : CMRThreadsListDidUpdateNotification
 			selector : @selector(threadsListDidFinishUpdate:)
-		 oldDelegate : [self currentThreadsList]
+		 oldDelegate : oldList
 		 newDelegate : newList];
-	[self exchangeNotificationObserver :
-						CMRThreadsListDidChangeNotification
+	[self exchangeNotificationObserver : CMRThreadsListDidChangeNotification
 			selector : @selector(threadsListDidChange:)
-		 oldDelegate : [self currentThreadsList]
+		 oldDelegate : oldList
 		 newDelegate : newList];
 	[self exchangeNotificationObserver : BSDBThreadListDidFinishUpdateNotification
 							  selector : @selector(reselectThreadIfNeeded:)
-						   oldDelegate : [self currentThreadsList]
+						   oldDelegate : oldList
 						   newDelegate : newList];
 	
 	[[self threadsListTable] setDataSource : newList];
@@ -86,9 +85,9 @@
 	// sort column change
 	BoardManager	*bm_ = [BoardManager defaultManager];
 	sortColumnIdentifier_ = [bm_ sortColumnForBoard : boardName];
-	isAscending_ = [bm_ sortColumnIsAscendingAtBoard : boardName];
-	
-	[threadList setIsAscending : isAscending_];
+//	isAscending_ = [bm_ sortColumnIsAscendingAtBoard : boardName];
+	isAscending_ = [threadList isAscendingForKey: sortColumnIdentifier_];
+//	[threadList setIsAscending : isAscending_];
 	[self changeHighLightedTableColumnTo : sortColumnIdentifier_ isAscending : isAscending_];
 	
 	[self synchronizeWindowTitleWithDocumentName];

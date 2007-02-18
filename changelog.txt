@@ -1,4 +1,6 @@
 2007-02-18 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-List.m
+		特定の状況で、スレッド一覧のソート基準カラムの三角マークの向きが実際の昇順／降順の状態と一致していないことがあった問題を修正。
 	* application/Resources/Japanese.lproj/Localizable.strings
 	* application/Resources/Japanese.lproj/TextFind.nib
 	* application/source/thread/CMRThreadViewer-Find.m
@@ -15,6 +17,7 @@
 	   @KeyValueTemplates.plist も使用しなくなった。
 	* application/source/thread/BSRelativeKeywordsCollector.m
         スレッドを開いた後すぐに閉じると、タイミングによってはクラッシュすることがあった問題を修正。
+		追加：修正が不十分だったのでさらに修正した。
 2007-02-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/BSRelativeKeywordsCollector.m
 		2ch のちょっとした仕様変更でキーワードを解析できなくなっていたので修正。

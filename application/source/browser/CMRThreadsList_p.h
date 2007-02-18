@@ -34,7 +34,7 @@
 - (void) setBBSName : (NSString *) boardName;
 @end
 
-
+/*
 @interface CMRThreadsList(DownLoadPrivate)
 - (void) registerToNotificationCeterWithDownloader : (CMRDownloader *) downloader;
 - (void) removeFromNotificationCeterWithDownloader : (CMRDownloader *) downloader;
@@ -44,14 +44,14 @@
          didFinished : (NSMutableArray *) newList;
 - (void) downloaderNotFound : (NSNotification *) notification;
 @end
-
-
+*/
+/*
 @interface CMRThreadsList(NotificationCenterSupport)
 // added in LittleWish and later.
 //- (void) syncFavIfNeededWithAttr : (NSMutableDictionary *) thread
 //						 forPath : (NSString *) filePath;
 @end
-
+*/
 
 @interface CMRThreadsList(CleanUp)
 //- (void) trashDidPerformNotification : (NSNotification *) theNotification;
@@ -68,10 +68,11 @@
  delFavIfNecessary : (BOOL			 ) flag;
 @end
 
-
+/*
 @interface CMRThreadsList(ReadThreadsList)
 - (void) doLoadThreadsList : (CMRThreadLayout *) worker;
 - (void) startUpdateThreadsList : (NSMutableArray *) aList
 						 update : (BOOL            ) isUpdated
 					 usesWorker : (BOOL            ) usesWorker;
 @end
+*/

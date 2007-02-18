@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Contents.m,v 1.7 2007/02/12 18:22:24 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Contents.m,v 1.8 2007/02/18 05:19:27 tsawada2 Exp $
   * 
   * CMRThreadViewer-Contents.m
   *
@@ -119,13 +119,13 @@
 {
 	[self setCachedKeywords: keywordsDict];
 	[[self indexingPopupper] updateKeywordsMenu];
-	[aCollector release];
+//	[aCollector release];
 }
 - (void) collector: (BSRelativeKeywordsCollector *) aCollector didFailWithError: (NSError *) error
 {
 	NSLog(@"BSRKC - ERROR! %i", [error code]);
 	[self setCachedKeywords: [NSArray array]];
-	[aCollector release];
+//	[aCollector release];
 }
 
 - (void) updateKeywordsCache
@@ -134,7 +134,7 @@
 		[[self indexingPopupper] updateKeywordsMenuForOfflineMode];
 		return;
 	}
-	BSRelativeKeywordsCollector *collector = [[BSRelativeKeywordsCollector alloc] initWithThreadURL: [self threadURL] delegate: self];
+	BSRelativeKeywordsCollector *collector = [[[BSRelativeKeywordsCollector alloc] initWithThreadURL: [self threadURL] delegate: self] autorelease];
 	[collector startCollecting];
 }
 @end

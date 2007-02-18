@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.m,v 1.16 2007/02/06 13:36:37 tsawada2 Exp $
+  * $Id: CMRThreadsList.m,v 1.17 2007/02/18 05:19:27 tsawada2 Exp $
   * 
   * CMRThreadsList.m
   *
@@ -22,15 +22,15 @@ NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserIn
 
 
 // ƒ\[ƒg
-static NSComparisonResult sortArrayByContextKey(id arg1, id arg2, void *aKey);
-static NSComparisonResult sortArrayByStatus(id arg1, id arg2, void *alternateKey);
-static NSComparisonResult sortArrayByStatusAtFav(id arg1, id arg2, void *alternateKey);
-static NSComparisonResult sortArrayByFavNumKey(id arg1, id arg2, void *alternateKey);
+//static NSComparisonResult sortArrayByContextKey(id arg1, id arg2, void *aKey);
+//static NSComparisonResult sortArrayByStatus(id arg1, id arg2, void *alternateKey);
+//static NSComparisonResult sortArrayByStatusAtFav(id arg1, id arg2, void *alternateKey);
+//static NSComparisonResult sortArrayByFavNumKey(id arg1, id arg2, void *alternateKey);
 
-#define SORT_KEY(context)		(context)->key
-#define SORT_ASCENDING(context)	(context)->flags.isAscending
-#define SORT_NEWTHREAD(context)	(context)->flags.collectsByNewArrival
-
+//#define SORT_KEY(context)		(context)->key
+//#define SORT_ASCENDING(context)	(context)->flags.isAscending
+//#define SORT_NEWTHREAD(context)	(context)->flags.collectsByNewArrival
+/*
 struct SortContext {
 	NSString	*key;
 	struct {
@@ -38,7 +38,7 @@ struct SortContext {
 		unsigned	collectsByNewArrival:1;
 		unsigned	reserved:30;
 	} flags;
-};
+};*/
 
 
 
@@ -270,11 +270,11 @@ standard_writing:*/
 }
 - (void) sortByKey : (NSString *) key
 {
-	[self _filteredThreadsLock];
+/*	[self _filteredThreadsLock];
 	[self _sortArrayByKey:key array:[self filteredThreads]];
-	[self _filteredThreadsUnlock];
+	[self _filteredThreadsUnlock];*/
 }
-- (void) _sortArrayByKey : (NSString       *) key
+/*- (void) _sortArrayByKey : (NSString       *) key
                    array : (NSMutableArray *) theArray
 {
 	struct SortContext context;
@@ -294,7 +294,7 @@ standard_writing:*/
 	
 	[theArray sortUsingFunction : func_
 						context : &context];
-}
+}*/
 @end
 
 
@@ -338,7 +338,7 @@ standard_writing:*/
 	return APP_TLIST_LOCALIZABLE_FILE;
 }
 @end
-
+/*
 #pragma mark -
 
 static NSComparisonResult sortArrayByContextKey(id arg1, id arg2, void *context)
@@ -455,7 +455,7 @@ static NSComparisonResult sortArrayByStatusAtFav(id arg1, id arg2, void *context
 
 static NSComparisonResult sortArrayByFavNumKey(id arg1, id arg2, void *context)
 {
-/*	struct SortContext	*context_ = (struct SortContext*)context;
+	struct SortContext	*context_ = (struct SortContext*)context;
 	NSNumber			*s1, *s2;
 	NSComparisonResult	result;
 	NSArray				*favItemsIdx_ = [[CMRFavoritesManager defaultManager] favoritesItemsIndex];
@@ -473,6 +473,6 @@ static NSComparisonResult sortArrayByFavNumKey(id arg1, id arg2, void *context)
 	
 	return (!SORT_ASCENDING(context_)) 
 				? UTILComparisionResultReversed(result)
-				: result;*/
+				: result;
 	return NSOrderedAscending; // Dummy
-}
+}*/

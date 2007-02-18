@@ -881,7 +881,6 @@
 		F47362E60AFF8758009B6189 /* CMRBrowser-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC3904C698FA00A80005 /* CMRBrowser-ViewAccessor.m */; };
 		F47362E70AFF8758009B6189 /* CMRBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC3B04C698FA00A80005 /* CMRBrowser.m */; };
 		F47362E90AFF8758009B6189 /* CMRThreadsList-DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC4004C698FA00A80005 /* CMRThreadsList-DataSource.m */; };
-		F47362ED0AFF8758009B6189 /* CMRThreadsList-Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC4504C698FA00A80005 /* CMRThreadsList-Notification.m */; };
 		F47362EE0AFF8758009B6189 /* CMRThreadsList-Remove.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC4604C698FA00A80005 /* CMRThreadsList-Remove.m */; };
 		F47362EF0AFF8758009B6189 /* CMRThreadsList.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC4904C698FA00A80005 /* CMRThreadsList.m */; };
 		F47362F30AFF8758009B6189 /* CMRAttributedMessageComposer-Anchor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC6104C698FA00A80005 /* CMRAttributedMessageComposer-Anchor.m */; };
@@ -4666,7 +4665,6 @@
 				F47362E60AFF8758009B6189 /* CMRBrowser-ViewAccessor.m in Sources */,
 				F47362E70AFF8758009B6189 /* CMRBrowser.m in Sources */,
 				F47362E90AFF8758009B6189 /* CMRThreadsList-DataSource.m in Sources */,
-				F47362ED0AFF8758009B6189 /* CMRThreadsList-Notification.m in Sources */,
 				F47362EE0AFF8758009B6189 /* CMRThreadsList-Remove.m in Sources */,
 				F47362EF0AFF8758009B6189 /* CMRThreadsList.m in Sources */,
 				F47362F30AFF8758009B6189 /* CMRAttributedMessageComposer-Anchor.m in Sources */,
