@@ -1,3 +1,10 @@
+2007-02-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/bbs/BoardListItem/SmartBoardList.m
+		スレッド一覧から掲示板リストにスレッドをドラッグ＆ドロップして「お気に入り」に追加できる機能を復活させた。
+		また、ビルド時に警告が出ないようにした。
+	* application/source/browser/CMRFavoritesManager.m
+		file path や CMRThreadAttributes に加え、CMRThreadSignature を引数に渡して「お気に入り」への追加・確認を
+		行えるようにメソッドを追加した。
 2007-02-18 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-List.m
 		特定の状況で、スレッド一覧のソート基準カラムの三角マークの向きが実際の昇順／降順の状態と一致していないことがあった問題を修正。
@@ -5,16 +12,16 @@
 	* application/Resources/Japanese.lproj/TextFind.nib
 	* application/source/thread/CMRThreadViewer-Find.m
 	* application/source/thread/TextFinder.m
-	   「選択範囲を検索」したときは、選択範囲の語句を検索ペーストボードにも入れるようにした。
-	   また、TextFinder クラスのコードを少し整理した。
-	   また、「抽出」したときは、何個のレスが抽出されたか検索パネルに表示するようにした。
+		「選択範囲を検索」したときは、選択範囲の語句を検索ペーストボードにも入れるようにした。
+		また、TextFinder クラスのコードを少し整理した。
+		また、「抽出」したときは、何個のレスが抽出されたか検索パネルに表示するようにした。
 	* application/Resources/text/KeyValueTemplates.plist
         "Thread - DateDescription" キーを廃止（削除）した。
         "System - RelatedKeywords URL" キーを追加した。
 	* application/source/composer/CMRAttributedMessageComposer.m
-	   コードを整理した。また、NSDate しか日付データをもっていない古いレスからの日付文字列生成処理について、
-	   NSCalendarDate を使わないようにした。これに伴い、"Thread - DateDescription" キー
-	   @KeyValueTemplates.plist も使用しなくなった。
+		コードを整理した。また、NSDate しか日付データをもっていない古いレスからの日付文字列生成処理について、
+		NSCalendarDate を使わないようにした。これに伴い、"Thread - DateDescription" キー
+		@KeyValueTemplates.plist も使用しなくなった。
 	* application/source/thread/BSRelativeKeywordsCollector.m
         スレッドを開いた後すぐに閉じると、タイミングによってはクラッシュすることがあった問題を修正。
 		追加：修正が不十分だったのでさらに修正した。

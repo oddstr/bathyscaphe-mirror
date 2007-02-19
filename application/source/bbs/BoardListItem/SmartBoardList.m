@@ -7,55 +7,20 @@
 //
 
 #import "SmartBoardList.h"
-
+#import <CocoMonar/CMRPropertyKeys.h>
+#import "CMRFavoritesManager.h"
+#import "CMRThreadSignature.h"
 #import "BoardManager.h"
 #import "AppDefaults.h"
 
-@implementation SmartBoardList
-- (id)init
-{
-	if(self = [super init]) {
-		topLevelItem = [[BoardListItem alloc] initWithFolderName:@"Top"];
-	}
-	
-	return self;
-}
-- (id) initWithContentsOfFile : (NSString *) path
-{
-	if (self = [super init]) {
-		
-		[self synchronizeWithFile: path];
-		[self registerFileManager:path];
-		isEdited = NO;
-		[self registerNotification];
-	}
-	
-	return self;
-}
+@interface SmartBoardList(Private)
+- (void) registerFileManager : (NSString *) filepath;
+- (BOOL) synchronizeWithFile:(NSString *)filepath;
+- (void)registerNotification;
+- (void)unregisterNotification;
+@end
 
-- (void) dealloc
-{
-	[self unregisterNotification];
-	[topLevelItem release];
-	[listFilePath release];
-	
-	[super dealloc];
-}
-
-- (NSString *) defaultBoardListPath
-{
-	return [[BoardManager defaultManager] defaultBoardListPath];
-}
-
-- (BOOL) writeToFile : (NSString *) filepath
-		  atomically : (BOOL      ) flag
-{
-	id list = [topLevelItem plist];
-	if (nil == list) return NO;
-	
-	return [list writeToFile : filepath
-				  atomically : flag];
-}
+@implementation SmartBoardList(Private)
 - (void) registerFileManager : (NSString *) filepath
 {
     SGFileLocation *f;
@@ -102,6 +67,70 @@
 	[self setIsEdited:NO];
 	
 	return YES;
+}
+
+- (void)registerNotification
+{
+	id nc = [NSNotificationCenter defaultCenter];
+	
+	[nc addObserver:self
+		   selector:@selector(updateItem:)
+			   name:BoardListItemUpdateThreadsNotification
+			 object:nil];
+}
+
+- (void)unregisterNotification
+{
+	id nc = [NSNotificationCenter defaultCenter];
+	
+	[nc removeObserver:self];
+}
+@end
+
+@implementation SmartBoardList
+- (id)init
+{
+	if(self = [super init]) {
+		topLevelItem = [[BoardListItem alloc] initWithFolderName:@"Top"];
+	}
+	
+	return self;
+}
+- (id) initWithContentsOfFile : (NSString *) path
+{
+	if (self = [super init]) {
+		
+		[self synchronizeWithFile: path];
+		[self registerFileManager:path];
+		isEdited = NO;
+		[self registerNotification];
+	}
+	
+	return self;
+}
+
+- (void) dealloc
+{
+	[self unregisterNotification];
+	[topLevelItem release];
+	[listFilePath release];
+	
+	[super dealloc];
+}
+
+- (NSString *) defaultBoardListPath
+{
+	return [[BoardManager defaultManager] defaultBoardListPath];
+}
+
+- (BOOL) writeToFile : (NSString *) filepath
+		  atomically : (BOOL      ) flag
+{
+	id list = [topLevelItem plist];
+	if (nil == list) return NO;
+	
+	return [list writeToFile : filepath
+				  atomically : flag];
 }
 
 - (BOOL) isEdited
@@ -246,22 +275,6 @@
 {
 	[self postBoardListDidChangeNotification];
 }
-- (void)registerNotification
-{
-	id nc = [NSNotificationCenter defaultCenter];
-	
-	[nc addObserver:self
-		   selector:@selector(updateItem:)
-			   name:BoardListItemUpdateThreadsNotification
-			 object:nil];
-}
-
-- (void)unregisterNotification
-{
-	id nc = [NSNotificationCenter defaultCenter];
-	
-	[nc removeObserver:self];
-}
 
 - (void) didUpdateBoardFile:(NSNotification *) aNotification
 {
@@ -301,23 +314,6 @@
 @end
 
 @implementation SmartBoardList (OutlineViewDataSorce)
-- (void) outlineView : (NSOutlineView *) outlineView
-    setDataCellImage : (NSImage       *) anImage
-         tableColumn : (NSTableColumn *) tableColumn
-			 forItem : (id             ) item
-{
-	id		cell_;
-	int		rowIndex_;
-	
-	rowIndex_ = [outlineView rowForItem : item];
-	cell_ = [tableColumn dataCellForRow : rowIndex_];
-	
-	if (cell_ != nil && [cell_ isKindOfClass : [NSBrowserCell class]]) {
-		[cell_ setImage : anImage];
-	}
-}
-
-
 - (id) outlineView : (NSOutlineView *) outlineView child : (int) index ofItem : (id) item
 {
 	id result = nil;
@@ -439,27 +435,37 @@ objectValueForTableColumn : (NSTableColumn *) tableColumn
 not_writtable:
 		return YES;
 }
-- (BOOL) outlineView : (NSOutlineView     *) outlineView
-          acceptDrop : (id <NSDraggingInfo>) info
-                item : (id                 ) item
-          childIndex : (int                ) index
+- (BOOL) outlineView: (NSOutlineView *) outlineView handleDroppedThreads: (id) propertyListObject item: (id) item childIndex: (int) index
 {
-	NSPasteboard	*pboard_;
-	NSString		*type_;
-	id				items_;
+	if (item != [BoardListItem favoritesItem]) {
+		return NO;
+	}
+
+	id<CMRPropertyListCoding>	plist_;
+	CMRThreadSignature		*signature_;
+	NSEnumerator			*iter_;
+	CMRFavoritesManager		*fm_ = [CMRFavoritesManager defaultManager];
+	BOOL					result_ = NO;
+
+	iter_ = [propertyListObject objectEnumerator];
+	while (plist_ = [iter_ nextObject]) {
+		signature_ = [CMRThreadSignature objectWithPropertyListRepresentation: plist_];
+		if ([fm_ addFavoriteWithSignature : signature_] && NO == result_) {
+			result_ = YES;
+		}
+	}
+	return result_;
+}
+
+- (BOOL) outlineView: (NSOutlineView *) outlineView handleDroppedBoards: (id) propertyListObject item: (id) item childIndex: (int) index
+{
+	id	items_;
 	BoardListItem	*target_;
 	
 	NSEnumerator	*iter_;
 	BoardListItem	*dropped_;
-	
-	pboard_ = [info draggingPasteboard];
-	type_ = [pboard_ availableTypeFromArray : 
-		[NSArray arrayWithObjects : CMRBBSListItemsPboardType, nil]];
-	if(NO == [CMRBBSListItemsPboardType isEqualToString : type_])
-		return NO;
-	
-	items_ = [pboard_ propertyListForType : CMRBBSListItemsPboardType];
-	items_ = [items_ propertyList];
+
+	items_ = [propertyListObject propertyList];
 	
 	target_ = (nil == item) ? topLevelItem : item;
 	if(nil == target_)
@@ -503,11 +509,58 @@ not_writtable:
 	[outlineView reloadData];
 	return YES;
 }
+
+- (BOOL) outlineView : (NSOutlineView     *) outlineView
+          acceptDrop : (id <NSDraggingInfo>) info
+                item : (id                 ) item
+          childIndex : (int                ) index
+{
+	NSPasteboard	*pboard_;
+	NSString		*type_;
+	
+	pboard_ = [info draggingPasteboard];
+	type_ = [pboard_ availableTypeFromArray: [NSArray arrayWithObjects: CMRBBSListItemsPboardType, BSThreadItemsPboardType, nil]];
+
+	if ([type_ isEqualToString: CMRBBSListItemsPboardType]) {
+		return [self outlineView: outlineView
+			 handleDroppedBoards: [pboard_ propertyListForType: CMRBBSListItemsPboardType]
+							item: item
+					  childIndex: index];
+	} else if ([type_ isEqualToString: BSThreadItemsPboardType]) {
+		return [self outlineView: outlineView
+			handleDroppedThreads: [pboard_ propertyListForType: BSThreadItemsPboardType]
+							item: item
+					  childIndex: index];
+	} else {
+		return NO;
+	}
+}
 - (NSDragOperation) outlineView : (NSOutlineView     *) outlineView
                    validateDrop : (id <NSDraggingInfo>) info
                    proposedItem : (id                 ) item
              proposedChildIndex : (int                ) index;
 {
+	NSPasteboard *pboard_ = [info draggingPasteboard];
+
+	if ([pboard_ availableTypeFromArray: [NSArray arrayWithObjects: BSThreadItemsPboardType, nil]] != nil) {
+		NSArray			*threadSignatures_;
+		NSEnumerator	*iter_;
+		id<CMRPropertyListCoding>	plistRep_;
+		CMRFavoritesManager	*fM = [CMRFavoritesManager defaultManager];
+		CMRThreadSignature	*signature_;
+
+		threadSignatures_ = [pboard_ propertyListForType: BSThreadItemsPboardType];
+		iter_ = [threadSignatures_ objectEnumerator];
+		while (plistRep_ = [iter_ nextObject]) {
+			signature_ = [CMRThreadSignature objectWithPropertyListRepresentation: plistRep_];
+			if (NO == [fM favoriteItemExistsOfThreadSignature: signature_]) {
+				[outlineView setDropItem: [BoardListItem favoritesItem] dropChildIndex: NSOutlineViewDropOnItemIndex];
+				return NSDragOperationCopy;
+			}
+		}
+		return NSDragOperationNone;
+	}
+
 	if (index == 0) return NSDragOperationNone; // 「お気に入り」の上に他のリスト項目をドロップさせない
 	if(item != nil && index < 0 &&  NO == [BoardListItem isFolderItem : item]){
 		return NSDragOperationNone;

@@ -1,11 +1,11 @@
 /**
-  * $Id: CMRFavoritesManager.h,v 1.8 2007/02/06 13:36:37 tsawada2 Exp $
+  * $Id: CMRFavoritesManager.h,v 1.9 2007/02/19 23:26:05 tsawada2 Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
 
 #import <Foundation/Foundation.h>
-
+@class CMRThreadSignature;
 
 typedef enum {
 	CMRFavoritesOperationNone,
@@ -16,49 +16,32 @@ typedef enum {
 
 @interface CMRFavoritesManager : NSObject
 {
-//	NSMutableArray	*_favoritesItemsArray;
-//	NSMutableArray	*_favoritesItemsIndex;
-//	NSMutableArray	*_changedFavItemsPool;
-//	NSTimer			*m_writeTimer;
 }
-
 + (id) defaultManager;
-
-//- (NSMutableArray *) favoritesItemsArray;
-//- (void) setFavoritesItemsArray : (NSMutableArray *) anArray;
-//- (NSMutableArray *) favoritesItemsIndex;
-//- (void) setFavoritesItemsIndex : (NSMutableArray *) anArray;
-
-//- (NSMutableArray *) changedFavItemsPool;
-//- (void) setChangedFavItemsPool : (NSMutableArray *) anArray;
-
-//- (NSMutableArray *) itemsForRemoving;
-//- (NSMutableArray *) itemsForChange;
 @end
-
 
 
 @interface CMRFavoritesManager(Management)
 - (CMRFavoritesOperation) availableOperationWithPath : (NSString *) filepath;
+// Available in Starlight Breaker.
+- (CMRFavoritesOperation) availableOperationWithSignature: (CMRThreadSignature *) signature;
+
 - (BOOL) canCreateFavoriteLinkFromPath : (NSString *) filepath;
 - (BOOL) favoriteItemExistsOfThreadPath : (NSString *) filepath;
 
+// Available in Starlight Breaker.
+- (BOOL) favoriteItemExistsOfThreadSignature: (CMRThreadSignature *) signature;
+
 - (BOOL) addFavoriteWithThread : (NSDictionary *) thread;
 - (BOOL) addFavoriteWithFilePath : (NSString *) filepath;
+// Available in Starlight Breaker.
+- (BOOL) addFavoriteWithSignature: (CMRThreadSignature *) signature;
+
 - (BOOL) removeFromFavoritesWithThread : (NSDictionary *) thread;
 - (BOOL) removeFromFavoritesWithFilePath : (NSString *) filepath;
 
-- (void) removeFromFavoritesWithPathArray : (NSArray *) pathArray_;
-// Removed in ReinforceII and later.
-//- (int) insertFavItemsTo : (int) index withIndexArray : (NSArray *) indexArray_ isAscending : (BOOL) isAscending_;
-// Available in ReinforceII and later.
-- (NSIndexSet *) insertFavItemsWithIndexes: (NSIndexSet *) indexSet atIndex: (unsigned int) index isAscending: (BOOL) isAscending;
-
-//- (void) addItemToPoolWithFilePath : (NSString *) filepath;
-//- (void) removeFromPoolWithFilePath : (NSString *) filepath;
-
-//- (unsigned int) getNumOfMsgsWithFilePath: (NSString *) filepath;
-//- (void) updateFavItemsArrayWithAppendingNumOfMsgs;
+// Deprecated in Starlight Breaker.
+//- (void) removeFromFavoritesWithPathArray : (NSArray *) pathArray_;
 @end
 
 

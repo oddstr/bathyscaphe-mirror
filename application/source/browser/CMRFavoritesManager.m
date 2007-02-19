@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFavoritesManager.m,v 1.17 2007/02/06 13:36:37 tsawada2 Exp $
+  * $Id: CMRFavoritesManager.m,v 1.18 2007/02/19 23:26:05 tsawada2 Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
@@ -10,7 +10,7 @@
 #import "CMRThreadAttributes.h"
 #import "CMRThreadsList_p.h"
 #import <AppKit/NSDocumentController.h>
-
+#import "CMRThreadSignature.h"
 #import "CMRTrashbox.h"
 
 #import "BSDBThreadList.h"
@@ -24,31 +24,10 @@ NSString *const CMRFavoritesManagerDidRemoveFavoritesNotification = @"CMRFavorit
 
 @implementation CMRFavoritesManager
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
-/*
-+ (NSString *) defaultFilepath
-{
-	return [[CMRFileManager defaultManager]
-				 supportFilepathWithName : CMRFavoritesFile
-						resolvingFileRef : NULL];
-}
 
-// ébíË
-+ (NSString *) subFilepath
-{
-	return [[CMRFileManager defaultManager]
-				 supportFilepathWithName : CMRFavMemoFile
-						resolvingFileRef : NULL];
-}
-*/
 - (id) init
 {
 	if (self = [super init]) {
-/*		[[NSNotificationCenter defaultCenter]
-				 addObserver : self
-					selector : @selector(applicationWillTerminate:)
-					    name : NSApplicationWillTerminateNotification
-					  object : NSApp];*/
-
 		[[NSNotificationCenter defaultCenter]
 				 addObserver : self
 					selector : @selector(trashDidPerform:)
@@ -57,43 +36,12 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	}
 	return self;
 }
-/*
-- (void) saveToFile: (NSTimer *) aTimer
-{
-	[[self favoritesItemsArray] writeToFile : [[self class] defaultFilepath]
-								 atomically : YES];
-	[[self changedFavItemsPool] writeToFile : [[self class] subFilepath]
-								 atomically : YES];
-}
-*/
+
 - (void) dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver : self];
-//	[m_writeTimer invalidate];
-//	[m_writeTimer release];
-//	[_favoritesItemsArray release];
-//	[_favoritesItemsIndex release];
-//	[_changedFavItemsPool release];
 	[super dealloc];
 }
-
-///- (void) applicationWillTerminate : (NSNotification *) notification
-//{	
-//	UTILAssertNotificationName(
-//		notification,
-//		NSApplicationWillTerminateNotification);
-//	UTILAssertNotificationObject(
-//		notification,
-//		NSApp);	
-///*	
-//	[[self favoritesItemsArray] writeToFile : [[self class] defaultFilepath]
-//								 atomically : YES];
-//	[[self changedFavItemsPool] writeToFile : [[self class] subFilepath]
-//								 atomically : YES];
-//*/
-//	[self saveToFile: nil];
-//}
-
 
 - (void) trashDidPerform : (NSNotification *) notification
 {	
@@ -126,132 +74,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	}
 
 }
-
-#pragma mark -
-
-//- (NSMutableArray *) favoritesItemsArray
-//{
-//	if (nil == _favoritesItemsArray) {
-//		_favoritesItemsArray = [[NSMutableArray alloc] initWithContentsOfFile : 
-//														[[self class] defaultFilepath]];
-//	}
-//	if (nil == _favoritesItemsArray) {
-//		_favoritesItemsArray = [[NSMutableArray alloc] init];
-//	}
-//	
-//	return _favoritesItemsArray;
-//}
-
-//- (void) setFavoritesItemsArray : (NSMutableArray *) anArray
-//{
-//	id		tmp;
-//	
-//	tmp = _favoritesItemsArray;
-//	_favoritesItemsArray = [anArray retain];
-//	[tmp release];
-//}
-
-//- (NSMutableArray *) favoritesItemsIndex
-//{
-//	if (nil == _favoritesItemsIndex) {
-//		NSMutableArray	*favItems_ = [self favoritesItemsArray];
-//
-//		if ([favItems_ count] == 0) {
-//			_favoritesItemsIndex = [[NSMutableArray alloc] init];
-//		} else {
-//			NSEnumerator	*iter_;
-//			NSDictionary	*anItem_;	// each favorite item
-//			NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]; // 2005-12-04 Ç«Ç§ÇæÇÎÇ§ÅH
-//
-//			_favoritesItemsIndex = [[NSMutableArray alloc] initWithCapacity : [favItems_ count]];
-//
-//			iter_ = [favItems_ objectEnumerator];
-//
-//			while ((anItem_ = [iter_ nextObject]) != nil) {
-//				id	itemPath_;
-//				itemPath_ = [CMRThreadAttributes pathFromDictionary : anItem_];
-//				UTILAssertNotNil(itemPath_);
-//
-//				[_favoritesItemsIndex addObject : itemPath_];
-//			}
-//			
-//			[pool release];
-//		}
-//	}
-//	
-//	return _favoritesItemsIndex;
-//}
-
-//- (void) setFavoritesItemsIndex : (NSMutableArray *) anArray
-//{
-//	id		tmp;
-//	
-//	tmp = _favoritesItemsIndex;
-//	_favoritesItemsIndex = [anArray retain];
-//	[tmp release];
-//}
-
-// Ç±ÇÃÇ÷ÇÒÅAébíËìIÇ»é¿ëï
-//- (NSMutableArray *) changedFavItemsPool
-//{
-//	if (nil == _changedFavItemsPool) {
-//		_changedFavItemsPool = [[NSMutableArray alloc] initWithContentsOfFile : 
-//														[[self class] subFilepath]];
-//	}
-//	if (nil == _changedFavItemsPool) {
-//		_changedFavItemsPool = [[NSMutableArray alloc] initWithCapacity : 50];
-//	}
-//	
-//	return _changedFavItemsPool;
-//}
-//
-//- (void) setChangedFavItemsPool : (NSMutableArray *) anArray
-//{
-//	id		tmp;
-//	
-//	tmp = _changedFavItemsPool;
-//	_changedFavItemsPool = [anArray retain];
-//	[tmp release];
-//}
-//
-//- (NSMutableArray *) itemsForRemoving
-//{
-//	NSEnumerator	*iter_;
-//	NSString		*anItem_;	// each pool item
-//	
-//	NSArray			*tmp_ = [self favoritesItemsIndex];
-//	NSFileManager	*dFM_ = [NSFileManager defaultManager];
-//	
-//	NSMutableArray	*array_ = [NSMutableArray array];
-//
-//	iter_ = [[self changedFavItemsPool] objectEnumerator];
-//	
-//	while ((anItem_ = [iter_ nextObject]) != nil) {
-//		if ((![tmp_ containsObject : anItem_]) || (![dFM_ fileExistsAtPath : anItem_]))
-//			[array_ addObject : anItem_];
-//	}
-//
-//	return array_;
-//}
-
-//- (NSMutableArray *) itemsForChange
-//{
-//	NSEnumerator	*iter_;
-//	NSString		*anItem_;	// each pool item
-//	
-//	NSArray			*tmp_ = [self favoritesItemsIndex];
-//	
-//	NSMutableArray	*array_ = [NSMutableArray array];
-//
-//	iter_ = [[self changedFavItemsPool] objectEnumerator];
-//	
-//	while ((anItem_ = [iter_ nextObject]) != nil) {
-//		if ([tmp_ containsObject : anItem_])
-//			[array_ addObject : anItem_];
-//	}
-//
-//	return array_;
-//}
 @end
 
 #pragma mark -
@@ -293,6 +115,29 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	return [self availableOperationWithThread : attr_];
 }
 
+- (CMRFavoritesOperation)availableOperationWithSignature:(CMRThreadSignature *)signature
+{
+	id identifier = [signature identifier];
+	id boardName = [signature BBSName];
+	id boardIDs;
+
+	boardIDs = [[DatabaseManager defaultManager] boardIDsForName:boardName];
+	
+	if( !identifier || !boardIDs ) return CMRFavoritesOperationNone;
+	
+	/* TODO 
+		ï°êîë∂ç›Ç∑ÇÈèÍçáÇÃèàóù
+*/
+	unsigned boardID;
+	boardID = [[boardIDs objectAtIndex:0] unsignedIntValue];
+	
+	BOOL isFavorite;
+	isFavorite = [[DatabaseManager defaultManager] isFavoriteThreadIdentifier:identifier
+																	onBoardID:boardID];
+	
+	return isFavorite ? CMRFavoritesOperationRemove : CMRFavoritesOperationLink;
+}
+
 - (BOOL) canCreateFavoriteLinkFromPath : (NSString *) filepath
 {
 	return (CMRFavoritesOperationLink == [self availableOperationWithPath : filepath]);
@@ -301,8 +146,13 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 - (BOOL) favoriteItemExistsOfThreadPath : (NSString *) filepath
 {
 	UTILAssertNotNil(filepath);
-//	return [[self favoritesItemsIndex] containsObject : filepath];
 	return (CMRFavoritesOperationRemove == [self availableOperationWithPath : filepath]);
+}
+
+- (BOOL) favoriteItemExistsOfThreadSignature: (CMRThreadSignature *) signature
+{
+	UTILAssertNotNil(signature);
+	return (CMRFavoritesOperationRemove == [self availableOperationWithSignature: signature]);
 }
 
 - (BOOL) addFavoriteWithThread: (id) threadIdentifier ofBoard: (NSString *) boardName
@@ -340,6 +190,12 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	if (attr_ == nil) return NO;
 	
 	return [self addFavoriteWithThread : attr_];
+}
+- (BOOL) addFavoriteWithSignature : (CMRThreadSignature *) signature
+{	
+	if(signature == nil) return NO;
+
+	return [self addFavoriteWithThread : [signature identifier] ofBoard: [signature BBSName]];
 }
 
 - (BOOL) removeFavoriteWithThread: (id) threadIdentifier ofBoard: (NSString *) boardName
@@ -381,148 +237,20 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 - (void) removeFromFavoritesWithPathArray : (NSArray *) pathArray_
 {
-/*	NSEnumerator	*iter_;
-	NSString		*aPath_;
-
-	if (nil == pathArray_ || [pathArray_ count] == 0 ) return;
-	iter_ = [pathArray_ objectEnumerator];
-
-	while ((aPath_ = [iter_ nextObject]) != nil) {
-		if ([[self favoritesItemsIndex] containsObject : aPath_]) {
-			[self removeFromFavoritesWithFilePath : aPath_];
-		}
-	}*/
 }
 
 #pragma mark -
 - (NSIndexSet *) convertIndexesWithDescendingSortedRows: (NSIndexSet *) descendingIndexSet count: (unsigned int) count
 {
-	NSMutableIndexSet	*result = [NSMutableIndexSet indexSet];
-/*	unsigned int	currentIndex, i, numOfElms = [descendingIndexSet count];
-	
-	currentIndex = [descendingIndexSet firstIndex];
-	for (i = 0; i < numOfElms; i++) {
-		unsigned int	convertedIndex = count - currentIndex - 1;
-		[result addIndex: convertedIndex];
-		
-		currentIndex = [descendingIndexSet indexGreaterThanIndex: currentIndex];
-	}
-*/	
-	return result;
+	return nil;
 }
 
 - (NSIndexSet *) insertFavItemsWithIndexes: (NSIndexSet *) indexSet atIndex: (unsigned int) index isAscending: (BOOL) isAscending
 {
-/*	NSMutableArray	*insertArray_, *aboveArray_, *belowArray_, *newFavAry_;
-	NSRange			aboveAryRange, belowAryRange;
-	unsigned int	countOfFavItms, c_insertionIndex, numOfDraggedRows, insertedPoint;
-	unsigned int	currentIndex, i;
-	NSIndexSet		*c_indexes, *indexesForRowSelect;
-	NSArray			*favItmsAry = [self favoritesItemsArray];
-	
-	if (indexSet == nil || (numOfDraggedRows = [indexSet count]) == 0) return nil;
-
-	countOfFavItms = [favItmsAry count];
-	
-	c_insertionIndex = isAscending ? index : (countOfFavItms - index);
-	c_indexes = isAscending ? indexSet : [self convertIndexesWithDescendingSortedRows: indexSet count: countOfFavItms];
-	
-	insertArray_ = [[NSMutableArray alloc] initWithCapacity: numOfDraggedRows];
-
-	aboveAryRange = NSMakeRange(0, c_insertionIndex);
-	belowAryRange = NSMakeRange(c_insertionIndex, (countOfFavItms - c_insertionIndex));
-
-	aboveArray_ = [[NSMutableArray alloc] initWithArray: [favItmsAry subarrayWithRange: aboveAryRange]];
-	belowArray_ = [[NSMutableArray alloc] initWithArray: [favItmsAry subarrayWithRange: belowAryRange]];
-
-	currentIndex = [c_indexes firstIndex];
-	for (i = 0; i < numOfDraggedRows; i++) {
-		id item_ = [favItmsAry objectAtIndex: currentIndex];
-		[insertArray_ addObject: item_];
-
-		if (NSLocationInRange(currentIndex, aboveAryRange)) {
-			[aboveArray_ removeObject: item_];
-		} else if (NSLocationInRange(currentIndex, belowAryRange)) {
-			[belowArray_ removeObject: item_];
-		}
-
-		currentIndex = [c_indexes indexGreaterThanIndex: currentIndex];
-	}
-	
-	newFavAry_ = [[NSMutableArray alloc] initWithCapacity : countOfFavItms];
-	[newFavAry_ addObjectsFromArray : aboveArray_];
-	[newFavAry_ addObjectsFromArray : insertArray_];
-	[newFavAry_ addObjectsFromArray : belowArray_];
-	
-	[self setFavoritesItemsArray : newFavAry_];
-	[newFavAry_ release];
-
-	[self setFavoritesItemsIndex : nil];
-	[self favoritesItemsIndex];
-	
-	insertedPoint = isAscending ? [aboveArray_ count] : [belowArray_ count];
-	indexesForRowSelect = [NSIndexSet indexSetWithIndexesInRange: NSMakeRange(insertedPoint, numOfDraggedRows)];
-	
-	[aboveArray_ release];
-	[insertArray_ release];
-	[belowArray_ release];
-	
-	return indexesForRowSelect;*/
 	return nil;
 }
 
-#pragma mark -
-
-//ébíËé¿ëï
-//- (void) addItemToPoolWithFilePath : (NSString *) filepath
-//{
-//	if (filepath == nil) return;
-//
-//	// âΩÇÁÇ©ÇÃóùóRÇ≈ä˘Ç…ìoò^Ç≥ÇÍÇƒÇ¢ÇÈèÍçáÇÕÅAìoò^ÇµÇ»Ç¢
-//	if ([[self changedFavItemsPool] containsObject : filepath]) return;
-//	
-//	// ï€éùêîÇÃè„å¿Çí¥Ç¶ÇΩèÍçáÇÕàÍî‘å√Ç¢Ç‡ÇÃÇçÌèúÅiÉpÉtÉHÅ[É}ÉìÉXÇ∆ÇÃåìÇÀçáÇ¢Åj
-//	// SledgeHammer : è„å¿ 50 Ç…å≈íË
-//    if ([[self changedFavItemsPool] count] > 50) {
-//		[[self changedFavItemsPool] removeObjectAtIndex : 0];
-//	}
-//	
-//	[[self changedFavItemsPool] addObject : filepath];
-//}
-//
-//- (void) removeFromPoolWithFilePath : (NSString *) filepath
-//{	
-//	if (filepath == nil) return;
-//	
-//	[[self changedFavItemsPool] removeObject : filepath];
-//}
-
-//- (unsigned int) getNumOfMsgsWithFilePath: (NSString *) filepath
-//{
-//	// ThreadsList.plist Ç™Ç†ÇÈÇ©
-//	NSString		*boardName_ = [[CMRDocumentFileManager defaultManager] boardNameWithLogPath: filepath];
-//	NSString		*plistPath_;
-//	plistPath_ = [[CMRDocumentFileManager defaultManager] threadsListPathWithBoardName: boardName_];
-//
-//	if ([[NSFileManager defaultManager] isReadableFileAtPath: plistPath_] ) {
-//		// ThreadsList.plist Ç™Ç†ÇÈ
-//		NSArray	*threadsList_, *idArray_;
-//		int tIndex_ = 0;
-//
-//		threadsList_ = [NSArray arrayWithContentsOfFile : plistPath_];
-//		// valueForKey: is available in Mac OS X 10.3 and later.
-//		idArray_ = [threadsList_ valueForKey : ThreadPlistIdentifierKey];
-//		tIndex_ = [idArray_ indexOfObject : [[filepath stringByDeletingPathExtension] lastPathComponent]];
-//
-//		if (tIndex_ != NSNotFound) {
-//			unsigned	numOfMsgs_ = [[threadsList_ objectAtIndex : tIndex_] unsignedIntForKey : CMRThreadNumberOfMessagesKey];
-//			return numOfMsgs_;
-//		}
-//	}
-//	
-//	return 0;
-//}
-
+//#pragma mark -
 //- (void) updateFavItemsArrayWithAppendingNumOfMsgs
 //{
 //	NSMutableArray *favItmsAry = [[self favoritesItemsArray] mutableCopy];
