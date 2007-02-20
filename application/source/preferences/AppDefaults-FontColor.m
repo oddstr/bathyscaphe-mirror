@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-FontColor.m,v 1.13 2006/11/05 12:53:48 tsawada2 Exp $
+  * $Id: AppDefaults-FontColor.m,v 1.14 2007/02/20 14:27:17 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -49,6 +49,7 @@ static NSString *const kPrefBoardListRowHeightKey	= @"BoardList Row Height";
 static NSString *const kPrefBoardListBgColorKey		= @"BoardList Bg Color";
 static NSString *const kPrefBoardListTextColorKey	= @"BoardList Text Color";
 static NSString *const kPrefBoardListFontKey		= @"BoardList Font";
+static NSString *const kPrefBoardListTextAttrKey	= @"bs_internal:BoardList Text Attributes";
 
 static NSString *const kPrefThreadViewerMsgSpacingBeforeKey = @"Message Content Spacing (Top)";
 static NSString *const kPrefThreadViewerMsgSpacingAfterKey	= @"Message Content Spacing (Bottom)";
@@ -177,14 +178,19 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 	使うべしとドキュメントにある。NSLayoutManager の defaultLineHeightForFont: は、
 	Mac OS X 10.2 以降で使えるので、互換性の問題はない。よって、そちらに切り替えることにする。
 	*/
-	NSLayoutManager	*tmp_;
+//	NSLayoutManager	*tmp_;
+	static NSLayoutManager *calculator = nil;
 	float			value_;
 
-	tmp_ = [[NSLayoutManager alloc] init];
-	value_ = [tmp_ defaultLineHeightForFont : font_];
-	[tmp_ release];
+//	tmp_ = [[NSLayoutManager alloc] init];
+//	value_ = [tmp_ defaultLineHeightForFont : font_];
+//	[tmp_ release];
+	if (calculator == nil) {
+		calculator = [[NSLayoutManager alloc] init];
+	}
+	value_ = [calculator defaultLineHeightForFont: font_];
 
-	if (value_ < minValue_) value_ = minValue_;
+	if (minValue_ != 0 && value_ < minValue_) value_ = minValue_;
 	
 	return value_;
 }
@@ -606,6 +612,33 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 }
 
 #pragma mark BoardList
+- (NSDictionary *) boardListTextAttributes // Available in Starlight Breaker.
+{
+	id	obj = [[self appearances] objectForKey: kPrefBoardListTextAttrKey];
+	if (obj == nil) {
+		NSDictionary *attrDict;
+		NSMutableParagraphStyle *style_;
+		float	height_;
+
+		style_ = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
+		height_ = getDefaultLineHeightForFont([self boardListFont], 0) / 2;
+		[style_ setParagraphSpacingBefore: ([self boardListRowHeight] - height_)];
+		
+		attrDict = [NSDictionary dictionaryWithObjectsAndKeys: [CMRPref boardListFont], NSFontAttributeName,
+															   [CMRPref boardListTextColor], NSForegroundColorAttributeName,
+															   style_, NSParagraphStyleAttributeName, NULL];
+		[[self appearances] setObject: attrDict forKey: kPrefBoardListTextAttrKey];
+		return attrDict;
+	} else {
+		return obj;
+	}
+}
+
+- (void) resetBoardListTextAttributes
+{
+	[[self appearances] removeObjectForKey: kPrefBoardListTextAttrKey];
+}
+
 - (float) boardListRowHeight
 {
 	return [[self appearances] floatForKey : kPrefBoardListRowHeightKey
@@ -615,6 +648,7 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 {
 	[[self appearances] setFloat : rowHeight
 						  forKey : kPrefBoardListRowHeightKey];
+	[self resetBoardListTextAttributes];
 	[self postLayoutSettingsUpdateNotification];
 }
 
@@ -631,6 +665,7 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 - (void) setBoardListFont : (NSFont *) font
 {
 	[self setAppearanceFont : font forKey : kPrefBoardListFontKey];
+	[self resetBoardListTextAttributes];
 	[self postLayoutSettingsUpdateNotification];
 }
 
@@ -644,6 +679,7 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 - (void) setBoardListTextColor : (NSColor *) color
 {
 	[self setAppearanceColor : color forKey : kPrefBoardListTextColorKey];
+	[self resetBoardListTextAttributes];
 	[self postLayoutSettingsUpdateNotification];
 }
 
@@ -662,6 +698,7 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 	id					key;
 	
 	mdict = [self appearances];
+	[mdict removeObjectForKey: kPrefBoardListTextAttrKey];
 	mResult = [mdict mutableCopy];
 	UTILAssertNotNil(mdict);
 	

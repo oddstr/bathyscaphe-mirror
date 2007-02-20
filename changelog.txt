@@ -1,7 +1,9 @@
 2007-02-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/preferences/AppDefaults-FontColor.m
 	* application/source/bbs/BoardListItem/SmartBoardList.m
 		スレッド一覧から掲示板リストにスレッドをドラッグ＆ドロップして「お気に入り」に追加できる機能を復活させた。
 		また、ビルド時に警告が出ないようにした。
+		さらに、掲示板リストの文字の高さや余白の計算を SmartBoardList から AppDefaults クラスに持ち替えた。
 	* application/source/browser/CMRFavoritesManager.m
 		file path や CMRThreadAttributes に加え、CMRThreadSignature を引数に渡して「お気に入り」への追加・確認を
 		行えるようにメソッドを追加した。

@@ -13,6 +13,8 @@
 #import "BoardManager.h"
 #import "AppDefaults.h"
 
+@class BSBoardListView;
+
 @interface SmartBoardList(Private)
 - (void) registerFileManager : (NSString *) filepath;
 - (BOOL) synchronizeWithFile:(NSString *)filepath;
@@ -350,49 +352,29 @@
 	
 	return result;
 }
-static NSMutableAttributedString *makeAttrStrFromStr (NSString *source)
+
+// 掲示板リストだけでなく、「掲示板の追加」シートでも呼び出される
+- (id) outlineView: (NSOutlineView *) outlineView objectValueForTableColumn: (NSTableColumn *) tableColumn byItem: (id) item
 {
-	NSMutableParagraphStyle *style_;
-	style_ = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-	[style_ setParagraphSpacingBefore : ( ([CMRPref boardListRowHeight] - [[CMRPref boardListFont] defaultLineHeightForFont]) / 2) ];
-	
-	NSDictionary *tmpAttrDict = [NSDictionary dictionaryWithObjectsAndKeys :
-		[CMRPref boardListFont], NSFontAttributeName,
-		[CMRPref boardListTextColor], NSForegroundColorAttributeName,
-		style_, NSParagraphStyleAttributeName,
-		NULL];
-	
-	[style_ release];
-	
-	return [[[NSMutableAttributedString alloc] initWithString : source attributes : tmpAttrDict] autorelease];
-}
-- (id) outlineView : (NSOutlineView *) outlineView
-objectValueForTableColumn : (NSTableColumn *) tableColumn
-		   byItem : (id) item
-{
-	id result = nil;
-	
 	if ([BoardPlistNameKey isEqualTo : [tableColumn identifier]]) {
         id obj = [item representName];
-		
-		if(obj) {
-			result = makeAttrStrFromStr( obj );
-		} else {
+		if (!obj) {
 			UTILDebugWrite(@"can not get represent name.");
+			return nil;
 		}
-	} else if ([BoardPlistURLKey isEqualToString: [tableColumn identifier]] && [item hasURL]) {
-		NSString *urlStr_ = [[item url] absoluteString];
-		
-		if (urlStr_) {
-			result = makeAttrStrFromStr(urlStr_);
+		if ([outlineView isKindOfClass: [BSBoardListView class]]) {
+			NSAttributedString *string = [[NSAttributedString alloc] initWithString: obj attributes: [CMRPref boardListTextAttributes]];
+			return [string autorelease];
+		} else { // 「掲示板の追加」シートでは attributed string ではなくただの string で返す
+			return obj;
 		}
+	} else if ([BoardPlistURLKey isEqualToString: [tableColumn identifier]] && [item hasURL]) { // URL カラムは「掲示板の追加」シートのみ
+		return [[item url] absoluteString];
+	} else {
+		return nil;
 	}
-	return result;
 }
 	
-/* optional methods
-- (void) outlineView : (NSOutlineView *) outlineView setObjectValue : (id) object forTableColumn : (NSTableColumn *) tableColumn byItem : (id) item;
-*/
 - (id) outlineView : (NSOutlineView *) outlineView itemForPersistentObject : (id) object
 {
 	return [topLevelItem itemForRepresentName: object deepSearch:YES];

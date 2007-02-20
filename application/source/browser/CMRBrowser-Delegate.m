@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.34 2007/02/12 15:07:34 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.35 2007/02/20 14:27:17 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -369,7 +369,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 @implementation CMRBrowser(NotificationPrivate)
 - (void) registerToNotificationCenter
 {
-	[[NSNotificationCenter defaultCenter]
+/*	[[NSNotificationCenter defaultCenter]
 	     addObserver : self
 	        selector : @selector(favoritesManagerDidLinkFavorites:)
 	            name : CMRFavoritesManagerDidLinkFavoritesNotification
@@ -378,7 +378,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 	     addObserver : self
 	        selector : @selector(favoritesManagerDidRemoveFavorites:)
 	            name : CMRFavoritesManagerDidRemoveFavoritesNotification
-	          object : [CMRFavoritesManager defaultManager]];
+	          object : [CMRFavoritesManager defaultManager]];*/
 	[[NSNotificationCenter defaultCenter]
 	     addObserver : self
 	        selector : @selector(boardManagerUserListDidChange:)
@@ -400,14 +400,14 @@ BOOL isOptionKeyDown(unsigned flag_)
 }
 - (void) removeFromNotificationCenter
 {
-	[[NSNotificationCenter defaultCenter]
+/*	[[NSNotificationCenter defaultCenter]
 	  removeObserver : self
 	            name : CMRFavoritesManagerDidLinkFavoritesNotification
 	          object : [CMRFavoritesManager defaultManager]];
 	[[NSNotificationCenter defaultCenter]
 	  removeObserver : self
 	            name : CMRFavoritesManagerDidRemoveFavoritesNotification
-	          object : [CMRFavoritesManager defaultManager]];
+	          object : [CMRFavoritesManager defaultManager]];*/
 	[[NSNotificationCenter defaultCenter]
 	  removeObserver : self
 	            name : CMRBBSManagerUserListDidChangeNotification
@@ -528,7 +528,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 	
 	UTILNotifyName(CMRBrowserThListUpdateDelegateTaskDidFinishNotification);
 }
-
+/*
 - (void) favoritesManagerDidLinkFavorites : (NSNotification *) notification
 {
 	UTILAssertNotificationName(
@@ -538,9 +538,9 @@ BOOL isOptionKeyDown(unsigned flag_)
 		notification,
 		[CMRFavoritesManager defaultManager]);
 	
-	/*if ([[self currentThreadsList] isFavorites]) {
-		;
-    }*/
+	//if ([[self currentThreadsList] isFavorites]) {
+	//	;
+    //}
 }
 - (void) favoritesManagerDidRemoveFavorites : (NSNotification *) notification
 {
@@ -551,11 +551,11 @@ BOOL isOptionKeyDown(unsigned flag_)
 		notification,
 		[CMRFavoritesManager defaultManager]);
 //	NSLog(@"CMRBrowser received CMRFavoritesManagerDidRemoveFavoritesNotification");
-	/*if ([[self currentThreadsList] isFavorites]) {
-		;
-    }*/
+	//if ([[self currentThreadsList] isFavorites]) {
+	//	;
+    //}
 }
-
+*/
 // Added in InnocentStarter.
 - (void) sleepDidEnd : (NSNotification *) aNotification
 {
