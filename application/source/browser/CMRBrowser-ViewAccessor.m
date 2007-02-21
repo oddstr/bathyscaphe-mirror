@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.45 2007/01/10 16:09:29 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.46 2007/02/21 10:50:52 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -325,16 +325,24 @@
         return;
     }
 
-	id dataCell = [column dataCell];
+	Class	cellClass;
+	id		newCell;
+	id		dataCell;
+	
+	dataCell = [column dataCell];
 	[dataCell setWraps: YES];
 	[dataCell setDrawsBackground: NO];
 
 	if ([dataCell alignment] == NSRightTextAlignment) {
-		CMRTextColumnCell	*cell_ = [[CMRTextColumnCell alloc] initTextCell: @""];
-		[cell_ setAttributesFromCell: dataCell];
-		[column setDataCell: cell_];
-		[cell_ release];
+		cellClass = [CMRRightAlignedTextColumnCell class];
+	} else {
+		cellClass = [CMRTextColumnCell class];
 	}
+
+	newCell = [[cellClass alloc] initTextCell: @""];
+	[newCell setAttributesFromCell: dataCell];
+	[column setDataCell: newCell];
+	[newCell release];
 }
 @end
 

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRTextColumnCell.h,v 1.1 2005/05/11 17:51:04 tsawada2 Exp $
+  * $Id: CMRTextColumnCell.h,v 1.2 2007/02/21 10:50:53 tsawada2 Exp $
   * 
   * CMRTextColumnCell.h
   *
@@ -9,7 +9,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-
-
 @interface CMRTextColumnCell : NSTextFieldCell
+@end
+
+@interface CMRRightAlignedTextColumnCell: CMRTextColumnCell
 @end
