@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Contents.m,v 1.8 2007/02/18 05:19:27 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Contents.m,v 1.9 2007/02/24 18:03:37 tsawada2 Exp $
   * 
   * CMRThreadViewer-Contents.m
   *
@@ -134,7 +134,14 @@
 		[[self indexingPopupper] updateKeywordsMenuForOfflineMode];
 		return;
 	}
-	BSRelativeKeywordsCollector *collector = [[[BSRelativeKeywordsCollector alloc] initWithThreadURL: [self threadURL] delegate: self] autorelease];
+//	BSRelativeKeywordsCollector *collector = [[[BSRelativeKeywordsCollector alloc] initWithThreadURL: [self threadURL] delegate: self] autorelease];
+	BSRelativeKeywordsCollector *collector = [[self document] keywordsCollector];
+	if ([collector isInProgress]) {
+//		NSLog(@"Collector is still in progress.");
+		[collector abortCollecting];
+	}
+	[collector setThreadURL: [self threadURL]];
+	[collector setDelegate: self];
 	[collector startCollecting];
 }
 @end

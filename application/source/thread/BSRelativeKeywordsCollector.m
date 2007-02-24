@@ -27,9 +27,19 @@ static OGRegularExpression	*g_regExp = nil;
 {
 	return m_delegate;
 }
+- (void) setDelegate: (id) aDelegate
+{
+	m_delegate = aDelegate;
+}
 - (NSURL *) threadURL
 {
 	return m_threadURL;
+}
+- (void) setThreadURL: (NSURL *) anURL
+{
+	[anURL retain];
+	[m_threadURL release];
+	m_threadURL = anURL;
 }
 - (NSMutableData *) receivedData
 {
@@ -75,6 +85,7 @@ static OGRegularExpression	*g_regExp = nil;
 	NSString			*strValue;
 	NSURL				*convertedURL;
 
+	if ([self threadURL] == nil) return;
 	strValue = [[self threadURL] absoluteString];
 	convertedURL = [NSURL URLWithString: [NSString stringWithFormat: g_cgiURLString, strValue]];
 
@@ -87,6 +98,19 @@ static OGRegularExpression	*g_regExp = nil;
 	connection = [[NSURLConnection alloc] initWithRequest: req delegate: self];
     [self setCurrentConnection: connection];
 	[connection release];
+}
+
+- (void) abortCollecting
+{
+	if ([self currentConnection] == nil) return;
+
+	[[self currentConnection] cancel];
+	[self setCurrentConnection: nil];
+	[self setIsInProgress: NO];
+
+	[m_receivedData release];
+	m_receivedData = nil;
+	m_receivedData = [[NSMutableData alloc] init];
 }
 
 - (NSArray *) analyzeKeywordsFromData: (NSData *) data
@@ -126,6 +150,11 @@ static OGRegularExpression	*g_regExp = nil;
 		g_cgiURLString = SGTemplateResource(kBSRelativeKeywordsCollectorCgiURLKey);
 		g_regExp = [[OGRegularExpression alloc] initWithString: @"<a href=\"(.*)\".*>(.*)</a>"];
 	}
+}
+
+- (id) init
+{
+	return [self initWithThreadURL: nil delegate: nil];
 }
 
 - (void) dealloc

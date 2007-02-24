@@ -20,10 +20,13 @@
 
 - (id) initWithThreadURL: (NSURL *) threadURL delegate: (id) aDelegate;
 - (void) startCollecting;
+- (void) abortCollecting;
 - (NSArray *) analyzeKeywordsFromData: (NSData *) data;
 
 - (id) delegate;
+- (void) setDelegate: (id) aDelegate;
 - (NSURL *) threadURL;
+- (void) setThreadURL: (NSURL *) anURL;
 - (NSURLConnection *) currentConnection;
 - (void) setCurrentConnection: (NSURLConnection *) con;
 - (NSMutableData *) receivedData;

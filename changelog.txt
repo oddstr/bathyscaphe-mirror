@@ -1,3 +1,9 @@
+2007-02-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/BSRelativeKeywordsCollector.m
+	* application/source/thread/CMRAbstructThreadDocument.m
+	* application/source/thread/CMRThreadViewer-Contents.m
+		スレッドを開いた後すぐに閉じると、タイミングによってはクラッシュする問題を（今度こそ）修正。
+		- 2007-02-18 の修正は的外れで、解決していなかった。
 2007-02-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/previewer/BSIPIHistoryManager.m
 	* application/subproj/previewer/BSIPIFullScreenController.m

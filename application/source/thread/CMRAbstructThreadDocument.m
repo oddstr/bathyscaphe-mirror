@@ -11,6 +11,7 @@
 #import "CMRAbstructThreadDocument_p.h"
 #import "CocoMonar_Prefix.h"
 #import "BSThreadInfoPanelController.h"
+#import "BSRelativeKeywordsCollector.h"
 #import "CMRAppDelegate.h"
 
 @implementation CMRAbstructThreadDocument
@@ -90,6 +91,13 @@
 	[m_keywords release];
 	m_keywords = array;
 }
+- (BSRelativeKeywordsCollector *) keywordsCollector
+{
+	if (m_collector == nil) {
+		m_collector = [[BSRelativeKeywordsCollector alloc] init];
+	}
+	return m_collector;
+}
 - (BOOL) isAAThread
 {
 	return [[self threadAttributes] isAAThread];
@@ -135,6 +143,7 @@
 #pragma mark Override
 - (void) dealloc
 {
+	[m_collector release];
 	[m_keywords release];
 	[_threadAttributes release];
 	[_textStorage release];
@@ -156,12 +165,16 @@
 		
 		[controller_ document:self willRemoveController:windowController];
 	}
-	
+	if ([[self keywordsCollector] delegate] == windowController) {
+//		NSLog(@"ThreadViewer - document's delegate is self, but self is going to dealloc, so set delegate to nil.");
+		[[self keywordsCollector] setDelegate: nil];
+	}
+
 	[super removeWindowController : windowController];
 }
 
 #pragma mark Validation
-- (BOOL) validateUserInterfaceItem: (id <NSValidatedUserInterfaceItem>) theItem
+- (BOOL) validateUserInterfaceItem: (id <NSObject, NSValidatedUserInterfaceItem>) theItem
 {
 	SEL action_;
 

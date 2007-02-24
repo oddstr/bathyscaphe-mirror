@@ -11,7 +11,7 @@
 #import <Cocoa/Cocoa.h>
 
 @class CMRThreadAttributes;
-
+@class BSRelativeKeywordsCollector;
 
 
 @interface CMRAbstructThreadDocument : NSDocument
@@ -19,6 +19,7 @@
 	CMRThreadAttributes			*_threadAttributes;
 	NSTextStorage				*_textStorage;
 	NSArray				*m_keywords;
+	BSRelativeKeywordsCollector	*m_collector;
 }
 
 - (CMRThreadAttributes *) threadAttributes;
@@ -31,7 +32,7 @@
 - (void) setIsMarkedThread: (BOOL) flag;
 - (NSArray *) cachedKeywords;
 - (void) setCachedKeywords: (NSArray *) array;
-
+- (BSRelativeKeywordsCollector *) keywordsCollector;
 /**
   *
   * スレッドが切り替わるとき、

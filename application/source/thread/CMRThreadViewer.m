@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.41 2007/02/13 21:23:31 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.42 2007/02/24 18:03:38 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -56,7 +56,7 @@ NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEnd
 {
 	[CMRPopUpMgr closePopUpWindowForOwner:self];
 	[[NSNotificationCenter defaultCenter] removeObserver : self];
-	
+
 	[m_indexingStepper release];
 	[m_indexingPopupper release];
 	[m_componentsView release];
