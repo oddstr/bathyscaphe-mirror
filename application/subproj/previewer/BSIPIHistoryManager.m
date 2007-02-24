@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIHistoryManager.m,v 1.6 2007/01/07 17:04:24 masakih Exp $
+//  $Id: BSIPIHistoryManager.m,v 1.7 2007/02/24 11:45:27 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/12.
@@ -320,6 +320,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 
 - (void) removeToken: (BSIPIToken *) aToken
 {
+	if ([aToken isDownloading]) {
+		[aToken cancelDownload];
+	}
 	NSString *filePath = [aToken downloadedFilePath];
 	if (filePath != nil) {
 		[[NSFileManager defaultManager] removeFileAtPath: filePath handler: nil];
@@ -331,7 +334,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 {
 	NSArray	*tokenArray = [self cachedTokensArrayAtIndexes: indexes];
 	
-	if (tokenArray != nil) {
+/*	if (tokenArray != nil) {
 		NSArray *pathArray = [tokenArray valueForKey: @"downloadedFilePath"];
 		NSEnumerator *iter_ = [pathArray objectEnumerator];
 		NSString	*eachPath;
@@ -339,6 +342,17 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 		while (eachPath = [iter_ nextObject]) {
 			if ([eachPath isEqual: [NSNull null]]) continue;
 			[[NSFileManager defaultManager] removeFileAtPath: eachPath handler: nil];
+		}
+	}*/
+	if (tokenArray == nil) return;
+	NSEnumerator	*iter_ = [tokenArray objectEnumerator];
+	BSIPIToken		*eachToken_;
+	while (eachToken_ = [iter_ nextObject]) {
+		if ([eachToken_ isDownloading]) {
+			[eachToken_ cancelDownload];
+		}
+		if ([eachToken_ isFileExists]) {
+			[[NSFileManager defaultManager] removeFileAtPath: [eachToken_ downloadedFilePath] handler: nil];
 		}
 	}
 

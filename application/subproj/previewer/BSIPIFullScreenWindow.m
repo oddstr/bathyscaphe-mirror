@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIFullScreenWindow.m,v 1.5 2007/01/07 17:04:24 masakih Exp $
+//  $Id: BSIPIFullScreenWindow.m,v 1.6 2007/02/24 11:45:27 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.
@@ -10,25 +10,20 @@
 
 
 @implementation BSIPIFullScreenWindow
-- (id) initWithContentRect : (NSRect)contentRect
+- (id) initWithContentRect : (NSRect) contentRect
 				 styleMask : (unsigned int) aStyle
 				   backing : (NSBackingStoreType) bufferingType
 					 defer : (BOOL) flag
 {
-
-    NSWindow* result = [super initWithContentRect :contentRect styleMask : NSBorderlessWindowMask backing : NSBackingStoreBuffered defer : NO];
+	NSRect  screenFrame = [[NSScreen mainScreen] frame];
+    NSWindow	*result = [super initWithContentRect: contentRect styleMask: NSBorderlessWindowMask backing: NSBackingStoreBuffered defer: NO];
 
     [result setBackgroundColor: [NSColor blackColor]];
-	[result setOpaque:YES];
-
+	[result setOpaque: YES];
+    [result setHasShadow: NO];
     [result setLevel: NSScreenSaverWindowLevel];
-
-    [result setHasShadow:NO];
     
-	{
-		NSRect  screenFrame = [[NSScreen mainScreen] frame];
-		[self setFrame:screenFrame display:YES];
-    }
+	[self setFrame: screenFrame display: YES];
     
     return result;
 }
@@ -38,38 +33,27 @@
     return YES;
 }
 
-// command+なんちゃらのキーボードショートカットをブロックする（メニューバーのあるウインドウがフルスクリーンに
-// なっているときのみ）
-/*- (BOOL) performKeyEquivalent: (NSEvent *) theEvent
-{
-	NSScreen *screen_ = [self screen];
-	if (!screen_) goto default_behavior;
-	
-	NSArray	*screens_ = [NSScreen screens];
-	if (!screens_ || [screens_ count] == 0) goto default_behavior;
-
-	if ((screen_ == [screens_ objectAtIndex: 0]) && ([theEvent modifierFlags] & NSCommandKeyMask > 0)) {
-		return YES;
-	}
-	
-default_behavior:
-	return [super performKeyEquivalent: theEvent];
-}*/
-
 //  Ask our delegate if it wants to handle keystroke or mouse events before we route them.
-- (void) sendEvent : (NSEvent *) theEvent
+- (void) sendEvent: (NSEvent *) theEvent
 {
-    //  Offer key-down events to the delegats
-    if ([theEvent type] == NSKeyDown)
-        if ([[self delegate] respondsToSelector : @selector(handlesKeyDown:inWindow:)])
-            if ([[self delegate] handlesKeyDown : theEvent  inWindow : self])
+	NSEventType	type_ = [theEvent type];
+	id		delegate_ = [self delegate];
+    //  Offer key-down events to the delegate
+    if (type_ == NSKeyDown) {
+        if ([delegate_ respondsToSelector: @selector(handlesKeyDown:inWindow:)])
+            if ([delegate_ handlesKeyDown: theEvent inWindow: self])
                 return;
-
+	}
+	// Offer scroll wheel events to the delegate
+    if (type_ == NSScrollWheel) {
+        if ([delegate_ respondsToSelector: @selector(handlesScrollWheel:inWindow:)])
+            if ([delegate_ handlesScrollWheel: theEvent inWindow: self])
+                return;
+	}
     //  Offer mouse-down events (lefty or righty) to the delegate
-   if ([theEvent type] == NSLeftMouseDown) {
-        if ([[self delegate] respondsToSelector : @selector(handlesMouseDown:inWindow:)])
-            if ([[self delegate] handlesMouseDown : theEvent  inWindow: self])
-                /*return*/;
+	if (type_ == NSLeftMouseDown) {
+		if ([delegate_ respondsToSelector: @selector(handlesMouseDown:inWindow:)])
+			[delegate_ handlesMouseDown: theEvent inWindow: self];
 	}
     //  Delegate wasn't interested, so do the usual routing.
     [super sendEvent: theEvent];

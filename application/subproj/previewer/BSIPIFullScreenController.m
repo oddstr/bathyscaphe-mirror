@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIFullScreenController.m,v 1.8 2007/01/07 17:04:24 masakih Exp $
+//  $Id: BSIPIFullScreenController.m,v 1.9 2007/02/24 11:45:27 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.
@@ -273,5 +273,26 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
     //	Close the panel on any click
     [self endFullScreen];
     return YES;
+}
+
+- (BOOL) handlesScrollWheel : (NSEvent *) scrollWheel inWindow: (NSWindow *) window
+{
+	float dY = [scrollWheel deltaY];
+
+	if (dY < 0) {
+		if ([[self delegate] respondsToSelector: @selector(showPrevImage:)]) {
+			[[self delegate] showPrevImage: window];
+			return YES;
+		}
+	}
+	
+	if (dY > 0) {
+		if ([[self delegate] respondsToSelector: @selector(showNextImage:)]) {
+			[[self delegate] showNextImage: window];
+			return YES;
+		}
+	}
+
+	return YES;
 }
 @end
