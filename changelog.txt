@@ -1,4 +1,7 @@
 2007-02-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/Japanese.lproj/FontsAndColors.nib
+		AAD は必ずしも「全角スペースと半角スペースが連続する」ことを判定条件にしなくなったので、該当記述を「環境設定」＞
+		「表示」＞「スレッドの表示」ペインから削除した。
 	* application/Resources/text/KeyValueTemplates.plist
 		"Thread - AAD Regular Expression" キーを追加した。ここに AA 判定のための正規表現を記述する。
 	* application/source/composer/BSAsciiArtDetector.m
