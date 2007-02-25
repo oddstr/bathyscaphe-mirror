@@ -14,19 +14,10 @@
 #import <CocoMonar/CocoMonar.h>
 #import <OgreKit/OgreKit.h>
 
-//将来、AA のサンプルなどをカスタマイズ／拡張可能にする際に使う予定
-//static NSString *const kAASamplesFile = @"BSAADetector.plist";
+static NSString *const kAADRegExpKey = @"Thread - AAD Regular Expression";
 
 @implementation BSAsciiArtDetector
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
-
-/*
-+ (NSString *) defaultFilepath
-{
-	return [[CMRFileManager defaultManager] supportFilepathWithName: kAASamplesFile
-                                                   resolvingFileRef: NULL];
-}
-*/
 
 - (id) init
 {
@@ -43,9 +34,7 @@ static BOOL detectIfAA(NSString *source)
     if (!source || [source length] < 7) return NO;
 
 	if (!regExp) {
-		NSString *expStrForSpaces = [NSString stringWithFormat: @"%C{3}|(?: %C){2}", 0x3000, 0x3000];
-		NSString *expStrForKeisen = [NSString stringWithFormat: @"[%C%C%C]{4}", 0x2500, 0xFFE3, 0xFF3F];
-		NSString *expStr = [NSString stringWithFormat: @"(?:%@|%@)", expStrForSpaces, expStrForKeisen];
+		NSString *expStr = SGTemplateResource(kAADRegExpKey);
 		regExp = [[OGRegularExpression alloc] initWithString: expStr];
 	}
 

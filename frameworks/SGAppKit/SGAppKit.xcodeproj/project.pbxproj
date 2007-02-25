@@ -77,6 +77,8 @@
 		8716081F098AA8DE00A27F63 /* browserSplitterDimple.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8716081B098AA8DE00A27F63 /* browserSplitterDimple.tiff */; };
 		87160820098AA8DE00A27F63 /* browserSplitterDimpleVertical.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8716081C098AA8DE00A27F63 /* browserSplitterDimpleVertical.tiff */; };
 		87160821098AA8DE00A27F63 /* browserSplitterVertical.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8716081D098AA8DE00A27F63 /* browserSplitterVertical.tiff */; };
+		8734B3DC0B919232002AACF5 /* NSBezierPath_AMShading.h in Headers */ = {isa = PBXBuildFile; fileRef = 8734B3DA0B919231002AACF5 /* NSBezierPath_AMShading.h */; };
+		8734B3DD0B919232002AACF5 /* NSBezierPath_AMShading.m in Sources */ = {isa = PBXBuildFile; fileRef = 8734B3DB0B919231002AACF5 /* NSBezierPath_AMShading.m */; };
 		8751C4760862204100998A38 /* SGContainerTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = F57D5E05037B6D8601A80002 /* SGContainerTableView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8751C4770862204200998A38 /* SGContainerTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F57D5E06037B6D8601A80002 /* SGContainerTableView.m */; };
 		876885F20B061EDD00150A36 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 876885F10B061EDD00150A36 /* ApplicationServices.framework */; };
@@ -196,6 +198,8 @@
 		8716081B098AA8DE00A27F63 /* browserSplitterDimple.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = browserSplitterDimple.tiff; path = images/browserSplitterDimple.tiff; sourceTree = "<group>"; };
 		8716081C098AA8DE00A27F63 /* browserSplitterDimpleVertical.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = browserSplitterDimpleVertical.tiff; path = images/browserSplitterDimpleVertical.tiff; sourceTree = "<group>"; };
 		8716081D098AA8DE00A27F63 /* browserSplitterVertical.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = browserSplitterVertical.tiff; path = images/browserSplitterVertical.tiff; sourceTree = "<group>"; };
+		8734B3DA0B919231002AACF5 /* NSBezierPath_AMShading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSBezierPath_AMShading.h; sourceTree = "<group>"; };
+		8734B3DB0B919231002AACF5 /* NSBezierPath_AMShading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSBezierPath_AMShading.m; sourceTree = "<group>"; };
 		876885F10B061EDD00150A36 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
 		876887BC0B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSTsuruPetaPopUpBtnCell.h; path = ../../application/source/view/BSTsuruPetaPopUpBtnCell.h; sourceTree = SOURCE_ROOT; };
 		876887BD0B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSTsuruPetaPopUpBtnCell.m; path = ../../application/source/view/BSTsuruPetaPopUpBtnCell.m; sourceTree = SOURCE_ROOT; };
@@ -526,6 +530,8 @@
 		F57BBEE00377FA7001A80002 /* custom */ = {
 			isa = PBXGroup;
 			children = (
+				8734B3DA0B919231002AACF5 /* NSBezierPath_AMShading.h */,
+				8734B3DB0B919231002AACF5 /* NSBezierPath_AMShading.m */,
 				876887BC0B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.h */,
 				876887BD0B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.m */,
 				876887BE0B062DCE00150A36 /* BSTsuruPetaView.h */,
@@ -769,6 +775,7 @@
 				876887C00B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.h in Headers */,
 				876887C20B062DCE00150A36 /* BSTsuruPetaView.h in Headers */,
 				879A36C60B62EF5800C58316 /* NSEvent-SGExtensions.h in Headers */,
+				8734B3DC0B919232002AACF5 /* NSBezierPath_AMShading.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -901,6 +908,7 @@
 				876887C10B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.m in Sources */,
 				876887C30B062DCE00150A36 /* BSTsuruPetaView.m in Sources */,
 				879A36C70B62EF5800C58316 /* NSEvent-SGExtensions.m in Sources */,
+				8734B3DD0B919232002AACF5 /* NSBezierPath_AMShading.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

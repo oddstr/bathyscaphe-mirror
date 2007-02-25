@@ -1,5 +1,5 @@
 //
-//  $Id: BSBoardListView.h,v 1.4 2007/02/08 00:20:26 tsawada2 Exp $
+//  $Id: BSBoardListView.h,v 1.5 2007/02/25 11:51:05 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/09/20.
@@ -26,8 +26,8 @@
 - (int) semiSelectedRow;
 - (NSRect) semiSelectedRowRect;
 
-+ (NSImage *) imageNormal;
-+ (NSImage *) imageFocused;
+//+ (NSImage *) imageNormal;
+//+ (NSImage *) imageFocused;
 @end
 
 //

@@ -836,8 +836,6 @@
 		F47362B10AFF8758009B6189 /* Spacer.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87517BAE0864BE33002DA082 /* Spacer.tiff */; };
 		F47362B20AFF8758009B6189 /* HistoryBack.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 878A7567088AA85B00539B6F /* HistoryBack.tiff */; };
 		F47362B30AFF8758009B6189 /* HistoryForward.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 878A7568088AA85B00539B6F /* HistoryForward.tiff */; };
-		F47362B40AFF8758009B6189 /* boardListSelBgFocused.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87D5D8CF08DF0FCC0039A9EB /* boardListSelBgFocused.tiff */; };
-		F47362B50AFF8758009B6189 /* boardListSelBg.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87D5D8D008DF0FCC0039A9EB /* boardListSelBg.tiff */; };
 		F47362B60AFF8758009B6189 /* ToolbarItems.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8795B91E08E3A7E3005C7C5B /* ToolbarItems.strings */; };
 		F47362B70AFF8758009B6189 /* titleRulerBgAquaBlue.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 870B892B08ED56B3001664CC /* titleRulerBgAquaBlue.tiff */; };
 		F47362B80AFF8758009B6189 /* titleRulerBgAquaGraphite.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 870B892C08ED56B3001664CC /* titleRulerBgAquaGraphite.tiff */; };
@@ -4296,8 +4294,6 @@
 				F47362B10AFF8758009B6189 /* Spacer.tiff in Resources */,
 				F47362B20AFF8758009B6189 /* HistoryBack.tiff in Resources */,
 				F47362B30AFF8758009B6189 /* HistoryForward.tiff in Resources */,
-				F47362B40AFF8758009B6189 /* boardListSelBgFocused.tiff in Resources */,
-				F47362B50AFF8758009B6189 /* boardListSelBg.tiff in Resources */,
 				F47362B60AFF8758009B6189 /* ToolbarItems.strings in Resources */,
 				F47362B70AFF8758009B6189 /* titleRulerBgAquaBlue.tiff in Resources */,
 				F47362B80AFF8758009B6189 /* titleRulerBgAquaGraphite.tiff in Resources */,

@@ -39,6 +39,8 @@
 	<string>http://be.2ch.net/test/p.php?i=%@&amp;u=d:%@</string>
 	<key>System - relatedKeywords URL</key>
 	<string>http://p2.2ch.io/getf.cgi?%@</string>
+	<key>Thread - AAD Regular Expression</key>
+	<string>(?:　{3}|(?: 　){2}|[─￣＿]{4}|[дД])</string>
 	<key>Thread - CopyThreadFormat</key>
 	<string>%%%ThreadTitle%%%
 %%%ThreadURL%%%

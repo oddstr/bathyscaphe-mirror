@@ -78,6 +78,7 @@
 			[highlightedPath drawInRect:pathRect];
 
 		} else {
+//		NSFrameRect(pathRect);
 			[path drawInRect:pathRect];
 		}
     }

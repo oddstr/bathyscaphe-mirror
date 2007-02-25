@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-FontColor.m,v 1.14 2007/02/20 14:27:17 tsawada2 Exp $
+  * $Id: AppDefaults-FontColor.m,v 1.15 2007/02/25 11:51:04 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -617,16 +617,16 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 	id	obj = [[self appearances] objectForKey: kPrefBoardListTextAttrKey];
 	if (obj == nil) {
 		NSDictionary *attrDict;
-		NSMutableParagraphStyle *style_;
+/*		NSMutableParagraphStyle *style_;
 		float	height_;
 
 		style_ = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
 		height_ = getDefaultLineHeightForFont([self boardListFont], 0) / 2;
 		[style_ setParagraphSpacingBefore: ([self boardListRowHeight] - height_)];
-		
+*/		
 		attrDict = [NSDictionary dictionaryWithObjectsAndKeys: [CMRPref boardListFont], NSFontAttributeName,
 															   [CMRPref boardListTextColor], NSForegroundColorAttributeName,
-															   style_, NSParagraphStyleAttributeName, NULL];
+															   /*style_, NSParagraphStyleAttributeName,*/ NULL];
 		[[self appearances] setObject: attrDict forKey: kPrefBoardListTextAttrKey];
 		return attrDict;
 	} else {
@@ -648,7 +648,7 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 {
 	[[self appearances] setFloat : rowHeight
 						  forKey : kPrefBoardListRowHeightKey];
-	[self resetBoardListTextAttributes];
+//	[self resetBoardListTextAttributes];
 	[self postLayoutSettingsUpdateNotification];
 }
 

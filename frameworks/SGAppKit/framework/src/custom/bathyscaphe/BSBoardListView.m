@@ -1,5 +1,5 @@
 //
-//  $Id: BSBoardListView.m,v 1.4 2007/02/08 00:20:26 tsawada2 Exp $
+//  $Id: BSBoardListView.m,v 1.5 2007/02/25 11:51:05 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/09/20.
@@ -9,17 +9,11 @@
 #import "BSBoardListView.h"
 #import <SGAppKit/NSImage-SGExtensions.h>
 
-static NSString	*const bgImage_focused	= @"boardListSelBgFocused";
-static NSString *const bgImage_normal	= @"boardListSelBg";
+#import "NSBezierPath_AMShading.h"
 
 #define useLog 0
 
 @implementation BSBoardListView
-static NSImage *imgNormal;
-static NSImage *imgFocused;
-static NSRect	imgRectNormal;
-static NSRect	imgRectFocused;
-
 - (int) semiSelectedRow
 {
 	return _semiSelectedRow;
@@ -28,34 +22,6 @@ static NSRect	imgRectFocused;
 - (NSRect) semiSelectedRowRect
 {
 	return _semiSelectedRowRect;
-}
-
-+ (NSImage *) imageNormal
-{
-	return imgNormal;
-}
-
-+ (NSImage *) imageFocused
-{
-	return imgFocused;
-}
-
-+ (void) initialize
-{
-	if (self == [BSBoardListView class]) {
-		imgNormal = [NSImage imageAppNamed: bgImage_normal];
-		imgFocused = [NSImage imageAppNamed: bgImage_focused];
-		
-		[imgNormal setFlipped: YES];
-		[imgFocused setFlipped: YES];
-
-		NSSize	tmp_ = [imgNormal size];
-		imgRectNormal = NSMakeRect(0, 0, tmp_.width, tmp_.height);
-
-		NSSize	tmp2_ = [imgFocused size];
-		imgRectFocused = NSMakeRect(0, 0, tmp2_.width, tmp2_.height);
-
-	}
 }
 
 - (void) awakeFromNib
@@ -70,38 +36,57 @@ static NSRect	imgRectFocused;
 }
 
 #pragma mark Custom highlight drawing
-
-- (void) highlightSelectionInClipRect : (NSRect) clipRect
-{
-	NSImage	*image_;
-	NSRect	rowRect;
-	NSRect	sourceRect;
-
+- (void)highlightSelectionInClipRect:(NSRect)clipRect
+{	
+	NSColor *topLineColor, *bottomLineColor, *gradientStartColor, *gradientEndColor;
+	
 	if (([[self window] firstResponder] == self) && [[self window] isKeyWindow]) {
-		image_ = [[self class] imageFocused];
-		sourceRect = imgRectFocused;
+		// Finder Style
+/*		topLineColor = [NSColor colorWithCalibratedRed:(61.0/255.0) green:(123.0/255.0) blue:(218.0/255.0) alpha:1.0];
+		bottomLineColor = [NSColor colorWithCalibratedRed:(31.0/255.0) green:(92.0/255.0) blue:(207.0/255.0) alpha:1.0];
+		gradientStartColor = [NSColor colorWithCalibratedRed:(89.0/255.0) green:(153.0/255.0) blue:(209.0/255.0) alpha:1.0];
+		gradientEndColor = [NSColor colorWithCalibratedRed:(33.0/255.0) green:(94.0/255.0) blue:(208.0/255.0) alpha:1.0];*/
+		// Tiger Mail Style
+		topLineColor = [NSColor colorWithDeviceRed:(112.0/255.0) green:(155.0/255.0) blue:(230.0/255.0) alpha:1.0];
+		bottomLineColor = [NSColor colorWithDeviceRed:(89.0/255.0) green:(128.0/255.0) blue:(205.0/255.0) alpha:1.0];
+		gradientStartColor = [NSColor colorWithDeviceRed:(103.0/255.0) green:(148.0/255.0) blue:(229.0/255.0) alpha:1.0];
+		gradientEndColor = [NSColor colorWithDeviceRed:(84.0/255.0) green:(135.0/255.0) blue:(225.0/255.0) alpha:1.0];
 	} else {
-		image_ = [[self class] imageNormal];
-		sourceRect = imgRectNormal;
+		topLineColor = [NSColor colorWithDeviceRed:(173.0/255.0) green:(187.0/255.0) blue:(209.0/255.0) alpha:1.0];
+		bottomLineColor = [NSColor colorWithDeviceRed:(150.0/255.0) green:(161.0/255.0) blue:(183.0/255.0) alpha:1.0];
+		gradientStartColor = [NSColor colorWithDeviceRed:(168.0/255.0) green:(183.0/255.0) blue:(205.0/255.0) alpha:1.0];
+		gradientEndColor = [NSColor colorWithDeviceRed:(157.0/255.0) green:(174.0/255.0) blue:(199.0/255.0) alpha:1.0];
 	}
-
-	// cf. <http://www.cocoadev.com/index.pl?NSIndexSet>
+	
+	NSIndexSet *selRows = [self selectedRowIndexes];
+	int rowIndex = [selRows firstIndex];
+	int newRowIndex;
+	NSRect highlightRect;
+	
+	while (rowIndex != NSNotFound)
 	{
-		NSIndexSet *selected = [self selectedRowIndexes];
-		int size = [selected lastIndex]+1;
+		newRowIndex = [selRows indexGreaterThanIndex:rowIndex];
+		highlightRect = [self rectOfRow:rowIndex];
 
-		unsigned int arrayElement;
-		NSRange e = NSMakeRange(0, size);
-
-		[self lockFocus];
-		while ([selected getIndexes:&arrayElement maxCount:1 inIndexRange:&e] > 0)
-		{
-			rowRect = [self rectOfRow : arrayElement];
-			[image_ drawInRect : rowRect fromRect : sourceRect operation : NSCompositeCopy fraction : 1.0];
-		}
-		[self unlockFocus];
+		highlightRect.size.height -= 1.0;
+		
+		[topLineColor set];
+		NSRectFill(highlightRect);
+		
+		highlightRect.origin.y += 1.0;
+		highlightRect.size.height-=1.0;
+		[bottomLineColor set];
+		NSRectFill(highlightRect);
+		
+		highlightRect.size.height -= 1.0;
+			
+		[[NSBezierPath bezierPathWithRect:highlightRect] linearGradientFillWithStartColor:gradientStartColor
+																				 endColor:gradientEndColor];
+		
+		rowIndex = newRowIndex;
 	}
 }
+
 
 #pragma mark Contextual menu handling
 - (void) cleanUpSemiHighlightBorder : (NSNotification *) theNotification

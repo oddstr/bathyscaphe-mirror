@@ -130,7 +130,7 @@ static NSString *const kPrefReplyWindowBgAlphaKey = @"Reply Window Bg Alpha Valu
 					colorForKey : kPrefBoardListBackgroundColorKey];
 	
 	if (color_ == nil)
-		return [NSColor colorWithCalibratedRed: 0.898 green: 0.9294 blue: 0.9686 alpha:1.0]; // デフォルトの色
+		return [NSColor colorWithDeviceRed:(231.0/255.0) green:(237.0/255.0) blue:(248.0/255.0) alpha:1.0]; // デフォルトの色
 	
 	return color_;
 }

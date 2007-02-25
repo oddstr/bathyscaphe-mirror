@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.46 2007/02/21 10:50:52 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.47 2007/02/25 11:51:04 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -449,49 +449,48 @@
 
 - (void) setupBoardListOutlineView : (NSOutlineView *) outlineView
 {
-    id        tmp;
-	NSColor	*tmp2;
-    
-    // D & D
-    [outlineView registerForDraggedTypes : [NSArray arrayWithObjects : CMRBBSListItemsPboardType, NSFilenamesPboardType, nil]];
-    
-    [outlineView setDelegate : self];
-    [outlineView setDataSource : [[BoardManager defaultManager] userList]];
-
-    {
-        NSTableColumn    *column_;
-		BSIconAndTextCell	*cell_;
-        
-        column_ = [outlineView tableColumnWithIdentifier : BoardPlistNameKey];
-
-        cell_ = [[BSIconAndTextCell alloc] init];
-        [cell_ setEditable : NO];
-        [column_ setDataCell : cell_];
-        [cell_ release];
-
-        [column_ setEditable : NO];
-    }
+    id		indentObj;
+	NSColor	*bgColor;
     
     [outlineView setRowHeight : [CMRPref boardListRowHeight]];
-    
-    tmp = SGTemplateResource(kBBSListIndentationPerLevelKey);
-    UTILAssertRespondsTo(tmp, @selector(floatValue));
-    [outlineView setIndentationPerLevel : [tmp floatValue]];
 
-    tmp2 = [CMRPref boardListBackgroundColor];
-    if (tmp2 != nil)
-		[outlineView setBackgroundColor : tmp2];
-    [outlineView setDoubleAction : @selector(boardListViewDoubleAction:)];
-	[outlineView setMenu : [self drawerContextualMenu]];
+    indentObj = SGTemplateResource(kBBSListIndentationPerLevelKey);
+    UTILAssertRespondsTo(indentObj, @selector(floatValue));
+    [outlineView setIndentationPerLevel : [indentObj floatValue]];
+
+    bgColor = [CMRPref boardListBackgroundColor];
+    if (bgColor != nil)
+		[outlineView setBackgroundColor : bgColor];
 }
+
 - (void) setupBoardListTableDefaults
 {
-    [self setupBoardListOutlineView : [self boardListTable]];
-	[[[self boardListTable] enclosingScrollView] setBorderType: NSNoBorder];
+	NSOutlineView *blt = [self boardListTable];    
+	NSTableColumn    *column_;
+	BSIconAndTextCell	*cell_;
     
-    [[self boardListTable] setDelegate : self];
-	[[self boardListTable] setAutosaveName : APP_BROWSER_THREADSLIST_TABLE_AUTOSAVE_NAME];
-    [[self boardListTable] setAutosaveExpandedItems : YES];
+    // D & D
+    [blt registerForDraggedTypes : [NSArray arrayWithObjects : CMRBBSListItemsPboardType, NSFilenamesPboardType, nil]];
+    [blt setDataSource : [[BoardManager defaultManager] userList]];
+    [blt setDelegate : self];
+
+	[blt setAutosaveName : APP_BROWSER_THREADSLIST_TABLE_AUTOSAVE_NAME];
+    [blt setAutosaveExpandedItems : YES];
+    [blt setDoubleAction : @selector(boardListViewDoubleAction:)];
+	[blt setMenu : [self drawerContextualMenu]];
+
+	[[blt enclosingScrollView] setBorderType: NSNoBorder];
+
+	column_ = [blt tableColumnWithIdentifier : BoardPlistNameKey];
+	cell_ = [[BSIconAndTextCell alloc] init];
+	[cell_ setEditable : NO];
+	[column_ setDataCell : cell_];
+	[cell_ release];
+	[column_ setEditable : NO];
+
+	[blt setIntercellSpacing: NSMakeSize(0, 1.0)];
+
+    [self setupBoardListOutlineView : blt];
 }
 
 - (void) setupBoardListTableLastSelected

@@ -1,4 +1,25 @@
 2007-02-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/text/KeyValueTemplates.plist
+		"Thread - AAD Regular Expression" キーを追加した。ここに AA 判定のための正規表現を記述する。
+	* application/source/composer/BSAsciiArtDetector.m
+		AA 判定用の正規表現を KeyValueTemplates.plist に追い出して、上級者がカスタマイズできるようにした。
+	* application/Resources/image/boardListSelBgFocused.tiff
+	* application/Resources/image/boardListSelBg.tiff
+		ターゲットから外した。
+	* application/source/preferences/AppDefaults-Background.m
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+		掲示板リストの背景のデフォルトカラーを http://www.cocoadev.com/index.pl?MailStyleGradientSelection を参考に修正した。
+		また、掲示板リストの intercellSpacing の設定を若干調整した。これによって以前より掲示板リストが詰まって見えるかもしれない。
+		気になる場合は「環境設定」＞「表示」＞「その他」＞「掲示板リスト」＞「行の高さ」を調節してみると良い。
+	* frameworks/SGAppKit/framework/src/custom/bathyscaphe/BSBoardListView.m
+		SGAppKit 1.6.5:
+		http://www.cocoadev.com/index.pl?MailStyleGradientSelection を参考にして、掲示板リストの選択項目の
+		ハイライトを画像リソースではなく、グラフィック関数で描くようにした。
+		- 解像度非依存 UI 時代への準備、および、描画負荷の軽減などの効果を見込んでいる。
+		- ただし、boardListSelBg.tiff/boardListSelBgFocused.tiff の置換によるカスタマイズは出来なくなった。
+	* frameworks/SGAppKit/framework/src/custom/NSBezierPath_AMShading.[h|m]
+		[新規追加] http://www.harmless.de/cocoa.html#rollover から利用させてもらった。グラデーションを手軽に描くための
+		ラッパー。
 	* application/source/thread/BSRelativeKeywordsCollector.m
 	* application/source/thread/CMRAbstructThreadDocument.m
 	* application/source/thread/CMRThreadViewer-Contents.m
