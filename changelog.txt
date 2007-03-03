@@ -1,3 +1,16 @@
+2007-03-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/image/boardListSelBg.tiff
+	* application/Resources/image/boardListSelBgFocused.tiff
+	* application/Resources/image/moveUpdated.png
+	* application/Resources/image/smallLocked.tiff
+	* application/Resources/image/smallUnlocked.tiff
+	* application/Resources/image/titleRulerInfoIcon.tiff
+    * application/Resources/text/ThreadInfoTemplate.rtf
+	   [削除] 未使用になっていたリソースをリポジトリから削除。
+2007-03-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSIPIImageView.m
+		フォーカスリングの描画処理を見直した。
+================================================= Starlight Breaker v46
 2007-02-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/preference/Japanese.lproj/FontsAndColors.nib
 		AAD は必ずしも「全角スペースと半角スペースが連続する」ことを判定条件にしなくなったので、該当記述を「環境設定」＞

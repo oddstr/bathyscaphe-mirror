@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIImageView.m,v 1.5 2007/01/07 17:04:24 masakih Exp $
+//  $Id: BSIPIImageView.m,v 1.6 2007/03/03 09:23:27 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/07.
@@ -70,11 +70,8 @@
     [super drawInteriorWithFrame: cellFrame inView: controlView];
 	// NSFocusRingTypeNone が指定されているなら、描かない
     if ([self focusRingType] == NSFocusRingTypeNone) return;
-    
-    NSWindow *window_ = [controlView window];
-    if (!window_) return;
 
-	if ([window_ isKeyWindow] && ([window_ firstResponder] == controlView)) {
+	if ([self showsFirstResponder]) {
 		[NSGraphicsContext saveGraphicsState];
 		NSSetFocusRingStyle(NSFocusRingOnly);
 		[[self calcRoundedRectForRect: cellFrame] fill];
