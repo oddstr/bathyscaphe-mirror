@@ -1,3 +1,15 @@
+2007-03-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/BSProgressIndicatorTbItem.[h|m]
+		[削除] ずいぶん前から未使用で、プロジェクトファイルからも参照が削除されていたのでリポジトリからも削除。
+	* application/source/view/BSTsuruPetaPopUpBtnCell.m
+		（SGAppKit 持ち）描画コードを見直した。
+	* application/source/view/CMRIndexingStepper-ViewAccessor.m
+	* application/source/view/CMRIndexingStepper.m
+	* application/source/view/BSIndexingPopupper.m
+	* application/Resources/Japanese.lproj/CMRIndexingStepper.nib
+	* application/Resources/Japanese.lproj/BSIndexingPopupper.nib
+		ナビゲーションバーの NSButton, NSPopUpButton のいくつかを NSMatrix で置き換えた。
+		どれだけ軽量化されるかと言われると微妙なところだが…
 2007-03-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-Delegate.m
 	* application/source/browser/CMRBrowser-List.m

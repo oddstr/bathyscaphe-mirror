@@ -15,10 +15,12 @@
 @interface CMRIndexingStepper : NSObject
 {
 	IBOutlet NSView				*m_frameView;
-	IBOutlet NSButton			*m_moveTopButton;
-	IBOutlet NSButton			*m_moveEndButton;
-	IBOutlet NSButton			*m_movePrevButton;
-	IBOutlet NSButton			*m_moveNextButton;
+//	IBOutlet NSButton			*m_moveTopButton;
+//	IBOutlet NSButton			*m_moveEndButton;
+//	IBOutlet NSButton			*m_movePrevButton;
+//	IBOutlet NSButton			*m_moveNextButton;
+	IBOutlet NSMatrix			*m_moveForNextMatrix;
+	IBOutlet NSMatrix			*m_moveForPrevMatrix;
 	IBOutlet NSButton			*m_moveUpdatedButton;
 	IBOutlet IndexField			*m_indexField;
 	

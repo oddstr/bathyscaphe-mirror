@@ -11,11 +11,10 @@
             LANGUAGE = ObjC; 
             OUTLETS = {
                 "m_delegate" = id; 
-                "m_firstVisibleRangePopUpButton" = NSPopUpButton; 
                 "m_frameView" = NSView; 
                 "m_keywordsButton" = NSPopUpButton; 
                 "m_keywordsMenuBase" = NSMenu; 
-                "m_lastVisibleRangePopUpButton" = NSPopUpButton; 
+                "m_visibleRangeMatrix" = NSMatrix; 
             }; 
             SUPERCLASS = NSObject; 
         }, 

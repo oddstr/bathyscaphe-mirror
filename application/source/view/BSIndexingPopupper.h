@@ -11,8 +11,9 @@
 
 @interface BSIndexingPopupper : NSObject {
 	IBOutlet NSView				*m_frameView;
-	IBOutlet NSPopUpButton		*m_firstVisibleRangePopUpButton;
-	IBOutlet NSPopUpButton		*m_lastVisibleRangePopUpButton;
+//	IBOutlet NSPopUpButton		*m_firstVisibleRangePopUpButton;
+//	IBOutlet NSPopUpButton		*m_lastVisibleRangePopUpButton;
+	IBOutlet NSMatrix			*m_visibleRangeMatrix;
 	IBOutlet NSPopUpButton		*m_keywordsButton;
 	IBOutlet NSMenu				*m_keywordsMenuBase;
 	id							m_delegate;
@@ -23,8 +24,9 @@
 - (void) setDelegate: (id) aDelegate;
 - (NSView *) contentView;
 
-- (NSPopUpButton *) firstVisibleRangePopUpButton;
-- (NSPopUpButton *) lastVisibleRangePopUpButton;
+//- (NSPopUpButton *) firstVisibleRangePopUpButton;
+//- (NSPopUpButton *) lastVisibleRangePopUpButton;
+- (NSMatrix *) visibleRangeMatrix;
 - (NSPopUpButton *) keywordsButton;
 - (NSMenu *) keywordsMenu;
 - (CMRThreadVisibleRange *)	visibleRange;

@@ -36,26 +36,31 @@
 /* Accessor for m_frameView */
 - (NSView *) frameView;
 /* Accessor for m_moveTopButton */
-- (NSButton *) moveTopButton;
+//- (NSButton *) moveTopButton;
 /* Accessor for m_moveEndButton */
-- (NSButton *) moveEndButton;
+//- (NSButton *) moveEndButton;
 /* Accessor for m_movePrevButton */
-- (NSButton *) movePrevButton;
+//- (NSButton *) movePrevButton;
 /* Accessor for m_moveNextButton */
-- (NSButton *) moveNextButton;
+//- (NSButton *) moveNextButton;
 /* Accessor for m_moveUpdatedButton */
-- (NSButton *) moveUpdatedButton;
+//- (NSButton *) moveUpdatedButton;
+- (NSMatrix *) moveForNextMatrix;
+- (NSMatrix *) moveForPrevMatrix;
 /* Accessor for m_indexField */
 - (IndexField *) indexField;
 @end
 
 
 @interface CMRIndexingStepper(ViewInitializer)
-- (void) setupButton: (NSButton *) button iconImageName: (NSString *) imageName;
-- (void) setupMoveTopButton;
-- (void) setupMoveEndButton;
-- (void) setupMovePrevButton;
-- (void) setupMoveNextButton;
+//- (void) setupButton: (NSButton *) button iconImageName: (NSString *) imageName;
+- (void) setupCell: (NSButtonCell *) cell iconImageName: (NSString *) imageName;
+//- (void) setupMoveTopButton;
+//- (void) setupMoveEndButton;
+//- (void) setupMovePrevButton;
+//- (void) setupMoveNextButton;
+- (void) setupMoveForNextMatrix;
+- (void) setupMoveForPrevMatrix;
 - (void) setupMoveUpdatedButton;
 - (void) setupIndexField;
 @end

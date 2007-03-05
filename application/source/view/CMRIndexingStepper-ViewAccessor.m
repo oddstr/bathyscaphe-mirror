@@ -16,26 +16,6 @@
 {
 	return m_frameView;
 }
-/* Accessor for m_moveTopButton */
-- (NSButton *) moveTopButton
-{
-	return m_moveTopButton;
-}
-/* Accessor for m_moveEndButton */
-- (NSButton *) moveEndButton
-{
-	return m_moveEndButton;
-}
-/* Accessor for m_movePrevButton */
-- (NSButton *) movePrevButton
-{
-	return m_movePrevButton;
-}
-/* Accessor for m_moveNextButton */
-- (NSButton *) moveNextButton
-{
-	return m_moveNextButton;
-}
 /* Accessor for m_moveUpdatedButton */
 - (NSButton *) moveUpdatedButton
 {
@@ -46,49 +26,49 @@
 {
 	return m_indexField;
 }
-
+- (NSMatrix *) moveForPrevMatrix
+{
+	return m_moveForPrevMatrix;
+}
+- (NSMatrix *) moveForNextMatrix
+{
+	return m_moveForNextMatrix;
+}
 @end
 
 
 @implementation CMRIndexingStepper(ViewInitializer)
-- (void) setupButton: (NSButton *) button iconImageName: (NSString *) imageName
+- (void) setupCell: (NSButtonCell *) cell iconImageName: (NSString *) imageName
 {
-	UTILAssertNotNilArgument(button, @"button");
+	UTILAssertNotNilArgument(cell, @"NSButtonCell");
 	
-	[button setContinuous : YES];
 	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_3) {
-		[button setBezelStyle: NSSmallSquareBezelStyle]; // Tiger or later
+		[cell setBezelStyle: NSSmallSquareBezelStyle]; // Tiger or later
 	} else {
-		[button setBezelStyle: NSShadowlessSquareBezelStyle];
+		[cell setBezelStyle: NSShadowlessSquareBezelStyle];
 	}
 	if (imageName != nil) {
-		[button setImage: [NSImage imageAppNamed: imageName]];
+		[cell setImage: [NSImage imageAppNamed: imageName]];
 	}
 }
 
-- (void) setupMoveTopButton
+- (void) setupMoveForNextMatrix
 {
-	[self setupButton: [self moveTopButton] iconImageName: APP_INDEXINGSTEPPER_MIN_BUTTON_NAME];
+	NSMatrix *matrix = [self moveForNextMatrix];
+	[self setupCell: [matrix cellWithTag: 0] iconImageName: APP_INDEXINGSTEPPER_INC_BUTTON_NAME];
+	[self setupCell: [matrix cellWithTag: 1] iconImageName: APP_INDEXINGSTEPPER_MAX_BUTTON_NAME];
 }
 
-- (void) setupMoveEndButton
+- (void) setupMoveForPrevMatrix
 {
-	[self setupButton: [self moveEndButton] iconImageName: APP_INDEXINGSTEPPER_MAX_BUTTON_NAME];
-}
-
-- (void) setupMovePrevButton
-{
-	[self setupButton: [self movePrevButton] iconImageName: APP_INDEXINGSTEPPER_DEC_BUTTON_NAME];
-}
-
-- (void) setupMoveNextButton
-{
-	[self setupButton: [self moveNextButton] iconImageName: APP_INDEXINGSTEPPER_INC_BUTTON_NAME];
+	NSMatrix *matrix = [self moveForPrevMatrix];
+	[self setupCell: [matrix cellWithTag: 0] iconImageName: APP_INDEXINGSTEPPER_MIN_BUTTON_NAME];
+	[self setupCell: [matrix cellWithTag: 1] iconImageName: APP_INDEXINGSTEPPER_DEC_BUTTON_NAME];
 }
 
 - (void) setupMoveUpdatedButton
 {
-	[self setupButton: [self moveUpdatedButton] iconImageName: nil];
+	[self setupCell: [[self moveUpdatedButton] cell] iconImageName: nil];
 }
 
 - (void) setupIndexField
@@ -115,11 +95,9 @@
 	mTopNext_ = ([self intValue] > [self minValue]);
 	mPrevEnd_ = ([self intValue] < [self maxValue]);
 	
-	[[self moveTopButton]  setEnabled : mTopNext_];
-	[[self movePrevButton] setEnabled : mTopNext_];
-	[[self moveNextButton] setEnabled : mPrevEnd_];
-	[[self moveEndButton]  setEnabled : mPrevEnd_];
-	[[self moveUpdatedButton]  setEnabled : [self canScrollToLastUpdatedMessage]];
+	[[self moveForPrevMatrix] setEnabled: mTopNext_];
+	[[self moveForNextMatrix] setEnabled: mPrevEnd_];
+	[[self moveUpdatedButton] setEnabled: [self canScrollToLastUpdatedMessage]];
 	[[self indexField] setEnabled : ([self maxValue] > 0)];
 }
 - (void) updateIndexField
@@ -146,10 +124,8 @@
 @implementation CMRIndexingStepper(NibOwner)
 - (void) setupUIComponents
 {
-	[self setupMoveTopButton];
-	[self setupMoveEndButton];
-	[self setupMovePrevButton];
-	[self setupMoveNextButton];
+	[self setupMoveForPrevMatrix];
+	[self setupMoveForNextMatrix];
 	[self setupMoveUpdatedButton];
 	[self setupIndexField];
 	

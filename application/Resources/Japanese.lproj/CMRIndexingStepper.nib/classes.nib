@@ -8,10 +8,8 @@
                 "m_delegate" = id; 
                 "m_frameView" = NSView; 
                 "m_indexField" = IndexField; 
-                "m_moveEndButton" = NSButton; 
-                "m_moveNextButton" = NSButton; 
-                "m_movePrevButton" = NSButton; 
-                "m_moveTopButton" = NSButton; 
+                "m_moveForNextMatrix" = NSMatrix; 
+                "m_moveForPrevMatrix" = NSMatrix; 
                 "m_moveUpdatedButton" = NSButton; 
             }; 
             SUPERCLASS = NSObject; 
