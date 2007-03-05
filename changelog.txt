@@ -1,3 +1,13 @@
+2007-03-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Delegate.m
+	* application/source/browser/CMRBrowser-List.m
+		ぜい肉を落とした。
+	* application/source/browser/CMRThreadsList-Remove.m
+	* application/source/browser/CMRThreadsList.m
+		ぜい肉を落とし、CMRThreadsList-Remove.m で必要な部分は CMRThreadsList.m に書き写して
+		CMRThreadsList-Remove.m はターゲットから外した。
+	* application/source/view/CMRProgressIndicator.[h|m]
+		[削除] 未使用につき削除。
 2007-03-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/image/boardListSelBg.tiff
 	* application/Resources/image/boardListSelBgFocused.tiff

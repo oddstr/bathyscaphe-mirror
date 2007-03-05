@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.21 2007/02/18 05:19:27 tsawada2 Exp $
+  * $Id: CMRBrowser-List.m,v 1.22 2007/03/05 10:08:25 tsawada2 Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -29,10 +29,10 @@
 - (void) setCurrentThreadsList : (BSDBThreadList *) newList
 {
 	BSDBThreadList *oldList = [self currentThreadsList];
-	[self exchangeNotificationObserver : CMRThreadsListDidUpdateNotification
+/*	[self exchangeNotificationObserver : CMRThreadsListDidUpdateNotification
 			selector : @selector(threadsListDidFinishUpdate:)
 		 oldDelegate : oldList
-		 newDelegate : newList];
+		 newDelegate : newList];*/
 	[self exchangeNotificationObserver : CMRThreadsListDidChangeNotification
 			selector : @selector(threadsListDidChange:)
 		 oldDelegate : oldList

@@ -111,13 +111,13 @@
 //:CMRBrowser-Delegate.m
 @interface CMRBrowser(NotificationPrivate)
 - (void) boardManagerUserListDidChange : (NSNotification *) notification;
-- (void) threadsListDidFinishUpdate : (NSNotification *) notification;
+//- (void) threadsListDidFinishUpdate : (NSNotification *) notification;
 - (void) threadsListDidChange : (NSNotification *) notification;
 
 // CMRFavoritesManagerDidLinkFavoritesNotification
-- (void) favoritesManagerDidLinkFavorites : (NSNotification *) notification;
+//- (void) favoritesManagerDidLinkFavorites : (NSNotification *) notification;
 // CMRFavoritesManagerDidRemoveFavoritesNotification
-- (void) favoritesManagerDidRemoveFavorites : (NSNotification *) notification;
+//- (void) favoritesManagerDidRemoveFavorites : (NSNotification *) notification;
 @end
 
 

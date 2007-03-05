@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.35 2007/02/20 14:27:17 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.36 2007/03/05 10:08:25 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -195,7 +195,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 	NSOutlineView		*brdListTable_;
 	NSDictionary		*item_;
 	
-	brdListTable_ = [self boardListTable];
+	brdListTable_ = [notification object];//[self boardListTable];
 
 	UTILAssertNotificationName(
 		notification,
@@ -256,10 +256,12 @@ BOOL isOptionKeyDown(unsigned flag_)
 	NSString		*theId_;
 	NSString		*currentBoard_;
 	BSDBThreadList	*currentList_;
+
+	BoardManager	*bm_ = [BoardManager defaultManager];
 	
 	theId_ = [tableColumn identifier];
-	currentBoard_ = [[self currentThreadsList] boardName];
 	currentList_ = [self currentThreadsList];
+	currentBoard_ = [currentList_ boardName];
 	
 	// Sort:
 	// Mac OS標準的ソート変更 (Finderのリスト表示参照)
@@ -269,10 +271,8 @@ BOOL isOptionKeyDown(unsigned flag_)
 	// 既にハイライトされているヘッダをクリックした場合は
 	// 昇順／降順の切り替えと見なす。
 	if (tableColumn == [tableView highlightedTableColumn]) {
-//		[currentList_ toggleIsAscending];
 		[currentList_ toggleIsAscendingForKey: theId_];
-		[[BoardManager defaultManager] setSortColumnIsAscending : [currentList_ isAscending]
-														atBoard : currentBoard_];
+		[bm_ setSortColumnIsAscending: [currentList_ isAscending] atBoard: currentBoard_];
 	}
 		
 	// 実際のソート
@@ -283,10 +283,8 @@ BOOL isOptionKeyDown(unsigned flag_)
 	// カラムヘッダの描画を更新
 	[self changeHighLightedTableColumnTo : theId_ isAscending : [currentList_ isAscending]];
 
-	[[BoardManager defaultManager] setSortColumn : theId_
-										forBoard : currentBoard_];
-	[[BoardManager defaultManager] setSortDescriptors : [currentList_ sortDescriptors]
-										forBoard : currentBoard_];
+	[bm_ setSortColumn: theId_ forBoard: currentBoard_];
+	[bm_ setSortDescriptors: [currentList_ sortDescriptors] forBoard: currentBoard_];
 
 	// option キーを押しながらヘッダをクリックした場合は、変更後の設定を CMRPref に保存する（グローバルな設定の変更）。
 	if (isOptionKeyDown([[NSApp currentEvent] modifierFlags])) {
@@ -295,7 +293,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 	}
 
 	[self selectCurrentThreadWithMask : CMRAutoscrollWhenTLSort];
-	[[self threadsListTable] reloadData];
+	[tableView reloadData];
 }
 
 - (void) tableViewColumnDidMove : (NSNotification *) aNotification
@@ -316,9 +314,15 @@ BOOL isOptionKeyDown(unsigned flag_)
 					 row : (int) row
 		   mouseLocation : (NSPoint) mouseLocation
 {
+	static float dX = -1.0;
+	if (dX == -1.0) {
+		dX = ([aTableView intercellSpacing].width)*2;
+	}
+
 	if ([[aTableColumn identifier] isEqualToString : CMRThreadTitleKey]) {
 		NSAttributedString *attrStr_ = [aCell objectValue];
-		if ([attrStr_ size].width > [aTableColumn width]) { // この判定ではちょっと不正確
+		float cellWidth = [aTableColumn width] - dX;
+		if ([attrStr_ size].width > cellWidth) {
 			return [attrStr_ string];
 		}
 	}
@@ -369,16 +373,6 @@ BOOL isOptionKeyDown(unsigned flag_)
 @implementation CMRBrowser(NotificationPrivate)
 - (void) registerToNotificationCenter
 {
-/*	[[NSNotificationCenter defaultCenter]
-	     addObserver : self
-	        selector : @selector(favoritesManagerDidLinkFavorites:)
-	            name : CMRFavoritesManagerDidLinkFavoritesNotification
-	          object : [CMRFavoritesManager defaultManager]];
-	[[NSNotificationCenter defaultCenter]
-	     addObserver : self
-	        selector : @selector(favoritesManagerDidRemoveFavorites:)
-	            name : CMRFavoritesManagerDidRemoveFavoritesNotification
-	          object : [CMRFavoritesManager defaultManager]];*/
 	[[NSNotificationCenter defaultCenter]
 	     addObserver : self
 	        selector : @selector(boardManagerUserListDidChange:)
@@ -400,14 +394,6 @@ BOOL isOptionKeyDown(unsigned flag_)
 }
 - (void) removeFromNotificationCenter
 {
-/*	[[NSNotificationCenter defaultCenter]
-	  removeObserver : self
-	            name : CMRFavoritesManagerDidLinkFavoritesNotification
-	          object : [CMRFavoritesManager defaultManager]];
-	[[NSNotificationCenter defaultCenter]
-	  removeObserver : self
-	            name : CMRFavoritesManagerDidRemoveFavoritesNotification
-	          object : [CMRFavoritesManager defaultManager]];*/
 	[[NSNotificationCenter defaultCenter]
 	  removeObserver : self
 	            name : CMRBBSManagerUserListDidChangeNotification
@@ -472,7 +458,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 		[self selectCurrentThreadWithMask : [CMRPref threadsListAutoscrollMask]];
 	}
 	
-		if ([[self superclass] instancesRespondToSelector : _cmd])
+	if ([[self superclass] instancesRespondToSelector : _cmd])
 		[super cleanUpItemsToBeRemoved : files];
 }
 
@@ -499,7 +485,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 {
     [self reloadThreadsList : nil];
 }
-- (void) threadsListDidFinishUpdate : (NSNotification *) notification
+/*- (void) threadsListDidFinishUpdate : (NSNotification *) notification
 {
 	NSNumber	*maskNum_;
 	int			mask_;
@@ -510,7 +496,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 	UTILAssertNotificationObject(
 		notification,
 		[self currentThreadsList]);
-
+NSLog(@"didUpdate");
 	maskNum_ = [[notification userInfo] 
 					objectForKey : ThreadsListUserInfoSelectionHoldingMaskKey];
 	if (maskNum_ != nil)
@@ -527,35 +513,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 	[self selectCurrentThreadWithMask : mask_];
 	
 	UTILNotifyName(CMRBrowserThListUpdateDelegateTaskDidFinishNotification);
-}
-/*
-- (void) favoritesManagerDidLinkFavorites : (NSNotification *) notification
-{
-	UTILAssertNotificationName(
-		notification,
-		CMRFavoritesManagerDidLinkFavoritesNotification);
-	UTILAssertNotificationObject(
-		notification,
-		[CMRFavoritesManager defaultManager]);
-	
-	//if ([[self currentThreadsList] isFavorites]) {
-	//	;
-    //}
-}
-- (void) favoritesManagerDidRemoveFavorites : (NSNotification *) notification
-{
-	UTILAssertNotificationName(
-		notification,
-		CMRFavoritesManagerDidRemoveFavoritesNotification);
-	UTILAssertNotificationObject(
-		notification,
-		[CMRFavoritesManager defaultManager]);
-//	NSLog(@"CMRBrowser received CMRFavoritesManagerDidRemoveFavoritesNotification");
-	//if ([[self currentThreadsList] isFavorites]) {
-	//	;
-    //}
-}
-*/
+}*/
 // Added in InnocentStarter.
 - (void) sleepDidEnd : (NSNotification *) aNotification
 {

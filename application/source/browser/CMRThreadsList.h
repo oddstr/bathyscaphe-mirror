@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.h,v 1.10 2007/01/28 07:18:50 tsawada2 Exp $
+  * $Id: CMRThreadsList.h,v 1.11 2007/03/05 10:08:25 tsawada2 Exp $
   * 
   * CMRThreadsList.h
   *
@@ -26,10 +26,7 @@ enum {
 	
 	NSMutableArray			*_threads;
 	NSMutableArray			*_filteredThreads;
-	NSMutableDictionary		*_threadsInfo;
-	
-	NSLock		*_threadsListUpdateLock;
-	NSLock		*_filteredThreadsLock;
+//	NSMutableDictionary		*_threadsInfo;
 
 	BOOL		_isAscending;
 }
@@ -45,36 +42,49 @@ enum {
   * 
   */
 - (void) startLoadingThreadsList : (CMRThreadLayout *) worker;
+- (void) doLoadThreadsList : (CMRThreadLayout *) worker;
 - (CMRThreadLayout *) worker;
 - (void) setWorker : (CMRThreadLayout *) aWorker;
 
 - (BOOL) isFavorites;
+- (BOOL)isSmartItem;
 - (BOOL) addFavoriteAtRowIndex : (int          ) rowIndex
 				   inTableView : (NSTableView *) tableView;
 
 - (id) objectValueForBoardInfo;
-- (BOOL) writeListToFileNow;
 @end
 
 
+@interface CMRThreadsList(PrivateAccessor)
+- (void) setBBSName : (NSString *) boardName;
+@end
 
+
+@interface CMRThreadsList(CleanUp)
+- (void) cleanUpItemsToBeRemoved : (NSArray *) files;
+
+- (BOOL) tableView : (NSTableView	*) tableView
+	removeIndexSet : (NSIndexSet	*) indexSet
+ delFavIfNecessary : (BOOL			 ) flag;
+- (BOOL) tableView : (NSTableView	*) tableView
+	   removeFiles : (NSArray		*) files
+ delFavIfNecessary : (BOOL			 ) flag;
+@end
 
 
 @interface CMRThreadsList(AccessingList)
 - (NSMutableArray *) threads;
 - (void) setThreads : (NSMutableArray *) aThreads;
 - (NSMutableArray *) filteredThreads;
-- (void) setFilteredThreads : (NSMutableArray *) aFilteredThreads;
+//- (void) setFilteredThreads : (NSMutableArray *) aFilteredThreads;
 - (int) filteringMask;
 - (void) setFilteringMask : (int) mask;
 - (BOOL) isAscending;
 - (void) setIsAscending : (BOOL)  flag;
-- (NSMutableDictionary *) threadsInfo;
-- (void) setThreadsInfo : (NSMutableDictionary *) aThreadsInfo;
+//- (NSMutableDictionary *) threadsInfo;
+//- (void) setThreadsInfo : (NSMutableDictionary *) aThreadsInfo;
 - (void) toggleIsAscending;
 - (void) sortByKey : (NSString *) key;
-- (void) _sortArrayByKey : (NSString       *) key
-                   array : (NSMutableArray *) array;
 @end
 
 
@@ -101,8 +111,6 @@ enum {
 - (NSArray *) _arrayWithStatus : (ThreadStatus    ) status
                fromSortedArray : (NSMutableArray *) array
 			     subarrayRange : (NSRangePointer  ) aRange;
-- (void) _filteredThreadsLock;
-- (void) _filteredThreadsUnlock;
 @end
 
 
@@ -134,9 +142,7 @@ enum {
 
 - (NSArray *) threadFilePathArrayWithRowIndexSet : (NSIndexSet	*) anIndexSet
 									 inTableView : (NSTableView	*) tableView;
-// Removed in ReinforceII and later. Use threadFilePathArrayWithRowIndexSet:inTableView: instead.
-//- (NSArray *) threadFilePathArrayWithRowIndexArray : (NSArray	  *) anIndexArray
-//									   inTableView : (NSTableView *)tableView;
+
 - (ThreadStatus) threadStatusForThread : (NSDictionary *) aThread;
 - (id) objectValueForIdentifier : (NSString *) identifier
 					threadArray : (NSArray  *) threadArray
@@ -148,11 +154,6 @@ enum {
                                   inTableView : (NSTableView *) tableView;
 
 - (unsigned int) indexOfThreadWithPath : (NSString *) filepath;
-
-// available in ReinforceII and later.
-//- (NSImage *) dragImageForTheRow: (unsigned int) rowIndex
-//					 inTableView: (NSTableView *) tableView
-//						  offset: (NSPointPointer) dragImageOffset;
 @end
 
 @interface CMRThreadsList(DraggingImage)
@@ -175,13 +176,6 @@ enum {
 + (NSMutableDictionary *) attributesForThreadsListWithContentsOfFile : (NSString *) path;
 + (id) threadsListTemplateWithPath : (NSString *) path;
 @end
-
-
-/*
-@interface w2chFavoriteItemList : CMRThreadsList
-@end
-*/
-
 
 // Notification
 extern NSString *const CMRThreadsListDidUpdateNotification;

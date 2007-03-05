@@ -99,7 +99,6 @@
 		87016210082BE67100AEFDD0 /* CMRHostHandler_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F358F4BD04DE23BC00A80005 /* CMRHostHandler_p.h */; };
 		87016211082BE67100AEFDD0 /* CMRHistoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F38D3D4E04FBE7D000DCB099 /* CMRHistoryManager.h */; };
 		87016213082BE67100AEFDD0 /* SGContextHelpPanel.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDA804C698FB00A80005 /* SGContextHelpPanel.h */; };
-		87016215082BE67100AEFDD0 /* CMRProgressIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = F322F1F8050B877200A80005 /* CMRProgressIndicator.h */; };
 		87016216082BE67100AEFDD0 /* CMRPreferencesDefautValues.h in Headers */ = {isa = PBXBuildFile; fileRef = F322F7FB050BA07D00A80005 /* CMRPreferencesDefautValues.h */; };
 		87016217082BE67100AEFDD0 /* CMRSearchOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = F3E81CEE050CA85A00A80005 /* CMRSearchOptions.h */; };
 		87016218082BE67100AEFDD0 /* CMRHistoryObject.h in Headers */ = {isa = PBXBuildFile; fileRef = F3E81CF3050CB96F00A80005 /* CMRHistoryObject.h */; };
@@ -232,7 +231,6 @@
 		8701634B082BE67100AEFDD0 /* CMRThreadViewer-Link.m in Sources */ = {isa = PBXBuildFile; fileRef = F33977B605087EBA00A80005 /* CMRThreadViewer-Link.m */; };
 		8701634C082BE67100AEFDD0 /* SGContextHelpPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDA904C698FB00A80005 /* SGContextHelpPanel.m */; };
 		8701634D082BE67100AEFDD0 /* CMRHostHTMLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B609F80509EDBF00A80005 /* CMRHostHTMLHandler.m */; };
-		8701634E082BE67100AEFDD0 /* CMRProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = F322F1F9050B877200A80005 /* CMRProgressIndicator.m */; };
 		8701634F082BE67100AEFDD0 /* CMRSearchOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E81CEF050CA85A00A80005 /* CMRSearchOptions.m */; };
 		87016358082BE67100AEFDD0 /* CMRTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F38262E60513581100A80005 /* CMRTask.m */; };
 		87016359082BE67100AEFDD0 /* CMRTaskItemController.m in Sources */ = {isa = PBXBuildFile; fileRef = F38262E80513581100A80005 /* CMRTaskItemController.m */; };
@@ -879,7 +877,6 @@
 		F47362E60AFF8758009B6189 /* CMRBrowser-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC3904C698FA00A80005 /* CMRBrowser-ViewAccessor.m */; };
 		F47362E70AFF8758009B6189 /* CMRBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC3B04C698FA00A80005 /* CMRBrowser.m */; };
 		F47362E90AFF8758009B6189 /* CMRThreadsList-DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC4004C698FA00A80005 /* CMRThreadsList-DataSource.m */; };
-		F47362EE0AFF8758009B6189 /* CMRThreadsList-Remove.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC4604C698FA00A80005 /* CMRThreadsList-Remove.m */; };
 		F47362EF0AFF8758009B6189 /* CMRThreadsList.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC4904C698FA00A80005 /* CMRThreadsList.m */; };
 		F47362F30AFF8758009B6189 /* CMRAttributedMessageComposer-Anchor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC6104C698FA00A80005 /* CMRAttributedMessageComposer-Anchor.m */; };
 		F47362F40AFF8758009B6189 /* CMRAttributedMessageComposer-Convert.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC6204C698FA00A80005 /* CMRAttributedMessageComposer-Convert.m */; };
@@ -1548,8 +1545,6 @@
 		F31D7FAC04D2F0A1003EEDDD /* CMRThreadDictReader.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRThreadDictReader.m; sourceTree = "<group>"; };
 		F32165FE0529CB2B00A80005 /* CMRExports.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRExports.h; sourceTree = "<group>"; };
 		F32248E404D97CCC00A80005 /* CMXTemplateKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMXTemplateKeys.h; sourceTree = "<group>"; };
-		F322F1F8050B877200A80005 /* CMRProgressIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRProgressIndicator.h; sourceTree = "<group>"; };
-		F322F1F9050B877200A80005 /* CMRProgressIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRProgressIndicator.m; sourceTree = "<group>"; };
 		F322F7FB050BA07D00A80005 /* CMRPreferencesDefautValues.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRPreferencesDefautValues.h; sourceTree = "<group>"; };
 		F324DAF604C6949900A80005 /* BoardListEditor-ViewAccessor.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "BoardListEditor-ViewAccessor.m"; sourceTree = "<group>"; };
 		F324DAF704C6949900A80005 /* BoardListEditor.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = BoardListEditor.h; sourceTree = "<group>"; };
@@ -3106,8 +3101,6 @@
 			children = (
 				F324DDA304C698FB00A80005 /* CMRStatusLine.h */,
 				F324DDA404C698FB00A80005 /* CMRStatusLine.m */,
-				F322F1F8050B877200A80005 /* CMRProgressIndicator.h */,
-				F322F1F9050B877200A80005 /* CMRProgressIndicator.m */,
 			);
 			name = statusLine;
 			sourceTree = "<group>";
@@ -3532,7 +3525,6 @@
 				87016210082BE67100AEFDD0 /* CMRHostHandler_p.h in Headers */,
 				87016211082BE67100AEFDD0 /* CMRHistoryManager.h in Headers */,
 				87016213082BE67100AEFDD0 /* SGContextHelpPanel.h in Headers */,
-				87016215082BE67100AEFDD0 /* CMRProgressIndicator.h in Headers */,
 				87016216082BE67100AEFDD0 /* CMRPreferencesDefautValues.h in Headers */,
 				87016217082BE67100AEFDD0 /* CMRSearchOptions.h in Headers */,
 				87016218082BE67100AEFDD0 /* CMRHistoryObject.h in Headers */,
@@ -4481,7 +4473,6 @@
 				8701634B082BE67100AEFDD0 /* CMRThreadViewer-Link.m in Sources */,
 				8701634C082BE67100AEFDD0 /* SGContextHelpPanel.m in Sources */,
 				8701634D082BE67100AEFDD0 /* CMRHostHTMLHandler.m in Sources */,
-				8701634E082BE67100AEFDD0 /* CMRProgressIndicator.m in Sources */,
 				8701634F082BE67100AEFDD0 /* CMRSearchOptions.m in Sources */,
 				87016358082BE67100AEFDD0 /* CMRTask.m in Sources */,
 				87016359082BE67100AEFDD0 /* CMRTaskItemController.m in Sources */,
@@ -4661,7 +4652,6 @@
 				F47362E60AFF8758009B6189 /* CMRBrowser-ViewAccessor.m in Sources */,
 				F47362E70AFF8758009B6189 /* CMRBrowser.m in Sources */,
 				F47362E90AFF8758009B6189 /* CMRThreadsList-DataSource.m in Sources */,
-				F47362EE0AFF8758009B6189 /* CMRThreadsList-Remove.m in Sources */,
 				F47362EF0AFF8758009B6189 /* CMRThreadsList.m in Sources */,
 				F47362F30AFF8758009B6189 /* CMRAttributedMessageComposer-Anchor.m in Sources */,
 				F47362F40AFF8758009B6189 /* CMRAttributedMessageComposer-Convert.m in Sources */,

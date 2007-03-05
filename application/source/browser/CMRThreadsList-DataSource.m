@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.19 2007/01/28 07:18:50 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.20 2007/03/05 10:08:25 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -522,7 +522,7 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 - (NSDictionary *) threadAttributesAtRowIndex : (int          ) rowIndex
                                   inTableView : (NSTableView *) tableView
 {
-	NSArray			*threadsArray_;
+/*	NSArray			*threadsArray_;
 	NSDictionary	*thread_;
 	
 	if(rowIndex == -1) 
@@ -549,12 +549,14 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	[thread_ retain];
 	[threadsArray_ release];
 	
-	return [thread_ autorelease];
+	return [thread_ autorelease];*/
+	UTILAbstractMethodInvoked;
+	return nil;
 }
 
 - (unsigned int) indexOfThreadWithPath : (NSString *) filepath
 {
-	unsigned int  rowIndex_;
+/*	unsigned int  rowIndex_;
 	NSArray      *threadsArray_;
 	NSDictionary *matched_;
 		
@@ -569,7 +571,9 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	} while(0);
 	[self _filteredThreadsUnlock];
 
-	return rowIndex_;
+	return rowIndex_;*/
+	UTILAbstractMethodInvoked;
+	return 0;
 }
 
 - (NSArray *) threadFilePathArrayWithRowIndexSet : (NSIndexSet	*) anIndexSet
