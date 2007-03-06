@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.17 2007/02/12 15:07:34 tsawada2 Exp $
+  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.18 2007/03/06 14:40:18 tsawada2 Exp $
   * 
   * CMRThreadViewer-ViewAccessor.m
   *
@@ -371,8 +371,8 @@
 
 - (void) setupKeyLoops
 {
-	[[self textView] setNextKeyView : [[self indexingStepper] textField]];
-	[[[self indexingStepper] textField] setNextKeyView : [self textView]];
+//	[[self textView] setNextKeyView : [[self indexingStepper] textField]];
+//	[[[self indexingStepper] textField] setNextKeyView : [self textView]];
 	
 	[[self window] setInitialFirstResponder : [self textView]];
 	[[self window] makeFirstResponder : [self textView]];

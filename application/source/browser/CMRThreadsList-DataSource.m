@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.20 2007/03/05 10:08:25 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.21 2007/03/06 14:40:18 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -159,18 +159,19 @@ static NSMutableParagraphStyle	*pStyleForDateColumnWithWidth (float tabWidth)
 	
 	return [temp autorelease]; // autorelease ‚µ‚È‚¢‚Æ˜R‚ê‚Ü‚­‚è	
 }
-
+/*
 - (NSArray *) threadsForTableView : (NSTableView *) tableView
 {
 	return [self filteredThreads];
-}
+}*/
 - (int) numberOfRowsInTableView : (NSTableView *) aTableView
 {
-//	return [[self threadsForTableView : aTableView] count];
-	return [[self filteredThreads] count];
+//	return [[self filteredThreads] count];
+	UTILAbstractMethodInvoked;
+	return 0;
 }
 
-static NSImage *_statusImageWithStatus(ThreadStatus s)
+/*static NSImage *_statusImageWithStatus(ThreadStatus s)
 {
 	switch (s){
 	case ThreadLogCachedStatus :
@@ -187,7 +188,7 @@ static NSImage *_statusImageWithStatus(ThreadStatus s)
 		return nil;
 	}
 	return nil;
-}
+}*/
 
 static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 {
@@ -207,7 +208,7 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 					threadArray : (NSArray  *) threadArray
 						atIndex : (int       ) index
 {
-	NSDictionary	*thread = [threadArray objectAtIndex : index];
+/*	NSDictionary	*thread = [threadArray objectAtIndex : index];
 	ThreadStatus	s = _threadStatusForThread(thread);
 	id				v = nil;
 	
@@ -245,14 +246,16 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 		v = [[self class] objectValueTemplate : v
 									  forType : ((s == ThreadNewCreatedStatus) ? kValueTemplateNewArrivalType : kValueTemplateDefaultType)];
 	}
-	return v;
+	return v;*/
+	UTILAbstractMethodInvoked;
+	return nil;
 }
 
 - (id)            tableView : (NSTableView   *) aTableView
   objectValueForTableColumn : (NSTableColumn *) aTableColumn
                         row : (int            ) rowIndex
 {
-	NSArray			*threads_ = [self filteredThreads];
+/*	NSArray			*threads_ = [self filteredThreads];
 	NSString		*identifier_ = [aTableColumn identifier];
 	NSAssert2((rowIndex >= 0 && rowIndex <= [threads_ count]),
 	   @"Threads Count(%u) but Accessed Index = %d.", [threads_ count], rowIndex);
@@ -265,7 +268,9 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
         [[self class] resetDataSourceTemplateForColumnIdentifier: identifier_ width: location_];
     }
 
-	return [self objectValueForIdentifier: identifier_ threadArray: threads_ atIndex: rowIndex];
+	return [self objectValueForIdentifier: identifier_ threadArray: threads_ atIndex: rowIndex];*/
+	UTILAbstractMethodInvoked;
+	return nil;
 }
 
 #pragma mark Drag and Drop support
@@ -336,163 +341,7 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	[tmp_ deleteCharactersInRange : [tmp_ range]];
 	return YES;
 }
-/*
-- (NSBezierPath *) calcRoundedRectForRect: (NSRect) bgRect
-{
-    int minX = NSMinX(bgRect);
-    int midX = NSMidX(bgRect);
-    int maxX = NSMaxX(bgRect);
-    int minY = NSMinY(bgRect);
-    int midY = NSMidY(bgRect);
-    int maxY = NSMaxY(bgRect);
-    float radius = 5.0;
-    NSBezierPath *bgPath = [NSBezierPath bezierPath];
-    
-    // Bottom edge and bottom-right curve
-    [bgPath moveToPoint:NSMakePoint(midX, minY)];
-    [bgPath appendBezierPathWithArcFromPoint:NSMakePoint(maxX, minY) 
-                                     toPoint:NSMakePoint(maxX, midY) 
-                                      radius:radius];
-    
-    // Right edge and top-right curve
-    [bgPath appendBezierPathWithArcFromPoint:NSMakePoint(maxX, maxY) 
-                                     toPoint:NSMakePoint(midX, maxY) 
-                                      radius:radius];
-    
-    // Top edge and top-left curve
-    [bgPath appendBezierPathWithArcFromPoint:NSMakePoint(minX, maxY) 
-                                     toPoint:NSMakePoint(minX, midY) 
-                                      radius:radius];
-    
-    // Left edge and bottom-left curve
-    [bgPath appendBezierPathWithArcFromPoint:bgRect.origin 
-                                     toPoint:NSMakePoint(midX, minY) 
-                                      radius:radius];
-    [bgPath closePath];
-    
-    return bgPath;
-}
 
-- (NSAttributedString *) attributedStringFromTitle: (NSString *) threadTitle andURL: (NSString *) urlString
-{
-	NSMutableDictionary		*attr_, *attr2_;
-	NSMutableAttributedString	*attrStr_;
-	NSAttributedString	*urlStr_;
-	NSFont					*boldFont_;
-	
-	attr_ = [NSMutableDictionary dictionary];
-	attr2_ = [NSMutableDictionary dictionary];
-
-	boldFont_ = [NSFont boldSystemFontOfSize: [NSFont smallSystemFontSize]];
-
-	[attr_ setObject : [NSFont labelFontOfSize: 0] forKey : NSFontAttributeName];
-	[attr_ setObject : [NSColor whiteColor] forKey : NSForegroundColorAttributeName];
-	[attr2_ setObject: boldFont_ forKey: NSFontAttributeName];
-	[attr2_ setObject: [NSColor whiteColor] forKey: NSForegroundColorAttributeName];
-
-	attrStr_ = [[NSMutableAttributedString alloc] initWithString: threadTitle attributes: attr2_];
-	urlStr_ = [[NSAttributedString alloc] initWithString: [NSString stringWithFormat: @"\n%@", urlString] attributes: attr_];
-	
-	[attrStr_ appendAttributedString: urlStr_];
-	[urlStr_ release];
-
-	return [attrStr_ autorelease];
-}
-
-- (NSImage *) dragImageWithIconForAttributes: (NSDictionary *) attr offset: (NSPointPointer) dragImageOffset
-{
-	NSString	*title_ = [attr objectForKey: CMRThreadTitleKey];
-	NSAttributedString	*titleAttrStr_ = [[self class] objectValueTemplate: title_ forType: kValueTemplateDefaultType];
-		
-	NSImage *titleImg = [[NSImage alloc] init];
-	NSSize	strSize_ = [titleAttrStr_ size];
-	
-	[titleImg setSize: strSize_];
-	[titleImg lockFocus];
-	[titleAttrStr_ drawInRect: NSMakeRect(0,0,strSize_.width,strSize_.height)];
-	[titleImg unlockFocus];
-
-	NSImage	*icon_ = [[NSWorkspace sharedWorkspace] iconForFileType : @"thread"];
-	[icon_ setSize : NSMakeSize(16, 16)];
-	
-	NSImage *finalImg = [[NSImage alloc] init];
-    float dy = 0;
-    float dyTitle = 0;
-
-	float	whichHeight = [CMRPref threadsListRowHeight];
-	if (whichHeight < strSize_.height) {
-	   whichHeight = strSize_.height;
-	} else if (whichHeight > strSize_.height) {
-	   dyTitle = (whichHeight - strSize_.height)*0.5;
-	}
-	if (whichHeight < 16.0) {
-	   whichHeight = 16.0;
-	   dyTitle = (16.0 - strSize_.height)*0.5;
-	} else if (whichHeight > 16.0) {
-	   dy = (whichHeight - 16.0)*0.5;
-	}
-
-	NSRect	imageRect_ = NSMakeRect(0, 0, strSize_.width+19.0, whichHeight);
-	[finalImg setSize: imageRect_.size];
-	[finalImg lockFocus];
-	[icon_ compositeToPoint: NSMakePoint(0, dy) operation: NSCompositeCopy fraction: 0.9];
-	[titleImg compositeToPoint: NSMakePoint(19.0,dyTitle) operation: NSCompositeCopy fraction: 0.8];
-	
-	[finalImg unlockFocus];
-	
-	[titleImg release];
-
-	dragImageOffset->x = imageRect_.size.width * 0.5 - 8.0;
-
-	return [finalImg autorelease];
-}	
-	
-- (NSImage *) dragImageForTheRow: (unsigned int) rowIndex inTableView: (NSTableView *) tableView offset: (NSPointPointer) dragImageOffset
-{
-	NSDictionary	*thread_;
-	thread_ = [self threadAttributesAtRowIndex : rowIndex inTableView : tableView];
-	
-	if(nil == thread_) return nil;
-
-	NSString		*path_;
-	path_ = [CMRThreadAttributes pathFromDictionary : thread_];
-
-	if([[NSFileManager defaultManager] fileExistsAtPath : path_])
-		return [self dragImageWithIconForAttributes: thread_ offset: dragImageOffset];
-
-	NSString		*title_;
-	NSAttributedString	*attrStr_;
-	NSColor			*bgColor_;
-	
-	NSImage	*anImg = [[NSImage alloc] init];
-	NSRect	imageBounds;
-
-	title_ = [thread_ objectForKey : CMRThreadTitleKey];
-
-	attrStr_ = [self attributedStringFromTitle: title_ andURL: [[CMRThreadAttributes threadURLFromDictionary : thread_] absoluteString]];
-
-	NSSize strSize_ = [attrStr_ size];
-	NSRect strRect_ = NSMakeRect(0, 0, strSize_.width+10.0, strSize_.height+10.0);
-
-	imageBounds.origin = NSMakePoint(5.0, 5.0);
-	imageBounds.size = strSize_;
-
-	bgColor_ = [[NSColor alternateSelectedControlColor] colorWithAlphaComponent: 0.9];
-
-	[anImg setSize : strRect_.size];
-
-	[anImg lockFocus];
-	[bgColor_ set];
-	[[self calcRoundedRectForRect: strRect_] fill];
-	[attrStr_ drawInRect: imageBounds];
-	[anImg unlockFocus];
-
-	dragImageOffset->x = strSize_.width * 0.5;
-	dragImageOffset->y = 10.0;
-
-	return [anImg autorelease];
-}
-*/
 #pragma mark Getting Thread Attributes
 - (NSString *) threadFilePathAtRowIndex : (int          ) rowIndex
 							inTableView : (NSTableView *) tableView

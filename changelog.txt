@@ -1,4 +1,7 @@
 2007-03-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Action.m
+		スレッド一覧で複数のスレッドを選択して「ログを削除」（via Toolbar or Menu Item）したとき、
+		ファイルを一個ずつゴミ箱に捨てる動作になっていたのをまとめて捨てるように改良。
 	* application/source/view/BSProgressIndicatorTbItem.[h|m]
 		[削除] ずいぶん前から未使用で、プロジェクトファイルからも参照が削除されていたのでリポジトリからも削除。
 	* application/source/view/BSTsuruPetaPopUpBtnCell.m

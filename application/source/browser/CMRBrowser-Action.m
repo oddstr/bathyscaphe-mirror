@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.57 2007/02/11 17:13:48 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.58 2007/03/06 14:40:18 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -11,6 +11,7 @@
 #import "CMRHistoryManager.h"
 #import "CMRThreadsList_p.h"
 #import "FolderBoardListItem.h"
+#import "CMRReplyDocumentFileManager.h"
 extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate.m
 
 @class IndexField;
@@ -165,7 +166,7 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 			result = [NSArray arrayWithObject : selected];
 		}
 	}
-		return result;
+	return result;
 }
 
 - (IBAction) openBBSInBrowser : (id) sender
@@ -321,6 +322,28 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 }
 
 #pragma mark Deletion
+- (BOOL) forceDeleteThreads: (NSArray *) threads
+{
+	NSMutableArray	*array_ = [NSMutableArray arrayWithCapacity: [threads count]];
+	NSArray			*arrayWithReplyFiles_;
+	NSEnumerator	*iter_ = [threads objectEnumerator];
+	NSFileManager	*fm = [NSFileManager defaultManager];
+	id				eachItem_;
+	NSString		*path_;
+
+	while (eachItem_ = [iter_ nextObject]) {
+		path_ = [CMRThreadAttributes pathFromDictionary: eachItem_];
+		if ([fm fileExistsAtPath: path_]) {
+			[array_ addObject: path_];
+		} else {
+			NSLog(@"File does not exist (although we're going to remove it!)\n%@", path_);
+		}
+	}
+
+	arrayWithReplyFiles_ = [[CMRReplyDocumentFileManager defaultManager] replyDocumentFilesArrayWithLogsArray: array_];
+	return [[CMRTrashbox trash] performWithFiles: arrayWithReplyFiles_ fetchAfterDeletion: NO];
+}
+
 - (void) _showDeletionAlertSheet : (id) sender
 						  ofType : (BSThreadDeletionType) aType
 					  allowRetry : (BOOL) allowRetry
@@ -330,7 +353,7 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 	NSString	*title_;
 	NSString	*message_;
 
-	alert_ = [[NSAlert alloc] init];
+	alert_ = [[[NSAlert alloc] init] autorelease];
 
 	switch(aType) {
 	case BSThreadAtViewerDeletionType:
@@ -394,17 +417,10 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 		}
 	} else {
 		if ([CMRPref quietDeletion]) {
-			NSEnumerator	*enumerator_;
-			id				eachItem_;
-			enumerator_ = [targets_ objectEnumerator];
-			while ((eachItem_ = [enumerator_ nextObject])) {
-				NSString	*path_ = [CMRThreadAttributes pathFromDictionary : eachItem_];
-				if (NO == [self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
-					NSBeep();
-					NSLog(@"Deletion failed : %@", path_);
-					continue;
-				}
-			}
+			if (NO == [self forceDeleteThreads: targets_]) {
+				NSBeep();
+				NSLog(@"CMRTrashbox returns some error.");
+			}			
 		} else {
 			[self _showDeletionAlertSheet : sender
 								   ofType : ([[self currentThreadsList] isFavorites] ? BSThreadAtFavoritesDeletionType
@@ -419,46 +435,19 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 						 returnCode : (int      ) returnCode
 						contextInfo : (void	   *) contextInfo
 {
-	switch(returnCode){
-	case NSAlertFirstButtonReturn: // delete
-		{
-			NSEnumerator	*enumerator_;
-			id				eachItem_;
-			enumerator_ = [(NSArray *)contextInfo objectEnumerator];
-			while ((eachItem_ = [enumerator_ nextObject])) {
-				NSString	*path_ = [CMRThreadAttributes pathFromDictionary : eachItem_];
-				if (NO == [self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
-					NSBeep();
-					NSLog(@"Deletion failed : %@", path_);
-					continue;
-				}
-			}
+	if (returnCode == NSAlertFirstButtonReturn) {
+		if (NO == [self forceDeleteThreads: (NSArray *)contextInfo]) {
+			NSBeep();
+			NSLog(@"CMRTrashbox returns some error.");
 		}
-		break;
-	case NSAlertThirdButtonReturn: // delete & reload
-		{
-			NSEnumerator	*enumerator_;
-			id				eachItem_;
-			enumerator_ = [(NSArray *)contextInfo objectEnumerator];
-			while ((eachItem_ = [enumerator_ nextObject])) {
-				NSString	*path_ = [CMRThreadAttributes pathFromDictionary : eachItem_];
-				if ([self forceDeleteThreadAtPath : path_ alsoReplyFile : NO]) {
-					//[self reloadAfterDeletion : path_];
-					//[[self threadsListTable] reloadData]; // really need?
-				} else {
-					NSBeep();
-					NSLog(@"Deletion failed : %@, so reloading opreation has been canceled.", path_);
-					continue;
-				}
-			}
+	} else if (returnCode == NSAlertThirdButtonReturn) {
+		id item_ = [(NSArray *)contextInfo lastObject];
+		NSString *path_ = [CMRThreadAttributes pathFromDictionary: item_];
+		if (NO == [self forceDeleteThreadAtPath: path_ alsoReplyFile: NO]) {
+			NSBeep();
+			NSLog(@"Deletion failed : %@, so reloading opreation has been canceled.", path_);
 		}
-		break;
-	case NSAlertSecondButtonReturn: // cancel
-		break;
-	default:
-		break;
 	}
-	[alert release];
 }
 
 #pragma mark Filter, Search
