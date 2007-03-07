@@ -9,17 +9,9 @@
 #import "BSIndexingPopupper.h"
 #import "CMRThreadVisibleRange.h"
 #import <SGAppKit/SGAppKit.h>
-#import "BSTsuruPetaPopUpBtnCell.h"
+#import "BSVisibleRangePopUpBtnCell.h"
 #import "AppDefaults.h"
 #import "BSRelativeKeywordsCollector.h"
-
-static NSString *const kFirstVisibleNumbersPlist =	@"firstVisibleNumbers.plist";
-static NSString *const kLastVisibleNumbersPlist =	@"lastVisibleNumbers.plist";
-
-static NSString *const APP_TVIEW_FIRST_VISIBLE_LABEL_KEY =	@"First Visibles";
-static NSString *const APP_TVIEW_LAST_VISIBLE_LABEL_KEY =	@"Last Visibles";
-static NSString *const APP_TVIEW_SHOW_ALL_LABEL_KEY =	@"Show All";
-static NSString *const APP_TVIEW_SHOW_NONE_LABEL_KEY =	@"Show None";
 
 static NSString *const kIndexingPopupperNibFileKey =	@"BSIndexingPopupper";
 static NSString *const kIndexingPopupperStringsKey =	@"IndexingPopupper";
@@ -83,17 +75,7 @@ static NSString *const kKeywordsButtonPressedImage = @"Keywords_Pressed";
 {
 	return [self frameView];
 }
-/*
-- (NSPopUpButton *) firstVisibleRangePopUpButton
-{
-	return m_firstVisibleRangePopUpButton;
-}
 
-- (NSPopUpButton *) lastVisibleRangePopUpButton
-{
-	return m_lastVisibleRangePopUpButton;
-}
-*/
 - (NSMatrix *) visibleRangeMatrix
 {
 	return m_visibleRangeMatrix;
@@ -124,163 +106,21 @@ static NSString *const kKeywordsButtonPressedImage = @"Keywords_Pressed";
 }
 
 #pragma mark UI Setup
-+ (NSString *) visibleNumbersFilepathWithName : (NSString *) filename
+- (id) popUpButtonCellOfClass: (Class) cellClass
 {
-	NSBundle	*bundles[] = {
-			[NSBundle applicationSpecificBundle],
-			[NSBundle mainBundle],
-			nil};
-	NSBundle	**p;
-	NSString	*s = nil;
-	
-	for (p = bundles; *p != nil; p++)
-		if ((s = [*p pathForResourceWithName : filename]) != nil)
-			break;
-	
-	return s;
-}
-
-+ (NSArray *) visibleNumbersArrayWithName : (NSString *) filename
-{
-	NSMutableArray		*values;
-	int					i;
-	
-	values = [NSMutableArray arrayWithContentsOfFile : 
-				[self visibleNumbersFilepathWithName : filename]];
-	if (nil == values) values = [NSMutableArray array];
-	
-	for (i = [values count] -1; i >= 0; i--) {
-		id		v = [values objectAtIndex : i];
-		
-		if (NO == [v isKindOfClass : [NSNumber class]]) {
-			[values removeObjectAtIndex : i];
-			continue;
-		}
-		
-		if ([v intValue] < 0) {
-			[values replaceObjectAtIndex : i
-			  withObject : [NSNumber numberWithUnsignedInt : CMRThreadShowAll]];
-		}
-	}
-	return values;
-}
-
-+ (NSArray *) firstVisibleNumbersArray
-{
-	return [self visibleNumbersArrayWithName : kFirstVisibleNumbersPlist];
-}
-
-+ (NSArray *) lastVisibleNumbersArray
-{
-	return [self visibleNumbersArrayWithName : kLastVisibleNumbersPlist];
-}
-
-- (NSString *) localizedVisibleStringWithFormat : (NSString *) format
-								  visibleLength : (unsigned  ) visibleLength
-{
-	if (0 == visibleLength)
-		return [self localizedString: APP_TVIEW_SHOW_NONE_LABEL_KEY];
-	if (CMRThreadShowAll == visibleLength)
-		return [self localizedString: APP_TVIEW_SHOW_ALL_LABEL_KEY];
-	
-	return [NSString stringWithFormat : 
-							format,
-							visibleLength];
-}
-
-- (NSString *) localizedFirstVisibleStringWithNumber : (NSNumber *) visibleNumber
-{
-	NSString			*format_;
-	
-	if (nil == visibleNumber) return nil;
-	
-	format_ = [self localizedString : APP_TVIEW_FIRST_VISIBLE_LABEL_KEY];
-	return [self localizedVisibleStringWithFormat : format_
-						visibleLength : [visibleNumber unsignedIntValue]];
-}
-
-- (NSString *) localizedLastVisibleStringWithNumber : (NSNumber *) visibleNumber
-{
-	NSString			*format_;
-	
-	if (nil == visibleNumber) return nil;
-	
-	format_ = [self localizedString : APP_TVIEW_LAST_VISIBLE_LABEL_KEY];
-	return [self localizedVisibleStringWithFormat : format_
-						visibleLength : [visibleNumber unsignedIntValue]];
-}
-
-- (BSTsuruPetaPopUpBtnCell *) popUpButtonCellTemplate
-{
-	BSTsuruPetaPopUpBtnCell	*cell = [[BSTsuruPetaPopUpBtnCell alloc] initTextCell: @"" pullsDown: NO];
-	float fontSize = [NSFont systemFontSizeForControlSize: NSSmallControlSize];
-
-	[cell setBordered: NO];
-	[cell setControlSize: NSSmallControlSize];
-	[cell setFont: [NSFont systemFontOfSize: fontSize]];
-	
+	id	cell = [[cellClass alloc] initTextCell: @"" pullsDown: NO];
+	[cell setTarget: self];
+	[cell setAction: @selector(selectVisibleRange:)];
+	[cell setupPopUpMenuBase];
 	return [cell autorelease];
-}
-
-- (void) setupVisibleRangeMatrix;
-{
-	NSMatrix	*matrix_ = [self visibleRangeMatrix];
-
-	[matrix_ putCell: [self popUpButtonCellTemplate] atRow: 0 column: 0];
-	[matrix_ putCell: [self popUpButtonCellTemplate] atRow: 0 column: 1];
-}
-
-- (NSMenuItem *) addItemWithRepresentedIndex: (NSNumber *) aNum toPopUpBtnCell: (NSPopUpButtonCell *) cell isFirst: (BOOL) isFirst
-{
-    NSString	*title;
-    NSMenuItem	*item;
-	SEL			action_;
-
-	if (isFirst) {
-		title = [self localizedFirstVisibleStringWithNumber : aNum];
-		action_ = @selector(selectFirstVisibleRange:);
-	} else {
-		title = [self localizedLastVisibleStringWithNumber : aNum];
-		action_ = @selector(selectLastVisibleRange:);
-	}
-    
-	[cell addItemWithTitle: title];
-
-	item = (NSMenuItem *)[cell lastItem];
-    [item setRepresentedObject: aNum];
-    [item setTarget: self];
-    [item setAction: action_];
-    return item;
-}
-
-- (void) setupVisibleRangePopUpBtnCellAttributes: (NSPopUpButtonCell *) cell isFirst: (BOOL) isFirst
-{
-	NSArray			*visibleNumbers_;
-	NSEnumerator	*iter_;
-	NSNumber		*number_;
-
-	[cell removeAllItems];
-
-	if (isFirst) {
-		visibleNumbers_ = [[self class] firstVisibleNumbersArray];
-	} else {
-		visibleNumbers_ = [[self class] lastVisibleNumbersArray];
-	}
-
-	iter_ = [visibleNumbers_ objectEnumerator];
-	while (number_ = [iter_ nextObject]) {
-		[self addItemWithRepresentedIndex: number_ toPopUpBtnCell: cell isFirst: isFirst];
-    }
 }
 
 - (void) setupVisibleRangePopUp
 {
-	[self setupVisibleRangeMatrix];
-
 	NSMatrix	*matrix_ = [self visibleRangeMatrix];
 
-	[self setupVisibleRangePopUpBtnCellAttributes: [matrix_ cellAtRow: 0 column: 0] isFirst: YES];
-	[self setupVisibleRangePopUpBtnCellAttributes: [matrix_ cellAtRow: 0 column: 1] isFirst: NO];
+	[matrix_ putCell: [self popUpButtonCellOfClass: [BSFirstRangePopUpBtnCell class]] atRow: 0 column: 0];
+	[matrix_ putCell: [self popUpButtonCellOfClass: [BSLastRangePopUpBtnCell class]] atRow: 0 column: 1];
 }
 
 - (void) setupKeywordsButton
@@ -305,7 +145,7 @@ static NSString *const kKeywordsButtonPressedImage = @"Keywords_Pressed";
 }
 
 #pragma mark Actions
-- (void) updateVisibleRange
+- (IBAction) selectVisibleRange: (id) sender
 {
 	CMRThreadVisibleRange	*visibleRange_;
 	NSNumber				*number_;
@@ -327,16 +167,6 @@ static NSString *const kKeywordsButtonPressedImage = @"Keywords_Pressed";
 	if ([[self delegate] respondsToSelector: @selector(indexingPopupper:didChangeVisibleRange:)]) {
 		[[self delegate] indexingPopupper: self didChangeVisibleRange: visibleRange_];
 	}
-}
-
-- (IBAction) selectFirstVisibleRange : (id) sender
-{
-	[self updateVisibleRange];
-}
-
-- (IBAction) selectLastVisibleRange : (id) sender
-{
-	[self updateVisibleRange];
 }
 
 - (IBAction) aboutKeywords: (id) sender
@@ -362,40 +192,13 @@ static NSString *const kKeywordsButtonPressedImage = @"Keywords_Pressed";
 }
 
 #pragma mark Utilities
-- (void) syncPopUpBtnCellWithCurRange: (NSPopUpButtonCell *) cell isFirst: (BOOL) isFirst
-{
-    unsigned		length;
-    id				num;
-    int				idx = -1;
-
-	CMRThreadVisibleRange *visibleRange = [self visibleRange];
-    
-    if (nil == visibleRange)
-        return;
-
-	if (isFirst) {
-		length = [visibleRange firstVisibleLength];
-	} else {
-		length = [visibleRange lastVisibleLength];
-    }
-
-    num = [NSNumber numberWithUnsignedInt : length];
-    idx = [cell indexOfItemWithRepresentedObject : num];
-    if (-1 == idx) {
-        NSMenuItem *item;
-        item = [self addItemWithRepresentedIndex: num toPopUpBtnCell: cell isFirst: isFirst];
-        idx = [cell indexOfItem : item];
-    }
-
-    [cell selectItemAtIndex : idx];
-}
-
 - (void) syncButtonsWithCurrentRange
 {
 	NSMatrix	*matrix_ = [self visibleRangeMatrix];
+	CMRThreadVisibleRange *visibleRange = [self visibleRange];
 
-	[self syncPopUpBtnCellWithCurRange: [matrix_ cellAtRow: 0 column: 0] isFirst: YES];
-	[self syncPopUpBtnCellWithCurRange: [matrix_ cellAtRow: 0 column: 1] isFirst: NO];
+	[[matrix_ cellAtRow: 0 column: 0] syncWithCurrentRange: visibleRange];
+	[[matrix_ cellAtRow: 0 column: 1] syncWithCurrentRange: visibleRange];
 }
 
 - (void) cleanupMenu: (NSMenu *) menu

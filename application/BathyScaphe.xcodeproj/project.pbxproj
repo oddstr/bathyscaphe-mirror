@@ -486,6 +486,8 @@
 		8745CD290900DE9800A28AC0 /* BSImagePreviewerInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 8745CD280900DE9800A28AC0 /* BSImagePreviewerInterface.h */; };
 		87464E3708643673000F0371 /* libRBSplitView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87464E3608643673000F0371 /* libRBSplitView.a */; };
 		87464E390864368F000F0371 /* RBSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87464E380864368F000F0371 /* RBSplitView.h */; };
+		874A691C0B9DCFC500BB8FA7 /* BSVisibleRangePopUpBtnCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 874A691A0B9DCFC500BB8FA7 /* BSVisibleRangePopUpBtnCell.h */; };
+		874A691D0B9DCFC500BB8FA7 /* BSVisibleRangePopUpBtnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 874A691B0B9DCFC500BB8FA7 /* BSVisibleRangePopUpBtnCell.m */; };
 		87517B8A0864B4F0002DA082 /* SplitterHandle.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87517B890864B4F0002DA082 /* SplitterHandle.tiff */; };
 		875D98200A8A02180061C86D /* SGAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244F5043610D600A80005 /* SGAppKit.framework */; };
 		875D98210A8A02190061C86D /* SGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FA043610EB00A80005 /* SGFoundation.framework */; };
@@ -1412,6 +1414,8 @@
 		8745CD280900DE9800A28AC0 /* BSImagePreviewerInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSImagePreviewerInterface.h; sourceTree = "<group>"; };
 		87464E3608643673000F0371 /* libRBSplitView.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libRBSplitView.a; sourceTree = "<group>"; };
 		87464E380864368F000F0371 /* RBSplitView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RBSplitView.h; path = ../RBSplitView.h; sourceTree = "<group>"; };
+		874A691A0B9DCFC500BB8FA7 /* BSVisibleRangePopUpBtnCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSVisibleRangePopUpBtnCell.h; sourceTree = "<group>"; };
+		874A691B0B9DCFC500BB8FA7 /* BSVisibleRangePopUpBtnCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSVisibleRangePopUpBtnCell.m; sourceTree = "<group>"; };
 		874F24FA080E716700EA2164 /* w2chReply_be2ch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = w2chReply_be2ch.h; sourceTree = "<group>"; };
 		874F24FB080E716700EA2164 /* w2chReply_be2ch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = w2chReply_be2ch.m; sourceTree = "<group>"; };
 		87517B890864B4F0002DA082 /* SplitterHandle.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SplitterHandle.tiff; sourceTree = "<group>"; };
@@ -2381,6 +2385,8 @@
 		8757833A0A4CED150004F8F9 /* navigationBar */ = {
 			isa = PBXGroup;
 			children = (
+				874A691A0B9DCFC500BB8FA7 /* BSVisibleRangePopUpBtnCell.h */,
+				874A691B0B9DCFC500BB8FA7 /* BSVisibleRangePopUpBtnCell.m */,
 				F324DD9604C698FB00A80005 /* CMRIndexingStepper.h */,
 				F324DD9804C698FB00A80005 /* CMRIndexingStepper_p.h */,
 				F324DD9704C698FB00A80005 /* CMRIndexingStepper.m */,
@@ -3856,6 +3862,7 @@
 				879B0B930B6239EF00EFD6D0 /* BSThreadInfoPanelController.h in Headers */,
 				F467955B0B74CD40001B0001 /* DatabaseUpdater.h in Headers */,
 				87A9F7DB0B7FB71700404C81 /* BSRelativeKeywordsCollector.h in Headers */,
+				874A691C0B9DCFC500BB8FA7 /* BSVisibleRangePopUpBtnCell.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4814,6 +4821,7 @@
 				878088D00B6C773700027091 /* CMRThreadsList-DragDropOp.m in Sources */,
 				F467955C0B74CD40001B0001 /* DatabaseUpdater.m in Sources */,
 				87A9F7DC0B7FB71700404C81 /* BSRelativeKeywordsCollector.m in Sources */,
+				874A691D0B9DCFC500BB8FA7 /* BSVisibleRangePopUpBtnCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

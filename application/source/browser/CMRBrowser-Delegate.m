@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.36 2007/03/05 10:08:25 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.37 2007/03/07 05:51:25 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -61,7 +61,6 @@ BOOL isOptionKeyDown(unsigned flag_)
 
 	[[[self indexingStepper] contentView] setHidden: YES];
 	[[[self indexingPopupper] contentView] setHidden: YES];
-	[[[self indexingPopupper] keywordsButton] setHidden: YES];
 }
 
 - (void) splitViewDidExpandSubview: (NSNotification *) notification
@@ -72,7 +71,6 @@ BOOL isOptionKeyDown(unsigned flag_)
 
 	[[[self indexingStepper] contentView] setHidden: NO];
 	[[[self indexingPopupper] contentView] setHidden: NO];
-	[[[self indexingPopupper] keywordsButton] setHidden: NO];
 }
 
 - (void) splitView: (id) sender resizeSubviewsWithOldSize: (NSSize) oldSize

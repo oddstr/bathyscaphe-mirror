@@ -35,8 +35,9 @@
 - (void) updateKeywordsMenu;
 - (void) updateKeywordsMenuForOfflineMode;
 
-- (IBAction) selectFirstVisibleRange: (id) sender;
-- (IBAction) selectLastVisibleRange: (id) sender;
+//- (IBAction) selectFirstVisibleRange: (id) sender;
+//- (IBAction) selectLastVisibleRange: (id) sender;
+- (IBAction) selectVisibleRange: (id) sender;
 - (IBAction) selectKeyword: (id) sender;
 - (IBAction) aboutKeywords: (id) sender;
 - (void) setupVisibleRangePopUp;

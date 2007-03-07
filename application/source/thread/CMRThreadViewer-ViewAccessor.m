@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.18 2007/03/06 14:40:18 tsawada2 Exp $
+  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.19 2007/03/07 05:51:25 tsawada2 Exp $
   * 
   * CMRThreadViewer-ViewAccessor.m
   *
@@ -197,33 +197,32 @@
 #pragma mark NavigationBar
 - (void) layoutNavigationBarComponents
 {
+	NSView	*popupperView, *stepperView, *statusLineView;
 	NSRect	idxStepperFrame, scrollViewFrame, idxPopupperFrame, statusBarFrame;
 	NSPoint origin_;
 
+	popupperView = [[self indexingPopupper] contentView];
+	stepperView = [[self indexingStepper] contentView];
+	statusLineView = [[self statusLine] statusLineView];
+
 	scrollViewFrame = [[self navigationBar] frame];
-	idxStepperFrame = [[[self indexingStepper] contentView] frame];
-	idxPopupperFrame = [[[self indexingPopupper] contentView] frame];
-	statusBarFrame = [[[self statusLine] statusLineView] frame];
+	idxStepperFrame = [stepperView frame];
+	idxPopupperFrame = [popupperView frame];
+	statusBarFrame = [statusLineView frame];
+
 	origin_ = scrollViewFrame.origin;
 
-	origin_.x = NSMaxX(scrollViewFrame);
-	origin_.x -= NSWidth(idxStepperFrame);
-	origin_.x -= 15.0;
-	
-	idxStepperFrame.origin = origin_;
-	idxStepperFrame.origin.y += 1.0;
-	[[[self indexingStepper] contentView] setFrame: idxStepperFrame];
-	
-	origin_.x -= NSWidth(idxPopupperFrame);
-	idxPopupperFrame.origin = NSMakePoint(origin_.x, origin_.y);
-	[[[self indexingPopupper] contentView] setFrame: idxPopupperFrame];
-
-	// statusLineView ‚Ì height ‚Í‚ ‚ç‚©‚¶‚ß navigationBar ‚Ì height ‚Æ‘µ‚¦‚ç‚ê‚Ä‚¢‚é‚Æ‰¼’è‚µ‚Ä‚¢‚é
+	statusBarFrame.origin = origin_;
 	statusBarFrame.size.width = NSWidth(scrollViewFrame) - 15.0;
-	statusBarFrame.origin = scrollViewFrame.origin;
-	[[[self statusLine] statusLineView] setFrame: statusBarFrame];
+	[statusLineView setFrame: statusBarFrame];
 
-	[[[self indexingPopupper] keywordsButton] setFrameOrigin: scrollViewFrame.origin];
+	idxPopupperFrame.origin = origin_;
+	idxPopupperFrame.size.width = statusBarFrame.size.width - NSWidth(idxStepperFrame);
+	[popupperView setFrame: idxPopupperFrame];
+
+	origin_.x += NSWidth(idxPopupperFrame);
+	origin_.y += 1.0;
+	[stepperView setFrameOrigin: origin_];
 }
 
 - (void) setupNavigationBar
@@ -232,9 +231,7 @@
 	[[self indexingStepper] setDelegate : self];
 
 	[[self navigationBar] addSubview: [[self indexingStepper] contentView]];
-	[[self navigationBar] addSubview: [[self indexingPopupper] contentView]];
-	[[self navigationBar] addSubview: [[self indexingPopupper] keywordsButton]];
-	
+	[[self navigationBar] addSubview: [[self indexingPopupper] contentView]];	
 	[[self navigationBar] addSubview: [[self statusLine] statusLineView]];
 	
 	[self layoutNavigationBarComponents];
@@ -250,10 +247,9 @@
 	if ([self shouldShowContents]) {
 		[[[self indexingStepper] contentView] setHidden: YES];
 		[[[self indexingPopupper] contentView] setHidden: YES];
-		[[[self indexingPopupper] keywordsButton] setHidden: YES];
 	}
-	
-	[[self navigationBar] setNeedsDisplayInRect: [[[self statusLine] statusLineView] frame]];
+
+	[[self navigationBar] setNeedsDisplayInRect: [[[self statusLine] statusLineView] frame]];	
 }
 
 - (void) statusLineDidHideTheirViews: (CMRStatusLine *) statusLine
@@ -266,10 +262,9 @@
 	if ([self shouldShowContents]) {
 		[[[self indexingStepper] contentView] setHidden: NO];
 		[[[self indexingPopupper] contentView] setHidden: NO];
-		[[[self indexingPopupper] keywordsButton] setHidden: NO];
 	}
 	
-	[[self navigationBar] setNeedsDisplayInRect: [[[self statusLine] statusLineView] frame]];
+//	[[self navigationBar] setNeedsDisplayInRect: [[[self statusLine] statusLineView] frame]];
 }
 
 #pragma mark Others
@@ -371,8 +366,8 @@
 
 - (void) setupKeyLoops
 {
-//	[[self textView] setNextKeyView : [[self indexingStepper] textField]];
-//	[[[self indexingStepper] textField] setNextKeyView : [self textView]];
+	[[self textView] setNextKeyView : [[self indexingStepper] textField]];
+	[[[self indexingStepper] textField] setNextKeyView : [self textView]];
 	
 	[[self window] setInitialFirstResponder : [self textView]];
 	[[self window] makeFirstResponder : [self textView]];

@@ -73,14 +73,14 @@
 
 - (void) setupIndexField
 {
-	NSFont			*labelFont_;
+/*	NSFont			*labelFont_;
 	
 	labelFont_ = [NSFont systemFontOfSize : [NSFont smallSystemFontSize]];
 	
 	[[self indexField] setFont : labelFont_];
 	[[self indexField] setAlignment : NSCenterTextAlignment];
 
-	[[self indexField] setDelegate : self];
+	[[self indexField] setDelegate : self];*/
 }
 @end
 

@@ -84,7 +84,7 @@
 		876885F20B061EDD00150A36 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 876885F10B061EDD00150A36 /* ApplicationServices.framework */; };
 		876887B10B062D4F00150A36 /* NSToolbar-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F57D5E1A037B6DE401A80002 /* NSToolbar-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		876887B20B062D5000150A36 /* NSToolbar-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F57D5E1B037B6DE401A80002 /* NSToolbar-SGExtensions.m */; };
-		876887C00B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 876887BC0B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.h */; };
+		876887C00B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 876887BC0B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		876887C10B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 876887BD0B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.m */; };
 		876887C20B062DCE00150A36 /* BSTsuruPetaView.h in Headers */ = {isa = PBXBuildFile; fileRef = 876887BE0B062DCE00150A36 /* BSTsuruPetaView.h */; };
 		876887C30B062DCE00150A36 /* BSTsuruPetaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 876887BF0B062DCE00150A36 /* BSTsuruPetaView.m */; };

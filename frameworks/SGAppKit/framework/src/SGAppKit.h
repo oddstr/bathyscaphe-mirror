@@ -1,6 +1,6 @@
 //: SGAppKit.h
 /**
-  * $Id: SGAppKit.h,v 1.13 2007/02/08 00:20:26 tsawada2 Exp $
+  * $Id: SGAppKit.h,v 1.14 2007/03/07 05:51:25 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -42,6 +42,7 @@
 #import <SGAppKit/BSReplyTextView.h>
 #import <SGAppKit/BSWindow.h>
 #import <SGAppKit/BSSegmentedControlTbItem.h>
+#import <SGAppKit/BSTsuruPetaPopUpBtnCell.h>
 #import <SGAppKit/IndexField.h>
 #import <SGAppKit/BSLayoutManager.h>
 

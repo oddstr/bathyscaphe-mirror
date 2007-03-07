@@ -1,3 +1,20 @@
+2007-03-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-ViewAccessor.m
+	* application/source/browser/CMRBrowser-Delegate.m
+		下記改良に伴い、ThreadViewer 側でもナビゲーションバーのレイアウトや再描画処理をわずかながら
+		簡素化することが可能になった。
+	* application/source/view/CMRIndexingStepper-ViewAccessor.m
+	* application/source/view/BSIndexingPopupper.m
+	* application/Resources/Japanese.lproj/CMRIndexingStepper.nib
+	* application/Resources/Japanese.lproj/BSIndexingPopupper.nib
+		ナビゲーションバーの実装コードのスリム化と構造の見直し。とくに BSIndexingPopupper の実装を
+		再構成してまとめ直した。
+	* frameworks/SGAppKit/framework/src/SGAppKit.h
+		SGAppKit (1.6.6)
+		- BSTsuruPetaPopUpBtnCell.h ヘッダが（publicに）含まれていなかったのを修正。
+	* application/source/view/BSVisibleRangePopUpBtnCell.[h|m]
+		[新規追加] レス表示範囲選択のポップアップボタンの実装方法を見直して、BSIndexingPopupper から
+		各ポップアップボタンのセルに自らの生成、管理部分を追い出した。
 2007-03-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-Action.m
 		スレッド一覧で複数のスレッドを選択して「ログを削除」（via Toolbar or Menu Item）したとき、
