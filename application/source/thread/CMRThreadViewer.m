@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.42 2007/02/24 18:03:38 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.43 2007/03/08 16:30:57 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -786,20 +786,15 @@ NSString *kComposingNotificationNames[] = {
 		[composer_ release];
 		[[self threadLayout] setMessagesEdited : NO];
 	}
-	/*if ([CMRPref saveThreadDocAsBinaryPlist]) {
+	//if ([CMRPref saveThreadDocAsBinaryPlist]) {
 		NSData *data_;
 		NSString *errStr;
 		data_ = [NSPropertyListSerialization dataFromPropertyList:mdict_
 							format:NSPropertyListBinaryFormat_v1_0 errorDescription:&errStr];
 
-		if(!data_) {
-			NSLog(errStr);
-			[errStr release];
-			return [mdict_ writeToFile:filepath_ atomically:YES];
-		} else {
-			return [data_ writeToFile :filepath_ atomically : YES];
-		}
-	} else {*/
+		if (!data_) return NO;
+		return [data_ writeToFile:filepath_ atomically:YES];
+	//} else {
 		return [mdict_ writeToFile:filepath_ atomically:YES];
 	//}
 }

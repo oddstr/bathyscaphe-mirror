@@ -106,7 +106,7 @@
 {	
 	if([type isEqualToString : CMRThreadDocumentType]){
 		NSDictionary	*fileContents_;
-		
+
 		// ログ書類のフォーマットなら元のソースを読み込み、
 		// 単に別の場所に保存する。
 		fileContents_ = 

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMXTextParser.m,v 1.21 2006/11/05 12:53:47 tsawada2 Exp $
+  * $Id: CMXTextParser.m,v 1.22 2007/03/08 16:30:57 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -9,32 +9,16 @@
 #import "CMXTextParser.h"
 #import "CocoMonar_Prefix.h"
 #import "CMRThreadMessage.h"
-
+#import <OgreKit/OgreKit.h>
 // for debugging only
 #define UTIL_DEBUGGING		1
 #import "UTILDebugging.h"
-
-/*!
-@defined     DATE2CH_CALENDAR_FORMAT
-@discussion  2channel Data Format
-*/
-//#define DATE2CH_CALENDAR_FORMAT_LATE2005	@"%Y/%m/%d %H:%M:%S.%F"
-//#define DATE2CH_CALENDAR_FORMAT_SEC			@"%y/%m/%d %H:%M:%S"
-//#define DATE2CH_CALENDAR_FORMAT_SEC_4KETA	@"%Y/%m/%d %H:%M:%S"
-//#define DATE2CH_CALENDAR_FORMAT				@"%y/%m/%d %H:%M"
-//#define DATE2CH_CALENDAR_FORMAT_4KETA		@"%Y/%m/%d %H:%M"
-
-static NSString *const CMXTextParserDate2chSeparater		= @"(";
-static NSString *const CMXTextParserDate2chSeparater_close  = @")";
-static char c_CMXTextParserDate2chSeparater_close = ')';
 
 static NSString *const CMXTextParserComma					= @",";
 static NSString *const CMXTextParser2chSeparater			= @"<>";
 
 static NSString *const CMXTextParserBSPeriod				= @".";
 static NSString *const CMXTextParserBSZero					= @"0";
-static NSString *const CMXTextParserBSColon					= @":";
-static NSString *const CMXTextParserBSSpace					= @" ";
 
 #define kAvailableURLCFEncodingsNSArrayKey		@"System - AvailableURLCFEncodings"
 
@@ -535,114 +519,58 @@ static id fnc_queryUsingEncoding(id obj, NSStringEncoding enc)
 }
 
 #pragma mark Low Level APIs
-
-static BOOL isAbonedDateField(NSString *dateExtra)
+static BOOL divideField(NSString *field, NSString **datePart, NSString **extraPart, CMRThreadMessage *aMessage)
 {
-	// 
-	// 投稿者自身が書き込んだわけではない、日付をチェックし、
-	// "あぼーん"かどうかを判定する。
-	// 
-	if (nil == dateExtra || 0 == [dateExtra length])
-		return YES;
+	static OGRegularExpression *regExpForPrefix;
+	static OGRegularExpression *regExp;
 
-	NSRange		check_;	
-
-	// 文字列に「:」が含まれなければ、あぼーんと判断
-	check_ = [dateExtra rangeOfString : CMXTextParserBSColon
-							  options : NSLiteralSearch];
-
-	return (check_.length == 0);
-}
-
-static BOOL divideDateExtraField(
-					NSString *field,
-					NSString **datePart,
-					NSString **extraPart,
-					NSString **datePrefixPart)
-{
-	unsigned	length_;
-	unsigned	substringIndex_;
-	NSRange		found_;
-	NSRange		search_;
+	if (regExpForPrefix == nil) {
+		regExpForPrefix = [[OGRegularExpression alloc] initWithString: @"^(.*),\\d{2,4}"];
+	}
+	if (regExp == nil) {
+		regExp = [[OGRegularExpression alloc] initWithString: @"^(.*\\d{2}:\\d{2})\\s?(\\s<a href=\"http://2ch.se/\">.*</a>)?\\s?(.*)"];
+    }
 
 	// 
 	// まずは暦区切りの","を探し、
 	// 「エロゲ暦24年,2005/04/02...」 -> 「2005/04/02...」のように変な表記をカット
-	// 
-	length_ = [field length];
-	search_ = NSMakeRange(0, length_);
-	found_ = [field rangeOfString : CMXTextParserComma
-						  options : NSLiteralSearch
-						    range : search_];
-	
-	if (0 != found_.length || NSNotFound != found_.location) {
-		
-		// まさかとは思うが、IDに","が含まれていたのを検出したのかもしれないのでチェック
-		// ","の前に空白区切りが含まれているかどうか？
-		NSRange	check_;
-		check_ = [field rangeOfString : CMXTextParserBSSpace
-							  options : NSLiteralSearch
-							    range : NSMakeRange(0, found_.location)];
-								
-		if (0 == check_.length || NSNotFound == check_.location) {
-			NSLog(@"After April Fool Time ',' found.");
-			*datePrefixPart = [field substringToIndex : found_.location];
-			field = [field substringFromIndex : found_.location+1];
-			
-			// field が変更されたので、範囲などを再設定
-			length_ = [field length];
-			search_ = NSMakeRange(0, length_);
-		}
-	}
+	//
+    OGRegularExpressionMatch *prefixMatch = [regExpForPrefix matchInString: field];
+	NSString *tmpPrefix = nil;
+    if (prefixMatch) {
+		tmpPrefix = [prefixMatch substringAtIndex: 1];
+		[aMessage setDatePrefix: tmpPrefix];
+		NSRange cutRange = [prefixMatch rangeOfSubstringAtIndex: 1];
+		field = [field substringFromIndex: NSMaxRange(cutRange)+1];
+    }
 
-	// 
-	// まずは時刻の":"を探す
-	// 
-	found_ = [field rangeOfString : CMXTextParserBSColon
-						  options : NSLiteralSearch
-						    range : search_];
-	
-	//
-	// 空白区切り
-	//
-	search_.location = NSMaxRange(found_);
-	if (search_.location == length_)
-		goto only_date_field;
-	search_.length = length_ - search_.location;
-	
-	found_ = [field rangeOfString : CMXTextParserBSSpace
-						  options : NSLiteralSearch
-						    range : search_];
-	
-	if (0 == found_.length || NSNotFound == found_.location) {
-		// BBSPINK のあぼーん（うふーん）で、「ID:DELETED」というのがくっついてくる。これを切り出すための
-		// とりあえずの対応
-		NSRange delRange_;
-		delRange_ = [field rangeOfString: @"DELETED" options: NSLiteralSearch range: search_];
-		if (delRange_.length == 0) {
-			goto only_date_field;
+    //
+    // 日時とそれ以外を分割
+    // あぼーんなどの場合に注意しなければならない
+    //
+	OGRegularExpressionMatch *match = [regExp matchInString: field];
+	if (match) {
+		NSString *tmpDate, *tmpStock, *tmpExtra, *dateRep;
+		
+		tmpDate = [match substringAtIndex: 1];
+		tmpStock = [match substringAtIndex: 2];
+		tmpExtra = [match substringAtIndex: 3];
+//		NSLog(@"tmpDate<%@> tmpStock<%@> tmpExtra<%@>", tmpDate, (tmpStock != nil) ? tmpStock: @"NULL", tmpExtra);
+		if (datePart != NULL) *datePart = tmpDate;
+		if (extraPart != NULL) *extraPart = tmpExtra;
+		
+		if (tmpStock) {
+			dateRep = [NSString stringWithFormat: @"%@ %@", tmpDate, tmpStock];
 		} else {
-			substringIndex_ = delRange_.location-4;
+			dateRep = tmpDate;
 		}
-	} else {
-		substringIndex_ = found_.location;
+		[aMessage setDateRepresentation: (tmpPrefix == nil) ? dateRep : [NSString stringWithFormat: @"%@,%@", tmpPrefix, dateRep]];
+	} else { // あぼーんなどの場合こちらに回る
+		NSArray *array = [field componentsSeparatedByString: @" "];
+//		if (datePart != NULL) *datePart = [array objectAtIndex: 0]; // あぼーん系の場合日付は設定しない
+		if ([array count] > 1 && extraPart != NULL) *extraPart = [array objectAtIndex: 1];
 	}
 
-	if (datePart != NULL)
-		*datePart = [field substringToIndex : substringIndex_];
-	
-	if (length_ != substringIndex_ -1)
-		substringIndex_++;
-	
-	if (extraPart != NULL)
-		*extraPart = [field substringFromIndex : substringIndex_];
-	
-	return YES;
-	
-only_date_field:
-	if (datePart != NULL) *datePart = field;
-	if (extraPart != NULL) *extraPart = @"";
-		
 	return YES;
 }
 
@@ -674,36 +602,11 @@ static id dateWith2chDateString(NSString *theString)
 	// 前後の空白を除去し、さらに曜日欄をカッコを含めて除去する。
 	dateString_ = SGTemporaryString();
 	[dateString_ setString: theString];
-	
-	found_ = [dateString_ rangeOfString: CMXTextParserDate2chSeparater];
 
+	// OgreKit に含まれる NSString カテゴリ
+	found_ = [dateString_ rangeOfRegularExpressionString: @"\\(.*\\)"];
 	if (found_.length != 0) {
-		// 2001/08/06(月) 21:45 --> 2001/08/06 21:45
-		NSRange			weekday_;
-		NSRange			weekday_close_;
-		int				week_len = 0;
-		unsigned int	cur_len = [dateString_ length];
-
-		weekday_.location = found_.location;
-		weekday_.length = 3;
-		week_len = NSMaxRange(weekday_);
-
-		if (cur_len >= week_len && [dateString_ characterAtIndex: week_len-1] != c_CMXTextParserDate2chSeparater_close) {
-			weekday_.length = cur_len - weekday_.location;
-			weekday_close_ = [dateString_ rangeOfString: CMXTextParserDate2chSeparater_close
-												options: NSLiteralSearch
-												  range: weekday_];
-
-			if (weekday_close_.location != NSNotFound)
-				weekday_.length = NSMaxRange(weekday_close_) - weekday_.location;
-			else
-				weekday_.length = 3;
-		}
-
-		if (NSMaxRange(weekday_) > cur_len)
-			goto return_date;
-
-		[dateString_ deleteCharactersInRange: weekday_];
+		[dateString_ deleteCharactersInRange: found_];
 	}
 
 	// 1/100 -> 1/1000
@@ -755,29 +658,6 @@ return_date:
 	return theString;
 }
 
-
-static BOOL _parseStockPartFromExtraField(NSString *extraPart_, NSString **stockPart_)
-{
-	if(extraPart_ == nil) return NO;
-	unsigned	exPartLen = [extraPart_ length];
-
-	if(exPartLen < 10) return NO; // " <a href="
-	
-	if([extraPart_ hasPrefix : @" <a href="]) {
-		NSRange hoge_;
-
-		hoge_ = [extraPart_ rangeOfString : @" " options : NSLiteralSearch range : NSMakeRange(9,exPartLen-9)];
-		
-		*stockPart_ = [extraPart_ substringToIndex : hoge_.location];
-		extraPart_ = [extraPart_ substringFromIndex : hoge_.location];
-		
-		return YES;
-	}
-	
-	return NO;
-}
-
-
 + (CMRThreadMessage *) messageWithDATLineComponentsSeparatedByNewline : (NSArray *) aComponents
 {
 	CMRThreadMessage	*message_ = nil;
@@ -796,8 +676,6 @@ static BOOL _parseStockPartFromExtraField(NSString *extraPart_, NSString **stock
 	message_ = [[CMRThreadMessage alloc] init];
 	dateExtra_ = [aComponents objectAtIndex : k2chDATDateExtraFieldIndex];
 	
-	//if (NO == [self parseDateExtraField : dateExtra_
-	//		           convertToMessage : message_]) {
 	if (NO == _parseDateExtraField(dateExtra_, message_)) {
 		[message_ release];
 		return nil;
@@ -814,18 +692,27 @@ static BOOL _parseStockPartFromExtraField(NSString *extraPart_, NSString **stock
 
 static BOOL _parseExtraField(NSString *extraField, CMRThreadMessage *aMessage)
 {
+    /*
+		2007-03-07 tsawada2<ben-sawa@td5.so-net.ne.jp>
+		目標の確認：この関数内では Host, ID, BE を extraField から探して、aMessage の該当属性をセットする。
+		- Host の例外：「発信元」@シベリア／発信元記号のみ
+		- BE の例外：「株主優待」
+	*/
 	unsigned	length_;
-	NSRange		found_;
-	NSRange		search_;
-	
-	length_ = [extraField length];
 
-	if (nil == extraField || 0 == length_)
-		return YES;
+	if (extraField == nil) return YES;
+    
+    length_ = [extraField length];
+    if (length_ < 1) return YES;
 
 	static NSSet	*clientCodeSet;
-	static NSString	*siberiaIPKey;
 	static NSString	*kabunushiKey;
+	static OGRegularExpression	*regExpForHOST;
+	static OGRegularExpression	*regExpForBE;
+	static OGRegularExpression	*regExpForID;
+
+    OGRegularExpressionMatch    *matchOfHOST, *matchOfBE, *matchOfID;
+    NSRange stockRange;
 
 	/*
 		2005-02-03 tsawada2<ben-sawa@td5.so-net.ne.jp>
@@ -845,186 +732,86 @@ static BOOL _parseExtraField(NSString *extraField, CMRThreadMessage *aMessage)
 		}
 	}
 
-	// シベリア超速報などで出てくる「発信元:」という文字列
-	if (siberiaIPKey == nil)
-		siberiaIPKey = [NSLocalizedString(@"siberia IP field", @"siberia IP field") retain];
 
-	// 「株主優待」
 	if (kabunushiKey == nil)
-		kabunushiKey = [NSLocalizedString(@"kabunushi yutai", @"kabunushi yutai") retain];
+		kabunushiKey = [NSLocalizedString(@"kabunushi yutai", @"") retain];
+
+	if (regExpForHOST == nil) {
+		NSString *string = [NSString stringWithFormat: @"(HOST:|%@:)\\s?(.*)", NSLocalizedString(@"siberia IP field", @"")];
+		regExpForHOST = [[OGRegularExpression alloc] initWithString: string];
+	}
 	
-	{
-		NSRange		hostRange_;
-		
-		// お尻から"HOST:"を探す
-		// HOST より後ろには、他の情報（BE:やID:など）はくっつかないと仮定している。
-		hostRange_ = [extraField rangeOfString : @"HOST:"
-									   options : NSLiteralSearch | NSBackwardsSearch];
+	if (regExpForBE == nil)
+		regExpForBE = [[OGRegularExpression alloc] initWithString: @"BE:\\s?(.*)\\s?"];
 
-		if (hostRange_.location != NSNotFound) {
-			NSString	*hostStr_ = [extraField substringFromIndex : (hostRange_.location+5)];
+	if (regExpForID == nil)
+		regExpForID = [[OGRegularExpression alloc] initWithString: @"ID:\\s?(\\S*)\\s?"];
+
+
+	// Search HOST
+	matchOfHOST = [regExpForHOST matchInString: extraField];
+	if (matchOfHOST != nil) {
+		NSRange matchedRange = [matchOfHOST rangeOfMatchedString];
+		NSString *hostString = [matchOfHOST substringAtIndex: 2];			
+		[aMessage setHost: hostString];
+
+		if (matchedRange.location == 0) return YES;
+		extraField = [extraField substringToIndex: matchedRange.location-1]; // HOST から先を刈り取ってしまう
+	}
+
+    // Be および株主優待
+	// 株主優待を探す
+	stockRange = [extraField rangeOfString: kabunushiKey options: (NSLiteralSearch|NSBackwardsSearch)];
+
+	if (stockRange.location != NSNotFound) {
+		NSArray	*dummyAry_ = [NSArray arrayWithObjects: kabunushiKey, nil];
+		[aMessage setBeProfile : dummyAry_];
+	} else {
+		// BE を探す（BE は株主優待と同時には起きない）
+		matchOfBE = [regExpForBE matchInString: extraField];
+		if (matchOfBE != nil) {
+			NSRange matchedBERange = [matchOfBE rangeOfMatchedString];
+			NSString *beStr_ = [matchOfBE substringAtIndex: 1];
+			[aMessage setBeProfile: [beStr_ componentsSeparatedByString : @"-"]];
 			
-			// まちBBSなどで、"HOST: xxx.yyy.jp"のように":"のあとに" "があることがある。それを削除
-			if ([hostStr_ hasPrefix : CMXTextParserBSSpace]) hostStr_ = [hostStr_ substringFromIndex : 1];
-
-			[aMessage setHost : hostStr_];
-			
-			if (hostRange_.location == 0) return YES; // HOST: より前に文字列が無いならもう終了
-			extraField = [extraField substringToIndex : (hostRange_.location-1)]; // extraField から host を削り取る
-			length_ = [extraField length]; // length を再設定
-		}
-		
-		// 株主優待を探す
-		hostRange_ = [extraField rangeOfString : kabunushiKey
-									   options : NSLiteralSearch | NSBackwardsSearch];
-
-		if (hostRange_.location != NSNotFound) {
-			NSArray	*dummyAry_ = [NSArray arrayWithObjects: kabunushiKey, nil];
-			[aMessage setBeProfile : dummyAry_];
-		} else {
-		// BE も先に探す（株主優待と同時には起きない）
-			hostRange_ = [extraField rangeOfString: @"BE:" options: NSLiteralSearch | NSBackwardsSearch];
-		
-			if (hostRange_.location != NSNotFound) {
-				NSString *beStr_ = [extraField substringFromIndex: (hostRange_.location+3)];
-				[aMessage setBeProfile : [beStr_ componentsSeparatedByString : @"-"]];
-				
-				if (hostRange_.location == 0) return YES; // BE: より前に文字列が無いならもう終了
-				extraField = [extraField substringToIndex : (hostRange_.location-1)]; // extraField から BE を削り取る
-				length_ = [extraField length]; // length を再設定
-			}
+			if (matchedBERange.location == 0) return YES;
 		}
 	}
 
-	search_ = NSMakeRange(0, length_);
-
-	while (1) {
-		NSRange		substringRange_;
-		NSString	*name_;
-		NSString	*value_;
-
-		// 
-		// まずは項目の名前／値区切り文字の":"を探す
-		//
-		found_ = [extraField rangeOfString : CMXTextParserBSColon
-							       options : NSLiteralSearch
-							         range : search_];
-		if (0 == found_.length || NSNotFound == found_.location)
-			return YES;
-		
-		substringRange_.location = search_.location;
-		substringRange_.length = found_.location - search_.location;
-		
-		// 項目名
-		name_ = [extraField substringWithRange : substringRange_];
-		search_.location = NSMaxRange(found_);
-		while (1) {
-			char	c;
-			
-			if (search_.location == length_)
-				goto error_invalid_format;
-			
-			c = ([extraField characterAtIndex : search_.location] & 0x7f);
-			if (!isspace(c)) break;
-			
-			search_.location++;
-		}
-		search_.length = length_ - search_.location;
-		
-		// 
-		// 項目区切り文字の" "を探す
-		//
-		found_ = [extraField rangeOfString : CMXTextParserBSSpace
-							       options : NSLiteralSearch
-							         range : search_];
-		if (0 == found_.length || NSNotFound == found_.location) {
-			value_ = [extraField substringFromIndex : search_.location];
-		} else {
-			substringRange_.location = search_.location;
-			substringRange_.length = found_.location - search_.location;
-			
-			value_ = [extraField substringWithRange : substringRange_];
-		}
-		
-		UTILDescription(extraField);
-		UTILDescription(name_);
-		UTILDescription(value_);
-
-		if ([name_ rangeOfString : @"ID"].length != 0) {
-			[aMessage setIDString : value_];
-		} else if ([name_ rangeOfString : siberiaIPKey].length != 0) {
-			[aMessage setHost : value_];
-		} else {
-			;
-		}
-		
-		if (0 == found_.length || NSNotFound == found_.location) {
-			break;
-		} else {
-			search_.location = NSMaxRange(found_);
-			if (search_.location == length_)
-				goto error_invalid_format;
-			
-			search_.length = length_ - search_.location;
-		}
+	// Search ID
+	matchOfID = [regExpForID matchInString: extraField];
+	if (matchOfID != nil) {
+		NSString *idString = [matchOfID substringAtIndex: 1];			
+		[aMessage setIDString: idString];
 	}
-	return YES;
-	
-error_invalid_format:
-	return YES;//NO;
+
+    return YES;
 }
 
 static BOOL _parseDateExtraField(NSString *dateExtra, CMRThreadMessage *aMessage)
 {
 	NSString		*datePart_ = nil;
 	NSString		*extraPart_ = nil;
-	id				date_;
-	NSString		*prefixPart_ = nil;
-	
-	NSString		*stockPart_ = nil;
 
-	if (isAbonedDateField(dateExtra)) {
-		//NSLog(@"It is Aboned.");
-		return YES;
+	if (nil == dateExtra || 0 == [dateExtra length]) return YES;
+
+	divideField(dateExtra, &datePart_, &extraPart_, aMessage);
+
+	if (datePart_) {
+		id date_;	
+		NSMutableString *tmpDatePart_ = [datePart_ mutableCopy];
+		
+		CFStringTrimWhitespace((CFMutableStringRef)tmpDatePart_);
+
+		date_ = dateWith2chDateString(tmpDatePart_);
+
+		if (nil == date_) {
+			NSLog(@"Can't Convert '%@' to Date.", datePart_);
+			return NO;
+		}
+		[aMessage setDate : date_];
+
 	}
-	
-	
-	if (NO == divideDateExtraField(dateExtra, &datePart_, &extraPart_, &prefixPart_)) {
-		NSLog(@"Can't Divide Date And Extra");
-		return NO;
-	}
-	
-	NSMutableString *tmpDatePart_ = [datePart_ mutableCopy];
-	
-	CFStringTrimWhitespace((CFMutableStringRef)tmpDatePart_);
-
-	date_ = dateWith2chDateString(tmpDatePart_);
-
-	if (nil == date_) {
-		NSLog(@"Can't Convert '%@' to Date.", datePart_);
-		return NO;
-	}
-	
-	if (prefixPart_ != nil) {
-		UTILDescription(prefixPart_);
-		[aMessage setDatePrefix : prefixPart_];
-		[tmpDatePart_ insertString : CMXTextParserComma atIndex : 0];
-		[tmpDatePart_ insertString : prefixPart_ atIndex : 0];
-	}
-
-	UTILDescription(extraPart_);
-	if (_parseStockPartFromExtraField(extraPart_, &stockPart_)) {
-		UTILDescription(stockPart_);
-		[tmpDatePart_ appendString : stockPart_];
-	}
-
-	UTILDescription(tmpDatePart_);
-	[aMessage setDateRepresentation : tmpDatePart_];
-	[tmpDatePart_ release];
-
-	[aMessage setDate : date_];
-
-	UTILDescription(extraPart_);
 
 	return _parseExtraField(extraPart_, aMessage);
 }

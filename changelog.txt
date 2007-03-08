@@ -1,3 +1,9 @@
+2007-03-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/composer/CMXTextParser.m
+		dat のパース部分をかなり書き換え。OgreKit を使って正規表現でごにょごにょする方法に切り替えた。
+		これにより、コード量の削減を計った。
+		- あまり速くなった感じがしないのが残念だが…たぶん、Parser より Composer (or TextView, LayoutManager...)
+		  がボトルネックなのだろう。
 2007-03-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadViewer-ViewAccessor.m
 	* application/source/browser/CMRBrowser-Delegate.m
