@@ -39,6 +39,10 @@
 	<string>http://be.2ch.net/test/p.php?i=%@&amp;u=d:%@</string>
 	<key>System - relatedKeywords URL</key>
 	<string>http://p2.2ch.io/getf.cgi?%@</string>
+	<key>System - Software Update Check URL</key>
+	<string>http://bathyscaphe.sourceforge.jp/download/updatecheck-sp.plist</string>
+	<key>System - Software Update Download Page URL</key>
+	<string>http://sourceforge.jp/projects/bathyscaphe/files/</string>
 	<key>Thread - AAD Regular Expression</key>
 	<string>(?:　{3}|(?: 　){2}|[─￣＿]{4}|[дД])</string>
 	<key>Thread - CopyThreadFormat</key>

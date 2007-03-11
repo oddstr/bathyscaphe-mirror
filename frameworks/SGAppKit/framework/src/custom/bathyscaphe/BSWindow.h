@@ -1,5 +1,5 @@
 //
-//  $Id: BSWindow.h,v 1.1 2006/06/17 07:37:54 tsawada2 Exp $
+//  $Id: BSWindow.h,v 1.2 2007/03/11 09:02:57 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/06/12.
@@ -14,7 +14,7 @@
 }
 
 @end
-
+/*
 @interface NSObject(BSWindowAdditionalDelegate)
 - (void) windowWillRunToolbarCustomizationPalette: (NSWindow *) sender;
-@end
+@end*/

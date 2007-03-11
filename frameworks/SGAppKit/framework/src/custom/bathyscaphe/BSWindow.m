@@ -1,5 +1,5 @@
 //
-//  $Id: BSWindow.m,v 1.1 2006/06/17 07:37:54 tsawada2 Exp $
+//  $Id: BSWindow.m,v 1.2 2007/03/11 09:02:57 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/06/12.
@@ -13,9 +13,9 @@ enum {
 	NSUnifiedTitleAndToolbarWindowMask = 1 << 12,
 };
 #endif
-
+/*
 #define NSAppKitVersionNumber10_3 743	// ここに書かなくてもいいと思うが、念のため
-
+*/
 @implementation BSWindow
 - (id) initWithContentRect : (NSRect)contentRect
 				 styleMask : (unsigned int) styleMask
@@ -46,12 +46,12 @@ enum {
    面倒だから今はいいや…
 */
 // 2006-06-16 追記：プログレスインジケータの実際の操作は delegate 側で行うことにする。
-- (void) runToolbarCustomizationPalette : (id) sender
+/*- (void) runToolbarCustomizationPalette : (id) sender
 {
 	id	delegate_ = [self delegate];
 	if (delegate_ && [delegate_ respondsToSelector: @selector(windowWillRunToolbarCustomizationPalette:)]) {
 		[delegate_ windowWillRunToolbarCustomizationPalette: self];
 	}
 	[super runToolbarCustomizationPalette : sender];
-}
+}*/
 @end

@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate_p.h,v 1.10 2007/02/02 15:47:50 tsawada2 Exp $
+ * $Id: CMRAppDelegate_p.h,v 1.11 2007/03/11 09:02:57 tsawada2 Exp $
  * 
  * CMRAppDelegate_p.h
  *
@@ -43,8 +43,4 @@
 
 /* Command Support */
 - (void) handleOpenURLCommand : (NSScriptCommand *) command;
-@end
-
-@interface NSWindow(BSAddition)
-- (BOOL) isNotMiniaturizedButCanMinimize;
 @end

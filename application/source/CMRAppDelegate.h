@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.h,v 1.16 2007/01/28 11:58:32 tsawada2 Exp $
+ * $Id: CMRAppDelegate.h,v 1.17 2007/03/11 09:02:57 tsawada2 Exp $
  * 
  * CMRAppDelegate.h
  *
@@ -52,6 +52,7 @@
 
 // Available in Starlight Breaker.
 - (void) showThreadsListForBoard: (NSString *) boardName selectThread: (NSString *) path addToListIfNeeded: (BOOL) addToList;
+- (IBAction) checkForUpdate: (id) sender;
 
 // For Dock menu
 - (IBAction) startHEADCheckDirectly: (id) sender;

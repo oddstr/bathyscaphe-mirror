@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesPane.h,v 1.1 2005/05/11 17:51:11 tsawada2 Exp $
+  * $Id: PreferencesPane.h,v 1.2 2007/03/11 09:02:57 tsawada2 Exp $
   * 
   * PreferencesPane.h
   *
@@ -55,6 +55,7 @@
 
 - (void) setContentViewWithController : (PreferencesController *) controller;
 - (IBAction) selectController : (id) sender;
+- (void) selectControllerWithIdentifier: (NSString *) identifier;
 @end
 
 

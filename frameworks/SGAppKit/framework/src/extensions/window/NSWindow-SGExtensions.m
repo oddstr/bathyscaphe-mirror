@@ -1,41 +1,18 @@
-//: NSWindow-SGExtensions.m
-/**
-  * $Id: NSWindow-SGExtensions.m,v 1.1 2005/05/11 17:51:27 tsawada2 Exp $
-  * 
-  * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  NSWindow-SGExtensions.m
+//  BathyScaphe
+//
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//
 
-#import "NSWindow-SGExtensions_p.h"
+#import "NSWindow-SGExtensions.h"
 
-
-@implementation NSWindow(SGExtensions)
-- (NSSize) minContentSize
+@implementation NSWindow(BSAddition)
+- (BOOL) isNotMiniaturizedButCanMinimize
 {
-	NSRect			minFrame_;
-	NSRect			minContentFrame_;
-	
-	minFrame_ = [self frame];
-	minFrame_.size = [self minSize];
-	minContentFrame_ = 
-		[[self class] contentRectForFrameRect : minFrame_
-									styleMask : [self styleMask]];
-	
-	return minContentFrame_.size;
-}
-
-- (void) setFrame : (NSRect) frameRect
-          display : (BOOL  ) displayFlag
-          animate : (BOOL  ) animationFlag
-      autoresizes : (BOOL  ) isAutoresize
-{
-	BOOL		autoresizesSubviews_;
-	
-	autoresizesSubviews_ = [[self contentView] autoresizesSubviews];
-	[[self contentView] setAutoresizesSubviews : isAutoresize];
-	[self setFrame : frameRect
-		   display : displayFlag
-		   animate : animationFlag];
-	[[self contentView] setAutoresizesSubviews : autoresizesSubviews_];
+	// 最小化されていない、かつ、最小化可能であるウインドウである場合に YES を返す。
+	// 最小化不可能なウインドウでは常に NO を返す。
+	if (NO == ([self styleMask] & NSMiniaturizableWindowMask)) return NO;
+	return (NO == [self isMiniaturized]);
 }
 @end

@@ -1,3 +1,37 @@
+2007-03-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/SoftwareUpdate.strings
+	* application/source/object/TS2SoftwareUpdate.[h|m]
+        [新規追加] ソフトウェア・アップデート機能用の小さなクラス。JellyBeans から流用。
+        - ソフトウェア・アップデートの仕組み：
+         1. TS2SoftwareUpdate は、サーバから情報の入った plist をダウンロードします。
+         2. この plist には、対象の bundleIdentifier と最新バージョンの fileCreationDate が
+            書かれています。
+         3. TS2SoftwareUpdate は、bundleIdentifier が一致しているか確認し、その後
+            fileCreationDate を比較します。
+         4. fileCreationDate が古いとき、アップデートの必要があると判断し、次回起動時に
+	   　　　アップデートを知らせるアラートを表示するようにフラグをセットします。
+	* application/Resources/Japanese.lproj/board_default.plist
+        しばらく忘れていたが、最新のものに更新。
+	* application/Resources/Japanese.lproj/MainMenu.nib
+        アプリケーションメニューに「アップデートを確認...」を追加。
+	* application/Resources/text/KeyValueTemplates.plist
+        "System - Software Update Check URL" キー、"System - Software Update Download Page URL" キーを
+        追加。
+        - 現在は Starlight Breaker 用の値を入れてあり、正式版では両方とも URL が変更される予定。
+	* application/source/CMRAppDelegate.m
+        ソフトウェア・アップデート関連のメソッド群を追加した。また、ここに居候していた NSWindow のカテゴリは
+        SGAppKit に移動した。
+	* application/source/preferences/AppDefaults.m
+        ソフトウェア・アップデート関連の設定を「環境設定」パネルから設定するためのブリッジとなるメソッド群を追加した。
+	* application/subproj/preference/Japanese.lproj/GeneralPreferences.nib
+        ソフトウェア・アップデート関連の設定項目を「一般」ペインに追加した。
+	* application/subproj/preference/pane/PreferencesPane-PCManagement.m
+        環境設定パネルで、外部から直接特定のペインを指定して表示させるためのメソッドを追加した。
+	* frameworks/SGAppKit/framework/src/SGAppKit.h
+	* frameworks/SGAppKit/framework/src/custom/bathyscaphe/BSWindow.m
+	* frameworks/SGAppKit/framework/src/extensions/window/NSWindow-SGExtensions.m
+        SGAppKit 1.6.7:
+        - NSWindow のカテゴリ、および BSWindow のメソッドなどを整理した。
 2007-03-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/composer/CMXTextParser.m
 		dat のパース部分をかなり書き換え。OgreKit を使って正規表現でごにょごにょする方法に切り替えた。

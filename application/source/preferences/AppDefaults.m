@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.16 2007/01/07 17:04:23 masakih Exp $
+  * $Id: AppDefaults.m,v 1.17 2007/03/11 09:02:57 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -9,7 +9,7 @@
 #import "AppDefaults_p.h"
 #import "CMRMainMenuManager.h"
 #import <AppKit/NSFont.h>
-
+#import "TS2SoftwareUpdate.h"
 
 NSString *const AppDefaultsWillSaveNotification = @"AppDefaultsWillSaveNotification";
 
@@ -43,37 +43,12 @@ NSString *const AppDefaultsWillSaveNotification = @"AppDefaultsWillSaveNotificat
 #define AppDefaultsHistorySearchKey			@"RecentSearchItemLimit"
 
 // Proxy
-//#define AppDefaultsUsesProxyKey				@"UsesProxy"
-//#define AppDefaultsUsesSystemConfigProxy	@"UsesSystemConfigProxy"
 #define AppDefaultsProxyURLKey				@"ProxyURL"
 #define AppDefaultsProxyPortKey				@"ProxyPort"
-
-//static id _singletonAppDefaultsLock;
 
 #pragma mark -
 
 @implementation AppDefaults
-/*+ (void) initialize
-{
-	static BOOL nomore_ = NO;
-	if (nomore_) return;
-	nomore_ = YES;
-	_singletonAppDefaultsLock = [[NSLock alloc] init];
-}
-
-+ (id) sharedInstance
-{
-	static id instance_;
-	
-	if (nil == instance_) {
-		[_singletonAppDefaultsLock lock];
-		if (nil == instance_) {
-			instance_ = [[[self class] alloc] init];
-		}
-		[_singletonAppDefaultsLock unlock];
-	}
-	return instance_;
-}*/
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 
 - (id) init
@@ -126,6 +101,10 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	[self loadAccountSettings];
 	[self _loadSoundsSettings];
 	[self _loadBWSettings];
+
+	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool: YES], TS2SoftwareUpdateCheckKey,
+							[NSNumber numberWithUnsignedInt: TS2SUCheckWeekly], TS2SoftwareUpdateCheckIntervalKey, NULL];
+	[[self defaults] registerDefaults: dict];
 	
 	return YES;
 }
@@ -362,6 +341,23 @@ NS_ENDHANDLER
 	return [[self defaults] boolForKey : @"Use_Binary_Format_For_Doc" defaultValue : NO];
 }*/
 
+#pragma mark Software Update Support
+- (BOOL) autoCheckForUpdate
+{
+	return [[self defaults] boolForKey: TS2SoftwareUpdateCheckKey];
+}
+- (void) setAutoCheckForUpdate: (BOOL) autoCheck
+{
+	[[self defaults] setBool: autoCheck forKey: TS2SoftwareUpdateCheckKey];
+}
+- (int) softwareUpdateCheckInterval
+{
+	return [[self defaults] integerForKey: TS2SoftwareUpdateCheckIntervalKey];
+}
+- (void) setSoftwareUpdateCheckInterval: (int) type
+{
+	[[self defaults] setInteger: type forKey: TS2SoftwareUpdateCheckIntervalKey];
+}
 #pragma mark -
 
 - (NSString *) browserLastBoard

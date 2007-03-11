@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesPane-PCManagement.m,v 1.6 2007/01/07 17:04:24 masakih Exp $
+  * $Id: PreferencesPane-PCManagement.m,v 1.7 2007/03/11 09:02:57 tsawada2 Exp $
   * 
   * PreferencesPane-PCManagement.m
   *
@@ -183,5 +183,15 @@
 		return;
 	
 	[self setContentViewWithController : object_];
+}
+
+- (void) selectControllerWithIdentifier: (NSString *) identifier
+{
+	id object_;
+	if (nil == (object_ = [self controllerWithIdentifier : identifier]))
+		return;
+	
+	[self setContentViewWithController : object_];
+	[[[self window] toolbar] setSelectedItemIdentifier: identifier];
 }
 @end

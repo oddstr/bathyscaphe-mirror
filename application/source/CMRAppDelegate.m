@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.30 2007/02/02 15:47:50 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.31 2007/03/11 09:02:57 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -10,8 +10,8 @@
 #import "BoardWarrior.h"
 #import "CMRBrowser.h"
 #import "CMRThreadDocument.h"
-#import <SGAppKit/NSEvent-SGExtensions.h>
-#import <SGAppKit/NSImage-SGExtensions.h>
+#import "TS2SoftwareUpdate.h"
+#import <SGAppKit/SGAppKit.h>
 
 @class CMRDocumentController;
 
@@ -20,6 +20,9 @@ static NSString *const kOfflineItemKey = @"Off Line";
 static NSString *const kOnlineItemImageName = @"online";
 static NSString *const kOfflineItemImageName = @"offline";
 static NSString *const kRGBColorSpace = @"NSCalibratedRGBColorSpace";
+
+static NSString *const kSWCheckURLKey = @"System - Software Update Check URL";
+static NSString *const kSWDownloadURLKey = @"System - Software Update Download Page URL";
 
 @implementation CMRAppDelegate
 - (void) awakeFromNib
@@ -122,7 +125,6 @@ static NSString *const kRGBColorSpace = @"NSCalibratedRGBColorSpace";
 - (IBAction) clearHistory : (id) sender
 {
 	[[CMRHistoryManager defaultManager] removeAllItems];
-//	[[BSHistoryMenuManager defaultManager] updateHistoryMenuWithMenu : [[[CMRMainMenuManager defaultManager] historyMenuItem] submenu]];
 }
 
 - (IBAction) showThreadFromHistoryMenu: (id) sender
@@ -189,19 +191,6 @@ static NSString *const kRGBColorSpace = @"NSCalibratedRGBColorSpace";
 	[bw syncBoardLists];
 }
 
-/*- (void) orderFrontMainBrowserAndShowThListForBrd: (NSString *) boardName
-						  addBrdToUsrListIfNeeded: (BOOL) addToList
-{
-	if (CMRMainBrowser != nil) {
-		[[CMRMainBrowser window] makeKeyAndOrderFront : self];
-	} else {
-		[[CMRDocumentController sharedDocumentController] newDocument : self];
-	}
-
-	// addBrdToUsrListIfNeeded オプションは当面の間無視（常に YES 扱いで）
-	[CMRMainBrowser selectRowWhoseNameIs : boardName]; // この結果として outlineView の selectionDidChange: が「確実に」
-													   // 呼び出される限り、そこから showThreadsListForBoardName: が呼び出される
-}*/
 - (void) mainBrowserDidFinishShowThList : (NSNotification *) aNotification
 {
 	UTILAssertNotificationName(
@@ -245,12 +234,28 @@ static NSString *const kRGBColorSpace = @"NSCalibratedRGBColorSpace";
 	// 簡単のため、いったんオンラインモードを切る
 	if(hasBeenOnline) [self toggleOnlineMode: sender];
 	
-//	[self orderFrontMainBrowserAndShowThListForBrd: CMXFavoritesDirectoryName addBrdToUsrListIfNeeded: NO];
 	[self showThreadsListForBoard: CMXFavoritesDirectoryName selectThread: nil addToListIfNeeded: NO];
 	[CMRMainBrowser reloadThreadsList: sender];
 
 	// 必要ならオンラインに復帰
 	if(hasBeenOnline) [self toggleOnlineMode: sender];
+}
+
+- (IBAction) openWebSiteForUpdate: (id) sender
+{
+	[[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString: SGTemplateResource(kSWDownloadURLKey)]];
+}
+- (IBAction) checkForUpdate: (id) sender
+{
+	[[TS2SoftwareUpdate sharedInstance] startUpdateCheck: sender];
+}
+- (IBAction) changeUpdateSettings: (id) sender
+{
+	id prefs = [CMRPref sharedPreferencesPane];
+	[prefs showWindow: sender];
+	if ([prefs respondsToSelector: @selector(selectControllerWithIdentifier:)]) {
+		[prefs selectControllerWithIdentifier: @"General"];
+	}
 }
 
 #pragma mark validation
@@ -338,6 +343,11 @@ static NSString *const kRGBColorSpace = @"NSCalibratedRGBColorSpace";
 			   andSelector : @selector(handleGetURLEvent:withReplyEvent:)
 			 forEventClass : 'GURL'
 				andEventID : 'GURL']; // 'GURL' is different from 'gurl'
+
+	TS2SoftwareUpdate *checker = [TS2SoftwareUpdate sharedInstance];
+	[checker setUpdateInfoURL: [NSURL URLWithString: SGTemplateResource(kSWCheckURLKey)]];
+	[checker setOpenPrefsSelector: @selector(changeUpdateSettings:)];
+	[checker setUpdateNowSelector: @selector(openWebSiteForUpdate:)];
 }
 
 - (void) applicationDidFinishLaunching : (NSNotification *) aNotification
@@ -361,6 +371,8 @@ static NSString *const kRGBColorSpace = @"NSCalibratedRGBColorSpace";
 			[self runBoardWarrior: nil];
 		}
 	}
+
+	if ([CMRPref isOnlineMode]) [[TS2SoftwareUpdate sharedInstance] startUpdateCheck: nil];
 }
 
 - (BOOL) applicationShouldHandleReopen: (NSApplication *) theApplication hasVisibleWindows: (BOOL) flag
@@ -377,18 +389,6 @@ static NSString *const kRGBColorSpace = @"NSCalibratedRGBColorSpace";
 + (NSString *) localizableStringsTableName
 {
     return APP_MAINMENU_LOCALIZABLE_FILE_NAME;
-}
-@end
-
-#pragma mark -
-
-@implementation NSWindow(BSAddition)
-- (BOOL) isNotMiniaturizedButCanMinimize
-{
-	// 最小化されていない、かつ、最小化可能であるウインドウである場合に YES を返す。
-	// 最小化不可能なウインドウでは常に NO を返す。
-	if (NO == ([self styleMask] & NSMiniaturizableWindowMask)) return NO;
-	return (NO == [self isMiniaturized]);
 }
 @end
 

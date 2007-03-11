@@ -287,7 +287,6 @@
 		870B892E08ED56B3001664CC /* titleRulerBgAquaGraphite.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 870B892C08ED56B3001664CC /* titleRulerBgAquaGraphite.tiff */; };
 		870D4BE00A7D6033008BBAB4 /* BSIndexingPopupper.h in Headers */ = {isa = PBXBuildFile; fileRef = 8714F3690A4966CB00AB8691 /* BSIndexingPopupper.h */; };
 		870D4BE10A7D6034008BBAB4 /* BSIndexingPopupper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8714F36A0A4966CB00AB8691 /* BSIndexingPopupper.m */; };
-		870D4BE70A7D609F008BBAB4 /* BSIndexingPopupper.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8714F38F0A49700400AB8691 /* BSIndexingPopupper.nib */; };
 		871265B5097D84ED00B90FF2 /* AddBoardSheetController.h in Headers */ = {isa = PBXBuildFile; fileRef = 871265AB097D84ED00B90FF2 /* AddBoardSheetController.h */; };
 		871265B6097D84ED00B90FF2 /* AddBoardSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 871265AC097D84ED00B90FF2 /* AddBoardSheetController.m */; };
 		871265B7097D84ED00B90FF2 /* BSTitleRulerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 871265AD097D84ED00B90FF2 /* BSTitleRulerView.h */; };
@@ -301,6 +300,7 @@
 		8716066D098A44AB00A27F63 /* SoundsPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8716066B098A44AB00A27F63 /* SoundsPane.nib */; };
 		871606AF098A646500A27F63 /* Sounds.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 871606AE098A646400A27F63 /* Sounds.tiff */; };
 		871607ED098AA42200A27F63 /* SyncPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = 871607EB098AA42200A27F63 /* SyncPane.nib */; };
+		87170A3E0BA3ED2000AF2E65 /* BSIndexingPopupper.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87170A3C0BA3ED2000AF2E65 /* BSIndexingPopupper.nib */; };
 		8718EFDE08D43F7D00FFAAEE /* NoNameInputController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8718EFDC08D43F7D00FFAAEE /* NoNameInputController.h */; };
 		8718EFDF08D43F7D00FFAAEE /* NoNameInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8718EFDD08D43F7D00FFAAEE /* NoNameInputController.m */; };
 		8719F06A088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 8719F069088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m */; };
@@ -471,7 +471,6 @@
 		87299B130832622200CBD740 /* HostProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87299AFC0832622200CBD740 /* HostProperties.plist */; };
 		87299B180832622200CBD740 /* KeyValueTemplates.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87299B010832622200CBD740 /* KeyValueTemplates.plist */; };
 		87299B190832622200CBD740 /* lastVisibleNumbers.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87299B020832622200CBD740 /* lastVisibleNumbers.plist */; };
-		87299B1C0832622200CBD740 /* ThreadInfoTemplate.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 87299B050832622200CBD740 /* ThreadInfoTemplate.rtf */; };
 		87299B1D0832622200CBD740 /* ThreadKeyBindings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87299B060832622200CBD740 /* ThreadKeyBindings.plist */; };
 		87299B1E0832622200CBD740 /* URLBookmarks.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87299B070832622200CBD740 /* URLBookmarks.plist */; };
 		87299C1F0832673000CBD740 /* BathyScaphe.mdimporter in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87299C09083266F700CBD740 /* BathyScaphe.mdimporter */; };
@@ -580,14 +579,15 @@
 		87CD85CC098170ED002C4372 /* BSFavoritesHEADCheckTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 87CD85CA098170ED002C4372 /* BSFavoritesHEADCheckTask.h */; };
 		87CD85CD098170ED002C4372 /* BSFavoritesHEADCheckTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CD85CB098170ED002C4372 /* BSFavoritesHEADCheckTask.m */; };
 		87CF646A097A335D00DE8B16 /* Acknowledgments.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 87CF6468097A335D00DE8B16 /* Acknowledgments.rtf */; };
-		87D5D8D108DF0FCC0039A9EB /* boardListSelBgFocused.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87D5D8CF08DF0FCC0039A9EB /* boardListSelBgFocused.tiff */; };
-		87D5D8D208DF0FCC0039A9EB /* boardListSelBg.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87D5D8D008DF0FCC0039A9EB /* boardListSelBg.tiff */; };
 		87D8FBBC0B52575800CCB933 /* FontBigger.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8709CA7C0B06750B00525B8D /* FontBigger.tiff */; };
 		87D8FBBD0B52575900CCB933 /* FontSmaller.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8709CA7D0B06750B00525B8D /* FontSmaller.tiff */; };
 		87D8FBBE0B52575B00CCB933 /* HistoryFolder.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CD5090E970F007FF9C3 /* HistoryFolder.png */; };
 		87D8FBC10B5257ED00CCB933 /* CMRThreadView-Drop.m in Sources */ = {isa = PBXBuildFile; fileRef = 877AC2900B027447005365C0 /* CMRThreadView-Drop.m */; };
 		87D8FBC30B52587800CCB933 /* NSIndexSet+BSAddition.h in Headers */ = {isa = PBXBuildFile; fileRef = 87B803000B0ED4980001339F /* NSIndexSet+BSAddition.h */; };
 		87D8FBC40B52587900CCB933 /* NSIndexSet+BSAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 87B802FF0B0ED4980001339F /* NSIndexSet+BSAddition.m */; };
+		87DB9C780BA32CA20090090A /* TS2SoftwareUpdate.h in Headers */ = {isa = PBXBuildFile; fileRef = 87DB9C760BA32CA20090090A /* TS2SoftwareUpdate.h */; };
+		87DB9C790BA32CA20090090A /* TS2SoftwareUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 87DB9C770BA32CA20090090A /* TS2SoftwareUpdate.m */; };
+		87DB9C7F0BA32CE00090090A /* SoftwareUpdate.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87DB9C7D0BA32CE00090090A /* SoftwareUpdate.strings */; };
 		87DBC6990A867C6D00A1C058 /* syncFail.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87DBC6970A867C6D00A1C058 /* syncFail.tiff */; };
 		87DBC69A0A867C6D00A1C058 /* syncFinish.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87DBC6980A867C6D00A1C058 /* syncFinish.tiff */; };
 		87DFDDA80A7D6A0F0074D3EA /* CookieManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCB604C698FB00A80005 /* CookieManager.m */; };
@@ -754,7 +754,6 @@
 		F473625D0AFF8758009B6189 /* BSSettingTxtDetector.h in Headers */ = {isa = PBXBuildFile; fileRef = 8796FA400A9189D400DE3A90 /* BSSettingTxtDetector.h */; };
 		F473625E0AFF8758009B6189 /* EditBoardSheetController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BD58DE0AAC551100F6412D /* EditBoardSheetController.h */; };
 		F473625F0AFF8758009B6189 /* BSAsciiArtDetector.h in Headers */ = {isa = PBXBuildFile; fileRef = 8763716F0AB3455E005D5996 /* BSAsciiArtDetector.h */; };
-		F47362610AFF8758009B6189 /* BSIndexingPopupper.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8714F38F0A49700400AB8691 /* BSIndexingPopupper.nib */; };
 		F47362620AFF8758009B6189 /* AlertPanel.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872998E20832617E00CBD740 /* AlertPanel.strings */; };
 		F47362630AFF8758009B6189 /* Browser.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872998EB0832617F00CBD740 /* Browser.nib */; };
 		F47362640AFF8758009B6189 /* browserListColumns.plist in Resources */ = {isa = PBXBuildFile; fileRef = 872998EE0832617F00CBD740 /* browserListColumns.plist */; };
@@ -1293,7 +1292,6 @@
 		871265B4097D84ED00B90FF2 /* CMRTextColumnCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRTextColumnCell.m; sourceTree = "<group>"; };
 		8714F3690A4966CB00AB8691 /* BSIndexingPopupper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIndexingPopupper.h; sourceTree = "<group>"; };
 		8714F36A0A4966CB00AB8691 /* BSIndexingPopupper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIndexingPopupper.m; sourceTree = "<group>"; };
-		8714F3900A49700500AB8691 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSIndexingPopupper.nib; sourceTree = "<group>"; };
 		87160660098A338500A27F63 /* SoundsPaneController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundsPaneController.h; sourceTree = "<group>"; };
 		87160661098A338500A27F63 /* SoundsPaneController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundsPaneController.m; sourceTree = "<group>"; };
 		8716066C098A44AB00A27F63 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/SoundsPane.nib; sourceTree = "<group>"; };
@@ -1302,6 +1300,7 @@
 		871607E5098A9A8700A27F63 /* SyncPaneController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncPaneController.m; sourceTree = "<group>"; };
 		871607EC098AA42200A27F63 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/SyncPane.nib; sourceTree = "<group>"; };
 		871607EE098AA48400A27F63 /* Sync.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Sync.tiff; sourceTree = "<group>"; };
+		87170A3D0BA3ED2000AF2E65 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSIndexingPopupper.nib; sourceTree = "<group>"; };
 		8718EFDC08D43F7D00FFAAEE /* NoNameInputController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoNameInputController.h; sourceTree = "<group>"; };
 		8718EFDD08D43F7D00FFAAEE /* NoNameInputController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoNameInputController.m; sourceTree = "<group>"; };
 		8719F069088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-OwnHistory.m"; sourceTree = "<group>"; };
@@ -1376,7 +1375,6 @@
 		87299A1B083261F200CBD740 /* moveNext.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = moveNext.png; sourceTree = "<group>"; };
 		87299A1C083261F200CBD740 /* movePrev.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = movePrev.png; sourceTree = "<group>"; };
 		87299A1D083261F200CBD740 /* moveTop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = moveTop.png; sourceTree = "<group>"; };
-		87299A1E083261F200CBD740 /* moveUpdated.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = moveUpdated.png; sourceTree = "<group>"; };
 		87299A1F083261F200CBD740 /* offline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = offline.png; sourceTree = "<group>"; };
 		87299A20083261F200CBD740 /* online.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = online.png; sourceTree = "<group>"; };
 		87299A25083261F200CBD740 /* EllipsisDownMouseDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EllipsisDownMouseDown.png; sourceTree = "<group>"; };
@@ -1402,7 +1400,6 @@
 		87299B000832622200CBD740 /* KakoAlias.brd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = KakoAlias.brd; sourceTree = "<group>"; };
 		87299B010832622200CBD740 /* KeyValueTemplates.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = KeyValueTemplates.plist; sourceTree = "<group>"; };
 		87299B020832622200CBD740 /* lastVisibleNumbers.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = lastVisibleNumbers.plist; sourceTree = "<group>"; };
-		87299B050832622200CBD740 /* ThreadInfoTemplate.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = ThreadInfoTemplate.rtf; sourceTree = "<group>"; };
 		87299B060832622200CBD740 /* ThreadKeyBindings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ThreadKeyBindings.plist; sourceTree = "<group>"; };
 		87299B070832622200CBD740 /* URLBookmarks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = URLBookmarks.plist; sourceTree = "<group>"; };
 		87299C09083266F700CBD740 /* BathyScaphe.mdimporter */ = {isa = PBXFileReference; explicitFileType = "wrapper.plug-in"; name = BathyScaphe.mdimporter; path = ../metadataimporter/BathyScaphe/build/Deployment/BathyScaphe.mdimporter; sourceTree = SOURCE_ROOT; };
@@ -1481,8 +1478,6 @@
 		87BB791F0864401A00ED8757 /* RBSplitSubview.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RBSplitSubview.h; path = ../RBSplitSubview.h; sourceTree = "<group>"; };
 		87BB87870B195B4E00472D3F /* BSIPIToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIToken.h; sourceTree = "<group>"; };
 		87BB87880B195B4E00472D3F /* BSIPIToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIToken.m; sourceTree = "<group>"; };
-		87BBABF30AB4257E0061D85A /* smallUnlocked.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = smallUnlocked.tiff; sourceTree = "<group>"; };
-		87BBABF40AB4257E0061D85A /* smallLocked.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = smallLocked.tiff; sourceTree = "<group>"; };
 		87BD58DE0AAC551100F6412D /* EditBoardSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditBoardSheetController.h; sourceTree = "<group>"; };
 		87BD58DF0AAC551100F6412D /* EditBoardSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditBoardSheetController.m; sourceTree = "<group>"; };
 		87BD58E80AAC58D700F6412D /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/EditBoardSheet.nib; sourceTree = "<group>"; };
@@ -1517,10 +1512,11 @@
 		87CD85CB098170ED002C4372 /* BSFavoritesHEADCheckTask.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = BSFavoritesHEADCheckTask.m; sourceTree = "<group>"; };
 		87CF6469097A335D00DE8B16 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Japanese; path = Japanese.lproj/Acknowledgments.rtf; sourceTree = "<group>"; };
 		87D3524D0A68AC3A0041410F /* BSIPIDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIDownload.h; sourceTree = "<group>"; };
-		87D5D8CF08DF0FCC0039A9EB /* boardListSelBgFocused.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = boardListSelBgFocused.tiff; sourceTree = "<group>"; };
-		87D5D8D008DF0FCC0039A9EB /* boardListSelBg.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = boardListSelBg.tiff; sourceTree = "<group>"; };
 		87D7F03B0A85136900623EA5 /* BoardWarrior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardWarrior.h; sourceTree = "<group>"; };
 		87D7F03C0A85136900623EA5 /* BoardWarrior.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardWarrior.m; sourceTree = "<group>"; };
+		87DB9C760BA32CA20090090A /* TS2SoftwareUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TS2SoftwareUpdate.h; sourceTree = "<group>"; };
+		87DB9C770BA32CA20090090A /* TS2SoftwareUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TS2SoftwareUpdate.m; sourceTree = "<group>"; };
+		87DB9C800BA32CEF0090090A /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/SoftwareUpdate.strings; sourceTree = "<group>"; };
 		87DBC6970A867C6D00A1C058 /* syncFail.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = syncFail.tiff; sourceTree = "<group>"; };
 		87DBC6980A867C6D00A1C058 /* syncFinish.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = syncFinish.tiff; sourceTree = "<group>"; };
 		87E2264C0833AA5D00E7FC85 /* BathyScaphe.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = BathyScaphe.scriptSuite; sourceTree = "<group>"; };
@@ -2183,12 +2179,11 @@
 		872998690832616D00CBD740 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				87DB9C7D0BA32CE00090090A /* SoftwareUpdate.strings */,
 				F4FEFB480AFF9D0B0099853B /* CriteriaSpecifications.plist */,
 				F4FEFB450AFF9CFC0099853B /* ConditionTypes.plist */,
 				F4FEFB420AFF9CE80099853B /* SmartBLIEditorComponents.nib */,
 				F4FEFB3F0AFF9CD90099853B /* SmartBoardItemEditor.nib */,
-				8714F38F0A49700400AB8691 /* BSIndexingPopupper.nib */,
-				8714F38F0A49700400AB8691 /* BSIndexingPopupper.nib */,
 				87764C5E0AB0399000507EBA /* BoardWarrior.strings */,
 				8762E8C60A8635C200062504 /* rosetta.pl */,
 				8762E8C70A8635C200062504 /* SJIS2UTF8 */,
@@ -2205,7 +2200,6 @@
 				872998EB0832617F00CBD740 /* Browser.nib */,
 				872998F10832617F00CBD740 /* CMRAccessorySheet.nib */,
 				872998F40832617F00CBD740 /* CMRIndexingStepper.nib */,
-				8714F38F0A49700400AB8691 /* BSIndexingPopupper.nib */,
 				872998FA0832617F00CBD740 /* CMRNoNameInput.nib */,
 				872998FD0832617F00CBD740 /* CMROpenURL.nib */,
 				872999060832617F00CBD740 /* CMRReplyWindow.nib */,
@@ -2219,9 +2213,11 @@
 				872999390832618100CBD740 /* MainMenu.nib */,
 				8729994B0832618100CBD740 /* TextFind.nib */,
 				87BF52D308F7913400998C4E /* BSBoardInfoInspector.nib */,
+				87170A3C0BA3ED2000AF2E65 /* BSIndexingPopupper.nib */,
 				873158DC0A9948B400854BD8 /* BSDockMenuItem.nib */,
 				87C4813D08FD05A300F91054 /* AddBoardSheet.nib */,
 				87BD58E70AAC58D700F6412D /* EditBoardSheet.nib */,
+				879B0B8A0B6237A400EFD6D0 /* BSThreadInfoPanel.nib */,
 				F4D8CB660B33021C00B8FDB7 /* SmartBoardListItemEditor.strings */,
 				872998E20832617E00CBD740 /* AlertPanel.strings */,
 				872998EE0832617F00CBD740 /* browserListColumns.plist */,
@@ -2238,7 +2234,6 @@
 				872999510832618100CBD740 /* ThreadsList.strings */,
 				872999540832618100CBD740 /* ThreadViewer.strings */,
 				8795B91E08E3A7E3005C7C5B /* ToolbarItems.strings */,
-				879B0B8A0B6237A400EFD6D0 /* BSThreadInfoPanel.nib */,
 				8761BAA20B80D2F700120AA4 /* IndexingPopupper.strings */,
 			);
 			path = Resources;
@@ -2251,8 +2246,6 @@
 				87E971E70B80A82300579603 /* Keywords_Pressed.tiff */,
 				8709CA7C0B06750B00525B8D /* FontBigger.tiff */,
 				8709CA7D0B06750B00525B8D /* FontSmaller.tiff */,
-				87BBABF30AB4257E0061D85A /* smallUnlocked.tiff */,
-				87BBABF40AB4257E0061D85A /* smallLocked.tiff */,
 				87F0B3530A9C4CFA0002D317 /* smallSquarePlus.tiff */,
 				87F0B3540A9C4CFA0002D317 /* smallSquareMinus.tiff */,
 				870D4BE80A7D6115008BBAB4 /* titleRulerInfoIcon.tiff */,
@@ -2273,8 +2266,6 @@
 				870B892B08ED56B3001664CC /* titleRulerBgAquaBlue.tiff */,
 				870B892C08ED56B3001664CC /* titleRulerBgAquaGraphite.tiff */,
 				878018E0097CF76A002FBA1F /* titleRulerBgNotActive.tiff */,
-				87D5D8CF08DF0FCC0039A9EB /* boardListSelBgFocused.tiff */,
-				87D5D8D008DF0FCC0039A9EB /* boardListSelBg.tiff */,
 				878A7567088AA85B00539B6F /* HistoryBack.tiff */,
 				878A7568088AA85B00539B6F /* HistoryForward.tiff */,
 				87517BAE0864BE33002DA082 /* Spacer.tiff */,
@@ -2298,7 +2289,6 @@
 				87299A1B083261F200CBD740 /* moveNext.png */,
 				87299A1C083261F200CBD740 /* movePrev.png */,
 				87299A1D083261F200CBD740 /* moveTop.png */,
-				87299A1E083261F200CBD740 /* moveUpdated.png */,
 				87299A1F083261F200CBD740 /* offline.png */,
 				87299A20083261F200CBD740 /* online.png */,
 				87299A24083261F200CBD740 /* proxy */,
@@ -2340,7 +2330,6 @@
 				87299B000832622200CBD740 /* KakoAlias.brd */,
 				87299B010832622200CBD740 /* KeyValueTemplates.plist */,
 				87299B020832622200CBD740 /* lastVisibleNumbers.plist */,
-				87299B050832622200CBD740 /* ThreadInfoTemplate.rtf */,
 				87299B060832622200CBD740 /* ThreadKeyBindings.plist */,
 				87299B070832622200CBD740 /* URLBookmarks.plist */,
 			);
@@ -2989,6 +2978,8 @@
 		F324DCCA04C698FB00A80005 /* object */ = {
 			isa = PBXGroup;
 			children = (
+				87DB9C760BA32CA20090090A /* TS2SoftwareUpdate.h */,
+				87DB9C770BA32CA20090090A /* TS2SoftwareUpdate.m */,
 				F324DCCC04C698FB00A80005 /* CMRBBSSignature.h */,
 				F324DCCD04C698FB00A80005 /* CMRBBSSignature.m */,
 				F324DCD704C698FB00A80005 /* CMRThreadSignature.h */,
@@ -3863,6 +3854,7 @@
 				F467955B0B74CD40001B0001 /* DatabaseUpdater.h in Headers */,
 				87A9F7DB0B7FB71700404C81 /* BSRelativeKeywordsCollector.h in Headers */,
 				874A691C0B9DCFC500BB8FA7 /* BSVisibleRangePopUpBtnCell.h in Headers */,
+				87DB9C780BA32CA20090090A /* TS2SoftwareUpdate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4024,7 +4016,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				870D4BE70A7D609F008BBAB4 /* BSIndexingPopupper.nib in Resources */,
 				872998E40832617E00CBD740 /* AlertPanel.strings in Resources */,
 				872998ED0832617F00CBD740 /* Browser.nib in Resources */,
 				872998F00832617F00CBD740 /* browserListColumns.plist in Resources */,
@@ -4095,7 +4086,6 @@
 				87299B130832622200CBD740 /* HostProperties.plist in Resources */,
 				87299B180832622200CBD740 /* KeyValueTemplates.plist in Resources */,
 				87299B190832622200CBD740 /* lastVisibleNumbers.plist in Resources */,
-				87299B1C0832622200CBD740 /* ThreadInfoTemplate.rtf in Resources */,
 				87299B1D0832622200CBD740 /* ThreadKeyBindings.plist in Resources */,
 				87299B1E0832622200CBD740 /* URLBookmarks.plist in Resources */,
 				87E2264E0833AA5D00E7FC85 /* BathyScaphe.scriptSuite in Resources */,
@@ -4106,8 +4096,6 @@
 				87517B8A0864B4F0002DA082 /* SplitterHandle.tiff in Resources */,
 				8732FCBA08C2F79B00779F20 /* HistoryBack.tiff in Resources */,
 				8732FCBB08C2F79D00779F20 /* HistoryForward.tiff in Resources */,
-				87D5D8D108DF0FCC0039A9EB /* boardListSelBgFocused.tiff in Resources */,
-				87D5D8D208DF0FCC0039A9EB /* boardListSelBg.tiff in Resources */,
 				8795B91F08E3A7E3005C7C5B /* ToolbarItems.strings in Resources */,
 				870B892D08ED56B3001664CC /* titleRulerBgAquaBlue.tiff in Resources */,
 				870B892E08ED56B3001664CC /* titleRulerBgAquaGraphite.tiff in Resources */,
@@ -4211,7 +4199,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F47362610AFF8758009B6189 /* BSIndexingPopupper.nib in Resources */,
 				F47362620AFF8758009B6189 /* AlertPanel.strings in Resources */,
 				F47362630AFF8758009B6189 /* Browser.nib in Resources */,
 				F47362640AFF8758009B6189 /* browserListColumns.plist in Resources */,
@@ -4337,6 +4324,8 @@
 				87E971E80B80A82300579603 /* Keywords.tiff in Resources */,
 				87E971E90B80A82300579603 /* Keywords_Pressed.tiff in Resources */,
 				8761BAA30B80D2F700120AA4 /* IndexingPopupper.strings in Resources */,
+				87DB9C7F0BA32CE00090090A /* SoftwareUpdate.strings in Resources */,
+				87170A3E0BA3ED2000AF2E65 /* BSIndexingPopupper.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4822,6 +4811,7 @@
 				F467955C0B74CD40001B0001 /* DatabaseUpdater.m in Sources */,
 				87A9F7DC0B7FB71700404C81 /* BSRelativeKeywordsCollector.m in Sources */,
 				874A691D0B9DCFC500BB8FA7 /* BSVisibleRangePopUpBtnCell.m in Sources */,
+				87DB9C790BA32CA20090090A /* TS2SoftwareUpdate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4866,14 +4856,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		8714F38F0A49700400AB8691 /* BSIndexingPopupper.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8714F3900A49700500AB8691 /* Japanese */,
-			);
-			name = BSIndexingPopupper.nib;
-			sourceTree = "<group>";
-		};
 		8716066B098A44AB00A27F63 /* SoundsPane.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -4888,6 +4870,14 @@
 				871607EC098AA42200A27F63 /* Japanese */,
 			);
 			name = SyncPane.nib;
+			sourceTree = "<group>";
+		};
+		87170A3C0BA3ED2000AF2E65 /* BSIndexingPopupper.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				87170A3D0BA3ED2000AF2E65 /* Japanese */,
+			);
+			name = BSIndexingPopupper.nib;
 			sourceTree = "<group>";
 		};
 		8724A6DB09127E69009CC855 /* board_default.plist */ = {
@@ -5265,6 +5255,14 @@
 				87CF6469097A335D00DE8B16 /* Japanese */,
 			);
 			name = Acknowledgments.rtf;
+			sourceTree = "<group>";
+		};
+		87DB9C7D0BA32CE00090090A /* SoftwareUpdate.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				87DB9C800BA32CEF0090090A /* Japanese */,
+			);
+			name = SoftwareUpdate.strings;
 			sourceTree = "<group>";
 		};
 		F324DAFC04C6949900A80005 /* BoardListEditor.nib */ = {
