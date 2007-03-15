@@ -14,6 +14,7 @@
             SUPERCLASS = NSObject; 
         }, 
         {
+            ACTIONS = {changeTargets = id; togglePanelMode = id; }; 
             CLASS = TextFinder; 
             LANGUAGE = ObjC; 
             OUTLETS = {
@@ -24,6 +25,10 @@
                 "_findPrevBtn" = NSButton; 
                 "_findTextField" = NSTextField; 
                 "_notFoundField" = NSTextField; 
+                "m_disclosureTriangle" = NSButton; 
+                "m_findButtonsView" = NSView; 
+                "m_optionsBox" = NSBox; 
+                "m_targetMatrix" = NSMatrix; 
             }; 
             SUPERCLASS = NSWindowController; 
         }

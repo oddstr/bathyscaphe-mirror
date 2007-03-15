@@ -1,6 +1,6 @@
 //: CMRAppTypes.h
 /**
-  * $Id: CMRAppTypes.h,v 1.3 2006/01/16 00:20:20 tsawada2 Exp $
+  * $Id: CMRAppTypes.h,v 1.4 2007/03/15 02:35:16 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -48,7 +48,8 @@ typedef enum _CMRSearchMask{
 	CMRSearchOptionBackwards				= 1 << 1,
 	CMRSearchOptionZenHankakuInsensitive	= 1 << 2,
 	CMRSearchOptionIgnoreSpecified			= 1 << 3,
-	CMRSearchOptionLinkOnly					= 1 << 4
+	CMRSearchOptionLinkOnly					= 1 << 4,
+	CMRSearchOptionUseRegularExpression		= 1 << 5 // Available in Starlight Breaker.
 } CMRSearchMask;
 
 typedef enum _BSOpenInBrowserType {

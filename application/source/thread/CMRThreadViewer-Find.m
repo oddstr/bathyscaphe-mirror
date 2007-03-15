@@ -1,5 +1,5 @@
 /** 
-  * $Id: CMRThreadViewer-Find.m,v 1.11 2007/02/17 15:34:10 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Find.m,v 1.12 2007/03/15 02:35:16 tsawada2 Exp $
   *
   * Copyright (c) 2003, Takanori Ishikawa.
   * CMRThreadViewer-Action.m から分割 - 2005-02-16 by tsawada2.
@@ -20,6 +20,8 @@
 
 #import "CMXPopUpWindowManager.h"
 #import "CMRAttributedMessageComposer.h"
+
+#import <OgreKit/OgreKit.h>
 
 // for debugging only
 #define UTIL_DEBUGGING		0
@@ -143,6 +145,22 @@
 	return kNFRange;
 }
 
+- (BOOL) validateAsRegularExpression: (NSString *) aString
+{
+	BOOL isValid = [OGRegularExpression isValidExpressionString: aString];
+	if (isValid) return YES;
+
+	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	[alert setAlertStyle: NSWarningAlertStyle];
+	[alert setMessageText: [NSString stringWithFormat: NSLocalizedString(@"InvalidRegularExpressionMsg", @""), aString]];
+	[alert setInformativeText: NSLocalizedString(@"InvalidRegularExpressionInfo", @"")];
+	[alert addButtonWithTitle: NSLocalizedString(@"InvalidRegularExpressionOK", @"")];
+
+	NSBeep();
+	[alert runModal];
+	return NO;
+}
+
 - (void) findText : (NSString		*) aString
 	 searchOption : (CMRSearchMask   ) searchOption
 		  options : (unsigned int	 ) options
@@ -162,6 +180,11 @@
 		result_ = [self rangeOfStorageLinkOnly : aString 
 									   options : options
 										 range : aRange];
+	} else if (CMRSearchOptionUseRegularExpression & searchOption) {
+		if (NO == [self validateAsRegularExpression: aString]) return;
+		unsigned ogreOption = OgreNoneOption;
+		if (options & NSCaseInsensitiveSearch) ogreOption = OgreIgnoreCaseOption;
+		result_ = [text_ rangeOfRegularExpressionString: aString options: ogreOption range: aRange];
 	} else {
 		result_ = [text_ rangeOfString : aString 
 							   options : options
@@ -365,9 +388,14 @@ ErrNotFound:
 	return kNFRange;
 }
 
-- (NSRange) threadMessage : (CMRThreadMessage *) aMessage
-			rangeOfString : (NSString         *) aString
-				  options : (unsigned          ) options
+//- (NSRange) threadMessage : (CMRThreadMessage *) aMessage
+//			rangeOfString : (NSString         *) aString
+//				  options : (unsigned          ) options
+- (NSRange) threadMessage: (CMRThreadMessage *) aMessage
+			rangeOfString: (NSString         *) aString
+		regularExpression: (BOOL) isRegExp
+				  options: (unsigned          ) options
+
 {
 	NSString	*getKeys[] = {
 				@"name",
@@ -379,6 +407,8 @@ ErrNotFound:
 	NSRange		found;
 	NSString	*target;
 	int			i, cnt;
+
+	NSArray		*targets = [CMRPref contentsSearchTargetArray];
 	
 	if (nil == aMessage || 0 == [aString length])
 		return kNFRange;
@@ -386,15 +416,23 @@ ErrNotFound:
 	cnt = UTILNumberOfCArray(getKeys);
 	
 	for (i = 0; i < cnt; i++) {
-		target = [aMessage valueForKey : getKeys[i]];
-		if (nil == target || 0 == [target length])
-			continue;
+		if ([[targets objectAtIndex: i] intValue] == NSOnState) {
+			target = [aMessage valueForKey : getKeys[i]];
+			if (nil == target || 0 == [target length])
+				continue;
 
-		found = [target rangeOfString : aString
-							  options : options
-								range : [target range]];
-		if (found.length != 0) 
-			return found;
+			if (isRegExp) {
+				unsigned ogreOption = OgreNoneOption;
+				if (options & NSCaseInsensitiveSearch) ogreOption = OgreIgnoreCaseOption;
+				found = [target rangeOfRegularExpressionString: aString options: ogreOption range: [target range]];
+			} else {
+				found = [target rangeOfString : aString
+									  options : options
+										range : [target range]];
+			}
+			if (found.length != 0) 
+				return found;
+		}
 	}
 	
 	return kNFRange;
@@ -436,11 +474,14 @@ ErrNotFound:
 	
 	mIter_ = [L messageEnumerator];
 	if (targetKey == nil) {
+		BOOL useRegExp = (searchOption & CMRSearchOptionUseRegularExpression);
+		if (useRegExp && NO == [self validateAsRegularExpression: aString]) return;
+
 		while (m = [mIter_ nextObject]) {
 			NSRange		found;
 			
 			found = [self threadMessage : m
-						  rangeOfString : aString
+						  rangeOfString : aString regularExpression: useRegExp
 								options : options_];
 
 			if (0 == found.length) continue;

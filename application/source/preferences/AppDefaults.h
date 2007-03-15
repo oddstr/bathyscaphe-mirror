@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.36 2007/01/07 17:04:23 masakih Exp $
+  * $Id: AppDefaults.h,v 1.37 2007/03/15 02:35:16 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -140,6 +140,12 @@ typedef enum _BSAutoSyncIntervalType {
 - (void) setThreadSearchOption : (CMRSearchMask) option;
 - (CMRSearchMask) contentsSearchOption;
 - (void) setContentsSearchOption : (CMRSearchMask) option;
+
+/* Starlight Breaker Additions */
+- (BOOL) findPanelExpanded;
+- (void) setFindPanelExpanded: (BOOL) isExpanded;
+- (NSArray *) contentsSearchTargetArray;
+- (void) setContentsSearchTargetArray: (NSArray *) array;
 
 /* MeteorSweeper: Hidden Proxy Options */
 - (BOOL) usesOwnProxy;

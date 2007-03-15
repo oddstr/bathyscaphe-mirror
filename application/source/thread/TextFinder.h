@@ -1,5 +1,5 @@
 /**
-  * $Id: TextFinder.h,v 1.5 2007/02/17 15:34:10 tsawada2 Exp $
+  * $Id: TextFinder.h,v 1.6 2007/03/15 02:35:16 tsawada2 Exp $
   * 
   * Copyright 2005 BathyScaphe Project. All rights reserved.
   *
@@ -13,6 +13,10 @@
 {
 	IBOutlet NSTextField	*_findTextField;
 	IBOutlet NSTextField	*_notFoundField;
+	IBOutlet NSBox			*m_optionsBox;
+	IBOutlet NSMatrix		*m_targetMatrix;
+	IBOutlet NSView			*m_findButtonsView;
+	IBOutlet NSButton		*m_disclosureTriangle;
 	IBOutlet NSButton		*_findNextBtn;
 	IBOutlet NSButton		*_findPrevBtn;
 	IBOutlet NSButton		*_findFromHeadBtn;
@@ -23,6 +27,9 @@
 + (id) standardTextFinder;
 - (NSTextField *) findTextField;
 - (NSTextField *) notFoundField;
+- (NSBox *) optionsBox;
+- (NSMatrix *) targetMatrix;
+- (NSView *) findButtonsView;
 
 - (void) setupUIComponents;
 
@@ -36,9 +43,16 @@
 - (void) setIsCaseInsensitive : (BOOL) checkBoxState;
 - (BOOL) isLinkOnly;
 - (void) setIsLinkOnly : (BOOL) checkBoxState;
+- (BOOL) usesRegularExpression;
+- (void) setUsesRegularExpression : (BOOL) checkBoxState;
+
+- (IBAction) changeTargets: (id) sender;
+- (IBAction) togglePanelMode: (id) sender;
 
 - (NSString *) loadFindStringFromPasteboard;
 - (void) setFindStringToPasteboard;
+
+- (void) expandOrShrinkPanel: (BOOL) willExpand animate: (BOOL) shouldAnimate;
 
 - (void) registerToNotificationCenter;
 @end

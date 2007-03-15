@@ -1,5 +1,5 @@
 /*
-    $Id: CMRThreadViewer-Validation.m,v 1.27 2007/02/07 13:26:13 tsawada2 Exp $
+    $Id: CMRThreadViewer-Validation.m,v 1.28 2007/03/15 02:35:16 tsawada2 Exp $
     CMRThreadViewer-Action.m から独立
     Created at 2005-02-16 by tsawada2.
 */
@@ -285,9 +285,9 @@ static int messageMaskForTag(int tag)
 	   action_ == @selector(findPreviousText:)	||
 	   action_ == @selector(findFirstText:)		||
 	   action_ == @selector(findAll:)			||
-	   action_ == @selector(findAllByFilter:)	||
-	   action_ == @selector(biggerText:)		||
-	   action_ == @selector(smallerText:)		||
+	   action_ == @selector(findAllByFilter:) ||
+		action_ == @selector(biggerText:) ||
+	   action_ == @selector(smallerText:) ||
 	   action_ == @selector(scaleSegmentedControlPushed:)) // For Segmented Control
 	{ return [self shouldShowContents] && [[[self textView] textStorage] length]; }
 

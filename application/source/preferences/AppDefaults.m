@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.17 2007/03/11 09:02:57 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.18 2007/03/15 02:35:16 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -20,6 +20,8 @@ NSString *const AppDefaultsWillSaveNotification = @"AppDefaultsWillSaveNotificat
 #define AppDefaultsIsOnlineModeKey		        @"Online Mode ON"
 #define AppDefaultsThreadSearchOptionKey		@"Thread Search Option"
 #define AppDefaultsContentsSearchOptionKey		@"Contents Search Option"
+static NSString *const AppDefaultsFindPanelExpandedKey = @"Find Panel Expanded";
+static NSString *const AppDefaultsContentsSearchTargetKey = @"Contents Search Targets";
 
 #define AppDefaultsBrowserSplitViewIsVerticalKey		@"Browser SplitView isVertical"
 #define AppDefaultsBrowserLastBoardKey					@"LastBoard"
@@ -232,7 +234,7 @@ NS_ENDHANDLER
 					  forKey : AppDefaultsOpenInBgKey];
 }
 
-#pragma mark -
+#pragma mark Search Options
 
 /* Search option */
 - (CMRSearchMask) threadSearchOption
@@ -254,6 +256,31 @@ NS_ENDHANDLER
 {
 	[[self defaults] setInteger : option
 						 forKey : AppDefaultsContentsSearchOptionKey];
+}
+
+- (BOOL) findPanelExpanded
+{
+	return [[self defaults] boolForKey: AppDefaultsFindPanelExpandedKey defaultValue: YES];
+}
+
+- (void) setFindPanelExpanded: (BOOL) isExpanded
+{
+	[[self defaults] setBool: isExpanded forKey: AppDefaultsFindPanelExpandedKey];
+}
+
+- (NSArray *) contentsSearchTargetArray
+{
+	NSArray *array = [[self defaults] arrayForKey: AppDefaultsContentsSearchTargetKey];
+	if (nil == array) {
+		NSNumber *tmp = [NSNumber numberWithInt: NSOnState];
+		array = [NSArray arrayWithObjects: tmp, tmp, tmp, tmp, tmp, nil];
+	}
+	return array;
+}
+
+- (void) setContentsSearchTargetArray: (NSArray *) array
+{
+	[[self defaults] setObject: array forKey: AppDefaultsContentsSearchTargetKey];
 }
 
 #pragma mark -

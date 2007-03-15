@@ -1,5 +1,5 @@
 /**
-  * $Id: TextFinder.m,v 1.6 2007/02/17 15:34:10 tsawada2 Exp $
+  * $Id: TextFinder.m,v 1.7 2007/03/15 02:35:16 tsawada2 Exp $
   *
   * Copyright 2005 BathyScaphe Project. All rights reserved.
   *
@@ -34,12 +34,25 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(standardTextFinder);
 - (void) setupUIComponents
 {
 	NSString		*s;		// from Pasteboard
+	NSArray			*array = [CMRPref contentsSearchTargetArray];
+	int	i;
 	
 	s = [self loadFindStringFromPasteboard];
 	if (s != nil)
 		[self setFindString: s];
 
-	[[self findTextField] setDelegate : self];
+	for (i = 0; i < 5; i++) {
+		NSButtonCell *cell = [[self targetMatrix] cellWithTag: i];
+		if ([[array objectAtIndex: i] respondsToSelector: @selector(intValue)]) {
+			[cell setState: [[array objectAtIndex: i] intValue]];
+		}
+	}
+
+	if (NO == [CMRPref findPanelExpanded]) {
+		[m_disclosureTriangle setState: NSOffState];
+		[self expandOrShrinkPanel: NO animate: NO];
+	}
+
     [[self window] setFrameAutosaveName : APP_FIND_PANEL_AUTOSAVE_NAME];
 }
 
@@ -77,6 +90,21 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(standardTextFinder);
 - (NSTextField *) notFoundField
 {
 	return _notFoundField;
+}
+
+- (NSBox *) optionsBox
+{
+	return m_optionsBox;
+}
+
+- (NSMatrix *) targetMatrix
+{
+	return m_targetMatrix;
+}
+
+- (NSView *) findButtonsView
+{
+	return m_findButtonsView;
 }
 
 #pragma mark Cocoa Binding
@@ -126,6 +154,60 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(standardTextFinder);
 	[CMRPref setContentsSearchOption : option];
 }
 
+- (BOOL) usesRegularExpression
+{
+	CMRSearchMask	option = [CMRPref contentsSearchOption];
+	return (option & CMRSearchOptionUseRegularExpression);
+}
+
+- (void) setUsesRegularExpression : (BOOL) checkBoxState
+{
+	CMRSearchMask	option = [CMRPref contentsSearchOption];
+	if (checkBoxState) {
+		option |= CMRSearchOptionUseRegularExpression;
+	} else {
+		option ^= CMRSearchOptionUseRegularExpression;
+	}
+	[CMRPref setContentsSearchOption : option];
+}
+
+#pragma mark IBActions
+- (IBAction) changeTargets: (id) sender
+{
+	[CMRPref setContentsSearchTargetArray: [[[self targetMatrix] cells] valueForKey: @"state"]];
+}
+
+- (void) expandOrShrinkPanel: (BOOL) willExpand animate: (BOOL) shouldAnimate
+{
+	NSRect	windowFrame = [[self window] frame];
+	NSRect	boxFrame = [[self optionsBox] frame];
+
+	float	boxHeight = boxFrame.size.height;
+
+	if (willExpand) {
+		windowFrame.size.height += boxHeight;
+		windowFrame.origin.y -= boxHeight;
+		if (windowFrame.origin.y < 10) {
+			windowFrame.origin.y = 10;
+		}
+		[[self window] setFrame: windowFrame display: YES animate: shouldAnimate];
+		[[self optionsBox] setFrameOrigin: NSMakePoint(21, [[self findButtonsView] frame].size.height)];
+		[[self optionsBox] setHidden: NO];
+	} else {
+		windowFrame.size.height -= boxHeight;
+		windowFrame.origin.y += boxHeight;
+		[[self optionsBox] setHidden: YES];
+		[[self window] setFrame: windowFrame display: YES animate: shouldAnimate];
+		[[self findButtonsView] setFrameOrigin: NSZeroPoint];
+	}
+}
+
+- (IBAction) togglePanelMode: (id) sender
+{
+	BOOL willExpand = ([sender state] == NSOnState);
+	[self expandOrShrinkPanel: willExpand animate: YES];
+}
+
 #pragma mark Working with pasteboards
 - (NSString *) loadFindStringFromPasteboard
 {
@@ -153,15 +235,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(standardTextFinder);
 }
 
 #pragma mark Delegate
-- (void) controlTextDidChange : (NSNotification *) aNotification
+- (void) controlTextDidEndEditing : (NSNotification *) aNotification
 {
-	NSString *name_;
-	
-	name_ = [aNotification name];
-	
-	if ([name_ isEqualToString : NSControlTextDidChangeNotification]) {
-		[self setFindStringToPasteboard];
-	}
+	[self setFindStringToPasteboard];
 }
 
 - (void) findWillStart : (NSNotification *) aNotification
@@ -176,9 +252,15 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(standardTextFinder);
 	//NSLog(@"%i", num);
 	if (num != 1) {
 		[[self notFoundField] setHidden : NO];
-		[[self notFoundField] setStringValue: (num == 0) ? NSLocalizedString(@"No Match", @"No Match")
-														 : [NSString stringWithFormat: NSLocalizedString(@"%u Res(s)", @"%u Res(s)"), num]];
+		[[self notFoundField] setStringValue: (num == 0) ? NSLocalizedString(@"No Match", @"")
+														 : [NSString stringWithFormat: NSLocalizedString(@"%u Res(s)", @""), num]];
 	}
+}
+
+- (void) applicationWillQuit: (NSNotification *) aNotification
+{
+	[CMRPref setFindPanelExpanded: ([m_disclosureTriangle state] == NSOnState)];
+	[CMRPref setContentsSearchTargetArray: [[[self targetMatrix] cells] valueForKey: @"state"]];
 }
 
 - (void) registerToNotificationCenter
@@ -193,18 +275,16 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(standardTextFinder);
 	        selector : @selector(findDidEnd:)
 	            name : BSThreadViewerDidEndFindingNotification
 	          object : nil];
+	[[NSNotificationCenter defaultCenter]
+	     addObserver : self
+	        selector : @selector(applicationWillQuit:)
+	            name : NSApplicationWillTerminateNotification
+	          object : NSApp];
 }
 
 - (void) removeFromNotificationCenter
 {
-	[[NSNotificationCenter defaultCenter]
-	  removeObserver : self
-	            name : BSThreadViewerWillStartFindingNotification
-	          object : nil];
-	[[NSNotificationCenter defaultCenter]
-	  removeObserver : self
-	            name : BSThreadViewerDidEndFindingNotification
-	          object : nil];	
+	[[NSNotificationCenter defaultCenter] removeObserver : self];
 }
 
 - (void) dealloc

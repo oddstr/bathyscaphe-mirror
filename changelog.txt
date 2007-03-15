@@ -1,3 +1,21 @@
+2007-03-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/Localizable.strings
+	* application/Resources/Japanese.lproj/TextFind.nib
+	* application/source/thread/TextFinder.m
+        検索パネルを強化した。
+        - 検索対象（名前欄、Mail 欄、ID欄、ホスト欄、および本文）を選択するチェックボックスを追加した。
+        - 検索文字列を正規表現として解釈するチェックボックスを追加した。
+        - オプション類を Disclosure Triangle（三角マーク）で表示する／隠すことができるようにした。
+            ・オプション類はすべて環境設定に保存され、BathyScaphe の終了／再起動をまたいで記憶される。
+	* application/source/preferences/AppDefaults.m
+        検索オプションを記憶するためのメソッドを追加した。
+	* application/source/thread/CMRThreadViewer-Find.m
+        正規表現を用いた検索および検索対象を制限した検索への対応を開始した。まだこなれていない。
+        これからまだ作り込む予定。
+	* frameworks/CocoMonar/framework/src/CMRAppTypes.h
+        CocoMonar Framework 0.0.8 -> 0.0.9:
+        - CMRSearchOptions に新しい mask CMRSearchOptionUseRegularExpression を追加定義した。
+================================================= Starlight Breaker v52
 2007-03-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/SoftwareUpdate.strings
 	* application/source/object/TS2SoftwareUpdate.[h|m]
