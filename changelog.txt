@@ -1,3 +1,11 @@
+2007-03-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/composer/CMRAttributedMessageComposer-Convert.m
+		ID 欄だけでなく、本文中に書き込まれた「ID:xxxxxxxxxx」という文字列でも長押しによるIDポップアップが
+		できるようにした。
+		- ただし、"ID:"（すべて半角）の後に、半角スペース0個または1個があって、その後 ascii 文字が8から11文字
+		　連続しているときのみ ID と推測する。
+	* application/source/thread/CMRThreadViewer-Find.m
+		まだ改良途中で、いくつか正しく動作していない部分があるが、これから直すので気にしないこと。
 2007-03-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/Localizable.strings
 	* application/Resources/Japanese.lproj/TextFind.nib

@@ -1,5 +1,5 @@
 /** 
-  * $Id: CMRThreadViewer-Find.m,v 1.12 2007/03/15 02:35:16 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Find.m,v 1.13 2007/03/16 16:26:38 tsawada2 Exp $
   *
   * Copyright (c) 2003, Takanori Ishikawa.
   * CMRThreadViewer-Action.m から分割 - 2005-02-16 by tsawada2.
@@ -70,6 +70,39 @@
 		if (0 == searchRange_.length) break;
 	}
 	return ret;
+}
+@end
+
+@interface NSString(BSOgreAddition)
+- (NSRange) rangeOfString: (NSString*) expressionString 
+			  ogreOptions: (unsigned) options
+		regularExpression: (BOOL) useRegExp 
+					range: (NSRange) searchRange;
+@end
+
+@implementation NSString(BSOgreAddition)
+- (NSRange) rangeOfString: (NSString*) expressionString 
+			  ogreOptions: (unsigned) options
+		regularExpression: (BOOL) useRegExp 
+					range: (NSRange) searchRange
+{
+	OgreSyntax syntax = useRegExp ? OgreRubySyntax : OgreSimpleMatchingSyntax;
+
+	OGRegularExpression *expression;
+	OGRegularExpressionMatch *match;
+	
+	expression = [OGRegularExpression regularExpressionWithString: expressionString
+														  options: options
+														   syntax: syntax
+												  escapeCharacter: OgreBackslashCharacter];
+
+	match = [expression matchInString: self options: options range: searchRange];
+	
+	if (match == nil) {
+		return NSMakeRange(NSNotFound, 0);
+	} else {
+		return [match rangeOfMatchedString];
+	}
 }
 @end
 
@@ -166,12 +199,13 @@
 		  options : (unsigned int	 ) options
 			range : (NSRange		 ) aRange
 {
+	NSTextView	*textView_ = [self textView];
 	NSString	*text_;
 	NSRange		result_;
 
 	UTILNotifyName(BSThreadViewerWillStartFindingNotification);
 
-	text_ = [[self textView] string];
+	text_ = [textView_ string];
 
 	UTILRequireCondition((text_ && [text_ length]), ErrNotFound);
 	UTILRequireCondition((aString && [aString length]), ErrNotFound);
@@ -180,23 +214,22 @@
 		result_ = [self rangeOfStorageLinkOnly : aString 
 									   options : options
 										 range : aRange];
-	} else if (CMRSearchOptionUseRegularExpression & searchOption) {
-		if (NO == [self validateAsRegularExpression: aString]) return;
-		unsigned ogreOption = OgreNoneOption;
-		if (options & NSCaseInsensitiveSearch) ogreOption = OgreIgnoreCaseOption;
-		result_ = [text_ rangeOfRegularExpressionString: aString options: ogreOption range: aRange];
 	} else {
-		result_ = [text_ rangeOfString : aString 
-							   options : options
-								 range : aRange];
+		BOOL	useRegExp = (CMRSearchOptionUseRegularExpression & searchOption);
+		if (useRegExp && NO == [self validateAsRegularExpression: aString]) return;
+
+		result_ = [text_ rangeOfString: aString
+						   ogreOptions: options
+					 regularExpression: useRegExp
+								 range: aRange];
 	}
 
 	UTILRequireCondition(
 		result_.location != NSNotFound && result_.length != 0,
 		ErrNotFound);
 
-	[[self textView] setSelectedRange : result_];
-	[[self textView] scrollRangeToVisible : result_];
+	[textView_ setSelectedRange : result_];
+	[textView_ scrollRangeToVisible : result_];
 
 	UTILNotifyInfo3(
 		BSThreadViewerDidEndFindingNotification,
@@ -231,8 +264,8 @@ ErrNotFound:
 		ErrNotFound);
 	
 	option_ = [userInfo_ unsignedIntValue];
-	if (NSBackwardsSearch & [searchOptions_ findOption])
-		option_ = (option_ | CMRSearchOptionBackwards);
+/*	if (NSBackwardsSearch & [searchOptions_ findOption])
+		option_ = (option_ | CMRSearchOptionBackwards);*/
 	
 	[self findText : search_
 	  searchOption : option_
@@ -243,24 +276,25 @@ ErrNotFound:
 	return;
 }
 
-#pragma mark IBActions
+#pragma mark IBActions(Find Prev, Next, AtFirst)
 - (IBAction) findNextText : (id) sender
 {
 	CMRSearchOptions	*findOperation_;
+	NSTextView			*textView_ = [self textView];
 	NSRange				searchRange_;
 
 	findOperation_ = [[TextFinder standardTextFinder] currentOperation];
 	UTILRequireCondition(findOperation_, ErrNotFound);
 
-	searchRange_ = [[self textView] selectedRange];
+	searchRange_ = [textView_ selectedRange];
 
 	if (searchRange_.length == 0) {
 		// テキストが選択されていない場合は、ウインドウで「見えている」テキストの先頭から検索を開始する。
-		searchRange_ = [[self textView] characterRangeForDocumentVisibleRect];
-		searchRange_.length = [[[self textView] string] length] - searchRange_.location;
+		searchRange_ = [textView_ characterRangeForDocumentVisibleRect];
+		searchRange_.length = [[textView_ string] length] - searchRange_.location;
 	} else {
 		searchRange_.location = NSMaxRange(searchRange_);
-		searchRange_.length = [[[self textView] string] length] - searchRange_.location;
+		searchRange_.length = [[textView_ string] length] - searchRange_.location;
 	}
 	[self findWithOperation : findOperation_ range : searchRange_];
 	
@@ -271,16 +305,17 @@ ErrNotFound:
 - (IBAction) findPreviousText : (id) sender
 {
 	CMRSearchOptions	*findOperation_;
+	NSTextView			*textView_ = [self textView];
 	NSRange				searchRange_;
 	
 	findOperation_ = [[TextFinder standardTextFinder] currentOperation];
 	UTILRequireCondition(findOperation_, ErrNotFound);
 	
-	[findOperation_ setOptionState : YES option : NSBackwardsSearch];
+//	[findOperation_ setOptionState : YES option : NSBackwardsSearch];
 	
-	searchRange_ = [[self textView] selectedRange];
+	searchRange_ = [textView_ selectedRange];
 	if (searchRange_.length == 0) {
-		searchRange_ = [[self textView] characterRangeForDocumentVisibleRect];
+		searchRange_ = [textView_ characterRangeForDocumentVisibleRect];
 		searchRange_.length = NSMaxRange(searchRange_);
 		searchRange_.location = 0;
 	} else {
@@ -293,6 +328,22 @@ ErrNotFound:
 	return;
 }
 
+- (IBAction) findFirstText : (id) sender
+{
+	CMRSearchOptions	*findOperation_;
+	NSRange				searchRange_;
+	
+	findOperation_ = [[TextFinder standardTextFinder] currentOperation];
+	UTILRequireCondition(findOperation_, ErrNotFound);
+	searchRange_ = NSMakeRange(0, [[[self textView] string] length]);
+	
+	[self findWithOperation : findOperation_ range : searchRange_];
+
+ErrNotFound:
+	return;
+}
+
+#pragma mark IBActions(Filter, Hilite)
 - (BOOL) setUpTemporaryAttributesMatchingString : (NSString *) aString
 								   searchOption : (CMRSearchMask    ) searchOption
 								inLayoutManager : (NSLayoutManager *) layoutManager
@@ -382,9 +433,9 @@ ErrNotFound:
 	found = [target rangeOfString : aString
 						  options : options
 							range : [target range]];
-	if (found.length != 0) 
+	if (found.length != 0)
 		return found;
-	
+
 	return kNFRange;
 }
 
@@ -423,7 +474,7 @@ ErrNotFound:
 
 			if (isRegExp) {
 				unsigned ogreOption = OgreNoneOption;
-				if (options & NSCaseInsensitiveSearch) ogreOption = OgreIgnoreCaseOption;
+//				if (options & NSCaseInsensitiveSearch) ogreOption = OgreIgnoreCaseOption;
 				found = [target rangeOfRegularExpressionString: aString options: ogreOption range: [target range]];
 			} else {
 				found = [target rangeOfString : aString
@@ -458,10 +509,10 @@ ErrNotFound:
 	if ([aString length] == 0) return;
 
 	UTILNotifyName(BSThreadViewerWillStartFindingNotification);
-	
+/*	
 	if (searchOption | CMRSearchOptionCaseInsensitive)
 		options_ |= NSCaseInsensitiveSearch;
-
+*/
 	composer_ = [[CMRAttributedMessageComposer alloc] init];
 	textBuffer_ = [[NSMutableAttributedString alloc] init];
 	
@@ -492,7 +543,7 @@ ErrNotFound:
 	} else {
 		while (m = [mIter_ nextObject]) {
 			NSRange		found;
-			
+
 			found = [self threadMessage : m
 							valueForKey : targetKey
 						  rangeOfString : aString
@@ -533,21 +584,7 @@ CleanUp:
 	textBuffer_ = nil;
 }
 
-- (IBAction) findFirstText : (id) sender
-{
-	CMRSearchOptions	*findOperation_;
-	NSRange				searchRange_;
-	
-	findOperation_ = [[TextFinder standardTextFinder] currentOperation];
-	UTILRequireCondition(findOperation_, ErrNotFound);
-	searchRange_ = NSMakeRange(0, [[[self textView] string] length]);
-	
-	[self findWithOperation : findOperation_ range : searchRange_];
-
-ErrNotFound:
-	return;
-}
-
+#pragma mark IBAction(Find Text In Selection)
 - (IBAction) findTextInSelection : (id) sender
 {
 	NSRange				selectedTextRange;

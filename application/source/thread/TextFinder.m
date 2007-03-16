@@ -1,5 +1,5 @@
 /**
-  * $Id: TextFinder.m,v 1.7 2007/03/15 02:35:16 tsawada2 Exp $
+  * $Id: TextFinder.m,v 1.8 2007/03/16 16:26:38 tsawada2 Exp $
   *
   * Copyright 2005 BathyScaphe Project. All rights reserved.
   *
@@ -10,6 +10,7 @@
 #import "AppDefaults.h"
 #import "CMRSearchOptions.h"
 #import "CMRThreadViewer.h"
+#import <OgreKit/OgreKit.h>
 
 #define kLoadNibName					@"TextFind"
 #define APP_FIND_PANEL_AUTOSAVE_NAME	@"BathyScaphe:Find Panel Autosave"
@@ -60,18 +61,22 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(standardTextFinder);
 {
 	NSString		*string_ = [self findString];
 	CMRSearchMask	option = [CMRPref contentsSearchOption];
-	unsigned int  generalOption = 0;
+//	unsigned int  generalOption = 0;
+	unsigned int  ogreOption = OgreNoneOption;
 
 	if (!string_)
 		return nil;
-
+/*
 	if (option & CMRSearchOptionCaseInsensitive)
 		generalOption |= NSCaseInsensitiveSearch;
-	
+*/	
+	if (option & CMRSearchOptionCaseInsensitive)
+		ogreOption |= OgreIgnoreCaseOption;
+
 	return [CMRSearchOptions operationWithFindObject : string_
 											 replace : nil
 											userInfo : [NSNumber numberWithUnsignedInt : option]
-											  option : generalOption];
+											  option : ogreOption];//generalOption];
 }
 
 - (void) showWindow : (id) sender

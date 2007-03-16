@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer.m,v 1.20 2007/02/17 15:34:10 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer.m,v 1.21 2007/03/16 16:26:37 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -8,7 +8,6 @@
 
 #import "CMRAttributedMessageComposer_p.h"
 #import <AppKit/NSTextStorage.h>
-
 
 // for debugging only
 #define UTIL_DEBUGGING		1

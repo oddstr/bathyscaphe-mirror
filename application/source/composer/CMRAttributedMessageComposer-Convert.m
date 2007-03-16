@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer-Convert.m,v 1.5 2006/06/01 15:06:43 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer-Convert.m,v 1.6 2007/03/16 16:26:37 tsawada2 Exp $
   * 
   * CMRAttributedMessageComposer-Convert.m
   *
@@ -8,7 +8,7 @@
   */
 #import "CMRAttributedMessageComposer_p.h"
 
-
+#import <OgreKit/OgreKit.h>
 
 void htmlConvertBreakLineTag(NSMutableString *theString)
 {
@@ -72,12 +72,15 @@ void htmlConvertBreakLineTag(NSMutableString *theString)
 static void convertMessageWith(NSMutableAttributedString *ms, NSString *str, NSDictionary *attributes)
 {
 	static NSString				*ulTag_ = nil;
-
+	static OGRegularExpression	*regExp = nil;
 	NSRange			start_;
 	NSMutableString	*contents_;
 
 	if(!ulTag_) {
 		ulTag_ = [NSLocalizedString(@"saku target UL", nil) retain];
+	}
+	if(!regExp) {
+		regExp = [[OGRegularExpression alloc] initWithString: @"ID:\\s?([[[:ascii:]]&&[^\\s]]{8,11})"];
 	}
 	
 	if(ms == nil) return;
@@ -94,24 +97,34 @@ static void convertMessageWith(NSMutableAttributedString *ms, NSString *str, NSD
 
 	start_ = [contents_ rangeOfString : ulTag_
 							  options : NSLiteralSearch];
-	if (0 == start_.length || NSNotFound == start_.location)
-		return;
+//	if (0 == start_.length || NSNotFound == start_.location)
+//		return;
+	if (start_.length != 0) {
+		// フォームからの削除依頼で混入する <ul> </ul> タグを削除	
+		[ms addAttribute : NSForegroundColorAttributeName value : [NSColor redColor] range : start_];
+		[ms replaceCharactersInRange : start_
+						  withString : NSLocalizedString(@"saku target BR", nil)];
+		[contents_ replaceOccurrencesOfString : @"<ul> " // 直後の半角スペース込みで削除
+								   withString : @"\n"
+									  options : (NSBackwardsSearch | NSLiteralSearch)
+										range : NSMakeRange(0, [contents_ length])];
 
-	// フォームからの削除依頼で混入する <ul> </ul> タグを削除	
-	[ms addAttribute : NSForegroundColorAttributeName value : [NSColor redColor] range : start_];
-	[ms replaceCharactersInRange : start_
-					  withString : NSLocalizedString(@"saku target BR", nil)];
-	[contents_ replaceOccurrencesOfString : @"<ul> " // 直後の半角スペース込みで削除
-							   withString : @"\n"
-							      options : (NSBackwardsSearch | NSLiteralSearch)
-									range : NSMakeRange(0, [contents_ length])];
+		[contents_ replaceOccurrencesOfString : @"</ul> " // 直後の半角スペース込みで削除
+								   withString : @"\n"
+									  options : (NSBackwardsSearch | NSLiteralSearch)
+										range : NSMakeRange(0, [contents_ length])];
 
-	[contents_ replaceOccurrencesOfString : @"</ul> " // 直後の半角スペース込みで削除
-							   withString : @"\n"
-							      options : (NSBackwardsSearch | NSLiteralSearch)
-									range : NSMakeRange(0, [contents_ length])];
+		[contents_ deleteCharactersInRange : NSMakeRange([contents_ length]-6, 6)]; // 一番最後の </ul> だけ別処理
+	}
 
-	[contents_ deleteCharactersInRange : NSMakeRange([contents_ length]-6, 6)]; // 一番最後の </ul> だけ別処理
+	// 本文中の「ID: xxxxxxxxxx」という文字列にも Attribute を仕込んで、長押しによる ID ポップアップを可能にする
+	NSEnumerator *iter_ = [regExp matchEnumeratorInString: contents_];
+	if (!iter_) return;
+	OGRegularExpressionMatch *eachMatch;
+	while (eachMatch = [iter_ nextObject]) {
+		NSRange IDRange = [eachMatch rangeOfMatchedString];
+		[ms addAttribute:BSMessageIDAttributeName value: [eachMatch substringAtIndex: 1] range: IDRange];
+	}
 }
 
 @implementation CMRAttributedMessageComposer(Convert)
