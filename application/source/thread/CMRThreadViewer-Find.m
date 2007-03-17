@@ -1,28 +1,19 @@
 /** 
-  * $Id: CMRThreadViewer-Find.m,v 1.13 2007/03/16 16:26:38 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Find.m,v 1.14 2007/03/17 19:28:58 tsawada2 Exp $
   *
   * Copyright (c) 2003, Takanori Ishikawa.
   * CMRThreadViewer-Action.m から分割 - 2005-02-16 by tsawada2.
   */
 #import "CMRThreadViewer_p.h"
 
-#import "CMRThreadsList.h"
-#import "SGLinkCommand.h"
-#import "CMRReplyMessenger.h"
-#import "CMRReplyDocumentFileManager.h"
-#import "CMRThreadVisibleRange.h"
-#import "CMRThreadLayout.h"
-
-#import "CMRSearchOptions.h"
+#import "BSSearchOptions.h"
 #import "TextFinder.h"
+#import "CMRThreadLayout.h"
 #import "CMRThreadView.h"
-#import "CMRHistoryManager.h"
-
 #import "CMXPopUpWindowManager.h"
 #import "CMRAttributedMessageComposer.h"
-
 #import <OgreKit/OgreKit.h>
-
+#import "CMRMessageAttributesStyling.h"
 // for debugging only
 #define UTIL_DEBUGGING		0
 #import "UTILDebugging.h"
@@ -75,32 +66,38 @@
 
 @interface NSString(BSOgreAddition)
 - (NSRange) rangeOfString: (NSString*) expressionString 
-			  ogreOptions: (unsigned) options
-		regularExpression: (BOOL) useRegExp 
+			   searchMask: (CMRSearchMask) options
 					range: (NSRange) searchRange;
 @end
 
 @implementation NSString(BSOgreAddition)
 - (NSRange) rangeOfString: (NSString*) expressionString 
-			  ogreOptions: (unsigned) options
-		regularExpression: (BOOL) useRegExp 
+			   searchMask: (CMRSearchMask) options
 					range: (NSRange) searchRange
 {
-	OgreSyntax syntax = useRegExp ? OgreRubySyntax : OgreSimpleMatchingSyntax;
+	OgreSyntax syntax = OgreSimpleMatchingSyntax;
+	if (options & CMRSearchOptionUseRegularExpression)
+		syntax = OgreRubySyntax;
+
+	unsigned ogreOption = OgreNoneOption;
+	if (options & CMRSearchOptionCaseInsensitive)
+		ogreOption = OgreIgnoreCaseOption;
 
 	OGRegularExpression *expression;
-	OGRegularExpressionMatch *match;
+	NSArray	*matches;
 	
 	expression = [OGRegularExpression regularExpressionWithString: expressionString
-														  options: options
+														  options: ogreOption
 														   syntax: syntax
 												  escapeCharacter: OgreBackslashCharacter];
 
-	match = [expression matchInString: self options: options range: searchRange];
-	
-	if (match == nil) {
+	matches = [expression allMatchesInString: self options: ogreOption range: searchRange];
+
+	if (matches == nil) {
 		return NSMakeRange(NSNotFound, 0);
 	} else {
+		OGRegularExpressionMatch *match;
+		match = (options & CMRSearchOptionBackwards) ? [matches lastObject] : [matches objectAtIndex: 0];
 		return [match rangeOfMatchedString];
 	}
 }
@@ -109,11 +106,28 @@
 #pragma mark -
 
 @implementation CMRThreadViewer(TextViewSupport)
-- (NSRange) rangeOfStorageLinkOnly : (NSString *) subString 
-						   options : (unsigned  ) mask
-							 range : (NSRange   ) aRange
+- (BOOL) validateAsRegularExpression: (NSString *) aString
 {
-	NSAttributedString	*attrs_;
+	BOOL isValid = [OGRegularExpression isValidExpressionString: aString];
+	if (isValid) return YES;
+
+	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	[alert setAlertStyle: NSWarningAlertStyle];
+	[alert setMessageText: [NSString stringWithFormat: NSLocalizedString(@"InvalidRegularExpressionMsg", @""), aString]];
+	[alert setInformativeText: NSLocalizedString(@"InvalidRegularExpressionInfo", @"")];
+	[alert addButtonWithTitle: NSLocalizedString(@"InvalidRegularExpressionOK", @"")];
+
+	NSBeep();
+	[alert runModal];
+	return NO;
+}
+
+#pragma mark Find Prev, Next, AtFirst
+- (NSRange) rangeOfStorageLinkOnly: (NSString *) subString 
+						searchMask: (CMRSearchMask) mask
+							 range: (NSRange) aRange
+{
+/*	NSAttributedString	*attrs_;
 	NSRange				linkRange_;
 	id					link_;
 	unsigned			charIndex_;
@@ -174,54 +188,55 @@
 			charIndex_ = NSMaxRange(linkRange_);
 		}
 	}
-	
+*/	
 	return kNFRange;
 }
 
-- (BOOL) validateAsRegularExpression: (NSString *) aString
-{
-	BOOL isValid = [OGRegularExpression isValidExpressionString: aString];
-	if (isValid) return YES;
-
-	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-	[alert setAlertStyle: NSWarningAlertStyle];
-	[alert setMessageText: [NSString stringWithFormat: NSLocalizedString(@"InvalidRegularExpressionMsg", @""), aString]];
-	[alert setInformativeText: NSLocalizedString(@"InvalidRegularExpressionInfo", @"")];
-	[alert addButtonWithTitle: NSLocalizedString(@"InvalidRegularExpressionOK", @"")];
-
-	NSBeep();
-	[alert runModal];
-	return NO;
-}
-
-- (void) findText : (NSString		*) aString
-	 searchOption : (CMRSearchMask   ) searchOption
-		  options : (unsigned int	 ) options
-			range : (NSRange		 ) aRange
+- (void) findText: (NSString *) aString
+		keysArray: (NSArray *) keysArray
+	   searchMask: (CMRSearchMask) searchOption
+			range: (NSRange) aRange
 {
 	NSTextView	*textView_ = [self textView];
-	NSString	*text_;
-	NSRange		result_;
+	NSString	*text_ = [textView_ string];
+	NSRange		result_ = NSMakeRange(NSNotFound, 0);
 
 	UTILNotifyName(BSThreadViewerWillStartFindingNotification);
-
-	text_ = [textView_ string];
 
 	UTILRequireCondition((text_ && [text_ length]), ErrNotFound);
 	UTILRequireCondition((aString && [aString length]), ErrNotFound);
 	
 	if (CMRSearchOptionLinkOnly & searchOption) {
-		result_ = [self rangeOfStorageLinkOnly : aString 
-									   options : options
-										 range : aRange];
+		result_ = [self rangeOfStorageLinkOnly: aString 
+									searchMask: searchOption
+										 range: aRange];
 	} else {
-		BOOL	useRegExp = (CMRSearchOptionUseRegularExpression & searchOption);
-		if (useRegExp && NO == [self validateAsRegularExpression: aString]) return;
+		BOOL useRegExp = (CMRSearchOptionUseRegularExpression & searchOption);
+		if (useRegExp && NO == [self validateAsRegularExpression: aString]) goto ErrNotFound;
 
-		result_ = [text_ rangeOfString: aString
-						   ogreOptions: options
-					 regularExpression: useRegExp
-								 range: aRange];
+		unsigned int strLength = [aString length];
+        while (aRange.length >= strLength) {
+			NSLog(@"aRange: %@", NSStringFromRange(aRange));
+			NSAttributedString *attrText_ = [textView_ textStorage];
+			id check;
+
+			result_ = [text_ rangeOfString: aString
+								searchMask: searchOption
+									 range: aRange];
+
+			if (result_.location == NSNotFound)
+				break;
+
+			check = [attrText_ attribute: BSMessageKeyAttributeName atIndex: result_.location effectiveRange: NULL];
+			if (check && [keysArray containsObject: check]) {
+				NSLog(@"Range %@ is OK.", NSStringFromRange(result_));
+				break;
+			}
+			NSLog(@"Range %@ is Damepo.", NSStringFromRange(result_));
+			/* Fix: Consider Backwards Search. */
+            aRange.length = [text_ length] - NSMaxRange(result_);
+            aRange.location = NSMaxRange(result_);
+        }
 	}
 
 	UTILRequireCondition(
@@ -236,7 +251,6 @@
 		[NSNumber numberWithUnsignedInt : 1],
 		kAppThreadViewerFindInfoKey);
 
-
 	return;
 
 ErrNotFound:
@@ -248,40 +262,25 @@ ErrNotFound:
 	return;
 }
 
-- (void) findWithOperation : (CMRSearchOptions *) searchOptions_
-					 range : (NSRange		    ) aRange
+- (void) findWithOperation: (BSSearchOptions *) searchOptions
+					 range: (NSRange) aRange
 {
-	NSString			*search_;
-	id					userInfo_;
-	CMRSearchMask		option_;
-	
-	UTILRequireCondition(searchOptions_, ErrNotFound);
-	
-	search_ = [searchOptions_ findObject];
-	userInfo_ = [searchOptions_ userInfo];
-	UTILRequireCondition(
-		userInfo_ && [userInfo_ respondsToSelector : @selector(unsignedIntValue)], 
-		ErrNotFound);
-	
-	option_ = [userInfo_ unsignedIntValue];
-/*	if (NSBackwardsSearch & [searchOptions_ findOption])
-		option_ = (option_ | CMRSearchOptionBackwards);*/
-	
-	[self findText : search_
-	  searchOption : option_
-		   options : [searchOptions_ findOption]
-			 range : aRange];
-	
+	UTILRequireCondition(searchOptions, ErrNotFound);
+
+	[self findText: [searchOptions findObject]
+		 keysArray: [searchOptions targetKeysArray]
+		searchMask: [searchOptions optionMasks]
+			 range: aRange];
+
 ErrNotFound:
 	return;
 }
 
-#pragma mark IBActions(Find Prev, Next, AtFirst)
 - (IBAction) findNextText : (id) sender
 {
-	CMRSearchOptions	*findOperation_;
-	NSTextView			*textView_ = [self textView];
-	NSRange				searchRange_;
+	BSSearchOptions	*findOperation_;
+	NSTextView		*textView_ = [self textView];
+	NSRange			searchRange_;
 
 	findOperation_ = [[TextFinder standardTextFinder] currentOperation];
 	UTILRequireCondition(findOperation_, ErrNotFound);
@@ -304,14 +303,14 @@ ErrNotFound:
 
 - (IBAction) findPreviousText : (id) sender
 {
-	CMRSearchOptions	*findOperation_;
-	NSTextView			*textView_ = [self textView];
-	NSRange				searchRange_;
+	BSSearchOptions	*findOperation_;
+	NSTextView		*textView_ = [self textView];
+	NSRange			searchRange_;
 	
 	findOperation_ = [[TextFinder standardTextFinder] currentOperation];
 	UTILRequireCondition(findOperation_, ErrNotFound);
 	
-//	[findOperation_ setOptionState : YES option : NSBackwardsSearch];
+	[findOperation_ setOptionState: YES forOption: CMRSearchOptionBackwards];
 	
 	searchRange_ = [textView_ selectedRange];
 	if (searchRange_.length == 0) {
@@ -330,8 +329,8 @@ ErrNotFound:
 
 - (IBAction) findFirstText : (id) sender
 {
-	CMRSearchOptions	*findOperation_;
-	NSRange				searchRange_;
+	BSSearchOptions	*findOperation_;
+	NSRange			searchRange_;
 	
 	findOperation_ = [[TextFinder standardTextFinder] currentOperation];
 	UTILRequireCondition(findOperation_, ErrNotFound);
@@ -343,7 +342,7 @@ ErrNotFound:
 	return;
 }
 
-#pragma mark IBActions(Filter, Hilite)
+#pragma mark Extract, Hilite
 - (BOOL) setUpTemporaryAttributesMatchingString : (NSString *) aString
 								   searchOption : (CMRSearchMask    ) searchOption
 								inLayoutManager : (NSLayoutManager *) layoutManager
@@ -352,7 +351,7 @@ ErrNotFound:
 	
 #if UTIL_DEBUGGING
 	UTILDescBoolean(searchOption & CMRSearchOptionCaseInsensitive);
-	UTILDescBoolean(searchOption & CMRSearchOptionZenHankakuInsensitive);
+	UTILDescBoolean(searchOption & CMRSearchOptionUseRegularExpression);
 	UTILDescBoolean(searchOption & CMRSearchOptionLinkOnly);
 #endif
 	
@@ -365,138 +364,41 @@ ErrNotFound:
 									searchOption : searchOption];
 }
 
-- (IBAction) findAllByFilter : (id) sender
-{
-	CMRSearchOptions		*findOperation_;
-	
-	findOperation_ = [[TextFinder standardTextFinder] currentOperation];
-	if (nil == findOperation_)
-		return;
-	
-	[self findTextByFilter : [findOperation_ findObject]
-				 targetKey : nil
-			  searchOption : [[findOperation_ userInfo] unsignedIntValue]
-			  locationHint : [self locationForInformationPopUp]
-					hilite : YES];
-}
-
-- (IBAction) findAll : (id) sender
-{
-	CMRSearchOptions	*findOperation_;
-	NSLayoutManager		*lM_ = [[self textView] layoutManager];
-	BOOL				found;
-	TextFinder			*finder_ = [TextFinder standardTextFinder];
-	unsigned			k = 1;
-	
-	findOperation_ = [finder_ currentOperation];
-	if (nil == findOperation_)
-		return;
-
-	UTILNotifyName(BSThreadViewerWillStartFindingNotification);
-
-	[lM_ removeTemporaryAttribute : NSBackgroundColorAttributeName
-				forCharacterRange : [[[self textView] textStorage] range]];
-	
-	found = [self setUpTemporaryAttributesMatchingString : [findOperation_ findObject]
-											searchOption : [[findOperation_ userInfo] unsignedIntValue]
-										 inLayoutManager : lM_];
-
-	if (NO == found) {
-		NSBeep();
-		k = 0;
-	}
-
-	UTILNotifyInfo3(
-		BSThreadViewerDidEndFindingNotification,
-		[NSNumber numberWithUnsignedInt : k],
-		kAppThreadViewerFindInfoKey);
-}
-
-// available in TestaRossa and later.
-- (NSRange) threadMessage : (CMRThreadMessage *) aMessage
-			  valueForKey : (NSString		  *) key
-			rangeOfString : (NSString         *) aString
-				  options : (unsigned          ) options
-{
-	NSRange		found;
-	NSString	*target;
-	
-	if (nil == aMessage || 0 == [aString length])
-		return kNFRange;
-	if (nil == key || 0 == [key length])
-		return kNFRange;
-
-	target = [aMessage valueForKey : key];
-	if (nil == target || 0 == [target length])
-		return kNFRange;
-
-	found = [target rangeOfString : aString
-						  options : options
-							range : [target range]];
-	if (found.length != 0)
-		return found;
-
-	return kNFRange;
-}
-
-//- (NSRange) threadMessage : (CMRThreadMessage *) aMessage
-//			rangeOfString : (NSString         *) aString
-//				  options : (unsigned          ) options
 - (NSRange) threadMessage: (CMRThreadMessage *) aMessage
-			rangeOfString: (NSString         *) aString
-		regularExpression: (BOOL) isRegExp
-				  options: (unsigned          ) options
-
+					 keys: (NSArray *) keysArray
+			rangeOfString: (NSString *) aString
+			   searchMask: (CMRSearchMask) options
 {
-	NSString	*getKeys[] = {
-				@"name",
-				@"mail",
-				@"IDString",
-				@"host",
-				@"cachedMessage"};
-				
 	NSRange		found;
 	NSString	*target;
-	int			i, cnt;
+	NSEnumerator *iter_ = [keysArray objectEnumerator];
+	NSString *eachKey;
 
-	NSArray		*targets = [CMRPref contentsSearchTargetArray];
-	
 	if (nil == aMessage || 0 == [aString length])
 		return kNFRange;
 
-	cnt = UTILNumberOfCArray(getKeys);
-	
-	for (i = 0; i < cnt; i++) {
-		if ([[targets objectAtIndex: i] intValue] == NSOnState) {
-			target = [aMessage valueForKey : getKeys[i]];
-			if (nil == target || 0 == [target length])
-				continue;
+	while (eachKey = [iter_ nextObject]) {
+		target = [aMessage valueForKey : eachKey];
+		if (nil == target || 0 == [target length])
+			continue;
 
-			if (isRegExp) {
-				unsigned ogreOption = OgreNoneOption;
-//				if (options & NSCaseInsensitiveSearch) ogreOption = OgreIgnoreCaseOption;
-				found = [target rangeOfRegularExpressionString: aString options: ogreOption range: [target range]];
-			} else {
-				found = [target rangeOfString : aString
-									  options : options
-										range : [target range]];
-			}
-			if (found.length != 0) 
-				return found;
-		}
+		found = [target rangeOfString: aString
+						   searchMask: options
+								range: [target range]];
+
+		if (found.length != 0) 
+			return found;
 	}
 	
 	return kNFRange;
 }
 
-- (void) findTextByFilter : (NSString    *) aString
-				targetKey : (NSString	 *) targetKey
-			 searchOption : (CMRSearchMask) searchOption
-			 locationHint : (NSPoint	  ) location
-				   hilite : (BOOL		  ) hilite
+- (void) findTextByFilter: (NSString *) aString
+			   searchMask: (CMRSearchMask) searchOption
+			   targetKeys: (NSArray *) keysArray
+			 locationHint: (NSPoint) location
 {
 	CMRThreadLayout	*L = [self threadLayout];
-	unsigned		options_  = NSLiteralSearch;
 	CMRThreadMessage	*m;
 	NSEnumerator		*mIter_;
 	
@@ -509,10 +411,7 @@ ErrNotFound:
 	if ([aString length] == 0) return;
 
 	UTILNotifyName(BSThreadViewerWillStartFindingNotification);
-/*	
-	if (searchOption | CMRSearchOptionCaseInsensitive)
-		options_ |= NSCaseInsensitiveSearch;
-*/
+
 	composer_ = [[CMRAttributedMessageComposer alloc] init];
 	textBuffer_ = [[NSMutableAttributedString alloc] init];
 	
@@ -524,36 +423,18 @@ ErrNotFound:
 	[composer_ setContentsStorage : textBuffer_];
 	
 	mIter_ = [L messageEnumerator];
-	if (targetKey == nil) {
-		BOOL useRegExp = (searchOption & CMRSearchOptionUseRegularExpression);
-		if (useRegExp && NO == [self validateAsRegularExpression: aString]) return;
 
-		while (m = [mIter_ nextObject]) {
-			NSRange		found;
-			
-			found = [self threadMessage : m
-						  rangeOfString : aString regularExpression: useRegExp
-								options : options_];
+	BOOL useRegExp = (searchOption & CMRSearchOptionUseRegularExpression);
+	if (useRegExp && NO == [self validateAsRegularExpression: aString]) return;
 
-			if (0 == found.length) continue;
+	while (m = [mIter_ nextObject]) {
+		NSRange		found;
 
-			nFound++;
-			[composer_ composeThreadMessage : m];
-		}
-	} else {
-		while (m = [mIter_ nextObject]) {
-			NSRange		found;
+		found = [self threadMessage: m keys: keysArray rangeOfString: aString searchMask: searchOption];
+		if (0 == found.length) continue;
 
-			found = [self threadMessage : m
-							valueForKey : targetKey
-						  rangeOfString : aString
-								options : options_];
-
-			if (0 == found.length) continue;
-
-			nFound++;
-			[composer_ composeThreadMessage : m];
-		}
+		nFound++;
+		[composer_ composeThreadMessage : m];
 	}
 
 	if (0 == nFound) {
@@ -567,10 +448,9 @@ ErrNotFound:
 											   owner : self
 										locationHint : location];
 
-	if (hilite)
-		[self setUpTemporaryAttributesMatchingString : aString
-										searchOption : searchOption
-									 inLayoutManager : [[popUp_ textView] layoutManager]];
+	[self setUpTemporaryAttributesMatchingString : aString
+									searchOption : searchOption
+								 inLayoutManager : [[popUp_ textView] layoutManager]];
 
 CleanUp:
 	UTILNotifyInfo3(
@@ -584,12 +464,113 @@ CleanUp:
 	textBuffer_ = nil;
 }
 
-#pragma mark IBAction(Find Text In Selection)
+- (IBAction) findAllByFilter : (id) sender
+{
+	BSSearchOptions		*findOperation_;
+	
+	findOperation_ = [[TextFinder standardTextFinder] currentOperation];
+	if (nil == findOperation_)
+		return;
+	
+	[self findTextByFilter: [findOperation_ findObject]
+				searchMask: [findOperation_ optionMasks]
+				targetKeys: [findOperation_ targetKeysArray]
+			  locationHint: [self locationForInformationPopUp]];
+}
+
+- (IBAction) findAll : (id) sender
+{
+	BSSearchOptions	*findOperation_;
+	NSLayoutManager	*lM_ = [[self textView] layoutManager];
+	BOOL			found;
+	TextFinder		*finder_ = [TextFinder standardTextFinder];
+	unsigned		k = 1;
+	
+	findOperation_ = [finder_ currentOperation];
+	if (nil == findOperation_)
+		return;
+
+	UTILNotifyName(BSThreadViewerWillStartFindingNotification);
+
+	[lM_ removeTemporaryAttribute : NSBackgroundColorAttributeName
+				forCharacterRange : [[[self textView] textStorage] range]];
+	
+	found = [self setUpTemporaryAttributesMatchingString : [findOperation_ findObject]
+											searchOption : [findOperation_ optionMasks]
+										 inLayoutManager : lM_];
+
+	if (NO == found) {
+		NSBeep();
+		k = 0;
+	}
+
+	UTILNotifyInfo3(
+		BSThreadViewerDidEndFindingNotification,
+		[NSNumber numberWithUnsignedInt : k],
+		kAppThreadViewerFindInfoKey);
+}
+
+#pragma mark ID Popup Support
+- (void) extractMessagesWithIDString: (NSString *) IDString
+					   popUpLocation: (NSPoint) location
+{
+	CMRThreadLayout		*layout = [self threadLayout];
+	CMRThreadMessage	*message;
+	NSEnumerator		*iter;
+	
+	NSMutableAttributedString		*textBuffer_;
+	CMRAttributedMessageComposer	*composer_;
+	CMXPopUpWindowController		*popUp_;
+	unsigned						nFound = 0;
+	UInt32							attributesMask_ = CMRAnyAttributesMask;
+
+	if (!IDString || [IDString length] == 0) return;
+
+	composer_ = [[CMRAttributedMessageComposer alloc] init];
+	textBuffer_ = [[NSMutableAttributedString alloc] init];
+	
+	attributesMask_ &= ~CMRAsciiArtMask;
+	attributesMask_ &= ~CMRBookmarkMask;
+
+	[composer_ setAttributesMask : attributesMask_];
+	[composer_ setComposingMask : CMRAnyAttributesMask compose : YES];	
+	[composer_ setContentsStorage : textBuffer_];
+	
+	iter = [layout messageEnumerator];
+	while (message = [iter nextObject]) {
+		NSString *IDValue = [message valueForKey: @"IDString"];
+		if (!IDValue || [IDValue length] == 0) continue;
+
+		if ([IDValue isEqualToString: IDString]) {
+			nFound++;
+			[composer_ composeThreadMessage: message];
+		}
+	}
+
+	if (0 == nFound) {
+		NSString *notFoundString = [NSString stringWithFormat: NSLocalizedString(@"Such ID Not Found", @""), IDString];
+		NSAttributedString *notFoundAttrStr = [[NSAttributedString alloc] initWithString: notFoundString];
+		[textBuffer_ appendAttributedString: notFoundAttrStr];
+		[notFoundAttrStr release];
+	}
+
+	popUp_ = [CMRPopUpMgr showPopUpWindowWithContext : textBuffer_
+										   forObject : [self threadIdentifier]
+											   owner : self
+										locationHint : location];
+
+	[composer_ release];
+	[textBuffer_ release];
+	composer_ = nil;
+	textBuffer_ = nil;
+}
+
+#pragma mark Use Selection to Find
 - (IBAction) findTextInSelection : (id) sender
 {
-	NSRange				selectedTextRange;
-	NSString			*selection;
-	TextFinder			*finder_ = [TextFinder standardTextFinder];
+	NSRange		selectedTextRange;
+	NSString	*selection;
+	TextFinder	*finder_ = [TextFinder standardTextFinder];
 	
 	selectedTextRange = [[self textView] selectedRange];
 	UTILRequireCondition(selectedTextRange.length != 0, ErrNoSelection);

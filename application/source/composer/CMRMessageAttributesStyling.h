@@ -78,6 +78,9 @@ extern NSString *const CMRAttributesBeProfileLinkScheme;
 // Available in TestaRossa and later.
 extern NSString *const BSMessageIDAttributeName; // NSString, ID string itself.
 
+// Available in Starlight Breaker.
+extern NSString *const BSMessageKeyAttributeName; // NSString, Key name (name, mail, IDString, host, or cachedMessage)
+
 /**
   * Text -System で使用するデフォルトの書式を
   * おさめた辞書を返す。

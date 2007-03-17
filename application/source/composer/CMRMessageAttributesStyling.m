@@ -15,6 +15,8 @@ NSString *const CMRMessageBeProfileLinkAttributeName = @"CMRBeProfileLink";
 // Available in TestaRossa and later.
 NSString *const BSMessageIDAttributeName = @"BSID";
 
+// Available in Starlight Breaker.
+NSString *const BSMessageKeyAttributeName = @"BSKey";
 
 // 内部リンクのアドレス文字列を生成。
 NSString *CMRLocalResLinkWithString(NSString *address)

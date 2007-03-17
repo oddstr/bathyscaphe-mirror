@@ -1,5 +1,5 @@
 /**
-  * $Id: TextFinder.m,v 1.8 2007/03/16 16:26:38 tsawada2 Exp $
+  * $Id: TextFinder.m,v 1.9 2007/03/17 19:28:58 tsawada2 Exp $
   *
   * Copyright 2005 BathyScaphe Project. All rights reserved.
   *
@@ -8,7 +8,7 @@
 #import "TextFinder.h"
 #import "CocoMonar_Prefix.h"
 #import "AppDefaults.h"
-#import "CMRSearchOptions.h"
+#import "BSSearchOptions.h"
 #import "CMRThreadViewer.h"
 #import <OgreKit/OgreKit.h>
 
@@ -57,26 +57,31 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(standardTextFinder);
     [[self window] setFrameAutosaveName : APP_FIND_PANEL_AUTOSAVE_NAME];
 }
 
-- (CMRSearchOptions *) currentOperation
+- (BSSearchOptions *) currentOperation
 {
-	NSString		*string_ = [self findString];
-	CMRSearchMask	option = [CMRPref contentsSearchOption];
-//	unsigned int  generalOption = 0;
-	unsigned int  ogreOption = OgreNoneOption;
+	static NSArray *allKeys = nil;
 
-	if (!string_)
-		return nil;
-/*
-	if (option & CMRSearchOptionCaseInsensitive)
-		generalOption |= NSCaseInsensitiveSearch;
-*/	
-	if (option & CMRSearchOptionCaseInsensitive)
-		ogreOption |= OgreIgnoreCaseOption;
+	NSString		*findString = [self findString];
+	if (!findString) return nil;
 
-	return [CMRSearchOptions operationWithFindObject : string_
-											 replace : nil
-											userInfo : [NSNumber numberWithUnsignedInt : option]
-											  option : ogreOption];//generalOption];
+	if (allKeys == nil) {
+		allKeys = [[NSArray alloc] initWithObjects: @"name", @"mail", @"IDString", @"host", @"cachedMessage", nil];
+	}
+
+	NSArray			*boolArray = [CMRPref contentsSearchTargetArray];
+	NSMutableArray	*tmpArray = [NSMutableArray array];
+	CMRSearchMask	optionMask = [CMRPref contentsSearchOption];
+	int				i;
+
+	for (i = 0; i < 5; i++) {
+		if ([[boolArray objectAtIndex: i] intValue] == NSOnState) {
+			[tmpArray addObject: [allKeys objectAtIndex: i]];
+		}
+	}
+
+	return [BSSearchOptions operationWithFindObject: findString
+											options: optionMask
+											 target: tmpArray];
 }
 
 - (void) showWindow : (id) sender

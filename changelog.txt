@@ -1,3 +1,23 @@
+2007-03-18 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/BSSearchOptions.[h|m]
+		[新規追加] CMRSearchOptions を削除して、新たに BSSearchOption オブジェクトを導入した。
+		スレッド内容の検索条件を表すオブジェクトである。
+	* application/source/browser/BSDBThreadList.m
+	* application/source/browser/CMRBrowser_p.h
+		不要な #import をいくつか削除した。
+	* application/source/composer/CMRAttributedMessageComposer.m
+	* application/source/composer/CMRMessageAttributesStyling.m
+		内容検索時のハイライト処理を正確に行う（「名前:」や「投稿日:」といったラベルがハイライトの対象に
+		ならないようにする）ため、AttributedMessageComposer でいくつか
+		「仕込み」を行うことにした（まだ途中）。
+	* application/Resources/Japanese.lproj/Localizable.strings
+	* application/source/thread/CMRThreadViewer-Link.m
+		ID 長押しでのポップアップについて、処理の効率化を図るとともに、存在しない ID をポップアップさせようと
+		した場合は、かわりに「このスレッドに ID:xxxxxxxx の書き込みはありません」とポップアップさせるようにした。
+	* application/source/thread/TextFinder.m
+	* application/source/thread/CMRThreadViewer-Find.m
+		検索関連を再構成中。まだ「前へ検索」関連が出来上がっていない。対象をしぼった検索もまだ不完全。
+		リンクのみ検索もいったん取り外している。
 2007-03-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/composer/CMRAttributedMessageComposer-Convert.m
 		ID 欄だけでなく、本文中に書き込まれた「ID:xxxxxxxxxx」という文字列でも長押しによるIDポップアップが

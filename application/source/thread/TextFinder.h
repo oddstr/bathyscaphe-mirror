@@ -1,5 +1,5 @@
 /**
-  * $Id: TextFinder.h,v 1.6 2007/03/15 02:35:16 tsawada2 Exp $
+  * $Id: TextFinder.h,v 1.7 2007/03/17 19:28:58 tsawada2 Exp $
   * 
   * Copyright 2005 BathyScaphe Project. All rights reserved.
   *
@@ -7,7 +7,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class CMRSearchOptions;
+@class BSSearchOptions;
 
 @interface TextFinder : NSWindowController
 {
@@ -33,7 +33,7 @@
 
 - (void) setupUIComponents;
 
-- (CMRSearchOptions *) currentOperation;
+- (BSSearchOptions *) currentOperation;
 
 - (NSString *) findString;
 - (void) setFindString: (NSString *) aString;

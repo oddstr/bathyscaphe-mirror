@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.20 2007/02/12 15:07:34 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.21 2007/03/17 19:28:58 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright (c) 2003, Takanori Ishikawa.
@@ -188,12 +188,9 @@
 - (IBAction) findAll : (id) sender;
 - (IBAction) findAllByFilter : (id) sender;
 
-// Available in TestaRossa and later.
-- (void) findTextByFilter : (NSString    *) aString
-				targetKey : (NSString	 *) targetKey
-			 searchOption : (CMRSearchMask) searchOption
-			 locationHint : (NSPoint	  ) location
-				   hilite : (BOOL		  ) hilite;
+// Available in Starlight Breaker. For ID Popup.
+- (void) extractMessagesWithIDString: (NSString *) IDString
+					   popUpLocation: (NSPoint) location;
 @end
 
 

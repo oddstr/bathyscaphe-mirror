@@ -19,14 +19,11 @@
 
 #import "CMRBrowserTbDelegate.h"
 #import "CMRThreadsList.h"
-//#import "CMXDateFormatter.h"
 
 #import "BSDBThreadList.h"
 
 #import "ThreadsListTable.h"
 #import "CMRAccessorySheetController.h"
-
-#import "CMRSearchOptions.h"
 
 #import <SGAppKit/BSBoardListView.h>
 
@@ -42,26 +39,6 @@
 
 // 前回最後に開いていた掲示板を開くよう指示する通知
 #define kSelectLastBBSNotification @"kSelectLastBBSNotification"
-
-// 掲示板リストの編集
-/*#define kEditDrawerTitleKey					@"Edit Title"
-#define kAddCategoryTitleKey				@"Add Category Title"
-
-#define kEditDrawerItemMsgForAdditionKey	@"Add Category Msg"
-
-#define kEditDrawerItemMsgForBoardKey		@"Edit Board Msg"
-#define kEditDrawerItemTitleForBoardKey		@"PleaseInputURL"
-
-#define kEditDrawerItemMsgForCategoryKey	@"Edit Category Msg"
-#define kEditDrawerItemTitleForCategoryKey	@"PleaseInputName"
-
-#define kRemoveDrawerItemTitleKey			@"Browser Del Drawer Item Title"
-#define kRemoveDrawerItemMsgKey				@"Browser Del Drawer Item Message"
-
-#define kRemoveMultipleItemTitleKey			@"Browser Del Multiple Item Title"
-#define kRemoveMultipleItemMsgKey			@"Browser Del Multiple Item Message"*/
-
-//#define kEditDrawerItemHelpKeyword			@"Browser Edit Drawer Item Help"
 
 // PropertyList
 #define kThreadsListTableICSKey				@"Browser - ListViewInterCellSpacing"
@@ -139,9 +116,6 @@
 - (CMRAccessorySheetController *) listSorterSheetController;
 - (AddBoardSheetController *) addBoardSheetController;
 - (EditBoardSheetController *) editBoardSheetController;
-
-//- (NSString *) currentSearchString;
-//- (void) setCurrentSearchString: (NSString *) newString;
 @end
 
 @interface CMRBrowser(UIComponents)

@@ -11,7 +11,6 @@
 #import "CMRThreadsList_p.h"
 #import "CMRThreadViewer.h"
 #import "ThreadTextDownloader.h"
-#import "CMRSearchOptions.h"
 #import "missing.h"
 #import "BSDateFormatter.h"
 

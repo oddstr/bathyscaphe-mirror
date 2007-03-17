@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer.m,v 1.21 2007/03/16 16:26:37 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer.m,v 1.22 2007/03/17 19:28:58 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -339,6 +339,8 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 		[ms addAttribute : BSMessageIDAttributeName
 				   value : idStr
 				   range : idRange];
+				   // Fix: ??? ID Ç≈Ç‡ BSMessageKeyAttributeName ÇÕédçûÇÒÇæï˚Ç™ó«Ç¢
+		[ms addAttribute: BSMessageKeyAttributeName value: @"IDString" range: idRange];
 	}
 	appendWhiteSpaceSeparator(ms);
 }
@@ -473,6 +475,10 @@ ErrComposeHost:
 		[tmp addAttribute : NSFontAttributeName
 				    value : [CMRPref messageAlternateFont]
 				    range : mRange_];
+	}
+	if (!isLocalAboned) {
+		// For Searching
+		[tmp addAttribute: BSMessageKeyAttributeName value: @"cachedMessage" range: mRange_];
 	}
 	
 	// 
