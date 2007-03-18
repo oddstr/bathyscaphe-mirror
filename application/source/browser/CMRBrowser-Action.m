@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.58 2007/03/06 14:40:18 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.59 2007/03/18 17:46:52 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -116,6 +116,9 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 		NSString				*path_;
 		
 		path_ = [CMRThreadAttributes pathFromDictionary : thread_];
+		if ([self shouldShowContents] && [path_ isEqualToString: [self path]]) {
+			continue;
+		}
 		[CMRThreadDocument showDocumentWithContentOfFile : path_
 											 contentInfo : thread_];
 	}

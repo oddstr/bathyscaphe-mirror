@@ -1,5 +1,5 @@
 /**
-  * $Id: TextFinder.m,v 1.10 2007/03/18 14:53:31 tsawada2 Exp $
+  * $Id: TextFinder.m,v 1.11 2007/03/18 17:46:52 tsawada2 Exp $
   *
   * Copyright 2005-2007 BathyScaphe Project. All rights reserved.
   *
@@ -270,6 +270,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(standardTextFinder);
 - (void) findWillStart : (NSNotification *) aNotification
 {
 	[[self notFoundField] setHidden : YES];
+	[m_progressSpin startAnimation: nil];
 }
 
 - (void) findDidEnd : (NSNotification *) aNotification
@@ -277,6 +278,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(standardTextFinder);
 	unsigned	num;
 	num = [[[aNotification userInfo] objectForKey : kAppThreadViewerFindInfoKey] unsignedIntValue];
 	//NSLog(@"%i", num);
+	[m_progressSpin stopAnimation: nil];
 	if (num != 1) {
 		[[self notFoundField] setHidden : NO];
 		[[self notFoundField] setStringValue: (num == 0) ? NSLocalizedString(@"No Match", @"")

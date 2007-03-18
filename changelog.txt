@@ -1,3 +1,18 @@
+2007-03-19 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/TextFind.nib
+	* application/source/thread/TextFinder.m
+		新しい検索機能は、検索対象を確かめながらコツコツとやるので、場合によっては今までより検索時間がかかる。
+		このため、検索パネルにプログレスインジケータを配置して回すようにした。
+		- 例えば、800レスくらいあるスレッドで「メール」欄から「sage」を「抽出」すると、ポップアップ→ハイライトの処理に
+		　明らかに BathyScaphe 1.3.1 以上の時間がかかる。最も、普通そういう検索はあまりしないとは思うが…
+	* application/source/browser/CMRBrowser-List.m
+		[Bug 9328] を解決するため、検索結果を表示している状態で「一覧に表示するスレッド」を他のものに切り替えても
+		検索語句をフィールドから消去しないようにした。
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/browser/CMRBrowser-Validation.m
+	* application/source/thread/CMRThreadViewer-Validation.m
+		3ペインですでに表示しているスレッドを、スレッド一覧からのダブルクリックやコンテクストメニューで
+		「新規ウインドウで開く」ことができないようにした。
 2007-03-18 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/TextFind.nib
 		レイアウトを少しだけ調整した。

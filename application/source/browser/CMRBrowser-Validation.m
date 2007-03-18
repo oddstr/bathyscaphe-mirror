@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-Validation.m,v 1.21 2007/01/06 07:59:15 masakih Exp $
+ * $Id: CMRBrowser-Validation.m,v 1.22 2007/03/18 17:46:52 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -211,6 +211,14 @@
 		[theItem setTitle : ([[self boardListSubView] isCollapsed] ? NSLocalizedString(@"Expand Boards List", @"Expand")
 																   : NSLocalizedString(@"Collapse Boards List", @"Collapse")
 							)];
+		return YES;
+	} else if (action_ == @selector(openSelectedThreads:)) {
+		NSArray *tmp = [self selectedThreadsReallySelected];
+		if (tmp == nil) return NO;
+		if ([tmp count] == 1 && [self shouldShowContents] &&
+			[[[tmp lastObject] objectForKey: CMRThreadLogFilepathKey] isEqualToString: [self path]]) {
+			return NO;
+		}
 		return YES;
 	}
 

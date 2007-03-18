@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.22 2007/03/05 10:08:25 tsawada2 Exp $
+  * $Id: CMRBrowser-List.m,v 1.23 2007/03/18 17:46:52 tsawada2 Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -19,7 +19,7 @@
 	[[self document] changeThreadsFilteringMask : aMask];
 	[[self threadsListTable] reloadData];
 	
-	[self clearSearchFilter];
+//	[self clearSearchFilter]; // [Bug 9823]
 	[self synchronizeWindowTitleWithDocumentName];
 }
 - (BSDBThreadList *) currentThreadsList

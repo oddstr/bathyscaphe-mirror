@@ -1,5 +1,5 @@
 /**
-  * $Id: TextFinder.h,v 1.8 2007/03/18 14:53:31 tsawada2 Exp $
+  * $Id: TextFinder.h,v 1.9 2007/03/18 17:46:52 tsawada2 Exp $
   * 
   * Copyright 2005 BathyScaphe Project. All rights reserved.
   *
@@ -18,6 +18,7 @@
 	IBOutlet NSView			*m_findButtonsView;
 	IBOutlet NSButton		*m_disclosureTriangle;
 	IBOutlet NSButton		*m_linkOnlyButton;
+	IBOutlet NSProgressIndicator *m_progressSpin;
 	NSString				*m_findString;
 }
 + (id) standardTextFinder;

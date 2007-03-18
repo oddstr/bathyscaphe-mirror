@@ -24,6 +24,7 @@
                 "m_findButtonsView" = NSView; 
                 "m_linkOnlyButton" = NSButton; 
                 "m_optionsBox" = NSBox; 
+                "m_progressSpin" = NSProgressIndicator; 
                 "m_targetMatrix" = NSMatrix; 
             }; 
             SUPERCLASS = NSWindowController; 
