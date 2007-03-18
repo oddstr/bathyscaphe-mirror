@@ -1,7 +1,7 @@
 /**
-  * $Id: TextFinder.m,v 1.9 2007/03/17 19:28:58 tsawada2 Exp $
+  * $Id: TextFinder.m,v 1.10 2007/03/18 14:53:31 tsawada2 Exp $
   *
-  * Copyright 2005 BathyScaphe Project. All rights reserved.
+  * Copyright 2005-2007 BathyScaphe Project. All rights reserved.
   *
   */
 
@@ -53,8 +53,19 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(standardTextFinder);
 		[m_disclosureTriangle setState: NSOffState];
 		[self expandOrShrinkPanel: NO animate: NO];
 	}
+	
+	[self updateLinkOnlyBtnEnabled];
 
     [[self window] setFrameAutosaveName : APP_FIND_PANEL_AUTOSAVE_NAME];
+}
+
+- (void) updateLinkOnlyBtnEnabled
+{
+	BOOL	tmp = ([[[self targetMatrix] cellWithTag: 4] state] == NSOnState);
+	if (NO == tmp && [self isLinkOnly]) {
+		[self setIsLinkOnly: NO];
+	}
+	[[self linkOnlyButton] setEnabled: tmp];
 }
 
 - (BSSearchOptions *) currentOperation
@@ -115,6 +126,11 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(standardTextFinder);
 - (NSView *) findButtonsView
 {
 	return m_findButtonsView;
+}
+
+- (NSButton *) linkOnlyButton
+{
+	return m_linkOnlyButton;
 }
 
 #pragma mark Cocoa Binding
@@ -185,6 +201,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(standardTextFinder);
 - (IBAction) changeTargets: (id) sender
 {
 	[CMRPref setContentsSearchTargetArray: [[[self targetMatrix] cells] valueForKey: @"state"]];
+	[self updateLinkOnlyBtnEnabled];
 }
 
 - (void) expandOrShrinkPanel: (BOOL) willExpand animate: (BOOL) shouldAnimate
@@ -270,7 +287,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(standardTextFinder);
 - (void) applicationWillQuit: (NSNotification *) aNotification
 {
 	[CMRPref setFindPanelExpanded: ([m_disclosureTriangle state] == NSOnState)];
-	[CMRPref setContentsSearchTargetArray: [[[self targetMatrix] cells] valueForKey: @"state"]];
+//	[CMRPref setContentsSearchTargetArray: [[[self targetMatrix] cells] valueForKey: @"state"]];
 }
 
 - (void) registerToNotificationCenter

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer.m,v 1.22 2007/03/17 19:28:58 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer.m,v 1.23 2007/03/18 14:53:30 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -424,6 +424,9 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 	[[template_ mutableString] appendFormat:format_, host];
 	[template_ addAttributes : [ATTR_TEMPLATE attributesForHost]
 					   range : NSMakeRange(0,[[template_ mutableString] length])];
+	[template_ addAttribute: BSMessageKeyAttributeName
+					  value: @"host"
+					  range: [[template_ mutableString] rangeOfString: host]];
 
 	[ms appendAttributedString : template_];
 
@@ -548,7 +551,7 @@ ErrComposeHost:
 }
 - (void) appendMailAddressWithAddress : (NSString *) address
 {
-	NSMutableAttributedString	*ms;
+	NSMutableAttributedString	*ms, *mail;
 	
 	if (NO == [CMRPref mailAddressShown] || nil == address)
 		return;
@@ -558,7 +561,12 @@ ErrComposeHost:
 	appendWhiteSpaceSeparator(ms);
 
 	appendFiledTitle(ms, FIELD_MAIL);
-	[ms appendString:address withAttributes:[ATTR_TEMPLATE attributesForText]];
+
+	mail = [[NSMutableAttributedString alloc] initWithString: address attributes: [ATTR_TEMPLATE attributesForText]];
+	[mail addAttribute: BSMessageKeyAttributeName value: @"mail" range: NSMakeRange(0, [address length])];
+//	[ms appendString:address withAttributes:[ATTR_TEMPLATE attributesForText]];
+	[ms appendAttributedString: mail];
+	[mail release];
 }
 @end
 

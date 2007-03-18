@@ -1,5 +1,5 @@
 /**
-  * $Id: TextFinder.h,v 1.7 2007/03/17 19:28:58 tsawada2 Exp $
+  * $Id: TextFinder.h,v 1.8 2007/03/18 14:53:31 tsawada2 Exp $
   * 
   * Copyright 2005 BathyScaphe Project. All rights reserved.
   *
@@ -17,11 +17,7 @@
 	IBOutlet NSMatrix		*m_targetMatrix;
 	IBOutlet NSView			*m_findButtonsView;
 	IBOutlet NSButton		*m_disclosureTriangle;
-	IBOutlet NSButton		*_findNextBtn;
-	IBOutlet NSButton		*_findPrevBtn;
-	IBOutlet NSButton		*_findFromHeadBtn;
-	IBOutlet NSButton		*_findAllBtn;
-	IBOutlet NSButton		*_findPopupBtn;
+	IBOutlet NSButton		*m_linkOnlyButton;
 	NSString				*m_findString;
 }
 + (id) standardTextFinder;
@@ -30,6 +26,7 @@
 - (NSBox *) optionsBox;
 - (NSMatrix *) targetMatrix;
 - (NSView *) findButtonsView;
+- (NSButton *) linkOnlyButton;
 
 - (void) setupUIComponents;
 
@@ -53,6 +50,7 @@
 - (void) setFindStringToPasteboard;
 
 - (void) expandOrShrinkPanel: (BOOL) willExpand animate: (BOOL) shouldAnimate;
+- (void) updateLinkOnlyBtnEnabled;
 
 - (void) registerToNotificationCenter;
 @end

@@ -1,5 +1,5 @@
 /** 
-  * $Id: CMRThreadViewer-Find.m,v 1.14 2007/03/17 19:28:58 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Find.m,v 1.15 2007/03/18 14:53:30 tsawada2 Exp $
   *
   * Copyright (c) 2003, Takanori Ishikawa.
   * CMRThreadViewer-Action.m から分割 - 2005-02-16 by tsawada2.
@@ -19,50 +19,6 @@
 #import "UTILDebugging.h"
 
 #pragma mark -
-
-@interface NSLayoutManager(CMRThreadExtensions)
-- (BOOL) setTemporaryAttributes : (NSDictionary *) attrs
-				 forMatchString : (NSString     *) aString
-				   searchOption : (CMRSearchMask ) searchOption;
-@end
-
-@implementation NSLayoutManager(CMRThreadExtensions)
-- (BOOL) setTemporaryAttributes : (NSDictionary *) attrs
-				 forMatchString : (NSString     *) aString
-				   searchOption : (CMRSearchMask ) searchOption
-{
-	NSTextStorage	*textStorage_;
-	NSRange			searchRange_;
-	NSRange			found;
-	NSString		*source_;
-	unsigned		options_  = NSLiteralSearch;
-	unsigned		targetLength;
-	BOOL			ret = NO;
-	
-	if (searchOption | CMRSearchOptionCaseInsensitive)
-		options_ |= NSCaseInsensitiveSearch;
-
-	textStorage_ = [self textStorage];
-	searchRange_ = [textStorage_ range];
-	targetLength = [textStorage_ length];
-	source_ = [textStorage_ string];
-	
-	while(1) {		
-		found = [source_ rangeOfString : aString
-							   options : options_
-								 range : searchRange_];
-
-		if (0 == found.length) break;
-		[self setTemporaryAttributes : attrs forCharacterRange : found];
-		ret = YES;
-
-		searchRange_.location = NSMaxRange(found);
-		searchRange_.length = targetLength - searchRange_.location;
-		if (0 == searchRange_.length) break;
-	}
-	return ret;
-}
-@end
 
 @interface NSString(BSOgreAddition)
 - (NSRange) rangeOfString: (NSString*) expressionString 
@@ -103,6 +59,56 @@
 }
 @end
 
+@interface NSLayoutManager(CMRThreadExtensions)
+- (BOOL) setTemporaryAttributes : (NSDictionary *) attrs
+					  forString : (NSString     *) aString
+					  keysArray : (NSArray *) keysArray
+					 searchMask : (CMRSearchMask ) searchOption;
+@end
+
+@implementation NSLayoutManager(CMRThreadExtensions)
+- (BOOL) setTemporaryAttributes : (NSDictionary *) attrs
+					  forString : (NSString     *) aString
+					  keysArray : (NSArray *) keysArray
+					 searchMask : (CMRSearchMask ) searchOption
+{
+	NSTextStorage	*textStorage_;
+	NSRange			searchRange_;
+	NSRange			found;
+	id				attributesAtPoint;
+	NSString		*source_;
+	unsigned		targetLength;
+	BOOL			ret = NO;
+
+	textStorage_ = [self textStorage];
+	searchRange_ = [textStorage_ range];
+	targetLength = [textStorage_ length];
+	source_ = [textStorage_ string];
+
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
+	while(1) {		
+		found = [source_ rangeOfString: aString searchMask: searchOption range: searchRange_];
+
+		if (0 == found.length) break;
+
+		attributesAtPoint = [textStorage_ attribute: BSMessageKeyAttributeName atIndex: found.location effectiveRange: NULL];
+		if (attributesAtPoint && [keysArray containsObject: attributesAtPoint]) {
+//			NSLog(@"Range %@ is OK. Hiliting...", NSStringFromRange(found));
+			[self setTemporaryAttributes : attrs forCharacterRange : found];
+			ret = YES;
+		}
+//		NSLog(@"Range %@ is Damepo. Continue.", NSStringFromRange(found));
+
+		searchRange_.location = NSMaxRange(found);
+		searchRange_.length = targetLength - searchRange_.location;
+		if (0 == searchRange_.length) break;
+	}
+	[pool release];
+	return ret;
+}
+@end
+
 #pragma mark -
 
 @implementation CMRThreadViewer(TextViewSupport)
@@ -127,18 +133,20 @@
 						searchMask: (CMRSearchMask) mask
 							 range: (NSRange) aRange
 {
-/*	NSAttributedString	*attrs_;
+	NSAttributedString	*attrs_;
 	NSRange				linkRange_;
 	id					link_;
 	unsigned			charIndex_;
 	unsigned			toIndex_;
 	NSArray				*filter_;
+	BOOL				backwards_;
 	
 	attrs_ = [[self textView] textStorage];
 	UTILAssertRespondsTo(self, @selector(HTMLViewFilteringLinkSchemes:));
 	filter_ = [self HTMLViewFilteringLinkSchemes : (CMRThreadView *)[self textView]];
+	backwards_ = (mask & CMRSearchOptionBackwards);
 	
-	if (mask & NSBackwardsSearch) {
+	if (backwards_) {
 		charIndex_ = NSMaxRange(aRange);
 		if (charIndex_ == 0) return kNFRange;
 		charIndex_--;
@@ -148,7 +156,7 @@
 		toIndex_ = NSMaxRange(aRange);
 	}
 	while (1) {
-		if (mask & NSBackwardsSearch) {
+		if (backwards_) {
 			if (charIndex_ < toIndex_) break;
 		} else {
 			if (charIndex_ >= toIndex_) break;
@@ -173,7 +181,7 @@
 				if (0 == [subString length]) return linkRange_;
 				
 				found_ = [linkstr_ rangeOfString : subString 
-										 options : mask
+									  searchMask : mask
 										   range : NSMakeRange(0, [linkstr_ length])];
 
 				if (found_.location != NSNotFound && found_.length != 0) {
@@ -181,14 +189,14 @@
 				}
 			}
 		}
-		if (mask & NSBackwardsSearch) {
+		if (backwards_) {
 			if (0 == linkRange_.location) return kNFRange;
 			charIndex_ = linkRange_.location -1;
 		} else {
 			charIndex_ = NSMaxRange(linkRange_);
 		}
 	}
-*/	
+
 	return kNFRange;
 }
 
@@ -216,7 +224,7 @@
 
 		unsigned int strLength = [aString length];
         while (aRange.length >= strLength) {
-			NSLog(@"aRange: %@", NSStringFromRange(aRange));
+//			NSLog(@"aRange: %@", NSStringFromRange(aRange));
 			NSAttributedString *attrText_ = [textView_ textStorage];
 			id check;
 
@@ -229,14 +237,17 @@
 
 			check = [attrText_ attribute: BSMessageKeyAttributeName atIndex: result_.location effectiveRange: NULL];
 			if (check && [keysArray containsObject: check]) {
-				NSLog(@"Range %@ is OK.", NSStringFromRange(result_));
+//				NSLog(@"Range %@ is OK.", NSStringFromRange(result_));
 				break;
 			}
-			NSLog(@"Range %@ is Damepo.", NSStringFromRange(result_));
-			/* Fix: Consider Backwards Search. */
-            aRange.length = [text_ length] - NSMaxRange(result_);
-            aRange.location = NSMaxRange(result_);
-        }
+//			NSLog(@"Range %@ is Damepo.", NSStringFromRange(result_));
+			if (searchOption & CMRSearchOptionBackwards) {
+				aRange.length = result_.location;
+			} else {
+				aRange.length = [text_ length] - NSMaxRange(result_);
+				aRange.location = NSMaxRange(result_);
+			}
+		}
 	}
 
 	UTILRequireCondition(
@@ -343,9 +354,10 @@ ErrNotFound:
 }
 
 #pragma mark Extract, Hilite
-- (BOOL) setUpTemporaryAttributesMatchingString : (NSString *) aString
-								   searchOption : (CMRSearchMask    ) searchOption
-								inLayoutManager : (NSLayoutManager *) layoutManager
+- (BOOL) hiliteForMatchingString: (NSString *) aString
+					   keysArray: (NSArray *) keysArray
+					searchOption: (CMRSearchMask) searchOption
+				 inLayoutManager: (NSLayoutManager *) layoutManager
 {
 	NSDictionary		*dict;
 	
@@ -359,9 +371,10 @@ ErrNotFound:
 				[CMRPref textEnhancedColor],
 				NSBackgroundColorAttributeName,
 				nil];
-	return [layoutManager setTemporaryAttributes : dict
-								  forMatchString : aString
-									searchOption : searchOption];
+	return [layoutManager setTemporaryAttributes: dict
+									   forString: aString
+									   keysArray: keysArray
+									  searchMask: searchOption];
 }
 
 - (NSRange) threadMessage: (CMRThreadMessage *) aMessage
@@ -427,6 +440,8 @@ ErrNotFound:
 	BOOL useRegExp = (searchOption & CMRSearchOptionUseRegularExpression);
 	if (useRegExp && NO == [self validateAsRegularExpression: aString]) return;
 
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
 	while (m = [mIter_ nextObject]) {
 		NSRange		found;
 
@@ -436,6 +451,8 @@ ErrNotFound:
 		nFound++;
 		[composer_ composeThreadMessage : m];
 	}
+
+	[pool release];
 
 	if (0 == nFound) {
 		// 見つからなかった
@@ -448,9 +465,10 @@ ErrNotFound:
 											   owner : self
 										locationHint : location];
 
-	[self setUpTemporaryAttributesMatchingString : aString
-									searchOption : searchOption
-								 inLayoutManager : [[popUp_ textView] layoutManager]];
+	[self hiliteForMatchingString: aString
+						keysArray: keysArray
+					 searchOption: searchOption
+				  inLayoutManager: [[popUp_ textView] layoutManager]];
 
 CleanUp:
 	UTILNotifyInfo3(
@@ -495,9 +513,10 @@ CleanUp:
 	[lM_ removeTemporaryAttribute : NSBackgroundColorAttributeName
 				forCharacterRange : [[[self textView] textStorage] range]];
 	
-	found = [self setUpTemporaryAttributesMatchingString : [findOperation_ findObject]
-											searchOption : [findOperation_ optionMasks]
-										 inLayoutManager : lM_];
+	found = [self hiliteForMatchingString: [findOperation_ findObject]
+								keysArray: [findOperation_ targetKeysArray]
+							 searchOption: [findOperation_ optionMasks]
+						  inLayoutManager: lM_];
 
 	if (NO == found) {
 		NSBeep();

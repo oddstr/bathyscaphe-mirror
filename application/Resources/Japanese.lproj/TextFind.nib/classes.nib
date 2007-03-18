@@ -18,15 +18,11 @@
             CLASS = TextFinder; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                "_findAllBtn" = NSButton; 
-                "_findFromHeadBtn" = NSButton; 
-                "_findNextBtn" = NSButton; 
-                "_findPopupBtn" = NSButton; 
-                "_findPrevBtn" = NSButton; 
                 "_findTextField" = NSTextField; 
                 "_notFoundField" = NSTextField; 
                 "m_disclosureTriangle" = NSButton; 
                 "m_findButtonsView" = NSView; 
+                "m_linkOnlyButton" = NSButton; 
                 "m_optionsBox" = NSBox; 
                 "m_targetMatrix" = NSMatrix; 
             }; 

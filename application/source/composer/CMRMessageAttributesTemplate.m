@@ -488,6 +488,9 @@ ErrCreateAttachment:
 		[self setAttributeInDictionary : _messageAttributesForName
 						 attributeName : NSFontAttributeName
 								 value : [CMRPref threadsViewFont]];
+		[self setAttributeInDictionary : _messageAttributesForName
+						 attributeName : BSMessageKeyAttributeName
+								 value : @"name"];
 	}
 	return _messageAttributesForName;
 }
