@@ -1,3 +1,7 @@
+2007-03-21 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/CMXScrollView.[h|m]
+	* application/source/thread/SGDocument.[h|m]
+		[削除] 未使用につき削除。
 2007-03-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRFavoritesManager.m
 	* application/source/manager/DatabaseManager-DatabaseAccess.m
