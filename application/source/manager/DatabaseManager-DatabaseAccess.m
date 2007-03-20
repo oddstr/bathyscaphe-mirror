@@ -473,4 +473,50 @@ static NSLock *boardIDNumberCacheLock = nil;
 	
 	return title;
 }
+
+#pragma mark Testing...
+- (BOOL) insertThreadID: (NSString *) datString
+				  title: (NSString *) title
+				  count: (NSNumber *) count
+				   date: (id) date
+				atBoard: (NSString *) boardName
+{
+	NSArray	*boardIDs;
+	id boardID;
+	NSArray *bindValues;
+	NSString *query;
+	SQLiteReservedQuery *reservedInsert;
+
+	// boardID の取得
+	boardIDs = [self boardIDsForName: boardName];
+	if (!boardIDs) {
+		NSLog(@"Board Not Registered! Please add board %@, and try again.", boardName);
+		return NO;
+	}
+
+	boardID = [boardIDs objectAtIndex: 0];
+
+	SQLiteDB *db = [self databaseForCurrentThread];
+	
+	if (db && [db beginTransaction]) {
+		// reservedInsert
+		// スレッド登録用
+		query = [NSString stringWithFormat: @"INSERT INTO %@ ( %@, %@, %@, %@, %@, %@, %@ ) VALUES ( ?, ?, ?, ?, ?, ?, %d )",
+			ThreadInfoTableName,
+			BoardIDColumn, ThreadIDColumn, ThreadNameColumn, NumberOfAllColumn, NumberOfReadColumn, ModifiedDateColumn, ThreadStatusColumn,
+			ThreadLogCachedStatus];
+		reservedInsert = [db reservedQuery: query];
+
+		// 初めての読み込み。データベースに登録。		
+		bindValues = [NSArray arrayWithObjects: boardID, datString, title, count, count, date, nil];
+		[reservedInsert cursorForBindValues: bindValues];
+
+		if ([db lastErrorID] != 0) {
+			NSLog(@"Fail Insert. ErrorID -> %d. Reson: %@", [db lastErrorID], [db lastError]);
+		}
+
+		[db commitTransaction];
+	}
+	return YES;
+}
 @end

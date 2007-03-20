@@ -59,7 +59,12 @@
 //
 - (NSString *) threadTitleFromBoardName:(NSString *)boadName threadIdentifier:(NSString *)identifier;
 
-
+// [Bug 10077] を強引に解消するための暫定的な実装 (by tsawada2)
+- (BOOL) insertThreadID: (NSString *) datString
+				  title: (NSString *) title
+				  count: (NSNumber *) count
+				   date: (id) date
+				atBoard: (NSString *) boardName;
 @end
 
 @interface DatabaseManager (CreateTable)

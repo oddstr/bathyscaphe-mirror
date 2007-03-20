@@ -1,3 +1,8 @@
+2007-03-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRFavoritesManager.m
+	* application/source/manager/DatabaseManager-DatabaseAccess.m
+		[Bug 10077] を解決するために、少々強引な手を用いた。ログファイルからデータベースに直接登録を試みる。
+================================================= Starlight Breaker v61
 2007-03-19 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/TextFind.nib
 	* application/source/thread/TextFinder.m

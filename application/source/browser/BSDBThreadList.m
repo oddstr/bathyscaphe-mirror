@@ -810,12 +810,12 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 @end
 
 @implementation BSDBThreadList (ToBeRefactoring)
-
+/*
 - (void) filterByDisplayingThreadAtPath : (NSString *) filepath
 {
 	// TODO
 	NSLog(@"Should implement this!! (%@)", NSStringFromSelector(_cmd));
-}
+}*/
 #pragma mark## Download ##
 - (void) loadAndDownloadThreadsList : (CMRThreadLayout *) worker forceDownload : (BOOL) forceDL
 {

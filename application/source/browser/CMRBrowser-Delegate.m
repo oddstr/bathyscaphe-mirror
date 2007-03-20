@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.37 2007/03/07 05:51:25 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.38 2007/03/20 15:17:05 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -451,7 +451,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 		// 
 		// çƒëIë
 		// 
-		[[self currentThreadsList] filterByDisplayingThreadAtPath : [self path]];
+//		[[self currentThreadsList] filterByDisplayingThreadAtPath : [self path]];
 		[self synchronizeWithSearchField];
 		[self selectCurrentThreadWithMask : [CMRPref threadsListAutoscrollMask]];
 	}
