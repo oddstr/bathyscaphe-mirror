@@ -5,6 +5,9 @@
 		 板名、スレッド名に ' を使用したときの問題を解消。
 		typoを修正。
 2007-03-21 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* frameworks/SGAppKit/framework/src/extensions/textview/NSTextView-SGExtensions.m
+		SGAppKit 1.6.8:
+		潜在的な問題発生の可能性があったので修正。
 	* application/source/window/CMRReplyController.m
 		[Bug 10137] 「引用してペースト」が正しく取り消しできない問題を解決。
 	* application/source/composer/CMRAttributedMessageComposer-Convert.m
