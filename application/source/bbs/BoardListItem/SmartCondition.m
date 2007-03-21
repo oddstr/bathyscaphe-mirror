@@ -245,9 +245,9 @@ static NSDictionary *sConditionTypes = nil;
 	
 	if(useValue2) {
 		result = [NSString stringWithFormat : format, 
-			[self key], [self processedvalue], [self key], [self processedvalue2]];
+			[self key], [self processedValue], [self key], [self processedValue2]];
 	} else {
-		result = [NSString stringWithFormat:format, [self key], [self processedvalue]];
+		result = [NSString stringWithFormat:format, [self key], [self processedValue]];
 	}
 	
 	return result;
@@ -296,7 +296,7 @@ static inline void setValueToValue( id value, id *toValue )
 {
 	return mValue2;
 }
-- (id)processedvalue
+- (id)processedValue
 {
 	return mValue1;
 }
@@ -380,8 +380,8 @@ static NSString *SCValue2CodingKey = @"SCValue2CodingKey";
 - (NSString *)conditionString
 {
 	NSCalendarDate *today;
-	NSCalendarDate *begineTime;
-	NSCalendarDate *endTime;
+	NSCalendarDate *begineTime = nil;
+	NSCalendarDate *endTime = nil;
 	
 	int week;
 	
@@ -469,7 +469,7 @@ static NSString *SCValue2CodingKey = @"SCValue2CodingKey";
 
 @implementation RelativeDateLiveCondition
 
-- (id)processedvalue
+- (id)processedValue
 {
 	NSDate *date = [NSDate dateWithTimeIntervalSinceNow:[mValue1 intValue]];
 	
@@ -481,47 +481,7 @@ static NSString *SCValue2CodingKey = @"SCValue2CodingKey";
 	
 	return [NSNumber numberWithInt:[date timeIntervalSince1970]];
 }
-//- (NSString *)conditionString
-//{
-//	NSString *result = nil;
-//	NSString *format = nil;
-//	BOOL useValue2 = NO;
-//	
-//	switch(mOperator) {
-//		case SCDaysLargerOperator:
-//			format = @"%@ > %@";
-//			break;
-//		case SCDaysEqualOperator:
-//			format = @"%@ = %@";
-//			break;
-//		case SCDaysNotEqualOperator:
-//			format = @"%@ != %@";
-//			break;
-//		case SCDaysSmallerOperator:
-//			format = @"%@ < %@";
-//			break;
-//		case SCDaysRangeOperator:
-//			format = @"(%@ > %@ AND %@ < %@)";
-//			useValue2 = YES;
-//			break;
-//		default:
-//			UTILUnknownCSwitchCase(mOperator);
-//			break;
-//	}
-//	
-//	if(!mTarget) return nil;
-//	if(!mValue1) return nil;
-//	if(useValue2 && !mValue2) return nil;
-//	
-//	if(useValue2) {
-//		result = [NSString stringWithFormat : format, 
-//			[self key], [self processedvalue], [self key], [self processedValue2]];
-//	} else {
-//		result = [NSString stringWithFormat:format, [self key], [self processedvalue]];
-//	}
-//	
-//	return result;
-//}
+
 @end
 @implementation IncludeDatOtiCondition
 - (NSString *)conditionString

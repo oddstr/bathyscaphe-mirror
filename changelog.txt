@@ -3,6 +3,7 @@
 		オブジェクトのオーナーシップに問題があったので修正。
 	* application/source/bbs/BoardListItem/SmartCondition.m:
 		 板名、スレッド名に ' を使用したときの問題を解消。
+		typoを修正。
 2007-03-21 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/window/CMRReplyController.m
 		[Bug 10137] 「引用してペースト」が正しく取り消しできない問題を解決。
