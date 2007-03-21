@@ -209,7 +209,7 @@ static inline NSInvocation *checkMethodSignature(id obj, SEL selector)
 		   modalForWindow:inModalForWindow
 			modalDelegate:self
 		   didEndSelector:@selector(endEditSelector:returnCode:contextInfo:)
-			  contextInfo:smartBoardItem];
+			  contextInfo:[smartBoardItem retain]];
 	} else {
 		[editorWindow makeKeyAndOrderFront:self];
 	}
@@ -220,6 +220,7 @@ static inline NSInvocation *checkMethodSignature(id obj, SEL selector)
 	if(returnCode && context) {
 		[(id)context setName:[nameField stringValue]];
 		[(id)context setCondition:[helper condition]];
+		[(id)context release];
 	}
 	
 	[editorWindow close];

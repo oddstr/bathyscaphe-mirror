@@ -245,9 +245,9 @@ static NSDictionary *sConditionTypes = nil;
 	
 	if(useValue2) {
 		result = [NSString stringWithFormat : format, 
-			[self key], [self value], [self key], [self value2]];
+			[self key], [self processedvalue], [self key], [self processedvalue2]];
 	} else {
-		result = [NSString stringWithFormat:format, [self key], [self value]];
+		result = [NSString stringWithFormat:format, [self key], [self processedvalue]];
 	}
 	
 	return result;
@@ -263,8 +263,9 @@ static inline void setValueToValue( id value, id *toValue )
 	UTILCAssertNotNil(toValue);
 	
 	if([value isKindOfClass : [NSString class]] ) {
-		*toValue = [SQLiteDB prepareStringForQuery : value];
-		[*toValue retain];
+	//	*toValue = [SQLiteDB prepareStringForQuery : value];
+	//	[*toValue retain];
+		*toValue = [value copy];
 	} else if ([value isKindOfClass : [NSNumber class]]
 			   ||value == [NSNull null]) {
 		*toValue = [value copy];
@@ -292,6 +293,14 @@ static inline void setValueToValue( id value, id *toValue )
 	return mValue1;
 }
 - (id)value2
+{
+	return mValue2;
+}
+- (id)processedvalue
+{
+	return mValue1;
+}
+- (id)processedValue2
 {
 	return mValue2;
 }
@@ -356,6 +365,14 @@ static NSString *SCValue2CodingKey = @"SCValue2CodingKey";
 @end
 
 @implementation StringCondition
+- (id)processedvalue
+{
+	return [SQLiteDB prepareStringForQuery : mValue1];
+}
+- (id)processedValue2
+{
+	return [SQLiteDB prepareStringForQuery : mValue2];
+}
 @end
 @implementation NumberCondition
 @end
@@ -464,47 +481,47 @@ static NSString *SCValue2CodingKey = @"SCValue2CodingKey";
 	
 	return [NSNumber numberWithInt:[date timeIntervalSince1970]];
 }
-- (NSString *)conditionString
-{
-	NSString *result = nil;
-	NSString *format = nil;
-	BOOL useValue2 = NO;
-	
-	switch(mOperator) {
-		case SCDaysLargerOperator:
-			format = @"%@ > %@";
-			break;
-		case SCDaysEqualOperator:
-			format = @"%@ = %@";
-			break;
-		case SCDaysNotEqualOperator:
-			format = @"%@ != %@";
-			break;
-		case SCDaysSmallerOperator:
-			format = @"%@ < %@";
-			break;
-		case SCDaysRangeOperator:
-			format = @"(%@ > %@ AND %@ < %@)";
-			useValue2 = YES;
-			break;
-		default:
-			UTILUnknownCSwitchCase(mOperator);
-			break;
-	}
-	
-	if(!mTarget) return nil;
-	if(!mValue1) return nil;
-	if(useValue2 && !mValue2) return nil;
-	
-	if(useValue2) {
-		result = [NSString stringWithFormat : format, 
-			[self key], [self processedvalue], [self key], [self processedValue2]];
-	} else {
-		result = [NSString stringWithFormat:format, [self key], [self processedvalue]];
-	}
-	
-	return result;
-}
+//- (NSString *)conditionString
+//{
+//	NSString *result = nil;
+//	NSString *format = nil;
+//	BOOL useValue2 = NO;
+//	
+//	switch(mOperator) {
+//		case SCDaysLargerOperator:
+//			format = @"%@ > %@";
+//			break;
+//		case SCDaysEqualOperator:
+//			format = @"%@ = %@";
+//			break;
+//		case SCDaysNotEqualOperator:
+//			format = @"%@ != %@";
+//			break;
+//		case SCDaysSmallerOperator:
+//			format = @"%@ < %@";
+//			break;
+//		case SCDaysRangeOperator:
+//			format = @"(%@ > %@ AND %@ < %@)";
+//			useValue2 = YES;
+//			break;
+//		default:
+//			UTILUnknownCSwitchCase(mOperator);
+//			break;
+//	}
+//	
+//	if(!mTarget) return nil;
+//	if(!mValue1) return nil;
+//	if(useValue2 && !mValue2) return nil;
+//	
+//	if(useValue2) {
+//		result = [NSString stringWithFormat : format, 
+//			[self key], [self processedvalue], [self key], [self processedValue2]];
+//	} else {
+//		result = [NSString stringWithFormat:format, [self key], [self processedvalue]];
+//	}
+//	
+//	return result;
+//}
 @end
 @implementation IncludeDatOtiCondition
 - (NSString *)conditionString
