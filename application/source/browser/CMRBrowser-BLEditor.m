@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-BLEditor.m,v 1.16 2006/11/07 12:50:31 masakih Exp $
+ * $Id: CMRBrowser-BLEditor.m,v 1.17 2007/03/21 09:08:47 tsawada2 Exp $
  * BathyScaphe
  * CMRBrowser-Action.m, CMRBrowser-ViewAccessor.m から分割
  *
@@ -71,26 +71,6 @@ static NSString *const kRemoveDrawerItemMsgKey		= @"Browser Del Board Items Mess
 	NSWindow	*window_;
 
 	item_ = [boardListTable_ itemAtRow : rowIndex_];
-/*
-	name_ = [item_ representName]; //[item_ objectForKey : BoardPlistNameKey];
-	
-	[[self dItemEditSheetTitleField] setStringValue : [self localizedString : kEditDrawerTitleKey]];
-	if ([BoardListItem isBoardItem : item_]) {
-		[[self dItemEditSheetMsgField]   setStringValue :
-					 [NSString localizedStringWithFormat: [self localizedString : kEditDrawerItemMsgForBoardKey],name_]];
-		[[self dItemEditSheetLabelField] setStringValue : [self localizedString : kEditDrawerItemTitleForBoardKey]];
-		[[self dItemEditSheetInputField] setStringValue : [[item_ url] absoluteString]]; //objectForKey : BoardPlistURLKey]];
-
-	} else if ([BoardListItem isFolderItem : item_]) {
-		[[self dItemEditSheetMsgField]   setStringValue :
-					 [NSString localizedStringWithFormat: [self localizedString : kEditDrawerItemMsgForCategoryKey],name_]];
-		[[self dItemEditSheetLabelField] setStringValue : [self localizedString : kEditDrawerItemTitleForCategoryKey]];
-		[[self dItemEditSheetInputField] setStringValue : name_];
-	} else if ([BoardListItem isSmartItem : item_]) {
-		[[SmartBoardListItemEditor editor] editWithUIWindow:[self window]
-											 smartBoardItem:item_];
-		return;
-======= */
 	name_ = [item_ representName];
 	window_ = [self window];
 
@@ -98,7 +78,6 @@ static NSString *const kRemoveDrawerItemMsgKey		= @"Browser Del Board Items Mess
 		[[self editBoardSheetController] beginEditBoardSheetForWindow: window_ modalDelegate: self contextInfo: item_];
 	} else if ([BoardListItem isFolderItem : item_]) {
 		[[self editBoardSheetController] beginEditCategorySheetForWindow: window_ modalDelegate: self contextInfo: name_];
-//>>>>>>> 1.13.2.5
 	} else if ([BoardListItem isSmartItem : item_]) {
 		[[SmartBoardListItemEditor editor] editWithUIWindow:[self window]
 											 smartBoardItem:item_];
@@ -132,7 +111,7 @@ static NSString *const kRemoveDrawerItemMsgKey		= @"Browser Del Board Items Mess
 		}
 	}
 
-	NSAlert *alert_ = [[NSAlert alloc] init];
+	NSAlert *alert_ = [[[NSAlert alloc] init] autorelease];
 	[alert_ setAlertStyle: NSWarningAlertStyle];
 	[alert_ setMessageText: [self localizedString: kRemoveDrawerItemTitleKey]];
 	[alert_ setInformativeText: [self localizedString: kRemoveDrawerItemMsgKey]];
@@ -171,7 +150,6 @@ static NSString *const kRemoveDrawerItemMsgKey		= @"Browser Del Board Items Mess
 
 		[[BoardManager defaultManager] removeBoardItems: boardItemsForRemoving];
 	}
-	[alert release];
 	[contextInfo release];
 }
 @end

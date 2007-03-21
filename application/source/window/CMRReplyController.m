@@ -80,6 +80,7 @@
 	[[self mailField] setStringValue : @""];
 	[self setupButtons];
 }
+
 - (IBAction) pasteAsQuotation : (id) sender
 {
 	NSPasteboard	*pboard_;
@@ -90,9 +91,20 @@
 	quotation_ = [CMRReplyMessenger stringByQuoted : quotation_];
 	
 	if (nil == quotation_) return;
-	[[self textView] replaceCharactersInRange : [[self textView] selectedRange]
-								   withString : quotation_];
+
+	NSTextView	*textView_ = [self textView];
+	NSRange		selectedTextRange_ = [textView_ selectedRange];
+
+	// 2007-03-21 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	// -[NSTextView replaceCharactersInRange:withString:] はそのままでは Undo をサポートしない。
+	// Undo を適切に行えるようにするには、-[NSTextView shouldChangeTextInRange:replacementString:] と -[NSTextView didChangeText]
+	// で挟んでやる必要がある。
+	if ([textView_ shouldChangeTextInRange: selectedTextRange_ replacementString: quotation_]) {
+		[textView_ replaceCharactersInRange: selectedTextRange_ withString: quotation_];
+		[textView_ didChangeText];
+	}
 }
+
 - (IBAction) reply : (id) sender
 {
     if (NO == [[self document] isEndPost])

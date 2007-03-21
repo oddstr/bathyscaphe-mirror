@@ -1,4 +1,6 @@
 2007-03-21 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/window/CMRReplyController.m
+		[Bug 10137] 「引用してペースト」が正しく取り消しできない問題を解決。
 	* application/source/composer/CMRAttributedMessageComposer-Convert.m
 	* application/source/composer/CMXTextParser.m
 		CMRAttributedMessageComposer-Convert.m 内に記述されていた関数が、実際には CMXTextParser.m でしか
