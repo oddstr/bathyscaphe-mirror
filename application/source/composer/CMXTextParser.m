@@ -1,5 +1,5 @@
 /**
-  * $Id: CMXTextParser.m,v 1.22 2007/03/08 16:30:57 tsawada2 Exp $
+  * $Id: CMXTextParser.m,v 1.23 2007/03/21 07:54:05 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -102,7 +102,28 @@ static void separetedLineByConvertingComma(NSString *theString, NSMutableArray *
 	return result;
 }
 
-
+static void htmlConvertBreakLineTag(NSMutableString *theString)
+{
+	NSRange		searchRange_;
+	
+	if (nil == theString || 0 == [theString length])
+		return;
+	
+	// 2003-09-18 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
+	// --------------------------------
+	// - [NSMutableString strip] だと
+	// 現在の実装ではCFStringTrimWhitespace()
+	// が使われるため、日本語環境だと全角空白も消去されてしまう。
+	[theString stripAtStart];
+	[theString stripAtEnd];
+	
+	searchRange_ = NSMakeRange(0, [theString length]);
+	// 行頭・行末の半角スペースを同時に削除
+	[theString replaceOccurrencesOfRegularExpressionString: @" *<br> *"
+												withString: @"\n"
+												   options: OgreIgnoreCaseOption
+													 range: searchRange_];
+}
 
 /*
 2004-02-29 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>

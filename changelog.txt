@@ -1,4 +1,9 @@
 2007-03-21 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/composer/CMRAttributedMessageComposer-Convert.m
+	* application/source/composer/CMXTextParser.m
+		CMRAttributedMessageComposer-Convert.m 内に記述されていた関数が、実際には CMXTextParser.m でしか
+		呼び出されていなかったので、配置換えをした。
+		また、OgreKit をもっと利用してソースコードの簡素化を計った。
 	* application/source/view/CMXScrollView.[h|m]
 	* application/source/thread/SGDocument.[h|m]
 		[削除] 未使用につき削除。

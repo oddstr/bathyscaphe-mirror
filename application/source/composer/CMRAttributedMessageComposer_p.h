@@ -6,15 +6,12 @@
 #import "CMRThreadMessage.h"
 #import "CMRMessageAttributesStyling.h"
 #import "CMRMessageAttributesTemplate.h"
-//#import "NSCharacterSet+CMXAdditions.h"
 #import "CMXTextParser.h"
 
 
 
 #define ATTR_TEMPLATE	[CMRMessageAttributesTemplate sharedTemplate]
 #define DEFAULT_NEWLINE_CHARACTER				@"\n"
-#define COMPOSER_MATTRIBUTED_STRING_CLASS		NSMutableAttributedString
-#define COMPOSER_BLEAK_LINE_TAG					@"<br>"
 
 
 
