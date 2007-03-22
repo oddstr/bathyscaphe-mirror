@@ -1,3 +1,6 @@
+2007-03-22 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadsListDBUpdateTask2.m:
+		bug #10147 を解消。
 2007-03-21 masakih <masakih@users.sourceforge.jp>
 	* application/source/bbs/BoardListItem/SmartBoardListItemEditor.m:
 		オブジェクトのオーナーシップに問題があったので修正。

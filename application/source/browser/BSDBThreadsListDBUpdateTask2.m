@@ -12,6 +12,7 @@
 
 #import "DatabaseManager.h"
 #import "CMRHostHandler.h"
+#import "CMXTextParser.h"
 
 
 NSString *BSDBThreadsListDBUpdateTask2DidFinishNotification = @"BSDBThreadsListDBUpdateTask2DidFinishNotification";
@@ -191,7 +192,7 @@ abort:
 	unsigned count, i;
 	NSString *line;
 	NSString *datString;
-	NSString *title;
+	id title;
 	NSString *numString;
 	
 	UTILDebugWrite(@"Start BSDBThreadsListDBUpdateTask2.");
@@ -224,7 +225,7 @@ abort:
 	// 行分割
 	lines = [str componentsSeparatedByNewline];	
 	
-	NSString *p = [NSString stringWithFormat:@"(\\d+).*(?:<>|,)(.*)\\s*(?:\\(|<>|%C)(\\d+)",0xFF08];
+	NSString *p = [NSString stringWithFormat:@"(\\d+)[^,<>]*(?:<>|,)(.*)\\s*(?:\\(|<>|%C)(\\d+)",0xFF08];
 	OGRegularExpression *regex = [OGRegularExpression regularExpressionWithString:p];
 	OGRegularExpressionMatch *match;
 	
@@ -254,6 +255,9 @@ abort:
 			numString = [match substringAtIndex:3];
 			
 			if(!numString) continue;
+			
+			title = [[title mutableCopy] autorelease];
+			[CMXTextParser replaceEntityReferenceWithString:title];
 			
 			// DB に投入
 			if(NO == [self updateDB:db
