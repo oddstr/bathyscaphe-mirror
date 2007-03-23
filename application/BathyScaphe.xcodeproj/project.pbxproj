@@ -2993,12 +2993,12 @@
 		F324DCDA04C698FB00A80005 /* preferences */ = {
 			isa = PBXGroup;
 			children = (
-				8731733E0B2AFEE2003EA8C1 /* BSHostLivedoorHandler.m */,
 				F358F4B804DE224500A80005 /* default */,
 				F358F4B904DE227900A80005 /* CMRHostHandler.h */,
 				F358F4BD04DE23BC00A80005 /* CMRHostHandler_p.h */,
 				F358F4BA04DE227900A80005 /* CMRHostHandler.m */,
 				F3B609F80509EDBF00A80005 /* CMRHostHTMLHandler.m */,
+				8731733E0B2AFEE2003EA8C1 /* BSHostLivedoorHandler.m */,
 			);
 			path = preferences;
 			sourceTree = "<group>";

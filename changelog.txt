@@ -1,4 +1,14 @@
 2007-03-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/preferences/AppDefaults-FontColor.m
+		（まだ変換していないときは）今までの BathyScaphe の環境設定データベースに記録されているフォント・カラーの
+		設定から、ImportedTheme.plist というファイル名で スレッド内容表示領域のフォント・カラー設定オブジェクトを
+		作成して使用するようにした。
+	* application/source/composer/CMRAttributedMessageComposer.m
+		ブックマークされたレスの本文のフォント・カラーも変更できるようにした。
+		- 今までどおりレス番号もボールド＋イタリックになる。
+		- レス番号にもカラーが付く。
+		- フォントが変わるのは本文部分のみ。
+		- ブックマークかつAAレスの場合は、本文はカラーのみが変更され、フォントは AA フォントが優先使用される。
 	* application/Resources/ThreadViewerDefaultTheme.plist
 		[新規追加] スレッドの内容表示領域のデフォルトのフォント・カラー設定を記述したファイル。
 	* application/subproj/preference/Japanese.lproj/ViewPane.nib

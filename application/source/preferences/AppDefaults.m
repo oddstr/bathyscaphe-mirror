@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.19 2007/03/23 17:27:52 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.20 2007/03/23 19:21:54 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -50,6 +50,8 @@ static NSString *const AppDefaultsContentsSearchTargetKey = @"Contents Search Ta
 static NSString *const AppDefaultsUseCustomThemeKey = @"Use Custom ThreadViewTheme";
 static NSString *const AppDefaultsThemeFileNameKey = @"ThreadViewTheme FileName";
 static NSString *const AppDefaultsDefaultThemeFileNameKey = @"ThreadViewerDefaultTheme"; // + ".plist"
+
+static NSString *const AppDefaultsOldFontsAndColorsConvertedKey = @"Old FontsAndColors Setting Converted";
 
 #pragma mark -
 
@@ -108,14 +110,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	}
 }
 
-- (BOOL) loadDefaults
+- (void) loadThreadViewTheme
 {
-	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool: YES], TS2SoftwareUpdateCheckKey,
-							[NSNumber numberWithUnsignedInt: TS2SUCheckWeekly], TS2SoftwareUpdateCheckIntervalKey,
-							[NSNumber numberWithBool: NO], AppDefaultsUseCustomThemeKey, NULL];
-	[[self defaults] registerDefaults: dict];
-
-	// Load ThreadViewTheme
 	NSString *themeFileName = [self themeFileName];
 	NSString *finalFilePath = nil;
 	if (!themeFileName) {
@@ -134,7 +130,20 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	BSThreadViewTheme *defaultTheme = [[BSThreadViewTheme alloc] initWithContentsOfFile: finalFilePath];
 	[self setThreadViewTheme: defaultTheme];
 	[defaultTheme release];
-	// End loading
+}
+
+- (BOOL) loadDefaults
+{
+	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool: YES], TS2SoftwareUpdateCheckKey,
+							[NSNumber numberWithUnsignedInt: TS2SUCheckWeekly], TS2SoftwareUpdateCheckIntervalKey,
+							[NSNumber numberWithBool: NO], AppDefaultsUseCustomThemeKey,
+							[NSNumber numberWithBool: NO], AppDefaultsOldFontsAndColorsConvertedKey, NULL];
+	[[self defaults] registerDefaults: dict];
+
+	if (NO == [[self defaults] boolForKey: AppDefaultsOldFontsAndColorsConvertedKey])
+		[self convertOldFCToThemeFile];
+
+	[self loadThreadViewTheme];
 
 	[self cleanUpDeprecatedKeyAndValues];
 
@@ -496,20 +505,6 @@ default_browserLastBoard:
 	[[self defaults] setBool: shouldInform forKey: AppDefaultsInformDatOchiKey];
 }
 
-/*
-- (BOOL) oldFavoritesUpdated
-{
-	return [[self defaults] 
-				boolForKey : AppDefaultsIsFavImportedKey
-			  defaultValue : NO];
-}
-
-- (void) setOldFavoritesUpdated: (BOOL) flag
-{
-	[[self defaults] setBool : flag
-					  forKey : AppDefaultsIsFavImportedKey];
-}
-*/
 - (BOOL) oldMessageScrollingBehavior
 {
 	return [[self defaults] boolForKey: AppDefaultsOldMsgScrlBehvrKey defaultValue: NO];

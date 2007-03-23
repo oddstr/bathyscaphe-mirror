@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer.m,v 1.23 2007/03/18 14:53:30 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer.m,v 1.24 2007/03/23 19:21:54 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -190,6 +190,7 @@ static BOOL messageIsLocalAboned_(CMRThreadMessage *aMessage)
 	if ([aMessage hasBookmark]) {
 		[ms applyFontTraits : (NSBoldFontMask|NSItalicFontMask)
 					  range : mRange_];
+		[ms addAttribute: NSForegroundColorAttributeName value: [CMRPref messageBookmarkColor] range: mRange_]; // êFÇ‡ïœÇ¶ÇÊÇ§
 	}
 /*
 2004-01-22 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
@@ -440,7 +441,8 @@ ErrComposeHost:
 	NSMutableAttributedString	*tmp;
 	id							source;
 	NSRange						mRange_;
-	BOOL						isLocalAboned = messageIsLocalAboned_(aMessage); 
+	BOOL						isLocalAboned = messageIsLocalAboned_(aMessage);
+	BOOL						isBookmarked = [aMessage hasBookmark];
 	
 	ms = [self contentsStorage];
 	tmp = SGTemporaryAttributedString();
@@ -478,6 +480,12 @@ ErrComposeHost:
 		[tmp addAttribute : NSFontAttributeName
 				    value : [CMRPref messageAlternateFont]
 				    range : mRange_];
+		if (isBookmarked)
+			[tmp addAttribute: NSForegroundColorAttributeName value: [CMRPref messageBookmarkColor] range: mRange_];
+	} else if (isBookmarked) {
+		NSDictionary *bmattr = [NSDictionary dictionaryWithObjectsAndKeys: [CMRPref messageBookmarkFont], NSFontAttributeName,
+									[CMRPref messageBookmarkColor], NSForegroundColorAttributeName, NULL];
+		[tmp addAttributes: bmattr range: mRange_];
 	}
 	if (!isLocalAboned) {
 		// For Searching
