@@ -1,3 +1,44 @@
+2007-03-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/ThreadViewerDefaultTheme.plist
+		[新規追加] スレッドの内容表示領域のデフォルトのフォント・カラー設定を記述したファイル。
+	* application/subproj/preference/Japanese.lproj/ViewPane.nib
+		[新規追加] 「環境設定」＞「表示」ペインの新しい nib ファイル。FontsAndColors.nib は未使用に。
+	* frameworks/CocoMonar/framework/src/BSThreadViewTheme.[h|m]
+		[新規追加] スレッドの内容表示領域のフォント・カラー設定を表すオブジェクト。
+	* application/source/CMRAppDelegate.m
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+		AppDefaults の一部メソッド廃止に伴う小変更。
+	* application/source/composer/CMRMessageAttributesTemplate.m
+	* application/source/thread/CMRThreadViewer-ViewAccessor.m
+		スレッドの内容表示領域のフォント・カラーを変更した際、これまでは「次に開くスレッド」から変更が
+		反映されていたが、すぐに（＝既に開いているスレッドに対しても）反映させるようにした。
+		- 実際にはログファイルから読み込み直すことで再レンダリングして、新しいフォント・カラーで
+		　表示されるようにしている。
+	* application/source/composer/CMXTextParser.m
+		[Bug 10146] および、SB7 以降でミリ秒が解析／表示されなくなっていた問題を修正。
+	* application/source/network/ThreadTextDownloader.m
+	* application/source/thread/CMRThreadViewer.m
+		ログファイルをバイナリ形式のプロパティリストで保存する隠しオプションを再び設けた。
+		 defaults write com.masakih.bsas UseBinaryFormat -bool YES
+	* application/source/preferences/AppDefaults-Background.m
+	* application/source/preferences/AppDefaults-FontColor.m
+	* application/source/preferences/AppDefaults.[h|m]
+		AppDefaults クラスの見直し、合理化、スレッド内容表示領域のフォント・カラー設定の取り扱い方を
+		変更。
+		- スレッド内容表示領域のフォント・カラー設定をひとまとめにして「テーマ」と捉え、テーマファイルに
+		　記述する。これを表すオブジェクト BSThreadViewTheme も新規導入した。
+		- スレッド一覧・ポップアップ・書き込みウインドウなどのフォント・カラー設定は今までどおり。
+	* application/subproj/preference/Japanese.lproj/Localizable.strings
+	* application/subproj/preference/Japanese.lproj/SyncPane.nib
+		「フィルタ」環境設定は「迷惑レス」環境設定に名称変更した。
+	* application/subproj/preference/font_color/FCController.m
+		「表示」環境設定を再設計した。
+	* application/subproj/preference/pane/PreferencesPane.m
+		環境設定パネルを常にディスプレイの中央付近で表示するようにした。
+	* application/subproj/preference/reply/CMRReplyDefaultsController.m
+		不要な release を行っていたのを修正。
+	* frameworks/CocoMonar/framework/src/CMRFiles.h
+		CocoMonar Framework: 新しい定数を追加した。また、BSThreadViewTheme クラスも追加した。
 2007-03-22 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSDBThreadsListDBUpdateTask2.m:
 		bug #10147 を解消。

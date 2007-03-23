@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-FontColor.m,v 1.15 2007/02/25 11:51:04 tsawada2 Exp $
+  * $Id: AppDefaults-FontColor.m,v 1.16 2007/03/23 17:27:52 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -290,70 +290,75 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 #pragma mark ThreadViewer(Font)
 - (NSFont *) threadsViewFont
 {
-	return [self appearanceFontForKey : kPrefThreadsViewFontKey
-					      defaultSize : DEFAULT_THREADS_VIEW_FONTSIZE];
+//	return [self appearanceFontForKey : kPrefThreadsViewFontKey
+//					      defaultSize : DEFAULT_THREADS_VIEW_FONTSIZE];
+	return [[self threadViewTheme] baseFont];
 }
 
-- (void) setThreadsViewFont : (NSFont *) aFont
-{
-	[self setAppearanceFont : aFont forKey : kPrefThreadsViewFontKey];
-	[SHARED_ATTR_TEMPLATE setAttributeForText : NSFontAttributeName
-										value : aFont];
-}
+//- (void) setThreadsViewFont : (NSFont *) aFont
+//{
+//	[self setAppearanceFont : aFont forKey : kPrefThreadsViewFontKey];
+//	[SHARED_ATTR_TEMPLATE setAttributeForText : NSFontAttributeName
+//										value : aFont];
+//}
 
 - (NSFont *) messageFont
 {
-	return [self appearanceFontForKey : kPrefMessageFontKey
-						  defaultSize : DEFAULT_THREADS_VIEW_FONTSIZE];
+//	return [self appearanceFontForKey : kPrefMessageFontKey
+//						  defaultSize : DEFAULT_THREADS_VIEW_FONTSIZE];
+	return [[self threadViewTheme] messageFont];
 }
-- (void) setMessageFont : (NSFont *) aFont
-{
-	[self setAppearanceFont : aFont forKey : kPrefMessageFontKey];
-	[SHARED_ATTR_TEMPLATE setAttributeForMessage : NSFontAttributeName
-										   value : aFont];
-}
+//- (void) setMessageFont : (NSFont *) aFont
+//{
+//	[self setAppearanceFont : aFont forKey : kPrefMessageFontKey];
+//	[SHARED_ATTR_TEMPLATE setAttributeForMessage : NSFontAttributeName
+//										   value : aFont];
+//}
 
 - (NSFont *) messageTitleFont
 {
-	return [self appearanceFontForKey : kPrefMessageTitleFontKey
-						  defaultSize : DEFAULT_THREADS_VIEW_FONTSIZE];
+//	return [self appearanceFontForKey : kPrefMessageTitleFontKey
+//						  defaultSize : DEFAULT_THREADS_VIEW_FONTSIZE];
+	return [[self threadViewTheme] titleFont];
 }
-- (void) setMessageTitleFont : (NSFont *) aFont
-{
-	[self setAppearanceFont : aFont forKey : kPrefMessageTitleFontKey];
-	[SHARED_ATTR_TEMPLATE setAttributeForTitle : NSFontAttributeName
-										 value : aFont];
-}
+//- (void) setMessageTitleFont : (NSFont *) aFont
+//{
+//	[self setAppearanceFont : aFont forKey : kPrefMessageTitleFontKey];
+//	[SHARED_ATTR_TEMPLATE setAttributeForTitle : NSFontAttributeName
+//										 value : aFont];
+//}
 
 #pragma mark ThreadViewer(Color)
-- (NSColor *) getThreadsViewColor : (id) anUserData
+/*- (NSColor *) getThreadsViewColor : (id) anUserData
 {
 	return [self textAppearanceColorForKey : kPrefThreadsViewColorKey];
-}
+}*/
 - (NSColor *) threadsViewColor
 {
-	return [self valueProxyForSelector : @selector(getThreadsViewColor:) key : kPrefThreadsViewColorKey];
+//	return [self valueProxyForSelector : @selector(getThreadsViewColor:) key : kPrefThreadsViewColorKey];
+	return [[self threadViewTheme] baseColor];
 }
-- (void) setThreadsViewColor : (NSColor *) color
-{
-	[self setAppearanceColor : color forKey : kPrefThreadsViewColorKey];
-	[self postLayoutSettingsUpdateNotification];
-}
-
+//- (void) setThreadsViewColor : (NSColor *) color
+//{
+//	[self setAppearanceColor : color forKey : kPrefThreadsViewColorKey];
+//	[self postLayoutSettingsUpdateNotification];
+//}
+/*
 - (NSColor *) getMessageColor : (id) anUserData
 {
 	return [self textAppearanceColorForKey : kPrefMessageColorKey];
-}
+}*/
 - (NSColor *) messageColor
 {
-	return [self valueProxyForSelector : @selector(getMessageColor:) key : kPrefMessageColorKey];
+//	return [self valueProxyForSelector : @selector(getMessageColor:) key : kPrefMessageColorKey];
+	return [[self threadViewTheme] messageColor];
 }
-- (void) setMessageColor : (NSColor *) color
-{
-	[self setAppearanceColor : color forKey : kPrefMessageColorKey];
-	[self postLayoutSettingsUpdateNotification];
-}
-
+//- (void) setMessageColor : (NSColor *) color
+//{
+//	[self setAppearanceColor : color forKey : kPrefMessageColorKey];
+//	[self postLayoutSettingsUpdateNotification];
+//}
+/*
 - (NSColor *) getMessageTitleColor : (id) anUserData
 {
 	NSColor		*color_;
@@ -366,17 +371,18 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 										   alpha : 1.0f];
 	}
 	return color_;
-}
+}*/
 - (NSColor *) messageTitleColor
 {
-	return [self valueProxyForSelector : @selector(getMessageTitleColor:) key : kPrefMessageTitleColorKey];
+//	return [self valueProxyForSelector : @selector(getMessageTitleColor:) key : kPrefMessageTitleColorKey];
+	return [[self threadViewTheme] titleColor];
 }
-- (void) setMessageTitleColor : (NSColor *) color
-{
-	[self setAppearanceColor : color forKey : kPrefMessageTitleColorKey];
-	[self postLayoutSettingsUpdateNotification];
-}
-
+//- (void) setMessageTitleColor : (NSColor *) color
+//{
+//	[self setAppearanceColor : color forKey : kPrefMessageTitleColorKey];
+//	[self postLayoutSettingsUpdateNotification];
+//}
+/*
 - (NSColor *) getMessageNameColor : (id) anUserData
 {
 	NSColor		*color_;
@@ -389,17 +395,18 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 										   alpha : 1.0f];
 	}
 	return color_;
-}
+}*/
 - (NSColor *) messageNameColor
 {
-	return [self valueProxyForSelector : @selector(getMessageNameColor:) key : kPrefMessageNameColorKey];
+//	return [self valueProxyForSelector : @selector(getMessageNameColor:) key : kPrefMessageNameColorKey];
+	return [[self threadViewTheme] nameColor];
 }
-- (void) setMessageNameColor : (NSColor *) color
-{
-	[self setAppearanceColor : color forKey : kPrefMessageNameColorKey];
-	[self postLayoutSettingsUpdateNotification];
-}
-
+//- (void) setMessageNameColor : (NSColor *) color
+//{
+//	[self setAppearanceColor : color forKey : kPrefMessageNameColorKey];
+//	[self postLayoutSettingsUpdateNotification];
+//}
+/*
 - (NSColor *) getMessageAnchorColor : (id) anUserData
 {
 	NSColor		*color_;
@@ -409,16 +416,17 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 		color_ = [NSColor blueColor];
 	}
 	return color_;
-}
+}*/
 - (NSColor *) messageAnchorColor
 {
-	return [self valueProxyForSelector : @selector(getMessageAnchorColor:) key : kPrefMessageAnchorColorKey];
+//	return [self valueProxyForSelector : @selector(getMessageAnchorColor:) key : kPrefMessageAnchorColorKey];
+	return [[self threadViewTheme] linkColor];
 }
-- (void) setMessageAnchorColor : (NSColor *) color
-{
-	[self setAppearanceColor : color forKey : kPrefMessageAnchorColorKey];
-	[self postLayoutSettingsUpdateNotification];
-}
+//- (void) setMessageAnchorColor : (NSColor *) color
+//{
+//	[self setAppearanceColor : color forKey : kPrefMessageAnchorColorKey];
+//	[self postLayoutSettingsUpdateNotification];
+//}
 
 #pragma mark Spam, Hilite, AA
 - (NSColor *) getMessageFilteredColor : (id) anUserData
@@ -433,7 +441,8 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 }
 - (NSColor *) messageFilteredColor
 {
-	return [self valueProxyForSelector : @selector(getMessageFilteredColor:) key : kPrefMessageFilteredColorKey];
+//	return [self valueProxyForSelector : @selector(getMessageFilteredColor:) key : kPrefMessageFilteredColorKey];
+	return [self getMessageFilteredColor: nil];
 }
 - (void) setMessageFilteredColor : (NSColor *) color
 {
@@ -456,27 +465,29 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 
 - (NSFont *) messageAlternateFont
 {
-	return [self appearanceFontForKey : kPrefMessageAlternateFontKey
-						  defaultSize : DEFAULT_THREADS_VIEW_FONTSIZE];
+//	return [self appearanceFontForKey : kPrefMessageAlternateFontKey
+//						  defaultSize : DEFAULT_THREADS_VIEW_FONTSIZE];
+	return [[self threadViewTheme] AAFont];
 }
-- (void) setMessageAlternateFont : (NSFont *) aFont
-{
-	[self setAppearanceFont : aFont forKey : kPrefMessageAlternateFontKey];
-}
+//- (void) setMessageAlternateFont : (NSFont *) aFont
+//{
+//	[self setAppearanceFont : aFont forKey : kPrefMessageAlternateFontKey];
+//}
 
 #pragma mark BathyScaphe 1.0.1 additions
 - (NSFont *) messageHostFont
 {
-	return [self appearanceFontForKey : kPrefMessageHostFontKey
-						  defaultSize : DEFAULT_HOST_FONTSIZE];
+//	return [self appearanceFontForKey : kPrefMessageHostFontKey
+//						  defaultSize : DEFAULT_HOST_FONTSIZE];
+	return [[self threadViewTheme] hostFont];
 }
-- (void) setMessageHostFont : (NSFont *) aFont
-{
-	[self setAppearanceFont : aFont forKey : kPrefMessageHostFontKey];	
-	[SHARED_ATTR_TEMPLATE setAttributeForHost : NSFontAttributeName
-										value : aFont];
-}
-
+//- (void) setMessageHostFont : (NSFont *) aFont
+//{
+//	[self setAppearanceFont : aFont forKey : kPrefMessageHostFontKey];	
+//	[SHARED_ATTR_TEMPLATE setAttributeForHost : NSFontAttributeName
+//										value : aFont];
+//}
+/*
 - (NSColor *) getMessageHostColor : (id) anUserData
 {
 	NSColor		*color_;
@@ -486,28 +497,36 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 		color_ = [NSColor lightGrayColor];
 	}
 	return color_;
-}
+}*/
 - (NSColor *) messageHostColor
 {
-	return [self valueProxyForSelector : @selector(getMessageHostColor:) key : kPrefMessageHostColorKey];
+//	return [self valueProxyForSelector : @selector(getMessageHostColor:) key : kPrefMessageHostColorKey];
+	return [[self threadViewTheme] hostColor];
 }
-- (void) setMessageHostColor : (NSColor *) color
-{
-	[self setAppearanceColor : color forKey : kPrefMessageHostColorKey];
-	[self postLayoutSettingsUpdateNotification];
-}
+//- (void) setMessageHostColor : (NSColor *) color
+//{
+//	[self setAppearanceColor : color forKey : kPrefMessageHostColorKey];
+//	[self postLayoutSettingsUpdateNotification];
+//}
 
 - (NSFont *) messageBeProfileFont
 {
-	return [self appearanceFontForKey : kPrefMessageBeProfileFontKey
-						  defaultSize : DEFAULT_BEPROFILELINK_FONTSIZE];
+//	return [self appearanceFontForKey : kPrefMessageBeProfileFontKey
+//						  defaultSize : DEFAULT_BEPROFILELINK_FONTSIZE];
+	return [[self threadViewTheme] beFont];
 }
-- (void) setMessageBeProfileFont : (NSFont *) aFont
-{
-	[self setAppearanceFont : aFont forKey : kPrefMessageBeProfileFontKey];
-	[SHARED_ATTR_TEMPLATE setAttributeForBeProfileLink : NSFontAttributeName
-												 value : aFont];
-}
+//- (void) setMessageBeProfileFont : (NSFont *) aFont
+//{
+//	[self setAppearanceFont : aFont forKey : kPrefMessageBeProfileFontKey];
+//	[SHARED_ATTR_TEMPLATE setAttributeForBeProfileLink : NSFontAttributeName
+//												 value : aFont];
+//}
+
+- (NSFont *) messageBookmarkFont{return [[self threadViewTheme] bookmarkFont];}
+//- (void) setMessageBookmarkFont: (NSFont *) aFont{;}
+- (NSColor *) messageBookmarkColor{return [[self threadViewTheme] bookmarkColor];}
+//- (void) setMessageBookmarkColor: (NSColor *) color{;}
+
 
 #pragma mark SledgeHammer Additions
 - (float) msgIdxSpacingBefore
@@ -617,16 +636,9 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 	id	obj = [[self appearances] objectForKey: kPrefBoardListTextAttrKey];
 	if (obj == nil) {
 		NSDictionary *attrDict;
-/*		NSMutableParagraphStyle *style_;
-		float	height_;
-
-		style_ = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
-		height_ = getDefaultLineHeightForFont([self boardListFont], 0) / 2;
-		[style_ setParagraphSpacingBefore: ([self boardListRowHeight] - height_)];
-*/		
 		attrDict = [NSDictionary dictionaryWithObjectsAndKeys: [CMRPref boardListFont], NSFontAttributeName,
 															   [CMRPref boardListTextColor], NSForegroundColorAttributeName,
-															   /*style_, NSParagraphStyleAttributeName,*/ NULL];
+															   NULL];
 		[[self appearances] setObject: attrDict forKey: kPrefBoardListTextAttrKey];
 		return attrDict;
 	} else {
@@ -648,7 +660,7 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 {
 	[[self appearances] setFloat : rowHeight
 						  forKey : kPrefBoardListRowHeightKey];
-//	[self resetBoardListTextAttributes];
+
 	[self postLayoutSettingsUpdateNotification];
 }
 
@@ -688,7 +700,25 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 {
 	[self setShouldThreadAntialias : [[self appearances] boolForKey : kPrefAntialiasKey
 													   defaultValue : DEFAULT_SHOULD_THREAD_ANTIALIAS]];
-
+/*
+	if ([self threadViewThemePath] != nil) {
+		// Load From theme
+		BSThreadViewTheme *hoge = [[BSThreadViewTheme alloc] initWithContentsOfFile: [self threadViewThemePath]];
+		if (hoge == nil) {
+			// fail to import. instead Use Default Theme.
+			hoge = [[BSThreadViewTheme alloc] initWithContentsOfFile: @"BathyScaphe.app/Contents/Resources/DefaultTheme.plist"];
+			[self setThreadViewThemePath: @"bathyScaphe.app/COntents/Resources/DefaultTheme.plist"];
+		}
+		[self setThreadViewTheme: hoge];
+		[hoge release];
+	} else {
+		// Try to import from old prefs
+		BSThreadViewTheme *hage = [[BSThreadViewTheme alloc] initWithIdentifier: @"Imported Theme"];
+		[self importFromOldToTheme: hage]; // Also Create Theme File, set threadViewThemePath to created file path.
+		[self setThreadViewTheme: hage];
+		[hage release];
+	}
+*/
 }
 - (BOOL) _saveFontAndColor
 {

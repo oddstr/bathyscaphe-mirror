@@ -1,5 +1,5 @@
 /**
-  * $Id: FCController.h,v 1.8 2007/01/20 20:31:58 tsawada2 Exp $
+  * $Id: FCController.h,v 1.9 2007/03/23 17:27:52 tsawada2 Exp $
   * 
   * FCController.h
   *
@@ -13,36 +13,24 @@
 
 @interface FCController : PreferencesController
 {	
-/*	IBOutlet NSButton		*_threadViewFontButton;
-	IBOutlet NSButton		*_messageFontButton;
-	IBOutlet NSButton		*_itemTitleFontButton;
-	IBOutlet NSButton		*_alternateFontButton;
-	IBOutlet NSButton		*_hostFontButton;
-	IBOutlet NSButton		*_beProfileFontButton;
-	IBOutlet NSButton		*_threadsListFontButton;
-	IBOutlet NSButton		*_newThreadFontButton;
-	IBOutlet NSButton		*m_replyFontButton;
+	IBOutlet NSPopUpButton	*m_themesChooser;
+	IBOutlet NSPanel		*m_themeEditSheet;
+	IBOutlet NSPanel		*m_themeNameSheet;
+	IBOutlet NSObjectController *m_themeGreenCube;
 
-	IBOutlet NSButton		*m_BLtextFontButton;*/
+	NSString	*m_saveThemeIdentifier;
 }
 
 - (IBAction) fixRowHeightToFont : (id) sender;
 - (IBAction) fixRowHeightToFontOfBoardList : (id) sender;
 
-//- (void) changeFontOf : (int) tagNum To: (NSFont *) newFont;
-@end
-/*
-@interface FCController(ViewAccessor)
-- (NSButton *) alternateFontButton;
-- (NSButton *) threadViewFontButton;
-- (NSButton *) messageFontButton;
-- (NSButton *) itemTitleFontButton;
-- (NSButton *) threadsListFontButton;
-- (NSButton *) newThreadFontButton;
-- (NSButton *) replyFontButton;
-- (NSButton *) hostFontButton;
-- (NSButton *) boardListTextFontButton;
-- (NSButton *) beProfileFontButton;
+- (IBAction) chooseDefaultTheme: (id) sender;
+- (IBAction) chooseTheme: (id) sender;
+- (IBAction) editCustomTheme: (id) sender;
+- (IBAction) closePanelAndUseTagForReturnCode: (id) sender;
+- (IBAction) saveTheme: (id) sender;
 
-- (NSFont *) getFontOf : (int) btnTag;
-@end*/
+// 「テーマの保存」パネルでテキストフィールドと Binding
+- (NSString *) saveThemeIdentifier;
+- (void) setSaveThemeIdentifier: (NSString *) aString;
+@end

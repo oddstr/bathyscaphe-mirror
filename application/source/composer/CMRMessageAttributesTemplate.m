@@ -13,11 +13,18 @@
 #import "CMXImageAttachmentCell.h"
 #import "CMRAttachmentCell.h"
 
-
+static void *kContext = @"Look Mom, No Tabs!";
 
 @implementation CMRMessageAttributesTemplate
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 
+- (id) init
+{
+	if (self = [super init]) {
+		[CMRPref addObserver: self forKeyPath: @"threadViewTheme" options: NSKeyValueObservingOptionNew context: kContext];
+	}
+	return self;
+}
 
 + (NSDictionary *) defaultAttributes
 {
@@ -49,6 +56,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 	[_messageAttributesForText release];
 	[_messageAttributesForBeProfileLink release];
 	[_messageAttributesForHost release];
+
+	[CMRPref removeObserver: self forKeyPath: @"threadViewTheme"]; 
 	
 	[super dealloc];
 }
@@ -219,42 +228,42 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 
 @implementation CMRMessageAttributesTemplate(Attributes)
 /* Accessor for _messageAttributesForAnchor */
-- (void) setAttributeForAnchor : (NSString *) name
+/*- (void) setAttributeForAnchor : (NSString *) name
                          value : (id        ) value
 {
 	[self setAttributeInDictionary : [self messageAttributesForAnchor]
 					 attributeName : name
 					         value : value];
-}
+}*/
 
 /* Accessor for _messageAttributesForName */
-- (void) setAttributeForName : (NSString *) name
+/*- (void) setAttributeForName : (NSString *) name
                        value : (id        ) value
 {
 	[self setAttributeInDictionary : [self messageAttributesForName]
 					 attributeName : name
 					         value : value];
 }
-
+*/
 /* Accessor for _messageAttributesForTitle */
-- (void) setAttributeForTitle : (NSString *) name
+/*- (void) setAttributeForTitle : (NSString *) name
                         value : (id        ) value
 {
 	[self setAttributeInDictionary : [self messageAttributesForTitle]
 					 attributeName : name
 					         value : value];
 }
-
+*/
 /* Accessor for _messageAttributes */
-- (void) setAttributeForMessage : (NSString *) name
+/*- (void) setAttributeForMessage : (NSString *) name
                           value : (id        ) value
 {
 	[self setAttributeInDictionary : [self messageAttributes]
 					 attributeName : name
 					         value : value];
-}
+}*/
 /* Accessor for _messageAttributesForText */
-- (void) setAttributeForText : (NSString *) name
+/*- (void) setAttributeForText : (NSString *) name
 					   value : (id        ) value
 {
 	[self setAttributeInDictionary : [self messageAttributesForText]
@@ -280,7 +289,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 					 attributeName : name
 					         value : value];
 }
-
+*/
 - (void) setMessageHeadIndent : (float) anIndent
 {
 	[self setAttributeInDictionary : [self messageAttributes]
@@ -581,5 +590,26 @@ ErrCreateAttachment:
 								 value : [CMRPref messageHostFont]];
 	}
 	return _messageAttributesForHost;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+	if (context == kContext && object == CMRPref && [keyPath isEqualToString: @"threadViewTheme"]) {
+//		NSLog(@"Resetting message attributes...");
+		[_messageAttributesForAnchor release];
+		_messageAttributesForAnchor = nil;
+		[_messageAttributesForName release];
+		_messageAttributesForName = nil;	//名前の書式
+		[_messageAttributesForTitle release];	//項目のタイトル書式
+		_messageAttributesForTitle = nil;
+		[_messageAttributesForText release];
+		_messageAttributesForText = nil;	//標準の書式
+		[_messageAttributes release];			//メッセージの書式
+		_messageAttributes = nil;
+		[_messageAttributesForBeProfileLink release];
+		_messageAttributesForBeProfileLink = nil;	//Be プロフィールリンクの書式
+		[_messageAttributesForHost release];	//Hostの書式
+		_messageAttributesForHost = nil;
+	}
 }
 @end

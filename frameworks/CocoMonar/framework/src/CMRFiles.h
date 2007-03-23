@@ -1,5 +1,5 @@
 /**
- * $Id: CMRFiles.h,v 1.1 2005/05/11 17:51:19 tsawada2 Exp $
+ * $Id: CMRFiles.h,v 1.2 2007/03/23 17:27:52 tsawada2 Exp $
  * 
  * CMRFiles.h
  *
@@ -34,3 +34,4 @@
 #define CMRDocumentsDirectory		@"Documents"
 #define CMRResourcesDirectory		@"Resources"
 #define CMRBookmarksDirectory		@"Bookmarks"
+#define BSThemesDirectory			@"Themes"

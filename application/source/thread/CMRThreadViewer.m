@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.43 2007/03/08 16:30:57 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.44 2007/03/23 17:27:52 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -56,6 +56,7 @@ NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEnd
 {
 	[CMRPopUpMgr closePopUpWindowForOwner:self];
 	[[NSNotificationCenter defaultCenter] removeObserver : self];
+	[CMRPref removeObserver: self forKeyPath: @"threadViewTheme.backgroundColor"];
 
 	[m_indexingStepper release];
 	[m_indexingPopupper release];
@@ -455,7 +456,7 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 		// ファイルからの読み込み、変換が終了
 		// すでにレイアウトのタスクを開始したので、
 		// オンラインモードなら更新する
-		//		
+		//
 		[self scrollToLastReadedIndex : self]; // その前に最後に読んだ位置までスクロールさせておく
 
 		if(![self isDatOchiThread]) {
@@ -786,7 +787,7 @@ NSString *kComposingNotificationNames[] = {
 		[composer_ release];
 		[[self threadLayout] setMessagesEdited : NO];
 	}
-	//if ([CMRPref saveThreadDocAsBinaryPlist]) {
+	if ([CMRPref saveThreadDocAsBinaryPlist]) {
 		NSData *data_;
 		NSString *errStr;
 		data_ = [NSPropertyListSerialization dataFromPropertyList:mdict_
@@ -794,9 +795,9 @@ NSString *kComposingNotificationNames[] = {
 
 		if (!data_) return NO;
 		return [data_ writeToFile:filepath_ atomically:YES];
-	//} else {
+	} else {
 		return [mdict_ writeToFile:filepath_ atomically:YES];
-	//}
+	}
 }
 
 - (void) saveWindowFrame

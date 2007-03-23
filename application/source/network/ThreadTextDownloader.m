@@ -1,5 +1,5 @@
 /**
-  * $Id: ThreadTextDownloader.m,v 1.4 2007/01/30 14:04:11 tsawada2 Exp $
+  * $Id: ThreadTextDownloader.m,v 1.5 2007/03/23 17:27:52 tsawada2 Exp $
   * 
   * ThreadTextDownloader.m
   *
@@ -281,8 +281,23 @@ return_instance:
 	[info_ setNoneNil: [thread objectForKey: CMRThreadModifiedDateKey] forKey: CMRThreadModifiedDateKey];
 
     // It guarantees that file must exists.
-    result = [thread writeToFile : [self filePathToWrite]
-                                  atomically : YES];
+/*    result = [thread writeToFile : [self filePathToWrite]
+                                  atomically : YES];*/
+	if ([CMRPref saveThreadDocAsBinaryPlist]) {
+		NSData *data_;
+		NSString *errStr;
+		data_ = [NSPropertyListSerialization dataFromPropertyList:thread
+							format:NSPropertyListBinaryFormat_v1_0 errorDescription:&errStr];
+
+		if (!data_) {
+			result = NO;
+		} else {
+			result = [data_ writeToFile: [self filePathToWrite] atomically: YES];
+		}
+	} else {
+		result = [thread writeToFile: [self filePathToWrite] atomically: YES];
+	}
+
     
     [self postUpdatedNotificationWithContents : thread];
     [self postDATFinishedNotificationWithContents: datContents additionalInfo: info_];

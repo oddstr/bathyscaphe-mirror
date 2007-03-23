@@ -33,30 +33,30 @@
 
 @interface CMRMessageAttributesTemplate(Attributes)
 /* Accessor for _messageAttributesForAnchor */
-- (void) setAttributeForAnchor : (NSString *) name
-                         value : (id        ) value;
+//- (void) setAttributeForAnchor : (NSString *) name
+//                         value : (id        ) value;
 
 /* Accessor for _messageAttributesForName */
-- (void) setAttributeForName : (NSString *) name
-                       value : (id        ) value;
+//- (void) setAttributeForName : (NSString *) name
+//                       value : (id        ) value;
 
 /* Accessor for _messageAttributesForTitle */
-- (void) setAttributeForTitle : (NSString *) name
-                        value : (id        ) value;
+//- (void) setAttributeForTitle : (NSString *) name
+//                        value : (id        ) value;
 
 /* Accessor for _messageAttributes */
-- (void) setAttributeForMessage : (NSString *) name
-                          value : (id        ) value;
+//- (void) setAttributeForMessage : (NSString *) name
+//                          value : (id        ) value;
 
 /* Accessor for _messageAttributesForText */
-- (void) setAttributeForText : (NSString *) name
-					   value : (id        ) value;
+//- (void) setAttributeForText : (NSString *) name
+//					   value : (id        ) value;
 
-- (void) setAttributeForBeProfileLink : (NSString *) name
-								value : (id        ) value;
+//- (void) setAttributeForBeProfileLink : (NSString *) name
+//								value : (id        ) value;
 					   
-- (void) setAttributeForHost : (NSString *) name
-					   value : (id        ) value;
+//- (void) setAttributeForHost : (NSString *) name
+//					   value : (id        ) value;
 					   
 - (void) setMessageHeadIndent : (float) anIndent;
 - (void) setHasAnchorUnderline : (BOOL) flag;

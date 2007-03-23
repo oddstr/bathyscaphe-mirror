@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.18 2007/03/15 02:35:16 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.19 2007/03/23 17:27:52 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -8,7 +8,6 @@
   */
 #import "AppDefaults_p.h"
 #import "CMRMainMenuManager.h"
-#import <AppKit/NSFont.h>
 #import "TS2SoftwareUpdate.h"
 
 NSString *const AppDefaultsWillSaveNotification = @"AppDefaultsWillSaveNotification";
@@ -18,7 +17,7 @@ NSString *const AppDefaultsWillSaveNotification = @"AppDefaultsWillSaveNotificat
 #define AppDefaultsDefaultKoteHanListKey	    @"ReplyNameList"
 #define AppDefaultsDefaultReplyMailKey		    @"Reply Mail"
 #define AppDefaultsIsOnlineModeKey		        @"Online Mode ON"
-#define AppDefaultsThreadSearchOptionKey		@"Thread Search Option"
+#define AppDefaultsThreadSearchOptionKey		@"Thread Search Option" // Deprecated in Starlight Breaker.
 #define AppDefaultsContentsSearchOptionKey		@"Contents Search Option"
 static NSString *const AppDefaultsFindPanelExpandedKey = @"Find Panel Expanded";
 static NSString *const AppDefaultsContentsSearchTargetKey = @"Contents Search Targets";
@@ -30,14 +29,14 @@ static NSString *const AppDefaultsContentsSearchTargetKey = @"Contents Search Ta
 #define AppDefaultsBrowserSortAscendingKey				@"ThreadSortAscending"
 #define AppDefaultsBrowserStatusFilteringMaskKey		@"StatusFilteringMask"
 
-#define AppDefaultsIsFavImportedKey			@"Old Favorites Updated"
+#define AppDefaultsIsFavImportedKey			@"Old Favorites Updated" // Deprecated in Starlight Breaker.
 #define AppDefaultsOldMsgScrlBehvrKey		@"OldScrollingBehavior"
 
 #define AppDefaultsOpenInBgKey				@"OpenLinkInBg"
 #define AppDefaultsQuietDeletionKey			@"QuietDeletion"
 
 #define	AppDefaultsInformDatOchiKey			@"InformWhenDatOchi"
-#define AppDefaultsMoveFocusKey				@"MoveFocusToViewerWhenShowThreadAtRow"
+//#define AppDefaultsMoveFocusKey				@"MoveFocusToViewerWhenShowThreadAtRow"
 
 // History
 #define AppDefaultsHistoryThreadsKey		@"ThreadHistoryItemLimit"
@@ -47,6 +46,10 @@ static NSString *const AppDefaultsContentsSearchTargetKey = @"Contents Search Ta
 // Proxy
 #define AppDefaultsProxyURLKey				@"ProxyURL"
 #define AppDefaultsProxyPortKey				@"ProxyPort"
+
+static NSString *const AppDefaultsUseCustomThemeKey = @"Use Custom ThreadViewTheme";
+static NSString *const AppDefaultsThemeFileNameKey = @"ThreadViewTheme FileName";
+static NSString *const AppDefaultsDefaultThemeFileNameKey = @"ThreadViewerDefaultTheme"; // + ".plist"
 
 #pragma mark -
 
@@ -75,10 +78,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	[m_threadViewerDictionary release];
 	[m_imagePreviewerDictionary release];
 	[_dictAppearance release];
-	[_proxyCache release];
 	[m_soundsDictionary release];
 	[m_boardWarriorDictionary release];
-	
+	[m_threadViewTheme release];
 	[super dealloc];
 }
 
@@ -91,9 +93,51 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	UTILNotifyName(AppDefaultsLayoutSettingsUpdatedNotification);
 }
 
+- (void) cleanUpDeprecatedKeyAndValues
+{
+	NSUserDefaults *defaults_ = [self defaults];
+	// threadSearchOption
+	if ([defaults_ integerForKey: AppDefaultsThreadSearchOptionKey]) {
+		[defaults_ removeObjectForKey: AppDefaultsThreadSearchOptionKey];
+		NSLog(@"Unused key %@ removed.", AppDefaultsThreadSearchOptionKey);
+	}
+	// oldFavoritesUpdated
+	if ([defaults_ boolForKey: AppDefaultsIsFavImportedKey]) {
+		[defaults_ removeObjectForKey: AppDefaultsIsFavImportedKey];
+		NSLog(@"Unused key %@ removed.", AppDefaultsIsFavImportedKey);
+	}
+}
 
 - (BOOL) loadDefaults
 {
+	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool: YES], TS2SoftwareUpdateCheckKey,
+							[NSNumber numberWithUnsignedInt: TS2SUCheckWeekly], TS2SoftwareUpdateCheckIntervalKey,
+							[NSNumber numberWithBool: NO], AppDefaultsUseCustomThemeKey, NULL];
+	[[self defaults] registerDefaults: dict];
+
+	// Load ThreadViewTheme
+	NSString *themeFileName = [self themeFileName];
+	NSString *finalFilePath = nil;
+	if (!themeFileName) {
+		if ([self usesCustomTheme] && [[NSFileManager defaultManager] fileExistsAtPath: [self customThemeFilePath]]) {
+			finalFilePath = [self customThemeFilePath];
+		}
+	} else {
+		if ([[NSFileManager defaultManager] fileExistsAtPath: [self createFullPathFromThemeFileName: themeFileName]]) {
+			finalFilePath = [self createFullPathFromThemeFileName: themeFileName];
+		}
+	}
+	if (!finalFilePath) {
+		finalFilePath = [[NSBundle mainBundle] pathForResource: AppDefaultsDefaultThemeFileNameKey ofType: @"plist"];
+	}
+
+	BSThreadViewTheme *defaultTheme = [[BSThreadViewTheme alloc] initWithContentsOfFile: finalFilePath];
+	[self setThreadViewTheme: defaultTheme];
+	[defaultTheme release];
+	// End loading
+
+	[self cleanUpDeprecatedKeyAndValues];
+
 	[self _loadBackgroundColors];
 	[self _loadFontAndColor];
 	[self _loadFilter];
@@ -103,10 +147,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	[self loadAccountSettings];
 	[self _loadSoundsSettings];
 	[self _loadBWSettings];
-
-	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool: YES], TS2SoftwareUpdateCheckKey,
-							[NSNumber numberWithUnsignedInt: TS2SUCheckWeekly], TS2SoftwareUpdateCheckIntervalKey, NULL];
-	[[self defaults] registerDefaults: dict];
 	
 	return YES;
 }
@@ -141,29 +181,6 @@ NS_ENDHANDLER
 	return syncResult;
 }
 
-/*** Preference's Value Proxy ***/
-- (id) valueProxyForSelector : (SEL) aSelector
-						 key : (id ) aKey
-{
-	id	proxy;
-	
-	if (nil == aKey || NULL == aSelector) 
-		return nil;
-	
-	if (nil == _proxyCache) 
-		_proxyCache = [[NSMutableDictionary alloc] init];
-	
-	proxy = [_proxyCache objectForKey : aKey];
-	if (nil == proxy) {
-		proxy = [[CMRPreferenceValueProxy alloc] initWithPreferences : self];
-		[proxy setUserData:aKey querySelector:aSelector];
-		
-		[_proxyCache setObject:proxy forKey:aKey];
-	}
-	return proxy;
-}
-	
-
 - (void) applicationWillTerminateNotified : (NSNotification *) notification
 {
 	UTILAssertNotificationName(
@@ -176,7 +193,7 @@ NS_ENDHANDLER
 	[self saveDefaults];
 }
 
-#pragma mark -
+#pragma mark General
 
 - (BOOL) isOnlineMode
 {
@@ -237,7 +254,7 @@ NS_ENDHANDLER
 #pragma mark Search Options
 
 /* Search option */
-- (CMRSearchMask) threadSearchOption
+/*- (CMRSearchMask) threadSearchOption
 {
 	return [[self defaults] integerForKey : AppDefaultsThreadSearchOptionKey
 						defaultValue : CMRSearchOptionCaseInsensitive];
@@ -246,7 +263,7 @@ NS_ENDHANDLER
 {
 	[[self defaults] setInteger : option
 						 forKey : AppDefaultsThreadSearchOptionKey];
-}
+}*/
 - (CMRSearchMask) contentsSearchOption
 {
 	return [[self defaults] integerForKey : AppDefaultsContentsSearchOptionKey
@@ -283,7 +300,7 @@ NS_ENDHANDLER
 	[[self defaults] setObject: array forKey: AppDefaultsContentsSearchTargetKey];
 }
 
-#pragma mark -
+#pragma mark Reply
 
 /*** èëÇ´çûÇ›ÅFñºëOóì ***/
 - (NSString *) defaultReplyName
@@ -334,40 +351,6 @@ NS_ENDHANDLER
 	}
 }
 
-#pragma mark -
-
-- (BOOL) oldFavoritesUpdated
-{
-	return [[self defaults] 
-				boolForKey : AppDefaultsIsFavImportedKey
-			  defaultValue : NO];
-}
-
-- (void) setOldFavoritesUpdated: (BOOL) flag
-{
-	[[self defaults] setBool : flag
-					  forKey : AppDefaultsIsFavImportedKey];
-}
-
-- (BOOL) oldMessageScrollingBehavior
-{
-	return [[self defaults] boolForKey: AppDefaultsOldMsgScrlBehvrKey defaultValue: NO];
-}
-
-- (void) setOldMessageScrollingBehavior: (BOOL) flag
-{
-	[[self defaults] setBool: flag forKey: AppDefaultsOldMsgScrlBehvrKey];
-}
-/*#pragma mark DANGER
-- (BOOL) saveThreadListAsBinaryPlist
-{
-	return [[self defaults] boolForKey : @"Use_Binary_Format_For_List" defaultValue : NO];
-}
-- (BOOL) saveThreadDocAsBinaryPlist
-{
-	return [[self defaults] boolForKey : @"Use_Binary_Format_For_Doc" defaultValue : NO];
-}*/
-
 #pragma mark Software Update Support
 - (BOOL) autoCheckForUpdate
 {
@@ -385,8 +368,8 @@ NS_ENDHANDLER
 {
 	[[self defaults] setInteger: type forKey: TS2SoftwareUpdateCheckIntervalKey];
 }
-#pragma mark -
 
+#pragma mark Browser
 - (NSString *) browserLastBoard
 {
 	NSString			*rep_;
@@ -398,6 +381,7 @@ NS_ENDHANDLER
 default_browserLastBoard:
 	return CMXFavoritesDirectoryName;
 }
+
 - (void) setBrowserLastBoard : (NSString *) boardName
 {
 	if (nil == boardName) {
@@ -407,7 +391,6 @@ default_browserLastBoard:
 	[[self defaults] setObject : boardName
 						forKey : AppDefaultsBrowserLastBoardKey];
 }
-
 
 - (NSString *) browserSortColumnIdentifier
 {
@@ -459,7 +442,7 @@ default_browserLastBoard:
 	[[self defaults] setInteger:mask forKey:AppDefaultsBrowserStatusFilteringMaskKey];
 }
 
-#pragma mark Proxy
+#pragma mark Hidden Options
 - (BOOL) usesOwnProxy
 {
 	return [[self defaults] boolForKey: @"UsesBSsOwnProxySettings" defaultValue: NO];
@@ -476,7 +459,6 @@ default_browserLastBoard:
 	}
 }
 
-#pragma mark History
 - (int) maxCountForThreadsHistory
 {
 	return [[self defaults] integerForKey : AppDefaultsHistoryThreadsKey
@@ -504,7 +486,7 @@ default_browserLastBoard:
 {
 	[[self defaults] setInteger : counts forKey : AppDefaultsHistorySearchKey];
 }
-#pragma mark CometBlaster Addition
+
 - (BOOL) informWhenDetectDatOchi
 {
 	return [[self defaults] boolForKey: AppDefaultsInformDatOchiKey defaultValue: YES];
@@ -513,7 +495,37 @@ default_browserLastBoard:
 {
 	[[self defaults] setBool: shouldInform forKey: AppDefaultsInformDatOchiKey];
 }
-#pragma mark MeteorSweeper Addition
+
+/*
+- (BOOL) oldFavoritesUpdated
+{
+	return [[self defaults] 
+				boolForKey : AppDefaultsIsFavImportedKey
+			  defaultValue : NO];
+}
+
+- (void) setOldFavoritesUpdated: (BOOL) flag
+{
+	[[self defaults] setBool : flag
+					  forKey : AppDefaultsIsFavImportedKey];
+}
+*/
+- (BOOL) oldMessageScrollingBehavior
+{
+	return [[self defaults] boolForKey: AppDefaultsOldMsgScrlBehvrKey defaultValue: NO];
+}
+
+- (void) setOldMessageScrollingBehavior: (BOOL) flag
+{
+	[[self defaults] setBool: flag forKey: AppDefaultsOldMsgScrlBehvrKey];
+}
+
+- (BOOL) saveThreadDocAsBinaryPlist
+{
+	return [[self defaults] boolForKey : @"UseBinaryFormat" defaultValue : NO];
+}
+
+/*#pragma mark MeteorSweeper Addition
 - (BOOL) moveFocusToViewerWhenShowThreadAtRow
 {
 	return [[self defaults] boolForKey: AppDefaultsMoveFocusKey defaultValue: YES];
@@ -521,92 +533,60 @@ default_browserLastBoard:
 - (void) setMoveFocusToViewerWhenShowThreadAtRow: (BOOL) shouldMove
 {
 	[[self defaults] setBool: shouldMove forKey: AppDefaultsMoveFocusKey];
-}
+}*/
 @end
 
-#pragma mark -
+@implementation AppDefaults(ThreadViewTheme)
+- (BSThreadViewTheme *) threadViewTheme
+{
+	return m_threadViewTheme;
+}
+- (void) setThreadViewTheme: (BSThreadViewTheme *) aTheme
+{
+//	NSLog(@"setThreadViewTheme: called");
+	[aTheme retain];
+	[m_threadViewTheme release];
+	m_threadViewTheme = aTheme;
+}
 
-@implementation CMRPreferenceValueProxy
-- (id) initWithPreferences : (id) aPref
+- (NSString *) customThemeFilePath
 {
-	NSNotificationCenter *nc;
-	
-	_preferences = aPref;
-	nc = [NSNotificationCenter defaultCenter];
-	
-	[nc addObserver : self
-		   selector : @selector(appDefaultsLayoutSettingsUpdated:)
-			   name : AppDefaultsLayoutSettingsUpdatedNotification
-			 object : _preferences];
-	
-	return self;
+	NSString *dirPath = [[[CMRFileManager defaultManager] supportDirectoryWithName : BSThemesDirectory] filepath];
+	return [dirPath stringByAppendingPathComponent: @"CustomTheme.plist"];
 }
-- (void) dealloc
+- (NSString *) createFullPathFromThemeFileName: (NSString *) fileName
 {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	_preferences = nil;
-	
-	[_userData release];
-	[_realObject release];
-	[super dealloc];
+	NSString *dirPath = [[[CMRFileManager defaultManager] supportDirectoryWithName : BSThemesDirectory] filepath];
+	return [dirPath stringByAppendingPathComponent: fileName];
 }
-- (void) appDefaultsLayoutSettingsUpdated : (NSNotification *) theNotification
+
+- (NSString *) themeFileName
 {
-	UTILAssertNotificationObject(
-		theNotification,
-		_preferences);
-	UTILAssertNotificationName(
-		theNotification,
-		AppDefaultsLayoutSettingsUpdatedNotification);
-	
-	[_realObject autorelease];
-	_realObject = nil;
-	
+	return [[self defaults] stringForKey: AppDefaultsThemeFileNameKey]; // may be nil.
 }
-- (void) setUserData:(id)anUserData querySelector:(SEL)aSelector
+- (void) setThemeFileName: (NSString *) fileName
 {
-	UTILAssertNotNilArgument(anUserData, @"UserData");
-	UTILAssertNotNilArgument(aSelector, @"querySelector");
-	UTILAssertNotNil(_preferences);
-	
-	[_userData autorelease];
-	_userData = [anUserData retain];
-	_selector = aSelector;
-}
-- (id) realObject
-{
-	if (nil == _realObject) {
-		id		tmp = _realObject;
-		
-		_realObject = [_preferences performSelector:_selector withObject:_userData];
-		[_realObject retain];
-		[tmp release];
+	NSString *filePath;
+//	NSLog(@"setThemeFileName: called");
+	if (fileName == nil) {
+		[[self defaults] removeObjectForKey: AppDefaultsThemeFileNameKey];
+		filePath = ([self usesCustomTheme]) ? [self customThemeFilePath]
+											: [[NSBundle mainBundle] pathForResource: AppDefaultsDefaultThemeFileNameKey ofType: @"plist"];
+	} else {
+		[[self defaults] setObject: fileName forKey: AppDefaultsThemeFileNameKey];
+		filePath = [self createFullPathFromThemeFileName: fileName];
 	}
-		
-	return _realObject;
-}
-- self { return [self realObject]; }
-- (Class) class { return [[self realObject] class]; }
-
-/* needs for NSFont!! */
-
-- (CGFontRef) _backingCGSFont
-{
-	return [[self realObject] _backingCGSFont];
-}
-- (ATSUFontID) _atsFontID
-{
-	return [[self realObject] _atsFontID];
+	BSThreadViewTheme *theme = [[BSThreadViewTheme alloc] initWithContentsOfFile: filePath];
+	[self setThreadViewTheme: theme];
+	[theme release];
 }
 
-- (NSMethodSignature *) methodSignatureForSelector : (SEL) aSelector
+- (BOOL) usesCustomTheme
 {
-    return [[self realObject] methodSignatureForSelector:aSelector];
+	return [[self defaults] boolForKey: AppDefaultsUseCustomThemeKey]; // default is NO.
 }
-- (void) forwardInvocation : (NSInvocation *) anInvocation
+- (void) setUsesCustomTheme: (BOOL) use
 {
-	[anInvocation setTarget:[self realObject]];
-	[anInvocation invoke];
-	return;
+	[[self defaults] setBool: use forKey: AppDefaultsUseCustomThemeKey];
 }
 @end

@@ -8,7 +8,26 @@
 @implementation FCController
 - (NSString *) mainNibName
 {
-	return @"FontsAndColors";
+	return @"ViewPane";
+}
+
+- (void) dealloc
+{
+	[m_saveThemeIdentifier release];
+	m_saveThemeIdentifier = nil;
+	[super dealloc];
+}
+
+- (NSString *) saveThemeIdentifier
+{
+	return m_saveThemeIdentifier;
+}
+
+- (void) setSaveThemeIdentifier: (NSString *) aString
+{
+	[aString retain];
+	[m_saveThemeIdentifier release];
+	m_saveThemeIdentifier = aString;
 }
 
 #pragma mark IBActions
@@ -21,144 +40,145 @@
 {
 	[[self preferences] fixBoardListRowHeightToFontSize];
 }
-/*
-#pragma mark Font Setting
-- (void) changeFontOf : (int) tagNum To: (NSFont *) newFont
-{
-	SEL		selector_[] = {
-				@selector(setThreadsViewFont:),
-				@selector(setMessageFont:),
-				@selector(setMessageTitleFont:),
-				@selector(setThreadsListFont:),
-				@selector(setThreadsListNewThreadFont:),
-				@selector(setReplyFont:),
-				@selector(setMessageAlternateFont:),
-				@selector(setMessageHostFont:),
-				@selector(setMessageBeProfileFont:),
-				@selector(setBoardListFont:)
-			};
-	
-	if (nil == [self preferences]) return;
 
-	if (NO == [[self preferences] respondsToSelector : selector_[tagNum]] || newFont == nil) 
-		return;
-	
-	[[self preferences] performSelector : selector_[tagNum]
-							 withObject : newFont];
+- (IBAction) editCustomTheme: (id) sender
+{
+	BSThreadViewTheme *object_ = [[[self preferences] threadViewTheme] copy];
+	[m_themeGreenCube setContent: object_];
+	[object_ release];
+	[NSApp beginSheet: m_themeEditSheet
+	   modalForWindow: [self window]
+		modalDelegate: self
+	   didEndSelector: @selector(themeEditSheetDidEnd:returnCode:contextInfo:) 
+		  contextInfo: NULL];
 }
-*/
+
+- (void) themeEditSheetDidEnd: (NSWindow *) sheet returnCode: (int) returnCode contextInfo: (void *) contextInfo
+{
+	[sheet close];
+
+	if (returnCode == NSOKButton) {
+		BSThreadViewTheme *newObj = [m_themeGreenCube content];
+		NSString *themeFilePath = [[self preferences] customThemeFilePath];
+		[newObj setIdentifier: kThreadViewThemeCustomThemeIdentifier];
+
+		if (NO == [newObj writeToFile: themeFilePath atomically: YES]) {
+			NSLog(@"Fail to save file.");
+		} else {
+			[[self preferences] setUsesCustomTheme: YES];
+			[[self preferences] setThemeFileName: nil];
+		}
+	}
+	[m_themeGreenCube setContent: nil];
+	[self updateUIComponents];
+}
+
+- (IBAction) chooseTheme: (id) sender
+{
+	[[self preferences] setUsesCustomTheme: NO];
+	[[self preferences] setThemeFileName: [sender representedObject]];
+}
+
+- (IBAction) chooseDefaultTheme: (id) sender
+{
+	[[self preferences] setUsesCustomTheme: NO];
+	[[self preferences] setThemeFileName: nil];
+}
+
+- (IBAction) closePanelAndUseTagForReturnCode: (id) sender
+{
+	if ([sender window] == m_themeEditSheet) {
+		[NSApp endSheet: [sender window] returnCode: [sender tag]];
+	} else if ([sender window] == m_themeNameSheet) {
+		[NSApp stopModalWithCode: [sender tag]];
+		[[sender window] close];
+	}
+}
+
+- (IBAction) saveTheme: (id) sender
+{
+	int returnCode = [NSApp runModalForWindow: m_themeNameSheet];
+
+	if (returnCode == NSOKButton) {
+		NSString *fileName = [NSString stringWithFormat: @"UserTheme%d.plist", [[NSDate date] timeIntervalSince1970]];
+		NSString *filePath = [[[[CMRFileManager defaultManager] supportDirectoryWithName: BSThemesDirectory] filepath]
+								stringByAppendingPathComponent: fileName];
+		[[m_themeGreenCube content] setIdentifier: [self saveThemeIdentifier]];
+		[[m_themeGreenCube content] writeToFile: filePath atomically: YES];
+		[NSApp endSheet: m_themeEditSheet returnCode: NSOKButton];
+	}
+}
+
 - (unsigned int) validModesForFontPanel : (NSFontPanel *) fontPanel
 {
 	return (NSFontPanelFaceModeMask|NSFontPanelSizeModeMask|NSFontPanelCollectionModeMask);
 }
-/*@end
 
-@implementation FCController(ViewAccessor)
-- (NSButton *) threadViewFontButton
+- (void) setUpMenu
 {
-	return _threadViewFontButton;
-}
+	NSMenu *menu_ = [m_themesChooser menu];
 
-- (NSButton *) messageFontButton
-{
-	return _messageFontButton;
-}
+	NSDirectoryEnumerator	*tmpEnum;
+	NSString		*file;
+	NSString		*fullpath;
+	NSMenuItem *item;
 
-- (NSButton *) alternateFontButton
-{
-	return _alternateFontButton;
-}
+	NSString *themeDir = [[[CMRFileManager defaultManager] supportDirectoryWithName: BSThemesDirectory] filepath];
+    if (themeDir) {
+		tmpEnum = [[NSFileManager defaultManager] enumeratorAtPath : themeDir];
 
-- (NSButton *) itemTitleFontButton
-{
-	return _itemTitleFontButton;
-}
+		while (file = [tmpEnum nextObject]) {
+			if ([[file pathExtension] isEqualToString: @"plist"]) {
+				fullpath = [themeDir stringByAppendingPathComponent: file];
+				BSThreadViewTheme *theme = [[BSThreadViewTheme alloc] initWithContentsOfFile: fullpath];
+				if (!theme) continue;
 
-- (NSButton *) threadsListFontButton
-{
-	return _threadsListFontButton;
-}
+				NSString *id_ = [theme identifier];
+				if ([id_ isEqualToString: kThreadViewThemeCustomThemeIdentifier]) continue;
 
-- (NSButton *) newThreadFontButton
-{
-	return _newThreadFontButton;
-}
-- (NSButton *) replyFontButton
-{
-	return m_replyFontButton;
-}
+				item = [[NSMenuItem alloc] initWithTitle: id_ action: @selector(chooseTheme:) keyEquivalent: @""];
+				[item setRepresentedObject: file];
+				[item setTarget: self];
 
-- (NSButton *) hostFontButton
-{
-	return _hostFontButton;
-}
-- (NSButton *) boardListTextFontButton
-{
-	return m_BLtextFontButton;
-}
-
-- (NSButton *) beProfileFontButton
-{
-	return _beProfileFontButton;
+				[menu_ insertItem: item atIndex: 1];
+				[item release];
+				[theme release];
+			}
+		}
+	}
 }
 
 - (void) setupUIComponents
 {
+	if (nil == _contentView)
+		return;
+
+	[self setUpMenu];
+	[self updateUIComponents];
 }
 
-- (NSFont *) getFontOf : (int) btnTag
-{
-	NSString *fonts[] = {
-		@"threadsViewFont",
-		@"messageFont",
-		@"messageTitleFont",
-		@"threadsListFont",
-		@"threadsListNewThreadFont",
-		@"replyFont",
-		@"messageAlternateFont",
-		@"messageHostFont",
-		@"messageBeProfileFont",
-		@"boardListFont"
-	};
-
-	AppDefaults *pref_ = [self preferences];
-	NSFont *f = [pref_ valueForKey : fonts[btnTag]];
-	return f;
-}
-
-- (void) updateFontWellComponents
-{
-	NSString *controls[] = {
-		@"threadViewFontButton",
-		@"messageFontButton",
-		@"itemTitleFontButton",
-		@"threadsListFontButton",
-		@"newThreadFontButton",
-		@"replyFontButton",
-		@"alternateFontButton",
-		@"hostFontButton",
-		@"beProfileFontButton",
-		@"boardListTextFontButton"
-	};
-	int i, cnt = UTILNumberOfCArray(controls);
-	for (i = 0; i < cnt; i++) {
-		NSButton		*field;
-		
-		field = [self valueForKey : controls[i]];
-		NSFont *font_ = [self getFontOf : i];
-		NSFont *font2_ = [NSFont fontWithName : [font_ fontName] size : [[field font] pointSize]];
-		[field setFont : font2_];
-		[field setTitle : [NSString stringWithFormat : @"%@ %0.0f",[font_ displayName], [font_ pointSize]]];
-	}
-}
-*/
 - (void) updateUIComponents
 {
-/*	AppDefaults *pref_ = [self preferences];
-	
-	if (nil == _contentView || nil == pref_) return;
-	
-	[self updateFontWellComponents];*/
+	NSString *tmp_;
+
+	tmp_ = [[self preferences] themeFileName];
+	if(!tmp_ || [tmp_ isEqualToString : @""]) {
+		BOOL useCustom = [[self preferences] usesCustomTheme];
+		if (useCustom && [[NSFileManager defaultManager] fileExistsAtPath: [[self preferences] customThemeFilePath]]) {
+			[m_themesChooser selectItemWithTag: -1];
+		} else {
+			[m_themesChooser selectItemWithTag: 1];
+		}
+	} else {
+		NSString *filePath = [[self preferences] createFullPathFromThemeFileName: tmp_];
+		if([[NSFileManager defaultManager] fileExistsAtPath: filePath]) {
+			[m_themesChooser selectItemAtIndex: [m_themesChooser indexOfItemWithRepresentedObject: tmp_]];
+		} else {
+			[m_themesChooser selectItemWithTag: 1];
+		}
+	}
+
+	[m_themesChooser synchronizeTitleAndSelectedItem];
 }
 @end
 

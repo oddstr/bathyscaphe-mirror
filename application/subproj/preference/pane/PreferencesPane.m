@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesPane.m,v 1.4 2006/11/05 13:02:22 tsawada2 Exp $
+  * $Id: PreferencesPane.m,v 1.5 2007/03/23 17:27:52 tsawada2 Exp $
   * 
   * PreferencesPane.m
   *
@@ -86,6 +86,9 @@ DefineConstStr(PPSyncPreferencesIdentifier, @"Sync");
 	BOOL	isWindowLoaded_;
 	
 	isWindowLoaded_ = [self isWindowLoaded];
+
+//	if (!isWindowLoaded_)
+//		[[self window] center];
 	
 	[super showWindow : sender];
 	
@@ -140,6 +143,7 @@ DefineConstStr(PPSyncPreferencesIdentifier, @"Sync");
 	[self setContentViewWithController : controller_];
 	[self setupToolbar];
 	[[[self window] toolbar] setSelectedItemIdentifier: identifier_];
+	[[self window] center];
 }
 
 - (void) updateUIComponents

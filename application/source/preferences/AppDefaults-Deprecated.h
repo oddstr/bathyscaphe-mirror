@@ -105,3 +105,14 @@
 //- (NSString *) proxyHost;
 //- (void) setProxyHost : (NSString *) aProxyURL;
 
+// Deprecated in Starlight Breaker.
+//- (CMRSearchMask) threadSearchOption;
+//- (void) setThreadSearchOption : (CMRSearchMask) option;
+
+//- (BOOL) browserSTableDrawsBackground;
+//- (void) setBrowserSTableDrawsBackground : (BOOL) flag;
+
+//- (void) setThreadViewerBackgroundColor : (NSColor *) color;
+// Alwaws YES. Deprecated.
+//- (BOOL) threadViewerDrawsBackground;
+//- (void) setThreadViewerDrawsBackground : (BOOL) flag;

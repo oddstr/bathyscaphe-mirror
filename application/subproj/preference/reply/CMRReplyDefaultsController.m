@@ -26,7 +26,6 @@ static NSString *const kReplyDefaultsControllerNibName = @"ReplySetting";
 {
 	[m_temporaryKoteHan release];
 	m_temporaryKoteHan = nil;
-	[m_addKoteHanSheet release];
 	[super dealloc];
 }
 

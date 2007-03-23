@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.47 2007/02/25 11:51:04 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.48 2007/03/23 17:27:52 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -395,6 +395,7 @@
 - (void) updateDefaultsWithTableView : (NSTableView *) tbview
 {
 	id	tmp;
+	BOOL	dontDrawBgColor = [CMRPref browserSTableDrawsStriped];
     tmp = SGTemplateResource(kThreadsListTableICSKey);
     UTILAssertRespondsTo(tmp, @selector(stringValue));
     [tbview setIntercellSpacing : NSSizeFromString([tmp stringValue])];
@@ -402,16 +403,16 @@
     [tbview setRowHeight : [CMRPref threadsListRowHeight]];
     [tbview setFont : [CMRPref threadsListFont]];
     
-    [tbview setUsesAlternatingRowBackgroundColors : [CMRPref browserSTableDrawsStriped]];
+    [tbview setUsesAlternatingRowBackgroundColors : dontDrawBgColor];
 	
-	if([CMRPref browserSTableDrawsBackground]) {
+	if(NO == dontDrawBgColor) { // do draw bg color
 		[tbview setBackgroundColor : [CMRPref browserSTableBackgroundColor]];
-	} else {
+	} //else {
 		// 背景を塗らない設定に変更したら、デフォルトの色に戻ってほしいので、
 		// もし、今デフォルトの色になっていないのなら、戻しておく。
-		if (!([[tbview backgroundColor] isEqual: [NSColor whiteColor]]))
-			[tbview setBackgroundColor : [NSColor whiteColor]];
-	}
+		//if (!([[tbview backgroundColor] isEqual: [NSColor whiteColor]]))
+		//	[tbview setBackgroundColor : [NSColor whiteColor]];
+	//}
 	[tbview setGridStyleMask : ([CMRPref threadsListDrawsGrid] ? NSTableViewSolidVerticalGridLineMask : NSTableViewGridNone)];
 }
 

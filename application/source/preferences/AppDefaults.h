@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.37 2007/03/15 02:35:16 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.38 2007/03/23 17:27:52 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -13,7 +13,7 @@
 #import "BSImagePreviewerInterface.h"
 
 @protocol w2chConnect;
-
+@class BSThreadViewTheme;
 /*!
  * @define      CMRPref
  * @discussion  グローバルな初期設定オブジェクト
@@ -28,22 +28,6 @@ typedef enum _BSAutoSyncIntervalType {
 	BSAutoSyncEveryDay	= 12, // available in ReinforceII and later.
 } BSAutoSyncIntervalType;
 
-
-/*** Preference's Value Proxy ***/
-@interface CMRPreferenceValueProxy : NSProxy
-{
-	@private
-	id		_preferences;
-	id		_userData;
-	SEL		_selector;
-	id		_realObject;
-}
-- (id) initWithPreferences : (id) aPref;
-- (void) setUserData:(id)anUserData querySelector:(SEL)aSelector;
-@end
-
-
-
 @interface AppDefaults : NSObject
 {
 	@private
@@ -55,8 +39,7 @@ typedef enum _BSAutoSyncIntervalType {
 	NSMutableDictionary		*_dictFilter;
 	NSMutableDictionary		*m_soundsDictionary;
 	NSMutableDictionary		*m_boardWarriorDictionary;
-	
-	NSMutableDictionary		*_proxyCache;
+	BSThreadViewTheme		*m_threadViewTheme;
 	
 	// 頻繁にアクセスされる可能性のある変数
 	struct {
@@ -70,17 +53,12 @@ typedef enum _BSAutoSyncIntervalType {
 + (id) sharedInstance;
 - (NSUserDefaults *) defaults;
 - (void) postLayoutSettingsUpdateNotification;
-/*** Preference's Value Proxy ***/
-- (id) valueProxyForSelector : (SEL) aSelector
-						 key : (id ) aKey;
-
 
 - (BOOL) loadDefaults;
 - (BOOL) saveDefaults;
 
-// 実験→中止
-//- (BOOL) saveThreadListAsBinaryPlist;
-//- (BOOL) saveThreadDocAsBinaryPlist;
+// バイナリ形式でログを保存
+- (BOOL) saveThreadDocAsBinaryPlist;
 
 - (BOOL) isOnlineMode;
 - (void) setIsOnlineMode : (BOOL) flag;
@@ -113,11 +91,11 @@ typedef enum _BSAutoSyncIntervalType {
 - (void) setInformWhenDetectDatOchi: (BOOL) shouldInform;
 
 /* MeteorSweeper Additions */
-- (BOOL) moveFocusToViewerWhenShowThreadAtRow;
-- (void) setMoveFocusToViewerWhenShowThreadAtRow: (BOOL) shouldMove;
+//- (BOOL) moveFocusToViewerWhenShowThreadAtRow;
+//- (void) setMoveFocusToViewerWhenShowThreadAtRow: (BOOL) shouldMove;
 
-- (BOOL) oldFavoritesUpdated;
-- (void) setOldFavoritesUpdated: (BOOL) flag;
+//- (BOOL) oldFavoritesUpdated;
+//- (void) setOldFavoritesUpdated: (BOOL) flag;
 
 /* ReinforceII Hidden Option */
 - (BOOL) oldMessageScrollingBehavior;
@@ -136,8 +114,6 @@ typedef enum _BSAutoSyncIntervalType {
 - (void) setCollectByNew : (BOOL) flag;
 
 /* Search option */
-- (CMRSearchMask) threadSearchOption;
-- (void) setThreadSearchOption : (CMRSearchMask) option;
 - (CMRSearchMask) contentsSearchOption;
 - (void) setContentsSearchOption : (CMRSearchMask) option;
 
@@ -168,15 +144,11 @@ typedef enum _BSAutoSyncIntervalType {
 - (void) setBrowserSTableDrawsStriped : (BOOL) flag;
 - (NSColor *) browserSTableBackgroundColor;
 - (void) setBrowserSTableBackgroundColor : (NSColor *) color;
-- (BOOL) browserSTableDrawsBackground;
-- (void) setBrowserSTableDrawsBackground : (BOOL) flag;
 - (NSColor *) boardListBackgroundColor;
 - (void) setBoardListBackgroundColor : (NSColor *) color;
 
 - (NSColor *) threadViewerBackgroundColor;
-- (void) setThreadViewerBackgroundColor : (NSColor *) color;
-- (BOOL) threadViewerDrawsBackground;
-- (void) setThreadViewerDrawsBackground : (BOOL) flag;
+
 - (NSColor *) resPopUpBackgroundColor;
 - (void) setResPopUpBackgroundColor : (NSColor *) color;
 
@@ -209,12 +181,6 @@ typedef enum _BSAutoSyncIntervalType {
 
 
 // 迷惑レスを見つけたときの動作：
-/*enum {
-	kSpamFilterChangeTextColorBehavior = 1,
-	kSpamFilterLocalAbonedBehavior,
-	kSpamFilterInvisibleAbonedBehavior
-};*/
-
 - (int) spamFilterBehavior;
 - (void) setSpamFilterBehavior : (int) mask;
 
@@ -256,43 +222,51 @@ typedef enum _BSAutoSyncIntervalType {
 - (NSFont *) threadsListNewThreadFont;
 - (void) setThreadsListNewThreadFont : (NSFont *) aFont;
 
+/* Starlight Breaker -- Theme groups */
 - (NSFont *) threadsViewFont;
-- (void) setThreadsViewFont : (NSFont *) aFont;
+//- (void) setThreadsViewFont : (NSFont *) aFont;
 - (NSColor *) threadsViewColor;
-- (void) setThreadsViewColor : (NSColor *) color;
-
-- (NSColor *) messageColor;
-- (void) setMessageColor : (NSColor *) color;
+//- (void) setThreadsViewColor : (NSColor *) color;
 
 - (NSFont *) messageFont;
-- (void) setMessageFont : (NSFont *) font;
+//- (void) setMessageFont : (NSFont *) font;
+- (NSColor *) messageColor;
+//- (void) setMessageColor : (NSColor *) color;
 
-- (NSColor *) messageTitleColor;
-- (void) setMessageTitleColor : (NSColor *) color;
 
 - (NSFont *) messageTitleFont;
-- (void) setMessageTitleFont : (NSFont *) font;
+//- (void) setMessageTitleFont : (NSFont *) font;
+- (NSColor *) messageTitleColor;
+//- (void) setMessageTitleColor : (NSColor *) color;
+
 
 - (NSColor *) messageNameColor;
-- (void) setMessageNameColor : (NSColor *) color;
+//- (void) setMessageNameColor : (NSColor *) color;
 
 - (NSFont *) messageAlternateFont;
-- (void) setMessageAlternateFont : (NSFont *) font;
+//- (void) setMessageAlternateFont : (NSFont *) font;
 
 - (NSColor *) messageAnchorColor;
-- (void) setMessageAnchorColor : (NSColor *) color;
+//- (void) setMessageAnchorColor : (NSColor *) color;
+
+- (NSFont *) messageHostFont;
+//- (void) setMessageHostFont : (NSFont *) aFont;
+- (NSColor *) messageHostColor;
+//- (void) setMessageHostColor : (NSColor *) color;
+
+- (NSFont *) messageBeProfileFont;
+//- (void) setMessageBeProfileFont : (NSFont *) aFont;
+
+- (NSFont *) messageBookmarkFont;
+//- (void) setMessageBookmarkFont: (NSFont *) aFont;
+- (NSColor *) messageBookmarkColor;
+//- (void) setMessageBookmarkColor: (NSColor *) color;
+/* End Theme groups */
+
 - (NSColor *) messageFilteredColor;
 - (void) setMessageFilteredColor : (NSColor *) color;
 - (NSColor *) textEnhancedColor;
 - (void) setTextEnhancedColor : (NSColor *) color;
-
-- (NSFont *) messageHostFont;
-- (void) setMessageHostFont : (NSFont *) aFont;
-
-- (NSColor *) messageHostColor;
-- (void) setMessageHostColor : (NSColor *) color;
-- (NSFont *) messageBeProfileFont;
-- (void) setMessageBeProfileFont : (NSFont *) aFont;
 
 /* boardList font */
 - (NSFont *) boardListFont;
@@ -368,6 +342,18 @@ typedef enum _BSAutoSyncIntervalType {
 - (BOOL) _saveThreadsListSettings;
 @end
 
+@interface AppDefaults(ThreadViewTheme)
+- (BSThreadViewTheme *) threadViewTheme;
+- (void) setThreadViewTheme: (BSThreadViewTheme *) aTheme;
+
+- (NSString *) customThemeFilePath;
+- (NSString *) createFullPathFromThemeFileName: (NSString *) fileName;
+
+- (NSString *) themeFileName;
+- (void) setThemeFileName: (NSString *) fileName;
+- (BOOL) usesCustomTheme;
+- (void) setUsesCustomTheme: (BOOL) use;
+@end
 
 
 @interface AppDefaults(ThreadViewerSettings)

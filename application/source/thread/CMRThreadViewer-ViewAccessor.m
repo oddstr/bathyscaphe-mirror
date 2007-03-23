@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.19 2007/03/07 05:51:25 tsawada2 Exp $
+  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.20 2007/03/23 17:27:52 tsawada2 Exp $
   * 
   * CMRThreadViewer-ViewAccessor.m
   *
@@ -14,7 +14,7 @@
 #import "CMRMainMenuManager.h"
 #import "CMRMessageAttributesTemplate.h"
 #import <SGAppKit/BSLayoutManager.h>
-
+#import "CMRThreadFileLoadingTask.h"
 // for debugging only
 #define UTIL_DEBUGGING		0
 #import "UTILDebugging.h"
@@ -23,7 +23,7 @@
 #define kComponentsLoadNibName	@"CMRThreadViewerComponents"
 #define HTMLVIEW_CLASS			CMRThreadView
 
-
+static void *kThreadViewThemeBgColorContext = @"BabyRose";
 @implementation CMRThreadViewer(ViewAccessor)
 - (NSScrollView *) scrollView
 {
@@ -336,31 +336,74 @@
 	[self setTextView : view];
 
 	[self updateLayoutSettings];
+	[self setupTextViewBackground];
+	[CMRPref addObserver: self
+			  forKeyPath: @"threadViewTheme.backgroundColor"
+				 options: NSKeyValueObservingOptionNew
+				 context: kThreadViewThemeBgColorContext];
 
 	[[self scrollView] setDocumentView : view];
 	
 	[view release];
 }
+
+- (void) observeValueForKeyPath: (NSString *) keyPath ofObject: (id) object change: (NSDictionary *) change context: (void *) context
+{
+	if (context == kThreadViewThemeBgColorContext && object == CMRPref && [keyPath isEqualToString: @"threadViewTheme.backgroundColor"]) {
+		NSColor *color = [change objectForKey: NSKeyValueChangeNewKey];
+		if (!color) {
+			NSLog(@"Warning! -[observeValueForKeyPath:ofObject:change:context:] color is nil.");
+			return;
+		}
+		[[self textView] setBackgroundColor : color];
+		[[self scrollView] setBackgroundColor : color];
+
+		{
+			id<CMRThreadLayoutTask>		task;
+			if ([self synchronize]) {
+			task = [[CMRThreadFileLoadingTask alloc] initWithFilepath : [self path]];
+			[[self threadLayout] doDeleteAllMessages];
+			[[NSNotificationCenter defaultCenter] addObserver: self
+													 selector: @selector(changeThemeTaskDidFinish:)
+														 name: CMRThreadComposingDidFinishNotification
+													   object: task];
+			[[self threadLayout] push : task];
+			[task release];
+			}
+		}
+	}
+}
+
+- (void) changeThemeTaskDidFinish: (NSNotification *) aNotification
+{
+	[self setInvalidate : NO];
+	[self scrollToLastReadedIndex : self];
+	[[self window] invalidateCursorRectsForView : [[[self threadLayout] scrollView] contentView]];
+	[[NSNotificationCenter defaultCenter] removeObserver: self
+													name: CMRThreadComposingDidFinishNotification
+												  object: [aNotification object]];
+}
+
 - (void) updateLayoutSettings
 {
 	[(BSLayoutManager *)[[self textView] layoutManager] setShouldAntialias: [CMRPref shouldThreadAntialias]];
 	[[self textView] setLinkTextAttributes : [[CMRMessageAttributesTemplate sharedTemplate] attributesForAnchor]];
-	[self setupTextViewBackground];
+//	[self setupTextViewBackground];
 }
 
 - (void) setupTextViewBackground
 {
 	NSColor		*color;
-	BOOL		draws;
+//	BOOL		draws;
 	
 	color = [CMRPref threadViewerBackgroundColor];
-	draws = [CMRPref threadViewerDrawsBackground];
+//	draws = [CMRPref threadViewerDrawsBackground];
 
 	// textView
-	[[self textView] setDrawsBackground : draws];
+	[[self textView] setDrawsBackground : YES];//draws];
 	[[self textView] setBackgroundColor : color];
 	// scrollView
-	[[self scrollView] setDrawsBackground : draws];
+	[[self scrollView] setDrawsBackground : YES];//draws];
 	[[self scrollView] setBackgroundColor : color];
 }
 

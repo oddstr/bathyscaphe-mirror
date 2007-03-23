@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.31 2007/03/11 09:02:57 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.32 2007/03/23 17:27:52 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -419,7 +419,8 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 	// colorValue 配列の要素数が 0 のときは、デフォルトのカラーに戻す。
 	// また、配列の要素数が 0,3 以外のときは何もしない。
 	if ([colorValue count] == 0) {
-		[CMRPref setBrowserSTableDrawsBackground : NO];
+//		[CMRPref setBrowserSTableDrawsBackground : NO];
+		[CMRPref setBrowserSTableBackgroundColor: [NSColor whiteColor]];
 	} else if ([colorValue count] == 3) {
 		float red,green,blue;
 		red		= [[colorValue objectAtIndex : 0] floatValue];
@@ -427,7 +428,8 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 		blue	= [[colorValue objectAtIndex : 2] floatValue];
 	
 		if (red == 0 && green == 0 && blue == 0) {
-			[CMRPref setBrowserSTableDrawsBackground : NO];
+//			[CMRPref setBrowserSTableDrawsBackground : NO];
+			[CMRPref setBrowserSTableBackgroundColor: [NSColor whiteColor]];
 		} else {
 			[CMRPref setBrowserSTableBackgroundColor : [NSColor colorWithCalibratedRed:red green:green blue:blue alpha:1.0]];
 		}

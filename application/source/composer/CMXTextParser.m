@@ -1,5 +1,5 @@
 /**
-  * $Id: CMXTextParser.m,v 1.23 2007/03/21 07:54:05 tsawada2 Exp $
+  * $Id: CMXTextParser.m,v 1.24 2007/03/23 17:27:52 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -16,9 +16,6 @@
 
 static NSString *const CMXTextParserComma					= @",";
 static NSString *const CMXTextParser2chSeparater			= @"<>";
-
-static NSString *const CMXTextParserBSPeriod				= @".";
-static NSString *const CMXTextParserBSZero					= @"0";
 
 #define kAvailableURLCFEncodingsNSArrayKey		@"System - AvailableURLCFEncodings"
 
@@ -540,7 +537,7 @@ static id fnc_queryUsingEncoding(id obj, NSStringEncoding enc)
 }
 
 #pragma mark Low Level APIs
-static BOOL divideField(NSString *field, NSString **datePart, NSString **extraPart, CMRThreadMessage *aMessage)
+static BOOL divideField(NSString *field, NSString **datePart, NSString **milliSecPart, NSString **extraPart, CMRThreadMessage *aMessage)
 {
 	static OGRegularExpression *regExpForPrefix;
 	static OGRegularExpression *regExp;
@@ -549,7 +546,7 @@ static BOOL divideField(NSString *field, NSString **datePart, NSString **extraPa
 		regExpForPrefix = [[OGRegularExpression alloc] initWithString: @"^(.*),\\d{2,4}"];
 	}
 	if (regExp == nil) {
-		regExp = [[OGRegularExpression alloc] initWithString: @"^(.*\\d{2}:\\d{2})\\s?(\\s<a href=\"http://2ch.se/\">.*</a>)?\\s?(.*)"];
+		regExp = [[OGRegularExpression alloc] initWithString: @"^(.*\\d{2}:\\d{2})(\\.\\d{2})? ?( <a href=\"http://2ch.se/\">.*</a>)? ?(.*)"];
     }
 
 	// 
@@ -571,19 +568,30 @@ static BOOL divideField(NSString *field, NSString **datePart, NSString **extraPa
     //
 	OGRegularExpressionMatch *match = [regExp matchInString: field];
 	if (match) {
-		NSString *tmpDate, *tmpStock, *tmpExtra, *dateRep;
+		NSString *tmpDate, *tmpMilliSec, *tmpStock, *tmpExtra, *dateRep;
 		
 		tmpDate = [match substringAtIndex: 1];
-		tmpStock = [match substringAtIndex: 2];
-		tmpExtra = [match substringAtIndex: 3];
+		tmpMilliSec = [match substringAtIndex: 2];
+		tmpStock = [match substringAtIndex: 3];
+		tmpExtra = [match substringAtIndex: 4];
 //		NSLog(@"tmpDate<%@> tmpStock<%@> tmpExtra<%@>", tmpDate, (tmpStock != nil) ? tmpStock: @"NULL", tmpExtra);
 		if (datePart != NULL) *datePart = tmpDate;
 		if (extraPart != NULL) *extraPart = tmpExtra;
 		
 		if (tmpStock) {
-			dateRep = [NSString stringWithFormat: @"%@ %@", tmpDate, tmpStock];
+			if (tmpMilliSec) {
+				dateRep = [NSString stringWithFormat: @"%@%@ %@", tmpDate,tmpMilliSec, tmpStock];
+				if (milliSecPart != NULL) *milliSecPart = tmpMilliSec;
+			} else {
+				dateRep = [NSString stringWithFormat: @"%@ %@", tmpDate, tmpStock];
+			}
 		} else {
-			dateRep = tmpDate;
+			if (tmpMilliSec) {
+				dateRep = [NSString stringWithFormat: @"%@%@", tmpDate, tmpMilliSec];
+				if (milliSecPart != NULL) *milliSecPart = tmpMilliSec;
+			} else {
+				dateRep = tmpDate;
+			}
 		}
 		[aMessage setDateRepresentation: (tmpPrefix == nil) ? dateRep : [NSString stringWithFormat: @"%@,%@", tmpPrefix, dateRep]];
 	} else { // Ç†Ç⁄Å[ÇÒÇ»Ç«ÇÃèÍçáÇ±ÇøÇÁÇ…âÒÇÈ
@@ -595,7 +603,9 @@ static BOOL divideField(NSString *field, NSString **datePart, NSString **extraPa
 	return YES;
 }
 
-static id dateWith2chDateString(NSString *theString)
+// milliSecString sample:
+// .45 (comma included, 2 keta)
+static id dateWith2chDateString(NSString *theString, NSString *milliSecString)
 {
     static CFDateFormatterRef   kDateFormatterStd = NULL;
     static CFDateFormatterRef   kDateFormatterAlt = NULL;
@@ -631,13 +641,14 @@ static id dateWith2chDateString(NSString *theString)
 	}
 
 	// 1/100 -> 1/1000
-	{
-		NSRange	commaFound_;
-		commaFound_ = [dateString_ rangeOfString: CMXTextParserBSPeriod
-										 options: (NSLiteralSearch|NSBackwardsSearch)];
+	if (milliSecString != nil) {
+//		NSRange	commaFound_;
+//		commaFound_ = [dateString_ rangeOfString: CMXTextParserBSPeriod
+//										 options: (NSLiteralSearch|NSBackwardsSearch)];
 
-		if (commaFound_.location != NSNotFound) {
-			[dateString_ appendString: CMXTextParserBSZero];
+//		if (commaFound_.location != NSNotFound) {
+			[dateString_ appendString: milliSecString];
+			[dateString_ appendString: @"0"];
 
     		CFDateFormatterSetFormat(kDateFormatterAlt, CFSTR("yyyy/MM/dd HH:mm:ss.SSS"));
 			date_ = (NSDate *)CFDateFormatterCreateDateFromString(NULL, kDateFormatterAlt, (CFStringRef)dateString_, NULL);
@@ -649,7 +660,7 @@ static id dateWith2chDateString(NSString *theString)
 			} else {
 				goto return_date;
 			}
-		}
+//		}
 	}
 
 	// ëçìñÇΩÇËêÌäJén 
@@ -812,19 +823,21 @@ static BOOL _parseExtraField(NSString *extraField, CMRThreadMessage *aMessage)
 static BOOL _parseDateExtraField(NSString *dateExtra, CMRThreadMessage *aMessage)
 {
 	NSString		*datePart_ = nil;
+	NSString		*milliSecPart_ = nil;
 	NSString		*extraPart_ = nil;
 
 	if (nil == dateExtra || 0 == [dateExtra length]) return YES;
 
-	divideField(dateExtra, &datePart_, &extraPart_, aMessage);
+	divideField(dateExtra, &datePart_, &milliSecPart_, &extraPart_, aMessage);
 
 	if (datePart_) {
 		id date_;	
-		NSMutableString *tmpDatePart_ = [datePart_ mutableCopy];
-		
-		CFStringTrimWhitespace((CFMutableStringRef)tmpDatePart_);
+//		NSMutableString *tmpDatePart_ = [datePart_ mutableCopy];
+//		
+//		CFStringTrimWhitespace((CFMutableStringRef)tmpDatePart_);
 
-		date_ = dateWith2chDateString(tmpDatePart_);
+//		date_ = dateWith2chDateString(tmpDatePart_);
+		date_ = dateWith2chDateString(datePart_, milliSecPart_);
 
 		if (nil == date_) {
 			NSLog(@"Can't Convert '%@' to Date.", datePart_);

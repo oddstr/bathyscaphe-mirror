@@ -88,7 +88,7 @@ static NSString *const kPrefReplyWindowBgAlphaKey = @"Reply Window Bg Alpha Valu
 	[self setBGDefaultsColor : color
 					  forKey : AppDefaultsSTableBackgroundColorKey];
 	[self setBrowserSTableDrawsStriped : NO]; //どうしてもカスタムカラーで塗るというなら、塗り分けは自動的に無効化する
-	[self setBrowserSTableDrawsBackground : YES];
+//	[self setBrowserSTableDrawsBackground : YES];
 }
 
 - (BOOL) browserSTableDrawsStriped
@@ -103,10 +103,10 @@ static NSString *const kPrefReplyWindowBgAlphaKey = @"Reply Window Bg Alpha Valu
 	[[self backgroundColorDictionary]
 			 setBool : flag
 			  forKey : AppDefaultsSTableDrawsStripedKey];
-	[self setBrowserSTableDrawsBackground : NO];//(NO == flag)];
+//	[self setBrowserSTableDrawsBackground : NO];//(NO == flag)];
 	[self postLayoutSettingsUpdateNotification];
 }
-
+/*
 - (BOOL) browserSTableDrawsBackground
 {
 	return [[self backgroundColorDictionary]
@@ -121,7 +121,7 @@ static NSString *const kPrefReplyWindowBgAlphaKey = @"Reply Window Bg Alpha Valu
 			  forKey : AppDefaultsSTableDrawsBackgroundKey];
 	[self postLayoutSettingsUpdateNotification];
 }
-
+*/
 - (NSColor *) boardListBackgroundColor
 {
 	NSColor		*color_;
@@ -145,16 +145,17 @@ static NSString *const kPrefReplyWindowBgAlphaKey = @"Reply Window Bg Alpha Valu
 #pragma mark Thread Viewer
 - (NSColor *) threadViewerBackgroundColor
 {
-	return [self defaultsColorForKey:AppDefaultsTVBackgroundColorKey];
+//	return [self defaultsColorForKey:AppDefaultsTVBackgroundColorKey];
+	return [[self threadViewTheme] backgroundColor];
 }
-
+/*
 - (void) setThreadViewerBackgroundColor : (NSColor *) color
 {
 	[self setBGDefaultsColor : color
 					  forKey : AppDefaultsTVBackgroundColorKey];
 	[self setThreadViewerDrawsBackground : YES];
-}
-
+}*/
+/*
 - (BOOL) threadViewerDrawsBackground
 {
 	return [[self backgroundColorDictionary]
@@ -169,7 +170,7 @@ static NSString *const kPrefReplyWindowBgAlphaKey = @"Reply Window Bg Alpha Valu
 			  forKey : AppDefaultsTVDrawsBackgroundKey];
 	[self postLayoutSettingsUpdateNotification];
 }
-
+*/
 #pragma mark Popup and Reply Window
 /*- (BOOL) isResPopUpSeeThrough
 {

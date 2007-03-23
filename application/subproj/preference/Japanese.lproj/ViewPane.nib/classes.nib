@@ -1,0 +1,38 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {
+                chooseDefaultTheme = id; 
+                chooseTheme = id; 
+                closePanelAndUseTagForReturnCode = id; 
+                editCustomTheme = id; 
+                fixRowHeightToFont = id; 
+                fixRowHeightToFontOfBoardList = id; 
+                saveTheme = id; 
+            }; 
+            CLASS = FCController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "m_themeEditSheet" = NSPanel; 
+                "m_themeGreenCube" = NSObjectController; 
+                "m_themeNameSheet" = NSPanel; 
+                "m_themesChooser" = NSPopUpButton; 
+            }; 
+            SUPERCLASS = PreferencesController; 
+        }, 
+        {
+            ACTIONS = {"" = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {openHelp = id; }; 
+            CLASS = PreferencesController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"_contentView" = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}
