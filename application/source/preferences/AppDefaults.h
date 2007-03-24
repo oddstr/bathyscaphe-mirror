@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.38 2007/03/23 17:27:52 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.39 2007/03/24 11:42:54 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -444,12 +444,12 @@ typedef enum _BSAutoSyncIntervalType {
 @end
 
 
-
+/*
 @interface AppDefaults(LibraryPath)
 - (BOOL) createDirectoryAtPath : (NSString *) path;
 - (BOOL) validatePathLength : (NSString *) filepath;
 @end
-
+*/
 
 
 @interface AppDefaults(BundleSupport)
@@ -472,7 +472,7 @@ typedef enum _BSAutoSyncIntervalType {
 - (BOOL) _saveImagePreviewerSettings;
 @end
 
-
+/*
 @interface AppDefaults(AlertPanel)
 + (NSString *) tableForPanels;
 + (NSString *) labelForDefaultButton;
@@ -482,7 +482,7 @@ typedef enum _BSAutoSyncIntervalType {
 								 message : (NSString *) msg;
 - (int) runCriticalAlertPanelWithLocalizedString : (NSString *) title
                                           message : (NSString *) msg;
-@end
+@end*/
 /* Vita Additions */
 @interface AppDefaults(Sounds)
 - (NSString *) HEADCheckNewArrivedSound;

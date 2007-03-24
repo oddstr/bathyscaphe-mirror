@@ -1,4 +1,14 @@
 2007-03-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/manager/CMRReplyDocumentFileManager.m
+		reply フォルダのパス取得方法を改めた。
+	* application/source/preferences/AppDefaults-Sounds.m
+		[新規追加] AppDefaults-Alert.m および AppDefaults-LibPath.m の一部メソッドがほとんど使われていなかったので
+		ターゲットから外し、AppDefaults-LibPath.m に居候していた Sounds 関連のメソッド群を新たに AppDefaults-Sounds.m
+		ファイルとして独立させた。
+		- ごちゃごちゃして巨大な AppDefaults クラスを少しでも分かりやすく、系統だったものに改良すべく集中的に再構成に
+		　取り組むことにした。
+	* application/source/CMRAppDelegate.m
+		「すべてのウインドウを閉じる」のコードが少々綱渡りだったのを、堅実な書き方に改めた。
 	* application/source/preferences/AppDefaults-FontColor.m
 		（まだ変換していないときは）今までの BathyScaphe の環境設定データベースに記録されているフォント・カラーの
 		設定から、ImportedTheme.plist というファイル名で スレッド内容表示領域のフォント・カラー設定オブジェクトを

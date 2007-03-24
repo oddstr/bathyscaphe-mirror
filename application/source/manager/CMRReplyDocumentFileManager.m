@@ -11,10 +11,8 @@
   */
 #import "CMRReplyDocumentFileManager.h"
 #import "CocoMonar_Prefix.h"
-#import "AppDefaults.h"
 #import "CMRDocumentFileManager.h"
 
-//#import "CMRDocumentController.h"
 #import "CMRThreadAttributes.h"
 #import "BoardManager.h"
 
@@ -100,9 +98,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager)
 	bm_ = [BoardManager defaultManager];
 	board_ = [contentInfo objectForKey : ThreadPlistBoardNameKey];
 
-	[fileContents_ setObject : [bm_ defaultKotehanForBoard : board_]//[CMRPref defaultReplyName]
+	[fileContents_ setObject : [bm_ defaultKotehanForBoard : board_]
 					  forKey : ThreadPlistContentsNameKey];
-	[fileContents_ setObject : [bm_ defaultMailForBoard : board_]//[CMRPref defaultReplyMailAddress]
+	[fileContents_ setObject : [bm_ defaultMailForBoard : board_]
 					  forKey : ThreadPlistContentsMailKey];
 	
 	return [fileContents_ writeToFile:filepath atomically:YES];
@@ -110,17 +108,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager)
 
 - (NSString *) replyDocumentDirectoryWithBoardName : (NSString *) boardName
 {
-	NSString		*path_;
-	
-	[[CMRDocumentFileManager defaultManager] ensureDirectoryExistsWithBoardName : boardName];
-	path_ = [[CMRDocumentFileManager defaultManager] directoryWithBoardName : boardName];
-	UTILAssertNotNil(path_);
-	path_ = [path_ stringByAppendingPathComponent : REPLY_MESSENGER_DOCUMENT_FOLDER_NAME];
-	
-	if(NO == [CMRPref createDirectoryAtPath : path_])
-		return nil;
-	
-	return path_;
+	SGFileRef *logFolderRef = [[CMRDocumentFileManager defaultManager] ensureDirectoryExistsWithBoardName : boardName];
+	SGFileRef *replyFolderRef = [logFolderRef fileRefWithChildName: REPLY_MESSENGER_DOCUMENT_FOLDER_NAME createDirectory:YES];
+	return [replyFolderRef filepath];
 }
 - (NSString *) replyDocumentFileExtention
 {

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRPreferencesDefautValues.h,v 1.7 2005/09/24 06:07:49 tsawada2 Exp $
+  * $Id: CMRPreferencesDefautValues.h,v 1.8 2007/03/24 11:42:54 tsawada2 Exp $
   * 
   * CMRPreferencesDefautValues.h
   *
@@ -63,3 +63,8 @@
 
 #define DEFAULT_HOST_FONTSIZE	10.0f
 #define DEFAULT_BEPROFILELINK_FONTSIZE	10.0f
+
+// Sounds
+#define DEFAULT_SOUND_HEADCHECK_NEW		@"Ping"
+#define DEFAULT_SOUND_HEADCHECK_NONE	@"Basso"
+#define DEFAULT_SOUND_HEADCHECK_REPLY	@""

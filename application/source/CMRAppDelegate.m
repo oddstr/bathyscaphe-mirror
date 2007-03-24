@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.32 2007/03/23 17:27:52 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.33 2007/03/24 11:42:54 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -67,7 +67,7 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 }
 - (IBAction) showStandardFindPanel : (id) sender
 {
-    [[TextFinder standardTextFinder] showWindow : self];
+    [[TextFinder standardTextFinder] showWindow : sender];
 }
 - (IBAction) toggleOnlineMode : (id) sender
 {    
@@ -78,12 +78,9 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 
 - (IBAction) togglePreviewPanel : (id) sender
 {
-	BOOL	result_;
-	result_ = [NSApp sendAction : @selector(togglePreviewPanel:)
-							 to : [CMRPref sharedImagePreviewer]
-						   from : sender];
-
-	if(NO == result_) NSLog(@"togglePreviewPanel: fail to send action.");
+	[NSApp sendAction : @selector(togglePreviewPanel:)
+				   to : [CMRPref sharedImagePreviewer]
+				 from : sender];
 }
 
 - (IBAction) showTaskInfoPanel : (id) sender
@@ -161,16 +158,15 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 
 - (IBAction) closeAll : (id) sender
 {
-	//この方法では「BathyScaphe について」パネルなどが閉じられない（Safari では閉じてくれる！）
-	//NSArray	*array_ = [NSApp orderedWindows];
-	//if (array_ == nil || [array_ count] == 0) return;
-	
-	//[array_ makeObjectsPerformSelector : @selector(performClose:)
-	//						withObject : sender];
-	
-	//この方法だと概ね良い感じだが、makeWindowsPerform:inOrder: を使って発信するセレクタは "Can’t take any arguments"
-	//であり、performClose: を使って良いのかどうかやや不安。（close を呼ぶ手もあるが、それもまたちょっと…）
-	[NSApp makeWindowsPerform : @selector(performClose:) inOrder : YES];
+	NSArray *allWindows = [NSApp windows];
+	if (!allWindows) return;
+	NSEnumerator	*iter = [allWindows objectEnumerator];
+	NSWindow		*window;
+	while (window = [iter nextObject]) {
+		if ([window isVisible] && NO == [window isSheet]) {
+			[window performClose: sender];
+		}
+	}
 }
 
 - (IBAction) miniaturizeAll : (id) sender
@@ -185,10 +181,7 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 
 - (IBAction) runBoardWarrior: (id) sender
 {
-	BoardWarrior *bw = [BoardWarrior warrior];
-	
-	if ([bw isInProgress]) return;
-	[bw syncBoardLists];
+	[[BoardWarrior warrior] syncBoardLists];
 }
 
 - (void) mainBrowserDidFinishShowThList : (NSNotification *) aNotification
@@ -419,7 +412,6 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 	// colorValue 配列の要素数が 0 のときは、デフォルトのカラーに戻す。
 	// また、配列の要素数が 0,3 以外のときは何もしない。
 	if ([colorValue count] == 0) {
-//		[CMRPref setBrowserSTableDrawsBackground : NO];
 		[CMRPref setBrowserSTableBackgroundColor: [NSColor whiteColor]];
 	} else if ([colorValue count] == 3) {
 		float red,green,blue;
@@ -428,7 +420,6 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 		blue	= [[colorValue objectAtIndex : 2] floatValue];
 	
 		if (red == 0 && green == 0 && blue == 0) {
-//			[CMRPref setBrowserSTableDrawsBackground : NO];
 			[CMRPref setBrowserSTableBackgroundColor: [NSColor whiteColor]];
 		} else {
 			[CMRPref setBrowserSTableBackgroundColor : [NSColor colorWithCalibratedRed:red green:green blue:blue alpha:1.0]];

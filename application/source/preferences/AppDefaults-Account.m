@@ -45,6 +45,31 @@ NS_ENDHANDLER
 {
 	return [self URLForKey : APP_BE2CH_REGISTRATION_PAGE_KEY];
 }*/
+/**
+  * 決定ボタンに表示する文字列
+  * 
+  * @return     表示する文字列
+  */
++ (NSString *) labelForDefaultButton
+{
+	return NSLocalizedStringFromTable(
+						@"OK",
+						APPDEFAULTS_KEYCHAIN_STRINGS_TABLE,
+						@"Lable for DefaultButton");
+}
+
+/**
+  * キャンセルボタンに表示する文字列
+  * 
+  * @return     表示する文字列
+  */
++ (NSString *) labelForAlternateButton
+{
+	return NSLocalizedStringFromTable(
+						@"Cancel",
+						APPDEFAULTS_KEYCHAIN_STRINGS_TABLE,
+						@"Lable for DefaultButton");
+}
 
 #pragma mark -
 

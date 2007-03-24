@@ -575,6 +575,7 @@
 		87C8FBDD09B3631800039203 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87C8FBDC09B3631800039203 /* Security.framework */; };
 		87C9DD3009404CA3004E6596 /* AppDefaults-Alert.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCDD04C698FB00A80005 /* AppDefaults-Alert.m */; };
 		87CC89590B198A7E003FB764 /* Loading.png in Resources */ = {isa = PBXBuildFile; fileRef = 87CC89580B198A7E003FB764 /* Loading.png */; };
+		87CCC7B00BB53DE500813E93 /* AppDefaults-Sounds.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CCC7AF0BB53DE500813E93 /* AppDefaults-Sounds.m */; };
 		87CD85CC098170ED002C4372 /* BSFavoritesHEADCheckTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 87CD85CA098170ED002C4372 /* BSFavoritesHEADCheckTask.h */; };
 		87CD85CD098170ED002C4372 /* BSFavoritesHEADCheckTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CD85CB098170ED002C4372 /* BSFavoritesHEADCheckTask.m */; };
 		87CF646A097A335D00DE8B16 /* Acknowledgments.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 87CF6468097A335D00DE8B16 /* Acknowledgments.rtf */; };
@@ -904,7 +905,6 @@
 		F473630A0AFF8758009B6189 /* AppDefaults-Background.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCDE04C698FB00A80005 /* AppDefaults-Background.m */; };
 		F473630B0AFF8758009B6189 /* AppDefaults-Bundle.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCDF04C698FB00A80005 /* AppDefaults-Bundle.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F473630C0AFF8758009B6189 /* AppDefaults-FontColor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCE004C698FB00A80005 /* AppDefaults-FontColor.m */; };
-		F473630D0AFF8758009B6189 /* AppDefaults-LibPath.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCE104C698FB00A80005 /* AppDefaults-LibPath.m */; };
 		F473630E0AFF8758009B6189 /* AppDefaults-ThreadsList.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCE304C698FB00A80005 /* AppDefaults-ThreadsList.m */; };
 		F473630F0AFF8758009B6189 /* AppDefaults-ThreadViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCE404C698FB00A80005 /* AppDefaults-ThreadViewer.m */; };
 		F47363100AFF8758009B6189 /* AppDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCE704C698FB00A80005 /* AppDefaults.m */; };
@@ -993,7 +993,6 @@
 		F47363690AFF8758009B6189 /* NoNameInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8718EFDD08D43F7D00FFAAEE /* NoNameInputController.m */; };
 		F473636A0AFF8758009B6189 /* BSBoardInfoInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BF52CA08F789D400998C4E /* BSBoardInfoInspector.m */; };
 		F473636B0AFF8758009B6189 /* CMRBrowser-BLEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 873C0DCE08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m */; };
-		F473636C0AFF8758009B6189 /* AppDefaults-Alert.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCDD04C698FB00A80005 /* AppDefaults-Alert.m */; };
 		F473636D0AFF8758009B6189 /* AddBoardSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 871265AC097D84ED00B90FF2 /* AddBoardSheetController.m */; };
 		F473636E0AFF8758009B6189 /* BSTitleRulerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 871265AE097D84ED00B90FF2 /* BSTitleRulerView.m */; };
 		F473636F0AFF8758009B6189 /* CMRAccessorySheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 871265B0097D84ED00B90FF2 /* CMRAccessorySheetController.m */; };
@@ -1509,6 +1508,7 @@
 		87C633C4087F53A60093559B /* AppDefaults-Deprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDefaults-Deprecated.h"; sourceTree = "<group>"; };
 		87C8FBDC09B3631800039203 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		87CC89580B198A7E003FB764 /* Loading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Loading.png; sourceTree = "<group>"; };
+		87CCC7AF0BB53DE500813E93 /* AppDefaults-Sounds.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-Sounds.m"; sourceTree = "<group>"; };
 		87CD85CA098170ED002C4372 /* BSFavoritesHEADCheckTask.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = BSFavoritesHEADCheckTask.h; sourceTree = "<group>"; };
 		87CD85CB098170ED002C4372 /* BSFavoritesHEADCheckTask.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = BSFavoritesHEADCheckTask.m; sourceTree = "<group>"; };
 		87CF6469097A335D00DE8B16 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Japanese; path = Japanese.lproj/Acknowledgments.rtf; sourceTree = "<group>"; };
@@ -3144,6 +3144,7 @@
 		F358F4B804DE224500A80005 /* default */ = {
 			isa = PBXGroup;
 			children = (
+				87CCC7AF0BB53DE500813E93 /* AppDefaults-Sounds.m */,
 				F32248E404D97CCC00A80005 /* CMXTemplateKeys.h */,
 				F322F7FB050BA07D00A80005 /* CMRPreferencesDefautValues.h */,
 				87C633C4087F53A60093559B /* AppDefaults-Deprecated.h */,
@@ -4674,7 +4675,6 @@
 				F473630A0AFF8758009B6189 /* AppDefaults-Background.m in Sources */,
 				F473630B0AFF8758009B6189 /* AppDefaults-Bundle.m in Sources */,
 				F473630C0AFF8758009B6189 /* AppDefaults-FontColor.m in Sources */,
-				F473630D0AFF8758009B6189 /* AppDefaults-LibPath.m in Sources */,
 				F473630E0AFF8758009B6189 /* AppDefaults-ThreadsList.m in Sources */,
 				F473630F0AFF8758009B6189 /* AppDefaults-ThreadViewer.m in Sources */,
 				F47363100AFF8758009B6189 /* AppDefaults.m in Sources */,
@@ -4763,7 +4763,6 @@
 				F47363690AFF8758009B6189 /* NoNameInputController.m in Sources */,
 				F473636A0AFF8758009B6189 /* BSBoardInfoInspector.m in Sources */,
 				F473636B0AFF8758009B6189 /* CMRBrowser-BLEditor.m in Sources */,
-				F473636C0AFF8758009B6189 /* AppDefaults-Alert.m in Sources */,
 				F473636D0AFF8758009B6189 /* AddBoardSheetController.m in Sources */,
 				F473636E0AFF8758009B6189 /* BSTitleRulerView.m in Sources */,
 				F473636F0AFF8758009B6189 /* CMRAccessorySheetController.m in Sources */,
@@ -4812,6 +4811,7 @@
 				874A691D0B9DCFC500BB8FA7 /* BSVisibleRangePopUpBtnCell.m in Sources */,
 				87DB9C790BA32CA20090090A /* TS2SoftwareUpdate.m in Sources */,
 				87D32F240BAC1C6D002B6006 /* BSSearchOptions.m in Sources */,
+				87CCC7B00BB53DE500813E93 /* AppDefaults-Sounds.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
