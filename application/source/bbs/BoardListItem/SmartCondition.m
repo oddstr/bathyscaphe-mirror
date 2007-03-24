@@ -365,7 +365,7 @@ static NSString *SCValue2CodingKey = @"SCValue2CodingKey";
 @end
 
 @implementation StringCondition
-- (id)processedvalue
+- (id)processedValue
 {
 	return [SQLiteDB prepareStringForQuery : mValue1];
 }
