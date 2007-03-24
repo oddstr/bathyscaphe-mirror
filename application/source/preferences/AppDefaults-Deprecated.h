@@ -116,3 +116,23 @@
 // Alwaws YES. Deprecated.
 //- (BOOL) threadViewerDrawsBackground;
 //- (void) setThreadViewerDrawsBackground : (BOOL) flag;
+
+// Constants
+//#define DEFAULT_NEW_THREADS_LIMIT			(100)
+//#define DEFAULT_THREADS_VIEW_FONTSIZE		(12.0f)
+//#define DEFAULT_TL_IS_IGNORE_CHARACTERS		NO
+//#define DEFAULT_BROWSER_THREAD_SEARCH_TAG	0
+//#define DEFAULT_BROWSER_THREAD_SOPTION		JTCaseInsensitiveSearch
+//#define DEFAULT_BROWSER_VISIBLE_MESSAGE_TAG	50
+
+//#define DEFAULT_RESPOPUP_IS_SEETHROUGH		NO
+//#define DEFAULT_STATUS_LINE_VISIBLE			NO
+
+//#define DEFAULT_TVIEW_DRAWS_BGCOLOR			YES
+//#define DEFAULT_MESSAGE_HEAD_INDENT			40.0f
+
+//#define DEFAULT_SHOULD_SAVE_PASSWORD		NO
+//#define DEFAULT_SV_ACCESSORY_POSITION			(SGRightAccessoryViewPosition | SGTopAccessoryViewPosition)
+
+//#define DEFAULT_STABLE_DRAWS_BGCOLOR			NO
+//#define DEFAULT_THREAD_LIST_INTERCELL_SPACING	NSMakeSize(3.0f, 2.0f)

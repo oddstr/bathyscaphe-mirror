@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.20 2007/03/23 19:21:54 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.21 2007/03/24 15:36:30 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -276,7 +276,7 @@ NS_ENDHANDLER
 - (CMRSearchMask) contentsSearchOption
 {
 	return [[self defaults] integerForKey : AppDefaultsContentsSearchOptionKey
-						defaultValue : CMRSearchOptionCaseInsensitive];
+						defaultValue : DEFAULT_CONTENTS_SEARCH_OPTION];
 }
 - (void) setContentsSearchOption : (CMRSearchMask) option
 {
@@ -286,7 +286,7 @@ NS_ENDHANDLER
 
 - (BOOL) findPanelExpanded
 {
-	return [[self defaults] boolForKey: AppDefaultsFindPanelExpandedKey defaultValue: YES];
+	return [[self defaults] boolForKey: AppDefaultsFindPanelExpandedKey defaultValue: DEFAULT_SEARCH_PANEL_EXPANDED];
 }
 
 - (void) setFindPanelExpanded: (BOOL) isExpanded
@@ -454,7 +454,7 @@ default_browserLastBoard:
 #pragma mark Hidden Options
 - (BOOL) usesOwnProxy
 {
-	return [[self defaults] boolForKey: @"UsesBSsOwnProxySettings" defaultValue: NO];
+	return [[self defaults] boolForKey: @"UsesBSsOwnProxySettings" defaultValue: DEFAULT_USE_PROXY];
 }
 
 - (void) getOwnProxy: (NSString **)host port:(CFIndex *)port
@@ -464,14 +464,14 @@ default_browserLastBoard:
 	
 	if (port != NULL) {
 		*port = [[self defaults] integerForKey: AppDefaultsProxyPortKey
-								  defaultValue: 8080];
+								  defaultValue: DEFAULT_PROXY_PORT];
 	}
 }
 
 - (int) maxCountForThreadsHistory
 {
 	return [[self defaults] integerForKey : AppDefaultsHistoryThreadsKey
-							 defaultValue : 20];
+							 defaultValue : DEFAULT_MAX_FOR_THREADS_HISTORY];
 }
 - (void) setMaxCountForThreadsHistory : (int) counts
 {
@@ -480,7 +480,7 @@ default_browserLastBoard:
 - (int) maxCountForBoardsHistory
 {
 	return [[self defaults] integerForKey : AppDefaultsHistoryBoardsKey
-							 defaultValue : 10];
+							 defaultValue : DEFAULT_MAX_FOR_BOARDS_HISTORY];
 }
 - (void) setMaxCountForBoardsHistory : (int) counts
 {
@@ -489,7 +489,7 @@ default_browserLastBoard:
 - (int) maxCountForSearchHistory
 {
 	return [[self defaults] integerForKey : AppDefaultsHistorySearchKey
-							 defaultValue : 10];
+							 defaultValue : DEFAULT_MAX_FOR_SEARCH_HISTORY];
 }
 - (void) setMaxCountForSearchHistory : (int) counts
 {
@@ -498,7 +498,7 @@ default_browserLastBoard:
 
 - (BOOL) informWhenDetectDatOchi
 {
-	return [[self defaults] boolForKey: AppDefaultsInformDatOchiKey defaultValue: YES];
+	return [[self defaults] boolForKey: AppDefaultsInformDatOchiKey defaultValue: DEFAULT_INFORM_WHEN_DAT_OCHI];
 }
 - (void) setInformWhenDetectDatOchi: (BOOL) shouldInform
 {
@@ -507,7 +507,7 @@ default_browserLastBoard:
 
 - (BOOL) oldMessageScrollingBehavior
 {
-	return [[self defaults] boolForKey: AppDefaultsOldMsgScrlBehvrKey defaultValue: NO];
+	return [[self defaults] boolForKey: AppDefaultsOldMsgScrlBehvrKey defaultValue: DEFAULT_OLD_SCROLLING];
 }
 
 - (void) setOldMessageScrollingBehavior: (BOOL) flag
@@ -517,7 +517,7 @@ default_browserLastBoard:
 
 - (BOOL) saveThreadDocAsBinaryPlist
 {
-	return [[self defaults] boolForKey : @"UseBinaryFormat" defaultValue : NO];
+	return [[self defaults] boolForKey : @"UseBinaryFormat" defaultValue : DEFAULT_USE_BINARY_FORMAT];
 }
 
 /*#pragma mark MeteorSweeper Addition

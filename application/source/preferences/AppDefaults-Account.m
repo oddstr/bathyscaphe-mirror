@@ -111,7 +111,7 @@ NS_ENDHANDLER
 - (BOOL) shouldLoginIfNeeded
 {
 	return [[self defaults] boolForKey : st_AppDefaultsShouldLoginKey
-						  defaultValue : YES];
+						  defaultValue : DEFAULT_LOGIN_MARU_IF_NEEDED];
 }
 - (void) setShouldLoginIfNeeded : (BOOL) flag
 {
@@ -122,7 +122,7 @@ NS_ENDHANDLER
 - (BOOL) shouldLoginBe2chAnyTime
 {
 	return [[self defaults] boolForKey : st_AppDefaultsShouldLoginBe2chAnytimeKey
-						  defaultValue : NO];
+						  defaultValue : DEFAULT_LOGIN_BE_ANY_TIME];
 }
 - (void) setShouldLoginBe2chAnyTime : (BOOL) flag
 {
@@ -133,7 +133,7 @@ NS_ENDHANDLER
 {
 	[[CMRKeychainManager defaultManager] checkHasAccountInKeychainIfNeeded];
 	return [[self defaults] boolForKey : st_AppDefaultsUsesKeychainKey
-						  defaultValue : NO];
+						  defaultValue : DEFAULT_USE_KEYCHAIN];
 }
 
 - (BOOL) availableBe2chAccount

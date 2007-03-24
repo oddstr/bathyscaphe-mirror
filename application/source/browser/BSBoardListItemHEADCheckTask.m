@@ -120,7 +120,9 @@ static BOOL shouldCheckItemHeader(id dict);
 	int numberOfFinishCheck = 0;
 	int numberOfSkip = 0;
 	int numberOFChecked = 0; // HEAD を送信した回数
-	[self setAmountString:[NSString stringWithFormat:@"%d/%d (%d skiped)", numberOfFinishCheck, numberOfAllTarget, numberOfSkip]];
+	NSString *hage = NSLocalizedString(@"%d/%d (%d skiped)", @"");
+
+	[self setAmountString:[NSString stringWithFormat:hage, numberOfFinishCheck, numberOfAllTarget, numberOfSkip]];
 	[self setDescString:NSLocalizedString(@"Checking thread", @"")];
 	
 	threadsEnum = [threads objectEnumerator];
@@ -131,8 +133,10 @@ static BOOL shouldCheckItemHeader(id dict);
 		id response;
 		id newMod;
 		
+		NSString *fuga = NSLocalizedString(@"%d/%d (%d skiped)", @"");
+		
 		[self checkIsInterrupted];
-		[self setAmountString:[NSString stringWithFormat:@"%d/%d (%d skiped)", ++numberOfFinishCheck, numberOfAllTarget, numberOfSkip]];
+		[self setAmountString:[NSString stringWithFormat:fuga, ++numberOfFinishCheck, numberOfAllTarget, numberOfSkip]];
 		
 		if(!shouldCheckItemHeader(thread)) {
 			[pool release];

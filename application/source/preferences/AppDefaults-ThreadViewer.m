@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-ThreadViewer.m,v 1.6 2006/01/20 03:02:24 tsawada2 Exp $
+  * $Id: AppDefaults-ThreadViewer.m,v 1.7 2007/03/24 15:36:30 tsawada2 Exp $
   * 
   * AppDefaults-ThreadViewer.m
   *
@@ -156,7 +156,7 @@ static NSString *const kPrefScroll2LUKey = @"ScrollToLastUpdatedHeader";
 {
 	// Terminal などから変更しやすいように、このエントリはトップレベルに作る
 	return [[self defaults] boolForKey : kPrefShowsPoofAnimationKey
-						  defaultValue : YES];
+						  defaultValue : DEFAULT_SHOWS_POOF_ON_ABONE];
 }
 
 - (void) setShowsPoofAnimationOnInvisibleAbone : (BOOL) showsPoof;
@@ -176,7 +176,7 @@ static NSString *const kPrefScroll2LUKey = @"ScrollToLastUpdatedHeader";
 - (unsigned int) firstVisibleCount
 {
 	return [[self threadViewerDefaultsDictionary] unsignedIntForKey : kPrefFirstVisibleKey
-													   defaultValue : 1];
+													   defaultValue : DEFAULT_TV_FIRST_VISIBLE];
 }
 
 - (void) setFirstVisibleCount : (unsigned int) aValue
@@ -189,7 +189,7 @@ static NSString *const kPrefScroll2LUKey = @"ScrollToLastUpdatedHeader";
 - (unsigned int) lastVisibleCount
 {
 	return [[self threadViewerDefaultsDictionary] unsignedIntForKey : kPrefLastVisibleKey
-													   defaultValue : 50];
+													   defaultValue : DEFAULT_TV_LAST_VISIBLE];
 }
 - (void) setLastVisibleCount : (unsigned int) aValue;
 {
@@ -202,7 +202,7 @@ static NSString *const kPrefScroll2LUKey = @"ScrollToLastUpdatedHeader";
 - (BOOL) previewLinkWithNoModifierKey
 {
 	return [[self defaults] boolForKey : kPrefPreviewLinkDirectlyKey
-						  defaultValue : YES];
+						  defaultValue : DEFAULT_TV_PREVIEW_WITH_NO_MODIFIER];
 }
 
 - (void) setPreviewLinkWithNoModifierKey : (BOOL) previewDirectly
@@ -215,7 +215,7 @@ static NSString *const kPrefScroll2LUKey = @"ScrollToLastUpdatedHeader";
 - (float) mouseDownTrackingTime
 {
 	return [[self threadViewerDefaultsDictionary] floatForKey : kPrefTrackingTimeKey
-												 defaultValue : 0.5];
+												 defaultValue : DEFAULT_TV_MOUSEDOWN_TIME];
 }
 - (void) setMouseDownTrackingTime : (float) aValue
 {
@@ -226,7 +226,7 @@ static NSString *const kPrefScroll2LUKey = @"ScrollToLastUpdatedHeader";
 - (BOOL) scrollToLastUpdated
 {
 	return [[self threadViewerDefaultsDictionary] boolForKey : kPrefScroll2LUKey
-												defaultValue : NO];
+												defaultValue : DEFAULT_TV_SCROLL_TO_NEW];
 }
 - (void) setScrollToLastUpdated : (BOOL) flag
 {

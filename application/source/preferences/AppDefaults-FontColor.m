@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-FontColor.m,v 1.17 2007/03/23 19:21:54 tsawada2 Exp $
+  * $Id: AppDefaults-FontColor.m,v 1.18 2007/03/24 15:36:30 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -267,7 +267,7 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 - (NSFont *) replyFont
 {
 	return [self appearanceFontForKey : kPrefReplyFontKey
-						  defaultSize : DEFAULT_THREADS_VIEW_FONTSIZE];
+						  defaultSize : DEFAULT_REPLY_FONTSIZE];
 }
 - (void) setReplyFont : (NSFont *) aFont
 {
@@ -300,7 +300,7 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 - (BOOL) popUpWindowVerticalScrollerIsSmall
 {
 	return [[self appearances] boolForKey : kPrefPopupAttrKey
-							 defaultValue : YES];
+							 defaultValue : DEFAULT_POPUP_SCROLLER_SMALL];
 }
 - (void) setPopUpWindowVerticalScrollerIsSmall : (BOOL) flag
 {

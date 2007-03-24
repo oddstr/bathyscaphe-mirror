@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-Filter.m,v 1.2 2006/11/05 12:53:48 tsawada2 Exp $
+  * $Id: AppDefaults-Filter.m,v 1.3 2007/03/24 15:36:30 tsawada2 Exp $
   * 
   * AppDefaults-Filter.m
   *
@@ -39,7 +39,7 @@
 {
 	return [[self filterPrefs] 
 					 boolForKey : kPrefSpamFilterEnabledKey
-				   defaultValue : NO];
+				   defaultValue : DEFAULT_SPAMFILTER_ENABLED];
 }
 - (void) setSpamFilterEnabled : (BOOL) flag
 {
@@ -52,7 +52,7 @@
 {
 	return [[self filterPrefs] 
 					 boolForKey : kPrefUsesSpamMessageCorpusKey
-				   defaultValue : NO];
+				   defaultValue : DEFAULT_SPAMFILTER_USE_MSG_CORPUS];
 }
 - (void) setUsesSpamMessageCorpus : (BOOL) flag
 {
@@ -86,7 +86,7 @@
 {
 	return [[self filterPrefs] 
 				  integerForKey : kPrefSpamFilterBehaviorKey
-				   defaultValue : kSpamFilterChangeTextColorBehavior];
+				   defaultValue : DEFAULT_SPAMFILTER_BEHAVIOR];
 }
 - (void) setSpamFilterBehavior : (int) mask
 {
@@ -102,7 +102,7 @@
 
 - (BOOL) asciiArtDetectorEnabled
 {
-	return [[self filterPrefs] boolForKey: kPrefAADEnabledKey defaultValue: YES];
+	return [[self filterPrefs] boolForKey: kPrefAADEnabledKey defaultValue: DEFAULT_AAD_ENABLED];
 }
 - (void) setAsciiArtDetectorEnabled: (BOOL) flag
 {
@@ -120,4 +120,3 @@
 	return YES;
 }
 @end
-

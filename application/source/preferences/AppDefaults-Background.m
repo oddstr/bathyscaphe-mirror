@@ -88,7 +88,6 @@ static NSString *const kPrefReplyWindowBgAlphaKey = @"Reply Window Bg Alpha Valu
 	[self setBGDefaultsColor : color
 					  forKey : AppDefaultsSTableBackgroundColorKey];
 	[self setBrowserSTableDrawsStriped : NO]; //どうしてもカスタムカラーで塗るというなら、塗り分けは自動的に無効化する
-//	[self setBrowserSTableDrawsBackground : YES];
 }
 
 - (BOOL) browserSTableDrawsStriped
@@ -103,25 +102,9 @@ static NSString *const kPrefReplyWindowBgAlphaKey = @"Reply Window Bg Alpha Valu
 	[[self backgroundColorDictionary]
 			 setBool : flag
 			  forKey : AppDefaultsSTableDrawsStripedKey];
-//	[self setBrowserSTableDrawsBackground : NO];//(NO == flag)];
 	[self postLayoutSettingsUpdateNotification];
-}
-/*
-- (BOOL) browserSTableDrawsBackground
-{
-	return [[self backgroundColorDictionary]
-					 boolForKey : AppDefaultsSTableDrawsBackgroundKey
-				   defaultValue : DEFAULT_STABLE_DRAWS_BGCOLOR];
 }
 
-- (void) setBrowserSTableDrawsBackground : (BOOL) flag
-{
-	[[self backgroundColorDictionary]
-			 setBool : flag
-			  forKey : AppDefaultsSTableDrawsBackgroundKey];
-	[self postLayoutSettingsUpdateNotification];
-}
-*/
 - (NSColor *) boardListBackgroundColor
 {
 	NSColor		*color_;
@@ -130,7 +113,7 @@ static NSString *const kPrefReplyWindowBgAlphaKey = @"Reply Window Bg Alpha Valu
 					colorForKey : kPrefBoardListBackgroundColorKey];
 	
 	if (color_ == nil)
-		return [NSColor colorWithDeviceRed:(231.0/255.0) green:(237.0/255.0) blue:(248.0/255.0) alpha:1.0]; // デフォルトの色
+		return DEFAULT_BOARD_LIST_BG_COLOR; // デフォルトの色
 	
 	return color_;
 }
@@ -145,48 +128,10 @@ static NSString *const kPrefReplyWindowBgAlphaKey = @"Reply Window Bg Alpha Valu
 #pragma mark Thread Viewer
 - (NSColor *) threadViewerBackgroundColor
 {
-//	return [self defaultsColorForKey:AppDefaultsTVBackgroundColorKey];
 	return [[self threadViewTheme] backgroundColor];
 }
-/*
-- (void) setThreadViewerBackgroundColor : (NSColor *) color
-{
-	[self setBGDefaultsColor : color
-					  forKey : AppDefaultsTVBackgroundColorKey];
-	[self setThreadViewerDrawsBackground : YES];
-}*/
-/*
-- (BOOL) threadViewerDrawsBackground
-{
-	return [[self backgroundColorDictionary]
-					 boolForKey : AppDefaultsTVDrawsBackgroundKey
-				   defaultValue : DEFAULT_TVIEW_DRAWS_BGCOLOR];
-}
 
-- (void) setThreadViewerDrawsBackground : (BOOL) flag
-{
-	[[self backgroundColorDictionary]
-			 setBool : flag
-			  forKey : AppDefaultsTVDrawsBackgroundKey];
-	[self postLayoutSettingsUpdateNotification];
-}
-*/
 #pragma mark Popup and Reply Window
-/*- (BOOL) isResPopUpSeeThrough
-{
-	return [[self backgroundColorDictionary]
-					 boolForKey : AppDefaultsResPopUpIsSeeThroughKey
-				   defaultValue : DEFAULT_RESPOPUP_IS_SEETHROUGH];
-}
-
-- (void) setIsResPopUpSeeThrough : (BOOL) anIsResPopUpSeeThrough
-{
-	[[self backgroundColorDictionary]
-			 setBool : anIsResPopUpSeeThrough
-			  forKey : AppDefaultsResPopUpIsSeeThroughKey];
-	[self postLayoutSettingsUpdateNotification];
-}*/
-
 - (NSColor *) resPopUpBackgroundColor
 {
 	NSColor		*color_;
@@ -194,10 +139,7 @@ static NSString *const kPrefReplyWindowBgAlphaKey = @"Reply Window Bg Alpha Valu
 	color_ = [[self backgroundColorDictionary]
 					colorForKey : AppDefaultsResPopUpBackgroundColorKey];
 	if(nil == color_){
-		return [NSColor colorWithCalibratedHue : 0.14f
-									saturation : 0.2f
-									brightness : 1.0f
-										 alpha : 1.0f];
+		return DEFAULT_POPUP_BG_COLOR;
 	}
 	
 	return color_;
@@ -230,7 +172,7 @@ static NSString *const kPrefReplyWindowBgAlphaKey = @"Reply Window Bg Alpha Valu
 {
 	return [[self backgroundColorDictionary]
 					floatForKey : kPrefResPopUpBgAlphaKey
-				   defaultValue : 0.85];
+				   defaultValue : DEFAULT_POPUP_BG_ALPHA];
 }
 - (void) setResPopUpBgAlphaValue : (float) rate
 {
@@ -243,7 +185,7 @@ static NSString *const kPrefReplyWindowBgAlphaKey = @"Reply Window Bg Alpha Valu
 {
 	return [[self backgroundColorDictionary]
 					floatForKey : kPrefReplyWindowBgAlphaKey
-				   defaultValue : 1.0];
+				   defaultValue : DEFAULT_REPLY_BG_ALPHA];
 }
 - (void) setReplyBgAlphaValue : (float) rate
 {

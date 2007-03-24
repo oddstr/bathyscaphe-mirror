@@ -55,41 +55,12 @@ static NSString *const AppDefaultsTLTableColumnStateKey = @"ThreadsListTable Col
 		setInteger : mask
 			forKey : AppDefaultsThreadsListAutoscrollMaskKey];
 }
-/*
-- (NSString *) ignoreTitleCharacters
-{
-	NSString	*ignoreTitleCharacters_;
-	
-	ignoreTitleCharacters_ = 
-		[[self threadsListSettingsDictionary] 
-			objectForKey : AppDefaultsTLIgnoreTitleCharactersKey];
-	
-	if(nil == ignoreTitleCharacters_ || 
-		NO == [ignoreTitleCharacters_ isKindOfClass : [NSString class]]){
-		
-		return  DEFAULT_IGNORING_TITLE_CHARACTERS;
-	}
-	
-	return ignoreTitleCharacters_;
-}
-- (void) setIgnoreTitleCharacters : (NSString *) chars
-{
-	if(nil == chars){
-		[[self threadsListSettingsDictionary]
-			 removeObjectForKey : AppDefaultsTLIgnoreTitleCharactersKey];
-		return;
-	}
-	
-	[[self threadsListSettingsDictionary]
-		 setObject : chars
-			forKey : AppDefaultsTLIgnoreTitleCharactersKey];
-}
-*/
+
 - (BOOL) useIncrementalSearch
 {
 	return [[self defaults]
 					boolForKey : AppDefaultsUseIncrementalSearchKey
-				  defaultValue : YES];
+				  defaultValue : DEFAULT_TL_INCREMENTAL_SEARCH];
 }
 - (void) setUseIncrementalSearch : (BOOL) TorF
 {
@@ -101,7 +72,7 @@ static NSString *const AppDefaultsTLTableColumnStateKey = @"ThreadsListTable Col
 - (BOOL) titleRulerViewTextUsesBlackColor
 {
 	return [[self defaults] boolForKey : AppDefaultsTRViewTextUsesBlackColorKey
-						  defaultValue : NO];
+						  defaultValue : DEFAULT_TITLERULER_TEXT_BLACK];
 }
 - (void) setTitleRulerViewTextUsesBlackColor : (BOOL) usesBlackColor
 {
@@ -125,7 +96,7 @@ static NSString *const AppDefaultsTLTableColumnStateKey = @"ThreadsListTable Col
 - (BOOL) autoReloadListWhenWake
 {
 	return [[self threadsListSettingsDictionary] boolForKey : AppDefaultsTLAutoReloadWhenWakeKey
-											   defaultValue : NO];
+											   defaultValue : DEFAULT_TL_AUTORELOAD_WHEN_WAKE];
 }
 - (void) setAutoReloadListWhenWake : (BOOL) doReload
 {
@@ -157,7 +128,7 @@ static NSString *const AppDefaultsTLTableColumnStateKey = @"ThreadsListTable Col
 - (NSTimeInterval) HEADCheckTimeInterval
 {
 	return [[self threadsListSettingsDictionary] doubleForKey : AppDefaultsTLHEADCheckIntervalKey
-												 defaultValue : 300.0];
+												 defaultValue : DEFAULT_HEADCHECK_INTERVAL];
 }
 
 - (void) setHEADCheckTimeInterval : (NSTimeInterval) interval

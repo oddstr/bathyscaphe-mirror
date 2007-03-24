@@ -1,3 +1,13 @@
+2007-03-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/BSBoardListItemHEADCheckTask.m
+	* application/Resources/Japanese.lproj/Localizable.strings
+		ローカライズされていない文字列をローカライズした。
+	* application/source/thread/CMXThreadDATConvertingTask.[h|m]
+	* application/source/view/CMRTextView.[h|m]
+		[削除] すでにプロジェクトにも登録されていないファイルだが、ゾンビのようにリポジトリに残っていたのを見つけたので削除。
+	* application/source/preferences/*.m
+	* application/source/preferences/CMRPreferencesDefautValues.h
+		AppDefaults の各設定項目の初期値を CMRPreferencesDefautValues.h にまとめて記述し直した。
 2007-03-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/manager/CMRReplyDocumentFileManager.m
 		reply フォルダのパス取得方法を改めた。
@@ -9,6 +19,8 @@
 		　取り組むことにした。
 	* application/source/CMRAppDelegate.m
 		「すべてのウインドウを閉じる」のコードが少々綱渡りだったのを、堅実な書き方に改めた。
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		もうじき BathyScaphe に還る日が来るので、MenuItem の表記は BathyScaphe に戻した。
 	* application/source/preferences/AppDefaults-FontColor.m
 		（まだ変換していないときは）今までの BathyScaphe の環境設定データベースに記録されているフォント・カラーの
 		設定から、ImportedTheme.plist というファイル名で スレッド内容表示領域のフォント・カラー設定オブジェクトを

@@ -1,5 +1,5 @@
 /**
- * $Id: AppDefaults-Bundle.m,v 1.11 2006/11/05 12:53:48 tsawada2 Exp $
+ * $Id: AppDefaults-Bundle.m,v 1.12 2007/03/24 15:36:30 tsawada2 Exp $
  * 
  * AppDefaults-Bundle.m
  *
@@ -239,7 +239,7 @@ static NSString *const kBWLastSyncDateKey = @"BoardWarrior:Last Sync Date";
 	NSString *fullPath_;
 	
 	fullPath_ = [[self defaults] stringForKey : AppDefaultsHelperAppNameKey];
-	return fullPath_ ? fullPath_ : [[NSWorkspace sharedWorkspace] fullPathForApplication : @"CMLogBuccaneer.app"];
+	return fullPath_ ? fullPath_ : [[NSWorkspace sharedWorkspace] fullPathForApplication : DEFAULT_HELPER_APP];
 }
 - (void) setHelperAppPath : (NSString *) fullPath_
 {
@@ -303,7 +303,7 @@ static NSString *const kBWLastSyncDateKey = @"BoardWarrior:Last Sync Date";
 - (NSURL *) BBSMenuURL
 {
 	NSString *tmp_ = [[self boardWarriorSettingsDictionary] objectForKey: kBWBBSMenuURLKey
-														   defaultObject: @"http://azlucky.s25.xrea.com/2chboard/bbsmenu2.html"];
+														   defaultObject: DEFAULT_BW_BBSMENU_URL];
 
 	return [NSURL URLWithString: tmp_];
 }
@@ -316,7 +316,7 @@ static NSString *const kBWLastSyncDateKey = @"BoardWarrior:Last Sync Date";
 
 - (BOOL) autoSyncBoardList
 {
-	return [[self boardWarriorSettingsDictionary] boolForKey: kBWAutoSyncBoardListKey defaultValue: NO];
+	return [[self boardWarriorSettingsDictionary] boolForKey: kBWAutoSyncBoardListKey defaultValue: DEFAULT_BW_AUTOSYNC];
 }
 - (void) setAutoSyncBoardList: (BOOL) autoSync
 {
@@ -325,7 +325,7 @@ static NSString *const kBWLastSyncDateKey = @"BoardWarrior:Last Sync Date";
 
 - (BSAutoSyncIntervalType) autoSyncIntervalTag
 {
-	return [[self boardWarriorSettingsDictionary] integerForKey: kBWAutoSyncIntervalKey defaultValue: BSAutoSyncByWeek];
+	return [[self boardWarriorSettingsDictionary] integerForKey: kBWAutoSyncIntervalKey defaultValue: DEFAULT_BW_SYNC_INTERVAL];
 }
 - (void) setAutoSyncIntervalTag: (BSAutoSyncIntervalType) aType
 {
@@ -404,12 +404,7 @@ static NSString *const kBWLastSyncDateKey = @"BoardWarrior:Last Sync Date";
 
 	[[BoardWarrior warrior] syncBoardLists];
 }
-/*
-- (BOOL) canStartSyncTask
-{
-	return (NO == [[BoardWarrior warrior] isInProgress]);
-}
-*/
+
 - (void) _loadBWSettings
 {
 }
