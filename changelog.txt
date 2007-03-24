@@ -1,4 +1,9 @@
 2007-03-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSIPIFullScreenController.m
+		プレビューインスペクタ（2.5.5）：
+		- フルスクリーン表示中に次／前のイメージへ移動しようとする際、もう次／前のイメージが無いときはフルスクリーン表示を
+		　解除するようにした。
+		- フルスクリーン表示中に s キー（保存）、delete キー（削除）を押したときは、適切な効果音を鳴らすようにした。
 	* application/source/browser/BSBoardListItemHEADCheckTask.m
 	* application/Resources/Japanese.lproj/Localizable.strings
 		ローカライズされていない文字列をローカライズした。

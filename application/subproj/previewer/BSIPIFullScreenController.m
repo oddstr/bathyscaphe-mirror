@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIFullScreenController.m,v 1.9 2007/02/24 11:45:27 tsawada2 Exp $
+//  $Id: BSIPIFullScreenController.m,v 1.10 2007/03/24 19:06:11 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.
@@ -236,21 +236,28 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 	unsigned short	keyCode = [keyDown keyCode];
 	
 	if ([pressedKey isEqualToString: [NSString stringWithFormat: @"%C", NSLeftArrowFunctionKey]]) {
-		if ([[self delegate] respondsToSelector: @selector(showPrevImage:)]) {
+		if ([[self delegate] respondsToSelector: @selector(showPrevImage:)] && [[self arrayController] canSelectPrevious]) {
 			[[self delegate] showPrevImage: window];
+			return YES;
+		} else {
+			[self endFullScreen];
 			return YES;
 		}
 	}
 	
 	if ([pressedKey isEqualToString: [NSString stringWithFormat: @"%C", NSRightArrowFunctionKey]]) {
-		if ([[self delegate] respondsToSelector: @selector(showNextImage:)]) {
+		if ([[self delegate] respondsToSelector: @selector(showNextImage:)] && [[self arrayController] canSelectNext]) {
 			[[self delegate] showNextImage: window];
+			return YES;
+		} else {
+			[self endFullScreen];
 			return YES;
 		}
 	}
 	
 	if ([pressedKey isEqualToString: @"s"]) {
 		if ([[self delegate] respondsToSelector: @selector(saveImage:)]) {
+			SystemSoundPlay(1);
 			[[self delegate] saveImage: window];
 			return YES;
 		}
@@ -258,6 +265,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 	
 	if (keyCode == 51) { // delete key
 		if ([[self delegate] respondsToSelector: @selector(deleteCachedImage:)]) {
+			SystemSoundPlay(15);
 			[[self delegate] deleteCachedImage: window];
 			[self endFullScreen];
 			return YES;
@@ -280,15 +288,21 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 	float dY = [scrollWheel deltaY];
 
 	if (dY < 0) {
-		if ([[self delegate] respondsToSelector: @selector(showPrevImage:)]) {
+		if ([[self delegate] respondsToSelector: @selector(showPrevImage:)] && [[self arrayController] canSelectPrevious]) {
 			[[self delegate] showPrevImage: window];
+			return YES;
+		} else {
+			[self endFullScreen];
 			return YES;
 		}
 	}
 	
 	if (dY > 0) {
-		if ([[self delegate] respondsToSelector: @selector(showNextImage:)]) {
+		if ([[self delegate] respondsToSelector: @selector(showNextImage:)] && [[self arrayController] canSelectNext]) {
 			[[self delegate] showNextImage: window];
+			return YES;
+		} else {
+			[self endFullScreen];
 			return YES;
 		}
 	}
