@@ -33,6 +33,10 @@
 	// return nil, if not registered.
 - (NSString *) nameForBoardID : (unsigned) boardID;
 
+// raise DatabaseManagerCantFountKeyExseption.
+- (id)valueForKey:(NSString *)key boardID:(unsigned)boardID threadID:(NSString *)threadID;
+- (void)setValue:(id)value forKey:(NSString *)key boardID:(unsigned)boardID threadID:(NSString *)threadID;
+
 - (BOOL) registerBoardName : (NSString *) name URLString : (NSString *) urlString;
 - (BOOL) registerBoardNamesAndURLs : (NSArray *) array;
 

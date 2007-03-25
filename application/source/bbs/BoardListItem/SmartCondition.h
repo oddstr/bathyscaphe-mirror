@@ -75,6 +75,10 @@ typedef enum _SCOperator
 - (id)value2;
 - (SCOperator)operator;
 
+// use in conditionString method.
+- (id)processedValue;
+- (id)processedValue2;
+
 - (NSString *) conditionString;
 @end
 

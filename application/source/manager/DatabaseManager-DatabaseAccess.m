@@ -190,6 +190,38 @@ static NSLock *boardIDNumberCacheLock = nil;
 	return value;
 }
 
+// raise DatabaseManagerCantFountKeyExseption.
+- (id)valueForKey:(NSString *)key boardID:(unsigned)boardID threadID:(NSString *)threadID
+{
+	NSString *query;
+	SQLiteDB *db;
+	id <SQLiteCursor> cursor;
+	id value;
+	
+	if (boardID == 0) return nil;
+	
+	db = [self databaseForCurrentThread];
+	if (!db) {
+		return NO;
+	}
+	
+	query = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@ = %u AND %@ = %@",
+		BoardThreadInfoViewName,
+		BoardIDColumn, boardID,
+		ThreadIDColumn, threadID];
+	cursor = [db performQuery : query];
+	if (!cursor || ![cursor rowCount]) {
+		return nil;
+	}
+	
+	value = [cursor valueForColumn : BoardNameColumn atRow : 0];
+	
+	return value;
+}
+	
+//- (void)setValue:(id)value forKey:(NSString *)key boardID:(unsigned)boardID threadID:(NSString *)threadID;
+
+
 - (BOOL) registerBoardName : (NSString *) name URLString : (NSString *) urlString
 {
 	NSMutableString *query;
