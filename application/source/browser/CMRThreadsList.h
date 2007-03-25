@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.h,v 1.11 2007/03/05 10:08:25 tsawada2 Exp $
+  * $Id: CMRThreadsList.h,v 1.12 2007/03/25 13:27:55 masakih Exp $
   * 
   * CMRThreadsList.h
   *
@@ -135,6 +135,7 @@ enum {
 + (NSDictionary *)newThreadCreatedDateAttrTemplate;
 + (NSDictionary *)threadCreatedDateAttrTemplate;
 + (NSDictionary *)threadModifiedDateAttrTemplate;
++ (NSDictionary *)threadLastWrittenDateAttrTemplate;
 
 + (id) objectValueTemplate : (id ) aValue
 				   forType : (int) aType;

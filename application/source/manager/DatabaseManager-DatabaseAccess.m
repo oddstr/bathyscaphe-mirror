@@ -214,7 +214,7 @@ static NSLock *boardIDNumberCacheLock = nil;
 		return nil;
 	}
 	
-	value = [cursor valueForColumn : BoardNameColumn atRow : 0];
+	value = [cursor valueForColumn : key atRow : 0];
 	
 	return value;
 }

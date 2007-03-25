@@ -92,6 +92,7 @@
 
 // スレッド一覧テーブルカラムのIDからデータベース上のテーブル名を取得。
 NSString *tableNameForKey(NSString *key);
+NSString *sortKeyForKey(NSString *sortKey);
 
 
 

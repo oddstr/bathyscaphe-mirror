@@ -270,6 +270,8 @@ NSArray *valuesForSTMT(sqlite3_stmt *stmt, NSArray *culumns)
 			case SQLITE_ROW :
 				updateCursor = YES;
 				break;
+			case SQLITE_SCHEMA:
+				continue;
 			default :
 				//				sqlite3_finalize(stmt);
 				return nil;

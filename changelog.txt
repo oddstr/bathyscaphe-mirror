@@ -1,4 +1,23 @@
 2007-03-25 masakih <masakih@users.sourceforge.jp>
+	* application/BathyScaphe.xcodeproj/project.pbxproj:
+		警告がうるさいのでリンカフラグに-bind_at_loadを追加。
+	* application/source/bbs/BoardManager-BSAddition.m:
+		tableNameForKey() を sortKeyForKey()に変更。
+	* application/source/browser/BSDBThreadList.h:
+	* application/source/browser/BSDBThreadList.m:
+		BSThreadListItem を使用するようにした。
+		メソッドの定義位置を整理した。
+	* application/source/manager/DatabaseManager-DatabaseAccess.m:
+		- (id)valueForKey:boardID:threadID: が正しく動いていなかったので修正。
+	* application/source/manager/DatabaseManager.h:
+	* application/source/manager/DatabaseManager.m:
+		sortKeyForKey()関数を追加。テーブルカラムとソートキーは別物になった。
+	* application/source/manager/SQLiteDB.m:
+		エラー処理追加。
+	* application/source/browser/BSThreadListItem.h:
+	* application/source/browser/BSThreadListItem.m:
+		[新規追加] SQLiteCursor をラップする。BSDBThreadList の責任逃れ用。
+	* application/source/browser/CMRThreadsList.h:
 	* application/source/browser/CMRThreadsList-DataSource.m:
 		最終書き込み日カラム用の表示属性を追加。
 	* application/Resources/Japanese.lproj/ConditionTypes.plist:

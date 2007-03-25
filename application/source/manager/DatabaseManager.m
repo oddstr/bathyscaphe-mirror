@@ -894,5 +894,10 @@ NSString *tableNameForKey( NSString *sortKey )
 		sortCol = LastWrittenDateColumn;
 	}
 	
-	return [sortCol lowercaseString];
+//	return [sortCol lowercaseString];
+	return sortCol;
+}
+NSString *sortKeyForKey( NSString *sortKey )
+{
+	return [tableNameForKey(sortKey) lowercaseString];
 }

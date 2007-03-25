@@ -19,13 +19,16 @@
 #import "BSBoardListItemHEADCheckTask.h"
 #import "BoardListItem.h"
 #import "DatabaseManager.h"
+#import "BSThreadListItem.h"
+
+#import <sys/time.h>
 
 NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishUpdateNotification";
 
 
 @interface BSDBThreadList (Private)
 - (void)setSortDescriptors:(NSArray *)inDescs;
-- (void) sortByKeyWithoutUpdateList : (NSString *) key;
+- (void)addSortDescriptor:(NSSortDescriptor *)inDesc;
 - (void) filterByStatusWithoutUpdateList: (int) status;
 @end
 @interface BSDBThreadList (ToBeRefactoring)
@@ -137,16 +140,13 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	[super removeFromNotificationCenter];
 }
 
+#pragma mark## Accessor ##
 - (void)setBoardListItem:(BoardListItem *)item
 {
 	id temp = mBoardListItem;
 	mBoardListItem = [item retain];
 	[temp release];
 	
-//	BOOL isAsc = [[BoardManager defaultManager] sortColumnIsAscendingAtBoard : [self boardName]];
-//	[self setIsAscending:isAsc];
-//	temp = [[BoardManager defaultManager] sortColumnForBoard : [self boardName]];
-//	[self sortByKeyWithoutUpdateList:temp];
 	temp = [[BoardManager defaultManager] sortDescriptorsForBoard : [self boardName]];
 	[self setSortDescriptors:temp];	
 }
@@ -167,9 +167,67 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 {
 	return mSearchString;
 }
+- (ThreadStatus) status
+{
+	return mStatus;
+}
+- (NSString *) boardName
+{
+	if (mBoardListItem) {
+		return [mBoardListItem name];
+	}
+	
+	return [super boardName];
+}
+
+- (unsigned) numberOfThreads
+{
+	unsigned count;
+	
+	@synchronized(mCursorLock) {
+		count = [mCursor count];
+	}
+	
+	return count;
+}
+- (unsigned) numberOfFilteredThreads
+{
+	return [self numberOfThreads];
+}
+
+#pragma mark## Sorting ##
 - (id) sortKey
 {
 	return mSortKey;
+}
+- (void) setSortKey : (NSString *) key
+{
+	id tmp = mSortKey;
+	mSortKey = [key retain];
+	[tmp release];
+	
+	{
+		id sortDescriptor;
+		
+		sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:sortKeyForKey(mSortKey)
+													  ascending:[self isAscending]
+													   selector:@selector(numericCompare:)] autorelease];
+		
+		[self addSortDescriptor:sortDescriptor];
+	}
+}
+- (void) sortByKey : (NSString *) key
+{
+	// お気に入りとスマートボードではindexは飾り
+	// TODO 要変更
+	if([self isFavorites] || [self isSmartItem]) {
+		if([key isEqualTo : CMRThreadSubjectIndexKey]) {
+			return;
+		}
+	}
+	
+	[self setSortKey:key];
+	[self updateCursor];
 }
 - (NSArray *)sortDescriptors
 {
@@ -180,7 +238,7 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	UTILAssertKindOfClass(inDescs, NSArray);
 	
 	id temp = mSortDescriptors;
-	mSortDescriptors = [[NSMutableArray arrayWithArray:inDescs] retain];;
+	mSortDescriptors = [[NSMutableArray arrayWithArray:inDescs] retain];
 	[temp release];
 }
 - (void)setSortDescriptor:(NSSortDescriptor *)inDesc
@@ -199,7 +257,7 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 		mSortDescriptors = [[NSMutableArray array] retain];
 	}
 	
-	// 同じキーのNSSortDescriptorを取り除く
+	// remove sortdescriptor has same key.
 	id key = [inDesc key];
 	int i, c; id o;
 	for(i = 0,c = [mSortDescriptors count]; i < c; i++) {
@@ -217,7 +275,7 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 {
 	id enume;
 	NSSortDescriptor *sortDesc;
-	NSString *sortKey = tableNameForKey(key);
+	NSString *sortKey = sortKeyForKey(key);
 	
 	if(!sortKey) return NO;
 	
@@ -235,7 +293,7 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	id enume;
 	NSSortDescriptor *sortDesc;
 	NSSortDescriptor *newDesc = nil;
-	NSString *sortKey = tableNameForKey(key);
+	NSString *sortKey = sortKeyForKey(key);
 	
 	if(!sortKey) return;
 	
@@ -253,14 +311,35 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	
 	return;
 }
-- (ThreadStatus) status
+
+#pragma mark## Thread item operations ##
+static double t1, t2;
+double debug_clock2()
 {
-	return mStatus;
+	double t;
+	struct timeval tv;
+	gettimeofday(&tv, NULL);
+	t = tv.tv_sec + (double)tv.tv_usec*1e-6;
+	return t;
 }
+void debug_log2(const char *p,...)
+{
+//	NSUserDefaults *d = [NSUserDefaults standardUserDefaults];
 	
+//	if([d boolForKey:@"SQLITE_DEBUG_LOG"]) {
+		va_list args;
+		va_start(args, p);
+		vfprintf(stderr, p, args);
+//	}
+}
+void debug_log_time2(double t1, double t2)
+{
+	debug_log2( "total time : \t%02.4lf\n",(t2) - (t1));
+}
 - (void) updateCursor
 {
 	@synchronized(self) {
+		NSLog(@"Update!");t1 = debug_clock2();
 		if(mUpdateTask) {
 			if([mUpdateTask isInProgress]) {
 				[mUpdateTask cancel:self];
@@ -288,14 +367,14 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 - (void)setCursorOnMainThread:(id)cursor
 {
 	if(cursor) {
-		[mCursorLock lock];
-		{
-			mCursor = [cursor retain];
+		@synchronized(mCursorLock) {
+			[mCursor autorelease];
+			mCursor = [[BSThreadListItem threadItemArrayFromCursor:cursor] retain];
+//			mCursor = [cursor retain];
+			UTILDebugWrite1(@"cursor count -> %ld", [mCursor count]);
 		}
-		[mCursorLock unlock];
+		NSLog(@"Finish!");t2 = debug_clock2();debug_log_time2(t1, t2);
 	}
-	
-	UTILDebugWrite1(@"cursor count -> %ld", [mCursor rowCount]);
 	
 	UTILNotifyName(CMRThreadsListDidChangeNotification);
 	UTILNotifyName(BSDBThreadListDidFinishUpdateNotification);
@@ -308,7 +387,7 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 		return;
 	}
 	
-	id temp = [[[obj cursor] retain] autorelease];
+	id temp = [[[obj cursor] retain] autorelease];	
 	
 	[self performSelectorOnMainThread:@selector(setCursorOnMainThread:)
 						   withObject:temp
@@ -316,61 +395,7 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 }
 
 	
-- (NSString *) boardName
-{
-	if (mBoardListItem) {
-		return [mBoardListItem name];
-	}
-	
-	return [super boardName];
-}
 
-- (unsigned) numberOfThreads
-{
-	unsigned count;
-	
-	[mCursorLock lock];
-	count = [mCursor rowCount];
-	[mCursorLock unlock];
-	
-	return count;
-}
-- (unsigned) numberOfFilteredThreads
-{
-	return [self numberOfThreads];
-}
-
-- (void) sortByKeyWithoutUpdateList : (NSString *) key
-{
-	id tmp = mSortKey;
-	mSortKey = [key retain];
-	[tmp release];
-	
-	{
-		id sortDescriptor;
-		
-		sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:tableNameForKey(mSortKey)
-													  ascending:[self isAscending]
-													   selector:@selector(numericCompare:)] autorelease];
-		
-		[self addSortDescriptor:sortDescriptor];
-	}
-}
-- (void) sortByKey : (NSString *) key
-{
-	// お気に入りとスマートボードではindexは飾り
-	// TODO 要変更
-	if([self isFavorites] || [self isSmartItem]) {
-		if([key isEqualTo : CMRThreadSubjectIndexKey]) {
-			return;
-		}
-	}
-	
-	[self sortByKeyWithoutUpdateList:key];
-
-	[self updateCursor];
-	
-}
 
 #pragma mark## Filter ##
 - (BOOL) filterByString : (NSString *)string
@@ -395,127 +420,17 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 }
 
 #pragma mark## DataSource ##
-// Status image
-#define kStatusUpdatedImageName		@"Status_updated"
-#define kStatusCachedImageName		@"Status_logcached"
-#define kStatusNewImageName			@"Status_newThread"
-#define kStatusHEADModImageName		@"Status_HeadModified"
-static NSImage *_statusImageWithStatusBSDB(ThreadStatus s)
-{
-	switch (s){
-		case ThreadLogCachedStatus :
-			return [NSImage imageAppNamed : kStatusCachedImageName];
-		case ThreadUpdatedStatus :
-			return [NSImage imageAppNamed : kStatusUpdatedImageName];
-		case ThreadNewCreatedStatus :
-			return [NSImage imageAppNamed : kStatusNewImageName];
-		case ThreadHeadModifiedStatus :
-			return [NSImage imageAppNamed : kStatusHEADModImageName];
-		case ThreadNoCacheStatus :
-			return nil;
-		default :
-			return nil;
-	}
-	return nil;
-}
-static inline id nilIfObjectIsNSNull( id obj )
-{
-	return obj == [NSNull null] ? nil : obj;
-}
-static inline NSMutableDictionary *threadAttributesForBoardIDAndThreadID(
-																		 int boardID,
-																		 NSString *threadID )
-{
-	NSMutableDictionary *result = nil;
 	
-	SQLiteDB *db;
-	id<SQLiteCursor> cursor;
-	id<SQLiteRow> row;
-	NSMutableString *query;
-	
-	if(boardID == 0) return nil;
-	if(!threadID || ![threadID isKindOfClass:[NSString class]]) return nil;
-	
-	db = [[DatabaseManager defaultManager] databaseForCurrentThread];
-	if(!db) return nil;
-	
-	query = [NSMutableString stringWithFormat:@"SELECT * FROM %@ ", BoardThreadInfoViewName];
-	[query appendFormat:@"WHERE %@ = %u AND %@ = %@",
-		BoardIDColumn, boardID, ThreadIDColumn, threadID];
-	
-	{
-		NSString *title;
-		NSString *newCount;
-		NSString *dat;
-		NSString *boardName;
-		NSString *statusStr;
-		NSNumber *status;
-		NSString *modDateStr;
-		NSDate *modDate = nil;
-		NSString *threadPath;
-		
-		cursor = [db cursorForSQL:query];
-		if(!cursor || [cursor rowCount] == 0) {
-			goto abort;
-		}
-		
-		row = [cursor rowAtIndex:0];
-		
-		title = nilIfObjectIsNSNull([row valueForColumn:ThreadNameColumn]);
-		newCount = nilIfObjectIsNSNull([row valueForColumn:NumberOfAllColumn]);
-		dat = nilIfObjectIsNSNull([row valueForColumn:ThreadIDColumn]);
-		boardName = nilIfObjectIsNSNull([row valueForColumn:BoardNameColumn]);
-		statusStr = nilIfObjectIsNSNull([row valueForColumn:ThreadStatusColumn]);
-		modDateStr = nilIfObjectIsNSNull([row valueForColumn:ModifiedDateColumn]);
-		
-		threadPath = [[CMRDocumentFileManager defaultManager] threadPathWithBoardName : boardName
-																		datIdentifier : dat];
-		status = [NSNumber numberWithInt : [statusStr intValue]];
-		if(modDateStr) {
-			modDate = [NSDate dateWithTimeIntervalSince1970 : [modDateStr doubleValue]];
-		}
-		
-		result = [NSMutableDictionary dictionaryWithCapacity:7];
-		[result setNoneNil:title forKey:CMRThreadTitleKey];
-		[result setNoneNil:newCount forKey:CMRThreadNumberOfMessagesKey];
-		[result setNoneNil:dat forKey:ThreadPlistIdentifierKey];
-		[result setNoneNil:boardName forKey:ThreadPlistBoardNameKey];
-		[result setNoneNil:status forKey:CMRThreadUserStatusKey];
-		[result setNoneNil:modDate forKey:CMRThreadModifiedDateKey];
-		[result setNoneNil:threadPath forKey:CMRThreadLogFilepathKey];
-	}
-	
-	return result;
-	
-abort:{
-	return nil;
-}
-
-}
-- (NSDictionary *) threadAttributesAtRowIndex : (int) rowIndex useLock : (BOOL) useLock
-{
-	id<SQLiteRow> row;
-	
-	NSString *dat;
-	NSString *boardID;
-
-	
-	if(useLock)
-		[mCursorLock lock];
-	row = [[[mCursor rowAtIndex : rowIndex] retain] autorelease];
-	if(useLock)
-		[mCursorLock unlock];
-	
-	dat = nilIfObjectIsNSNull([row valueForColumn:ThreadIDColumn]);
-	boardID = nilIfObjectIsNSNull([row valueForColumn:BoardIDColumn]);
-	
-	return threadAttributesForBoardIDAndThreadID([boardID intValue], dat);
-}
-
 - (NSDictionary *) threadAttributesAtRowIndex : (int          ) rowIndex
                                   inTableView : (NSTableView *) tableView
 {
-	return [self threadAttributesAtRowIndex : rowIndex useLock : YES];
+	BSThreadListItem *row;
+	
+	@synchronized(mCursorLock) {
+		row = [[[mCursor objectAtIndex : rowIndex] retain] autorelease];
+	}
+	
+	return [row attribute];
 }
 - (unsigned int) indexOfThreadWithPath : (NSString *) filepath
 {
@@ -523,22 +438,12 @@ abort:{
 	CMRDocumentFileManager *dfm = [CMRDocumentFileManager defaultManager];
 	NSString *identifier = [dfm datIdentifierWithLogPath : filepath];
 	
-	NSArray *threadIDs;
-	
-	[mCursorLock lock];
-	threadIDs	= [[[mCursor valuesForColumn : ThreadIDColumn] retain] autorelease];
-	[mCursorLock unlock];
-	
-	result = [threadIDs indexOfObject : identifier];
+	@synchronized(mCursorLock) {
+		result = indexOfIdentifier(mCursor, identifier);
+	}
 	
 	return result;
 }
-// Described in CMRThreadsList.h (2007-01-28)
-/*enum {
-	kValueTemplateDefaultType,
-	kValueTemplateNewArrivalType,
-	kValueTemplateNewUnknownType
-};*/
 
 - (int)numberOfRowsInTableView : (NSTableView *)tableView
 {
@@ -551,59 +456,38 @@ abort:{
 					threadArray : (NSArray  *) threadArray
 						atIndex : (int       ) index
 {
-	id <SQLiteRow> row;
+	NSString *key = tableNameForKey(identifier);
+	
+	BSThreadListItem *row;
 	id result = nil;
 	ThreadStatus s;
 	
-	[mCursorLock lock];
-	row = [[[mCursor rowAtIndex : index] retain] autorelease];
-	[mCursorLock unlock];
+	@synchronized(mCursorLock) {
+		row = [[[mCursor objectAtIndex : index] retain] autorelease];
+	}
 	
-	s = [[row valueForColumn : ThreadStatusColumn] intValue];
+	s = [row status];
 	
-	if ([identifier isEqualTo : CMRThreadStatusKey]) {
-		result = _statusImageWithStatusBSDB(s);
-	} else if ([identifier isEqualTo : CMRThreadNumberOfUpdatedKey]) {
-		id read = [row valueForColumn : NumberOfReadColumn];
-		// NumberOfReadColumn カラムが NULL なら NULL
-		if(!UTILObjectIsNull(read)) {
-			result = [row valueForColumn : NumberOfDifferenceColumn];
-		}
-	} else if ( [identifier isEqualTo : CMRThreadModifiedDateKey] ) {
-		id mod = [row valueForColumn : ModifiedDateColumn];
-		
-		if (mod != [NSNull null]) {
-			result = [NSDate dateWithTimeIntervalSince1970 : [mod doubleValue]];
-		}
-	} else if ( [identifier isEqualTo : CMRThreadTitleKey] ) {
-		result = [row valueForColumn : ThreadNameColumn];
-	} else if ( [identifier isEqualTo : CMRThreadNumberOfMessagesKey] ) {
-		result = [row valueForColumn : NumberOfAllColumn];
-	} else if ( [identifier isEqualTo : CMRThreadLastLoadedNumberKey] ) {
-		result = [row valueForColumn : NumberOfReadColumn];
-	} else if ( [identifier isEqualTo : CMRThreadSubjectIndexKey] ) {
-		result = [row valueForColumn : TempThreadThreadNumberColumn];
+	if ( [key isEqualTo : TempThreadThreadNumberColumn] ) {
+		result = [row threadNumber];
 		if(!result || result == [NSNull null]) {
 			result = [NSNumber numberWithInt:index + 1];
 		}
-	} else if([identifier isEqualToString : ThreadPlistIdentifierKey]) {
+	} else if([key isEqualToString : ThreadIDColumn]) {
 		// スレッドの立った日付（dat 番号を変換）available in RainbowJerk and later.
-		result = [NSDate dateWithTimeIntervalSince1970 : (NSTimeInterval)[[row valueForColumn : ThreadIDColumn] doubleValue]];
+		result = [row creationDate];
 		return [[BSDateFormatter sharedDateFormatter] attributedStringForObjectValue: result
 															   withDefaultAttributes: ((s == ThreadNewCreatedStatus) ? [[self class] newThreadCreatedDateAttrTemplate]
 																													 : [[self class] threadCreatedDateAttrTemplate])];
-	} else if([identifier isEqualToString : LastWrittenDateColumn]) {
-		// 最終書き込み日時
-		result = [row valueForColumn : LastWrittenDateColumn];
-		if(result && result != [NSNull null]) {
-			
-			result = [NSDate dateWithTimeIntervalSince1970 : (NSTimeInterval)[result doubleValue]];
-			return [[BSDateFormatter sharedDateFormatter] attributedStringForObjectValue: result
-																   withDefaultAttributes: ((s == ThreadNewCreatedStatus) ? [[self class] newThreadCreatedDateAttrTemplate]
-																														 : [[self class] threadCreatedDateAttrTemplate])];
-		}
+	} else if([key isEqualToString : LastWrittenDateColumn]) {
+		// 最終書き込み日
+		result = [row lastWrittenDate];
+		return [[BSDateFormatter sharedDateFormatter] attributedStringForObjectValue: result
+															   withDefaultAttributes: [[self class] threadLastWrittenDateAttrTemplate]];
+	} else if([key isEqualTo:ThreadStatusColumn]) {
+		result = [row statusImage];
 	} else {
-		result = [row valueForColumn : identifier];
+		result = [row valueForKey : key];
 	}
 	
 	if (result == [NSNull null]) {
@@ -696,98 +580,7 @@ Compatability Note: This method replaces tableView : writeRows : toPasteboard : 
 	UTILNotifyName(CMRThreadsListDidChangeNotification);
 }
 
-static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSString **outThreadID, NSString *inFilePath )
-{
-	CMRDocumentFileManager *dfm = [CMRDocumentFileManager defaultManager];
-	
-	if (outThreadID) {
-		*outThreadID = [dfm datIdentifierWithLogPath : inFilePath];
-	}
-	
-	if (outBoardID) {
-		NSString *boardName;
-		NSArray *boardIDs;
-		id boardID;
-		
-		boardName = [dfm boardNameWithLogPath : inFilePath];
-		if (!boardName) return NO;
-		
-		boardIDs = [[DatabaseManager defaultManager] boardIDsForName : boardName];
-		if (!boardIDs || [boardIDs count] == 0) return NO;
-		
-		boardID = [boardIDs objectAtIndex : 0];
-		
-		*outBoardID = [boardID intValue];
-	}
-	
-	return YES;
-}
-/*
-// スレッドのダウンロードが終了した。
-- (void) downloaderTextUpdatedNotified : (NSNotification *) notification
-{
-	CMRDownloader			*downloader_;
-	NSDictionary			*userInfo_;
-	NSDictionary			*newContents_;
-	
-	UTILAssertNotificationName(
-							   notification,
-							   ThreadTextDownloaderUpdatedNotification);
-	
-	
-	downloader_ = [notification object];
-	UTILAssertKindOfClass(downloader_, CMRDownloader);
-	
-	userInfo_ = [notification userInfo];
-	UTILAssertNotNil(userInfo_);
-	
-	newContents_ = [userInfo_ objectForKey : CMRDownloaderUserInfoContentsKey];
-	UTILAssertKindOfClass(
-						  newContents_,
-						  NSDictionary);
-	
-	do {
-		SQLiteDB *db;
-		NSMutableString *sql;
-		
-		int		cnt_;
-		NSArray		*messages_;
-		NSDate *modDate = [newContents_ objectForKey : CMRThreadModifiedDateKey];
-		
-		int baordID = 0;
-		NSString *threadID;
-		
-		db = [[DatabaseManager defaultManager] databaseForCurrentThread];
-		if(!db) break;
-		
-		messages_ = [newContents_ objectForKey : ThreadPlistContentsKey];
-		cnt_ = (messages_ != nil) ? [messages_ count] : 0;
-		
-		if (! searchBoardIDAndThreadIDFromFilePath( &baordID, &threadID, [downloader_ filePathToWrite] )) {
-			break;
-		}
-		
-		sql = [NSMutableString stringWithFormat : @"UPDATE %@ ", ThreadInfoTableName];
-		[sql appendFormat : @"SET %@ = %u, %@ = %u, %@ = %u, %@ = %.0lf ",
-			NumberOfAllColumn, cnt_,
-			NumberOfReadColumn, cnt_,
-			ThreadStatusColumn, ThreadLogCachedStatus,
-			ModifiedDateColumn, [modDate timeIntervalSince1970]];
-		[sql appendFormat : @"WHERE %@ = %u AND %@ = %@",
-			BoardIDColumn, baordID, ThreadIDColumn, threadID];
-		
-		[db cursorForSQL : sql];
-		
-		if ([db lastErrorID] != 0) {
-			NSLog(@"Fail Insert or udate. Reson: %@", [db lastError] );
-		}
-		
-		[self updateCursor];
-		
-	} while ( NO );
-	
-}
-*/
+
 - (void) postListDidUpdateNotification : (int) mask;
 {
 	id		obj_;
@@ -803,14 +596,7 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 #pragma mark## SearchThread ##
 + (NSMutableDictionary *) attributesForThreadsListWithContentsOfFile : (NSString *) filePath
 {
-	int boardID = 0;
-	id threadID;
-	
-	if( searchBoardIDAndThreadIDFromFilePath(&boardID,&threadID,filePath) ) {
-		return threadAttributesForBoardIDAndThreadID( boardID, threadID );
-	}
-	
-	return nil;
+	return [[[[BSThreadListItem threadItemWithFilePath:filePath] attribute] mutableCopy] autorelease];
 }
 - (NSMutableDictionary *)seachThreadByPath : (NSString *)filePath
 {
@@ -865,48 +651,4 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( int *outBoardID, NSStri
 {
 	[self loadAndDownloadThreadsList : [self worker] forceDownload : YES];
 }
-/*
-- (void) cleanUpItemsToBeRemoved : (NSArray *) files
-{
-	SQLiteDB *db = [[DatabaseManager defaultManager] databaseForCurrentThread];
-	NSString *query;
-	
-	NSEnumerator *filesEnum;
-	NSString *path;
-	
-	if([db beginTransaction]) {
-		filesEnum = [files objectEnumerator];
-		while(path = [filesEnum nextObject]) {
-			int boardID = 0;
-			NSString *threadID;
-			
-			if(searchBoardIDAndThreadIDFromFilePath(&boardID, &threadID, path)) {
-				
-				query = [NSString stringWithFormat:
-					@"UPDATE %@\n"
-					@"SET %@ = NULL,\n"
-					@"%@ = NULL,\n"
-					@"%@ = %d,\n"
-					@"%@ = NULL,\n"
-					@"%@ = NULL\n"
-					@"WHERE %@ = %d\n"
-					@"AND %@ = %@",
-					ThreadInfoTableName,
-					NumberOfReadColumn,
-					ModifiedDateColumn,
-					ThreadStatusColumn, ThreadNoCacheStatus,
-					ThreadAboneTypeColumn,
-					ThreadLabelColumn,
-					BoardIDColumn, boardID,
-					ThreadIDColumn, threadID];
-				
-				[db performQuery:query];
-			}
-			
-		}
-		[db commitTransaction];
-	}
-	
-	[self updateCursor];
-}*/
 @end

@@ -308,14 +308,14 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 		id key = [CMRPref browserSortColumnIdentifier];
 		BOOL asc = [CMRPref browserSortAscending];
 		
-		sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:tableNameForKey(key)
+		sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:sortKeyForKey(key)
 													  ascending:asc
 													   selector:@selector(numericCompare:)] autorelease];
 		[result addObject:sortDescriptor];
 		
 		// index でソートしないと変なので。
 		if(![key isEqualTo:CMRThreadSubjectIndexKey]) {
-			sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:tableNameForKey(CMRThreadSubjectIndexKey)
+			sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:sortKeyForKey(CMRThreadSubjectIndexKey)
 														  ascending:YES
 														   selector:@selector(numericCompare:)] autorelease];
 			[result addObject:sortDescriptor];

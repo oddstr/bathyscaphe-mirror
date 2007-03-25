@@ -1077,6 +1077,8 @@
 		F49CCDF50849B87500835BE3 /* BSScriptsMenuManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F49CCDF30849B87500835BE3 /* BSScriptsMenuManager.h */; };
 		F49CCDF60849B87500835BE3 /* BSScriptsMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F49CCDF40849B87500835BE3 /* BSScriptsMenuManager.m */; };
 		F4D8CB680B33021C00B8FDB7 /* SmartBoardListItemEditor.strings in Resources */ = {isa = PBXBuildFile; fileRef = F4D8CB660B33021C00B8FDB7 /* SmartBoardListItemEditor.strings */; };
+		F4EFF93C0BB672D800DF90C6 /* BSThreadListItem.h in Headers */ = {isa = PBXBuildFile; fileRef = F4EFF93A0BB672D800DF90C6 /* BSThreadListItem.h */; };
+		F4EFF93D0BB672D800DF90C6 /* BSThreadListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F4EFF93B0BB672D800DF90C6 /* BSThreadListItem.m */; };
 		F4FEF9D90AFF897F0099853B /* SmartBoardListItem.h in Headers */ = {isa = PBXBuildFile; fileRef = F47A66D10AFF807100EB5137 /* SmartBoardListItem.h */; };
 		F4FEF9DA0AFF89810099853B /* SQLiteDB.h in Headers */ = {isa = PBXBuildFile; fileRef = F47A66DA0AFF808D00EB5137 /* SQLiteDB.h */; };
 		F4FEF9DB0AFF89820099853B /* SmartBoardList.h in Headers */ = {isa = PBXBuildFile; fileRef = F47A66CF0AFF807100EB5137 /* SmartBoardList.h */; };
@@ -1956,6 +1958,8 @@
 		F49CCDF30849B87500835BE3 /* BSScriptsMenuManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSScriptsMenuManager.h; sourceTree = "<group>"; };
 		F49CCDF40849B87500835BE3 /* BSScriptsMenuManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSScriptsMenuManager.m; sourceTree = "<group>"; };
 		F4D8CB670B33021C00B8FDB7 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Japanese; path = Japanese.lproj/SmartBoardListItemEditor.strings; sourceTree = "<group>"; };
+		F4EFF93A0BB672D800DF90C6 /* BSThreadListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSThreadListItem.h; sourceTree = "<group>"; };
+		F4EFF93B0BB672D800DF90C6 /* BSThreadListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSThreadListItem.m; sourceTree = "<group>"; };
 		F4FEFB400AFF9CD90099853B /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/SmartBoardItemEditor.nib; sourceTree = "<group>"; };
 		F4FEFB430AFF9CE80099853B /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/SmartBLIEditorComponents.nib; sourceTree = "<group>"; };
 		F4FEFB460AFF9CFC0099853B /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Japanese; path = Japanese.lproj/ConditionTypes.plist; sourceTree = "<group>"; };
@@ -2483,6 +2487,8 @@
 		87B4E68207D82C5300D09944 /* ThreadsList */ = {
 			isa = PBXGroup;
 			children = (
+				F4EFF93A0BB672D800DF90C6 /* BSThreadListItem.h */,
+				F4EFF93B0BB672D800DF90C6 /* BSThreadListItem.m */,
 				F47A66DC0AFF80B700EB5137 /* BSDBThreadList.h */,
 				F47A66DD0AFF80B700EB5137 /* BSDBThreadList.m */,
 				F486FC630A8F69EA00D44828 /* BSBoardListItemHEADCheckTask.h */,
@@ -3856,6 +3862,7 @@
 				874A691C0B9DCFC500BB8FA7 /* BSVisibleRangePopUpBtnCell.h in Headers */,
 				87DB9C780BA32CA20090090A /* TS2SoftwareUpdate.h in Headers */,
 				87D32F230BAC1C6D002B6006 /* BSSearchOptions.h in Headers */,
+				F4EFF93C0BB672D800DF90C6 /* BSThreadListItem.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4812,6 +4819,7 @@
 				87DB9C790BA32CA20090090A /* TS2SoftwareUpdate.m in Sources */,
 				87D32F240BAC1C6D002B6006 /* BSSearchOptions.m in Sources */,
 				87CCC7B00BB53DE500813E93 /* AppDefaults-Sounds.m in Sources */,
+				F4EFF93D0BB672D800DF90C6 /* BSThreadListItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5909,7 +5917,7 @@
 					"-DBUILD_COCOMONAR",
 					"-DPATCH=1",
 				);
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-bind_at_load";
 				PREBINDING = NO;
 				PRODUCT_NAME = "Starlight Breaker";
 				SECTORDER_FLAGS = "";
@@ -5956,7 +5964,7 @@
 					"-DUTIL_BLOCK_DEBUG_WRITE",
 					"-DPATCH=1",
 				);
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-bind_at_load";
 				PREBINDING = NO;
 				PRODUCT_NAME = "Starlight Breaker";
 				SECTORDER_FLAGS = "";
@@ -5992,7 +6000,7 @@
 				INFOPLIST_FILE = "Info-bs-another-story.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/source\"";
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-bind_at_load";
 				PREBINDING = NO;
 				PRODUCT_NAME = "Starlight Breaker";
 				SECTORDER_FLAGS = "";
