@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.21 2007/03/06 14:40:18 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.22 2007/03/25 13:11:06 masakih Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -11,11 +11,12 @@
 #import "CMRThreadSignature.h"
 #import "NSIndexSet+BSAddition.h"
 #import "BSDateFormatter.h"
+#import "DatabaseManager.h"
 // Status image
-#define kStatusUpdatedImageName		@"Status_updated"
-#define kStatusCachedImageName		@"Status_logcached"
-#define kStatusNewImageName			@"Status_newThread"
-#define kStatusHEADModImageName		@"Status_HeadModified"
+//#define kStatusUpdatedImageName		@"Status_updated"
+//#define kStatusCachedImageName		@"Status_logcached"
+//#define kStatusNewImageName			@"Status_newThread"
+//#define kStatusHEADModImageName		@"Status_HeadModified"
 
 /* @see objectValueTemplate:forType: */
 /*enum {
@@ -32,6 +33,7 @@ static id kThreadAttrTemplate;
 static NSMutableDictionary *kNewThreadCreatedDateAttrTemplate;
 static NSMutableDictionary *kThreadCreatedDateAttrTemplate;
 static NSMutableDictionary *kThreadModifiedDateAttrTemplate;
+static NSMutableDictionary *kThreadLastWrittenDateAttrTemplate;
 
 static NSMutableParagraphStyle	*pStyleForDateColumnWithWidth (float tabWidth)
 {
@@ -49,13 +51,18 @@ static NSMutableParagraphStyle	*pStyleForDateColumnWithWidth (float tabWidth)
 
 + (void) resetDataSourceTemplateForDateColumn
 {
-	if (kNewThreadCreatedDateAttrTemplate == nil || kThreadCreatedDateAttrTemplate == nil || kThreadModifiedDateAttrTemplate == nil) {
+	if (kNewThreadCreatedDateAttrTemplate == nil
+		|| kThreadCreatedDateAttrTemplate == nil
+		|| kThreadModifiedDateAttrTemplate == nil
+		|| kThreadLastWrittenDateAttrTemplate == nil) {
+		
 		if (nil == kNewThreadAttrTemplate || nil == kThreadAttrTemplate) {
 			[self resetDataSourceTemplates];
 		}
 		kNewThreadCreatedDateAttrTemplate = [kNewThreadAttrTemplate mutableCopy];
 		kThreadCreatedDateAttrTemplate = [kThreadAttrTemplate mutableCopy];
 		kThreadModifiedDateAttrTemplate = [kThreadAttrTemplate mutableCopy];
+		kThreadLastWrittenDateAttrTemplate = [kThreadAttrTemplate mutableCopy];
 	} else {
 		[kNewThreadCreatedDateAttrTemplate setObject: [CMRPref threadsListNewThreadFont] forKey: NSFontAttributeName];
 		[kNewThreadCreatedDateAttrTemplate setObject: [CMRPref threadsListNewThreadColor] forKey: NSForegroundColorAttributeName];
@@ -63,6 +70,9 @@ static NSMutableParagraphStyle	*pStyleForDateColumnWithWidth (float tabWidth)
 		[kThreadCreatedDateAttrTemplate setObject: [CMRPref threadsListColor] forKey: NSForegroundColorAttributeName];
 		[kThreadModifiedDateAttrTemplate setObject: [CMRPref threadsListFont] forKey: NSFontAttributeName];
 		[kThreadModifiedDateAttrTemplate setObject: [CMRPref threadsListColor] forKey: NSForegroundColorAttributeName];
+		
+		[kThreadLastWrittenDateAttrTemplate setObject: [CMRPref threadsListFont] forKey: NSFontAttributeName];
+		[kThreadLastWrittenDateAttrTemplate setObject: [CMRPref threadsListColor] forKey: NSForegroundColorAttributeName];
 	}
 }
 
@@ -71,7 +81,11 @@ static NSMutableParagraphStyle	*pStyleForDateColumnWithWidth (float tabWidth)
     static float cachedLoc1 = 0;
     static float cachedLoc2 = 0;
 
-	if (kNewThreadCreatedDateAttrTemplate == nil || kThreadCreatedDateAttrTemplate == nil || kThreadModifiedDateAttrTemplate == nil) {
+	if (kNewThreadCreatedDateAttrTemplate == nil
+		|| kThreadCreatedDateAttrTemplate == nil
+		|| kThreadModifiedDateAttrTemplate == nil
+		|| kThreadLastWrittenDateAttrTemplate == nil) {
+		
 		[self resetDataSourceTemplateForDateColumn];
 	}
 
@@ -89,6 +103,13 @@ static NSMutableParagraphStyle	*pStyleForDateColumnWithWidth (float tabWidth)
 			NSParagraphStyle	*ps2 = pStyleForDateColumnWithWidth(cachedLoc2);
 
 			[kThreadModifiedDateAttrTemplate setObject: ps2 forKey: NSParagraphStyleAttributeName];
+		}
+	} else if ([identifier isEqualToString: LastWrittenDateColumn]) {
+        if (cachedLoc2 == 0 || loc != cachedLoc2) {
+            cachedLoc2 = loc;
+			NSParagraphStyle	*ps2 = pStyleForDateColumnWithWidth(cachedLoc2);
+			
+			[kThreadLastWrittenDateAttrTemplate setObject: ps2 forKey: NSParagraphStyleAttributeName];
 		}
 	}
 }
@@ -131,6 +152,10 @@ static NSMutableParagraphStyle	*pStyleForDateColumnWithWidth (float tabWidth)
 {
 	return kThreadModifiedDateAttrTemplate;
 }
++ (NSDictionary *)threadLastWrittenDateAttrTemplate
+{
+	return kThreadLastWrittenDateAttrTemplate;
+}
 
 + (id) objectValueTemplate : (id ) aValue
 				   forType : (int) aType
@@ -171,25 +196,6 @@ static NSMutableParagraphStyle	*pStyleForDateColumnWithWidth (float tabWidth)
 	return 0;
 }
 
-/*static NSImage *_statusImageWithStatus(ThreadStatus s)
-{
-	switch (s){
-	case ThreadLogCachedStatus :
-		return [NSImage imageAppNamed : kStatusCachedImageName];
-	case ThreadUpdatedStatus :
-		return [NSImage imageAppNamed : kStatusUpdatedImageName];
-	case ThreadNewCreatedStatus :
-		return [NSImage imageAppNamed : kStatusNewImageName];
-	case ThreadHeadModifiedStatus :
-		return [NSImage imageAppNamed : kStatusHEADModImageName];
-	case ThreadNoCacheStatus :
-		return nil;
-	default :
-		return nil;
-	}
-	return nil;
-}*/
-
 static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 {
 	if(!aThread) return ThreadNoCacheStatus;
@@ -208,45 +214,6 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 					threadArray : (NSArray  *) threadArray
 						atIndex : (int       ) index
 {
-/*	NSDictionary	*thread = [threadArray objectAtIndex : index];
-	ThreadStatus	s = _threadStatusForThread(thread);
-	id				v = nil;
-	
-	if([identifier isEqualToString : CMRThreadStatusKey]){
-		// ステータス画像
-		v = _statusImageWithStatus(s);
-		return v;
-
-	} else if ([CMRThreadNumberOfUpdatedKey isEqualToString : identifier]){
-		// 差分
-		if(ThreadLogCachedStatus & s){
-			int		diff_;
-			
-			diff_ = [CMRThreadAttributes numberOfUpdatedFromDictionary : thread];
-			v = (diff_ >= 0) ? [NSNumber numberWithInt : diff_] : nil;
-		}
-	} else if ([identifier isEqualToString : ThreadPlistIdentifierKey]) {
-		// スレッドの立った日付（dat 番号を変換）available in RainbowJerk and later.
-		v = [NSDate dateWithTimeIntervalSince1970 : (NSTimeInterval)[[thread objectForKey : identifier] doubleValue]];
-		return [[BSDateFormatter sharedDateFormatter] attributedStringForObjectValue: v
-													  withDefaultAttributes: ((s == ThreadNewCreatedStatus) ? kNewThreadCreatedDateAttrTemplate
-																											: kThreadCreatedDateAttrTemplate)];
-	} else {
-		// それ以外
-		v = [thread objectForKey : identifier];
-	}
-	
-	// 日付
-	if([v isKindOfClass : [NSDate class]]) {
-		return [[BSDateFormatter sharedDateFormatter] attributedStringForObjectValue: v withDefaultAttributes: kThreadModifiedDateAttrTemplate];
-	}
-
-	// 新着スレッド／通常のスレッド
-	if(v) {
-		v = [[self class] objectValueTemplate : v
-									  forType : ((s == ThreadNewCreatedStatus) ? kValueTemplateNewArrivalType : kValueTemplateDefaultType)];
-	}
-	return v;*/
 	UTILAbstractMethodInvoked;
 	return nil;
 }
@@ -255,20 +222,6 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
   objectValueForTableColumn : (NSTableColumn *) aTableColumn
                         row : (int            ) rowIndex
 {
-/*	NSArray			*threads_ = [self filteredThreads];
-	NSString		*identifier_ = [aTableColumn identifier];
-	NSAssert2((rowIndex >= 0 && rowIndex <= [threads_ count]),
-	   @"Threads Count(%u) but Accessed Index = %d.", [threads_ count], rowIndex);
-
-    if ([identifier_ isEqualToString: ThreadPlistIdentifierKey] ||
-        [identifier_ isEqualToString: CMRThreadModifiedDateKey])
-    {
-        float location_ = [aTableColumn width];
-        location_ -= [aTableView intercellSpacing].width * 2;
-        [[self class] resetDataSourceTemplateForColumnIdentifier: identifier_ width: location_];
-    }
-
-	return [self objectValueForIdentifier: identifier_ threadArray: threads_ atIndex: rowIndex];*/
 	UTILAbstractMethodInvoked;
 	return nil;
 }
@@ -371,56 +324,12 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 - (NSDictionary *) threadAttributesAtRowIndex : (int          ) rowIndex
                                   inTableView : (NSTableView *) tableView
 {
-/*	NSArray			*threadsArray_;
-	NSDictionary	*thread_;
-	
-	if(rowIndex == -1) 
-		return nil;
-	
-	[self _filteredThreadsLock];
-	//threadsArray_ = [[self threadsForTableView : tableView] retain];
-	threadsArray_ = [[self filteredThreads] retain];
-	
-	
-	if(rowIndex < 0 || rowIndex >= [threadsArray_ count])
-		return nil;
-	
-	NSAssert2(
-		(rowIndex >= 0 && rowIndex < [threadsArray_ count]),
-		@"  rowIndex was over. size = %d but was %d",
-		[threadsArray_ count],
-		rowIndex);
-	
-	thread_ = [threadsArray_ objectAtIndex : rowIndex];
-	
-	[self _filteredThreadsUnlock];
-	
-	[thread_ retain];
-	[threadsArray_ release];
-	
-	return [thread_ autorelease];*/
 	UTILAbstractMethodInvoked;
 	return nil;
 }
 
 - (unsigned int) indexOfThreadWithPath : (NSString *) filepath
 {
-/*	unsigned int  rowIndex_;
-	NSArray      *threadsArray_;
-	NSDictionary *matched_;
-		
-	matched_ = [self seachThreadByPath : filepath];
-	[self _filteredThreadsLock]; 
-	do {
-		//threadsArray_ = [self threadsForTableView : nil];
-		threadsArray_ = [self filteredThreads];
-		rowIndex_ = [threadsArray_ indexOfObject : matched_];
-		if(NSNotFound == rowIndex_)
-			break;
-	} while(0);
-	[self _filteredThreadsUnlock];
-
-	return rowIndex_;*/
 	UTILAbstractMethodInvoked;
 	return 0;
 }

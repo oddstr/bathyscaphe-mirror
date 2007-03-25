@@ -1,4 +1,6 @@
 2007-03-25 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/CMRThreadsList-DataSource.m:
+		最終書き込み日カラム用の表示属性を追加。
 	* application/Resources/Japanese.lproj/ConditionTypes.plist:
 	* application/Resources/Japanese.lproj/CriteriaSpecifications.plist:
 	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m:
