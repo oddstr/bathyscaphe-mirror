@@ -56,7 +56,7 @@
 		<key>8</key>
 		<dict>
 			<key>name</key>
-			<string>LastWrittenDateColumn</string>
+			<string>LastWrittenDate</string>
 			<key>type</key>
 			<string>date type</string>
 		</dict>

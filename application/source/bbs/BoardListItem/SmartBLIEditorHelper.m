@@ -752,13 +752,13 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 
 - (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem
 {
-	int tag = [menuItem tag];
-	if(tag == dateOfLastWritenItemTag) {
-		id view = [self uiItemForTag:criterionPopUpTag];
-		if( [view indexOfItem:menuItem] != -1) {
-			return NO;
-		}
-	}
+//	int tag = [menuItem tag];
+//	if(tag == dateOfLastWritenItemTag) {
+//		id view = [self uiItemForTag:criterionPopUpTag];
+//		if( [view indexOfItem:menuItem] != -1) {
+//			return NO;
+//		}
+//	}
 	
 	return YES;
 }
@@ -1063,7 +1063,7 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 		return dateOfThreadCreateItemTag;
 	} else if([key isEqualTo:@"modifiedDate"]) {
 		return dateOfModifierItemTag;
-	} else if([key isEqualTo:@"LastWrittenDateColumn"]) {
+	} else if([key isEqualTo:@"LastWrittenDate"]) {
 		return dateOfLastWritenItemTag;
 	}
 	

@@ -1,4 +1,8 @@
 2007-03-25 masakih <masakih@users.sourceforge.jp>
+	* application/Resources/Japanese.lproj/ConditionTypes.plist:
+	* application/Resources/Japanese.lproj/CriteriaSpecifications.plist:
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m:
+		最終書き込み日でスマート掲示板を作成可能にした。
 	* application/Resources/Japanese.lproj/browserListColumns.plist:
 	* application/source/browser/BSDBThreadList.m:
 		 スレッド一覧に最終書き込み日カラムを追加。
