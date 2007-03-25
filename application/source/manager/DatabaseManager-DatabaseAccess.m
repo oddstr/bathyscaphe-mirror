@@ -505,6 +505,29 @@ static NSLock *boardIDNumberCacheLock = nil;
 	
 	return title;
 }
+- (void)setLastWriteDate:(NSDate *)writeDate atBoardID:(unsigned)boardID threadIdentifier:(NSString *)identifier
+{
+	NSString *query;
+	SQLiteDB *db;
+		
+	if([identifier length] == 0) return;
+	
+	db = [self databaseForCurrentThread];
+	if (!db) {
+		return;
+	}
+	
+	query = [NSString stringWithFormat:@"UPDATE %@ SET %@ = %.0lf WHERE %@ = %u AND %@ = %@",
+		ThreadInfoTableName,
+		LastWrittenDateColumn, [writeDate timeIntervalSince1970],
+		BoardIDColumn, boardID,
+		ThreadIDColumn, identifier,
+		nil];
+	[db performQuery: query];
+	if ([db lastErrorID] != 0) {
+		NSLog(@"Fail update LastWrittenDate.");
+	}
+}
 
 #pragma mark Testing...
 - (BOOL) insertThreadID: (NSString *) datString

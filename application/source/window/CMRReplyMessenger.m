@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyMessenger.m,v 1.10 2006/11/05 12:53:48 tsawada2 Exp $
+  * $Id: CMRReplyMessenger.m,v 1.11 2007/03/25 03:51:51 masakih Exp $
   * 
   * CMRReplyMessenger.m
   *
@@ -269,6 +269,10 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 - (NSString *) formItemTitle
 {
 	return [self threadTitle];
+}
+- (NSString *) threadIdentifier
+{
+	return [self formItemKey];
 }
 - (NSURL *) boardURL
 {

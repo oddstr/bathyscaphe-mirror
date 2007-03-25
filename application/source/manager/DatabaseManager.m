@@ -15,6 +15,7 @@
 #import "CMRDocumentFileManager.h"
 #import "CMRTrashbox.h"
 #import "Browser.h"
+#import "CMRReplyMessenger.h"
 
 NSString *FavoritesTableName = @"Favorites";
 NSString *BoardInfoTableName = @"BoardInfo";
@@ -92,6 +93,12 @@ extern void setSQLiteZone(NSZone *zone);
 				selector : @selector(cleanUpItemsToBeRemoved:)
 					name : CMRTrashboxDidPerformNotification
 				  object : [CMRTrashbox trash]];
+		
+		[[NSNotificationCenter defaultCenter]
+			 addObserver : _instance
+				selector : @selector(finishWriteMesssage:)
+					name : CMRReplyMessengerDidFinishPostingNotification
+				  object : nil];
 	}
 	
 	return _instance;
@@ -842,6 +849,22 @@ abort:
 	
 	[self makeThreadsListsUpdateCursor];
 }
+- (void)finishWriteMesssage:(NSNotification *)aNotification
+{
+	id obj = [aNotification object];
+	UTILAssertKindOfClass(obj, [CMRReplyMessenger class]);
+	
+	id boardName = [obj boardName];
+	id threadID = [obj threadIdentifier];
+	id writeDate = [obj modifiedDate];
+	
+	id boardIDs = [self boardIDsForName:boardName];
+	// TODO 二つ以上あった場合
+	int boardID = [[boardIDs objectAtIndex:0] intValue];
+	
+	[self setLastWriteDate:writeDate atBoardID:boardID threadIdentifier:threadID];
+}
+
 @end
 
 #pragma mark -
@@ -867,6 +890,8 @@ NSString *tableNameForKey( NSString *sortKey )
 		sortCol = ThreadIDColumn;
 	} else if ([sortKey isEqualTo : ThreadPlistBoardNameKey]) {
 		sortCol = BoardNameColumn;
+	} else if ([sortKey isEqualTo : LastWrittenDateColumn]) {
+		sortCol = LastWrittenDateColumn;
 	}
 	
 	return [sortCol lowercaseString];

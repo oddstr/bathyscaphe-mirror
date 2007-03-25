@@ -592,6 +592,16 @@ abort:{
 		return [[BSDateFormatter sharedDateFormatter] attributedStringForObjectValue: result
 															   withDefaultAttributes: ((s == ThreadNewCreatedStatus) ? [[self class] newThreadCreatedDateAttrTemplate]
 																													 : [[self class] threadCreatedDateAttrTemplate])];
+	} else if([identifier isEqualToString : LastWrittenDateColumn]) {
+		// 最終書き込み日時
+		result = [row valueForColumn : LastWrittenDateColumn];
+		if(result && result != [NSNull null]) {
+			
+			result = [NSDate dateWithTimeIntervalSince1970 : (NSTimeInterval)[result doubleValue]];
+			return [[BSDateFormatter sharedDateFormatter] attributedStringForObjectValue: result
+																   withDefaultAttributes: ((s == ThreadNewCreatedStatus) ? [[self class] newThreadCreatedDateAttrTemplate]
+																														 : [[self class] threadCreatedDateAttrTemplate])];
+		}
 	} else {
 		result = [row valueForColumn : identifier];
 	}

@@ -35,7 +35,7 @@
 
 // raise DatabaseManagerCantFountKeyExseption.
 - (id)valueForKey:(NSString *)key boardID:(unsigned)boardID threadID:(NSString *)threadID;
-- (void)setValue:(id)value forKey:(NSString *)key boardID:(unsigned)boardID threadID:(NSString *)threadID;
+// - (void)setValue:(id)value forKey:(NSString *)key boardID:(unsigned)boardID threadID:(NSString *)threadID;
 
 - (BOOL) registerBoardName : (NSString *) name URLString : (NSString *) urlString;
 - (BOOL) registerBoardNamesAndURLs : (NSArray *) array;
@@ -62,6 +62,8 @@
 
 //
 - (NSString *) threadTitleFromBoardName:(NSString *)boadName threadIdentifier:(NSString *)identifier;
+
+- (void)setLastWriteDate:(NSDate *)writeDate atBoardID:(unsigned)boardID threadIdentifier:(NSString *)threadID;
 
 // [Bug 10077] を強引に解消するための暫定的な実装 (by tsawada2)
 - (BOOL) insertThreadID: (NSString *) datString
