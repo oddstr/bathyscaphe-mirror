@@ -1,3 +1,7 @@
+2007-03-26 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m:
+	* application/source/browser/BSThreadListItem.m:
+		さらにBSDBThreadListの責任を減らす。
 2007-03-25 masakih <masakih@users.sourceforge.jp>
 	* application/BathyScaphe.xcodeproj/project.pbxproj:
 		警告がうるさいのでリンカフラグに-bind_at_loadを追加。

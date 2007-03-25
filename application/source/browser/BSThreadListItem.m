@@ -200,6 +200,10 @@ static NSString *const BSThreadListItemErrorDomain = @"BSThreadListItemErrorDoma
 
 - (id)valueForKey:(NSString *)key
 {
+	if([key isEqualToString:ThreadIDColumn]) {
+		return [self creationDate];
+	}
+	
 	id result = [[DatabaseManager defaultManager] valueForKey:key
 													  boardID:[self boardID]
 													 threadID:[self identifier]];
@@ -287,6 +291,7 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath(unsigned *outBoardID, NS
 	
 	return YES;
 }
+
 // Status image
 #define kStatusUpdatedImageName		@"Status_updated"
 #define kStatusCachedImageName		@"Status_logcached"
@@ -316,6 +321,10 @@ static inline NSImage *_statusImageWithStatusBSDB(ThreadStatus s)
 @implementation BSCachedThreadListItem
 - (id)valueForKey:(NSString *)key
 {
+	if([key isEqualToString:ThreadIDColumn]) {
+		return [self creationDate];
+	}
+	
 	id result = [data objectForKey:key];
 	
 	if(!result && [key isEqualTo:TempThreadThreadNumberColumn]) {
@@ -371,7 +380,7 @@ static inline NSImage *_statusImageWithStatusBSDB(ThreadStatus s)
 	}
 	
 	if(accepted) {
-		if([key isEqualTo:ModifiedDateColumn] && ![value isKindOfClass:[NSDate class]]) {
+		if([dateTypeKeys() containsObject:key] && ![value isKindOfClass:[NSDate class]]) {
 			if([value isKindOfClass:[NSString class]] || [value isKindOfClass:[NSNumber class]]) {
 				value = [NSDate dateWithTimeIntervalSince1970:[value doubleValue]];
 			}

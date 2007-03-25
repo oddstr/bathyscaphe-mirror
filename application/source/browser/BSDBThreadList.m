@@ -21,8 +21,6 @@
 #import "DatabaseManager.h"
 #import "BSThreadListItem.h"
 
-#import <sys/time.h>
-
 NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishUpdateNotification";
 
 
@@ -313,33 +311,9 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 }
 
 #pragma mark## Thread item operations ##
-static double t1, t2;
-double debug_clock2()
-{
-	double t;
-	struct timeval tv;
-	gettimeofday(&tv, NULL);
-	t = tv.tv_sec + (double)tv.tv_usec*1e-6;
-	return t;
-}
-void debug_log2(const char *p,...)
-{
-//	NSUserDefaults *d = [NSUserDefaults standardUserDefaults];
-	
-//	if([d boolForKey:@"SQLITE_DEBUG_LOG"]) {
-		va_list args;
-		va_start(args, p);
-		vfprintf(stderr, p, args);
-//	}
-}
-void debug_log_time2(double t1, double t2)
-{
-	debug_log2( "total time : \t%02.4lf\n",(t2) - (t1));
-}
 - (void) updateCursor
 {
 	@synchronized(self) {
-		NSLog(@"Update!");t1 = debug_clock2();
 		if(mUpdateTask) {
 			if([mUpdateTask isInProgress]) {
 				[mUpdateTask cancel:self];
@@ -370,10 +344,8 @@ void debug_log_time2(double t1, double t2)
 		@synchronized(mCursorLock) {
 			[mCursor autorelease];
 			mCursor = [[BSThreadListItem threadItemArrayFromCursor:cursor] retain];
-//			mCursor = [cursor retain];
 			UTILDebugWrite1(@"cursor count -> %ld", [mCursor count]);
 		}
-		NSLog(@"Finish!");t2 = debug_clock2();debug_log_time2(t1, t2);
 	}
 	
 	UTILNotifyName(CMRThreadsListDidChangeNotification);
@@ -393,9 +365,6 @@ void debug_log_time2(double t1, double t2)
 						   withObject:temp
 						waitUntilDone:YES];
 }
-
-	
-
 
 #pragma mark## Filter ##
 - (BOOL) filterByString : (NSString *)string
@@ -420,6 +389,21 @@ void debug_log_time2(double t1, double t2)
 }
 
 #pragma mark## DataSource ##
+- (NSDictionary *)dateAttributeForIdentifier:(NSString *)identifier status:(ThreadStatus)status
+{
+	NSDictionary *result = nil;
+	
+	if([identifier isEqualToString:ThreadIDColumn]) {
+		result =  ((status == ThreadNewCreatedStatus) ? [[self class] newThreadCreatedDateAttrTemplate]
+												   : [[self class] threadCreatedDateAttrTemplate]);
+	} else if([identifier isEqualToString:LastWrittenDateColumn]) {
+		result = [[self class] threadLastWrittenDateAttrTemplate];
+	} else if([identifier isEqualToString:ModifiedDateColumn]) {
+		result = [[self class] threadModifiedDateAttrTemplate];
+	}
+	
+	return result;
+}
 	
 - (NSDictionary *) threadAttributesAtRowIndex : (int          ) rowIndex
                                   inTableView : (NSTableView *) tableView
@@ -473,17 +457,6 @@ void debug_log_time2(double t1, double t2)
 		if(!result || result == [NSNull null]) {
 			result = [NSNumber numberWithInt:index + 1];
 		}
-	} else if([key isEqualToString : ThreadIDColumn]) {
-		// スレッドの立った日付（dat 番号を変換）available in RainbowJerk and later.
-		result = [row creationDate];
-		return [[BSDateFormatter sharedDateFormatter] attributedStringForObjectValue: result
-															   withDefaultAttributes: ((s == ThreadNewCreatedStatus) ? [[self class] newThreadCreatedDateAttrTemplate]
-																													 : [[self class] threadCreatedDateAttrTemplate])];
-	} else if([key isEqualToString : LastWrittenDateColumn]) {
-		// 最終書き込み日
-		result = [row lastWrittenDate];
-		return [[BSDateFormatter sharedDateFormatter] attributedStringForObjectValue: result
-															   withDefaultAttributes: [[self class] threadLastWrittenDateAttrTemplate]];
 	} else if([key isEqualTo:ThreadStatusColumn]) {
 		result = [row statusImage];
 	} else {
@@ -496,8 +469,9 @@ void debug_log_time2(double t1, double t2)
 	
 	// 日付
 	if([result isKindOfClass : [NSDate class]]) {
+		id attr = [self dateAttributeForIdentifier:key status:s];
 		return [[BSDateFormatter sharedDateFormatter] attributedStringForObjectValue: result
-															   withDefaultAttributes: [[self class] threadModifiedDateAttrTemplate]];
+															   withDefaultAttributes: attr];
 	}
 	
 	result = [[self class] objectValueTemplate : result
@@ -511,10 +485,7 @@ void debug_log_time2(double t1, double t2)
   objectValueForTableColumn : (NSTableColumn *) aTableColumn
                         row : (int            ) rowIndex
 {
-//	NSArray			*threads_ = [self filteredThreads];
 	NSString		*identifier_ = [aTableColumn identifier];
-//	NSAssert2((rowIndex >= 0 && rowIndex <= [threads_ count]),
-//			  @"Threads Count(%u) but Accessed Index = %d.", [threads_ count], rowIndex);
 	
     if ([identifier_ isEqualToString: ThreadPlistIdentifierKey] ||
         [identifier_ isEqualToString: CMRThreadModifiedDateKey])
@@ -526,48 +497,6 @@ void debug_log_time2(double t1, double t2)
 	
 	return [self objectValueForIdentifier: identifier_ threadArray: nil atIndex: rowIndex];
 }
-/* optional - editing support
-*/
-//- (void)tableView : (NSTableView *)tableView setObjectValue : (id)object forTableColumn : (NSTableColumn *)tableColumn row : (int)row;
-
-
-/* optional - sorting support
-This is the indication that sorting needs to be done.  Typically the data source will sort its data, reload, and adjust selections.
-*/
-/*
- - (void)tableView : (NSTableView *)tableView sortDescriptorsDidChange : (NSArray *)oldDescriptors
- {
-	 id temp = data;
-	 
-	 data = [[data sortedArrayUsingDescriptors : [tableView sortDescriptors]] retain];
-	 [temp release];
-	 
-	 [tableView reloadData];
- }
- */
-
-/* optional - drag and drop support
-This method is called after it has been determined that a drag should begin, but before the drag has been started.  To refuse the drag, return NO.  To start a drag, return YES and place the drag data onto the pasteboard (data, owner, etc...).  The drag image and other drag related information will be set up and provided by the table view once this call returns with YES.  'rowIndexes' contains the row indexes that will be participating in the drag.
-
-Compatability Note: This method replaces tableView : writeRows : toPasteboard : .  If present, this is used instead of the deprecated method.
-*/
-/*
-- (BOOL)tableView : (NSTableView *)tv writeRowsWithIndexes : (NSIndexSet *)rowIndexes toPasteboard : (NSPasteboard*)pboard
-{
-	return [super tableView : tv writeRowsWithIndexes : rowIndexes toPasteboard : pboard];
-}
-*/
-/* This method is used by NSTableView to determine a valid drop target.  Based on the mouse position, the table view will suggest a proposed drop location.  This method must return a value that indicates which dragging operation the data source will perform.  The data source may "re-target" a drop if desired by calling setDropRow : dropOperation: and returning something other than NSDragOperationNone.  One may choose to re-target for various reasons (eg. for better visual feedback when inserting into a sorted position).
-*/
-//- (NSDragOperation)tableView : (NSTableView*)tv validateDrop : (id <NSDraggingInfo>)info proposedRow : (int)row proposedDropOperation : (NSTableViewDropOperation)op;
-
-/* This method is called when the mouse is released over an outline view that previously decided to allow a drop via the validateDrop method.  The data source should incorporate the data from the dragging pasteboard at this time.
-*/
-//- (BOOL)tableView : (NSTableView*)tv acceptDrop : (id <NSDraggingInfo>)info row : (int)row dropOperation : (NSTableViewDropOperation)op;
-
-/* NSTableView data source objects can support file promised drags via by adding  NSFilesPromisePboardType to the pasteboard in tableView : writeRowsWithIndexes : toPasteboard : .  NSTableView implements -namesOfPromisedFilesDroppedAtDestination: to return the results of this data source method.  This method should returns an array of filenames for the created files (filenames only, not full paths).  The URL represents the drop location.  For more information on file promise dragging, see documentation on the NSDraggingSource protocol and -namesOfPromisedFilesDroppedAtDestination : .
-*/
-//- (NSArray *)tableView : (NSTableView *)tv namesOfPromisedFilesDroppedAtDestination : (NSURL *)dropDestination forDraggedRowsWithIndexes : (NSIndexSet *)indexSet;
 
 #pragma mark## Notification ##
 - (void)favoritesManagerDidChange : (id) notification
