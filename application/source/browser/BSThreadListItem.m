@@ -24,6 +24,7 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath( unsigned *outBoardID, N
 static inline NSImage *_statusImageWithStatusBSDB(ThreadStatus s);
 static inline NSArray *dateTypeKeys();
 static inline NSArray *numberTypeKeys();
+static inline NSArray *threadListIdentifiers();
 
 static NSString *const BSThreadListItemErrorDomain = @"BSThreadListItemErrorDomain";
 #define BSThreadListItemClassMismatchError	1
@@ -198,13 +199,45 @@ static NSString *const BSThreadListItemErrorDomain = @"BSThreadListItemErrorDoma
 	return result;
 }
 
-- (id)valueForKey:(NSString *)key
+- (id)threadListValueForKey:(NSString *)key
 {
-	if([key isEqualToString:ThreadIDColumn]) {
+	if([key isEqualToString:CMRThreadTitleKey]) {
+		return [self threadName];
+	} else if([key isEqualToString:CMRThreadLastLoadedNumberKey]) {
+		return [self readNumber];
+	} else if([key isEqualToString:CMRThreadNumberOfMessagesKey]) {
+		return [self responseNumber];
+	} else if([key isEqualToString:CMRThreadNumberOfUpdatedKey]) {
+		return [self delta];
+	} else if([key isEqualToString:CMRThreadSubjectIndexKey]) {
+		return [self threadNumber];
+	} else if([key isEqualToString:CMRThreadStatusKey]) {
+		return [self statusImage];
+	} else if([key isEqualToString:CMRThreadModifiedDateKey]) {
+		return [self modifiredDate];
+	} else if([key isEqualToString:ThreadPlistIdentifierKey]) {
 		return [self creationDate];
+	} else if([key isEqualToString:ThreadPlistBoardNameKey]) {
+		return [self boardName];
 	}
 	
-	id result = [[DatabaseManager defaultManager] valueForKey:key
+	return nil;
+}
+- (id)valueForKey:(NSString *)key
+{
+	id result = [data objectForKey:key];
+	if(result == [NSNull null]) return nil;
+	if(result) return result;
+	
+	if([threadListIdentifiers() containsObject:key]) {
+		result = [self threadListValueForKey:key];
+		if(result) {
+			[data setObject:result forKey:key];
+			return result;
+		}
+	}
+	
+	result = [[DatabaseManager defaultManager] valueForKey:key
 													  boardID:[self boardID]
 													 threadID:[self identifier]];
 	
@@ -220,6 +253,10 @@ static NSString *const BSThreadListItemErrorDomain = @"BSThreadListItemErrorDoma
 		result = [NSDate dateWithTimeIntervalSince1970:[result doubleValue]];
 	} else if([numberTypeKeys() containsObject:key] && ![result isKindOfClass:[NSNumber class]]) {
 		result = [NSNumber numberWithDouble:[result doubleValue]];
+	}
+	
+	if(result) {
+		[data setObject:result forKey:key];
 	}
 	
 	return result;
@@ -256,6 +293,31 @@ static inline NSArray *numberTypeKeys()
 					NumberOfReadColumn,
 					NumberOfDifferenceColumn,
 					TempThreadThreadNumberColumn,
+					nil];
+				[result retain];
+			}
+		}
+	}
+	
+	return result;
+}
+static inline NSArray *threadListIdentifiers()
+{
+	static NSArray *result = nil;
+	
+	if(!result) {
+		@synchronized([BSThreadListItem class]) {
+			if(!result) {
+				result = [NSArray arrayWithObjects:
+					CMRThreadTitleKey,
+					CMRThreadLastLoadedNumberKey,
+					CMRThreadNumberOfMessagesKey,
+					CMRThreadNumberOfUpdatedKey,
+					CMRThreadSubjectIndexKey,
+					CMRThreadStatusKey,
+					CMRThreadModifiedDateKey,
+					ThreadPlistIdentifierKey,
+					ThreadPlistBoardNameKey,
 					nil];
 				[result retain];
 			}
@@ -316,38 +378,6 @@ static inline NSImage *_statusImageWithStatusBSDB(ThreadStatus s)
 	return nil;
 }
 
-@end
-
-@implementation BSCachedThreadListItem
-- (id)valueForKey:(NSString *)key
-{
-	if([key isEqualToString:ThreadIDColumn]) {
-		return [self creationDate];
-	}
-	
-	id result = [data objectForKey:key];
-	
-	if(!result && [key isEqualTo:TempThreadThreadNumberColumn]) {
-		return nil;
-	}
-	
-	if([key isEqualTo:NumberOfDifferenceColumn]) {
-		return [self delta];
-	}
-	
-	if(!result) {
-		result = [super valueForKey:key];
-		if(result && result != [NSNull null]) {
-			[data setObject:result forKey:key];
-		}
-	}
-	
-	if(result == [NSNull null]) {
-		result = nil;
-	}
-	
-	return result;
-}
 @end
 
 @implementation BSMutableThreadListItem

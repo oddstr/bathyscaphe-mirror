@@ -1,4 +1,18 @@
 2007-03-26 masakih <masakih@users.sourceforge.jp>
+	* application/source/bbs/BoardManager-BSAddition.m:
+		sortKeyForKey() を tableNameForKey() に戻した。
+	* application/source/browser/BSDBThreadList.m:
+		BSThreadListItem の変更により
+		objectValueForIdentifier:threadArray:atIndex: がより簡素になった。
+	* application/source/browser/BSDBThreadsListDBUpdateTask2.m:
+	* application/source/manager/DatabaseManager.[h|m]:
+		BSThreadListItem の変更により tableNameForKey() と sortKeyForKey() を
+		混在させる必要が無くなったので、sortKeyForKey() を廃止し、
+		tableNameForKey() を元に戻した。
+	* application/source/browser/BSThreadListItem.[h|m]:
+		常にキャシュするようにし、BSCachedThreadListItem クラスを廃止。
+		スレッド一覧のテーブルカラムID を特別扱いするように変更し、
+		外部からはあたかも、テーブルカラムID を直接扱っているように見せるように変更。
 	* application/source/browser/BSDBThreadList.m:
 	* application/source/browser/BSThreadListItem.m:
 		さらにBSDBThreadListの責任を減らす。
@@ -7,19 +21,16 @@
 		警告がうるさいのでリンカフラグに-bind_at_loadを追加。
 	* application/source/bbs/BoardManager-BSAddition.m:
 		tableNameForKey() を sortKeyForKey()に変更。
-	* application/source/browser/BSDBThreadList.h:
-	* application/source/browser/BSDBThreadList.m:
+	* application/source/browser/BSDBThreadList.[h|m]:
 		BSThreadListItem を使用するようにした。
 		メソッドの定義位置を整理した。
 	* application/source/manager/DatabaseManager-DatabaseAccess.m:
 		- (id)valueForKey:boardID:threadID: が正しく動いていなかったので修正。
-	* application/source/manager/DatabaseManager.h:
-	* application/source/manager/DatabaseManager.m:
+	* application/source/manager/DatabaseManager.[h|m]:
 		sortKeyForKey()関数を追加。テーブルカラムとソートキーは別物になった。
 	* application/source/manager/SQLiteDB.m:
 		エラー処理追加。
-	* application/source/browser/BSThreadListItem.h:
-	* application/source/browser/BSThreadListItem.m:
+	* application/source/browser/BSThreadListItem.[h|m]:
 		[新規追加] SQLiteCursor をラップする。BSDBThreadList の責任逃れ用。
 	* application/source/browser/CMRThreadsList.h:
 	* application/source/browser/CMRThreadsList-DataSource.m:
@@ -32,11 +43,9 @@
 	* application/source/browser/BSDBThreadList.m:
 		 スレッド一覧に最終書き込み日カラムを追加。
 	* application/source/manager/DatabaseManager-DatabaseAccess.m:
-	* application/source/manager/DatabaseManager.h:
-	* application/source/manager/DatabaseManager.m:
+	* application/source/manager/DatabaseManager.[h|m]:
 		スレッド毎の最終書き込み日時を保存するようにした。
-	* application/source/window/CMRReplyMessenger.h:
-	* application/source/window/CMRReplyMessenger.m:
+	* application/source/window/CMRReplyMessenger.[h|m]:
 		スレッド毎の最終書き込み日時を保存する為にスレッドのidを返すメソッドを追加。
 2007-03-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-Validation.m

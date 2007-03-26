@@ -44,11 +44,8 @@
 
 @end
 
-@interface BSCachedThreadListItem : BSThreadListItem
-@end
-
 // this class response setValue:forKey: method.
-@interface BSMutableThreadListItem : BSCachedThreadListItem
+@interface BSMutableThreadListItem : BSThreadListItem
 @end
 
 

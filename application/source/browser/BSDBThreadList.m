@@ -9,8 +9,6 @@
 #import "BSDBThreadList.h"
 
 #import "CMRThreadsList_p.h"
-#import "CMRThreadViewer.h"
-#import "ThreadTextDownloader.h"
 #import "missing.h"
 #import "BSDateFormatter.h"
 
@@ -207,7 +205,7 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	{
 		id sortDescriptor;
 		
-		sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:sortKeyForKey(mSortKey)
+		sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:tableNameForKey(mSortKey)
 													  ascending:[self isAscending]
 													   selector:@selector(numericCompare:)] autorelease];
 		
@@ -273,7 +271,7 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 {
 	id enume;
 	NSSortDescriptor *sortDesc;
-	NSString *sortKey = sortKeyForKey(key);
+	NSString *sortKey = tableNameForKey(key);
 	
 	if(!sortKey) return NO;
 	
@@ -291,7 +289,7 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	id enume;
 	NSSortDescriptor *sortDesc;
 	NSSortDescriptor *newDesc = nil;
-	NSString *sortKey = sortKeyForKey(key);
+	NSString *sortKey = tableNameForKey(key);
 	
 	if(!sortKey) return;
 	
@@ -440,8 +438,6 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 					threadArray : (NSArray  *) threadArray
 						atIndex : (int       ) index
 {
-	NSString *key = tableNameForKey(identifier);
-	
 	BSThreadListItem *row;
 	id result = nil;
 	ThreadStatus s;
@@ -452,24 +448,18 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	
 	s = [row status];
 	
-	if ( [key isEqualTo : TempThreadThreadNumberColumn] ) {
+	if ( [identifier isEqualTo : CMRThreadSubjectIndexKey] ) {
 		result = [row threadNumber];
 		if(!result || result == [NSNull null]) {
 			result = [NSNumber numberWithInt:index + 1];
 		}
-	} else if([key isEqualTo:ThreadStatusColumn]) {
-		result = [row statusImage];
 	} else {
-		result = [row valueForKey : key];
-	}
-	
-	if (result == [NSNull null]) {
-		result = nil;
+		result = [row valueForKey : identifier];
 	}
 	
 	// 日付
 	if([result isKindOfClass : [NSDate class]]) {
-		id attr = [self dateAttributeForIdentifier:key status:s];
+		id attr = [self dateAttributeForIdentifier:identifier status:s];
 		return [[BSDateFormatter sharedDateFormatter] attributedStringForObjectValue: result
 															   withDefaultAttributes: attr];
 	}
