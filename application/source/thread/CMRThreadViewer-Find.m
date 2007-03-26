@@ -1,5 +1,5 @@
 /** 
-  * $Id: CMRThreadViewer-Find.m,v 1.15 2007/03/18 14:53:30 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Find.m,v 1.16 2007/03/26 00:03:51 tsawada2 Exp $
   *
   * Copyright (c) 2003, Takanori Ishikawa.
   * CMRThreadViewer-Action.m から分割 - 2005-02-16 by tsawada2.
@@ -119,9 +119,9 @@
 
 	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 	[alert setAlertStyle: NSWarningAlertStyle];
-	[alert setMessageText: [NSString stringWithFormat: NSLocalizedString(@"InvalidRegularExpressionMsg", @""), aString]];
-	[alert setInformativeText: NSLocalizedString(@"InvalidRegularExpressionInfo", @"")];
-	[alert addButtonWithTitle: NSLocalizedString(@"InvalidRegularExpressionOK", @"")];
+	[alert setMessageText: [NSString stringWithFormat: [self localizedString: @"InvalidRegularExpressionMsg"], aString]];
+	[alert setInformativeText: [self localizedString: @"InvalidRegularExpressionInfo"]];
+	[alert addButtonWithTitle: [self localizedString: @"InvalidRegularExpressionOK"]];
 
 	NSBeep();
 	[alert runModal];
@@ -219,9 +219,6 @@
 									searchMask: searchOption
 										 range: aRange];
 	} else {
-		BOOL useRegExp = (CMRSearchOptionUseRegularExpression & searchOption);
-		if (useRegExp && NO == [self validateAsRegularExpression: aString]) goto ErrNotFound;
-
 		unsigned int strLength = [aString length];
         while (aRange.length >= strLength) {
 //			NSLog(@"aRange: %@", NSStringFromRange(aRange));
@@ -277,6 +274,9 @@ ErrNotFound:
 					 range: (NSRange) aRange
 {
 	UTILRequireCondition(searchOptions, ErrNotFound);
+
+	BOOL useRegExp = (CMRSearchOptionUseRegularExpression & [searchOptions optionMasks]);
+	if (useRegExp && NO == [self validateAsRegularExpression: [searchOptions findObject]]) goto ErrNotFound;
 
 	[self findText: [searchOptions findObject]
 		 keysArray: [searchOptions targetKeysArray]
@@ -423,6 +423,9 @@ ErrNotFound:
 
 	if ([aString length] == 0) return;
 
+	BOOL useRegExp = (searchOption & CMRSearchOptionUseRegularExpression);
+	if (useRegExp && NO == [self validateAsRegularExpression: aString]) return;
+
 	UTILNotifyName(BSThreadViewerWillStartFindingNotification);
 
 	composer_ = [[CMRAttributedMessageComposer alloc] init];
@@ -436,9 +439,6 @@ ErrNotFound:
 	[composer_ setContentsStorage : textBuffer_];
 	
 	mIter_ = [L messageEnumerator];
-
-	BOOL useRegExp = (searchOption & CMRSearchOptionUseRegularExpression);
-	if (useRegExp && NO == [self validateAsRegularExpression: aString]) return;
 
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
@@ -508,6 +508,9 @@ CleanUp:
 	if (nil == findOperation_)
 		return;
 
+	BOOL useRegExp = (CMRSearchOptionUseRegularExpression & [findOperation_ optionMasks]);
+	if (useRegExp && NO == [self validateAsRegularExpression: [findOperation_ findObject]]) return;
+
 	UTILNotifyName(BSThreadViewerWillStartFindingNotification);
 
 	[lM_ removeTemporaryAttribute : NSBackgroundColorAttributeName
@@ -567,7 +570,7 @@ CleanUp:
 	}
 
 	if (0 == nFound) {
-		NSString *notFoundString = [NSString stringWithFormat: NSLocalizedString(@"Such ID Not Found", @""), IDString];
+		NSString *notFoundString = [NSString stringWithFormat: [self localizedString: @"Such ID Not Found"], IDString];
 		NSAttributedString *notFoundAttrStr = [[NSAttributedString alloc] initWithString: notFoundString];
 		[textBuffer_ appendAttributedString: notFoundAttrStr];
 		[notFoundAttrStr release];

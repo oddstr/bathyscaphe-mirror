@@ -107,7 +107,9 @@ static NSString *const AppDefaultsTLTableColumnStateKey = @"ThreadsListTable Col
 #pragma mark RainbowJerk Additions
 - (NSDate *) lastHEADCheckedDate
 {
-	return [[self threadsListSettingsDictionary] objectForKey : AppDefaultsTLLastHEADCheckedDateKey];
+	id tmp_ = [[self threadsListSettingsDictionary] objectForKey : AppDefaultsTLLastHEADCheckedDateKey];
+	if (!tmp_ || NO == [tmp_ isKindOfClass: [NSDate class]]) return nil;
+	return tmp_;
 }
 - (void) setLastHEADCheckedDate : (NSDate *) date
 {
@@ -119,9 +121,13 @@ static NSString *const AppDefaultsTLTableColumnStateKey = @"ThreadsListTable Col
 {
 	NSDate *baseDate_ = [self lastHEADCheckedDate];
 	if (!baseDate_) return YES;
-	
+
+	NSDate *curDate_ = [NSDate date];
+	NSDate *nextDate_ = [[[NSDate alloc] initWithTimeInterval: DEFAULT_HEADCHECK_INTERVAL sinceDate: baseDate_] autorelease];
+	return ([curDate_ compare: nextDate_] != NSOrderedAscending);
+/*	
 	NSTimeInterval interval_ = [[NSDate date] timeIntervalSinceDate : baseDate_];
-	return (interval_ > [self HEADCheckTimeInterval]);
+	return (interval_ > [self HEADCheckTimeInterval]);*/
 }
 
 #pragma mark GrafEisen Addition

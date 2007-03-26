@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-Validation.m,v 1.22 2007/03/18 17:46:52 tsawada2 Exp $
+ * $Id: CMRBrowser-Validation.m,v 1.23 2007/03/26 00:03:51 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -36,6 +36,8 @@
 - (BOOL) validateUIItem : (id) theItem
 {
 	SEL			action_;
+	static NSString *kToolTipNormal = nil;
+	static NSString *kToolTipWaiting = nil;
 	
 	if(nil == theItem) return NO;
 	if(NO == [theItem respondsToSelector : @selector(action)]) return NO;
@@ -109,7 +111,7 @@
 	if(action_ == @selector(reloadThreadsList:)){
 		id tmp_ = [self currentThreadsList];
 		if(nil == tmp_) return NO;
-
+/*
 		if(([tmp_ isFavorites] || [tmp_ isSmartItem]) && ![CMRPref canHEADCheck]) {
 			if ([theItem respondsToSelector : @selector(setToolTip:)]) {
 				NSDate *newDate_ = [CMRPref nextHEADCheckAvailableDate];
@@ -122,6 +124,24 @@
 		} else {
 			if ([theItem respondsToSelector : @selector(setToolTip:)])
 				[theItem setToolTip : NSLocalizedString(@"Reload List ToolTip", @"Reload current thread list.")];
+			return YES;
+		}*/
+
+		if (!kToolTipNormal || !kToolTipWaiting) {
+			kToolTipNormal = [NSLocalizedStringFromTable(@"Reload List ToolTip", @"ToolbarItems", @"") retain];
+			kToolTipWaiting = [NSLocalizedStringFromTable(@"Reload List ToolTip 2", @"ToolbarItems", @"") retain];
+		}
+
+		if ([tmp_ isFavorites] || [tmp_ isSmartItem]) {
+			BOOL canCheck = [CMRPref canHEADCheck];
+			if ([theItem respondsToSelector: @selector(setToolTip:)]) {
+				[theItem setToolTip: (canCheck ? kToolTipNormal : kToolTipWaiting)];
+			}
+			return canCheck;
+		} else {
+			if ([theItem respondsToSelector: @selector(setToolTip:)]) {
+				[theItem setToolTip: kToolTipNormal];
+			}
 			return YES;
 		}
 	}
