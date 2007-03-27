@@ -520,6 +520,8 @@
 		8782A764096FD2F40099B65F /* BSIPIImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8782A762096FD2F40099B65F /* BSIPIImageView.m */; };
 		8782A79E096FDBCE0099B65F /* BSIPIActionBtnTbItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 8782A79C096FDBCE0099B65F /* BSIPIActionBtnTbItem.h */; };
 		8782A79F096FDBCE0099B65F /* BSIPIActionBtnTbItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8782A79D096FDBCE0099B65F /* BSIPIActionBtnTbItem.m */; };
+		878B4DBF0BB8D74E00829D2B /* BSNobiNobiToolbarItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 878B4DBD0BB8D74E00829D2B /* BSNobiNobiToolbarItem.h */; };
+		878B4DC00BB8D74E00829D2B /* BSNobiNobiToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 878B4DBE0BB8D74E00829D2B /* BSNobiNobiToolbarItem.m */; };
 		87919F6E0B21DFEF00ADD73D /* CMRMessageSample.h in Headers */ = {isa = PBXBuildFile; fileRef = 87919F6C0B21DFEF00ADD73D /* CMRMessageSample.h */; };
 		87919F6F0B21DFEF00ADD73D /* CMRMessageSample.m in Sources */ = {isa = PBXBuildFile; fileRef = 87919F6D0B21DFEF00ADD73D /* CMRMessageSample.m */; };
 		8791EE2A097A5BC200EA7475 /* Status_HeadModified.png in Resources */ = {isa = PBXBuildFile; fileRef = 8791EE29097A5BC200EA7475 /* Status_HeadModified.png */; };
@@ -1454,6 +1456,8 @@
 		87892BC906BD233600790F2F /* brdfile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = brdfile.png; sourceTree = "<group>"; };
 		878A7567088AA85B00539B6F /* HistoryBack.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = HistoryBack.tiff; sourceTree = "<group>"; };
 		878A7568088AA85B00539B6F /* HistoryForward.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = HistoryForward.tiff; sourceTree = "<group>"; };
+		878B4DBD0BB8D74E00829D2B /* BSNobiNobiToolbarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSNobiNobiToolbarItem.h; sourceTree = "<group>"; };
+		878B4DBE0BB8D74E00829D2B /* BSNobiNobiToolbarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSNobiNobiToolbarItem.m; sourceTree = "<group>"; };
 		878DB8E6083277B40086BC97 /* changelog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = changelog.txt; path = ../changelog.txt; sourceTree = SOURCE_ROOT; };
 		87919F6C0B21DFEF00ADD73D /* CMRMessageSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRMessageSample.h; sourceTree = "<group>"; };
 		87919F6D0B21DFEF00ADD73D /* CMRMessageSample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRMessageSample.m; sourceTree = "<group>"; };
@@ -3054,6 +3058,8 @@
 				F324DDBB04C698FB00A80005 /* ThreadsListTable.h */,
 				F324DDBC04C698FB00A80005 /* ThreadsListTable.m */,
 				877AC2900B027447005365C0 /* CMRThreadView-Drop.m */,
+				878B4DBD0BB8D74E00829D2B /* BSNobiNobiToolbarItem.h */,
+				878B4DBE0BB8D74E00829D2B /* BSNobiNobiToolbarItem.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -3863,6 +3869,7 @@
 				87DB9C780BA32CA20090090A /* TS2SoftwareUpdate.h in Headers */,
 				87D32F230BAC1C6D002B6006 /* BSSearchOptions.h in Headers */,
 				F4EFF93C0BB672D800DF90C6 /* BSThreadListItem.h in Headers */,
+				878B4DBF0BB8D74E00829D2B /* BSNobiNobiToolbarItem.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4820,6 +4827,7 @@
 				87D32F240BAC1C6D002B6006 /* BSSearchOptions.m in Sources */,
 				87CCC7B00BB53DE500813E93 /* AppDefaults-Sounds.m in Sources */,
 				F4EFF93D0BB672D800DF90C6 /* BSThreadListItem.m in Sources */,
+				878B4DC00BB8D74E00829D2B /* BSNobiNobiToolbarItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

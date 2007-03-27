@@ -10,4 +10,5 @@
 - (NSMenuItem *) searchToolbarItemMenuFormRepresentationWithItem : (NSToolbarItem *) anItem;
 - (void) setupSearchToolbarItem : (NSToolbarItem *) anItem
 					   itemView : (NSView		 *) aView;
+- (void) setupSpace: (NSToolbarItem *) anItem;
 @end

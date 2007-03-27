@@ -1,3 +1,11 @@
+2007-03-27 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Delegate.m
+	* application/source/window/CMRBrowserTbDelegate.m
+	* application/Resources/Japanese.lproj/ToolbarItems.strings
+		ブラウザウインドウのツールバー項目に、掲示板リストの幅に追従するスペースを追加した。
+		ツールバーの左端を、常に掲示板リストの幅と同じだけ空白にしておきたい人にお勧め。
+	* application/source/view/BSNobiNobiToolbarItem.[h|m]
+		[新規追加] 掲示板リストの幅に追従する空白ツールバーアイテム用のサブクラスとカスタムビュー。
 2007-03-27 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSDBThreadList.m:
 		dateAttributeForIdentifier:status: のkey を直すのを忘れたので直した。

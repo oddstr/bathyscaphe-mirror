@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.38 2007/03/20 15:17:05 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.39 2007/03/27 14:42:06 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -336,6 +336,24 @@ BOOL isOptionKeyDown(unsigned flag_)
 				to : (float) newDimension
 {
 	[sender adjustSubviewsExcepting : [self boardListSubView]];
+}
+
+- (void)splitView:(RBSplitView*)sender changedFrameOfSubview:(RBSplitSubview*)subview from:(NSRect)fromRect to:(NSRect)toRect
+{
+	if (subview == [self boardListSubView]) {
+//		NSLog(@"boardListSubView was resized from %.0f to %.0f", fromRect.size.width, toRect.size.width);
+		NSToolbar *toolbar = [[self window] toolbar];
+		if (!toolbar) return;
+		NSArray *items = [toolbar visibleItems];
+		NSEnumerator *iter = [items objectEnumerator];
+		NSToolbarItem *eachItem;
+		while (eachItem = [iter nextObject]) {
+			if ([[eachItem itemIdentifier] isEqualToString: @"Boards List Space"]) {
+				[[toolbar delegate] adjustNobiNobiViewTbItem: eachItem to: toRect.size.width];
+				return;
+			}
+		}
+	}
 }
 // This makes it possible to drag the first divider around by the dragView.
 - (unsigned int) splitView : (RBSplitView *) sender

@@ -9,7 +9,7 @@
   *
   */
 #import "CMRBrowserTbDelegate_p.h"
-
+#import "BSNobiNobiToolbarItem.h"
 //////////////////////////////////////////////////////////////////////
 ////////////////////// [ 定数やマクロ置換 ] //////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -32,6 +32,9 @@ static NSString *const st_COEItemLabelKey			= @"Collapse Or Expand Label";
 static NSString *const st_COEItemPaletteLabelKey	= @"Collapse Or Expand Palette Label";
 static NSString *const st_COEItemToolTipKey			= @"Collapse Or Expand ToolTip";
 
+// ノビノビスペース
+static NSString *const st_NobiNobiItemIdentifier = @"Boards List Space";
+static NSString *const st_NobiNobiPaletteLabelKey = @"NobiNobi Palette Label";
 
 static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 
@@ -40,10 +43,6 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 {
 	return st_toolbar_identifier;
 }
-/*- (id) m_searchFieldController
-{
-	return searchFieldController_;
-}*/
 @end
 
 
@@ -75,7 +74,17 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 											   action : NULL
 											   target : wcontroller_];
 
-	[self setupSearchToolbarItem:item_ itemView:[wcontroller_ searchField]];//searchToolbarItem]];
+	[self setupSearchToolbarItem:item_ itemView:[wcontroller_ searchField]];
+
+	item_ = [self appendToolbarItemWithClass : [BSNobiNobiToolbarItem class]
+							  itemIdentifier : st_NobiNobiItemIdentifier
+						   localizedLabelKey : @""
+					localizedPaletteLabelKey : st_NobiNobiPaletteLabelKey
+						 localizedToolTipKey : @""
+									  action : NULL
+									  target : nil];
+
+	[self setupSpace:item_];
 
 	item_ = [self appendToolbarItemWithItemIdentifier : st_COEItemIdentifier
 									localizedLabelKey : st_COEItemLabelKey
@@ -127,16 +136,42 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 	
 	[anItem setMenuFormRepresentation : menuItem_];
 }
+
+- (void) setupSpace: (NSToolbarItem *) anItem
+{
+	BSNobiNobiView *aView = [[BSNobiNobiView alloc] init];
+	[anItem setView : aView];
+	if([anItem view] != nil){
+		NSSize		size_;
+
+		size_ = NSMakeSize(48, 29);
+		[anItem setMinSize : size_];
+		[anItem setMaxSize : size_];
+	}
+	[aView release];
+}
 @end
 
 
 
 @implementation CMRBrowserTbDelegate (NSToolbarDelegate)
+- (NSToolbarItem *) toolbar : (NSToolbar *) toolbar
+      itemForItemIdentifier : (NSString  *) itemIdentifier
+  willBeInsertedIntoToolbar : (BOOL       ) willBeInsertedIntoToolbar
+{
+	NSToolbarItem *hoge = [super toolbar:toolbar itemForItemIdentifier:itemIdentifier willBeInsertedIntoToolbar:willBeInsertedIntoToolbar];
+	if (hoge && [itemIdentifier isEqualToString: st_NobiNobiItemIdentifier]) {
+		[(BSNobiNobiView *)[hoge view] setShouldDrawBorder: (NO == willBeInsertedIntoToolbar)];
+	}
+	return hoge;
+}
+
 - (NSArray *) toolbarDefaultItemIdentifiers : (NSToolbar *) toolbar
 {
 	return [NSArray arrayWithObjects :
+				st_NobiNobiItemIdentifier,
 				st_reloadListItemIdentifier,
-				NSToolbarFlexibleSpaceItemIdentifier,
+				NSToolbarSpaceItemIdentifier,
 				[self reloadThreadItemIdentifier],
 				NSToolbarSeparatorItemIdentifier,
 				[self deleteItemIdentifier],
@@ -144,7 +179,6 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 				NSToolbarSeparatorItemIdentifier,
 				[self replyItemIdentifier],
 				NSToolbarFlexibleSpaceItemIdentifier,
-//				[self pIndicatorItemIdentifier],
 				st_searchThreadItemIdentifier,
 				nil];
 }
@@ -163,10 +197,28 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 				[self launchCMLFIdentifier],
 				[self scaleSegmentedControlIdentifier],
 				[self historySegmentedControlIdentifier],
-//				[self pIndicatorItemIdentifier],
+				st_NobiNobiItemIdentifier,
 				NSToolbarSeparatorItemIdentifier,
 				NSToolbarSpaceItemIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,
 				nil];
+}
+
+- (void) adjustNobiNobiViewTbItem: (NSToolbarItem *) item to: (float) width
+{
+	NSSize		size_;
+	size_ = NSMakeSize(width-10, 29);
+	[item setMinSize : size_];
+	[item setMaxSize : size_];
+}
+
+- (void)toolbarWillAddItem:(NSNotification *)notification
+{
+	NSToolbarItem *item = [[notification userInfo] objectForKey: @"item"];
+	if ([[item itemIdentifier] isEqualToString: st_NobiNobiItemIdentifier]) {
+		CMRBrowser *browser = CMRMainBrowser;
+		float	width = [[browser boardListSubView] dimension];
+		[self adjustNobiNobiViewTbItem: item to: width];
+	}
 }
 @end
