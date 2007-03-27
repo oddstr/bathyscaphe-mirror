@@ -391,12 +391,12 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 {
 	NSDictionary *result = nil;
 	
-	if([identifier isEqualToString:ThreadIDColumn]) {
+	if([identifier isEqualToString:ThreadPlistIdentifierKey]) {
 		result =  ((status == ThreadNewCreatedStatus) ? [[self class] newThreadCreatedDateAttrTemplate]
 												   : [[self class] threadCreatedDateAttrTemplate]);
 	} else if([identifier isEqualToString:LastWrittenDateColumn]) {
 		result = [[self class] threadLastWrittenDateAttrTemplate];
-	} else if([identifier isEqualToString:ModifiedDateColumn]) {
+	} else if([identifier isEqualToString:CMRThreadModifiedDateKey]) {
 		result = [[self class] threadModifiedDateAttrTemplate];
 	}
 	

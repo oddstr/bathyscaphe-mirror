@@ -1,3 +1,6 @@
+2007-03-27 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m:
+		dateAttributeForIdentifier:status: のkey を直すのを忘れたので直した。
 2007-03-26 masakih <masakih@users.sourceforge.jp>
 	* application/source/bbs/BoardManager-BSAddition.m:
 		sortKeyForKey() を tableNameForKey() に戻した。
