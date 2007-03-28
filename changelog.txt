@@ -1,3 +1,15 @@
+2007-03-29 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/board_default.plist
+		最新のものに更新。
+	* application/source/view/BSNobiNobiToolbarItem.m
+		「掲示板リストのスペース」ツールバー項目の描画を安定化した。カスタマイズ中はより確実に枠線を表示し、
+		カスタマイズ完了後は確実に枠線を消す。
+	* application/Resources/Japanese.lproj/SmartBLIEditorComponents.nib
+	* application/Resources/Japanese.lproj/SmartBoardItemEditor.nib
+	* application/Resources/Japanese.lproj/SmartBoardListItemEditor.strings
+	* application/Resources/Japanese.lproj/ConditionTypes.plist
+		少し表記を（既存のブラウザウインドウ内での用語と）統一。「板名」→「掲示板の名前」など。
+		また、機能未実装のチェックボックスを disabled にしていたが、hidden にした。
 2007-03-28 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSThreadListItem.m:
 		-[BSThreadListItem boardName] の実装が間違っていた。

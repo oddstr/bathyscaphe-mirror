@@ -14,7 +14,7 @@
 		<key>acceptValueType</key>
 		<string>NSString</string>
 		<key>name</key>
-		<string>板名</string>
+		<string>掲示板の名前</string>
 	</dict>
 	<key>modifiedDate</key>
 	<dict>
@@ -49,14 +49,14 @@
 		<key>acceptValueType</key>
 		<string>NSDate</string>
 		<key>name</key>
-		<string>dat番号</string>
+		<string>dat 番号</string>
 	</dict>
 	<key>threadName</key>
 	<dict>
 		<key>acceptValueType</key>
 		<string>NSString</string>
 		<key>name</key>
-		<string>スレ名</string>
+		<string>タイトル</string>
 	</dict>
 </dict>
 </plist>

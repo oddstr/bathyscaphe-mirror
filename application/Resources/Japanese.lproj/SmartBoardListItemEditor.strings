@@ -5,7 +5,7 @@
 	<key>Error</key>
 	<string>エラー</string>
 	<key>Name is empty</key>
-	<string>このメールボックスには名前が指定されていません。</string>
+	<string>このスマート掲示板には名前が指定されていません。</string>
 	<key>Should not empty</key>
 	<string>少なくとも 1 つの条件に空の条件フィールドがあります。条件フィールドに内容を入力するか、条件を取り除いてください。</string>
 </dict>

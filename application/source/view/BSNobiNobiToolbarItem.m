@@ -13,7 +13,7 @@
 @implementation BSNobiNobiToolbarItem
 - (void) validate
 {
-	[(BSNobiNobiView *)[self view] setShouldDrawBorder: NO];
+	[(BSNobiNobiView *)[self view] setShouldDrawBorder: [[self toolbar] customizationPaletteIsRunning]];
 }
 
 - (id) copyWithZone: (NSZone *) zone
@@ -22,8 +22,8 @@
 	BSNobiNobiView *nnView;
 	id tmpcopy = [super copyWithZone: zone];
 	nnView = (BSNobiNobiView *)[tmpcopy view];
-	[tmpcopy setMinSize: NSMakeSize(48,29)];
-	[tmpcopy setMaxSize: NSMakeSize(48,29)];
+	[tmpcopy setMinSize: NSMakeSize(48,30)];
+	[tmpcopy setMaxSize: NSMakeSize(48,30)];
 	[nnView setShouldFillBackground: YES];
 	[nnView setShouldDrawBorder: YES];
 	return tmpcopy;
@@ -50,12 +50,15 @@
 	if ([self shouldDrawBorder]) {
 		[[NSColor headerColor] set];
 		NSFrameRect(rect);
+	} else {
+		[[NSColor clearColor] set];
+		NSRectFillUsingOperation(rect, NSCompositeSourceOver); // 枠線を確実に消すために
 	}
 }
 
 - (BOOL) isOpaque
 {
-	return YES;
+	return NO; // YES だとダメ
 }
 
 - (BOOL) shouldDrawBorder
