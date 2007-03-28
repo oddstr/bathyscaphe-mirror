@@ -1,3 +1,8 @@
+2007-03-28 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSThreadListItem.m:
+		-[BSThreadListItem boardName] の実装が間違っていた。
+		key BoardNameColumn には常に値が存在する訳ではないので
+		値が無い場合はデータベースから取得する必要がある。
 2007-03-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRFavoritesManager.m
 		お気に入りの追加／削除ができなくなっていたり、ログを削除してもお気に入りから削除されなくなっていた問題を

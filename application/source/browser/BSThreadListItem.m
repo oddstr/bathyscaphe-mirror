@@ -121,7 +121,8 @@ static NSString *const BSThreadListItemErrorDomain = @"BSThreadListItemErrorDoma
 }
 - (NSString *)boardName
 {
-	return [data objectForKey:BoardNameColumn];
+	//return [data objectForKey:BoardNameColumn];
+	return [self valueForKey:BoardNameColumn];
 }
 - (unsigned)boardID
 {
