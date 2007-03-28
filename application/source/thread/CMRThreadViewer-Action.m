@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.39 2007/02/12 15:07:34 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.40 2007/03/28 13:03:42 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -431,31 +431,25 @@
 	
 	CMRFavoritesManager		*fM_ = [CMRFavoritesManager defaultManager];
 	
-	//selectedThreads_ = [self selectedThreads];
 	selectedThreads_ = [self targetThreadsForAction: _cmd];
 	
 	Iter_ = [selectedThreads_ objectEnumerator];
 	while ((threadAttributes_ = [Iter_ nextObject])) {
-		NSString	*path_;
 		CMRFavoritesOperation	operation_;
-
-		path_ = [CMRThreadAttributes pathFromDictionary: threadAttributes_];
-
+		NSString *path_ = [CMRThreadAttributes pathFromDictionary: threadAttributes_];
 		UTILAssertNotNil(path_);
+
+		CMRThreadSignature *signature_ = [CMRThreadSignature threadSignatureFromFilepath: path_];
+		UTILAssertNotNil(signature_);
 		
-		operation_ = [fM_ availableOperationWithPath: path_];
+		operation_ = [fM_ availableOperationWithSignature: signature_];
 		if (CMRFavoritesOperationNone == operation_) {
 			continue;	
 		} else if (CMRFavoritesOperationLink == operation_) {
-//			if([threadAttributes_ count] < 6) {
-				// Maybe added from separate document window.
-				[fM_ addFavoriteWithFilePath: path_];
-//			} else {
-				// Maybe added from browser or 3-pain viewer.
-//				[fM_ addFavoriteWithThread: threadAttributes_];
-//			}
+			[fM_ addFavoriteWithSignature: signature_];
+
 		} else {
-			[fM_ removeFromFavoritesWithFilePath: path_];
+			[fM_ removeFromFavoritesWithSignature: signature_];
 		}
 	}
 }

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFavoritesManager.h,v 1.9 2007/02/19 23:26:05 tsawada2 Exp $
+  * $Id: CMRFavoritesManager.h,v 1.10 2007/03/28 13:03:42 tsawada2 Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
@@ -33,12 +33,14 @@ typedef enum {
 - (BOOL) favoriteItemExistsOfThreadSignature: (CMRThreadSignature *) signature;
 
 - (BOOL) addFavoriteWithThread : (NSDictionary *) thread;
-- (BOOL) addFavoriteWithFilePath : (NSString *) filepath;
+//- (BOOL) addFavoriteWithFilePath : (NSString *) filepath; // Deprecated.
 // Available in Starlight Breaker.
 - (BOOL) addFavoriteWithSignature: (CMRThreadSignature *) signature;
 
 - (BOOL) removeFromFavoritesWithThread : (NSDictionary *) thread;
-- (BOOL) removeFromFavoritesWithFilePath : (NSString *) filepath;
+//- (BOOL) removeFromFavoritesWithFilePath : (NSString *) filepath; // Deprecated.
+// Available in Starlight Breaker.
+- (BOOL) removeFromFavoritesWithSignature : (CMRThreadSignature *) signature;
 
 // Deprecated in Starlight Breaker.
 //- (void) removeFromFavoritesWithPathArray : (NSArray *) pathArray_;

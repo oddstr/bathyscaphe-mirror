@@ -1,3 +1,9 @@
+2007-03-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRFavoritesManager.m
+		お気に入りの追加／削除ができなくなっていたり、ログを削除してもお気に入りから削除されなくなっていた問題を
+		修正。
+	* application/source/window/CMRToolbarDelegateImp.m
+		書き込みウインドウのツールバーが使えなくなっていた問題を修正。
 2007-03-28 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSThreadListItem.m:
 		ファイルパスから生成するときに、データベースへの登録もするようにした。

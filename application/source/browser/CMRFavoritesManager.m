@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFavoritesManager.m,v 1.20 2007/03/28 12:47:56 masakih Exp $
+  * $Id: CMRFavoritesManager.m,v 1.21 2007/03/28 13:03:42 tsawada2 Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
@@ -52,13 +52,14 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 		notification,
 		[CMRTrashbox trash]);
 	
-	//NSLog(@"FavoriteManager received CMRTrashboxDidPerformNotification");
+//	NSLog(@"FavoriteManager received CMRTrashboxDidPerformNotification");
 	
 	NSDictionary *userInfo_ = [notification userInfo];
 	if ([userInfo_ integerForKey: kAppTrashUserInfoStatusKey] != noErr) return;
 	
 	BOOL	doNotDelFav_ = [userInfo_ boolForKey: kAppTrashUserInfoAfterFetchKey];
-	
+	if (doNotDelFav_) return;
+
 	NSArray			*pathArray_ = [userInfo_ objectForKey: kAppTrashUserInfoFilesKey];
 	NSEnumerator	*iter_;
 	NSString		*aPath_;
@@ -66,7 +67,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	iter_ = [pathArray_ objectEnumerator];
 
 	while ((aPath_ = [iter_ nextObject]) != nil) {
-		if (doNotDelFav_) continue;
+//		if (doNotDelFav_) continue;
 
 		if ([self availableOperationWithPath: aPath_] == CMRFavoritesOperationRemove) {
 			[self removeFromFavoritesWithFilePath: aPath_];
@@ -104,11 +105,11 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 }
 - (CMRFavoritesOperation) availableOperationWithPath : (NSString *) filepath
 {
-	NSDictionary	*attr_;
+//	NSDictionary	*attr_;
 	
 	if(filepath == nil)
 		return CMRFavoritesOperationNone;
-	
+/*	
 	attr_ = [BSDBThreadList attributesForThreadsListWithContentsOfFile : filepath];
 	// [Bug 10077] âÒîÇÃÇΩÇﬂÇÃã≠à¯Ç»èàóù
 	if (attr_ == nil) {
@@ -120,7 +121,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 			return CMRFavoritesOperationLink;
 		}
 	}
-	return [self availableOperationWithThread : attr_];
+	return [self availableOperationWithThread : attr_];*/
+	CMRThreadSignature *signature_ = [CMRThreadSignature threadSignatureFromFilepath: filepath];
+	return [self availableOperationWithSignature: signature_];
 }
 
 - (CMRFavoritesOperation)availableOperationWithSignature:(CMRThreadSignature *)signature
@@ -229,79 +232,25 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	
 	identifier = [CMRThreadAttributes identifierFromDictionary:thread];
 	
-	if (!identifier) return NO;
+	if (!identifier|!boardName) return NO;
 	return [self removeFavoriteWithThread: identifier ofBoard: boardName];
 }
 
 - (BOOL) removeFromFavoritesWithFilePath : (NSString *) filepath
 {
-	NSDictionary	*attr_;
-	
-	attr_ = [BSDBThreadList attributesForThreadsListWithContentsOfFile : filepath];
-	if (attr_ == nil) return NO;
-	
-	return [self removeFromFavoritesWithThread : attr_];
+	if (!filepath) return NO;
+	CMRThreadSignature *signature_ = [CMRThreadSignature threadSignatureFromFilepath: filepath];
+	return [self removeFromFavoritesWithSignature: signature_];
 }
 
 - (void) removeFromFavoritesWithPathArray : (NSArray *) pathArray_
 {
 }
 
-#pragma mark -
-- (NSIndexSet *) convertIndexesWithDescendingSortedRows: (NSIndexSet *) descendingIndexSet count: (unsigned int) count
-{
-	return nil;
-}
+- (BOOL) removeFromFavoritesWithSignature : (CMRThreadSignature *) signature
+{	
+	if(signature == nil) return NO;
 
-- (NSIndexSet *) insertFavItemsWithIndexes: (NSIndexSet *) indexSet atIndex: (unsigned int) index isAscending: (BOOL) isAscending
-{
-	return nil;
+	return [self removeFavoriteWithThread : [signature identifier] ofBoard: [signature BBSName]];
 }
-
-//#pragma mark -
-//- (void) updateFavItemsArrayWithAppendingNumOfMsgs
-//{
-//	NSMutableArray *favItmsAry = [[self favoritesItemsArray] mutableCopy];
-//
-//	[CMRPref setOldFavoritesUpdated: YES];
-//
-//	NSArray	*checkAry_ = [favItmsAry valueForKey: CMRThreadNumberOfMessagesKey];
-//	if (![checkAry_ containsObject: [NSNull null]]) return;
-//
-//	NSLog(@"Need to update Favorites.plist");
-//	NSEnumerator	*iter_ = [favItmsAry objectEnumerator];
-//	id				eachObject;
-//	
-//	NSMutableArray *newAry_ = [NSMutableArray arrayWithCapacity: [favItmsAry count]];
-//
-//	while (eachObject = [iter_ nextObject]) {
-//		if ([eachObject objectForKey: CMRThreadNumberOfMessagesKey] != nil) {
-//			[newAry_ addObject: eachObject];
-//			continue;
-//		}
-//
-//		id newObject = [eachObject mutableCopy];
-//
-//		unsigned int num_ = 0;
-//		unsigned int lastLoadedNum_;
-//		NSString *filePath_ = [CMRThreadAttributes pathFromDictionary: eachObject];
-//		lastLoadedNum_ = [eachObject unsignedIntForKey: CMRThreadLastLoadedNumberKey];
-//		num_ = [self getNumOfMsgsWithFilePath: filePath_];
-//		
-//		if (num_ != 0) {
-//			[newObject setUnsignedInt: num_ forKey: CMRThreadNumberOfMessagesKey];
-//			if (lastLoadedNum_ < num_) [newObject setUnsignedInt: ThreadUpdatedStatus forKey: CMRThreadStatusKey];
-//		} else {
-//			[newObject setUnsignedInt: lastLoadedNum_ forKey: CMRThreadNumberOfMessagesKey];
-//		}
-//		
-//		[newAry_ addObject: newObject];
-//		[newObject release];
-//	}
-//
-//	@synchronized(self) {
-//		[self setFavoritesItemsArray: newAry_];
-//	}
-//	NSLog(@"Update finished.");
-//}
 @end

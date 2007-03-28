@@ -457,7 +457,7 @@ static NSLock *boardIDNumberCacheLock = nil;
 	if (!db) {
 		return NO;
 	}
-	
+
 	query = [NSMutableString stringWithFormat : @"DELETE FROM %@", FavoritesTableName];
 	[query appendFormat : @" WHERE %@ = %u", BoardIDColumn, boardID];
 	[query appendFormat : @" AND %@ LIKE '%@'", ThreadIDColumn, identifier];

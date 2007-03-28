@@ -103,7 +103,6 @@ static NSString *const st_localizableStringsTableName	= @"ToolbarItems";
 @implementation CMRToolbarDelegateImp(Protected)
 - (void) initializeToolbarItems : (NSWindow *) aWindow
 {
-	UTILAbstractMethodInvoked;
 }
 
 - (void) configureToolbar : (NSToolbar *) aToolbar
