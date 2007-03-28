@@ -1,4 +1,7 @@
 2007-03-29 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadDocument.m
+		ログフォルダ以外の場所にあるファイルを開くときのトラブルを防止するため、そのようなファイルは自動的に
+		ログフォルダにコピーしてから開くようにしてみた。
 	* application/Resources/Japanese.lproj/board_default.plist
 		最新のものに更新。
 	* application/source/view/BSNobiNobiToolbarItem.m

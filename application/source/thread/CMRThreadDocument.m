@@ -81,15 +81,67 @@
 	[viewer_ release];
 }
 
+- (BOOL) copyFileIfNeeded: (NSString *) filepath toPath: (NSString **) newpath
+{
+	// 2007-03-29 tsawada2<ben-sawa@td5.so-net.ne.jp>
+	// ログフォルダ以外の場所にあるファイルを開くときは、
+	// いったんログフォルダにコピーして、それを開くことにしてみる。
+	//
+
+	NSString *folderPath = [[filepath stringByDeletingLastPathComponent] stringByDeletingLastPathComponent];
+	NSString *logFolderPath = [[CMRFileManager defaultManager] dataRootDirectoryPath];
+
+	if ([folderPath isEqualToString: logFolderPath]) {
+		// No need to copy
+		if (newpath != NULL) *newpath = filepath;//[self setFileName: ddd];
+		return YES;
+	}
+
+	NSDictionary	*fileContents_;
+	NSString *boardName;
+	NSFileManager *fm = [NSFileManager defaultManager];
+
+	fileContents_ = [NSDictionary dictionaryWithContentsOfFile: filepath];
+	if(nil == fileContents_) return NO;
+	boardName = [fileContents_ objectForKey: ThreadPlistBoardNameKey];
+	if (nil == boardName) return NO;
+
+	NSString *fileName = [filepath lastPathComponent];
+	NSString *newLocationFolder = [logFolderPath stringByAppendingPathComponent: boardName];
+	NSString *newLocationFile = [newLocationFolder stringByAppendingPathComponent: fileName];
+
+	if ([fm fileExistsAtPath: newLocationFile]) {
+		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+		[alert setAlertStyle: NSCriticalAlertStyle];
+		[alert setMessageText: [NSString stringWithFormat: NSLocalizedString(@"CantCopyErrMsg", @""), fileName]];
+		[alert setInformativeText: NSLocalizedString(@"CantCopyBecauseAlreadyExists", @"")];
+		[alert addButtonWithTitle: NSLocalizedString(@"Cancel", @"")];
+		[alert addButtonWithTitle: NSLocalizedString(@"Proceed", @"")];
+		if ([alert runModal] == NSAlertSecondButtonReturn) {
+			[fm removeFileAtPath: newLocationFile handler: nil];
+		} else {
+			return NO;
+		}
+	}
+
+	if ([fm copyPath:filepath toPath: newLocationFile handler:nil]) {
+		if (newpath != NULL) *newpath = newLocationFile;//[self setFileName: ddd];
+		return YES;
+	}
+	return NO;
+}
+
 - (BOOL) readFromFile : (NSString *) filepath
 			   ofType : (NSString *) type
 {
 	if([type isEqualToString : CMRThreadDocumentType]){
-
+		NSString *newFilePath = nil;
 		[self setFileType : CMRThreadDocumentType];
-		[self setFileName : filepath];
-		return YES;
 
+		if ([self copyFileIfNeeded: filepath toPath: &newFilePath]) {
+			[self setFileName: newFilePath];
+			return YES;
+		}
 	}
 	return NO;
 }
