@@ -1,3 +1,11 @@
+2007-03-28 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSThreadListItem.m:
+		ファイルパスから生成するときに、データベースへの登録もするようにした。
+	* application/source/browser/CMRFavoritesManager.m:
+	* application/source/manager/DatabaseManager-DatabaseAccess.m:
+	* application/source/manager/DatabaseManager.h:
+		別の場所で使う必要が出来たので、スレッドファイル(.thread)からデータを登録するメソッドを
+		DatabaseManager に新設。
 2007-03-27 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-Delegate.m
 	* application/source/window/CMRBrowserTbDelegate.m

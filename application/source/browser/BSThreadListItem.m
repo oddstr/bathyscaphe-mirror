@@ -330,15 +330,15 @@ static inline NSArray *threadListIdentifiers()
 static inline BOOL searchBoardIDAndThreadIDFromFilePath(unsigned *outBoardID, NSString **outThreadID, NSString *inFilePath)
 {
 	CMRDocumentFileManager *dfm = [CMRDocumentFileManager defaultManager];
+	unsigned boardID;
+	NSString *threadID;
 	
-	if (outThreadID) {
-		*outThreadID = [dfm datIdentifierWithLogPath : inFilePath];
-	}
+	threadID = [dfm datIdentifierWithLogPath : inFilePath];
 	
-	if (outBoardID) {
+	{
 		NSString *boardName;
 		NSArray *boardIDs;
-		id boardID;
+		id boardIDstring;
 		
 		boardName = [dfm boardNameWithLogPath : inFilePath];
 		if (!boardName) return NO;
@@ -346,9 +346,23 @@ static inline BOOL searchBoardIDAndThreadIDFromFilePath(unsigned *outBoardID, NS
 		boardIDs = [[DatabaseManager defaultManager] boardIDsForName : boardName];
 		if (!boardIDs || [boardIDs count] == 0) return NO;
 		
-		boardID = [boardIDs objectAtIndex : 0];
+		boardIDstring = [boardIDs objectAtIndex : 0];
 		
-		*outBoardID = [boardID unsignedIntValue];
+		boardID = [boardIDstring unsignedIntValue];
+	}
+	
+	id threadName = [[DatabaseManager defaultManager] valueForKey:ThreadNameColumn
+														  boardID:boardID
+														 threadID:threadID];
+	if(!threadName) {
+		[[DatabaseManager defaultManager] registerThreadFromFilePath:inFilePath];
+	}
+	
+	if(outThreadID) {
+		*outThreadID = threadID;
+	}
+	if(outBoardID) {
+		*outBoardID = boardID;
 	}
 	
 	return YES;

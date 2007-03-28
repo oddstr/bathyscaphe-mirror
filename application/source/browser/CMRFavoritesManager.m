@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFavoritesManager.m,v 1.19 2007/03/20 15:17:05 tsawada2 Exp $
+  * $Id: CMRFavoritesManager.m,v 1.20 2007/03/28 12:47:56 masakih Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
@@ -112,26 +112,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	attr_ = [BSDBThreadList attributesForThreadsListWithContentsOfFile : filepath];
 	// [Bug 10077] âÒîÇÃÇΩÇﬂÇÃã≠à¯Ç»èàóù
 	if (attr_ == nil) {
-		NSDictionary *hoge = [NSDictionary dictionaryWithContentsOfFile: filepath];
-		NSString *datNum, *title, *boardName;
-		id		date;
-		NSNumber *count;
-		BOOL	result_;
-
-		datNum = [hoge objectForKey: ThreadPlistIdentifierKey];
-		if (!datNum) return CMRFavoritesOperationNone;
-		title = [hoge objectForKey: CMRThreadTitleKey];
-		if (!title) return CMRFavoritesOperationNone;
-		boardName = [hoge objectForKey: ThreadPlistBoardNameKey];
-		if (!boardName) return CMRFavoritesOperationNone;
-		count = [NSNumber numberWithUnsignedInt: [[hoge objectForKey: ThreadPlistContentsKey] count]];
-		date = [hoge objectForKey: CMRThreadModifiedDateKey];
-//		NSLog(@"datID = %@ title = %@ board = %@",datNum,title,boardName);
-		result_ = [[DatabaseManager defaultManager] insertThreadID: datNum
-						title: title
-						count: count
-						 date: ([date isKindOfClass: [NSDate class]] ? [NSNumber numberWithDouble:[date timeIntervalSince1970]]: [NSNull null])
-					  atBoard: boardName];
+		BOOL result_;
+		result_ = [[DatabaseManager defaultManager] registerThreadFromFilePath:filepath];
 		if (NO == result_) {
 			return CMRFavoritesOperationNone;
 		} else {

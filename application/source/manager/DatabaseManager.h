@@ -59,6 +59,8 @@
 - (BOOL) removeFavoriteThreadIdentifier : (NSString *) identifier
 							  onBoardID : (unsigned) boardID;
 
+- (BOOL) registerThreadFromFilePath:(NSString *)filepath;
+
 
 //
 - (NSString *) threadTitleFromBoardName:(NSString *)boadName threadIdentifier:(NSString *)identifier;

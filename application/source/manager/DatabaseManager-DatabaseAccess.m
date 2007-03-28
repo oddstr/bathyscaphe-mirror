@@ -466,6 +466,31 @@ static NSLock *boardIDNumberCacheLock = nil;
 	return ([db lastErrorID] == 0);
 }
 
+- (BOOL) registerThreadFromFilePath:(NSString *)filepath
+{
+	NSDictionary *hoge = [NSDictionary dictionaryWithContentsOfFile: filepath];
+	NSString *datNum, *title, *boardName;
+	id		date;
+	NSNumber *count;
+	BOOL	result_;
+	
+	datNum = [hoge objectForKey: ThreadPlistIdentifierKey];
+	if (!datNum) return NO;
+	title = [hoge objectForKey: CMRThreadTitleKey];
+	if (!title) return NO;
+	boardName = [hoge objectForKey: ThreadPlistBoardNameKey];
+	if (!boardName) return NO;
+	count = [NSNumber numberWithUnsignedInt: [[hoge objectForKey: ThreadPlistContentsKey] count]];
+	date = [hoge objectForKey: CMRThreadModifiedDateKey];
+	result_ = [[DatabaseManager defaultManager] insertThreadID: datNum
+														 title: title
+														 count: count
+														  date: ([date isKindOfClass: [NSDate class]] ? [NSNumber numberWithDouble:[date timeIntervalSince1970]]: [NSNull null])
+													   atBoard: boardName];
+	
+	return (result_ == 0);
+}
+
 
 - (NSString *) threadTitleFromBoardName:(NSString *)boadName threadIdentifier:(NSString *)identifier
 {
