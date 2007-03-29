@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.22 2007/03/25 13:11:06 masakih Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.23 2007/03/29 13:31:49 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -366,6 +366,7 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 {
 	NSPasteboard	*pboard_;
 	NSArray			*filenames_;
+	int				returnCode = NSAlertFirstButtonReturn;
 	// ÅuÉSÉ~î†ÅvÇ÷ÇÃà⁄ìÆ
 	if(NO == (NSDragOperationDelete & operation)) {
 		return;
@@ -374,7 +375,20 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	if(NO == [[pboard_ types] containsObject : NSFilenamesPboardType]) {
 		return;
 	}
-	filenames_ = [pboard_ propertyListForType : NSFilenamesPboardType];
-	[self tableView : nil removeFiles : filenames_ delFavIfNecessary : YES];
+
+	if ([self isFavorites]) {
+		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+		[alert setAlertStyle: NSWarningAlertStyle];
+		[alert setMessageText: [self localizedString: @"DragDropTrashAlert"]];
+		[alert setInformativeText: [self localizedString: @"DragDropTrashMessage"]];
+		[alert addButtonWithTitle: [self localizedString: @"DragDropTrashOK"]];
+		[alert addButtonWithTitle: [self localizedString: @"DragDropTrashCancel"]];
+		returnCode = [alert runModal];
+	}
+
+	if (returnCode == NSAlertFirstButtonReturn) {
+		filenames_ = [pboard_ propertyListForType : NSFilenamesPboardType];
+		[self tableView : nil removeFiles : filenames_ delFavIfNecessary : YES];
+	}
 }
 @end

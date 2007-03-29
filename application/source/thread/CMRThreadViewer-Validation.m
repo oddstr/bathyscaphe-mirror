@@ -1,5 +1,5 @@
 /*
-    $Id: CMRThreadViewer-Validation.m,v 1.29 2007/03/18 17:46:52 tsawada2 Exp $
+    $Id: CMRThreadViewer-Validation.m,v 1.30 2007/03/29 13:31:49 tsawada2 Exp $
     CMRThreadViewer-Action.m から独立
     Created at 2005-02-16 by tsawada2.
 */
@@ -22,6 +22,9 @@
 #define kRemoveFavaritesItemKey			@"Remove Favorites"
 #define kAddFavaritesItemImageName		@"AddFavorites"
 #define kRemoveFavaritesItemImageName	@"RemoveFavorites"
+
+#define kShowBoardInspectorKey			@"Show Board Inspector"
+#define kHideBoardInspectorKey			@"Hide Board Inspector"
 
 #define kDeleteWithoutAlertKey			@"Delete Log"
 #define kDeleteWithAlertKey				@"Delete Log..."
@@ -221,19 +224,9 @@ static int messageMaskForTag(int tag)
 
 - (BOOL) validateUIItem : (id) theItem
 {
-	SEL		action_;
-	BOOL	isSelected_;
-	
 	if (nil == theItem) return NO;
 	
-	action_ = [theItem action];
-	isSelected_ = ([self selectedThreads] && [self numberOfSelectedThreads]);
-        
-	// 印を付ける
-	/*if (@selector(toggleAAThread:) == action_) {
-		[theItem setState : ([self isAAThread] ? NSOnState : NSOffState)];
-		return isSelected_;
-	}*/
+	SEL	action_ = [theItem action];
 
 	// レス
 	if (action_ == @selector(reply:)) {
@@ -280,7 +273,7 @@ static int messageMaskForTag(int tag)
 	if (action_ == @selector(scrollToFirstTodayMessage:))
 		return [self canScrollToMessage]; // とりあえず
 	
-	// 常に使えるアイテムたち
+	// 検索と文字の拡大／縮小
 	if (action_ == @selector(findNextText:)		||
 	   action_ == @selector(findPreviousText:)	||
 	   action_ == @selector(findFirstText:)		||
@@ -291,14 +284,14 @@ static int messageMaskForTag(int tag)
 	   action_ == @selector(scaleSegmentedControlPushed:)) // For Segmented Control
 	{ return [self shouldShowContents] && [[[self textView] textStorage] length]; }
 
+	// 掲示板オプション
 	if (action_ == @selector(showBoardInspectorPanel:)) {
 		NSWindowController *wc_ = [BSBoardInfoInspector sharedInstance];
 		if (NO == [wc_ isWindowLoaded]) {
-			[theItem setTitle: NSLocalizedString(@"Show Board Inspector", @"Hide Board Options")];
+			[theItem setTitle: [self localizedString: kShowBoardInspectorKey]];
 		} else {
 			BOOL tmpBool = [[wc_ window] isVisible];
-			[theItem setTitle : (tmpBool ? NSLocalizedString(@"Hide Board Inspector", @"Show Board Options")
-										 : NSLocalizedString(@"Show Board Inspector", @"Hide Board Options"))];
+			[theItem setTitle : [self localizedString: (tmpBool ? kHideBoardInspectorKey : kShowBoardInspectorKey)]];
 		}
 		return YES;
 	}
@@ -330,12 +323,12 @@ static int messageMaskForTag(int tag)
 	   action_ == @selector(copyThreadAttributes:)		 ||
 	   action_ == @selector(openBBSInBrowser:) 
 	   )
-	{ return isSelected_; }
+	{ return ([self selectedThreads] && [self numberOfSelectedThreads]); }
 	
 	if (action_ == @selector(reloadThread:))
 		return ([self threadAttributes] && ![self isDatOchiThread]);
 	
-	if (action_ == @selector(openInBrowser:)/* || action_ == @selector(openSelectedThreads:)*/) {
+	if (action_ == @selector(openInBrowser:)) {
 		return ([[self selectedThreadsReallySelected] count] || [self threadURL]);
 	}
 

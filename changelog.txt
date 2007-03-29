@@ -1,4 +1,19 @@
 2007-03-29 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRThreadsList-DataSource.m
+		「お気に入り」からスレッドをゴミ箱にドラッグ＆ドロップした際の警告表示（お気に入りが削除されるだけでなく
+		ログファイル自体も削除されることの確認）を復活させた。
+	* application/source/browser/CMRFavoritesManager.m
+		2007-03-27/28 あたりの変更のマージをちょっと間違って、必要なコードをコメントアウトしていたので
+		元に戻した。
+		- 注記：最近、ログファイルがまだ取得されていないスレッドでも「お気に入りに追加」可能と判定するように
+		　なっている（かつての BathyScaphe ではログのあるスレッドしかお気に入りに追加できなかった）。
+		　他の部分で動作に不整合にならないようなら、このまま仕様変更ということにして、ログの無いスレッドでも
+		  お気に入りに追加可能なままにする可能性がある。
+	* application/source/thread/CMRThreadViewer-Validation.m
+	* application/Resources/Japanese.lproj/ThreadViewer.strings
+	* application/Resources/Japanese.lproj/Localizable.strings
+		Validation の無駄を少し省き、一部のローカライズ文字列を Localizable.strings から
+		ThreadViewer.strings に移動して整理した。
 	* application/source/thread/CMRThreadDocument.m
 		ログフォルダ以外の場所にあるファイルを開くときのトラブルを防止するため、そのようなファイルは自動的に
 		ログフォルダにコピーしてから開くようにしてみた。

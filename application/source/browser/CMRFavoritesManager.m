@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRFavoritesManager.m,v 1.21 2007/03/28 13:03:42 tsawada2 Exp $
+  * $Id: CMRFavoritesManager.m,v 1.22 2007/03/29 13:31:49 tsawada2 Exp $
   *
   * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
   */
@@ -67,8 +67,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	iter_ = [pathArray_ objectEnumerator];
 
 	while ((aPath_ = [iter_ nextObject]) != nil) {
-//		if (doNotDelFav_) continue;
-
 		if ([self availableOperationWithPath: aPath_] == CMRFavoritesOperationRemove) {
 			[self removeFromFavoritesWithFilePath: aPath_];
 		}
@@ -105,11 +103,11 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 }
 - (CMRFavoritesOperation) availableOperationWithPath : (NSString *) filepath
 {
-//	NSDictionary	*attr_;
+	NSDictionary	*attr_;
 	
 	if(filepath == nil)
 		return CMRFavoritesOperationNone;
-/*	
+	
 	attr_ = [BSDBThreadList attributesForThreadsListWithContentsOfFile : filepath];
 	// [Bug 10077] âÒîÇÃÇΩÇﬂÇÃã≠à¯Ç»èàóù
 	if (attr_ == nil) {
@@ -121,9 +119,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 			return CMRFavoritesOperationLink;
 		}
 	}
-	return [self availableOperationWithThread : attr_];*/
-	CMRThreadSignature *signature_ = [CMRThreadSignature threadSignatureFromFilepath: filepath];
-	return [self availableOperationWithSignature: signature_];
+	return [self availableOperationWithThread : attr_];
 }
 
 - (CMRFavoritesOperation)availableOperationWithSignature:(CMRThreadSignature *)signature
@@ -225,7 +221,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	
 	return isSuccess;
 }
-- (BOOL) removeFromFavoritesWithThread : (NSDictionary *) thread
+/*- (BOOL) removeFromFavoritesWithThread : (NSDictionary *) thread
 {
 	id identifier;
 	id boardName = [thread valueForKey:ThreadPlistBoardNameKey];
@@ -234,7 +230,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	
 	if (!identifier|!boardName) return NO;
 	return [self removeFavoriteWithThread: identifier ofBoard: boardName];
-}
+}*/
 
 - (BOOL) removeFromFavoritesWithFilePath : (NSString *) filepath
 {
