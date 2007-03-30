@@ -393,17 +393,14 @@
 	
 	if ([items containsObject : [BoardListItem favoritesItem]]) return NO;
 	
-	types_ = [NSArray arrayWithObjects : CMRBBSListItemsPboardType,
-		NSURLPboardType,
-		NSStringPboardType,
-		nil];
-	[pboard declareTypes : types_ 
-				   owner : NSApp];
+	types_ = [NSArray arrayWithObject: CMRBBSListItemsPboardType];
+	[pboard declareTypes : types_ owner : NSApp];
 	[pboard setPropertyList : [items description] 
 					forType : CMRBBSListItemsPboardType];
 	
 	board_ = [items lastObject];
 	if ([board_ hasURL]) {
+		[pboard addTypes: [NSArray arrayWithObjects: NSURLPboardType, NSStringPboardType, nil] owner: NSApp];
 		url_ = [board_ url];
 		UTILRequireCondition(url_ != nil, not_writtable);
 	
@@ -413,9 +410,9 @@
 	}
 	
 	return YES;
-	
+
 not_writtable:
-		return YES;
+	return NO;
 }
 - (BOOL) outlineView: (NSOutlineView *) outlineView handleDroppedThreads: (id) propertyListObject item: (id) item childIndex: (int) index
 {
