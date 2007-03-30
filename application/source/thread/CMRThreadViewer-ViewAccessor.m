@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.20 2007/03/23 17:27:52 tsawada2 Exp $
+  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.21 2007/03/30 17:51:35 tsawada2 Exp $
   * 
   * CMRThreadViewer-ViewAccessor.m
   *
@@ -336,6 +336,7 @@ static void *kThreadViewThemeBgColorContext = @"BabyRose";
 	[self setTextView : view];
 
 	[self updateLayoutSettings];
+	[view setLinkTextAttributes : [[CMRMessageAttributesTemplate sharedTemplate] attributesForAnchor]];
 	[self setupTextViewBackground];
 	[CMRPref addObserver: self
 			  forKeyPath: @"threadViewTheme.backgroundColor"
@@ -355,6 +356,7 @@ static void *kThreadViewThemeBgColorContext = @"BabyRose";
 			NSLog(@"Warning! -[observeValueForKeyPath:ofObject:change:context:] color is nil.");
 			return;
 		}
+
 		[[self textView] setBackgroundColor : color];
 		[[self scrollView] setBackgroundColor : color];
 
@@ -363,6 +365,10 @@ static void *kThreadViewThemeBgColorContext = @"BabyRose";
 			if ([self synchronize]) {
 			task = [[CMRThreadFileLoadingTask alloc] initWithFilepath : [self path]];
 			[[self threadLayout] doDeleteAllMessages];
+			[[NSNotificationCenter defaultCenter] addObserver: self
+													 selector: @selector(threadFileLoadingTaskDidLoadFile:)
+														 name: CMRThreadFileLoadingTaskDidLoadAttributesNotification
+													   object: task];
 			[[NSNotificationCenter defaultCenter] addObserver: self
 													 selector: @selector(changeThemeTaskDidFinish:)
 														 name: CMRThreadComposingDidFinishNotification
@@ -376,18 +382,22 @@ static void *kThreadViewThemeBgColorContext = @"BabyRose";
 
 - (void) changeThemeTaskDidFinish: (NSNotification *) aNotification
 {
+	[self updateIndexField];
 	[self setInvalidate : NO];
 	[self scrollToLastReadedIndex : self];
 	[[self window] invalidateCursorRectsForView : [[[self threadLayout] scrollView] contentView]];
 	[[NSNotificationCenter defaultCenter] removeObserver: self
 													name: CMRThreadComposingDidFinishNotification
 												  object: [aNotification object]];
+	[[self textView] performSelector: @selector(setLinkTextAttributes:)
+						  withObject: [[CMRMessageAttributesTemplate sharedTemplate] attributesForAnchor]
+						  afterDelay: 0.3];
 }
 
 - (void) updateLayoutSettings
 {
 	[(BSLayoutManager *)[[self textView] layoutManager] setShouldAntialias: [CMRPref shouldThreadAntialias]];
-	[[self textView] setLinkTextAttributes : [[CMRMessageAttributesTemplate sharedTemplate] attributesForAnchor]];
+//	[[self textView] setLinkTextAttributes : [[CMRMessageAttributesTemplate sharedTemplate] attributesForAnchor]];
 //	[self setupTextViewBackground];
 }
 

@@ -1,5 +1,5 @@
 /**
-  * $Id: FCController.h,v 1.9 2007/03/23 17:27:52 tsawada2 Exp $
+  * $Id: FCController.h,v 1.10 2007/03/30 17:51:35 tsawada2 Exp $
   * 
   * FCController.h
   *
@@ -33,4 +33,7 @@
 // 「テーマの保存」パネルでテキストフィールドと Binding
 - (NSString *) saveThemeIdentifier;
 - (void) setSaveThemeIdentifier: (NSString *) aString;
+
+// Private
+- (void) addMenuItemOfTitle: (NSString *) identifier representedObject: (NSString *) filepath atIndex: (unsigned int) index;
 @end

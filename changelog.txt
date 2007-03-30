@@ -1,3 +1,11 @@
+2007-03-31 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-ViewAccessor.m
+		テーマを変更した際にスレッドを開いていた場合の、そのスレッドに対するリアルタイムな変更の反映について
+		いくつかの不具合を修正。
+	* application/subproj/preference/font_color/FCController.m
+		「環境設定」＞「表示」＞「スレッドの内容」：
+		「テーマ：」ポップアップメニューの選択と内容の更新に関する問題を修正。
+		カスタムテーマファイルの名前の付け方に関する小さな問題を修正。
 2007-03-31 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSThreadListItem.m:
 		ダット落ち未取得のスレのリンクを踏むと無限ループに落ちるバグを解消。

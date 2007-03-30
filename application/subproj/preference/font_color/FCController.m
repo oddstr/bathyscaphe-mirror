@@ -100,12 +100,21 @@
 	int returnCode = [NSApp runModalForWindow: m_themeNameSheet];
 
 	if (returnCode == NSOKButton) {
-		NSString *fileName = [NSString stringWithFormat: @"UserTheme%d.plist", [[NSDate date] timeIntervalSince1970]];
+		int myReturnCode = 3;
+		NSString *fileName = [NSString stringWithFormat: @"UserTheme%.0f.plist", [[NSDate date] timeIntervalSince1970]];
 		NSString *filePath = [[[[CMRFileManager defaultManager] supportDirectoryWithName: BSThemesDirectory] filepath]
 								stringByAppendingPathComponent: fileName];
 		[[m_themeGreenCube content] setIdentifier: [self saveThemeIdentifier]];
-		[[m_themeGreenCube content] writeToFile: filePath atomically: YES];
-		[NSApp endSheet: m_themeEditSheet returnCode: NSOKButton];
+		if ([[m_themeGreenCube content] writeToFile: filePath atomically: YES]) {
+			[[self preferences] setUsesCustomTheme: NO];
+			[[self preferences] setThemeFileName: fileName];
+			[self addMenuItemOfTitle: [self saveThemeIdentifier] representedObject: fileName atIndex: 1];
+		} else {
+			NSBeep();
+			NSLog(@"Failed to save theme file %@", filePath);
+			myReturnCode = NSCancelButton;
+		}
+		[NSApp endSheet: m_themeEditSheet returnCode: myReturnCode];//NSOKButton];
 	}
 }
 
@@ -114,14 +123,26 @@
 	return (NSFontPanelFaceModeMask|NSFontPanelSizeModeMask|NSFontPanelCollectionModeMask);
 }
 
-- (void) setUpMenu
+- (void) addMenuItemOfTitle: (NSString *) identifier representedObject: (NSString *) filepath atIndex: (unsigned int) index
 {
 	NSMenu *menu_ = [m_themesChooser menu];
+	NSMenuItem *item_;
+
+	item_ = [[NSMenuItem alloc] initWithTitle: identifier action: @selector(chooseTheme:) keyEquivalent: @""];
+	[item_ setRepresentedObject: filepath];
+	[item_ setTarget: self];
+	[menu_ insertItem: item_ atIndex: 1];
+	[item_ release];
+}
+
+- (void) setUpMenu
+{
+//	NSMenu *menu_ = [m_themesChooser menu];
 
 	NSDirectoryEnumerator	*tmpEnum;
 	NSString		*file;
 	NSString		*fullpath;
-	NSMenuItem *item;
+//	NSMenuItem *item;
 
 	NSString *themeDir = [[[CMRFileManager defaultManager] supportDirectoryWithName: BSThemesDirectory] filepath];
     if (themeDir) {
@@ -135,13 +156,15 @@
 
 				NSString *id_ = [theme identifier];
 				if ([id_ isEqualToString: kThreadViewThemeCustomThemeIdentifier]) continue;
-
+/*
 				item = [[NSMenuItem alloc] initWithTitle: id_ action: @selector(chooseTheme:) keyEquivalent: @""];
 				[item setRepresentedObject: file];
 				[item setTarget: self];
 
 				[menu_ insertItem: item atIndex: 1];
-				[item release];
+				[item release];*/
+				[self addMenuItemOfTitle: id_ representedObject: file atIndex: 1];
+
 				[theme release];
 			}
 		}
