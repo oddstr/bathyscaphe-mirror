@@ -121,7 +121,6 @@ static NSString *const BSThreadListItemErrorDomain = @"BSThreadListItemErrorDoma
 }
 - (NSString *)boardName
 {
-	//return [data objectForKey:BoardNameColumn];
 	return [self valueForKey:BoardNameColumn];
 }
 - (unsigned)boardID
@@ -244,7 +243,7 @@ static NSString *const BSThreadListItemErrorDomain = @"BSThreadListItemErrorDoma
 	
 	if(!result) {
 		NSLog(@"Can not find %@ for boardName(%@) threadID(%@)",
-			  key, [self boardName], [self identifier]);
+			  key, [data objectForKey:BoardNameColumn], [self identifier]);
 		result = [self valueForUndefinedKey:key];
 	} else if(result == [NSNull null]) {
 		return nil;

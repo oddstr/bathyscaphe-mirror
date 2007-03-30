@@ -1,3 +1,6 @@
+2007-03-31 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSThreadListItem.m:
+		ダット落ち未取得のスレのリンクを踏むと無限ループに落ちるバグを解消。
 2007-03-29 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRThreadsList-DataSource.m
 		「お気に入り」からスレッドをゴミ箱にドラッグ＆ドロップした際の警告表示（お気に入りが削除されるだけでなく
