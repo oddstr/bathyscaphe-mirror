@@ -1,4 +1,7 @@
 2007-03-31 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* IBPallete/BSFontWell/BSFontWell.m
+		最近配置したフォントウェルで、ボタンタイトルが不適切なフォントサイズで描画される問題を暫定的に修正。
+		また、内部での KVO の無駄を少しだけ省いた。
 	* application/source/thread/CMRThreadDocument.m
 		ログフォルダ以外の場所のあるファイルを自動的にログフォルダにコピーする際、ファイル名を確実に dat 番号に
 		対応したものに変換するようにした。（例：~/Desktop/hogehoge.thread -> ~/Library/App Support/SB/Documents/123456789.thread）

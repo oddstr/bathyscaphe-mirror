@@ -81,11 +81,10 @@ static void	*bs_fontValueContext = @"Akazukin";
 	NSString	*titlestr_;
 	titlestr_ = [NSString stringWithFormat: @"%@ %.0f", [font_ displayName], [font_ pointSize]];
 
-
 	displayFont_ = [fm_ fontWithFamily: [font_ familyName] 
 								traits: [fm_ traitsOfFont: font_] 
 								weight: [fm_ weightOfFont: font_]
-								  size: [[self font] pointSize]];
+								  size: 12.0];//[[self font] pointSize]]; // 応急処置
 
 	[self setTitle: titlestr_];
 	[self setFont: displayFont_];
@@ -194,7 +193,7 @@ static void	*bs_fontValueContext = @"Akazukin";
 	if ([binding isEqualToString: @"fontValue"]) {
 		[self addObserver: self
 			   forKeyPath: @"fontValue"
-				  options: (NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld)
+				  options: NSKeyValueObservingOptionNew //(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld)
 				  context: bs_fontValueContext];
 
 		[self setCachedControllerObject: observableController];
@@ -207,6 +206,11 @@ static void	*bs_fontValueContext = @"Akazukin";
 - (void) observeValueForKeyPath: (NSString *) keyPath ofObject: (id) object change: (NSDictionary *) change context: (void *) context
 {
 	if (context == bs_fontValueContext) {
+/*		id objNew = [change objectForKey: NSKeyValueChangeNewKey];
+		if (objNew == [change objectForKey: NSKeyValueChangeOldKey]) {
+			NSLog(@"No Need to call setValue:");
+			return;
+		}*/
 		[[self cachedControllerObject] setValue: [change objectForKey: NSKeyValueChangeNewKey] forKeyPath: [self cachedKeyPath]];
 	} else {
 		[super observeValueForKeyPath: keyPath ofObject: object change: change context: context];
