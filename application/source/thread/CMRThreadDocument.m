@@ -99,16 +99,20 @@
 
 	NSDictionary	*fileContents_;
 	NSString *boardName;
+	NSString *datNumber;
 	NSFileManager *fm = [NSFileManager defaultManager];
 
 	fileContents_ = [NSDictionary dictionaryWithContentsOfFile: filepath];
 	if(nil == fileContents_) return NO;
 	boardName = [fileContents_ objectForKey: ThreadPlistBoardNameKey];
 	if (nil == boardName) return NO;
+	datNumber = [fileContents_ objectForKey: ThreadPlistIdentifierKey];
+	if (nil == datNumber) return NO;
 
 	NSString *fileName = [filepath lastPathComponent];
 	NSString *newLocationFolder = [logFolderPath stringByAppendingPathComponent: boardName];
-	NSString *newLocationFile = [newLocationFolder stringByAppendingPathComponent: fileName];
+	NSString *newLocationFile = [newLocationFolder stringByAppendingPathComponent: datNumber];//fileName];
+	newLocationFile = [newLocationFile stringByAppendingPathExtension: @"thread"];
 
 	if ([fm fileExistsAtPath: newLocationFile]) {
 		NSAlert *alert = [[[NSAlert alloc] init] autorelease];

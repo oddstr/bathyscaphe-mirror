@@ -1,4 +1,9 @@
 2007-03-31 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadDocument.m
+		ログフォルダ以外の場所のあるファイルを自動的にログフォルダにコピーする際、ファイル名を確実に dat 番号に
+		対応したものに変換するようにした。（例：~/Desktop/hogehoge.thread -> ~/Library/App Support/SB/Documents/123456789.thread）
+	* application/Resources/Japanese.lproj/ToolbarItems.strings
+		ツールバー項目の名前を微修正。
 	* application/source/bbs/BoardListItem/SmartBoardList.m
 		掲示板リストからカテゴリやスマート掲示板を（間違って）デスクトップなどにドラッグ＆ドロップした際に、内容が空の
 		テキストクリッピングが作成される問題が再発していたので修正。
