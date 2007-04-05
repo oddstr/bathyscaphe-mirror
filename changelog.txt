@@ -1,3 +1,10 @@
+2007-04-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/BSDBThreadList.m
+	* application/source/browser/CMRThreadsList-DataSource.m
+		「最終書き込み日」カラムで、文字列の書式が正しく適用されていなかったので修正。
+		また、時刻表示を行うカラムでは NSLineBreakMode を NSLineBreakByClipping に変更した。NSLineBreakByWordWrapping だと
+		特定の状況で望まない「テキストの回り込み」が発生して美しくないため。
+================================================= Starlight Breaker v84
 2007-03-31 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* IBPallete/BSFontWell/BSFontWell.m
 		最近配置したフォントウェルで、ボタンタイトルが不適切なフォントサイズで描画される問題を暫定的に修正。

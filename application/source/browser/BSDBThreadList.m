@@ -478,7 +478,7 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	NSString		*identifier_ = [aTableColumn identifier];
 	
     if ([identifier_ isEqualToString: ThreadPlistIdentifierKey] ||
-        [identifier_ isEqualToString: CMRThreadModifiedDateKey])
+        [identifier_ isEqualToString: CMRThreadModifiedDateKey] || [identifier_ isEqualToString: LastWrittenDateColumn])
     {
         float location_ = [aTableColumn width];
         location_ -= [aTableView intercellSpacing].width * 2;

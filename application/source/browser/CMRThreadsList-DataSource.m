@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.23 2007/03/29 13:31:49 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.24 2007/04/05 13:25:17 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -12,18 +12,6 @@
 #import "NSIndexSet+BSAddition.h"
 #import "BSDateFormatter.h"
 #import "DatabaseManager.h"
-// Status image
-//#define kStatusUpdatedImageName		@"Status_updated"
-//#define kStatusCachedImageName		@"Status_logcached"
-//#define kStatusNewImageName			@"Status_newThread"
-//#define kStatusHEADModImageName		@"Status_HeadModified"
-
-/* @see objectValueTemplate:forType: */
-/*enum {
-	kValueTemplateDefaultType,
-	kValueTemplateNewArrivalType,
-	kValueTemplateNewUnknownType
-};*/
 
 
 @implementation CMRThreadsList(DataSource)
@@ -41,7 +29,7 @@ static NSMutableParagraphStyle	*pStyleForDateColumnWithWidth (float tabWidth)
     NSTextTab	*tab_ = [[NSTextTab alloc] initWithType: NSRightTabStopType location: tabWidth];
 	
 	style_ = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-	[style_ setLineBreakMode : NSLineBreakByWordWrapping];
+	[style_ setLineBreakMode : NSLineBreakByClipping];
 	[style_ setTabStops: [NSArray array]];
     [style_ addTabStop: tab_];
 	[tab_ release];
@@ -80,6 +68,7 @@ static NSMutableParagraphStyle	*pStyleForDateColumnWithWidth (float tabWidth)
 {
     static float cachedLoc1 = 0;
     static float cachedLoc2 = 0;
+	static float cachedLoc3 = 0;
 
 	if (kNewThreadCreatedDateAttrTemplate == nil
 		|| kThreadCreatedDateAttrTemplate == nil
@@ -105,11 +94,11 @@ static NSMutableParagraphStyle	*pStyleForDateColumnWithWidth (float tabWidth)
 			[kThreadModifiedDateAttrTemplate setObject: ps2 forKey: NSParagraphStyleAttributeName];
 		}
 	} else if ([identifier isEqualToString: LastWrittenDateColumn]) {
-        if (cachedLoc2 == 0 || loc != cachedLoc2) {
-            cachedLoc2 = loc;
-			NSParagraphStyle	*ps2 = pStyleForDateColumnWithWidth(cachedLoc2);
+        if (cachedLoc3 == 0 || loc != cachedLoc3) {
+            cachedLoc3 = loc;
+			NSParagraphStyle	*ps3 = pStyleForDateColumnWithWidth(cachedLoc3);
 			
-			[kThreadLastWrittenDateAttrTemplate setObject: ps2 forKey: NSParagraphStyleAttributeName];
+			[kThreadLastWrittenDateAttrTemplate setObject: ps3 forKey: NSParagraphStyleAttributeName];
 		}
 	}
 }

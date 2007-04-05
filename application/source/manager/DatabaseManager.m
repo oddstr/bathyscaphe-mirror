@@ -855,7 +855,7 @@ abort:
 	UTILAssertKindOfClass(obj, [CMRReplyMessenger class]);
 	
 	id boardName = [obj boardName];
-	id threadID = [obj threadIdentifier];
+	id threadID = [obj datIdentifier];
 	id writeDate = [obj modifiedDate];
 	
 	id boardIDs = [self boardIDsForName:boardName];

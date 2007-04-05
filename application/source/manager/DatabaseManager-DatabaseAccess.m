@@ -534,6 +534,7 @@ static NSLock *boardIDNumberCacheLock = nil;
 {
 	NSString *query;
 	SQLiteDB *db;
+	UTILAssertKindOfClass(identifier, NSString);
 		
 	if([identifier length] == 0) return;
 	
