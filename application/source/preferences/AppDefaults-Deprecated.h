@@ -117,6 +117,62 @@
 //- (BOOL) threadViewerDrawsBackground;
 //- (void) setThreadViewerDrawsBackground : (BOOL) flag;
 
+//- (void) setReplyTextColor : (NSColor *) aColor;
+//- (void) setReplyFont : (NSFont *) aFont;
+//- (void) setResPopUpDefaultTextColor : (NSColor *) color;
+//- (void) setIsResPopUpTextDefaultColor : (BOOL) flag;
+
+//- (void) setThreadsViewFont : (NSFont *) aFont;
+//- (void) setThreadsViewColor : (NSColor *) color;
+
+//- (void) setMessageFont : (NSFont *) font;
+//- (void) setMessageColor : (NSColor *) color;
+
+//- (void) setMessageTitleFont : (NSFont *) font;
+//- (void) setMessageTitleColor : (NSColor *) color;
+
+//- (void) setMessageNameColor : (NSColor *) color;
+//- (void) setMessageAlternateFont : (NSFont *) font;
+
+//- (void) setMessageAnchorColor : (NSColor *) color;
+
+//- (void) setMessageHostFont : (NSFont *) aFont;
+//- (void) setMessageHostColor : (NSColor *) color;
+
+//- (void) setMessageBeProfileFont : (NSFont *) aFont;
+
+/*
+@interface AppDefaults(LibraryPath)
+- (BOOL) createDirectoryAtPath : (NSString *) path;
+- (BOOL) validatePathLength : (NSString *) filepath;
+@end
+*/
+
+
+/*
+@interface AppDefaults(AlertPanel)
++ (NSString *) tableForPanels;
++ (NSString *) labelForDefaultButton;
++ (NSString *) labelForAlternateButton;
+- (int) runDirectoryNotFoundAlertAndTerminateWithMessage : (NSString *) msg;
+- (int) runAlertPanelWithLocalizedString : (NSString *) title
+								 message : (NSString *) msg;
+- (int) runCriticalAlertPanelWithLocalizedString : (NSString *) title
+                                          message : (NSString *) msg;
+@end*/
+
+//- (BOOL) oldFavoritesUpdated;
+//- (void) setOldFavoritesUpdated: (BOOL) flag;
+
+//- (void) setResPopUpBackgroundColor : (NSColor *) color;
+
+//- (void) setReplyBackgroundColor : (NSColor *) aColor;
+
+// SledgeHammer Additions
+//- (void) setResPopUpBgAlphaValue : (float) rate;
+//- (float) replyBgAlphaValue;
+//- (void) setReplyBgAlphaValue : (float) rate;
+
 // Constants
 //#define DEFAULT_NEW_THREADS_LIMIT			(100)
 //#define DEFAULT_THREADS_VIEW_FONTSIZE		(12.0f)
@@ -136,3 +192,7 @@
 
 //#define DEFAULT_STABLE_DRAWS_BGCOLOR			NO
 //#define DEFAULT_THREAD_LIST_INTERCELL_SPACING	NSMakeSize(3.0f, 2.0f)
+//#define APP_X2CH_REGISTRATION_PAGE_KEY		@"System - 2channel Register URL"
+
+// be-2ch Info
+//#define APP_BE2CH_REGISTRATION_PAGE_KEY		@"System - be2ch Register URL"

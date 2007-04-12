@@ -15,6 +15,9 @@
 - (void) dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver : self];
+	[[self textView] unbind: @"font"];
+	[CMRPref removeObserver: self forKeyPath: @"threadViewTheme.replyBackgroundColor"];
+	[CMRPref removeObserver: self forKeyPath: @"threadViewTheme.replyColor"];
 	[super dealloc];
 }
 

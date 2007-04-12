@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.21 2007/03/24 15:36:30 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.22 2007/04/12 12:55:12 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -50,8 +50,6 @@ static NSString *const AppDefaultsContentsSearchTargetKey = @"Contents Search Ta
 static NSString *const AppDefaultsUseCustomThemeKey = @"Use Custom ThreadViewTheme";
 static NSString *const AppDefaultsThemeFileNameKey = @"ThreadViewTheme FileName";
 static NSString *const AppDefaultsDefaultThemeFileNameKey = @"ThreadViewerDefaultTheme"; // + ".plist"
-
-static NSString *const AppDefaultsOldFontsAndColorsConvertedKey = @"Old FontsAndColors Setting Converted";
 
 #pragma mark -
 

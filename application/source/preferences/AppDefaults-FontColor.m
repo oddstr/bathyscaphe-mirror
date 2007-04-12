@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-FontColor.m,v 1.18 2007/03/24 15:36:30 tsawada2 Exp $
+  * $Id: AppDefaults-FontColor.m,v 1.19 2007/04/12 12:55:12 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -13,35 +13,18 @@
 
 static NSString *const kPrefAppearanceDictKey		= @"Preferences - Fonts And Colors";
 
-static NSString *const kPrefReplyColorKey			= @"Reply Text Color";
-static NSString *const kPrefReplyFontKey			= @"Reply Text Font";
 static NSString *const kPrefAntialiasKey			= @"Should Thread Antialias";
-static NSString *const kPrefThreadsViewFontKey		= @"TextFont";
-static NSString *const kPrefThreadsViewColorKey		= @"TextColor";
 static NSString *const kPrefTextEnhancedColorKey	= @"Text Emphasis Color";
-static NSString *const kPrefResPopUpDefaultTextColorKey		= @"Res PopUp Default Text-Color";
-static NSString *const kPrefIsResPopUpTextDefaultColorKey	= @"Res PopUp uses Default Text-Color";
 static NSString *const kPrefMessageHeadIndentKey	= @"Message Head Indent";
-static NSString *const kPrefMessageColorKey			= @"Message Contents Color";
-static NSString *const kPrefMessageFontKey			= @"Message Contents Font";
-static NSString *const kPrefMessageAlternateFontKey	= @"Message Alternate Font";
-static NSString *const kPrefMessageTitleColorKey	= @"Message Item Color";
-static NSString *const kPrefMessageTitleFontKey		= @"Message Item Font";
-static NSString *const kPrefMessageNameColorKey		= @"Message Name Color";
-static NSString *const kPrefMessageAnchorColorKey	= @"Message Anchor Color";
 static NSString *const kPrefMessageAnchorHasUnderlineKey	= @"Message Anchor Underline";
 static NSString *const kPrefMessageFilteredColorKey	= @"Message Filtered Color";
+
 static NSString *const kPrefThreadsListRowHeightKey	= @"Row Height";
-static NSString *const kPrefThreadsListIntercellSpacingKey	= @"Intercell Spacing";
 static NSString *const kPrefThreadsListDrawsGridKey = @"Draws Grid";
 static NSString *const kPrefThreadsListColorKey		= @"ThreadsListColor";
 static NSString *const kPrefThreadsListFontKey		= @"ThreadsListFont";
 static NSString *const kPrefNewThreadColorKey		= @"NewThreadColor";
 static NSString *const kPrefNewThreadFontKey		= @"NewThreadFont";
-
-static NSString *const kPrefMessageHostColorKey			= @"Message Host Color";
-static NSString *const kPrefMessageHostFontKey			= @"Message Host Font";
-static NSString *const kPrefMessageBeProfileFontKey		= @"Message BeProfileLink Font";
 
 static NSString *const kPrefPopupAttrKey			= @"Popup scroller is small";
 
@@ -55,22 +38,6 @@ static NSString *const kPrefThreadViewerMsgSpacingBeforeKey = @"Message Content 
 static NSString *const kPrefThreadViewerMsgSpacingAfterKey	= @"Message Content Spacing (Bottom)";
 
 #define	SHARED_ATTR_TEMPLATE	[CMRMessageAttributesTemplate sharedTemplate]
-
-@interface AppDefaults(FontColorPrivate)
-- (NSMutableDictionary *) appearances;
-
-- (NSFont *) appearanceFontForKey : (NSString *) key;
-- (void) setAppearanceFont : (NSFont   *) aFont
-					forKey : (NSString *) key;
-- (NSColor *) appearanceColorForKey : (NSString *) key;
-- (void) setAppearanceColor : (NSColor  *) color
-					 forKey : (NSString *) key;
-
-// return default aFont if nil.
-- (NSFont *) appearanceFontForKey : (NSString *) key
-					  defaultSize : (float     ) fontSize;
-- (NSColor *) textAppearanceColorForKey : (NSString *) key;
-@end
 
 @implementation AppDefaults(FontColorPrivate)
 - (NSMutableDictionary *) appearances
@@ -254,49 +221,7 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 	[SHARED_ATTR_TEMPLATE setMessageHeadIndent : anIndent];
 }
 
-#pragma mark Reply
-- (NSColor *) replyTextColor
-{
-	return [self textAppearanceColorForKey : kPrefReplyColorKey];
-}
-- (void) setReplyTextColor : (NSColor *) aColor
-{
-	[self setAppearanceColor : aColor forKey : kPrefReplyColorKey] ;
-	[self postLayoutSettingsUpdateNotification];
-}
-- (NSFont *) replyFont
-{
-	return [self appearanceFontForKey : kPrefReplyFontKey
-						  defaultSize : DEFAULT_REPLY_FONTSIZE];
-}
-- (void) setReplyFont : (NSFont *) aFont
-{
-	[self setAppearanceFont : aFont forKey : kPrefReplyFontKey];
-	[self postLayoutSettingsUpdateNotification];
-}
-
 #pragma mark Popup
-- (BOOL) isResPopUpTextDefaultColor
-{
-	return [[self appearances] boolForKey : kPrefIsResPopUpTextDefaultColorKey
-							 defaultValue : DEFAULT_IS_RESPOPUP_TEXT_COLOR];
-}
-- (void) setIsResPopUpTextDefaultColor : (BOOL) flag
-{
-	[[self appearances] setBool : flag
-						 forKey : kPrefIsResPopUpTextDefaultColorKey];
-}
-
-- (NSColor *) resPopUpDefaultTextColor
-{
-	return [self textAppearanceColorForKey : kPrefResPopUpDefaultTextColorKey];
-}
-- (void) setResPopUpDefaultTextColor : (NSColor *) color
-{
-	[self setAppearanceColor : color
-					  forKey : kPrefResPopUpDefaultTextColorKey];
-}
-
 - (BOOL) popUpWindowVerticalScrollerIsSmall
 {
 	return [[self appearances] boolForKey : kPrefPopupAttrKey
@@ -308,7 +233,27 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 						 forKey : kPrefPopupAttrKey];
 }
 
-#pragma mark ThreadViewer(Font)
+#pragma mark ThreadViewTheme
+- (NSColor *) replyTextColor
+{
+	return [[self threadViewTheme] replyColor];
+}
+
+- (NSFont *) replyFont
+{
+	return [[self threadViewTheme] replyFont];
+}
+
+- (BOOL) isResPopUpTextDefaultColor
+{
+	return [[self threadViewTheme] popupUsesAlternateTextColor];
+}
+
+- (NSColor *) resPopUpDefaultTextColor
+{
+	return [[self threadViewTheme] popupAlternateTextColor];
+}
+
 - (NSFont *) threadsViewFont
 {
 	return [[self threadViewTheme] baseFont];
@@ -324,7 +269,6 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 	return [[self threadViewTheme] titleFont];
 }
 
-#pragma mark ThreadViewer(Color)
 - (NSColor *) threadsViewColor
 {
 	return [[self threadViewTheme] baseColor];
@@ -350,7 +294,30 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 	return [[self threadViewTheme] linkColor];
 }
 
-#pragma mark Spam, Hilite, AA
+- (NSFont *) messageAlternateFont
+{
+	return [[self threadViewTheme] AAFont];
+}
+
+- (NSFont *) messageHostFont
+{
+	return [[self threadViewTheme] hostFont];
+}
+
+- (NSColor *) messageHostColor
+{
+	return [[self threadViewTheme] hostColor];
+}
+
+- (NSFont *) messageBeProfileFont
+{
+	return [[self threadViewTheme] beFont];
+}
+
+- (NSFont *) messageBookmarkFont{return [[self threadViewTheme] bookmarkFont];}
+- (NSColor *) messageBookmarkColor{return [[self threadViewTheme] bookmarkColor];}
+
+#pragma mark Spam, Hilite
 - (NSColor *) getMessageFilteredColor : (id) anUserData
 {
 	NSColor		*color_;
@@ -383,31 +350,6 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 	[self setAppearanceColor : color forKey : kPrefTextEnhancedColorKey];
 	[self postLayoutSettingsUpdateNotification];
 }
-
-- (NSFont *) messageAlternateFont
-{
-	return [[self threadViewTheme] AAFont];
-}
-
-#pragma mark BathyScaphe 1.0.1 additions
-- (NSFont *) messageHostFont
-{
-	return [[self threadViewTheme] hostFont];
-}
-
-- (NSColor *) messageHostColor
-{
-	return [[self threadViewTheme] hostColor];
-}
-
-- (NSFont *) messageBeProfileFont
-{
-	return [[self threadViewTheme] beFont];
-}
-
-- (NSFont *) messageBookmarkFont{return [[self threadViewTheme] bookmarkFont];}
-- (NSColor *) messageBookmarkColor{return [[self threadViewTheme] bookmarkColor];}
-
 
 #pragma mark SledgeHammer Additions
 - (float) msgIdxSpacingBefore
@@ -609,103 +551,5 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 						forKey : kPrefAppearanceDictKey];
 	[mResult release];
 	return YES;
-}
-
-
-- (void) convertOldFCToThemeFile
-{
-	NSDictionary	*dict_ = [[self defaults] dictionaryForKey : @"Preferences - Fonts And Colors"];
-	NSDictionary	*dict2_ = [[self defaults] dictionaryForKey: @"Preferences - BackgroundColors"];
-	if (!dict_) {
-		[[self defaults] setBool: YES forKey: @"Old FontsAndColors Setting Converted"];
-		return;
-	}
-	BSThreadViewTheme *tmp = [[BSThreadViewTheme alloc] initWithIdentifier: NSLocalizedString(@"Imported From Old Ver.", @"")];
-	NSFont *tmpFont;
-	NSColor *tmpColor;
-
-	NSLog(@"Converting font settings...");
-	tmpFont = [self appearanceFontCleaningForKey : kPrefMessageBeProfileFontKey defaultSize : DEFAULT_BEPROFILELINK_FONTSIZE];
-	[tmp setBeFont: tmpFont];
-	tmpFont = [self appearanceFontCleaningForKey : kPrefMessageHostFontKey defaultSize : DEFAULT_HOST_FONTSIZE];
-	[tmp setHostFont: tmpFont];
-	tmpFont = [self appearanceFontCleaningForKey : kPrefMessageAlternateFontKey defaultSize : DEFAULT_THREADS_VIEW_FONTSIZE];
-	[tmp setAAFont: tmpFont];
-	tmpFont = [self appearanceFontCleaningForKey : kPrefMessageTitleFontKey defaultSize : DEFAULT_THREADS_VIEW_FONTSIZE];
-	[tmp setTitleFont: tmpFont];
-	tmpFont = [self appearanceFontCleaningForKey : kPrefMessageFontKey defaultSize : DEFAULT_THREADS_VIEW_FONTSIZE];
-	[tmp setMessageFont: tmpFont];
-	[tmp setBookmarkFont: tmpFont];
-	tmpFont = [self appearanceFontCleaningForKey : kPrefThreadsViewFontKey defaultSize : DEFAULT_THREADS_VIEW_FONTSIZE];
-	[tmp setBaseFont: tmpFont];
-
-	NSLog(@"Converting color settings...");
-	tmpColor = [self textAppearanceColorCleaningForKey : kPrefThreadsViewColorKey];
-	[tmp setBaseColor: tmpColor];
-	tmpColor = [self textAppearanceColorCleaningForKey : kPrefMessageColorKey];
-	[tmp setMessageColor: tmpColor];
-	[tmp setBookmarkColor: tmpColor];
-
-	tmpColor = nil;
-	tmpColor = [self appearanceColorForKey : kPrefMessageNameColorKey];
-	if (nil == tmpColor) {
-		tmpColor = [NSColor colorWithCalibratedRed : 0.0f
-										   green : 0.56f
-											blue : 0.0f
-										   alpha : 1.0f];
-	} else {
-		[[self appearances] removeObjectForKey: kPrefMessageNameColorKey];
-	}
-	[tmp setNameColor: tmpColor];
-
-	tmpColor = nil;
-	tmpColor = [self appearanceColorForKey : kPrefMessageTitleColorKey];
-	if (nil == tmpColor) {
-		tmpColor = [NSColor colorWithCalibratedRed : 0.56f
-										   green : 0.0f
-											blue : 0.0f
-										   alpha : 1.0f];
-	} else {
-		[[self appearances] removeObjectForKey: kPrefMessageTitleColorKey];
-	}
-	[tmp setTitleColor: tmpColor];
-
-	tmpColor = nil;
-	tmpColor = [self appearanceColorForKey : kPrefMessageAnchorColorKey];
-	if (nil == tmpColor) {
-		tmpColor = [NSColor blueColor];
-	} else {
-		[[self appearances] removeObjectForKey: kPrefMessageAnchorColorKey];
-	}
-	[tmp setLinkColor: tmpColor];
-
-	tmpColor = nil;
-	tmpColor = [self appearanceColorForKey : kPrefMessageHostColorKey];
-	if (nil == tmpColor) {
-		tmpColor = [NSColor lightGrayColor];
-	} else {
-		[[self appearances] removeObjectForKey: kPrefMessageHostColorKey];
-	}
-	[tmp setHostColor: tmpColor];
-
-	NSLog(@"Converting bg color");
-	tmpColor = nil;
-	if (dict2_) {
-		tmpColor = [dict2_ colorForKey: @"Thread Viewer BackgroundColor"];
-//		if (tmpColor)
-//			[dict2_ removeObjectForKey: @"Thread Viewer BackgroundColor"]; // since dict2_ may be immutable
-	}
-	if (!tmpColor)
-		tmpColor = [NSColor whiteColor];
-
-	[tmp setBackgroundColor: tmpColor];
-
-	NSLog(@"Write converted fonts and colors to file...");
-	[tmp writeToFile: [self createFullPathFromThemeFileName: @"ImportedTheme.plist"] atomically: YES];
-	[tmp release];
-	[[self defaults] setBool: YES forKey: @"Old FontsAndColors Setting Converted"];
-	[[self defaults] setObject: @"ImportedTheme.plist" forKey: @"ThreadViewTheme FileName"];
-
-	NSLog(@"Convert finished");
 }
 @end

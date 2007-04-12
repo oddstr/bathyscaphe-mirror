@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.21 2007/03/30 17:51:35 tsawada2 Exp $
+  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.22 2007/04/12 12:55:12 tsawada2 Exp $
   * 
   * CMRThreadViewer-ViewAccessor.m
   *
@@ -336,7 +336,7 @@ static void *kThreadViewThemeBgColorContext = @"BabyRose";
 	[self setTextView : view];
 
 	[self updateLayoutSettings];
-	[view setLinkTextAttributes : [[CMRMessageAttributesTemplate sharedTemplate] attributesForAnchor]];
+//	[view setLinkTextAttributes : [[CMRMessageAttributesTemplate sharedTemplate] attributesForAnchor]];
 	[self setupTextViewBackground];
 	[CMRPref addObserver: self
 			  forKeyPath: @"threadViewTheme.backgroundColor"
@@ -397,7 +397,7 @@ static void *kThreadViewThemeBgColorContext = @"BabyRose";
 - (void) updateLayoutSettings
 {
 	[(BSLayoutManager *)[[self textView] layoutManager] setShouldAntialias: [CMRPref shouldThreadAntialias]];
-//	[[self textView] setLinkTextAttributes : [[CMRMessageAttributesTemplate sharedTemplate] attributesForAnchor]];
+	[[self textView] setLinkTextAttributes : [[CMRMessageAttributesTemplate sharedTemplate] attributesForAnchor]];
 //	[self setupTextViewBackground];
 }
 

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadView.h,v 1.4 2007/02/07 13:26:13 tsawada2 Exp $
+  * $Id: CMRThreadView.h,v 1.5 2007/04/12 12:55:12 tsawada2 Exp $
   * 
   * CMRThreadView.h
   *
@@ -41,7 +41,8 @@
 - (void) threadView : (CMRThreadView *) aView
 	   messageReply : (NSRange        ) anIndexRange;
 - (void) threadView: (CMRThreadView *) aView
- reverseAnchorPopUp: (unsigned int) targetIndex;
+ reverseAnchorPopUp: (unsigned int) targetIndex
+	   locationHint: (NSPoint) location_;
 // Spam Filter
 - (void) threadView : (CMRThreadView    *) aView
 			   spam : (CMRThreadMessage *) aMessage

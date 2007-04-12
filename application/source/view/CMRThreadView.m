@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadView.m,v 1.17 2007/02/07 13:26:13 tsawada2 Exp $
+  * $Id: CMRThreadView.m,v 1.18 2007/04/12 12:55:12 tsawada2 Exp $
   * 
   * CMRThreadView.m
   *
@@ -572,10 +572,19 @@ static NSString *mActionGetKeysForTag[] = {
 	if (nil == mIndex) return;
 	
 	delegate_ = [self delegate];
-	if (nil == delegate_ || NO == [delegate_ respondsToSelector : @selector(threadView:reverseAnchorPopUp:)])
+	if (nil == delegate_ || NO == [delegate_ respondsToSelector : @selector(threadView:reverseAnchorPopUp:locationHint:)])
 		return;
+
+	unsigned int mIndexNum = [mIndex unsignedIntValue];
+	NSRange	range_ = [[[self threadLayout] messageRanges] rangeAtIndex: mIndexNum];
+
+	NSRect	rect_ = [self boundingRectForCharacterInRange : range_];
+	NSPoint	point_ = NSMakePoint(NSMinX(rect_), NSMinY(rect_));
+
+	point_ = [self convertPoint : point_ toView : nil];
+	point_ = [[self window] convertBaseToScreen : point_];
 	
-	[delegate_ threadView:self reverseAnchorPopUp: [mIndex unsignedIntValue]];
+	[delegate_ threadView: self reverseAnchorPopUp: mIndexNum locationHint: point_];
 }
 
 #if PATCH

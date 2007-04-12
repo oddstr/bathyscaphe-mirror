@@ -27,7 +27,7 @@
 
 - (NSString *)inspectorClassName
 {
-    return @"BSFontWellInspector";
+    return nil;//@"BSFontWellInspector";
 }
 
 @end

@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.39 2007/03/24 11:42:54 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.40 2007/04/12 12:55:12 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -94,9 +94,6 @@ typedef enum _BSAutoSyncIntervalType {
 //- (BOOL) moveFocusToViewerWhenShowThreadAtRow;
 //- (void) setMoveFocusToViewerWhenShowThreadAtRow: (BOOL) shouldMove;
 
-//- (BOOL) oldFavoritesUpdated;
-//- (void) setOldFavoritesUpdated: (BOOL) flag;
-
 /* ReinforceII Hidden Option */
 - (BOOL) oldMessageScrollingBehavior;
 - (void) setOldMessageScrollingBehavior: (BOOL) flag;
@@ -148,18 +145,10 @@ typedef enum _BSAutoSyncIntervalType {
 - (void) setBoardListBackgroundColor : (NSColor *) color;
 
 - (NSColor *) threadViewerBackgroundColor;
-
 - (NSColor *) resPopUpBackgroundColor;
-- (void) setResPopUpBackgroundColor : (NSColor *) color;
-
 - (NSColor *) replyBackgroundColor;
-- (void) setReplyBackgroundColor : (NSColor *) aColor;
 
-// SledgeHammer Additions
 - (float) resPopUpBgAlphaValue;
-- (void) setResPopUpBgAlphaValue : (float) rate;
-- (float) replyBgAlphaValue;
-- (void) setReplyBgAlphaValue : (float) rate;
 
 - (void) _loadBackgroundColors;
 - (BOOL) _saveBackgroundColors;
@@ -197,21 +186,8 @@ typedef enum _BSAutoSyncIntervalType {
 
 
 @interface AppDefaults(FontAndColor)
-- (NSColor *) replyTextColor;
-- (void) setReplyTextColor : (NSColor *) aColor;
-- (NSFont *) replyFont;
-- (void) setReplyFont : (NSFont *) aFont;
-
-/*** ポップアップ ***/
-// デフォルトの色
-- (NSColor *) resPopUpDefaultTextColor;
-- (void) setResPopUpDefaultTextColor : (NSColor *) color;
-- (BOOL) isResPopUpTextDefaultColor;
-- (void) setIsResPopUpTextDefaultColor : (BOOL) flag;
-
 - (BOOL) popUpWindowVerticalScrollerIsSmall;
 - (void) setPopUpWindowVerticalScrollerIsSmall : (BOOL) flag;
-
 
 - (NSColor *) threadsListColor;
 - (void) setThreadsListColor : (NSColor *) color;
@@ -224,43 +200,24 @@ typedef enum _BSAutoSyncIntervalType {
 
 /* Starlight Breaker -- Theme groups */
 - (NSFont *) threadsViewFont;
-//- (void) setThreadsViewFont : (NSFont *) aFont;
 - (NSColor *) threadsViewColor;
-//- (void) setThreadsViewColor : (NSColor *) color;
-
 - (NSFont *) messageFont;
-//- (void) setMessageFont : (NSFont *) font;
 - (NSColor *) messageColor;
-//- (void) setMessageColor : (NSColor *) color;
-
-
 - (NSFont *) messageTitleFont;
-//- (void) setMessageTitleFont : (NSFont *) font;
 - (NSColor *) messageTitleColor;
-//- (void) setMessageTitleColor : (NSColor *) color;
-
-
 - (NSColor *) messageNameColor;
-//- (void) setMessageNameColor : (NSColor *) color;
-
 - (NSFont *) messageAlternateFont;
-//- (void) setMessageAlternateFont : (NSFont *) font;
-
 - (NSColor *) messageAnchorColor;
-//- (void) setMessageAnchorColor : (NSColor *) color;
-
 - (NSFont *) messageHostFont;
-//- (void) setMessageHostFont : (NSFont *) aFont;
 - (NSColor *) messageHostColor;
-//- (void) setMessageHostColor : (NSColor *) color;
-
 - (NSFont *) messageBeProfileFont;
-//- (void) setMessageBeProfileFont : (NSFont *) aFont;
-
 - (NSFont *) messageBookmarkFont;
-//- (void) setMessageBookmarkFont: (NSFont *) aFont;
 - (NSColor *) messageBookmarkColor;
-//- (void) setMessageBookmarkColor: (NSColor *) color;
+
+- (NSColor *) resPopUpDefaultTextColor;
+- (BOOL) isResPopUpTextDefaultColor;
+- (NSColor *) replyTextColor;
+- (NSFont *) replyFont;
 /* End Theme groups */
 
 - (NSColor *) messageFilteredColor;
@@ -303,11 +260,11 @@ typedef enum _BSAutoSyncIntervalType {
 - (void) setBoardListRowHeight : (float) rowHeight;
 - (void) fixBoardListRowHeightToFontSize;
 
+- (NSDictionary *) boardListTextAttributes; // Available in Starlight Breaker.
+
 - (void) _loadFontAndColor;
 - (BOOL) _saveFontAndColor;
 @end
-
-
 
 @interface AppDefaults(ThreadsListSettings)
 - (int) threadsListAutoscrollMask;
@@ -444,14 +401,6 @@ typedef enum _BSAutoSyncIntervalType {
 @end
 
 
-/*
-@interface AppDefaults(LibraryPath)
-- (BOOL) createDirectoryAtPath : (NSString *) path;
-- (BOOL) validatePathLength : (NSString *) filepath;
-@end
-*/
-
-
 @interface AppDefaults(BundleSupport)
 - (NSBundle *) moduleWithName : (NSString *) bundleName
 					   ofType : (NSString *) type
@@ -472,17 +421,6 @@ typedef enum _BSAutoSyncIntervalType {
 - (BOOL) _saveImagePreviewerSettings;
 @end
 
-/*
-@interface AppDefaults(AlertPanel)
-+ (NSString *) tableForPanels;
-+ (NSString *) labelForDefaultButton;
-+ (NSString *) labelForAlternateButton;
-- (int) runDirectoryNotFoundAlertAndTerminateWithMessage : (NSString *) msg;
-- (int) runAlertPanelWithLocalizedString : (NSString *) title
-								 message : (NSString *) msg;
-- (int) runCriticalAlertPanelWithLocalizedString : (NSString *) title
-                                          message : (NSString *) msg;
-@end*/
 /* Vita Additions */
 @interface AppDefaults(Sounds)
 - (NSString *) HEADCheckNewArrivedSound;

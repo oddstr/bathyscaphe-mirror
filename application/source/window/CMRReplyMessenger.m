@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyMessenger.m,v 1.11 2007/03/25 03:51:51 masakih Exp $
+  * $Id: CMRReplyMessenger.m,v 1.12 2007/04/12 12:55:12 tsawada2 Exp $
   * 
   * CMRReplyMessenger.m
   *
@@ -46,9 +46,9 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 - (NSDictionary *) textAttributes
 {
 	return [NSDictionary dictionaryWithObjectsAndKeys : 
-					[self replyTextFont], 
+					[CMRPref replyFont], 
 					NSFontAttributeName,
-					[self replyTextColor], 
+					[CMRPref replyTextColor], 
 					NSForegroundColorAttributeName,
 					nil];
 }
@@ -270,7 +270,7 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 {
 	return [self threadTitle];
 }
-- (NSString *) threadIdentifier
+- (NSString *) datIdentifier
 {
 	return [self formItemKey];
 }
@@ -324,14 +324,6 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 - (NSRect) windowFrame
 {
 	return [[self infoDictionary] rectForKey : CMRThreadWindowFrameKey];
-}
-- (NSFont *) replyTextFont
-{
-	return [CMRPref replyFont];
-}
-- (NSColor *) replyTextColor
-{
-	return [CMRPref replyTextColor];
 }
 @end
 

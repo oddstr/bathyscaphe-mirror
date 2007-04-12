@@ -1,5 +1,5 @@
 //
-//  $Id: BSReplyTextView.m,v 1.1 2006/06/17 07:37:54 tsawada2 Exp $
+//  $Id: BSReplyTextView.m,v 1.2 2007/04/12 12:55:12 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/03/13.
@@ -34,6 +34,7 @@
 	if(aColor)
 		m_alphaValue = [aColor alphaComponent];
 
+	[[self window] setOpaque : (m_alphaValue < 1.0) ? NO : YES];
 	[super setBackgroundColor : aColor];
 }
 

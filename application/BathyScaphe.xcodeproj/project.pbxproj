@@ -527,6 +527,7 @@
 		8791EE2A097A5BC200EA7475 /* Status_HeadModified.png in Resources */ = {isa = PBXBuildFile; fileRef = 8791EE29097A5BC200EA7475 /* Status_HeadModified.png */; };
 		8794CC10089C033300161BAB /* BoardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8794CC0F089C033300161BAB /* BoardManager.m */; };
 		8795B91F08E3A7E3005C7C5B /* ToolbarItems.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8795B91E08E3A7E3005C7C5B /* ToolbarItems.strings */; };
+		879653F10BCE48BE0079EDFE /* AppDefaults-FCConvert.m in Sources */ = {isa = PBXBuildFile; fileRef = 879653F00BCE48BE0079EDFE /* AppDefaults-FCConvert.m */; };
 		8796FA420A9189D400DE3A90 /* BSSettingTxtDetector.h in Headers */ = {isa = PBXBuildFile; fileRef = 8796FA400A9189D400DE3A90 /* BSSettingTxtDetector.h */; };
 		8796FA430A9189D400DE3A90 /* BSSettingTxtDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 8796FA410A9189D400DE3A90 /* BSSettingTxtDetector.m */; };
 		879B0B8C0B6237A400EFD6D0 /* BSThreadInfoPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 879B0B8A0B6237A400EFD6D0 /* BSThreadInfoPanel.nib */; };
@@ -1465,6 +1466,7 @@
 		8792D83B05E21AE20074B2BE /* UTILError.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; name = UTILError.h; path = ../misc/utilkit/UTILError.h; sourceTree = SOURCE_ROOT; };
 		8794CC0F089C033300161BAB /* BoardManager.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = BoardManager.m; sourceTree = "<group>"; };
 		8795B92008E3A7EC005C7C5B /* Japanese */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; lineEnding = 0; name = Japanese; path = Japanese.lproj/ToolbarItems.strings; sourceTree = "<group>"; };
+		879653F00BCE48BE0079EDFE /* AppDefaults-FCConvert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-FCConvert.m"; sourceTree = "<group>"; };
 		8796FA400A9189D400DE3A90 /* BSSettingTxtDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSSettingTxtDetector.h; sourceTree = "<group>"; };
 		8796FA410A9189D400DE3A90 /* BSSettingTxtDetector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSSettingTxtDetector.m; sourceTree = "<group>"; };
 		879B0B8B0B6237A400EFD6D0 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSThreadInfoPanel.nib; sourceTree = "<group>"; };
@@ -3172,6 +3174,7 @@
 				F324DCE104C698FB00A80005 /* AppDefaults-LibPath.m */,
 				F324DCE304C698FB00A80005 /* AppDefaults-ThreadsList.m */,
 				F324DCE404C698FB00A80005 /* AppDefaults-ThreadViewer.m */,
+				879653F00BCE48BE0079EDFE /* AppDefaults-FCConvert.m */,
 			);
 			name = default;
 			sourceTree = "<group>";
@@ -4828,6 +4831,7 @@
 				87CCC7B00BB53DE500813E93 /* AppDefaults-Sounds.m in Sources */,
 				F4EFF93D0BB672D800DF90C6 /* BSThreadListItem.m in Sources */,
 				878B4DC00BB8D74E00829D2B /* BSNobiNobiToolbarItem.m in Sources */,
+				879653F10BCE48BE0079EDFE /* AppDefaults-FCConvert.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyMessenger.h,v 1.8 2007/03/25 03:51:51 masakih Exp $
+  * $Id: CMRReplyMessenger.h,v 1.9 2007/04/12 12:55:12 tsawada2 Exp $
   * 
   * CMRReplyMessenger.h
   *
@@ -73,8 +73,6 @@
 - (NSString *) mail;
 - (NSDate *) modifiedDate;
 - (NSRect) windowFrame;
-- (NSFont *) replyTextFont;
-- (NSColor *) replyTextColor;
 @end
 
 @interface CMRReplyMessenger(ScriptingSupport)

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyController-ViewAccessor.m,v 1.16 2007/01/07 17:04:24 masakih Exp $
+  * $Id: CMRReplyController-ViewAccessor.m,v 1.17 2007/04/12 12:55:12 tsawada2 Exp $
   * 
   * CMRReplyController-ViewAccessor.m
   *
@@ -10,6 +10,8 @@
 #import "AppDefaults.h"
 #import <SGAppKit/BSReplyTextView.h>
 #import <SGAppKit/BSLayoutManager.h>
+
+static void *kReplySettingsContext = @"EternalBlaze";
 
 @implementation CMRReplyController(View)
 + (Class) toolbarDelegateImpClass 
@@ -35,13 +37,13 @@
 - (void) updateTextView
 {
 	BSReplyTextView	*textView_ = (BSReplyTextView *)[self textView];
-	NSColor		*bgColor_ = [CMRPref replyBackgroundColor];
+//	NSColor		*bgColor_ = [CMRPref replyBackgroundColor];
 	
 	if (nil == textView_)
 		return;
 
 	[(BSLayoutManager *)[textView_ layoutManager] setShouldAntialias: [CMRPref shouldThreadAntialias]];
-
+/*
 	NSColor		*textColor_ = [[self document] replyTextColor];
 	[textView_ setFont : [[self document] replyTextFont]];
 	[textView_ setTextColor : textColor_];
@@ -54,14 +56,34 @@
 		[textView_ setDrawsBackground : YES];
 		[textView_ setBackgroundColor : bgColor_ withAlphaComponent : alpha_];
 	}
-
+*/
 	[textView_ setNeedsDisplay : YES];
 }
+
+- (void) observeValueForKeyPath: (NSString *) keyPath ofObject: (id) object change: (NSDictionary *) change context: (void *) context
+{
+	if (context == kReplySettingsContext && object == CMRPref) {
+		NSColor *newColor = [change objectForKey: NSKeyValueChangeNewKey];
+		NSTextView *textView = [self textView];
+		if (!newColor) {
+			NSLog(@"Warning! -[observeValueForKeyPath:ofObject:change:context:] color is nil.");
+			return;
+		}
+		if ([keyPath isEqualToString: @"threadViewTheme.replyColor"]) {
+			[textView setTextColor: newColor];
+			[textView setInsertionPointColor: newColor];
+		} else if ([keyPath isEqualToString: @"threadViewTheme.replyBackgroundColor"]) {
+			[textView setBackgroundColor: newColor];
+		}
+		[textView setNeedsDisplay: YES];
+	}
+}
+
 - (void) setupScrollView
 {
 	NSScrollView	*scrollView_ = [self scrollView];
 
-	[scrollView_ setBorderType : NSNoBorder];//NSBezelBorder];
+	[scrollView_ setBorderType : NSNoBorder];
 	[scrollView_ setHasHorizontalScroller : NO];
 	[scrollView_ setHasVerticalScroller : YES];
 }
@@ -71,6 +93,7 @@
 	NSTextContainer	*container;
 	NSTextView		*view;
 	NSRect			cFrame;
+	BSThreadViewTheme *theme;
 	
 	[self setupScrollView];
 	
@@ -104,13 +127,32 @@
 	[view setSelectable : YES];
 	[view setImportsGraphics : NO];
 	[view setRichText : NO];
-	
-	[view setDelegate : self];
-	
+
+	theme = [CMRPref threadViewTheme];
+	[view setTextColor: [theme replyColor]];
+	[view setInsertionPointColor: [theme replyColor]];
+
+	[view setDelegate : self];	
 	
 	_textView = view;
 	[[self scrollView] setDocumentView : _textView];
+
+	[view setDrawsBackground: YES];
+	[view setBackgroundColor: [theme replyBackgroundColor]];
 	[self updateTextView];
+
+	[view bind: @"font" toObject: CMRPref withKeyPath: @"threadViewTheme.replyFont" options: nil];
+
+	// textColor だけ変えるなら KVB でも良いが、一緒に insertionPointColor も
+	// 変えたいので、KVO で行くことにする。
+	[CMRPref addObserver: self
+			  forKeyPath: @"threadViewTheme.replyColor"
+				 options: NSKeyValueObservingOptionNew
+				 context: kReplySettingsContext];
+	[CMRPref addObserver: self
+			  forKeyPath: @"threadViewTheme.replyBackgroundColor"
+			     options: NSKeyValueObservingOptionNew
+				 context: kReplySettingsContext];
 }
 
 // ウインドウ領域の調節

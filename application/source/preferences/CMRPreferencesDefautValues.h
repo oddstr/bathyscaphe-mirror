@@ -37,6 +37,8 @@
 #define DEFAULT_THREADS_VIEW_FONTSIZE			12.0f
 #define DEFAULT_HOST_FONTSIZE					10.0f
 #define DEFAULT_BEPROFILELINK_FONTSIZE			10.0f
+#define OLD_DEFAULT_MESSAGE_NAME_COLOR			[NSColor colorWithCalibratedRed: 0.0f green: 0.56f blue: 0.0f alpha: 1.0f]
+#define OLD_DEFAULT_MESSAGE_TITLE_COLOR			[NSColor colorWithCalibratedRed: 0.56f green: 0.0f blue: 0.0f alpha: 1.0f]
 
 // ThreadViewer
 #define kPreferencesDefault_MailAttachmentShown	YES
@@ -77,7 +79,7 @@
 
 // Background
 #define DEFAULT_STABLE_DRAWS_STRIPED	NO
-#define DEFAULT_BOARD_LIST_BG_COLOR		[NSColor colorWithDeviceRed:(231.0/255.0) green:(237.0/255.0) blue:(248.0/255.0) alpha:1.0]
+#define DEFAULT_BOARD_LIST_BG_COLOR		[NSColor colorWithCalibratedRed:(231.0/255.0) green:(237.0/255.0) blue:(248.0/255.0) alpha:1.0]
 #define DEFAULT_POPUP_BG_COLOR			[NSColor colorWithCalibratedHue : 0.14f saturation : 0.2f brightness : 1.0f alpha : 1.0f]
 #define DEFAULT_POPUP_BG_ALPHA			0.85
 #define DEFAULT_REPLY_BG_ALPHA			1.0

@@ -1,3 +1,37 @@
+2007-04-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/preferences/AppDefaults-FCConvert.m
+		[新規追加] AppDefaults-FontColor.m から分割した。
+	* IBPallete/BSFontWell/BSFontWellPalette.m
+		微修正。
+	* application/source/preferences/AppDefaults-Background.m
+	* application/source/preferences/AppDefaults-FontColor.m
+	* application/source/preferences/AppDefaults.m
+	* application/source/preferences/AppDefaults_p.h
+	* application/source/preferences/CMRPreferencesDefautValues.h
+		AppDefaults クラスのソース記述整理を引き続き行った。
+	* application/Resources/Japanese.lproj/ThreadViewer.strings
+	* application/source/thread/CMRThreadViewer-Link.m
+	* application/source/view/CMRThreadView.m
+		逆参照ポップアップをレス番号のメニューから表示させたときの表示位置を改良。また
+		逆参照すべきレスが無いときの動作を改良した。
+	* application/source/thread/CMRThreadViewer-ViewAccessor.m
+		細部の調整。
+	* application/source/window/CMRReplyController-ViewAccessor.m
+	* application/source/window/CMRReplyController.m
+	* application/source/window/CMRReplyMessenger.m
+		無駄なメソッドの削除・および -identifier メソッドが重複して記述されていたので片方を -datIdentifier に
+		変更した。また、テーマの取り扱い変更に対応して必要な修正を行った。
+	* frameworks/SGAppKit/framework/src/custom/bathyscaphe/BSReplyTextView.m
+		テキストビューの初期化で必要な作業の一部を、BSReplyTextView 内部で自動的に行うようにした。
+2007-04-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/Japanese.lproj/ViewPane.nib
+		「環境設定」＞「表示」ペインは、テーマの取り扱い変更に合わせて再びインタフェースを変更した。
+	* frameworks/CocoMonar/framework/src/BSThreadViewTheme.m
+		CocoMonar Framework: BSThreadViewTheme クラスをアップデートし、以下の属性もテーマに保存するようにした：
+		- 書き込みウインドウのフォント・カラー・背景のカラーとその透明度
+		- ポップアップの背景のカラーとその透明度、テキストに代替カラーを用いるかどうか・およびその代替カラー
+		-initWithCoder: で、上記の新しいデータが無いとき（＝古いテーマからのアンアーカイブ）は自動的にデフォルトの設定を作成して
+		添加するようにした。
 2007-04-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/BSDBThreadList.m
 	* application/source/browser/CMRThreadsList-DataSource.m
