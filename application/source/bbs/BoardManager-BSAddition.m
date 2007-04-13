@@ -642,7 +642,8 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 
 - (BOOL) needToDetectNoNameForBoard: (NSString *) boardName
 {
-	if ([boardName isEqualToString: BSbbynewsBoardName]) return NO;
+//	if ([boardName isEqualToString: BSbbynewsBoardName]) return NO;
+	if ([boardName hasSuffix: @"headline"]) return NO;
 	NSSet *set_ = [self defaultNoNameSetForBoard: boardName];
 	if (!set_ || [set_ count] == 0) return YES;
 	

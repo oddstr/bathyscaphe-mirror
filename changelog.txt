@@ -1,3 +1,15 @@
+2007-04-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/bbs/BoardManager-BSAddition.m
+	* application/source/bbs/BSBoardInfoInspector.m
+		速報headline 板だけでなく、末尾に「headline」が付くすべての掲示板で、名無しさんの解析を試みないようにした。
+	* application/source/browser/CMRBrowser-Delegate.m
+	* application/Resources/text/KeyValueTemplates.plist
+		KeyValueTemplates.plist に新しいキー "Browser - DelayForAutoReloadAtWaking" を追加。real 値を取り、
+		デフォルト値は 0.0。
+		コンピュータのスリープ解除時に自動的にスレッド一覧を更新する機能について、コンピュータとネットワークの状態などによっては
+		スリープ解除通知が来た時点でネットワークのハードウェアが完全に目覚め切っていない場合があり、一覧の更新に失敗することが
+		あった。このため、この値をカスタマイズすることで「スリープ解除後、少し待ってから一覧の更新を行う」ことができるようにした。
+		デフォルトの 0.0 というのは、待たないということ。例えば 2秒待ってから一覧を更新させたければ、値を 2.0 にカスタマイズせよ。
 2007-04-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/preferences/AppDefaults-FCConvert.m
 		[新規追加] AppDefaults-FontColor.m から分割した。

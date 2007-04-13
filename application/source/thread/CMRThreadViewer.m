@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.44 2007/03/23 17:27:52 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.45 2007/04/13 09:50:08 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -896,46 +896,40 @@ NSString *kComposingNotificationNames[] = {
 
 - (void) registerToNotificationCenter
 {
-	[[NSNotificationCenter defaultCenter]
-	  addObserver : self
-	     selector : @selector(appDefaultsLayoutSettingsUpdated:)
-	         name : AppDefaultsLayoutSettingsUpdatedNotification
-	       object : CMRPref];
-	[[NSNotificationCenter defaultCenter]
-	  addObserver : self
-	     selector : @selector(trashDidPerformNotification:)
-	         name : CMRTrashboxDidPerformNotification
-	       object : [CMRTrashbox trash]];
-	[[NSNotificationCenter defaultCenter]
-	  addObserver : self
-	     selector : @selector(applicationDidReset:)
-	         name : CMRApplicationDidResetNotification
-	       object : nil];
-	[[NSNotificationCenter defaultCenter]
-	  addObserver : self
-	     selector : @selector(threadViewerRunSpamFilter:)
-	         name : CMRThreadViewerRunSpamFilterNotification
-	       object : nil];
+	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+	[nc addObserver: self
+		   selector: @selector(appDefaultsLayoutSettingsUpdated:)
+			   name: AppDefaultsLayoutSettingsUpdatedNotification
+			 object: CMRPref];
+	[nc addObserver: self
+	       selector: @selector(trashDidPerformNotification:)
+			   name: CMRTrashboxDidPerformNotification
+			 object: [CMRTrashbox trash]];
+	[nc addObserver: self
+		   selector: @selector(applicationDidReset:)
+			   name: CMRApplicationDidResetNotification
+			 object: nil];
+	[nc addObserver: self
+		   selector: @selector(threadViewerRunSpamFilter:)
+			   name: CMRThreadViewerRunSpamFilterNotification
+	         object: nil];
 	[super registerToNotificationCenter];
 }
 - (void) removeFromNotificationCenter
 {
-	[[NSNotificationCenter defaultCenter]
-	  removeObserver : self
-	            name : AppDefaultsLayoutSettingsUpdatedNotification
-	          object : CMRPref];
-	[[NSNotificationCenter defaultCenter]
-	  removeObserver : self
-	            name : CMRTrashboxDidPerformNotification
-	          object : [CMRTrashbox trash]];
-	[[NSNotificationCenter defaultCenter]
-	  removeObserver : self
-	            name : CMRApplicationDidResetNotification
-	          object : nil];
-	[[NSNotificationCenter defaultCenter]
-	  removeObserver : self
-	            name : CMRThreadViewerRunSpamFilterNotification
-	          object : nil];
+	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+	[nc removeObserver: self
+				  name: AppDefaultsLayoutSettingsUpdatedNotification
+				object: CMRPref];
+	[nc removeObserver: self
+				  name: CMRTrashboxDidPerformNotification
+				object: [CMRTrashbox trash]];
+	[nc removeObserver: self
+				  name: CMRApplicationDidResetNotification
+				object: nil];
+	[nc removeObserver: self
+				  name: CMRThreadViewerRunSpamFilterNotification
+				object: nil];
 	[super removeFromNotificationCenter];
 }
 + (NSString *) localizableStringsTableName

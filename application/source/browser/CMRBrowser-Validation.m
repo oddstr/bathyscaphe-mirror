@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-Validation.m,v 1.23 2007/03/26 00:03:51 tsawada2 Exp $
+ * $Id: CMRBrowser-Validation.m,v 1.24 2007/04/13 09:50:08 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -111,21 +111,6 @@
 	if(action_ == @selector(reloadThreadsList:)){
 		id tmp_ = [self currentThreadsList];
 		if(nil == tmp_) return NO;
-/*
-		if(([tmp_ isFavorites] || [tmp_ isSmartItem]) && ![CMRPref canHEADCheck]) {
-			if ([theItem respondsToSelector : @selector(setToolTip:)]) {
-				NSDate *newDate_ = [CMRPref nextHEADCheckAvailableDate];
-				NSString *dateStr_ =
-					[NSString stringWithFormat : NSLocalizedString(@"HEADCheck Disabled ToolTip", @"Can't use HEADCheck until %@"),
-												 [newDate_ descriptionWithCalendarFormat : @"%H:%M" timeZone: nil locale:nil]];
-				[theItem setToolTip : dateStr_];
-			}
-			return NO;
-		} else {
-			if ([theItem respondsToSelector : @selector(setToolTip:)])
-				[theItem setToolTip : NSLocalizedString(@"Reload List ToolTip", @"Reload current thread list.")];
-			return YES;
-		}*/
 
 		if (!kToolTipNormal || !kToolTipWaiting) {
 			kToolTipNormal = [NSLocalizedStringFromTable(@"Reload List ToolTip", @"ToolbarItems", @"") retain];

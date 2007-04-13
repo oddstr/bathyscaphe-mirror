@@ -41,6 +41,7 @@
 #define kSelectLastBBSNotification @"kSelectLastBBSNotification"
 
 // PropertyList
+#define kThreadsListReloadDelayKey			@"Browser - DelayForAutoReloadAtWaking"
 #define kThreadsListTableICSKey				@"Browser - ListViewInterCellSpacing"
 #define kThreadsListTableActionKey			@"Browser - ListViewAction"
 #define kThreadsListTableDoubleActionKey	@"Browser - ListViewDoubleAction"

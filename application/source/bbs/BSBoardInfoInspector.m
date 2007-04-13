@@ -204,7 +204,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	int state_ = [sender state];
 	
 	if (state_ == NSOffState) { // unlock --> lock
-		if (NO == [[self currentTargetBoardName] isEqualToString: BSbbynewsBoardName]) {
+//		if (NO == [[self currentTargetBoardName] isEqualToString: BSbbynewsBoardName]) {
+		if (NO == [[self currentTargetBoardName] hasSuffix: @"headline"]) {
 			[[self window] makeFirstResponder: m_namesTable];
 		} else {
 			[[self window] makeFirstResponder: [self window]];
@@ -257,7 +258,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 - (BOOL) shouldEnableUI
 {
 	NSString *tmp_ = [self currentTargetBoardName];
-	if (/*[tmp_ isEqualToString : CMXFavoritesDirectoryName] || */[tmp_ isEqualToString: BSbbynewsBoardName]) return NO;
+//	if ([tmp_ isEqualToString: BSbbynewsBoardName]) return NO;
+	if ([tmp_ hasSuffix: @"headline"]) return NO;
 	if ([[BrdMgr itemForName: tmp_] type] != BoardListBoardItem) return NO;
 	return YES;
 }

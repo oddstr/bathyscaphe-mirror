@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.39 2007/03/27 14:42:06 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.40 2007/04/13 09:50:08 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -534,7 +534,12 @@ NSLog(@"didUpdate");
 - (void) sleepDidEnd : (NSNotification *) aNotification
 {
 	if ([CMRPref isOnlineMode] && [CMRPref autoReloadListWhenWake] && ![[self currentThreadsList] isFavorites]) {
-		[self reloadThreadsList : nil];
+//		[self reloadThreadsList : nil];
+		id value = SGTemplateResource(kThreadsListReloadDelayKey);
+		UTILAssertKindOfClass(value, NSNumber);
+		NSTimeInterval delay = [value doubleValue];
+//		NSLog(@"Delay is %.1f", delay);
+		[self performSelector: @selector(reloadThreadsList:) withObject: nil afterDelay: delay];
 	}
 }
 

@@ -4,6 +4,8 @@
 <dict>
 	<key>BBSList - IndentationPerLevel</key>
 	<integer>16</integer>
+	<key>Browser - DelayForAutoReloadAtWaking</key>
+	<real>0.0</real>
 	<key>Browser - ListViewAction</key>
 	<string>selectThread:</string>
 	<key>Browser - ListViewDoubleAction</key>
@@ -35,14 +37,14 @@
 		<integer>2561</integer>
 		<integer>2336</integer>
 	</array>
-	<key>System - be2ch Profile URL</key>
-	<string>http://be.2ch.net/test/p.php?i=%@&amp;u=d:%@</string>
-	<key>System - relatedKeywords URL</key>
-	<string>http://p2.2ch.io/getf.cgi?%@</string>
 	<key>System - Software Update Check URL</key>
 	<string>http://bathyscaphe.sourceforge.jp/download/updatecheck-sp.plist</string>
 	<key>System - Software Update Download Page URL</key>
 	<string>http://sourceforge.jp/projects/bathyscaphe/files/</string>
+	<key>System - be2ch Profile URL</key>
+	<string>http://be.2ch.net/test/p.php?i=%@&amp;u=d:%@</string>
+	<key>System - relatedKeywords URL</key>
+	<string>http://p2.2ch.io/getf.cgi?%@</string>
 	<key>Thread - AAD Regular Expression</key>
 	<string>(?:　{3}|(?: 　){2}|[─￣＿]{4}|[дД])</string>
 	<key>Thread - CopyThreadFormat</key>
