@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRStatusLine.m,v 1.12 2007/02/11 17:13:48 tsawada2 Exp $
+  * $Id: CMRStatusLine.m,v 1.13 2007/04/13 12:31:41 tsawada2 Exp $
   * 
   * CMRStatusLine.m
   *
@@ -196,7 +196,7 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
     UTILAssertNotificationName(
         theNotification,
         CMRTaskWillProgressNotification);
-    
+
     [self updateStatusLineWithTask : [theNotification object]];
 }
 

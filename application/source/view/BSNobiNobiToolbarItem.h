@@ -20,4 +20,5 @@
 
 @interface BSNobiNobiToolbarItem : NSToolbarItem {
 }
+- (void) adjustTo: (NSNumber *) floatWrapper;
 @end

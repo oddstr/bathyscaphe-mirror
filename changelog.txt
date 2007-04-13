@@ -1,4 +1,10 @@
 2007-04-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/composer/CMRAttributedMessageComposer-Anchor.m
+		内部リンクの生成時によく呼び出されている +[NSCharacterSet whiteSpaceCharacterSet] をキャッシュするようにした。
+	* application/source/browser/CMRBrowser-Delegate.m
+	* application/source/view/BSNobiNobiToolbarItem.m
+		掲示板リストの幅をリサイズしたときに、「掲示板リスト分のスペース」ツールバー項目がツールバーにあるとリサイズが
+		もたつく問題を少し軽減（ツールバー項目へのリサイズ指令を遅延実行、実行前に次の指令が出た場合は前の指令をキャンセル）。
 	* application/source/bbs/BoardManager-BSAddition.m
 	* application/source/bbs/BSBoardInfoInspector.m
 		速報headline 板だけでなく、末尾に「headline」が付くすべての掲示板で、名無しさんの解析を試みないようにした。

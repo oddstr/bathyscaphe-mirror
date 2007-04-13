@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer-Convert.m,v 1.7 2007/03/21 07:54:05 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer-Convert.m,v 1.8 2007/04/13 12:31:41 tsawada2 Exp $
   * 
   * CMRAttributedMessageComposer-Convert.m
   *
@@ -29,7 +29,7 @@ static void convertMessageWith(NSMutableAttributedString *ms)
 	NSMutableString	*contents_ = [ms mutableString];
 
 	if(!regExpUl) {
-		NSString *tmp = [NSString stringWithFormat: @"(%@) <ul> ", NSLocalizedString(@"saku target", @"")];
+		NSString *tmp = [NSString stringWithFormat: @"(%@) <ul> ", NSLocalizedStringFromTable(@"saku target", @"MessageComposer", @"")];
 		regExpUl = [[OGRegularExpression alloc] initWithString: tmp];
 	}
 	if(!regExp) {

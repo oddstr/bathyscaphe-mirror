@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer-Anchor.m,v 1.3 2005/12/10 12:39:44 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer-Anchor.m,v 1.4 2007/04/13 12:31:41 tsawada2 Exp $
   * 
   * CMRAttributedMessageComposer-Anchor.m
   *
@@ -104,7 +104,10 @@ static BOOL scanURLCharactersFallDown(NSScanner *scanner, NSMutableString *strin
 	NSCharacterSet		*cset_;
 	NSRange				specRange;			// 範囲指定部分
 	unsigned			scanLocation_;
-	
+	static NSCharacterSet *whiteSpaceSet = nil;
+	if (!whiteSpaceSet) {
+		whiteSpaceSet = [[NSCharacterSet whitespaceCharacterSet] retain];
+	}
 	src_ = [scanner string];
 	
 	// スキャン開始。
@@ -112,8 +115,9 @@ static BOOL scanURLCharactersFallDown(NSScanner *scanner, NSMutableString *strin
 	[scanner setScanLocation : linkRange.location];
 	[scanner scanCharactersFromSet : startCharacters 
 						intoString : NULL];
-	cset_ = [NSCharacterSet whitespaceCharacterSet];
-	[scanner scanCharactersFromSet:cset_ intoString:NULL];
+//	cset_ = [NSCharacterSet whitespaceCharacterSet];
+//	[scanner scanCharactersFromSet:cset_ intoString:NULL];
+	[scanner scanCharactersFromSet:whiteSpaceSet intoString:NULL];
 	
 	specRange.location = [scanner scanLocation];
 	specRange.length   = 0;
@@ -130,8 +134,9 @@ static BOOL scanURLCharactersFallDown(NSScanner *scanner, NSMutableString *strin
 		// ひとつでも数値を読んだら、リンクを貼ることができる
 		scanLocation_ = [scanner scanLocation];
 		
-		cset_ = [NSCharacterSet whitespaceCharacterSet];
-		[scanner scanCharactersFromSet:cset_ intoString:NULL];
+//		cset_ = [NSCharacterSet whitespaceCharacterSet];
+//		[scanner scanCharactersFromSet:cset_ intoString:NULL];
+		[scanner scanCharactersFromSet:whiteSpaceSet intoString:NULL];
 		if ([scanner isAtEnd]) break;
 		
 		// 区切り文字または範囲指定文字
@@ -144,8 +149,9 @@ static BOOL scanURLCharactersFallDown(NSScanner *scanner, NSMutableString *strin
 		}
 		[scanner setScanLocation : [scanner scanLocation] +1];
 		
-		cset_ = [NSCharacterSet whitespaceCharacterSet];
-		[scanner scanCharactersFromSet:cset_ intoString:NULL];
+//		cset_ = [NSCharacterSet whitespaceCharacterSet];
+//		[scanner scanCharactersFromSet:cset_ intoString:NULL];
+		[scanner scanCharactersFromSet:whiteSpaceSet intoString:NULL];
 	}
 	if (NSNotFound == scanLocation_)
 		return NO;
@@ -157,12 +163,8 @@ static BOOL scanURLCharactersFallDown(NSScanner *scanner, NSMutableString *strin
 	linkRange.length = ([scanner scanLocation] - linkRange.location);
 	specRange.length = ([scanner scanLocation] - specRange.location);
 	
-	link_ = [[scanner string] substringWithRange : specRange];
-	//link_ = CMRLocalResLinkWithString(link_);
-	link_ = [NSString stringWithFormat : @"%@:%@", CMRAttributeInnerLinkScheme, link_];
+	link_ = [NSString stringWithFormat : @"%@:%@", CMRAttributeInnerLinkScheme, [[scanner string] substringWithRange : specRange]];
 	
-	//[mAttrStr addAttributes : [ATTR_TEMPLATE attributesForAnchor]
-	//				  range : linkRange];
 	[mAttrStr addAttribute : NSLinkAttributeName
 				     value : link_
 					 range : linkRange];

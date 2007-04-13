@@ -28,6 +28,15 @@
 	[nnView setShouldDrawBorder: YES];
 	return tmpcopy;
 }
+
+- (void) adjustTo: (NSNumber *) floatWrapper
+{
+	float width = [floatWrapper floatValue];
+	NSSize		size_;
+	size_ = NSMakeSize(width-8, 30);
+	[self setMinSize : size_];
+	[self setMaxSize : size_];
+}
 @end
 
 @implementation BSNobiNobiView

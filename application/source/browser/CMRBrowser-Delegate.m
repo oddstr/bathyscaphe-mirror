@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.40 2007/04/13 09:50:08 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.41 2007/04/13 12:31:41 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -9,7 +9,7 @@
 #import "CMRBrowser_p.h"
 #import "BoardManager.h"
 #import "missing.h"
-
+#import "BSNobiNobiToolbarItem.h"
 extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
 
 @implementation CMRBrowser(Delegate)
@@ -349,7 +349,9 @@ BOOL isOptionKeyDown(unsigned flag_)
 		NSToolbarItem *eachItem;
 		while (eachItem = [iter nextObject]) {
 			if ([[eachItem itemIdentifier] isEqualToString: @"Boards List Space"]) {
-				[[toolbar delegate] adjustNobiNobiViewTbItem: eachItem to: toRect.size.width];
+				[NSObject cancelPreviousPerformRequestsWithTarget:eachItem selector:@selector(adjustTo:) object:nil];
+				[(BSNobiNobiToolbarItem *)eachItem performSelector:@selector(adjustTo:) withObject:[NSNumber numberWithFloat:toRect.size.width] afterDelay:0.2];
+//				[[toolbar delegate] adjustNobiNobiViewTbItem: eachItem to: toRect.size.width];
 				return;
 			}
 		}
