@@ -58,7 +58,7 @@ static BOOL shouldCheckItemHeader(id dict);
 }
 - (NSString *)title
 {
-	NSString *format = NSLocalizedString(@"Checking SmartBoard(%@).", @"ProgressBoardListItemHEADCheck.");
+	NSString *format = NSLocalizedStringFromTable(@"Checking SmartBoard(%@).", @"ThreadsList", @"");
 	return [NSString stringWithFormat:format, [item name]];
 }
 - (void)setAmountString:(NSString *)str
@@ -88,7 +88,7 @@ static BOOL shouldCheckItemHeader(id dict);
 	} else if([self descString]) {
 		return [self descString];
 	}
-	return [NSString stringWithFormat:NSLocalizedString(@"ProgressBoardListItemHEADCheck.", "ProgressBoardListItemHEADCheck.")];
+	return [NSString stringWithFormat:NSLocalizedStringFromTable(@"ProgressBoardListItemHEADCheck.", @"ThreadsList", @"")];
 }
 - (void)playFinishSoundIsUpdate:(BOOL)isUpDate
 {
@@ -120,10 +120,10 @@ static BOOL shouldCheckItemHeader(id dict);
 	int numberOfFinishCheck = 0;
 	int numberOfSkip = 0;
 	int numberOFChecked = 0; // HEAD を送信した回数
-	NSString *hage = NSLocalizedString(@"%d/%d (%d skiped)", @"");
+	NSString *hage = NSLocalizedStringFromTable(@"%d/%d (%d skiped)", @"ThreadsList", @"");
 
 	[self setAmountString:[NSString stringWithFormat:hage, numberOfFinishCheck, numberOfAllTarget, numberOfSkip]];
-	[self setDescString:NSLocalizedString(@"Checking thread", @"")];
+	[self setDescString:NSLocalizedStringFromTable(@"Checking thread", @"ThreadsList", @"")];
 	
 	threadsEnum = [threads objectEnumerator];
 	while(thread = [threadsEnum nextObject]) {
@@ -133,7 +133,7 @@ static BOOL shouldCheckItemHeader(id dict);
 		id response;
 		id newMod;
 		
-		NSString *fuga = NSLocalizedString(@"%d/%d (%d skiped)", @"");
+		NSString *fuga = NSLocalizedStringFromTable(@"%d/%d (%d skiped)", @"ThreadsList", @"");
 		
 		[self checkIsInterrupted];
 		[self setAmountString:[NSString stringWithFormat:fuga, ++numberOfFinishCheck, numberOfAllTarget, numberOfSkip]];
@@ -197,7 +197,7 @@ static BOOL shouldCheckItemHeader(id dict);
 	NSString *table = [item query];
 	if(!table) return nil;
 	
-	[self setDescString:NSLocalizedString(@"Collecting infomation of thread", @"")];
+	[self setDescString:NSLocalizedStringFromTable(@"Collecting infomation of thread", @"ThreadsList", @"")];
 	
 	db = [[DatabaseManager defaultManager] databaseForCurrentThread];
 	
@@ -330,7 +330,7 @@ static NSURL *urlForBoardNameAndThredID(NSString *boardName, NSString *threadID)
 {
 	SQLiteDB *db = [[DatabaseManager defaultManager] databaseForCurrentThread];
 	
-	[self setDescString:NSLocalizedString(@"Reseting new threads status.", @"")];
+	[self setDescString:NSLocalizedStringFromTable(@"Reseting new threads status.", @"ThreadsList", @"")];
 	
 	if(db && [db beginTransaction]) {
 		id cursor = nil;
@@ -373,7 +373,7 @@ static NSURL *urlForBoardNameAndThredID(NSString *boardName, NSString *threadID)
 	int numberOfAllTarget = [threads count];
 	int numberOfFinishCheck = 0;
 	[self setAmountString:[NSString stringWithFormat:@"%d/%d", numberOfFinishCheck, numberOfAllTarget]];
-	[self setDescString:NSLocalizedString(@"Updating database", @"")];
+	[self setDescString:NSLocalizedStringFromTable(@"Updating database", @"ThreadsList", @"")];
 	
 	SQLiteDB *db = [[DatabaseManager defaultManager] databaseForCurrentThread];
 	

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRExports.h,v 1.9 2007/01/07 17:04:23 masakih Exp $
+  * $Id: CMRExports.h,v 1.10 2007/04/13 15:29:14 tsawada2 Exp $
   * 
   * CMRExports.h
   *
@@ -42,19 +42,13 @@ extern void CMXServicesInit(void);
  * @abstract    ログ出力オブジェクト
  * @discussion  アプリケーション全体で使用するログ出力オブジェクト
  */
-extern SGUtilLogger *CMRLogger;
+//extern SGUtilLogger *CMRLogger;
 
 /*!
  * @category    CMXFavoritesDirectoryName
  * @discussion  Version 1 との互換性のためだけの機能
  */
-#define CMXFavoritesDirectoryName	NSLocalizedString(@"Favorites", nil)
-
-/*!
- * @category    BSbbynewsBoardName
- * @discussion  速報headline 板の名前 (Available in ReinforceII and later)
- */
-#define BSbbynewsBoardName			NSLocalizedString(@"Headline", nil)
+#define CMXFavoritesDirectoryName	NSLocalizedString(@"Favorites", @"")
 
 #ifdef __cplusplus
 }  /* End of the 'extern "C"' block */

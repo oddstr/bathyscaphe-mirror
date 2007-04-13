@@ -1,3 +1,17 @@
+2007-04-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/ThreadViewerDefaultTheme.plist
+		デフォルトテーマを新しいフォーマットのものに変更した。
+	* application/Resources/Japanese.lproj/board_default.plist
+		最新のものに更新。
+	* application/Resources/Japanese.lproj/Downloader.strings
+	* application/Resources/Japanese.lproj/Localizable.strings
+	* application/Resources/Japanese.lproj/ThreadsList.strings
+	* application/source/browser/BSBoardListItemHEADCheckTask.m
+	* application/source/browser/BSDownloadTask.m
+	* application/source/browser/BSThreadListUpdateTask.m
+	* application/source/browser/BSThreadsListOPTask.m
+		ローカライズ文字列のテーブルを持ち替え。Localizable.strings から Downloader.strings および
+		ThreadsList.strings にいくつか移動させた。
 2007-04-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/composer/CMRAttributedMessageComposer-Anchor.m
 		内部リンクの生成時によく呼び出されている +[NSCharacterSet whiteSpaceCharacterSet] をキャッシュするようにした。
@@ -5,9 +19,12 @@
 	* application/source/view/BSNobiNobiToolbarItem.m
 		掲示板リストの幅をリサイズしたときに、「掲示板リスト分のスペース」ツールバー項目がツールバーにあるとリサイズが
 		もたつく問題を少し軽減（ツールバー項目へのリサイズ指令を遅延実行、実行前に次の指令が出た場合は前の指令をキャンセル）。
+	* application/source/CMRExports.h
+	* application/source/main.m
 	* application/source/bbs/BoardManager-BSAddition.m
 	* application/source/bbs/BSBoardInfoInspector.m
 		速報headline 板だけでなく、末尾に「headline」が付くすべての掲示板で、名無しさんの解析を試みないようにした。
+		追加：これに伴い、「速報headline」というローカライズ文字列のマクロを export していたのを廃止した。
 	* application/source/browser/CMRBrowser-Delegate.m
 	* application/Resources/text/KeyValueTemplates.plist
 		KeyValueTemplates.plist に新しいキー "Browser - DelayForAutoReloadAtWaking" を追加。real 値を取り、

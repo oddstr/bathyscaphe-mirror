@@ -56,7 +56,7 @@ NSString *BSThreadListUpdateTaskDidFinishNotification = @"BSThreadListUpdateTask
 - (NSString *) messageInProgress
 {
 	return [NSString stringWithFormat:
-		NSLocalizedString(@"Updating Thread(%@)", @"Updating Thread(%@)"),
+		NSLocalizedStringFromTable(@"Updating Thread(%@)", @"ThreadsList", @""),
 		bbsName];
 }
 

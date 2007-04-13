@@ -13,8 +13,8 @@ NSString *BSDownloadTaskReceiveResponceNotification = @"BSDownloadTaskReceiveRes
 NSString *BSDownloadTaskCanceledNotification = @"BSDownloadTaskCanceledNotification";
 NSString *BSDownloadTaskInternalErrorNotification = @"BSDownloadTaskInternalErrorNotification";
 NSString *BSDownloadTaskAbortDownloadNotification = @"BSDownloadTaskAbortDownloadNotification";
-NSString	*BSDownloadTaskServerResponseKey = @"BSDownloadTaskServerResponseKey"; // NSURLResponse
-NSString	*BSDownloadTaskStatusCodeKey = @"BSDownloadTaskStatusCodeKey"; // NSNumber (int)
+NSString *BSDownloadTaskServerResponseKey = @"BSDownloadTaskServerResponseKey"; // NSURLResponse
+NSString *BSDownloadTaskStatusCodeKey = @"BSDownloadTaskStatusCodeKey"; // NSNumber (int)
 NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadNotification";
 
 
@@ -121,8 +121,7 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 		[self postNotificationWithName:BSDownloadTaskInternalErrorNotification];
 		return;
 	}
-	[request setValue:[NSBundle monazillaUserAgent]//@"Monazilla/1.0 (Starlight Breaker/1.5 SBx)"
-   forHTTPHeaderField:@"User-Agent"];
+	[request setValue:[NSBundle monazillaUserAgent] forHTTPHeaderField:@"User-Agent"];
 	if(method) {
 		[request setHTTPMethod : method];
 	}
@@ -169,11 +168,11 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 }
 - (NSString *)title
 {
-	return NSLocalizedString(@"Download.", @"Download.");
+	return NSLocalizedStringFromTable(@"Download.", @"Downloader", @"");
 }
 - (NSString *) messageInProgress
 {
-	return [NSString stringWithFormat:NSLocalizedString(@"Download url(%@) (%.1fk)", "Download url(%@) (%.1fk)"),
+	return [NSString stringWithFormat:NSLocalizedStringFromTable(@"Download url(%@) (%.1fk)", @"Downloader", @""),
 		[self url], [self currentLength] / 1024.0];
 }
 - (double) amount

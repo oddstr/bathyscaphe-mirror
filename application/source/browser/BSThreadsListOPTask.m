@@ -204,12 +204,12 @@ fail:
 }
 - (NSString *)title
 {
-	return [NSString stringWithFormat:NSLocalizedString(@"Update threads list. %@", @"Update threads list."),
+	return [NSString stringWithFormat:NSLocalizedStringFromTable(@"Update threads list. %@", @"ThreadsList", @""),
 		bbsName];
 }
 - (NSString *) messageInProgress
 {
-	return [NSString stringWithFormat:NSLocalizedString(@"Update threads list. %@", @"Update threads list for %@."),
+	return [NSString stringWithFormat:NSLocalizedStringFromTable(@"Update threads list. %@", @"ThreadsList", @""),
 		bbsName];
 }
 

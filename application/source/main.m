@@ -14,7 +14,7 @@
 #import "CMRTrashbox.h"
 
 /* for Debugging */
-SGUtilLogger *CMRLogger = nil;
+//SGUtilLogger *CMRLogger = nil;
 
 void CMXServicesInit(void)
 {
