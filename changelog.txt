@@ -1,4 +1,13 @@
+2007-04-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/Credits.rtf
+		[削除] どういうわけか、プロジェクトにも登録されていないゾンビファイルがあったので削除。
+	* application/BathyScaphe.xcodeproj/project.pbxproj
+		未使用になって Starlight Breaker ターゲットから外れていたいくつかのソースファイルについて、プロジェクトから参照を削除
+		した。今後リポジトリからも削除されるだろう。
+================================================= Starlight Breaker v96
 2007-04-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/BSThreadInfoPanel.nib
+		NSTextField の word breaking の設定を変更。
 	* application/Resources/ThreadViewerDefaultTheme.plist
 		デフォルトテーマを新しいフォーマットのものに変更した。
 	* application/Resources/Japanese.lproj/board_default.plist
