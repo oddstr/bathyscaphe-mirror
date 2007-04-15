@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.22 2007/04/12 12:55:12 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.23 2007/04/15 08:46:10 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -43,7 +43,7 @@ static NSString *const AppDefaultsContentsSearchTargetKey = @"Contents Search Ta
 #define AppDefaultsHistoryBoardsKey			@"BoardHistoryItemLimit"
 #define AppDefaultsHistorySearchKey			@"RecentSearchItemLimit"
 
-// Proxy
+// Proxy (Deprecated)
 #define AppDefaultsProxyURLKey				@"ProxyURL"
 #define AppDefaultsProxyPortKey				@"ProxyPort"
 
@@ -106,6 +106,19 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 		[defaults_ removeObjectForKey: AppDefaultsIsFavImportedKey];
 		NSLog(@"Unused key %@ removed.", AppDefaultsIsFavImportedKey);
 	}
+	// proxy
+	if ([defaults_ boolForKey: @"UsesBSsOwnProxySettings"]) {
+		[defaults_ removeObjectForKey: @"UsesBSsOwnProxySettings"];
+		NSLog(@"Unused key UsesBSsOwnProxySettings removed.");
+	}
+	if ([defaults_ stringForKey: AppDefaultsProxyURLKey]) {
+		[defaults_ removeObjectForKey: AppDefaultsProxyURLKey];
+		NSLog(@"Unused key %@ removed.", AppDefaultsProxyURLKey);
+	}
+	if ([defaults_ integerForKey: AppDefaultsProxyPortKey]) {
+		[defaults_ removeObjectForKey: AppDefaultsProxyPortKey];
+		NSLog(@"Unused key %@ removed.", AppDefaultsProxyPortKey);
+	}	
 }
 
 - (void) loadThreadViewTheme
@@ -450,7 +463,7 @@ default_browserLastBoard:
 }
 
 #pragma mark Hidden Options
-- (BOOL) usesOwnProxy
+/*- (BOOL) usesOwnProxy
 {
 	return [[self defaults] boolForKey: @"UsesBSsOwnProxySettings" defaultValue: DEFAULT_USE_PROXY];
 }
@@ -464,7 +477,7 @@ default_browserLastBoard:
 		*port = [[self defaults] integerForKey: AppDefaultsProxyPortKey
 								  defaultValue: DEFAULT_PROXY_PORT];
 	}
-}
+}*/
 
 - (int) maxCountForThreadsHistory
 {

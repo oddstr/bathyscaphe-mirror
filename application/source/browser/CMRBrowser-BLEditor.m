@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-BLEditor.m,v 1.17 2007/03/21 09:08:47 tsawada2 Exp $
+ * $Id: CMRBrowser-BLEditor.m,v 1.18 2007/04/15 08:46:10 tsawada2 Exp $
  * BathyScaphe
  * CMRBrowser-Action.m, CMRBrowser-ViewAccessor.m から分割
  *
@@ -79,9 +79,26 @@ static NSString *const kRemoveDrawerItemMsgKey		= @"Browser Del Board Items Mess
 	} else if ([BoardListItem isFolderItem : item_]) {
 		[[self editBoardSheetController] beginEditCategorySheetForWindow: window_ modalDelegate: self contextInfo: name_];
 	} else if ([BoardListItem isSmartItem : item_]) {
-		[[SmartBoardListItemEditor editor] editWithUIWindow:[self window]
-											 smartBoardItem:item_];
+		SmartBoardListItemEditor *editor = [SmartBoardListItemEditor editor];
+		[[NSNotificationCenter defaultCenter] addObserver: self
+												 selector: @selector(smartBoardDidEdit:)
+													 name: SBLIEditorDidEditSmartBoardListItemNotification
+												   object: editor];
+		[editor editWithUIWindow:[self window] smartBoardItem:item_];
 	}
+}
+
+- (void) smartBoardDidEdit: (NSNotification *) aNotification
+{
+	id curThreadsListItem = [[self currentThreadsList] boardListItem];
+	id anotherItem = [aNotification userInfo];
+
+	if (curThreadsListItem == anotherItem) { // 編集したスマート掲示板を現在表示中である
+		[self showThreadsListForBoard: curThreadsListItem forceReload: YES]; // 編集後の条件で再読み込み
+	}
+	[[NSNotificationCenter defaultCenter] removeObserver: self
+													name: SBLIEditorDidEditSmartBoardListItemNotification
+												  object: nil];
 }
 
 - (IBAction) removeDrawerItem : (id) sender

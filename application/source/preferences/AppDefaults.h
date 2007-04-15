@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.40 2007/04/12 12:55:12 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.41 2007/04/15 08:46:10 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -119,10 +119,6 @@ typedef enum _BSAutoSyncIntervalType {
 - (void) setFindPanelExpanded: (BOOL) isExpanded;
 - (NSArray *) contentsSearchTargetArray;
 - (void) setContentsSearchTargetArray: (NSArray *) array;
-
-/* MeteorSweeper: Hidden Proxy Options */
-- (BOOL) usesOwnProxy;
-- (void) getOwnProxy: (NSString **) host port: (CFIndex *) port;
 
 #pragma mark History
 

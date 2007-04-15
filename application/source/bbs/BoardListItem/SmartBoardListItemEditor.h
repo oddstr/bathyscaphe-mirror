@@ -38,3 +38,6 @@
 - (IBAction)cancel:(id)sender;
 
 @end
+
+// スマート掲示板の名前や条件を変更した際に通知される
+extern NSString *const SBLIEditorDidEditSmartBoardListItemNotification;

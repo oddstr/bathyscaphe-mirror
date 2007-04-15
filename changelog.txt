@@ -1,4 +1,13 @@
 2007-04-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-List.m
+	* application/source/browser/CMRBrowser-BLEditor.m
+	* application/source/bbs/BoardListItem/SmartBoardListItemEditor.m
+		既存のスマート掲示板の条件を編集して変更した後は、自動的にそのスマート掲示板を再読み込みして新しい条件の下での結果を
+		表示するようにした。
+	* application/source/preferences/AppDefaults.[h|m]
+	* application/source/network/CMRDownloader.m
+	* application/subproj/reply/connector/SG2chConnector.m
+		隠しオプションとしての独自 proxy サポートも廃止した。
 	* application/Resources/Japanese.lproj/Credits.rtf
 		[削除] どういうわけか、プロジェクトにも登録されていないゾンビファイルがあったので削除。
 	* application/BathyScaphe.xcodeproj/project.pbxproj

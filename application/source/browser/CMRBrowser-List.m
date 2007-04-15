@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.23 2007/03/18 17:46:52 tsawada2 Exp $
+  * $Id: CMRBrowser-List.m,v 1.24 2007/04/15 08:46:10 tsawada2 Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -60,38 +60,33 @@
 
 	UTILNotifyName(CMRBrowserDidChangeBoardNotification);
 }
-- (void) showThreadList:(id)threadList
+- (void) showThreadList:(id)threadList forceReload: (BOOL) force
 {
-	NSString *boardName;
-	NSString			*sortColumnIdentifier_;
-	BOOL				isAscending_;
+	NSString	*boardName;
+	NSString	*sortColumnIdentifier_;
+	BOOL		isAscending_;
 	
-	boardName = [threadList boardName];
-	if(nil == boardName) return;
-	if([[[self currentThreadsList] boardName] isEqualToString : boardName]){
+	if (!threadList) return;
+	if (!force && [[[self currentThreadsList] boardListItem] isEqual: [threadList boardListItem]]) {
 		// 2006-08-19 「掲示板を表示」処理の関係上この通知をここで発行しておく
 		UTILNotifyName(CMRBrowserThListUpdateDelegateTaskDidFinishNotification);
 		return;
 	}
-	
-	[[self threadsListTable] deselectAll : nil];
-	[[self threadsListTable] setDataSource : nil];
-	
-	if(nil == threadList)
-		return;
+
+	NSTableView *table = [self threadsListTable];
+	[table deselectAll : nil];
+	[table setDataSource : nil];
 	
 	[self setCurrentThreadsList : threadList];
-	
+
 	// sort column change
-	BoardManager	*bm_ = [BoardManager defaultManager];
-	sortColumnIdentifier_ = [bm_ sortColumnForBoard : boardName];
-//	isAscending_ = [bm_ sortColumnIsAscendingAtBoard : boardName];
+	boardName = [threadList boardName];
+	sortColumnIdentifier_ = [[BoardManager defaultManager] sortColumnForBoard: boardName];
 	isAscending_ = [threadList isAscendingForKey: sortColumnIdentifier_];
-//	[threadList setIsAscending : isAscending_];
 	[self changeHighLightedTableColumnTo : sortColumnIdentifier_ isAscending : isAscending_];
 	
 	[self synchronizeWindowTitleWithDocumentName];
-	[[self window] makeFirstResponder : [self threadsListTable]];
+	[[self window] makeFirstResponder: table];
 	
 	// リストの読み込みを開始する。
 	[threadList startLoadingThreadsList : [self threadLayout]];
@@ -99,12 +94,16 @@
 }
 - (void) showThreadsListWithBoardName : (NSString *) boardName
 {
-	[self showThreadList:[BSDBThreadList threadsListWithBBSName : boardName]];
+	[self showThreadList:[BSDBThreadList threadsListWithBBSName : boardName] forceReload: NO];
 }
 
 - (void) showThreadsListForBoard : (id) board;
 {
-	[self showThreadList:[BSDBThreadList threadListWithBoardListItem : board]];
+	[self showThreadList:[BSDBThreadList threadListWithBoardListItem : board] forceReload: NO];
+}
+- (void) showThreadsListForBoard : (id) board forceReload: (BOOL) force;
+{
+	[self showThreadList:[BSDBThreadList threadListWithBoardListItem : board] forceReload: force];
 }
 
 - (unsigned) selectRowWithThreadPath : (NSString *) filepath

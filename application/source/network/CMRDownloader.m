@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRDownloader.m,v 1.3 2007/01/07 17:04:23 masakih Exp $
+  * $Id: CMRDownloader.m,v 1.4 2007/04/15 08:46:10 tsawada2 Exp $
   * 
   * CMRDownloader.m
   *
@@ -247,15 +247,15 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 			@"  using proxy (Host:%@ Port:%d)\n\t"
 			@"  for %@", host, port, [[self resourceURL] stringValue]);
 	}*/
-	if ([CMRPref usesOwnProxy]) {
+/*	if ([CMRPref usesOwnProxy]) {
 		NSLog(@"WARNING: You are using BathyScaphe's own proxy settings, but this feature will be deprecated in the future.");
 		NSString	*host;
 		CFIndex		port;
 		[CMRPref getOwnProxy: &host port: &port];
 		[connector_ setProxy: host port: port];
-	} else {
+	} else {*/
 		[connector_ setProxyIfNeeded];
-	}
+//	}
 	return connector_;
 }
 

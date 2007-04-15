@@ -211,21 +211,6 @@ extern NSImage  *imageForType(BoardListItemType type); // described in BoardList
 }
 
 #pragma mark (Since CMRNoNameManager)
-/* 名無しさんの名前 */
-#pragma mark -
-#pragma mark DEPRECATED IN METEORSWEEPER
-- (NSString *) defaultNoNameForBoard : (NSString *) boardName
-{
-	NSLog(@"Method -defaultNoNameForBoard: has been deprecated. Use -defaultNoNameSetForBoard: instead.");
-	return nil;
-}
-
-- (void) setDefaultNoName : (NSString *) aName
-			 	 forBoard : (NSString *) boardName
-{
-	NSLog(@"Method -setDefaultNoName:forBoard: has been deprecated. Use -setDefaultNoNameSet:forBoard: instead.");
-}
-#pragma mark -
 - (NSString *) sortColumnForBoard : (NSString *) boardName
 {
 	return [self stringValueForBoard: boardName

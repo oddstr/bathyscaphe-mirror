@@ -365,15 +365,15 @@ static id fnc_stringByURLEncodingUsingEncoding(id obj, NSStringEncoding enc)
 			@"  using proxy (Host:%@ Port:%d)\n\t"
 			@"  for %@", host, port, [[self requestURL] stringValue]);
 	}*/
-	if ([pref usesOwnProxy]) {
+/*	if ([pref usesOwnProxy]) {
 		NSLog(@"WARNING: You are using BathyScaphe's own proxy settings, but this feature will be deprecated in the future.");
 		NSString	*host;
 		CFIndex		port;
 		[pref getOwnProxy: &host port: &port];
 		[[self connector] setProxy: host port: port];
-	} else {
+	} else {*/
 		[[self connector] setProxyIfNeeded];
-	}
+//	}
 }
 
 - (NSData *) loadInForeground

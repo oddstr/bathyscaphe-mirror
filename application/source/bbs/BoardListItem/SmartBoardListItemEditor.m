@@ -7,8 +7,10 @@
 //
 
 #import "SmartBoardListItemEditor.h"
-
+#import "UTILKit.h"
 #import "BoardManager.h"
+
+NSString *const SBLIEditorDidEditSmartBoardListItemNotification = @"SBLIEditorDidEditSmartBoardListItemNotification";
 
 @implementation SmartBoardListItemEditor
 
@@ -220,6 +222,7 @@ static inline NSInvocation *checkMethodSignature(id obj, SEL selector)
 	if(returnCode && context) {
 		[(id)context setName:[nameField stringValue]];
 		[(id)context setCondition:[helper condition]];
+		UTILNotifyInfo(SBLIEditorDidEditSmartBoardListItemNotification, (id)context);
 		[(id)context release];
 	}
 	

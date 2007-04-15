@@ -173,6 +173,12 @@
 //- (float) replyBgAlphaValue;
 //- (void) setReplyBgAlphaValue : (float) rate;
 
+
+/* MeteorSweeper: Hidden Proxy Options */
+/* Removed in Starlight Breaker. */
+//- (BOOL) usesOwnProxy;
+//- (void) getOwnProxy: (NSString **) host port: (CFIndex *) port;
+
 // Constants
 //#define DEFAULT_NEW_THREADS_LIMIT			(100)
 //#define DEFAULT_THREADS_VIEW_FONTSIZE		(12.0f)
@@ -180,6 +186,9 @@
 //#define DEFAULT_BROWSER_THREAD_SEARCH_TAG	0
 //#define DEFAULT_BROWSER_THREAD_SOPTION		JTCaseInsensitiveSearch
 //#define DEFAULT_BROWSER_VISIBLE_MESSAGE_TAG	50
+
+//#define DEFAULT_USE_PROXY					NO // will be deprecated in the future.
+//#define DEFAULT_PROXY_PORT					8080 // will be deprecated in the future.
 
 //#define DEFAULT_RESPOPUP_IS_SEETHROUGH		NO
 //#define DEFAULT_STATUS_LINE_VISIBLE			NO
