@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMainMenuManager.h,v 1.10 2007/02/02 15:47:50 tsawada2 Exp $
+  * $Id: CMRMainMenuManager.h,v 1.11 2007/04/15 13:49:38 tsawada2 Exp $
   * BathyScaphe
   *
   *
@@ -26,6 +26,7 @@
 
 - (int) historyItemInsertionIndex;
 - (NSMenu *) historyMenu;
+- (NSMenu *) boardHistoryMenu; // available in Starlight Breaker.
 - (NSMenu *) fileMenu;
 @end
 

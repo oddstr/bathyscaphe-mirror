@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMainMenuManager.m,v 1.10 2007/02/02 15:47:50 tsawada2 Exp $
+  * $Id: CMRMainMenuManager.m,v 1.11 2007/04/15 13:49:38 tsawada2 Exp $
   * 
   * CMRMainMenuManager.m
   *
@@ -27,6 +27,7 @@
 #define		BROWSER_ARRANGEMENT_TAG	1
 #define		BROWSER_COLUMNS_TAG		2
 #define		HISTORY_INSERT_MARKER	1001
+#define		HISTORY_SUB_MARKER		1002
 #define		BROWSER_FILTERING_TAG	3
 
 @implementation CMRMainMenuManager
@@ -57,6 +58,10 @@ MENU_ACCESSER(scriptsMenuItem, SCRIPTS_MENU_TAG)
 - (NSMenu *) historyMenu
 {
 	return [[self historyMenuItem] submenu];
+}
+- (NSMenu *) boardHistoryMenu
+{
+	return [[[[self historyMenuItem] submenu] itemWithTag: HISTORY_SUB_MARKER] submenu];
 }
 - (NSMenu *) fileMenu
 {

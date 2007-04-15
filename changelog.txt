@@ -1,4 +1,22 @@
 2007-04-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/bbs/BoardListItem/SmartBoardListItem.m
+		SmartBoardListItem の -isHistoryEqual: をオーバーライドして、スマート掲示板を掲示板の履歴に突っ込むときの
+		不具合を解決した（すべてのスマート掲示板が isHistoryEqual: YES と判定されていた）。
+	* application/source/manager/CMRHistoryManager.m
+	* application/source/CMRAppDelegate.m
+	* application/source/CMRAppDelegate+Menu.m
+	* application/Resources/Japanese.lproj/Localizable.strings
+	* application/Resources/Japanese.lproj/MainMenu.nib
+	* application/source/browser/CMRBrowser-List.m
+		履歴関係（とくに掲示板の履歴）：
+		- CMRHistoryManager の未使用になっていた部分を削除した。
+		- 掲示板の履歴オブジェクトとして、CMRBBSSignature ではなく BoardListItem（のサブクラス群）を用いるようにした。
+		- 履歴ファイル History.plist のバージョンを2に変更した。バージョン1のファイルは自動的に変換されるが、
+		　このとき今までの掲示板履歴は失われる。また、一度バージョン2になったものは古いバージョンの BathyScaphe では読み込み
+		　できない（バージョンチェックで跳ねられる）。さらにバイナリ形式のプロパティリストになった。
+		- 「履歴」メニューに「最近表示した掲示板」サブメニューを追加した。ここに掲示板の履歴を表示する。もちろん選択して
+		　その掲示板を表示できる。
+		- BoardListItem が CMRHistoryObject プロトコルを実装していたのでとても楽だった。Thanks！
 	* application/source/browser/CMRBrowser-List.m
 	* application/source/browser/CMRBrowser-BLEditor.m
 	* application/source/bbs/BoardListItem/SmartBoardListItemEditor.m

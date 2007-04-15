@@ -113,5 +113,14 @@ static NSString *SmartConditionConditionKey = @"SmartConditionConditionKey";
 {
 	return [[self plist] description];
 }
+
+- (BOOL) isHistoryEqual : (id) anObject
+{
+	if (![super isHistoryEqual : anObject]) return NO;
+
+	if ([anObject condition] == [self condition]) return YES;
+	
+	return NO;
+}
 @end
 

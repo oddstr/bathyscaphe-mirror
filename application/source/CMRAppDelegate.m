@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.33 2007/03/24 11:42:54 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.34 2007/04/15 13:49:38 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -219,6 +219,15 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 													  // åƒÇ—èoÇ≥ÇÍÇÈå¿ÇËÅAÇªÇ±Ç©ÇÁ showThreadsListForBoardName: Ç™åƒÇ—èoÇ≥ÇÍÇÈ
 }
 
+- (IBAction) showBoardFromHistoryMenu: (id) sender
+{
+	if (NO == [sender isKindOfClass: [NSMenuItem class]]) return;
+
+	id boardListItem = [sender representedObject];
+	if (boardListItem && [boardListItem respondsToSelector: @selector(representName)]) {
+		[self showThreadsListForBoard: [boardListItem representName] selectThread: nil addToListIfNeeded: YES];
+	}
+}
 
 - (IBAction) startHEADCheckDirectly: (id) sender
 {

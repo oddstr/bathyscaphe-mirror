@@ -1,6 +1,6 @@
 //: CMRHistoryManager.m
 /**
-  * $Id: CMRHistoryManager.m,v 1.7 2007/02/02 15:47:50 tsawada2 Exp $
+  * $Id: CMRHistoryManager.m,v 1.8 2007/04/15 13:49:38 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -9,19 +9,10 @@
 #import "CMRHistoryManager.h"
 #import "CocoMonar_Prefix.h"
 #import "AppDefaults.h"
+#import "BoardListItem.h"
 
 // assume item is precious if visitedCount >= PreciousItemThreshold
 #define PreciousItemThreshold 5
-
-enum {
-    CMRHistoryManagerClientPerformAdd,
-    CMRHistoryManagerClientPerformRemove,
-    CMRHistoryManagerClientPerformChange
-};
-struct CMRHistoryClientEntry{
-    id<CMRHistoryClient>  client;
-    CMRHistoryClientEntry *next;  /* list */
-};
 
 static const unsigned kHistoryItemsBacketCount = CMRHistoryNumberOfEntryType;
 
@@ -43,8 +34,25 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
         
         filepath_ = [[self class] defaultFilepath];
         UTILAssertNotNil(filepath_);
-        [self loadDictionaryRepresentation : 
-            [NSDictionary dictionaryWithContentsOfFile : filepath_]];
+
+		NSData			*data;
+		NSDictionary	*rep;			
+		NSString *errorStr;
+
+		data = [NSData dataWithContentsOfFile: filepath_];
+		if (data) {
+			rep = [NSPropertyListSerialization propertyListFromData: data
+												   mutabilityOption: NSPropertyListImmutable
+															 format: NULL
+												   errorDescription: &errorStr];
+			if (!rep) {
+				NSLog(@"CMRHistoryManager failed to read History.plist with NSPropertyListSerialization");
+				rep = [NSDictionary dictionaryWithContentsOfFile : filepath_];
+			}
+		} else {
+			rep = [NSDictionary dictionaryWithContentsOfFile : filepath_];
+		}
+		[self loadDictionaryRepresentation: rep];
 
         [[NSNotificationCenter defaultCenter]
                  addObserver : self
@@ -87,98 +95,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 - (void) dealloc
 {
-    CMRHistoryClientEntry    *next;
-    
     [[NSNotificationCenter defaultCenter] removeObserver : self];
-    
-    for (; _clients != NULL; _clients = next) {
-        next = _clients->next;
-        free(_clients);
-    }
-    next = NULL;
-    
     [self clearHistoryItemsBacket];
 	[super dealloc];
-}
-
-#pragma mark -
-
-static CMRHistoryClientEntry *lookupHistoryEntry(CMRHistoryClientEntry *inList, id<CMRHistoryClient> aClient)
-{
-    CMRHistoryClientEntry    *p;
-    
-    for (p = inList; p != NULL; p = p->next)
-        if ([p->client isEqual : aClient])
-            return p;
-    
-    return NULL;
-}
-
-- (void) addClient : (id<CMRHistoryClient>) aClient
-{
-    CMRHistoryClientEntry    *newp;
-    
-    if (nil == aClient)
-        return;
-    if (lookupHistoryEntry(_clients, aClient) != NULL)
-        return;
-    
-    newp = malloc(sizeof(CMRHistoryClientEntry));
-    if (NULL == newp) {
-        [NSException raise:NSGenericException
-                    format:@"malloc()"];
-    }
-    
-    newp->client = aClient;
-    newp->next = _clients;
-    _clients = newp;
-}
-
-- (void) removeClient : (id<CMRHistoryClient>) aClient
-{
-    CMRHistoryClientEntry    *p, *prev = NULL;
-    
-    for (p = _clients; p != NULL; p = p->next) {
-        if ([p->client isEqual : aClient]) {
-            if (NULL == prev)
-                _clients = p->next;
-            else
-                prev->next = p->next;
-            
-            free(p);
-            return;
-        }
-        prev = p;
-    }
-}
-
-- (void) makeClientsPerform : (int             ) performType
-                historyItem : (CMRHistoryItem *) anItem
-                    atIndex : (unsigned        ) anIndex
-{
-    CMRHistoryClientEntry    *p;
-    
-    for (p = _clients; p != NULL; p = p->next) {
-        id<CMRHistoryClient> object_;
-        
-        object_ = p->client;
-        UTILAssertConformsTo(object_, @protocol(CMRHistoryClient));
-        
-        switch(performType) {
-        case CMRHistoryManagerClientPerformAdd:
-            [object_ historyManager:self insertHistoryItem:anItem atIndex:anIndex];
-            break;
-        case CMRHistoryManagerClientPerformRemove:
-            [object_ historyManager:self removeHistoryItem:anItem atIndex:anIndex];
-            break;
-        case CMRHistoryManagerClientPerformChange:
-            [object_ historyManager:self changeHistoryItem:anItem atIndex:anIndex];
-            break;
-        default:
-            UTILUnknownSwitchCase(performType);
-            break;
-        }
-    }
 }
 
 - (unsigned) historyItemLimitForType : (int) aType
@@ -188,8 +107,6 @@ static CMRHistoryClientEntry *lookupHistoryEntry(CMRHistoryClientEntry *inList, 
         return [CMRPref maxCountForBoardsHistory];
     case CMRHistoryThreadEntryType:
         return [CMRPref maxCountForThreadsHistory];
-    //case CMRHistorySearchListOptionEntryType:
-    //    return [CMRPref maxCountForSearchHistory];
     default:
         UTILUnknownSwitchCase(aType);
         return 10;
@@ -232,9 +149,7 @@ static CMRHistoryClientEntry *lookupHistoryEntry(CMRHistoryClientEntry *inList, 
     
     item_ = [[itemArray_ objectAtIndex : anIndex] retain];
     [itemArray_ removeObjectAtIndex : anIndex];
-    
-    [self makeClientsPerform:CMRHistoryManagerClientPerformRemove historyItem:item_ atIndex:anIndex];
-    [item_ autorelease];
+	[item_ autorelease];
 }
 
 - (int) indexOfOldestItemForType : (int) aType
@@ -258,7 +173,6 @@ static CMRHistoryClientEntry *lookupHistoryEntry(CMRHistoryClientEntry *inList, 
 
 - (void) addItem : (CMRHistoryItem *) anItem
 {
-    int					performType_;
     CMRHistoryItem		*item_ = anItem;
     NSMutableArray		*itemArray_;
 	NSMutableArray		*newArray_;
@@ -284,10 +198,7 @@ static CMRHistoryClientEntry *lookupHistoryEntry(CMRHistoryClientEntry *inList, 
             
         }*/
 		
-		[itemArray_ exchangeObjectAtIndex: index_ withObjectAtIndex: 0];
-
-        performType_ = CMRHistoryManagerClientPerformChange;
-		
+		[itemArray_ exchangeObjectAtIndex: index_ withObjectAtIndex: 0];		
     } else {
         if (limit_ == [itemArray_ count]) { // Check limit
             int idx;
@@ -300,18 +211,13 @@ static CMRHistoryClientEntry *lookupHistoryEntry(CMRHistoryClientEntry *inList, 
         
         // New Entry
         [itemArray_ insertObject : anItem atIndex : 0];
-        performType_ = CMRHistoryManagerClientPerformAdd;
-        index_ = 0; //[itemArray_ count] -1;
     }
 
 	// sort by date
 	newArray_ = [[itemArray_ sortedArrayUsingSelector : @selector(_compareByDate:)] mutableCopy];
     [itemArray_ removeAllObjects];
-	[itemArray_ addObjectsFromArray : newArray_];
-	
+	[itemArray_ addObjectsFromArray : newArray_];	
 	[newArray_ release];
-	
-    [self makeClientsPerform:performType_ historyItem:item_ atIndex:index_];
 }
 
 - (CMRHistoryItem *) addItemWithTitle : (NSString *) aTitle
@@ -332,12 +238,12 @@ static CMRHistoryClientEntry *lookupHistoryEntry(CMRHistoryClientEntry *inList, 
 #define kHistoryItemEntriesKey        @"HistoryDates"
 #define kHistoryFileVersionKey        @"HistoryFileVersion"
 #define kHistoryFileVersionAllowed    1
+#define kHistoryFileVersionNew		  2
 
 static NSString *const stHistoryPropertyKey[] = 
 {
     @"Board",
     @"Thread",
-    //@"SearchListOption"
 };
 
 - (void) removeAllItems
@@ -349,13 +255,20 @@ static NSString *const stHistoryPropertyKey[] =
 {
     NSDictionary    *dict_;
     int                fileVersion_;
-    unsigned        i;
+    unsigned        i,j;
+	unsigned		max;
     
     if (nil == aDictionary)
         return;
     
     fileVersion_ = [aDictionary integerForKey : kHistoryFileVersionKey];
-    if (fileVersion_ != kHistoryFileVersionAllowed) {
+	if (fileVersion_ == kHistoryFileVersionAllowed) {
+		NSLog(@"Ignore Old Board History.");
+		j = 1;
+	} else if (fileVersion_ == kHistoryFileVersionNew) {
+//		NSLog(@"No Problem");
+		j = 0;
+	} else {
         NSLog(@"History FileVersion(%d) was not supported!", fileVersion_);
         return;
     }
@@ -365,7 +278,7 @@ static NSString *const stHistoryPropertyKey[] =
     if (nil == dict_ || 0 == [dict_ count])
         return;
     
-    for (i = 0; i < kHistoryItemsBacketCount; i++) {
+    for (i = j; i < kHistoryItemsBacketCount; i++) {
         NSString        *key_;
         NSArray            *itemArray_;
         NSEnumerator    *iter_;
@@ -431,7 +344,7 @@ static NSString *const stHistoryPropertyKey[] =
     NSMutableDictionary        *dict_;
     
     dict_ = [NSMutableDictionary dictionary];
-    [dict_ setInteger : kHistoryFileVersionAllowed
+    [dict_ setInteger : kHistoryFileVersionNew
                forKey : kHistoryFileVersionKey];
     [dict_ setObject : [self historiesPropertyListRepresentation]
               forKey : kHistoryItemEntriesKey];
@@ -439,28 +352,73 @@ static NSString *const stHistoryPropertyKey[] =
     return dict_;
 }
 
-- (void) applicationWillTerminate : (NSNotification *) theNotification
+- (NSData *) binaryRepresentation
 {
-    NSDictionary    *dictionaryRepresentation_;
-    
+	NSString *errorStr;
+	return [NSPropertyListSerialization dataFromPropertyList: [self dictionaryRepresentation]
+													  format: NSPropertyListBinaryFormat_v1_0
+											errorDescription: &errorStr];
+}
+
+- (void) applicationWillTerminate : (NSNotification *) theNotification
+{    
     UTILAssertNotificationName(
         theNotification,
         NSApplicationWillTerminateNotification);
-    
-    dictionaryRepresentation_ = [self dictionaryRepresentation];
-    [dictionaryRepresentation_ writeToFile : [[self class] defaultFilepath]
-                                atomically : YES];
+
+	[[self binaryRepresentation] writeToFile: [[self class] defaultFilepath] atomically: YES];
 }
 @end
 
 @implementation CMRHistoryManager(NSMenuDelegate)
+- (void) boardHistoryMenuNeedsUpdate: (NSMenu *) menu
+{
+	unsigned n = [menu numberOfItems];
+	if (n > 0) {
+		int i;
+		for (i=n-1;i>=0;i--) {
+			[menu removeItemAtIndex: i];
+		}
+	}
+
+	NSArray	*historyItemsArray = [self historyItemArrayForType: CMRHistoryBoardEntryType];
+	if (!historyItemsArray || [historyItemsArray count] == 0) {
+		[menu addItemWithTitle: NSLocalizedString(@"No Board History", @"") action: NULL keyEquivalent: @""];
+		return;
+	} else {
+		NSEnumerator *iter = [historyItemsArray reverseObjectEnumerator];
+		CMRHistoryItem *eachItem;
+		NSMenuItem *menuItem;
+		NSString *title_;
+		BoardListItem *item_;
+
+		while (eachItem = [iter nextObject]) {
+			title_ = [eachItem title];
+			if (title_ == nil) continue;
+
+			menuItem = [[NSMenuItem alloc] initWithTitle: title_ action: @selector(showBoardFromHistoryMenu:) keyEquivalent: @""];
+			item_ = (BoardListItem *)[eachItem representedObject];
+
+			[menuItem setTarget: [NSApp delegate]];
+			[menuItem setImage: [item_ icon]];
+			[menuItem setRepresentedObject: item_];
+
+			[menu insertItem: menuItem atIndex: 0];
+			[menuItem release];
+		}
+	}
+}
+
 - (void) menuNeedsUpdate: (NSMenu *) menu
 {
 	if ([menu delegate] != self) return;
-
-	if ([menu numberOfItems] > 4) {
+	if ([menu supermenu] != [NSApp mainMenu]) {
+		[self boardHistoryMenuNeedsUpdate: menu];
+		return;
+	}
+	if ([menu numberOfItems] > 6/*4*/) {
 		int i;
-		for (i = [menu numberOfItems] - 2; i > 2; i--) {
+		for (i = [menu numberOfItems] - 2; i > 4/*2*/; i--) {
 			[menu removeItemAtIndex: i];
 		}
 	}
@@ -475,12 +433,12 @@ static NSString *const stHistoryPropertyKey[] =
 		NSString *title_;
 		NSString *shortTitle_;
 
-		[menu insertItem: [NSMenuItem separatorItem] atIndex: 3];
+		[menu insertItem: [NSMenuItem separatorItem] atIndex: 5/*3*/];
 
 		while (eachItem = [iter nextObject]) {
 			title_ = [eachItem title];
 			if (title_ == nil) title_ = @"";
-			shortTitle_ = [title_ stringWithTruncatingForMenuItemOfWidth: 350.0 indent: NO activeItem: YES];
+			shortTitle_ = [title_ stringWithTruncatingForMenuItemOfWidth: 320.0 indent: NO activeItem: YES];
 
 			menuItem = [[NSMenuItem alloc] initWithTitle: shortTitle_ action: @selector(showThreadFromHistoryMenu:) keyEquivalent: @""];
 
@@ -490,7 +448,7 @@ static NSString *const stHistoryPropertyKey[] =
 			[menuItem setTarget: nil];
 			[menuItem setRepresentedObject: [eachItem representedObject]];
 
-			[menu insertItem: menuItem atIndex: 3];
+			[menu insertItem: menuItem atIndex: 5/*3*/];
 			[menuItem release];
 		}
 	}

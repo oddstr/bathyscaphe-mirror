@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.24 2007/04/15 08:46:10 tsawada2 Exp $
+  * $Id: CMRBrowser-List.m,v 1.25 2007/04/15 13:49:38 tsawada2 Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -11,17 +11,15 @@
 #import "CMRHistoryManager.h"
 #import "CMRStatusLine.h"
 #import "BoardManager.h"
-#import "CMRBBSSignature.h"
 
 @implementation CMRBrowser(List)
 - (void) changeThreadsFilteringMask : (int) aMask
 {
 	[[self document] changeThreadsFilteringMask : aMask];
 	[[self threadsListTable] reloadData];
-	
-//	[self clearSearchFilter]; // [Bug 9823]
 	[self synchronizeWindowTitleWithDocumentName];
 }
+
 - (BSDBThreadList *) currentThreadsList
 {
 	return [[self document] currentThreadsList];
@@ -29,10 +27,6 @@
 - (void) setCurrentThreadsList : (BSDBThreadList *) newList
 {
 	BSDBThreadList *oldList = [self currentThreadsList];
-/*	[self exchangeNotificationObserver : CMRThreadsListDidUpdateNotification
-			selector : @selector(threadsListDidFinishUpdate:)
-		 oldDelegate : oldList
-		 newDelegate : newList];*/
 	[self exchangeNotificationObserver : CMRThreadsListDidChangeNotification
 			selector : @selector(threadsListDidChange:)
 		 oldDelegate : oldList
@@ -48,15 +42,16 @@
 	[self clearSearchFilter];
 }
 
-- (void) boardChanged : (NSString *) boardName
+- (void) boardChanged : (id) boardListItem
 {
+	NSString *name = [boardListItem representName];
 	// 読み込みの完了、設定に保存
 	// 履歴に登録してから、変更の通知
-	[CMRPref setBrowserLastBoard : boardName];
+	[CMRPref setBrowserLastBoard : name];
 	[[CMRHistoryManager defaultManager]
-		addItemWithTitle : boardName
+		addItemWithTitle : name
 					type : CMRHistoryBoardEntryType
-				  object : [CMRBBSSignature BBSSignatureWithName : boardName]];
+				  object : boardListItem];
 
 	UTILNotifyName(CMRBrowserDidChangeBoardNotification);
 }
@@ -90,7 +85,7 @@
 	
 	// リストの読み込みを開始する。
 	[threadList startLoadingThreadsList : [self threadLayout]];
-	[self boardChanged : boardName];
+	[self boardChanged : [threadList boardListItem]];
 }
 - (void) showThreadsListWithBoardName : (NSString *) boardName
 {

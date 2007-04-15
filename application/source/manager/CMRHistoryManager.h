@@ -1,6 +1,6 @@
 //: CMRHistoryManager.h
 /**
-  * $Id: CMRHistoryManager.h,v 1.4 2007/01/22 02:23:29 tsawada2 Exp $
+  * $Id: CMRHistoryManager.h,v 1.5 2007/04/15 13:49:38 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -55,7 +55,7 @@ enum {
 - (NSComparisonResult) _compareByDate : (CMRHistoryItem *) anObject;
 @end
 
-
+/*
 @class CMRHistoryManager;
 @protocol CMRHistoryClient<NSObject>
 - (void) historyManager : (CMRHistoryManager *) aManager
@@ -68,22 +68,22 @@ enum {
 	  changeHistoryItem : (CMRHistoryItem    *) anItem
 				atIndex : (unsigned int       ) anIndex;
 @end
+*/
 
 
-
-typedef struct CMRHistoryClientEntry CMRHistoryClientEntry;
+//typedef struct CMRHistoryClientEntry CMRHistoryClientEntry;
 
 @interface CMRHistoryManager : NSObject
 {
 	@private
 	id						*_backets;
-	CMRHistoryClientEntry	*_clients;
+//	CMRHistoryClientEntry	*_clients;
 }
 + (CMRHistoryManager *) defaultManager;
 
 // retain/releaseはしない
-- (void) addClient : (id<CMRHistoryClient>) aClient;
-- (void) removeClient : (id<CMRHistoryClient>) aClient;
+//- (void) addClient : (id<CMRHistoryClient>) aClient;
+//- (void) removeClient : (id<CMRHistoryClient>) aClient;
 
 - (void) loadDictionaryRepresentation : (NSDictionary *) aDictionary;
 - (NSDictionary *) dictionaryRepresentation;
