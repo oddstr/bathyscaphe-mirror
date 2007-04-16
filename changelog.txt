@@ -2,6 +2,8 @@
 	* application/source/bbs/BoardManager-BSAddition.m
 	* application/source/bbs/BoardListItem/SmartBoardListItemEditor.m
 		[Bug 10156] を解決。
+	* application/source/bbs/BoardListItem/SmartBoardListItem.m
+		-isHistoryEqual: の判定方法を変更。昨日のものでは、同じスマート掲示板でも isHistoryEqual: NO になってしまっていた。
 2007-04-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/bbs/BoardListItem/SmartBoardListItem.m
 		SmartBoardListItem の -isHistoryEqual: をオーバーライドして、スマート掲示板を掲示板の履歴に突っ込むときの

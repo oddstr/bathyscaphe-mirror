@@ -118,7 +118,7 @@ static NSString *SmartConditionConditionKey = @"SmartConditionConditionKey";
 {
 	if (![super isHistoryEqual : anObject]) return NO;
 
-	if ([anObject condition] == [self condition]) return YES;
+	if ([[anObject query] isEqualToString: [self query]]) return YES;
 	
 	return NO;
 }
