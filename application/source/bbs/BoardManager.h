@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.h,v 1.15 2007/01/07 17:04:23 masakih Exp $
+ * $Id: BoardManager.h,v 1.16 2007/04/16 09:21:25 tsawada2 Exp $
  * 
  * BoardManager.h
  *
@@ -97,11 +97,6 @@ typedef enum _BSBeLoginPolicyType {
 - (NSMutableDictionary *) noNameDict;
 
 /* –¼–³‚µ‚³‚ñ‚Ì–¼‘O */
-// Deprecated in MeteorSweeper.
-//- (NSString *) defaultNoNameForBoard : (NSString *) boardName;
-//- (void) setDefaultNoName : (NSString *) aName
-//			 	 forBoard : (NSString *) boardName;
-
 // Available in MeteorSweeper.
 - (NSSet *) defaultNoNameSetForBoard: (NSString *) boardName;
 - (void) setDefaultNoNameSet: (NSSet *) newSet forBoard: (NSString *) boardName;
@@ -162,6 +157,9 @@ typedef enum _BSBeLoginPolicyType {
 // available in ReinforceII and later.
 - (BOOL) allowsNanashiAtBoard: (NSString *) boardName;
 - (void) setAllowsNanashi: (BOOL) allows atBoard: (NSString *) boardName;
+
+// Available in Starlight Breaker.
+- (void) passPropertiesOfBoardName: (NSString *) boardName toBoardName: (NSString *) newBoardName;
 @end
 
 // MeteorSweeper Addition

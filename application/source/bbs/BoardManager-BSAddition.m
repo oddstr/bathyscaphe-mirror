@@ -605,6 +605,18 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
     [self setBoolValue: allows forKey: NNDAllowsNanashiKey atBoard: boardName];
 }
 
+#pragma mark Starlight Breaker Addition
+- (void) passPropertiesOfBoardName: (NSString *) boardName toBoardName: (NSString *) newBoardName
+{
+	if (!boardName || !newBoardName || [boardName isEqualToString: newBoardName]) return;
+	id dict = [[self noNameDict] objectForKey: boardName];
+	if (!dict) return;
+
+	[[self noNameDict] setObject: dict forKey: newBoardName];
+	[[self noNameDict] removeObjectForKey: boardName];
+}
+
+
 #pragma mark -
 
 - (NSString *) askUserAboutDefaultNoNameForBoard : (NSString *) boardName

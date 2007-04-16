@@ -220,6 +220,8 @@ static inline NSInvocation *checkMethodSignature(id obj, SEL selector)
 - (void)endEditSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)context
 {
 	if(returnCode && context) {
+		NSString *newName = [nameField stringValue];
+		[[BoardManager defaultManager] passPropertiesOfBoardName: [(id)context name] toBoardName: newName]; 
 		[(id)context setName:[nameField stringValue]];
 		[(id)context setCondition:[helper condition]];
 		UTILNotifyInfo(SBLIEditorDidEditSmartBoardListItemNotification, (id)context);
