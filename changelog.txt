@@ -1,4 +1,6 @@
 2007-04-19 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/board_default.plist
+		最新のものに更新。
 	* application/source/browser/BSThreadListItem.m
 		valueForUndefinedKey: が呼び出されると、デフォルトでは例外が発生する。これがツールバー項目の validation など、
 		思わぬ所に影響を及ぼすようなので、このメソッドをオーバーライドして例外は発生させないようにした。
