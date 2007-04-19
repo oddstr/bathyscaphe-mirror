@@ -223,6 +223,11 @@ static NSString *const BSThreadListItemErrorDomain = @"BSThreadListItemErrorDoma
 	
 	return nil;
 }
+- (id)valueForUndefinedKey:(NSString *)key
+{
+	// 例外が発生するとやっかいなのでオーバーライド
+	return nil;
+}
 - (id)valueForKey:(NSString *)key
 {
 	id result = [data objectForKey:key];

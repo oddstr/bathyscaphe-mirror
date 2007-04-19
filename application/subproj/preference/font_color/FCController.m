@@ -1,5 +1,6 @@
 #import "FCController.h"
 #import "PreferencePanes_Prefix.h"
+#import <SGAppKit/NSEvent-SGExtensions.h>
 
 #define kLabelKey		@"Appearance Label"
 #define kToolTipKey		@"Appearance ToolTip"
@@ -73,10 +74,32 @@
 	[self updateUIComponents];
 }
 
+- (void) deleteTheme: (NSString *) fileName
+{
+	if (!fileName) return;
+	NSString *fullPath = [[self preferences] createFullPathFromThemeFileName: fileName];
+	NSFileManager *fm_ = [NSFileManager defaultManager];
+	if (NO == [fm_ fileExistsAtPath: fullPath]) return;
+
+//	NSLog(@"Deleting theme file %@", fullPath);
+	if ([fm_ removeFileAtPath: fullPath handler: nil]) {
+		int	i = [m_themesChooser indexOfItemWithRepresentedObject: fileName];
+		if (i == -1) return;
+		[m_themesChooser selectItemAtIndex: 0]; // Restore to Default Theme
+		[self chooseDefaultTheme: nil];
+		[m_themesChooser removeItemAtIndex: i];
+	}
+}
+
 - (IBAction) chooseTheme: (id) sender
 {
-	[[self preferences] setUsesCustomTheme: NO];
-	[[self preferences] setThemeFileName: [sender representedObject]];
+	if ([NSEvent currentCarbonModifierFlags] & NSCommandKeyMask) {
+//		NSLog(@"CommandKey Pressed");
+		[self deleteTheme: [sender representedObject]];
+	} else {
+		[[self preferences] setUsesCustomTheme: NO];
+		[[self preferences] setThemeFileName: [sender representedObject]];
+	}
 }
 
 - (IBAction) chooseDefaultTheme: (id) sender

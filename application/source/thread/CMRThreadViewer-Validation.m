@@ -1,5 +1,5 @@
 /*
-    $Id: CMRThreadViewer-Validation.m,v 1.30 2007/03/29 13:31:49 tsawada2 Exp $
+    $Id: CMRThreadViewer-Validation.m,v 1.31 2007/04/19 14:13:43 tsawada2 Exp $
     CMRThreadViewer-Action.m から独立
     Created at 2005-02-16 by tsawada2.
 */
@@ -109,7 +109,7 @@ static int messageMaskForTag(int tag)
 							   locationHint : location_];
 }
 
-#pragma mark Validation
+#pragma mark Validation Helpers
 
 - (BOOL) validateActionMenuItem : (NSMenuItem *) theItem
 {
@@ -117,8 +117,8 @@ static int messageMaskForTag(int tag)
 	SEL			action = [theItem action];
 	unsigned	mask;
 	
-	if (@selector(runSpamFilter:) == action)
-		return YES;
+//	if (@selector(runSpamFilter:) == action)
+//		return YES;
 	
 	mask = messageMaskForTag(tag);
 	if (mask != 0) {
@@ -222,23 +222,46 @@ static int messageMaskForTag(int tag)
 	return YES;
 }
 
-- (BOOL) validateUIItem : (id) theItem
+- (BOOL) validateReplyItem: (id) theItem
 {
-	if (nil == theItem) return NO;
+	NSString		*title_;
 	
+	title_ = (0 == ([[self textView] selectedRange]).length)
+				? [self localizedString : kReplyItemKey]
+				: [self localizedString : kReplyToItemKey];
+	
+	[theItem setTitle : title_];		
+	
+	return ([self threadAttributes] && [self shouldShowContents]);
+}
+
+- (BOOL) validateShowBoardInspectorPanelItem: (id) theItem
+{
+	NSWindowController *wc_ = [BSBoardInfoInspector sharedInstance];
+	if (NO == [wc_ isWindowLoaded]) {
+		[theItem setTitle: [self localizedString: kShowBoardInspectorKey]];
+	} else {
+		BOOL tmpBool = [[wc_ window] isVisible];
+		[theItem setTitle : [self localizedString: (tmpBool ? kHideBoardInspectorKey : kShowBoardInspectorKey)]];
+	}
+	return YES;
+}
+
+#pragma mark NSUserInterfaceValidations Protocol
+- (BOOL) validateUserInterfaceItem: (id <NSValidatedUserInterfaceItem>) theItem
+{
 	SEL	action_ = [theItem action];
+
+	if ([theItem isKindOfClass: [NSMenuItem class]]) {
+		if (action_ == @selector(clearMessageAttributes:) || action_ == @selector(showMessageMatchesAttributes:) ||
+			action_ == @selector(setOnMessageAttributes:)) {
+			return [self validateActionMenuItem: (NSMenuItem *)theItem];
+		}
+	}
 
 	// レス
 	if (action_ == @selector(reply:)) {
-		NSString		*title_;
-		
-		title_ = (0 == ([[self textView] selectedRange]).length)
-					? [self localizedString : kReplyItemKey]
-					: [self localizedString : kReplyToItemKey];
-		
-		[theItem setTitle : title_];		
-		
-		return ([self threadAttributes] && [self shouldShowContents]);
+		return [self validateReplyItem: theItem];
 	}
 
 	// お気に入りに追加
@@ -251,7 +274,12 @@ static int messageMaskForTag(int tag)
 		[self validateDeleteThreadItemTitle: theItem];
 		return [self validateDeleteThreadItemEnabling: [self path]];
 	}
-	
+
+	// 掲示板オプション
+	if (action_ == @selector(showBoardInspectorPanel:)) {
+		return [self validateShowBoardInspectorPanelItem: theItem];
+	}
+
 	// 移動
 	if (action_ == @selector(scrollFirstMessage:))
 		return [self canScrollFirstMessage];
@@ -279,22 +307,11 @@ static int messageMaskForTag(int tag)
 	   action_ == @selector(findFirstText:)		||
 	   action_ == @selector(findAll:)			||
 	   action_ == @selector(findAllByFilter:) ||
-		action_ == @selector(biggerText:) ||
+	   action_ == @selector(biggerText:) ||
 	   action_ == @selector(smallerText:) ||
+	   action_ == @selector(runSpamFilter:) ||
 	   action_ == @selector(scaleSegmentedControlPushed:)) // For Segmented Control
 	{ return [self shouldShowContents] && [[[self textView] textStorage] length]; }
-
-	// 掲示板オプション
-	if (action_ == @selector(showBoardInspectorPanel:)) {
-		NSWindowController *wc_ = [BSBoardInfoInspector sharedInstance];
-		if (NO == [wc_ isWindowLoaded]) {
-			[theItem setTitle: [self localizedString: kShowBoardInspectorKey]];
-		} else {
-			BOOL tmpBool = [[wc_ window] isVisible];
-			[theItem setTitle : [self localizedString: (tmpBool ? kHideBoardInspectorKey : kShowBoardInspectorKey)]];
-		}
-		return YES;
-	}
 	
 	// 履歴：戻る／進む
 	if (action_ == @selector(historyMenuPerformForward:)) {
@@ -332,28 +349,6 @@ static int messageMaskForTag(int tag)
 		return ([[self selectedThreadsReallySelected] count] || [self threadURL]);
 	}
 
-	return NO;
-}
-
-- (BOOL) validateMenuItem : (NSMenuItem *) theItem
-{
-	if ([super validateMenuItem : theItem]) 
-		return YES;
-	
-	if (NO ==  [self validateUIItem : theItem])
-		return [self validateActionMenuItem : theItem];
-	
-	return YES;
-}
-
-- (BOOL) validateToolbarItem : (NSToolbarItem *) theItem
-{
-	SEL action_ = [theItem action];
-	if (action_ == @selector(cancelCurrentTask:))
-	{ 
-		return [super validateToolbarItem : theItem];
-	}
-	if (NO == [super validateToolbarItem : theItem]) return NO;
-	return [self validateUIItem : theItem];
+	return [super validateUserInterfaceItem: theItem];
 }
 @end

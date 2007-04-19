@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.21 2007/03/17 19:28:58 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.22 2007/04/19 14:13:43 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright (c) 2003, Takanori Ishikawa.
@@ -200,7 +200,7 @@
 - (void) validateDeleteThreadItemTitle: (id) theItem;
 - (CMRFavoritesOperation) favoritesOperationForThreads: (NSArray *) threadsArray;
 - (BOOL) validateAddFavoritesItem: (id) theItem forOperation: (CMRFavoritesOperation) operation;
-- (BOOL) validateUIItem : (id) theItem;
+//- (BOOL) validateUIItem : (id) theItem;
 @end
 
 

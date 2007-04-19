@@ -74,7 +74,7 @@ extern NSString *const CMRThreadViewerRunSpamFilterNotification;
 - (BOOL) canScrollLastMessage;
 - (BOOL) canScrollPrevMessage;
 - (BOOL) canScrollNextMessage;
-
+- (BOOL) canScrollToMessage;
 - (BOOL) canScrollToLastReadedMessage;
 - (BOOL) canScrollToLastUpdatedMessage;
 @end

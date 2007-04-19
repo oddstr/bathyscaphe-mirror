@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRStatusLineWindowController.h,v 1.6 2007/01/07 17:04:24 masakih Exp $
+  * $Id: CMRStatusLineWindowController.h,v 1.7 2007/04/19 14:13:43 tsawada2 Exp $
   * BathyScaphe
   *
   * ãå CMRStatusLineWindowController Ç∆ CMRToolbarWindowController Çìùçá
@@ -15,7 +15,7 @@
 
 @protocol CMRToolbarDelegate;
 
-@interface CMRStatusLineWindowController: NSWindowController
+@interface CMRStatusLineWindowController: NSWindowController<NSUserInterfaceValidations>
 {
 	@private
 	CMRStatusLine				*m_statusLine;

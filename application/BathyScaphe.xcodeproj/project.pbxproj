@@ -481,6 +481,7 @@
 		8762E8CB0A8635C200062504 /* sora.pl in Resources */ = {isa = PBXBuildFile; fileRef = 8762E8C80A8635C200062504 /* sora.pl */; };
 		876371710AB3455E005D5996 /* BSAsciiArtDetector.h in Headers */ = {isa = PBXBuildFile; fileRef = 8763716F0AB3455E005D5996 /* BSAsciiArtDetector.h */; };
 		876371720AB3455E005D5996 /* BSAsciiArtDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 876371700AB3455E005D5996 /* BSAsciiArtDetector.m */; };
+		876AC0BC0BD48AC800238F9D /* SGAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244F5043610D600A80005 /* SGAppKit.framework */; };
 		87749E070A878F120008A679 /* HistoryFolder.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CD5090E970F007FF9C3 /* HistoryFolder.png */; };
 		87751824097818E7009D4A9C /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F36067F8044D4DD500A80005 /* ApplicationServices.framework */; };
 		87751A5A09782B82009D4A9C /* BSIPIFullScreenController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87751A5809782B82009D4A9C /* BSIPIFullScreenController.h */; };
@@ -1833,7 +1834,7 @@
 		F46795590B74CD40001B0001 /* DatabaseUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseUpdater.h; sourceTree = "<group>"; };
 		F467955A0B74CD40001B0001 /* DatabaseUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabaseUpdater.m; sourceTree = "<group>"; };
 		F472216D0B26EF8F004FAD24 /* OgreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OgreKit.framework; path = ../frameworks/OgreKit/build/Release/OgreKit.framework; sourceTree = SOURCE_ROOT; };
-		F473638F0AFF8758009B6189 /* Starlight Breaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Starlight Breaker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F473638F0AFF8758009B6189 /* BathyScaphe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BathyScaphe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F47A664B0AFF7EE600EB5137 /* alter.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = alter.c; path = ../misc/sqlite/alter.c; sourceTree = SOURCE_ROOT; };
 		F47A664C0AFF7EE600EB5137 /* analyze.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = analyze.c; path = ../misc/sqlite/analyze.c; sourceTree = SOURCE_ROOT; };
 		F47A664D0AFF7EE600EB5137 /* attach.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = attach.c; path = ../misc/sqlite/attach.c; sourceTree = SOURCE_ROOT; };
@@ -1959,6 +1960,7 @@
 				871CA14D08585F8100C3A044 /* Cocoa.framework in Frameworks */,
 				871CA14E08585F8100C3A044 /* CocoMonar.framework in Frameworks */,
 				871CA14F08585F8100C3A044 /* SGFoundation.framework in Frameworks */,
+				876AC0BC0BD48AC800238F9D /* SGAppKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2022,7 +2024,7 @@
 				871CA18308585FD200C3A044 /* 2chConnector.plugin */,
 				87C2031D08FF3E2B006DC42C /* ImagePreviewer.plugin */,
 				F4369C0C0AFF7CFC005ABD68 /* libsqlite.a */,
-				F473638F0AFF8758009B6189 /* Starlight Breaker.app */,
+				F473638F0AFF8758009B6189 /* BathyScaphe.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3932,7 +3934,7 @@
 			name = "Starlight Breaker";
 			productInstallPath = "$(HOME)/Applications";
 			productName = v1;
-			productReference = F473638F0AFF8758009B6189 /* Starlight Breaker.app */;
+			productReference = F473638F0AFF8758009B6189 /* BathyScaphe.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -5320,7 +5322,9 @@
 					../frameworks/CocoMonar/build/Deployment,
 					../frameworks/SGFoundation/build/Deployment,
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
 				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../frameworks/SGAppKit/build/Deployment\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -5355,7 +5359,9 @@
 					../frameworks/CocoMonar/build/Deployment,
 					../frameworks/SGFoundation/build/Deployment,
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
 				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../frameworks/SGAppKit/build/Deployment\"";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_OPTIMIZATION_LEVEL = s;
@@ -5388,7 +5394,9 @@
 					../frameworks/CocoMonar/build/Deployment,
 					../frameworks/SGFoundation/build/Deployment,
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
 				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../frameworks/SGAppKit/build/Deployment\"";
 				INFOPLIST_FILE = "Info-preferences.plist";
 				INSTALL_PATH = "@executable_path/../Plugins";
 				OTHER_LDFLAGS = "";
@@ -5843,7 +5851,7 @@
 				);
 				OTHER_LDFLAGS = "-bind_at_load";
 				PREBINDING = NO;
-				PRODUCT_NAME = "Starlight Breaker";
+				PRODUCT_NAME = BathyScaphe;
 				SECTORDER_FLAGS = "";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/source\"";
 				WARNING_CFLAGS = (
@@ -5890,7 +5898,7 @@
 				);
 				OTHER_LDFLAGS = "-bind_at_load";
 				PREBINDING = NO;
-				PRODUCT_NAME = "Starlight Breaker";
+				PRODUCT_NAME = BathyScaphe;
 				SECTORDER_FLAGS = "";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/source\"";
 				WARNING_CFLAGS = (
@@ -5926,7 +5934,7 @@
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/source\"";
 				OTHER_LDFLAGS = "-bind_at_load";
 				PREBINDING = NO;
-				PRODUCT_NAME = "Starlight Breaker";
+				PRODUCT_NAME = BathyScaphe;
 				SECTORDER_FLAGS = "";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/source\"";
 				WARNING_CFLAGS = (

@@ -1,3 +1,25 @@
+2007-04-19 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/BSThreadListItem.m
+		valueForUndefinedKey: が呼び出されると、デフォルトでは例外が発生する。これがツールバー項目の validation など、
+		思わぬ所に影響を及ぼすようなので、このメソッドをオーバーライドして例外は発生させないようにした。
+		たぶん [Bug 10300] は解決。
+	* application/source/thread/CMRThreadViewer-Validation.m
+	* application/source/thread/CMRThreadViewer-OwnHistory.m
+	* application/source/browser/CMRBrowser-Validation.m
+	* application/source/window/CMRReplyController.m
+	* application/source/window/CMRStatusLineWindowController.m
+		ツールバー項目とメニューバー項目の validation を統一的に行うため、NSUserInterfaceValidations プロトコルに
+		適合させ、基本的に -validateUserInterfaceItem: で validation を行うようにした。
+	* application/BathyScaphe.xcodeproj
+		Starlight Breaker ターゲットで BathyScaphe 1.5 をビルドするようにした。
+		（BathyScaphe 1.5 をビルドするのは BathyScaphe ターゲットではないので注意）。
+2007-04-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/font_color/FCController.m
+		「環境設定」＞「表示」ペインで、「テーマ：」ポップアップメニューから command キーを押しながらテーマ名を選ぶことで
+		そのテーマファイルを削除できるようにした（削除後は、とりあえずデフォルトテーマを選択するようにした）。
+		これに伴い、preferencesPane.plugin が SGAppKit フレームワークもリンクするようになった。
+	* application/Resources/text/KeyValueTemplates.plist
+		ソフトウェア・アップデート用の URL 情報を BathyScaphe 用に更新。
 2007-04-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/bbs/BoardManager-BSAddition.m
 	* application/source/bbs/BoardListItem/SmartBoardListItemEditor.m

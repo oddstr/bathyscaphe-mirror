@@ -119,18 +119,63 @@
 }
 
 #pragma mark Validation
-- (BOOL) validateMenuItem : (NSMenuItem *) theItem
+- (BOOL) validateToggleBeLoginItem : (NSToolbarItem *) theItem
 {
-	SEL		action_;
+	BSBeLoginPolicyType policy_ = [[BoardManager defaultManager] typeOfBeLoginPolicyForBoard : [[self document] boardName]];
 	
-	if (nil == theItem) return NO;
-	action_ = [theItem action];
-	
-	if (@selector(pasteAsQuotation:) == action_) {
-		return YES;
+	switch(policy_) {
+		case BSBeLoginNoAccountOFF:
+		{
+			[theItem setImage : [NSImage imageAppNamed : kImageForLoginOff]];
+			[theItem setLabel : [self localizedString : kLabelForLoginOff]];
+			[theItem setToolTip : [self localizedString : kToolTipForCantLoginOn]];
+			return NO;
+		}
+		case BSBeLoginTriviallyOFF:
+		{
+			[theItem setImage : [NSImage imageAppNamed : kImageForLoginOff]];
+			[theItem setLabel : [self localizedString : kLabelForLoginOff]];
+			[theItem setToolTip : [self localizedString : kToolTipForTrivialLoginOff]];
+			return NO;
+		}
+		case BSBeLoginTriviallyNeeded:
+		{
+			[theItem setImage : [NSImage imageAppNamed : kImageForLoginOn]];
+			[theItem setLabel : [self localizedString : kLabelForLoginOn]];
+			[theItem setToolTip : [self localizedString : kToolTipForNeededLogin]];
+			return NO;
+		}
+		case BSBeLoginDecidedByUser: 
+		{
+			NSString				*title_, *tooltip_;
+			NSImage					*image_;
+		
+			if ([[self document] shouldSendBeCookie]) {
+				title_ = [self localizedString : kLabelForLoginOn];
+				tooltip_ = [self localizedString : kToolTipForLoginOn];
+				image_ = [NSImage imageAppNamed : kImageForLoginOn];
+			} else {
+				title_ = [self localizedString : kLabelForLoginOff];
+				tooltip_ = [self localizedString : kToolTipForLoginOff];
+				image_ = [NSImage imageAppNamed : kImageForLoginOff];
+			}
+			[theItem setImage : image_];
+			[theItem setLabel : title_];
+			[theItem setToolTip : tooltip_];
+			return YES;
+		}
 	}
-	//「レス...」項目を「送信」として利用する。
-	if (@selector(reply:) == action_) {
+	return NO;
+}
+
+- (BOOL) validateUserInterfaceItem: (id <NSValidatedUserInterfaceItem>) theItem
+{
+	SEL action_ = [theItem action];
+	if (action_ == @selector(toggleBeLogin:)) {
+		return [self validateToggleBeLoginItem: (NSToolbarItem *)theItem];
+	} else if (action_ == @selector(pasteAsQuotation:)) {
+		return YES;
+	} else if (action_ == @selector(reply:)) { //「レス...」項目を「送信」として利用する。
 		NSString		*title_;
 		
 		title_ = [self localizedString:kSendMessageStringKey];
@@ -138,66 +183,10 @@
 		
 		return YES;
 	}
-	return [super validateMenuItem : theItem];
-}
-- (BOOL) validateToolbarItem : (NSToolbarItem *) theItem
-{
-	SEL		action_;
-	
-	if (nil == theItem) return NO;
 
-	action_ = [theItem action];
-
-	if (action_ == @selector(toggleBeLogin:)) {
-		BSBeLoginPolicyType policy_ = [[BoardManager defaultManager] typeOfBeLoginPolicyForBoard : [[self document] boardName]];
-		
-		switch(policy_) {
-			case BSBeLoginNoAccountOFF:
-			{
-				[theItem setImage : [NSImage imageAppNamed : kImageForLoginOff]];
-				[theItem setLabel : [self localizedString : kLabelForLoginOff]];
-				[theItem setToolTip : [self localizedString : kToolTipForCantLoginOn]];
-				return NO;
-			}
-			case BSBeLoginTriviallyOFF:
-			{
-				[theItem setImage : [NSImage imageAppNamed : kImageForLoginOff]];
-				[theItem setLabel : [self localizedString : kLabelForLoginOff]];
-				[theItem setToolTip : [self localizedString : kToolTipForTrivialLoginOff]];
-				return NO;
-			}
-			case BSBeLoginTriviallyNeeded:
-			{
-				[theItem setImage : [NSImage imageAppNamed : kImageForLoginOn]];
-				[theItem setLabel : [self localizedString : kLabelForLoginOn]];
-				[theItem setToolTip : [self localizedString : kToolTipForNeededLogin]];
-				return NO;
-			}
-			case BSBeLoginDecidedByUser: 
-			{
-				NSString				*title_, *tooltip_;
-				NSImage					*image_;
-			
-				if ([[self document] shouldSendBeCookie]) {
-					title_ = [self localizedString : kLabelForLoginOn];
-					tooltip_ = [self localizedString : kToolTipForLoginOn];
-					image_ = [NSImage imageAppNamed : kImageForLoginOn];
-				} else {
-					title_ = [self localizedString : kLabelForLoginOff];
-					tooltip_ = [self localizedString : kToolTipForLoginOff];
-					image_ = [NSImage imageAppNamed : kImageForLoginOff];
-				}
-				[theItem setImage : image_];
-				[theItem setLabel : title_];
-				[theItem setToolTip : tooltip_];
-				return YES;
-			}
-		}
-	}
-	return NO;
+	return [super validateUserInterfaceItem: theItem];
 }
 @end
-
 
 
 @implementation CMRReplyController(ActionSupport)

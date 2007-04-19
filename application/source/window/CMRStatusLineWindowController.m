@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRStatusLineWindowController.m,v 1.12 2007/02/11 17:13:48 tsawada2 Exp $
+  * $Id: CMRStatusLineWindowController.m,v 1.13 2007/04/19 14:13:43 tsawada2 Exp $
   * BathyScaphe
   *
   * ãå CMRStatusLineWindowController Ç∆ CMRToolbarWindowController Çìùçá
@@ -70,7 +70,7 @@
 	[[self window] setViewsNeedDisplay : YES];
 	[[self window] setAutodisplay : YES];
 }
-
+/*
 - (BOOL) validateMenuItem : (NSMenuItem *) theItem
 {
 	SEL action_;
@@ -105,17 +105,16 @@
 		return (theItem_ == item_);
 	}
 }
-
-// delegate
-/*- (void) windowWillRunToolbarCustomizationPalette: (NSWindow *) sender
+*/
+- (BOOL) validateUserInterfaceItem: (id <NSValidatedUserInterfaceItem>) anItem
 {
-	[[[self statusLine] progressIndicator] setDisplayedWhenStopped : YES];
+	SEL action_ = [anItem action];
+	if (action_ == @selector(cancelCurrentTask:)) {
+		return [[CMRTaskManager defaultManager] isInProgress];
+	}
+	
+	return YES; // For Example, @selector(saveAsDefaultFrame:) -- always YES.
 }
-
-- (void)windowDidEndSheet:(NSNotification *)aNotification
-{
-	[[[self statusLine] progressIndicator] setDisplayedWhenStopped : NO];
-}*/
 @end
 
 @implementation CMRStatusLineWindowController(ViewInitializer)
