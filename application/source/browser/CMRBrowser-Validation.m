@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-Validation.m,v 1.25 2007/04/19 14:13:43 tsawada2 Exp $
+ * $Id: CMRBrowser-Validation.m,v 1.26 2007/04/21 08:09:27 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -62,8 +62,10 @@
 
 - (BOOL) validateCollapseOrExpandBoardListItem: (id) theItem
 {
-	[theItem setTitle : ([[self boardListSubView] isCollapsed] ? NSLocalizedString(@"Expand Boards List", @"")
-															   : NSLocalizedString(@"Collapse Boards List", @""))];
+	if ([theItem isKindOfClass: [NSMenuItem class]]) {
+		[theItem setTitle : ([[self boardListSubView] isCollapsed] ? NSLocalizedString(@"Expand Boards List", @"")
+																   : NSLocalizedString(@"Collapse Boards List", @""))];
+	}
 	return YES;
 }
 

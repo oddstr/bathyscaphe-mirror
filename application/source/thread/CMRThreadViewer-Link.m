@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.24 2007/04/12 12:55:12 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.25 2007/04/21 08:09:27 tsawada2 Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -437,8 +437,6 @@ ErrInvalidLink:
 												   compose: NO
 											attributesMask: (CMRLocalAbonedMask|CMRSpamMask)];
 	if (nil == contents_ || 0 == [contents_ length]) {
-/*		NSBeep();
-		return;*/
 		NSString *notFoundString = [NSString stringWithFormat: [self localizedString: @"GyakuSansyou Not Found"], targetIndex+1];
 		contents_ = [[[NSAttributedString alloc] initWithString: notFoundString] autorelease];
 	}
@@ -448,12 +446,7 @@ ErrInvalidLink:
 									  owner: self
 							   locationHint: location_];
 }
-/*
-- (void) threadView: (CMRThreadView *) aView reverseAnchorPopUp: (unsigned int) targetIndex
-{
-	[self threadView: aView reverseAnchorPopUp: targetIndex locationHint: [self locationForInformationPopUp]];
-}
-*/
+
 // CometBlaster Addition
 /*
 - (BOOL) threadView: (CMRThreadView *) aView

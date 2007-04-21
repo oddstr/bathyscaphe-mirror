@@ -1,5 +1,5 @@
 /** 
-  * $Id: CMRThreadViewer-Find.m,v 1.16 2007/03/26 00:03:51 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Find.m,v 1.17 2007/04/21 08:09:27 tsawada2 Exp $
   *
   * Copyright (c) 2003, Takanori Ishikawa.
   * CMRThreadViewer-Action.m から分割 - 2005-02-16 by tsawada2.
@@ -419,7 +419,7 @@ ErrNotFound:
 	CMRAttributedMessageComposer	*composer_;
 	CMXPopUpWindowController		*popUp_;
 	unsigned						nFound = 0;
-	UInt32							attributesMask_ = CMRAnyAttributesMask;
+//	UInt32							attributesMask_ = CMRAnyAttributesMask;
 
 	if ([aString length] == 0) return;
 
@@ -431,10 +431,11 @@ ErrNotFound:
 	composer_ = [[CMRAttributedMessageComposer alloc] init];
 	textBuffer_ = [[NSMutableAttributedString alloc] init];
 	
-	attributesMask_ &= ~CMRAsciiArtMask;
+/*	attributesMask_ &= ~CMRAsciiArtMask;
 	attributesMask_ &= ~CMRBookmarkMask;
-	[composer_ setAttributesMask : attributesMask_];
-	[composer_ setComposingMask : CMRAnyAttributesMask compose : YES];
+	[composer_ setAttributesMask : attributesMask_];*/
+//	[composer_ setComposingMask : CMRAnyAttributesMask compose : YES];
+	[composer_ setComposingMask : (CMRLocalAbonedMask|CMRInvisibleAbonedMask) compose : NO];
 	
 	[composer_ setContentsStorage : textBuffer_];
 	
@@ -544,18 +545,19 @@ CleanUp:
 	CMRAttributedMessageComposer	*composer_;
 	CMXPopUpWindowController		*popUp_;
 	unsigned						nFound = 0;
-	UInt32							attributesMask_ = CMRAnyAttributesMask;
+//	UInt32							attributesMask_ = CMRAnyAttributesMask;
 
 	if (!IDString || [IDString length] == 0) return;
 
 	composer_ = [[CMRAttributedMessageComposer alloc] init];
 	textBuffer_ = [[NSMutableAttributedString alloc] init];
-	
+/*	
 	attributesMask_ &= ~CMRAsciiArtMask;
 	attributesMask_ &= ~CMRBookmarkMask;
 
-	[composer_ setAttributesMask : attributesMask_];
-	[composer_ setComposingMask : CMRAnyAttributesMask compose : YES];	
+	[composer_ setAttributesMask : attributesMask_];*/
+	// 「迷惑レス」で「表示しない」の場合は CMRAttributedMessageComposer 側が判断して生成しないのでこれで良い
+	[composer_ setComposingMask : (CMRLocalAbonedMask|CMRInvisibleAbonedMask) compose : NO];	
 	[composer_ setContentsStorage : textBuffer_];
 	
 	iter = [layout messageEnumerator];

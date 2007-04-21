@@ -1,3 +1,9 @@
+2007-04-21 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-Find.m
+		[Bug 10313] を修正。
+	* application/source/browser/CMRBrowser-Validation.m
+		[Bug 10308] を修正。
+================================================= 1.5 Sneaky (v101)
 2007-04-19 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/board_default.plist
 		最新のものに更新。
