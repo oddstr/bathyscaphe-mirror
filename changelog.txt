@@ -1,4 +1,23 @@
+2007-04-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/font_color/BSThemeEditor.[h|m]
+	* application/subproj/preference/Japanese.lproj/ThemeEditor.nib
+		「環境設定」＞「表示」のカスタムテーマ編集シート関係のソースと nib を FCController.m および
+		ViewPane.nib から分離独立させた（まだ作成途中で、完全には動作しない）。
+	* application/subproj/preference/Japanese.lproj/ViewPane.nib
+	* application/subproj/preference/Japanese.lproj/Localizable.strings
+	* application/subproj/preference/font_color/FCController.m
+		「環境設定」＞「表示」ペインのコントローラを再編成している途中。また、テーマを削除する前に
+		確認のアラートを表示するようにした。テーマに既に存在する名前を付けようとした場合の処理を改善予定。
+2007-04-22 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/BSBoardListItemHEADCheckTask.m
+		更新チェック後に再生するサウンドの選択条件が間違っていたので修正。
 2007-04-21 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/abstract/PreferencesController.m
+		一部未使用のコードを取り除いた。
+	* application/subproj/preference/Japanese.lproj/ViewPane.nib
+	* application/subproj/preference/Japanese.lproj/Localizable.strings
+	* application/subproj/preference/font_color/FCController.m
+		「表示」環境設定でのカスタムテーマ編集シート上のヘルプボタンが動作するように準備。
 	* application/source/thread/CMRThreadViewer-Find.m
 		[Bug 10313] を修正。
 	* application/source/browser/CMRBrowser-Validation.m

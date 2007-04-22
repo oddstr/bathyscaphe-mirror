@@ -1,6 +1,7 @@
 #import "FCController.h"
 #import "PreferencePanes_Prefix.h"
 #import <SGAppKit/NSEvent-SGExtensions.h>
+#import "BSThemeEditor.h"
 
 #define kLabelKey		@"Appearance Label"
 #define kToolTipKey		@"Appearance ToolTip"
@@ -14,21 +15,24 @@
 
 - (void) dealloc
 {
-	[m_saveThemeIdentifier release];
-	m_saveThemeIdentifier = nil;
+	[m_themeEditor release];
+	m_themeEditor = nil;
 	[super dealloc];
 }
 
-- (NSString *) saveThemeIdentifier
+#pragma mark Accessors
+- (BSThemeEditor *) themeEditor
 {
-	return m_saveThemeIdentifier;
+	if (m_themeEditor == nil) {
+		m_themeEditor = [[BSThemeEditor alloc] init];
+		[m_themeEditor setDelegate: self];
+	}
+	return m_themeEditor;
 }
 
-- (void) setSaveThemeIdentifier: (NSString *) aString
+- (NSPopUpButton *) themesChooser
 {
-	[aString retain];
-	[m_saveThemeIdentifier release];
-	m_saveThemeIdentifier = aString;
+	return m_themesChooser;
 }
 
 #pragma mark IBActions
@@ -44,58 +48,17 @@
 
 - (IBAction) editCustomTheme: (id) sender
 {
-	BSThreadViewTheme *object_ = [[[self preferences] threadViewTheme] copy];
-	[m_themeGreenCube setContent: object_];
-	[object_ release];
-	[NSApp beginSheet: m_themeEditSheet
-	   modalForWindow: [self window]
-		modalDelegate: self
-	   didEndSelector: @selector(themeEditSheetDidEnd:returnCode:contextInfo:) 
-		  contextInfo: NULL];
-}
+	BSThreadViewTheme *content = [[[self preferences] threadViewTheme] copy];
+	BSThemeEditor *editor = [self themeEditor];
 
-- (void) themeEditSheetDidEnd: (NSWindow *) sheet returnCode: (int) returnCode contextInfo: (void *) contextInfo
-{
-	[sheet close];
-
-	if (returnCode == NSOKButton) {
-		BSThreadViewTheme *newObj = [m_themeGreenCube content];
-		NSString *themeFilePath = [[self preferences] customThemeFilePath];
-		[newObj setIdentifier: kThreadViewThemeCustomThemeIdentifier];
-
-		if (NO == [newObj writeToFile: themeFilePath atomically: YES]) {
-			NSLog(@"Fail to save file.");
-		} else {
-			[[self preferences] setUsesCustomTheme: YES];
-			[[self preferences] setThemeFileName: nil];
-		}
-	}
-	[m_themeGreenCube setContent: nil];
-	[self updateUIComponents];
-}
-
-- (void) deleteTheme: (NSString *) fileName
-{
-	if (!fileName) return;
-	NSString *fullPath = [[self preferences] createFullPathFromThemeFileName: fileName];
-	NSFileManager *fm_ = [NSFileManager defaultManager];
-	if (NO == [fm_ fileExistsAtPath: fullPath]) return;
-
-//	NSLog(@"Deleting theme file %@", fullPath);
-	if ([fm_ removeFileAtPath: fullPath handler: nil]) {
-		int	i = [m_themesChooser indexOfItemWithRepresentedObject: fileName];
-		if (i == -1) return;
-		[m_themesChooser selectItemAtIndex: 0]; // Restore to Default Theme
-		[self chooseDefaultTheme: nil];
-		[m_themesChooser removeItemAtIndex: i];
-	}
+	[[editor themeGreenCube] setContent: content];
+	[editor beginSheetModalForWindow: [self window] modalDelegate: self contextInfo: NULL];
 }
 
 - (IBAction) chooseTheme: (id) sender
 {
 	if ([NSEvent currentCarbonModifierFlags] & NSCommandKeyMask) {
-//		NSLog(@"CommandKey Pressed");
-		[self deleteTheme: [sender representedObject]];
+		[self tryDeleteTheme: sender];
 	} else {
 		[[self preferences] setUsesCustomTheme: NO];
 		[[self preferences] setThemeFileName: [sender representedObject]];
@@ -108,42 +71,92 @@
 	[[self preferences] setThemeFileName: nil];
 }
 
-- (IBAction) closePanelAndUseTagForReturnCode: (id) sender
+#pragma mark Delegate Methods
+- (void) themeEditSheetDidEnd: (NSWindow *) sheet returnCode: (int) returnCode contextInfo: (void *) contextInfo
 {
-	if ([sender window] == m_themeEditSheet) {
-		[NSApp endSheet: [sender window] returnCode: [sender tag]];
-	} else if ([sender window] == m_themeNameSheet) {
-		[NSApp stopModalWithCode: [sender tag]];
-		[[sender window] close];
-	}
-}
-
-- (IBAction) saveTheme: (id) sender
-{
-	int returnCode = [NSApp runModalForWindow: m_themeNameSheet];
+	NSObjectController *cube = [[self themeEditor] themeGreenCube];
+	[sheet close];
 
 	if (returnCode == NSOKButton) {
-		int myReturnCode = 3;
-		NSString *fileName = [NSString stringWithFormat: @"UserTheme%.0f.plist", [[NSDate date] timeIntervalSince1970]];
-		NSString *filePath = [[[[CMRFileManager defaultManager] supportDirectoryWithName: BSThemesDirectory] filepath]
-								stringByAppendingPathComponent: fileName];
-		[[m_themeGreenCube content] setIdentifier: [self saveThemeIdentifier]];
-		if ([[m_themeGreenCube content] writeToFile: filePath atomically: YES]) {
-			[[self preferences] setUsesCustomTheme: NO];
-			[[self preferences] setThemeFileName: fileName];
-			[self addMenuItemOfTitle: [self saveThemeIdentifier] representedObject: fileName atIndex: 1];
+		BSThreadViewTheme *newObj = [cube content];
+		NSString *themeFilePath = [[self preferences] customThemeFilePath];
+		[newObj setIdentifier: kThreadViewThemeCustomThemeIdentifier];
+
+		if (NO == [newObj writeToFile: themeFilePath atomically: YES]) {
+			NSLog(@"Fail to save file.");
 		} else {
-			NSBeep();
-			NSLog(@"Failed to save theme file %@", filePath);
-			myReturnCode = NSCancelButton;
+			[[self preferences] setUsesCustomTheme: YES];
+			[[self preferences] setThemeFileName: nil];
 		}
-		[NSApp endSheet: m_themeEditSheet returnCode: myReturnCode];//NSOKButton];
 	}
+	[cube setContent: nil];
+	[self updateUIComponents];
+}
+
+- (void) deleteThemeAlertDidEnd: (NSAlert *) alert returnCode: (int) code contextInfo: (void *) contextInfo
+{
+	if (code == NSAlertFirstButtonReturn) {
+		[self deleteTheme: (NSString *)contextInfo];
+	}
+	[(NSString *)contextInfo release];
+	// toDO キャンセルされた場合に選択項目を正しく元に戻す
 }
 
 - (unsigned int) validModesForFontPanel : (NSFontPanel *) fontPanel
 {
 	return (NSFontPanelFaceModeMask|NSFontPanelSizeModeMask|NSFontPanelCollectionModeMask);
+}
+
+- (NSArray *) themeIdentifiersArray
+{
+	NSArray *allMenuItems = [[[self themesChooser] menu] itemArray];
+	unsigned itemsCount = [allMenuItems count];
+	if (itemsCount < 4) { // 重複チェックの必要なし
+		return nil;
+	}
+	NSArray *menuItems = [allMenuItems subarrayWithRange: NSMakeRange(1, itemsCount-3)];
+	return [menuItems valueForKey: @"title"];
+}
+
+- (void) addAndSelectSavedThemeOfTitle: (NSString *) title fileName: (NSString *) fileName
+{
+	[[self preferences] setUsesCustomTheme: NO];
+	[[self preferences] setThemeFileName: fileName];
+	[self addMenuItemOfTitle: title representedObject: fileName atIndex: 1];
+}
+
+#pragma mark Utilities
+- (void) deleteTheme: (NSString *) fileName
+{
+	if (!fileName) return;
+	NSString *fullPath = [[self preferences] createFullPathFromThemeFileName: fileName];
+	NSFileManager *fm_ = [NSFileManager defaultManager];
+	if (NO == [fm_ fileExistsAtPath: fullPath]) return;
+
+	if ([fm_ removeFileAtPath: fullPath handler: nil]) {
+		int	i = [m_themesChooser indexOfItemWithRepresentedObject: fileName];
+		if (i == -1) return;
+		[m_themesChooser selectItemAtIndex: 0]; // Restore to Default Theme
+		[self chooseDefaultTheme: nil];
+		[m_themesChooser removeItemAtIndex: i];
+	}
+}
+
+- (void) tryDeleteTheme: (id) sender
+{
+	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	NSString *fileName = [sender representedObject];
+	BOOL	serious = [[[self preferences] themeFileName] isEqualToString: fileName];
+	NSString *titleBase = serious ? PPLocalizedString(@"deleteThemeAlertSeriousTitle") : PPLocalizedString(@"deleteThemeAlertTitle");
+	[alert setAlertStyle: serious ? NSCriticalAlertStyle : NSWarningAlertStyle];
+	[alert setMessageText: [NSString stringWithFormat: titleBase, [sender title]]];
+	[alert setInformativeText: serious ? PPLocalizedString(@"deleteThemeAlertSeriousMsg") : PPLocalizedString(@"deleteThemeAlertMsg")];
+	[alert addButtonWithTitle: PPLocalizedString(@"deleteThemeBtnDelete")];
+	[alert addButtonWithTitle: PPLocalizedString(@"deleteThemeBtnCancel")];
+	[alert beginSheetModalForWindow: [self window]
+					  modalDelegate: self
+					 didEndSelector: @selector(deleteThemeAlertDidEnd:returnCode:contextInfo:)
+						contextInfo: [fileName retain]];
 }
 
 - (void) addMenuItemOfTitle: (NSString *) identifier representedObject: (NSString *) filepath atIndex: (unsigned int) index
@@ -160,12 +173,9 @@
 
 - (void) setUpMenu
 {
-//	NSMenu *menu_ = [m_themesChooser menu];
-
 	NSDirectoryEnumerator	*tmpEnum;
 	NSString		*file;
 	NSString		*fullpath;
-//	NSMenuItem *item;
 
 	NSString *themeDir = [[[CMRFileManager defaultManager] supportDirectoryWithName: BSThemesDirectory] filepath];
     if (themeDir) {
@@ -179,13 +189,7 @@
 
 				NSString *id_ = [theme identifier];
 				if ([id_ isEqualToString: kThreadViewThemeCustomThemeIdentifier]) continue;
-/*
-				item = [[NSMenuItem alloc] initWithTitle: id_ action: @selector(chooseTheme:) keyEquivalent: @""];
-				[item setRepresentedObject: file];
-				[item setTarget: self];
 
-				[menu_ insertItem: item atIndex: 1];
-				[item release];*/
 				[self addMenuItemOfTitle: id_ representedObject: file atIndex: 1];
 
 				[theme release];

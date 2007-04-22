@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesController.m,v 1.4 2005/11/09 10:16:56 tsawada2 Exp $
+  * $Id: PreferencesController.m,v 1.5 2007/04/22 15:51:30 tsawada2 Exp $
   * 
   * PreferencesController.m
   *
@@ -106,7 +106,7 @@
 - (void) didUnselect { ; }
 
 // utitlity
-- (void) preferencesRespondsTo : (SEL        ) respondsSEL
+/*- (void) preferencesRespondsTo : (SEL        ) respondsSEL
 					 ofControl : (NSControl *) aControl
 {
 	[aControl setEnabled : [[self preferences] respondsToSelector : respondsSEL]];
@@ -140,7 +140,7 @@
 	tag = [v intValue];
 	[aMatrix deselectSelectedCell];
 	[aMatrix selectCellWithTag : tag];
-}
+}*/
 
 
 - (IBAction) openHelp : (id) sender

@@ -1,0 +1,18 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {
+                closePanelAndUseTagForReturnCode = id; 
+                openHelpForEditingCustomTheme = id; 
+                saveTheme = id; 
+                stopModalAndValidateIdentifier = id; 
+            }; 
+            CLASS = BSThemeEditor; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"m_themeGreenCube" = NSObjectController; "m_themeNameSheet" = NSPanel; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

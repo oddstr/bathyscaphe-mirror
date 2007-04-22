@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesController.h,v 1.2 2005/07/29 21:18:28 tsawada2 Exp $
+  * $Id: PreferencesController.h,v 1.3 2007/04/22 15:51:30 tsawada2 Exp $
   * 
   * PreferencesController.h
   *
@@ -43,12 +43,13 @@
 // utility
 
 /* preferences‚ªrespondsSEL‚É‰ž“š‚·‚é‚È‚çaControl‚ðŽg—p‰Â”\‚É‚·‚é */
-- (void) preferencesRespondsTo : (SEL        ) respondsSEL
+// Removed in Starlight Breaker.
+/*- (void) preferencesRespondsTo : (SEL        ) respondsSEL
 					 ofControl : (NSControl *) aControl;
 - (void) syncButtonState : (NSButton *) aButton
 				    with : (SEL       ) boolValueSEL;
 - (void) syncSelectedTag : (NSMatrix *) aMatrix
-				    with : (SEL       ) boolValueSEL;
+				    with : (SEL       ) boolValueSEL;*/
 
 - (IBAction) openHelp : (id) sender;
 @end

@@ -466,6 +466,9 @@
 		8745CD290900DE9800A28AC0 /* BSImagePreviewerInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 8745CD280900DE9800A28AC0 /* BSImagePreviewerInterface.h */; };
 		87464E3708643673000F0371 /* libRBSplitView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87464E3608643673000F0371 /* libRBSplitView.a */; };
 		87464E390864368F000F0371 /* RBSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87464E380864368F000F0371 /* RBSplitView.h */; };
+		874934C20BDB62180082F7BF /* ThemeEditor.nib in Resources */ = {isa = PBXBuildFile; fileRef = 874934C00BDB62180082F7BF /* ThemeEditor.nib */; };
+		874934D30BDB65C30082F7BF /* BSThemeEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 874934D10BDB65C30082F7BF /* BSThemeEditor.h */; };
+		874934D40BDB65C30082F7BF /* BSThemeEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 874934D20BDB65C30082F7BF /* BSThemeEditor.m */; };
 		874A691C0B9DCFC500BB8FA7 /* BSVisibleRangePopUpBtnCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 874A691A0B9DCFC500BB8FA7 /* BSVisibleRangePopUpBtnCell.h */; };
 		874A691D0B9DCFC500BB8FA7 /* BSVisibleRangePopUpBtnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 874A691B0B9DCFC500BB8FA7 /* BSVisibleRangePopUpBtnCell.m */; };
 		87517B8A0864B4F0002DA082 /* SplitterHandle.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87517B890864B4F0002DA082 /* SplitterHandle.tiff */; };
@@ -1395,6 +1398,9 @@
 		8745CD280900DE9800A28AC0 /* BSImagePreviewerInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSImagePreviewerInterface.h; sourceTree = "<group>"; };
 		87464E3608643673000F0371 /* libRBSplitView.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libRBSplitView.a; sourceTree = "<group>"; };
 		87464E380864368F000F0371 /* RBSplitView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RBSplitView.h; path = ../RBSplitView.h; sourceTree = "<group>"; };
+		874934C10BDB62180082F7BF /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/ThemeEditor.nib; sourceTree = "<group>"; };
+		874934D10BDB65C30082F7BF /* BSThemeEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSThemeEditor.h; sourceTree = "<group>"; };
+		874934D20BDB65C30082F7BF /* BSThemeEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSThemeEditor.m; sourceTree = "<group>"; };
 		874A691A0B9DCFC500BB8FA7 /* BSVisibleRangePopUpBtnCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSVisibleRangePopUpBtnCell.h; sourceTree = "<group>"; };
 		874A691B0B9DCFC500BB8FA7 /* BSVisibleRangePopUpBtnCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSVisibleRangePopUpBtnCell.m; sourceTree = "<group>"; };
 		874F24FA080E716700EA2164 /* w2chReply_be2ch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = w2chReply_be2ch.h; sourceTree = "<group>"; };
@@ -2608,6 +2614,7 @@
 				8716066B098A44AB00A27F63 /* SoundsPane.nib */,
 				871607EB098AA42200A27F63 /* SyncPane.nib */,
 				872C32CE0BB18CD10044890C /* ViewPane.nib */,
+				874934C00BDB62180082F7BF /* ThemeEditor.nib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -2703,6 +2710,8 @@
 				874344EC0B62ACD800422547 /* BSFontWell.m */,
 				F324DB3B04C6959800A80005 /* FCController.h */,
 				F324DB3C04C6959800A80005 /* FCController.m */,
+				874934D10BDB65C30082F7BF /* BSThemeEditor.h */,
+				874934D20BDB65C30082F7BF /* BSThemeEditor.m */,
 			);
 			name = Appearance;
 			path = font_color;
@@ -3556,6 +3565,7 @@
 				8727F4C20A822EFB00E9C2F9 /* BSTagValueTransformer.h in Headers */,
 				87A474F90A85684100FC13E6 /* SyncPaneController.h in Headers */,
 				874344ED0B62ACD800422547 /* BSFontWell.h in Headers */,
+				874934D30BDB65C30082F7BF /* BSThemeEditor.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4106,6 +4116,7 @@
 				87DBC6990A867C6D00A1C058 /* syncFail.tiff in Resources */,
 				87DBC69A0A867C6D00A1C058 /* syncFinish.tiff in Resources */,
 				872C32D00BB18CD10044890C /* ViewPane.nib in Resources */,
+				874934C20BDB62180082F7BF /* ThemeEditor.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4484,6 +4495,7 @@
 				8727F4C30A822EFB00E9C2F9 /* BSTagValueTransformer.m in Sources */,
 				87A474FA0A85684200FC13E6 /* SyncPaneController.m in Sources */,
 				874344EE0B62ACD800422547 /* BSFontWell.m in Sources */,
+				874934D40BDB65C30082F7BF /* BSThemeEditor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5093,6 +5105,14 @@
 				873158DD0A9948B400854BD8 /* Japanese */,
 			);
 			name = BSDockMenuItem.nib;
+			sourceTree = "<group>";
+		};
+		874934C00BDB62180082F7BF /* ThemeEditor.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				874934C10BDB62180082F7BF /* Japanese */,
+			);
+			name = ThemeEditor.nib;
 			sourceTree = "<group>";
 		};
 		8761BAA20B80D2F700120AA4 /* IndexingPopupper.strings */ = {

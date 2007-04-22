@@ -177,7 +177,8 @@ static BOOL shouldCheckItemHeader(id dict);
 	[self updateDB:updatedThreads];
 	
 	numberOFChecked = numberOfAllTarget - numberOfSkip;
-	[self playFinishSoundIsUpdate:numberOFChecked != 0];
+//	[self playFinishSoundIsUpdate:numberOFChecked != 0];
+	[self playFinishSoundIsUpdate:([updatedThreads count] > 0)];
 	
 //	double interval_ = numberOFChecked * 20.0;
 	if(numberOFChecked > 0) //interval_ != 0) {
