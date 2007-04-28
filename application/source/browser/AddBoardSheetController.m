@@ -1,5 +1,5 @@
 //
-//  $Id: AddBoardSheetController.m,v 1.12 2007/01/09 18:13:01 masakih Exp $
+//  $Id: AddBoardSheetController.m,v 1.13 2007/04/28 17:59:13 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/12.
@@ -238,15 +238,18 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 				 informativeTextWithFormat : [self localizedString : @"So could not add to your Boards List."]] runModal];
 			return NO;
 		}
-//		newItem_ = [NSDictionary dictionaryWithObjectsAndKeys :
-//							name_, BoardPlistNameKey, url_, BoardPlistURLKey, nil];
-		if([[DatabaseManager defaultManager] boardIDForURLString:url_] == NSNotFound) {
-			[[DatabaseManager defaultManager] registerBoardName:name_ URLString:url_];
+
+		DatabaseManager *DBM = [DatabaseManager defaultManager];
+		unsigned boardID = [DBM boardIDForURLString:url_];
+		if(boardID == NSNotFound) {
+			[DBM registerBoardName:name_ URLString:url_];
+		} else {
+			[DBM renameBoardID:boardID toName:name_]; // 過去に同じ URL の掲示板を登録した経験有り -- IDを再利用、名前だけ新しくする
 		}
+
 		newItem_ = [BoardListItem boardListItemWithURLString:url_];
 
 		[userList addItem : newItem_ afterObject : nil];
-//		[userList postBoardListDidChangeNotification];
 		return YES;
 	}
 }

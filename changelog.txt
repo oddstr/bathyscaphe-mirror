@@ -1,4 +1,8 @@
 2007-04-29 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/AddBoardSheetController.m
+		http://pc11.2ch.net/test/read.cgi/mac/1176111059/218 で指摘された問題、即ち
+		「掲示板を追加」シートで直接名前と URL を入力して追加する際、過去に登録された経験がある URL だった場合に
+		過去の名前と別の名前で追加しようとしても過去の名前が使用されてしまう問題を解決。
 	* application/subproj/preference/font_color/BSThemeEditor.m
 	* application/subproj/preference/font_color/FCController.m
 		「環境設定」＞「表示」のカスタムテーマ編集機能の改造完了。
