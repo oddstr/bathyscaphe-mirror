@@ -1,3 +1,9 @@
+2007-04-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/font_color/BSThemeEditor.m
+	* application/subproj/preference/font_color/FCController.m
+	* application/source/preferences/AppDefaults.m
+		「環境設定」＞「表示」のカスタムテーマ編集関連を引き続き調整中。作業が遅れている。
+		大体固まってきたがまだ完全ではない。
 2007-04-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/preference/font_color/BSThemeEditor.[h|m]
 	* application/subproj/preference/Japanese.lproj/ThemeEditor.nib

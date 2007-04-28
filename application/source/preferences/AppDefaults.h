@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.41 2007/04/15 08:46:10 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.42 2007/04/28 11:35:27 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -306,6 +306,8 @@ typedef enum _BSAutoSyncIntervalType {
 - (void) setThemeFileName: (NSString *) fileName;
 - (BOOL) usesCustomTheme;
 - (void) setUsesCustomTheme: (BOOL) use;
+
+- (NSArray *) installedThemes;
 @end
 
 

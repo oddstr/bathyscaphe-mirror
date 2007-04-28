@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class AppDefaults;
 
 @interface BSThemeEditor : NSWindowController {
 	IBOutlet NSPanel		*m_themeNameSheet;
@@ -41,6 +42,6 @@
 
 @interface NSObject(BSThemeEditorModalDelegate)
 - (void) themeEditSheetDidEnd: (NSPanel *) sheet returnCode: (int) returnCode contextInfo: (void *) contextInfo;
-- (NSArray *) themeIdentifiersArray;
 - (void) addAndSelectSavedThemeOfTitle: (NSString *) title fileName: (NSString *) fileName;
+- (AppDefaults *) preferences;
 @end

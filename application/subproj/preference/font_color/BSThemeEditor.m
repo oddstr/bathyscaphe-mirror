@@ -4,10 +4,12 @@
 //
 //  Created by Tsutomu Sawada on 07/04/22.
 //  Copyright 2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import "BSThemeEditor.h"
 #import "PreferencePanes_Prefix.h"
+#import "AppDefaults.h"
 
 @implementation BSThemeEditor
 #pragma mark Overrides
@@ -72,12 +74,29 @@
 
 - (BOOL) checkIfOverlappingThemeIdentifier
 {
-	NSArray *identifiers = [[self delegate] themeIdentifiersArray];
+	NSArray *identifiers = [[[[self delegate] preferences] installedThemes] valueForKey: @"Identifier"];
 	if (!identifiers || NO == [identifiers containsObject: [self saveThemeIdentifier]]) { // 重複していない
 		return YES;
 	} else {
 		return NO;
 	}
+}
+
+- (NSString *) fileNameForIdentifier: (NSString *) identifier
+{
+	NSArray *array = [[[self delegate] preferences] installedThemes];
+	NSArray *ids = [array valueForKey: @"Identifier"];
+	unsigned idx = [ids indexOfObject: identifier];
+	if (idx != NSNotFound) {
+		return [[array valueForKey: @"FileName"] objectAtIndex: idx];
+	} else {
+		return nil;
+	}
+}
+	
+- (NSString *) createNewThemeFileFullPath: (NSString *) fileName
+{
+	return [[[[CMRFileManager defaultManager] supportDirectoryWithName: BSThemesDirectory] filepath] stringByAppendingPathComponent: fileName];
 }
 
 - (void) showOverlappingThemeIdAlert
@@ -110,16 +129,18 @@
 		[[self themeNamePanel] close];
 		[NSApp endSheet: [self window] returnCode: (hoge ? 3 : NSCancelButton)];
 	} else { // overWrite
-/*		id content = [[self themeGreenCube] content];
-		BSThreadViewTheme *theme = [[BSThreadViewTheme alloc] initWithContentsOfFile:
-			[self createNewThemeFileFullPath: [[[self delegate] preferences] themeFileName]];
-		[theme set*/
+		id	content = [[self themeGreenCube] content];
+		// identifier から上書きすべきファイル名を逆引きして
+		NSString *fileName = [self fileNameForIdentifier: [content identifier]];
+		// 上書き保存
+		if (fileName) {
+			[content writeToFile: [self createNewThemeFileFullPath: fileName] atomically: YES];
+			[[self themeNamePanel] close];
+			[[[self delegate] preferences] setUsesCustomTheme: NO];
+			[[[self delegate] preferences] setThemeFileName: fileName];
+			[NSApp endSheet: [self window] returnCode: 3];
+		}
 	}
-}
-	
-- (NSString *) createNewThemeFileFullPath: (NSString *) fileName
-{
-	return [[[[CMRFileManager defaultManager] supportDirectoryWithName: BSThemesDirectory] filepath] stringByAppendingPathComponent: fileName];
 }
 
 - (BOOL) saveThemeCore

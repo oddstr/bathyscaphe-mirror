@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.23 2007/04/15 08:46:10 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.24 2007/04/28 11:35:27 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -594,5 +594,31 @@ default_browserLastBoard:
 - (void) setUsesCustomTheme: (BOOL) use
 {
 	[[self defaults] setBool: use forKey: AppDefaultsUseCustomThemeKey];
+}
+
+- (NSArray *) installedThemes
+{
+	NSString *themeDir = [[[CMRFileManager defaultManager] supportDirectoryWithName: BSThemesDirectory] filepath];
+	NSMutableArray *tmp = [NSMutableArray array];
+
+	if (themeDir) {
+		NSDirectoryEnumerator *tmpEnum = [[NSFileManager defaultManager] enumeratorAtPath : themeDir];
+		NSString *file, *fullpath;
+
+		while (file = [tmpEnum nextObject]) {
+			if ([[file pathExtension] isEqualToString: @"plist"]) {
+				fullpath = [themeDir stringByAppendingPathComponent: file];
+				BSThreadViewTheme *theme = [[BSThreadViewTheme alloc] initWithContentsOfFile: fullpath];
+				if (!theme) continue;
+
+				NSString *id_ = [theme identifier];
+				if ([id_ isEqualToString: kThreadViewThemeCustomThemeIdentifier]) continue;
+
+				[tmp addObject: [NSDictionary dictionaryWithObjectsAndKeys: file, @"FileName", id_, @"Identifier", NULL]];
+				[theme release];
+			}
+		}
+	}
+	return (NSArray *)tmp;
 }
 @end

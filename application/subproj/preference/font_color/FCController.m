@@ -107,17 +107,6 @@
 	return (NSFontPanelFaceModeMask|NSFontPanelSizeModeMask|NSFontPanelCollectionModeMask);
 }
 
-- (NSArray *) themeIdentifiersArray
-{
-	NSArray *allMenuItems = [[[self themesChooser] menu] itemArray];
-	unsigned itemsCount = [allMenuItems count];
-	if (itemsCount < 4) { // 重複チェックの必要なし
-		return nil;
-	}
-	NSArray *menuItems = [allMenuItems subarrayWithRange: NSMakeRange(1, itemsCount-3)];
-	return [menuItems valueForKey: @"title"];
-}
-
 - (void) addAndSelectSavedThemeOfTitle: (NSString *) title fileName: (NSString *) fileName
 {
 	[[self preferences] setUsesCustomTheme: NO];
@@ -134,11 +123,11 @@
 	if (NO == [fm_ fileExistsAtPath: fullPath]) return;
 
 	if ([fm_ removeFileAtPath: fullPath handler: nil]) {
-		int	i = [m_themesChooser indexOfItemWithRepresentedObject: fileName];
+		int	i = [[self themesChooser] indexOfItemWithRepresentedObject: fileName];
 		if (i == -1) return;
-		[m_themesChooser selectItemAtIndex: 0]; // Restore to Default Theme
+		[[self themesChooser] selectItemAtIndex: 0]; // Restore to Default Theme
 		[self chooseDefaultTheme: nil];
-		[m_themesChooser removeItemAtIndex: i];
+		[[self themesChooser] removeItemAtIndex: i];
 	}
 }
 
@@ -161,7 +150,7 @@
 
 - (void) addMenuItemOfTitle: (NSString *) identifier representedObject: (NSString *) filepath atIndex: (unsigned int) index
 {
-	NSMenu *menu_ = [m_themesChooser menu];
+	NSMenu *menu_ = [[self themesChooser] menu];
 	NSMenuItem *item_;
 
 	item_ = [[NSMenuItem alloc] initWithTitle: identifier action: @selector(chooseTheme:) keyEquivalent: @""];
@@ -173,28 +162,13 @@
 
 - (void) setUpMenu
 {
-	NSDirectoryEnumerator	*tmpEnum;
-	NSString		*file;
-	NSString		*fullpath;
+	NSEnumerator *iter;
+	NSArray *array = [[self preferences] installedThemes];
+	NSDictionary *eachItem;
 
-	NSString *themeDir = [[[CMRFileManager defaultManager] supportDirectoryWithName: BSThemesDirectory] filepath];
-    if (themeDir) {
-		tmpEnum = [[NSFileManager defaultManager] enumeratorAtPath : themeDir];
-
-		while (file = [tmpEnum nextObject]) {
-			if ([[file pathExtension] isEqualToString: @"plist"]) {
-				fullpath = [themeDir stringByAppendingPathComponent: file];
-				BSThreadViewTheme *theme = [[BSThreadViewTheme alloc] initWithContentsOfFile: fullpath];
-				if (!theme) continue;
-
-				NSString *id_ = [theme identifier];
-				if ([id_ isEqualToString: kThreadViewThemeCustomThemeIdentifier]) continue;
-
-				[self addMenuItemOfTitle: id_ representedObject: file atIndex: 1];
-
-				[theme release];
-			}
-		}
+	iter = [array objectEnumerator];
+	while (eachItem = [iter nextObject]) {
+		[self addMenuItemOfTitle: [eachItem objectForKey: @"Identifier"] representedObject: [eachItem objectForKey: @"FileName"] atIndex: 1];
 	}
 }
 
@@ -215,20 +189,20 @@
 	if(!tmp_ || [tmp_ isEqualToString : @""]) {
 		BOOL useCustom = [[self preferences] usesCustomTheme];
 		if (useCustom && [[NSFileManager defaultManager] fileExistsAtPath: [[self preferences] customThemeFilePath]]) {
-			[m_themesChooser selectItemWithTag: -1];
+			[[self themesChooser] selectItemAtIndex: [[self themesChooser] indexOfItemWithTag: -1]];
 		} else {
-			[m_themesChooser selectItemWithTag: 1];
+			[[self themesChooser] selectItemAtIndex: [[self themesChooser] indexOfItemWithTag: 1]];
 		}
 	} else {
 		NSString *filePath = [[self preferences] createFullPathFromThemeFileName: tmp_];
 		if([[NSFileManager defaultManager] fileExistsAtPath: filePath]) {
-			[m_themesChooser selectItemAtIndex: [m_themesChooser indexOfItemWithRepresentedObject: tmp_]];
+			[[self themesChooser] selectItemAtIndex: [[self themesChooser] indexOfItemWithRepresentedObject: tmp_]];
 		} else {
-			[m_themesChooser selectItemWithTag: 1];
+			[[self themesChooser] selectItemAtIndex: [[self themesChooser] indexOfItemWithTag: 1]];
 		}
 	}
 
-	[m_themesChooser synchronizeTitleAndSelectedItem];
+	[[self themesChooser] synchronizeTitleAndSelectedItem];
 }
 @end
 
