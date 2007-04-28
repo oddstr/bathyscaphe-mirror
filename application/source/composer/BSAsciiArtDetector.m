@@ -30,11 +30,18 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 static BOOL detectIfAA(NSString *source)
 {
 	static OGRegularExpression *regExp = nil;
+	static BOOL shouldContinue = YES;
 
-    if (!source || [source length] < 7) return NO;
+    if (!source || [source length] < 7 || !shouldContinue) return NO;
 
 	if (!regExp) {
 		NSString *expStr = SGTemplateResource(kAADRegExpKey);
+		if (!expStr || [expStr isEqualToString: @""] || NO == [OGRegularExpression isValidExpressionString: expStr]) {
+			NSBeep();
+			NSLog(@"WARNING - Your AAD Regular Expression String is invalid or empty!");
+			shouldContinue = NO;
+			return NO;
+		}
 		regExp = [[OGRegularExpression alloc] initWithString: expStr];
 	}
 

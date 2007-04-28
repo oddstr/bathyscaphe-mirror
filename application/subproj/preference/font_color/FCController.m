@@ -90,6 +90,7 @@
 		}
 	}
 	[cube setContent: nil];
+	[[self themeEditor] setSaveThemeIdentifier: nil];
 	[self updateUIComponents];
 }
 
@@ -99,7 +100,7 @@
 		[self deleteTheme: (NSString *)contextInfo];
 	}
 	[(NSString *)contextInfo release];
-	// toDO ÉLÉÉÉìÉZÉãÇ≥ÇÍÇΩèÍçáÇ…ëIëçÄñ⁄Çê≥ÇµÇ≠å≥Ç…ñﬂÇ∑
+	[self updateUIComponents];
 }
 
 - (unsigned int) validModesForFontPanel : (NSFontPanel *) fontPanel
@@ -118,16 +119,19 @@
 - (void) deleteTheme: (NSString *) fileName
 {
 	if (!fileName) return;
+	BOOL	serious = [[[self preferences] themeFileName] isEqualToString: fileName];
 	NSString *fullPath = [[self preferences] createFullPathFromThemeFileName: fileName];
 	NSFileManager *fm_ = [NSFileManager defaultManager];
 	if (NO == [fm_ fileExistsAtPath: fullPath]) return;
 
 	if ([fm_ removeFileAtPath: fullPath handler: nil]) {
 		int	i = [[self themesChooser] indexOfItemWithRepresentedObject: fileName];
-		if (i == -1) return;
-		[[self themesChooser] selectItemAtIndex: 0]; // Restore to Default Theme
-		[self chooseDefaultTheme: nil];
-		[[self themesChooser] removeItemAtIndex: i];
+		if (i != -1) {
+			[[self themesChooser] removeItemAtIndex: i];
+		}
+		if (serious) {
+			[self chooseDefaultTheme: nil];
+		}
 	}
 }
 
@@ -183,26 +187,27 @@
 
 - (void) updateUIComponents
 {
+	NSPopUpButton *chooser_ = [self themesChooser];
 	NSString *tmp_;
 
 	tmp_ = [[self preferences] themeFileName];
 	if(!tmp_ || [tmp_ isEqualToString : @""]) {
 		BOOL useCustom = [[self preferences] usesCustomTheme];
 		if (useCustom && [[NSFileManager defaultManager] fileExistsAtPath: [[self preferences] customThemeFilePath]]) {
-			[[self themesChooser] selectItemAtIndex: [[self themesChooser] indexOfItemWithTag: -1]];
+			[chooser_ selectItemAtIndex: [chooser_ indexOfItemWithTag: -1]];
 		} else {
-			[[self themesChooser] selectItemAtIndex: [[self themesChooser] indexOfItemWithTag: 1]];
+			[chooser_ selectItemAtIndex: [chooser_ indexOfItemWithTag: 1]];
 		}
 	} else {
 		NSString *filePath = [[self preferences] createFullPathFromThemeFileName: tmp_];
 		if([[NSFileManager defaultManager] fileExistsAtPath: filePath]) {
-			[[self themesChooser] selectItemAtIndex: [[self themesChooser] indexOfItemWithRepresentedObject: tmp_]];
+			[chooser_ selectItemAtIndex: [chooser_ indexOfItemWithRepresentedObject: tmp_]];
 		} else {
-			[[self themesChooser] selectItemAtIndex: [[self themesChooser] indexOfItemWithTag: 1]];
+			[chooser_ selectItemAtIndex: [chooser_ indexOfItemWithTag: 1]];
 		}
 	}
 
-	[[self themesChooser] synchronizeTitleAndSelectedItem];
+	[chooser_ synchronizeTitleAndSelectedItem];
 }
 @end
 

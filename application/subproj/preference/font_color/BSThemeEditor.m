@@ -61,17 +61,7 @@
 	return m_themeGreenCube;
 }
 
-#pragma mark IBActions
-- (IBAction) closePanelAndUseTagForReturnCode: (id) sender
-{
-	if ([sender window] == [self window]) {
-		[NSApp endSheet: [sender window] returnCode: [sender tag]];
-	} else if ([sender window] == [self themeNamePanel]) {
-		[NSApp stopModalWithCode: [sender tag]];
-		if ([sender tag] == NSCancelButton)[[sender window] close];
-	}
-}
-
+#pragma mark Utilities
 - (BOOL) checkIfOverlappingThemeIdentifier
 {
 	NSArray *identifiers = [[[[self delegate] preferences] installedThemes] valueForKey: @"Identifier"];
@@ -93,11 +83,6 @@
 		return nil;
 	}
 }
-	
-- (NSString *) createNewThemeFileFullPath: (NSString *) fileName
-{
-	return [[[[CMRFileManager defaultManager] supportDirectoryWithName: BSThemesDirectory] filepath] stringByAppendingPathComponent: fileName];
-}
 
 - (void) showOverlappingThemeIdAlert
 {
@@ -116,39 +101,12 @@
 						contextInfo: NULL];
 }
 
-- (void) overlappingThemeNameAlertDidEnd: (NSAlert *) alert returnCode: (int) returnCode contextInfo: (void *) contextInfo
-{
-	if (returnCode == NSAlertFirstButtonReturn) { // changeName
-		[self setSaveThemeIdentifier: nil];
-		[[alert window] orderOut: nil];
-		[self saveTheme: nil];
-		return;
-	} else if (returnCode == NSAlertSecondButtonReturn) { // keep name
-		BOOL hoge = [self saveThemeCore];
-		[[alert window] orderOut: nil];
-		[[self themeNamePanel] close];
-		[NSApp endSheet: [self window] returnCode: (hoge ? 3 : NSCancelButton)];
-	} else { // overWrite
-		id	content = [[self themeGreenCube] content];
-		// identifier から上書きすべきファイル名を逆引きして
-		NSString *fileName = [self fileNameForIdentifier: [content identifier]];
-		// 上書き保存
-		if (fileName) {
-			[content writeToFile: [self createNewThemeFileFullPath: fileName] atomically: YES];
-			[[self themeNamePanel] close];
-			[[[self delegate] preferences] setUsesCustomTheme: NO];
-			[[[self delegate] preferences] setThemeFileName: fileName];
-			[NSApp endSheet: [self window] returnCode: 3];
-		}
-	}
-}
-
 - (BOOL) saveThemeCore
 {
 	id	content = [[self themeGreenCube] content];
 
 	NSString *fileName = [NSString stringWithFormat: @"UserTheme%.0f.plist", [[NSDate date] timeIntervalSince1970]];
-	NSString *filePath = [self createNewThemeFileFullPath: fileName];
+	NSString *filePath = [[[self delegate] preferences] createFullPathFromThemeFileName: fileName];
 
 	[content setIdentifier: [self saveThemeIdentifier]];
 	if ([content writeToFile: filePath atomically: YES]) {
@@ -161,19 +119,38 @@
 	}
 }
 
+- (void) doSaveOperation
+{
+	int myReturnCode = 3;
+	[[self themeNamePanel] close];
+	if (NO == [self saveThemeCore]) {
+		myReturnCode = NSCancelButton;
+	}
+	[NSApp endSheet: [self window] returnCode: myReturnCode];
+}
+
+#pragma mark IBActions
+- (IBAction) closePanelAndUseTagForReturnCode: (id) sender
+{
+	NSWindow *theWindow = [sender window];
+
+	if (theWindow == [self window]) {
+		[NSApp endSheet: theWindow returnCode: [sender tag]];
+	} else if (theWindow == [self themeNamePanel]) {
+		[NSApp stopModalWithCode: [sender tag]];
+		if ([sender tag] == NSCancelButton) {
+			[theWindow close];
+		}
+	}
+}
+
 - (IBAction) saveTheme: (id) sender
 {
 	int returnCode = [NSApp runModalForWindow: m_themeNameSheet];
-
 	if (returnCode == NSCancelButton) return;
 
 	if ([self checkIfOverlappingThemeIdentifier]) {
-		int myReturnCode = 3;
-		[[self themeNamePanel] close];
-		if (NO == [self saveThemeCore]) {
-			myReturnCode = NSCancelButton;
-		}
-		[NSApp endSheet: [self window] returnCode: myReturnCode];
+		[self doSaveOperation];
 	} else {
 		[self showOverlappingThemeIdAlert];
 	}
@@ -185,6 +162,40 @@
 											   inBook : [NSBundle applicationHelpBookName]];
 }
 
+
+- (void) overlappingThemeNameAlertDidEnd: (NSAlert *) alert returnCode: (int) returnCode contextInfo: (void *) contextInfo
+{
+	if (returnCode == NSAlertFirstButtonReturn) { // changeName
+		[self setSaveThemeIdentifier: nil];
+		[[alert window] orderOut: nil];
+		[self saveTheme: nil];
+		return;
+	} else if (returnCode == NSAlertSecondButtonReturn) { // keep name
+		[[alert window] orderOut: nil];
+		[self doSaveOperation];
+	} else { // overWrite
+		[[alert window] orderOut: nil];
+		id	content = [[self themeGreenCube] content];
+		// identifier から上書きすべきファイル名を逆引きして
+		NSString *fileName = [self fileNameForIdentifier: [self saveThemeIdentifier]];
+		// 上書き保存
+		if (fileName) {
+			AppDefaults *prefs = [[self delegate] preferences];
+			NSString *fullPath = [prefs createFullPathFromThemeFileName: fileName];
+			[content setIdentifier: [self saveThemeIdentifier]];
+			[content writeToFile: fullPath atomically: YES];
+			[prefs setUsesCustomTheme: NO];
+			[prefs setThemeFileName: fileName];
+		} else {
+			NSBeep();
+			NSLog(@"Can't find fileName from Identifier %@", [self saveThemeIdentifier]);
+		}
+		[[self themeNamePanel] close];
+		[NSApp endSheet: [self window] returnCode: 3];
+	}
+}
+
+#pragma mark Public
 - (void) beginSheetModalForWindow: (NSWindow *) window
 					modalDelegate: (id) delegate
 					  contextInfo: (void *) contextInfo
@@ -194,5 +205,11 @@
 		modalDelegate: delegate
 	   didEndSelector: @selector(themeEditSheetDidEnd:returnCode:contextInfo:) 
 		  contextInfo: contextInfo];
+}
+
+#pragma mark NSFontPanel Validation
+- (unsigned int) validModesForFontPanel : (NSFontPanel *) fontPanel
+{
+	return [[self delegate] validModesForFontPanel: fontPanel];
 }
 @end

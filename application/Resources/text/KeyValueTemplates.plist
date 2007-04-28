@@ -46,7 +46,7 @@
 	<key>System - relatedKeywords URL</key>
 	<string>http://p2.2ch.io/getf.cgi?%@</string>
 	<key>Thread - AAD Regular Expression</key>
-	<string>(?:　{3}|(?: 　){2}|[─￣＿]{4}|[дД])</string>
+	<string>(?:　{4}|(?: 　){2}|[─￣＿]{4})</string>
 	<key>Thread - CopyThreadFormat</key>
 	<string>%%%ThreadTitle%%%
 %%%ThreadURL%%%

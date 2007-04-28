@@ -1,3 +1,15 @@
+2007-04-29 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/font_color/BSThemeEditor.m
+	* application/subproj/preference/font_color/FCController.m
+		「環境設定」＞「表示」のカスタムテーマ編集機能の改造完了。
+		- 「このテーマを保存...」で、既にある名前をつけようとした際の処理を
+		　「同じ名前でも構わない」「違う名前に変更」「同じ名前のテーマに上書き保存」から選べるようにした。
+	* application/Resources/text/KeyValueTemplates.plist
+	* application/source/composer/BSAsciiArtDetector.m
+		AAD (Ascii Art Detector) の改良：
+		- デフォルトの正規表現からギコ猫の口を取り除いた（不評のようなので）。
+		- BSAsciiArtDetector は、KeyValueTemplates.plist に記述された正規表現文字列が妥当なものか、
+		　使用前にチェックを行い、不適切なら（コンソールにメッセージを吐いて）自動的に作動停止するようにした。
 2007-04-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/preference/font_color/BSThemeEditor.m
 	* application/subproj/preference/font_color/FCController.m

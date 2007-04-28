@@ -36,8 +36,6 @@
 - (void) beginSheetModalForWindow: (NSWindow *) window
 					modalDelegate: (id) delegate
 					  contextInfo: (void *) contextInfo;
-
-- (BOOL) saveThemeCore;
 @end
 
 @interface NSObject(BSThemeEditorModalDelegate)
