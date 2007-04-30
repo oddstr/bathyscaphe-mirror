@@ -1,3 +1,15 @@
+2007-05-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/Japanese.lproj/BSIPIFullScreen.nib
+	* application/subproj/previewer/BSIPIFullScreenController.m
+		プレビューインスペクタ（2.6）：
+		- フルスクリーン表示中に前／次のイメージへ移動する際、もう前／次のイメージが無いときは
+		　自動的にフルスクリーン表示を解除…するのは「やめて、『もう前／次のイメージはありません』という
+		　メッセージを3秒間画面に表示する」仕様に変更した。
+		- ホイールを回転させる方向と前／次へ移動する方向の対応を入れ替えた。
+		　上方向：前のイメージへ、下方向：次のイメージへ
+	* application/subproj/previewer/BSIPIHUDTextField.[h|m]
+		[新規追加] 半透明の黒い背景と、周囲 5 ピクセルのマージンを常に持つ NSTextField サブクラス。
+		プレビューインスペクタのフルスクリーン表示時に使う。
 2007-04-29 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/AddBoardSheetController.m
 		http://pc11.2ch.net/test/read.cgi/mac/1176111059/218 で指摘された問題、即ち

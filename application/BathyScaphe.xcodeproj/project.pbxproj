@@ -573,6 +573,8 @@
 		87D8FBC10B5257ED00CCB933 /* CMRThreadView-Drop.m in Sources */ = {isa = PBXBuildFile; fileRef = 877AC2900B027447005365C0 /* CMRThreadView-Drop.m */; };
 		87D8FBC30B52587800CCB933 /* NSIndexSet+BSAddition.h in Headers */ = {isa = PBXBuildFile; fileRef = 87B803000B0ED4980001339F /* NSIndexSet+BSAddition.h */; };
 		87D8FBC40B52587900CCB933 /* NSIndexSet+BSAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 87B802FF0B0ED4980001339F /* NSIndexSet+BSAddition.m */; };
+		87DA14300BE64C9800A81387 /* BSIPIHUDTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = 87DA142E0BE64C9800A81387 /* BSIPIHUDTextField.h */; };
+		87DA14310BE64C9800A81387 /* BSIPIHUDTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 87DA142F0BE64C9800A81387 /* BSIPIHUDTextField.m */; };
 		87DB9C780BA32CA20090090A /* TS2SoftwareUpdate.h in Headers */ = {isa = PBXBuildFile; fileRef = 87DB9C760BA32CA20090090A /* TS2SoftwareUpdate.h */; };
 		87DB9C790BA32CA20090090A /* TS2SoftwareUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 87DB9C770BA32CA20090090A /* TS2SoftwareUpdate.m */; };
 		87DB9C7F0BA32CE00090090A /* SoftwareUpdate.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87DB9C7D0BA32CE00090090A /* SoftwareUpdate.strings */; };
@@ -1508,6 +1510,8 @@
 		87D3524D0A68AC3A0041410F /* BSIPIDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIDownload.h; sourceTree = "<group>"; };
 		87D7F03B0A85136900623EA5 /* BoardWarrior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardWarrior.h; sourceTree = "<group>"; };
 		87D7F03C0A85136900623EA5 /* BoardWarrior.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardWarrior.m; sourceTree = "<group>"; };
+		87DA142E0BE64C9800A81387 /* BSIPIHUDTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIHUDTextField.h; sourceTree = "<group>"; };
+		87DA142F0BE64C9800A81387 /* BSIPIHUDTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIHUDTextField.m; sourceTree = "<group>"; };
 		87DB9C760BA32CA20090090A /* TS2SoftwareUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TS2SoftwareUpdate.h; sourceTree = "<group>"; };
 		87DB9C770BA32CA20090090A /* TS2SoftwareUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TS2SoftwareUpdate.m; sourceTree = "<group>"; };
 		87DB9C800BA32CEF0090090A /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/SoftwareUpdate.strings; sourceTree = "<group>"; };
@@ -2325,6 +2329,8 @@
 				87C3978F0A6164E30095AD06 /* BSIPITextFieldCell.m */,
 				87C397F00A6171AB0095AD06 /* BSIPITableView.h */,
 				87C397F10A6171AB0095AD06 /* BSIPITableView.m */,
+				87DA142E0BE64C9800A81387 /* BSIPIHUDTextField.h */,
+				87DA142F0BE64C9800A81387 /* BSIPIHUDTextField.m */,
 			);
 			name = "custom classes";
 			sourceTree = "<group>";
@@ -3607,6 +3613,7 @@
 				87C397900A6164E30095AD06 /* BSIPITextFieldCell.h in Headers */,
 				87C397F20A6171AB0095AD06 /* BSIPITableView.h in Headers */,
 				87BB87890B195B4E00472D3F /* BSIPIToken.h in Headers */,
+				87DA14300BE64C9800A81387 /* BSIPIHUDTextField.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4530,6 +4537,7 @@
 				87C397F30A6171AB0095AD06 /* BSIPITableView.m in Sources */,
 				87C2E1A50A68E3C100E40698 /* BSImagePreviewInspector-View.m in Sources */,
 				87BB878A0B195B4E00472D3F /* BSIPIToken.m in Sources */,
+				87DA14310BE64C9800A81387 /* BSIPIHUDTextField.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

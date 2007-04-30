@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIFullScreenController.m,v 1.10 2007/03/24 19:06:11 tsawada2 Exp $
+//  $Id: BSIPIFullScreenController.m,v 1.11 2007/04/30 17:25:59 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.
@@ -23,6 +23,9 @@
 @end
 
 @implementation BSIPIFullScreenController
+static NSString *g_leftArrowKey;
+static NSString *g_rightArrowKey;
+
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)	
 
 - (id) init {
@@ -30,6 +33,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 	if (self != nil) {
 		id transformer = [[[BSIPIImageIgnoringDPITransformer alloc] init] autorelease];
 		[NSValueTransformer setValueTransformer: transformer forName: @"BSIPIImageIgnoringDPITransformer"];
+
+		g_leftArrowKey = [[NSString alloc] initWithFormat: @"%C", NSLeftArrowFunctionKey];
+		g_rightArrowKey = [[NSString alloc] initWithFormat: @"%C", NSRightArrowFunctionKey];
 
 		[NSBundle loadNibNamed: @"BSIPIFullScreen" owner: self];
 	}
@@ -222,8 +228,42 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 
 	SetSystemUIMode(kUIModeNormal, 0);
 
+	[NSObject cancelPreviousPerformRequestsWithTarget: self];
+	[m_noMoreField setHidden: YES];
+
 	if([[self delegate] respondsToSelector: @selector(fullScreenDidEnd:)])
 		[[self delegate] fullScreenDidEnd: _fullScreenWindow];
+}
+
+- (BOOL) fullScreenShowPrevImage: (NSWindow *) window
+{
+	[NSObject cancelPreviousPerformRequestsWithTarget: self];
+	if ([[self delegate] respondsToSelector: @selector(showPrevImage:)] && [[self arrayController] canSelectPrevious]) {
+		[m_noMoreField setHidden: YES];
+		[[self delegate] showPrevImage: window];
+	} else {
+		[m_noMoreField setHidden: NO];
+		[self performSelector: @selector(restoreNoMoreField) withObject: nil afterDelay: 3.0];
+	}
+	return YES;
+}
+
+- (BOOL) fullScreenShowNextImage: (NSWindow *) window 
+{
+	[NSObject cancelPreviousPerformRequestsWithTarget: self];
+	if ([[self delegate] respondsToSelector: @selector(showNextImage:)] && [[self arrayController] canSelectNext]) {
+		[m_noMoreField setHidden: YES];
+		[[self delegate] showNextImage: window];
+	} else {
+		[m_noMoreField setHidden: NO];
+		[self performSelector: @selector(restoreNoMoreField) withObject: nil afterDelay: 3.0];
+	}
+	return YES;
+}
+
+- (void) restoreNoMoreField
+{
+	[m_noMoreField setHidden: YES];
 }
 
 #pragma mark Delegates
@@ -235,24 +275,12 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 	NSString	*pressedKey = [keyDown charactersIgnoringModifiers];
 	unsigned short	keyCode = [keyDown keyCode];
 	
-	if ([pressedKey isEqualToString: [NSString stringWithFormat: @"%C", NSLeftArrowFunctionKey]]) {
-		if ([[self delegate] respondsToSelector: @selector(showPrevImage:)] && [[self arrayController] canSelectPrevious]) {
-			[[self delegate] showPrevImage: window];
-			return YES;
-		} else {
-			[self endFullScreen];
-			return YES;
-		}
+	if ([pressedKey isEqualToString: g_leftArrowKey]) {
+		return [self fullScreenShowPrevImage: window];
 	}
 	
-	if ([pressedKey isEqualToString: [NSString stringWithFormat: @"%C", NSRightArrowFunctionKey]]) {
-		if ([[self delegate] respondsToSelector: @selector(showNextImage:)] && [[self arrayController] canSelectNext]) {
-			[[self delegate] showNextImage: window];
-			return YES;
-		} else {
-			[self endFullScreen];
-			return YES;
-		}
+	if ([pressedKey isEqualToString: g_rightArrowKey]) {
+		return [self fullScreenShowNextImage: window];
 	}
 	
 	if ([pressedKey isEqualToString: @"s"]) {
@@ -287,24 +315,12 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 {
 	float dY = [scrollWheel deltaY];
 
-	if (dY < 0) {
-		if ([[self delegate] respondsToSelector: @selector(showPrevImage:)] && [[self arrayController] canSelectPrevious]) {
-			[[self delegate] showPrevImage: window];
-			return YES;
-		} else {
-			[self endFullScreen];
-			return YES;
-		}
+	if (dY < 0) { // 下回転で次のイメージへ
+		return [self fullScreenShowNextImage: window];
 	}
 	
-	if (dY > 0) {
-		if ([[self delegate] respondsToSelector: @selector(showNextImage:)] && [[self arrayController] canSelectNext]) {
-			[[self delegate] showNextImage: window];
-			return YES;
-		} else {
-			[self endFullScreen];
-			return YES;
-		}
+	if (dY > 0) { // 上回転で前のイメージへ
+		return [self fullScreenShowPrevImage: window];
 	}
 
 	return YES;

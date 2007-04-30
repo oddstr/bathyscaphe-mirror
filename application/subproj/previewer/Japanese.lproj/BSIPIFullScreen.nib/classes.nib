@@ -8,9 +8,11 @@
                 "_imageView" = NSImageView; 
                 "_statusField" = NSTextField; 
                 "m_delegate" = id; 
+                "m_noMoreField" = NSTextField; 
             }; 
             SUPERCLASS = NSObject; 
         }, 
+        {CLASS = BSIPIHUDTextField; LANGUAGE = ObjC; SUPERCLASS = NSTextField; }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {CLASS = NSObject; LANGUAGE = ObjC; }
     ); 
