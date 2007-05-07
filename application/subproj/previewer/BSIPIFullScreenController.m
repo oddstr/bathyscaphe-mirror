@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIFullScreenController.m,v 1.11 2007/04/30 17:25:59 tsawada2 Exp $
+//  $Id: BSIPIFullScreenController.m,v 1.12 2007/05/07 15:17:25 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.
@@ -242,6 +242,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 		[m_noMoreField setHidden: YES];
 		[[self delegate] showPrevImage: window];
 	} else {
+		NSString *msg = [[NSBundle bundleForClass: [self class]] localizedStringForKey: @"No Prev Image" value: @"Localized String Not Found" table: nil];
+		[m_noMoreField setStringValue: msg];
 		[m_noMoreField setHidden: NO];
 		[self performSelector: @selector(restoreNoMoreField) withObject: nil afterDelay: 3.0];
 	}
@@ -255,6 +257,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 		[m_noMoreField setHidden: YES];
 		[[self delegate] showNextImage: window];
 	} else {
+		NSString *msg = [[NSBundle bundleForClass: [self class]] localizedStringForKey: @"No Next Image" value: @"Localized String Not Found" table: nil];
+		[m_noMoreField setStringValue: msg];
 		[m_noMoreField setHidden: NO];
 		[self performSelector: @selector(restoreNoMoreField) withObject: nil afterDelay: 3.0];
 	}

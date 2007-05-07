@@ -1,3 +1,18 @@
+2007-05-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/BSThreadListUpdateTask.m
+		「新着スレッドを常に最上位にソートする」が「切」のとき、「表示」＞「一覧に表示するスレッド」のうちの
+		「新着／既得スレッド」および「新着スレッド」を選んでもすべてのスレッドが表示されてしまう問題を修正（21スレ135など）。
+	* application/source/bbs/BoardManager-BSAddition.m
+		掲示板の Sort Descriptor が BoardProperties.plist に見つからないとき、ソート基準カラムと
+		昇順／降順の設定値が（旧バージョンで）保存されていれば、そこから Sort Descriptor を作るようにした。
+	* application/source/browser/CMRTextColumnCell.m
+		2007-02-21 の修正で「スレッド一覧で、行の高さに関わらず、適切にテキストを垂直方向に対して中央に描画するようにした。」
+		とあるのをいったん中止した。描画時に白い線が見えるなどの問題が一部で報告されたため。
+	* application/subproj/previewer/Japanese.lproj/BSIPIFullScreen.nib
+	* application/subproj/previewer/Japanese.lproj/Localizable.strings
+	* application/subproj/previewer/BSIPIFullScreenController.m
+		メッセージの表示をもうちょっときめ細かいものに。
+================================================= 1.5 Sneaky (v105)
 2007-05-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/previewer/Japanese.lproj/BSIPIFullScreen.nib
 	* application/subproj/previewer/BSIPIFullScreenController.m

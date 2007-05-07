@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRTextColumnCell.m,v 1.4 2007/02/21 10:50:53 tsawada2 Exp $
+  * $Id: CMRTextColumnCell.m,v 1.5 2007/05/07 15:17:25 tsawada2 Exp $
   * 
   * CMRTextColumnCell.m
   *
@@ -13,9 +13,10 @@
 @implementation CMRTextColumnCell
 - (void) drawInteriorWithFrame: (NSRect) cellFrame inView: (NSView *) controlView
 {
-    NSSize contentSize = [self cellSize];
-    cellFrame.origin.y += (cellFrame.size.height - contentSize.height) / 2.0;
-    cellFrame.size.height = contentSize.height;
+//	一時凍結
+//	NSSize contentSize = [self cellSize];
+//	cellFrame.origin.y += (cellFrame.size.height - contentSize.height) / 2.0;
+//	cellFrame.size.height = contentSize.height;
 
     [super drawInteriorWithFrame: cellFrame inView: controlView];
 }

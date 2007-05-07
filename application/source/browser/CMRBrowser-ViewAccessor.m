@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.48 2007/03/23 17:27:52 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.49 2007/05/07 15:17:25 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -94,16 +94,6 @@
 	}
 	return m_editBoardSheetController;
 }
-/*
-- (NSString *) currentSearchString
-{
-	return [[self document] searchString];
-}
-
-- (void) setCurrentSearchString: (NSString *) newString
-{
-	[[self document] setSearchString: newString];
-}*/
 @end
 
 @implementation CMRBrowser(UIComponents)
@@ -330,8 +320,8 @@
 	id		dataCell;
 	
 	dataCell = [column dataCell];
-	[dataCell setWraps: YES];
-	[dataCell setDrawsBackground: NO];
+//	[dataCell setWraps: YES];
+//	[dataCell setDrawsBackground: NO];
 
 	if ([dataCell alignment] == NSRightTextAlignment) {
 		cellClass = [CMRRightAlignedTextColumnCell class];
@@ -341,6 +331,8 @@
 
 	newCell = [[cellClass alloc] initTextCell: @""];
 	[newCell setAttributesFromCell: dataCell];
+	[newCell setWraps: YES];
+	[newCell setDrawsBackground: NO];
 	[column setDataCell: newCell];
 	[newCell release];
 }

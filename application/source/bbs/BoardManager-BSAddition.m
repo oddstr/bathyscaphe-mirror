@@ -290,8 +290,10 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 	// ここでデフォルトを生成。
 	if(!array) {
 		NSMutableArray *result = [NSMutableArray array];
-		id key = [CMRPref browserSortColumnIdentifier];
-		BOOL asc = [CMRPref browserSortAscending];
+//		id key = [CMRPref browserSortColumnIdentifier];
+//		BOOL asc = [CMRPref browserSortAscending];
+		id key = [self sortColumnForBoard:boardName]; // 古い設定からのコンバートも考慮
+		BOOL asc = [self sortColumnIsAscendingAtBoard:boardName];
 		
 		sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:tableNameForKey(key)
 													  ascending:asc

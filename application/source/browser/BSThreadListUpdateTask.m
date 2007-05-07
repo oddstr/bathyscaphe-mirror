@@ -158,8 +158,14 @@ static inline NSString *conditionFromStatusAndType( int status, int type )
 		// 新着スレッドで且つ既得分表示。あり得ない boardID を指定し、要素数を0にする
 		[result appendFormat : @"%@ < 0\n",BoardIDColumn];
 		brankOrAnd = @" AND ";
+	} else if ((status == ~ThreadNoCacheStatus) && type == kAllThreadType) {
+		// 新着スレッドを常に最上位にソート「しない」かつ「新着／既得スレッド」
+		[result appendFormat:@"%@ > %u\n", ThreadStatusColumn, ThreadNoCacheStatus];
+	} else if ((status == (ThreadNewCreatedStatus ^ ThreadNoCacheStatus)) && type == kAllThreadType) {
+		// 新着スレッドを常に最上位にソート「しない」かつ「新着スレッド」
+		[result appendFormat:@"%@ = %u\n", ThreadStatusColumn, ThreadNewCreatedStatus];
 	}
-	
+
 	switch(type) {
 		case kNewerThreadType:	
 			[result appendFormat : @"%@%@ = %u\n", 
