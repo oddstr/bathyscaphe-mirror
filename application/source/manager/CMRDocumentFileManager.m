@@ -35,6 +35,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	NSString		*boardName_;
 	CFMutableStringRef			normalized;
 	
+	if(!filepath) return nil;
+	
 	boardName_ = [filepath stringByDeletingLastPathComponent];
 	boardName_ = [boardName_ lastPathComponent];
 	
