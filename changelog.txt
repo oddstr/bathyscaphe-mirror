@@ -1,3 +1,7 @@
+2007-05-16 masakih <masakih@users.sourceforge.jp>
+	* application/source/manager/CMRDocumentFileManager.m:
+		-[CMRDocumentFileManager boardNameWithLogPath:]で
+		「エヴァ」板の様にファイルシステム上 NFD で表現されていても、NFC に変換して板名を返すようにした。
 2007-05-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/BSThreadListUpdateTask.m
 		「新着スレッドを常に最上位にソートする」が「切」のとき、「表示」＞「一覧に表示するスレッド」のうちの

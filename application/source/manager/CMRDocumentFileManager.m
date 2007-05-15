@@ -33,18 +33,15 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 - (NSString *) boardNameWithLogPath : (NSString *) filepath
 {
 	NSString		*boardName_;
-	NSData			*ja_data_;
+	CFMutableStringRef			normalized;
 	
 	boardName_ = [filepath stringByDeletingLastPathComponent];
 	boardName_ = [boardName_ lastPathComponent];
 	
-	ja_data_ = [boardName_ dataUsingEncoding : NSShiftJISStringEncoding];
+	normalized = (CFMutableStringRef)[[boardName_ mutableCopy] autorelease];
+	CFStringNormalize(normalized, kCFStringNormalizationFormC);
 	
-	boardName_ = [[NSString alloc] initWithData : ja_data_
-							encoding : NSShiftJISStringEncoding];
-	
-	return [boardName_ autorelease];
-	
+	return (NSString *)normalized;
 }
 
 - (NSString *) threadPathWithBoardName : (NSString *) boardName

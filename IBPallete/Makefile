@@ -3,7 +3,7 @@
 #
 
 PBXBUILD = /usr/bin/xcodebuild
-BUILD_OPTION = -configuration Deployment
+BUILD_OPTION = -configuration Deployment -target All
 BUILD_DIR = build
 
 BSDATEPICKER_IBPALLET = BSDatePicker
