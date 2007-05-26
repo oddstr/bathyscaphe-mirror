@@ -206,7 +206,7 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 - (void) adjustNobiNobiViewTbItem: (NSToolbarItem *) item to: (float) width
 {
 	NSSize		size_;
-	size_ = NSMakeSize(width-8, 28);
+	size_ = NSMakeSize(width-8, 29);
 	[item setMinSize : size_];
 	[item setMaxSize : size_];
 }

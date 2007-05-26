@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.34 2007/04/15 13:49:38 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.35 2007/05/26 19:27:58 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -317,6 +317,8 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 	} else if (action_ == @selector(togglePreviewPanel:)) {
 		id tmp_ = [CMRPref sharedImagePreviewer];
 		return [tmp_ respondsToSelector : @selector(togglePreviewPanel:)];
+	} else if (action_ == @selector(startHEADCheckDirectly:)) {
+		return [CMRPref canHEADCheck];
 	}
 	return YES;
 }

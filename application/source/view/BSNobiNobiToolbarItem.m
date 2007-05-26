@@ -22,8 +22,8 @@
 	BSNobiNobiView *nnView;
 	id tmpcopy = [super copyWithZone: zone];
 	nnView = (BSNobiNobiView *)[tmpcopy view];
-	[tmpcopy setMinSize: NSMakeSize(48,30)];
-	[tmpcopy setMaxSize: NSMakeSize(48,30)];
+	[tmpcopy setMinSize: NSMakeSize(48,29)];
+	[tmpcopy setMaxSize: NSMakeSize(48,29)];
 	[nnView setShouldFillBackground: YES];
 	[nnView setShouldDrawBorder: YES];
 	return tmpcopy;
@@ -33,7 +33,7 @@
 {
 	float width = [floatWrapper floatValue];
 	NSSize		size_;
-	size_ = NSMakeSize(width-8, 30);
+	size_ = NSMakeSize(width-8, 29);
 	[self setMinSize : size_];
 	[self setMaxSize : size_];
 }
