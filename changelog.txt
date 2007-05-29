@@ -1,3 +1,12 @@
+2007-05-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadAttributes.m
+		スレッドの「情報を見る」パネルで、ログファイルの場所の表記を HFS path style から POSIX path style に変更した。
+		この方が Finder のサービスメニューにも渡せて便利であろう。
+	* frameworks/SGAppKit/framework/src/extensions/workspace/NSWorkspace-SGExtensions.m
+		SGAppKit (1.6.8 -> 1.6.9):
+		ファイルをゴミ箱に捨てようとするときに、Finder が起動していなければ自動的に起動するようにした。
+		- もちろん Finder.app をハードディスクから削除しているような環境ではどうしようもないが、それはさすがに勘弁。
+		あと、AppleEvent 送信先を特定するために 'MACS' ではなく com.apple.finder を使うように変えた。
 2007-05-27 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/CMRAppDelegate.m
 		Dock メニューの「お気に入りの更新チェック」項目をちゃんと validate するようにした。

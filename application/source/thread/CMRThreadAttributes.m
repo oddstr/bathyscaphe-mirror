@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadAttributes.m,v 1.7 2007/01/31 18:02:25 tsawada2 Exp $
+  * $Id: CMRThreadAttributes.m,v 1.8 2007/05/29 21:40:09 tsawada2 Exp $
   * 
   * CMRThreadAttributes.m
   *
@@ -179,12 +179,13 @@ NSString *const CMRThreadAttributesDidChangeNotification =
 - (NSString *) displayPath
 {
 	NSString	*path_;
-	SGFileRef	*fileRef_;
+//	SGFileRef	*fileRef_;
 
 	path_ = [[self class] pathFromDictionary: [self getMutableAttributes]];
 	if (path_ != nil) {
-		fileRef_ = [SGFileRef fileRefWithPath: path_];
-		return [fileRef_ displayPath];
+//		fileRef_ = [SGFileRef fileRefWithPath: path_];
+//		return [fileRef_ displayPath];
+		return path_;
 	}
 	return nil;
 }
