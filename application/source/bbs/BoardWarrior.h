@@ -20,26 +20,29 @@
 	double			m_downloadedContentLength;
 	
 	BSIPIDownload	*m_currentDownload; // No retain/release
+	NSString		*m_bbsMenuPath;
 }
 
 + (id) warrior;
 
 - (void) setMessage: (NSString *) progressMessage;
 
+- (NSString *) bbsMenuPath;
+- (void) setBbsMenuPath: (NSString *) filePath;
+
 - (BOOL) syncBoardListsWithURL: (NSURL *) anURL;
 - (BOOL) syncBoardLists;
 
 - (double) expectedContentLength;
 - (double) downloadedContentLength;
-- (BOOL) writeLogsToFileWithUTF8Data: (NSData *) encodedData;
 
-// on error, returns Error Description (as NSString.) on success, nil is returned.
-- (NSString *) startKaleidoStage: (NSString *) scriptName withHTMLPath: (NSString *) htmlPath;
+- (BOOL) writeLogsToFileWithUTF8Data: (NSData *) encodedData;
 @end
 
 extern NSString *const BoardWarriorWillStartDownloadNotification;
 extern NSString *const BoardWarriorDidFinishDownloadNotification;
 extern NSString *const BoardWarriorDidFailDownloadNotification;
+extern NSString *const BoardWarriorDidFailInitASNotification; // Available in Starlight Breaker.
 
 extern NSString *const BoardWarriorWillStartCreateDefaultListTaskNotification;
 extern NSString *const BoardWarriorDidFailCreateDefaultListTaskNotification;

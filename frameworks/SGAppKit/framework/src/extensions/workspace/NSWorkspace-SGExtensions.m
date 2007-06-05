@@ -1,6 +1,6 @@
 //: NSWorkspace-SGExtensions.m
 /**
-  * $Id: NSWorkspace-SGExtensions.m,v 1.4 2007/05/29 21:40:09 tsawada2 Exp $
+  * $Id: NSWorkspace-SGExtensions.m,v 1.5 2007/06/05 16:51:55 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -97,10 +97,10 @@ OSErr createFilesDesc(AEDescList *targetListDescPtr, NSArray *pathsArray)
 	err = AESendMessage(&event, &reply, kAEWaitReply, kAEDefaultTimeout); // wait until event is done
 
 	if (err == procNotFound || err == connectionInvalid) { // Finder is not running
-		[[NSWorkspace sharedWorkspace] launchAppWithBundleIdentifier: FINDER_IDENTIFIER
-															 options: NSWorkspaceLaunchWithoutActivation
-									  additionalEventParamDescriptor: nil
-													launchIdentifier: nil];
+		[self launchAppWithBundleIdentifier: FINDER_IDENTIFIER
+									options: NSWorkspaceLaunchWithoutActivation
+			 additionalEventParamDescriptor: nil
+						   launchIdentifier: nil];
 		
 		err = AESendMessage(&event, &reply, kAEWaitReply, kAEDefaultTimeout); // Retry
 	}	

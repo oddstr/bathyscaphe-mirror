@@ -11,10 +11,12 @@
 #import "AppDefaults.h"
 #import <SGNetwork/BSIPIDownload.h>
 #import "CMRTaskManager.h"
+#import <Carbon/Carbon.h>
 
 NSString *const BoardWarriorWillStartDownloadNotification	= @"BoardWarriorWillStartDownloadNotification";
 NSString *const BoardWarriorDidFinishDownloadNotification	= @"BoardWarriorDidFinishDownloadNotification";
 NSString *const BoardWarriorDidFailDownloadNotification		= @"BoardWarriorDidFailDownloadNotification";
+NSString *const BoardWarriorDidFailInitASNotification		= @"BoardWarriorDidFailInitASNotification";
 
 NSString *const BoardWarriorWillStartCreateDefaultListTaskNotification	= @"BoardWarriorWillStartCreateDefaultListTaskNotification";
 NSString *const BoardWarriorDidFailCreateDefaultListTaskNotification	= @"BoardWarriorDidFailCreateDefaultListTaskNotification";
@@ -29,12 +31,6 @@ NSString *const kBWInfoErrorStringKey		= @"ErrorDescription";
 
 static NSString *const kBWLocalizedStringsTableName = @"BoardWarrior";
 
-static NSString *const kBWTemplateSoraToolKey		= @"%%%SORA%%%";
-static NSString *const kBWTemplateRosettaToolKey	= @"%%%ROSETTA%%%";
-static NSString *const kBWTempmlateConvertToolKey	= @"%%%SJIS%%%";
-static NSString *const kBWTemplateBBSMenuHTMLKey	= @"%%%HTML%%%";
-static NSString *const kBWTemplateLogFolderPathKey	= @"%%%LOGFOLDER%%%";
-
 static NSString *const kBWLogFolderName	= @"Logs";
 static NSString *const kBWLogFileName	= @"BathyScaphe BoardWarrior.log";
 
@@ -48,6 +44,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 
 - (void) dealloc
 {
+	[m_bbsMenuPath release];
 	[m_progressMessage release];
 	m_currentDownload = nil;
 	[super dealloc];
@@ -111,7 +108,57 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 	m_progressMessage = progressMessage;
 }
 
+- (NSString *) bbsMenuPath
+{
+	return m_bbsMenuPath;
+}
+
+- (void) setBbsMenuPath: (NSString *) filePath
+{
+	[filePath retain];
+	[m_bbsMenuPath release];
+	m_bbsMenuPath = filePath;
+}
+
 #pragma mark Private Utilities
+- (BOOL) doHandler: (NSString *) handlerName inScript: (NSAppleScript *) appleScript withParameters: (NSArray *) params error: (NSDictionary **) errPtr
+{
+	int	i;
+	NSAppleEventDescriptor* parameters = [NSAppleEventDescriptor listDescriptor];
+	NSAppleEventDescriptor* eachParameter;
+	for (i=0; i<[params count]; i++) {
+		eachParameter = [NSAppleEventDescriptor descriptorWithString:[params objectAtIndex:i]];
+		[parameters insertDescriptor:eachParameter atIndex:i+1];
+	}
+
+	// AppleEventターゲットを作成する
+	ProcessSerialNumber psn = {0, kCurrentProcess};
+	NSAppleEventDescriptor* target = [NSAppleEventDescriptor descriptorWithDescriptorType:typeProcessSerialNumber
+																					bytes:&psn
+																				   length:sizeof(ProcessSerialNumber)];
+
+	NSAppleEventDescriptor* handler = [NSAppleEventDescriptor descriptorWithString:[handlerName lowercaseString]];
+
+	// AppleScriptサブルーチンのイベントを作成する、
+	// メソッド名とパラメータリストを設定する
+	NSAppleEventDescriptor* event =
+		[NSAppleEventDescriptor appleEventWithEventClass:kASAppleScriptSuite
+												 eventID:kASSubroutineEvent
+										targetDescriptor:target
+												returnID:kAutoGenerateReturnID
+										   transactionID:kAnyTransactionID];
+
+	[event setParamDescriptor:handler forKeyword:keyASSubroutineName];
+	[event setParamDescriptor:parameters forKeyword:keyDirectObject];
+
+	// AppleScriptのイベントを呼び出す
+	if (![appleScript executeAppleEvent:event error:errPtr]){
+		// 'errors' からエラーを報告する
+		return NO;
+	}
+	return YES;
+}
+
 - (NSData *) encodedLocalizedStringForKey: (NSString *) key format: (NSString *) format
 {
 	NSString *str = [self localizedString: key];
@@ -122,45 +169,43 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 - (void) notifyCMRTaskDidFail
 {
 	[self setMessage: [self localizedString: kBWTaskMsgFailedKey]];
+	m_isInProgress = NO;
 	UTILNotifyName(CMRTaskDidFinishNotification);
 }
 
-- (BOOL) replaceTemplateTags: (NSMutableString *) appleScript withHTMLPath: (NSString *) htmlPath
+- (NSArray *) parametersForHandler: (NSString *) handlerName
 {
 	NSBundle *bathyscaphe = [NSBundle mainBundle];
-	NSString *soraToolPath_ = [bathyscaphe pathForResource: @"sora" ofType: @"pl"];
-	NSString *rosettaToolPath_ = [bathyscaphe pathForResource: @"rosetta" ofType: @"pl"];
-	NSString *convertToolPath_ = [bathyscaphe pathForResource: @"SJIS2UTF8" ofType: @""];
 	NSString *logFolderPath_ = [[CMRFileManager defaultManager] dataRootDirectoryPath];
-	
-	if (!soraToolPath_ || !rosettaToolPath_ || !convertToolPath_ || !logFolderPath_) return NO;
 
-	[appleScript replaceOccurrencesOfString: kBWTemplateSoraToolKey
-								 withString: soraToolPath_
-									options: NSLiteralSearch
-									  range: NSMakeRange(0, [appleScript length])]; 
+	if ([handlerName isEqualToString: @"make_default_list"]) {
+		NSString *soraToolPath_ = [bathyscaphe pathForResource: @"sora" ofType: @"pl"];
+		NSString *convertToolPath_ = [bathyscaphe pathForResource: @"SJIS2UTF8" ofType: @""];
+		return [NSArray arrayWithObjects: soraToolPath_, convertToolPath_, logFolderPath_, [self bbsMenuPath], nil];
+	} else {
+		NSString *rosettaToolPath_ = [bathyscaphe pathForResource: @"rosetta" ofType: @"pl"];
+		return [NSArray arrayWithObjects: rosettaToolPath_, logFolderPath_, [self bbsMenuPath], nil];
+	}
+}
 
-	[appleScript replaceOccurrencesOfString: kBWTemplateRosettaToolKey
-								 withString: rosettaToolPath_
-									options: NSLiteralSearch
-									  range: NSMakeRange(0, [appleScript length])]; 
+- (void) doHandler: (NSString *) handlerName inScript: (NSAppleScript *) script
+{
+	NSDictionary *errors_ = [NSDictionary dictionary];
+	NSArray *params_ = [self parametersForHandler: handlerName];
 
-	[appleScript replaceOccurrencesOfString: kBWTemplateBBSMenuHTMLKey
-								 withString: htmlPath
-									options: NSLiteralSearch
-									  range: NSMakeRange(0, [appleScript length])]; 
+	if (![self doHandler: handlerName inScript: script withParameters: params_ error: &errors_]) {
+		NSDictionary *info_ = [NSDictionary dictionaryWithObject: [errors_ objectForKey:NSAppleScriptErrorBriefMessage]
+														  forKey: kBWInfoErrorStringKey];
 
-	[appleScript replaceOccurrencesOfString: kBWTempmlateConvertToolKey
-								 withString: convertToolPath_
-									options: NSLiteralSearch
-									  range: NSMakeRange(0, [appleScript length])]; 
+		NSString *errDescription_ = [errors_ objectForKey:NSAppleScriptErrorMessage];
+		[self writeLogsToFileWithUTF8Data: [self encodedLocalizedStringForKey: @"BW_sub_error %@" format: errDescription_]];
 
-	[appleScript replaceOccurrencesOfString: kBWTemplateLogFolderPathKey
-								 withString: logFolderPath_
-									options: NSLiteralSearch
-									  range: NSMakeRange(0, [appleScript length])];
+		[self notifyCMRTaskDidFail];
 
-	return YES;
+		UTILNotifyInfo(BoardWarriorDidFailCreateDefaultListTaskNotification, info_);
+		return;
+	}
+	[self writeLogsToFileWithUTF8Data: [self encodedLocalizedStringForKey: @"BW_run %@" format: handlerName]];
 }
 
 - (NSURL *) fileURLWithResource: (NSString *) name ofType: (NSString *) extension
@@ -172,39 +217,48 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 	return [NSURL fileURLWithPath: path_];
 }
 
-- (void) startPerlTaskWithBBSMenu: (NSString *) htmlPath
+- (void) startAppleScriptTask
 {
+	/* まず NSAppleScript インスタンスを生成 */
+	NSURL *url_ = [self fileURLWithResource: @"BoardWarrior" ofType: @"scpt"];
+	if (!url_) {
+		NSDictionary *hoge_ = [NSDictionary dictionaryWithObject: [self localizedString: @"BW_fail_init"]
+														  forKey: kBWInfoErrorStringKey];
+		[self writeLogsToFileWithUTF8Data: [self encodedLocalizedStringForKey: @"BW_fail_script1" format: @"BoardWarrior"]];
+
+		[self notifyCMRTaskDidFail];
+
+		UTILNotifyInfo(BoardWarriorDidFailInitASNotification, hoge_);
+		return;
+	}
+
+	NSAppleScript *script_ = [[NSAppleScript alloc] initWithContentsOfURL: url_ error: NULL];
+	if (!script_) {
+		NSDictionary *hoge_ = [NSDictionary dictionaryWithObject: [self localizedString: @"BW_fail_init"]
+														  forKey: kBWInfoErrorStringKey];
+		[self writeLogsToFileWithUTF8Data: [self encodedLocalizedStringForKey: @"BW_fail_script2" format: @"BoardWarrior"]];
+
+		[self notifyCMRTaskDidFail];
+
+		UTILNotifyInfo(BoardWarriorDidFailInitASNotification, hoge_);
+		return;
+	}
+
+	/* make_default_list */
 	UTILNotifyName(BoardWarriorWillStartCreateDefaultListTaskNotification);
-	NSString *errMsg = [self startKaleidoStage: @"himeko" withHTMLPath: htmlPath];
+	[self doHandler: @"make_default_list" inScript: script_];
 
-	if (errMsg) {
-		NSDictionary *info_ = [NSDictionary dictionaryWithObject: errMsg forKey: kBWInfoErrorStringKey];
-		[self writeLogsToFileWithUTF8Data: [errMsg dataUsingEncoding: NSUTF8StringEncoding]];
-
-		[self notifyCMRTaskDidFail];
-		
-		UTILNotifyInfo(BoardWarriorDidFailCreateDefaultListTaskNotification, info_);
-		return;
-	}
-	
+	/* update_user_list */
 	UTILNotifyName(BoardWarriorWillStartSyncUserListTaskNotification);
-	NSString *errMsg2 = [self startKaleidoStage: @"na-na" withHTMLPath: htmlPath];
-	
-	if (errMsg2) {
-		NSDictionary *info_ = [NSDictionary dictionaryWithObject: errMsg2 forKey: kBWInfoErrorStringKey];
-		[self writeLogsToFileWithUTF8Data: [errMsg2 dataUsingEncoding: NSUTF8StringEncoding]];
+	[self doHandler: @"update_user_list" inScript: script_];
 
-		[self notifyCMRTaskDidFail];
-
-		UTILNotifyInfo(BoardWarriorDidFailSyncUserListTaskNotification, info_);
-		return;
-	}
+	[script_ release];
 
 	// delete bbsmenu.html
-	[[NSFileManager defaultManager] removeFileAtPath: htmlPath handler: nil];
+	[[NSFileManager defaultManager] removeFileAtPath: [self bbsMenuPath] handler: nil];
+	[self setBbsMenuPath: nil];
 
 	NSDate *date_ = [NSDate date];
-
 	[CMRPref setLastSyncDate: date_];
 	m_isInProgress = NO;
 	[self writeLogsToFileWithUTF8Data: [self encodedLocalizedStringForKey: @"BW_finish at date %@" format: [date_ description]]];
@@ -248,54 +302,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 	}
 	
 	return YES;
-}
-
-- (NSString *) startKaleidoStage: (NSString *) scriptName withHTMLPath: (NSString *) htmlPath
-{
-	NSDictionary *errInfo = nil;
-	NSDictionary *errInfo2 = nil;
-	NSAppleEventDescriptor *scriptResult;
-	
-	NSMutableString *hoge_;
-	
-	NSURL *url_ = [self fileURLWithResource: scriptName ofType: @"scpt"];
-	if (!url_) {
-		return [NSString stringWithFormat: [self localizedString: @"BW_fail_script1"], scriptName];
-	}
-
-	NSAppleScript *script_ = [[NSAppleScript alloc] initWithContentsOfURL: url_ error: &errInfo];
-
-	if (errInfo) {
-		return [errInfo objectForKey: NSAppleScriptErrorBriefMessage];
-	}
-
-	hoge_ = [[script_ source] mutableCopy];
-	[script_ release];
-
-	if (NO == [self replaceTemplateTags: hoge_ withHTMLPath: htmlPath]) {
-		return [self localizedString: @"BW_fail_script2"]; 
-	}
-
-	NSAppleScript *newScript_ = [[NSAppleScript alloc] initWithSource: hoge_];
-	scriptResult = [newScript_ executeAndReturnError: &errInfo2];
-	
-	if (nil != errInfo2) {
-		return [errInfo2 objectForKey: NSAppleScriptErrorBriefMessage];
-	}
-
-	if ([scriptResult descriptorType]) {
-        //NSLog(@"script %@.scpt executed successfully.", scriptName);
-		[self writeLogsToFileWithUTF8Data: [self encodedLocalizedStringForKey: @"BW_run %@" format: scriptName]];
-        /*if (kAENullEvent!=[scriptResult descriptorType]) {
-			NSLog(@"%@",[scriptResult stringValue]);
-        } else {
-            NSLog(@"AppleScript has no result.");
-        }*/
-    }
-
-	[hoge_ release];
-	[newScript_ release];
-	return nil;
 }
 
 - (BOOL) writeLogsToFileWithUTF8Data: (NSData *) encodedData
@@ -345,19 +351,18 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 
 - (void) bsIPIdownloadDidFinish: (BSIPIDownload *) aDownload
 {
-	NSString *downloadedFilePath_ = [aDownload downloadedFilePath];
+	[self setBbsMenuPath: [aDownload downloadedFilePath]];
 	[self writeLogsToFileWithUTF8Data: [[self localizedString: @"BW_download finish"] dataUsingEncoding: NSUTF8StringEncoding]];
 	UTILNotifyName(BoardWarriorDidFinishDownloadNotification);
 
 	[aDownload release];
 	m_currentDownload = nil;
 
-	[self startPerlTaskWithBBSMenu: downloadedFilePath_];
+	[self startAppleScriptTask];
 }
 
 - (void) bsIPIdownload: (BSIPIDownload *) aDownload didFailWithError: (NSError *) aError
 {
-	//NSLog(@"%@",[aError description]);
 	[self writeLogsToFileWithUTF8Data: [self encodedLocalizedStringForKey: @"BW_download fail %@" format: [aError description]]];
 
 	[aDownload release];

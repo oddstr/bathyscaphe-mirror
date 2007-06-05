@@ -1,5 +1,5 @@
 /**
- * $Id: AppDefaults-Bundle.m,v 1.12 2007/03/24 15:36:30 tsawada2 Exp $
+ * $Id: AppDefaults-Bundle.m,v 1.13 2007/06/05 16:51:55 tsawada2 Exp $
  * 
  * AppDefaults-Bundle.m
  *
@@ -368,6 +368,11 @@ static NSString *const kBWLastSyncDateKey = @"BoardWarrior:Last Sync Date";
 	     addObserver : sender
 	        selector : @selector(taskDidFail:)
 	            name : BoardWarriorDidFailDownloadNotification
+	          object : [BoardWarrior warrior]];
+	[[NSNotificationCenter defaultCenter]
+	     addObserver : sender
+	        selector : @selector(taskDidFail:)
+	            name : BoardWarriorDidFailInitASNotification
 	          object : [BoardWarrior warrior]];
 	[[NSNotificationCenter defaultCenter]
 	     addObserver : sender
