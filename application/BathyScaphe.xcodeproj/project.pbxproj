@@ -478,8 +478,6 @@
 		875D98220A8A021A0061C86D /* SGNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FF043610FB00A80005 /* SGNetwork.framework */; };
 		875D98230A8A021E0061C86D /* CocoMonar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3924488043610AE00A80005 /* CocoMonar.framework */; };
 		8761BAA30B80D2F700120AA4 /* IndexingPopupper.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8761BAA20B80D2F700120AA4 /* IndexingPopupper.strings */; };
-		8762E8C30A86359C00062504 /* na-na.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 8762E8C10A86359C00062504 /* na-na.scpt */; };
-		8762E8C40A86359D00062504 /* himeko.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 8762E8C20A86359C00062504 /* himeko.scpt */; };
 		8762E8C90A8635C200062504 /* rosetta.pl in Resources */ = {isa = PBXBuildFile; fileRef = 8762E8C60A8635C200062504 /* rosetta.pl */; };
 		8762E8CA0A8635C200062504 /* SJIS2UTF8 in Resources */ = {isa = PBXBuildFile; fileRef = 8762E8C70A8635C200062504 /* SJIS2UTF8 */; };
 		8762E8CB0A8635C200062504 /* sora.pl in Resources */ = {isa = PBXBuildFile; fileRef = 8762E8C80A8635C200062504 /* sora.pl */; };
@@ -1412,8 +1410,6 @@
 		875743F907C372F6006F3C68 /* CMRThreadViewer-Validation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-Validation.m"; sourceTree = "<group>"; };
 		8757441407C37772006F3C68 /* CMRThreadViewer-Find.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-Find.m"; sourceTree = "<group>"; };
 		8761BAA40B80D30600120AA4 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/IndexingPopupper.strings; sourceTree = "<group>"; };
-		8762E8C10A86359C00062504 /* na-na.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; path = "na-na.scpt"; sourceTree = "<group>"; };
-		8762E8C20A86359C00062504 /* himeko.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; path = himeko.scpt; sourceTree = "<group>"; };
 		8762E8C60A8635C200062504 /* rosetta.pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; name = rosetta.pl; path = subproj/BWAgent/rosetta.pl; sourceTree = SOURCE_ROOT; };
 		8762E8C70A8635C200062504 /* SJIS2UTF8 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = SJIS2UTF8; path = subproj/BWAgent/SJIS2UTF8; sourceTree = SOURCE_ROOT; };
 		8762E8C80A8635C200062504 /* sora.pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; name = sora.pl; path = subproj/BWAgent/sora.pl; sourceTree = SOURCE_ROOT; };
@@ -2168,8 +2164,6 @@
 				8762E8C60A8635C200062504 /* rosetta.pl */,
 				8762E8C70A8635C200062504 /* SJIS2UTF8 */,
 				8762E8C80A8635C200062504 /* sora.pl */,
-				8762E8C10A86359C00062504 /* na-na.scpt */,
-				8762E8C20A86359C00062504 /* himeko.scpt */,
 				87CF6468097A335D00DE8B16 /* Acknowledgments.rtf */,
 				8724A6DB09127E69009CC855 /* board_default.plist */,
 				87E2264C0833AA5D00E7FC85 /* BathyScaphe.scriptSuite */,
@@ -4081,8 +4075,6 @@
 				87CF646A097A335D00DE8B16 /* Acknowledgments.rtf in Resources */,
 				8791EE2A097A5BC200EA7475 /* Status_HeadModified.png in Resources */,
 				878018E1097CF76A002FBA1F /* titleRulerBgNotActive.tiff in Resources */,
-				8762E8C40A86359D00062504 /* himeko.scpt in Resources */,
-				8762E8C30A86359C00062504 /* na-na.scpt in Resources */,
 				8762E8C90A8635C200062504 /* rosetta.pl in Resources */,
 				8762E8CA0A8635C200062504 /* SJIS2UTF8 in Resources */,
 				8762E8CB0A8635C200062504 /* sora.pl in Resources */,

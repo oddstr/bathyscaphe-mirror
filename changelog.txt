@@ -1,3 +1,7 @@
+2007-06-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/himeko.scpt
+	* application/Resources/na-na.scpt
+		[削除] 未使用になったので削除。
 2007-06-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/bbs/BoardWarrior.m
 	* application/Resources/Japanese.lproj/BoardWarrior.strings
