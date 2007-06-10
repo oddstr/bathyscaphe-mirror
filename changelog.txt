@@ -1,3 +1,28 @@
+================================================= 1.5(v110) / Starlight Breaker
+2007-06-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/BathyScapheHelp/
+		ヘルプコンテンツのアップデート。
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/boardoption130.png
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/previewer130.png
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/syncpane.png
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/customise_font_style_color.html
+		[削除] ヘルプで削除されたファイル。
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/new150_findpanel.png
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/new150_smartboard.png
+	* application/Resources/Japanese.lproj/BathyScapheHelp/gfx/new150_theme.png
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/about_theme.html
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/choose_edit_delete_theme.html
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/create_smart_boards.html
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/create_theme.html
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/icons_mail_field.html
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/lookup_related_keywords.html
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/open_reference_popup.html
+	* application/Resources/Japanese.lproj/BathyScapheHelp/pgs/use_theme_on_other_account.html
+		[新規追加] ヘルプで追加されたファイル。
+	* application/Resources/Japanese.lproj/board_default.plist
+		最新のものに更新。
+	* application/Resources/Japanese.lproj/Browser.nib
+		デフォルトのブラウザウインドウのサイズを大きめにした。
 2007-06-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/himeko.scpt
 	* application/Resources/na-na.scpt
