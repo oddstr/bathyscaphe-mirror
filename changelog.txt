@@ -1,4 +1,4 @@
-================================================= 1.5(v110) / Starlight Breaker
+================================================= 1.5(v110) / Starlight Breaker / CVS Tag : v150_FINAL
 2007-06-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/BathyScapheHelp/
 		ヘルプコンテンツのアップデート。
