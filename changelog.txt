@@ -1,3 +1,10 @@
+2007-06-26 masakih <masakih@users.sourceforge.jp>
+	* application/source/manager/DatabaseManager-Notifications.m:
+		[新規追加] DatabaseManager.m から分離
+	* application/source/manager/DatabaseManager.m:
+		Notification を別ファイルに分離。
+	* application/source/browser/BSDownloadTask.m:
+		不要な部分を削除。
 ================================================= 1.5(v110) / Starlight Breaker / CVS Tag : v150_FINAL
 2007-06-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/BathyScapheHelp/

@@ -126,17 +126,6 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 		[request setHTTPMethod : method];
 	}
 
-#if 0
-	[self performSelectorOnMainThread:@selector(createURLConnection:)
-						   withObject:request
-						waitUntilDone:YES];
-	
-	if(con) {
-		NSLog(@"con created.");
-	} else {
-		NSLog(@"con NOT created.");
-	}
-#else	
 	con = [[NSURLConnection alloc] initWithRequest:request
 										  delegate:self];
 	if(!con) {
@@ -144,13 +133,20 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 		return;
 	}
 	
-//	-[CMRTaskManager taskWillProgressProcessing:] がこのrun loopでfireされて、落ちるので断念。
-//	それが回避できたら復帰したいので、削除でなくコメントアウト。
 	while(!isFinished) {
-		[loop runMode:NSDefaultRunLoopMode
-		   beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+		id pool = [[NSAutoreleasePool alloc] init];
+		@try {
+			[loop runMode:NSDefaultRunLoopMode
+			   beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+		}
+		@catch(id ex) {
+			// do nothing.
+			@throw;
+		}
+		@finally {
+			[pool release];
+		}
 	}
-#endif
 }
 
 - (IBAction)cancel:(id)sender
