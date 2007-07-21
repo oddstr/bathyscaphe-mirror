@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.m,v 1.30 2007/01/07 17:04:23 masakih Exp $
+  * $Id: CMRBrowser.m,v 1.31 2007/07/21 19:32:55 tsawada2 Exp $
   * 
   * CMRBrowser.m
   *
@@ -14,6 +14,7 @@
 NSString *const CMRBrowserDidChangeBoardNotification = @"CMRBrowserDidChangeBoardNotification";
 NSString *const CMRBrowserThListUpdateDelegateTaskDidFinishNotification = @"CMRBrThListUpdateDelgTaskDidFinishNotification";
 
+static void *kBrowserContext = @"Konata";
 /*
  * current main browser instance.
  * @see CMRExports.h 
@@ -33,8 +34,18 @@ CMRBrowser *CMRMainBrowser = nil;
 
 		if (CMRMainBrowser == nil)
 			CMRMainBrowser = self;
+
+		[CMRPref addObserver:self forKeyPath: @"isSplitViewVertical" options:NSKeyValueObservingOptionNew context:kBrowserContext];
 	}
 	return self;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+	if (context == kBrowserContext && object == CMRPref && [keyPath isEqualToString: @"isSplitViewVertical"]) {
+		[self setupSplitView];
+		[[self splitView] resizeSubviewsWithOldSize : [[self splitView] frame].size];
+	}
 }
 
 - (NSString *) windowNibName
@@ -99,6 +110,7 @@ CMRBrowser *CMRMainBrowser = nil;
 
 - (void) dealloc
 {
+	[CMRPref removeObserver:self forKeyPath: @"isSplitViewVertical"]; 
 	[[NSNotificationCenter defaultCenter] removeObserver : self];
 
 	// dispose main browser...

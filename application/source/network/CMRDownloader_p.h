@@ -2,7 +2,7 @@
 #import "CMRDownloader.h"
 
 #import <SGFoundation/SGFoundation.h>
-#import <SGNetwork/SGNetwork.h>
+#import <SGNetwork/SGHTTPDefines.h>
 #import "CocoMonar_Prefix.h"
 
 #import "CMRDocumentFileManager.h"
@@ -17,19 +17,15 @@
 
 @interface CMRDownloader(HTTPRequestHeader)
 + (NSMutableDictionary *) defaultRequestHeaders;
-//+ (NSString *) applicationUserAgent;
-//+ (NSString *) monazillaUserAgent;
 @end
-
 
 
 @interface CMRDownloader(PrivateAccessor)
-- (void) setCurrentConnector : (SGHTTPConnector *) aCurrentConnector;
+- (void)setCurrentConnector:(NSURLConnection *)connection;
 - (void) setupRequestHeaders : (NSMutableDictionary *) mdict;
-- (SGHTTPConnector *) makeHTTPConnectorWithURL : (NSURL *) anURL;
+- (NSURLConnection *)makeHTTPURLConnectionWithURL:(NSURL *)anURL;
 - (NSURL *) resourceURLForWebBrowser;
 @end
-
 
 
 //:CMRDownloader-Task.m
@@ -41,11 +37,7 @@
 #define APP_DOWNLOADER_CANCEL			@"Cancel"
 #define APP_DOWNLOADER_SUCCESS			@"Success"
 #define APP_DOWNLOADER_DOWNLOAD			@"Download"
-#define APP_DOWNLOADER_AMOUNT_FORMAT	@"(%d/%d kb)"
-
-
-#define APP_DOWNLOADER_FAIL_LOADING_STR	@"Couldnt_Load_Data"
-#define APP_DOWNLOADER_FAIL_LOADING_FMT	@"Reason_Couldnt_Load_Data"
+#define APP_DOWNLOADER_FAIL_LOADING_FMT	@"Couldnt_Load_Data_Msg"
 
 
 @interface CMRDownloader(Description)
@@ -55,20 +47,14 @@
 @end
 
 
-
 @interface CMRDownloader(ResourceManagement)
-- (BOOL) isFirstArrivalWithURLHandle : (NSURLHandle *) URLHandle
-	  resourceDataDidBecomeAvailable : (NSData      *) newBytes;
 - (BOOL) shouldCancelWithFirstArrivalData : (NSData *) newBytes;
 - (void) cancelDownloadWithPostingNotificationName : (NSString *) name;
-
-- (void) synchronizeServerClock : (SGHTTPConnector *) connector;
+- (void)synchronizeServerClock:(NSHTTPURLResponse *)response;
 @end
 
 
-
 @interface CMRDownloader(CMRLocalizableStringsOwner)
-- (NSString *) amountString;
 - (NSString *) localizedErrorString;
 - (NSString *) localizedSucceededString;
 - (NSString *) localizedCanceledString;
@@ -78,7 +64,6 @@
 - (NSString *) localizedTitleFormat;
 - (NSString *) localizedMessageFormat;
 @end
-
 
 
 @interface CMRDownloader(TaskNotification)

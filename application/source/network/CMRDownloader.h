@@ -1,67 +1,57 @@
-/**
-  * $Id: CMRDownloader.h,v 1.1 2005/05/11 17:51:06 tsawada2 Exp $
-  * 
-  * CMRDownloader.h
-  *
-  * Copyright (c) 2003-2004 Takanori Ishikawa, All rights reserved.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  CMRDownloader.h
+//  BathyScaphe "Twincam Angel"
+//
+//  Updated by Tsutomu Sawada on 07/07/22.
+//  Copyright 2007 BathyScaphe Project. All rights reserved.
+//
+
 #import <Foundation/Foundation.h>
 #import "CMRTask.h"
 
-@class		SGHTTPConnector;
-@protocol	w2chConnect;
-
-
-
-@interface CMRDownloader : NSObject <CMRTask>
+@interface CMRDownloader : NSObject<CMRTask>
 {
 	@private
 	id					_identifier;
-	SGHTTPConnector		*_connector;
+	NSURLConnection		*m_connector;
+	NSMutableData		*m_data;
+	NSString			*m_statusMessage;
+	BOOL				m_isInProgress;
+	double				m_amount;
+	double				m_expectedLength;
 }
 
 - (NSDictionary *) requestHeaders;
-- (SGHTTPConnector *) currentConnector;
+- (NSURLConnection *)currentConnector;
 
 - (id) identifier;
 - (void) setIdentifier : (id) anIdentifier;
 - (NSURL *) boardURL;
 - (NSURL *) resourceURL;
 - (NSString *) filePathToWrite;
-- (NSData *) resourceData;
-@end
 
+- (NSMutableData *)resourceData;
+- (void)setResourceData:(NSMutableData *)data;
+
+- (void)setMessage:(NSString *)msg;
+- (void)setAmount:(double)doubleValue;
+@end
 
 
 @interface CMRDownloader(LoadingResourceData)
 - (void) loadInBackground;
-- (BOOL) dataProcess : (NSData      *) resourceData
-       withConnector : (NSURLHandle *) connector;
-- (void) didFinishLoading : (NSURLHandle *) connector;
+- (BOOL)dataProcess:(NSData *)resourceData withConnector:(NSURLConnection *)connector;
+- (void)didFinishLoading:(NSURLConnection *)connector;
 @end
-
-
-
-@interface CMRDownloader(URLHandleClient)<NSURLHandleClient>
-- (SGHTTPConnector *) HTTPConnectorCastURLHandle : (NSURLHandle *) handler;
-@end
-
 
 
 @interface CMRDownloader(CMRDownloader)
 - (void) startLoadInBackground;
 - (void) cancelDownload;
-- (BOOL) isCanceledLoadInBackground;
 - (BOOL) isDownloadInProgress;
-- (NSURLHandleStatus) downloadStatus;
+- (void)setIsDownloadInProgress:(BOOL)inProgress;
 @end
 
-
-
-//////////////////////////////////////////////////////////////////////
-////////////////////// [ íËêîÇ‚É}ÉNÉçíuä∑ ] //////////////////////////
-//////////////////////////////////////////////////////////////////////
 extern NSString *const CMRDownloaderNotFoundNotification;
 
 // UserInfo

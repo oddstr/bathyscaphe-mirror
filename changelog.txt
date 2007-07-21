@@ -1,3 +1,43 @@
+2007-07-22 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/CMRAppDelegate+Menu.m
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/browser/CMRBrowser-Validation.m
+	* application/source/browser/CMRBrowser.h
+	* application/source/browser/CMRBrowser.m
+	* application/source/manager/CMRMainMenuManager.m
+	* application/source/window/CMRBrowserTbDelegate.m
+	* application/source/window/CMRThreadViewerTbDelegate.m
+	* application/Resources/Japanese.lproj/MainMenu.nib
+	* application/subproj/preference/Japanese.lproj/AdvancedPane.nib
+	* application/subproj/preference/Japanese.lproj/GeneralPreferences.nib
+	* application/Resources/Japanese.lproj/Localizable.strings
+		<<「表示」メニューの変更：>>
+		- 「ブラウザの配置」サブメニューを廃止した。横置き／縦置きの切り替えは「環境設定」＞「一般」で行うようにした。
+		- 「一覧に表示するスレッド」サブメニューを試験的に廃止した。現在、この機能にアクセスする方法はないので
+		　現時点でのビルドを使用する前に、「一覧に表示するスレッド」の設定は「すべて」にしといた方がいいと思いますですよ。
+		- 「ブラウザを垂直（水平）方向に分割」メニューを追加。スプリットバーのダブルクリックと同じ。
+		　分割されているときは「分割表示を閉じる」に変わる。2ペインと3ペインのすばやい切り替え。
+		- 「スレッド一覧／ログ一覧に切り替え」メニューを追加。構想中であるが具体的には何も実装されていない。使用不可。
+		<<「ウインドウ」メニュー、およびツールバーの変更：>>
+		- ログ管理アプリケーションを起動するメニュー項目／ツールバー項目を廃止した。
+		- 「環境設定」＞「詳細」ペインからログ管理アプリケーションの選択インタフェースを取り除いた。
+	* application/source/network/CMRDATDownloader.m
+	* application/source/network/CMRDownloader-Task.m
+	* application/source/network/CMRDownloader.m
+	* application/source/network/CMRDownloader_p.h
+	* application/source/network/CMRThreadHTMLDownloader.m
+	* application/source/network/ThreadTextDownloader.m
+	* application/Resources/Japanese.lproj/Downloader.strings
+		CMRDownloader とそのサブクラス達は、NSURLHandle ベースを脱却し、NSURLConnection ベースになった。
+	* application/source/preferences/AppDefaults-Background.m
+	* application/source/preferences/AppDefaults-FontColor.m
+		微修正。
+	* application/source/view/popup/CMXPopUpWindowController+View.m
+	* application/source/view/popup/CMXPopUpWindowController.m
+	* application/source/view/popup/CMXPopUpWindowManager.m
+		内部構造の改修中。この影響でポップアップ・ロック機能が一部正常に動作しなくなっているが、後で直すので気にしないこと。
+	* application/Resources/Japanese.lproj/CMRThreadMenu.nib
+		「Google 検索」→「Google で検索」、「Wikipediaで表示」→「Wikipedia で表示」
 2007-06-29 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Info-bs-another-story.plist
 		Info.plist に CFBundleURLTypes を書き忘れていたのを修正。

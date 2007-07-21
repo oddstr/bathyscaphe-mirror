@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMainMenuManager.h,v 1.11 2007/04/15 13:49:38 tsawada2 Exp $
+  * $Id: CMRMainMenuManager.h,v 1.12 2007/07/21 19:32:55 tsawada2 Exp $
   * BathyScaphe
   *
   *
@@ -34,7 +34,7 @@
 
 @interface CMRMainMenuManager(CMRApp)
 - (NSMenuItem *) isOnlineModeMenuItem;
-- (NSMenuItem *) browserArrangementMenuItem;
+//- (NSMenuItem *) browserArrangementMenuItem;
 - (NSMenuItem *) browserListColumnsMenuItem;
 - (NSMenuItem *) browserStatusFilteringMenuItem; // available in Vita and later.
 @end
@@ -42,7 +42,7 @@
 
 
 @interface CMRMainMenuManager(SynchronizeWithDefaults)
-- (void) synchronizeBrowserArrangementMenuItemState;
+//- (void) synchronizeBrowserArrangementMenuItemState;
 - (void) synchronizeIsOnlineModeMenuItemState;
 - (void) synchronizeStatusFilteringMenuItemState; // available in Vita and later.
 @end

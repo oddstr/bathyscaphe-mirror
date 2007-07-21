@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.42 2007/04/28 11:35:27 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.43 2007/07/21 19:32:55 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -141,10 +141,10 @@ typedef enum _BSAutoSyncIntervalType {
 - (void) setBoardListBackgroundColor : (NSColor *) color;
 
 - (NSColor *) threadViewerBackgroundColor;
-- (NSColor *) resPopUpBackgroundColor;
+//- (NSColor *) resPopUpBackgroundColor;
 - (NSColor *) replyBackgroundColor;
 
-- (float) resPopUpBgAlphaValue;
+//- (float) resPopUpBgAlphaValue;
 
 - (void) _loadBackgroundColors;
 - (BOOL) _saveBackgroundColors;
@@ -210,8 +210,8 @@ typedef enum _BSAutoSyncIntervalType {
 - (NSFont *) messageBookmarkFont;
 - (NSColor *) messageBookmarkColor;
 
-- (NSColor *) resPopUpDefaultTextColor;
-- (BOOL) isResPopUpTextDefaultColor;
+//- (NSColor *) resPopUpDefaultTextColor;
+//- (BOOL) isResPopUpTextDefaultColor;
 - (NSColor *) replyTextColor;
 - (NSFont *) replyFont;
 /* End Theme groups */

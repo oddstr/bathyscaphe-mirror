@@ -1,6 +1,6 @@
 //: CMXPopUpWindowManager.m
 /**
-  * $Id: CMXPopUpWindowManager.m,v 1.6 2007/02/11 17:13:48 tsawada2 Exp $
+  * $Id: CMXPopUpWindowManager.m,v 1.7 2007/07/21 19:32:55 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -105,13 +105,10 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	[controller_ setObject : object];
 	
 	// setup UI
-	[controller_ setBackgroundColor: [self backgroundColor]];
-	[controller_ setAlphaValue: [self popUpAlphaValue]];
-	[controller_ setUsesAlternateTextColor: [self popUpUsesAlternateTextColor]];
-	[controller_ setAlternateTextColor: [self popUpAlternateTextColor]];
 	[controller_ setUsesSmallScroller: [self popUpUsesSmallScroller]];	
 	[controller_ setShouldAntialias: [self popUpShouldAntialias]];
 	[controller_ setLinkTextHasUnderline: [self popUpLinkTextHasUnderline]];
+	[controller_ setTheme:[self theme]];
 
 	[controller_ showPopUpWindowWithContext : context
 					                  owner : owner
@@ -149,25 +146,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 
 #pragma mark CMRPref Accessors
-- (NSColor *) backgroundColor
-{
-	return [CMRPref resPopUpBackgroundColor];
-}
-- (float) popUpAlphaValue
-{
-	return [CMRPref resPopUpBgAlphaValue];
-}
 - (BOOL) popUpUsesSmallScroller
 {
 	return [CMRPref popUpWindowVerticalScrollerIsSmall];
-}
-- (BOOL) popUpUsesAlternateTextColor
-{
-	return [CMRPref isResPopUpTextDefaultColor];
-}
-- (NSColor *) popUpAlternateTextColor
-{
-	return [CMRPref resPopUpDefaultTextColor];
 }
 - (BOOL) popUpShouldAntialias
 {
@@ -176,5 +157,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 - (BOOL) popUpLinkTextHasUnderline
 {
 	return [CMRPref hasMessageAnchorUnderline];
+}
+- (BSThreadViewTheme *)theme
+{
+	return [CMRPref threadViewTheme];
 }
 @end

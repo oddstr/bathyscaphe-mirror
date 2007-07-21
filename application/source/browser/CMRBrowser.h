@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.h,v 1.26 2007/04/15 08:46:10 tsawada2 Exp $
+  * $Id: CMRBrowser.h,v 1.27 2007/07/21 19:32:55 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -71,7 +71,7 @@ typedef enum _BSThreadDeletionType {
 - (IBAction) searchThread : (id) sender;
 - (IBAction) showSearchThreadPanel : (id) sender;
 
-- (IBAction) changeBrowserArrangement : (id) sender;
+//- (IBAction) changeBrowserArrangement : (id) sender;
 - (IBAction) collapseOrExpandBoardList : (id) sender;
 
 // make threadsList view to be first responder;

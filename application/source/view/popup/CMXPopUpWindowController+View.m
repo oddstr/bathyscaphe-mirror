@@ -1,6 +1,6 @@
 //: CMXPopUpWindowController+View.m
 /**
-  * $Id: CMXPopUpWindowController+View.m,v 1.9 2007/02/07 13:26:13 tsawada2 Exp $
+  * $Id: CMXPopUpWindowController+View.m,v 1.10 2007/07/21 19:32:55 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -77,8 +77,10 @@
 	tmp = SGTemplateResource(kPopUpBorderTypeKey);
 	UTILAssertKindOfClass(tmp, NSNumber);
 	[scrollview_ setBorderType : [tmp intValue]];
-	[scrollview_ setHasVerticalScroller : NO];
+	[scrollview_ setHasVerticalScroller:YES];
 	[scrollview_ setHasHorizontalScroller : NO];
+
+	[scrollview_ setAutohidesScrollers:YES];
 	
 	[scrollview_ setAutoresizingMask : 
 		(NSViewWidthSizable | NSViewHeightSizable)];
@@ -94,7 +96,7 @@
 {
 	NSTextView *textView_ = [self textView];
 	// リンク文字列の書式
-	if ([self usesAlternateTextColor]) {
+	if ([[self theme] popupUsesAlternateTextColor]) {
 		if ([self linkTextHasUnderline]) {
 			[textView_ setLinkTextAttributes : [NSDictionary dictionaryWithObject : [NSNumber numberWithInt : NSUnderlineStyleSingle]
 																		   forKey : NSUnderlineStyleAttributeName]];
@@ -292,7 +294,7 @@
 
 - (void) updateScrollerSize
 {
-	if (NO == [[self scrollView] hasVerticalScroller]) return;
+//	if (NO == [[self scrollView] hasVerticalScroller]) return;
 
 	NSScroller		*scroller_;
 
@@ -306,7 +308,7 @@
 
 - (void) setUpScrollers
 {
-	BOOL			flag_ = YES;
+/*	BOOL			flag_ = YES;
 	float	contentHeight_;
 	
 	contentHeight_ = ([[self scrollView] contentSize]).height;
@@ -316,7 +318,7 @@
 	
 	if (NO == flag_)
 		return;
-
+*/
 	[self updateScrollerSize];
 }
 
@@ -356,7 +358,7 @@
 
 
 @implementation CMXPopUpWindowController(Accessor)
-- (NSColor *) backgroundColor
+/*- (NSColor *) backgroundColor
 {
 	return [[self window] backgroundColor];
 }
@@ -397,7 +399,22 @@
 {
 	bs_alternateTextColor = aColor;
 }
+*/
+- (void) updateBGColor
+{
+	NSColor *aColor = [[self theme] popupBackgroundColorIgnoringAlpha];
+	// window
+	[[self window] setBackgroundColor:aColor];
+	// scrollView
+	[[self scrollView] setDrawsBackground:NO];
+	[[self scrollView] setBackgroundColor:aColor];
+	
+	[[self textView] setDrawsBackground:NO];
+	[[self textView] setBackgroundColor:aColor];
 
+	[[self window] setAlphaValue: [[self theme] popupBackgroundAlphaValue]];
+}
+	
 - (BOOL) usesSmallScroller
 {
 	return bs_usesSmallScroller;
@@ -421,5 +438,18 @@
 - (void) setLinkTextHasUnderline: (BOOL) TorF
 {
 	bs_linkTextHasUnderline = TorF;
+}
+
+- (BSThreadViewTheme *)theme
+{
+	return m_theme;
+}
+- (void)setTheme:(BSThreadViewTheme *)aTheme
+{
+	m_theme = aTheme;
+	[self updateLinkTextAttributes];
+
+	[self updateScrollerSize];
+	[self updateBGColor];
 }
 @end

@@ -1,6 +1,6 @@
 //: CMXPopUpWindowManager.h
 /**
-  * $Id: CMXPopUpWindowManager.h,v 1.3 2007/02/07 13:26:13 tsawada2 Exp $
+  * $Id: CMXPopUpWindowManager.h,v 1.4 2007/07/21 19:32:55 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -13,15 +13,13 @@
 #import <Cocoa/Cocoa.h>
 #import "CMXPopUpWindowController.h"
 
-
-//@class SGBaseCArrayWrapper;
+@class BSThreadViewTheme;
 
 #define CMRPopUpMgr		[CMXPopUpWindowManager defaultManager]
 
 @interface CMXPopUpWindowManager : NSObject
 {
 	@private
-//	SGBaseCArrayWrapper		*_controllerArray;
 	NSMutableArray	*bs_controllersArray;
 }
 /*!
@@ -62,11 +60,8 @@
 - (BOOL) performClosePopUpWindowForObject : (id) object;
 
 // CMRPref Accessors
-- (NSColor *) backgroundColor;
-- (float) popUpAlphaValue;
 - (BOOL) popUpUsesSmallScroller;
-- (BOOL) popUpUsesAlternateTextColor;
-- (NSColor *) popUpAlternateTextColor;
 - (BOOL) popUpShouldAntialias;
 - (BOOL) popUpLinkTextHasUnderline;
+- (BSThreadViewTheme *)theme;
 @end

@@ -44,6 +44,7 @@
                 changeBrowserArrangement = id; 
                 clearMessageAttributes = id; 
                 collapseOrExpandBoardList = id; 
+                collapseOrExpandThreadViewer = id; 
                 copySelectedResURL = id; 
                 copyThreadAttributes = id; 
                 deleteThread = id; 

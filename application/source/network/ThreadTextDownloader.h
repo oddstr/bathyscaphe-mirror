@@ -1,11 +1,11 @@
-/**
-  * $Id: ThreadTextDownloader.h,v 1.3 2007/01/30 14:04:11 tsawada2 Exp $
-  * 
-  * ThreadTextDownloader.h
-  *
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  ThreadTextDownloader.h
+//  BathyScaphe "Twincam Angel"
+//
+//  Updated by Tsutomu Sawada on 07/07/22.
+//  Copyright 2007 BathyScaphe Project. All rights reserved.
+//
+
 #import <Foundation/Foundation.h>
 #import "CMRDownloader.h"
 
@@ -17,7 +17,9 @@
 	unsigned			_nextIndex;
 	NSDictionary		*_localThreadsDict;
 	NSString			*_threadTitle;
+	NSDate	*m_lastDateStore;
 }
+
 + (id) downloaderWithIdentifier : (CMRThreadSignature *) signature
 					threadTitle : (NSString           *) aTitle
 					  nextIndex : (unsigned int        ) aNextIndex;
@@ -27,6 +29,9 @@
 
 - (unsigned) nextIndex;
 - (void) setNextIndex : (unsigned) aNextIndex;
+
+- (NSDate *)lastDate;
+- (void)setLastDate:(NSDate *)date;
 
 + (BOOL) canInitWithURL : (NSURL *) url;
 - (NSStringEncoding) encodingForLoadedData;
@@ -41,16 +46,9 @@
 // Partial contents
 // ----------------------------------------
 - (BOOL) pertialContentsRequested;
-// Called by URLHandle:resourceDataDidBecomeAvailable:
-// to cancel any background loading, cause partial contents was invalid.
 - (void) cancelDownloadWithInvalidPartial;
 @end
 
-
-
-// ----------------------------------------
-//  N o t i f i c a t i o n
-// ----------------------------------------
 extern NSString *const ThreadTextDownloaderDidFinishLoadingNotification;
 extern NSString *const ThreadTextDownloaderUpdatedNotification;
 // some messages has beed aboned?

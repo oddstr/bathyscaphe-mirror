@@ -1,6 +1,6 @@
 //: CMXPopUpWindowController.h
 /**
-  * $Id: CMXPopUpWindowController.h,v 1.3 2007/02/07 13:26:13 tsawada2 Exp $
+  * $Id: CMXPopUpWindowController.h,v 1.4 2007/07/21 19:32:55 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -8,7 +8,7 @@
 #import <Cocoa/Cocoa.h>
 #import "CMXPopUpOwner.h"
 
-
+@class BSThreadViewTheme;
 
 @interface CMXPopUpWindowController : NSWindowController
 {
@@ -21,11 +21,12 @@
 	id		_object;
 	BOOL	_closable;
 	
-	BOOL	bs_usesAlternateTextColor;
-	NSColor *bs_alternateTextColor;
+//	BOOL	bs_usesAlternateTextColor;
+//	NSColor *bs_alternateTextColor;
 	BOOL	bs_usesSmallScroller;
 	BOOL	bs_shouldAntialias;
 	BOOL	bs_linkTextHasUnderline;
+	BSThreadViewTheme *m_theme;
 	NSTimer *m_timer;
 }
 + (float) popUpTrackingInsetWidth;
@@ -59,18 +60,20 @@
 
 
 @interface CMXPopUpWindowController(Accessor)
-- (void) setBackgroundColor : (NSColor *) color;
+/*- (void) setBackgroundColor : (NSColor *) color;
 - (NSColor *) backgroundColor;
 - (void) setAlphaValue : (float) floatValue;
 - (float) alphaValue;
 - (BOOL) usesAlternateTextColor;
 - (void) setUsesAlternateTextColor: (BOOL) TorF;
 - (NSColor *) alternateTextColor;
-- (void) setAlternateTextColor: (NSColor *) aColor;
+- (void) setAlternateTextColor: (NSColor *) aColor;*/
 - (BOOL) usesSmallScroller;
 - (void) setUsesSmallScroller: (BOOL) TorF;
 - (BOOL) shouldAntialias;
 - (void) setShouldAntialias: (BOOL) TorF;
 - (BOOL) linkTextHasUnderline;
 - (void) setLinkTextHasUnderline: (BOOL) TorF;
+- (BSThreadViewTheme *)theme;
+- (void) setTheme:(BSThreadViewTheme *)aTheme;
 @end

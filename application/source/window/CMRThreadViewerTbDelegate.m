@@ -265,7 +265,7 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 											   action : @selector(toggleOnlineMode:)
 											   target : nil];
 	[item_ setImage : [NSImage imageAppNamed : st_onlineMode_ImageName]];
-	
+/*	
 	item_ = [self appendToolbarItemWithItemIdentifier : [self launchCMLFIdentifier]
 									localizedLabelKey : [self labelForCMLF]
 							 localizedPaletteLabelKey : [self labelForCMLF]
@@ -273,7 +273,7 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 											   action : @selector(launchCMLF:)
 											   target : nil];
 	[item_ setImage : [NSImage imageAppNamed : st_launchCMLF_ImageName]];
-	
+*/	
 	item_ = [self appendToolbarItemWithItemIdentifier : [self stopTaskIdentifier]
 									localizedLabelKey : st_stopTaskLabelKey
 							 localizedPaletteLabelKey : st_stopTaskPaletteLabelKey
@@ -362,7 +362,7 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 				[self deleteItemIdentifier],
 				[self replyItemIdentifier],
 				[self toggleOnlineModeIdentifier],
-				[self launchCMLFIdentifier],
+//				[self launchCMLFIdentifier],
 				[self scaleSegmentedControlIdentifier],
 				[self historySegmentedControlIdentifier],
 				[self orderFrontBrowserItemIdentifier],

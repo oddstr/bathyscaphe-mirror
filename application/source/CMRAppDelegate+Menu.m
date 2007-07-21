@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate+Menu.m,v 1.13 2007/04/15 13:49:38 tsawada2 Exp $
+ * $Id: CMRAppDelegate+Menu.m,v 1.14 2007/07/21 19:32:55 tsawada2 Exp $
  * 
  * CMRAppDelegate+Menu.m
  *
@@ -125,7 +125,7 @@
         [menuItem_ release];
     }
 }
-- (void) setupBrowserArrangementMenuWithMenu : (NSMenu *) menu
+/*- (void) setupBrowserArrangementMenuWithMenu : (NSMenu *) menu
 {
     NSMenuItem        *menuItem_;
     NSString        *title_;
@@ -160,7 +160,7 @@
 
 - (void) setupBrowserArrangementMenu
 {
-    NSMenuItem    *menuItem_;
+NSMenuItem    *menuItem_;
     
     menuItem_ = [[CMRMainMenuManager defaultManager] browserArrangementMenuItem];
     NSAssert(
@@ -170,7 +170,7 @@
     [self setupBrowserArrangementMenuWithMenu : [menuItem_ submenu]];
     [[CMRMainMenuManager defaultManager] 
             synchronizeBrowserArrangementMenuItemState];
-}
+}*/
 - (void) setupURLBookmarksMenuWithMenu : (NSMenu *) menu
 {
     NSArray            *URLBookmarkArray_;
@@ -218,7 +218,7 @@
 
 - (void) setupBrowserStatusFilteringMenuWithMenu : (NSMenu *) menu
 {
-    NSArray         *menuItemsArray_;
+/*    NSArray         *menuItemsArray_;
     NSEnumerator    *iter_;
     id<NSMenuItem>	item_;
     
@@ -252,7 +252,7 @@
 		}
 	}
 
-	[[CMRMainMenuManager defaultManager] synchronizeStatusFilteringMenuItemState];
+	[[CMRMainMenuManager defaultManager] synchronizeStatusFilteringMenuItemState];*/
 }
 
 #pragma mark Public
@@ -270,7 +270,7 @@
 	[self setupBrowserListColumnsMenuWithMenu : [[dm_ browserListColumnsMenuItem] submenu]];
 	[self setupBrowserStatusFilteringMenuWithMenu : [[dm_ browserStatusFilteringMenuItem] submenu]];
     
-    [self setupBrowserArrangementMenu];
+//    [self setupBrowserArrangementMenu];
     [dm_ synchronizeIsOnlineModeMenuItemState];
 
 	[[dm_ historyMenu] setDelegate: [CMRHistoryManager defaultManager]];

@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-FontColor.m,v 1.19 2007/04/12 12:55:12 tsawada2 Exp $
+  * $Id: AppDefaults-FontColor.m,v 1.20 2007/07/21 19:32:55 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -243,7 +243,7 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 {
 	return [[self threadViewTheme] replyFont];
 }
-
+/*
 - (BOOL) isResPopUpTextDefaultColor
 {
 	return [[self threadViewTheme] popupUsesAlternateTextColor];
@@ -253,7 +253,7 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 {
 	return [[self threadViewTheme] popupAlternateTextColor];
 }
-
+*/
 - (NSFont *) threadsViewFont
 {
 	return [[self threadViewTheme] baseFont];

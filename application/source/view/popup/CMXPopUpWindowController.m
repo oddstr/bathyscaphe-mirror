@@ -1,6 +1,6 @@
 //: CMXPopUpWindowController.m
 /**
-  * $Id: CMXPopUpWindowController.m,v 1.7 2006/11/05 12:53:48 tsawada2 Exp $
+  * $Id: CMXPopUpWindowController.m,v 1.8 2007/07/21 19:32:55 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -54,10 +54,10 @@
 	// のカラー属性を変更する。
 	NSTextStorage *storage_ = [self textStorage];
 
-	if(([storage_ length] != 0) && [self usesAlternateTextColor]) {
+	if(([storage_ length] != 0) && [[self theme] popupUsesAlternateTextColor]) {
 		NSRange contentRng_ = NSMakeRange(0, [storage_ length]);
 		
-		NSColor *color_ = [self alternateTextColor];
+		NSColor *color_ = [[self theme] popupAlternateTextColor];
 		
 		[storage_ removeAttribute: NSForegroundColorAttributeName
 							range: contentRng_];
@@ -234,7 +234,7 @@
 	if ([self isClosable]) {
 		[self close];
 	} else {
-		[self setBackgroundColor : [NSColor windowBackgroundColor]];
+	//	[self setBackgroundColor : [NSColor windowBackgroundColor]];
 
 		[[self textStorage] 
 			   removeAttribute : NSForegroundColorAttributeName

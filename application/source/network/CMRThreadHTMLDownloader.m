@@ -1,6 +1,6 @@
 //: CMRThreadHTMLDownloader.m
 /**
-  * $Id: CMRThreadHTMLDownloader.m,v 1.4 2007/01/07 17:04:23 masakih Exp $
+  * $Id: CMRThreadHTMLDownloader.m,v 1.5 2007/07/21 19:32:55 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -45,8 +45,10 @@
 {
 	return [self threadURL];
 }
-- (BOOL) dataProcess : (NSData      *) resourceData
-       withConnector : (NSURLHandle *) connector
+//- (BOOL) dataProcess : (NSData      *) resourceData
+//       withConnector : (NSURLHandle *) connector
+- (BOOL) dataProcess : (NSData *) resourceData
+       withConnector : (NSURLConnection *) connector
 {
 	NSString				*inputSource_;
 	id						thread_;
@@ -84,7 +86,7 @@
 
 	if ([handler_ isKindOfClass: [BSHostLivedoorHandler class]]) return NO;
 
-	return !CHECK_HTML([theData bytes], [theData length]);
+	return NO;//!CHECK_HTML([theData bytes], [theData length]);
 }
 @end
 

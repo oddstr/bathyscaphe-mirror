@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.h,v 1.17 2007/03/11 09:02:57 tsawada2 Exp $
+ * $Id: CMRAppDelegate.h,v 1.18 2007/07/21 19:32:55 tsawada2 Exp $
  * 
  * CMRAppDelegate.h
  *
@@ -35,7 +35,7 @@
 - (IBAction) resetApplication : (id) sender;
 
 - (IBAction) openURLPanel : (id) sender;
-- (IBAction) launchCMLF : (id) sender;
+//- (IBAction) launchCMLF : (id) sender;
 
 // For History Menu
 - (IBAction) clearHistory : (id) sender;

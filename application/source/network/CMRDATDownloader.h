@@ -1,10 +1,10 @@
-//: CMRDATDownloader.h
-/**
-  * $Id: CMRDATDownloader.h,v 1.2 2006/06/04 13:14:39 tsawada2 Exp $
-  * 
-  * Copyright (c) 2001-2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  CMRDATDownloader.h
+//  BathyScaphe "Twincam Angel"
+//
+//  Updated by Tsutomu Sawada on 07/07/22.
+//  Copyright 2007 BathyScaphe Project. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import "ThreadTextDownloader.h"

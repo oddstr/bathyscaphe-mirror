@@ -1,15 +1,12 @@
-//:CMRDownloader-Task.m
-/**
-  *
-  * 
-  *
-  * @author Takanori Ishikawa
-  * @author http://www15.big.or.jp/~takanori/
-  * @version 1.0.0d1 (02/08/14  1:20:25 PM)
-  *
-  */
-#import "CMRDownloader_p.h"
+//
+//  CMRDownloader-Task.m
+//  BathyScaphe "Twincam Angel"
+//
+//  Updated by Tsutomu Sawada on 07/07/22.
+//  Copyright 2007 BathyScaphe Project. All rights reserved.
+//
 
+#import "CMRDownloader_p.h"
 
 
 @implementation CMRDownloader(CMRDownloader)
@@ -20,30 +17,19 @@
 
 - (void) cancelDownload
 {
-	if(NSURLHandleLoadInProgress != [self downloadStatus])
-		return;
-	[[self currentConnector] cancelLoadInBackground];
-}
-- (BOOL) isCanceledLoadInBackground
-{
-	if(nil == [self currentConnector])
-		return NO;
-	return [[self currentConnector] isCanceledLoadInBackground];
+	if (![self isDownloadInProgress]) return;
+	[[self currentConnector] cancel];
 }
 
 - (BOOL) isDownloadInProgress
 {
-	return (NSURLHandleLoadInProgress == [self downloadStatus]);
+	return m_isInProgress;
 }
-
-- (NSURLHandleStatus) downloadStatus
+- (void)setIsDownloadInProgress:(BOOL)inProgress
 {
-	if(nil == [self currentConnector])
-		return NSURLHandleNotLoaded;
-	return [[self currentConnector] status];
+	m_isInProgress = inProgress;
 }
 @end
-
 
 
 @implementation CMRDownloader(Description)
@@ -63,73 +49,37 @@
 @end
 
 
-
 @implementation CMRDownloader(CMRLocalizableStringsOwner)
 - (NSString *) localizedDownloadString
 {
-	return [NSString stringWithFormat :
-				[self localizedString : APP_DOWNLOADER_DOWNLOAD],
-				[self resourceName]];
+	return [NSString stringWithFormat:[self localizedString:APP_DOWNLOADER_DOWNLOAD], [self resourceName]];
 }
 
-- (NSString *) amountString
-{
-	unsigned	contentLength_	= 0;
-	unsigned	bytesLength_	= 0;
-	
-	UTILRequireCondition(
-		[self isInProgress],
-		error_amountString);
-	
-	contentLength_ = [[self currentConnector] readContentLength];
-	UTILRequireCondition(
-		(contentLength_ != NSNotFound), 
-		error_amountString);
-	
-	bytesLength_ = [[self currentConnector] loadedBytesLength];
-	UTILRequireCondition(
-		(bytesLength_ != 0), 
-		error_amountString);
-	
-	return [NSString stringWithFormat : 
-						APP_DOWNLOADER_AMOUNT_FORMAT,
-						(bytesLength_ / 1024),
-						(contentLength_ / 1024)];
-	
-	error_amountString:{
-		return @"";
-	}
-}
 - (NSString *) localizedErrorString
 {
-	SGHTTPResponse	*res_;
-	
-	res_ = [[self currentConnector] response];
-	return [NSString stringWithFormat:
-				[self localizedString : APP_DOWNLOADER_ERROR],
-				res_?[res_ statusLine]:@""];
+	return [self localizedString:APP_DOWNLOADER_ERROR];
 }
 - (NSString *) localizedCanceledString
 {
-	return [self localizedString : APP_DOWNLOADER_CANCEL];
+	return [self localizedString:APP_DOWNLOADER_CANCEL];
 }
 
 - (NSString *) localizedSucceededString
 {
-	return [self localizedString : APP_DOWNLOADER_SUCCESS];
+	return [self localizedString:APP_DOWNLOADER_SUCCESS];
 }
 - (NSString *) localizedNotLoaded
 {
-	return [self localizedString : APP_DOWNLOADER_NOTLOADED];
+	return [self localizedString:APP_DOWNLOADER_NOTLOADED];
 }
 
 - (NSString *) localizedTitleFormat
 {
-	return [self localizedString : APP_DOWNLOADER_TITLE];
+	return [self localizedString:APP_DOWNLOADER_TITLE];
 }
 - (NSString *) localizedMessageFormat
 {
-	return [self localizedString : APP_DOWNLOADER_MESSAGE];
+	return [self localizedString:APP_DOWNLOADER_MESSAGE];
 }
 + (NSString *) localizableStringsTableName
 {
@@ -138,23 +88,14 @@
 @end
 
 
-
 @implementation CMRDownloader(TaskNotification)
 - (void) postTaskWillStartNotification
 {
-	NSNotificationCenter	*nc_;
-	
-	nc_ = [NSNotificationCenter defaultCenter];
-	[nc_ postNotificationName : CMRTaskWillStartNotification
-					   object : self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:CMRTaskWillStartNotification object:self];
 }
 
 - (void) postTaskDidFinishNotification
 {
-	NSNotificationCenter	*nc_;
-	
-	nc_ = [NSNotificationCenter defaultCenter];
-	[nc_ postNotificationName : CMRTaskDidFinishNotification
-					   object : self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:CMRTaskDidFinishNotification object:self];
 }
 @end

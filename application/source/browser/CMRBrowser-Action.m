@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.59 2007/03/18 17:46:52 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.60 2007/07/21 19:32:55 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -494,6 +494,11 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 	[self synchronizeWithSearchField];
 }
 
+- (IBAction)collapseOrExpandThreadViewer:(id)sender
+{
+	[self splitView:[self splitView] didDoubleClickInDivider:0];
+}
+
 - (BOOL) ifSearchFieldIsInToolbar
 {
 	/*
@@ -558,7 +563,7 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 
 #pragma mark View Menu
 
-- (IBAction) changeBrowserArrangement : (id) sender
+/*- (IBAction) changeBrowserArrangement : (id) sender
 {
 	NSNumber	*represent_;
 	
@@ -574,7 +579,7 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 	
 	[self setupSplitView];
 	[[self splitView] resizeSubviewsWithOldSize : [[self splitView] frame].size];
-}
+}*/
 
 - (IBAction) collapseOrExpandBoardList : (id) sender
 {

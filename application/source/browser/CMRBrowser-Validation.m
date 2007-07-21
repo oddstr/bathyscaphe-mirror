@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-Validation.m,v 1.26 2007/04/21 08:09:27 tsawada2 Exp $
+ * $Id: CMRBrowser-Validation.m,v 1.27 2007/07/21 19:32:55 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -164,7 +164,16 @@
 		return [self validateCollapseOrExpandBoardListItem: theItem];
 	} else if(action_ == @selector(reloadThreadsList:)) {
 		return [self validateReloadThreadsListItem: theItem];
-	} else if(action_ == @selector(changeBrowserArrangement:)) {
+//	} else if(action_ == @selector(changeBrowserArrangement:)) {
+//		return YES;
+	} else if(action_ == @selector(collapseOrExpandThreadViewer:)) {
+		NSString *hogehoge;
+		if ([[self splitView] isSubviewCollapsed:bottomSubview]) {
+			hogehoge = [CMRPref isSplitViewVertical] ? NSLocalizedString(@"NSSplitView Vertical",@"") : NSLocalizedString(@"NSSplitView Horizontal", @"");
+		} else {
+			hogehoge = NSLocalizedString(@"collapse splitView",@"");
+		}
+		[theItem setTitle:hogehoge];
 		return YES;
 	}
 

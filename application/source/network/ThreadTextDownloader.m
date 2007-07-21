@@ -1,15 +1,14 @@
-/**
-  * $Id: ThreadTextDownloader.m,v 1.5 2007/03/23 17:27:52 tsawada2 Exp $
-  * 
-  * ThreadTextDownloader.m
-  *
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  ThreadTextDownloader.m
+//  BathyScaphe "Twincam Angel"
+//
+//  Updated by Tsutomu Sawada on 07/07/22.
+//  Copyright 2007 BathyScaphe Project. All rights reserved.
+//
+
 #import "ThreadTextDownloader_p.h"
 #import "CMRDATDownloader.h"
 #import "CMRThreadHTMLDownloader.h"
-
 
 
 // for debugging only
@@ -17,10 +16,6 @@
 #import "UTILDebugging.h"
 
 
-
-// ----------------------------------------
-//  N o t i f i c a t i o n
-// ----------------------------------------
 NSString *const ThreadTextDownloaderDidFinishLoadingNotification = @"ThreadTextDownloaderDidFinishLoadingNotification";
 NSString *const ThreadTextDownloaderUpdatedNotification = @"ThreadTextIsUpdated";
 NSString *const ThreadTextDownloaderInvalidPerticalContentsNotification = @"ThreadTextDownloaderInvalidPerticalContentsNotification";
@@ -104,7 +99,8 @@ return_instance:
 		@"%@<%p> was place holder instance, do not release!!",
 		NSStringFromClass([ThreadTextDownloader class]),
 		self);
-	
+
+	[m_lastDateStore release];
 	[_localThreadsDict release];
 	[_threadTitle release];
 	[super dealloc];
@@ -117,6 +113,18 @@ return_instance:
 - (void) setNextIndex : (unsigned) aNextIndex
 {
 	_nextIndex = aNextIndex;
+}
+
+- (NSDate *)lastDate
+{
+	return m_lastDateStore;
+}
+
+- (void)setLastDate:(NSDate *)date
+{
+	[date retain];
+	[m_lastDateStore release];
+	m_lastDateStore = date;
 }
 
 + (BOOL) canInitWithURL : (NSURL *) url
@@ -199,8 +207,7 @@ return_instance:
 // to cancel any background loading, cause partial contents was invalid.
 - (void) cancelDownloadWithInvalidPartial
 {
-	[self cancelDownloadWithPostingNotificationName :
-				ThreadTextDownloaderInvalidPerticalContentsNotification];
+	[self cancelDownloadWithPostingNotificationName:ThreadTextDownloaderInvalidPerticalContentsNotification];
 }
 
 
@@ -281,8 +288,6 @@ return_instance:
 	[info_ setNoneNil: [thread objectForKey: CMRThreadModifiedDateKey] forKey: CMRThreadModifiedDateKey];
 
     // It guarantees that file must exists.
-/*    result = [thread writeToFile : [self filePathToWrite]
-                                  atomically : YES];*/
 	if ([CMRPref saveThreadDocAsBinaryPlist]) {
 		NSData *data_;
 		NSString *errStr;
@@ -327,8 +332,7 @@ return_instance:
 	NSDictionary			*localThread_;
 	NSMutableDictionary		*newThread_;
 	NSMutableArray			*messages_;
-	NSDate					*lastDate_;
-	id						v;
+	CMRDocumentFileManager	*dfm;
 	
 	id<CMRMessageComposer>	composer_;
 	CMR2chDATReader			*reader_;
@@ -346,7 +350,6 @@ return_instance:
 	
 	shouldAA_ = [self amIAAThread : localThread_];
 
-	//composer_ = [CMRThreadPlistComposer composerWithThreadsArray : messages_];
 	composer_ = [CMRThreadPlistComposer composerWithThreadsArray : messages_ noteAAThread : shouldAA_];
 
 	reader_ = [CMR2chDATReader readerWithContents : datContents];
@@ -355,21 +358,14 @@ return_instance:
 						forKey : CMRThreadTitleKey];
 		[newThread_ setNoneNil : [reader_ firstMessageDate]
 						forKey : CMRThreadCreatedDateKey];
-	} else {
-		
+	} else {		
 		[newThread_ addEntriesFromDictionary : localThread_];
-		[messages_ addObjectsFromArray :
-			[newThread_ objectForKey : ThreadPlistContentsKey]];
-		
-
-
-
+		[messages_ addObjectsFromArray:[newThread_ objectForKey:ThreadPlistContentsKey]];
 		// 
-		// あぽーん対策で余分に1バイト取得しているので、
-		// ここで前回の分と足しあわせて調整する。
+		// We've been got extra 1 byte (for Abone-checking), so we need to adjust.
 		//
-		dataLength_ += [[newThread_ objectForKey : ThreadPlistLengthKey] intValue];
-		if (dataLength_ > 0) dataLength_--;
+		dataLength_ += [[newThread_ objectForKey:ThreadPlistLengthKey] intValue];
+		if (dataLength_ > 0) dataLength_--; // important
 	}
 	[newThread_ setObject : [NSNumber numberWithUnsignedInt : dataLength_]
 				   forKey : ThreadPlistLengthKey];
@@ -379,39 +375,37 @@ return_instance:
 
 	messages_ = [composer_ getMessages];
 	
-	// 最後のレスの日付けを取得。
-	// サーバからのレスポンスに最終更新日が含まれていない場合は
-	// 最後のレスの書き込み日時で判断する。
-	// 最後のレスがあぼーん、Over 1000 Threadなどの場合は直前のレスの日付けを取得
-	lastDate_ = nil;
-	{
-		SGHTTPConnector	*connector_;
-		NSString		*lastmdate_;
-		
-		connector_ = [self currentConnector];
-		lastmdate_ = [[connector_ response] headerFieldValueForKey : HTTP_LAST_MODIFIED_KEY];
-		lastDate_ = [NSCalendarDate dateWithHTTPTimeRepresentation : lastmdate_];
-		
+	if (![self lastDate]) {
+		NSLog(@"lastDate is nil, so we use CMR2chDATReader's one.");
+		[self setLastDate:[reader_ lastMessageDate]];
 	}
-	if (nil == lastDate_) lastDate_ = [reader_ lastMessageDate];
-	[newThread_ setNoneNil : lastDate_
+	[newThread_ setNoneNil : [self lastDate]
 					forKey : CMRThreadModifiedDateKey];
 	[newThread_ setNoneNil : messages_
 					forKey : ThreadPlistContentsKey];
 	
-	v = [CMRDocumentFileManager defaultManager];
- 	v = [v boardNameWithLogPath : [self filePathToWrite]];
-	[newThread_ setNoneNil:v forKey:ThreadPlistBoardNameKey];
-	
-	v = [CMRDocumentFileManager defaultManager];
-	v = [v datIdentifierWithLogPath : [self filePathToWrite]];
-	[newThread_ setNoneNil:v forKey:ThreadPlistIdentifierKey];
+	dfm = [CMRDocumentFileManager defaultManager];
+	[newThread_ setNoneNil:[dfm boardNameWithLogPath:[self filePathToWrite]] forKey:ThreadPlistBoardNameKey];
+	[newThread_ setNoneNil:[dfm datIdentifierWithLogPath:[self filePathToWrite]] forKey:ThreadPlistIdentifierKey];
 	
 	return newThread_;
 }
 @end
 
+@implementation ThreadTextDownloader(ResourceManagement)
+- (void)synchronizeServerClock:(NSHTTPURLResponse *)response
+{
+	[super synchronizeServerClock:response];
 
+	NSString *dateString2;
+	NSDate *date2;
+
+	dateString2 = [[response allHeaderFields] stringForKey:HTTP_LAST_MODIFIED_KEY];
+	date2 = [NSCalendarDate dateWithHTTPTimeRepresentation:dateString2];
+
+	[self setLastDate:date2];
+}
+@end
 
 @implementation ThreadTextDownloader(Description)
 - (NSString *) resourceName
