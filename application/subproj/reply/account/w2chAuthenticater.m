@@ -23,12 +23,12 @@
 
 
 static AppDefaults	*st_defaults		= nil;
-static NSLock		*st_singleton_lock	= nil;
+//static NSLock		*st_singleton_lock	= nil;
 
 
 
 @implementation w2chAuthenticater
-+ (void) initialize
+/*+ (void) initialize
 {
 	if(nil == st_singleton_lock)
 		st_singleton_lock = [[NSLock alloc] init];
@@ -47,8 +47,8 @@ static NSLock		*st_singleton_lock	= nil;
 		[st_singleton_lock unlock];
 	}
 	return st_instance;
-}
-
+}*/
+APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultAuthenticater);
 
 - (id) init
 {
@@ -210,7 +210,10 @@ static NSLock		*st_singleton_lock	= nil;
      sessionID : (NSString **) sid
 {
 	NSURL				*requestURL_;		//認証用CGI
-	SGHTTPConnector		*connector_;		//接続オブジェクト
+//	SGHTTPConnector		*connector_;		//接続オブジェクト
+	NSMutableURLRequest *request_;
+	NSURLResponse		*returningResponse_;
+
 	NSData				*pst_data_;			//送信するデータ
 	NSData				*resource_;			//サーバの返した内容(data)
 	NSString			*contents_;			//サーバの返した内容(String)
@@ -233,13 +236,17 @@ static NSLock		*st_singleton_lock	= nil;
 	
 	//認証用CGIへと接続するオブジェクトの生成
 	requestURL_ = [[self preferences] x2chAuthenticationRequestURL];
-	connector_ = [[SGHTTPSecureSocket allocWithZone : [self zone]]
+/*	connector_ = [[SGHTTPSecureSocket allocWithZone : [self zone]]
 						initWithURL : requestURL_
-				      requestMethod : HTTP_METHOD_POST];
+				      requestMethod : HTTP_METHOD_POST];*/
+	request_ = [NSMutableURLRequest requestWithURL:requestURL_ cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:30.0];
+	[request_ setHTTPMethod:HTTP_METHOD_POST];
+	[request_ setHTTPShouldHandleCookies:NO];
+
 	//リクエストヘッダの設定
 	pst_data_ = [self postingDataWithID : userID
 							   password : password];
-	[connector_ writeProperty : @"close"
+/*	[connector_ writeProperty : @"close"
 					   forKey : HTTP_CONNECTION_KEY];
 	[connector_ writeProperty : [requestURL_ host]
 					   forKey : HTTP_HOST_KEY];
@@ -251,26 +258,35 @@ static NSLock		*st_singleton_lock	= nil;
 					   forKey : HTTP_CONTENT_TYPE_KEY];
 	[connector_ writeProperty : [[NSNumber numberWithInt : [pst_data_ length]] stringValue]
 					   forKey : HTTP_CONTENT_LENGTH_KEY];
-	[connector_ writeData : pst_data_];
+	[connector_ writeData : pst_data_];*/
+	[request_ setValue:@"close" forHTTPHeaderField:HTTP_CONNECTION_KEY];
+	[request_ setValue:[requestURL_ host] forHTTPHeaderField:HTTP_HOST_KEY];
+	[request_ setValue:[[self class] userAgentWhenAuthentication] forHTTPHeaderField:HTTP_USER_AGENT_KEY];
+	[request_ setValue:[[self class] requestHeaderValueForX2chUA] forHTTPHeaderField:APP_HTTP_X_2CH_UA_KEY];
+	[request_ setValue:HTTP_CONTENT_URL_ENCODED_TYPE forHTTPHeaderField:HTTP_CONTENT_TYPE_KEY];
+	[request_ setValue:[[NSNumber numberWithInt:[pst_data_ length]] stringValue] forHTTPHeaderField:HTTP_CONTENT_LENGTH_KEY];
+	[request_ setHTTPBody:pst_data_];
 	
-	resource_ = [connector_ loadInForeground];
+//	resource_ = [connector_ loadInForeground];
+	resource_ = [NSURLConnection sendSynchronousRequest:request_ returningResponse:&returningResponse_ error:NULL];
 	
-	if(nil == resource_ || NSURLHandleLoadFailed == [connector_ status]){
+	if(!resource_/* || NSURLHandleLoadFailed == [connector_ status]*/){
 		UTILDebugWrite(@"Connection Error");
 		
 		[self setRecentErrorType : w2chConnectionError];
 		return NO;
-	}
-	
+	}	
 
 	{
-		SGHTTPResponse		*respose_;
+//		SGHTTPResponse		*respose_;
 		
-		respose_ = [connector_ response];
-		UTILDebugWrite1(@"\n%@", [respose_ description]);
+//		respose_ = [connector_ response];
+//		UTILDebugWrite1(@"\n%@", [respose_ description]);
+		UTILDebugWrite1(@"\n%@", [returningResponse_ description]);
 	}
 	
-	statusCode_ = [[connector_ response] statusCode];
+//	statusCode_ = [[connector_ response] statusCode];
+	statusCode_ = [(NSHTTPURLResponse *)returningResponse_ statusCode];
 	[self setRecentStatusCode : statusCode_];
 	if(statusCode_ != 200){
 		UTILDebugWrite(@"Connection Error");
@@ -521,7 +537,7 @@ static NSLock		*st_singleton_lock	= nil;
 		msgKey_ = [self messageKeyForErrorType : [self recentErrorType]];
 		
 		if(titleKey_ != nil && msgKey_ != nil){
-			NSAlert	*alert_ = [[NSAlert alloc] init];
+			NSAlert	*alert_ = [[[NSAlert alloc] init] autorelease];
 			
 			[alert_ setAlertStyle : NSWarningAlertStyle];
 			[alert_ setMessageText : PluginLocalizedStringFromTable(titleKey_, nil, nil)];
@@ -530,15 +546,6 @@ static NSLock		*st_singleton_lock	= nil;
 			[alert_ addButtonWithTitle : PluginLocalizedStringFromTable(ok_, nil, nil)];
 			
 			[alert_ runModal];
-			
-			[alert_ release];
-/*			NSRunAlertPanel(
-					PluginLocalizedStringFromTable(titleKey_, nil, nil),
-					PluginLocalizedStringFromTable(msgKey_, nil, nil),
-					PluginLocalizedStringFromTable(ok_, nil, nil),
-					nil,
-					nil);
-*/
 		}
 	}
 	

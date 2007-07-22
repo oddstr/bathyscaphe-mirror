@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.25 2007/04/21 08:09:27 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.26 2007/07/22 11:22:32 tsawada2 Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -17,7 +17,7 @@
 #import "CMRMessageFilter.h"
 #import "CMRSpamFilter.h"
 #import "CMRThreadView.h"
-#import "CMRNetRequestQueue.h"
+//#import "CMRNetRequestQueue.h"
 
 #import "DatabaseManager.h"
 

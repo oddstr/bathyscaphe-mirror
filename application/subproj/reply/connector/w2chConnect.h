@@ -3,23 +3,19 @@
   *
   * 2chに接続できるクラスのプロトコル
   *
-  * @version 1.0.1 (02/02/04  5:44:38 PM)
+  * @version 1.1 (07/07/22)
   *
   */
 #import <Foundation/Foundation.h>
 
-@class SGHTTPConnector;
 
 typedef enum {
-	kw2chConnectGettingSubject_txtMode,		//subject.txtの取得
-	kw2chConnectGettingDATMode,				//.datファイルの取得
+	kw2chConnectGettingSubject_txtMode,		//subject.txtの取得	Deprecated.
+	kw2chConnectGettingDATMode,				//.datファイルの取得	Deprecated.
 	kw2chConnectPOSTMessageMode,			//"POST"メソッドの実行
-	
-
 } w2chConnectMode;
 
-//Error Handling
-
+// Error Handling
 // 対応表はReplyErrorCode.plistを参照
 enum {
 	k2chNoneErrorType 				= 0,		// 正常
@@ -44,17 +40,17 @@ typedef struct {
 } SG2chServerError;
 
 @protocol w2chConnect<NSObject>
-- (SGHTTPConnector*) HTTPConnector;
-- (id) delegate;
+- (NSURLConnection *) HTTPConnector;
 
-- (void) setDelegate : (id) newDelegate;
+- (id) delegate;
+- (void) setDelegate:(id)newDelegate;
 
 /**
   * 各コネクタの処理対象を表す定数を返す。
   * 
   * @return     SG2chConnectorMode
   */
-- (w2chConnectMode) mode;
+- (w2chConnectMode)mode;
 
 /**
   * その時点で受信完了したデータを返す。
@@ -62,18 +58,20 @@ typedef struct {
   * 
   * @return     受信完了したデータ
   */
-- (NSData *) availableResourceData;
+- (NSMutableData *)availableResourceData;
 
 /**
   * レシーバの保持するデータを返す。
   * 必要な場合は接続し、データを受信
-  * 
+  * DEPRECATED
+  *
   * @return     保持するデータ
   */
 - (NSData *) resourceData;
 
 /**
   * 受信を開始。終了するまでブロックする。
+  * DEPRECATED
   * 
   * @return     受信したデータ
   */
@@ -86,6 +84,7 @@ typedef struct {
 
 /**
   * バックグラウンドでの受信を中止する。
+  * DEPRECATED
   */
 - (void) cancelLoadInBackground;
 
@@ -135,14 +134,13 @@ typedef struct {
 
 /**
   * ステータス行を返す。
-  * 
+  * UNSUPPORTED
   * @return     ステータス行
   */
-- (NSString *) statusLine;
+//- (NSString *) statusLine;
 
-- (NSURL *) requestURL;
-
-- (NSString *) requestMethod;
+- (NSURL *)requestURL;
+- (NSString *)requestMethod;
 @end
 
 //Error Handling
@@ -172,7 +170,6 @@ typedef struct {
 - (SG2chServerError) handleErrorWithContents : (NSString  *) contents
                                        title : (NSString **) title
                                      message : (NSString **) message; 
-
 @end
 
 
@@ -192,11 +189,8 @@ typedef struct {
 ///////////////////// [ データの受信関係 ] //////////////////////////
 /////////////////////////////////////////////////////////////////////
 
-- (void) connector               : (id<w2chConnect>) sender
-  resourceDataDidBecomeAvailable : (NSData      *) newBytes;
-
-- (void) connector                 : (id<w2chConnect>) sender
-  resourceDidFailLoadingWithReason : (NSString    *) reason;
+- (void)connector:(id<w2chConnect>)sender didReceiveData:(NSData *)newData;
+- (void)connector:(id<w2chConnect>)sender resourceDidFailLoadingWithReason:(NSError *)reason;
 
 /**
   * 受信・送信は完了したが、何らかの理由で受け入れられなかった。
@@ -204,8 +198,5 @@ typedef struct {
   * @param    sender   コネクター
   * @param    handler  エラー処理オブジェクト
   */
-- (void) connector                 : (id<w2chConnect>) sender
-   resourceDidFailLoadingWithError : (id<w2chErrorHandling>) handler;
+- (void) connector:(id<w2chConnect>)sender resourceDidFailLoadingWithError:(id<w2chErrorHandling>)handler;
 @end
-
-

@@ -1,5 +1,5 @@
 //
-//  $Id: CMRReplyMessenger-Connector.m,v 1.11 2006/11/05 12:53:48 tsawada2 Exp $
+//  $Id: CMRReplyMessenger-Connector.m,v 1.12 2007/07/22 11:22:32 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/07/04.
@@ -85,20 +85,26 @@
 
 
 @implementation CMRReplyMessenger(ConnectClient)
-- (void) didFinish : (SGHTTPConnector *) connector
+//- (void) didFinish : (SGHTTPConnector *) connector
+- (void)didFinish:(id<w2chConnect>)sender
 {
     _isInProgress = NO;
     UTILNotifyName(CMRTaskDidFinishNotification);
 }
-- (void) didFailPosting : (SGHTTPConnector *) connector
+//- (void) didFailPosting : (SGHTTPConnector *) connector
+- (void)didFailPosting:(id<w2chConnect>)sender
 {
-	[self didFinish : connector];
+//	[self didFinish : connector];
+	[self didFinish:sender];
     [self setIsEndPost : NO]; //再送信を試みることができるように
 }
-- (void) didFinishPosting : (SGHTTPConnector *) connector
+//- (void) didFinishPosting : (SGHTTPConnector *) connector
+- (void)didFinishPosting:(id<w2chConnect>)sender
 {
-    [self didFinish : connector];
-    [self receiveCookiesWithResponse : [[connector response] allHeaderFields]];
+//    [self didFinish : connector];
+//[self receiveCookiesWithResponse : [[connector response] allHeaderFields]];
+	[self didFinish:sender];
+	[self receiveCookiesWithResponse:[(NSHTTPURLResponse *)[sender response] allHeaderFields]];
     [self saveDocument : nil];
     
     [self close];
@@ -106,10 +112,11 @@
 
 
 - (void)               connector : (id<w2chConnect>) sender
-  resourceDataDidBecomeAvailable : (NSData      *) newBytes
+  didReceiveData : (NSData      *) newBytes
 {
 	 UTILNotifyName(CMRTaskWillProgressNotification);
 }
+
 - (void) connectorResourceDidBeginLoading : (id<w2chConnect>) sender
 {
 	UTILNotifyName(CMRTaskWillStartNotification);
@@ -123,7 +130,7 @@
 	if (NSAlertFirstButtonReturn == returnCode) {
 		[self sendMessage : self withHanaMogeraForms : ([self additionalForms] != nil)];
 	}
-	[alert release];
+//	[alert release];
 }
 
 - (void) beginErrorInformationalAlertSheet : (NSString *) title
@@ -147,7 +154,7 @@
 		message_ = [lines_ componentsJoinedByString : @"\n"];
 	}
 
-	alert_ = [[NSAlert alloc] init];
+	alert_ = [[[NSAlert alloc] init] autorelease];
 	[alert_ setAlertStyle : NSInformationalAlertStyle];
 	[alert_ setMessageText : title];
 	[alert_ setInformativeText : message_];
@@ -174,7 +181,8 @@
 {
 	BOOL		contribution;
 	
-	[self didFailPosting : [sender HTTPConnector]];
+//	[self didFailPosting : [sender HTTPConnector]];
+	[self didFailPosting:sender];
 	contribution = [self isCookieOrContributionCheckError : [handler recentError]];
 	
 	if (contribution) {	// 書き込み確認、クッキー確認
@@ -191,32 +199,36 @@
 
 - (void) connectorResourceDidFinishLoading : (id<w2chConnect>) sender
 {
-	[self didFinishPosting : [sender HTTPConnector]];
+//	[self didFinishPosting : [sender HTTPConnector]];
+	[self didFinishPosting:sender];
 	UTILNotifyName(CMRReplyMessengerDidFinishPostingNotification);
 }
 
 
 - (void) connectorResourceDidCancelLoading : (id<w2chConnect>) sender
 {
-	[self didFailPosting : [sender HTTPConnector]];
+//	[self didFailPosting : [sender HTTPConnector]];
+	[self didFailPosting:sender];
 }
 
 
-- (void)                     connector : (id<w2chConnect>) sender
-      resourceDidFailLoadingWithReason : (NSString      *) reason
+//- (void)                     connector : (id<w2chConnect>) sender
+//      resourceDidFailLoadingWithReason : (NSString      *) reason
+- (void)connector:(id<w2chConnect>)sender resourceDidFailLoadingWithReason:(NSError *)reason
 {
-	NSAlert	*alert_ = [[NSAlert alloc] init];
+	NSAlert	*alert_ = [[[NSAlert alloc] init] autorelease];
 
-	[alert_ setAlertStyle : NSWarningAlertStyle];
-	[alert_ setMessageText : [self localizedString : MESSENGER_ERROR_POST]];
-	[alert_ setInformativeText : reason];
-	[alert_ addButtonWithTitle : @"OK"];
+	[alert_ setAlertStyle:NSWarningAlertStyle];
+	[alert_ setMessageText:[self localizedString:MESSENGER_ERROR_POST]];
+	[alert_ setInformativeText:[reason localizedDescription]];
+//	[alert_ addButtonWithTitle : @"OK"];
 	
 	[alert_ runModal];
 	
-	[alert_ release];
+//	[alert_ release];
 
-	[self didFailPosting : [sender HTTPConnector]];
+//	[self didFailPosting:[sender HTTPConnector]];
+	[self didFailPosting:sender];
 }
 @end
 

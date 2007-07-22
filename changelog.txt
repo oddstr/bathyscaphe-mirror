@@ -1,4 +1,17 @@
 2007-07-22 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/reply/account/w2chAuthenticater.m
+		●ログイン周りも NSURLConnection ベースにしてみたが、今 tsawada2 は●アカウントを持っていないので検証は出来ていない。
+		いずれにせよこれでほぼレガシーな SGNetwork のクラス群とはオサラバできた。
+	* application/Info-reply.plist
+	* application/subproj/reply/connector/SG2chConnector.m
+	* application/subproj/reply/connector/w2chConnect.h
+	* application/source/window/CMRReplyMessenger-Connector.m
+		SG2chConnector クラスは、NSURLHandle ベースを脱却し、NSURLConnection ベースになった。
+		なお、Cookie 管理は今までどおり独自に行うこととし、WebKit に委ねる（＝他の WebKit アプリケーションと Cookie を共有）することは
+		しない。
+		- まだ●ログイン周りが NSURLConnection ベースになっていない。
+	* application/source/network/CMRNetRequestQueue.[h|m]
+		よく調べるとこのクラスは使われていなかったので、ターゲットから外した。いずれリポジトリからも削除する。
 	* application/source/CMRAppDelegate+Menu.m
 	* application/source/browser/CMRBrowser-Action.m
 	* application/source/browser/CMRBrowser-Validation.m

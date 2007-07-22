@@ -1,20 +1,16 @@
-//:SG2chConnector.m
-/**
-  *
-  * @see w2chAuthenticater.h
-  *
-  * @author Takanori Ishikawa
-  * @author http://www15.big.or.jp/~takanori/
-  * @version 1.0.0d1 (02/08/31  5:04:45 PM)
-  *
-  */
+//
+//  SG2chConnector.m
+//  BathyScaphe "Twincam Angel"
+//
+//  Updated by Tsutomu Sawada on 07/07/22.
+//  Copyright 2007 BathyScaphe Project. All rights reserved.
+//
+
 #import "SG2chConnector_p.h"
 
-#import "SG2chConnector.h"
-#import "w2chReply_be2ch.h"
-#import "w2chReply_2ch.h"
-#import "w2chReply_shita.h"
-
+@class w2chReply_be2ch;
+@class w2chReply_2ch;
+@class w2chReply_shita;
 
 
 // for debugging only
@@ -22,22 +18,9 @@
 #import "UTILDebugging.h"
 
 
-/*static NSString *dumpString(NSString *s)
-{
-	int i;
-    NSMutableString *m = [NSMutableString string];
-    for (i = 0; i < [s length]; i++) {
-        [m appendFormat : @"0x%x ", [s characterAtIndex : i]];
-    }
-    return m;
-}*/
-
-@interface NSObject(ProxySettingsStub)
-// Proxy
-- (BOOL) usesOwnProxy;
-- (void) getOwnProxy:(NSString**)host port:(CFIndex*)port;
-@end
-
+#define FAIL_URLENCODING_TITLE_KEY			@"FailURLEncoding_title"
+#define FAIL_URLENCODING_MSG_KEY			@"FailURLEncoding_msg"
+#define FAIL_URLENCODING_HELP_KEY			@"FailURLEncoding_help"
 
 
 @implementation SG2chConnector
@@ -54,89 +37,66 @@
 	
 	return classes;
 }
-+ (id) connectorWithURL : (NSURL        *) anURL
-   additionalProperties : (NSDictionary *) properties
+
++ (id)connectorWithURL:(NSURL *)anURL additionalProperties:(NSDictionary *)properties
 {
-	return [[[[self class] alloc] initWithURL : anURL
-					     additionalProperties : properties]
-											   autorelease];
-}
-+ (Class) connectorClass
-{
-//	double version_ = floor(NSAppKitVersionNumber);
-	
-/*
-	[Runtime Version Check]
-	in Mac OS X 10.1.x and earlier, CFStream generates invalid 
-	request header for bbs.cgi. so we use plain socket API.
-	
-	NOTE:
-	since SGHTTPSocketHandle uses socket, and NSFileHandle, it did
-	not support proxy.
-*/
-//	return (version_ <= NSAppKitVersionNumber10_1) 
-//			? [SGHTTPSocketHandle class]
-//			: [SGHTTPStream class];
-	return [SGHTTPStream class];
+	return [[[[self class] alloc] initWithURL:anURL additionalProperties:properties] autorelease];
 }
 
-- (id) initClusterWithURL : (NSURL        *) anURL
-      additionalProperties : (NSDictionary *) properties
+- (id)initClusterWithURL:(NSURL *)anURL additionalProperties:(NSDictionary *)properties
 {
 	if (self = [super init]) {
-		SGHTTPConnector			*connector_;
-		NSMutableDictionary		*headers_;
-		Class					klass;
-		
-		klass = [[self class] connectorClass];
-		UTILAssertNotNil(klass);
-		
-		connector_ = [[klass alloc] initWithURL : anURL
-					requestMethod : HTTP_METHOD_POST];
-		
-		[self setConnector : connector_];
-		[connector_ release];
-		
+		NSMutableURLRequest	*req;
+		NSMutableDictionary	*headers_;
+
+		req = [[NSMutableURLRequest alloc] initWithURL:anURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:30.0];
+		[req setHTTPMethod:HTTP_METHOD_POST];
+		[req setHTTPShouldHandleCookies:NO];
+		[self setRequest:req];
+		[req release];
+
 		headers_ = [[self requestHeaders] mutableCopy];
-		[headers_ addEntriesFromDictionary : properties];
+		[headers_ addEntriesFromDictionary:properties];
 		
-		if (NO == [self isRequestHeadersComplete : headers_]) {
+		if (![self isRequestHeadersComplete:headers_]) {
 			[self autorelease];
 			return nil;
 		}
-		
-		[[self HTTPConnector] writePropertiesFromDictionary : headers_];
+
+		[[self request] setAllHTTPHeaderFields:headers_];
+
 		[headers_ release];
 		headers_ = nil;
 	}
 	return self;
 }
-- (id)     initWithURL : (NSURL        *) anURL
-  additionalProperties : (NSDictionary *) properties
+
+- (id)initWithURL:(NSURL *)anURL additionalProperties:(NSDictionary *)properties
 {
 	Class			*p;
 	SG2chConnector	*messenger_ = nil;
 	
 	for (p = [[self class] classClusters]; *p != Nil; p++) {
 		if ([*p canInitWithURL : anURL]) {
-			messenger_ = [[*p alloc] initClusterWithURL : anURL
-							additionalProperties : properties];
+			messenger_ = [[*p alloc] initClusterWithURL:anURL additionalProperties:properties];
 			break;
 		}
 	}
     // 対応するクラスがない場合も利便性を優先して、
     // デフォルトで 2ch のものを返す。
-    if (messenger_ == nil) {
-        messenger_ = [[w2chReply_2ch alloc] initClusterWithURL : anURL
-                      additionalProperties : properties];
+    if (!messenger_) {
+        messenger_ = [[w2chReply_2ch alloc] initClusterWithURL:anURL additionalProperties:properties];
     }
-    
+
 	[self release];
 	return messenger_;
 }
 
 - (void) dealloc
 {
+	[m_data release];
+	[m_response release];
+	[m_req release];
 	[m_connector release];
 	[m_delegate release];
 	[super dealloc];
@@ -154,39 +114,38 @@
     // デフォルトで 2ch のものを返す。
 	return YES;
 }
+
 + (NSString *) userAgent
 {
 	return [w2chAuthenticater userAgent];
 }
 
+#pragma mark Form, Encodings
 - (BOOL) writeForm : (NSDictionary *) forms
 {
 	NSString		*params_;
 	NSString		*length_;
 	NSData			*selialized_;
 	
-	if (nil == forms || 0 == [forms count]) return NO;
+	if (!forms || 0 == [forms count]) return NO;
 	
 	params_ = [self parameterWithForm : forms];
-	if (nil == params_) return NO;
+	if (!params_) return NO;
 	
-/*
+
 	UTILMethodLog;
 	UTILDescription([self requestURL]);
 	UTILDescription([[self requestURL] absoluteString]);
 	UTILDescription(params_);
-*/
+
 	// すでにURLエンコードされていることを期待
-	selialized_ = [params_ dataUsingEncoding : NSASCIIStringEncoding
-						allowLossyConversion : YES];
+	selialized_ = [params_ dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
 	
 	length_ = [[NSNumber numberWithInt : [selialized_ length]] stringValue];
-	if (nil == selialized_ || nil == length_) return NO;
+	if (!selialized_ || !length_) return NO;
 	
-	[[self connector] writeProperty : HTTP_CONTENT_URL_ENCODED_TYPE
-					         forKey : HTTP_CONTENT_TYPE_KEY];
-	[[self connector] writeProperty : length_
-					         forKey : HTTP_CONTENT_LENGTH_KEY];
+	[[self request] setValue:HTTP_CONTENT_URL_ENCODED_TYPE forHTTPHeaderField:HTTP_CONTENT_TYPE_KEY];
+	[[self request] setValue:length_ forHTTPHeaderField:HTTP_CONTENT_LENGTH_KEY];
 	
 	return [self writeData : selialized_];
 }
@@ -196,8 +155,8 @@
 	UTILAbstractMethodInvoked;
 	return NULL;
 }
-- (id) stringWithObject : (id) obj
- usingAvailableURLEncodings : (id(*)(id, NSStringEncoding)) func
+
+- (id)stringWithObject:(id)obj usingAvailableURLEncodings:(id(*)(id, NSStringEncoding))func
 {
 	NSString				*converted_   = nil;
 	const CFStringEncoding	*available_ = NULL;
@@ -232,37 +191,17 @@ static id fnc_stringByURLEncodingUsingEncoding(id obj, NSStringEncoding enc)
 	return [self stringWithObject:str usingAvailableURLEncodings:fnc_stringByURLEncodingUsingEncoding];
 }
 
-
-
-#define FAIL_URLENCODING_TITLE_KEY			@"FailURLEncoding_title"
-#define FAIL_URLENCODING_MSG_KEY			@"FailURLEncoding_msg"
-#define FAIL_URLENCODING_HELP_KEY			@"FailURLEncoding_help"
-
-- (int) runAlertPanelWithFailURLEncoding : (NSString *) originalString
+- (int)runAlertPanelWithFailURLEncoding:(NSString *)originalString
 {
-	NSAlert	*alert_ = [[NSAlert alloc] init];
-	int		result_;
+	NSAlert	*alert_ = [[[NSAlert alloc] init] autorelease];
 	
-	[alert_ setAlertStyle : NSWarningAlertStyle];
-	[alert_ setMessageText : w2chLocalizedAlertMessageString(FAIL_URLENCODING_TITLE_KEY)];
-	[alert_ setInformativeText : [NSString stringWithFormat:w2chLocalizedAlertMessageString(FAIL_URLENCODING_MSG_KEY),originalString]];
-	//[alert_ setHelpAnchor : w2chLocalizedAlertMessageString(FAIL_URLENCODING_HELP_KEY)];
-	//[alert_ setShowsHelp : YES];
-	[alert_ addButtonWithTitle : @"OK"];
+	[alert_ setAlertStyle:NSWarningAlertStyle];
+	[alert_ setMessageText:w2chLocalizedAlertMessageString(FAIL_URLENCODING_TITLE_KEY)];
+	[alert_ setInformativeText:[NSString stringWithFormat:w2chLocalizedAlertMessageString(FAIL_URLENCODING_MSG_KEY),originalString]];
 	
-	result_ = [alert_ runModal];
-	
-	[alert_ release];
-
-	return result_;
-/*	return NSRunAlertPanel(
-			w2chLocalizedAlertMessageString(FAIL_URLENCODING_TITLE_KEY),
-			[NSString stringWithFormat:w2chLocalizedAlertMessageString(FAIL_URLENCODING_MSG_KEY),originalString],
-			@"OK",
-			nil,
-			nil);
-*/
+	return [alert_ runModal];
 }
+
 - (NSString *) parameterWithForm : (NSDictionary *) forms
 {
     NSMutableString        *params_;
@@ -274,12 +213,11 @@ static id fnc_stringByURLEncodingUsingEncoding(id obj, NSStringEncoding enc)
     params_ = [NSMutableString string];
     iter_ = [forms keyEnumerator];
     while (key_ = [iter_ nextObject]) {
-        NSString        *value_                    = nil;
-        NSString        *encoded_                = nil;
+        NSString        *value_ = nil;
+        NSString        *encoded_ = nil;
         
         value_ = [forms objectForKey : key_];
         UTILAssertKindOfClass(value_, NSString);
-        // UTILDebugWright(@"%@", dumpString(value_));
         encoded_ = [self stringByURLEncodedWithString : value_];
         if (nil == encoded_) {
             [self runAlertPanelWithFailURLEncoding : value_];
@@ -296,31 +234,58 @@ static id fnc_stringByURLEncodingUsingEncoding(id obj, NSStringEncoding enc)
     return params_;
 }
 
-/////////////////////////////////////////////////////////////////////
-////////////////////////// [ Accessor ] /////////////////////////////
-/////////////////////////////////////////////////////////////////////
-- (SGHTTPConnector*) HTTPConnector
-{
-	return [self connector];
-}
+#pragma mark Accessors
 - (w2chConnectMode) mode
 {
 	return kw2chConnectPOSTMessageMode;
 }
-- (SGHTTPConnector *) connector
+
+- (NSURLConnection *)connector
 {
 	return m_connector;
 }
-- (void) setConnector : (SGHTTPConnector *) aConnector
+
+- (NSURLConnection *)HTTPConnector
+{
+	return [self connector];
+}
+
+- (void)setConnector:(NSURLConnection *)aConnector
 {
 	[aConnector retain];
 	[m_connector release];
 	m_connector = aConnector;
 }
+
+- (NSMutableURLRequest *)request
+{
+	return m_req;
+}
+
+- (void)setRequest:(NSMutableURLRequest *)aRequest
+{
+	[aRequest retain];
+	[m_req release];
+	m_req = aRequest;
+}
+
+- (NSURLResponse *)response
+{
+	return m_response;
+}
+
+- (void)setResponse:(NSURLResponse *)response
+{
+	[response retain];
+	[m_response release];
+	m_response = response;
+}
+
 - (id) delegate
 {
 	return m_delegate;
 }
+
 - (void) setDelegate : (id) newDelegate
 {
 	[newDelegate retain];
@@ -328,104 +293,82 @@ static id fnc_stringByURLEncodingUsingEncoding(id obj, NSStringEncoding enc)
 	m_delegate = newDelegate;
 }
 
-/////////////////////////////////////////////////////////////////////
-/////////////////////// [ SGHTTPConnector ] /////////////////////////
-/////////////////////////////////////////////////////////////////////
-- (NSData *) availableResourceData
+#pragma mark SGHTTPConnector
+- (NSMutableData *)availableResourceData
 {
-	NSData				*theData;
-	
-	theData = [[self connector] availableResourceData];
-	if (nil == theData || 0 == [theData length]) 
-		return theData;
-	
-	return SGUtilUngzipIfNeeded(theData);
-}
-- (NSData *) resourceData
-{
-	return [[self connector] resourceData];
+	if (!m_data) {
+		m_data = [[NSMutableData alloc] init];
+	}
+	return m_data;
 }
 
-- (void) setUpProxy
+- (void)setAvailableResourceData:(NSMutableData *)data
 {
-	id		pref;
-	
-	pref = [NSClassFromString(@"AppDefaults") sharedInstance];
-	UTILAssertNotNil(pref);
-//	UTILAssertRespondsTo(pref, @selector(getProxy:port:));
-	
-	// proxy
-	/*if ([pref usesProxy]) {
-		NSString	*host;
-		CFIndex		port;
-		
-		[pref getProxy:&host port:&port];
-		[[self connector] setProxy:host port:port];
-		UTILDebugWrite3(
-			@"  using proxy (Host:%@ Port:%d)\n\t"
-			@"  for %@", host, port, [[self requestURL] stringValue]);
-	}*/
-/*	if ([pref usesOwnProxy]) {
-		NSLog(@"WARNING: You are using BathyScaphe's own proxy settings, but this feature will be deprecated in the future.");
-		NSString	*host;
-		CFIndex		port;
-		[pref getOwnProxy: &host port: &port];
-		[[self connector] setProxy: host port: port];
-	} else {*/
-		[[self connector] setProxyIfNeeded];
-//	}
+	[data retain];
+	[m_data release];
+	m_data = data;
+}
+
+#pragma mark DEPRECATED
+- (NSData *) resourceData
+{
+	return (NSData *)[self availableResourceData];
 }
 
 - (NSData *) loadInForeground
 {
-	[self setUpProxy];
-	return [[self connector] loadInForeground];
+	NSLog(@"Sorry, SG2chConnector's -loadInForeground is currently unimplemented.");
+	return nil;
 }
-- (void) loadInBackground
-{
-	[self setUpProxy];
-	[[self connector] addClient : self];
-	[[self connector] loadInBackground];
-}
+
 - (void) cancelLoadInBackground
 {
-	[[self connector] endLoadInBackground];
+	NSLog(@"Sorry, SG2chConnector's -cancelLoadInBackground is currently unimplemented.");
 }
+
+- (NSString *) statusLine
+{
+	return @"UNSUPPORTED";
+}
+
+#pragma mark END DEPRECATED
+- (void) loadInBackground
+{
+	NSURLConnection *con;
+	con = [[NSURLConnection alloc] initWithRequest:[self request] delegate:self];
+	[self setConnector:con];
+	[con release];
+}
+
 - (BOOL) writeData : (NSData *) data
 {
-	return [[self connector] writeData : data];
+	[[self request] setHTTPBody:data];
+	return YES;
 }
 - (NSDictionary *) responseHeaders
 {
-	return [[self connector] properties];
+	return [(NSHTTPURLResponse *)[self response] allHeaderFields];
 }
 - (NSString *) headerFieldValueForKey : (NSString *) field
 {
-	return [[self connector] propertyForKeyIfAvailable : field];
+	return [[self responseHeaders] stringForKey:field];
 }
 - (unsigned) statusCode
 {
-	return [[[self connector] response] statusCode];
-}
-- (NSString *) statusLine
-{
-	return [[[self connector] response] statusLine];
+	return [(NSHTTPURLResponse *)[self response] statusCode];
 }
 - (NSURL *) requestURL
 {
-	return [[self connector] requestURL];
+	return [[self request] URL];
 }
 - (NSString *) requestMethod
 {
-	return [[self connector] requestMethod];
+	return [[self request] HTTPMethod];
 }
 
 
-
-/////////////////////////////////////////////////////////////////////
-/////////////////////// [ NSURLHanldeClient ] ///////////////////////
-/////////////////////////////////////////////////////////////////////
-- (void)               URLHandle : (NSURLHandle *) sender
+#pragma mark NSURLConnection Delegate
+/*- (void)               URLHandle : (NSURLHandle *) sender
   resourceDataDidBecomeAvailable : (NSData      *) newBytes
 {
 	SEL delegate_;
@@ -451,28 +394,35 @@ static id fnc_stringByURLEncodingUsingEncoding(id obj, NSStringEncoding enc)
 	if (NO == [[self delegate] respondsToSelector : delegate_]) return;
 	
 	[[self delegate] connectorResourceDidBeginLoading : self];
+}*/
+-(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+	SEL delegate_;
+	
+	[self setResponse:response];
+
+	if (nil == [self delegate]) return;
+	
+	delegate_ = @selector(connectorResourceDidBeginLoading:);
+	if (NO == [[self delegate] respondsToSelector : delegate_]) return;
+	
+	[[self delegate] connectorResourceDidBeginLoading : self];
 }
 
-
 // Finish Loading...
-- (void) URLHandleResourceDidFinishLoading : (NSURLHandle *) sender
+/*- (void) URLHandleResourceDidFinishLoading : (NSURLHandle *) sender
 {
 	id<w2chErrorHandling>		handler_;
 	NSData						*resourceData_;
 	NSString					*contents_;
 	SG2chServerError			error_;
 	SEL							delegateSEL = NULL;
-	//id							debugWriteObj = nil;
 	
-	/* Resource data */
+	// Resource data
 	resourceData_ = [[self connector] availableResourceData];
 	contents_ = [self stringWithDataUsingAvailableURLEncodings : resourceData_];
 	
-	//debugWriteObj = resourceData_ ? (id)resourceData_ : 
-	//	(id)@"<!-- Generated by CocoMonar. Server's response contains no data. -->";
-	//CMRDebugWriteObject(debugWriteObj, @"response.html");
-	
-	/* Error handling */
+	// Error handling
 	handler_ = [SG2chErrorHandler handlerWithURL : [self requestURL]];
 	error_ = [handler_ handleErrorWithContents : contents_
 										 title : NULL
@@ -490,10 +440,35 @@ static id fnc_stringByURLEncodingUsingEncoding(id obj, NSStringEncoding enc)
 		[[self delegate] connector:self resourceDidFailLoadingWithError:handler_];
 	else 
 		[[self delegate] connectorResourceDidFinishLoading : self];
+}*/
+-(void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+	id<w2chErrorHandling>		handler_;
+	NSString					*contents_;
+	SG2chServerError			error_;
+	SEL							delegateSEL = NULL;
+
+	contents_ = [self stringWithDataUsingAvailableURLEncodings:[self availableResourceData]];
+
+	// Error handling
+	handler_ = [SG2chErrorHandler handlerWithURL:[self requestURL]];
+	error_ = [handler_ handleErrorWithContents:contents_ title:NULL message:NULL];
+	delegateSEL = (handler_ && error_.type != k2chNoneErrorType)
+						? @selector(connector:resourceDidFailLoadingWithError:)
+						: @selector(connectorResourceDidFinishLoading:);
+	
+	if (![self delegate]) return;
+	if (![[self delegate] respondsToSelector:delegateSEL]) return;
+	
+	if (handler_ && error_.type != k2chNoneErrorType) {
+		[[self delegate] connector:self resourceDidFailLoadingWithError:handler_];
+	} else { 
+		[[self delegate] connectorResourceDidFinishLoading:self];
+	}
 }
 
 //Cancel Loading...
-- (void) URLHandleResourceDidCancelLoading : (NSURLHandle *) sender
+/*- (void) URLHandleResourceDidCancelLoading : (NSURLHandle *) sender
 {
 	SEL delegate_;
 	
@@ -504,8 +479,20 @@ static id fnc_stringByURLEncodingUsingEncoding(id obj, NSStringEncoding enc)
 	if (NO == [[self delegate] respondsToSelector : delegate_]) return;
 	
 	[[self delegate] connectorResourceDidCancelLoading : self];
-}
+}*/
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+	SEL delegate_;
+	
+	[[self availableResourceData] appendData:data];
 
+	if (nil == [self delegate]) return;
+	
+	delegate_ = @selector(connector:didReceiveData:);
+	if (NO == [[self delegate] respondsToSelector:delegate_]) return;
+	[[self delegate] connector:self didReceiveData:data];
+}
+/*
 - (void)                 URLHandle : (NSURLHandle *) sender
   resourceDidFailLoadingWithReason : (NSString    *) reason
 {
@@ -519,6 +506,13 @@ static id fnc_stringByURLEncodingUsingEncoding(id obj, NSStringEncoding enc)
 	
 	[[self delegate] connector : self
 	resourceDidFailLoadingWithReason : reason];
+}*/
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+	id delegate_ = [self delegate];
+	if (delegate_ && [delegate_ respondsToSelector:@selector(connector:resourceDidFailLoadingWithReason:)]) {
+		[delegate_ connector:self resourceDidFailLoadingWithReason:error];
+	}
 }
 @end
 

@@ -1,5 +1,5 @@
 /*
- * $Id: CMRReplyMessenger_p.h,v 1.7 2006/06/04 16:01:10 tsawada2 Exp $
+ * $Id: CMRReplyMessenger_p.h,v 1.8 2007/07/22 11:22:32 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -19,7 +19,7 @@
 #import "w2chConnect.h"
 #import "CMRServerClock.h"
 
-#import <SGNetwork/SGNetwork.h>
+#import <SGNetwork/SGHTTPDefines.h>
 
 //Cookies
 #import "Cookie.h"
@@ -78,12 +78,12 @@
 @end
 
 
-
+/*
 @interface CMRReplyMessenger(ConnectClient)
 - (void) didFailPosting : (SGHTTPConnector *) connector;
 - (void) didFinishPosting : (SGHTTPConnector *) connector;
 @end
-
+*/
 
 
 @interface CMRReplyMessenger(PrivateAccessor)

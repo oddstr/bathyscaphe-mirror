@@ -1,46 +1,44 @@
-/**
-  * $Id: SG2chConnector.h,v 1.1 2005/05/11 17:51:12 tsawada2 Exp $
-  * 
-  * SG2chConnector.h
-  *
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  SG2chConnector.h
+//  BathyScaphe "Twincam Angel"
+//
+//  Updated by Tsutomu Sawada on 07/07/22.
+//  Copyright 2007 BathyScaphe Project. All rights reserved.
+//
+
 #import <Foundation/Foundation.h>
 #import "w2chConnect.h"
 
 
-
-@interface SG2chConnector : NSObject<NSURLHandleClient, w2chConnect>
+@interface SG2chConnector : NSObject<w2chConnect>
 {
-	SGHTTPConnector		*m_connector;
-	id					m_delegate;
+	NSURLConnection		*m_connector;
+	NSMutableURLRequest *m_req;
+	NSMutableData		*m_data;
+	NSURLResponse		*m_response;
+
+	id					m_delegate; // We Retain & Release the Delegate!!
 }
-+ (Class) connectorClass;
 
-+ (id) connectorWithURL : (NSURL        *) anURL
-   additionalProperties : (NSDictionary *) properties;
++ (id)connectorWithURL:(NSURL *)anURL additionalProperties:(NSDictionary *)properties;
+- (id)initWithURL:(NSURL *)anURL additionalProperties:(NSDictionary *)properties;
 
-- (id)     initWithURL : (NSURL        *) anURL
-  additionalProperties : (NSDictionary *) properties;
++ (BOOL)canInitWithURL:(NSURL *)anURL;
++ (NSString *)userAgent;
 
-+ (BOOL) canInitWithURL : (NSURL *) anURL;
-+ (NSString *) userAgent;
+- (void)setConnector:(NSURLConnection *)aConnector;
+- (NSMutableURLRequest *)request;
+- (void)setRequest:(NSMutableURLRequest *)aRequest;
+- (NSURLResponse *)response;
+- (void)setResponse:(NSURLResponse *)response;
 
-- (SGHTTPConnector *) connector;
-- (void) setConnector : (SGHTTPConnector *) aConnector;
-- (id) delegate;
-- (void) setDelegate : (id) newDelegate;
-- (w2chConnectMode) mode;
-
-- (NSData *) availableResourceData;
-- (void) loadInBackground;
+- (void)setAvailableResourceData:(NSMutableData *)data;
 
 // zero-terminated list
-+ (const CFStringEncoding *) availableURLEncodings;
++ (const CFStringEncoding *)availableURLEncodings;
 // @"%@=%@&" from dictionary
-- (NSString *) parameterWithForm : (NSDictionary *) forms;
+- (NSString *)parameterWithForm:(NSDictionary *)forms;
 
-- (NSString *) stringByURLEncodedWithString : (NSString *) str;
-- (NSString *) stringWithDataUsingAvailableURLEncodings : (NSData *) data;
+- (NSString *)stringByURLEncodedWithString:(NSString *)str;
+- (NSString *)stringWithDataUsingAvailableURLEncodings:(NSData *)data;
 @end
