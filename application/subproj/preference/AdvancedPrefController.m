@@ -24,14 +24,15 @@
 #pragma mark -
 - (NSString *) helperAppName
 {
-	return [[self preferences] helperAppDisplayName];
+	return @"";//[[self preferences] helperAppDisplayName];
 }
 
 - (NSImage *) helperAppIcon
 {
-	NSImage	*icon32 = [[NSWorkspace sharedWorkspace] iconForFile : [[self preferences] helperAppPath]];
+/*	NSImage	*icon32 = [[NSWorkspace sharedWorkspace] iconForFile : [[self preferences] helperAppPath]];
 	[icon32 setSize : NSMakeSize(16, 16)];
-	return icon32;
+	return icon32;*/
+	return nil;
 }
 	
 - (void) didEndChooseAppSheet : (NSOpenPanel *) sheet
@@ -42,7 +43,7 @@
 		NSString	*appPath_;
 
 		appPath_ =	[sheet filename];
-		[[self preferences] setHelperAppPath : appPath_];
+//		[[self preferences] setHelperAppPath : appPath_];
 	}
 	[self updateHelperAppUI];
 }

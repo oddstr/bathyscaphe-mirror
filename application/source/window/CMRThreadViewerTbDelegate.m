@@ -6,7 +6,9 @@
   * @version 1.0.0d1 (02/11/09  9:11:09 PM)
   *
   */
-#import "CMRThreadViewerTbDelegate_p.h"
+#import "CMRThreadViewerTbDelegate.h"
+#import "CocoMonar_Prefix.h"
+#import "CMRToolbarDelegateImp_p.h"
 #import "AppDefaults.h"
 #import <SGAppKit/BSSegmentedControlTbItem.h>
 
@@ -96,6 +98,13 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 {
 	[super dealloc];
 }
+
+// Overrides...
+- (NSToolbarItem *) itemForItemIdentifier : (NSString *) anIdentifier
+{
+	if ([anIdentifier isEqualToString:st_launchCMLFIdentifier]) return nil;
+	return [super itemForItemIdentifier:anIdentifier];
+}
 @end
 
 
@@ -148,12 +157,13 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 @implementation CMRThreadViewerTbDelegate (Protected)
 - (NSString *) labelForCMLF
 {
-	NSString *tmp_ = [CMRPref helperAppDisplayName];
+/*	NSString *tmp_ = [CMRPref helperAppDisplayName];
 	if (tmp_) {
 		return tmp_;
 	} else {
 		return st_launchCMLFLabelKey;
-	}
+	}*/
+	return @"";
 }
 - (void) setuphistorySCItem: (NSToolbarItem *) anItem target: (NSWindowController *) windowController_
 {

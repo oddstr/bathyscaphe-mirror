@@ -17,7 +17,6 @@
 #import "Browser.h"
 #import "CMRThreadDocument.h"
 
-#import "CMRBrowserTbDelegate.h"
 #import "CMRThreadsList.h"
 
 #import "BSDBThreadList.h"
@@ -117,6 +116,8 @@
 - (CMRAccessorySheetController *) listSorterSheetController;
 - (AddBoardSheetController *) addBoardSheetController;
 - (EditBoardSheetController *) editBoardSheetController;
+
+- (NSSegmentedControl *)viewModeSwitcher;
 @end
 
 @interface CMRBrowser(UIComponents)

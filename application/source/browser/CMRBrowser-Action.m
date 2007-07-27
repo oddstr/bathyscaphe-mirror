@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.60 2007/07/21 19:32:55 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.61 2007/07/27 10:26:39 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -470,7 +470,7 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 	mask_ = [represent_ unsignedIntValue];
 	[self changeThreadsFilteringMask : mask_];
 
-	[[CMRMainMenuManager defaultManager] synchronizeStatusFilteringMenuItemState];
+//	[[CMRMainMenuManager defaultManager] synchronizeStatusFilteringMenuItemState];
 }
 
 - (void) clearSearchFilter

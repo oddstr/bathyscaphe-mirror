@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.45 2007/04/13 09:50:08 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.46 2007/07/27 10:26:40 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -266,7 +266,7 @@ FileNotExistsAutoReloadIfNeeded:
 		// 結果が反映されるようになったため、内容が空のときに反映しないと
 		// 既存のスレッドのフォントがすべて変更されてしまう。
 		{
-			NSFont	*font = [CMRPref threadsViewFont];
+			NSFont	*font = [[CMRPref threadViewTheme] baseFont];
 			
 			if (NO == [[[self textView] font] isEqual : font])
 				[[self textView] setFont : font];

@@ -227,69 +227,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 #pragma mark -
 
 @implementation CMRMessageAttributesTemplate(Attributes)
-/* Accessor for _messageAttributesForAnchor */
-/*- (void) setAttributeForAnchor : (NSString *) name
-                         value : (id        ) value
-{
-	[self setAttributeInDictionary : [self messageAttributesForAnchor]
-					 attributeName : name
-					         value : value];
-}*/
-
-/* Accessor for _messageAttributesForName */
-/*- (void) setAttributeForName : (NSString *) name
-                       value : (id        ) value
-{
-	[self setAttributeInDictionary : [self messageAttributesForName]
-					 attributeName : name
-					         value : value];
-}
-*/
-/* Accessor for _messageAttributesForTitle */
-/*- (void) setAttributeForTitle : (NSString *) name
-                        value : (id        ) value
-{
-	[self setAttributeInDictionary : [self messageAttributesForTitle]
-					 attributeName : name
-					         value : value];
-}
-*/
-/* Accessor for _messageAttributes */
-/*- (void) setAttributeForMessage : (NSString *) name
-                          value : (id        ) value
-{
-	[self setAttributeInDictionary : [self messageAttributes]
-					 attributeName : name
-					         value : value];
-}*/
-/* Accessor for _messageAttributesForText */
-/*- (void) setAttributeForText : (NSString *) name
-					   value : (id        ) value
-{
-	[self setAttributeInDictionary : [self messageAttributesForText]
-					 attributeName : name
-					         value : value];
-	if([name isEqualToString : NSFontAttributeName]){
-		// 名前欄と共通
-		[self setAttributeForName : name
-							value : value];
-	}
-}
-- (void) setAttributeForBeProfileLink : (NSString *) name
-                        value : (id        ) value
-{
-	[self setAttributeInDictionary : [self messageAttributesForBeProfileLink]
-					 attributeName : name
-					         value : value];
-}
-- (void) setAttributeForHost : (NSString *) name
-                        value : (id        ) value
-{
-	[self setAttributeInDictionary : [self messageAttributesForHost]
-					 attributeName : name
-					         value : value];
-}
-*/
 - (void) setMessageHeadIndent : (float) anIndent
 {
 	[self setAttributeInDictionary : [self messageAttributes]
@@ -475,7 +412,7 @@ ErrCreateAttachment:
 
 		[self setAttributeInDictionary : _messageAttributesForAnchor
 						 attributeName : NSForegroundColorAttributeName
-								 value : [CMRPref messageAnchorColor]];
+								 value : [[CMRPref threadViewTheme] linkColor]];
 		
 		[self setAttributeInDictionary : _messageAttributesForAnchor
 						 attributeName : NSUnderlineStyleAttributeName
@@ -492,11 +429,11 @@ ErrCreateAttachment:
 
 		[self setAttributeInDictionary : _messageAttributesForName
 						 attributeName : NSForegroundColorAttributeName
-								 value : [CMRPref messageNameColor]];
+								 value : [[CMRPref threadViewTheme] nameColor]];
 		// フォントは標準テキストと同じ。
 		[self setAttributeInDictionary : _messageAttributesForName
 						 attributeName : NSFontAttributeName
-								 value : [CMRPref threadsViewFont]];
+								 value : [[CMRPref threadViewTheme] baseFont]];
 		[self setAttributeInDictionary : _messageAttributesForName
 						 attributeName : BSMessageKeyAttributeName
 								 value : @"name"];
@@ -512,10 +449,10 @@ ErrCreateAttachment:
 
 		[self setAttributeInDictionary : _messageAttributesForTitle
 						 attributeName : NSForegroundColorAttributeName
-								 value : [CMRPref messageTitleColor]];
+								 value : [[CMRPref threadViewTheme] titleColor]];
 		[self setAttributeInDictionary : _messageAttributesForTitle
 						 attributeName : NSFontAttributeName
-								 value : [CMRPref messageTitleFont]];
+								 value : [[CMRPref threadViewTheme] titleFont]];
 	}
 	return _messageAttributesForTitle;
 }
@@ -537,10 +474,10 @@ ErrCreateAttachment:
 								 value : messageParagraphStyle_];
 		[self setAttributeInDictionary : _messageAttributes
 						 attributeName : NSForegroundColorAttributeName
-								 value : [CMRPref messageColor]];
+								 value : [[CMRPref threadViewTheme] messageColor]];
 		[self setAttributeInDictionary : _messageAttributes
 						 attributeName : NSFontAttributeName
-								 value : [CMRPref messageFont]];
+								 value : [[CMRPref threadViewTheme] messageFont]];
 	}
 	return _messageAttributes;
 }
@@ -557,10 +494,10 @@ ErrCreateAttachment:
 																	andSpacingAfter : [CMRPref msgIdxSpacingAfter]]];
 		[self setAttributeInDictionary : _messageAttributesForText
 						 attributeName : NSFontAttributeName
-								 value : [CMRPref threadsViewFont]];
+								 value : [[CMRPref threadViewTheme] baseFont]];
 		[self setAttributeInDictionary : _messageAttributesForText
 						 attributeName : NSForegroundColorAttributeName
-								 value : [CMRPref threadsViewColor]];
+								 value : [[CMRPref threadViewTheme] baseColor]];
 	}
 	return _messageAttributesForText;
 }
@@ -572,7 +509,7 @@ ErrCreateAttachment:
 
 		[self setAttributeInDictionary : _messageAttributesForBeProfileLink
 						 attributeName : NSFontAttributeName
-								 value : [CMRPref messageBeProfileFont]];
+								 value : [[CMRPref threadViewTheme] beFont]];
 	}
 	return _messageAttributesForBeProfileLink;
 }
@@ -584,10 +521,10 @@ ErrCreateAttachment:
 
 		[self setAttributeInDictionary : _messageAttributesForHost
 						 attributeName : NSForegroundColorAttributeName
-								 value : [CMRPref messageHostColor]];
+								 value : [[CMRPref threadViewTheme] hostColor]];
 		[self setAttributeInDictionary : _messageAttributesForHost
 						 attributeName : NSFontAttributeName
-								 value : [CMRPref messageHostFont]];
+								 value : [[CMRPref threadViewTheme] hostFont]];
 	}
 	return _messageAttributesForHost;
 }

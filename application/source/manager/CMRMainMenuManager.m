@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMainMenuManager.m,v 1.12 2007/07/21 19:32:55 tsawada2 Exp $
+  * $Id: CMRMainMenuManager.m,v 1.13 2007/07/27 10:26:40 tsawada2 Exp $
   * 
   * CMRMainMenuManager.m
   *
@@ -72,10 +72,10 @@ MENU_ACCESSER(scriptsMenuItem, SCRIPTS_MENU_TAG)
 
 
 @implementation CMRMainMenuManager(CMRApp)
-- (NSMenuItem *) isOnlineModeMenuItem
+/*- (NSMenuItem *) isOnlineModeMenuItem
 {
 	return (NSMenuItem*)[[[self applicationMenuItem] submenu] itemWithTag : FILE_ONLINEMODE_TAG];
-}
+}*/
 /*- (NSMenuItem *) browserArrangementMenuItem
 {
 	return (NSMenuItem*)[[[self browserMenuItem] submenu] 
@@ -86,17 +86,17 @@ MENU_ACCESSER(scriptsMenuItem, SCRIPTS_MENU_TAG)
 	return (NSMenuItem*)[[[self browserMenuItem] submenu] 
 				itemWithTag : BROWSER_COLUMNS_TAG];
 }
-- (NSMenuItem *) browserStatusFilteringMenuItem
+/*- (NSMenuItem *) browserStatusFilteringMenuItem
 {
 	return (NSMenuItem*)[[[self browserMenuItem] submenu]
 				itemWithTag : BROWSER_FILTERING_TAG];
-}
+}*/
 @end
 
 
 
-@implementation CMRMainMenuManager(SynchronizeWithDefaults)
-/*- (void) synchronizeBrowserArrangementMenuItemState
+/*@implementation CMRMainMenuManager(SynchronizeWithDefaults)
+- (void) synchronizeBrowserArrangementMenuItemState
 {
 	NSMenu			*browserArrangementSubmenu_;
 	NSEnumerator	*itemIter_;
@@ -118,7 +118,7 @@ MENU_ACCESSER(scriptsMenuItem, SCRIPTS_MENU_TAG)
 		state_ = (state_ == [represent_ boolValue]);
 		[item_ setState : (state_ ? NSOnState : NSOffState)];
 	}
-}*/
+}
 - (void) synchronizeIsOnlineModeMenuItemState
 {
 	NSMenuItem	*menuItem_;
@@ -132,7 +132,7 @@ MENU_ACCESSER(scriptsMenuItem, SCRIPTS_MENU_TAG)
 }
 - (void) synchronizeStatusFilteringMenuItemState
 {
-/*	NSMenu			*browserFilteringSubmenu_;
+	NSMenu			*browserFilteringSubmenu_;
 	NSEnumerator	*itemIter_;
 	NSMenuItem		*item_;
 	NSNumber		*currentStatus;
@@ -155,6 +155,6 @@ MENU_ACCESSER(scriptsMenuItem, SCRIPTS_MENU_TAG)
 		} else {
 			[item_ setState : NSOffState];
 		}
-	}*/
+	}
 }
-@end
+@end*/

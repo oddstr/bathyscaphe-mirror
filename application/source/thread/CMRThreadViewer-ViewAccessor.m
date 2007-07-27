@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.22 2007/04/12 12:55:12 tsawada2 Exp $
+  * $Id: CMRThreadViewer-ViewAccessor.m,v 1.23 2007/07/27 10:26:40 tsawada2 Exp $
   * 
   * CMRThreadViewer-ViewAccessor.m
   *
@@ -9,7 +9,7 @@
 
 #import "CMRThreadViewer_p.h"
 #import "CMRThreadVisibleRange.h"
-#import "CMRThreadViewerTbDelegate.h"
+//#import "CMRThreadViewerTbDelegate.h"
 #import "CMRThreadView.h"
 #import "CMRMainMenuManager.h"
 #import "CMRMessageAttributesTemplate.h"
@@ -19,6 +19,7 @@
 #define UTIL_DEBUGGING		0
 #import "UTILDebugging.h"
 
+@class CMRThreadViewerTbDelegate;
 
 #define kComponentsLoadNibName	@"CMRThreadViewerComponents"
 #define HTMLVIEW_CLASS			CMRThreadView

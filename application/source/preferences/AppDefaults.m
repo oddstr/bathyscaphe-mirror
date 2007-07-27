@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.24 2007/04/28 11:35:27 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.25 2007/07/27 10:26:40 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -7,7 +7,7 @@
   * See the file LICENSE for copying permission.
   */
 #import "AppDefaults_p.h"
-#import "CMRMainMenuManager.h"
+//#import "CMRMainMenuManager.h"
 #import "TS2SoftwareUpdate.h"
 
 NSString *const AppDefaultsWillSaveNotification = @"AppDefaultsWillSaveNotification";
@@ -225,7 +225,7 @@ NS_ENDHANDLER
 {
 	[[self defaults] setBool : flag
 					  forKey : AppDefaultsIsOnlineModeKey];
-	[[CMRMainMenuManager defaultManager] synchronizeIsOnlineModeMenuItemState];
+//	[[CMRMainMenuManager defaultManager] synchronizeIsOnlineModeMenuItemState];
 }
 - (IBAction) toggleOnlineMode : (id) sender
 {

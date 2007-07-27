@@ -1,21 +1,22 @@
-//:CMRBrowserTbDelegate.h
-/**
-  *
-  * ブラウザウィンドウのツールバーDelegate
-  *
-  * @author  Takanori Ishikawa
-  * @author  http://www15.big.or.jp/~takanori/
-  * @version Sat Jun 15 2002
-  *
-  */
+//
+//  CMRBrowserTbDelegate.h
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/07/27.
+//  Copyright 2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import <Foundation/Foundation.h>
 #import "CMRThreadViewerTbDelegate.h"
 
-//@class CMRNSSearchField;
-
 @interface CMRBrowserTbDelegate : CMRThreadViewerTbDelegate
 {
-	// Panther 以降では NSSearchField を使用する
-	//CMRNSSearchField *searchFieldController_;
 }
+@end
+
+@interface CMRBrowserTbDelegate(Private)
+- (void)setupSearchToolbarItem:(NSToolbarItem *)anItem itemView:(NSView *)aView;
+- (void)setupSwitcherToolbarItem:(NSToolbarItem *)anItem itemView:(NSView *)aView;
+- (void)setupNobiNobiToolbarItem:(NSToolbarItem *)anItem;
 @end

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.49 2007/05/07 15:17:25 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.50 2007/07/27 10:26:39 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -15,6 +15,9 @@
 #import <SGAppKit/CMRPullDownIconBtn.h>
 #import <SGAppKit/BSIconAndTextCell.h>
 #import "BSBoardInfoInspector.h"
+
+@class CMRBrowserTbDelegate;
+
 @implementation CMRBrowser(ViewAccessor)
 - (CMRThreadViewer *) threadViewer
 {
@@ -93,6 +96,11 @@
 		m_editBoardSheetController = [[EditBoardSheetController alloc] init];
 	}
 	return m_editBoardSheetController;
+}
+
+- (NSSegmentedControl *)viewModeSwitcher
+{
+	return m_viewModeSwitcher;
 }
 @end
 
@@ -363,11 +371,6 @@
 	[[[self scrollView] horizontalRulerView] setNeedsDisplay: YES];
 }
 
-/*+ (float) navBarSubviewsAdjustValue
-{
-	return 1.0;
-}*/
-
 - (void) setupSplitView
 {
 	BOOL			isGoingToVertical = [CMRPref isSplitViewVertical];
@@ -605,7 +608,7 @@
 	isIncremental = [CMRPref useIncrementalSearch];
 
 	[searchCell setSendsWholeSearchString : (NO == isIncremental)];	
-	[searchCell setControlSize : NSSmallControlSize];
+//	[searchCell setControlSize : NSSmallControlSize];
 	
 	if (!isIncremental) {
 		int maxValu = [CMRPref maxCountForSearchHistory];

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.h,v 1.27 2007/07/21 19:32:55 tsawada2 Exp $
+  * $Id: CMRBrowser.h,v 1.28 2007/07/27 10:26:39 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -38,6 +38,8 @@ typedef enum _BSThreadDeletionType {
 	
 	// PrincessBride Addition
 	IBOutlet NSSearchField		*m_searchField;
+
+	IBOutlet NSSegmentedControl *m_viewModeSwitcher;
 	
 	CMRAccessorySheetController	*m_listSorterSheetController;
 	

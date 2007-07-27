@@ -1,5 +1,5 @@
 /**
- * $Id: AppDefaults-Bundle.m,v 1.13 2007/06/05 16:51:55 tsawada2 Exp $
+ * $Id: AppDefaults-Bundle.m,v 1.14 2007/07/27 10:26:40 tsawada2 Exp $
  * 
  * AppDefaults-Bundle.m
  *
@@ -232,7 +232,7 @@ static NSString *const kBWLastSyncDateKey = @"BoardWarrior:Last Sync Date";
     }
     return instance_;
 }
-
+/*
 #pragma mark -
 - (NSString *) helperAppPath
 {
@@ -265,7 +265,7 @@ static NSString *const kBWLastSyncDateKey = @"BoardWarrior:Last Sync Date";
 }
 
 #pragma mark -
-
+*/
 - (void) _loadImagePreviewerSettings
 {
 }

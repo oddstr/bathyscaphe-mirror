@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.h,v 1.3 2006/11/15 14:41:18 masakih Exp $
+  * $Id: Browser.h,v 1.4 2007/07/27 10:26:39 tsawada2 Exp $
   * 
   * Browser.h
   *
@@ -37,6 +37,8 @@
 - (NSString *) searchString;
 - (void) setSearchString: (NSString *) text;
 - (BOOL) searchThreadsInListWithCurrentSearchString;
+
+- (IBAction)toggleThreadsListViewMode:(id)sender;
 @end
 
 /* for AppleScript */

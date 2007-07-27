@@ -161,6 +161,25 @@
                                           message : (NSString *) msg;
 @end*/
 
+/*- (NSFont *) threadsViewFont;
+- (NSColor *) threadsViewColor;
+- (NSFont *) messageFont;
+- (NSColor *) messageColor;
+- (NSFont *) messageTitleFont;
+- (NSColor *) messageTitleColor;
+- (NSColor *) messageNameColor;
+- (NSFont *) messageAlternateFont;
+- (NSColor *) messageAnchorColor;
+- (NSFont *) messageHostFont;
+- (NSColor *) messageHostColor;
+- (NSFont *) messageBeProfileFont;
+- (NSFont *) messageBookmarkFont;
+- (NSColor *) messageBookmarkColor;*/
+
+//- (NSColor *) resPopUpDefaultTextColor;
+//- (BOOL) isResPopUpTextDefaultColor;
+
+
 //- (BOOL) oldFavoritesUpdated;
 //- (void) setOldFavoritesUpdated: (BOOL) flag;
 

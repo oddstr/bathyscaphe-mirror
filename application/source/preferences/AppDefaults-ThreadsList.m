@@ -19,6 +19,8 @@ static NSString *const AppDefaultsTLAutoReloadWhenWakeKey = @"Reload When Wake";
 static NSString *const AppDefaultsTLLastHEADCheckedDateKey = @"Last HEADCheck";
 static NSString *const AppDefaultsTLHEADCheckIntervalKey = @"HEADCheck Interval";
 
+static NSString *const AppDefaultsTLViewModeKey = @"View Mode";
+
 // à»â∫ÇÕ User Defaults íºâ∫Ç…çÏê¨Ç≥ÇÍÇÈ key
 static NSString *const AppDefaultsUseIncrementalSearchKey = @"UseIncrementalSearch";
 static NSString *const AppDefaultsTRViewTextUsesBlackColorKey = @"ThreadTitleBarTextUsesBlackColor";
@@ -150,6 +152,17 @@ static NSString *const AppDefaultsTLTableColumnStateKey = @"ThreadsListTable Col
 		return [NSDate date];
 	else
 		return [baseDate_ addTimeInterval : [self HEADCheckTimeInterval]];
+}
+
+#pragma mark Twincam Angel Additions
+- (BSThreadsListViewModeType)threadsListViewMode
+{
+	return [[self threadsListSettingsDictionary] integerForKey:AppDefaultsTLViewModeKey defaultValue:DEFAULT_TL_VIEW_MODE];
+}
+
+- (void)setThreadsListViewMode:(BSThreadsListViewModeType)type
+{
+	[[self threadsListSettingsDictionary] setInteger:type forKey:AppDefaultsTLViewModeKey];
 }
 
 #pragma mark -

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer.m,v 1.24 2007/03/23 19:21:54 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer.m,v 1.25 2007/07/27 10:26:39 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -190,7 +190,7 @@ static BOOL messageIsLocalAboned_(CMRThreadMessage *aMessage)
 	if ([aMessage hasBookmark]) {
 		[ms applyFontTraits : (NSBoldFontMask|NSItalicFontMask)
 					  range : mRange_];
-		[ms addAttribute: NSForegroundColorAttributeName value: [CMRPref messageBookmarkColor] range: mRange_]; // êFÇ‡ïœÇ¶ÇÊÇ§
+		[ms addAttribute: NSForegroundColorAttributeName value: [[CMRPref threadViewTheme] bookmarkColor] range: mRange_]; // êFÇ‡ïœÇ¶ÇÊÇ§
 	}
 /*
 2004-01-22 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
@@ -478,13 +478,14 @@ ErrComposeHost:
 	if ([aMessage isAsciiArt]) {
 		// AA
 		[tmp addAttribute : NSFontAttributeName
-				    value : [CMRPref messageAlternateFont]
+				    value : [[CMRPref threadViewTheme] AAFont]
 				    range : mRange_];
 		if (isBookmarked)
-			[tmp addAttribute: NSForegroundColorAttributeName value: [CMRPref messageBookmarkColor] range: mRange_];
+			[tmp addAttribute: NSForegroundColorAttributeName value: [[CMRPref threadViewTheme] bookmarkColor] range: mRange_];
 	} else if (isBookmarked) {
-		NSDictionary *bmattr = [NSDictionary dictionaryWithObjectsAndKeys: [CMRPref messageBookmarkFont], NSFontAttributeName,
-									[CMRPref messageBookmarkColor], NSForegroundColorAttributeName, NULL];
+		BSThreadViewTheme *theme = [CMRPref threadViewTheme];
+		NSDictionary *bmattr = [NSDictionary dictionaryWithObjectsAndKeys: [theme bookmarkFont], NSFontAttributeName,
+									[theme bookmarkColor], NSForegroundColorAttributeName, NULL];
 		[tmp addAttributes: bmattr range: mRange_];
 	}
 	if (!isLocalAboned) {

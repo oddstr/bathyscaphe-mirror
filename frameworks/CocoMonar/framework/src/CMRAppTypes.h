@@ -1,6 +1,6 @@
 //: CMRAppTypes.h
 /**
-  * $Id: CMRAppTypes.h,v 1.4 2007/03/15 02:35:16 tsawada2 Exp $
+  * $Id: CMRAppTypes.h,v 1.5 2007/07/27 10:26:40 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -66,3 +66,8 @@ typedef enum _BSBeLoginPolicyType {
 	BSBeLoginNoAccountOFF		= 3  // 環境設定で Be アカウントが設定されていない
 } BSBeLoginPolicyType;
 
+
+typedef enum _BSThreadsListViewModeType {
+	BSThreadsListShowsLiveThreads = 0,
+	BSThreadsListShowsStoredLogFiles = 1,
+} BSThreadsListViewModeType; // Available in Twincam Angel and later.

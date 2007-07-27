@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.m,v 1.18 2007/03/05 10:08:25 tsawada2 Exp $
+  * $Id: CMRThreadsList.m,v 1.19 2007/07/27 10:26:39 tsawada2 Exp $
   * 
   * CMRThreadsList.m
   *
@@ -189,11 +189,13 @@ NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserIn
 }*/
 - (int) filteringMask
 {
-	return [CMRPref browserStatusFilteringMask];
+//	return [CMRPref browserStatusFilteringMask];
+	return 0;
 }
 - (void) setFilteringMask : (int) mask
 {
-	[CMRPref setBrowserStatusFilteringMask : mask];
+//	[CMRPref setBrowserStatusFilteringMask : mask];
+	NSLog(@"WARNING: CMRThreadsList's -setFilteringMask: is Deprecated.");
 }
 /* Accessor for _isAscending */
 - (BOOL) isAscending

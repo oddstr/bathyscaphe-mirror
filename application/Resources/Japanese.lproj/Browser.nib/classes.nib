@@ -45,7 +45,6 @@
             ACTIONS = {
                 addCategoryItem = id; 
                 addDrawerItem = id; 
-                changeBrowserArrangement = id; 
                 collapseOrExpandBoardList = id; 
                 editDrawerItem = id; 
                 focus = id; 
@@ -72,6 +71,7 @@
                 "m_splitView" = BSKFSplitView; 
                 "m_splitterBtn" = id; 
                 "m_threadsListTable" = ThreadsListTable; 
+                "m_viewModeSwitcher" = NSSegmentedControl; 
                 topSubview = id; 
             }; 
             SUPERCLASS = CMRThreadViewer; 
@@ -160,6 +160,7 @@
             SUPERCLASS = NSSplitView; 
         }, 
         {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {CLASS = NSSegmentedControl; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
         {CLASS = ThreadTextView; LANGUAGE = ObjC; SUPERCLASS = NSTextView; }, 
         {CLASS = ThreadsListTable; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }
     ); 

@@ -24,6 +24,7 @@
 	NSString *mSortKey;
 	NSString *mSearchString;
 	ThreadStatus mStatus;
+	BSThreadsListViewModeType mViewMode;
 	
 	NSLock *mCursorLock;
 	
@@ -49,7 +50,8 @@
 
 - (void) updateCursor;
 
-
+- (BSThreadsListViewModeType)viewMode;
+- (void)setViewMode:(BSThreadsListViewModeType)mode;
 @end
 
 extern NSString *BSDBThreadListDidFinishUpdateNotification;

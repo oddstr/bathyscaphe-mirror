@@ -1,3 +1,24 @@
+2007-07-27 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/manager/CMRMainMenuManager.m
+	* application/source/CMRAppDelegate+Menu.m
+		不要になったメソッドをコメントアウト。
+	* application/source/browser/BSDBThreadList.m
+		とりあえず、BSDBThreadList に現在のスレッド表示モード（スレッド一覧／ログ一覧）を保持するインスタンス変数とアクセサメソッドを実装した。
+	* application/source/thread/CMRThreadViewer-OwnHistory.m
+		ツールバー上の NSSegmentedControl は、そのツールバーが属しているウインドウが現在キーウインドウでないときは適切に disabled になるようにした。
+	* application/source/window/CMRBrowserTbDelegate.m
+	* application/source/browser/CMRBrowser-Validation.m
+	* application/source/browser/Browser.m
+	* application/Resources/Japanese.lproj/Browser.nib
+		ブラウザウインドウのツールバーに「スレッド一覧／ログ一覧の切り替え」ボタンを追加できるようにした。
+	* frameworks/CocoMonar/framework/src/CMRAppTypes.h
+		BSThreadsViewModeType を定義した。
+	* frameworks/SGNetwork/src/SGNetwork.h
+		SGNetwork フレームワークは大幅に規模を縮小し、多くのクラスが使用停止となった。
+	* application/source/preferences/CMRPreferencesDefautValues.h
+	* application/source/preferences/AppDefaults.m
+	* application/source/preferences/AppDefaults-ThreadsList.m
+		スレッド表示モード（スレッド一覧／ログ一覧）の設定の読み書き対応。
 2007-07-22 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/reply/account/w2chAuthenticater.m
 		●ログイン周りも NSURLConnection ベースにしてみたが、今 tsawada2 は●アカウントを持っていないので検証は出来ていない。
@@ -21,6 +42,7 @@
 	* application/source/window/CMRBrowserTbDelegate.m
 	* application/source/window/CMRThreadViewerTbDelegate.m
 	* application/Resources/Japanese.lproj/MainMenu.nib
+	* application/subproj/preference/AdvancedPrefController.m
 	* application/subproj/preference/Japanese.lproj/AdvancedPane.nib
 	* application/subproj/preference/Japanese.lproj/GeneralPreferences.nib
 	* application/Resources/Japanese.lproj/Localizable.strings

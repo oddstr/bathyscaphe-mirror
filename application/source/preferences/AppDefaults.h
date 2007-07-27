@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.43 2007/07/21 19:32:55 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.44 2007/07/27 10:26:40 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -62,7 +62,7 @@ typedef enum _BSAutoSyncIntervalType {
 
 - (BOOL) isOnlineMode;
 - (void) setIsOnlineMode : (BOOL) flag;
-- (IBAction) toggleOnlineMode : (id) sender;
+//- (IBAction) toggleOnlineMode : (id) sender;
 
 - (BOOL) isSplitViewVertical;
 - (void) setIsSplitViewVertical : (BOOL) flag;
@@ -74,7 +74,7 @@ typedef enum _BSAutoSyncIntervalType {
 - (BOOL) openInBg;
 - (void) setOpenInBg : (BOOL) flag;
 
-/*** 書き込み：名前欄 ***/
+/* Reply Name & Mail */
 - (NSString *) defaultReplyName;
 - (void) setDefaultReplyName : (NSString *) name;
 - (NSString *) defaultReplyMailAddress;
@@ -82,7 +82,7 @@ typedef enum _BSAutoSyncIntervalType {
 - (NSArray *) defaultKoteHanList;
 - (void) setDefaultKoteHanList : (NSArray *) anArray;
 
-/* 最後に開いた板 */
+/* Last Shown Board */
 - (NSString *) browserLastBoard;
 - (void) setBrowserLastBoard : (NSString *) boardName;
 
@@ -98,9 +98,8 @@ typedef enum _BSAutoSyncIntervalType {
 - (BOOL) oldMessageScrollingBehavior;
 - (void) setOldMessageScrollingBehavior: (BOOL) flag;
 
-#pragma mark ThreadsList
-
-/* ソート */
+#pragma mark ThreadsList Sorting
+/* Sort */
 - (NSString *) browserSortColumnIdentifier;
 - (void) setBrowserSortColumnIdentifier : (NSString *) identifier;
 - (BOOL) browserSortAscending;
@@ -110,6 +109,7 @@ typedef enum _BSAutoSyncIntervalType {
 - (BOOL) collectByNew;
 - (void) setCollectByNew : (BOOL) flag;
 
+#pragma mark Contents Search
 /* Search option */
 - (CMRSearchMask) contentsSearchOption;
 - (void) setContentsSearchOption : (CMRSearchMask) option;
@@ -195,23 +195,6 @@ typedef enum _BSAutoSyncIntervalType {
 - (void) setThreadsListNewThreadFont : (NSFont *) aFont;
 
 /* Starlight Breaker -- Theme groups */
-- (NSFont *) threadsViewFont;
-- (NSColor *) threadsViewColor;
-- (NSFont *) messageFont;
-- (NSColor *) messageColor;
-- (NSFont *) messageTitleFont;
-- (NSColor *) messageTitleColor;
-- (NSColor *) messageNameColor;
-- (NSFont *) messageAlternateFont;
-- (NSColor *) messageAnchorColor;
-- (NSFont *) messageHostFont;
-- (NSColor *) messageHostColor;
-- (NSFont *) messageBeProfileFont;
-- (NSFont *) messageBookmarkFont;
-- (NSColor *) messageBookmarkColor;
-
-//- (NSColor *) resPopUpDefaultTextColor;
-//- (BOOL) isResPopUpTextDefaultColor;
 - (NSColor *) replyTextColor;
 - (NSFont *) replyFont;
 /* End Theme groups */
@@ -290,6 +273,10 @@ typedef enum _BSAutoSyncIntervalType {
 - (NSTimeInterval) HEADCheckTimeInterval;
 - (void) setHEADCheckTimeInterval : (NSTimeInterval) interval;
 - (NSDate *) nextHEADCheckAvailableDate;
+
+/* Twincam Angel Additions */
+- (BSThreadsListViewModeType)threadsListViewMode;
+- (void)setThreadsListViewMode:(BSThreadsListViewModeType)type;
 
 - (void) _loadThreadsListSettings;
 - (BOOL) _saveThreadsListSettings;
@@ -410,11 +397,11 @@ typedef enum _BSAutoSyncIntervalType {
 - (id) sharedPreferencesPane;
 - (id<w2chConnect>) w2chConnectWithURL : (NSURL        *) anURL
                             properties : (NSDictionary *) properties;
-
+/*
 - (NSString *) helperAppPath;
 - (void) setHelperAppPath : (NSString *) fullPath_;
 - (NSString *) helperAppDisplayName;
-
+*/
 - (void) _loadImagePreviewerSettings;
 - (BOOL) _saveImagePreviewerSettings;
 @end

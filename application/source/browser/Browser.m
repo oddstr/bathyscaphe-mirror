@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.m,v 1.17 2007/01/07 17:04:23 masakih Exp $
+  * $Id: Browser.m,v 1.18 2007/07/27 10:26:39 tsawada2 Exp $
   * BathyScaphe 
   *
   * Copyright 2005-2006 BathyScaphe Project.
@@ -13,9 +13,7 @@
 #import "CMRBrowser_p.h"
 #import "CMRThreadsList.h"
 #import "CMRThreadAttributes.h"
-
 #import "BoardManager.h"
-// #import "BoardList.h"
 
 
 @implementation Browser
@@ -128,17 +126,20 @@
 	}
 }
 
-- (BOOL) validateMenuItem : (NSMenuItem *) theItem
+- (BOOL)validateMenuItem:(NSMenuItem *)theItem
 {
-	SEL action_;
+	SEL action_ = [theItem action];
 
-	action_ = [theItem action];
-	
 	if(action_ == @selector(saveDocumentAs:)) {
-		[theItem setTitle : NSLocalizedString(@"Save Menu Item Default", @"Save as...")];
+		[theItem setTitle:NSLocalizedString(@"Save Menu Item Default", @"Save as...")];
 		return ([self threadAttributes] != nil);
-	}	
-	return [super validateMenuItem : theItem];
+	} else if (action_ == @selector(toggleThreadsListViewMode:)) {
+		BOOL tmp = [CMRPref threadsListViewMode];
+		[theItem setTitle:(tmp == BSThreadsListShowsLiveThreads) ? NSLocalizedString(@"Switch to Log Mode", @"")
+																 : NSLocalizedString(@"Switch to Thread Mode", @"")];
+		return ([self currentThreadsList] != nil);
+	}
+	return [super validateMenuItem:theItem];
 }
 
 #pragma mark ThreadsList
@@ -178,6 +179,16 @@
 	if(nil == [self currentThreadsList]) return;
 	[[self currentThreadsList] setFilteringMask : mask];
 	[[self currentThreadsList] filterByStatus : mask];
+}
+
+- (IBAction)toggleThreadsListViewMode:(id)sender
+{
+	AppDefaults *pref = CMRPref;
+	BSThreadsListViewModeType	newMode;
+
+	newMode = ([pref threadsListViewMode] == BSThreadsListShowsLiveThreads) ? BSThreadsListShowsStoredLogFiles : BSThreadsListShowsLiveThreads;
+	[pref setThreadsListViewMode:newMode];
+	[[self currentThreadsList] setViewMode:newMode];
 }
 @end
 

@@ -40,7 +40,8 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 		[self setBBSName : [item name]];
 		[self setBoardListItem:item];
 		
-		[self filterByStatusWithoutUpdateList:[CMRPref browserStatusFilteringMask]];
+//		[self filterByStatusWithoutUpdateList:[CMRPref browserStatusFilteringMask]];
+		[self filterByStatusWithoutUpdateList:0];
 		
 		mCursorLock = [[NSLock alloc] init];
 		mTaskLock = [[NSLock alloc] init];
@@ -189,6 +190,16 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 - (unsigned) numberOfFilteredThreads
 {
 	return [self numberOfThreads];
+}
+
+- (BSThreadsListViewModeType)viewMode
+{
+	return mViewMode;
+}
+
+- (void)setViewMode:(BSThreadsListViewModeType)mode
+{
+	mViewMode = mode;
 }
 
 #pragma mark## Sorting ##

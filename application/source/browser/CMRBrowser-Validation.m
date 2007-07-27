@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-Validation.m,v 1.27 2007/07/21 19:32:55 tsawada2 Exp $
+ * $Id: CMRBrowser-Validation.m,v 1.28 2007/07/27 10:26:39 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -10,6 +10,14 @@
 #import "SmartBoardList.h"
 
 @implementation CMRBrowser(Validation)
+- (BOOL)segCtrlTbItem:(BSSegmentedControlTbItem *)item validateSegment:(int)segment
+{
+	if ([[item itemIdentifier] isEqualToString:@"Toggle View Mode"]) {
+		return [[self window] isKeyWindow];
+	}
+	return [super segCtrlTbItem:item validateSegment:segment];
+}
+
 #pragma mark Validation Helpers
 - (BOOL) validateDeleteThreadItemsEnabling: (NSArray *) threads
 {

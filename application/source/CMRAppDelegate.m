@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.35 2007/05/26 19:27:58 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.36 2007/07/27 10:26:39 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -71,9 +71,11 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 }
 - (IBAction) toggleOnlineMode : (id) sender
 {    
-    [NSApp sendAction : @selector(toggleOnlineMode:)
+/*    [NSApp sendAction : @selector(toggleOnlineMode:)
                    to : CMRPref
-                 from : sender];
+                 from : sender];*/
+	AppDefaults *defaults_ = CMRPref;
+	[defaults_ setIsOnlineMode: (NO == [defaults_ isOnlineMode])];
 }
 
 - (IBAction) togglePreviewPanel : (id) sender
@@ -176,7 +178,7 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 
 - (IBAction) launchCMLF : (id) sender
 {
-    [[NSWorkspace sharedWorkspace] launchApplication: [CMRPref helperAppPath]];
+//    [[NSWorkspace sharedWorkspace] launchApplication: [CMRPref helperAppPath]];
 }
 
 - (IBAction) runBoardWarrior: (id) sender
@@ -265,7 +267,7 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 {
 	SEL action_ = [theItem action];
 	if (action_ == @selector(launchCMLF:)) {
-		NSString	*name_ = [CMRPref helperAppDisplayName];
+/*		NSString	*name_ = [CMRPref helperAppDisplayName];
 
 		if (nil == name_) {
 			return NO;
@@ -273,7 +275,8 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 			[theItem setLabel : name_];
 			[theItem setPaletteLabel : name_];
 			return YES;
-		}
+		}*/
+		return NO;
 	}
 
 	if (action_ == @selector(toggleOnlineMode:)) {
@@ -301,7 +304,7 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 	SEL action_ = [theItem action];
 
 	if (action_ == @selector(launchCMLF:)) {
-		NSString	*name_ = [CMRPref helperAppDisplayName];
+/*		NSString	*name_ = [CMRPref helperAppDisplayName];
 
 		if (nil == name_) {
 			[theItem setTitle : [self localizedString : APP_MAINMENU_HELPER_NOTFOUND]];
@@ -309,7 +312,8 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 		} else {
 			[theItem setTitle : name_];
 			return YES;
-		}
+		}*/
+		return NO;
 	} else if (action_ == @selector(closeAll:)) {
 		return ([NSApp makeWindowsPerform : @selector(isVisible) inOrder : YES] != nil);
 	} else if (action_ == @selector(miniaturizeAll:)) {
@@ -319,6 +323,9 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 		return [tmp_ respondsToSelector : @selector(togglePreviewPanel:)];
 	} else if (action_ == @selector(startHEADCheckDirectly:)) {
 		return [CMRPref canHEADCheck];
+	} else if (action_ == @selector(toggleOnlineMode:)) {
+		[theItem setState: [CMRPref isOnlineMode] ? NSOnState : NSOffState];
+		return YES;
 	}
 	return YES;
 }

@@ -92,6 +92,7 @@
                 toggleDatOchiThread = id; 
                 toggleMarkedThread = id; 
                 toggleStatusLineShown = id; 
+                toggleThreadsListViewMode = id; 
             }; 
             CLASS = FirstResponder; 
             LANGUAGE = ObjC; 
