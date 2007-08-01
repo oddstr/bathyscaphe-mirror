@@ -1,6 +1,6 @@
 //: SGAppKit.h
 /**
-  * $Id: SGAppKit.h,v 1.15 2007/03/11 09:02:57 tsawada2 Exp $
+  * $Id: SGAppKit.h,v 1.16 2007/08/01 12:29:06 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -45,6 +45,7 @@
 #import <SGAppKit/BSTsuruPetaPopUpBtnCell.h>
 #import <SGAppKit/IndexField.h>
 #import <SGAppKit/BSLayoutManager.h>
+#import <SGAppKit/BSPopUpTitlebar.h> // available in SGAppKit 1.7.
 
 #import <SGAppKit/SGKeyBindingSupport.h>
 

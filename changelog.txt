@@ -1,3 +1,22 @@
+2007-08-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/SGHTMLView-Link.m
+		ポップアップがウインドウが一つでも開いていると、テキスト・ビュー内での cursor rects の更新が
+		ブロックされていたのを修正。
+		- ときどき「ポップアップができなくなる」「ポップアップの表示位置がずれる」という問題はここに
+		　原因があったのだと思う。Bug [10307] と [6067] は fixed, closed.
+	* application/source/view/popup/CMXPopUpWindowController+View.m
+	* application/source/view/popup/CMXPopUpWindowController.m
+	* application/source/view/popup/CMXPopUpWindowController_p.h
+		ポップアップ・ロック機能の大幅な改良：
+		- L キーかホイールクリックでロックされたポップアップは、
+		　タイトルバーをドラッグして自由に場所を移動できるようになった。
+		- ロックしたとき／ロック解除したときの視覚効果とサウンドエフェクトを追加して、これがれっきとした「機能」であることをわかりやすくした。
+		- ロック解除に「ポップアップの左上に追加されるクローズボタンをクリック」および「Esc キーを押す」の動作も可能にした。今まで通り
+		　L キー押下／ホイールクリックでもロック解除できる。
+	* frameworks/SGAppKit/framework/src/SGAppKit.h
+		SGAppKit に BSPopUpTitlebar が加わったことに伴う変更。
+	* frameworks/SGAppKit/framework/src/custom/bathyscaphe/BSPopUpTitlebar.[h|m]
+		[新規追加]ポップアップウインドウで使用するタイトルバー（のような）ビュー。
 2007-07-27 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/manager/CMRMainMenuManager.m
 	* application/source/CMRAppDelegate+Menu.m

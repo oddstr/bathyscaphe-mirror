@@ -1,6 +1,6 @@
 //: CMXPopUpWindowController.h
 /**
-  * $Id: CMXPopUpWindowController.h,v 1.4 2007/07/21 19:32:55 tsawada2 Exp $
+  * $Id: CMXPopUpWindowController.h,v 1.5 2007/08/01 12:29:06 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -8,7 +8,7 @@
 #import <Cocoa/Cocoa.h>
 #import "CMXPopUpOwner.h"
 
-@class BSThreadViewTheme;
+@class BSThreadViewTheme, BSPopUpTitlebar;
 
 @interface CMXPopUpWindowController : NSWindowController
 {
@@ -17,17 +17,14 @@
 	NSScrollView		*_scrollView;
 	NSTextView			*_textView;
 	NSTextStorage		*_textStorage;
-	
+	BSPopUpTitlebar		*m_titlebar;
 	id		_object;
-	BOOL	_closable;
+	BOOL	m_closable;
 	
-//	BOOL	bs_usesAlternateTextColor;
-//	NSColor *bs_alternateTextColor;
 	BOOL	bs_usesSmallScroller;
 	BOOL	bs_shouldAntialias;
 	BOOL	bs_linkTextHasUnderline;
 	BSThreadViewTheme *m_theme;
-	NSTimer *m_timer;
 }
 + (float) popUpTrackingInsetWidth;
 
@@ -36,6 +33,7 @@
 - (NSScrollView *) scrollView;
 - (NSTextView *) textView;
 - (NSTextStorage *) textStorage;
+- (BSPopUpTitlebar *)titlebar;
 
 - (BOOL) canPopUpWindow;
 - (BOOL) mouseInWindowFrameInset : (float) anInset;
@@ -49,7 +47,7 @@
 - (void) setObject : (id) anObject;
 
 - (BOOL) isClosable;
-- (void) setIsClosable : (BOOL) TorF;
+- (void) setClosable:(BOOL)closable;
 
 // textView delegate
 - (id<CMXPopUpOwner>) owner;
@@ -58,22 +56,15 @@
 @end
 
 
-
 @interface CMXPopUpWindowController(Accessor)
-/*- (void) setBackgroundColor : (NSColor *) color;
-- (NSColor *) backgroundColor;
-- (void) setAlphaValue : (float) floatValue;
-- (float) alphaValue;
-- (BOOL) usesAlternateTextColor;
-- (void) setUsesAlternateTextColor: (BOOL) TorF;
-- (NSColor *) alternateTextColor;
-- (void) setAlternateTextColor: (NSColor *) aColor;*/
-- (BOOL) usesSmallScroller;
-- (void) setUsesSmallScroller: (BOOL) TorF;
-- (BOOL) shouldAntialias;
-- (void) setShouldAntialias: (BOOL) TorF;
-- (BOOL) linkTextHasUnderline;
-- (void) setLinkTextHasUnderline: (BOOL) TorF;
+- (void)updateBGColor;
+
+- (BOOL)usesSmallScroller;
+- (void)setUsesSmallScroller:(BOOL)TorF;
+- (BOOL)shouldAntialias;
+- (void)setShouldAntialias: (BOOL) TorF;
+- (BOOL)linkTextHasUnderline;
+- (void)setLinkTextHasUnderline:(BOOL)TorF;
 - (BSThreadViewTheme *)theme;
-- (void) setTheme:(BSThreadViewTheme *)aTheme;
+- (void)setTheme:(BSThreadViewTheme *)aTheme;
 @end

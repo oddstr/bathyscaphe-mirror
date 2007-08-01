@@ -1,5 +1,5 @@
 /**
-  * $Id: SGHTMLView.m,v 1.5 2005/12/14 14:37:15 tsawada2 Exp $
+  * $Id: SGHTMLView.m,v 1.6 2007/08/01 12:29:06 tsawada2 Exp $
   * 
   * SGHTMLView.m
   *
@@ -66,7 +66,12 @@ acceptsMouseMovedEvents == YES ‚¾‚Æ resetCursorRects ‚ª•p”É‚ÉŒÄ‚Î‚ê‚é
 */
 	[self responseMouseEvent:theEvent mouseEntered:NO];
 }
-
+/*- (void)scrollWheel:(NSEvent *)theEvent
+{
+	[super scrollWheel:theEvent];
+	NSLog(@"K");
+	[self resetCursorRects];
+}*/
 
 /*
 2005-09-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>

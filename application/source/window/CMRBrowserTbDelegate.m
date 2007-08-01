@@ -90,7 +90,7 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 									  action:NULL
 									  target:nil];
 
-	[self setupSwitcherToolbarItem:item_ itemView:[wcontroller_ viewModeSwitcher]];
+	[self setupSwitcherToolbarItem:item_ itemView:[wcontroller_ viewModeSwitcher] windowStyle:[aWindow styleMask]];
 	[(BSSegmentedControlTbItem *)item_ setDelegate:wcontroller_];
 
 	item_ = [self appendToolbarItemWithClass : [BSNobiNobiToolbarItem class]
@@ -147,7 +147,7 @@ static NSMenuItem* searchToolbarItemMenuFormRep(NSString *labelText)
 	}
 }
 
-- (void)setupSwitcherToolbarItem:(NSToolbarItem *)anItem itemView:(NSView *)aView
+- (void)setupSwitcherToolbarItem:(NSToolbarItem *)anItem itemView:(NSView *)aView windowStyle:(unsigned int)styleMask
 {
 	NSSize size_;
 
@@ -157,7 +157,7 @@ static NSMenuItem* searchToolbarItemMenuFormRep(NSString *labelText)
 	[anItem setView:aView];
 		
 	size_ = [aView bounds].size;
-	size_.height += 1;
+	if (styleMask & NSTexturedBackgroundWindowMask || styleMask & NSUnifiedTitleAndToolbarWindowMask) size_.height += 1;
 	[anItem setMinSize:size_];
 	[anItem setMaxSize:size_];
 

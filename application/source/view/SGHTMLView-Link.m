@@ -1,5 +1,5 @@
 /**
-  * $Id: SGHTMLView-Link.m,v 1.1 2005/05/11 17:51:08 tsawada2 Exp $
+  * $Id: SGHTMLView-Link.m,v 1.2 2007/08/01 12:29:06 tsawada2 Exp $
   * 
   * SGHTMLView-Link.m
   *
@@ -42,7 +42,7 @@
 		scrollView_ = [self enclosingScrollView];
 		if ([[CMXPopUpWindowManager defaultManager] isPopUpWindowVisible]) {
 			[scrollView_ setDocumentCursor : nil];
-			return;
+//			return;
 		} else {
 			[scrollView_ setDocumentCursor : [NSCursor IBeamCursor]];
 		}

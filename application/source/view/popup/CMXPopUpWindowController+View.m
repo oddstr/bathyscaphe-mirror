@@ -1,13 +1,13 @@
 //: CMXPopUpWindowController+View.m
 /**
-  * $Id: CMXPopUpWindowController+View.m,v 1.10 2007/07/21 19:32:55 tsawada2 Exp $
+  * $Id: CMXPopUpWindowController+View.m,v 1.11 2007/08/01 12:29:06 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
   */
 
 #import "CMXPopUpWindowController_p.h"
-#import <SGAppKit/BSLayoutManager.h>
+
 #import "CMRPopUpTemplateKeys.h"
 #import "CMXPopUpWindowManager.h"
 #import "SGContextHelpPanel.h"
@@ -18,102 +18,117 @@
 
 
 @implementation CMXPopUpWindowController(ViewInitializer)
-- (void) registerToNotificationCenter
+- (void)registerToNotificationCenter
 {
 	[[NSNotificationCenter defaultCenter]
-		addObserver : self
-		selector : @selector(threadViewMouseExitedNotification:)
-		name : SGHTMLViewMouseExitedNotification
-		object : [self textView]];
+		addObserver:self
+		   selector:@selector(threadViewMouseExited:)
+			   name:SGHTMLViewMouseExitedNotification
+			 object:[self textView]];
 }
 
-- (void) createUIComponents
+- (void)createUIComponents
 {
-	[self createHelpWindow];
-	[self createScrollView];
+	[self createPopUpWindow];
+	[self createScrollViewWithTitlebar];
 	[self createHTMLTextView];
 	[self registerToNotificationCenter];
 }
 
-- (void) createHelpWindow
+- (void)createPopUpWindow
 {
 	NSPanel			*panel_;
 	id				tmp;
 
 	panel_ = [[SGContextHelpPanel alloc]
-	             initWithContentRect : DEFAULT_CONTENT_RECT
-						   styleMask : NSBorderlessWindowMask
-						     backing : NSBackingStoreBuffered
-							   defer : YES];
+	             initWithContentRect:DEFAULT_CONTENT_RECT
+						   styleMask:NSBorderlessWindowMask
+						     backing:NSBackingStoreBuffered
+							   defer:YES];
 
-	[panel_ setOneShot : NO];
+	[panel_ setOneShot:NO];
 
 	tmp = SGTemplateResource(kPopUpIsFloatingPanelKey);
 	UTILAssertKindOfClass(tmp, NSNumber);
-	[panel_ setFloatingPanel : [tmp boolValue]];
+	[panel_ setFloatingPanel:[tmp boolValue]];
 	tmp = SGTemplateResource(kPopUpBecomesKeyOnlyIfNeededKey);
 	UTILAssertKindOfClass(tmp, NSNumber);
-	[panel_ setBecomesKeyOnlyIfNeeded : [tmp boolValue]];
+	[panel_ setBecomesKeyOnlyIfNeeded:[tmp boolValue]];
 	tmp = SGTemplateResource(kPopUpHasShadowKey);
 	UTILAssertKindOfClass(tmp, NSNumber);
-	[panel_ setHasShadow : [tmp boolValue]];
+	[panel_ setHasShadow:[tmp boolValue]];
 	
-	[panel_ setDelegate : self];
-	[self setWindow : panel_];
-	
+	[panel_ setDelegate:self];
+
+	[self setWindow:panel_];
+
 	[panel_ release];
 }
-- (void) createScrollView
+
+- (void)createScrollViewWithTitlebar
 {
 	NSScrollView	*scrollview_;
-	NSRect			vFrame_;
+	BSPopUpTitlebar	*bar_;
+	NSRect			oFrame_,vFrame_,bFrame_;
+	NSView			*contentView_;
 	id				tmp;
 	
 	UTILAssertNotNil([self window]);
+
+	contentView_ = [[self window] contentView];
 	
-	vFrame_ = [[[self window] contentView] frame];
-	scrollview_ = [[NSScrollView alloc] initWithFrame : vFrame_];
-	
+	oFrame_ = [contentView_ frame];
+	NSDivideRect(oFrame_, &bFrame_, &vFrame_, TITLEBAR_HEIGHT, NSMaxYEdge);
+
+	scrollview_ = [[NSScrollView alloc] initWithFrame:oFrame_];
+
 	tmp = SGTemplateResource(kPopUpBorderTypeKey);
 	UTILAssertKindOfClass(tmp, NSNumber);
-	[scrollview_ setBorderType : [tmp intValue]];
-	[scrollview_ setHasVerticalScroller:YES];
-	[scrollview_ setHasHorizontalScroller : NO];
+	[scrollview_ setBorderType:[tmp intValue]];
 
+	[scrollview_ setHasVerticalScroller:YES];
+	[scrollview_ setHasHorizontalScroller:NO];
 	[scrollview_ setAutohidesScrollers:YES];
 	
-	[scrollview_ setAutoresizingMask : 
-		(NSViewWidthSizable | NSViewHeightSizable)];
-	[scrollview_ setAutoresizesSubviews : YES];
+	[scrollview_ setAutoresizingMask:(NSViewWidthSizable|NSViewHeightSizable)];
+	[scrollview_ setAutoresizesSubviews:YES];
 	
-	[[[self window] contentView] addSubview : scrollview_];
+	[contentView_ addSubview:scrollview_];
 	[scrollview_ release];
+
+	bar_ = [[BSPopUpTitlebar alloc] initWithFrame:bFrame_];
+	[bar_ setAutoresizingMask:(NSViewMinYMargin|NSViewWidthSizable)];
+	[contentView_ addSubview:bar_];
+	[[bar_ closeButton] setTarget:self];
+	[[bar_ closeButton] setAction:@selector(myPerformClose:)];
+	[bar_ setHidden:YES];
+	[bar_ release];
 	
-	[self setScrollView : scrollview_];
+	[self setScrollView:scrollview_];
+	[self setTitlebar:bar_];
 }
 
-- (void) updateLinkTextAttributes
+- (void)updateLinkTextAttributes
 {
 	NSTextView *textView_ = [self textView];
-	// リンク文字列の書式
 	if ([[self theme] popupUsesAlternateTextColor]) {
 		if ([self linkTextHasUnderline]) {
-			[textView_ setLinkTextAttributes : [NSDictionary dictionaryWithObject : [NSNumber numberWithInt : NSUnderlineStyleSingle]
-																		   forKey : NSUnderlineStyleAttributeName]];
+			[textView_ setLinkTextAttributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:NSUnderlineStyleSingle]
+																		   forKey:NSUnderlineStyleAttributeName]];
 		} else {
-			[textView_ setLinkTextAttributes : [NSDictionary empty]];
+			[textView_ setLinkTextAttributes:[NSDictionary empty]];
 		}
 	} else {
-		[textView_ setLinkTextAttributes : [[CMRMessageAttributesTemplate sharedTemplate] attributesForAnchor]];
+		[textView_ setLinkTextAttributes:[[CMRMessageAttributesTemplate sharedTemplate] attributesForAnchor]];
 	}
 }
 
-- (void) updateAntiAlias
+- (void)updateAntiAlias
 {
-	[(BSLayoutManager *)[[self textView] layoutManager] setShouldAntialias: [self shouldAntialias]];
+	[(BSLayoutManager *)[[self textView] layoutManager] setShouldAntialias:[self shouldAntialias]];
 }
 
-- (void) createHTMLTextView
+- (void)createHTMLTextView
 {
 	NSLayoutManager		*layoutManager_;
 	NSTextContainer		*tcontainer_;
@@ -123,65 +138,50 @@
 	NSRect cFrame_;
 	NSSize contentSize_;
 	
-	if ([self textView] != nil) return;
-	
+	if ([self textView]) return;
+
 	contentSize_ = [[self scrollView] contentSize];
-	cFrame_ = NSMakeRect(
-				0.0f,
-				0.0f,
-				contentSize_.width,
-				contentSize_.height);
+	cFrame_ = NSMakeRect(0, 0, contentSize_.width, contentSize_.height);
 	
 	layoutManager_ = [[BSLayoutManager alloc] init];
-	[[self textStorage] addLayoutManager : layoutManager_];
+	[[self textStorage] addLayoutManager:layoutManager_];
 	[layoutManager_ release];
-	
-	
-	tcontainer_ = 
-		[[NSTextContainer alloc] initWithContainerSize : 
-			  NSMakeSize(contentSize_.width, 1e7)];
-	[layoutManager_ addTextContainer : tcontainer_];
+
+	tcontainer_ = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(contentSize_.width, FLT_MAX)];
+	[layoutManager_ addTextContainer:tcontainer_];
 	[tcontainer_ release];
 	
 	
-	textView_ = [[CMRThreadView alloc] 
-					initWithFrame : cFrame_ 
-					textContainer : tcontainer_];
-	
-	[textView_ setMinSize : NSMakeSize(0.0, contentSize_.height)];
-	[textView_ setMaxSize : NSMakeSize(1e7, 1e7)];
-	
-	[textView_ setTextContainerInset : POPUP_TEXTINSET];
-	
-	[textView_ setVerticallyResizable :YES];
-	[textView_ setHorizontallyResizable : NO];
-	[textView_ setAutoresizingMask : NSViewWidthSizable];
-	
-	[textView_ setEditable : NO];
-	[textView_ setSelectable : YES];
-	[textView_ setAllowsUndo : NO];
-	[tcontainer_ setWidthTracksTextView : YES];
-	
-	[self setTextView : textView_];
-	[textView_ setFieldEditor : NO];
+	textView_ = [[CMRThreadView alloc] initWithFrame:cFrame_ textContainer:tcontainer_];
+	[textView_ setMinSize:NSMakeSize(0, contentSize_.height)];
+	[textView_ setMaxSize:NSMakeSize(FLT_MAX, FLT_MAX)];
+	[textView_ setTextContainerInset:POPUP_TEXTINSET];
+	[textView_ setVerticallyResizable:YES];
+	[textView_ setHorizontallyResizable:NO];
+	[textView_ setAutoresizingMask:NSViewWidthSizable];
+	[textView_ setEditable:NO];
+	[textView_ setSelectable:YES];
+	[textView_ setAllowsUndo:NO];
 
-	[[self scrollView] setDocumentView : textView_];
-	[[self window] setInitialFirstResponder : textView_];
+	[tcontainer_ setWidthTracksTextView:YES];
+	[self setTextView:textView_];
+	[textView_ setFieldEditor:NO];
+
+	[[self scrollView] setDocumentView:textView_];
+	[[self window] setInitialFirstResponder:textView_];
 	[textView_ release];
-	
 }
 @end
 
 
 
 @implementation CMXPopUpWindowController(Resizing)
-- (NSRect) constrainWindowFrame : (NSRect) windowFrame
+- (NSRect)constrainWindowFrame:(NSRect)windowFrame
 {
 	NSPoint		wTopLeft_;
 	NSPoint		scTopLeft_;
 	NSRect		newFrame_;
 	NSRect		visibleScreen_;
-	
 	
 	newFrame_ = windowFrame;
 	
@@ -214,23 +214,22 @@
 	}else if (newFrame_.origin.y < visibleScreen_.origin.y) {
 		newFrame_.origin.y = visibleScreen_.origin.y;
 	}
-	
+
 	return newFrame_;
 }
 
-- (NSSize) maxSize
+- (NSSize)maxSize
 {
 	NSSize		maxSize_;
 	NSRect		visibleScreen_;
 	id			tmp;
 	double		maxWidthRate_;
 	
-	[NSApplication sharedApplication];
 	visibleScreen_ = [[NSScreen mainScreen] visibleFrame];
 	maxSize_ = visibleScreen_.size;
 	
 	tmp = SGTemplateResource(kPopUpMaxWidthRateKey);
-	if (nil == tmp || NO == [tmp respondsToSelector : @selector(doubleValue)])
+	if (!tmp || ![tmp respondsToSelector:@selector(doubleValue)])
 		maxWidthRate_ = 0.5;
 	else
 		maxWidthRate_ = [tmp doubleValue];
@@ -242,7 +241,8 @@
 	
 	return maxSize_;
 }
-- (NSRect) usedFullRectForTextContainer
+
+- (NSRect)usedFullRectForTextContainer
 {
 	NSSize				newSize_;
 	NSTextContainer		*container_ = [[self textView] textContainer];
@@ -257,7 +257,7 @@
 
 	newSize_ = [[self textView] frame].size;
 	newSize_.width = [self maxSize].width;
-	[[self textView] setFrameSize : newSize_];
+	[[self textView] setFrameSize:newSize_];
 	
 	
 	// [Mac OS X 10.3]
@@ -267,7 +267,7 @@
 	rect_ = [lm usedRectForTextContainer:container_];
 */
 	
-	bodyRect_ = [lm boundingRectForTextContainer : container_];
+	bodyRect_ = [lm boundingRectForTextContainer:container_];
 	nGlyphs_ = [lm numberOfGlyphs];
 	
 	// 最大 POPUP_SCAN_MAXLINE 行までスキャン
@@ -276,8 +276,7 @@
 		NSRange		efRange_;
 		float		width_;
 		
-		rect_ = [lm lineFragmentUsedRectForGlyphAtIndex : index_
-										 effectiveRange : &efRange_];
+		rect_ = [lm lineFragmentUsedRectForGlyphAtIndex:index_ effectiveRange:&efRange_];
 		// 左マージンを考慮
 		width_ = NSMaxX(rect_);
 		
@@ -292,37 +291,18 @@
 	return usedRect_;
 }
 
-- (void) updateScrollerSize
+- (void)updateScrollerSize
 {
-//	if (NO == [[self scrollView] hasVerticalScroller]) return;
+	NSScroller		*scroller_ = [[self scrollView] verticalScroller];
 
-	NSScroller		*scroller_;
-
-	scroller_ = [[self scrollView] verticalScroller];
 	if ([self usesSmallScroller]) {
-		[scroller_ setControlSize : NSSmallControlSize];
+		[scroller_ setControlSize:NSSmallControlSize];
 	} else {
-		[scroller_ setControlSize : NSRegularControlSize];
+		[scroller_ setControlSize:NSRegularControlSize];
 	}
 }
 
-- (void) setUpScrollers
-{
-/*	BOOL			flag_ = YES;
-	float	contentHeight_;
-	
-	contentHeight_ = ([[self scrollView] contentSize]).height;
-	flag_ = contentHeight_ < NSHeight([[self textView] frame]);
-
-	[[self scrollView] setHasVerticalScroller : flag_];
-	
-	if (NO == flag_)
-		return;
-*/
-	[self updateScrollerSize];
-}
-
-- (void) sizeToFit
+- (void)sizeToFit
 {
 	NSScrollView		*scrollView_ = [self scrollView];
 	NSTextView			*textView_   = [self textView];
@@ -331,111 +311,66 @@
 	NSSize		scrollViewSize_;
 	NSSize		maxSize_ = [self maxSize];
 	NSRect		fixRect_;
-	NSSize		textInset_  = [[self textView] textContainerInset];
-	
+	NSSize		textInset_  = [textView_ textContainerInset];
+
 	fixRect_ = [self usedFullRectForTextContainer];
 	fixRect_.size.height += textInset_.height * 2;
 	fixRect_.size.width += textInset_.width * 2;
 	
 	textViewSize_ = fixRect_.size;
-	scrollViewSize_ = [scrollView_ frameSizeForContentSize : textViewSize_];
+	scrollViewSize_ = [scrollView_ frameSizeForContentSize:textViewSize_];
 	if (scrollViewSize_.width > maxSize_.width) 
 		scrollViewSize_.width = maxSize_.width;
 	if (scrollViewSize_.height > maxSize_.height) 
 		scrollViewSize_.height = maxSize_.height;
 	
-	[[self window] setContentSize : scrollViewSize_];
+	[[self window] setContentSize:scrollViewSize_];
 	
 	// ScrollViewにtextViewを合わせて、再度レイアウト
 	textViewSize_.width = [scrollView_ contentSize].width;
 	[textView_ setFrameSize : textViewSize_];
 	
 	// Scroller
-	[self setUpScrollers];
+	[self updateScrollerSize];
 }
 @end
 
 
 
 @implementation CMXPopUpWindowController(Accessor)
-/*- (NSColor *) backgroundColor
-{
-	return [[self window] backgroundColor];
-}
-
-- (void) setBackgroundColor : (NSColor *) aColor
-{
-	// window
-	[[self window] setBackgroundColor : aColor];
-	// scrollView
-	[[self scrollView] setDrawsBackground : NO];
-	[[self scrollView] setBackgroundColor : aColor];
-	
-	[[self textView] setDrawsBackground : NO];
-	[[self textView] setBackgroundColor : aColor];
-}
-
-- (float) alphaValue
-{
-	return [[self window] alphaValue];
-}
-- (void) setAlphaValue: (float) floatValue
-{
-	[[self window] setAlphaValue: floatValue];
-}
-- (BOOL) usesAlternateTextColor
-{
-	return bs_usesAlternateTextColor;
-}
-- (void) setUsesAlternateTextColor: (BOOL) TorF
-{
-	bs_usesAlternateTextColor = TorF;
-}
-- (NSColor *) alternateTextColor
-{
-	return bs_alternateTextColor;
-}
-- (void) setAlternateTextColor: (NSColor *) aColor
-{
-	bs_alternateTextColor = aColor;
-}
-*/
-- (void) updateBGColor
+- (void)updateBGColor
 {
 	NSColor *aColor = [[self theme] popupBackgroundColorIgnoringAlpha];
 	// window
 	[[self window] setBackgroundColor:aColor];
 	// scrollView
-	[[self scrollView] setDrawsBackground:NO];
-	[[self scrollView] setBackgroundColor:aColor];
-	
+	[[self scrollView] setDrawsBackground:NO];	
 	[[self textView] setDrawsBackground:NO];
-	[[self textView] setBackgroundColor:aColor];
 
-	[[self window] setAlphaValue: [[self theme] popupBackgroundAlphaValue]];
+	[[self window] setAlphaValue:[[self theme] popupBackgroundAlphaValue]];
 }
-	
-- (BOOL) usesSmallScroller
+
+- (BOOL)usesSmallScroller
 {
 	return bs_usesSmallScroller;
 }
-- (void) setUsesSmallScroller: (BOOL) TorF
+- (void)setUsesSmallScroller:(BOOL)TorF
 {
 	bs_usesSmallScroller = TorF;
 }
-- (BOOL) shouldAntialias
+- (BOOL)shouldAntialias
 {
 	return bs_shouldAntialias;
 }
-- (void) setShouldAntialias: (BOOL) TorF
+- (void)setShouldAntialias:(BOOL)TorF
 {
 	bs_shouldAntialias = TorF;
 }
-- (BOOL) linkTextHasUnderline
+- (BOOL)linkTextHasUnderline
 {
 	return bs_linkTextHasUnderline;
 }
-- (void) setLinkTextHasUnderline: (BOOL) TorF
+- (void)setLinkTextHasUnderline:(BOOL)TorF
 {
 	bs_linkTextHasUnderline = TorF;
 }

@@ -373,7 +373,6 @@
 		872996880832561E00CBD740 /* CMRThreadVisibleRange.h in Headers */ = {isa = PBXBuildFile; fileRef = 8729967C0832561E00CBD740 /* CMRThreadVisibleRange.h */; };
 		872996890832561E00CBD740 /* CMRThreadVisibleRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 8729967D0832561E00CBD740 /* CMRThreadVisibleRange.m */; };
 		8729971A08325E2500CBD740 /* CMXPopUpOwner.h in Headers */ = {isa = PBXBuildFile; fileRef = 8729971208325E2500CBD740 /* CMXPopUpOwner.h */; };
-		8729971C08325E2500CBD740 /* CMXPopUpWindowController+View.m in Sources */ = {isa = PBXBuildFile; fileRef = 8729971408325E2500CBD740 /* CMXPopUpWindowController+View.m */; };
 		8729971D08325E2500CBD740 /* CMXPopUpWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8729971508325E2500CBD740 /* CMXPopUpWindowController.h */; };
 		8729971E08325E2500CBD740 /* CMXPopUpWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8729971608325E2500CBD740 /* CMXPopUpWindowController.m */; };
 		8729971F08325E2500CBD740 /* CMXPopUpWindowController_p.h in Headers */ = {isa = PBXBuildFile; fileRef = 8729971708325E2500CBD740 /* CMXPopUpWindowController_p.h */; };
@@ -531,6 +530,8 @@
 		87BB79210864401A00ED8757 /* RBSplitSubview.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB791F0864401A00ED8757 /* RBSplitSubview.h */; };
 		87BB87890B195B4E00472D3F /* BSIPIToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB87870B195B4E00472D3F /* BSIPIToken.h */; };
 		87BB878A0B195B4E00472D3F /* BSIPIToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BB87880B195B4E00472D3F /* BSIPIToken.m */; };
+		87BC003E0C5F3A5C00870646 /* CMXPopUpWindowController+View.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BC003D0C5F3A5B00870646 /* CMXPopUpWindowController+View.m */; };
+		87BC00420C5F3ABD00870646 /* CMRPopUpTemplateKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BC00410C5F3ABD00870646 /* CMRPopUpTemplateKeys.h */; };
 		87BD58E00AAC551100F6412D /* EditBoardSheetController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BD58DE0AAC551100F6412D /* EditBoardSheetController.h */; };
 		87BD58E10AAC551100F6412D /* EditBoardSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BD58DF0AAC551100F6412D /* EditBoardSheetController.m */; };
 		87BD58E90AAC58D700F6412D /* EditBoardSheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87BD58E70AAC58D700F6412D /* EditBoardSheet.nib */; };
@@ -963,7 +964,6 @@
 		F473635D0AFF8758009B6189 /* NSTableColumn+CMXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 872996540832556100CBD740 /* NSTableColumn+CMXAdditions.m */; };
 		F473635E0AFF8758009B6189 /* CMRThreadMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 872996730832561E00CBD740 /* CMRThreadMessage.m */; };
 		F473635F0AFF8758009B6189 /* CMRThreadVisibleRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 8729967D0832561E00CBD740 /* CMRThreadVisibleRange.m */; };
-		F47363600AFF8758009B6189 /* CMXPopUpWindowController+View.m in Sources */ = {isa = PBXBuildFile; fileRef = 8729971408325E2500CBD740 /* CMXPopUpWindowController+View.m */; };
 		F47363610AFF8758009B6189 /* CMXPopUpWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8729971608325E2500CBD740 /* CMXPopUpWindowController.m */; };
 		F47363620AFF8758009B6189 /* CMXPopUpWindowManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8729971908325E2500CBD740 /* CMXPopUpWindowManager.m */; };
 		F47363630AFF8758009B6189 /* BSScriptsMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F49CCDF40849B87500835BE3 /* BSScriptsMenuManager.m */; };
@@ -1303,7 +1303,6 @@
 		8729970208325B3E00CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = subproj/reply/Japanese.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
 		8729970C08325BBB00CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8729971208325E2500CBD740 /* CMXPopUpOwner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMXPopUpOwner.h; sourceTree = "<group>"; };
-		8729971408325E2500CBD740 /* CMXPopUpWindowController+View.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMXPopUpWindowController+View.m"; sourceTree = "<group>"; };
 		8729971508325E2500CBD740 /* CMXPopUpWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMXPopUpWindowController.h; sourceTree = "<group>"; };
 		8729971608325E2500CBD740 /* CMXPopUpWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMXPopUpWindowController.m; sourceTree = "<group>"; };
 		8729971708325E2500CBD740 /* CMXPopUpWindowController_p.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMXPopUpWindowController_p.h; sourceTree = "<group>"; };
@@ -1464,6 +1463,8 @@
 		87BB791F0864401A00ED8757 /* RBSplitSubview.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RBSplitSubview.h; path = ../RBSplitSubview.h; sourceTree = "<group>"; };
 		87BB87870B195B4E00472D3F /* BSIPIToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIToken.h; sourceTree = "<group>"; };
 		87BB87880B195B4E00472D3F /* BSIPIToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIToken.m; sourceTree = "<group>"; };
+		87BC003D0C5F3A5B00870646 /* CMXPopUpWindowController+View.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMXPopUpWindowController+View.m"; sourceTree = "<group>"; };
+		87BC00410C5F3ABD00870646 /* CMRPopUpTemplateKeys.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = CMRPopUpTemplateKeys.h; path = source/view/CMRPopUpTemplateKeys.h; sourceTree = SOURCE_ROOT; };
 		87BD58DE0AAC551100F6412D /* EditBoardSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditBoardSheetController.h; sourceTree = "<group>"; };
 		87BD58DF0AAC551100F6412D /* EditBoardSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditBoardSheetController.m; sourceTree = "<group>"; };
 		87BD58E80AAC58D700F6412D /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/EditBoardSheet.nib; sourceTree = "<group>"; };
@@ -1710,7 +1711,7 @@
 		F324DDBB04C698FB00A80005 /* ThreadsListTable.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = ThreadsListTable.h; sourceTree = "<group>"; };
 		F324DDBC04C698FB00A80005 /* ThreadsListTable.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = ThreadsListTable.m; sourceTree = "<group>"; };
 		F324DDC204C698FB00A80005 /* CMRBrowserTbDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRBrowserTbDelegate.h; sourceTree = "<group>"; };
-		F324DDC304C698FB00A80005 /* CMRBrowserTbDelegate.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRBrowserTbDelegate.m; sourceTree = "<group>"; };
+		F324DDC304C698FB00A80005 /* CMRBrowserTbDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRBrowserTbDelegate.m; sourceTree = "<group>"; };
 		F324DDC904C698FB00A80005 /* CMRReplyController-ViewAccessor.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "CMRReplyController-ViewAccessor.m"; sourceTree = "<group>"; };
 		F324DDCA04C698FB00A80005 /* CMRReplyController.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRReplyController.h; sourceTree = "<group>"; };
 		F324DDCB04C698FB00A80005 /* CMRReplyController.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRReplyController.m; sourceTree = "<group>"; };
@@ -2131,8 +2132,9 @@
 		8729971108325E2500CBD740 /* popup */ = {
 			isa = PBXGroup;
 			children = (
+				87BC00410C5F3ABD00870646 /* CMRPopUpTemplateKeys.h */,
+				87BC003D0C5F3A5B00870646 /* CMXPopUpWindowController+View.m */,
 				8729971208325E2500CBD740 /* CMXPopUpOwner.h */,
-				8729971408325E2500CBD740 /* CMXPopUpWindowController+View.m */,
 				8729971508325E2500CBD740 /* CMXPopUpWindowController.h */,
 				8729971608325E2500CBD740 /* CMXPopUpWindowController.m */,
 				8729971708325E2500CBD740 /* CMXPopUpWindowController_p.h */,
@@ -3797,6 +3799,7 @@
 				87D32F230BAC1C6D002B6006 /* BSSearchOptions.h in Headers */,
 				F4EFF93C0BB672D800DF90C6 /* BSThreadListItem.h in Headers */,
 				878B4DBF0BB8D74E00829D2B /* BSNobiNobiToolbarItem.h in Headers */,
+				87BC00420C5F3ABD00870646 /* CMRPopUpTemplateKeys.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4428,7 +4431,6 @@
 				872996600832556200CBD740 /* NSTableColumn+CMXAdditions.m in Sources */,
 				8729967F0832561E00CBD740 /* CMRThreadMessage.m in Sources */,
 				872996890832561E00CBD740 /* CMRThreadVisibleRange.m in Sources */,
-				8729971C08325E2500CBD740 /* CMXPopUpWindowController+View.m in Sources */,
 				8729971E08325E2500CBD740 /* CMXPopUpWindowController.m in Sources */,
 				8729972108325E2500CBD740 /* CMXPopUpWindowManager.m in Sources */,
 				F49CCDF60849B87500835BE3 /* BSScriptsMenuManager.m in Sources */,
@@ -4679,7 +4681,6 @@
 				F473635D0AFF8758009B6189 /* NSTableColumn+CMXAdditions.m in Sources */,
 				F473635E0AFF8758009B6189 /* CMRThreadMessage.m in Sources */,
 				F473635F0AFF8758009B6189 /* CMRThreadVisibleRange.m in Sources */,
-				F47363600AFF8758009B6189 /* CMXPopUpWindowController+View.m in Sources */,
 				F47363610AFF8758009B6189 /* CMXPopUpWindowController.m in Sources */,
 				F47363620AFF8758009B6189 /* CMXPopUpWindowManager.m in Sources */,
 				F47363630AFF8758009B6189 /* BSScriptsMenuManager.m in Sources */,
@@ -4742,6 +4743,7 @@
 				878B4DC00BB8D74E00829D2B /* BSNobiNobiToolbarItem.m in Sources */,
 				879653F10BCE48BE0079EDFE /* AppDefaults-FCConvert.m in Sources */,
 				F440D7330C315929000458FF /* DatabaseManager-Notifications.m in Sources */,
+				87BC003E0C5F3A5C00870646 /* CMXPopUpWindowController+View.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

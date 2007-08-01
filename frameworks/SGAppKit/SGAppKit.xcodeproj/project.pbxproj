@@ -95,6 +95,8 @@
 		878041E00A52813D00979D68 /* BSLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 878041DE0A52813D00979D68 /* BSLayoutManager.m */; };
 		879A36C60B62EF5800C58316 /* NSEvent-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 879A36C40B62EF5800C58316 /* NSEvent-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		879A36C70B62EF5800C58316 /* NSEvent-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 879A36C50B62EF5800C58316 /* NSEvent-SGExtensions.m */; };
+		87BD0BC30C5C5A87001C6697 /* BSPopUpTitlebar.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BD0BC10C5C5A87001C6697 /* BSPopUpTitlebar.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87BD0BC40C5C5A87001C6697 /* BSPopUpTitlebar.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BD0BC20C5C5A87001C6697 /* BSPopUpTitlebar.m */; };
 		87D29C3609913620007D26B4 /* BSBoardListView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D29C3209913620007D26B4 /* BSBoardListView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87D29C3709913620007D26B4 /* BSBoardListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D29C3309913620007D26B4 /* BSBoardListView.m */; };
 		87D29C3809913620007D26B4 /* BSIconAndTextCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D29C3409913620007D26B4 /* BSIconAndTextCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -189,7 +191,7 @@
 		870904760A43DF9F00636062 /* BSWindow.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = BSWindow.h; path = bathyscaphe/BSWindow.h; sourceTree = "<group>"; };
 		870904770A43DF9F00636062 /* BSWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSWindow.m; path = bathyscaphe/BSWindow.m; sourceTree = "<group>"; };
 		8709047A0A43DFB000636062 /* BSSegmentedControlTbItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSSegmentedControlTbItem.h; path = bathyscaphe/BSSegmentedControlTbItem.h; sourceTree = "<group>"; };
-		8709047B0A43DFB000636062 /* BSSegmentedControlTbItem.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; name = BSSegmentedControlTbItem.m; path = bathyscaphe/BSSegmentedControlTbItem.m; sourceTree = "<group>"; };
+		8709047B0A43DFB000636062 /* BSSegmentedControlTbItem.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; name = BSSegmentedControlTbItem.m; path = bathyscaphe/BSSegmentedControlTbItem.m; sourceTree = "<group>"; };
 		8709047E0A43DFBC00636062 /* IndexField.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = IndexField.h; path = indexfield/IndexField.h; sourceTree = "<group>"; };
 		8709047F0A43DFBC00636062 /* IndexField.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; name = IndexField.m; path = indexfield/IndexField.m; sourceTree = "<group>"; };
 		8716080B098AA7F900A27F63 /* BSKFSplitView.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = BSKFSplitView.h; path = ../BSKFSplitView.h; sourceTree = "<group>"; };
@@ -212,6 +214,8 @@
 		878041DE0A52813D00979D68 /* BSLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; name = BSLayoutManager.m; path = bathyscaphe/BSLayoutManager.m; sourceTree = "<group>"; };
 		879A36C40B62EF5800C58316 /* NSEvent-SGExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSEvent-SGExtensions.h"; sourceTree = "<group>"; };
 		879A36C50B62EF5800C58316 /* NSEvent-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSEvent-SGExtensions.m"; sourceTree = "<group>"; };
+		87BD0BC10C5C5A87001C6697 /* BSPopUpTitlebar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSPopUpTitlebar.h; path = bathyscaphe/BSPopUpTitlebar.h; sourceTree = "<group>"; };
+		87BD0BC20C5C5A87001C6697 /* BSPopUpTitlebar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSPopUpTitlebar.m; path = bathyscaphe/BSPopUpTitlebar.m; sourceTree = "<group>"; };
 		87D29C3209913620007D26B4 /* BSBoardListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSBoardListView.h; path = bathyscaphe/BSBoardListView.h; sourceTree = "<group>"; };
 		87D29C3309913620007D26B4 /* BSBoardListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSBoardListView.m; path = bathyscaphe/BSBoardListView.m; sourceTree = "<group>"; };
 		87D29C3409913620007D26B4 /* BSIconAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSIconAndTextCell.h; path = bathyscaphe/BSIconAndTextCell.h; sourceTree = "<group>"; };
@@ -532,6 +536,8 @@
 		F57BBEE00377FA7001A80002 /* custom */ = {
 			isa = PBXGroup;
 			children = (
+				87BD0BC10C5C5A87001C6697 /* BSPopUpTitlebar.h */,
+				87BD0BC20C5C5A87001C6697 /* BSPopUpTitlebar.m */,
 				8734B3DA0B919231002AACF5 /* NSBezierPath_AMShading.h */,
 				8734B3DB0B919231002AACF5 /* NSBezierPath_AMShading.m */,
 				876887BC0B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.h */,
@@ -779,6 +785,7 @@
 				879A36C60B62EF5800C58316 /* NSEvent-SGExtensions.h in Headers */,
 				8734B3DC0B919232002AACF5 /* NSBezierPath_AMShading.h in Headers */,
 				87170A1D0BA3E93200AF2E65 /* NSWindow-SGExtensions.h in Headers */,
+				87BD0BC30C5C5A87001C6697 /* BSPopUpTitlebar.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -913,6 +920,7 @@
 				879A36C70B62EF5800C58316 /* NSEvent-SGExtensions.m in Sources */,
 				8734B3DD0B919232002AACF5 /* NSBezierPath_AMShading.m in Sources */,
 				87170A1E0BA3E93300AF2E65 /* NSWindow-SGExtensions.m in Sources */,
+				87BD0BC40C5C5A87001C6697 /* BSPopUpTitlebar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
