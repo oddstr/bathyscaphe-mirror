@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMessageFilter.m,v 1.8 2007/01/07 17:04:23 masakih Exp $
+  * $Id: CMRMessageFilter.m,v 1.9 2007/08/05 12:25:26 tsawada2 Exp $
   * 
   * CMRMessageFilter.m
   *
@@ -19,12 +19,12 @@
 static int detectMessageAny_(
 				CMRMessageSample *s,
 				CMRThreadMessage *m,
-				CMRThreadSignature *t, NSSet *noNamesSet);
+				CMRThreadSignature *t, NSArray *noNamesArray);//NSSet *noNamesSet);
 static int doDetectMessageAny_(
 				CMRThreadMessage	*m1,	// sample
 				CMRThreadSignature	*t1,	// sample
 				CMRThreadMessage	*m2,	// target
-				CMRThreadSignature	*t2, NSSet *noNamesSet);	// target
+				CMRThreadSignature	*t2, NSArray *noNamesArray);//NSSet *noNamesSet);	// target
 // 設定されていないID や よくある名前等は比較対象にしない
 static BOOL checkMailIsNonSignificant_(NSString *mail);
 static BOOL checkNameIsNonSignificant_(NSString *name);
@@ -48,6 +48,7 @@ static BOOL checkNameHasResLink_(NSString *name);
 	
 	return _samples;
 }
+
 - (NSArray *) sampleArray
 {
 	return [self samples];
@@ -62,7 +63,7 @@ static BOOL checkNameHasResLink_(NSString *name);
 	[_samples release];
 	[_corpus release];
 	[_table release];
-	[_noNameSet release];
+	[m_noNameArray release];
 	[super dealloc];
 }
 
@@ -127,6 +128,7 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	
 	compacted_ = [NSMutableArray array];
 	iter_ = [[self sampleArray] objectEnumerator];
+
 	while (item_ = [iter_ nextObject]) {
 		if ([compacted_ containsObject : item_]) {
 			// 重複する要素
@@ -192,16 +194,16 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	[tmp release];
 }
 
-- (NSSet *) noNameSetAtWorkingBoard
+- (NSArray *)noNameArrayAtWorkingBoard
 {
-	return _noNameSet;
+	return m_noNameArray;
 }
-- (void) setNoNameSetAtWorkingBoard: (NSSet *) aSet
+
+- (void)setNoNameArrayAtWorkingBoard:(NSArray *)anArray
 {
-	[aSet retain];
-	[_noNameSet release];
-	
-	_noNameSet = aSet;
+	[anArray retain];
+	[m_noNameArray release];
+	m_noNameArray = anArray;
 }
 
 - (BOOL) nanashiAllowedAtWorkingBoard
@@ -287,12 +289,10 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 - (void) removeSample : (CMRThreadMessage   *) aMessage
 			     with : (CMRThreadSignature *) aThread
 {
-
 	SGBaseCArrayWrapper	*mArray = [self samples];
 	CMRMessageSample	*mSample;
-	NSSet				*mSet = [self noNameSetAtWorkingBoard];
+	NSArray				*mSet = [self noNameArrayAtWorkingBoard];
 	int					i;
-	
 	// 一致するものをすべて取り除く
 	for (i = [mArray count] -1; i >= 0; i--) {
 		mSample = SGBaseCArrayWrapperObjectAtIndex(mArray, i);
@@ -334,23 +334,20 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 		
 		// 名前
 		field = [aMessage name];
-		if (NO == checkNameIsNonSignificant_(field)) {
-			NSSet *nnSet = [self noNameSetAtWorkingBoard];
-
-			if (NO == [nnSet containsObject: field])
-				[tmp appendString : field];
+		if (!checkNameIsNonSignificant_(field)) {
+			NSArray *nnArray = [self noNameArrayAtWorkingBoard];
+			if (![nnArray containsObject:field]) [tmp appendString:field];
 		}
 		
 		// メール
 		field = [aMessage mail];
-		if (NO == checkMailIsNonSignificant_(field))
+		if (!checkMailIsNonSignificant_(field))
 			[tmp appendString : field];
 		
 		// 本文
 		field = [aMessage messageSource];
 		[tmp appendString : field];
 		
-		field = [aMessage name];
 		[CMXTextParser convertMessageSourceToCachedMessage : tmp];
 		
 		contents_ = tmp;
@@ -370,8 +367,9 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 			      with : (CMRThreadSignature *) aThread
 {
 	SGBaseCArrayWrapper	*sampleArray = [self samples];
+
 	NSDictionary		*cacheDict = [self samplesTable];
-	NSSet				*set_ = [self noNameSetAtWorkingBoard];
+	NSArray	*array_ = [self noNameArrayAtWorkingBoard];
 	CMRMessageSample	*sample;
 	int					i, cnt;
 	id cache[4];
@@ -389,7 +387,7 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	for (i = 0, cnt = UTILNumberOfCArray(cache); i < cnt; i++) {
 		sample = [cacheDict objectForKey : cache[i]];
 		if (sample != nil) {
-			if (detectMessageAny_(sample, aMessage, aThread, set_)) {
+			if (detectMessageAny_(sample, aMessage, aThread, array_)) {//set_)) {
 				return YES;
 			}
 		}
@@ -398,10 +396,10 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 
 	for (i = 0, cnt = [sampleArray count]; i < cnt; i++) {
 		sample = SGBaseCArrayWrapperObjectAtIndex(sampleArray, i);
-		if (detectMessageAny_(sample, aMessage, aThread, set_))
+		if (detectMessageAny_(sample, aMessage, aThread, array_))//set_))
 			return YES;
 	}
-	
+
 	// 語句集合と比較
 	if ([self detectMessageUsingCorpus:aMessage with:aThread])
 		return YES;
@@ -447,8 +445,7 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	/* ID */
 	tmpString = [m IDString];
 
-	if ((tmpString == nil) || checkIDIsNonSignificant_([tmpString stringByStriped]))
-	{
+	if (!tmpString || checkIDIsNonSignificant_([tmpString stringByStriped])) {
 	   // ID がないか、重要でない。ID を無視。
 		sign &= ~kSampleAsIDMask; 
 	} else {
@@ -459,7 +456,7 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	/* Host */
 	tmpString = [m host];
 	s = [tmpString stringByStriped];
-	if ([s length] != 0) {
+	if ([s length] > 0) {
 		// Host で登録
 		sign |= kSampleAsHostMask; 
 		[table setObject:sample forKey:tmpString];
@@ -470,9 +467,9 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	tmpString = [m name];
 	s = [tmpString stringByReplaceEntityReference];
 
-    if (s == nil) sign &= ~kSampleAsNameMask;
+    if (!s) sign &= ~kSampleAsNameMask;
 
-	if (NO == [self nanashiAllowedAtWorkingBoard] || [[self noNameSetAtWorkingBoard] containsObject: s]) {
+	if (![self nanashiAllowedAtWorkingBoard] || [[self noNameArrayAtWorkingBoard] containsObject:s]) {
     	// 板の名無しと同じ名前。または板の名無しと同じ名前ではないが、この板では名前欄必須。無視。
 	    sign &= ~kSampleAsNameMask;
 	} else {
@@ -493,7 +490,7 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 				if (0 == ([tmp_m property] & kSampleAsThreadLocalMask)) {
 					sign |= kSampleAsThreadLocalMask;
 				}
-			} else if (threadIdentifier != nil){
+			} else if (threadIdentifier) {
 				// スレッド で登録
 				[table setObject:sample forKey:threadIdentifier];
 			}
@@ -537,9 +534,9 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 			// 名前もIDも使えない場合のみ
 			// メール欄の文字列で検証
 			s = [[[m mail] stringByReplaceEntityReference] stringByStriped];
-			if (NO == checkMailIsNonSignificant_(s)) {
+			if (!checkMailIsNonSignificant_(s)) {
 				sign |= kSampleAsMailMask;
-			} else {
+//			} else {
 				// ID、名前、メール欄、いずれでも区別できない
 			}
 		}
@@ -551,14 +548,11 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 
 #pragma mark Static Funcs
 
-static int detectMessageAny_(
-				CMRMessageSample *s,
-				CMRThreadMessage *m,
-				CMRThreadSignature *t, NSSet *noNamesSet)
+static int detectMessageAny_(CMRMessageSample *s, CMRThreadMessage *m, CMRThreadSignature *t, NSArray *noNamesArray)
 {
 	int		match;
 	
-	match = doDetectMessageAny_([s message], [s threadIdentifier], m, t, noNamesSet);
+	match = doDetectMessageAny_([s message], [s threadIdentifier], m, t, noNamesArray);
 	if (match != 0) { 
 		UTIL_DEBUG_WRITE2(@"detectMessage:%u match=%d", [m index], match);
 		[s incrementMatchedCount];
@@ -570,7 +564,7 @@ static int doDetectMessageAny_(
 				CMRThreadSignature	*t1,	// sample
 				CMRThreadMessage	*m2,	// target
 				CMRThreadSignature	*t2,	// target
-				NSSet	*noNamesSet)
+				NSArray *noNamesArray)
 {
 	BOOL				Eq_b, Eq_t;
 	unsigned			mask = [m1 property];
@@ -582,7 +576,7 @@ static int doDetectMessageAny_(
 	Eq_t = [t1 isEqual : t2];
 	Eq_b = (NO == Eq_t) ? [b1 isEqualToString : b2] : YES;
 
-	if (b1 == b2 || Eq_b) { // 同一板、ID または Host の一致をチェック（同一板でないなら ID、Host は見る可能性がない）（スレ限定名前も）
+	if (Eq_b) { // 同一板、ID または Host の一致をチェック（同一板でないなら ID、Host は見る可能性がない）（スレ限定名前も）
 		if (kSampleAsIDMask & mask) {
 			s1 = [m1 IDString];
 			s2 = [m2 IDString];
@@ -606,7 +600,7 @@ static int doDetectMessageAny_(
 	
 		// 名前（スレッド限定）// 当然、同一板
 		if (kSampleAsThreadLocalMask & mask) { 
-			if (t1 == t2 || Eq_t) {
+			if (Eq_t) {
 				s1 = [m1 name];
 				s2 = [m2 name];
 				
@@ -620,7 +614,8 @@ static int doDetectMessageAny_(
 	// 名前
 	if (kSampleAsNameMask & mask) { 
 		s2 = [m2 name];
-		if (NO == [noNamesSet containsObject: s2]) {
+//		if (NO == [noNamesSet containsObject: s2]) {
+		if (![noNamesArray containsObject:s2]) {
 			if ([[m1 name] isEqualToString : s2]) {
 				return kSampleAsNameMask;
 			}

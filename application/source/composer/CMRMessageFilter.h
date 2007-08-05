@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMessageFilter.h,v 1.3 2007/01/07 17:04:23 masakih Exp $
+  * $Id: CMRMessageFilter.h,v 1.4 2007/08/05 12:25:26 tsawada2 Exp $
   * 
   * CMRMessageFilter.h
   *
@@ -11,8 +11,6 @@
 #import <CocoMonar/CocoMonar.h>
 #import "CMRMessageSample.h"
 
-//@class CMRThreadMessage;
-//@class CMRThreadSignature;
 @class SGBaseCArrayWrapper;
 
 @interface CMRMessageDetecter : NSObject
@@ -26,7 +24,7 @@
 	NSMutableDictionary		*_table;	/* key: name or ID */
 	SGBaseCArrayWrapper		*_samples;
 	NSArray					*_corpus;
-	NSSet					*_noNameSet;
+	NSArray					*m_noNameArray;
 	BOOL					_nanashiAllowed;
 }
 - (id) initWithDictionaryRepresentation : (NSDictionary *) aDictionary;
@@ -39,8 +37,8 @@
 - (void) setCorpus : (NSArray *) aCorpus;
 
 // MeteorSweeper Additions
-- (NSSet *) noNameSetAtWorkingBoard;
-- (void) setNoNameSetAtWorkingBoard: (NSSet *) aSet;
+- (NSArray *)noNameArrayAtWorkingBoard;
+- (void)setNoNameArrayAtWorkingBoard:(NSArray *)anArray;
 
 // ReinforceII Additions
 - (BOOL) nanashiAllowedAtWorkingBoard;

@@ -22,7 +22,7 @@
 - (NSString *) addFavoritesItemIdentifier;
 - (NSString *) deleteItemIdentifier;
 - (NSString *) toggleOnlineModeIdentifier;
-- (NSString *) launchCMLFIdentifier;
+//- (NSString *) launchCMLFIdentifier;
 // Available in BathyScaphe 1.0.2 and later.
 - (NSString *) stopTaskIdentifier;
 // Available in SledgeHammer and later.

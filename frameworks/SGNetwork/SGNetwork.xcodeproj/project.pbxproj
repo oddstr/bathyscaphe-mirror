@@ -7,34 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		87328D580C65F45B00292593 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F516C8F202321F0D01DCB281 /* Foundation.framework */; };
+		87328D5A0C65F50A00292593 /* UTILAssertion.h in Headers */ = {isa = PBXBuildFile; fileRef = F36940E105E7815900A31B61 /* UTILAssertion.h */; };
+		87328D5B0C65F50B00292593 /* UTILDebugging.h in Headers */ = {isa = PBXBuildFile; fileRef = F36940E205E7815900A31B61 /* UTILDebugging.h */; };
+		87328D5C0C65F50C00292593 /* UTILDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = F36940E305E7815900A31B61 /* UTILDescription.h */; };
+		87328D5D0C65F50D00292593 /* UTILError.h in Headers */ = {isa = PBXBuildFile; fileRef = F36940E405E7815900A31B61 /* UTILError.h */; };
+		87328D5E0C65F50E00292593 /* UTILKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F36940E505E7815900A31B61 /* UTILKit.h */; };
 		875D977C0A89FFC40061C86D /* BSIPIDownload.h in Headers */ = {isa = PBXBuildFile; fileRef = 875D977A0A89FFC40061C86D /* BSIPIDownload.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		875D977D0A89FFC40061C86D /* BSIPIDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 875D977B0A89FFC40061C86D /* BSIPIDownload.m */; };
-		87F56FEC086E4C09002A18AD /* FrameworkDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = F39243050435FC1B00A80005 /* FrameworkDefines.h */; settings = {ATTRIBUTES = (); }; };
 		87F56FF0086E4C09002A18AD /* SGNetwork.h in Headers */ = {isa = PBXBuildFile; fileRef = F392430E0435FC1B00A80005 /* SGNetwork.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87F56FF1086E4C09002A18AD /* SGHTTPDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = F39243100435FC1B00A80005 /* SGHTTPDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		87F56FF3086E4C09002A18AD /* UTILAssertion.h in Headers */ = {isa = PBXBuildFile; fileRef = F36940E105E7815900A31B61 /* UTILAssertion.h */; };
-		87F56FF4086E4C09002A18AD /* UTILDebugging.h in Headers */ = {isa = PBXBuildFile; fileRef = F36940E205E7815900A31B61 /* UTILDebugging.h */; };
-		87F56FF5086E4C09002A18AD /* UTILDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = F36940E305E7815900A31B61 /* UTILDescription.h */; };
-		87F56FF6086E4C09002A18AD /* UTILError.h in Headers */ = {isa = PBXBuildFile; fileRef = F36940E405E7815900A31B61 /* UTILError.h */; };
-		87F56FF7086E4C09002A18AD /* UTILKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F36940E505E7815900A31B61 /* UTILKit.h */; };
-		87F56FF8086E4C09002A18AD /* Utk.h in Headers */ = {isa = PBXBuildFile; fileRef = 87299B870832641600CBD740 /* Utk.h */; };
-		87F56FF9086E4C09002A18AD /* UtkAssertion.h in Headers */ = {isa = PBXBuildFile; fileRef = 87299B880832641600CBD740 /* UtkAssertion.h */; };
-		87F56FFA086E4C09002A18AD /* UtkDebugging.h in Headers */ = {isa = PBXBuildFile; fileRef = 87299B890832641600CBD740 /* UtkDebugging.h */; };
-		87F56FFB086E4C09002A18AD /* UtkDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 87299B8A0832641600CBD740 /* UtkDescription.h */; };
-		87F56FFC086E4C09002A18AD /* UtkError.h in Headers */ = {isa = PBXBuildFile; fileRef = 87299B8B0832641600CBD740 /* UtkError.h */; };
 		87F56FFE086E4C09002A18AD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		87F57004086E4C09002A18AD /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F39243060435FC1B00A80005 /* main.c */; };
-		87F5700C086E4C09002A18AD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F516C8F70232206E01DCB281 /* Cocoa.framework */; };
 		87F5700D086E4C09002A18AD /* SGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3DB3AAA043776DD00A80005 /* SGFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		87299B870832641600CBD740 /* Utk.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Utk.h; sourceTree = "<group>"; };
-		87299B880832641600CBD740 /* UtkAssertion.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UtkAssertion.h; sourceTree = "<group>"; };
-		87299B890832641600CBD740 /* UtkDebugging.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UtkDebugging.h; sourceTree = "<group>"; };
-		87299B8A0832641600CBD740 /* UtkDescription.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UtkDescription.h; sourceTree = "<group>"; };
-		87299B8B0832641600CBD740 /* UtkError.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UtkError.h; sourceTree = "<group>"; };
 		875D977A0A89FFC40061C86D /* BSIPIDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSIPIDownload.h; path = ../../application/subproj/previewer/BSIPIDownload.h; sourceTree = SOURCE_ROOT; };
 		875D977B0A89FFC40061C86D /* BSIPIDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSIPIDownload.m; path = ../../application/subproj/previewer/BSIPIDownload.m; sourceTree = SOURCE_ROOT; };
 		87F57013086E4C09002A18AD /* Info-SGNetwork.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-SGNetwork.plist"; sourceTree = "<group>"; };
@@ -45,26 +34,10 @@
 		F36940E305E7815900A31B61 /* UTILDescription.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = UTILDescription.h; sourceTree = "<group>"; };
 		F36940E405E7815900A31B61 /* UTILError.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = UTILError.h; sourceTree = "<group>"; };
 		F36940E505E7815900A31B61 /* UTILKit.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = UTILKit.h; sourceTree = "<group>"; };
-		F39242FB0435FC1B00A80005 /* SGHTTPConnector.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SGHTTPConnector.h; sourceTree = "<group>"; };
-		F39242FC0435FC1B00A80005 /* SGHTTPConnector.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SGHTTPConnector.m; sourceTree = "<group>"; };
-		F39242FE0435FC1B00A80005 /* SGHTTPSecureSocket.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SGHTTPSecureSocket.h; sourceTree = "<group>"; };
-		F39242FF0435FC1B00A80005 /* SGHTTPSecureSocket.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SGHTTPSecureSocket.m; sourceTree = "<group>"; };
-		F39243000435FC1B00A80005 /* SGHTTPSocketHandle.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SGHTTPSocketHandle.h; sourceTree = "<group>"; };
-		F39243010435FC1B00A80005 /* SGHTTPSocketHandle.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SGHTTPSocketHandle.m; sourceTree = "<group>"; };
-		F39243020435FC1B00A80005 /* SGHTTPStream.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SGHTTPStream.h; sourceTree = "<group>"; };
-		F39243030435FC1B00A80005 /* SGHTTPStream.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SGHTTPStream.m; sourceTree = "<group>"; };
 		F39243050435FC1B00A80005 /* FrameworkDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = FrameworkDefines.h; sourceTree = "<group>"; };
 		F39243060435FC1B00A80005 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; path = main.c; sourceTree = "<group>"; };
-		F39243080435FC1B00A80005 /* SGHTTPMessage.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SGHTTPMessage.h; sourceTree = "<group>"; };
-		F39243090435FC1B00A80005 /* SGHTTPMessage.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SGHTTPMessage.m; sourceTree = "<group>"; };
-		F392430A0435FC1B00A80005 /* SGHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SGHTTPRequest.h; sourceTree = "<group>"; };
-		F392430B0435FC1B00A80005 /* SGHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SGHTTPRequest.m; sourceTree = "<group>"; };
-		F392430C0435FC1B00A80005 /* SGHTTPResponse.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SGHTTPResponse.h; sourceTree = "<group>"; };
-		F392430D0435FC1B00A80005 /* SGHTTPResponse.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SGHTTPResponse.m; sourceTree = "<group>"; };
 		F392430E0435FC1B00A80005 /* SGNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SGNetwork.h; sourceTree = "<group>"; };
 		F39243100435FC1B00A80005 /* SGHTTPDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SGHTTPDefines.h; sourceTree = "<group>"; };
-		F39243140435FC1B00A80005 /* SGHTTPSocketUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SGHTTPSocketUtilities.h; sourceTree = "<group>"; };
-		F39243150435FC1B00A80005 /* SGHTTPSocketUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SGHTTPSocketUtilities.m; sourceTree = "<group>"; };
 		F3DB3AAA043776DD00A80005 /* SGFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SGFoundation.framework; path = ../SGFoundation/build/Deployment/SGFoundation.framework; sourceTree = "<group>"; };
 		F516C8F202321F0D01DCB281 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		F516C8F70232206E01DCB281 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
@@ -84,8 +57,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				87F5700C086E4C09002A18AD /* Cocoa.framework in Frameworks */,
 				87F5700D086E4C09002A18AD /* SGFoundation.framework in Frameworks */,
+				87328D580C65F45B00292593 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,11 +129,6 @@
 		87299B860832641600CBD740 /* utk */ = {
 			isa = PBXGroup;
 			children = (
-				87299B870832641600CBD740 /* Utk.h */,
-				87299B880832641600CBD740 /* UtkAssertion.h */,
-				87299B890832641600CBD740 /* UtkDebugging.h */,
-				87299B8A0832641600CBD740 /* UtkDescription.h */,
-				87299B8B0832641600CBD740 /* UtkError.h */,
 			);
 			path = utk;
 			sourceTree = "<group>";
@@ -205,14 +173,6 @@
 		F39242FA0435FC1B00A80005 /* connector */ = {
 			isa = PBXGroup;
 			children = (
-				F39242FB0435FC1B00A80005 /* SGHTTPConnector.h */,
-				F39242FC0435FC1B00A80005 /* SGHTTPConnector.m */,
-				F39243020435FC1B00A80005 /* SGHTTPStream.h */,
-				F39243030435FC1B00A80005 /* SGHTTPStream.m */,
-				F39243000435FC1B00A80005 /* SGHTTPSocketHandle.h */,
-				F39243010435FC1B00A80005 /* SGHTTPSocketHandle.m */,
-				F39242FE0435FC1B00A80005 /* SGHTTPSecureSocket.h */,
-				F39242FF0435FC1B00A80005 /* SGHTTPSecureSocket.m */,
 			);
 			path = connector;
 			sourceTree = "<group>";
@@ -220,12 +180,6 @@
 		F39243070435FC1B00A80005 /* message */ = {
 			isa = PBXGroup;
 			children = (
-				F39243080435FC1B00A80005 /* SGHTTPMessage.h */,
-				F39243090435FC1B00A80005 /* SGHTTPMessage.m */,
-				F392430A0435FC1B00A80005 /* SGHTTPRequest.h */,
-				F392430B0435FC1B00A80005 /* SGHTTPRequest.m */,
-				F392430C0435FC1B00A80005 /* SGHTTPResponse.h */,
-				F392430D0435FC1B00A80005 /* SGHTTPResponse.m */,
 			);
 			path = message;
 			sourceTree = "<group>";
@@ -234,8 +188,6 @@
 			isa = PBXGroup;
 			children = (
 				F39243100435FC1B00A80005 /* SGHTTPDefines.h */,
-				F39243140435FC1B00A80005 /* SGHTTPSocketUtilities.h */,
-				F39243150435FC1B00A80005 /* SGHTTPSocketUtilities.m */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -259,20 +211,14 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				87F56FEC086E4C09002A18AD /* FrameworkDefines.h in Headers */,
 				87F56FF0086E4C09002A18AD /* SGNetwork.h in Headers */,
 				87F56FF1086E4C09002A18AD /* SGHTTPDefines.h in Headers */,
-				87F56FF3086E4C09002A18AD /* UTILAssertion.h in Headers */,
-				87F56FF4086E4C09002A18AD /* UTILDebugging.h in Headers */,
-				87F56FF5086E4C09002A18AD /* UTILDescription.h in Headers */,
-				87F56FF6086E4C09002A18AD /* UTILError.h in Headers */,
-				87F56FF7086E4C09002A18AD /* UTILKit.h in Headers */,
-				87F56FF8086E4C09002A18AD /* Utk.h in Headers */,
-				87F56FF9086E4C09002A18AD /* UtkAssertion.h in Headers */,
-				87F56FFA086E4C09002A18AD /* UtkDebugging.h in Headers */,
-				87F56FFB086E4C09002A18AD /* UtkDescription.h in Headers */,
-				87F56FFC086E4C09002A18AD /* UtkError.h in Headers */,
 				875D977C0A89FFC40061C86D /* BSIPIDownload.h in Headers */,
+				87328D5A0C65F50A00292593 /* UTILAssertion.h in Headers */,
+				87328D5B0C65F50B00292593 /* UTILDebugging.h in Headers */,
+				87328D5C0C65F50C00292593 /* UTILDescription.h in Headers */,
+				87328D5D0C65F50D00292593 /* UTILError.h in Headers */,
+				87328D5E0C65F50E00292593 /* UTILKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,10 +325,6 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0x31840000,
-				);
 				PRODUCT_NAME = SGNetwork;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -412,10 +354,6 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0x31840000,
-				);
 				PRODUCT_NAME = SGNetwork;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -441,10 +379,6 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0x31840000,
-				);
 				PRODUCT_NAME = SGNetwork;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (

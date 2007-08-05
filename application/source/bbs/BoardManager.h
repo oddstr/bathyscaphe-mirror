@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.h,v 1.16 2007/04/16 09:21:25 tsawada2 Exp $
+ * $Id: BoardManager.h,v 1.17 2007/08/05 12:25:26 tsawada2 Exp $
  * 
  * BoardManager.h
  *
@@ -98,8 +98,10 @@ typedef enum _BSBeLoginPolicyType {
 
 /* –¼–³‚µ‚³‚ñ‚Ì–¼‘O */
 // Available in MeteorSweeper.
-- (NSSet *) defaultNoNameSetForBoard: (NSString *) boardName;
-- (void) setDefaultNoNameSet: (NSSet *) newSet forBoard: (NSString *) boardName;
+//- (NSSet *) defaultNoNameSetForBoard: (NSString *) boardName;
+- (NSArray*)defaultNoNameArrayForBoard:(NSString *)boardName;
+//- (void) setDefaultNoNameSet: (NSSet *) newSet forBoard: (NSString *) boardName;
+- (void)setDefaultNoNameArray:(NSArray *)array forBoard:(NSString *)boardName;
 - (void) addNoName: (NSString *) additionalNoName forBoard: (NSString *) boardName;
 - (void) removeNoName: (NSString *) removingNoName forBoard: (NSString *) boardName;
 - (void) exchangeNoName: (NSString *) oldName toNewValue: (NSString *) newName forBoard: (NSString *) boardName;

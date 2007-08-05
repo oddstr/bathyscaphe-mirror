@@ -1,3 +1,31 @@
+2007-08-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/composer/CMRMessageFilter.m
+	* application/source/composer/CMRSpamFilter.m
+	* application/source/bbs/BoardManager-BSAddition.m
+	* application/source/bbs/BoardManager.h
+	* application/source/bbs/BSBoardInfoInspector.m
+		迷惑レスフィルタ周りの修正：
+		- 以前は、「名無しさんのリスト」をNSSet でやり取りし、名前がデフォルト名無しかどうかを -[NSSet containsObject:] として比較してきたが、
+		　NSSet のリファレンスによるとこれとは別に -[NSSet member:] というものもある。どうも member: でチェックした方が良さそうだ。
+		　それはともかく、名無しさんのリストに含まれる要素数は高々数個であろうし、NSSet にするメリットはそれほどないと判断したので通常の NSArray で
+		　やり取りするように変更した。
+		- 迷惑レスフィルタ周りのぐちゃぐちゃした作りにはうんざりしてきた。もっとシンプルなシステムでも使用上は問題ない気がするので、考えてみよう…
+	* application/source/thread/CMRThreadViewer-OwnHistory.m
+	* application/source/browser/CMRBrowser-Validation.m
+		2007-07-27 の変更で、「ツールバー上の NSSegmentedControl は、そのツールバーが属しているウインドウが現在キーウインドウでないときは
+		適切に disabled になるようにした」が、こうするとツールバーの「クリックスルー」原則に反してしまう（キーウインドウでなくても、ツールバーの
+		ボタンやコントロールはクリックスルーできる）に反してしまうため、この変更を取りやめた。
+	* application/source/thread/CMRThreadDocument.m
+		dat 番号が正しく読み取れないログファイルを開こうとしたときの挙動を改善した。
+	* application/source/window/CMRBrowserTbDelegate.m
+	* application/source/window/CMRReplyControllerTbDelegate.m
+	* application/source/window/CMRThreadViewerTbDelegate.m
+	* application/source/window/CMRToolbarDelegateImp.m
+		ツールバーデリゲート周りの変更：
+		- 2007-07-27 の変更で追加した「スレッド一覧／ログ一覧の切り替え」ボタンをツールバーに追加できないようにした。
+		　（実際の機能が実装されるまでの暫定措置。混乱を防ぐため）
+		- CMRToolbarDelegateImp と、各サブクラス間での重複メソッド整理などの軽いリファクタリング。
+		- コーディングスタイルの統一と更新。
 2007-08-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/view/SGHTMLView-Link.m
 		ポップアップがウインドウが一つでも開いていると、テキスト・ビュー内での cursor rects の更新が

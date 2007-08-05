@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRSpamFilter.m,v 1.3 2007/01/07 17:04:23 masakih Exp $
+  * $Id: CMRSpamFilter.m,v 1.4 2007/08/05 12:25:26 tsawada2 Exp $
   * 
   * CMRSpamFilter.m
   *
@@ -179,25 +179,30 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 {
 }
 
-- (void) setNoNameSetAtBoardOfThread: (CMRThreadSignature *) aThread forDetecter: (CMRSamplingDetecter *) detecter
+//- (void) setNoNameSetAtBoardOfThread: (CMRThreadSignature *) aThread forDetecter: (CMRSamplingDetecter *) detecter
+- (void)setNoNameArrayAtBoardOfThread:(CMRThreadSignature *)aThread forDetecter:(CMRSamplingDetecter *)detecter
 {
 	BoardManager *bM_ = [BoardManager defaultManager];
 	NSString *boardName_ = [aThread BBSName];
-	[detecter setNoNameSetAtWorkingBoard: [bM_ defaultNoNameSetForBoard: boardName_]];
-	[detecter setNanashiAllowedAtWorkingBoard: [bM_ allowsNanashiAtBoard: boardName_]]; 
+//	[detecter setNoNameSetAtWorkingBoard: [bM_ defaultNoNameSetForBoard: boardName_]];
+//	[detecter setNanashiAllowedAtWorkingBoard: [bM_ allowsNanashiAtBoard: boardName_]];
+	[detecter setNoNameArrayAtWorkingBoard:[bM_ defaultNoNameArrayForBoard:boardName_]];
+	[detecter setNanashiAllowedAtWorkingBoard:[bM_ allowsNanashiAtBoard:boardName_]];
 }
 
 - (void) addSample : (CMRThreadMessage   *) aMessage
 			  with : (CMRThreadSignature *) aThread
 {
-	[self setNoNameSetAtBoardOfThread: aThread forDetecter: [self detecter]];
+//	[self setNoNameSetAtBoardOfThread: aThread forDetecter: [self detecter]];
+	[self setNoNameArrayAtBoardOfThread: aThread forDetecter: [self detecter]];
 	[[self detecter] addSample:aMessage with:aThread];
 	[self postDidChangeNotification];
 }
 - (void) removeSample : (CMRThreadMessage   *) aMessage
 			     with : (CMRThreadSignature *) aThread
 {
-	[self setNoNameSetAtBoardOfThread: aThread forDetecter: [self detecter]];
+//	[self setNoNameSetAtBoardOfThread: aThread forDetecter: [self detecter]];
+	[self setNoNameArrayAtBoardOfThread: aThread forDetecter: [self detecter]];
 	[[self detecter] removeSample:aMessage with:aThread];
 	[self postDidChangeNotification];
 }
@@ -224,7 +229,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	else
 		[detecter setCorpus : nil];
 
-	[self setNoNameSetAtBoardOfThread: aThread forDetecter: detecter];
+//	[self setNoNameSetAtBoardOfThread: aThread forDetecter: detecter];
+	[self setNoNameArrayAtBoardOfThread:aThread forDetecter:detecter];
 	
 	iter_ = [[aBuffer messages] objectEnumerator];
 	while (m = [iter_ nextObject]) {

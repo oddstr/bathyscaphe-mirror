@@ -10,7 +10,6 @@
 #import "CMRBrowserTbDelegate.h"
 #import "CMRToolbarDelegateImp_p.h"
 #import "CMRBrowser_p.h"
-#import <SGAppKit/BSSegmentedControlTbItem.h>
 #import "BSNobiNobiToolbarItem.h"
 
 // Reload Threads List
@@ -47,7 +46,7 @@ static NSString *const st_viewModeSwitcherItemToolTipKey = @"Toggle View Mode To
 static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 
 @implementation CMRBrowserTbDelegate
-- (NSString *) identifier
+- (NSString *)identifier
 {
 	return st_toolbar_identifier;
 }
@@ -65,20 +64,20 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 	wcontroller_ = (CMRBrowser*)[aWindow windowController];
 	UTILAssertNotNil(wcontroller_);
 
-	item_ = [self appendToolbarItemWithItemIdentifier : st_reloadListItemIdentifier
-									localizedLabelKey : st_reloadListItemLabelKey
-							 localizedPaletteLabelKey : st_reloadListItemPaletteLabelKey
-								  localizedToolTipKey : st_reloadListItemToolTipKey
-											   action : @selector(reloadThreadsList:)
-											   target : wcontroller_];
+	item_ = [self appendToolbarItemWithItemIdentifier:st_reloadListItemIdentifier
+									localizedLabelKey:st_reloadListItemLabelKey
+							 localizedPaletteLabelKey:st_reloadListItemPaletteLabelKey
+								  localizedToolTipKey:st_reloadListItemToolTipKey
+											   action:@selector(reloadThreadsList:)
+											   target:wcontroller_];
 	[item_ setImage:[NSImage imageAppNamed:st_reloadList_ImageName]];
 
-	item_ = [self appendToolbarItemWithItemIdentifier : st_searchThreadItemIdentifier
-									localizedLabelKey : st_searchThreadItemLabelKey
-							 localizedPaletteLabelKey : st_searchThreadItemPaletteLabelKey
-								  localizedToolTipKey : st_searchThreadItemToolTipKey
-											   action : NULL
-											   target : wcontroller_];
+	item_ = [self appendToolbarItemWithItemIdentifier:st_searchThreadItemIdentifier
+									localizedLabelKey:st_searchThreadItemLabelKey
+							 localizedPaletteLabelKey:st_searchThreadItemPaletteLabelKey
+								  localizedToolTipKey:st_searchThreadItemToolTipKey
+											   action:NULL
+											   target:wcontroller_];
 
 	[self setupSearchToolbarItem:item_ itemView:[wcontroller_ searchField]];
 
@@ -93,22 +92,22 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 	[self setupSwitcherToolbarItem:item_ itemView:[wcontroller_ viewModeSwitcher] windowStyle:[aWindow styleMask]];
 	[(BSSegmentedControlTbItem *)item_ setDelegate:wcontroller_];
 
-	item_ = [self appendToolbarItemWithClass : [BSNobiNobiToolbarItem class]
-							  itemIdentifier : st_NobiNobiItemIdentifier
-						   localizedLabelKey : @""
-					localizedPaletteLabelKey : st_NobiNobiPaletteLabelKey
-						 localizedToolTipKey : @""
-									  action : NULL
-									  target : nil];
+	item_ = [self appendToolbarItemWithClass:[BSNobiNobiToolbarItem class]
+							  itemIdentifier:st_NobiNobiItemIdentifier
+						   localizedLabelKey:@""
+					localizedPaletteLabelKey:st_NobiNobiPaletteLabelKey
+						 localizedToolTipKey:@""
+									  action:NULL
+									  target:nil];
 
 	[self setupNobiNobiToolbarItem:item_];
 
-	item_ = [self appendToolbarItemWithItemIdentifier : st_COEItemIdentifier
-									localizedLabelKey : st_COEItemLabelKey
-							 localizedPaletteLabelKey : st_COEItemPaletteLabelKey
-								  localizedToolTipKey : st_COEItemToolTipKey
-											   action : @selector(collapseOrExpandBoardList:)
-											   target : wcontroller_];
+	item_ = [self appendToolbarItemWithItemIdentifier:st_COEItemIdentifier
+									localizedLabelKey:st_COEItemLabelKey
+							 localizedPaletteLabelKey:st_COEItemPaletteLabelKey
+								  localizedToolTipKey:st_COEItemToolTipKey
+											   action:@selector(collapseOrExpandBoardList:)
+											   target:wcontroller_];
 	[item_ setImage:[NSImage imageAppNamed:@"BoardList"]];
 }
 @end
@@ -175,17 +174,24 @@ static NSMenuItem* searchToolbarItemMenuFormRep(NSString *labelText)
 
 	[aView release];
 }
+
+-(NSArray *)unsupportedItemsArray
+{
+	static NSArray *cachedUnsupportedBrowserTbItems = nil;
+	if (!cachedUnsupportedBrowserTbItems) {
+		cachedUnsupportedBrowserTbItems = [[[super unsupportedItemsArray] arrayByAddingObject:st_viewModeSwitcherItemIdentifier] retain];
+	}
+	return cachedUnsupportedBrowserTbItems;
+}
 @end
 
 
 
-@implementation CMRBrowserTbDelegate (NSToolbarDelegate)
-- (NSToolbarItem *) toolbar : (NSToolbar *) tb
-      itemForItemIdentifier : (NSString  *) itemId
-  willBeInsertedIntoToolbar : (BOOL       ) willBeInserted
+@implementation CMRBrowserTbDelegate(NSToolbarDelegate)
+- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemId willBeInsertedIntoToolbar:(BOOL)willBeInserted
 {
 	NSToolbarItem *item;
-	item = [super toolbar:tb itemForItemIdentifier:itemId willBeInsertedIntoToolbar:willBeInserted];
+	item = [super toolbar:toolbar itemForItemIdentifier:itemId willBeInsertedIntoToolbar:willBeInserted];
 	if (item && [itemId isEqualToString:st_NobiNobiItemIdentifier]) {
 		[(BSNobiNobiView *)[item view] setShouldDrawBorder:(NO == willBeInserted)];
 	}
@@ -194,9 +200,7 @@ static NSMenuItem* searchToolbarItemMenuFormRep(NSString *labelText)
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
 {
-	static NSArray *s_browser_defaultItemsCache = nil;
-	if (!s_browser_defaultItemsCache) {
-		s_browser_defaultItemsCache = [[NSArray alloc] initWithObjects:
+	return [NSArray arrayWithObjects:
 				st_NobiNobiItemIdentifier,
 				st_reloadListItemIdentifier,
 				NSToolbarSpaceItemIdentifier,
@@ -208,15 +212,11 @@ static NSMenuItem* searchToolbarItemMenuFormRep(NSString *labelText)
 				NSToolbarFlexibleSpaceItemIdentifier,
 				st_searchThreadItemIdentifier,
 				nil];
-	}
-	return s_browser_defaultItemsCache;
 }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
 {
-	static NSArray *s_browser_allowedItemsCache = nil;
-	if (!s_browser_allowedItemsCache) {
-		s_browser_allowedItemsCache = [[NSArray alloc] initWithObjects:
+	return [NSArray arrayWithObjects:
 				st_reloadListItemIdentifier,
 				[self reloadThreadItemIdentifier],
 				[self stopTaskIdentifier],
@@ -234,13 +234,7 @@ static NSMenuItem* searchToolbarItemMenuFormRep(NSString *labelText)
 				NSToolbarSpaceItemIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,
 				nil];
-	}
-	return s_browser_allowedItemsCache;
 }
-
-//- (void)adjustNobiNobiViewTbItem:(NSToolbarItem *)item to:(float)width
-//{
-//}
 
 - (void)toolbarWillAddItem:(NSNotification *)notification
 {
@@ -251,7 +245,6 @@ static NSMenuItem* searchToolbarItemMenuFormRep(NSString *labelText)
 		NSSize size_ = NSMakeSize(width-8, 29);
 		[item setMinSize:size_];
 		[item setMaxSize:size_];
-//		[self adjustNobiNobiViewTbItem:item to:width];
 	} else if ([[item itemIdentifier] isEqualToString:st_viewModeSwitcherItemIdentifier]) {
 		[[item view] bind:@"selectedTag" toObject:CMRPref withKeyPath:@"threadsListViewMode" options:nil];
 	}

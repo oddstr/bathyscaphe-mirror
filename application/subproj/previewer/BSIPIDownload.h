@@ -6,7 +6,7 @@
 //  Copyright 2006 BathyScaphe Project. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
 @interface BSIPIDownload : NSObject {
 	NSURL			*m_URLIdentifier;

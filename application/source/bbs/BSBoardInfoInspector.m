@@ -227,12 +227,14 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 #pragma mark Accesors For Binding
 - (NSMutableArray *) noNamesArray
 {
-	return [[[[BrdMgr defaultNoNameSetForBoard: [self currentTargetBoardName]] allObjects] mutableCopy] autorelease];
+//	return [[[[BrdMgr defaultNoNameSetForBoard: [self currentTargetBoardName]] allObjects] mutableCopy] autorelease];
+	return [[[BrdMgr defaultNoNameArrayForBoard:[self currentTargetBoardName]] mutableCopy] autorelease];
 }
 
 - (void) setNoNamesArray: (NSMutableArray *) anArray
 {
-	[BrdMgr setDefaultNoNameSet: [NSSet setWithArray: anArray] forBoard: [self currentTargetBoardName]];
+//	[BrdMgr setDefaultNoNameSet: [NSSet setWithArray: anArray] forBoard: [self currentTargetBoardName]];
+	[BrdMgr setDefaultNoNameArray:[NSArray arrayWithArray:anArray] forBoard:[self currentTargetBoardName]];
 }
 
 - (NSString *) boardURLAsString

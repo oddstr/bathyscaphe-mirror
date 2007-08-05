@@ -1,30 +1,35 @@
+//
+//  CMRReplyControllerTbDelegate.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/08/05.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import "CMRReplyControllerTbDelegate.h"
 #import "CMRToolbarDelegateImp_p.h"
 
 
-//////////////////////////////////////////////////////////////////////
-///////////////////// [ COnstants, Defined ] /////////////////////////
-//////////////////////////////////////////////////////////////////////
-// Identifier
-#define kReplyWindowToolbarIdentifier		@"Reply Window Toolbar"
-// Items
-#define kSendMessageIdentifier		@"sendMessage"
-#define kSendMessageLabelKey		@"sendMessage Label"
-#define kSendMessagePaletteLabelKey	@"sendMessage Palette Label"
-#define kSendMessageToolTipKey		@"sendMessage ToolTip"
-#define kSendMessageImageName		@"SendMessage"
+static NSString *const kReplyWindowToolbarIdentifier = @"Reply Window Toolbar";
 
-#define kSaveAsDraftIdentifier		@"saveAsDraft"
-#define kSaveAsDraftLabelKey		@"saveAsDraft Label"
-#define kSaveAsDraftPaletteLabelKey	@"saveAsDraft Palette Label"
-#define kSaveAsDraftToolTipKey		@"saveAsDraft ToolTip"
-#define kSaveAsDraftimageName		@"SaveAsDraft"
+static NSString *const kSendMessageIdentifier	= @"sendMessage";
+static NSString *const kSendMessageLabelKey		= @"sendMessage Label";
+static NSString *const kSendMessagePaletteLabelKey	= @"sendMessage Palette Label";
+static NSString *const kSendMessageToolTipKey		= @"sendMessage ToolTip";
+static NSString *const kSendMessageImageName		= @"SendMessage";
 
-#define kBeLoginIdentifier		@"beLogin"
-#define kBeLoginLabelKey		@"beLogin Label"
-#define kBeLoginPaletteLabelKey	@"beLogin Palette Label"
-#define kBeLoginToolTipKey		@"beLogin ToolTip"
-#define kBeLoginImageName		@"beEnabled"
+static NSString *const kSaveAsDraftIdentifier	= @"saveAsDraft";
+static NSString *const kSaveAsDraftLabelKey		= @"saveAsDraft Label";
+static NSString *const kSaveAsDraftPaletteLabelKey	= @"saveAsDraft Palette Label";
+static NSString *const kSaveAsDraftToolTipKey		= @"saveAsDraft ToolTip";
+static NSString *const kSaveAsDraftimageName		= @"SaveAsDraft";
+
+static NSString *const kBeLoginIdentifier	= @"beLogin";
+static NSString *const kBeLoginLabelKey		= @"beLogin Label";
+static NSString *const kBeLoginPaletteLabelKey	= @"beLogin Palette Label";
+static NSString *const kBeLoginToolTipKey		= @"beLogin ToolTip";
+static NSString *const kBeLoginImageName		= @"beEnabled";
 
 
 @implementation CMRReplyControllerTbDelegate
@@ -34,72 +39,53 @@
 }
 @end
 
-@implementation CMRReplyControllerTbDelegate (Protected)
-- (void) initializeToolbarItems : (NSWindow *) aWindow
+@implementation CMRReplyControllerTbDelegate(Protected)
+- (void)initializeToolbarItems:(NSWindow *)aWindow
 {
 	NSToolbarItem			*item_;
 	NSWindowController		*wcontroller_;
-
-	[super initializeToolbarItems : aWindow];//SledgeHammer
 	
 	wcontroller_ = [aWindow windowController];
 	UTILAssertNotNil(wcontroller_);
 
-	item_ = [self appendToolbarItemWithItemIdentifier : kSendMessageIdentifier
-									localizedLabelKey : kSendMessageLabelKey
-							 localizedPaletteLabelKey : kSendMessagePaletteLabelKey
-								  localizedToolTipKey : kSendMessageToolTipKey
-											   action : @selector(sendMessage:)
-											   target : nil];
-	[item_ setImage : [NSImage imageAppNamed : kSendMessageImageName]];
+	item_ = [self appendToolbarItemWithItemIdentifier:kSendMessageIdentifier
+									localizedLabelKey:kSendMessageLabelKey
+							 localizedPaletteLabelKey:kSendMessagePaletteLabelKey
+								  localizedToolTipKey:kSendMessageToolTipKey
+											   action:@selector(sendMessage:)
+											   target:nil];
+	[item_ setImage:[NSImage imageAppNamed:kSendMessageImageName]];
 
-	item_ = [self appendToolbarItemWithItemIdentifier : kSaveAsDraftIdentifier
-									localizedLabelKey : kSaveAsDraftLabelKey
-							 localizedPaletteLabelKey : kSaveAsDraftPaletteLabelKey
-								  localizedToolTipKey : kSaveAsDraftToolTipKey
-											   action : @selector(saveDocument:)
-											   target : nil];
-	[item_ setImage : [NSImage imageAppNamed : kSaveAsDraftimageName]];
+	item_ = [self appendToolbarItemWithItemIdentifier:kSaveAsDraftIdentifier
+									localizedLabelKey:kSaveAsDraftLabelKey
+							 localizedPaletteLabelKey:kSaveAsDraftPaletteLabelKey
+								  localizedToolTipKey:kSaveAsDraftToolTipKey
+											   action:@selector(saveDocument:)
+											   target:nil];
+	[item_ setImage:[NSImage imageAppNamed:kSaveAsDraftimageName]];
 
-	item_ = [self appendToolbarItemWithItemIdentifier : kBeLoginIdentifier
-									localizedLabelKey : kBeLoginLabelKey
-							 localizedPaletteLabelKey : kBeLoginPaletteLabelKey
-								  localizedToolTipKey : kBeLoginToolTipKey
-											   action : @selector(toggleBeLogin:)
-											   target : nil];
-	[item_ setImage : [NSImage imageAppNamed : kBeLoginImageName]];
+	item_ = [self appendToolbarItemWithItemIdentifier:kBeLoginIdentifier
+									localizedLabelKey:kBeLoginLabelKey
+							 localizedPaletteLabelKey:kBeLoginPaletteLabelKey
+								  localizedToolTipKey:kBeLoginToolTipKey
+											   action:@selector(toggleBeLogin:)
+											   target:nil];
+	[item_ setImage:[NSImage imageAppNamed:kBeLoginImageName]];
 }
 
-- (void) configureToolbar : (NSToolbar *) aToolbar
+- (void)configureToolbar:(NSToolbar *)aToolbar
 {
-	[aToolbar setAllowsUserCustomization : YES];
-	[aToolbar setAutosavesConfiguration : YES];
+	[aToolbar setAllowsUserCustomization:YES];
+	[aToolbar setAutosavesConfiguration:YES];
 }
 @end
 
 
 
-@implementation CMRReplyControllerTbDelegate (NSToolbarDelegate)
-- (NSToolbarItem *) toolbar : (NSToolbar *) toolbar
-      itemForItemIdentifier : (NSString  *) itemIdentifier
-  willBeInsertedIntoToolbar : (BOOL       ) willBeInsertedIntoToolbar
+@implementation CMRReplyControllerTbDelegate(NSToolbarDelegate)
+- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
 {
-	NSToolbarItem		*item_;
-	
-	UTILAssertNotNilArgument(toolbar, @"Toolbar");
-	UTILAssertNotNilArgument(itemIdentifier, @"itemIdentifier");
-	
-	if(NO == [[self identifier] isEqualToString : [toolbar identifier]])
-		return nil;
-	
-	item_ = [self itemForItemIdentifier : itemIdentifier];
-	
-	return item_;
-}
-
-- (NSArray *) toolbarDefaultItemIdentifiers : (NSToolbar *) toolbar
-{
-	return [NSArray arrayWithObjects :
+	return [NSArray arrayWithObjects:
 				kSendMessageIdentifier,
 				NSToolbarSeparatorItemIdentifier,
 				kSaveAsDraftIdentifier,
@@ -107,9 +93,10 @@
 				kBeLoginIdentifier,
 				nil];
 }
-- (NSArray *) toolbarAllowedItemIdentifiers : (NSToolbar *) toolbar
+
+- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
 {
-	return [NSArray arrayWithObjects :
+	return [NSArray arrayWithObjects:
 				kSendMessageIdentifier,
 				kSaveAsDraftIdentifier,
 				kBeLoginIdentifier,

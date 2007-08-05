@@ -107,7 +107,7 @@
 	boardName = [fileContents_ objectForKey: ThreadPlistBoardNameKey];
 	if (nil == boardName) return NO;
 	datNumber = [fileContents_ objectForKey: ThreadPlistIdentifierKey];
-	if (nil == datNumber) return NO;
+	if (nil == datNumber || [datNumber intValue] < 1) return NO;
 
 	NSString *fileName = [filepath lastPathComponent];
 	NSString *newLocationFolder = [logFolderPath stringByAppendingPathComponent: boardName];

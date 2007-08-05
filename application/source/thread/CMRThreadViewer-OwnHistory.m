@@ -1,5 +1,5 @@
 /*
- * $Id: CMRThreadViewer-OwnHistory.m,v 1.11 2007/07/27 10:26:40 tsawada2 Exp $
+ * $Id: CMRThreadViewer-OwnHistory.m,v 1.12 2007/08/05 12:25:26 tsawada2 Exp $
  *
  * それぞれのスレッドビューア内での履歴（グローバルな履歴と一致するとは限らない）の管理と移動アクションのサポート
  * CMRThreadViewer.m から分割
@@ -180,7 +180,7 @@
 - (BOOL) segCtrlTbItem: (BSSegmentedControlTbItem *) item
 	   validateSegment: (int) segment
 {
-	if (![[self window] isKeyWindow]) return NO;
+//	if (![[self window] isKeyWindow]) return NO;
 	if ([[item itemIdentifier] isEqualToString: @"scaleSC"]) return [self validateUserInterfaceItem: item];
 
 	if (![self shouldShowContents])

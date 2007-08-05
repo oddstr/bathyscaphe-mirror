@@ -446,7 +446,7 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 }
 
 #pragma mark (MeteorSweeper Addition)
-- (NSSet *) defaultNoNameSetForBoard: (NSString *) boardName
+/*- (NSSet *) defaultNoNameSetForBoard: (NSString *) boardName
 {
 	id entry_;
 	
@@ -496,6 +496,57 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 		[nnd_ setObject: mutableEntry_ forKey: boardName];
 		[mutableEntry_ release];
 	}
+}*/
+
+- (NSArray *)defaultNoNameArrayForBoard:(NSString *)boardName
+{
+	id entry_;
+	
+	entry_ = [self entryForBoardName:boardName];
+	
+	if ([entry_ isKindOfClass:[NSDictionary class]]) {
+		id	object_ = [entry_ objectForKey:NNDNoNameKey];
+		if ([object_ isKindOfClass:[NSString class]]) {
+			return [NSArray arrayWithObject:object_];
+		} else if ([object_ isKindOfClass:[NSArray class]]) {
+			return object_;
+		}
+	} else if ([entry_ isKindOfClass:[NSString class]]) {
+		return [NSArray arrayWithObject:[[self noNameDict] stringForKey:boardName]];
+	}
+
+	return nil;
+}
+
+- (void)setDefaultNoNameArray:(NSArray *)array forBoard:(NSString *)boardName
+{
+	UTILAssertNotNil(array);
+	UTILAssertNotNil(boardName);
+
+	BOOL	shouldRemove = ([array count] == 0) ? YES : NO;
+
+    NSMutableDictionary *nnd_ = [self noNameDict]; 	
+	id entry_ = [self entryForBoardName:boardName];
+
+	if (!entry_ || [entry_ isKindOfClass:[NSString class]]) {
+		if (shouldRemove) {
+			[nnd_ removeObjectForKey:boardName];
+		} else {
+			[nnd_ setObject:[NSDictionary dictionaryWithObject:array forKey:NNDNoNameKey] forKey:boardName];
+		}
+	} else {
+		NSMutableDictionary		*mutableEntry_;
+		
+		mutableEntry_ = [entry_ mutableCopy];
+		
+		if (shouldRemove) {
+			[mutableEntry_ removeObjectForKey:NNDNoNameKey];
+		} else {
+			[mutableEntry_ setObject:array forKey:NNDNoNameKey];
+		}
+		[nnd_ setObject:mutableEntry_ forKey:boardName];
+		[mutableEntry_ release];
+	}
 }
 
 - (void) addNoName: (NSString *) additionalNoName forBoard: (NSString *) boardName
@@ -503,10 +554,12 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 	UTILAssertNotNil(additionalNoName);
 	UTILAssertNotNil(boardName);
 
-	NSMutableSet *tmpSet_;
-	NSSet *tmpSetBase_ = [self defaultNoNameSetForBoard: boardName];
+//	NSMutableSet *tmpSet_;
+//	NSSet *tmpSetBase_ = [self defaultNoNameSetForBoard: boardName];
+	NSMutableArray *tmpArray;
+	NSArray *tmpArrayBase = [self defaultNoNameArrayForBoard:boardName];
 
-	if(!tmpSetBase_) {
+/*	if(!tmpSetBase_) {
 		tmpSet_ = [[NSMutableSet alloc] initWithCapacity: 1];
 	} else {
 		tmpSet_ = [tmpSetBase_ mutableCopy];
@@ -514,7 +567,15 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 	
 	[tmpSet_ addObject: additionalNoName];
 	[self setDefaultNoNameSet: tmpSet_ forBoard: boardName];
-	[tmpSet_ release];
+	[tmpSet_ release];*/
+	if (!tmpArrayBase) {
+		tmpArray = [[NSMutableArray alloc] initWithCapacity:1];
+	} else {
+		tmpArray = [tmpArrayBase mutableCopy];
+	}
+	[tmpArray addObject:additionalNoName];
+	[self setDefaultNoNameArray:tmpArray forBoard:boardName];
+	[tmpArray release];
 }
 
 - (void) removeNoName: (NSString *) removingNoName forBoard: (NSString *) boardName
@@ -522,7 +583,8 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 	UTILAssertNotNil(removingNoName);
 	UTILAssertNotNil(boardName);
 
-	NSSet *tmpSetBase_ = [self defaultNoNameSetForBoard: boardName];
+//	NSSet *tmpSetBase_ = [self defaultNoNameSetForBoard: boardName];
+	NSArray *tmpSetBase_ = [self defaultNoNameArrayForBoard:boardName];
 
 	if (!tmpSetBase_) {
 		return;
@@ -532,10 +594,12 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 		return;
 	}
 
-	NSMutableSet *tmpSet_ = [tmpSetBase_ mutableCopy];
+//	NSMutableSet *tmpSet_ = [tmpSetBase_ mutableCopy];
+	NSMutableArray *tmpSet_ = [tmpSetBase_ mutableCopy];
 	
 	[tmpSet_ removeObject: removingNoName];
-	[self setDefaultNoNameSet: tmpSet_ forBoard: boardName];
+//	[self setDefaultNoNameSet: tmpSet_ forBoard: boardName];
+	[self setDefaultNoNameArray:tmpSet_ forBoard:boardName];
 	[tmpSet_ release];
 }
 
@@ -545,7 +609,7 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 	UTILAssertNotNil(newName);
 	UTILAssertNotNil(boardName);
 
-	NSSet *tmpSetBase_ = [self defaultNoNameSetForBoard: boardName];
+	/*NSSet*/NSArray *tmpSetBase_ = [self defaultNoNameArrayForBoard:boardName];//SetForBoard: boardName];
 
 	if (!tmpSetBase_) {
 		return;
@@ -555,11 +619,12 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 		return;
 	}
 
-	NSMutableSet *tmpSet_ = [tmpSetBase_ mutableCopy];
+	/*NSMutableSet*/NSMutableArray *tmpSet_ = [tmpSetBase_ mutableCopy];
 	
 	[tmpSet_ removeObject: oldName];
 	[tmpSet_ addObject: newName];
-	[self setDefaultNoNameSet: tmpSet_ forBoard: boardName];
+//	[self setDefaultNoNameSet: tmpSet_ forBoard: boardName];
+	[self setDefaultNoNameArray:tmpSet_ forBoard:boardName];
 	[tmpSet_ release];
 }
 
@@ -643,7 +708,8 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 {
 //	if ([boardName isEqualToString: BSbbynewsBoardName]) return NO;
 	if ([boardName hasSuffix: @"headline"]) return NO;
-	NSSet *set_ = [self defaultNoNameSetForBoard: boardName];
+//	NSSet *set_ = [self defaultNoNameSetForBoard: boardName];
+	NSArray *set_ = [self defaultNoNameArrayForBoard:boardName];
 	if (!set_ || [set_ count] == 0) return YES;
 	
 	return NO;

@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-Validation.m,v 1.28 2007/07/27 10:26:39 tsawada2 Exp $
+ * $Id: CMRBrowser-Validation.m,v 1.29 2007/08/05 12:25:26 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -13,7 +13,7 @@
 - (BOOL)segCtrlTbItem:(BSSegmentedControlTbItem *)item validateSegment:(int)segment
 {
 	if ([[item itemIdentifier] isEqualToString:@"Toggle View Mode"]) {
-		return [[self window] isKeyWindow];
+		return YES;//[[self window] isKeyWindow];
 	}
 	return [super segCtrlTbItem:item validateSegment:segment];
 }
