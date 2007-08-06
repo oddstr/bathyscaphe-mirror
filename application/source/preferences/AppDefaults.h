@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.44 2007/07/27 10:26:40 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.45 2007/08/06 19:08:14 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -345,6 +345,14 @@ typedef enum _BSAutoSyncIntervalType {
 /* Vita Additions */
 - (BOOL) scrollToLastUpdated;
 - (void) setScrollToLastUpdated : (BOOL) flag;
+
+/* Twincam Angel Additions */
+- (NSString *)linkDownloaderDestination;
+- (void)setLinkDownloaderDestination:(NSString *)path;
+- (NSMutableArray *)linkDownloaderDictArray;
+- (void)setLinkDownloaderDictArray:(NSMutableArray *)array;
+- (NSArray *)linkDownloaderExtensionTypes;
+- (NSArray *)linkDownloaderAutoopenTypes;
 
 - (void) _loadThreadViewerSettings;
 - (BOOL) _saveThreadViewerSettings;

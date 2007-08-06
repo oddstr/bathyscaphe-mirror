@@ -53,7 +53,7 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 @end
 
 
-@implementation CMRBrowserTbDelegate (Protected)
+@implementation CMRBrowserTbDelegate(Protected)
 - (void)initializeToolbarItems:(NSWindow *)aWindow
 {
 	NSToolbarItem			*item_;
@@ -78,7 +78,6 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 								  localizedToolTipKey:st_searchThreadItemToolTipKey
 											   action:NULL
 											   target:wcontroller_];
-
 	[self setupSearchToolbarItem:item_ itemView:[wcontroller_ searchField]];
 
 	item_ = [self appendToolbarItemWithClass:[BSSegmentedControlTbItem class]
@@ -89,8 +88,7 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 									  action:NULL
 									  target:nil];
 
-	[self setupSwitcherToolbarItem:item_ itemView:[wcontroller_ viewModeSwitcher] windowStyle:[aWindow styleMask]];
-	[(BSSegmentedControlTbItem *)item_ setDelegate:wcontroller_];
+	[self setupSwitcherToolbarItem:item_ itemView:[wcontroller_ viewModeSwitcher] delegate:wcontroller_ windowStyle:[aWindow styleMask]];
 
 	item_ = [self appendToolbarItemWithClass:[BSNobiNobiToolbarItem class]
 							  itemIdentifier:st_NobiNobiItemIdentifier
@@ -99,7 +97,6 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 						 localizedToolTipKey:@""
 									  action:NULL
 									  target:nil];
-
 	[self setupNobiNobiToolbarItem:item_];
 
 	item_ = [self appendToolbarItemWithItemIdentifier:st_COEItemIdentifier
@@ -124,6 +121,7 @@ static NSMenuItem* searchToolbarItemMenuFormRep(NSString *labelText)
 
 	return [menuItem_ autorelease];
 }
+
 - (void)setupSearchToolbarItem:(NSToolbarItem *)anItem itemView:(NSView *)aView
 {
 	NSMenuItem *menuItem_;
@@ -146,7 +144,7 @@ static NSMenuItem* searchToolbarItemMenuFormRep(NSString *labelText)
 	}
 }
 
-- (void)setupSwitcherToolbarItem:(NSToolbarItem *)anItem itemView:(NSView *)aView windowStyle:(unsigned int)styleMask
+- (void)setupSwitcherToolbarItem:(NSToolbarItem *)anItem itemView:(NSView *)aView delegate:(id)delegate windowStyle:(unsigned int)styleMask
 {
 	NSSize size_;
 
@@ -161,6 +159,7 @@ static NSMenuItem* searchToolbarItemMenuFormRep(NSString *labelText)
 	[anItem setMaxSize:size_];
 
 	[aView release];
+	[(BSSegmentedControlTbItem *)anItem setDelegate:delegate];
 }
 
 - (void)setupNobiNobiToolbarItem:(NSToolbarItem *)anItem
@@ -175,13 +174,9 @@ static NSMenuItem* searchToolbarItemMenuFormRep(NSString *labelText)
 	[aView release];
 }
 
--(NSArray *)unsupportedItemsArray
+- (NSArray *)unsupportedItemsArray
 {
-	static NSArray *cachedUnsupportedBrowserTbItems = nil;
-	if (!cachedUnsupportedBrowserTbItems) {
-		cachedUnsupportedBrowserTbItems = [[[super unsupportedItemsArray] arrayByAddingObject:st_viewModeSwitcherItemIdentifier] retain];
-	}
-	return cachedUnsupportedBrowserTbItems;
+	return [[super unsupportedItemsArray] arrayByAddingObject:st_viewModeSwitcherItemIdentifier];
 }
 @end
 

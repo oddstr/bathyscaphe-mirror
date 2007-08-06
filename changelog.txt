@@ -1,3 +1,30 @@
+2007-08-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	1.5 からの変更点の量・質を考慮すると、1.5.1 ではなく 1.6 とすべきと判断したので、次のバージョンは 1.6 とする。
+
+	* application/subproj/preference/AdvancedPrefController.m
+	* application/subproj/preference/Japanese.lproj/AdvancedPane.nib
+		ダウンロードするリンクの拡張子リストを編集するために、「環境設定」＞「詳細」ペインに必要なインタフェースを追加。
+	* application/source/manager/BSLinkDownloadManager.[h|m]
+		[新規追加] ※ BSLinkDownloadTicket クラスも同居して記述されている
+		リンクをクリックしたとき、直接リンク先をダウンロードするかどうかは、リンクの拡張子で決める。その拡張子のリストを
+		読み書きするためのクラス。
+		- 拡張子のリストは、DownloadableLinkTypes.plist という名前のファイル（例によって Application Support/BathyScaphe 内に
+		　作成される）に記述される。今のところ初回起動時にはこのファイルが無い＝拡張子のリストが空の状態。このへんはもう少し改善予定。
+	* application/subproj/preference/BSAdvancedPaneArrayController.[h|m]
+		[新規追加] NSArrayController のサブクラス。NSTableView とバインドして contentObject を編集する際の振る舞いを
+		より適切で気の利いたものにするために用意した。「環境設定」＞「詳細」＞「ダウンロードする拡張子を設定...」パネルで使用。
+	* application/source/view/SGHTMLView.m
+	* application/source/view/SGLinkCommand.m
+	* application/source/preferences/AppDefaults-ThreadViewer.m
+	* application/source/thread/CMRThreadViewer-Link.m
+	* application/Resources/Japanese.lproj/HTMLView.strings
+	* application/Resources/Japanese.lproj/CMRTaskDescription.strings
+		リンク先を直接ダウンロードする機能を追加した。
+		- リンクのコンテクストメニュー、または、適切な拡張子を持つリンクに対してはリンクの直接クリックで
+		　ダウンロードできる。進行状況および中止は「進行状況」パネルやナビゲーションバーで確認できる（CMRTask プロトコル準拠だから）。
+		- 拡張子ごとに、「ダウンロード後、ファイルを開くかどうか」を設定しておける。
+		- ダウンロードしたファイルの保存先は、「環境設定」＞「詳細」で設定しておける（デフォルト：デスクトップ）。
+=================================================
 2007-08-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/composer/CMRMessageFilter.m
 	* application/source/composer/CMRSpamFilter.m

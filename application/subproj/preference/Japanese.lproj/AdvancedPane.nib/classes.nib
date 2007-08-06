@@ -1,11 +1,21 @@
 {
     IBClasses = (
         {
-            ACTIONS = {chooseApplication = id; }; 
+            ACTIONS = {chooseDestination = id; closeSheet = id; openSheet = id; }; 
             CLASS = AdvancedPrefController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {"m_helperAppBtn" = NSPopUpButton; }; 
+            OUTLETS = {
+                "m_dlFolderBtn" = NSPopUpButton; 
+                "m_extensionsEditor" = NSPanel; 
+                "m_openSheetBtn" = NSButton; 
+            }; 
             SUPERCLASS = PreferencesController; 
+        }, 
+        {
+            CLASS = BSAdvancedPaneArrayController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"m_tableView" = NSTableView; }; 
+            SUPERCLASS = NSArrayController; 
         }, 
         {CLASS = BSIconTextFieldCell; LANGUAGE = ObjC; SUPERCLASS = NSTextFieldCell; }, 
         {

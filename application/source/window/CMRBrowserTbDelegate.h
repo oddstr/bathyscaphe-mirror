@@ -17,6 +17,6 @@
 
 @interface CMRBrowserTbDelegate(Private)
 - (void)setupSearchToolbarItem:(NSToolbarItem *)anItem itemView:(NSView *)aView;
-- (void)setupSwitcherToolbarItem:(NSToolbarItem *)anItem itemView:(NSView *)aView windowStyle:(unsigned int)styleMask;
+- (void)setupSwitcherToolbarItem:(NSToolbarItem *)anItem itemView:(NSView *)aView delegate:(id)delegate windowStyle:(unsigned int)styleMask;
 - (void)setupNobiNobiToolbarItem:(NSToolbarItem *)anItem;
 @end

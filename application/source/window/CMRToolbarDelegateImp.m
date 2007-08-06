@@ -103,7 +103,7 @@ static NSString *const st_localizableStringsTableName	= @"ToolbarItems";
 									 target:target];
 }
 
--(NSArray *)unsupportedItemsArray
+- (NSArray *)unsupportedItemsArray
 {
 	static NSArray *cachedUnsupportedItems = nil;
 	if (!cachedUnsupportedItems) {
@@ -130,7 +130,8 @@ static NSString *const st_localizableStringsTableName	= @"ToolbarItems";
 
 - (void)configureToolbar:(NSToolbar *)aToolbar
 {
-	UTILAbstractMethodInvoked;
+	[aToolbar setAllowsUserCustomization:YES];
+	[aToolbar setAutosavesConfiguration:YES];
 }
 @end
 

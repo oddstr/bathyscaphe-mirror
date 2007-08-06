@@ -1,5 +1,5 @@
 //
-//  $Id: AdvancedPrefController.h,v 1.9 2007/01/07 17:04:24 masakih Exp $
+//  $Id: AdvancedPrefController.h,v 1.10 2007/08/06 19:08:14 tsawada2 Exp $
 //  BachyScaphe
 //
 //  Created by tsawada2 on 05/05/22.
@@ -11,19 +11,22 @@
 
 
 @interface AdvancedPrefController : PreferencesController {
-//	IBOutlet NSButton		*m_checkNowBtn;	
-	IBOutlet NSPopUpButton	*m_helperAppBtn;
+	IBOutlet NSButton		*m_openSheetBtn;	
+	IBOutlet NSPopUpButton	*m_dlFolderBtn;
+	IBOutlet NSPanel		*m_extensionsEditor;
 }
 
-//- (IBAction) startCheckingForUpdate: (id) sender;
-- (IBAction) chooseApplication: (id) sender;
+- (IBAction)openSheet:(id)sender;
+- (IBAction)closeSheet:(id)sender;
+- (IBAction)chooseDestination:(id)sender;
 
-//- (NSButton *) checkNowBtn;
-- (NSPopUpButton *) helperAppBtn;
+- (NSPanel *)extensionsEditor;
+- (NSButton *)openSheetBtn;
+- (NSPopUpButton *)dlFolderBtn;
 
 // Binding
-- (int) previewOption;
-- (void) setPreviewOption: (int) selectedTag;
+- (int)previewOption;
+- (void)setPreviewOption:(int)selectedTag;
 
-- (void) updateHelperAppUI;
+- (void)updateHelperAppUI;
 @end

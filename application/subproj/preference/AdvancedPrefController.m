@@ -22,103 +22,110 @@
 }
 
 #pragma mark -
-- (NSString *) helperAppName
-{
-	return @"";//[[self preferences] helperAppDisplayName];
-}
-
-- (NSImage *) helperAppIcon
-{
-/*	NSImage	*icon32 = [[NSWorkspace sharedWorkspace] iconForFile : [[self preferences] helperAppPath]];
-	[icon32 setSize : NSMakeSize(16, 16)];
-	return icon32;*/
-	return nil;
-}
-	
-- (void) didEndChooseAppSheet : (NSOpenPanel *) sheet
-                   returnCode : (int          ) returnCode
-                  contextInfo : (void        *) contextInfo
+- (void)didEndChooseFolderSheet:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
 	if (returnCode == NSOKButton) {
-		NSString	*appPath_;
+		NSString	*folderPath_;
 
-		appPath_ =	[sheet filename];
-//		[[self preferences] setHelperAppPath : appPath_];
+		folderPath_ =	[sheet directory];
+		[[self preferences] setLinkDownloaderDestination:folderPath_];
 	}
 	[self updateHelperAppUI];
 }
 
-- (IBAction) chooseApplication : (id) sender
+- (IBAction)chooseDestination:(id)sender
 {
-	NSArray *fileTypes = [NSArray arrayWithObjects: @"app", nil];
-	NSArray	*tmp = NSSearchPathForDirectoriesInDomains(NSApplicationDirectory, NSLocalDomainMask, YES);
-	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
-
-	[openPanel setAllowsMultipleSelection: NO];
+	NSOpenPanel	*panel_ = [NSOpenPanel openPanel];
+	[panel_ setCanChooseFiles:NO];
+	[panel_ setCanChooseDirectories:YES];
+	[panel_ setResolvesAliases:YES];
+	[panel_ setAllowsMultipleSelection:NO];
 	
-	[openPanel beginSheetForDirectory: [tmp objectAtIndex: 0]
-								 file: nil
-								types: fileTypes
-					   modalForWindow: [self window]
-						modalDelegate: self
-					   didEndSelector: @selector(didEndChooseAppSheet:returnCode:contextInfo:)
-						  contextInfo: nil];
+	[panel_ beginSheetForDirectory:nil
+							  file: nil
+							 types:nil
+					modalForWindow:[self window]
+					 modalDelegate:self
+					didEndSelector:@selector(didEndChooseFolderSheet:returnCode:contextInfo:)
+					   contextInfo:nil];
 }
 
-/*- (IBAction) startCheckingForUpdate: (id) sender
+- (void)extensionsEditorDidEnd:(NSPanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
-	NSBeep();
-	NSLog(@"Not implemented yet");
-}*/
+	[sheet close];
+}
+
+- (IBAction)openSheet:(id)sender
+{
+	[NSApp beginSheet:[self extensionsEditor]
+	   modalForWindow:[self window]
+	    modalDelegate:self
+	   didEndSelector:@selector(extensionsEditorDidEnd:returnCode:contextInfo:)
+		  contextInfo:nil];
+}
+
+- (IBAction)closeSheet:(id)sender
+{
+	[NSApp endSheet:[self extensionsEditor] returnCode:NSOKButton];
+}
 
 #pragma mark Accessors
-- (NSPopUpButton *) helperAppBtn
+- (NSPopUpButton *)dlFolderBtn
 {
-	return m_helperAppBtn;
+	return m_dlFolderBtn;
 }
 
-/*- (NSButton *) checkNowBtn
+- (NSButton *)openSheetBtn
 {
-	return m_checkNowBtn;
-}*/
+	return m_openSheetBtn;
+}
 
-- (int) previewOption
+- (NSPanel *)extensionsEditor
+{
+	return m_extensionsEditor;
+}
+
+- (int)previewOption
 {
 	return [[self preferences] previewLinkWithNoModifierKey] ? 0 : 1;
 }
 
-- (void) setPreviewOption : (int) selectedTag
+- (void)setPreviewOption:(int)selectedTag
 {
 	BOOL	tmp_ = (selectedTag == 0) ? YES : NO;
-	[[self preferences] setPreviewLinkWithNoModifierKey : tmp_];
+	[[self preferences] setPreviewLinkWithNoModifierKey:tmp_];
 }
 
 #pragma mark Setting up UIs
-- (void) updateHelperAppUI
+static NSImage *advancedPref_iconForPath(NSString *sourcePath)
 {
-	NSString	*title = [self helperAppName];
-	id<NSMenuItem>	theItem = [[self helperAppBtn] itemAtIndex : 0];
-	
-	if (title != nil) {
-		[theItem setTitle : title];
-		[theItem setImage : [self helperAppIcon]];
-	} else {
-		[theItem setTitle : PPLocalizedString(@"NilHelper")];
-	}
-	[[self helperAppBtn] selectItem : nil];
-	[[self helperAppBtn] synchronizeTitleAndSelectedItem];
+	NSImage	*icon_ = [[NSWorkspace sharedWorkspace] iconForFile:sourcePath];
+	[icon_ setSize:NSMakeSize(16, 16)];
+	return icon_;
 }
 
-- (void) updateUIComponents
+- (void)updateHelperAppUI
+{
+	NSString	*fullPathTip = [[self preferences] linkDownloaderDestination];
+	NSString	*title = [[NSFileManager defaultManager] displayNameAtPath:fullPathTip];
+	id<NSMenuItem>	theItem = [[self dlFolderBtn] itemAtIndex:0];
+
+	[theItem setTitle:title];
+	[theItem setToolTip:fullPathTip];
+	[theItem setImage:advancedPref_iconForPath(fullPathTip)];
+
+	[[self dlFolderBtn] selectItem:nil];
+	[[self dlFolderBtn] synchronizeTitleAndSelectedItem];
+}
+
+- (void)updateUIComponents
 {
 	[self updateHelperAppUI];
 }
 
-- (void) setupUIComponents
+- (void)setupUIComponents
 {
-	if (nil == _contentView)
-		return;
-	
+	if (!_contentView) return;
 	[self updateUIComponents];
 }
 @end

@@ -1,44 +1,40 @@
-/**
-  * $Id: SGHTMLView.m,v 1.6 2007/08/01 12:29:06 tsawada2 Exp $
-  * 
-  * SGHTMLView.m
-  *
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  SGHTMLView.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/08/06.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import "SGHTMLView_p.h"
 #import "AppDefaults.h"
+
 // for debugging only
 #define UTIL_DEBUGGING				0
 #import "UTILDebugging.h"
 
-//////////////////////////////////////////////////////////////////////
-////////////////////// [ ’è”‚âƒ}ƒNƒ’uŠ· ] //////////////////////////
-//////////////////////////////////////////////////////////////////////
 NSString *const SGHTMLViewMouseEnteredNotification = @"SGHTMLViewMouseEnteredNotification";
 NSString *const SGHTMLViewMouseExitedNotification = @"SGHTMLViewMouseExitedNotification";
 
-//#define kMouseDownTrackingTimeKey	@"Thread - MouseDownTrackingTime"
-#define kThreadKeyBindingsFile		@"ThreadKeyBindings.plist"
+static NSString *const kThreadKeyBindingsFile = @"ThreadKeyBindings.plist";
+
 #define MOUSE_CLICK_TRACKING_TIME	0.18
 
 
-
 @implementation SGHTMLView
-- (void) dealloc
+- (void)dealloc
 {
-	[self removeTrackingRect : [self visibleRectTag]];
+	[self removeTrackingRect:[self visibleRectTag]];
 	[self removeAllLinkTrackingRects];
 	[_userDataArray release];
 	[_trackingRectTags release];
-	
+
 	[super dealloc];
 }
 
-
-
-// NSView
-- (void) resetCursorRects
+#pragma mark Overrides
+- (void)resetCursorRects
 {
 	[self resetCursorRectsImp];
 }
@@ -48,39 +44,31 @@ NSString *const SGHTMLViewMouseExitedNotification = @"SGHTMLViewMouseExitedNotif
 ------------------------------------------------------------
 - [NSTextView mouseEntered:]
 - [NSTextView mouseExited:]
-‚Í‰½ŒÌ‚©A- [NSWindow setAcceptsMouseMovedEvents:] ‚ğŒÄ‚ÔÀ‘•‚É‚È‚Á‚Ä‚¢‚éB
-acceptsMouseMovedEvents == YES ‚¾‚Æ resetCursorRects ‚ª•p”É‚ÉŒÄ‚Î‚ê‚é
-‚Ì‚ÅAsuper ‚Ìƒƒ\ƒbƒh‚ÍÀs‚µ‚È‚¢B
+ã¯ä½•æ•…ã‹ã€- [NSWindow setAcceptsMouseMovedEvents:] ã‚’å‘¼ã¶å®Ÿè£…ã«ãªã£ã¦ã„ã‚‹ã€‚
+acceptsMouseMovedEvents == YES ã ã¨ resetCursorRects ãŒé »ç¹ã«å‘¼ã°ã‚Œã‚‹
+ã®ã§ã€super ã®ãƒ¡ã‚½ãƒƒãƒ‰ã¯å®Ÿè¡Œã—ãªã„ã€‚
 */
-- (void) mouseEntered : (NSEvent *) theEvent
+- (void)mouseEntered:(NSEvent *)theEvent
 {
-/*
-	[super mouseEntered : theEvent];
-*/
+//	[super mouseEntered:theEvent];
 	[self responseMouseEvent:theEvent mouseEntered:YES];
 }
-- (void) mouseExited : (NSEvent *) theEvent
+
+- (void)mouseExited:(NSEvent *)theEvent
 {
-/*
-	[super mouseExited : theEvent];
-*/
+//	[super mouseExited:theEvent];
 	[self responseMouseEvent:theEvent mouseEntered:NO];
 }
-/*- (void)scrollWheel:(NSEvent *)theEvent
-{
-	[super scrollWheel:theEvent];
-	NSLog(@"K");
-	[self resetCursorRects];
-}*/
 
 /*
 2005-09-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-ˆÈ‘O‚ÍA‚±‚±‚Å linkTextAttributes: ‚ğƒI[ƒo[ƒ‰ƒCƒh‚µ‚Ä‹ó‚Ì«‘‚ğ•Ô‚µ‚Ä‚¢‚½‚ªA¡Œã‚Í linkTextAttributes: ‚ğ
-¶‚©‚µ‚ÄƒŒƒCƒAƒEƒgì‹Æ‚ğs‚¤B
-CMRThreadView ‚ğƒZƒbƒgƒAƒbƒv‚·‚éÛ‚ÉAsetLinkTextAttributes: ‚Å“K“–‚È‘®««‘‚ğƒZƒbƒg‚·‚é‚±‚ÆB
+------------------------------------------------------------
+ä»¥å‰ã¯ã€ã“ã“ã§ -[NSTextView linkTextAttributes] ã‚’ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¦ç©ºã®è¾æ›¸ã‚’è¿”ã—ã¦ã„ãŸãŒã€
+ç¾åœ¨ã¯ CMRThreadView ã®åˆæœŸåŒ–æ™‚ã« -[NSTextView setLinkTextAttributes:] ã§é©åˆ‡ãªå±æ€§è¾æ›¸ã‚’
+ã‚»ãƒƒãƒˆã—ã¦æ´»ç”¨ã—ã¦ã„ã‚‹ã€‚
 */
 
-- (NSMenu *) menuForEvent : (NSEvent *) theEvent
+- (NSMenu *)menuForEvent:(NSEvent *)theEvent
 {
 	NSPoint			mouseLocation_;
 	NSEventType		type_;
@@ -96,45 +84,39 @@ CMRThreadView ‚ğƒZƒbƒgƒAƒbƒv‚·‚éÛ‚ÉAsetLinkTextAttributes: ‚Å“K“–‚È‘®««‘‚ğƒ
 		NSOtherMouseDown == type_,
 		default_menu);
 	
-	mouseLocation_ = [self convertPoint : [theEvent locationInWindow]
-							   fromView : nil];
+	mouseLocation_ = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	
 	// Link Menu:
 	// ==========================================
-	// ƒŠƒ“ƒN‚ğƒNƒŠƒbƒN‚µ‚½ê‡‚ÍƒŠƒ“ƒN‘S‘Ì‚ğ‘I‘ğ
-	// ƒŠƒ“ƒNê—p‚Ìƒƒjƒ…[‚à’Ç‰Á
-	link_ = [self attribute : NSLinkAttributeName
-					atPoint : mouseLocation_
-			 effectiveRange : &effectiveRange_];
-	UTILRequireCondition(
-		[self validateLinkByFiltering : link_], 
-		default_menu);
+	// ãƒªãƒ³ã‚¯ã‚’ã‚¯ãƒªãƒƒã‚¯ã—ãŸå ´åˆã¯ãƒªãƒ³ã‚¯å…¨ä½“ã‚’é¸æŠ
+	// ãƒªãƒ³ã‚¯å°‚ç”¨ã®ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚‚è¿½åŠ 
+	link_ = [self attribute:NSLinkAttributeName atPoint:mouseLocation_ effectiveRange:&effectiveRange_];
+	UTILRequireCondition([self validateLinkByFiltering:link_], default_menu);
 	
-	[self setSelectedRange : effectiveRange_];
-	return [self linkMenuWithLink : link_ forImageFile : [self validateLinkForImage : link_]];
-	
-	default_menu:
-	
-		return [self menu];
+	[self setSelectedRange:effectiveRange_];
+	return [self linkMenuWithLink:link_ forImageFile:[self validateLinkForImage:link_]];
+
+default_menu:	
+	return [self menu];
 }
 
-
-+ (SGKeyBindingSupport *) keyBindingSupport
+#pragma mark Key Binding Support
++ (SGKeyBindingSupport *)keyBindingSupport
 {
 	static SGKeyBindingSupport *stKeyBindingSupport_;
 	
-	if (nil == stKeyBindingSupport_) {
+	if (!stKeyBindingSupport_) {
 		NSDictionary	*dict;
 		
-		dict = [NSBundle mergedDictionaryWithName : kThreadKeyBindingsFile];
+		dict = [NSBundle mergedDictionaryWithName:kThreadKeyBindingsFile];
 		UTILAssertKindOfClass(dict, NSDictionary);
 		
-		stKeyBindingSupport_ = 
-			[[SGKeyBindingSupport alloc] initWithDictionary : dict];
+		stKeyBindingSupport_ = [[SGKeyBindingSupport alloc] initWithDictionary:dict];
 	}
 	return stKeyBindingSupport_;
 }
-- (void) interpretKeyEvents : (NSArray *) eventArray
+
+- (void)interpretKeyEvents:(NSArray *)eventArray
 {
 	id	targets_[] = {
 			self,
@@ -154,33 +136,35 @@ CMRThreadView ‚ğƒZƒbƒgƒAƒbƒv‚·‚éÛ‚ÉAsetLinkTextAttributes: ‚Å“K“–‚È‘®««‘‚ğƒ
 	[super interpretKeyEvents:eventArray];
 }
 
-- (BOOL) mouseClicked : (NSEvent *) theEvent
-			  atIndex : (unsigned ) charIndex
+#pragma mark Mouse Actions
+- (BOOL)mouseClicked:(NSEvent *)theEvent atIndex:(unsigned)charIndex
 {
 	id		delegate_ = [self delegate];
 	SEL		selector_ = @selector(HTMLView:mouseClicked:atIndex:);
 	
-	if (delegate_ && [delegate_ respondsToSelector : selector_]) {
+	if (delegate_ && [delegate_ respondsToSelector:selector_]) {
 		return [delegate_ HTMLView:self mouseClicked:theEvent atIndex:charIndex];
 	}
 	return NO;
 }
-- (BOOL) mouseClicked : (NSEvent *) theEvent
+
+- (BOOL)mouseClicked:(NSEvent *)theEvent
 {
 	NSPoint		mouseLocation_;
 	unsigned	charIndex_;
 	
 	mouseLocation_ = [theEvent locationInWindow];
-	mouseLocation_ = [[self window] convertBaseToScreen : mouseLocation_];
+	mouseLocation_ = [[self window] convertBaseToScreen:mouseLocation_];
 
-	charIndex_ = [self characterIndexForPoint : mouseLocation_];
-	// characterIndexForPoint: ‚ÍŒ©‚Â‚©‚ç‚È‚¢‚Æ‚«A0 ‚ğ•Ô‚·B
+	charIndex_ = [self characterIndexForPoint:mouseLocation_];
+	// characterIndexForPoint: ã¯è¦‹ã¤ã‹ã‚‰ãªã„ã¨ãã€0 ã‚’è¿”ã™ã€‚
 	if (charIndex_ != NSNotFound && charIndex_ < [[self string] length])
 		return [self mouseClicked:theEvent atIndex:charIndex_];
 	
 	return NO;
 }
-- (void) mouseDown : (NSEvent *) theEvent
+
+- (void)mouseDown:(NSEvent *)theEvent
 {
 	NSEventType			type;
 	unsigned int		modifierFlags_;
@@ -188,40 +172,37 @@ CMRThreadView ‚ğƒZƒbƒgƒAƒbƒv‚·‚éÛ‚ÉAsetLinkTextAttributes: ‚Å“K“–‚È‘®««‘‚ğƒ
 	NSEvent				*nextEvent_;
 	unsigned int		eventMask_;
 	
-	if (nil == theEvent) return;
+	if (!theEvent) return;
 	
 	type = [theEvent type];
 	modifierFlags_ = [theEvent modifierFlags];
 	
 	if (NSCommandKeyMask & modifierFlags_) {
-		
-		[self commandMouseDown : theEvent];
+		[self commandMouseDown:theEvent];
 		return;
-		
 	}
-	
+
 	if ([self shouldHandleContinuousMouseDown:theEvent]) {
-		//id				interval_;
 		NSNumber	*interval_;
+		double		doubleInterval;
 		
 		eventMask_ = (	NSLeftMouseUpMask | 
 						NSLeftMouseDraggedMask | 
 						NSPeriodicMask);
 		
-		//interval_ = SGTemplateResource(kMouseDownTrackingTimeKey);
-		interval_ = [NSNumber numberWithFloat : [CMRPref mouseDownTrackingTime]];
+		interval_ = [NSNumber numberWithFloat:[CMRPref mouseDownTrackingTime]];
 		UTILAssertKindOfClass(interval_, NSNumber);
-		
-		[NSEvent startPeriodicEventsAfterDelay : [interval_ doubleValue]
-									withPeriod : [interval_ doubleValue]];
-		nextEvent_ = [[self window] nextEventMatchingMask: eventMask_
-										untilDate : [NSDate distantFuture]
-										   inMode : NSEventTrackingRunLoopMode
-										  dequeue : NO];
+		doubleInterval = [interval_ doubleValue];
+
+		[NSEvent startPeriodicEventsAfterDelay:doubleInterval withPeriod:doubleInterval];
+		nextEvent_ = [[self window] nextEventMatchingMask:eventMask_
+										untilDate:[NSDate distantFuture]
+										   inMode:NSEventTrackingRunLoopMode
+										  dequeue:NO];
 		
 		[NSEvent stopPeriodicEvents];
 		if (nextEvent_ && NSPeriodic == [nextEvent_ type]) {
-			if ([self handleContinuousMouseDown : nextEvent_]) {
+			if ([self handleContinuousMouseDown:nextEvent_]) {
 				return;
 			}
 		}
@@ -231,25 +212,25 @@ CMRThreadView ‚ğƒZƒbƒgƒAƒbƒv‚·‚éÛ‚ÉAsetLinkTextAttributes: ‚Å“K“–‚È‘®««‘‚ğƒ
 		unsigned	eventMask_;
 		
 		eventMask_ = (NSLeftMouseUpMask | NSLeftMouseDraggedMask);
-		nextEvent_ = [[self window] nextEventMatchingMask : eventMask_
-									untilDate : [NSDate dateWithTimeIntervalSinceNow:MOUSE_CLICK_TRACKING_TIME]
-									inMode : NSEventTrackingRunLoopMode
-									dequeue : NO];
+		nextEvent_ = [[self window] nextEventMatchingMask:eventMask_
+									untilDate:[NSDate dateWithTimeIntervalSinceNow:MOUSE_CLICK_TRACKING_TIME]
+									inMode:NSEventTrackingRunLoopMode
+									dequeue:NO];
 		type = [nextEvent_ type];
 		if (NSLeftMouseUp == type) {
-			if ([self mouseClicked : nextEvent_])
+			if ([self mouseClicked:nextEvent_])
 				return;
 		}
 	}
-	
-	[super mouseDown : theEvent];
+
+	[super mouseDown:theEvent];
 }
 @end
 
 
 
 @implementation SGHTMLView(CMRLocalizableStringsOwner)
-+ (NSString *) localizableStringsTableName
++ (NSString *)localizableStringsTableName
 {
 	return kLocalizableFile;
 }
@@ -258,52 +239,50 @@ CMRThreadView ‚ğƒZƒbƒgƒAƒbƒv‚·‚éÛ‚ÉAsetLinkTextAttributes: ‚Å“K“–‚È‘®««‘‚ğƒ
 
 
 @implementation SGHTMLView(ResponderExtensions)
-- (NSArray *) HTMLViewFilteringLinkSchemes : (SGHTMLView *) aView
+- (NSArray *)HTMLViewFilteringLinkSchemes:(SGHTMLView *)aView
 {
 	id	delegate_;
 	
 	delegate_ = [aView delegate];
-	if (nil == delegate_) return nil;
-	if (NO == [delegate_ respondsToSelector : _cmd]) return nil;
+	if (!delegate_ || ![delegate_ respondsToSelector:_cmd]) return nil;
 	return [delegate_ HTMLViewFilteringLinkSchemes:aView];
 }
-- (NSMenuItem *) commandItemWithLink : (id		  ) aLink
-							 command : (Class	  ) aFunctorClass
-							   title : (NSString *) aTitle
+
+- (NSMenuItem *)commandItemWithLink:(id)aLink
+							command:(Class)aFunctorClass
+							  title:(NSString *)aTitle
 {
 	NSString		*linkstr_;
 	NSMenuItem		*menuItem_;
 	id				cmd_;
 	
-	UTILAssertConformsTo(
-		aFunctorClass,
-		@protocol(SGFunctor));
-		
-	linkstr_ = [aLink respondsToSelector : @selector(absoluteString)]
+	UTILAssertConformsTo(aFunctorClass, @protocol(SGFunctor));
+
+	linkstr_ = [aLink respondsToSelector:@selector(absoluteString)]
 				? [aLink absoluteString]
 				: [aLink description];
-	cmd_ = [aFunctorClass functorWithObject : linkstr_];
+	cmd_ = [aFunctorClass functorWithObject:linkstr_];
 	menuItem_ = [[NSMenuItem alloc] 
-					initWithTitle : aTitle
-						   action : @selector(execute:)
-					keyEquivalent : @""];
-	[menuItem_ setRepresentedObject : cmd_];
-	[menuItem_ setTarget : cmd_];
-	[menuItem_ setEnabled : YES];
-	
+					initWithTitle:aTitle
+						   action:@selector(execute:)
+					keyEquivalent:@""];
+	[menuItem_ setRepresentedObject:cmd_];
+	[menuItem_ setTarget:cmd_];
+	[menuItem_ setEnabled:YES];
+
 	return [menuItem_ autorelease];
 }
-- (NSMenu *) linkMenuWithLink : (id) aLink
-				 forImageFile : (BOOL) isImage
+
+- (NSMenu *)linkMenuWithLink:(id)aLink forImageFile:(BOOL)isImage
 {
 	NSString		*title_;
 	NSMenu			*menu_;
 	NSMenuItem		*menuItem_;
 	
-	title_ = [self localizedString : kLinkStringKey];
-	menu_ = [[NSMenu allocWithZone : [NSMenu menuZone]] initWithTitle : title_];
-	
-	// ƒŠƒ“ƒN‚ğƒRƒs[
+	title_ = [self localizedString:kLinkStringKey];
+	menu_ = [[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:title_];
+
+	// ãƒªãƒ³ã‚¯ã‚’ã‚³ãƒ”ãƒ¼
 	title_ = [self localizedString : kCopyLinkStringKey];
 	menuItem_ = [self commandItemWithLink : aLink 
 								  command : [SGCopyLinkCommand class]
@@ -311,7 +290,7 @@ CMRThreadView ‚ğƒZƒbƒgƒAƒbƒv‚·‚éÛ‚ÉAsetLinkTextAttributes: ‚Å“K“–‚È‘®««‘‚ğƒ
 	[menu_ addItem : menuItem_];
 	
 	
-	// ƒŠƒ“ƒN‚ğŠJ‚­
+	// ãƒªãƒ³ã‚¯ã‚’é–‹ã
 	title_ = [self localizedString : kOpenLinkStringKey];
 	menuItem_ = [self commandItemWithLink : aLink 
 								  command : [SGOpenLinkCommand class]
@@ -319,21 +298,29 @@ CMRThreadView ‚ğƒZƒbƒgƒAƒbƒv‚·‚éÛ‚ÉAsetLinkTextAttributes: ‚Å“K“–‚È‘®««‘‚ğƒ
 	[menu_ addItem : menuItem_];
 	
 	if (isImage) {
-		// ƒŠƒ“ƒN‚ğƒvƒŒƒrƒ…[
+		// ãƒªãƒ³ã‚¯ã‚’ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼
 		title_ = [self localizedString : kPreviewLinkStringKey];
 		menuItem_ = [self commandItemWithLink : aLink 
 									  command : [SGPreviewLinkCommand class]
 										title : title_];
 		[menu_ addItem : menuItem_];
 	}
+
+	title_ = [self localizedString:@"Download Link"];
+	menuItem_ = [self commandItemWithLink : aLink 
+								  command : [SGDownloadLinkCommand class]
+									title : title_];
+	[menu_ addItem : menuItem_];
+
 	return [menu_ autorelease];
 }
 
-- (NSMenu *) linkMenuWithLink : (id) aLink
+- (NSMenu *) linkMenuWithLink:(id)aLink
 {
-	return [self linkMenuWithLink : aLink forImageFile : NO];
+	return [self linkMenuWithLink:aLink forImageFile:NO];
 }
-- (BOOL) validateLinkByFiltering : (id) aLink
+
+- (BOOL)validateLinkByFiltering:(id)aLink
 {
 	NSArray			*filter_;
 	NSString		*scheme_;
@@ -349,7 +336,8 @@ CMRThreadView ‚ğƒZƒbƒgƒAƒbƒv‚·‚éÛ‚ÉAsetLinkTextAttributes: ‚Å“K“–‚È‘®««‘‚ğƒ
 	scheme_ = [url_ scheme];
 	return (NO == [filter_ containsObject : scheme_]);
 }
-- (BOOL) validateLinkForImage : (id) aLink
+
+- (BOOL)validateLinkForImage:(id)aLink
 {
 	NSURL	*url_;
 	id tmp;
@@ -363,7 +351,8 @@ CMRThreadView ‚ğƒZƒbƒgƒAƒbƒv‚·‚éÛ‚ÉAsetLinkTextAttributes: ‚Å“K“–‚È‘®««‘‚ğƒ
 	return [tmp validateLink : url_];
 }
 
-- (void) pushCloseHandCursorIfNeeded
+#pragma mark Command-Dragging Support
+- (void)pushCloseHandCursorIfNeeded
 {
 	NSCursor	*cursor_;
 	
@@ -373,12 +362,13 @@ CMRThreadView ‚ğƒZƒbƒgƒAƒbƒv‚·‚éÛ‚ÉAsetLinkTextAttributes: ‚Å“K“–‚È‘®««‘‚ğƒ
 		[[NSCursor closedHandCursor] push];
 	}
 }
-- (void) commandMouseDragged : (NSEvent *) theEvent
+
+- (void)commandMouseDragged:(NSEvent *)theEvent
 {
 	NSPoint		newOrigin_;
 	NSRect		bounds_;
 	float		deltaY_;
-	
+
 	[self pushCloseHandCursorIfNeeded];
 	
 	deltaY_ = [theEvent deltaY];
@@ -388,22 +378,22 @@ CMRThreadView ‚ğƒZƒbƒgƒAƒbƒv‚·‚éÛ‚ÉAsetLinkTextAttributes: ‚Å“K“–‚È‘®««‘‚ğƒ
 	if (deltaY_ > newOrigin_.y) return;
 	newOrigin_.y -= deltaY_;
 	
-	[self scrollPoint : newOrigin_];
+	[self scrollPoint:newOrigin_];
 }
-- (void) commandMouseUp : (NSEvent *) theEvent
+
+- (void)commandMouseUp:(NSEvent *)theEvent
 {
-	NSCursor	*cursor_;
-	
+	NSCursor	*cursor_;	
 	
 	cursor_ = [NSCursor currentCursor];
-	if (cursor_ != [NSCursor closedHandCursor] &&
-	   cursor_ != [NSCursor openHandCursor]) {
-			return;
+	if (cursor_ != [NSCursor closedHandCursor] && cursor_ != [NSCursor openHandCursor]) {
+		return;
 	}
-	
+
 	[cursor_ pop];
 }
-- (void) commandMouseDown : (NSEvent *) theEvent
+
+- (void)commandMouseDown:(NSEvent *)theEvent
 {
 	BOOL	keepOn_		= YES;
 	BOOL	isInside_	= YES;
@@ -412,24 +402,21 @@ CMRThreadView ‚ğƒZƒbƒgƒAƒbƒv‚·‚éÛ‚ÉAsetLinkTextAttributes: ‚Å“K“–‚È‘®««‘‚ğƒ
 	[[NSCursor openHandCursor] push];
 	
 	while (keepOn_) {
-		theEvent = [[self window] nextEventMatchingMask : 
-						(NSLeftMouseUpMask | NSLeftMouseDraggedMask)];
-		mouseLocation_ = [self convertPoint : [theEvent locationInWindow]
-								   fromView : nil];
-		isInside_ = [self mouse : mouseLocation_ inRect : [self bounds]];
-		
+		theEvent = [[self window] nextEventMatchingMask:(NSLeftMouseUpMask | NSLeftMouseDraggedMask)];
+		mouseLocation_ = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+		isInside_ = [self mouse:mouseLocation_ inRect:[self bounds]];
+
 		switch([theEvent type]) {
 			case NSLeftMouseDragged:
-					[self commandMouseDragged : theEvent];
-					break;
+				[self commandMouseDragged:theEvent];
+				break;
 			case NSLeftMouseUp:
-					if (isInside_) [self commandMouseUp : theEvent];
-					
-					keepOn_ = NO;
-					break;
+				if (isInside_) [self commandMouseUp:theEvent];
+				keepOn_ = NO;
+				break;
 			default:
-					/* Ignore any other kind of event. */
-					break;
+				/* Ignore any other kind of event. */
+				break;
 		}
 	};
 

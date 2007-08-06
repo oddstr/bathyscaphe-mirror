@@ -135,19 +135,15 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 	return st_browserItemIdentifier;
 }
 
--(NSArray *)unsupportedItemsArray
+- (NSArray *)unsupportedItemsArray
 {
-	static NSArray *cachedUnsupportedViewerTbItems = nil;
-	if (!cachedUnsupportedViewerTbItems) {
-		cachedUnsupportedViewerTbItems = [[[super unsupportedItemsArray] arrayByAddingObject:st_launchCMLFIdentifier] retain];
-	}
-	return cachedUnsupportedViewerTbItems;
+	return [[super unsupportedItemsArray] arrayByAddingObject:st_launchCMLFIdentifier];
 }
 @end
 
 
 
-@implementation CMRThreadViewerTbDelegate (Protected)
+@implementation CMRThreadViewerTbDelegate(Protected)
 /*- (NSString *) labelForCMLF
 {
 	NSString *tmp_ = [CMRPref helperAppDisplayName];
@@ -302,12 +298,6 @@ static NSSegmentedControl *segmentedControlItemBase(void)
 									  action:NULL
 									  target:wcontroller_];
 	[self setupScaleSCItem:item_ target:wcontroller_];
-}
-
-- (void) configureToolbar:(NSToolbar *)aToolbar
-{
-	[aToolbar setAllowsUserCustomization:YES];
-	[aToolbar setAutosavesConfiguration:YES];
 }
 @end
 

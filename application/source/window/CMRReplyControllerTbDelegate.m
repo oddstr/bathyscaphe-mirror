@@ -72,12 +72,12 @@ static NSString *const kBeLoginImageName		= @"beEnabled";
 											   target:nil];
 	[item_ setImage:[NSImage imageAppNamed:kBeLoginImageName]];
 }
-
+/*
 - (void)configureToolbar:(NSToolbar *)aToolbar
 {
 	[aToolbar setAllowsUserCustomization:YES];
 	[aToolbar setAutosavesConfiguration:YES];
-}
+}*/
 @end
 
 

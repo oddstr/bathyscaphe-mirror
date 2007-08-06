@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-ThreadViewer.m,v 1.7 2007/03/24 15:36:30 tsawada2 Exp $
+  * $Id: AppDefaults-ThreadViewer.m,v 1.8 2007/08/06 19:08:14 tsawada2 Exp $
   * 
   * AppDefaults-ThreadViewer.m
   *
@@ -9,6 +9,7 @@
 #import "AppDefaults_p.h"
 
 #import "CMRThreadVisibleRange.h"
+#import "BSLinkDownloadManager.h"
 
 #define kPrefThreadViewerWindowFrameKey		@"Default Window Frame"
 #define kPrefReplyWindowFrameKey			@"Default Reply Window Frame"
@@ -233,6 +234,34 @@ static NSString *const kPrefScroll2LUKey = @"ScrollToLastUpdatedHeader";
 	[[self threadViewerDefaultsDictionary] setBool : flag forKey : kPrefScroll2LUKey];
 }
 
+#pragma mark Twincam Angel Additions
+- (NSString *)linkDownloaderDestination
+{
+	NSString *tmp = [[self threadViewerDefaultsDictionary] stringForKey:@"LinkDownloaderDestination"];
+	if (!tmp) tmp = [NSHomeDirectory() stringByAppendingPathComponent: @"Desktop"];
+	return tmp;
+}
+- (void)setLinkDownloaderDestination:(NSString *)path
+{
+	[[self threadViewerDefaultsDictionary] setObject:path forKey:@"LinkDownloaderDestination"];
+}
+- (NSMutableArray *)linkDownloaderDictArray
+{
+	return [[BSLinkDownloadManager defaultManager] downloadableTypes];
+}
+- (NSArray *)linkDownloaderExtensionTypes
+{
+	return [[self linkDownloaderDictArray] valueForKey:@"extension"];
+}
+- (NSArray *)linkDownloaderAutoopenTypes
+{
+	return [[self linkDownloaderDictArray] valueForKey:@"autoopen"];
+}
+- (void)setLinkDownloaderDictArray:(NSMutableArray *)array
+{
+	[[BSLinkDownloadManager defaultManager] setDownloadableTypes:array];
+}
+
 #pragma mark -
 - (void) _loadThreadViewerSettings
 {
@@ -257,6 +286,7 @@ static NSString *const kPrefScroll2LUKey = @"ScrollToLastUpdatedHeader";
 	UTILAssertNotNil(dict_);
 	[[self defaults] setObject : dict_
 						forKey : kPrefThreadViewerSettingsKey];
+	[[BSLinkDownloadManager defaultManager] writeToFileNow];
 	return YES;
 }
 @end
