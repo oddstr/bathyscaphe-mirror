@@ -1592,7 +1592,7 @@
 		F324DBD604C6965500A80005 /* w2chReply_shita.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = w2chReply_shita.h; sourceTree = "<group>"; };
 		F324DBD704C6965500A80005 /* w2chReply_shita.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = w2chReply_shita.m; sourceTree = "<group>"; };
 		F324DBDA04C6965500A80005 /* SG2chErrorHandler.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = SG2chErrorHandler.h; sourceTree = "<group>"; };
-		F324DBDB04C6965500A80005 /* SG2chErrorHandler.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SG2chErrorHandler.m; sourceTree = "<group>"; };
+		F324DBDB04C6965500A80005 /* SG2chErrorHandler.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SG2chErrorHandler.m; sourceTree = "<group>"; };
 		F324DBEF04C6965500A80005 /* login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login.png; sourceTree = "<group>"; };
 		F324DBF004C6965500A80005 /* URLConnector_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = URLConnector_Prefix.h; sourceTree = "<group>"; };
 		F324DC2704C698FA00A80005 /* BoardManager.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = BoardManager.h; sourceTree = "<group>"; };

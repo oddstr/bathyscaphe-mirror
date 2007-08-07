@@ -1,3 +1,12 @@
+2007-08-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* frameworks/SGAppKit/framework/src/custom/bathyscaphe/BSBoardListView.m
+		Intel Mac で 掲示板リストの Type-To-Select が正しく動作しなかった問題を修正。
+		キーイベントを拾って文字列を復元する際に、日本語の文字がちゃんと取れなくなっていた。
+		エンディアンがらみか？typeUnicodeText ではなく typeUTF16ExternalRepresentation を指定することで解決。
+		ただし、typeUTF16ExternalRepresentation は Mac OS X 10.4 以降なので、10.3.x では typeUnicodeText のまま。
+		10.3.x+Intel Mac の組み合わせはあり得ないから、これでいいだろう。
+	* application/subproj/reply/error/SG2chErrorHandler.m
+		まちBBSに書き込むと、正常に書き込めているのに「データがありません」とエラーが表示されるようになっていた問題を修正。
 2007-08-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* frameworks/SGFoundation/framework/source/classes/xml/SGXMLEntityReference.m
 		遅ればせながら CocoMonar の修正を取り込み。

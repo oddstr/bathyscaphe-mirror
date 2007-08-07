@@ -1,5 +1,5 @@
 /*
- * $Id: BSImagePreviewInspector-Tb.m,v 1.14 2007/08/07 14:07:44 tsawada2 Exp $
+ * $Id: BSImagePreviewInspector-Tb.m,v 1.15 2007/08/07 15:55:05 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -12,6 +12,7 @@
 #import <SGFoundation/NSMutableDictionary-SGExtensions.h>
 #import <SGAppKit/BSSegmentedControlTbItem.h>
 #import <SGAppKit/NSWorkspace-SGExtensions.h>
+#import <CocoMonar/CMRFileManager.h>
 
 static NSString *const kIPITbActionBtnId		= @"Actions";
 static NSString *const kIPITbSettingsBtnId		= @"Settings";

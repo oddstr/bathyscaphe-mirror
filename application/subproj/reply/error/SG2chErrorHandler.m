@@ -1,5 +1,5 @@
 /**
-  * $Id: SG2chErrorHandler.m,v 1.3 2006/06/04 16:01:10 tsawada2 Exp $
+  * $Id: SG2chErrorHandler.m,v 1.4 2007/08/07 15:55:05 tsawada2 Exp $
   * 
   * SG2chErrorHandler.m
   *
@@ -120,11 +120,16 @@ static NSString *const kHTMLHorizotalLine = @"<br>----------------<br>";
 	} else {
 		const char	*host_ = [[[self requestURL] host] UTF8String];
 		
-		if (is_jbbs_shita(host_) || is_shitaraba(host_)) {
+		if (is_jbbs_shita(host_) || is_shitaraba(host_) || is_machi(host_)) {
 			/*
 			2004-02-25 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
 			----------------------------------------
 			ÇµÇΩÇÁÇŒî¬ÇÕâΩÇ‡ï‘Ç≥Ç»Ç¢Ç©ÅAhtml à»äO
+			*/
+			/*
+			2007-08-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+			----------------------------------------
+			Ç‹ÇøBBSÇ‡âΩÇ‡ï‘Ç≥Ç»Ç¢ÅH
 			*/
 			error.type = k2chNoneErrorType;
 		} else if (nil == contents || [contents isEmpty]) {

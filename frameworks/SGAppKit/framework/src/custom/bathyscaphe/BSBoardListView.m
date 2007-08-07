@@ -1,5 +1,5 @@
 //
-//  $Id: BSBoardListView.m,v 1.5 2007/02/25 11:51:05 tsawada2 Exp $
+//  $Id: BSBoardListView.m,v 1.6 2007/08/07 15:55:05 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/09/20.
@@ -141,10 +141,15 @@ static OSStatus inputText(EventHandlerCallRef nextHandler, EventRef theEvent, vo
 #if useLog    
 	NSLog(@"inputText");
 #endif
+	FourCharCode unicodeConstant = typeUnicodeText; // Panther.
+
+	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_3) {
+		unicodeConstant = 'ut16'; // typeUTF16ExternalRepresentation. For Tiger and later.
+	}
 	UInt32 dataSize;
-	OSStatus err = GetEventParameter(theEvent, kEventParamTextInputSendText, typeUnicodeText, NULL, 0, &dataSize, NULL);
+	OSStatus err = GetEventParameter(theEvent, kEventParamTextInputSendText, unicodeConstant, NULL, 0, &dataSize, NULL);
 	UniChar *dataPtr = (UniChar *)malloc(dataSize);
-	err = GetEventParameter(theEvent, kEventParamTextInputSendText, typeUnicodeText, NULL, dataSize, NULL, dataPtr);
+	err = GetEventParameter(theEvent, kEventParamTextInputSendText, unicodeConstant, NULL, dataSize, NULL, dataPtr);
 	NSString *aString =[[NSString alloc] initWithBytes:dataPtr length:dataSize encoding:NSUnicodeStringEncoding];
 	[(id)userData insertTextInputSendText:aString];
 	free(dataPtr);
