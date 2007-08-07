@@ -5,6 +5,7 @@
         {
             ACTIONS = {
                 beginSettingsSheet = id; 
+                cancelDownload = id; 
                 changePane = id; 
                 copyURL = id; 
                 deleteCachedImage = id; 
@@ -15,6 +16,7 @@
                 openImageWithPreviewApp = id; 
                 openOpenPanel = id; 
                 resetCache = id; 
+                retryDownload = id; 
                 saveImage = id; 
                 saveImageAs = id; 
                 showNextImage = id; 

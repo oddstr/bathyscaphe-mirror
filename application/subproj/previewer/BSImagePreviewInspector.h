@@ -49,6 +49,8 @@ typedef enum _BSIPIRedirectionBehavior {
 - (IBAction) copyURL : (id) sender;
 - (IBAction) beginSettingsSheet : (id) sender;
 - (IBAction) startFullscreen : (id) sender;
+- (IBAction)cancelDownload:(id)sender;
+- (IBAction)retryDownload:(id)sender;
 
 - (IBAction) togglePreviewPanel : (id) sender;
 - (IBAction) historyNavigationPushed: (id) sender;

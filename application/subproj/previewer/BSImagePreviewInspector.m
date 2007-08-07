@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.21 2007/01/07 17:04:24 masakih Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.22 2007/08/07 14:07:44 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -155,6 +155,11 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 - (IBAction) cancelDownload : (id) sender
 {
 	[[BSIPIHistoryManager sharedManager] makeTokensCancelDownloadAtIndexes: [[self tripleGreenCubes] selectionIndexes]];
+}
+
+- (IBAction)retryDownload:(id)sender
+{
+	[[BSIPIHistoryManager sharedManager] makeTokensRetryDownloadAtIndexes:[[self tripleGreenCubes] selectionIndexes]];
 }
 
 - (IBAction) showPrevImage: (id) sender

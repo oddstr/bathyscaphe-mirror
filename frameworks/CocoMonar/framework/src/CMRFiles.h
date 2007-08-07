@@ -1,5 +1,5 @@
 /**
- * $Id: CMRFiles.h,v 1.2 2007/03/23 17:27:52 tsawada2 Exp $
+ * $Id: CMRFiles.h,v 1.3 2007/08/07 14:07:44 tsawada2 Exp $
  * 
  * CMRFiles.h
  *
@@ -15,11 +15,13 @@
 #define CMRFavoritesFile		@"Favorites.plist"
 #define CMRFavMemoFile			@"Favorites_Memo.plist"
 
+#define BSBoardPropertiesFile	@"BoardProperties.plist"
+#define BSDownloadableTypesFile	@"DownloadableLinkTypes.plist"
 
 /*!
  * @abstract    
  *
- * ~/Library/Application Support/CocoMonar/(XXX)
+ * ~/Library/Application Support/(AppName)/(XXX)
  * [CMRFileManager supportDirectoryWithName:]
  *
  * @defined    CMXLogsDirectory

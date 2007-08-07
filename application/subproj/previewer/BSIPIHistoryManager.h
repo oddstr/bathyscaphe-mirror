@@ -35,9 +35,11 @@
 
 - (BOOL) cachedTokensArrayContainsNotNullObjectAtIndexes: (NSIndexSet *) indexes;
 - (BOOL) cachedTokensArrayContainsDownloadingTokenAtIndexes: (NSIndexSet *) indexes;
+- (BOOL)cachedTokensArrayContainsFailedTokenAtIndexes:(NSIndexSet *)indexes; // Available in 2.6.1 and later.
 
 - (void) openURLForTokenAtIndexes: (NSIndexSet *) indexes inBackground: (BOOL) inBg;
 - (void) makeTokensCancelDownloadAtIndexes: (NSIndexSet *) indexes;
+- (void)makeTokensRetryDownloadAtIndexes:(NSIndexSet *)indexes; // Available in 2.6.1 and later.
 
 - (void) openCachedFileForTokenAtIndexesWithPreviewApp: (NSIndexSet *) indexes;
 - (void) copyCachedFileForTokenAtIndexes: (NSIndexSet *) indexes intoFolder: (NSString *) folderPath;

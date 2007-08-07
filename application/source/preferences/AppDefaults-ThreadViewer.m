@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-ThreadViewer.m,v 1.8 2007/08/06 19:08:14 tsawada2 Exp $
+  * $Id: AppDefaults-ThreadViewer.m,v 1.9 2007/08/07 14:07:44 tsawada2 Exp $
   * 
   * AppDefaults-ThreadViewer.m
   *
@@ -27,6 +27,8 @@ static NSString *const kPrefLastVisibleKey	= @"LastVisible";
 static NSString *const kPrefTrackingTimeKey = @"Mousedown Tracking Time";
 
 static NSString *const kPrefScroll2LUKey = @"ScrollToLastUpdatedHeader";
+
+static NSString *const kPrefLinkDownloaderDestKey = @"LinkDownloaderDestination";
 
 @implementation AppDefaults(ThreadViewerSettings)
 - (NSMutableDictionary *) threadViewerDefaultsDictionary
@@ -237,17 +239,25 @@ static NSString *const kPrefScroll2LUKey = @"ScrollToLastUpdatedHeader";
 #pragma mark Twincam Angel Additions
 - (NSString *)linkDownloaderDestination
 {
-	NSString *tmp = [[self threadViewerDefaultsDictionary] stringForKey:@"LinkDownloaderDestination"];
-	if (!tmp) tmp = [NSHomeDirectory() stringByAppendingPathComponent: @"Desktop"];
-	return tmp;
+	BOOL	isDir;
+	NSString *path = [[self threadViewerDefaultsDictionary] stringForKey:kPrefLinkDownloaderDestKey];
+	if (path && [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] && isDir) {
+		return path;
+	} else {
+		return [[CMRFileManager defaultManager] userDomainDesktopFolderPath];
+	}
 }
 - (void)setLinkDownloaderDestination:(NSString *)path
 {
-	[[self threadViewerDefaultsDictionary] setObject:path forKey:@"LinkDownloaderDestination"];
+	[[self threadViewerDefaultsDictionary] setObject:path forKey:kPrefLinkDownloaderDestKey];
 }
 - (NSMutableArray *)linkDownloaderDictArray
 {
 	return [[BSLinkDownloadManager defaultManager] downloadableTypes];
+}
+- (void)setLinkDownloaderDictArray:(NSMutableArray *)array
+{
+	[[BSLinkDownloadManager defaultManager] setDownloadableTypes:array];
 }
 - (NSArray *)linkDownloaderExtensionTypes
 {
@@ -256,10 +266,6 @@ static NSString *const kPrefScroll2LUKey = @"ScrollToLastUpdatedHeader";
 - (NSArray *)linkDownloaderAutoopenTypes
 {
 	return [[self linkDownloaderDictArray] valueForKey:@"autoopen"];
-}
-- (void)setLinkDownloaderDictArray:(NSMutableArray *)array
-{
-	[[BSLinkDownloadManager defaultManager] setDownloadableTypes:array];
 }
 
 #pragma mark -

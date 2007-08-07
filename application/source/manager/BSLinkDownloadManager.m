@@ -4,10 +4,14 @@
 //
 //  Created by Tsutomu Sawada on 07/08/07.
 //  Copyright 2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import "BSLinkDownloadManager.h"
 #import "CocoMonar_Prefix.h"
+
+static NSString *const kTicketPlistRepExtensionKey = @"Extension";
+static NSString *const kTicketPlistRepAutoopenKey = @"Autoopen";
 
 @implementation BSLinkDownloadTicket
 - (id)init
@@ -24,6 +28,7 @@
 	[super dealloc];
 }
 
+#pragma mark Accessors
 - (NSString *)extension
 {
 	return m_extension;
@@ -46,7 +51,7 @@
 	m_autoopen = isAutoopen;
 }
 
-#pragma mark CMRPropertyListCoding
+#pragma mark CMRPropertyListCoding Protocol
 + (id)objectWithPropertyListRepresentation:(id)rep
 {
     if (!rep || ![rep isKindOfClass:[NSDictionary class]]) {
@@ -55,15 +60,15 @@
 
 	id instance;
 	instance = [[[self class] alloc] init];
-	[instance setExtension:[rep stringForKey:@"Extension"]];
-	[instance setAutoopen:[rep boolForKey:@"Autoopen"]];
+	[instance setExtension:[rep stringForKey:kTicketPlistRepExtensionKey]];
+	[instance setAutoopen:[rep boolForKey:kTicketPlistRepAutoopenKey]];
 	return [instance autorelease];
 }
 
 - (id)propertyListRepresentation
 {
-	return [NSDictionary dictionaryWithObjectsAndKeys:[self extension], @"Extension",
-													  [NSNumber numberWithBool:[self autoopen]], @"Autoopen", NULL];
+	return [NSDictionary dictionaryWithObjectsAndKeys:[self extension], kTicketPlistRepExtensionKey,
+													  [NSNumber numberWithBool:[self autoopen]], kTicketPlistRepAutoopenKey, NULL];
 }
 @end
 
@@ -72,7 +77,14 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager)
 
 + (NSString *)defaultFilepath
 {
-    return [[CMRFileManager defaultManager] supportFilepathWithName:@"DownloadableLinkTypes.plist" resolvingFileRef:NULL];
+    return [[CMRFileManager defaultManager] supportFilepathWithName:BSDownloadableTypesFile resolvingFileRef:NULL];
+}
+
++ (NSString *)spareFilepath
+{
+	NSString *resourceType = [BSDownloadableTypesFile pathExtension];
+	NSString *resourceName = [BSDownloadableTypesFile stringByDeletingPathExtension];
+	return [[NSBundle mainBundle] pathForResource:resourceName ofType:resourceType];
 }
 
 - (NSMutableArray *)restoreFromPlistRep:(id)rep
@@ -91,16 +103,22 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager)
 - (id)init
 {
     if (self = [super init]) {
-        NSString        *filepath_;
+        NSString        *filepath;
+		NSFileManager	*fileManager = [NSFileManager defaultManager];
         
-        filepath_ = [[self class] defaultFilepath];
-        UTILAssertNotNil(filepath_);
+        filepath = [[self class] defaultFilepath];
+        UTILAssertNotNil(filepath);
+
+		if (![fileManager fileExistsAtPath:filepath]) {
+			// Copy from application package to support directory.
+			[fileManager copyPath:[[self class] spareFilepath] toPath:filepath handler:nil];
+		}
 
 		NSData		*data;
 		NSArray		*rep;
 		NSString	*errorStr = [NSString string];
 
-		data = [NSData dataWithContentsOfFile:filepath_];
+		data = [NSData dataWithContentsOfFile:filepath];
 		if (data) {
 			rep = [NSPropertyListSerialization propertyListFromData:data
 												   mutabilityOption:NSPropertyListImmutable

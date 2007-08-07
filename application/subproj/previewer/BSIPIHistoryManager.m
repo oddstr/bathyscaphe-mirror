@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIHistoryManager.m,v 1.7 2007/02/24 11:45:27 tsawada2 Exp $
+//  $Id: BSIPIHistoryManager.m,v 1.8 2007/08/07 14:07:44 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/12.
@@ -172,6 +172,20 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 	return NO;
 }
 
+- (BOOL)cachedTokensArrayContainsFailedTokenAtIndexes:(NSIndexSet *)indexes
+{
+	NSArray *tokenArray = [self cachedTokensArrayAtIndexes:indexes];
+	if (!tokenArray) return NO;
+
+	NSEnumerator	*iter_ = [tokenArray objectEnumerator];
+	BSIPIToken		*eachToken;
+
+	while (eachToken = [iter_ nextObject]) {
+		if (![eachToken isDownloading] && ![eachToken isFileExists]) return YES;
+	}
+
+	return NO;
+}
 
 
 #pragma mark URL Operations
@@ -199,6 +213,15 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 	
 	if (tokenArray != nil) {
 		[tokenArray makeObjectsPerformSelector: @selector(cancelDownload)];
+	}
+}
+
+- (void)makeTokensRetryDownloadAtIndexes:(NSIndexSet *)indexes
+{
+	NSArray *tokenArray = [self cachedTokensArrayAtIndexes:indexes];
+
+	if (tokenArray) {
+		[tokenArray makeObjectsPerformSelector:@selector(retryDownload:) withObject:[self dlFolderPath]];
 	}
 }
 

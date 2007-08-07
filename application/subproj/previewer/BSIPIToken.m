@@ -176,6 +176,23 @@ NSString *const BSIPITokenDownloadErrorNotification = @"BSIPITokenDownloadErrorN
 	}
 }
 
+- (void)retryDownload:(id)destination
+{
+	if ([self currentDownload]) return;
+/*
+	NSString *downloadedFilePathIfExists = [self downloadedFilePath];
+	if (downloadedFilePathIfExists && [[NSFileManager defaultManager] fileExistsAtPath:downloadedFilePathIfExists]) {
+		[[NSFileManager defaultManager] removeFileAtPath:downloadedFilePathIfExists handler:nil];
+	}
+*/
+	[self setCurrentDownload:[[[BSIPIDownload alloc] initWithURLIdentifier:[self sourceURL] delegate:self destination:destination] autorelease]];
+	[self setThumbnail:[[self class] loadingIndicator]];
+	[self setStatusMessage:[self localizedStrForKey:@"Start Downloading..."]];
+	ipit_downloadedSize = 0;
+	ipit_contentSize = 0;
+	shouldIndeterminate = YES;
+}
+
 - (double) contentSize
 {
 	return ipit_contentSize;

@@ -1,6 +1,6 @@
 //: CMRFileManager.m
 /**
-  * $Id: CMRFileManager.m,v 1.5 2007/01/22 02:23:29 tsawada2 Exp $
+  * $Id: CMRFileManager.m,v 1.6 2007/08/07 14:07:44 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -235,6 +235,28 @@ NS_ENDHANDLER
 			: [[support_ filepath] stringByAppendingPathComponent : aFileName];
 }
 
+- (NSString *)userDomainDesktopFolderPath
+{
+    CFURLRef        folderURL;
+    FSRef           folderRef;
+    CFStringRef     folderPath;
+    OSErr           err;
+	NSString		*returnPath = nil;
+
+    err = FSFindFolder(kUserDomain, kDesktopFolderType, kDontCreateFolder, &folderRef);
+    if (err == noErr) {
+		folderURL = CFURLCreateFromFSRef(kCFAllocatorSystemDefault, &folderRef);
+		if (folderURL) {
+			folderPath = CFURLCopyFileSystemPath(folderURL, kCFURLPOSIXPathStyle);
+			if (folderPath) {
+				returnPath = [NSString stringWithString:(NSString *)folderPath];
+				CFRelease(folderPath);
+			}
+			CFRelease(folderURL);
+		}
+	}
+	return returnPath;
+}
 @end
 
 

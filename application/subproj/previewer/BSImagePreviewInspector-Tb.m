@@ -1,5 +1,5 @@
 /*
- * $Id: BSImagePreviewInspector-Tb.m,v 1.13 2007/01/07 17:04:24 masakih Exp $
+ * $Id: BSImagePreviewInspector-Tb.m,v 1.14 2007/08/07 14:07:44 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -22,6 +22,7 @@ static NSString *const kIPITbBrowserBtnId		= @"OpenWithBrowser";
 static NSString *const kIPITbNaviBtnId			= @"History";
 static NSString *const kIPITbPaneBtnId			= @"Panes";
 static NSString *const kIPITbDeleteBtnId		= @"Delete";
+static NSString *const kIPITbSaveBtnId			= @"Save";
 static NSString *const kIPIToobarId				= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Toolbar";
 static NSString *const kIPIAlwaysKeyWindowKey	= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Always Key Window";
 static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Save Directory";
@@ -97,6 +98,17 @@ static NSString *const kIPILeaveFailedTokenKey	= @"jp.tsawada2.BathyScaphe.Image
 		[toolbarItem setTarget: self];
 		[toolbarItem setAction: @selector(cancelDownload:)];
 
+	} else if ([itemIdent isEqual:kIPITbSaveBtnId]) {
+        toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:itemIdent] autorelease];
+
+		[toolbarItem setLabel:[self localizedStrForKey:@"Save"]];
+		[toolbarItem setPaletteLabel:[self localizedStrForKey:@"Save"]];
+		[toolbarItem setToolTip:[self localizedStrForKey:@"SaveTip"]];
+		[toolbarItem setImage:[self imageResourceWithName:@"Save"]];
+		
+		[toolbarItem setTarget:self];
+		[toolbarItem setAction:@selector(saveImage:)];
+
 	} else if ([itemIdent isEqual: kIPITbPreviewBtnId]) {
 		NSString *previewPath = [[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier : @"com.apple.Preview"];
         toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdent] autorelease];
@@ -155,7 +167,7 @@ static NSString *const kIPILeaveFailedTokenKey	= @"jp.tsawada2.BathyScaphe.Image
 
 		tmp_ = [[self actionBtn] retain]; // 2006-02-24 added
 		
-		attachMenuItem_ = [[[NSMenuItem alloc] initWithTitle: [self localizedStrForKey : @"Actions"] action: NULL keyEquivalent: @""] autorelease];
+		attachMenuItem_ = [[[NSMenuItem alloc] initWithTitle:[self localizedStrForKey:@"Actions"] action:NULL keyEquivalent:@""] autorelease];
 		[attachMenuItem_ setImage : [self imageResourceWithName: @"Gear"]];
 		attachMenu_ = [[[self actionBtn] menu] copy];
 		[attachMenu_ removeItemAtIndex: 0];
@@ -227,15 +239,15 @@ static NSString *const kIPILeaveFailedTokenKey	= @"jp.tsawada2.BathyScaphe.Image
 - (NSArray *) toolbarDefaultItemIdentifiers : (NSToolbar *) toolbar
 {
     return [NSArray arrayWithObjects: kIPITbNaviBtnId, kIPITbPaneBtnId, kIPITbActionBtnId, NSToolbarFlexibleSpaceItemIdentifier,
-									  kIPITbCancelBtnId, nil];
+									  kIPITbCancelBtnId, kIPITbSaveBtnId, nil];
 }
 
 - (NSArray *) toolbarAllowedItemIdentifiers : (NSToolbar *) toolbar
 {
-    return [NSArray arrayWithObjects: kIPITbNaviBtnId, kIPITbPaneBtnId, kIPITbActionBtnId, kIPITbCancelBtnId, kIPITbDeleteBtnId, kIPITbBrowserBtnId,
-									  kIPITbPreviewBtnId, kIPITbFullscreenBtnId, kIPITbSettingsBtnId, NSToolbarCustomizeToolbarItemIdentifier,
-									  NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSpaceItemIdentifier,
-									  NSToolbarSeparatorItemIdentifier, nil];
+    return [NSArray arrayWithObjects:kIPITbNaviBtnId, kIPITbPaneBtnId, kIPITbActionBtnId, kIPITbCancelBtnId, kIPITbDeleteBtnId,
+									 kIPITbSaveBtnId, kIPITbBrowserBtnId, kIPITbPreviewBtnId, kIPITbFullscreenBtnId, kIPITbSettingsBtnId,
+									 NSToolbarCustomizeToolbarItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier,
+									 NSToolbarSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier, nil];
 }
 
 #pragma mark Validation
@@ -248,30 +260,30 @@ static NSString *const kIPILeaveFailedTokenKey	= @"jp.tsawada2.BathyScaphe.Image
 		return [cube_ canRemove];
 	}
 
-	unsigned	idx_ = [cube_ selectionIndex];
-	BOOL		selected = (idx_ != NSNotFound);
+	NSIndexSet	*indexes = [cube_ selectionIndexes];
+	BOOL		selected = ([indexes count] > 0);
 
-	if ([identifier_ isEqualToString : kIPITbBrowserBtnId] || [identifier_ isEqualToString: kIPITbFullscreenBtnId]) {
+	if ([identifier_ isEqualToString:kIPITbBrowserBtnId] || [identifier_ isEqualToString:kIPITbFullscreenBtnId]) {
 		return selected;
-	} else if ([identifier_ isEqualToString : kIPITbCancelBtnId]) {
+	} else if ([identifier_ isEqualToString:kIPITbCancelBtnId]) {
 		if (!selected) return NO;
-		if ([[BSIPIHistoryManager sharedManager] cachedTokensArrayContainsDownloadingTokenAtIndexes: [cube_ selectionIndexes]]) {
+		BSIPIHistoryManager *manager = [BSIPIHistoryManager sharedManager];
+		if ([manager cachedTokensArrayContainsDownloadingTokenAtIndexes:indexes]) {
 			[toolbarItem setLabel : [self localizedStrForKey : @"Stop"]];
 			[toolbarItem setToolTip: [self localizedStrForKey : @"StopTip"]];
 			[toolbarItem setImage: [NSImage imageNamed: @"stopSign"]];
 			[toolbarItem setTarget : self];
 			[toolbarItem setAction : @selector(cancelDownload:)];
-			return YES;
 		} else {
-			[toolbarItem setLabel : [self localizedStrForKey : @"Save"]];
-			[toolbarItem setToolTip: [self localizedStrForKey : @"SaveTip"]];
-			[toolbarItem setImage: [self imageResourceWithName: @"Save"]];
-			[toolbarItem setTarget : self];
-			[toolbarItem setAction : @selector(saveImage:)];
-			return ([[BSIPIHistoryManager sharedManager] cachedTokensArrayContainsNotNullObjectAtIndexes: [cube_ selectionIndexes]]);
+			[toolbarItem setLabel:[self localizedStrForKey:@"Retry"]];
+			[toolbarItem setToolTip:[self localizedStrForKey:@"RetryTip"]];
+			[toolbarItem setImage:[NSImage imageNamed: @"ReloadThread"]];
+			[toolbarItem setTarget:self];
+			[toolbarItem setAction:@selector(retryDownload:)];
 		}
-	} else if ([identifier_ isEqualToString: kIPITbPreviewBtnId]) {
-		return (selected && [[BSIPIHistoryManager sharedManager] cachedTokensArrayContainsNotNullObjectAtIndexes: [cube_ selectionIndexes]]);
+		return YES;
+	} else if ([identifier_ isEqualToString:kIPITbPreviewBtnId] || [identifier_ isEqualToString:kIPITbSaveBtnId]) {
+		return (selected && [[BSIPIHistoryManager sharedManager] cachedTokensArrayContainsNotNullObjectAtIndexes:indexes]);
 	}
     return YES;
 }
@@ -294,27 +306,26 @@ static NSString *const kIPILeaveFailedTokenKey	= @"jp.tsawada2.BathyScaphe.Image
 		return [cube_ canRemove];
 	}
 
-	unsigned	idx_ = [cube_ selectionIndex];
-	BOOL		selected = (idx_ != NSNotFound);
+	NSIndexSet	*indexes = [cube_ selectionIndexes];
+	BOOL		selected = ([indexes count] > 0);
 
 	if (tag_ == 573) {
 		return selected;
 	} else if (tag_ == 575) {
-		return (selected && [[BSIPIHistoryManager sharedManager] cachedTokensArrayContainsNotNullObjectAtIndexes: [cube_ selectionIndexes]]);
+		return (selected && [[BSIPIHistoryManager sharedManager] cachedTokensArrayContainsNotNullObjectAtIndexes:indexes]);
 	} else if (tag_ == 576) {
-		return (selected && ([[cube_ selectionIndexes] count] == 1) && 
-				[[[self historyItems] objectAtIndex: idx_] downloadedFilePath] != nil);
+		return (selected && ([indexes count] == 1) && [[[self historyItems] objectAtIndex:[indexes firstIndex]] downloadedFilePath]);
 	} else if (tag_ == 574) {
 		if (!selected) return NO;
-		if ([[BSIPIHistoryManager sharedManager] cachedTokensArrayContainsDownloadingTokenAtIndexes: [cube_ selectionIndexes]]) {
+		BSIPIHistoryManager *manager = [BSIPIHistoryManager sharedManager];
+		if ([manager cachedTokensArrayContainsDownloadingTokenAtIndexes:indexes]) {
 			[menuItem setTitle: [self localizedStrForKey: @"StopMenu"]];
 			[menuItem setAction: @selector(cancelDownload:)];
-			return YES;
 		} else {
-			[menuItem setTitle: [self localizedStrForKey: @"SaveMenu"]];
-			[menuItem setAction: @selector(saveImage:)];
-			return ([[BSIPIHistoryManager sharedManager] cachedTokensArrayContainsNotNullObjectAtIndexes: [cube_ selectionIndexes]]);
+			[menuItem setTitle: [self localizedStrForKey: @"RetryMenu"]];
+			[menuItem setAction: @selector(retryDownload:)];
 		}
+		return YES;
 	}
 	
 	if ([menuItem action] == @selector(resetCache:)) {
@@ -323,8 +334,7 @@ static NSString *const kIPILeaveFailedTokenKey	= @"jp.tsawada2.BathyScaphe.Image
 	return YES;
 }
 
-- (BOOL) segCtrlTbItem: (BSSegmentedControlTbItem *) item
-	   validateSegment: (int) segment
+- (BOOL) segCtrlTbItem:(BSSegmentedControlTbItem *)item validateSegment:(int)segment
 {
 	if ([item view] == [self paneChangeBtn]) return YES;
 
@@ -357,8 +367,7 @@ static NSString *const kIPILeaveFailedTokenKey	= @"jp.tsawada2.BathyScaphe.Image
 
 - (NSString *) saveDirectory
 {
-	return [[self prefsDict] objectForKey: kIPISaveDirectoryKey
-							defaultObject: [NSHomeDirectory() stringByAppendingPathComponent: @"Desktop"]];
+	return [[self prefsDict] objectForKey:kIPISaveDirectoryKey defaultObject:[[CMRFileManager defaultManager] userDomainDesktopFolderPath]];
 }
 
 - (void) setSaveDirectory : (NSString *) aString

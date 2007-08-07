@@ -43,6 +43,7 @@
 - (double) downloadedSize;
 
 - (void) cancelDownload;
+- (void)retryDownload:(id)destination; // Available in 2.6.1 and later.
 @end
 
 extern NSString *const BSIPITokenDownloadErrorNotification;

@@ -1,5 +1,5 @@
 /**
- * $Id: CMRFileManager.h,v 1.2 2006/11/05 13:35:34 tsawada2 Exp $
+ * $Id: CMRFileManager.h,v 1.3 2007/08/07 14:07:44 tsawada2 Exp $
  * 
  * CMRFileManager.h
  *
@@ -61,6 +61,12 @@
 // ~/Library/Application Support/CocoMonar/<fileName>
 - (NSString *) supportFilepathWithName : (NSString   *) aFileName
 					  resolvingFileRef : (SGFileRef **) aFileRefPtr;
+
+//
+// ~/Desktop
+// Available in CocoMonar Framework 1.5.1 (BathyScaphe 1.6) and later.
+//
+- (NSString *)userDomainDesktopFolderPath;
 @end
 
 

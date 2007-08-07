@@ -1,3 +1,30 @@
+2007-08-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* frameworks/SGFoundation/framework/source/classes/xml/SGXMLEntityReference.m
+		遅ればせながら CocoMonar の修正を取り込み。
+		>2007-04-22 minamie <minamie@po.twin.ne.jp>
+		>土吉の数値文字参照がタミル文字になる現象に対応
+		>(26スレ目347番目のレス)
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+	* application/subproj/previewer/BSImagePreviewInspector-View.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/BSIPIToken.m
+	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
+	* application/subproj/previewer/Japanese.lproj/Localizable.strings
+		プレビューインスペクタ（2.6→2.6.1）：
+		- イメージの「再読み込み」を行えるようにした。
+		- 上記に伴い、「保存／中止」ツールバーボタン・メニュー項目を「中止／再読み込み」ツールバーボタン・メニュー項目に変更し、
+		　「保存」ボタン・メニュー項目は独立させた。
+		- 「イメージを別名で保存...」メニュー項目は「イメージを保存」項目を option キーを押しながら選択したときに現れるように変更。
+		- その他細部の調整。
+	* frameworks/CocoMonar/framework/src/CMRFileManager.m
+		CocoMonar Framework: ユーザドメインのデスクトップフォルダの絶対パスを取得するメソッドを追加した（FSFindFolder() のラッパー）。
+	* application/source/manager/BSLinkDownloadManager.m
+		DownloadableLinkTypes.plist が存在しないときは、アプリケーションパッケージ内のものをコピーして配置するようにした。
+	* application/Resources/text/DownloadableLinkTypes.plist
+		[新規追加] アプリケーションパッケージに内包される DownloadableLinkTypes.plist のひな形。
+		~/Library/Application Support/BathyScaphe に同名ファイルが見つからない場合に、このファイルを自動的にコピーする。
+	* frameworks/CocoMonar/framework/src/CMRFiles.h
+		サポートファイルの名前を定義する定数をいくつか追加。
 2007-08-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	1.5 からの変更点の量・質を考慮すると、1.5.1 ではなく 1.6 とすべきと判断したので、次のバージョンは 1.6 とする。
 

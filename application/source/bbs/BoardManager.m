@@ -1,5 +1,5 @@
 /**
- * $Id: BoardManager.m,v 1.10 2007/01/21 02:27:41 tsawada2 Exp $
+ * $Id: BoardManager.m,v 1.11 2007/08/07 14:07:44 tsawada2 Exp $
  * 
  * BoardManager.m
  *
@@ -91,7 +91,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 + (NSString *) NNDFilepath
 {
 	return [[CMRFileManager defaultManager]
-				 supportFilepathWithName : @"BoardProperties.plist"
+				 supportFilepathWithName : BSBoardPropertiesFile
 						resolvingFileRef : NULL];
 }
 
