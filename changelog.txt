@@ -1,3 +1,26 @@
+2007-08-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/manager/BSLinkDownloadManager.m
+	* application/subproj/preference/BSAdvancedPaneArrayController.m
+	* application/subproj/preference/Japanese.lproj/AdvancedPane.nib
+		「詳細」ペイン用に用意したコードの一部を、「フィルタ」ペインでも使い回せるように一般化し、実際、使い回した。
+	* application/subproj/preference/Japanese.lproj/FilterPreferences.nib
+	* application/subproj/preference/filter/CMRFilterPrefController.m
+	* application/source/composer/CMRMessageFilter.m
+	* application/source/composer/CMRSpamFilter.m
+	* application/source/preferences/AppDefaults-Filter.m
+		迷惑レスフィルタの強化：
+		- いわゆる「NGワード」関連部分を強化した。
+		- NGワードと迷惑レスのサンプルは、いままで同じ BSSpamFilter.plist に同居していたが、NGワードについては新しく
+		　「NGExpressions.plist」に分離して記録するようにした。
+		- SpamFilter.plist から BSSpamFilter.plist への変更に伴う内容の自動引き継ぎは、もうそろそろいらないと思うので
+		　コードを削除した。BSSpamFilter.plist から NGExpressions.plist への自動（部分）引き継ぎは後で実装する。
+		- NGワードが含まれるかどうか調べる対象を、名前欄・メール欄・本文欄の一部またはすべてから選択指定できるようにした。
+		- NGワードに鬼車の正規表現を利用できるようにした（Powered by OgreKit）。
+		- NGワードの設定画面を作り直した。
+		- 「環境設定」＞「フィルタ」は、nib ファイルを含め全体的にコードを見直した。
+	* application/source/composer/BSNGExpression.[h|m]
+		[新規追加] いわゆる「NGワード」を表すオブジェクト。
+=================================================
 2007-08-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* frameworks/SGAppKit/framework/src/custom/bathyscaphe/BSBoardListView.m
 		Intel Mac で 掲示板リストの Type-To-Select が正しく動作しなかった問題を修正。

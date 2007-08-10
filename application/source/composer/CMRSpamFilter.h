@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRSpamFilter.h,v 1.2 2007/01/07 17:04:23 masakih Exp $
+  * $Id: CMRSpamFilter.h,v 1.3 2007/08/10 19:36:48 tsawada2 Exp $
   * 
   * CMRSpamFilter.h
   *
@@ -21,7 +21,8 @@
 {
 	@private
 	CMRSamplingDetecter		*_detecter;
-	NSArray					*_spamCorpus;
+//	NSArray					*_spamCorpus;
+	NSMutableArray			*_spamCorpus;
 }
 + (id) sharedInstance;
 + (NSString *) defaultFilepath;
@@ -29,8 +30,10 @@
 - (void) resetSpamFilter;
 - (CMRSamplingDetecter *) detecter;
 
-- (NSArray *) spamCorpus;
-- (void) setSpamCorpus : (NSArray *) aSpamCorpus;
+//- (NSArray *) spamCorpus;
+- (NSMutableArray *)spamCorpus;
+//- (void) setSpamCorpus : (NSArray *) aSpamCorpus;
+- (void)setSpamCorpus:(NSMutableArray *)aSpamCorpus;
 
 - (void) addSample : (CMRThreadMessage   *) aMessage
 			  with : (CMRThreadSignature *) aThread;

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMessageFilter.m,v 1.9 2007/08/05 12:25:26 tsawada2 Exp $
+  * $Id: CMRMessageFilter.m,v 1.10 2007/08/10 19:36:48 tsawada2 Exp $
   * 
   * CMRMessageFilter.m
   *
@@ -7,11 +7,13 @@
   * See the file LICENSE for copying permission.
   */
 #import "CMRMessageFilter.h"
-#import "CocoMonar_Prefix.h"
+//#import "CocoMonar_Prefix.h"
 #import "CMRThreadMessage.h"
 #import "CMRThreadSignature.h"
 #import "CMXTextParser.h"
 
+#import "BSNGExpression.h"
+#import <OgreKit/OgreKit.h>
 // for debugging only
 #define UTIL_DEBUGGING		0
 #import "UTILDebugging.h"
@@ -19,12 +21,15 @@
 static int detectMessageAny_(
 				CMRMessageSample *s,
 				CMRThreadMessage *m,
-				CMRThreadSignature *t, NSArray *noNamesArray);//NSSet *noNamesSet);
+				CMRThreadSignature *t,
+				NSArray *noNamesArray);
 static int doDetectMessageAny_(
 				CMRThreadMessage	*m1,	// sample
 				CMRThreadSignature	*t1,	// sample
 				CMRThreadMessage	*m2,	// target
-				CMRThreadSignature	*t2, NSArray *noNamesArray);//NSSet *noNamesSet);	// target
+				CMRThreadSignature	*t2,	// target
+				NSArray *noNamesArray);
+
 // 設定されていないID や よくある名前等は比較対象にしない
 static BOOL checkMailIsNonSignificant_(NSString *mail);
 static BOOL checkNameIsNonSignificant_(NSString *name);
@@ -34,31 +39,32 @@ static BOOL checkNameHasResLink_(NSString *name);
 
 @implementation CMRMessageDetecter
 /* primitive */
-- (BOOL) detectMessage: (CMRThreadMessage *) aMessage
+- (BOOL)detectMessage:(CMRThreadMessage *)aMessage
 {
 	return NO;
 }
 @end
 
 @implementation CMRSamplingDetecter
-- (SGBaseCArrayWrapper *) samples
+- (SGBaseCArrayWrapper *)samples
 {
-	if (nil == _samples)
+	if (!_samples) {
 		_samples = [[SGBaseCArrayWrapper alloc] init];
-	
+	}
 	return _samples;
 }
 
-- (NSArray *) sampleArray
+- (NSArray *)sampleArray
 {
 	return [self samples];
 }
-- (unsigned) numberOfSamples
+
+- (unsigned)numberOfSamples
 {
 	return [[self sampleArray] count];
 }
 
-- (void) dealloc
+- (void)dealloc
 {
 	[_samples release];
 	[_corpus release];
@@ -71,41 +77,42 @@ static BOOL checkNameHasResLink_(NSString *name);
 
 #define kSamplesKey			@"Samples"
 
-- (BOOL) initializeWithPropertyListRepresentation : (id) rep
+- (BOOL)initializeWithPropertyListRepresentation:(id)rep
 {
 	NSEnumerator		*iter_;
 	id					item_;
 	
-	if (NO == [rep isKindOfClass : [NSDictionary class]]) return NO;
-	item_ = [rep arrayForKey : kSamplesKey];
-	if (nil == item_) return NO;
-	
+	if (![rep isKindOfClass:[NSDictionary class]]) return NO;
+	item_ = [rep arrayForKey:kSamplesKey];
+	if (!item_) return NO;
+
 	iter_ = [item_ objectEnumerator];
 	while (item_ = [iter_ nextObject]) {
 		CMRMessageSample	*sample_;
 		
-		sample_ = [CMRMessageSample objectWithPropertyListRepresentation : item_];
-		if (nil == sample_)
-			return NO;
-		
-		[self addNewMessageSample : sample_];
+		sample_ = [CMRMessageSample objectWithPropertyListRepresentation:item_];
+		if (!sample_) return NO;
+
+		[self addNewMessageSample:sample_];
 	}
 	
 	return YES;
 }
-- (id) initWithPropertyListRepresentation : (id) rep
+
+- (id)initWithPropertyListRepresentation:(id)rep
 {
 	if (self = [self init]) {
-		if (NO == [self initializeWithPropertyListRepresentation:rep]) {
+		if (![self initializeWithPropertyListRepresentation:rep]) {
 			[self release];
 			return nil;
 		}
 	}
 	return self;
 }
-+ (id) objectWithPropertyListRepresentation : (id) rep
+
++ (id)objectWithPropertyListRepresentation:(id)rep
 {
-	return [[[self alloc] initWithPropertyListRepresentation : rep] autorelease];
+	return [[[self alloc] initWithPropertyListRepresentation:rep] autorelease];
 }
 
 static int compareAsMatchedCount_(id arg1, id arg2, void *info)
@@ -120,7 +127,8 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	else
 		return NSOrderedDescending;
 }
-- (NSArray *) sampleArrayByCompacting
+
+- (NSArray *)sampleArrayByCompacting
 {
 	NSEnumerator			*iter_;
 	CMRMessageSample		*item_;
@@ -130,19 +138,19 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	iter_ = [[self sampleArray] objectEnumerator];
 
 	while (item_ = [iter_ nextObject]) {
-		if ([compacted_ containsObject : item_]) {
+		if ([compacted_ containsObject:item_]) {
 			// 重複する要素
 			continue;
 		}
-		[compacted_ addObject : item_];
+		[compacted_ addObject:item_];
 	}
 	
 	[compacted_ sortUsingFunction:compareAsMatchedCount_ context:NULL];
-	
+
 	return compacted_;
 }
 
-- (id) propertyListRepresentation
+- (id)propertyListRepresentation
 {
 	NSEnumerator			*iter_;
 	CMRMessageSample		*item_;
@@ -151,41 +159,43 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	samplesRep_ = [NSMutableArray array];
 	iter_ = [[self sampleArrayByCompacting] objectEnumerator];
 	while (item_ = [iter_ nextObject]) {
-		[samplesRep_ addObject : [item_ propertyListRepresentation]];
+		[samplesRep_ addObject:[item_ propertyListRepresentation]];
 	}
 	
-	return [NSDictionary dictionaryWithObject : samplesRep_
-									   forKey : kSamplesKey];
+	return [NSDictionary dictionaryWithObject:samplesRep_ forKey:kSamplesKey];
 }
 
-- (id) initWithDictionaryRepresentation : (NSDictionary *) aDictionary
+- (id)initWithDictionaryRepresentation:(NSDictionary *)aDictionary
 {
-	return [self initWithPropertyListRepresentation : aDictionary];
+	return [self initWithPropertyListRepresentation:aDictionary];
 }
-- (NSDictionary *) dictionaryRepresentation
+
+- (NSDictionary *)dictionaryRepresentation
 {
 	return [self propertyListRepresentation];
 }
 
 #pragma mark Detecting
-- (NSMutableDictionary *) samplesTable
+- (NSMutableDictionary *)samplesTable
 {
-	if (nil == _table) {
+	if (!_table) {
 		_table = [[NSMutableDictionary alloc] init];
 	}
 	return _table;
 }
-- (void) clear
+
+- (void)clear
 {
 	[[self samples] removeAllObjects];
 	[[self samplesTable] removeAllObjects];
 }
 
-- (NSArray *) corpus
+- (NSArray *)corpus
 {
 	return _corpus;
 }
-- (void) setCorpus : (NSArray *) aCorpus
+
+- (void)setCorpus:(NSArray *)aCorpus
 {
 	id		tmp;
 	
@@ -206,53 +216,54 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	m_noNameArray = anArray;
 }
 
-- (BOOL) nanashiAllowedAtWorkingBoard
+- (BOOL)nanashiAllowedAtWorkingBoard
 {
 	return _nanashiAllowed;
 }
-- (void) setNanashiAllowedAtWorkingBoard: (BOOL) allowed
+
+- (void)setNanashiAllowedAtWorkingBoard:(BOOL)allowed
 {
 	_nanashiAllowed = allowed;
 }
 
-- (void) addNewMessageSample : (CMRMessageSample *) aSample
+- (void)addNewMessageSample:(CMRMessageSample *)aSample
 {
-	[self setupAppendingSampleForSample: aSample table: [self samplesTable]];
-	[[self samples] addObject : aSample];
+	[self setupAppendingSampleForSample:aSample table:[self samplesTable]];
+	[[self samples] addObject:aSample];
 }
-- (void) addSamplesFromDetecter : (CMRSamplingDetecter *) aDetecter
+
+- (void)addSamplesFromDetecter:(CMRSamplingDetecter *)aDetecter
 {
 	NSEnumerator		*iter_;
 	CMRMessageSample	*sample_;
-	
-	if (nil == aDetecter || 0 == [aDetecter numberOfSamples])
+
+	if (!aDetecter || 0 == [aDetecter numberOfSamples])
 		return;
 	
 	iter_ = [[aDetecter sampleArray] objectEnumerator];
 	while (sample_ = [iter_ nextObject]) {
-		[self addNewMessageSample : sample_];
+		[self addNewMessageSample:sample_];
 	}
 }
-- (void) addSample : (CMRThreadMessage      *) aMessage
-			  with : (CMRThreadSignature    *) aThread
+
+- (void)addSample:(CMRThreadMessage *)aMessage with:(CMRThreadSignature *)aThread
 {
 	CMRMessageSample	*sample_;
 	CMRThreadMessage	*message_;
-	
+
 	UTILAssertNotNilArgument(aMessage, @"Sample Message");
 	
-	message_ = [[aMessage copyWithZone : [self zone]] autorelease];
+	message_ = [[aMessage copyWithZone:[self zone]] autorelease];
 	[message_ clearTemporaryAttributes];
 	
-	[message_ setSpam : YES];
-	[message_ setProperty : kSampleAsAny];
-	
+	[message_ setSpam:YES];
+	[message_ setProperty:kSampleAsAny];
+
 	sample_ = [CMRMessageSample sampleWithMessage:message_ withThread:aThread];
-	[self addNewMessageSample : sample_];
+	[self addNewMessageSample:sample_];
 }
 
-- (void) removeSampleCache : (CMRMessageSample   *) aSample
-			          with : (CMRThreadSignature *) aThread
+- (void)removeSampleCache:(CMRMessageSample *)aSample with:(CMRThreadSignature *)aThread
 {
 	NSMutableDictionary	*sampleTbl = [self samplesTable];
 	CMRMessageSample	*mSample;
@@ -262,32 +273,32 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	sampleMsg = [aSample message];
 	
 	key = [sampleMsg IDString];
-	mSample = [sampleTbl objectForKey : key];
+	mSample = [sampleTbl objectForKey:key];
 	if (mSample == aSample) {
 		UTIL_DEBUG_WRITE(@"ID Cache Removed");
-		[sampleTbl removeObjectForKey : key];
+		[sampleTbl removeObjectForKey:key];
 	}
 	key = [sampleMsg name];
-	mSample = [sampleTbl objectForKey : key];
+	mSample = [sampleTbl objectForKey:key];
 	if (mSample == aSample) {
 		UTIL_DEBUG_WRITE(@"Name Cache Removed");
-		[sampleTbl removeObjectForKey : key];
+		[sampleTbl removeObjectForKey:key];
 	}
 	key = [sampleMsg host];
-	mSample = [sampleTbl objectForKey : key];
+	mSample = [sampleTbl objectForKey:key];
 	if (mSample == aSample) {
 		UTIL_DEBUG_WRITE(@"Host Cache Removed");
-		[sampleTbl removeObjectForKey : key];
+		[sampleTbl removeObjectForKey:key];
 	}
 	key = aThread;
-	mSample = [sampleTbl objectForKey : key];
+	mSample = [sampleTbl objectForKey:key];
 	if (mSample == aSample) {
 		UTIL_DEBUG_WRITE(@"ThreadLocal Cache Removed");
-		[sampleTbl removeObjectForKey : key];
+		[sampleTbl removeObjectForKey:key];
 	}
 }
-- (void) removeSample : (CMRThreadMessage   *) aMessage
-			     with : (CMRThreadSignature *) aThread
+
+- (void)removeSample:(CMRThreadMessage *)aMessage with:(CMRThreadSignature *)aThread
 {
 	SGBaseCArrayWrapper	*mArray = [self samples];
 	CMRMessageSample	*mSample;
@@ -299,67 +310,96 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 		if (detectMessageAny_(mSample, aMessage, aThread, mSet)) {
 			UTIL_DEBUG_WRITE2(@"Sample:%u %@ was removed.", i, mSample);
 			[self removeSampleCache:mSample with:aThread];
-			[mArray removeObjectAtIndex : i];
+			[mArray removeObjectAtIndex:i];
 		}
 	}
 }
 
-- (BOOL) detectMessage : (CMRThreadMessage *) aMessage
+- (BOOL)detectMessage:(CMRThreadMessage *)aMessage
 {
 	return [self detectMessage:aMessage with:nil];
 }
 
-
-- (BOOL) detectMessageUsingCorpus : (CMRThreadMessage   *) aMessage
-						     with : (CMRThreadSignature *) aThread
+- (NSArray *)NGExpressionsForTargetMask:(unsigned int)mask
 {
-	NSEnumerator	*iter_;
-	NSString		*contents_;
-	NSString		*word_;
-	
-	iter_ = [[self corpus] objectEnumerator];
-	if (nil == iter_)
-		return NO;
-	
-	// ----------------------------------------
-	// 名前欄、メール欄、本文を対象にする。
-	// すべてを結合し、プレインテキストに変換したあと、
-	// 検索する。
-	// ----------------------------------------
-	{
-		NSMutableString		*tmp;
-		NSString			*field;
-		
-		tmp = [NSMutableString string];
-		
-		// 名前
-		field = [aMessage name];
-		if (!checkNameIsNonSignificant_(field)) {
-			NSArray *nnArray = [self noNameArrayAtWorkingBoard];
-			if (![nnArray containsObject:field]) [tmp appendString:field];
+	NSMutableArray *array = [NSMutableArray array];
+	NSEnumerator *iter = [[self corpus] objectEnumerator];
+	BSNGExpression	*expression;
+
+	while (expression = [iter nextObject]) {
+		if ([expression targetMask] & mask) {
+			[array addObject:expression];
 		}
-		
-		// メール
-		field = [aMessage mail];
-		if (!checkMailIsNonSignificant_(field))
-			[tmp appendString : field];
-		
-		// 本文
-		field = [aMessage messageSource];
-		[tmp appendString : field];
-		
-		[CMXTextParser convertMessageSourceToCachedMessage : tmp];
-		
-		contents_ = tmp;
 	}
-	while (word_ = [iter_ nextObject]) {
-		
-		if ([contents_ rangeOfString:word_ options:NSLiteralSearch].length != 0) {
-			UTIL_DEBUG_WRITE2(@"UsingCorpus:%u matched:%@", 
-								[aMessage index], word_);
+
+	return (NSArray *)array;
+}
+
+- (BOOL)detectStringUsingCorpus:(NSString *)source targetMask:(unsigned int)mask
+{
+	NSArray *NGExpressions = [self NGExpressionsForTargetMask:mask];
+	NSEnumerator *iter = [NGExpressions objectEnumerator];
+	BSNGExpression	*NGExp;
+
+	OgreSyntax syntax;
+	OGRegularExpression *regexp;
+
+	while (NGExp = [iter nextObject]) {
+		if ([NGExp isRegularExpression] && [NGExp validAsRegularExpression]) {
+			syntax = OgreRubySyntax;
+		} else {
+			syntax = OgreSimpleMatchingSyntax;
+		}
+
+		regexp = [[OGRegularExpression alloc] initWithString:[NGExp expression]
+													 options:OgreNoneOption
+													  syntax:syntax
+											 escapeCharacter:OgreBackslashCharacter];
+
+		if ([regexp matchInString:source]) {
+			[regexp release];
+			return YES;
+		}
+		[regexp release];
+	}
+	return NO;
+}
+
+- (BOOL)detectMessageUsingCorpus:(CMRThreadMessage *)aMessage
+{
+	if (![self corpus]) return NO;
+
+	NSMutableString *name_, *mail_, *message_;
+	NSString	*field;
+
+	// 名前
+	field = [aMessage name];
+	if (!checkNameIsNonSignificant_(field) && ![[self noNameArrayAtWorkingBoard] containsObject:field]) {
+		name_ = [[field mutableCopy] autorelease];
+		[CMXTextParser convertMessageSourceToCachedMessage:name_];
+		if ([self detectStringUsingCorpus:name_ targetMask:BSNGExpressionAtName]) {
 			return YES;
 		}
 	}
+
+	// メール
+	field = [aMessage mail];
+	if (!checkMailIsNonSignificant_(field)) {
+		mail_ = [[field mutableCopy] autorelease];
+		[CMXTextParser replaceEntityReferenceWithString:mail_];
+		if ([self detectStringUsingCorpus:mail_ targetMask:BSNGExpressionAtMail]) {
+			return YES;
+		}
+	}
+	
+	// 本文
+	field = [aMessage messageSource];
+	message_ = [[field mutableCopy] autorelease];
+	[CMXTextParser convertMessageSourceToCachedMessage:message_];
+	if ([self detectStringUsingCorpus:message_ targetMask:BSNGExpressionAtMessage]) {
+		return YES;
+	}
+
 	return NO;
 }
 
@@ -401,7 +441,7 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	}
 
 	// 語句集合と比較
-	if ([self detectMessageUsingCorpus:aMessage with:aThread])
+	if ([self detectMessageUsingCorpus:aMessage])// with:aThread])
 		return YES;
 	
 	return NO;

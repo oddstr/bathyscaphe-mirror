@@ -1,107 +1,91 @@
-/**
-  * $Id: CMRFilterPrefController.m,v 1.5 2006/11/05 13:02:21 tsawada2 Exp $
-  * 
-  * CMRFilterPrefController.m
-  *
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  CMRFilterPrefController.m
+//  BachyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/08/11.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import "CMRFilterPrefController.h"
 #import "PreferencePanes_Prefix.h"
 
-#define kLabelKey		@"Filter Label"
-#define kToolTipKey		@"Filter ToolTip"
-#define kImageName		@"FilterPreferences"
-
+static NSString *const kLabelKey = @"Filter Label";
+static NSString *const kToolTipKey = @"Filter ToolTip";
+static NSString *const kImageName = @"FilterPreferences";
 
 
 @implementation CMRFilterPrefController
-- (NSString *) mainNibName
+- (NSString *)mainNibName
 {
 	return @"FilterPreferences";
 }
-- (void) dealloc
+
+- (NSWindow *)detailSheet
 {
-	UTILMethodLog;
-	
-	[_detailSheet release];
-	[super dealloc];
+	return m_detailSheet;
 }
 
-- (NSWindow *) detailSheet
+#pragma mark IBActions
+- (IBAction)resetSpamDB:(id)sender
 {
-	return _detailSheet;
-}
-- (NSTextView *) spamMessageCorpusTextView
-{
-	return _spamMessageCorpusTextView;
+	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+
+	[alert setAlertStyle:NSWarningAlertStyle];
+	[alert setMessageText:PPLocalizedString(@"ResetSpamFilterDBTitle")];
+	[alert setInformativeText:PPLocalizedString(@"ResetSpamFilterDBMessage")];
+	[alert addButtonWithTitle:PPLocalizedString(@"OK")];
+	[alert addButtonWithTitle:PPLocalizedString(@"Cencel")];
+
+	if ([alert runModal] == NSAlertFirstButtonReturn) {
+		[[self preferences] resetSpamFilter];
+	}
 }
 
-- (IBAction) resetSpamDB : (id) sender
-{
-	int		result;
-	
-	result = NSRunAlertPanel(
-				PPLocalizedString(@"ResetSpamFilterDBTitle"),	// title
-				PPLocalizedString(@"ResetSpamFilterDBMessage"),	// msg
-				PPLocalizedString(@"OK"),		// defaultButton
-				PPLocalizedString(@"Cencel"),	// alternateButton
-				nil								// otherButton
-			);
-	
-	if (result != NSOKButton) 
-		return;
-	
-	[[self preferences] resetSpamFilter];
-}
-
-- (void) detailSheetDidEnd: (NSWindow *) sheet returnCode: (int) returnCode contextInfo: (void *) contextInfo
+- (void)detailSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
 	[sheet close];
-	[[self preferences] setUpSpamMessageCorpusWithString: [[self spamMessageCorpusTextView] string]];
 }
 
-- (IBAction) openDetailSheet: (id) sender
+- (IBAction)openDetailSheet:(id)sender
 {
-	[[self spamMessageCorpusTextView] setString: [[self preferences] spamMessageCorpusStringRepresentation]];
-	
-	[NSApp beginSheet: [self detailSheet]
-	   modalForWindow: [self window]
-		modalDelegate: self
-	   didEndSelector: @selector(detailSheetDidEnd:returnCode:contextInfo:) 
-		  contextInfo: NULL];
+	[NSApp beginSheet:[self detailSheet]
+	   modalForWindow:[self window]
+		modalDelegate:self
+	   didEndSelector:@selector(detailSheetDidEnd:returnCode:contextInfo:) 
+		  contextInfo:NULL];
 }
 
-- (IBAction) closeDetailSheet: (id) sender
+- (IBAction)closeDetailSheet:(id)sender
 {
-	[NSApp endSheet: [self detailSheet]];
+	[NSApp endSheet:[self detailSheet]];
 }
 @end
 
 
 
 @implementation CMRFilterPrefController(Toolbar)
-- (NSString *) identifier
+- (NSString *)identifier
 {
 	return PPFilterPreferencesIdentifier;
 }
-- (NSString *) helpKeyword
+- (NSString *)helpKeyword
 {
 	return PPLocalizedString(@"Help_Filter");
 }
-- (NSString *) label
+- (NSString *)label
 {
 	return PPLocalizedString(kLabelKey);
 }
-- (NSString *) paletteLabel
+- (NSString *)paletteLabel
 {
 	return PPLocalizedString(kLabelKey);
 }
-- (NSString *) toolTip
+- (NSString *)toolTip
 {
 	return PPLocalizedString(kToolTipKey);
 }
-- (NSString *) imageName
+- (NSString *)imageName
 {
 	return kImageName;
 }

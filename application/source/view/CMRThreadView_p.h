@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadView_p.h,v 1.1 2005/05/11 17:51:08 tsawada2 Exp $
+  * $Id: CMRThreadView_p.h,v 1.2 2007/08/10 19:36:48 tsawada2 Exp $
   * 
   * CMRThreadView_p.h
   *
@@ -15,4 +15,4 @@
 #import "CMRThreadMessage.h"
 #import "CMRThreadMessageBuffer.h"
 #import "CMRMessageFilter.h"
-#import "CMRSpamFilter.h"
+//#import "CMRSpamFilter.h"

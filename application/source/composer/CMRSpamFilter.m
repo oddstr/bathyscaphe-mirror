@@ -1,13 +1,13 @@
-/**
-  * $Id: CMRSpamFilter.m,v 1.4 2007/08/05 12:25:26 tsawada2 Exp $
-  * 
-  * CMRSpamFilter.m
-  *
-  * Copyright (c) 2003-2004 Takanori Ishikawa, All rights reserved.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  CMRSpamFilter.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/08/10.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import "CMRSpamFilter.h"
-#import "CocoMonar_Prefix.h"
 #import "CMRMessageFilter.h"
 #import "CMRThreadMessageBuffer.h"
 #import "CMRThreadMessage.h"
@@ -15,35 +15,76 @@
 #import "AppDefaults.h"
 #import "BoardManager.h"
 
-#define CMRFilterFile		@"SpamFilter.plist"
+#import "BSNGExpression.h"
+
+//#define CMRFilterFile		@"SpamFilter.plist"
 #define BSFilterFile		@"BSSpamFilter.plist"
 
 #define kFilterIdentifierKey	@"FilterIdentifier"
 #define CMRSpamFilterIdentifier	@"SpamFilter"
 #define kDetectersKey			@"Detecters"
-#define kSpamCorpusKey			@"Corpus"
+//#define kSpamCorpusKey			@"Corpus"
 
 
 
 NSString *const CMRSpamFilterDidChangeNotification = @"CMRSpamFilterDidChangeNotification";
 
+static NSString *const BSNGExpressionsFile = @"NGExpressions.plist";
 
 
 @implementation CMRSpamFilter
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
-+ (NSString *) oldDefaultFilepath
+/*+ (NSString *) oldDefaultFilepath
 {
 	return [[CMRFileManager defaultManager]
 				 supportFilepathWithName : CMRFilterFile
 						resolvingFileRef : NULL];
 }
+*/
 
-
-+ (NSString *) defaultFilepath
++ (NSString *)defaultFilepath
 {
-	return [[CMRFileManager defaultManager]
-				 supportFilepathWithName : BSFilterFile
-						resolvingFileRef : NULL];
+	return [[CMRFileManager defaultManager] supportFilepathWithName:BSFilterFile resolvingFileRef:NULL];
+}
+
++ (NSString *)expressionsFilepath
+{
+	return [[CMRFileManager defaultManager] supportFilepathWithName:BSNGExpressionsFile resolvingFileRef:NULL];
+}
+
+- (NSMutableArray *)restoreFromPlistToCorpus:(id)rep
+{
+	UTILAssertKindOfClass(rep, NSArray);
+	NSMutableArray	*theArray = [NSMutableArray array];
+	NSEnumerator	*iter = [rep objectEnumerator];
+	NSDictionary	*item;
+
+	while (item = [iter nextObject]) {
+		[theArray addObject:[BSNGExpression objectWithPropertyListRepresentation:item]];
+	}
+	return theArray;
+}
+
+- (id)readFromContentsOfPropertyListFile:(NSString *)plistPath
+{
+	NSData *data;
+	id		rep;
+	NSString *err = [NSString string];
+
+	data = [NSData dataWithContentsOfFile:plistPath];
+
+	if (!data) {
+		rep = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+		return rep;
+	}
+
+	rep = [NSPropertyListSerialization propertyListFromData:data mutabilityOption:NSPropertyListImmutable format:NULL errorDescription:&err];
+
+	if (!rep) {
+		NSLog(@"Failed to read %@ with NSPropertyListSerialization. reason:%@", plistPath, err);
+	}
+
+	return rep;
 }
 
 - (id) init
@@ -54,99 +95,84 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 					selector : @selector(applicationWillTerminate:)
 					    name : NSApplicationWillTerminateNotification
 					  object : NSApp];
-		if (nil == _detecter) {
-			NSData			*data;
-			NSDictionary	*rep;
-			id				v;
-			
-			NSString *errorStr;
-			
-			data = [NSData dataWithContentsOfFile: [[self class] defaultFilepath]];
-			
-			if (data) {
-				rep = [NSPropertyListSerialization propertyListFromData: data
-													   mutabilityOption: NSPropertyListImmutable
-																 format: NULL
-													   errorDescription: &errorStr];
-				
-				if (!rep) {
-					NSLog(@"CMRSpamFilter failed to read BSSpamFilter.plist with NSPropertyListSerialization");
-					//NSLog(errorStr);
-					//[errorStr release];
+		if (!_detecter) {
+			NSDictionary *dicRep = [self readFromContentsOfPropertyListFile:[[self class] defaultFilepath]];
 
-					rep = [NSDictionary dictionaryWithContentsOfFile : [[self class] defaultFilepath]];
-					if (!rep) {
-						rep = [NSDictionary dictionaryWithContentsOfFile: [[self class] oldDefaultFilepath]];
-					}
-				}
-			} else {
-				rep = [NSDictionary dictionaryWithContentsOfFile : [[self class] oldDefaultFilepath]];
-			}
+			_detecter = [[CMRSamplingDetecter alloc] initWithDictionaryRepresentation:[[dicRep arrayForKey:kDetectersKey] head]];
 
-			v = [[rep arrayForKey : kDetectersKey] head];
-			_detecter = [[CMRSamplingDetecter alloc] initWithDictionaryRepresentation : v];
-			v = [rep arrayForKey : kSpamCorpusKey];
-			[self setSpamCorpus : v];
+			NSArray *arrayRep = [self readFromContentsOfPropertyListFile:[[self class] expressionsFilepath]];
+			if (!arrayRep) arrayRep = [NSArray array];
+			[self setSpamCorpus:[self restoreFromPlistToCorpus:arrayRep]];
 		}
 	}
 	return self;
 }
 
-- (void) dealloc
+- (void)dealloc
 {
-	[[NSNotificationCenter defaultCenter] removeObserver : self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	[_detecter release];
 	_detecter = nil;
-	[_spamCorpus release];
-	_spamCorpus = nil;
-	
+	[self setSpamCorpus:nil];
+
 	[super dealloc];
 }
 
-- (void) resetSpamFilter
+- (void)resetSpamFilter
 {
 	[[self detecter] clear];
 }
 
-
-- (CMRSamplingDetecter *) detecter
+#pragma mark Accessors
+- (CMRSamplingDetecter *)detecter
 {
-	if (nil == _detecter) {
+	if (!_detecter) {
 		_detecter = [[CMRSamplingDetecter alloc] init];
 	}
 	return _detecter;
 }
 
-- (NSArray *) spamCorpus
+- (NSMutableArray *)spamCorpus
 {
-	if (nil == _spamCorpus)
-		_spamCorpus = [[NSArray empty] copy];
-	
+	if (!_spamCorpus) {
+		_spamCorpus = [[NSMutableArray alloc] init];
+	}
 	return _spamCorpus;
 }
-- (void) setSpamCorpus : (NSArray *) aSpamCorpus
+
+- (void)setSpamCorpus:(NSMutableArray *)aSpamCorpus
 {
-	id		tmp;
-	
-	tmp = _spamCorpus;
-	_spamCorpus = [aSpamCorpus retain];
-	[tmp release];
+	[aSpamCorpus retain];
+	[_spamCorpus release];
+	_spamCorpus = aSpamCorpus;
 }
 
-- (BOOL) saveRepresentation: (id) rep
+#pragma mark Writing to file
+- (NSArray *)arrayRepresentation
 {
-	NSString *errorStr = nil;
-	NSData *binaryData_ = [NSPropertyListSerialization dataFromPropertyList: rep
-																	 format: NSPropertyListBinaryFormat_v1_0
-														   errorDescription: &errorStr];
+	NSMutableArray *theArray = [NSMutableArray array];
+	NSEnumerator *iter = [[self spamCorpus] objectEnumerator];
+	BSNGExpression *expression;
+	while (expression = [iter nextObject]) {
+		[theArray addObject:[expression propertyListRepresentation]];
+	}
+    return theArray;
+}
+
+- (BOOL)saveRepresentation:(id)rep toFile:(NSString *)filepath
+{
+	NSString *errorStr = [NSString string];
+	NSData *binaryData_ = [NSPropertyListSerialization dataFromPropertyList:rep
+																	 format:NSPropertyListBinaryFormat_v1_0
+														   errorDescription:&errorStr];
 
 	if (!binaryData_) {
-		NSLog(@"BoardManager failed to serialize noNameDict with NSPropertyListSerialization.");
-		return [rep writeToFile: [[self class] defaultFilepath] atomically: YES];
+		NSLog(@"Failed to serialize with NSPropertyListSerialization. reason:%@", errorStr);
+		return [rep writeToFile:filepath atomically:YES];
 	}
-	
-	return [binaryData_ writeToFile: [[self class] defaultFilepath] atomically: YES];
+
+	return [binaryData_ writeToFile:filepath atomically:YES];
 }
 
 - (void) applicationWillTerminate : (NSNotification *) notification
@@ -162,84 +188,73 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 		NSApp);
 	
 	rep = [NSMutableDictionary dictionary];
-	[rep setObject : CMRSpamFilterIdentifier
-			forKey : kFilterIdentifierKey];
-	[rep setObject : [self spamCorpus]
-			forKey : kSpamCorpusKey];
+	[rep setObject:CMRSpamFilterIdentifier forKey:kFilterIdentifierKey];
 	
 	v = [[self detecter] dictionaryRepresentation];
-	if (v != nil) {
-		[rep setObject : [NSArray arrayWithObject : v]
-				forKey : kDetectersKey];
+	if (v) {
+		[rep setObject:[NSArray arrayWithObject:v] forKey:kDetectersKey];
 	}
 
-	[self saveRepresentation: rep];
-}
-- (void) postDidChangeNotification
-{
+	[self saveRepresentation:rep toFile:[[self class] defaultFilepath]];
+
+	[self saveRepresentation:[self arrayRepresentation] toFile:[[self class] expressionsFilepath]];
 }
 
-//- (void) setNoNameSetAtBoardOfThread: (CMRThreadSignature *) aThread forDetecter: (CMRSamplingDetecter *) detecter
+#pragma mark Work with detecter
 - (void)setNoNameArrayAtBoardOfThread:(CMRThreadSignature *)aThread forDetecter:(CMRSamplingDetecter *)detecter
 {
 	BoardManager *bM_ = [BoardManager defaultManager];
 	NSString *boardName_ = [aThread BBSName];
-//	[detecter setNoNameSetAtWorkingBoard: [bM_ defaultNoNameSetForBoard: boardName_]];
-//	[detecter setNanashiAllowedAtWorkingBoard: [bM_ allowsNanashiAtBoard: boardName_]];
+
 	[detecter setNoNameArrayAtWorkingBoard:[bM_ defaultNoNameArrayForBoard:boardName_]];
 	[detecter setNanashiAllowedAtWorkingBoard:[bM_ allowsNanashiAtBoard:boardName_]];
 }
 
-- (void) addSample : (CMRThreadMessage   *) aMessage
-			  with : (CMRThreadSignature *) aThread
+- (void)addSample:(CMRThreadMessage *)aMessage with:(CMRThreadSignature *)aThread
 {
-//	[self setNoNameSetAtBoardOfThread: aThread forDetecter: [self detecter]];
-	[self setNoNameArrayAtBoardOfThread: aThread forDetecter: [self detecter]];
+	[self setNoNameArrayAtBoardOfThread:aThread forDetecter:[self detecter]];
 	[[self detecter] addSample:aMessage with:aThread];
-	[self postDidChangeNotification];
-}
-- (void) removeSample : (CMRThreadMessage   *) aMessage
-			     with : (CMRThreadSignature *) aThread
-{
-//	[self setNoNameSetAtBoardOfThread: aThread forDetecter: [self detecter]];
-	[self setNoNameArrayAtBoardOfThread: aThread forDetecter: [self detecter]];
-	[[self detecter] removeSample:aMessage with:aThread];
-	[self postDidChangeNotification];
 }
 
-- (void) runFilterWithMessages : (CMRThreadMessageBuffer *) aBuffer
-						  with : (CMRThreadSignature     *) aThread
+- (void)removeSample:(CMRThreadMessage *)aMessage with:(CMRThreadSignature *)aThread
+{
+	[self setNoNameArrayAtBoardOfThread:aThread forDetecter:[self detecter]];
+	[[self detecter] removeSample:aMessage with:aThread];
+}
+
+- (void)runFilterWithMessages:(CMRThreadMessageBuffer *)aBuffer with:(CMRThreadSignature *)aThread
 {
 	[self runFilterWithMessages:aBuffer with:aThread byDetecter:[self detecter]];
 }
 						  
-- (void) runFilterWithMessages : (CMRThreadMessageBuffer *) aBuffer
-						  with : (CMRThreadSignature     *) aThread
-					byDetecter : (CMRSamplingDetecter    *) detecter
+- (void)runFilterWithMessages:(CMRThreadMessageBuffer *)aBuffer
+						 with:(CMRThreadSignature *)aThread
+				   byDetecter:(CMRSamplingDetecter *)detecter
 {
-
+	NSAutoreleasePool		*pool_ = [[NSAutoreleasePool alloc] init];
 	NSEnumerator			*iter_;
 	CMRThreadMessage		*m;
-	
-	if (nil == detecter || nil == aBuffer || 0 == [aBuffer count])
-		return;
-	
-	if ([CMRPref usesSpamMessageCorpus])
-		[detecter setCorpus : [self spamCorpus]];
-	else
-		[detecter setCorpus : nil];
 
-//	[self setNoNameSetAtBoardOfThread: aThread forDetecter: detecter];
+	if (!detecter || !aBuffer || [aBuffer count] == 0)
+		return;
+
+	if ([CMRPref usesSpamMessageCorpus]) {
+		[detecter setCorpus:[self spamCorpus]];
+	} else {
+		[detecter setCorpus:nil];
+	}
+
 	[self setNoNameArrayAtBoardOfThread:aThread forDetecter:detecter];
 	
 	iter_ = [[aBuffer messages] objectEnumerator];
 	while (m = [iter_ nextObject]) {
 		if ([m isSpam]) continue;
-		
+
 		if ([detecter detectMessage:m with:aThread]) {
-			[m setSpam : YES];
+			[m setSpam:YES];
 		}
 	}
-	[detecter setCorpus : nil];
+	[detecter setCorpus:nil];
+	[pool_ release];
 }
 @end

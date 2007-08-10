@@ -41,6 +41,24 @@ static NSString *const kTicketPlistRepAutoopenKey = @"Autoopen";
 	m_extension = extensionString;
 }
 
+-(BOOL)validateExtension:(id *)ioValue error:(NSError **)outError
+{
+    if (*ioValue == nil) {
+        return YES;
+    }
+
+	if ([*ioValue hasPrefix:@"."]) {
+		*ioValue = [*ioValue substringFromIndex:1];
+	}
+    return YES;
+}
+
+- (void)setNilValueForKey:(NSString *)key
+{
+	NSLog(@"Called");
+	[super setNilValueForKey:key];
+}
+
 - (BOOL)autoopen
 {
 	return m_autoopen;

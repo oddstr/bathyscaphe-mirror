@@ -3,25 +3,26 @@
 //  BachyScaphe
 //
 //  Created by Tsutomu Sawada on 05/05/22.
-//  Copyright 2005 tsawada2. All rights reserved.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
-#import <CocoMonar/CocoMonar.h>
 #import "AdvancedPrefController.h"
 #import "PreferencePanes_Prefix.h"
 
-#define kLabelKey		@"Advanced Label"
-#define kToolTipKey		@"Advanced ToolTip"
-#define kImageName		@"AdvancedPreferences"
+static NSString *const kAdvancedPaneLabelKey = @"Advanced Label";
+static NSString *const kAdvancedPaneToolTipKey = @"Advanced ToolTip";
+static NSString *const kAdvancedPaneIconKey = @"AdvancedPreferences";
+static NSString *const kAdvancedPaneHelpAnchorKey = @"Help_Advanced";
 
 
 @implementation AdvancedPrefController
-- (NSString *) mainNibName
+- (NSString *)mainNibName
 {
 	return @"AdvancedPane";
 }
 
-#pragma mark -
+#pragma mark IBActions
 - (void)didEndChooseFolderSheet:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
 	if (returnCode == NSOKButton) {
@@ -30,7 +31,12 @@
 		folderPath_ =	[sheet directory];
 		[[self preferences] setLinkDownloaderDestination:folderPath_];
 	}
-	[self updateHelperAppUI];
+	[self updateFolderButtonUI];
+}
+
+- (void)didEndExtensionsEditor:(NSPanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+	[sheet close];
 }
 
 - (IBAction)chooseDestination:(id)sender
@@ -50,17 +56,12 @@
 					   contextInfo:nil];
 }
 
-- (void)extensionsEditorDidEnd:(NSPanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
-{
-	[sheet close];
-}
-
 - (IBAction)openSheet:(id)sender
 {
 	[NSApp beginSheet:[self extensionsEditor]
 	   modalForWindow:[self window]
 	    modalDelegate:self
-	   didEndSelector:@selector(extensionsEditorDidEnd:returnCode:contextInfo:)
+	   didEndSelector:@selector(didEndExtensionsEditor:returnCode:contextInfo:)
 		  contextInfo:nil];
 }
 
@@ -97,22 +98,18 @@
 }
 
 #pragma mark Setting up UIs
-static NSImage *advancedPref_iconForPath(NSString *sourcePath)
+- (void)updateFolderButtonUI
 {
-	NSImage	*icon_ = [[NSWorkspace sharedWorkspace] iconForFile:sourcePath];
-	[icon_ setSize:NSMakeSize(16, 16)];
-	return icon_;
-}
+	NSString	*fullPath = [[self preferences] linkDownloaderDestination];
+	NSString	*displayTitle = [[NSFileManager defaultManager] displayNameAtPath:fullPath];
+	NSImage		*icon = [[NSWorkspace sharedWorkspace] iconForFile:fullPath];
+	NSMenuItem	*theItem = [[self dlFolderBtn] itemAtIndex:0];
 
-- (void)updateHelperAppUI
-{
-	NSString	*fullPathTip = [[self preferences] linkDownloaderDestination];
-	NSString	*title = [[NSFileManager defaultManager] displayNameAtPath:fullPathTip];
-	id<NSMenuItem>	theItem = [[self dlFolderBtn] itemAtIndex:0];
+	[icon setSize:NSMakeSize(16,16)];
 
-	[theItem setTitle:title];
-	[theItem setToolTip:fullPathTip];
-	[theItem setImage:advancedPref_iconForPath(fullPathTip)];
+	[theItem setTitle:displayTitle];
+	[theItem setToolTip:fullPath];
+	[theItem setImage:icon];
 
 	[[self dlFolderBtn] selectItem:nil];
 	[[self dlFolderBtn] synchronizeTitleAndSelectedItem];
@@ -120,7 +117,7 @@ static NSImage *advancedPref_iconForPath(NSString *sourcePath)
 
 - (void)updateUIComponents
 {
-	[self updateHelperAppUI];
+	[self updateFolderButtonUI];
 }
 
 - (void)setupUIComponents
@@ -128,32 +125,43 @@ static NSImage *advancedPref_iconForPath(NSString *sourcePath)
 	if (!_contentView) return;
 	[self updateUIComponents];
 }
+
+#pragma mark NSTableView Delegate
+- (BOOL)control:(NSControl *)control textShouldEndEditing:(NSText *)fieldEditor
+{
+	NSString *str = [fieldEditor string];
+	if ([str isEqualToString: @""]) {
+		NSBeep();
+		return NO;
+	}
+	return YES;
+}
 @end
 
 @implementation AdvancedPrefController(Toolbar)
-- (NSString *) identifier
+- (NSString *)identifier
 {
 	return PPAdvancedPreferencesIdentifier;
 }
-- (NSString *) helpKeyword
+- (NSString *)helpKeyword
 {
-	return PPLocalizedString(@"Help_Advanced");
+	return PPLocalizedString(kAdvancedPaneHelpAnchorKey);
 }
-- (NSString *) label
+- (NSString *)label
 {
-	return PPLocalizedString(kLabelKey);
+	return PPLocalizedString(kAdvancedPaneLabelKey);
 }
-- (NSString *) paletteLabel
+- (NSString *)paletteLabel
 {
-	return PPLocalizedString(kLabelKey);
+	return PPLocalizedString(kAdvancedPaneLabelKey);
 }
-- (NSString *) toolTip
+- (NSString *)toolTip
 {
-	return PPLocalizedString(kToolTipKey);
+	return PPLocalizedString(kAdvancedPaneToolTipKey);
 }
-- (NSString *) imageName
+- (NSString *)imageName
 {
-	return kImageName;
+	return kAdvancedPaneIconKey;
 }
 @end
 

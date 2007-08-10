@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-Filter.m,v 1.3 2007/03/24 15:36:30 tsawada2 Exp $
+  * $Id: AppDefaults-Filter.m,v 1.4 2007/08/10 19:36:48 tsawada2 Exp $
   * 
   * AppDefaults-Filter.m
   *
@@ -60,7 +60,7 @@
 			 setBool : flag
 			  forKey : kPrefUsesSpamMessageCorpusKey];
 }
-- (NSString *) spamMessageCorpusStringRepresentation
+/*- (NSString *) spamMessageCorpusStringRepresentation
 {
 	NSArray		*spamCorpus_;
 	
@@ -79,6 +79,16 @@
 			: [aString componentsSeparatedByNewline];
 	
 	[[CMRSpamFilter sharedInstance] setSpamCorpus : spamCorpus_];
+}*/
+
+- (NSMutableArray *)spamMessageCorpus
+{
+	return [[CMRSpamFilter sharedInstance] spamCorpus];
+}
+
+- (void)setSpamMessageCorpus:(NSMutableArray *)mutableArray
+{
+	[[CMRSpamFilter sharedInstance] setSpamCorpus:mutableArray];
 }
 
 // –À˜fƒŒƒX‚ğŒ©‚Â‚¯‚½‚Æ‚«‚Ì“®ìF

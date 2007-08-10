@@ -15,23 +15,26 @@
 	return m_tableView;
 }
 
+- (int)firstColumnOfTextFieldCell
+{
+	NSArray *columns = [[self tableView] tableColumns];
+	int i;
+	int numOfColumns = [columns count];
+	NSTableColumn *column;
+
+	for (i = 0; i < numOfColumns; i++) {
+		column = [columns objectAtIndex:i];
+		if ([[column dataCell] isKindOfClass:[NSTextFieldCell class]]) {
+			return i;
+		}
+	}
+	return 0;
+}		
+
 - (void)addObject:(id)object
 {
 	NSTableView *tv = [self tableView];
 	[super addObject:object];
-	[tv editColumn:0 row:[tv selectedRow] withEvent:nil select:YES];
-}
-
-- (BOOL)control:(NSControl *)control textShouldEndEditing:(NSText *)fieldEditor
-{
-	NSString *str = [fieldEditor string];
-	if ([str isEqualToString: @""]) {
-		NSBeep();
-		return NO;
-	} else if ([str hasPrefix:@"."]) {
-		[fieldEditor setString:[str substringFromIndex:1]];
-		return YES;
-	}
-	return YES;
+	[tv editColumn:[self firstColumnOfTextFieldCell] row:[tv selectedRow] withEvent:nil select:YES];
 }
 @end

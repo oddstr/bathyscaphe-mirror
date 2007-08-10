@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.45 2007/08/06 19:08:14 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.46 2007/08/10 19:36:48 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -160,10 +160,12 @@ typedef enum _BSAutoSyncIntervalType {
 // 本文中の語句もチェックする
 - (BOOL) usesSpamMessageCorpus;
 - (void) setUsesSpamMessageCorpus : (BOOL) flag;
-
+/*
 - (NSString *) spamMessageCorpusStringRepresentation;
 - (void) setUpSpamMessageCorpusWithString : (NSString *) aString;
-
+*/
+- (NSMutableArray *)spamMessageCorpus;
+- (void)setSpamMessageCorpus:(NSMutableArray *)mutableArray;
 
 // 迷惑レスを見つけたときの動作：
 - (int) spamFilterBehavior;
