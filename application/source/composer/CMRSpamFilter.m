@@ -23,7 +23,7 @@
 #define kFilterIdentifierKey	@"FilterIdentifier"
 #define CMRSpamFilterIdentifier	@"SpamFilter"
 #define kDetectersKey			@"Detecters"
-//#define kSpamCorpusKey			@"Corpus"
+#define kSpamCorpusKey			@"Corpus"
 
 
 
@@ -70,21 +70,47 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	NSData *data;
 	id		rep;
 	NSString *err = [NSString string];
+	NSString *errInfo;
+	BOOL	isDir;
 
-	data = [NSData dataWithContentsOfFile:plistPath];
+	UTILAssertNotNil(plistPath);
+	errInfo = [plistPath lastPathComponent];
 
-	if (!data) {
-		rep = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+	if ([[NSFileManager defaultManager] fileExistsAtPath:plistPath isDirectory:&isDir] && !isDir) {
+		data = [NSData dataWithContentsOfFile:plistPath];
+
+		if (!data) {
+			NSLog(@"Failed to read %@ as NSData.", errInfo);
+			return nil;
+		}
+
+		rep = [NSPropertyListSerialization propertyListFromData:data mutabilityOption:NSPropertyListImmutable format:NULL errorDescription:&err];
+
+		if (!rep) {
+			NSLog(@"Failed to read %@ with NSPropertyListSerialization. reason:%@", errInfo, err);
+		}
+
 		return rep;
+	} else {
+		NSLog(@"Failed to read %@. %@ does not exist, or is a folder.", errInfo, errInfo);
+		return nil;
+	}
+}
+
+- (NSArray *)convertOldNGWordsToNGExpressions:(NSArray *)array
+{
+	NSMutableArray *newArray = [NSMutableArray arrayWithCapacity:[array count]];
+	NSEnumerator *iter = [array objectEnumerator];
+	NSString	*eachWord;
+	BSNGExpression *newExpression;
+
+	while (eachWord = [iter nextObject]) {
+		newExpression = [[BSNGExpression alloc] initWithExpression:eachWord targetMask:BSNGExpressionAtMessage regularExpression:NO];
+		[newArray addObject:[newExpression propertyListRepresentation]];
+		[newExpression release];
 	}
 
-	rep = [NSPropertyListSerialization propertyListFromData:data mutabilityOption:NSPropertyListImmutable format:NULL errorDescription:&err];
-
-	if (!rep) {
-		NSLog(@"Failed to read %@ with NSPropertyListSerialization. reason:%@", plistPath, err);
-	}
-
-	return rep;
+	return newArray;
 }
 
 - (id) init
@@ -98,10 +124,22 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 		if (!_detecter) {
 			NSDictionary *dicRep = [self readFromContentsOfPropertyListFile:[[self class] defaultFilepath]];
 
-			_detecter = [[CMRSamplingDetecter alloc] initWithDictionaryRepresentation:[[dicRep arrayForKey:kDetectersKey] head]];
+			if (dicRep) {
+				_detecter = [[CMRSamplingDetecter alloc] initWithDictionaryRepresentation:[[dicRep arrayForKey:kDetectersKey] head]];
+			} else {
+				_detecter = [[CMRSamplingDetecter alloc] init];
+			}
 
 			NSArray *arrayRep = [self readFromContentsOfPropertyListFile:[[self class] expressionsFilepath]];
 			if (!arrayRep) arrayRep = [NSArray array];
+
+			if (![CMRPref oldNGWordsImported]) {
+				NSLog(@"Importing Old NG Words...");
+				NSArray *additionalArray = [self convertOldNGWordsToNGExpressions:[dicRep arrayForKey:kSpamCorpusKey]];
+				arrayRep = [arrayRep arrayByAddingObjectsFromArray:additionalArray];
+				[CMRPref setOldNGWordsImported:YES];
+				NSLog(@"Finished.");
+			}
 			[self setSpamCorpus:[self restoreFromPlistToCorpus:arrayRep]];
 		}
 	}
@@ -154,8 +192,10 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	NSMutableArray *theArray = [NSMutableArray array];
 	NSEnumerator *iter = [[self spamCorpus] objectEnumerator];
 	BSNGExpression *expression;
+	id	rep;
 	while (expression = [iter nextObject]) {
-		[theArray addObject:[expression propertyListRepresentation]];
+		rep = [expression propertyListRepresentation];
+		if (rep) [theArray addObject:rep];
 	}
     return theArray;
 }
@@ -175,17 +215,22 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	return [binaryData_ writeToFile:filepath atomically:YES];
 }
 
-- (void) applicationWillTerminate : (NSNotification *) notification
+- (void)applicationWillTerminate:(NSNotification *)notification
 {
-	id		rep;
-	id		v;
-	
 	UTILAssertNotificationName(
 		notification,
 		NSApplicationWillTerminateNotification);
 	UTILAssertNotificationObject(
 		notification,
 		NSApp);
+
+	[self saveDetecterAndCorpusToFiles];
+}
+
+- (void)saveDetecterAndCorpusToFiles
+{
+	id		rep;
+	id		v;
 	
 	rep = [NSMutableDictionary dictionary];
 	[rep setObject:CMRSpamFilterIdentifier forKey:kFilterIdentifierKey];

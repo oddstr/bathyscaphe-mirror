@@ -133,6 +133,7 @@
 
 - (id)propertyListRepresentation
 {
+	if (![self expression]) return nil;
 	return [NSDictionary dictionaryWithObjectsAndKeys:[self expression], @"Expression",
 													  [NSNumber numberWithUnsignedInt:[self targetMask]], @"TargetMask",
 													  [NSNumber numberWithBool:[self isRegularExpression]], @"RegularExpression", NULL];

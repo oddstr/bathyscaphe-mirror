@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.27 2007/08/06 19:08:14 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.28 2007/08/11 19:48:07 tsawada2 Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -18,7 +18,7 @@
 #import "CMRSpamFilter.h"
 #import "CMRThreadView.h"
 #import "SGLinkCommand.h"
-
+#import "BSAsciiArtDetector.h"
 #import "DatabaseManager.h"
 
 #import <SGAppKit/NSWorkspace-SGExtensions.h>
@@ -464,6 +464,20 @@ ErrInvalidLink:
 	// 将来のために
 }
 */
+
+// AA Filter
+- (IBAction)runAsciiArtDetector:(id)sender
+{
+	CMRThreadLayout			*layout;
+	CMRThreadSignature		*threadID;
+	
+	layout = [self threadLayout];
+	threadID = [[self threadAttributes] threadSignature];
+	if (!layout || !threadID) {
+		return;
+	}
+	[[BSAsciiArtDetector sharedInstance] runDetectorWithMessages:[layout messageBuffer] with:threadID];
+}
 
 // Spam Filter
 - (IBAction) runSpamFilter : (id) sender

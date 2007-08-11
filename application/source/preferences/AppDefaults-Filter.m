@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-Filter.m,v 1.4 2007/08/10 19:36:48 tsawada2 Exp $
+  * $Id: AppDefaults-Filter.m,v 1.5 2007/08/11 19:48:07 tsawada2 Exp $
   * 
   * AppDefaults-Filter.m
   *
@@ -16,7 +16,7 @@
 #define kPrefUsesSpamMessageCorpusKey	@"Uses Spam Message Corpus"
 #define kPrefSpamFilterBehaviorKey		@"Spam Filter Behavior"
 #define kPrefAADEnabledKey				@"AA Detector Enabled"
-
+static NSString *const kPrefOldNGWordsImportedKey = @"Old Format Corpus Imported";
 
 @implementation AppDefaults(Filter)
 - (NSMutableDictionary *) filterPrefs
@@ -89,6 +89,16 @@
 - (void)setSpamMessageCorpus:(NSMutableArray *)mutableArray
 {
 	[[CMRSpamFilter sharedInstance] setSpamCorpus:mutableArray];
+}
+
+- (BOOL)oldNGWordsImported
+{
+	return [[self filterPrefs] boolForKey:kPrefOldNGWordsImportedKey defaultValue:NO];
+}
+
+- (void)setOldNGWordsImported:(BOOL)imported
+{
+	[[self filterPrefs] setBool:imported forKey:kPrefOldNGWordsImportedKey];
 }
 
 // –À˜fƒŒƒX‚ğŒ©‚Â‚¯‚½‚Æ‚«‚Ì“®ìF

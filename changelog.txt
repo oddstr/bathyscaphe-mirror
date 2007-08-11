@@ -1,3 +1,15 @@
+2007-08-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/MainMenu.nib
+	* application/source/thread/CMRThreadViewer-Link.m
+	* application/source/thread/CMRThreadViewer-Validation.m
+		「スレッド」＞「レスのフィルタ」サブメニューに「AA フォントの自動適用を実行」を追加。
+		「迷惑レスフィルタを実行」と同様に、手動で AAD を実行させたいときに使用する。
+	* application/source/manager/BSLinkDownloadManager.m
+	* application/source/composer/CMRSpamFilter.m
+	* application/source/composer/BSNGExpression.m
+		エラー処理の強化。また、BSSpamFilter.plist から NGExpressions.plist へデータをコンバートするようにした。
+	* application/source/preferences/AppDefaults-Filter.m
+		BSSpamFilter.plist から NSExpressions.plist へデータをコンバート済みかどうかを表すデフォルト値とそのアクセサを追加。
 2007-08-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/manager/BSLinkDownloadManager.m
 	* application/subproj/preference/BSAdvancedPaneArrayController.m

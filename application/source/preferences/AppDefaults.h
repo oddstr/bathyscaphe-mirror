@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.46 2007/08/10 19:36:48 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.47 2007/08/11 19:48:07 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -166,6 +166,9 @@ typedef enum _BSAutoSyncIntervalType {
 */
 - (NSMutableArray *)spamMessageCorpus;
 - (void)setSpamMessageCorpus:(NSMutableArray *)mutableArray;
+
+- (BOOL)oldNGWordsImported;
+- (void)setOldNGWordsImported:(BOOL)imported;
 
 // –À˜fƒŒƒX‚ğŒ©‚Â‚¯‚½‚Æ‚«‚Ì“®ìF
 - (int) spamFilterBehavior;

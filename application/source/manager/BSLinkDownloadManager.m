@@ -53,12 +53,6 @@ static NSString *const kTicketPlistRepAutoopenKey = @"Autoopen";
     return YES;
 }
 
-- (void)setNilValueForKey:(NSString *)key
-{
-	NSLog(@"Called");
-	[super setNilValueForKey:key];
-}
-
 - (BOOL)autoopen
 {
 	return m_autoopen;
@@ -85,6 +79,7 @@ static NSString *const kTicketPlistRepAutoopenKey = @"Autoopen";
 
 - (id)propertyListRepresentation
 {
+	if (![self extension]) return nil;
 	return [NSDictionary dictionaryWithObjectsAndKeys:[self extension], kTicketPlistRepExtensionKey,
 													  [NSNumber numberWithBool:[self autoopen]], kTicketPlistRepAutoopenKey, NULL];
 }
@@ -173,8 +168,10 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager)
 	NSMutableArray *theArray = [NSMutableArray array];
 	NSEnumerator *iter = [[self downloadableTypes] objectEnumerator];
 	BSLinkDownloadTicket *ticket;
+	id rep;
 	while (ticket = [iter nextObject]) {
-		[theArray addObject:[ticket propertyListRepresentation]];
+		rep = [ticket propertyListRepresentation];
+		if (rep) [theArray addObject:rep];
 	}
     return theArray;
 }

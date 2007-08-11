@@ -67,6 +67,7 @@
                 reloadThreadsList = id; 
                 removeDrawerItem = id; 
                 reply = id; 
+                runAsciiArtDetector = id; 
                 runBoardWarrior = id; 
                 runSpamFilter = id; 
                 saveAsDefaultFrame = id; 
