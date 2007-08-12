@@ -13,6 +13,7 @@
 @class CMRThreadMessageBuffer;
 @class CMRThreadMessage;
 @class CMRThreadSignature;
+@class BSNGExpression;
 
 
 @interface CMRSpamFilter : NSObject
@@ -30,7 +31,7 @@
 - (void)setSpamCorpus:(NSMutableArray *)aSpamCorpus;
 
 - (void)saveDetecterAndCorpusToFiles;
-
+- (void)addNGExpression:(BSNGExpression *)expression;
 
 - (void)addSample:(CMRThreadMessage *)aMessage with:(CMRThreadSignature *)aThread;
 - (void)removeSample:(CMRThreadMessage *)aMessage with:(CMRThreadSignature *)aThread;

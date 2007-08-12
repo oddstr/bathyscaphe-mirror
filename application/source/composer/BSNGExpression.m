@@ -116,6 +116,17 @@
 	return [OGRegularExpression isValidExpressionString:[self expression]];
 }
 
+- (unsigned)hash
+{
+	return [[self expression] hash];
+}
+
+- (BOOL)isEqual:(id)anObject
+{
+	if (![anObject isKindOfClass: [self class]]) return NO;
+	return [[self expression] isEqual:[anObject expression]];
+}
+
 #pragma mark CMRPropertyListCoding
 + (id)objectWithPropertyListRepresentation:(id)rep
 {

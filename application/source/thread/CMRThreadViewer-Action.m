@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.41 2007/04/13 09:50:08 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.42 2007/08/12 00:13:59 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -16,6 +16,9 @@
 #import "CMRThreadDownloadTask.h"
 #import "CMXPopUpWindowManager.h"
 #import "BSBoardInfoInspector.h"
+
+#import "CMRSpamFilter.h"
+#import "BSNGExpression.h"
 
 // for debugging only
 #define UTIL_DEBUGGING		0
@@ -444,7 +447,57 @@
     [[self window] makeFirstResponder: [[self textView] enclosingScrollView]];
 }
 
-#pragma mark Available in SledgeHammer and Later
+// Available in Twincam Angel and later.
+- (BOOL)checkIfUsesCorpusOptionOn
+{
+	if ([CMRPref usesSpamMessageCorpus]) {
+		return YES;
+	} else {
+		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+		[alert setAlertStyle:NSWarningAlertStyle];
+		[alert setMessageText:[self localizedString:@"Corpus Off Alert Title"]];
+		[alert setInformativeText:[self localizedString:@"Corpus Off Alert Msg"]];
+		[alert addButtonWithTitle:[self localizedString:@"Corpus Off Turn On Btn"]];
+		[alert addButtonWithTitle:[self localizedString:@"Corpus Off Keep Off Btn"]];
+		[alert setShowsHelp:YES];
+		[alert setHelpAnchor:@"bs_pref_filter"];
+		if ([alert runModal] == NSAlertFirstButtonReturn) {
+			[CMRPref setUsesSpamMessageCorpus:YES];
+			return YES;
+		}
+		return NO;
+	}
+}
+
+- (IBAction)addToNGWords:(id)sender
+{
+	NSRange			selectedRange_ = [[self textView] selectedRange];
+	NSString		*string_;
+	BSNGExpression	*exp;
+	
+	string_ = [[[self textView] string] substringWithRange:selectedRange_];
+	if(!string_ || [string_ isEmpty]) return;
+
+	exp = [[BSNGExpression alloc] initWithExpression:string_ targetMask:BSNGExpressionAtAll regularExpression:NO];
+	if ([[[CMRSpamFilter sharedInstance] spamCorpus] containsObject:exp]) {
+		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+		[alert setAlertStyle:NSWarningAlertStyle];
+		[alert setMessageText:[NSString stringWithFormat:[self localizedString:@"Corpus Duplicated Alert Title"],string_]];
+		[alert setInformativeText:[self localizedString:@"Corpus Duplicated Alert Msg"]];
+		NSBeep();
+		[alert runModal];
+		[exp release];
+		return;
+	}
+	
+	[[CMRSpamFilter sharedInstance] addNGExpression:exp];
+	[exp release];
+
+	if ([self checkIfUsesCorpusOptionOn]) {
+		SystemSoundPlay(1);
+	}
+}
+
 - (IBAction) showBoardInspectorPanel : (id) sender
 {
 	NSString			*board;
@@ -454,7 +507,7 @@
 	[[BSBoardInfoInspector sharedInstance] showInspectorForTargetBoard : board];
 }
 
-#pragma mark Available in ReinforceII and Later
+#pragma mark Scaling Text View
 - (void) scaleTextView: (float) rate
 {
 	NSClipView *clipView_ = [[self scrollView] contentView];

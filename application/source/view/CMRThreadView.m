@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadView.m,v 1.18 2007/04/12 12:55:12 tsawada2 Exp $
+  * $Id: CMRThreadView.m,v 1.19 2007/08/12 00:13:59 tsawada2 Exp $
   * 
   * CMRThreadView.m
   *
@@ -357,7 +357,17 @@ NOT_FOUND:
 								   nibName : kDefaultMenuNibName] copy];
 		
 		item_ = (NSMenuItem*)[kDefaultMenu_ itemWithTag : kMessageActionMenuTag];
-		submenu_ = [[self messageMenu] copy];
+//		submenu_ = [[self messageMenu] copy];
+		submenu_ = [[NSMenu alloc] initWithTitle:@""];
+
+		NSEnumerator *iter_ = [[[self messageMenu] itemArray] objectEnumerator];
+		NSMenuItem *hoge_;
+		
+		while (hoge_ = [iter_ nextObject]) {
+			if ([hoge_ tag] > -1) {
+				[submenu_ addItem:[[hoge_ copy] autorelease]];
+			}
+		}
 		
 		[self setupMenuItemInMenu:submenu_ representedObject:nil];
 		[submenu_ setAutoenablesItems : YES];
@@ -367,11 +377,12 @@ NOT_FOUND:
 	}
 	return kDefaultMenu_;
 }
-- (NSMenu *) menuForEvent : (NSEvent *) theEvent
+
+- (NSMenu *)menuForEvent:(NSEvent *)theEvent
 {
-	NSPoint		mouseLocation_;//,mouseLocation2_;
+	NSPoint		mouseLocation_;
 	BOOL		isMouseEvent_ = YES;
-	
+
 	// マウスイベントか
 NS_DURING
 	[theEvent clickCount];
@@ -381,19 +392,18 @@ NS_ENDHANDLER
 	
 	_lastCharIndex = NSNotFound;
 	if (isMouseEvent_) {
-		//mouseLocation2_ = [self convertPoint : [theEvent locationInWindow]
-		//					   fromView : nil];
 		mouseLocation_ = [theEvent locationInWindow];
-		mouseLocation_ = [[self window] convertBaseToScreen : mouseLocation_];
-		_lastCharIndex = [self characterIndexForPoint : mouseLocation_];
+		mouseLocation_ = [[self window] convertBaseToScreen:mouseLocation_];
+		_lastCharIndex = [self characterIndexForPoint:mouseLocation_];
+	}
+
+	// マウスポインタが選択されたテキストの、その選択領域に入っているなら、選択テキスト用の（簡潔な）コンテキストメニューを返す。
+	if (NSLocationInRange(_lastCharIndex, [self selectedRange])) {
+		return [[self class] defaultMenu];
 	}
 	
-	// マウスポインタが選択されたテキストの、その選択領域に入っているなら、選択テキスト用のコンテキストメニューを返す。
-	//if(NSPointInRect (mouseLocation2_, [self boundingRectForCharacterInRange : [self selectedRange]]))
-	//		return [[self class] defaultMenu];
-	
 	// そうでなければ、スーパークラスで判断してもらう（see SGHTMLView.m)。
-	return [super menuForEvent : theEvent];
+	return [super menuForEvent:theEvent];
 }
 
 - (NSMenu *) messageMenuWithMessageIndex : (unsigned) aMessageIndex

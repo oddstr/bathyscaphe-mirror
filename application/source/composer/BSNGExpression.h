@@ -17,6 +17,8 @@ enum {
 	BSNGExpressionAtMessage = 1 << 2,
 };
 
+#define BSNGExpressionAtAll	(BSNGExpressionAtName|BSNGExpressionAtMail|BSNGExpressionAtMessage)
+
 @interface BSNGExpression : NSObject<CMRPropertyListCoding> {
 	NSString *m_NGExpression;
 	unsigned int m_NGTargetMask;

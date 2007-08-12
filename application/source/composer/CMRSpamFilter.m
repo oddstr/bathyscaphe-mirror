@@ -186,6 +186,15 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	_spamCorpus = aSpamCorpus;
 }
 
+- (void)addNGExpression:(BSNGExpression *)expression
+{
+	[CMRPref willChangeValueForKey:@"spamMessageCorpus"];
+	[self willChangeValueForKey:@"spamCorpus"];
+	[[self spamCorpus] addObject:expression];
+	[self didChangeValueForKey:@"spamCorpus"];
+	[CMRPref didChangeValueForKey:@"spamMessageCorpus"];
+}
+
 #pragma mark Writing to file
 - (NSArray *)arrayRepresentation
 {

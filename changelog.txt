@@ -1,4 +1,23 @@
 2007-08-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/composer/BSNGExpression.m
+		-[BSNGExpression<NSObject> isEqual:] および -[BSNGExpression<NSObject> hash] の実装。文字列が同じなら
+		イコールと見なすことにした（同じ語句の重複登録を防ぐことができるように）。
+	* application/Resources/Japanese.lproj/CMRThreadMenu.nib
+	* application/Resources/Japanese.lproj/CMXMessageMenu.nib
+	* application/Resources/Japanese.lproj/ThreadViewer.strings
+	* application/source/view/CMRThreadView.m
+	* application/source/view/SGHTMLView.m
+	* application/source/thread/CMRThreadViewer-Action.m
+		スレッドのコンテクストメニューの強化：
+		- コンテクストメニューから迷惑レスフィルタ用のいわゆる「NG ワード」を追加するメソッドを追加。
+		-- BathyScaphe の伝統的な「堅苦しさ」にのっとり、メニュー項目名は「NG ワードを追加」ではなく「禁止語句を追加」にした :-)
+		- 「レスのアクション」サブメニューを「レスの属性」に名称変更。
+		-- レスの属性、という言葉は既にオンラインヘルプ等で用いており、新しいものではない。
+		- コンテクストメニューを状況に応じて変化させるようにした。
+		-- 1.テキストが選択されていて、かつその選択テキスト上でコンテクストメニューを表示させたとき。→選択テキストに対する操作に特化
+		-- 2.外部リンク上で表示させたとき。→今まで通りリンク用のメニュー
+		-- 3.それ以外（注：テキスト選択時で、選択テキスト上「以外」で表示させたときもここに含まれる）→今までとほぼ同じメニュー
+		- 外部リンク上でコンテクストメニューを表示させるとき、リンク全体を選択するのを止めた。
 	* application/Resources/Japanese.lproj/MainMenu.nib
 	* application/source/thread/CMRThreadViewer-Link.m
 	* application/source/thread/CMRThreadViewer-Validation.m

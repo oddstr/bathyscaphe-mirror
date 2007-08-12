@@ -7,7 +7,12 @@
             SUPERCLASS = NSObject; 
         }, 
         {
-            ACTIONS = {copySelectedResLink = id; googleSearch = id; openWithWikipedia = id; }; 
+            ACTIONS = {
+                addToNGWords = id; 
+                copySelectedResLink = id; 
+                googleSearch = id; 
+                openWithWikipedia = id; 
+            }; 
             CLASS = FirstResponder; 
             LANGUAGE = ObjC; 
             SUPERCLASS = NSObject; 
