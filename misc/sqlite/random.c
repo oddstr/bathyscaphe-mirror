@@ -15,7 +15,7 @@
 ** Random numbers are used by some of the database backends in order
 ** to generate random integer keys for tables or random filenames.
 **
-** $Id: random.c,v 1.3 2006/10/17 13:23:19 masakih Exp $
+** $Id: random.c,v 1.4 2007/08/13 17:49:46 masakih Exp $
 */
 #include "sqliteInt.h"
 #include "os.h"
@@ -37,7 +37,7 @@
 ** (Later):  Actually, OP_NewRowid does not depend on a good source of
 ** randomness any more.  But we will leave this code in all the same.
 */
-static int randomByte(){
+static int randomByte(void){
   unsigned char t;
 
   /* All threads share a single random number generator.

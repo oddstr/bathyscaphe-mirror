@@ -599,6 +599,11 @@
 		87F621A10A9186920082E8DB /* BoardManager-BSAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F621A00A9186920082E8DB /* BoardManager-BSAddition.m */; };
 		87FC678A0C682E9A00A4C72C /* DownloadableLinkTypes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FC67890C682E9A00A4C72C /* DownloadableLinkTypes.plist */; };
 		F424609908462452000803EA /* Scripts.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F424609808462452000803EA /* Scripts.tiff */; };
+		F42BD5AB0C70B1F7000AE1F8 /* malloc.c in Sources */ = {isa = PBXBuildFile; fileRef = F42BD5A90C70B1F7000AE1F8 /* malloc.c */; };
+		F42BD5AF0C70B21F000AE1F8 /* vtab.c in Sources */ = {isa = PBXBuildFile; fileRef = F42BD5AD0C70B21F000AE1F8 /* vtab.c */; };
+		F42BD5B80C70B279000AE1F8 /* legacy.c in Sources */ = {isa = PBXBuildFile; fileRef = F47A66660AFF7EFA00EB5137 /* legacy.c */; };
+		F42BD5C50C70B29E000AE1F8 /* opcodes.c in Sources */ = {isa = PBXBuildFile; fileRef = F47A66680AFF7EFA00EB5137 /* opcodes.c */; };
+		F42BD62A0C70C109000AE1F8 /* btreeInt.h in Headers */ = {isa = PBXBuildFile; fileRef = F42BD6290C70C109000AE1F8 /* btreeInt.h */; };
 		F440D7330C315929000458FF /* DatabaseManager-Notifications.m in Sources */ = {isa = PBXBuildFile; fileRef = F440D7310C315929000458FF /* DatabaseManager-Notifications.m */; };
 		F467955B0B74CD40001B0001 /* DatabaseUpdater.h in Headers */ = {isa = PBXBuildFile; fileRef = F46795590B74CD40001B0001 /* DatabaseUpdater.h */; };
 		F467955C0B74CD40001B0001 /* DatabaseUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = F467955A0B74CD40001B0001 /* DatabaseUpdater.m */; };
@@ -1012,7 +1017,6 @@
 		F47A66540AFF7EE600EB5137 /* alter.c in Sources */ = {isa = PBXBuildFile; fileRef = F47A664B0AFF7EE600EB5137 /* alter.c */; };
 		F47A66550AFF7EE600EB5137 /* analyze.c in Sources */ = {isa = PBXBuildFile; fileRef = F47A664C0AFF7EE600EB5137 /* analyze.c */; };
 		F47A66560AFF7EE600EB5137 /* attach.c in Sources */ = {isa = PBXBuildFile; fileRef = F47A664D0AFF7EE600EB5137 /* attach.c */; };
-		F47A66570AFF7EE600EB5137 /* auth.c in Sources */ = {isa = PBXBuildFile; fileRef = F47A664E0AFF7EE600EB5137 /* auth.c */; };
 		F47A66580AFF7EE600EB5137 /* btree.c in Sources */ = {isa = PBXBuildFile; fileRef = F47A664F0AFF7EE600EB5137 /* btree.c */; };
 		F47A66590AFF7EE600EB5137 /* btree.h in Headers */ = {isa = PBXBuildFile; fileRef = F47A66500AFF7EE600EB5137 /* btree.h */; };
 		F47A665A0AFF7EE600EB5137 /* build.c in Sources */ = {isa = PBXBuildFile; fileRef = F47A66510AFF7EE600EB5137 /* build.c */; };
@@ -1020,16 +1024,13 @@
 		F47A665C0AFF7EE600EB5137 /* complete.c in Sources */ = {isa = PBXBuildFile; fileRef = F47A66530AFF7EE600EB5137 /* complete.c */; };
 		F47A66880AFF7EFA00EB5137 /* date.c in Sources */ = {isa = PBXBuildFile; fileRef = F47A665D0AFF7EFA00EB5137 /* date.c */; };
 		F47A66890AFF7EFA00EB5137 /* delete.c in Sources */ = {isa = PBXBuildFile; fileRef = F47A665E0AFF7EFA00EB5137 /* delete.c */; };
-		F47A668A0AFF7EFA00EB5137 /* experimental.c in Sources */ = {isa = PBXBuildFile; fileRef = F47A665F0AFF7EFA00EB5137 /* experimental.c */; };
 		F47A668B0AFF7EFA00EB5137 /* expr.c in Sources */ = {isa = PBXBuildFile; fileRef = F47A66600AFF7EFA00EB5137 /* expr.c */; };
 		F47A668C0AFF7EFA00EB5137 /* func.c in Sources */ = {isa = PBXBuildFile; fileRef = F47A66610AFF7EFA00EB5137 /* func.c */; };
 		F47A668D0AFF7EFA00EB5137 /* hash.c in Sources */ = {isa = PBXBuildFile; fileRef = F47A66620AFF7EFA00EB5137 /* hash.c */; };
 		F47A668E0AFF7EFA00EB5137 /* hash.h in Headers */ = {isa = PBXBuildFile; fileRef = F47A66630AFF7EFA00EB5137 /* hash.h */; };
 		F47A668F0AFF7EFA00EB5137 /* insert.c in Sources */ = {isa = PBXBuildFile; fileRef = F47A66640AFF7EFA00EB5137 /* insert.c */; };
 		F47A66900AFF7EFA00EB5137 /* keywordhash.h in Headers */ = {isa = PBXBuildFile; fileRef = F47A66650AFF7EFA00EB5137 /* keywordhash.h */; };
-		F47A66910AFF7EFA00EB5137 /* legacy.c in Sources */ = {isa = PBXBuildFile; fileRef = F47A66660AFF7EFA00EB5137 /* legacy.c */; };
 		F47A66920AFF7EFA00EB5137 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F47A66670AFF7EFA00EB5137 /* main.c */; };
-		F47A66930AFF7EFA00EB5137 /* opcodes.c in Sources */ = {isa = PBXBuildFile; fileRef = F47A66680AFF7EFA00EB5137 /* opcodes.c */; };
 		F47A66940AFF7EFA00EB5137 /* opcodes.h in Headers */ = {isa = PBXBuildFile; fileRef = F47A66690AFF7EFA00EB5137 /* opcodes.h */; };
 		F47A66950AFF7EFA00EB5137 /* os_common.h in Headers */ = {isa = PBXBuildFile; fileRef = F47A666A0AFF7EFA00EB5137 /* os_common.h */; };
 		F47A66960AFF7EFA00EB5137 /* os_unix.c in Sources */ = {isa = PBXBuildFile; fileRef = F47A666B0AFF7EFA00EB5137 /* os_unix.c */; };
@@ -1842,6 +1843,9 @@
 		F41308B80A8E27A400740620 /* BSThreadsListOPTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSThreadsListOPTask.h; sourceTree = "<group>"; };
 		F41308B90A8E27A400740620 /* BSThreadsListOPTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSThreadsListOPTask.m; sourceTree = "<group>"; };
 		F424609808462452000803EA /* Scripts.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Scripts.tiff; sourceTree = "<group>"; };
+		F42BD5A90C70B1F7000AE1F8 /* malloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = malloc.c; path = ../misc/sqlite/malloc.c; sourceTree = SOURCE_ROOT; };
+		F42BD5AD0C70B21F000AE1F8 /* vtab.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vtab.c; sourceTree = "<group>"; };
+		F42BD6290C70C109000AE1F8 /* btreeInt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = btreeInt.h; sourceTree = "<group>"; };
 		F4369C0C0AFF7CFC005ABD68 /* libsqlite.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libsqlite.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F440D7310C315929000458FF /* DatabaseManager-Notifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DatabaseManager-Notifications.m"; sourceTree = "<group>"; };
 		F46795590B74CD40001B0001 /* DatabaseUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseUpdater.h; sourceTree = "<group>"; };
@@ -1851,7 +1855,6 @@
 		F47A664B0AFF7EE600EB5137 /* alter.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = alter.c; path = ../misc/sqlite/alter.c; sourceTree = SOURCE_ROOT; };
 		F47A664C0AFF7EE600EB5137 /* analyze.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = analyze.c; path = ../misc/sqlite/analyze.c; sourceTree = SOURCE_ROOT; };
 		F47A664D0AFF7EE600EB5137 /* attach.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = attach.c; path = ../misc/sqlite/attach.c; sourceTree = SOURCE_ROOT; };
-		F47A664E0AFF7EE600EB5137 /* auth.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = auth.c; path = ../misc/sqlite/auth.c; sourceTree = SOURCE_ROOT; };
 		F47A664F0AFF7EE600EB5137 /* btree.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = btree.c; path = ../misc/sqlite/btree.c; sourceTree = SOURCE_ROOT; };
 		F47A66500AFF7EE600EB5137 /* btree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = btree.h; path = ../misc/sqlite/btree.h; sourceTree = SOURCE_ROOT; };
 		F47A66510AFF7EE600EB5137 /* build.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = build.c; path = ../misc/sqlite/build.c; sourceTree = SOURCE_ROOT; };
@@ -1859,7 +1862,6 @@
 		F47A66530AFF7EE600EB5137 /* complete.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = complete.c; path = ../misc/sqlite/complete.c; sourceTree = SOURCE_ROOT; };
 		F47A665D0AFF7EFA00EB5137 /* date.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = date.c; path = ../misc/sqlite/date.c; sourceTree = SOURCE_ROOT; };
 		F47A665E0AFF7EFA00EB5137 /* delete.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = delete.c; path = ../misc/sqlite/delete.c; sourceTree = SOURCE_ROOT; };
-		F47A665F0AFF7EFA00EB5137 /* experimental.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = experimental.c; path = ../misc/sqlite/experimental.c; sourceTree = SOURCE_ROOT; };
 		F47A66600AFF7EFA00EB5137 /* expr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = expr.c; path = ../misc/sqlite/expr.c; sourceTree = SOURCE_ROOT; };
 		F47A66610AFF7EFA00EB5137 /* func.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = func.c; path = ../misc/sqlite/func.c; sourceTree = SOURCE_ROOT; };
 		F47A66620AFF7EFA00EB5137 /* hash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = hash.c; path = ../misc/sqlite/hash.c; sourceTree = SOURCE_ROOT; };
@@ -3312,9 +3314,11 @@
 		F47A664A0AFF7EC700EB5137 /* sqlite */ = {
 			isa = PBXGroup;
 			children = (
+				F42BD6290C70C109000AE1F8 /* btreeInt.h */,
+				F42BD5AD0C70B21F000AE1F8 /* vtab.c */,
+				F42BD5A90C70B1F7000AE1F8 /* malloc.c */,
 				F47A665D0AFF7EFA00EB5137 /* date.c */,
 				F47A665E0AFF7EFA00EB5137 /* delete.c */,
-				F47A665F0AFF7EFA00EB5137 /* experimental.c */,
 				F47A66600AFF7EFA00EB5137 /* expr.c */,
 				F47A66610AFF7EFA00EB5137 /* func.c */,
 				F47A66620AFF7EFA00EB5137 /* hash.c */,
@@ -3358,7 +3362,6 @@
 				F47A664B0AFF7EE600EB5137 /* alter.c */,
 				F47A664C0AFF7EE600EB5137 /* analyze.c */,
 				F47A664D0AFF7EE600EB5137 /* attach.c */,
-				F47A664E0AFF7EE600EB5137 /* auth.c */,
 				F47A664F0AFF7EE600EB5137 /* btree.c */,
 				F47A66500AFF7EE600EB5137 /* btree.h */,
 				F47A66510AFF7EE600EB5137 /* build.c */,
@@ -3366,6 +3369,7 @@
 				F47A66530AFF7EE600EB5137 /* complete.c */,
 			);
 			name = sqlite;
+			path = ../misc/sqlite;
 			sourceTree = "<group>";
 		};
 		F47A66C00AFF807100EB5137 /* BoardListItem */ = {
@@ -3639,6 +3643,7 @@
 				F47A66A30AFF7EFA00EB5137 /* sqliteInt.h in Headers */,
 				F47A66AC0AFF7EFA00EB5137 /* vdbe.h in Headers */,
 				F47A66B00AFF7EFA00EB5137 /* vdbeInt.h in Headers */,
+				F42BD62A0C70C109000AE1F8 /* btreeInt.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4552,21 +4557,17 @@
 				F47A66540AFF7EE600EB5137 /* alter.c in Sources */,
 				F47A66550AFF7EE600EB5137 /* analyze.c in Sources */,
 				F47A66560AFF7EE600EB5137 /* attach.c in Sources */,
-				F47A66570AFF7EE600EB5137 /* auth.c in Sources */,
 				F47A66580AFF7EE600EB5137 /* btree.c in Sources */,
 				F47A665A0AFF7EE600EB5137 /* build.c in Sources */,
 				F47A665B0AFF7EE600EB5137 /* callback.c in Sources */,
 				F47A665C0AFF7EE600EB5137 /* complete.c in Sources */,
 				F47A66880AFF7EFA00EB5137 /* date.c in Sources */,
 				F47A66890AFF7EFA00EB5137 /* delete.c in Sources */,
-				F47A668A0AFF7EFA00EB5137 /* experimental.c in Sources */,
 				F47A668B0AFF7EFA00EB5137 /* expr.c in Sources */,
 				F47A668C0AFF7EFA00EB5137 /* func.c in Sources */,
 				F47A668D0AFF7EFA00EB5137 /* hash.c in Sources */,
 				F47A668F0AFF7EFA00EB5137 /* insert.c in Sources */,
-				F47A66910AFF7EFA00EB5137 /* legacy.c in Sources */,
 				F47A66920AFF7EFA00EB5137 /* main.c in Sources */,
-				F47A66930AFF7EFA00EB5137 /* opcodes.c in Sources */,
 				F47A66960AFF7EFA00EB5137 /* os_unix.c in Sources */,
 				F47A66970AFF7EFA00EB5137 /* os.c in Sources */,
 				F47A66990AFF7EFA00EB5137 /* pager.c in Sources */,
@@ -4589,6 +4590,10 @@
 				F47A66AF0AFF7EFA00EB5137 /* vdbefifo.c in Sources */,
 				F47A66B10AFF7EFA00EB5137 /* vdbemem.c in Sources */,
 				F47A66B20AFF7EFA00EB5137 /* where.c in Sources */,
+				F42BD5AB0C70B1F7000AE1F8 /* malloc.c in Sources */,
+				F42BD5AF0C70B21F000AE1F8 /* vtab.c in Sources */,
+				F42BD5B80C70B279000AE1F8 /* legacy.c in Sources */,
+				F42BD5C50C70B29E000AE1F8 /* opcodes.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5790,6 +5795,10 @@
 				GCC_MODEL_TUNING = "";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
+					"SQLITE_OMIT_INCRBLOB=1",
+					"SQLITE_OMIT_UTF16=1",
+					"SQLITE_OMIT_AUTHORIZATION=1",
+					"SQLITE_OMIT_LOAD_EXTENSION=1",
 					USE_NSZONE_MALLOC,
 					"OS_UNIX=1",
 					"HAVE_USLEEP=1",
@@ -5814,6 +5823,10 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
+					"SQLITE_OMIT_INCRBLOB=1",
+					"SQLITE_OMIT_UTF16=1",
+					"SQLITE_OMIT_AUTHORIZATION=1",
+					"SQLITE_OMIT_LOAD_EXTENSION=1",
 					USE_NSZONE_MALLOC,
 					"OS_UNIX=1",
 					"HAVE_USLEEP=1",
@@ -5836,6 +5849,10 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
+					"SQLITE_OMIT_INCRBLOB=1",
+					"SQLITE_OMIT_UTF16=1",
+					"SQLITE_OMIT_AUTHORIZATION=1",
+					"SQLITE_OMIT_LOAD_EXTENSION=1",
 					USE_NSZONE_MALLOC,
 					"OS_UNIX=1",
 					"HAVE_USLEEP=1",

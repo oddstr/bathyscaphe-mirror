@@ -13,7 +13,7 @@
 ** interface, and routines that contribute to loading the database schema
 ** from disk.
 **
-** $Id: prepare.c,v 1.3 2006/10/17 13:23:19 masakih Exp $
+** $Id: prepare.c,v 1.4 2007/08/13 17:49:46 masakih Exp $
 */
 #include "sqliteInt.h"
 #include "os.h"
@@ -28,6 +28,7 @@ static void corruptSchema(InitData *pData, const char *zExtra){
     sqlite3SetString(pData->pzErrMsg, "malformed database schema",
        zExtra!=0 && zExtra[0]!=0 ? " - " : (char*)0, zExtra, (char*)0);
   }
+  pData->rc = SQLITE_CORRUPT;
 }
 
 /*
@@ -38,28 +39,28 @@ static void corruptSchema(InitData *pData, const char *zExtra){
 ** Each callback contains the following information:
 **
 **     argv[0] = name of thing being created
-**     argv[1] = root page number for table or index.  NULL for trigger or view.
+**     argv[1] = root page number for table or index. 0 for trigger or view.
 **     argv[2] = SQL text for the CREATE statement.
-**     argv[3] = "1" for temporary files, "0" for main database, "2" or more
-**               for auxiliary database files.
 **
 */
 int sqlite3InitCallback(void *pInit, int argc, char **argv, char **azColName){
   InitData *pData = (InitData*)pInit;
   sqlite3 *db = pData->db;
-  int iDb;
+  int iDb = pData->iDb;
 
+  pData->rc = SQLITE_OK;
+  DbClearProperty(db, iDb, DB_Empty);
   if( sqlite3MallocFailed() ){
+    corruptSchema(pData, 0);
     return SQLITE_NOMEM;
   }
 
-  assert( argc==4 );
+  assert( argc==3 );
   if( argv==0 ) return 0;   /* Might happen if EMPTY_RESULT_CALLBACKS are on */
-  if( argv[1]==0 || argv[3]==0 ){
+  if( argv[1]==0 ){
     corruptSchema(pData, 0);
     return 1;
   }
-  iDb = atoi(argv[3]);
   assert( iDb>=0 && iDb<db->nDb );
   if( argv[2] && argv[2][0] ){
     /* Call the parser to process a CREATE TABLE, INDEX or VIEW.
@@ -76,13 +77,14 @@ int sqlite3InitCallback(void *pInit, int argc, char **argv, char **azColName){
     db->init.iDb = 0;
     assert( rc!=SQLITE_OK || zErr==0 );
     if( SQLITE_OK!=rc ){
+      pData->rc = rc;
       if( rc==SQLITE_NOMEM ){
         sqlite3FailedMalloc();
-      }else{
+      }else if( rc!=SQLITE_INTERRUPT ){
         corruptSchema(pData, zErr);
       }
       sqlite3_free(zErr);
-      return rc;
+      return 1;
     }
   }else{
     /* If the SQL column is blank it means this is an index that
@@ -121,8 +123,7 @@ static int sqlite3InitOne(sqlite3 *db, int iDb, char **pzErrMsg){
   int size;
   Table *pTab;
   Db *pDb;
-  char const *azArg[5];
-  char zDbNum[30];
+  char const *azArg[4];
   int meta[10];
   InitData initData;
   char const *zMasterSchema;
@@ -173,15 +174,14 @@ static int sqlite3InitOne(sqlite3 *db, int iDb, char **pzErrMsg){
   azArg[0] = zMasterName;
   azArg[1] = "1";
   azArg[2] = zMasterSchema;
-  sprintf(zDbNum, "%d", iDb);
-  azArg[3] = zDbNum;
-  azArg[4] = 0;
+  azArg[3] = 0;
   initData.db = db;
+  initData.iDb = iDb;
   initData.pzErrMsg = pzErrMsg;
-  rc = sqlite3InitCallback(&initData, 4, (char **)azArg, 0);
-  if( rc!=SQLITE_OK ){
+  rc = sqlite3InitCallback(&initData, 3, (char **)azArg, 0);
+  if( rc ){
     sqlite3SafetyOn(db);
-    return rc;
+    return initData.rc;
   }
   pTab = sqlite3FindTable(db, zMasterName, db->aDb[iDb].zName);
   if( pTab ){
@@ -213,7 +213,7 @@ static int sqlite3InitOne(sqlite3 *db, int iDb, char **pzErrMsg){
   **    meta[3]   Use freelist if 0.  Autovacuum if greater than zero.
   **    meta[4]   Db text encoding. 1:UTF-8 2:UTF-16LE 3:UTF-16BE
   **    meta[5]   The user cookie. Used by the application.
-  **    meta[6]   
+  **    meta[6]   Incremental-vacuum flag.
   **    meta[7]
   **    meta[8]
   **    meta[9]
@@ -261,7 +261,7 @@ static int sqlite3InitOne(sqlite3 *db, int iDb, char **pzErrMsg){
   pDb->pSchema->enc = ENC(db);
 
   size = meta[2];
-  if( size==0 ){ size = MAX_PAGES; }
+  if( size==0 ){ size = SQLITE_DEFAULT_CACHE_SIZE; }
   pDb->pSchema->cache_size = size;
   sqlite3BtreeSetCacheSize(pDb->pBt, pDb->pSchema->cache_size);
 
@@ -291,10 +291,11 @@ static int sqlite3InitOne(sqlite3 *db, int iDb, char **pzErrMsg){
   }else{
     char *zSql;
     zSql = sqlite3MPrintf(
-        "SELECT name, rootpage, sql, '%s' FROM '%q'.%s",
-        zDbNum, db->aDb[iDb].zName, zMasterName);
+        "SELECT name, rootpage, sql FROM '%q'.%s",
+        db->aDb[iDb].zName, zMasterName);
     sqlite3SafetyOff(db);
     rc = sqlite3_exec(db, zSql, sqlite3InitCallback, &initData, 0);
+    if( rc==SQLITE_ABORT ) rc = initData.rc;
     sqlite3SafetyOn(db);
     sqliteFree(zSql);
 #ifndef SQLITE_OMIT_ANALYZE
@@ -309,10 +310,17 @@ static int sqlite3InitOne(sqlite3 *db, int iDb, char **pzErrMsg){
     rc = SQLITE_NOMEM;
     sqlite3ResetInternalSchema(db, 0);
   }
-  if( rc==SQLITE_OK ){
+  if( rc==SQLITE_OK || (db->flags&SQLITE_RecoveryMode)){
+    /* Black magic: If the SQLITE_RecoveryMode flag is set, then consider
+    ** the schema loaded, even if errors occured. In this situation the 
+    ** current sqlite3_prepare() operation will fail, but the following one
+    ** will attempt to compile the supplied statement against whatever subset
+    ** of the schema was loaded before the error occured. The primary
+    ** purpose of this is to allow access to the sqlite_master table
+    ** even when it's contents have been corrupted.
+    */
     DbSetProperty(db, iDb, DB_SchemaLoaded);
-  }else{
-    sqlite3ResetInternalSchema(db, iDb);
+    rc = SQLITE_OK;
   }
   return rc;
 }
@@ -444,12 +452,13 @@ int sqlite3SchemaToIndex(sqlite3 *db, Schema *pSchema){
 /*
 ** Compile the UTF-8 encoded SQL statement zSql into a statement handle.
 */
-int sqlite3_prepare(
+int sqlite3Prepare(
   sqlite3 *db,              /* Database handle. */
   const char *zSql,         /* UTF-8 encoded SQL statement. */
   int nBytes,               /* Length of zSql in bytes. */
+  int saveSqlFlag,          /* True to copy SQL text into the sqlite3_stmt */
   sqlite3_stmt **ppStmt,    /* OUT: A pointer to the prepared statement */
-  const char** pzTail       /* OUT: End of parsed string */
+  const char **pzTail       /* OUT: End of parsed string */
 ){
   Parse sParse;
   char *zErrMsg = 0;
@@ -481,10 +490,16 @@ int sqlite3_prepare(
   memset(&sParse, 0, sizeof(sParse));
   sParse.db = db;
   if( nBytes>=0 && zSql[nBytes]!=0 ){
-    char *zSqlCopy = sqlite3StrNDup(zSql, nBytes);
-    sqlite3RunParser(&sParse, zSqlCopy, &zErrMsg);
-    sParse.zTail += zSql - zSqlCopy;
-    sqliteFree(zSqlCopy);
+    char *zSqlCopy;
+    if( nBytes>SQLITE_MAX_SQL_LENGTH ){
+      return SQLITE_TOOBIG;
+    }
+    zSqlCopy = sqlite3StrNDup(zSql, nBytes);
+    if( zSqlCopy ){
+      sqlite3RunParser(&sParse, zSqlCopy, &zErrMsg);
+      sqliteFree(zSqlCopy);
+    }
+    sParse.zTail = &zSql[nBytes];
   }else{
     sqlite3RunParser(&sParse, zSql, &zErrMsg);
   }
@@ -499,7 +514,12 @@ int sqlite3_prepare(
   if( sParse.rc==SQLITE_SCHEMA ){
     sqlite3ResetInternalSchema(db, 0);
   }
-  if( pzTail ) *pzTail = sParse.zTail;
+  if( sqlite3MallocFailed() ){
+    sParse.rc = SQLITE_NOMEM;
+  }
+  if( pzTail ){
+    *pzTail = sParse.zTail;
+  }
   rc = sParse.rc;
 
 #ifndef SQLITE_OMIT_EXPLAIN
@@ -517,16 +537,21 @@ int sqlite3_prepare(
       sqlite3VdbeSetColName(sParse.pVdbe, 3, COLNAME_NAME, "p2", P3_STATIC);
       sqlite3VdbeSetColName(sParse.pVdbe, 4, COLNAME_NAME, "p3", P3_STATIC);
     }
-  } 
+  }
 #endif
 
   if( sqlite3SafetyOff(db) ){
     rc = SQLITE_MISUSE;
   }
-  if( rc==SQLITE_OK ){
-    *ppStmt = (sqlite3_stmt*)sParse.pVdbe;
-  }else if( sParse.pVdbe ){
+
+  if( saveSqlFlag ){
+    sqlite3VdbeSetSql(sParse.pVdbe, zSql, sParse.zTail - zSql);
+  }
+  if( rc!=SQLITE_OK || sqlite3MallocFailed() ){
     sqlite3_finalize((sqlite3_stmt*)sParse.pVdbe);
+    assert(!(*ppStmt));
+  }else{
+    *ppStmt = (sqlite3_stmt*)sParse.pVdbe;
   }
 
   if( zErrMsg ){
@@ -538,17 +563,78 @@ int sqlite3_prepare(
 
   rc = sqlite3ApiExit(db, rc);
   sqlite3ReleaseThreadData();
+  assert( (rc&db->errMask)==rc );
   return rc;
 }
+
+/*
+** Rerun the compilation of a statement after a schema change.
+** Return true if the statement was recompiled successfully.
+** Return false if there is an error of some kind.
+*/
+int sqlite3Reprepare(Vdbe *p){
+  int rc;
+  sqlite3_stmt *pNew;
+  const char *zSql;
+  sqlite3 *db;
+  
+  zSql = sqlite3VdbeGetSql(p);
+  if( zSql==0 ){
+    return 0;
+  }
+  db = sqlite3VdbeDb(p);
+  rc = sqlite3Prepare(db, zSql, -1, 0, &pNew, 0);
+  if( rc ){
+    assert( pNew==0 );
+    return 0;
+  }else{
+    assert( pNew!=0 );
+  }
+  sqlite3VdbeSwap((Vdbe*)pNew, p);
+  sqlite3_transfer_bindings(pNew, (sqlite3_stmt*)p);
+  sqlite3VdbeResetStepResult((Vdbe*)pNew);
+  sqlite3VdbeFinalize((Vdbe*)pNew);
+  return 1;
+}
+
+
+/*
+** Two versions of the official API.  Legacy and new use.  In the legacy
+** version, the original SQL text is not saved in the prepared statement
+** and so if a schema change occurs, SQLITE_SCHEMA is returned by
+** sqlite3_step().  In the new version, the original SQL text is retained
+** and the statement is automatically recompiled if an schema change
+** occurs.
+*/
+int sqlite3_prepare(
+  sqlite3 *db,              /* Database handle. */
+  const char *zSql,         /* UTF-8 encoded SQL statement. */
+  int nBytes,               /* Length of zSql in bytes. */
+  sqlite3_stmt **ppStmt,    /* OUT: A pointer to the prepared statement */
+  const char **pzTail       /* OUT: End of parsed string */
+){
+  return sqlite3Prepare(db,zSql,nBytes,0,ppStmt,pzTail);
+}
+int sqlite3_prepare_v2(
+  sqlite3 *db,              /* Database handle. */
+  const char *zSql,         /* UTF-8 encoded SQL statement. */
+  int nBytes,               /* Length of zSql in bytes. */
+  sqlite3_stmt **ppStmt,    /* OUT: A pointer to the prepared statement */
+  const char **pzTail       /* OUT: End of parsed string */
+){
+  return sqlite3Prepare(db,zSql,nBytes,1,ppStmt,pzTail);
+}
+
 
 #ifndef SQLITE_OMIT_UTF16
 /*
 ** Compile the UTF-16 encoded SQL statement zSql into a statement handle.
 */
-int sqlite3_prepare16(
+static int sqlite3Prepare16(
   sqlite3 *db,              /* Database handle. */ 
   const void *zSql,         /* UTF-8 encoded SQL statement. */
   int nBytes,               /* Length of zSql in bytes. */
+  int saveSqlFlag,          /* True to save SQL text into the sqlite3_stmt */
   sqlite3_stmt **ppStmt,    /* OUT: A pointer to the prepared statement */
   const void **pzTail       /* OUT: End of parsed string */
 ){
@@ -563,9 +649,9 @@ int sqlite3_prepare16(
   if( sqlite3SafetyCheck(db) ){
     return SQLITE_MISUSE;
   }
-  zSql8 = sqlite3utf16to8(zSql, nBytes);
+  zSql8 = sqlite3Utf16to8(zSql, nBytes);
   if( zSql8 ){
-    rc = sqlite3_prepare(db, zSql8, -1, ppStmt, &zTail8);
+    rc = sqlite3Prepare(db, zSql8, -1, saveSqlFlag, ppStmt, &zTail8);
   }
 
   if( zTail8 && pzTail ){
@@ -574,10 +660,38 @@ int sqlite3_prepare16(
     ** characters between zSql8 and zTail8, and then returning a pointer
     ** the same number of characters into the UTF-16 string.
     */
-    int chars_parsed = sqlite3utf8CharLen(zSql8, zTail8-zSql8);
-    *pzTail = (u8 *)zSql + sqlite3utf16ByteLen(zSql, chars_parsed);
+    int chars_parsed = sqlite3Utf8CharLen(zSql8, zTail8-zSql8);
+    *pzTail = (u8 *)zSql + sqlite3Utf16ByteLen(zSql, chars_parsed);
   }
   sqliteFree(zSql8); 
   return sqlite3ApiExit(db, rc);
 }
+
+/*
+** Two versions of the official API.  Legacy and new use.  In the legacy
+** version, the original SQL text is not saved in the prepared statement
+** and so if a schema change occurs, SQLITE_SCHEMA is returned by
+** sqlite3_step().  In the new version, the original SQL text is retained
+** and the statement is automatically recompiled if an schema change
+** occurs.
+*/
+int sqlite3_prepare16(
+  sqlite3 *db,              /* Database handle. */ 
+  const void *zSql,         /* UTF-8 encoded SQL statement. */
+  int nBytes,               /* Length of zSql in bytes. */
+  sqlite3_stmt **ppStmt,    /* OUT: A pointer to the prepared statement */
+  const void **pzTail       /* OUT: End of parsed string */
+){
+  return sqlite3Prepare16(db,zSql,nBytes,0,ppStmt,pzTail);
+}
+int sqlite3_prepare16_v2(
+  sqlite3 *db,              /* Database handle. */ 
+  const void *zSql,         /* UTF-8 encoded SQL statement. */
+  int nBytes,               /* Length of zSql in bytes. */
+  sqlite3_stmt **ppStmt,    /* OUT: A pointer to the prepared statement */
+  const void **pzTail       /* OUT: End of parsed string */
+){
+  return sqlite3Prepare16(db,zSql,nBytes,1,ppStmt,pzTail);
+}
+
 #endif /* SQLITE_OMIT_UTF16 */

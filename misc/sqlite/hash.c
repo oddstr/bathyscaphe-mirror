@@ -12,7 +12,7 @@
 ** This is the implementation of generic hash-tables
 ** used in SQLite.
 **
-** $Id: hash.c,v 1.3 2006/10/17 13:23:19 masakih Exp $
+** $Id: hash.c,v 1.4 2007/08/13 17:49:46 masakih Exp $
 */
 #include "sqliteInt.h"
 #include <assert.h>
@@ -291,7 +291,7 @@ static void removeElementGivenHash(
   if( pEntry->count<=0 ){
     pEntry->chain = 0;
   }
-  if( pH->copyKey && elem->pKey ){
+  if( pH->copyKey ){
     pH->xFree(elem->pKey);
   }
   pH->xFree( elem );
@@ -378,6 +378,9 @@ void *sqlite3HashInsert(Hash *pH, const void *pKey, int nKey, void *data){
     rehash(pH,8);
     if( pH->htsize==0 ){
       pH->count = 0;
+      if( pH->copyKey ){
+        pH->xFree(new_elem->pKey);
+      }
       pH->xFree(new_elem);
       return data;
     }

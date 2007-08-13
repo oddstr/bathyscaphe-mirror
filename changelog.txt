@@ -1,3 +1,14 @@
+2007-08-14 masakih <masakih@users.sourceforge.jp>
+	* misc/sqlite/*:
+		sqliteを3.4.1にバージョンアップ。
+		先日pragma.cに加えた修正は本家で既に修正済みだったため、先日の修正は破棄した。
+		不要な機能は出来る限り省いた。付け加えたプリプロセッサマクロは以下の通り。
+			SQLITE_OMIT_INCRBLOB=1
+			SQLITE_OMIT_UTF16=1
+			SQLITE_OMIT_AUTHORIZATION=1
+			SQLITE_OMIT_LOAD_EXTENSION=1
+		SQLITE_OMIT_VIRTUALTABLEも付け加えたかったが、コンパイル不能のため断念した。
+		不要なファイルも今後使う可能性もあるのでcvsに追加してある。
 2007-08-13 masakih <masakih@users.sourceforge.jp>
 	* 僕が作ったほとんどのファイル:
 		ファイルのヘッダコメントを正しい書式に直した。

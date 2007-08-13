@@ -15,7 +15,7 @@
 ** individual tokens and sends those tokens one-by-one over to the
 ** parser for analysis.
 **
-** $Id: tokenize.c,v 1.3 2006/10/17 13:23:19 masakih Exp $
+** $Id: tokenize.c,v 1.4 2007/08/13 17:49:46 masakih Exp $
 */
 #include "sqliteInt.h"
 #include "os.h"
@@ -285,6 +285,10 @@ static int getToken(const unsigned char *z, int *tokenType){
         *tokenType = TK_FLOAT;
       }
 #endif
+      while( IdChar(z[i]) ){
+        *tokenType = TK_ILLEGAL;
+        i++;
+      }
       return i;
     }
     case '[': {
@@ -377,6 +381,13 @@ int sqlite3GetToken(const unsigned char *z, int *tokenType){
 }
 
 /*
+** The interface to the LEMON-generated parser
+*/
+void *sqlite3ParserAlloc(void*(*)(size_t));
+void sqlite3ParserFree(void*, void(*)(void*));
+void sqlite3Parser(void*, int, Token, Parse*);
+
+/*
 ** Run the parser on the given SQL string.  The parser structure is
 ** passed in.  An SQLITE_ status code is returned.  If an error occurs
 ** and pzErrMsg!=NULL then an error message might be written into 
@@ -390,14 +401,13 @@ int sqlite3RunParser(Parse *pParse, const char *zSql, char **pzErrMsg){
   int tokenType;
   int lastTokenParsed = -1;
   sqlite3 *db = pParse->db;
-  extern void *sqlite3ParserAlloc(void*(*)(int));
-  extern void sqlite3ParserFree(void*, void(*)(void*));
-  extern int sqlite3Parser(void*, int, Token, Parse*);
 
-  db->flags &= ~SQLITE_Interrupt;
+  if( db->activeVdbeCnt==0 ){
+    db->u1.isInterrupted = 0;
+  }
   pParse->rc = SQLITE_OK;
   i = 0;
-  pEngine = sqlite3ParserAlloc((void*(*)(int))sqlite3MallocX);
+  pEngine = sqlite3ParserAlloc((void*(*)(size_t))sqlite3MallocX);
   if( pEngine==0 ){
     return SQLITE_NOMEM;
   }
@@ -415,10 +425,14 @@ int sqlite3RunParser(Parse *pParse, const char *zSql, char **pzErrMsg){
     assert( pParse->sLastToken.dyn==0 );
     pParse->sLastToken.n = getToken((unsigned char*)&zSql[i],&tokenType);
     i += pParse->sLastToken.n;
+    if( i>SQLITE_MAX_SQL_LENGTH ){
+      pParse->rc = SQLITE_TOOBIG;
+      break;
+    }
     switch( tokenType ){
       case TK_SPACE:
       case TK_COMMENT: {
-        if( (db->flags & SQLITE_Interrupt)!=0 ){
+        if( db->u1.isInterrupted ){
           pParse->rc = SQLITE_INTERRUPT;
           sqlite3SetString(pzErrMsg, "interrupt", (char*)0);
           goto abort_parse;
@@ -483,7 +497,15 @@ abort_parse:
     pParse->nTableLock = 0;
   }
 #endif
-  sqlite3DeleteTable(pParse->db, pParse->pNewTable);
+
+  if( !IN_DECLARE_VTAB ){
+    /* If the pParse->declareVtab flag is set, do not delete any table 
+    ** structure built up in pParse->pNewTable. The calling code (see vtab.c)
+    ** will take responsibility for freeing the Table structure.
+    */
+    sqlite3DeleteTable(pParse->pNewTable);
+  }
+
   sqlite3DeleteTrigger(pParse->pNewTrigger);
   sqliteFree(pParse->apVarExpr);
   if( nErr>0 && (pParse->rc==SQLITE_OK || pParse->rc==SQLITE_DONE) ){
