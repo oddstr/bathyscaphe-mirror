@@ -15,7 +15,6 @@ NSString *FavoritesTableName = @"Favorites";
 NSString *BoardInfoTableName = @"BoardInfo";
 NSString *ThreadInfoTableName = @"ThreadInfo";
 NSString *BoardInfoHistoryTableName = @"BoardInfoHistory";
-//NSString *ResponseTableName = @"Response";
 NSString *VersionTableName = @"Version";
 NSString *VersionColumn = @"version";
 
@@ -34,15 +33,7 @@ NSString *ThreadStatusColumn = @"threadStatus";
 NSString *ThreadAboneTypeColumn = @"threadAboneType";
 NSString *ThreadLabelColumn = @"threadLabel";
 NSString *LastWrittenDateColumn = @"lastWrittenDate";
-//NSString *NumberColumn = @"number";
-//NSString *MailColumn = @"mail";
-//NSString *DateColumn = @"date";
-//NSString *IDColumn = @"id";
-//NSString *HostColumn = @"host";
-//NSString *BEColumn = @"be";
-//NSString *ContentsColumn = @"contents";
-//NSString *ResAboneTypeColumn = @"resAboneType";
-//NSString *ResLabelColumn = @"resLabel";
+NSString *IsDatOchiColumn = @"isDatOchi";
 NSString *NumberOfDifferenceColumn = @"numberOfDifference";
 
 NSString *TempThreadNumberTableName = @"TempThreadNumber";
@@ -51,7 +42,7 @@ NSString *TempThreadThreadNumberColumn = @"threadNumber";
 static NSString *ThreadDatabaseKey = @"ThreadDatabaseKey";
 
 //------ static ------//
-static long sDatabaseFileVersion = 2;
+static long sDatabaseFileVersion = 3;
 
 
 @implementation DatabaseManager
@@ -90,82 +81,118 @@ extern void setSQLiteZone(NSZone *zone);
 	[super dealloc];
 }
 
-+ (Class) databaseFileUpdaterClassFrom:(int)currentVersion to:(int)newVersion
-{
-	return [DatabaseUpdater updaterFrom:currentVersion to:newVersion];
-}
 + (int) currentDatabaseFileVersion
 {
-	SQLiteDB *db = [[self defaultManager] databaseForCurrentThread];
+	int version = -1;
+	SQLiteDB *db = [[DatabaseManager defaultManager] databaseForCurrentThread];
+	
 	if (!db) return -1;
 	
-	if (![[db tables] containsObject : VersionTableName]) {
-		return 0;
+	// VersionTableを持っている場合。
+	if ([[db tables] containsObject : VersionTableName]) {	
+		id query = [NSString stringWithFormat : @"SELECT %@ FROM %@",
+			VersionColumn, VersionTableName];
+		id cursor = [db cursorForSQL : query];
+		if ([db lastErrorID] != 0) goto abort;
+		
+		if([cursor rowCount] == 0) {
+			return 0;
+		}
+		id verStr = [cursor valueForColumn : VersionColumn atRow:0];
+		version = [verStr intValue];
 	}
 	
-	int version = -1;
-	id query = [NSString stringWithFormat : @"SELECT %@ FROM %@",
-		VersionColumn, VersionTableName];
-	id cursor = [db cursorForSQL : query];
-	if ([db lastErrorID] != 0) goto abort;
-	
-	if([cursor rowCount] == 0) {
-		return 0;
+	{
+		id cursor = [db cursorForSQL : @"PRAGMA user_version;"];
+		if ([db lastErrorID] != 0) goto abort;
+		
+		if([cursor rowCount] == 0) {
+			return 0;
+		}
+		id verStr = [cursor valueForColumn : @"user_version" atRow:0];
+		version = MAX(version, [verStr intValue]);
 	}
-	id verStr = [cursor valueForColumn:VersionColumn atRow:0];
-	version = [verStr intValue];
 	
 	return version;
 	
 abort:
-	[db rollbackTransaction];
+		[db rollbackTransaction];
 	return -1;
 }
++ (BOOL) setVersion : (int) newVersion
+{
+	SQLiteDB *db = [[DatabaseManager defaultManager] databaseForCurrentThread];
+	
+	if (!db) return NO;
+	
+	[db performQuery : [NSString stringWithFormat : @"PRAGMA user_version = %d;",
+		newVersion]];
+	if([db lastErrorID] != noErr) return NO;
+	
+	return YES;
+}
+
++ (BOOL) mustCreateTables
+{
+	SQLiteDB *db = [[DatabaseManager defaultManager] databaseForCurrentThread];
+	NSString *colName = @"c";
+	
+	if (!db) return NO;
+	
+	id cursor = [db performQuery : 
+		[NSString stringWithFormat : @"SELECT count(name) AS %@ FROM sqlite_master WHERE name LIKE '%@';",
+			colName, [SQLiteDB prepareStringForQuery : ThreadInfoTableName]]];
+	if([db lastErrorID] != noErr) return NO;
+	if(!cursor) return NO;
+	if([cursor rowCount] != 1) return NO;
+	
+	if([[cursor valueForColumn : colName atRow : 0] intValue] != 1) return YES;
+	
+	return NO;
+}
+	
 + (void) checkDatabaseFileVersion
 {
-	int currentDatabaseFileVersion = [self currentDatabaseFileVersion];
-	if(currentDatabaseFileVersion < sDatabaseFileVersion) {
-		Class updaterClass = [self databaseFileUpdaterClassFrom:currentDatabaseFileVersion
-															 to:sDatabaseFileVersion];
-		id updater = [[updaterClass alloc] init];
-		[updater updateDB];
-		[updater release];
-	}
+	[DatabaseUpdater updateFrom : [self currentDatabaseFileVersion] to : sDatabaseFileVersion];
 }
-+ (void) setupDatabase
+
++ (BOOL) createTables
 {
-	[self checkDatabaseFileVersion];
-	
 	if (![[self defaultManager] createFavoritesTable]) {
 		NSLog(@"Can not create Favorites tables");
+		return NO;
 	}
 	if (![[self defaultManager] createBoardInfoTable]) {
 		NSLog(@"Can not create BoardInfo tables");
+		return NO;
 	}
 	if (![[self defaultManager] createThreadInfoTable]) {
 		NSLog(@"Can not create ThreadInfo tables");
+		return NO;
 	}
 	if (![[self defaultManager] createBoardInfoHistoryTable]) {
 		NSLog(@"Can not create BoardInfoHistory tables");
+		return NO;
 	}
-//	if (![[self defaultManager] createResponseTable]) {
-//		NSLog(@"Can not create Response tables");
-//	}
 	if (![[self defaultManager] createTempThreadNumberTable]) {
 		NSLog(@"Can not create TempThreadNumber tables");
+		return NO;
 	}
-	if (![[self defaultManager] createVersionTable]) {
-		NSLog(@"Can not create Version table");
+	if (![[self defaultManager] createBoardThreadInfoView]) {
+		NSLog(@"Can not create BoardThreadInfo view");
+		return NO;
 	}
 	
-	/*
-	 if (![[self defaultManager] createFavThraedInfoView]) {
-		 NSLog(@"Can not create FavThraedInfo view");
-	 }
-	 */
-	 if (![[self defaultManager] createBoardThreadInfoView]) {
-		 NSLog(@"Can not create BoardThreadInfo view");
-	 }
+	return [self setVersion : sDatabaseFileVersion];
+}
+
++ (void) setupDatabase
+{
+	if([self mustCreateTables]) {
+		[self createTables];
+	} else {
+		[self checkDatabaseFileVersion];
+	}
 }
 
 - (NSString *) databasePath
@@ -236,14 +263,16 @@ abort:
 	return [NSArray arrayWithObjects : BoardIDColumn, ThreadIDColumn, ThreadNameColumn,
 		NumberOfAllColumn, NumberOfReadColumn,
 		ModifiedDateColumn, LastWrittenDateColumn, 
-		ThreadStatusColumn, ThreadAboneTypeColumn, ThreadLabelColumn, nil];
+		ThreadStatusColumn, ThreadAboneTypeColumn, ThreadLabelColumn,
+		IsDatOchiColumn, nil];
 }
 - (NSArray *) threadInfoDataTypes
 {
 	return [NSArray arrayWithObjects : INTEGER_NOTNULL, INTEGER_NOTNULL, TEXT_NOTNULL,
 		QLNumber, QLNumber,
 		QLNumber, QLNumber,
-		QLNumber, QLNumber, QLNumber, nil];
+		QLNumber, QLNumber, QLNumber,
+		INTEGER_NOTNULL, nil];
 }
 
 - (NSArray *) boardInfoHistoryColumns
@@ -254,17 +283,6 @@ abort:
 {
 	return [NSArray arrayWithObjects : INTEGER_NOTNULL, QLString, QLString, nil];
 }
-
-//- (NSArray *) responseColumns
-//{
-//	return [NSArray arrayWithObjects : BoardIDColumn, ThreadIDColumn, NumberColumn, MailColumn, DateColumn,
-//		IDColumn, HostColumn, BEColumn, ContentsColumn, ResAboneTypeColumn, ResLabelColumn, nil];
-//}
-//- (NSArray *) responseDataTypes
-//{
-//	return [NSArray arrayWithObjects : INTEGER_NOTNULL, TEXT_NOTNULL, INTEGER_NOTNULL, QLString, QLDateTime,
-//		QLString, QLString, QLString, QLString, QLNumber, QLNumber, nil];
-//}
 
 - (NSArray *) tempThreadNumberColumns
 {
@@ -297,6 +315,40 @@ abort:
 	}
     
     return sqlQuery;
+}
+- (BOOL) createTable : (NSString *) tableName
+			 columns : (NSArray *)columns
+		   dataTypes : (NSArray *)dataTypes
+	   defaultValues : (NSArray *)defaultValues
+	 checkConstrains : (NSArray *)checkConstrains
+		indexQueries : (NSArray *)indexQuery
+{
+	BOOL isOK = NO;
+	
+	SQLiteDB *db = [self databaseForCurrentThread];
+	if (!db) return NO;
+	
+	isOK = [db createTable : tableName
+				   columns : columns
+				 datatypes : dataTypes
+			 defaultValues : defaultValues
+		   checkConstrains : checkConstrains];
+	if (!isOK) goto finish;
+	
+	if (indexQuery && [indexQuery count]) {
+		int i, count = [indexQuery count];
+		
+		for (i = 0; i < count; i++) {
+			NSString *query = [indexQuery objectAtIndex : i];
+			
+			[db performQuery : query];
+			isOK = ([db lastErrorID] == 0);
+			if (!isOK) goto finish;
+		}
+	}
+	
+finish:
+		return isOK;
 }
 - (BOOL) createTable : (NSString *) tableName
 	     withColumns : (NSArray *)columns
@@ -436,10 +488,13 @@ abort:
 											isUnique : YES];
 	[indexies addObject:query];
 	if ([db beginTransaction]) {
+		id n = [NSNull null];
 		isOK = [self createTable : ThreadInfoTableName
-					 withColumns : [self threadInfoColumns]
-					andDataTypes : [self threadInfoDataTypes]
-				 andIndexQueries : indexies];
+						 columns : [self threadInfoColumns]
+					   dataTypes : [self threadInfoDataTypes]
+				   defaultValues : [NSArray arrayWithObjects:n,n,n,n,n,n,n,n,n,n,@"0",nil]
+				 checkConstrains : [NSArray arrayWithObjects:n,n,n,n,n,n,n,n,n,n,@"isDatOchi IN (0,1)",nil]
+					indexQueries : indexies];
 		if (!isOK) goto abort;
 		
 		// dummy data for set ThreadIDColumn to 0.
@@ -494,39 +549,6 @@ abort:
 	[db rollbackTransaction];
 	return NO;
 }
-//- (BOOL) createResponseTable
-//{
-//	BOOL isOK = NO;
-//	NSString *query;
-//	
-//	SQLiteDB *db = [self databaseForCurrentThread];
-//	if (!db) return NO;
-//	
-//	if ([[db tables] containsObject : ResponseTableName]) {
-//		return YES;
-//	}
-//	
-//	query = [self queryForCreateIndexWithMultiColumn : [NSString stringWithFormat : @"%@,%@,%@", BoardIDColumn, ThreadIDColumn, NumberColumn]
-//											 inTable : ResponseTableName
-//											isUnique : YES];
-//	if ([db beginTransaction]) {
-//		isOK = [self createTable : ResponseTableName
-//					 withColumns : [self responseColumns]
-//					andDataTypes : [self responseDataTypes]
-//				 andIndexQueries : [NSArray arrayWithObject : query]];
-//		if (!isOK) goto abort;
-//		
-//		[db commitTransaction];
-//		[db save];
-//	}
-//	
-//	return isOK;
-//	
-//abort:
-//		NSLog(@"Fail Database operation. Reson: \n%@", [db lastError]);
-//	[db rollbackTransaction];
-//	return NO;
-//}
 
 - (BOOL) createTempThreadNumberTable
 {
@@ -599,41 +621,7 @@ abort:
 	[db rollbackTransaction];
 	return NO;
 }
-/*
- - (BOOL) createFavThraedInfoView
- {
-	 BOOL isOK = NO;
-	 NSMutableString *query;
-	 
-	 QuickLiteDatabase *db = [self databaseForCurrentThread];
-	 if (!db) return NO;
-	 
-	 if ([[db tables] containsObject : FavThreadInfoViewName]) {
-		 return YES;
-	 }
-	 
-	 query = [NSMutableString stringWithFormat : @"CREATE VIEW %@ AS\n", FavThreadInfoViewName];
-	 [query appendFormat : @"\tSELECT * FROM %@ NATURAL INNER JOIN %@\n",ThreadInfoTableName, FavoritesTableName];
-	 [query appendFormat : @"\t\tWHERE %@.%@ = %@.%@ ", ThreadInfoTableName, BoardIDColumn, FavoritesTableName, BoardIDColumn];
-	 [query appendFormat : @"AND %@.%@ = %@.%@", ThreadInfoTableName, ThreadIDColumn, FavoritesTableName, ThreadIDColumn];
-	 
-	 if ([db beginTransaction]) {
-		 [db performQuery : query];
-		 isOK = ([db lastErrorID] == 0);
-		 if (!isOK) goto abort;
-		 
-		 [db commitTransaction];
-		 [db save];
-	 }
-	 
-	 return isOK;
-	 
-abort:
-		 NSLog(@"Fail Database operation. Reson: \n%@", [db lastError]);
-	 [db rollbackTransaction];
-	 return NO;
- }
- */
+
  - (BOOL) createBoardThreadInfoView
  {
 	 BOOL isOK = NO;

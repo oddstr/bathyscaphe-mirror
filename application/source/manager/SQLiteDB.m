@@ -411,24 +411,91 @@ id<SQLiteMutableCursor> cursorFromSTMT(sqlite3_stmt *stmt)
 // do nothing. for compatible QuickLite.
 - (BOOL) save { return YES; }
 
-- (BOOL) createTable : (NSString *) table
-	     withColumns : (NSArray *) columns
-	    andDatatypes : (NSArray *) datatypes
-	     isTemporary : (BOOL) isTemporary
+- (NSString *) defaultValue : (id) inValue forDatatype : (NSString *) datatype
+{
+	NSString *defaultValue = nil;
+	
+	if(!inValue || inValue == [NSNull null]) {
+		return nil;
+	}
+	
+	if(!datatype || (id)datatype == [NSNull null]) {
+		defaultValue =  [[self class] prepareStringForQuery : [inValue stringValue]];
+	}
+	
+	NSRange range;
+	NSString *lower = [datatype lowercaseString];
+	
+	range = [lower rangeOfString : @"text"];
+	if(range.length != 0) {
+		defaultValue = [NSString stringWithFormat : @"'%@'", [[self class] prepareStringForQuery : [inValue stringValue]]];
+	}
+	
+	range = [lower rangeOfString : @"integer"];
+	if(range.length != 0) {
+		defaultValue =  [NSString stringWithFormat : @"%d", [inValue intValue]];
+	}
+	
+	range = [lower rangeOfString : @"numelic"];
+	if(range.length != 0) {
+		defaultValue =  [NSString stringWithFormat : @"%0.0f", [inValue floatValue]];
+	}
+	
+	if(defaultValue) {
+		return [NSString stringWithFormat : @"DEFAULT %@", defaultValue];
+	}
+	
+	return nil;
+}
+
+- (NSString *) checkConstraint : (id) checkConstraint
+{
+	if(!checkConstraint || checkConstraint == [NSNull null]) {
+		return nil;
+	}
+	
+	return [NSString stringWithFormat : @"CHECK(%@)", checkConstraint];;
+}
+
+- (BOOL) createTemporaryTable : (NSString *) table
+					  columns : (NSArray *) columns
+					datatypes : (NSArray *) datatypes
+				defaultValues : (NSArray *) defaultValues
+			  checkConstrains : (NSArray *) checkConstrains
+				  isTemporary : (BOOL) isTemporary
 {
 	unsigned i;
 	unsigned columnCount = [columns count];
 	NSMutableString *sql;
-	
+	BOOL useDefaultValues = NO;
+	BOOL useCheck = NO;
 	
 	if (columnCount != [datatypes count]) return NO;
 	if (columnCount == 0) return NO;
+	
+	useDefaultValues = defaultValues ? YES :NO;
+	if(useDefaultValues && columnCount != [defaultValues count]) return NO;
+	useCheck = checkConstrains ? YES :NO;
+	if(useDefaultValues && columnCount != [checkConstrains count]) return NO;
 	
 	sql = [NSMutableString stringWithFormat : @"CREATE %@ TABLE %@ (",
 				 isTemporary ? @"TEMPORARY" : @"", table];
 	
 	for (i = 0; i < columnCount; i++) {
 		[sql appendFormat : @"%@ %@", [columns objectAtIndex : i], [datatypes objectAtIndex : i]];
+		if(useDefaultValues) {
+			NSString *d = [self defaultValue: [defaultValues objectAtIndex : i ]
+								forDatatype : [datatypes objectAtIndex : i]];
+			if(d) {
+				[sql appendFormat : @" %@", d];
+			}
+		}
+		if(useCheck) {
+			NSString *c = [self checkConstraint : [checkConstrains objectAtIndex : i ]];
+			if(c && (id)c != [NSNull null]) {
+				[sql appendFormat : @" %@", c];
+			}
+		}
 		
 		if (i != columnCount - 1) {
 			[sql appendString : @","];
@@ -440,12 +507,39 @@ id<SQLiteMutableCursor> cursorFromSTMT(sqlite3_stmt *stmt)
 	
 	return [self lastErrorID] == 0;
 }
+
+
+- (BOOL) createTable : (NSString *) table
+	     withColumns : (NSArray *) columns
+	    andDatatypes : (NSArray *) datatypes
+	     isTemporary : (BOOL) isTemporary
+{
+	return [self createTemporaryTable : table
+							  columns : columns
+							datatypes : datatypes
+						defaultValues : nil
+					  checkConstrains : nil
+						  isTemporary : NO];
+}
 - (BOOL) createTable : (NSString *) table withColumns : (NSArray *) columns andDatatypes : (NSArray *) datatypes
 {
 	return [self createTable : table
 				 withColumns : columns
 				andDatatypes : datatypes
 				 isTemporary : NO];
+}
+- (BOOL) createTable : (NSString *) table
+			 columns : (NSArray *) columns
+		   datatypes : (NSArray *) datatypes
+	   defaultValues : (NSArray *)defaultValues
+	 checkConstrains : (NSArray *)checkConstrains
+{
+	return [self createTemporaryTable : table
+							  columns : columns
+							datatypes : datatypes
+						defaultValues : defaultValues
+					  checkConstrains : checkConstrains
+						  isTemporary : NO];
 }
 - (BOOL) createTemporaryTable : (NSString *) table
 				  withColumns : (NSArray *) columns
@@ -455,6 +549,19 @@ id<SQLiteMutableCursor> cursorFromSTMT(sqlite3_stmt *stmt)
 				 withColumns : columns
 				andDatatypes : datatypes
 				 isTemporary : YES];
+}
+- (BOOL) createTemporaryTable : (NSString *) table
+					  columns : (NSArray *) columns
+					datatypes : (NSArray *) datatypes
+				defaultValues : (NSArray *)defaultValues
+			  checkConstrains : (NSArray *)checkConstrains
+{
+	return [self createTemporaryTable : table
+							  columns : columns
+							datatypes : datatypes
+						defaultValues : defaultValues
+					  checkConstrains : checkConstrains
+						  isTemporary : YES];
 }
 
 - (NSString *)indexNameForColumn:(NSString *)column inTable:(NSString *)table

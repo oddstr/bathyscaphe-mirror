@@ -11,7 +11,7 @@
 *************************************************************************
 ** This file contains code used to implement the PRAGMA command.
 **
-** $Id: pragma.c,v 1.3 2006/10/17 13:23:19 masakih Exp $
+** $Id: pragma.c,v 1.4 2007/08/13 13:06:17 masakih Exp $
 */
 #include "sqliteInt.h"
 #include "os.h"
@@ -890,6 +890,11 @@ void sqlite3Pragma(
       sqlite3VdbeChangeP1(v, addr, iDb);
       sqlite3VdbeChangeP2(v, addr, iCookie);
       sqlite3VdbeSetNumCols(v, 1);
+	  if( zLeft[0]=='s' || zLeft[0]=='S' ){
+		  sqlite3VdbeSetColName(v, 0, COLNAME_NAME, "schema_version", P3_STATIC);
+	  }else{
+		  sqlite3VdbeSetColName(v, 0, COLNAME_NAME, "user_version", P3_STATIC);
+	  }
     }
   }
 #endif /* SQLITE_OMIT_SCHEMA_VERSION_PRAGMAS */

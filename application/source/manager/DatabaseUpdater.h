@@ -14,7 +14,7 @@
 {
 }
 
-+ (Class)updaterFrom:(int)from to:(int)to;
++ (BOOL)updateFrom:(int)fromVersion to:(int)toVersion;
 
 @end
 

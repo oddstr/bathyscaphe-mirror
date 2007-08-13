@@ -71,7 +71,18 @@
 - (BOOL) save; // do nothing. for compatible QuickLite.
 
 - (BOOL) createTable : (NSString *) table withColumns : (NSArray *) columns andDatatypes : (NSArray *) datatypes;
+- (BOOL) createTable : (NSString *) table
+			 columns : (NSArray *) columns
+		   datatypes : (NSArray *) datatypes
+	   defaultValues : (NSArray *)defaultValues
+	 checkConstrains : (NSArray *)checkConstrains;
 - (BOOL) createTemporaryTable : (NSString *) table withColumns : (NSArray *) columns andDatatypes : (NSArray *) datatypes;
+- (BOOL) createTemporaryTable : (NSString *) table
+					  columns : (NSArray *) columns
+					datatypes : (NSArray *) datatypes
+				defaultValues : (NSArray *)defaultValues
+			  checkConstrains : (NSArray *)checkConstrains;
+
 
 - (BOOL) createIndexForColumn : (NSString *) column inTable : (NSString *) table isUnique : (BOOL) isUnique;
 

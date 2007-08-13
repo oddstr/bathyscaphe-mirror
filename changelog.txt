@@ -1,3 +1,15 @@
+2007-08-13 masakih <masakih@users.sourceforge.jp>
+	* application/source/manager/DatabaseUpdater.[h|m]:
+		+[DatabaseUpdater updateFrom:to:]を追加。
+		    DatabaseManagerにややこしい処理をさせないように。
+		データベースファイルバージョン 3への変換処理追加。
+	* application/source/manager/DatabaseManager.[h|m]:
+		Version Table を廃止。
+		ThreadInfo Table に IsDatOchiColumn カラムを追加。
+		データベースファイルバージョンを 3 に変更。
+		データベースファイルバージョンを PRAGMA user_version に保存するようにした。（存在を完全に見落としてた。）
+	* misc/sqlite/pragma.c:
+		PRAGMA user_version; がカラム名を返さないので返すように変更。
 2007-08-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/composer/BSNGExpression.m
 		-[BSNGExpression<NSObject> isEqual:] および -[BSNGExpression<NSObject> hash] の実装。文字列が同じなら
