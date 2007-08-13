@@ -3,8 +3,7 @@
 //  BSDatePicker
 //
 //  Created by Hori,Masaki on 06/01/09.
-//  Copyright __MyCompanyName__ 2006 . All rights reserved.
-//
+//  Copyright 2006 BathyScaphe Project. All rights reserved.//
 
 #import "BSDatePickerInspector.h"
 #import "BSDatePicker.h"

@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Created by Hori,Masaki on 07/03/18.
-//  Copyright 2007 __MyCompanyName__. All rights reserved.
+//  Copyright 2007 BathyScaphe Project. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>

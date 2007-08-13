@@ -1,3 +1,11 @@
+//
+//  BSDatePicker.m
+//  BathyScaphe
+//
+//  Created by Hori,Masaki on 06/01/09.
+//  Copyright 2006 BathyScaphe Project. All rights reserved.
+//
+
 #import "BSDatePicker.h"
 
 @implementation BSDatePicker

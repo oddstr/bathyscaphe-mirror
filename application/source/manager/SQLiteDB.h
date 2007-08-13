@@ -1,4 +1,10 @@
-/* testSQLite */
+//
+//  SQLiteDB.h
+//  BathyScaphe
+//
+//  Created by Hori,Masaki on 05/12/12.
+//  Copyright 2005 BathyScaphe Project. All rights reserved.
+//
 
 #import <Cocoa/Cocoa.h>
 

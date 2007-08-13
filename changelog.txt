@@ -1,4 +1,6 @@
 2007-08-13 masakih <masakih@users.sourceforge.jp>
+	* 僕が作ったほとんどのファイル:
+		ファイルのヘッダコメントを正しい書式に直した。
 	* application/source/manager/DatabaseUpdater.[h|m]:
 		+[DatabaseUpdater updateFrom:to:]を追加。
 		    DatabaseManagerにややこしい処理をさせないように。

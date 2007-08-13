@@ -3,6 +3,7 @@
 //  BathyScaphe
 //
 //  Created by Hori,Masaki on 07/02/03.
+//  Copyright 2007 BathyScaphe Project. All rights reserved.
 //
 
 #import "DatabaseUpdater.h"

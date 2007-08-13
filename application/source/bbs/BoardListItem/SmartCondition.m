@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Created by Hori,Masaki on 05/12/27.
-//  Copyright 2005 __MyCompanyName__. All rights reserved.
+//  Copyright 2005 BathyScaphe Project. All rights reserved.
 //
 
 #import "SmartCondition.h"

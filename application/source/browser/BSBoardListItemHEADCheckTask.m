@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Created by Hori,Masaki on 06/08/13.
-//  Copyright 2006 __MyCompanyName__. All rights reserved.
+//  Copyright 2006 BathyScaphe Project. All rights reserved.
 //
 
 #import "BSBoardListItemHEADCheckTask.h"

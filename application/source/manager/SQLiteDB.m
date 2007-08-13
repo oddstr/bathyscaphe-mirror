@@ -1,3 +1,11 @@
+//
+//  SQLiteDB.m
+//  BathyScaphe
+//
+//  Created by Hori,Masaki on 05/12/12.
+//  Copyright 2005 BathyScaphe Project. All rights reserved.
+//
+
 #import "SQLiteDB.h"
 
 #import "sqlite3.h"

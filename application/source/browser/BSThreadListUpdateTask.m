@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Created by Hori,Masaki on 06/03/29.
-//  Copyright 2006 __MyCompanyName__. All rights reserved.
+//  Copyright 2006 BathyScaphe Project. All rights reserved.
 //
 
 #import "BSThreadListUpdateTask.h"

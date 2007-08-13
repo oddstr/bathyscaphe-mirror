@@ -1,3 +1,11 @@
+//
+//  SmartBLIEditorHelper.m
+//  BathyScaphe
+//
+//  Created by Hori,Masaki on 06/01/03.
+//  Copyright 2006 BathyScaphe Project. All rights reserved.
+//
+
 #import "SmartBLIEditorHelper.h"
 
 #import "SmartCondition.h"
