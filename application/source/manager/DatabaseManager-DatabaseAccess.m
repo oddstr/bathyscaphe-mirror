@@ -555,6 +555,80 @@ static NSLock *boardIDNumberCacheLock = nil;
 	}
 }
 
+- (void) setIsDatOchi:(BOOL)flag
+			boardName:(NSString *)boardName
+	 threadIdentifier:(NSString *)identifier
+{
+	NSString *boardID;
+	NSArray *boardIDs;
+	NSString *query;
+	SQLiteDB *db;
+		
+	UTILAssertKindOfClass(boardName, NSString);
+	UTILAssertKindOfClass(identifier, NSString);
+	if([boardName length] == 0) return;
+	if([identifier length] == 0) return;
+	
+	boardIDs = [self boardIDsForName:boardName];
+	if(!boardIDs || [boardIDs count] == 0) return;
+	
+	boardID = [boardIDs objectAtIndex:0];
+	
+	db = [self databaseForCurrentThread];
+	if (!db) {
+		return;
+	}
+	
+	query = [NSString stringWithFormat:@"UPDATE %@ SET %@ = %d WHERE %@ = %@ AND %@ = %@",
+		ThreadInfoTableName,
+		IsDatOchiColumn, flag ? 1 : 0,
+		BoardIDColumn, boardID,
+		ThreadIDColumn, identifier,
+		nil];
+	[db performQuery: query];
+	if ([db lastErrorID] != 0) {
+		NSLog(@"Fail update IsDatOchi.");
+	}
+}
+- (BOOL)isDatOchiBoardName:(NSString *)boardName threadIdentifier:(NSString *)identifier
+{
+	NSString *boardID;
+	NSArray *boardIDs;
+	NSString *query;
+	SQLiteDB *db;
+	id<SQLiteCursor> cursor;
+	
+	BOOL result = NO;
+	
+	UTILAssertKindOfClass(boardName, NSString);
+	UTILAssertKindOfClass(identifier, NSString);
+	if([boardName length] == 0) return nil;
+	if([identifier length] == 0) return nil;
+	
+	boardIDs = [self boardIDsForName:boardName];
+	if(!boardIDs || [boardIDs count] == 0) return nil;
+	
+	boardID = [boardIDs objectAtIndex:0];
+	
+	db = [self databaseForCurrentThread];
+	if (!db) {
+		return NO;
+	}
+	
+	query = [NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@ = %@ AND %@ = %@",
+		IsDatOchiColumn,
+		ThreadInfoTableName,
+		BoardIDColumn, boardID,
+		ThreadIDColumn, identifier,
+		nil];
+	cursor = [db performQuery: query];
+	if (cursor && [cursor rowCount]) {
+		result = [[cursor valueForColumn : IsDatOchiColumn atRow : 0] intValue];
+	}
+	
+	return result;
+}
+
 #pragma mark Testing...
 - (BOOL) insertThreadID: (NSString *) datString
 				  title: (NSString *) title

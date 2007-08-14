@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadAttributes.m,v 1.8 2007/05/29 21:40:09 tsawada2 Exp $
+  * $Id: CMRThreadAttributes.m,v 1.9 2007/08/14 13:53:52 masakih Exp $
   * 
   * CMRThreadAttributes.m
   *
@@ -341,11 +341,34 @@ NSString *const CMRThreadAttributesDidChangeNotification =
 #pragma mark Vita Additions
 - (BOOL) isDatOchiThread
 {
-	return [[self userStatus] isDatOchiThread];
+	BOOL s1 = [[self userStatus] isDatOchiThread];
+	BOOL s2;
+	
+	// ログファイルとデータベース間の整合性チェック。不整合ならログファイルにあわせる。
+	// 本来ここですることではないが、他に良い場所が発見できなかった。
+	{
+		id m = [NSClassFromString(@"DatabaseManager") defaultManager];
+		s2 = [m isDatOchiBoardName : [self boardName]
+				  threadIdentifier : [self datIdentifier]];
+		if((s1 && !s2) || (!s1 && s2)) {
+			[m setIsDatOchi : s1
+				  boardName : [self boardName]
+		   threadIdentifier : [self datIdentifier]];
+		}
+	}
+	
+	return s1;
 }
-- (void) setIsDatOchiThread: (BOOL) flag
+- (void) setIsDatOchiThread : (BOOL) flag
 {
 	CMRThreadUserStatus	*s = [self userStatus];
+	
+	{
+		id m = [NSClassFromString(@"DatabaseManager") defaultManager];
+		[m setIsDatOchi : flag
+			  boardName : [self boardName]
+	   threadIdentifier : [self datIdentifier]];
+	}
 	
 	UTILAssertNotNil(s);
 	if ([s isDatOchiThread] == flag)

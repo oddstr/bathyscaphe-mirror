@@ -172,6 +172,10 @@ static NSString *const BSThreadListItemErrorDomain = @"BSThreadListItemErrorDoma
 {
 	return [self valueForKey:LastWrittenDateColumn];
 }
+- (BOOL)isDatOchi
+{
+	return [[self valueForKey:IsDatOchiColumn] intValue];
+}
 
 - (NSNumber *)threadNumber
 {
@@ -416,6 +420,7 @@ static inline NSImage *_statusImageWithStatusBSDB(ThreadStatus s)
 		ThreadLabelColumn,
 		LastWrittenDateColumn,
 		TempThreadThreadNumberColumn,
+		IsDatOchiColumn,
 		nil];
 	
 	return array;
@@ -476,6 +481,7 @@ static inline NSArray *mustContainsKeys()
 			ThreadIDColumn, ThreadNameColumn, NumberOfAllColumn,
 			NumberOfReadColumn, ModifiedDateColumn, ThreadStatusColumn,
 			//		ThreadLabelColumn,
+			IsDatOchiColumn,
 			nil];
 		[array retain];
 	}

@@ -1,4 +1,9 @@
 2007-08-14 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSThreadListItem.[h|m]:
+	* application/source/manager/DatabaseManager-DatabaseAccess.m:
+	* application/source/thread/CMRThreadAttributes.m:
+		データベースのdatOchiを保存／使用をするようにした。
+2007-08-14 masakih <masakih@users.sourceforge.jp>
 	* misc/sqlite/*:
 		sqliteを3.4.1にバージョンアップ。
 		先日pragma.cに加えた修正は本家で既に修正済みだったため、先日の修正は破棄した。

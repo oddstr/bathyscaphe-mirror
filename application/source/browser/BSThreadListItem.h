@@ -36,6 +36,7 @@
 - (NSDate *)creationDate;
 - (NSDate *)modifiredDate;
 - (NSDate *)lastWrittenDate;
+- (BOOL)isDatOchi;
 
 - (NSNumber *)threadNumber;
 - (NSImage *)statusImage;
