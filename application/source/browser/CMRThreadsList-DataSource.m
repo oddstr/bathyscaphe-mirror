@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.24 2007/04/05 13:25:17 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.25 2007/08/14 14:41:59 masakih Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -17,8 +17,8 @@
 @implementation CMRThreadsList(DataSource)
 static id kNewThreadAttrTemplate;
 static id kThreadAttrTemplate;
+static id kDatOchiThreadAttrTemplate;
 
-static NSMutableDictionary *kNewThreadCreatedDateAttrTemplate;
 static NSMutableDictionary *kThreadCreatedDateAttrTemplate;
 static NSMutableDictionary *kThreadModifiedDateAttrTemplate;
 static NSMutableDictionary *kThreadLastWrittenDateAttrTemplate;
@@ -39,28 +39,15 @@ static NSMutableParagraphStyle	*pStyleForDateColumnWithWidth (float tabWidth)
 
 + (void) resetDataSourceTemplateForDateColumn
 {
-	if (kNewThreadCreatedDateAttrTemplate == nil
-		|| kThreadCreatedDateAttrTemplate == nil
+	if (kThreadCreatedDateAttrTemplate == nil
 		|| kThreadModifiedDateAttrTemplate == nil
 		|| kThreadLastWrittenDateAttrTemplate == nil) {
 		
-		if (nil == kNewThreadAttrTemplate || nil == kThreadAttrTemplate) {
-			[self resetDataSourceTemplates];
-		}
-		kNewThreadCreatedDateAttrTemplate = [kNewThreadAttrTemplate mutableCopy];
-		kThreadCreatedDateAttrTemplate = [kThreadAttrTemplate mutableCopy];
-		kThreadModifiedDateAttrTemplate = [kThreadAttrTemplate mutableCopy];
-		kThreadLastWrittenDateAttrTemplate = [kThreadAttrTemplate mutableCopy];
+		kThreadCreatedDateAttrTemplate = [[NSMutableDictionary alloc] init];
+		kThreadModifiedDateAttrTemplate = [[NSMutableDictionary alloc] init];
+		kThreadLastWrittenDateAttrTemplate = [[NSMutableDictionary alloc] init];
 	} else {
-		[kNewThreadCreatedDateAttrTemplate setObject: [CMRPref threadsListNewThreadFont] forKey: NSFontAttributeName];
-		[kNewThreadCreatedDateAttrTemplate setObject: [CMRPref threadsListNewThreadColor] forKey: NSForegroundColorAttributeName];
-		[kThreadCreatedDateAttrTemplate setObject: [CMRPref threadsListFont] forKey: NSFontAttributeName];
-		[kThreadCreatedDateAttrTemplate setObject: [CMRPref threadsListColor] forKey: NSForegroundColorAttributeName];
-		[kThreadModifiedDateAttrTemplate setObject: [CMRPref threadsListFont] forKey: NSFontAttributeName];
-		[kThreadModifiedDateAttrTemplate setObject: [CMRPref threadsListColor] forKey: NSForegroundColorAttributeName];
-		
-		[kThreadLastWrittenDateAttrTemplate setObject: [CMRPref threadsListFont] forKey: NSFontAttributeName];
-		[kThreadLastWrittenDateAttrTemplate setObject: [CMRPref threadsListColor] forKey: NSForegroundColorAttributeName];
+		// do nothing.
 	}
 }
 
@@ -70,20 +57,13 @@ static NSMutableParagraphStyle	*pStyleForDateColumnWithWidth (float tabWidth)
     static float cachedLoc2 = 0;
 	static float cachedLoc3 = 0;
 
-	if (kNewThreadCreatedDateAttrTemplate == nil
-		|| kThreadCreatedDateAttrTemplate == nil
-		|| kThreadModifiedDateAttrTemplate == nil
-		|| kThreadLastWrittenDateAttrTemplate == nil) {
-		
-		[self resetDataSourceTemplateForDateColumn];
-	}
+	[self resetDataSourceTemplateForDateColumn];
 
     if ([identifier isEqualToString: ThreadPlistIdentifierKey]) {
         if (cachedLoc1 == 0 || loc != cachedLoc1) {
             cachedLoc1 = loc;
 			NSParagraphStyle	*ps = pStyleForDateColumnWithWidth(cachedLoc1);
 
-			[kNewThreadCreatedDateAttrTemplate setObject: ps forKey: NSParagraphStyleAttributeName];
 			[kThreadCreatedDateAttrTemplate setObject: ps forKey: NSParagraphStyleAttributeName];
 		}
     } else if ([identifier isEqualToString: CMRThreadModifiedDateKey]) {
@@ -105,34 +85,26 @@ static NSMutableParagraphStyle	*pStyleForDateColumnWithWidth (float tabWidth)
 
 + (void) resetDataSourceTemplates
 {
-	NSMutableParagraphStyle *style_;
-	
-	// í∑âﬂÇ¨ÇÈì‡óeÇÅu...ÅvÇ≈è»ó™
-	style_ = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-	[style_ setLineBreakMode : NSLineBreakByTruncatingTail];
-
 	// default object value:
 	kThreadAttrTemplate = [[NSDictionary alloc] initWithObjectsAndKeys :
 							[CMRPref threadsListFont], NSFontAttributeName,
 							[CMRPref threadsListColor], NSForegroundColorAttributeName,
-							style_, NSParagraphStyleAttributeName,
 							nil];
 
 	// New Arrival thread:
 	kNewThreadAttrTemplate = [[NSDictionary alloc] initWithObjectsAndKeys :
 								[CMRPref threadsListNewThreadFont], NSFontAttributeName,
 								[CMRPref threadsListNewThreadColor], NSForegroundColorAttributeName,
-								style_, NSParagraphStyleAttributeName,
 								nil];
 
-	[style_ release];
+	// Dat Ochi thread:
+	kDatOchiThreadAttrTemplate = [[NSDictionary alloc] initWithObjectsAndKeys :
+								[CMRPref threadsListNewThreadFont], NSFontAttributeName,
+								[NSColor lightGrayColor], NSForegroundColorAttributeName,
+								nil];
 }
 
-/* TODO ÇªÇÃèÍÇµÇÃÇ¨ÅBñ{óàÇÕNSMutableDictionaryÇNSDictionaryÇ…ïœä∑ÇµÇƒï‘Ç∑Ç◊Ç´ÇæÇ™ÅAë¨ìxìIÇ…åªé¿ìIÇ≈ÇÕÇ»Ç¢ÅB*/
-+ (NSDictionary *)newThreadCreatedDateAttrTemplate
-{
-	return kNewThreadCreatedDateAttrTemplate;
-}
+/* TODO „Åù„ÅÆÂ†¥„Åó„ÅÆ„Åé„ÄÇÊú¨Êù•„ÅØNSMutableDictionary„ÇíNSDictionary„Å´Â§âÊèõ„Åó„Å¶Ëøî„Åô„Åπ„Åç„Å†„Åå„ÄÅÈÄüÂ∫¶ÁöÑ„Å´ÁèæÂÆüÁöÑ„Åß„ÅØ„Å™„ÅÑ„ÄÇ*/
 + (NSDictionary *)threadCreatedDateAttrTemplate
 {
 	return kThreadCreatedDateAttrTemplate;
@@ -150,28 +122,46 @@ static NSMutableParagraphStyle	*pStyleForDateColumnWithWidth (float tabWidth)
 				   forType : (int) aType
 {
 	id		temp = nil;
+	NSRange	range;
 	
 	if(nil == aValue || [aValue isKindOfClass : [NSImage class]])
 		return aValue;
 	
-	if (nil == kNewThreadAttrTemplate || nil == kThreadAttrTemplate)
+	if([aValue isKindOfClass : [NSAttributedString class]]) {
+		if([aValue respondsToSelector:@selector(addAttributes:range:)]) {
+			temp = [aValue retain];
+		} else {
+			temp = [aValue mutableCopy];
+		}
+	} else {
+		temp = [[NSMutableAttributedString alloc] initWithString : [aValue stringValue]];
+	}
+	
+	if (nil == kNewThreadAttrTemplate
+		|| nil == kThreadAttrTemplate
+		|| nil == kDatOchiThreadAttrTemplate)
 		[self resetDataSourceTemplates];
 	
+	range = NSMakeRange(0,[temp length]);
 	switch(aType){
 	case kValueTemplateDefaultType:
-		temp = [[NSMutableAttributedString alloc] initWithString : [aValue stringValue]
-													  attributes : kThreadAttrTemplate];
+		[temp addAttributes : kThreadAttrTemplate
+					  range : range];
 		break;
 	case kValueTemplateNewArrivalType:
-		temp = [[NSMutableAttributedString alloc] initWithString : [aValue stringValue]
-													  attributes : kNewThreadAttrTemplate];
+		[temp addAttributes : kNewThreadAttrTemplate
+					  range : range];
+		break;
+	case kValueTemplateDatOchiType:
+		[temp addAttributes : kDatOchiThreadAttrTemplate
+					  range : range];
 		break;
 	default :
 		UTILUnknownSwitchCase(aType);
 		break;
 	}
 	
-	return [temp autorelease]; // autorelease ÇµÇ»Ç¢Ç∆òRÇÍÇ‹Ç≠ÇË	
+	return [temp autorelease]; // autorelease „Åó„Å™„ÅÑ„Å®Êºè„Çå„Åæ„Åè„Çä	
 }
 /*
 - (NSArray *) threadsForTableView : (NSTableView *) tableView
@@ -356,7 +346,7 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	NSPasteboard	*pboard_;
 	NSArray			*filenames_;
 	int				returnCode = NSAlertFirstButtonReturn;
-	// ÅuÉSÉ~î†ÅvÇ÷ÇÃà⁄ìÆ
+	// „Äå„Ç¥„ÉüÁÆ±„Äç„Å∏„ÅÆÁßªÂãï
 	if(NO == (NSDragOperationDelete & operation)) {
 		return;
 	}

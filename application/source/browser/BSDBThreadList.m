@@ -398,22 +398,31 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 }
 
 #pragma mark## DataSource ##
-- (NSDictionary *)dateAttributeForIdentifier:(NSString *)identifier status:(ThreadStatus)status
+- (NSDictionary *)paragraphStyleAttrForIdentifier : (NSString *)identifier
 {
+	static NSMutableParagraphStyle *style_ = nil;
+	
 	NSDictionary *result = nil;
 	
-	if([identifier isEqualToString:ThreadPlistIdentifierKey]) {
-		result =  ((status == ThreadNewCreatedStatus) ? [[self class] newThreadCreatedDateAttrTemplate]
-												   : [[self class] threadCreatedDateAttrTemplate]);
-	} else if([identifier isEqualToString:LastWrittenDateColumn]) {
+	if(!style_) {
+		// 長過ぎる内容を「...」で省略
+		style_ = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+		[style_ setLineBreakMode : NSLineBreakByTruncatingTail];
+	}
+	
+	if([identifier isEqualToString : ThreadPlistIdentifierKey]) {
+		result = [[self class] threadCreatedDateAttrTemplate];
+	} else if([identifier isEqualToString : LastWrittenDateColumn]) {
 		result = [[self class] threadLastWrittenDateAttrTemplate];
-	} else if([identifier isEqualToString:CMRThreadModifiedDateKey]) {
+	} else if([identifier isEqualToString : CMRThreadModifiedDateKey]) {
 		result = [[self class] threadModifiedDateAttrTemplate];
+	} else {
+		result = [NSDictionary dictionaryWithObjectsAndKeys:style_, NSParagraphStyleAttributeName, nil];
 	}
 	
 	return result;
 }
-	
+
 - (NSDictionary *) threadAttributesAtRowIndex : (int          ) rowIndex
                                   inTableView : (NSTableView *) tableView
 {
@@ -468,17 +477,27 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 		result = [row valueForKey : identifier];
 	}
 	
-	// 日付
-	if([result isKindOfClass : [NSDate class]]) {
-		id attr = [self dateAttributeForIdentifier:identifier status:s];
-		return [[BSDateFormatter sharedDateFormatter] attributedStringForObjectValue: result
-															   withDefaultAttributes: attr];
+	// パラグラフスタイルを設定。
+	if(nil != result && ![result isKindOfClass : [NSImage class]]) {
+		id attr = [self paragraphStyleAttrForIdentifier:identifier];
+		if([result isKindOfClass : [NSDate class]]) {
+			result = [[BSDateFormatter sharedDateFormatter] attributedStringForObjectValue: result
+																	 withDefaultAttributes: attr];
+		} else {
+			result = [[[NSMutableAttributedString alloc] initWithString : [result stringValue]
+															 attributes : attr] autorelease];
+		}
 	}
 	
+	// Font and Color を設定。
+	int type = (s == ThreadNewCreatedStatus) 
+		? kValueTemplateNewArrivalType
+		: kValueTemplateDefaultType;
+	if([row isDatOchi]) {
+		type = kValueTemplateDatOchiType;
+	}
 	result = [[self class] objectValueTemplate : result
-									   forType : ((s == ThreadNewCreatedStatus) 
-												  ? kValueTemplateNewArrivalType
-												  : kValueTemplateDefaultType)];
+									   forType : type];
 	
 	return result;
 }

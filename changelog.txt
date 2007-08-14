@@ -1,9 +1,16 @@
 2007-08-14 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m:
+	* application/source/browser/CMRThreadsList-DataSource.m:
+		datOchi スレッドを [NSColor lightGrayColor] で表示するようにした。（### 要変更 ###）
+		表示のためのNSAttributedStringのアトリビュートが
+		「日付（新着）」「日付（普通）」「その他（新着）」「その他（普通）」で分けられていた物を、
+		「パラグラフスタイル（日付）」「パラグラフスタイル（その他）」
+		「フォント／カラー（新着）」「フォント／カラー（普通）」「フォント／カラー（Dat落ち）」で分け、
+		パラグラフスタイルを適応後、フォント／カラーを追加して適応するように変更した。
 	* application/source/browser/BSThreadListItem.[h|m]:
 	* application/source/manager/DatabaseManager-DatabaseAccess.m:
 	* application/source/thread/CMRThreadAttributes.m:
 		データベースのdatOchiを保存／使用をするようにした。
-2007-08-14 masakih <masakih@users.sourceforge.jp>
 	* misc/sqlite/*:
 		sqliteを3.4.1にバージョンアップ。
 		先日pragma.cに加えた修正は本家で既に修正済みだったため、先日の修正は破棄した。
