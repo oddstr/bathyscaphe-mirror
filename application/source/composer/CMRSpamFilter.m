@@ -105,6 +105,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	BSNGExpression *newExpression;
 
 	while (eachWord = [iter nextObject]) {
+		if ([eachWord isEqualToString: @""]) continue;
 		newExpression = [[BSNGExpression alloc] initWithExpression:eachWord targetMask:BSNGExpressionAtMessage regularExpression:NO];
 		[newArray addObject:[newExpression propertyListRepresentation]];
 		[newExpression release];

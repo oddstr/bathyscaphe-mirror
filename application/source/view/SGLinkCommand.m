@@ -180,10 +180,16 @@
 	[self cancel:nil];
 
 	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	NSString *message = [NSString stringWithFormat:NSLocalizedStringFromTable(@"FailDownloadAlertMessage", @"HTMLView", @""),
+		[aError localizedDescription], [self stringValue]];
 	[alert setAlertStyle:NSWarningAlertStyle];
 	[alert setMessageText:NSLocalizedStringFromTable(@"FailDownloadAlertTitle", @"HTMLView", @"")];
-	[alert setInformativeText:[aError localizedDescription]];
-	[alert runModal];
+	[alert setInformativeText:message];
+	[alert addButtonWithTitle:NSLocalizedStringFromTable(@"FailDownloadCancelBtn", @"HTMLView", @"")];
+	[alert addButtonWithTitle:NSLocalizedStringFromTable(@"FailDownloadPassBtn", @"HTMLView", @"")];
+	if ([alert runModal] == NSAlertSecondButtonReturn) {
+		[[NSWorkspace sharedWorkspace] openURL:[self URLValue]];
+	}
 }
 
 #pragma mark Accessors

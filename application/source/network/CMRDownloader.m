@@ -285,6 +285,7 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 /* synchronize computer time with server. */
 - (void)synchronizeServerClock:(NSHTTPURLResponse *)response
 {
+	NSLog(@"-[CMRDownloader synchrozineServerClock:] called.");
 	UTILAssertKindOfClass(response, NSHTTPURLResponse);
 
 	NSString *dateString;
@@ -307,13 +308,15 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 	m_expectedLength = [http expectedContentLength];
 	UTIL_DEBUG_WRITE1(@"HTTP Status: %i", status);
 
+	[self synchronizeServerClock:http];
+
     switch (status) {
     case 200:
-		[self synchronizeServerClock:http];
+//		[self synchronizeServerClock:http];
 		[self setMessage:[NSString stringWithFormat:[self localizedMessageFormat], [[self resourceURL] absoluteString]]];
         break;
     case 206:
-		[self synchronizeServerClock:http];
+//		[self synchronizeServerClock:http];
 		[self setMessage:[NSString stringWithFormat:[self localizedMessageFormat], [[self resourceURL] absoluteString]]];
         break;
     case 304:

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMessageFilter.m,v 1.10 2007/08/10 19:36:48 tsawada2 Exp $
+  * $Id: CMRMessageFilter.m,v 1.11 2007/08/15 20:59:50 tsawada2 Exp $
   * 
   * CMRMessageFilter.m
   *
@@ -341,11 +341,11 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	NSEnumerator *iter = [NGExpressions objectEnumerator];
 	BSNGExpression	*NGExp;
 
-	OgreSyntax syntax;
-	OGRegularExpression *regexp;
+//	OgreSyntax syntax;
+	OGRegularExpression *regExp;
 
 	while (NGExp = [iter nextObject]) {
-		if ([NGExp isRegularExpression] && [NGExp validAsRegularExpression]) {
+/*		if ([NGExp isRegularExpression] && [NGExp validAsRegularExpression]) {
 			syntax = OgreRubySyntax;
 		} else {
 			syntax = OgreSimpleMatchingSyntax;
@@ -360,7 +360,12 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 			[regexp release];
 			return YES;
 		}
-		[regexp release];
+		[regexp release];*/
+		if (regExp = [NGExp OGRegExpInstance]) {
+			if ([regExp matchInString:source]) return YES;
+		} else {
+			if (([source rangeOfString:[NGExp expression] options:NSLiteralSearch].length != 0)) return YES;
+		}
 	}
 	return NO;
 }
@@ -374,7 +379,8 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 
 	// 名前
 	field = [aMessage name];
-	if (!checkNameIsNonSignificant_(field) && ![[self noNameArrayAtWorkingBoard] containsObject:field]) {
+	if (!checkNameIsNonSignificant_(field) && ![self nanashiAllowedAtWorkingBoard] && [[self noNameArrayAtWorkingBoard] containsObject:field]) {
+//	if (!checkNameIsNonSignificant_(field) && ![[self noNameArrayAtWorkingBoard] containsObject:field]) {
 		name_ = [[field mutableCopy] autorelease];
 		[CMXTextParser convertMessageSourceToCachedMessage:name_];
 		if ([self detectStringUsingCorpus:name_ targetMask:BSNGExpressionAtName]) {
@@ -436,12 +442,12 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 
 	for (i = 0, cnt = [sampleArray count]; i < cnt; i++) {
 		sample = SGBaseCArrayWrapperObjectAtIndex(sampleArray, i);
-		if (detectMessageAny_(sample, aMessage, aThread, array_))//set_))
+		if (detectMessageAny_(sample, aMessage, aThread, array_))
 			return YES;
 	}
 
 	// 語句集合と比較
-	if ([self detectMessageUsingCorpus:aMessage])// with:aThread])
+	if ([self detectMessageUsingCorpus:aMessage])
 		return YES;
 	
 	return NO;
@@ -505,15 +511,19 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	/* Name */
 	// エンティティ参照を解決し、名前を正規化
 	tmpString = [m name];
-	s = [tmpString stringByReplaceEntityReference];
+//	s = [tmpString stringByReplaceEntityReference];
 
-    if (!s) sign &= ~kSampleAsNameMask;
+//    if (!s) sign &= ~kSampleAsNameMask;
 
-	if (![self nanashiAllowedAtWorkingBoard] || [[self noNameArrayAtWorkingBoard] containsObject:s]) {
+//	if (![self nanashiAllowedAtWorkingBoard] || [[self noNameArrayAtWorkingBoard] containsObject:s]) {
     	// 板の名無しと同じ名前。または板の名無しと同じ名前ではないが、この板では名前欄必須。無視。
-	    sign &= ~kSampleAsNameMask;
+//	    sign &= ~kSampleAsNameMask;
+//	} else {
+	if (![self nanashiAllowedAtWorkingBoard] || [[self noNameArrayAtWorkingBoard] containsObject:tmpString]) {
+		sign &= ~kSampleAsNameMask;
 	} else {
 		// 名前の文字列で検証
+		s = [tmpString stringByReplaceEntityReference];
 		s = [s stringByStriped];
 		if (checkNameIsNonSignificant_(s)) {
             // 重要でない名前

@@ -9,6 +9,7 @@
 
 #import <Foundation/Foundation.h>
 
+@class OGRegularExpression;
 @protocol CMRPropertyListCoding;
 
 enum {
@@ -23,6 +24,8 @@ enum {
 	NSString *m_NGExpression;
 	unsigned int m_NGTargetMask;
 	BOOL	m_isRegularExpression;
+
+	OGRegularExpression	*m_OGRegExpInstance; // may be nil...
 }
 
 - (id)initWithExpression:(NSString *)string targetMask:(unsigned int)mask regularExpression:(BOOL)isRE;
@@ -44,4 +47,9 @@ enum {
 - (void)setIsRegularExpression:(BOOL)isRE;
 
 - (BOOL)validAsRegularExpression;
+
+- (OGRegularExpression *)OGRegExpInstance;
+- (void) setOGRegExpInstance:(OGRegularExpression *)instance;
 @end
+
+extern NSString *const BSNGExpressionErrorDomain;

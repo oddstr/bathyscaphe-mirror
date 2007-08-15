@@ -1,3 +1,10 @@
+2007-08-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/composer/CMRMessageFilter.m
+		迷惑レスフィルタの効率化。OGRegularExpression は BSNGExpression が保持しているものを使用し、
+		非正規表現に関しては従来通り -[NSString rangeOfString:options:range:] でチェックするようにした。
+	* application/source/composer/BSNGExpression.m
+		BSNGExpression インスタンスは、isRegularExpression == YES の場合は自身で OGRegularExpression インスタンスを
+		生成・保持するようにした。OGRegularExpression インスタンスは NGExpressions.plist にアーカイブ化されて保存もされる。
 2007-08-14 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSDBThreadList.m:
 	* application/source/browser/CMRThreadsList-DataSource.m:
