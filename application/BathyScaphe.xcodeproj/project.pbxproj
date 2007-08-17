@@ -123,7 +123,6 @@
 		8701624D082BE67100AEFDD0 /* UTILDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = F376F1FD05D3A805000452AB /* UTILDescription.h */; };
 		8701624E082BE67100AEFDD0 /* UTILKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F376F1FE05D3A805000452AB /* UTILKit.h */; };
 		8701624F082BE67100AEFDD0 /* UTILError.h in Headers */ = {isa = PBXBuildFile; fileRef = 8792D83B05E21AE20074B2BE /* UTILError.h */; };
-		87016250082BE67100AEFDD0 /* CMRNetRequestQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = F37B9DA105E8B16900B8507D /* CMRNetRequestQueue.h */; };
 		87016252082BE67100AEFDD0 /* CMRNetGrobalLock.h in Headers */ = {isa = PBXBuildFile; fileRef = F376045E064FD09200591F56 /* CMRNetGrobalLock.h */; };
 		87016254082BE67100AEFDD0 /* CMRAppDelegate_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F3660E3A06C4C7DA00A92719 /* CMRAppDelegate_p.h */; };
 		87016255082BE67100AEFDD0 /* CMRAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F3660E3B06C4C7DA00A92719 /* CMRAppDelegate.h */; };
@@ -230,7 +229,6 @@
 		87016372082BE67100AEFDD0 /* AppDefaults-Filter.m in Sources */ = {isa = PBXBuildFile; fileRef = F33AE23405BE587D002448CC /* AppDefaults-Filter.m */; };
 		87016373082BE67100AEFDD0 /* CMRThreadMessageBufferReader.m in Sources */ = {isa = PBXBuildFile; fileRef = F370621405BFED85007484CE /* CMRThreadMessageBufferReader.m */; };
 		87016375082BE67100AEFDD0 /* CMROpenURLManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E8894DD905C3A3A30004317F /* CMROpenURLManager.m */; };
-		87016376082BE67100AEFDD0 /* CMRNetRequestQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = F37B9DA205E8B16900B8507D /* CMRNetRequestQueue.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		87016378082BE67100AEFDD0 /* CMRThreadAttributes-Convert.m in Sources */ = {isa = PBXBuildFile; fileRef = F387636C06015B8C00B3C8EA /* CMRThreadAttributes-Convert.m */; };
 		87016379082BE67100AEFDD0 /* CMRNetGrobalLock.m in Sources */ = {isa = PBXBuildFile; fileRef = F376045F064FD09200591F56 /* CMRNetGrobalLock.m */; };
 		8701637B082BE67100AEFDD0 /* CMRAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F3660E3C06C4C7DA00A92719 /* CMRAppDelegate.m */; };
@@ -1784,8 +1782,6 @@
 		F376F1FD05D3A805000452AB /* UTILDescription.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = UTILDescription.h; path = ../misc/utilkit/UTILDescription.h; sourceTree = SOURCE_ROOT; };
 		F376F1FE05D3A805000452AB /* UTILKit.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = UTILKit.h; path = ../misc/utilkit/UTILKit.h; sourceTree = SOURCE_ROOT; };
 		F379B59F04F1BB8D000E3011 /* AppearancePreferences.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AppearancePreferences.tiff; sourceTree = "<group>"; };
-		F37B9DA105E8B16900B8507D /* CMRNetRequestQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRNetRequestQueue.h; sourceTree = "<group>"; };
-		F37B9DA205E8B16900B8507D /* CMRNetRequestQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; path = CMRNetRequestQueue.m; sourceTree = "<group>"; };
 		F38262C10513577300A80005 /* CocoMonar_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CocoMonar_Prefix.h; sourceTree = "<group>"; };
 		F38262E50513581100A80005 /* CMRTask.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRTask.h; sourceTree = "<group>"; };
 		F38262E60513581100A80005 /* CMRTask.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRTask.m; sourceTree = "<group>"; };
@@ -2940,8 +2936,6 @@
 				F3D0A9A104F6128A00CB520C /* CMRDATDownloader.m */,
 				F31A368404DD971600A80005 /* CMRThreadHTMLDownloader.h */,
 				F31A368504DD971600A80005 /* CMRThreadHTMLDownloader.m */,
-				F37B9DA105E8B16900B8507D /* CMRNetRequestQueue.h */,
-				F37B9DA205E8B16900B8507D /* CMRNetRequestQueue.m */,
 				F376045E064FD09200591F56 /* CMRNetGrobalLock.h */,
 				F376045F064FD09200591F56 /* CMRNetGrobalLock.m */,
 			);
@@ -3524,7 +3518,6 @@
 				8701624D082BE67100AEFDD0 /* UTILDescription.h in Headers */,
 				8701624E082BE67100AEFDD0 /* UTILKit.h in Headers */,
 				8701624F082BE67100AEFDD0 /* UTILError.h in Headers */,
-				87016250082BE67100AEFDD0 /* CMRNetRequestQueue.h in Headers */,
 				87016252082BE67100AEFDD0 /* CMRNetGrobalLock.h in Headers */,
 				87016254082BE67100AEFDD0 /* CMRAppDelegate_p.h in Headers */,
 				87016255082BE67100AEFDD0 /* CMRAppDelegate.h in Headers */,
@@ -4451,7 +4444,6 @@
 				87016372082BE67100AEFDD0 /* AppDefaults-Filter.m in Sources */,
 				87016373082BE67100AEFDD0 /* CMRThreadMessageBufferReader.m in Sources */,
 				87016375082BE67100AEFDD0 /* CMROpenURLManager.m in Sources */,
-				87016376082BE67100AEFDD0 /* CMRNetRequestQueue.m in Sources */,
 				87016378082BE67100AEFDD0 /* CMRThreadAttributes-Convert.m in Sources */,
 				87016379082BE67100AEFDD0 /* CMRNetGrobalLock.m in Sources */,
 				8701637B082BE67100AEFDD0 /* CMRAppDelegate.m in Sources */,
