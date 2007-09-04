@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.46 2007/07/27 10:26:40 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.47 2007/09/04 07:45:43 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -80,7 +80,7 @@ NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEnd
 	if ((bName_ == nil) || (tTitle_ == nil))
 		return nil;
 	
-	return [NSString stringWithFormat:@"%@ - %@", tTitle_, bName_];
+	return [NSString stringWithFormat:@"%@ %C %@", tTitle_, 0x2014, bName_];
 }
 
 - (NSString *) windowTitleForDocumentDisplayName : (NSString *) displayName
@@ -243,21 +243,18 @@ FileNotExistsAutoReloadIfNeeded:
 	[self reloadIfOnlineMode : self];
 }
 
+- (void)registerToHistoryMenu
+{
+	NSString *title_ = [self title];
+//	UTILAssertNotNil(title_);
+
+	if (title_) [[CMRHistoryManager defaultManager] addItemWithTitle:title_ type:CMRHistoryThreadEntryType object:[self threadIdentifier]];
+}
+
+
 - (void) didChangeThread
 {
-	NSString	*title_;
-	
-	// スレッド情報の更新
-	// 履歴に登録してから、変更の通知
-	title_ = [self title];
-	if (nil == title_)
-		title_ = [self datIdentifier];
-	// datIdentifier をとってもなお nil の場合がある
-	if (nil != title_) {
-		[[CMRHistoryManager defaultManager]
-			addItemWithTitle : title_
-						type : CMRHistoryThreadEntryType
-					  object : [self threadIdentifier]];
+	[self registerToHistoryMenu];
 
 		// 2004-04-10 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
 		// ----------------------------------------
@@ -265,14 +262,14 @@ FileNotExistsAutoReloadIfNeeded:
 		// Mac OS X 10.3 から TextView のフォントを変更すると、即座に
 		// 結果が反映されるようになったため、内容が空のときに反映しないと
 		// 既存のスレッドのフォントがすべて変更されてしまう。
-		{
+/*		{
 			NSFont	*font = [[CMRPref threadViewTheme] baseFont];
 			
 			if (NO == [[[self textView] font] isEqual : font])
 				[[self textView] setFont : font];
-		}
-		UTILNotifyName(CMRThreadViewerDidChangeThreadNotification);
-	}
+		}*/
+	UTILNotifyName(CMRThreadViewerDidChangeThreadNotification);
+//	}
 }
 - (CMRThreadAttributes *) threadAttributes
 {
@@ -420,6 +417,7 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 	if (NO == [[self window] isVisible])
 		[self showWindow : self];
 	
+	[self didChangeThread];
 	UTILAssertRespondsTo(task_, @selector(setCallbackIndex:));
 	[task_ setCallbackIndex : [[self threadAttributes] lastIndex]];
 }
@@ -567,13 +565,13 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 	}
 }
 
-#pragma mark board / thread signature for historyManager .etc
-- (id) boardIdentifier
+#pragma mark Thread signature for historyManager .etc
+/*- (id) boardIdentifier
 {
 	//return [[self threadAttributes] BBSSignature];
 	//暫定 bridge
 	return [CMRBBSSignature BBSSignatureWithName : [self boardName]];
-}
+}*/
 - (id) threadIdentifier
 {
 	return [[self threadAttributes] threadSignature];
@@ -633,7 +631,7 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 {
 	return [(CMRThreadDocument *)[self document] isDatOchiThread];
 }
-- (void) setDatOchiThread : (BOOL) flag
+/*- (void) setDatOchiThread : (BOOL) flag
 {
 	[(CMRThreadDocument *)[self document] setIsDatOchiThread: flag];
 }
@@ -644,7 +642,7 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 - (void) setMarkedThread : (BOOL) flag
 {
 	[(CMRThreadDocument *)[self document] setIsMarkedThread: flag];
-}
+}*/
 @end
 
 #pragma mark -
@@ -834,7 +832,7 @@ NSString *kComposingNotificationNames[] = {
 		notification,
 		CMRThreadAttributesDidChangeNotification);
 	
-	[self didChangeThread];
+//	[self didChangeThread:_cmd];
 	[self synchronizeAttributes];
 }
 - (void) appDefaultsLayoutSettingsUpdated : (NSNotification *) notification

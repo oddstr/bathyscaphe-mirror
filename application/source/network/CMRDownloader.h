@@ -12,7 +12,7 @@
 @interface CMRDownloader : NSObject<CMRTask>
 {
 	@private
-	id					_identifier;
+	id					m_identifier;
 	NSURLConnection		*m_connector;
 	NSMutableData		*m_data;
 	NSString			*m_statusMessage;
@@ -21,35 +21,24 @@
 	double				m_expectedLength;
 }
 
-- (NSDictionary *) requestHeaders;
+- (NSDictionary *)requestHeaders;
++ (NSMutableDictionary *)defaultRequestHeaders;
+
 - (NSURLConnection *)currentConnector;
 
-- (id) identifier;
-- (void) setIdentifier : (id) anIdentifier;
-- (NSURL *) boardURL;
-- (NSURL *) resourceURL;
-- (NSString *) filePathToWrite;
+- (NSURL *)boardURL;
+- (NSURL *)resourceURL;
+- (NSString *)filePathToWrite;
 
 - (NSMutableData *)resourceData;
 - (void)setResourceData:(NSMutableData *)data;
-
-- (void)setMessage:(NSString *)msg;
-- (void)setAmount:(double)doubleValue;
 @end
 
 
 @interface CMRDownloader(LoadingResourceData)
-- (void) loadInBackground;
+- (void)loadInBackground;
 - (BOOL)dataProcess:(NSData *)resourceData withConnector:(NSURLConnection *)connector;
-- (void)didFinishLoading:(NSURLConnection *)connector;
-@end
-
-
-@interface CMRDownloader(CMRDownloader)
-- (void) startLoadInBackground;
-- (void) cancelDownload;
-- (BOOL) isDownloadInProgress;
-- (void)setIsDownloadInProgress:(BOOL)inProgress;
+- (void)didFinishLoading;
 @end
 
 extern NSString *const CMRDownloaderNotFoundNotification;

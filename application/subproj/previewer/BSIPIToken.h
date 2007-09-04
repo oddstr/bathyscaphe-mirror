@@ -18,8 +18,8 @@
 	NSString	*ipit_statusMsg;
 	BSIPIDownload	*ipit_curDownload;
 	
-	long long	ipit_contentSize;
-	long long	ipit_downloadedSize;
+	double		ipit_contentSize;
+	double		ipit_downloadedSize;
 	BOOL		shouldIndeterminate;
 }
 

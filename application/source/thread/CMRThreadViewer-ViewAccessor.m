@@ -14,6 +14,7 @@
 #import "CMRMainMenuManager.h"
 #import "CMRMessageAttributesTemplate.h"
 #import <SGAppKit/BSLayoutManager.h>
+#import <SGAppKit/BSTitleRulerAppearance.h>
 #import "CMRThreadFileLoadingTask.h"
 
 // for debugging only
@@ -126,6 +127,28 @@ static void *kThreadViewThemeBgColorContext = @"BabyRose";
 
 + (NSMenu *)loadContextualMenuForTextView
 {
+	NSMenu	*menu_;
+
+	NSMenu	*textViewMenu_;
+	NSEnumerator *iter_;
+	NSMenuItem	*item_;
+
+	menu_ = [[CMRMainMenuManager defaultManager] threadContexualMenuTemplate];
+	textViewMenu_ = [HTMLVIEW_CLASS messageMenu];
+
+	[menu_ addItem:[NSMenuItem separatorItem]];
+
+	iter_ = [[textViewMenu_ itemArray] objectEnumerator];
+	while (item_ = [iter_ nextObject]) {
+		item_ = [item_ copy];
+		[menu_ addItem:item_];
+		[item_ release];
+	}
+	
+	return menu_;
+}
+/*
+{
 	NSMenu			*menu_;
 	NSMenu			*threadMenu_;
 	NSMenu			*textViewMenu_;
@@ -159,7 +182,7 @@ static void *kThreadViewThemeBgColorContext = @"BabyRose";
 	[self clearkeyEquivalentInMenu:menu_];
 	return [menu_ autorelease];
 }
-
+*/
 #pragma mark Override super implementation
 + (Class)toolbarDelegateImpClass
 {
@@ -182,13 +205,29 @@ static void *kThreadViewThemeBgColorContext = @"BabyRose";
 	return BSTitleRulerShowInfoOnlyMode;
 }
 
++ (NSString *)titleRulerAppearanceFilePath
+{
+	NSString *path;
+	NSBundle *appSupport = [NSBundle applicationSpecificBundle];
+
+	path = [appSupport pathForResource:@"BSTitleRulerAppearance" ofType:@"plist"];
+	if (!path) {
+		path = [[NSBundle mainBundle] pathForResource:@"BSTitleRulerAppearance" ofType:@"plist"];
+	}
+	return path;
+}
+
 - (void)setupTitleRulerWithScrollView:(NSScrollView *)scrollView_
 {
 	id ruler;
+	NSString *path = [[self class] titleRulerAppearanceFilePath];
+	UTILAssertNotNil(path);
+	BSTitleRulerAppearance *foo = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
 
 	[[scrollView_ class] setRulerViewClass:[BSTitleRulerView class]];
-	ruler = [[BSTitleRulerView alloc] initWithScrollView:scrollView_ orientation:NSHorizontalRuler];
-	[[ruler class] setTitleTextColor:([CMRPref titleRulerViewTextUsesBlackColor] ? [NSColor blackColor] : [NSColor whiteColor])];
+	ruler = [[BSTitleRulerView alloc] initWithScrollView:scrollView_ appearance:foo];//orientation:NSHorizontalRuler];
+//	[[ruler class] setTitleTextColor:([CMRPref titleRulerViewTextUsesBlackColor] ? [NSColor blackColor] : [NSColor whiteColor])];
+	[ruler setTitleStr:NSLocalizedString(@"titleRuler default title", @"Startup Message")];
 
 	[scrollView_ setHorizontalRulerView:ruler];
 
@@ -278,7 +317,7 @@ static void *kThreadViewThemeBgColorContext = @"BabyRose";
 - (void)setupScrollView
 {
 	NSScrollView	*scrollView_ = [self scrollView];
-	NSClipView				*contentView_;
+	NSClipView		*contentView_;
 		
 	contentView_ = [scrollView_ contentView];
 	[contentView_ setPostsBoundsChangedNotifications:YES];

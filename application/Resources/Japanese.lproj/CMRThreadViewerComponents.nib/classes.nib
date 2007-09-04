@@ -70,7 +70,6 @@
             OUTLETS = {"m_toolbarDelegateImp" = id; }; 
             SUPERCLASS = NSWindowController; 
         }, 
-        {CLASS = CMXScrollView; LANGUAGE = ObjC; SUPERCLASS = NSScrollView; }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {CLASS = IndexField; LANGUAGE = ObjC; SUPERCLASS = NSTextField; }, 
         {CLASS = NSSegmentedControl; LANGUAGE = ObjC; SUPERCLASS = NSControl; }

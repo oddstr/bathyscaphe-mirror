@@ -1,5 +1,5 @@
 /**
-  * $Id: ThreadsListTable.h,v 1.2 2005/10/07 00:18:50 tsawada2 Exp $
+  * $Id: ThreadsListTable.h,v 1.3 2007/09/04 07:45:43 tsawada2 Exp $
   * 
   * ThreadsListTable.h
   * スレッド一覧を表示するテーブル
@@ -25,4 +25,7 @@
 - (NSTableColumn *) initialColumnWithIdentifier : (id) identifier;
 - (void) removeAllColumns;
 - (void) setInitialState;
+
+// Available in Twincam Angel.
+- (IBAction)revealInFinder:(id)sender;
 @end

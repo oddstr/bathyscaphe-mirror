@@ -35,8 +35,8 @@
         {
             ACTIONS = {
                 actionMenuHeader = id; 
+                addBoardListItem = id; 
                 addCategoryItem = id; 
-                addDrawerItem = id; 
                 addFavorites = id; 
                 addSmartItem = id; 
                 biggerText = id; 
@@ -48,7 +48,7 @@
                 copySelectedResURL = id; 
                 copyThreadAttributes = id; 
                 deleteThread = id; 
-                editDrawerItem = id; 
+                editBoardListItem = id; 
                 findAll = id; 
                 findAllByFilter = id; 
                 findFirstText = id; 
@@ -60,13 +60,13 @@
                 historyMenuPerformForward = id; 
                 openBBSInBrowser = id; 
                 openInBrowser = id; 
-                openLogfile = id; 
                 openScriptsDirectory = id; 
                 pasteAsQuotation = id; 
                 reloadThread = id; 
                 reloadThreadsList = id; 
-                removeDrawerItem = id; 
+                removeBoardListItem = id; 
                 reply = id; 
+                revealInFinder = id; 
                 runAsciiArtDetector = id; 
                 runBoardWarrior = id; 
                 runSpamFilter = id; 
@@ -92,7 +92,6 @@
                 toggleAAThread = id; 
                 toggleDatOchiThread = id; 
                 toggleMarkedThread = id; 
-                toggleStatusLineShown = id; 
                 toggleThreadsListViewMode = id; 
             }; 
             CLASS = FirstResponder; 

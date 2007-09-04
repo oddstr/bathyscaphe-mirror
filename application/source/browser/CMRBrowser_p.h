@@ -126,8 +126,8 @@
 
 @interface CMRBrowser(TableColumnInitializer)
 - (NSArray *) defaultColumnsArray;
-- (id) defaultColumnsArrayPropertyListRep;
-- (NSTableColumn *) defaultTableColumnWithIdentifier : (NSString *) anIdentifer;
+//- (id) defaultColumnsArrayPropertyListRep;
+//- (NSTableColumn *) defaultTableColumnWithIdentifier : (NSString *) anIdentifer;
 - (NSTableColumn *) tableColumnWithPropertyListRep : (id) rep;
 
 - (void) createDefaultTableColumnsWithTableView : (NSTableView *) tableView;
@@ -136,8 +136,11 @@
 
 
 @interface CMRBrowser(ViewInitializer)
-- (void) updateDefaultsWithTableView : (NSTableView *) tbview;
-- (void) setupBoardListOutlineView : (NSOutlineView *) outlineView;
+//- (void) updateDefaultsWithTableView : (NSTableView *) tbview;
+- (void)updateThreadsListTableWithNeedingDisplay:(BOOL)display;
+- (void)updateTableColumnsMenu;
+//- (void) setupBoardListOutlineView : (NSOutlineView *) outlineView;
+- (void)updateBoardListViewWithNeedingDisplay:(BOOL)display;
 
 - (void) setupSplitView;
 - (void) setupThreadsListTable;

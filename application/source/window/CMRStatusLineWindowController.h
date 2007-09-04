@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRStatusLineWindowController.h,v 1.7 2007/04/19 14:13:43 tsawada2 Exp $
+  * $Id: CMRStatusLineWindowController.h,v 1.8 2007/09/04 07:45:43 tsawada2 Exp $
   * BathyScaphe
   *
   * ãå CMRStatusLineWindowController Ç∆ CMRToolbarWindowController Çìùçá
@@ -25,7 +25,7 @@
 - (id<CMRToolbarDelegate>) toolbarDelegate;
 
 // board / thread signature for historyManager .etc
-- (id) boardIdentifier;
+//- (id) boardIdentifier;
 - (id) threadIdentifier;
 @end
 

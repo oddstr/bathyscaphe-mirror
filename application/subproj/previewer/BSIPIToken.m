@@ -217,9 +217,12 @@ NSString *const BSIPITokenDownloadErrorNotification = @"BSIPITokenDownloadErrorN
 
 - (void) bsIPIdownload: (BSIPIDownload *) aDownload didDownloadContentOfSize: (double) downloadedLength
 {
+	NSString *tmp;
 	[self willChangeValueForKey: @"downloadedSize"];
 	ipit_downloadedSize = downloadedLength;
 	[self didChangeValueForKey: @"downloadedSize"];
+	tmp = [NSString stringWithFormat:@"%.0f KB / %.0f KB", ipit_downloadedSize/1024, ipit_contentSize/1024];
+	[self setStatusMessage:tmp];
 }
 
 - (void) bsIPIdownloadDidFinish: (BSIPIDownload *) aDownload

@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate_p.h,v 1.11 2007/03/11 09:02:57 tsawada2 Exp $
+ * $Id: CMRAppDelegate_p.h,v 1.12 2007/09/04 07:45:43 tsawada2 Exp $
  * 
  * CMRAppDelegate_p.h
  *
@@ -25,6 +25,7 @@
 
 //:CMRAppDelegate+Menu.m
 @interface CMRAppDelegate(MenuSetup)
+- (NSMenu *)browserListColumnsMenuTemplate;
 - (void) setupMenu;
 @end
 

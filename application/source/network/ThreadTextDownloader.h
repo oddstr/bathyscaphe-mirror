@@ -14,9 +14,9 @@
 @interface ThreadTextDownloader : CMRDownloader
 {
 	@private
-	unsigned			_nextIndex;
-	NSDictionary		*_localThreadsDict;
-	NSString			*_threadTitle;
+	unsigned			m_nextIndex;
+	NSDictionary		*m_localThreadsDict;
+	NSString			*m_threadTitle;
 	NSDate	*m_lastDateStore;
 }
 
@@ -45,7 +45,7 @@
 // ----------------------------------------
 // Partial contents
 // ----------------------------------------
-- (BOOL) pertialContentsRequested;
+- (BOOL) partialContentsRequested;
 - (void) cancelDownloadWithInvalidPartial;
 @end
 

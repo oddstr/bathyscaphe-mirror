@@ -241,7 +241,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 {
 	id		rep;
 	id		v;
-	
+
+	NSLog(@"CMRSpamFilter: Saving to files...");
 	rep = [NSMutableDictionary dictionary];
 	[rep setObject:CMRSpamFilterIdentifier forKey:kFilterIdentifierKey];
 	

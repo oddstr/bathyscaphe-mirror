@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.25 2007/04/15 13:49:38 tsawada2 Exp $
+  * $Id: CMRBrowser-List.m,v 1.26 2007/09/04 07:45:43 tsawada2 Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -39,7 +39,8 @@
 	[[self threadsListTable] setDataSource : newList];
 	[[self document] setCurrentThreadsList : newList];
 
-	[self clearSearchFilter];
+//	[self clearSearchFilter];
+	[[self document] setSearchString: nil];
 }
 
 - (void) boardChanged : (id) boardListItem
@@ -72,6 +73,9 @@
 	[table deselectAll : nil];
 	[table setDataSource : nil];
 	
+	[[self threadsListTable] restoreColumnState:[[BoardManager defaultManager] browserListColumnsForBoard:[threadList boardName]]];
+	[self updateTableColumnsMenu];
+
 	[self setCurrentThreadsList : threadList];
 
 	// sort column change

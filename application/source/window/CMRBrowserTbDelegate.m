@@ -164,8 +164,8 @@ static NSMenuItem* searchToolbarItemMenuFormRep(NSString *labelText)
 
 - (void)setupNobiNobiToolbarItem:(NSToolbarItem *)anItem
 {
-	BSNobiNobiView *aView = [[BSNobiNobiView alloc] init];
-	NSSize size_ = NSMakeSize(48, 29);
+	BSNobiNobiView *aView = [[BSNobiNobiView alloc] initWithFrame:NSMakeRect(0,0,48,22)];
+	NSSize size_ = NSMakeSize(48, 22);
 
 	[anItem setView:aView];
 	[anItem setMinSize:size_];
@@ -237,7 +237,7 @@ static NSMenuItem* searchToolbarItemMenuFormRep(NSString *labelText)
 	if ([[item itemIdentifier] isEqualToString:st_NobiNobiItemIdentifier]) {
 		CMRBrowser *browser = CMRMainBrowser;
 		float	width = [[browser boardListSubView] dimension];
-		NSSize size_ = NSMakeSize(width-8, 29);
+		NSSize size_ = NSMakeSize(width-8, 22);
 		[item setMinSize:size_];
 		[item setMaxSize:size_];
 	} else if ([[item itemIdentifier] isEqualToString:st_viewModeSwitcherItemIdentifier]) {

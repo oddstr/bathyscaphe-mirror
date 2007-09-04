@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.47 2007/08/11 19:48:07 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.48 2007/09/04 07:45:43 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -198,10 +198,15 @@ typedef enum _BSAutoSyncIntervalType {
 - (void) setThreadsListNewThreadColor : (NSColor *) color;
 - (NSFont *) threadsListNewThreadFont;
 - (void) setThreadsListNewThreadFont : (NSFont *) aFont;
+/* Available in Twincam Angel. */
+- (NSFont *)threadsListDatOchiThreadFont;
+- (void)setThreadsListDatOchiThreadFont:(NSFont *)aFont;
+- (NSColor *)threadsListDatOchiThreadColor;
+- (void)setThreadsListDatOchiThreadColor:(NSColor *)color;
 
 /* Starlight Breaker -- Theme groups */
-- (NSColor *) replyTextColor;
-- (NSFont *) replyFont;
+//- (NSColor *) replyTextColor;
+//- (NSFont *) replyFont;
 /* End Theme groups */
 
 - (NSColor *) messageFilteredColor;
@@ -258,8 +263,9 @@ typedef enum _BSAutoSyncIntervalType {
 - (void) setUseIncrementalSearch : (BOOL) TorF;
 
 /* PrincessBride Additions */
-- (BOOL) titleRulerViewTextUsesBlackColor;
-- (void) setTitleRulerViewTextUsesBlackColor : (BOOL) usesBlackColor;
+// Deprecated in Twincam Angel.
+/*- (BOOL) titleRulerViewTextUsesBlackColor;
+- (void) setTitleRulerViewTextUsesBlackColor : (BOOL) usesBlackColor;*/
 
 /* ShortCircuit Additions */
 - (id) threadsListTableColumnState;

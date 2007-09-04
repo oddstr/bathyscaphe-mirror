@@ -168,8 +168,8 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 }
 - (NSString *) messageInProgress
 {
-	return [NSString stringWithFormat:NSLocalizedStringFromTable(@"Download url(%@) (%.1fk)", @"Downloader", @""),
-		[self url], [self currentLength] / 1024.0];
+	return [NSString stringWithFormat:NSLocalizedStringFromTable(@"Download url(%@) (%.0fk of %.0fk)", @"Downloader", @""),
+		[self url], [self currentLength] / 1024.0, (float)[self contLength]/1024];
 }
 - (double) amount
 {

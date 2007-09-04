@@ -302,7 +302,10 @@
 	[self postBoardListDidChangeNotificationBoardEdited: NO];
 }
 @end
-
+/*
+// 2007-09-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+// この処理はアウトラインビューの delegate で直接実行できるので、そちらに移管した。
+// (See CMRBrowser-Delegate.m)
 @implementation SmartBoardList (OutlineViewDelegate)
 - (void) outlineView : (NSOutlineView *) olv
 	willDisplayCell : (NSCell *) cell
@@ -314,7 +317,7 @@
 	}
 }
 @end
-
+*/
 @implementation SmartBoardList (OutlineViewDataSorce)
 - (id) outlineView : (NSOutlineView *) outlineView child : (int) index ofItem : (id) item
 {

@@ -1,5 +1,5 @@
 /*
- * $Id: CMRThreadViewer-OwnHistory.m,v 1.12 2007/08/05 12:25:26 tsawada2 Exp $
+ * $Id: CMRThreadViewer-OwnHistory.m,v 1.13 2007/09/04 07:45:43 tsawada2 Exp $
  *
  * それぞれのスレッドビューア内での履歴（グローバルな履歴と一致するとは限らない）の管理と移動アクションのサポート
  * CMRThreadViewer.m から分割
@@ -7,9 +7,8 @@
  */
 
 #import "CMRThreadViewer_p.h"
-
 #import "CMRHistoryManager.h"
-//#import "BSHistoryMenuManager.h"
+#import "DatabaseManager.h"
 @class BSSegmentedControlTbItem;
 
 @implementation CMRThreadViewer(History)
@@ -161,6 +160,12 @@
 {
 	[self performHistoryWithRelativeIndex : -1];
 }
+- (IBAction) historyMenuPerformGo:(id)sender
+{
+	NSNumber *foo = [sender representedObject];
+	NSLog(@"Go to %i",[foo intValue]);
+	[self performHistoryWithRelativeIndex:[foo intValue]];
+}
 
 - (IBAction) historySegmentedControlPushed : (id) sender
 {
@@ -196,5 +201,54 @@
 		return NO;
 
 	return ([self threadIdentifierFromHistoryWithRelativeIndex: relativeIdx] != nil);
+}
+
+- (void)menuNeedsUpdate:(NSMenu *)menu
+{
+	if ([menu delegate] != self) return;
+
+	NSString *menuTitle = [menu title];
+
+	if ([menuTitle isEqualToString:@"Back"]) {
+		[menu removeAllItems];
+		int currentIndex = [self historyIndex];
+		int i;
+		NSRange range = NSMakeRange(0, currentIndex);
+		NSArray *hoge = [[self threadHistoryArray] subarrayWithRange:range];
+//		NSEnumerator *iter = [hoge reverseObjectEnumerator];
+		id foo;
+		NSMenuItem *item;
+		DatabaseManager *dbManager = [DatabaseManager defaultManager];
+//		while (foo = [iter nextObject]) {
+		for (i=currentIndex; i>0; i--) {
+			foo = [hoge objectAtIndex:i-1];
+			NSString *bar = [dbManager threadTitleFromBoardName:[foo BBSName] threadIdentifier:[foo identifier]];
+//			[menu addItemWithTitle:bar action:@selector(historyMenuPerformBack:)keyEquivalent:@""];
+			item = [[NSMenuItem alloc] initWithTitle:bar action:@selector(historyMenuPerformGo:) keyEquivalent:@""];
+			[item setRepresentedObject:[NSNumber numberWithInt:(i-currentIndex-1)]];
+			[menu addItem:item];
+			[item release];
+		}
+	} else if ([menuTitle isEqualToString:@"Forward"]) {
+		[menu removeAllItems];
+		int currentIndex = [self historyIndex];
+		int	i;
+		NSRange range = NSMakeRange(currentIndex+1, [[self threadHistoryArray] count]-currentIndex-1);
+		NSArray *hoge = [[self threadHistoryArray] subarrayWithRange:range];
+//		NSEnumerator *iter = [hoge objectEnumerator];
+		id foo;
+		NSMenuItem *aho;
+		DatabaseManager *dbManager = [DatabaseManager defaultManager];
+//		while (foo = [iter nextObject]) {
+		for (i=0; i<range.length; i++) {
+			foo = [hoge objectAtIndex:i];
+			NSString *bar = [dbManager threadTitleFromBoardName:[foo BBSName] threadIdentifier:[foo identifier]];
+			aho = [[NSMenuItem alloc] initWithTitle:bar action:@selector(historyMenuPerformGo:) keyEquivalent:@""];
+			[aho setRepresentedObject:[NSNumber numberWithInt:(i+1)]];
+//			[menu addItemWithTitle:bar action:@selector(historyMenuPerformForward:)keyEquivalent:@""];
+			[menu addItem:aho];
+			[aho release];
+		}
+	}
 }
 @end

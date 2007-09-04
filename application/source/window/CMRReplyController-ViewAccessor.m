@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyController-ViewAccessor.m,v 1.17 2007/04/12 12:55:12 tsawada2 Exp $
+  * $Id: CMRReplyController-ViewAccessor.m,v 1.18 2007/09/04 07:45:43 tsawada2 Exp $
   * 
   * CMRReplyController-ViewAccessor.m
   *
@@ -14,11 +14,11 @@
 static void *kReplySettingsContext = @"EternalBlaze";
 
 @implementation CMRReplyController(View)
-+ (Class) toolbarDelegateImpClass 
++ (Class)toolbarDelegateImpClass 
 { 
 	return [CMRReplyControllerTbDelegate class];
 }
-- (NSString *) statusLineFrameAutosaveName 
+- (NSString *)statusLineFrameAutosaveName 
 {
 	return APP_REPLY_STATUSLINE_IDENTIFIER;
 }
@@ -34,60 +34,47 @@ static void *kReplySettingsContext = @"EternalBlaze";
 
 #pragma mark UI SetUp
 
-- (void) updateTextView
+- (void)updateTextView
 {
 	BSReplyTextView	*textView_ = (BSReplyTextView *)[self textView];
-//	NSColor		*bgColor_ = [CMRPref replyBackgroundColor];
 	
-	if (nil == textView_)
-		return;
+	if (!textView_) return;
 
-	[(BSLayoutManager *)[textView_ layoutManager] setShouldAntialias: [CMRPref shouldThreadAntialias]];
-/*
-	NSColor		*textColor_ = [[self document] replyTextColor];
-	[textView_ setFont : [[self document] replyTextFont]];
-	[textView_ setTextColor : textColor_];
-	[textView_ setInsertionPointColor : textColor_];
-
-	if (bgColor_ != nil) {
-		float alpha_ = [CMRPref replyBgAlphaValue];
-
-		[[textView_ window] setOpaque : (alpha_ < 1.0) ? NO : YES];
-		[textView_ setDrawsBackground : YES];
-		[textView_ setBackgroundColor : bgColor_ withAlphaComponent : alpha_];
-	}
-*/
-	[textView_ setNeedsDisplay : YES];
+	[(BSLayoutManager *)[textView_ layoutManager] setShouldAntialias:[CMRPref shouldThreadAntialias]];
+	[textView_ setNeedsDisplay:YES];
 }
 
-- (void) observeValueForKeyPath: (NSString *) keyPath ofObject: (id) object change: (NSDictionary *) change context: (void *) context
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
 	if (context == kReplySettingsContext && object == CMRPref) {
-		NSColor *newColor = [change objectForKey: NSKeyValueChangeNewKey];
+		NSColor *newColor = [change objectForKey:NSKeyValueChangeNewKey];
 		NSTextView *textView = [self textView];
 		if (!newColor) {
 			NSLog(@"Warning! -[observeValueForKeyPath:ofObject:change:context:] color is nil.");
 			return;
 		}
-		if ([keyPath isEqualToString: @"threadViewTheme.replyColor"]) {
-			[textView setTextColor: newColor];
-			[textView setInsertionPointColor: newColor];
-		} else if ([keyPath isEqualToString: @"threadViewTheme.replyBackgroundColor"]) {
-			[textView setBackgroundColor: newColor];
+		if ([keyPath isEqualToString:@"threadViewTheme.replyColor"]) {
+			[textView setTextColor:newColor];
+			[textView setInsertionPointColor:newColor];
+		} else if ([keyPath isEqualToString:@"threadViewTheme.replyBackgroundColor"]) {
+			[textView setBackgroundColor:newColor];
 		}
-		[textView setNeedsDisplay: YES];
+		[textView setNeedsDisplay:YES];
+	} else {
+		[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 	}
 }
 
-- (void) setupScrollView
+- (void)setupScrollView
 {
 	NSScrollView	*scrollView_ = [self scrollView];
 
-	[scrollView_ setBorderType : NSNoBorder];
-	[scrollView_ setHasHorizontalScroller : NO];
-	[scrollView_ setHasVerticalScroller : YES];
+	[scrollView_ setBorderType:NSNoBorder];
+	[scrollView_ setHasHorizontalScroller:NO];
+	[scrollView_ setHasVerticalScroller:YES];
 }
-- (void) setupTextView
+
+- (void)setupTextView
 {
 	NSLayoutManager	*layout;
 	NSTextContainer	*container;
@@ -102,61 +89,60 @@ static void *kReplySettingsContext = @"EternalBlaze";
 	
 	/* LayoutManager */
 	layout = [[BSLayoutManager alloc] init];
-	[[[self document] textStorage] addLayoutManager : layout];
+	[[[self document] textStorage] addLayoutManager:layout];
 	[layout release];
-	
+
 	/* TextContainer */
-	container = [[NSTextContainer alloc] initWithContainerSize : NSMakeSize(NSWidth(cFrame), 1e7)];
-	[layout addTextContainer : container];
+	container = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(NSWidth(cFrame), FLT_MAX)];
+	[layout addTextContainer:container];
 	[container release];
-	
+
 	/* TextView */
-	view = [[[BSReplyTextView alloc] initWithFrame : cFrame textContainer : container] autorelease];
-	
-	[view setMinSize : NSMakeSize(0.0, NSHeight(cFrame))];
-	[view setMaxSize : NSMakeSize(1e7, 1e7)];
-	[view setVerticallyResizable :YES];
-	[view setHorizontallyResizable : NO];
-	[view setAutoresizingMask : NSViewWidthSizable];
-	
-	[container setWidthTracksTextView : YES];
-	
-	[view setTypingAttributes : [[self document] textAttributes]];
-	[view setAllowsUndo : YES];
-	[view setEditable : YES];
-	[view setSelectable : YES];
-	[view setImportsGraphics : NO];
-	[view setRichText : NO];
+	view = [[[BSReplyTextView alloc] initWithFrame:cFrame textContainer:container] autorelease];
+
+	[view setMinSize:NSMakeSize(0.0, NSHeight(cFrame))];
+	[view setMaxSize:NSMakeSize(FLT_MAX, FLT_MAX)];
+	[view setVerticallyResizable:YES];
+	[view setHorizontallyResizable:NO];
+	[view setAutoresizingMask:NSViewWidthSizable];
+
+	[container setWidthTracksTextView:YES];
+
+	[view setTypingAttributes:[[self document] textAttributes]];
+	[view setAllowsUndo:YES];
+	[view setEditable:YES];
+	[view setSelectable:YES];
+	[view setImportsGraphics:NO];
+	[view setRichText:NO];
 
 	theme = [CMRPref threadViewTheme];
-	[view setTextColor: [theme replyColor]];
-	[view setInsertionPointColor: [theme replyColor]];
+	[view setTextColor:[theme replyColor]];
+	[view setInsertionPointColor:[theme replyColor]];
 
-	[view setDelegate : self];	
-	
+	[view setDelegate:self];
+
 	_textView = view;
-	[[self scrollView] setDocumentView : _textView];
+	[[self scrollView] setDocumentView:_textView];
 
-	[view setDrawsBackground: YES];
-	[view setBackgroundColor: [theme replyBackgroundColor]];
+	[view setDrawsBackground:YES];
+	[view setBackgroundColor:[theme replyBackgroundColor]];
 	[self updateTextView];
 
-	[view bind: @"font" toObject: CMRPref withKeyPath: @"threadViewTheme.replyFont" options: nil];
+	[view bind:@"font" toObject:CMRPref withKeyPath:@"threadViewTheme.replyFont" options:nil];
 
 	// textColor だけ変えるなら KVB でも良いが、一緒に insertionPointColor も
 	// 変えたいので、KVO で行くことにする。
-	[CMRPref addObserver: self
-			  forKeyPath: @"threadViewTheme.replyColor"
-				 options: NSKeyValueObservingOptionNew
-				 context: kReplySettingsContext];
-	[CMRPref addObserver: self
-			  forKeyPath: @"threadViewTheme.replyBackgroundColor"
-			     options: NSKeyValueObservingOptionNew
-				 context: kReplySettingsContext];
+	[CMRPref addObserver:self
+			  forKeyPath:@"threadViewTheme.replyColor"
+				 options:NSKeyValueObservingOptionNew
+				 context:kReplySettingsContext];
+	[CMRPref addObserver:self
+			  forKeyPath:@"threadViewTheme.replyBackgroundColor"
+			     options:NSKeyValueObservingOptionNew
+				 context:kReplySettingsContext];
 }
 
-// ウインドウ領域の調節
-- (void) setupWindowFrameWithMessenger
+- (void)setupWindowFrameWithMessenger
 {
 	NSRect		windowFrame_;
 	
@@ -164,41 +150,34 @@ static void *kReplySettingsContext = @"EternalBlaze";
 	if (NSEqualRects(NSZeroRect, windowFrame_)) {
 		NSString	*fs;
 		
-		// デフォルトのウインドウ領域
-		if ((fs = [CMRPref replyWindowDefaultFrameString]) != nil) 
-			[[self window] setFrameFromString : fs];
-		
+		if (fs = [CMRPref replyWindowDefaultFrameString]) 
+			[[self window] setFrameFromString:fs];
 	} else {
-		[[self window] setFrame : windowFrame_
-						display : YES];
+		[[self window] setFrame:windowFrame_ display:YES];
 	}
 	
-	[[self window] useOptimizedDrawing : YES];
-}
-- (void) setupNameComboBox
-{
-	[[self nameComboBox] setStringValue : [[self document] name]];
-	[[self nameComboBox] setDelegate : self];
-	[[self nameComboBox] reloadData]; //これをしないとcomboBoxのリストが表示されないまま
-}
-- (void) setupButtons
-{
-	[[self sageButton] setEnabled : [self canInsertSage]];
-	[[self deleteMailButton] setEnabled : [self canDeleteMail]];
-	[[self mailField] setDelegate : self];
-}
-- (void) setupKeyLoops
-{
-	[[self nameComboBox] setNextKeyView : [self mailField]];
-	[[self mailField] setNextKeyView : [self textView]];
-	[[self textView] setNextKeyView : [self nameComboBox]];
-	[[self window] setInitialFirstResponder : [self textView]];
-	[[self window] makeFirstResponder : [self textView]];
+	[[self window] useOptimizedDrawing:YES];
 }
 
-- (void) setupStatusLine
+- (void)setupNameComboBox
 {
-	[super setupStatusLine];
+	[[self nameComboBox] setStringValue:[[self document] name]];
+	[[self nameComboBox] reloadData];
+}
+
+- (void)setupButtons
+{
+	[[self sageButton] setEnabled:[self canInsertSage]];
+	[[self deleteMailButton] setEnabled:[self canDeleteMail]];
+}
+
+- (void)setupKeyLoops
+{
+	[[self nameComboBox] setNextKeyView:[self mailField]];
+	[[self mailField] setNextKeyView:[self textView]];
+	[[self textView] setNextKeyView:[self nameComboBox]];
+	[[self window] setInitialFirstResponder:[self textView]];
+	[[self window] makeFirstResponder:[self textView]];
 }
 
 - (void) setupUIComponents
@@ -212,45 +191,44 @@ static void *kReplySettingsContext = @"EternalBlaze";
 	[self setupKeyLoops];
 
 	[[NSNotificationCenter defaultCenter]
-			 addObserver : self
-			    selector : @selector(applicationUISettingsUpdated:)
-			        name : AppDefaultsLayoutSettingsUpdatedNotification
-			      object : CMRPref];
+			 addObserver:self
+			    selector:@selector(applicationUISettingsUpdated:)
+			        name:AppDefaultsLayoutSettingsUpdatedNotification
+			      object:CMRPref];
 	[self synchronizeDataFromMessenger];
 }
 @end
 
-#pragma mark -
 
 @implementation CMRReplyController (Delegate)
 #pragma mark Notification
-- (void) applicationUISettingsUpdated : (NSNotification *) notification
+- (void)applicationUISettingsUpdated:(NSNotification *)notification
 {
 	UTILAssertNotificationName(
 		notification,
 		AppDefaultsLayoutSettingsUpdatedNotification);
 	[self updateTextView];
 }
-- (void) controlTextDidChange : (NSNotification *) aNotification
+
+- (void)controlTextDidChange:(NSNotification *)aNotification
 {
 	UTILAssertNotificationName(
 		aNotification,
 		NSControlTextDidChangeNotification);
 	
-	if ([aNotification object] == [self mailField])
-		[self setupButtons];
+	if ([aNotification object] == [self mailField]) [self setupButtons];
 }
 
 #pragma mark NSTextView Delegate
 - (BOOL)textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector
 {
 	if (aSelector == @selector(insertTab:)) { // tab
-		[[self window] makeFirstResponder : [self nameComboBox]];
+		[[self window] makeFirstResponder:[self nameComboBox]];
 		return YES;
 	}
 	
 	if (aSelector == @selector(insertBacktab:)) { // shift-tab
-		[[self window] makeFirstResponder : [self mailField]];
+		[[self window] makeFirstResponder:[self mailField]];
 		return YES;
 	}
 	
@@ -271,10 +249,10 @@ static void *kReplySettingsContext = @"EternalBlaze";
 		[[self document] updateChangeCount:NSChangeDone];
 }
 
-#pragma mark NSComboBox Delegate
+#pragma mark NSComboBoxDataSource
 - (int)numberOfItemsInComboBox:(NSComboBox *)aComboBox
 {
-    return [[CMRPref defaultKoteHanList] count];
+	return [[CMRPref defaultKoteHanList] count];
 }
 
 - (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)index
@@ -284,23 +262,23 @@ static void *kReplySettingsContext = @"EternalBlaze";
 
 - (unsigned int)comboBox:(NSComboBox *)aComboBox indexOfItemWithStringValue:(NSString *)string
 {
-    return [[CMRPref defaultKoteHanList] indexOfObject: string];
+    return [[CMRPref defaultKoteHanList] indexOfObject:string];
 }
 
-- (NSString *) firstGenreMatchingPrefix:(NSString *)prefix
+- (NSString *)firstGenreMatchingPrefix:(NSString *)prefix
 {
     NSString *string = nil;
     NSString *lowercasePrefix = [prefix lowercaseString];
     NSEnumerator *stringEnum = [[CMRPref defaultKoteHanList] objectEnumerator];
     while ((string = [stringEnum nextObject])) {
-		if ([[string lowercaseString] hasPrefix: lowercasePrefix]) return string;
+		if ([[string lowercaseString] hasPrefix:lowercasePrefix]) return string;
     }
     return nil;
 }
 
 - (NSString *)comboBox:(NSComboBox *)aComboBox completedString:(NSString *)inputString
 {
-    NSString *candidate = [self firstGenreMatchingPrefix: inputString];
+    NSString *candidate = [self firstGenreMatchingPrefix:inputString];
     return (candidate ? candidate : inputString);
 }
 @end

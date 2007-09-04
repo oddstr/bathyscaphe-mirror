@@ -51,7 +51,7 @@ NSString *const CMRDownloaderUserInfoAdditionalInfoKey = @"AddtionalInfo";
 	if (self = [super init]) {
 		[self setNextIndex : aNextIndex];
 		[self setIdentifier : signature];
-		_threadTitle = [aTitle retain];
+		m_threadTitle = [aTitle retain];
 	}
 	return self;;
 }
@@ -92,27 +92,28 @@ return_instance:
 	return instance_;
 }
 
-- (void) dealloc
+- (void)dealloc
 {	
 	NSAssert2(
-		NO == [(id)[self class] isEqual : (id)[ThreadTextDownloader class]],
+		NO == [(id)[self class] isEqual:(id)[ThreadTextDownloader class]],
 		@"%@<%p> was place holder instance, do not release!!",
 		NSStringFromClass([ThreadTextDownloader class]),
 		self);
 
 	[m_lastDateStore release];
-	[_localThreadsDict release];
-	[_threadTitle release];
+	[m_localThreadsDict release];
+	[m_threadTitle release];
 	[super dealloc];
 }
 
-- (unsigned) nextIndex
+- (unsigned)nextIndex
 {
-	return _nextIndex;
+	return m_nextIndex;
 }
-- (void) setNextIndex : (unsigned) aNextIndex
+
+- (void)setNextIndex:(unsigned)aNextIndex
 {
-	_nextIndex = aNextIndex;
+	m_nextIndex = aNextIndex;
 }
 
 - (NSDate *)lastDate
@@ -127,111 +128,111 @@ return_instance:
 	m_lastDateStore = date;
 }
 
-+ (BOOL) canInitWithURL : (NSURL *) url
++ (BOOL)canInitWithURL:(NSURL *)url
 {
 	UTILAbstractMethodInvoked;
 	return NO;
 }
 
-- (CFStringEncoding) CFEncodingForLoadedData
+- (CFStringEncoding)CFEncodingForLoadedData
 {
 	CMRHostHandler	*handler_;
 	
 	handler_ = [CMRHostHandler hostHandlerForURL : [self boardURL]];
 	return handler_ ? [handler_ threadEncoding] : 0;
 }
-- (NSStringEncoding) encodingForLoadedData
+
+- (NSStringEncoding)encodingForLoadedData
 {
 	CFStringEncoding	enc;
 	
 	enc = [self CFEncodingForLoadedData];
 	return enc ? CF2NSEncoding(enc) : 0;
 }
-- (NSString *) contentsWithData : (NSData *) theData
+
+- (NSString *)contentsWithData:(NSData *)theData
 {
 	CFStringEncoding	enc;
 	NSString			*src = nil;
+
+	if (!theData || [theData length] == 0) return nil;
 	
-	if (nil == theData || 0 == [theData length]) return nil;
-	
-	//CMRDebugWriteObject(theData, @"thread.txt");
 	enc = [self CFEncodingForLoadedData];
 	src = [CMXTextParser stringWithData:theData CFEncoding:enc];
 	
-	if (nil == src) {
+	if (!src) {
 		NSLog(@"\n"
 			@"*** WARNING ***\n\t"
-			@"Can't convert the bytes(saved as thread.txt in Logs directory)\n\t"
+			@"Can't convert the bytes\n\t"
 			@"into Unicode characters(NSString). so retry TEC... "
 			@"CFEncoding:%@", 
 			(NSString*)CFStringConvertEncodingToIANACharSetName(enc));
-		
-		src = [[NSString alloc] initWithDataUsingTEC:theData 
-							encoding:CF2TextEncoding(enc)];
+
+		src = [[NSString alloc] initWithDataUsingTEC:theData encoding:CF2TextEncoding(enc)];
 		[src autorelease];
 	}
 	return src;
 }
 
-- (CMRThreadSignature *) threadSignature
+- (CMRThreadSignature *)threadSignature
 {
 	return [self identifier];
 }
-- (NSString *) threadTitle
+
+- (NSString *)threadTitle
 {
-	return _threadTitle;
+	return m_threadTitle;
 }
-- (NSURL *) threadURL
+
+- (NSURL *)threadURL
 {
 	UTILAbstractMethodInvoked;
 	return nil;
 }
-- (NSDictionary *) localThreadsDict
+
+- (NSDictionary *)localThreadsDict
 {
-	if (nil == _localThreadsDict)
-		_localThreadsDict = [[NSDictionary alloc] initWithContentsOfFile : [self filePathToWrite]];
-	
-	return _localThreadsDict;
+	if (!m_localThreadsDict) {
+		m_localThreadsDict = [[NSDictionary alloc] initWithContentsOfFile:[self filePathToWrite]];
+	}
+	return m_localThreadsDict;
 }
 
-
-
-// ----------------------------------------
-// Partial contents
-// ----------------------------------------
-- (BOOL) pertialContentsRequested;
+#pragma mark Partial contents
+- (BOOL)partialContentsRequested
 {
-	return ([[self localThreadsDict] objectForKey : ThreadPlistLengthKey] != nil);
+	return ([[self localThreadsDict] objectForKey:ThreadPlistLengthKey] != nil);
 }
-// Called by URLHandle:resourceDataDidBecomeAvailable:
-// to cancel any background loading, cause partial contents was invalid.
+
+// To cancel any background loading, cause partial contents was invalid.
 - (void) cancelDownloadWithInvalidPartial
 {
 	[self cancelDownloadWithPostingNotificationName:ThreadTextDownloaderInvalidPerticalContentsNotification];
 }
 
-
-// CMRDownloader
-- (NSString *) filePathToWrite
+#pragma mark CMRDownloader
+- (NSString *)filePathToWrite
 {
 	UTILAssertNotNil([self threadSignature]);
 	return [[self threadSignature] threadDocumentPath];
 }
-- (NSURL *) resourceURL
+
+- (NSURL *)resourceURL
 {
 	return [self threadURL];
 }
-- (NSURL *) boardURL
+
+- (NSURL *)boardURL
 {
 	UTILAssertNotNil([self threadSignature]);
-	return [[BoardManager defaultManager] URLForBoardName : [[self threadSignature] BBSName]];
+	return [[BoardManager defaultManager] URLForBoardName:[[self threadSignature] BBSName]];
 }
-- (NSURL *) resourceURLForWebBrowser
+
+- (NSURL *)resourceURLForWebBrowser
 {
 	return [self threadURL];
 }
 @end
-
 
 
 @implementation ThreadTextDownloader(ThreadDataArchiver)
@@ -268,8 +269,7 @@ return_instance:
 {
     NSDictionary *thread;
 	NSMutableDictionary *info_;
-    BOOL          result = NO;
-    
+    BOOL          result = NO;    
     
     // can't process by downloader while viewer execute.
     if ([[CMRNetGrobalLock sharedInstance] has : [self identifier]]) {
@@ -280,49 +280,52 @@ return_instance:
 
         return YES;
     }
-    thread = [self dictionaryByAppendingContents : datContents
-                   dataLength : dataLength];
+
+    thread = [self dictionaryByAppendingContents:datContents dataLength:dataLength];
 
 	info_ = [NSMutableDictionary dictionary];
-	[info_ setNoneNil: [thread objectForKey: ThreadPlistLengthKey] forKey: ThreadPlistLengthKey];
-	[info_ setNoneNil: [thread objectForKey: CMRThreadModifiedDateKey] forKey: CMRThreadModifiedDateKey];
+	[info_ setNoneNil:[thread objectForKey:ThreadPlistLengthKey] forKey:ThreadPlistLengthKey];
+	[info_ setNoneNil:[thread objectForKey:CMRThreadModifiedDateKey] forKey:CMRThreadModifiedDateKey];
 
     // It guarantees that file must exists.
 	if ([CMRPref saveThreadDocAsBinaryPlist]) {
 		NSData *data_;
-		NSString *errStr;
-		data_ = [NSPropertyListSerialization dataFromPropertyList:thread
-							format:NSPropertyListBinaryFormat_v1_0 errorDescription:&errStr];
+		NSString *errStr = [NSString string];
+		data_ = [NSPropertyListSerialization dataFromPropertyList:thread format:NSPropertyListBinaryFormat_v1_0 errorDescription:&errStr];
 
 		if (!data_) {
+			NSLog(@"NSPropertyListSerialization failed to convert to NSData. Reason:%@", errStr);
 			result = NO;
 		} else {
-			result = [data_ writeToFile: [self filePathToWrite] atomically: YES];
+			result = [data_ writeToFile:[self filePathToWrite] atomically:YES];
 		}
 	} else {
-		result = [thread writeToFile: [self filePathToWrite] atomically: YES];
+		result = [thread writeToFile:[self filePathToWrite] atomically:YES];
 	}
 
-    
-    [self postUpdatedNotificationWithContents : thread];
-    [self postDATFinishedNotificationWithContents: datContents additionalInfo: info_];
-    
+    [self postUpdatedNotificationWithContents:thread];
+    [self postDATFinishedNotificationWithContents:datContents additionalInfo:info_];
+
     return result;
 }
 
-- (BOOL) amIAAThread : (NSDictionary *) localDict_
+- (BOOL) amIAAThread
 {
+	NSDictionary	*localDict_ = [self localThreadsDict];
 	if (!localDict_) {
-		NSString *boardName_ = [[self threadSignature] BBSName];
-		if (boardName_) return [[BoardManager defaultManager] allThreadsShouldAAThreadAtBoard : boardName_];
-		else return NO;
+		NSString *boardName = [[self threadSignature] BBSName];
+		if (boardName) {
+			return [[BoardManager defaultManager] allThreadsShouldAAThreadAtBoard:boardName];
+		} else {
+			return NO;
+		}
 	}
 
 	id					rep_;
 	CMRThreadUserStatus	*s;
 	
-	rep_ = [localDict_ objectForKey : CMRThreadUserStatusKey];
-	s = [CMRThreadUserStatus objectWithPropertyListRepresentation : rep_];
+	rep_ = [localDict_ objectForKey:CMRThreadUserStatusKey];
+	s = [CMRThreadUserStatus objectWithPropertyListRepresentation:rep_];
 	return s ? [s isAAThread] : NO;
 }
 
@@ -333,6 +336,7 @@ return_instance:
 	NSMutableDictionary		*newThread_;
 	NSMutableArray			*messages_;
 	CMRDocumentFileManager	*dfm;
+	NSString				*filePath_;
 	
 	id<CMRMessageComposer>	composer_;
 	CMR2chDATReader			*reader_;
@@ -343,35 +347,34 @@ return_instance:
 	
 	dataLength_ = aLength;
 	localThread_ = [self localThreadsDict];
-	if (nil == datContents || 0 == [datContents length]) return localThread_;
+	if (!datContents || [datContents length] == 0) return localThread_;
 	
 	newThread_  = [NSMutableDictionary dictionary];
 	messages_ = [NSMutableArray array];
 	
-	shouldAA_ = [self amIAAThread : localThread_];
+	shouldAA_ = [self amIAAThread];
 
-	composer_ = [CMRThreadPlistComposer composerWithThreadsArray : messages_ noteAAThread : shouldAA_];
+	composer_ = [CMRThreadPlistComposer composerWithThreadsArray:messages_ noteAAThread:shouldAA_];
 
-	reader_ = [CMR2chDATReader readerWithContents : datContents];
-	if (NO == [self pertialContentsRequested]) {
-		[newThread_ setNoneNil : [reader_ threadTitle]
-						forKey : CMRThreadTitleKey];
-		[newThread_ setNoneNil : [reader_ firstMessageDate]
-						forKey : CMRThreadCreatedDateKey];
+	reader_ = [CMR2chDATReader readerWithContents:datContents];
+
+	if (![self partialContentsRequested]) {
+		[newThread_ setNoneNil:[reader_ threadTitle] forKey:CMRThreadTitleKey];
+		[newThread_ setNoneNil:[reader_ firstMessageDate] forKey:CMRThreadCreatedDateKey];
 	} else {		
-		[newThread_ addEntriesFromDictionary : localThread_];
+		[newThread_ addEntriesFromDictionary:localThread_];
 		[messages_ addObjectsFromArray:[newThread_ objectForKey:ThreadPlistContentsKey]];
 		// 
 		// We've been got extra 1 byte (for Abone-checking), so we need to adjust.
 		//
-		dataLength_ += [[newThread_ objectForKey:ThreadPlistLengthKey] intValue];
+		dataLength_ += [newThread_ unsignedIntForKey:ThreadPlistLengthKey];
 		if (dataLength_ > 0) dataLength_--; // important
 	}
-	[newThread_ setObject : [NSNumber numberWithUnsignedInt : dataLength_]
-				   forKey : ThreadPlistLengthKey];
+
+	[newThread_ setUnsignedInt:dataLength_ forKey:ThreadPlistLengthKey];
 	
-	[reader_ setNextMessageIndex : [messages_ count]];
-	[reader_ composeWithComposer : composer_];
+	[reader_ setNextMessageIndex:[messages_ count]];
+	[reader_ composeWithComposer:composer_];
 
 	messages_ = [composer_ getMessages];
 	
@@ -379,18 +382,19 @@ return_instance:
 		NSLog(@"lastDate is nil, so we use CMR2chDATReader's one.");
 		[self setLastDate:[reader_ lastMessageDate]];
 	}
-	[newThread_ setNoneNil : [self lastDate]
-					forKey : CMRThreadModifiedDateKey];
-	[newThread_ setNoneNil : messages_
-					forKey : ThreadPlistContentsKey];
+
+	[newThread_ setNoneNil:[self lastDate] forKey:CMRThreadModifiedDateKey];
+	[newThread_ setNoneNil:messages_ forKey:ThreadPlistContentsKey];
 	
 	dfm = [CMRDocumentFileManager defaultManager];
-	[newThread_ setNoneNil:[dfm boardNameWithLogPath:[self filePathToWrite]] forKey:ThreadPlistBoardNameKey];
-	[newThread_ setNoneNil:[dfm datIdentifierWithLogPath:[self filePathToWrite]] forKey:ThreadPlistIdentifierKey];
+	filePath_ = [self filePathToWrite];
+	[newThread_ setNoneNil:[dfm boardNameWithLogPath:filePath_] forKey:ThreadPlistBoardNameKey];
+	[newThread_ setNoneNil:[dfm datIdentifierWithLogPath:filePath_] forKey:ThreadPlistIdentifierKey];
 	
 	return newThread_;
 }
 @end
+
 
 @implementation ThreadTextDownloader(ResourceManagement)
 - (void)synchronizeServerClock:(NSHTTPURLResponse *)response
@@ -406,6 +410,7 @@ return_instance:
 	[self setLastDate:date2];
 }
 @end
+
 
 @implementation ThreadTextDownloader(Description)
 - (NSString *) resourceName

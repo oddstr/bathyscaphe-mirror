@@ -1,13 +1,15 @@
 //
-//  $Id: BSTitleRulerView.h,v 1.6 2006/06/17 06:37:15 tsawada2 Exp $
+//  BSTitleRulerView.h
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/09/22.
-//  Copyright 2005-2006 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import <Cocoa/Cocoa.h>
-#import <SGAppKit/SGAppKit.h>
+
+@class BSTitleRulerAppearance;
 
 typedef enum _BSTitleRulerModeType {
 	BSTitleRulerShowTitleOnlyMode		= 0, // スレッドタイトルバーのみ
@@ -17,22 +19,32 @@ typedef enum _BSTitleRulerModeType {
 
 @interface BSTitleRulerView : NSRulerView {
 	@private
+	BSTitleRulerAppearance *m_appearance;
+
 	NSString	*m_titleStr;
 	NSString	*m_infoStr;
+	NSString	*m_pathStr;
 
 	BSTitleRulerModeType	_currentMode;
 }
 
-- (NSString *) titleStr;
-- (void) setTitleStr : (NSString *) aString;
-- (void) setTitleStrWithoutNeedingDisplay: (NSString *) aString;
+// Designated initializer. Available in Twincam Angel/SGAppKit 1.7.1 and later.
+- (id)initWithScrollView:(NSScrollView *)aScrollView appearance:(BSTitleRulerAppearance *)appearance;
 
-- (NSString *) infoStr;
-- (void) setInfoStr : (NSString *) aString;
-- (void) setInfoStrWithoutNeedingDisplay: (NSString *) aString;
+- (BSTitleRulerAppearance *)appearance;
+- (void)setAppearance:(BSTitleRulerAppearance *)appearance;
 
-+ (void) setTitleTextColor: (NSColor *) aColor;
+- (NSString *)titleStr;
+- (void)setTitleStr:(NSString *)aString;
+- (void)setTitleStrWithoutNeedingDisplay:(NSString *)aString;
 
-- (BSTitleRulerModeType) currentMode;
-- (void) setCurrentMode: (BSTitleRulerModeType) newType;
+- (NSString *)infoStr;
+- (void)setInfoStr:(NSString *)aString;
+- (void)setInfoStrWithoutNeedingDisplay:(NSString *)aString;
+
+- (NSString *)pathStr;
+- (void)setPathStr:(NSString *)aString;
+
+- (BSTitleRulerModeType)currentMode;
+- (void)setCurrentMode:(BSTitleRulerModeType)newType;
 @end

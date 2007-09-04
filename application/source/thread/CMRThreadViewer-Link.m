@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.28 2007/08/11 19:48:07 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.29 2007/09/04 07:45:43 tsawada2 Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -20,7 +20,7 @@
 #import "SGLinkCommand.h"
 #import "BSAsciiArtDetector.h"
 #import "DatabaseManager.h"
-
+#import "missing.h"
 #import <SGAppKit/NSWorkspace-SGExtensions.h>
 
 
@@ -567,6 +567,7 @@ ErrInvalidLink:
 	NSMenu		*menu_;
 	
 	menu_ = [aView messageMenuWithMessageIndex : aMessageIndex];
+//	[aView highlightBackgroundForMessageAtIndex:aMessageIndex]; // Test
 	[[menu_ class] popUpContextMenu:menu_ withEvent:theEvent forView:aView];
 	}
 	return YES;

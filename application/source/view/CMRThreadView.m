@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadView.m,v 1.19 2007/08/12 00:13:59 tsawada2 Exp $
+  * $Id: CMRThreadView.m,v 1.20 2007/09/04 07:45:43 tsawada2 Exp $
   * 
   * CMRThreadView.m
   *
@@ -115,7 +115,7 @@
 	[super drawRect: rect];
 	
 	if (draggingHilited) {
-        [[NSColor keyboardFocusIndicatorColor] set];
+        [[NSColor selectedTextBackgroundColor] set];
         NSFrameRectWithWidth([self visibleRect], 3.0);
 	}
 }
@@ -411,7 +411,21 @@ NS_ENDHANDLER
 	return [self messageMenuWithMessageIndexRange : NSMakeRange(aMessageIndex, 1)];
 }
 
+#pragma mark ## Test or Debugging... ##
+- (void)highlightBackgroundForMessageAtIndex:(unsigned)index
+{
+	NSRange charRange = [[self threadLayout] rangeAtMessageIndex:index];
+	NSRect	rect = [self boundingRectForCharacterInRange:charRange];
+	[self lockFocus];
+	[[NSColor alternateSelectedControlColor] set];
+	NSFrameRectWithWidth(rect, 3.0);
+	[[[NSColor selectedTextBackgroundColor] colorWithAlphaComponent:0.5] set];	
+	NSRectFillUsingOperation(NSInsetRect(rect,3.0,3.0),NSCompositeSourceAtop);
+	[self unlockFocus];
+	[self displayIfNeededInRect:rect];
+}
 
+#pragma mark ## END ##
 static NSString *mActionGetKeysForTag[] = {
 	@"isLocalAboned",		// kLocalAboneTag
 	@"isInvisibleAboned",	// kInvisibleAboneTag

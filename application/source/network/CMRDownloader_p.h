@@ -15,12 +15,8 @@
 // simply check whether html data...
 #define CHECK_HTML(bytes, len)		(nsr_strncasestr((const char*)(bytes), "<html", len) != NULL)
 
-@interface CMRDownloader(HTTPRequestHeader)
-+ (NSMutableDictionary *) defaultRequestHeaders;
-@end
-
-
 @interface CMRDownloader(PrivateAccessor)
+- (void)setIdentifier:(id)anIdentifier;
 - (void)setCurrentConnector:(NSURLConnection *)connection;
 - (void) setupRequestHeaders : (NSMutableDictionary *) mdict;
 - (NSURLConnection *)makeHTTPURLConnectionWithURL:(NSURL *)anURL;
@@ -48,21 +44,24 @@
 
 
 @interface CMRDownloader(ResourceManagement)
-- (BOOL) shouldCancelWithFirstArrivalData : (NSData *) newBytes;
-- (void) cancelDownloadWithPostingNotificationName : (NSString *) name;
+- (void)cancelDownload;
+- (void)cancelDownloadWithPostingNotificationName:(NSString *)name;
 - (void)synchronizeServerClock:(NSHTTPURLResponse *)response;
 @end
 
 
 @interface CMRDownloader(CMRLocalizableStringsOwner)
-- (NSString *) localizedErrorString;
-- (NSString *) localizedSucceededString;
-- (NSString *) localizedCanceledString;
-- (NSString *) localizedNotLoaded;
+- (NSString *)localizedErrorString;
+- (NSString *)localizedSucceededString;
+- (NSString *)localizedCanceledString;
+- (NSString *)localizedUserCanceledString;
+- (NSString *)localizedNotModifiedString;
+- (NSString *)localizedDetectingDatOchiString;
+- (NSString *)localizedNotLoaded;
 
-- (NSString *) localizedDownloadString;
-- (NSString *) localizedTitleFormat;
-- (NSString *) localizedMessageFormat;
+- (NSString *)localizedDownloadString;
+- (NSString *)localizedTitleFormat;
+- (NSString *)localizedMessageFormat;
 @end
 
 

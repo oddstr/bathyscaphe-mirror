@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.m,v 1.19 2007/07/27 10:26:39 tsawada2 Exp $
+  * $Id: CMRThreadsList.m,v 1.20 2007/09/04 07:45:43 tsawada2 Exp $
   * 
   * CMRThreadsList.m
   *
@@ -91,7 +91,7 @@ NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserIn
 	UTILAbstractMethodInvoked;
 	return NO;
 }
-- (BOOL) addFavoriteAtRowIndex : (int          ) rowIndex
+/*- (BOOL) addFavoriteAtRowIndex : (int          ) rowIndex
 				   inTableView : (NSTableView *) tableView
 {
 	NSDictionary *thread_;
@@ -99,7 +99,7 @@ NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserIn
 	thread_ = [self threadAttributesAtRowIndex : rowIndex
 								   inTableView : tableView];
 	return [[CMRFavoritesManager defaultManager] addFavoriteWithThread : thread_];
-}
+}*/
 + (NSString *) objectValueForBoardInfoFormatKey
 {
 //	return @"Board Info Format";
@@ -161,20 +161,11 @@ NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserIn
 	[tmp_ release];
 }
 
-/*
-	2005-02-12 tsawada2<ben-sawa@td5.so-net.ne.jp>
-	filteredThreads アクセッサ・メソッドは、 _filteredThreads が nil だった場合でも、nil を返す訳ではない。
-	しかし、検索結果が見つからないときは、スレッド一覧を空にしたい。つまり、nil を返してほしい。
-	そこで検索結果が見つからないときは、temporaryArrayWithFindOperation:fromArray: で
-	特別な配列（ただ一つの NSString 要素 "SearchNotFound" を含む配列）を返すことにして、
-	filteredThreads アクセッサ・メソッドでは、もし _filteredThreads がその「特別な配列」だったら nil を返すことにする。
-*/
 - (NSMutableArray *) filteredThreads
 {
 	if(nil == _filteredThreads) {
 		[self filterByStatus : [self filteringMask]];
-	} else if ([_filteredThreads count] == 0) {//[_filteredThreads containsObject : @"SearchNotFound"]) {
-		//NSLog(@"Contains SearchNotFound.");
+	} else if ([_filteredThreads count] == 0) {
 		return nil;
 	}
 	return _filteredThreads;

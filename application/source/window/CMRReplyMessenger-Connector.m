@@ -1,5 +1,5 @@
 //
-//  $Id: CMRReplyMessenger-Connector.m,v 1.12 2007/07/22 11:22:32 tsawada2 Exp $
+//  $Id: CMRReplyMessenger-Connector.m,v 1.13 2007/09/04 07:45:43 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/07/04.
@@ -73,10 +73,10 @@
 {
 	return [[self infoDictionary] objectForKey : ThreadPlistIdentifierKey];
 }
-- (id) boardIdentifier
+/*- (id) boardIdentifier
 {
 	return [self boardName];
-}
+}*/
 - (id) threadIdentifier
 {
 	return [CMRThreadSignature threadSignatureWithIdentifier:[self formItemKey] BBSName:[self boardName]];

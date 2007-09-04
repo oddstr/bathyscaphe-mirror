@@ -43,14 +43,15 @@
         }, 
         {
             ACTIONS = {
+                addBoardListItem = id; 
                 addCategoryItem = id; 
-                addDrawerItem = id; 
+                addSmartItem = id; 
                 collapseOrExpandBoardList = id; 
-                editDrawerItem = id; 
+                editBoardListItem = id; 
                 focus = id; 
                 openSelectedThreads = id; 
                 reloadThreadsList = id; 
-                removeDrawerItem = id; 
+                removeBoardListItem = id; 
                 searchThread = id; 
                 selectFilteringMask = id; 
                 selectThread = id; 

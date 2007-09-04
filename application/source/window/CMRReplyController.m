@@ -12,12 +12,12 @@
 	return self;
 }
 
-- (void) dealloc
+- (void)dealloc
 {
-	[[NSNotificationCenter defaultCenter] removeObserver : self];
-	[[self textView] unbind: @"font"];
-	[CMRPref removeObserver: self forKeyPath: @"threadViewTheme.replyBackgroundColor"];
-	[CMRPref removeObserver: self forKeyPath: @"threadViewTheme.replyColor"];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[[self textView] unbind:@"font"];
+	[CMRPref removeObserver:self forKeyPath:@"threadViewTheme.replyBackgroundColor"];
+	[CMRPref removeObserver:self forKeyPath:@"threadViewTheme.replyColor"];
 	[super dealloc];
 }
 
@@ -25,10 +25,10 @@
 {
 	return [[self document] isEndPost];
 }
-- (id) boardIdentifier
+/*- (id) boardIdentifier
 {
 	return [[self document] boardIdentifier];
-}
+}*/
 - (id) threadIdentifier
 {
 	return [[self document] threadIdentifier];
@@ -61,13 +61,12 @@
 
 #pragma mark IBAction
 // 「ウインドウの位置と領域を記憶」
-- (IBAction) saveAsDefaultFrame : (id) sender;
+- (IBAction)saveAsDefaultFrame:(id)sender
 {
-	[CMRPref setReplyWindowDefaultFrameString : 
-			[[self window] stringWithSavedFrame]];
+	[CMRPref setReplyWindowDefaultFrameString:[[self window] stringWithSavedFrame]];
 }
 
-- (IBAction) insertSage : (id) sender
+- (IBAction)insertSage:(id)sender
 {
 	NSString		*mail_;
 	

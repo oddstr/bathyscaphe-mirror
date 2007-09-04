@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMainMenuManager.m,v 1.13 2007/07/27 10:26:40 tsawada2 Exp $
+  * $Id: CMRMainMenuManager.m,v 1.14 2007/09/04 07:45:43 tsawada2 Exp $
   * 
   * CMRMainMenuManager.m
   *
@@ -10,7 +10,7 @@
 #import "CMRMainMenuManager.h"
 
 #import "CocoMonar_Prefix.h"
-#import "AppDefaults.h"
+//#import "AppDefaults.h"
 
 #define		APPLICATION_MENU_TAG	0
 #define		FILE_MENU_TAG			1
@@ -29,6 +29,8 @@
 #define		HISTORY_INSERT_MARKER	1001
 #define		HISTORY_SUB_MARKER		1002
 #define		BROWSER_FILTERING_TAG	3
+
+#define		THREAD_CONTEXTUAL_MASK	5000
 
 @implementation CMRMainMenuManager
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager)
@@ -66,6 +68,27 @@ MENU_ACCESSER(scriptsMenuItem, SCRIPTS_MENU_TAG)
 - (NSMenu *) fileMenu
 {
 	return [[self fileMenuItem] submenu];
+}
+
+- (NSMenu *)threadContexualMenuTemplate
+{
+	NSMenu *menuTemplate = [[NSMenu alloc] initWithTitle:@""];
+
+	NSMenu *menuBase = [[self threadMenuItem] submenu];
+	NSEnumerator *iter = [[menuBase itemArray] objectEnumerator];
+	NSMenuItem	*eachItem;
+	NSMenuItem	*addingItem;
+
+	while (eachItem = [iter nextObject]) {
+		if ([eachItem tag] > THREAD_CONTEXTUAL_MASK) {
+			addingItem = [eachItem copy];
+			[addingItem setKeyEquivalent:@""];
+			[menuTemplate addItem:addingItem];
+			[addingItem release];
+		}
+	}
+	
+	return [menuTemplate autorelease];
 }
 @end
 

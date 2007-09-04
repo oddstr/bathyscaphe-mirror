@@ -1,272 +1,244 @@
-/**
-  * $Id: CMRThreadViewer-Download.m,v 1.16 2007/01/30 14:04:11 tsawada2 Exp $
-  * BathyScaphe
-  * 
-  *
-  * Copyright (c) 2003-2004 Takanori Ishikawa, All rights reserved.
-  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
-  */
-#import "CMRThreadViewer_p.h"
-#import "CMRDownloader.h"
-#import "ThreadTextDownloader.h"
-#import "CMRDATDownloader.h"
-#import "BoardManager.h"
+//
+//  CMRThreadViewer-Download.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/08/23.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
 
-// そんな板 or スレッドありません
-#define kNotFoundTitleKey				@"Not Found Title"
-#define kNotFoundMessageFormatKey		@"Not Found Message"
-#define kNotFoundMessage2FormatKey		@"Not Found Msg 2"
-#define kMakeDatOchiLabelKey			@"Make DatOchi"
-#define kSearchKakoLogLabelKey			@"Search Kako Log" // reserved
-#define kNotFoundHelpKeywordKey			@"NotFoundSheet Help Anchor"
-#define kInvalidPerticalContentsHelpKeywordKey	@"InvalidPerticalSheet Help Anchor"
-#define kNotFoundCancelLabelKey			@"Do Not Reload Button Label"
+#import "CMRThreadViewer_p.h"
+#import "CMRAbstructThreadDocument.h"
+#import "CMRDATDownloader.h"
 
 
 @implementation CMRThreadViewer(Download)
-- (void) downloadThread : (CMRThreadSignature *) aSignature
-				  title : (NSString           *) threadTitle
-			  nextIndex : (unsigned int        ) aNextIndex
+- (void)downloadThread:(CMRThreadSignature *)aSignature title:(NSString *)threadTitle nextIndex:(unsigned int)aNextIndex
 {
 	CMRDownloader			*downloader;
-	NSNotificationCenter	*ncenter;
+	NSNotificationCenter	*nc;
 	
-	ncenter = [NSNotificationCenter defaultCenter];
-	downloader = 
-		[ThreadTextDownloader downloaderWithIdentifier : aSignature
-									threadTitle : threadTitle
-									nextIndex : aNextIndex];
-	
-	if (nil == downloader) {
-		return;
-	}
+	nc = [NSNotificationCenter defaultCenter];
+	downloader = [ThreadTextDownloader downloaderWithIdentifier:aSignature threadTitle:threadTitle nextIndex:aNextIndex];
+
+	if (!downloader) return;
 	
 	/* NotificationCenter */
-	[ncenter addObserver : self
-			selector : @selector(threadTextDownloaderInvalidPerticalContents:)
-			    name : ThreadTextDownloaderInvalidPerticalContentsNotification
-			  object : downloader];
-	[ncenter addObserver : self
-			selector : @selector(threadTextDownloaderNotFound:)
-			    name : CMRDownloaderNotFoundNotification
-			  object : downloader];
-	[ncenter addObserver : self
-			selector : @selector(threadTextDownloaderDidDetectDatOchi:)
-			    name : CMRDATDownloaderDidDetectDatOchiNotification
-			  object : downloader];
-	[ncenter addObserver : self
-			selector : @selector(threadTextDownloaderDidFinishLoading:)
-			    name : ThreadTextDownloaderDidFinishLoadingNotification
-			  object : downloader];
-	
+	[nc addObserver:self
+		   selector:@selector(threadTextDownloaderInvalidPerticalContents:)
+			   name:ThreadTextDownloaderInvalidPerticalContentsNotification
+			 object:downloader];
+/*	[nc addObserver:self
+		   selector:@selector(threadTextDownloaderNotFound:)
+			   name:CMRDownloaderNotFoundNotification
+			 object:downloader];*/
+	[nc addObserver:self
+		   selector:@selector(threadTextDownloaderDidDetectDatOchi:)
+			   name:CMRDATDownloaderDidDetectDatOchiNotification
+			 object:downloader];
+	[nc addObserver:self
+		   selector:@selector(threadTextDownloaderDidFinishLoading:)
+			   name:ThreadTextDownloaderDidFinishLoadingNotification
+			 object:downloader];
+
 	/* TaskManager, load */
-	[[CMRTaskManager defaultManager] addTask : downloader];
+	[[CMRTaskManager defaultManager] addTask:downloader];
 	[downloader loadInBackground];
 }
 
-
-- (void) removeFromNotificationCeterWithDownloader : (CMRDownloader *) downloader
+- (void)removeFromNotificationCeterWithDownloader:(CMRDownloader *)downloader
 {
-	NSNotificationCenter	*nc_;
-	
-	if (nil == downloader) return;
-	nc_ = [NSNotificationCenter defaultCenter];
-	[nc_ removeObserver : self
-				   name : ThreadTextDownloaderInvalidPerticalContentsNotification
-				 object : downloader];
-	[nc_ removeObserver : self
-				   name : CMRDownloaderNotFoundNotification
-				 object : downloader];
-	[nc_ removeObserver : self
-				   name : CMRDATDownloaderDidDetectDatOchiNotification
-				 object : downloader];
-	[nc_ removeObserver : self
-				   name : ThreadTextDownloaderDidFinishLoadingNotification
-				 object : downloader];
+	NSNotificationCenter	*nc;
+
+	if (!downloader) return;
+	nc = [NSNotificationCenter defaultCenter];
+	[nc removeObserver:self
+				  name:ThreadTextDownloaderInvalidPerticalContentsNotification
+				object:downloader];
+/*	[nc removeObserver:self
+				  name:CMRDownloaderNotFoundNotification
+				object:downloader];*/
+	[nc removeObserver:self
+				  name:CMRDATDownloaderDidDetectDatOchiNotification
+				object:downloader];
+	[nc removeObserver:self
+				  name:ThreadTextDownloaderDidFinishLoadingNotification
+				object:downloader];
 }
 
-- (void) threadTextDownloaderDidFinishLoading : (NSNotification *) notification
+- (void)threadTextDownloaderDidFinishLoading:(NSNotification *)notification
 {
-	ThreadTextDownloader	*downloader_;
-	NSDictionary			*userInfo_;
-	NSString				*contents_;
+	ThreadTextDownloader	*downloader;
+	NSDictionary			*userInfo;
+	NSString				*contents;
+
+	UTILAssertNotificationName(notification, ThreadTextDownloaderDidFinishLoadingNotification);
 	
-	UTILAssertNotificationName(
-		notification,
-		ThreadTextDownloaderDidFinishLoadingNotification);
+	userInfo = [notification userInfo];
+	UTILAssertNotNil(userInfo);
+
+	downloader = [notification object];
+	contents = [userInfo objectForKey:CMRDownloaderUserInfoContentsKey];
+	UTILAssertKindOfClass(downloader, ThreadTextDownloader);
+	UTILAssertKindOfClass(contents, NSString);
 	
-	userInfo_ = [notification userInfo];
-	downloader_ = [notification object];
-	contents_ = [userInfo_ objectForKey : CMRDownloaderUserInfoContentsKey];
-	
-	UTILAssertKindOfClass(downloader_, ThreadTextDownloader);
-	UTILAssertNotNil(userInfo_);
-	UTILAssertKindOfClass(contents_, NSString);
-	
-	[self removeFromNotificationCeterWithDownloader : downloader_];
-	if (NO == [[self threadIdentifier] isEqual : [downloader_ identifier]]) {
+	[self removeFromNotificationCeterWithDownloader:downloader];
+
+	if (![[self threadIdentifier] isEqual:[downloader identifier]]) {
 		return;
 	}
-[[self threadAttributes] addEntriesFromDictionary : [userInfo_ objectForKey: CMRDownloaderUserInfoAdditionalInfoKey]];
-	[self composeDATContents : contents_
-			 threadSignature : [downloader_ identifier]
-				   nextIndex : [downloader_ nextIndex]];
-}
-- (void) threadTextDownloaderInvalidPerticalContents : (NSNotification *) notification
-{
-	ThreadTextDownloader	*downloader_;
-	
-	UTILAssertNotificationName(
-		notification,
-		ThreadTextDownloaderInvalidPerticalContentsNotification);
-		
-	downloader_ = [notification object];
-	UTILAssertKindOfClass(downloader_, ThreadTextDownloader);
-	[self removeFromNotificationCeterWithDownloader : downloader_];
-	
-	
-	NSAlert *alert_ = [NSAlert alertWithMessageText : [self localizedString : APP_TVIEWER_INVALID_PERT_TITLE]
-									  defaultButton : [self localizedString : APP_TVIEWER_DEL_AND_RETRY_LABEL]
-									alternateButton : [self localizedString : APP_TVIEWER_DELETE_LABEL]
-										otherButton : [self localizedString : APP_TVIEWER_NOT_DELETE_LABEL]
-						  informativeTextWithFormat : [self localizedString : APP_TVIEWER_INVALID_PERT_MSG_FMT],
-													  [downloader_ threadTitle]];
-	[alert_ setShowsHelp : YES];
-	[alert_ setHelpAnchor : [self localizedString : kInvalidPerticalContentsHelpKeywordKey]];
-	[alert_ setDelegate : self];
-	[alert_ beginSheetModalForWindow : [self window]
-					   modalDelegate : self
-					  didEndSelector : @selector(threadInvalidPerticalContentsSheetDidEnd:returnCode:contextInfo:)
-						 contextInfo : [downloader_ retain]];
 
-	return;
+	[[self threadAttributes] addEntriesFromDictionary:[userInfo objectForKey:CMRDownloaderUserInfoAdditionalInfoKey]];
+	[self composeDATContents:contents threadSignature:[downloader identifier] nextIndex:[downloader nextIndex]];
 }
 
-- (void) beginNotFoundAlertSheetWithDownloader: (ThreadTextDownloader *) downloader_
+- (void)threadTextDownloaderInvalidPerticalContents:(NSNotification *)notification
 {
-	NSURL					*threadURL_;
-	//NSString				*alternateButton_ = nil;
-	NSString				*filePath_;
-	BOOL					fileExists_;
-	threadURL_ = [downloader_ threadURL];
-	filePath_ = [downloader_ filePathToWrite];
+	ThreadTextDownloader	*downloader;
+	NSString				*threadTitle = @"";
 	
-	// 過去ログの検索
-/*
-	alternateButton_ = is_2channel([[threadURL_ host] UTF8String])
-							? [self localizedString : kSearchKakoLogLabelKey]
-							: nil;
-*/
-	fileExists_ = [[NSFileManager defaultManager] fileExistsAtPath : filePath_];
+	UTILAssertNotificationName(notification, ThreadTextDownloaderInvalidPerticalContentsNotification);
 
-	NSAlert *alert_ = [NSAlert alertWithMessageText : [self localizedString : kNotFoundTitleKey]
-									  defaultButton : [self localizedString : kNotFoundCancelLabelKey]
-									alternateButton : nil
-										otherButton : (fileExists_ ? [self localizedString : kMakeDatOchiLabelKey] : nil)
-						  informativeTextWithFormat : (fileExists_ ? [self localizedString : kNotFoundMessage2FormatKey] :
-																	 [self localizedString : kNotFoundMessageFormatKey]),
-													  [downloader_ threadTitle] ? [downloader_ threadTitle] : @"",
-													  [threadURL_ absoluteString]];
-	[alert_ setShowsHelp : YES];
-	[alert_ setHelpAnchor : [self localizedString : kNotFoundHelpKeywordKey]];
-	[alert_ setDelegate : self];
-	[alert_ beginSheetModalForWindow : [self window]
-					   modalDelegate : self
-					  didEndSelector : @selector(threadNotFoundSheetDidEnd:returnCode:contextInfo:)
-						 contextInfo : [downloader_ retain]];
+	downloader = [notification object];
+	UTILAssertKindOfClass(downloader, ThreadTextDownloader);
+
+	threadTitle = [downloader threadTitle];
+
+	[self removeFromNotificationCeterWithDownloader:downloader];
+
+	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	[alert setAlertStyle:NSWarningAlertStyle];
+	[alert setMessageText:[self localizedString:APP_TVIEWER_INVALID_PERT_TITLE]];
+	[alert setInformativeText:[NSString stringWithFormat:[self localizedString:APP_TVIEWER_INVALID_PERT_MSG_FMT], threadTitle]];
+	[alert addButtonWithTitle:[self localizedString:APP_TVIEWER_DEL_AND_RETRY_LABEL]];
+	[alert addButtonWithTitle:[self localizedString:APP_TVIEWER_NOT_DELETE_LABEL]];
+	[alert addButtonWithTitle:[self localizedString:APP_TVIEWER_DELETE_LABEL]];
+	[alert setShowsHelp:YES];
+	[alert setHelpAnchor:[self localizedString:kInvalidPerticalContentsHelpKeywordKey]];
+	[alert setDelegate:self];
+	[alert beginSheetModalForWindow:[self window]
+					  modalDelegate:self
+					 didEndSelector:@selector(threadInvalidParticalContentsSheetDidEnd:returnCode:contextInfo:)
+						contextInfo:[[downloader filePathToWrite] retain]];
 }
 
-- (void) validateWhetherDatOchiWithDownloader: (ThreadTextDownloader *) downloader_
+- (void)informDatOchiWithTitleRulerIfNeeded
 {
-	unsigned	resCount;
-	resCount = [downloader_ nextIndex];
+	if ([CMRPref informWhenDetectDatOchi]) {
+		BSTitleRulerView *ruler = (BSTitleRulerView *)[[self scrollView] horizontalRulerView];
 
-	if(resCount < 1001) {
-		[self beginNotFoundAlertSheetWithDownloader: downloader_];
-	} else {
-		[self setDatOchiThread: YES];
+		[ruler setCurrentMode:[[self class] rulerModeForInformDatOchi]];
+		[ruler setInfoStr:[self localizedString:@"titleRuler info auto-detected title"]];
+		[[self scrollView] setRulersVisible:YES];
 
-		if ([CMRPref informWhenDetectDatOchi]) {
-			BSTitleRulerView *view_ = (BSTitleRulerView *)[[self scrollView] horizontalRulerView];
-
-			[view_ setCurrentMode: [[self class] rulerModeForInformDatOchi]];
-			[view_ setInfoStr: [self localizedString: @"titleRuler info auto-detected title"]];
-			[[self scrollView] setRulersVisible: YES];
-			
-			[NSTimer scheduledTimerWithTimeInterval: 5.0 target: self selector: @selector(cleanUpTitleRuler:) userInfo: nil repeats: NO];
-		}
+		[NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(cleanUpTitleRuler:) userInfo:nil repeats:NO];
 	}
 }
 
-- (void) threadTextDownloaderDidDetectDatOchi : (NSNotification *) notification
+- (void)beginNotFoundAlertSheetWithDownloader:(ThreadTextDownloader *)downloader
 {
-	CMRDATDownloader	*downloader_;
+	NSURL		*threadURL;
+	NSString	*filePath;
+	NSString	*threadTitle;
+
+	threadURL = [downloader threadURL];
+	filePath = [downloader filePathToWrite];
+	threadTitle = [downloader threadTitle];
+	if (!threadTitle) threadTitle = @"";
+
+	if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+		[(CMRAbstructThreadDocument *)[self document] setIsDatOchiThread:YES];
+		[self informDatOchiWithTitleRulerIfNeeded];
+		return;
+	}
+
+	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	NSString *info = [NSString stringWithFormat:[self localizedString:kNotFoundMessageFormatKey], threadTitle, [threadURL absoluteString]];
+	[alert setAlertStyle:NSWarningAlertStyle];
+	[alert setMessageText:[self localizedString:kNotFoundTitleKey]];
+	[alert setInformativeText:info];
+	[alert addButtonWithTitle:[self localizedString:kNotFoundCancelLabelKey]];
+	[alert setShowsHelp:YES];
+	[alert setHelpAnchor:[self localizedString:kNotFoundHelpKeywordKey]];
+	[alert setDelegate:self];
+	[alert beginSheetModalForWindow:[self window]
+					  modalDelegate:self
+					 didEndSelector:@selector(threadNotFoundSheetDidEnd:returnCode:contextInfo:)
+						contextInfo:NULL];
+}
+
+- (void)validateWhetherDatOchiWithDownloader:(ThreadTextDownloader *)downloader
+{
+	unsigned	resCount;
+	resCount = [downloader nextIndex];
+
+	if (resCount < 1001) {
+		[self beginNotFoundAlertSheetWithDownloader:downloader];
+	} else {
+		[(CMRAbstructThreadDocument *)[self document] setIsDatOchiThread:YES];
+		[self informDatOchiWithTitleRulerIfNeeded];
+	}
+}
+
+- (void)threadTextDownloaderDidDetectDatOchi:(NSNotification *)notification
+{
+	CMRDATDownloader	*downloader;
 	
-	UTILAssertNotificationName(
-		notification,
-		CMRDATDownloaderDidDetectDatOchiNotification);
+	UTILAssertNotificationName(notification, CMRDATDownloaderDidDetectDatOchiNotification);
 		
-	downloader_ = [notification object];
-	UTILAssertKindOfClass(downloader_, CMRDATDownloader);
-	[self removeFromNotificationCeterWithDownloader : downloader_];
-	
-	[self validateWhetherDatOchiWithDownloader: downloader_];
+	downloader = [notification object];
+	UTILAssertKindOfClass(downloader, CMRDATDownloader);
+
+	[self removeFromNotificationCeterWithDownloader:downloader];
+
+	[self validateWhetherDatOchiWithDownloader:downloader];
 }
 
-- (void) threadTextDownloaderNotFound : (NSNotification *) notification
+- (void)threadTextDownloaderNotFound:(NSNotification *)notification
 {
-	ThreadTextDownloader	*downloader_;
+	ThreadTextDownloader	*downloader;
 	
-	UTILAssertNotificationName(
-		notification,
-		CMRDownloaderNotFoundNotification);
-	
-	downloader_ = [notification object];
-	UTILAssertKindOfClass(downloader_, ThreadTextDownloader);
-	[self removeFromNotificationCeterWithDownloader : downloader_];
+	UTILAssertNotificationName(notification, CMRDownloaderNotFoundNotification);
 
-	[self beginNotFoundAlertSheetWithDownloader: downloader_];
+	downloader = [notification object];
+	UTILAssertKindOfClass(downloader, ThreadTextDownloader);
+
+	[self removeFromNotificationCeterWithDownloader:downloader];
+
+	[self beginNotFoundAlertSheetWithDownloader:downloader];
 }
 
-- (BOOL) alertShowHelp : (NSAlert *) alert
+- (BOOL)alertShowHelp:(NSAlert *)alert
 {
-	[[NSHelpManager sharedHelpManager] openHelpAnchor : [alert helpAnchor]
-											   inBook : [NSBundle applicationHelpBookName]];
+	[[NSHelpManager sharedHelpManager] openHelpAnchor:[alert helpAnchor] inBook:[NSBundle applicationHelpBookName]];
 	return YES;
 }
 
-- (void) reloadAfterDeletion : (NSString *) filePath_
+- (void)reloadAfterDeletion:(NSString *)filePath
 {
-	[self loadFromContentsOfFile : filePath_];
+	[self loadFromContentsOfFile:filePath];
 }
 
-- (void) threadInvalidPerticalContentsSheetDidEnd : (NSAlert *) sheet
-									   returnCode : (int      ) returnCode
-									  contextInfo : (void    *) contextInfo;
+- (void)threadInvalidParticalContentsSheetDidEnd:(NSAlert *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
-	ThreadTextDownloader	*downloader_;
-	NSString				*filePathToWrite_;
+	NSString				*path;
 	
-	downloader_ = [(id)contextInfo autorelease];
-	UTILAssertKindOfClass(downloader_, ThreadTextDownloader);
-	
-	filePathToWrite_ = [downloader_ filePathToWrite];
-	
-	switch(returnCode) {
-	case NSAlertDefaultReturn: // Delete and try again
+	path = [(id)contextInfo autorelease];
+	UTILAssertKindOfClass(path, NSString);
+
+	switch (returnCode) {
+	case NSAlertFirstButtonReturn: // Delete and try again
 	{
-		if (![self forceDeleteThreadAtPath : filePathToWrite_ alsoReplyFile : NO]) {
+		if (![self forceDeleteThreadAtPath:path alsoReplyFile:NO]) {
 			NSBeep();
-			NSLog(@"Deletion failed : %@\n...So reloading operation has been canceled.", filePathToWrite_);
+			NSLog(@"Deletion failed : %@\n...So reloading operation has been canceled.", path);
 		}
 		break;
 	}
-	case NSAlertAlternateReturn: // Delete only
-		[self forceDeleteThreadAtPath : filePathToWrite_ alsoReplyFile : YES];
+	case NSAlertSecondButtonReturn: // Cancel
 		break;
-	case NSAlertOtherReturn:
-		break;
-	case NSAlertErrorReturn:
+	case NSAlertThirdButtonReturn: // Delete only
+		[self forceDeleteThreadAtPath:path alsoReplyFile:YES];
 		break;
 	default:
 		UTILUnknownSwitchCase(returnCode);
@@ -274,29 +246,13 @@
 	}
 }
 
-- (void) threadNotFoundSheetDidEnd : (NSAlert *) sheet
-						returnCode : (int      ) returnCode
-					   contextInfo : (void    *) contextInfo
+- (void) threadNotFoundSheetDidEnd:(NSAlert *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
-	ThreadTextDownloader	*downloader_;
-	NSString				*filePathToWrite_;
-	
-	downloader_ = [(id)contextInfo autorelease];
-	UTILAssertKindOfClass(downloader_, ThreadTextDownloader);
-	
-	filePathToWrite_ = [downloader_ filePathToWrite];
-	
-	switch(returnCode) {
-	case NSAlertDefaultReturn:
+	switch (returnCode) {
+	case NSAlertFirstButtonReturn:
 		break;
-/*
-	case NSAlertAlternateReturn:	// 過去ログ検索
-		break;
-*/
-	case NSAlertOtherReturn:
-		[self setDatOchiThread : YES];
-		break;
-	case NSAlertErrorReturn:
+	case NSAlertSecondButtonReturn:
+		[(CMRAbstructThreadDocument *)[self document] setIsDatOchiThread:YES];
 		break;
 	default:
 		UTILUnknownSwitchCase(returnCode);

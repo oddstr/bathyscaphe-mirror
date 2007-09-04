@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.61 2007/07/27 10:26:39 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.62 2007/09/04 07:45:43 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -12,7 +12,7 @@
 #import "CMRThreadsList_p.h"
 #import "FolderBoardListItem.h"
 #import "CMRReplyDocumentFileManager.h"
-extern BOOL isOptionKeyDown(unsigned flag_); // described in CMRBrowser-Delegate.m
+extern BOOL isOptionKeyDown(void); // described in CMRBrowser-Delegate.m
 
 @class IndexField;
 
@@ -201,7 +201,7 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 {
 	// 特定のモディファイア・キーが押されているときは
 	// クリックで項目を選択してもスレッドを読み込まない
-	if (isOptionKeyDown([[NSApp currentEvent] modifierFlags]))
+	if (isOptionKeyDown())
 		return;
 	
 	if (NO == [self shouldShowContents])
@@ -473,13 +473,13 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 //	[[CMRMainMenuManager defaultManager] synchronizeStatusFilteringMenuItemState];
 }
 
-- (void) clearSearchFilter
+/*- (void) clearSearchFilter
 {
 	[[self document] setSearchString: nil];
 	
 	// 検索結果の表示@タイトルバーを解除
 	[self synchronizeWindowTitleWithDocumentName];
-}
+}*/
 
 - (void) synchronizeWithSearchField
 {

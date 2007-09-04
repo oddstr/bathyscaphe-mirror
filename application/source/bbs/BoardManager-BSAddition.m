@@ -1,7 +1,15 @@
-// BoardManager-BSAddition.m
+//
+//  BoardManager-BSAddition.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/08/30.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
+
 #import "BoardManager_p.h"
 #import "NoNameInputController.h"
-
 #import "DatabaseManager.h"
 
 /* constants */
@@ -16,80 +24,69 @@ static NSString *const NNDDefaultMailKey	= @"DefaultReplyMail";
 static NSString *const NNDAllThreadsAAKey	= @"AABoard";
 static NSString *const NNDBeLoginPolicyTypeKey = @"BeLoginPolicy";
 static NSString *const NNDAllowsNanashiKey	= @"AllowsNanashi";
+static NSString *const NNDBrowserListColumnsKey = @"TableColumns";
 
-extern NSImage  *imageForType(BoardListItemType type); // described in BoardList-OVDatasource.m
 
 @implementation BoardManager(BSAddition)
-
-- (NSMutableDictionary *) noNameDict
+- (NSMutableDictionary *)noNameDict
 {
-	if (nil == _noNameDict) {
-		NSString *errorStr;
-		NSMutableData	*plistData;
+	if (!_noNameDict) {
+		NSString *errorStr = [NSString string];
+		NSData	*plistData;
 		
-		plistData = [NSMutableData dataWithContentsOfFile: [[self class] NNDFilepath]];
+		plistData = [NSData dataWithContentsOfFile:[[self class] NNDFilepath]];
 		if (plistData) {
-			_noNameDict = [NSPropertyListSerialization propertyListFromData: plistData
-														   mutabilityOption: NSPropertyListMutableContainersAndLeaves
-																	 format: NULL
-														   errorDescription: &errorStr];
+			_noNameDict = [NSPropertyListSerialization propertyListFromData:plistData
+														   mutabilityOption:NSPropertyListMutableContainersAndLeaves
+																	 format:NULL
+														   errorDescription:&errorStr];
 			if (!_noNameDict) {
-				NSLog(@"BoardManager failed to read BoardProperties.plist using NSPropertyListSerialization.");
-				//NSLog(errorStr);
-				//[errorStr release];
+				NSLog(@"BoardManager failed to read BoardProperties.plist. Reason: %@", errorStr);
 			} else {
 				[_noNameDict retain];
 			}
 		}
 	}
 
-	if (nil == _noNameDict) {
-		_noNameDict = [[NSMutableDictionary alloc] initWithContentsOfFile: [[self class] NNDFilepath]];
+	if (!_noNameDict) {
+		_noNameDict = [[NSMutableDictionary alloc] initWithContentsOfFile:[[self class] oldNNDFilepath]];
 	}
-	if (nil == _noNameDict) {
-		_noNameDict = [[NSMutableDictionary alloc] initWithContentsOfFile: [[self class] oldNNDFilepath]];
-	}
-	if (nil == _noNameDict) {
+	if (!_noNameDict) {
 		_noNameDict = [[NSMutableDictionary alloc] init];
 	}
 	
 	return _noNameDict;
 }
-- (void) setNoNameDict : (NSMutableDictionary *) aNoNameDict
+
+#pragma mark Private Utilities
+- (id)entryForBoardName:(NSString *)aBoardName
 {
-	@synchronized(self) {
-		[aNoNameDict retain];
-		[_noNameDict release];
-		_noNameDict = aNoNameDict;
-	}
+	return [[self noNameDict] objectForKey:aBoardName];
 }
 
-- (id) entryForBoardName : (NSString *) aBoardName
+- (id)valueForBoard:(NSString *)boardName key:(NSString *)key defaultValue:(id)value
 {
-	return [[self noNameDict] objectForKey : aBoardName];
-}
-
-- (id) valueForBoard: (NSString *) boardName
-				 key: (NSString *) key
-		defaultValue: (id) value
-{
-	id entry_ = [self entryForBoardName: boardName];
+	id entry_ = [self entryForBoardName:boardName];
 	id value_ = nil;
 	
-	if ([entry_ isKindOfClass: [NSDictionary class]]) {
-		value_ = [entry_ valueForKey: key];
+	if ([entry_ isKindOfClass:[NSDictionary class]]) {
+		value_ = [entry_ valueForKey:key];
 	}
 	
-	if (value_ == nil) value_ = value;
+	if (!value_) {
+		value_ = value;
+	}
+
 	return value_;
 }
-- (void) setValue: (id) value forKey: (NSString *) key atBoard: (NSString *) boardName
+
+- (void)setValue:(id)value forKey:(NSString *)key atBoard:(NSString *)boardName
 {
-	UTILAssertNotNil(value);
-	UTILAssertNotNil(boardName);
+	UTILAssertNotNilArgument(value,@"value");
+	UTILAssertNotNilArgument(boardName,@"boardName");
 	
 	// can serialize using NSPropertyListSerialization.
-	{
+/*	{
 		id obj;
 		obj = [NSPropertyListSerialization dataFromPropertyList: value
 														 format: NSPropertyListBinaryFormat_v1_0
@@ -98,28 +95,31 @@ extern NSImage  *imageForType(BoardListItemType type); // described in BoardList
 			NSLog(@"It is not permitted though you try to put object which can not serialize using NSPropertyListSerialization into NoNameDict.");
 			return;
 		}
-	}
+	}*/
+	if (![NSPropertyListSerialization propertyList:value isValidForFormat:NSPropertyListBinaryFormat_v1_0]) {
+		NSLog(@"It is not permitted though you try to put object which can not serialize using NSPropertyListSerialization into NoNameDict.");
+		return;
+	}	
 	
-	NSMutableDictionary		*nnd_ = [self noNameDict];
-	id entry_ = [self entryForBoardName : boardName];
+	NSMutableDictionary		*NND = [self noNameDict];
+	id entry_ = [self entryForBoardName:boardName];
 	
-	if (entry_ == nil || [entry_ isKindOfClass : [NSString class]]) {
+	if (!entry_ || [entry_ isKindOfClass:[NSString class]]) {
 		NSArray	*tempObjects, *tempKeys;
 		
-		if (entry_ != nil) {
-			tempObjects = [NSArray arrayWithObjects : entry_, value, nil];
-			tempKeys	= [NSArray arrayWithObjects : NNDNoNameKey, key, nil];
+		if (entry_) {
+			tempObjects = [NSArray arrayWithObjects:entry_, value, nil];
+			tempKeys	= [NSArray arrayWithObjects:NNDNoNameKey, key, nil];
 		} else {
-			tempObjects = [NSArray arrayWithObjects : value, nil];
-			tempKeys	= [NSArray arrayWithObjects : key, nil];
+			tempObjects = [NSArray arrayWithObjects:value, nil];
+			tempKeys	= [NSArray arrayWithObjects:key, nil];
 		}
-		[nnd_ setObject: [NSDictionary dictionaryWithObjects : tempObjects forKeys : tempKeys]
-				 forKey: boardName];
+		[NND setObject:[NSDictionary dictionaryWithObjects:tempObjects forKeys:tempKeys] forKey:boardName];
 	} else {
 		NSMutableDictionary		*mutableEntry_;
 		mutableEntry_ = [entry_ mutableCopy];
-		[mutableEntry_ setObject: value forKey: key];
-		[nnd_ setObject: mutableEntry_ forKey: boardName];
+		[mutableEntry_ setObject:value forKey:key];
+		[NND setObject:mutableEntry_ forKey:boardName];
 		[mutableEntry_ release];
 	}
 }
@@ -210,7 +210,7 @@ extern NSImage  *imageForType(BoardListItemType type); // described in BoardList
 	}
 }
 
-#pragma mark (Since CMRNoNameManager)
+#pragma mark Sorting
 - (NSString *) sortColumnForBoard : (NSString *) boardName
 {
 	return [self stringValueForBoard: boardName
@@ -445,59 +445,38 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 	return BSBeLoginDecidedByUser;
 }
 
-#pragma mark (MeteorSweeper Addition)
-/*- (NSSet *) defaultNoNameSetForBoard: (NSString *) boardName
+- (void) setTypeOfBeLoginPolicy: (BSBeLoginPolicyType) aType forBoard: (NSString *) boardName
 {
-	id entry_;
+	if (aType == BSBeLoginDecidedByUser) return; // Currently not need to record it
 	
-	entry_ = [self entryForBoardName: boardName];
-	
-	if ([entry_ isKindOfClass: [NSDictionary class]]) {
-		id	object_ = [entry_ objectForKey: NNDNoNameKey];
-		if ([object_ isKindOfClass: [NSString class]]) {
-			return [NSSet setWithObject: object_];
-		} else if ([object_ isKindOfClass: [NSArray class]]) {
-			return [NSSet setWithArray: object_];
-		}
-	} else if ([entry_ isKindOfClass: [NSString class]]) {
-		return [NSSet setWithObject: [[self noNameDict] stringForKey: boardName]];
-	}
-
-	return nil;
-}
-
-- (void) setDefaultNoNameSet: (NSSet *) newSet forBoard: (NSString *) boardName
-{
-	UTILAssertNotNil(newSet);
 	UTILAssertNotNil(boardName);
 
-	BOOL	shouldRemove = ([newSet count] == 0) ? YES : NO;
-
-    NSMutableDictionary *nnd_ = [self noNameDict]; 	
+	NSMutableDictionary		*nnd_ = [self noNameDict];
 	id entry_ = [self entryForBoardName : boardName];
 	
-	if (entry_ == nil || [entry_ isKindOfClass : [NSString class]]) {
-		if (shouldRemove) {
-			[nnd_ removeObjectForKey: boardName];
+	if(entry_ == nil || [entry_ isKindOfClass : [NSString class]]) {
+		NSArray	*tempObjects, *tempKeys;
+		NSNumber  *value_ = [NSNumber numberWithUnsignedInt: aType];
+		
+		if (entry_ != nil) {
+			tempObjects = [NSArray arrayWithObjects : entry_, value_, nil];
+			tempKeys	= [NSArray arrayWithObjects : NNDNoNameKey, NNDBeLoginPolicyTypeKey, nil];
 		} else {
-			[nnd_ setObject: [NSDictionary dictionaryWithObject: [newSet allObjects] forKey: NNDNoNameKey]
-					 forKey: boardName];
+			tempObjects = [NSArray arrayWithObjects : value_, nil];
+			tempKeys	= [NSArray arrayWithObjects : NNDBeLoginPolicyTypeKey, nil];
 		}
+		[nnd_ setObject: [NSDictionary dictionaryWithObjects : tempObjects forKeys : tempKeys]
+				 forKey: boardName];
 	} else {
 		NSMutableDictionary		*mutableEntry_;
-		
 		mutableEntry_ = [entry_ mutableCopy];
-		
-		if (shouldRemove) {
-			[mutableEntry_ removeObjectForKey: NNDNoNameKey];
-		} else {
-			[mutableEntry_ setObject : [newSet allObjects] forKey : NNDNoNameKey];
-		}
-		[nnd_ setObject: mutableEntry_ forKey: boardName];
+		[mutableEntry_ setUnsignedInt : aType forKey : NNDBeLoginPolicyTypeKey];
+		[nnd_ setObject : mutableEntry_ forKey : boardName];
 		[mutableEntry_ release];
 	}
-}*/
+}
 
+#pragma mark NoNameArray
 - (NSArray *)defaultNoNameArrayForBoard:(NSString *)boardName
 {
 	id entry_;
@@ -554,20 +533,9 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 	UTILAssertNotNil(additionalNoName);
 	UTILAssertNotNil(boardName);
 
-//	NSMutableSet *tmpSet_;
-//	NSSet *tmpSetBase_ = [self defaultNoNameSetForBoard: boardName];
 	NSMutableArray *tmpArray;
 	NSArray *tmpArrayBase = [self defaultNoNameArrayForBoard:boardName];
 
-/*	if(!tmpSetBase_) {
-		tmpSet_ = [[NSMutableSet alloc] initWithCapacity: 1];
-	} else {
-		tmpSet_ = [tmpSetBase_ mutableCopy];
-	}
-	
-	[tmpSet_ addObject: additionalNoName];
-	[self setDefaultNoNameSet: tmpSet_ forBoard: boardName];
-	[tmpSet_ release];*/
 	if (!tmpArrayBase) {
 		tmpArray = [[NSMutableArray alloc] initWithCapacity:1];
 	} else {
@@ -583,7 +551,6 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 	UTILAssertNotNil(removingNoName);
 	UTILAssertNotNil(boardName);
 
-//	NSSet *tmpSetBase_ = [self defaultNoNameSetForBoard: boardName];
 	NSArray *tmpSetBase_ = [self defaultNoNameArrayForBoard:boardName];
 
 	if (!tmpSetBase_) {
@@ -594,11 +561,9 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 		return;
 	}
 
-//	NSMutableSet *tmpSet_ = [tmpSetBase_ mutableCopy];
 	NSMutableArray *tmpSet_ = [tmpSetBase_ mutableCopy];
 	
 	[tmpSet_ removeObject: removingNoName];
-//	[self setDefaultNoNameSet: tmpSet_ forBoard: boardName];
 	[self setDefaultNoNameArray:tmpSet_ forBoard:boardName];
 	[tmpSet_ release];
 }
@@ -609,7 +574,7 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 	UTILAssertNotNil(newName);
 	UTILAssertNotNil(boardName);
 
-	/*NSSet*/NSArray *tmpSetBase_ = [self defaultNoNameArrayForBoard:boardName];//SetForBoard: boardName];
+	NSArray *tmpSetBase_ = [self defaultNoNameArrayForBoard:boardName];//SetForBoard: boardName];
 
 	if (!tmpSetBase_) {
 		return;
@@ -619,44 +584,12 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 		return;
 	}
 
-	/*NSMutableSet*/NSMutableArray *tmpSet_ = [tmpSetBase_ mutableCopy];
+	NSMutableArray *tmpSet_ = [tmpSetBase_ mutableCopy];
 	
 	[tmpSet_ removeObject: oldName];
 	[tmpSet_ addObject: newName];
-//	[self setDefaultNoNameSet: tmpSet_ forBoard: boardName];
 	[self setDefaultNoNameArray:tmpSet_ forBoard:boardName];
 	[tmpSet_ release];
-}
-
-- (void) setTypeOfBeLoginPolicy: (BSBeLoginPolicyType) aType forBoard: (NSString *) boardName
-{
-	if (aType == BSBeLoginDecidedByUser) return; // Currently not need to record it
-	
-	UTILAssertNotNil(boardName);
-
-	NSMutableDictionary		*nnd_ = [self noNameDict];
-	id entry_ = [self entryForBoardName : boardName];
-	
-	if(entry_ == nil || [entry_ isKindOfClass : [NSString class]]) {
-		NSArray	*tempObjects, *tempKeys;
-		NSNumber  *value_ = [NSNumber numberWithUnsignedInt: aType];
-		
-		if (entry_ != nil) {
-			tempObjects = [NSArray arrayWithObjects : entry_, value_, nil];
-			tempKeys	= [NSArray arrayWithObjects : NNDNoNameKey, NNDBeLoginPolicyTypeKey, nil];
-		} else {
-			tempObjects = [NSArray arrayWithObjects : value_, nil];
-			tempKeys	= [NSArray arrayWithObjects : NNDBeLoginPolicyTypeKey, nil];
-		}
-		[nnd_ setObject: [NSDictionary dictionaryWithObjects : tempObjects forKeys : tempKeys]
-				 forKey: boardName];
-	} else {
-		NSMutableDictionary		*mutableEntry_;
-		mutableEntry_ = [entry_ mutableCopy];
-		[mutableEntry_ setUnsignedInt : aType forKey : NNDBeLoginPolicyTypeKey];
-		[nnd_ setObject : mutableEntry_ forKey : boardName];
-		[mutableEntry_ release];
-	}
 }
 
 #pragma mark ReinforceII Addition
@@ -683,6 +616,15 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 	[[self noNameDict] removeObjectForKey: boardName];
 }
 
+- (id)browserListColumnsForBoard:(NSString *)boardName
+{
+	return [self valueForBoard:boardName key:NNDBrowserListColumnsKey defaultValue:[CMRPref threadsListTableColumnState]];
+}
+
+- (void)setBrowserListColumns:(id)plist forBoard:(NSString *)boardName
+{
+	[self setValue:plist forKey:NNDBrowserListColumnsKey atBoard:boardName];
+}
 
 #pragma mark -
 
@@ -706,9 +648,7 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 
 - (BOOL) needToDetectNoNameForBoard: (NSString *) boardName
 {
-//	if ([boardName isEqualToString: BSbbynewsBoardName]) return NO;
 	if ([boardName hasSuffix: @"headline"]) return NO;
-//	NSSet *set_ = [self defaultNoNameSetForBoard: boardName];
 	NSArray *set_ = [self defaultNoNameArrayForBoard:boardName];
 	if (!set_ || [set_ count] == 0) return YES;
 	

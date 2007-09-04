@@ -4,10 +4,12 @@
 "Not Loaded"	= "接続中...";
 "Error"			= "エラーで終了しました";
 "Cancel"		= "処理の途中でキャンセルされました";
+"Not Modified"	= "前回のダウンロード時から更新されていませんでした";
+"Detect Dat Ochi" = "Dat 落ちの可能性があります";
 "Success"		= "ダウンロードは正常に終了しました";
 
 "Couldnt_Load_Data_Msg" = "%@ からデータを取得できませんでした。";
 
 /* BSDownloadTask */
-"Download url(%@) (%.1fk)" = "%@ からダウンロード中...（%.1f KB）";
+"Download url(%@) (%.0fk of %.0fk)" = "%@ からダウンロード中...（%.0f KB / %.0f KB）";
 "Download." = "ダウンロード";

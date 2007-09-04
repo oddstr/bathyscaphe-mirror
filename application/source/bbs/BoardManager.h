@@ -1,67 +1,47 @@
-/**
- * $Id: BoardManager.h,v 1.17 2007/08/05 12:25:26 tsawada2 Exp $
- * 
- * BoardManager.h
- *
- * Copyright (c) 2004 Takanori Ishikawa, All rights reserved.
- * See the file LICENSE for copying permission.
- */
+//
+//  BoardManager.h
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/08/31.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
 
-#import <SGFoundation/SGFoundation.h>
+#import <Foundation/Foundation.h>
 
 @class SmartBoardList;
-/*!
-    @class		BoardManager
-    @abstract   掲示板リストの dataSource 提供と、各掲示板の属性へのアクセスを一括して取り扱うマネージャ
-    @discussion BoardManager は、掲示板リストの dataSource を提供します。また、各掲示板に関する
-				種々の属性の読み書きをサポートします。掲示板はその名前で一意に識別されることに注意してください。
-				BoardManager で掲示板の属性を読み書きする際、ほとんどのメソッドで掲示板の「名前」をキーに
-				する必要があります。しかし、名前がわからないが、URL がわかっている場合は、boardNameForURL:
-				メソッドで名前を得ることができます。
-				BoardManager が（現在のところ）取り扱う掲示板の属性：
-				・URL（板名の逆引き、URL 移転のサポートを含む）
-				・デフォルト名無し
-				・デフォルトコテハン
-				・デフォルトメール欄
-				・常に Be ログインして書き込むかどうか？
-				・スレッド一覧でのソート基準カラムと、昇順／降順
-*/
 
-/*
-typedef enum _BSBeLoginPolicyType {
-	BSBeLoginTriviallyNeeded	= 0, // Be ログイン必須
-	BSBeLoginTriviallyOFF		= 1, // Be ログインは無意味（2chではない掲示板など）
-	BSBeLoginDecidedByUser		= 2, // Be ログインするかどうかはユーザの設定を参照する
-	BSBeLoginNoAccountOFF		= 3  // 環境設定で Be アカウントが設定されていない
-} BSBeLoginPolicyType;
-*/
 @interface BoardManager : NSObject
 {
     @private
 	SmartBoardList			*_defaultList;
 	SmartBoardList			*_userList;
-	NSMutableDictionary		*_noNameDict;	// NoNameManager を統合
+
+	NSMutableDictionary		*_noNameDict;
 }
-+ (id) defaultManager;
++ (id)defaultManager;
 
-- (SmartBoardList *) defaultList;
-- (SmartBoardList *) userList;
+- (SmartBoardList *)defaultList;
+- (SmartBoardList *)userList;
 
-// - (SmartBoardList *) filteredListWithString: (NSString *) keyword; // available in CometBlaster.
+// Available in CometBlaster and later.
+- (SmartBoardList *)filteredListWithString:(NSString *)keyword;
 
-- (NSString *) defaultBoardListPath;
-- (NSString *) userBoardListPath;
-+ (NSString *) NNDFilepath; // (BoardProperties.plist)
-+ (NSString *) oldNNDFilepath; // available in MeteorSweeper. (NoNames.plist)
+- (NSString *)defaultBoardListPath;
+- (NSString *)userBoardListPath;
 
-- (NSURL *) URLForBoardName : (NSString *) boardName;
-- (NSString *) boardNameForURL : (NSURL *) anURL;
++ (NSString *)NNDFilepath; // BoardProperties.plist
 
-- (void) updateURL : (NSURL    *) anURL
-      forBoardName : (NSString *) aName;
+// Available in MeteorSweeper and later.
++ (NSString *)oldNNDFilepath; // NoNames.plist
+
+- (NSURL *)URLForBoardName:(NSString *)boardName;
+- (NSString *)boardNameForURL:(NSURL *)anURL;
+
+- (void)updateURL:(NSURL *)anURL forBoardName:(NSString *)aName;
 
 /*!
- * @method        tryToDetectMovedBoard
+ * @method        tryToDetectMovedBoard:
  * @abstract      Detect moved BBS as possible.
  * @discussion    Detect moved BBS from HTML contents server has
  *                returned. It may be unexpected contents (expected
@@ -69,9 +49,9 @@ typedef enum _BSBeLoginPolicyType {
  *                new location of BBS.
  *
  * @param boardName BBS Name
- * @result          return YES, if BoardManager change old location.
+ * @result        Returns YES if BoardManager change old location.
  */
-- (BOOL) tryToDetectMovedBoard : (NSString *) boardName;
+- (BOOL)tryToDetectMovedBoard:(NSString *)boardName;
 
 /*!
  * @method        detectMovedBoardWithResponseHTML:
@@ -83,103 +63,94 @@ typedef enum _BSBeLoginPolicyType {
  *
  * @param aHTML     HTML contents, NSString
  * @param boardName BBS Name
- * @result          return YES, if BoardManager change old location.
+ * @result          Returns YES if BoardManager change old location.
  */
-- (BOOL) detectMovedBoardWithResponseHTML : (NSString *) htmlContents
-                                boardName : (NSString *) boardName;
+- (BOOL)detectMovedBoardWithResponseHTML:(NSString *)htmlContents boardName:(NSString *)boardName;
 @end
 
-@interface BoardManager(BSAddition)
-// CMRNoNameManager を統合
-// NoNameManager はすべて CMRBBSSignature を引数にとっていたが、BoardManager への
-// 統合に伴い、すべて NSString に変更したので注意。
+@interface BoardManager(BoardProperties)
+- (NSMutableDictionary *)noNameDict;
 
-- (NSMutableDictionary *) noNameDict;
+// Available in Starlight Breaker and later.
+- (void)passPropertiesOfBoardName:(NSString *)boardName toBoardName:(NSString *)newBoardName;
 
-/* 名無しさんの名前 */
-// Available in MeteorSweeper.
-//- (NSSet *) defaultNoNameSetForBoard: (NSString *) boardName;
+#pragma mark Nanashi-san
+// Available in MeteorSweeper and later.
 - (NSArray*)defaultNoNameArrayForBoard:(NSString *)boardName;
-//- (void) setDefaultNoNameSet: (NSSet *) newSet forBoard: (NSString *) boardName;
 - (void)setDefaultNoNameArray:(NSArray *)array forBoard:(NSString *)boardName;
-- (void) addNoName: (NSString *) additionalNoName forBoard: (NSString *) boardName;
-- (void) removeNoName: (NSString *) removingNoName forBoard: (NSString *) boardName;
-- (void) exchangeNoName: (NSString *) oldName toNewValue: (NSString *) newName forBoard: (NSString *) boardName;
-				 
-/* ソート基準カラム */
-- (NSString *) sortColumnForBoard : (NSString *) boardName;
-- (void) setSortColumn : (NSString *) anIdentifier
-			  forBoard : (NSString *) boardName;
-- (BOOL) sortColumnIsAscendingAtBoard : (NSString *) boardName;
-- (void) setSortColumnIsAscending : (BOOL	   ) isAscending
-						  atBoard : (NSString *) boardName;
-// 1.4 or 1.5 addition
-- (NSArray *) sortDescriptorsForBoard : (NSString *) boardName;
-- (void) setSortDescriptors : (NSArray *) sortDescriptors
-				   forBoard : (NSString *) boardName;
+- (void)addNoName:(NSString *)additionalNoName forBoard:(NSString *)boardName;
+- (void)removeNoName:(NSString *)removingNoName forBoard:(NSString *)boardName;
+- (void)exchangeNoName:(NSString *)oldName toNewValue:(NSString *)newName forBoard:(NSString *)boardName;
 
-// SledgeHammer Addition
-- (BOOL) alwaysBeLoginAtBoard : (NSString *) boardName;
-- (void) setAlwaysBeLogin : (BOOL	   ) alwaysLogin
-				  atBoard : (NSString *) boardName;
-- (NSString *) defaultKotehanForBoard : (NSString *) boardName;
-- (void) setDefaultKotehan : (NSString *) aName
-				  forBoard : (NSString *) boardName;
-- (NSString *) defaultMailForBoard : (NSString *) boardName;
-- (void) setDefaultMail : (NSString *) aString
-			   forBoard : (NSString *) boardName;
-
-// LittleWish Addition
-/* 注意：1.1.x ではインタフェースのみ */
-// available in BathyScaphe 1.2 and later.
-- (BOOL) allThreadsShouldAAThreadAtBoard : (NSString *) boardName;
-- (void) setAllThreadsShouldAAThread : (BOOL      ) shouldAAThread
-							 atBoard : (NSString *) boardName;
-
-// LittleWish Addtion : Read-only Properties
-- (NSImage *) iconForBoard : (NSString *) boardName;
-- (BSBeLoginPolicyType) typeOfBeLoginPolicyForBoard : (NSString *) boardName;
-
-// MeteorSweeper Addition
-- (void) setTypeOfBeLoginPolicy: (BSBeLoginPolicyType) aType forBoard: (NSString *) boardName;
-
-/*
-	ユーザからの入力を受けつける。
-	
-	@param aBoard 掲示板
-	@param presetValue:aValue テキストフィールドのデフォルト値
-	@result キャンセル時には nil
+/*!
+    @method     askUserAboutDefaultNoNameForBoard:presetValue:
+    @abstract   Shows input dialog for user to specify nanashisan.
+    @discussion Shows input dialog, and User can directly enter the nanashisan.
+				BoardManager will serve presetValue as assumed nanashisan.
+	@result		Input string. If User canceled, returns nil.
 */
-- (NSString *) askUserAboutDefaultNoNameForBoard : (NSString *) boardName
-									 presetValue : (NSString *) aValue;
+- (NSString *)askUserAboutDefaultNoNameForBoard:(NSString *)boardName presetValue:(NSString *)aValue;
 
-// available in MeteorSweeper and later.
-- (BOOL) needToDetectNoNameForBoard: (NSString *) boardName;
+// Available in MeteorSweeper and later.
+- (BOOL)needToDetectNoNameForBoard:(NSString *)boardName;
 
-// available in ReinforceII and later.
-- (BOOL) allowsNanashiAtBoard: (NSString *) boardName;
-- (void) setAllowsNanashi: (BOOL) allows atBoard: (NSString *) boardName;
+// Available in ReinforceII and later.
+- (BOOL)allowsNanashiAtBoard:(NSString *)boardName;
+- (void)setAllowsNanashi:(BOOL)allows atBoard:(NSString *)boardName;
 
-// Available in Starlight Breaker.
-- (void) passPropertiesOfBoardName: (NSString *) boardName toBoardName: (NSString *) newBoardName;
+#pragma mark Sorting
+- (NSString *)sortColumnForBoard:(NSString *)boardName;
+- (void)setSortColumn:(NSString *)anIdentifier forBoard:(NSString *)boardName;
+- (BOOL) sortColumnIsAscendingAtBoard:(NSString *)boardName;
+- (void) setSortColumnIsAscending:(BOOL)isAscending atBoard:(NSString *) boardName;
+
+// Available in Starlight Breaker and later.
+- (NSArray *)sortDescriptorsForBoard:(NSString *)boardName;
+- (void)setSortDescriptors:(NSArray *)sortDescriptors forBoard:(NSString *)boardName;
+
+#pragma mark Replying
+// Available in SledgeHammer and later.
+- (BOOL)alwaysBeLoginAtBoard:(NSString *)boardName;
+- (void) setAlwaysBeLogin:(BOOL)alwaysLogin atBoard:(NSString *)boardName;
+- (NSString *)defaultKotehanForBoard:(NSString *)boardName;
+- (void)setDefaultKotehan:(NSString *)aName forBoard:(NSString *)boardName;
+- (NSString *) defaultMailForBoard:(NSString *)boardName;
+- (void)setDefaultMail:(NSString *)aString forBoard:(NSString *)boardName;
+
+// Available in LittleWish and later.
+- (BSBeLoginPolicyType)typeOfBeLoginPolicyForBoard:(NSString *)boardName;
+
+// Available in MeteorSweeper and later.
+- (void)setTypeOfBeLoginPolicy:(BSBeLoginPolicyType)aType forBoard:(NSString *)boardName;
+
+#pragma mark Other Board Properties
+// Available in BathyScaphe 1.2 and later.
+- (BOOL)allThreadsShouldAAThreadAtBoard:(NSString *)boardName;
+- (void)setAllThreadsShouldAAThread:(BOOL)shouldAAThread atBoard:(NSString *)boardName;
+
+// Available in LittleWish and later.
+- (NSImage *)iconForBoard:(NSString *)boardName; // Read Only
+
+// Available in Twincam Angel and later.
+- (id)browserListColumnsForBoard:(NSString *)boardName;
+- (void)setBrowserListColumns:(id)plist forBoard:(NSString *)boardName;
 @end
 
-// MeteorSweeper Addition
+// Available in MeteorSweeper and later.
 @interface BoardManager(SettingTxtDetector)
-- (BOOL) startDownloadSettingTxtForBoard: (NSString *) boardName;
+- (BOOL)startDownloadSettingTxtForBoard:(NSString *)boardName;
 @end
 
 @interface BoardManager(UserListEditorCore)
-- (BOOL) addCategoryOfName: (NSString *) name;
-- (BOOL) editBoardItem: (id) item newURLString: (NSString *)newURLString;
-- (BOOL) editBoardOfName: (NSString *) boardName newURLString: (NSString *) newURLString;
-- (BOOL) editCategoryOfName: (NSString *) oldName newName: (NSString *) newName;
-- (BOOL) removeBoardItems: (NSArray *) boardItemsForRemoval;
+- (BOOL)addCategoryOfName:(NSString *)name;
+- (BOOL)editBoardItem:(id)item newURLString:(NSString *)newURLString;
+- (BOOL)editBoardOfName:(NSString *)boardName newURLString:(NSString *)newURLString;
+- (BOOL)editCategoryOfName:(NSString *)oldName newName:(NSString *)newName;
+- (BOOL)removeBoardItems:(NSArray *)boardItemsForRemoval;
 @end
-///////////////////////////////////////////////////////////////
-///////////////// [ N o t i f i c a t i o n ] /////////////////
-///////////////////////////////////////////////////////////////
 
 extern NSString *const CMRBBSManagerUserListDidChangeNotification;
 extern NSString *const CMRBBSManagerDefaultListDidChangeNotification;
-extern NSString *const BoardManagerDidFinishDetectingSettingTxtNotification; // available in ReinforceII and later
+
+// Available in ReinforceII and later.
+extern NSString *const BoardManagerDidFinishDetectingSettingTxtNotification;

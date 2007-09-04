@@ -270,8 +270,6 @@
 		870D4BE10A7D6034008BBAB4 /* BSIndexingPopupper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8714F36A0A4966CB00AB8691 /* BSIndexingPopupper.m */; };
 		871265B5097D84ED00B90FF2 /* AddBoardSheetController.h in Headers */ = {isa = PBXBuildFile; fileRef = 871265AB097D84ED00B90FF2 /* AddBoardSheetController.h */; };
 		871265B6097D84ED00B90FF2 /* AddBoardSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 871265AC097D84ED00B90FF2 /* AddBoardSheetController.m */; };
-		871265B7097D84ED00B90FF2 /* BSTitleRulerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 871265AD097D84ED00B90FF2 /* BSTitleRulerView.h */; };
-		871265B8097D84ED00B90FF2 /* BSTitleRulerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 871265AE097D84ED00B90FF2 /* BSTitleRulerView.m */; };
 		871265B9097D84ED00B90FF2 /* CMRAccessorySheetController.h in Headers */ = {isa = PBXBuildFile; fileRef = 871265AF097D84ED00B90FF2 /* CMRAccessorySheetController.h */; };
 		871265BA097D84ED00B90FF2 /* CMRAccessorySheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 871265B0097D84ED00B90FF2 /* CMRAccessorySheetController.m */; };
 		871265BD097D84ED00B90FF2 /* CMRTextColumnCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 871265B3097D84ED00B90FF2 /* CMRTextColumnCell.h */; };
@@ -478,6 +476,7 @@
 		875D98210A8A02190061C86D /* SGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FA043610EB00A80005 /* SGFoundation.framework */; };
 		875D98220A8A021A0061C86D /* SGNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FF043610FB00A80005 /* SGNetwork.framework */; };
 		875D98230A8A021E0061C86D /* CocoMonar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3924488043610AE00A80005 /* CocoMonar.framework */; };
+		875FF5C60C7FFA960034E371 /* BSTitleRulerAppearance.plist in Resources */ = {isa = PBXBuildFile; fileRef = 875FF5C50C7FFA960034E371 /* BSTitleRulerAppearance.plist */; };
 		8761BAA30B80D2F700120AA4 /* IndexingPopupper.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8761BAA20B80D2F700120AA4 /* IndexingPopupper.strings */; };
 		8762E8C90A8635C200062504 /* rosetta.pl in Resources */ = {isa = PBXBuildFile; fileRef = 8762E8C60A8635C200062504 /* rosetta.pl */; };
 		8762E8CA0A8635C200062504 /* SJIS2UTF8 in Resources */ = {isa = PBXBuildFile; fileRef = 8762E8C70A8635C200062504 /* SJIS2UTF8 */; };
@@ -621,7 +620,6 @@
 		F47361D00AFF8758009B6189 /* CMRMessageAttributesTemplate_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC6C04C698FA00A80005 /* CMRMessageAttributesTemplate_p.h */; };
 		F47361D10AFF8758009B6189 /* CMRMessageComposer.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC6D04C698FA00A80005 /* CMRMessageComposer.h */; };
 		F47361D20AFF8758009B6189 /* CMRThreadPlistComposer.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC7604C698FA00A80005 /* CMRThreadPlistComposer.h */; };
-		F47361D30AFF8758009B6189 /* CMRThreadSubjectComposer.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC7A04C698FA00A80005 /* CMRThreadSubjectComposer.h */; };
 		F47361D40AFF8758009B6189 /* CMRDocumentController.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC9104C698FA00A80005 /* CMRDocumentController.h */; };
 		F47361D50AFF8758009B6189 /* CMRDocumentFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC9304C698FA00A80005 /* CMRDocumentFileManager.h */; };
 		F47361D60AFF8758009B6189 /* CMRKeychainManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC9604C698FA00A80005 /* CMRKeychainManager.h */; };
@@ -683,7 +681,6 @@
 		F47362130AFF8758009B6189 /* CMRThreadDocument_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F3959F0E04D3050600A80005 /* CMRThreadDocument_p.h */; };
 		F47362140AFF8758009B6189 /* CMRThreadLayout_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F3959F1004D3050600A80005 /* CMRThreadLayout_p.h */; };
 		F47362150AFF8758009B6189 /* w2chConnect.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DBCE04C6965500A80005 /* w2chConnect.h */; };
-		F47362160AFF8758009B6189 /* CMRSubjectReader.h in Headers */ = {isa = PBXBuildFile; fileRef = F309849604DD7FA100A80005 /* CMRSubjectReader.h */; };
 		F47362170AFF8758009B6189 /* CMRThreadHTMLDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = F31A368404DD971600A80005 /* CMRThreadHTMLDownloader.h */; };
 		F47362180AFF8758009B6189 /* CMRDATDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = F31A368804DD974C00A80005 /* CMRDATDownloader.h */; };
 		F47362190AFF8758009B6189 /* CMRHostHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = F358F4B904DE227900A80005 /* CMRHostHandler.h */; };
@@ -741,7 +738,6 @@
 		F47362520AFF8758009B6189 /* BSBoardInfoInspector.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BF52C908F789D400998C4E /* BSBoardInfoInspector.h */; };
 		F47362530AFF8758009B6189 /* BSImagePreviewerInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 8745CD280900DE9800A28AC0 /* BSImagePreviewerInterface.h */; };
 		F47362540AFF8758009B6189 /* AddBoardSheetController.h in Headers */ = {isa = PBXBuildFile; fileRef = 871265AB097D84ED00B90FF2 /* AddBoardSheetController.h */; };
-		F47362550AFF8758009B6189 /* BSTitleRulerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 871265AD097D84ED00B90FF2 /* BSTitleRulerView.h */; };
 		F47362560AFF8758009B6189 /* CMRAccessorySheetController.h in Headers */ = {isa = PBXBuildFile; fileRef = 871265AF097D84ED00B90FF2 /* CMRAccessorySheetController.h */; };
 		F47362570AFF8758009B6189 /* CMRTextColumnCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 871265B3097D84ED00B90FF2 /* CMRTextColumnCell.h */; };
 		F47362590AFF8758009B6189 /* BSIndexingPopupper.h in Headers */ = {isa = PBXBuildFile; fileRef = 8714F3690A4966CB00AB8691 /* BSIndexingPopupper.h */; };
@@ -831,8 +827,6 @@
 		F47362B20AFF8758009B6189 /* HistoryBack.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 878A7567088AA85B00539B6F /* HistoryBack.tiff */; };
 		F47362B30AFF8758009B6189 /* HistoryForward.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 878A7568088AA85B00539B6F /* HistoryForward.tiff */; };
 		F47362B60AFF8758009B6189 /* ToolbarItems.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8795B91E08E3A7E3005C7C5B /* ToolbarItems.strings */; };
-		F47362B70AFF8758009B6189 /* titleRulerBgAquaBlue.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 870B892B08ED56B3001664CC /* titleRulerBgAquaBlue.tiff */; };
-		F47362B80AFF8758009B6189 /* titleRulerBgAquaGraphite.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 870B892C08ED56B3001664CC /* titleRulerBgAquaGraphite.tiff */; };
 		F47362B90AFF8758009B6189 /* BSBoardInfoInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87BF52D308F7913400998C4E /* BSBoardInfoInspector.nib */; };
 		F47362BA0AFF8758009B6189 /* AddBoard_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B19D7C08FB7C4100D15053 /* AddBoard_Pressed.tiff */; };
 		F47362BB0AFF8758009B6189 /* AddBoard.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B19D7D08FB7C4100D15053 /* AddBoard.tiff */; };
@@ -850,7 +844,6 @@
 		F47362C70AFF8758009B6189 /* board_default.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8724A6DB09127E69009CC855 /* board_default.plist */; };
 		F47362C80AFF8758009B6189 /* Acknowledgments.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 87CF6468097A335D00DE8B16 /* Acknowledgments.rtf */; };
 		F47362C90AFF8758009B6189 /* Status_HeadModified.png in Resources */ = {isa = PBXBuildFile; fileRef = 8791EE29097A5BC200EA7475 /* Status_HeadModified.png */; };
-		F47362CA0AFF8758009B6189 /* titleRulerBgNotActive.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 878018E0097CF76A002FBA1F /* titleRulerBgNotActive.tiff */; };
 		F47362CE0AFF8758009B6189 /* rosetta.pl in Resources */ = {isa = PBXBuildFile; fileRef = 8762E8C60A8635C200062504 /* rosetta.pl */; };
 		F47362CF0AFF8758009B6189 /* SJIS2UTF8 in Resources */ = {isa = PBXBuildFile; fileRef = 8762E8C70A8635C200062504 /* SJIS2UTF8 */; };
 		F47362D00AFF8758009B6189 /* sora.pl in Resources */ = {isa = PBXBuildFile; fileRef = 8762E8C80A8635C200062504 /* sora.pl */; };
@@ -878,7 +871,6 @@
 		F47362F60AFF8758009B6189 /* CMRMessageAttributesStyling.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC6904C698FA00A80005 /* CMRMessageAttributesStyling.m */; };
 		F47362F70AFF8758009B6189 /* CMRMessageAttributesTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC6B04C698FA00A80005 /* CMRMessageAttributesTemplate.m */; };
 		F47362F80AFF8758009B6189 /* CMRThreadPlistComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC7704C698FA00A80005 /* CMRThreadPlistComposer.m */; };
-		F47362F90AFF8758009B6189 /* CMRThreadSubjectComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC7B04C698FA00A80005 /* CMRThreadSubjectComposer.m */; };
 		F47362FA0AFF8758009B6189 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC8504C698FA00A80005 /* main.m */; };
 		F47362FB0AFF8758009B6189 /* CMRDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC9204C698FA00A80005 /* CMRDocumentController.m */; };
 		F47362FC0AFF8758009B6189 /* CMRDocumentFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC9404C698FA00A80005 /* CMRDocumentFileManager.m */; };
@@ -937,7 +929,6 @@
 		F47363340AFF8758009B6189 /* CMRThreadContentsReader.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D5383504CE78FC00A80005 /* CMRThreadContentsReader.m */; };
 		F47363350AFF8758009B6189 /* CMRThreadUpdatedHeaderTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F31D7F9704D2F00E003EEDDD /* CMRThreadUpdatedHeaderTask.m */; };
 		F47363360AFF8758009B6189 /* CMRThreadDictReader.m in Sources */ = {isa = PBXBuildFile; fileRef = F31D7FAC04D2F0A1003EEDDD /* CMRThreadDictReader.m */; };
-		F47363370AFF8758009B6189 /* CMRSubjectReader.m in Sources */ = {isa = PBXBuildFile; fileRef = F309849704DD7FA100A80005 /* CMRSubjectReader.m */; };
 		F47363380AFF8758009B6189 /* CMRThreadHTMLDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F31A368504DD971600A80005 /* CMRThreadHTMLDownloader.m */; };
 		F47363390AFF8758009B6189 /* CMRHostHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F358F4BA04DE227900A80005 /* CMRHostHandler.m */; };
 		F473633A0AFF8758009B6189 /* CMRDATDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D0A9A104F6128A00CB520C /* CMRDATDownloader.m */; };
@@ -984,7 +975,6 @@
 		F473636A0AFF8758009B6189 /* BSBoardInfoInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BF52CA08F789D400998C4E /* BSBoardInfoInspector.m */; };
 		F473636B0AFF8758009B6189 /* CMRBrowser-BLEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 873C0DCE08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m */; };
 		F473636D0AFF8758009B6189 /* AddBoardSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 871265AC097D84ED00B90FF2 /* AddBoardSheetController.m */; };
-		F473636E0AFF8758009B6189 /* BSTitleRulerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 871265AE097D84ED00B90FF2 /* BSTitleRulerView.m */; };
 		F473636F0AFF8758009B6189 /* CMRAccessorySheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 871265B0097D84ED00B90FF2 /* CMRAccessorySheetController.m */; };
 		F47363700AFF8758009B6189 /* CMRTextColumnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 871265B4097D84ED00B90FF2 /* CMRTextColumnCell.m */; };
 		F47363720AFF8758009B6189 /* BSIndexingPopupper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8714F36A0A4966CB00AB8691 /* BSIndexingPopupper.m */; };
@@ -1274,8 +1264,6 @@
 		870D4BDF0A7D5FDB008BBAB4 /* MeteorSweeper-BRANCH_changeLog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "MeteorSweeper-BRANCH_changeLog.txt"; path = "../MeteorSweeper-BRANCH_changeLog.txt"; sourceTree = SOURCE_ROOT; };
 		871265AB097D84ED00B90FF2 /* AddBoardSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddBoardSheetController.h; sourceTree = "<group>"; };
 		871265AC097D84ED00B90FF2 /* AddBoardSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddBoardSheetController.m; sourceTree = "<group>"; };
-		871265AD097D84ED00B90FF2 /* BSTitleRulerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSTitleRulerView.h; sourceTree = "<group>"; };
-		871265AE097D84ED00B90FF2 /* BSTitleRulerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSTitleRulerView.m; sourceTree = "<group>"; };
 		871265AF097D84ED00B90FF2 /* CMRAccessorySheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRAccessorySheetController.h; sourceTree = "<group>"; };
 		871265B0097D84ED00B90FF2 /* CMRAccessorySheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRAccessorySheetController.m; sourceTree = "<group>"; };
 		871265B3097D84ED00B90FF2 /* CMRTextColumnCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRTextColumnCell.h; sourceTree = "<group>"; };
@@ -1415,6 +1403,7 @@
 		8752AACA0C6B60200078C6F4 /* BSNGExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSNGExpression.m; sourceTree = "<group>"; };
 		875743F907C372F6006F3C68 /* CMRThreadViewer-Validation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-Validation.m"; sourceTree = "<group>"; };
 		8757441407C37772006F3C68 /* CMRThreadViewer-Find.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-Find.m"; sourceTree = "<group>"; };
+		875FF5C50C7FFA960034E371 /* BSTitleRulerAppearance.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = BSTitleRulerAppearance.plist; sourceTree = "<group>"; };
 		8761BAA40B80D30600120AA4 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/IndexingPopupper.strings; sourceTree = "<group>"; };
 		8762E8C60A8635C200062504 /* rosetta.pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; name = rosetta.pl; path = subproj/BWAgent/rosetta.pl; sourceTree = SOURCE_ROOT; };
 		8762E8C70A8635C200062504 /* SJIS2UTF8 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = SJIS2UTF8; path = subproj/BWAgent/SJIS2UTF8; sourceTree = SOURCE_ROOT; };
@@ -1598,7 +1587,7 @@
 		F324DBDB04C6965500A80005 /* SG2chErrorHandler.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SG2chErrorHandler.m; sourceTree = "<group>"; };
 		F324DBEF04C6965500A80005 /* login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login.png; sourceTree = "<group>"; };
 		F324DBF004C6965500A80005 /* URLConnector_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = URLConnector_Prefix.h; sourceTree = "<group>"; };
-		F324DC2704C698FA00A80005 /* BoardManager.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = BoardManager.h; sourceTree = "<group>"; };
+		F324DC2704C698FA00A80005 /* BoardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardManager.h; sourceTree = "<group>"; };
 		F324DC2904C698FA00A80005 /* BoardManager_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = BoardManager_p.h; sourceTree = "<group>"; };
 		F324DC2D04C698FA00A80005 /* Browser.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = Browser.h; sourceTree = "<group>"; };
 		F324DC2E04C698FA00A80005 /* Browser.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = Browser.m; sourceTree = "<group>"; };
@@ -1608,7 +1597,7 @@
 		F324DC3804C698FA00A80005 /* CMRBrowser-Validation.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "CMRBrowser-Validation.m"; sourceTree = "<group>"; };
 		F324DC3904C698FA00A80005 /* CMRBrowser-ViewAccessor.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "CMRBrowser-ViewAccessor.m"; sourceTree = "<group>"; };
 		F324DC3A04C698FA00A80005 /* CMRBrowser.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRBrowser.h; sourceTree = "<group>"; };
-		F324DC3B04C698FA00A80005 /* CMRBrowser.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRBrowser.m; sourceTree = "<group>"; };
+		F324DC3B04C698FA00A80005 /* CMRBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRBrowser.m; sourceTree = "<group>"; };
 		F324DC3C04C698FA00A80005 /* CMRBrowser_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRBrowser_p.h; sourceTree = "<group>"; };
 		F324DC3D04C698FA00A80005 /* CMRFavoritesManager.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRFavoritesManager.h; sourceTree = "<group>"; };
 		F324DC3E04C698FA00A80005 /* CMRFavoritesManager.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRFavoritesManager.m; sourceTree = "<group>"; };
@@ -1696,7 +1685,7 @@
 		F324DD5F04C698FB00A80005 /* CMRThreadLinkProcessor.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRThreadLinkProcessor.m; sourceTree = "<group>"; };
 		F324DD6504C698FB00A80005 /* CMRThreadViewer-Action.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-Action.m"; sourceTree = "<group>"; };
 		F324DD6604C698FB00A80005 /* CMRThreadViewer-Contents.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-Contents.m"; sourceTree = "<group>"; };
-		F324DD6704C698FB00A80005 /* CMRThreadViewer-Download.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-Download.m"; sourceTree = "<group>"; };
+		F324DD6704C698FB00A80005 /* CMRThreadViewer-Download.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-Download.m"; sourceTree = "<group>"; };
 		F324DD6804C698FB00A80005 /* CMRThreadViewer-MoveAction.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-MoveAction.m"; sourceTree = "<group>"; };
 		F324DD6B04C698FB00A80005 /* CMRThreadViewer-ViewAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-ViewAccessor.m"; sourceTree = "<group>"; };
 		F324DD6C04C698FB00A80005 /* CMRThreadViewer.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadViewer.h; sourceTree = "<group>"; };
@@ -1820,7 +1809,7 @@
 		F3B609F80509EDBF00A80005 /* CMRHostHTMLHandler.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRHostHTMLHandler.m; sourceTree = "<group>"; };
 		F3BA419E05B605BF00D03A0D /* CMRAttachmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRAttachmentCell.h; sourceTree = "<group>"; };
 		F3BA419F05B605BF00D03A0D /* CMRAttachmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRAttachmentCell.m; sourceTree = "<group>"; };
-		F3D0A9A104F6128A00CB520C /* CMRDATDownloader.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRDATDownloader.m; sourceTree = "<group>"; };
+		F3D0A9A104F6128A00CB520C /* CMRDATDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRDATDownloader.m; sourceTree = "<group>"; };
 		F3D5383404CE78FC00A80005 /* CMRThreadContentsReader.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadContentsReader.h; sourceTree = "<group>"; };
 		F3D5383504CE78FC00A80005 /* CMRThreadContentsReader.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRThreadContentsReader.m; sourceTree = "<group>"; };
 		F3E81CF3050CB96F00A80005 /* CMRHistoryObject.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRHistoryObject.h; sourceTree = "<group>"; };
@@ -2083,8 +2072,6 @@
 			children = (
 				871265AB097D84ED00B90FF2 /* AddBoardSheetController.h */,
 				871265AC097D84ED00B90FF2 /* AddBoardSheetController.m */,
-				871265AD097D84ED00B90FF2 /* BSTitleRulerView.h */,
-				871265AE097D84ED00B90FF2 /* BSTitleRulerView.m */,
 				871265AF097D84ED00B90FF2 /* CMRAccessorySheetController.h */,
 				871265B0097D84ED00B90FF2 /* CMRAccessorySheetController.m */,
 				871265B3097D84ED00B90FF2 /* CMRTextColumnCell.h */,
@@ -2160,6 +2147,7 @@
 			isa = PBXGroup;
 			children = (
 				870B1F400C15B86200AAB734 /* BoardWarrior.scpt */,
+				875FF5C50C7FFA960034E371 /* BSTitleRulerAppearance.plist */,
 				872C33D60BB21AF00044890C /* ThreadViewerDefaultTheme.plist */,
 				87DB9C7D0BA32CE00090090A /* SoftwareUpdate.strings */,
 				F4FEFB480AFF9D0B0099853B /* CriteriaSpecifications.plist */,
@@ -3537,7 +3525,6 @@
 				87BF52CB08F789D500998C4E /* BSBoardInfoInspector.h in Headers */,
 				873BAE9A090931B0009E9B41 /* BSImagePreviewerInterface.h in Headers */,
 				871265B5097D84ED00B90FF2 /* AddBoardSheetController.h in Headers */,
-				871265B7097D84ED00B90FF2 /* BSTitleRulerView.h in Headers */,
 				871265B9097D84ED00B90FF2 /* CMRAccessorySheetController.h in Headers */,
 				871265BD097D84ED00B90FF2 /* CMRTextColumnCell.h in Headers */,
 				870D4BE00A7D6033008BBAB4 /* BSIndexingPopupper.h in Headers */,
@@ -3658,7 +3645,6 @@
 				F47361D00AFF8758009B6189 /* CMRMessageAttributesTemplate_p.h in Headers */,
 				F47361D10AFF8758009B6189 /* CMRMessageComposer.h in Headers */,
 				F47361D20AFF8758009B6189 /* CMRThreadPlistComposer.h in Headers */,
-				F47361D30AFF8758009B6189 /* CMRThreadSubjectComposer.h in Headers */,
 				F47361D40AFF8758009B6189 /* CMRDocumentController.h in Headers */,
 				F47361D50AFF8758009B6189 /* CMRDocumentFileManager.h in Headers */,
 				F47361D60AFF8758009B6189 /* CMRKeychainManager.h in Headers */,
@@ -3720,7 +3706,6 @@
 				F47362130AFF8758009B6189 /* CMRThreadDocument_p.h in Headers */,
 				F47362140AFF8758009B6189 /* CMRThreadLayout_p.h in Headers */,
 				F47362150AFF8758009B6189 /* w2chConnect.h in Headers */,
-				F47362160AFF8758009B6189 /* CMRSubjectReader.h in Headers */,
 				F47362170AFF8758009B6189 /* CMRThreadHTMLDownloader.h in Headers */,
 				F47362180AFF8758009B6189 /* CMRDATDownloader.h in Headers */,
 				F47362190AFF8758009B6189 /* CMRHostHandler.h in Headers */,
@@ -3778,7 +3763,6 @@
 				F47362520AFF8758009B6189 /* BSBoardInfoInspector.h in Headers */,
 				F47362530AFF8758009B6189 /* BSImagePreviewerInterface.h in Headers */,
 				F47362540AFF8758009B6189 /* AddBoardSheetController.h in Headers */,
-				F47362550AFF8758009B6189 /* BSTitleRulerView.h in Headers */,
 				F47362560AFF8758009B6189 /* CMRAccessorySheetController.h in Headers */,
 				F47362570AFF8758009B6189 /* CMRTextColumnCell.h in Headers */,
 				F47362590AFF8758009B6189 /* BSIndexingPopupper.h in Headers */,
@@ -4247,8 +4231,6 @@
 				F47362B20AFF8758009B6189 /* HistoryBack.tiff in Resources */,
 				F47362B30AFF8758009B6189 /* HistoryForward.tiff in Resources */,
 				F47362B60AFF8758009B6189 /* ToolbarItems.strings in Resources */,
-				F47362B70AFF8758009B6189 /* titleRulerBgAquaBlue.tiff in Resources */,
-				F47362B80AFF8758009B6189 /* titleRulerBgAquaGraphite.tiff in Resources */,
 				F47362B90AFF8758009B6189 /* BSBoardInfoInspector.nib in Resources */,
 				F47362BA0AFF8758009B6189 /* AddBoard_Pressed.tiff in Resources */,
 				F47362BB0AFF8758009B6189 /* AddBoard.tiff in Resources */,
@@ -4266,7 +4248,6 @@
 				F47362C70AFF8758009B6189 /* board_default.plist in Resources */,
 				F47362C80AFF8758009B6189 /* Acknowledgments.rtf in Resources */,
 				F47362C90AFF8758009B6189 /* Status_HeadModified.png in Resources */,
-				F47362CA0AFF8758009B6189 /* titleRulerBgNotActive.tiff in Resources */,
 				870B1F4A0C15B8AA00AAB734 /* BoardWarrior.scpt in Resources */,
 				F47362CE0AFF8758009B6189 /* rosetta.pl in Resources */,
 				F47362CF0AFF8758009B6189 /* SJIS2UTF8 in Resources */,
@@ -4293,6 +4274,7 @@
 				87170A3E0BA3ED2000AF2E65 /* BSIndexingPopupper.nib in Resources */,
 				872C33D70BB21AF00044890C /* ThreadViewerDefaultTheme.plist in Resources */,
 				87FC678A0C682E9A00A4C72C /* DownloadableLinkTypes.plist in Resources */,
+				875FF5C60C7FFA960034E371 /* BSTitleRulerAppearance.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4464,7 +4446,6 @@
 				87BF52CC08F789D500998C4E /* BSBoardInfoInspector.m in Sources */,
 				873C0DCF08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m in Sources */,
 				871265B6097D84ED00B90FF2 /* AddBoardSheetController.m in Sources */,
-				871265B8097D84ED00B90FF2 /* BSTitleRulerView.m in Sources */,
 				871265BA097D84ED00B90FF2 /* CMRAccessorySheetController.m in Sources */,
 				871265BE097D84ED00B90FF2 /* CMRTextColumnCell.m in Sources */,
 				870D4BE10A7D6034008BBAB4 /* BSIndexingPopupper.m in Sources */,
@@ -4608,7 +4589,6 @@
 				F47362F60AFF8758009B6189 /* CMRMessageAttributesStyling.m in Sources */,
 				F47362F70AFF8758009B6189 /* CMRMessageAttributesTemplate.m in Sources */,
 				F47362F80AFF8758009B6189 /* CMRThreadPlistComposer.m in Sources */,
-				F47362F90AFF8758009B6189 /* CMRThreadSubjectComposer.m in Sources */,
 				F47362FA0AFF8758009B6189 /* main.m in Sources */,
 				F47362FB0AFF8758009B6189 /* CMRDocumentController.m in Sources */,
 				F47362FC0AFF8758009B6189 /* CMRDocumentFileManager.m in Sources */,
@@ -4667,7 +4647,6 @@
 				F47363340AFF8758009B6189 /* CMRThreadContentsReader.m in Sources */,
 				F47363350AFF8758009B6189 /* CMRThreadUpdatedHeaderTask.m in Sources */,
 				F47363360AFF8758009B6189 /* CMRThreadDictReader.m in Sources */,
-				F47363370AFF8758009B6189 /* CMRSubjectReader.m in Sources */,
 				F47363380AFF8758009B6189 /* CMRThreadHTMLDownloader.m in Sources */,
 				F47363390AFF8758009B6189 /* CMRHostHandler.m in Sources */,
 				F473633A0AFF8758009B6189 /* CMRDATDownloader.m in Sources */,
@@ -4714,7 +4693,6 @@
 				F473636A0AFF8758009B6189 /* BSBoardInfoInspector.m in Sources */,
 				F473636B0AFF8758009B6189 /* CMRBrowser-BLEditor.m in Sources */,
 				F473636D0AFF8758009B6189 /* AddBoardSheetController.m in Sources */,
-				F473636E0AFF8758009B6189 /* BSTitleRulerView.m in Sources */,
 				F473636F0AFF8758009B6189 /* CMRAccessorySheetController.m in Sources */,
 				F47363700AFF8758009B6189 /* CMRTextColumnCell.m in Sources */,
 				F47363720AFF8758009B6189 /* BSIndexingPopupper.m in Sources */,

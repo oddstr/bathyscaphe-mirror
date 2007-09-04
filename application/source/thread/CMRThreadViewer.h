@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.22 2007/04/19 14:13:43 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.23 2007/09/04 07:45:43 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright (c) 2003, Takanori Ishikawa.
@@ -88,9 +88,9 @@
 //- (void) setAAThread : (BOOL) flag;
 // available in BathyScaphe 1.2 and later.
 - (BOOL) isDatOchiThread;
-- (void) setDatOchiThread : (BOOL) flag;
-- (BOOL) isMarkedThread;
-- (void) setMarkedThread : (BOOL) flag;
+//- (void) setDatOchiThread : (BOOL) flag;
+//- (BOOL) isMarkedThread;
+//- (void) setMarkedThread : (BOOL) flag;
 
 // testing: BathyScaphe 1.5
 - (NSString *) boardNameArrowingSecondSource;

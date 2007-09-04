@@ -18,16 +18,19 @@ static NSString *const kOGRegExpInstanceKey = @"OGRegularExpressionInstanceArchi
 NSString *const BSNGExpressionErrorDomain = @"BSNGExpressionErrorDomain";
 
 @implementation BSNGExpression
-- (id) init
+- (id)init
 {
 	return [self initWithExpression:nil targetMask:(BSNGExpressionAtName|BSNGExpressionAtMail|BSNGExpressionAtMessage) regularExpression:NO];
 }
 
-- (void)createOGRegExpInstance
+- (OGRegularExpression *)createOGRegExpInstance
 {
+	if (![self expression] || ![self validAsRegularExpression]) return nil;
+
 	OGRegularExpression *regExp = [[OGRegularExpression alloc] initWithString:[self expression]];
-	[self setOGRegExpInstance:regExp];
-	[regExp release];
+//	[self setOGRegExpInstance:regExp];
+//	[regExp release];
+	return [regExp autorelease];
 }
 
 - (id)initWithExpression:(NSString *)string targetMask:(unsigned int)mask regularExpression:(BOOL)isRE
@@ -36,9 +39,6 @@ NSString *const BSNGExpressionErrorDomain = @"BSNGExpressionErrorDomain";
 		[self setTargetMask:mask];
 		[self setIsRegularExpression:isRE];
 		[self setExpression:string];
-/*		if (isRE && [self validAsRegularExpression]) {
-			[self createOGRegExpInstance];
-		}*/
 	}
 	return self;
 }
@@ -61,9 +61,9 @@ NSString *const BSNGExpressionErrorDomain = @"BSNGExpressionErrorDomain";
 	[string retain];
 	[m_NGExpression release];
 	m_NGExpression = string;
-	if (string && [self isRegularExpression] && [self validAsRegularExpression]) {
-		[self createOGRegExpInstance];
-	}
+//	if (string && [self isRegularExpression] && [self validAsRegularExpression]) {
+//		[self createOGRegExpInstance];
+//	}
 }
 
 - (unsigned int)targetMask
@@ -130,16 +130,17 @@ NSString *const BSNGExpressionErrorDomain = @"BSNGExpressionErrorDomain";
 - (void)setIsRegularExpression:(BOOL)isRE
 {
 	m_isRegularExpression = isRE;
-	if (isRE && [self expression] && [self validAsRegularExpression]) {
-		[self createOGRegExpInstance];
-	}
+//	if (isRE && [self expression] && [self validAsRegularExpression]) {
+//		[self createOGRegExpInstance];
+//	}
+	if (!isRE) [self setOGRegExpInstance:nil];
 }
-
+/*
 - (void)setIsRegularExpressionWithoutCreatingRegExpInstance:(BOOL)isRE
 {
 	m_isRegularExpression = isRE;
 }
-
+*/
 - (BOOL)validateIsRegularExpression:(id *)ioValue error:(NSError **)outError
 {
 	if ([*ioValue boolValue]) {
@@ -164,6 +165,9 @@ NSString *const BSNGExpressionErrorDomain = @"BSNGExpressionErrorDomain";
 
 - (OGRegularExpression *)OGRegExpInstance
 {
+	if (!m_OGRegExpInstance && [self isRegularExpression]) {
+		m_OGRegExpInstance = [[self createOGRegExpInstance] retain];
+	}
 	return m_OGRegExpInstance;
 }
 
@@ -198,7 +202,7 @@ NSString *const BSNGExpressionErrorDomain = @"BSNGExpressionErrorDomain";
 	instance = [[[self class] alloc] init];
 	[instance setExpression:[rep stringForKey:kExpressionKey]];
 	[instance setTargetMask:[rep unsignedIntForKey:kTargetMaskKey]];
-	[instance setIsRegularExpressionWithoutCreatingRegExpInstance:[rep boolForKey:kIsRegularExpressionKey]];
+	[instance setIsRegularExpression:[rep boolForKey:kIsRegularExpressionKey]];
 	if (archivedData = [rep objectForKey:kOGRegExpInstanceKey]) {
 		[instance setOGRegExpInstance:[NSKeyedUnarchiver unarchiveObjectWithData:archivedData]];
 	}
@@ -219,6 +223,7 @@ NSString *const BSNGExpressionErrorDomain = @"BSNGExpressionErrorDomain";
 	if (regExp = [self OGRegExpInstance]) {
 		[dict setObject:[NSKeyedArchiver archivedDataWithRootObject:regExp] forKey:kOGRegExpInstanceKey];
 	}
+//	[dict setNoneNil:[NSKeyedArchiver archivedDataWithRootObject:regExp] forKey:kOGRegExpInstanceKey];
 	return (NSDictionary *)dict;
 }
 @end

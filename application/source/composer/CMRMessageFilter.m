@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMessageFilter.m,v 1.11 2007/08/15 20:59:50 tsawada2 Exp $
+  * $Id: CMRMessageFilter.m,v 1.12 2007/09/04 07:45:43 tsawada2 Exp $
   * 
   * CMRMessageFilter.m
   *
@@ -364,7 +364,7 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 		if (regExp = [NGExp OGRegExpInstance]) {
 			if ([regExp matchInString:source]) return YES;
 		} else {
-			if (([source rangeOfString:[NGExp expression] options:NSLiteralSearch].length != 0)) return YES;
+			if ([source rangeOfString:[NGExp expression] options:NSLiteralSearch].length != 0) return YES;
 		}
 	}
 	return NO;
@@ -379,12 +379,13 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 
 	// –¼‘O
 	field = [aMessage name];
-	if (!checkNameIsNonSignificant_(field) && ![self nanashiAllowedAtWorkingBoard] && [[self noNameArrayAtWorkingBoard] containsObject:field]) {
-//	if (!checkNameIsNonSignificant_(field) && ![[self noNameArrayAtWorkingBoard] containsObject:field]) {
-		name_ = [[field mutableCopy] autorelease];
-		[CMXTextParser convertMessageSourceToCachedMessage:name_];
-		if ([self detectStringUsingCorpus:name_ targetMask:BSNGExpressionAtName]) {
-			return YES;
+	if (!checkNameIsNonSignificant_(field)) {
+		if (![self nanashiAllowedAtWorkingBoard] || ![[self noNameArrayAtWorkingBoard] containsObject:field]) {
+			name_ = [[field mutableCopy] autorelease];
+			[CMXTextParser convertMessageSourceToCachedMessage:name_];
+			if ([self detectStringUsingCorpus:name_ targetMask:BSNGExpressionAtName]) {
+				return YES;
+			}
 		}
 	}
 

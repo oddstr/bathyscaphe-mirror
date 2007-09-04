@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.h,v 1.28 2007/07/27 10:26:39 tsawada2 Exp $
+  * $Id: CMRBrowser.h,v 1.29 2007/09/04 07:45:43 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -66,7 +66,7 @@ typedef enum _BSThreadDeletionType {
 
 - (IBAction) selectFilteringMask : (id) sender;
 
-- (void) clearSearchFilter;
+//- (void) clearSearchFilter;
 - (void) synchronizeWithSearchField;
 - (BOOL) ifSearchFieldIsInToolbar;
 
@@ -84,10 +84,11 @@ typedef enum _BSThreadDeletionType {
 @end
 
 @interface CMRBrowser(BoardListEditor)
-- (IBAction) addDrawerItem : (id) sender;
-- (IBAction) addCategoryItem : (id) sender;
-- (IBAction) editDrawerItem : (id) sender;
-- (IBAction) removeDrawerItem : (id) sender;
+- (IBAction)addBoardListItem:(id)sender;
+- (IBAction)addSmartItem:(id)sender;
+- (IBAction)addCategoryItem:(id)sender;
+- (IBAction)editBoardListItem:(id)sender;
+- (IBAction)removeBoardListItem:(id)sender;
 @end
 
 

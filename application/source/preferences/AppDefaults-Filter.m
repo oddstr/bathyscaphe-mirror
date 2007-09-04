@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-Filter.m,v 1.5 2007/08/11 19:48:07 tsawada2 Exp $
+  * $Id: AppDefaults-Filter.m,v 1.6 2007/09/04 07:45:43 tsawada2 Exp $
   * 
   * AppDefaults-Filter.m
   *
@@ -34,7 +34,7 @@ static NSString *const kPrefOldNGWordsImportedKey = @"Old Format Corpus Imported
 }
 
 
-/*** –À˜fƒŒƒXƒtƒBƒ‹ƒ^***/
+/*** è¿·æƒ‘ãƒ¬ã‚¹ãƒ•ã‚£ãƒ«ã‚¿***/
 - (BOOL) spamFilterEnabled
 {
 	return [[self filterPrefs] 
@@ -47,7 +47,7 @@ static NSString *const kPrefOldNGWordsImportedKey = @"Old Format Corpus Imported
 			 setBool : flag
 			  forKey : kPrefSpamFilterEnabledKey];
 }
-// –{•¶’†‚ÌŒê‹å‚àƒ`ƒFƒbƒN‚·‚é
+// æœ¬æ–‡ä¸­ã®èªå¥ã‚‚ãƒã‚§ãƒƒã‚¯ã™ã‚‹
 - (BOOL) usesSpamMessageCorpus
 {
 	return [[self filterPrefs] 
@@ -101,7 +101,7 @@ static NSString *const kPrefOldNGWordsImportedKey = @"Old Format Corpus Imported
 	[[self filterPrefs] setBool:imported forKey:kPrefOldNGWordsImportedKey];
 }
 
-// –À˜fƒŒƒX‚ğŒ©‚Â‚¯‚½‚Æ‚«‚Ì“®ìF
+// è¿·æƒ‘ãƒ¬ã‚¹ã‚’è¦‹ã¤ã‘ãŸã¨ãã®å‹•ä½œï¼š
 - (int) spamFilterBehavior
 {
 	return [[self filterPrefs] 
@@ -114,7 +114,7 @@ static NSString *const kPrefOldNGWordsImportedKey = @"Old Format Corpus Imported
 			 setInteger : mask
 			     forKey : kPrefSpamFilterBehaviorKey];
 }
-// ƒŠƒZƒbƒg
+// ãƒªã‚»ãƒƒãƒˆ
 - (void) resetSpamFilter
 {
 	[[CMRSpamFilter sharedInstance] resetSpamFilter];

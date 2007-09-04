@@ -1,5 +1,5 @@
 /**
-  * $Id: ThreadsListTable.m,v 1.10 2007/01/28 07:18:50 tsawada2 Exp $
+  * $Id: ThreadsListTable.m,v 1.11 2007/09/04 07:45:43 tsawada2 Exp $
   * 
   * ThreadsListTable.m
   *
@@ -294,5 +294,35 @@ Hope this helps...
 - (void) setInitialState
 {
 	allColumns = [[NSArray arrayWithArray : [self tableColumns]] retain];
+}
+
+#pragma mark IBActions
+- (IBAction)revealInFinder:(id)sender
+{
+	id dataSource = [self dataSource];
+	if (!dataSource || ![dataSource respondsToSelector:@selector(threadFilePathAtRowIndex:inTableView:status:)]) {
+		NSBeep();
+		return;
+	}
+
+	NSString *path = [dataSource threadFilePathAtRowIndex:[self selectedRow] inTableView:self status:NULL];
+	[[NSWorkspace sharedWorkspace] selectFile:path inFileViewerRootedAtPath:[path stringByDeletingLastPathComponent]];
+}
+
+- (BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)anItem
+{
+	SEL action = [anItem action];
+	if (action == @selector(revealInFinder:)) {
+		int selectedRow = [self selectedRow];
+		id dataSource = [self dataSource];
+
+		if (selectedRow == -1) return NO;
+		if (!dataSource || ![dataSource respondsToSelector:@selector(threadFilePathAtRowIndex:inTableView:status:)]) return NO;
+
+		ThreadStatus status;
+		[dataSource threadFilePathAtRowIndex:selectedRow inTableView:self status:&status];
+		return ((status & ThreadLogCachedStatus) > 0);
+	}
+	return [super validateUserInterfaceItem:anItem];
 }
 @end

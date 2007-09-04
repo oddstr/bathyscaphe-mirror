@@ -1,20 +1,22 @@
-/**
-  * $Id: CMRBrowser.m,v 1.31 2007/07/21 19:32:55 tsawada2 Exp $
-  * 
-  * CMRBrowser.m
-  *
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  CMRBrowser.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/08/26.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import "CMRBrowser_p.h"
 #import "BSBoardInfoInspector.h"
-#import "CMRDocumentController.h";
 #import "CMRAppDelegate.h"
 
 NSString *const CMRBrowserDidChangeBoardNotification = @"CMRBrowserDidChangeBoardNotification";
 NSString *const CMRBrowserThListUpdateDelegateTaskDidFinishNotification = @"CMRBrThListUpdateDelgTaskDidFinishNotification";
 
 static void *kBrowserContext = @"Konata";
+static NSString *const kObservingKey = @"isSplitViewVertical";
+
 /*
  * current main browser instance.
  * @see CMRExports.h 
@@ -22,63 +24,66 @@ static void *kBrowserContext = @"Konata";
 CMRBrowser *CMRMainBrowser = nil;
 
 @implementation CMRBrowser
-- (id) init
+- (id)init
 {
 	if (self = [super init]) {
-		if([(CMRAppDelegate *)[NSApp delegate] shouldCascadeBrowserWindow]) {
-			[self setShouldCascadeWindows : YES];
+		CMRAppDelegate *delegate = (CMRAppDelegate *)[NSApp delegate];
+
+		if([delegate shouldCascadeBrowserWindow]) {
+			[self setShouldCascadeWindows:YES];
 		} else {
-			[self setShouldCascadeWindows : NO];
-			[(CMRAppDelegate *)[NSApp delegate] setShouldCascadeBrowserWindow: YES];
+			[self setShouldCascadeWindows:NO];
+			[delegate setShouldCascadeBrowserWindow:YES];
 		}
 
-		if (CMRMainBrowser == nil)
+		if (!CMRMainBrowser) {
 			CMRMainBrowser = self;
+		}
 
-		[CMRPref addObserver:self forKeyPath: @"isSplitViewVertical" options:NSKeyValueObservingOptionNew context:kBrowserContext];
+		[CMRPref addObserver:self forKeyPath:kObservingKey options:NSKeyValueObservingOptionNew context:kBrowserContext];
 	}
 	return self;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-	if (context == kBrowserContext && object == CMRPref && [keyPath isEqualToString: @"isSplitViewVertical"]) {
+	if (context == kBrowserContext && object == CMRPref && [keyPath isEqualToString:kObservingKey]) {
 		[self setupSplitView];
-		[[self splitView] resizeSubviewsWithOldSize : [[self splitView] frame].size];
+		[[self splitView] resizeSubviewsWithOldSize:[[self splitView] frame].size];
+	} else {
+		[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 	}
 }
 
-- (NSString *) windowNibName
+- (NSString *)windowNibName
 {
 	return @"Browser";
 }
 
-- (NSString *) windowTitleForDocumentDisplayName : (NSString *) displayName
+- (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName
 {
 	NSString		*threadTitle_ = [[[self currentThreadsList] objectValueForBoardInfo] stringValue];
 
 	if ([[self document] searchString]) {
 		/* 2005-09-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-		   ŒŸõŒ‹‰Ê‚ğ•\¦‚µ‚Ä‚¢‚éŠÔ‚ÍA‚»‚ê‚ğ—Dæ‚µAƒEƒCƒ“ƒhƒEƒ^ƒCƒgƒ‹‚Ì•ÏX‚ğ—}§‚·‚éB*/
+		   æ¤œç´¢çµæœã‚’è¡¨ç¤ºã—ã¦ã„ã‚‹é–“ã¯ã€ãã‚Œã‚’å„ªå…ˆã—ã€ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã‚¿ã‚¤ãƒˆãƒ«ã®å¤‰æ›´ã‚’æŠ‘åˆ¶ã™ã‚‹ã€‚*/
 		/* 2006-12-14 masakih <masakih@users.sourceforge.jp>
-		   ‚Å‚Í‚±‚±‚ÅŒŸõŒ‹‰Ê‚ğ•\¦‚µ‚Ä‚µ‚Ü‚¦‚Î‚¢‚¢B */
+		   ã§ã¯ã“ã“ã§æ¤œç´¢çµæœã‚’è¡¨ç¤ºã—ã¦ã—ã¾ãˆã°ã„ã„ã€‚ */
 		unsigned foundNum = [[self currentThreadsList] numberOfFilteredThreads];
 		
 		if (0 == foundNum) {
-			threadTitle_ = [self localizedString : kSearchListNotFoundKey];
+			threadTitle_ = [self localizedString:kSearchListNotFoundKey];
 		} else {
-			threadTitle_ = [NSString stringWithFormat : [self localizedString : kSearchListResultKey],
-				foundNum];
+			threadTitle_ = [NSString stringWithFormat:[self localizedString:kSearchListResultKey], foundNum];
 		}
 	}
 	
-	if (nil == threadTitle_)
-		return displayName;
+	if (!threadTitle_) return displayName;
 	
 	return [NSString stringWithFormat:@"%@ (%@)", displayName, threadTitle_];
 }
 
-- (void) exchangeOrDisposeMainBrowser
+- (void)exchangeOrDisposeMainBrowser
 {
 	NSArray *curWindows = [NSApp orderedWindows];
 	if (!curWindows || [curWindows count] == 0) {
@@ -96,29 +101,26 @@ CMRBrowser *CMRMainBrowser = nil;
 			continue;
 		}
 
-		if ([winController isKindOfClass: [self class]]) {
+		if ([winController isKindOfClass:[self class]]) {
 			CMRMainBrowser = (CMRBrowser *)winController;
 			break;
 		}
 	}
-	
+
 	if (CMRMainBrowser == self) {
 		CMRMainBrowser = nil;
-		[(CMRAppDelegate *)[NSApp delegate] setShouldCascadeBrowserWindow: NO];
+		[(CMRAppDelegate *)[NSApp delegate] setShouldCascadeBrowserWindow:NO];
 	}
 }
 
-- (void) dealloc
+- (void)dealloc
 {
-	[CMRPref removeObserver:self forKeyPath: @"isSplitViewVertical"]; 
-	[[NSNotificationCenter defaultCenter] removeObserver : self];
+	[CMRPref removeObserver:self forKeyPath:@"isSplitViewVertical"]; 
 
 	// dispose main browser...
 	if (CMRMainBrowser == self) {
 		[self exchangeOrDisposeMainBrowser];
 	}
-
-	//[_filterString release];
 
 	[m_listSorterSheetController release];
 	[m_addBoardSheetController release];
@@ -128,26 +130,25 @@ CMRBrowser *CMRMainBrowser = nil;
 	[super dealloc];
 }
 
-- (void) didChangeThread
+- (void)didChangeThread
 {
 	NSString *threadTitleAndBoardName;
-	// —š—ğƒƒjƒ…[‚©‚ç‘I‘ğ‚µ‚½‰Â”\«‚à‚ ‚é‚Ì‚ÅA
-	// •\¦‚µ‚½ƒXƒŒƒbƒh‚ğˆê——‚Å‚à‘I‘ğ‚³‚¹‚é
+	BSTitleRulerView *ruler = (BSTitleRulerView *)[[self scrollView] horizontalRulerView];
+	// å±¥æ­´ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‹ã‚‰é¸æŠã—ãŸå¯èƒ½æ€§ã‚‚ã‚ã‚‹ã®ã§ã€
+	// è¡¨ç¤ºã—ãŸã‚¹ãƒ¬ãƒƒãƒ‰ã‚’ä¸€è¦§ã§ã‚‚é¸æŠã•ã›ã‚‹
 	[super didChangeThread];
 	threadTitleAndBoardName = [self titleForTitleBar];
-	[(BSTitleRulerView *)[[self scrollView] horizontalRulerView] setTitleStr: (threadTitleAndBoardName ? threadTitleAndBoardName : @"")];
+	[ruler setTitleStr:(threadTitleAndBoardName ? threadTitleAndBoardName : @"")];
+	[ruler setPathStr:[self path]];
 	[self selectRowWithCurrentThread];
 }
 
-- (id) boardIdentifier
+/*- (id) boardIdentifier
 {
 	return [CMRBBSSignature BBSSignatureWithName : [[self currentThreadsList] BBSName]];
-}
-- (id) threadIdentifier
-{
-	return [super threadIdentifier];
-}
-- (NSString *) boardNameArrowingSecondSource
+}*/
+
+- (NSString *)boardNameArrowingSecondSource
 {
 	NSString *firstSource = [self boardName];
 	if(firstSource)
@@ -157,39 +158,26 @@ CMRBrowser *CMRMainBrowser = nil;
 	return secondSource;
 }
 
-// CMRThreadViewer:
-/**
-  * 
-  * I—¹ˆ—
-  * 
-  * @see SGDocument.h
-  *
-  */
-- (void)    document : (NSDocument         *) aDocument
-willRemoveController : (NSWindowController *) aController;
+- (void)document:(NSDocument *)aDocument willRemoveController:(NSWindowController *)aController
 {
-	[self setCurrentThreadsList : nil];
-	
-	if ([[self superclass] instancesRespondToSelector : _cmd])
-		[super document:aDocument willRemoveController:aController];
+	[self setCurrentThreadsList:nil];
+	[super document:aDocument willRemoveController:aController];
 }
-- (BOOL) shouldShowContents
+
+- (BOOL)shouldShowContents
 {
 	return (NSHeight([[self textView] visibleRect]) > 0);
 }
-- (BOOL) shouldLoadWindowFrameUsingCache
+
+- (BOOL)shouldLoadWindowFrameUsingCache
 {
 	return NO;
 }
-- (IBAction) showBoardInspectorPanel : (id) sender
-{
-	NSString			*board;
-	//board = [(CMRBBSSignature *)[self boardIdentifier] name];
-	board = [[self currentThreadsList] BBSName];
-	if (nil == board)
-		return;
 
-	[[BSBoardInfoInspector sharedInstance] showInspectorForTargetBoard : board];
+- (IBAction)showBoardInspectorPanel:(id)sender
+{
+	NSString *board = [[self currentThreadsList] BBSName];
+	if (board) [[BSBoardInfoInspector sharedInstance] showInspectorForTargetBoard:board];
 }
 @end
 
@@ -198,7 +186,7 @@ willRemoveController : (NSWindowController *) aController;
 @implementation CMRBrowser(SelectingThreads)
 - (unsigned int) numberOfSelectedThreads
 {
-	// ‘I‘ğ‚µ‚Ä‚¢‚È‚¢‚ª•\¦‚µ‚Ä‚¢‚é
+	// é¸æŠã—ã¦ã„ãªã„ãŒè¡¨ç¤ºã—ã¦ã„ã‚‹
 	if (0 == [[self threadsListTable] numberOfSelectedRows] && [self shouldShowContents])
 		return [super numberOfSelectedThreads];
 	
@@ -237,8 +225,8 @@ static BOOL threadDictionaryCompare(NSDictionary *dict1, NSDictionary *dict2)
 	NSDictionary	*selected_;
 	BOOL			selectedItemAdded_ = NO;
 	
-	// ‘I‘ğ‚µ‚Ä‚¢‚È‚¢‚ª•\¦‚µ‚Ä‚¢‚é‚©‚à‚µ‚ê‚È‚¢
-	// ‚µ‚©‚µA•\¦•”•ª‚ğ•Â‚¶‚Ä‚¢‚éê‡‚Íl‚¦‚È‚¢
+	// é¸æŠã—ã¦ã„ãªã„ãŒè¡¨ç¤ºã—ã¦ã„ã‚‹ã‹ã‚‚ã—ã‚Œãªã„
+	// ã—ã‹ã—ã€è¡¨ç¤ºéƒ¨åˆ†ã‚’é–‰ã˜ã¦ã„ã‚‹å ´åˆã¯è€ƒãˆãªã„
 	selected_ = [self shouldShowContents] ? [super selectedThread] : nil;
 	
 	threads_ = [NSMutableArray array];
@@ -272,8 +260,8 @@ static BOOL threadDictionaryCompare(NSDictionary *dict1, NSDictionary *dict2)
 	NSNumber		*indexNum_;
 	BSDBThreadList	*threadsList_;
 	
-	// ‘I‘ğ‚µ‚Ä‚¢‚È‚¢‚ª•\¦‚µ‚Ä‚¢‚é‚©‚à‚µ‚ê‚È‚¢
-	// ‚µ‚©‚µA‚±‚Ìƒƒ\ƒbƒh‚Íu^‚É‘I‘ğ‚³‚ê‚Ä‚¢‚év‚à‚Ì‚µ‚©•Ô‚³‚È‚¢(see selectedThreads)
+	// é¸æŠã—ã¦ã„ãªã„ãŒè¡¨ç¤ºã—ã¦ã„ã‚‹ã‹ã‚‚ã—ã‚Œãªã„
+	// ã—ã‹ã—ã€ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã¯ã€ŒçœŸã«é¸æŠã•ã‚Œã¦ã„ã‚‹ã€ã‚‚ã®ã—ã‹è¿”ã•ãªã„(see selectedThreads)
 	
 	threads_ = [NSMutableArray array];
 	indexIter_ = [table_ selectedRowEnumerator];

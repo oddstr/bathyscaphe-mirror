@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate+Menu.m,v 1.15 2007/07/27 10:26:39 tsawada2 Exp $
+ * $Id: CMRAppDelegate+Menu.m,v 1.16 2007/09/04 07:45:43 tsawada2 Exp $
  * 
  * CMRAppDelegate+Menu.m
  *
@@ -256,25 +256,60 @@ NSMenuItem    *menuItem_;
 }*/
 
 #pragma mark Public
+- (NSMenu *)browserListColumnsMenuTemplate
+{
+    NSArray         *defaultColumnsArray_;
+	NSMenu			*menu;
+    NSEnumerator    *iter_;
+    NSDictionary    *item_;
+	Class			expectedClass = [NSDictionary class];
+    
+    defaultColumnsArray_ = [[self class] defaultColumnsArray];
+    if (!defaultColumnsArray_) return nil;
+
+	menu = [[NSMenu alloc] initWithTitle:@"Columns"];
+
+	iter_ = [defaultColumnsArray_ objectEnumerator];
+    while (item_ = [iter_ nextObject]) {
+        NSString		*title_;
+		NSString		*identifier_;
+        NSMenuItem		*menuItem_;
+        
+        if (![item_ isKindOfClass:expectedClass]) continue;
+        
+        title_ = [item_ objectForKey:@"Title"];
+        identifier_ = [item_ objectForKey:@"Identifier"];
+        
+        menuItem_ = [[NSMenuItem alloc] initWithTitle:title_ action:@selector(chooseColumn:) keyEquivalent:@""];
+		[menuItem_ setRepresentedObject:identifier_];
+        [menu addItem : menuItem_];
+        [menuItem_ release];
+	}
+
+	return [menu autorelease];
+}
 
 - (void) setupMenu
 {
     NSMenuItem    *menuItem_;
 	CMRMainMenuManager	*dm_ = [CMRMainMenuManager defaultManager];
+	CMRHistoryManager	*hm_ = [CMRHistoryManager defaultManager];
+
     menuItem_ = [dm_ helpMenuItem];
     NSAssert(
         [menuItem_ hasSubmenu],
         @"menuItem must have submenu");
     [self setupURLBookmarksMenuWithMenu : [menuItem_ submenu]];
 	
-	[self setupBrowserListColumnsMenuWithMenu : [[dm_ browserListColumnsMenuItem] submenu]];
+//	[self setupBrowserListColumnsMenuWithMenu : [[dm_ browserListColumnsMenuItem] submenu]];
+	[[dm_ browserListColumnsMenuItem] setSubmenu:[self browserListColumnsMenuTemplate]];
 //	[self setupBrowserStatusFilteringMenuWithMenu : [[dm_ browserStatusFilteringMenuItem] submenu]];
     
 //    [self setupBrowserArrangementMenu];
 //    [dm_ synchronizeIsOnlineModeMenuItemState];
 
-	[[dm_ historyMenu] setDelegate: [CMRHistoryManager defaultManager]];
-	[[dm_ boardHistoryMenu] setDelegate: [CMRHistoryManager defaultManager]];
+	[[dm_ historyMenu] setDelegate:hm_];
+	[[dm_ boardHistoryMenu] setDelegate:hm_];
 	[BSScriptsMenuManager setupScriptsMenu];
 }
 @end

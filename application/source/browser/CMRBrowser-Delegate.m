@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.41 2007/04/13 12:31:41 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.42 2007/09/04 07:45:43 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -10,10 +10,11 @@
 #import "BoardManager.h"
 #import "missing.h"
 #import "BSNobiNobiToolbarItem.h"
+
 extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
 
 @implementation CMRBrowser(Delegate)
-BOOL isCommandKeyDown(unsigned flag_)
+/*BOOL isCommandKeyDown(unsigned flag_)
 {
 	if (flag_ & NSCommandKeyMask) {
 		return YES;
@@ -21,9 +22,10 @@ BOOL isCommandKeyDown(unsigned flag_)
 		return NO;
 	}
 }
-
-BOOL isOptionKeyDown(unsigned flag_)
+*/
+BOOL isOptionKeyDown(void)
 {
+	unsigned flag_ = [[NSApp currentEvent] modifierFlags];
 	if (flag_ & NSAlternateKeyMask) {
 		return YES;
 	} else {
@@ -186,14 +188,13 @@ BOOL isOptionKeyDown(unsigned flag_)
 }
 
 #pragma mark NSOutlineView Delegate
-
-- (void) outlineViewSelectionDidChange : (NSNotification *) notification
+- (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
 	int					rowIndex_;
 	NSOutlineView		*brdListTable_;
 	NSDictionary		*item_;
 	
-	brdListTable_ = [notification object];//[self boardListTable];
+	brdListTable_ = [notification object];
 
 	UTILAssertNotificationName(
 		notification,
@@ -207,26 +208,26 @@ BOOL isOptionKeyDown(unsigned flag_)
 	if ([brdListTable_ numberOfSelectedRows] > 1) return;
 	if (rowIndex_ < 0) return;
 	if (rowIndex_ >= [brdListTable_ numberOfRows]) return;
-	//if (isCommandKeyDown([[NSApp currentEvent] modifierFlags])) return;
 
-	item_ = [brdListTable_ itemAtRow : rowIndex_];
+	item_ = [brdListTable_ itemAtRow:rowIndex_];
 
-	if (nil == item_) return;
+	if (!item_) return;
 	if (![item_ hasURL] && ![BoardListItem isFavoriteItem:item_] && ![BoardListItem isSmartItem:item_]) return;
 
-	[self showThreadsListForBoard : item_];
+	[self showThreadsListForBoard:item_];
 }
 
-- (void)outlineView : (NSOutlineView *) olv
-	willDisplayCell : (NSCell *) cell
-	 forTableColumn : (NSTableColumn *) tableColumn
-			   item : (id) item
+- (void)outlineView:(NSOutlineView *)olv willDisplayCell:(NSCell *)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
-	// 自身のデータソースにデリゲートメソッドを処理させる。
-	[[olv dataSource] outlineView : olv willDisplayCell : cell forTableColumn : tableColumn item : item];
+	// 自身のデータソースにデリゲートメソッドを処理させる（ようにしていたが、もうその必要はなさそうだ）。
+//	[[olv dataSource] outlineView : olv willDisplayCell : cell forTableColumn : tableColumn item : item];
+	if ([[tableColumn identifier] isEqualToString:BoardPlistNameKey]) {
+		[cell setImage:[item icon]];
+	}
 }
 
-- (NSIndexSet *) outlineView: (BSBoardListView *) boardListView findForString: (NSString *) aString
+#pragma mark Type-To-Select Support
+- (NSIndexSet *)outlineView:(BSBoardListView *)boardListView findForString:(NSString *)aString
 {
     SmartBoardList       *source;
 	BoardListItem	*matchedItem;
@@ -234,20 +235,18 @@ BOOL isOptionKeyDown(unsigned flag_)
 
     source = (SmartBoardList *)[boardListView dataSource];
     
-    matchedItem = [source itemWithNameHavingPrefix: aString];
+    matchedItem = [source itemWithNameHavingPrefix:aString];
 
-    if (nil == matchedItem) {
-//		NSLog(@"outlineView:findForString: -- selected is nil");
+    if (!matchedItem) {
 		return nil;
 	}
 		
-    index = [self searchRowForItemInDeep: matchedItem fromSource: [source boardItems] forView: boardListView];
+    index = [self searchRowForItemInDeep:matchedItem fromSource:[source boardItems] forView:boardListView];
 	if (-1 == index) return nil;
-	return [NSIndexSet indexSetWithIndex: index];
+	return [NSIndexSet indexSetWithIndex:index];
 }
 
 #pragma mark NSTableView Delegate
-
 - (void)    tableView : (NSTableView   *) tableView
   didClickTableColumn : (NSTableColumn *) tableColumn
 {
@@ -285,7 +284,7 @@ BOOL isOptionKeyDown(unsigned flag_)
 	[bm_ setSortDescriptors: [currentList_ sortDescriptors] forBoard: currentBoard_];
 
 	// option キーを押しながらヘッダをクリックした場合は、変更後の設定を CMRPref に保存する（グローバルな設定の変更）。
-	if (isOptionKeyDown([[NSApp currentEvent] modifierFlags])) {
+	if (isOptionKeyDown()) {
 		[CMRPref setBrowserSortColumnIdentifier : theId_];
 		[CMRPref setBrowserSortAscending : [currentList_ isAscending]];
 	}
@@ -294,14 +293,28 @@ BOOL isOptionKeyDown(unsigned flag_)
 	[tableView reloadData];
 }
 
-- (void) tableViewColumnDidMove : (NSNotification *) aNotification
+- (void)saveBrowserListColumnState:(NSTableView *)targetTableView
 {
-	[CMRPref setThreadsListTableColumnState : [[self threadsListTable] columnState]];
+	NSString *boardName = [[self currentThreadsList] boardName];
+	if (!boardName) return;
+
+	if (isOptionKeyDown()) {
+		[CMRPref setThreadsListTableColumnState:[targetTableView columnState]];
+	} else {
+		[[BoardManager defaultManager] setBrowserListColumns:[targetTableView columnState] forBoard:boardName];
+	}
 }
 
-- (void) tableViewColumnDidResize : (NSNotification *) aNotification
+- (void)tableViewColumnDidMove:(NSNotification *)aNotification
 {
-	[CMRPref setThreadsListTableColumnState : [[self threadsListTable] columnState]];
+//	NSLog(@"Received %@", [aNotification name]);
+	[self saveBrowserListColumnState:[aNotification object]];
+}
+
+- (void)tableViewColumnDidResize:(NSNotification *)aNotification
+{
+//	NSLog(@"Received %@", [aNotification name]);
+	[self saveBrowserListColumnState:[aNotification object]];
 }
 
 // そのセルの内容が「...」で省略表示されているのかどうか判別するよい方法が無いなぁ
@@ -330,18 +343,14 @@ BOOL isOptionKeyDown(unsigned flag_)
 
 
 #pragma mark RBSplitView Delegate
-
-- (void) splitView : (RBSplitView *) sender
-	wasResizedFrom : (float) oldDimension
-				to : (float) newDimension
+- (void)splitView:(RBSplitView *)sender wasResizedFrom:(float)oldDimension to:(float)newDimension
 {
-	[sender adjustSubviewsExcepting : [self boardListSubView]];
+	[sender adjustSubviewsExcepting:[self boardListSubView]];
 }
 
 - (void)splitView:(RBSplitView*)sender changedFrameOfSubview:(RBSplitSubview*)subview from:(NSRect)fromRect to:(NSRect)toRect
 {
 	if (subview == [self boardListSubView]) {
-//		NSLog(@"boardListSubView was resized from %.0f to %.0f", fromRect.size.width, toRect.size.width);
 		NSToolbar *toolbar = [[self window] toolbar];
 		if (!toolbar) return;
 		NSArray *items = [toolbar visibleItems];
@@ -350,82 +359,75 @@ BOOL isOptionKeyDown(unsigned flag_)
 		while (eachItem = [iter nextObject]) {
 			if ([[eachItem itemIdentifier] isEqualToString: @"Boards List Space"]) {
 				[NSObject cancelPreviousPerformRequestsWithTarget:eachItem selector:@selector(adjustTo:) object:nil];
-				[(BSNobiNobiToolbarItem *)eachItem performSelector:@selector(adjustTo:) withObject:[NSNumber numberWithFloat:toRect.size.width] afterDelay:0.2];
-//				[[toolbar delegate] adjustNobiNobiViewTbItem: eachItem to: toRect.size.width];
+				[eachItem performSelector:@selector(adjustTo:) withObject:[NSNumber numberWithFloat:toRect.size.width] afterDelay:0.2];
 				return;
 			}
 		}
 	}
 }
+
 // This makes it possible to drag the first divider around by the dragView.
-- (unsigned int) splitView : (RBSplitView *) sender
-		   dividerForPoint : (NSPoint) point
-				 inSubview : (RBSplitSubview *) subview
+- (unsigned int)splitView:(RBSplitView *)sender dividerForPoint:(NSPoint)point inSubview:(RBSplitSubview *)subview
 {
 	if (subview == [self boardListSubView]) {
 		id draggingSplitter_ = [self splitterBtn];
-		if ([draggingSplitter_ mouse : [draggingSplitter_ convertPoint : point fromView : sender]
-							  inRect : [draggingSplitter_ bounds]])
-		{
+		if ([draggingSplitter_ mouse:[draggingSplitter_ convertPoint:point fromView:sender] inRect:[draggingSplitter_ bounds]]) {
 			return 0;	// [firstSplit position], which we assume to be zero
 		}
 	}
 	return NSNotFound;
 }
+
 // This changes the cursor when it's over the dragView.
-- (NSRect) splitView : (RBSplitView *) sender
-		  cursorRect : (NSRect) rect
-		  forDivider : (unsigned int) divider
+- (NSRect)splitView:(RBSplitView *)sender cursorRect:(NSRect)rect forDivider:(unsigned int)divider
 {
 	if (divider == 0) {
 		id draggingSplitter_ = [self splitterBtn];
-		[sender addCursorRect : [draggingSplitter_ convertRect : [draggingSplitter_ bounds] toView : sender]
-					   cursor : [RBSplitView cursor : RBSVVerticalCursor]];
+		[sender addCursorRect:[draggingSplitter_ convertRect:[draggingSplitter_ bounds] toView:sender]
+					   cursor:[RBSplitView cursor:RBSVVerticalCursor]];
 	}
 	return rect;
 }
 @end
 
-#pragma mark -
 
 @implementation CMRBrowser(NotificationPrivate)
-- (void) registerToNotificationCenter
+- (void)registerToNotificationCenter
 {
-	[[NSNotificationCenter defaultCenter]
-	     addObserver : self
-	        selector : @selector(boardManagerUserListDidChange:)
-	            name : CMRBBSManagerUserListDidChangeNotification
-	          object : [BoardManager defaultManager]];
-	[[NSNotificationCenter defaultCenter]
-	     addObserver : self
-	        selector : @selector(threadsListDownloaderShouldRetryUpdate:)
-	            name : ThreadsListDownloaderShouldRetryUpdateNotification
-	          object : nil];
+	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+	[nc addObserver:self
+		   selector:@selector(boardManagerUserListDidChange:)
+			   name:CMRBBSManagerUserListDidChangeNotification
+			 object:[BoardManager defaultManager]];
+	[nc addObserver:self
+		   selector:@selector(threadsListDownloaderShouldRetryUpdate:)
+			   name:ThreadsListDownloaderShouldRetryUpdateNotification
+			 object:nil];
+	[nc addObserver:self
+		   selector:@selector(threadDocumentDidToggleDatOchiStatus:)
+			   name:CMRAbstractThreadDocumentDidToggleDatOchiNotification
+			 object:nil];
 
 	[[[NSWorkspace sharedWorkspace] notificationCenter]
-	     addObserver : self
-	        selector : @selector(sleepDidEnd:)
-	            name : NSWorkspaceDidWakeNotification
-	          object : nil];
-	
+	     addObserver:self
+	        selector:@selector(sleepDidEnd:)
+	            name:NSWorkspaceDidWakeNotification
+	          object:nil];
+
 	[super registerToNotificationCenter];
 }
-- (void) removeFromNotificationCenter
-{
-	[[NSNotificationCenter defaultCenter]
-	  removeObserver : self
-	            name : CMRBBSManagerUserListDidChangeNotification
-	          object : [BoardManager defaultManager]];
-	[[NSNotificationCenter defaultCenter]
-	  removeObserver : self
-	            name : ThreadsListDownloaderShouldRetryUpdateNotification
-	          object : nil];
 
+- (void)removeFromNotificationCenter
+{
+	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+	[nc removeObserver:self name:CMRAbstractThreadDocumentDidToggleDatOchiNotification object:nil];
+	[nc removeObserver:self name:ThreadsListDownloaderShouldRetryUpdateNotification object:nil];
+	[nc removeObserver:self name:CMRBBSManagerUserListDidChangeNotification object:[BoardManager defaultManager]];
 
 	[[[NSWorkspace sharedWorkspace] notificationCenter]
-	  removeObserver : self
-	            name : NSWorkspaceDidWakeNotification
-	          object : nil];
+	  removeObserver:self
+	            name:NSWorkspaceDidWakeNotification
+	          object:nil];
 
 	[super removeFromNotificationCenter];
 }
@@ -441,111 +443,68 @@ BOOL isOptionKeyDown(unsigned flag_)
 	
 	[[self boardListTable] reloadData];
 }
-- (void) appDefaultsLayoutSettingsUpdated : (NSNotification *) notification
+
+- (void)appDefaultsLayoutSettingsUpdated:(NSNotification *)notification
 {
-	UTILAssertNotificationName(
-		notification,
-		AppDefaultsLayoutSettingsUpdatedNotification);
-	UTILAssertNotificationObject(
-		notification,
-		CMRPref);
-		
-	if (nil == [self threadsListTable]) 
-		return;
+	UTILAssertNotificationName(notification, AppDefaultsLayoutSettingsUpdatedNotification);
+	UTILAssertNotificationObject(notification, CMRPref);
 	
 	[BSDBThreadList resetDataSourceTemplates];
-	// MERGE check me!!
 	[BSDBThreadList resetDataSourceTemplateForDateColumn];
-	[self updateDefaultsWithTableView : [self threadsListTable]];
-	[self setupBoardListOutlineView : [self boardListTable]];
-	[[self threadsListTable] setNeedsDisplay : YES];
-	[[self boardListTable] setNeedsDisplay : YES];
-	
-	if ([[self superclass] instancesRespondToSelector : _cmd])
-		[super appDefaultsLayoutSettingsUpdated : notification];
-}
 
-- (void) cleanUpItemsToBeRemoved : (NSArray *) files
-{
-	if ([files containsObject : [self path]]) {
-		// 
-		// 再選択
-		// 
-//		[[self currentThreadsList] filterByDisplayingThreadAtPath : [self path]];
-		[self synchronizeWithSearchField];
-		[self selectCurrentThreadWithMask : [CMRPref threadsListAutoscrollMask]];
+	[self updateThreadsListTableWithNeedingDisplay:YES];
+	[self updateBoardListViewWithNeedingDisplay:YES];
+	
+	if ([[self superclass] instancesRespondToSelector:_cmd]) {
+		[super appDefaultsLayoutSettingsUpdated:notification];
 	}
-	
-	if ([[self superclass] instancesRespondToSelector : _cmd])
-		[super cleanUpItemsToBeRemoved : files];
 }
 
-- (void) threadsListDidChange : (NSNotification *) notification
+- (void)cleanUpItemsToBeRemoved:(NSArray *)files
 {
-	BSDBThreadList	*currentList;
+	if ([files containsObject:[self path]]) {
+		[self synchronizeWithSearchField];
+		[self selectCurrentThreadWithMask:[CMRPref threadsListAutoscrollMask]];
+	}
 
-	currentList = [self currentThreadsList];	
+	if ([[self superclass] instancesRespondToSelector:_cmd]) {
+		[super cleanUpItemsToBeRemoved:files];
+	}
+}
 
-	UTILAssertNotificationName(
-		notification,
-		CMRThreadsListDidChangeNotification);
-	UTILAssertNotificationObject(
-		notification,
-		currentList);
+- (void)threadsListDidChange:(NSNotification *)notification
+{
+	UTILAssertNotificationName(notification, CMRThreadsListDidChangeNotification);
 
 	[[self threadsListTable] reloadData];
-
 	[self synchronizeWindowTitleWithDocumentName];
 	UTILNotifyName(CMRBrowserThListUpdateDelegateTaskDidFinishNotification);
 }
 
-- (void) threadsListDownloaderShouldRetryUpdate : (NSNotification *) notification
+- (void)threadsListDownloaderShouldRetryUpdate:(NSNotification *)notification
 {
-    [self reloadThreadsList : nil];
+	[self reloadThreadsList:nil];
 }
-/*- (void) threadsListDidFinishUpdate : (NSNotification *) notification
+
+- (void)threadDocumentDidToggleDatOchiStatus:(NSNotification *)aNotification
 {
-	NSNumber	*maskNum_;
-	int			mask_;
+	NSString *path = [aNotification userInfo];
+	unsigned int index = [[self currentThreadsList] indexOfThreadWithPath:path];
+	if (index != NSNotFound) [self synchronizeWithSearchField];
+}
 
-	UTILAssertNotificationName(
-		notification,
-		CMRThreadsListDidUpdateNotification);
-	UTILAssertNotificationObject(
-		notification,
-		[self currentThreadsList]);
-NSLog(@"didUpdate");
-	maskNum_ = [[notification userInfo] 
-					objectForKey : ThreadsListUserInfoSelectionHoldingMaskKey];
-	if (maskNum_ != nil)
-		UTILAssertRespondsTo(maskNum_, @selector(unsignedIntValue));
-	
-	mask_ = (nil == maskNum_) 
-				? CMRAutoscrollWhenTLUpdate
-				: [maskNum_ unsignedIntValue];
-	
-//	[[self currentThreadsList] filterByDisplayingThreadAtPath : [self path]];
-	[self synchronizeWithSearchField];
-
-	[[self threadsListTable] reloadData];
-	[self selectCurrentThreadWithMask : mask_];
-	
-	UTILNotifyName(CMRBrowserThListUpdateDelegateTaskDidFinishNotification);
-}*/
 // Added in InnocentStarter.
-- (void) sleepDidEnd : (NSNotification *) aNotification
+- (void)sleepDidEnd:(NSNotification *)aNotification
 {
 	if ([CMRPref isOnlineMode] && [CMRPref autoReloadListWhenWake] && ![[self currentThreadsList] isFavorites]) {
-//		[self reloadThreadsList : nil];
 		id value = SGTemplateResource(kThreadsListReloadDelayKey);
 		UTILAssertKindOfClass(value, NSNumber);
 		NSTimeInterval delay = [value doubleValue];
-//		NSLog(@"Delay is %.1f", delay);
-		[self performSelector: @selector(reloadThreadsList:) withObject: nil afterDelay: delay];
+		[self performSelector:@selector(reloadThreadsList:) withObject:nil afterDelay:delay];
 	}
 }
 
-- (void) reselectThreadIfNeeded : (NSNotification *) aNotification
+- (void)reselectThreadIfNeeded:(NSNotification *)aNotification
 {
 	if([self shouldShowContents]) {
 		[self selectCurrentThreadWithMask:CMRAutoscrollWhenTLUpdate];

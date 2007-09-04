@@ -1,5 +1,5 @@
 /*
- * $Id: CMRReplyMessenger_p.h,v 1.8 2007/07/22 11:22:32 tsawada2 Exp $
+ * $Id: CMRReplyMessenger_p.h,v 1.9 2007/09/04 07:45:43 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -96,6 +96,6 @@
 // require for Jbbs_shita
 - (NSString *) formItemDirectory;
 
-- (id) boardIdentifier;
+//- (id) boardIdentifier;
 - (id) threadIdentifier;
 @end

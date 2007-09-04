@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.h,v 1.12 2007/03/25 13:27:55 masakih Exp $
+  * $Id: CMRThreadsList.h,v 1.13 2007/09/04 07:45:43 tsawada2 Exp $
   * 
   * CMRThreadsList.h
   *
@@ -26,7 +26,6 @@ enum {
 	
 	NSMutableArray			*_threads;
 	NSMutableArray			*_filteredThreads;
-//	NSMutableDictionary		*_threadsInfo;
 
 	BOOL		_isAscending;
 }
@@ -48,8 +47,10 @@ enum {
 
 - (BOOL) isFavorites;
 - (BOOL)isSmartItem;
-- (BOOL) addFavoriteAtRowIndex : (int          ) rowIndex
-				   inTableView : (NSTableView *) tableView;
+
+// Now unused, so deprecated in Twincam Angel. 
+//- (BOOL) addFavoriteAtRowIndex : (int          ) rowIndex
+//				   inTableView : (NSTableView *) tableView;
 
 - (id) objectValueForBoardInfo;
 @end
@@ -132,7 +133,7 @@ enum {
 + (void) resetDataSourceTemplateForColumnIdentifier: (NSString *) identifier width: (float) loc;
 + (void) resetDataSourceTemplateForDateColumn;
 
-+ (NSDictionary *)newThreadCreatedDateAttrTemplate;
+//+ (NSDictionary *)newThreadCreatedDateAttrTemplate;
 + (NSDictionary *)threadCreatedDateAttrTemplate;
 + (NSDictionary *)threadModifiedDateAttrTemplate;
 + (NSDictionary *)threadLastWrittenDateAttrTemplate;
@@ -144,7 +145,7 @@ enum {
 - (NSArray *) threadFilePathArrayWithRowIndexSet : (NSIndexSet	*) anIndexSet
 									 inTableView : (NSTableView	*) tableView;
 
-- (ThreadStatus) threadStatusForThread : (NSDictionary *) aThread;
+//- (ThreadStatus) threadStatusForThread : (NSDictionary *) aThread;
 - (id) objectValueForIdentifier : (NSString *) identifier
 					threadArray : (NSArray  *) threadArray
 						atIndex : (int       ) index;

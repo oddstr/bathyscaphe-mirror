@@ -9,39 +9,18 @@
 #import "CMRDownloader_p.h"
 
 
-@implementation CMRDownloader(CMRDownloader)
-- (void) startLoadInBackground
-{
-	[self loadInBackground];
-}
-
-- (void) cancelDownload
-{
-	if (![self isDownloadInProgress]) return;
-	[[self currentConnector] cancel];
-}
-
-- (BOOL) isDownloadInProgress
-{
-	return m_isInProgress;
-}
-- (void)setIsDownloadInProgress:(BOOL)inProgress
-{
-	m_isInProgress = inProgress;
-}
-@end
-
-
 @implementation CMRDownloader(Description)
-- (NSString *) categoryDescription
+- (NSString *)categoryDescription
 {
-	return [[CMRDocumentFileManager defaultManager] boardNameWithLogPath : [self filePathToWrite]];
+	return [[CMRDocumentFileManager defaultManager] boardNameWithLogPath:[self filePathToWrite]];
 }
-- (NSString *) simpleDescription
+
+- (NSString *)simpleDescription
 {
 	return [self localizedDownloadString];
 }
-- (NSString *) resourceName
+
+- (NSString *)resourceName
 {
 	UTILAbstractMethodInvoked;
 	return nil;
@@ -50,38 +29,57 @@
 
 
 @implementation CMRDownloader(CMRLocalizableStringsOwner)
-- (NSString *) localizedDownloadString
+- (NSString *)localizedDownloadString
 {
 	return [NSString stringWithFormat:[self localizedString:APP_DOWNLOADER_DOWNLOAD], [self resourceName]];
 }
 
-- (NSString *) localizedErrorString
+- (NSString *)localizedErrorString
 {
 	return [self localizedString:APP_DOWNLOADER_ERROR];
 }
-- (NSString *) localizedCanceledString
+
+- (NSString *)localizedCanceledString
 {
 	return [self localizedString:APP_DOWNLOADER_CANCEL];
 }
 
-- (NSString *) localizedSucceededString
+- (NSString *)localizedUserCanceledString
+{
+	return [self localizedCanceledString];
+}
+
+- (NSString *)localizedNotModifiedString
+{
+	return [self localizedString:@"Not Modified"];
+}
+
+- (NSString *)localizedDetectingDatOchiString
+{
+	return [self localizedString:@"Detect Dat Ochi"];
+}
+
+- (NSString *)localizedSucceededString
 {
 	return [self localizedString:APP_DOWNLOADER_SUCCESS];
 }
-- (NSString *) localizedNotLoaded
+
+- (NSString *)localizedNotLoaded
 {
 	return [self localizedString:APP_DOWNLOADER_NOTLOADED];
 }
 
-- (NSString *) localizedTitleFormat
+- (NSString *)localizedTitleFormat
 {
 	return [self localizedString:APP_DOWNLOADER_TITLE];
 }
-- (NSString *) localizedMessageFormat
+
+- (NSString *)localizedMessageFormat
 {
 	return [self localizedString:APP_DOWNLOADER_MESSAGE];
 }
-+ (NSString *) localizableStringsTableName
+
++ (NSString *)localizableStringsTableName
 {
 	return APP_DOWNLOADER_TABLE_NAME;
 }
@@ -89,12 +87,12 @@
 
 
 @implementation CMRDownloader(TaskNotification)
-- (void) postTaskWillStartNotification
+- (void)postTaskWillStartNotification
 {
 	[[NSNotificationCenter defaultCenter] postNotificationName:CMRTaskWillStartNotification object:self];
 }
 
-- (void) postTaskDidFinishNotification
+- (void)postTaskDidFinishNotification
 {
 	[[NSNotificationCenter defaultCenter] postNotificationName:CMRTaskDidFinishNotification object:self];
 }

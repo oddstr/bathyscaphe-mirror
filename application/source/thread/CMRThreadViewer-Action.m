@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.42 2007/08/12 00:13:59 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.43 2007/09/04 07:45:43 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -469,6 +469,17 @@
 	}
 }
 
+- (BOOL)onlySingleMessageInRange:(NSRange)range
+{
+	unsigned int index1, index2;
+
+	CMRThreadLayout *layout = [self threadLayout];
+	index1 = [layout messageIndexForRange:range];
+	index2 = [layout lastMessageIndexForRange:range];
+	
+	return (index1 == index2);
+}
+
 - (IBAction)addToNGWords:(id)sender
 {
 	NSRange			selectedRange_ = [[self textView] selectedRange];
@@ -476,7 +487,19 @@
 	BSNGExpression	*exp;
 	
 	string_ = [[[self textView] string] substringWithRange:selectedRange_];
-	if(!string_ || [string_ isEmpty]) return;
+	if (!string_ || [string_ isEmpty]) return;
+
+	if (![self onlySingleMessageInRange:selectedRange_]) return;
+
+	if ([string_ rangeOfString:@"\n" options:NSLiteralSearch].length != 0) {
+		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+		[alert setAlertStyle:NSWarningAlertStyle];
+		[alert setMessageText:[NSString stringWithFormat:[self localizedString:@"Corpus Multiple Line Alert Title"],string_]];
+		[alert setInformativeText:[self localizedString:@"Corpus Multiple Line Alert Msg"]];
+		NSBeep();
+		[alert runModal];
+		return;
+	}
 
 	exp = [[BSNGExpression alloc] initWithExpression:string_ targetMask:BSNGExpressionAtAll regularExpression:NO];
 	if ([[[CMRSpamFilter sharedInstance] spamCorpus] containsObject:exp]) {
@@ -495,6 +518,27 @@
 
 	if ([self checkIfUsesCorpusOptionOn]) {
 		SystemSoundPlay(1);
+		[self performSelector:@selector(askIfSpamFilterShouldBeRunImmediately:) withObject:self afterDelay:0.5];
+	}	
+}
+
+- (IBAction)askIfSpamFilterShouldBeRunImmediately:(id)sender
+{
+	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	[alert setAlertStyle:NSWarningAlertStyle];
+	[alert setMessageText:[self localizedString:@"Corpus Run Filter Alert Title"]];
+	[alert addButtonWithTitle:[self localizedString:@"Corpus Run Filter Do Btn"]];
+	[alert addButtonWithTitle:[self localizedString:@"Corpus Run Filter No Btn"]];
+	[alert beginSheetModalForWindow:[self window]
+					  modalDelegate:self
+					 didEndSelector:@selector(spamFilterAlertDidEnd:returnCode:contextInfo:)
+						contextInfo:nil];
+}
+
+- (void)spamFilterAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+	if (returnCode == NSAlertFirstButtonReturn) {
+		[self runSpamFilter:nil];
 	}
 }
 

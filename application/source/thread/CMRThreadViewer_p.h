@@ -1,6 +1,6 @@
 //:ThreadViewer_p.h
 #import "CMRThreadViewer.h"
-#import "BSTitleRulerView.h"
+#import <SGAppKit/BSTitleRulerView.h>
 #import "CMRStatusLineWindowController.h";
 #import "AppDefaults.h"
 
@@ -42,6 +42,14 @@ extern NSString *const CMRThreadViewerRunSpamFilterNotification;
 #define kDeleteOKBtnKey			@"Delete OK"
 #define kDeleteCancelBtnKey		@"Delete Cancel"
 #define kDeleteAndReloadBtnKey	@"Delete & Reload"
+
+#define kNotFoundTitleKey				@"Not Found Title"
+#define kNotFoundMessageFormatKey		@"Not Found Message"
+#define kNotFoundMessage2FormatKey		@"Not Found Msg 2"
+#define kNotFoundHelpKeywordKey			@"NotFoundSheet Help Anchor"
+#define kInvalidPerticalContentsHelpKeywordKey	@"InvalidPerticalSheet Help Anchor"
+#define kNotFoundCancelLabelKey			@"Do Not Reload Button Label"
+
 
 @interface CMRThreadViewer(NotificationPrivate)
 - (void) cleanUpItemsToBeRemoved : (NSArray *) files;
@@ -146,7 +154,9 @@ extern NSString *const CMRThreadViewerRunSpamFilterNotification;
 - (NSView *) navigationBar;
 @end
 
-
+@interface CMRThreadViewer(NSTextViewDelegate)
+- (IBAction) runSpamFilter : (id) sender;
+@end
 
 @interface CMRThreadViewer(UIComponents)
 - (BOOL) loadComponents;

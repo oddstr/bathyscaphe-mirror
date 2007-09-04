@@ -12,7 +12,9 @@
 #import "CocoMonar_Prefix.h"
 #import "BSThreadInfoPanelController.h"
 #import "BSRelativeKeywordsCollector.h"
-#import "CMRAppDelegate.h"
+#import "missing.h"
+
+NSString *const CMRAbstractThreadDocumentDidToggleDatOchiNotification = @"CMRAbstractThreadDocumentDidToggleDatOchiNotification";
 
 @implementation CMRAbstructThreadDocument
 - (void) replace : (CMRThreadAttributes *) oldAttributes
@@ -210,8 +212,18 @@
 	CMRThreadAttributes *attr_ = [self threadAttributes];
 	NSString *boardName_ = [attr_ boardName];
 	if(!boardName_) return; 
-	CMRAppDelegate *delegate_ = (CMRAppDelegate *)[NSApp delegate];
-	[delegate_ showThreadsListForBoard: boardName_ selectThread: [attr_ path] addToListIfNeeded: YES];
+
+	[[NSApp delegate] showThreadsListForBoard: boardName_ selectThread: [attr_ path] addToListIfNeeded: YES];
+}
+
+- (IBAction)revealInFinder:(id)sender
+{
+	NSString *path = [[self threadAttributes] path];
+	if (!path) {
+		NSBeep();
+		return;
+	}
+	[[NSWorkspace sharedWorkspace] selectFile:path inFileViewerRootedAtPath:[path stringByDeletingLastPathComponent]];
 }
 
 - (IBAction) toggleAAThread: (id) sender
@@ -222,6 +234,7 @@
 - (IBAction) toggleDatOchiThread: (id) sender
 {
 	[self setIsDatOchiThread: ![self isDatOchiThread]];
+	UTILNotifyInfo(CMRAbstractThreadDocumentDidToggleDatOchiNotification, [[self threadAttributes] path]);
 }
 
 - (IBAction) toggleMarkedThread: (id) sender

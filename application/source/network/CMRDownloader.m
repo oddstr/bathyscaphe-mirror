@@ -19,16 +19,37 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 
 
 @implementation CMRDownloader
-- (void) dealloc
+- (id)init
+{
+	if (self = [super init]) {
+		[self setMessage:[self localizedNotLoaded]];
+	}
+	return self;
+}
+
+- (void)dealloc
 {
 	[m_data release];
-	[_identifier release];
+	[m_identifier release];
 	[m_connector release];
 	[m_statusMessage release];
 	[super dealloc];
 }
 
-- (NSDictionary *) requestHeaders
++ (NSMutableDictionary *)defaultRequestHeaders
+{
+	return [NSMutableDictionary dictionaryWithObjectsAndKeys :
+				@"no-cache",				HTTP_CACHE_CONTROL_KEY,
+				@"no-cache",				HTTP_PRAGMA_KEY,
+				@"Close",					HTTP_CONNECTION_KEY,
+				[NSBundle monazillaUserAgent],	HTTP_USER_AGENT_KEY,
+				@"text/plain",				HTTP_ACCEPT_KEY,
+				@"gzip",					HTTP_ACCEPT_ENCODING_KEY,
+				@"ja",						HTTP_ACCEPT_LANGUAGE_KEY,
+				nil];
+}
+
+- (NSDictionary *)requestHeaders
 {
 	NSMutableDictionary		*defaultHeaders_;
 	
@@ -44,32 +65,6 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 	return m_connector;
 }
 
-- (id) identifier
-{
-	return _identifier;
-}
-
-- (void) setIdentifier : (id) anIdentifier
-{
-	id		tmp;
-	
-	tmp = _identifier;
-	_identifier = [anIdentifier retain];
-	[tmp release];
-}
-
-- (NSURL *) resourceURL
-{
-	UTILAbstractMethodInvoked;
-	return nil;
-}
-
-- (NSString *) filePathToWrite
-{
-	UTILAbstractMethodInvoked;
-	return nil;
-}
-
 - (NSMutableData *)resourceData
 {
 	return m_data;
@@ -82,25 +77,25 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 	m_data = data;
 }
 
-- (NSURL *) boardURL
+- (NSURL *)boardURL
 {
 	UTILAbstractMethodInvoked;
 	return nil;
 }
 
 #pragma mark CMRTask
-- (NSString *) title
+- (id)identifier
 {
-	return [NSString stringWithFormat : [self localizedTitleFormat],
-										[self categoryDescription],
-										[self simpleDescription]];
+	return m_identifier;
 }
 
-- (NSString *) message
+- (NSString *)title
 {
-	if (!m_statusMessage) {
-		m_statusMessage = [[self localizedNotLoaded] retain];
-	}
+	return [NSString stringWithFormat:[self localizedTitleFormat], [self categoryDescription], [self simpleDescription]];
+}
+
+- (NSString *)message
+{
 	return m_statusMessage;
 }
 
@@ -111,13 +106,17 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 	m_statusMessage = msg;
 }
 
-- (BOOL) isInProgress
+- (BOOL)isInProgress
 {
-	return [self isDownloadInProgress];
+	return m_isInProgress;
 }
 
-// from 0.0 to 100.0
-- (double) amount
+- (void)setIsInProgress:(BOOL)inProgress
+{
+	m_isInProgress = inProgress;
+}
+
+- (double)amount
 {
 	return m_amount;
 }
@@ -127,53 +126,56 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 	m_amount = doubleValue;
 }
 
-- (IBAction) cancel : (id) sender
+- (IBAction)cancel:(id)sender
 {
 	[self cancelDownload];
 }
 
 #pragma mark For SubClasses
-- (void) cancelDownloadWithInvalidPartial
+- (NSURL *)resourceURL
+{
+	UTILAbstractMethodInvoked;
+	return nil;
+}
+
+- (NSString *)filePathToWrite
+{
+	UTILAbstractMethodInvoked;
+	return nil;
+}
+
+- (void)cancelDownloadWithInvalidPartial
 {
 }
-- (void) cancelDownloadWithDetectingDatOchi
-{
-}
-@end
 
-
-@implementation CMRDownloader(HTTPRequestHeader)
-+ (NSMutableDictionary *) defaultRequestHeaders
+- (void)cancelDownloadWithDetectingDatOchi
 {
-	return [NSMutableDictionary dictionaryWithObjectsAndKeys :
-				@"no-cache",				HTTP_CACHE_CONTROL_KEY,
-				@"no-cache",				HTTP_PRAGMA_KEY,
-				@"Close",					HTTP_CONNECTION_KEY,
-				[NSBundle monazillaUserAgent],	HTTP_USER_AGENT_KEY,
-				@"text/plain",				HTTP_ACCEPT_KEY,
-				@"gzip",					HTTP_ACCEPT_ENCODING_KEY,
-				@"ja",						HTTP_ACCEPT_LANGUAGE_KEY,
-				nil];
 }
 @end
 
 
 @implementation CMRDownloader(PrivateAccessor)
+- (void)setIdentifier:(id)anIdentifier
+{
+	[anIdentifier retain];
+	[m_identifier release];
+	m_identifier = anIdentifier;
+}
+
 - (void)setCurrentConnector:(NSURLConnection *)connection
 {
 	[connection retain];
 	[m_connector release];
 	m_connector = connection;
 }
-- (void) setupRequestHeaders : (NSMutableDictionary *) mdict
+- (void)setupRequestHeaders:(NSMutableDictionary *)mdict
 {
 	NSURL				*resourceURL_;
-	
+
 	UTILAssertNotNilArgument(mdict, @"Default Request Headers");
 	resourceURL_ = [self resourceURL];
 	UTILAssertNotNil(mdict);
-	[mdict setObject : [resourceURL_ host]
-			  forKey : HTTP_HOST_KEY];
+	[mdict setObject:[resourceURL_ host] forKey:HTTP_HOST_KEY];
 }
 
 - (NSURLConnection *)makeHTTPURLConnectionWithURL:(NSURL *)anURL
@@ -203,7 +205,7 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 	return connection;
 }
 
-- (NSURL *) resourceURLForWebBrowser
+- (NSURL *)resourceURLForWebBrowser
 {
 	return [self resourceURL];
 }
@@ -211,13 +213,13 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 
 
 @implementation CMRDownloader(LoadingResourceData)
-- (void) loadInBackground
+- (void)loadInBackground
 {
 	NSURLConnection *con;
 	NSURL			*resourceURL = [self resourceURL];
 	
 	/* check */
-	if ([[CMRNetGrobalLock sharedInstance] has : resourceURL]) {
+	if ([[CMRNetGrobalLock sharedInstance] has:resourceURL]) {
 		UTIL_DEBUG_WRITE1(
 			@"  Loading URL(%@) was in progress...",
 			[resourceURL stringValue]);
@@ -225,35 +227,35 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 		return;
 	}
 	
-	[[CMRNetGrobalLock sharedInstance] add : resourceURL];
+	[[CMRNetGrobalLock sharedInstance] add:resourceURL];
 	con = [self makeHTTPURLConnectionWithURL:resourceURL];
 	
 	UTILAssertNotNil(con);
-	[self setIsDownloadInProgress:YES];
+	[self setIsInProgress:YES];
+	[self setAmount:-1];
 	/* --- Retain --- */
 	[self retain];
-	[self setCurrentConnector : con];
+	[self setCurrentConnector:con];
 	/* -------------- */
 	
 	[self postTaskWillStartNotification];
 }
 
-- (void) didFinishLoading:(NSURLConnection *)connector;
+- (void) didFinishLoading
 {
 	NSURL			*resourceURL = [self resourceURL];
 	
-	[self setIsDownloadInProgress:NO];
+	[self setIsInProgress:NO];
 	[self postTaskDidFinishNotification];
 
-    [[CMRNetGrobalLock sharedInstance] remove : resourceURL];
+    [[CMRNetGrobalLock sharedInstance] remove:resourceURL];
 
 	[self setCurrentConnector:nil];
 	[self setResourceData:nil];
 	[self autorelease];
 }
 
-- (BOOL) dataProcess : (NSData *) resourceData
-       withConnector : (NSURLConnection *) connector
+- (BOOL)dataProcess:(NSData *)resourceData withConnector:(NSURLConnection *)connector
 {
 	UTILAbstractMethodInvoked;
 	return NO;
@@ -268,16 +270,25 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 	NSData *avail = [URLHandle availableResourceData];
 	
 	return ([newBytes length] == [avail length]);
-}*/
+}
 - (BOOL) shouldCancelWithFirstArrivalData : (NSData *) theData
 {
-	return NO;//CHECK_HTML([theData bytes], [theData length]);
+	return CHECK_HTML([theData bytes], [theData length]);
+}
+*/
+- (void)cancelDownload
+{
+	if (![self isInProgress]) return;
+
+	[[self currentConnector] cancel];
+	[self setMessage:[self localizedUserCanceledString]];
+	[self didFinishLoading];
 }
 
-- (void) cancelDownloadWithPostingNotificationName : (NSString *) name
+- (void) cancelDownloadWithPostingNotificationName:(NSString *)name
 {
 	[self retain];
-	[self cancelDownload];
+//	[self cancelDownload];
 	UTILNotifyName(name);
 	[self autorelease];
 }
@@ -311,27 +322,33 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 	[self synchronizeServerClock:http];
 
     switch (status) {
-    case 200:
-//		[self synchronizeServerClock:http];
-		[self setMessage:[NSString stringWithFormat:[self localizedMessageFormat], [[self resourceURL] absoluteString]]];
-        break;
+//    case 200:
+//		[self setMessage:[NSString stringWithFormat:[self localizedMessageFormat], [[self resourceURL] absoluteString]]];
+//        break;
+	case 200:
     case 206:
-//		[self synchronizeServerClock:http];
 		[self setMessage:[NSString stringWithFormat:[self localizedMessageFormat], [[self resourceURL] absoluteString]]];
         break;
+	case 302:
+		[connection cancel];
+		[self setMessage:[self localizedDetectingDatOchiString]];
+		[self cancelDownloadWithDetectingDatOchi];
+		[self didFinishLoading];
+		break;
     case 304:
 		[connection cancel];
-		[self setMessage:[self localizedCanceledString]];
-		[self didFinishLoading:connection];
+		[self setMessage:[self localizedNotModifiedString]];
+		[self didFinishLoading];
 		break;
-	case 302:
-		[self cancelDownloadWithDetectingDatOchi]; // Note: no break
 	case 416:
-		[self cancelDownloadWithInvalidPartial]; // Note: no break
+		[connection cancel];
+		[self setMessage:[self localizedCanceledString]];
+		[self cancelDownloadWithInvalidPartial];
+		[self didFinishLoading];
 	default:
 		[connection cancel];
 		[self setMessage:[self localizedCanceledString]];
-		[self didFinishLoading:connection];
+		[self didFinishLoading];
         break;
     }
 }
@@ -340,7 +357,7 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 {
 	[self setMessage:[self localizedSucceededString]];
 	[self dataProcess:[self resourceData] withConnector:connection];
-	[self didFinishLoading:connection];
+	[self didFinishLoading];//:connection];
 }
 /*- (void) URLHandle               : (NSURLHandle *) sender
   resourceDataDidBecomeAvailable : (NSData      *) newBytes
@@ -371,7 +388,7 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 		foo = [[self resourceData] length]/m_expectedLength*100.0;
 		if (foo > 100.0) foo = 100.0;
 	}
-	[self setAmount: foo];
+	[self setAmount:foo];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -401,6 +418,6 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 	[alert_ runModal];
 
 	[self setMessage:[self localizedErrorString]];	
-	[self didFinishLoading:connection];
+	[self didFinishLoading];
 }
 @end

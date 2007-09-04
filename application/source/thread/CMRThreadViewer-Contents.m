@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Contents.m,v 1.10 2007/04/13 09:50:08 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Contents.m,v 1.11 2007/09/04 07:45:43 tsawada2 Exp $
   * 
   * CMRThreadViewer-Contents.m
   *
@@ -115,20 +115,21 @@
 }
 
 #pragma mark Keywords Support (Starlight Breaker Additions)
-- (void) collector: (BSRelativeKeywordsCollector *) aCollector didCollectKeywords: (NSArray *) keywordsDict
+- (void)collector:(BSRelativeKeywordsCollector *)aCollector didCollectKeywords:(NSArray *)keywordsDict
 {
-	[self setCachedKeywords: keywordsDict];
+	[self setCachedKeywords:keywordsDict];
 	[[self indexingPopupper] updateKeywordsMenu];
 }
-- (void) collector: (BSRelativeKeywordsCollector *) aCollector didFailWithError: (NSError *) error
+
+- (void)collector:(BSRelativeKeywordsCollector *)aCollector didFailWithError:(NSError *)error
 {
 	NSLog(@"BSRKC - ERROR! %i", [error code]);
-	[self setCachedKeywords: [NSArray array]];
+	[self setCachedKeywords:[NSArray array]];
 }
 
-- (void) updateKeywordsCache
+- (void)updateKeywordsCache
 {
-	if (NO == [CMRPref isOnlineMode]) {
+	if (![CMRPref isOnlineMode]) {
 		[[self indexingPopupper] updateKeywordsMenuForOfflineMode];
 		return;
 	}
@@ -137,8 +138,8 @@
 	if ([collector isInProgress]) {
 		[collector abortCollecting];
 	}
-	[collector setThreadURL: [self threadURL]];
-	[collector setDelegate: self];
+	[collector setThreadURL:[self threadURL]];
+	[collector setDelegate:self];
 	[collector startCollecting];
 }
 @end
@@ -152,11 +153,11 @@
 }
 - (void) synchronizeAttributes
 {
-	[self willChangeValueForKey: @"threadAttributes"];
+//	[self willChangeValueForKey: @"threadAttributes"];
 	[self window];
 	[self synchronizeVisibleRange];
 	[self synchronizeWindowTitleWithDocumentName];
-	[self didChangeValueForKey: @"threadAttributes"];
+//	[self didChangeValueForKey: @"threadAttributes"];
 }
 - (void) synchronizeLayoutAttributes
 {

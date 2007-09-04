@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.50 2007/07/27 10:26:39 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.51 2007/09/04 07:45:43 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -7,6 +7,7 @@
   * See the file LICENSE for copying permission.
   */
 #import "CMRBrowser_p.h"
+#import "missing.h"
 #import "CMRBBSListTemplateKeys.h"
 #import "NSTableColumn+CMXAdditions.h"
 #import "CMRMainMenuManager.h"
@@ -136,7 +137,7 @@
     
     return (nil == path) ? nil : [NSArray arrayWithContentsOfFile : path];
 }
-
+/*
 - (id) defaultColumnsArrayPropertyListRep
 {
     NSMutableArray        *array_;
@@ -153,7 +154,7 @@
         [array_ addObject : rep_];
     }
     return array_;
-}
+}*/
 - (NSTableColumn *) tableColumnWithPropertyListRep : (id) rep
 {
     NSTableColumn        *column_;
@@ -163,55 +164,48 @@
     return [column_ autorelease];
 }
 
-- (void) setupColumnsMenuWithTableView : (NSTableView *) tableView
+//- (void) setupColumnsMenuWithTableView : (NSTableView *) tableView menu: (NSMenu *)menu_;
+- (void)updateMenuItemStatusForColumnsMenu:(NSMenu *)menu_
 {
     NSEnumerator        *iter_;
     NSMenuItem          *rep_;
-    NSMenu              *menu_ = [[[CMRMainMenuManager defaultManager] browserListColumnsMenuItem] submenu];
     
     iter_ = [[menu_ itemArray] objectEnumerator];
     while (rep_ = [iter_ nextObject]) {
         int                    state_;
                 
         state_ = 
-            (-1 == [tableView columnWithIdentifier : [rep_ representedObject]])
+            (-1 == [[self threadsListTable] columnWithIdentifier:[rep_ representedObject]])
                 ? NSOffState
                 : NSOnState;
 
         [rep_ setState : state_];
-        [rep_ setAction : kChooseColumnAction];
     }
 }
 
-- (IBAction) chooseColumn : (id) sender
+- (IBAction)chooseColumn:(id)sender
 {
     NSString			*identifier_;
     NSTableColumn		*column_;
 	ThreadsListTable	*tbView_;
         
-    if (NO == [sender respondsToSelector : @selector(representedObject)])
-        return;
+	UTILAssertRespondsTo(sender, @selector(representedObject));
     
     identifier_ = [sender representedObject];
     UTILAssertKindOfClass(identifier_, NSString);
 
     tbView_ = [self threadsListTable];
-    column_ = [tbView_ tableColumnWithIdentifier : identifier_];
+    column_ = [tbView_ tableColumnWithIdentifier:identifier_];
 
-    if (column_ != nil) {
-	   [tbView_ setColumnWithIdentifier : identifier_ visible : NO];
-    } else {
-        column_ = [self defaultTableColumnWithIdentifier : identifier_];
-        if (nil == column_) return;
-        
-	   [tbView_ setColumnWithIdentifier : identifier_ visible : YES];
-    }
-	
-	[sender setState : (NSOffState == [sender state]) ? NSOnState : NSOffState];
+	[tbView_ setColumnWithIdentifier:identifier_ visible:(column_ == nil)];
+//	[self updateTableColumnsMenu];
+//	[sender setState:(NSOffState == [sender state]) ? NSOnState:NSOffState];
 
-	[CMRPref setThreadsListTableColumnState : [tbView_ columnState]];
+//	[CMRPref setThreadsListTableColumnState:[tbView_ columnState]];
+	[[BoardManager defaultManager] setBrowserListColumns:[tbView_ columnState] forBoard:[[self currentThreadsList] boardName]];
+	[self updateTableColumnsMenu];
 }
-
+/*
 - (NSTableColumn *) defaultTableColumnWithIdentifier : (NSString *) anIdentifer
 {
     NSEnumerator        *iter_;
@@ -230,7 +224,7 @@
         return column_;
     }
     return nil;
-}
+}*/
 - (void) createDefaultTableColumnsWithTableView : (NSTableView *) tableView
 {
     NSEnumerator        *iter_;
@@ -387,37 +381,48 @@
 	[RBSplitView setCursor: RBSVDragCursor toCursor: [NSCursor resizeLeftRightCursor]];
 }
 
-- (void) updateDefaultsWithTableView : (NSTableView *) tbview
+#pragma mark ThreadsList
+//- (void) updateDefaultsWithTableView : (NSTableView *) tbview
+- (void)updateThreadsListTableWithNeedingDisplay:(BOOL)display
 {
-	id	tmp;
-	BOOL	dontDrawBgColor = [CMRPref browserSTableDrawsStriped];
-    tmp = SGTemplateResource(kThreadsListTableICSKey);
-    UTILAssertRespondsTo(tmp, @selector(stringValue));
-    [tbview setIntercellSpacing : NSSizeFromString([tmp stringValue])];
+	NSTableView *tv = [self threadsListTable];
+	AppDefaults *pref = CMRPref;
+	BOOL	dontDrawBgColor = [pref browserSTableDrawsStriped];
 
-    [tbview setRowHeight : [CMRPref threadsListRowHeight]];
-    [tbview setFont : [CMRPref threadsListFont]];
+    [tv setRowHeight:[pref threadsListRowHeight]];
+    [tv setFont:[pref threadsListFont]];
     
-    [tbview setUsesAlternatingRowBackgroundColors : dontDrawBgColor];
+    [tv setUsesAlternatingRowBackgroundColors:dontDrawBgColor];
 	
-	if(NO == dontDrawBgColor) { // do draw bg color
-		[tbview setBackgroundColor : [CMRPref browserSTableBackgroundColor]];
-	} //else {
-		// 背景を塗らない設定に変更したら、デフォルトの色に戻ってほしいので、
-		// もし、今デフォルトの色になっていないのなら、戻しておく。
-		//if (!([[tbview backgroundColor] isEqual: [NSColor whiteColor]]))
-		//	[tbview setBackgroundColor : [NSColor whiteColor]];
-	//}
-	[tbview setGridStyleMask : ([CMRPref threadsListDrawsGrid] ? NSTableViewSolidVerticalGridLineMask : NSTableViewGridNone)];
+	if(!dontDrawBgColor) { // do draw bg color
+		[tv setBackgroundColor:[pref browserSTableBackgroundColor]];
+	}
+
+	[tv setGridStyleMask:([pref threadsListDrawsGrid] ? NSTableViewSolidVerticalGridLineMask : NSTableViewGridNone)];
+	
+	[tv setNeedsDisplay:display];
+}
+
+- (void)updateTableColumnsMenu
+{
+	[self updateMenuItemStatusForColumnsMenu:[[[CMRMainMenuManager defaultManager] browserListColumnsMenuItem] submenu]];
+	[self updateMenuItemStatusForColumnsMenu:[[[self threadsListTable] headerView] menu]];
 }
 
 - (void) setupThreadsListTable
 {
     ThreadsListTable    *tbView_ = [self threadsListTable];
 	id tmp2;
+	id	tmp;
     
     [self createDefaultTableColumnsWithTableView : tbView_];
-    [self updateDefaultsWithTableView : tbView_];
+//    [self updateDefaultsWithTableView : tbView_];
+
+    tmp = SGTemplateResource(kThreadsListTableICSKey);
+    UTILAssertRespondsTo(tmp, @selector(stringValue));
+    [tbView_ setIntercellSpacing:NSSizeFromString([tmp stringValue])];
+
+	[self updateThreadsListTableWithNeedingDisplay:NO];
 
 	tmp2 = [CMRPref threadsListTableColumnState];
 	if(tmp2)
@@ -437,13 +442,16 @@
     [tbView_ setVerticalMotionCanBeginDrag : NO];
         
     // Menu and Contextual Menus
-    [self setupColumnsMenuWithTableView : tbView_]; // これは必ず[tbView_ setAutosaveTableColumns : YES] の後に実行しなければならない
+	[[tbView_ headerView] setMenu:[[NSApp delegate] browserListColumnsMenuTemplate]];
+
+	[self updateTableColumnsMenu];
+
     [tbView_ setMenu : [self listContextualMenu]];
 }
 
 #pragma mark BoardList
 
-- (void) setupBoardListOutlineView : (NSOutlineView *) outlineView
+/*- (void) setupBoardListOutlineView : (NSOutlineView *) outlineView
 {
     id		indentObj;
 	NSColor	*bgColor;
@@ -457,6 +465,21 @@
     bgColor = [CMRPref boardListBackgroundColor];
     if (bgColor != nil)
 		[outlineView setBackgroundColor : bgColor];
+}*/
+- (void)updateBoardListViewWithNeedingDisplay:(BOOL)display
+{
+	AppDefaults		*pref = CMRPref;
+	NSOutlineView	*boardListTable = [self boardListTable];
+	NSColor			*bgColor = [pref boardListBackgroundColor];
+
+	[boardListTable setRowHeight:[pref boardListRowHeight]];
+	if (bgColor) {
+		[boardListTable setBackgroundColor:bgColor];
+	}
+
+//	if (display) {
+		[boardListTable setNeedsDisplay:display];
+//	}
 }
 
 - (void) setupBoardListTableDefaults
@@ -486,9 +509,15 @@
 
 	[blt setIntercellSpacing: NSMakeSize(0, 1.0)];
 
-    [self setupBoardListOutlineView : blt];
-}
+//    [self setupBoardListOutlineView : blt];
+    id		indentObj;
+    indentObj = SGTemplateResource(kBBSListIndentationPerLevelKey);
+    UTILAssertRespondsTo(indentObj, @selector(floatValue));
+    [blt setIndentationPerLevel:[indentObj floatValue]];
 
+	[self updateBoardListViewWithNeedingDisplay:NO];
+}
+/*
 - (void) setupBoardListTableLastSelected
 {
     NSString        *boardName;
@@ -502,10 +531,15 @@
     [self showThreadsListWithBoardName : boardName];
 	[self selectRowWhoseNameIs : boardName];
 }
-
-- (void) selectLastBBS : (NSNotification *) aNotification
+*/
+- (void)selectLastBBS:(NSNotification *)aNotification
 {
-    [self setupBoardListTableLastSelected];
+//    [self setupBoardListTableLastSelected];
+	NSString *lastBoard = [CMRPref browserLastBoard];
+	if (lastBoard) {
+		[self selectRowWhoseNameIs:lastBoard];
+	}
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:kSelectLastBBSNotification object:self];
 }
 - (void) setupBoardListTable
 {
@@ -594,60 +628,14 @@
     return;
 }
 
-- (void) setupSearchFieldMenu
+- (void)setupSearchField
 {
-	NSMenuItem		*hItem1, *hItem2, *hItem3, *hItem5;
-	id				hItem4;
-	
-	BOOL	isIncremental;
-	int		cnt = -1;
-	
-	NSMenu	*cellMenu	= [[[NSMenu alloc] initWithTitle : @"Search Menu"] autorelease];
+	BOOL	isIncremental = [CMRPref useIncrementalSearch];
     id		searchCell	= [[self searchField] cell];
 
-	isIncremental = [CMRPref useIncrementalSearch];
-
-	[searchCell setSendsWholeSearchString : (NO == isIncremental)];	
+	[searchCell setSendsWholeSearchString:(NO == isIncremental)];	
 //	[searchCell setControlSize : NSSmallControlSize];
-	
-	if (!isIncremental) {
-		int maxValu = [CMRPref maxCountForSearchHistory];
-		[searchCell setMaximumRecents : maxValu];
-
-		hItem1 = [[NSMenuItem alloc] initWithTitle : [self localizedString : @"Search PopUp History Title"]
-											action : NULL
-									 keyEquivalent : @""];
-		[hItem1 setTag : NSSearchFieldRecentsTitleMenuItemTag];
-		[cellMenu insertItem : hItem1 atIndex : (cnt+1)];
-		[hItem1 release];
-
-		hItem2 = [[NSMenuItem alloc] initWithTitle : [self localizedString : @"Search PopUp NoHistory Title"]
-											action : NULL
-									 keyEquivalent : @""];
-		[hItem2 setTag : NSSearchFieldNoRecentsMenuItemTag];
-		[cellMenu insertItem : hItem2 atIndex : (cnt+2)];
-		[hItem2 release];
-
-		hItem3 = [[NSMenuItem alloc] initWithTitle : [self localizedString : @"Search PopUp History Title"]
-											action : NULL
-									 keyEquivalent : @""];
-		[hItem3 setTag : NSSearchFieldRecentsMenuItemTag];
-		[cellMenu insertItem : hItem3 atIndex : (cnt+3)];
-		[hItem3 release];
-
-		hItem4 = [NSMenuItem separatorItem];
-		[hItem4 setTag : NSSearchFieldClearRecentsMenuItemTag];
-		[cellMenu insertItem : hItem4 atIndex : (cnt+4)];
-
-		hItem5 = [[NSMenuItem alloc] initWithTitle : [self localizedString : @"Search Popup History Clear"]
-											action : NULL
-									 keyEquivalent : @""];
-		[hItem5 setTag : NSSearchFieldClearRecentsMenuItemTag];
-		[cellMenu insertItem : hItem5 atIndex : (cnt+5)];
-		[hItem5 release];
-	
-		[searchCell setSearchMenuTemplate : cellMenu];
-	}
+	if (isIncremental) [searchCell setSearchMenuTemplate:nil];
 }
 @end
 
@@ -661,7 +649,7 @@
     [self setupThreadsListTable];
     [self setUpBoardListToolButtons];
 	
-	[self setupSearchFieldMenu];
+	[self setupSearchField];
     [self setupFrameAutosaveName];
 	[self setupKeyLoops];
     [self setupBoardListTable];

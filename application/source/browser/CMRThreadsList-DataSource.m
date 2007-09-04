@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.25 2007/08/14 14:41:59 masakih Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.26 2007/09/04 07:45:43 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -7,7 +7,6 @@
   * See the file LICENSE for copying permission.
   */
 #import "CMRThreadsList_p.h"
-#import "CMRReplyDocumentFileManager.h"
 #import "CMRThreadSignature.h"
 #import "NSIndexSet+BSAddition.h"
 #import "BSDateFormatter.h"
@@ -99,8 +98,8 @@ static NSMutableParagraphStyle	*pStyleForDateColumnWithWidth (float tabWidth)
 
 	// Dat Ochi thread:
 	kDatOchiThreadAttrTemplate = [[NSDictionary alloc] initWithObjectsAndKeys :
-								[CMRPref threadsListNewThreadFont], NSFontAttributeName,
-								[NSColor lightGrayColor], NSForegroundColorAttributeName,
+								[CMRPref threadsListDatOchiThreadFont], NSFontAttributeName,
+								[CMRPref threadsListDatOchiThreadColor], NSForegroundColorAttributeName,
 								nil];
 }
 
@@ -161,18 +160,12 @@ static NSMutableParagraphStyle	*pStyleForDateColumnWithWidth (float tabWidth)
 		break;
 	}
 	
-	return [temp autorelease]; // autorelease しないと漏れまくり	
+	return [temp autorelease];	
 }
 /*
 - (NSArray *) threadsForTableView : (NSTableView *) tableView
 {
 	return [self filteredThreads];
-}*/
-- (int) numberOfRowsInTableView : (NSTableView *) aTableView
-{
-//	return [[self filteredThreads] count];
-	UTILAbstractMethodInvoked;
-	return 0;
 }
 
 static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
@@ -188,18 +181,20 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 {
 	return _threadStatusForThread(aThread);
 }
+*/
+- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+{
+	UTILAbstractMethodInvoked;
+	return 0;
+}
 
-- (id) objectValueForIdentifier : (NSString *) identifier
-					threadArray : (NSArray  *) threadArray
-						atIndex : (int       ) index
+- (id)objectValueForIdentifier:(NSString *)identifier threadArray:(NSArray  *)threadArray atIndex:(int )index
 {
 	UTILAbstractMethodInvoked;
 	return nil;
 }
 
-- (id)            tableView : (NSTableView   *) aTableView
-  objectValueForTableColumn : (NSTableColumn *) aTableColumn
-                        row : (int            ) rowIndex
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int )rowIndex
 {
 	UTILAbstractMethodInvoked;
 	return nil;
@@ -207,15 +202,13 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 
 #pragma mark Drag and Drop support
 // Deprecated in Mac OS X 10.4 and later.
-- (BOOL) tableView : (NSTableView  *) tableView
-         writeRows : (NSArray      *) rows
-      toPasteboard : (NSPasteboard *) pboard
+- (BOOL)tableView:(NSTableView *)tableView writeRows:(NSArray *)rows toPasteboard:(NSPasteboard *)pboard
 {
-	NSIndexSet *indexSet = [NSIndexSet rowIndexesWithRows: rows];
-	return [self tableView: tableView writeRowsWithIndexes: indexSet toPasteboard: pboard];
+	NSIndexSet *indexSet = [NSIndexSet rowIndexesWithRows:rows];
+	return [self tableView:tableView writeRowsWithIndexes:indexSet toPasteboard:pboard];
 }
 
-- (BOOL) tableView: (NSTableView *) tableView writeRowsWithIndexes: (NSIndexSet *) rowIndexes toPasteboard: (NSPasteboard *) pboard
+- (BOOL)tableView:(NSTableView *)tableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard
 {
 	NSArray			*types_;
 	unsigned int	numOfRows, index_;
@@ -224,97 +217,92 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	NSMutableString	*tmp_;
 
 	numOfRows = [rowIndexes count];
-	filenames_ = [NSMutableArray arrayWithCapacity: numOfRows];
-	urls_ = [NSMutableArray arrayWithCapacity: numOfRows];
-	thSigs_ = [NSMutableArray arrayWithCapacity: numOfRows];
+	filenames_ = [NSMutableArray arrayWithCapacity:numOfRows];
+	urls_ = [NSMutableArray arrayWithCapacity:numOfRows];
+	thSigs_ = [NSMutableArray arrayWithCapacity:numOfRows];
 	indexRange = NSMakeRange(0, [rowIndexes lastIndex]+1);
 	tmp_ = SGTemporaryString();
 
-	while ([rowIndexes getIndexes: &index_ maxCount: 1 inIndexRange: &indexRange] > 0) {
+	while ([rowIndexes getIndexes:&index_ maxCount:1 inIndexRange:&indexRange] > 0) {
 		NSDictionary	*thread_;
 		NSString		*path_;
 		NSURL			*url_;
 
-		thread_ = [self threadAttributesAtRowIndex : index_ inTableView : tableView];
+		thread_ = [self threadAttributesAtRowIndex:index_ inTableView:tableView];
 		
-		if (nil == thread_) continue;
+		if (!thread_) continue;
 		
-		path_ = [CMRThreadAttributes pathFromDictionary: thread_];
-		url_ = [CMRThreadAttributes threadURLWithDefaultParameterFromDictionary: thread_];
+		path_ = [CMRThreadAttributes pathFromDictionary:thread_];
+		url_ = [CMRThreadAttributes threadURLWithDefaultParameterFromDictionary:thread_];
 
-		[CMRThreadAttributes fillBuffer: tmp_ withThreadInfoForCopying: [NSArray arrayWithObject: thread_]];
+		[CMRThreadAttributes fillBuffer:tmp_ withThreadInfoForCopying:[NSArray arrayWithObject:thread_]];
 		
-		[urls_ addObject: url_];
-        [thSigs_ addObject: [[CMRThreadSignature threadSignatureFromFilepath: path_] propertyListRepresentation]];		
+		[urls_ addObject:url_];
+        [thSigs_ addObject:[[CMRThreadSignature threadSignatureFromFilepath:path_] propertyListRepresentation]];		
 
-		if([[NSFileManager defaultManager] fileExistsAtPath : path_]){
-			[filenames_ addObject: path_];			
+		if([[NSFileManager defaultManager] fileExistsAtPath:path_]){
+			[filenames_ addObject:path_];
 		}
 	}
-	
+
 	if([filenames_ count] > 0){
-		types_ = [NSArray arrayWithObjects: NSURLPboardType, NSStringPboardType,  NSFilenamesPboardType, BSThreadItemsPboardType, nil];
+		types_ = [NSArray arrayWithObjects:NSURLPboardType, NSStringPboardType, NSFilenamesPboardType, BSThreadItemsPboardType, nil];
 	}else if([tmp_ length] > 0){
-		types_ = [NSArray arrayWithObjects: NSURLPboardType, NSStringPboardType, BSThreadItemsPboardType, nil];
+		types_ = [NSArray arrayWithObjects:NSURLPboardType, NSStringPboardType, BSThreadItemsPboardType, nil];
 	}else{
 		return NO;
 	}
 	
-	[pboard declareTypes: types_ owner: NSApp];
+	[pboard declareTypes:types_ owner:NSApp];
 
 	if([filenames_ count] > 0){
-        [pboard setPropertyList: filenames_ forType: NSFilenamesPboardType];
+        [pboard setPropertyList:filenames_ forType:NSFilenamesPboardType];
 	}
 
-	[pboard setString: tmp_ forType: NSStringPboardType];
-	[[urls_ lastObject] writeToPasteboard: pboard];
-	[pboard setPropertyList: thSigs_ forType: BSThreadItemsPboardType];
+	[pboard setString:tmp_ forType:NSStringPboardType];
+	[[urls_ lastObject] writeToPasteboard:pboard];
+	[pboard setPropertyList:thSigs_ forType:BSThreadItemsPboardType];
 
-	[tmp_ deleteCharactersInRange : [tmp_ range]];
+	[tmp_ deleteCharactersInRange:[tmp_ range]];
 	return YES;
 }
 
 #pragma mark Getting Thread Attributes
-- (NSString *) threadFilePathAtRowIndex : (int          ) rowIndex
-							inTableView : (NSTableView *) tableView
-								 status : (ThreadStatus *) status
+- (NSString *)threadFilePathAtRowIndex:(int )rowIndex inTableView:(NSTableView *)tableView status:(ThreadStatus *)status
 {
 	NSString		*path_;
 	NSDictionary	*thread_;
 	
-	thread_ = [self threadAttributesAtRowIndex : rowIndex
-								   inTableView : tableView];
-	if(nil == thread_) return nil;
+	thread_ = [self threadAttributesAtRowIndex:rowIndex inTableView:tableView];
+	if(!thread_) return nil;
 	if(status != NULL){
 		NSNumber *stNum_;
 		
-		stNum_ = [thread_ objectForKey : CMRThreadStatusKey];
+		stNum_ = [thread_ objectForKey:CMRThreadStatusKey];
 		
 		UTILAssertNotNil(stNum_);
 		*status = [stNum_ unsignedIntValue];
 	}
-	
-	path_ = [CMRThreadAttributes pathFromDictionary : thread_];
+
+	path_ = [CMRThreadAttributes pathFromDictionary:thread_];
 	UTILAssertNotNil(path_);
-	
+
 	return path_;
 }
 
-- (NSDictionary *) threadAttributesAtRowIndex : (int          ) rowIndex
-                                  inTableView : (NSTableView *) tableView
+- (NSDictionary *)threadAttributesAtRowIndex:(int )rowIndex inTableView:(NSTableView *)tableView
 {
 	UTILAbstractMethodInvoked;
 	return nil;
 }
 
-- (unsigned int) indexOfThreadWithPath : (NSString *) filepath
+- (unsigned int)indexOfThreadWithPath:(NSString *)filepath
 {
 	UTILAbstractMethodInvoked;
 	return 0;
 }
 
-- (NSArray *) threadFilePathArrayWithRowIndexSet : (NSIndexSet	*) anIndexSet
-									 inTableView : (NSTableView	*) tableView
+- (NSArray *)threadFilePathArrayWithRowIndexSet:(NSIndexSet *)anIndexSet inTableView:(NSTableView *)tableView
 {
 	NSMutableArray	*pathArray_ = [NSMutableArray array];
 	unsigned int	arrayElement;
@@ -323,51 +311,52 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 
 	while ([anIndexSet getIndexes:&arrayElement maxCount:1 inIndexRange:&e] > 0) {
 		NSString	*path_;
-		path_ = [self threadFilePathAtRowIndex : arrayElement inTableView : tableView status : NULL];
-		[pathArray_ addObject : path_];
+		path_ = [self threadFilePathAtRowIndex:arrayElement inTableView:tableView status:NULL];
+		[pathArray_ addObject:path_];
 	}
 
 	return pathArray_;
 }
 
 #pragma mark NSDraggingSource
-- (unsigned int) draggingSourceOperationMaskForLocal : (BOOL) localFlag
+- (BOOL)userWantsToMoveToTrash
 {
-	if(localFlag)
-		return NSDragOperationEvery;
-	
+	if (![self isFavorites]) return NO;
+
+	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	[alert setAlertStyle:NSWarningAlertStyle];
+	[alert setMessageText:[self localizedString:@"DragDropTrashAlert"]];
+	[alert setInformativeText:[self localizedString:@"DragDropTrashMessage"]];
+	[alert addButtonWithTitle:[self localizedString:@"DragDropTrashOK"]];
+	[alert addButtonWithTitle:[self localizedString:@"DragDropTrashCancel"]];
+	return ([alert runModal] == NSAlertFirstButtonReturn);
+}
+
+- (unsigned int)draggingSourceOperationMaskForLocal:(BOOL)localFlag
+{
+	if (localFlag) return NSDragOperationEvery;
+
 	return (NSDragOperationCopy|NSDragOperationDelete|NSDragOperationLink);
 }
 
-- (void) draggedImage : (NSImage	   *) anImage
-			  endedAt : (NSPoint		) aPoint
-			operation : (NSDragOperation) operation
+- (void)draggedImage:(NSImage *)anImage endedAt:(NSPoint )aPoint operation:(NSDragOperation)operation
 {
 	NSPasteboard	*pboard_;
 	NSArray			*filenames_;
-	int				returnCode = NSAlertFirstButtonReturn;
-	// 「ゴミ箱」への移動
+
+	// 「ゴミ箱」への移動でなければ終わり
 	if(NO == (NSDragOperationDelete & operation)) {
 		return;
 	}
-	pboard_ = [NSPasteboard pasteboardWithName : NSDragPboard];
-	if(NO == [[pboard_ types] containsObject : NSFilenamesPboardType]) {
+
+	pboard_ = [NSPasteboard pasteboardWithName:NSDragPboard];
+	if(![[pboard_ types] containsObject:NSFilenamesPboardType]) {
 		return;
 	}
 
-	if ([self isFavorites]) {
-		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-		[alert setAlertStyle: NSWarningAlertStyle];
-		[alert setMessageText: [self localizedString: @"DragDropTrashAlert"]];
-		[alert setInformativeText: [self localizedString: @"DragDropTrashMessage"]];
-		[alert addButtonWithTitle: [self localizedString: @"DragDropTrashOK"]];
-		[alert addButtonWithTitle: [self localizedString: @"DragDropTrashCancel"]];
-		returnCode = [alert runModal];
-	}
-
-	if (returnCode == NSAlertFirstButtonReturn) {
-		filenames_ = [pboard_ propertyListForType : NSFilenamesPboardType];
-		[self tableView : nil removeFiles : filenames_ delFavIfNecessary : YES];
+	if ([self userWantsToMoveToTrash]) {
+		filenames_ = [pboard_ propertyListForType:NSFilenamesPboardType];
+		[self tableView:nil removeFiles:filenames_ delFavIfNecessary:YES];
 	}
 }
 @end

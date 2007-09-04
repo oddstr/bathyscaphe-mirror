@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-FontColor.m,v 1.21 2007/07/27 10:26:40 tsawada2 Exp $
+  * $Id: AppDefaults-FontColor.m,v 1.22 2007/09/04 07:45:43 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -32,6 +32,10 @@ static NSString *const kPrefBoardListRowHeightKey	= @"BoardList Row Height";
 static NSString *const kPrefBoardListBgColorKey		= @"BoardList Bg Color";
 static NSString *const kPrefBoardListTextColorKey	= @"BoardList Text Color";
 static NSString *const kPrefBoardListFontKey		= @"BoardList Font";
+
+static NSString *const kPrefDatOchiThreadColorKey = @"DatOchiThreadColor";
+static NSString *const kPrefDatOchiThreadFontKey = @"DatOchiThreadFont";
+
 static NSString *const kPrefBoardListTextAttrKey	= @"bs_internal:BoardList Text Attributes";
 
 static NSString *const kPrefThreadViewerMsgSpacingBeforeKey = @"Message Content Spacing (Top)";
@@ -450,6 +454,31 @@ static float getDefaultLineHeightForFont(NSFont *font_, float minValue_)
 - (void) setThreadsListNewThreadFont : (NSFont *) aFont
 {
 	[self setAppearanceFont : aFont forKey : kPrefNewThreadFontKey];
+	[self postLayoutSettingsUpdateNotification];
+}
+
+- (NSFont *)threadsListDatOchiThreadFont
+{
+	return [self appearanceFontForKey:kPrefDatOchiThreadFontKey defaultSize:DEFAULT_THREADS_LIST_FONTSIZE];
+}
+
+- (void)setThreadsListDatOchiThreadFont:(NSFont *)aFont
+{
+	[self setAppearanceFont:aFont forKey:kPrefDatOchiThreadFontKey];
+	[self postLayoutSettingsUpdateNotification];
+}
+
+- (NSColor *)threadsListDatOchiThreadColor
+{
+	NSColor		*c;
+	
+	c = [self appearanceColorForKey:kPrefDatOchiThreadColorKey];
+	return (nil == c) ? [NSColor lightGrayColor] : c;
+}
+
+- (void)setThreadsListDatOchiThreadColor:(NSColor *)color
+{
+	[self setAppearanceColor:color forKey:kPrefDatOchiThreadColorKey];
 	[self postLayoutSettingsUpdateNotification];
 }
 

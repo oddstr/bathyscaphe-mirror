@@ -163,6 +163,14 @@ static NSSegmentedControl *segmentedControlItemBase(void)
 	return [segmentedControl autorelease];
 }
 
+static NSMenu *hogeMenu(id hoge, NSString *title)
+{
+	NSMenu *menu = [[NSMenu alloc] initWithTitle:title];
+	[menu addItemWithTitle:@"xxxxxxxxx" action:@selector(historyMenuPerformBack:) keyEquivalent:@""];
+	[menu setDelegate:hoge];
+	return [menu autorelease];
+}
+
 - (void)setuphistorySCItem:(NSToolbarItem *)anItem target:(NSWindowController *)windowController
 {
 	NSSegmentedControl	*segmentedControl;
@@ -174,6 +182,8 @@ static NSSegmentedControl *segmentedControlItemBase(void)
 	[segmentedControl setImage:[NSImage imageNamed:@"HistoryForward"] forSegment:1];
 	[segmentedControl setTarget:windowController];
 	[segmentedControl setAction:@selector(historySegmentedControlPushed:)];
+	[segmentedControl setMenu:hogeMenu(windowController,@"Back") forSegment:0];
+	[segmentedControl setMenu:hogeMenu(windowController,@"Forward") forSegment:1];
 	[[segmentedControl cell] setToolTip:[self localizedString:st_historySC_seg0_ToolTipKey] forSegment:0];
 	[[segmentedControl cell] setToolTip:[self localizedString:st_historySC_seg1_ToolTipKey] forSegment:1];
 

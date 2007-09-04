@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyMessenger.h,v 1.9 2007/04/12 12:55:12 tsawada2 Exp $
+  * $Id: CMRReplyMessenger.h,v 1.10 2007/09/04 07:45:43 tsawada2 Exp $
   * 
   * CMRReplyMessenger.h
   *
@@ -83,6 +83,9 @@
 @interface CMRReplyMessenger(Action)
 - (IBAction) sendMessage : (id) sender;
 - (IBAction) sendMessage : (id) sender withHanaMogeraForms : (BOOL) withForms; // Available in CometBlaster and later.
+
+// Available in Twincam Angel.
+- (IBAction)revealInFinder:(id)sender;
 @end
 
 

@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-BLEditor.m,v 1.18 2007/04/15 08:46:10 tsawada2 Exp $
+ * $Id: CMRBrowser-BLEditor.m,v 1.19 2007/09/04 07:45:43 tsawada2 Exp $
  * BathyScaphe
  * CMRBrowser-Action.m, CMRBrowser-ViewAccessor.m から分割
  *
@@ -29,32 +29,32 @@ static NSString *const kRemoveDrawerItemMsgKey		= @"Browser Del Board Items Mess
 		id userList = [[BoardManager defaultManager] userList];
 		
 		rowIndex = [[self boardListTable] selectedRow];
-		selectedItem = (rowIndex >= 0) ? [[self boardListTable] itemAtRow : rowIndex]: nil;
+//		selectedItem = (rowIndex >= 0) ? [[self boardListTable] itemAtRow : rowIndex]: nil;
 		
-		[userList addItem:item afterObject:selectedItem];
+		[userList addItem:item afterObject:nil];//selectedItem];
 		[[self boardListTable] reloadData];
 	}
 }
-- (IBAction) addSmartItem : (id) sender
+
+- (IBAction)addSmartItem:(id)sender
 {
 	[[SmartBoardListItemEditor editor] cretateFromUIWindow:[self window]
 												  delegate:self
 										   settingSelector:@selector(setItem::)
 												  userInfo:NULL];
 }
-- (IBAction) addDrawerItem : (id) sender
+
+- (IBAction)addBoardListItem:(id)sender
 {
-	[[self addBoardSheetController] beginSheetModalForWindow : [self window]
-											   modalDelegate : self
-												 contextInfo : nil];
+	[[self addBoardSheetController] beginSheetModalForWindow:[self window] modalDelegate:self contextInfo:nil];
 }
 
-- (IBAction) addCategoryItem : (id) sender
+- (IBAction)addCategoryItem:(id)sender
 {
-	[[self editBoardSheetController] beginAddCategorySheetForWindow: [self window] modalDelegate: self contextInfo: nil];
+	[[self editBoardSheetController] beginAddCategorySheetForWindow:[self window] modalDelegate:self contextInfo:nil];
 }
 
-- (IBAction) editDrawerItem : (id) sender
+- (IBAction)editBoardListItem:(id)sender
 {
 	int tag_ = [sender tag];
 	int	rowIndex_, semiIndex_;
@@ -101,7 +101,7 @@ static NSString *const kRemoveDrawerItemMsgKey		= @"Browser Del Board Items Mess
 												  object: nil];
 }
 
-- (IBAction) removeDrawerItem : (id) sender
+- (IBAction) removeBoardListItem : (id) sender
 {
 	int tag_ = [sender tag];
 	BSBoardListView *boardListTable_ = (BSBoardListView *)[self boardListTable];	

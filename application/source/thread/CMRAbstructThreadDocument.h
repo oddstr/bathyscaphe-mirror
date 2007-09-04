@@ -57,6 +57,9 @@
 - (IBAction) toggleDatOchiThread: (id) sender;
 - (IBAction) toggleMarkedThread: (id) sender;
 - (IBAction) toggleAAThreadFromInfoPanel: (id) sender;
+
+// Available in Twincam Angel.
+- (IBAction)revealInFinder:(id)sender;
 @end
 
 /* for AppleScript */
@@ -77,3 +80,5 @@
 - (void)    document : (NSDocument         *) aDocument
 willRemoveController : (NSWindowController *) aController;
 @end
+
+extern NSString *const CMRAbstractThreadDocumentDidToggleDatOchiNotification;

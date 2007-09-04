@@ -13,7 +13,7 @@
 
 #import "BoardManager.h"
 #import "CMRThreadViewer.h"
-#import "CMRBBSSignature.h"
+//#import "CMRBBSSignature.h"
 #import "CMRBrowser.h"
 #import "BoardListItem.h"
 
@@ -88,6 +88,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	
 	[[self lockButton] setImage: [ws_ systemIconForType: kLockedIcon]];
 	[[self lockButton] setAlternateImage: [ws_ systemIconForType: kUnlockedIcon]];
+	[[[self lockButton] cell] setShowsBorderOnlyWhileMouseInside:YES];
 	
 	[[self URLField] setAllowsEditingTextAttributes: NO];
 	[[self URLField] setImportsGraphics: NO];
@@ -333,12 +334,12 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 
 	id winController_ = [[theNotification object] windowController];
 
-	if ([winController_ respondsToSelector: @selector(boardIdentifier)]) {
-		NSString *tmp_ = [winController_ boardIdentifier];
+	if ([winController_ respondsToSelector: @selector(boardName)]) {
+		NSString *tmp_ = [winController_ boardName];
 				
 		if (!tmp_) return;
 		
-		[self setCurrentTargetBoardName: [(CMRBBSSignature *)tmp_ name]];
+		[self setCurrentTargetBoardName: tmp_];//[(CMRBBSSignature *)tmp_ name]];
 		[[self window] update];
 	}
 }
@@ -350,13 +351,11 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 
 	if (NO == [(NSWindow *)[winController_ window] isMainWindow]) return;
 
-	if ([winController_ respondsToSelector: @selector(boardIdentifier)]) {
+	if ([winController_ respondsToSelector:@selector(currentThreadsList)]) {
 		NSString *tmp_;
-		tmp_ = [(CMRBBSSignature *)[winController_ boardIdentifier] name];
-	
-		if (nil == tmp_)
-			return;
-		[self setCurrentTargetBoardName : tmp_];
+		tmp_ = [[winController_ currentThreadsList] BBSName];
+		if (!tmp_) return;
+		[self setCurrentTargetBoardName:tmp_];
 		[[self window] update];
 	}
 }
@@ -369,8 +368,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	if ([winController_ isMemberOfClass: [CMRThreadViewer class]]) {
 		NSString *tmp_;
 		tmp_ = [(CMRThreadViewer *)winController_ boardName];
-		if(tmp_ == nil)
-			tmp_ = [(CMRBBSSignature *)[(CMRThreadViewer *)winController_ boardIdentifier] name];
+//		if(tmp_ == nil)
+//			tmp_ = [(CMRBBSSignature *)[(CMRThreadViewer *)winController_ boardIdentifier] name];
 	
 		if (nil == tmp_)
 			return;

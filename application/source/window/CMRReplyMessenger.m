@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyMessenger.m,v 1.12 2007/04/12 12:55:12 tsawada2 Exp $
+  * $Id: CMRReplyMessenger.m,v 1.13 2007/09/04 07:45:43 tsawada2 Exp $
   * 
   * CMRReplyMessenger.m
   *
@@ -45,10 +45,11 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 
 - (NSDictionary *) textAttributes
 {
+	BSThreadViewTheme *theme = [CMRPref threadViewTheme];
 	return [NSDictionary dictionaryWithObjectsAndKeys : 
-					[CMRPref replyFont], 
+					[theme replyFont], 
 					NSFontAttributeName,
-					[CMRPref replyTextColor], 
+					[theme replyColor], 
 					NSForegroundColorAttributeName,
 					nil];
 }
@@ -361,6 +362,16 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 - (IBAction) sendMessage : (id) sender
 {
 	[self sendMessage : sender withHanaMogeraForms : NO];
+}
+
+- (IBAction)revealInFinder:(id)sender
+{
+	NSString *path = [self fileName];
+	if (!path) {
+		NSBeep();
+		return;
+	}
+	[[NSWorkspace sharedWorkspace] selectFile:path inFileViewerRootedAtPath:[path stringByDeletingLastPathComponent]];
 }
 
 - (BOOL) validateToolbarItem : (NSToolbarItem *) theItem
