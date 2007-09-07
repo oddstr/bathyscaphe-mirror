@@ -1,6 +1,6 @@
 //: CMRThreadLayout.h
 /**
-  * $Id: CMRThreadLayout.h,v 1.6 2007/02/07 13:26:13 tsawada2 Exp $
+  * $Id: CMRThreadLayout.h,v 1.7 2007/09/07 13:06:53 tsawada2 Exp $
   * 
   * CMRThreadLayout.h
   *
@@ -148,6 +148,8 @@
 - (void) changeAllMessageAttributes : (BOOL  ) onOffFlag
 							  flags : (UInt32) mask;
 - (unsigned) numberOfMessageAttributes : (UInt32) mask;
+
+- (BOOL)onlySingleMessageInRange:(NSRange)range; // Available in Twincam Angel.
 
 - (SGBaseRangeArray *) messageRanges;
 - (void) addMessageRange : (NSRange) range;

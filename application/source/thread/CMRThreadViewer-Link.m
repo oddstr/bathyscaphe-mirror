@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.29 2007/09/04 07:45:43 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.30 2007/09/07 13:06:53 tsawada2 Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -456,15 +456,6 @@ ErrInvalidLink:
 							   locationHint: location_];
 }
 
-// CometBlaster Addition
-/*
-- (BOOL) threadView: (CMRThreadView *) aView
-	 validateAction: (SEL) aSelector
-{
-	// 将来のために
-}
-*/
-
 // AA Filter
 - (IBAction)runAsciiArtDetector:(id)sender
 {
@@ -567,7 +558,6 @@ ErrInvalidLink:
 	NSMenu		*menu_;
 	
 	menu_ = [aView messageMenuWithMessageIndex : aMessageIndex];
-//	[aView highlightBackgroundForMessageAtIndex:aMessageIndex]; // Test
 	[[menu_ class] popUpContextMenu:menu_ withEvent:theEvent forView:aView];
 	}
 	return YES;

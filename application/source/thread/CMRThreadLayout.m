@@ -1,6 +1,6 @@
 //: CMRThreadLayout.m
 /**
-  * $Id: CMRThreadLayout.m,v 1.13 2007/01/20 19:31:25 tsawada2 Exp $
+  * $Id: CMRThreadLayout.m,v 1.14 2007/09/07 13:06:53 tsawada2 Exp $
   * 
   * CMRThreadLayout.m
   *
@@ -177,6 +177,16 @@
 - (CMRThreadMessage *) messageAtIndex : (unsigned) anIndex
 {
 	return [[self messageBuffer] messageAtIndex : anIndex];
+}
+
+- (BOOL)onlySingleMessageInRange:(NSRange)range
+{
+	unsigned int index1, index2;
+
+	index1 = [self messageIndexForRange:range];
+	index2 = [self lastMessageIndexForRange:range];
+	
+	return (index1 == index2);
 }
 
 - (void) threadMessageDidChangeAttribute : (NSNotification *) theNotification

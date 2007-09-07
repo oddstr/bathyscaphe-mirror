@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Action.m,v 1.43 2007/09/04 07:45:43 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Action.m,v 1.44 2007/09/07 13:06:53 tsawada2 Exp $
   * 
   * CMRThreadViewer-Action.m
   *
@@ -469,17 +469,6 @@
 	}
 }
 
-- (BOOL)onlySingleMessageInRange:(NSRange)range
-{
-	unsigned int index1, index2;
-
-	CMRThreadLayout *layout = [self threadLayout];
-	index1 = [layout messageIndexForRange:range];
-	index2 = [layout lastMessageIndexForRange:range];
-	
-	return (index1 == index2);
-}
-
 - (IBAction)addToNGWords:(id)sender
 {
 	NSRange			selectedRange_ = [[self textView] selectedRange];
@@ -489,7 +478,7 @@
 	string_ = [[[self textView] string] substringWithRange:selectedRange_];
 	if (!string_ || [string_ isEmpty]) return;
 
-	if (![self onlySingleMessageInRange:selectedRange_]) return;
+	if (![[self threadLayout] onlySingleMessageInRange:selectedRange_]) return;
 
 	if ([string_ rangeOfString:@"\n" options:NSLiteralSearch].length != 0) {
 		NSAlert *alert = [[[NSAlert alloc] init] autorelease];

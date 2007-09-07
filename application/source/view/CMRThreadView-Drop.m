@@ -1,7 +1,13 @@
-// CMRThreadView-Drop.m
+//
+//  CMRThreadView-Drop.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/09/07.
+//  Copyright 2006-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
 
 #import "CMRThreadView_p.h"
-#import "CMRThreadSignature.h"
 
 @implementation CMRThreadView(NSDraggingDestination)
 - (NSDragOperation) draggingEntered: (id <NSDraggingInfo>) sender

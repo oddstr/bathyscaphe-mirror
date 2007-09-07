@@ -3,7 +3,6 @@
 #import "CocoMonar_Prefix.h"
 
 #import "SGLinkCommand.h"
-//#import "NSCursor+CMXAdditions.h"
 #import "CMRMessageAttributesTemplate.h"
 #import <SGAppKit/SGAppKit.h>
 

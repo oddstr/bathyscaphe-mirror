@@ -28,8 +28,6 @@ NSString *const BSNGExpressionErrorDomain = @"BSNGExpressionErrorDomain";
 	if (![self expression] || ![self validAsRegularExpression]) return nil;
 
 	OGRegularExpression *regExp = [[OGRegularExpression alloc] initWithString:[self expression]];
-//	[self setOGRegExpInstance:regExp];
-//	[regExp release];
 	return [regExp autorelease];
 }
 
@@ -61,9 +59,8 @@ NSString *const BSNGExpressionErrorDomain = @"BSNGExpressionErrorDomain";
 	[string retain];
 	[m_NGExpression release];
 	m_NGExpression = string;
-//	if (string && [self isRegularExpression] && [self validAsRegularExpression]) {
-//		[self createOGRegExpInstance];
-//	}
+
+	[self setOGRegExpInstance:nil];
 }
 
 - (unsigned int)targetMask
@@ -130,17 +127,9 @@ NSString *const BSNGExpressionErrorDomain = @"BSNGExpressionErrorDomain";
 - (void)setIsRegularExpression:(BOOL)isRE
 {
 	m_isRegularExpression = isRE;
-//	if (isRE && [self expression] && [self validAsRegularExpression]) {
-//		[self createOGRegExpInstance];
-//	}
 	if (!isRE) [self setOGRegExpInstance:nil];
 }
-/*
-- (void)setIsRegularExpressionWithoutCreatingRegExpInstance:(BOOL)isRE
-{
-	m_isRegularExpression = isRE;
-}
-*/
+
 - (BOOL)validateIsRegularExpression:(id *)ioValue error:(NSError **)outError
 {
 	if ([*ioValue boolValue]) {
@@ -211,10 +200,6 @@ NSString *const BSNGExpressionErrorDomain = @"BSNGExpressionErrorDomain";
 
 - (id)propertyListRepresentation
 {
-/*	if (![self expression]) return nil;
-	return [NSDictionary dictionaryWithObjectsAndKeys:[self expression], @"Expression",
-													  [NSNumber numberWithUnsignedInt:[self targetMask]], @"TargetMask",
-													  [NSNumber numberWithBool:[self isRegularExpression]], @"RegularExpression", NULL];*/
 	NSMutableDictionary *dict = [NSMutableDictionary dictionary];
 	OGRegularExpression	*regExp;
 	[dict setNoneNil:[self expression] forKey:kExpressionKey];
@@ -223,7 +208,6 @@ NSString *const BSNGExpressionErrorDomain = @"BSNGExpressionErrorDomain";
 	if (regExp = [self OGRegExpInstance]) {
 		[dict setObject:[NSKeyedArchiver archivedDataWithRootObject:regExp] forKey:kOGRegExpInstanceKey];
 	}
-//	[dict setNoneNil:[NSKeyedArchiver archivedDataWithRootObject:regExp] forKey:kOGRegExpInstanceKey];
 	return (NSDictionary *)dict;
 }
 @end

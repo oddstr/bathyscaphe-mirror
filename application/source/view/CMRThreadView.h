@@ -1,11 +1,12 @@
-/**
-  * $Id: CMRThreadView.h,v 1.5 2007/04/12 12:55:12 tsawada2 Exp $
-  * 
-  * CMRThreadView.h
-  *
-  * Copyright (c) 2003-2004 Takanori Ishikawa, All rights reserved.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  CMRThreadView.h
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/09/07.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import <Cocoa/Cocoa.h>
 #import "SGHTMLView.h"
 
@@ -16,47 +17,40 @@
 @interface CMRThreadView : SGHTMLView
 {
 	@private
-	unsigned		_lastCharIndex;		/* menuForEvent: */
-	// ReinforceII
+	unsigned		m_lastCharIndex;		/* For -menuForEvent: */
+
+	// ReinforceII Additions
 	BOOL			draggingHilited;
 	NSTimeInterval	draggingTimer;
 }
+
 // delegate's layout
-- (CMRThreadLayout *) threadLayout;
+- (CMRThreadLayout *)threadLayout;
 
-- (NSEnumerator *) indexEnumeratorWithIndexRange : (NSRange) anIndexRange;
-- (NSArray *) indexArrayWithIndexRange : (NSRange) anIndexRange;
-- (NSEnumerator *) selectedMessageIndexEnumerator;
+- (NSEnumerator *)indexEnumeratorWithIndexRange:(NSRange)anIndexRange;
+- (NSArray *)indexArrayWithIndexRange:(NSRange)anIndexRange;
+- (NSEnumerator *)selectedMessageIndexEnumerator;
 
-+ (NSMenu *) messageMenu;
-- (NSMenu *) messageMenuWithMessageIndex : (unsigned) aMessageIndex;
-- (NSMenu *) messageMenuWithMessageIndexRange : (NSRange) anIndexRange;
++ (NSMenu *)messageMenu;
+- (NSMenu *)messageMenuWithMessageIndex:(unsigned)aMessageIndex;
+- (NSMenu *)messageMenuWithMessageIndexRange:(NSRange)anIndexRange;
 @end
 
 
 
 @interface NSObject(CMRThreadViewDelegate)
-- (CMRThreadSignature *) threadSignatureForView : (CMRThreadView *) aView;
-- (CMRThreadLayout *) threadLayoutForView : (CMRThreadView *) aView;
-- (void) threadView : (CMRThreadView *) aView
-	   messageReply : (NSRange        ) anIndexRange;
-- (void) threadView: (CMRThreadView *) aView
- reverseAnchorPopUp: (unsigned int) targetIndex
-	   locationHint: (NSPoint) location_;
+- (CMRThreadSignature *)threadSignatureForView:(CMRThreadView *)aView;
+- (CMRThreadLayout *)threadLayoutForView:(CMRThreadView *)aView;
+
+// Message Reply
+- (void)threadView:(CMRThreadView *)aView messageReply:(NSRange)anIndexRange;
+// Gyakusansyou Popup
+- (void)threadView:(CMRThreadView *)aView reverseAnchorPopUp:(unsigned int)targetIndex locationHint:(NSPoint)location_;
 // Spam Filter
-- (void) threadView : (CMRThreadView    *) aView
-			   spam : (CMRThreadMessage *) aMessage
-	messageRegister : (BOOL              ) registerFlag;
+- (void)threadView:(CMRThreadView *)aView spam:(CMRThreadMessage *)aMessage messageRegister:(BOOL)registerFlag;
 
-- (BOOL) threadView : (CMRThreadView *) aView
-	   mouseClicked : (NSEvent       *) theEvent
-	        atIndex : (unsigned       ) charIndex
-	   messageIndex : (unsigned       ) aMessageIndex;
+- (BOOL)threadView:(CMRThreadView *)aView mouseClicked:(NSEvent *)theEvent atIndex:(unsigned)charIndex messageIndex:(unsigned)aMessageIndex;
 
-// Available in CometBlaster and later. but currently not used.
-- (BOOL) threadView: (CMRThreadView *) aView
-	 validateAction: (SEL) aSelector;
-
-// ReinforceII Drag & Drop behavior util
-- (void) setThreadContentWithThreadIdentifier : (id) aThreadIdentifier;
+// ReinforceII Addition - Drag & Drop behavior util
+- (void)setThreadContentWithThreadIdentifier:(id)aThreadIdentifier;
 @end

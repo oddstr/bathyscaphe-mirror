@@ -112,7 +112,7 @@ static void *kThreadViewThemeBgColorContext = @"BabyRose";
 
 @implementation CMRThreadViewer(ViewInitializer)
 #pragma mark Contextual Menu Stuff
-+ (NSMenu *)clearkeyEquivalentInMenu:(NSMenu *)aMenu
+/*+ (NSMenu *)clearkeyEquivalentInMenu:(NSMenu *)aMenu
 {
 	NSEnumerator	*iter_;
 	NSMenuItem		*item_;
@@ -123,7 +123,7 @@ static void *kThreadViewThemeBgColorContext = @"BabyRose";
 		[self clearkeyEquivalentInMenu:[item_ submenu]];
 	}
 	return aMenu;
-}
+}*/
 
 + (NSMenu *)loadContextualMenuForTextView
 {
