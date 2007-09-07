@@ -124,6 +124,22 @@ static NSString *const NNDBrowserListColumnsKey = @"TableColumns";
 	}
 }
 
+- (void)removeValueForKey:(NSString *)key atBoard:(NSString *)boardName
+{
+	NSMutableDictionary		*NND = [self noNameDict];
+	id entry_ = [self entryForBoardName:boardName];
+	
+	if (!entry_ || [entry_ isKindOfClass:[NSString class]]) {
+		return;
+	} else {
+		NSMutableDictionary		*mutableEntry_;
+		mutableEntry_ = [entry_ mutableCopy];
+		[mutableEntry_ removeObjectForKey:key];
+		[NND setObject:mutableEntry_ forKey:boardName];
+		[mutableEntry_ release];
+	}
+}
+
 - (NSString *) stringValueForBoard: (NSString *) boardName
                                key: (NSString *) key
                       defaultValue: (NSString *) value
@@ -623,7 +639,11 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 
 - (void)setBrowserListColumns:(id)plist forBoard:(NSString *)boardName
 {
-	[self setValue:plist forKey:NNDBrowserListColumnsKey atBoard:boardName];
+	if (!plist) {
+		[self removeValueForKey:NNDBrowserListColumnsKey atBoard:boardName];
+	} else {
+		[self setValue:plist forKey:NNDBrowserListColumnsKey atBoard:boardName];
+	}
 }
 
 #pragma mark -

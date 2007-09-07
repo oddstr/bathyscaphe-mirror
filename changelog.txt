@@ -1,4 +1,7 @@
 2007-09-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Delegate.m
+	* application/source/bbs/BoardManager-BSAddition.m
+		スレッド一覧のカラムの状態の保存に関するコードの修正。
 	* application/subproj/BWAgent/SJIS2UTF8
 		Universal Binary のものに更新した（すっかり忘れていた）。
 	* application/subproj/reply/connector/w2chReply_2ch.m

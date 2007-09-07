@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Delegate.m,v 1.42 2007/09/04 07:45:43 tsawada2 Exp $
+  * $Id: CMRBrowser-Delegate.m,v 1.43 2007/09/07 17:34:39 tsawada2 Exp $
   * 
   * CMRBrowser-Delegate.m
   *
@@ -300,6 +300,7 @@ BOOL isOptionKeyDown(void)
 
 	if (isOptionKeyDown()) {
 		[CMRPref setThreadsListTableColumnState:[targetTableView columnState]];
+		[[BoardManager defaultManager] setBrowserListColumns:nil forBoard:boardName]; // Remove Custom Settings.
 	} else {
 		[[BoardManager defaultManager] setBrowserListColumns:[targetTableView columnState] forBoard:boardName];
 	}
