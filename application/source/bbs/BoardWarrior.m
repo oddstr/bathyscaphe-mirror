@@ -12,6 +12,7 @@
 #import <SGNetwork/BSIPIDownload.h>
 #import "CMRTaskManager.h"
 #import <Carbon/Carbon.h>
+#import <OgreKit/OgreKit.h>
 
 NSString *const BoardWarriorWillStartDownloadNotification	= @"BoardWarriorWillStartDownloadNotification";
 NSString *const BoardWarriorDidFinishDownloadNotification	= @"BoardWarriorDidFinishDownloadNotification";
@@ -357,7 +358,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 
 	[aDownload release];
 	m_currentDownload = nil;
-
 	[self startAppleScriptTask];
 }
 

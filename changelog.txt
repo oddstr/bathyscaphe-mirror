@@ -1,3 +1,12 @@
+2007-09-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/BWAgent/SJIS2UTF8
+		Universal Binary のものに更新した（すっかり忘れていた）。
+	* application/subproj/reply/connector/w2chReply_2ch.m
+		2ch に書き込む時にテキストのエンコーディングを試みる順番を変えた。
+		今までは kCFStringEncodingMacJapanese → kCFStringEncodingDOSJapanese → kCFStringEncodingShiftJIS の順で
+		試し、エンコードに成功したらそのエンコーディングで書き込んでいたが、これを
+		kCFStringEncodingShiftJIS → kCFStringEncodingDOSJapanese → kCFStringEncodingMacJapanese の順で
+		試すように変更した。
 2007-09-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/view/CMRThreadView.m
 	* application/source/view/CMRThreadView-Drop.m
