@@ -1,3 +1,16 @@
+2007-09-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/window/CMRThreadViewerTbDelegate.m
+	* application/source/preferences/AppDefaults.m
+	* application/source/preferences/CMRPreferencesDefautValues.h
+		Hidden Option "DisablesHistoryButtonPopupMenu" を追加。省略時の値は YES であり、このときは
+		「戻る／進む」ツールバー項目をクリック＆ホールドしてもポップアップメニューを表示しない（一部の環境でクラッシュする問題を
+		回避するため）。度胸のある人は、このオプションを NO にセットすれば、ポップアップメニューを表示して利用できる。
+	* application/source/network/CMRDownloader.m
+	* application/source/composer/CMRSpamFilter.m
+		デバッグ用の NSLog() が残っていたのを削除した。
+	* application/Resources/Japanese.lproj/Browser.nib
+		掲示板リスト下部の「追加（＋）」ボタンの Action 接続が切れていたのを直した。
+=================================================
 2007-09-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-Delegate.m
 	* application/source/bbs/BoardManager-BSAddition.m

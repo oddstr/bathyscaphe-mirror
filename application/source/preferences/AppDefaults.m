@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.25 2007/07/27 10:26:40 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.26 2007/09/15 18:13:45 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -540,6 +540,11 @@ default_browserLastBoard:
 {
 	[[self defaults] setBool: shouldMove forKey: AppDefaultsMoveFocusKey];
 }*/
+
+- (BOOL)disablesHistorySegCtrlMenu
+{
+	return [[self defaults] boolForKey:@"DisablesHistoryButtonPopupMenu" defaultValue:DEFAULT_HISTORY_SEGCTRL_MENU];
+}
 @end
 
 @implementation AppDefaults(ThreadViewTheme)

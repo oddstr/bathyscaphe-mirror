@@ -1,7 +1,7 @@
 //
 // BathyScaphe
 // Preference Default Values List
-// For Starlight Breaker
+// For Twincam Angel
 //
 
 // AppDefaults
@@ -17,6 +17,7 @@
 #define DEFAULT_INFORM_WHEN_DAT_OCHI		YES
 #define DEFAULT_OLD_SCROLLING				NO
 #define DEFAULT_USE_BINARY_FORMAT			NO
+#define DEFAULT_HISTORY_SEGCTRL_MENU		YES
 
 // FontsAndColor
 #define DEFAULT_MESSAGE_ANCHOR_HAS_UNDERLINE	YES
@@ -71,7 +72,7 @@
 // ThreadsList
 #define DEFAULT_TLSEL_HOLDING_MASK			CMRAutoscrollNone
 #define DEFAULT_TL_INCREMENTAL_SEARCH		YES
-#define DEFAULT_TITLERULER_TEXT_BLACK		NO
+//#define DEFAULT_TITLERULER_TEXT_BLACK		NO
 #define DEFAULT_TL_AUTORELOAD_WHEN_WAKE		NO
 #define DEFAULT_HEADCHECK_INTERVAL			300.0
 #define DEFAULT_TL_VIEW_MODE				BSThreadsListShowsLiveThreads

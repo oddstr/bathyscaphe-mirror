@@ -9,7 +9,7 @@
 
 #import "CMRThreadViewerTbDelegate.h"
 #import "CMRToolbarDelegateImp_p.h"
-//#import "AppDefaults.h"
+#import "AppDefaults.h"
 
 // スレッドの更新
 static NSString *const st_reloadItem_Identifier				= @"Reload Thread";
@@ -48,10 +48,6 @@ static NSString *const st_onlineMode_ImageName			= @"online";
 
 // Launch CMLogFinder (Removed in Twincam Angel.)
 static NSString *const st_launchCMLFIdentifier			= @"Launch CMLF";
-/*static NSString *const st_launchCMLFLabelKey			= @"Launch CMLF Label";
-static NSString *const st_launchCMLFPaletteLabelKey		= @"Launch CMLF Palette Label";
-static NSString *const st_launchCMLFToolTipKey			= @"Launch CMLF ToolTip";
-static NSString *const st_launchCMLF_ImageName			= @"cmlf_icon";*/
 
 // 停止
 static NSString *const st_stopTaskIdentifier			= @"stopTask";
@@ -114,10 +110,7 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 {
 	return st_onlineModeIdentifier;
 }
-/*- (NSString *)launchCMLFIdentifier
-{
-	return st_launchCMLFIdentifier;
-}*/
+
 - (NSString *)stopTaskIdentifier
 {
 	return st_stopTaskIdentifier;
@@ -144,15 +137,6 @@ static NSString *const st_toolbar_identifier			= @"Thread Window Toolbar";
 
 
 @implementation CMRThreadViewerTbDelegate(Protected)
-/*- (NSString *) labelForCMLF
-{
-	NSString *tmp_ = [CMRPref helperAppDisplayName];
-	if (tmp_) {
-		return tmp_;
-	} else {
-		return st_launchCMLFLabelKey;
-	}
-}*/
 static NSSegmentedControl *segmentedControlItemBase(void)
 {
 	NSSegmentedControl *segmentedControl = [[NSSegmentedControl alloc] initWithFrame:NSMakeRect(0, 0, 53, 25)];
@@ -163,12 +147,12 @@ static NSSegmentedControl *segmentedControlItemBase(void)
 	return [segmentedControl autorelease];
 }
 
-static NSMenu *hogeMenu(id hoge, NSString *title)
+- (void)setupMenuWithTitle:(NSString *)title delegate:(id)menuDelegate forSegmentedControl:(NSSegmentedControl *)control segment:(int)segment
 {
 	NSMenu *menu = [[NSMenu alloc] initWithTitle:title];
-	[menu addItemWithTitle:@"xxxxxxxxx" action:@selector(historyMenuPerformBack:) keyEquivalent:@""];
-	[menu setDelegate:hoge];
-	return [menu autorelease];
+	[menu setDelegate:menuDelegate];
+	[control setMenu:menu forSegment:segment];
+	[menu release];
 }
 
 - (void)setuphistorySCItem:(NSToolbarItem *)anItem target:(NSWindowController *)windowController
@@ -182,8 +166,12 @@ static NSMenu *hogeMenu(id hoge, NSString *title)
 	[segmentedControl setImage:[NSImage imageNamed:@"HistoryForward"] forSegment:1];
 	[segmentedControl setTarget:windowController];
 	[segmentedControl setAction:@selector(historySegmentedControlPushed:)];
-	[segmentedControl setMenu:hogeMenu(windowController,@"Back") forSegment:0];
-	[segmentedControl setMenu:hogeMenu(windowController,@"Forward") forSegment:1];
+
+	if (![CMRPref disablesHistorySegCtrlMenu]) {
+		[self setupMenuWithTitle:@"Back" delegate:windowController forSegmentedControl:segmentedControl segment:0];
+		[self setupMenuWithTitle:@"Forward" delegate:windowController forSegmentedControl:segmentedControl segment:1];
+	}
+
 	[[segmentedControl cell] setToolTip:[self localizedString:st_historySC_seg0_ToolTipKey] forSegment:0];
 	[[segmentedControl cell] setToolTip:[self localizedString:st_historySC_seg1_ToolTipKey] forSegment:1];
 
@@ -266,15 +254,7 @@ static NSMenu *hogeMenu(id hoge, NSString *title)
 											   action:@selector(toggleOnlineMode:)
 											   target:nil];
 	[item_ setImage:[NSImage imageAppNamed:st_onlineMode_ImageName]];
-/*	
-	item_ = [self appendToolbarItemWithItemIdentifier:[self launchCMLFIdentifier]
-									localizedLabelKey:[self labelForCMLF]
-							 localizedPaletteLabelKey:[self labelForCMLF]
-								  localizedToolTipKey:st_launchCMLFToolTipKey
-											   action:@selector(launchCMLF:)
-											   target:nil];
-	[item_ setImage:[NSImage imageAppNamed:st_launchCMLF_ImageName]];
-*/	
+
 	item_ = [self appendToolbarItemWithItemIdentifier:[self stopTaskIdentifier]
 									localizedLabelKey:st_stopTaskLabelKey
 							 localizedPaletteLabelKey:st_stopTaskPaletteLabelKey
@@ -337,7 +317,6 @@ static NSMenu *hogeMenu(id hoge, NSString *title)
 				[self deleteItemIdentifier],
 				[self replyItemIdentifier],
 				[self toggleOnlineModeIdentifier],
-//				[self launchCMLFIdentifier],
 				[self scaleSegmentedControlIdentifier],
 				[self historySegmentedControlIdentifier],
 				[self orderFrontBrowserItemIdentifier],

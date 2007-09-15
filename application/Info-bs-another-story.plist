@@ -85,7 +85,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>161</string>
+	<string>163</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.3.0</string>
 	<key>NSAppleScriptEnabled</key>

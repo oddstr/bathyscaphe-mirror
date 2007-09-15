@@ -70,7 +70,7 @@ static NSString *const AppDefaultsTLTableColumnStateKey = @"ThreadsListTable Col
 			setBool : TorF
 			 forKey : AppDefaultsUseIncrementalSearchKey];
 }
-#pragma mark PrincessBride Additions
+/*#pragma mark PrincessBride Additions
 - (BOOL) titleRulerViewTextUsesBlackColor
 {
 	return [[self defaults] boolForKey : AppDefaultsTRViewTextUsesBlackColorKey
@@ -80,7 +80,7 @@ static NSString *const AppDefaultsTLTableColumnStateKey = @"ThreadsListTable Col
 {
 	[[self defaults] setBool : usesBlackColor
 					  forKey : AppDefaultsTRViewTextUsesBlackColorKey];
-}
+}*/
 
 #pragma mark ShortCircuit Additions
 

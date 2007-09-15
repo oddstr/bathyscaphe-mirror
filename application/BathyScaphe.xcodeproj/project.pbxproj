@@ -7,282 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		870161A0082BE67100AEFDD0 /* BoardManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC2704C698FA00A80005 /* BoardManager.h */; };
-		870161A1082BE67100AEFDD0 /* BoardManager_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC2904C698FA00A80005 /* BoardManager_p.h */; };
-		870161A2082BE67100AEFDD0 /* Browser.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC2D04C698FA00A80005 /* Browser.h */; };
-		870161A5082BE67100AEFDD0 /* CMRBrowser.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC3A04C698FA00A80005 /* CMRBrowser.h */; };
-		870161A6082BE67100AEFDD0 /* CMRBrowser_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC3C04C698FA00A80005 /* CMRBrowser_p.h */; };
-		870161A7082BE67100AEFDD0 /* CMRFavoritesManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC3D04C698FA00A80005 /* CMRFavoritesManager.h */; };
-		870161A9082BE67100AEFDD0 /* CMRThreadsList.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC4804C698FA00A80005 /* CMRThreadsList.h */; };
-		870161AA082BE67100AEFDD0 /* CMRThreadsList_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC4A04C698FA00A80005 /* CMRThreadsList_p.h */; };
-		870161B0082BE67100AEFDD0 /* CMRAttributedMessageComposer.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC6304C698FA00A80005 /* CMRAttributedMessageComposer.h */; };
-		870161B1082BE67100AEFDD0 /* CMRAttributedMessageComposer_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC6504C698FA00A80005 /* CMRAttributedMessageComposer_p.h */; };
-		870161B2082BE67100AEFDD0 /* CMRMessageAttributesStyling.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC6804C698FA00A80005 /* CMRMessageAttributesStyling.h */; };
-		870161B3082BE67100AEFDD0 /* CMRMessageAttributesTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC6A04C698FA00A80005 /* CMRMessageAttributesTemplate.h */; };
-		870161B4082BE67100AEFDD0 /* CMRMessageAttributesTemplate_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC6C04C698FA00A80005 /* CMRMessageAttributesTemplate_p.h */; };
-		870161B5082BE67100AEFDD0 /* CMRMessageComposer.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC6D04C698FA00A80005 /* CMRMessageComposer.h */; };
-		870161B6082BE67100AEFDD0 /* CMRThreadPlistComposer.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC7604C698FA00A80005 /* CMRThreadPlistComposer.h */; };
-		870161B7082BE67100AEFDD0 /* CMRThreadSubjectComposer.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC7A04C698FA00A80005 /* CMRThreadSubjectComposer.h */; };
-		870161B8082BE67100AEFDD0 /* CMRDocumentController.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC9104C698FA00A80005 /* CMRDocumentController.h */; };
-		870161B9082BE67100AEFDD0 /* CMRDocumentFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC9304C698FA00A80005 /* CMRDocumentFileManager.h */; };
-		870161BB082BE67100AEFDD0 /* CMRKeychainManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC9604C698FA00A80005 /* CMRKeychainManager.h */; };
-		870161BD082BE67100AEFDD0 /* CMRMainMenuManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC9D04C698FA00A80005 /* CMRMainMenuManager.h */; };
-		870161BF082BE67100AEFDD0 /* CMRReplyDocumentFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCA004C698FA00A80005 /* CMRReplyDocumentFileManager.h */; };
-		870161C1082BE67100AEFDD0 /* CMRServerClock.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCA304C698FA00A80005 /* CMRServerClock.h */; };
-		870161C2082BE67100AEFDD0 /* CMRServerClock_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCA504C698FA00A80005 /* CMRServerClock_p.h */; };
-		870161C3082BE67100AEFDD0 /* CMRTrashbox.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCB004C698FA00A80005 /* CMRTrashbox.h */; };
-		870161C5082BE67100AEFDD0 /* Cookie.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCB304C698FB00A80005 /* Cookie.h */; };
-		870161C6082BE67100AEFDD0 /* CookieManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCB504C698FB00A80005 /* CookieManager.h */; };
-		870161C7082BE67100AEFDD0 /* CMRDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCBD04C698FB00A80005 /* CMRDownloader.h */; };
-		870161C8082BE67100AEFDD0 /* CMRDownloader_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCBF04C698FB00A80005 /* CMRDownloader_p.h */; };
-		870161CA082BE67100AEFDD0 /* ThreadTextDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCC704C698FB00A80005 /* ThreadTextDownloader.h */; };
-		870161CB082BE67100AEFDD0 /* ThreadTextDownloader_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCC904C698FB00A80005 /* ThreadTextDownloader_p.h */; };
-		870161CC082BE67100AEFDD0 /* CMRBBSSignature.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCCC04C698FB00A80005 /* CMRBBSSignature.h */; };
-		870161CE082BE67100AEFDD0 /* CMRThreadSignature.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCD704C698FB00A80005 /* CMRThreadSignature.h */; };
-		870161CF082BE67100AEFDD0 /* CMRThreadSignature_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCD904C698FB00A80005 /* CMRThreadSignature_p.h */; };
-		870161D0082BE67100AEFDD0 /* AppDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCE604C698FB00A80005 /* AppDefaults.h */; };
-		870161D1082BE67100AEFDD0 /* AppDefaults_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DCE804C698FB00A80005 /* AppDefaults_p.h */; };
-		870161D2082BE67100AEFDD0 /* CMRAbstructThreadDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD3A04C698FB00A80005 /* CMRAbstructThreadDocument.h */; };
-		870161D4082BE67100AEFDD0 /* CMRThreadAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD4404C698FB00A80005 /* CMRThreadAttributes.h */; };
-		870161D5082BE67100AEFDD0 /* CMRThreadComposingTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD4904C698FB00A80005 /* CMRThreadComposingTask.h */; };
-		870161D6082BE67100AEFDD0 /* CMRThreadDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD4C04C698FB00A80005 /* CMRThreadDocument.h */; };
-		870161D7082BE67100AEFDD0 /* CMRThreadDownloadTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD4F04C698FB00A80005 /* CMRThreadDownloadTask.h */; };
-		870161D8082BE67100AEFDD0 /* CMRThreadDownloadTask_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD5104C698FB00A80005 /* CMRThreadDownloadTask_p.h */; };
-		870161D9082BE67100AEFDD0 /* CMRThreadFileLoadingTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD5204C698FB00A80005 /* CMRThreadFileLoadingTask.h */; };
-		870161DA082BE67100AEFDD0 /* CMRThreadLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD5904C698FB00A80005 /* CMRThreadLayout.h */; };
-		870161DB082BE67100AEFDD0 /* CMRThreadLayoutTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD5C04C698FB00A80005 /* CMRThreadLayoutTask.h */; };
-		870161DC082BE67100AEFDD0 /* CMRThreadLinkProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD5E04C698FB00A80005 /* CMRThreadLinkProcessor.h */; };
-		870161DD082BE67100AEFDD0 /* CMRThreadViewer.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD6C04C698FB00A80005 /* CMRThreadViewer.h */; };
-		870161DE082BE67100AEFDD0 /* CMRThreadViewer_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD6E04C698FB00A80005 /* CMRThreadViewer_p.h */; };
-		870161E0082BE67100AEFDD0 /* TextFinder.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD7A04C698FB00A80005 /* TextFinder.h */; };
-		870161E3082BE67100AEFDD0 /* missing.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD8704C698FB00A80005 /* missing.h */; };
-		870161E4082BE67100AEFDD0 /* CMRIndexingStepper.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD9604C698FB00A80005 /* CMRIndexingStepper.h */; };
-		870161E5082BE67100AEFDD0 /* CMRIndexingStepper_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD9804C698FB00A80005 /* CMRIndexingStepper_p.h */; };
-		870161E7082BE67100AEFDD0 /* CMRStatusLine.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDA304C698FB00A80005 /* CMRStatusLine.h */; };
-		870161EA082BE67100AEFDD0 /* SGFunctor.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDAE04C698FB00A80005 /* SGFunctor.h */; };
-		870161EB082BE67100AEFDD0 /* SGHTMLView.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDB104C698FB00A80005 /* SGHTMLView.h */; };
-		870161EC082BE67100AEFDD0 /* SGHTMLView_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDB304C698FB00A80005 /* SGHTMLView_p.h */; };
-		870161ED082BE67100AEFDD0 /* SGLinkCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDB404C698FB00A80005 /* SGLinkCommand.h */; };
-		870161EE082BE67100AEFDD0 /* ThreadsListTable.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDBB04C698FB00A80005 /* ThreadsListTable.h */; };
-		870161EF082BE67100AEFDD0 /* CMRBrowserTbDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDC204C698FB00A80005 /* CMRBrowserTbDelegate.h */; };
-		870161F1082BE67100AEFDD0 /* CMRReplyController.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDCA04C698FB00A80005 /* CMRReplyController.h */; };
-		870161F2082BE67100AEFDD0 /* CMRReplyController_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDCC04C698FB00A80005 /* CMRReplyController_p.h */; };
-		870161F3082BE67100AEFDD0 /* CMRReplyControllerTbDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDCD04C698FB00A80005 /* CMRReplyControllerTbDelegate.h */; };
-		870161F4082BE67100AEFDD0 /* CMRReplyMessenger.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDD104C698FB00A80005 /* CMRReplyMessenger.h */; };
-		870161F5082BE67100AEFDD0 /* CMRReplyMessenger_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDD304C698FB00A80005 /* CMRReplyMessenger_p.h */; };
-		870161F6082BE67100AEFDD0 /* CMRStatusLineWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDD404C698FB00A80005 /* CMRStatusLineWindowController.h */; };
-		870161F8082BE67100AEFDD0 /* CMRThreadViewerTbDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDD704C698FB00A80005 /* CMRThreadViewerTbDelegate.h */; };
-		870161FA082BE67100AEFDD0 /* CMRToolbarDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDDA04C698FB00A80005 /* CMRToolbarDelegate.h */; };
-		870161FB082BE67100AEFDD0 /* CMRToolbarDelegateImp.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDDB04C698FB00A80005 /* CMRToolbarDelegateImp.h */; };
-		870161FC082BE67100AEFDD0 /* CMRToolbarDelegateImp_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDDD04C698FB00A80005 /* CMRToolbarDelegateImp_p.h */; };
-		87016200082BE67100AEFDD0 /* CMR2chDATReader.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DC5A04C698FA00A80005 /* CMR2chDATReader.h */; };
-		87016201082BE67100AEFDD0 /* CMRThreadContentsReader.h in Headers */ = {isa = PBXBuildFile; fileRef = F3D5383404CE78FC00A80005 /* CMRThreadContentsReader.h */; };
-		87016202082BE67100AEFDD0 /* CMRThreadUpdatedHeaderTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F31D7F9604D2F00E003EEDDD /* CMRThreadUpdatedHeaderTask.h */; };
-		87016203082BE67100AEFDD0 /* CMRThreadDictReader.h in Headers */ = {isa = PBXBuildFile; fileRef = F31D7FAB04D2F0A1003EEDDD /* CMRThreadDictReader.h */; };
-		87016204082BE67100AEFDD0 /* CMRAbstructThreadDocument_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F3959F0C04D3050600A80005 /* CMRAbstructThreadDocument_p.h */; };
-		87016205082BE67100AEFDD0 /* CMRThreadComposingTask_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F3959F0D04D3050600A80005 /* CMRThreadComposingTask_p.h */; };
-		87016206082BE67100AEFDD0 /* CMRThreadDocument_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F3959F0E04D3050600A80005 /* CMRThreadDocument_p.h */; };
-		87016207082BE67100AEFDD0 /* CMRThreadLayout_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F3959F1004D3050600A80005 /* CMRThreadLayout_p.h */; };
-		87016209082BE67100AEFDD0 /* w2chConnect.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DBCE04C6965500A80005 /* w2chConnect.h */; };
-		8701620C082BE67100AEFDD0 /* CMRSubjectReader.h in Headers */ = {isa = PBXBuildFile; fileRef = F309849604DD7FA100A80005 /* CMRSubjectReader.h */; };
-		8701620D082BE67100AEFDD0 /* CMRThreadHTMLDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = F31A368404DD971600A80005 /* CMRThreadHTMLDownloader.h */; };
-		8701620E082BE67100AEFDD0 /* CMRDATDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = F31A368804DD974C00A80005 /* CMRDATDownloader.h */; };
-		8701620F082BE67100AEFDD0 /* CMRHostHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = F358F4B904DE227900A80005 /* CMRHostHandler.h */; };
-		87016210082BE67100AEFDD0 /* CMRHostHandler_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F358F4BD04DE23BC00A80005 /* CMRHostHandler_p.h */; };
-		87016211082BE67100AEFDD0 /* CMRHistoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F38D3D4E04FBE7D000DCB099 /* CMRHistoryManager.h */; };
-		87016213082BE67100AEFDD0 /* SGContextHelpPanel.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DDA804C698FB00A80005 /* SGContextHelpPanel.h */; };
-		87016216082BE67100AEFDD0 /* CMRPreferencesDefautValues.h in Headers */ = {isa = PBXBuildFile; fileRef = F322F7FB050BA07D00A80005 /* CMRPreferencesDefautValues.h */; };
-		87016218082BE67100AEFDD0 /* CMRHistoryObject.h in Headers */ = {isa = PBXBuildFile; fileRef = F3E81CF3050CB96F00A80005 /* CMRHistoryObject.h */; };
-		8701621A082BE67100AEFDD0 /* CocoMonar_Prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = F38262C10513577300A80005 /* CocoMonar_Prefix.h */; };
-		87016224082BE67100AEFDD0 /* CMRTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F38262E50513581100A80005 /* CMRTask.h */; };
-		87016225082BE67100AEFDD0 /* CMRTaskItemController.h in Headers */ = {isa = PBXBuildFile; fileRef = F38262E70513581100A80005 /* CMRTaskItemController.h */; };
-		87016226082BE67100AEFDD0 /* CMRTaskItemController_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F38262E90513581100A80005 /* CMRTaskItemController_p.h */; };
-		87016227082BE67100AEFDD0 /* CMRTaskManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F38262EC0513581100A80005 /* CMRTaskManager.h */; };
-		87016228082BE67100AEFDD0 /* CMRTaskManager_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F38262EE0513581100A80005 /* CMRTaskManager_p.h */; };
-		8701622A082BE67100AEFDD0 /* CMXTextParser.h in Headers */ = {isa = PBXBuildFile; fileRef = F38263000513585900A80005 /* CMXTextParser.h */; };
-		8701622D082BE67100AEFDD0 /* CMXImageAttachmentCell.h in Headers */ = {isa = PBXBuildFile; fileRef = F3826315051358E500A80005 /* CMXImageAttachmentCell.h */; };
-		87016233082BE67100AEFDD0 /* CMXInternalMessaging.h in Headers */ = {isa = PBXBuildFile; fileRef = F3826332051359B700A80005 /* CMXInternalMessaging.h */; };
-		87016234082BE67100AEFDD0 /* CMXInternalMessaging_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F3826333051359B700A80005 /* CMXInternalMessaging_p.h */; };
-		87016235082BE67100AEFDD0 /* CMXWorkerContext.h in Headers */ = {isa = PBXBuildFile; fileRef = F3826334051359B700A80005 /* CMXWorkerContext.h */; };
-		87016236082BE67100AEFDD0 /* SGInternalMessenger.h in Headers */ = {isa = PBXBuildFile; fileRef = F3826336051359B700A80005 /* SGInternalMessenger.h */; };
-		87016237082BE67100AEFDD0 /* SGInternalMessenger_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F3826338051359B700A80005 /* SGInternalMessenger_p.h */; };
-		87016238082BE67100AEFDD0 /* SGRunLoopMessenger.h in Headers */ = {isa = PBXBuildFile; fileRef = F382633C051359B700A80005 /* SGRunLoopMessenger.h */; };
-		8701623A082BE67100AEFDD0 /* CMRBBSListTemplateKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = F34E37C9050743B600A80005 /* CMRBBSListTemplateKeys.h */; };
-		8701623B082BE67100AEFDD0 /* CMRExports.h in Headers */ = {isa = PBXBuildFile; fileRef = F32165FE0529CB2B00A80005 /* CMRExports.h */; };
-		8701623D082BE67100AEFDD0 /* CMRThreadMessageBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F3689A2305B0A5D70006D567 /* CMRThreadMessageBuffer.h */; };
-		8701623E082BE67100AEFDD0 /* CMRAttachmentCell.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BA419E05B605BF00D03A0D /* CMRAttachmentCell.h */; };
-		87016240082BE67100AEFDD0 /* CMRMessageFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = F3733D9A05B9EEE5009D1038 /* CMRMessageFilter.h */; };
-		87016241082BE67100AEFDD0 /* CMXMenuHolder.h in Headers */ = {isa = PBXBuildFile; fileRef = F3733DC405BA28CD009D1038 /* CMXMenuHolder.h */; };
-		87016242082BE67100AEFDD0 /* CMRThreadView.h in Headers */ = {isa = PBXBuildFile; fileRef = F3FF60D405BC9A5800BDEBFA /* CMRThreadView.h */; };
-		87016243082BE67100AEFDD0 /* CMRThreadView_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F3FF60D805BC9AFB00BDEBFA /* CMRThreadView_p.h */; };
-		87016245082BE67100AEFDD0 /* CMRSpamFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = F3FF61F905BD5AD200BDEBFA /* CMRSpamFilter.h */; };
-		87016246082BE67100AEFDD0 /* CMRThreadMessageBufferReader.h in Headers */ = {isa = PBXBuildFile; fileRef = F370621305BFED85007484CE /* CMRThreadMessageBufferReader.h */; };
-		8701624A082BE67100AEFDD0 /* CMROpenURLManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E8894DD805C3A3A30004317F /* CMROpenURLManager.h */; };
-		8701624B082BE67100AEFDD0 /* UTILAssertion.h in Headers */ = {isa = PBXBuildFile; fileRef = F376F1FB05D3A805000452AB /* UTILAssertion.h */; };
-		8701624C082BE67100AEFDD0 /* UTILDebugging.h in Headers */ = {isa = PBXBuildFile; fileRef = F376F1FC05D3A805000452AB /* UTILDebugging.h */; };
-		8701624D082BE67100AEFDD0 /* UTILDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = F376F1FD05D3A805000452AB /* UTILDescription.h */; };
-		8701624E082BE67100AEFDD0 /* UTILKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F376F1FE05D3A805000452AB /* UTILKit.h */; };
-		8701624F082BE67100AEFDD0 /* UTILError.h in Headers */ = {isa = PBXBuildFile; fileRef = 8792D83B05E21AE20074B2BE /* UTILError.h */; };
-		87016252082BE67100AEFDD0 /* CMRNetGrobalLock.h in Headers */ = {isa = PBXBuildFile; fileRef = F376045E064FD09200591F56 /* CMRNetGrobalLock.h */; };
-		87016254082BE67100AEFDD0 /* CMRAppDelegate_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F3660E3A06C4C7DA00A92719 /* CMRAppDelegate_p.h */; };
-		87016255082BE67100AEFDD0 /* CMRAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F3660E3B06C4C7DA00A92719 /* CMRAppDelegate.h */; };
-		870162E0082BE67100AEFDD0 /* Browser.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC2E04C698FA00A80005 /* Browser.m */; };
-		870162E3082BE67100AEFDD0 /* CMRBrowser-Action.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC3404C698FA00A80005 /* CMRBrowser-Action.m */; };
-		870162E4082BE67100AEFDD0 /* CMRBrowser-Delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC3504C698FA00A80005 /* CMRBrowser-Delegate.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		870162E5082BE67100AEFDD0 /* CMRBrowser-List.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC3604C698FA00A80005 /* CMRBrowser-List.m */; };
-		870162E6082BE67100AEFDD0 /* CMRBrowser-Validation.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC3804C698FA00A80005 /* CMRBrowser-Validation.m */; };
-		870162E7082BE67100AEFDD0 /* CMRBrowser-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC3904C698FA00A80005 /* CMRBrowser-ViewAccessor.m */; };
-		870162E8082BE67100AEFDD0 /* CMRBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC3B04C698FA00A80005 /* CMRBrowser.m */; };
-		870162E9082BE67100AEFDD0 /* CMRFavoritesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC3E04C698FA00A80005 /* CMRFavoritesManager.m */; };
-		870162EA082BE67100AEFDD0 /* CMRThreadsList-DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC4004C698FA00A80005 /* CMRThreadsList-DataSource.m */; };
-		870162F1082BE67100AEFDD0 /* CMRThreadsList.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC4904C698FA00A80005 /* CMRThreadsList.m */; };
-		870162F5082BE67100AEFDD0 /* CMRAttributedMessageComposer-Anchor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC6104C698FA00A80005 /* CMRAttributedMessageComposer-Anchor.m */; };
-		870162F6082BE67100AEFDD0 /* CMRAttributedMessageComposer-Convert.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC6204C698FA00A80005 /* CMRAttributedMessageComposer-Convert.m */; };
-		870162F7082BE67100AEFDD0 /* CMRAttributedMessageComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC6404C698FA00A80005 /* CMRAttributedMessageComposer.m */; };
-		870162F8082BE67100AEFDD0 /* CMRMessageAttributesStyling.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC6904C698FA00A80005 /* CMRMessageAttributesStyling.m */; };
-		870162F9082BE67100AEFDD0 /* CMRMessageAttributesTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC6B04C698FA00A80005 /* CMRMessageAttributesTemplate.m */; };
-		870162FA082BE67100AEFDD0 /* CMRThreadPlistComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC7704C698FA00A80005 /* CMRThreadPlistComposer.m */; };
-		870162FB082BE67100AEFDD0 /* CMRThreadSubjectComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC7B04C698FA00A80005 /* CMRThreadSubjectComposer.m */; };
-		870162FC082BE67100AEFDD0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC8504C698FA00A80005 /* main.m */; };
-		870162FD082BE67100AEFDD0 /* CMRDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC9204C698FA00A80005 /* CMRDocumentController.m */; };
-		870162FE082BE67100AEFDD0 /* CMRDocumentFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC9404C698FA00A80005 /* CMRDocumentFileManager.m */; };
-		870162FF082BE67100AEFDD0 /* CMRKeychainManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC9704C698FA00A80005 /* CMRKeychainManager.m */; };
-		87016300082BE67100AEFDD0 /* CMRMainMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC9E04C698FA00A80005 /* CMRMainMenuManager.m */; };
-		87016301082BE67100AEFDD0 /* CMRReplyDocumentFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCA104C698FA00A80005 /* CMRReplyDocumentFileManager.m */; };
-		87016302082BE67100AEFDD0 /* CMRServerClock.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCA404C698FA00A80005 /* CMRServerClock.m */; };
-		87016303082BE67100AEFDD0 /* CMRTrashbox.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCB104C698FB00A80005 /* CMRTrashbox.m */; };
-		87016304082BE67100AEFDD0 /* Cookie.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCB404C698FB00A80005 /* Cookie.m */; };
-		87016306082BE67100AEFDD0 /* CMRDownloader-Task.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCBC04C698FB00A80005 /* CMRDownloader-Task.m */; };
-		87016307082BE67100AEFDD0 /* CMRDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCBE04C698FB00A80005 /* CMRDownloader.m */; };
-		87016309082BE67100AEFDD0 /* ThreadTextDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCC804C698FB00A80005 /* ThreadTextDownloader.m */; };
-		8701630A082BE67100AEFDD0 /* CMRBBSSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCCD04C698FB00A80005 /* CMRBBSSignature.m */; };
-		8701630B082BE67100AEFDD0 /* CMRThreadSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCD804C698FB00A80005 /* CMRThreadSignature.m */; };
-		8701630C082BE67100AEFDD0 /* AppDefaults-Account.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCDC04C698FB00A80005 /* AppDefaults-Account.m */; };
-		8701630E082BE67100AEFDD0 /* AppDefaults-Background.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCDE04C698FB00A80005 /* AppDefaults-Background.m */; };
-		8701630F082BE67100AEFDD0 /* AppDefaults-Bundle.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCDF04C698FB00A80005 /* AppDefaults-Bundle.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		87016310082BE67100AEFDD0 /* AppDefaults-FontColor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCE004C698FB00A80005 /* AppDefaults-FontColor.m */; };
-		87016312082BE67100AEFDD0 /* AppDefaults-ThreadsList.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCE304C698FB00A80005 /* AppDefaults-ThreadsList.m */; };
-		87016313082BE67100AEFDD0 /* AppDefaults-ThreadViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCE404C698FB00A80005 /* AppDefaults-ThreadViewer.m */; };
-		87016314082BE67100AEFDD0 /* AppDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCE704C698FB00A80005 /* AppDefaults.m */; };
-		87016315082BE67100AEFDD0 /* CMRAbstructThreadDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD3B04C698FB00A80005 /* CMRAbstructThreadDocument.m */; };
-		87016317082BE67100AEFDD0 /* CMRThreadAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD4504C698FB00A80005 /* CMRThreadAttributes.m */; };
-		87016318082BE67100AEFDD0 /* CMRThreadComposingTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD4A04C698FB00A80005 /* CMRThreadComposingTask.m */; };
-		87016319082BE67100AEFDD0 /* CMRThreadDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD4D04C698FB00A80005 /* CMRThreadDocument.m */; };
-		8701631A082BE67100AEFDD0 /* CMRThreadDownloadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD5004C698FB00A80005 /* CMRThreadDownloadTask.m */; };
-		8701631B082BE67100AEFDD0 /* CMRThreadFileLoadingTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD5304C698FB00A80005 /* CMRThreadFileLoadingTask.m */; };
-		8701631C082BE67100AEFDD0 /* CMRThreadLayout-MessageRange.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD5804C698FB00A80005 /* CMRThreadLayout-MessageRange.m */; };
-		8701631D082BE67100AEFDD0 /* CMRThreadLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD5A04C698FB00A80005 /* CMRThreadLayout.m */; };
-		8701631E082BE67100AEFDD0 /* CMRThreadLayoutTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD5D04C698FB00A80005 /* CMRThreadLayoutTask.m */; };
-		8701631F082BE67100AEFDD0 /* CMRThreadLinkProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD5F04C698FB00A80005 /* CMRThreadLinkProcessor.m */; };
-		87016320082BE67100AEFDD0 /* CMRThreadViewer-Action.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD6504C698FB00A80005 /* CMRThreadViewer-Action.m */; };
-		87016321082BE67100AEFDD0 /* CMRThreadViewer-Contents.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD6604C698FB00A80005 /* CMRThreadViewer-Contents.m */; };
-		87016322082BE67100AEFDD0 /* CMRThreadViewer-Download.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD6704C698FB00A80005 /* CMRThreadViewer-Download.m */; };
-		87016323082BE67100AEFDD0 /* CMRThreadViewer-MoveAction.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD6804C698FB00A80005 /* CMRThreadViewer-MoveAction.m */; };
-		87016324082BE67100AEFDD0 /* CMRThreadViewer-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD6B04C698FB00A80005 /* CMRThreadViewer-ViewAccessor.m */; };
-		87016325082BE67100AEFDD0 /* CMRThreadViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD6D04C698FB00A80005 /* CMRThreadViewer.m */; };
-		87016328082BE67100AEFDD0 /* TextFinder.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD7B04C698FB00A80005 /* TextFinder.m */; };
-		8701632A082BE67100AEFDD0 /* missing.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD8804C698FB00A80005 /* missing.m */; };
-		8701632B082BE67100AEFDD0 /* CMRIndexingStepper-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD9504C698FB00A80005 /* CMRIndexingStepper-ViewAccessor.m */; };
-		8701632C082BE67100AEFDD0 /* CMRIndexingStepper.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD9704C698FB00A80005 /* CMRIndexingStepper.m */; };
-		8701632F082BE67100AEFDD0 /* CMRStatusLine.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDA404C698FB00A80005 /* CMRStatusLine.m */; };
-		87016331082BE67100AEFDD0 /* SGFunctor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDAF04C698FB00A80005 /* SGFunctor.m */; };
-		87016332082BE67100AEFDD0 /* SGHTMLView.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDB204C698FB00A80005 /* SGHTMLView.m */; };
-		87016333082BE67100AEFDD0 /* SGLinkCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDB504C698FB00A80005 /* SGLinkCommand.m */; };
-		87016334082BE67100AEFDD0 /* ThreadsListTable.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDBC04C698FB00A80005 /* ThreadsListTable.m */; };
-		87016335082BE67100AEFDD0 /* CMRBrowserTbDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDC304C698FB00A80005 /* CMRBrowserTbDelegate.m */; };
-		87016336082BE67100AEFDD0 /* CMRReplyController-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDC904C698FB00A80005 /* CMRReplyController-ViewAccessor.m */; };
-		87016337082BE67100AEFDD0 /* CMRReplyController.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDCB04C698FB00A80005 /* CMRReplyController.m */; };
-		87016338082BE67100AEFDD0 /* CMRReplyControllerTbDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDCE04C698FB00A80005 /* CMRReplyControllerTbDelegate.m */; };
-		87016339082BE67100AEFDD0 /* CMRReplyMessenger.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDD204C698FB00A80005 /* CMRReplyMessenger.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		8701633A082BE67100AEFDD0 /* CMRStatusLineWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDD504C698FB00A80005 /* CMRStatusLineWindowController.m */; };
-		8701633B082BE67100AEFDD0 /* CMRThreadViewerTbDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDD804C698FB00A80005 /* CMRThreadViewerTbDelegate.m */; };
-		8701633C082BE67100AEFDD0 /* CMRToolbarDelegateImp.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDDC04C698FB00A80005 /* CMRToolbarDelegateImp.m */; };
-		8701633F082BE67100AEFDD0 /* CMR2chDATReader.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DC5B04C698FA00A80005 /* CMR2chDATReader.m */; };
-		87016340082BE67100AEFDD0 /* CMRThreadContentsReader.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D5383504CE78FC00A80005 /* CMRThreadContentsReader.m */; };
-		87016341082BE67100AEFDD0 /* CMRThreadUpdatedHeaderTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F31D7F9704D2F00E003EEDDD /* CMRThreadUpdatedHeaderTask.m */; };
-		87016342082BE67100AEFDD0 /* CMRThreadDictReader.m in Sources */ = {isa = PBXBuildFile; fileRef = F31D7FAC04D2F0A1003EEDDD /* CMRThreadDictReader.m */; };
-		87016344082BE67100AEFDD0 /* CMRSubjectReader.m in Sources */ = {isa = PBXBuildFile; fileRef = F309849704DD7FA100A80005 /* CMRSubjectReader.m */; };
-		87016345082BE67100AEFDD0 /* CMRThreadHTMLDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F31A368504DD971600A80005 /* CMRThreadHTMLDownloader.m */; };
-		87016346082BE67100AEFDD0 /* CMRHostHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F358F4BA04DE227900A80005 /* CMRHostHandler.m */; };
-		87016347082BE67100AEFDD0 /* CMRDATDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D0A9A104F6128A00CB520C /* CMRDATDownloader.m */; };
-		87016349082BE67100AEFDD0 /* CMRHistoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F38D3D4F04FBE7D000DCB099 /* CMRHistoryManager.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		8701634B082BE67100AEFDD0 /* CMRThreadViewer-Link.m in Sources */ = {isa = PBXBuildFile; fileRef = F33977B605087EBA00A80005 /* CMRThreadViewer-Link.m */; };
-		8701634C082BE67100AEFDD0 /* SGContextHelpPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DDA904C698FB00A80005 /* SGContextHelpPanel.m */; };
-		8701634D082BE67100AEFDD0 /* CMRHostHTMLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B609F80509EDBF00A80005 /* CMRHostHTMLHandler.m */; };
-		87016358082BE67100AEFDD0 /* CMRTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F38262E60513581100A80005 /* CMRTask.m */; };
-		87016359082BE67100AEFDD0 /* CMRTaskItemController.m in Sources */ = {isa = PBXBuildFile; fileRef = F38262E80513581100A80005 /* CMRTaskItemController.m */; };
-		8701635A082BE67100AEFDD0 /* CMRTaskManager-Management.m in Sources */ = {isa = PBXBuildFile; fileRef = F38262EA0513581100A80005 /* CMRTaskManager-Management.m */; };
-		8701635C082BE67100AEFDD0 /* CMRTaskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F38262ED0513581100A80005 /* CMRTaskManager.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		8701635E082BE67100AEFDD0 /* CMXTextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F38263010513585900A80005 /* CMXTextParser.m */; };
-		87016360082BE67100AEFDD0 /* CMXImageAttachmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F3826316051358E500A80005 /* CMXImageAttachmentCell.m */; };
-		87016364082BE67100AEFDD0 /* CMXWorkerContext.m in Sources */ = {isa = PBXBuildFile; fileRef = F3826335051359B700A80005 /* CMXWorkerContext.m */; };
-		87016365082BE67100AEFDD0 /* SGInternalMessenger.m in Sources */ = {isa = PBXBuildFile; fileRef = F3826337051359B700A80005 /* SGInternalMessenger.m */; };
-		87016366082BE67100AEFDD0 /* SGRunLoopMessenger.m in Sources */ = {isa = PBXBuildFile; fileRef = F382633D051359B700A80005 /* SGRunLoopMessenger.m */; };
-		87016368082BE67100AEFDD0 /* SGHTMLView-Link.m in Sources */ = {isa = PBXBuildFile; fileRef = F336E13B0567EE450016AB2D /* SGHTMLView-Link.m */; };
-		8701636A082BE67100AEFDD0 /* CMRMessageComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = F368973C05B08B540006D567 /* CMRMessageComposer.m */; };
-		8701636B082BE67100AEFDD0 /* CMRThreadMessageBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = F3689A2405B0A5D70006D567 /* CMRThreadMessageBuffer.m */; };
-		8701636C082BE67100AEFDD0 /* CMRAttachmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F3BA419F05B605BF00D03A0D /* CMRAttachmentCell.m */; };
-		8701636D082BE67100AEFDD0 /* CMRMessageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = F3733D9B05B9EEE5009D1038 /* CMRMessageFilter.m */; };
-		8701636E082BE67100AEFDD0 /* CMXMenuHolder.m in Sources */ = {isa = PBXBuildFile; fileRef = F3733DC505BA28CD009D1038 /* CMXMenuHolder.m */; };
-		8701636F082BE67100AEFDD0 /* CMRThreadView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3FF60D505BC9A5800BDEBFA /* CMRThreadView.m */; settings = {COMPILER_FLAGS = "-DPATCH=1"; }; };
-		87016371082BE67100AEFDD0 /* CMRSpamFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = F3FF61FA05BD5AD200BDEBFA /* CMRSpamFilter.m */; };
-		87016372082BE67100AEFDD0 /* AppDefaults-Filter.m in Sources */ = {isa = PBXBuildFile; fileRef = F33AE23405BE587D002448CC /* AppDefaults-Filter.m */; };
-		87016373082BE67100AEFDD0 /* CMRThreadMessageBufferReader.m in Sources */ = {isa = PBXBuildFile; fileRef = F370621405BFED85007484CE /* CMRThreadMessageBufferReader.m */; };
-		87016375082BE67100AEFDD0 /* CMROpenURLManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E8894DD905C3A3A30004317F /* CMROpenURLManager.m */; };
-		87016378082BE67100AEFDD0 /* CMRThreadAttributes-Convert.m in Sources */ = {isa = PBXBuildFile; fileRef = F387636C06015B8C00B3C8EA /* CMRThreadAttributes-Convert.m */; };
-		87016379082BE67100AEFDD0 /* CMRNetGrobalLock.m in Sources */ = {isa = PBXBuildFile; fileRef = F376045F064FD09200591F56 /* CMRNetGrobalLock.m */; };
-		8701637B082BE67100AEFDD0 /* CMRAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F3660E3C06C4C7DA00A92719 /* CMRAppDelegate.m */; };
-		8701637C082BE67100AEFDD0 /* CMRAppDelegate+Menu.m in Sources */ = {isa = PBXBuildFile; fileRef = F3660E3D06C4C7DA00A92719 /* CMRAppDelegate+Menu.m */; };
-		8701637E082BE67100AEFDD0 /* CMRThreadViewer-Validation.m in Sources */ = {isa = PBXBuildFile; fileRef = 875743F907C372F6006F3C68 /* CMRThreadViewer-Validation.m */; };
-		8701637F082BE67100AEFDD0 /* CMRThreadViewer-Find.m in Sources */ = {isa = PBXBuildFile; fileRef = 8757441407C37772006F3C68 /* CMRThreadViewer-Find.m */; };
-		87016383082BE67100AEFDD0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
-		87016384082BE67100AEFDD0 /* CocoMonar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3924488043610AE00A80005 /* CocoMonar.framework */; };
-		87016385082BE67100AEFDD0 /* SGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FA043610EB00A80005 /* SGFoundation.framework */; };
-		87016386082BE67100AEFDD0 /* SGNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FF043610FB00A80005 /* SGNetwork.framework */; };
-		87016387082BE67100AEFDD0 /* SGAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244F5043610D600A80005 /* SGAppKit.framework */; };
-		87016388082BE67100AEFDD0 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F523AC2B037BFC4F01A80002 /* Carbon.framework */; };
-		8701638A082BE67100AEFDD0 /* CocoMonar.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3924488043610AE00A80005 /* CocoMonar.framework */; };
-		8701638B082BE67100AEFDD0 /* SGFoundation.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F39244FA043610EB00A80005 /* SGFoundation.framework */; };
-		8701638C082BE67100AEFDD0 /* SGNetwork.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F39244FF043610FB00A80005 /* SGNetwork.framework */; };
-		8701638D082BE67100AEFDD0 /* SGAppKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F39244F5043610D600A80005 /* SGAppKit.framework */; };
 		8703A1E60C676A62008ED2B5 /* BSAdvancedPaneArrayController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8703A1E40C676A62008ED2B5 /* BSAdvancedPaneArrayController.h */; };
 		8703A1E70C676A62008ED2B5 /* BSAdvancedPaneArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8703A1E50C676A62008ED2B5 /* BSAdvancedPaneArrayController.m */; };
 		8703A2180C677D42008ED2B5 /* BSLinkDownloadManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8703A2160C677D42008ED2B5 /* BSLinkDownloadManager.h */; };
 		8703A2190C677D42008ED2B5 /* BSLinkDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8703A2170C677D42008ED2B5 /* BSLinkDownloadManager.m */; };
-		87078CDD090E9710007FF9C3 /* beDisabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CD1090E970F007FF9C3 /* beDisabled.png */; };
-		87078CDE090E9710007FF9C3 /* beEnabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CD2090E970F007FF9C3 /* beEnabled.png */; };
-		87078CDF090E9710007FF9C3 /* BoardList.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CD3090E970F007FF9C3 /* BoardList.png */; };
-		87078CE0090E9710007FF9C3 /* Delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CD4090E970F007FF9C3 /* Delete.png */; };
-		87078CE2090E9710007FF9C3 /* OrderFrontBrowser.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CD6090E970F007FF9C3 /* OrderFrontBrowser.png */; };
-		87078CE3090E9710007FF9C3 /* ReloadList.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CD7090E970F007FF9C3 /* ReloadList.png */; };
-		87078CE4090E9710007FF9C3 /* ReloadThread.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CD8090E970F007FF9C3 /* ReloadThread.png */; };
-		87078CE5090E9710007FF9C3 /* RemoveFavorites.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CD9090E970F007FF9C3 /* RemoveFavorites.png */; };
-		87078CE6090E9710007FF9C3 /* ResToThread.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CDA090E9710007FF9C3 /* ResToThread.png */; };
-		87078CE8090E9710007FF9C3 /* stopSign.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CDC090E9710007FF9C3 /* stopSign.png */; };
 		87078E34090EA195007FF9C3 /* ResToThread.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CDA090E9710007FF9C3 /* ResToThread.png */; };
-		8709CA7E0B06750B00525B8D /* FontBigger.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8709CA7C0B06750B00525B8D /* FontBigger.tiff */; };
-		8709CA7F0B06750B00525B8D /* FontSmaller.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8709CA7D0B06750B00525B8D /* FontSmaller.tiff */; };
-		8709E6540879713D009A65FC /* CMRReplyMessenger-Connector.m in Sources */ = {isa = PBXBuildFile; fileRef = 8709E6530879713D009A65FC /* CMRReplyMessenger-Connector.m */; };
 		870B1F4A0C15B8AA00AAB734 /* BoardWarrior.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 870B1F400C15B86200AAB734 /* BoardWarrior.scpt */; };
-		870B892D08ED56B3001664CC /* titleRulerBgAquaBlue.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 870B892B08ED56B3001664CC /* titleRulerBgAquaBlue.tiff */; };
-		870B892E08ED56B3001664CC /* titleRulerBgAquaGraphite.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 870B892C08ED56B3001664CC /* titleRulerBgAquaGraphite.tiff */; };
-		870D4BE00A7D6033008BBAB4 /* BSIndexingPopupper.h in Headers */ = {isa = PBXBuildFile; fileRef = 8714F3690A4966CB00AB8691 /* BSIndexingPopupper.h */; };
-		870D4BE10A7D6034008BBAB4 /* BSIndexingPopupper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8714F36A0A4966CB00AB8691 /* BSIndexingPopupper.m */; };
-		871265B5097D84ED00B90FF2 /* AddBoardSheetController.h in Headers */ = {isa = PBXBuildFile; fileRef = 871265AB097D84ED00B90FF2 /* AddBoardSheetController.h */; };
-		871265B6097D84ED00B90FF2 /* AddBoardSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 871265AC097D84ED00B90FF2 /* AddBoardSheetController.m */; };
-		871265B9097D84ED00B90FF2 /* CMRAccessorySheetController.h in Headers */ = {isa = PBXBuildFile; fileRef = 871265AF097D84ED00B90FF2 /* CMRAccessorySheetController.h */; };
-		871265BA097D84ED00B90FF2 /* CMRAccessorySheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 871265B0097D84ED00B90FF2 /* CMRAccessorySheetController.m */; };
-		871265BD097D84ED00B90FF2 /* CMRTextColumnCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 871265B3097D84ED00B90FF2 /* CMRTextColumnCell.h */; };
-		871265BE097D84ED00B90FF2 /* CMRTextColumnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 871265B4097D84ED00B90FF2 /* CMRTextColumnCell.m */; };
 		87160662098A338500A27F63 /* SoundsPaneController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87160660098A338500A27F63 /* SoundsPaneController.h */; };
 		87160663098A338500A27F63 /* SoundsPaneController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87160661098A338500A27F63 /* SoundsPaneController.m */; };
 		8716066D098A44AB00A27F63 /* SoundsPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8716066B098A44AB00A27F63 /* SoundsPane.nib */; };
 		871606AF098A646500A27F63 /* Sounds.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 871606AE098A646400A27F63 /* Sounds.tiff */; };
 		871607ED098AA42200A27F63 /* SyncPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = 871607EB098AA42200A27F63 /* SyncPane.nib */; };
 		87170A3E0BA3ED2000AF2E65 /* BSIndexingPopupper.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87170A3C0BA3ED2000AF2E65 /* BSIndexingPopupper.nib */; };
-		8718EFDE08D43F7D00FFAAEE /* NoNameInputController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8718EFDC08D43F7D00FFAAEE /* NoNameInputController.h */; };
-		8718EFDF08D43F7D00FFAAEE /* NoNameInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8718EFDD08D43F7D00FFAAEE /* NoNameInputController.m */; };
-		8719F06A088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 8719F069088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m */; };
 		871CA11608585F8100C3A044 /* PreferencesController.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DB3004C6959800A80005 /* PreferencesController.h */; };
 		871CA11708585F8100C3A044 /* AccountController.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DB3504C6959800A80005 /* AccountController.h */; };
 		871CA11808585F8100C3A044 /* AccountController_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DB3704C6959800A80005 /* AccountController_p.h */; };
@@ -360,116 +96,18 @@
 		871CA17A08585FD200C3A044 /* CocoMonar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3924488043610AE00A80005 /* CocoMonar.framework */; };
 		871CA17B08585FD200C3A044 /* SGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FA043610EB00A80005 /* SGFoundation.framework */; };
 		871CA17C08585FD200C3A044 /* SGNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FF043610FB00A80005 /* SGNetwork.framework */; };
-		871CA1B908586CFC00C3A044 /* PreferencesPane.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 871CA15608585F8100C3A044 /* PreferencesPane.plugin */; };
-		871CA1BC08586D1600C3A044 /* 2chConnector.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 871CA18308585FD200C3A044 /* 2chConnector.plugin */; };
-		8724A6DD09127E69009CC855 /* board_default.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8724A6DB09127E69009CC855 /* board_default.plist */; };
 		8727F4C20A822EFB00E9C2F9 /* BSTagValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 8727F4C00A822EFB00E9C2F9 /* BSTagValueTransformer.h */; };
 		8727F4C30A822EFB00E9C2F9 /* BSTagValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8727F4C10A822EFB00E9C2F9 /* BSTagValueTransformer.m */; };
-		8729965F0832556200CBD740 /* NSTableColumn+CMXAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 872996530832556100CBD740 /* NSTableColumn+CMXAdditions.h */; };
-		872996600832556200CBD740 /* NSTableColumn+CMXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 872996540832556100CBD740 /* NSTableColumn+CMXAdditions.m */; };
-		8729967E0832561E00CBD740 /* CMRThreadMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 872996720832561E00CBD740 /* CMRThreadMessage.h */; };
-		8729967F0832561E00CBD740 /* CMRThreadMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 872996730832561E00CBD740 /* CMRThreadMessage.m */; };
-		872996800832561E00CBD740 /* CMRThreadMessage_p.h in Headers */ = {isa = PBXBuildFile; fileRef = 872996740832561E00CBD740 /* CMRThreadMessage_p.h */; };
-		872996880832561E00CBD740 /* CMRThreadVisibleRange.h in Headers */ = {isa = PBXBuildFile; fileRef = 8729967C0832561E00CBD740 /* CMRThreadVisibleRange.h */; };
-		872996890832561E00CBD740 /* CMRThreadVisibleRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 8729967D0832561E00CBD740 /* CMRThreadVisibleRange.m */; };
-		8729971A08325E2500CBD740 /* CMXPopUpOwner.h in Headers */ = {isa = PBXBuildFile; fileRef = 8729971208325E2500CBD740 /* CMXPopUpOwner.h */; };
-		8729971D08325E2500CBD740 /* CMXPopUpWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8729971508325E2500CBD740 /* CMXPopUpWindowController.h */; };
-		8729971E08325E2500CBD740 /* CMXPopUpWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8729971608325E2500CBD740 /* CMXPopUpWindowController.m */; };
-		8729971F08325E2500CBD740 /* CMXPopUpWindowController_p.h in Headers */ = {isa = PBXBuildFile; fileRef = 8729971708325E2500CBD740 /* CMXPopUpWindowController_p.h */; };
-		8729972008325E2500CBD740 /* CMXPopUpWindowManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8729971808325E2500CBD740 /* CMXPopUpWindowManager.h */; };
-		8729972108325E2500CBD740 /* CMXPopUpWindowManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8729971908325E2500CBD740 /* CMXPopUpWindowManager.m */; };
-		872998E40832617E00CBD740 /* AlertPanel.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872998E20832617E00CBD740 /* AlertPanel.strings */; };
-		872998ED0832617F00CBD740 /* Browser.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872998EB0832617F00CBD740 /* Browser.nib */; };
-		872998F00832617F00CBD740 /* browserListColumns.plist in Resources */ = {isa = PBXBuildFile; fileRef = 872998EE0832617F00CBD740 /* browserListColumns.plist */; };
-		872998F30832617F00CBD740 /* CMRAccessorySheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872998F10832617F00CBD740 /* CMRAccessorySheet.nib */; };
-		872998F60832617F00CBD740 /* CMRIndexingStepper.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872998F40832617F00CBD740 /* CMRIndexingStepper.nib */; };
-		872998FC0832617F00CBD740 /* CMRNoNameInput.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872998FA0832617F00CBD740 /* CMRNoNameInput.nib */; };
-		872998FF0832617F00CBD740 /* CMROpenURL.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872998FD0832617F00CBD740 /* CMROpenURL.nib */; };
-		872999050832617F00CBD740 /* CMROpenURLManager.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999030832617F00CBD740 /* CMROpenURLManager.strings */; };
-		872999080832617F00CBD740 /* CMRReplyWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872999060832617F00CBD740 /* CMRReplyWindow.nib */; };
-		8729990B0832618000CBD740 /* CMRStatusView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872999090832618000CBD740 /* CMRStatusView.nib */; };
-		8729990E0832618000CBD740 /* CMRTaskDescription.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8729990C0832618000CBD740 /* CMRTaskDescription.strings */; };
-		872999110832618000CBD740 /* CMRTaskItem.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8729990F0832618000CBD740 /* CMRTaskItem.nib */; };
-		872999140832618000CBD740 /* CMRTaskManager.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872999120832618000CBD740 /* CMRTaskManager.nib */; };
-		872999170832618000CBD740 /* CMRThreadMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872999150832618000CBD740 /* CMRThreadMenu.nib */; };
-		8729991D0832618000CBD740 /* CMRThreadViewer.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8729991B0832618000CBD740 /* CMRThreadViewer.nib */; };
-		872999200832618000CBD740 /* CMRThreadViewerComponents.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8729991E0832618000CBD740 /* CMRThreadViewerComponents.nib */; };
-		872999230832618000CBD740 /* CMXMessageMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872999210832618000CBD740 /* CMXMessageMenu.nib */; };
-		872999290832618100CBD740 /* DateFormater.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999270832618100CBD740 /* DateFormater.strings */; };
-		8729992F0832618100CBD740 /* Downloader.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8729992D0832618100CBD740 /* Downloader.strings */; };
-		872999320832618100CBD740 /* HTMLView.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999300832618100CBD740 /* HTMLView.strings */; };
-		872999350832618100CBD740 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999330832618100CBD740 /* InfoPlist.strings */; };
-		872999380832618100CBD740 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999360832618100CBD740 /* Localizable.strings */; };
-		8729993B0832618100CBD740 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872999390832618100CBD740 /* MainMenu.nib */; };
-		8729993E0832618100CBD740 /* MessageComposer.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8729993C0832618100CBD740 /* MessageComposer.strings */; };
-		872999410832618100CBD740 /* Messenger.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8729993F0832618100CBD740 /* Messenger.strings */; };
-		8729994A0832618100CBD740 /* ServicesMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999480832618100CBD740 /* ServicesMenu.strings */; };
-		8729994D0832618100CBD740 /* TextFind.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8729994B0832618100CBD740 /* TextFind.nib */; };
-		872999530832618100CBD740 /* ThreadsList.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999510832618100CBD740 /* ThreadsList.strings */; };
-		872999560832618100CBD740 /* ThreadViewer.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872999540832618100CBD740 /* ThreadViewer.strings */; };
-		87299A3F083261F200CBD740 /* AddFavorites.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A05083261F200CBD740 /* AddFavorites.png */; };
-		87299A40083261F200CBD740 /* age.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A06083261F200CBD740 /* age.png */; };
-		87299A41083261F200CBD740 /* appIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 87299A07083261F200CBD740 /* appIcon.icns */; };
-		87299A45083261F200CBD740 /* Board.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A0B083261F200CBD740 /* Board.png */; };
-		87299A48083261F200CBD740 /* cmlf_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A0E083261F200CBD740 /* cmlf_icon.png */; };
-		87299A4A083261F200CBD740 /* deleteMail.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A10083261F200CBD740 /* deleteMail.png */; };
-		87299A4B083261F200CBD740 /* DraggingBadge.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87299A11083261F200CBD740 /* DraggingBadge.tiff */; };
-		87299A4C083261F200CBD740 /* FavoritesItem.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A12083261F200CBD740 /* FavoritesItem.png */; };
-		87299A4D083261F200CBD740 /* Find.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87299A13083261F200CBD740 /* Find.tiff */; };
-		87299A4F083261F200CBD740 /* Folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A15083261F200CBD740 /* Folder.png */; };
-		87299A51083261F200CBD740 /* insertSage.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A17083261F200CBD740 /* insertSage.png */; };
-		87299A52083261F200CBD740 /* lastUpdatedHeader.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A18083261F200CBD740 /* lastUpdatedHeader.png */; };
-		87299A53083261F200CBD740 /* mailAttachment.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A19083261F200CBD740 /* mailAttachment.png */; };
-		87299A54083261F200CBD740 /* moveEnd.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A1A083261F200CBD740 /* moveEnd.png */; };
-		87299A55083261F200CBD740 /* moveNext.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A1B083261F200CBD740 /* moveNext.png */; };
-		87299A56083261F200CBD740 /* movePrev.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A1C083261F200CBD740 /* movePrev.png */; };
-		87299A57083261F200CBD740 /* moveTop.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A1D083261F200CBD740 /* moveTop.png */; };
-		87299A59083261F200CBD740 /* offline.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A1F083261F200CBD740 /* offline.png */; };
-		87299A5A083261F200CBD740 /* online.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A20083261F200CBD740 /* online.png */; };
-		87299A5E083261F200CBD740 /* EllipsisDownMouseDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A25083261F200CBD740 /* EllipsisDownMouseDown.png */; };
-		87299A5F083261F200CBD740 /* EllipsisDownMouseOver.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A26083261F200CBD740 /* EllipsisDownMouseOver.png */; };
-		87299A60083261F200CBD740 /* EllipsisDownProxy.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A27083261F200CBD740 /* EllipsisDownProxy.png */; };
-		87299A61083261F200CBD740 /* EllipsisMouseDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A28083261F200CBD740 /* EllipsisMouseDown.png */; };
-		87299A62083261F200CBD740 /* EllipsisMouseOver.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A29083261F200CBD740 /* EllipsisMouseOver.png */; };
-		87299A63083261F200CBD740 /* EllipsisProxy.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A2A083261F200CBD740 /* EllipsisProxy.png */; };
-		87299A64083261F200CBD740 /* EllipsisUpMouseDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A2B083261F200CBD740 /* EllipsisUpMouseDown.png */; };
-		87299A65083261F200CBD740 /* EllipsisUpMouseOver.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A2C083261F200CBD740 /* EllipsisUpMouseOver.png */; };
-		87299A66083261F200CBD740 /* EllipsisUpProxy.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A2D083261F200CBD740 /* EllipsisUpProxy.png */; };
-		87299A6A083261F200CBD740 /* ReplyDocument.icns in Resources */ = {isa = PBXBuildFile; fileRef = 87299A31083261F200CBD740 /* ReplyDocument.icns */; };
-		87299A6C083261F200CBD740 /* sage.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A33083261F200CBD740 /* sage.png */; };
-		87299A6D083261F200CBD740 /* SaveAsDraft.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87299A34083261F200CBD740 /* SaveAsDraft.tiff */; };
-		87299A6F083261F200CBD740 /* Status_header.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A36083261F200CBD740 /* Status_header.png */; };
-		87299A70083261F200CBD740 /* Status_logcached.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A37083261F200CBD740 /* Status_logcached.png */; };
-		87299A71083261F200CBD740 /* Status_newThread.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A38083261F200CBD740 /* Status_newThread.png */; };
-		87299A72083261F200CBD740 /* Status_updated.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A39083261F200CBD740 /* Status_updated.png */; };
-		87299A75083261F200CBD740 /* ThreadDocument.icns in Resources */ = {isa = PBXBuildFile; fileRef = 87299A3C083261F200CBD740 /* ThreadDocument.icns */; };
-		87299B0D0832622200CBD740 /* BrowserKeyBindings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87299AF60832622100CBD740 /* BrowserKeyBindings.plist */; };
-		87299B0F0832622200CBD740 /* firstVisibleNumbers.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87299AF80832622100CBD740 /* firstVisibleNumbers.plist */; };
-		87299B130832622200CBD740 /* HostProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87299AFC0832622200CBD740 /* HostProperties.plist */; };
-		87299B180832622200CBD740 /* KeyValueTemplates.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87299B010832622200CBD740 /* KeyValueTemplates.plist */; };
-		87299B190832622200CBD740 /* lastVisibleNumbers.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87299B020832622200CBD740 /* lastVisibleNumbers.plist */; };
-		87299B1D0832622200CBD740 /* ThreadKeyBindings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87299B060832622200CBD740 /* ThreadKeyBindings.plist */; };
-		87299B1E0832622200CBD740 /* URLBookmarks.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87299B070832622200CBD740 /* URLBookmarks.plist */; };
-		87299C1F0832673000CBD740 /* BathyScaphe.mdimporter in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87299C09083266F700CBD740 /* BathyScaphe.mdimporter */; };
 		872C32D00BB18CD10044890C /* ViewPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872C32CE0BB18CD10044890C /* ViewPane.nib */; };
 		872C33D70BB21AF00044890C /* ThreadViewerDefaultTheme.plist in Resources */ = {isa = PBXBuildFile; fileRef = 872C33D60BB21AF00044890C /* ThreadViewerDefaultTheme.plist */; };
-		873158DE0A9948B400854BD8 /* BSDockMenuItem.nib in Resources */ = {isa = PBXBuildFile; fileRef = 873158DC0A9948B400854BD8 /* BSDockMenuItem.nib */; };
-		8731733F0B2AFEE2003EA8C1 /* BSHostLivedoorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 8731733E0B2AFEE2003EA8C1 /* BSHostLivedoorHandler.m */; };
-		8732FCBA08C2F79B00779F20 /* HistoryBack.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 878A7567088AA85B00539B6F /* HistoryBack.tiff */; };
-		8732FCBB08C2F79D00779F20 /* HistoryForward.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 878A7568088AA85B00539B6F /* HistoryForward.tiff */; };
-		873BAE9A090931B0009E9B41 /* BSImagePreviewerInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 8745CD280900DE9800A28AC0 /* BSImagePreviewerInterface.h */; };
-		873C0DCF08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 873C0DCE08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m */; };
 		874344ED0B62ACD800422547 /* BSFontWell.h in Headers */ = {isa = PBXBuildFile; fileRef = 874344EB0B62ACD800422547 /* BSFontWell.h */; };
 		874344EE0B62ACD800422547 /* BSFontWell.m in Sources */ = {isa = PBXBuildFile; fileRef = 874344EC0B62ACD800422547 /* BSFontWell.m */; };
 		8745CD290900DE9800A28AC0 /* BSImagePreviewerInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 8745CD280900DE9800A28AC0 /* BSImagePreviewerInterface.h */; };
-		87464E3708643673000F0371 /* libRBSplitView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87464E3608643673000F0371 /* libRBSplitView.a */; };
-		87464E390864368F000F0371 /* RBSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87464E380864368F000F0371 /* RBSplitView.h */; };
 		874934C20BDB62180082F7BF /* ThemeEditor.nib in Resources */ = {isa = PBXBuildFile; fileRef = 874934C00BDB62180082F7BF /* ThemeEditor.nib */; };
 		874934D30BDB65C30082F7BF /* BSThemeEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 874934D10BDB65C30082F7BF /* BSThemeEditor.h */; };
 		874934D40BDB65C30082F7BF /* BSThemeEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 874934D20BDB65C30082F7BF /* BSThemeEditor.m */; };
 		874A691C0B9DCFC500BB8FA7 /* BSVisibleRangePopUpBtnCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 874A691A0B9DCFC500BB8FA7 /* BSVisibleRangePopUpBtnCell.h */; };
 		874A691D0B9DCFC500BB8FA7 /* BSVisibleRangePopUpBtnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 874A691B0B9DCFC500BB8FA7 /* BSVisibleRangePopUpBtnCell.m */; };
-		87517B8A0864B4F0002DA082 /* SplitterHandle.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87517B890864B4F0002DA082 /* SplitterHandle.tiff */; };
 		8752AACB0C6B60200078C6F4 /* BSNGExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 8752AAC90C6B60200078C6F4 /* BSNGExpression.h */; };
 		8752AACC0C6B60200078C6F4 /* BSNGExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 8752AACA0C6B60200078C6F4 /* BSNGExpression.m */; };
 		875D98200A8A02180061C86D /* SGAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244F5043610D600A80005 /* SGAppKit.framework */; };
@@ -478,11 +116,6 @@
 		875D98230A8A021E0061C86D /* CocoMonar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3924488043610AE00A80005 /* CocoMonar.framework */; };
 		875FF5C60C7FFA960034E371 /* BSTitleRulerAppearance.plist in Resources */ = {isa = PBXBuildFile; fileRef = 875FF5C50C7FFA960034E371 /* BSTitleRulerAppearance.plist */; };
 		8761BAA30B80D2F700120AA4 /* IndexingPopupper.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8761BAA20B80D2F700120AA4 /* IndexingPopupper.strings */; };
-		8762E8C90A8635C200062504 /* rosetta.pl in Resources */ = {isa = PBXBuildFile; fileRef = 8762E8C60A8635C200062504 /* rosetta.pl */; };
-		8762E8CA0A8635C200062504 /* SJIS2UTF8 in Resources */ = {isa = PBXBuildFile; fileRef = 8762E8C70A8635C200062504 /* SJIS2UTF8 */; };
-		8762E8CB0A8635C200062504 /* sora.pl in Resources */ = {isa = PBXBuildFile; fileRef = 8762E8C80A8635C200062504 /* sora.pl */; };
-		876371710AB3455E005D5996 /* BSAsciiArtDetector.h in Headers */ = {isa = PBXBuildFile; fileRef = 8763716F0AB3455E005D5996 /* BSAsciiArtDetector.h */; };
-		876371720AB3455E005D5996 /* BSAsciiArtDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 876371700AB3455E005D5996 /* BSAsciiArtDetector.m */; };
 		876AC0BC0BD48AC800238F9D /* SGAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244F5043610D600A80005 /* SGAppKit.framework */; };
 		87749E070A878F120008A679 /* HistoryFolder.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CD5090E970F007FF9C3 /* HistoryFolder.png */; };
 		87751824097818E7009D4A9C /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F36067F8044D4DD500A80005 /* ApplicationServices.framework */; };
@@ -493,9 +126,6 @@
 		87751A7B09782FAE009D4A9C /* BSIPIFullScreen.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87751A7909782FAE009D4A9C /* BSIPIFullScreen.nib */; };
 		87751AB5097838A0009D4A9C /* FullScreen.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87751AB4097838A0009D4A9C /* FullScreen.tiff */; };
 		87751AE309783D3F009D4A9C /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F36067F4044D4DB600A80005 /* Carbon.framework */; };
-		87764C600AB0399000507EBA /* BoardWarrior.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87764C5E0AB0399000507EBA /* BoardWarrior.strings */; };
-		877AC2910B027447005365C0 /* CMRThreadView-Drop.m in Sources */ = {isa = PBXBuildFile; fileRef = 877AC2900B027447005365C0 /* CMRThreadView-Drop.m */; };
-		878018E1097CF76A002FBA1F /* titleRulerBgNotActive.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 878018E0097CF76A002FBA1F /* titleRulerBgNotActive.tiff */; };
 		878088D00B6C773700027091 /* CMRThreadsList-DragDropOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 878088CF0B6C773700027091 /* CMRThreadsList-DragDropOp.m */; };
 		8782A66E096FAAB90099B65F /* BSImagePreviewInspector-Tb.m in Sources */ = {isa = PBXBuildFile; fileRef = 8782A66D096FAAB90099B65F /* BSImagePreviewInspector-Tb.m */; };
 		8782A6B2096FB46A0099B65F /* Save.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8782A6B0096FB4690099B65F /* Save.tiff */; };
@@ -507,49 +137,24 @@
 		8782A79F096FDBCE0099B65F /* BSIPIActionBtnTbItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8782A79D096FDBCE0099B65F /* BSIPIActionBtnTbItem.m */; };
 		878B4DBF0BB8D74E00829D2B /* BSNobiNobiToolbarItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 878B4DBD0BB8D74E00829D2B /* BSNobiNobiToolbarItem.h */; };
 		878B4DC00BB8D74E00829D2B /* BSNobiNobiToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 878B4DBE0BB8D74E00829D2B /* BSNobiNobiToolbarItem.m */; };
-		87919F6E0B21DFEF00ADD73D /* CMRMessageSample.h in Headers */ = {isa = PBXBuildFile; fileRef = 87919F6C0B21DFEF00ADD73D /* CMRMessageSample.h */; };
-		87919F6F0B21DFEF00ADD73D /* CMRMessageSample.m in Sources */ = {isa = PBXBuildFile; fileRef = 87919F6D0B21DFEF00ADD73D /* CMRMessageSample.m */; };
-		8791EE2A097A5BC200EA7475 /* Status_HeadModified.png in Resources */ = {isa = PBXBuildFile; fileRef = 8791EE29097A5BC200EA7475 /* Status_HeadModified.png */; };
-		8794CC10089C033300161BAB /* BoardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8794CC0F089C033300161BAB /* BoardManager.m */; };
-		8795B91F08E3A7E3005C7C5B /* ToolbarItems.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8795B91E08E3A7E3005C7C5B /* ToolbarItems.strings */; };
 		879653F10BCE48BE0079EDFE /* AppDefaults-FCConvert.m in Sources */ = {isa = PBXBuildFile; fileRef = 879653F00BCE48BE0079EDFE /* AppDefaults-FCConvert.m */; };
-		8796FA420A9189D400DE3A90 /* BSSettingTxtDetector.h in Headers */ = {isa = PBXBuildFile; fileRef = 8796FA400A9189D400DE3A90 /* BSSettingTxtDetector.h */; };
-		8796FA430A9189D400DE3A90 /* BSSettingTxtDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 8796FA410A9189D400DE3A90 /* BSSettingTxtDetector.m */; };
 		879B0B8C0B6237A400EFD6D0 /* BSThreadInfoPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 879B0B8A0B6237A400EFD6D0 /* BSThreadInfoPanel.nib */; };
 		879B0B930B6239EF00EFD6D0 /* BSThreadInfoPanelController.h in Headers */ = {isa = PBXBuildFile; fileRef = 879B0B910B6239EF00EFD6D0 /* BSThreadInfoPanelController.h */; };
 		879B0B940B6239EF00EFD6D0 /* BSThreadInfoPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 879B0B920B6239EF00EFD6D0 /* BSThreadInfoPanelController.m */; };
 		87A474F80A85684000FC13E6 /* Sync.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 871607EE098AA48400A27F63 /* Sync.tiff */; };
 		87A474F90A85684100FC13E6 /* SyncPaneController.h in Headers */ = {isa = PBXBuildFile; fileRef = 871607E4098A9A8700A27F63 /* SyncPaneController.h */; };
 		87A474FA0A85684200FC13E6 /* SyncPaneController.m in Sources */ = {isa = PBXBuildFile; fileRef = 871607E5098A9A8700A27F63 /* SyncPaneController.m */; };
-		87A475DE0A8585BE00FC13E6 /* BoardWarrior.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D7F03B0A85136900623EA5 /* BoardWarrior.h */; };
-		87A475DF0A8585BF00FC13E6 /* BoardWarrior.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D7F03C0A85136900623EA5 /* BoardWarrior.m */; };
 		87A9F7DB0B7FB71700404C81 /* BSRelativeKeywordsCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = 87A9F7D90B7FB71600404C81 /* BSRelativeKeywordsCollector.h */; };
 		87A9F7DC0B7FB71700404C81 /* BSRelativeKeywordsCollector.m in Sources */ = {isa = PBXBuildFile; fileRef = 87A9F7DA0B7FB71600404C81 /* BSRelativeKeywordsCollector.m */; };
-		87B19D7E08FB7C4100D15053 /* AddBoard_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B19D7C08FB7C4100D15053 /* AddBoard_Pressed.tiff */; };
-		87B19D7F08FB7C4100D15053 /* AddBoard.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B19D7D08FB7C4100D15053 /* AddBoard.tiff */; };
-		87B652990840625F008AE2BE /* SendMessage.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87B652980840625F008AE2BE /* SendMessage.tiff */; };
-		87B803010B0ED4980001339F /* NSIndexSet+BSAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 87B802FF0B0ED4980001339F /* NSIndexSet+BSAddition.m */; };
-		87B803020B0ED4980001339F /* NSIndexSet+BSAddition.h in Headers */ = {isa = PBXBuildFile; fileRef = 87B803000B0ED4980001339F /* NSIndexSet+BSAddition.h */; };
-		87BB79210864401A00ED8757 /* RBSplitSubview.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB791F0864401A00ED8757 /* RBSplitSubview.h */; };
 		87BB87890B195B4E00472D3F /* BSIPIToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB87870B195B4E00472D3F /* BSIPIToken.h */; };
 		87BB878A0B195B4E00472D3F /* BSIPIToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BB87880B195B4E00472D3F /* BSIPIToken.m */; };
 		87BC003E0C5F3A5C00870646 /* CMXPopUpWindowController+View.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BC003D0C5F3A5B00870646 /* CMXPopUpWindowController+View.m */; };
 		87BC00420C5F3ABD00870646 /* CMRPopUpTemplateKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BC00410C5F3ABD00870646 /* CMRPopUpTemplateKeys.h */; };
-		87BD58E00AAC551100F6412D /* EditBoardSheetController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BD58DE0AAC551100F6412D /* EditBoardSheetController.h */; };
-		87BD58E10AAC551100F6412D /* EditBoardSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BD58DF0AAC551100F6412D /* EditBoardSheetController.m */; };
-		87BD58E90AAC58D700F6412D /* EditBoardSheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87BD58E70AAC58D700F6412D /* EditBoardSheet.nib */; };
-		87BD61F00865D0230080A7CA /* NSTableView+BSAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BD61EE0865D0230080A7CA /* NSTableView+BSAdditions.h */; };
-		87BD61F10865D0230080A7CA /* NSTableView+BSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BD61EF0865D0230080A7CA /* NSTableView+BSAdditions.m */; };
 		87BE9E9F0912F54300D2F339 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87BE9E9E0912F54300D2F339 /* Localizable.strings */; };
-		87BF52CB08F789D500998C4E /* BSBoardInfoInspector.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BF52C908F789D400998C4E /* BSBoardInfoInspector.h */; };
-		87BF52CC08F789D500998C4E /* BSBoardInfoInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BF52CA08F789D400998C4E /* BSBoardInfoInspector.m */; };
-		87BF52D508F7913400998C4E /* BSBoardInfoInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87BF52D308F7913400998C4E /* BSBoardInfoInspector.nib */; };
-		87BF7CA50840423900CC7D7C /* BathyScapheHelp in Resources */ = {isa = PBXBuildFile; fileRef = 87BF7CA40840423900CC7D7C /* BathyScapheHelp */; };
 		87C2031708FF3E2B006DC42C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		87C2032D08FF3F81006DC42C /* BSImagePreviewInspector.h in Headers */ = {isa = PBXBuildFile; fileRef = 87C2032908FF3F81006DC42C /* BSImagePreviewInspector.h */; };
 		87C2032E08FF3F81006DC42C /* BSImagePreviewInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C2032A08FF3F81006DC42C /* BSImagePreviewInspector.m */; };
 		87C2032F08FF3F81006DC42C /* BSImagePreviewInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87C2032B08FF3F81006DC42C /* BSImagePreviewInspector.nib */; };
-		87C2041208FF4873006DC42C /* ImagePreviewer.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87C2031D08FF3E2B006DC42C /* ImagePreviewer.plugin */; };
 		87C2E1A50A68E3C100E40698 /* BSImagePreviewInspector-View.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C2E1A40A68E3C100E40698 /* BSImagePreviewInspector-View.m */; };
 		87C3977B0A61600F0095AD06 /* BSIPIPathTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 87C397790A61600F0095AD06 /* BSIPIPathTransformer.h */; };
 		87C3977C0A61600F0095AD06 /* BSIPIPathTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C3977A0A61600F0095AD06 /* BSIPIPathTransformer.m */; };
@@ -561,11 +166,8 @@
 		87C398050A6174970095AD06 /* tableView.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87C398030A6174970095AD06 /* tableView.tiff */; };
 		87C398290A6181590095AD06 /* IPIHistoryBack.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87C398270A6181590095AD06 /* IPIHistoryBack.tiff */; };
 		87C3982A0A6181590095AD06 /* IPIHistoryForward.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87C398280A6181590095AD06 /* IPIHistoryForward.tiff */; };
-		87C4813F08FD05A300F91054 /* AddBoardSheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87C4813D08FD05A300F91054 /* AddBoardSheet.nib */; };
-		87C8FBDD09B3631800039203 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87C8FBDC09B3631800039203 /* Security.framework */; };
 		87CC89590B198A7E003FB764 /* Loading.png in Resources */ = {isa = PBXBuildFile; fileRef = 87CC89580B198A7E003FB764 /* Loading.png */; };
 		87CCC7B00BB53DE500813E93 /* AppDefaults-Sounds.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CCC7AF0BB53DE500813E93 /* AppDefaults-Sounds.m */; };
-		87CF646A097A335D00DE8B16 /* Acknowledgments.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 87CF6468097A335D00DE8B16 /* Acknowledgments.rtf */; };
 		87D32F230BAC1C6D002B6006 /* BSSearchOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D32F210BAC1C6D002B6006 /* BSSearchOptions.h */; };
 		87D32F240BAC1C6D002B6006 /* BSSearchOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D32F220BAC1C6D002B6006 /* BSSearchOptions.m */; };
 		87D8FBBC0B52575800CCB933 /* FontBigger.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8709CA7C0B06750B00525B8D /* FontBigger.tiff */; };
@@ -581,21 +183,11 @@
 		87DB9C7F0BA32CE00090090A /* SoftwareUpdate.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87DB9C7D0BA32CE00090090A /* SoftwareUpdate.strings */; };
 		87DBC6990A867C6D00A1C058 /* syncFail.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87DBC6970A867C6D00A1C058 /* syncFail.tiff */; };
 		87DBC69A0A867C6D00A1C058 /* syncFinish.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87DBC6980A867C6D00A1C058 /* syncFinish.tiff */; };
-		87DFDDA80A7D6A0F0074D3EA /* CookieManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCB604C698FB00A80005 /* CookieManager.m */; };
-		87E2264E0833AA5D00E7FC85 /* BathyScaphe.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 87E2264C0833AA5D00E7FC85 /* BathyScaphe.scriptSuite */; };
-		87E2264F0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 87E2264D0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology */; };
-		87E63BE90B247FA500290BB7 /* BSDateFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 87E63BE70B247FA500290BB7 /* BSDateFormatter.h */; };
-		87E63BEA0B247FA500290BB7 /* BSDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 87E63BE80B247FA500290BB7 /* BSDateFormatter.m */; };
 		87E971E80B80A82300579603 /* Keywords.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87E971E60B80A82300579603 /* Keywords.tiff */; };
 		87E971E90B80A82300579603 /* Keywords_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87E971E70B80A82300579603 /* Keywords_Pressed.tiff */; };
-		87F0B3550A9C4CFA0002D317 /* smallSquarePlus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87F0B3530A9C4CFA0002D317 /* smallSquarePlus.tiff */; };
-		87F0B3560A9C4CFA0002D317 /* smallSquareMinus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87F0B3540A9C4CFA0002D317 /* smallSquareMinus.tiff */; };
 		87F3D5B20976921C00A1217A /* BSIPIHistoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 87F3D5B00976921C00A1217A /* BSIPIHistoryManager.h */; };
 		87F3D5B30976921C00A1217A /* BSIPIHistoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F3D5B10976921C00A1217A /* BSIPIHistoryManager.m */; };
-		87F6214D0A906B890082E8DB /* BoardManager-SettingTxt.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F6214C0A906B890082E8DB /* BoardManager-SettingTxt.m */; };
-		87F621A10A9186920082E8DB /* BoardManager-BSAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F621A00A9186920082E8DB /* BoardManager-BSAddition.m */; };
 		87FC678A0C682E9A00A4C72C /* DownloadableLinkTypes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FC67890C682E9A00A4C72C /* DownloadableLinkTypes.plist */; };
-		F424609908462452000803EA /* Scripts.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F424609808462452000803EA /* Scripts.tiff */; };
 		F42BD5AB0C70B1F7000AE1F8 /* malloc.c in Sources */ = {isa = PBXBuildFile; fileRef = F42BD5A90C70B1F7000AE1F8 /* malloc.c */; };
 		F42BD5AF0C70B21F000AE1F8 /* vtab.c in Sources */ = {isa = PBXBuildFile; fileRef = F42BD5AD0C70B21F000AE1F8 /* vtab.c */; };
 		F42BD5B80C70B279000AE1F8 /* legacy.c in Sources */ = {isa = PBXBuildFile; fileRef = F47A66660AFF7EFA00EB5137 /* legacy.c */; };
@@ -1050,8 +642,6 @@
 		F47A66B00AFF7EFA00EB5137 /* vdbeInt.h in Headers */ = {isa = PBXBuildFile; fileRef = F47A66850AFF7EFA00EB5137 /* vdbeInt.h */; };
 		F47A66B10AFF7EFA00EB5137 /* vdbemem.c in Sources */ = {isa = PBXBuildFile; fileRef = F47A66860AFF7EFA00EB5137 /* vdbemem.c */; };
 		F47A66B20AFF7EFA00EB5137 /* where.c in Sources */ = {isa = PBXBuildFile; fileRef = F47A66870AFF7EFA00EB5137 /* where.c */; };
-		F49CCDF50849B87500835BE3 /* BSScriptsMenuManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F49CCDF30849B87500835BE3 /* BSScriptsMenuManager.h */; };
-		F49CCDF60849B87500835BE3 /* BSScriptsMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F49CCDF40849B87500835BE3 /* BSScriptsMenuManager.m */; };
 		F4D8CB680B33021C00B8FDB7 /* SmartBoardListItemEditor.strings in Resources */ = {isa = PBXBuildFile; fileRef = F4D8CB660B33021C00B8FDB7 /* SmartBoardListItemEditor.strings */; };
 		F4EFF93C0BB672D800DF90C6 /* BSThreadListItem.h in Headers */ = {isa = PBXBuildFile; fileRef = F4EFF93A0BB672D800DF90C6 /* BSThreadListItem.h */; };
 		F4EFF93D0BB672D800DF90C6 /* BSThreadListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F4EFF93B0BB672D800DF90C6 /* BSThreadListItem.m */; };
@@ -1131,27 +721,6 @@
 			remoteGlobalIDString = 87C202FE08FF3E2B006DC42C;
 			remoteInfo = previewer;
 		};
-		F4AC1EC70950697A004762A7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 87C202FE08FF3E2B006DC42C;
-			remoteInfo = previewer;
-		};
-		F4AC1EC80950697A004762A7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 871CA15708585FD200C3A044;
-			remoteInfo = reply;
-		};
-		F4AC1EC90950697A004762A7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 871CA11408585F8100C3A044;
-			remoteInfo = preferences;
-		};
 		F4FEFA090AFF8A430099853B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -1162,41 +731,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		870162D8082BE67100AEFDD0 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				87C2041208FF4873006DC42C /* ImagePreviewer.plugin in CopyFiles */,
-				871CA1BC08586D1600C3A044 /* 2chConnector.plugin in CopyFiles */,
-				871CA1B908586CFC00C3A044 /* PreferencesPane.plugin in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		87016389082BE67100AEFDD0 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				8701638A082BE67100AEFDD0 /* CocoMonar.framework in CopyFiles */,
-				8701638B082BE67100AEFDD0 /* SGFoundation.framework in CopyFiles */,
-				8701638C082BE67100AEFDD0 /* SGNetwork.framework in CopyFiles */,
-				8701638D082BE67100AEFDD0 /* SGAppKit.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		87299C040832665D00CBD740 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = Contents/Library/Spotlight;
-			dstSubfolderSpec = 1;
-			files = (
-				87299C1F0832673000CBD740 /* BathyScaphe.mdimporter in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		F47362D80AFF8758009B6189 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1238,7 +772,6 @@
 /* Begin PBXFileReference section */
 		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		87016395082BE67200AEFDD0 /* Info-bathyscaphe.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-bathyscaphe.plist"; sourceTree = "<group>"; };
-		87016396082BE67200AEFDD0 /* BathyScaphe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BathyScaphe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8703A1E40C676A62008ED2B5 /* BSAdvancedPaneArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSAdvancedPaneArrayController.h; sourceTree = "<group>"; };
 		8703A1E50C676A62008ED2B5 /* BSAdvancedPaneArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSAdvancedPaneArrayController.m; sourceTree = "<group>"; };
 		8703A2160C677D42008ED2B5 /* BSLinkDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSLinkDownloadManager.h; sourceTree = "<group>"; };
@@ -1592,7 +1125,7 @@
 		F324DC2D04C698FA00A80005 /* Browser.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = Browser.h; sourceTree = "<group>"; };
 		F324DC2E04C698FA00A80005 /* Browser.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = Browser.m; sourceTree = "<group>"; };
 		F324DC3404C698FA00A80005 /* CMRBrowser-Action.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "CMRBrowser-Action.m"; sourceTree = "<group>"; };
-		F324DC3504C698FA00A80005 /* CMRBrowser-Delegate.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "CMRBrowser-Delegate.m"; sourceTree = "<group>"; };
+		F324DC3504C698FA00A80005 /* CMRBrowser-Delegate.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "CMRBrowser-Delegate.m"; sourceTree = "<group>"; };
 		F324DC3604C698FA00A80005 /* CMRBrowser-List.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "CMRBrowser-List.m"; sourceTree = "<group>"; };
 		F324DC3804C698FA00A80005 /* CMRBrowser-Validation.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "CMRBrowser-Validation.m"; sourceTree = "<group>"; };
 		F324DC3904C698FA00A80005 /* CMRBrowser-ViewAccessor.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "CMRBrowser-ViewAccessor.m"; sourceTree = "<group>"; };
@@ -1658,10 +1191,10 @@
 		F324DCDE04C698FB00A80005 /* AppDefaults-Background.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-Background.m"; sourceTree = "<group>"; };
 		F324DCDF04C698FB00A80005 /* AppDefaults-Bundle.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-Bundle.m"; sourceTree = "<group>"; };
 		F324DCE004C698FB00A80005 /* AppDefaults-FontColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-FontColor.m"; sourceTree = "<group>"; };
-		F324DCE304C698FB00A80005 /* AppDefaults-ThreadsList.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-ThreadsList.m"; sourceTree = "<group>"; };
+		F324DCE304C698FB00A80005 /* AppDefaults-ThreadsList.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-ThreadsList.m"; sourceTree = "<group>"; };
 		F324DCE404C698FB00A80005 /* AppDefaults-ThreadViewer.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-ThreadViewer.m"; sourceTree = "<group>"; };
-		F324DCE604C698FB00A80005 /* AppDefaults.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = AppDefaults.h; sourceTree = "<group>"; };
-		F324DCE704C698FB00A80005 /* AppDefaults.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = AppDefaults.m; sourceTree = "<group>"; };
+		F324DCE604C698FB00A80005 /* AppDefaults.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = AppDefaults.h; sourceTree = "<group>"; };
+		F324DCE704C698FB00A80005 /* AppDefaults.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = AppDefaults.m; sourceTree = "<group>"; };
 		F324DCE804C698FB00A80005 /* AppDefaults_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = AppDefaults_p.h; sourceTree = "<group>"; };
 		F324DD3A04C698FB00A80005 /* CMRAbstructThreadDocument.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRAbstructThreadDocument.h; sourceTree = "<group>"; };
 		F324DD3B04C698FB00A80005 /* CMRAbstructThreadDocument.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRAbstructThreadDocument.m; sourceTree = "<group>"; };
@@ -1938,21 +1471,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		87016382082BE67100AEFDD0 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				87016383082BE67100AEFDD0 /* Cocoa.framework in Frameworks */,
-				87016384082BE67100AEFDD0 /* CocoMonar.framework in Frameworks */,
-				87016385082BE67100AEFDD0 /* SGFoundation.framework in Frameworks */,
-				87016386082BE67100AEFDD0 /* SGNetwork.framework in Frameworks */,
-				87016387082BE67100AEFDD0 /* SGAppKit.framework in Frameworks */,
-				87016388082BE67100AEFDD0 /* Carbon.framework in Frameworks */,
-				87464E3708643673000F0371 /* libRBSplitView.a in Frameworks */,
-				87C8FBDD09B3631800039203 /* Security.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		871CA14C08585F8100C3A044 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -2019,7 +1537,6 @@
 		19C28FB0FE9D524F11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				87016396082BE67200AEFDD0 /* BathyScaphe.app */,
 				871CA15608585F8100C3A044 /* PreferencesPane.plugin */,
 				871CA18308585FD200C3A044 /* 2chConnector.plugin */,
 				87C2031D08FF3E2B006DC42C /* ImagePreviewer.plugin */,
@@ -3386,158 +2903,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		8701619E082BE67100AEFDD0 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				870161A0082BE67100AEFDD0 /* BoardManager.h in Headers */,
-				870161A1082BE67100AEFDD0 /* BoardManager_p.h in Headers */,
-				870161A2082BE67100AEFDD0 /* Browser.h in Headers */,
-				870161A5082BE67100AEFDD0 /* CMRBrowser.h in Headers */,
-				870161A6082BE67100AEFDD0 /* CMRBrowser_p.h in Headers */,
-				870161A7082BE67100AEFDD0 /* CMRFavoritesManager.h in Headers */,
-				870161A9082BE67100AEFDD0 /* CMRThreadsList.h in Headers */,
-				870161AA082BE67100AEFDD0 /* CMRThreadsList_p.h in Headers */,
-				870161B0082BE67100AEFDD0 /* CMRAttributedMessageComposer.h in Headers */,
-				870161B1082BE67100AEFDD0 /* CMRAttributedMessageComposer_p.h in Headers */,
-				870161B2082BE67100AEFDD0 /* CMRMessageAttributesStyling.h in Headers */,
-				870161B3082BE67100AEFDD0 /* CMRMessageAttributesTemplate.h in Headers */,
-				870161B4082BE67100AEFDD0 /* CMRMessageAttributesTemplate_p.h in Headers */,
-				870161B5082BE67100AEFDD0 /* CMRMessageComposer.h in Headers */,
-				870161B6082BE67100AEFDD0 /* CMRThreadPlistComposer.h in Headers */,
-				870161B7082BE67100AEFDD0 /* CMRThreadSubjectComposer.h in Headers */,
-				870161B8082BE67100AEFDD0 /* CMRDocumentController.h in Headers */,
-				870161B9082BE67100AEFDD0 /* CMRDocumentFileManager.h in Headers */,
-				870161BB082BE67100AEFDD0 /* CMRKeychainManager.h in Headers */,
-				870161BD082BE67100AEFDD0 /* CMRMainMenuManager.h in Headers */,
-				870161BF082BE67100AEFDD0 /* CMRReplyDocumentFileManager.h in Headers */,
-				870161C1082BE67100AEFDD0 /* CMRServerClock.h in Headers */,
-				870161C2082BE67100AEFDD0 /* CMRServerClock_p.h in Headers */,
-				870161C3082BE67100AEFDD0 /* CMRTrashbox.h in Headers */,
-				870161C5082BE67100AEFDD0 /* Cookie.h in Headers */,
-				870161C6082BE67100AEFDD0 /* CookieManager.h in Headers */,
-				870161C7082BE67100AEFDD0 /* CMRDownloader.h in Headers */,
-				870161C8082BE67100AEFDD0 /* CMRDownloader_p.h in Headers */,
-				870161CA082BE67100AEFDD0 /* ThreadTextDownloader.h in Headers */,
-				870161CB082BE67100AEFDD0 /* ThreadTextDownloader_p.h in Headers */,
-				870161CC082BE67100AEFDD0 /* CMRBBSSignature.h in Headers */,
-				870161CE082BE67100AEFDD0 /* CMRThreadSignature.h in Headers */,
-				870161CF082BE67100AEFDD0 /* CMRThreadSignature_p.h in Headers */,
-				870161D0082BE67100AEFDD0 /* AppDefaults.h in Headers */,
-				870161D1082BE67100AEFDD0 /* AppDefaults_p.h in Headers */,
-				870161D2082BE67100AEFDD0 /* CMRAbstructThreadDocument.h in Headers */,
-				870161D4082BE67100AEFDD0 /* CMRThreadAttributes.h in Headers */,
-				870161D5082BE67100AEFDD0 /* CMRThreadComposingTask.h in Headers */,
-				870161D6082BE67100AEFDD0 /* CMRThreadDocument.h in Headers */,
-				870161D7082BE67100AEFDD0 /* CMRThreadDownloadTask.h in Headers */,
-				870161D8082BE67100AEFDD0 /* CMRThreadDownloadTask_p.h in Headers */,
-				870161D9082BE67100AEFDD0 /* CMRThreadFileLoadingTask.h in Headers */,
-				870161DA082BE67100AEFDD0 /* CMRThreadLayout.h in Headers */,
-				870161DB082BE67100AEFDD0 /* CMRThreadLayoutTask.h in Headers */,
-				870161DC082BE67100AEFDD0 /* CMRThreadLinkProcessor.h in Headers */,
-				870161DD082BE67100AEFDD0 /* CMRThreadViewer.h in Headers */,
-				870161DE082BE67100AEFDD0 /* CMRThreadViewer_p.h in Headers */,
-				870161E0082BE67100AEFDD0 /* TextFinder.h in Headers */,
-				870161E3082BE67100AEFDD0 /* missing.h in Headers */,
-				870161E4082BE67100AEFDD0 /* CMRIndexingStepper.h in Headers */,
-				870161E5082BE67100AEFDD0 /* CMRIndexingStepper_p.h in Headers */,
-				870161E7082BE67100AEFDD0 /* CMRStatusLine.h in Headers */,
-				870161EA082BE67100AEFDD0 /* SGFunctor.h in Headers */,
-				870161EB082BE67100AEFDD0 /* SGHTMLView.h in Headers */,
-				870161EC082BE67100AEFDD0 /* SGHTMLView_p.h in Headers */,
-				870161ED082BE67100AEFDD0 /* SGLinkCommand.h in Headers */,
-				870161EE082BE67100AEFDD0 /* ThreadsListTable.h in Headers */,
-				870161EF082BE67100AEFDD0 /* CMRBrowserTbDelegate.h in Headers */,
-				870161F1082BE67100AEFDD0 /* CMRReplyController.h in Headers */,
-				870161F2082BE67100AEFDD0 /* CMRReplyController_p.h in Headers */,
-				870161F3082BE67100AEFDD0 /* CMRReplyControllerTbDelegate.h in Headers */,
-				870161F4082BE67100AEFDD0 /* CMRReplyMessenger.h in Headers */,
-				870161F5082BE67100AEFDD0 /* CMRReplyMessenger_p.h in Headers */,
-				870161F6082BE67100AEFDD0 /* CMRStatusLineWindowController.h in Headers */,
-				870161F8082BE67100AEFDD0 /* CMRThreadViewerTbDelegate.h in Headers */,
-				870161FA082BE67100AEFDD0 /* CMRToolbarDelegate.h in Headers */,
-				870161FB082BE67100AEFDD0 /* CMRToolbarDelegateImp.h in Headers */,
-				870161FC082BE67100AEFDD0 /* CMRToolbarDelegateImp_p.h in Headers */,
-				87016200082BE67100AEFDD0 /* CMR2chDATReader.h in Headers */,
-				87016201082BE67100AEFDD0 /* CMRThreadContentsReader.h in Headers */,
-				87016202082BE67100AEFDD0 /* CMRThreadUpdatedHeaderTask.h in Headers */,
-				87016203082BE67100AEFDD0 /* CMRThreadDictReader.h in Headers */,
-				87016204082BE67100AEFDD0 /* CMRAbstructThreadDocument_p.h in Headers */,
-				87016205082BE67100AEFDD0 /* CMRThreadComposingTask_p.h in Headers */,
-				87016206082BE67100AEFDD0 /* CMRThreadDocument_p.h in Headers */,
-				87016207082BE67100AEFDD0 /* CMRThreadLayout_p.h in Headers */,
-				87016209082BE67100AEFDD0 /* w2chConnect.h in Headers */,
-				8701620C082BE67100AEFDD0 /* CMRSubjectReader.h in Headers */,
-				8701620D082BE67100AEFDD0 /* CMRThreadHTMLDownloader.h in Headers */,
-				8701620E082BE67100AEFDD0 /* CMRDATDownloader.h in Headers */,
-				8701620F082BE67100AEFDD0 /* CMRHostHandler.h in Headers */,
-				87016210082BE67100AEFDD0 /* CMRHostHandler_p.h in Headers */,
-				87016211082BE67100AEFDD0 /* CMRHistoryManager.h in Headers */,
-				87016213082BE67100AEFDD0 /* SGContextHelpPanel.h in Headers */,
-				87016216082BE67100AEFDD0 /* CMRPreferencesDefautValues.h in Headers */,
-				87016218082BE67100AEFDD0 /* CMRHistoryObject.h in Headers */,
-				8701621A082BE67100AEFDD0 /* CocoMonar_Prefix.h in Headers */,
-				87016224082BE67100AEFDD0 /* CMRTask.h in Headers */,
-				87016225082BE67100AEFDD0 /* CMRTaskItemController.h in Headers */,
-				87016226082BE67100AEFDD0 /* CMRTaskItemController_p.h in Headers */,
-				87016227082BE67100AEFDD0 /* CMRTaskManager.h in Headers */,
-				87016228082BE67100AEFDD0 /* CMRTaskManager_p.h in Headers */,
-				8701622A082BE67100AEFDD0 /* CMXTextParser.h in Headers */,
-				8701622D082BE67100AEFDD0 /* CMXImageAttachmentCell.h in Headers */,
-				87016233082BE67100AEFDD0 /* CMXInternalMessaging.h in Headers */,
-				87016234082BE67100AEFDD0 /* CMXInternalMessaging_p.h in Headers */,
-				87016235082BE67100AEFDD0 /* CMXWorkerContext.h in Headers */,
-				87016236082BE67100AEFDD0 /* SGInternalMessenger.h in Headers */,
-				87016237082BE67100AEFDD0 /* SGInternalMessenger_p.h in Headers */,
-				87016238082BE67100AEFDD0 /* SGRunLoopMessenger.h in Headers */,
-				8701623A082BE67100AEFDD0 /* CMRBBSListTemplateKeys.h in Headers */,
-				8701623B082BE67100AEFDD0 /* CMRExports.h in Headers */,
-				8701623D082BE67100AEFDD0 /* CMRThreadMessageBuffer.h in Headers */,
-				8701623E082BE67100AEFDD0 /* CMRAttachmentCell.h in Headers */,
-				87016240082BE67100AEFDD0 /* CMRMessageFilter.h in Headers */,
-				87016241082BE67100AEFDD0 /* CMXMenuHolder.h in Headers */,
-				87016242082BE67100AEFDD0 /* CMRThreadView.h in Headers */,
-				87016243082BE67100AEFDD0 /* CMRThreadView_p.h in Headers */,
-				87016245082BE67100AEFDD0 /* CMRSpamFilter.h in Headers */,
-				87016246082BE67100AEFDD0 /* CMRThreadMessageBufferReader.h in Headers */,
-				8701624A082BE67100AEFDD0 /* CMROpenURLManager.h in Headers */,
-				8701624B082BE67100AEFDD0 /* UTILAssertion.h in Headers */,
-				8701624C082BE67100AEFDD0 /* UTILDebugging.h in Headers */,
-				8701624D082BE67100AEFDD0 /* UTILDescription.h in Headers */,
-				8701624E082BE67100AEFDD0 /* UTILKit.h in Headers */,
-				8701624F082BE67100AEFDD0 /* UTILError.h in Headers */,
-				87016252082BE67100AEFDD0 /* CMRNetGrobalLock.h in Headers */,
-				87016254082BE67100AEFDD0 /* CMRAppDelegate_p.h in Headers */,
-				87016255082BE67100AEFDD0 /* CMRAppDelegate.h in Headers */,
-				8729965F0832556200CBD740 /* NSTableColumn+CMXAdditions.h in Headers */,
-				8729967E0832561E00CBD740 /* CMRThreadMessage.h in Headers */,
-				872996800832561E00CBD740 /* CMRThreadMessage_p.h in Headers */,
-				872996880832561E00CBD740 /* CMRThreadVisibleRange.h in Headers */,
-				8729971A08325E2500CBD740 /* CMXPopUpOwner.h in Headers */,
-				8729971D08325E2500CBD740 /* CMXPopUpWindowController.h in Headers */,
-				8729971F08325E2500CBD740 /* CMXPopUpWindowController_p.h in Headers */,
-				8729972008325E2500CBD740 /* CMXPopUpWindowManager.h in Headers */,
-				F49CCDF50849B87500835BE3 /* BSScriptsMenuManager.h in Headers */,
-				87464E390864368F000F0371 /* RBSplitView.h in Headers */,
-				87BB79210864401A00ED8757 /* RBSplitSubview.h in Headers */,
-				87BD61F00865D0230080A7CA /* NSTableView+BSAdditions.h in Headers */,
-				8718EFDE08D43F7D00FFAAEE /* NoNameInputController.h in Headers */,
-				87BF52CB08F789D500998C4E /* BSBoardInfoInspector.h in Headers */,
-				873BAE9A090931B0009E9B41 /* BSImagePreviewerInterface.h in Headers */,
-				871265B5097D84ED00B90FF2 /* AddBoardSheetController.h in Headers */,
-				871265B9097D84ED00B90FF2 /* CMRAccessorySheetController.h in Headers */,
-				871265BD097D84ED00B90FF2 /* CMRTextColumnCell.h in Headers */,
-				870D4BE00A7D6033008BBAB4 /* BSIndexingPopupper.h in Headers */,
-				87A475DE0A8585BE00FC13E6 /* BoardWarrior.h in Headers */,
-				8796FA420A9189D400DE3A90 /* BSSettingTxtDetector.h in Headers */,
-				87BD58E00AAC551100F6412D /* EditBoardSheetController.h in Headers */,
-				876371710AB3455E005D5996 /* BSAsciiArtDetector.h in Headers */,
-				87B803020B0ED4980001339F /* NSIndexSet+BSAddition.h in Headers */,
-				87919F6E0B21DFEF00ADD73D /* CMRMessageSample.h in Headers */,
-				87E63BE90B247FA500290BB7 /* BSDateFormatter.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		871CA11508585F8100C3A044 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -3812,32 +3177,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8701619A082BE67100AEFDD0 /* bathyscaphe */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 87E15B4B0858090F00C345E0 /* Build configuration list for PBXNativeTarget "bathyscaphe" */;
-			buildPhases = (
-				8701619E082BE67100AEFDD0 /* Headers */,
-				87016259082BE67100AEFDD0 /* Resources */,
-				870162D8082BE67100AEFDD0 /* CopyFiles */,
-				87299C040832665D00CBD740 /* CopyFiles */,
-				870162DC082BE67100AEFDD0 /* Sources */,
-				87016382082BE67100AEFDD0 /* Frameworks */,
-				87016389082BE67100AEFDD0 /* CopyFiles */,
-				8701638E082BE67100AEFDD0 /* Rez */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				871CA1870858600900C3A044 /* PBXTargetDependency */,
-				871CA1890858601A00C3A044 /* PBXTargetDependency */,
-				87C203EB08FF47B3006DC42C /* PBXTargetDependency */,
-			);
-			name = bathyscaphe;
-			productInstallPath = "$(HOME)/Applications";
-			productName = v1;
-			productReference = 87016396082BE67200AEFDD0 /* BathyScaphe.app */;
-			productType = "com.apple.product-type.application";
-		};
 		871CA11408585F8100C3A044 /* preferences */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 871CA15108585F8100C3A044 /* Build configuration list for PBXNativeTarget "preferences" */;
@@ -3915,9 +3254,9 @@
 			productReference = F4369C0C0AFF7CFC005ABD68 /* libsqlite.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		F47361B70AFF8758009B6189 /* Starlight Breaker */ = {
+		F47361B70AFF8758009B6189 /* Twincam Angel */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F473638B0AFF8758009B6189 /* Build configuration list for PBXNativeTarget "Starlight Breaker" */;
+			buildConfigurationList = F473638B0AFF8758009B6189 /* Build configuration list for PBXNativeTarget "Twincam Angel" */;
 			buildPhases = (
 				F47361BE0AFF8758009B6189 /* Headers */,
 				F47362600AFF8758009B6189 /* Resources */,
@@ -3936,7 +3275,7 @@
 				F47361BA0AFF8758009B6189 /* PBXTargetDependency */,
 				F47361BC0AFF8758009B6189 /* PBXTargetDependency */,
 			);
-			name = "Starlight Breaker";
+			name = "Twincam Angel";
 			productInstallPath = "$(HOME)/Applications";
 			productName = v1;
 			productReference = F473638F0AFF8758009B6189 /* BathyScaphe.app */;
@@ -3952,8 +3291,7 @@
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* iTteyoshi002 */;
 			projectDirPath = "";
 			targets = (
-				F47361B70AFF8758009B6189 /* Starlight Breaker */,
-				8701619A082BE67100AEFDD0 /* bathyscaphe */,
+				F47361B70AFF8758009B6189 /* Twincam Angel */,
 				871CA11408585F8100C3A044 /* preferences */,
 				871CA15708585FD200C3A044 /* reply */,
 				87C202FE08FF3E2B006DC42C /* previewer */,
@@ -3963,124 +3301,6 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		87016259082BE67100AEFDD0 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				872998E40832617E00CBD740 /* AlertPanel.strings in Resources */,
-				872998ED0832617F00CBD740 /* Browser.nib in Resources */,
-				872998F00832617F00CBD740 /* browserListColumns.plist in Resources */,
-				872998F30832617F00CBD740 /* CMRAccessorySheet.nib in Resources */,
-				872998F60832617F00CBD740 /* CMRIndexingStepper.nib in Resources */,
-				872998FC0832617F00CBD740 /* CMRNoNameInput.nib in Resources */,
-				872998FF0832617F00CBD740 /* CMROpenURL.nib in Resources */,
-				872999050832617F00CBD740 /* CMROpenURLManager.strings in Resources */,
-				872999080832617F00CBD740 /* CMRReplyWindow.nib in Resources */,
-				8729990B0832618000CBD740 /* CMRStatusView.nib in Resources */,
-				8729990E0832618000CBD740 /* CMRTaskDescription.strings in Resources */,
-				872999110832618000CBD740 /* CMRTaskItem.nib in Resources */,
-				872999140832618000CBD740 /* CMRTaskManager.nib in Resources */,
-				872999170832618000CBD740 /* CMRThreadMenu.nib in Resources */,
-				8729991D0832618000CBD740 /* CMRThreadViewer.nib in Resources */,
-				872999200832618000CBD740 /* CMRThreadViewerComponents.nib in Resources */,
-				872999230832618000CBD740 /* CMXMessageMenu.nib in Resources */,
-				872999290832618100CBD740 /* DateFormater.strings in Resources */,
-				8729992F0832618100CBD740 /* Downloader.strings in Resources */,
-				872999320832618100CBD740 /* HTMLView.strings in Resources */,
-				872999350832618100CBD740 /* InfoPlist.strings in Resources */,
-				872999380832618100CBD740 /* Localizable.strings in Resources */,
-				8729993B0832618100CBD740 /* MainMenu.nib in Resources */,
-				8729993E0832618100CBD740 /* MessageComposer.strings in Resources */,
-				872999410832618100CBD740 /* Messenger.strings in Resources */,
-				8729994A0832618100CBD740 /* ServicesMenu.strings in Resources */,
-				8729994D0832618100CBD740 /* TextFind.nib in Resources */,
-				872999530832618100CBD740 /* ThreadsList.strings in Resources */,
-				872999560832618100CBD740 /* ThreadViewer.strings in Resources */,
-				87299A3F083261F200CBD740 /* AddFavorites.png in Resources */,
-				87299A40083261F200CBD740 /* age.png in Resources */,
-				87299A41083261F200CBD740 /* appIcon.icns in Resources */,
-				87299A45083261F200CBD740 /* Board.png in Resources */,
-				87299A48083261F200CBD740 /* cmlf_icon.png in Resources */,
-				87299A4A083261F200CBD740 /* deleteMail.png in Resources */,
-				87299A4B083261F200CBD740 /* DraggingBadge.tiff in Resources */,
-				87299A4C083261F200CBD740 /* FavoritesItem.png in Resources */,
-				87299A4D083261F200CBD740 /* Find.tiff in Resources */,
-				87299A4F083261F200CBD740 /* Folder.png in Resources */,
-				87299A51083261F200CBD740 /* insertSage.png in Resources */,
-				87299A52083261F200CBD740 /* lastUpdatedHeader.png in Resources */,
-				87299A53083261F200CBD740 /* mailAttachment.png in Resources */,
-				87299A54083261F200CBD740 /* moveEnd.png in Resources */,
-				87299A55083261F200CBD740 /* moveNext.png in Resources */,
-				87299A56083261F200CBD740 /* movePrev.png in Resources */,
-				87299A57083261F200CBD740 /* moveTop.png in Resources */,
-				87299A59083261F200CBD740 /* offline.png in Resources */,
-				87299A5A083261F200CBD740 /* online.png in Resources */,
-				87299A5E083261F200CBD740 /* EllipsisDownMouseDown.png in Resources */,
-				87299A5F083261F200CBD740 /* EllipsisDownMouseOver.png in Resources */,
-				87299A60083261F200CBD740 /* EllipsisDownProxy.png in Resources */,
-				87299A61083261F200CBD740 /* EllipsisMouseDown.png in Resources */,
-				87299A62083261F200CBD740 /* EllipsisMouseOver.png in Resources */,
-				87299A63083261F200CBD740 /* EllipsisProxy.png in Resources */,
-				87299A64083261F200CBD740 /* EllipsisUpMouseDown.png in Resources */,
-				87299A65083261F200CBD740 /* EllipsisUpMouseOver.png in Resources */,
-				87299A66083261F200CBD740 /* EllipsisUpProxy.png in Resources */,
-				87299A6A083261F200CBD740 /* ReplyDocument.icns in Resources */,
-				87299A6C083261F200CBD740 /* sage.png in Resources */,
-				87299A6D083261F200CBD740 /* SaveAsDraft.tiff in Resources */,
-				87299A6F083261F200CBD740 /* Status_header.png in Resources */,
-				87299A70083261F200CBD740 /* Status_logcached.png in Resources */,
-				87299A71083261F200CBD740 /* Status_newThread.png in Resources */,
-				87299A72083261F200CBD740 /* Status_updated.png in Resources */,
-				87299A75083261F200CBD740 /* ThreadDocument.icns in Resources */,
-				87299B0D0832622200CBD740 /* BrowserKeyBindings.plist in Resources */,
-				87299B0F0832622200CBD740 /* firstVisibleNumbers.plist in Resources */,
-				87299B130832622200CBD740 /* HostProperties.plist in Resources */,
-				87299B180832622200CBD740 /* KeyValueTemplates.plist in Resources */,
-				87299B190832622200CBD740 /* lastVisibleNumbers.plist in Resources */,
-				87299B1D0832622200CBD740 /* ThreadKeyBindings.plist in Resources */,
-				87299B1E0832622200CBD740 /* URLBookmarks.plist in Resources */,
-				87E2264E0833AA5D00E7FC85 /* BathyScaphe.scriptSuite in Resources */,
-				87E2264F0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology in Resources */,
-				87BF7CA50840423900CC7D7C /* BathyScapheHelp in Resources */,
-				87B652990840625F008AE2BE /* SendMessage.tiff in Resources */,
-				F424609908462452000803EA /* Scripts.tiff in Resources */,
-				87517B8A0864B4F0002DA082 /* SplitterHandle.tiff in Resources */,
-				8732FCBA08C2F79B00779F20 /* HistoryBack.tiff in Resources */,
-				8732FCBB08C2F79D00779F20 /* HistoryForward.tiff in Resources */,
-				8795B91F08E3A7E3005C7C5B /* ToolbarItems.strings in Resources */,
-				870B892D08ED56B3001664CC /* titleRulerBgAquaBlue.tiff in Resources */,
-				870B892E08ED56B3001664CC /* titleRulerBgAquaGraphite.tiff in Resources */,
-				87BF52D508F7913400998C4E /* BSBoardInfoInspector.nib in Resources */,
-				87B19D7E08FB7C4100D15053 /* AddBoard_Pressed.tiff in Resources */,
-				87B19D7F08FB7C4100D15053 /* AddBoard.tiff in Resources */,
-				87C4813F08FD05A300F91054 /* AddBoardSheet.nib in Resources */,
-				87078CDD090E9710007FF9C3 /* beDisabled.png in Resources */,
-				87078CDE090E9710007FF9C3 /* beEnabled.png in Resources */,
-				87078CDF090E9710007FF9C3 /* BoardList.png in Resources */,
-				87078CE0090E9710007FF9C3 /* Delete.png in Resources */,
-				87078CE2090E9710007FF9C3 /* OrderFrontBrowser.png in Resources */,
-				87078CE3090E9710007FF9C3 /* ReloadList.png in Resources */,
-				87078CE4090E9710007FF9C3 /* ReloadThread.png in Resources */,
-				87078CE5090E9710007FF9C3 /* RemoveFavorites.png in Resources */,
-				87078CE6090E9710007FF9C3 /* ResToThread.png in Resources */,
-				87078CE8090E9710007FF9C3 /* stopSign.png in Resources */,
-				8724A6DD09127E69009CC855 /* board_default.plist in Resources */,
-				87CF646A097A335D00DE8B16 /* Acknowledgments.rtf in Resources */,
-				8791EE2A097A5BC200EA7475 /* Status_HeadModified.png in Resources */,
-				878018E1097CF76A002FBA1F /* titleRulerBgNotActive.tiff in Resources */,
-				8762E8C90A8635C200062504 /* rosetta.pl in Resources */,
-				8762E8CA0A8635C200062504 /* SJIS2UTF8 in Resources */,
-				8762E8CB0A8635C200062504 /* sora.pl in Resources */,
-				873158DE0A9948B400854BD8 /* BSDockMenuItem.nib in Resources */,
-				87F0B3550A9C4CFA0002D317 /* smallSquarePlus.tiff in Resources */,
-				87F0B3560A9C4CFA0002D317 /* smallSquareMinus.tiff in Resources */,
-				87BD58E90AAC58D700F6412D /* EditBoardSheet.nib in Resources */,
-				87764C600AB0399000507EBA /* BoardWarrior.strings in Resources */,
-				8709CA7E0B06750B00525B8D /* FontBigger.tiff in Resources */,
-				8709CA7F0B06750B00525B8D /* FontSmaller.tiff in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		871CA12808585F8100C3A044 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4281,13 +3501,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXRezBuildPhase section */
-		8701638E082BE67100AEFDD0 /* Rez */ = {
-			isa = PBXRezBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		871CA15008585F8100C3A044 /* Rez */ = {
 			isa = PBXRezBuildPhase;
 			buildActionMask = 2147483647;
@@ -4319,151 +3532,6 @@
 /* End PBXRezBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		870162DC082BE67100AEFDD0 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				870162E0082BE67100AEFDD0 /* Browser.m in Sources */,
-				870162E3082BE67100AEFDD0 /* CMRBrowser-Action.m in Sources */,
-				870162E4082BE67100AEFDD0 /* CMRBrowser-Delegate.m in Sources */,
-				870162E5082BE67100AEFDD0 /* CMRBrowser-List.m in Sources */,
-				870162E6082BE67100AEFDD0 /* CMRBrowser-Validation.m in Sources */,
-				870162E7082BE67100AEFDD0 /* CMRBrowser-ViewAccessor.m in Sources */,
-				870162E8082BE67100AEFDD0 /* CMRBrowser.m in Sources */,
-				870162E9082BE67100AEFDD0 /* CMRFavoritesManager.m in Sources */,
-				870162EA082BE67100AEFDD0 /* CMRThreadsList-DataSource.m in Sources */,
-				870162F1082BE67100AEFDD0 /* CMRThreadsList.m in Sources */,
-				870162F5082BE67100AEFDD0 /* CMRAttributedMessageComposer-Anchor.m in Sources */,
-				870162F6082BE67100AEFDD0 /* CMRAttributedMessageComposer-Convert.m in Sources */,
-				870162F7082BE67100AEFDD0 /* CMRAttributedMessageComposer.m in Sources */,
-				870162F8082BE67100AEFDD0 /* CMRMessageAttributesStyling.m in Sources */,
-				870162F9082BE67100AEFDD0 /* CMRMessageAttributesTemplate.m in Sources */,
-				870162FA082BE67100AEFDD0 /* CMRThreadPlistComposer.m in Sources */,
-				870162FB082BE67100AEFDD0 /* CMRThreadSubjectComposer.m in Sources */,
-				870162FC082BE67100AEFDD0 /* main.m in Sources */,
-				870162FD082BE67100AEFDD0 /* CMRDocumentController.m in Sources */,
-				870162FE082BE67100AEFDD0 /* CMRDocumentFileManager.m in Sources */,
-				870162FF082BE67100AEFDD0 /* CMRKeychainManager.m in Sources */,
-				87016300082BE67100AEFDD0 /* CMRMainMenuManager.m in Sources */,
-				87016301082BE67100AEFDD0 /* CMRReplyDocumentFileManager.m in Sources */,
-				87016302082BE67100AEFDD0 /* CMRServerClock.m in Sources */,
-				87016303082BE67100AEFDD0 /* CMRTrashbox.m in Sources */,
-				87016304082BE67100AEFDD0 /* Cookie.m in Sources */,
-				87016306082BE67100AEFDD0 /* CMRDownloader-Task.m in Sources */,
-				87016307082BE67100AEFDD0 /* CMRDownloader.m in Sources */,
-				87016309082BE67100AEFDD0 /* ThreadTextDownloader.m in Sources */,
-				8701630A082BE67100AEFDD0 /* CMRBBSSignature.m in Sources */,
-				8701630B082BE67100AEFDD0 /* CMRThreadSignature.m in Sources */,
-				8701630C082BE67100AEFDD0 /* AppDefaults-Account.m in Sources */,
-				8701630E082BE67100AEFDD0 /* AppDefaults-Background.m in Sources */,
-				8701630F082BE67100AEFDD0 /* AppDefaults-Bundle.m in Sources */,
-				87016310082BE67100AEFDD0 /* AppDefaults-FontColor.m in Sources */,
-				87016312082BE67100AEFDD0 /* AppDefaults-ThreadsList.m in Sources */,
-				87016313082BE67100AEFDD0 /* AppDefaults-ThreadViewer.m in Sources */,
-				87016314082BE67100AEFDD0 /* AppDefaults.m in Sources */,
-				87016315082BE67100AEFDD0 /* CMRAbstructThreadDocument.m in Sources */,
-				87016317082BE67100AEFDD0 /* CMRThreadAttributes.m in Sources */,
-				87016318082BE67100AEFDD0 /* CMRThreadComposingTask.m in Sources */,
-				87016319082BE67100AEFDD0 /* CMRThreadDocument.m in Sources */,
-				8701631A082BE67100AEFDD0 /* CMRThreadDownloadTask.m in Sources */,
-				8701631B082BE67100AEFDD0 /* CMRThreadFileLoadingTask.m in Sources */,
-				8701631C082BE67100AEFDD0 /* CMRThreadLayout-MessageRange.m in Sources */,
-				8701631D082BE67100AEFDD0 /* CMRThreadLayout.m in Sources */,
-				8701631E082BE67100AEFDD0 /* CMRThreadLayoutTask.m in Sources */,
-				8701631F082BE67100AEFDD0 /* CMRThreadLinkProcessor.m in Sources */,
-				87016320082BE67100AEFDD0 /* CMRThreadViewer-Action.m in Sources */,
-				87016321082BE67100AEFDD0 /* CMRThreadViewer-Contents.m in Sources */,
-				87016322082BE67100AEFDD0 /* CMRThreadViewer-Download.m in Sources */,
-				87016323082BE67100AEFDD0 /* CMRThreadViewer-MoveAction.m in Sources */,
-				87016324082BE67100AEFDD0 /* CMRThreadViewer-ViewAccessor.m in Sources */,
-				87016325082BE67100AEFDD0 /* CMRThreadViewer.m in Sources */,
-				87016328082BE67100AEFDD0 /* TextFinder.m in Sources */,
-				8701632A082BE67100AEFDD0 /* missing.m in Sources */,
-				8701632B082BE67100AEFDD0 /* CMRIndexingStepper-ViewAccessor.m in Sources */,
-				8701632C082BE67100AEFDD0 /* CMRIndexingStepper.m in Sources */,
-				8701632F082BE67100AEFDD0 /* CMRStatusLine.m in Sources */,
-				87016331082BE67100AEFDD0 /* SGFunctor.m in Sources */,
-				87016332082BE67100AEFDD0 /* SGHTMLView.m in Sources */,
-				87016333082BE67100AEFDD0 /* SGLinkCommand.m in Sources */,
-				87016334082BE67100AEFDD0 /* ThreadsListTable.m in Sources */,
-				87016335082BE67100AEFDD0 /* CMRBrowserTbDelegate.m in Sources */,
-				87016336082BE67100AEFDD0 /* CMRReplyController-ViewAccessor.m in Sources */,
-				87016337082BE67100AEFDD0 /* CMRReplyController.m in Sources */,
-				87016338082BE67100AEFDD0 /* CMRReplyControllerTbDelegate.m in Sources */,
-				87016339082BE67100AEFDD0 /* CMRReplyMessenger.m in Sources */,
-				8701633A082BE67100AEFDD0 /* CMRStatusLineWindowController.m in Sources */,
-				8701633B082BE67100AEFDD0 /* CMRThreadViewerTbDelegate.m in Sources */,
-				8701633C082BE67100AEFDD0 /* CMRToolbarDelegateImp.m in Sources */,
-				8701633F082BE67100AEFDD0 /* CMR2chDATReader.m in Sources */,
-				87016340082BE67100AEFDD0 /* CMRThreadContentsReader.m in Sources */,
-				87016341082BE67100AEFDD0 /* CMRThreadUpdatedHeaderTask.m in Sources */,
-				87016342082BE67100AEFDD0 /* CMRThreadDictReader.m in Sources */,
-				87016344082BE67100AEFDD0 /* CMRSubjectReader.m in Sources */,
-				87016345082BE67100AEFDD0 /* CMRThreadHTMLDownloader.m in Sources */,
-				87016346082BE67100AEFDD0 /* CMRHostHandler.m in Sources */,
-				87016347082BE67100AEFDD0 /* CMRDATDownloader.m in Sources */,
-				87016349082BE67100AEFDD0 /* CMRHistoryManager.m in Sources */,
-				8701634B082BE67100AEFDD0 /* CMRThreadViewer-Link.m in Sources */,
-				8701634C082BE67100AEFDD0 /* SGContextHelpPanel.m in Sources */,
-				8701634D082BE67100AEFDD0 /* CMRHostHTMLHandler.m in Sources */,
-				87016358082BE67100AEFDD0 /* CMRTask.m in Sources */,
-				87016359082BE67100AEFDD0 /* CMRTaskItemController.m in Sources */,
-				8701635A082BE67100AEFDD0 /* CMRTaskManager-Management.m in Sources */,
-				8701635C082BE67100AEFDD0 /* CMRTaskManager.m in Sources */,
-				8701635E082BE67100AEFDD0 /* CMXTextParser.m in Sources */,
-				87016360082BE67100AEFDD0 /* CMXImageAttachmentCell.m in Sources */,
-				87016364082BE67100AEFDD0 /* CMXWorkerContext.m in Sources */,
-				87016365082BE67100AEFDD0 /* SGInternalMessenger.m in Sources */,
-				87016366082BE67100AEFDD0 /* SGRunLoopMessenger.m in Sources */,
-				87016368082BE67100AEFDD0 /* SGHTMLView-Link.m in Sources */,
-				8701636A082BE67100AEFDD0 /* CMRMessageComposer.m in Sources */,
-				8701636B082BE67100AEFDD0 /* CMRThreadMessageBuffer.m in Sources */,
-				8701636C082BE67100AEFDD0 /* CMRAttachmentCell.m in Sources */,
-				8701636D082BE67100AEFDD0 /* CMRMessageFilter.m in Sources */,
-				8701636E082BE67100AEFDD0 /* CMXMenuHolder.m in Sources */,
-				8701636F082BE67100AEFDD0 /* CMRThreadView.m in Sources */,
-				87016371082BE67100AEFDD0 /* CMRSpamFilter.m in Sources */,
-				87016372082BE67100AEFDD0 /* AppDefaults-Filter.m in Sources */,
-				87016373082BE67100AEFDD0 /* CMRThreadMessageBufferReader.m in Sources */,
-				87016375082BE67100AEFDD0 /* CMROpenURLManager.m in Sources */,
-				87016378082BE67100AEFDD0 /* CMRThreadAttributes-Convert.m in Sources */,
-				87016379082BE67100AEFDD0 /* CMRNetGrobalLock.m in Sources */,
-				8701637B082BE67100AEFDD0 /* CMRAppDelegate.m in Sources */,
-				8701637C082BE67100AEFDD0 /* CMRAppDelegate+Menu.m in Sources */,
-				8701637E082BE67100AEFDD0 /* CMRThreadViewer-Validation.m in Sources */,
-				8701637F082BE67100AEFDD0 /* CMRThreadViewer-Find.m in Sources */,
-				872996600832556200CBD740 /* NSTableColumn+CMXAdditions.m in Sources */,
-				8729967F0832561E00CBD740 /* CMRThreadMessage.m in Sources */,
-				872996890832561E00CBD740 /* CMRThreadVisibleRange.m in Sources */,
-				8729971E08325E2500CBD740 /* CMXPopUpWindowController.m in Sources */,
-				8729972108325E2500CBD740 /* CMXPopUpWindowManager.m in Sources */,
-				F49CCDF60849B87500835BE3 /* BSScriptsMenuManager.m in Sources */,
-				87BD61F10865D0230080A7CA /* NSTableView+BSAdditions.m in Sources */,
-				8709E6540879713D009A65FC /* CMRReplyMessenger-Connector.m in Sources */,
-				8719F06A088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m in Sources */,
-				8794CC10089C033300161BAB /* BoardManager.m in Sources */,
-				8718EFDF08D43F7D00FFAAEE /* NoNameInputController.m in Sources */,
-				87BF52CC08F789D500998C4E /* BSBoardInfoInspector.m in Sources */,
-				873C0DCF08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m in Sources */,
-				871265B6097D84ED00B90FF2 /* AddBoardSheetController.m in Sources */,
-				871265BA097D84ED00B90FF2 /* CMRAccessorySheetController.m in Sources */,
-				871265BE097D84ED00B90FF2 /* CMRTextColumnCell.m in Sources */,
-				870D4BE10A7D6034008BBAB4 /* BSIndexingPopupper.m in Sources */,
-				87DFDDA80A7D6A0F0074D3EA /* CookieManager.m in Sources */,
-				87A475DF0A8585BF00FC13E6 /* BoardWarrior.m in Sources */,
-				87F6214D0A906B890082E8DB /* BoardManager-SettingTxt.m in Sources */,
-				87F621A10A9186920082E8DB /* BoardManager-BSAddition.m in Sources */,
-				8796FA430A9189D400DE3A90 /* BSSettingTxtDetector.m in Sources */,
-				87BD58E10AAC551100F6412D /* EditBoardSheetController.m in Sources */,
-				876371720AB3455E005D5996 /* BSAsciiArtDetector.m in Sources */,
-				877AC2910B027447005365C0 /* CMRThreadView-Drop.m in Sources */,
-				87B803010B0ED4980001339F /* NSIndexSet+BSAddition.m in Sources */,
-				87919F6F0B21DFEF00ADD73D /* CMRMessageSample.m in Sources */,
-				87E63BEA0B247FA500290BB7 /* BSDateFormatter.m in Sources */,
-				8731733F0B2AFEE2003EA8C1 /* BSHostLivedoorHandler.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		871CA13B08585F8100C3A044 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4753,21 +3821,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		871CA1870858600900C3A044 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 871CA11408585F8100C3A044 /* preferences */;
-			targetProxy = F4AC1EC90950697A004762A7 /* PBXContainerItemProxy */;
-		};
-		871CA1890858601A00C3A044 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 871CA15708585FD200C3A044 /* reply */;
-			targetProxy = F4AC1EC80950697A004762A7 /* PBXContainerItemProxy */;
-		};
-		87C203EB08FF47B3006DC42C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 87C202FE08FF3E2B006DC42C /* previewer */;
-			targetProxy = F4AC1EC70950697A004762A7 /* PBXContainerItemProxy */;
-		};
 		F47361B80AFF8758009B6189 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 871CA11408585F8100C3A044 /* preferences */;
@@ -5612,115 +4665,6 @@
 			};
 			name = Default;
 		};
-		87E15B4C0858090F00C345E0 /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build/Deployment,
-					../frameworks/SGFoundation/build/Deployment,
-					../frameworks/SGNetwork/build/Deployment,
-					../frameworks/SGAppKit/build/Deployment,
-				);
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = source/CocoMonar_Prefix.h;
-				GCC_USE_GCC3_PFE_SUPPORT = NO;
-				INFOPLIST_FILE = "Info-bathyscaphe.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/source\"";
-				OTHER_CFLAGS = (
-					"-DDEBUG",
-					"-DBUILD_COCOMONAR",
-				);
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = BathyScaphe;
-				SECTORDER_FLAGS = "";
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/source\"";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = app;
-			};
-			name = Development;
-		};
-		87E15B4D0858090F00C345E0 /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build/Deployment,
-					../frameworks/SGFoundation/build/Deployment,
-					../frameworks/SGNetwork/build/Deployment,
-					../frameworks/SGAppKit/build/Deployment,
-				);
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = source/CocoMonar_Prefix.h;
-				GCC_USE_GCC3_PFE_SUPPORT = NO;
-				INFOPLIST_FILE = "Info-bathyscaphe.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/source\"";
-				OTHER_CFLAGS = (
-					"-DBUILD_COCOMONAR",
-					"-DUTIL_BLOCK_ASSERTIONS",
-					"-DNS_BLOCK_ASSERTIONS",
-					"-DUTIL_BLOCK_DEBUG_WRITE",
-				);
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = BathyScaphe;
-				SECTORDER_FLAGS = "";
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/source\"";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = app;
-			};
-			name = Deployment;
-		};
-		87E15B4E0858090F00C345E0 /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					../frameworks/CocoMonar/build/Deployment,
-					../frameworks/SGFoundation/build/Deployment,
-					../frameworks/SGNetwork/build/Deployment,
-					../frameworks/Keychain/build/Deployment,
-					../frameworks/SGAppKit/build/Deployment,
-					"$(SRCROOT)",
-					"$(SRCROOT)/../../Desktop/OgreKit_2_0_2/build/Deployment",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
-				);
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = source/CocoMonar_Prefix.h;
-				GCC_USE_GCC3_PFE_SUPPORT = NO;
-				INFOPLIST_FILE = "Info-bathyscaphe.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/source\"";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = BathyScaphe;
-				SECTORDER_FLAGS = "";
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/source\"";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = app;
-			};
-			name = Default;
-		};
 		87E15B540858090F00C345E0 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -6000,16 +4944,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Default;
 		};
-		87E15B4B0858090F00C345E0 /* Build configuration list for PBXNativeTarget "bathyscaphe" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				87E15B4C0858090F00C345E0 /* Development */,
-				87E15B4D0858090F00C345E0 /* Deployment */,
-				87E15B4E0858090F00C345E0 /* Default */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
-		};
 		87E15B530858090F00C345E0 /* Build configuration list for PBXProject "BathyScaphe" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -6030,7 +4964,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Default;
 		};
-		F473638B0AFF8758009B6189 /* Build configuration list for PBXNativeTarget "Starlight Breaker" */ = {
+		F473638B0AFF8758009B6189 /* Build configuration list for PBXNativeTarget "Twincam Angel" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F473638C0AFF8758009B6189 /* Development */,

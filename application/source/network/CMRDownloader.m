@@ -296,7 +296,7 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 /* synchronize computer time with server. */
 - (void)synchronizeServerClock:(NSHTTPURLResponse *)response
 {
-	NSLog(@"-[CMRDownloader synchrozineServerClock:] called.");
+//	NSLog(@"-[CMRDownloader synchrozineServerClock:] called.");
 	UTILAssertKindOfClass(response, NSHTTPURLResponse);
 
 	NSString *dateString;
