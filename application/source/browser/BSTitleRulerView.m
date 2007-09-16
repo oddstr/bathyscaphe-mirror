@@ -225,6 +225,11 @@
 	BOOL	isKeyWin_;
 	NSArray	*colors_;
 	NSColor *gradientStartColor, *gradientEndColor;
+	// このへん、暫定的
+	NSMutableAttributedString *foo = [[self titleForDrawing] mutableCopy];
+	NSRange	range = NSMakeRange(0,[foo length]);
+	[foo removeAttribute:NSForegroundColorAttributeName range:range];
+	[foo addAttributes:[NSDictionary dictionaryWithObject:[NSColor grayColor] forKey:NSForegroundColorAttributeName] range:range];
 
 	isKeyWin_ = [[self window] isKeyWindow];
 	colors_ = isKeyWin_ ? [self activeColors] : [[self appearance] inactiveColors];
@@ -235,7 +240,9 @@
 	[[NSBezierPath bezierPathWithRect:aRect] linearGradientFillWithStartColor:gradientStartColor
 																	 endColor:gradientEndColor];
 
+	[foo drawInRect:NSInsetRect(aRect, 5.0, 3.0)];
 	[[self titleForDrawing] drawInRect:NSInsetRect(aRect, 5.0, 2.0)];
+	[foo release];
 }
 
 - (BOOL)isOpaque

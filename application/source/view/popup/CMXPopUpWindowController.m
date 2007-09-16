@@ -1,6 +1,6 @@
 //: CMXPopUpWindowController.m
 /**
-  * $Id: CMXPopUpWindowController.m,v 1.9 2007/08/01 12:29:06 tsawada2 Exp $
+  * $Id: CMXPopUpWindowController.m,v 1.10 2007/09/16 18:36:22 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -150,6 +150,9 @@
 - (void)setOwner:(id<CMXPopUpOwner>)anOwner
 {
 	[[self textView] setDelegate:anOwner];
+	if ([[anOwner class] respondsToSelector:@selector(loadContextualMenuForTextView)]) {
+		[[self textView] setMenu:[[anOwner class] loadContextualMenuForTextView]];
+	}
 }
 
 - (id)object

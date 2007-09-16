@@ -1,6 +1,6 @@
 //: CMRThreadLayout.h
 /**
-  * $Id: CMRThreadLayout.h,v 1.7 2007/09/07 13:06:53 tsawada2 Exp $
+  * $Id: CMRThreadLayout.h,v 1.8 2007/09/16 18:36:22 tsawada2 Exp $
   * 
   * CMRThreadLayout.h
   *
@@ -133,7 +133,7 @@
 
 
 @interface CMRThreadLayout(Accessor)
-- (SGInternalMessenger *) runLoopMessenger;
+//- (SGInternalMessenger *) runLoopMessenger;
 
 - (CMRThreadView *) textView;
 - (void) setTextView : (CMRThreadView *) aTextView;
@@ -153,6 +153,7 @@
 
 - (SGBaseRangeArray *) messageRanges;
 - (void) addMessageRange : (NSRange) range;
+
 - (void) slideMessageRanges : (int     ) changeInLength
 			   fromLocation : (unsigned) fromLocation;
 

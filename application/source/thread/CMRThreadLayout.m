@@ -1,6 +1,6 @@
 //: CMRThreadLayout.m
 /**
-  * $Id: CMRThreadLayout.m,v 1.14 2007/09/07 13:06:53 tsawada2 Exp $
+  * $Id: CMRThreadLayout.m,v 1.15 2007/09/16 18:36:22 tsawada2 Exp $
   * 
   * CMRThreadLayout.m
   *
@@ -168,12 +168,12 @@
 {
 	return [[self textView] enclosingScrollView];
 }
-
+/*
 - (SGInternalMessenger *) runLoopMessenger
 {
 	return CMRMainMessenger;
 }
-
+*/
 - (CMRThreadMessage *) messageAtIndex : (unsigned) anIndex
 {
 	return [[self messageBuffer] messageAtIndex : anIndex];
@@ -185,7 +185,7 @@
 
 	index1 = [self messageIndexForRange:range];
 	index2 = [self lastMessageIndexForRange:range];
-	
+	NSLog(@"messageIndexForRange is %i, lastMessageIndexForRange is %i (Range:%@)",index1, index2, NSStringFromRange(range));
 	return (index1 == index2);
 }
 

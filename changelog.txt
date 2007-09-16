@@ -1,4 +1,13 @@
+2007-09-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/CMRThreadView.m
+	* application/source/view/popup/CMXPopUpWindowController.m
+		とくにポップアップ内に表示されている抽出／フィルタリングされたレスなどに対して、コンテクストメニューの表示内容が
+		不適切だったり、違うレスに属性が適用されてしまう問題を修正。
 2007-09-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/BSTitleRulerView.m
+		[SGAppKit] スレッドタイトルバー：タイトルの文字を描画する際、影のような効果を付けるようにした。
+		- NSShadow ではなく、（BSIconAndTextCell のように）先に1ピクセル下にずらして、グレー色にした同じ文字列を描いたもの。
+		　視認性の向上を狙っているが、まだ調整／検討が必要か。
 	* application/source/window/CMRThreadViewerTbDelegate.m
 	* application/source/preferences/AppDefaults.m
 	* application/source/preferences/CMRPreferencesDefautValues.h

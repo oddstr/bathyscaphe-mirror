@@ -194,7 +194,8 @@ static NSString *mActionGetKeysForTag[] = {
 	}
 	return NSNotFound;
 }
-- (NSRange) selectedMessageIndexRange
+
+- (NSRange)selectedMessageIndexRange
 {
 	NSRange			range_ = [self selectedRange];
 	NSTextStorage	*storage_ = [self textStorage];
@@ -214,11 +215,11 @@ static NSString *mActionGetKeysForTag[] = {
 	indexRange_ = kNFRange;
 	charIndex_ = range_.location;
 	while (charIndex_ < NSMaxRange(range_)) {
-		v = [storage_ attribute : CMRMessageIndexAttributeName
-						atIndex : charIndex_
-		  longestEffectiveRange : &effectiveRange_
-						inRange : range_];
-		if (v != nil) {
+		v = [storage_ attribute:CMRMessageIndexAttributeName
+						atIndex:charIndex_
+		  longestEffectiveRange:&effectiveRange_
+						inRange:range_];
+		if (v) {
 			if (NSNotFound == indexRange_.location) {
 				indexRange_.location = [v unsignedIntValue];
 			}
@@ -226,25 +227,25 @@ static NSString *mActionGetKeysForTag[] = {
 		}
 		charIndex_ = NSMaxRange(effectiveRange_);
 	}
-	indexRange_.location = 
-		[self previousMessageIndexOfCharIndex : range_.location];
+	indexRange_.location = [self previousMessageIndexOfCharIndex:range_.location];
 	
 	if (NSNotFound == indexRange_.location) {
 		goto NOT_FOUND;
 	}
 	
-	if (0 == indexRange_.length)
+	if (0 == indexRange_.length) {
 		indexRange_.length = 1;
-	else
+	} else {
 		indexRange_.length = (indexRange_.length - indexRange_.location) +1;
-	
+	}
+
 	return indexRange_;
 
 NOT_FOUND:
 	return kNFRange;
 }
 
-- (NSEnumerator *) selectedMessageIndexEnumerator
+- (NSEnumerator *)selectedMessageIndexEnumerator
 {
 	NSEnumerator	*enum_;
 	NSRange			selectedRange_;
@@ -257,66 +258,59 @@ NOT_FOUND:
 		selectedRange_.location = m_lastCharIndex;
 		selectedRange_.length = 1;
 	}
-	if (NSNotFound == selectedRange_.location ||
-		NSMaxRange(selectedRange_) > [[self textStorage] length]) 
-	{ return [[NSArray empty] objectEnumerator]; }
+	if (NSNotFound == selectedRange_.location || NSMaxRange(selectedRange_) > [[self textStorage] length]) {
+		return [[NSArray empty] objectEnumerator];
+	}
 	
 	// 選択範囲のひとつまえのレスも含む
-	prevCharIndex_ = [self previousMessageStartIndexOfCharIndex : selectedRange_.location];
-	if (prevCharIndex_ != NSNotFound)
+	prevCharIndex_ = [self previousMessageStartIndexOfCharIndex:selectedRange_.location];
+	if (prevCharIndex_ != NSNotFound) {
 		selectedRange_.location = prevCharIndex_;
+	}
 	
-	enum_ = [[CMRMessageIndexEnumerator alloc]
-				initWithAttributedString : [self textStorage]
-						   selectedRange : selectedRange_];
+	enum_ = [[CMRMessageIndexEnumerator alloc] initWithAttributedString:[self textStorage] selectedRange:selectedRange_];
 	
 	return [enum_ autorelease];
 }
 
 #pragma mark Event Handling
-- (BOOL) mouseClicked : (NSEvent *) theEvent
-			  atIndex : (unsigned ) charIndex
+- (BOOL)mouseClicked:(NSEvent *)theEvent atIndex:(unsigned )charIndex
 {
 	NSRange	effectiveRange_;
 	id		v;
 	id		delegate_ = [self delegate];
 	SEL		selector_ = @selector(threadView:mouseClicked:atIndex:messageIndex:);
 	
-	if ([super mouseClicked:theEvent atIndex:charIndex]) 
-		return YES;
+	if ([super mouseClicked:theEvent atIndex:charIndex]) return YES;
 	
-	v = [[self textStorage] attribute : CMRMessageIndexAttributeName 
-						atIndex : charIndex
-						effectiveRange : &effectiveRange_];
-	if (nil == v) return NO;
+	v = [[self textStorage] attribute:CMRMessageIndexAttributeName atIndex:charIndex effectiveRange:&effectiveRange_];
+	if (!v) return NO;
 	UTILAssertRespondsTo(v, @selector(unsignedIntValue));
 	
-	if (delegate_ && [delegate_ respondsToSelector : selector_]) {
+	if (delegate_ && [delegate_ respondsToSelector:selector_]) {
 		return [delegate_ threadView:self mouseClicked:theEvent atIndex:charIndex messageIndex:[v unsignedIntValue]];
 	}
 	return NO;
 }
 
 #pragma mark Contextual Menu
-+ (void) setupMenuItemInMenu : (NSMenu *) aMenu
-		   representedObject : (id      ) anObject
++ (void)setupMenuItemInMenu:(NSMenu *)aMenu representedObject:(id)anObject
 {
 	NSEnumerator		*iter_;
 	NSMenuItem			*item_;
 	
 	iter_ = [[aMenu itemArray] objectEnumerator];
 	while (item_ = [iter_ nextObject]) {
-		[item_ setRepresentedObject : anObject];
-		[item_ setEnabled : YES];
+		[item_ setRepresentedObject:anObject];
+		[item_ setEnabled:YES];
 		
 		if ([item_ hasSubmenu]) {
-			[self setupMenuItemInMenu : [item_ submenu]
-					representedObject : anObject];
+			[self setupMenuItemInMenu:[item_ submenu] representedObject:anObject];
 		}
 	}
 }
 
-+ (NSMenu *) messageMenu
++ (NSMenu *)messageMenu
 {
 	static NSMenu *kMessageMenu = nil;
 	
@@ -374,7 +368,10 @@ NS_ENDHANDLER
 
 	// マウスポインタが選択されたテキストの、その選択領域に入っているなら、選択テキスト用の（簡潔な）コンテキストメニューを返す。
 	if (NSLocationInRange(m_lastCharIndex, selectedTextRange)) {
-		if ([[self threadLayout] onlySingleMessageInRange:selectedTextRange]) {
+		NSRange selectedMsgIdxRange = [self selectedMessageIndexRange];
+//		NSLog(@"TEST %@",NSStringFromRange(selectedMsgIdxRange));
+//		if ([[self threadLayout] onlySingleMessageInRange:selectedTextRange]) {
+		if (selectedMsgIdxRange.length == 1) {
 			if ([self containsMultipleLinesInRange:selectedTextRange]) {
 				NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
 				[menu insertItem:[[self class] genericCopyItem] atIndex:0];
