@@ -1,4 +1,6 @@
 2007-09-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRThreadsList-DataSource.m
+		スレッド一覧からスレッドをゴミ箱にドラッグ＆ドロップしても削除されなくなっていた問題を修正。
 	* application/source/view/CMRThreadView.m
 	* application/source/view/popup/CMXPopUpWindowController.m
 		とくにポップアップ内に表示されている抽出／フィルタリングされたレスなどに対して、コンテクストメニューの表示内容が

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.26 2007/09/04 07:45:43 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.27 2007/09/16 19:02:17 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -321,7 +321,7 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 #pragma mark NSDraggingSource
 - (BOOL)userWantsToMoveToTrash
 {
-	if (![self isFavorites]) return NO;
+	if (![self isFavorites]) return YES;
 
 	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 	[alert setAlertStyle:NSWarningAlertStyle];
