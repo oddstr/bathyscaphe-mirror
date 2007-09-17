@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-List.m,v 1.26 2007/09/04 07:45:43 tsawada2 Exp $
+  * $Id: CMRBrowser-List.m,v 1.27 2007/09/17 17:56:40 tsawada2 Exp $
   * 
   * CMRBrowser-List.m
   *
@@ -61,6 +61,7 @@
 	NSString	*boardName;
 	NSString	*sortColumnIdentifier_;
 	BOOL		isAscending_;
+	id			newColumnState;
 	
 	if (!threadList) return;
 	if (!force && [[[self currentThreadsList] boardListItem] isEqual: [threadList boardListItem]]) {
@@ -72,9 +73,12 @@
 	NSTableView *table = [self threadsListTable];
 	[table deselectAll : nil];
 	[table setDataSource : nil];
-	
-	[[self threadsListTable] restoreColumnState:[[BoardManager defaultManager] browserListColumnsForBoard:[threadList boardName]]];
-	[self updateTableColumnsMenu];
+
+	newColumnState = [[BoardManager defaultManager] browserListColumnsForBoard:[threadList boardName]];
+	if (newColumnState) {
+		[[self threadsListTable] restoreColumnState:newColumnState];
+		[self updateTableColumnsMenu];
+	}
 
 	[self setCurrentThreadsList : threadList];
 

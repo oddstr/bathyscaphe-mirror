@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-ViewAccessor.m,v 1.51 2007/09/04 07:45:43 tsawada2 Exp $
+  * $Id: CMRBrowser-ViewAccessor.m,v 1.52 2007/09/17 17:56:40 tsawada2 Exp $
   * 
   * CMRBrowser-ViewAccessor.m
   *
@@ -450,22 +450,6 @@
 }
 
 #pragma mark BoardList
-
-/*- (void) setupBoardListOutlineView : (NSOutlineView *) outlineView
-{
-    id		indentObj;
-	NSColor	*bgColor;
-    
-    [outlineView setRowHeight : [CMRPref boardListRowHeight]];
-
-    indentObj = SGTemplateResource(kBBSListIndentationPerLevelKey);
-    UTILAssertRespondsTo(indentObj, @selector(floatValue));
-    [outlineView setIndentationPerLevel : [indentObj floatValue]];
-
-    bgColor = [CMRPref boardListBackgroundColor];
-    if (bgColor != nil)
-		[outlineView setBackgroundColor : bgColor];
-}*/
 - (void)updateBoardListViewWithNeedingDisplay:(BOOL)display
 {
 	AppDefaults		*pref = CMRPref;
@@ -477,9 +461,9 @@
 		[boardListTable setBackgroundColor:bgColor];
 	}
 
-//	if (display) {
+	if (display) {
 		[boardListTable setNeedsDisplay:display];
-//	}
+	}
 }
 
 - (void) setupBoardListTableDefaults
@@ -509,7 +493,6 @@
 
 	[blt setIntercellSpacing: NSMakeSize(0, 1.0)];
 
-//    [self setupBoardListOutlineView : blt];
     id		indentObj;
     indentObj = SGTemplateResource(kBBSListIndentationPerLevelKey);
     UTILAssertRespondsTo(indentObj, @selector(floatValue));
@@ -517,47 +500,32 @@
 
 	[self updateBoardListViewWithNeedingDisplay:NO];
 }
-/*
-- (void) setupBoardListTableLastSelected
-{
-    NSString        *boardName;
-    
-	boardName = [CMRPref browserLastBoard];
-    if (nil == boardName) {
-        NSLog(@"Last Board Setting not found.");
-        return;
-    }
-    
-    [self showThreadsListWithBoardName : boardName];
-	[self selectRowWhoseNameIs : boardName];
-}
-*/
+
 - (void)selectLastBBS:(NSNotification *)aNotification
 {
-//    [self setupBoardListTableLastSelected];
 	NSString *lastBoard = [CMRPref browserLastBoard];
 	if (lastBoard) {
 		[self selectRowWhoseNameIs:lastBoard];
 	}
+
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:kSelectLastBBSNotification object:self];
 }
-- (void) setupBoardListTable
+
+- (void)setupBoardListTable
 {
     [self setupBoardListTableDefaults];
+
     // Since selecting board kick-start another thread,
     // we should run this task after application did finish
-    // launching.
+    // launching.    
+    NSNotification *notification = [NSNotification notificationWithName:kSelectLastBBSNotification object:self];
     
-    NSNotification *notification = [NSNotification notificationWithName : kSelectLastBBSNotification
-																 object : self];
-    
-    [[NSNotificationCenter defaultCenter] addObserver : self
-											 selector : @selector(selectLastBBS:)
-												 name : kSelectLastBBSNotification
-											   object : self];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(selectLastBBS:)
+												 name:kSelectLastBBSNotification
+											   object:self];
 
-    [[NSNotificationQueue defaultQueue] enqueueNotification : notification
-											   postingStyle : NSPostWhenIdle];
+    [[NSNotificationQueue defaultQueue] enqueueNotification:notification postingStyle:NSPostWhenIdle];
 }
 
 - (void) setUpBoardListToolButtons
@@ -587,12 +555,6 @@
 }
 
 #pragma mark Window, KeyLoop, and Search Menu
-
-/*- (void) setupStatusLine
-{
-    [super setupStatusLine];
-}*/
-
 - (void) setupFrameAutosaveName
 {
 	RBSplitView *mainSplitView_ = [[self boardListSubView] outermostSplitView];

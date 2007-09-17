@@ -1,4 +1,6 @@
 2007-09-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-List.m
+		スレッド一覧のテーブルカラムの状態の復帰時に問題が発生する可能性があった箇所を修正。
 	* application/source/browser/CMRThreadsList-DataSource.m
 		スレッド一覧からスレッドをゴミ箱にドラッグ＆ドロップしても削除されなくなっていた問題を修正。
 	* application/source/view/CMRThreadView.m
