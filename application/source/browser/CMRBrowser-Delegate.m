@@ -1,11 +1,12 @@
-/**
-  * $Id: CMRBrowser-Delegate.m,v 1.43 2007/09/07 17:34:39 tsawada2 Exp $
-  * 
-  * CMRBrowser-Delegate.m
-  *
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  CMRBrowser-Delegate.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/09/18.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import "CMRBrowser_p.h"
 #import "BoardManager.h"
 #import "missing.h"
@@ -14,15 +15,6 @@
 extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;
 
 @implementation CMRBrowser(Delegate)
-/*BOOL isCommandKeyDown(unsigned flag_)
-{
-	if (flag_ & NSCommandKeyMask) {
-		return YES;
-	} else {
-		return NO;
-	}
-}
-*/
 BOOL isOptionKeyDown(void)
 {
 	unsigned flag_ = [[NSApp currentEvent] modifierFlags];
@@ -34,48 +26,47 @@ BOOL isOptionKeyDown(void)
 }
 
 #pragma mark NSControl Delegate (SearchField)
-// added in RainbowJerk
-// ŒŸõƒtƒB[ƒ‹ƒh‚Å return ‚È‚Ç‚ð‰Ÿ‚µ‚½‚Æ‚«AƒtƒH[ƒJƒX‚ðƒXƒŒƒbƒhˆê——‚ÉˆÚ“®‚³‚¹‚é
-- (void) controlTextDidEndEditing : (NSNotification *) aNotification
+// Available in RainbowJerk and later.
+// æ¤œç´¢ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã§ return ãªã©ã‚’æŠ¼ã—ãŸã¨ãã€ãƒ•ã‚©ãƒ¼ã‚«ã‚¹ã‚’ã‚¹ãƒ¬ãƒƒãƒ‰ä¸€è¦§ã«ç§»å‹•ã•ã›ã‚‹
+- (void)controlTextDidEndEditing:(NSNotification *)aNotification
 {
 	if ([aNotification object] == [self searchField]) {
-		[[self window] makeFirstResponder : [self threadsListTable]];
+		[[self window] makeFirstResponder:[self threadsListTable]];
 	}
 }
 
 #pragma mark KFSplitView Delegate
-
-- (BOOL) splitView : (id) sender canCollapseSubview : (NSView *) subview
+- (BOOL)splitView:(id)sender canCollapseSubview:(NSView *)subview
 {
 	return (subview == bottomSubview);
 }
 
-- (void) splitView : (id) sender didDoubleClickInDivider : (int) index
+- (void)splitView:(id)sender didDoubleClickInDivider:(int)index
 {
-	BOOL currentState = [sender isSubviewCollapsed : bottomSubview];
-	[sender setSubview : bottomSubview isCollapsed : !currentState];
-	[sender resizeSubviewsWithOldSize : [sender frame].size];
+	BOOL currentState = [sender isSubviewCollapsed:bottomSubview];
+	[sender setSubview:bottomSubview isCollapsed:!currentState];
+	[sender resizeSubviewsWithOldSize:[sender frame].size];
 }
 
-- (void) splitViewDidCollapseSubview: (NSNotification *) notification
+- (void)splitViewDidCollapseSubview:(NSNotification *)notification
 {
-	[[self threadsListTable] setNextKeyView : [self searchField]];
+	[[self threadsListTable] setNextKeyView:[self searchField]];
 
-	[[[self indexingStepper] contentView] setHidden: YES];
-	[[[self indexingPopupper] contentView] setHidden: YES];
+	[[[self indexingStepper] contentView] setHidden:YES];
+	[[[self indexingPopupper] contentView] setHidden:YES];
 }
 
-- (void) splitViewDidExpandSubview: (NSNotification *) notification
+- (void)splitViewDidExpandSubview:(NSNotification *)notification
 {
-	[[self threadsListTable] setNextKeyView : [self textView]];
-	[[self textView] setNextKeyView : [[self indexingStepper] textField]];
-	[[[self indexingStepper] textField] setNextKeyView : [self searchField]];
+	[[self threadsListTable] setNextKeyView:[self textView]];
+	[[self textView] setNextKeyView:[[self indexingStepper] textField]];
+	[[[self indexingStepper] textField] setNextKeyView:[self searchField]];
 
-	[[[self indexingStepper] contentView] setHidden: NO];
-	[[[self indexingPopupper] contentView] setHidden: NO];
+	[[[self indexingStepper] contentView] setHidden:NO];
+	[[[self indexingPopupper] contentView] setHidden:NO];
 }
 
-- (void) splitView: (id) sender resizeSubviewsWithOldSize: (NSSize) oldSize
+- (void)splitView:(id)sender resizeSubviewsWithOldSize:(NSSize)oldSize
 {
     // It's our responsibility to set the frame rectangles of
     // all uncollapsed subviews.
@@ -219,7 +210,7 @@ BOOL isOptionKeyDown(void)
 
 - (void)outlineView:(NSOutlineView *)olv willDisplayCell:(NSCell *)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
-	// Ž©g‚Ìƒf[ƒ^ƒ\[ƒX‚ÉƒfƒŠƒQ[ƒgƒƒ\ƒbƒh‚ðˆ—‚³‚¹‚éi‚æ‚¤‚É‚µ‚Ä‚¢‚½‚ªA‚à‚¤‚»‚Ì•K—v‚Í‚È‚³‚»‚¤‚¾jB
+	// è‡ªèº«ã®ãƒ‡ãƒ¼ã‚¿ã‚½ãƒ¼ã‚¹ã«ãƒ‡ãƒªã‚²ãƒ¼ãƒˆãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‡¦ç†ã•ã›ã‚‹ï¼ˆã‚ˆã†ã«ã—ã¦ã„ãŸãŒã€ã‚‚ã†ãã®å¿…è¦ã¯ãªã•ãã†ã ï¼‰ã€‚
 //	[[olv dataSource] outlineView : olv willDisplayCell : cell forTableColumn : tableColumn item : item];
 	if ([[tableColumn identifier] isEqualToString:BoardPlistNameKey]) {
 		[cell setImage:[item icon]];
@@ -247,8 +238,7 @@ BOOL isOptionKeyDown(void)
 }
 
 #pragma mark NSTableView Delegate
-- (void)    tableView : (NSTableView   *) tableView
-  didClickTableColumn : (NSTableColumn *) tableColumn
+- (void)tableView:(NSTableView *)tableView didClickTableColumn:(NSTableColumn *)tableColumn
 {
 	NSString		*theId_;
 	NSString		*currentBoard_;
@@ -261,35 +251,35 @@ BOOL isOptionKeyDown(void)
 	currentBoard_ = [currentList_ boardName];
 	
 	// Sort:
-	// Mac OS•W€“Iƒ\[ƒg•ÏX (Finder‚ÌƒŠƒXƒg•\Ž¦ŽQÆ)
-	// ƒ\[ƒg‚ÌŒü‚«‚ÍŠeƒJƒ‰ƒ€‚²‚Æ‚É•Û‘¶‚³‚ê‚Ä‚¨‚èA
-	// ƒnƒCƒ‰ƒCƒg‚³‚ê‚Ä‚¢‚éƒJƒ‰ƒ€ƒwƒbƒ_‚ªƒNƒŠƒbƒN‚³‚ê‚½ŽžˆÈŠO‚ÍA
-	// •Û‘¶‚³‚ê‚Ä‚¢‚éŒü‚«‚Åƒ\[ƒg‚³‚ê‚éB
-	// Šù‚ÉƒnƒCƒ‰ƒCƒg‚³‚ê‚Ä‚¢‚éƒwƒbƒ_‚ðƒNƒŠƒbƒN‚µ‚½ê‡‚Í
-	// ¸‡^~‡‚ÌØ‚è‘Ö‚¦‚ÆŒ©‚È‚·B
+	// Mac OSæ¨™æº–çš„ã‚½ãƒ¼ãƒˆå¤‰æ›´ (Finderã®ãƒªã‚¹ãƒˆè¡¨ç¤ºå‚ç…§)
+	// ã‚½ãƒ¼ãƒˆã®å‘ãã¯å„ã‚«ãƒ©ãƒ ã”ã¨ã«ä¿å­˜ã•ã‚Œã¦ãŠã‚Šã€
+	// ãƒã‚¤ãƒ©ã‚¤ãƒˆã•ã‚Œã¦ã„ã‚‹ã‚«ãƒ©ãƒ ãƒ˜ãƒƒãƒ€ãŒã‚¯ãƒªãƒƒã‚¯ã•ã‚ŒãŸæ™‚ä»¥å¤–ã¯ã€
+	// ä¿å­˜ã•ã‚Œã¦ã„ã‚‹å‘ãã§ã‚½ãƒ¼ãƒˆã•ã‚Œã‚‹ã€‚
+	// æ—¢ã«ãƒã‚¤ãƒ©ã‚¤ãƒˆã•ã‚Œã¦ã„ã‚‹ãƒ˜ãƒƒãƒ€ã‚’ã‚¯ãƒªãƒƒã‚¯ã—ãŸå ´åˆã¯
+	// æ˜‡é †ï¼é™é †ã®åˆ‡ã‚Šæ›¿ãˆã¨è¦‹ãªã™ã€‚
 	if (tableColumn == [tableView highlightedTableColumn]) {
-		[currentList_ toggleIsAscendingForKey: theId_];
-		[bm_ setSortColumnIsAscending: [currentList_ isAscending] atBoard: currentBoard_];
+		[currentList_ toggleIsAscendingForKey:theId_];
+		[bm_ setSortColumnIsAscending:[currentList_ isAscending] atBoard:currentBoard_];
 	}
 		
-	// ŽÀÛ‚Ìƒ\[ƒg
-	// •Û‘¶‚³‚ê‚Ä‚¢‚éŒü‚«‚É–ß‚·B
-	[currentList_ setIsAscending: [currentList_ isAscendingForKey: theId_]];
-	[currentList_ sortByKey : theId_];
+	// å®Ÿéš›ã®ã‚½ãƒ¼ãƒˆ
+	// ä¿å­˜ã•ã‚Œã¦ã„ã‚‹å‘ãã«æˆ»ã™ã€‚
+	[currentList_ setIsAscending:[currentList_ isAscendingForKey:theId_]];
+	[currentList_ sortByKey:theId_];
 	
-	// ƒJƒ‰ƒ€ƒwƒbƒ_‚Ì•`‰æ‚ðXV
-	[self changeHighLightedTableColumnTo : theId_ isAscending : [currentList_ isAscending]];
+	// ã‚«ãƒ©ãƒ ãƒ˜ãƒƒãƒ€ã®æç”»ã‚’æ›´æ–°
+	[self changeHighLightedTableColumnTo:theId_ isAscending:[currentList_ isAscending]];
 
-	[bm_ setSortColumn: theId_ forBoard: currentBoard_];
-	[bm_ setSortDescriptors: [currentList_ sortDescriptors] forBoard: currentBoard_];
+	[bm_ setSortColumn:theId_ forBoard:currentBoard_];
+	[bm_ setSortDescriptors:[currentList_ sortDescriptors] forBoard:currentBoard_];
 
-	// option ƒL[‚ð‰Ÿ‚µ‚È‚ª‚çƒwƒbƒ_‚ðƒNƒŠƒbƒN‚µ‚½ê‡‚ÍA•ÏXŒã‚ÌÝ’è‚ð CMRPref ‚É•Û‘¶‚·‚éiƒOƒ[ƒoƒ‹‚ÈÝ’è‚Ì•ÏXjB
+	// option ã‚­ãƒ¼ã‚’æŠ¼ã—ãªãŒã‚‰ãƒ˜ãƒƒãƒ€ã‚’ã‚¯ãƒªãƒƒã‚¯ã—ãŸå ´åˆã¯ã€å¤‰æ›´å¾Œã®è¨­å®šã‚’ CMRPref ã«ä¿å­˜ã™ã‚‹ï¼ˆã‚°ãƒ­ãƒ¼ãƒãƒ«ãªè¨­å®šã®å¤‰æ›´ï¼‰ã€‚
 	if (isOptionKeyDown()) {
-		[CMRPref setBrowserSortColumnIdentifier : theId_];
-		[CMRPref setBrowserSortAscending : [currentList_ isAscending]];
+		[CMRPref setBrowserSortColumnIdentifier:theId_];
+		[CMRPref setBrowserSortAscending:[currentList_ isAscending]];
 	}
 
-	[self selectCurrentThreadWithMask : CMRAutoscrollWhenTLSort];
+	[self selectCurrentThreadWithMask:CMRAutoscrollWhenTLSort];
 	[tableView reloadData];
 }
 
@@ -318,20 +308,20 @@ BOOL isOptionKeyDown(void)
 	[self saveBrowserListColumnState:[aNotification object]];
 }
 
-// ‚»‚ÌƒZƒ‹‚Ì“à—e‚ªu...v‚ÅÈ—ª•\Ž¦‚³‚ê‚Ä‚¢‚é‚Ì‚©‚Ç‚¤‚©”»•Ê‚·‚é‚æ‚¢•û–@‚ª–³‚¢‚È‚Ÿ
-- (NSString *) tableView : (NSTableView *) aTableView
-		  toolTipForCell : (NSCell *) aCell
-					rect : (NSRectPointer) rect
-			 tableColumn : (NSTableColumn *) aTableColumn
-					 row : (int) row
-		   mouseLocation : (NSPoint) mouseLocation
+// ãã®ã‚»ãƒ«ã®å†…å®¹ãŒã€Œ...ã€ã§çœç•¥è¡¨ç¤ºã•ã‚Œã¦ã„ã‚‹ã®ã‹ã©ã†ã‹åˆ¤åˆ¥ã™ã‚‹ã‚ˆã„æ–¹æ³•ãŒç„¡ã„ãªã
+- (NSString *)tableView:(NSTableView *)aTableView
+		 toolTipForCell:(NSCell *)aCell
+				   rect:(NSRectPointer)rect
+			tableColumn:(NSTableColumn *)aTableColumn
+					row:(int)row
+		  mouseLocation:(NSPoint)mouseLocation
 {
 	static float dX = -1.0;
 	if (dX == -1.0) {
 		dX = ([aTableView intercellSpacing].width)*2;
 	}
 
-	if ([[aTableColumn identifier] isEqualToString : CMRThreadTitleKey]) {
+	if ([[aTableColumn identifier] isEqualToString:CMRThreadTitleKey]) {
 		NSAttributedString *attrStr_ = [aCell objectValue];
 		float cellWidth = [aTableColumn width] - dX;
 		if ([attrStr_ size].width > cellWidth) {
@@ -433,7 +423,7 @@ BOOL isOptionKeyDown(void)
 	[super removeFromNotificationCenter];
 }
 
-- (void) boardManagerUserListDidChange : (NSNotification *) notification;
+- (void)boardManagerUserListDidChange:(NSNotification *)notification;
 {
 	UTILAssertNotificationName(
 		notification,
