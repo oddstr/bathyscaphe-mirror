@@ -1,3 +1,7 @@
+2007-09-18 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Delegate.m
+	* application/source/preferences/AppDefaults-ThreadsList.m
+		スレッド一覧のテーブルカラムの状態の復帰時に問題が発生する可能性があった箇所を引き続き修正。
 2007-09-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-List.m
 		スレッド一覧のテーブルカラムの状態の復帰時に問題が発生する可能性があった箇所を修正。

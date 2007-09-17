@@ -83,10 +83,31 @@ static NSString *const AppDefaultsTLTableColumnStateKey = @"ThreadsListTable Col
 }*/
 
 #pragma mark ShortCircuit Additions
+static id AppDefaults_defaultBrowserListColumns(void)
+{
+	static NSArray *cachedDefaultArray = nil;
+	if (!cachedDefaultArray) {
+		cachedDefaultArray = [[NSArray alloc] initWithObjects:
+			[NSDictionary dictionaryWithObjectsAndKeys:@"Status",@"Identifier",[NSNumber numberWithFloat:18.0],@"Width",nil],
+			[NSDictionary dictionaryWithObjectsAndKeys:@"Number",@"Identifier",[NSNumber numberWithFloat:40.0],@"Width",nil],
+			[NSDictionary dictionaryWithObjectsAndKeys:@"Title",@"Identifier",[NSNumber numberWithFloat:251.0],@"Width",nil],
+			[NSDictionary dictionaryWithObjectsAndKeys:@"Count",@"Identifier",[NSNumber numberWithFloat:60.0],@"Width",nil],
+			[NSDictionary dictionaryWithObjectsAndKeys:@"NewCount",@"Identifier",[NSNumber numberWithFloat:60.0],@"Width",nil],
+			[NSDictionary dictionaryWithObjectsAndKeys:@"Updated Count",@"Identifier",[NSNumber numberWithFloat:60.0],@"Width",nil],
+			[NSDictionary dictionaryWithObjectsAndKeys:@"ModifiedDate",@"Identifier",[NSNumber numberWithFloat:100.0],@"Width",nil],
+			nil];
+	}
+	return cachedDefaultArray;
+}
 
 - (id) threadsListTableColumnState
 {
-	return [[self defaults] objectForKey : AppDefaultsTLTableColumnStateKey];
+	id storedValue = [[self defaults] objectForKey:AppDefaultsTLTableColumnStateKey];
+	if (storedValue) {
+		return storedValue;
+	} else {
+		return AppDefaults_defaultBrowserListColumns();
+	}
 }
 - (void) setThreadsListTableColumnState : (id) aColumnState
 {
