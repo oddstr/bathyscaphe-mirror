@@ -99,12 +99,13 @@
 	
 	UTILAssertNotificationName(notification, ThreadTextDownloaderInvalidPerticalContentsNotification);
 
-	downloader = [notification object];
+	downloader = [[notification object] retain];
 	UTILAssertKindOfClass(downloader, ThreadTextDownloader);
 
 	threadTitle = [downloader threadTitle];
 
 	[self removeFromNotificationCeterWithDownloader:downloader];
+//	NSLog(@"%i",[downloader retainCount]);
 
 	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 	[alert setAlertStyle:NSWarningAlertStyle];
@@ -119,7 +120,8 @@
 	[alert beginSheetModalForWindow:[self window]
 					  modalDelegate:self
 					 didEndSelector:@selector(threadInvalidParticalContentsSheetDidEnd:returnCode:contextInfo:)
-						contextInfo:[[downloader filePathToWrite] retain]];
+//						contextInfo:[[downloader filePathToWrite] retain]];
+						contextInfo:[downloader retain]];
 }
 
 - (void)informDatOchiWithTitleRulerIfNeeded
@@ -221,10 +223,17 @@
 
 - (void)threadInvalidParticalContentsSheetDidEnd:(NSAlert *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
-	NSString				*path;
+/*	NSString				*path;
 	
 	path = [(id)contextInfo autorelease];
-	UTILAssertKindOfClass(path, NSString);
+	UTILAssertKindOfClass(path, NSString);*/
+//	NSLog(@"%i",[(id)contextInfo retainCount]);
+
+	NSString				*path;
+	id	downloader;
+	downloader = (id)contextInfo;
+	UTILAssertKindOfClass(downloader, ThreadTextDownloader);
+	path = [downloader filePathToWrite];
 
 	switch (returnCode) {
 	case NSAlertFirstButtonReturn: // Delete and try again
@@ -244,6 +253,8 @@
 		UTILUnknownSwitchCase(returnCode);
 		break;
 	}
+//	NSLog(@"%i",[downloader retainCount]);
+	[downloader autorelease];
 }
 
 - (void) threadNotFoundSheetDidEnd:(NSAlert *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
