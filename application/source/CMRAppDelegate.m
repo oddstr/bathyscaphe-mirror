@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.36 2007/07/27 10:26:39 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.37 2007/10/06 21:12:32 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -11,6 +11,7 @@
 #import "CMRBrowser.h"
 #import "CMRThreadDocument.h"
 #import "TS2SoftwareUpdate.h"
+#import "CMRTrashbox.h"
 #import <SGAppKit/SGAppKit.h>
 
 @class CMRDocumentController;
@@ -480,5 +481,20 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 	
 	url_ = [NSURL URLWithString : urlstr_];	
 	[[CMROpenURLManager defaultManager] openLocation : url_];
+}
+
+- (void)handleRemoveFromDBCommand:(NSScriptCommand *)command
+{
+	NSString *filePath_ = [command directParameter];
+	if (!filePath_ || [filePath_ isEqualToString:@""]) return;
+
+	NSNumber *number = [NSNumber numberWithInt:noErr];
+	NSNotification *notification = [NSNotification notificationWithName:CMRTrashboxDidPerformNotification
+																 object:[CMRTrashbox trash]
+															   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:number, kAppTrashUserInfoStatusKey,
+																							[NSArray arrayWithObject:filePath_], kAppTrashUserInfoFilesKey,
+																							[NSNumber numberWithBool:YES], kAppTrashUserInfoAfterFetchKey,
+																							NULL]];
+	if (notification) [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 @end

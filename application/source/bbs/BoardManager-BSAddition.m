@@ -631,7 +631,7 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 	[[self noNameDict] setObject: dict forKey: newBoardName];
 	[[self noNameDict] removeObjectForKey: boardName];
 }
-
+/*
 - (id)browserListColumnsForBoard:(NSString *)boardName
 {
 	return [self valueForBoard:boardName key:NNDBrowserListColumnsKey defaultValue:[CMRPref threadsListTableColumnState]];
@@ -645,7 +645,7 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 		[self setValue:plist forKey:NNDBrowserListColumnsKey atBoard:boardName];
 	}
 }
-
+*/
 #pragma mark -
 
 - (NSString *) askUserAboutDefaultNoNameForBoard : (NSString *) boardName

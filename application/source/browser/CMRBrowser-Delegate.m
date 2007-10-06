@@ -285,15 +285,15 @@ BOOL isOptionKeyDown(void)
 
 - (void)saveBrowserListColumnState:(NSTableView *)targetTableView
 {
-	NSString *boardName = [[self currentThreadsList] boardName];
-	if (!boardName) return;
+//	NSString *boardName = [[self currentThreadsList] boardName];
+//	if (!boardName) return;
 
-	if (isOptionKeyDown()) {
+//	if (isOptionKeyDown()) {
 		[CMRPref setThreadsListTableColumnState:[targetTableView columnState]];
-		[[BoardManager defaultManager] setBrowserListColumns:nil forBoard:boardName]; // Remove Custom Settings.
-	} else {
-		[[BoardManager defaultManager] setBrowserListColumns:[targetTableView columnState] forBoard:boardName];
-	}
+//		[[BoardManager defaultManager] setBrowserListColumns:nil forBoard:boardName]; // Remove Custom Settings.
+//	} else {
+//		[[BoardManager defaultManager] setBrowserListColumns:[targetTableView columnState] forBoard:boardName];
+//	}
 }
 
 - (void)tableViewColumnDidMove:(NSNotification *)aNotification

@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.m,v 1.18 2007/07/27 10:26:39 tsawada2 Exp $
+  * $Id: Browser.m,v 1.19 2007/10/06 21:12:32 tsawada2 Exp $
   * BathyScaphe 
   *
   * Copyright 2005-2006 BathyScaphe Project.
@@ -14,6 +14,7 @@
 #import "CMRThreadsList.h"
 #import "CMRThreadAttributes.h"
 #import "BoardManager.h"
+#import "CMRReplyDocumentFileManager.h"
 
 
 @implementation Browser
@@ -130,14 +131,12 @@
 {
 	SEL action_ = [theItem action];
 
-	if(action_ == @selector(saveDocumentAs:)) {
+	if (action_ == @selector(saveDocumentAs:)) {
 		[theItem setTitle:NSLocalizedString(@"Save Menu Item Default", @"Save as...")];
 		return ([self threadAttributes] != nil);
-	} else if (action_ == @selector(toggleThreadsListViewMode:)) {
-		BOOL tmp = [CMRPref threadsListViewMode];
-		[theItem setTitle:(tmp == BSThreadsListShowsLiveThreads) ? NSLocalizedString(@"Switch to Log Mode", @"")
-																 : NSLocalizedString(@"Switch to Thread Mode", @"")];
-		return ([self currentThreadsList] != nil);
+	} else if (action_ == @selector(cleanupDatochiFiles:)) {
+//		return ([self currentThreadsList] != nil);
+		return [BoardListItem isBoardItem:[[self currentThreadsList] boardListItem]] && ![self searchString];
 	}
 	return [super validateMenuItem:theItem];
 }
@@ -189,6 +188,58 @@
 	newMode = ([pref threadsListViewMode] == BSThreadsListShowsLiveThreads) ? BSThreadsListShowsStoredLogFiles : BSThreadsListShowsLiveThreads;
 	[pref setThreadsListViewMode:newMode];
 	[[self currentThreadsList] setViewMode:newMode];
+}
+
+- (IBAction)cleanupDatochiFiles:(id)sender
+{
+	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	[alert setAlertStyle:NSCriticalAlertStyle];
+	[alert setMessageText:[NSString stringWithFormat:NSLocalizedStringFromTable(@"CleanupDatochiFilesAlert(BoardName %@)", @"ThreadsList", nil),
+													 [[self currentThreadsList] boardName]]];
+	[alert setInformativeText:NSLocalizedStringFromTable(@"CleanupDatochiFilesMessage", @"ThreadsList", nil)];
+	[alert addButtonWithTitle:NSLocalizedStringFromTable(@"DragDropTrashOK", @"ThreadsList", nil)];
+	[alert addButtonWithTitle:NSLocalizedStringFromTable(@"DragDropTrashCancel", @"ThreadsList", nil)];
+	[alert beginSheetModalForWindow:[self windowForSheet]
+					  modalDelegate:self
+					 didEndSelector:@selector(cleanupDatochiFilesAlertDidEnd:returnCode:contextInfo:)
+						contextInfo:NULL];
+}
+
+- (BOOL)removeDatochiFiles
+{
+	id threadsList = [self currentThreadsList];
+	if (!threadsList) return YES;
+
+	NSMutableArray	*array = [NSMutableArray array];
+
+	NSString *folderPath = [[CMRDocumentFileManager defaultManager] directoryWithBoardName:[threadsList boardName]];
+	NSDirectoryEnumerator *iter = [[NSFileManager defaultManager] enumeratorAtPath:folderPath];
+	CMRFavoritesManager *fm = [CMRFavoritesManager defaultManager];
+	NSString	*fileName, *filePath;
+	while (fileName = [iter nextObject]) {
+		if ([[fileName pathExtension] isEqualToString:@"thread"]) {
+			filePath = [folderPath stringByAppendingPathComponent:fileName];
+			if (![fm favoriteItemExistsOfThreadPath:filePath]) {
+				unsigned int index = [threadsList indexOfThreadWithPath:filePath];
+				if (index == NSNotFound) {
+	//				NSLog(@"%@", [filePath lastPathComponent]);
+					[array addObject:filePath];
+				}
+			}
+		}
+	}
+
+	if ([array count] == 0) return YES;
+
+	NSArray	*alsoReplyFiles_ = [[CMRReplyDocumentFileManager defaultManager] replyDocumentFilesArrayWithLogsArray:array];
+	return [[CMRTrashbox trash] performWithFiles:alsoReplyFiles_ fetchAfterDeletion:NO];
+}
+
+- (void)cleanupDatochiFilesAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+	if (returnCode == NSAlertFirstButtonReturn) {
+		[self removeDatochiFiles];
+	}
 }
 @end
 

@@ -22,7 +22,7 @@
 
 - (NSString *) threadPathWithBoardName : (NSString *) boardName
                          datIdentifier : (NSString *) datIdentifier;
-- (NSString *) threadsListPathWithBoardName : (NSString *) boardName;
+//- (NSString *) threadsListPathWithBoardName : (NSString *) boardName; // Deprecated.
 
 // Ç±ÇÃÇ÷ÇÒÅAÇ±ÇÃÉNÉâÉXÇ≤Ç∆Ç»Ç≠Ç»ÇÈó\íË
 - (SGFileRef *) ensureDirectoryExistsWithBoardName : (NSString *) boardName;

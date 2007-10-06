@@ -1,9 +1,34 @@
+2007-10-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/CMRAppDelegate.m
+	* application/Resources/BathyScaphe.scriptSuite
+	* application/Resources/BathyScaphe.scriptTerminology
+		AppleScript の新しい命令「remove from database」を追加した。
+		- パラメータに alias を取る。その alias に対応するスレッドの情報を BathyScaphe データベースから削除する。
+		- BathyScaphe 以外の手段で（Finder とか）ログファイルを捨てたとき、この命令を実行すればデータベースの内容にも反映できる、と。
+		- この命令は実際にログファイルを削除することはしないので注意すること（ログファイルを削除せず、この命令だけ実行することは良くない）。
+	* application/source/browser/Browser.m
+	* application/Resources/Japanese.lproj/ThreadsList.strings
+	* application/source/manager/CMRDocumentFileManager.m
+		dat 落ちしたスレッドのログファイルを一度にゴミ箱に入れる機能を追加した。
+		- 「掲示板」＞「dat 落ちしたスレッドのログを削除...」
+		- ただし、「お気に入り」に登録されているスレッドのログは除外される。
+		- dat 落ちしているかどうかは、単に「スレッド一覧に表示されているかどうか？」で判断される。このため、スレッド一覧で何か検索しているとき
+		　（フィルタリングされているとき）は、このメニュー項目は選択できないようになっている。また、スマート掲示板や「お気に入り」でも選択できない
+		　ようになっている。
+		- もちろん、対応する .cmreply ファイルもゴミ箱に移動する。
+		- Finder に戻って「編集」＞「xx 項目の移動を取り消し」すれば、一応取り消せる。
+	* application/source/browser/CMRBrowser-List.m
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/source/bbs/BoardManager-BSAddition.m
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		掲示板ごとにスレッド一覧のカラム状態を個別に設定する能力は、不安定なため 1.6 では搭載しないことにした。1.5 以前の仕様に復帰させた。
 2007-09-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadViewer-Download.m
 		あぼーんなどが発生した場合に表示される「削除して再取得」シートについて、シートの表示中やボタンをクリックした際に不意に
 		クラッシュする問題を修正。retain/release/autorelease 絡みの問題。
 	* application/Makefile
 		ターゲット名を Twincam Angel に変更したので Makefile もそのように修正。
+=================================================
 2007-09-18 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/CMRBrowser-Delegate.m
 	* application/source/preferences/AppDefaults-ThreadsList.m

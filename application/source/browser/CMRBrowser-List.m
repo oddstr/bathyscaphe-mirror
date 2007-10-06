@@ -1,11 +1,12 @@
-/**
-  * $Id: CMRBrowser-List.m,v 1.27 2007/09/17 17:56:40 tsawada2 Exp $
-  * 
-  * CMRBrowser-List.m
-  *
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  CMRBrowser-List.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/10/07.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import "CMRBrowser_p.h"
 #import "missing.h"
 #import "CMRHistoryManager.h"
@@ -13,124 +14,122 @@
 #import "BoardManager.h"
 
 @implementation CMRBrowser(List)
-- (void) changeThreadsFilteringMask : (int) aMask
+- (void)changeThreadsFilteringMask:(int)mask
 {
-	[[self document] changeThreadsFilteringMask : aMask];
+	[[self document] changeThreadsFilteringMask:mask];
 	[[self threadsListTable] reloadData];
 	[self synchronizeWindowTitleWithDocumentName];
 }
 
-- (BSDBThreadList *) currentThreadsList
+- (BSDBThreadList *)currentThreadsList
 {
 	return [[self document] currentThreadsList];
 }
-- (void) setCurrentThreadsList : (BSDBThreadList *) newList
+
+- (void)setCurrentThreadsList:(BSDBThreadList *)newList
 {
 	BSDBThreadList *oldList = [self currentThreadsList];
-	[self exchangeNotificationObserver : CMRThreadsListDidChangeNotification
-			selector : @selector(threadsListDidChange:)
-		 oldDelegate : oldList
-		 newDelegate : newList];
-	[self exchangeNotificationObserver : BSDBThreadListDidFinishUpdateNotification
-							  selector : @selector(reselectThreadIfNeeded:)
-						   oldDelegate : oldList
-						   newDelegate : newList];
-	
-	[[self threadsListTable] setDataSource : newList];
-	[[self document] setCurrentThreadsList : newList];
+	[self exchangeNotificationObserver:CMRThreadsListDidChangeNotification
+							  selector:@selector(threadsListDidChange:)
+		 				   oldDelegate:oldList
+		 				   newDelegate:newList];
+	[self exchangeNotificationObserver:BSDBThreadListDidFinishUpdateNotification
+							  selector:@selector(reselectThreadIfNeeded:)
+						   oldDelegate:oldList
+						   newDelegate:newList];
 
-//	[self clearSearchFilter];
-	[[self document] setSearchString: nil];
+	[[self threadsListTable] setDataSource:newList];
+	[[self document] setCurrentThreadsList:newList];
+	[[self document] setSearchString:nil];
 }
 
-- (void) boardChanged : (id) boardListItem
+- (void)boardChanged:(id)boardListItem
 {
 	NSString *name = [boardListItem representName];
-	// ì«Ç›çûÇ›ÇÃäÆóπÅAê›íËÇ…ï€ë∂
-	// óöóÇ…ìoò^ÇµÇƒÇ©ÇÁÅAïœçXÇÃí ím
-	[CMRPref setBrowserLastBoard : name];
-	[[CMRHistoryManager defaultManager]
-		addItemWithTitle : name
-					type : CMRHistoryBoardEntryType
-				  object : boardListItem];
+	// Ë™≠„ÅøËæº„Åø„ÅÆÂÆå‰∫Ü„ÄÅË®≠ÂÆö„Å´‰øùÂ≠ò
+	// Â±•Ê≠¥„Å´ÁôªÈå≤„Åó„Å¶„Åã„Çâ„ÄÅÂ§âÊõ¥„ÅÆÈÄöÁü•
+	[CMRPref setBrowserLastBoard:name];
+	[[CMRHistoryManager defaultManager] addItemWithTitle:name type:CMRHistoryBoardEntryType object:boardListItem];
 
 	UTILNotifyName(CMRBrowserDidChangeBoardNotification);
 }
-- (void) showThreadList:(id)threadList forceReload: (BOOL) force
+
+- (void)showThreadList:(id)threadList forceReload:(BOOL)force
 {
 	NSString	*boardName;
 	NSString	*sortColumnIdentifier_;
 	BOOL		isAscending_;
-	id			newColumnState;
+//	id			newColumnState;
 	
 	if (!threadList) return;
-	if (!force && [[[self currentThreadsList] boardListItem] isEqual: [threadList boardListItem]]) {
-		// 2006-08-19 Åuåfé¶î¬Çï\é¶ÅvèàóùÇÃä÷åWè„Ç±ÇÃí ímÇÇ±Ç±Ç≈î≠çsÇµÇƒÇ®Ç≠
+	if (!force && [[[self currentThreadsList] boardListItem] isEqual:[threadList boardListItem]]) {
+		// 2006-08-19 „ÄåÊé≤Á§∫Êùø„ÇíË°®Á§∫„ÄçÂá¶ÁêÜ„ÅÆÈñ¢‰øÇ‰∏ä„Åì„ÅÆÈÄöÁü•„Çí„Åì„Åì„ÅßÁô∫Ë°å„Åó„Å¶„Åä„Åè
 		UTILNotifyName(CMRBrowserThListUpdateDelegateTaskDidFinishNotification);
 		return;
 	}
 
 	NSTableView *table = [self threadsListTable];
-	[table deselectAll : nil];
-	[table setDataSource : nil];
-
+	[table deselectAll:nil];
+	[table setDataSource:nil];
+/*
 	newColumnState = [[BoardManager defaultManager] browserListColumnsForBoard:[threadList boardName]];
 	if (newColumnState) {
 		[[self threadsListTable] restoreColumnState:newColumnState];
 		[self updateTableColumnsMenu];
 	}
-
-	[self setCurrentThreadsList : threadList];
+*/
+	[self setCurrentThreadsList:threadList];
 
 	// sort column change
 	boardName = [threadList boardName];
 	sortColumnIdentifier_ = [[BoardManager defaultManager] sortColumnForBoard: boardName];
-	isAscending_ = [threadList isAscendingForKey: sortColumnIdentifier_];
-	[self changeHighLightedTableColumnTo : sortColumnIdentifier_ isAscending : isAscending_];
-	
+	isAscending_ = [threadList isAscendingForKey:sortColumnIdentifier_];
+	[self changeHighLightedTableColumnTo:sortColumnIdentifier_ isAscending:isAscending_];
+
 	[self synchronizeWindowTitleWithDocumentName];
-	[[self window] makeFirstResponder: table];
+	[[self window] makeFirstResponder:table];
 	
-	// ÉäÉXÉgÇÃì«Ç›çûÇ›ÇäJénÇ∑ÇÈÅB
-	[threadList startLoadingThreadsList : [self threadLayout]];
-	[self boardChanged : [threadList boardListItem]];
-}
-- (void) showThreadsListWithBoardName : (NSString *) boardName
-{
-	[self showThreadList:[BSDBThreadList threadsListWithBBSName : boardName] forceReload: NO];
+	// „É™„Çπ„Éà„ÅÆË™≠„ÅøËæº„Åø„ÇíÈñãÂßã„Åô„Çã„ÄÇ
+	[threadList startLoadingThreadsList:[self threadLayout]];
+	[self boardChanged:[threadList boardListItem]];
 }
 
-- (void) showThreadsListForBoard : (id) board;
+- (void)showThreadsListWithBoardName:(NSString *)boardName
 {
-	[self showThreadList:[BSDBThreadList threadListWithBoardListItem : board] forceReload: NO];
-}
-- (void) showThreadsListForBoard : (id) board forceReload: (BOOL) force;
-{
-	[self showThreadList:[BSDBThreadList threadListWithBoardListItem : board] forceReload: force];
+	[self showThreadList:[BSDBThreadList threadsListWithBBSName:boardName] forceReload:NO];
 }
 
-- (unsigned) selectRowWithThreadPath : (NSString *) filepath
-                byExtendingSelection : (BOOL ) flag
-					 scrollToVisible : (BOOL ) scroll
+- (void)showThreadsListForBoard:(id)board
 {
-	unsigned index_ = [self selectRowWithThreadPath : filepath byExtendingSelection : flag];
-	if (scroll && (index_ != NSNotFound))
-		[[self threadsListTable] scrollRowToVisible : index_];
-	
+	[self showThreadList:[BSDBThreadList threadListWithBoardListItem:board] forceReload:NO];
+}
+
+- (void)showThreadsListForBoard:(id)board forceReload:(BOOL)force
+{
+	[self showThreadList:[BSDBThreadList threadListWithBoardListItem:board] forceReload:force];
+}
+
+- (unsigned)selectRowWithThreadPath:(NSString *)filepath
+               byExtendingSelection:(BOOL)flag
+					scrollToVisible:(BOOL)scroll
+{
+	unsigned index_ = [self selectRowWithThreadPath:filepath byExtendingSelection:flag];
+	if (scroll && (index_ != NSNotFound)) {
+		[[self threadsListTable] scrollRowToVisible:index_];
+	}
 	return index_;
 }
 @end
 
 
-
 @implementation CMRBrowser(Table)
 static NSImage *fnc_indicatorImageWithDirection(BOOL isAscending)
 {
-	return isAscending ? [NSImage imageNamed : @"NSAscendingSortIndicator"]
-					   : [NSImage imageNamed : @"NSDescendingSortIndicator"]; 
+	return isAscending ? [NSImage imageNamed:@"NSAscendingSortIndicator"]
+					   : [NSImage imageNamed:@"NSDescendingSortIndicator"]; 
 }
 
-- (void) changeHighLightedTableColumnTo : (NSString *) columnIdentifier_ isAscending : (BOOL) TorF
+- (void)changeHighLightedTableColumnTo:(NSString *)columnIdentifier_ isAscending:(BOOL)TorF
 {
 	NSTableView		*tableView_;
 	NSTableColumn	*newColumn_;
@@ -139,45 +138,44 @@ static NSImage *fnc_indicatorImageWithDirection(BOOL isAscending)
 		
 	tableView_ = [self threadsListTable];
 	oldColumn_ = [tableView_ highlightedTableColumn];
-	newColumn_ = [tableView_ tableColumnWithIdentifier : columnIdentifier_];
+	newColumn_ = [tableView_ tableColumnWithIdentifier:columnIdentifier_];
 	image_ = fnc_indicatorImageWithDirection(TorF);
 
-	if(oldColumn_ != nil && newColumn_ != oldColumn_ ) {
-		[tableView_ setIndicatorImage : nil
-						inTableColumn : oldColumn_];
+	if (oldColumn_ && (newColumn_ != oldColumn_)) {
+		[tableView_ setIndicatorImage:nil inTableColumn:oldColumn_];
 	}
 
-	if(newColumn_ != nil) {
-		[tableView_ setIndicatorImage : image_ inTableColumn : newColumn_]; 
-		[tableView_ setHighlightedTableColumn : newColumn_];
+	if (newColumn_) {
+		[tableView_ setIndicatorImage:image_ inTableColumn:newColumn_]; 
+		[tableView_ setHighlightedTableColumn:newColumn_];
 	}
 }
 
 /**
-  * åªç›ÅAï\é¶ÇµÇƒÇ¢ÇÈÉXÉåÉbÉhÇçƒëIëÅB
-  * à¯êîmaskÇ…ê›íËÇµÇΩílÇ™èâä˙ê›íËÇ≈ê›íËÇ≥ÇÍÇƒÇ¢Ç»ÇØÇÍÇŒëIëÇµÇƒÇ‡ÅA
-  * é©ìÆÉXÉNÉçÅ[ÉãÇµÇ»Ç¢ÅB
+  * ÁèæÂú®„ÄÅË°®Á§∫„Åó„Å¶„ÅÑ„Çã„Çπ„É¨„ÉÉ„Éâ„ÇíÂÜçÈÅ∏Êäû„ÄÇ
+  * ÂºïÊï∞mask„Å´Ë®≠ÂÆö„Åó„ÅüÂÄ§„ÅåÂàùÊúüË®≠ÂÆö„ÅßË®≠ÂÆö„Åï„Çå„Å¶„ÅÑ„Å™„Åë„Çå„Å∞ÈÅ∏Êäû„Åó„Å¶„ÇÇ„ÄÅ
+  * Ëá™Âãï„Çπ„ÇØ„É≠„Éº„É´„Åó„Å™„ÅÑ„ÄÇ
   *
-  * @param    mask  ÇªÇÃÇ∆Ç´ÇÃèÛãµ
+  * @param    mask  „Åù„ÅÆ„Å®„Åç„ÅÆÁä∂Ê≥Å
+  *
   */
-- (unsigned) selectCurrentThreadWithMask : (int) mask
+- (unsigned)selectCurrentThreadWithMask:(int)mask
 {
 	int			pref_  = [CMRPref threadsListAutoscrollMask];
 	unsigned	index_ = [self selectRowWithCurrentThread];
 	
-	if((pref_ & mask) > 0 && index_ != NSNotFound)
-		[[self threadsListTable] scrollRowToVisible : index_];
-	
+	if((pref_ & mask) > 0 && index_ != NSNotFound) {
+		[[self threadsListTable] scrollRowToVisible:index_];
+	}
 	return index_;
 }
 
-- (unsigned) selectRowWithCurrentThread
+- (unsigned)selectRowWithCurrentThread
 {
-	return [self selectRowWithThreadPath : [self path]
-			 		byExtendingSelection : NO];
+	return [self selectRowWithThreadPath:[self path] byExtendingSelection:NO];
 }
-- (unsigned) selectRowWithThreadPath : (NSString *) filepath
-                byExtendingSelection : (BOOL      ) flag
+
+- (unsigned)selectRowWithThreadPath:(NSString *)filepath byExtendingSelection:(BOOL)flag
 {
 	BSDBThreadList	*tlist_ = [self currentThreadsList];
 	NSTableView		*tview_ = [self threadsListTable];
@@ -185,18 +183,15 @@ static NSImage *fnc_indicatorImageWithDirection(BOOL isAscending)
 	unsigned int	index_;
 	int				selected_;
 	
-	if(nil == filepath || nil == tlist_) 
-		return NSNotFound;
+	if(!filepath || !tlist_) return NSNotFound;
 	
 	selected_ = [tview_ selectedRow];
-	index_ = [tlist_ indexOfThreadWithPath : filepath];
+	index_ = [tlist_ indexOfThreadWithPath:filepath];
 	
-	// Ç∑Ç≈Ç…ëIëçœÇ›
-	if(NSNotFound == index_ || (selected_ != -1 && index_ == (unsigned)selected_))
-		return index_;
+	// „Åô„Åß„Å´ÈÅ∏ÊäûÊ∏à„Åø
+	if(NSNotFound == index_ || (selected_ != -1 && index_ == (unsigned)selected_)) return index_;
 
-	// Mac OS X 10.3 à»ç~Ç≈ÇÕ NSIndexSet ÇégÇ§
-	indexes_ = [NSIndexSet indexSetWithIndex : index_];
+	indexes_ = [NSIndexSet indexSetWithIndex:index_];
 	[tview_ selectRowIndexes:indexes_ byExtendingSelection:NO];
 
 	return index_;

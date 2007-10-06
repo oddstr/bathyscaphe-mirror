@@ -15,7 +15,7 @@
 "Cancel" = "OK";
 "%@ are not added to your Boards List." = "同じ名前の掲示板を重複して登録することはできません。よって、%@ は掲示板リストに追加できませんでした。";
 
-"DragDropTrashAlert" = "ゴミ箱にドラッグしたスレッドのログを削除してもよろしいですか？";
+"DragDropTrashAlert" = "ゴミ箱にドラッグしたスレッドのログファイルを削除してもよろしいですか？";
 "DragDropTrashMessage" = "“お気に入り” からゴミ箱にドラッグした場合、そのスレッドが “お気に入り” から削除されるだけでなく、ログファイルもゴミ箱に移動されます。";
 "DragDropTrashOK" = "OK";
 "DragDropTrashCancel" = "キャンセル";
@@ -31,3 +31,7 @@
 
 "Updating Thread(%@)" = "“%@” のスレッド一覧を更新中";
 "Update threads list. %@" = "“%@” のスレッド一覧を更新中";
+
+/* Browser */
+"CleanupDatochiFilesAlert(BoardName %@)" = "掲示板 “%@” の dat 落ちしたスレッドのログファイルをゴミ箱に移動してもよろしいですか？";
+"CleanupDatochiFilesMessage" = "スレッド一覧に無いスレッドはすべて dat 落ちしたものと見なします。“お気に入り” に登録されているスレッドのログファイルは削除されません。";

@@ -183,6 +183,20 @@
 			<key>Name</key>
 			<string>reload thread</string>
 		</dict>
+		<key>removeFromDB</key>
+		<dict>
+			<key>Description</key>
+			<string>Remove any information of the thread from BathyScaphe's database, but this command does NOT delete the log file.</string>
+			<key>IsVerb</key>
+			<string>YES</string>
+			<key>Name</key>
+			<string>remove from database</string>
+			<key>UnnamedArgument</key>
+			<dict>
+				<key>Description</key>
+				<string>file to remove information</string>
+			</dict>
+		</dict>
 	</dict>
 	<key>Description</key>
 	<string>BathyScaphe specific classes.</string>

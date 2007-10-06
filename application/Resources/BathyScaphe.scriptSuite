@@ -172,6 +172,8 @@
 			<dict>
 				<key>BathyScaphe.openURL</key>
 				<string>handleOpenURLCommand:</string>
+				<key>BathyScaphe.removeFromDB</key>
+				<string>handleRemoveFromDBCommand:</string>
 			</dict>
 		</dict>
 	</dict>
@@ -213,6 +215,20 @@
 			<string>relt</string>
 			<key>CommandClass</key>
 			<string>NSScriptCommand</string>
+		</dict>
+		<key>removeFromDB</key>
+		<dict>
+			<key>AppleEventClassCode</key>
+			<string>BaSc</string>
+			<key>AppleEventCode</key>
+			<string>rmDB</string>
+			<key>CommandClass</key>
+			<string>NSScriptCommand</string>
+			<key>UnnamedArgument</key>
+			<dict>
+				<key>Type</key>
+				<string>NSString&lt;FilePath&gt;</string>
+			</dict>
 		</dict>
 	</dict>
 	<key>Name</key>

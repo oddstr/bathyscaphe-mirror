@@ -64,11 +64,11 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 
 
-- (NSString *) threadsListPathWithBoardName : (NSString *) boardName
+/*- (NSString *) threadsListPathWithBoardName : (NSString *) boardName
 {
 	return [[self directoryWithBoardName : boardName] 
 			   stringByAppendingPathComponent : CMRThreadsListPlistFileName];
-}
+}*/
 
 - (SGFileRef *) ensureDirectoryExistsWithBoardName : (NSString *) boardName
 {

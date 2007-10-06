@@ -42,6 +42,7 @@
                 biggerText = id; 
                 cancelCurrentTask = id; 
                 changeBrowserArrangement = id; 
+                cleanupDatochiFiles = id; 
                 clearMessageAttributes = id; 
                 collapseOrExpandBoardList = id; 
                 collapseOrExpandThreadViewer = id; 
@@ -92,7 +93,6 @@
                 toggleAAThread = id; 
                 toggleDatOchiThread = id; 
                 toggleMarkedThread = id; 
-                toggleThreadsListViewMode = id; 
             }; 
             CLASS = FirstResponder; 
             LANGUAGE = ObjC; 

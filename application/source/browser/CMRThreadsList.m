@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.m,v 1.20 2007/09/04 07:45:43 tsawada2 Exp $
+  * $Id: CMRThreadsList.m,v 1.21 2007/10/06 21:12:32 tsawada2 Exp $
   * 
   * CMRThreadsList.m
   *
@@ -235,7 +235,9 @@ NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserIn
 - (NSString *) threadsListPath
 {
 	//return [[self BBSSignature] threadsListPlistPath];
-	return [[CMRDocumentFileManager defaultManager] threadsListPathWithBoardName : [self boardName]];
+//	return [[CMRDocumentFileManager defaultManager] threadsListPathWithBoardName : [self boardName]];
+	NSLog(@"WARNING! CMRThreadsList's -threadsListPath has been deprecated.");
+	return nil;
 }
 - (NSURL *) boardURL
 {

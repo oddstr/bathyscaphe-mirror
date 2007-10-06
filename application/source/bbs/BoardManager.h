@@ -131,9 +131,9 @@
 // Available in LittleWish and later.
 - (NSImage *)iconForBoard:(NSString *)boardName; // Read Only
 
-// Available in Twincam Angel and later.
-- (id)browserListColumnsForBoard:(NSString *)boardName;
-- (void)setBrowserListColumns:(id)plist forBoard:(NSString *)boardName;
+// Available in Twincam Angel and later. まぼろし
+//- (id)browserListColumnsForBoard:(NSString *)boardName;
+//- (void)setBrowserListColumns:(id)plist forBoard:(NSString *)boardName;
 @end
 
 // Available in MeteorSweeper and later.

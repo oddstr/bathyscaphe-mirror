@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.h,v 1.4 2007/07/27 10:26:39 tsawada2 Exp $
+  * $Id: Browser.h,v 1.5 2007/10/06 21:12:32 tsawada2 Exp $
   * 
   * Browser.h
   *
@@ -39,6 +39,7 @@
 - (BOOL) searchThreadsInListWithCurrentSearchString;
 
 - (IBAction)toggleThreadsListViewMode:(id)sender;
+- (IBAction)cleanupDatochiFiles:(id)sender;
 @end
 
 /* for AppleScript */

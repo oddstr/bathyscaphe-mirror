@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-BLEditor.m,v 1.19 2007/09/04 07:45:43 tsawada2 Exp $
+ * $Id: CMRBrowser-BLEditor.m,v 1.20 2007/10/06 21:12:32 tsawada2 Exp $
  * BathyScaphe
  * CMRBrowser-Action.m, CMRBrowser-ViewAccessor.m から分割
  *
@@ -25,7 +25,7 @@ static NSString *const kRemoveDrawerItemMsgKey		= @"Browser Del Board Items Mess
 	//
 	if(item) {
 		int rowIndex;
-		id selectedItem;
+//		id selectedItem;
 		id userList = [[BoardManager defaultManager] userList];
 		
 		rowIndex = [[self boardListTable] selectedRow];
