@@ -29,11 +29,12 @@ NSString *const ThreadsListDownloaderShouldRetryUpdateNotification = @"ThreadsLi
 {
 	return [[[[self class] alloc] initWithThreadList:list forceDownload:forceDownload] autorelease];
 }
+
 - (id)initWithThreadList:(BSDBThreadList *)list forceDownload:(BOOL)forceDownload
 {
 	if(self = [super init]) {
-		targetList = list; //[list retain];
-		forceDL = forceDownload;
+		m_targetList = list; //[list retain];
+		m_forceDL = forceDownload;
 		[self setBoardName:[list boardName]];
 		
 		if(![self boardName]) goto fail;
@@ -52,7 +53,8 @@ fail:
 	[targetURL release];
 	[dlTask release];
 	[dbupTask release];
-	[downloadData release];
+	[m_downloadData release];
+	[m_downloadError release];
 	[bbsName release];
 	
 	[super dealloc];
@@ -65,23 +67,25 @@ fail:
 	targetURL = [url retain];
 	[temp release];
 }
+
 - (NSURL *)url
 {
 	return targetURL;
 }
+
 - (void)setBoardName:(NSString *)name
 {
 	id u = [[BoardManager defaultManager] URLForBoardName:name];
-	u = [NSURL URLWithString : CMRAppSubjectTextFileName
-			   relativeToURL : u];
-	if(!u) return;
-	
+	u = [NSURL URLWithString:CMRAppSubjectTextFileName relativeToURL:u];
+	if (!u) return;
+
 	id temp = bbsName;
 	bbsName = [name retain];
 	[temp release];
 	
 	[self setURL:u];
 }
+
 - (NSString *)boardName
 {
 	return bbsName;
@@ -93,24 +97,25 @@ fail:
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	
 	dlTask = [[BSDownloadTask alloc] initWithURL:[self url]];
+
 	[nc addObserver:self
-		   selector:@selector(dlDidFinishDownlocadNotification:)
+		   selector:@selector(dlDidFinishDownloadNotification:)
 			   name:BSDownloadTaskFinishDownloadNotification
 			 object:dlTask];
 	[nc addObserver:self
-		   selector:@selector(dlAbortDownlocadNotification:)
+		   selector:@selector(dlAbortDownloadNotification:)
 			   name:BSDownloadTaskInternalErrorNotification
 			 object:dlTask];
 	[nc addObserver:self
-		   selector:@selector(dlAbortDownlocadNotification:)
+		   selector:@selector(dlAbortDownloadNotification:)
 			   name:BSDownloadTaskAbortDownloadNotification
 			 object:dlTask];
 	[nc addObserver:self
-		   selector:@selector(dlDidFinishDownlocadNotification:)
+		   selector:@selector(dlDidFailDownloadNotification:)
 			   name:BSDownloadTaskFailDownloadNotification
 			 object:dlTask];
 	[nc addObserver:self
-		   selector:@selector(dlCancelDownlocadNotification:)
+		   selector:@selector(dlCancelDownloadNotification:)
 			   name:BSDownloadTaskCanceledNotification
 			 object:dlTask];
 	
@@ -126,27 +131,55 @@ fail:
 		NSString *message = [NSString stringWithFormat:
 			NSLocalizedStringFromTable(APP_TLIST_NOT_FOUND_MSG_FMT, @"ThreadsList", nil),
 			[targetURL absoluteString]];
+
+		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+		[alert setAlertStyle:NSWarningAlertStyle];
+		[alert setMessageText:NSLocalizedStringFromTable(APP_TLIST_NOT_FOUND_TITLE, @"ThreadsList", nil)];
+		[alert setInformativeText:message];
 		
+		[alert addButtonWithTitle:@"OK"];
+
 		NSBeep();
-		NSRunAlertPanel(
-						NSLocalizedStringFromTable(APP_TLIST_NOT_FOUND_TITLE, @"ThreadsList", nil),
-						message,
-						nil,
-						nil,
-						nil);
+		[alert runModal];
 	}
 }
+
 - (void)tryToDetectMovedBoard
 {
 	[self performSelectorOnMainThread:@selector(tryToDetectMovedBoardOnMainThread:)
 						   withObject:nil
 						waitUntilDone:NO];
 }
+
+- (void)showDownloadErrorAlert
+{
+	[self performSelectorOnMainThread:@selector(showDownloadErrorAlertOnMainThread) withObject:nil waitUntilDone:NO];
+}
+
+- (void)showDownloadErrorAlertOnMainThread
+{
+	UTILAssertNotNil(m_downloadError);
+
+	NSString *message = [NSString stringWithFormat:
+		NSLocalizedStringFromTable(APP_TLIST_NOT_FOUND_MSG_FMT, @"ThreadsList", nil),
+		[targetURL absoluteString]];
+
+	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	[alert setAlertStyle:NSWarningAlertStyle];
+	[alert setMessageText:[m_downloadError localizedDescription]];
+	[alert setInformativeText:message];
+	
+	[alert addButtonWithTitle:@"OK"];
+
+	NSBeep();
+	[alert runModal];
+}
+
 #pragma mark-
 - (void) doExecuteWithLayout : (CMRThreadLayout *) layout
 {
 	[self checkIsInterrupted];
-	if([CMRPref isOnlineMode] || forceDL) {
+	if([CMRPref isOnlineMode] || m_forceDL) {
 		dlTask = [self makeDownloadTask];
 		[dlTask run];
 		
@@ -155,9 +188,9 @@ fail:
 		[temp release];
 		
 		[self checkIsInterrupted];
-		if(downloadData && [downloadData length] != 0) {
+		if(m_downloadData && [m_downloadData length] != 0) {
 			dbupTask = [[BSDBThreadsListDBUpdateTask2 alloc] initWithBBSName:bbsName
-																		data:downloadData];
+																		data:m_downloadData];
 			[[NSNotificationCenter defaultCenter] addObserver:self
 													 selector:@selector(dbloadDidFinishUpdateDBNotification:)
 														 name:BSDBThreadsListDBUpdateTask2DidFinishNotification
@@ -165,32 +198,44 @@ fail:
 			[dbupTask run];
 			
 			[self checkIsInterrupted];
+		} else if (m_downloadError) {
+			[self showDownloadErrorAlert];
 		} else {
 			[self tryToDetectMovedBoard];
 		}
 	}
 	
-	[targetList updateCursor];
+	[m_targetList updateCursor];
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void) finalizeWhenInterrupted
 {
+	[m_targetList updateCursor];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 	
-- (void)dlDidFinishDownlocadNotification:(id)notification
+- (void)dlDidFinishDownloadNotification:(id)notification
 {
-	downloadData = [[[notification object] receivedData] retain];
+	m_downloadData = [[[notification object] receivedData] retain];
 }
--(void)dlCancelDownlocadNotification:(id)notification
+
+- (void)dlDidFailDownloadNotification:(NSNotification *)notification
+{
+	UTILAssertNotNil([notification userInfo]);
+	UTILAssertKindOfClass([notification userInfo], NSError);
+
+	m_downloadError = [[notification userInfo] retain];
+}
+
+-(void)dlCancelDownloadNotification:(id)notification
 {
 	[self setIsInterrupted:YES];
 }
--(void)dlAbortDownlocadNotification:(id)notification
+-(void)dlAbortDownloadNotification:(id)notification
 {
-	downloadData = nil;
+	m_downloadData = nil;
 }
 - (void)dbloadDidFinishUpdateDBNotification:(id)notification
 {
@@ -216,7 +261,7 @@ fail:
 -(IBAction)cancel:(id)sender
 {
 	[dlTask cancel:self];
-	targetList = nil;
+	m_targetList = nil;
 	
 	[super cancel:sender];
 }

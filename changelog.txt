@@ -1,3 +1,12 @@
+2007-10-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/bbs/BoardListItem/BoardListItem.m
+		サーバ移転検知機能が、まれに hoge.u.la ホストへのサーバ移転であると誤認識してしまう問題を修正。
+	* application/source/browser/BSDownloadTask.m
+	* application/source/browser/BSThreadsListOPTask.m
+	* application/Resources/Japanese.lproj/ThreadsList.strings
+		スレッド一覧のダウンロード時に、
+		- NSURLConnection のエラーで失敗した時のアラートを改良し、エラーの内容を分かりやすくした。
+		- ダウンロード中に「中止」したときに、スレッド一覧が真っ白になってしまう問題を修正した。
 2007-10-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/CMRAppDelegate.m
 	* application/Resources/BathyScaphe.scriptSuite
@@ -16,7 +25,6 @@
 		　（フィルタリングされているとき）は、このメニュー項目は選択できないようになっている。また、スマート掲示板や「お気に入り」でも選択できない
 		　ようになっている。
 		- もちろん、対応する .cmreply ファイルもゴミ箱に移動する。
-		- Finder に戻って「編集」＞「xx 項目の移動を取り消し」すれば、一応取り消せる。
 	* application/source/browser/CMRBrowser-List.m
 	* application/source/browser/CMRBrowser-ViewAccessor.m
 	* application/source/bbs/BoardManager-BSAddition.m

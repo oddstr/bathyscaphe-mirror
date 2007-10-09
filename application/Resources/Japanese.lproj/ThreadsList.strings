@@ -1,5 +1,5 @@
 "Not Found"		= "そんな板 or スレッドないです。";
-"Not Found %@"	= "スレッド一覧のダウンロードに失敗しました。%@";
+"Not Found %@"	= "%@ をダウンロードできませんでした。";
 
 "Board Info Format" = "%u 件のスレッド";
 "Favorite Info Format" = "%u 件のお気に入り";
@@ -33,5 +33,5 @@
 "Update threads list. %@" = "“%@” のスレッド一覧を更新中";
 
 /* Browser */
-"CleanupDatochiFilesAlert(BoardName %@)" = "掲示板 “%@” の dat 落ちしたスレッドのログファイルをゴミ箱に移動してもよろしいですか？";
-"CleanupDatochiFilesMessage" = "スレッド一覧に無いスレッドはすべて dat 落ちしたものと見なします。“お気に入り” に登録されているスレッドのログファイルは削除されません。";
+"CleanupDatochiFilesAlert(BoardName %@)" = "掲示板 “%@” の dat 落ちしたスレッドのログファイルを、ゴミ箱に移動してもよろしいですか？";
+"CleanupDatochiFilesMessage" = "スレッド一覧に無いスレッドはすべて dat 落ちしたものと見なします。ただし、“お気に入り” に登録されているスレッドのログファイルは削除されません。";

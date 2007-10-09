@@ -19,11 +19,11 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 
 
 @implementation BSDownloadTask
-
 + (id)taskWithURL:(NSURL *)url
 {
 	return [[[self alloc] initWithURL:url] autorelease];
 }
+
 - (id) initWithURL:(NSURL *)url
 {
 	if(self = [super init]) {
@@ -33,10 +33,12 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 	
 	return self;
 }
+
 + (id)taskWithURL:(NSURL *)url method:(NSString *)method
 {
 	return [[[self alloc] initWithURL:url method:method] autorelease];
 }
+
 - (id)initWithURL:(NSURL *)url method:(NSString *)inMethod
 {
 	if(self = [self initWithURL:url]) {
@@ -45,6 +47,7 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 	
 	return self;
 }
+
 - (void)dealloc
 {
 	[self setURL:nil];
@@ -55,57 +58,68 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 	
 	[super dealloc];
 }
+
+#pragma mark Accessors
 - (void)setURL:(NSURL *)url
 {
-	id temp = targetURL;
-	targetURL = [url retain];
+	id temp = m_targetURL;
+	m_targetURL = [url retain];
 	[temp release];
 }
+
 - (NSURL *)url
 {
-	return targetURL;
+	return m_targetURL;
 }
-- (void)setCurrentLength:(unsigned)i
+
+- (void)setCurrentLength:(double)doubleValue
 {
-	currentLength = i;
+	m_currentLength = doubleValue;
 }
-- (unsigned)currentLength
+
+- (double)currentLength
 {
-	return currentLength;
+	return m_currentLength;
 }
+
 - (void)setContLength:(double)i
 {
-	contLength = i;
+	m_contLength = i;
 }
+
 - (double)contLength
 {
-	return contLength;
+	return m_contLength;
 }
+
 - (NSData *)receivedData
 {
 	return receivedData;
 }
+
 - (void)setResponse:(id)response
 {
 	id temp = _response;
 	_response = [response retain];
 	[temp release];
 }
+
 - (id)response
 {
 	return _response;
 }
 
-- (void)createURLConnection:(id)request
+#pragma mark Overrides
+/*- (void)createURLConnection:(id)request
 {
-	con = [[NSURLConnection alloc] initWithRequest:request
-										  delegate:self];
+	con = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 	if(!con) {
 		[self postNotificationWithName:BSDownloadTaskInternalErrorNotification];
 		return;
 	}
-}
-- (void) doExecuteWithLayout : (CMRThreadLayout *) layout
+}*/
+
+- (void)doExecuteWithLayout:(CMRThreadLayout *)layout
 {
 	NSRunLoop *loop = [NSRunLoop currentRunLoop];
 		
@@ -113,7 +127,8 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 	receivedData = nil;
 	[self setCurrentLength:0];
 	[self setContLength:0];
-	
+	[self setAmount:-1];
+
 	NSMutableURLRequest *request;
 	
 	request = [NSMutableURLRequest requestWithURL:[self url]];
@@ -122,22 +137,20 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 		return;
 	}
 	[request setValue:[NSBundle monazillaUserAgent] forHTTPHeaderField:@"User-Agent"];
-	if(method) {
-		[request setHTTPMethod : method];
+	if (method) {
+		[request setHTTPMethod:method];
 	}
 
-	con = [[NSURLConnection alloc] initWithRequest:request
-										  delegate:self];
+	con = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 	if(!con) {
 		[self postNotificationWithName:BSDownloadTaskInternalErrorNotification];
 		return;
 	}
 	
-	while(!isFinished) {
+	while(!m_isFinished) {
 		id pool = [[NSAutoreleasePool alloc] init];
 		@try {
-			[loop runMode:NSDefaultRunLoopMode
-			   beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+			[loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
 		}
 		@catch(id ex) {
 			// do nothing.
@@ -149,6 +162,7 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 	}
 }
 
+#pragma mark CMRTask
 - (IBAction)cancel:(id)sender
 {
 	[con cancel];
@@ -157,25 +171,30 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 	[super cancel:sender];
 }
 
-#pragma mark-
 - (id)identifier
 {
 	return [NSString stringWithFormat:@"%@-%p", self, self];
 }
+
 - (NSString *)title
 {
 	return NSLocalizedStringFromTable(@"Download.", @"Downloader", @"");
 }
+
 - (NSString *) messageInProgress
 {
 	return [NSString stringWithFormat:NSLocalizedStringFromTable(@"Download url(%@) (%.0fk of %.0fk)", @"Downloader", @""),
-		[self url], [self currentLength] / 1024.0, (float)[self contLength]/1024];
+									  [self url], (float)[self currentLength]/1024, (float)[self contLength]/1024];
 }
+
 - (double) amount
 {
-	if ([self contLength] == 0) return -1;
-	double rate = ((double)[self currentLength] / [self contLength]) * 100.0;
-	return rate >= 100.0 ? 100.0 : rate;
+	return m_taskAmount;
+}
+
+- (void)setAmount:(double)doubleValue
+{
+	m_taskAmount = doubleValue;
 }
 @end
 
@@ -194,6 +213,7 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 	[connection cancel];
 	return nil;
 }
+
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
 	BOOL disconnect = NO;
@@ -230,18 +250,15 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 	
 	[self postNotificaionWithResponseDontFinish:response];
 	
-	[self setCurrentLength:0];
 	[self setContLength:[response expectedContentLength]];
 }
+
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
 	if(!receivedData) {
-		if(currentLength) {
-			receivedData = [[NSMutableData alloc] initWithCapacity:currentLength];
-		} else {
-			receivedData = [[NSMutableData alloc] init];
-		}
+		receivedData = [[NSMutableData alloc] init];
 	}
+
 	if(!receivedData) {
 		// abort
 		[connection cancel];
@@ -251,62 +268,65 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 	}
 	
 	[receivedData appendData:data];
-	[self setCurrentLength:[self currentLength] + [data length]];
+	[self setCurrentLength:[receivedData length]];
+
+	if ([self contLength] != -1) {
+		double bar = [self currentLength]/[self contLength]*100.0;
+		[self setAmount:bar];
+	}
 }
+
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-//	NSLog(@"-->%@",[[[NSString alloc] initWithData:receivedData encoding:NSShiftJISStringEncoding] autorelease]);
-	
+//	NSLog(@"-->%@",[[[NSString alloc] initWithData:receivedData encoding:NSShiftJISStringEncoding] autorelease]);	
 	[self postNotificationWithName:BSDownloadTaskFinishDownloadNotification];
 }
+
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
 	// abort
-	
-	[self postNotificationWithName:BSDownloadTaskFailDownloadNotification];
+	id userInfo = [[error retain] autorelease];
+	[[NSNotificationCenter defaultCenter] postNotificationName:BSDownloadTaskFailDownloadNotification object:self userInfo:userInfo];
+	m_isFinished = YES;
 }
 @end
 
+
 @implementation BSDownloadTask(TaskNotification)
-- (void) postNotificationWithName:(NSString *)name
+- (void)postNotificationWithName:(NSString *)name
 {
-	NSNotificationCenter	*nc_;
+	NSNotificationCenter	*nc;
 	
-	nc_ = [NSNotificationCenter defaultCenter];
-	[nc_ postNotificationName : name
-					   object : self];
+	nc = [NSNotificationCenter defaultCenter];
+	[nc postNotificationName:name object:self];
 	
-	isFinished = YES;
-}
-- (void) postNotificaionWithResponse:(NSURLResponse *)response
-{
-	NSNotificationCenter	*nc_;
-	NSDictionary *info;
-	
-	nc_ = [NSNotificationCenter defaultCenter];
-	
-	info = [NSDictionary dictionaryWithObjectsAndKeys:response, BSDownloadTaskServerResponseKey,
-		[NSNumber numberWithInt:[(NSHTTPURLResponse *)response statusCode]], BSDownloadTaskStatusCodeKey,
-		nil];
-	[nc_ postNotificationName : BSDownloadTaskAbortDownloadNotification
-					   object : self
-					 userInfo : info];
-	
-	isFinished = YES;
-}
-- (void) postNotificaionWithResponseDontFinish:(NSURLResponse *)response
-{
-	NSNotificationCenter	*nc_;
-	NSDictionary *info;
-	
-	nc_ = [NSNotificationCenter defaultCenter];
-	
-	info = [NSDictionary dictionaryWithObjectsAndKeys:response, BSDownloadTaskServerResponseKey,
-		[NSNumber numberWithInt:[(NSHTTPURLResponse *)response statusCode]], BSDownloadTaskStatusCodeKey,
-		nil];
-	[nc_ postNotificationName : BSDownloadTaskReceiveResponceNotification
-					   object : self
-					 userInfo : info];
+	m_isFinished = YES;
 }
 
+- (void)postNotificaionWithResponse:(NSURLResponse *)response
+{
+	NSNotificationCenter	*nc;
+	NSDictionary			*info;
+	
+	nc = [NSNotificationCenter defaultCenter];
+	info = [NSDictionary dictionaryWithObjectsAndKeys:response, BSDownloadTaskServerResponseKey,
+					[NSNumber numberWithInt:[(NSHTTPURLResponse *)response statusCode]], BSDownloadTaskStatusCodeKey,
+					nil];
+	[nc postNotificationName:BSDownloadTaskAbortDownloadNotification object:self userInfo:info];
+
+	m_isFinished = YES;
+}
+
+- (void)postNotificaionWithResponseDontFinish:(NSURLResponse *)response
+{
+	NSNotificationCenter	*nc;
+	NSDictionary			*info;
+	
+	nc = [NSNotificationCenter defaultCenter];
+	info = [NSDictionary dictionaryWithObjectsAndKeys:response, BSDownloadTaskServerResponseKey,
+					[NSNumber numberWithInt:[(NSHTTPURLResponse *)response statusCode]], BSDownloadTaskStatusCodeKey,
+					nil];
+
+	[nc postNotificationName:BSDownloadTaskReceiveResponceNotification object:self userInfo:info];
+}
 @end

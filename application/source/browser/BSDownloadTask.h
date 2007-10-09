@@ -13,21 +13,19 @@
 
 #import "CMRThreadLayoutTask.h"
 
-@interface BSDownloadTask : CMRThreadLayoutConcreateTask // NSObject <CMRTask ,CMXRunnable>
+@interface BSDownloadTask : CMRThreadLayoutConcreateTask
 {
-	NSURL *targetURL;
+	NSURL *m_targetURL;
+	BOOL m_isFinished;
 	
-//	BOOL isIndeterminate;
-	BOOL isFinished;
-	
-	long long contLength;
-	unsigned currentLength;
+	double	m_contLength;
+	double	m_currentLength;
+	double	m_taskAmount;
+
 	NSMutableData *receivedData;
-	
 	NSURLConnection *con;
-	
 	id _response;
-	
+
 	NSString *method;
 }
 
@@ -39,13 +37,12 @@
 - (void)setURL:(NSURL *)url;
 - (NSData *)receivedData;
 - (id)response;
-
 @end
 
 @interface BSDownloadTask(TaskNotification)
-- (void) postNotificationWithName:(NSString *)name;
-- (void) postNotificaionWithResponse:(NSURLResponse *)response;
-- (void) postNotificaionWithResponseDontFinish:(NSURLResponse *)response;
+- (void)postNotificationWithName:(NSString *)name;
+- (void)postNotificaionWithResponse:(NSURLResponse *)response;
+- (void)postNotificaionWithResponseDontFinish:(NSURLResponse *)response;
 @end
 
 
@@ -54,6 +51,7 @@ extern NSString *BSDownloadTaskCanceledNotification;
 extern NSString *BSDownloadTaskInternalErrorNotification;
 extern NSString *BSDownloadTaskReceiveResponceNotification;
 extern NSString *BSDownloadTaskAbortDownloadNotification;
-extern NSString 	*BSDownloadTaskServerResponseKey;	// NSURLResponse
-extern NSString		*BSDownloadTaskStatusCodeKey;	// NSNumber (int)
 extern NSString	*BSDownloadTaskFailDownloadNotification;
+
+extern NSString *BSDownloadTaskServerResponseKey;	// NSURLResponse
+extern NSString	*BSDownloadTaskStatusCodeKey;	// NSNumber (int)

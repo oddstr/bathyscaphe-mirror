@@ -10,5 +10,5 @@
 
 @interface BoardManager(Notification)
 - (void) boardListDidChange : (NSNotification *) notification;
-- (BOOL) saveListsIfNeed;
+- (BOOL) saveListsIfNeeded;
 @end

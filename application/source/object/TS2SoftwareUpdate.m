@@ -65,7 +65,7 @@ static BOOL g_showsLog = NO;
 
 + (int) version
 {
-	return 2;
+	return 3;
 }
 
 #pragma mark Accessors
@@ -330,7 +330,11 @@ static BOOL g_showsLog = NO;
     [self setConnection: nil];
 	[self setIsChecking: NO];
 
-	[self showErrorAlert];
+	if (!shouldShowsResult && [[error domain] isEqualToString:NSURLErrorDomain] && ([error code] == NSURLErrorNotConnectedToInternet)) {
+		if (g_showsLog) NSLog(@"(TS2SoftwareUpdate) %@", [error localizedDescription]);
+	} else {
+		[self showErrorAlert];
+	}
 }
 
 - (void) connectionDidFinishLoading: (NSURLConnection *) connection

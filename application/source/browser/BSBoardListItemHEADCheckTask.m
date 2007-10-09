@@ -403,7 +403,7 @@ static NSURL *urlForBoardNameAndThredID(NSString *boardName, NSString *threadID)
 @end
 
 @implementation BSBoardListItemHEADCheckTask(Notification)
-- (void)dlDidFinishDownlocadNotification:(id)notification
+- (void)dlDidFinishDownloadNotification:(id)notification
 {
 	id obj = [[notification userInfo] objectForKey:BSDownloadTaskServerResponseKey];
 	
@@ -415,7 +415,7 @@ static NSURL *urlForBoardNameAndThredID(NSString *boardName, NSString *threadID)
 {
 	//
 }
-- (void)dlCancelDownlocadNotification:(id)notification
+- (void)dlCancelDownloadNotification:(id)notification
 {
 	//
 }

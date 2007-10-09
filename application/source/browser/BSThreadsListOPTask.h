@@ -17,17 +17,18 @@
 
 @class BSDownloadTask, BSDBThreadsListDBUpdateTask2;
 
-@interface BSThreadsListOPTask : CMRThreadLayoutConcreateTask //NSObject <CMRTask, CMXRunnable>
+@interface BSThreadsListOPTask : CMRThreadLayoutConcreateTask
 {
-	BSDBThreadList *targetList;
-	BOOL forceDL;
+	BSDBThreadList *m_targetList;
+	BOOL m_forceDL;
 	
 	NSURL *targetURL;
 	NSString *bbsName;
 	BSDownloadTask *dlTask;
 	BSDBThreadsListDBUpdateTask2 *dbupTask;
 	
-	NSData *downloadData;
+	NSData *m_downloadData;
+	NSError *m_downloadError;
 }
 
 + (id)taskWithThreadList:(BSDBThreadList *)list forceDownload:(BOOL)forceDL;
@@ -35,7 +36,6 @@
 
 - (void)setBoardName:(NSString *)name;
 - (NSString *)boardName;
-
 @end
 
 extern NSString *const ThreadsListDownloaderShouldRetryUpdateNotification;

@@ -1,11 +1,11 @@
-/**
- * $Id: BoardManager.m,v 1.11 2007/08/07 14:07:44 tsawada2 Exp $
- * 
- * BoardManager.m
- *
- * Copyright (c) 2004 Takanori Ishikawa, All rights reserved.
- * See the file LICENSE for copying permission.
- */
+//
+//  BoardManager.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/10/08.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
 
 #import "BoardManager_p.h"
 #import "CMRDocumentFileManager.h"
@@ -18,175 +18,139 @@
 #import "UTILDebugging.h"
 
 
-//static id kDefaultManager;
-
 @implementation BoardManager
-//+ (id) defaultManager
-//{
-    /*
-    FROM COMONA'S SOURCE COMMENT
-    
-    2004-05-08 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
-    ---------------------------------------------------------
-    In Comona, at starting write this, I decided that NEVER
-    USE "double-checking idiom", because it is NOT perfect.
-    Instead of that, simply pre-instanciate all singleton 
-    objects before application startup, be multi-threaded.
-    
-    NOTE: 
-    But, CMNAppGlobal itself is instanciate by NSApplicationMain(),
-    (see an instance in MainMenu.nib), it's OK.
-    */
-//    if (nil == kDefaultManager) {
-//        kDefaultManager = [[self alloc] init];
-//    }
-//    return kDefaultManager;
-//}
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
-- (id) init
+- (id)init
 {
     if (self = [super init]) {
-        [[NSNotificationCenter defaultCenter]
-                 addObserver : self
-                    selector : @selector(applicationWillTerminate:)
-                        name : NSApplicationWillTerminateNotification
-                      object : NSApp];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(applicationWillTerminate:)
+													 name:NSApplicationWillTerminateNotification
+												   object:NSApp];
     }
     return self;
 }
 
-- (void) dealloc
+- (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver : self];
-    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
     [_defaultList release];
     [_userList release];
 	[_noNameDict release];
     [super dealloc];
 }
 
-- (NSString *) userBoardListPath
+- (NSString *)userBoardListPath
 {
 	NSString	*filepath_;
 	
 	filepath_ = [[CMRFileManager defaultManager] dataRootDirectoryPath];
-	return [filepath_ stringByAppendingPathComponent : CMRUserBoardFile];
+	return [filepath_ stringByAppendingPathComponent:CMRUserBoardFile];
 }
-- (NSString *) defaultBoardListPath
+
+- (NSString *)defaultBoardListPath
 {
 	NSString	*filepath_;
 	
 	filepath_ = [[CMRFileManager defaultManager] dataRootDirectoryPath];
-	return [filepath_ stringByAppendingPathComponent : CMRDefaultBoardFile];
+	return [filepath_ stringByAppendingPathComponent:CMRDefaultBoardFile];
 }
-- (NSString *) spareDefaultBoardListPath
+
+//- (NSString *) spareDefaultBoardListPath
++ (NSString *)spareDefaultBoardListPath
 {
-	NSString	*filepath_;
-
-	filepath_ = [[NSBundle mainBundle] pathForResource : @"board_default" ofType : @"plist"];
-	return filepath_;
+//	NSString	*filepath_;
+//
+//	filepath_ = [[NSBundle mainBundle] pathForResource : @"board_default" ofType : @"plist"];
+//	return filepath_;
+	return [[NSBundle mainBundle] pathForResource:@"board_default" ofType:@"plist"];
 }
 
-+ (NSString *) NNDFilepath
++ (NSString *)NNDFilepath
 {
-	return [[CMRFileManager defaultManager]
-				 supportFilepathWithName : BSBoardPropertiesFile
-						resolvingFileRef : NULL];
+	return [[CMRFileManager defaultManager] supportFilepathWithName:BSBoardPropertiesFile resolvingFileRef:NULL];
 }
 
-+ (NSString *) oldNNDFilepath
++ (NSString *)oldNNDFilepath
 {
-	return [[CMRFileManager defaultManager]
-				 supportFilepathWithName : CMRNoNamesFile
-						resolvingFileRef : NULL];
+	return [[CMRFileManager defaultManager] supportFilepathWithName:CMRNoNamesFile resolvingFileRef:NULL];
 }
 
-- (SmartBoardList *) makeBoardList : (Class     ) aClass
-				withContentsOfFile : (NSString *) aFile
+- (SmartBoardList *)makeBoardList:(Class)aClass withContentsOfFile:(NSString *)aFile
 {
     SmartBoardList *list;
     
-    list = [[aClass alloc] initWithContentsOfFile : aFile];
-    [[NSNotificationCenter defaultCenter]
-            addObserver : self
-               selector : @selector(boardListDidChange:)
-                   name : CMRBBSListDidChangeNotification
-                 object : list];
-    
+    list = [[aClass alloc] initWithContentsOfFile:aFile];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(boardListDidChange:)
+												 name:CMRBBSListDidChangeNotification
+											   object:list];
+
     return list;
 }
-- (SmartBoardList *) defaultList
+
+- (SmartBoardList *)defaultList
 {
-    if (nil == _defaultList) {
+    if (!_defaultList) {
 		NSFileManager	*dfm;
 		NSString		*dListPath;
 		dfm = [NSFileManager defaultManager];
 		dListPath = [self defaultBoardListPath];
 		
-		if (![dfm fileExistsAtPath : dListPath]) {
-			//NSLog(@"defaultList.plist not found, so we copy one from our own Resources directory.");
-			[dfm copyPath : [self spareDefaultBoardListPath] toPath : dListPath handler : nil];
+		if (![dfm fileExistsAtPath:dListPath]) {
+			[dfm copyPath:[[self class] spareDefaultBoardListPath] toPath:dListPath handler:nil];
 		}
-        _defaultList = 
-			[self makeBoardList : [SmartBoardList class]
-			 withContentsOfFile : dListPath];
+        _defaultList = [self makeBoardList:[SmartBoardList class] withContentsOfFile:dListPath];
     }
     return _defaultList;
 }
-- (SmartBoardList *) userList
+
+- (SmartBoardList *)userList
 {
-    if (nil == _userList) {
-        _userList = 
-		[self makeBoardList : [SmartBoardList class]
-		 withContentsOfFile : [self userBoardListPath]];
+    if (!_userList) {
+        _userList = [self makeBoardList:[SmartBoardList class] withContentsOfFile:[self userBoardListPath]];
     }
     return _userList;
 }
 
-#pragma mark -
-#pragma mark CometBlaster Addition
-- (BOOL) copyMatchedItem : (NSString *) keyword
-				   items : (NSArray  *) items
-				  toList : (SmartBoardList *) filteredList
+#pragma mark Filtering List
+- (BOOL)copyMatchedItem:(NSString *)keyword items:(NSArray *)items toList:(SmartBoardList *)filteredList
 {
     int i;
     BOOL found = NO;
 
     for (i = 0; i < [items count]; i++) {
-        BoardListItem	*root = [items objectAtIndex : i];
+        BoardListItem	*root = [items objectAtIndex:i];
         NSRange			range;
 		
-        range = [[root representName] rangeOfString : keyword
-											options : NSCaseInsensitiveSearch];
+        range = [[root representName] rangeOfString:keyword options:NSCaseInsensitiveSearch];
         if (range.location != NSNotFound) {
-			[filteredList addItem: root afterObject: nil];
+			[filteredList addItem:root afterObject:nil];
             found |= YES;
         } else {
             found |= NO;
         }
-        
-        if ([root numberOfItem] != 0 && ![self copyMatchedItem : keyword
-														 items : [root items]
-														toList : filteredList]) {
+
+        if ([root numberOfItem] != 0 && ![self copyMatchedItem:keyword items:[root items] toList:filteredList]) {
 			continue;
         }
     }
     return found;
 }
 
-- (SmartBoardList *) filteredListWithString: (NSString *) keyword
+- (SmartBoardList *)filteredListWithString:(NSString *)keyword
 {
 	SmartBoardList *result_ = [[SmartBoardList alloc] init];
 
-    [self copyMatchedItem : keyword
-					items : [[self defaultList] boardItems]
-				   toList : result_];
+    [self copyMatchedItem:keyword items:[[self defaultList] boardItems] toList:result_];
 
 	return [result_ autorelease];
 }
-#pragma mark -
-- (NSURL *) URLForBoardName : (NSString *) boardName
+
+#pragma mark Board Name <--> URL
+- (NSURL *)URLForBoardName:(NSString *)boardName
 {
 	NSURL	*url_ = nil;
 	NSString *urlString;
@@ -194,15 +158,16 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	NSArray *ids;
 	
 	ids = [dbm boardIDsForName:boardName];
-	/* TODO ï°êîÇÃèÍçáÇÃèàóù */
+	/* TODO Ë§áÊï∞„ÅÆÂ†¥Âêà„ÅÆÂá¶ÁêÜ */
 	urlString = [dbm urlStringForBoardID:[[ids objectAtIndex:0] unsignedIntValue]];
-	if( urlString ) {
+	if (urlString) {
 		url_ = [NSURL URLWithString:urlString];
 	}
 	
 	return url_;
 }
-- (NSString *) boardNameForURL : (NSURL *) theURL
+
+- (NSString *)boardNameForURL:(NSURL *)theURL
 {
 	NSString	*name_;
 	DatabaseManager *dbm = [DatabaseManager defaultManager];
@@ -214,103 +179,92 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	return name_;
 }
 
-- (void) updateURL : (NSURL    *) anURL
-      forBoardName : (NSString *) aName
+- (void)updateURL:(NSURL *)anURL forBoardName:(NSString *)aName
 {
 	DatabaseManager *dbm = [DatabaseManager defaultManager];
 	NSArray *ids;
 	unsigned boardID;
 	
 	ids = [dbm boardIDsForName:aName];
-	/* TODO ï°êîÇÃèÍçáÇÃèàóù */
+	/* TODO Ë§áÊï∞„ÅÆÂ†¥Âêà„ÅÆÂá¶ÁêÜ */
 	boardID = [[ids objectAtIndex:0] unsignedIntValue];
 	[dbm moveBoardID:boardID toURLString:[anURL absoluteString]];
 }
 
 #pragma mark detect moved BBS
-- (BOOL) movedBoardWasFound : (NSString *) boardName
-                newLocation : (NSURL    *) anNewURL
-                oldLocation : (NSURL    *) anOldURL
+- (BOOL)movedBoardWasFound:(NSString *)boardName newLocation:(NSURL *)anNewURL oldLocation:(NSURL *)anOldURL
 {
-    int ret;
-	
-	NSAlert *alert_ = [[NSAlert alloc] init];
-	[alert_ setAlertStyle : NSInformationalAlertStyle];
-	[alert_ setMessageText : NSLocalizedString(@"MovedBBSFoundTitle", nil)];
-	[alert_ setInformativeText : [NSString stringWithFormat : NSLocalizedString(@"MovedBBSFoundFormat", nil),
+	NSAlert *alert_ = [[[NSAlert alloc] init] autorelease];
+	[alert_ setAlertStyle:NSInformationalAlertStyle];
+	[alert_ setMessageText:NSLocalizedString(@"MovedBBSFoundTitle", nil)];
+	[alert_ setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"MovedBBSFoundFormat", nil),
 															  boardName, [anOldURL absoluteString], [anNewURL absoluteString]]];
-	[alert_ addButtonWithTitle : NSLocalizedString(@"MovedOK", nil)];
-	[alert_ addButtonWithTitle : NSLocalizedString(@"MovedCancel", nil)];
-	[alert_ setHelpAnchor : NSLocalizedString(@"MovedBBSHelpAnchor", nil)];
-	[alert_ setShowsHelp : YES];
-	
-    ret = [alert_ runModal];
-	[alert_ release];
+	[alert_ addButtonWithTitle:NSLocalizedString(@"MovedOK", nil)];
+	[alert_ addButtonWithTitle:NSLocalizedString(@"MovedCancel", nil)];
+	[alert_ setHelpAnchor:NSLocalizedString(@"MovedBBSHelpAnchor", nil)];
+	[alert_ setShowsHelp:YES];
 
-	if (ret != NSAlertFirstButtonReturn) {
+	if ([alert_ runModal] != NSAlertFirstButtonReturn) {
         return NO;
     }
-    [self updateURL : anNewURL forBoardName : boardName];
-    
+    [self updateURL:anNewURL forBoardName:boardName];
+
     return YES;
 }
-- (BOOL) detectMovedBoardWithResponseHTML : (NSString *) htmlContents
-                                boardName : (NSString *) boardName
+
+- (BOOL)detectMovedBoardWithResponseHTML:(NSString *)htmlContents boardName:(NSString *)boardName
 {
     id<XmlPullParser> xpp;
     
     int       type;
-    NSURL    *oldURL = [self URLForBoardName : boardName];
+    NSURL    *oldURL = [self URLForBoardName:boardName];
     NSString *origDir = [[oldURL path] lastPathComponent];
     NSURL    *newURL = nil;
-    
+
     UTIL_DEBUG_WRITE2(@"Name:%@ Old:%@", boardName, [oldURL stringValue]);
-    UTIL_DEBUG_WRITE1(@"HTML response was:\n"
-    @"----------------------------------------\n"
+    UTIL_DEBUG_WRITE1(@"HTML response was:¬•n"
+    @"----------------------------------------¬•n"
     @"%@", htmlContents);
-    if (nil == oldURL || nil == origDir) {
+    if (!oldURL || !origDir) {
         return NO;
     }
-    
+
     xpp = [[[SGXmlPullParser alloc] initHTMLParser] autorelease];
-    [xpp setInputSource : htmlContents];
-    
+    [xpp setInputSource:htmlContents];
+
     // Setting up features
     [xpp setFeature:NO forKey:SGXmlPullParserDisableEntityResolving];
     
-    type = [xpp nextName : @"html" 
-                     type : XMLPULL_START_TAG
-                  options : NSCaseInsensitiveSearch];
+    type = [xpp nextName:@"html" type:XMLPULL_START_TAG options:NSCaseInsensitiveSearch];
     while ((type = [xpp next]) != XMLPULL_END_DOCUMENT) {
-        if ( XMLPULL_START_TAG == [xpp eventType] &&
-             NSOrderedSame == [[xpp name] caseInsensitiveCompare:@"a"])
-        {
+        if (XMLPULL_START_TAG == [xpp eventType] && NSOrderedSame == [[xpp name] caseInsensitiveCompare:@"a"]) {
             NSString *dir;
             NSString *href = [xpp attributeForName:@"href"];
 
             dir = [href lastPathComponent];
             UTIL_DEBUG_WRITE2(@"  href=%@ dir=%@", href, dir);
-            if (NO == [dir isEqualToString : origDir]) {
+            if (![dir isEqualToString:origDir]) {
                 continue;
             }
             href = [[href copy] autorelease];
-            newURL = [NSURL URLWithString : href];
+            newURL = [NSURL URLWithString:href];
         }
     }
     
-    if (newURL != nil) {
-        if ([[newURL host] isEqualToString : [oldURL host]]) {
+    if (newURL) {
+    	NSString *newHost = [newURL host];
+    	if ([newHost isEqualToString:[oldURL host]] || [newHost hasSuffix:@"u.la"]) {
+//        if ([[newURL host] isEqualToString : [oldURL host]]) {
             return NO;
         }
-        return [self movedBoardWasFound : boardName
-                            newLocation : newURL
-                            oldLocation : oldURL];
+        return [self movedBoardWasFound:boardName newLocation:newURL oldLocation:oldURL];
     }
     return NO;
 }
-- (BOOL) tryToDetectMovedBoard : (NSString *) boardName
+
+- (BOOL)tryToDetectMovedBoard:(NSString *)boardName
 {
-    NSURL  *URL = [self URLForBoardName : boardName];
+    NSURL  *URL = [self URLForBoardName:boardName];
 	NSURLRequest	*req_;
 	BOOL	canHandle_;
     NSURLResponse	*response;
@@ -319,23 +273,21 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
     NSString *contents;
 
     // We can do nothing.
-    if (nil == URL) return nil;
+    if (!URL) return NO;
 	
     NSLog(@"BathyScaphe try to detect moved BBS:%@ URL:%@", boardName, [URL absoluteString]);
     
-	req_ = [NSURLRequest requestWithURL : URL];
-	canHandle_ = [NSURLConnection canHandleRequest : req_];
-	//NSLog(@"CanHandleRequest Check - %@", canHandle_ ? @"OK" : @"NO");
+	req_ = [NSURLRequest requestWithURL:URL];
+	canHandle_ = [NSURLConnection canHandleRequest:req_];
 	if (!canHandle_) return NO;
 
-	data = [NSURLConnection sendSynchronousRequest : req_ returningResponse : &response error : &error];
+	data = [NSURLConnection sendSynchronousRequest:req_ returningResponse:&response error:&error];
 
-    if (nil == data) {
+    if (!data) {
 		NSLog(@"Error: %@", [error localizedDescription]);
 		return NO;
 	}
 
-    //CMRDebugWriteObject(data, @"debug2.txt");
     if (NULL == nsr_strncasestr((const char*)([data bytes]), "<html", [data length])) {
 		return NO;
 	}
@@ -347,70 +299,56 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 @end
 
 
-
 @implementation BoardManager(Notification)
-- (void) boardListDidChange : (NSNotification *) notification
+- (void)boardListDidChange:(NSNotification *)notification
 {
-	UTILAssertNotificationName(
-		notification,
-		CMRBBSListDidChangeNotification);
+	UTILAssertNotificationName(notification, CMRBBSListDidChangeNotification);
 	UTILAssertKindOfClass([notification object], SmartBoardList);
 	
-	[[NSNotificationCenter defaultCenter]
-			 postNotificationName : ([notification object] == [self defaultList])
+	[[NSNotificationCenter defaultCenter] postNotificationName:([notification object] == [self defaultList])
 			 			? CMRBBSManagerDefaultListDidChangeNotification
 						: CMRBBSManagerUserListDidChangeNotification
-					       object : self];
+														object:self];
     
-    [self saveListsIfNeed];
+    [self saveListsIfNeeded];
 }
 
-- (BOOL) saveNoNameDict
+- (BOOL)saveNoNameDict
 {
-	NSString *errorStr = nil;
+	NSString *errorStr = [NSString string];
 	NSMutableDictionary	*noNameDict_ = [self noNameDict];
-	NSData *binaryData_ = [NSPropertyListSerialization dataFromPropertyList: noNameDict_
-																	 format: NSPropertyListBinaryFormat_v1_0
-														   errorDescription: &errorStr];
+	NSData *binaryData_ = [NSPropertyListSerialization dataFromPropertyList:noNameDict_
+																	 format:NSPropertyListBinaryFormat_v1_0
+														   errorDescription:&errorStr];
 
 	if (!binaryData_) {
 		NSLog(@"BoardManager failed to serialize noNameDict using NSPropertyListSerialization.");
-		//NSLog(errorStr);
-		//[errorStr release];
-		return [noNameDict_ writeToFile: [[self class] NNDFilepath] atomically: YES];
+		return [noNameDict_ writeToFile:[[self class] NNDFilepath] atomically:YES];
 	}
-	
-	return [binaryData_ writeToFile: [[self class] NNDFilepath] atomically: YES];
+
+	return [binaryData_ writeToFile:[[self class] NNDFilepath] atomically:YES];
 }
 
-- (void) applicationWillTerminate : (NSNotification *) notification
+- (void)applicationWillTerminate:(NSNotification *)notification
 {
-	UTILAssertNotificationName(
-		notification,
-		NSApplicationWillTerminateNotification);
-	UTILAssertNotificationObject(
-		notification,
-		NSApp);
+	UTILAssertNotificationName(notification, NSApplicationWillTerminateNotification);
+	UTILAssertNotificationObject(notification, NSApp);
 	
-	[self saveListsIfNeed];
+	[self saveListsIfNeeded];
 
-	// NoNames.plist ÇÕèÌÇ…ï€ë∂
+	// NoNames.plist „ÅØÂ∏∏„Å´‰øùÂ≠ò
 	[self saveNoNameDict];
 }
 
-- (BOOL) saveListsIfNeed
+- (BOOL)saveListsIfNeeded
 {	
 	if ([[self userList] isEdited]) {
-		[[self userList] writeToFile : 
-			[self userBoardListPath]
-						atomically : YES];
-		[[self userList] setIsEdited : NO];
+		[[self userList] writeToFile:[self userBoardListPath] atomically:YES];
+		[[self userList] setIsEdited:NO];
 	}
 	if ([[self defaultList] isEdited]) {
-		[[self defaultList] writeToFile : 
-			[self defaultBoardListPath]
-						atomically : YES];
-		[[self defaultList] setIsEdited : NO];
+		[[self defaultList] writeToFile:[self defaultBoardListPath] atomically:YES];
+		[[self defaultList] setIsEdited:NO];
 	}
 	return YES;
 }
