@@ -22,6 +22,15 @@
 					<key>Name</key>
 					<string>boardURL</string>
 				</dict>
+				<key>selectedText</key>
+				<dict>
+					<key>Description</key>
+					<string>A selected text.</string>
+					<key>Name</key>
+					<string>selected text</string>
+					<key>Sex</key>
+					<string>none</string>
+				</dict>
 			</dict>
 			<key>Description</key>
 			<string>A BathyScaphe browser (i.e. threads list) window.</string>
@@ -95,6 +104,15 @@
 		<dict>
 			<key>Attributes</key>
 			<dict>
+				<key>selectedText</key>
+				<dict>
+					<key>Description</key>
+					<string>A selected text.</string>
+					<key>Name</key>
+					<string>selected text</string>
+					<key>Sex</key>
+					<string>none</string>
+				</dict>
 				<key>textStorage</key>
 				<dict>
 					<key>Description</key>

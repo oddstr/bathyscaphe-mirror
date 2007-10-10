@@ -28,6 +28,15 @@
 					<key>Type</key>
 					<string>NSString</string>
 				</dict>
+				<key>selectedText</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>thst</string>
+					<key>ReadOnly</key>
+					<string>YES</string>
+					<key>Type</key>
+					<string>NSTextSuite.NSTextStorage</string>
+				</dict>
 			</dict>
 			<key>Superclass</key>
 			<string>NSCoreSuite.NSDocument</string>
@@ -125,6 +134,13 @@
 			<string>repd</string>
 			<key>Attributes</key>
 			<dict>
+				<key>selectedText</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>thst</string>
+					<key>Type</key>
+					<string>NSTextSuite.NSTextStorage</string>
+				</dict>
 				<key>textStorage</key>
 				<dict>
 					<key>AppleEventCode</key>

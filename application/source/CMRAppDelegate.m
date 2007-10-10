@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.37 2007/10/06 21:12:32 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.38 2007/10/10 00:44:07 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -260,6 +260,15 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 	[prefs showWindow: sender];
 	if ([prefs respondsToSelector: @selector(selectControllerWithIdentifier:)]) {
 		[prefs selectControllerWithIdentifier: @"General"];
+	}
+}
+
+- (IBAction)openAEDictionary:(id)sender
+{
+	NSString *selfPath = [[NSBundle mainBundle] bundlePath];
+	NSString *toysPath = [[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier:@"com.apple.ScriptEditor2"];
+	if (selfPath && toysPath) {
+		[[NSWorkspace sharedWorkspace] openFile:selfPath withApplication:toysPath];
 	}
 }
 

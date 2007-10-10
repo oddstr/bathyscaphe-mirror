@@ -6,11 +6,10 @@
                 checkForUpdate = id; 
                 clearHistory = id; 
                 closeAll = id; 
-                launchCMLF = id; 
                 miniaturizeAll = id; 
+                openAEDictionary = id; 
                 openURL = id; 
                 openURLPanel = id; 
-                openWebSiteForUpdate = id; 
                 resetApplication = id; 
                 runBoardWarrior = id; 
                 showAcknowledgment = id; 

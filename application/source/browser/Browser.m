@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.m,v 1.19 2007/10/06 21:12:32 tsawada2 Exp $
+  * $Id: Browser.m,v 1.20 2007/10/10 00:44:07 tsawada2 Exp $
   * BathyScaphe 
   *
   * Copyright 2005-2006 BathyScaphe Project.
@@ -246,6 +246,15 @@
 #pragma mark -
 
 @implementation Browser(ScriptingSupport)
+- (NSTextStorage *) selectedText
+{
+/*	NSAttributedString* attrString;
+	attrString = [[self textStorage] attributedSubstringFromRange:[[[[self windowControllers] lastObject] textView] selectedRange]];
+	NSTextStorage * storage = [[NSTextStorage alloc] initWithAttributedString:attrString];
+	return [storage autorelease];*/
+	return [super selectedText];
+}
+
 - (NSString *) boardURLAsString
 {
 	return [[self boardURL] stringValue];

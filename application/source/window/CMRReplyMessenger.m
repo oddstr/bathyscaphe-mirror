@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyMessenger.m,v 1.13 2007/09/04 07:45:43 tsawada2 Exp $
+  * $Id: CMRReplyMessenger.m,v 1.14 2007/10/10 00:44:07 tsawada2 Exp $
   * 
   * CMRReplyMessenger.m
   *
@@ -330,6 +330,12 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 
 
 @implementation CMRReplyMessenger(ScriptingSupport)
+- (NSRange)selectedTextRange
+{
+	CMRReplyController *controller = [self replyControllerRespondsTo:@selector(textView)];
+	return [[controller textView] selectedRange];
+}
+
 - (void)setTextStorage : (id) text
 {
 	NSAttributedString *tmp_;
@@ -343,6 +349,26 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 
 	[[self textStorage] replaceCharactersInRange : NSMakeRange(0, [[self textStorage] length]) withAttributedString : tmp_];
 }
+
+- (NSTextStorage *)selectedText
+{
+	NSAttributedString* attrString;
+	attrString = [[self textStorage] attributedSubstringFromRange:[self selectedTextRange]];
+	NSTextStorage * storage = [[NSTextStorage alloc] initWithAttributedString:attrString];
+	return [storage autorelease];
+}
+
+- (void)setSelectedText:(id)text
+{
+	NSString *stringValue;
+	if ([text isKindOfClass:[NSAttributedString class]]) {
+		stringValue = [(NSAttributedString *)text string];
+	} else {
+		stringValue = (NSString *)text;
+	}
+	[[self textStorage] replaceCharactersInRange:[self selectedTextRange] withString:stringValue];
+}
+
 - (NSString *) targetURLAsString
 {
 	return [[self targetURL] stringValue];

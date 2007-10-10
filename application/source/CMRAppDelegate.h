@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.h,v 1.18 2007/07/21 19:32:55 tsawada2 Exp $
+ * $Id: CMRAppDelegate.h,v 1.19 2007/10/10 00:44:07 tsawada2 Exp $
  * 
  * CMRAppDelegate.h
  *
@@ -56,4 +56,7 @@
 
 // For Dock menu
 - (IBAction) startHEADCheckDirectly: (id) sender;
+
+// Available in Twincam Angel and later.
+- (IBAction)openAEDictionary:(id)sender;
 @end

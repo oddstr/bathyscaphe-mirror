@@ -1,4 +1,18 @@
+2007-10-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/CMRAppDelegate.m
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		スクリプトメニューに「用語説明を開く」を追加した。
+	* application/source/browser/Browser.m
+	* application/source/window/CMRReplyMessenger.m
+	* application/Resources/BathyScaphe.scriptSuite
+	* application/Resources/BathyScaphe.scriptTerminology
+		ブラウザウインドウ(browser)でも selected text プロパティが取得できるようにした。
+		また、書き込みウインドウ(reply document)で selected text プロパティを取得および set できるようにした。
+		- selected text を set することは、すでに選択されているものを置換することを意味する。
 2007-10-08 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/object/TS2SoftwareUpdate.m
+		インターネットに接続していない状態で BathyScaphe を起動したとき、自動的にアップデートを確認する設定になっていると
+		「アップデートを確認できませんでした」とエラーのアラートが表示されてしまうが、これはうっとうしいので表示しないようにした。
 	* application/source/bbs/BoardListItem/BoardListItem.m
 		サーバ移転検知機能が、まれに hoge.u.la ホストへのサーバ移転であると誤認識してしまう問題を修正。
 	* application/source/browser/BSDownloadTask.m
