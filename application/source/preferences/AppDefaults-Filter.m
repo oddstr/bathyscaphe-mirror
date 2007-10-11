@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-Filter.m,v 1.6 2007/09/04 07:45:43 tsawada2 Exp $
+  * $Id: AppDefaults-Filter.m,v 1.7 2007/10/11 00:07:52 tsawada2 Exp $
   * 
   * AppDefaults-Filter.m
   *
@@ -118,6 +118,11 @@ static NSString *const kPrefOldNGWordsImportedKey = @"Old Format Corpus Imported
 - (void) resetSpamFilter
 {
 	[[CMRSpamFilter sharedInstance] resetSpamFilter];
+}
+
+- (void)setSpamFilterNeedsSaveToFiles:(BOOL)flag
+{
+	[[CMRSpamFilter sharedInstance] setNeedsSaveToFiles:flag];
 }
 
 - (BOOL) asciiArtDetectorEnabled

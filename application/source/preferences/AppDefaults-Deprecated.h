@@ -198,6 +198,32 @@
 //- (BOOL) usesOwnProxy;
 //- (void) getOwnProxy: (NSString **) host port: (CFIndex *) port;
 
+/*
+- (NSString *) spamMessageCorpusStringRepresentation;
+- (void) setUpSpamMessageCorpusWithString : (NSString *) aString;
+*/
+
+/*
+- (NSString *) helperAppPath;
+- (void) setHelperAppPath : (NSString *) fullPath_;
+- (NSString *) helperAppDisplayName;
+*/
+
+/* PrincessBride Additions */
+// Deprecated in Twincam Angel.
+/*- (BOOL) titleRulerViewTextUsesBlackColor;
+- (void) setTitleRulerViewTextUsesBlackColor : (BOOL) usesBlackColor;*/
+
+/* Starlight Breaker -- Theme groups */
+//- (NSColor *) replyTextColor;
+//- (NSFont *) replyFont;
+/* End Theme groups */
+
+//- (NSColor *) resPopUpBackgroundColor;
+//- (float) resPopUpBgAlphaValue;
+
+
+
 // Constants
 //#define DEFAULT_NEW_THREADS_LIMIT			(100)
 //#define DEFAULT_THREADS_VIEW_FONTSIZE		(12.0f)

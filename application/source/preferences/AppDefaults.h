@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.49 2007/09/15 18:13:45 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.50 2007/10/11 00:07:52 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -143,10 +143,7 @@ typedef enum _BSAutoSyncIntervalType {
 - (void) setBoardListBackgroundColor : (NSColor *) color;
 
 - (NSColor *) threadViewerBackgroundColor;
-//- (NSColor *) resPopUpBackgroundColor;
 - (NSColor *) replyBackgroundColor;
-
-//- (float) resPopUpBgAlphaValue;
 
 - (void) _loadBackgroundColors;
 - (BOOL) _saveBackgroundColors;
@@ -162,10 +159,7 @@ typedef enum _BSAutoSyncIntervalType {
 // 本文中の語句もチェックする
 - (BOOL) usesSpamMessageCorpus;
 - (void) setUsesSpamMessageCorpus : (BOOL) flag;
-/*
-- (NSString *) spamMessageCorpusStringRepresentation;
-- (void) setUpSpamMessageCorpusWithString : (NSString *) aString;
-*/
+
 - (NSMutableArray *)spamMessageCorpus;
 - (void)setSpamMessageCorpus:(NSMutableArray *)mutableArray;
 
@@ -177,6 +171,7 @@ typedef enum _BSAutoSyncIntervalType {
 - (void) setSpamFilterBehavior : (int) mask;
 
 - (void) resetSpamFilter;
+- (void)setSpamFilterNeedsSaveToFiles:(BOOL)flag;
 
 // AAD(Ascii Art Detector). Available in MeteorSweeper and later.
 - (BOOL) asciiArtDetectorEnabled;
@@ -205,11 +200,6 @@ typedef enum _BSAutoSyncIntervalType {
 - (void)setThreadsListDatOchiThreadFont:(NSFont *)aFont;
 - (NSColor *)threadsListDatOchiThreadColor;
 - (void)setThreadsListDatOchiThreadColor:(NSColor *)color;
-
-/* Starlight Breaker -- Theme groups */
-//- (NSColor *) replyTextColor;
-//- (NSFont *) replyFont;
-/* End Theme groups */
 
 - (NSColor *) messageFilteredColor;
 - (void) setMessageFilteredColor : (NSColor *) color;
@@ -263,11 +253,6 @@ typedef enum _BSAutoSyncIntervalType {
 
 - (BOOL) useIncrementalSearch;
 - (void) setUseIncrementalSearch : (BOOL) TorF;
-
-/* PrincessBride Additions */
-// Deprecated in Twincam Angel.
-/*- (BOOL) titleRulerViewTextUsesBlackColor;
-- (void) setTitleRulerViewTextUsesBlackColor : (BOOL) usesBlackColor;*/
 
 /* ShortCircuit Additions */
 - (id) threadsListTableColumnState;
@@ -418,11 +403,7 @@ typedef enum _BSAutoSyncIntervalType {
 - (id) sharedPreferencesPane;
 - (id<w2chConnect>) w2chConnectWithURL : (NSURL        *) anURL
                             properties : (NSDictionary *) properties;
-/*
-- (NSString *) helperAppPath;
-- (void) setHelperAppPath : (NSString *) fullPath_;
-- (NSString *) helperAppDisplayName;
-*/
+
 - (void) _loadImagePreviewerSettings;
 - (BOOL) _saveImagePreviewerSettings;
 @end

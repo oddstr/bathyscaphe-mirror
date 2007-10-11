@@ -58,6 +58,7 @@ static NSString *const kImageName = @"FilterPreferences";
 
 - (IBAction)closeDetailSheet:(id)sender
 {
+	[[self preferences] setSpamFilterNeedsSaveToFiles:YES];
 	[NSApp endSheet:[self detailSheet]];
 }
 @end

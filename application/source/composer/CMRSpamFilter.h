@@ -21,6 +21,9 @@
 	@private
 	CMRSamplingDetecter		*_detecter;
 	NSMutableArray			*_spamCorpus;
+
+	BOOL	m_needsSaveToFiles;
+	NSTimer	*m_timer;
 }
 
 + (id)sharedInstance;
@@ -32,6 +35,9 @@
 
 - (void)saveDetecterAndCorpusToFiles;
 - (void)addNGExpression:(BSNGExpression *)expression;
+
+- (BOOL)needsSaveToFiles;
+- (void)setNeedsSaveToFiles:(BOOL)flag;
 
 - (void)addSample:(CMRThreadMessage *)aMessage with:(CMRThreadSignature *)aThread;
 - (void)removeSample:(CMRThreadMessage *)aMessage with:(CMRThreadSignature *)aThread;

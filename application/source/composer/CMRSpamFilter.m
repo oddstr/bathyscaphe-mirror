@@ -149,6 +149,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 
 - (void)dealloc
 {
+	[m_timer invalidate];
+	[m_timer release];
+
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	[_detecter release];
@@ -194,6 +197,28 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	[[self spamCorpus] addObject:expression];
 	[self didChangeValueForKey:@"spamCorpus"];
 	[CMRPref didChangeValueForKey:@"spamMessageCorpus"];
+	[self setNeedsSaveToFiles:YES];
+}
+
+- (BOOL)needsSaveToFiles
+{
+	return m_needsSaveToFiles;
+}
+
+- (void)setNeedsSaveToFiles:(BOOL)flag
+{
+	if (!m_timer) {
+//		NSLog(@"CMRSpamFilter: m_timer created.");
+		m_timer = [[NSTimer scheduledTimerWithTimeInterval:300.0
+													target:self
+												  selector:@selector(saveToFilesIfNeeded)
+												  userInfo:nil
+												   repeats:YES] retain];
+	}
+
+	@synchronized(self) {
+		m_needsSaveToFiles = flag;
+	}
 }
 
 #pragma mark Writing to file
@@ -254,6 +279,15 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	[self saveRepresentation:rep toFile:[[self class] defaultFilepath]];
 
 	[self saveRepresentation:[self arrayRepresentation] toFile:[[self class] expressionsFilepath]];
+}
+
+- (void)saveToFilesIfNeeded
+{
+//	NSLog(@"CMRSpamFilter: -saveToFilesIfNeeded called.");
+	if ([self needsSaveToFiles]) {
+		[self saveDetecterAndCorpusToFiles];
+		[self setNeedsSaveToFiles:NO];
+	}
 }
 
 #pragma mark Work with detecter

@@ -1,3 +1,9 @@
+2007-10-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/preferences/AppDefaults-Filter.m
+	* application/subproj/preference/filter/CMRFilterPrefController.m
+	* application/source/composer/CMRSpamFilter.m
+		迷惑レスフィルタの内容が変更されていないか5分おきにタイマーでチェックして、変更されている場合には BSSpamFilter.plist や
+		NGExpressions.plist に書き込むようにした。
 2007-10-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/CMRAppDelegate.m
 	* application/Resources/Japanese.lproj/MainMenu.nib
@@ -6,6 +12,7 @@
 	* application/source/window/CMRReplyMessenger.m
 	* application/Resources/BathyScaphe.scriptSuite
 	* application/Resources/BathyScaphe.scriptTerminology
+		AppleScript サポートの改良：
 		ブラウザウインドウ(browser)でも selected text プロパティが取得できるようにした。
 		また、書き込みウインドウ(reply document)で selected text プロパティを取得および set できるようにした。
 		- selected text を set することは、すでに選択されているものを置換することを意味する。
