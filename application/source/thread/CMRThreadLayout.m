@@ -1,6 +1,6 @@
 //: CMRThreadLayout.m
 /**
-  * $Id: CMRThreadLayout.m,v 1.15 2007/09/16 18:36:22 tsawada2 Exp $
+  * $Id: CMRThreadLayout.m,v 1.16 2007/10/13 16:43:35 tsawada2 Exp $
   * 
   * CMRThreadLayout.m
   *
@@ -185,7 +185,7 @@
 
 	index1 = [self messageIndexForRange:range];
 	index2 = [self lastMessageIndexForRange:range];
-	NSLog(@"messageIndexForRange is %i, lastMessageIndexForRange is %i (Range:%@)",index1, index2, NSStringFromRange(range));
+//	NSLog(@"messageIndexForRange is %i, lastMessageIndexForRange is %i (Range:%@)",index1, index2, NSStringFromRange(range));
 	return (index1 == index2);
 }
 

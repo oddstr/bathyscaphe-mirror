@@ -1,3 +1,10 @@
+2007-10-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/thread/CMRThreadViewer-Validation.m
+	* application/source/thread/TextFinder.m
+	* application/Resources/Japanese.lproj/CMXMessageMenu.nib
+		テキストを選択したときのコンテクストメニューに「抽出」を追加した。
+		選択された語句を使って、名前・メール・本文を対象に抽出を実行する(検索パネルは表示しない)。
 2007-10-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/preferences/AppDefaults-Filter.m
 	* application/subproj/preference/filter/CMRFilterPrefController.m

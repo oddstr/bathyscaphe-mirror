@@ -49,6 +49,7 @@
                 copyThreadAttributes = id; 
                 deleteThread = id; 
                 editBoardListItem = id; 
+                extractUsingSelectedText = id; 
                 findAll = id; 
                 findAllByFilter = id; 
                 findFirstText = id; 

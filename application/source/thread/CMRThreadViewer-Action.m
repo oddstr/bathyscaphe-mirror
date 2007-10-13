@@ -1,11 +1,12 @@
-/**
-  * $Id: CMRThreadViewer-Action.m,v 1.44 2007/09/07 13:06:53 tsawada2 Exp $
-  * 
-  * CMRThreadViewer-Action.m
-  *
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  CMRThreadViewer-Action.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/10/13.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import "CMRThreadViewer_p.h"
 
 #import "CMRThreadsList.h"
@@ -16,6 +17,7 @@
 #import "CMRThreadDownloadTask.h"
 #import "CMXPopUpWindowManager.h"
 #import "BSBoardInfoInspector.h"
+#import "TextFinder.h"
 
 #import "CMRSpamFilter.h"
 #import "BSNGExpression.h"
@@ -25,7 +27,7 @@
 #import "UTILDebugging.h"
 
 @implementation CMRThreadViewer(ActionSupport)
-- (CMRReplyMessenger *) messenger : (BOOL) create
+- (CMRReplyMessenger *)messenger:(BOOL)create
 {
 	NSDocumentController		*docc_;
 	CMRReplyDocumentFileManager	*replyMgr_;
@@ -35,126 +37,127 @@
 	docc_ = [NSDocumentController sharedDocumentController];
 	replyMgr_ = [CMRReplyDocumentFileManager defaultManager];
 	reppath_ = [replyMgr_ replyDocumentFilepathWithLogPath : [self path]];
-	document_ = [docc_ documentForFileName : reppath_];
+	document_ = [docc_ documentForFileName:reppath_];
 
-	if ((document_ != nil) || NO == create) 
+	if (document_ || !create) {
 		return document_;
-	
-	[replyMgr_ createDocumentFileIfNeededAtPath : reppath_ contentInfo : [self selectedThread]];
+	}
 
-	document_ = [docc_ openDocumentWithContentsOfFile : reppath_ display : YES];
+	[replyMgr_ createDocumentFileIfNeededAtPath:reppath_ contentInfo:[self selectedThread]];
+
+	document_ = [docc_ openDocumentWithContentsOfFile:reppath_ display:YES];
 	return document_;
 }
 
-- (void) addMessenger : (CMRReplyMessenger *) aMessenger
+- (void)addMessenger:(CMRReplyMessenger *)aMessenger
 {
 	[[NSNotificationCenter defaultCenter]
-		addObserver : self
-		   selector : @selector(replyMessengerDidFinishPosting:)
-			   name : CMRReplyMessengerDidFinishPostingNotification
-			 object : aMessenger];
+		addObserver:self
+		   selector:@selector(replyMessengerDidFinishPosting:)
+			   name:CMRReplyMessengerDidFinishPostingNotification
+			 object:aMessenger];
 }
 
-- (void) replyMessengerDidFinishPosting : (NSNotification *) aNotification
+- (void)replyMessengerDidFinishPosting:(NSNotification *)aNotification
 {
-	NSSound	*sound_ = nil;
+	NSSound	*sound_;
 	NSString *soundTitle_;
-	UTILAssertNotificationName(
-		aNotification,
-		CMRReplyMessengerDidFinishPostingNotification);
+	UTILAssertNotificationName(aNotification, CMRReplyMessengerDidFinishPostingNotification);
 
 	soundTitle_ = [CMRPref replyDidFinishSound];
-	if (![soundTitle_ isEqualToString : @""])
-		sound_ = [NSSound soundNamed : soundTitle_];
+	if (![soundTitle_ isEqualToString:@""]) {
+		sound_ = [NSSound soundNamed:soundTitle_];
+	}
 	
-	if (sound_)
+	if (sound_) {
 		[sound_ play];
+	}
 
-	[self reloadIfOnlineMode : nil];
+	[self reloadIfOnlineMode:nil];
 }
 
-- (void) removeMessenger : (CMRReplyMessenger *) aMessenger
+- (void)removeMessenger:(CMRReplyMessenger *)aMessenger
 {
 	[[NSNotificationCenter defaultCenter]
-			 removeObserver : self
-					   name : CMRReplyMessengerDidFinishPostingNotification
-					 object : aMessenger];
+		removeObserver:self
+				  name:CMRReplyMessengerDidFinishPostingNotification
+			    object:aMessenger];
 }
 
-- (void) openThreadsInThreadWindow : (NSArray *) threads {} // subclass should override this method
+- (void)openThreadsInThreadWindow:(NSArray *)threads
+{
+	// subclass should override this method
+}
 
-- (void) openThreadsInBrowser : (NSArray *) threads
+- (void)openThreadsInBrowser:(NSArray *)threads
 {
 	NSEnumerator		*Iter_;
 	NSDictionary		*threadAttributes_;
 	
 	Iter_ = [threads objectEnumerator];
-	while ((threadAttributes_ = [Iter_ nextObject])) {
-		NSURL			*url_;
-		url_ = [CMRThreadAttributes threadURLWithDefaultParameterFromDictionary: threadAttributes_];
-		[[NSWorkspace sharedWorkspace] openURL : url_ inBackGround : [CMRPref openInBg]];
+	while (threadAttributes_ = [Iter_ nextObject]) {
+		NSURL	*url_;
+		url_ = [CMRThreadAttributes threadURLWithDefaultParameterFromDictionary:threadAttributes_];
+		[[NSWorkspace sharedWorkspace] openURL:url_ inBackGround:[CMRPref openInBg]];
 	}
 }
 @end
 
 
 @implementation CMRThreadViewer(Action)
-- (NSArray *) targetThreadsForAction : (SEL) action
+- (NSArray *)targetThreadsForAction:(SEL)action
 {
 	return [self selectedThreads];
 }
+
 #pragma mark Reloading thread
-- (void) reloadThread
+- (void)reloadThread
 {
-	[self downloadThread : [[self threadAttributes] threadSignature]
-				   title : [self title]
-			   nextIndex : [[self threadLayout] numberOfReadedMessages]];
+	[self downloadThread:[[self threadAttributes] threadSignature]
+				   title:[self title]
+			   nextIndex:[[self threadLayout] numberOfReadedMessages]];
 }
-- (IBAction) reloadThread : (id) sender
+- (IBAction)reloadThread:(id)sender
 {
 	NSEnumerator		*Iter_;
 	NSDictionary		*threadAttributes_;
 
-//	Iter_ = [[self selectedThreads] objectEnumerator];
-    Iter_ = [[self targetThreadsForAction: _cmd] objectEnumerator];
-	while ((threadAttributes_ = [Iter_ nextObject])) {
+    Iter_ = [[self targetThreadsForAction:_cmd] objectEnumerator];
+	while (threadAttributes_ = [Iter_ nextObject]) {
 		NSString			*path_;
 		NSString			*title_;
 		unsigned int		curNumOfMsgs_;
 		CMRThreadSignature	*threadSignature_;
 		
-		path_ =  [CMRThreadAttributes pathFromDictionary : threadAttributes_];
-		title_ = [threadAttributes_ objectForKey : CMRThreadTitleKey];
-		curNumOfMsgs_ = [threadAttributes_ unsignedIntForKey : CMRThreadLastLoadedNumberKey];
-		threadSignature_ = [CMRThreadSignature threadSignatureFromFilepath : path_];
-		
-		if ([[self threadIdentifier] isEqual : threadSignature_]) {
-			if ([self checkCanGenarateContents])
+		path_ =  [CMRThreadAttributes pathFromDictionary:threadAttributes_];
+		title_ = [threadAttributes_ objectForKey:CMRThreadTitleKey];
+		curNumOfMsgs_ = [threadAttributes_ unsignedIntForKey:CMRThreadLastLoadedNumberKey];
+		threadSignature_ = [CMRThreadSignature threadSignatureFromFilepath:path_];
+
+		if ([[self threadIdentifier] isEqual:threadSignature_]) {
+			if ([self checkCanGenarateContents]) {
 				[self reloadThread];
-			
+			}
 			continue;
 		}
-		
-		[self downloadThread : threadSignature_
-					   title : title_
-				   nextIndex : curNumOfMsgs_];//NSNotFound];
+
+		[self downloadThread:threadSignature_ title:title_ nextIndex:curNumOfMsgs_];
 	}
 }
-- (IBAction) reloadIfOnlineMode : (id) sender
+
+- (IBAction)reloadIfOnlineMode:(id)sender
 {
 	id<CMRThreadLayoutTask>		task;
 	
-	if (NO == [CMRPref isOnlineMode] || NO == [self shouldShowContents])
-		return;
+	if (![CMRPref isOnlineMode] || ![self shouldShowContents]) return;
 
-	task = [[CMRThreadDownloadTask alloc] initWithThreadViewer : self];
-	[[self threadLayout] push : task];
+	task = [[CMRThreadDownloadTask alloc] initWithThreadViewer:self];
+	[[self threadLayout] push:task];
 	[task release];
 }
 
 #pragma mark Copy Thread Info
-
-- (NSPoint) locationForInformationPopUp
+- (NSPoint)locationForInformationPopUp
 {
 	id			docView_;
 	NSPoint		loc;
@@ -167,13 +170,13 @@
 	
 	docView_ = [[self textView] enclosingScrollView];
 	loc = [docView_ convertPoint:loc toView:nil];
-	loc = [[docView_ window] convertBaseToScreen : loc];
+	loc = [[docView_ window] convertBaseToScreen:loc];
 	return loc;
 }
 
-- (IBAction) copyThreadAttributes : (id) sender
+- (IBAction)copyThreadAttributes:(id)sender
 {
-	NSArray *array_ = [self targetThreadsForAction: _cmd];
+	NSArray *array_ = [self targetThreadsForAction:_cmd];
 
 	NSMutableString	*tmp;
 	NSURL			*url_ = nil;
@@ -182,19 +185,19 @@
 	
 	tmp = SGTemporaryString();
 
-	[CMRThreadAttributes fillBuffer: tmp withThreadInfoForCopying: array_];
-	url_ = [CMRThreadAttributes threadURLFromDictionary: [array_ lastObject]];
+	[CMRThreadAttributes fillBuffer:tmp withThreadInfoForCopying:array_];
+	url_ = [CMRThreadAttributes threadURLFromDictionary:[array_ lastObject]];
 	
-	types_ = [NSArray arrayWithObjects: NSURLPboardType, NSStringPboardType, nil];
-	[pboard_ declareTypes: types_ owner: nil];
+	types_ = [NSArray arrayWithObjects:NSURLPboardType, NSStringPboardType, nil];
+	[pboard_ declareTypes:types_ owner:nil];
 	
-	[url_ writeToPasteboard: pboard_];
-	[pboard_ setString: tmp forType: NSStringPboardType];
+	[url_ writeToPasteboard:pboard_];
+	[pboard_ setString:tmp forType:NSStringPboardType];
 	
-	[tmp deleteCharactersInRange : [tmp range]];
+	[tmp deleteCharactersInRange:[tmp range]];
 }
 
-- (IBAction) copySelectedResURL : (id) sender
+- (IBAction)copySelectedResURL:(id)sender
 {
 	NSRange			selectedRange_;
 	unsigned		index_;
@@ -203,15 +206,15 @@
 	NSURL			*resURL_;
 	CMRHostHandler	*handler_;
 	
-	if (nil == [self threadAttributes]) return;
+	if (![self threadAttributes]) return;
 	selectedRange_ = [[self textView] selectedRange];
-	if (0 == selectedRange_.length) return;
+	if (selectedRange_.length == 0) return;
 	
-	handler_ = [CMRHostHandler hostHandlerForURL : [self boardURL]];
-	if (nil == handler_) return;
+	handler_ = [CMRHostHandler hostHandlerForURL:[self boardURL]];
+	if (!handler_) return;
 	
-	index_ = [[self threadLayout] messageIndexForRange : selectedRange_];
-	last_ = [[self threadLayout] lastMessageIndexForRange : selectedRange_];
+	index_ = [[self threadLayout] messageIndexForRange:selectedRange_];
+	last_ = [[self threadLayout] lastMessageIndexForRange:selectedRange_];
 	if (NSNotFound == index_ || NSNotFound == last_) {
 		NSBeep();
 		return;
@@ -219,148 +222,136 @@
 	
 	index_++;
 	last_++;
-	resURL_ = [handler_ readURLWithBoard : [self boardURL]
-								 datName : [self datIdentifier]
-								 start : index_
-								 end : last_
-								 nofirst : NO];
-	if (nil == resURL_)
-		return;
+	resURL_ = [handler_ readURLWithBoard:[self boardURL] datName:[self datIdentifier] start:index_ end:last_ nofirst:NO];
+	if (!resURL_) return;
 	
-	[[SGCopyLinkCommand functorWithObject : resURL_] execute : self];
+	[[SGCopyLinkCommand functorWithObject:resURL_] execute:self];
 }
 
 #pragma mark Deletion
-
-- (BOOL) forceDeleteThreadAtPath : (NSString *) filepath alsoReplyFile : (BOOL) deleteReply
+- (BOOL)forceDeleteThreadAtPath:(NSString *)filepath alsoReplyFile:(BOOL)deleteReply
 {
-	if (NO == [[NSFileManager defaultManager] fileExistsAtPath : filepath])
-		return NO;
+	if (![[NSFileManager defaultManager] fileExistsAtPath:filepath]) return NO;
 	
 	NSArray		*filePathArray_;
 
-	filePathArray_ = [NSArray arrayWithObject : filepath];
+	filePathArray_ = [NSArray arrayWithObject:filepath];
 
 	if (deleteReply) {
 		NSArray		*alsoReplyFile_;		
-		alsoReplyFile_ = [[CMRReplyDocumentFileManager defaultManager]
-								replyDocumentFilesArrayWithLogsArray : filePathArray_];
-		return [[CMRTrashbox trash] performWithFiles : alsoReplyFile_ fetchAfterDeletion: NO];
+		alsoReplyFile_ = [[CMRReplyDocumentFileManager defaultManager] replyDocumentFilesArrayWithLogsArray:filePathArray_];
+		return [[CMRTrashbox trash] performWithFiles:alsoReplyFile_ fetchAfterDeletion:NO];
 	}
 
-	return [[CMRTrashbox trash] performWithFiles : filePathArray_ fetchAfterDeletion: YES];
+	return [[CMRTrashbox trash] performWithFiles:filePathArray_ fetchAfterDeletion:YES];
 }
 
-- (IBAction) deleteThread : (id) sender
+- (IBAction)deleteThread:(id)sender
 {
 	if ([CMRPref quietDeletion]) {
 		NSString	*path_ = [[self path] copy];
-		[[self window] performClose : sender];
+		[[self window] performClose:sender];
 
-		if (![self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
+		if (![self forceDeleteThreadAtPath:path_ alsoReplyFile:YES]) {
 			NSBeep();
 			NSLog(@"Deletion failed : %@", path_);
 		}
 
 		[path_ release];
-
 	} else {
 		NSAlert *alert_;
-		NSString	*tmp_ = [self localizedString : kDeleteThreadTitleKey];
-		alert_ = [[NSAlert alloc] init];
-		[alert_ setMessageText : [NSString stringWithFormat : tmp_, [self title]]];
-		[alert_ setInformativeText : [self localizedString : kDeleteThreadMessageKey]];
-		[alert_ addButtonWithTitle : [self localizedString : kDeleteOKBtnKey]];
-		[alert_ addButtonWithTitle : [self localizedString : kDeleteCancelBtnKey]];
+		NSString	*tmp_ = [self localizedString:kDeleteThreadTitleKey];
+		alert_ = [[[NSAlert alloc] init] autorelease];
+		[alert_ setMessageText:[NSString stringWithFormat:tmp_, [self title]]];
+		[alert_ setInformativeText:[self localizedString:kDeleteThreadMessageKey]];
+		[alert_ addButtonWithTitle:[self localizedString:kDeleteOKBtnKey]];
+		[alert_ addButtonWithTitle:[self localizedString:kDeleteCancelBtnKey]];
 		if ([CMRPref isOnlineMode]) {
 			NSButton	*retryBtn_;		
-			retryBtn_ = [alert_ addButtonWithTitle : [self localizedString : kDeleteAndReloadBtnKey]];
-			[retryBtn_ setKeyEquivalent : @"r"];
+			retryBtn_ = [alert_ addButtonWithTitle:[self localizedString:kDeleteAndReloadBtnKey]];
+			[retryBtn_ setKeyEquivalent:@"r"];
 		}
 
-		[alert_ beginSheetModalForWindow : [self window]
-						   modalDelegate : self
-						  didEndSelector : @selector(_threadDeletionSheetDidEnd:returnCode:contextInfo:)
-							 contextInfo : sender];
+		[alert_ beginSheetModalForWindow:[self window]
+						   modalDelegate:self
+						  didEndSelector:@selector(threadDeletionSheetDidEnd:returnCode:contextInfo:)
+							 contextInfo:sender];
 	}
 }
 
-- (void) _threadDeletionSheetDidEnd : (NSAlert *) alert
-						 returnCode : (int      ) returnCode
-						contextInfo : (void    *) contextInfo
+- (void)threadDeletionSheetDidEnd:(NSAlert *)alert
+					   returnCode:(int)returnCode
+					  contextInfo:(void*)contextInfo
 {
-	switch(returnCode){
-	case NSAlertFirstButtonReturn:
+	switch (returnCode) {
+		case NSAlertFirstButtonReturn:
 		{
 			NSString *path_ = [[self path] copy];
 
-			[[alert window] orderOut : nil]; 
-			[[self window] performClose : contextInfo];
+			[[alert window] orderOut:nil]; 
+			[[self window] performClose:nil];
 
-			if (![self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
+			if (![self forceDeleteThreadAtPath:path_ alsoReplyFile:YES]) {
 				NSBeep();
 				NSLog(@"Deletion failed : %@", path_);
 			}
 			[path_ release];
 		}
 		break;
-	case NSAlertThirdButtonReturn:
+		case NSAlertThirdButtonReturn:
 		{
 			NSString *path_ = [[self path] copy];
-			if (![self forceDeleteThreadAtPath : path_ alsoReplyFile : NO]) {
+			if (![self forceDeleteThreadAtPath:path_ alsoReplyFile:NO]) {
 				NSBeep();
 				NSLog(@"Deletion failed : %@\n...So reloading operation has been canceled.", path_);
 			}
 			[path_ release];
 		}
 		break;
-	default:
+		default:
 		break;
 	}
-	[alert release];
 }
 
 #pragma mark Other IBActions
-
 /* NOTE: It is a history item's action. */	 
-- (IBAction) showThreadWithMenuItem : (id) sender	 
+- (IBAction)showThreadWithMenuItem:(id)sender
 {
 	id historyItem = nil;
 
-	if ([sender respondsToSelector : @selector(representedObject)]) {
+	if ([sender respondsToSelector:@selector(representedObject)]) {
 		id o = [sender representedObject];
 		historyItem = o;
 	}
 
-	[self setThreadContentWithThreadIdentifier: historyItem];
+	[self setThreadContentWithThreadIdentifier:historyItem];
 }
 
 // Save window frame
-- (IBAction) saveAsDefaultFrame : (id) sender;
+- (IBAction)saveAsDefaultFrame:(id)sender
 {
-	[CMRPref setWindowDefaultFrameString : [[self window] stringWithSavedFrame]];
+	[CMRPref setWindowDefaultFrameString:[[self window] stringWithSavedFrame]];
 }
 
-- (void) quoteWithMessenger : (CMRReplyMessenger *) aMessenger
+- (void)quoteWithMessenger:(CMRReplyMessenger *)aMessenger
 {
 	unsigned		index_;
 	NSRange			selectedRange_;
 	NSString		*contents_;
 	
-	// à¯óp
-	if ([[aMessenger replyMessage] length] != 0)
-		return;
+	// ÂºïÁî®
+	if ([[aMessenger replyMessage] length] != 0) return;
 	
 	selectedRange_ = [[self textView] selectedRange];
 	if (0 == selectedRange_.length) return;
-	index_ = [[self threadLayout] messageIndexForRange : selectedRange_];
+	index_ = [[self threadLayout] messageIndexForRange:selectedRange_];
 	if (NSNotFound == index_) return;
 	
-	contents_ = [[[self textView] string] substringWithRange : selectedRange_];
+	contents_ = [[[self textView] string] substringWithRange:selectedRange_];
 	[aMessenger setMessageContents:contents_ replyTo:index_];
 }
 
-- (IBAction) reply : (id) sender
+- (IBAction)reply:(id)sender
 {
 	NSEnumerator		*iter_;
 	NSArray				*selectedThreads_;
@@ -375,43 +366,43 @@
 		NSString				*reppath_;
 		
 		docc_ = [NSDocumentController sharedDocumentController];
-		filepath_ =  [CMRThreadAttributes pathFromDictionary : threadAttributes_];
+		filepath_ =  [CMRThreadAttributes pathFromDictionary:threadAttributes_];
 		reppath_ = [[CMRReplyDocumentFileManager defaultManager]
-						replyDocumentFilepathWithLogPath : filepath_];
-		document_ = [docc_ documentForFileName : reppath_];
-		if (document_ != nil) {
+						replyDocumentFilepathWithLogPath:filepath_];
+		document_ = [docc_ documentForFileName:reppath_];
+		if (document_) {
 			[document_ showWindows];
 			continue;
 		}
-		
-		if ([filepath_ isSameAsString : [self path]]) {
-			document_ = [self messenger : YES];
-			[self addMessenger : document_];
-			[self quoteWithMessenger : document_];
+
+		if ([filepath_ isSameAsString:[self path]]) {
+			document_ = [self messenger:YES];
+			[self addMessenger:document_];
+			[self quoteWithMessenger:document_];
 		}
 	}
 }
 
-- (IBAction) openBBSInBrowser : (id) sender
+- (IBAction)openBBSInBrowser:(id)sender
 {
 	NSEnumerator		*Iter_;
 	NSDictionary		*threadAttributes_;
 	
 	Iter_ = [[self selectedThreadsReallySelected] objectEnumerator];
-	while ((threadAttributes_ = [Iter_ nextObject])) {
+	while (threadAttributes_ = [Iter_ nextObject]) {
 		NSURL			*boardURL_;
 		
-		boardURL_ =  [CMRThreadAttributes boardURLFromDictionary : threadAttributes_];
-		[[NSWorkspace sharedWorkspace] openURL : boardURL_ inBackGround : [CMRPref openInBg]];
+		boardURL_ =  [CMRThreadAttributes boardURLFromDictionary:threadAttributes_];
+		[[NSWorkspace sharedWorkspace] openURL:boardURL_ inBackGround:[CMRPref openInBg]];
 	}
 }
 
-- (IBAction) openInBrowser : (id) sender
+- (IBAction)openInBrowser:(id)sender
 {
-	[self openThreadsInBrowser: [self targetThreadsForAction: _cmd]];
+	[self openThreadsInBrowser:[self targetThreadsForAction:_cmd]];
 }
 
-- (IBAction) addFavorites : (id) sender
+- (IBAction)addFavorites:(id)sender
 {
 	NSEnumerator			*Iter_;
 	NSDictionary			*threadAttributes_;
@@ -419,32 +410,32 @@
 	
 	CMRFavoritesManager		*fM_ = [CMRFavoritesManager defaultManager];
 	
-	selectedThreads_ = [self targetThreadsForAction: _cmd];
+	selectedThreads_ = [self targetThreadsForAction:_cmd];
 	
 	Iter_ = [selectedThreads_ objectEnumerator];
-	while ((threadAttributes_ = [Iter_ nextObject])) {
+	while (threadAttributes_ = [Iter_ nextObject]) {
 		CMRFavoritesOperation	operation_;
-		NSString *path_ = [CMRThreadAttributes pathFromDictionary: threadAttributes_];
+		NSString *path_ = [CMRThreadAttributes pathFromDictionary:threadAttributes_];
 		UTILAssertNotNil(path_);
 
-		CMRThreadSignature *signature_ = [CMRThreadSignature threadSignatureFromFilepath: path_];
+		CMRThreadSignature *signature_ = [CMRThreadSignature threadSignatureFromFilepath:path_];
 		UTILAssertNotNil(signature_);
 		
-		operation_ = [fM_ availableOperationWithSignature: signature_];
+		operation_ = [fM_ availableOperationWithSignature:signature_];
 		if (CMRFavoritesOperationNone == operation_) {
 			continue;	
 		} else if (CMRFavoritesOperationLink == operation_) {
-			[fM_ addFavoriteWithSignature: signature_];
+			[fM_ addFavoriteWithSignature:signature_];
 
 		} else {
-			[fM_ removeFromFavoritesWithSignature: signature_];
+			[fM_ removeFromFavoritesWithSignature:signature_];
 		}
 	}
 }
 // make text area to be first responder
-- (IBAction) focus : (id) sender
+- (IBAction)focus:(id)sender
 {
-    [[self window] makeFirstResponder: [[self textView] enclosingScrollView]];
+    [[self window] makeFirstResponder:[[self textView] enclosingScrollView]];
 }
 
 // Available in Twincam Angel and later.
@@ -531,17 +522,44 @@
 	}
 }
 
-- (IBAction) showBoardInspectorPanel : (id) sender
+- (IBAction)showBoardInspectorPanel:(id)sender
 {
 	NSString			*board;
 	
 	board = [self boardNameArrowingSecondSource];
 
-	[[BSBoardInfoInspector sharedInstance] showInspectorForTargetBoard : board];
+	[[BSBoardInfoInspector sharedInstance] showInspectorForTargetBoard:board];
+}
+
+- (IBAction)extractUsingSelectedText:(id)sender
+{
+	static NSArray *targets = nil;
+	
+	NSRange			selectedRange_ = [[self textView] selectedRange];
+	NSString		*string_;
+	TextFinder		*textFinder = [TextFinder standardTextFinder];
+	
+	string_ = [[[self textView] string] substringWithRange:selectedRange_];
+	if (!string_ || [string_ isEmpty]) return;
+
+	if (![[self threadLayout] onlySingleMessageInRange:selectedRange_]) return;
+
+	if ([string_ rangeOfString:@"\n" options:NSLiteralSearch].length != 0) return;
+
+	if (!targets) {
+		NSNumber *trueNumber = [NSNumber numberWithBool:YES];
+		NSNumber *falseNumber = [NSNumber numberWithBool:NO];
+		targets = [[NSArray alloc] initWithObjects:trueNumber,trueNumber,falseNumber,falseNumber,trueNumber,nil];
+	}
+	[textFinder setFindString:string_];
+//	[textFinder setUsesRegularExpression:NO];
+	[textFinder setSearchTargets:targets display:YES];
+
+	[self findAllByFilter:sender];
 }
 
 #pragma mark Scaling Text View
-- (void) scaleTextView: (float) rate
+- (void)scaleTextView:(float)rate
 {
 	NSClipView *clipView_ = [[self scrollView] contentView];
 	NSTextView *textView_ = [self textView];
@@ -551,32 +569,31 @@
 	NSSize	curBoundsSize = [clipView_ bounds].size;	
 	NSSize	curFrameSize = [textView_ frame].size;
 
-	[clipView_ setBoundsSize: NSMakeSize(curBoundsSize.width*rate, curBoundsSize.height*rate)];
-	[textView_ setFrameSize: NSMakeSize(curFrameSize.width*rate, curFrameSize.height*rate)];
+	[clipView_ setBoundsSize:NSMakeSize(curBoundsSize.width*rate, curBoundsSize.height*rate)];
+	[textView_ setFrameSize:NSMakeSize(curFrameSize.width*rate, curFrameSize.height*rate)];
 
-	[clipView_ setNeedsDisplay: YES]; // really need?
+	[clipView_ setNeedsDisplay:YES]; // really need?
 
-	[clipView_ setCopiesOnScroll: NO]; // Ç±ÇÍÇ™ÉLÉÇ
-	[[self threadLayout] scrollMessageAtIndex: curIndex]; // ÉXÉNÉçÅ[Éãà íuï‚ê≥
+	[clipView_ setCopiesOnScroll:NO]; // „Åì„Çå„Åå„Ç≠„É¢
+	[[self threadLayout] scrollMessageAtIndex:curIndex]; // „Çπ„ÇØ„É≠„Éº„É´‰ΩçÁΩÆË£úÊ≠£
 
-	// ÉeÉLÉXÉgÉrÉÖÅ[Ç‚ÉNÉäÉbÉvÉrÉÖÅ[ÇæÇØçƒï`âÊÇ≥ÇπÇƒÇ‡ó«Ç≥ÇªÇ§ÇæÇ™ÅA
-	// éûÅXÉcÅ[ÉãÉoÅ[Ç∆ÇÃã´äEê¸Ç™è¡Ç¶ÇƒÇµÇ‹Ç§Ç±Ç∆Ç™Ç†ÇÈÇÃÇ≈ÅAÉEÉCÉìÉhÉEÇ≤Ç∆çƒï`âÊÇ≥ÇπÇÈ
+	// „ÉÜ„Ç≠„Çπ„Éà„Éì„É•„Éº„ÇÑ„ÇØ„É™„ÉÉ„Éó„Éì„É•„Éº„Å†„ÅëÂÜçÊèèÁîª„Åï„Åõ„Å¶„ÇÇËâØ„Åï„Åù„ÅÜ„Å†„Åå„ÄÅ
+	// ÊôÇ„ÄÖ„ÉÑ„Éº„É´„Éê„Éº„Å®„ÅÆÂ¢ÉÁïåÁ∑ö„ÅåÊ∂à„Åà„Å¶„Åó„Åæ„ÅÜ„Åì„Å®„Åå„ÅÇ„Çã„ÅÆ„Åß„ÄÅ„Ç¶„Ç§„É≥„Éâ„Ç¶„Åî„Å®ÂÜçÊèèÁîª„Åï„Åõ„Çã
 	[[self window] display]; 
-	[clipView_ setCopiesOnScroll: YES];
+	[clipView_ setCopiesOnScroll:YES];
 }
 
-- (IBAction) biggerText: (id) sender
+- (IBAction)biggerText:(id)sender
 {
 	[self scaleTextView: 0.8];
 }
 
-- (IBAction) smallerText: (id) sender
+- (IBAction)smallerText:(id)sender
 {
 	[self scaleTextView: 1.25];
 }
 
-
-- (IBAction) scaleSegmentedControlPushed : (id) sender
+- (IBAction)scaleSegmentedControlPushed:(id)sender
 {
 	int	i;
 	i = [sender selectedSegment];
@@ -584,9 +601,9 @@
 	if (i == -1) {
 		NSLog(@"No selection?");
 	} else if (i == 1) {
-		[self biggerText : nil];
+		[self biggerText:nil];
 	} else {
-		[self smallerText : nil];
+		[self smallerText:nil];
 	}
 }
 @end

@@ -1,5 +1,5 @@
 /*
-    $Id: CMRThreadViewer-Validation.m,v 1.32 2007/08/11 19:48:07 tsawada2 Exp $
+    $Id: CMRThreadViewer-Validation.m,v 1.33 2007/10/13 16:43:35 tsawada2 Exp $
     CMRThreadViewer-Action.m から独立
     Created at 2005-02-16 by tsawada2.
 */
@@ -333,7 +333,8 @@ static int messageMaskForTag(int tag)
 
 	// 選択テキストの検索／コビー
 	if (action_ == @selector(findTextInSelection:) ||
-	   action_ == @selector(copySelectedResURL:)
+	   action_ == @selector(copySelectedResURL:) ||
+	   action_ == @selector(extractUsingSelectedText:)
 	   )
 	{ return ([[self textView] selectedRange].length != 0); }
 	

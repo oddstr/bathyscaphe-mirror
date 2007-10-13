@@ -1,5 +1,5 @@
 /**
-  * $Id: TextFinder.h,v 1.9 2007/03/18 17:46:52 tsawada2 Exp $
+  * $Id: TextFinder.h,v 1.10 2007/10/13 16:43:35 tsawada2 Exp $
   * 
   * Copyright 2005 BathyScaphe Project. All rights reserved.
   *
@@ -29,6 +29,7 @@
 - (NSView *) findButtonsView;
 - (NSButton *) linkOnlyButton;
 
+- (void)setSearchTargets:(NSArray *)array display:(BOOL)needsDisaplay;
 - (void) setupUIComponents;
 
 - (BSSearchOptions *) currentOperation;

@@ -1,5 +1,5 @@
 /**
-  * $Id: TextFinder.m,v 1.11 2007/03/18 17:46:52 tsawada2 Exp $
+  * $Id: TextFinder.m,v 1.12 2007/10/13 16:43:35 tsawada2 Exp $
   *
   * Copyright 2005-2007 BathyScaphe Project. All rights reserved.
   *
@@ -32,31 +32,36 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(standardTextFinder);
 	[self setupUIComponents];
 }
 
-- (void) setupUIComponents
+- (void)updateMatrix
 {
-	NSString		*s;		// from Pasteboard
 	NSArray			*array = [CMRPref contentsSearchTargetArray];
 	int	i;
-	
-	s = [self loadFindStringFromPasteboard];
-	if (s != nil)
-		[self setFindString: s];
 
 	for (i = 0; i < 5; i++) {
-		NSButtonCell *cell = [[self targetMatrix] cellWithTag: i];
-		if ([[array objectAtIndex: i] respondsToSelector: @selector(intValue)]) {
-			[cell setState: [[array objectAtIndex: i] intValue]];
+		NSButtonCell *cell = [[self targetMatrix] cellWithTag:i];
+		if ([[array objectAtIndex:i] respondsToSelector:@selector(intValue)]) {
+			[cell setState:[[array objectAtIndex:i] intValue]];
 		}
 	}
 
-	if (NO == [CMRPref findPanelExpanded]) {
-		[m_disclosureTriangle setState: NSOffState];
-		[self expandOrShrinkPanel: NO animate: NO];
+	[self updateLinkOnlyBtnEnabled];
+}
+
+- (void)setupUIComponents
+{
+	NSString		*s;		// from Pasteboard
+	
+	s = [self loadFindStringFromPasteboard];
+	if (s) [self setFindString:s];
+
+	[self updateMatrix];
+
+	if (![CMRPref findPanelExpanded]) {
+		[m_disclosureTriangle setState:NSOffState];
+		[self expandOrShrinkPanel:NO animate:NO];
 	}
 	
-	[self updateLinkOnlyBtnEnabled];
-
-    [[self window] setFrameAutosaveName : APP_FIND_PANEL_AUTOSAVE_NAME];
+    [[self window] setFrameAutosaveName:APP_FIND_PANEL_AUTOSAVE_NAME];
 }
 
 - (void) updateLinkOnlyBtnEnabled
@@ -202,6 +207,14 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(standardTextFinder);
 {
 	[CMRPref setContentsSearchTargetArray: [[[self targetMatrix] cells] valueForKey: @"state"]];
 	[self updateLinkOnlyBtnEnabled];
+}
+
+- (void)setSearchTargets:(NSArray *)array display:(BOOL)needsDisplay
+{
+	[CMRPref setContentsSearchTargetArray:array];
+	if (needsDisplay) {
+		[self updateMatrix];
+	}
 }
 
 - (void) expandOrShrinkPanel: (BOOL) willExpand animate: (BOOL) shouldAnimate

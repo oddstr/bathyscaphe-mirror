@@ -10,6 +10,7 @@
             ACTIONS = {
                 addToNGWords = id; 
                 copySelectedResLink = id; 
+                extractUsingSelectedText = id; 
                 googleSearch = id; 
                 openWithWikipedia = id; 
             }; 
