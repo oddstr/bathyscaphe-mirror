@@ -2,9 +2,13 @@
 	* application/source/thread/CMRThreadViewer-Action.m
 	* application/source/thread/CMRThreadViewer-Validation.m
 	* application/source/thread/TextFinder.m
-	* application/Resources/Japanese.lproj/CMXMessageMenu.nib
+	* application/Resources/Japanese.lproj/CMRThreadMenu.nib
 		テキストを選択したときのコンテクストメニューに「抽出」を追加した。
 		選択された語句を使って、名前・メール・本文を対象に抽出を実行する(検索パネルは表示しない)。
+	* application/Resources/Japanese.lproj/CMRThreadMenu.nib/keyedobjects.nib
+		[新規追加] CMRThreadMenu.nib の「Mac OS X 10.2 or later」フォーマットへの更新に伴うもの。
+	* application/Resources/Japanese.lproj/CMRThreadMenu.nib/objects.nib
+		[削除] 同上。
 2007-10-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/preferences/AppDefaults-Filter.m
 	* application/subproj/preference/filter/CMRFilterPrefController.m
