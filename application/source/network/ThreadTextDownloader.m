@@ -9,7 +9,7 @@
 #import "ThreadTextDownloader_p.h"
 #import "CMRDATDownloader.h"
 #import "CMRThreadHTMLDownloader.h"
-
+//@class BSLoggedInDATDownloader;
 
 // for debugging only
 #define UTIL_DEBUGGING		0
@@ -29,6 +29,7 @@ NSString *const CMRDownloaderUserInfoAdditionalInfoKey = @"AddtionalInfo";
 	
 	if (Nil == classes[0]) {
 		classes[0] = [(id)[CMRDATDownloader class] retain];
+//		classes[0] = [(id)[BSLoggedInDATDownloader class] retain];
 		classes[1] = [(id)[CMRThreadHTMLDownloader class] retain];
 		classes[2] = Nil;
 	}

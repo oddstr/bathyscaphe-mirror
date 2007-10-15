@@ -1,5 +1,5 @@
 /**
- * $Id: AppDefaults-Bundle.m,v 1.14 2007/07/27 10:26:40 tsawada2 Exp $
+ * $Id: AppDefaults-Bundle.m,v 1.15 2007/10/15 16:25:44 tsawada2 Exp $
  * 
  * AppDefaults-Bundle.m
  *
@@ -43,6 +43,8 @@ static NSString *const kBWLastSyncDateKey = @"BoardWarrior:Last Sync Date";
 #pragma mark -
 
 @implementation AppDefaults(BundleSupport)
+static Class st_class_2chAuthenticater;
+
 - (NSMutableDictionary *) imagePreviewerPrefsDict
 {
 	if(nil == m_imagePreviewerDictionary){
@@ -173,7 +175,7 @@ static NSString *const kBWLastSyncDateKey = @"BoardWarrior:Last Sync Date";
 - (id<w2chConnect>) w2chConnectWithURL : (NSURL        *) anURL
                             properties : (NSDictionary *) properties
 {
-    static Class st_class_2chAuthenticater;
+//    static Class st_class_2chAuthenticater;
     static Class st_class_2chConnector;
     
     if (Nil == st_class_2chConnector) {
@@ -231,6 +233,31 @@ static NSString *const kBWLastSyncDateKey = @"BoardWarrior:Last Sync Date";
         instance_ = [[self _imagePreviewer] retain];
     }
     return instance_;
+}
+
+- (id<w2chAuthenticationStatus>)shared2chAuthenticator
+{
+//    static Class st_class_2chAuthenticater;
+    
+    if (Nil == st_class_2chAuthenticater) {
+        NSBundle *module_;
+        
+        module_ = [self moduleWithName:w2chConnectorPluginName ofType:w2chConnectorPluginType inDirectory:nil];
+        if (!module_) {
+            NSLog(@"Couldn't load plugin<%@.%@>", w2chConnectorPluginName, w2chConnectorPluginType);
+            return nil;
+        } else {
+			st_class_2chAuthenticater = [module_ classNamed:w2chAuthenticaterClassName];
+			NSAssert3(
+				(st_class_2chAuthenticater != Nil),
+				@"Couldn't load Class<%@> in <%@.%@>",
+				w2chAuthenticaterClassName,
+				w2chConnectorPluginName,
+				w2chConnectorPluginType);
+			[st_class_2chAuthenticater setPreferencesObject:self];
+        }
+	}
+	return [st_class_2chAuthenticater defaultAuthenticater];
 }
 /*
 #pragma mark -

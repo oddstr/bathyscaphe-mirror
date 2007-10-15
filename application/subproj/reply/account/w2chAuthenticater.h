@@ -8,9 +8,10 @@
   *
   */
 #import <Foundation/Foundation.h>
+#import "w2chConnect.h"
 
 @class AppDefaults;
-
+/*
 //エラーの種類
 typedef enum {
 	w2chNoError = 0,			// エラーなし
@@ -20,10 +21,10 @@ typedef enum {
 	w2chLoginCanceled,			// ユーザによるキャンセル
 	w2chLoginParamsInvalid,		// IDかPassが空
 } w2chAuthenticaterErrorType;
+*/
 
 
-
-@interface w2chAuthenticater : NSObject
+@interface w2chAuthenticater : NSObject<w2chAuthenticationStatus>
 {
 	NSString		*m_sessionID;
 	NSString		*m_monazillaUserAgent;
@@ -72,18 +73,18 @@ typedef enum {
 @end
 
 
-
+/*
 @interface w2chAuthenticater(Status)
 - (NSString *) sessionID;
 
-/* Accessor for m_recentStatusCode */
+// Accessor for m_recentStatusCode
 - (int) recentStatusCode;
 - (void) setRecentStatusCode : (int) aRecentStatusCode;
-/* Accessor for m_recentErrorType */
+// Accessor for m_recentErrorType
 - (w2chAuthenticaterErrorType) recentErrorType;
 - (void) setRecentErrorType : (w2chAuthenticaterErrorType) aRecentErrorType;
 @end
-
+*/
 
 
 #define k2chAuthSessionIDKey	@"sid"

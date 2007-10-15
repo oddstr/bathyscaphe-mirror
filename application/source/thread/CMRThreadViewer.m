@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.47 2007/09/04 07:45:43 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.48 2007/10/15 16:25:44 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -860,6 +860,13 @@ NSString *kComposingNotificationNames[] = {
 	[[self textView] setNeedsDisplay : YES];
 	[self updateIndexField];
 }
+
+/*
+- (void)reloadAfterDeletion:(NSString *)filePath
+{
+	[self loadFromContentsOfFile:filePath];
+}
+*/
 - (void) trashDidPerformNotification : (NSNotification *) notification
 {
 	NSArray		*files_;
@@ -888,7 +895,8 @@ NSString *kComposingNotificationNames[] = {
 	
 	[self cleanUpItemsToBeRemoved : files_];
 	if (shouldReload_ && [files_ containsObject: [self path]]) {
-		[self reloadAfterDeletion: [files_ objectAtIndex: 0]];
+//		[self reloadAfterDeletion: [files_ objectAtIndex: 0]];
+		[self loadFromContentsOfFile:[files_ objectAtIndex:0]];
 	}
 }
 

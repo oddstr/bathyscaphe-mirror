@@ -72,7 +72,7 @@
 	SG2chConnector	*messenger_ = nil;
 	
 	for (p = [[self class] classClusters]; *p != Nil; p++) {
-		if ([*p canInitWithURL : anURL]) {
+		if ([*p canInitWithURL:anURL]) {
 			messenger_ = [[*p alloc] initClusterWithURL:anURL additionalProperties:properties];
 			break;
 		}

@@ -45,7 +45,8 @@ extern NSString *const CMRThreadViewerRunSpamFilterNotification;
 
 #define kNotFoundTitleKey				@"Not Found Title"
 #define kNotFoundMessageFormatKey		@"Not Found Message"
-#define kNotFoundMessage2FormatKey		@"Not Found Msg 2"
+//#define kNotFoundMessage2FormatKey		@"Not Found Msg 2"
+#define kNotFoundMaruLabelKey			@"Not Found Maru Button Label"
 #define kNotFoundHelpKeywordKey			@"NotFoundSheet Help Anchor"
 #define kInvalidPerticalContentsHelpKeywordKey	@"InvalidPerticalSheet Help Anchor"
 #define kNotFoundCancelLabelKey			@"Do Not Reload Button Label"
@@ -137,8 +138,8 @@ extern NSString *const CMRThreadViewerRunSpamFilterNotification;
 				  title : (NSString           *) threadTitle
 			  nextIndex : (unsigned int        ) aNextIndex;
 
-// available in LittleWish and later.
-- (void) reloadAfterDeletion : (NSString *) filePath_; // subclass(CMRBrowser) should override this method
+// Available in Twincam Angel.
+- (void)downloadThreadUsingMaru:(CMRThreadSignature *)aSignature title:(NSString *)threadTitle;
 @end
 
 

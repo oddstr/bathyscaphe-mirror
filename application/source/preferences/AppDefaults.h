@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.50 2007/10/11 00:07:52 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.51 2007/10/15 16:25:44 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -12,7 +12,7 @@
 
 #import "BSImagePreviewerInterface.h"
 
-@protocol w2chConnect;
+@protocol w2chConnect, w2chAuthenticationStatus;
 @class BSThreadViewTheme;
 /*!
  * @define      CMRPref
@@ -403,6 +403,9 @@ typedef enum _BSAutoSyncIntervalType {
 - (id) sharedPreferencesPane;
 - (id<w2chConnect>) w2chConnectWithURL : (NSURL        *) anURL
                             properties : (NSDictionary *) properties;
+
+// Available in Twincam Angel.
+- (id<w2chAuthenticationStatus>)shared2chAuthenticator;
 
 - (void) _loadImagePreviewerSettings;
 - (BOOL) _saveImagePreviewerSettings;

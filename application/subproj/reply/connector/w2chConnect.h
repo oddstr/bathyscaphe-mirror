@@ -27,6 +27,18 @@ enum {
 	k2chUnknownErrorType
 };
 
+// w2chAuthenticater
+//エラーの種類
+typedef enum {
+	w2chNoError = 0,			// エラーなし
+	w2chNetworkError,			// サーバがエラーを返した
+	w2chLoginError,				// 認証エラー
+	w2chConnectionError,		// 接続時のエラー
+	w2chLoginCanceled,			// ユーザによるキャンセル
+	w2chLoginParamsInvalid,		// IDかPassが空
+} w2chAuthenticaterErrorType;
+
+
 @protocol w2chConnect<NSObject>
 - (NSURLConnection *)connector;
 
@@ -56,6 +68,16 @@ enum {
 - (NSError *)handleErrorWithContents:(NSString *)contents;
 @end
 
+// w2chAuthenticater
+@protocol w2chAuthenticationStatus
+- (NSString *)sessionID;
+
+- (int)recentStatusCode;
+- (void)setRecentStatusCode:(int)aRecentStatusCode;
+
+- (w2chAuthenticaterErrorType)recentErrorType;
+- (void)setRecentErrorType:(w2chAuthenticaterErrorType)aRecentErrorType;
+@end
 
 //Delegate
 @interface NSObject(w2chConnectDelegate)

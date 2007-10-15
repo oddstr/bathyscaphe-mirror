@@ -78,7 +78,6 @@
 		871CA16508585FD200C3A044 /* UTILDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = F376F1FD05D3A805000452AB /* UTILDescription.h */; };
 		871CA16608585FD200C3A044 /* UTILKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F376F1FE05D3A805000452AB /* UTILKit.h */; };
 		871CA16708585FD200C3A044 /* UTILAssertion.h in Headers */ = {isa = PBXBuildFile; fileRef = F376F1FB05D3A805000452AB /* UTILAssertion.h */; };
-		871CA16808585FD200C3A044 /* w2chReply_be2ch.h in Headers */ = {isa = PBXBuildFile; fileRef = 874F24FA080E716700EA2164 /* w2chReply_be2ch.h */; };
 		871CA16A08585FD200C3A044 /* login.png in Resources */ = {isa = PBXBuildFile; fileRef = F324DBEF04C6965500A80005 /* login.png */; };
 		871CA16B08585FD200C3A044 /* ReplyErrorCode.plist in Resources */ = {isa = PBXBuildFile; fileRef = F327C17B04D528F100A80005 /* ReplyErrorCode.plist */; };
 		871CA16C08585FD200C3A044 /* LoginWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872996FD08325B2B00CBD740 /* LoginWindow.nib */; };
@@ -91,7 +90,6 @@
 		871CA17408585FD200C3A044 /* w2chReply_2ch.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DBD504C6965500A80005 /* w2chReply_2ch.m */; };
 		871CA17508585FD200C3A044 /* w2chReply_shita.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DBD704C6965500A80005 /* w2chReply_shita.m */; };
 		871CA17608585FD200C3A044 /* SG2chErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DBDB04C6965500A80005 /* SG2chErrorHandler.m */; };
-		871CA17708585FD200C3A044 /* w2chReply_be2ch.m in Sources */ = {isa = PBXBuildFile; fileRef = 874F24FB080E716700EA2164 /* w2chReply_be2ch.m */; };
 		871CA17908585FD200C3A044 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		871CA17A08585FD200C3A044 /* CocoMonar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3924488043610AE00A80005 /* CocoMonar.framework */; };
 		871CA17B08585FD200C3A044 /* SGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FA043610EB00A80005 /* SGFoundation.framework */; };
@@ -183,6 +181,10 @@
 		87DB9C7F0BA32CE00090090A /* SoftwareUpdate.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87DB9C7D0BA32CE00090090A /* SoftwareUpdate.strings */; };
 		87DBC6990A867C6D00A1C058 /* syncFail.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87DBC6970A867C6D00A1C058 /* syncFail.tiff */; };
 		87DBC69A0A867C6D00A1C058 /* syncFinish.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87DBC6980A867C6D00A1C058 /* syncFinish.tiff */; };
+		87DF529D0CC380C600D48893 /* w2chReply_be2ch.h in Headers */ = {isa = PBXBuildFile; fileRef = 874F24FA080E716700EA2164 /* w2chReply_be2ch.h */; };
+		87DF529E0CC380C600D48893 /* w2chReply_be2ch.m in Sources */ = {isa = PBXBuildFile; fileRef = 874F24FB080E716700EA2164 /* w2chReply_be2ch.m */; };
+		87DF52DE0CC38F6C00D48893 /* BSLoggedInDATDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = 87DF52DC0CC38F6C00D48893 /* BSLoggedInDATDownloader.h */; };
+		87DF52DF0CC38F6C00D48893 /* BSLoggedInDATDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 87DF52DD0CC38F6C00D48893 /* BSLoggedInDATDownloader.m */; };
 		87E971E80B80A82300579603 /* Keywords.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87E971E60B80A82300579603 /* Keywords.tiff */; };
 		87E971E90B80A82300579603 /* Keywords_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87E971E70B80A82300579603 /* Keywords_Pressed.tiff */; };
 		87F3D5B20976921C00A1217A /* BSIPIHistoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 87F3D5B00976921C00A1217A /* BSIPIHistoryManager.h */; };
@@ -1043,6 +1045,8 @@
 		87DB9C800BA32CEF0090090A /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/SoftwareUpdate.strings; sourceTree = "<group>"; };
 		87DBC6970A867C6D00A1C058 /* syncFail.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = syncFail.tiff; sourceTree = "<group>"; };
 		87DBC6980A867C6D00A1C058 /* syncFinish.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = syncFinish.tiff; sourceTree = "<group>"; };
+		87DF52DC0CC38F6C00D48893 /* BSLoggedInDATDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSLoggedInDATDownloader.h; sourceTree = "<group>"; };
+		87DF52DD0CC38F6C00D48893 /* BSLoggedInDATDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSLoggedInDATDownloader.m; sourceTree = "<group>"; };
 		87E2264C0833AA5D00E7FC85 /* BathyScaphe.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = BathyScaphe.scriptSuite; sourceTree = "<group>"; };
 		87E2264D0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = BathyScaphe.scriptTerminology; sourceTree = "<group>"; };
 		87E63BE70B247FA500290BB7 /* BSDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSDateFormatter.h; sourceTree = "<group>"; };
@@ -1105,7 +1109,7 @@
 		F324DBC304C6965500A80005 /* LoginController.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = LoginController.h; sourceTree = "<group>"; };
 		F324DBC404C6965500A80005 /* LoginController.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = LoginController.m; sourceTree = "<group>"; };
 		F324DBC504C6965500A80005 /* LoginController_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = LoginController_p.h; sourceTree = "<group>"; };
-		F324DBC604C6965500A80005 /* w2chAuthenticater.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = w2chAuthenticater.h; sourceTree = "<group>"; };
+		F324DBC604C6965500A80005 /* w2chAuthenticater.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = w2chAuthenticater.h; sourceTree = "<group>"; };
 		F324DBC704C6965500A80005 /* w2chAuthenticater.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = w2chAuthenticater.m; sourceTree = "<group>"; };
 		F324DBC804C6965500A80005 /* w2chAuthenticater_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = w2chAuthenticater_p.h; sourceTree = "<group>"; };
 		F324DBCB04C6965500A80005 /* SG2chConnector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SG2chConnector.h; sourceTree = "<group>"; };
@@ -1189,11 +1193,11 @@
 		F324DCD904C698FB00A80005 /* CMRThreadSignature_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadSignature_p.h; sourceTree = "<group>"; };
 		F324DCDC04C698FB00A80005 /* AppDefaults-Account.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-Account.m"; sourceTree = "<group>"; };
 		F324DCDE04C698FB00A80005 /* AppDefaults-Background.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-Background.m"; sourceTree = "<group>"; };
-		F324DCDF04C698FB00A80005 /* AppDefaults-Bundle.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-Bundle.m"; sourceTree = "<group>"; };
+		F324DCDF04C698FB00A80005 /* AppDefaults-Bundle.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-Bundle.m"; sourceTree = "<group>"; };
 		F324DCE004C698FB00A80005 /* AppDefaults-FontColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-FontColor.m"; sourceTree = "<group>"; };
 		F324DCE304C698FB00A80005 /* AppDefaults-ThreadsList.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-ThreadsList.m"; sourceTree = "<group>"; };
 		F324DCE404C698FB00A80005 /* AppDefaults-ThreadViewer.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-ThreadViewer.m"; sourceTree = "<group>"; };
-		F324DCE604C698FB00A80005 /* AppDefaults.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = AppDefaults.h; sourceTree = "<group>"; };
+		F324DCE604C698FB00A80005 /* AppDefaults.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = AppDefaults.h; sourceTree = "<group>"; };
 		F324DCE704C698FB00A80005 /* AppDefaults.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = AppDefaults.m; sourceTree = "<group>"; };
 		F324DCE804C698FB00A80005 /* AppDefaults_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = AppDefaults_p.h; sourceTree = "<group>"; };
 		F324DD3A04C698FB00A80005 /* CMRAbstructThreadDocument.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRAbstructThreadDocument.h; sourceTree = "<group>"; };
@@ -1222,7 +1226,7 @@
 		F324DD6804C698FB00A80005 /* CMRThreadViewer-MoveAction.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-MoveAction.m"; sourceTree = "<group>"; };
 		F324DD6B04C698FB00A80005 /* CMRThreadViewer-ViewAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-ViewAccessor.m"; sourceTree = "<group>"; };
 		F324DD6C04C698FB00A80005 /* CMRThreadViewer.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadViewer.h; sourceTree = "<group>"; };
-		F324DD6D04C698FB00A80005 /* CMRThreadViewer.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRThreadViewer.m; sourceTree = "<group>"; };
+		F324DD6D04C698FB00A80005 /* CMRThreadViewer.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRThreadViewer.m; sourceTree = "<group>"; };
 		F324DD6E04C698FB00A80005 /* CMRThreadViewer_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadViewer_p.h; sourceTree = "<group>"; };
 		F324DD7A04C698FB00A80005 /* TextFinder.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = TextFinder.h; sourceTree = "<group>"; };
 		F324DD7B04C698FB00A80005 /* TextFinder.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = TextFinder.m; sourceTree = "<group>"; };
@@ -1254,7 +1258,7 @@
 		F324DDCD04C698FB00A80005 /* CMRReplyControllerTbDelegate.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRReplyControllerTbDelegate.h; sourceTree = "<group>"; };
 		F324DDCE04C698FB00A80005 /* CMRReplyControllerTbDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRReplyControllerTbDelegate.m; sourceTree = "<group>"; };
 		F324DDD104C698FB00A80005 /* CMRReplyMessenger.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRReplyMessenger.h; sourceTree = "<group>"; };
-		F324DDD204C698FB00A80005 /* CMRReplyMessenger.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRReplyMessenger.m; sourceTree = "<group>"; };
+		F324DDD204C698FB00A80005 /* CMRReplyMessenger.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRReplyMessenger.m; sourceTree = "<group>"; };
 		F324DDD304C698FB00A80005 /* CMRReplyMessenger_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRReplyMessenger_p.h; sourceTree = "<group>"; };
 		F324DDD404C698FB00A80005 /* CMRStatusLineWindowController.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRStatusLineWindowController.h; sourceTree = "<group>"; };
 		F324DDD504C698FB00A80005 /* CMRStatusLineWindowController.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRStatusLineWindowController.m; sourceTree = "<group>"; };
@@ -2443,6 +2447,8 @@
 				F31A368504DD971600A80005 /* CMRThreadHTMLDownloader.m */,
 				F376045E064FD09200591F56 /* CMRNetGrobalLock.h */,
 				F376045F064FD09200591F56 /* CMRNetGrobalLock.m */,
+				87DF52DC0CC38F6C00D48893 /* BSLoggedInDATDownloader.h */,
+				87DF52DD0CC38F6C00D48893 /* BSLoggedInDATDownloader.m */,
 			);
 			path = network;
 			sourceTree = "<group>";
@@ -2949,7 +2955,7 @@
 				871CA16508585FD200C3A044 /* UTILDescription.h in Headers */,
 				871CA16608585FD200C3A044 /* UTILKit.h in Headers */,
 				871CA16708585FD200C3A044 /* UTILAssertion.h in Headers */,
-				871CA16808585FD200C3A044 /* w2chReply_be2ch.h in Headers */,
+				87DF529D0CC380C600D48893 /* w2chReply_be2ch.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3171,6 +3177,7 @@
 				87BC00420C5F3ABD00870646 /* CMRPopUpTemplateKeys.h in Headers */,
 				8703A2180C677D42008ED2B5 /* BSLinkDownloadManager.h in Headers */,
 				8752AACB0C6B60200078C6F4 /* BSNGExpression.h in Headers */,
+				87DF52DE0CC38F6C00D48893 /* BSLoggedInDATDownloader.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3567,7 +3574,7 @@
 				871CA17408585FD200C3A044 /* w2chReply_2ch.m in Sources */,
 				871CA17508585FD200C3A044 /* w2chReply_shita.m in Sources */,
 				871CA17608585FD200C3A044 /* SG2chErrorHandler.m in Sources */,
-				871CA17708585FD200C3A044 /* w2chReply_be2ch.m in Sources */,
+				87DF529E0CC380C600D48893 /* w2chReply_be2ch.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3815,6 +3822,7 @@
 				87BC003E0C5F3A5C00870646 /* CMXPopUpWindowController+View.m in Sources */,
 				8703A2190C677D42008ED2B5 /* BSLinkDownloadManager.m in Sources */,
 				8752AACC0C6B60200078C6F4 /* BSNGExpression.m in Sources */,
+				87DF52DF0CC38F6C00D48893 /* BSLoggedInDATDownloader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

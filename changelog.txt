@@ -1,3 +1,15 @@
+2007-10-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/preferences/AppDefaults-Bundle.m
+	* application/subproj/reply/connector/w2chConnect.h
+		●ログイン用の session-id を取得するためのクラスは 2chConnector.plugin に含まれているが、これを呼び出しやすくした。
+		- 以前は、SG2chConnector クラスからの呼び出ししか考慮されていなかった。
+	* application/source/thread/CMRThreadViewer-Download.m
+	* application/source/thread/CMRThreadViewer.m
+	* application/Resources/Japanese.lproj/ThreadViewer.strings
+		取得しようとした dat が見つからないとき、「●ログインして取得」を試みることができるようにした。
+		また、コードを少し整理し、アラートの文面も一部見直した。
+	* application/source/network/BSLoggedInDATDownloader.[h|m]
+		[新規追加] ●ログインして dat 落ちしたスレッドの内容を取得するための、ThreadTextDownloader のサブクラス。
 2007-10-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadViewer-Action.m
 	* application/source/thread/CMRThreadViewer-Link.m
