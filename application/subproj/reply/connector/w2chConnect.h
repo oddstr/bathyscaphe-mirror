@@ -1,202 +1,76 @@
-//:w2chConnect.h
-/**
-  *
-  * 2ch‚ÉÚ‘±‚Å‚«‚éƒNƒ‰ƒX‚ÌƒvƒƒgƒRƒ‹
-  *
-  * @version 1.1 (07/07/22)
-  *
-  */
+//
+//  w2chConnect.h
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/10/15.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import <Foundation/Foundation.h>
 
-
-typedef enum {
-	kw2chConnectGettingSubject_txtMode,		//subject.txt‚Ìæ“¾	Deprecated.
-	kw2chConnectGettingDATMode,				//.datƒtƒ@ƒCƒ‹‚Ìæ“¾	Deprecated.
-	kw2chConnectPOSTMessageMode,			//"POST"ƒƒ\ƒbƒh‚ÌÀs
-} w2chConnectMode;
-
 // Error Handling
-// ‘Î‰•\‚ÍReplyErrorCode.plist‚ğQÆ
+// å¯¾å¿œè¡¨ã¯ReplyErrorCode.plistã‚’å‚ç…§
 enum {
-	k2chNoneErrorType 				= 0,		// ³í
-	k2chEmptyDataErrorType			= 1,		// ƒf[ƒ^‚È‚µ
-	k2chAnyErrorType				= 2,		// ‚d‚q‚q‚n‚qI
-	k2chContributionCheckErrorType	= 3,		// “ŠeŠm”F
+	k2chNoneErrorType 				= 0,		// æ­£å¸¸
+	k2chEmptyDataErrorType			= 1,		// ãƒ‡ãƒ¼ã‚¿ãªã—
+	k2chAnyErrorType				= 2,		// ï¼¥ï¼²ï¼²ï¼¯ï¼²ï¼
+	k2chContributionCheckErrorType	= 3,		// æŠ•ç¨¿ç¢ºèª
 
-	k2chRequireNameErrorType		= 4,		// –¼‘O‚¢‚ê‚Ä‚¿‚å
-	k2chRequireContentsErrorType	= 5,		// –{•¶‚ª‚ ‚è‚Ü‚¹‚ñB
-	k2chSPIDCookieErrorType			= 6,		// ƒNƒbƒL[Šm”FI
-	k2chDoubleWritingErrorType		= 7,		// “ñd‘‚«‚İ
-	k2chWarningType					= 8,		// ’ˆÓ–€
+	k2chRequireNameErrorType		= 4,		// åå‰ã„ã‚Œã¦ã¡ã‚‡
+	k2chRequireContentsErrorType	= 5,		// æœ¬æ–‡ãŒã‚ã‚Šã¾ã›ã‚“ã€‚
+	k2chSPIDCookieErrorType			= 6,		// ã‚¯ãƒƒã‚­ãƒ¼ç¢ºèªï¼
+	k2chDoubleWritingErrorType		= 7,		// äºŒé‡æ›¸ãè¾¼ã¿
+	k2chWarningType					= 8,		// æ³¨æ„äº‹é …
 	
 	
 	k2chUnknownErrorType
 };
 
-typedef struct {
-	int type;
-	w2chConnectMode mode;
-	int error;
-} SG2chServerError;
-
 @protocol w2chConnect<NSObject>
-- (NSURLConnection *) HTTPConnector;
+- (NSURLConnection *)connector;
 
-- (id) delegate;
-- (void) setDelegate:(id)newDelegate;
-
-/**
-  * ŠeƒRƒlƒNƒ^‚Ìˆ—‘ÎÛ‚ğ•\‚·’è”‚ğ•Ô‚·B
-  * 
-  * @return     SG2chConnectorMode
-  */
-- (w2chConnectMode)mode;
-
-/**
-  * ‚»‚Ì“_‚ÅóMŠ®—¹‚µ‚½ƒf[ƒ^‚ğ•Ô‚·B
-  * ˆ³k‚³‚ê‚Ä‚¢‚éê‡‚Í“WŠJ‚·‚éB
-  * 
-  * @return     óMŠ®—¹‚µ‚½ƒf[ƒ^
-  */
-- (NSMutableData *)availableResourceData;
-
-/**
-  * ƒŒƒV[ƒo‚Ì•Û‚·‚éƒf[ƒ^‚ğ•Ô‚·B
-  * •K—v‚Èê‡‚ÍÚ‘±‚µAƒf[ƒ^‚ğóM
-  * DEPRECATED
-  *
-  * @return     •Û‚·‚éƒf[ƒ^
-  */
-- (NSData *) resourceData;
-
-/**
-  * óM‚ğŠJnBI—¹‚·‚é‚Ü‚ÅƒuƒƒbƒN‚·‚éB
-  * DEPRECATED
-  * 
-  * @return     óM‚µ‚½ƒf[ƒ^
-  */
-- (NSData *) loadInForeground;
-
-/**
-  * ƒoƒbƒNƒOƒ‰ƒEƒ“ƒh‚ÅóM‚ğŠJn‚·‚éB
-  */
-- (void) loadInBackground;
-
-/**
-  * ƒoƒbƒNƒOƒ‰ƒEƒ“ƒh‚Å‚ÌóM‚ğ’†~‚·‚éB
-  * DEPRECATED
-  */
-- (void) cancelLoadInBackground;
-
-/**
-  * ƒT[ƒo‚É‘—M‚·‚éƒf[ƒ^‚ğİ’èB
-  * ‚±‚Ì‚Æ‚«A"Content-Length"ƒwƒbƒ_‚Í
-  * ©“®“I‚Éİ’è‚³‚ê‚éB
-  * 
-  * @param    data  ‘—M‚·‚éƒf[ƒ^
-  * @return         ¬Œ÷‚É‚ÍYES
-  */
-- (BOOL) writeData : (NSData *) data;
-
-/**
-  * ƒT[ƒo‚É‘—M‚·‚éƒtƒH[ƒ€‚Ìƒf[ƒ^‚ğİ’è‚·‚éB
-  * ‚±‚Ì‚Æ‚«A"Content-Length"ƒwƒbƒ_‹y‚ÑA"Content-Type"
-  * ƒwƒbƒ_‚Í©“®“I‚Éİ’è‚³‚ê‚éB
-  * 
-  * @param    forms  ƒtƒH[ƒ€‚Ì•Ï”‚Æ’l‚ğ”[‚ß‚½«‘ƒIƒuƒWƒFƒNƒg
-  * @return          ¬Œ÷‚É‚ÍYES
-  */
-- (BOOL) writeForm : (NSDictionary *) forms;
-
-
-//response
-/**
-  * ƒT[ƒo‚©‚ç‚ÌƒŒƒXƒ|ƒ“ƒX‚ğ•Ô‚·B
-  * 
-  * @return     ƒwƒbƒ_
-  */
-- (NSDictionary *) responseHeaders;
-
-/**
-  * ƒŒƒXƒ|ƒ“ƒXƒwƒbƒ_‚ğQÆB
-  * 
-  * @param    field  ƒtƒB[ƒ‹ƒh–¼
-  * @return          ’l
-  */
-- (NSString *) headerFieldValueForKey : (NSString *) field;
-
-/**
-  * ƒT[ƒo‚ÌƒŒƒXƒ|ƒ“ƒXƒR[ƒh‚ğ•Ô‚·B
-  * 
-  * @return     ƒŒƒXƒ|ƒ“ƒXƒR[ƒh
-  */
-- (unsigned) statusCode;
-
-/**
-  * ƒXƒe[ƒ^ƒXs‚ğ•Ô‚·B
-  * UNSUPPORTED
-  * @return     ƒXƒe[ƒ^ƒXs
-  */
-//- (NSString *) statusLine;
+- (NSURLResponse *)response;
+- (void)setResponse:(NSURLResponse *)response;
 
 - (NSURL *)requestURL;
-- (NSString *)requestMethod;
+
+- (id)delegate;
+- (void)setDelegate:(id)newDelegate;
+
+- (NSMutableData *)availableResourceData;
+
+- (void)loadInBackground;
+
+- (BOOL)writeForm:(NSDictionary *)forms;
 @end
 
 //Error Handling
 @protocol w2chErrorHandling<NSObject>
-//////////////////////////////////////////////////////////////////////
-////////////////////// [ ƒAƒNƒZƒTƒƒ\ƒbƒh ] //////////////////////////
-//////////////////////////////////////////////////////////////////////
-- (NSURL *) requestURL;
-- (w2chConnectMode) requestMode;
-- (SG2chServerError) recentError;
-- (NSString *) recentErrorTitle;
-- (NSString *) recentErrorMessage;
-- (void) setRecentErrorCode : (int) code;
-//////////////////////////////////////////////////////////////////////
-//////////////////// [ ƒCƒ“ƒXƒ^ƒ“ƒXƒƒ\ƒbƒh ] ////////////////////////
-//////////////////////////////////////////////////////////////////////
-/**
-  * ƒT[ƒo[‚©‚ç•Ô‚Á‚Ä‚«‚½ƒf[ƒ^‚ğó‚¯‚Æ‚èAƒGƒ‰[‚©‚Ç‚¤‚©
-  * ”»’fBSG2chServerError\‘¢‘Ì‚Ìtype‚ªk2chNoneErrorType
-  * ˆÈŠO‚ÍƒGƒ‰[B
-  * 
-  * @param    contents  ƒT[ƒo[‚©‚ç•Ô‚Á‚Ä‚«‚½ƒf[ƒ^
-  * @param    title     ƒGƒ‰[‚Ì“à—e‚ğŠÈŒ‰‚É•\‚µ‚½•¶š—ñ
-  * @param    message   ƒGƒ‰[‚Ì“à—e
-  * @return             SG2chServerError\‘¢‘Ì
-  */
-- (SG2chServerError) handleErrorWithContents : (NSString  *) contents
-                                       title : (NSString **) title
-                                     message : (NSString **) message; 
+- (NSURL *)requestURL;
+- (NSError *)recentError;
+
+- (NSDictionary *)additionalFormsData;
+- (void)setAdditionalFormsData:(NSDictionary *)anAdditionalFormsData;
+
+- (NSError *)handleErrorWithContents:(NSString *)contents;
 @end
 
 
 //Delegate
 @interface NSObject(w2chConnectDelegate)
-/////////////////////////////////////////////////////////////////////
-////////////////// [ óM‚ÌŠJnAI—¹AƒLƒƒƒ“ƒZƒ‹‚È‚Ç ] /////////////
-/////////////////////////////////////////////////////////////////////
+- (void)connector:(id<w2chConnect>)sender didFailURLEncoding:(NSArray *)contextInfo;
 
-- (void) connectorResourceDidBeginLoading : (id<w2chConnect>) sender;
-
-- (void) connectorResourceDidCancelLoading : (id<w2chConnect>) sender;
-
-- (void) connectorResourceDidFinishLoading : (id<w2chConnect>) sender;
+- (void)connectorResourceDidCancelLoading:(id<w2chConnect>)sender;
+- (void)connectorResourceDidFinishLoading:(id<w2chConnect>)sender;
   
-/////////////////////////////////////////////////////////////////////
-///////////////////// [ ƒf[ƒ^‚ÌóMŠÖŒW ] //////////////////////////
-/////////////////////////////////////////////////////////////////////
-
-- (void)connector:(id<w2chConnect>)sender didReceiveData:(NSData *)newData;
-- (void)connector:(id<w2chConnect>)sender resourceDidFailLoadingWithReason:(NSError *)reason;
-
-/**
-  * óME‘—M‚ÍŠ®—¹‚µ‚½‚ªA‰½‚ç‚©‚Ì——R‚Åó‚¯“ü‚ê‚ç‚ê‚È‚©‚Á‚½B
-  * 
-  * @param    sender   ƒRƒlƒNƒ^[
-  * @param    handler  ƒGƒ‰[ˆ—ƒIƒuƒWƒFƒNƒg
-  */
-- (void) connector:(id<w2chConnect>)sender resourceDidFailLoadingWithError:(id<w2chErrorHandling>)handler;
+- (void)connector:(id<w2chConnect>)sender resourceDidFailLoadingWithError:(NSError *)error;
+- (void)connector:(id<w2chConnect>)sender resourceDidFailLoadingWithErrorHandler:(id<w2chErrorHandling>)handler;
 @end
+
+// NSError domain constant
+#define SG2chErrorHandlerErrorDomain	@"SG2chErrorHandlerErrorDomain"
+
+// NSError userInfo constants
+#define SG2chErrorTitleErrorKey		@"SG2chErrorHandler_Title"
+#define SG2chErrorMessageErrorKey	@"SG2chErrorHandler_Message"

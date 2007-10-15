@@ -1,10 +1,10 @@
 //
-//  $Id: CMRReplyMessenger-Connector.m,v 1.13 2007/09/04 07:45:43 tsawada2 Exp $
+//  CMRReplyMessenger-Connector.m
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/07/04.
-//  CMRReplyMessenger.m から分割
-//  Copyright 2005-2006 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import "CMRReplyMessenger_p.h"
@@ -13,24 +13,27 @@
 
 
 @implementation CMRReplyMessenger(Private)
-+ (NSURL *) targetURLWithBoardURL : (NSURL *) boardURL
++ (NSURL *)targetURLWithBoardURL:(NSURL *)boardURL
 {
-	return [[CMRHostHandler hostHandlerForURL : boardURL]
-							writeURLWithBoard : boardURL];
+	return [[CMRHostHandler hostHandlerForURL:boardURL] writeURLWithBoard:boardURL];
 }
-+ (NSString *) formItemBBSWithBoardURL : (NSURL *) boardURL
+
++ (NSString *)formItemBBSWithBoardURL:(NSURL *)boardURL
 {
 	return [[boardURL path] lastPathComponent];
 }
-+ (NSString *) formItemDirectoryWithBoardURL : (NSURL *) boardURL
+
++ (NSString *)formItemDirectoryWithBoardURL:(NSURL *)boardURL
 {
 	return [[[boardURL path] stringByDeletingLastPathComponent] lastPathComponent];
 }
-- (NSDictionary *) additionalForms
+
+- (NSDictionary *)additionalForms
 {
 	return _additionalForms;
 }
-- (void) setAdditionalForms : (NSDictionary *) anAdditionalForms
+
+- (void)setAdditionalForms:(NSDictionary *)anAdditionalForms
 {
 	[anAdditionalForms retain];
 	[_additionalForms release];
@@ -40,44 +43,42 @@
 
 
 @implementation CMRReplyMessenger(PrivateAccessor)
-- (CMRReplyController *) replyControllerRespondsTo : (SEL) aSelector
+- (CMRReplyController *)replyControllerRespondsTo:(SEL)aSelector
 {
 	NSEnumerator		*iter_;
 	CMRReplyController	*controller_;
 	
 	iter_ = [[self windowControllers] objectEnumerator];
 	while (controller_ = [iter_ nextObject]) {
-		if (aSelector != NULL && NO == [controller_ respondsToSelector : aSelector])
-			continue;
-		if (NO == [controller_ isKindOfClass : [CMRReplyController class]])
-			continue;
+		if (aSelector != NULL && ![controller_ respondsToSelector:aSelector]) continue;
+		if (![controller_ isKindOfClass:[CMRReplyController class]]) continue;
 		
 		return controller_;
 	}
 	return nil;
 }
 
-- (NSString *) threadTitle
+- (NSString *)threadTitle
 {
-	return [[self infoDictionary] objectForKey : CMRThreadTitleKey];
+	return [[self infoDictionary] objectForKey:CMRThreadTitleKey];
 }
-- (NSString *) formItemBBS
+
+- (NSString *)formItemBBS
 {
-	return [[self class] formItemBBSWithBoardURL : [self boardURL]];
+	return [[self class] formItemBBSWithBoardURL:[self boardURL]];
 }
-- (NSString *) formItemDirectory
+
+- (NSString *)formItemDirectory
 {
-	return [[self class] formItemDirectoryWithBoardURL : [self boardURL]];
+	return [[self class] formItemDirectoryWithBoardURL:[self boardURL]];
 }
-- (NSString *) formItemKey
+
+- (NSString *)formItemKey
 {
-	return [[self infoDictionary] objectForKey : ThreadPlistIdentifierKey];
+	return [[self infoDictionary] objectForKey:ThreadPlistIdentifierKey];
 }
-/*- (id) boardIdentifier
-{
-	return [self boardName];
-}*/
-- (id) threadIdentifier
+
+- (id)threadIdentifier
 {
 	return [CMRThreadSignature threadSignatureWithIdentifier:[self formItemKey] BBSName:[self boardName]];
 }
@@ -85,150 +86,145 @@
 
 
 @implementation CMRReplyMessenger(ConnectClient)
-//- (void) didFinish : (SGHTTPConnector *) connector
-- (void)didFinish:(id<w2chConnect>)sender
+- (void)didFinish
 {
-    _isInProgress = NO;
+    [self setIsInProgress:NO];
     UTILNotifyName(CMRTaskDidFinishNotification);
 }
-//- (void) didFailPosting : (SGHTTPConnector *) connector
-- (void)didFailPosting:(id<w2chConnect>)sender
+
+- (void)didFailPosting
 {
-//	[self didFinish : connector];
-	[self didFinish:sender];
-    [self setIsEndPost : NO]; //再送信を試みることができるように
+	[self didFinish];
+    [self setIsEndPost:NO]; //再送信を試みることができるように
 }
-//- (void) didFinishPosting : (SGHTTPConnector *) connector
+
 - (void)didFinishPosting:(id<w2chConnect>)sender
 {
-//    [self didFinish : connector];
-//[self receiveCookiesWithResponse : [[connector response] allHeaderFields]];
-	[self didFinish:sender];
-	[self receiveCookiesWithResponse:[(NSHTTPURLResponse *)[sender response] allHeaderFields]];
-    [self saveDocument : nil];
-    
+	[self didFinish];
+	[self receiveCookiesWithResponse:(NSHTTPURLResponse *)[sender response]];
+    [self saveDocument:nil];
+
     [self close];
-}
 
-
-- (void)               connector : (id<w2chConnect>) sender
-  didReceiveData : (NSData      *) newBytes
-{
-	 UTILNotifyName(CMRTaskWillProgressNotification);
-}
-
-- (void) connectorResourceDidBeginLoading : (id<w2chConnect>) sender
-{
-	UTILNotifyName(CMRTaskWillStartNotification);
+	UTILNotifyName(CMRReplyMessengerDidFinishPostingNotification);
 }
 
 /* 書き込みエラー */
-- (void) cookieOrContributionCheckSheetDidEnd : (NSAlert *) alert
-								   returnCode : (int) returnCode
-								  contextInfo : (void *) contextInfo
+- (void)cookieOrContributionCheckSheetDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
 	if (NSAlertFirstButtonReturn == returnCode) {
-		[self sendMessage : self withHanaMogeraForms : ([self additionalForms] != nil)];
+		[self sendMessage:self withHanaMogeraForms:([self additionalForms] != nil)];
 	}
-//	[alert release];
 }
 
-- (void) beginErrorInformationalAlertSheet : (NSString *) title
-								   message : (NSString *) message
-							  contribution : (BOOL      ) contribution
+- (void)beginErrorInformationalAlertSheet:(NSError *)error contribution:(BOOL)contribution
 {
-	NSWindow	*docWindow;
 	SEL			didEndSelector;
-	NSString	*message_ = message;
+	NSString	*message_ = [[error userInfo] objectForKey:SG2chErrorMessageErrorKey];
 	NSArray		*lines_;
-
 	NSAlert		*alert_;
 	
-	docWindow = [[self replyControllerRespondsTo : @selector(window)] window];
 	didEndSelector = contribution ? @selector(cookieOrContributionCheckSheetDidEnd:returnCode:contextInfo:) : nil;
 	
 	// あまりにも長いエラーメッセージは切り詰める
 	lines_ = [message_ componentsSeparatedByNewline];
 	if ([lines_ count] > 10) {
 		lines_ = [lines_ subarrayWithRange:NSMakeRange(0, 10)];
-		message_ = [lines_ componentsJoinedByString : @"\n"];
+		message_ = [lines_ componentsJoinedByString:@"\n"];
 	}
 
 	alert_ = [[[NSAlert alloc] init] autorelease];
-	[alert_ setAlertStyle : NSInformationalAlertStyle];
-	[alert_ setMessageText : title];
-	[alert_ setInformativeText : message_];
-	[alert_ setHelpAnchor : [self localizedString : @"Reply Error Sheet Help Anchor"]];
-	[alert_ setShowsHelp : YES];
-	
-	[alert_ addButtonWithTitle : (contribution ? [self localizedString : @"Try Again"] : @"OK")];
-	if(contribution)
-		[alert_ addButtonWithTitle : [self localizedString : @"Cancel"]];
+	[alert_ setAlertStyle:NSInformationalAlertStyle];
+	[alert_ setMessageText:[[error userInfo] objectForKey:SG2chErrorTitleErrorKey]];
+	[alert_ setInformativeText:message_];
+	[alert_ setHelpAnchor:[self localizedString:@"Reply Error Sheet Help Anchor"]];
+	[alert_ setShowsHelp:YES];
 
-	[alert_ beginSheetModalForWindow : docWindow
-					   modalDelegate : (contribution ? self : nil)
-					  didEndSelector : didEndSelector
-					     contextInfo : nil];
+	[alert_ addButtonWithTitle:(contribution ? [self localizedString:@"Try Again"]:@"OK")];
+	if (contribution) {
+		[alert_ addButtonWithTitle:[self localizedString:@"Cancel"]];
+	}
+	[alert_ beginSheetModalForWindow:[self windowForSheet]
+					   modalDelegate:(contribution ? self : nil)
+					  didEndSelector:didEndSelector
+					     contextInfo:nil];
 }
 
-- (BOOL) isCookieOrContributionCheckError : (SG2chServerError) error
+- (BOOL)isCookieOrContributionCheckError:(NSError *)error
 {
-	return (k2chContributionCheckErrorType == error.type || k2chSPIDCookieErrorType == error.type);
+	int code = [error code];
+	return (k2chContributionCheckErrorType == code || k2chSPIDCookieErrorType == code);
 }
 
-- (void)				  connector : (id<w2chConnect>      ) sender
-	resourceDidFailLoadingWithError : (id<w2chErrorHandling>) handler
+static inline NSString *labelForFieldName(NSString *key)
 {
-	BOOL		contribution;
+	// ZANTEI
+	if ([key isEqualToString:@"FROM"]) {
+		return NSLocalizedStringFromTable(@"FailedURLEncodingFROMFieldLabel", @"Messenger", nil);
+	} else if ([key isEqualToString:@"mail"]) {
+		return NSLocalizedStringFromTable(@"FailedURLEncodingmailFieldLabel", @"Messenger", nil);
+	} else if ([key isEqualToString:@"MESSAGE"]) {
+		return NSLocalizedStringFromTable(@"FailedURLEncodingMESSAGEFieldLabel", @"Messenger", nil);
+	}
+
+	return key;
+}
+
+- (void)connector:(id<w2chConnect>)sender didFailURLEncoding:(NSArray *)contextInfo
+{
+	NSAlert	*alert_ = [[[NSAlert alloc] init] autorelease];
+	NSString *messageTemplate = [self localizedString:@"FailedURLEncodingAlertMessage"];
+
+	[alert_ setAlertStyle:NSWarningAlertStyle];
+	[alert_ setMessageText:[NSString stringWithFormat:messageTemplate, labelForFieldName([contextInfo objectAtIndex:0])]];
+	[alert_ setInformativeText:[self localizedString:@"FailedURLEncodingAlertInformative"]];
 	
-//	[self didFailPosting : [sender HTTPConnector]];
-	[self didFailPosting:sender];
-	contribution = [self isCookieOrContributionCheckError : [handler recentError]];
+	[alert_ beginSheetModalForWindow:[self windowForSheet]
+					   modalDelegate:self
+					  didEndSelector:nil
+					     contextInfo:nil];
+}	
+
+- (void)connector:(id<w2chConnect>)sender resourceDidFailLoadingWithErrorHandler:(id<w2chErrorHandling>)handler
+{
+	BOOL	contribution;
+	
+	[self didFailPosting];
+
+	contribution = [self isCookieOrContributionCheckError:[handler recentError]];
 	
 	if (contribution) {	// 書き込み確認、クッキー確認
-		[self receiveCookiesWithResponse : [sender responseHeaders]];
-		
-		if ([handler respondsToSelector: @selector(additionalFormsData)]) {
-			[self setAdditionalForms : [handler additionalFormsData]];
-		}
+		[self receiveCookiesWithResponse:(NSHTTPURLResponse *)[sender response]];
+		[self setAdditionalForms:[handler additionalFormsData]];
 	}
-	[self beginErrorInformationalAlertSheet : [handler recentErrorTitle]
-									message : [handler recentErrorMessage]
-							   contribution : contribution];
+
+	[self beginErrorInformationalAlertSheet:[handler recentError] contribution:contribution];
 }
 
-- (void) connectorResourceDidFinishLoading : (id<w2chConnect>) sender
+- (void)connectorResourceDidFinishLoading:(id<w2chConnect>)sender
 {
-//	[self didFinishPosting : [sender HTTPConnector]];
 	[self didFinishPosting:sender];
-	UTILNotifyName(CMRReplyMessengerDidFinishPostingNotification);
 }
 
-
-- (void) connectorResourceDidCancelLoading : (id<w2chConnect>) sender
+- (void)connectorResourceDidCancelLoading:(id<w2chConnect>)sender
 {
-//	[self didFailPosting : [sender HTTPConnector]];
-	[self didFailPosting:sender];
+	[self didFailPosting];
 }
 
-
-//- (void)                     connector : (id<w2chConnect>) sender
-//      resourceDidFailLoadingWithReason : (NSString      *) reason
-- (void)connector:(id<w2chConnect>)sender resourceDidFailLoadingWithReason:(NSError *)reason
+- (void)connector:(id<w2chConnect>)sender resourceDidFailLoadingWithError:(NSError *)error
 {
+	[self didFailPosting];
+
 	NSAlert	*alert_ = [[[NSAlert alloc] init] autorelease];
 
 	[alert_ setAlertStyle:NSWarningAlertStyle];
 	[alert_ setMessageText:[self localizedString:MESSENGER_ERROR_POST]];
-	[alert_ setInformativeText:[reason localizedDescription]];
-//	[alert_ addButtonWithTitle : @"OK"];
+	[alert_ setInformativeText:[error localizedDescription]];
 	
-	[alert_ runModal];
-	
-//	[alert_ release];
-
-//	[self didFailPosting:[sender HTTPConnector]];
-	[self didFailPosting:sender];
+	[alert_ beginSheetModalForWindow:[self windowForSheet]
+					   modalDelegate:self
+					  didEndSelector:nil
+					     contextInfo:nil];
 }
 @end
 
@@ -238,33 +234,26 @@
 // これがURLエンコードできないため書き込みに失敗するので、これを削除する。
 static inline NSString *removeObjectReplacementCharacter(NSString *str)
 {
-	return [str stringByReplaceCharacters : [NSString stringWithFormat : @"%C", 0xfffc]
-								 toString : @""];
+	return [str stringByReplaceCharacters:[NSString stringWithFormat:@"%C", 0xfffc] toString:@""];
 }
 
 #define XML_YEN_ENTITY		@"&yen;"
-- (NSString *) stringByReplacingYenBackslashToEntity : (NSString *) str
+- (NSString *)stringByReplacingYenBackslashToEntity:(NSString *)str
 {
 	NSString	*newstr = str;
 	
-	newstr = [newstr stringByReplaceCharacters : [NSString backslash]
-									  toString : [NSString yenmark]];
-	newstr = [newstr stringByReplaceCharacters : [NSString yenmark] 
-									  toString : XML_YEN_ENTITY];
+	newstr = [newstr stringByReplaceCharacters:[NSString backslash] toString:[NSString yenmark]];
+	newstr = [newstr stringByReplaceCharacters:[NSString yenmark] toString:XML_YEN_ENTITY];
 	
 	return newstr;
 }
-- (NSDictionary *) formDictionary : (NSString *) replyMessage
-                             name : (NSString *) name
-                             mail : (NSString *) mail
+
+- (NSDictionary *)formDictionary:(NSString *)replyMessage name:(NSString *)name mail:(NSString *)mail
 {
-	return [self formDictionary: replyMessage name: name mail: mail hanamogera: NO];
+	return [self formDictionary:replyMessage name:name mail:mail hanamogera:NO];
 }
 
-- (NSDictionary *) formDictionary : (NSString *) replyMessage
-                             name : (NSString *) name
-                             mail : (NSString *) mail
-					   hanamogera : (BOOL) addForms
+- (NSDictionary *)formDictionary:(NSString *)replyMessage name:(NSString *)name mail:(NSString *)mail hanamogera:(BOOL)addForms
 {
 	CMRHostHandler		*handler_;
 	NSDictionary		*formKeys_;
@@ -274,120 +263,107 @@ static inline NSString *removeObjectReplacementCharacter(NSString *str)
 	NSDate				*date_;
 	NSString			*time_;
 	
-	if (nil == name || nil == mail || nil == replyMessage)
-		return nil;
-	
-	handler_ = [CMRHostHandler hostHandlerForURL : [self boardURL]];
+	if (!name || !mail || !replyMessage) return nil;
+
+	handler_ = [CMRHostHandler hostHandlerForURL:[self boardURL]];
 	formKeys_ = [handler_ formKeyDictionary];
-	if (nil == formKeys_ || nil == handler_) {
+	if (!formKeys_ || !handler_) {
 		NSLog(@"Can't find hostHandler for %@", [[self boardURL] stringValue]);
 		return nil;
 	}
 	
 	// 2002/12/31
 	//「餅つけ」対策
-	date_ = [[CMRServerClock sharedInstance] lastAccessedDateForURL : [self targetURL]];
-	if (nil == date_) date_ = [NSDate date];
-	time_ = [[NSNumber numberWithInt : [date_ timeIntervalSince1970]] stringValue];
+	date_ = [[CMRServerClock sharedInstance] lastAccessedDateForURL:[self targetURL]];
+	if (!date_) date_ = [NSDate date];
+	time_ = [[NSNumber numberWithInt:[date_ timeIntervalSince1970]] stringValue];
 	
 	
-	key_ = [formKeys_ stringForKey : CMRHostFormSubmitKey];
+	key_ = [formKeys_ stringForKey:CMRHostFormSubmitKey];
 	[form_ setNoneNil:[handler_ submitValue] forKey:key_];
 	
-	key_ = [formKeys_ stringForKey : CMRHostFormNameKey];
+	key_ = [formKeys_ stringForKey:CMRHostFormNameKey];
 	[form_ setNoneNil:name forKey:key_];
 	
-	key_ = [formKeys_ stringForKey : CMRHostFormMailKey];
+	key_ = [formKeys_ stringForKey:CMRHostFormMailKey];
 	[form_ setNoneNil:mail forKey:key_];
 
     // 本文のみ円記号とバッスラッシュを実体参照で置換する。
-	key_ = [formKeys_ stringForKey : CMRHostFormMessageKey];
-	[form_ setNoneNil : removeObjectReplacementCharacter([self stringByReplacingYenBackslashToEntity : replyMessage])
-    forKey : key_];
+	key_ = [formKeys_ stringForKey:CMRHostFormMessageKey];
+	[form_ setNoneNil:removeObjectReplacementCharacter([self stringByReplacingYenBackslashToEntity:replyMessage]) forKey:key_];
 
-	key_ = [formKeys_ stringForKey : CMRHostFormBBSKey];
+	key_ = [formKeys_ stringForKey:CMRHostFormBBSKey];
 	[form_ setNoneNil:[self formItemBBS] forKey:key_];
 
-	key_ = [formKeys_ stringForKey : CMRHostFormIDKey];
+	key_ = [formKeys_ stringForKey:CMRHostFormIDKey];
 	[form_ setNoneNil:[self formItemKey] forKey:key_];
 
-	key_ = [formKeys_ stringForKey : CMRHostFormTimeKey];
+	key_ = [formKeys_ stringForKey:CMRHostFormTimeKey];
 	[form_ setNoneNil:time_ forKey:key_];
 
 	// for 2ch (after 2006-05-27, hana=mogera)
-	if (addForms && [self additionalForms] != nil)
-		[form_ addEntriesFromDictionary: [self additionalForms]];
-	
+	if (addForms && [self additionalForms]) {
+		[form_ addEntriesFromDictionary:[self additionalForms]];
+	}
 	// for Jbbs_shita
-	key_ = [formKeys_ stringForKey : CMRHostFormDirectoryKey];
-	if (key_ != nil && NO == [key_ isEmpty])
+	key_ = [formKeys_ stringForKey:CMRHostFormDirectoryKey];
+	if (key_ && ![key_ isEmpty]) {
 		[form_ setNoneNil:[self formItemDirectory] forKey:key_];
-	
+	}
 	return form_;
 }
 
-
-- (void) sendMessageWithContents : (NSString *) replyMessage
-                            name : (NSString *) name
-                            mail : (NSString *) mail
+- (void)sendMessageWithContents:(NSString *)replyMessage name:(NSString *)name mail:(NSString *)mail
 {
-	[self sendMessageWithContents: replyMessage name: name mail: mail hanamogera: NO];
+	[self sendMessageWithContents:replyMessage name:name mail:mail hanamogera:NO];
 }
 
-- (void) sendMessageWithContents : (NSString *) replyMessage
-							name : (NSString *) name
-							mail : (NSString *) mail
-					  hanamogera : (BOOL ) addForms
+- (void)sendMessageWithContents:(NSString *)replyMessage name:(NSString *)name mail:(NSString *)mail hanamogera:(BOOL)addForms
 {
     id<w2chConnect>     connector_;
     NSMutableDictionary *headers_;
     NSString            *referer_;
     NSString            *cookies_;
     NSDictionary        *formDictionary_;
-    
-    [self setIsEndPost : YES];
+
+    [self setIsEndPost:YES];
     headers_ = [NSMutableDictionary dictionary];
     referer_ = [self refererParameter];
-    cookies_ = [[CookieManager defaultManager] cookiesForRequestURL : [self targetURL]
-													   withBeCookie : [self shouldSendBeCookie]];
+    cookies_ = [[CookieManager defaultManager] cookiesForRequestURL:[self targetURL] withBeCookie:[self shouldSendBeCookie]];
 
-    if (referer_ != nil && [referer_ length] > 0) {
-        [headers_ setObject : referer_
-                     forKey : HTTP_REFERER_KEY];
+    if (referer_ && [referer_ length] > 0) {
+        [headers_ setObject:referer_ forKey:HTTP_REFERER_KEY];
     }
-    if (cookies_ != nil && [cookies_ length] > 0) {
-        [headers_ setObject : cookies_
-                     forKey : HTTP_COOKIE_HEADER_KEY];
+    if (cookies_ && [cookies_ length] > 0) {
+        [headers_ setObject:cookies_ forKey:HTTP_COOKIE_HEADER_KEY];
     }
 
     //プラグインをロード
-    connector_ = [CMRPref w2chConnectWithURL : [self targetURL]
-                                  properties : headers_];
-    formDictionary_ = [self formDictionary : replyMessage
-                                      name : name
-                                      mail : mail
-								hanamogera : addForms];
+    connector_ = [CMRPref w2chConnectWithURL:[self targetURL] properties:headers_];
+	[connector_ setDelegate:self];
+    formDictionary_ = [self formDictionary:replyMessage name:name mail:mail hanamogera:addForms];
 
     UTILDebugWrite1(@"targetURL = %@", [[self targetURL] absoluteString]);
     UTILDebugWrite2(@"name = %@, mail = %@", name, mail);
     UTILDebugWrite1(@"referer = %@", referer_);
     UTILDebugWrite1(@"cookie = %@", cookies_);
     UTILDebugWrite1(@"formDictionary = %@", [formDictionary_ description]);
-    if (NO == [connector_ writeForm : formDictionary_]) {
+
+    if (![connector_ writeForm:formDictionary_]) {
         UTILDebugWrite(@"[FATAL] Can't write form data as URL encoded.");
-		[self setIsEndPost : NO]; //ユーザが編集して再送信できるように
-        return;
+		[self setIsEndPost:NO]; //ユーザが編集して再送信できるように
+		return;
     }
     
-    [connector_ setDelegate : self];
-    [[CMRTaskManager defaultManager] addTask : self];
-    _isInProgress = YES;
+    [[CMRTaskManager defaultManager] addTask:self];
+    [self setIsInProgress:YES];
     
     UTILNotifyName(CMRTaskWillStartNotification);
     [connector_ loadInBackground];
-    [self setModifiedDate : [NSDate date]];
+    [self setModifiedDate:[NSDate date]];
 }
-- (NSString *) refererParameter
+
+- (NSString *)refererParameter
 {
 	NSString *host_;
 	
@@ -395,28 +371,27 @@ static inline NSString *removeObjectReplacementCharacter(NSString *str)
 	UTILAssertNotNil([self formItemBBS]);
 	
 	host_ = [[self targetURL] host];
+
 	if (can_readcgi([host_ UTF8String])) {
-		
-		
-	}else if (is_shitaraba([host_ UTF8String])) {
+		;
+	} else if (is_shitaraba([host_ UTF8String])) {
 		// http://cgi.shitaraba.com/cgi-bin/bbs.cgi
 		// ホストが異なる
 		host_ = MESSENGER_SHITARABA_REFERER;
 	}
-	return [NSString stringWithFormat : MESSENGER_REFERER_FORMAT, 
-										host_, 
-										[self formItemBBS],
-										MESSENGER_REFERER_INDEX_HTML];
+	return [NSString stringWithFormat:MESSENGER_REFERER_FORMAT, host_, [self formItemBBS], MESSENGER_REFERER_INDEX_HTML];
 }
-- (void) receiveCookiesWithResponse : (NSDictionary *) headers
+
+- (void)receiveCookiesWithResponse:(NSHTTPURLResponse *)response
 {
-	NSString			*set_cookie_;
+	NSDictionary	*headers = [response allHeaderFields];	
+	NSString		*cookies;
 	
-	if (nil == headers || 0 == [headers count]) return;
-	set_cookie_ = [headers objectForKey : HTTP_SET_COOKIE_HEADER_KEY];
-	if (nil == set_cookie_ || 0 == [set_cookie_ length]) return;
-	// クッキーを追加
-	[[CookieManager defaultManager] addCookies : set_cookie_
-								    fromServer : [[self targetURL] host]];
+	if (!headers || [headers count] == 0) return;
+
+	cookies = [headers objectForKey:HTTP_SET_COOKIE_HEADER_KEY];
+	if (!cookies || [cookies length] == 0) return;
+
+	[[CookieManager defaultManager] addCookies:cookies fromServer:[[response URL] host]];
 }
 @end

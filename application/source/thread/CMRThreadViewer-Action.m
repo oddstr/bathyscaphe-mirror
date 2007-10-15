@@ -27,7 +27,31 @@
 #import "UTILDebugging.h"
 
 @implementation CMRThreadViewer(ActionSupport)
-- (CMRReplyMessenger *)messenger:(BOOL)create
+- (CMRReplyMessenger *)replyMessenger
+{
+	UTILAssertNotNil([self path]);
+	CMRReplyMessenger *document;
+
+	NSDocumentController *docController = [NSDocumentController sharedDocumentController];
+	CMRReplyDocumentFileManager *replyDocManager = [CMRReplyDocumentFileManager defaultManager];
+
+	NSString *replyDocPath = [replyDocManager replyDocumentFilepathWithLogPath:[self path]];
+
+	document = [docController documentForFileName:replyDocPath];
+	if (document) return document;
+
+	[replyDocManager createDocumentFileIfNeededAtPath:replyDocPath contentInfo:[self selectedThread]];
+	document = [docController openDocumentWithContentsOfFile:replyDocPath display:YES];
+	if (document) {
+		[self addMessenger:document];
+		return document;
+	}
+
+	// Error while creating CMRReplyMessenger instance.
+	return nil;
+}
+
+/*- (CMRReplyMessenger *)messenger:(BOOL)create
 {
 	NSDocumentController		*docc_;
 	CMRReplyDocumentFileManager	*replyMgr_;
@@ -47,7 +71,7 @@
 
 	document_ = [docc_ openDocumentWithContentsOfFile:reppath_ display:YES];
 	return document_;
-}
+}*/
 
 - (void)addMessenger:(CMRReplyMessenger *)aMessenger
 {
@@ -60,18 +84,19 @@
 
 - (void)replyMessengerDidFinishPosting:(NSNotification *)aNotification
 {
-	NSSound	*sound_;
-	NSString *soundTitle_;
+	NSSound		*replyFinishedSound;
+	NSString	*replyFinishedSoundName;
+
 	UTILAssertNotificationName(aNotification, CMRReplyMessengerDidFinishPostingNotification);
 
-	soundTitle_ = [CMRPref replyDidFinishSound];
-	if (![soundTitle_ isEqualToString:@""]) {
-		sound_ = [NSSound soundNamed:soundTitle_];
+	replyFinishedSoundName = [CMRPref replyDidFinishSound];
+	if (replyFinishedSoundName && ![replyFinishedSoundName isEqualToString:@""]) {
+		replyFinishedSound = [NSSound soundNamed:replyFinishedSoundName];
+	} else {
+		replyFinishedSound = nil;
 	}
 	
-	if (sound_) {
-		[sound_ play];
-	}
+	[replyFinishedSound play];
 
 	[self reloadIfOnlineMode:nil];
 }
@@ -353,7 +378,7 @@
 
 - (IBAction)reply:(id)sender
 {
-	NSEnumerator		*iter_;
+/*	NSEnumerator		*iter_;
 	NSArray				*selectedThreads_;
 	NSDictionary		*threadAttributes_;
 	
@@ -380,7 +405,19 @@
 			[self addMessenger:document_];
 			[self quoteWithMessenger:document_];
 		}
+	}*/
+	if (![self path]) return;
+	CMRReplyMessenger *document = [self replyMessenger];
+
+	if (!document) {
+		NSBeep();
+		NSLog(@"ERROR! CMRThreadViewer: -reply: Can't create CMRReplyMessenger instance.");
+		return;
 	}
+
+	[document showWindows];
+//	[self addMessenger:document];
+	[self quoteWithMessenger:document];
 }
 
 - (IBAction)openBBSInBrowser:(id)sender

@@ -1,5 +1,5 @@
 /*
- * $Id: CMRReplyMessenger_p.h,v 1.9 2007/09/04 07:45:43 tsawada2 Exp $
+ * $Id: CMRReplyMessenger_p.h,v 1.10 2007/10/15 10:50:43 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -74,7 +74,7 @@
                             mail : (NSString *) mail;
 
 - (NSString *) refererParameter;
-- (void) receiveCookiesWithResponse : (NSDictionary *) headers;
+- (void) receiveCookiesWithResponse:(NSHTTPURLResponse *)response;
 @end
 
 

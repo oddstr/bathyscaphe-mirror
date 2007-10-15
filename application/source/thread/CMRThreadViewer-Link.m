@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer-Link.m,v 1.30 2007/09/07 13:06:53 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Link.m,v 1.31 2007/10/15 10:50:43 tsawada2 Exp $
   * 
   * CMRThreadViewer-Link.m
   *
@@ -419,14 +419,14 @@ ErrInvalidLink:
 {
 	return [self threadLayout];
 }
-- (void) threadView : (CMRThreadView *) aView
-	   messageReply : (NSRange        ) anIndexRange
+
+- (void)threadView:(CMRThreadView *)aView messageReply:(NSRange)anIndexRange
 {
 	CMRReplyMessenger	*messenger_;
 
-	[self reply : aView];
-	messenger_ = [self messenger : YES];
-	[self addMessenger: messenger_]; // 2006-06-06 Patch posted at CocoMonar Thread
+	[self reply:aView];
+	messenger_ = [self replyMessenger];//[self messenger : YES];
+//	[self addMessenger: messenger_]; // 2006-06-06 Patch posted at CocoMonar Thread
 	[messenger_ append:@"" quote:NO replyTo:anIndexRange.location];
 }
 

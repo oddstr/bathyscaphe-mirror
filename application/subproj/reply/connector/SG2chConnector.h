@@ -4,6 +4,7 @@
 //
 //  Updated by Tsutomu Sawada on 07/07/22.
 //  Copyright 2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import <Foundation/Foundation.h>

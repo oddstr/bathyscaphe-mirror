@@ -21,10 +21,3 @@
 //接続時のエラー
 "ERROR_CONNECTION" = "ERROR:認証サーバとの接続に失敗";
 "Error_Connection_Fail" = "サーバとの接続を確立できませんでした。ISP の設定を確認して、もう一度やり直してください。";
-
-
-"FailURLEncoding_title"	= "ERROR!";
-"FailURLEncoding_msg"	= "送信データの URL エンコーディングに失敗しました。書き直したうえで、もう一度送信してください。
-
-内容：%@";
-"FailURLEncoding_help"	= "bs_connector_fail_encoding_alert";

@@ -3,11 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
+	<string>Japanese</string>
 	<key>CFBundleExecutable</key>
 	<string>2chConnector</string>
-	<key>CFBundleGetInfoString</key>
-	<string>2chConnector version 0.0.2, Copyright ?¥U00A9 2001 takanori_is.</string>
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
@@ -19,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.0.2</string>
+	<string>1.6</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.5.1</string>
+	<string>1.6</string>
 	<key>NSPrincipalClass</key>
 	<string>SG2chConnector</string>
 </dict>

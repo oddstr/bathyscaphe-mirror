@@ -107,8 +107,9 @@ extern NSString *const CMRThreadViewerRunSpamFilterNotification;
 
 
 @interface CMRThreadViewer(ActionSupport)
+- (CMRReplyMessenger *)replyMessenger;
 - (void) addMessenger : (CMRReplyMessenger *) aMessenger;
-- (CMRReplyMessenger *) messenger : (BOOL) create;
+//- (CMRReplyMessenger *) messenger : (BOOL) create;
 - (void) replyMessengerDidFinishPosting : (NSNotification *) aNotification;
 - (void) removeMessenger : (CMRReplyMessenger *) aMessenger;
 

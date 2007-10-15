@@ -1,80 +1,33 @@
-/**
-  * $Id: SG2chErrorHandler.h,v 1.3 2006/06/04 16:01:10 tsawada2 Exp $
-  * 
-  * SG2chErrorHandler.h
-  *
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  SG2chErrorHandler.h
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/10/15.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import <SGFoundation/SGFoundation.h>
 #import "w2chConnect.h"
 
 
-
 @interface SG2chErrorHandler : NSObject<w2chErrorHandling>
 {
-	NSURL				*m_requestURL;
-	w2chConnectMode		m_requestMode;
-	SG2chServerError	m_recentError;
-	NSString			*m_recentErrorTitle;
-	NSString			*m_recentErrorMessage;
-	
-	// available in CometBlaster and later.
-	NSDictionary		*m_additionalFormsData;
+	NSURL			*m_requestURL;
+	NSError			*m_recentError;
+	NSDictionary	*m_additionalFormsData;
 }
-//////////////////////////////////////////////////////////////////////
-/////////////////////// [ 初期化・後始末 ] ///////////////////////////
-//////////////////////////////////////////////////////////////////////
-/**
-  * 一時オブジェクトの生成。
-  * 取得先のURLを指定して初期化。
-  * 
-  * @param    anURL       取得先のURL
-  * @return               一時オブジェクト
-  */
-+ (id) handlerWithURL : (NSURL *) anURL;
 
-/**
-  * 取得先のURLを指定して初期化。
-  * 
-  * @param    anURL       取得先のURL
-  * @return               初期化済みのインスタンス
-  */
-- (id) initWithURL : (NSURL         *) anURL;
++ (id)handlerWithURL:(NSURL *)anURL;
+- (id)initWithURL:(NSURL *)anURL;
+
++ (BOOL)canInitWithURL:(NSURL *)anURL;
 
 
-//////////////////////////////////////////////////////////////////////
-/////////////////////// [ クラスメソッド ] ///////////////////////////
-//////////////////////////////////////////////////////////////////////
-/**
-  * 指定されたURLからデータを取得できる場合はYES
-  * 
-  * @param    anURL  URL
-  * @return          URLからデータを取得できる場合はYES
-  */
-+ (BOOL) canInitWithURL : (NSURL *) anURL;
+- (void)setRequestURL:(NSURL *)aRequestURL;
+- (void)setRecentError:(NSError *)error;
 
-//////////////////////////////////////////////////////////////////////
-////////////////////// [ アクセサメソッド ] //////////////////////////
-//////////////////////////////////////////////////////////////////////
-/* Accessor for m_requestURL */
-- (void) setRequestURL : (NSURL *) aRequestURL;
-/* Accessor for m_recentError */
-- (void) setRecentError : (SG2chServerError) aRecentError;
-/* Accessor for m_recentErrorTitle */
-- (void) setRecentErrorTitle : (NSString *) aRecentErrorTitle;
-/* Accessor for m_recentErrorMessage */
-- (void) setRecentErrorMessage : (NSString *) aRecentErrorMessage;
+- (BOOL)parseHTMLContents:(NSString *)htmlContents intoTitle:(NSString **)ptitle intoMessage:(NSString **)pbody;
 
-- (NSDictionary *) additionalFormsData;
-- (void) setAdditionalFormsData : (NSDictionary *) anAdditionalFormsData;
-- (BOOL) parseHTMLContents: (NSString *) htmlContents
-				 intoTitle: (NSString **) ptitle
-			   intoMessage: (NSString **) pbody;
-- (NSDictionary *) scanAdditionalFormsWithHTML: (NSString *) htmlContents;
+- (NSDictionary *)scanAdditionalFormsWithHTML:(NSString *)htmlContents;
 @end
-
-extern SG2chServerError SGMake2chServerError(int type, 
-			     						     w2chConnectMode mode, 
-										     int error);
-

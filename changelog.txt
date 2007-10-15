@@ -1,3 +1,18 @@
+2007-10-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/thread/CMRThreadViewer-Link.m
+	* application/source/window/CMRReplyMessenger-Connector.m
+	* application/source/window/CMRReplyMessenger.m
+	* application/Resources/Japanese.lproj/Messenger.strings
+		書き込み周りのコード整理、およびサウンドエフェクトを「なし」にしていると書き込み完了時に自動更新されない
+		v173 での問題を修正。また、書き込み時のエラーで、モーダルアラートで表示していたものの一部をシートで
+		表示するように改良。
+	* application/subproj/reply/connector/SG2chConnector.m
+	* application/subproj/reply/connector/w2chConnect.h
+	* application/subproj/reply/error/SG2chErrorHandler.m
+		2chConnector.plugin の内部をリファクタリング。とくに、現代的な API の利用と、使われていないコードの
+		削除や整理を行なった。
+=================================================
 2007-10-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadViewer-Action.m
 	* application/source/thread/CMRThreadViewer-Validation.m
