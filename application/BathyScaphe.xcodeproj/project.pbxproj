@@ -1109,7 +1109,7 @@
 		F324DBC304C6965500A80005 /* LoginController.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = LoginController.h; sourceTree = "<group>"; };
 		F324DBC404C6965500A80005 /* LoginController.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = LoginController.m; sourceTree = "<group>"; };
 		F324DBC504C6965500A80005 /* LoginController_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = LoginController_p.h; sourceTree = "<group>"; };
-		F324DBC604C6965500A80005 /* w2chAuthenticater.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = w2chAuthenticater.h; sourceTree = "<group>"; };
+		F324DBC604C6965500A80005 /* w2chAuthenticater.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = w2chAuthenticater.h; sourceTree = "<group>"; };
 		F324DBC704C6965500A80005 /* w2chAuthenticater.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = w2chAuthenticater.m; sourceTree = "<group>"; };
 		F324DBC804C6965500A80005 /* w2chAuthenticater_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = w2chAuthenticater_p.h; sourceTree = "<group>"; };
 		F324DBCB04C6965500A80005 /* SG2chConnector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SG2chConnector.h; sourceTree = "<group>"; };
@@ -1193,11 +1193,11 @@
 		F324DCD904C698FB00A80005 /* CMRThreadSignature_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadSignature_p.h; sourceTree = "<group>"; };
 		F324DCDC04C698FB00A80005 /* AppDefaults-Account.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-Account.m"; sourceTree = "<group>"; };
 		F324DCDE04C698FB00A80005 /* AppDefaults-Background.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-Background.m"; sourceTree = "<group>"; };
-		F324DCDF04C698FB00A80005 /* AppDefaults-Bundle.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-Bundle.m"; sourceTree = "<group>"; };
+		F324DCDF04C698FB00A80005 /* AppDefaults-Bundle.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-Bundle.m"; sourceTree = "<group>"; };
 		F324DCE004C698FB00A80005 /* AppDefaults-FontColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-FontColor.m"; sourceTree = "<group>"; };
 		F324DCE304C698FB00A80005 /* AppDefaults-ThreadsList.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-ThreadsList.m"; sourceTree = "<group>"; };
 		F324DCE404C698FB00A80005 /* AppDefaults-ThreadViewer.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-ThreadViewer.m"; sourceTree = "<group>"; };
-		F324DCE604C698FB00A80005 /* AppDefaults.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = AppDefaults.h; sourceTree = "<group>"; };
+		F324DCE604C698FB00A80005 /* AppDefaults.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = AppDefaults.h; sourceTree = "<group>"; };
 		F324DCE704C698FB00A80005 /* AppDefaults.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = AppDefaults.m; sourceTree = "<group>"; };
 		F324DCE804C698FB00A80005 /* AppDefaults_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = AppDefaults_p.h; sourceTree = "<group>"; };
 		F324DD3A04C698FB00A80005 /* CMRAbstructThreadDocument.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRAbstructThreadDocument.h; sourceTree = "<group>"; };
@@ -1226,7 +1226,7 @@
 		F324DD6804C698FB00A80005 /* CMRThreadViewer-MoveAction.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-MoveAction.m"; sourceTree = "<group>"; };
 		F324DD6B04C698FB00A80005 /* CMRThreadViewer-ViewAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-ViewAccessor.m"; sourceTree = "<group>"; };
 		F324DD6C04C698FB00A80005 /* CMRThreadViewer.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadViewer.h; sourceTree = "<group>"; };
-		F324DD6D04C698FB00A80005 /* CMRThreadViewer.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRThreadViewer.m; sourceTree = "<group>"; };
+		F324DD6D04C698FB00A80005 /* CMRThreadViewer.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRThreadViewer.m; sourceTree = "<group>"; };
 		F324DD6E04C698FB00A80005 /* CMRThreadViewer_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadViewer_p.h; sourceTree = "<group>"; };
 		F324DD7A04C698FB00A80005 /* TextFinder.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = TextFinder.h; sourceTree = "<group>"; };
 		F324DD7B04C698FB00A80005 /* TextFinder.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = TextFinder.m; sourceTree = "<group>"; };
@@ -1373,7 +1373,7 @@
 		F46795590B74CD40001B0001 /* DatabaseUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseUpdater.h; sourceTree = "<group>"; };
 		F467955A0B74CD40001B0001 /* DatabaseUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabaseUpdater.m; sourceTree = "<group>"; };
 		F472216D0B26EF8F004FAD24 /* OgreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OgreKit.framework; path = ../frameworks/OgreKit/build/Release/OgreKit.framework; sourceTree = SOURCE_ROOT; };
-		F473638F0AFF8758009B6189 /* BathyScaphe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BathyScaphe.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F473638F0AFF8758009B6189 /* BathyScaphe.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BathyScaphe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F47A664B0AFF7EE600EB5137 /* alter.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = alter.c; path = ../misc/sqlite/alter.c; sourceTree = SOURCE_ROOT; };
 		F47A664C0AFF7EE600EB5137 /* analyze.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = analyze.c; path = ../misc/sqlite/analyze.c; sourceTree = SOURCE_ROOT; };
 		F47A664D0AFF7EE600EB5137 /* attach.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = attach.c; path = ../misc/sqlite/attach.c; sourceTree = SOURCE_ROOT; };

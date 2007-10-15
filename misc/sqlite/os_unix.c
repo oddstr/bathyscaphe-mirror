@@ -16,7 +16,7 @@
 #include "os.h"
 #if OS_UNIX              /* This file is used on unix only */
 
-/* #define SQLITE_ENABLE_LOCKING_STYLE 0 */
+#define SQLITE_ENABLE_LOCKING_STYLE 0
 
 /*
 ** These #defines should enable >2GB file support on Posix if the

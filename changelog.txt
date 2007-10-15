@@ -1,4 +1,13 @@
 2007-10-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* misc/sqlite/os_unix.c
+		試験的に、#define SQLITE_ENABLE_LOCKING_STYLE 0 のコメントアウトを解除した。
+		==[参考]=========
+		 http://bathyscaphe.sourceforge.jp/cgi-bin/wiki.cgi?p=til504
+		 http://www.sqlite.org/cvstrac/chngview?cn=3459
+		 http://www.mail-archive.com/sqlite-users@sqlite.org/msg21123.html
+		=================
+		ネットワーク上にログフォルダのエイリアスを置いて、BathyScaphe 1.5 or later が使えないと嘆く人の声が…
+		これで解決するのかどうか?
 	* application/source/preferences/AppDefaults-Bundle.m
 	* application/subproj/reply/connector/w2chConnect.h
 		●ログイン用の session-id を取得するためのクラスは 2chConnector.plugin に含まれているが、これを呼び出しやすくした。
