@@ -60,6 +60,7 @@
 /* End PBXApplicationTarget section */
 
 /* Begin PBXBuildFile section */
+		870CA6550CC99F35006B5340 /* NSURL-SGExtensions_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F5996C800379014401A80002 /* NSURL-SGExtensions_p.h */; };
 		874A34CA086E21EF004E7805 /* UTILAssertion.h in Headers */ = {isa = PBXBuildFile; fileRef = F3C762FB05D54B7200CD425B /* UTILAssertion.h */; };
 		874A34CB086E21EF004E7805 /* UTILDebugging.h in Headers */ = {isa = PBXBuildFile; fileRef = F3C762FC05D54B7200CD425B /* UTILDebugging.h */; };
 		874A34CC086E21EF004E7805 /* UTILDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = F3C762FD05D54B7200CD425B /* UTILDescription.h */; };
@@ -1204,6 +1205,7 @@
 				874A3513086E21EF004E7805 /* UtkError.h in Headers */,
 				87FD8518098CF59000ECD73C /* NSBundle+AppSupport.h in Headers */,
 				87FD8519098CF59100ECD73C /* SGFile+AppSupport.h in Headers */,
+				870CA6550CC99F35006B5340 /* NSURL-SGExtensions_p.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
