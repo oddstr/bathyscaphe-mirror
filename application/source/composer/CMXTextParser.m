@@ -1,5 +1,5 @@
 /**
-  * $Id: CMXTextParser.m,v 1.24 2007/03/23 17:27:52 tsawada2 Exp $
+  * $Id: CMXTextParser.m,v 1.25 2007/10/20 02:21:29 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -515,7 +515,8 @@ static id fnc_stringByURLEncodingUsingEncoding(id obj, NSStringEncoding enc)
 }
 static id fnc_stringByURLDecodingUsingEncoding(id obj, NSStringEncoding enc)
 {
-	return [obj stringByURLDecodingUsingEncoding : enc];
+//	return [obj stringByURLDecodingUsingEncoding : enc];
+	return [obj stringByReplacingPercentEscapesUsingEncoding:enc];
 }
 static id fnc_queryUsingEncoding(id obj, NSStringEncoding enc)
 {

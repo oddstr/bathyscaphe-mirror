@@ -1,6 +1,6 @@
 //: NSCharacterSet-SGExtentions.m
 /**
-  * $Id: NSCharacterSet-SGExtensions.m,v 1.3 2006/04/11 17:31:21 masakih Exp $
+  * $Id: NSCharacterSet-SGExtensions.m,v 1.4 2007/10/20 02:21:29 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -11,14 +11,14 @@
 
 
 // Custom Character Set
-@interface SGURLCharacterSet : NSCharacterSet
+/*@interface SGURLCharacterSet : NSCharacterSet
 @end
 @interface SGInvertedURLCharacterSet : NSCharacterSet
 @end
 @interface SGURLToBeNotEscapedCharacterSet : NSCharacterSet
 @end
 @interface SGURLToBeEscapedCharacterSet : NSCharacterSet
-@end
+@end*/
 
 
 
@@ -32,16 +32,27 @@
 	
 	return [NSCharacterSet characterSetWithRange:lcEnglishRange];
 }
-+ (NSCharacterSet *) URLCharacterSet
+/*+ (NSCharacterSet *) URLCharacterSet
 {
 	static NSCharacterSet *charSet = nil;
 	if(nil == charSet)
 		charSet = [[SGURLCharacterSet alloc] init];
 	
 	return charSet;
+}*/
+// as RFC 2396.
++ (NSCharacterSet *)URLCharacterSet
+{
+	static NSCharacterSet *charSet = nil;
+	if (!charSet) {
+		charSet = [[NSCharacterSet characterSetWithCharactersInString:
+//					@"!$&'()*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~"] retain];
+					@"!$&'()*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~#%"] retain];
+	}
+	return charSet;
 }
 
-+ (NSCharacterSet *) URLInvertedCharacterSet
+/*+ (NSCharacterSet *) URLInvertedCharacterSet
 {
 	static NSCharacterSet *cset_ = nil;
 	
@@ -71,7 +82,7 @@
 		charSet = [[SGURLToBeNotEscapedCharacterSet alloc] init];
 	
 	return charSet;
-}
+}*/
 + (NSCharacterSet *) extraspaceAndNewlineCharacterSet
 {
 	static NSCharacterSet *st_finalCharSet = nil;
@@ -92,10 +103,11 @@
 
 
 
-#define ACCEPTABLE_ASCII_BASE		32
-#define ACCEPTABLE_ASCII_LENGTH		96
+//#define ACCEPTABLE_ASCII_BASE		32
+//#define ACCEPTABLE_ASCII_LENGTH		96
 
 /* URL Strings */
+/*
 static const BOOL	isURLCharactersASCII[ACCEPTABLE_ASCII_LENGTH] =
   // 0 1 2 3 4 5 6 7 8 9 A B C D E F           0123456789ABCDEF
 //	{0,0,0,1,0,1,1,0,0,0,1,1,1,1,1,1,	// 2x   !"#$%&'()*+,-./
@@ -192,4 +204,4 @@ static inline unsigned char unichar2AcceptableASCII(unichar aCharacter)
 {
 	return [self retain];
 }
-@end
+@end*/

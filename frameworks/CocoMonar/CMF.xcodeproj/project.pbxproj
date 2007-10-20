@@ -38,8 +38,6 @@
 		87F57063086E5217002A18AD /* UTILDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = F3354EAC05D39D260073CD71 /* UTILDescription.h */; };
 		87F57064086E5217002A18AD /* UTILKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F3354EAD05D39D260073CD71 /* UTILKit.h */; };
 		87F57066086E5217002A18AD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
-		87F57067086E5217002A18AD /* megabbs.txt in Resources */ = {isa = PBXBuildFile; fileRef = F37CD4C305089F5700A80005 /* megabbs.txt */; };
-		87F57068086E5217002A18AD /* pathinfo.txt in Resources */ = {isa = PBXBuildFile; fileRef = F37CD4C405089F5700A80005 /* pathinfo.txt */; };
 		87F5706A086E5217002A18AD /* CMRDocumentTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B756F70508BD6C00A80005 /* CMRDocumentTypes.m */; };
 		87F5706B086E5217002A18AD /* CMRHostTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B756FB0508BD6C00A80005 /* CMRHostTypes.m */; };
 		87F5706C086E5217002A18AD /* CMRLocalizableStringsOwner.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B756FD0508BD6C00A80005 /* CMRLocalizableStringsOwner.m */; };
@@ -61,8 +59,8 @@
 		87D29C830991388F007D26B4 /* CMRThreadMessageAttributesMask.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = CMRThreadMessageAttributesMask.h; path = ../../application/source/threaddata/CMRThreadMessageAttributesMask.h; sourceTree = SOURCE_ROOT; };
 		87E1152F0BB2D78500F3E2E1 /* BSThreadViewTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSThreadViewTheme.h; sourceTree = "<group>"; };
 		87E115300BB2D78500F3E2E1 /* BSThreadViewTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSThreadViewTheme.m; sourceTree = "<group>"; };
-		87E8CDF90991180A00703486 /* NSCharacterSet+CMXAdditions.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = "NSCharacterSet+CMXAdditions.h"; path = "../../application/source/extensions/NSCharacterSet+CMXAdditions.h"; sourceTree = SOURCE_ROOT; };
-		87E8CDFA0991180A00703486 /* NSCharacterSet+CMXAdditions.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; name = "NSCharacterSet+CMXAdditions.m"; path = "../../application/source/extensions/NSCharacterSet+CMXAdditions.m"; sourceTree = SOURCE_ROOT; };
+		87E8CDF90991180A00703486 /* NSCharacterSet+CMXAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSCharacterSet+CMXAdditions.h"; path = "../../application/source/extensions/NSCharacterSet+CMXAdditions.h"; sourceTree = SOURCE_ROOT; };
+		87E8CDFA0991180A00703486 /* NSCharacterSet+CMXAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSCharacterSet+CMXAdditions.m"; path = "../../application/source/extensions/NSCharacterSet+CMXAdditions.m"; sourceTree = SOURCE_ROOT; };
 		87E8CDFD0991186000703486 /* innerLinkPrefixCharacters.txt */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text; name = innerLinkPrefixCharacters.txt; path = ../../application/Resources/text/innerLinkPrefixCharacters.txt; sourceTree = SOURCE_ROOT; };
 		87E8CDFE0991186000703486 /* innerLinkRangeCharacters.txt */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text; name = innerLinkRangeCharacters.txt; path = ../../application/Resources/text/innerLinkRangeCharacters.txt; sourceTree = SOURCE_ROOT; };
 		87E8CDFF0991186000703486 /* innerLinkSeparaterCharacters.txt */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text; name = innerLinkSeparaterCharacters.txt; path = ../../application/Resources/text/innerLinkSeparaterCharacters.txt; sourceTree = SOURCE_ROOT; };
@@ -328,8 +326,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				87F57066086E5217002A18AD /* InfoPlist.strings in Resources */,
-				87F57067086E5217002A18AD /* megabbs.txt in Resources */,
-				87F57068086E5217002A18AD /* pathinfo.txt in Resources */,
 				87E8CE010991186000703486 /* innerLinkPrefixCharacters.txt in Resources */,
 				87E8CE020991186000703486 /* innerLinkRangeCharacters.txt in Resources */,
 				87E8CE030991186000703486 /* innerLinkSeparaterCharacters.txt in Resources */,

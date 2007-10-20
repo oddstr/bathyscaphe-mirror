@@ -18,8 +18,8 @@
 {
 	@private
 	unsigned		m_lastCharIndex;		/* For -menuForEvent: */
+//	NSRect			m_rectForHighlight;		/* For Future Use */
 
-	// ReinforceII Additions
 	BOOL			draggingHilited;
 	NSTimeInterval	draggingTimer;
 }
@@ -27,13 +27,14 @@
 // delegate's layout
 - (CMRThreadLayout *)threadLayout;
 
-- (NSEnumerator *)indexEnumeratorWithIndexRange:(NSRange)anIndexRange;
-- (NSArray *)indexArrayWithIndexRange:(NSRange)anIndexRange;
-- (NSEnumerator *)selectedMessageIndexEnumerator;
+// Available in Twincam Angel and later.
+- (NSIndexSet *)messageIndexesForRange:(NSRange)range_;
+- (NSIndexSet *)messageIndexesAtClickedPoint;
+- (NSIndexSet *)selectedMessageIndexes;
 
 + (NSMenu *)messageMenu;
 - (NSMenu *)messageMenuWithMessageIndex:(unsigned)aMessageIndex;
-- (NSMenu *)messageMenuWithMessageIndexRange:(NSRange)anIndexRange;
+- (NSMenu *)messageMenuWithMessageIndexes:(NSIndexSet *)indexes;
 @end
 
 

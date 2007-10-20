@@ -1,6 +1,6 @@
 //: CMRThreadLayout.h
 /**
-  * $Id: CMRThreadLayout.h,v 1.8 2007/09/16 18:36:22 tsawada2 Exp $
+  * $Id: CMRThreadLayout.h,v 1.9 2007/10/20 02:21:29 tsawada2 Exp $
   * 
   * CMRThreadLayout.h
   *
@@ -57,6 +57,7 @@
 - (BOOL) isCompleted;
 
 - (NSRange) rangeAtMessageIndex : (unsigned int) index;
+- (NSRange) subrangeForIndexRange : (NSRange) aRange;
 
 - (unsigned int) messageIndexForRange : (NSRange) aRange;
 - (unsigned int) lastMessageIndexForRange : (NSRange) aRange;

@@ -1,6 +1,6 @@
 //: NSCharacterSet-SGExtentions.h
 /**
-  * $Id: NSCharacterSet-SGExtensions.h,v 1.1 2005/05/11 17:51:44 tsawada2 Exp $
+  * $Id: NSCharacterSet-SGExtensions.h,v 1.2 2007/10/20 02:21:29 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -21,10 +21,10 @@
   * @return     文字集合
   */
 + (NSCharacterSet *) URLCharacterSet;
-+ (NSCharacterSet *) URLInvertedCharacterSet;
+//+ (NSCharacterSet *) URLInvertedCharacterSet;
 
-+ (NSCharacterSet *) URLToBeEscapedCharacterSet;
-+ (NSCharacterSet *) URLToBeNotEscapedCharacterSet;
+//+ (NSCharacterSet *) URLToBeEscapedCharacterSet;
+//+ (NSCharacterSet *) URLToBeNotEscapedCharacterSet;
 
 /**
   * 空白、タブ、改行、および、全角の空白文字を含む

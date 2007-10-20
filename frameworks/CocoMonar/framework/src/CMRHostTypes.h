@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRHostTypes.h,v 1.2 2005/11/30 23:22:51 tsawada2 Exp $
+  * $Id: CMRHostTypes.h,v 1.3 2007/10/20 02:21:29 tsawada2 Exp $
   * 
   * CMRHostTypes.h
   *
@@ -24,12 +24,16 @@ extern "C" {
   (path) jbbs.shitaraba.com/business
   (directory) 767
 */
+
 // return temporary cstring
 extern const char *CMRGetHostCStringFromBoardURL(NSURL *anURL, const char **bbs);
 // return copied string
 extern NSString *CMRGetHostStringFromBoardURL(NSURL *anURL, NSString **bbs);
 // return temporary string
-extern NSString *CMRGetHostStringFromBoardURLNoCopy(NSURL *anURL, NSString **bbs);
+/*
+  Deprecated in BathyScaphe 1.6 and later.
+*/
+//extern NSString *CMRGetHostStringFromBoardURLNoCopy(NSURL *anURL, NSString **bbs);
 
 
 
@@ -40,15 +44,30 @@ extern bool can_readcgi(const char *host);
 extern bool is_2channel(const char *host);
 extern bool is_be2ch(const char *host);	// EUC エンコーディングが必要かどうかを判定する際に使う
 extern bool is_2ch_belogin_needed(const char *host); // 書き込みに Be ログインが必須かどうかを判定する際に使う
-extern bool is_jbbs_shita(const char *host);
-extern bool is_machi(const char *host);
-extern bool is_jbbs(const char *host);
-extern bool is_shitaraba(const char *host);
-extern bool is_tanteifile(const char *host);
 
-extern bool can_offlaw(const char *host);
-extern bool kako_salad(const char *host, const char *bbs);
-extern bool bbs_qb(const char *host);
+/*
+  NOTE: This function has not been deprecated in BathyScaphe 1.6, but naming of this function is confusing.
+  Use is_jbbs_livedoor(const char *host) instead.
+*/
+extern bool is_jbbs_shita(const char *host);
+
+/*
+  Available in BathyScaphe 1.6 and later.
+*/
+extern bool is_jbbs_livedoor(const char *host);
+extern bool is_machi(const char *host);
+
+/*
+  Deprecated in BathyScaphe 1.6 and later.
+  These BBSs has no longer been available recent years.
+*/
+//extern bool is_jbbs(const char *host);
+//extern bool is_shitaraba(const char *host);
+//extern bool is_tanteifile(const char *host);
+
+//extern bool can_offlaw(const char *host);
+//extern bool kako_salad(const char *host, const char *bbs);
+//extern bool bbs_qb(const char *host);
 
 
 

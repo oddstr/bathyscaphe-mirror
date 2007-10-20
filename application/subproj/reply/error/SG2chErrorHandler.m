@@ -64,12 +64,12 @@ static NSString *const kHTMLHorizotalLine = @"<br>----------------<br>";
 	if (is_2channel(host_)) {
 		return [cgiName_ isEqualToString:@"bbs.cgi"];
 	}
-	if (is_machi(host_) || is_jbbs_shita(host_)) {
+	if (is_machi(host_) || is_jbbs_livedoor(host_)) {
 		return [cgiName_ isEqualToString:@"write.cgi"];
 	}
-	if (is_shitaraba(host_)) {
+/*	if (is_shitaraba(host_)) {
 		return [cgiName_ isEqualToString:@"bbs.cgi"];
-	}
+	}*/
 	return NO;
 }
 
@@ -108,7 +108,7 @@ static NSString *const kHTMLHorizotalLine = @"<br>----------------<br>";
 	} else {
 		const char	*host_ = [[[self requestURL] host] UTF8String];
 		
-		if (is_jbbs_shita(host_) || is_shitaraba(host_) || is_machi(host_)) {
+		if (is_jbbs_livedoor(host_)/* || is_shitaraba(host_)*/ || is_machi(host_)) {
 			/*
 			2004-02-25 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
 			----------------------------------------

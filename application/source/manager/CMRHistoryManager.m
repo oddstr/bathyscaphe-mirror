@@ -1,6 +1,6 @@
 //: CMRHistoryManager.m
 /**
-  * $Id: CMRHistoryManager.m,v 1.8 2007/04/15 13:49:38 tsawada2 Exp $
+  * $Id: CMRHistoryManager.m,v 1.9 2007/10/20 02:21:29 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -658,7 +658,7 @@ static NSString *const stHistoryPropertyKey[] =
     
     UTILMethodLog;
 
-    if ([coder supportsKeyedCoding]) {
+    if ([coder allowsKeyedCoding]) {
         
         tmp = [coder decodeObjectForKey:kRepresentationTitleKey];
         [self setTitle : tmp];
@@ -697,7 +697,7 @@ static NSString *const stHistoryPropertyKey[] =
     
     UTILMethodLog;
     
-    if ([encoder supportsKeyedCoding]) {
+    if ([encoder allowsKeyedCoding]) {
         tmp = [self title];
         if (tmp != nil)
             [encoder encodeObject:tmp forKey:kRepresentationTitleKey];

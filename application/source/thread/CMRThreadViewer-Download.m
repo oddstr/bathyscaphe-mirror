@@ -148,14 +148,22 @@
 		return;
 	}
 
+	const char *hs;
+	hs = [[threadURL host] UTF8String];
+
 	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 	NSString *title = [NSString stringWithFormat:[self localizedString:kNotFoundTitleKey], threadTitle];
-	NSString *info = [NSString stringWithFormat:[self localizedString:kNotFoundMessageFormatKey], [threadURL absoluteString]];
+	NSString *info;
 	[alert setAlertStyle:NSWarningAlertStyle];
 	[alert setMessageText:title];
-	[alert setInformativeText:info];
 	[alert addButtonWithTitle:[self localizedString:kNotFoundCancelLabelKey]];
-	[alert addButtonWithTitle:[self localizedString:kNotFoundMaruLabelKey]];
+	if (hs != NULL && is_2channel(hs)) {
+		[alert addButtonWithTitle:[self localizedString:kNotFoundMaruLabelKey]];
+		info = [NSString stringWithFormat:[self localizedString:kNotFoundMessageFormatKey], [threadURL absoluteString]];
+	} else {
+		info = [NSString stringWithFormat:[self localizedString:kNotFoundMessageFormat2Key], [threadURL absoluteString]];
+	}
+	[alert setInformativeText:info];
 	[alert setShowsHelp:YES];
 	[alert setHelpAnchor:[self localizedString:kNotFoundHelpKeywordKey]];
 	[alert setDelegate:self];

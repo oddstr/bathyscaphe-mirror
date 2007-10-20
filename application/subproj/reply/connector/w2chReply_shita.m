@@ -1,5 +1,5 @@
 /**
-  * $Id: w2chReply_shita.m,v 1.1 2005/05/11 17:51:12 tsawada2 Exp $
+  * $Id: w2chReply_shita.m,v 1.2 2007/10/20 02:21:29 tsawada2 Exp $
   * 
   * w2chReply_shita.m
   *
@@ -45,9 +45,9 @@
 	host_ = [[anURL host] UTF8String];
 	if(nil == filename_ || NULL == host_) return NO;
 	
-	if(is_shitaraba(host_))
-		return [filename_ isEqualToString : @"bbs.cgi"];
-	if(is_jbbs_shita(host_))
+/*	if(is_shitaraba(host_))
+		return [filename_ isEqualToString : @"bbs.cgi"];*/
+	if(is_jbbs_livedoor(host_))
 		return [filename_ isEqualToString : @"write.cgi"];
 	
 	

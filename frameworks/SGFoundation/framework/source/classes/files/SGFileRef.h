@@ -1,6 +1,6 @@
 //: SGFileRef.h
 /**
-  * $Id: SGFileRef.h,v 1.2 2006/02/01 17:39:08 tsawada2 Exp $
+  * $Id: SGFileRef.h,v 1.3 2007/10/20 02:21:29 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -50,7 +50,7 @@
 
 - (long) nodeID;
 - (BOOL) nodeID : (long *) nodeID
-    isDirectory : (BOOL *) flag;
+    isDirectory : (Boolean *) flag;
 
 - (BOOL) existsInFolder : (FolderType) folderType;
 - (BOOL) existsInTrash;

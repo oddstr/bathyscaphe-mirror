@@ -13,10 +13,10 @@
 @end
 @interface CMR2channelBeHandler : CMR2channelHandler
 @end
-
+/*
 @interface CMRShitarabaHandler : CMRHostHandler
 @end
-
+*/
 // html
 // Removed in BathyScaphe 1.3.1 and later. Use BSHostLivedoorHandler instead.
 //@interface CMRJbbsShitarabaHandler : CMRHostHTMLHandler

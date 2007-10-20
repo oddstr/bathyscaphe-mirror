@@ -1214,7 +1214,7 @@
 		F324DD5204C698FB00A80005 /* CMRThreadFileLoadingTask.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadFileLoadingTask.h; sourceTree = "<group>"; };
 		F324DD5304C698FB00A80005 /* CMRThreadFileLoadingTask.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CMRThreadFileLoadingTask.m; sourceTree = "<group>"; };
 		F324DD5804C698FB00A80005 /* CMRThreadLayout-MessageRange.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadLayout-MessageRange.m"; sourceTree = "<group>"; };
-		F324DD5904C698FB00A80005 /* CMRThreadLayout.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadLayout.h; sourceTree = "<group>"; };
+		F324DD5904C698FB00A80005 /* CMRThreadLayout.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRThreadLayout.h; sourceTree = "<group>"; };
 		F324DD5A04C698FB00A80005 /* CMRThreadLayout.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CMRThreadLayout.m; sourceTree = "<group>"; };
 		F324DD5C04C698FB00A80005 /* CMRThreadLayoutTask.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadLayoutTask.h; sourceTree = "<group>"; };
 		F324DD5D04C698FB00A80005 /* CMRThreadLayoutTask.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRThreadLayoutTask.m; sourceTree = "<group>"; };
@@ -1373,7 +1373,7 @@
 		F46795590B74CD40001B0001 /* DatabaseUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseUpdater.h; sourceTree = "<group>"; };
 		F467955A0B74CD40001B0001 /* DatabaseUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabaseUpdater.m; sourceTree = "<group>"; };
 		F472216D0B26EF8F004FAD24 /* OgreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OgreKit.framework; path = ../frameworks/OgreKit/build/Release/OgreKit.framework; sourceTree = SOURCE_ROOT; };
-		F473638F0AFF8758009B6189 /* BathyScaphe.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BathyScaphe.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F473638F0AFF8758009B6189 /* BathyScaphe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BathyScaphe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F47A664B0AFF7EE600EB5137 /* alter.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = alter.c; path = ../misc/sqlite/alter.c; sourceTree = SOURCE_ROOT; };
 		F47A664C0AFF7EE600EB5137 /* analyze.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = analyze.c; path = ../misc/sqlite/analyze.c; sourceTree = SOURCE_ROOT; };
 		F47A664D0AFF7EE600EB5137 /* attach.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = attach.c; path = ../misc/sqlite/attach.c; sourceTree = SOURCE_ROOT; };

@@ -1,6 +1,6 @@
 //: String+Utils.h
 /**
-  * $Id: String+Utils.h,v 1.1 2005/05/11 17:51:45 tsawada2 Exp $
+  * $Id: String+Utils.h,v 1.2 2007/10/20 02:21:29 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -41,7 +41,7 @@
 // Network Encoding
 @interface NSData(SGNetEncoding)
 // base64
-- (NSString *) stringByUsingBase64Encoding;
+//- (NSString *) stringByUsingBase64Encoding;
 // URL Encoding
 - (NSString *) stringByUsingURLEncoding;
 @end
@@ -50,16 +50,17 @@
 
 @interface NSString(SGNetEncoding)
 // base64
-- (NSData *) dataUsingBase64Decoding;
+//- (NSData *) dataUsingBase64Decoding;
 
-- (NSString *) stringByEncodingBase64UsingEncoding : (NSStringEncoding) encoding;
-- (NSString *) stringByDecodingBase64UsingEncoding : (NSStringEncoding) encoding;
+//- (NSString *) stringByEncodingBase64UsingEncoding : (NSStringEncoding) encoding;
+//- (NSString *) stringByDecodingBase64UsingEncoding : (NSStringEncoding) encoding;
 // URL Encoding
-- (NSData *) dataUsingURLDecoding;
+//- (NSData *) dataUsingURLDecoding;
 
 - (NSString *) stringByURLEncodingUsingEncoding : (NSStringEncoding) encoding;
-- (NSString *) stringByURLDecodingUsingEncoding : (NSStringEncoding) encoding;
 
+// Deprecated in BathyScaphe 1.6 and later. Use -[NSString stringByReplacingPercentEscapesUsingEncoding:] instead.
+//- (NSString *) stringByURLDecodingUsingEncoding : (NSStringEncoding) encoding;
 @end
 
 

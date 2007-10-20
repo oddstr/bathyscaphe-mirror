@@ -1,5 +1,5 @@
 /*
- * $Id: CMRReplyMessenger_p.h,v 1.10 2007/10/15 10:50:43 tsawada2 Exp $
+ * $Id: CMRReplyMessenger_p.h,v 1.11 2007/10/20 02:21:29 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -28,7 +28,7 @@
 
 #define    MESSENGER_REFERER_FORMAT		@"http://%@/%@/%@"
 #define    MESSENGER_REFERER_INDEX_HTML	@"index.html"
-#define    MESSENGER_SHITARABA_REFERER	@"www.shitaraba.com/bbs"
+//#define    MESSENGER_SHITARABA_REFERER	@"www.shitaraba.com/bbs"
 
 #define MESSENGER_TABLE_NAME					@"Messenger"
 #define MESSENGER_SEND_MESSAGE					@"Send Message to %@..."

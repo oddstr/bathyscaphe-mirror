@@ -372,13 +372,13 @@ static inline NSString *removeObjectReplacementCharacter(NSString *str)
 	
 	host_ = [[self targetURL] host];
 
-	if (can_readcgi([host_ UTF8String])) {
+/*	if (can_readcgi([host_ UTF8String])) {
 		;
 	} else if (is_shitaraba([host_ UTF8String])) {
 		// http://cgi.shitaraba.com/cgi-bin/bbs.cgi
 		// ホストが異なる
 		host_ = MESSENGER_SHITARABA_REFERER;
-	}
+	}*/
 	return [NSString stringWithFormat:MESSENGER_REFERER_FORMAT, host_, [self formItemBBS], MESSENGER_REFERER_INDEX_HTML];
 }
 

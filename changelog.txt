@@ -1,3 +1,34 @@
+2007-10-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-Download.m
+	* application/Resources/Japanese.lproj/ThreadViewer.strings
+		「●ログインして取得」ボタンは、2ch のスレッドでのみアラートに表示されるようにした。
+	* application/source/view/CMRThreadView.m
+		スレッドのコンテクストメニューの動作の信頼性を改善。
+	* frameworks/SGFoundation/framework/source/classes/files/MoreFilesX.[c|h]
+		MoreFilesX 1.0.2 に更新(いままでは、1.0.1 だった)。
+	* frameworks/SGFoundation/framework/source/classes/files/SGFileRef.m
+		ビルド時の警告が出ないよう、適切な書き方に改めたり、deprecated なメソッドを使用している部分を修正。
+	* frameworks/SGFoundation/framework/source/extensions/string/NSCharacterSet-SGExtensions.[h|m]
+	* application/source/extensions/NSCharacterSet+CMXAdditions.[h|m]
+		NSCharacterSet のサブクラスを内部で作って使っていた部分は、すべてサブクラスを使わないよう(かつ、同等の
+		機能を実現できるよう)修正。
+	* application/Resources/text/HostProperties.plist
+	* frameworks/CocoMonar/framework/src/CMRHostTypes.(h|m)
+	* application/source/composer/CMXTextParser.m
+		古すぎて時代にそぐわないいくつかの関数や定義、すでに存在しないいくつかの外部掲示板のサポートを廃止した。
+	* application/source/manager/CMRHistoryManager.m
+	* application/source/preferences/CMRHostHandler.m
+	* application/source/window/CMRReplyMessenger-Connector.m
+	* application/subproj/reply/connector/w2chReply_shita.m
+	* application/subproj/reply/error/SG2chErrorHandler.m
+		上記変更に伴う微修正。
+	* frameworks/SGFoundation/framework/source/extensions/string/NSString-SGExtensions.m
+	* frameworks/SGFoundation/framework/source/extensions/string/String+Utils.m
+		未使用メソッドの廃止と、deprecated なメソッドを使用している部分の修正。
+	* frameworks/SGFoundation/SGFoundation.xcodeproj/project.pbxproj
+	* frameworks/SGFoundation/framework/source/extensions/SGFoundationAdditions.h
+		いくつかの未使用なカテゴリをターゲットから外した。
+=================================================
 2007-10-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* misc/sqlite/os_unix.c
 		試験的に、#define SQLITE_ENABLE_LOCKING_STYLE 0 のコメントアウトを解除した。

@@ -1,6 +1,6 @@
 //: String+Utils.m
 /**
-  * $Id: String+Utils.m,v 1.1 2005/05/11 17:51:45 tsawada2 Exp $
+  * $Id: String+Utils.m,v 1.2 2007/10/20 02:21:29 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -9,7 +9,7 @@
 #import <SGFoundation/String+Utils.h>
 #import <SGFoundation/NSString-SGExtensions.h>
 #import <SGFoundation/NSCharacterSet-SGExtensions.h>
-#import <SGFoundation/SGBase64.h>
+//#import <SGFoundation/SGBase64.h>
 #import <SGFoundation/SGURLEscape.h>
 #import "UTILKit.h"
 
@@ -97,7 +97,7 @@
 
 
 @implementation NSData(SGNetEncoding)
-- (NSString *) stringByUsingBase64Encoding
+/*- (NSString *) stringByUsingBase64Encoding
 {
 	int		ret;
 	char	*s;
@@ -110,7 +110,7 @@
 				initWithCStringNoCopy : s
 				length : ret
 				freeWhenDone : YES] autorelease];
-}
+}*/
 // URL Encoding
 - (NSString *) stringByUsingURLEncoding
 {
@@ -120,18 +120,18 @@
 	if(NULL == s)
 		return nil;
 	
-	return [[[NSString alloc] 
+/*	return [[[NSString alloc] 
 				initWithCStringNoCopy : s
 				length : strlen(s)
-				freeWhenDone : YES] autorelease];
-
+				freeWhenDone : YES] autorelease];*/
+	return [[[NSString alloc] initWithBytesNoCopy:s length:strlen(s) encoding:NSUTF8StringEncoding freeWhenDone:YES] autorelease];
 }
 @end
 
 
 
 @implementation NSString(SGNetEncoding)
-- (NSData *) dataUsingBase64Decoding
+/*- (NSData *) dataUsingBase64Decoding
 {
 	int			len;
 	const char	*s;
@@ -158,9 +158,9 @@
 - (NSString *) stringByDecodingBase64UsingEncoding : (NSStringEncoding) encoding;
 {
 	return [NSString stringWithData:[self dataUsingBase64Decoding] encoding:encoding];
-}
+}*/
 // URL Encoding
-- (NSData *) dataUsingURLDecoding
+/*- (NSData *) dataUsingURLDecoding
 {
 	const char	*s;
 	char		*buf  = NULL;
@@ -176,27 +176,27 @@
 						   freeWhenDone : YES];
 	
 	return data_;
-}
+}*/
 - (NSString *) stringByURLEncodingUsingEncoding : (NSStringEncoding) encoding
 {
-	NSCharacterSet		*cset_;
+//	NSCharacterSet		*cset_;
 	
     if([self isEmpty])
 		return self;
-	
+/*	
 	cset_ = [NSCharacterSet URLToBeEscapedCharacterSet];
 	if(NO == [self containsCharacterFromSet : cset_])
-		return self;
+		return self;*/
 	
 	return [[self dataUsingEncoding:encoding] stringByUsingURLEncoding];
 }
-- (NSString *) stringByURLDecodingUsingEncoding : (NSStringEncoding) encoding
+/*- (NSString *) stringByURLDecodingUsingEncoding : (NSStringEncoding) encoding
 {
 	if([self isEmpty]) return @"";
 	
 	return [NSString stringWithData : [self dataUsingURLDecoding]
 						   encoding : encoding];
-}
+}*/
 @end
 
 

@@ -1,6 +1,6 @@
 //: NSString-SGExtensions.h
 /**
-  * $Id: NSString-SGExtensions.h,v 1.3 2007/01/22 02:23:29 tsawada2 Exp $
+  * $Id: NSString-SGExtensions.h,v 1.4 2007/10/20 02:21:29 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -40,7 +40,7 @@
 
 + (id) stringWithCharacter : (unichar) aCharacter;
 - (id) initWithCharacter : (unichar) aCharacter;
-
+/*
 + (id) stringWithCStringNoCopy : (char *  ) cString
  						length : (unsigned) length
 				  freeWhenDone : (BOOL    ) freeBuffer;
@@ -48,12 +48,12 @@
 				  freeWhenDone : (BOOL    ) freeBuffer;
 // freeWhenDone == NO
 + (id) stringWithCStringNoCopy : (const char *) cString;
-
+*/
 
 //////////////////////////////////////////////////////////////////////
 //////////////////// [ インスタンスメソッド ] ////////////////////////
 //////////////////////////////////////////////////////////////////////
-- (BOOL) isValidURLCharacters;
+//- (BOOL) isValidURLCharacters;
 - (NSString *) stringByDeletingURLScheme : (NSString *) aScheme;
 
 

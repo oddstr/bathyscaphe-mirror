@@ -1,5 +1,5 @@
 /**
- * $Id: SGFileRef.m,v 1.4 2006/02/01 17:39:08 tsawada2 Exp $
+ * $Id: SGFileRef.m,v 1.5 2007/10/20 02:21:29 tsawada2 Exp $
  * 
  * SGFileRef.m
  *
@@ -208,10 +208,11 @@ ErrModifiedDate:
 
 - (BOOL) isDirectory
 {
-	BOOL		isDir_;
+//	BOOL		isDir_;
+	Boolean		isDir_;
 	
 	if([self nodeID:NULL isDirectory:&isDir_])
-		return isDir_;
+		return isDir_ ? YES : NO;
 	
 	return NO;
 }
@@ -231,7 +232,7 @@ ErrModifiedDate:
 }
 
 - (BOOL) nodeID : (long *) nodeID
-    isDirectory : (BOOL *) flag
+    isDirectory : (Boolean *) flag
 {
 	OSErr	err;
 	
@@ -495,7 +496,7 @@ ErrFSGetParentRef:
 
 
 @implementation SGFileRef(AliasManagerSupport)
-- (BOOL) isAliasFile : (BOOL *) isDirectoryFlag
+- (BOOL) isAliasFile : (Boolean *) isDirectoryFlag
 {
 	Boolean		aliasFileFlag_;
 	OSErr		error_;

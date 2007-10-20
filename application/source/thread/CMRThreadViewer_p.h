@@ -45,7 +45,7 @@ extern NSString *const CMRThreadViewerRunSpamFilterNotification;
 
 #define kNotFoundTitleKey				@"Not Found Title"
 #define kNotFoundMessageFormatKey		@"Not Found Message"
-//#define kNotFoundMessage2FormatKey		@"Not Found Msg 2"
+#define kNotFoundMessageFormat2Key		@"Not Found Message 2"
 #define kNotFoundMaruLabelKey			@"Not Found Maru Button Label"
 #define kNotFoundHelpKeywordKey			@"NotFoundSheet Help Anchor"
 #define kInvalidPerticalContentsHelpKeywordKey	@"InvalidPerticalSheet Help Anchor"

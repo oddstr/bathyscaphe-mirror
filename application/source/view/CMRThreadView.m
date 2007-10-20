@@ -23,64 +23,18 @@ static NSString *mActionGetKeysForTag[] = {
 	@"isSpam",				// kSpamTag
 };
 
-@interface CMRMessageIndexEnumerator : NSEnumerator
-{
-	@private
-	NSAttributedString	*_textStorage;
-	NSRange				_selectedRange;
-	unsigned			_charIndex;
-}
 
-- (id)initWithAttributedString:(NSAttributedString *)aString selectedRange:(NSRange)aSelectedRange;
-@end
-
-
-@implementation CMRMessageIndexEnumerator
-- (id)initWithAttributedString:(NSAttributedString *)aString selectedRange:(NSRange)aSelectedRange
-{
-	if (self = [super init]) {
-		_textStorage = [aString retain];
-		_selectedRange = aSelectedRange;
-		_charIndex = _selectedRange.location;
-	}
-	return self;
-}
-
-- (void)dealloc
-{
-	[_textStorage release];
-	[super dealloc];
-}
-
-- (id)nextObject
-{
-	id				v;
-	NSRange			effectiveRange_;
-	
-	if (NSMaxRange(_selectedRange) > [_textStorage length])
-		return nil;
-	
-	while (_charIndex < NSMaxRange(_selectedRange)) {
-		v = [_textStorage attribute:CMRMessageIndexAttributeName
-							atIndex:_charIndex
-			  longestEffectiveRange:&effectiveRange_
-							inRange:_selectedRange];
-
-		_charIndex = NSMaxRange(effectiveRange_);		
-		if (v) {
-			return v;
-		}
-	}
-	return nil;
-}
-@end
-
-#pragma mark -
 @implementation CMRThreadView
 - (id)initWithFrame:(NSRect)aFrame textContainer:(NSTextContainer *)aTextContainer
 {
 	if (self = [super initWithFrame:aFrame textContainer:aTextContainer]) {
 		m_lastCharIndex = NSNotFound;
+/*		m_rectForHighlight = NSZeroRect;
+
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(cleanUpSelectionFill:)
+													 name:NSMenuDidEndTrackingNotification
+												   object:nil];*/
 
 		[self registerForDraggedTypes:[NSArray arrayWithObject:BSThreadItemsPboardType]];
 		draggingHilited = NO;
@@ -88,7 +42,13 @@ static NSString *mActionGetKeysForTag[] = {
 	}
 	return self;
 }
-
+/*
+- (void)dealloc
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSMenuDidEndTrackingNotification object:nil];
+	[super dealloc];
+}
+*/
 #pragma mark Drawing
 // ライブリサイズ中のレイアウト再計算を抑制する
 - (void)viewWillStartLiveResize
@@ -119,6 +79,51 @@ static NSString *mActionGetKeysForTag[] = {
         NSFrameRectWithWidth([self visibleRect], 3.0);
 	}
 }
+
+- (NSRect)boundingRectForMessageAtIndex:(unsigned)index
+{
+	NSRange charRange = [[self threadLayout] rangeAtMessageIndex:index];
+	return [self boundingRectForCharacterInRange:charRange];
+}
+
+/*- (NSRect)boundingRectForMessageIndexRange:(NSRange)indexRange
+{
+	NSRange charRange = [[self threadLayout] subrangeForIndexRange:indexRange];
+	return [self boundingRectForCharacterInRange:charRange];
+}
+
+- (void)highlightBackgroundRect:(NSRect)calcedRect
+{
+	NSRect rect = NSIntersectionRect(calcedRect, [self visibleRect]);
+	if (NSEqualRects(rect, NSZeroRect)) return;
+
+	[self lockFocus];
+	[[NSColor alternateSelectedControlColor] set];
+	NSFrameRectWithWidth(rect, 3.0);
+	[[[NSColor selectedTextBackgroundColor] colorWithAlphaComponent:0.3] set];
+	NSRectFillUsingOperation(NSInsetRect(rect,3.0,3.0),NSCompositeSourceAtop);
+	[self unlockFocus];
+	m_rectForHighlight = rect;
+	[self displayIfNeededInRect:rect];
+}
+
+- (void)highlightBackgroundForMessageAtIndex:(unsigned)index
+{
+	NSRect  rect = [self boundingRectForMessageAtIndex:index];
+	[self highlightBackgroundRect:rect];
+}
+
+- (void)highlightBackgroundForMessageIndexRange:(NSRange)indexRange
+{
+	NSRect  rect = [self boundingRectForMessageIndexRange:indexRange];
+	[self highlightBackgroundRect:rect];
+}
+
+- (void)cleanUpSelectionFill:(NSNotification *)aNotification
+{
+	if (NSEqualRects(m_rectForHighlight, NSZeroRect)) return;
+	[self setNeedsDisplayInRect:m_rectForHighlight];
+}*/
 
 #pragma mark Accessors
 - (CMRThreadSignature *)threadSignature
@@ -166,53 +171,32 @@ static NSString *mActionGetKeysForTag[] = {
 	return NSNotFound;
 }
 
-- (unsigned int)previousMessageStartIndexOfCharIndex:(unsigned int)charIndex
+static inline NSEnumerator *indexEnumeratorWithIndexes(NSIndexSet *indexSet)
 {
-	NSTextStorage	*storage_ = [self textStorage];
-	NSRange			range_;
-	NSRange			effectiveRange_;
-	unsigned		index_;
-	id				v;
-	
-	if (NSNotFound == charIndex || charIndex >= [storage_ length])
-		return NSNotFound;
-	
-	index_ = charIndex;
-	while (index_ >= 0) {
-		range_ = NSMakeRange(0, index_ +1);
-		v = [storage_ attribute : CMRMessageIndexAttributeName
-						atIndex : index_
-		  longestEffectiveRange : &effectiveRange_
-						inRange : range_];
-		if (v) {
-			return effectiveRange_.location;
-		}
-		if (0 == effectiveRange_.location)
-			break;
-		
-		index_ = effectiveRange_.location -1;
+	unsigned int	size = [indexSet lastIndex]+1;
+	unsigned int	arrayElement;
+	NSRange			e = NSMakeRange(0, size);
+	NSMutableArray *array = [NSMutableArray array];
+	while ([indexSet getIndexes:&arrayElement maxCount:1 inIndexRange:&e] > 0) {
+		[array addObject:[NSNumber numberWithUnsignedInt:arrayElement]];
 	}
-	return NSNotFound;
+	return [array objectEnumerator];
 }
 
-- (NSRange)selectedMessageIndexRange
+
+- (NSIndexSet *)messageIndexesForRange:(NSRange)range_
 {
-	NSRange			range_ = [self selectedRange];
-	NSTextStorage	*storage_ = [self textStorage];
-	
-	id				v;
-	unsigned		charIndex_;
-	NSRange			effectiveRange_;
-	NSRange			indexRange_;
-	
-	if (0 == range_.length) {
-		range_.location = m_lastCharIndex;
-		range_.length = 1;
+	NSTextStorage	*storage_ = [self textStorage];	
+
+	if (NSNotFound == range_.location || NSMaxRange(range_) > [storage_ length]) {
+		return nil;
 	}
-	if (NSNotFound == range_.location || NSMaxRange(range_) > [storage_ length])
-		goto NOT_FOUND;
-	
-	indexRange_ = kNFRange;
+
+	NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+	unsigned		charIndex_;
+	id				v;
+	NSRange			effectiveRange_;
+
 	charIndex_ = range_.location;
 	while (charIndex_ < NSMaxRange(range_)) {
 		v = [storage_ attribute:CMRMessageIndexAttributeName
@@ -220,60 +204,46 @@ static NSString *mActionGetKeysForTag[] = {
 		  longestEffectiveRange:&effectiveRange_
 						inRange:range_];
 		if (v) {
-			if (NSNotFound == indexRange_.location) {
-				indexRange_.location = [v unsignedIntValue];
-			}
-			indexRange_.length = [v unsignedIntValue];
+			[indexSet addIndex:[v unsignedIntValue]];
 		}
 		charIndex_ = NSMaxRange(effectiveRange_);
 	}
-	indexRange_.location = [self previousMessageIndexOfCharIndex:range_.location];
-	
-	if (NSNotFound == indexRange_.location) {
-		goto NOT_FOUND;
+
+	unsigned prevMsgIdx = [self previousMessageIndexOfCharIndex:range_.location];
+	if (prevMsgIdx != NSNotFound) {
+		[indexSet addIndex:prevMsgIdx];
 	}
-	
-	if (0 == indexRange_.length) {
-		indexRange_.length = 1;
+
+	if ([indexSet count] == 0) {
+		return nil;
 	} else {
-		indexRange_.length = (indexRange_.length - indexRange_.location) +1;
+		return indexSet;
 	}
-
-	return indexRange_;
-
-NOT_FOUND:
-	return kNFRange;
 }
 
-- (NSEnumerator *)selectedMessageIndexEnumerator
+- (NSIndexSet *)messageIndexesAtClickedPoint
 {
-	NSEnumerator	*enum_;
-	NSRange			selectedRange_;
-	unsigned		prevCharIndex_;
-	
-	selectedRange_ = [self selectedRange];
-	// コンテキスト・メニューを表示した場合は表示位置の
-	// インデックス
-	if (0 == selectedRange_.length) {
-		selectedRange_.location = m_lastCharIndex;
-		selectedRange_.length = 1;
-	}
-	if (NSNotFound == selectedRange_.location || NSMaxRange(selectedRange_) > [[self textStorage] length]) {
-		return [[NSArray empty] objectEnumerator];
-	}
-	
-	// 選択範囲のひとつまえのレスも含む
-	prevCharIndex_ = [self previousMessageStartIndexOfCharIndex:selectedRange_.location];
-	if (prevCharIndex_ != NSNotFound) {
-		selectedRange_.location = prevCharIndex_;
-	}
-	
-	enum_ = [[CMRMessageIndexEnumerator alloc] initWithAttributedString:[self textStorage] selectedRange:selectedRange_];
-	
-	return [enum_ autorelease];
+	NSRange range_ = NSMakeRange(m_lastCharIndex, 1);
+	return [self messageIndexesForRange:range_];
 }
 
-#pragma mark Event Handling
+/*
+ * Available in Twincam Angel.
+ * 選択範囲にかかるレスの indexes (これは見かけのレス番号より1小さい値である) を NSIndexSet で返す。
+ * 選択範囲がないときは、コンテクストメニューの表示位置にあるレスの index を。
+ * このとき、非表示状態のレス index は含まれない。
+ */
+- (NSIndexSet *)selectedMessageIndexes
+{
+	NSRange			range_ = [self selectedRange];
+	if (range_.length == 0) {
+		range_.location = m_lastCharIndex;
+		range_.length = 1;
+	}
+	return [self messageIndexesForRange:range_];
+}
+
+#pragma mark Contextual Menu
 - (BOOL)mouseClicked:(NSEvent *)theEvent atIndex:(unsigned )charIndex
 {
 	NSRange	effectiveRange_;
@@ -293,8 +263,7 @@ NOT_FOUND:
 	return NO;
 }
 
-#pragma mark Contextual Menu
-+ (void)setupMenuItemInMenu:(NSMenu *)aMenu representedObject:(id)anObject
+static inline void setupMenuItemsRepresentedObject(NSMenu *aMenu, id anObject) 
 {
 	NSEnumerator		*iter_;
 	NSMenuItem			*item_;
@@ -305,7 +274,7 @@ NOT_FOUND:
 		[item_ setEnabled:YES];
 		
 		if ([item_ hasSubmenu]) {
-			[self setupMenuItemInMenu:[item_ submenu] representedObject:anObject];
+			setupMenuItemsRepresentedObject([item_ submenu], anObject);
 		}
 	}
 }
@@ -340,6 +309,16 @@ NOT_FOUND:
 	return cachedItem;
 }
 
++ (NSMenu *)multipleLineSelectionWithinSingleMessageMenu
+{
+	static NSMenu *kCopyOnlyMenu = nil;
+	if (!kCopyOnlyMenu) {
+		kCopyOnlyMenu = [[NSMenu alloc] initWithTitle:@""];
+		[kCopyOnlyMenu insertItem:[self genericCopyItem] atIndex:0];
+	}
+	return kCopyOnlyMenu;
+}
+
 - (BOOL)containsMultipleLinesInRange:(NSRange)range
 {
 	NSString *substring = [[self string] substringWithRange:range];
@@ -368,60 +347,48 @@ NS_ENDHANDLER
 
 	// マウスポインタが選択されたテキストの、その選択領域に入っているなら、選択テキスト用の（簡潔な）コンテキストメニューを返す。
 	if (NSLocationInRange(m_lastCharIndex, selectedTextRange)) {
-		NSRange selectedMsgIdxRange = [self selectedMessageIndexRange];
-//		NSLog(@"TEST %@",NSStringFromRange(selectedMsgIdxRange));
-//		if ([[self threadLayout] onlySingleMessageInRange:selectedTextRange]) {
-		if (selectedMsgIdxRange.length == 1) {
+		NSIndexSet *selectedIndexes = [self selectedMessageIndexes];
+		UTILAssertNotNil(selectedIndexes);
+
+		if ([selectedIndexes count] == 1) {
 			if ([self containsMultipleLinesInRange:selectedTextRange]) {
-				NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
-				[menu insertItem:[[self class] genericCopyItem] atIndex:0];
-				return [menu autorelease];
+				return [[self class] multipleLineSelectionWithinSingleMessageMenu];
 			} else {
 				return [[self class] defaultMenu];
 			}
 		} else {
-			NSMenu	*menu = [[[self class] messageMenu] copy];
+			NSMenu *menu = [[self messageMenuWithMessageIndexes:selectedIndexes] copy];
+			NSMenuItem *item = [[[self class] genericCopyItem] copy];
 			[menu removeItemAtIndex:1];
 			[menu removeItemAtIndex:0];
-			[menu insertItem:[[self class] genericCopyItem] atIndex:0];
-			[menu setAutoenablesItems:YES];
+			[menu insertItem:item atIndex:0];
+			[item release];
 			return [menu autorelease];
 		}
 	}
-	
+
 	// そうでなければ、スーパークラスで判断してもらう（see SGHTMLView.m)。
 	return [super menuForEvent:theEvent];
 }
 
-- (NSMenu *) messageMenuWithMessageIndex : (unsigned) aMessageIndex
+- (NSMenu *)messageMenuWithMessageIndex:(unsigned)aMessageIndex
 {
-	return [self messageMenuWithMessageIndexRange : NSMakeRange(aMessageIndex, 1)];
+	return [self messageMenuWithMessageIndexes:[NSIndexSet indexSetWithIndex:aMessageIndex]];
 }
 
-- (NSMenu *) messageMenuWithMessageIndexRange : (NSRange) anIndexRange
-{
-	
-	CMRThreadLayout		*L = [self threadLayout];
-	NSArray				*indexes_;
-	NSEnumerator		*iter_;
+- (NSMenu *)messageMenuWithMessageIndexes:(NSIndexSet *)indexes
+{	
 	NSMenu				*menu_ = [[self class] messageMenu];
 	NSMenuItem			*item_;
-	CMRThreadMessage	*m;
-	id					rep;
+	unsigned int	size = [indexes lastIndex]+1;
+	NSEnumerator	*iter_;
 	
-	if (NSMaxRange(anIndexRange) > [L numberOfReadedMessages])
-		return nil;
+	if (size > [[self threadLayout] numberOfReadedMessages]) return nil;
 	
-	m = [L messageAtIndex : anIndexRange.location];
-	anIndexRange.location = [m index];
-	
-	rep = [NSValue valueWithRange : anIndexRange];
 	// RepresentedObjectの設定
-	[[self class] setupMenuItemInMenu : menu_
-			representedObject : rep];
+	setupMenuItemsRepresentedObject(menu_, indexes);
 	
 	// 状態の設定
-	indexes_ = [self indexArrayWithIndexRange : anIndexRange];
 	iter_ = [[menu_ itemArray] objectEnumerator];
 	while (item_ = [iter_ nextObject]) {
 		int				tag   = [item_ tag];
@@ -432,64 +399,39 @@ NS_ENDHANDLER
 			UTILNumberOfCArray(mActionGetKeysForTag) > tag,
 			@"[item tag] was invalid(%u)", tag);
 		
-		[self setUpMessageActionMenuItem : item_
-							  forIndexes : [indexes_ objectEnumerator]
-					   withAttributeName : mActionGetKeysForTag[tag]];
+		[self setUpMessageActionMenuItem:item_
+							  forIndexes:indexes
+					   withAttributeName:mActionGetKeysForTag[tag]];
 	}
-	//[menu_ setAutoenablesItems : YES];
 	
 	return menu_;
 }
 
 #pragma mark Message Menu Action
-- (NSEnumerator *) indexEnumeratorWithIndexRange : (NSRange) anIndexRange
+- (NSEnumerator *)representedIndexEnumeratorWithSender:(id)sender
 {
-	return [[self indexArrayWithIndexRange : anIndexRange] objectEnumerator];
-}
-- (NSArray *) indexArrayWithIndexRange : (NSRange) anIndexRange
-{
-	NSMutableArray		*ary;
-	unsigned			i;
-	
-	ary = [NSMutableArray array];
-	for (i = anIndexRange.location; i < NSMaxRange(anIndexRange); i++) {
-		[ary addObject : [NSNumber numberWithUnsignedInt : i]];
+	id	v = [sender representedObject];
+
+	if (!v) {	// 選択されたレス、このあと内容が変更されるかもしれない
+		v = [self selectedMessageIndexes];
+	} else {	// 通常はこっち (representedObject はしっかりセットしておくべし)
+		UTILAssertKindOfClass(v, NSIndexSet);
 	}
-	return ary;
-}
-- (NSEnumerator *) representedObjectWithSender : (id) sender
-{
-	id		v;
-	
-	v = [sender representedObject];
-	if (nil == v) {		// 選択されたレス
-		
-		// このあと内容が変更されるかもしれない
-		v = [self selectedMessageIndexEnumerator];
-		v = [v allObjects];
-		v = [v objectEnumerator];
-	} else {
-		UTILAssertRespondsTo(v, @selector(rangeValue));
-		v = [self indexEnumeratorWithIndexRange : [v rangeValue]];
-	}
-	return v;
+	return indexEnumeratorWithIndexes(v);
 }
 
 // スパムフィルタへの登録
-- (void) messageRegister : (CMRThreadMessage *) aMessage
-			registerFlag : (BOOL			  ) flag
+- (void)messageRegister:(CMRThreadMessage *)aMessage registerFlag:(BOOL)flag
 {
-	id		delegate_;
-	
-	delegate_ = [self delegate];
-	if (nil == delegate_ || NO == [delegate_ respondsToSelector : @selector(threadView:spam:messageRegister:)])
-		return;
+	id		delegate_ = [self delegate];
+	if (!delegate_ || ![delegate_ respondsToSelector:@selector(threadView:spam:messageRegister:)]) return;
 	
 	[delegate_ threadView:self spam:aMessage messageRegister:flag];
 }
 
 #if PATCH
-- (void)copy: (id)sender {
+- (void)copy:(id)sender
+{
 #if 1
 	NSMutableAttributedString	*contents_;
 	NSArray					*types_;
@@ -498,57 +440,52 @@ NS_ENDHANDLER
 
 	range = [self selectedRange];
 
-	types_ = [NSArray arrayWithObjects : 
-		NSRTFPboardType,
-		nil];
+	types_ = [NSArray arrayWithObjects:NSRTFPboardType, nil];
 	
-	[pboard_ declareTypes: types_ owner: nil];
-	contents_ = (NSMutableAttributedString *)[[self textStorage] attributedSubstringFromRange: range];
+	[pboard_ declareTypes:types_ owner:nil];
+	contents_ = (NSMutableAttributedString *)[[self textStorage] attributedSubstringFromRange:range];
 	//NSLog(@"copy: %@ %d", NSStringFromRange(range), [contents_ length]);	
-	[contents_ writeToPasteboard : pboard_];
+	[contents_ writeToPasteboard:pboard_];
 #elif 1
 	NSLog(@"copy: call [super copy]");
-	[super copy : sender];
+	[super copy:sender];
 #else
 	NSLog(@"copy: call messageCopy:");
-	[self messageCopy : sender];
+	[self messageCopy:sender];
 #endif
 }
 #endif
 
-
 /* 属性の変更 */
-- (CMRThreadMessage *) toggleMessageAttributesAtIndex : (unsigned) anIndex
-											senderTag : (int     ) aSenderTag
+- (CMRThreadMessage *)toggleMessageAttributesAtIndex:(unsigned)anIndex senderTag:(int)aSenderTag
 {
-	CMRThreadLayout		*L = [self threadLayout];
+	CMRThreadLayout		*layout = [self threadLayout];
 	CMRThreadMessage	*m;
 	
-	if (nil == L || anIndex >= [L numberOfReadedMessages])
-		return nil;
+	if (!layout || anIndex >= [layout numberOfReadedMessages]) return nil;
 	
-	m = [L messageAtIndex : anIndex];
+	m = [layout messageAtIndex:anIndex];
 	
 	switch (aSenderTag) {
 	case kLocalAboneTag:
-		[m setLocalAboned : ![m isLocalAboned]];
+		[m setLocalAboned:![m isLocalAboned]];
 		break;
 	case kInvisibleAboneTag:
-		[m setInvisibleAboned : ![m isInvisibleAboned]];
+		[m setInvisibleAboned:![m isInvisibleAboned]];
 		break;
 	case kAsciiArtTag:
-		[m setAsciiArt : ![m isAsciiArt]];
+		[m setAsciiArt:![m isAsciiArt]];
 		break;
 	case kBookmarkTag:
 		/* 現バージョンでは複数のブックマークは利用しない */
-		[m setHasBookmark : ![m hasBookmark]];
+		[m setHasBookmark:![m hasBookmark]];
 		break;
 	case kSpamTag:{
 		BOOL	isSpam_ = (NO == [m isSpam]);
 		// 迷惑レスを手動で設定した場合は
 		// フィルタに登録する
 		[self messageRegister:m registerFlag:isSpam_];
-		[m setSpam : isSpam_];
+		[m setSpam:isSpam_];
 		break;
 	}
 	default :
@@ -589,7 +526,7 @@ NS_ENDHANDLER
 
 @implementation CMRThreadView(Action)
 /* レスのコピー */
-- (IBAction) messageCopy : (id) sender
+- (IBAction)messageCopy:(id)sender
 {
 	NSPasteboard			*pboard_ = [NSPasteboard generalPasteboard];
 	NSArray					*types_;
@@ -603,7 +540,7 @@ NS_ENDHANDLER
 	 return;
 
 	contents_ = [[NSMutableAttributedString alloc] init];
-	mIndexEnum_ = [self representedObjectWithSender : sender];
+	mIndexEnum_ = [self representedIndexEnumeratorWithSender:sender];
 	while (mIndex = [mIndexEnum_ nextObject]) {
 		NSAttributedString		*m;
 		NSRange					range_;
@@ -611,78 +548,66 @@ NS_ENDHANDLER
 		UTILAssertRespondsTo(mIndex, @selector(unsignedIntValue));
 		range_ = NSMakeRange([mIndex unsignedIntValue], 1);
 		
-		m = [L contentsForIndexRange : range_
-					   composingMask : CMRInvisibleAbonedMask//CMRInvisibleMask
-							 compose : NO
-					  attributesMask : (CMRLocalAbonedMask | CMRSpamMask)];
-		if(nil == m)
-			continue;
+		m = [L contentsForIndexRange:range_
+					   composingMask:CMRInvisibleAbonedMask//CMRInvisibleMask
+							 compose:NO
+					  attributesMask:(CMRLocalAbonedMask | CMRSpamMask)];
+		if (!m) continue;
 
-		[contents_ appendAttributedString : m];
+		[contents_ appendAttributedString:m];
 	}
 	
 #if PATCH && 1
-	types_ = [NSArray arrayWithObjects : 
-		NSRTFPboardType,
-		NSStringPboardType,
-		nil];
+	types_ = [NSArray arrayWithObjects:NSRTFPboardType, NSStringPboardType, nil];
 #else
-	types_ = [NSArray arrayWithObjects : 
-		NSRTFPboardType,
-		NSRTFDPboardType,
-		NSStringPboardType,
-		nil];
+	types_ = [NSArray arrayWithObjects:NSRTFPboardType, NSRTFDPboardType, NSStringPboardType, nil];
 #endif
 #if 0 // debug
 	{
 		NSString *t_str;
 		t_str = [self string];
 		
-		NSLog (@"%d, %d", [t_str length], [[t_str componentsSeparatedByString: @"\n"] count]);
+		NSLog (@"%d, %d", [t_str length], [[t_str componentsSeparatedByString:@"\n"] count]);
 	}
 #endif
 	
-	n = [pboard_ declareTypes : types_
-				    owner : nil];
+	n = [pboard_ declareTypes:types_ owner:nil];
 
-	[contents_ writeToPasteboard : pboard_];
+	[contents_ writeToPasteboard:pboard_];
 	[contents_ release];
 }
 
 /* レスに返信 */
-- (IBAction) messageReply : (id) sender
+- (IBAction)messageReply:(id)sender
 {
-	id				delegate_;
+	id				delegate_ = [self delegate];
+	if (!delegate_ || ![delegate_ respondsToSelector:@selector(threadView:messageReply:)]) return;
+
 	NSEnumerator	*mIndexEnum_;
 	NSNumber		*mIndex;
 	NSRange			range_;
 	
-	mIndexEnum_ = [self representedObjectWithSender : sender];
+	mIndexEnum_ = [self representedIndexEnumeratorWithSender:sender];
 	mIndex = [mIndexEnum_ nextObject];
-	if (nil == mIndex) return;
-	
-	delegate_ = [self delegate];
-	if (nil == delegate_ || NO == [delegate_ respondsToSelector : @selector(threadView:messageReply:)])
-		return;
+	if (!mIndex) return;
 	
 	range_ = NSMakeRange([mIndex unsignedIntValue], 1);
 	[delegate_ threadView:self messageReply:range_];
 }
 
-- (IBAction) changeMessageAttributes : (id) sender
+- (IBAction)changeMessageAttributes:(id)sender
 {
 	NSEnumerator	*mIndexEnum_;
 	NSNumber		*mIndex;
 	int				actionType = [sender tag];
 	
-	mIndexEnum_ = [self representedObjectWithSender : sender];
+	mIndexEnum_ = [self representedIndexEnumeratorWithSender:sender];
 
 	if (([sender state] == NSOnState) || ![CMRPref showsPoofAnimationOnInvisibleAbone]) {
 		while (mIndex = [mIndexEnum_ nextObject]) {
 			UTILAssertRespondsTo(mIndex, @selector(unsignedIntValue));
 
-			[self toggleMessageAttributesAtIndex : [mIndex unsignedIntValue]
-									   senderTag : actionType];
+			[self toggleMessageAttributesAtIndex:[mIndex unsignedIntValue] senderTag:actionType];
 		}
 
 	} else {
@@ -693,120 +618,109 @@ NS_ENDHANDLER
 			UTILAssertRespondsTo(mIndex, @selector(unsignedIntValue));
 
 			if ((actionType == kInvisibleAboneTag) && !poofDone) {
-				[self showPoofEffectForInvisibleAboneWithIndex: mIndex actionType: actionType];
+				[self showPoofEffectForInvisibleAboneWithIndex:mIndex actionType:actionType];
 				poofDone = YES;
 			} else if (([CMRPref spamFilterBehavior] == kSpamFilterInvisibleAbonedBehavior) && (actionType == kSpamTag) && !poofDone) {
-				[self showPoofEffectForInvisibleAboneWithIndex: mIndex actionType: actionType];
+				[self showPoofEffectForInvisibleAboneWithIndex:mIndex actionType:actionType];
 				poofDone = YES;
 			} else {
-				[self toggleMessageAttributesAtIndex: [mIndex unsignedIntValue]
-										   senderTag: actionType];
+				[self toggleMessageAttributesAtIndex:[mIndex unsignedIntValue] senderTag:actionType];
 			}
 		}
 	}
 }
 
-- (IBAction) openWithWikipedia : (id) sender
+- (IBAction)messageGyakuSansyouPopUp:(id)sender
 {
-	NSRange			selectedRange_ = [self selectedRange];
-	NSString		*string_;
-	id				query_;
-	NSURL *url;
-	
-	string_ = [[self string] substringWithRange : selectedRange_];
-	string_ = [string_ stringByURLEncodingUsingEncoding : NSUTF8StringEncoding];
-	if(!string_ || [string_ isEmpty]) return;
-	
-	query_ = SGTemplateResource(kPropertyListWikipediaQueryKey);
-	UTILAssertNotNil(query_);
-	
-	query_ = [NSMutableString stringWithString:query_];
-	[query_ replaceCharacters:kGoogleQueryValiableKey toString:string_];
-	url = [NSURL URLWithString : query_];
-	[[NSWorkspace sharedWorkspace] openURL : url];
-}
+	id				delegate_ = [self delegate];
+	if (!delegate_ || ![delegate_ respondsToSelector:@selector(threadView:reverseAnchorPopUp:locationHint:)]) return;
 
-- (IBAction) googleSearch : (id) sender;
-{
-	NSRange			selectedRange_ = [self selectedRange];
-	NSString		*string_;
-	id				query_;
-	NSMutableString	*tmp;
-	
-	string_ = [[self string] substringWithRange : selectedRange_];
-	string_ = [string_ stringByURLEncodingUsingEncoding : NSUTF8StringEncoding];
-	if (nil == string_ || [string_ isEmpty])
-		return;
-	
-	query_ = SGTemplateResource(kPropertyListGoogleQueryKey);
-	UTILAssertNotNil(query_);
-	
-	tmp = SGTemporaryString();
-	[tmp setString : query_];
-	[tmp replaceCharacters:kGoogleQueryValiableKey toString:string_];
-	if (nil == tmp || [tmp isEmpty])
-		return;
-	
-	query_ = [NSURL URLWithString : tmp];
-	
-	[[NSWorkspace sharedWorkspace] openURL : query_];
-	[tmp deleteCharactersInRange : [tmp range]];
-}
-
-/* 逆参照 */
-- (IBAction) messageGyakuSansyouPopUp: (id) sender
-{
-	id				delegate_;
 	NSEnumerator	*mIndexEnum_;
 	NSNumber		*mIndex;
 	
-	mIndexEnum_ = [self representedObjectWithSender : sender];
+	mIndexEnum_ = [self representedIndexEnumeratorWithSender:sender];
 	mIndex = [mIndexEnum_ nextObject];
-	if (nil == mIndex) return;
+	if (!mIndex) return;
 	
-	delegate_ = [self delegate];
-	if (nil == delegate_ || NO == [delegate_ respondsToSelector : @selector(threadView:reverseAnchorPopUp:locationHint:)])
-		return;
 
 	unsigned int mIndexNum = [mIndex unsignedIntValue];
-	NSRange	range_ = [[[self threadLayout] messageRanges] rangeAtIndex: mIndexNum];
-
-	NSRect	rect_ = [self boundingRectForCharacterInRange : range_];
+	NSRect  rect_ = [self boundingRectForMessageAtIndex:mIndexNum];
 	NSPoint	point_ = NSMakePoint(NSMinX(rect_), NSMinY(rect_));
 
-	point_ = [self convertPoint : point_ toView : nil];
-	point_ = [[self window] convertBaseToScreen : point_];
+	point_ = [self convertPoint:point_ toView:nil];
+	point_ = [[self window] convertBaseToScreen:point_];
 	
-	[delegate_ threadView: self reverseAnchorPopUp: mIndexNum locationHint: point_];
+	[delegate_ threadView:self reverseAnchorPopUp:mIndexNum locationHint:point_];
 }
 
-- (BOOL) setUpMessageActionMenuItem : (NSMenuItem   *) theItem
-					     forIndexes : (NSEnumerator *) anIndexEnum
-				  withAttributeName : (NSString     *) aName
+#pragma mark Google, Wikipedia
+- (NSString *)selectedSubstringWithURLEncoded
 {
+	NSString *string;
+	NSString *encodedString;
+
+	string = [[self string] substringWithRange:[self selectedRange]];
+	encodedString = [string stringByURLEncodingUsingEncoding:NSUTF8StringEncoding];
+
+	if (!encodedString || [encodedString isEqualToString:@""]) return nil;
+	return encodedString;
+}
+
+- (void)openURLWithQueryTemplateForKey:(NSString *)key
+{
+	NSString *string;
+	id	query;
+	NSMutableString *urlBase;
+
+	string = [self selectedSubstringWithURLEncoded];
+	if (!string) return;
+
+	query = SGTemplateResource(key);
+	UTILAssertNotNil(query);
+
+	urlBase = [NSMutableString stringWithString:query];
+	[urlBase replaceCharacters:kQueryValiableKey toString:string];
+
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:urlBase]];
+}
+
+- (IBAction)openWithWikipedia:(id)sender
+{
+	[self openURLWithQueryTemplateForKey:kPropertyListWikipediaQueryKey];
+}
+
+- (IBAction)googleSearch:(id)sender
+{
+	[self openURLWithQueryTemplateForKey:kPropertyListGoogleQueryKey];
+}
+
+#pragma mark Menu Validation
+- (BOOL)setUpMessageActionMenuItem:(NSMenuItem *)theItem forIndexes:(NSIndexSet *)indexSet withAttributeName:(NSString *)aName
+{
+	NSEnumerator		*anIndexEnum = indexEnumeratorWithIndexes(indexSet);
 	CMRThreadLayout		*L = [self threadLayout];
 	CMRThreadMessage	*m;
 	id					v     = nil;
 	id					prev  = nil;
 	int					state = NSOffState;
 	NSNumber			*mIndex;
+
 	while (mIndex = [anIndexEnum nextObject]) {
-		m = [L messageAtIndex : [mIndex unsignedIntValue]];
-		v = [m valueForKey : aName];
+		m = [L messageAtIndex:[mIndex unsignedIntValue]];
+		v = [m valueForKey:aName];
 		UTILAssertRespondsTo(v, @selector(boolValue));
 		
-		if (prev != nil) {
-			if ([prev boolValue] != [v boolValue]) {
-				state = NSMixedState;
-				break;
-			}
+		if (prev && ([prev boolValue] != [v boolValue])) {
+			state = NSMixedState;
+			break;
 		}
+
 		state = [v boolValue] ? NSOnState : NSOffState;
 		prev = v;
 	}
-	if (nil == prev) return NO;
-	
-	[theItem setState : state];
+	if (!prev) return NO;
+
+	[theItem setState:state];
 	return YES;
 }
 
@@ -818,22 +732,18 @@ NS_ENDHANDLER
 		return ([self selectedRange].length > 0);
 	}
 
-	NSEnumerator	*indexEnum_ = [self selectedMessageIndexEnumerator];
+	NSIndexSet		*indexSet = [self messageIndexesAtClickedPoint];
+	[theItem setRepresentedObject:indexSet];
 
 	if (action_ == @selector(messageReply:) || action_ == @selector(messageGyakuSansyouPopUp:) || action_ == @selector(messageCopy:)) {
-		return ([indexEnum_ nextObject] != nil);
+		return (indexSet != nil);
 	}
 
 	if (action_ == @selector(changeMessageAttributes:)) {
 		int		tag   = [theItem tag];
+		NSAssert1(UTILNumberOfCArray(mActionGetKeysForTag) > tag, @"[item tag] was invalid(%u)", tag);
 		
-//		if (tag < 0) return NO;
-		
-		NSAssert1(
-			UTILNumberOfCArray(mActionGetKeysForTag) > tag,
-			@"[item tag] was invalid(%u)", tag);
-		
-		return [self setUpMessageActionMenuItem:theItem forIndexes:indexEnum_ withAttributeName:mActionGetKeysForTag[tag]];
+		return [self setUpMessageActionMenuItem:theItem forIndexes:indexSet withAttributeName:mActionGetKeysForTag[tag]];
 	}
 	return [super validateMenuItem:theItem];
 }
@@ -843,26 +753,17 @@ NS_ENDHANDLER
 // 341@CocoMonar 24(25)th thread の修正をベースに
 // さらに独自の味付け
 @implementation CMRThreadView(NSServicesRequests)
-- (BOOL) writeSelectionToPasteboard : (NSPasteboard *) pboard types: (NSArray *)types
+- (BOOL)writeSelectionToPasteboard:(NSPasteboard *)pboard types:(NSArray *)types
 {
-	NSMutableAttributedString * contents_;
-	NSRange range;
+	NSAttributedString	*contents_;
 
 	// 元々渡される types には NSRTFDPboardType が含まれる。しかしこれが受け渡し時に問題を引き起こすようだ
-	NSArray *newTypes = [NSArray arrayWithObjects : 
-		NSRTFPboardType,
-		NSStringPboardType,
-		nil]; // NSRTFDPboardType を含まない別の array にすり替える
+	NSArray *newTypes = [NSArray arrayWithObjects:NSRTFPboardType, NSStringPboardType, nil]; // NSRTFDPboardType を含まない別の array にすり替える
+	[pboard declareTypes:newTypes owner:nil];
 
-	//NSLog(@"writeSelectionToPasteboard: %@ types: %@", [pboard description], [types description]);
-	range = [self selectedRange];
+	contents_ = [[self textStorage] attributedSubstringFromRange:[self selectedRange]];
 
-	[pboard declareTypes: newTypes owner: nil];
-	contents_ = (NSMutableAttributedString *)[[self textStorage] attributedSubstringFromRange: range];
-	//NSLog(@"writeSelectionToPasteboard: %@ %d", NSStringFromRange(range), [contents_ length]);	
-	[contents_ writeToPasteboard : pboard];
-
+	[contents_ writeToPasteboard:pboard];
 	return YES;
-	//return [super writeSelectionToPasteboard: pboard types: newTypes];
 }
 @end

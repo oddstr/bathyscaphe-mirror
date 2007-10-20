@@ -1,70 +1,57 @@
-//: NSCharacterSet+CMXAdditions.m
-/**
-  * $Id: NSCharacterSet+CMXAdditions.m,v 1.2 2006/02/01 17:39:08 tsawada2 Exp $
-  * 
-  * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  NSCharacterSet+CMXAdditions.m
+//  BathyScaphe (CocoMonar Framework)
+//
+//  Updated by Tsutomu Sawada on 07/10/18.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
 
 #import "NSCharacterSet+CMXAdditions.h"
-#import "UtilKit.h"
-#import <SGFoundation/NSBundle-SGExtensions.h>
 
-@interface CMRNumberCharacterSet_JP : NSCharacterSet
-@end
-@implementation CMRNumberCharacterSet_JP : NSCharacterSet
-- (BOOL) characterIsMember : (unichar) c
-{
-	return CMRCharacterIsMemberOfNumeric(c);
-}
-- (NSData *) bitmapRepresentation
-{
-	UTILMethodLog;
-	return [super bitmapRepresentation];
-}
-@end
+@class CMRFileManager;
 
+#define kInnerLinkPrefixCharactersFile		@"innerLinkPrefixCharacters"
+#define kInnerLinkRangeCharactersFile		@"innerLinkRangeCharacters"
+#define kInnerLinkSeparaterCharactersFile	@"innerLinkSeparaterCharacters"
 
-
-#define kInnerLinkPrefixCharactersFile		@"innerLinkPrefixCharacters.txt"
-#define kInnerLinkRangeCharactersFile		@"innerLinkRangeCharacters.txt"
-#define kInnerLinkSeparaterCharactersFile	@"innerLinkSeparaterCharacters.txt"
 static NSCharacterSet *characterSetFromBundleWithFilename(NSString *filename);
+static NSCharacterSet *characterSetFromNumbersJP(void);
 
-
-
-#define PRIV_UTIL_CHARACTER_SET(aFilename)							\
-	static	NSCharacterSet	*shared_;								\
-	if(nil == shared_)												\
-		shared_ = characterSetFromBundleWithFilename(aFilename);	\
+#define PRIV_UTIL_CHARACTER_SET(aFilename)						\
+	static	NSCharacterSet	*shared_;							\
+	if(!shared_)												\
+		shared_ = characterSetFromBundleWithFilename(aFilename);\
 	return shared_
 
 
 @implementation NSCharacterSet(CMRCharacterSetAddition)
-+ (NSCharacterSet *) innerLinkPrefixCharacterSet
++ (NSCharacterSet *)innerLinkPrefixCharacterSet
 {
 	PRIV_UTIL_CHARACTER_SET(kInnerLinkPrefixCharactersFile);
 }
-+ (NSCharacterSet *) innerLinkRangeCharacterSet
+
++ (NSCharacterSet *)innerLinkRangeCharacterSet
 {
 	PRIV_UTIL_CHARACTER_SET(kInnerLinkRangeCharactersFile);
 }
-+ (NSCharacterSet *) innerLinkSeparaterCharacterSet
+
++ (NSCharacterSet *)innerLinkSeparaterCharacterSet
 {
 	PRIV_UTIL_CHARACTER_SET(kInnerLinkSeparaterCharactersFile);
 }
-+ (NSCharacterSet *) numberCharacterSet_JP
+
++ (NSCharacterSet *)numberCharacterSet_JP
 {
 	static NSCharacterSet *instance_;
 	
-	if(nil == instance_)
-		instance_ = [[CMRNumberCharacterSet_JP alloc] init];
-	
+	if(!instance_) {
+		instance_ = characterSetFromNumbersJP();
+	}
 	return instance_;
 }
 @end
 #undef PRIV_UTIL_CHARACTER_SET
-
 
 
 static NSCharacterSet *characterSetFromBundleWithFilename(NSString *filename)
@@ -72,11 +59,25 @@ static NSCharacterSet *characterSetFromBundleWithFilename(NSString *filename)
 	NSString	*filepath_;
 	NSString	*string_;
 	
-	//filepath_ = [[NSBundle mainBundle] pathForResourceWithName : filename];
-	filepath_ = [[NSBundle bundleForClass : [CMRFileManager class]] pathForResourceWithName : filename];
-	if(nil == filepath_) return nil;
-	string_ = [NSString stringWithContentsOfFile : filepath_];
-	if(nil == string_) return nil;
+	filepath_ = [[NSBundle bundleForClass:[CMRFileManager class]] pathForResource:filename ofType:@"txt"];
+	if (!filepath_) return nil;
+	string_ = [NSString stringWithContentsOfFile:filepath_];
+	if (!string_) return nil;
 
-	return [[NSCharacterSet characterSetWithCharactersInString:string_] copyWithZone : nil];
+	return [[NSCharacterSet characterSetWithCharactersInString:string_] copyWithZone:nil];
+}
+
+static NSCharacterSet *characterSetFromNumbersJP(void)
+{
+	unsigned short numbuf[20];
+	int i;
+	for (i = 0; i < 10; i++) {
+		numbuf[     i] = (unsigned short)i + '0';
+		numbuf[10 + i] = (unsigned short)i + (unsigned short)k_JP_0_Unichar;
+	}
+
+	NSString *numString = [NSString stringWithCharacters:numbuf length:20];
+	if (!numString) return nil;
+	
+	return [[NSCharacterSet characterSetWithCharactersInString:numString] copyWithZone:nil];
 }

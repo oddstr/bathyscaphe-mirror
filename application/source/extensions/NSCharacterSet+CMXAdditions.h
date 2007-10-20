@@ -1,35 +1,35 @@
-//: NSCharacterSet+CMXAdditions.h
-/**
-  * $Id: NSCharacterSet+CMXAdditions.h,v 1.2 2006/02/01 17:39:08 tsawada2 Exp $
-  * 
-  * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  NSCharacterSet+CMXAdditions.h
+//  BathyScaphe (CocoMonar Framework)
+//
+//  Updated by Tsutomu Sawada on 07/10/18.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
 
 #import <Foundation/Foundation.h>
 
-@class CMRFileManager;
-
 @interface NSCharacterSet(CMRCharacterSetAddition)
-+ (NSCharacterSet *) innerLinkPrefixCharacterSet;
-+ (NSCharacterSet *) innerLinkRangeCharacterSet;
-+ (NSCharacterSet *) innerLinkSeparaterCharacterSet;
++ (NSCharacterSet *)innerLinkPrefixCharacterSet;
++ (NSCharacterSet *)innerLinkRangeCharacterSet;
++ (NSCharacterSet *)innerLinkSeparaterCharacterSet;
 
 /*
-0 - 9 ‚O - ‚X
-“ú–{ŒêˆÈŠO‚ÌŠÂ‹«‚¾‚ÆdecimalDigitCharacterSet‚ª
-‘SŠp”š‚ğ”F¯‚µ‚È‚¢‚æ‚¤‚È‚Ì‚Å
+0 - 9 ï¼ - ï¼™
+æ—¥æœ¬èªä»¥å¤–ã®ç’°å¢ƒã ã¨decimalDigitCharacterSetãŒ
+å…¨è§’æ•°å­—ã‚’èªè­˜ã—ãªã„ã‚ˆã†ãªã®ã§
 */
-+ (NSCharacterSet *) numberCharacterSet_JP;
++ (NSCharacterSet *)numberCharacterSet_JP;
 @end
 
-#define k_JP_0_Unichar	0xff10
-#define k_JP_9_Unichar	0xff19
+#define k_JP_0_Unichar	0xff10U
+#define k_JP_9_Unichar	0xff19U
 
 FOUNDATION_STATIC_INLINE BOOL CMRCharacterIsMemberOfNumeric(unichar c)
 {
 	return (('0' <= c && c <= '9') || (k_JP_0_Unichar <= c && c <= k_JP_9_Unichar));
 }
+
 FOUNDATION_STATIC_INLINE unichar CMRConvertToNumericCharacter(unichar c)
 {
 	return ((k_JP_0_Unichar <= c && c <= k_JP_9_Unichar) ? (c - (k_JP_0_Unichar - '0')) : c);

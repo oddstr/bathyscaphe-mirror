@@ -1,6 +1,6 @@
 //: CMRHostHandler.m
 /**
-  * $Id: CMRHostHandler.m,v 1.6 2007/01/07 17:04:23 masakih Exp $
+  * $Id: CMRHostHandler.m,v 1.7 2007/10/20 02:21:29 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -37,6 +37,7 @@
 // @see readURLWithBoard:datName:
 #define READ_URL_FORMAT_DEF		@"%@?%@=%@&%@=%@"
 #define READ_URL_FORMAT_2CH		@"%@/%s/%@/"
+#define READ_URL_FORMAT_2CH_2		@"%@/%@/%@/"
 //#define READ_URL_FORMAT_SHITARABA	@"%@/%@/%s/%@/"
 
 @implementation CMRHostHandler
@@ -54,7 +55,7 @@
 {
 	[self registerHostHandlerClass : [CMR2channelBeHandler class]];
 	[self registerHostHandlerClass : [CMR2channelHandler class]];
-	[self registerHostHandlerClass : [CMRShitarabaHandler class]];
+//	[self registerHostHandlerClass : [CMRShitarabaHandler class]];
 	[self registerHostHandlerClass : [BSHostLivedoorHandler class]];
 	[self registerHostHandlerClass : [CMRMachibbsaHandler class]];
 
@@ -738,7 +739,7 @@ ErrReadURL:
 
 
 // したらば
-@implementation CMRShitarabaHandler : CMRHostHandler
+/*@implementation CMRShitarabaHandler : CMRHostHandler
 + (BOOL) canHandleURL : (NSURL *) anURL
 {
 	const char *hostName_ = [[anURL host] UTF8String];
@@ -749,7 +750,7 @@ ErrReadURL:
 {
 	return CMRHostPropertiesForKey(@"shitaraba");
 }
-@end
+@end*/
 
 @implementation CMRMachibbsaHandler
 + (BOOL) canHandleURL : (NSURL *) anURL

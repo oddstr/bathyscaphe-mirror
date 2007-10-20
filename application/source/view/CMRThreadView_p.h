@@ -17,7 +17,7 @@
 #import "CMRMessageFilter.h"
 
 @interface CMRThreadView(Action)
-- (BOOL)setUpMessageActionMenuItem:(NSMenuItem *)theItem forIndexes:(NSEnumerator *)anIndexEnum withAttributeName:(NSString *)aName;
+- (BOOL)setUpMessageActionMenuItem:(NSMenuItem *)theItem forIndexes:(NSIndexSet *)indexSet withAttributeName:(NSString *)aName;
 
 // Contextual Menu Items
 - (IBAction)messageCopy:(id)sender;
@@ -39,6 +39,6 @@
 
 // @see googleSearch:
 #define kPropertyListGoogleQueryKey		@"Thread - GoogleQuery"
-#define kGoogleQueryValiableKey			@"%%%Query%%%"
+#define kQueryValiableKey			@"%%%Query%%%"
 // @see openWithWikipedia:
 #define kPropertyListWikipediaQueryKey		@"Thread - WikipediaQuery"

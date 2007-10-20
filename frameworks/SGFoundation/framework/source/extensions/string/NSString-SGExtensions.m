@@ -1,6 +1,6 @@
 //: NSString-SGExtensions.m
 /**
-  * $Id: NSString-SGExtensions.m,v 1.4 2007/01/22 02:23:29 tsawada2 Exp $
+  * $Id: NSString-SGExtensions.m,v 1.5 2007/10/20 02:21:29 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -31,7 +31,7 @@
 {
 	return [self initWithCharacters : &aCharacter length : 1];
 }
-
+/*
 + (id) stringWithCStringNoCopy : (char *  ) cString
  						length : (unsigned) length
 				  freeWhenDone : (BOOL    ) freeBuffer
@@ -48,12 +48,12 @@
 {
 	return [self stringWithCStringNoCopy:(char *)cString freeWhenDone:NO];
 }
-
+*/
 //////////////////////////////////////////////////////////////////////
 //////////////////// [ インスタンスメソッド ] ////////////////////////
 //////////////////////////////////////////////////////////////////////
 
-- (BOOL) isValidURLCharacters
+/*- (BOOL) isValidURLCharacters
 {
 	BOOL	contains_;
 	
@@ -63,7 +63,7 @@
 					[NSCharacterSet URLInvertedCharacterSet]];
 
 	return (NO == contains_);
-}
+}*/
 - (NSString *) stringByDeletingURLScheme : (NSString *) aScheme
 {
 	NSScanner *scanner_;

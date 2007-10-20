@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRHostTypes.m,v 1.2 2005/11/30 23:22:51 tsawada2 Exp $
+  * $Id: CMRHostTypes.m,v 1.3 2007/10/20 02:21:29 tsawada2 Exp $
   * 
   * CMRHostTypes.m
   *
@@ -86,7 +86,7 @@ NSString *CMRGetHostStringFromBoardURL(NSURL *anURL, NSString **pbbs)
 	
 	return [NSString stringWithUTF8String : host_];
 }
-NSString *CMRGetHostStringFromBoardURLNoCopy(NSURL *anURL, NSString **pbbs)
+/*NSString *CMRGetHostStringFromBoardURLNoCopy(NSURL *anURL, NSString **pbbs)
 {
 	const char	*host_;
 	const char	*bbs_ = NULL;
@@ -97,7 +97,7 @@ NSString *CMRGetHostStringFromBoardURLNoCopy(NSURL *anURL, NSString **pbbs)
 	
 	return [NSString stringWithCStringNoCopy:host_];
 }
-
+*/
 /*
  * read.cgiがパス仕様に対応していると期待できるか
  * 過去ログ倉庫、offlaw、板トップURLの判定などでも流用
@@ -158,11 +158,16 @@ bool is_jbbs_shita(const char *host)
 	return false;
 }
 
+bool is_jbbs_livedoor(const char *host)
+{
+	return is_jbbs_shita(host);
+}
+
 bool is_machi(const char *host)
 {
 	return host ? strstr(host, ".machi.to") || strstr(host, ".machibbs.com") : false;
 }
-
+/*
 bool is_jbbs(const char *host)
 {
 	return host ? strstr(host, ".jbbs.net") || is_jbbs_shita(host) : false;
@@ -177,22 +182,22 @@ bool is_tanteifile(const char *host)
 {
 	return host ? strstr(host, "tanteifile2.gasuki.com") : false;
 }
-
+*/
 
 /*
  * offlaw.cgiが使えるかどうか
  */
-bool can_offlaw(const char *host)
+/*bool can_offlaw(const char *host)
 {
 	return false;
 //	return can_readcgi(host) && strstr(host, "choco.");
 }
-
+*/
 
 /*
  * 過去ログ倉庫が新形式かどうか
  */
-bool kako_salad(const char *host, const char *bbs)
+/*bool kako_salad(const char *host, const char *bbs)
 {
 	static char *oldkako_servers[] = {
 		"piza.",
@@ -223,11 +228,11 @@ bool kako_salad(const char *host, const char *bbs)
 
 	return true;
 }
-
+*/
 /*
  * bbs.cgiが新タイプかどうか
  */
-bool bbs_qb(const char *host)
+/*bool bbs_qb(const char *host)
 {
 #if 0
 	static char *newbbs_servers[] = {
@@ -254,4 +259,4 @@ bool bbs_qb(const char *host)
 
 #endif
 	return false;
-}
+}*/
