@@ -34,8 +34,8 @@
 /* Accessor for m_sessionID */
 - (void) setSessionID : (NSString *) aSessionID;
 /* Accessor for m_monazillaUserAgent */
-- (NSString *) monazillaUserAgent;
-- (void) setMonazillaUserAgent : (NSString *) aMonazillaUserAgent;
+//- (NSString *) monazillaUserAgent;
+//- (void) setMonazillaUserAgent : (NSString *) aMonazillaUserAgent;
 @end
 
 
@@ -45,7 +45,7 @@
 - (BOOL) updateAccountAndPasswordIfNeeded : (NSString **) newAccountPtr
                                  password : (NSString **) newPasswordPtr
 					   shouldUsesKeychain : (BOOL	   *) savePassPtr;
-- (NSString *) titleKeyForErrorType : (w2chAuthenticaterErrorType) type;
-- (NSString *) messageKeyForErrorType : (w2chAuthenticaterErrorType) type;
+//- (NSString *) titleKeyForErrorType : (w2chAuthenticaterErrorType) type;
+//- (NSString *) messageKeyForErrorType : (w2chAuthenticaterErrorType) type;
 - (BOOL) invalidate;
 @end

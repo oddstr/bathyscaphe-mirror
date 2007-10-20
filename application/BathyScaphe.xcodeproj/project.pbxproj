@@ -1109,8 +1109,8 @@
 		F324DBC304C6965500A80005 /* LoginController.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = LoginController.h; sourceTree = "<group>"; };
 		F324DBC404C6965500A80005 /* LoginController.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = LoginController.m; sourceTree = "<group>"; };
 		F324DBC504C6965500A80005 /* LoginController_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = LoginController_p.h; sourceTree = "<group>"; };
-		F324DBC604C6965500A80005 /* w2chAuthenticater.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = w2chAuthenticater.h; sourceTree = "<group>"; };
-		F324DBC704C6965500A80005 /* w2chAuthenticater.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = w2chAuthenticater.m; sourceTree = "<group>"; };
+		F324DBC604C6965500A80005 /* w2chAuthenticater.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = w2chAuthenticater.h; sourceTree = "<group>"; };
+		F324DBC704C6965500A80005 /* w2chAuthenticater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = w2chAuthenticater.m; sourceTree = "<group>"; };
 		F324DBC804C6965500A80005 /* w2chAuthenticater_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = w2chAuthenticater_p.h; sourceTree = "<group>"; };
 		F324DBCB04C6965500A80005 /* SG2chConnector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SG2chConnector.h; sourceTree = "<group>"; };
 		F324DBCC04C6965500A80005 /* SG2chConnector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SG2chConnector.m; sourceTree = "<group>"; };
@@ -1214,7 +1214,7 @@
 		F324DD5204C698FB00A80005 /* CMRThreadFileLoadingTask.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadFileLoadingTask.h; sourceTree = "<group>"; };
 		F324DD5304C698FB00A80005 /* CMRThreadFileLoadingTask.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CMRThreadFileLoadingTask.m; sourceTree = "<group>"; };
 		F324DD5804C698FB00A80005 /* CMRThreadLayout-MessageRange.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadLayout-MessageRange.m"; sourceTree = "<group>"; };
-		F324DD5904C698FB00A80005 /* CMRThreadLayout.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRThreadLayout.h; sourceTree = "<group>"; };
+		F324DD5904C698FB00A80005 /* CMRThreadLayout.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadLayout.h; sourceTree = "<group>"; };
 		F324DD5A04C698FB00A80005 /* CMRThreadLayout.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CMRThreadLayout.m; sourceTree = "<group>"; };
 		F324DD5C04C698FB00A80005 /* CMRThreadLayoutTask.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadLayoutTask.h; sourceTree = "<group>"; };
 		F324DD5D04C698FB00A80005 /* CMRThreadLayoutTask.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRThreadLayoutTask.m; sourceTree = "<group>"; };

@@ -93,7 +93,7 @@ acceptsMouseMovedEvents == YES だと resetCursorRects が頻繁に呼ばれる
 	link_ = [self attribute:NSLinkAttributeName atPoint:mouseLocation_ effectiveRange:&effectiveRange_];
 	UTILRequireCondition([self validateLinkByFiltering:link_], default_menu);
 	
-	//[self setSelectedRange:effectiveRange_]; // Twincam Angel: やめてみる
+	[self setSelectedRange:effectiveRange_];
 	return [self linkMenuWithLink:link_ forImageFile:[self validateLinkForImage:link_]];
 
 default_menu:

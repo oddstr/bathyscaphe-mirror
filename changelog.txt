@@ -1,4 +1,9 @@
 2007-10-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/reply/account/w2chAuthenticater.m
+		コードを整理したほか、UserAgent は CocoMonar.framework で取得できるものを使用する方法に一本化した。
+	* application/source/view/SGHTMLView.m
+		外部リンクを control-クリックしてコンテクストメニューを表示しようとするとき、リンク全体を選択状態にする
+		挙動を復帰させた。(See 2007-08-12)
 	* application/source/thread/CMRThreadViewer-Download.m
 	* application/Resources/Japanese.lproj/ThreadViewer.strings
 		「●ログインして取得」ボタンは、2ch のスレッドでのみアラートに表示されるようにした。
@@ -7,7 +12,7 @@
 	* frameworks/SGFoundation/framework/source/classes/files/MoreFilesX.[c|h]
 		MoreFilesX 1.0.2 に更新(いままでは、1.0.1 だった)。
 	* frameworks/SGFoundation/framework/source/classes/files/SGFileRef.m
-		ビルド時の警告が出ないよう、適切な書き方に改めたり、deprecated なメソッドを使用している部分を修正。
+		ビルド時の警告が出ないよう、適切な書き方に改めたり(完全ではない)、deprecated なメソッドを使用している部分を修正。
 	* frameworks/SGFoundation/framework/source/extensions/string/NSCharacterSet-SGExtensions.[h|m]
 	* application/source/extensions/NSCharacterSet+CMXAdditions.[h|m]
 		NSCharacterSet のサブクラスを内部で作って使っていた部分は、すべてサブクラスを使わないよう(かつ、同等の

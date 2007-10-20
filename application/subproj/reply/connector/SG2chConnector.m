@@ -112,7 +112,8 @@
 
 + (NSString *)userAgent
 {
-	return [w2chAuthenticater userAgent];
+//	return [w2chAuthenticater userAgent];
+	return [NSBundle monazillaUserAgent];
 }
 
 - (void)loadInBackground

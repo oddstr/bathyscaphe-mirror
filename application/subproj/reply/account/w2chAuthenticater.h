@@ -27,7 +27,7 @@ typedef enum {
 @interface w2chAuthenticater : NSObject<w2chAuthenticationStatus>
 {
 	NSString		*m_sessionID;
-	NSString		*m_monazillaUserAgent;
+//	NSString		*m_monazillaUserAgent;
 	
 	int 						m_recentStatusCode;
 	w2chAuthenticaterErrorType	m_recentErrorType;
@@ -52,19 +52,19 @@ typedef enum {
       password : (NSString  *) password
      userAgent : (NSString **) userAgent
      sessionID : (NSString **) sid;
-@end
+//@end
 
 
 
-@interface w2chAuthenticater(UserAgent)
-+ (NSString *) requestHeaderValueForX2chUA;
-+ (NSString *) userAgentWhenAuthentication;
-+ (NSString *) userAgent;
-@end
+//@interface w2chAuthenticater(UserAgent)
+//+ (NSString *) requestHeaderValueForX2chUA;
+//+ (NSString *) userAgentWhenAuthentication;
+//+ (NSString *) userAgent;
+//@end
 
 
 
-@interface w2chAuthenticater(Preferences)
+//@interface w2chAuthenticater(Preferences)
 + (AppDefaults *) preferences;
 - (AppDefaults *) preferences;
 + (void) setPreferencesObject : (AppDefaults *) defaults;

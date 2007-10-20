@@ -1,75 +1,41 @@
-//:w2chAuthenticater.m
-/**
-  *
-  * @see w2chConnectorAlertUtil.h
-  * @see Constants.h
-  * @see AppDefaults.h
-  * @see LoginController.h
-  *
-  * @author Takanori Ishikawa
-  * @author http://www15.big.or.jp/~takanori/
-  * @version 1.0.0d1 (02/09/04  4:09:21 AM)
-  *
-  */
+//
+//  w2chAuthenticater.m
+//  BathyScaphe "Twincam Angel"
+//
+//  Updated by Tsutomu Sawada on 07/10/20.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import "w2chAuthenticater_p.h"
 
-
-//////////////////////////////////////////////////////////////////////
-////////////////////// [ ’è”‚âƒ}ƒNƒ’uŠ· ] //////////////////////////
-//////////////////////////////////////////////////////////////////////
 #define APP_SEARCH_PREFIX			@"SESSION-ID="
 #define STR_COLON					@":"
 #define APP_2CH_AUTH_ERROR_STR		@"ERROR"
 
 
 static AppDefaults	*st_defaults		= nil;
-//static NSLock		*st_singleton_lock	= nil;
-
-
 
 @implementation w2chAuthenticater
-/*+ (void) initialize
-{
-	if(nil == st_singleton_lock)
-		st_singleton_lock = [[NSLock alloc] init];
-}
-
-+ (id) defaultAuthenticater
-{
-	static id st_instance = nil;
-	
-	if(nil == st_instance){
-		UTILAssertNotNil(st_singleton_lock);
-		[st_singleton_lock lock];
-		if(nil == st_instance){
-			st_instance = [[self alloc] init];
-		}
-		[st_singleton_lock unlock];
-	}
-	return st_instance;
-}*/
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultAuthenticater);
 
-- (id) init
+- (id)init
 {
 	if(self = [super init]){
-		[self setRecentStatusCode : 200];
-		[self setRecentErrorType : w2chNoError];
+		[self setRecentStatusCode:200];
+		[self setRecentErrorType:w2chNoError];
 	}
 	return self;
 }
 
-- (void) dealloc
+- (void)dealloc
 {
 	[m_sessionID release];
-	[m_monazillaUserAgent release];
+//	[m_monazillaUserAgent release];
 	[super dealloc];
 }
 
-
-- (BOOL) runModalForLoginWindow : (NSString **) accountPtr
-                       password : (NSString **) passwordPtr
-			 shouldUsesKeychain : (BOOL		 *) savePassPtr
+- (BOOL)runModalForLoginWindow:(NSString **)accountPtr password:(NSString **)passwordPtr shouldUsesKeychain:(BOOL *)savePassPtr
 {
 	NSString			*account_;
 	NSString			*password_;
@@ -78,94 +44,84 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultAuthenticater);
 	
 	if(accountPtr != NULL) *accountPtr = nil;
 	if(passwordPtr != NULL) *passwordPtr = nil;
+
 	lgin_ = [[LoginController alloc] init];
-	result_ = [lgin_ runModalForLoginWindow : &account_
-	                               password : &password_
-					     shouldUsesKeychain : savePassPtr];
+	result_ = [lgin_ runModalForLoginWindow:&account_ password:&password_ shouldUsesKeychain:savePassPtr];
 	[lgin_ release];
 	
-	if(NO == result_){
-		[self setRecentErrorType : w2chLoginCanceled];
+	if (!result_) {
+		[self setRecentErrorType:w2chLoginCanceled];
 		return NO;
 	}
-	UTILRequireCondition(
-		(account_ && [account_ length]),
-		error_params_invalid);
-	UTILRequireCondition(
-		(password_ && [password_ length]),
-		error_params_invalid);
+
+	UTILRequireCondition((account_ && [account_ length]), error_params_invalid);
+	UTILRequireCondition((password_ && [password_ length]), error_params_invalid);
 	
 	if(accountPtr != NULL) *accountPtr = account_;
 	if(passwordPtr != NULL) *passwordPtr = password_;
 	return YES;
 	
-	error_params_invalid:{
-		[self setRecentErrorType : w2chLoginParamsInvalid];
+error_params_invalid: {
+		[self setRecentErrorType:w2chLoginParamsInvalid];
 		return NO;
 	}
 }
 
 
 /**
-  * ƒT[ƒo‚©‚ç•Ô‚³‚ê‚½ƒZƒbƒVƒ‡ƒ“ID‚ğ‰ğÍ‚µAID‚ÆUserAgent
-  * ‚ğæ“¾BƒT[ƒo‚ªƒGƒ‰[‚ğ•Ô‚µ‚½ê‡‚ÍNO‚ğ•Ô‚·B
+  * ã‚µãƒ¼ãƒã‹ã‚‰è¿”ã•ã‚ŒãŸã‚»ãƒƒã‚·ãƒ§ãƒ³IDã‚’è§£æã—ã€IDã¨UserAgent
+  * ã‚’å–å¾—ã€‚ã‚µãƒ¼ãƒãŒã‚¨ãƒ©ãƒ¼ã‚’è¿”ã—ãŸå ´åˆã¯NOã‚’è¿”ã™ã€‚
   * 
-  * @param    contents    ƒT[ƒo‚©‚ç•Ô‚³‚ê‚½“à—e
+  * @param    contents    ã‚µãƒ¼ãƒã‹ã‚‰è¿”ã•ã‚ŒãŸå†…å®¹
   * @param    userAgent   UserAgent
-  * @param    sessionID   ƒZƒbƒVƒ‡ƒ“ID
-  * @return               ƒT[ƒo‚ªƒGƒ‰[‚ğ•Ô‚µ‚½ê‡‚ÍNO‚ğ•Ô‚·B
+  * @param    sessionID   ã‚»ãƒƒã‚·ãƒ§ãƒ³ID
+  * @return               ã‚µãƒ¼ãƒãŒã‚¨ãƒ©ãƒ¼ã‚’è¿”ã—ãŸå ´åˆã¯NOã‚’è¿”ã™ã€‚
   */
-- (BOOL) parseResponseID : (NSString  *) contents
-               userAgent : (NSString **) userAgent
-               sessionID : (NSString **) sessionID
+- (BOOL)parseResponseID:(NSString *)contents userAgent:(NSString **) userAgent sessionID:(NSString **)sessionID
 {
-	NSScanner       *scanner_;		//ƒXƒLƒƒƒi
-	NSString        *skipped_;		//“Ç‚İ‚ñ‚¾•¶š—ñ
-	NSMutableString *sid_;			//ƒZƒbƒVƒ‡ƒ“ID
+	NSScanner       *scanner_;		//ã‚¹ã‚­ãƒ£ãƒŠ
+	NSString        *skipped_;		//èª­ã¿è¾¼ã‚“ã æ–‡å­—åˆ—
+	NSMutableString *sid_;			//ã‚»ãƒƒã‚·ãƒ§ãƒ³ID
 	BOOL             result_ = NO;
 
-	if(nil == contents || 0 == [contents length])
-		return result_;
+	if (!contents || [contents length] == 0) return result_;
 	
-	scanner_ = [NSScanner scannerWithString : contents];
+	scanner_ = [NSScanner scannerWithString:contents];
 	skipped_ = nil;
 	sid_ = [NSMutableString string];
 	
-	if([scanner_ scanUpToString : APP_SEARCH_PREFIX intoString : &skipped_] ||
-	   [[scanner_ string] hasPrefix : APP_SEARCH_PREFIX]){
+	if([scanner_ scanUpToString:APP_SEARCH_PREFIX intoString:&skipped_] ||
+	   [[scanner_ string] hasPrefix:APP_SEARCH_PREFIX]) {
 		NSCharacterSet *wsset_;
 		
-		//‚±‚Ì“_‚ÅƒXƒLƒƒƒi‚Í@"SESSION-ID="‚Ìæ“ª•”•ª‚É‚ ‚éB
-		[scanner_ scanString : APP_SEARCH_PREFIX intoString : NULL];
-		if(NO == [scanner_ scanUpToString : STR_COLON intoString : &skipped_]){
-			//•K‚¸¬Œ÷‚·‚é‚Í‚¸
-			NSAssert(
-				0,
-				@"Unexpeced!");
+		//ã“ã®æ™‚ç‚¹ã§ã‚¹ã‚­ãƒ£ãƒŠã¯@"SESSION-ID="ã®å…ˆé ­éƒ¨åˆ†ã«ã‚ã‚‹ã€‚
+		[scanner_ scanString:APP_SEARCH_PREFIX intoString:NULL];
+		if (![scanner_ scanUpToString:STR_COLON intoString:&skipped_]) {
+			//å¿…ãšæˆåŠŸã™ã‚‹ã¯ãš
+			NSAssert(0, @"Unexpeced!");
 		}
 		
 		//ERROR
-		result_ = (NO == [skipped_ isEqualToString : APP_2CH_AUTH_ERROR_STR]);
-		if(NO == result_){
-			//ƒƒOƒCƒ“‚ÌƒGƒ‰[
-			[self setRecentErrorType : w2chLoginError];
+		result_ = (NO == [skipped_ isEqualToString:APP_2CH_AUTH_ERROR_STR]);
+		if (!result_) {
+			//ãƒ­ã‚°ã‚¤ãƒ³æ™‚ã®ã‚¨ãƒ©ãƒ¼
+			[self setRecentErrorType:w2chLoginError];
 		}
 		if(userAgent != NULL){
 			*userAgent = [[skipped_ copy] autorelease];
 		}
-		[sid_ appendString : skipped_];
+		[sid_ appendString:skipped_];
 		
-		[scanner_ scanString : STR_COLON intoString : NULL];
-		[sid_ appendString : STR_COLON];
+		[scanner_ scanString:STR_COLON intoString:NULL];
+		[sid_ appendString:STR_COLON];
 		
 		wsset_ = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-		if([scanner_ scanUpToCharactersFromSet : wsset_
-								    intoString : &skipped_]){
+		if ([scanner_ scanUpToCharactersFromSet:wsset_ intoString:&skipped_]) {
 			//[sid_ appendString : skipped_];
-		}else{			
-			skipped_ = [[scanner_ string] substringFromIndex : [scanner_ scanLocation]];
+		} else {
+			skipped_ = [[scanner_ string] substringFromIndex:[scanner_ scanLocation]];
 		}
-		[sid_ appendString : skipped_];
+		[sid_ appendString:skipped_];
 		if(sessionID != NULL){
 			*sessionID = sid_;
 		}
@@ -176,47 +132,43 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultAuthenticater);
 }
 
 /**
-  * ”FØƒT[ƒo‚É‘—M‚·‚éƒf[ƒ^‚ğ¶¬‚µA•Ô‚·B
+  * èªè¨¼ã‚µãƒ¼ãƒã«é€ä¿¡ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã‚’ç”Ÿæˆã—ã€è¿”ã™ã€‚
   * 
-  * @param    userID    ƒ†[ƒUID
-  * @param    password  ƒpƒXƒ[ƒh
-  * @return             ‘—M‚·‚éƒf[ƒ^
+  * @param    userID    ãƒ¦ãƒ¼ã‚¶ID
+  * @param    password  ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
+  * @return             é€ä¿¡ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
   */
-- (NSData *) postingDataWithID : (NSString *) userID
-                      password : (NSString *) password
+- (NSData *)postingDataWithID:(NSString *)userID password:(NSString *)password
 {
-	NSString *forms_;		//FormŒ`®
+	NSString *forms_;		//Formå½¢å¼
 	
-	if(nil == userID || nil == password) return [NSData data];
-	forms_ = [NSString stringWithFormat : APP_X2CH_ID_PW_FORMAT,
-										  userID,
-										  password];
+	if (!userID || !password) return [NSData data];
+	forms_ = [NSString stringWithFormat:APP_X2CH_ID_PW_FORMAT, userID, password];
 	
-	return [forms_ dataUsingEncoding : [NSString defaultCStringEncoding]];
+	return [forms_ dataUsingEncoding:[NSString defaultCStringEncoding]];
 }
 
 /**
-  * ”FØƒT[ƒo‚ÉƒƒOƒCƒ“‚·‚éB
+  * èªè¨¼ã‚µãƒ¼ãƒã«ãƒ­ã‚°ã‚¤ãƒ³ã™ã‚‹ã€‚
   * 
-  * @param    userID     ƒ†[ƒUID
-  * @param    password   ƒpƒXƒ[ƒh
-  * @param    userAgent  ”FØ‚³‚ê‚½User-Agent
-  * @param    sid        ”FØ‚³‚ê‚½ID
-  * @return              ”FØ‚É¬Œ÷‚µ‚½ê‡‚ÍYES
+  * @param    userID     ãƒ¦ãƒ¼ã‚¶ID
+  * @param    password   ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
+  * @param    userAgent  èªè¨¼ã•ã‚ŒãŸUser-Agent
+  * @param    sid        èªè¨¼ã•ã‚ŒãŸID
+  * @return              èªè¨¼ã«æˆåŠŸã—ãŸå ´åˆã¯YES
   */
-- (BOOL) login : (NSString  *) userID
-      password : (NSString  *) password
-     userAgent : (NSString **) userAgent
-     sessionID : (NSString **) sid
+- (BOOL)login:(NSString  *)userID
+	 password:(NSString  *)password
+	userAgent:(NSString **)userAgent
+	sessionID:(NSString **)sid
 {
-	NSURL				*requestURL_;		//”FØ—pCGI
-//	SGHTTPConnector		*connector_;		//Ú‘±ƒIƒuƒWƒFƒNƒg
+	NSURL				*requestURL_;		//èªè¨¼ç”¨CGI
 	NSMutableURLRequest *request_;
 	NSURLResponse		*returningResponse_;
 
-	NSData				*pst_data_;			//‘—M‚·‚éƒf[ƒ^
-	NSData				*resource_;			//ƒT[ƒo‚Ì•Ô‚µ‚½“à—e(data)
-	NSString			*contents_;			//ƒT[ƒo‚Ì•Ô‚µ‚½“à—e(String)
+	NSData				*pst_data_;			//é€ä¿¡ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
+	NSData				*resource_;			//ã‚µãƒ¼ãƒã®è¿”ã—ãŸå†…å®¹(data)
+	NSString			*contents_;			//ã‚µãƒ¼ãƒã®è¿”ã—ãŸå†…å®¹(String)
 	int					statusCode_;
 	
 	UTILMethodLog;
@@ -224,89 +176,60 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultAuthenticater);
 	UTILDescription(userID);
 	UTILDescription(password);
 	
-	if(userAgent != NULL) *userAgent = nil;
-	if(sid != NULL) *sid = nil;
-	if(nil == userID || nil == password){
+	if (userAgent != NULL) *userAgent = nil;
+	if (sid != NULL) *sid = nil;
+	if (!userID || !password) {
 		UTILDebugWrite(@"UserID or password was nil.");
 		
-		[self setRecentErrorType : w2chNoError];
+		[self setRecentErrorType:w2chNoError];
 		return NO;
 	}
 	
-	
-	//”FØ—pCGI‚Ö‚ÆÚ‘±‚·‚éƒIƒuƒWƒFƒNƒg‚Ì¶¬
+	//èªè¨¼ç”¨CGIã¸ã¨æ¥ç¶šã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç”Ÿæˆ
 	requestURL_ = [[self preferences] x2chAuthenticationRequestURL];
-/*	connector_ = [[SGHTTPSecureSocket allocWithZone : [self zone]]
-						initWithURL : requestURL_
-				      requestMethod : HTTP_METHOD_POST];*/
+
 	request_ = [NSMutableURLRequest requestWithURL:requestURL_ cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:30.0];
 	[request_ setHTTPMethod:HTTP_METHOD_POST];
 	[request_ setHTTPShouldHandleCookies:NO];
 
-	//ƒŠƒNƒGƒXƒgƒwƒbƒ_‚Ìİ’è
-	pst_data_ = [self postingDataWithID : userID
-							   password : password];
-/*	[connector_ writeProperty : @"close"
-					   forKey : HTTP_CONNECTION_KEY];
-	[connector_ writeProperty : [requestURL_ host]
-					   forKey : HTTP_HOST_KEY];
-	[connector_ writeProperty : [[self class] userAgentWhenAuthentication]
-					   forKey : HTTP_USER_AGENT_KEY];
-	[connector_ writeProperty : [[self class] requestHeaderValueForX2chUA]
-					   forKey : APP_HTTP_X_2CH_UA_KEY];
-	[connector_ writeProperty : HTTP_CONTENT_URL_ENCODED_TYPE
-					   forKey : HTTP_CONTENT_TYPE_KEY];
-	[connector_ writeProperty : [[NSNumber numberWithInt : [pst_data_ length]] stringValue]
-					   forKey : HTTP_CONTENT_LENGTH_KEY];
-	[connector_ writeData : pst_data_];*/
+	//ãƒªã‚¯ã‚¨ã‚¹ãƒˆãƒ˜ãƒƒãƒ€ã®è¨­å®š
+	pst_data_ = [self postingDataWithID:userID password:password];
+
 	[request_ setValue:@"close" forHTTPHeaderField:HTTP_CONNECTION_KEY];
 	[request_ setValue:[requestURL_ host] forHTTPHeaderField:HTTP_HOST_KEY];
-	[request_ setValue:[[self class] userAgentWhenAuthentication] forHTTPHeaderField:HTTP_USER_AGENT_KEY];
-	[request_ setValue:[[self class] requestHeaderValueForX2chUA] forHTTPHeaderField:APP_HTTP_X_2CH_UA_KEY];
+	[request_ setValue:USER_AGENT_WHEN_AUTHENTICATION forHTTPHeaderField:HTTP_USER_AGENT_KEY];
+	[request_ setValue:[NSBundle applicationUserAgent] forHTTPHeaderField:APP_HTTP_X_2CH_UA_KEY];
 	[request_ setValue:HTTP_CONTENT_URL_ENCODED_TYPE forHTTPHeaderField:HTTP_CONTENT_TYPE_KEY];
 	[request_ setValue:[[NSNumber numberWithInt:[pst_data_ length]] stringValue] forHTTPHeaderField:HTTP_CONTENT_LENGTH_KEY];
 	[request_ setHTTPBody:pst_data_];
-	
-//	resource_ = [connector_ loadInForeground];
+
 	resource_ = [NSURLConnection sendSynchronousRequest:request_ returningResponse:&returningResponse_ error:NULL];
 	
-	if(!resource_/* || NSURLHandleLoadFailed == [connector_ status]*/){
+	if (!resource_) {
 		UTILDebugWrite(@"Connection Error");
 		
-		[self setRecentErrorType : w2chConnectionError];
+		[self setRecentErrorType:w2chConnectionError];
 		return NO;
 	}	
 
-	{
-//		SGHTTPResponse		*respose_;
-		
-//		respose_ = [connector_ response];
-//		UTILDebugWrite1(@"\n%@", [respose_ description]);
-		UTILDebugWrite1(@"\n%@", [returningResponse_ description]);
-	}
+	UTILDebugWrite1(@"\n%@", [returningResponse_ description]);
 	
-//	statusCode_ = [[connector_ response] statusCode];
 	statusCode_ = [(NSHTTPURLResponse *)returningResponse_ statusCode];
-	[self setRecentStatusCode : statusCode_];
-	if(statusCode_ != 200){
+	[self setRecentStatusCode:statusCode_];
+	if (statusCode_ != 200) {
 		UTILDebugWrite(@"Connection Error");
-		[self setRecentErrorType : w2chNetworkError];
+		[self setRecentErrorType:w2chNetworkError];
 		return NO;
 	}
-	
-	contents_ = [[NSString alloc] initWithData : resource_ 
-									  encoding : NSShiftJISStringEncoding];
-	[contents_ autorelease];
-	return [self parseResponseID : contents_
-					   userAgent : userAgent
-					   sessionID : sid];
+
+	contents_ = [[[NSString alloc] initWithData:resource_ encoding:NSShiftJISStringEncoding] autorelease];
+
+	return [self parseResponseID:contents_ userAgent:userAgent sessionID:sid];
 }
-@end
 
 
-
-@implementation w2chAuthenticater(UserAgent)
-+ (NSString *) requestHeaderValueForX2chUA
+//#pragma mark (UserAgent)
+/*+ (NSString *) requestHeaderValueForX2chUA
 {
 	NSString	*x2chUA_;
 	
@@ -322,66 +245,67 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultAuthenticater);
 }
 + (NSString *) userAgent
 {
-	long _libver = (1 << 16);	//b’è‘[’u
+	long _libver = (1 << 16);	//æš«å®šæªç½®
 	
-	// 2ch‰ü‘¢b’è‘[’u (02.01.20)
+	// 2chæ”¹é€ æš«å®šæªç½® (02.01.20)
 	return [NSString stringWithFormat :
 					@"Monazilla/%d.%02d (%@)",
 					_libver >> 16,
 					_libver & 0xffff,
 					[self requestHeaderValueForX2chUA]];
-}
-@end
+}*/
 
-
-
-@implementation w2chAuthenticater(Preferences)
-+ (AppDefaults *) preferences
+#pragma mark (Preferences)
++ (AppDefaults *)preferences
 {
 	return st_defaults;
 }
-- (AppDefaults *) preferences
+
+- (AppDefaults *)preferences
 {
 	return [[self class] preferences];
 }
-+ (void) setPreferencesObject : (AppDefaults *) defaults
+
++ (void)setPreferencesObject:(AppDefaults *)defaults
 {
 	st_defaults = defaults;
 }
-- (NSString *) account
+
+- (NSString *)account
 {
 	return [[[self class] preferences] x2chUserAccount];
 }
-- (NSString *) password
+
+- (NSString *)password
 {
 	return [[[self class] preferences] password];
 }
-@end
 
-
-
-@implementation w2chAuthenticater(Status)
-- (NSString *) sessionID
+#pragma mark (Status)
+- (NSString *)sessionID
 {
-	if(nil == m_sessionID)
+	if (!m_sessionID) {
 		[self invalidate];
+	}
 	return m_sessionID;
 }
-/* Accessor for m_recentStatusCode */
-- (int) recentStatusCode
+
+- (int)recentStatusCode
 {
 	return m_recentStatusCode;
 }
-- (void) setRecentStatusCode : (int) aRecentStatusCode
+
+- (void)setRecentStatusCode:(int)aRecentStatusCode
 {
 	m_recentStatusCode = aRecentStatusCode;
 }
-/* Accessor for m_recentErrorType */
-- (w2chAuthenticaterErrorType) recentErrorType
+
+- (w2chAuthenticaterErrorType)recentErrorType
 {
 	return m_recentErrorType;
 }
-- (void) setRecentErrorType : (w2chAuthenticaterErrorType) aRecentErrorType
+
+- (void)setRecentErrorType:(w2chAuthenticaterErrorType)aRecentErrorType
 {
 	m_recentErrorType = aRecentErrorType;
 }
@@ -391,7 +315,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultAuthenticater);
 
 @implementation w2chAuthenticater(Private)
 /* Accessor for m_sessionID */
-- (void) setSessionID : (NSString *) aSessionID
+- (void)setSessionID:(NSString *)aSessionID
 {
 	id tmp;
 	
@@ -400,7 +324,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultAuthenticater);
 	[tmp release];
 }
 /* Accessor for m_monazillaUserAgent */
-- (NSString *) monazillaUserAgent
+/*- (NSString *) monazillaUserAgent
 {
 	if(nil == m_monazillaUserAgent)
 		[self invalidate];
@@ -413,40 +337,42 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultAuthenticater);
 	tmp = m_monazillaUserAgent;
 	m_monazillaUserAgent = [aMonazillaUserAgent retain];
 	[tmp release];
-}
+}*/
 @end
 
 
 
 @implementation w2chAuthenticater(Invalidate)
-- (BOOL) shouldLogin
+- (BOOL)shouldLogin
 {
-	if(NO == [[self preferences] shouldLoginIfNeeded])
+	if (![[self preferences] shouldLoginIfNeeded]) {
 		return NO;
-	
-	//ƒ†[ƒUID‚ª“ü—Í‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Íƒ†[ƒU‘¤‚É
-	//ƒƒOƒCƒ“‚·‚éˆÓu‚ª‚È‚¢‚à‚Ì‚Æ”»’fB
+	}
+	//ãƒ¦ãƒ¼ã‚¶IDãŒå…¥åŠ›ã•ã‚Œã¦ã„ãªã„å ´åˆã¯ãƒ¦ãƒ¼ã‚¶å´ã«
+	//ãƒ­ã‚°ã‚¤ãƒ³ã™ã‚‹æ„å¿—ãŒãªã„ã‚‚ã®ã¨åˆ¤æ–­ã€‚
 	return ([self account] && [[self account] length] > 0);
 }
-- (BOOL) updateAccountAndPasswordIfNeeded : (NSString **) newAccountPtr
-                                 password : (NSString **) newPasswordPtr
-					   shouldUsesKeychain : (BOOL	   *) savePassPtr
+
+- (BOOL)updateAccountAndPasswordIfNeeded:(NSString **)newAccountPtr
+								password:(NSString **)newPasswordPtr
+					  shouldUsesKeychain:(BOOL *)savePassPtr
 {
-	if(NO == [self shouldLogin]) return NO;
+	if (![self shouldLogin]) return NO;
 	
-	if([[self preferences] hasAccountInKeychain]){
+	if ([[self preferences] hasAccountInKeychain]) {
 		if(newAccountPtr != NULL) *newAccountPtr = [self account];
 		if(newPasswordPtr != NULL) *newPasswordPtr = [self password];
 		if(savePassPtr != NULL) *savePassPtr = NO;
 		
 		return YES;
-	}else{
-		return [self runModalForLoginWindow : newAccountPtr
-								   password : newPasswordPtr
-						 shouldUsesKeychain : savePassPtr];
+	} else {
+		return [self runModalForLoginWindow:newAccountPtr
+								   password:newPasswordPtr
+						 shouldUsesKeychain:savePassPtr];
 	}
 }
-- (NSString *) titleKeyForErrorType : (w2chAuthenticaterErrorType) type
+
+static inline NSString *titleKeyForErrorType(w2chAuthenticaterErrorType type)
 {
 	switch (type){
 	case w2chNoError:
@@ -467,7 +393,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultAuthenticater);
 	}
 	return nil;
 }
-- (NSString *) messageKeyForErrorType : (w2chAuthenticaterErrorType) type
+
+static inline NSString *messageKeyForErrorType(w2chAuthenticaterErrorType type)
 {
 	switch (type){
 	case w2chNoError:
@@ -488,63 +415,52 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultAuthenticater);
 	}
 	return nil;
 }
-- (BOOL) invalidate
+
+- (BOOL)invalidate
 {
-	NSString	*userAgent_	;
+//	NSString	*userAgent_	;
 	NSString	*account_	;
 	NSString	*pw_		;
 	NSString	*sid_		;
 	BOOL		result_		;
 	BOOL		usesKeychain_;
 	
-	[self setRecentErrorType : w2chNoError];
-	[self setMonazillaUserAgent : nil];
-	[self setSessionID : nil];
+	[self setRecentErrorType:w2chNoError];
+//	[self setMonazillaUserAgent : nil];
+	[self setSessionID:nil];
 	
-	if(NO == [self updateAccountAndPasswordIfNeeded : &account_
-										   password : &pw_
-								 shouldUsesKeychain : &usesKeychain_]){
+	if (![self updateAccountAndPasswordIfNeeded:&account_ password:&pw_ shouldUsesKeychain:&usesKeychain_]) {
 		return NO;
 	}
 	
-	UTILRequireCondition(
-		(account_ && [account_ length]),
-		error_params_invalid);
-	UTILRequireCondition(
-		(pw_ && [pw_ length]),
-		error_params_invalid);
+	UTILRequireCondition((account_ && [account_ length]), error_params_invalid);
+	UTILRequireCondition((pw_ && [pw_ length]), error_params_invalid);
 	
-	result_ = [self login : account_
-		         password : pw_
-		        userAgent : &userAgent_
-		        sessionID : &sid_];
-	if(result_){
-		[self setMonazillaUserAgent : userAgent_];
-		[self setSessionID : sid_];
+//	result_ = [self login:account_ password:pw_ userAgent:&userAgent_ sessionID:&sid_];
+	result_ = [self login:account_ password:pw_ userAgent:NULL sessionID:&sid_];
+
+	if (result_) {
+//		[self setMonazillaUserAgent : userAgent_];
+		[self setSessionID:sid_];
 		
-		if(usesKeychain_){
-			[[self preferences] changeAccount : account_
-									password : pw_
-								usesKeychain : usesKeychain_];
+		if (usesKeychain_) {
+			[[self preferences] changeAccount:account_ password:pw_ usesKeychain:usesKeychain_];
 		}
 		
-	}else{
-		NSString		*ok_ = APP_AUTHENTICATER_OK_KEY;
+	} else {
+//		NSString		*ok_ = APP_AUTHENTICATER_OK_KEY;
 		NSString		*titleKey_;
 		NSString		*msgKey_;
 		
-		titleKey_ = [self titleKeyForErrorType : [self recentErrorType]];
-		msgKey_ = [self messageKeyForErrorType : [self recentErrorType]];
+		titleKey_ = titleKeyForErrorType([self recentErrorType]);
+		msgKey_ = messageKeyForErrorType([self recentErrorType]);
 		
-		if(titleKey_ != nil && msgKey_ != nil){
+		if (titleKey_ && msgKey_){
 			NSAlert	*alert_ = [[[NSAlert alloc] init] autorelease];
 			
-			[alert_ setAlertStyle : NSWarningAlertStyle];
-			[alert_ setMessageText : PluginLocalizedStringFromTable(titleKey_, nil, nil)];
-			[alert_ setInformativeText : PluginLocalizedStringFromTable(msgKey_, nil, nil)];
-
-			[alert_ addButtonWithTitle : PluginLocalizedStringFromTable(ok_, nil, nil)];
-			
+			[alert_ setAlertStyle:NSWarningAlertStyle];
+			[alert_ setMessageText:PluginLocalizedStringFromTable(titleKey_, nil, nil)];
+			[alert_ setInformativeText:PluginLocalizedStringFromTable(msgKey_, nil, nil)];
 			[alert_ runModal];
 		}
 	}
@@ -552,8 +468,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultAuthenticater);
 	return result_;
 	
 	
-	error_params_invalid:{
-		[self setRecentErrorType : w2chLoginParamsInvalid];
+error_params_invalid: {
+		[self setRecentErrorType:w2chLoginParamsInvalid];
 		return NO;
 	}
 }
