@@ -320,7 +320,6 @@
 		F47362450AFF8758009B6189 /* CMRThreadMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 872996720832561E00CBD740 /* CMRThreadMessage.h */; };
 		F47362460AFF8758009B6189 /* CMRThreadMessage_p.h in Headers */ = {isa = PBXBuildFile; fileRef = 872996740832561E00CBD740 /* CMRThreadMessage_p.h */; };
 		F47362470AFF8758009B6189 /* CMRThreadVisibleRange.h in Headers */ = {isa = PBXBuildFile; fileRef = 8729967C0832561E00CBD740 /* CMRThreadVisibleRange.h */; };
-		F47362480AFF8758009B6189 /* CMXPopUpOwner.h in Headers */ = {isa = PBXBuildFile; fileRef = 8729971208325E2500CBD740 /* CMXPopUpOwner.h */; };
 		F47362490AFF8758009B6189 /* CMXPopUpWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8729971508325E2500CBD740 /* CMXPopUpWindowController.h */; };
 		F473624A0AFF8758009B6189 /* CMXPopUpWindowController_p.h in Headers */ = {isa = PBXBuildFile; fileRef = 8729971708325E2500CBD740 /* CMXPopUpWindowController_p.h */; };
 		F473624B0AFF8758009B6189 /* CMXPopUpWindowManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8729971808325E2500CBD740 /* CMXPopUpWindowManager.h */; };
@@ -1109,7 +1108,7 @@
 		F324DBC304C6965500A80005 /* LoginController.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = LoginController.h; sourceTree = "<group>"; };
 		F324DBC404C6965500A80005 /* LoginController.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = LoginController.m; sourceTree = "<group>"; };
 		F324DBC504C6965500A80005 /* LoginController_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = LoginController_p.h; sourceTree = "<group>"; };
-		F324DBC604C6965500A80005 /* w2chAuthenticater.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = w2chAuthenticater.h; sourceTree = "<group>"; };
+		F324DBC604C6965500A80005 /* w2chAuthenticater.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = w2chAuthenticater.h; sourceTree = "<group>"; };
 		F324DBC704C6965500A80005 /* w2chAuthenticater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = w2chAuthenticater.m; sourceTree = "<group>"; };
 		F324DBC804C6965500A80005 /* w2chAuthenticater_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = w2chAuthenticater_p.h; sourceTree = "<group>"; };
 		F324DBCB04C6965500A80005 /* SG2chConnector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SG2chConnector.h; sourceTree = "<group>"; };
@@ -1225,9 +1224,9 @@
 		F324DD6704C698FB00A80005 /* CMRThreadViewer-Download.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-Download.m"; sourceTree = "<group>"; };
 		F324DD6804C698FB00A80005 /* CMRThreadViewer-MoveAction.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-MoveAction.m"; sourceTree = "<group>"; };
 		F324DD6B04C698FB00A80005 /* CMRThreadViewer-ViewAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-ViewAccessor.m"; sourceTree = "<group>"; };
-		F324DD6C04C698FB00A80005 /* CMRThreadViewer.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadViewer.h; sourceTree = "<group>"; };
-		F324DD6D04C698FB00A80005 /* CMRThreadViewer.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRThreadViewer.m; sourceTree = "<group>"; };
-		F324DD6E04C698FB00A80005 /* CMRThreadViewer_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadViewer_p.h; sourceTree = "<group>"; };
+		F324DD6C04C698FB00A80005 /* CMRThreadViewer.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRThreadViewer.h; sourceTree = "<group>"; };
+		F324DD6D04C698FB00A80005 /* CMRThreadViewer.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMRThreadViewer.m; sourceTree = "<group>"; };
+		F324DD6E04C698FB00A80005 /* CMRThreadViewer_p.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMRThreadViewer_p.h; sourceTree = "<group>"; };
 		F324DD7A04C698FB00A80005 /* TextFinder.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = TextFinder.h; sourceTree = "<group>"; };
 		F324DD7B04C698FB00A80005 /* TextFinder.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = TextFinder.m; sourceTree = "<group>"; };
 		F324DD8704C698FB00A80005 /* missing.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = missing.h; path = ../util/missing.h; sourceTree = "<group>"; };
@@ -3122,7 +3121,6 @@
 				F47362450AFF8758009B6189 /* CMRThreadMessage.h in Headers */,
 				F47362460AFF8758009B6189 /* CMRThreadMessage_p.h in Headers */,
 				F47362470AFF8758009B6189 /* CMRThreadVisibleRange.h in Headers */,
-				F47362480AFF8758009B6189 /* CMXPopUpOwner.h in Headers */,
 				F47362490AFF8758009B6189 /* CMXPopUpWindowController.h in Headers */,
 				F473624A0AFF8758009B6189 /* CMXPopUpWindowController_p.h in Headers */,
 				F473624B0AFF8758009B6189 /* CMXPopUpWindowManager.h in Headers */,

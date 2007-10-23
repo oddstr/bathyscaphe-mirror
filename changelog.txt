@@ -1,3 +1,9 @@
+2007-10-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/popup/CMXPopUpWindowController+View.m
+	* application/source/view/popup/CMXPopUpWindowController.m
+		ポップアップウインドウをロックした際に、レイアウトがずれたり、移動できなくなる問題を修正。
+	* application/source/manager/DatabaseManager-DatabaseAccess.m
+		指定した boardID を持つ掲示板レコードを、boardInfoTable から DELETE するためのメソッドを追加した。
 2007-10-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/reply/account/w2chAuthenticater.m
 		コードを整理したほか、UserAgent は CocoMonar.framework で取得できるものを使用する方法に一本化した。

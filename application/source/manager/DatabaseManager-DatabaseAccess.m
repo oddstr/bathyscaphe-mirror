@@ -78,7 +78,7 @@ static NSLock *boardIDNumberCacheLock = nil;
 	if (!db) {
 		return nil;
 	}
-	
+
 	query = [NSMutableString stringWithFormat : @"SELECT %@ FROM %@", BoardURLColumn, BoardInfoTableName];
 	[query appendFormat : @"\n\tWHERE %@ = %u", BoardIDColumn, boardID];
 	cursor = [db performQuery : query];
@@ -256,6 +256,22 @@ static NSLock *boardIDNumberCacheLock = nil;
 	[db performQuery : query];
 	
 	return ([db lastErrorID] == 0);
+}
+
+- (BOOL)deleteBoardOfBoardID:(unsigned)boardID
+{
+	SQLiteDB	*database;
+	NSString	*query;
+
+	database = [self databaseForCurrentThread];
+	if (!database) {
+		return NO;
+	}
+
+	query = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ = %u", BoardInfoTableName, BoardIDColumn, boardID];
+	[database performQuery:query];
+
+	return ([database lastErrorID] == 0);
 }
 
 /*

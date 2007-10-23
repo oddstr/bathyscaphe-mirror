@@ -52,6 +52,7 @@ extern NSString *const CMRThreadViewerRunSpamFilterNotification;
 #define kNotFoundCancelLabelKey			@"Do Not Reload Button Label"
 
 
+
 @interface CMRThreadViewer(NotificationPrivate)
 - (void) cleanUpItemsToBeRemoved : (NSArray *) files;
 - (void) threadAttributesDidChangeAttributes : (NSNotification *) notification;

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMXPopUpOwner.h,v 1.1 2005/05/11 17:51:09 tsawada2 Exp $
+  * $Id: CMXPopUpOwner.h,v 1.2 2007/10/23 14:22:52 tsawada2 Exp $
   * 
   * CMXPopUpOwner.h
   *
@@ -11,6 +11,7 @@
 
 
 @protocol CMXPopUpOwner
-- (NSWindow *) window;
++ (NSMenu *)loadContextualMenuForTextView;
+- (NSWindow *)window;
 @end
 

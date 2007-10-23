@@ -1,15 +1,18 @@
-//: CMXPopUpWindowController.m
-/**
-  * $Id: CMXPopUpWindowController.m,v 1.10 2007/09/16 18:36:22 tsawada2 Exp $
-  * 
-  * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  CMXPopUpWindowController.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/10/23.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
 
 #import "CMXPopUpWindowController_p.h"
-#import "CMRPopUpTemplateKeys.h"
-#import "CMXPopUpWindowManager.h"
 #import <CoreServices/CoreServices.h>
+
+@interface NSObject(CMXPopUpWindowOwner)
++ (NSMenu *)loadContextualMenuForTextView;
+@end
 
 @implementation CMXPopUpWindowController
 - (void)removeFromNotificationCenter
@@ -38,11 +41,30 @@
 	id		tmp;
 	
 	tmp = SGTemplateResource(kPopUpTrackingInsetKey);
-	if(!tmp) {
+	if (!tmp || ![tmp respondsToSelector:@selector(floatValue)]) {
 		return 5.0f;
 	}
-	UTILAssertRespondsTo(tmp, @selector(floatValue));
+
 	return [tmp floatValue];
+}
+
++ (float)popUpMaxWidthRate
+{
+	id			tmp;
+	float		maxWidthRate_;
+
+	tmp = SGTemplateResource(kPopUpMaxWidthRateKey);
+	if (!tmp || ![tmp respondsToSelector:@selector(floatValue)]) {
+		return 0.5f;
+	} else {
+		maxWidthRate_ = [tmp floatValue];
+	}
+	
+	if (maxWidthRate_ >= 1 || maxWidthRate_ <= 0) {
+		maxWidthRate_ = 0.5f;
+	}
+	
+	return maxWidthRate_;
 }
 
 - (void)changeContextColorIfNeeded
@@ -63,16 +85,24 @@
 	}
 }
 
+- (void)changeContextColorForLockedPopUp
+{
+	NSTextStorage *storage_ = [self textStorage];
+	NSRange contentRng_ = [storage_ range];
+
+	[storage_ removeAttribute:NSForegroundColorAttributeName range:contentRng_];
+	[storage_ addAttribute:NSForegroundColorAttributeName value:[NSColor textColor] range:contentRng_];
+}
+
 - (void)setContext:(NSAttributedString *)context
 {
 	if(!context || ![self textStorage]) return;
 	
 	[[self textStorage] setAttributedString:context];
 	[self changeContextColorIfNeeded];
-	[self sizeToFit];
 }
 
-- (void)showPopUpWindowWithContext:(NSAttributedString *)context owner:(id<CMXPopUpOwner>)owner locationHint:(NSPoint)point
+- (void)showPopUpWindowWithContext:(NSAttributedString *)context owner:(id)owner locationHint:(NSPoint)point
 {
 	NSRect		wframe_;
 
@@ -81,8 +111,9 @@
 	[self updateLinkTextAttributes];
 	[self updateAntiAlias];
 	
-	[self setContext:context];
 	[self setOwner:owner];
+	[self setContext:context];
+	[self sizeToFit];
 
 	wframe_ = [[self window] frame];
 	wframe_.origin = point;
@@ -136,7 +167,7 @@
 	return [[self owner] window];
 }
 
-- (id<CMXPopUpOwner>)owner
+- (id)owner
 {
 	id		owner_;
 	
@@ -147,9 +178,10 @@
 	return owner_;
 }
 
-- (void)setOwner:(id<CMXPopUpOwner>)anOwner
+- (void)setOwner:(id)anOwner
 {
 	[[self textView] setDelegate:anOwner];
+
 	if ([[anOwner class] respondsToSelector:@selector(loadContextualMenuForTextView)]) {
 		[[self textView] setMenu:[[anOwner class] loadContextualMenuForTextView]];
 	}
@@ -237,58 +269,49 @@
 {
 	[super showWindow:sender];
 	[[self window] makeFirstResponder:[self textView]];
+
+	// NOTE: -[NSWindow invalidateCursorRectsForView:] では効果が十分ではない
 	[[self textView] resetCursorRects];
 }
 
 #pragma mark Popup Locking
 - (void)restoreLockedPopUp
 {
+	NSSize scrollViewSize;
 	NSRect frame_ = [[self window] frame];
-	NSPoint point;
-	point = NSMakePoint(NSMidX(frame_), NSMidY(frame_));
-//	NSLog(@"A - %@",NSStringFromRect(frame_));
+	NSPoint poofLocation;
+
+	scrollViewSize = [[self scrollView] frame].size;
+	scrollViewSize.height += TITLEBAR_HEIGHT;
+	poofLocation = NSMakePoint(NSMidX(frame_), NSMidY(frame_));
+
 	[[self window] setMovableByWindowBackground:NO];
 	[[self titlebar] setHidden:YES];
+	[[self scrollView] setFrameSize:scrollViewSize];
 
 	[self updateBGColor];
-	frame_.size.height -= TITLEBAR_HEIGHT;
-	frame_.origin.y += TITLEBAR_HEIGHT;
-//	NSLog(@"b - %@",NSStringFromRect(frame_));
-	[[self window] setFrame:frame_ display:YES animate:NO];
 
-	NSRect foo = [[self scrollView] frame];
-	foo.origin.y = 0;
-	[[self scrollView] setFrame:foo];
-
-//	NSLog(@"c - %@",NSStringFromRect([[self scrollView] frame]));
 	[self close];
-	NSShowAnimationEffect(NSAnimationEffectDisappearingItemDefault, point, NSMakeSize(128,128), nil, NULL, nil);
+	NSShowAnimationEffect(NSAnimationEffectDisappearingItemDefault, poofLocation, NSMakeSize(128,128), nil, NULL, nil);
 }
 
 - (void)setupLockedPopUp
 {
-	NSTextStorage *storage_ = [self textStorage];
-	NSRange contentRng_ = [storage_ range];
-
-	NSRect frame_ = [[self window] frame];
+	NSSize scrollViewSize;
 
 	SystemSoundPlay(0);
 
-	frame_.size.height += TITLEBAR_HEIGHT;
-	frame_.origin.y -= TITLEBAR_HEIGHT;
-	NSPoint foo = [[self scrollView] frame].origin;
-	foo.y -= TITLEBAR_HEIGHT;
+	scrollViewSize = [[self scrollView] frame].size;
+	scrollViewSize.height -= TITLEBAR_HEIGHT;
 
-	[[self window] setBackgroundColor : [NSColor windowBackgroundColor]];
+	[[self window] setBackgroundColor:[NSColor windowBackgroundColor]];
+	[self changeContextColorForLockedPopUp];
 
-	[storage_ removeAttribute:NSForegroundColorAttributeName range:contentRng_];
-	[storage_ addAttribute:NSForegroundColorAttributeName value:[NSColor textColor] range:contentRng_];
-
-	[[self scrollView] setFrameOrigin:foo];
-	[[self window] setFrame:frame_ display:YES animate:YES];
+	[[self scrollView] setFrameSize:scrollViewSize];
 	[[self titlebar] setHidden:NO];
-
 	[[self window] setMovableByWindowBackground:YES];
+	
+	[[self scrollView] setNeedsDisplay:YES];
 }
 
 - (void)togglePopupLock

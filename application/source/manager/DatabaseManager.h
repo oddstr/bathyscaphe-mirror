@@ -38,19 +38,24 @@
 // - (void)setValue:(id)value forKey:(NSString *)key boardID:(unsigned)boardID threadID:(NSString *)threadID;
 
 - (BOOL) registerBoardName : (NSString *) name URLString : (NSString *) urlString;
-- (BOOL) registerBoardNamesAndURLs : (NSArray *) array;
+
+// Currently not available.
+//- (BOOL) registerBoardNamesAndURLs : (NSArray *) array;
+
+// Added by tsawada2.
+- (BOOL)deleteBoardOfBoardID:(unsigned)boardID;
 
 - (BOOL) moveBoardID : (unsigned) boardID
 	     toURLString : (NSString *) urlString;
 - (BOOL) renameBoardID : (unsigned) boardID
 			    toName : (NSString *) name;
 
-
-- (BOOL) registerThreadName : (NSString *) name 
+// Currently not available.
+/*- (BOOL) registerThreadName : (NSString *) name 
 		   threadIdentifier : (NSString *) identifier
 			    intoBoardID : (unsigned) boardID;
 - (BOOL) registerThreadNamesAndThreadIdentifiers : (NSArray *) array
-								     intoBoardID : (unsigned) boardID;
+								     intoBoardID : (unsigned) boardID;*/
 
 - (BOOL) isFavoriteThreadIdentifier : (NSString *) identifier
 						  onBoardID : (unsigned) boardID;

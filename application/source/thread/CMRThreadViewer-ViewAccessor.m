@@ -112,19 +112,6 @@ static void *kThreadViewThemeBgColorContext = @"BabyRose";
 
 @implementation CMRThreadViewer(ViewInitializer)
 #pragma mark Contextual Menu Stuff
-/*+ (NSMenu *)clearkeyEquivalentInMenu:(NSMenu *)aMenu
-{
-	NSEnumerator	*iter_;
-	NSMenuItem		*item_;
-
-	iter_ = [[aMenu itemArray] objectEnumerator];
-	while (item_ = [iter_ nextObject]) {
-		[item_ setKeyEquivalent:@""];
-		[self clearkeyEquivalentInMenu:[item_ submenu]];
-	}
-	return aMenu;
-}*/
-
 + (NSMenu *)loadContextualMenuForTextView
 {
 	NSMenu	*menu_;
@@ -147,42 +134,7 @@ static void *kThreadViewThemeBgColorContext = @"BabyRose";
 	
 	return menu_;
 }
-/*
-{
-	NSMenu			*menu_;
-	NSMenu			*threadMenu_;
-	NSMenu			*textViewMenu_;
-	NSEnumerator	*iter_;
-	NSMenuItem		*item_;
-	
-	threadMenu_ = [[[CMRMainMenuManager defaultManager] threadMenuItem] submenu];
-	textViewMenu_ = [HTMLVIEW_CLASS defaultMenu];
-	UTILAssertNotNil(threadMenu_);
-	
-	//add "THREAD" menu to end of TextView's menu
-	menu_ = [[NSMenu alloc] initWithTitle:@""];
 
-//	iter_ = [[textViewMenu_ itemArray] objectEnumerator];
-//	while (item_ = [iter_ nextObject]) {
-//		item_ = [item_ copy];
-		item_ = [[[textViewMenu_ itemArray] lastObject] copy]; // とりあえずゴー
-		[menu_ addItem:item_];
-		[item_ release];
-//	}
-
-	[menu_ addItem:[NSMenuItem separatorItem]];
-
-	iter_ = [[threadMenu_ itemArray] objectEnumerator];
-	while (item_ = [iter_ nextObject]) {
-		item_ = [item_ copy];
-		[menu_ addItem:item_];
-		[item_ release];
-	}
-	
-	[self clearkeyEquivalentInMenu:menu_];
-	return [menu_ autorelease];
-}
-*/
 #pragma mark Override super implementation
 + (Class)toolbarDelegateImpClass
 {

@@ -1,15 +1,14 @@
-//: CMXPopUpWindowController+View.m
-/**
-  * $Id: CMXPopUpWindowController+View.m,v 1.11 2007/08/01 12:29:06 tsawada2 Exp $
-  * 
-  * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  CMXPopUpWindowController+View.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/10/23.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
 
 #import "CMXPopUpWindowController_p.h"
 
-#import "CMRPopUpTemplateKeys.h"
-#import "CMXPopUpWindowManager.h"
 #import "SGContextHelpPanel.h"
 #import "CMRMessageAttributesTemplate.h"
 
@@ -85,12 +84,9 @@
 	tmp = SGTemplateResource(kPopUpBorderTypeKey);
 	UTILAssertKindOfClass(tmp, NSNumber);
 	[scrollview_ setBorderType:[tmp intValue]];
-
 	[scrollview_ setHasVerticalScroller:YES];
 	[scrollview_ setHasHorizontalScroller:NO];
 	[scrollview_ setAutohidesScrollers:YES];
-	
-	[scrollview_ setAutoresizingMask:(NSViewWidthSizable|NSViewHeightSizable)];
 	[scrollview_ setAutoresizesSubviews:YES];
 	
 	[contentView_ addSubview:scrollview_];
@@ -176,6 +172,12 @@
 
 
 @implementation CMXPopUpWindowController(Resizing)
+- (NSScreen *)screenForPopupOwnerWindow
+{
+	NSScreen *screen = [[self ownerWindow] screen];
+	return screen ? screen : [NSScreen mainScreen];
+}
+		
 - (NSRect)constrainWindowFrame:(NSRect)windowFrame
 {
 	NSPoint		wTopLeft_;
@@ -185,7 +187,7 @@
 	
 	newFrame_ = windowFrame;
 	
-	visibleScreen_ = [[NSScreen mainScreen] visibleFrame];
+	visibleScreen_ = [[self screenForPopupOwnerWindow] visibleFrame];
 	scTopLeft_ = visibleScreen_.origin;
 	scTopLeft_.y = NSMaxY(visibleScreen_);
 	
@@ -222,21 +224,12 @@
 {
 	NSSize		maxSize_;
 	NSRect		visibleScreen_;
-	id			tmp;
-	double		maxWidthRate_;
+	float		maxWidthRate_;
 	
-	visibleScreen_ = [[NSScreen mainScreen] visibleFrame];
+	visibleScreen_ = [[self screenForPopupOwnerWindow] visibleFrame];
 	maxSize_ = visibleScreen_.size;
-	
-	tmp = SGTemplateResource(kPopUpMaxWidthRateKey);
-	if (!tmp || ![tmp respondsToSelector:@selector(doubleValue)])
-		maxWidthRate_ = 0.5;
-	else
-		maxWidthRate_ = [tmp doubleValue];
-	
-	if (maxWidthRate_ >= 1 || maxWidthRate_ <= 0)
-		maxWidthRate_ = 0.5;
-	
+	maxWidthRate_ = [[self class] popUpMaxWidthRate];
+
 	maxSize_.width *= maxWidthRate_;
 	
 	return maxSize_;
@@ -253,7 +246,6 @@
 	unsigned	index_   = 0;
 	NSRect		bodyRect_ = NSZeroRect;
 	NSRect		usedRect_ = NSZeroRect;
-
 
 	newSize_ = [[self textView] frame].size;
 	newSize_.width = [self maxSize].width;
@@ -309,6 +301,8 @@
 	
 	NSSize		textViewSize_;
 	NSSize		scrollViewSize_;
+	NSSize		windowContentSize_;
+
 	NSSize		maxSize_ = [self maxSize];
 	NSRect		fixRect_;
 	NSSize		textInset_  = [textView_ textContainerInset];
@@ -319,16 +313,24 @@
 	
 	textViewSize_ = fixRect_.size;
 	scrollViewSize_ = [scrollView_ frameSizeForContentSize:textViewSize_];
-	if (scrollViewSize_.width > maxSize_.width) 
+
+	if (scrollViewSize_.width > maxSize_.width) {
 		scrollViewSize_.width = maxSize_.width;
-	if (scrollViewSize_.height > maxSize_.height) 
+	}
+
+	if (scrollViewSize_.height > maxSize_.height) {
 		scrollViewSize_.height = maxSize_.height;
-	
-	[[self window] setContentSize:scrollViewSize_];
+	}
+
+	windowContentSize_ = scrollViewSize_;
+
+	[scrollView_ setFrameSize:scrollViewSize_];
+	[scrollView_ setFrameOrigin:NSMakePoint(0,0)];
+	[[self window] setContentSize:windowContentSize_];
 	
 	// ScrollViewにtextViewを合わせて、再度レイアウト
 	textViewSize_.width = [scrollView_ contentSize].width;
-	[textView_ setFrameSize : textViewSize_];
+	[textView_ setFrameSize:textViewSize_];
 	
 	// Scroller
 	[self updateScrollerSize];
