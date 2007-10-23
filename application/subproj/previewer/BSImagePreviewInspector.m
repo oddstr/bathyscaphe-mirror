@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.22 2007/08/07 14:07:44 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.23 2007/10/23 17:57:57 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -233,6 +233,29 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 		[[self tripleGreenCubes] setSelectionIndex: [[self historyItems] count] -1];
 	} else {
 		[[self tripleGreenCubes] setSelectionIndex: index];
+	}
+	return YES;
+}
+
+- (BOOL)showImagesWithURLs:(NSArray *)urls
+{
+	[self showWindow:self];
+	NSEnumerator	*iter = [urls objectEnumerator];
+	NSURL			*url;
+	unsigned		index;
+
+	[self willChangeValueForKey:@"historyItems"];
+	while (url = [iter nextObject]) {
+		index = [[BSIPIHistoryManager sharedManager] cachedTokenIndexForURL:url];
+		if (index == NSNotFound) {
+			[[BSIPIHistoryManager sharedManager] addTokenForURL:url];
+		}
+	}
+	[self didChangeValueForKey:@"historyItems"];
+	if (index != NSNotFound) {
+		[[self tripleGreenCubes] setSelectionIndex:index];
+	} else {
+		[[self tripleGreenCubes] setSelectionIndex:[[self historyItems] count]-1];
 	}
 	return YES;
 }

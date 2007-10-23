@@ -26,6 +26,7 @@
 - (IBAction)googleSearch:(id)sender;
 - (IBAction)openWithWikipedia:(id)sender;
 - (IBAction)messageGyakuSansyouPopUp:(id)sender;
+- (IBAction)openLinksInSelection:(id)sender;
 @end
 
 // Constants

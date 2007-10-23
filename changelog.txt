@@ -1,3 +1,18 @@
+2007-10-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/CMRThreadView.m
+	* application/source/view/SGHTMLView.m
+	* application/Resources/Japanese.lproj/HTMLView.strings
+		選択テキストのコンテクストメニューに「n 個のリンクを Web ブラウザで開く」「n 個のリンクをプレビュー」を追加した。
+		選択テキストの中に含まれるリンクを抽出し、Web ブラウザまたはプレビュープラグインにまとめて渡す。
+		- 選択テキスト中に適切なリンクが含まれないときは、これらのメニュー項目は (両方、あるいは片方)表示されない。
+		- プレビュープラグインが -(BOOL)showImageWithURLs:(NSArray)urls; を pricipal class に実装していないと
+		　「n 個のリンクをプレビュー」は使用できない(淡色表示になる)。
+		- 複数のリンクを一度に受け取った後の、Web ブラウザ or プレビュープラグインの挙動については、当然、彼らの実装に依存する。
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/BSImagePreviewerInterface.h
+	* application/subproj/previewer/BSIPIFullScreenWindow.h
+		プレビューインスペクタ (2.6.2 -> 2.6.3)：
+		複数の URL を一度にプレビューインスペクタに渡せるようになった。
 2007-10-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/view/popup/CMXPopUpWindowController+View.m
 	* application/source/view/popup/CMXPopUpWindowController.m

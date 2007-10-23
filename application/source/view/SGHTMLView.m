@@ -351,6 +351,72 @@ default_menu:
 	return [tmp validateLink : url_];
 }
 
+- (NSArray *)linksArrayForRange:(NSRange)range_
+{
+	NSTextStorage	*storage_ = [self textStorage];	
+
+	if (NSNotFound == range_.location || NSMaxRange(range_) > [storage_ length]) {
+		return nil;
+	}
+
+	NSMutableArray *array = [[NSMutableArray alloc] init];
+	unsigned		charIndex_;
+	id				v;
+	NSRange			effectiveRange_;
+
+	charIndex_ = range_.location;
+	while (charIndex_ < NSMaxRange(range_)) {
+		v = [storage_ attribute:NSLinkAttributeName
+						atIndex:charIndex_
+		  longestEffectiveRange:&effectiveRange_
+						inRange:range_];
+		if (v && [self validateLinkByFiltering:v]) {
+			[array addObject:[NSURL URLWithLink:v]];
+		}
+		charIndex_ = NSMaxRange(effectiveRange_);
+	}
+
+	if ([array count] == 0) {
+		[array release];
+		return nil;
+	} else {
+		return [array autorelease];
+	}
+}
+
+- (NSArray *)previewlinksArrayForRange:(NSRange)range_
+{
+	NSTextStorage	*storage_ = [self textStorage];	
+
+	if (NSNotFound == range_.location || NSMaxRange(range_) > [storage_ length]) {
+		return nil;
+	}
+
+	NSMutableArray *array = [[NSMutableArray alloc] init];
+	unsigned		charIndex_;
+	id				v;
+	NSRange			effectiveRange_;
+
+	charIndex_ = range_.location;
+	while (charIndex_ < NSMaxRange(range_)) {
+		v = [storage_ attribute:NSLinkAttributeName
+						atIndex:charIndex_
+		  longestEffectiveRange:&effectiveRange_
+						inRange:range_];
+		if (v && [self validateLinkForImage:v]) {
+			[array addObject:[NSURL URLWithLink:v]];
+		}
+		charIndex_ = NSMaxRange(effectiveRange_);
+	}
+
+	if ([array count] == 0) {
+		[array release];
+		return nil;
+	} else {
+		return [array autorelease];
+	}
+}
+
 #pragma mark Command-Dragging Support
 - (void)pushCloseHandCursorIfNeeded
 {

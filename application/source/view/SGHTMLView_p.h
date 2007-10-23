@@ -45,6 +45,9 @@
 - (BOOL) validateLinkByFiltering : (id) aLink;
 - (BOOL) validateLinkForImage : (id) aLink; // added in Lemonade and later.
 
+- (NSArray *)linksArrayForRange:(NSRange)range_; // available in Twincam Angel and later.
+- (NSArray *)previewlinksArrayForRange:(NSRange)range_;
+
 - (void) pushCloseHandCursorIfNeeded;
 - (void) commandMouseDragged : (NSEvent *) theEvent;
 - (void) commandMouseUp : (NSEvent *) theEvent;

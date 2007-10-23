@@ -325,6 +325,30 @@ static inline void setupMenuItemsRepresentedObject(NSMenu *aMenu, id anObject)
 	return ([substring rangeOfString:@"\n" options:NSLiteralSearch].length != 0);
 }
 
+- (NSMenuItem *)openLinksMenuItemForRange:(NSRange)range
+{
+	NSArray *array = [self linksArrayForRange:range];
+	if (!array) {
+		return nil;
+	} else {
+		NSString *foo = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Open %u Links", @"HTMLView", @""), [array count]];
+		NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:foo action:@selector(openLinksInSelection:) keyEquivalent:@""];
+		return [newItem autorelease];
+	}
+}
+
+- (NSMenuItem *)previewLinksMenuItemForRange:(NSRange)range
+{
+	NSArray *array = [self previewlinksArrayForRange:range];
+	if (!array) {
+		return nil;
+	} else {
+		NSString *foo = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Preview %u Links", @"HTMLView", @""), [array count]];
+		NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:foo action:@selector(previewLinksInSelection:) keyEquivalent:@""];
+		return [newItem autorelease];
+	}
+}
+
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent
 {
 	NSPoint		mouseLocation_;
@@ -347,15 +371,29 @@ NS_ENDHANDLER
 
 	// マウスポインタが選択されたテキストの、その選択領域に入っているなら、選択テキスト用の（簡潔な）コンテキストメニューを返す。
 	if (NSLocationInRange(m_lastCharIndex, selectedTextRange)) {
-		NSIndexSet *selectedIndexes = [self selectedMessageIndexes];
+		NSIndexSet	*selectedIndexes = [self selectedMessageIndexes];
+		NSMenu		*returningMenu;
+		NSMenuItem	*openLinksItem;
+		NSMenuItem	*foo;
 		UTILAssertNotNil(selectedIndexes);
 
 		if ([selectedIndexes count] == 1) {
 			if ([self containsMultipleLinesInRange:selectedTextRange]) {
-				return [[self class] multipleLineSelectionWithinSingleMessageMenu];
+//				return [[self class] multipleLineSelectionWithinSingleMessageMenu];
+				returningMenu = [[self class] multipleLineSelectionWithinSingleMessageMenu];
 			} else {
-				return [[self class] defaultMenu];
+//				return [[self class] defaultMenu];
+				returningMenu = [[self class] defaultMenu];
 			}
+			if (openLinksItem = [self openLinksMenuItemForRange:selectedTextRange]) {
+				returningMenu = [[returningMenu copy] autorelease];
+				[returningMenu addItem:[NSMenuItem separatorItem]];
+				[returningMenu addItem:openLinksItem];
+				if (foo = [self previewLinksMenuItemForRange:selectedTextRange]) {
+					[returningMenu addItem:foo];
+				}
+			}
+			return returningMenu;
 		} else {
 			NSMenu *menu = [[self messageMenuWithMessageIndexes:selectedIndexes] copy];
 			NSMenuItem *item = [[[self class] genericCopyItem] copy];
@@ -363,6 +401,13 @@ NS_ENDHANDLER
 			[menu removeItemAtIndex:0];
 			[menu insertItem:item atIndex:0];
 			[item release];
+			if (openLinksItem = [self openLinksMenuItemForRange:selectedTextRange]) {
+				[menu addItem:[NSMenuItem separatorItem]];
+				[menu addItem:openLinksItem];
+				if (foo = [self previewLinksMenuItemForRange:selectedTextRange]) {
+					[menu addItem:foo];
+				}
+			}
 			return [menu autorelease];
 		}
 	}
@@ -525,6 +570,23 @@ NS_ENDHANDLER
 
 
 @implementation CMRThreadView(Action)
+- (IBAction)openLinksInSelection:(id)sender
+{
+	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
+	NSString	*identifier = [ws bundleIdentifierForDefaultWebBrowser];
+	NSWorkspaceLaunchOptions	options = NSWorkspaceLaunchDefault;
+	if ([CMRPref openInBg]) options |= NSWorkspaceLaunchWithoutActivation;
+
+	NSArray *URLs = [self linksArrayForRange:[self selectedRange]];
+	[ws openURLs:URLs withAppBundleIdentifier:identifier options:options additionalEventParamDescriptor:nil launchIdentifiers:nil];
+}
+
+- (IBAction)previewLinksInSelection:(id)sender
+{
+	NSArray *URLs = [self previewlinksArrayForRange:[self selectedRange]];
+	[[CMRPref sharedImagePreviewer] showImagesWithURLs:URLs];
+}
+
 /* レスのコピー */
 - (IBAction)messageCopy:(id)sender
 {
@@ -745,6 +807,11 @@ NS_ENDHANDLER
 		
 		return [self setUpMessageActionMenuItem:theItem forIndexes:indexSet withAttributeName:mActionGetKeysForTag[tag]];
 	}
+	
+	if (action_ == @selector(previewLinksInSelection:)) {
+		return [[CMRPref sharedImagePreviewer] respondsToSelector:@selector(showImagesWithURLs:)];
+	}
+
 	return [super validateMenuItem:theItem];
 }
 @end
