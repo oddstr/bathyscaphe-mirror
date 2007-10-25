@@ -1,1 +1,43 @@
-//:AppDefaults_p.h#import "AppDefaults.h"#import <AppKit/NSApplication.h>#import <AppKit/NSPanel.h>#import <AppKit/NSDrawer.h>#import <AppKit/NSColor.h>#import <AppKit/NSFont.h>#import <SGAppKit/SGAppKit.h>#import "CMRPreferencesDefautValues.h"@class CMRMessageAttributesTemplate;@interface AppDefaults(AccountPrivate)- (BOOL) checkAvailableKeychain;@end#define AppDefaultsOldFontsAndColorsConvertedKey	@"Old FontsAndColors Setting Converted"#define AppDefaultsBackgroundsKey					@"Preferences - BackgroundColors"@interface AppDefaults(FontColorPrivate)- (NSMutableDictionary *) appearances;- (NSFont *) appearanceFontForKey : (NSString *) key;- (NSFont *) appearanceFontCleaningForKey : (NSString *) key					  defaultSize : (float     ) fontSize;- (void) setAppearanceFont : (NSFont   *) aFont					forKey : (NSString *) key;- (NSColor *) appearanceColorForKey : (NSString *) key;- (NSColor *) textAppearanceColorCleaningForKey : (NSString *) key;- (void) setAppearanceColor : (NSColor  *) color					 forKey : (NSString *) key;// return default aFont if nil.- (NSFont *) appearanceFontForKey : (NSString *) key					  defaultSize : (float     ) fontSize;- (NSColor *) textAppearanceColorForKey : (NSString *) key;@end@interface AppDefaults(ConvertOldSettingsToThemeFile)- (void) convertOldFCToThemeFile;@end#define APPDEFAULTS_KEYCHAIN_STRINGS_TABLE			@"AlertPanel"#define APPDEFAULTS_KEYCHAIN_TITLE					@"Keychain ERROR"#define APPDEFAULTS_KEYCHAIN_NOT_AVAILABLE			@"Not Available"#define APPDEFAULTS_KEYCHAIN_DELETE					@"Delete Keychain"#define APPDEFAULTS_KEYCHAIN_ERRPR_DELETE			@"ERRPR Delete"#define APPDEFAULTS_KEYCHAIN_ERRPR_CHANGE			@"ERRPR Change"#define APPDEFAULTS_KEYCHAIN_PARAM_KEY				@"Parameters"#define APPDEFAULTS_KEYCHAIN_TITLE_ERR_CREATE		@"ERRPR Create Title"#define APPDEFAULTS_KEYCHAIN_MSG_ERR_PARAM_CREATE	@"Param ERRPR Create Message"#define APPDEFAULTS_KEYCHAIN_MSG_ERRKCDUPLICATEITEM	@"DuplicateItem ERRPR Create Message"#define APP_X2CH_AUTHENTICATION_REQUEST_KEY	@"System - 2channel Auth URL"@interface AppDefaults(AccountAlert)- (BOOL) checkKeychainParamWithAccount : (NSString *) account							  password : (NSString *) password;- (int) runKeychainAlertPanelWithTitle : (NSString *) title							   message : (NSString *) message							   account : (NSString *) account							  password : (NSString *) password;							  - (int) runKeychainAlertPanelWithKey : (NSString *) key					   allowedCancel : (BOOL      ) allowedCancel;@end
+//:AppDefaults_p.h
+#import "AppDefaults.h"
+
+//#import <AppKit/NSApplication.h>
+//#import <AppKit/NSPanel.h>
+//#import <AppKit/NSDrawer.h>
+//#import <AppKit/NSColor.h>
+//#import <AppKit/NSFont.h>
+#import <SGAppKit/SGAppKit.h>
+#import "CMRPreferencesDefautValues.h"
+
+
+@class CMRMessageAttributesTemplate;
+
+@interface AppDefaults(AccountPrivate)
+- (BOOL) checkAvailableKeychain;
+@end
+
+#define AppDefaultsOldFontsAndColorsConvertedKey	@"Old FontsAndColors Setting Converted"
+#define AppDefaultsBackgroundsKey					@"Preferences - BackgroundColors"
+
+@interface AppDefaults(FontColorPrivate)
+- (NSMutableDictionary *) appearances;
+
+- (NSFont *) appearanceFontForKey : (NSString *) key;
+- (NSFont *) appearanceFontCleaningForKey : (NSString *) key
+					  defaultSize : (float     ) fontSize;
+- (void) setAppearanceFont : (NSFont   *) aFont
+					forKey : (NSString *) key;
+- (NSColor *) appearanceColorForKey : (NSString *) key;
+- (NSColor *) textAppearanceColorCleaningForKey : (NSString *) key;
+- (void) setAppearanceColor : (NSColor  *) color
+					 forKey : (NSString *) key;
+
+// return default aFont if nil.
+- (NSFont *) appearanceFontForKey : (NSString *) key
+					  defaultSize : (float     ) fontSize;
+- (NSColor *) textAppearanceColorForKey : (NSString *) key;
+@end
+
+@interface AppDefaults(ConvertOldSettingsToThemeFile)
+- (void) convertOldFCToThemeFile;
+@end

@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.51 2007/10/15 16:25:44 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.52 2007/10/25 17:06:13 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -371,7 +371,6 @@ typedef enum _BSAutoSyncIntervalType {
 
 - (BOOL) availableBe2chAccount;
 
-- (NSString *) applicationUserAgent;
 - (NSString *) x2chUserAccount;
 - (void) setX2chUserAccount : (NSString *) account;
 - (NSString *) be2chAccountMailAddress;
@@ -380,11 +379,7 @@ typedef enum _BSAutoSyncIntervalType {
 - (void) setBe2chAccountCode : (NSString *) code;
 - (NSString *) password;
 - (void) loadAccountSettings;
-@end
 
-
-
-@interface AppDefaults(ChangeAccount)
 - (BOOL) changeAccount : (NSString *) newAccount
 			  password : (NSString *) newPassword
 		  usesKeychain : (BOOL      ) usesKeychain;

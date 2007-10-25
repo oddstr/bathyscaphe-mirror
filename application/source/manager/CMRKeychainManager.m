@@ -1,5 +1,5 @@
 /*
- * $Id: CMRKeychainManager.m,v 1.7 2006/02/28 05:40:06 tsawada2 Exp $
+ * $Id: CMRKeychainManager.m,v 1.8 2007/10/25 17:06:13 tsawada2 Exp $
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
  *
@@ -15,51 +15,51 @@
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 #pragma mark Accessors
-- (BOOL) shouldCheckHasAccountInKeychain
+- (BOOL)shouldCheckHasAccountInKeychain
 {
 	return m_shouldCheckHasAccountInKeychain;
 }
-- (void) setShouldCheckHasAccountInKeychain : (BOOL) flag
+- (void)setShouldCheckHasAccountInKeychain:(BOOL)flag
 {
 	m_shouldCheckHasAccountInKeychain = flag;
 }
 
-- (NSURL *) x2chAuthenticationRequestURL
+- (NSURL *)x2chAuthenticationRequestURL
 {
 	return [CMRPref x2chAuthenticationRequestURL];
 }
-- (NSString *) x2chUserAccount
+
+- (NSString *)x2chUserAccount
 {
 	return [CMRPref x2chUserAccount];
 }
 
 #pragma mark Public Methods
-
-- (id) init
+- (id)init
 {
 	if (self = [super init]) {
-		[self setShouldCheckHasAccountInKeychain : YES];
-		[[NSNotificationCenter defaultCenter] addObserver : self
-												 selector : @selector(applicationDidBecomeActive:)
-													 name : NSApplicationDidBecomeActiveNotification
-												   object : NSApp];
+		[self setShouldCheckHasAccountInKeychain:YES];
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(applicationDidBecomeActive:)
+													 name:NSApplicationDidBecomeActiveNotification
+												   object:NSApp];
 	}
 	return self;
 }
 
-- (BOOL) isAvailableKeychain
+- (void)dealloc
 {
-	UInt32	dummy_;
-	return (noErr == SecKeychainGetVersion(&dummy_));
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[super dealloc];
 }
 
-- (void) checkHasAccountInKeychainIfNeeded
+- (void)checkHasAccountInKeychainIfNeeded
 {
-	if([self shouldCheckHasAccountInKeychain]) {
+	if ([self shouldCheckHasAccountInKeychain]) {
 		BOOL		result_ = NO;
 		NSString	*account_ = [self x2chUserAccount];
 
-		if(account_ != nil) {
+		if (account_) {
 			OSStatus err;
 			SecKeychainItemRef item = nil;
 
@@ -89,23 +89,20 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 												  &item);
 
 			if ((err == noErr) && item) {
-//				NSLog(@"KeyChain Account successfully found");
 				result_ = YES;
-//			} else {
-//				NSLog(@"Some Error Occured - checkHasAccountInKeychainIfNeeded");
 			}
 		}
 
-		[CMRPref setHasAccountInKeychain : result_];
-		[self setShouldCheckHasAccountInKeychain : NO];
+		[CMRPref setHasAccountInKeychain:result_];
+		[self setShouldCheckHasAccountInKeychain:NO];
 	}
 }
 
-- (void) deleteAccountCompletely
+- (BOOL)deleteAccountCompletely
 {
 	NSString		*account_ = [self x2chUserAccount];
 
-	if(account_ == nil) return;
+	if (!account_) return YES;
 
 	OSStatus err;
 	SecKeychainItemRef item = nil;
@@ -135,23 +132,23 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 										  &item);
 
 	if ((noErr == err) && item) {
-//		NSLog(@"KeyChain Account Found and will remove...");
 		err = SecKeychainItemDelete(item);
-		if(err == noErr)
+		if (err == noErr) {
 			CFRelease(item);
-//		else
-//			NSLog(@"Some Error Occured while deleting keychain item.");
-//	} else {
-//		NSLog(@"Keychian Account Not found - deleteAccountCompletely");
+			return YES;
+		} else {
+			return NO;
+		}
+	} else {
+		return YES;
 	}
 }
 
-- (NSString *) passwordFromKeychain
+- (NSString *)passwordFromKeychain
 {
 	NSString		*account_ = [self x2chUserAccount];
 	
-	if(account_ == nil)
-		return nil;
+	if (!account_) return nil;
 
 	OSStatus err;
 	SecKeychainItemRef item = nil;
@@ -185,26 +182,21 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 										  &item);
 
 	if ((err == noErr) && item) {
-		NSString *result_ = [[NSString alloc] initWithBytesNoCopy : passwordData
-														   length : passwordLength
-														 encoding : NSUTF8StringEncoding
-													 freeWhenDone : YES];
-
-//		NSLog(@"Successfully got password");
+		NSString *result_ = [[NSString alloc] initWithBytesNoCopy:passwordData
+														   length:passwordLength
+														 encoding:NSUTF8StringEncoding
+													 freeWhenDone:YES];
 		return [result_ autorelease];
-//	} else {
-//		NSLog(@"Some Error Occrred while getting keychianItem");
 	}
 
 	return nil;
 }
 
-- (void) createKeychainWithPassword : (NSString  *) password
+- (BOOL)createKeychainWithPassword:(NSString  *)password
 {
 	NSString		*account_ = [self x2chUserAccount];
 
-	if (account_ == nil)
-		return;
+	if (!account_) return NO;
 
 	OSStatus err;
 
@@ -258,22 +250,26 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 			if(err == noErr) {
 //				NSLog(@"Replacing keychain item's data successfully finished.");
 				CFRelease(item);
-				[CMRPref setHasAccountInKeychain : YES];
+				[CMRPref setHasAccountInKeychain:YES];
+				return YES;
 			}
-//		} else {
+		} else {
 //			NSLog(@"Some Error Occurred while modifying content.");
+			return NO;
 		}
 	} else if (err == noErr) {
 //		NSLog(@"Keychain item was successfully created.");
-		[CMRPref setHasAccountInKeychain : YES];
-//	} else {
+		[CMRPref setHasAccountInKeychain:YES];
+		return YES;
+	} else {
 //		NSLog(@"Some error occurred while creating keychain item");
+		return NO;
 	}
+	return NO;
 }
 
 #pragma mark Notifications
-
-- (void) applicationDidBecomeActive : (NSNotification *) theNotification
+- (void)applicationDidBecomeActive:(NSNotification *)theNotification
 {
 	UTILAssertNotificationName(
 		theNotification,
@@ -282,6 +278,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 		theNotification,
 		NSApp);
 	
-	[self setShouldCheckHasAccountInKeychain : YES];
+	[self setShouldCheckHasAccountInKeychain:YES];
 }
 @end
