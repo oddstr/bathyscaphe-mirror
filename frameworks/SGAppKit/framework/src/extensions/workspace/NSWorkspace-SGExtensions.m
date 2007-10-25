@@ -1,16 +1,19 @@
-//: NSWorkspace-SGExtensions.m
-/**
-  * $Id: NSWorkspace-SGExtensions.m,v 1.5 2007/06/05 16:51:55 tsawada2 Exp $
-  * 
-  * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  NSWorkspace-SGExtensions.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/10/25.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
 
-#import "NSWorkspace-SGExtensions_p.h"
+#import "NSWorkspace-SGExtensions.h"
+#import "UTILKit.h"
 
 #define FINDER_IDENTIFIER	@"com.apple.finder"
 
-@implementation NSWorkspace(SGExtensionsFileOperation)
+@implementation NSWorkspace(BSExtensions)
+#pragma mark Move To Trash
 OSErr createFilesDesc(AEDescList *targetListDescPtr, NSArray *pathsArray)
 {
 	OSErr			err;
@@ -27,7 +30,7 @@ OSErr createFilesDesc(AEDescList *targetListDescPtr, NSArray *pathsArray)
 		fileURL_ = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)filepath_, kCFURLPOSIXPathStyle, false);
 		success_ = CFURLGetFSRef(fileURL_, &fsRef);
 		CFRelease(fileURL_);
-		if (success_ == false) continue;
+		if (!success_) continue;
 		
 		// Create the descriptor of the file to delete
 		err = FSNewAliasMinimal(&fsRef, &aliasHandle);
@@ -49,7 +52,7 @@ OSErr createFilesDesc(AEDescList *targetListDescPtr, NSArray *pathsArray)
 	return noErr;
 }
 
-- (BOOL) moveFilesToTrash : (NSArray *) filePaths
+- (BOOL)moveFilesToTrash:(NSArray *)filePaths
 {
 	OSErr			err;
 	AppleEvent		event, reply;
@@ -57,9 +60,10 @@ OSErr createFilesDesc(AEDescList *targetListDescPtr, NSArray *pathsArray)
 	AEDescList		targetListDesc;
 	const char		*finderId = [FINDER_IDENTIFIER UTF8String];
 	
-	if(nil == filePaths || 0 == [filePaths count])
+	if (!filePaths || [filePaths count] == 0) {
 		return NO;
-	
+	}
+
 	// Set up locals
 	AECreateDesc(typeNull, NULL, 0, &event);
 	AECreateDesc(typeNull, NULL, 0, &finderAddress);
@@ -97,11 +101,11 @@ OSErr createFilesDesc(AEDescList *targetListDescPtr, NSArray *pathsArray)
 	err = AESendMessage(&event, &reply, kAEWaitReply, kAEDefaultTimeout); // wait until event is done
 
 	if (err == procNotFound || err == connectionInvalid) { // Finder is not running
-		[self launchAppWithBundleIdentifier: FINDER_IDENTIFIER
-									options: NSWorkspaceLaunchWithoutActivation
-			 additionalEventParamDescriptor: nil
-						   launchIdentifier: nil];
-		
+		[self launchAppWithBundleIdentifier:FINDER_IDENTIFIER
+									options:NSWorkspaceLaunchWithoutActivation
+			 additionalEventParamDescriptor:nil
+						   launchIdentifier:nil];
+
 		err = AESendMessage(&event, &reply, kAEWaitReply, kAEDefaultTimeout); // Retry
 	}	
 	// Clean up and leave
@@ -114,39 +118,33 @@ bail:
 	return (err == noErr);
 }
 
-- (BOOL) _openURLsInBackGround : (NSArray *) URLsArray
+#pragma mark Opening URL(s)
+- (BOOL)openURLs:(NSArray *)urls inBackground:(BOOL)flag;
 {
-	OSStatus			err;
-	LSLaunchURLSpec inLaunchSpec;
-	
-	if(nil == URLsArray || 0 == [URLsArray count])
-		return NO;
-	
-	inLaunchSpec.appURL = NULL;
-	inLaunchSpec.itemURLs = (CFArrayRef )URLsArray; //NSArray, it's CFArrayRef
-	inLaunchSpec.passThruParams = nil;
-	inLaunchSpec.launchFlags = kLSLaunchDontSwitch; //アプリケーションを前面に持ってこない
-	inLaunchSpec.asyncRefCon = nil;
+	if (!urls || [urls count] == 0) return NO;
 
-	err = LSOpenFromURLSpec( &inLaunchSpec, NULL );
+	NSString	*identifier = [self bundleIdentifierForDefaultWebBrowser];
+	NSWorkspaceLaunchOptions	options = NSWorkspaceLaunchDefault;
 
-	return (err == noErr);
-}
-
-- (BOOL) openURL : (NSURL *) url_ inBackGround : (BOOL) inBG
-{
-	if(url_ == nil) return NO;
-	if(inBG) {
-		return [self _openURLsInBackGround: [NSArray arrayWithObject: url_]];
-	} else {
-		return [self openURL: url_];
+	if (flag) {
+		options |= NSWorkspaceLaunchWithoutActivation;
 	}
-	return NO;
-}
-@end
 
-@implementation NSWorkspace(BSIconServicesUtil)
-- (NSImage *) systemIconForType: (OSType) iconType
+	return [self openURLs:urls withAppBundleIdentifier:identifier options:options additionalEventParamDescriptor:nil launchIdentifiers:nil];
+}
+
+- (BOOL)openURL:(NSURL *)url inBackground:(BOOL)flag
+{
+	return [self openURLs:[NSArray arrayWithObject:url] inBackground:flag];
+}
+
+- (BOOL)openURL:(NSURL *)url_ inBackGround:(BOOL)inBG
+{
+	return [self openURL:url_ inBackground:inBG];
+}
+
+#pragma mark Icon Services Wrapper
+- (NSImage *)systemIconForType:(OSType)iconType
 {
     IconRef             iconRef;
     IconFamilyHandle    iconFamily;
@@ -160,8 +158,7 @@ bail:
 
     result = IconRefToIconFamily(iconRef, kSelectorAllAvailableData, &iconFamily);
 
-    if (result != noErr || !iconFamily)
-    {
+    if (result != noErr || !iconFamily) {
         return nil;
     }
 
@@ -170,19 +167,18 @@ bail:
     NSData  *iconData;
     NSImage *iconImage = nil;
 
-    iconData = [NSData dataWithBytes: *iconFamily length: GetHandleSize((Handle)iconFamily)];
-    iconImage = [[[NSImage alloc] initWithData: iconData] autorelease];
+    iconData = [NSData dataWithBytes:*iconFamily length:GetHandleSize((Handle)iconFamily)];
+    iconImage = [[[NSImage alloc] initWithData:iconData] autorelease];
 	
 	DisposeHandle((Handle)iconFamily);
     
     return iconImage;
 }
-@end
 
-@implementation NSWorkspace(BSDefaultWebBrowserUtils)
-- (NSString *) absolutePathForDefaultWebBrowser
+#pragma mark Default Web Browser Utilities
+- (NSString *)absolutePathForDefaultWebBrowser
 {
-	NSURL	*dummyURL = [NSURL URLWithString : @"http://www.apple.com/"];
+	NSURL	*dummyURL = [NSURL URLWithString:@"http://www.apple.com/"];
 	OSStatus	err;
 	FSRef	outAppRef;
 	CFURLRef	outAppURL;
@@ -192,22 +188,22 @@ bail:
 	err = LSGetApplicationForURL((CFURLRef )dummyURL, kLSRolesAll, &outAppRef, &outAppURL);
 	if (err == noErr && outAppURL) {
 		appPath = CFURLCopyFileSystemPath(outAppURL, kCFURLPOSIXPathStyle);
-		result_ = [NSString stringWithString: (NSString *)appPath];
+		result_ = [NSString stringWithString:(NSString *)appPath];
 		CFRelease(appPath);
 	}
 
 	return result_;
 }
 
-- (NSImage *) iconForDefaultWebBrowser
+- (NSImage *)iconForDefaultWebBrowser
 {
-	return [self iconForFile: [self absolutePathForDefaultWebBrowser]];
+	return [self iconForFile:[self absolutePathForDefaultWebBrowser]];
 }
 
-- (NSString *) bundleIdentifierForDefaultWebBrowser;
+- (NSString *)bundleIdentifierForDefaultWebBrowser;
 {
-	NSBundle *bundle = [NSBundle bundleWithPath: [self absolutePathForDefaultWebBrowser]];
-	
+	NSBundle *bundle = [NSBundle bundleWithPath:[self absolutePathForDefaultWebBrowser]];
+
 	return [bundle bundleIdentifier];
 }
 @end

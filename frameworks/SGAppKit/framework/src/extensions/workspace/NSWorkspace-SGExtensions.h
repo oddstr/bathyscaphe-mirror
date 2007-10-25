@@ -1,27 +1,32 @@
-//: NSWorkspace-SGExtensions.h
-/**
-  * $Id: NSWorkspace-SGExtensions.h,v 1.2 2007/01/07 17:04:24 masakih Exp $
-  * 
-  * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  NSWorkspace-SGExtensions.h
+//  BathyScaphe (SGAppKit)
+//
+//  Updated by Tsutomu Sawada on 07/10/25.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
 
-#import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
 #import <ApplicationServices/ApplicationServices.h>
-#import <AppKit/NSWorkspace.h>
 
 
-@interface NSWorkspace(SGExtensionsFileOperation)
-- (BOOL) moveFilesToTrash : (NSArray *) filePaths;
-- (BOOL) openURL : (NSURL *) url_ inBackGround : (BOOL) inBG;
-@end
+@interface NSWorkspace(BSExtensions)
+// Tell Finder to move files to Trash - AppleEvent Wrapper
+- (BOOL)moveFilesToTrash:(NSArray *)filePaths;
 
-@interface NSWorkspace(BSIconServicesUtil)
-- (NSImage *) systemIconForType: (OSType) iconType;
-@end
+// Deprecated. Use -openURL:inBackground: instead.
+- (BOOL)openURL:(NSURL *)url_ inBackGround:(BOOL)inBG;
 
-@interface NSWorkspace(BSDefaultWebBrowserUtils)
-- (NSString *) absolutePathForDefaultWebBrowser;
-- (NSImage *) iconForDefaultWebBrowser;
-- (NSString *) bundleIdentifierForDefaultWebBrowser;
+// Open URL(s) with or without activating default Web browser. 
+- (BOOL)openURL:(NSURL *)url inBackground:(BOOL)flag;
+- (BOOL)openURLs:(NSArray *)urls inBackground:(BOOL)flag;
+
+// Icon Services Wrapper
+- (NSImage *)systemIconForType:(OSType)iconType;
+
+// Utilities for Default Web Browser
+- (NSString *)absolutePathForDefaultWebBrowser;
+- (NSImage *)iconForDefaultWebBrowser;
+- (NSString *)bundleIdentifierForDefaultWebBrowser;
 @end

@@ -277,17 +277,17 @@
 #pragma mark Popup Locking
 - (void)restoreLockedPopUp
 {
-	NSSize scrollViewSize;
+//	NSSize scrollViewSize;
 	NSRect frame_ = [[self window] frame];
 	NSPoint poofLocation;
 
-	scrollViewSize = [[self scrollView] frame].size;
-	scrollViewSize.height += TITLEBAR_HEIGHT;
+//	scrollViewSize = [[self scrollView] frame].size;
+//	scrollViewSize.height += TITLEBAR_HEIGHT;
 	poofLocation = NSMakePoint(NSMidX(frame_), NSMidY(frame_));
 
 	[[self window] setMovableByWindowBackground:NO];
 	[[self titlebar] setHidden:YES];
-	[[self scrollView] setFrameSize:scrollViewSize];
+//	[[self scrollView] setFrameSize:scrollViewSize];
 
 	[self updateBGColor];
 
@@ -298,16 +298,25 @@
 - (void)setupLockedPopUp
 {
 	NSSize scrollViewSize;
+	NSRect windowFrame;
 
 	SystemSoundPlay(0);
 
 	scrollViewSize = [[self scrollView] frame].size;
-	scrollViewSize.height -= TITLEBAR_HEIGHT;
+	windowFrame = [[self window] frame];
 
+	if (windowFrame.size.height + TITLEBAR_HEIGHT < [self maxSize].height) {
+		windowFrame.size.height += TITLEBAR_HEIGHT;
+		[[self window] setFrame:windowFrame display:YES];
+		[[self scrollView] setFrameOrigin:NSMakePoint(0,0)];
+	} else {
+		scrollViewSize.height -= TITLEBAR_HEIGHT;
+		[[self scrollView] setFrameSize:scrollViewSize];
+	}
+	
 	[[self window] setBackgroundColor:[NSColor windowBackgroundColor]];
 	[self changeContextColorForLockedPopUp];
 
-	[[self scrollView] setFrameSize:scrollViewSize];
 	[[self titlebar] setHidden:NO];
 	[[self window] setMovableByWindowBackground:YES];
 	

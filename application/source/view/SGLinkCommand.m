@@ -59,7 +59,7 @@
 @implementation SGOpenLinkCommand : SGLinkCommand
 - (void) execute : (id) sender
 {
-	[[NSWorkspace sharedWorkspace] openURL : [self URLValue] inBackGround : [CMRPref openInBg]];
+	[[NSWorkspace sharedWorkspace] openURL : [self URLValue] inBackground : [CMRPref openInBg]];
 }
 @end
 

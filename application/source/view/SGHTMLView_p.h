@@ -9,10 +9,10 @@
 
 #define kLocalizableFile	@"HTMLView"
 #define kLinkStringKey		@"Link"
-#define kCopyLinkStringKey	@"Copy Link"
-#define kOpenLinkStringKey	@"Open Link"
-#define kPreviewLinkStringKey @"Preview Link"
-
+#define kCopyLinkStringKey		@"Copy Link"
+#define kOpenLinkStringKey		@"Open Link"
+#define kPreviewLinkStringKey	@"Preview Link"
+#define kDownloadLinkStringKey	@"Download Link"
 
 
 @interface SGHTMLView(Link)
@@ -36,22 +36,19 @@
 
 
 @interface SGHTMLView(ResponderExtensions)
-- (NSMenuItem *) commandItemWithLink : (id		  ) aLink
-							 command : (Class	  ) aFunctorClass
-							   title : (NSString *) aTitle;
-- (NSMenu *) linkMenuWithLink : (id) aLink;
-- (NSMenu *) linkMenuWithLink : (id) aLink
-				 forImageFile : (BOOL) isImage; // added in Lemonade and later.
-- (BOOL) validateLinkByFiltering : (id) aLink;
-- (BOOL) validateLinkForImage : (id) aLink; // added in Lemonade and later.
+- (NSMenuItem *)commandItemWithLink:(id)aLink command:(Class)aFunctorClass title:(NSString *)aTitle;
+- (NSMenu *)linkMenuWithLink:(id)aLink;
 
-- (NSArray *)linksArrayForRange:(NSRange)range_; // available in Twincam Angel and later.
+- (BOOL)validateLinkByFiltering:(id)aLink;
+
+// Available in Twincam Angel and later.
+- (NSArray *)linksArrayForRange:(NSRange)range_;
 - (NSArray *)previewlinksArrayForRange:(NSRange)range_;
 
-- (void) pushCloseHandCursorIfNeeded;
-- (void) commandMouseDragged : (NSEvent *) theEvent;
-- (void) commandMouseUp : (NSEvent *) theEvent;
-- (void) commandMouseDown : (NSEvent *) theEvent;
+- (void)pushCloseHandCursorIfNeeded;
+- (void)commandMouseDragged:(NSEvent *)theEvent;
+- (void)commandMouseUp:(NSEvent *)theEvent;
+- (void)commandMouseDown:(NSEvent *)theEvent;
 @end
 
 

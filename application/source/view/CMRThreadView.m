@@ -331,7 +331,7 @@ static inline void setupMenuItemsRepresentedObject(NSMenu *aMenu, id anObject)
 	if (!array) {
 		return nil;
 	} else {
-		NSString *foo = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Open %u Links", @"HTMLView", @""), [array count]];
+		NSString *foo = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Open %u Links", kLocalizableFile, @""), [array count]];
 		NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:foo action:@selector(openLinksInSelection:) keyEquivalent:@""];
 		return [newItem autorelease];
 	}
@@ -343,7 +343,7 @@ static inline void setupMenuItemsRepresentedObject(NSMenu *aMenu, id anObject)
 	if (!array) {
 		return nil;
 	} else {
-		NSString *foo = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Preview %u Links", @"HTMLView", @""), [array count]];
+		NSString *foo = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Preview %u Links", kLocalizableFile, @""), [array count]];
 		NSMenuItem *newItem = [[NSMenuItem alloc] initWithTitle:foo action:@selector(previewLinksInSelection:) keyEquivalent:@""];
 		return [newItem autorelease];
 	}
@@ -572,13 +572,8 @@ NS_ENDHANDLER
 @implementation CMRThreadView(Action)
 - (IBAction)openLinksInSelection:(id)sender
 {
-	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
-	NSString	*identifier = [ws bundleIdentifierForDefaultWebBrowser];
-	NSWorkspaceLaunchOptions	options = NSWorkspaceLaunchDefault;
-	if ([CMRPref openInBg]) options |= NSWorkspaceLaunchWithoutActivation;
-
 	NSArray *URLs = [self linksArrayForRange:[self selectedRange]];
-	[ws openURLs:URLs withAppBundleIdentifier:identifier options:options additionalEventParamDescriptor:nil launchIdentifiers:nil];
+	[[NSWorkspace sharedWorkspace] openURLs:URLs inBackground:[CMRPref openInBg]];
 }
 
 - (IBAction)previewLinksInSelection:(id)sender

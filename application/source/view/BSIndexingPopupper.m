@@ -187,7 +187,7 @@ static NSString *const kKeywordsButtonPressedImage = @"Keywords_Pressed";
     UTILAssertRespondsTo(sender, @selector(representedObject));
     if (strValue_ = [sender representedObject]) {
         UTILAssertKindOfClass(strValue_, NSString);
-        [[NSWorkspace sharedWorkspace] openURL : [NSURL URLWithString: strValue_] inBackGround: [CMRPref openInBg]];
+        [[NSWorkspace sharedWorkspace] openURL : [NSURL URLWithString: strValue_] inBackground: [CMRPref openInBg]];
     }
 }
 

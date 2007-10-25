@@ -1,6 +1,6 @@
 //: NSPasteboard-SGExtensions.m
 /**
-  * $Id: NSPasteboard-SGExtensions.m,v 1.1 2005/05/11 17:51:27 tsawada2 Exp $
+  * $Id: NSPasteboard-SGExtensions.m,v 1.2 2007/10/25 13:41:43 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -8,7 +8,7 @@
 
 #import "NSPasteboard-SGExtensions.h"
 #import "SGAppKitFrameworkDefines.h"
-
+/*
 @implementation NSPasteboard(SGExtensionsObjectValue)
 - (id) unarchivedObjectForType : (NSString *) dataType
 {
@@ -39,7 +39,7 @@
 				 forType : dataType];
 }
 @end
-
+*/
 
 
 @implementation NSAttributedString(CMXAdditions)

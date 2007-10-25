@@ -1,6 +1,6 @@
 //: SGAppKit.h
 /**
-  * $Id: SGAppKit.h,v 1.16 2007/08/01 12:29:06 tsawada2 Exp $
+  * $Id: SGAppKit.h,v 1.17 2007/10/25 13:41:43 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -18,15 +18,15 @@
 #import <SGAppKit/NSCell-SGExtensions.h>
 //#import <SGAppKit/NSColor-SGExtensions.h>
 #import <SGAppKit/NSControl-SGExtensions.h>
-#import <SGAppKit/NSView-SGExtensions.h>
-#import <SGAppKit/NSMenu-SGExtensions.h>
+//#import <SGAppKit/NSView-SGExtensions.h>
+//#import <SGAppKit/NSMenu-SGExtensions.h>
 #import <SGAppKit/NSEvent-SGExtensions.h>
 #import <SGAppKit/NSImage-SGExtensions.h>
-#import <SGAppKit/NSMatrix-SGExtensions.h>
+//#import <SGAppKit/NSMatrix-SGExtensions.h>
 #import <SGAppKit/NSPasteboard-SGExtensions.h>
 #import <SGAppKit/NSScrollView-SGExtensions.h>
 #import <SGAppKit/NSTextView-SGExtensions.h>
-#import <SGAppKit/NSTextField-SGExtensions.h>
+//#import <SGAppKit/NSTextField-SGExtensions.h>
 #import <SGAppKit/NSToolbar-SGExtensions.h>
 #import <SGAppKit/NSWindow-SGExtensions.h>
 #import <SGAppKit/NSWorkspace-SGExtensions.h>

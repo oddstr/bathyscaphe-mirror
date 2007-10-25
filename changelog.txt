@@ -1,3 +1,22 @@
+2007-10-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/thread/CMRThreadViewer-OwnHistory.m
+	* application/source/view/BSIndexingPopupper.m
+	* application/source/view/SGHTMLView.m
+	* application/source/view/SGLinkCommand.m
+		メソッド名の綴りを変更。
+	* application/source/view/popup/CMXPopUpWindowController.m
+		ポップアップ・ロック機能の細かい改良。
+	* application/source/view/CMRThreadView.m
+		実装の一部を SGAppKit 側に移した。
+	* frameworks/SGAppKit/SGAppKit.xcodeproj/project.pbxproj
+	* frameworks/SGAppKit/framework/resource/English.lproj/InfoPlist.strings
+	* frameworks/SGAppKit/framework/src/SGAppKit.h
+	* frameworks/SGAppKit/framework/src/extensions/pasteboard/NSPasteboard-SGExtensions.m
+	* frameworks/SGAppKit/framework/src/extensions/workspace/NSWorkspace-SGExtensions.m
+		SGAppKit:
+		AppKit のカテゴリ群のうち、未使用のものをターゲットから外してスリム化した。
+		その一方で、NSWorkspace のカテゴリには新しいメソッドを追加した。
 2007-10-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/view/CMRThreadView.m
 	* application/source/view/SGHTMLView.m

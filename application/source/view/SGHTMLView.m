@@ -19,6 +19,8 @@ NSString *const SGHTMLViewMouseExitedNotification = @"SGHTMLViewMouseExitedNotif
 
 static NSString *const kThreadKeyBindingsFile = @"ThreadKeyBindings.plist";
 
+static inline BOOL validateLinkForImage(id aLink);
+
 #define MOUSE_CLICK_TRACKING_TIME	0.18
 
 
@@ -94,7 +96,7 @@ acceptsMouseMovedEvents == YES だと resetCursorRects が頻繁に呼ばれる
 	UTILRequireCondition([self validateLinkByFiltering:link_], default_menu);
 	
 	[self setSelectedRange:effectiveRange_];
-	return [self linkMenuWithLink:link_ forImageFile:[self validateLinkForImage:link_]];
+	return [self linkMenuWithLink:link_];
 
 default_menu:
 	return [self menu];
@@ -196,9 +198,9 @@ default_menu:
 
 		[NSEvent startPeriodicEventsAfterDelay:doubleInterval withPeriod:doubleInterval];
 		nextEvent_ = [[self window] nextEventMatchingMask:eventMask_
-										untilDate:[NSDate distantFuture]
-										   inMode:NSEventTrackingRunLoopMode
-										  dequeue:NO];
+												untilDate:[NSDate distantFuture]
+												   inMode:NSEventTrackingRunLoopMode
+												  dequeue:NO];
 		
 		[NSEvent stopPeriodicEvents];
 		if (nextEvent_ && NSPeriodic == [nextEvent_ type]) {
@@ -213,9 +215,9 @@ default_menu:
 		
 		eventMask_ = (NSLeftMouseUpMask | NSLeftMouseDraggedMask);
 		nextEvent_ = [[self window] nextEventMatchingMask:eventMask_
-									untilDate:[NSDate dateWithTimeIntervalSinceNow:MOUSE_CLICK_TRACKING_TIME]
-									inMode:NSEventTrackingRunLoopMode
-									dequeue:NO];
+												untilDate:[NSDate dateWithTimeIntervalSinceNow:MOUSE_CLICK_TRACKING_TIME]
+												   inMode:NSEventTrackingRunLoopMode
+												  dequeue:NO];
 		type = [nextEvent_ type];
 		if (NSLeftMouseUp == type) {
 			if ([self mouseClicked:nextEvent_])
@@ -228,14 +230,12 @@ default_menu:
 @end
 
 
-
 @implementation SGHTMLView(CMRLocalizableStringsOwner)
 + (NSString *)localizableStringsTableName
 {
 	return kLocalizableFile;
 }
 @end
-
 
 
 @implementation SGHTMLView(ResponderExtensions)
@@ -248,9 +248,7 @@ default_menu:
 	return [delegate_ HTMLViewFilteringLinkSchemes:aView];
 }
 
-- (NSMenuItem *)commandItemWithLink:(id)aLink
-							command:(Class)aFunctorClass
-							  title:(NSString *)aTitle
+- (NSMenuItem *)commandItemWithLink:(id)aLink command:(Class)aFunctorClass title:(NSString *)aTitle
 {
 	NSString		*linkstr_;
 	NSMenuItem		*menuItem_;
@@ -262,10 +260,7 @@ default_menu:
 				? [aLink absoluteString]
 				: [aLink description];
 	cmd_ = [aFunctorClass functorWithObject:linkstr_];
-	menuItem_ = [[NSMenuItem alloc] 
-					initWithTitle:aTitle
-						   action:@selector(execute:)
-					keyEquivalent:@""];
+	menuItem_ = [[NSMenuItem alloc] initWithTitle:aTitle action:@selector(execute:) keyEquivalent:@""];
 	[menuItem_ setRepresentedObject:cmd_];
 	[menuItem_ setTarget:cmd_];
 	[menuItem_ setEnabled:YES];
@@ -273,7 +268,7 @@ default_menu:
 	return [menuItem_ autorelease];
 }
 
-- (NSMenu *)linkMenuWithLink:(id)aLink forImageFile:(BOOL)isImage
+- (NSMenu *)linkMenuWithLink:(id)aLink
 {
 	NSString		*title_;
 	NSMenu			*menu_;
@@ -283,41 +278,28 @@ default_menu:
 	menu_ = [[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:title_];
 
 	// リンクをコピー
-	title_ = [self localizedString : kCopyLinkStringKey];
-	menuItem_ = [self commandItemWithLink : aLink 
-								  command : [SGCopyLinkCommand class]
-									title : title_];
-	[menu_ addItem : menuItem_];
-	
+	title_ = [self localizedString:kCopyLinkStringKey];
+	menuItem_ = [self commandItemWithLink:aLink command:[SGCopyLinkCommand class] title:title_];
+	[menu_ addItem:menuItem_];
 	
 	// リンクを開く
-	title_ = [self localizedString : kOpenLinkStringKey];
-	menuItem_ = [self commandItemWithLink : aLink 
-								  command : [SGOpenLinkCommand class]
-									title : title_];
-	[menu_ addItem : menuItem_];
+	title_ = [self localizedString:kOpenLinkStringKey];
+	menuItem_ = [self commandItemWithLink:aLink command:[SGOpenLinkCommand class] title:title_];
+	[menu_ addItem:menuItem_];
 	
-	if (isImage) {
+	if (validateLinkForImage(aLink)) {
 		// リンクをプレビュー
-		title_ = [self localizedString : kPreviewLinkStringKey];
-		menuItem_ = [self commandItemWithLink : aLink 
-									  command : [SGPreviewLinkCommand class]
-										title : title_];
-		[menu_ addItem : menuItem_];
+		title_ = [self localizedString:kPreviewLinkStringKey];
+		menuItem_ = [self commandItemWithLink:aLink command:[SGPreviewLinkCommand class] title:title_];
+		[menu_ addItem:menuItem_];
 	}
 
-	title_ = [self localizedString:@"Download Link"];
-	menuItem_ = [self commandItemWithLink : aLink 
-								  command : [SGDownloadLinkCommand class]
-									title : title_];
-	[menu_ addItem : menuItem_];
+	// リンク先をダウンロード
+	title_ = [self localizedString:kDownloadLinkStringKey];
+	menuItem_ = [self commandItemWithLink:aLink command:[SGDownloadLinkCommand class] title:title_];
+	[menu_ addItem:menuItem_];
 
 	return [menu_ autorelease];
-}
-
-- (NSMenu *) linkMenuWithLink:(id)aLink
-{
-	return [self linkMenuWithLink:aLink forImageFile:NO];
 }
 
 - (BOOL)validateLinkByFiltering:(id)aLink
@@ -326,29 +308,30 @@ default_menu:
 	NSString		*scheme_;
 	NSURL			*url_;
 	
-	if (nil == aLink) return NO;
+	if (!aLink) return NO;
 	
-	url_ = [NSURL URLWithLink : aLink];
-	if (nil == url_) return NO;
-	filter_ = [self HTMLViewFilteringLinkSchemes : self];
-	if (nil == filter_) return YES;
+	url_ = [NSURL URLWithLink:aLink];
+	if (!url_) return NO;
+	filter_ = [self HTMLViewFilteringLinkSchemes:self];
+	if (!filter_) return YES;
 	
 	scheme_ = [url_ scheme];
-	return (NO == [filter_ containsObject : scheme_]);
+	return (NO == [filter_ containsObject:scheme_]);
 }
 
-- (BOOL)validateLinkForImage:(id)aLink
+static inline BOOL validateLinkForImage(id aLink)
 {
 	NSURL	*url_;
-	id tmp;
-	if (nil == aLink) return NO;
+	id<BSImagePreviewerProtocol>	previewer;
 
-	url_ = [NSURL URLWithLink : aLink];
-	if (nil == url_) return NO;
+	if (!aLink) return NO;
 
-	tmp = [CMRPref sharedImagePreviewer];
-	if (!tmp) return NO;
-	return [tmp validateLink : url_];
+	url_ = [NSURL URLWithLink:aLink];
+	if (!url_) return NO;
+	previewer = [CMRPref sharedImagePreviewer];
+	if (!previewer) return NO;
+
+	return [previewer validateLink:url_];
 }
 
 - (NSArray *)linksArrayForRange:(NSRange)range_
@@ -403,7 +386,7 @@ default_menu:
 						atIndex:charIndex_
 		  longestEffectiveRange:&effectiveRange_
 						inRange:range_];
-		if (v && [self validateLinkForImage:v]) {
+		if (v && validateLinkForImage(v)) {
 			[array addObject:[NSURL URLWithLink:v]];
 		}
 		charIndex_ = NSMaxRange(effectiveRange_);

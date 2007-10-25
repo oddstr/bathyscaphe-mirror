@@ -1,5 +1,5 @@
 /*
- * $Id: CMRThreadViewer-OwnHistory.m,v 1.13 2007/09/04 07:45:43 tsawada2 Exp $
+ * $Id: CMRThreadViewer-OwnHistory.m,v 1.14 2007/10/25 13:41:42 tsawada2 Exp $
  *
  * それぞれのスレッドビューア内での履歴（グローバルな履歴と一致するとは限らない）の管理と移動アクションのサポート
  * CMRThreadViewer.m から分割
@@ -203,6 +203,16 @@
 	return ([self threadIdentifierFromHistoryWithRelativeIndex: relativeIdx] != nil);
 }
 
+- (void)removeAllItemsInMenu:(NSMenu *)menu
+{
+	int		i, cnt;
+	
+	cnt = [menu numberOfItems];
+	for(i = (cnt -1); i >= 0; i--){
+		[menu removeItemAtIndex:i];
+	}
+}
+
 - (void)menuNeedsUpdate:(NSMenu *)menu
 {
 	if ([menu delegate] != self) return;
@@ -210,7 +220,9 @@
 	NSString *menuTitle = [menu title];
 
 	if ([menuTitle isEqualToString:@"Back"]) {
-		[menu removeAllItems];
+//		[menu removeAllItems];
+		[self removeAllItemsInMenu:menu];
+
 		int currentIndex = [self historyIndex];
 		int i;
 		NSRange range = NSMakeRange(0, currentIndex);
@@ -230,7 +242,9 @@
 			[item release];
 		}
 	} else if ([menuTitle isEqualToString:@"Forward"]) {
-		[menu removeAllItems];
+//		[menu removeAllItems];
+		[self removeAllItemsInMenu:menu];
+
 		int currentIndex = [self historyIndex];
 		int	i;
 		NSRange range = NSMakeRange(currentIndex+1, [[self threadHistoryArray] count]-currentIndex-1);

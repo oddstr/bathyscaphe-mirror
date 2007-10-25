@@ -123,7 +123,7 @@
 	while (threadAttributes_ = [Iter_ nextObject]) {
 		NSURL	*url_;
 		url_ = [CMRThreadAttributes threadURLWithDefaultParameterFromDictionary:threadAttributes_];
-		[[NSWorkspace sharedWorkspace] openURL:url_ inBackGround:[CMRPref openInBg]];
+		[[NSWorkspace sharedWorkspace] openURL:url_ inBackground:[CMRPref openInBg]];
 	}
 }
 @end
