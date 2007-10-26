@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer.m,v 1.25 2007/07/27 10:26:39 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer.m,v 1.26 2007/10/26 14:09:10 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -185,7 +185,12 @@ static BOOL messageIsLocalAboned_(CMRThreadMessage *aMessage)
 	[ms addAttribute : CMRMessageIndexAttributeName
 			   value : [NSNumber numberWithUnsignedInt : [aMessage index]]
 			   range : mRange_];
-	
+
+	// Leopard
+	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {
+		[ms addAttribute:NSCursorAttributeName value:[NSCursor pointingHandCursor] range:mRange_];
+	}
+
 	/* 現バージョンではブックマークはフォントを変更するのみ */
 	if ([aMessage hasBookmark]) {
 		[ms applyFontTraits : (NSBoldFontMask|NSItalicFontMask)

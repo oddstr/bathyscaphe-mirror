@@ -1,5 +1,5 @@
 /*
- * $Id: BSImagePreviewInspector-Tb.m,v 1.15 2007/08/07 15:55:05 tsawada2 Exp $
+ * $Id: BSImagePreviewInspector-Tb.m,v 1.16 2007/10/26 14:09:10 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -295,7 +295,7 @@ static NSString *const kIPILeaveFailedTokenKey	= @"jp.tsawada2.BathyScaphe.Image
 }
 
 // action button's menu
-- (BOOL) validateMenuItem: (id <NSMenuItem>) menuItem
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
 	NSArrayController	*cube_ = [self tripleGreenCubes];
 	int tag_ = [menuItem tag];

@@ -449,7 +449,7 @@
 	CMRPullDownIconBtn	*cell_;
 	NSPopUpButtonCell	*btnCell_;
 	NSMenu				*menuBase_;
-	id<NSMenuItem>		tmp_;
+	NSMenuItem			*tmp_;
 	
 	cell_ = [[CMRPullDownIconBtn alloc] initTextCell:@"" pullsDown:YES];
 	btnCell_ = [[self brdListActMenuBtn] cell];

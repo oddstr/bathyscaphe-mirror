@@ -417,6 +417,13 @@ ErrCreateAttachment:
 		[self setAttributeInDictionary : _messageAttributesForAnchor
 						 attributeName : NSUnderlineStyleAttributeName
 								 value : [self underlineStyleWithBool : [CMRPref hasMessageAnchorUnderline]]];
+
+		// Leopard
+		if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {
+			[self setAttributeInDictionary:_messageAttributesForAnchor
+							 attributeName:NSCursorAttributeName
+									 value:[NSCursor pointingHandCursor]];
+		}
 	}
 	return _messageAttributesForAnchor;
 }

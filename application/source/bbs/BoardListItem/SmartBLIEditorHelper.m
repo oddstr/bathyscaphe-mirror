@@ -758,7 +758,7 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 	return nil;
 }
 
-- (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
 //	int tag = [menuItem tag];
 //	if(tag == dateOfLastWritenItemTag) {

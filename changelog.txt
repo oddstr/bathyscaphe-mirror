@@ -1,3 +1,30 @@
+2007-10-27 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/CMRExports.h
+		暫定的に #define NSAppKitVersionNumber10_4 をここに書いた。
+	* frameworks/SGAppKit/framework/src/custom/bathyscaphe/BSIconAndTextCell.m
+	* application/source/preferences/CMRPreferencesDefautValues.h
+	* application/source/browser/CMRBrowser-Delegate.m
+	* SGAppKit/framework/src/custom/bathyscaphe/BSBoardListView.m
+		SGAppKit フレームワーク、及び BathyScaphe 本体：
+		Leopard マナー：掲示板リストの配色を Leopard 風に調整。また、掲示板リストは、メインウインドウでないときは灰色で表示
+		するようにした。
+	* application/subproj/previewer/BSIPIDownload.m
+		SGNetwork フレームワーク：
+		Leopard 対策：なぜか -[NSObject(NSURLDownloadDelegate) download:willSendRequest:redirectResponse:] が実際の
+		リダイレクトでなくても送られるようなので、redirectResponse が nil のときはそのまま request を返して続行するようにした。
+	* application/source/manager/BSScriptsMenuManager.m
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+	* application/subproj/previewer/BSImagePreviewInspector-View.m
+		Leopard マナー：id<NSMenuItem> は、NSMenuItem * に変更。
+	* application/source/browser/BSDownloadTask.m
+		Leopard 対策：なぜか -[NSObject(NSURLConnectionDelegate) connection:willSendRequest:redirectResponse:] が実際の
+		リダイレクトでなくても送られるようなので、redirectResponse が nil のときはそのまま request を返して続行するようにした。
+	* application/source/composer/CMRMessageAttributesTemplate.m
+	* application/source/composer/CMRAttributedMessageComposer.m
+		Leopard 対策：リンク文字列、レス番号部分でマウスカーソルを人差し指型に変化させる仕組みが今までのものだとうまくいかないようなので、
+		NSAttributedString の属性辞書の一要素として指定するようにしてみた。
 2007-10-26 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/board_default.plist
 		最新のものに更新。

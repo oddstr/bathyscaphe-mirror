@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector-View.m,v 1.6 2007/02/03 07:00:29 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector-View.m,v 1.7 2007/10/26 14:09:10 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/07/15.
@@ -94,7 +94,7 @@ static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInsp
 
 - (void) setupControls
 {
-	id<NSMenuItem>	iter;
+	NSMenuItem	*iter;
 
 	iter = [[[self actionBtn] menu] itemAtIndex : 0];
 	[iter setImage : [self imageResourceWithName: @"Gear"]];
@@ -186,7 +186,7 @@ static NSImage *bsIPI_iconForPath(NSString *sourcePath)
 {
 	NSString	*fullPathTip = [self saveDirectory];
 	NSString	*title = [[NSFileManager defaultManager] displayNameAtPath: fullPathTip];
-	id<NSMenuItem>	theItem = [[self directoryChooser] itemAtIndex : 0];
+	NSMenuItem	*theItem = [[self directoryChooser] itemAtIndex : 0];
 	
 	[theItem setTitle : title];
 	[theItem setToolTip: fullPathTip];

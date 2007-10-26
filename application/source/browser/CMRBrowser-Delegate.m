@@ -35,6 +35,16 @@ BOOL isOptionKeyDown(void)
 	}
 }
 
+- (void)windowDidResignMain:(NSNotification *)notification
+{
+	[[self boardListTable] setBackgroundColor:[NSColor windowBackgroundColor]];
+}
+
+- (void)windowDidBecomeMain:(NSNotification *)notification
+{
+	[[self boardListTable] setBackgroundColor:[CMRPref boardListBackgroundColor]];
+}
+
 #pragma mark KFSplitView Delegate
 - (BOOL)splitView:(id)sender canCollapseSubview:(NSView *)subview
 {

@@ -251,10 +251,12 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 87F57015086E4C0B002A18AD /* Build configuration list for PBXProject "SGNetwork" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 0867D691FE84028FC02AAC07 /* SGNetwork */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				87F56FE6086E4C09002A18AD /* SGNetwork */,
 			);

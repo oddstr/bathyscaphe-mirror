@@ -208,6 +208,10 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 		[self postNotificaionWithResponse:response];
 	}
 	 */
+	// Leopard
+	if (!response) {
+		return request;
+	}
 	[self setResponse:response];
 	[self postNotificaionWithResponse:response];
 	[connection cancel];

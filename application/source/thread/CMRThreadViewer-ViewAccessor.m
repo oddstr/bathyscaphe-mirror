@@ -326,6 +326,11 @@ static void *kThreadViewThemeBgColorContext = @"BabyRose";
 	[view setMenu:[[self class] loadContextualMenuForTextView]];
 	[view setDelegate:self];
 
+	if ([view respondsToSelector:@selector(setDisplaysLinkToolTips:)]) {
+		// Leopard
+		[view setDisplaysLinkToolTips:NO];
+	}
+
 	[self setTextView:view];
 
 	[self updateLayoutSettings];

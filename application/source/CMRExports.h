@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRExports.h,v 1.10 2007/04/13 15:29:14 tsawada2 Exp $
+  * $Id: CMRExports.h,v 1.11 2007/10/26 14:09:09 tsawada2 Exp $
   * 
   * CMRExports.h
   *
@@ -49,6 +49,8 @@ extern void CMXServicesInit(void);
  * @discussion  Version 1 Ç∆ÇÃå›ä∑ê´ÇÃÇΩÇﬂÇæÇØÇÃã@î\
  */
 #define CMXFavoritesDirectoryName	NSLocalizedString(@"Favorites", @"")
+
+#define NSAppKitVersionNumber10_4 824
 
 #ifdef __cplusplus
 }  /* End of the 'extern "C"' block */

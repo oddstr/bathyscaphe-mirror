@@ -79,7 +79,7 @@
 
 // Background
 #define DEFAULT_STABLE_DRAWS_STRIPED	NO
-#define DEFAULT_BOARD_LIST_BG_COLOR		[NSColor colorWithCalibratedRed:(231.0/255.0) green:(237.0/255.0) blue:(248.0/255.0) alpha:1.0]
+#define DEFAULT_BOARD_LIST_BG_COLOR		[NSColor colorWithCalibratedRed:0.831 green:0.867 blue:0.902 alpha:1.0]
 #define DEFAULT_POPUP_BG_COLOR			[NSColor colorWithCalibratedHue : 0.14f saturation : 0.2f brightness : 1.0f alpha : 1.0f]
 #define DEFAULT_POPUP_BG_ALPHA			0.85
 #define DEFAULT_REPLY_BG_ALPHA			1.0

@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIDownload.m,v 1.3 2007/01/28 14:13:37 tsawada2 Exp $
+//  $Id: BSIPIDownload.m,v 1.4 2007/10/26 14:09:10 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/07/15.
@@ -104,6 +104,9 @@
 			willSendRequest: (NSURLRequest *) request
 		   redirectResponse: (NSURLResponse *) redirectResponse
 {
+	// Leopard
+	if (!redirectResponse) return request;
+
 	id delegate_ = [self delegate];
 
 	if([delegate_ respondsToSelector: @selector(bsIPIdownload:didRedirectToURL:)]) {

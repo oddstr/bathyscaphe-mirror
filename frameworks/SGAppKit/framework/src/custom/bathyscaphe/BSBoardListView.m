@@ -1,5 +1,5 @@
 //
-//  $Id: BSBoardListView.m,v 1.6 2007/08/07 15:55:05 tsawada2 Exp $
+//  $Id: BSBoardListView.m,v 1.7 2007/10/26 14:09:10 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/09/20.
@@ -40,22 +40,33 @@
 {	
 	NSColor *topLineColor, *bottomLineColor, *gradientStartColor, *gradientEndColor;
 	
-	if (([[self window] firstResponder] == self) && [[self window] isKeyWindow]) {
-		// Finder Style
-/*		topLineColor = [NSColor colorWithCalibratedRed:(61.0/255.0) green:(123.0/255.0) blue:(218.0/255.0) alpha:1.0];
-		bottomLineColor = [NSColor colorWithCalibratedRed:(31.0/255.0) green:(92.0/255.0) blue:(207.0/255.0) alpha:1.0];
-		gradientStartColor = [NSColor colorWithCalibratedRed:(89.0/255.0) green:(153.0/255.0) blue:(209.0/255.0) alpha:1.0];
-		gradientEndColor = [NSColor colorWithCalibratedRed:(33.0/255.0) green:(94.0/255.0) blue:(208.0/255.0) alpha:1.0];*/
-		// Tiger Mail Style
-		topLineColor = [NSColor colorWithDeviceRed:(112.0/255.0) green:(155.0/255.0) blue:(230.0/255.0) alpha:1.0];
-		bottomLineColor = [NSColor colorWithDeviceRed:(89.0/255.0) green:(128.0/255.0) blue:(205.0/255.0) alpha:1.0];
-		gradientStartColor = [NSColor colorWithDeviceRed:(103.0/255.0) green:(148.0/255.0) blue:(229.0/255.0) alpha:1.0];
-		gradientEndColor = [NSColor colorWithDeviceRed:(84.0/255.0) green:(135.0/255.0) blue:(225.0/255.0) alpha:1.0];
+	if ([[self window] isMainWindow]) {
+		if ([[self window] firstResponder] == self) {
+			// Finder Style
+	/*		topLineColor = [NSColor colorWithCalibratedRed:(61.0/255.0) green:(123.0/255.0) blue:(218.0/255.0) alpha:1.0];
+			bottomLineColor = [NSColor colorWithCalibratedRed:(31.0/255.0) green:(92.0/255.0) blue:(207.0/255.0) alpha:1.0];
+			gradientStartColor = [NSColor colorWithCalibratedRed:(89.0/255.0) green:(153.0/255.0) blue:(209.0/255.0) alpha:1.0];
+			gradientEndColor = [NSColor colorWithCalibratedRed:(33.0/255.0) green:(94.0/255.0) blue:(208.0/255.0) alpha:1.0];*/
+			// Tiger Mail Style
+			topLineColor = [NSColor colorWithDeviceRed:0.271 green:0.502 blue:0.784 alpha:1.0];
+			bottomLineColor = [NSColor colorWithDeviceRed:0.082 green:0.325 blue:0.667 alpha:1.0];
+			gradientStartColor = [NSColor colorWithDeviceRed:0.361 green:0.576 blue:0.835 alpha:1.0];
+			gradientEndColor = [NSColor colorWithDeviceRed:0.102 green:0.345 blue:0.678 alpha:1.0];
+		} else {
+			topLineColor = [NSColor colorWithDeviceRed:0.569 green:0.627 blue:0.753 alpha:1.0];
+			bottomLineColor = [NSColor colorWithDeviceRed:0.435 green:0.51 blue:0.607 alpha:1.0];
+			gradientStartColor = [NSColor colorWithDeviceRed:0.635 green:0.694 blue:0.812 alpha:1.0];
+			gradientEndColor = [NSColor colorWithDeviceRed:0.447 green:0.522 blue:0.675 alpha:1.0];
+		}
 	} else {
-		topLineColor = [NSColor colorWithDeviceRed:(173.0/255.0) green:(187.0/255.0) blue:(209.0/255.0) alpha:1.0];
+/*		topLineColor = [NSColor colorWithDeviceRed:(173.0/255.0) green:(187.0/255.0) blue:(209.0/255.0) alpha:1.0];
 		bottomLineColor = [NSColor colorWithDeviceRed:(150.0/255.0) green:(161.0/255.0) blue:(183.0/255.0) alpha:1.0];
 		gradientStartColor = [NSColor colorWithDeviceRed:(168.0/255.0) green:(183.0/255.0) blue:(205.0/255.0) alpha:1.0];
-		gradientEndColor = [NSColor colorWithDeviceRed:(157.0/255.0) green:(174.0/255.0) blue:(199.0/255.0) alpha:1.0];
+		gradientEndColor = [NSColor colorWithDeviceRed:(157.0/255.0) green:(174.0/255.0) blue:(199.0/255.0) alpha:1.0];*/
+		topLineColor = [NSColor colorWithDeviceRed:0.592 green:0.592 blue:0.592 alpha:1.0];
+		bottomLineColor = [NSColor colorWithDeviceRed:0.541 green:0.541 blue:0.541 alpha:1.0];
+		gradientStartColor = [NSColor colorWithDeviceRed:0.71 green:0.71 blue:0.71 alpha:1.0];
+		gradientEndColor = [NSColor colorWithDeviceRed:0.549 green:0.549 blue:0.549 alpha:1.0];
 	}
 	
 	NSIndexSet *selRows = [self selectedRowIndexes];
@@ -105,6 +116,7 @@
 		_semiSelectedRowRect = [self rectOfRow : row];
 		// draw the border
 		[self lockFocus];
+		[[NSColor selectedMenuItemColor] set];
 		NSFrameRectWithWidth(_semiSelectedRowRect, 2.0);
 		[self unlockFocus];
 		[self displayIfNeededInRect: _semiSelectedRowRect];

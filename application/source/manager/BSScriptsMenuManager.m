@@ -149,7 +149,7 @@ static void setKeyEquivalent(BSScriptsMenu *inMenu, int *nextKeyEquivalent)
 {
 	NSArray *items;
 	NSEnumerator *itemsEnum;
-	id <NSMenuItem> item;
+	NSMenuItem *item;
 	
 	if (nil == inMenu) return;
 	if (nil == nextKeyEquivalent) return;

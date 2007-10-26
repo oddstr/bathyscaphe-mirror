@@ -61,7 +61,7 @@
 			highlightedAttr = [NSDictionary dictionaryWithObject : [NSColor whiteColor]
 														  forKey : NSForegroundColorAttributeName];
 
-			backgroundAttr  = [NSDictionary dictionaryWithObject : [[NSColor grayColor] colorWithAlphaComponent : 0.8]
+			backgroundAttr  = [NSDictionary dictionaryWithObject : [[NSColor grayColor] colorWithAlphaComponent : 1.0]//0.8]
 														  forKey : NSForegroundColorAttributeName];
 
 			// まず、グレーの文字を y軸方向に 1px ずらして描く
