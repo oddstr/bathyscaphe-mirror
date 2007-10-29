@@ -1,6 +1,6 @@
 //: SGXmlPullParser.m
 /**
-  * $Id: SGXmlPullParser.m,v 1.2 2006/06/01 14:07:15 tsawada2 Exp $
+  * $Id: SGXmlPullParser.m,v 1.3 2007/10/29 05:53:22 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -49,6 +49,7 @@ NSString *const SGXmlPullParserAllowsIllegalComment = FEATURE_PREFIX@"#SGXmlPull
 
 #define SGXMLPULL_TEXTBUF_SIZE        64
 
+#define nsr_bzero(p, size)		bzero(p, size)
 
 
 // ----------------------------------------

@@ -24,7 +24,7 @@
 			productName = "Performance Test";
 			productReference = F3894D5A051A86B300C679D7 /* Performance Test.app */;
 			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
 <plist version=\"1.0\">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
@@ -91,12 +91,6 @@
 		874A34EC086E21EF004E7805 /* SGComparable.h in Headers */ = {isa = PBXBuildFile; fileRef = F39EFEA803C6285A00A80002 /* SGComparable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A34ED086E21EF004E7805 /* SGBaseRangeArray.h in Headers */ = {isa = PBXBuildFile; fileRef = F326543803DA233200A80002 /* SGBaseRangeArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A34EE086E21EF004E7805 /* SGRangeArrayImp.h in Headers */ = {isa = PBXBuildFile; fileRef = F326543A03DA233200A80002 /* SGRangeArrayImp.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		874A34EF086E21EF004E7805 /* SGBaseQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = F39603A4043EE2E800A80005 /* SGBaseQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		874A34F0086E21EF004E7805 /* SGUtilLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = F3624C4A0440221200A80005 /* SGUtilLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		874A34F1086E21EF004E7805 /* SGUtilLogRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = F39DE4DC044051A600A80005 /* SGUtilLogRecord.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		874A34F2086E21EF004E7805 /* SGUtilLogHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = F39DE4E2044055E000A80005 /* SGUtilLogHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		874A34F3086E21EF004E7805 /* SGUtilLogFileHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = F39DE5D80440673300A80005 /* SGUtilLogFileHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		874A34F4086E21EF004E7805 /* SGUtilLogFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BE162A0441370B00A80005 /* SGUtilLogFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A34F5086E21EF004E7805 /* SGFileRef.h in Headers */ = {isa = PBXBuildFile; fileRef = F3AEC3810444D17F007086AB /* SGFileRef.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A34F8086E21EF004E7805 /* String+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = F3A3BF26046CEDD300A80005 /* String+Utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A34FA086E21EF004E7805 /* SGURLEscape.h in Headers */ = {isa = PBXBuildFile; fileRef = F389EC2C0485374B00A80005 /* SGURLEscape.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -104,17 +98,12 @@
 		874A34FC086E21EF004E7805 /* SGXMLEntityReference.h in Headers */ = {isa = PBXBuildFile; fileRef = F3EFE7BC0487B3C700A80005 /* SGXMLEntityReference.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A34FD086E21EF004E7805 /* SGXmlPullParser.h in Headers */ = {isa = PBXBuildFile; fileRef = F31D470E0489690600A80005 /* SGXmlPullParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A34FE086E21EF004E7805 /* XmlPullParser.h in Headers */ = {isa = PBXBuildFile; fileRef = F31D47100489690600A80005 /* XmlPullParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		874A34FF086E21EF004E7805 /* SGNSR.h in Headers */ = {isa = PBXBuildFile; fileRef = F3C37DCA04F5F957009E45E9 /* SGNSR.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A3502086E21EF004E7805 /* SGTemporaryObjects.h in Headers */ = {isa = PBXBuildFile; fileRef = F30ED0670510A8E600A80005 /* SGTemporaryObjects.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A3503086E21EF004E7805 /* SGFoundationAppSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = F30ED6A00510AF8D00A80005 /* SGFoundationAppSupport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A3506086E21EF004E7805 /* SGTemplatesManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F30ED6AA0510B4E900A80005 /* SGTemplatesManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A3507086E21EF004E7805 /* SGFoundation_Prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = F37C3A2605D4A18B0061C5CC /* SGFoundation_Prefix.h */; };
 		874A3508086E21EF004E7805 /* SGBase.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BE64B205D4AE9C00661EC2 /* SGBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A3509086E21EF004E7805 /* SGBaseCArray.h in Headers */ = {isa = PBXBuildFile; fileRef = F3C762BB05D543C100CD425B /* SGBaseCArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		874A350A086E21EF004E7805 /* SGBufferedReader.h in Headers */ = {isa = PBXBuildFile; fileRef = F39D3F5B064CA88400CAF5C7 /* SGBufferedReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		874A350B086E21EF004E7805 /* SGInputReader.h in Headers */ = {isa = PBXBuildFile; fileRef = F39D3F5D064CA88400CAF5C7 /* SGInputReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		874A350C086E21EF004E7805 /* SGStringReader.h in Headers */ = {isa = PBXBuildFile; fileRef = F39D3F5F064CA88400CAF5C7 /* SGStringReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		874A350D086E21EF004E7805 /* SGIO.h in Headers */ = {isa = PBXBuildFile; fileRef = F39D3F67064CA8D400CAF5C7 /* SGIO.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A350E086E21EF004E7805 /* SGFileLocation.h in Headers */ = {isa = PBXBuildFile; fileRef = F3A2EB2D065714A200CC2F0D /* SGFileLocation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A350F086E21EF004E7805 /* Utk.h in Headers */ = {isa = PBXBuildFile; fileRef = 878DB85D0832758A0086BC97 /* Utk.h */; };
 		874A3510086E21EF004E7805 /* UtkAssertion.h in Headers */ = {isa = PBXBuildFile; fileRef = 878DB85E0832758A0086BC97 /* UtkAssertion.h */; };
@@ -138,12 +127,6 @@
 		874A3528086E21EF004E7805 /* SGComparableImp.m in Sources */ = {isa = PBXBuildFile; fileRef = F39EFEAA03C62A2D00A80002 /* SGComparableImp.m */; };
 		874A3529086E21EF004E7805 /* SGBaseRangeArray.m in Sources */ = {isa = PBXBuildFile; fileRef = F326543903DA233200A80002 /* SGBaseRangeArray.m */; };
 		874A352A086E21EF004E7805 /* SGRangeArrayImp.m in Sources */ = {isa = PBXBuildFile; fileRef = F326543B03DA233200A80002 /* SGRangeArrayImp.m */; };
-		874A352B086E21EF004E7805 /* SGBaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = F39603A5043EE2E800A80005 /* SGBaseQueue.m */; };
-		874A352C086E21EF004E7805 /* SGUtilLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = F3624C4B0440221200A80005 /* SGUtilLogger.m */; };
-		874A352D086E21EF004E7805 /* SGUtilLogRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = F39DE4DD044051A600A80005 /* SGUtilLogRecord.m */; };
-		874A352E086E21EF004E7805 /* SGUtilLogHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F39DE4E3044055E000A80005 /* SGUtilLogHandler.m */; };
-		874A352F086E21EF004E7805 /* SGUtilLogFileHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F39DE5D90440673300A80005 /* SGUtilLogFileHandler.m */; };
-		874A3530086E21EF004E7805 /* SGUtilLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = F3BE162B0441370B00A80005 /* SGUtilLogFormatter.m */; };
 		874A3531086E21EF004E7805 /* SGFileRef.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AEC3820444D17F007086AB /* SGFileRef.m */; };
 		874A3534086E21EF004E7805 /* String+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A3BF27046CEDD300A80005 /* String+Utils.m */; };
 		874A3536086E21EF004E7805 /* SGURLEscape.c in Sources */ = {isa = PBXBuildFile; fileRef = F389EC2B0485374B00A80005 /* SGURLEscape.c */; };
@@ -154,17 +137,20 @@
 		874A353F086E21EF004E7805 /* SGTemplatesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F30ED6AB0510B4E900A80005 /* SGTemplatesManager.m */; };
 		874A3540086E21EF004E7805 /* NSString+TEC.m in Sources */ = {isa = PBXBuildFile; fileRef = F38CC41A0514ECD200A80005 /* NSString+TEC.m */; };
 		874A3541086E21EF004E7805 /* SGFoundationBase.m in Sources */ = {isa = PBXBuildFile; fileRef = F376B23805D430D200FF4DFA /* SGFoundationBase.m */; };
-		874A3542086E21EF004E7805 /* SGFoundationUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F376B2D405D445B700FF4DFA /* SGFoundationUtils.m */; };
 		874A3543086E21EF004E7805 /* SGBaseCArray.c in Sources */ = {isa = PBXBuildFile; fileRef = F3C762BC05D543C100CD425B /* SGBaseCArray.c */; };
-		874A3545086E21EF004E7805 /* SGBufferedReader.m in Sources */ = {isa = PBXBuildFile; fileRef = F39D3F5C064CA88400CAF5C7 /* SGBufferedReader.m */; };
-		874A3546086E21EF004E7805 /* SGInputReader.m in Sources */ = {isa = PBXBuildFile; fileRef = F39D3F5E064CA88400CAF5C7 /* SGInputReader.m */; };
-		874A3547086E21EF004E7805 /* SGStringReader.m in Sources */ = {isa = PBXBuildFile; fileRef = F39D3F60064CA88400CAF5C7 /* SGStringReader.m */; };
 		874A3548086E21EF004E7805 /* SGFileLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A2EB2E065714A200CC2F0D /* SGFileLocation.m */; };
 		874A3549086E21EF004E7805 /* MoreFilesX.c in Sources */ = {isa = PBXBuildFile; fileRef = 87C7292A082BA2D200AC9AE1 /* MoreFilesX.c */; };
 		874A354B086E21EF004E7805 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51DA639024DFED301A80002 /* Cocoa.framework */; };
 		874A354C086E21EF004E7805 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F515AE260267BAE601A80002 /* CoreServices.framework */; };
 		874A354D086E21EF004E7805 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F50DAD8502CB355501A80002 /* ApplicationServices.framework */; };
 		874A354E086E21EF004E7805 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5C64E5503252C8B01A80002 /* Carbon.framework */; };
+		8768FDF30CD3A17B0020BBBE /* BSURLDownload.h in Headers */ = {isa = PBXBuildFile; fileRef = 8768FDF10CD3A17B0020BBBE /* BSURLDownload.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8768FDF40CD3A17C0020BBBE /* BSURLDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 8768FDF20CD3A17B0020BBBE /* BSURLDownload.m */; };
+		8768FE020CD3A6170020BBBE /* SGHTTPDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 8768FE010CD3A6170020BBBE /* SGHTTPDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87EA10530CD35F4000BAEBB2 /* SGBaseQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = F39603A4043EE2E800A80005 /* SGBaseQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87EA10540CD35F4000BAEBB2 /* SGBaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = F39603A5043EE2E800A80005 /* SGBaseQueue.m */; };
+		87EA10A90CD37C5100BAEBB2 /* SGNSR.h in Headers */ = {isa = PBXBuildFile; fileRef = F3C37DCA04F5F957009E45E9 /* SGNSR.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87EA10AA0CD37C5200BAEBB2 /* SGFoundationUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F376B2D405D445B700FF4DFA /* SGFoundationUtils.m */; };
 		87FD8518098CF59000ECD73C /* NSBundle+AppSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = F30ED6A60510B1C500A80005 /* NSBundle+AppSupport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87FD8519098CF59100ECD73C /* SGFile+AppSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = F30ED6A20510AFC700A80005 /* SGFile+AppSupport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F317F99704469DFC00A80005 /* TestCArrayWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = F317F99504469DFC00A80005 /* TestCArrayWrapper.h */; };
@@ -176,13 +162,11 @@
 		F3354F4105D3A2C90073CD71 /* TestUTILKit.m in Sources */ = {isa = PBXBuildFile; fileRef = F3354F3F05D3A2C90073CD71 /* TestUTILKit.m */; };
 		F3624C510440337900A80005 /* TestSGUtilLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = F3624C4F0440337900A80005 /* TestSGUtilLogger.h */; };
 		F3624C520440337900A80005 /* TestSGUtilLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = F3624C500440337900A80005 /* TestSGUtilLogger.m */; };
-		F368986F05B0A1B80006D567 /* ObjcUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F368986E05B0A1B80006D567 /* ObjcUnit.framework */; };
 		F36EC4B304602FA700A80005 /* TestBitArray.h in Headers */ = {isa = PBXBuildFile; fileRef = F36EC4B104602FA700A80005 /* TestBitArray.h */; };
 		F36EC4B404602FA700A80005 /* TestBitArray.m in Sources */ = {isa = PBXBuildFile; fileRef = F36EC4B204602FA700A80005 /* TestBitArray.m */; };
 		F3746BE9050B716400A80005 /* NSString+JapaneseTest.h in Headers */ = {isa = PBXBuildFile; fileRef = F3746BE5050B715600A80005 /* NSString+JapaneseTest.h */; };
 		F3746BEA050B716400A80005 /* NSString+JapaneseTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3746BE6050B715600A80005 /* NSString+JapaneseTest.m */; };
 		F3746C07050B780D00A80005 /* JapaneseStringTest.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3746C06050B780C00A80005 /* JapaneseStringTest.plist */; };
-		F37C39FC05D488E40061C5CC /* ObjcUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F368986E05B0A1B80006D567 /* ObjcUnit.framework */; };
 		F3894D5C051A86C800C679D7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51DA639024DFED301A80002 /* Cocoa.framework */; };
 		F3894D5F051A86D400C679D7 /* PTest.h in Headers */ = {isa = PBXBuildFile; fileRef = F3894D28051A83A000C679D7 /* PTest.h */; };
 		F3894D60051A86D500C679D7 /* Controller.h in Headers */ = {isa = PBXBuildFile; fileRef = F3894D1E051A83A000C679D7 /* Controller.h */; };
@@ -293,6 +277,9 @@
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		874A3554086E21F0004E7805 /* Info-SGFoundation.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-SGFoundation.plist"; sourceTree = "<group>"; };
 		874A3555086E21F0004E7805 /* SGFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SGFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8768FDF10CD3A17B0020BBBE /* BSURLDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSURLDownload.h; sourceTree = "<group>"; };
+		8768FDF20CD3A17B0020BBBE /* BSURLDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSURLDownload.m; sourceTree = "<group>"; };
+		8768FE010CD3A6170020BBBE /* SGHTTPDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGHTTPDefines.h; sourceTree = "<group>"; };
 		878DB85D0832758A0086BC97 /* Utk.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = Utk.h; sourceTree = "<group>"; };
 		878DB85E0832758A0086BC97 /* UtkAssertion.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = UtkAssertion.h; sourceTree = "<group>"; };
 		878DB85F0832758A0086BC97 /* UtkDebugging.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = UtkDebugging.h; sourceTree = "<group>"; };
@@ -304,7 +291,7 @@
 		F30ED6A00510AF8D00A80005 /* SGFoundationAppSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SGFoundationAppSupport.h; path = source/support/SGFoundationAppSupport.h; sourceTree = "<group>"; };
 		F30ED6A20510AFC700A80005 /* SGFile+AppSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SGFile+AppSupport.h"; path = "../../support/SGFile+AppSupport.h"; sourceTree = "<group>"; };
 		F30ED6A60510B1C500A80005 /* NSBundle+AppSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSBundle+AppSupport.h"; path = "../../support/NSBundle+AppSupport.h"; sourceTree = "<group>"; };
-		F30ED6AA0510B4E900A80005 /* SGTemplatesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SGTemplatesManager.h; path = ../support/SGTemplatesManager.h; sourceTree = "<group>"; };
+		F30ED6AA0510B4E900A80005 /* SGTemplatesManager.h */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.h; name = SGTemplatesManager.h; path = ../support/SGTemplatesManager.h; sourceTree = "<group>"; };
 		F30ED6AB0510B4E900A80005 /* SGTemplatesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SGTemplatesManager.m; path = ../support/SGTemplatesManager.m; sourceTree = "<group>"; };
 		F317F99504469DFC00A80005 /* TestCArrayWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestCArrayWrapper.h; sourceTree = "<group>"; };
 		F317F99604469DFC00A80005 /* TestCArrayWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestCArrayWrapper.m; sourceTree = "<group>"; };
@@ -326,7 +313,6 @@
 		F3624C4B0440221200A80005 /* SGUtilLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SGUtilLogger.m; sourceTree = "<group>"; };
 		F3624C4F0440337900A80005 /* TestSGUtilLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestSGUtilLogger.h; sourceTree = "<group>"; };
 		F3624C500440337900A80005 /* TestSGUtilLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestSGUtilLogger.m; sourceTree = "<group>"; };
-		F368986E05B0A1B80006D567 /* ObjcUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjcUnit.framework; path = "/Users/takanori/Development/Tools/ObjcUnit 1.2/ObjcUnit/build/ObjcUnit.framework"; sourceTree = "<absolute>"; };
 		F36EC4A904602F1900A80005 /* SGBaseBitArray.c */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.c; lineEnding = 0; path = SGBaseBitArray.c; sourceTree = "<group>"; };
 		F36EC4AA04602F1900A80005 /* SGBaseBitArray.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SGBaseBitArray.h; sourceTree = "<group>"; };
 		F36EC4B104602FA700A80005 /* TestBitArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestBitArray.h; sourceTree = "<group>"; };
@@ -337,7 +323,7 @@
 		F3746BE6050B715600A80005 /* NSString+JapaneseTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+JapaneseTest.m"; sourceTree = "<group>"; };
 		F3746C06050B780C00A80005 /* JapaneseStringTest.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = JapaneseStringTest.plist; sourceTree = "<group>"; };
 		F376B23805D430D200FF4DFA /* SGFoundationBase.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = SGFoundationBase.m; sourceTree = "<group>"; };
-		F376B2D405D445B700FF4DFA /* SGFoundationUtils.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = SGFoundationUtils.m; sourceTree = "<group>"; };
+		F376B2D405D445B700FF4DFA /* SGFoundationUtils.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = SGFoundationUtils.m; sourceTree = "<group>"; };
 		F37C3A2605D4A18B0061C5CC /* SGFoundation_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGFoundation_Prefix.h; sourceTree = "<group>"; };
 		F3894D1E051A83A000C679D7 /* Controller.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
 		F3894D1F051A83A000C679D7 /* Controller.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = Controller.m; sourceTree = "<group>"; };
@@ -350,11 +336,11 @@
 		F3894D5A051A86B300C679D7 /* Performance Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; path = "Performance Test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F389EC2B0485374B00A80005 /* SGURLEscape.c */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.c; lineEnding = 0; path = SGURLEscape.c; sourceTree = "<group>"; };
 		F389EC2C0485374B00A80005 /* SGURLEscape.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SGURLEscape.h; sourceTree = "<group>"; };
-		F38A939703C6174000A80002 /* SGFoundationUtils.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SGFoundationUtils.h; sourceTree = "<group>"; };
+		F38A939703C6174000A80002 /* SGFoundationUtils.h */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SGFoundationUtils.h; sourceTree = "<group>"; };
 		F38A939903C617C200A80002 /* SGFoundationProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SGFoundationProtocols.h; sourceTree = "<group>"; };
 		F38A939B03C617F200A80002 /* SGFoundationClasses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SGFoundationClasses.h; sourceTree = "<group>"; };
 		F38A939D03C6183700A80002 /* SGFoundationAdditions.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SGFoundationAdditions.h; sourceTree = "<group>"; };
-		F38CC41A0514ECD200A80005 /* NSString+TEC.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "NSString+TEC.m"; sourceTree = "<group>"; };
+		F38CC41A0514ECD200A80005 /* NSString+TEC.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = "NSString+TEC.m"; sourceTree = "<group>"; };
 		F38D52F30444DDA5006F39E1 /* TestSGFileRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestSGFileRef.h; sourceTree = "<group>"; };
 		F38D52F40444DDA5006F39E1 /* TestSGFileRef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestSGFileRef.m; sourceTree = "<group>"; };
 		F39603A4043EE2E800A80005 /* SGBaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SGBaseQueue.h; sourceTree = "<group>"; };
@@ -420,7 +406,7 @@
 		F3FB8AB30445894800A80005 /* TestSGBaseUnicode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TestSGBaseUnicode.m; sourceTree = "<group>"; };
 		F50DAD8502CB355501A80002 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
 		F515AE260267BAE601A80002 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
-		F5167AD40256EF7901A80002 /* Framework Tests */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "Framework Tests"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F5167AD40256EF7901A80002 /* Framework Tests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = "Framework Tests"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F51DA639024DFED301A80002 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		F5292B1D02ACD9CF01A80002 /* xhtml-lat1.ent */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = text; path = "xhtml-lat1.ent"; sourceTree = "<group>"; };
 		F5292B1E02ACD9CF01A80002 /* xhtml-special.ent */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = text; path = "xhtml-special.ent"; sourceTree = "<group>"; };
@@ -493,7 +479,7 @@
 		F5996C7B0379014401A80002 /* NSString-SGExtensions.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSString-SGExtensions.h"; sourceTree = "<group>"; };
 		F5996C7C0379014401A80002 /* NSString-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSString-SGExtensions.m"; sourceTree = "<group>"; };
 		F5996C7E0379014401A80002 /* NSURL-SGExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSURL-SGExtensions.h"; sourceTree = "<group>"; };
-		F5996C7F0379014401A80002 /* NSURL-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSURL-SGExtensions.m"; sourceTree = "<group>"; };
+		F5996C7F0379014401A80002 /* NSURL-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSURL-SGExtensions.m"; sourceTree = "<group>"; };
 		F5996C800379014401A80002 /* NSURL-SGExtensions_p.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSURL-SGExtensions_p.h"; sourceTree = "<group>"; };
 		F5996C870379014401A80002 /* SGFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = SGFoundation.h; path = source/SGFoundation.h; sourceTree = "<group>"; };
 		F5996CBA0379020601A80002 /* MoreFilesX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MoreFilesX.h; sourceTree = "<group>"; };
@@ -524,7 +510,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F3894D5C051A86C800C679D7 /* Cocoa.framework in Frameworks */,
-				F37C39FC05D488E40061C5CC /* ObjcUnit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -536,7 +521,6 @@
 				F5C6966D02CA157601A80002 /* CoreServices.framework in Frameworks */,
 				F50DAD8702CB355601A80002 /* ApplicationServices.framework in Frameworks */,
 				F5C64EE803252C9101A80002 /* Carbon.framework in Frameworks */,
-				F368986F05B0A1B80006D567 /* ObjcUnit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -588,7 +572,6 @@
 		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F368986E05B0A1B80006D567 /* ObjcUnit.framework */,
 				F51DA639024DFED301A80002 /* Cocoa.framework */,
 				F515AE260267BAE601A80002 /* CoreServices.framework */,
 				F50DAD8502CB355501A80002 /* ApplicationServices.framework */,
@@ -605,6 +588,15 @@
 				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
 			);
 			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		8768FDF00CD3A17B0020BBBE /* url-loading */ = {
+			isa = PBXGroup;
+			children = (
+				8768FDF10CD3A17B0020BBBE /* BSURLDownload.h */,
+				8768FDF20CD3A17B0020BBBE /* BSURLDownload.m */,
+			);
+			path = "url-loading";
 			sourceTree = "<group>";
 		};
 		878DB85C0832758A0086BC97 /* utk */ = {
@@ -1073,7 +1065,9 @@
 		F5996CB70379020601A80002 /* classes */ = {
 			isa = PBXGroup;
 			children = (
+				8768FE010CD3A6170020BBBE /* SGHTTPDefines.h */,
 				F38A939B03C617F200A80002 /* SGFoundationClasses.h */,
+				8768FDF00CD3A17B0020BBBE /* url-loading */,
 				F5996CB90379020601A80002 /* files */,
 				F39D3F5A064CA88400CAF5C7 /* io */,
 				F3EFDF8C0487B0DF00A80005 /* xml */,
@@ -1173,12 +1167,6 @@
 				874A34EC086E21EF004E7805 /* SGComparable.h in Headers */,
 				874A34ED086E21EF004E7805 /* SGBaseRangeArray.h in Headers */,
 				874A34EE086E21EF004E7805 /* SGRangeArrayImp.h in Headers */,
-				874A34EF086E21EF004E7805 /* SGBaseQueue.h in Headers */,
-				874A34F0086E21EF004E7805 /* SGUtilLogger.h in Headers */,
-				874A34F1086E21EF004E7805 /* SGUtilLogRecord.h in Headers */,
-				874A34F2086E21EF004E7805 /* SGUtilLogHandler.h in Headers */,
-				874A34F3086E21EF004E7805 /* SGUtilLogFileHandler.h in Headers */,
-				874A34F4086E21EF004E7805 /* SGUtilLogFormatter.h in Headers */,
 				874A34F5086E21EF004E7805 /* SGFileRef.h in Headers */,
 				874A34F8086E21EF004E7805 /* String+Utils.h in Headers */,
 				874A34FA086E21EF004E7805 /* SGURLEscape.h in Headers */,
@@ -1186,17 +1174,12 @@
 				874A34FC086E21EF004E7805 /* SGXMLEntityReference.h in Headers */,
 				874A34FD086E21EF004E7805 /* SGXmlPullParser.h in Headers */,
 				874A34FE086E21EF004E7805 /* XmlPullParser.h in Headers */,
-				874A34FF086E21EF004E7805 /* SGNSR.h in Headers */,
 				874A3502086E21EF004E7805 /* SGTemporaryObjects.h in Headers */,
 				874A3503086E21EF004E7805 /* SGFoundationAppSupport.h in Headers */,
 				874A3506086E21EF004E7805 /* SGTemplatesManager.h in Headers */,
 				874A3507086E21EF004E7805 /* SGFoundation_Prefix.h in Headers */,
 				874A3508086E21EF004E7805 /* SGBase.h in Headers */,
 				874A3509086E21EF004E7805 /* SGBaseCArray.h in Headers */,
-				874A350A086E21EF004E7805 /* SGBufferedReader.h in Headers */,
-				874A350B086E21EF004E7805 /* SGInputReader.h in Headers */,
-				874A350C086E21EF004E7805 /* SGStringReader.h in Headers */,
-				874A350D086E21EF004E7805 /* SGIO.h in Headers */,
 				874A350E086E21EF004E7805 /* SGFileLocation.h in Headers */,
 				874A350F086E21EF004E7805 /* Utk.h in Headers */,
 				874A3510086E21EF004E7805 /* UtkAssertion.h in Headers */,
@@ -1206,6 +1189,10 @@
 				87FD8518098CF59000ECD73C /* NSBundle+AppSupport.h in Headers */,
 				87FD8519098CF59100ECD73C /* SGFile+AppSupport.h in Headers */,
 				870CA6550CC99F35006B5340 /* NSURL-SGExtensions_p.h in Headers */,
+				87EA10530CD35F4000BAEBB2 /* SGBaseQueue.h in Headers */,
+				87EA10A90CD37C5100BAEBB2 /* SGNSR.h in Headers */,
+				8768FDF30CD3A17B0020BBBE /* BSURLDownload.h in Headers */,
+				8768FE020CD3A6170020BBBE /* SGHTTPDefines.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1291,10 +1278,12 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 874A34C2086E21E0004E7805 /* Build configuration list for PBXProject "SGFoundation" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 0867D691FE84028FC02AAC07 /* SGFoundation */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				874A34C8086E21EF004E7805 /* SGFoundation */,
 				F5167AD50256EF7901A80002 /* Framework Tests */,
@@ -1368,12 +1357,6 @@
 				874A3528086E21EF004E7805 /* SGComparableImp.m in Sources */,
 				874A3529086E21EF004E7805 /* SGBaseRangeArray.m in Sources */,
 				874A352A086E21EF004E7805 /* SGRangeArrayImp.m in Sources */,
-				874A352B086E21EF004E7805 /* SGBaseQueue.m in Sources */,
-				874A352C086E21EF004E7805 /* SGUtilLogger.m in Sources */,
-				874A352D086E21EF004E7805 /* SGUtilLogRecord.m in Sources */,
-				874A352E086E21EF004E7805 /* SGUtilLogHandler.m in Sources */,
-				874A352F086E21EF004E7805 /* SGUtilLogFileHandler.m in Sources */,
-				874A3530086E21EF004E7805 /* SGUtilLogFormatter.m in Sources */,
 				874A3531086E21EF004E7805 /* SGFileRef.m in Sources */,
 				874A3534086E21EF004E7805 /* String+Utils.m in Sources */,
 				874A3536086E21EF004E7805 /* SGURLEscape.c in Sources */,
@@ -1384,13 +1367,12 @@
 				874A353F086E21EF004E7805 /* SGTemplatesManager.m in Sources */,
 				874A3540086E21EF004E7805 /* NSString+TEC.m in Sources */,
 				874A3541086E21EF004E7805 /* SGFoundationBase.m in Sources */,
-				874A3542086E21EF004E7805 /* SGFoundationUtils.m in Sources */,
 				874A3543086E21EF004E7805 /* SGBaseCArray.c in Sources */,
-				874A3545086E21EF004E7805 /* SGBufferedReader.m in Sources */,
-				874A3546086E21EF004E7805 /* SGInputReader.m in Sources */,
-				874A3547086E21EF004E7805 /* SGStringReader.m in Sources */,
 				874A3548086E21EF004E7805 /* SGFileLocation.m in Sources */,
 				874A3549086E21EF004E7805 /* MoreFilesX.c in Sources */,
+				87EA10540CD35F4000BAEBB2 /* SGBaseQueue.m in Sources */,
+				87EA10AA0CD37C5200BAEBB2 /* SGFoundationUtils.m in Sources */,
+				8768FDF40CD3A17C0020BBBE /* BSURLDownload.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1703,17 +1685,11 @@
 				INFOPLIST_FILE = "Info-SGFoundation.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0x31000000,
-					"-lz",
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = SGFoundation;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"\U0001-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
 					"-Wno-format-extra-args",
 				);
 				WRAPPER_EXTENSION = framework;
@@ -1745,17 +1721,11 @@
 				INFOPLIST_FILE = "Info-SGFoundation.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0x31000000,
-					"-lz",
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = SGFoundation;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"\U0001-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
 					"-Wno-format-extra-args",
 				);
 				WRAPPER_EXTENSION = framework;
@@ -1777,17 +1747,11 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "Info-SGFoundation.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0x31000000,
-					"-lz",
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = SGFoundation;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"\U0001-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
 					"-Wno-format-extra-args",
 				);
 				WRAPPER_EXTENSION = framework;

@@ -1,5 +1,5 @@
 /**
-  * $Id: NSString+TEC.m,v 1.2 2005/11/25 20:21:24 tsawada2 Exp $
+  * $Id: NSString+TEC.m,v 1.3 2007/10/29 05:53:22 tsawada2 Exp $
   * 
   * NSString+TEC.m
   *
@@ -15,16 +15,6 @@
 
 // BOM
 static const UniChar kBOMUniChar = 0xFEFF;
-
-// for Workaround missing API
-struct TECObjectRep {
-	UInt32 skip1;
-	UInt32 skip2;
-	UInt32 skip3;
-	OptionBits optionsControlFlags;
-};
-
-
 
 static TextEncoding GetTextEncodingForNSString(void);
 static NSString *AllocateNSStringWithBytesUsingTEC(const UInt8 *srcBuffer, size_t srcLength, TextEncoding theEncoding, BOOL flush);
@@ -85,7 +75,6 @@ static NSString *AllocateNSStringWithBytesUsingTEC(const UInt8 *srcBuffer, size_
 		cachedEncoding  = kCFStringEncodingInvalidId;
 	} else {
 		TextEncoding		toEncoding;
-		struct TECObjectRep	**peek_;
 		
 		toEncoding = GetTextEncodingForNSString();
 		err = TECCreateConverter(
@@ -94,12 +83,8 @@ static NSString *AllocateNSStringWithBytesUsingTEC(const UInt8 *srcBuffer, size_
 					toEncoding);
 		
 		if (err) goto ErrTECCreateConverter;
-		// Workaround for missing TECSetBasicOptions call.
-/*
-		TECSetBasicOptions(_converter, kUnicodeForceASCIIRangeMask);
-*/
-		peek_ = (struct TECObjectRep	**)encodingConverter;
-		peek_[0]->optionsControlFlags = kUnicodeForceASCIIRangeMask;
+
+		TECSetBasicOptions(encodingConverter, kUnicodeForceASCIIRangeMask);
 	}
 	
 	//Naki-Wakare

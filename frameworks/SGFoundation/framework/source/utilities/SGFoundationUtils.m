@@ -1,5 +1,5 @@
 /**
-  * $Id: SGFoundationUtils.m,v 1.1 2005/05/11 17:51:45 tsawada2 Exp $
+  * $Id: SGFoundationUtils.m,v 1.2 2007/10/29 05:53:22 tsawada2 Exp $
   * 
   * SGFoundationUtils.m
   *
@@ -9,15 +9,15 @@
 
 #import <Foundation/Foundation.h>
 #import "SGNSR.h"
-#import "UTILKit.h"
-#import <ctype.h>
-#import <zlib.h>
+//#import "UTILKit.h"
+//#import <ctype.h>
+//#import <zlib.h>
 
 
 
 // for debugging only
-#define UTIL_DEBUGGING		0
-#import "UTILDebugging.h"
+//#define UTIL_DEBUGGING		0
+//#import "UTILDebugging.h"
 
 
 
@@ -67,28 +67,28 @@ void *nsr_strnstr(const char *str, const char *find, size_t length)
  ************************** ZLIB **************************
  **********************************************************
  */
+/* 
 #define ZLIB_BYTE	Bytef
 #define ZLIB_UINT	uInt
 #define ZLIB_ULONG	uLongf
 
 #define ZLIB_INFLATEEND(zstrm)			inflateEnd(zstrm)
 #define ZLIB_INFLATEINIT2(zstrm, bits)	inflateInit2(zstrm, bits)
-
+*/
 /* gzip flag byte */
-#define ASCII_FLAG   0x01 /* bit 0 set: file probably ascii text */
-#define HEAD_CRC     0x02 /* bit 1 set: header CRC present */
-#define EXTRA_FIELD  0x04 /* bit 2 set: extra field present */
-#define ORIG_NAME    0x08 /* bit 3 set: original file name present */
-#define COMMENT      0x10 /* bit 4 set: file comment present */
-#define RESERVED     0xE0 /* bits 5..7: reserved */
-
+//#define ASCII_FLAG   0x01 /* bit 0 set: file probably ascii text */
+//#define HEAD_CRC     0x02 /* bit 1 set: header CRC present */
+//#define EXTRA_FIELD  0x04 /* bit 2 set: extra field present */
+//#define ORIG_NAME    0x08 /* bit 3 set: original file name present */
+//#define COMMENT      0x10 /* bit 4 set: file comment present */
+//#define RESERVED     0xE0 /* bits 5..7: reserved */
 
 /* gzip magic header */
-static const ZLIB_BYTE kGZIPMagicHeaderBytes[2] = {0x1f, 0x8b};
-#define OUT_BUFSIZE   1024
+//static const ZLIB_BYTE kGZIPMagicHeaderBytes[2] = {0x1f, 0x8b};
+//#define OUT_BUFSIZE   1024
 
 
-
+/*
 static BOOL skipGZIPHeader_(z_stream *zStrm)
 {
 	int			i;
@@ -128,7 +128,7 @@ static BOOL skipGZIPHeader_(z_stream *zStrm)
 	UTIL_DEBUG_WRITE1(@"  zStrm->avail_in=%u.", zStrm->avail_in);
 	
 	
-    /* Discard time, xflags and OS code: */
+    // Discard time, xflags and OS code:
 	UTIL_DEBUG_WRITE(@" Discard time, xflags and OS code:");
 	UTILDebugRequire((zStrm->avail_in >= 6), ErrSkipHeader,
 		@"Require 6 bytes for Discard time, xflags and OS code.");
@@ -138,7 +138,7 @@ static BOOL skipGZIPHeader_(z_stream *zStrm)
 	
 	
 	UTIL_DEBUG_WRITE(@" EXTRA_FIELD:");
-	if ((flags & EXTRA_FIELD) != 0) { /* skip the extra field */
+	if ((flags & EXTRA_FIELD) != 0) { // skip the extra field
 		ZLIB_UINT	efLen = 0;
 		
 		
@@ -150,7 +150,7 @@ static BOOL skipGZIPHeader_(z_stream *zStrm)
 		UTIL_DEBUG_WRITE1(@" EXTRA_FIELD: length=%u.", efLen);
 		UTILDebugRequire1((zStrm->avail_in >= efLen), ErrSkipHeader,
 			@"Require %u bytes for the extra field.", efLen);
-		/* i is garbage if EOF but the loop below will quit anyway */
+		// i is garbage if EOF but the loop below will quit anyway
 		while (efLen-- != 0 && zStrm->avail_in > 0) {
 			zStrm->next_in++; zStrm->avail_in--;
 		}
@@ -159,7 +159,7 @@ static BOOL skipGZIPHeader_(z_stream *zStrm)
 	
 	
 	UTIL_DEBUG_WRITE(@" ORIG_NAME:");
-	if ((flags & ORIG_NAME) != 0) { /* skip the original file name */
+	if ((flags & ORIG_NAME) != 0) { // skip the original file name
 		UTIL_DEBUG_WRITE1(@"  Original Name: %s", zStrm->next_in);
 		while ((c = *zStrm->next_in++) != 0 && zStrm->avail_in > 0) 
 			zStrm->avail_in--;
@@ -167,7 +167,7 @@ static BOOL skipGZIPHeader_(z_stream *zStrm)
 	UTIL_DEBUG_WRITE1(@"  zStrm->avail_in=%u.", zStrm->avail_in);
 	
 	UTIL_DEBUG_WRITE(@" COMMENT:");
-	if ((flags & COMMENT) != 0) {   /* skip the .gz file comment */
+	if ((flags & COMMENT) != 0) {   // skip the .gz file comment
 		UTIL_DEBUG_WRITE1(@"  Comment: %s", zStrm->next_in);
 		while ((c = *zStrm->next_in++) != 0 && zStrm->avail_in > 0) 
 			zStrm->avail_in--;
@@ -176,7 +176,7 @@ static BOOL skipGZIPHeader_(z_stream *zStrm)
 	
 	
 	UTIL_DEBUG_WRITE(@" HEAD_CRC:");
-	if ((flags & HEAD_CRC) != 0) {  /* skip the header crc */
+	if ((flags & HEAD_CRC) != 0) {  // skip the header crc
 		UTILDebugRequire((zStrm->avail_in >= 2), ErrSkipHeader,
 			@"Require 2 bytes for header crc.");
 		zStrm->next_in += 2; zStrm->avail_in -= 2;
@@ -188,16 +188,16 @@ static BOOL skipGZIPHeader_(z_stream *zStrm)
 ErrSkipHeader:
 	return NO;
 }
-
-#define ZIP_HEADER_MIN_LENGTH	10
-#define DECOMPRESED_MULT		3
-id SGUtilUngzip(NSData *aData)
+*/
+//#define ZIP_HEADER_MIN_LENGTH	10
+//#define DECOMPRESED_MULT		3
+/*id SGUtilUngzip(NSData *aData)
 {
 	z_stream	zStream;			// zlib
 	int			status = Z_OK;		// 展開の状況
 	int			cnt;
 	size_t		bufCapacity = 0;
-	/* 出力バッファ */
+	// 出力バッファ
 	ZLIB_BYTE outbuf[OUT_BUFSIZE];	
 	NSMutableData	*outData = nil;
 	
@@ -211,16 +211,16 @@ id SGUtilUngzip(NSData *aData)
 	bufCapacity = bufCapacity * DECOMPRESED_MULT;
 	UTIL_DEBUG_WRITE1(@"bufCapacity = %u.", bufCapacity);
 	
-	/* 初期化 */
-	zStream.zalloc = Z_NULL; /* used to allocate the internal state */
-	zStream.zfree  = Z_NULL; /* used to free the internal state */
-	zStream.opaque = Z_NULL; /* private data object passed to zalloc and zfree */
+	// 初期化
+	zStream.zalloc = Z_NULL; // used to allocate the internal state
+	zStream.zfree  = Z_NULL; // used to free the internal state
+	zStream.opaque = Z_NULL; // private data object passed to zalloc and zfree
 	
 	zStream.next_in = (ZLIB_BYTE*)[aData bytes];
 	zStream.avail_in = (ZLIB_UINT)[aData length];
 	zStream.next_out  = outbuf;
 	zStream.avail_out = OUT_BUFSIZE;
-	
+*/	
 	/*
 	inflateInit2(z_stream *strm, int  windowBits)
 	
@@ -233,7 +233,7 @@ id SGUtilUngzip(NSData *aData)
 	inflate() will then process raw deflate data, not looking for
 	a zlib or gzip header,
 	*/
-	UTILDebugRequire(
+/*	UTILDebugRequire(
 		Z_OK == ZLIB_INFLATEINIT2(&zStream, -MAX_WBITS),
 		ZlibInflateEnd,
 		@"ZLIB_INFLATEINIT2");
@@ -268,11 +268,11 @@ id SGUtilUngzip(NSData *aData)
 		if (0 == zStream.avail_out) {
 			UTIL_DEBUG_WRITE1(@"  buffer appendBytes:%u", OUT_BUFSIZE);
 			[outData appendBytes:outbuf length:OUT_BUFSIZE];
-			zStream.next_out  = outbuf;			/* 出力ポインタを元に戻す */
-			zStream.avail_out = OUT_BUFSIZE;	/* 出力バッファ残量を元に戻す */
+			zStream.next_out  = outbuf;			// 出力ポインタを元に戻す
+			zStream.avail_out = OUT_BUFSIZE;	// 出力バッファ残量を元に戻す
 		}
 	}
-	/* 残りを吐き出す */
+	// 残りを吐き出す
 	if ((cnt = OUT_BUFSIZE - zStream.avail_out) != 0) {
 		UTIL_DEBUG_WRITE1(@"  buffer appendBytes:%u", cnt);
 		[outData appendBytes:outbuf length:cnt];
@@ -286,11 +286,11 @@ ZlibInflateEnd:
 	UTIL_DEBUG_WRITE1(@"  buffer size:%u", [outData length]);
 	return outData;
 }
-
-
+*/
+/*
 id SGUtilUngzipIfNeeded(NSData *aData)
 {
 	id		ret;
 	
 	return nil == (ret = SGUtilUngzip(aData)) ? aData : ret;
-}
+}*/
