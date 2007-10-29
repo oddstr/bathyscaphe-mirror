@@ -7,7 +7,7 @@
 //
 
 #import "BSIPIToken.h"
-#import <SGNetwork/BSIPIDownload.h>
+//#import <SGNetwork/BSIPIDownload.h>
 #import <SGAppKit/NSWorkspace-SGExtensions.h>
 
 NSString *const BSIPITokenDownloadErrorNotification = @"BSIPITokenDownloadErrorNotification";
@@ -64,7 +64,7 @@ NSString *const BSIPITokenDownloadErrorNotification = @"BSIPITokenDownloadErrorN
 {
 	self = [super init];
 	if (self != nil) {
-		ipit_curDownload = [[BSIPIDownload alloc] initWithURLIdentifier: anURL delegate: self destination: aPath];
+		ipit_curDownload = [[BSURLDownload alloc] initWithURL:anURL delegate:self destination:aPath];
 		if (ipit_curDownload == nil) return nil;
 
 		[self setSourceURL: anURL];
@@ -135,12 +135,12 @@ NSString *const BSIPITokenDownloadErrorNotification = @"BSIPITokenDownloadErrorN
 	ipit_statusMsg = aString;
 }
 
-- (BSIPIDownload *) currentDownload
+- (BSURLDownload *) currentDownload
 {
 	return ipit_curDownload;
 }
 
-- (void) setCurrentDownload: (BSIPIDownload *) aDownload
+- (void) setCurrentDownload: (BSURLDownload *) aDownload
 {
 	[self willChangeValueForKey: @"isDownloading"];
 	[aDownload retain];
@@ -166,7 +166,7 @@ NSString *const BSIPITokenDownloadErrorNotification = @"BSIPITokenDownloadErrorN
 
 - (void) cancelDownload
 {
-	BSIPIDownload *curDl = [self currentDownload];
+	BSURLDownload *curDl = [self currentDownload];
 	if (curDl != nil) {
 		[[self currentDownload] cancel];
 		[self setCurrentDownload: nil];
@@ -185,7 +185,7 @@ NSString *const BSIPITokenDownloadErrorNotification = @"BSIPITokenDownloadErrorN
 		[[NSFileManager defaultManager] removeFileAtPath:downloadedFilePathIfExists handler:nil];
 	}
 */
-	[self setCurrentDownload:[[[BSIPIDownload alloc] initWithURLIdentifier:[self sourceURL] delegate:self destination:destination] autorelease]];
+	[self setCurrentDownload:[[[BSURLDownload alloc] initWithURL:[self sourceURL] delegate:self destination:destination] autorelease]];
 	[self setThumbnail:[[self class] loadingIndicator]];
 	[self setStatusMessage:[self localizedStrForKey:@"Start Downloading..."]];
 	ipit_downloadedSize = 0;
@@ -203,8 +203,8 @@ NSString *const BSIPITokenDownloadErrorNotification = @"BSIPITokenDownloadErrorN
 	return ipit_downloadedSize;
 }
 
-#pragma mark BSIPIDownload Delegates
-- (void) bsIPIdownload: (BSIPIDownload *) aDownload willDownloadContentOfSize: (double) expectedLength
+#pragma mark BSURLDownload Delegates
+- (void)bsURLDownload:(BSURLDownload *)aDownload willDownloadContentOfSize:(double)expectedLength
 {
 	[self setStatusMessage: [self localizedStrForKey: @"Downloading..."]];
 	[self willChangeValueForKey: @"shouldIndeterminate"];
@@ -215,7 +215,7 @@ NSString *const BSIPITokenDownloadErrorNotification = @"BSIPITokenDownloadErrorN
 	[self didChangeValueForKey: @"contentSize"];
 }
 
-- (void) bsIPIdownload: (BSIPIDownload *) aDownload didDownloadContentOfSize: (double) downloadedLength
+- (void)bsURLDownload:(BSURLDownload *)aDownload didDownloadContentOfSize:(double)downloadedLength
 {
 	NSString *tmp;
 	[self willChangeValueForKey: @"downloadedSize"];
@@ -225,15 +225,14 @@ NSString *const BSIPITokenDownloadErrorNotification = @"BSIPITokenDownloadErrorN
 	[self setStatusMessage:tmp];
 }
 
-- (void) bsIPIdownloadDidFinish: (BSIPIDownload *) aDownload
+- (void)bsURLDownloadDidFinish:(BSURLDownload *)aDownload
 {
 	[self setDownloadedFilePath: [aDownload downloadedFilePath]];
 	[self setCurrentDownload: nil];
 	[self createThumbnailAndCalcImgSizeForPath: [self downloadedFilePath]];
 }
 
-
-- (BOOL) bsIPIdownload: (BSIPIDownload *) aDownload didRedirectToURL: (NSURL *) newURL
+- (BOOL)bsURLDownload:(BSURLDownload *)aDownload shouldRedirectToURL:(NSURL *)newURL
 {
 	NSString	*extension = [[[newURL path] pathExtension] lowercaseString];
 	if(!extension) return NO;
@@ -241,7 +240,7 @@ NSString *const BSIPITokenDownloadErrorNotification = @"BSIPITokenDownloadErrorN
 	return [[NSImage imageFileTypes] containsObject: extension];
 }
 
-- (void) bsIPIdownload: (BSIPIDownload *) aDownload didAbortRedirectionToURL: (NSURL *) anURL
+- (void)bsURLDownload:(BSURLDownload *)aDownload didAbortRedirectionToURL:(NSURL *)anURL
 {
 	NSBeep();
 
@@ -252,7 +251,7 @@ NSString *const BSIPITokenDownloadErrorNotification = @"BSIPITokenDownloadErrorN
 	[self postErrorNotification];
 }
 
-- (void) bsIPIdownload: (BSIPIDownload *) aDownload didFailWithError: (NSError *) aError
+- (void)bsURLDownload:(BSURLDownload *)aDownload didFailWithError:(NSError *)aError
 {
 	NSBeep();
 

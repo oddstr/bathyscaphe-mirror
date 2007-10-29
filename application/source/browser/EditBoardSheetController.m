@@ -109,15 +109,17 @@ static NSString *const kEditDrawerItemTitleForCategoryKey = @"PleaseInputName";
 						   modalDelegate: (id) aDelegate
 							 contextInfo: (id) contextInfo
 {
-	UTILAssertKindOfClass(contextInfo, NSString);
+	UTILAssertKindOfClass(contextInfo, BoardListItem);
+
+	NSString *name_ = [contextInfo representName];
 
 	NSString *messageTemplate = [self localizedString: kEditDrawerItemMsgForCategoryKey];
 
 	[[self titleField] setStringValue: [self localizedString: kEditDrawerTitleKey]];
-	[[self messageField] setStringValue: [NSString localizedStringWithFormat: messageTemplate, contextInfo]];
+	[[self messageField] setStringValue: [NSString localizedStringWithFormat: messageTemplate, name_]];
 	[[self labelField] setStringValue: [self localizedString: kEditDrawerItemTitleForCategoryKey]];
 	
-	[self setEnteredText: contextInfo];
+	[self setEnteredText: name_];
 	
 	[NSApp beginSheet: [self window]
 	   modalForWindow: targetWindow
@@ -171,9 +173,9 @@ static NSString *const kEditDrawerItemTitleForCategoryKey = @"PleaseInputName";
 	id delegate_ = [contextInfo objectAtIndex: 0];
 
 	if (NSOKButton == returnCode) {
-		[[BoardManager defaultManager] editCategoryOfName: [contextInfo objectAtIndex: 1] newName: [self enteredText]];
+		[[BoardManager defaultManager] editCategoryItem:[contextInfo objectAtIndex:1] newName:[self enteredText]];
 	}
-	
+
 	[sheet close];
 
 	if((delegate_ != [NSNull null]) && [delegate_ respondsToSelector: @selector(controller:didEndSheet:returnCode:)]){
@@ -189,7 +191,6 @@ static NSString *const kEditDrawerItemTitleForCategoryKey = @"PleaseInputName";
 	id delegate_ = [contextInfo objectAtIndex: 0];
 
 	if (NSOKButton == returnCode) {
-//		[[BoardManager defaultManager] editBoardOfName: [contextInfo objectAtIndex: 1] newURLString: [self enteredText]];
 		[[BoardManager defaultManager] editBoardItem: [contextInfo objectAtIndex: 1] newURLString: [self enteredText]];
 	}
 	

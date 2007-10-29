@@ -2,7 +2,7 @@
 #import "CMRDownloader.h"
 
 #import <SGFoundation/SGFoundation.h>
-#import <SGNetwork/SGHTTPDefines.h>
+//#import <SGNetwork/SGHTTPDefines.h>
 #import "CocoMonar_Prefix.h"
 
 #import "CMRDocumentFileManager.h"

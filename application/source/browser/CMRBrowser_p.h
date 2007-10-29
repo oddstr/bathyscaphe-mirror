@@ -54,98 +54,82 @@
 #define kBrowserListColumnsPlist			@"browserListColumns.plist"
 #define kChooseColumnAction					@selector(chooseColumn:)
 #define kToolbarSearchFieldItemKey			@"Search Thread"
-// menuItem tags
-#define kSearchPopUpOptionItemTag			11
-#define kSearchPopUpSeparatorTag			22
-#define kSearchPopUpHistoryHeaderItemTag	33
-#define kSearchPopUpHistoryItemTag			44
 
+// menuItem tags
 #define kBrowserMenuItemAlwaysEnabledTag	777
 
-#define kBLEditItemViaMenubarItemTag	751
-#define kBLEditItemViaContMenuItemTag	701
-#define kBLDeleteItemViaMenubarItemTag	752
-#define kBLDeleteItemViaContMenuItemTag	702
-#define kBLOpenBoardItemViaContMenuItemTag	703
-#define kBLShowInspectorViaContMenuItemTag	704
+#define kBLEditItemViaMenubarItemTag		751
+#define kBLEditItemViaContMenuItemTag		701
+#define kBLDeleteItemViaMenubarItemTag		752
+#define kBLDeleteItemViaContMenuItemTag		702
+// Reserved value -- currently unused.
+//#define kBLOpenBoardItemViaContMenuItemTag	703
+//#define kBLShowInspectorViaContMenuItemTag	704
 
 #define kBLContMenuItemTagMin		700
 #define kBLContMenuItemTagMax		705
 
 
-
 @interface CMRBrowser(Table)
-- (void) changeHighLightedTableColumnTo : (NSString *) columnIdentifier_ isAscending : (BOOL) isAscending;
+- (void)changeHighLightedTableColumnTo:(NSString *)columnIdentifier_ isAscending:(BOOL)isAscending;
 
 /* ‘I‘ð‚Å‚«‚È‚¯‚ê‚Î -1 */
-- (unsigned) selectCurrentThreadWithMask : (int) mask;
-- (unsigned) selectRowWithCurrentThread;
-- (unsigned) selectRowWithThreadPath : (NSString *) filepath
-		        byExtendingSelection : (BOOL      ) flag;
-
+- (unsigned)selectCurrentThreadWithMask:(int)mask;
+- (unsigned)selectRowWithCurrentThread;
+- (unsigned)selectRowWithThreadPath:(NSString *)filepath byExtendingSelection:(BOOL)flag;
 @end
 
 //:CMRBrowser-Delegate.m
 @interface CMRBrowser(NotificationPrivate)
-- (void) boardManagerUserListDidChange : (NSNotification *) notification;
-//- (void) threadsListDidFinishUpdate : (NSNotification *) notification;
-- (void) threadsListDidChange : (NSNotification *) notification;
-
-// CMRFavoritesManagerDidLinkFavoritesNotification
-//- (void) favoritesManagerDidLinkFavorites : (NSNotification *) notification;
-// CMRFavoritesManagerDidRemoveFavoritesNotification
-//- (void) favoritesManagerDidRemoveFavorites : (NSNotification *) notification;
+- (void)boardManagerUserListDidChange:(NSNotification *)notification;
+- (void)threadsListDidChange:(NSNotification *)notification;
 @end
 
 
-//:CMRBrowser-ViewAccessor.m
 @interface CMRBrowser(ViewAccessor)
-- (BSKFSplitView *) splitView;
+- (BSKFSplitView *)splitView;
 
-- (ThreadsListTable *) threadsListTable;
+- (ThreadsListTable *)threadsListTable;
 
-- (NSOutlineView *) boardListTable;
-- (id) brdListActMenuBtn;
-- (RBSplitSubview *) boardListSubView;
-- (id) splitterBtn;
+- (NSOutlineView *)boardListTable;
+- (id)brdListActMenuBtn;
+- (RBSplitSubview *)boardListSubView;
+- (id)splitterBtn;
 
-- (NSMenu *) listContextualMenu;
-- (NSMenu *) drawerContextualMenu;
+- (NSMenu *)listContextualMenu;
+- (NSMenu *)drawerContextualMenu;
 
-- (NSSearchField *) searchField;
-- (CMRAccessorySheetController *) listSorterSheetController;
-- (AddBoardSheetController *) addBoardSheetController;
-- (EditBoardSheetController *) editBoardSheetController;
+- (NSSearchField *)searchField;
+- (CMRAccessorySheetController *)listSorterSheetController;
+- (AddBoardSheetController *)addBoardSheetController;
+- (EditBoardSheetController *)editBoardSheetController;
 
 - (NSSegmentedControl *)viewModeSwitcher;
 @end
 
+
 @interface CMRBrowser(UIComponents)
-- (void) setupLoadedComponents;
+- (void)setupLoadedComponents;
 @end
 
-@interface CMRBrowser(TableColumnInitializer)
-- (NSArray *) defaultColumnsArray;
-//- (id) defaultColumnsArrayPropertyListRep;
-//- (NSTableColumn *) defaultTableColumnWithIdentifier : (NSString *) anIdentifer;
-- (NSTableColumn *) tableColumnWithPropertyListRep : (id) rep;
 
-- (void) createDefaultTableColumnsWithTableView : (NSTableView *) tableView;
-- (void) setupTableColumn : (NSTableColumn *) column;
+@interface CMRBrowser(TableColumnInitializer)
+- (NSTableColumn *)tableColumnWithPropertyListRep:(id)rep;
+
+- (void)createDefaultTableColumnsWithTableView:(NSTableView *)tableView;
+- (void)setupTableColumn:(NSTableColumn *)column;
 @end
 
 
 @interface CMRBrowser(ViewInitializer)
-//- (void) updateDefaultsWithTableView : (NSTableView *) tbview;
 - (void)updateThreadsListTableWithNeedingDisplay:(BOOL)display;
+- (void)setupThreadsListTable;
 - (void)updateTableColumnsMenu;
-//- (void) setupBoardListOutlineView : (NSOutlineView *) outlineView;
+
+- (void)setupSplitView;
+
 - (void)updateBoardListViewWithNeedingDisplay:(BOOL)display;
+- (void)setupBoardListTable;
 
-- (void) setupSplitView;
-- (void) setupThreadsListTable;
-
-- (void) setupBoardListTable;
-
-- (void) setupFrameAutosaveName;
+- (void)setupFrameAutosaveName;
 @end

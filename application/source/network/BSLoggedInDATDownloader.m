@@ -7,7 +7,7 @@
 //
 
 #import "BSLoggedInDATDownloader.h"
-#import <SGNetwork/SGHTTPDefines.h>
+//#import <SGNetwork/SGHTTPDefines.h>
 #import "AppDefaults.h"
 #import "w2chConnect.h"
 

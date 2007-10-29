@@ -1,6 +1,6 @@
 //:w2chAuthenticater_p.h
 #import "w2chAuthenticater.h"
-#import <SGNetwork/SGHTTPDefines.h>
+//#import <SGNetwork/SGHTTPDefines.h>
 #import "URLConnector_Prefix.h"
 #import "SG2chConnector.h"
 

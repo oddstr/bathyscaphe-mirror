@@ -129,7 +129,7 @@
 
 
 @implementation CMRBrowser(TableColumnInitializer)
-- (NSArray *)defaultColumnsArray
+/*- (NSArray *)defaultColumnsArray
 {
     NSBundle    *bundles[] = {
                 [NSBundle applicationSpecificBundle], 
@@ -142,7 +142,7 @@
         if (path = [*p pathForResourceWithName : kBrowserListColumnsPlist]) break;
     }
     return (!path) ? nil : [NSArray arrayWithContentsOfFile:path];
-}
+}*/
 
 - (NSTableColumn *)tableColumnWithPropertyListRep:(id)plistRep
 {
@@ -194,7 +194,7 @@
     NSEnumerator        *iter_;
     id                  rep_;
     
-    iter_ = [[self defaultColumnsArray] objectEnumerator];
+    iter_ = [[[[NSApp delegate] class] defaultColumnsArray] objectEnumerator];
 
     while (rep_ = [iter_ nextObject]) {
         NSTableColumn        *column_;
@@ -369,7 +369,7 @@
 {
 	AppDefaults		*pref = CMRPref;
 	NSOutlineView	*boardListTable = [self boardListTable];
-	NSColor			*bgColor = [pref boardListBackgroundColor];
+	NSColor			*bgColor = [[self window] isMainWindow] ? [pref boardListBackgroundColor] : [pref boardListNonActiveBgColor];
 
 	[boardListTable setRowHeight:[pref boardListRowHeight]];
 	if (bgColor) {

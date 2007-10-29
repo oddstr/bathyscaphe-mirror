@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.23 2007/10/23 17:57:57 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.24 2007/10/29 05:54:46 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -12,7 +12,7 @@
 #import "BSIPIPathTransformer.h"
 #import "BSIPIImageView.h"
 #import "BSIPIToken.h"
-#import <SGNetwork/BSIPIDownload.h>
+//#import <SGNetwork/BSIPIDownload.h>
 #import <CocoMonar/CMRPropertyKeys.h>
 
 @class BSIPITableView;

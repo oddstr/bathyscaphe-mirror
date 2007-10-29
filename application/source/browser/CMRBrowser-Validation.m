@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-Validation.m,v 1.29 2007/08/05 12:25:26 tsawada2 Exp $
+ * $Id: CMRBrowser-Validation.m,v 1.30 2007/10/29 05:54:46 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -93,7 +93,7 @@
 
 - (BOOL) validateBoardListContextualMenuItem: (int) tag_
 {
-	int					rowIndex_;
+/*	int					rowIndex_;
 	NSOutlineView		*bLT_ = [self boardListTable];
 	int					semiSelRowIdx_ = [(BSBoardListView *)bLT_ semiSelectedRow];
 	int					numOfSelected_ = [bLT_ numberOfSelectedRows];
@@ -131,6 +131,21 @@
 			return NO;
 		else
 			return YES;
+	}
+	return NO;*/
+	BSBoardListView *view = (BSBoardListView *)[self boardListTable];
+	int			rowAtMenu = [view semiSelectedRow];
+
+	if (rowAtMenu == -1) {
+		return NO;
+	} else {
+		NSIndexSet *selectedRows = [view selectedRowIndexes];
+		if ([selectedRows count] > 1 && [selectedRows containsIndex:rowAtMenu]) {
+			return (tag_ == kBLDeleteItemViaContMenuItemTag);
+		}
+		id item = [view itemAtRow:rowAtMenu];
+		if (!item) return NO;
+		return ![BoardListItem isFavoriteItem:item];
 	}
 	return NO;
 }

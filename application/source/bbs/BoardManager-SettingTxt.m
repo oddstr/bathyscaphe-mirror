@@ -179,6 +179,27 @@ NSString *const BoardManagerDidFinishDetectingSettingTxtNotification = @"BoardMa
 	return YES;
 }
 
+- (BOOL)editCategoryItem:(id)item newName:(NSString *)newName
+{
+	UTILAssertNotNil(item);
+	UTILAssertNotNil(newName);
+
+	UTILAssertKindOfClass(item, BoardListItem);
+
+	if ([[item representName] isEqualToString:newName]) {
+		// Nothing to do.
+		return YES;
+	}
+
+	if ([[self userList] containsItemWithName:newName ofType:(BoardListFavoritesItem | BoardListCategoryItem)]) {
+		[self showSameNameExistsAlert:NSLocalizedString(@"So cannot change name.", @"So cannot change name.")];
+		return NO;
+	}
+
+	[[self userList] item:item setName:newName setURL:nil];
+	return YES;
+}
+
 - (BOOL) editCategoryOfName: (NSString *) oldName newName: (NSString *) newName
 {
 	BoardListItem *newItem_;
@@ -210,7 +231,9 @@ NSString *const BoardManagerDidFinishDetectingSettingTxtNotification = @"BoardMa
 	id				eachItem;
 
 	while ((eachItem = [iter_ nextObject]) != nil) {
-		[[self userList] removeItem : eachItem];
+		if (![BoardListItem isFavoriteItem:eachItem]) {
+			[[self userList] removeItem:eachItem];
+		}
 	}
 
 	return YES;

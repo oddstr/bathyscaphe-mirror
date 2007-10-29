@@ -299,15 +299,20 @@
 {
 	NSSize scrollViewSize;
 	NSRect windowFrame;
+//	NSPoint windowOrigin;
 
 	SystemSoundPlay(0);
 
 	scrollViewSize = [[self scrollView] frame].size;
 	windowFrame = [[self window] frame];
+//	windowOrigin = windowFrame.origin;
 
 	if (windowFrame.size.height + TITLEBAR_HEIGHT < [self maxSize].height) {
 		windowFrame.size.height += TITLEBAR_HEIGHT;
+//		windowOrigin.y -= TITLEBAR_HEIGHT;
+		windowFrame.origin.y -= TITLEBAR_HEIGHT;
 		[[self window] setFrame:windowFrame display:YES];
+//		[[self window] setFrameOrigin:windowOrigin];
 		[[self scrollView] setFrameOrigin:NSMakePoint(0,0)];
 	} else {
 		scrollViewSize.height -= TITLEBAR_HEIGHT;

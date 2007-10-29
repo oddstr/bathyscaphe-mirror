@@ -1,5 +1,5 @@
 //
-//  $Id: BSBoardListView.h,v 1.5 2007/02/25 11:51:05 tsawada2 Exp $
+//  $Id: BSBoardListView.h,v 1.6 2007/10/29 05:54:46 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/09/20.
@@ -11,23 +11,18 @@
 
 @interface BSBoardListView : NSOutlineView {
 	@private
-	int _semiSelectedRow; // 選択されていないが、コンテキストメニューのターゲットになっている
-	NSRect _semiSelectedRowRect;
+	int m_semiSelectedRow; // 選択されていないが、コンテキストメニューのターゲットになっている
 	
 	// From FileTreeView.h
 	BOOL isInstalledTextInputEvent;
 	BOOL isFindBegin;
 	BOOL isUsingInputWindow;
-	NSText *fieldEditor;
+	NSText *fieldEditor; // No retain/release
 	NSTimer *resetTimer;
 	EventHandlerRef textInputEventHandler;
 }
 
-- (int) semiSelectedRow;
-- (NSRect) semiSelectedRowRect;
-
-//+ (NSImage *) imageNormal;
-//+ (NSImage *) imageFocused;
+- (int)semiSelectedRow;
 @end
 
 //

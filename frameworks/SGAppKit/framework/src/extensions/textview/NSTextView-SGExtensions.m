@@ -1,13 +1,14 @@
 //: NSTextView-SGExtensions.m
 /**
-  * $Id: NSTextView-SGExtensions.m,v 1.4 2007/03/21 13:50:39 tsawada2 Exp $
+  * $Id: NSTextView-SGExtensions.m,v 1.5 2007/10/29 05:54:46 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
   */
 
-#import "NSTextView-SGExtensions_p.h"
+#import "NSTextView-SGExtensions.h"
 #import <SGFoundation/SGFoundation.h>
+#import "UTILKit.h"
 
 
 @implementation NSTextView(TextStorageAttributes)

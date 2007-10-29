@@ -1,13 +1,13 @@
 //: SGContainerTableView.m
 /**
-  * $Id: SGContainerTableView.m,v 1.1 2005/05/11 17:51:26 tsawada2 Exp $
+  * $Id: SGContainerTableView.m,v 1.2 2007/10/29 05:54:46 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
   */
 
 #import "SGContainerTableView.h"
-#import "SGAppKitFrameworkDefines.h"
+#import "UTILKit.h"
 
 
 @interface SGContainerTableView(Private)

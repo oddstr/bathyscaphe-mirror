@@ -37,7 +37,7 @@ BOOL isOptionKeyDown(void)
 
 - (void)windowDidResignMain:(NSNotification *)notification
 {
-	[[self boardListTable] setBackgroundColor:[NSColor windowBackgroundColor]];
+	[[self boardListTable] setBackgroundColor:[CMRPref boardListNonActiveBgColor]];
 }
 
 - (void)windowDidBecomeMain:(NSNotification *)notification
@@ -327,6 +327,8 @@ BOOL isOptionKeyDown(void)
 		  mouseLocation:(NSPoint)mouseLocation
 {
 	static float dX = -1.0;
+	// Leopard 対策：Leopard の NSTableView は何もしなくても省略表示されたセルの内容をポップアップ表示する。
+	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) return nil;
 	if (dX == -1.0) {
 		dX = ([aTableView intercellSpacing].width)*2;
 	}

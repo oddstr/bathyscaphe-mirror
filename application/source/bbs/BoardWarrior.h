@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "CMRTask.h"
 
-@class BSIPIDownload;
+@class BSURLDownload;
 
 @interface BoardWarrior : NSObject<CMRTask> {
 	@private
@@ -19,7 +19,7 @@
 	double			m_expectedContentLength;
 	double			m_downloadedContentLength;
 	
-	BSIPIDownload	*m_currentDownload; // No retain/release
+	BSURLDownload	*m_currentDownload; // No retain/release
 	NSString		*m_bbsMenuPath;
 }
 

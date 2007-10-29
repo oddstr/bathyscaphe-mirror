@@ -145,6 +145,7 @@
 - (BOOL)addCategoryOfName:(NSString *)name;
 - (BOOL)editBoardItem:(id)item newURLString:(NSString *)newURLString;
 - (BOOL)editBoardOfName:(NSString *)boardName newURLString:(NSString *)newURLString;
+- (BOOL)editCategoryItem:(id)item newName:(NSString *)newName;
 - (BOOL)editCategoryOfName:(NSString *)oldName newName:(NSString *)newName;
 - (BOOL)removeBoardItems:(NSArray *)boardItemsForRemoval;
 @end

@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-BLEditor.m,v 1.20 2007/10/06 21:12:32 tsawada2 Exp $
+ * $Id: CMRBrowser-BLEditor.m,v 1.21 2007/10/29 05:54:46 tsawada2 Exp $
  * BathyScaphe
  * CMRBrowser-Action.m, CMRBrowser-ViewAccessor.m から分割
  *
@@ -57,33 +57,29 @@ static NSString *const kRemoveDrawerItemMsgKey		= @"Browser Del Board Items Mess
 - (IBAction)editBoardListItem:(id)sender
 {
 	int tag_ = [sender tag];
-	int	rowIndex_, semiIndex_;
+	int	targetRow;
+
 	NSOutlineView *boardListTable_ = [self boardListTable];
 	if (tag_ == kBLEditItemViaContMenuItemTag) {
-		semiIndex_ = [(BSBoardListView *)boardListTable_ semiSelectedRow];
-		rowIndex_ = (semiIndex_ == -1) ? [boardListTable_ selectedRow] : semiIndex_;
+		targetRow = [(BSBoardListView *)boardListTable_ semiSelectedRow];
 	} else {
-		rowIndex_ = [boardListTable_ selectedRow];
+		targetRow = [boardListTable_ selectedRow];
 	}
 
-	id	item_;
-	NSString	*name_;
-	NSWindow	*window_;
+	if (targetRow == -1) return;
 
-	item_ = [boardListTable_ itemAtRow : rowIndex_];
-	name_ = [item_ representName];
-	window_ = [self window];
+	id	item_ = [boardListTable_ itemAtRow:targetRow];
 
-	if ([BoardListItem isBoardItem : item_]) {
-		[[self editBoardSheetController] beginEditBoardSheetForWindow: window_ modalDelegate: self contextInfo: item_];
-	} else if ([BoardListItem isFolderItem : item_]) {
-		[[self editBoardSheetController] beginEditCategorySheetForWindow: window_ modalDelegate: self contextInfo: name_];
-	} else if ([BoardListItem isSmartItem : item_]) {
+	if ([BoardListItem isBoardItem:item_]) {
+		[[self editBoardSheetController] beginEditBoardSheetForWindow:[self window] modalDelegate:self contextInfo:item_];
+	} else if ([BoardListItem isFolderItem:item_]) {
+		[[self editBoardSheetController] beginEditCategorySheetForWindow:[self window] modalDelegate:self contextInfo:item_];
+	} else if ([BoardListItem isSmartItem:item_]) {
 		SmartBoardListItemEditor *editor = [SmartBoardListItemEditor editor];
-		[[NSNotificationCenter defaultCenter] addObserver: self
-												 selector: @selector(smartBoardDidEdit:)
-													 name: SBLIEditorDidEditSmartBoardListItemNotification
-												   object: editor];
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(smartBoardDidEdit:)
+													 name:SBLIEditorDidEditSmartBoardListItemNotification
+												   object:editor];
 		[editor editWithUIWindow:[self window] smartBoardItem:item_];
 	}
 }
@@ -101,71 +97,73 @@ static NSString *const kRemoveDrawerItemMsgKey		= @"Browser Del Board Items Mess
 												  object: nil];
 }
 
-- (IBAction) removeBoardListItem : (id) sender
+- (IBAction)removeBoardListItem:(id)sender
 {
 	int tag_ = [sender tag];
+	int targetRow;
+
 	BSBoardListView *boardListTable_ = (BSBoardListView *)[self boardListTable];	
 	NSIndexSet	*indexSet_;
-	
-	if (([boardListTable_ selectedRow] == -1) && ([boardListTable_ semiSelectedRow] == -1))
-		return;
-	  
-	if ([boardListTable_ numberOfSelectedRows] == 1) {
-		if (tag_ == kBLDeleteItemViaContMenuItemTag) {
-			indexSet_ = [[NSIndexSet alloc] initWithIndex: [boardListTable_ semiSelectedRow]];
-		} else {
-			indexSet_ = [[boardListTable_ selectedRowIndexes] copy];
-		}
+
+	if (tag_ == kBLDeleteItemViaContMenuItemTag) {
+		targetRow = [(BSBoardListView *)boardListTable_ semiSelectedRow];
 	} else {
+		targetRow = [boardListTable_ selectedRow];
+	}
+
+	if (targetRow == -1) return;
+
+	if ([boardListTable_ numberOfSelectedRows] == 1) {
+		indexSet_ = [[NSIndexSet alloc] initWithIndex:targetRow];
+	} else {
+		NSIndexSet *selectedRows = [boardListTable_ selectedRowIndexes];
 		if (tag_ == kBLDeleteItemViaMenubarItemTag) {
-			indexSet_ = [[boardListTable_ selectedRowIndexes] copy];
+			indexSet_ = [[NSIndexSet alloc] initWithIndexSet:selectedRows];
 		} else {
-			if ([[boardListTable_ selectedRowIndexes] containsIndex : [boardListTable_ semiSelectedRow]]) {
-				indexSet_ = [[boardListTable_ selectedRowIndexes] copy];
+			if ([selectedRows containsIndex:targetRow]) {
+				indexSet_ = [[NSIndexSet alloc] initWithIndexSet:selectedRows];
 			} else { // 複数選択項目とは別の項目を semiSelect した
-				indexSet_ = [[NSIndexSet alloc] initWithIndex: [boardListTable_ semiSelectedRow]];
+				indexSet_ = [[NSIndexSet alloc] initWithIndex:targetRow];
 			}
 		}
 	}
 
 	NSAlert *alert_ = [[[NSAlert alloc] init] autorelease];
-	[alert_ setAlertStyle: NSWarningAlertStyle];
-	[alert_ setMessageText: [self localizedString: kRemoveDrawerItemTitleKey]];
-	[alert_ setInformativeText: [self localizedString: kRemoveDrawerItemMsgKey]];
-	[alert_ addButtonWithTitle: [self localizedString: kDeleteOKBtnKey]];
-	[alert_ addButtonWithTitle: [self localizedString: kDeleteCancelBtnKey]];
+	[alert_ setAlertStyle:NSWarningAlertStyle];
+	[alert_ setMessageText:[self localizedString:kRemoveDrawerItemTitleKey]];
+	[alert_ setInformativeText:[self localizedString:kRemoveDrawerItemMsgKey]];
+	[alert_ addButtonWithTitle:[self localizedString:kDeleteOKBtnKey]];
+	[alert_ addButtonWithTitle:[self localizedString:kDeleteCancelBtnKey]];
 
 	NSBeep();
-	[alert_ beginSheetModalForWindow: [self window]
-					   modalDelegate: self
-					  didEndSelector: @selector(boardItemsDeletionSheetDidEnd:returnCode:contextInfo:)
-						 contextInfo: indexSet_];
+	[alert_ beginSheetModalForWindow:[self window]
+					   modalDelegate:self
+					  didEndSelector:@selector(boardItemsDeletionSheetDidEnd:returnCode:contextInfo:)
+						 contextInfo:indexSet_];
 }
 
-- (void) boardItemsDeletionSheetDidEnd: (NSAlert *) alert returnCode: (int) returnCode contextInfo: (id) contextInfo
+- (void)boardItemsDeletionSheetDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(id)contextInfo
 {
 	UTILAssertKindOfClass(contextInfo, NSIndexSet);
 
-	if (returnCode == NSAlertFirstButtonReturn)
+	if (returnCode == NSAlertFirstButtonReturn) {
 		// 参考：<http://www.cocoadev.com/index.pl?NSIndexSet>
-	{
 		unsigned int	arrayElement;
 		NSDictionary	*item_;
 		int				size = [contextInfo lastIndex]+1;
 		NSRange			e = NSMakeRange(0, size);
-		
+
 		NSMutableArray	*boardItemsForRemoving = [NSMutableArray array];
 
-		[[self boardListTable] deselectAll : nil]; // 先に選択を解除しておく
+		[[self boardListTable] deselectAll:nil]; // 先に選択を解除しておく
 
-		while ([contextInfo getIndexes:&arrayElement maxCount:1 inIndexRange:&e] > 0)
-		{
-			item_ = [[self boardListTable] itemAtRow : arrayElement];
+		while ([contextInfo getIndexes:&arrayElement maxCount:1 inIndexRange:&e] > 0) {
+			item_ = [[self boardListTable] itemAtRow:arrayElement];
 
-			if (item_ != nil) [boardItemsForRemoving addObject : item_];
+			if (item_) [boardItemsForRemoving addObject:item_];
 		}
 
-		[[BoardManager defaultManager] removeBoardItems: boardItemsForRemoving];
+		[[BoardManager defaultManager] removeBoardItems:boardItemsForRemoving];
 	}
 	[contextInfo release];
 }

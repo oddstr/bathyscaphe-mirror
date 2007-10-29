@@ -1,5 +1,5 @@
 //
-//  $Id: BSBoardListView.m,v 1.7 2007/10/26 14:09:10 tsawada2 Exp $
+//  $Id: BSBoardListView.m,v 1.8 2007/10/29 05:54:46 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/09/20.
@@ -14,25 +14,40 @@
 #define useLog 0
 
 @implementation BSBoardListView
-- (int) semiSelectedRow
+- (int)semiSelectedRow
 {
-	return _semiSelectedRow;
+	return m_semiSelectedRow;
 }
 
-- (NSRect) semiSelectedRowRect
+- (void)setSemiSelectedRow:(int)rowIndex
 {
-	return _semiSelectedRowRect;
+	m_semiSelectedRow = rowIndex;
 }
 
-- (void) awakeFromNib
+- (void)viewWillMoveToWindow:(NSWindow *)newWindow
 {
+	if (!newWindow) return;
+
 	isInstalledTextInputEvent = NO;
 	isFindBegin = NO;
 	isUsingInputWindow = NO;
 	resetTimer = nil;  
 
-	_semiSelectedRow = -1;
-	_semiSelectedRowRect = NSZeroRect;
+	[self setSemiSelectedRow:-1];
+}
+
+- (void)dealloc
+{
+	if (isInstalledTextInputEvent) {
+		OSStatus err = RemoveEventHandler(textInputEventHandler);
+		if (err != noErr) {
+			NSLog([NSString stringWithFormat:@"Fail to Remove EventHandler with : %d", err]);
+		}
+	}
+
+	fieldEditor = nil;
+	[self stopResetTimer];
+	[super dealloc];
 }
 
 #pragma mark Custom highlight drawing
@@ -42,11 +57,13 @@
 	
 	if ([[self window] isMainWindow]) {
 		if ([[self window] firstResponder] == self) {
+/*
 			// Finder Style
-	/*		topLineColor = [NSColor colorWithCalibratedRed:(61.0/255.0) green:(123.0/255.0) blue:(218.0/255.0) alpha:1.0];
+			topLineColor = [NSColor colorWithCalibratedRed:(61.0/255.0) green:(123.0/255.0) blue:(218.0/255.0) alpha:1.0];
 			bottomLineColor = [NSColor colorWithCalibratedRed:(31.0/255.0) green:(92.0/255.0) blue:(207.0/255.0) alpha:1.0];
 			gradientStartColor = [NSColor colorWithCalibratedRed:(89.0/255.0) green:(153.0/255.0) blue:(209.0/255.0) alpha:1.0];
-			gradientEndColor = [NSColor colorWithCalibratedRed:(33.0/255.0) green:(94.0/255.0) blue:(208.0/255.0) alpha:1.0];*/
+			gradientEndColor = [NSColor colorWithCalibratedRed:(33.0/255.0) green:(94.0/255.0) blue:(208.0/255.0) alpha:1.0];
+*/
 			// Tiger Mail Style
 			topLineColor = [NSColor colorWithDeviceRed:0.271 green:0.502 blue:0.784 alpha:1.0];
 			bottomLineColor = [NSColor colorWithDeviceRed:0.082 green:0.325 blue:0.667 alpha:1.0];
@@ -59,10 +76,12 @@
 			gradientEndColor = [NSColor colorWithDeviceRed:0.447 green:0.522 blue:0.675 alpha:1.0];
 		}
 	} else {
-/*		topLineColor = [NSColor colorWithDeviceRed:(173.0/255.0) green:(187.0/255.0) blue:(209.0/255.0) alpha:1.0];
+/*
+		topLineColor = [NSColor colorWithDeviceRed:(173.0/255.0) green:(187.0/255.0) blue:(209.0/255.0) alpha:1.0];
 		bottomLineColor = [NSColor colorWithDeviceRed:(150.0/255.0) green:(161.0/255.0) blue:(183.0/255.0) alpha:1.0];
 		gradientStartColor = [NSColor colorWithDeviceRed:(168.0/255.0) green:(183.0/255.0) blue:(205.0/255.0) alpha:1.0];
-		gradientEndColor = [NSColor colorWithDeviceRed:(157.0/255.0) green:(174.0/255.0) blue:(199.0/255.0) alpha:1.0];*/
+		gradientEndColor = [NSColor colorWithDeviceRed:(157.0/255.0) green:(174.0/255.0) blue:(199.0/255.0) alpha:1.0];
+*/
 		topLineColor = [NSColor colorWithDeviceRed:0.592 green:0.592 blue:0.592 alpha:1.0];
 		bottomLineColor = [NSColor colorWithDeviceRed:0.541 green:0.541 blue:0.541 alpha:1.0];
 		gradientStartColor = [NSColor colorWithDeviceRed:0.71 green:0.71 blue:0.71 alpha:1.0];
@@ -98,42 +117,43 @@
 	}
 }
 
-
 #pragma mark Contextual menu handling
-- (void) cleanUpSemiHighlightBorder : (NSNotification *) theNotification
+- (void)highlightSemiSelectedRow:(int)rowIndex clipRect:(NSRect)clipRect
 {
-	// erase the border
-	[self setNeedsDisplayInRect: _semiSelectedRowRect];
-	[[NSNotificationCenter defaultCenter] removeObserver : self];	
-	_semiSelectedRowRect = NSZeroRect;
+	if (rowIndex == -1) return;
+	[[NSColor selectedMenuItemColor] set];
+	NSFrameRectWithWidth(clipRect, 2.0);
 }
 
-- (NSMenu *) menuForEvent : (NSEvent *) theEvent
+- (void)cleanUpSemiHighlightBorder:(NSNotification *)theNotification
 {
-	int row = [self rowAtPoint : [self convertPoint : [theEvent locationInWindow] fromView : nil]];
+	// erase the border
+	[self setNeedsDisplayInRect:[self rectOfRow:[self semiSelectedRow]]];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];	
+}
 
-	if(![self isRowSelected : row]) {
-		_semiSelectedRowRect = [self rectOfRow : row];
+- (NSMenu *)menuForEvent:(NSEvent *)theEvent
+{
+	int row = [self rowAtPoint:[self convertPoint:[theEvent locationInWindow] fromView:nil]];
+	[self setSemiSelectedRow:row];
+
+	if (![self isRowSelected:row]) {
+		NSRect	semiSelectedRowRect = [self rectOfRow:row];
+
 		// draw the border
 		[self lockFocus];
-		[[NSColor selectedMenuItemColor] set];
-		NSFrameRectWithWidth(_semiSelectedRowRect, 2.0);
+		[self highlightSemiSelectedRow:row clipRect:semiSelectedRowRect];
 		[self unlockFocus];
-		[self displayIfNeededInRect: _semiSelectedRowRect];
+		[self displayIfNeededInRect:semiSelectedRowRect];
 
 		// This Notification is available in Mac OS X 10.3 and later.
- 		[[NSNotificationCenter defaultCenter] addObserver : self
-												 selector : @selector(cleanUpSemiHighlightBorder:)
-													 name : NSMenuDidEndTrackingNotification
-												   object : nil];
+ 		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(cleanUpSemiHighlightBorder:)
+													 name:NSMenuDidEndTrackingNotification
+												   object:nil];
 	}
 
-	if(row >= 0) {
-		_semiSelectedRow = row;
-		return [self menu];
-	} else {
-		return nil;
-	}
+	return [self menu];
 }
 @end
 

@@ -2,7 +2,7 @@
 #import <Cocoa/Cocoa.h>
 #import "SGFunctor.h"
 
-@class BSIPIDownload;
+@class BSURLDownload;
 @protocol CMRTask;
 
 @interface SGLinkCommand : SGFunctor
@@ -28,13 +28,13 @@
 // Available in Twincam Angel and later.
 @interface SGDownloadLinkCommand : SGLinkCommand<CMRTask>
 {
-	BSIPIDownload *m_currentDownload;
+	BSURLDownload *m_currentDownload;
 	double m_expectLength;
 	double m_downloadedLength;
 	NSString *m_message;
 }
 
-- (BSIPIDownload *)currentDownload;
-- (void)setCurrentDownload:(BSIPIDownload *)download;
+- (BSURLDownload *)currentDownload;
+- (void)setCurrentDownload:(BSURLDownload *)download;
 - (void)setMessage:(NSString *)string;
 @end

@@ -93,7 +93,6 @@
 		871CA17908585FD200C3A044 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		871CA17A08585FD200C3A044 /* CocoMonar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3924488043610AE00A80005 /* CocoMonar.framework */; };
 		871CA17B08585FD200C3A044 /* SGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FA043610EB00A80005 /* SGFoundation.framework */; };
-		871CA17C08585FD200C3A044 /* SGNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FF043610FB00A80005 /* SGNetwork.framework */; };
 		8727F4C20A822EFB00E9C2F9 /* BSTagValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 8727F4C00A822EFB00E9C2F9 /* BSTagValueTransformer.h */; };
 		8727F4C30A822EFB00E9C2F9 /* BSTagValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8727F4C10A822EFB00E9C2F9 /* BSTagValueTransformer.m */; };
 		872C32D00BB18CD10044890C /* ViewPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872C32CE0BB18CD10044890C /* ViewPane.nib */; };
@@ -110,7 +109,6 @@
 		8752AACC0C6B60200078C6F4 /* BSNGExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 8752AACA0C6B60200078C6F4 /* BSNGExpression.m */; };
 		875D98200A8A02180061C86D /* SGAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244F5043610D600A80005 /* SGAppKit.framework */; };
 		875D98210A8A02190061C86D /* SGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FA043610EB00A80005 /* SGFoundation.framework */; };
-		875D98220A8A021A0061C86D /* SGNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FF043610FB00A80005 /* SGNetwork.framework */; };
 		875D98230A8A021E0061C86D /* CocoMonar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3924488043610AE00A80005 /* CocoMonar.framework */; };
 		875FF5C60C7FFA960034E371 /* BSTitleRulerAppearance.plist in Resources */ = {isa = PBXBuildFile; fileRef = 875FF5C50C7FFA960034E371 /* BSTitleRulerAppearance.plist */; };
 		8761BAA30B80D2F700120AA4 /* IndexingPopupper.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8761BAA20B80D2F700120AA4 /* IndexingPopupper.strings */; };
@@ -588,7 +586,6 @@
 		F47363840AFF8758009B6189 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87C8FBDC09B3631800039203 /* Security.framework */; };
 		F47363860AFF8758009B6189 /* CocoMonar.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3924488043610AE00A80005 /* CocoMonar.framework */; };
 		F47363870AFF8758009B6189 /* SGFoundation.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F39244FA043610EB00A80005 /* SGFoundation.framework */; };
-		F47363880AFF8758009B6189 /* SGNetwork.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F39244FF043610FB00A80005 /* SGNetwork.framework */; };
 		F47363890AFF8758009B6189 /* SGAppKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F39244F5043610D600A80005 /* SGAppKit.framework */; };
 		F474D8560B514A510071A03C /* BSDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 87E63BE80B247FA500290BB7 /* BSDateFormatter.m */; };
 		F474D8570B514A510071A03C /* BSDateFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 87E63BE70B247FA500290BB7 /* BSDateFormatter.h */; };
@@ -763,7 +760,6 @@
 				F47222E30B270D31004FAD24 /* OgreKit.framework in CopyFiles */,
 				F47363860AFF8758009B6189 /* CocoMonar.framework in CopyFiles */,
 				F47363870AFF8758009B6189 /* SGFoundation.framework in CopyFiles */,
-				F47363880AFF8758009B6189 /* SGNetwork.framework in CopyFiles */,
 				F47363890AFF8758009B6189 /* SGAppKit.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1034,7 +1030,6 @@
 		87CF6469097A335D00DE8B16 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Japanese; path = Japanese.lproj/Acknowledgments.rtf; sourceTree = "<group>"; };
 		87D32F210BAC1C6D002B6006 /* BSSearchOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSSearchOptions.h; sourceTree = "<group>"; };
 		87D32F220BAC1C6D002B6006 /* BSSearchOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSSearchOptions.m; sourceTree = "<group>"; };
-		87D3524D0A68AC3A0041410F /* BSIPIDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIDownload.h; sourceTree = "<group>"; };
 		87D7F03B0A85136900623EA5 /* BoardWarrior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardWarrior.h; sourceTree = "<group>"; };
 		87D7F03C0A85136900623EA5 /* BoardWarrior.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardWarrior.m; sourceTree = "<group>"; };
 		87DA142E0BE64C9800A81387 /* BSIPIHUDTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIHUDTextField.h; sourceTree = "<group>"; };
@@ -1127,14 +1122,14 @@
 		F324DC2904C698FA00A80005 /* BoardManager_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = BoardManager_p.h; sourceTree = "<group>"; };
 		F324DC2D04C698FA00A80005 /* Browser.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = Browser.h; sourceTree = "<group>"; };
 		F324DC2E04C698FA00A80005 /* Browser.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = Browser.m; sourceTree = "<group>"; };
-		F324DC3404C698FA00A80005 /* CMRBrowser-Action.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "CMRBrowser-Action.m"; sourceTree = "<group>"; };
+		F324DC3404C698FA00A80005 /* CMRBrowser-Action.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = "CMRBrowser-Action.m"; sourceTree = "<group>"; };
 		F324DC3504C698FA00A80005 /* CMRBrowser-Delegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRBrowser-Delegate.m"; sourceTree = "<group>"; };
 		F324DC3604C698FA00A80005 /* CMRBrowser-List.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRBrowser-List.m"; sourceTree = "<group>"; };
-		F324DC3804C698FA00A80005 /* CMRBrowser-Validation.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "CMRBrowser-Validation.m"; sourceTree = "<group>"; };
+		F324DC3804C698FA00A80005 /* CMRBrowser-Validation.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = "CMRBrowser-Validation.m"; sourceTree = "<group>"; };
 		F324DC3904C698FA00A80005 /* CMRBrowser-ViewAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRBrowser-ViewAccessor.m"; sourceTree = "<group>"; };
 		F324DC3A04C698FA00A80005 /* CMRBrowser.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRBrowser.h; sourceTree = "<group>"; };
 		F324DC3B04C698FA00A80005 /* CMRBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRBrowser.m; sourceTree = "<group>"; };
-		F324DC3C04C698FA00A80005 /* CMRBrowser_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRBrowser_p.h; sourceTree = "<group>"; };
+		F324DC3C04C698FA00A80005 /* CMRBrowser_p.h */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.h; path = CMRBrowser_p.h; sourceTree = "<group>"; };
 		F324DC3D04C698FA00A80005 /* CMRFavoritesManager.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRFavoritesManager.h; sourceTree = "<group>"; };
 		F324DC3E04C698FA00A80005 /* CMRFavoritesManager.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRFavoritesManager.m; sourceTree = "<group>"; };
 		F324DC4004C698FA00A80005 /* CMRThreadsList-DataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadsList-DataSource.m"; sourceTree = "<group>"; };
@@ -1191,7 +1186,7 @@
 		F324DCD804C698FB00A80005 /* CMRThreadSignature.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRThreadSignature.m; sourceTree = "<group>"; };
 		F324DCD904C698FB00A80005 /* CMRThreadSignature_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadSignature_p.h; sourceTree = "<group>"; };
 		F324DCDC04C698FB00A80005 /* AppDefaults-Account.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-Account.m"; sourceTree = "<group>"; };
-		F324DCDE04C698FB00A80005 /* AppDefaults-Background.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-Background.m"; sourceTree = "<group>"; };
+		F324DCDE04C698FB00A80005 /* AppDefaults-Background.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-Background.m"; sourceTree = "<group>"; };
 		F324DCDF04C698FB00A80005 /* AppDefaults-Bundle.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-Bundle.m"; sourceTree = "<group>"; };
 		F324DCE004C698FB00A80005 /* AppDefaults-FontColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-FontColor.m"; sourceTree = "<group>"; };
 		F324DCE304C698FB00A80005 /* AppDefaults-ThreadsList.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-ThreadsList.m"; sourceTree = "<group>"; };
@@ -1492,7 +1487,6 @@
 				871CA17908585FD200C3A044 /* Cocoa.framework in Frameworks */,
 				871CA17A08585FD200C3A044 /* CocoMonar.framework in Frameworks */,
 				871CA17B08585FD200C3A044 /* SGFoundation.framework in Frameworks */,
-				871CA17C08585FD200C3A044 /* SGNetwork.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1505,7 +1499,6 @@
 				87C2031708FF3E2B006DC42C /* Cocoa.framework in Frameworks */,
 				875D98200A8A02180061C86D /* SGAppKit.framework in Frameworks */,
 				875D98210A8A02190061C86D /* SGFoundation.framework in Frameworks */,
-				875D98220A8A021A0061C86D /* SGNetwork.framework in Frameworks */,
 				875D98230A8A021E0061C86D /* CocoMonar.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2025,7 +2018,6 @@
 		87C1A6340A7E26BE0004079B /* objects */ = {
 			isa = PBXGroup;
 			children = (
-				87D3524D0A68AC3A0041410F /* BSIPIDownload.h */,
 				87BB87870B195B4E00472D3F /* BSIPIToken.h */,
 				87BB87880B195B4E00472D3F /* BSIPIToken.m */,
 			);

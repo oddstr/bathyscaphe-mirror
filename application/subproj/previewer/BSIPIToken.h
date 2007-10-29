@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class BSIPIDownload;
+@class BSURLDownload;
 
 @interface BSIPIToken : NSObject {
 	@private
@@ -16,7 +16,7 @@
 	NSString	*ipit_downloadedFilePath;
 	NSImage		*ipit_thumbnail;
 	NSString	*ipit_statusMsg;
-	BSIPIDownload	*ipit_curDownload;
+	BSURLDownload	*ipit_curDownload;
 	
 	double		ipit_contentSize;
 	double		ipit_downloadedSize;
@@ -34,7 +34,7 @@
 - (NSString *) statusMessage;
 - (void) setStatusMessage: (NSString *) aString;
 
-- (BSIPIDownload *) currentDownload;
+- (BSURLDownload *) currentDownload;
 
 - (BOOL) isFileExists;
 - (BOOL) isDownloading;

@@ -1,13 +1,13 @@
 //: NSImage-SGExtensions.h
 /**
-  * $Id: NSImage-SGExtensions.h,v 1.3 2006/04/11 17:31:21 masakih Exp $
+  * $Id: NSImage-SGExtensions.h,v 1.4 2007/10/29 05:54:46 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
   */
 
-#import <Cocoa/Cocoa.h>
-
+#import <Foundation/Foundation.h>
+#import <AppKit/NSImage.h>
 
 
 @interface NSImage(SGExtensionDrawing)

@@ -1,5 +1,5 @@
 /*
- * $Id: CMRReplyMessenger_p.h,v 1.11 2007/10/20 02:21:29 tsawada2 Exp $
+ * $Id: CMRReplyMessenger_p.h,v 1.12 2007/10/29 05:54:46 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -19,7 +19,7 @@
 #import "w2chConnect.h"
 #import "CMRServerClock.h"
 
-#import <SGNetwork/SGHTTPDefines.h>
+//#import <SGNetwork/SGHTTPDefines.h>
 
 //Cookies
 #import "Cookie.h"

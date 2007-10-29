@@ -75,6 +75,15 @@ static NSString *const kPrefBoardListBackgroundColorKey	= @"BoardList Background
 	[self postLayoutSettingsUpdateNotification];
 }
 
+- (NSColor *)boardListNonActiveBgColor
+{
+	static NSColor *hoge = nil;
+	if (!hoge) {
+		hoge = [[NSColor colorWithCalibratedRed:0.91 green:0.91 blue:0.91 alpha:1.0] retain];
+	}
+	return hoge;
+}
+
 - (NSColor *) threadViewerBackgroundColor
 {
 	return [[self threadViewTheme] backgroundColor];

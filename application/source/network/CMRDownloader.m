@@ -241,7 +241,7 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 	[self postTaskWillStartNotification];
 }
 
-- (void) didFinishLoading
+- (void) didFinishLoadingWithPostingNotificationName:(NSString *)notificationName
 {
 	NSURL			*resourceURL = [self resourceURL];
 	
@@ -252,7 +252,14 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 
 	[self setCurrentConnector:nil];
 	[self setResourceData:nil];
+
+	UTILNotifyName(notificationName);
 	[self autorelease];
+}
+
+- (void)didFinishLoading
+{
+	[self didFinishLoadingWithPostingNotificationName:nil];
 }
 
 - (BOOL)dataProcess:(NSData *)resourceData withConnector:(NSURLConnection *)connector
@@ -312,6 +319,21 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 
 
 @implementation CMRDownloader(NSURLConnectionDelegate)
+// Leopard ëŒçÙ
+- (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse
+{
+	if (!redirectResponse) {
+		return request;
+	}
+	if ([(NSHTTPURLResponse *)redirectResponse statusCode] == 302) {
+		[connection cancel];
+		[self setMessage:[self localizedDetectingDatOchiString]];
+		[self didFinishLoading];
+		[self cancelDownloadWithDetectingDatOchi];
+	}
+	return nil;
+}
+
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     NSHTTPURLResponse *http = (NSHTTPURLResponse *)response;
@@ -322,9 +344,6 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 	[self synchronizeServerClock:http];
 
     switch (status) {
-//    case 200:
-//		[self setMessage:[NSString stringWithFormat:[self localizedMessageFormat], [[self resourceURL] absoluteString]]];
-//        break;
 	case 200:
     case 206:
 		[self setMessage:[NSString stringWithFormat:[self localizedMessageFormat], [[self resourceURL] absoluteString]]];
@@ -332,8 +351,8 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 	case 302:
 		[connection cancel];
 		[self setMessage:[self localizedDetectingDatOchiString]];
-		[self cancelDownloadWithDetectingDatOchi];
 		[self didFinishLoading];
+		[self cancelDownloadWithDetectingDatOchi];
 		break;
     case 304:
 		[connection cancel];
@@ -343,8 +362,8 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 	case 416:
 		[connection cancel];
 		[self setMessage:[self localizedCanceledString]];
-		[self cancelDownloadWithInvalidPartial];
 		[self didFinishLoading];
+		[self cancelDownloadWithInvalidPartial];
 	default:
 		[connection cancel];
 		[self setMessage:[self localizedCanceledString]];
@@ -357,7 +376,7 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 {
 	[self setMessage:[self localizedSucceededString]];
 	[self dataProcess:[self resourceData] withConnector:connection];
-	[self didFinishLoading];//:connection];
+	[self didFinishLoading];
 }
 /*- (void) URLHandle               : (NSURLHandle *) sender
   resourceDataDidBecomeAvailable : (NSData      *) newBytes

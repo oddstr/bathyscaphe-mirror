@@ -1,17 +1,15 @@
 //: NSUserDefaults+SGAppKitExtensions.m
 /**
-  * $Id: NSUserDefaults+SGAppKitExtensions.m,v 1.2 2007/01/07 17:04:24 masakih Exp $
+  * $Id: NSUserDefaults+SGAppKitExtensions.m,v 1.3 2007/10/29 05:54:46 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
   */
 
 #import "NSUserDefaults+SGAppKitExtensions.h"
-#import "SGAppKitFrameworkDefines.h"
-
+#import <AppKit/AppKit.h>
 #import <SGAppKit/NSUserDefaults+SGAppKitExtensions.h>
-//#import <SGAppKit/NSColor-SGExtensions.h>
-
+#import "UTILKit.h"
 
 
 static NSColor *ColorForKeyImp(id me, id aKey)

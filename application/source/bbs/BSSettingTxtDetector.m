@@ -8,7 +8,7 @@
 
 #import "BSSettingTxtDetector.h"
 #import "UTILKit.h"
-#import <SGNetwork/BSIPIDownload.h>
+//#import <SGNetwork/BSIPIDownload.h>
 #import <CocoMonar/CMRAppTypes.h>
 
 
@@ -64,7 +64,7 @@ NSString *const kBSSTDAllowsNanashiBoolValueKey = @"allowsNanashi";
 
 - (void) startDownloadingSettingTxt
 {
-	BSIPIDownload	*newDownload_;
+	BSURLDownload	*newDownload_;
 	NSString		*tmpDir_ = NSTemporaryDirectory();
 
 	if(tmpDir_ == nil) {
@@ -78,12 +78,14 @@ NSString *const kBSSTDAllowsNanashiBoolValueKey = @"allowsNanashi";
 		goto Err_Failed;
 	}
 
-	newDownload_ = [[BSIPIDownload alloc] initWithURLIdentifier: [self settingTxtURL]
-	                                                   delegate: self
-	                                                destination: tmpDir_];
+	newDownload_ = [[BSURLDownload alloc] initWithURL: [self settingTxtURL]
+											 delegate: self
+										  destination: tmpDir_];
 	if (!newDownload_) {
 		goto Err_Failed;
 	}
+
+	[newDownload_ setAllowsOverwriteDownloadedFile:YES];
 	
 	return;
 
@@ -154,18 +156,8 @@ Err_Failed:
     UTILNotifyInfo(BSSettingTxtDetectorDidFinishNotification, returnDict);
 }
 
-#pragma mark BSIPIDownload delegate
-- (void) bsIPIdownload: (BSIPIDownload *) aDownload willDownloadContentOfSize: (double) expectedLength
-{
-	;
-}
-
-- (void) bsIPIdownload: (BSIPIDownload *) aDownload didDownloadContentOfSize: (double) downloadedLength
-{
-	;
-}
-
-- (void) bsIPIdownloadDidFinish: (BSIPIDownload *) aDownload
+#pragma mark BSURLDownload delegate
+- (void)bsURLDownloadDidFinish:(BSURLDownload *)aDownload
 {
 	NSString *downloadedFilePath_;
 
@@ -176,19 +168,19 @@ Err_Failed:
 	[self detectNoNameAndBePolicyFromSettingTxtFile: downloadedFilePath_];
 }
 
-- (BOOL) bsIPIdownload: (BSIPIDownload *) aDownload didRedirectToURL: (NSURL *) newURL
+- (BOOL)bsURLDownload:(BSURLDownload *)aDownload didRedirectToURL:(NSURL *)newURL
 {
 	return NO;
 }
 
-- (void) bsIPIdownload: (BSIPIDownload *) aDownload didAbortRedirectionToURL: (NSURL *) anURL
+- (void)bsURLDownload:(BSURLDownload *)aDownload didAbortRedirectionToURL:(NSURL *)anURL
 {
 	NSLog(@"BSSTD - Redirection Aborted");
 	[aDownload release];
 	UTILNotifyName(BSSettingTxtDetectorDidFailNotification);
 }
 
-- (void) bsIPIdownload: (BSIPIDownload *) aDownload didFailWithError: (NSError *) aError
+- (void)bsURLDownload:(BSURLDownload *)aDownload didFailWithError:(NSError *)aError
 {
 	NSLog(@"BSSTD - Download Error");
 	[aDownload release];

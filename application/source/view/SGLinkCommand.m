@@ -2,7 +2,7 @@
 #import "SGLinkCommand.h"
 #import "CocoMonar_Prefix.h"
 #import <SGAppKit/NSWorkspace-SGExtensions.h>
-#import <SGNetwork/BSIPIDownload.h>
+//#import <SGNetwork/BSIPIDownload.h>
 #import "AppDefaults.h"
 
 #import "CMRTask.h"
@@ -92,7 +92,7 @@
 	NSString *destination = [CMRPref linkDownloaderDestination];
 	UTILAssertNotNil(destination);
 
-	BSIPIDownload *download = [[BSIPIDownload alloc] initWithURLIdentifier:[self URLValue] delegate:self destination:destination];
+	BSURLDownload *download = [[BSURLDownload alloc] initWithURL:[self URLValue] delegate:self destination:destination];
 	[self setCurrentDownload:download];
 	[download release];
 
@@ -101,12 +101,12 @@
 	UTILNotifyName(CMRTaskWillStartNotification);
 }
 
-- (void) bsIPIdownload: (BSIPIDownload *) aDownload willDownloadContentOfSize: (double) expectedLength
+- (void)bsURLDownload:(BSURLDownload *)aDownload willDownloadContentOfSize:(double)expectedLength
 {
 	m_expectLength = expectedLength;
 }
 
-- (void) bsIPIdownload: (BSIPIDownload *) aDownload didDownloadContentOfSize: (double) downloadedLength
+- (void)bsURLDownload:(BSURLDownload *)aDownload didDownloadContentOfSize:(double)downloadedLength
 {
 	m_downloadedLength = downloadedLength;
 
@@ -126,7 +126,7 @@
 	UTILNotifyName(CMRTaskWillProgressNotification);
 }
 
-- (void) bsIPIdownloadDidFinish: (BSIPIDownload *) aDownload
+- (void)bsURLDownloadDidFinish:(BSURLDownload *)aDownload
 {
 	NSString *template;
 	double rate;
@@ -154,7 +154,7 @@
 	UTILNotifyName(CMRTaskDidFinishNotification);
 }
 
-- (BOOL) bsIPIdownload: (BSIPIDownload *) aDownload didRedirectToURL: (NSURL *) newURL
+- (BOOL)bsURLDownload:(BSURLDownload *)aDownload shouldRedirectToURL:(NSURL *)newURL
 {
 	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 	NSString *message;
@@ -170,12 +170,12 @@
 	return NO;
 }
 
-- (void) bsIPIdownload: (BSIPIDownload *) aDownload didAbortRedirectionToURL: (NSURL *) anURL
+- (void)bsURLDownload:(BSURLDownload *)aDownload didAbortRedirectionToURL:(NSURL *)anURL
 {
 	[self cancel:nil];
 }
 
-- (void) bsIPIdownload: (BSIPIDownload *) aDownload didFailWithError: (NSError *) aError
+- (void)bsURLDownload:(BSURLDownload *)aDownload didFailWithError:(NSError *)aError
 {
 	[self cancel:nil];
 
@@ -193,12 +193,12 @@
 }
 
 #pragma mark Accessors
-- (BSIPIDownload *)currentDownload
+- (BSURLDownload *)currentDownload
 {
 	return m_currentDownload;
 }
 
-- (void)setCurrentDownload:(BSIPIDownload *)download
+- (void)setCurrentDownload:(BSURLDownload *)download
 {
 	[download retain];
 	[m_currentDownload release];

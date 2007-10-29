@@ -6,7 +6,8 @@
 //  Copyright 2007 BathyScaphe Project. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
+#import <AppKit/NSEvent.h>
 
 // From http://hetima.com/pblog/article.php?id=48
 

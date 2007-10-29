@@ -9,7 +9,7 @@
 #import "BoardWarrior.h"
 #import "CocoMonar_Prefix.h"
 #import "AppDefaults.h"
-#import <SGNetwork/BSIPIDownload.h>
+//#import <SGNetwork/BSIPIDownload.h>
 #import "CMRTaskManager.h"
 #import <Carbon/Carbon.h>
 #import <OgreKit/OgreKit.h>
@@ -279,14 +279,14 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 
 - (BOOL) syncBoardListsWithURL: (NSURL *) anURL
 {
-	BSIPIDownload	*newDownload_;
+	BSURLDownload	*newDownload_;
 	NSString		*tmpDir_ = NSTemporaryDirectory();
 
-	if([self isInProgress] || tmpDir_ == nil) {
+	if ([self isInProgress] || tmpDir_ == nil) {
 		return NO;
 	}
 
-	newDownload_ = [[BSIPIDownload alloc] initWithURLIdentifier: anURL delegate: self destination: tmpDir_];
+	newDownload_ = [[BSURLDownload alloc] initWithURL: anURL delegate: self destination: tmpDir_];
 	if (newDownload_) {
 		NSData *logMsg;
 
@@ -335,22 +335,22 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 }
 
 #pragma mark BSIPIDownload Delegate
-- (void) bsIPIdownload: (BSIPIDownload *) aDownload willDownloadContentOfSize: (double) expectedLength
+- (void)bsURLDownload: (BSURLDownload *)aDownload willDownloadContentOfSize:(double)expectedLength
 {
 	NSDictionary *info_ = [NSDictionary dictionaryWithObject: [NSNumber numberWithDouble: expectedLength] forKey: kBWInfoExpectedLengthKey];
 	m_expectedContentLength = expectedLength;
 
 	[self writeLogsToFileWithUTF8Data: [self encodedLocalizedStringForKey: @"BW_download from %@"
-																   format: [[aDownload URLIdentifier] absoluteString]]];	
+																   format: [[aDownload URL] absoluteString]]];	
 	UTILNotifyInfo(BoardWarriorWillStartDownloadNotification, info_);
 }
 
-- (void) bsIPIdownload: (BSIPIDownload *) aDownload didDownloadContentOfSize: (double) downloadedLength
+- (void)bsURLDownload:(BSURLDownload *)aDownload didDownloadContentOfSize:(double)downloadedLength
 {
 	m_downloadedContentLength = downloadedLength;
 }
 
-- (void) bsIPIdownloadDidFinish: (BSIPIDownload *) aDownload
+- (void)bsURLDownloadDidFinish:(BSURLDownload *)aDownload
 {
 	[self setBbsMenuPath: [aDownload downloadedFilePath]];
 	[self writeLogsToFileWithUTF8Data: [[self localizedString: @"BW_download finish"] dataUsingEncoding: NSUTF8StringEncoding]];
@@ -361,7 +361,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 	[self startAppleScriptTask];
 }
 
-- (void) bsIPIdownload: (BSIPIDownload *) aDownload didFailWithError: (NSError *) aError
+- (void)bsURLDownload:(BSURLDownload *)aDownload didFailWithError:(NSError *)aError
 {
 	[self writeLogsToFileWithUTF8Data: [self encodedLocalizedStringForKey: @"BW_download fail %@" format: [aError description]]];
 

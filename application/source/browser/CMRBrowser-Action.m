@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.62 2007/09/04 07:45:43 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.63 2007/10/29 05:54:46 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -591,6 +591,8 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 	} else {
 		[tmp_ collapse];
 	}
+	// Leopard ébíËëŒçÙ
+	[[tmp_ splitView] adjustSubviews];
 }
 
 #pragma mark -

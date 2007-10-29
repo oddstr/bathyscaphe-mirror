@@ -1,6 +1,6 @@
 //
 //  BSTitleRulerView.h
-//  BathyScaphe
+//  SGAppKit (BathyScaphe)
 //
 //  Created by Tsutomu Sawada on 05/09/22.
 //  Copyright 2005-2007 BathyScaphe Project. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  BSTitleRulerView.m
-//  BathyScaphe
+//  SGAppKit (BathyScaphe)
 //
 //  Created by Tsutomu Sawada on 05/09/22.
 //  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
@@ -114,19 +114,13 @@
 	static NSDictionary	*tmp = nil;
 	if (!tmp) {
 		NSColor			*color_;
-	//	NSShadow		*shadow_;
+
 		color_ = [[self appearance] textColor];
-/*
-		shadow_ = [[NSShadow alloc] init];
-		[shadow_ setShadowOffset     : NSMakeSize(1.5, -1.5)];
-		[shadow_ setShadowBlurRadius : 0.3];
-*/
+
 		tmp = [[NSDictionary alloc] initWithObjectsAndKeys:
 					[NSFont boldSystemFontOfSize:TITLE_FONT_SIZE], NSFontAttributeName,
 					color_, NSForegroundColorAttributeName,
-	//				shadow_, NSShadowAttributeName,
 					nil];
-	//	[shadow_ release];
 	}
 	return tmp;
 }
@@ -137,7 +131,7 @@
 	if (!tmp2) {
 		NSColor			*color_;
 
-		color_ = [NSColor blackColor];
+		color_ = [[self appearance] infoColor];
 
 		tmp2 = [[NSDictionary alloc] initWithObjectsAndKeys:
 					[NSFont systemFontOfSize:INFO_FONT_SIZE], NSFontAttributeName,
@@ -174,18 +168,18 @@
 
 		// Notifications
 		[nc addObserver:self
-			   selector:@selector(keyWinOrSystemColorsDidChange:)
+			   selector:@selector(mainWinOrSystemColorsDidChange:)
 				   name:NSSystemColorsDidChangeNotification
 				 object:nil];
 
 		[nc addObserver:self
-			   selector:@selector(keyWinOrSystemColorsDidChange:)
-				   name:NSWindowDidBecomeKeyNotification
+			   selector:@selector(mainWinOrSystemColorsDidChange:)
+				   name:NSWindowDidBecomeMainNotification
 				 object:[self window]];
 
 		[nc addObserver:self
-			   selector:@selector(keyWinOrSystemColorsDidChange:)
-				   name:NSWindowDidResignKeyNotification
+			   selector:@selector(mainWinOrSystemColorsDidChange:)
+				   name:NSWindowDidResignMainNotification
 				 object:[self window]];
 
 		// BSTitleRulerView Properties
@@ -204,11 +198,11 @@
 				object:nil];
 
 	[nc removeObserver:self
-				  name:NSWindowDidBecomeKeyNotification
+				  name:NSWindowDidBecomeMainNotification
 				object:[self window]];
 
 	[nc removeObserver:self
-				  name:NSWindowDidResignKeyNotification
+				  name:NSWindowDidResignMainNotification
 				object:[self window]];
 
 	[m_titleStr release];
@@ -222,27 +216,29 @@
 #pragma mark Drawing
 - (void)drawTitleBarInRect:(NSRect)aRect
 {
-	BOOL	isKeyWin_;
 	NSArray	*colors_;
 	NSColor *gradientStartColor, *gradientEndColor;
-	// このへん、暫定的
-	NSMutableAttributedString *foo = [[self titleForDrawing] mutableCopy];
-	NSRange	range = NSMakeRange(0,[foo length]);
-	[foo removeAttribute:NSForegroundColorAttributeName range:range];
-	[foo addAttributes:[NSDictionary dictionaryWithObject:[NSColor grayColor] forKey:NSForegroundColorAttributeName] range:range];
 
-	isKeyWin_ = [[self window] isKeyWindow];
-	colors_ = isKeyWin_ ? [self activeColors] : [[self appearance] inactiveColors];
+	BSTitleRulerAppearance	*appearance = [self appearance];
+
+	colors_ = [[self window] isMainWindow] ? [self activeColors] : [appearance inactiveColors];
 	
 	gradientStartColor = [colors_ objectAtIndex:0];
 	gradientEndColor = [colors_ objectAtIndex:1];
 
-	[[NSBezierPath bezierPathWithRect:aRect] linearGradientFillWithStartColor:gradientStartColor
-																	 endColor:gradientEndColor];
+	[[NSBezierPath bezierPathWithRect:aRect] linearGradientFillWithStartColor:gradientStartColor endColor:gradientEndColor];
 
-	[foo drawInRect:NSInsetRect(aRect, 5.0, 3.0)];
+	if ([appearance drawsCarvedText]) {
+		// このへん、暫定的
+		NSMutableAttributedString *foo = [[self titleForDrawing] mutableCopy];
+		NSRange	range = NSMakeRange(0,[foo length]);
+		[foo removeAttribute:NSForegroundColorAttributeName range:range];
+		[foo addAttributes:[NSDictionary dictionaryWithObject:[NSColor grayColor] forKey:NSForegroundColorAttributeName] range:range];
+		[foo drawInRect:NSInsetRect(aRect, 5.0, 3.0)];
+		[foo release];
+	}
+
 	[[self titleForDrawing] drawInRect:NSInsetRect(aRect, 5.0, 2.0)];
-	[foo release];
 }
 
 - (BOOL)isOpaque
@@ -257,7 +253,7 @@
 	[icon_ setSize:NSMakeSize(32, 32)];
 	[icon_ setFlipped:[self isFlipped]];
 
-	[[[self appearance] infoColor] set];
+	[[[self appearance] infoBackgroundColor] set];
 	NSRectFill(aRect);	
 
 	iconRect = NSMakeRect(NSMinX(aRect)+5.0, NSMinY(aRect)+2.0, 32, 32);
@@ -339,7 +335,7 @@ static NSMenu *createPathMenu(NSString *fullPath)
 }
 
 #pragma mark Notifications
-- (void)keyWinOrSystemColorsDidChange:(NSNotification *)theNotification
+- (void)mainWinOrSystemColorsDidChange:(NSNotification *)theNotification
 {
 	[self setNeedsDisplay:YES];
 }
