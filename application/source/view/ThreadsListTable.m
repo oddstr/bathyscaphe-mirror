@@ -1,68 +1,69 @@
-/**
-  * $Id: ThreadsListTable.m,v 1.11 2007/09/04 07:45:43 tsawada2 Exp $
-  * 
-  * ThreadsListTable.m
-  *
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  ThreadsListTable.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/10/30.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import "ThreadsListTable.h"
 #import "CMRThreadsList.h"
 #import "AppDefaults.h"
 #import "NSIndexSet+BSAddition.h"
+
+#import <SGAppKit/SGKeyBindingSupport.h>
 
 static NSString *const kBrowserKeyBindingsFile = @"BrowserKeyBindings.plist";
 
 @implementation ThreadsListTable
 #pragma mark Drag Image
 // Panther. Deprecated.
-- (NSImage*) dragImageForRows : (NSArray      *) dragRows
-                        event : (NSEvent      *) dragEvent
-              dragImageOffset : (NSPointPointer) dragImageOffset
+- (NSImage *)dragImageForRows:(NSArray *)dragRows
+						event:(NSEvent *)dragEvent
+			  dragImageOffset:(NSPointPointer)dragImageOffset
 {
 	id	dataSource = [self dataSource];
-	if (dataSource && [dataSource respondsToSelector: @selector(dragImageForRowIndexes:inTableView:offset:)]) {
-		return [dataSource dragImageForRowIndexes: [NSIndexSet rowIndexesWithRows: dragRows] inTableView: self offset: dragImageOffset];
+	if (dataSource && [dataSource respondsToSelector:@selector(dragImageForRowIndexes:inTableView:offset:)]) {
+		return [dataSource dragImageForRowIndexes:[NSIndexSet rowIndexesWithRows:dragRows] inTableView:self offset:dragImageOffset];
 	}
 	
-	return [super dragImageForRows: dragRows event: dragEvent dragImageOffset: dragImageOffset];
+	return [super dragImageForRows:dragRows event:dragEvent dragImageOffset:dragImageOffset];
 }
 
 // For Tiger or later
-- (NSImage *) dragImageForRowsWithIndexes : (NSIndexSet *) dragRows
-							 tableColumns : (NSArray *) tableColumns
-									event : (NSEvent *) dragEvent
-								   offset : (NSPointPointer) dragImageOffset
+- (NSImage *)dragImageForRowsWithIndexes:(NSIndexSet *)dragRows
+							tableColumns:(NSArray *)tableColumns
+								   event:(NSEvent *)dragEvent
+								  offset:(NSPointPointer)dragImageOffset
 {
 	id	dataSource = [self dataSource];
-	if (dataSource && [dataSource respondsToSelector: @selector(dragImageForRowIndexes:inTableView:offset:)]) {
-		return [dataSource dragImageForRowIndexes: dragRows inTableView: self offset: dragImageOffset];
+	if (dataSource && [dataSource respondsToSelector:@selector(dragImageForRowIndexes:inTableView:offset:)]) {
+		return [dataSource dragImageForRowIndexes:dragRows inTableView:self offset:dragImageOffset];
 	}
 	
-	return [super dragImageForRowsWithIndexes: dragRows tableColumns: tableColumns event: dragEvent offset: dragImageOffset];
+	return [super dragImageForRowsWithIndexes:dragRows tableColumns:tableColumns event:dragEvent offset:dragImageOffset];
 }
 	
-#pragma mark KeyBindings
-+ (SGKeyBindingSupport *) keyBindingSupport
+#pragma mark Events
++ (SGKeyBindingSupport *)keyBindingSupport
 {
 	static SGKeyBindingSupport *stKeyBindingSupport_;
 	
-	if(nil == stKeyBindingSupport_){
+	if (!stKeyBindingSupport_) {
 		NSDictionary	*dict;
 		
-		dict = [NSBundle mergedDictionaryWithName : kBrowserKeyBindingsFile];
+		dict = [NSBundle mergedDictionaryWithName:kBrowserKeyBindingsFile];
 		UTILAssertKindOfClass(dict, NSDictionary);
 		
-		stKeyBindingSupport_ = 
-			[[SGKeyBindingSupport alloc] initWithDictionary : dict];
+		stKeyBindingSupport_ = [[SGKeyBindingSupport alloc] initWithDictionary:dict];
 	}
 	return stKeyBindingSupport_;
 }
 
-
 // [Keybinding Responder Chain]
 // self --> target --> [self window]
-- (BOOL) interpretKeyBinding : (NSEvent *) theEvent
+- (BOOL)interpretKeyBinding:(NSEvent *)theEvent
 {
 	id	targets_[] = {
 			self,
@@ -73,59 +74,50 @@ static NSString *const kBrowserKeyBindingsFile = @"BrowserKeyBindings.plist";
 	
 	id	*p;
 	
-	for(p = targets_; *p != NULL; p++){
-		if([[[self class] keyBindingSupport] 
-				interpretKeyBindingWithEvent:theEvent target:*p])
+	for (p = targets_; *p != NULL; p++) {
+		if([[[self class] keyBindingSupport] interpretKeyBindingWithEvent:theEvent target:*p]) {
 			return YES;
+		}
 	}
 	return NO;
 }
-- (void) keyDown : (NSEvent *) theEvent
+
+- (void)keyDown:(NSEvent *)theEvent
 {
-	// ƒfƒoƒbƒO—p	
+	// ãƒ‡ãƒãƒƒã‚°ç”¨	
 	UTILDescription(theEvent);
 	UTILDescUnsignedInt([theEvent modifierFlags]);
 	UTILDescription([theEvent characters]);
 	UTILDescription([theEvent charactersIgnoringModifiers]);
 	
-	if([self interpretKeyBinding : theEvent])
+	if ([self interpretKeyBinding:theEvent]) {
 		return;
-	
-	[super keyDown : theEvent];
-}
-
-- (void) scrollRowToTop : (id) sender
-{
-	[self scrollRowToVisible : 0];
-}
-
-- (void) scrollRowToEnd : (id) sender
-{
-	[self scrollRowToVisible : ([self numberOfRows]-1)];
-}
-
-#pragma mark Contextual Menu
-// Cocoa‚Í‚³‚Á‚Ï‚è!!! version.4 ƒXƒŒƒbƒh‚Ì54-55 ‚ªƒhƒ“ƒsƒVƒƒ‚¾‚Á‚½
-- (NSMenu *) menuForEvent : (NSEvent *) theEvent
-{
-	int row = [self rowAtPoint : [self convertPoint : [theEvent locationInWindow] fromView : nil]];
-
-	if(![self isRowSelected : row]) [self selectRow : row byExtendingSelection : NO];
-	if(row >= 0) {
-		return [self menu];
-	} else {
-		return nil;
 	}
+	[super keyDown:theEvent];
+}
+
+// Cocoaã¯ã•ã£ã±ã‚Š!!! version.4 ã‚¹ãƒ¬ãƒƒãƒ‰ã®54-55 ãŒãƒ‰ãƒ³ãƒ”ã‚·ãƒ£ã ã£ãŸ
+- (NSMenu *)menuForEvent:(NSEvent *)theEvent
+{
+	int row = [self rowAtPoint:[self convertPoint:[theEvent locationInWindow] fromView:nil]];
+
+	if (row < 0) return nil;
+
+	if (![self isRowSelected:row]) {
+		[self selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
+	}
+	
+	return [self menu];
 }
 
 #pragma mark Manual-save Table columns
 
 /*
 	2005-10-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	NSTableView ‚Ì AutoSave ‹@”\‚É—Š‚ç‚¸A©—Í‚ÅƒJƒ‰ƒ€‚Ì•A‡˜A•\¦^”ñ•\¦‚ğ‹L‰¯‚·‚éB
-	ˆÈ‰º‚ÌƒR[ƒh‚Í http://www.cocoabuilder.com/archive/message/cocoa/2003/11/16/77603 ‚©‚ç”qØ‚µ‚½B
-	‚±‚ê‚ç‚Ìƒƒ\ƒbƒh‚ğÀÛ‚É‚Ç‚±‚Å‚Ç‚¤ŒÄ‚Ño‚µ‚Ä‚¢‚é‚©‚ÍACMRBrowser-ViewAccessor.m, CMRBrowser-Delegate.m ‚ğ
-	QÆ‚Ì‚±‚ÆB
+	NSTableView ã® AutoSave æ©Ÿèƒ½ã«é ¼ã‚‰ãšã€è‡ªåŠ›ã§ã‚«ãƒ©ãƒ ã®å¹…ã€é †åºã€è¡¨ç¤ºï¼éè¡¨ç¤ºã‚’è¨˜æ†¶ã™ã‚‹ã€‚
+	ä»¥ä¸‹ã®ã‚³ãƒ¼ãƒ‰ã¯ http://www.cocoabuilder.com/archive/message/cocoa/2003/11/16/77603 ã‹ã‚‰æ‹å€Ÿã—ãŸã€‚
+	ã“ã‚Œã‚‰ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®Ÿéš›ã«ã©ã“ã§ã©ã†å‘¼ã³å‡ºã—ã¦ã„ã‚‹ã‹ã¯ã€CMRBrowser-ViewAccessor.m, CMRBrowser-Delegate.m ã‚’
+	å‚ç…§ã®ã“ã¨ã€‚
 */
 
 /*
@@ -159,13 +151,13 @@ Hope this helps...
 "allColumns". You also have to take care about its deallocation.)
 */
 
-- (void) dealloc
+- (void)dealloc
 {
 	[allColumns release];
 	[super dealloc];
 }
 
-- (NSObject<NSCoding> *) columnState
+- (NSObject<NSCoding> *)columnState
 {
 	NSMutableArray	*state;
 	NSArray			*columns;
@@ -173,20 +165,20 @@ Hope this helps...
 	NSTableColumn	*column;
 
 	columns = [self tableColumns];
-	state = [NSMutableArray arrayWithCapacity : [columns count]];
+	state = [NSMutableArray arrayWithCapacity:[columns count]];
 	enumerator = [columns objectEnumerator];
 
-	while(column = [enumerator nextObject]) {
-		[state addObject : [NSDictionary dictionaryWithObjectsAndKeys : 
+	while (column = [enumerator nextObject]) {
+		[state addObject:[NSDictionary dictionaryWithObjectsAndKeys: 
 														[column identifier], @"Identifier",
-														[NSNumber numberWithFloat : [column width]], @"Width",
+														[NSNumber numberWithFloat:[column width]], @"Width",
 														nil]];
 	}
 
 	return state;
 }
 
-- (void) restoreColumnState : (NSObject *) columnState
+- (void)restoreColumnState:(NSObject *)columnState
 {
 	NSArray			*state;
 	NSEnumerator	*enumerator;
@@ -194,109 +186,120 @@ Hope this helps...
 	NSTableColumn	*column;
 
 	NSAssert(columnState != nil, @"nil columnState!" );
-	NSAssert([columnState isKindOfClass : [NSArray class]], @"columnState is not an NSArray!" );
+	NSAssert([columnState isKindOfClass:[NSArray class]], @"columnState is not an NSArray!" );
 
 	state = (NSArray *)columnState;
 
 	enumerator = [state objectEnumerator];
 	[self removeAllColumns];
 	while (params = [enumerator nextObject]) {
-		column = [self initialColumnWithIdentifier : [params objectForKey : @"Identifier"]];
+		column = [self initialColumnWithIdentifier:[params objectForKey:@"Identifier"]];
 
-		if (column != nil) {
-			[column setWidth : [[params objectForKey : @"Width"] floatValue]];
-			[self addTableColumn : column];
-			[self setIndicatorImage : nil inTableColumn:column];
-			[self setNeedsDisplay : YES];
+		if (column) {
+			[column setWidth:[[params objectForKey:@"Width"] floatValue]];
+			[self addTableColumn:column];
+			[self setIndicatorImage:nil inTableColumn:column];
+			[self setNeedsDisplay:YES];
 		}
 	}
 
 	//[self sizeLastColumnToFit];
 }
 
-- (void) setColumnWithIdentifier : (id) identifier visible : (BOOL) visible
+- (void)setColumnWithIdentifier:(id)identifier visible:(BOOL)visible
 {
 	NSTableColumn	*column;
 
-	column = [self initialColumnWithIdentifier : identifier];
+	column = [self initialColumnWithIdentifier:identifier];
 
 	NSAssert(column != nil, @"nil column!");
 
-	if(visible) {
-		if(![self isColumnWithIdentifierVisible : identifier]) {
-			
-			if (![CMRPref isSplitViewVertical] && ![identifier isEqualToString : CMRThreadTitleKey]) {
+	if (visible) {
+		if(![self isColumnWithIdentifierVisible:identifier]) {
+			if (![CMRPref isSplitViewVertical] && ![identifier isEqualToString:CMRThreadTitleKey]) {
 				float tmp;
 				NSTableColumn	*tmp2;
 				
-				[self addTableColumn : column];
+				[self addTableColumn:column];
 				
 				tmp = [column width];
-				tmp2 = [self initialColumnWithIdentifier : CMRThreadTitleKey];
-				[tmp2 setWidth : ([tmp2 width] - tmp)];
+				tmp2 = [self initialColumnWithIdentifier:CMRThreadTitleKey];
+				[tmp2 setWidth:([tmp2 width] - tmp)];
 			} else {
-				[self addTableColumn : column];			
+				[self addTableColumn:column];	
 			}
 			[self sizeLastColumnToFit];
-			[self setNeedsDisplay : YES];
+			[self setNeedsDisplay:YES];
 		}
 	} else {
-		if([self isColumnWithIdentifierVisible : identifier]) {
-
-			if (![CMRPref isSplitViewVertical] && ![identifier isEqualToString : CMRThreadTitleKey]) {			
+		if ([self isColumnWithIdentifierVisible:identifier]) {
+			if (![CMRPref isSplitViewVertical] && ![identifier isEqualToString:CMRThreadTitleKey]) {			
 				float tmp = [column width];
-				NSTableColumn	*tmp2 = [self initialColumnWithIdentifier : CMRThreadTitleKey];
+				NSTableColumn	*tmp2 = [self initialColumnWithIdentifier:CMRThreadTitleKey];
 				
-				[self removeTableColumn : column];
-				[tmp2 setWidth : ([tmp2 width] + tmp)];
+				[self removeTableColumn:column];
+				[tmp2 setWidth:([tmp2 width] + tmp)];
 			} else {
-				[self removeTableColumn : column];
+				[self removeTableColumn:column];
 			}
-			if(![identifier isEqualToString : CMRThreadTitleKey])
+			if (![identifier isEqualToString:CMRThreadTitleKey]) {
 				[self sizeLastColumnToFit];
-			[self setNeedsDisplay : YES];
+			}
+			[self setNeedsDisplay:YES];
 		}
 	}
 }
 
-- (BOOL) isColumnWithIdentifierVisible : (id) identifier
+- (BOOL)isColumnWithIdentifierVisible:(id)identifier
 {
-	return [self columnWithIdentifier : identifier] != -1;
+	return ([self columnWithIdentifier:identifier] != -1);
 }
 
-- (NSTableColumn *) initialColumnWithIdentifier : (id) identifier
+- (NSTableColumn *)initialColumnWithIdentifier:(id)identifier
 {
 	NSEnumerator	*enumerator;
 	NSTableColumn	*column = nil;
 
 	enumerator = [allColumns objectEnumerator];
 
-	while(column = [enumerator nextObject])
-		if([[column identifier] isEqual : identifier])
+	while (column = [enumerator nextObject]) {
+		if ([[column identifier] isEqual:identifier]) {
 			break;
-
+		}
+	}
 	return column;
 }
 
-- (void) removeAllColumns
+- (void)removeAllColumns
 {
 	NSArray			*columns;
 	NSEnumerator	*enumerator;
 	NSTableColumn	*column;
 
-	columns = [NSArray arrayWithArray : [self tableColumns]];
+	columns = [NSArray arrayWithArray:[self tableColumns]];
 	enumerator = [columns objectEnumerator];
 
-	while(column = [enumerator nextObject])
-		[self removeTableColumn : column];
+	while (column = [enumerator nextObject]) {
+		[self removeTableColumn:column];
+	}
 }
 
-- (void) setInitialState
+- (void)setInitialState
 {
-	allColumns = [[NSArray arrayWithArray : [self tableColumns]] retain];
+	allColumns = [[NSArray arrayWithArray:[self tableColumns]] retain];
 }
 
 #pragma mark IBActions
+- (IBAction)scrollRowToTop:(id)sender
+{
+	[self scrollRowToVisible:0];
+}
+
+- (IBAction) scrollRowToEnd:(id)sender
+{
+	[self scrollRowToVisible:([self numberOfRows]-1)];
+}
+
 - (IBAction)revealInFinder:(id)sender
 {
 	id dataSource = [self dataSource];

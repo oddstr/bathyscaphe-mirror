@@ -361,6 +361,11 @@
     [tbView_ setMenu:[self listContextualMenu]];
 	[[tbView_ headerView] setMenu:[[NSApp delegate] browserListColumnsMenuTemplate]];
 
+	// Leopard
+	if ([tbView_ respondsToSelector:@selector(setAllowsTypeSelect:)]) {
+		[tbView_ setAllowsTypeSelect:NO];
+	}
+
 	[self updateTableColumnsMenu];
 }
 

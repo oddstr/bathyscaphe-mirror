@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-ThreadViewer.m,v 1.9 2007/08/07 14:07:44 tsawada2 Exp $
+  * $Id: AppDefaults-ThreadViewer.m,v 1.10 2007/10/30 02:31:58 tsawada2 Exp $
   * 
   * AppDefaults-ThreadViewer.m
   *
@@ -244,7 +244,8 @@ static NSString *const kPrefLinkDownloaderDestKey = @"LinkDownloaderDestination"
 	if (path && [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] && isDir) {
 		return path;
 	} else {
-		return [[CMRFileManager defaultManager] userDomainDesktopFolderPath];
+//		return [[CMRFileManager defaultManager] userDomainDesktopFolderPath];
+		return [[CMRFileManager defaultManager] userDomainDownloadsFolderPath];
 	}
 }
 - (void)setLinkDownloaderDestination:(NSString *)path

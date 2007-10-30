@@ -579,7 +579,6 @@
 		F473637D0AFF8758009B6189 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		F473637E0AFF8758009B6189 /* CocoMonar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3924488043610AE00A80005 /* CocoMonar.framework */; };
 		F473637F0AFF8758009B6189 /* SGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FA043610EB00A80005 /* SGFoundation.framework */; };
-		F47363800AFF8758009B6189 /* SGNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FF043610FB00A80005 /* SGNetwork.framework */; };
 		F47363810AFF8758009B6189 /* SGAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244F5043610D600A80005 /* SGAppKit.framework */; };
 		F47363820AFF8758009B6189 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F523AC2B037BFC4F01A80002 /* Carbon.framework */; };
 		F47363830AFF8758009B6189 /* libRBSplitView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87464E3608643673000F0371 /* libRBSplitView.a */; };
@@ -1190,7 +1189,7 @@
 		F324DCDF04C698FB00A80005 /* AppDefaults-Bundle.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-Bundle.m"; sourceTree = "<group>"; };
 		F324DCE004C698FB00A80005 /* AppDefaults-FontColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-FontColor.m"; sourceTree = "<group>"; };
 		F324DCE304C698FB00A80005 /* AppDefaults-ThreadsList.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-ThreadsList.m"; sourceTree = "<group>"; };
-		F324DCE404C698FB00A80005 /* AppDefaults-ThreadViewer.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-ThreadViewer.m"; sourceTree = "<group>"; };
+		F324DCE404C698FB00A80005 /* AppDefaults-ThreadViewer.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-ThreadViewer.m"; sourceTree = "<group>"; };
 		F324DCE604C698FB00A80005 /* AppDefaults.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = AppDefaults.h; sourceTree = "<group>"; };
 		F324DCE704C698FB00A80005 /* AppDefaults.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = AppDefaults.m; sourceTree = "<group>"; };
 		F324DCE804C698FB00A80005 /* AppDefaults_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = AppDefaults_p.h; sourceTree = "<group>"; };
@@ -1241,8 +1240,8 @@
 		F324DDB304C698FB00A80005 /* SGHTMLView_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = SGHTMLView_p.h; sourceTree = "<group>"; };
 		F324DDB404C698FB00A80005 /* SGLinkCommand.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = SGLinkCommand.h; sourceTree = "<group>"; };
 		F324DDB504C698FB00A80005 /* SGLinkCommand.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = SGLinkCommand.m; sourceTree = "<group>"; };
-		F324DDBB04C698FB00A80005 /* ThreadsListTable.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = ThreadsListTable.h; sourceTree = "<group>"; };
-		F324DDBC04C698FB00A80005 /* ThreadsListTable.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = ThreadsListTable.m; sourceTree = "<group>"; };
+		F324DDBB04C698FB00A80005 /* ThreadsListTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadsListTable.h; sourceTree = "<group>"; };
+		F324DDBC04C698FB00A80005 /* ThreadsListTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreadsListTable.m; sourceTree = "<group>"; };
 		F324DDC204C698FB00A80005 /* CMRBrowserTbDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRBrowserTbDelegate.h; sourceTree = "<group>"; };
 		F324DDC304C698FB00A80005 /* CMRBrowserTbDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRBrowserTbDelegate.m; sourceTree = "<group>"; };
 		F324DDC904C698FB00A80005 /* CMRReplyController-ViewAccessor.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "CMRReplyController-ViewAccessor.m"; sourceTree = "<group>"; };
@@ -1331,7 +1330,6 @@
 		F3924488043610AE00A80005 /* CocoMonar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoMonar.framework; path = ../frameworks/CocoMonar/build/Deployment/CocoMonar.framework; sourceTree = SOURCE_ROOT; };
 		F39244F5043610D600A80005 /* SGAppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SGAppKit.framework; path = ../frameworks/SGAppKit/build/Deployment/SGAppKit.framework; sourceTree = SOURCE_ROOT; };
 		F39244FA043610EB00A80005 /* SGFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SGFoundation.framework; path = ../frameworks/SGFoundation/build/Deployment/SGFoundation.framework; sourceTree = SOURCE_ROOT; };
-		F39244FF043610FB00A80005 /* SGNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SGNetwork.framework; path = ../frameworks/SGNetwork/build/Deployment/SGNetwork.framework; sourceTree = SOURCE_ROOT; };
 		F3959F0C04D3050600A80005 /* CMRAbstructThreadDocument_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRAbstructThreadDocument_p.h; sourceTree = "<group>"; };
 		F3959F0D04D3050600A80005 /* CMRThreadComposingTask_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadComposingTask_p.h; sourceTree = "<group>"; };
 		F3959F0E04D3050600A80005 /* CMRThreadDocument_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadDocument_p.h; sourceTree = "<group>"; };
@@ -1517,7 +1515,6 @@
 				F473637D0AFF8758009B6189 /* Cocoa.framework in Frameworks */,
 				F473637E0AFF8758009B6189 /* CocoMonar.framework in Frameworks */,
 				F473637F0AFF8758009B6189 /* SGFoundation.framework in Frameworks */,
-				F47363800AFF8758009B6189 /* SGNetwork.framework in Frameworks */,
 				F47363810AFF8758009B6189 /* SGAppKit.framework in Frameworks */,
 				F47363820AFF8758009B6189 /* Carbon.framework in Frameworks */,
 				F47363830AFF8758009B6189 /* libRBSplitView.a in Frameworks */,
@@ -1570,7 +1567,6 @@
 				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
 				F3924488043610AE00A80005 /* CocoMonar.framework */,
 				F39244FA043610EB00A80005 /* SGFoundation.framework */,
-				F39244FF043610FB00A80005 /* SGNetwork.framework */,
 				F39244F5043610D600A80005 /* SGAppKit.framework */,
 				F39673CC045679B400A80005 /* PreferencePanes.framework */,
 				F36067F4044D4DB600A80005 /* Carbon.framework */,
@@ -4403,11 +4399,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = PreferencesPane;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
+				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = plugin;
 				ZERO_LINK = NO;
 			};
@@ -4439,11 +4431,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = PreferencesPane;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
+				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = plugin;
 				ZERO_LINK = NO;
 			};
@@ -4464,11 +4452,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = PreferencesPane;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
+				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = plugin;
 			};
 			name = Default;
@@ -4480,7 +4464,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					../frameworks/CocoMonar/build/Deployment,
 					../frameworks/SGFoundation/build/Deployment,
-					../frameworks/SGNetwork/build/Deployment,
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -4497,14 +4480,9 @@
 				INSTALL_PATH = "@executable_path/../Plugins";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = 2chConnector;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
+				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = plugin;
 				ZERO_LINK = NO;
 			};
@@ -4517,7 +4495,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					../frameworks/CocoMonar/build/Deployment,
 					../frameworks/SGFoundation/build/Deployment,
-					../frameworks/SGNetwork/build/Deployment,
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -4533,14 +4510,9 @@
 				INSTALL_PATH = "@executable_path/../Plugins";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = 2chConnector;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
+				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = plugin;
 				ZERO_LINK = NO;
 			};
@@ -4552,20 +4524,14 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					../frameworks/CocoMonar/build/Deployment,
 					../frameworks/SGFoundation/build/Deployment,
-					../frameworks/SGNetwork/build/Deployment,
 				);
 				GCC_USE_GCC3_PFE_SUPPORT = NO;
 				INFOPLIST_FILE = "Info-reply.plist";
 				INSTALL_PATH = "@executable_path/../Plugins";
 				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = 2chConnector;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
+				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = plugin;
 			};
 			name = Default;
@@ -4578,7 +4544,6 @@
 					../frameworks/CocoMonar/build/Deployment,
 					../frameworks/SGFoundation/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
-					../frameworks/SGNetwork/build/Deployment,
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -4597,11 +4562,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = ImagePreviewer;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
+				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = plugin;
 				ZERO_LINK = NO;
 			};
@@ -4619,7 +4580,6 @@
 					../frameworks/CocoMonar/build/Deployment,
 					../frameworks/SGFoundation/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
-					../frameworks/SGNetwork/build/Deployment,
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -4631,11 +4591,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = ImagePreviewer;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
+				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = plugin;
 				ZERO_LINK = NO;
 			};
@@ -4648,7 +4604,6 @@
 					../frameworks/CocoMonar/build/Deployment,
 					../frameworks/SGFoundation/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
-					../frameworks/SGNetwork/build/Deployment,
 				);
 				GCC_USE_GCC3_PFE_SUPPORT = NO;
 				INFOPLIST_FILE = "Info-previewer.plist";
@@ -4656,11 +4611,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = ImagePreviewer;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
+				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = plugin;
 			};
 			name = Default;
@@ -4790,7 +4741,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					../frameworks/CocoMonar/build/Deployment,
 					../frameworks/SGFoundation/build/Deployment,
-					../frameworks/SGNetwork/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
 				);
@@ -4819,11 +4769,7 @@
 				PRODUCT_NAME = BathyScaphe;
 				SECTORDER_FLAGS = "";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/source\"";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
+				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Development;
@@ -4838,7 +4784,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					../frameworks/CocoMonar/build/Deployment,
 					../frameworks/SGFoundation/build/Deployment,
-					../frameworks/SGNetwork/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
 				);
@@ -4866,11 +4811,7 @@
 				PRODUCT_NAME = BathyScaphe;
 				SECTORDER_FLAGS = "";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/source\"";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
+				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Deployment;
@@ -4881,7 +4822,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					../frameworks/CocoMonar/build/Deployment,
 					../frameworks/SGFoundation/build/Deployment,
-					../frameworks/SGNetwork/build/Deployment,
 					../frameworks/SGAppKit/build/Deployment,
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
 				);
@@ -4902,11 +4842,7 @@
 				PRODUCT_NAME = BathyScaphe;
 				SECTORDER_FLAGS = "";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/source\"";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
+				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Default;

@@ -1,5 +1,5 @@
 /**
- * $Id: CMRFileManager.h,v 1.3 2007/08/07 14:07:44 tsawada2 Exp $
+ * $Id: CMRFileManager.h,v 1.4 2007/10/30 02:31:58 tsawada2 Exp $
  * 
  * CMRFileManager.h
  *
@@ -64,9 +64,14 @@
 
 //
 // ~/Desktop
-// Available in CocoMonar Framework 1.5.1 (BathyScaphe 1.6) and later.
+// Available in CocoMonar Framework 1.5.1 and later.
 //
 - (NSString *)userDomainDesktopFolderPath;
+
+//
+// ~/Downloads (on Mac OS X 10.5 and later), or ~/Desktop
+// Available in CocoMonar Framework 1.6 and later.
+- (NSString *)userDomainDownloadsFolderPath;
 @end
 
 

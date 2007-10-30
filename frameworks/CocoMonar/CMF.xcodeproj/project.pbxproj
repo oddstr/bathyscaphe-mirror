@@ -77,7 +77,7 @@
 		F37CD4C405089F5700A80005 /* pathinfo.txt */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = text; name = pathinfo.txt; path = framework/Resources/pathinfo.txt; sourceTree = "<group>"; };
 		F3A5E3AC0436BEF700A80005 /* SGFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SGFoundation.framework; path = ../SGFoundation/build/Deployment/SGFoundation.framework; sourceTree = SOURCE_ROOT; };
 		F3B02DAE0509F1D600A80005 /* CMRFileManager.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRFileManager.h; sourceTree = "<group>"; };
-		F3B02DAF0509F1D600A80005 /* CMRFileManager.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRFileManager.m; sourceTree = "<group>"; };
+		F3B02DAF0509F1D600A80005 /* CMRFileManager.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = CMRFileManager.m; sourceTree = "<group>"; };
 		F3B02DB90509FCB000A80005 /* CMRFiles.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRFiles.h; sourceTree = "<group>"; };
 		F3B756F50508BD6C00A80005 /* CMRAppTypes.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRAppTypes.h; sourceTree = "<group>"; };
 		F3B756F60508BD6C00A80005 /* CMRDocumentTypes.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRDocumentTypes.h; sourceTree = "<group>"; };
@@ -403,11 +403,7 @@
 				);
 				PRODUCT_NAME = CocoMonar;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
+				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = framework;
 				ZERO_LINK = YES;
 			};
@@ -437,11 +433,7 @@
 				);
 				PRODUCT_NAME = CocoMonar;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
+				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = framework;
 				ZERO_LINK = NO;
 			};
@@ -465,11 +457,7 @@
 				);
 				PRODUCT_NAME = CocoMonar;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
+				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Default;

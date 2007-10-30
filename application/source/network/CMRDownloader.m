@@ -241,7 +241,7 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 	[self postTaskWillStartNotification];
 }
 
-- (void) didFinishLoadingWithPostingNotificationName:(NSString *)notificationName
+- (void)didFinishLoading
 {
 	NSURL			*resourceURL = [self resourceURL];
 	
@@ -253,13 +253,7 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 	[self setCurrentConnector:nil];
 	[self setResourceData:nil];
 
-	UTILNotifyName(notificationName);
 	[self autorelease];
-}
-
-- (void)didFinishLoading
-{
-	[self didFinishLoadingWithPostingNotificationName:nil];
 }
 
 - (BOOL)dataProcess:(NSData *)resourceData withConnector:(NSURLConnection *)connector
@@ -271,18 +265,6 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 
 
 @implementation CMRDownloader(ResourceManagement)
-/*- (BOOL) isFirstArrivalWithURLHandle : (NSURLHandle *) URLHandle
-	  resourceDataDidBecomeAvailable : (NSData      *) newBytes
-{
-	NSData *avail = [URLHandle availableResourceData];
-	
-	return ([newBytes length] == [avail length]);
-}
-- (BOOL) shouldCancelWithFirstArrivalData : (NSData *) theData
-{
-	return CHECK_HTML([theData bytes], [theData length]);
-}
-*/
 - (void)cancelDownload
 {
 	if (![self isInProgress]) return;
@@ -295,7 +277,6 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 - (void) cancelDownloadWithPostingNotificationName:(NSString *)name
 {
 	[self retain];
-//	[self cancelDownload];
 	UTILNotifyName(name);
 	[self autorelease];
 }
@@ -378,27 +359,7 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 	[self dataProcess:[self resourceData] withConnector:connection];
 	[self didFinishLoading];
 }
-/*- (void) URLHandle               : (NSURLHandle *) sender
-  resourceDataDidBecomeAvailable : (NSData      *) newBytes
-{
-	NSData				*data;
-	SGHTTPConnector		*con;
-	
-	con  = [self HTTPConnectorCastURLHandle : sender];
-	if (NO == [self isFirstArrivalWithURLHandle : con
-	             resourceDataDidBecomeAvailable : newBytes])
-	{ return; }
-	
-	
-	[self synchronizeServerClock : con];
-	
-	data = [con availableResourceData];
-	if ([self shouldCancelWithFirstArrivalData : data]) {
-		[self cancelDownloadWithPostingNotificationName :
-							CMRDownloaderNotFoundNotification];
-		return;
-	}	
-}*/
+
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
 	double foo = -1;

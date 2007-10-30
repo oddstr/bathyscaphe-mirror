@@ -1,5 +1,5 @@
 /*
- * $Id: BSImagePreviewInspector-Tb.m,v 1.16 2007/10/26 14:09:10 tsawada2 Exp $
+ * $Id: BSImagePreviewInspector-Tb.m,v 1.17 2007/10/30 02:31:58 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -368,7 +368,8 @@ static NSString *const kIPILeaveFailedTokenKey	= @"jp.tsawada2.BathyScaphe.Image
 
 - (NSString *) saveDirectory
 {
-	return [[self prefsDict] objectForKey:kIPISaveDirectoryKey defaultObject:[[CMRFileManager defaultManager] userDomainDesktopFolderPath]];
+//	return [[self prefsDict] objectForKey:kIPISaveDirectoryKey defaultObject:[[CMRFileManager defaultManager] userDomainDesktopFolderPath]];
+	return [[self prefsDict] objectForKey:kIPISaveDirectoryKey defaultObject:[[CMRFileManager defaultManager] userDomainDownloadsFolderPath]];
 }
 
 - (void) setSaveDirectory : (NSString *) aString

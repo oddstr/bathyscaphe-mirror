@@ -1,3 +1,18 @@
+2007-10-30 tsawada2 <ben-sawa@td5.so-net.ne.jp.
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+		Leopard 対策：-[NSTableView allowsTypeSelect] がデフォルトで YES となっているため、スレッド一覧で一部のキー操作
+		（例えば page up/down によるスクロール）に対する反応が鈍くなっていた。-[NSTableView setAllowsTypeSelect:NO] と
+		して、この問題を解決。
+	* application/source/preferences/AppDefaults-ThreadViewer.m
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+	* frameworks/CocoMonar/framework/src/CMRFileManager.m
+		Leopard マナー：Leopard では、「リンク先のファイルをダウンロード」及び「プレビューインスペクタでのイメージの保存先」の
+		デフォルトのフォルダを「ダウンロード」フォルダにした。また、CMRFileManager に「ダウンロード」フォルダのパスを取得する
+		メソッドを追加した (Tiger 以前では、今まで同様「デスクトップ」フォルダを返す）。
+	* application/source/network/CMRDownloader.m
+		開発中に一時的に試していたコードが中途半端に残っていたために、10.3.9 でスレッドを更新するとクラッシュするようになっていた
+		問題を修正。
+=================================================
 2007-10-29 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* docs/old_changelog/changelog_until_starlight_breaker_final.txt
 		[新規追加] changelog.txt が長くなってきたので、1.5 より前の部分は別のファイルに切り離すことにした。

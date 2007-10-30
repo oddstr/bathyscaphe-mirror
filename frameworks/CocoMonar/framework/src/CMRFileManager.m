@@ -1,18 +1,18 @@
 //: CMRFileManager.m
 /**
-  * $Id: CMRFileManager.m,v 1.6 2007/08/07 14:07:44 tsawada2 Exp $
+  * $Id: CMRFileManager.m,v 1.7 2007/10/30 02:31:58 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
   */
 
 #import "CMRFileManager.h"
+#import "CMRSingletonObject.h"
+#import "CocoMonar/CMRFiles.h"
 
 #import <SGFoundation/SGFoundation.h>
 #import <AppKit/NSApplication.h>
-#import <CocoMonar/CMRSingletonObject.h>
-#import <CocoMonar/CMRFiles.h>
-//#import <CocoMonar/NSBundle+CMRExtensions.h>
+
 #import "UTILKit.h"
 
 
@@ -235,7 +235,7 @@ NS_ENDHANDLER
 			: [[support_ filepath] stringByAppendingPathComponent : aFileName];
 }
 
-- (NSString *)userDomainDesktopFolderPath
+static inline NSString *userDomainFolderPathForType(OSType folderType)
 {
     CFURLRef        folderURL;
     FSRef           folderRef;
@@ -243,7 +243,7 @@ NS_ENDHANDLER
     OSErr           err;
 	NSString		*returnPath = nil;
 
-    err = FSFindFolder(kUserDomain, kDesktopFolderType, kDontCreateFolder, &folderRef);
+    err = FSFindFolder(kUserDomain, folderType, kDontCreateFolder, &folderRef);
     if (err == noErr) {
 		folderURL = CFURLCreateFromFSRef(kCFAllocatorSystemDefault, &folderRef);
 		if (folderURL) {
@@ -256,6 +256,20 @@ NS_ENDHANDLER
 		}
 	}
 	return returnPath;
+}
+
+- (NSString *)userDomainDesktopFolderPath
+{
+	return userDomainFolderPathForType(kDesktopFolderType);
+}
+
+- (NSString *)userDomainDownloadsFolderPath
+{
+	NSString *path = userDomainFolderPathForType('down'); // kDownloadsFolderType
+	if (!path) {
+		path = userDomainFolderPathForType(kDesktopFolderType);
+	}
+	return path;
 }
 @end
 
