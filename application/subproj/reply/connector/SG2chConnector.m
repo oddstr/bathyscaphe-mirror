@@ -301,6 +301,23 @@ static id fnc_stringByURLEncodingUsingEncoding(id obj, NSStringEncoding enc)
 }
 
 #pragma mark NSURLConnection Delegate
+// Leopard 対策
+- (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse
+{
+	if (!redirectResponse) {
+		return request;
+	}
+	if ([(NSHTTPURLResponse *)redirectResponse statusCode] == 302) {
+		// 「書き込みました。」の遷移
+//		[connection cancel];
+		if ([self delegate] && [[self delegate] respondsToSelector:@selector(connectorResourceDidFinishLoading:)]) {
+			[[self delegate] connectorResourceDidFinishLoading:self];
+		}
+		return nil;
+	}
+	return request;
+}
+
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
 	[self setResponse:response];

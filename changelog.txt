@@ -1,4 +1,8 @@
-2007-10-30 tsawada2 <ben-sawa@td5.so-net.ne.jp.
+2007-10-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/reply/connector/SG2chConnector.m
+		Leopard 対策：まちBBS で書き込みに成功した後、「ERROR」シートが表示されてしまう問題を解決。
+		- これも -[NSObject(NSURLConnectionDelegate) connection:willSendRequest:redirectResponse:] の挙動の変化が
+		　原因。
 	* application/source/browser/CMRBrowser-ViewAccessor.m
 		Leopard 対策：-[NSTableView allowsTypeSelect] がデフォルトで YES となっているため、スレッド一覧で一部のキー操作
 		（例えば page up/down によるスクロール）に対する反応が鈍くなっていた。-[NSTableView setAllowsTypeSelect:NO] と
