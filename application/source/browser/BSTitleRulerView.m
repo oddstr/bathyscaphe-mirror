@@ -334,6 +334,14 @@ static NSMenu *createPathMenu(NSString *fullPath)
 	}
 }
 
+- (NSMenu *)menuForEvent:(NSEvent *)theEvent
+{
+	if ([self pathStr]) {
+		return createPathMenu([self pathStr]);
+	}
+	return [super menuForEvent:theEvent];
+}
+
 #pragma mark Notifications
 - (void)mainWinOrSystemColorsDidChange:(NSNotification *)theNotification
 {

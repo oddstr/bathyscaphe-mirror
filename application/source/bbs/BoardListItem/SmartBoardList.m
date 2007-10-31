@@ -293,7 +293,6 @@
     f = [[aNotification userInfo] objectForKey: kCMRChangedFileRef];
 	name = [f filepath];
     name = [name lastPathComponent];
-    
     if (NO == [name isEqualToString : [listFilePath lastPathComponent]]) {
         return;
     }

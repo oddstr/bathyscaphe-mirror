@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.26 2007/09/15 18:13:45 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.27 2007/10/31 20:54:23 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -7,10 +7,10 @@
   * See the file LICENSE for copying permission.
   */
 #import "AppDefaults_p.h"
-//#import "CMRMainMenuManager.h"
 #import "TS2SoftwareUpdate.h"
 
 NSString *const AppDefaultsWillSaveNotification = @"AppDefaultsWillSaveNotification";
+NSString *const AppDefaultsThreadViewThemeDidChangeNotification = @"AppDefaultsThreadViewThemeDidChangeNotification";
 
 
 #define AppDefaultsDefaultReplyNameKey		    @"Reply Name"
@@ -272,18 +272,6 @@ NS_ENDHANDLER
 }
 
 #pragma mark Search Options
-
-/* Search option */
-/*- (CMRSearchMask) threadSearchOption
-{
-	return [[self defaults] integerForKey : AppDefaultsThreadSearchOptionKey
-						defaultValue : CMRSearchOptionCaseInsensitive];
-}
-- (void) setThreadSearchOption : (CMRSearchMask) option
-{
-	[[self defaults] setInteger : option
-						 forKey : AppDefaultsThreadSearchOptionKey];
-}*/
 - (CMRSearchMask) contentsSearchOption
 {
 	return [[self defaults] integerForKey : AppDefaultsContentsSearchOptionKey
@@ -463,22 +451,6 @@ default_browserLastBoard:
 }
 
 #pragma mark Hidden Options
-/*- (BOOL) usesOwnProxy
-{
-	return [[self defaults] boolForKey: @"UsesBSsOwnProxySettings" defaultValue: DEFAULT_USE_PROXY];
-}
-
-- (void) getOwnProxy: (NSString **)host port:(CFIndex *)port
-{
-	if (host != NULL)
-		*host = [[self defaults] stringForKey: AppDefaultsProxyURLKey];
-	
-	if (port != NULL) {
-		*port = [[self defaults] integerForKey: AppDefaultsProxyPortKey
-								  defaultValue: DEFAULT_PROXY_PORT];
-	}
-}*/
-
 - (int) maxCountForThreadsHistory
 {
 	return [[self defaults] integerForKey : AppDefaultsHistoryThreadsKey
@@ -558,6 +530,7 @@ default_browserLastBoard:
 	[aTheme retain];
 	[m_threadViewTheme release];
 	m_threadViewTheme = aTheme;
+	UTILNotifyName(AppDefaultsThreadViewThemeDidChangeNotification);
 }
 
 - (NSString *) customThemeFilePath

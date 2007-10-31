@@ -329,7 +329,6 @@
 		F47362520AFF8758009B6189 /* BSBoardInfoInspector.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BF52C908F789D400998C4E /* BSBoardInfoInspector.h */; };
 		F47362530AFF8758009B6189 /* BSImagePreviewerInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 8745CD280900DE9800A28AC0 /* BSImagePreviewerInterface.h */; };
 		F47362540AFF8758009B6189 /* AddBoardSheetController.h in Headers */ = {isa = PBXBuildFile; fileRef = 871265AB097D84ED00B90FF2 /* AddBoardSheetController.h */; };
-		F47362560AFF8758009B6189 /* CMRAccessorySheetController.h in Headers */ = {isa = PBXBuildFile; fileRef = 871265AF097D84ED00B90FF2 /* CMRAccessorySheetController.h */; };
 		F47362570AFF8758009B6189 /* CMRTextColumnCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 871265B3097D84ED00B90FF2 /* CMRTextColumnCell.h */; };
 		F47362590AFF8758009B6189 /* BSIndexingPopupper.h in Headers */ = {isa = PBXBuildFile; fileRef = 8714F3690A4966CB00AB8691 /* BSIndexingPopupper.h */; };
 		F473625C0AFF8758009B6189 /* BoardWarrior.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D7F03B0A85136900623EA5 /* BoardWarrior.h */; };
@@ -566,7 +565,6 @@
 		F473636A0AFF8758009B6189 /* BSBoardInfoInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BF52CA08F789D400998C4E /* BSBoardInfoInspector.m */; };
 		F473636B0AFF8758009B6189 /* CMRBrowser-BLEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 873C0DCE08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m */; };
 		F473636D0AFF8758009B6189 /* AddBoardSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 871265AC097D84ED00B90FF2 /* AddBoardSheetController.m */; };
-		F473636F0AFF8758009B6189 /* CMRAccessorySheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 871265B0097D84ED00B90FF2 /* CMRAccessorySheetController.m */; };
 		F47363700AFF8758009B6189 /* CMRTextColumnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 871265B4097D84ED00B90FF2 /* CMRTextColumnCell.m */; };
 		F47363720AFF8758009B6189 /* BSIndexingPopupper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8714F36A0A4966CB00AB8691 /* BSIndexingPopupper.m */; };
 		F47363750AFF8758009B6189 /* CookieManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DCB604C698FB00A80005 /* CookieManager.m */; };
@@ -794,7 +792,7 @@
 		871265AB097D84ED00B90FF2 /* AddBoardSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddBoardSheetController.h; sourceTree = "<group>"; };
 		871265AC097D84ED00B90FF2 /* AddBoardSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddBoardSheetController.m; sourceTree = "<group>"; };
 		871265AF097D84ED00B90FF2 /* CMRAccessorySheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRAccessorySheetController.h; sourceTree = "<group>"; };
-		871265B0097D84ED00B90FF2 /* CMRAccessorySheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRAccessorySheetController.m; sourceTree = "<group>"; };
+		871265B0097D84ED00B90FF2 /* CMRAccessorySheetController.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = CMRAccessorySheetController.m; sourceTree = "<group>"; };
 		871265B3097D84ED00B90FF2 /* CMRTextColumnCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRTextColumnCell.h; sourceTree = "<group>"; };
 		871265B4097D84ED00B90FF2 /* CMRTextColumnCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRTextColumnCell.m; sourceTree = "<group>"; };
 		8714F3690A4966CB00AB8691 /* BSIndexingPopupper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIndexingPopupper.h; sourceTree = "<group>"; };
@@ -934,7 +932,7 @@
 		8757441407C37772006F3C68 /* CMRThreadViewer-Find.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-Find.m"; sourceTree = "<group>"; };
 		875FF5C50C7FFA960034E371 /* BSTitleRulerAppearance.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = BSTitleRulerAppearance.plist; sourceTree = "<group>"; };
 		8761BAA40B80D30600120AA4 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/IndexingPopupper.strings; sourceTree = "<group>"; };
-		8762E8C60A8635C200062504 /* rosetta.pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; name = rosetta.pl; path = subproj/BWAgent/rosetta.pl; sourceTree = SOURCE_ROOT; };
+		8762E8C60A8635C200062504 /* rosetta.pl */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = text.script.perl; name = rosetta.pl; path = subproj/BWAgent/rosetta.pl; sourceTree = SOURCE_ROOT; };
 		8762E8C70A8635C200062504 /* SJIS2UTF8 */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = SJIS2UTF8; path = subproj/BWAgent/SJIS2UTF8; sourceTree = SOURCE_ROOT; };
 		8762E8C80A8635C200062504 /* sora.pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; name = sora.pl; path = subproj/BWAgent/sora.pl; sourceTree = SOURCE_ROOT; };
 		8763716F0AB3455E005D5996 /* BSAsciiArtDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSAsciiArtDetector.h; sourceTree = "<group>"; };
@@ -1126,7 +1124,7 @@
 		F324DC3604C698FA00A80005 /* CMRBrowser-List.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRBrowser-List.m"; sourceTree = "<group>"; };
 		F324DC3804C698FA00A80005 /* CMRBrowser-Validation.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = "CMRBrowser-Validation.m"; sourceTree = "<group>"; };
 		F324DC3904C698FA00A80005 /* CMRBrowser-ViewAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRBrowser-ViewAccessor.m"; sourceTree = "<group>"; };
-		F324DC3A04C698FA00A80005 /* CMRBrowser.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRBrowser.h; sourceTree = "<group>"; };
+		F324DC3A04C698FA00A80005 /* CMRBrowser.h */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.h; path = CMRBrowser.h; sourceTree = "<group>"; };
 		F324DC3B04C698FA00A80005 /* CMRBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRBrowser.m; sourceTree = "<group>"; };
 		F324DC3C04C698FA00A80005 /* CMRBrowser_p.h */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.h; path = CMRBrowser_p.h; sourceTree = "<group>"; };
 		F324DC3D04C698FA00A80005 /* CMRFavoritesManager.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRFavoritesManager.h; sourceTree = "<group>"; };
@@ -1190,8 +1188,8 @@
 		F324DCE004C698FB00A80005 /* AppDefaults-FontColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-FontColor.m"; sourceTree = "<group>"; };
 		F324DCE304C698FB00A80005 /* AppDefaults-ThreadsList.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-ThreadsList.m"; sourceTree = "<group>"; };
 		F324DCE404C698FB00A80005 /* AppDefaults-ThreadViewer.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-ThreadViewer.m"; sourceTree = "<group>"; };
-		F324DCE604C698FB00A80005 /* AppDefaults.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = AppDefaults.h; sourceTree = "<group>"; };
-		F324DCE704C698FB00A80005 /* AppDefaults.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = AppDefaults.m; sourceTree = "<group>"; };
+		F324DCE604C698FB00A80005 /* AppDefaults.h */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.h; path = AppDefaults.h; sourceTree = "<group>"; };
+		F324DCE704C698FB00A80005 /* AppDefaults.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = AppDefaults.m; sourceTree = "<group>"; };
 		F324DCE804C698FB00A80005 /* AppDefaults_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = AppDefaults_p.h; sourceTree = "<group>"; };
 		F324DD3A04C698FB00A80005 /* CMRAbstructThreadDocument.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRAbstructThreadDocument.h; sourceTree = "<group>"; };
 		F324DD3B04C698FB00A80005 /* CMRAbstructThreadDocument.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRAbstructThreadDocument.m; sourceTree = "<group>"; };
@@ -1218,8 +1216,8 @@
 		F324DD6704C698FB00A80005 /* CMRThreadViewer-Download.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-Download.m"; sourceTree = "<group>"; };
 		F324DD6804C698FB00A80005 /* CMRThreadViewer-MoveAction.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-MoveAction.m"; sourceTree = "<group>"; };
 		F324DD6B04C698FB00A80005 /* CMRThreadViewer-ViewAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-ViewAccessor.m"; sourceTree = "<group>"; };
-		F324DD6C04C698FB00A80005 /* CMRThreadViewer.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadViewer.h; sourceTree = "<group>"; };
-		F324DD6D04C698FB00A80005 /* CMRThreadViewer.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRThreadViewer.m; sourceTree = "<group>"; };
+		F324DD6C04C698FB00A80005 /* CMRThreadViewer.h */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.h; path = CMRThreadViewer.h; sourceTree = "<group>"; };
+		F324DD6D04C698FB00A80005 /* CMRThreadViewer.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = CMRThreadViewer.m; sourceTree = "<group>"; };
 		F324DD6E04C698FB00A80005 /* CMRThreadViewer_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadViewer_p.h; sourceTree = "<group>"; };
 		F324DD7A04C698FB00A80005 /* TextFinder.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = TextFinder.h; sourceTree = "<group>"; };
 		F324DD7B04C698FB00A80005 /* TextFinder.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = TextFinder.m; sourceTree = "<group>"; };
@@ -3120,7 +3118,6 @@
 				F47362520AFF8758009B6189 /* BSBoardInfoInspector.h in Headers */,
 				F47362530AFF8758009B6189 /* BSImagePreviewerInterface.h in Headers */,
 				F47362540AFF8758009B6189 /* AddBoardSheetController.h in Headers */,
-				F47362560AFF8758009B6189 /* CMRAccessorySheetController.h in Headers */,
 				F47362570AFF8758009B6189 /* CMRTextColumnCell.h in Headers */,
 				F47362590AFF8758009B6189 /* BSIndexingPopupper.h in Headers */,
 				F473625C0AFF8758009B6189 /* BoardWarrior.h in Headers */,
@@ -3756,7 +3753,6 @@
 				F473636A0AFF8758009B6189 /* BSBoardInfoInspector.m in Sources */,
 				F473636B0AFF8758009B6189 /* CMRBrowser-BLEditor.m in Sources */,
 				F473636D0AFF8758009B6189 /* AddBoardSheetController.m in Sources */,
-				F473636F0AFF8758009B6189 /* CMRAccessorySheetController.m in Sources */,
 				F47363700AFF8758009B6189 /* CMRTextColumnCell.m in Sources */,
 				F47363720AFF8758009B6189 /* BSIndexingPopupper.m in Sources */,
 				F47363750AFF8758009B6189 /* CookieManager.m in Sources */,

@@ -1,169 +1,373 @@
-{
-    IBClasses = (
-        {CLASS = BSBoardListView; LANGUAGE = ObjC; SUPERCLASS = NSOutlineView; }, 
-        {CLASS = BSKFSplitView; LANGUAGE = ObjC; SUPERCLASS = KFSplitView; }, 
-        {CLASS = BSTsuruPetaView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
-        {CLASS = BSWindow; LANGUAGE = ObjC; SUPERCLASS = NSWindow; }, 
-        {
-            ACTIONS = {
-                copyThreadURL = id; 
-                createNewThread = id; 
-                deleteSelectedListItem = id; 
-                editBoardList = id; 
-                findFirstText = id; 
-                findNextText = id; 
-                findPreviousText = id; 
-                findTextInThread = id; 
-                reload = id; 
-                reloadThreadsList = id; 
-                resToCurrentThread = id; 
-                searchThread = id; 
-                searchToolbarPopupChanged = id; 
-                selectFilteringMask = id; 
-                showBoard = id; 
-                toggleBoardDrawer = id; 
-            }; 
-            CLASS = Browser; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                "_boardDrawer" = NSDrawer; 
-                "_boardListTable" = NSOutlineView; 
-                "_searchPopUp" = NSPopUpButton; 
-                "_searchTextField" = NSTextField; 
-                "_searchToolbarItem" = NSView; 
-                "_splitView" = BrowserSplitView; 
-                "_threadHistoryPopUp" = NSPopUpButton; 
-                "_threadViewer" = ThreadViewer; 
-                "_threadsFilterPopUp" = NSPopUpButton; 
-                "_threadsListScrollView" = SGScrollView; 
-                "_threadsListTable" = ThreadsListTable; 
-                window = NSWindow; 
-            }; 
-            SUPERCLASS = NSDocument; 
-        }, 
-        {
-            ACTIONS = {
-                addBoardListItem = id; 
-                addCategoryItem = id; 
-                addSmartItem = id; 
-                collapseOrExpandBoardList = id; 
-                editBoardListItem = id; 
-                focus = id; 
-                openSelectedThreads = id; 
-                reloadThreadsList = id; 
-                removeBoardListItem = id; 
-                searchThread = id; 
-                selectFilteringMask = id; 
-                selectThread = id; 
-                showOrOpenSelectedThread = id; 
-                showSearchThreadPanel = id; 
-                showSelectedThread = id; 
-            }; 
-            CLASS = CMRBrowser; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                bottomSubview = id; 
-                "m_boardListSubView" = RBSplitSubview; 
-                "m_boardListTable" = NSOutlineView; 
-                "m_brdListActMenuBtn" = id; 
-                "m_drawerContextualMenu" = NSMenu; 
-                "m_listContextualMenu" = NSMenu; 
-                "m_searchField" = NSSearchField; 
-                "m_splitView" = BSKFSplitView; 
-                "m_splitterBtn" = id; 
-                "m_threadsListTable" = ThreadsListTable; 
-                "m_viewModeSwitcher" = NSSegmentedControl; 
-                topSubview = id; 
-            }; 
-            SUPERCLASS = CMRThreadViewer; 
-        }, 
-        {CLASS = CMRPullDownIconBtn; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButtonCell; }, 
-        {
-            ACTIONS = {cancelCurrentTask = id; saveAsDefaultFrame = id; }; 
-            CLASS = CMRStatusLineWindowController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {"m_toolbarDelegateImp" = id; }; 
-            SUPERCLASS = NSWindowController; 
-        }, 
-        {
-            ACTIONS = {
-                addFavorites = id; 
-                copySelectedResURL = id; 
-                copyThreadAttributes = id; 
-                deleteThread = id; 
-                findAll = id; 
-                findAllByFilter = id; 
-                findFirstText = id; 
-                findNextText = id; 
-                findPreviousText = id; 
-                findTextInSelection = id; 
-                focus = id; 
-                historyMenuPerformBack = id; 
-                historyMenuPerformForward = id; 
-                openBBSInBrowser = id; 
-                openInBrowser = id; 
-                orderFrontMainBrowser = id; 
-                reloadIfOnlineMode = id; 
-                reloadThread = id; 
-                reply = id; 
-                scrollFirstMessage = id; 
-                scrollLastMessage = id; 
-                scrollNextBookmark = id; 
-                scrollNextMessage = id; 
-                scrollPrevMessage = id; 
-                scrollPreviousBookmark = id; 
-                scrollPreviousMessage = id; 
-                scrollToLastReadedIndex = id; 
-                scrollToLastUpdatedIndex = id; 
-                showThreadAttributes = id; 
-                showThreadWithMenuItem = id; 
-                toggleAAThread = id; 
-                toggleDatOchiThread = id; 
-                toggleMarkedThread = id; 
-            }; 
-            CLASS = CMRThreadViewer; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                "m_componentsView" = NSView; 
-                "m_containerView" = NSView; 
-                "m_navigationBar" = NSView; 
-                "m_scrollView" = NSScrollView; 
-                "m_textView" = NSTextView; 
-                "m_windowContentView" = NSView; 
-            }; 
-            SUPERCLASS = CMRStatusLineWindowController; 
-        }, 
-        {CLASS = CMXScrollView; LANGUAGE = ObjC; SUPERCLASS = NSScrollView; }, 
-        {
-            ACTIONS = {
-                addFavorites = id; 
-                addSmartItem = id; 
-                copyThreadAttributes = id; 
-                deleteThread = id; 
-                openBBSInBrowser = id; 
-                openInBrowser = id; 
-                openSelectedThreads = id; 
-                openThread = id; 
-                reloadThread = id; 
-                reply = id; 
-                runBoardWarrior = id; 
-                showBoardInspectorPanel = id; 
-            }; 
-            CLASS = FirstResponder; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {CLASS = IndexField; LANGUAGE = ObjC; SUPERCLASS = NSTextField; }, 
-        {
-            CLASS = KFSplitView; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {kfDelegate = id; }; 
-            SUPERCLASS = NSSplitView; 
-        }, 
-        {CLASS = NSObject; LANGUAGE = ObjC; }, 
-        {CLASS = NSSegmentedControl; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
-        {CLASS = ThreadTextView; LANGUAGE = ObjC; SUPERCLASS = NSTextView; }, 
-        {CLASS = ThreadsListTable; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>addBoardListItem</key>
+				<string>id</string>
+				<key>addCategoryItem</key>
+				<string>id</string>
+				<key>addSmartItem</key>
+				<string>id</string>
+				<key>collapseOrExpandBoardList</key>
+				<string>id</string>
+				<key>editBoardListItem</key>
+				<string>id</string>
+				<key>focus</key>
+				<string>id</string>
+				<key>openSelectedThreads</key>
+				<string>id</string>
+				<key>reloadThreadsList</key>
+				<string>id</string>
+				<key>removeBoardListItem</key>
+				<string>id</string>
+				<key>searchThread</key>
+				<string>id</string>
+				<key>selectFilteringMask</key>
+				<string>id</string>
+				<key>selectThread</key>
+				<string>id</string>
+				<key>showOrOpenSelectedThread</key>
+				<string>id</string>
+				<key>showSearchThreadPanel</key>
+				<string>id</string>
+				<key>showSelectedThread</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>CMRBrowser</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>bottomSubview</key>
+				<string>id</string>
+				<key>m_boardListSubView</key>
+				<string>RBSplitSubview</string>
+				<key>m_boardListTable</key>
+				<string>NSOutlineView</string>
+				<key>m_brdListActMenuBtn</key>
+				<string>id</string>
+				<key>m_drawerContextualMenu</key>
+				<string>NSMenu</string>
+				<key>m_listContextualMenu</key>
+				<string>NSMenu</string>
+				<key>m_searchField</key>
+				<string>NSSearchField</string>
+				<key>m_splitView</key>
+				<string>BSKFSplitView</string>
+				<key>m_splitterBtn</key>
+				<string>id</string>
+				<key>m_threadsListTable</key>
+				<string>ThreadsListTable</string>
+				<key>m_viewModeSwitcher</key>
+				<string>NSSegmentedControl</string>
+				<key>topSubview</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>CMRThreadViewer</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>openScriptsDirectory</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>NSApplication</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>RBSplitView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>RBSplitSubview</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>RBSplitSubview</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>BSKFSplitView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>KFSplitView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>connectorResourceDidCancelLoading</key>
+				<string>id</string>
+				<key>connectorResourceDidFinishLoading</key>
+				<string>id</string>
+				<key>didAdjustSubviews</key>
+				<string>RBSplitView</string>
+				<key>togglePreviewPanel</key>
+				<string>id</string>
+				<key>willAdjustSubviews</key>
+				<string>RBSplitView</string>
+			</dict>
+			<key>CLASS</key>
+			<string>NSObject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>revealInFinder</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>ThreadsListTable</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSTableView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSWindow</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>KFSplitView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>kfDelegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSSplitView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSSegmentedControl</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSControl</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSTableColumn</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>cancelCurrentTask</key>
+				<string>id</string>
+				<key>saveAsDefaultFrame</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>CMRStatusLineWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>m_toolbarDelegateImp</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSWindowController</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>addFavorites</key>
+				<string>id</string>
+				<key>addSmartItem</key>
+				<string>id</string>
+				<key>copyThreadAttributes</key>
+				<string>id</string>
+				<key>deleteThread</key>
+				<string>id</string>
+				<key>openBBSInBrowser</key>
+				<string>id</string>
+				<key>openInBrowser</key>
+				<string>id</string>
+				<key>openSelectedThreads</key>
+				<string>id</string>
+				<key>openThread</key>
+				<string>id</string>
+				<key>reloadThread</key>
+				<string>id</string>
+				<key>reply</key>
+				<string>id</string>
+				<key>runBoardWarrior</key>
+				<string>id</string>
+				<key>showBoardInspectorPanel</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>BSBoardListView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSOutlineView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSTableView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSControl</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>BSTsuruPetaView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>addFavorites</key>
+				<string>id</string>
+				<key>copySelectedResURL</key>
+				<string>id</string>
+				<key>copyThreadAttributes</key>
+				<string>id</string>
+				<key>deleteThread</key>
+				<string>id</string>
+				<key>findAll</key>
+				<string>id</string>
+				<key>findAllByFilter</key>
+				<string>id</string>
+				<key>findFirstText</key>
+				<string>id</string>
+				<key>findNextText</key>
+				<string>id</string>
+				<key>findPreviousText</key>
+				<string>id</string>
+				<key>findTextInSelection</key>
+				<string>id</string>
+				<key>focus</key>
+				<string>id</string>
+				<key>historyMenuPerformBack</key>
+				<string>id</string>
+				<key>historyMenuPerformForward</key>
+				<string>id</string>
+				<key>openBBSInBrowser</key>
+				<string>id</string>
+				<key>openInBrowser</key>
+				<string>id</string>
+				<key>orderFrontMainBrowser</key>
+				<string>id</string>
+				<key>reloadIfOnlineMode</key>
+				<string>id</string>
+				<key>reloadThread</key>
+				<string>id</string>
+				<key>reply</key>
+				<string>id</string>
+				<key>runSpamFilter</key>
+				<string>id</string>
+				<key>scrollFirstMessage</key>
+				<string>id</string>
+				<key>scrollLastMessage</key>
+				<string>id</string>
+				<key>scrollNextBookmark</key>
+				<string>id</string>
+				<key>scrollNextMessage</key>
+				<string>id</string>
+				<key>scrollPrevMessage</key>
+				<string>id</string>
+				<key>scrollPreviousBookmark</key>
+				<string>id</string>
+				<key>scrollPreviousMessage</key>
+				<string>id</string>
+				<key>scrollToFirstTodayMessage</key>
+				<string>id</string>
+				<key>scrollToLastReadedIndex</key>
+				<string>id</string>
+				<key>scrollToLastUpdatedIndex</key>
+				<string>id</string>
+				<key>showThreadAttributes</key>
+				<string>id</string>
+				<key>showThreadWithMenuItem</key>
+				<string>id</string>
+				<key>toggleAAThread</key>
+				<string>id</string>
+				<key>toggleDatOchiThread</key>
+				<string>id</string>
+				<key>toggleMarkedThread</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>CMRThreadViewer</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>m_componentsView</key>
+				<string>NSView</string>
+				<key>m_containerView</key>
+				<string>NSView</string>
+				<key>m_navigationBar</key>
+				<string>NSView</string>
+				<key>m_scrollView</key>
+				<string>NSScrollView</string>
+				<key>m_textView</key>
+				<string>NSTextView</string>
+				<key>m_windowContentView</key>
+				<string>NSView</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>CMRStatusLineWindowController</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>

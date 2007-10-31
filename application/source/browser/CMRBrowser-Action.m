@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.63 2007/10/29 05:54:46 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.64 2007/10/31 20:54:23 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -144,7 +144,7 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 		// あるいはツールバーボタンから
 		// スレッドリストにフォーカスが当たっているかどうかで対象をスイッチする。
 		NSView *focusedView_ = (NSView *)[[self window] firstResponder];
-		if (focusedView_ == [self textView] || [[[focusedView_ superview] superview] isKindOfClass : [IndexField class]]) {
+		if (focusedView_ == [self textView] || [self isIndexFieldFirstResponder]) {
 			// フォーカスがスレッド本文領域にある
 			id selected = [self selectedThread];
 			if (nil == selected) {
@@ -473,14 +473,6 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 //	[[CMRMainMenuManager defaultManager] synchronizeStatusFilteringMenuItemState];
 }
 
-/*- (void) clearSearchFilter
-{
-	[[self document] setSearchString: nil];
-	
-	// 検索結果の表示@タイトルバーを解除
-	[self synchronizeWindowTitleWithDocumentName];
-}*/
-
 - (void) synchronizeWithSearchField
 {
 	[[self document] searchThreadsInListWithCurrentSearchString];
@@ -499,88 +491,45 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 	[self splitView:[self splitView] didDoubleClickInDivider:0];
 }
 
-- (BOOL) ifSearchFieldIsInToolbar
+- (unsigned int)isToolbarContainsSearchField
 {
-	/*
-		2005-02-01 tsawada2<ben-sawa@td5.so-net.ne.jp>
-		ツールバーに検索フィールドが表示されているかチェックして真偽値を返す。
-		ここで「表示されている」とは、以下のすべての条件を満たすときに限る：
-		1.ツールバーの表示モードが「アイコンとテキスト」または「アイコンのみ」
-		2.検索フィールドがツールバーからはみ出していない
-	*/
-	NSToolbar	*toolBar_;
-	
-	toolBar_ = [[self window] toolbar];
-	if (nil == toolBar_) return NO;
-	
-	if ([toolBar_ isVisible] == NO || [toolBar_ displayMode] == NSToolbarDisplayModeLabelOnly) {
-		return NO;
-	} else {
-		id obj;
-		NSEnumerator *enumerator_;
+	NSToolbar	*toolbar = [[self window] toolbar];
+	UTILAssertNotNil(toolbar);
 
-		enumerator_ = [[toolBar_ visibleItems] objectEnumerator];
-		while((obj = [enumerator_ nextObject]) != nil) {
-			if ([[obj itemIdentifier] isEqualToString : kToolbarSearchFieldItemKey])
-				return YES;
+	if (![toolbar isVisible]) {
+		[toolbar setVisible:YES];
+	}
+
+	NSEnumerator *iter = [[toolbar visibleItems] objectEnumerator];
+	id	item;
+	while (item = [iter nextObject]) {
+		if ([[item itemIdentifier] isEqualToString:kToolbarSearchFieldItemKey]) {
+			return [toolbar displayMode] == NSToolbarDisplayModeLabelOnly ? 1 : 0;
 		}
-		return NO;
 	}
+
+	return 2;
 }
 
-// リスト検索：シート表示
-- (IBAction) showSearchThreadPanel : (id) sender
+- (IBAction)showSearchThreadPanel:(id)sender
 {
-	if ([self ifSearchFieldIsInToolbar]) {
-		// ツールバーに検索フィールドが見えているときは、単にそこにフォーカスを移動するだけ（シートは表示しない）
-		[[self searchField] selectText : sender];
-	} else {
-		id		contentView_;
-		NSRect	frame_;
+	unsigned int toolbarState = [self isToolbarContainsSearchField];
 
-		contentView_ = [[self searchField] retain];
-		// 検索フィールドの幅が 300px より短い場合は、一律 300px に固定して表示
-		// それより長い場合は、そのまま表示
-		frame_ = [contentView_ frame];
-		if (frame_.size.height < 300)
-			[contentView_ setFrameSize : NSMakeSize(300, frame_.size.height)];
-
-		[[self listSorterSheetController] beginSheetModalForWindow : [self window]
-													 modalDelegate : self
-													   contentView : contentView_
-													   contextInfo : nil];
-		[contentView_ release];
+	switch (toolbarState) {
+	case 0:
+		[[self searchField] selectText:sender];
+		break;
+	case 1:
+		[[[self window] toolbar] setDisplayMode:NSToolbarDisplayModeIconAndLabel];
+		[[self searchField] selectText:sender];
+		break;
+	default:
+		NSBeep();
+		break;
 	}
-}
-
-- (void) controller : (CMRAccessorySheetController *) aController
-		sheetDidEnd : (NSWindow					 *) sheet
-		contentView : (NSView					 *) contentView
-		contextInfo : (id						  ) info;
-{
-	// Nothing to be done.
 }
 
 #pragma mark View Menu
-
-/*- (IBAction) changeBrowserArrangement : (id) sender
-{
-	NSNumber	*represent_;
-	
-	if (NO == [sender respondsToSelector : @selector(representedObject)]) {
-		UTILDebugWrite(@"Sender must respondsToSelector : -representedObject");
-		return;
-	}
-	
-	represent_ = [sender representedObject];
-	UTILAssertKindOfClass(represent_, NSNumber);
-	[CMRPref setIsSplitViewVertical : [represent_ boolValue]];
-	[[CMRMainMenuManager defaultManager] synchronizeBrowserArrangementMenuItemState];
-	
-	[self setupSplitView];
-	[[self splitView] resizeSubviewsWithOldSize : [[self splitView] frame].size];
-}*/
-
 - (IBAction) collapseOrExpandBoardList : (id) sender
 {
 	RBSplitSubview	*tmp_;

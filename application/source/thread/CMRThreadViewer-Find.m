@@ -1,5 +1,5 @@
 /** 
-  * $Id: CMRThreadViewer-Find.m,v 1.17 2007/04/21 08:09:27 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Find.m,v 1.18 2007/10/31 20:54:23 tsawada2 Exp $
   *
   * Copyright (c) 2003, Takanori Ishikawa.
   * CMRThreadViewer-Action.m から分割 - 2005-02-16 by tsawada2.
@@ -253,6 +253,11 @@
 
 	[textView_ setSelectedRange : result_];
 	[textView_ scrollRangeToVisible : result_];
+
+	// Leopard
+	if ([textView_ respondsToSelector:@selector(showFindIndicatorForRange:)]) {
+		[textView_ showFindIndicatorForRange:result_];
+	}
 
 	UTILNotifyInfo3(
 		BSThreadViewerDidEndFindingNotification,

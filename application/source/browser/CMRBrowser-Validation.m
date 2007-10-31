@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-Validation.m,v 1.30 2007/10/29 05:54:46 tsawada2 Exp $
+ * $Id: CMRBrowser-Validation.m,v 1.31 2007/10/31 20:54:23 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -19,6 +19,17 @@
 }
 
 #pragma mark Validation Helpers
+- (BOOL)isIndexFieldFirstResponder
+{
+	NSWindow *window = [self window];
+	if (![[window firstResponder] isKindOfClass:[NSTextView class]]) return NO;
+
+	id fieldEditor = [window fieldEditor:NO forObject:nil];
+	if (!fieldEditor) return NO;
+
+	return ([[[window firstResponder] delegate] isKindOfClass:[IndexField class]]);
+}
+
 - (BOOL) validateDeleteThreadItemsEnabling: (NSArray *) threads
 {
 	NSEnumerator		*Iter_;
@@ -93,46 +104,6 @@
 
 - (BOOL) validateBoardListContextualMenuItem: (int) tag_
 {
-/*	int					rowIndex_;
-	NSOutlineView		*bLT_ = [self boardListTable];
-	int					semiSelRowIdx_ = [(BSBoardListView *)bLT_ semiSelectedRow];
-	int					numOfSelected_ = [bLT_ numberOfSelectedRows];
-
-	if (numOfSelected_ > 1) {
-		if ([[bLT_ selectedRowIndexes] containsIndex : semiSelRowIdx_]) {
-			if (tag_ == kBLDeleteItemViaContMenuItemTag)
-				return YES; // •¡”‚Ì€–Ú‚Éu‚¨‹C‚É“ü‚èv‚ªŠÜ‚Ü‚ê‚Ä‚¢‚Ä‚à–â‘è‚Í‚È‚¢
-			else
-				return NO;
-		} else {
-			if (tag_ == kBLShowInspectorViaContMenuItemTag) return NO;
-			rowIndex_ = semiSelRowIdx_;
-		}
-	} else if (numOfSelected_ = 0) {
-		if (semiSelRowIdx_ = -1) return NO;
-		else rowIndex_ = semiSelRowIdx_;
-	} else {
-		rowIndex_ = [bLT_ selectedRow];
-		if ((semiSelRowIdx_ != -1) && (semiSelRowIdx_ != rowIndex_)) {
-			if (tag_ == kBLShowInspectorViaContMenuItemTag) return NO;
-			else rowIndex_ = semiSelRowIdx_;
-		}
-	}
-
-	if (rowIndex_ >= [bLT_ numberOfRows]) return NO;
-
-	id		item_ = [bLT_ itemAtRow : rowIndex_];
-	if (nil == item_) return NO;
-
-	if ([BoardListItem isBoardItem : item_] || [BoardListItem isSmartItem : item_]) {
-		return YES;
-	} else if ([BoardListItem isFolderItem : item_]) {
-		if (tag_ == kBLShowInspectorViaContMenuItemTag || tag_ == kBLOpenBoardItemViaContMenuItemTag)
-			return NO;
-		else
-			return YES;
-	}
-	return NO;*/
 	BSBoardListView *view = (BSBoardListView *)[self boardListTable];
 	int			rowAtMenu = [view semiSelectedRow];
 
@@ -211,7 +182,7 @@
 				operation_ = [[CMRFavoritesManager defaultManager] availableOperationWithPath: [self path]];
 			} else {
 				NSView *focusedView_ = (NSView *)[[self window] firstResponder];
-				if (focusedView_ == [self textView] || [[[focusedView_ superview] superview] isKindOfClass : [IndexField class]]) {
+				if (focusedView_ == [self textView] || [self isIndexFieldFirstResponder]) {
 					operation_ = [[CMRFavoritesManager defaultManager] availableOperationWithPath: [self path]];
 				} else {
 					operation_ = [self favoritesOperationForThreads: [self selectedThreadsReallySelected]];
@@ -232,7 +203,7 @@
 				return [super validateDeleteThreadItemEnabling: [self path]];
 			} else {
 				NSView *focusedView_ = (NSView *)[[self window] firstResponder];
-				if (focusedView_ == [self textView] || [[[focusedView_ superview] superview] isKindOfClass : [IndexField class]]) {
+				if (focusedView_ == [self textView] || [self isIndexFieldFirstResponder]) {
 					return [super validateDeleteThreadItemEnabling: [self path]];
 				} else {
 					return [self validateDeleteThreadItemsEnabling: [self selectedThreadsReallySelected]];
@@ -248,11 +219,11 @@
 			return YES;
 		} else {
 			if ([theItem isKindOfClass: [NSMenuItem class]] && [[(NSMenuItem *)theItem keyEquivalent] isEqualToString: @""]) { // Thread Contextual Menu
-				return [self threadAttributes] && ![self isDatOchiThread];
+				return [self threadAttributes] && ![[self document] isDatOchiThread];
 			} else {
 				NSView *focusedView_ = (NSView *)[[self window] firstResponder];
-				if (focusedView_ == [self textView] || [[[focusedView_ superview] superview] isKindOfClass : [IndexField class]]) {
-					return [self threadAttributes] && ![self isDatOchiThread];
+				if (focusedView_ == [self textView] || [self isIndexFieldFirstResponder]) {
+					return [self threadAttributes] && ![[self document] isDatOchiThread];
 				} else {
 					return ([[self selectedThreadsReallySelected] count] > 0);
 				}

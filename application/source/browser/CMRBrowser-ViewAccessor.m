@@ -71,22 +71,6 @@
     return m_drawerContextualMenu;
 }
 
-- (CMRAccessorySheetController *)listSorterSheetController
-{
-    if (!m_listSorterSheetController) {
-		NSRect                  frame_;
-        
-		frame_ = [[self searchField] frame];
-
-		// 検索フィールドの幅が 300px より短い場合、一律 300px に固定
-		// CMRBrowser-Action.m の showSearchThreadPanel: との合わせ技なので、そちらも参照
-		if (frame_.size.width < 300) frame_.size.width = 300;
-
-        m_listSorterSheetController = [[CMRAccessorySheetController alloc] initWithContentSize:frame_.size resizingMask:NSViewNotSizable];
-    }
-    return m_listSorterSheetController;
-}
-
 - (AddBoardSheetController *)addBoardSheetController
 {
     if (!m_addBoardSheetController) {
@@ -129,21 +113,6 @@
 
 
 @implementation CMRBrowser(TableColumnInitializer)
-/*- (NSArray *)defaultColumnsArray
-{
-    NSBundle    *bundles[] = {
-                [NSBundle applicationSpecificBundle], 
-                [NSBundle mainBundle],
-                nil};
-    NSBundle    **p = bundles;
-    NSString    *path = nil;
-    
-    for (; *p != nil; p++) {
-        if (path = [*p pathForResourceWithName : kBrowserListColumnsPlist]) break;
-    }
-    return (!path) ? nil : [NSArray arrayWithContentsOfFile:path];
-}*/
-
 - (NSTableColumn *)tableColumnWithPropertyListRep:(id)plistRep
 {
     NSTableColumn *column_ = [[NSTableColumn alloc] initWithPropertyListRepresentation:plistRep];

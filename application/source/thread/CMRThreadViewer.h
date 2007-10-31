@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.23 2007/09/04 07:45:43 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.24 2007/10/31 20:54:23 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright (c) 2003, Takanori Ishikawa.
@@ -39,8 +39,9 @@
 	IBOutlet NSTextView			*m_textView;
 	
 	struct {
-		unsigned int invalidate :1;		/* invalid contents */
-		unsigned int reserved   :31;
+		unsigned int invalidate :1;			/* invalid contents */
+		unsigned int themechangeing :1;	/* change theme task is in progress (Available in Twincam Angel) */
+		unsigned int reserved   :30;
 	} _flags;
 }
 
@@ -62,6 +63,8 @@
 /*** auxiliary ***/
 - (BOOL) isInvalidate;
 - (void) setInvalidate : (BOOL) flag;
+- (BOOL)changeThemeTaskIsInProgress;
+- (void)setChangeThemeTaskIsInProgress:(BOOL)flag;
 
 - (CMRThreadLayout *) threadLayout;
 - (CMRThreadAttributes *) threadAttributes;
@@ -87,7 +90,7 @@
 //- (BOOL) isAAThread;
 //- (void) setAAThread : (BOOL) flag;
 // available in BathyScaphe 1.2 and later.
-- (BOOL) isDatOchiThread;
+//- (BOOL) isDatOchiThread;
 //- (void) setDatOchiThread : (BOOL) flag;
 //- (BOOL) isMarkedThread;
 //- (void) setMarkedThread : (BOOL) flag;

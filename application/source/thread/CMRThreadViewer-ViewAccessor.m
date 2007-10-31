@@ -26,8 +26,6 @@
 #define kComponentsLoadNibName	@"CMRThreadViewerComponents"
 #define HTMLVIEW_CLASS			CMRThreadView
 
-static void *kThreadViewThemeBgColorContext = @"BabyRose";
-
 @implementation CMRThreadViewer(ViewAccessor)
 - (NSScrollView *)scrollView
 {
@@ -177,8 +175,7 @@ static void *kThreadViewThemeBgColorContext = @"BabyRose";
 	BSTitleRulerAppearance *foo = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
 
 	[[scrollView_ class] setRulerViewClass:[BSTitleRulerView class]];
-	ruler = [[BSTitleRulerView alloc] initWithScrollView:scrollView_ appearance:foo];//orientation:NSHorizontalRuler];
-//	[[ruler class] setTitleTextColor:([CMRPref titleRulerViewTextUsesBlackColor] ? [NSColor blackColor] : [NSColor whiteColor])];
+	ruler = [[BSTitleRulerView alloc] initWithScrollView:scrollView_ appearance:foo];
 	[ruler setTitleStr:NSLocalizedString(@"titleRuler default title", @"Startup Message")];
 
 	[scrollView_ setHorizontalRulerView:ruler];
@@ -214,7 +211,7 @@ static void *kThreadViewThemeBgColorContext = @"BabyRose";
 	origin_ = scrollViewFrame.origin;
 
 	statusBarFrame.origin = origin_;
-	statusBarFrame.size.width = NSWidth(scrollViewFrame) - 15.0;
+	statusBarFrame.size.width = NSWidth(scrollViewFrame) - [NSScroller scrollerWidth];
 	[statusLineView setFrame: statusBarFrame];
 
 	idxPopupperFrame.origin = origin_;
@@ -333,63 +330,24 @@ static void *kThreadViewThemeBgColorContext = @"BabyRose";
 
 	[self setTextView:view];
 
-	[self updateLayoutSettings];
 	[self setupTextViewBackground];
-
-	[CMRPref addObserver:self
-			  forKeyPath:@"threadViewTheme.backgroundColor"
-				 options:NSKeyValueObservingOptionNew
-				 context:kThreadViewThemeBgColorContext];
+	[self updateLayoutSettings];
 
 	[[self scrollView] setDocumentView:view];
 
 	[view release];
 }
 
-- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+- (void)threadViewThemeDidChange:(NSNotification *)notification
 {
-	if (context == kThreadViewThemeBgColorContext && object == CMRPref && [keyPath isEqualToString:@"threadViewTheme.backgroundColor"]) {
-		NSColor *color = [change objectForKey:NSKeyValueChangeNewKey];
-		id<CMRThreadLayoutTask>		task;
+	[self setupTextViewBackground];
 
-		if (!color) {
-			NSLog(@"Warning! -[observeValueForKeyPath:ofObject:change:context:] color is nil.");
-			return;
-		}
-
-		[[self textView] setBackgroundColor:color];
-		[[self scrollView] setBackgroundColor:color];
-
-		if ([self synchronize]) {
-			NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-			task = [[CMRThreadFileLoadingTask alloc] initWithFilepath:[self path]];
-			[[self threadLayout] doDeleteAllMessages];
-			[nc addObserver:self
-				   selector:@selector(threadFileLoadingTaskDidLoadFile:)
-					   name:CMRThreadFileLoadingTaskDidLoadAttributesNotification
-					 object:task];
-			[nc addObserver: self
-				   selector:@selector(changeThemeTaskDidFinish:)
-					   name:CMRThreadComposingDidFinishNotification
-					 object:task];
-			[[self threadLayout] push:task];
-			[task release];
-		}
+	if ([self synchronize]) {
+		[self setChangeThemeTaskIsInProgress:YES];
+		[self loadFromContentsOfFile:[self path]];
+		// linkTextAttributes は -loadFromContentsOfFile: の後、-threadComposingDidFinished: の中で -updateLayoutSettings を
+		// 遅延実行して更新する。
 	}
-}
-
-- (void)changeThemeTaskDidFinish:(NSNotification *)aNotification
-{
-	[self updateIndexField];
-	[self setInvalidate:NO];
-	[self scrollToLastReadedIndex:self];
-	[[self window] invalidateCursorRectsForView:[[[self threadLayout] scrollView] contentView]];
-	[[NSNotificationCenter defaultCenter] removeObserver:self
-													name:CMRThreadComposingDidFinishNotification
-												  object:[aNotification object]];
-	[[self textView] performSelector:@selector(setLinkTextAttributes:)
-						  withObject:[[CMRMessageAttributesTemplate sharedTemplate] attributesForAnchor]
-						  afterDelay:0.3];
 }
 
 - (void)updateLayoutSettings
@@ -400,7 +358,7 @@ static void *kThreadViewThemeBgColorContext = @"BabyRose";
 
 - (void)setupTextViewBackground
 {
-	NSColor		*color = [CMRPref threadViewerBackgroundColor];
+	NSColor		*color = [[CMRPref threadViewTheme] backgroundColor];
 
 	// textView
 	[[self textView] setDrawsBackground:YES];

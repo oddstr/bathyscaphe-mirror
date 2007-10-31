@@ -1,6 +1,6 @@
 //: CMRThreadLayout.h
 /**
-  * $Id: CMRThreadLayout.h,v 1.9 2007/10/20 02:21:29 tsawada2 Exp $
+  * $Id: CMRThreadLayout.h,v 1.10 2007/10/31 20:54:23 tsawada2 Exp $
   * 
   * CMRThreadLayout.h
   *
@@ -35,6 +35,7 @@
 - (void) run;
 
 - (void) push : (id<CMRThreadLayoutTask>) aTask;
+- (void) doDeleteAllMessages;
 
 /*** Worker context ***/
 - (BOOL) isInProgress;

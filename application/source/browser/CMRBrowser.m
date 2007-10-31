@@ -122,7 +122,6 @@ CMRBrowser *CMRMainBrowser = nil;
 		[self exchangeOrDisposeMainBrowser];
 	}
 
-	[m_listSorterSheetController release];
 	[m_addBoardSheetController release];
 	[m_editBoardSheetController release];
 	[[[self scrollView] horizontalRulerView] release];

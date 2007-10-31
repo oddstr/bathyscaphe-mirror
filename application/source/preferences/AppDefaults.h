@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.53 2007/10/29 05:54:46 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.54 2007/10/31 20:54:23 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -143,7 +143,7 @@ typedef enum _BSAutoSyncIntervalType {
 - (void) setBoardListBackgroundColor : (NSColor *) color;
 - (NSColor *)boardListNonActiveBgColor;
 
-- (NSColor *) threadViewerBackgroundColor;
+//- (NSColor *) threadViewerBackgroundColor;
 - (NSColor *) replyBackgroundColor;
 
 - (void) _loadBackgroundColors;
@@ -445,3 +445,4 @@ typedef enum _BSAutoSyncIntervalType {
 #pragma mark Constants
 
 extern NSString *const AppDefaultsWillSaveNotification;
+extern NSString *const AppDefaultsThreadViewThemeDidChangeNotification;

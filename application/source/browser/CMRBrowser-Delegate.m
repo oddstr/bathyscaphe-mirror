@@ -465,10 +465,10 @@ BOOL isOptionKeyDown(void)
 
 - (void)cleanUpItemsToBeRemoved:(NSArray *)files
 {
-	if ([files containsObject:[self path]]) {
+//	if ([files containsObject:[self path]]) {
 		[self synchronizeWithSearchField];
 		[self selectCurrentThreadWithMask:[CMRPref threadsListAutoscrollMask]];
-	}
+//	}
 
 	if ([[self superclass] instancesRespondToSelector:_cmd]) {
 		[super cleanUpItemsToBeRemoved:files];

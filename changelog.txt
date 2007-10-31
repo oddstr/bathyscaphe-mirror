@@ -1,3 +1,35 @@
+2007-11-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/bbs/BoardListItem/ConcreteBoardListItem.m
+		掲示板リストの同期を実行しても、ユーザ定義リストの URL が適切に書き変わらないことがある問題を修正。
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/source/browser/CMRBrowser.m
+		ツールバーの「一覧の検索」は、これまで「テキストのみ」または「ツールバーが非表示」「ツールバーから検索フィールドが溢れていて見えない」
+		「ツールバーに検索フィールドを置いていない」ような場合にはシートを出していたが、Leopard でシートが上手く使用可能にならなくなったことと、
+		シートの使用自体が、インタフェース的に好ましくない（シートにブロックされてスレッド一覧などを操作できない！）ため、この方法を廃止した。
+		かわりに、自動的にツールバーを「アイコンとテキスト」に切り替えてから検索フィールドにフォーカスを移すようにした。
+		- 「ツールバーから検索フィールドが溢れていて見えない」「ツールバーに検索フィールドを置いていない」場合は Beep が鳴るだけになったが、
+		　　これは勘弁ということで。将来余力があれば、もう少し工夫する。
+		- CMRAccessorySheetsController クラスは未使用になり、ソースファイルはターゲットから外した。
+	* application/source/browser/CMRBrowser-Validation.m
+		ブラウザウインドウで、IndexField が First Responder かどうか判定するコードをより適切なものに変更。
+		今までのコードは、とくに Leopard ではコンソールにエラーを吐くことがあった。
+	* application/source/thread/CMRThreadViewer.m
+		特定の状況で、スレッドを CMRHistoryManager に登録しようとした時点でスレッドタイトルがセットされていないため、スレッドを
+		履歴に登録できず、このために http://pc11.2ch.net/test/read.cgi/mac/1193398125/253 のような問題が発生していた。
+		これを、DatabaseManager にスレッドタイトルを問い合わせることでできるだけ履歴に登録することを試みるように改良。
+	* application/source/browser/BSTitleRulerView.m
+		Leopard マナー：スレッドタイトルバーのパスポップアップメニューは、command-click に加えて右クリックでも出すようにした。
+2007-10-31 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-Find.m
+		Leopard Only：「次を検索」「前を検索」「最初から検索」などで、見つかった語句を Safari 3 で検索した時のように強調表示
+		するようにした。
+	* application/source/thread/CMRThreadViewer-ViewAccessor.m
+	* application/source/thread/CMRThreadViewer.m
+	* application/source/preferences/AppDefaults-Background.m
+	* application/source/preferences/AppDefaults-FontColor.m
+	* application/source/preferences/AppDefaults.m
+		スレッドのテーマを切り替えた際のスレッドの表示更新の方法を見直し。
 2007-10-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/reply/connector/SG2chConnector.m
 		Leopard 対策：まちBBS で書き込みに成功した後、「ERROR」シートが表示されてしまう問題を解決。

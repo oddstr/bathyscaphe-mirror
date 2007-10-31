@@ -22,7 +22,6 @@
 #import "BSDBThreadList.h"
 
 #import "ThreadsListTable.h"
-#import "CMRAccessorySheetController.h"
 
 #import <SGAppKit/BSBoardListView.h>
 
@@ -100,7 +99,6 @@
 - (NSMenu *)drawerContextualMenu;
 
 - (NSSearchField *)searchField;
-- (CMRAccessorySheetController *)listSorterSheetController;
 - (AddBoardSheetController *)addBoardSheetController;
 - (EditBoardSheetController *)editBoardSheetController;
 
@@ -112,6 +110,9 @@
 - (void)setupLoadedComponents;
 @end
 
+@interface CMRBrowser(Validation)
+- (BOOL)isIndexFieldFirstResponder;
+@end
 
 @interface CMRBrowser(TableColumnInitializer)
 - (NSTableColumn *)tableColumnWithPropertyListRep:(id)rep;

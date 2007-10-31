@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.h,v 1.29 2007/09/04 07:45:43 tsawada2 Exp $
+  * $Id: CMRBrowser.h,v 1.30 2007/10/31 20:54:23 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -10,9 +10,9 @@
 
 @class BSKFSplitView;
 @class ThreadsListTable;
-@class CMRThreadsList, BSDBThreadList;
-@class CMRAccessorySheetController;
-@class AddBoardSheetController, EditBoardSheetController;
+@class BSDBThreadList;
+@class AddBoardSheetController;
+@class EditBoardSheetController;
 @class BoardListItem;
 
 typedef enum _BSThreadDeletionType {
@@ -36,13 +36,10 @@ typedef enum _BSThreadDeletionType {
 	IBOutlet NSMenu				*m_listContextualMenu;
 	IBOutlet NSMenu				*m_drawerContextualMenu;
 	
-	// PrincessBride Addition
 	IBOutlet NSSearchField		*m_searchField;
 
 	IBOutlet NSSegmentedControl *m_viewModeSwitcher;
-	
-	CMRAccessorySheetController	*m_listSorterSheetController;
-	
+		
 	AddBoardSheetController		*m_addBoardSheetController; // added in Lemonade.
 	EditBoardSheetController	*m_editBoardSheetController; // added in MeteorSweeper.
 

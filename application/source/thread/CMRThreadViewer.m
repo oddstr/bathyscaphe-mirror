@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.48 2007/10/15 16:25:44 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.49 2007/10/31 20:54:23 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -23,6 +23,7 @@
 #import "CMRThreadPlistComposer.h"
 #import "CMRNetGrobalLock.h"    /* for Locking */
 #import "BSAsciiArtDetector.h"
+#import "DatabaseManager.h"
 
 #import "missing.h"
 
@@ -36,75 +37,67 @@ NSString *const BSThreadViewerWillStartFindingNotification = @"BSThreadViewerWil
 NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEndFindingNotification";
 
 @implementation CMRThreadViewer
-- (id) init
+- (id)init
 {
-	if (self = [super initWithWindowNibName : [self windowNibName]]) {
-		[self setInvalidate : NO];
-		
-		if (NO == [self loadComponents]) {
+	if (self = [super initWithWindowNibName:[self windowNibName]]) {
+		[self setInvalidate:NO];
+		[self setChangeThemeTaskIsInProgress:NO];
+
+		if (![self loadComponents]) {
 			[self release];
 			return nil;
 		}
-		
+
 		[self registerToNotificationCenter];
-		[self setShouldCascadeWindows: NO];
+		[self setShouldCascadeWindows:NO];
 	}
 	return self;
 }
 
-- (void) dealloc
+- (void)dealloc
 {
 	[CMRPopUpMgr closePopUpWindowForOwner:self];
-	[[NSNotificationCenter defaultCenter] removeObserver : self];
-	[CMRPref removeObserver: self forKeyPath: @"threadViewTheme.backgroundColor"];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	[m_indexingStepper release];
 	[m_indexingPopupper release];
 	[m_componentsView release];
+
 	[_layout release];
-	
 	[_history release];
 	[super dealloc];
 }
 
-- (NSString *) windowNibName
+- (NSString *)windowNibName
 {
 	return @"CMRThreadViewer";
 }
 
-- (NSString *) titleForTitleBar
+- (NSString *)titleForTitleBar
 {
 	NSString *bName_ = [self boardName];
 	NSString *tTitle_ = [self title];
 
-	if ((bName_ == nil) || (tTitle_ == nil))
-		return nil;
+	if (!bName_ || !tTitle_) return nil;
 	
 	return [NSString stringWithFormat:@"%@ %C %@", tTitle_, 0x2014, bName_];
 }
 
-- (NSString *) windowTitleForDocumentDisplayName : (NSString *) displayName
+- (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName
 {
 	NSString *alternateName = [self titleForTitleBar];
 
 	return (alternateName ? alternateName : displayName);
 }
 
-/**
-  *
-  * @see SGDocument.h
-  *
-  */
-- (void)    document : (NSDocument         *) aDocument
-willRemoveController : (NSWindowController *) aController;
+- (void)document:(NSDocument *)aDocument willRemoveController:(NSWindowController *)aController
 {
-	if ([self document] != aDocument || self != (id)aController)
-		return;
+	if ([self document] != aDocument || self != (id)aController) return;
 	
 	[self removeFromNotificationCenter];
-	[self removeMessenger : nil];
-	
-	[self disposeThreadAttributes : [self threadAttributes]];
+	[self removeMessenger:nil];
+
+	[self disposeThreadAttributes:[self threadAttributes]];
 	[[self threadLayout] disposeLayoutContext];
 }
 
@@ -243,37 +236,22 @@ FileNotExistsAutoReloadIfNeeded:
 	[self reloadIfOnlineMode : self];
 }
 
-- (void)registerToHistoryMenu
+- (void)didChangeThread
 {
 	NSString *title_ = [self title];
-//	UTILAssertNotNil(title_);
+	if (!title_) {
+		NSString *boardName = [self boardName];
+		NSString *identifier = [self datIdentifier];
+		if (boardName && identifier) {
+			title_ = [[DatabaseManager defaultManager] threadTitleFromBoardName:boardName threadIdentifier:identifier];
+		}
+	}
 
-	if (title_) [[CMRHistoryManager defaultManager] addItemWithTitle:title_ type:CMRHistoryThreadEntryType object:[self threadIdentifier]];
-}
+	if (title_) {
+		[[CMRHistoryManager defaultManager] addItemWithTitle:title_ type:CMRHistoryThreadEntryType object:[self threadIdentifier]];
+	}
 
-
-- (void) didChangeThread
-{
-	[self registerToHistoryMenu];
-
-		// 2004-04-10 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
-		// ----------------------------------------
-		//フォントの変更を反映させる。
-		// Mac OS X 10.3 から TextView のフォントを変更すると、即座に
-		// 結果が反映されるようになったため、内容が空のときに反映しないと
-		// 既存のスレッドのフォントがすべて変更されてしまう。
-/*		{
-			NSFont	*font = [[CMRPref threadViewTheme] baseFont];
-			
-			if (NO == [[[self textView] font] isEqual : font])
-				[[self textView] setFont : font];
-		}*/
 	UTILNotifyName(CMRThreadViewerDidChangeThreadNotification);
-//	}
-}
-- (CMRThreadAttributes *) threadAttributes
-{
-	return [(CMRThreadDocument*)[self document] threadAttributes];
 }
 
 /*
@@ -378,7 +356,15 @@ cancel, if this method returns NO.
 - (BOOL) isInvalidate { return _flags.invalidate != 0; }
 - (void) setInvalidate : (BOOL) flag { _flags.invalidate = flag ? 1 : 0; }
 
+- (BOOL)changeThemeTaskIsInProgress
+{
+	return _flags.themechangeing != 0;
+}
 
+- (void)setChangeThemeTaskIsInProgress:(BOOL)flag
+{
+	_flags.themechangeing = flag ? 1 : 0;
+}
 
 /*
 CMRThreadFileLoadingTaskDidLoadAttributesNotification:
@@ -457,9 +443,14 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 		//
 		[self scrollToLastReadedIndex : self]; // その前に最後に読んだ位置までスクロールさせておく
 
-		if(![self isDatOchiThread]) {
-			[self updateKeywordsCache];
-			[self reloadIfOnlineMode : self];
+		if(![(CMRThreadDocument *)[self document] isDatOchiThread]) {
+			if (![self changeThemeTaskIsInProgress]) {
+				[self updateKeywordsCache];
+				[self reloadIfOnlineMode:self];
+			} else {
+				[self performSelector:@selector(updateLayoutSettings) withObject:nil afterDelay:0.5];
+				[self setChangeThemeTaskIsInProgress:NO];
+			}
 		}
 	} else {
 		if ([CMRPref scrollToLastUpdated] && [self canScrollToLastUpdatedMessage])
@@ -506,17 +497,15 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 }
 
 
-- (CMRThreadLayout *) threadLayout
+- (CMRThreadLayout *)threadLayout
 {
-	if (nil == _layout) {
-		_layout = [[CMRThreadLayout alloc] initWithTextView : [self textView]];
-		
+	if (!_layout) {
+		_layout = [[CMRThreadLayout alloc] initWithTextView:[self textView]];
 		// ワーカースレッドを開始
 		[_layout run];
 	}
 	return _layout;
 }
-
 
 #pragma mark Detecting Nanashi-san
 - (NSString *) detectDefaultNoName
@@ -565,84 +554,71 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 	}
 }
 
-#pragma mark Thread signature for historyManager .etc
-/*- (id) boardIdentifier
+#pragma mark Accessors
+- (CMRThreadAttributes *)threadAttributes
 {
-	//return [[self threadAttributes] BBSSignature];
-	//暫定 bridge
-	return [CMRBBSSignature BBSSignatureWithName : [self boardName]];
-}*/
-- (id) threadIdentifier
+	return [(CMRThreadDocument*)[self document] threadAttributes];
+}
+
+- (id)threadIdentifier
 {
 	return [[self threadAttributes] threadSignature];
 }
 
-#pragma mark Accessors
-- (NSString *) path
+- (NSString *)path
 {
 	return [[self threadAttributes] path];
 }
-- (NSString *) title;
+- (NSString *)title
 {
 	return [[self threadAttributes] threadTitle];
 }
-- (NSString *) boardName
+- (NSString *)boardName
 {
 	return [[self threadAttributes] boardName];
 }
-- (NSString *) boardNameArrowingSecondSource // subclass should override this method
+- (NSString *)boardNameArrowingSecondSource // subclass should override this method
 {
 	return [self boardName];
 }
-- (NSURL *) boardURL
+
+- (NSURL *)boardURL
 {
 	return [[self threadAttributes] boardURL];
 }
-- (NSURL *) threadURL
+
+- (NSURL *)threadURL
 {
 	return [[self threadAttributes] threadURL];
 }
-- (NSString *) datIdentifier
+
+- (NSString *)datIdentifier
 {
 	return [[self threadAttributes] datIdentifier];
 }
-- (NSString *) bbsIdentifier
+
+- (NSString *)bbsIdentifier
 {
 	return [[self threadAttributes] bbsIdentifier];
 }
-- (NSArray *) cachedKeywords
+
+- (NSArray *)cachedKeywords
 {
 	return [[self document] cachedKeywords];
 }
-- (void) setCachedKeywords: (NSArray *) array
+
+- (void)setCachedKeywords:(NSArray *)array
 {
-	[[self document] setCachedKeywords: array];
+	[[self document] setCachedKeywords:array];
 }
-#pragma mark Works with CMRAbstructThreadDocument
-- (void) changeAllMessageAttributesWithAAFlag: (id) flagObject
+
+#pragma mark Working with CMRAbstructThreadDocument
+- (void)changeAllMessageAttributesWithAAFlag:(id)flagObject
 {
 	UTILAssertKindOfClass(flagObject, NSNumber);
 	BOOL	flag = [flagObject boolValue];
-	[[self threadLayout] changeAllMessageAttributes: flag flags: CMRAsciiArtMask];
+	[[self threadLayout] changeAllMessageAttributes:flag flags:CMRAsciiArtMask];
 }
-
-#pragma mark WILL BE DEPRECATED
-- (BOOL) isDatOchiThread
-{
-	return [(CMRThreadDocument *)[self document] isDatOchiThread];
-}
-/*- (void) setDatOchiThread : (BOOL) flag
-{
-	[(CMRThreadDocument *)[self document] setIsDatOchiThread: flag];
-}
-- (BOOL) isMarkedThread
-{
-	return [(CMRThreadDocument *)[self document] isMarkedThread];
-}
-- (void) setMarkedThread : (BOOL) flag
-{
-	[(CMRThreadDocument *)[self document] setIsMarkedThread: flag];
-}*/
 @end
 
 #pragma mark -
@@ -823,7 +799,7 @@ NSString *kComposingNotificationNames[] = {
 
 
 @implementation CMRThreadViewer(NotificationPrivate)
-- (void) threadAttributesDidChangeAttributes : (NSNotification *) notification
+- (void)threadAttributesDidChangeAttributes:(NSNotification *)notification
 {
 	UTILAssertNotificationObject(
 		notification,
@@ -832,10 +808,10 @@ NSString *kComposingNotificationNames[] = {
 		notification,
 		CMRThreadAttributesDidChangeNotification);
 	
-//	[self didChangeThread:_cmd];
 	[self synchronizeAttributes];
 }
-- (void) appDefaultsLayoutSettingsUpdated : (NSNotification *) notification
+
+- (void)appDefaultsLayoutSettingsUpdated:(NSNotification *)notification
 {
 	UTILAssertNotificationName(
 		notification,
@@ -843,31 +819,25 @@ NSString *kComposingNotificationNames[] = {
 	UTILAssertNotificationObject(
 		notification,
 		CMRPref);
-	
-	if (nil == [self textView]) return;
-	[self updateLayoutSettings];
-	[[self scrollView] setNeedsDisplay : YES];
-}
-- (void) cleanUpItemsToBeRemoved : (NSArray *) files
-{
-	if (NO == [files containsObject : [self path]]) return;
 
+	if (![self textView]) return;
+	[self updateLayoutSettings];
+	[[self scrollView] setNeedsDisplay:YES];
+}
+
+- (void)cleanUpItemsToBeRemoved:(NSArray *)files
+{
+//	if (![files containsObject:[self path]]) return;
 	[[self threadLayout] clear];
 	[[self threadAttributes] setLastIndex:NSNotFound];
 	[self synchronizeAttributes];
-	
-	[[self window] invalidateCursorRectsForView : [self textView]];
-	[[self textView] setNeedsDisplay : YES];
+
+	[[self window] invalidateCursorRectsForView:[self textView]];
+	[[self textView] setNeedsDisplay:YES];
 	[self updateIndexField];
 }
 
-/*
-- (void)reloadAfterDeletion:(NSString *)filePath
-{
-	[self loadFromContentsOfFile:filePath];
-}
-*/
-- (void) trashDidPerformNotification : (NSNotification *) notification
+- (void)trashDidPerformNotification:(NSNotification *)notification
 {
 	NSArray		*files_;
 	NSNumber	*err_;
@@ -881,26 +851,26 @@ NSString *kComposingNotificationNames[] = {
 		notification,
 		[CMRTrashbox trash]);
 	
-	err_ = [[notification userInfo] objectForKey : kAppTrashUserInfoStatusKey];
-	if (nil == err_) return;
+	err_ = [[notification userInfo] objectForKey:kAppTrashUserInfoStatusKey];
+	if (!err_) return;
 	UTILAssertKindOfClass(err_, NSNumber);
 	if ([err_ intValue] != noErr) return;
-	
-	files_ = [[notification userInfo] objectForKey : kAppTrashUserInfoFilesKey];
+
+	files_ = [[notification userInfo] objectForKey:kAppTrashUserInfoFilesKey];
 	UTILAssertKindOfClass(files_, NSArray);
-	
-	reload_ = [[notification userInfo] objectForKey: kAppTrashUserInfoAfterFetchKey];
+	if (![files_ containsObject:[self path]]) return;
+
+	reload_ = [[notification userInfo] objectForKey:kAppTrashUserInfoAfterFetchKey];
 	UTILAssertKindOfClass(reload_, NSNumber);
 	shouldReload_ = [reload_ boolValue];
-	
-	[self cleanUpItemsToBeRemoved : files_];
-	if (shouldReload_ && [files_ containsObject: [self path]]) {
-//		[self reloadAfterDeletion: [files_ objectAtIndex: 0]];
+
+	[self cleanUpItemsToBeRemoved:files_];
+	if (shouldReload_) {
 		[self loadFromContentsOfFile:[files_ objectAtIndex:0]];
 	}
 }
 
-- (void) registerToNotificationCenter
+- (void)registerToNotificationCenter
 {
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	[nc addObserver: self
@@ -919,6 +889,10 @@ NSString *kComposingNotificationNames[] = {
 		   selector: @selector(threadViewerRunSpamFilter:)
 			   name: CMRThreadViewerRunSpamFilterNotification
 	         object: nil];
+	[nc addObserver:self
+		   selector:@selector(threadViewThemeDidChange:)
+			   name:AppDefaultsThreadViewThemeDidChangeNotification
+			 object:CMRPref];
 	[super registerToNotificationCenter];
 }
 - (void) removeFromNotificationCenter
@@ -936,9 +910,12 @@ NSString *kComposingNotificationNames[] = {
 	[nc removeObserver: self
 				  name: CMRThreadViewerRunSpamFilterNotification
 				object: nil];
+	[nc removeObserver:self
+				  name:AppDefaultsThreadViewThemeDidChangeNotification
+				object:CMRPref];
 	[super removeFromNotificationCenter];
 }
-+ (NSString *) localizableStringsTableName
++ (NSString *)localizableStringsTableName
 {
 	return APP_TVIEW_LOCALIZABLE_FILE;
 }

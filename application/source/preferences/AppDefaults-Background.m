@@ -83,12 +83,12 @@ static NSString *const kPrefBoardListBackgroundColorKey	= @"BoardList Background
 	}
 	return hoge;
 }
-
+/*
 - (NSColor *) threadViewerBackgroundColor
 {
 	return [[self threadViewTheme] backgroundColor];
 }
-/*
+
 - (NSColor *) resPopUpBackgroundColor
 {
 	return [[self threadViewTheme] popupBackgroundColorIgnoringAlpha];

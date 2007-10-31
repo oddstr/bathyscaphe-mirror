@@ -87,8 +87,8 @@ static ConcreteBoardListItem *_sharedInstance;
 			
 	url = [plist objectForKey : @"URL"];
 	if (!url) goto failCreation;
-	
 	boardID = [dbm boardIDForURLString : url];
+
 	if (NSNotFound == boardID) {
 		NSArray *boardIDs = [dbm boardIDsForName: boardName];
 		if(!boardIDs || [boardIDs count] == 0) {
@@ -111,6 +111,13 @@ static ConcreteBoardListItem *_sharedInstance;
 				[dbm moveBoardID:[[boardIDs objectAtIndex:0] intValue]
 					 toURLString:url];
 			}
+		}
+	} else {
+		// 2007-11-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+		// URL の不一致をチェック
+		NSString *registeredUrl = [dbm urlStringForBoardID:boardID];
+		if (![registeredUrl isEqualToString:url]) {
+			[dbm moveBoardID:boardID toURLString:url];
 		}
 	}
 	
