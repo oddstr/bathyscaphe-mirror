@@ -1,4 +1,6 @@
 2007-11-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		「編集」＞「検索」＞「選択部分を抽出に使用」を追加。command-option-E。
 	* application/source/bbs/BoardListItem/ConcreteBoardListItem.m
 		掲示板リストの同期を実行しても、ユーザ定義リストの URL が適切に書き変わらないことがある問題を修正。
 	* application/source/browser/CMRBrowser-Action.m
