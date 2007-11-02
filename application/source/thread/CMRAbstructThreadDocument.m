@@ -128,6 +128,7 @@ NSString *const CMRAbstractThreadDocumentDidToggleDatOchiNotification = @"CMRAbs
 		return;
 	
 	[[self threadAttributes] setIsDatOchiThread : flag];
+	UTILNotifyInfo(CMRAbstractThreadDocumentDidToggleDatOchiNotification, [[self threadAttributes] path]);
 }
 
 - (BOOL) isMarkedThread
@@ -234,7 +235,6 @@ NSString *const CMRAbstractThreadDocumentDidToggleDatOchiNotification = @"CMRAbs
 - (IBAction) toggleDatOchiThread: (id) sender
 {
 	[self setIsDatOchiThread: ![self isDatOchiThread]];
-	UTILNotifyInfo(CMRAbstractThreadDocumentDidToggleDatOchiNotification, [[self threadAttributes] path]);
 }
 
 - (IBAction) toggleMarkedThread: (id) sender

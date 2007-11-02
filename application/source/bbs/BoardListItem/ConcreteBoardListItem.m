@@ -87,6 +87,11 @@ static ConcreteBoardListItem *_sharedInstance;
 			
 	url = [plist objectForKey : @"URL"];
 	if (!url) goto failCreation;
+	// 暫定処置
+	if ([url isEqualToString:@"http://sakura01.bbspink.com/bbbb/"]) {
+		NSLog(@"block BBSPINK English board (%@ -- %@).",boardName,url);
+		return nil;
+	}
 	boardID = [dbm boardIDForURLString : url];
 
 	if (NSNotFound == boardID) {
@@ -115,8 +120,10 @@ static ConcreteBoardListItem *_sharedInstance;
 	} else {
 		// 2007-11-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 		// URL の不一致をチェック
+		// 暫定処置
 		NSString *registeredUrl = [dbm urlStringForBoardID:boardID];
-		if (![registeredUrl isEqualToString:url]) {
+		if (registeredUrl && ![registeredUrl isEqualToString:url]) {
+//			NSLog(@"%@, %@", registeredUrl, url);
 			[dbm moveBoardID:boardID toURLString:url];
 		}
 	}

@@ -58,13 +58,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	return [filepath_ stringByAppendingPathComponent:CMRDefaultBoardFile];
 }
 
-//- (NSString *) spareDefaultBoardListPath
 + (NSString *)spareDefaultBoardListPath
 {
-//	NSString	*filepath_;
-//
-//	filepath_ = [[NSBundle mainBundle] pathForResource : @"board_default" ofType : @"plist"];
-//	return filepath_;
 	return [[NSBundle mainBundle] pathForResource:@"board_default" ofType:@"plist"];
 }
 
@@ -91,9 +86,10 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
     return list;
 }
 
-- (SmartBoardList *)defaultList
+// このへん、暫定
+- (SmartBoardList *)defaultList:(BOOL)flag
 {
-    if (!_defaultList) {
+    if (flag && !_defaultList) {
 		NSFileManager	*dfm;
 		NSString		*dListPath;
 		dfm = [NSFileManager defaultManager];
@@ -105,6 +101,16 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
         _defaultList = [self makeBoardList:[SmartBoardList class] withContentsOfFile:dListPath];
     }
     return _defaultList;
+}
+
+- (SmartBoardList *)defaultList
+{
+	return [self defaultList:YES];
+}
+
+- (SmartBoardList *)defaultListWithoutNeedingInitialize
+{
+	return [self defaultList:NO];
 }
 
 - (SmartBoardList *)userList
@@ -335,8 +341,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	UTILAssertNotificationObject(notification, NSApp);
 	
 	[self saveListsIfNeeded];
-
-	// NoNames.plist は常に保存
 	[self saveNoNameDict];
 }
 
@@ -346,7 +350,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 		[[self userList] writeToFile:[self userBoardListPath] atomically:YES];
 		[[self userList] setIsEdited:NO];
 	}
-	if ([[self defaultList] isEdited]) {
+	if ([[self defaultListWithoutNeedingInitialize] isEdited]) {
 		[[self defaultList] writeToFile:[self defaultBoardListPath] atomically:YES];
 		[[self defaultList] setIsEdited:NO];
 	}
