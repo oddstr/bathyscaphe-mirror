@@ -4,6 +4,7 @@
 //
 //  Updated by Tsutomu Sawada on 07/07/22.
 //  Copyright 2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import "CMRDownloader_p.h"
@@ -234,7 +235,7 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 	[self setIsInProgress:YES];
 	[self setAmount:-1];
 	/* --- Retain --- */
-	[self retain];
+//	[self retain];
 	[self setCurrentConnector:con];
 	/* -------------- */
 	
@@ -253,7 +254,7 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 	[self setCurrentConnector:nil];
 	[self setResourceData:nil];
 
-	[self autorelease];
+//	[self autorelease];
 }
 
 - (BOOL)dataProcess:(NSData *)resourceData withConnector:(NSURLConnection *)connector
@@ -276,9 +277,9 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 
 - (void) cancelDownloadWithPostingNotificationName:(NSString *)name
 {
-	[self retain];
+//	[self retain];
 	UTILNotifyName(name);
-	[self autorelease];
+//	[self autorelease];
 }
 
 /* synchronize computer time with server. */
@@ -345,6 +346,7 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 		[self setMessage:[self localizedCanceledString]];
 		[self didFinishLoading];
 		[self cancelDownloadWithInvalidPartial];
+		break;
 	default:
 		[connection cancel];
 		[self setMessage:[self localizedCanceledString]];

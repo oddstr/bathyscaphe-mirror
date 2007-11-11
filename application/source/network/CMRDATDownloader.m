@@ -4,6 +4,7 @@
 //
 //  Updated by Tsutomu Sawada on 07/07/22.
 //  Copyright 2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import "CMRDATDownloader.h"
@@ -31,20 +32,23 @@ NSString *const CMRDATDownloaderDidDetectDatOchiNotification = @"CMRDATDownloade
 - (NSURL *)threadURL
 {
 	CMRHostHandler	*handler_;
+	NSURL			*boardURL_ = [self boardURL];
 
 	UTILAssertNotNil([self threadSignature]);
 
-	handler_ = [CMRHostHandler hostHandlerForURL:[self boardURL]];
-	return [handler_ readURLWithBoard:[self boardURL] datName:[[self threadSignature] identifier]];
+	handler_ = [CMRHostHandler hostHandlerForURL:boardURL_];
+	return [handler_ readURLWithBoard:boardURL_ datName:[[self threadSignature] identifier]];
 }
 
 - (NSURL *)resourceURL
 {
 	CMRHostHandler	*handler_;
+	NSURL			*boardURL_ = [self boardURL];
 
 	UTILAssertNotNil([self threadSignature]);
-	handler_ = [CMRHostHandler hostHandlerForURL:[self boardURL]];
-	return [handler_ datURLWithBoard:[self boardURL] datName:[[self threadSignature] datFilename]];
+
+	handler_ = [CMRHostHandler hostHandlerForURL:boardURL_];
+	return [handler_ datURLWithBoard:boardURL_ datName:[[self threadSignature] datFilename]];
 }
 
 - (void)cancelDownloadWithDetectingDatOchi
@@ -80,82 +84,6 @@ NSString *const CMRDATDownloaderDidDetectDatOchiNotification = @"CMRDATDownloade
 	}
 }
 @end
-/*@implementation CMRDATDownloader(w2chConnectDelegate)
-// ----------------------------------------
-// Partial contents
-// ----------------------------------------
-- (void) handlePartialContentsCheck_ : (SGHTTPConnector *) theConnect
-{
-	SGHTTPResponse	*res = [theConnect response];
-	NSData			*avail = [theConnect availableResourceData];
-	const char		*p = NULL;
-	
-	UTIL_DEBUG_METHOD;
-	UTIL_DEBUG_WRITE1(@"  dataLength:%u", [avail length]);
-	if (nil == res) {	// why?
-		NSLog(
-			@"%@ called, but server response was nil.",
-			UTIL_HANDLE_FAILURE_IN_METHOD);
-		return;
-	}
-	
-	switch ([res statusCode]) {
-	case HTTP_PERTIAL:
-		break;
-	case HTTP_NOT_MODIFIED:
-		return;
-		break;
-	case HTTP_RANGE_NOT_SATISFIABLE:  // Requested Range Not Satisfiable
-		NSLog(@"Server Response: %@", [res statusLine]);
-		[self cancelDownloadWithInvalidPartial];
-		return;
-		break;
-	case HTTP_FOUND: // Maybe Dat Ochi
-		NSLog(@"302 - Maybe Dat Ochi");
-		[self cancelDownloadWithDetectingDatOchi];
-		return;
-		break;
-	default:
-		NSLog(@"Unexpected status:%u", [res statusCode]);
-		return;
-		break;
-	}
-	
-	// check terminater
-	if (nil == avail || 0 == [avail length])
-		return;
-	
-	p = (const char*)[avail bytes];
-	if (*p != '\n') {
-		NSLog(@"Last terminater must be %c, but was %c.", '\n', *p);
-		[self cancelDownloadWithInvalidPartial];
-	}
-}
-- (void) URLHandle               : (NSURLHandle *) sender
-  resourceDataDidBecomeAvailable : (NSData      *) newBytes
-{
-	[super URLHandle:sender resourceDataDidBecomeAvailable:newBytes];
-	NSData				*data;
-	SGHTTPConnector		*con;
-	
-	con  = [self HTTPConnectorCastURLHandle : sender];
-	if ([self isFirstArrivalWithURLHandle : con resourceDataDidBecomeAvailable : newBytes])
-	{
-		[self synchronizeServerClock : con];
-
-		data = [con availableResourceData];
-		if ([self pertialContentsRequested]) {
-			[self handlePartialContentsCheck_ : [self HTTPConnectorCastURLHandle : sender]];
-			return;
-		}
-		if ([self shouldCancelWithFirstArrivalData : data]) {
-			[self cancelDownloadWithPostingNotificationName :
-								CMRDownloaderNotFoundNotification];
-			return;
-		}
-	}
-}
-@end*/
 
 
 @implementation CMRDATDownloader(LoadingResourceData)
@@ -172,7 +100,6 @@ NSString *const CMRDATDownloaderDidDetectDatOchiNotification = @"CMRDATDownloade
 		p = (const char*)[resourceData bytes];
 		if (*p != '\n') {
 			[self cancelDownloadWithInvalidPartial];
-//			UTILNotifyName(ThreadTextDownloaderInvalidPerticalContentsNotification);
 			return NO;
 		}
 	}

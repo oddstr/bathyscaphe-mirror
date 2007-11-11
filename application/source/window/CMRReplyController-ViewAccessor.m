@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyController-ViewAccessor.m,v 1.18 2007/09/04 07:45:43 tsawada2 Exp $
+  * $Id: CMRReplyController-ViewAccessor.m,v 1.19 2007/11/11 08:49:44 tsawada2 Exp $
   * 
   * CMRReplyController-ViewAccessor.m
   *
@@ -189,6 +189,8 @@ static void *kReplySettingsContext = @"EternalBlaze";
 	[self setupButtons];
 	[self setupTextView];
 	[self setupKeyLoops];
+
+	[[m_templateInsertionButton cell] setUsesItemFromMenu:YES];
 
 	[[NSNotificationCenter defaultCenter]
 			 addObserver:self

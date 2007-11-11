@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.27 2007/10/31 20:54:23 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.28 2007/11/11 08:49:44 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -73,6 +73,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 }
 - (void) dealloc
 {
+	[m_installedPreviewerInfo release];
 	[m_backgroundColorDictionary release];
 	[m_threadsListDictionary release];
 	[m_threadViewerDictionary release];

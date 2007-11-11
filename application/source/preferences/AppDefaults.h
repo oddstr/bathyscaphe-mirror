@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.54 2007/10/31 20:54:23 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.55 2007/11/11 08:49:44 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -40,6 +40,8 @@ typedef enum _BSAutoSyncIntervalType {
 	NSMutableDictionary		*m_soundsDictionary;
 	NSMutableDictionary		*m_boardWarriorDictionary;
 	BSThreadViewTheme		*m_threadViewTheme;
+
+	NSDictionary			*m_installedPreviewerInfo;
 	
 	// 頻繁にアクセスされる可能性のある変数
 	struct {
@@ -402,6 +404,8 @@ typedef enum _BSAutoSyncIntervalType {
 
 // Available in Twincam Angel.
 - (id<w2chAuthenticationStatus>)shared2chAuthenticator;
+- (NSDictionary *)installedPreviewerInfoDict;
+- (void)setInstalledPreviewerInfoDict:(NSDictionary *)dict;
 
 - (void) _loadImagePreviewerSettings;
 - (BOOL) _saveImagePreviewerSettings;

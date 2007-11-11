@@ -1,48 +1,156 @@
-{
-    IBClasses = (
-        {CLASS = BSWindow; LANGUAGE = ObjC; SUPERCLASS = NSWindow; }, 
-        {
-            ACTIONS = {deleteMail = id; insertSage = id; pasteAsQuotation = id; toggleBeLogin = id; }; 
-            CLASS = CMRReplyController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                "_deleteMailButton" = NSButton; 
-                "_mailField" = NSTextField; 
-                "_nameComboBox" = NSComboBox; 
-                "_sageButton" = NSButton; 
-                "_scrollView" = NSScrollView; 
-                "_textView" = NSTextView; 
-            }; 
-            SUPERCLASS = CMRStatusLineWindowController; 
-        }, 
-        {CLASS = CMRSplitView; LANGUAGE = ObjC; SUPERCLASS = NSSplitView; }, 
-        {
-            ACTIONS = {cancel = id; nextInfo = id; toggleStatusLineShown = id; updateInfo = id; }; 
-            CLASS = CMRStatusLine; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                "m_cancelButton" = NSButton; 
-                "m_chasingArrows" = NSProgressIndicator; 
-                "m_delegate" = id; 
-                "m_infoTextField" = NSTextField; 
-                "m_informationFieldView" = NSView; 
-                "m_nextInfoButton" = NSButton; 
-                "m_progressIndicatorView" = NSView; 
-                "m_statusLineView" = NSView; 
-                "m_statusTextField" = NSTextField; 
-            }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {
-            ACTIONS = {cancelCurrentTask = id; saveAsDefaultFrame = id; }; 
-            CLASS = CMRStatusLineWindowController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {"m_toolbarDelegateImp" = id; }; 
-            SUPERCLASS = NSWindowController; 
-        }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {CLASS = InfoContainerView; LANGUAGE = ObjC; SUPERCLASS = CMRSplitView; }, 
-        {CLASS = NSObject; LANGUAGE = ObjC; }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>openScriptsDirectory</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>NSApplication</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>RBSplitView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>RBSplitSubview</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>RBSplitSubview</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>connectorResourceDidCancelLoading</key>
+				<string>id</string>
+				<key>connectorResourceDidFinishLoading</key>
+				<string>id</string>
+				<key>didAdjustSubviews</key>
+				<string>RBSplitView</string>
+				<key>togglePreviewPanel</key>
+				<string>id</string>
+				<key>willAdjustSubviews</key>
+				<string>RBSplitView</string>
+			</dict>
+			<key>CLASS</key>
+			<string>NSObject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSWindow</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>customizeTextTemplates</key>
+				<string>id</string>
+				<key>deleteMail</key>
+				<string>id</string>
+				<key>insertSage</key>
+				<string>id</string>
+				<key>insertTextTemplate</key>
+				<string>id</string>
+				<key>pasteAsQuotation</key>
+				<string>id</string>
+				<key>toggleBeLogin</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>CMRReplyController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>_deleteMailButton</key>
+				<string>NSButton</string>
+				<key>_mailField</key>
+				<string>NSTextField</string>
+				<key>_nameComboBox</key>
+				<string>NSComboBox</string>
+				<key>_sageButton</key>
+				<string>NSButton</string>
+				<key>_scrollView</key>
+				<string>NSScrollView</string>
+				<key>_textView</key>
+				<string>NSTextView</string>
+				<key>m_templateInsertionButton</key>
+				<string>NSPopUpButton</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>CMRStatusLineWindowController</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>cancelCurrentTask</key>
+				<string>id</string>
+				<key>saveAsDefaultFrame</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>CMRStatusLineWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>m_toolbarDelegateImp</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSWindowController</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>BSWindow</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSWindow</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>

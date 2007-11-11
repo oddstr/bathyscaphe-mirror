@@ -1,3 +1,22 @@
+2007-11-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/network/CMRDATDownloader.m
+	* application/source/network/CMRDownloader.m
+		ステータス 416 で「再取得が必要です」アラートが表示された直後にクラッシュする問題を修正。
+		- switch 文で break を書き忘れたばっかりに… orz
+	* application/source/window/CMRReplyController-ViewAccessor.m
+	* application/source/window/CMRReplyController.m
+	* application/source/window/CMRReplyControllerTbDelegate.m
+	* application/Resources/Japanese.lproj/CMRReplyWindow.nib
+	* application/Resources/Japanese.lproj/Messenger.strings
+	* application/Resources/Japanese.lproj/ToolbarItems.strings
+		書き込みウインドウのツールバーに「テンプレートを挿入」プルダウンボタンを追加した。
+		書き込み本文に定型文を挿入できる。
+		BathyScaphe 1.6 では「不具合の報告」内蔵テンプレートのみサポートするが、当然、今後のバージョンでは
+		ユーザによるテンプレートの追加をサポートする（だから、ポップアップボタンで選択するインタフェースなのだ）。
+	* application/source/preferences/AppDefaults-Bundle.m
+	* application/source/preferences/AppDefaults.m
+		プレビュープラグインの info dictionary (info.plist) にアクセスするメソッドを追加。
+=================================================
 2007-11-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/bbs/BoardManager.m
 		defaultList の無駄なセットアップを抑制。

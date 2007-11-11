@@ -1,5 +1,5 @@
 /**
- * $Id: AppDefaults-Bundle.m,v 1.15 2007/10/15 16:25:44 tsawada2 Exp $
+ * $Id: AppDefaults-Bundle.m,v 1.16 2007/11/11 08:49:44 tsawada2 Exp $
  * 
  * AppDefaults-Bundle.m
  *
@@ -98,37 +98,49 @@ static Class st_class_2chAuthenticater;
     return [NSBundle bundleWithPath : path_];
 }
 
-- (id) _imagePreviewer
+//- (id) _imagePreviewer
+- (id)loadImagePreviewer
 {
     static Class kPreviewerInstance;
-	NSString		*pClassName;
+//	NSString		*pClassName;
 
-	pClassName = @"Unknown";
+//	pClassName = @"Unknown";
     
     if (Nil == kPreviewerInstance) {
         NSBundle		*module;
-		NSDictionary	*infoPlist;
-        
-        module = [self moduleWithName : ImagePreviewerPluginName
-                               ofType : ImagePreviewerPluginType
-                          inDirectory : @"PlugIns"];
+//		NSDictionary	*infoPlist;
+		Class			previewerClass;
 
-        if (nil == module) {
+        module = [self moduleWithName:ImagePreviewerPluginName ofType:ImagePreviewerPluginType inDirectory:@"PlugIns"];
+
+        if (!module) {
             NSLog(@"Couldn't load plugin<%@.%@>", ImagePreviewerPluginName, ImagePreviewerPluginType);
             return nil;
         }
 
-		infoPlist = [module infoDictionary];
-		pClassName = [infoPlist objectForKey : @"NSPrincipalClass"];
+//		infoPlist = [module infoDictionary];
+//		pClassName = [infoPlist objectForKey : @"NSPrincipalClass"];
 
-		if (pClassName) {
-			Class pluginClass = NSClassFromString(pClassName);
-			if (!pluginClass) {
-				kPreviewerInstance = [module principalClass];
+//		if (pClassName) {
+//			Class pluginClass = NSClassFromString(pClassName);
+//			if (!pluginClass) {
+//				kPreviewerInstance = [module principalClass];
 				//NSLog(@"We load plugin <%@.%@>, and load its principal class <%@>",
 				//		ImagePreviewerPluginName, ImagePreviewerPluginType, pClassName);
-			}
+//			}
+//		}
+		previewerClass = [module principalClass];
+		if (!previewerClass || ![previewerClass conformsToProtocol:@protocol(BSImagePreviewerProtocol)]) {
+			NSLog(@"Principal class <%@> doesn't conform to protocol BSImagePreviewerProtocol! So we cancel loading this plugin", 
+					previewerClass ? NSStringFromClass(previewerClass) : @"Nil");
+			return nil;
 		}
+		
+		kPreviewerInstance = previewerClass;
+		[self setInstalledPreviewerInfoDict:[module infoDictionary]];
+	}
+	return [[[kPreviewerInstance alloc] initWithPreferences:self] autorelease];
+/*
     }
     if (Nil == kPreviewerInstance) {
         NSLog(@"Couldn't load principal class <%@> in <%@.%@>", 
@@ -141,7 +153,7 @@ static Class st_class_2chAuthenticater;
         NSLog(@"Principal class <%@> doesn't conform to protocol BSImagePreviewerProtocol! So we cancel loading this plugin", 
                 pClassName);
         return nil;
-    }		
+    }*/
 }
 
 - (id) _preferencesPane
@@ -226,11 +238,11 @@ static Class st_class_2chAuthenticater;
     return instance_;
 }
 
-- (id<BSImagePreviewerProtocol>) sharedImagePreviewer
+- (id<BSImagePreviewerProtocol>)sharedImagePreviewer
 {
     static id instance_;
-    if (nil == instance_) {
-        instance_ = [[self _imagePreviewer] retain];
+    if (!instance_) {
+        instance_ = [[self loadImagePreviewer] retain];
     }
     return instance_;
 }
@@ -259,6 +271,22 @@ static Class st_class_2chAuthenticater;
 	}
 	return [st_class_2chAuthenticater defaultAuthenticater];
 }
+
+- (NSDictionary *)installedPreviewerInfoDict
+{
+	if (!m_installedPreviewerInfo) {
+		[self loadImagePreviewer];
+	}
+	return m_installedPreviewerInfo;
+}
+
+- (void)setInstalledPreviewerInfoDict:(NSDictionary *)dict
+{
+	[dict retain];
+	[m_installedPreviewerInfo release];
+	m_installedPreviewerInfo = dict;
+}
+
 /*
 #pragma mark -
 - (NSString *) helperAppPath

@@ -30,3 +30,13 @@
 "FailedURLEncodingFROMFieldLabel" = "名前欄";
 "FailedURLEncodingmailFieldLabel" = "メール欄";
 "FailedURLEncodingMESSAGEFieldLabel" = "本文";
+
+"BugReportTemplate" = "【Mac OS X】%@
+【BathyScaphe】%@ (%@)
+【プレビュープラグイン】%@ (%@)
+【不具合の内容】%@
+【再現手順】";
+"BugReportMarker" = "ここに不具合の内容を書いてください…";
+
+"CustomizeTemplateAlertTitle" = "Sorry, この機能は未実装のため利用できません。";
+"CustomizeTemplateAlertMsg" = "書き込みテンプレートは、現在 “不具合の報告” のみご利用いただけます。今後のアップデートで、ユーザによるテンプレートの追加が可能になる予定です。";

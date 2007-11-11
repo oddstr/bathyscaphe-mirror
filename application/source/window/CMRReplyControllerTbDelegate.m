@@ -9,6 +9,7 @@
 
 #import "CMRReplyControllerTbDelegate.h"
 #import "CMRToolbarDelegateImp_p.h"
+#import "CMRReplyController.h"
 
 
 static NSString *const kReplyWindowToolbarIdentifier = @"Reply Window Toolbar";
@@ -31,15 +32,39 @@ static NSString *const kBeLoginPaletteLabelKey	= @"beLogin Palette Label";
 static NSString *const kBeLoginToolTipKey		= @"beLogin ToolTip";
 static NSString *const kBeLoginImageName		= @"beEnabled";
 
+static NSString *const kInsertTemplateIdentifier = @"InsertTemplate";
+static NSString *const kInsertTemplateLabelKey = @"InsertTemplate Label";
+static NSString *const kInsertTemplateToolTipKey = @"InsertTemplate ToolTip";
+
 
 @implementation CMRReplyControllerTbDelegate
-- (NSString *) identifier
+- (NSString *)identifier
 {
 	return kReplyWindowToolbarIdentifier;
 }
 @end
 
 @implementation CMRReplyControllerTbDelegate(Protected)
+- (void)setupInsertTemplateItem:(NSToolbarItem *)anItem itemView:(NSPopUpButton *)aView
+{
+	NSMenuItem *menuItem_ = [[NSMenuItem alloc] initWithTitle:[self localizedString:kInsertTemplateLabelKey] action:NULL keyEquivalent:@""];
+	NSSize size_;
+	
+	[aView retain];
+
+	[aView removeFromSuperviewWithoutNeedingDisplay];
+	[anItem setView:aView];
+	size_ = [aView frame].size;
+	[anItem setMinSize:size_];
+	[anItem setMaxSize:size_];
+
+	[aView release];
+	
+	[menuItem_ setSubmenu:[aView menu]];
+	[anItem setMenuFormRepresentation:menuItem_];
+	[menuItem_ release];
+}
+
 - (void)initializeToolbarItems:(NSWindow *)aWindow
 {
 	NSToolbarItem			*item_;
@@ -71,13 +96,15 @@ static NSString *const kBeLoginImageName		= @"beEnabled";
 											   action:@selector(toggleBeLogin:)
 											   target:nil];
 	[item_ setImage:[NSImage imageAppNamed:kBeLoginImageName]];
+
+	item_ = [self appendToolbarItemWithItemIdentifier:kInsertTemplateIdentifier
+									localizedLabelKey:kInsertTemplateLabelKey
+							 localizedPaletteLabelKey:kInsertTemplateLabelKey
+								  localizedToolTipKey:kInsertTemplateToolTipKey
+											   action:NULL
+											   target:wcontroller_];
+	[self setupInsertTemplateItem:item_ itemView:[(CMRReplyController *)wcontroller_ templateInsertionButton]];
 }
-/*
-- (void)configureToolbar:(NSToolbar *)aToolbar
-{
-	[aToolbar setAllowsUserCustomization:YES];
-	[aToolbar setAutosavesConfiguration:YES];
-}*/
 @end
 
 
@@ -89,6 +116,7 @@ static NSString *const kBeLoginImageName		= @"beEnabled";
 				kSendMessageIdentifier,
 				NSToolbarSeparatorItemIdentifier,
 				kSaveAsDraftIdentifier,
+				kInsertTemplateIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,
 				kBeLoginIdentifier,
 				nil];
@@ -100,6 +128,7 @@ static NSString *const kBeLoginImageName		= @"beEnabled";
 				kSendMessageIdentifier,
 				kSaveAsDraftIdentifier,
 				kBeLoginIdentifier,
+				kInsertTemplateIdentifier,
 				NSToolbarSeparatorItemIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,
 				NSToolbarSpaceItemIdentifier,
