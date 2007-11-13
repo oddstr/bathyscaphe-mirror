@@ -159,6 +159,11 @@
 	[textView_ setSelectable:YES];
 	[textView_ setAllowsUndo:NO];
 
+	if ([textView_ respondsToSelector:@selector(setDisplaysLinkToolTips:)]) {
+		// Leopard
+		[textView_ setDisplaysLinkToolTips:NO];
+	}
+
 	[tcontainer_ setWidthTracksTextView:YES];
 	[self setTextView:textView_];
 	[textView_ setFieldEditor:NO];

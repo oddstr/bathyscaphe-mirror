@@ -1,4 +1,7 @@
 2007-11-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-ViewAccessor.m
+		Leopard 対策：ポップアップ内のテキスト・ビューで -[NSTextView setDisplaysLinkToolTips:] を NO にセットし忘れていたので修正。
+	* application/Info-editor.plist
 	* application/subproj/editor/ 以下
 		[削除] ひっそりばっさり削除。
 	* application/subproj/BSIPILeopardSlideshowHelper/BSIPILeopardSlideshowHelper.xcodeproj
