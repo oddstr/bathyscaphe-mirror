@@ -1,4 +1,42 @@
+2007-11-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/editor/ 以下
+		[削除] ひっそりばっさり削除。
+	* application/subproj/BSIPILeopardSlideshowHelper/BSIPILeopardSlideshowHelper.xcodeproj
+	* application/subproj/BSIPILeopardSlideshowHelper/BSIPILeopardSlideshowHelper_Prefix.pch
+	* application/subproj/BSIPILeopardSlideshowHelper/BSIPILeopardSlideshowHelper.[h|m]
+	* application/subproj/BSIPILeopardSlideshowHelper/Info.plist
+		[新規追加] Leopard で追加機能（ImageKit を利用したスライドショー）を利用するためのプラグインのソース。
+		- この BSIPILeopardSlideshowHelper.plugin を Release ターゲットでビルドしてから BathyScaphe.app をビルドすること。
+		　BathyScaphe.app のビルド時に、application/subproj/BSIPILeopardSlideshowHelper/build/Release/BSIPILeopardSlideshowHelper.plugin が
+		　BathyScaphe.app/Contents/PlugIns/ にコピーされるようになっている。
+		- プロジェクトファイルは Xcode 2.4 互換にしてあるが、Tiger では ImageKit がないのでビルドできない。
+		　Tiger で BathyScaphe.app をビルドする時に困らないよう、とりあえずビルド済みの BSIPILeopardSLideshowHelper.plugin も別途開発者用に配布する予定。 
+	* application/subproj/previewer/BSImagePreviewInspector-Settings.m
+		[新規追加] BSImagePreviewInspector-Tb.m から分離。
+	* application/subproj/previewer/BSIPIArrayController.[h|m]
+		[新規追加] プレビューインスペクタで使用する NSArrayController のサブクラス。
+	* application/subproj/previewer/BSIPIFullScreenController.m
+	* application/subproj/previewer/BSIPIHistoryManager.m
+	* application/subproj/previewer/BSImagePreviewInspector-View.m
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
+	* application/subproj/previewer/Japanese.lproj/Localizable.strings
+		プレビューインスペクタ (2.6.4 -> 2.7)：
+		- 内部構造を見直し、Key-value Observing をさらに活用するようにした。
+		- フルスクリーン表示の操作性を向上
+		　・スクロールホイールの感度を設定できるようにした。
+		　・フルスクリーン表示中にイメージを保存したときのフィードバックを改善した。
+		- リスト・ビューの選択行が変化したときは、選択行が見える位置に自動的にスクロールするようにした。
+		- 環境設定パネルは、シートではなく普通のパネルとして表示するようにした。レイアウトも見直した。
+		- Mac OS X 10.5 では、フルスクリーン表示の替わりに OS 標準の (ImageKit/IKSlideshow) スライドショー
+		　を使用できるようにした（「環境設定」で選択）。
+		　・互換性を確保するため、ImageKit フレームワークをリンクしなければならない部分は別のバンドル
+		　　（BSIPILeopardSlideshowHelper.plugin）に分離し、必要な時にロードするようにしてみた。
 2007-11-11 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Action.m
+		BrowserKeyBindings.plist で使用できるアクションに "selectThreadOnly:" を追加した。
+		スレッドを選択した時に何もしない、というアクション。
 	* application/source/network/CMRDATDownloader.m
 	* application/source/network/CMRDownloader.m
 		ステータス 416 で「再取得が必要です」アラートが表示された直後にクラッシュする問題を修正。

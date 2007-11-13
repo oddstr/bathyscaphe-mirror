@@ -131,8 +131,12 @@
 		8782A764096FD2F40099B65F /* BSIPIImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8782A762096FD2F40099B65F /* BSIPIImageView.m */; };
 		8782A79E096FDBCE0099B65F /* BSIPIActionBtnTbItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 8782A79C096FDBCE0099B65F /* BSIPIActionBtnTbItem.h */; };
 		8782A79F096FDBCE0099B65F /* BSIPIActionBtnTbItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8782A79D096FDBCE0099B65F /* BSIPIActionBtnTbItem.m */; };
+		878467460CE8739100691232 /* BSIPILeopardSlideshowHelper.plugin in Resources */ = {isa = PBXBuildFile; fileRef = 8784673E0CE8739000691232 /* BSIPILeopardSlideshowHelper.plugin */; };
+		8784674D0CE873C100691232 /* BSIPILeopardSlideshowHelper.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8784673E0CE8739000691232 /* BSIPILeopardSlideshowHelper.plugin */; };
 		878B4DBF0BB8D74E00829D2B /* BSNobiNobiToolbarItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 878B4DBD0BB8D74E00829D2B /* BSNobiNobiToolbarItem.h */; };
 		878B4DC00BB8D74E00829D2B /* BSNobiNobiToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 878B4DBE0BB8D74E00829D2B /* BSNobiNobiToolbarItem.m */; };
+		87956FCA0CE720F1004DBDB0 /* BSIPIArrayController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87956FC80CE720F1004DBDB0 /* BSIPIArrayController.h */; };
+		87956FCB0CE720F2004DBDB0 /* BSIPIArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87956FC90CE720F1004DBDB0 /* BSIPIArrayController.m */; };
 		879653F10BCE48BE0079EDFE /* AppDefaults-FCConvert.m in Sources */ = {isa = PBXBuildFile; fileRef = 879653F00BCE48BE0079EDFE /* AppDefaults-FCConvert.m */; };
 		879B0B8C0B6237A400EFD6D0 /* BSThreadInfoPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 879B0B8A0B6237A400EFD6D0 /* BSThreadInfoPanel.nib */; };
 		879B0B930B6239EF00EFD6D0 /* BSThreadInfoPanelController.h in Headers */ = {isa = PBXBuildFile; fileRef = 879B0B910B6239EF00EFD6D0 /* BSThreadInfoPanelController.h */; };
@@ -184,6 +188,7 @@
 		87DF529E0CC380C600D48893 /* w2chReply_be2ch.m in Sources */ = {isa = PBXBuildFile; fileRef = 874F24FB080E716700EA2164 /* w2chReply_be2ch.m */; };
 		87DF52DE0CC38F6C00D48893 /* BSLoggedInDATDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = 87DF52DC0CC38F6C00D48893 /* BSLoggedInDATDownloader.h */; };
 		87DF52DF0CC38F6C00D48893 /* BSLoggedInDATDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 87DF52DD0CC38F6C00D48893 /* BSLoggedInDATDownloader.m */; };
+		87DF8EA40CE7593700C43505 /* BSImagePreviewInspector-Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 87DF8EA30CE7593700C43505 /* BSImagePreviewInspector-Settings.m */; };
 		87E971E80B80A82300579603 /* Keywords.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87E971E60B80A82300579603 /* Keywords.tiff */; };
 		87E971E90B80A82300579603 /* Keywords_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87E971E70B80A82300579603 /* Keywords_Pressed.tiff */; };
 		87F3D5B20976921C00A1217A /* BSIPIHistoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 87F3D5B00976921C00A1217A /* BSIPIHistoryManager.h */; };
@@ -733,6 +738,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				8784674D0CE873C100691232 /* BSIPILeopardSlideshowHelper.plugin in CopyFiles */,
 				F47362D90AFF8758009B6189 /* ImagePreviewer.plugin in CopyFiles */,
 				F47362DA0AFF8758009B6189 /* 2chConnector.plugin in CopyFiles */,
 				F47362DB0AFF8758009B6189 /* PreferencesPane.plugin in CopyFiles */,
@@ -959,6 +965,7 @@
 		8782A762096FD2F40099B65F /* BSIPIImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIImageView.m; sourceTree = "<group>"; };
 		8782A79C096FDBCE0099B65F /* BSIPIActionBtnTbItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIActionBtnTbItem.h; sourceTree = "<group>"; };
 		8782A79D096FDBCE0099B65F /* BSIPIActionBtnTbItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIActionBtnTbItem.m; sourceTree = "<group>"; };
+		8784673E0CE8739000691232 /* BSIPILeopardSlideshowHelper.plugin */ = {isa = PBXFileReference; explicitFileType = "wrapper.plug-in"; name = BSIPILeopardSlideshowHelper.plugin; path = subproj/BSIPILeopardSlideshowHelper/build/Release/BSIPILeopardSlideshowHelper.plugin; sourceTree = SOURCE_ROOT; };
 		87892BC106BD1FEA00790F2F /* warrior.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warrior.png; sourceTree = "<group>"; };
 		87892BC906BD233600790F2F /* brdfile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = brdfile.png; sourceTree = "<group>"; };
 		878A7567088AA85B00539B6F /* HistoryBack.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = HistoryBack.tiff; sourceTree = "<group>"; };
@@ -971,6 +978,8 @@
 		8791EE29097A5BC200EA7475 /* Status_HeadModified.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Status_HeadModified.png; sourceTree = "<group>"; };
 		8792D83B05E21AE20074B2BE /* UTILError.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = UTILError.h; path = ../misc/utilkit/UTILError.h; sourceTree = SOURCE_ROOT; };
 		8794CC0F089C033300161BAB /* BoardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardManager.m; sourceTree = "<group>"; };
+		87956FC80CE720F1004DBDB0 /* BSIPIArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIArrayController.h; sourceTree = "<group>"; };
+		87956FC90CE720F1004DBDB0 /* BSIPIArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIArrayController.m; sourceTree = "<group>"; };
 		8795B92008E3A7EC005C7C5B /* Japanese */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; lineEnding = 0; name = Japanese; path = Japanese.lproj/ToolbarItems.strings; sourceTree = "<group>"; };
 		879653F00BCE48BE0079EDFE /* AppDefaults-FCConvert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-FCConvert.m"; sourceTree = "<group>"; };
 		8796FA400A9189D400DE3A90 /* BSSettingTxtDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSSettingTxtDetector.h; sourceTree = "<group>"; };
@@ -1040,6 +1049,7 @@
 		87DBC6980A867C6D00A1C058 /* syncFinish.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = syncFinish.tiff; sourceTree = "<group>"; };
 		87DF52DC0CC38F6C00D48893 /* BSLoggedInDATDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSLoggedInDATDownloader.h; sourceTree = "<group>"; };
 		87DF52DD0CC38F6C00D48893 /* BSLoggedInDATDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSLoggedInDATDownloader.m; sourceTree = "<group>"; };
+		87DF8EA30CE7593700C43505 /* BSImagePreviewInspector-Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BSImagePreviewInspector-Settings.m"; sourceTree = "<group>"; };
 		87E2264C0833AA5D00E7FC85 /* BathyScaphe.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = BathyScaphe.scriptSuite; sourceTree = "<group>"; };
 		87E2264D0833AA5D00E7FC85 /* BathyScaphe.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = BathyScaphe.scriptTerminology; sourceTree = "<group>"; };
 		87E63BE70B247FA500290BB7 /* BSDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSDateFormatter.h; sourceTree = "<group>"; };
@@ -1552,6 +1562,7 @@
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
 				87016395082BE67200AEFDD0 /* Info-bathyscaphe.plist */,
+				8784673E0CE8739000691232 /* BSIPILeopardSlideshowHelper.plugin */,
 				87299C09083266F700CBD740 /* BathyScaphe.mdimporter */,
 			);
 			name = iTteyoshi002;
@@ -1937,6 +1948,9 @@
 				87751A5909782B82009D4A9C /* BSIPIFullScreenController.m */,
 				87F3D5B00976921C00A1217A /* BSIPIHistoryManager.h */,
 				87F3D5B10976921C00A1217A /* BSIPIHistoryManager.m */,
+				87956FC80CE720F1004DBDB0 /* BSIPIArrayController.h */,
+				87956FC90CE720F1004DBDB0 /* BSIPIArrayController.m */,
+				87DF8EA30CE7593700C43505 /* BSImagePreviewInspector-Settings.m */,
 			);
 			name = core;
 			sourceTree = "<group>";
@@ -2963,6 +2977,7 @@
 				87C397F20A6171AB0095AD06 /* BSIPITableView.h in Headers */,
 				87BB87890B195B4E00472D3F /* BSIPIToken.h in Headers */,
 				87DA14300BE64C9800A81387 /* BSIPIHUDTextField.h in Headers */,
+				87956FCA0CE720F1004DBDB0 /* BSIPIArrayController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3491,6 +3506,7 @@
 				87FC678A0C682E9A00A4C72C /* DownloadableLinkTypes.plist in Resources */,
 				875FF5C60C7FFA960034E371 /* BSTitleRulerAppearance.plist in Resources */,
 				87C4F6010CDEFF6C00412153 /* InsertTemplate.tiff in Resources */,
+				878467460CE8739100691232 /* BSIPILeopardSlideshowHelper.plugin in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3584,6 +3600,8 @@
 				87C2E1A50A68E3C100E40698 /* BSImagePreviewInspector-View.m in Sources */,
 				87BB878A0B195B4E00472D3F /* BSIPIToken.m in Sources */,
 				87DA14310BE64C9800A81387 /* BSIPIHUDTextField.m in Sources */,
+				87956FCB0CE720F2004DBDB0 /* BSIPIArrayController.m in Sources */,
+				87DF8EA40CE7593700C43505 /* BSImagePreviewInspector-Settings.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

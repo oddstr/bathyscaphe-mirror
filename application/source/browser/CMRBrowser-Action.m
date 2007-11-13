@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser-Action.m,v 1.64 2007/10/31 20:54:23 tsawada2 Exp $
+  * $Id: CMRBrowser-Action.m,v 1.65 2007/11/13 02:00:27 tsawada2 Exp $
   * 
   * CMRBrowser-Action.m
   *
@@ -264,6 +264,11 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 	} else {
 		[self openSelectedThreads : sender];
 	}
+}
+
+- (IBAction)selectThreadOnly:(id)sender
+{
+	// do nothing.
 }
 /*
 #pragma mark MeteorSweeper Key Binding Action Additions
