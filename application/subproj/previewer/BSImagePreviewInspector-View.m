@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector-View.m,v 1.7 2007/10/26 14:09:10 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector-View.m,v 1.8 2007/11/13 01:58:39 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/07/15.
@@ -60,7 +60,7 @@ static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInsp
 {
 	return m_cacheNaviMenuFormRep;
 }
-- (NSArrayController *) tripleGreenCubes
+- (BSIPIArrayController *) tripleGreenCubes
 {
 	return m_tripleGreenCubes;
 }
@@ -99,6 +99,13 @@ static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInsp
 	iter = [[[self actionBtn] menu] itemAtIndex : 0];
 	[iter setImage : [self imageResourceWithName: @"Gear"]];
 
+	[[[self actionBtn] cell] setUsesItemFromMenu:YES];
+
+	// Leopard
+	if ([iter respondsToSelector:@selector(setHidden:)]) {
+		[iter setHidden:YES];
+	}
+
 	[[self paneChangeBtn] setLabel: nil forSegment: 0];
 	[[self paneChangeBtn] setLabel: nil forSegment: 1];
 	[[self cacheNavigationControl] setLabel: nil forSegment: 0];
@@ -121,8 +128,11 @@ static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInsp
 	
 	NSString *versionNum = [myself objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
 	if (!versionNum) return;
-	
-	[[self versionInfoField] setStringValue: versionNum];
+
+	if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_4) {
+		[m_fullScreenSettingMatrix setEnabled:NO];
+	}
+	[[self versionInfoField] setStringValue: [NSString stringWithFormat:[self localizedStrForKey:@"Version %@"], versionNum]];
 
 	[[self preferredViewSelector] setLabel: nil forSegment: 0];
 	[[self preferredViewSelector] setLabel: nil forSegment: 1];
@@ -154,25 +164,40 @@ static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInsp
 	return m_versionInfoField;
 }
 
-- (IBAction) endSettingsSheet : (id) sender
+/*- (IBAction) endSettingsSheet : (id) sender
 {
 	NSWindow *sheet_ = [sender window];
 	[NSApp endSheet : sheet_
 		 returnCode : NSOKButton];
 
 	[sheet_ close];
+}*/
+- (void)didEndChooseFolderSheet:(NSOpenPanel *)panel_ returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+	if (returnCode == NSOKButton) {
+		[self setSaveDirectory:[panel_ directory]];
+	}
+	[self updateDirectoryChooser];
 }
 
 - (IBAction) openOpenPanel : (id) sender
 {
 	NSOpenPanel	*panel_ = [NSOpenPanel openPanel];
-	[panel_ setCanChooseFiles : NO];
-	[panel_ setCanChooseDirectories : YES];
-	[panel_ setResolvesAliases : YES];
-	if([panel_ runModalForTypes : nil] == NSOKButton)
+	[panel_ setCanChooseFiles:NO];
+	[panel_ setCanChooseDirectories:YES];
+	[panel_ setResolvesAliases:YES];
+	[panel_ setAllowsMultipleSelection:NO];
+	[panel_ beginSheetForDirectory:nil
+							  file:nil
+							 types:nil
+					modalForWindow:[self settingsPanel]
+					 modalDelegate:self
+					didEndSelector:@selector(didEndChooseFolderSheet:returnCode:contextInfo:)
+					   contextInfo:nil];
+/*	if([panel_ runModalForTypes : nil] == NSOKButton)
 		[self setSaveDirectory : [panel_ directory]];
 
-	[self updateDirectoryChooser];
+	[self updateDirectoryChooser];*/
 }
 
 static NSImage *bsIPI_iconForPath(NSString *sourcePath)

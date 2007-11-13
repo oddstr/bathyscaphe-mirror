@@ -17,8 +17,16 @@
 
 + (id) sharedManager;
 
-- (NSMutableArray *) historyBacket;
-- (void) setHistoryBacket : (NSMutableArray *) aMutableArray;
+// For Key-Value Observing
+- (unsigned int)countOfTokensArray;
+- (id)objectInTokensArrayAtIndex:(unsigned int)index;
+- (void)insertObject:(id)anObject inTokensArrayAtIndex:(unsigned int)index;
+- (void)removeObjectFromTokensArrayAtIndex:(unsigned int)index;
+- (void)replaceObjectInTokensArrayAtIndex:(unsigned int)index withObject:(id)anObject;
+
+- (NSMutableArray *)tokensArray;
+- (void)setTokensArray:(NSMutableArray *)newArray;
+
 
 - (NSString *) dlFolderPath;
 
@@ -29,7 +37,7 @@
 
 - (BOOL) isTokenCachedForURL: (NSURL *) anURL;
 - (BSIPIToken *) cachedTokenForURL: (NSURL *) anURL;
-- (BSIPIToken *) cachedTokenAtIndex: (unsigned) index;
+//- (BSIPIToken *) cachedTokenAtIndex: (unsigned) index;
 - (unsigned) cachedTokenIndexForURL: (NSURL *) anURL;
 - (NSArray *) cachedTokensArrayAtIndexes: (NSIndexSet *) indexes;
 
@@ -47,11 +55,6 @@
 - (BOOL) copyCachedFileForPath: (NSString *) cacheFilePath toPath: (NSString *) copiedFilePath;
 
 - (void) saveCachedFileForTokenAtIndex: (unsigned) index savePanelAttachToWindow: (NSWindow *) aWindow;
-
-- (void) addTokenForURL: (NSURL *) anURL;
-- (void) addToken: (BSIPIToken *) aToken;
-- (void) removeToken: (BSIPIToken *) aToken;
-- (void) removeTokenAtIndexes: (NSIndexSet *) indexes;
 
 - (BOOL) appendDataForTokenAtIndexes: (NSIndexSet *) indexes
 						toPasteboard: (NSPasteboard *) pboard

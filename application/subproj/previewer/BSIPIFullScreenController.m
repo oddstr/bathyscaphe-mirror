@@ -1,9 +1,10 @@
 //
-//  $Id: BSIPIFullScreenController.m,v 1.12 2007/05/07 15:17:25 tsawada2 Exp $
+//  $Id: BSIPIFullScreenController.m,v 1.13 2007/11/13 01:58:39 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.
 //  Copyright 2006 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import "BSIPIFullScreenController.h"
@@ -16,10 +17,8 @@
 @class BSIPIFullScreenWindow;
 
 @interface NSObject(FullScreenDelegateMethodsStub)
-- (void) showPrevImage: (id) sender;
-- (void) showNextImage: (id) sender;
-- (void) saveImage: (id) sender;
-- (void) deleteCachedImage: (id) sender;
+- (void)saveImage:(id)sender;
+- (float)fullScreenWheelAmount;
 @end
 
 @implementation BSIPIFullScreenController
@@ -28,61 +27,59 @@ static NSString *g_rightArrowKey;
 
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)	
 
-- (id) init {
-	self = [super init];
-	if (self != nil) {
+- (id)init
+{
+	if (self = [super init]) {
 		id transformer = [[[BSIPIImageIgnoringDPITransformer alloc] init] autorelease];
-		[NSValueTransformer setValueTransformer: transformer forName: @"BSIPIImageIgnoringDPITransformer"];
+		[NSValueTransformer setValueTransformer:transformer forName:@"BSIPIImageIgnoringDPITransformer"];
 
-		g_leftArrowKey = [[NSString alloc] initWithFormat: @"%C", NSLeftArrowFunctionKey];
-		g_rightArrowKey = [[NSString alloc] initWithFormat: @"%C", NSRightArrowFunctionKey];
+		g_leftArrowKey = [[NSString alloc] initWithFormat:@"%C", NSLeftArrowFunctionKey];
+		g_rightArrowKey = [[NSString alloc] initWithFormat:@"%C", NSRightArrowFunctionKey];
 
-		[NSBundle loadNibNamed: @"BSIPIFullScreen" owner: self];
+		[NSBundle loadNibNamed:@"BSIPIFullScreen" owner:self];
 	}
 	return self;
 }
 
-
-- (void) awakeFromNib
+- (void)awakeFromNib
 {
-    _fullScreenWindow = [[BSIPIFullScreenWindow alloc] initWithContentRect : [[_baseWindow contentView] frame]
-																 styleMask : NSBorderlessWindowMask
-																   backing : [_baseWindow backingType]
-																	 defer : NO];
-    [_fullScreenWindow setDelegate : self];
+	NSView	*contentView;
 
-    {
-        NSView		*content;
+    _fullScreenWindow = [[BSIPIFullScreenWindow alloc] initWithContentRect:[[_baseWindow contentView] frame]
+																 styleMask:NSBorderlessWindowMask
+																   backing:[_baseWindow backingType]
+																	 defer:NO];
+    [_fullScreenWindow setDelegate:self];
 
-        content = [[_baseWindow contentView] retain];
-        [content removeFromSuperview];
-        [_fullScreenWindow setContentView: content];
-        [content release];
-    }
+	contentView = [[_baseWindow contentView] retain];
+	[contentView removeFromSuperview];
+	[_fullScreenWindow setContentView:contentView];
+	[contentView release];
 }
 
-- (id) delegate
+- (id)delegate
 {
 	return m_delegate;
 }
-- (void) setDelegate: (id) aDelegate
+
+- (void)setDelegate:(id)aDelegate
 {
 	m_delegate = aDelegate;
 }
 
-- (NSArrayController *) arrayController
+- (NSArrayController *)arrayController
 {
 	return m_cube;
 }
 
-- (void) setArrayController: (id) aController
+- (void)setArrayController:(id)aController
 {
 	if (aController != m_cube) {
 		m_cube = aController;
 	}
 }
 
-- (void) dealloc
+- (void)dealloc
 {
 	m_delegate = nil;
 	m_cube = nil;
@@ -90,53 +87,52 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 }
 
 // NSValueTransformerNameBindingOption = @"NSValueTransformerName"
-- (NSDictionary *) cachedBindingOptionDict
+- (NSDictionary *)cachedBindingOptionDict
 {
-	static NSDictionary *dict_ = nil;
-	if (dict_ == nil) {
-		dict_ = [[NSDictionary alloc] initWithObjectsAndKeys: @"BSIPIImageIgnoringDPITransformer", @"NSValueTransformerName", NULL];
+	static NSDictionary *imageTransformerDict = nil;
+	if (!imageTransformerDict) {
+		imageTransformerDict = [[NSDictionary alloc] initWithObjectsAndKeys:@"BSIPIImageIgnoringDPITransformer", @"NSValueTransformerName", NULL];
 	}
-	return dict_;
+	return imageTransformerDict;
 }
 
-- (NSDictionary *) cachedBindingOptDictForStatusField
+- (NSDictionary *)cachedBindingOptDictForStatusField
 {
-	static NSDictionary *dictTemplate3_ = nil;
-	if (dictTemplate3_ == nil) {
-		dictTemplate3_ = [[NSDictionary alloc] initWithObjectsAndKeys: NSIsNotNilTransformerName, @"NSValueTransformerName", NULL];
+	static NSDictionary *notNilTransformerDict = nil;
+	if (!notNilTransformerDict) {
+		notNilTransformerDict = [[NSDictionary alloc] initWithObjectsAndKeys:NSIsNotNilTransformerName, @"NSValueTransformerName", NULL];
 	}
-	return dictTemplate3_;
+	return notNilTransformerDict;
 }
 
-- (NSDictionary *) cachedBindingOptDictForStatusMsg
+- (NSDictionary *)cachedBindingOptDictForStatusMsg
 {
-	static NSDictionary *dictTemplate2_ = nil;
-	if (dictTemplate2_ == nil) {
-		NSBundle *selfBundle = [NSBundle bundleForClass: [self class]];
-		NSString *key_ = @"%{value2}@\nCan't show image: %{value1}@";
-		NSString *tmp_ = [selfBundle localizedStringForKey: key_ value: key_ table: nil];
+	static NSDictionary *displayPatternDict = nil;
+	if (!displayPatternDict) {
+		NSString *key = @"%{value2}@\nCan't show image: %{value1}@";
+		NSString *pattern = [[NSBundle bundleForClass:[self class]] localizedStringForKey:key value:key table:nil];
 		
-		dictTemplate2_ = [[NSDictionary alloc] initWithObjectsAndKeys: tmp_, @"NSDisplayPattern", NULL];
+		displayPatternDict = [[NSDictionary alloc] initWithObjectsAndKeys:pattern, @"NSDisplayPattern", NULL];
 	}
-	return dictTemplate2_;
+	return displayPatternDict;
 }
 
-- (void) startFullScreen
+- (void)startFullScreen
 {
-	[self startFullScreen: [NSScreen mainScreen]];
+	[self startFullScreen:[NSScreen mainScreen]];
 }
 
-- (void) startFullScreen: (NSScreen *) whichScreen
+- (void)startFullScreen:(NSScreen *)whichScreen
 {
 	CGDisplayFadeReservationToken	tokenPtr1, tokenPtr2;
 	NSRect							curWinRect, curScreenRect;
 
 	// if whichScreen is the screen which contains the menu bar, ...
-	if (whichScreen == nil) return;
+	if (!whichScreen) return;
 	NSArray *allScreens = [NSScreen screens];
 	if ([allScreens count] == 0) return;
 	
-	if (whichScreen == [allScreens objectAtIndex: 0]) {
+	if (whichScreen == [allScreens objectAtIndex:0]) {
 		SetSystemUIMode(kUIModeAllHidden, kUIOptionDisableProcessSwitch);
 	} else {
 		SetSystemUIMode(kUIModeContentHidden, kUIOptionDisableProcessSwitch);
@@ -146,8 +142,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 	curWinRect = [_fullScreenWindow frame];
 	curScreenRect = [whichScreen frame];
 	
-	if (NO == NSEqualRects(curWinRect, curScreenRect)) {
-		[_fullScreenWindow setFrame: curScreenRect display: YES];
+	if (!NSEqualRects(curWinRect, curScreenRect)) {
+		[_fullScreenWindow setFrame:curScreenRect display:YES];
 	}
 
 	// Quartz!
@@ -156,35 +152,35 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 			tokenPtr1,
 			0.8,							// フェードにかける秒数：0.8
 			kCGDisplayBlendNormal,			// 開始状態
-			kCGDisplayBlendSolidColor,			// 終了状態
+			kCGDisplayBlendSolidColor,		// 終了状態
 			0.0, 0.0, 0.0,					// R, G, B：真っ黒
 			FALSE							// 完了を待つか：待たない
 		);
 
-		CGReleaseDisplayFadeReservation (tokenPtr1);
+		CGReleaseDisplayFadeReservation(tokenPtr1);
 	}
 
-	[_imageView bind: @"value"
-			toObject: [self arrayController]
-		 withKeyPath: @"selection.downloadedFilePath"
-			 options: [self cachedBindingOptionDict]];
+	[_imageView bind:@"value"
+			toObject:[self arrayController]
+		 withKeyPath:@"selection.downloadedFilePath"
+			 options:[self cachedBindingOptionDict]];
 
-	[_statusField bind: @"hidden"
-			toObject: [self arrayController]
-		 withKeyPath: @"selection.downloadedFilePath"
-			 options: [self cachedBindingOptDictForStatusField]];
+	[_statusField bind:@"hidden"
+			  toObject:[self arrayController]
+		   withKeyPath:@"selection.downloadedFilePath"
+			   options:[self cachedBindingOptDictForStatusField]];
 
-	[_statusField bind: @"displayPatternValue1"
-			toObject: [self arrayController]
-		 withKeyPath: @"selection.statusMessage"
-			 options: [self cachedBindingOptDictForStatusMsg]];
+	[_statusField bind:@"displayPatternValue1"
+			  toObject:[self arrayController]
+		   withKeyPath:@"selection.statusMessage"
+			   options:[self cachedBindingOptDictForStatusMsg]];
 
-	[_statusField bind: @"displayPatternValue2"
-			toObject: [self arrayController]
-		 withKeyPath: @"selection.sourceURL"
-			 options: nil];
+	[_statusField bind:@"displayPatternValue2"
+			  toObject:[self arrayController]
+		   withKeyPath:@"selection.sourceURL"
+			   options:nil];
 
-    [_fullScreenWindow makeKeyAndOrderFront: nil];
+    [_fullScreenWindow makeKeyAndOrderFront:nil];
 	
 	if (kCGErrorSuccess == CGAcquireDisplayFadeReservation(kCGMaxDisplayReservationInterval, &tokenPtr2)) {
 		CGDisplayFade(
@@ -196,17 +192,17 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 			FALSE							// 完了を待つか：待たない
 		);
 
-		CGReleaseDisplayFadeReservation (tokenPtr2);
+		CGReleaseDisplayFadeReservation(tokenPtr2);
 	}
 
-	[NSCursor setHiddenUntilMouseMoves : YES];
+	[NSCursor setHiddenUntilMouseMoves:YES];
 }
 
-- (void) endFullScreen
+- (void)endFullScreen
 {
 	CGDisplayFadeReservationToken tokenPtr;
 
-	[NSCursor setHiddenUntilMouseMoves : NO]; // 念のため
+	[NSCursor setHiddenUntilMouseMoves:NO]; // 念のため
 
 	if (kCGErrorSuccess == CGAcquireDisplayFadeReservation(kCGMaxDisplayReservationInterval, &tokenPtr)) {
 		CGDisplayFade(
@@ -218,113 +214,126 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 			FALSE							// don't wait for completion
 		);
 
-		CGReleaseDisplayFadeReservation (tokenPtr);
+		CGReleaseDisplayFadeReservation(tokenPtr);
 	}
-    [_fullScreenWindow orderOut: nil];
-	[_imageView unbind: @"value"];
-	[_statusField unbind: @"displayPatternValue2"];
-	[_statusField unbind: @"displayPatternValue1"];
-	[_statusField unbind: @"hidden"];
+    [_fullScreenWindow orderOut:nil];
+	[_imageView unbind:@"value"];
+	[_statusField unbind:@"displayPatternValue2"];
+	[_statusField unbind:@"displayPatternValue1"];
+	[_statusField unbind:@"hidden"];
 
 	SetSystemUIMode(kUIModeNormal, 0);
 
-	[NSObject cancelPreviousPerformRequestsWithTarget: self];
-	[m_noMoreField setHidden: YES];
+	[NSObject cancelPreviousPerformRequestsWithTarget:self];
+	[m_noMoreField setHidden:YES];
 
-	if([[self delegate] respondsToSelector: @selector(fullScreenDidEnd:)])
-		[[self delegate] fullScreenDidEnd: _fullScreenWindow];
+	if ([[self delegate] respondsToSelector:@selector(fullScreenDidEnd:)]) {
+		[[self delegate] fullScreenDidEnd:_fullScreenWindow];
+	}
 }
 
-- (BOOL) fullScreenShowPrevImage: (NSWindow *) window
+- (BOOL)fullScreenShowPrevImage:(NSWindow *)window
 {
-	[NSObject cancelPreviousPerformRequestsWithTarget: self];
-	if ([[self delegate] respondsToSelector: @selector(showPrevImage:)] && [[self arrayController] canSelectPrevious]) {
-		[m_noMoreField setHidden: YES];
-		[[self delegate] showPrevImage: window];
+	NSArrayController *controller = [self arrayController];
+	[NSObject cancelPreviousPerformRequestsWithTarget:self];
+	if ([controller canSelectPrevious]) {
+		[m_noMoreField setHidden:YES];
+		[controller selectPrevious:window];
 	} else {
-		NSString *msg = [[NSBundle bundleForClass: [self class]] localizedStringForKey: @"No Prev Image" value: @"Localized String Not Found" table: nil];
-		[m_noMoreField setStringValue: msg];
-		[m_noMoreField setHidden: NO];
-		[self performSelector: @selector(restoreNoMoreField) withObject: nil afterDelay: 3.0];
+		NSString *msg = [[NSBundle bundleForClass:[self class]] localizedStringForKey:@"No Prev Image" value:@"Localized String Not Found" table:nil];
+		[m_noMoreField setStringValue:msg];
+		[m_noMoreField setHidden:NO];
+		[self performSelector:@selector(restoreNoMoreField) withObject:nil afterDelay:3.0];
 	}
 	return YES;
 }
 
-- (BOOL) fullScreenShowNextImage: (NSWindow *) window 
+- (BOOL)fullScreenShowNextImage:(NSWindow *)window
 {
-	[NSObject cancelPreviousPerformRequestsWithTarget: self];
-	if ([[self delegate] respondsToSelector: @selector(showNextImage:)] && [[self arrayController] canSelectNext]) {
-		[m_noMoreField setHidden: YES];
-		[[self delegate] showNextImage: window];
+	NSArrayController *controller = [self arrayController];
+	[NSObject cancelPreviousPerformRequestsWithTarget:self];
+	if ([controller canSelectNext]) {
+		[m_noMoreField setHidden:YES];
+		[controller selectNext:window];
 	} else {
-		NSString *msg = [[NSBundle bundleForClass: [self class]] localizedStringForKey: @"No Next Image" value: @"Localized String Not Found" table: nil];
-		[m_noMoreField setStringValue: msg];
-		[m_noMoreField setHidden: NO];
-		[self performSelector: @selector(restoreNoMoreField) withObject: nil afterDelay: 3.0];
+		NSString *msg = [[NSBundle bundleForClass:[self class]] localizedStringForKey:@"No Next Image" value:@"Localized String Not Found" table:nil];
+		[m_noMoreField setStringValue:msg];
+		[m_noMoreField setHidden:NO];
+		[self performSelector:@selector(restoreNoMoreField) withObject:nil afterDelay:3.0];
 	}
 	return YES;
 }
 
-- (void) restoreNoMoreField
+- (BOOL)fullScreenSaveImage:(NSWindow *)window
 {
-	[m_noMoreField setHidden: YES];
+	if ([[self delegate] respondsToSelector:@selector(saveImage:)]) {
+		SystemSoundPlay(1);
+		[[self delegate] saveImage:window];
+
+		[NSObject cancelPreviousPerformRequestsWithTarget:self];
+		NSString *msg = [[NSBundle bundleForClass:[self class]] localizedStringForKey:@"Image Saved" value:@"Localized String Not Found" table:nil];
+		[m_noMoreField setStringValue:msg];
+		[m_noMoreField setHidden:NO];
+		[self performSelector:@selector(restoreNoMoreField) withObject:nil afterDelay:3.0];
+		return YES;
+	}
+	return NO;
+}
+
+- (void)restoreNoMoreField
+{
+	[m_noMoreField setHidden:YES];
 }
 
 #pragma mark Delegates
-
-- (BOOL) handlesKeyDown : (NSEvent *) keyDown inWindow : (NSWindow *) window
+- (BOOL)handlesKeyDown:(NSEvent *)keyDown inWindow:(NSWindow *)window
 {
     //	We could also check for the Escape key by testing
     //		[[keyDown characters] isEqualToString: @"\033"]
 	NSString	*pressedKey = [keyDown charactersIgnoringModifiers];
 	unsigned short	keyCode = [keyDown keyCode];
 	
-	if ([pressedKey isEqualToString: g_leftArrowKey]) {
-		return [self fullScreenShowPrevImage: window];
+	if ([pressedKey isEqualToString:g_leftArrowKey]) {
+		return [self fullScreenShowPrevImage:window];
 	}
 	
-	if ([pressedKey isEqualToString: g_rightArrowKey]) {
-		return [self fullScreenShowNextImage: window];
+	if ([pressedKey isEqualToString:g_rightArrowKey]) {
+		return [self fullScreenShowNextImage:window];
 	}
 	
-	if ([pressedKey isEqualToString: @"s"]) {
-		if ([[self delegate] respondsToSelector: @selector(saveImage:)]) {
-			SystemSoundPlay(1);
-			[[self delegate] saveImage: window];
-			return YES;
-		}
+	if ([pressedKey isEqualToString:@"s"]) {
+		return [self fullScreenSaveImage:window];
 	}
 	
 	if (keyCode == 51) { // delete key
-		if ([[self delegate] respondsToSelector: @selector(deleteCachedImage:)]) {
-			SystemSoundPlay(15);
-			[[self delegate] deleteCachedImage: window];
-			[self endFullScreen];
-			return YES;
-		}
+		SystemSoundPlay(15);
+		[[self arrayController] remove:window];
+		[self endFullScreen];
+		return YES;
 	}
-	
+
 	[self endFullScreen];
 	return YES;
 }
 
-- (BOOL) handlesMouseDown : (NSEvent *) mouseDown inWindow: (NSWindow *) window
+- (BOOL)handlesMouseDown:(NSEvent *)mouseDown inWindow:(NSWindow *)window
 {
     //	Close the panel on any click
     [self endFullScreen];
     return YES;
 }
 
-- (BOOL) handlesScrollWheel : (NSEvent *) scrollWheel inWindow: (NSWindow *) window
+- (BOOL)handlesScrollWheel:(NSEvent *)scrollWheel inWindow:(NSWindow *)window
 {
 	float dY = [scrollWheel deltaY];
+	float threshold = [[self delegate] fullScreenWheelAmount];
 
-	if (dY < 0) { // 下回転で次のイメージへ
-		return [self fullScreenShowNextImage: window];
+	if (dY < -1*threshold) { // 下回転で次のイメージへ
+		return [self fullScreenShowNextImage:window];
 	}
-	
-	if (dY > 0) { // 上回転で前のイメージへ
-		return [self fullScreenShowPrevImage: window];
+
+	if (dY > threshold) { // 上回転で前のイメージへ
+		return [self fullScreenShowPrevImage:window];
 	}
 
 	return YES;

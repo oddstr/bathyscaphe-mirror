@@ -1,18 +1,18 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.24 2007/10/29 05:54:46 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.25 2007/11/13 01:58:39 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
-//  Copyright 2005-2006 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import "BSImagePreviewInspector.h"
-
+#import "BSIPIArrayController.h"
 #import "BSIPIFullScreenController.h"
 #import "BSIPIPathTransformer.h"
 #import "BSIPIImageView.h"
 #import "BSIPIToken.h"
-//#import <SGNetwork/BSIPIDownload.h>
 #import <CocoMonar/CMRPropertyKeys.h>
 
 @class BSIPITableView;
@@ -21,218 +21,206 @@
 static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 
 @implementation BSImagePreviewInspector
-- (id) initWithPreferences: (AppDefaults *) prefs
+- (id)initWithPreferences:(AppDefaults *)prefs
 {
-	if (self = [super initWithWindowNibName: kIPINibFileNameKey]) {
+	if (self = [super initWithWindowNibName:kIPINibFileNameKey]) {
 		NSNotificationCenter	*dnc = [NSNotificationCenter defaultCenter];
-		[self setPreferences: prefs];
+		[self setPreferences:prefs];
 
 		id transformer = [[[BSIPIPathTransformer alloc] init] autorelease];
-		[NSValueTransformer setValueTransformer: transformer forName: @"BSIPIPathTransformer"];
+		[NSValueTransformer setValueTransformer:transformer forName:@"BSIPIPathTransformer"];
 
 		id anotherTransformer = [[[BSIPIImageIgnoringDPITransformer alloc] init] autorelease];
-		[NSValueTransformer setValueTransformer: anotherTransformer forName: @"BSIPIImageIgnoringDPITransformer"];
+		[NSValueTransformer setValueTransformer:anotherTransformer forName:@"BSIPIImageIgnoringDPITransformer"];
 
-		[dnc addObserver: self
-				selector: @selector(applicationWillTerminate:)
-					name: NSApplicationWillTerminateNotification
-				  object: NSApp];
-		[dnc addObserver: self
-				selector: @selector(applicationWillReset:)
-					name: CMRApplicationWillResetNotification
-				  object: nil];
-		[dnc addObserver: self
-				selector: @selector(keyWindowChanged:)
-					name: NSWindowDidBecomeKeyNotification
-				  object: nil];
-		[dnc addObserver: self
-				selector: @selector(tokenDidFailDownload:)
-					name: BSIPITokenDownloadErrorNotification
-				  object: nil];
+		[dnc addObserver:self
+				selector:@selector(applicationWillTerminate:)
+					name:NSApplicationWillTerminateNotification
+				  object:NSApp];
+		[dnc addObserver:self
+				selector:@selector(applicationWillReset:)
+					name:CMRApplicationWillResetNotification
+				  object:nil];
+		[dnc addObserver:self
+				selector:@selector(keyWindowChanged:)
+					name:NSWindowDidBecomeKeyNotification
+				  object:nil];
+		[dnc addObserver:self
+				selector:@selector(tokenDidFailDownload:)
+					name:BSIPITokenDownloadErrorNotification
+				  object:nil];
 	}
 	return self;
 }
 
-- (void) dealloc
+- (void)dealloc
 {
-	[[NSNotificationCenter defaultCenter] removeObserver: self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[_preferences release];
 	[super dealloc];
 }
 
-- (AppDefaults *) preferences
+- (AppDefaults *)preferences
 {
 	return _preferences;
 }
-- (void) setPreferences : (AppDefaults *) prefs
+- (void)setPreferences:(AppDefaults *)prefs
 {
-	id		tmp;
-	
-	tmp = _preferences;
-	_preferences = [prefs retain];
-	[tmp release];
+	[prefs retain];
+	[_preferences release];
+	_preferences = prefs;
 }
 
-- (NSMutableArray *) historyItems
+- (id)historyManager
 {
-	return [[BSIPIHistoryManager sharedManager] historyBacket];
+	return [BSIPIHistoryManager sharedManager];
 }
 
-- (IBAction) togglePreviewPanel : (id) sender
+- (IBAction)togglePreviewPanel:(id)sender
 {
 	if ([[self window] isVisible]) {
 		// orderOut: では windowWillClose: はもちろん呼ばれない。
-		if ([self resetWhenHide]) [[self tripleGreenCubes] setSelectionIndex: NSNotFound];
-		[[self window] orderOut : sender];
+		if ([self resetWhenHide]) [[self tripleGreenCubes] setSelectionIndex:NSNotFound];
+		[[self window] orderOut:sender];
 	} else {
-		[self showWindow : sender];
+		[self showWindow:sender];
 	}
 }
 
 #pragma mark Actions
-- (IBAction) copyURL : (id) sender
-{
-	[[BSIPIHistoryManager sharedManager] appendDataForTokenAtIndexes: [[self tripleGreenCubes] selectionIndexes]
-														toPasteboard: [NSPasteboard generalPasteboard]
-											 withFilenamesPboardType: NO];
-}
-
-- (IBAction) beginSettingsSheet : (id) sender
+- (IBAction)beginSettingsSheet:(id)sender
 {
 	[self updateDirectoryChooser];
-	[NSApp beginSheet : [self settingsPanel]
+/*	[NSApp beginSheet : [self settingsPanel]
 	   modalForWindow : [self window]
 		modalDelegate : self
 	   didEndSelector : nil
-		  contextInfo : nil];
+		  contextInfo : nil];*/
+	[[self settingsPanel] center];
+	[[self settingsPanel] makeKeyAndOrderFront:sender];
 }
 
-- (IBAction) forceRunTbCustomizationPalette: (id) sender
+- (IBAction)forceRunTbCustomizationPalette:(id)sender
 {
-	[[self window] runToolbarCustomizationPalette: self];
+	[[self window] runToolbarCustomizationPalette:self];
 }
 
-- (IBAction) openImage : (id) sender
+- (IBAction)copyURL:(id)sender
 {
-	[[BSIPIHistoryManager sharedManager] openURLForTokenAtIndexes: [[self tripleGreenCubes] selectionIndexes]
-													 inBackground: [[self preferences] openInBg]];
+	[[self historyManager] appendDataForTokenAtIndexes:[[self tripleGreenCubes] selectionIndexes]
+										  toPasteboard:[NSPasteboard generalPasteboard]
+							   withFilenamesPboardType:NO];
 }
 
-- (IBAction) openImageWithPreviewApp : (id) sender
+- (IBAction)openImage:(id)sender
 {
-	[[BSIPIHistoryManager sharedManager] openCachedFileForTokenAtIndexesWithPreviewApp: [[self tripleGreenCubes] selectionIndexes]];
+	[[self historyManager] openURLForTokenAtIndexes:[[self tripleGreenCubes] selectionIndexes]
+									   inBackground:[[self preferences] openInBg]];
 }
 
-- (IBAction) startFullscreen : (id) sender
+- (IBAction)openImageWithPreviewApp:(id)sender
 {
-	m_shouldRestoreKeyWindow = [[self window] isKeyWindow];
+	[[self historyManager] openCachedFileForTokenAtIndexesWithPreviewApp:[[self tripleGreenCubes] selectionIndexes]];
+}
 
-	NSIndexSet *tmp_ = [[self tripleGreenCubes] selectionIndexes];
-	if ([tmp_ count] > 1) {
-		[[self tripleGreenCubes] setSelectionIndex: [tmp_ firstIndex]];
+- (IBAction)startFullscreen:(id)sender
+{
+	if ([self useIKSlideShowOnLeopard]) {
+		NSString *helperBundleFullPath = [[[NSBundle mainBundle] builtInPlugInsPath] stringByAppendingPathComponent:@"BSIPILeopardSlideshowHelper.plugin"];
+		NSBundle *helperBundle = [NSBundle bundleWithPath:helperBundleFullPath];
+		if (!helperBundle) {
+			NSLog(@"ERROR - Could not load BSIPILeopardSlideshowHelper.plugin...");
+			return;
+		}
+		Class helper = [helperBundle principalClass];
+		id instance = [helper sharedInstance];
+		[instance setArrayController:[self tripleGreenCubes]];
+		[instance startSlideshow];
+	} else {
+		m_shouldRestoreKeyWindow = [[self window] isKeyWindow];
+
+		NSIndexSet *tmp_ = [[self tripleGreenCubes] selectionIndexes];
+		if ([tmp_ count] > 1) {
+			[[self tripleGreenCubes] setSelectionIndex:[tmp_ firstIndex]];
+		}
+
+		[[BSIPIFullScreenController sharedInstance] setDelegate:self];
+		[[BSIPIFullScreenController sharedInstance] setArrayController:[self tripleGreenCubes]];
+
+		[[BSIPIFullScreenController sharedInstance] startFullScreen:[[self window] screen]];
 	}
-
-	[[BSIPIFullScreenController sharedInstance] setDelegate: self];
-	[[BSIPIFullScreenController sharedInstance] setArrayController: [self tripleGreenCubes]];
-
-	[[BSIPIFullScreenController sharedInstance] startFullScreen: [[self window] screen]];
 }
 
-- (IBAction) saveImage : (id) sender
+- (IBAction)saveImage:(id)sender
 {
-	[[BSIPIHistoryManager sharedManager] copyCachedFileForTokenAtIndexes: [[self tripleGreenCubes] selectionIndexes]
-															  intoFolder: [self saveDirectory]];
+	[[self historyManager] copyCachedFileForTokenAtIndexes:[[self tripleGreenCubes] selectionIndexes]
+												intoFolder:[self saveDirectory]];
 }
 
-- (IBAction) saveImageAs: (id) sender
+- (IBAction)saveImageAs:(id)sender
 {
 	m_shouldRestoreKeyWindow = [[self window] isKeyWindow];
 
-	[[BSIPIHistoryManager sharedManager] saveCachedFileForTokenAtIndex: [[self tripleGreenCubes] selectionIndex]
-											   savePanelAttachToWindow: [self window]];
+	[[self historyManager] saveCachedFileForTokenAtIndex:[[self tripleGreenCubes] selectionIndex]
+								 savePanelAttachToWindow:[self window]];
 }
 
-- (IBAction) cancelDownload : (id) sender
+- (IBAction)cancelDownload:(id)sender
 {
-	[[BSIPIHistoryManager sharedManager] makeTokensCancelDownloadAtIndexes: [[self tripleGreenCubes] selectionIndexes]];
+	[[self historyManager] makeTokensCancelDownloadAtIndexes:[[self tripleGreenCubes] selectionIndexes]];
 }
 
 - (IBAction)retryDownload:(id)sender
 {
-	[[BSIPIHistoryManager sharedManager] makeTokensRetryDownloadAtIndexes:[[self tripleGreenCubes] selectionIndexes]];
+	[[self historyManager] makeTokensRetryDownloadAtIndexes:[[self tripleGreenCubes] selectionIndexes]];
 }
 
-- (IBAction) showPrevImage: (id) sender
-{
-	[[self tripleGreenCubes] selectPrevious: sender];
-}
-
-- (IBAction) showNextImage: (id) sender
-{
-	[[self tripleGreenCubes] selectNext: sender];
-}
-
-- (IBAction) historyNavigationPushed: (id) sender
+- (IBAction)historyNavigationPushed:(id)sender
 {
 	int segNum = [sender selectedSegment];
 	if (segNum == 0) {
-		[self showPrevImage: sender];
+		[[self tripleGreenCubes] selectPrevious:sender];
 	} else if (segNum == 1) {
-		[self showNextImage: sender];
+		[[self tripleGreenCubes] selectNext:sender];
 	}
 }
 
-- (IBAction) changePane: (id) sender
+- (IBAction)changePane:(id)sender
 {
-	if ([sender isKindOfClass: [NSSegmentedControl class]]) {
-		[[self tabView] selectTabViewItemAtIndex: [sender selectedSegment]];
+	if ([sender isKindOfClass:[NSSegmentedControl class]]) {
+		[[self tabView] selectTabViewItemAtIndex:[sender selectedSegment]];
 	} else {
-		int current_ = [[self tabView] indexOfTabViewItem: [[self tabView] selectedTabViewItem]];
-		[[self tabView] selectTabViewItemAtIndex: (current_ == 0) ? 1 : 0];
-		[[self paneChangeBtn] setSelectedSegment: (current_ == 0) ? 1 : 0];
+		int current_ = [[self tabView] indexOfTabViewItem:[[self tabView] selectedTabViewItem]];
+		[[self tabView] selectTabViewItemAtIndex:(current_ == 0) ? 1 : 0];
+		[[self paneChangeBtn] setSelectedSegment:(current_ == 0) ? 1 : 0];
 	}
 }
 
-- (IBAction) changePaneAndShow: (id) sender
+- (IBAction)changePaneAndShow:(id)sender
 {
 	unsigned	modifier_ = [[NSApp currentEvent] modifierFlags];
 	if (modifier_ & NSAlternateKeyMask) {
-		[self startFullscreen: sender];
+		[self startFullscreen:sender];
 		return;
 	}
-	[[self tabView] selectTabViewItemAtIndex: 0];
-	[[self paneChangeBtn] setSelectedSegment: 0];
+	[[self tabView] selectTabViewItemAtIndex:0];
+	[[self paneChangeBtn] setSelectedSegment:0];
 }
 
-- (IBAction) deleteCachedImage: (id) sender
-{
-	[self willChangeValueForKey: @"historyItems"];
-	[[BSIPIHistoryManager sharedManager] removeTokenAtIndexes: [[self tripleGreenCubes] selectionIndexes]];
-	[self didChangeValueForKey: @"historyItems"];
-}
-
-- (IBAction) resetCache: (id) sender
-{
-	[self willChangeValueForKey: @"historyItems"];
-	[[BSIPIHistoryManager sharedManager] flushCache];
-	[self didChangeValueForKey: @"historyItems"];
-}
-
-- (BOOL) showImageWithURL : (NSURL *) imageURL
+- (BOOL)showImageWithURL:(NSURL *)imageURL
 {
 	/* showWindow:
 	   If the window is an NSPanel object and has its becomesKeyOnlyIfNeeded flag set to YES, the window is displayed in front of
 	   all other windows but is not made key; otherwise it is displayed in front and is made key. This method is useful for menu actions.
 	*/
-	[self showWindow : self];
-	unsigned	index = [[BSIPIHistoryManager sharedManager] cachedTokenIndexForURL: imageURL];
+	[self showWindow:self];
+	unsigned	index = [[self historyManager] cachedTokenIndexForURL:imageURL];
 	if (index == NSNotFound) {
-		[self willChangeValueForKey: @"historyItems"];
-		[[BSIPIHistoryManager sharedManager] addTokenForURL: imageURL];
-		[self didChangeValueForKey: @"historyItems"];
-		[[self tripleGreenCubes] setSelectionIndex: [[self historyItems] count] -1];
+		BSIPIToken *token = [[BSIPIToken alloc] initWithURL:imageURL destination:[[self historyManager] dlFolderPath]];
+		[[self tripleGreenCubes] addObject:token];
+		[token release];
 	} else {
-		[[self tripleGreenCubes] setSelectionIndex: index];
+		[[self tripleGreenCubes] setSelectionIndex:index];
 	}
 	return YES;
 }
@@ -241,70 +229,72 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 {
 	[self showWindow:self];
 	NSEnumerator	*iter = [urls objectEnumerator];
+	BSIPIArrayController *controller = [self tripleGreenCubes];
 	NSURL			*url;
 	unsigned		index;
 
-	[self willChangeValueForKey:@"historyItems"];
+	[controller setSelectsInsertedObjects:NO];
 	while (url = [iter nextObject]) {
-		index = [[BSIPIHistoryManager sharedManager] cachedTokenIndexForURL:url];
+		index = [[self historyManager] cachedTokenIndexForURL:url];
 		if (index == NSNotFound) {
-			[[BSIPIHistoryManager sharedManager] addTokenForURL:url];
+			BSIPIToken *token = [[BSIPIToken alloc] initWithURL:url destination:[[self historyManager] dlFolderPath]];
+			[controller addObject:token];
+			[token release];
 		}
 	}
-	[self didChangeValueForKey:@"historyItems"];
 	if (index != NSNotFound) {
-		[[self tripleGreenCubes] setSelectionIndex:index];
+		[controller setSelectionIndex:index];
 	} else {
-		[[self tripleGreenCubes] setSelectionIndex:[[self historyItems] count]-1];
+		[controller selectLast:nil];
 	}
+	[controller setSelectsInsertedObjects:YES];
 	return YES;
 }
 
-- (BOOL) validateLink: (NSURL *) anURL
+- (BOOL)validateLink:(NSURL *)anURL
 {
 	NSString	*extension = [[[anURL path] pathExtension] lowercaseString];
 	if(!extension) return NO;
-		
-	return [[NSImage imageFileTypes] containsObject: extension];
+
+	return [[NSImage imageFileTypes] containsObject:extension];
 }
 
 #pragma mark Notifications
-- (void) applicationWillTerminate : (NSNotification *) notification
+- (void)applicationWillTerminate:(NSNotification *)aNotification
 {		
-	[[BSIPIHistoryManager sharedManager] flushCache];
-
-	[[NSNotificationCenter defaultCenter] removeObserver : self];
+	[[self historyManager] flushCache];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void) applicationWillReset: (NSNotification *) aNotification
+- (void)applicationWillReset:(NSNotification *)aNotification
 {
-	[self resetCache: nil];
+	[[self tripleGreenCubes] removeAll:nil];
 }
 
-- (void) keyWindowChanged : (NSNotification *) aNotification
+- (void)keyWindowChanged:(NSNotification *)aNotification
 {
-	NSWindow	*window_ = [self window];
-	if([self opaqueWhenKey] && [window_ isVisible]) {
-		if([aNotification object] == window_) {
-			[window_ setAlphaValue : 1.0];
+	NSWindow	*window = [self window];
+	if([self opaqueWhenKey] && [window isVisible]) {
+		if([aNotification object] == window) {
+			[window setAlphaValue:1.0];
 		} else {
-			[window_ setAlphaValue : [self alphaValue]];
+			[window setAlphaValue:[self alphaValue]];
 		}
 	}
 }
 
-- (void) windowWillClose : (NSNotification *) aNotification
+- (void)windowWillClose:(NSNotification *)aNotification
 {
-	if ([self resetWhenHide]) [[self tripleGreenCubes] setSelectionIndex: NSNotFound];
+	if ([self resetWhenHide]) [[self tripleGreenCubes] setSelectionIndex:NSNotFound];
 }
 
-- (void) windowWillBeginSheet: (NSNotification *) aNotification
+- (void)windowWillBeginSheet:(NSNotification *)aNotification
 {
 	NSWindow *window_ = [aNotification object];
 	m_shouldRestoreKeyWindow = [window_ isKeyWindow];
 }
 
-- (void) windowDidEndSheet: (NSNotification *) aNotification
+- (void)windowDidEndSheet:(NSNotification *)aNotification
 {
 	if (m_shouldRestoreKeyWindow) {
 		[[aNotification object] makeKeyWindow];
@@ -312,7 +302,7 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 	m_shouldRestoreKeyWindow = NO;
 }
 
-- (void) fullScreenDidEnd: (NSWindow *) fullScreenWindow
+- (void)fullScreenDidEnd:(NSWindow *)fullScreenWindow
 {
 	if (m_shouldRestoreKeyWindow) {
 		[[self window] makeKeyWindow];
@@ -320,25 +310,29 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 	m_shouldRestoreKeyWindow = NO;
 }
 
-- (void) tokenDidFailDownload: (NSNotification *) aNotification
+- (void)tokenDidFailDownload:(NSNotification *)aNotification
 {
-	if (NO == [self leaveFailedToken]) {
-		[self willChangeValueForKey: @"historyItems"];
-		[[BSIPIHistoryManager sharedManager] removeToken: [aNotification object]];
-		[self didChangeValueForKey: @"historyItems"];
-		[[self tripleGreenCubes] setSelectionIndex: NSNotFound];
+	if (![self leaveFailedToken]) {
+		[[self tripleGreenCubes] removeObject:[aNotification object]];
+		[[self tripleGreenCubes] setSelectionIndex:NSNotFound];
 	}
 }
 
 #pragma mark NSTableView Delegate
-- (BOOL) tableView: (BSIPITableView *) aTableView shouldPerformKeyEquivalent: (NSEvent *) theEvent
+- (void)tableViewSelectionDidChange:(NSNotification *)aNotification
+{
+	NSTableView *tableView = [aNotification object];
+	[tableView scrollRowToVisible:[tableView selectedRow]];
+}
+
+- (BOOL)tableView:(BSIPITableView *)aTableView shouldPerformKeyEquivalent:(NSEvent *)theEvent
 {
 	if ([aTableView selectedRow] == -1) return NO;
 	
 	int whichKey_ = [theEvent keyCode];
 
 	if (whichKey_ == 51) { // delete key
-		[self deleteCachedImage: aTableView];
+		[[self tripleGreenCubes] remove:aTableView];
 		return YES;
 	}
 	
@@ -362,39 +356,39 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 #pragma mark BSIPIImageView Delegate
 - (BOOL) imageView: (BSIPIImageView *) aImageView writeSomethingToPasteboard: (NSPasteboard *) pboard
 {
-	return [[BSIPIHistoryManager sharedManager] appendDataForTokenAtIndexes: [[self tripleGreenCubes] selectionIndexes]
+	return [[self historyManager] appendDataForTokenAtIndexes: [[self tripleGreenCubes] selectionIndexes]
 															   toPasteboard: pboard
 													withFilenamesPboardType: YES];
 }
 
-- (void) imageView: (BSIPIImageView *) aImageView mouseDoubleClicked: (NSEvent *) theEvent
+- (void)imageView:(BSIPIImageView *)aImageView mouseDoubleClicked:(NSEvent *)theEvent
 {
-	if ([aImageView image])
-		[self startFullscreen: aImageView];
+	if ([aImageView image]) [self startFullscreen:aImageView];
 }
 
-- (BOOL) imageView: (BSIPIImageView *) aImageView shouldPerformKeyEquivalent: (NSEvent *) theEvent
+- (BOOL)imageView:(BSIPIImageView *)aImageView shouldPerformKeyEquivalent:(NSEvent *)theEvent
 {
 	NSString	*pressedKey = [theEvent charactersIgnoringModifiers];
 	int whichKey_ = [theEvent keyCode];
+	BSIPIArrayController *controller = [self tripleGreenCubes];
 
 	if (whichKey_ == 51) { // delete key
-		[self deleteCachedImage: aImageView];
+		[controller remove:aImageView];
 		return YES;
 	}
 	
 	if ((whichKey_ == 36) && [aImageView image]) { // return key
-		[self startFullscreen: aImageView];
+		[self startFullscreen:aImageView];
 		return YES;
 	}
 	
-	if ([pressedKey isEqualToString: [NSString stringWithFormat: @"%C", NSLeftArrowFunctionKey]] && [[self tripleGreenCubes] canSelectPrevious]) {
-		[self showPrevImage: aImageView];
+	if ([pressedKey isEqualToString:[NSString stringWithFormat:@"%C", NSLeftArrowFunctionKey]] && [controller canSelectPrevious]) {
+		[controller selectPrevious:aImageView];
 		return YES;
 	}
 	
-	if ([pressedKey isEqualToString: [NSString stringWithFormat: @"%C", NSRightArrowFunctionKey]] && [[self tripleGreenCubes] canSelectNext]) {
-		[self showNextImage: aImageView];
+	if ([pressedKey isEqualToString:[NSString stringWithFormat:@"%C", NSRightArrowFunctionKey]] && [controller canSelectNext]) {
+		[controller selectNext:aImageView];
 		return YES;
 	}
 	return NO;

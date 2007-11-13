@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIHistoryManager.m,v 1.8 2007/08/07 14:07:44 tsawada2 Exp $
+//  $Id: BSIPIHistoryManager.m,v 1.9 2007/11/13 01:58:39 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/12.
@@ -21,7 +21,45 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 	[super dealloc];
 }
 
-- (NSMutableArray *) historyBacket
+#pragma mark Key-Value Observing
+- (unsigned int)countOfTokensArray
+{
+	return [[self tokensArray] count];
+}
+
+- (id)objectInTokensArrayAtIndex:(unsigned int)index
+{
+	return [[self tokensArray] objectAtIndex:index];
+}
+
+- (void)insertObject:(id)anObject inTokensArrayAtIndex:(unsigned int)index
+{
+	[[self tokensArray] insertObject:anObject atIndex:index];
+}
+
+- (void)removeObjectFromTokensArrayAtIndex:(unsigned int)index
+{
+	NSMutableArray	*tokens = [self tokensArray];
+	BSIPIToken *aToken = [tokens objectAtIndex:index];
+
+	if ([aToken isDownloading]) {
+		[aToken cancelDownload];
+	}
+
+	NSString *filePath = [aToken downloadedFilePath];
+	if (filePath) {
+		[[NSFileManager defaultManager] removeFileAtPath:filePath handler:nil];
+	}
+
+	[tokens removeObjectAtIndex:index];
+}
+
+- (void)replaceObjectInTokensArrayAtIndex:(unsigned int)index withObject:(id)anObject
+{
+	[[self tokensArray] replaceObjectAtIndex:index withObject:anObject];
+}
+
+- (NSMutableArray *)tokensArray
 {
 	if (_historyBacket == nil) {
 		_historyBacket = [[NSMutableArray alloc] init];
@@ -29,13 +67,14 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 	return _historyBacket;
 }
 
-- (void) setHistoryBacket : (NSMutableArray *) aMutableArray
+- (void)setTokensArray:(NSMutableArray *)newArray
 {
-	[aMutableArray retain];
+	[newArray retain];
 	[_historyBacket release];
-	_historyBacket = aMutableArray;
+	_historyBacket = newArray;
 }
 
+#pragma mark Utilities
 - (NSString *) createDlFolder
 {
 	NSFileManager	*fm = [NSFileManager defaultManager];
@@ -64,24 +103,24 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 	return _dlFolderPath;
 }
 
-- (void) flushCache
+- (void)flushCache
 {
-	[self setHistoryBacket: [NSMutableArray array]];
+	[self setTokensArray:[NSMutableArray array]];
 	
-	[[NSFileManager defaultManager] removeFileAtPath: [self dlFolderPath] handler: nil];
+	[[NSFileManager defaultManager] removeFileAtPath:[self dlFolderPath] handler:nil];
 	[_dlFolderPath release];
 	_dlFolderPath = nil;
 }
 
 - (NSArray *) arrayOfURLs
 {
-	NSMutableArray *tmp = [self historyBacket];
+	NSMutableArray *tmp = [self tokensArray];
 	return ([tmp count] > 0) ? [tmp valueForKey: @"sourceURL"] : nil;
 }
 
 - (NSArray *) arrayOfPaths
 {
-	NSMutableArray *tmp = [self historyBacket];
+	NSMutableArray *tmp = [self tokensArray];
 	return ([tmp count] > 0) ? [tmp valueForKey : @"downloadedFilePath"] : nil;
 }
 
@@ -93,7 +132,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 	unsigned idx = [array indexOfObject: key];
 	if (idx == NSNotFound) return nil;
 	
-	return [[self historyBacket] objectAtIndex: idx];
+	return [[self tokensArray] objectAtIndex: idx];
 }
 
 - (BOOL) isTokenCachedForURL: (NSURL *) anURL
@@ -105,13 +144,13 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 {
 	return [self searchCachedTokenBy: [self arrayOfURLs] forKey: anURL];
 }
-
+/*
 - (BSIPIToken *) cachedTokenAtIndex: (unsigned) index
 {
 	if (index == NSNotFound) return nil;
-	return [[self historyBacket] objectAtIndex: index];
+	return [[self tokensArray] objectAtIndex: index];
 }
-
+*/
 - (unsigned) cachedTokenIndexForURL: (NSURL *) anURL
 {
 	if (nil == [self arrayOfURLs]) {
@@ -132,7 +171,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 
 	while ([indexes getIndexes: &index maxCount: 1 inIndexRange: &e] > 0)
 	{
-		[array addObject: [[self historyBacket] objectAtIndex: index]];
+		[array addObject: [[self tokensArray] objectAtIndex: index]];
 	}
 
 	return array;
@@ -292,8 +331,10 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 
 - (void) saveCachedFileForTokenAtIndex: (unsigned) index savePanelAttachToWindow: (NSWindow *) aWindow
 {
-	BSIPIToken	*aToken = [self cachedTokenAtIndex: index];
-	if (aToken == nil) return;
+	if (index == NSNotFound) return;
+//	BSIPIToken	*aToken = [self cachedTokenAtIndex: index];
+//	if (aToken == nil) return;
+	BSIPIToken	*aToken = [self objectInTokensArrayAtIndex:index];
 	NSString	*filePath_ = [aToken downloadedFilePath];
 	if (filePath_ == nil) return;
 
@@ -327,92 +368,24 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 	}
 }
 
-#pragma mark Add / Remove Token
-- (void) addTokenForURL: (NSURL *) anURL
-{
-	if (anURL == nil) return;
-	BSIPIToken	*token = [[BSIPIToken alloc] initWithURL: anURL destination: [self dlFolderPath]];
-	[[self historyBacket] addObject: token];
-	[token release];
-}
-
-- (void) addToken: (BSIPIToken *) aToken
-{
-	[[self historyBacket] addObject: aToken];
-}
-
-- (void) removeToken: (BSIPIToken *) aToken
-{
-	if ([aToken isDownloading]) {
-		[aToken cancelDownload];
-	}
-	NSString *filePath = [aToken downloadedFilePath];
-	if (filePath != nil) {
-		[[NSFileManager defaultManager] removeFileAtPath: filePath handler: nil];
-	}
-	[[self historyBacket] removeObject: aToken];
-}
-
-- (void) removeTokenAtIndexes: (NSIndexSet *) indexes
-{
-	NSArray	*tokenArray = [self cachedTokensArrayAtIndexes: indexes];
-	
-/*	if (tokenArray != nil) {
-		NSArray *pathArray = [tokenArray valueForKey: @"downloadedFilePath"];
-		NSEnumerator *iter_ = [pathArray objectEnumerator];
-		NSString	*eachPath;
-		
-		while (eachPath = [iter_ nextObject]) {
-			if ([eachPath isEqual: [NSNull null]]) continue;
-			[[NSFileManager defaultManager] removeFileAtPath: eachPath handler: nil];
-		}
-	}*/
-	if (tokenArray == nil) return;
-	NSEnumerator	*iter_ = [tokenArray objectEnumerator];
-	BSIPIToken		*eachToken_;
-	while (eachToken_ = [iter_ nextObject]) {
-		if ([eachToken_ isDownloading]) {
-			[eachToken_ cancelDownload];
-		}
-		if ([eachToken_ isFileExists]) {
-			[[NSFileManager defaultManager] removeFileAtPath: [eachToken_ downloadedFilePath] handler: nil];
-		}
-	}
-
-	unsigned int bufferSize;
-	unsigned int *buffer;
-	unsigned int count;
-
-	bufferSize = [indexes count];
-	buffer = malloc(sizeof(unsigned int) * bufferSize);
-
-	if (buffer == NULL) return;
-
-	count = [indexes getIndexes: buffer maxCount: bufferSize inIndexRange: nil];
-
-	[[self historyBacket] removeObjectsFromIndices: buffer numIndices: count];
-
-	free(buffer);
-}
-
 #pragma mark NSTableDataSource
-- (NSArray *) arrayForDeclaringTypes
+- (NSArray *)arrayForDeclaringTypes
 {
 	static NSArray *array_ = nil;
-	if (array_ == nil) {
-		array_ = [[NSArray alloc] initWithObjects: NSURLPboardType, NSStringPboardType, nil];
+	if (!array_) {
+		array_ = [[NSArray alloc] initWithObjects:NSURLPboardType, NSStringPboardType, nil];
 	}
 
 	return array_;
 }
 
-- (NSArray *) arrayForAddingTypes
+- (NSArray *)arrayForAddingTypes
 {
 	static NSArray	*additionalArray_ = nil;
-	if (additionalArray_ == nil) {
-		additionalArray_ = [[NSArray alloc] initWithObjects: NSFilenamesPboardType, nil];
+	if (!additionalArray_) {
+		additionalArray_ = [[NSArray alloc] initWithObjects:NSFilenamesPboardType, nil];
 	}
-	
+
 	return additionalArray_;
 }
 
@@ -424,8 +397,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 	NSArray		*urlArray_ = [tokens_ valueForKey: @"sourceURL"];
 	NSString	*joinedURLString_ = [[urlArray_ valueForKey: @"absoluteString"] componentsJoinedByString: @"\n"];
 	
-	NSURL		*url_ = [[self cachedTokenAtIndex: [indexes firstIndex]] sourceURL];
-	
+//	NSURL		*url_ = [[self cachedTokenAtIndex: [indexes firstIndex]] sourceURL];
+	NSURL		*url_ = [[self objectInTokensArrayAtIndex:[indexes firstIndex]] sourceURL];
+
 	[pboard declareTypes: [self arrayForDeclaringTypes] owner: nil];
 
 	if (filenamesType) {

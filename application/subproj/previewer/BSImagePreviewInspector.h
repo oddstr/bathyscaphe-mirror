@@ -1,6 +1,6 @@
 //
 //  BSImagePreviewInspector.h
-//  BathyScaphe Preview Inspector 2.5
+//  BathyScaphe Preview Inspector 2.7
 //
 //  Created by Tsutomu Sawada on 05/10/10.
 //  Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "BSImagePreviewerInterface.h"
 #import "BSIPIHistoryManager.h"
+#import "BSIPIArrayController.h"
 
 @class BSIPIToken;
 /*
@@ -32,14 +33,16 @@ typedef enum _BSIPIRedirectionBehavior {
 	IBOutlet NSTextField			*m_versionInfoField;
 	IBOutlet NSMenu					*m_cacheNaviMenuFormRep;
 	IBOutlet NSSegmentedControl		*m_preferredViewSelector;
-	IBOutlet NSArrayController		*m_tripleGreenCubes;
+	IBOutlet NSMatrix				*m_fullScreenSettingMatrix;
+	IBOutlet BSIPIArrayController	*m_tripleGreenCubes;
 
 	@private
 	AppDefaults		*_preferences;
 	BOOL			m_shouldRestoreKeyWindow;
 }
 
-- (NSMutableArray *) historyItems;
+// Content object for BSIPIArrayController.
+- (id)historyManager;
 
 // Actions
 - (IBAction) openImage : (id) sender;
@@ -56,13 +59,7 @@ typedef enum _BSIPIRedirectionBehavior {
 - (IBAction) historyNavigationPushed: (id) sender;
 - (IBAction) changePane: (id) sender;
 
-- (IBAction) showPrevImage: (id) sender;
-- (IBAction) showNextImage: (id) sender;
-
 - (IBAction) forceRunTbCustomizationPalette: (id) sender;
-- (IBAction) deleteCachedImage: (id) sender;
-
-- (IBAction) resetCache: (id) sender;
 @end
 
 @interface BSImagePreviewInspector(Settings)
@@ -90,11 +87,14 @@ typedef enum _BSIPIRedirectionBehavior {
 - (int) lastShownViewTag;
 - (void) setLastShownViewTag: (int) aTag;
 
-//- (BSIPIRedirectionBehavior) redirectionBehavior;
-//- (void) setRedirectionBehavior: (BSIPIRedirectionBehavior) aTag;
-
 - (BOOL) leaveFailedToken;
 - (void) setLeaveFailedToken: (BOOL) leave;
+
+- (float)fullScreenWheelAmount;
+- (void)setFullScreenWheelAmount:(float)floatValue;
+
+- (BOOL)useIKSlideShowOnLeopard;
+- (void)setUseIKSlideShowOnLeopard:(BOOL)flag;
 @end
 
 @interface BSImagePreviewInspector(ToolbarAndUtils)
@@ -114,11 +114,11 @@ typedef enum _BSIPIRedirectionBehavior {
 - (NSSegmentedControl *) paneChangeBtn;
 - (NSTableColumn *) nameColumn;
 - (NSMenu *) cacheNaviMenuFormRep;
-- (NSArrayController *) tripleGreenCubes;
+- (BSIPIArrayController *) tripleGreenCubes;
 @end
 
 @interface BSImagePreviewInspector(Preferences)
-- (IBAction) endSettingsSheet: (id) sender;
+//- (IBAction) endSettingsSheet: (id) sender;
 - (IBAction) openOpenPanel: (id) sender;
 
 - (NSPopUpButton *) directoryChooser;
