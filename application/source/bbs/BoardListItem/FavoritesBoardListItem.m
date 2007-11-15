@@ -26,7 +26,7 @@
 	
 	return _sharedInstance;
 }
-
+/*
 - (id) init
 {
 	if (self = [super init]) {
@@ -39,6 +39,18 @@
 		[self setQuery : query];
 	}
 	
+	return self;
+}*/
+- (id) init
+{
+	if (self = [super init]) {
+		NSMutableString *query = [NSMutableString string];
+		[query appendFormat : @"SELECT * FROM %@ AS a\n", BoardThreadInfoViewName];
+		[query appendFormat : @"WHERE EXISTS (SELECT %@ FROM %@ AS b WHERE a.%@ = b.%@ AND a.%@ = b.%@)",
+		ThreadIDColumn, FavoritesTableName, ThreadIDColumn, ThreadIDColumn, BoardIDColumn, BoardIDColumn];
+		[self setQuery : query];
+	}
+
 	return self;
 }
 

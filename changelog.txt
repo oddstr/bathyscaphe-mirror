@@ -1,4 +1,6 @@
 2007-11-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/bbs/BoardListItem/FavoritesBoardListItem.m
+		2ch スレに書き込まれた修正を反映。
 	* application/source/CMRAppDelegate.m
 	* application/subproj/preference/pane/PreferencesPane-PCManagement.m
 	* application/subproj/preference/pane/PreferencesPane-Toolbar.m
