@@ -135,7 +135,7 @@
 	NSString *replacedString;
 	NSBundle	*bundle = [NSBundle mainBundle];
 	NSString *marker = [self localizedString:@"BugReportMarker"];
-	NSDictionary *dict = [CMRPref installedPreviewerInfoDict];
+	NSDictionary *dict = [[CMRPref installedPreviewerBundle] infoDictionary];
 
 	replacedString = [NSString stringWithFormat:base, 
 						[[NSProcessInfo processInfo] operatingSystemVersionString],

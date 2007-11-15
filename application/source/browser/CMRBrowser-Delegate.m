@@ -500,9 +500,10 @@ BOOL isOptionKeyDown(void)
 - (void)sleepDidEnd:(NSNotification *)aNotification
 {
 	if ([CMRPref isOnlineMode] && [CMRPref autoReloadListWhenWake] && ![[self currentThreadsList] isFavorites]) {
-		id value = SGTemplateResource(kThreadsListReloadDelayKey);
-		UTILAssertKindOfClass(value, NSNumber);
-		NSTimeInterval delay = [value doubleValue];
+//		id value = SGTemplateResource(kThreadsListReloadDelayKey);
+//		UTILAssertKindOfClass(value, NSNumber);
+//		NSTimeInterval delay = [value doubleValue];
+		NSTimeInterval delay = [CMRPref delayForAutoReloadAtWaking];
 		[self performSelector:@selector(reloadThreadsList:) withObject:nil afterDelay:delay];
 	}
 }

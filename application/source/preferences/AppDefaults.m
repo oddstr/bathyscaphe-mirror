@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.28 2007/11/11 08:49:44 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.29 2007/11/15 13:21:51 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -73,7 +73,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 }
 - (void) dealloc
 {
-	[m_installedPreviewerInfo release];
+	m_installedPreviewer = nil;
 	[m_backgroundColorDictionary release];
 	[m_threadsListDictionary release];
 	[m_threadViewerDictionary release];
@@ -517,6 +517,28 @@ default_browserLastBoard:
 - (BOOL)disablesHistorySegCtrlMenu
 {
 	return [[self defaults] boolForKey:@"DisablesHistoryButtonPopupMenu" defaultValue:DEFAULT_HISTORY_SEGCTRL_MENU];
+}
+
+- (NSTimeInterval)delayForAutoReloadAtWaking
+{
+	NSTimeInterval delay;
+	id	value = [[self defaults] objectForKey:@"DelayForAutoReloadAtWaking"];
+
+	if (!value || ![value isKindOfClass:[NSNumber class]]) {
+		// import from KeyValueTemplates.plist
+		id keyValueTemplateValue = SGTemplateResource(@"Browser - DelayForAutoReloadAtWaking");
+		UTILAssertKindOfClass(keyValueTemplateValue, NSNumber);
+		delay = [keyValueTemplateValue doubleValue];
+	} else {
+		delay = [(NSNumber *)value doubleValue];
+	}
+
+	return delay;
+}
+
+- (void)setDelayForAutoReloadAtWaking:(NSTimeInterval)doubleValue
+{
+	[[self defaults] setObject:[NSNumber numberWithDouble:doubleValue] forKey:@"DelayForAutoReloadAtWaking"];
 }
 @end
 

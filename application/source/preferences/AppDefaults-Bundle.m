@@ -1,5 +1,5 @@
 /**
- * $Id: AppDefaults-Bundle.m,v 1.16 2007/11/11 08:49:44 tsawada2 Exp $
+ * $Id: AppDefaults-Bundle.m,v 1.17 2007/11/15 13:21:51 tsawada2 Exp $
  * 
  * AppDefaults-Bundle.m
  *
@@ -77,14 +77,6 @@ static Class st_class_2chAuthenticater;
 								 ofType : type
 							inDirectory : bundlePath])
             break;
-    /*NSBundle *bundle_;
-    NSString *path_;
-    
-    bundle_ = [NSBundle mainBundle];
-    
-    path_ = [bundle_ pathForResource : bundleName 
-                              ofType : type
-                         inDirectory : bundlePath];*/
     
     if (nil == path_) {
         NSString *plugInsPath_;
@@ -98,17 +90,12 @@ static Class st_class_2chAuthenticater;
     return [NSBundle bundleWithPath : path_];
 }
 
-//- (id) _imagePreviewer
 - (id)loadImagePreviewer
 {
     static Class kPreviewerInstance;
-//	NSString		*pClassName;
-
-//	pClassName = @"Unknown";
     
     if (Nil == kPreviewerInstance) {
         NSBundle		*module;
-//		NSDictionary	*infoPlist;
 		Class			previewerClass;
 
         module = [self moduleWithName:ImagePreviewerPluginName ofType:ImagePreviewerPluginType inDirectory:@"PlugIns"];
@@ -118,17 +105,8 @@ static Class st_class_2chAuthenticater;
             return nil;
         }
 
-//		infoPlist = [module infoDictionary];
-//		pClassName = [infoPlist objectForKey : @"NSPrincipalClass"];
+		m_installedPreviewer = module;
 
-//		if (pClassName) {
-//			Class pluginClass = NSClassFromString(pClassName);
-//			if (!pluginClass) {
-//				kPreviewerInstance = [module principalClass];
-				//NSLog(@"We load plugin <%@.%@>, and load its principal class <%@>",
-				//		ImagePreviewerPluginName, ImagePreviewerPluginType, pClassName);
-//			}
-//		}
 		previewerClass = [module principalClass];
 		if (!previewerClass || ![previewerClass conformsToProtocol:@protocol(BSImagePreviewerProtocol)]) {
 			NSLog(@"Principal class <%@> doesn't conform to protocol BSImagePreviewerProtocol! So we cancel loading this plugin", 
@@ -137,23 +115,8 @@ static Class st_class_2chAuthenticater;
 		}
 		
 		kPreviewerInstance = previewerClass;
-		[self setInstalledPreviewerInfoDict:[module infoDictionary]];
 	}
 	return [[[kPreviewerInstance alloc] initWithPreferences:self] autorelease];
-/*
-    }
-    if (Nil == kPreviewerInstance) {
-        NSLog(@"Couldn't load principal class <%@> in <%@.%@>", 
-                pClassName, ImagePreviewerPluginName, ImagePreviewerPluginType);
-        return nil;
-    }
-	if ([kPreviewerInstance conformsToProtocol : @protocol(BSImagePreviewerProtocol)]) {
-		return [[[kPreviewerInstance alloc] initWithPreferences : self] autorelease];
-	} else {
-        NSLog(@"Principal class <%@> doesn't conform to protocol BSImagePreviewerProtocol! So we cancel loading this plugin", 
-                pClassName);
-        return nil;
-    }*/
 }
 
 - (id) _preferencesPane
@@ -187,7 +150,6 @@ static Class st_class_2chAuthenticater;
 - (id<w2chConnect>) w2chConnectWithURL : (NSURL        *) anURL
                             properties : (NSDictionary *) properties
 {
-//    static Class st_class_2chAuthenticater;
     static Class st_class_2chConnector;
     
     if (Nil == st_class_2chConnector) {
@@ -248,9 +210,7 @@ static Class st_class_2chAuthenticater;
 }
 
 - (id<w2chAuthenticationStatus>)shared2chAuthenticator
-{
-//    static Class st_class_2chAuthenticater;
-    
+{    
     if (Nil == st_class_2chAuthenticater) {
         NSBundle *module_;
         
@@ -272,19 +232,24 @@ static Class st_class_2chAuthenticater;
 	return [st_class_2chAuthenticater defaultAuthenticater];
 }
 
-- (NSDictionary *)installedPreviewerInfoDict
+- (NSBundle *)installedPreviewerBundle
 {
-	if (!m_installedPreviewerInfo) {
+	if (!m_installedPreviewer) {
 		[self loadImagePreviewer];
 	}
-	return m_installedPreviewerInfo;
+	return m_installedPreviewer;
 }
 
-- (void)setInstalledPreviewerInfoDict:(NSDictionary *)dict
+- (void)letPreviewerShowPreferences:(id)sender
 {
-	[dict retain];
-	[m_installedPreviewerInfo release];
-	m_installedPreviewerInfo = dict;
+	if ([self previewerSupportsShowingPreferences]) {
+		[[self sharedImagePreviewer] showPreviewerPreferences:sender];
+	}
+}
+
+- (BOOL)previewerSupportsShowingPreferences
+{
+	return [[self sharedImagePreviewer] respondsToSelector:@selector(showPreviewerPreferences:)];
 }
 
 /*

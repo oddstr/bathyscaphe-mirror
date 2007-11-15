@@ -1,3 +1,37 @@
+2007-11-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/LinkPrefController.[h|m]
+	* application/subproj/preference/Japanese.lproj/LinkPreferences.nib
+	* application/subproj/preference/rsrc/LinkPreferences.tiff
+		[新規追加] 環境設定の「詳細」および「一般」の一部内容を独立させて、「リンク」を新設した。
+	* application/subproj/preference/pane/PreferencesPane-PCManagement.m
+	* application/subproj/preference/pane/PreferencesPane-Toolbar.m
+	* application/subproj/preference/Japanese.lproj/AdvancedPane.nib
+	* application/subproj/preference/AdvancedPrefController.m
+		「詳細」ペインには、KeyValueTemplates.plist にあった「browser - delayForAutoReloadAtWaking」の
+		設定項目を追加した。また、スリープ解除時に一覧を更新するオプションを「一般」から移設した。
+	* application/subproj/preference/Japanese.lproj/Localizable.strings
+	* application/subproj/preference/Japanese.lproj/GeneralPreferences.nib
+		一部の項目が「詳細」と「リンク」ペインに移動した。
+	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
+		レイアウトの調整、ツールチップの内容見直し、バージョン番号表示の廃止。
+	* application/subproj/previewer/Japanese.lproj/InfoPlist.strings
+		[新規追加] ImagePreviewer.plugin の Info.plist の一部項目をローカライズするために追加。
+	* application/source/preferences/AppDefaults.m
+	* application/source/browser/CMRBrowser-Delegate.m
+		KeyValueTemplates.plist にあった「browser - delayForAutoReloadAtWaking」の
+		設定を AppDefaults に移動した（KeyValueTemplates.plist をカスタマイズしていた場合、その設定値が
+		自動的に読み取られる。ただし、環境設定から一度この設定値を変更すると、jp.tsawada2.BathyScaphe.plist
+		の方に変更後の値が記録され、以後は jp.tsawada2.BathyScaphe.plist から値が読み出されるようになる）。
+	* application/source/preferences/AppDefaults-Bundle.m
+		プレビュープラグインの info dictionary へより柔軟にアクセスできるようにするため、プラグインバンドルの
+		info dictionary ではなく、プラグインバンドルそのものへのアクセサを用意するようにした。
+	* application/source/window/CMRReplyController.m
+		微修正。
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+	* application/subproj/previewer/BSImagePreviewInspector-View.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/BSImagePreviewerInterface.h
+		コードの整理、細部の修整など。
 2007-11-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadViewer-ViewAccessor.m
 		Leopard 対策：ポップアップ内のテキスト・ビューで -[NSTextView setDisplaysLinkToolTips:] を NO にセットし忘れていたので修正。
