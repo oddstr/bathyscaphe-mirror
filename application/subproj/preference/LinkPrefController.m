@@ -1,27 +1,20 @@
 //
-//  AdvancedPrefController.m
-//  BachyScaphe
+//  LinkPrefController.m
+//  BathyScaphe
 //
-//  Created by Tsutomu Sawada on 05/05/22.
-//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
-//  encoding="UTF-8"
+//  Created by 澤田 勉 on 07/11/14.
+//  Copyright 2007 __MyCompanyName__. All rights reserved.
 //
 
-#import "AdvancedPrefController.h"
+#import "LinkPrefController.h"
 #import "PreferencePanes_Prefix.h"
 
-static NSString *const kAdvancedPaneLabelKey = @"Advanced Label";
-static NSString *const kAdvancedPaneToolTipKey = @"Advanced ToolTip";
-static NSString *const kAdvancedPaneIconKey = @"AdvancedPreferences";
-static NSString *const kAdvancedPaneHelpAnchorKey = @"Help_Advanced";
-
-
-@implementation AdvancedPrefController
+@implementation LinkPrefController
 - (NSString *)mainNibName
 {
-	return @"AdvancedPane";
+	return @"LinkPreferences";
 }
-/*
+
 #pragma mark IBActions
 - (void)didEndChooseFolderSheet:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
@@ -32,11 +25,6 @@ static NSString *const kAdvancedPaneHelpAnchorKey = @"Help_Advanced";
 		[[self preferences] setLinkDownloaderDestination:folderPath_];
 	}
 	[self updateFolderButtonUI];
-}
-
-- (void)didEndExtensionsEditor:(NSPanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
-{
-	[sheet close];
 }
 
 - (IBAction)chooseDestination:(id)sender
@@ -56,39 +44,25 @@ static NSString *const kAdvancedPaneHelpAnchorKey = @"Help_Advanced";
 					   contextInfo:nil];
 }
 
-- (IBAction)openSheet:(id)sender
-{
-	[NSApp beginSheet:[self extensionsEditor]
-	   modalForWindow:[self window]
-	    modalDelegate:self
-	   didEndSelector:@selector(didEndExtensionsEditor:returnCode:contextInfo:)
-		  contextInfo:nil];
-}
-
-- (IBAction)closeSheet:(id)sender
-{
-	[NSApp endSheet:[self extensionsEditor] returnCode:NSOKButton];
-}
-
 - (IBAction)openPreviewerPrefs:(id)sender
 {
 	[[self preferences] letPreviewerShowPreferences:sender];
 }
 
 #pragma mark Accessors
-- (NSPopUpButton *)dlFolderBtn
+- (NSPopUpButton *)downloadDestinationChooser
 {
-	return m_dlFolderBtn;
+	return m_downloadDestinationChooser;
 }
 
-- (NSButton *)openSheetBtn
+- (NSTextField *)previewerNameField
 {
-	return m_openSheetBtn;
+	return m_previewerNameField;
 }
 
-- (NSPanel *)extensionsEditor
+- (NSTextField *)previewerIdField
 {
-	return m_extensionsEditor;
+	return m_previewerIdField;
 }
 
 - (int)previewOption
@@ -108,7 +82,7 @@ static NSString *const kAdvancedPaneHelpAnchorKey = @"Help_Advanced";
 	NSString	*fullPath = [[self preferences] linkDownloaderDestination];
 	NSString	*displayTitle = [[NSFileManager defaultManager] displayNameAtPath:fullPath];
 	NSImage		*icon = [[NSWorkspace sharedWorkspace] iconForFile:fullPath];
-	NSMenuItem	*theItem = [[self dlFolderBtn] itemAtIndex:0];
+	NSMenuItem	*theItem = [[self downloadDestinationChooser] itemAtIndex:0];
 
 	[icon setSize:NSMakeSize(16,16)];
 
@@ -116,13 +90,31 @@ static NSString *const kAdvancedPaneHelpAnchorKey = @"Help_Advanced";
 	[theItem setToolTip:fullPath];
 	[theItem setImage:icon];
 
-	[[self dlFolderBtn] selectItem:nil];
-	[[self dlFolderBtn] synchronizeTitleAndSelectedItem];
+	[[self downloadDestinationChooser] selectItem:nil];
+	[[self downloadDestinationChooser] synchronizeTitleAndSelectedItem];
+}
+
+- (void)updatePreviewerFields
+{
+	NSBundle *info = [[self preferences] installedPreviewerBundle];
+	NSString *displayName = [info objectForInfoDictionaryKey:@"BSPreviewerDisplayName"];
+	if (!displayName) {
+		displayName = [info objectForInfoDictionaryKey:@"CFBundleIdentifier"];
+	}
+	BOOL	hoge = [[info bundlePath] hasPrefix:[[NSBundle mainBundle] builtInPlugInsPath]];
+	
+	NSString *bar = hoge ? PPLocalizedString(@"Built-in") : PPLocalizedString(@"Custom");
+
+	NSString *foo = [NSString stringWithFormat:PPLocalizedString(@"PreviewerDisplayName"),
+						displayName , bar, [info objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
+	[[self previewerNameField] setStringValue:foo];
+	[[self previewerIdField] setStringValue:[info objectForInfoDictionaryKey:@"NSHumanReadableCopyright"]];
 }
 
 - (void)updateUIComponents
 {
 	[self updateFolderButtonUI];
+	[self updatePreviewerFields];
 }
 
 - (void)setupUIComponents
@@ -130,6 +122,7 @@ static NSString *const kAdvancedPaneHelpAnchorKey = @"Help_Advanced";
 	if (!_contentView) return;
 	[self updateUIComponents];
 }
+
 
 #pragma mark NSTableView Delegate
 - (BOOL)control:(NSControl *)control textShouldEndEditing:(NSText *)fieldEditor
@@ -140,33 +133,33 @@ static NSString *const kAdvancedPaneHelpAnchorKey = @"Help_Advanced";
 		return NO;
 	}
 	return YES;
-}*/
+}
 @end
 
-@implementation AdvancedPrefController(Toolbar)
+
+@implementation LinkPrefController(Toolbar)
 - (NSString *)identifier
 {
-	return PPAdvancedPreferencesIdentifier;
+	return @"Link";
 }
 - (NSString *)helpKeyword
 {
-	return PPLocalizedString(kAdvancedPaneHelpAnchorKey);
+	return PPLocalizedString(@"Help_Link");
 }
 - (NSString *)label
 {
-	return PPLocalizedString(kAdvancedPaneLabelKey);
+	return PPLocalizedString(@"Link Label");
 }
 - (NSString *)paletteLabel
 {
-	return PPLocalizedString(kAdvancedPaneLabelKey);
+	return PPLocalizedString(@"Link Label");
 }
 - (NSString *)toolTip
 {
-	return PPLocalizedString(kAdvancedPaneToolTipKey);
+	return PPLocalizedString(@"Link ToolTip");
 }
 - (NSString *)imageName
 {
-	return kAdvancedPaneIconKey;
+	return @"LinkPreferences";
 }
 @end
-

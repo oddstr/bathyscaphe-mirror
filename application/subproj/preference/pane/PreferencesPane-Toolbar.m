@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesPane-Toolbar.m,v 1.5 2006/11/05 13:02:22 tsawada2 Exp $
+  * $Id: PreferencesPane-Toolbar.m,v 1.6 2007/11/15 13:19:25 tsawada2 Exp $
   * 
   * PreferencesPane-Toolbar.m
   *
@@ -70,6 +70,7 @@
 	return [NSArray arrayWithObjects :
 				PPGeneralPreferencesIdentifier,
 				PPFontsAndColorsIdentifier,
+				@"Link",
 				PPAccountSettingsIdentifier,
 				PPSyncPreferencesIdentifier,
 				PPFilterPreferencesIdentifier,
@@ -94,6 +95,7 @@
 				PPReplyDefaultIdentifier,
 				PPSoundsPreferencesIdentifier,
 				PPAdvancedPreferencesIdentifier,
+				@"Link",
 				NSToolbarFlexibleSpaceItemIdentifier,
 				nil];
 }
@@ -112,6 +114,7 @@
 				PPReplyDefaultIdentifier,
 				PPSoundsPreferencesIdentifier,
 				PPAdvancedPreferencesIdentifier,
+				@"Link",
 				nil];
 }
 

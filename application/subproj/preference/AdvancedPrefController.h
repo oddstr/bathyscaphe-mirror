@@ -10,14 +10,15 @@
 #import "PreferencesController.h"
 
 @interface AdvancedPrefController : PreferencesController {
-	IBOutlet NSButton		*m_openSheetBtn;	
-	IBOutlet NSPopUpButton	*m_dlFolderBtn;
-	IBOutlet NSPanel		*m_extensionsEditor;
+//	IBOutlet NSButton		*m_openSheetBtn;	
+//	IBOutlet NSPopUpButton	*m_dlFolderBtn;
+//	IBOutlet NSPanel		*m_extensionsEditor;
 }
-
+/*
 - (IBAction)openSheet:(id)sender;
 - (IBAction)closeSheet:(id)sender;
 - (IBAction)chooseDestination:(id)sender;
+- (IBAction)openPreviewerPrefs:(id)sender;
 
 - (NSPanel *)extensionsEditor;
 - (NSButton *)openSheetBtn;
@@ -27,5 +28,5 @@
 - (int)previewOption;
 - (void)setPreviewOption:(int)selectedTag;
 
-- (void)updateFolderButtonUI;
+- (void)updateFolderButtonUI;*/
 @end

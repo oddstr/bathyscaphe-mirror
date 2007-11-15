@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesPane-PCManagement.m,v 1.7 2007/03/11 09:02:57 tsawada2 Exp $
+  * $Id: PreferencesPane-PCManagement.m,v 1.8 2007/11/15 13:19:25 tsawada2 Exp $
   * 
   * PreferencesPane-PCManagement.m
   *
@@ -27,6 +27,7 @@
 @class CMRFilterPrefController;
 @class SoundsPaneController;
 @class SyncPaneController;
+@class LinkPrefController;
 
 @implementation PreferencesPane(PreferencesControllerManagement)
 - (NSView *) contentView
@@ -73,6 +74,7 @@
 		[AdvancedPrefController class],
 		[SoundsPaneController class],
 		[SyncPaneController class],
+		[LinkPrefController class],
 		Nil
 	};
 	
