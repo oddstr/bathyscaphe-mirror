@@ -1,4 +1,11 @@
 2007-11-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/BWAgent/
+		[削除] 以下のファイル／フォルダ「以外」は削除：
+		- SJIS2UTF8_source/
+		- rosetta.pl
+		- SJIS2UTF8
+		- sora.pl
+		ただし、SJIS2UTF8_source/SJIS2UTF8.xcode を削除し、SJIS2UTF8.xcodeproj を新規追加。
 	* application/subproj/preference/LinkPrefController.[h|m]
 	* application/subproj/preference/Japanese.lproj/LinkPreferences.nib
 	* application/subproj/preference/rsrc/LinkPreferences.tiff
