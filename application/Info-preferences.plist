@@ -3,11 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
+	<string>Japanese</string>
 	<key>CFBundleExecutable</key>
 	<string>PreferencesPane</string>
-	<key>CFBundleGetInfoString</key>
-	<string></string>
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
@@ -23,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.5</string>
+	<string>1.6</string>
 	<key>NSMainNibFile</key>
 	<string>PreferencesPane</string>
 	<key>NSPrincipalClass</key>

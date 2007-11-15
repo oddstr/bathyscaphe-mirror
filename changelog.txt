@@ -1,3 +1,12 @@
+2007-11-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/CMRAppDelegate.m
+	* application/subproj/preference/pane/PreferencesPane-PCManagement.m
+	* application/subproj/preference/pane/PreferencesPane-Toolbar.m
+	* application/subproj/preference/pane/PreferencesPane.m
+	* application/subproj/preference/abstract/PreferencesController.m
+		環境設定の骨組みを整理した。
+		フルキーボードアクセスで環境設定のペインを切り替えたときに、ツールバーの選択項目が正しく同期するようにした。
+		フルキーボードアクセスで環境設定のペインを切り替えたときに、key loop を auto-recalucurate するようにした（Tiger 以降）。		
 2007-11-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/BWAgent/
 		[削除] 以下のファイル／フォルダ「以外」は削除：

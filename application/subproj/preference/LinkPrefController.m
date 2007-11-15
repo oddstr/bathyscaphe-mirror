@@ -2,8 +2,9 @@
 //  LinkPrefController.m
 //  BathyScaphe
 //
-//  Created by 澤田 勉 on 07/11/14.
-//  Copyright 2007 __MyCompanyName__. All rights reserved.
+//  Created by Tsutomu Sawada on 07/11/14.
+//  Copyright 2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import "LinkPrefController.h"

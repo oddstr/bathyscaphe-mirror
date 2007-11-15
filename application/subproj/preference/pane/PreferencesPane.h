@@ -1,64 +1,62 @@
-/**
-  * $Id: PreferencesPane.h,v 1.2 2007/03/11 09:02:57 tsawada2 Exp $
-  * 
-  * PreferencesPane.h
-  *
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  PreferencesPane.h
+//  BathyScaphe
+//
+//  Created by Tsutomu Sawada on 07/11/15.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import <Cocoa/Cocoa.h>
 
 @class AppDefaults;
 @class PreferencesController;
 
-
-
-@interface PreferencesPane : NSWindowController
-{
+@interface PreferencesPane : NSWindowController {
 	IBOutlet NSView		*_contentView;
 	AppDefaults			*_preferences;
 	NSMutableDictionary	*_toolbarItems;
 	NSMutableArray		*_controllers;
 	NSString			*_currentIdentifier;
 }
-- (id) initWithPreferences : (AppDefaults *) prefs;
-- (AppDefaults *) preferences;
-- (void) setPreferences : (AppDefaults *) aPreferences;
-- (NSString *) displayName;
-@end
 
+- (id)initWithPreferences:(AppDefaults *)prefs;
+- (AppDefaults *)preferences;
+- (void)setPreferences:(AppDefaults *)aPreferences;
+@end
 
 
 @interface PreferencesPane(ViewAccessor)
-- (void) setupUIComponents;
-- (void) updateUIComponents;
-@end
+// Returns current pane's display name suitable for Window's titlebar.
+- (NSString *)displayName;
 
+- (void)setupUIComponents;
+- (void)updateUIComponents;
+@end
 
 
 @interface PreferencesPane(ToolbarSupport)
-- (NSMutableDictionary *) toolbarItems;
-- (void) setupToolbar;
+- (NSMutableDictionary *)toolbarItems;
+- (void)setupToolbar;
 @end
-
 
 
 @interface PreferencesPane(PreferencesControllerManagement)
-- (NSView *) contentView;
-- (void) setContentView : (NSView *) contentView;
-- (NSMutableArray *) controllers;
-- (NSString *) currentIdentifier;
-- (void) setCurrentIdentifier : (NSString *) identifier;
-- (void) makePreferencesControllers;
+- (NSView *)contentView;
+- (void)setContentView:(NSView *)contentView;
 
-- (PreferencesController *) controllerWithIdentifier : (NSString *) identifier;
+- (NSMutableArray *)controllers;
 
-- (void) setContentViewWithController : (PreferencesController *) controller;
-- (IBAction) selectController : (id) sender;
-- (void) selectControllerWithIdentifier: (NSString *) identifier;
+- (NSString *)currentIdentifier;
+- (void)setCurrentIdentifier:(NSString *)identifier;
+
+- (PreferencesController *)currentController;
+
+- (void)makePreferencesControllers;
+- (void)removeContentViewWithCurrentIdentifier;
+- (void)insertContentViewWithCurrentIdentifier;
+
+- (IBAction)selectController:(id)sender;
 @end
 
-
-
 extern NSString *const PPLastOpenPaneIdentifier;
-extern NSString *const PPToolbarIdentifier;

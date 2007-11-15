@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesController.m,v 1.5 2007/04/22 15:51:30 tsawada2 Exp $
+  * $Id: PreferencesController.m,v 1.6 2007/11/15 15:35:24 tsawada2 Exp $
   * 
   * PreferencesController.m
   *
@@ -91,7 +91,6 @@
 }
 
 // invoked by parent PreferencesPane
-- (void) willSelect { ; }
 - (void) willUnselect 
 {
 	if ([[self window] makeFirstResponder:[self window]]) {
@@ -102,46 +101,12 @@
 		[[self window] endEditingFor:nil];
 	}
 }
-- (void) didSelect { ; }
-- (void) didUnselect { ; }
-
-// utitlity
-/*- (void) preferencesRespondsTo : (SEL        ) respondsSEL
-					 ofControl : (NSControl *) aControl
+- (void) didSelect
 {
-	[aControl setEnabled : [[self preferences] respondsToSelector : respondsSEL]];
-}
-- (void) syncButtonState : (NSButton *) aButton
-				    with : (SEL       ) boolValueSEL
-{
-	id		v;
-	
-	v = [[self preferences] valueForKey : NSStringFromSelector(boolValueSEL)];
-	if (NO == [v respondsToSelector : @selector(boolValue)]) {
-		NSLog(
-			@"Maybe, - [NSObject valueForKey:] does not sopport bool value.\n"
-			@"please send report to development team.\n\n"
-			
-			@"Thanks! -- CocoMonar Developers");
+	if ([[self window] respondsToSelector:@selector(recalculateKeyViewLoop)]) {
+		[[self window] recalculateKeyViewLoop];
 	}
-	UTILAssertRespondsTo(v, @selector(boolValue));
-	
-	[aButton setState : (([v boolValue]) ? NSOnState : NSOffState)];
 }
-- (void) syncSelectedTag : (NSMatrix *) aMatrix
-				    with : (SEL       ) boolValueSEL
-{
-	id		v;
-	int		tag;
-	
-	v = [[self preferences] valueForKey : NSStringFromSelector(boolValueSEL)];
-	UTILAssertRespondsTo(v, @selector(intValue));
-	
-	tag = [v intValue];
-	[aMatrix deselectSelectedCell];
-	[aMatrix selectCellWithTag : tag];
-}*/
-
 
 - (IBAction) openHelp : (id) sender
 {
@@ -202,6 +167,3 @@
 	return nil;
 }
 @end
-
-
-

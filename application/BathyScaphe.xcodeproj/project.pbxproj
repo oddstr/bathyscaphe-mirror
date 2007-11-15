@@ -1083,7 +1083,7 @@
 		F32165FE0529CB2B00A80005 /* CMRExports.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRExports.h; sourceTree = "<group>"; };
 		F322F7FB050BA07D00A80005 /* CMRPreferencesDefautValues.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRPreferencesDefautValues.h; sourceTree = "<group>"; };
 		F324DB3004C6959800A80005 /* PreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = PreferencesController.h; sourceTree = "<group>"; };
-		F324DB3104C6959800A80005 /* PreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = PreferencesController.m; sourceTree = "<group>"; };
+		F324DB3104C6959800A80005 /* PreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = PreferencesController.m; sourceTree = "<group>"; };
 		F324DB3404C6959800A80005 /* AccountController-ViewAccessor.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "AccountController-ViewAccessor.m"; sourceTree = "<group>"; };
 		F324DB3504C6959800A80005 /* AccountController.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = AccountController.h; sourceTree = "<group>"; };
 		F324DB3604C6959800A80005 /* AccountController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountController.m; sourceTree = "<group>"; };
@@ -1093,10 +1093,10 @@
 		F324DB4304C6959800A80005 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/AccountPane.nib; sourceTree = "<group>"; };
 		F324DB4D04C6959800A80005 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/PreferencesPane.nib; sourceTree = "<group>"; };
 		F324DB4F04C6959800A80005 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/ReplySetting.nib; sourceTree = "<group>"; };
-		F324DB5F04C6959800A80005 /* PreferencesPane-PCManagement.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "PreferencesPane-PCManagement.m"; sourceTree = "<group>"; };
-		F324DB6004C6959800A80005 /* PreferencesPane-Toolbar.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "PreferencesPane-Toolbar.m"; sourceTree = "<group>"; };
-		F324DB6204C6959800A80005 /* PreferencesPane.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = PreferencesPane.h; sourceTree = "<group>"; };
-		F324DB6304C6959800A80005 /* PreferencesPane.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = PreferencesPane.m; sourceTree = "<group>"; };
+		F324DB5F04C6959800A80005 /* PreferencesPane-PCManagement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PreferencesPane-PCManagement.m"; sourceTree = "<group>"; };
+		F324DB6004C6959800A80005 /* PreferencesPane-Toolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PreferencesPane-Toolbar.m"; sourceTree = "<group>"; };
+		F324DB6204C6959800A80005 /* PreferencesPane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesPane.h; sourceTree = "<group>"; };
+		F324DB6304C6959800A80005 /* PreferencesPane.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesPane.m; sourceTree = "<group>"; };
 		F324DB6404C6959800A80005 /* PreferencePanes_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = PreferencePanes_Prefix.h; sourceTree = "<group>"; };
 		F324DB6704C6959800A80005 /* CMRReplyDefaultsController.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRReplyDefaultsController.h; sourceTree = "<group>"; };
 		F324DB6804C6959800A80005 /* CMRReplyDefaultsController.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRReplyDefaultsController.m; sourceTree = "<group>"; };

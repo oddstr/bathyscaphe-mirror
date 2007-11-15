@@ -1,21 +1,21 @@
-/**
-  * $Id: PreferencesPane-Toolbar.m,v 1.6 2007/11/15 13:19:25 tsawada2 Exp $
-  * 
-  * PreferencesPane-Toolbar.m
-  *
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  PreferencesPane.h
+//  BathyScaphe
+//
+//  Created by Tsutomu Sawada on 07/11/15.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import "PreferencesPane.h"
 #import "PreferencesController.h"
-#import "AppDefaults.h"
-#import "PreferencePanes_Prefix.h"
+
+static NSString *const PPToolbarIdentifier = @"PreferencesPane Toolbar";
 
 @implementation PreferencesPane(ToolbarSupport)
-/* Accessor for _toolbarItems */
-- (NSMutableDictionary *) toolbarItems
+- (NSMutableDictionary *)toolbarItems
 {
-	if(nil == _toolbarItems){
+	if (!_toolbarItems) {
 		_toolbarItems = [[NSMutableDictionary alloc] init];
 	}
 	return _toolbarItems;
@@ -23,128 +23,83 @@
 
 
 /**
-  * ˆø”itemIdentifier‚Åw’è‚³‚ê‚½ƒc[ƒ‹ƒo[‚Ì€–Ú‚ğ•Ô‚·B
-  * d•¡‚·‚é€–Ú‚à‚ ‚è‚¦‚é‚Ì‚ÅAƒRƒs[‚ğì¬‚·‚é‚±‚ÆB
+  * å¼•æ•°itemIdentifierã§æŒ‡å®šã•ã‚ŒãŸãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã®é …ç›®ã‚’è¿”ã™ã€‚
+  * é‡è¤‡ã™ã‚‹é …ç›®ã‚‚ã‚ã‚Šãˆã‚‹ã®ã§ã€ã‚³ãƒ”ãƒ¼ã‚’ä½œæˆã™ã‚‹ã“ã¨ã€‚
   * 
-  * @param    toolbar         ƒc[ƒ‹ƒo[
-  * @param    itemIdentifier  ¯•Êq
-  * @param    flag            €–Ú‚ª’Ç‰Á‚³‚ê‚éê‡‚ÍYES
-  * @return                   ƒc[ƒ‹ƒo[‚Ì€–Ú
+  * @param    toolbar         ãƒ„ãƒ¼ãƒ«ãƒãƒ¼
+  * @param    itemIdentifier  è­˜åˆ¥å­
+  * @param    flag            é …ç›®ãŒè¿½åŠ ã•ã‚Œã‚‹å ´åˆã¯YES
+  * @return                   ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã®é …ç›®
   */
 
-- (NSToolbarItem *) toolbar : (NSToolbar *) toolbar
-      itemForItemIdentifier : (NSString  *) itemIdentifier
-  willBeInsertedIntoToolbar : (BOOL       ) flag
+- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar
+	 itemForItemIdentifier:(NSString  *)itemIdentifier
+ willBeInsertedIntoToolbar:(BOOL)flag
 {
 	NSToolbarItem	*item_;
-	NSString		*name_;
 	NSToolbarItem	*newItem_;
-	NSArray			*list_;
 	
-	item_ = [[self toolbarItems] objectForKey : itemIdentifier];
-	name_ = [item_ itemIdentifier];
+	item_ = [[self toolbarItems] objectForKey:itemIdentifier];
+	
+	newItem_ = [item_ copyWithZone:[self zone]];
 
-	list_ = flag ? [self toolbarDefaultItemIdentifiers : toolbar]
-	             : [self toolbarAllowedItemIdentifiers : toolbar];
-	
-	newItem_ = [item_ copyWithZone : [self zone]];
-	
-	if(NSNotFound == [list_ indexOfObject : name_]){
-		[newItem_ release];
-		return nil;
-	}
-	[newItem_ setTarget : self];
-	if ([newItem_ view] != nil) {
-		[newItem_ setMinSize : [[newItem_ view] bounds].size];
-		[newItem_ setMaxSize : [[newItem_ view] bounds].size];
+	if ([newItem_ view]) {
+		NSSize itemSize = [[newItem_ view] bounds].size;
+		[newItem_ setMinSize:itemSize];
+		[newItem_ setMaxSize:itemSize];
 	}
 	
 	return [newItem_ autorelease];
 }
 
-- (NSArray *) toolbarDefaultItemIdentifiers : (NSToolbar *) toolbar
+- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
 {
-	if(NO == [[toolbar identifier] isEqualToString : PPToolbarIdentifier])
-		return [NSArray empty];
-	
-	return [NSArray arrayWithObjects :
-				PPGeneralPreferencesIdentifier,
-				PPFontsAndColorsIdentifier,
-				@"Link",
-				PPAccountSettingsIdentifier,
-				PPSyncPreferencesIdentifier,
-				PPFilterPreferencesIdentifier,
-				PPReplyDefaultIdentifier,
-				PPSoundsPreferencesIdentifier,
-				PPAdvancedPreferencesIdentifier,
-				NSToolbarFlexibleSpaceItemIdentifier,
-				nil];
+	return [[self controllers] valueForKey:@"identifier"];
 }
 
-- (NSArray *) toolbarAllowedItemIdentifiers : (NSToolbar *) toolbar
+- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
 {
-	if(NO == [[toolbar identifier] isEqualToString : PPToolbarIdentifier])
-		return [NSArray empty];
-	
-	return [NSArray arrayWithObjects :
-				PPGeneralPreferencesIdentifier,
-				PPFontsAndColorsIdentifier,
-				PPAccountSettingsIdentifier,
-				PPSyncPreferencesIdentifier,
-				PPFilterPreferencesIdentifier,
-				PPReplyDefaultIdentifier,
-				PPSoundsPreferencesIdentifier,
-				PPAdvancedPreferencesIdentifier,
-				@"Link",
-				NSToolbarFlexibleSpaceItemIdentifier,
-				nil];
+	return [[self controllers] valueForKey:@"identifier"];
 }
 
-- (NSArray *) toolbarSelectableItemIdentifiers : (NSToolbar *) toolbar
+- (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar
 {
-	if(NO == [[toolbar identifier] isEqualToString : PPToolbarIdentifier])
-		return [NSArray empty];
-	
-	return [NSArray arrayWithObjects :
-				PPGeneralPreferencesIdentifier,
-				PPFontsAndColorsIdentifier,
-				PPAccountSettingsIdentifier,
-				PPSyncPreferencesIdentifier,
-				PPFilterPreferencesIdentifier,
-				PPReplyDefaultIdentifier,
-				PPSoundsPreferencesIdentifier,
-				PPAdvancedPreferencesIdentifier,
-				@"Link",
-				nil];
+	return [[self controllers] valueForKey:@"identifier"];
 }
 
-- (void) setupToolbar
+- (void)setupToolbar
 {
 	NSToolbar				*toolbar_;
 	NSToolbarItem			*tbItem_;
 	NSEnumerator			*iter_;
 	PreferencesController	*controller_;
 	SEL action_ = @selector(selectController:);
-	
-	toolbar_= [[NSToolbar alloc] initWithIdentifier : PPToolbarIdentifier];
+
+	toolbar_= [[NSToolbar alloc] initWithIdentifier:PPToolbarIdentifier];
 	
 	iter_ = [[self controllers] objectEnumerator];
+
 	while(controller_ = [iter_ nextObject]){
-		if(nil == [controller_ identifier])
-			continue;
+		if(![controller_ identifier]) continue;
 		
 		tbItem_ = [controller_ makeToolbarItem];
-		[[self toolbarItems] setObject:tbItem_ forKey:[tbItem_ itemIdentifier]];
-		[tbItem_ setTarget : self];
-		[tbItem_ setAction : action_];
+		[tbItem_ setTarget:self];
+		[tbItem_ setAction:action_];
+		[[self toolbarItems] setObject:tbItem_ forKey:[controller_ identifier]];
 		[tbItem_ release];
 	}
-	
-	[toolbar_ setDelegate : self];
-	[toolbar_ setAllowsUserCustomization : NO];
-	[toolbar_ setAutosavesConfiguration : NO];
-	
-	[[self window] setToolbar : toolbar_];
+
+	[toolbar_ setDelegate:self];
+	[toolbar_ setAllowsUserCustomization:NO];
+	[toolbar_ setAutosavesConfiguration:NO];
+	[toolbar_ setDisplayMode:NSToolbarDisplayModeIconAndLabel];
+	[toolbar_ setSizeMode:NSToolbarSizeModeRegular];
+
+	[[self window] setToolbar:toolbar_];
 	[toolbar_ release];
+
+	if ([[self window] respondsToSelector:@selector(setShowsToolbarButton:)]) {
+		[[self window] setShowsToolbarButton:NO];
+	}
 }
 @end

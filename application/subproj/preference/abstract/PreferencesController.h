@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesController.h,v 1.3 2007/04/22 15:51:30 tsawada2 Exp $
+  * $Id: PreferencesController.h,v 1.4 2007/11/15 15:35:24 tsawada2 Exp $
   * 
   * PreferencesController.h
   *
@@ -35,21 +35,8 @@
 - (void) mainViewDidLoad;
 
 // invoked by parent PreferencesPane
-- (void) willSelect;
 - (void) willUnselect;
 - (void) didSelect;
-- (void) didUnselect;
-
-// utility
-
-/* preferences‚ªrespondsSEL‚É‰ž“š‚·‚é‚È‚çaControl‚ðŽg—p‰Â”\‚É‚·‚é */
-// Removed in Starlight Breaker.
-/*- (void) preferencesRespondsTo : (SEL        ) respondsSEL
-					 ofControl : (NSControl *) aControl;
-- (void) syncButtonState : (NSButton *) aButton
-				    with : (SEL       ) boolValueSEL;
-- (void) syncSelectedTag : (NSMatrix *) aMatrix
-				    with : (SEL       ) boolValueSEL;*/
 
 - (IBAction) openHelp : (id) sender;
 @end
