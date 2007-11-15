@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector-View.m,v 1.8 2007/11/13 01:58:39 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector-View.m,v 1.9 2007/11/15 13:18:49 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/07/15.
@@ -123,16 +123,16 @@ static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInsp
 
 - (void) setupSettingsSheet
 {
-	NSBundle *myself = [NSBundle bundleForClass: [self class]];
-	if (!myself) return;
+//	NSBundle *myself = [NSBundle bundleForClass: [self class]];
+//	if (!myself) return;
 	
-	NSString *versionNum = [myself objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
-	if (!versionNum) return;
+//	NSString *versionNum = [myself objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
+//	if (!versionNum) return;
 
 	if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_4) {
 		[m_fullScreenSettingMatrix setEnabled:NO];
 	}
-	[[self versionInfoField] setStringValue: [NSString stringWithFormat:[self localizedStrForKey:@"Version %@"], versionNum]];
+//	[[self versionInfoField] setStringValue: [NSString stringWithFormat:[self localizedStrForKey:@"Version %@"], versionNum]];
 
 	[[self preferredViewSelector] setLabel: nil forSegment: 0];
 	[[self preferredViewSelector] setLabel: nil forSegment: 1];
@@ -158,13 +158,13 @@ static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInsp
 {
 	return m_preferredViewSelector;
 }
-
+/*
 - (NSTextField *) versionInfoField
 {
 	return m_versionInfoField;
 }
 
-/*- (IBAction) endSettingsSheet : (id) sender
+- (IBAction) endSettingsSheet : (id) sender
 {
 	NSWindow *sheet_ = [sender window];
 	[NSApp endSheet : sheet_

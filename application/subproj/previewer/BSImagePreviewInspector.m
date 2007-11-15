@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.25 2007/11/13 01:58:39 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.26 2007/11/15 13:18:49 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -88,8 +88,12 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 }
 
 #pragma mark Actions
-- (IBAction)beginSettingsSheet:(id)sender
+//- (IBAction)beginSettingsSheet:(id)sender
+- (IBAction)showPreviewerPreferences:(id)sender
 {
+	if (![self isWindowLoaded]) {
+		[self loadWindow];
+	}
 	[self updateDirectoryChooser];
 /*	[NSApp beginSheet : [self settingsPanel]
 	   modalForWindow : [self window]

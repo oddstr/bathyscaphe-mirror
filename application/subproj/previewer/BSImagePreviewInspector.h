@@ -3,7 +3,7 @@
 //  BathyScaphe Preview Inspector 2.7
 //
 //  Created by Tsutomu Sawada on 05/10/10.
-//  Copyright 2005 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
@@ -30,7 +30,7 @@ typedef enum _BSIPIRedirectionBehavior {
 	IBOutlet NSSegmentedControl		*m_paneChangeBtn;
 	IBOutlet NSTableColumn			*m_nameColumn;
 	IBOutlet NSPopUpButton			*m_directoryChooser;
-	IBOutlet NSTextField			*m_versionInfoField;
+//	IBOutlet NSTextField			*m_versionInfoField;
 	IBOutlet NSMenu					*m_cacheNaviMenuFormRep;
 	IBOutlet NSSegmentedControl		*m_preferredViewSelector;
 	IBOutlet NSMatrix				*m_fullScreenSettingMatrix;
@@ -50,12 +50,10 @@ typedef enum _BSIPIRedirectionBehavior {
 - (IBAction) saveImage : (id) sender;
 - (IBAction) saveImageAs: (id) sender;
 - (IBAction) copyURL : (id) sender;
-- (IBAction) beginSettingsSheet : (id) sender;
 - (IBAction) startFullscreen : (id) sender;
 - (IBAction)cancelDownload:(id)sender;
 - (IBAction)retryDownload:(id)sender;
 
-- (IBAction) togglePreviewPanel : (id) sender;
 - (IBAction) historyNavigationPushed: (id) sender;
 - (IBAction) changePane: (id) sender;
 
@@ -118,11 +116,10 @@ typedef enum _BSIPIRedirectionBehavior {
 @end
 
 @interface BSImagePreviewInspector(Preferences)
-//- (IBAction) endSettingsSheet: (id) sender;
 - (IBAction) openOpenPanel: (id) sender;
 
 - (NSPopUpButton *) directoryChooser;
-- (NSTextField *) versionInfoField;
+//- (NSTextField *) versionInfoField;
 - (NSSegmentedControl *) preferredViewSelector;
 
 - (void) updateDirectoryChooser;

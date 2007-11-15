@@ -29,6 +29,7 @@
 
 // Available in BathyScaphe 1.6 and later.
 - (BOOL)showImagesWithURLs:(NSArray *)urls;
+- (IBAction)showPreviewerPreferences:(id)sender;
 @end
 
 @interface NSObject(IPPAdditions)

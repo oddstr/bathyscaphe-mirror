@@ -70,6 +70,8 @@
 				<string>id</string>
 				<key>didAdjustSubviews</key>
 				<string>RBSplitView</string>
+				<key>showPreviewerPreferences</key>
+				<string>id</string>
 				<key>togglePreviewPanel</key>
 				<string>id</string>
 				<key>willAdjustSubviews</key>
@@ -91,15 +93,11 @@
 		<dict>
 			<key>ACTIONS</key>
 			<dict>
-				<key>beginSettingsSheet</key>
-				<string>id</string>
 				<key>cancelDownload</key>
 				<string>id</string>
 				<key>changePane</key>
 				<string>id</string>
 				<key>copyURL</key>
-				<string>id</string>
-				<key>endSettingsSheet</key>
 				<string>id</string>
 				<key>forceRunTbCustomizationPalette</key>
 				<string>id</string>
@@ -118,8 +116,6 @@
 				<key>saveImageAs</key>
 				<string>id</string>
 				<key>startFullscreen</key>
-				<string>id</string>
-				<key>togglePreviewPanel</key>
 				<string>id</string>
 			</dict>
 			<key>CLASS</key>
@@ -156,8 +152,6 @@
 				<string>NSTabView</string>
 				<key>m_tripleGreenCubes</key>
 				<string>BSIPIArrayController</string>
-				<key>m_versionInfoField</key>
-				<string>NSTextField</string>
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSWindowController</string>

@@ -1,5 +1,5 @@
 /*
- * $Id: BSImagePreviewInspector-Tb.m,v 1.18 2007/11/13 01:58:39 tsawada2 Exp $
+ * $Id: BSImagePreviewInspector-Tb.m,v 1.19 2007/11/15 13:18:49 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -75,7 +75,7 @@ static NSString *const kIPIToobarId				= @"jp.tsawada2.BathyScaphe.ImagePreviewe
 		[toolbarItem setImage: [self imageResourceWithName: @"Settings"]];
 		
 		[toolbarItem setTarget: self];
-		[toolbarItem setAction: @selector(beginSettingsSheet:)];
+		[toolbarItem setAction: @selector(showPreviewerPreferences:)];
 
 	} else if ([itemIdent isEqual: kIPITbCancelBtnId]) {
         toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdent] autorelease];
