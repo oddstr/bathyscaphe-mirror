@@ -10,6 +10,7 @@
 #import "BSImagePreviewInspector.h"
 #import <SGFoundation/NSDictionary-SGExtensions.h>
 #import <SGFoundation/NSMutableDictionary-SGExtensions.h>
+#import <CocoMonar/CocoMonar.h>
 
 static NSString *const kIPIAlwaysKeyWindowKey	= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Always Key Window";
 static NSString *const kIPISaveDirectoryKey		= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Save Directory";
@@ -145,7 +146,7 @@ static NSString *const kIPIUseIKSlideShowOnLeopardKey = @"jp.tsawada2.BathyScaph
 
 - (BOOL)useIKSlideShowOnLeopard
 {
-	if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_4) return NO;
+	if (floor(NSAppKitVersionNumber) <= 824) return NO;
 	return [[self prefsDict] boolForKey:kIPIUseIKSlideShowOnLeopardKey defaultValue:NO];
 }
 

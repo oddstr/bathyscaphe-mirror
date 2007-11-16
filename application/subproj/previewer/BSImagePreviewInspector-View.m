@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector-View.m,v 1.9 2007/11/15 13:18:49 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector-View.m,v 1.10 2007/11/16 00:19:46 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/07/15.
@@ -129,7 +129,7 @@ static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInsp
 //	NSString *versionNum = [myself objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
 //	if (!versionNum) return;
 
-	if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_4) {
+	if (floor(NSAppKitVersionNumber) <= 824) {
 		[m_fullScreenSettingMatrix setEnabled:NO];
 	}
 //	[[self versionInfoField] setStringValue: [NSString stringWithFormat:[self localizedStrForKey:@"Version %@"], versionNum]];
