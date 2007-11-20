@@ -1,3 +1,14 @@
+2007-11-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadLayout-MessageRange.m
+	* application/source/thread/CMRThreadLinkProcessor.m
+	* application/source/thread/CMRThreadViewer-Link.m
+	* application/source/view/CMRThreadView.m
+		コードの見直しと近代化（NSIndexSet を活用したい）。
+		また、-[NSString pathExtension] のかわりに CFURLCopyPathExtension() を使うように変更。
+	* application/subproj/previewer/BSImagePreviewInspector.m
+		-[NSString pathExtension] のかわりに CFURLCopyPathExtension() を使うように変更。
+	* application/subproj/preference/Japanese.lproj/LinkPreferences.nib
+		一部表記と Tool tip の文言修正。
 2007-11-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/bbs/BoardListItem/FavoritesBoardListItem.m
 		2ch スレに書き込まれた修正を反映。

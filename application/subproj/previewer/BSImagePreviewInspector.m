@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.26 2007/11/15 13:18:49 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.27 2007/11/20 04:21:35 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -257,8 +257,13 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 
 - (BOOL)validateLink:(NSURL *)anURL
 {
-	NSString	*extension = [[[anURL path] pathExtension] lowercaseString];
-	if(!extension) return NO;
+	CFStringRef extensionRef = CFURLCopyPathExtension((CFURLRef)anURL);
+	if (!extensionRef) {
+		return NO;
+	}
+
+	NSString *extension = [(NSString *)extensionRef lowercaseString];
+	CFRelease(extensionRef);
 
 	return [[NSImage imageFileTypes] containsObject:extension];
 }

@@ -1,31 +1,18 @@
-//:CMRThreadLinkProcessor.h
-/**
-  *
-  * ÉäÉìÉNèàóù
-  *
-  * @author Takanori Ishikawa
-  * @author http://www15.big.or.jp/~takanori/
-  * @version 1.0.0d1 (03/01/17  2:32:54 AM)
-  *
-  */
+//
+//  CMRThreadLinkProcessor.h
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/11/19.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import <Cocoa/Cocoa.h>
-#import "CMRMessageAttributesStyling.h"
-
-@class SGBaseRangeArray;
-
-
 
 @interface CMRThreadLinkProcessor : NSObject
-+ (BOOL) parseThreadLink : (id         ) aLink
-               boardName : (NSString **) pBoardName
-                boardURL : (NSURL    **) pBoardURL
-                filepath : (NSString **) pFilepath;
-+ (BOOL) isMessageLinkUsingLocalScheme : (id                ) aLink
-							rangeArray : (SGBaseRangeArray *) rangeBuffer;
++ (BOOL)parseThreadLink:(id)aLink boardName:(NSString **)pBoardName boardURL:(NSURL **)pBoardURL filepath:(NSString **)pFilepath;
++ (BOOL)parseBoardLink:(id)aLink boardName:(NSString **)pBoardName boardURL:(NSURL **)pBoardURL;
 
-+ (BOOL) isBeProfileLinkUsingLocalScheme : (id		   ) aLink
-							   linkParam : (NSString **) aParam;
-
-// available in MeteorSweeper and later.
-+ (BOOL) parseBoardLink: (id) aLink boardName: (NSString **) pBoardName boardURL: (NSURL **) pBoardURL;
++ (BOOL)isMessageLinkUsingLocalScheme:(id)aLink messageIndexes:(NSIndexSet **)indexSetPtr;
++ (BOOL)isBeProfileLinkUsingLocalScheme:(id)aLink linkParam:(NSString **)aParam;
 @end

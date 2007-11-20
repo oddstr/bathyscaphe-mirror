@@ -29,12 +29,6 @@ static NSString *mActionGetKeysForTag[] = {
 {
 	if (self = [super initWithFrame:aFrame textContainer:aTextContainer]) {
 		m_lastCharIndex = NSNotFound;
-/*		m_rectForHighlight = NSZeroRect;
-
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(cleanUpSelectionFill:)
-													 name:NSMenuDidEndTrackingNotification
-												   object:nil];*/
 
 		[self registerForDraggedTypes:[NSArray arrayWithObject:BSThreadItemsPboardType]];
 		draggingHilited = NO;
@@ -42,13 +36,7 @@ static NSString *mActionGetKeysForTag[] = {
 	}
 	return self;
 }
-/*
-- (void)dealloc
-{
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSMenuDidEndTrackingNotification object:nil];
-	[super dealloc];
-}
-*/
+
 #pragma mark Drawing
 // ライブリサイズ中のレイアウト再計算を抑制する
 - (void)viewWillStartLiveResize
@@ -85,45 +73,6 @@ static NSString *mActionGetKeysForTag[] = {
 	NSRange charRange = [[self threadLayout] rangeAtMessageIndex:index];
 	return [self boundingRectForCharacterInRange:charRange];
 }
-
-/*- (NSRect)boundingRectForMessageIndexRange:(NSRange)indexRange
-{
-	NSRange charRange = [[self threadLayout] subrangeForIndexRange:indexRange];
-	return [self boundingRectForCharacterInRange:charRange];
-}
-
-- (void)highlightBackgroundRect:(NSRect)calcedRect
-{
-	NSRect rect = NSIntersectionRect(calcedRect, [self visibleRect]);
-	if (NSEqualRects(rect, NSZeroRect)) return;
-
-	[self lockFocus];
-	[[NSColor alternateSelectedControlColor] set];
-	NSFrameRectWithWidth(rect, 3.0);
-	[[[NSColor selectedTextBackgroundColor] colorWithAlphaComponent:0.3] set];
-	NSRectFillUsingOperation(NSInsetRect(rect,3.0,3.0),NSCompositeSourceAtop);
-	[self unlockFocus];
-	m_rectForHighlight = rect;
-	[self displayIfNeededInRect:rect];
-}
-
-- (void)highlightBackgroundForMessageAtIndex:(unsigned)index
-{
-	NSRect  rect = [self boundingRectForMessageAtIndex:index];
-	[self highlightBackgroundRect:rect];
-}
-
-- (void)highlightBackgroundForMessageIndexRange:(NSRange)indexRange
-{
-	NSRect  rect = [self boundingRectForMessageIndexRange:indexRange];
-	[self highlightBackgroundRect:rect];
-}
-
-- (void)cleanUpSelectionFill:(NSNotification *)aNotification
-{
-	if (NSEqualRects(m_rectForHighlight, NSZeroRect)) return;
-	[self setNeedsDisplayInRect:m_rectForHighlight];
-}*/
 
 #pragma mark Accessors
 - (CMRThreadSignature *)threadSignature
@@ -585,39 +534,29 @@ NS_ENDHANDLER
 /* レスのコピー */
 - (IBAction)messageCopy:(id)sender
 {
-	NSPasteboard			*pboard_ = [NSPasteboard generalPasteboard];
-	NSArray					*types_;
-	NSEnumerator			*mIndexEnum_;
-	NSNumber				*mIndex;
-	CMRThreadLayout			*L = [self threadLayout];
-	NSMutableAttributedString	*contents_;
-	int		n;
+	NSPasteboard		*pboard_ = [NSPasteboard generalPasteboard];
+	NSArray				*types;
+	CMRThreadLayout		*layout = [self threadLayout];
+	NSAttributedString	*contents;
+	NSIndexSet			*indexes;
+	id					rep;
 	
-	if (nil == L)
-	 return;
+	if (!layout) return;
 
-	contents_ = [[NSMutableAttributedString alloc] init];
-	mIndexEnum_ = [self representedIndexEnumeratorWithSender:sender];
-	while (mIndex = [mIndexEnum_ nextObject]) {
-		NSAttributedString		*m;
-		NSRange					range_;
-		
-		UTILAssertRespondsTo(mIndex, @selector(unsignedIntValue));
-		range_ = NSMakeRange([mIndex unsignedIntValue], 1);
-		
-		m = [L contentsForIndexRange:range_
-					   composingMask:CMRInvisibleAbonedMask//CMRInvisibleMask
-							 compose:NO
-					  attributesMask:(CMRLocalAbonedMask | CMRSpamMask)];
-		if (!m) continue;
-
-		[contents_ appendAttributedString:m];
+	rep = [sender representedObject];
+	if (rep && [rep isKindOfClass:[NSIndexSet class]]) {
+		indexes = rep;
+	} else {
+		indexes = [self selectedMessageIndexes];
 	}
+
+	contents = [layout contentsForIndexes:indexes composingMask:CMRInvisibleAbonedMask compose:NO attributesMask:(CMRLocalAbonedMask|CMRSpamMask)];
+	if (!contents) return; 
 	
 #if PATCH && 1
-	types_ = [NSArray arrayWithObjects:NSRTFPboardType, NSStringPboardType, nil];
+	types = [NSArray arrayWithObjects:NSRTFPboardType, NSStringPboardType, nil];
 #else
-	types_ = [NSArray arrayWithObjects:NSRTFPboardType, NSRTFDPboardType, NSStringPboardType, nil];
+	types = [NSArray arrayWithObjects:NSRTFPboardType, NSRTFDPboardType, NSStringPboardType, nil];
 #endif
 #if 0 // debug
 	{
@@ -628,10 +567,9 @@ NS_ENDHANDLER
 	}
 #endif
 	
-	n = [pboard_ declareTypes:types_ owner:nil];
+	[pboard_ declareTypes:types owner:nil];
 
-	[contents_ writeToPasteboard:pboard_];
-	[contents_ release];
+	[contents writeToPasteboard:pboard_];
 }
 
 /* レスに返信 */

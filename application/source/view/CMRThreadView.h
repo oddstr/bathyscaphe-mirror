@@ -18,7 +18,6 @@
 {
 	@private
 	unsigned		m_lastCharIndex;		/* For -menuForEvent: */
-//	NSRect			m_rectForHighlight;		/* For Future Use */
 
 	BOOL			draggingHilited;
 	NSTimeInterval	draggingTimer;

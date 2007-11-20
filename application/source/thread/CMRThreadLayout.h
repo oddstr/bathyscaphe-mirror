@@ -1,6 +1,6 @@
 //: CMRThreadLayout.h
 /**
-  * $Id: CMRThreadLayout.h,v 1.10 2007/10/31 20:54:23 tsawada2 Exp $
+  * $Id: CMRThreadLayout.h,v 1.11 2007/11/20 04:21:35 tsawada2 Exp $
   * 
   * CMRThreadLayout.h
   *
@@ -64,11 +64,19 @@
 - (unsigned int) lastMessageIndexForRange : (NSRange) aRange;
 
 - (NSAttributedString *) contentsAtIndex : (unsigned int) index;
+// Deprecated... You should use NSIndexSet-based methods for Twincam Angel and later.
 - (NSAttributedString *) contentsForIndexRange : (NSRange) range;
 - (NSAttributedString *) contentsForIndexRange : (NSRange) range
 			 					 composingMask : (UInt32 ) composingMask
 									   compose : (BOOL   ) doCompose
 								attributesMask : (UInt32 ) attributesMask;
+
+// Available in Twincam Angel.
+- (NSAttributedString *)contentsForIndexes:(NSIndexSet *)indexes;
+- (NSAttributedString *)contentsForIndexes:(NSIndexSet *)indexes
+							 composingMask:(UInt32)composingMask
+								   compose:(BOOL)doCompose
+							attributesMask:(UInt32)attributesMask;
 
 // Available in Starlight Breaker.
 - (NSAttributedString *) contentsForIndexRange : (NSRange) aRange

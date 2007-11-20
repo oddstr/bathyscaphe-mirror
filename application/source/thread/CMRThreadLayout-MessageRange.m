@@ -119,6 +119,44 @@
 	return [[self textStorage] attributedSubstringFromRange : subrange_];
 }
 
+- (NSAttributedString *) contentsForIndexes : (NSIndexSet *) indexes
+			 					 composingMask : (UInt32 ) composingMask
+									   compose : (BOOL   ) doCompose
+								attributesMask : (UInt32 ) attributesMask
+{
+
+	CMRThreadMessage	*m;
+//	unsigned			i;
+	int				size = [indexes lastIndex]+1;
+	NSMutableAttributedString		*textBuffer_;
+	CMRAttributedMessageComposer	*composer_;
+	
+	if (!indexes || [indexes count] == 0) return nil;
+	if ([self firstUnlaidMessageIndex] < size) return nil;
+
+	unsigned int	idx;
+	NSRange			e = NSMakeRange(0, size);
+
+	composer_ = [[CMRAttributedMessageComposer alloc] init];
+	textBuffer_ = [[NSMutableAttributedString alloc] init];
+	
+	[composer_ setAttributesMask : attributesMask];
+	[composer_ setComposingMask:composingMask compose:doCompose];
+	
+	[composer_ setContentsStorage : textBuffer_];
+
+	while ([indexes getIndexes:&idx maxCount:1 inIndexRange:&e] > 0) {
+		m = [[self messageBuffer] messageAtIndex:idx];
+		[composer_ composeThreadMessage:m];
+	}
+/*	
+	for (i = 0; i < aRange.length; i++) {
+		m = [[self messageBuffer] messageAtIndex : aRange.location + i];
+		[composer_ composeThreadMessage : m];
+	}*/
+	[composer_ release];
+	return [textBuffer_ autorelease];
+}
 
 - (NSAttributedString *) contentsForIndexRange : (NSRange) aRange
 			 					 composingMask : (UInt32 ) composingMask
@@ -195,6 +233,21 @@
 							attributesMask : CMRLocalAbonedMask];
 	} else {
 		return [self contentsForIndexRange : aRange
+							 composingMask : CMRInvisibleAbonedMask
+								   compose : NO
+							attributesMask : (CMRLocalAbonedMask | CMRSpamMask)];
+	}
+}
+
+- (NSAttributedString *)contentsForIndexes:(NSIndexSet *)indexes
+{
+	if (kSpamFilterInvisibleAbonedBehavior == [CMRPref spamFilterBehavior]) {
+		return [self contentsForIndexes : indexes
+							 composingMask : CMRInvisibleAbonedMask
+								   compose : NO
+							attributesMask : CMRLocalAbonedMask];
+	} else {
+		return [self contentsForIndexes : indexes
 							 composingMask : CMRInvisibleAbonedMask
 								   compose : NO
 							attributesMask : (CMRLocalAbonedMask | CMRSpamMask)];

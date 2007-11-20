@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadLinkProcessor.m,v 1.5 2007/01/07 17:04:23 masakih Exp $
+  * $Id: CMRThreadLinkProcessor.m,v 1.6 2007/11/20 04:21:35 tsawada2 Exp $
   * 
   * CMRThreadLinkProcessor.m
   *
@@ -8,12 +8,9 @@
   */
 #import "CMRThreadLinkProcessor.h"
 
-#import "AppDefaults.h"
+#import "CMRMessageAttributesStyling.h"
 #import "BoardManager.h"
-#import "CMXTextParser.h"
-#import "CMXPopUpWindowManager.h"
 #import "CMRDocumentFileManager.h"
-
 #import "CMRHostHandler.h"
 
 
@@ -26,7 +23,7 @@
 
 /* ëSäpêîéö --> îºäpêîéö */
 static NSString *decimalDigitStringJpanese2Ascii(NSString *str);
-static int scanResLinkElement_(NSString *str, SGBaseRangeArray *buffer);
+static void scanResLinkElement_(NSString *str, NSMutableIndexSet *buffer);
 
 
 
@@ -117,14 +114,14 @@ ReturnResult:
 	return result_;
 }
 
-+ (BOOL) isMessageLinkUsingLocalScheme : (id                ) aLink
-							rangeArray : (SGBaseRangeArray *) rangeBuffer
++ (BOOL)isMessageLinkUsingLocalScheme:(id)aLink messageIndexes:(NSIndexSet **)indexSetPtr
 {
 	NSString			*str_;
 	NSArray				*comps_;
 	NSEnumerator		*iter_;
 	NSString			*elem_;
-	BOOL				ret = NO;
+
+	NSMutableIndexSet	*buffer_ = [NSMutableIndexSet indexSet];
 	
 	UTIL_DEBUG_METHOD;
 	UTIL_DEBUG_WRITE1(@"aLink = %@", [aLink stringValue]);
@@ -132,38 +129,37 @@ ReturnResult:
 	UTILRequireCondition(aLink, RetMessageLink);
 	
 	str_ = [aLink stringValue];
-	str_ = [str_ stringByDeletingURLScheme : CMRAttributeInnerLinkScheme];
-	comps_ = [str_ componentsSeparatedByCharacterSequenceFromSet : 
-						[NSCharacterSet innerLinkSeparaterCharacterSet]];
+	str_ = [str_ stringByDeletingURLScheme:CMRAttributeInnerLinkScheme];
+	comps_ = [str_ componentsSeparatedByCharacterSequenceFromSet:[NSCharacterSet innerLinkSeparaterCharacterSet]];
+
 	UTIL_DEBUG_WRITE1(@"str_ = %@", [str_ stringValue]);
 	UTIL_DEBUG_WRITE1(@"comps_ = %@", [comps_ stringValue]);
 	
 	UTILRequireCondition(comps_ && [comps_ count], RetMessageLink);
 	
-	[rangeBuffer removeAll];
-	iter_   = [comps_ objectEnumerator];
+	iter_ = [comps_ objectEnumerator];
 	while (elem_ = [iter_ nextObject]) {
-		if (scanResLinkElement_(elem_, rangeBuffer) > 0)
-			ret = YES;
+		scanResLinkElement_(elem_, buffer_);
 	}
-	
+
+	if ([buffer_ count] > 0) {
+		if (indexSetPtr != NULL) *indexSetPtr = buffer_;
+		return YES;
+	}
+
 RetMessageLink:
-	return ret;
+	return NO;
 }
 
 + (BOOL) isBeProfileLinkUsingLocalScheme : (id) aLink linkParam : (NSString **) aParam
 {
 	NSString			*str_ = nil;
 	BOOL				ret = NO;
-	
-	//NSLog(@"aLink = %@", [aLink stringValue]);
-	
+
 	UTILRequireCondition(aLink, RetMessageLink);
 	
 	str_ = [aLink stringValue];
 	str_ = [str_ stringByDeletingURLScheme : CMRAttributesBeProfileLinkScheme];
-
-	//NSLog(@"str_ = %@", [str_ stringValue]);
 
 	if (str_) ret = YES;
 	
@@ -217,59 +213,51 @@ static NSString *decimalDigitStringJpanese2Ascii(NSString *str)
 A - B ==> {A, B-A}
 A - B - C ==> {A, 1}, {B, 1}, {C, 1}, 
 */
-static int scanResLinkElement_(NSString *str, SGBaseRangeArray *buffer)
+static void scanResLinkElement_(NSString *str, NSMutableIndexSet *buffer)
 {
+	if (!str || [str length] == 0) {
+		return;
+	}
+
 	NSMutableString		*tmp;
-	
-	if (nil == str || 0 == [str length])
-		return 0;
+	NSMutableIndexSet	*tmpIndexes = [NSMutableIndexSet indexSet];
 	
 	UTIL_DEBUG_FUNCTION;
 	str = decimalDigitStringJpanese2Ascii(str);
-	tmp = [NSMutableString stringWithString : str];
+	tmp = [NSMutableString stringWithString:str];
 	UTIL_DEBUG_WRITE1(@"string: %@", tmp);
-	
-	[tmp replaceCharactersInSet : [NSCharacterSet innerLinkRangeCharacterSet]
-					   toString : @" "];
+
+	[tmp replaceCharactersInSet:[NSCharacterSet innerLinkRangeCharacterSet] toString:@" "];
 	UTIL_DEBUG_WRITE1(@"Replace separater, trim: %@", tmp);
 	
-	NSRange		indexRange = kNFRange;
-	NSScanner	*scan = [NSScanner scannerWithString : tmp];
+	NSScanner	*scan = [NSScanner scannerWithString:tmp];
 	int			idx = 0;
-	int			count = 0;
-	
+
 	[scan setCharactersToBeSkipped:[NSCharacterSet whitespaceCharacterSet]];
 	while (1) {
-		if (NO == [scan scanInt:&idx])
+		if (![scan scanInt:&idx])
 			break;
 		if (idx < 1) continue;
 		
 		// ëºÇÃÉÅÉ\ÉbÉhÇÕÉåÉXî‘çÜÇÇOÉxÅ[ÉXÇ∆ÇµÇƒàµÇ§ÇÃÇ≈
-		indexRange.location = idx -1;
-		indexRange.length = 1;
-		
-		UTIL_DEBUG_WRITE1(@"IndexRange: %@", NSStringFromRange(indexRange));
-		[buffer append : indexRange];
-		count++;
+		UTIL_DEBUG_WRITE1(@"Index: %i",idx-1);
+		[tmpIndexes addIndex:(idx-1)];
 	}
-	if (2 == count) {
-		idx = indexRange.location;	// 2
-		
-		[buffer removeLast];
-		indexRange = [buffer last];	// 1
-		
-		if (idx >= indexRange.location) {
-			indexRange.length += (idx - indexRange.location);
-		} else {
-			unsigned tmp_ = indexRange.location;
-			// ãtèëÇ´
-			indexRange.location = idx;
-			indexRange.length += (tmp_ - idx);
-		}
-		
-		[buffer removeLast];
-		[buffer append : indexRange];
+
+	unsigned int numOfIdxes = [tmpIndexes count];
+
+	UTIL_DEBUG_WRITE1(@"tmpIndexes: %@", bar);
+
+	if (numOfIdxes == 0) {
+		return;
+	} else if (numOfIdxes == 2) {
+		unsigned int first = [tmpIndexes firstIndex];
+		unsigned int last = [tmpIndexes lastIndex];
+		NSRange	foo = NSMakeRange(first, last-first+1);
+		[buffer addIndexesInRange:foo];
+	} else {
+		[buffer addIndexes:tmpIndexes];
 	}
-	
-	return count;
+
+	UTIL_DEBUG_WRITE1(@"IndexSet(buffer): %@", buffer);
 }
