@@ -87,8 +87,8 @@ NSString *const CMRThreadViewerRunSpamFilterNotification = @"CMRThreadViewerRunS
 			NSString *threadTitle = [[DatabaseManager defaultManager] threadTitleFromBoardName:boardName_
 																			  threadIdentifier:threadID];
 			if(threadTitle) {
-				title_ = [NSString stringWithFormat: @"%@ - %@",
-												 threadTitle,
+				title_ = [NSString stringWithFormat: @"%@ %C %@",
+												 threadTitle, 0x2014,
 												 boardName_];
 			} else {
 				title_ = boardName_;
@@ -101,7 +101,7 @@ NSString *const CMRThreadViewerRunSpamFilterNotification = @"CMRThreadViewerRunS
 
 		} else {
 			attr_ = [[[CMRThreadAttributes alloc] initWithDictionary: dict_] autorelease];
-			title_ = [NSString stringWithFormat: @"%@ - %@", [attr_ threadTitle], boardName_];
+			title_ = [NSString stringWithFormat: @"%@ %C %@", [attr_ threadTitle], 0x2014, boardName_];
 
 			template_ = [[[NSAttributedString alloc] initWithString: title_] autorelease];
 			if (!template_) goto ErrInvalidLink;

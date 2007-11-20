@@ -55,6 +55,8 @@
 				<string>id</string>
 				<key>didAdjustSubviews</key>
 				<string>RBSplitView</string>
+				<key>showPreviewerPreferences</key>
+				<string>id</string>
 				<key>togglePreviewPanel</key>
 				<string>id</string>
 				<key>willAdjustSubviews</key>

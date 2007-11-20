@@ -1,4 +1,6 @@
 2007-11-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/CMRReplyWindow.nib
+		2007-11-11 の変更で、UI のレイアウトがずれていた問題を修正。
 	* application/source/thread/CMRThreadLayout-MessageRange.m
 	* application/source/thread/CMRThreadLinkProcessor.m
 	* application/source/thread/CMRThreadViewer-Link.m
