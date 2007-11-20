@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRReplyController-ViewAccessor.m,v 1.19 2007/11/11 08:49:44 tsawada2 Exp $
+  * $Id: CMRReplyController-ViewAccessor.m,v 1.20 2007/11/20 17:48:11 tsawada2 Exp $
   * 
   * CMRReplyController-ViewAccessor.m
   *
@@ -182,6 +182,8 @@ static void *kReplySettingsContext = @"EternalBlaze";
 
 - (void) setupUIComponents
 {
+	NSMenuItem	*item;
+
 	[super setupUIComponents];
 
 	[self setupWindowFrameWithMessenger];
@@ -191,6 +193,12 @@ static void *kReplySettingsContext = @"EternalBlaze";
 	[self setupKeyLoops];
 
 	[[m_templateInsertionButton cell] setUsesItemFromMenu:YES];
+	item = [[m_templateInsertionButton menu] itemAtIndex:0];
+
+	// Leopard
+	if ([item respondsToSelector:@selector(setHidden:)]) {
+		[item setHidden:YES];
+	}
 
 	[[NSNotificationCenter defaultCenter]
 			 addObserver:self

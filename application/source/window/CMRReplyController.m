@@ -142,6 +142,7 @@
 						[bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
 						[bundle objectForInfoDictionaryKey:@"CFBundleVersion"],
 						[dict objectForKey:@"CFBundleIdentifier"],
+						[dict objectForKey:@"CFBundleShortVersionString"],
 						[dict objectForKey:@"CFBundleVersion"],
 						marker];
 

@@ -1,3 +1,11 @@
+2007-11-21 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/Messenger.strings
+	* application/source/window/CMRReplyController.m
+		「不具合の報告」テンプレートの内容で、プレビュープラグインのバージョン情報をより詳しく挿入するように変更。
+	* application/source/window/CMRReplyController-ViewAccessor.m
+		「テンプレートを挿入」ポップアップブタンの表示が Leopard で意図通りにならない問題を修正。
+	* application/Resources/image/Folder.png
+		掲示板リストのカテゴリのアイコンを Leopard 風に差し替え。
 2007-11-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/CMRReplyWindow.nib
 		2007-11-11 の変更で、UI のレイアウトがずれていた問題を修正。

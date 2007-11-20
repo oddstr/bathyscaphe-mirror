@@ -33,7 +33,7 @@
 
 "BugReportTemplate" = "【Mac OS X】%@
 【BathyScaphe】%@ (%@)
-【プレビュープラグイン】%@ (%@)
+【プレビュープラグイン】%@ (%@/%@)
 【不具合の内容】%@
 【再現手順】";
 "BugReportMarker" = "ここに不具合の内容を書いてください…";
