@@ -1,128 +1,52 @@
-//:AccountController.m
-#import "AccountController_p.h"
+//
+//  AccountController.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/11/21.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
 
+#import "AccountController.h"
 
-//////////////////////////////////////////////////////////////////////
-////////////////////// [ 定数やマクロ置換 ] //////////////////////////
-//////////////////////////////////////////////////////////////////////
-#define    LOAD_NIB_NAME    @"AccountPane"
-
-
+#import "AppDefaults.h"
+#import "PreferencePanes_Prefix.h"
 
 @implementation AccountController
-- (NSString *) mainNibName
+- (NSString *)mainNibName
 {
-	return LOAD_NIB_NAME;
+	return @"AccountPane";
 }
 @end
-
-
-
-@implementation AccountController(NSControlDelegate)
-- (void) controlTextDidChange : (NSNotification *) aNotification
-{
-	UTILAssertNotificationName(
-		aNotification,
-		NSControlTextDidChangeNotification);
-	
-	[[self saveButton] setEnabled : YES];
-}
-@end
-
-
-
-@implementation AccountController(Action)
-- (IBAction) saveAccount : (id) sender
-{
-	NSString		*newAccount_;
-	NSString		*newPassword_;
-	BOOL			usesKeychain_;
-
-	newAccount_ = [[self userIDField] stringValue];
-	newPassword_ = [[self passwordField] stringValue];
-	usesKeychain_ = (NSOnState == [[self shouldSavePWCheckBox] state]);
-	
-	if([[self preferences] changeAccount : newAccount_
-								password : newPassword_
-							usesKeychain : usesKeychain_]){
-		
-	}
-	[[self saveButton] setEnabled : NO];
-	[self updateUIComponents];
-	
-}
-
-- (IBAction) changeShouldSavePassword : (id) sender
-{
-	BOOL		passwordFieldEnabled_;
-	
-	UTILAssertKindOfClass(sender, NSButton);
-	
-	passwordFieldEnabled_ = ([sender state] == NSOnState);
-	[[self passwordField] setEnabled : passwordFieldEnabled_];
-	
-	if(NO == passwordFieldEnabled_)
-		[[self passwordField] setStringValue : @""]; 
-
-	[[self saveButton] setEnabled : YES];
-}
-
-- (IBAction) changeShouldLoginIfNeeded : (id) sender
-{
-	BOOL			shouldLoginIfNeeded_;
-	
-	UTILAssertKindOfClass(sender, NSButton);
-	
-	shouldLoginIfNeeded_ = 
-		(NSOnState == [[self shouldLoginCheckBox] state]);
-	[[self preferences] setShouldLoginIfNeeded : shouldLoginIfNeeded_];
-}
-/*
-- (IBAction) changeShouldLoginBe2chAnytime : (id) sender
-{
-	BOOL			tmp_;
-	
-	UTILAssertKindOfClass(sender, NSButton);
-	
-	tmp_ = 
-		(NSOnState == [[self shouldLoginBe2chCheckBox] state]);
-	[[self preferences] setShouldLoginBe2chAnyTime : tmp_];
-}
-*/
-- (IBAction) changeAddressField : (id) sender
-{
-	[[self preferences] setBe2chAccountMailAddress : [sender stringValue]];
-}
-- (IBAction) changeCodeField : (id) sender
-{
-	[[self preferences] setBe2chAccountCode : [sender stringValue]];
-}
-@end
-
 
 
 @implementation AccountController(Toolbar)
-- (NSString *) identifier
+- (NSString *)identifier
 {
 	return PPAccountSettingsIdentifier;
 }
-- (NSString *) helpKeyword
+
+- (NSString *)helpKeyword
 {
 	return PPLocalizedString(@"Help_Account");
 }
-- (NSString *) label
+
+- (NSString *)label
 {
 	return PPLocalizedString(@"Account Label");
 }
-- (NSString *) paletteLabel
+
+- (NSString *)paletteLabel
 {
 	return PPLocalizedString(@"Account Label");
 }
-- (NSString *) toolTip
+
+- (NSString *)toolTip
 {
 	return PPLocalizedString(@"Account ToolTip");
 }
-- (NSString *) imageName
+
+- (NSString *)imageName
 {
 	return @"Account";
 }

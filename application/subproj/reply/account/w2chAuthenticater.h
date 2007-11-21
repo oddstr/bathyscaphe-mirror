@@ -11,23 +11,10 @@
 #import "w2chConnect.h"
 
 @class AppDefaults;
-/*
-//エラーの種類
-typedef enum {
-	w2chNoError = 0,			// エラーなし
-	w2chNetworkError,			// サーバがエラーを返した
-	w2chLoginError,				// 認証エラー
-	w2chConnectionError,		// 接続時のエラー
-	w2chLoginCanceled,			// ユーザによるキャンセル
-	w2chLoginParamsInvalid,		// IDかPassが空
-} w2chAuthenticaterErrorType;
-*/
-
 
 @interface w2chAuthenticater : NSObject<w2chAuthenticationStatus>
 {
 	NSString		*m_sessionID;
-//	NSString		*m_monazillaUserAgent;
 	
 	int 						m_recentStatusCode;
 	w2chAuthenticaterErrorType	m_recentErrorType;
@@ -52,19 +39,7 @@ typedef enum {
       password : (NSString  *) password
      userAgent : (NSString **) userAgent
      sessionID : (NSString **) sid;
-//@end
 
-
-
-//@interface w2chAuthenticater(UserAgent)
-//+ (NSString *) requestHeaderValueForX2chUA;
-//+ (NSString *) userAgentWhenAuthentication;
-//+ (NSString *) userAgent;
-//@end
-
-
-
-//@interface w2chAuthenticater(Preferences)
 + (AppDefaults *) preferences;
 - (AppDefaults *) preferences;
 + (void) setPreferencesObject : (AppDefaults *) defaults;
@@ -72,20 +47,4 @@ typedef enum {
 - (NSString *) password;
 @end
 
-
-/*
-@interface w2chAuthenticater(Status)
-- (NSString *) sessionID;
-
-// Accessor for m_recentStatusCode
-- (int) recentStatusCode;
-- (void) setRecentStatusCode : (int) aRecentStatusCode;
-// Accessor for m_recentErrorType
-- (w2chAuthenticaterErrorType) recentErrorType;
-- (void) setRecentErrorType : (w2chAuthenticaterErrorType) aRecentErrorType;
-@end
-*/
-
-
 #define k2chAuthSessionIDKey	@"sid"
-

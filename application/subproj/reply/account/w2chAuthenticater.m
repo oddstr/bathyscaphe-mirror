@@ -31,7 +31,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultAuthenticater);
 - (void)dealloc
 {
 	[m_sessionID release];
-//	[m_monazillaUserAgent release];
 	[super dealloc];
 }
 
@@ -57,8 +56,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultAuthenticater);
 	UTILRequireCondition((account_ && [account_ length]), error_params_invalid);
 	UTILRequireCondition((password_ && [password_ length]), error_params_invalid);
 	
-	if(accountPtr != NULL) *accountPtr = account_;
-	if(passwordPtr != NULL) *passwordPtr = password_;
+	if (accountPtr != NULL) *accountPtr = account_;
+	if (![self account] && account_) [[[self class] preferences] setX2chUserAccount:account_];
+	if (passwordPtr != NULL) *passwordPtr = password_;
 	return YES;
 	
 error_params_invalid: {
@@ -227,35 +227,7 @@ error_params_invalid: {
 	return [self parseResponseID:contents_ userAgent:userAgent sessionID:sid];
 }
 
-
-//#pragma mark (UserAgent)
-/*+ (NSString *) requestHeaderValueForX2chUA
-{
-	NSString	*x2chUA_;
-	
-	UTILAssertNotNil([[self class] preferences]);
-	x2chUA_ = [[[self class] preferences] applicationUserAgent];
-	UTILAssertNotNil(x2chUA_);
-	
-	return x2chUA_;
-}
-+ (NSString *) userAgentWhenAuthentication
-{
-	return USER_AGENT_WHEN_AUTHENTICATION;
-}
-+ (NSString *) userAgent
-{
-	long _libver = (1 << 16);	//暫定措置
-	
-	// 2ch改造暫定措置 (02.01.20)
-	return [NSString stringWithFormat :
-					@"Monazilla/%d.%02d (%@)",
-					_libver >> 16,
-					_libver & 0xffff,
-					[self requestHeaderValueForX2chUA]];
-}*/
-
-#pragma mark (Preferences)
+#pragma mark Preferences
 + (AppDefaults *)preferences
 {
 	return st_defaults;
@@ -281,13 +253,20 @@ error_params_invalid: {
 	return [[[self class] preferences] password];
 }
 
-#pragma mark (Status)
+#pragma mark Accessors
 - (NSString *)sessionID
 {
 	if (!m_sessionID) {
 		[self invalidate];
 	}
 	return m_sessionID;
+}
+
+- (void)setSessionID:(NSString *)aSessionID
+{
+	[aSessionID retain];
+	[m_sessionID release];
+	m_sessionID = aSessionID;
 }
 
 - (int)recentStatusCode
@@ -312,54 +291,14 @@ error_params_invalid: {
 @end
 
 
-
-@implementation w2chAuthenticater(Private)
-/* Accessor for m_sessionID */
-- (void)setSessionID:(NSString *)aSessionID
-{
-	id tmp;
-	
-	tmp = m_sessionID;
-	m_sessionID = [aSessionID retain];
-	[tmp release];
-}
-/* Accessor for m_monazillaUserAgent */
-/*- (NSString *) monazillaUserAgent
-{
-	if(nil == m_monazillaUserAgent)
-		[self invalidate];
-	return m_monazillaUserAgent;
-}
-- (void) setMonazillaUserAgent : (NSString *) aMonazillaUserAgent
-{
-	id tmp;
-	
-	tmp = m_monazillaUserAgent;
-	m_monazillaUserAgent = [aMonazillaUserAgent retain];
-	[tmp release];
-}*/
-@end
-
-
-
 @implementation w2chAuthenticater(Invalidate)
-- (BOOL)shouldLogin
-{
-	if (![[self preferences] shouldLoginIfNeeded]) {
-		return NO;
-	}
-	//ユーザIDが入力されていない場合はユーザ側に
-	//ログインする意志がないものと判断。
-	return ([self account] && [[self account] length] > 0);
-}
-
 - (BOOL)updateAccountAndPasswordIfNeeded:(NSString **)newAccountPtr
 								password:(NSString **)newPasswordPtr
 					  shouldUsesKeychain:(BOOL *)savePassPtr
 {
-	if (![self shouldLogin]) return NO;
+	if (![[self preferences] shouldLoginIfNeeded]) return NO;
 	
-	if ([[self preferences] hasAccountInKeychain]) {
+	if ([self account] && [[self preferences] hasAccountInKeychain]) {
 		if(newAccountPtr != NULL) *newAccountPtr = [self account];
 		if(newPasswordPtr != NULL) *newPasswordPtr = [self password];
 		if(savePassPtr != NULL) *savePassPtr = NO;
@@ -418,15 +357,13 @@ static inline NSString *messageKeyForErrorType(w2chAuthenticaterErrorType type)
 
 - (BOOL)invalidate
 {
-//	NSString	*userAgent_	;
-	NSString	*account_	;
-	NSString	*pw_		;
-	NSString	*sid_		;
-	BOOL		result_		;
+	NSString	*account_;
+	NSString	*pw_;
+	NSString	*sid_;
+	BOOL		result_;
 	BOOL		usesKeychain_;
 	
 	[self setRecentErrorType:w2chNoError];
-//	[self setMonazillaUserAgent : nil];
 	[self setSessionID:nil];
 	
 	if (![self updateAccountAndPasswordIfNeeded:&account_ password:&pw_ shouldUsesKeychain:&usesKeychain_]) {
@@ -436,19 +373,12 @@ static inline NSString *messageKeyForErrorType(w2chAuthenticaterErrorType type)
 	UTILRequireCondition((account_ && [account_ length]), error_params_invalid);
 	UTILRequireCondition((pw_ && [pw_ length]), error_params_invalid);
 	
-//	result_ = [self login:account_ password:pw_ userAgent:&userAgent_ sessionID:&sid_];
 	result_ = [self login:account_ password:pw_ userAgent:NULL sessionID:&sid_];
 
 	if (result_) {
-//		[self setMonazillaUserAgent : userAgent_];
 		[self setSessionID:sid_];
-		
-		if (usesKeychain_) {
-			[[self preferences] changeAccount:account_ password:pw_ usesKeychain:usesKeychain_];
-		}
-		
+		if (usesKeychain_) [[self preferences] changeAccount:account_ password:pw_ usesKeychain:usesKeychain_];
 	} else {
-//		NSString		*ok_ = APP_AUTHENTICATER_OK_KEY;
 		NSString		*titleKey_;
 		NSString		*msgKey_;
 		
@@ -466,8 +396,7 @@ static inline NSString *messageKeyForErrorType(w2chAuthenticaterErrorType type)
 	}
 	
 	return result_;
-	
-	
+
 error_params_invalid: {
 		[self setRecentErrorType:w2chLoginParamsInvalid];
 		return NO;

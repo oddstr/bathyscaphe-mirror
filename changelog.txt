@@ -1,4 +1,12 @@
 2007-11-21 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/reply/account/w2chAuthenticater.m
+		●のユーザーIDが未設定だが、「必要なときに●ログインする」が「入」のときは、今まで●ログインしないものと解釈していたが、
+		ユーザーID とパスワードをその場で入力するダイアログを表示するようにした。
+	* application/subproj/preference/account/AccountController.m
+	* application/subproj/preference/Japanese.lproj/AccountPane.nib
+		「アカウント」環境設定について、●アカウントの設定インタフェースをシンプルにして分かりやすくした。
+		パスワード関連の要素は取り除いた。パスワードはキーチェーンが既にあればそこから自動的に読みに行くし、
+		キーチェーンがなければ●ログインしようとする時に入力ダイアログを表示する（そこでキーチェーン作成の設定もできる）。
 	* application/source/thread/CMRThreadViewer-Link.m
 		2007-11-20 の変更で、「Web ブラウザを背面で開く」オプションが反映されなくなっていた問題を修正。
 	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib

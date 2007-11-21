@@ -21,7 +21,6 @@
 		87170A3E0BA3ED2000AF2E65 /* BSIndexingPopupper.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87170A3C0BA3ED2000AF2E65 /* BSIndexingPopupper.nib */; };
 		871CA11608585F8100C3A044 /* PreferencesController.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DB3004C6959800A80005 /* PreferencesController.h */; };
 		871CA11708585F8100C3A044 /* AccountController.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DB3504C6959800A80005 /* AccountController.h */; };
-		871CA11808585F8100C3A044 /* AccountController_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DB3704C6959800A80005 /* AccountController_p.h */; };
 		871CA11908585F8100C3A044 /* FCController.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DB3B04C6959800A80005 /* FCController.h */; };
 		871CA11B08585F8100C3A044 /* PreferencesPane.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DB6204C6959800A80005 /* PreferencesPane.h */; };
 		871CA11C08585F8100C3A044 /* PreferencePanes_Prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DB6404C6959800A80005 /* PreferencePanes_Prefix.h */; };
@@ -50,7 +49,6 @@
 		871CA13808585F8100C3A044 /* AdvancedPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8764157F0840AF4F00F66D78 /* AdvancedPane.nib */; };
 		871CA13908585F8100C3A044 /* AdvancedPreferences.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87FECDE40840DDF100787C68 /* AdvancedPreferences.tiff */; };
 		871CA13C08585F8100C3A044 /* PreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DB3104C6959800A80005 /* PreferencesController.m */; };
-		871CA13D08585F8100C3A044 /* AccountController-ViewAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DB3404C6959800A80005 /* AccountController-ViewAccessor.m */; };
 		871CA13E08585F8100C3A044 /* AccountController.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DB3604C6959800A80005 /* AccountController.m */; };
 		871CA14008585F8100C3A044 /* FCController.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DB3C04C6959800A80005 /* FCController.m */; };
 		871CA14108585F8100C3A044 /* PreferencesPane-PCManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DB5F04C6959800A80005 /* PreferencesPane-PCManagement.m */; };
@@ -1085,7 +1083,7 @@
 		F324DB3004C6959800A80005 /* PreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = PreferencesController.h; sourceTree = "<group>"; };
 		F324DB3104C6959800A80005 /* PreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = PreferencesController.m; sourceTree = "<group>"; };
 		F324DB3404C6959800A80005 /* AccountController-ViewAccessor.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "AccountController-ViewAccessor.m"; sourceTree = "<group>"; };
-		F324DB3504C6959800A80005 /* AccountController.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = AccountController.h; sourceTree = "<group>"; };
+		F324DB3504C6959800A80005 /* AccountController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountController.h; sourceTree = "<group>"; };
 		F324DB3604C6959800A80005 /* AccountController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountController.m; sourceTree = "<group>"; };
 		F324DB3704C6959800A80005 /* AccountController_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = AccountController_p.h; sourceTree = "<group>"; };
 		F324DB3B04C6959800A80005 /* FCController.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = FCController.h; sourceTree = "<group>"; };
@@ -2891,7 +2889,6 @@
 			files = (
 				871CA11608585F8100C3A044 /* PreferencesController.h in Headers */,
 				871CA11708585F8100C3A044 /* AccountController.h in Headers */,
-				871CA11808585F8100C3A044 /* AccountController_p.h in Headers */,
 				871CA11908585F8100C3A044 /* FCController.h in Headers */,
 				871CA11B08585F8100C3A044 /* PreferencesPane.h in Headers */,
 				871CA11C08585F8100C3A044 /* PreferencePanes_Prefix.h in Headers */,
@@ -3526,7 +3523,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				871CA13C08585F8100C3A044 /* PreferencesController.m in Sources */,
-				871CA13D08585F8100C3A044 /* AccountController-ViewAccessor.m in Sources */,
 				871CA13E08585F8100C3A044 /* AccountController.m in Sources */,
 				871CA14008585F8100C3A044 /* FCController.m in Sources */,
 				871CA14108585F8100C3A044 /* PreferencesPane-PCManagement.m in Sources */,
