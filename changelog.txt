@@ -1,4 +1,10 @@
 2007-11-21 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-Link.m
+		2007-11-20 の変更で、「Web ブラウザを背面で開く」オプションが反映されなくなっていた問題を修正。
+	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
+		-[NSArrayController remove:] を実行したときに Tiger で問題が起きる可能性があった部分を修正（たぶん）。
+=================================================
+2007-11-21 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/Messenger.strings
 	* application/source/window/CMRReplyController.m
 		「不具合の報告」テンプレートの内容で、プレビュープラグインのバージョン情報をより詳しく挿入するように変更。

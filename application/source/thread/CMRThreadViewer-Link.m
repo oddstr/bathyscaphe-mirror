@@ -278,11 +278,11 @@ static inline NSString *urlPathExtension(NSURL *url)
 
 	if (shouldPreviewWithNoModifierKey) {
 		if (!isOptionKeyPressed && !isFileURL) {
-			return [self previewOrDownloadURL:url];
+			if ([self previewOrDownloadURL:url]) return YES;
 		}
 	} else {
 		if (isOptionKeyPressed && !isFileURL) {
-			return [self previewOrDownloadURL:url];
+			if ([self previewOrDownloadURL:url]) return YES;
 		}
 	}
 
