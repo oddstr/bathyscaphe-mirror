@@ -5,7 +5,7 @@
 PROJECT_ROOT	= $(CURDIR)
 
 APPLICATION_ROOT = $(PROJECT_ROOT)/application
-SUBPROJECTS_ROOT = $(APPLICATION_ROOT)/subproj
+# SUBPROJECTS_ROOT = $(APPLICATION_ROOT)/subproj
 FRAMEWORK_ROOT	= $(PROJECT_ROOT)/frameworks
 IBPALLETE = $(PROJECT_ROOT)/IBPallete
 
@@ -38,8 +38,8 @@ components: frameworks $(MAKE_MDI)
 frameworks: 
 	cd $(FRAMEWORK_ROOT) && $(MAKE) all
 
-subprojects: 
-	cd $(SUBPROJECTS_ROOT) && $(MAKE) all
+# subprojects: 
+#	cd $(SUBPROJECTS_ROOT) && $(MAKE) all
 
 mdimporter:
 	cd $(MDI_DIR) && $(MAKE) all
@@ -53,8 +53,8 @@ clean-components: clean-frameworks clean-$(MAKE_MDI)
 clean-frameworks:
 	cd $(FRAMEWORK_ROOT) && $(MAKE) clean
 
-clean-subprojects:
-	cd $(SUBPROJECTS_ROOT) && $(MAKE) clean
+# clean-subprojects:
+#	cd $(SUBPROJECTS_ROOT) && $(MAKE) clean
 
 clean-mdimporter:
 	cd $(MDI_DIR) && $(MAKE) clean
