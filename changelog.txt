@@ -3,6 +3,7 @@
 		[削除] もう使われていないので削除。
 	* application/BachyScaphe.xcode
 	* metadataimporter/BathyScaphe/BathyScapheMDI.xcode
+	* application/subproj/previewer/BSIPIDownload.[h|m]
 	* application/subproj/preference/Japanese.lproj/FontsAndColors.nib
 		[削除] もう使われていないので削除。
 	* application/subproj/preference/Japanese.lproj/AdvancedPane.nib
