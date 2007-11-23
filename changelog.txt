@@ -1,3 +1,15 @@
+2007-11-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* frameworks/SGAppKit/framework/src/custom/container/SGContainerTableView.m
+		「進行状況」パネルのグリッドは、SGContainerTableView で描くようにした。
+		今までは、CMRTaskItem.nib で水平線の NSBox を配置してごまかしていた（！）。
+	* application/Resources/Japanese.lproj/CMRTaskItem.nib
+	* application/Resources/Japanese.lproj/CMRTaskManager.nib
+		レイアウトの修正。
+		- nib のフォーマットの関係で、CMRTaskItem.nib/objects.nib が remove され、CMRTaskItem.nib/keyedobjects.nib が
+		　add されているので注意。
+	* frameworks/SGAppKit/TestContainerTableView/
+	* frameworks/SGAppKit/SGAppKit.pbproj
+		[削除] 削除。
 2007-11-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* frameworks/SGNetwork 以下
 		[削除] もう使われていないので削除。
