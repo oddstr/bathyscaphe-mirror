@@ -1,4 +1,6 @@
 2007-11-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* frameworks/SGNetwork 以下
+		[削除] もう使われていないので削除。
 	* application/BachyScaphe.xcode
 	* metadataimporter/BathyScaphe/BathyScapheMDI.xcode
 	* application/subproj/preference/Japanese.lproj/FontsAndColors.nib
