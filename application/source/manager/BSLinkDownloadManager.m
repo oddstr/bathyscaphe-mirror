@@ -41,18 +41,6 @@ static NSString *const kTicketPlistRepAutoopenKey = @"Autoopen";
 	m_extension = extensionString;
 }
 
--(BOOL)validateExtension:(id *)ioValue error:(NSError **)outError
-{
-    if (*ioValue == nil) {
-        return YES;
-    }
-
-	if ([*ioValue hasPrefix:@"."]) {
-		*ioValue = [*ioValue substringFromIndex:1];
-	}
-    return YES;
-}
-
 - (BOOL)autoopen
 {
 	return m_autoopen;
@@ -79,7 +67,7 @@ static NSString *const kTicketPlistRepAutoopenKey = @"Autoopen";
 
 - (id)propertyListRepresentation
 {
-	if (![self extension]) return nil;
+	if (![self extension] || [[self extension] length] == 0) return nil;
 	return [NSDictionary dictionaryWithObjectsAndKeys:[self extension], kTicketPlistRepExtensionKey,
 													  [NSNumber numberWithBool:[self autoopen]], kTicketPlistRepAutoopenKey, NULL];
 }

@@ -1,9 +1,10 @@
 //
-//  $Id: BSImagePreviewInspector-View.m,v 1.10 2007/11/16 00:19:46 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector-View.m,v 1.11 2007/11/23 12:34:45 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/07/15.
 //  Copyright 2006 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import "BSImagePreviewInspector.h"
@@ -14,90 +15,90 @@
 static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInspector Panel Autosave";
 
 @implementation BSImagePreviewInspector(ViewAccessor)
-- (NSPopUpButton *) actionBtn
+- (NSPopUpButton *)actionBtn
 {
 	return m_actionBtn;
 }
 
-- (NSTextField *) infoField
+- (NSTextField *)infoField
 {
 	return m_infoField;
 }
 
-- (NSImageView *) imageView
+- (NSImageView *)imageView
 {
 	return m_imageView;
 }
 
-- (NSProgressIndicator *) progIndicator
+- (NSProgressIndicator *)progIndicator
 {
 	return m_progIndicator;
 }
 
-- (NSPanel *) settingsPanel
-{
-	return m_settingsPanel;
-}
-
-- (NSSegmentedControl *) cacheNavigationControl
+- (NSSegmentedControl *)cacheNavigationControl
 {
 	return m_cacheNaviBtn;
 }
 
-- (NSTabView *) tabView
+- (NSTabView *)tabView
 {
 	return m_tabView;
 }
-- (NSSegmentedControl *) paneChangeBtn
+
+- (NSSegmentedControl *)paneChangeBtn
 {
 	return m_paneChangeBtn;
 }
-- (NSTableColumn *) nameColumn
+
+- (NSTableColumn *)nameColumn
 {
 	return m_nameColumn;
 }
-- (NSMenu *) cacheNaviMenuFormRep
+
+- (NSMenu *)cacheNaviMenuFormRep
 {
 	return m_cacheNaviMenuFormRep;
 }
-- (BSIPIArrayController *) tripleGreenCubes
+
+- (BSIPIArrayController *)tripleGreenCubes
 {
 	return m_tripleGreenCubes;
 }
 
 #pragma mark Setup UIs
-- (void) setupWindow
+- (void)setupWindow
 {
 	NSWindow	*window_ = [self window];
-	
-	[window_ setFrameAutosaveName : kIPIFrameAutoSaveNameKey];
-	[window_ setDelegate : self];
-	[(NSPanel *)window_ setBecomesKeyOnlyIfNeeded : (NO == [self alwaysBecomeKey])];
-	[(NSPanel *)window_ setFloatingPanel: [self floating]];
-	[window_ setAlphaValue : [self alphaValue]];
-	[window_ useOptimizedDrawing: YES];
+
+	[window_ setFrameAutosaveName:kIPIFrameAutoSaveNameKey];
+	[window_ setDelegate:self];
+	[(NSPanel *)window_ setBecomesKeyOnlyIfNeeded:(![self alwaysBecomeKey])];
+	[(NSPanel *)window_ setFloatingPanel:[self floating]];
+	[window_ setAlphaValue:[self alphaValue]];
+	[window_ useOptimizedDrawing:YES];
 }
 
-- (void) setupTableView
+- (void)setupTableView
 {
 	BSIPITextFieldCell	*cell;
+	NSTableView	*tableView = [[self nameColumn] tableView];
 
-	cell = [[BSIPITextFieldCell alloc] initTextCell: @""];
-	[cell setAttributesFromCell: [[self nameColumn] dataCell]];
-	[[self nameColumn] setDataCell: cell];
+	cell = [[BSIPITextFieldCell alloc] initTextCell:@""];
+	[cell setAttributesFromCell:[[self nameColumn] dataCell]];
+	[[self nameColumn] setDataCell:cell];
 	[cell release];
 
-	[[[self nameColumn] tableView] setDataSource: [BSIPIHistoryManager sharedManager]];
-	[[[self nameColumn] tableView] setDoubleAction: @selector(changePaneAndShow:)];
-	[[[self nameColumn] tableView] setVerticalMotionCanBeginDrag: NO];
+	[tableView setDataSource:[BSIPIHistoryManager sharedManager]];
+	[tableView setDoubleAction:@selector(changePaneAndShow:)];
+	[tableView setVerticalMotionCanBeginDrag:NO];
 }
 
-- (void) setupControls
+- (void)setupControls
 {
 	NSMenuItem	*iter;
 
-	iter = [[[self actionBtn] menu] itemAtIndex : 0];
-	[iter setImage : [self imageResourceWithName: @"Gear"]];
+	iter = [[[self actionBtn] menu] itemAtIndex:0];
+	[iter setImage:[self imageResourceWithName:@"Gear"]];
 
 	[[[self actionBtn] cell] setUsesItemFromMenu:YES];
 
@@ -106,72 +107,51 @@ static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInsp
 		[iter setHidden:YES];
 	}
 
-	[[self paneChangeBtn] setLabel: nil forSegment: 0];
-	[[self paneChangeBtn] setLabel: nil forSegment: 1];
-	[[self cacheNavigationControl] setLabel: nil forSegment: 0];
-	[[self cacheNavigationControl] setLabel: nil forSegment: 1];
+	[[self paneChangeBtn] setLabel:nil forSegment:0];
+	[[self paneChangeBtn] setLabel:nil forSegment:1];
+	[[self cacheNavigationControl] setLabel:nil forSegment:0];
+	[[self cacheNavigationControl] setLabel:nil forSegment:1];
 	
-	[(BSIPIImageView *)[self imageView] setDelegate: self];
+	[(BSIPIImageView *)[self imageView] setDelegate:self];
 
 	int	tabIndex = [self preferredView];
 	if (tabIndex == -1)
 		tabIndex = [self lastShownViewTag];
 
-	[[self tabView] selectTabViewItemAtIndex: tabIndex];
-	[[self paneChangeBtn] setSelectedSegment: tabIndex];
+	[[self tabView] selectTabViewItemAtIndex:tabIndex];
+	[[self paneChangeBtn] setSelectedSegment:tabIndex];
 }
 
-- (void) setupSettingsSheet
-{
-//	NSBundle *myself = [NSBundle bundleForClass: [self class]];
-//	if (!myself) return;
-	
-//	NSString *versionNum = [myself objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
-//	if (!versionNum) return;
-
-	if (floor(NSAppKitVersionNumber) <= 824) {
-		[m_fullScreenSettingMatrix setEnabled:NO];
-	}
-//	[[self versionInfoField] setStringValue: [NSString stringWithFormat:[self localizedStrForKey:@"Version %@"], versionNum]];
-
-	[[self preferredViewSelector] setLabel: nil forSegment: 0];
-	[[self preferredViewSelector] setLabel: nil forSegment: 1];
-}
-
-- (void) awakeFromNib
+- (void)windowDidLoad
 {
 	[self setupWindow];
 	[self setupTableView];
 	[self setupControls];
-	[self setupSettingsSheet];
 	[self setupToolbar];
 }
 @end
 
 @implementation BSImagePreviewInspector(Preferences)
-- (NSPopUpButton *) directoryChooser
+- (NSPanel *)settingsPanel
+{
+	return m_settingsPanel;
+}
+
+- (NSPopUpButton *)directoryChooser
 {
 	return m_directoryChooser;
 }
 
-- (NSSegmentedControl *) preferredViewSelector
+- (NSSegmentedControl *)preferredViewSelector
 {
 	return m_preferredViewSelector;
 }
-/*
-- (NSTextField *) versionInfoField
+
+- (NSMatrix *)fullScreenSettingMatrix
 {
-	return m_versionInfoField;
+	return m_fullScreenSettingMatrix;
 }
 
-- (IBAction) endSettingsSheet : (id) sender
-{
-	NSWindow *sheet_ = [sender window];
-	[NSApp endSheet : sheet_
-		 returnCode : NSOKButton];
-
-	[sheet_ close];
-}*/
 - (void)didEndChooseFolderSheet:(NSOpenPanel *)panel_ returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
 	if (returnCode == NSOKButton) {
@@ -180,7 +160,7 @@ static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInsp
 	[self updateDirectoryChooser];
 }
 
-- (IBAction) openOpenPanel : (id) sender
+- (IBAction)openOpenPanel:(id)sender
 {
 	NSOpenPanel	*panel_ = [NSOpenPanel openPanel];
 	[panel_ setCanChooseFiles:NO];
@@ -194,30 +174,43 @@ static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInsp
 					 modalDelegate:self
 					didEndSelector:@selector(didEndChooseFolderSheet:returnCode:contextInfo:)
 					   contextInfo:nil];
-/*	if([panel_ runModalForTypes : nil] == NSOKButton)
-		[self setSaveDirectory : [panel_ directory]];
-
-	[self updateDirectoryChooser];*/
 }
 
 static NSImage *bsIPI_iconForPath(NSString *sourcePath)
 {
-	NSImage	*icon_ = [[NSWorkspace sharedWorkspace] iconForFile : sourcePath];
-	[icon_ setSize : NSMakeSize(16, 16)];
+	NSImage	*icon_ = [[NSWorkspace sharedWorkspace] iconForFile:sourcePath];
+	[icon_ setSize:NSMakeSize(16, 16)];
 	return icon_;
 }
 
-- (void) updateDirectoryChooser
+- (void)updateDirectoryChooser
 {
 	NSString	*fullPathTip = [self saveDirectory];
-	NSString	*title = [[NSFileManager defaultManager] displayNameAtPath: fullPathTip];
-	NSMenuItem	*theItem = [[self directoryChooser] itemAtIndex : 0];
+	NSString	*title = [[NSFileManager defaultManager] displayNameAtPath:fullPathTip];
+	NSMenuItem	*theItem = [[self directoryChooser] itemAtIndex:0];
 	
-	[theItem setTitle : title];
-	[theItem setToolTip: fullPathTip];
-	[theItem setImage : bsIPI_iconForPath(fullPathTip)];
+	[theItem setTitle:title];
+	[theItem setToolTip:fullPathTip];
+	[theItem setImage:bsIPI_iconForPath(fullPathTip)];
 
-	[[self directoryChooser] selectItem : nil];
+	[[self directoryChooser] selectItem:nil];
 	[[self directoryChooser] synchronizeTitleAndSelectedItem];
+}
+
+- (void)setupSettingsPanel
+{
+	if (floor(NSAppKitVersionNumber) <= 824) {
+		[[self fullScreenSettingMatrix] setEnabled:NO];
+	}
+
+	[[self preferredViewSelector] setLabel:nil forSegment:0];
+	[[self preferredViewSelector] setLabel:nil forSegment:1];
+}
+
+- (void)awakeFromNib
+{
+	if ([self settingsPanel]) {
+		[self setupSettingsPanel];
+	}
 }
 @end

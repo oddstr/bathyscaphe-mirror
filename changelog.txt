@@ -1,3 +1,22 @@
+2007-11-23 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/Japanese.lproj/FontsAndColors.nib
+		[削除] もう使われていないので削除。
+	* application/subproj/preference/Japanese.lproj/AdvancedPane.nib
+		ツールチップを補ったほか、レイアウト上のミスを修正。
+	* application/subproj/preference/Japanese.lproj/Localizable.strings
+	* application/subproj/preference/LinkPrefController.m
+	* application/source/manager/BSLinkDownloadManager.m
+		「リンク」環境設定から拡張子を入力する際のエラーチェック方法の改良に伴う変更。
+	* application/subproj/preference/BSPathExtensionFormatter.[h|m]
+		[新規追加] 「リンク」環境設定で使用する NSFormatter のサブクラス。
+	* application/subproj/previewer/BSImagePreviewInspector-View.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+		プレビューインスペクタ (2.7.1 -> 2.7.2)：
+		環境設定パネルを単独の nib ファイルにしたことに伴う内部の修正。
+	* application/subproj/previewer/Japanese.lproj/BSIPIPreferences.nib
+		[新規追加] プレビューインスペクタの環境設定パネルは、単独の nib ファイルにした。
+	* application/source/view/CMRThreadView.m
+		「n 個のリンクをプレビュー」は、プレビュープラグインがこの機能に対応していない時はメニューに表示しないことにした。
 2007-11-21 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/reply/account/w2chAuthenticater.m
 		●のユーザーIDが未設定だが、「必要なときに●ログインする」が「入」のときは、今まで●ログインしないものと解釈していたが、

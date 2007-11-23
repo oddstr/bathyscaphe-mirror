@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.27 2007/11/20 04:21:35 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.28 2007/11/23 12:34:45 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -19,6 +19,7 @@
 @class BSIPIFullScreenWindow;
 
 static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
+static NSString *const kIPIPrefsNibFileNameKey	= @"BSIPIPreferences";
 
 @implementation BSImagePreviewInspector
 - (id)initWithPreferences:(AppDefaults *)prefs
@@ -88,18 +89,13 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 }
 
 #pragma mark Actions
-//- (IBAction)beginSettingsSheet:(id)sender
 - (IBAction)showPreviewerPreferences:(id)sender
 {
-	if (![self isWindowLoaded]) {
-		[self loadWindow];
+	if (![self settingsPanel]) {
+		[NSBundle loadNibNamed:kIPIPrefsNibFileNameKey owner:self];
 	}
+
 	[self updateDirectoryChooser];
-/*	[NSApp beginSheet : [self settingsPanel]
-	   modalForWindow : [self window]
-		modalDelegate : self
-	   didEndSelector : nil
-		  contextInfo : nil];*/
 	[[self settingsPanel] center];
 	[[self settingsPanel] makeKeyAndOrderFront:sender];
 }
@@ -353,21 +349,21 @@ static NSString *const kIPINibFileNameKey		= @"BSImagePreviewInspector";
 }
 
 #pragma mark NSTabView Delegate
-- (void) tabView: (NSTabView *) tabView willSelectTabViewItem: (NSTabViewItem *) tabViewItem
+- (void)tabView:(NSTabView *)tabView willSelectTabViewItem:(NSTabViewItem *)tabViewItem
 {
 	NSIndexSet *tmp_ = [[self tripleGreenCubes] selectionIndexes];
 	if ([tmp_ count] > 1) {
-		[[self tripleGreenCubes] setSelectionIndex: [tmp_ firstIndex]];
+		[[self tripleGreenCubes] setSelectionIndex:[tmp_ firstIndex]];
 	}
-	[self setLastShownViewTag: [tabView indexOfTabViewItem: tabViewItem]];
+	[self setLastShownViewTag:[tabView indexOfTabViewItem:tabViewItem]];
 }
 
 #pragma mark BSIPIImageView Delegate
-- (BOOL) imageView: (BSIPIImageView *) aImageView writeSomethingToPasteboard: (NSPasteboard *) pboard
+- (BOOL)imageView:(BSIPIImageView *)aImageView writeSomethingToPasteboard:(NSPasteboard *)pboard
 {
-	return [[self historyManager] appendDataForTokenAtIndexes: [[self tripleGreenCubes] selectionIndexes]
-															   toPasteboard: pboard
-													withFilenamesPboardType: YES];
+	return [[self historyManager] appendDataForTokenAtIndexes:[[self tripleGreenCubes] selectionIndexes]
+												 toPasteboard:pboard
+									  withFilenamesPboardType:YES];
 }
 
 - (void)imageView:(BSIPIImageView *)aImageView mouseDoubleClicked:(NSEvent *)theEvent

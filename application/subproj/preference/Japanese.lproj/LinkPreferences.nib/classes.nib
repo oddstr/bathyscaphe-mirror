@@ -95,6 +95,8 @@
 				<string>NSPopUpButton</string>
 				<key>m_openPreviewerPrefsButton</key>
 				<string>NSButton</string>
+				<key>m_pathExtensionColumn</key>
+				<string>NSTableColumn</string>
 				<key>m_previewerIdField</key>
 				<string>NSTextField</string>
 				<key>m_previewerNameField</key>

@@ -9,6 +9,7 @@
 
 #import "LinkPrefController.h"
 #import "PreferencePanes_Prefix.h"
+#import "BSPathExtensionFormatter.h"
 
 @implementation LinkPrefController
 - (NSString *)mainNibName
@@ -120,20 +121,15 @@
 
 - (void)setupUIComponents
 {
+	BSPathExtensionFormatter *formatter;
+
 	if (!_contentView) return;
 	[self updateUIComponents];
-}
-
-
-#pragma mark NSTableView Delegate
-- (BOOL)control:(NSControl *)control textShouldEndEditing:(NSText *)fieldEditor
-{
-	NSString *str = [fieldEditor string];
-	if ([str isEqualToString: @""]) {
-		NSBeep();
-		return NO;
-	}
-	return YES;
+	
+	id cell = [m_pathExtensionColumn dataCell];
+	formatter = [[BSPathExtensionFormatter alloc] init];
+	[cell setFormatter:formatter];
+	[formatter release];
 }
 @end
 

@@ -288,6 +288,10 @@ static inline void setupMenuItemsRepresentedObject(NSMenu *aMenu, id anObject)
 
 - (NSMenuItem *)previewLinksMenuItemForRange:(NSRange)range
 {
+	if (![[CMRPref sharedImagePreviewer] respondsToSelector:@selector(showImagesWithURLs:)]) {
+		return nil;
+	}
+
 	NSArray *array = [self previewlinksArrayForRange:range];
 	if (!array) {
 		return nil;
@@ -740,11 +744,11 @@ NS_ENDHANDLER
 		
 		return [self setUpMessageActionMenuItem:theItem forIndexes:indexSet withAttributeName:mActionGetKeysForTag[tag]];
 	}
-	
+/*	
 	if (action_ == @selector(previewLinksInSelection:)) {
 		return [[CMRPref sharedImagePreviewer] respondsToSelector:@selector(showImagesWithURLs:)];
 	}
-
+*/
 	return [super validateMenuItem:theItem];
 }
 @end

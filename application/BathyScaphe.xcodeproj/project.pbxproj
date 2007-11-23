@@ -173,6 +173,9 @@
 		87CDC3420CEB3ED0001AE526 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87CDC3410CEB3ED0001AE526 /* InfoPlist.strings */; };
 		87D32F230BAC1C6D002B6006 /* BSSearchOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D32F210BAC1C6D002B6006 /* BSSearchOptions.h */; };
 		87D32F240BAC1C6D002B6006 /* BSSearchOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D32F220BAC1C6D002B6006 /* BSSearchOptions.m */; };
+		87D6CB470CF6CC3A00CFEAC4 /* BSIPIPreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87D6CB450CF6CC3A00CFEAC4 /* BSIPIPreferences.nib */; };
+		87D6CB780CF6EC6700CFEAC4 /* BSPathExtensionFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D6CB760CF6EC6700CFEAC4 /* BSPathExtensionFormatter.h */; };
+		87D6CB790CF6EC6700CFEAC4 /* BSPathExtensionFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D6CB770CF6EC6700CFEAC4 /* BSPathExtensionFormatter.m */; };
 		87D8FBBC0B52575800CCB933 /* FontBigger.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8709CA7C0B06750B00525B8D /* FontBigger.tiff */; };
 		87D8FBBD0B52575900CCB933 /* FontSmaller.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8709CA7D0B06750B00525B8D /* FontSmaller.tiff */; };
 		87D8FBBE0B52575B00CCB933 /* HistoryFolder.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CD5090E970F007FF9C3 /* HistoryFolder.png */; };
@@ -1041,6 +1044,9 @@
 		87CF6469097A335D00DE8B16 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Japanese; path = Japanese.lproj/Acknowledgments.rtf; sourceTree = "<group>"; };
 		87D32F210BAC1C6D002B6006 /* BSSearchOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSSearchOptions.h; sourceTree = "<group>"; };
 		87D32F220BAC1C6D002B6006 /* BSSearchOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSSearchOptions.m; sourceTree = "<group>"; };
+		87D6CB460CF6CC3A00CFEAC4 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSIPIPreferences.nib; sourceTree = "<group>"; };
+		87D6CB760CF6EC6700CFEAC4 /* BSPathExtensionFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSPathExtensionFormatter.h; sourceTree = "<group>"; };
+		87D6CB770CF6EC6700CFEAC4 /* BSPathExtensionFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSPathExtensionFormatter.m; sourceTree = "<group>"; };
 		87D7F03B0A85136900623EA5 /* BoardWarrior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardWarrior.h; sourceTree = "<group>"; };
 		87D7F03C0A85136900623EA5 /* BoardWarrior.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardWarrior.m; sourceTree = "<group>"; };
 		87DA142E0BE64C9800A81387 /* BSIPIHUDTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIHUDTextField.h; sourceTree = "<group>"; };
@@ -1824,6 +1830,8 @@
 				87751A6309782DD7009D4A9C /* BSIPIFullScreenWindow.m */,
 				8782A79C096FDBCE0099B65F /* BSIPIActionBtnTbItem.h */,
 				8782A79D096FDBCE0099B65F /* BSIPIActionBtnTbItem.m */,
+				87956FC80CE720F1004DBDB0 /* BSIPIArrayController.h */,
+				87956FC90CE720F1004DBDB0 /* BSIPIArrayController.m */,
 				87C397790A61600F0095AD06 /* BSIPIPathTransformer.h */,
 				87C3977A0A61600F0095AD06 /* BSIPIPathTransformer.m */,
 				87C3978E0A6164E30095AD06 /* BSIPITextFieldCell.h */,
@@ -1934,13 +1942,11 @@
 				87C2032A08FF3F81006DC42C /* BSImagePreviewInspector.m */,
 				8782A66D096FAAB90099B65F /* BSImagePreviewInspector-Tb.m */,
 				87C2E1A40A68E3C100E40698 /* BSImagePreviewInspector-View.m */,
+				87DF8EA30CE7593700C43505 /* BSImagePreviewInspector-Settings.m */,
 				87751A5809782B82009D4A9C /* BSIPIFullScreenController.h */,
 				87751A5909782B82009D4A9C /* BSIPIFullScreenController.m */,
 				87F3D5B00976921C00A1217A /* BSIPIHistoryManager.h */,
 				87F3D5B10976921C00A1217A /* BSIPIHistoryManager.m */,
-				87956FC80CE720F1004DBDB0 /* BSIPIArrayController.h */,
-				87956FC90CE720F1004DBDB0 /* BSIPIArrayController.m */,
-				87DF8EA30CE7593700C43505 /* BSImagePreviewInspector-Settings.m */,
 			);
 			name = core;
 			sourceTree = "<group>";
@@ -1966,6 +1972,8 @@
 			children = (
 				87CDC30C0CEB1B3D001AE526 /* LinkPrefController.h */,
 				87CDC30D0CEB1B3D001AE526 /* LinkPrefController.m */,
+				87D6CB760CF6EC6700CFEAC4 /* BSPathExtensionFormatter.h */,
+				87D6CB770CF6EC6700CFEAC4 /* BSPathExtensionFormatter.m */,
 			);
 			name = Link;
 			sourceTree = "<group>";
@@ -2043,6 +2051,7 @@
 				87C2033B08FF40B8006DC42C /* Info-previewer.plist */,
 				87C2032B08FF3F81006DC42C /* BSImagePreviewInspector.nib */,
 				87751A7909782FAE009D4A9C /* BSIPIFullScreen.nib */,
+				87D6CB450CF6CC3A00CFEAC4 /* BSIPIPreferences.nib */,
 				87BE9E9E0912F54300D2F339 /* Localizable.strings */,
 				875342560A663FDF009C0205 /* picts */,
 				87CDC3410CEB3ED0001AE526 /* InfoPlist.strings */,
@@ -2125,7 +2134,6 @@
 		F30FC4E604CBFA3B00A80005 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				87CDC3180CEB1FE5001AE526 /* LinkPreferences.nib */,
 				F324DB6A04C6959800A80005 /* rsrc */,
 				F326A71E04F0BAAF00BB46D1 /* Localizable.strings */,
 				F324DB4C04C6959800A80005 /* PreferencesPane.nib */,
@@ -2137,6 +2145,7 @@
 				8716066B098A44AB00A27F63 /* SoundsPane.nib */,
 				871607EB098AA42200A27F63 /* SyncPane.nib */,
 				872C32CE0BB18CD10044890C /* ViewPane.nib */,
+				87CDC3180CEB1FE5001AE526 /* LinkPreferences.nib */,
 				874934C00BDB62180082F7BF /* ThemeEditor.nib */,
 			);
 			name = Resources;
@@ -2907,6 +2916,7 @@
 				874934D30BDB65C30082F7BF /* BSThemeEditor.h in Headers */,
 				8703A1E60C676A62008ED2B5 /* BSAdvancedPaneArrayController.h in Headers */,
 				87CDC30E0CEB1B3D001AE526 /* LinkPrefController.h in Headers */,
+				87D6CB780CF6EC6700CFEAC4 /* BSPathExtensionFormatter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3347,6 +3357,7 @@
 				87749E070A878F120008A679 /* HistoryFolder.png in Resources */,
 				87CC89590B198A7E003FB764 /* Loading.png in Resources */,
 				87CDC3420CEB3ED0001AE526 /* InfoPlist.strings in Resources */,
+				87D6CB470CF6CC3A00CFEAC4 /* BSIPIPreferences.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3539,6 +3550,7 @@
 				874934D40BDB65C30082F7BF /* BSThemeEditor.m in Sources */,
 				8703A1E70C676A62008ED2B5 /* BSAdvancedPaneArrayController.m in Sources */,
 				87CDC30F0CEB1B3D001AE526 /* LinkPrefController.m in Sources */,
+				87D6CB790CF6EC6700CFEAC4 /* BSPathExtensionFormatter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4263,6 +4275,14 @@
 				87CF6469097A335D00DE8B16 /* Japanese */,
 			);
 			name = Acknowledgments.rtf;
+			sourceTree = "<group>";
+		};
+		87D6CB450CF6CC3A00CFEAC4 /* BSIPIPreferences.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				87D6CB460CF6CC3A00CFEAC4 /* Japanese */,
+			);
+			name = BSIPIPreferences.nib;
 			sourceTree = "<group>";
 		};
 		87DB9C7D0BA32CE00090090A /* SoftwareUpdate.strings */ = {

@@ -15,6 +15,7 @@
 	IBOutlet NSPopUpButton	*m_downloadDestinationChooser;
 	IBOutlet NSTextField	*m_previewerNameField;
 	IBOutlet NSTextField	*m_previewerIdField;
+	IBOutlet NSTableColumn	*m_pathExtensionColumn;
 }
 
 - (IBAction)chooseDestination:(id)sender;
