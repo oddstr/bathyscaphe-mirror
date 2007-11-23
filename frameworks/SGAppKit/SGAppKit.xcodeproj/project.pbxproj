@@ -6,60 +6,6 @@
 	objectVersion = 42;
 	objects = {
 
-/* Begin PBXApplicationTarget section */
-		F5CF84AE02DB5DCA01A80002 /* TestContainerTableView */ = {
-			isa = PBXApplicationTarget;
-			buildConfigurationList = 871C7D0F085BA38E009E0E53 /* Build configuration list for PBXApplicationTarget "TestContainerTableView" */;
-			buildPhases = (
-				F5CF84AF02DB5DCA01A80002 /* Headers */,
-				F5CF84B402DB5DCA01A80002 /* Resources */,
-				F5CF84B502DB5DCA01A80002 /* Sources */,
-				F5CF84B802DB5DCA01A80002 /* Frameworks */,
-				F5CF84CC02DB610E01A80002 /* CopyFiles */,
-				F5CF84B902DB5DCA01A80002 /* Rez */,
-			);
-			dependencies = (
-			);
-			name = TestContainerTableView;
-			productInstallPath = "$(USER_APPS_DIR)";
-			productName = TestContainerTableView;
-			productReference = F5CF84AD02DB5DCA01A80002 /* TestContainerTableView.app */;
-			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
-<plist version=\"1.0\">
-<dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleExecutable</key>
-	<string></string>
-	<key>CFBundleGetInfoString</key>
-	<string></string>
-	<key>CFBundleIconFile</key>
-	<string></string>
-	<key>CFBundleIdentifier</key>
-	<string></string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundleName</key>
-	<string></string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleShortVersionString</key>
-	<string></string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>0.0.1d1</string>
-	<key>NSMainNibFile</key>
-	<string>MainMenu</string>
-	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
-</dict>
-</plist>
-";
-		};
-/* End PBXApplicationTarget section */
-
 /* Begin PBXBuildFile section */
 		870904740A43DF7A00636062 /* BSReplyTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 870904720A43DF7A00636062 /* BSReplyTextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		870904750A43DF7A00636062 /* BSReplyTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 870904730A43DF7A00636062 /* BSReplyTextView.m */; };
@@ -146,28 +92,7 @@
 		87E4529B085ED89D00F2ACB3 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F523B0CD037C02E601A80002 /* CoreServices.framework */; };
 		87E4529C085ED89D00F2ACB3 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F523B0CF037C02F501A80002 /* Carbon.framework */; };
 		87E4529D085ED89D00F2ACB3 /* SGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3FB8BA004459CE800A80005 /* SGFoundation.framework */; };
-		F5CF84BF02DB5F4A01A80002 /* test_tableView_main.m in Sources */ = {isa = PBXBuildFile; fileRef = F5CF84BE02DB5F4A01A80002 /* test_tableView_main.m */; };
-		F5CF84C202DB5FD601A80002 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F5CF84C002DB5FD601A80002 /* InfoPlist.strings */; };
-		F5CF84C502DB605901A80002 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = F5CF84C302DB605901A80002 /* MainMenu.nib */; };
-		F5CF84C702DB60A301A80002 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
-		F5CF84D302DB624901A80002 /* Controller.h in Headers */ = {isa = PBXBuildFile; fileRef = F5CF84D102DB624901A80002 /* Controller.h */; };
-		F5CF84D402DB624901A80002 /* Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = F5CF84D202DB624901A80002 /* Controller.m */; };
-		F5CF84D702DB669B01A80002 /* Item.nib in Resources */ = {isa = PBXBuildFile; fileRef = F5CF84D502DB669B01A80002 /* Item.nib */; };
-		F5CF84DA02DB66F101A80002 /* ItemController.h in Headers */ = {isa = PBXBuildFile; fileRef = F5CF84D802DB66F101A80002 /* ItemController.h */; };
-		F5CF84DB02DB66F101A80002 /* ItemController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5CF84D902DB66F101A80002 /* ItemController.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		F5CF84CC02DB610E01A80002 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -257,7 +182,7 @@
 		F577539D0373B14901A80002 /* NSView-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSView-SGExtensions.m"; sourceTree = "<group>"; };
 		F577539E0373B14901A80002 /* NSView-SGExtensions_p.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSView-SGExtensions_p.h"; sourceTree = "<group>"; };
 		F57D5E05037B6D8601A80002 /* SGContainerTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SGContainerTableView.h; sourceTree = "<group>"; };
-		F57D5E06037B6D8601A80002 /* SGContainerTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SGContainerTableView.m; sourceTree = "<group>"; };
+		F57D5E06037B6D8601A80002 /* SGContainerTableView.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SGContainerTableView.m; sourceTree = "<group>"; };
 		F57D5E12037B6DE401A80002 /* NSMenu-SGExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSMenu-SGExtensions.h"; sourceTree = "<group>"; };
 		F57D5E13037B6DE401A80002 /* NSMenu-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSMenu-SGExtensions.m"; sourceTree = "<group>"; };
 		F57D5E14037B6DE401A80002 /* NSMenu-SGExtensions_p.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSMenu-SGExtensions_p.h"; sourceTree = "<group>"; };
@@ -283,15 +208,6 @@
 		F5823B6E037D2CC001A80002 /* NSControl-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSControl-SGExtensions.m"; sourceTree = "<group>"; };
 		F5AC4BB00378150501A80002 /* NSPasteboard-SGExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSPasteboard-SGExtensions.h"; sourceTree = "<group>"; };
 		F5AC4BB10378150501A80002 /* NSPasteboard-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSPasteboard-SGExtensions.m"; sourceTree = "<group>"; };
-		F5CF84AD02DB5DCA01A80002 /* TestContainerTableView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; path = TestContainerTableView.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		F5CF84BE02DB5F4A01A80002 /* test_tableView_main.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; name = test_tableView_main.m; path = TestContainerTableView/test_tableView_main.m; sourceTree = "<group>"; };
-		F5CF84C102DB5FD601A80002 /* English */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = text.plist.strings; name = English; path = TestContainerTableView/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F5CF84C402DB605901A80002 /* MainMenu.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = MainMenu.nib; path = TestContainerTableView/English.lproj/MainMenu.nib; sourceTree = "<group>"; };
-		F5CF84D102DB624901A80002 /* Controller.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = Controller.h; path = TestContainerTableView/Controller.h; sourceTree = "<group>"; };
-		F5CF84D202DB624901A80002 /* Controller.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; name = Controller.m; path = TestContainerTableView/Controller.m; sourceTree = "<group>"; };
-		F5CF84D602DB669B01A80002 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = TestContainerTableView/English.lproj/Item.nib; sourceTree = "<group>"; };
-		F5CF84D802DB66F101A80002 /* ItemController.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = ItemController.h; path = TestContainerTableView/ItemController.h; sourceTree = "<group>"; };
-		F5CF84D902DB66F101A80002 /* ItemController.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; name = ItemController.m; path = TestContainerTableView/ItemController.m; sourceTree = "<group>"; };
 		F5EBEC07037927CA01A80002 /* SGAppKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = SGAppKit.m; path = src/SGAppKit.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -308,21 +224,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F5CF84B802DB5DCA01A80002 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F5CF84C702DB60A301A80002 /* Cocoa.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		034768DFFF38A50411DB9C8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F5CF84AD02DB5DCA01A80002 /* TestContainerTableView.app */,
 				87E452A5085ED89D00F2ACB3 /* SGAppKit.framework */,
 			);
 			name = Products;
@@ -333,7 +240,6 @@
 			children = (
 				F5CF84AC02DB5DCA01A80002 /* framework */,
 				F3BF09570627A581009DAAFE /* misc */,
-				F5CF84BD02DB5F4A01A80002 /* TestContainerTableView */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
 				034768DFFF38A50411DB9C8B /* Products */,
 				87E452A4085ED89D00F2ACB3 /* Info-SGAppKit.plist */,
@@ -695,37 +601,6 @@
 			path = framework;
 			sourceTree = "<group>";
 		};
-		F5CF84BD02DB5F4A01A80002 /* TestContainerTableView */ = {
-			isa = PBXGroup;
-			children = (
-				F5CF84D002DB624901A80002 /* Class */,
-				F5CF84C602DB606601A80002 /* Resources */,
-				F5CF84BE02DB5F4A01A80002 /* test_tableView_main.m */,
-			);
-			name = TestContainerTableView;
-			sourceTree = "<group>";
-		};
-		F5CF84C602DB606601A80002 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				F5CF84C302DB605901A80002 /* MainMenu.nib */,
-				F5CF84C002DB5FD601A80002 /* InfoPlist.strings */,
-				F5CF84D502DB669B01A80002 /* Item.nib */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
-		F5CF84D002DB624901A80002 /* Class */ = {
-			isa = PBXGroup;
-			children = (
-				F5CF84D102DB624901A80002 /* Controller.h */,
-				F5CF84D202DB624901A80002 /* Controller.m */,
-				F5CF84D802DB66F101A80002 /* ItemController.h */,
-				F5CF84D902DB66F101A80002 /* ItemController.m */,
-			);
-			name = Class;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -777,15 +652,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F5CF84AF02DB5DCA01A80002 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F5CF84D302DB624901A80002 /* Controller.h in Headers */,
-				F5CF84DA02DB66F101A80002 /* ItemController.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -823,7 +689,6 @@
 			projectRoot = "";
 			targets = (
 				87E45254085ED89D00F2ACB3 /* SGAppKit */,
-				F5CF84AE02DB5DCA01A80002 /* TestContainerTableView */,
 			);
 		};
 /* End PBXProject section */
@@ -845,27 +710,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F5CF84B402DB5DCA01A80002 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F5CF84C202DB5FD601A80002 /* InfoPlist.strings in Resources */,
-				F5CF84C502DB605901A80002 /* MainMenu.nib in Resources */,
-				F5CF84D702DB669B01A80002 /* Item.nib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXRezBuildPhase section */
 		87E4529E085ED89D00F2ACB3 /* Rez */ = {
-			isa = PBXRezBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F5CF84B902DB5DCA01A80002 /* Rez */ = {
 			isa = PBXRezBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -912,16 +760,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F5CF84B502DB5DCA01A80002 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F5CF84BF02DB5F4A01A80002 /* test_tableView_main.m in Sources */,
-				F5CF84D402DB624901A80002 /* Controller.m in Sources */,
-				F5CF84DB02DB66F101A80002 /* ItemController.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
@@ -933,104 +771,9 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		F5CF84C002DB5FD601A80002 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F5CF84C102DB5FD601A80002 /* English */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		F5CF84C302DB605901A80002 /* MainMenu.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F5CF84C402DB605901A80002 /* MainMenu.nib */,
-			);
-			name = MainMenu.nib;
-			sourceTree = "<group>";
-		};
-		F5CF84D502DB669B01A80002 /* Item.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F5CF84D602DB669B01A80002 /* English */,
-			);
-			name = Item.nib;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		871C7D10085BA38E009E0E53 /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "";
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = "PATCH=1";
-				OPTIMIZATION_CFLAGS = "-O0";
-				OTHER_CFLAGS = "-DPATCH=1";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = TestContainerTableView;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = app;
-				ZERO_LINK = YES;
-			};
-			name = Development;
-		};
-		871C7D11085BA38E009E0E53 /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUGGING_SYMBOLS = NO;
-				FRAMEWORK_SEARCH_PATHS = "";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				OPTIMIZATION_CFLAGS = "-O2";
-				OTHER_CFLAGS = (
-					"-DUTIL_BLOCK_DEBUG_WRITE",
-					"-DPATCH=1",
-				);
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = TestContainerTableView;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = app;
-				ZERO_LINK = NO;
-			};
-			name = Deployment;
-		};
-		871C7D12085BA38E009E0E53 /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = TestContainerTableView;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = app;
-			};
-			name = Default;
-		};
 		871C7D14085BA38E009E0E53 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1153,16 +896,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		871C7D0F085BA38E009E0E53 /* Build configuration list for PBXApplicationTarget "TestContainerTableView" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				871C7D10085BA38E009E0E53 /* Development */,
-				871C7D11085BA38E009E0E53 /* Deployment */,
-				871C7D12085BA38E009E0E53 /* Default */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
-		};
 		871C7D13085BA38E009E0E53 /* Build configuration list for PBXProject "SGAppKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

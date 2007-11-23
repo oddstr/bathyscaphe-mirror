@@ -1,6 +1,6 @@
 //: SGContainerTableView.m
 /**
-  * $Id: SGContainerTableView.m,v 1.2 2007/10/29 05:54:46 tsawada2 Exp $
+  * $Id: SGContainerTableView.m,v 1.3 2007/11/23 20:16:20 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -45,11 +45,21 @@
 {
 	[super drawRect : clipRect];
 	
-	if(NSNoBorder == [self borderType])
-		return;
+//	if(NSNoBorder == [self borderType])
+//		return;
 	
-	[[NSColor grayColor] set];
-	NSFrameRect([self bounds]);
+//	[[NSColor grayColor] set];
+//	NSFrameRect([self bounds]);
+	[[NSColor gridColor] set];
+	int	i;
+	NSRect foo = [self bounds];
+	int n = [[self subviews] count];
+	float amount = 0;
+	for (i=0; i<n; i++) {
+		float dY = NSHeight([[[self subviews] objectAtIndex:i] bounds]);
+		amount += dY;
+		NSFrameRect(NSMakeRect(foo.origin.x, amount, foo.size.width, 1.0));
+	}
 }
 
 - (void) reloadData
