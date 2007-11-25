@@ -3,54 +3,53 @@
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/08/06.
-//  Copyright 2006 BathyScaphe Project. All rights reserved.
+//  Copyright 2006-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
-#import <Cocoa/Cocoa.h>
-#import "CMRTask.h"
+#import <Foundation/Foundation.h>
 
 @class BSURLDownload;
+@protocol CMRTask;
+
+enum {
+	BWDidFailInitializeAppleScript = -1000,
+	BWDidFailExecuteAppleScriptHandler = -1001//,
+/*	BWDidFailCreatingLogFile = -2000,
+	BWDidFailWritingLogToFile = -2001 // reserved */
+};
 
 @interface BoardWarrior : NSObject<CMRTask> {
 	@private
 	BOOL			m_isInProgress;
 	NSString		*m_progressMessage;
 
-	double			m_expectedContentLength;
-	double			m_downloadedContentLength;
+//	double			m_expectedContentLength;
+//	double			m_downloadedContentLength;
 	
 	BSURLDownload	*m_currentDownload; // No retain/release
 	NSString		*m_bbsMenuPath;
+	
+	id				m_delegate; // No retain/release
 }
 
-+ (id) warrior;
++ (id)warrior;
 
-- (void) setMessage: (NSString *) progressMessage;
+- (id)delegate;
+- (void)setDelegate:(id)aDelegate;
 
-- (NSString *) bbsMenuPath;
-- (void) setBbsMenuPath: (NSString *) filePath;
+- (BOOL)syncBoardListsWithURL:(NSURL *)anURL;
+- (BOOL)syncBoardLists;
 
-- (BOOL) syncBoardListsWithURL: (NSURL *) anURL;
-- (BOOL) syncBoardLists;
-
-- (double) expectedContentLength;
-- (double) downloadedContentLength;
-
-- (BOOL) writeLogsToFileWithUTF8Data: (NSData *) encodedData;
+- (NSString *)logFilePath;
 @end
 
-extern NSString *const BoardWarriorWillStartDownloadNotification;
-extern NSString *const BoardWarriorDidFinishDownloadNotification;
-extern NSString *const BoardWarriorDidFailDownloadNotification;
-extern NSString *const BoardWarriorDidFailInitASNotification; // Available in Starlight Breaker.
 
-extern NSString *const BoardWarriorWillStartCreateDefaultListTaskNotification;
-extern NSString *const BoardWarriorDidFailCreateDefaultListTaskNotification;
+@interface NSObject(BoardWarriorDelegate)
+- (void)warriorWillStartSyncing:(BoardWarrior *)warrior;
+- (void)warriorDidFinishSyncing:(BoardWarrior *)warrior;
+- (void)warrior:(BoardWarrior *)warrior didFailSync:(NSError *)error;
+//- (void)warrior:(BoardWarrior *)warrior didFailLogging:(NSError *)error;
+@end
 
-extern NSString *const BoardWarriorWillStartSyncUserListTaskNotification;
-extern NSString *const BoardWarriorDidFailSyncUserListTaskNotification;
-
-extern NSString *const BoardWarriorDidFinishAllTaskNotification;
-
-extern NSString *const kBWInfoExpectedLengthKey;
-extern NSString *const kBWInfoErrorStringKey;
+extern NSString *const kBoardWarriorErrorDomain;

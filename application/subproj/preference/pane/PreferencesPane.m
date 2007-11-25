@@ -18,7 +18,7 @@
 DefineConstStr(PPLastOpenPaneIdentifier, @"PPLastOpenPaneIdentifier");
 
 DefineConstStr(PPShowAllIdentifier, @"ShowAll");
-DefineConstStr(PPGeneralPreferencesIdentifier, @"General");
+/*DefineConstStr(PPGeneralPreferencesIdentifier, @"General");
 DefineConstStr(PPAdvancedPreferencesIdentifier, @"Advanced");
 DefineConstStr(PPFilterPreferencesIdentifier, @"Filter");
 DefineConstStr(PPAccountSettingsIdentifier, @"AccountSettings");
@@ -27,7 +27,7 @@ DefineConstStr(PPReplyDefaultIdentifier, @"ReplyDefaults");
 DefineConstStr(PPSoundsPreferencesIdentifier, @"Sounds");
 DefineConstStr(PPSyncPreferencesIdentifier, @"Sync");
 DefineConstStr(PPLinkPreferencesIdentifier, @"Link");
-
+*/
 @implementation PreferencesPane
 - (id)initWithPreferences:(AppDefaults *)prefs
 {
@@ -93,6 +93,31 @@ DefineConstStr(PPLinkPreferencesIdentifier, @"Link");
 	
 	cntl = [self currentController];
 	[cntl willUnselect];
+}
+
+- (NSString *)currentIdentifier
+{
+	return _currentIdentifier;
+}
+
+- (void)setCurrentIdentifier:(NSString *)aCurrentIdentifier
+{
+	[self removeContentViewWithCurrentIdentifier];
+
+	[aCurrentIdentifier retain];
+	[_currentIdentifier release];
+	_currentIdentifier = aCurrentIdentifier;
+	if (!_currentIdentifier) return;
+
+	[[NSUserDefaults standardUserDefaults] setObject:_currentIdentifier forKey:PPLastOpenPaneIdentifier];
+
+	[self insertContentViewWithCurrentIdentifier];
+	[[[self window] toolbar] setSelectedItemIdentifier:aCurrentIdentifier];
+}
+
+- (void)showPreferencesPaneWithIdentifier:(NSString *)identifier
+{
+	NSLog(@"Hoge");
 }
 @end
 

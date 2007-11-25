@@ -1,5 +1,5 @@
 /**
- * $Id: AppDefaults-Bundle.m,v 1.17 2007/11/15 13:21:51 tsawada2 Exp $
+ * $Id: AppDefaults-Bundle.m,v 1.18 2007/11/25 15:00:28 tsawada2 Exp $
  * 
  * AppDefaults-Bundle.m
  *
@@ -12,12 +12,6 @@
 #import "UTILKit.h"
 #import "CMRMainMenuManager.h"
 #import "BoardWarrior.h"
-
-@protocol BSImagePreviewerProtocol;
-
-// ----------------------------------------
-// C O N S T A N T S
-// ----------------------------------------
 
 #define ImagePreviewerPluginName  @"ImagePreviewer"
 #define ImagePreviewerPluginType  @"plugin"
@@ -95,8 +89,8 @@ static Class st_class_2chAuthenticater;
     static Class kPreviewerInstance;
     
     if (Nil == kPreviewerInstance) {
-        NSBundle		*module;
-		Class			previewerClass;
+        NSBundle	*module;
+		Class		previewerClass;
 
         module = [self moduleWithName:ImagePreviewerPluginName ofType:ImagePreviewerPluginType inDirectory:@"PlugIns"];
 
@@ -119,32 +113,31 @@ static Class st_class_2chAuthenticater;
 	return [[[kPreviewerInstance alloc] initWithPreferences:self] autorelease];
 }
 
-- (id) _preferencesPane
+- (id)loadPreferencesPane
 {
-    static Class st_class_PrefsPane_;
-    if (Nil == st_class_PrefsPane_) {
-        NSBundle *module_;
-        
-        module_ = [self moduleWithName : PreferencesPanePluginName
-                                ofType : PreferencesPanePluginType
-                           inDirectory : nil];
-        if (nil == module_) {
-            NSLog(@"Couldn't load plugin<%@.%@>", 
-                    PreferencesPanePluginName,
-                    PreferencesPanePluginType);
+    static Class kPreferencesPaneInstance;
+
+    if (Nil == kPreferencesPaneInstance) {
+        NSBundle	*module;
+		Class		preferencesPaneClass;
+
+        module = [self moduleWithName:PreferencesPanePluginName ofType:PreferencesPanePluginType inDirectory:nil];
+
+        if (!module) {
+            NSLog(@"Couldn't load plugin<%@.%@>", PreferencesPanePluginName, PreferencesPanePluginType);
             return nil;
-        } else {
-        st_class_PrefsPane_ = [module_ principalClass];
-        }
+		}
+
+		preferencesPaneClass = [module principalClass];
+		if (!preferencesPaneClass || ![preferencesPaneClass conformsToProtocol:@protocol(BSPreferencesPaneProtocol)]) {
+			NSLog(@"Principal class <%@> doesn't conform to protocol BSPreferencesPaneProtocol! So we cancel loading this plugin", 
+					preferencesPaneClass ? NSStringFromClass(preferencesPaneClass) : @"Nil");
+			return nil;
+		}
+		
+		kPreferencesPaneInstance = preferencesPaneClass;
     }
-    if (Nil == st_class_PrefsPane_) {
-        NSLog(@"Couldn't load principal class in <%@.%@>", 
-                PreferencesPanePluginName,
-                PreferencesPanePluginType);
-        return nil;
-    }
-    
-    return [[[st_class_PrefsPane_ alloc] initWithPreferences : self] autorelease];
+    return [[[kPreferencesPaneInstance alloc] initWithPreferences:self] autorelease];
 }
 
 - (id<w2chConnect>) w2chConnectWithURL : (NSURL        *) anURL
@@ -191,11 +184,11 @@ static Class st_class_2chAuthenticater;
 }
 
 
-- (id) sharedPreferencesPane
+- (id<BSPreferencesPaneProtocol>)sharedPreferencesPane
 {
     static id instance_;
-    if (nil == instance_) {
-        instance_ = [[self _preferencesPane] retain];
+    if (!instance_) {
+        instance_ = [[self loadPreferencesPane] retain];
     }
     return instance_;
 }
@@ -382,52 +375,9 @@ static Class st_class_2chAuthenticater;
 	[[self boardWarriorSettingsDictionary] setObject: finishedDate forKey: kBWLastSyncDateKey];
 }
 
-- (void) letBoardWarriorStartSyncing : (id) sender
+- (BoardWarrior *)sharedBoardWarrior
 {
-	[[NSNotificationCenter defaultCenter]
-	     addObserver : sender
-	        selector : @selector(taskDidFail:)
-	            name : BoardWarriorDidFailDownloadNotification
-	          object : [BoardWarrior warrior]];
-	[[NSNotificationCenter defaultCenter]
-	     addObserver : sender
-	        selector : @selector(taskDidFail:)
-	            name : BoardWarriorDidFailInitASNotification
-	          object : [BoardWarrior warrior]];
-	[[NSNotificationCenter defaultCenter]
-	     addObserver : sender
-	        selector : @selector(taskDidFail:)
-	            name : BoardWarriorDidFailCreateDefaultListTaskNotification
-	          object : [BoardWarrior warrior]];
-	[[NSNotificationCenter defaultCenter]
-	     addObserver : sender
-	        selector : @selector(taskDidFail:)
-	            name : BoardWarriorDidFailSyncUserListTaskNotification
-	          object : [BoardWarrior warrior]];
-
-	[[NSNotificationCenter defaultCenter]
-	     addObserver : sender
-	        selector : @selector(downloadBBSMenuDidFinish:)
-	            name : BoardWarriorDidFinishDownloadNotification
-	          object : [BoardWarrior warrior]];
-	[[NSNotificationCenter defaultCenter]
-	     addObserver : sender
-	        selector : @selector(createDefaultListWillStart:)
-	            name : BoardWarriorWillStartCreateDefaultListTaskNotification
-	          object : [BoardWarrior warrior]];
-	[[NSNotificationCenter defaultCenter]
-	     addObserver : sender
-	        selector : @selector(syncUserListWillStart:)
-	            name : BoardWarriorWillStartSyncUserListTaskNotification
-	          object : [BoardWarrior warrior]];
-
-	[[NSNotificationCenter defaultCenter]
-	     addObserver : sender
-	        selector : @selector(allSyncTaskDidFinish:)
-	            name : BoardWarriorDidFinishAllTaskNotification
-	          object : [BoardWarrior warrior]];
-
-	[[BoardWarrior warrior] syncBoardLists];
+	return [BoardWarrior warrior];
 }
 
 - (void) _loadBWSettings

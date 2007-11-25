@@ -1,3 +1,22 @@
+2007-11-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/SyncPaneController.m
+	* application/subproj/preference/Japanese.lproj/SyncPane.nib
+	* application/source/bbs/BoardWarrior.m
+	* application/Resources/Japanese.lproj/BoardWarrior.strings
+		BoardWarrior のリファクタリング。
+	* frameworks/CocoMonar/framework/src/CMRFileManager.m
+		CocoMonar Framework:
+		CMRFileManager に、~/Library/Logs フォルダへのパスを取得するメソッドを追加した。
+	* application/source/CMRAppDelegate.m
+	* application/subproj/preference/abstract/PreferencesController.m
+	* application/subproj/preference/pane/PreferencesPane-PCManagement.m
+	* application/subproj/preference/pane/PreferencesPane.m
+	* application/subproj/preference/PreferencePanes_Prefix.h
+	* application/source/preferences/AppDefaults-Bundle.m
+		環境設定周りのリファクタリング。
+	* application/subproj/preference/BSPreferencesPaneInterface.h
+		[新規追加] PreferencesPane.plugin のインタフェースを明確にするため、 BSPreferencesPaneProtocol
+		プロトコルを定義した。
 2007-11-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* frameworks/SGAppKit/framework/src/custom/container/SGContainerTableView.m
 		「進行状況」パネルのグリッドは、SGContainerTableView で描くようにした。

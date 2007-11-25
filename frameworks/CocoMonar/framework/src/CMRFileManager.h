@@ -1,5 +1,5 @@
 /**
- * $Id: CMRFileManager.h,v 1.4 2007/10/30 02:31:58 tsawada2 Exp $
+ * $Id: CMRFileManager.h,v 1.5 2007/11/25 15:00:28 tsawada2 Exp $
  * 
  * CMRFileManager.h
  *
@@ -72,6 +72,11 @@
 // ~/Downloads (on Mac OS X 10.5 and later), or ~/Desktop
 // Available in CocoMonar Framework 1.6 and later.
 - (NSString *)userDomainDownloadsFolderPath;
+
+//
+// ~/Library/Logs
+// Available in CocoMonar Framework 1.6v2 and later.
+- (NSString *)userDomainLogsFolderPath;
 @end
 
 

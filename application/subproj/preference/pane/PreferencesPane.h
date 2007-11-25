@@ -8,11 +8,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "BSPreferencesPaneInterface.h"
 
 @class AppDefaults;
 @class PreferencesController;
 
-@interface PreferencesPane : NSWindowController {
+@interface PreferencesPane : NSWindowController<BSPreferencesPaneProtocol> {
 	IBOutlet NSView		*_contentView;
 	AppDefaults			*_preferences;
 	NSMutableDictionary	*_toolbarItems;
@@ -20,7 +21,6 @@
 	NSString			*_currentIdentifier;
 }
 
-- (id)initWithPreferences:(AppDefaults *)prefs;
 - (AppDefaults *)preferences;
 - (void)setPreferences:(AppDefaults *)aPreferences;
 @end
@@ -46,9 +46,6 @@
 - (void)setContentView:(NSView *)contentView;
 
 - (NSMutableArray *)controllers;
-
-- (NSString *)currentIdentifier;
-- (void)setCurrentIdentifier:(NSString *)identifier;
 
 - (PreferencesController *)currentController;
 

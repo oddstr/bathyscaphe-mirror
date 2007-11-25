@@ -9,7 +9,7 @@
 
 #import "PreferencesPane.h"
 #import "PreferencesController.h"
-
+/*
 #import "FCController.h"
 #import "AccountController.h"
 #import "CMRReplyDefaultsController.h"
@@ -19,7 +19,7 @@
 #import "SoundsPaneController.h"
 #import "SyncPaneController.h"
 #import "LinkPrefController.h"
-
+*/
 @implementation PreferencesPane(PreferencesControllerManagement)
 - (NSView *)contentView
 {
@@ -39,30 +39,10 @@
 	return _controllers;
 }
 
-- (NSString *)currentIdentifier
-{
-	return _currentIdentifier;
-}
-
-- (void)setCurrentIdentifier:(NSString *)aCurrentIdentifier
-{
-	[self removeContentViewWithCurrentIdentifier];
-
-	[aCurrentIdentifier retain];
-	[_currentIdentifier release];
-	_currentIdentifier = aCurrentIdentifier;
-	if (!_currentIdentifier) return;
-
-	[[NSUserDefaults standardUserDefaults] setObject:_currentIdentifier forKey:PPLastOpenPaneIdentifier];
-
-	[self insertContentViewWithCurrentIdentifier];
-	[[[self window] toolbar] setSelectedItemIdentifier:aCurrentIdentifier];
-}
-
 - (void)makePreferencesControllers
 {
 	Class	defs[] = {
-		[GeneralPrefController class],
+/*		[GeneralPrefController class],
 		[FCController class],
 		[AccountController class],
 		[SyncPaneController class],
@@ -70,7 +50,16 @@
 		[CMRFilterPrefController class],
 		[CMRReplyDefaultsController class],
 		[SoundsPaneController class],
-		[AdvancedPrefController class],
+		[AdvancedPrefController class],*/
+		NSClassFromString(@"GeneralPrefController"),
+		NSClassFromString(@"FCController"),
+		NSClassFromString(@"AccountController"),
+		NSClassFromString(@"SyncPaneController"),
+		NSClassFromString(@"LinkPrefController"),
+		NSClassFromString(@"CMRFilterPrefController"),
+		NSClassFromString(@"CMRReplyDefaultsController"),
+		NSClassFromString(@"SoundsPaneController"),
+		NSClassFromString(@"AdvancedPrefController"),
 		Nil
 	};
 

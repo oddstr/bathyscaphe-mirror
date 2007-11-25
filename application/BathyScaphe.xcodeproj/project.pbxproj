@@ -11,7 +11,6 @@
 		8703A1E70C676A62008ED2B5 /* BSAdvancedPaneArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8703A1E50C676A62008ED2B5 /* BSAdvancedPaneArrayController.m */; };
 		8703A2180C677D42008ED2B5 /* BSLinkDownloadManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8703A2160C677D42008ED2B5 /* BSLinkDownloadManager.h */; };
 		8703A2190C677D42008ED2B5 /* BSLinkDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8703A2170C677D42008ED2B5 /* BSLinkDownloadManager.m */; };
-		87078E34090EA195007FF9C3 /* ResToThread.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CDA090E9710007FF9C3 /* ResToThread.png */; };
 		870B1F4A0C15B8AA00AAB734 /* BoardWarrior.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 870B1F400C15B86200AAB734 /* BoardWarrior.scpt */; };
 		87160662098A338500A27F63 /* SoundsPaneController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87160660098A338500A27F63 /* SoundsPaneController.h */; };
 		87160663098A338500A27F63 /* SoundsPaneController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87160661098A338500A27F63 /* SoundsPaneController.m */; };
@@ -195,6 +194,9 @@
 		87DF8EA40CE7593700C43505 /* BSImagePreviewInspector-Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 87DF8EA30CE7593700C43505 /* BSImagePreviewInspector-Settings.m */; };
 		87E971E80B80A82300579603 /* Keywords.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87E971E60B80A82300579603 /* Keywords.tiff */; };
 		87E971E90B80A82300579603 /* Keywords_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87E971E70B80A82300579603 /* Keywords_Pressed.tiff */; };
+		87EF7E7A0CF975F900BEF039 /* BSPreferencesPaneInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 87EF7E790CF975F900BEF039 /* BSPreferencesPaneInterface.h */; };
+		87EF7E7B0CF975F900BEF039 /* BSPreferencesPaneInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 87EF7E790CF975F900BEF039 /* BSPreferencesPaneInterface.h */; };
+		87EF7F330CF9B14300BEF039 /* BoardWarrior.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D7F03B0A85136900623EA5 /* BoardWarrior.h */; };
 		87F3D5B20976921C00A1217A /* BSIPIHistoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 87F3D5B00976921C00A1217A /* BSIPIHistoryManager.h */; };
 		87F3D5B30976921C00A1217A /* BSIPIHistoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F3D5B10976921C00A1217A /* BSIPIHistoryManager.m */; };
 		87FC678A0C682E9A00A4C72C /* DownloadableLinkTypes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FC67890C682E9A00A4C72C /* DownloadableLinkTypes.plist */; };
@@ -1064,6 +1066,7 @@
 		87E63BE80B247FA500290BB7 /* BSDateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSDateFormatter.m; sourceTree = "<group>"; };
 		87E971E60B80A82300579603 /* Keywords.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Keywords.tiff; sourceTree = "<group>"; };
 		87E971E70B80A82300579603 /* Keywords_Pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Keywords_Pressed.tiff; sourceTree = "<group>"; };
+		87EF7E790CF975F900BEF039 /* BSPreferencesPaneInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSPreferencesPaneInterface.h; sourceTree = "<group>"; };
 		87F0B3530A9C4CFA0002D317 /* smallSquarePlus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = smallSquarePlus.tiff; sourceTree = "<group>"; };
 		87F0B3540A9C4CFA0002D317 /* smallSquareMinus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = smallSquareMinus.tiff; sourceTree = "<group>"; };
 		87F3D5B00976921C00A1217A /* BSIPIHistoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIHistoryManager.h; sourceTree = "<group>"; };
@@ -2165,6 +2168,7 @@
 			isa = PBXGroup;
 			children = (
 				871CA15508585F8100C3A044 /* Info-preferences.plist */,
+				87EF7E790CF975F900BEF039 /* BSPreferencesPaneInterface.h */,
 				F324DB6404C6959800A80005 /* PreferencePanes_Prefix.h */,
 				F324DB5E04C6959800A80005 /* PreferencesPane */,
 				F324DB2F04C6959800A80005 /* Abstract */,
@@ -2916,6 +2920,8 @@
 				8703A1E60C676A62008ED2B5 /* BSAdvancedPaneArrayController.h in Headers */,
 				87CDC30E0CEB1B3D001AE526 /* LinkPrefController.h in Headers */,
 				87D6CB780CF6EC6700CFEAC4 /* BSPathExtensionFormatter.h in Headers */,
+				87EF7E7A0CF975F900BEF039 /* BSPreferencesPaneInterface.h in Headers */,
+				87EF7F330CF9B14300BEF039 /* BoardWarrior.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3160,6 +3166,7 @@
 				8703A2180C677D42008ED2B5 /* BSLinkDownloadManager.h in Headers */,
 				8752AACB0C6B60200078C6F4 /* BSNGExpression.h in Headers */,
 				87DF52DE0CC38F6C00D48893 /* BSLoggedInDATDownloader.h in Headers */,
+				87EF7E7B0CF975F900BEF039 /* BSPreferencesPaneInterface.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3312,7 +3319,6 @@
 				871CA13708585F8100C3A044 /* remove_pressed.tiff in Resources */,
 				871CA13808585F8100C3A044 /* AdvancedPane.nib in Resources */,
 				871CA13908585F8100C3A044 /* AdvancedPreferences.tiff in Resources */,
-				87078E34090EA195007FF9C3 /* ResToThread.png in Resources */,
 				8716066D098A44AB00A27F63 /* SoundsPane.nib in Resources */,
 				871606AF098A646500A27F63 /* Sounds.tiff in Resources */,
 				871607ED098AA42200A27F63 /* SyncPane.nib in Resources */,

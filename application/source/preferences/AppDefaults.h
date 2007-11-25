@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.56 2007/11/15 13:21:51 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.57 2007/11/25 15:00:28 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -11,9 +11,10 @@
 #import <AppKit/NSNibDeclarations.h>
 
 #import "BSImagePreviewerInterface.h"
+#import "BSPreferencesPaneInterface.h"
 
 @protocol w2chConnect, w2chAuthenticationStatus;
-@class BSThreadViewTheme;
+@class BSThreadViewTheme, BoardWarrior;
 /*!
  * @define      CMRPref
  * @discussion  グローバルな初期設定オブジェクト
@@ -399,10 +400,8 @@ typedef enum _BSAutoSyncIntervalType {
 					   ofType : (NSString *) type
 				  inDirectory : (NSString *) bundlePath;
 
-- (id) _imagePreviewer;
-- (id<BSImagePreviewerProtocol>) sharedImagePreviewer;
-- (id) _preferencesPane;
-- (id) sharedPreferencesPane;
+- (id<BSImagePreviewerProtocol>)sharedImagePreviewer;
+- (id<BSPreferencesPaneProtocol>)sharedPreferencesPane;
 - (id<w2chConnect>) w2chConnectWithURL : (NSURL        *) anURL
                             properties : (NSDictionary *) properties;
 
@@ -432,7 +431,8 @@ typedef enum _BSAutoSyncIntervalType {
 
 /* MeteorSweeper Additions */
 @interface AppDefaults(BoardWarriorSupport)
-- (void) letBoardWarriorStartSyncing: (id) sender;
+//- (void) letBoardWarriorStartSyncing: (id) sender;
+- (BoardWarrior *)sharedBoardWarrior;
 
 - (NSURL *) BBSMenuURL;
 - (void) setBBSMenuURL: (NSURL *) anURL;

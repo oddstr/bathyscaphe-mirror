@@ -1,5 +1,5 @@
 /**
-  * $Id: PreferencesController.m,v 1.6 2007/11/15 15:35:24 tsawada2 Exp $
+  * $Id: PreferencesController.m,v 1.7 2007/11/25 15:00:28 tsawada2 Exp $
   * 
   * PreferencesController.m
   *
@@ -151,17 +151,20 @@
 {
 	return nil;
 }
-- (NSImage *) image
+
+- (NSImage *)image
 {
 	NSString	*filepath_;
 	
-	filepath_ = [[NSBundle bundleForClass : [self class]]
-					pathForImageResource : [self imageName]];
+	filepath_ = [[NSBundle bundleForClass:[self class]] pathForImageResource:[self imageName]];
 	
-	if(nil == filepath_) return nil;
-	
-	return [[[NSImage alloc] initWithContentsOfFile : filepath_] autorelease];
+	if (filepath_) {
+		return [[[NSImage alloc] initWithContentsOfFile:filepath_] autorelease];
+	} else {
+		return [NSImage imageNamed:[self imageName]];
+	}
 }
+
 - (NSString *) imageName
 {
 	return nil;

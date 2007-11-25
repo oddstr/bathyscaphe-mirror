@@ -1,6 +1,6 @@
 //: CMRFileManager.m
 /**
-  * $Id: CMRFileManager.m,v 1.7 2007/10/30 02:31:58 tsawada2 Exp $
+  * $Id: CMRFileManager.m,v 1.8 2007/11/25 15:00:28 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -270,6 +270,11 @@ static inline NSString *userDomainFolderPathForType(OSType folderType)
 		path = userDomainFolderPathForType(kDesktopFolderType);
 	}
 	return path;
+}
+
+- (NSString *)userDomainLogsFolderPath
+{
+	return userDomainFolderPathForType(kLogsFolderType);
 }
 @end
 

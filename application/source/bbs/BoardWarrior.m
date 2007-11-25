@@ -3,32 +3,20 @@
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/08/06.
-//  Copyright 2006 BathyScaphe Project. All rights reserved.
+//  Copyright 2006-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
+#import "CMRTask.h"
 #import "BoardWarrior.h"
 #import "CocoMonar_Prefix.h"
 #import "AppDefaults.h"
-//#import <SGNetwork/BSIPIDownload.h>
+#import "BSDateFormatter.h"
 #import "CMRTaskManager.h"
 #import <Carbon/Carbon.h>
 #import <OgreKit/OgreKit.h>
 
-NSString *const BoardWarriorWillStartDownloadNotification	= @"BoardWarriorWillStartDownloadNotification";
-NSString *const BoardWarriorDidFinishDownloadNotification	= @"BoardWarriorDidFinishDownloadNotification";
-NSString *const BoardWarriorDidFailDownloadNotification		= @"BoardWarriorDidFailDownloadNotification";
-NSString *const BoardWarriorDidFailInitASNotification		= @"BoardWarriorDidFailInitASNotification";
-
-NSString *const BoardWarriorWillStartCreateDefaultListTaskNotification	= @"BoardWarriorWillStartCreateDefaultListTaskNotification";
-NSString *const BoardWarriorDidFailCreateDefaultListTaskNotification	= @"BoardWarriorDidFailCreateDefaultListTaskNotification";
-
-NSString *const BoardWarriorWillStartSyncUserListTaskNotification	= @"BoardWarriorWillStartSyncUserListTaskNotification";
-NSString *const BoardWarriorDidFailSyncUserListTaskNotification		= @"BoardWarriorDidFailSyncUserListTaskNotification";
-
-NSString *const BoardWarriorDidFinishAllTaskNotification = @"BoardWarriorDidFinishAllTaskNotification";
-
-NSString *const kBWInfoExpectedLengthKey	= @"ExpectedContentLength";
-NSString *const kBWInfoErrorStringKey		= @"ErrorDescription";
+NSString *const kBoardWarriorErrorDomain	= @"BoardWarriorErrorDomain";
 
 static NSString *const kBWLocalizedStringsTableName = @"BoardWarrior";
 
@@ -40,58 +28,150 @@ static NSString *const kBWTaskMsgKey			= @"BW_task message";
 static NSString *const kBWTaskMsgFailedKey		= @"BW_task fail";
 static NSString *const kBWTaskMsgFinishedKey	= @"BW_task finish";
 
+@interface BoardWarrior(Private)
+- (NSString *)bbsMenuPath;
+- (void)setBbsMenuPath:(NSString *)filePath;
+/*
+- (double)expectedContentLength;
+- (double)downloadedContentLength;
+*/
+- (NSData *)encodedLocalizedStringForKey:(NSString *)key format:(NSString *)format;
+- (BOOL)writeLogsToFileWithUTF8Data:(NSData *)encodedData;
+@end
+
+
 @implementation BoardWarrior
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 
-- (void) dealloc
+- (id)delegate
+{
+	return m_delegate;
+}
+
+- (void)setDelegate:(id)aDelegate
+{
+	m_delegate = aDelegate;
+}
+
+- (BOOL)syncBoardLists
+{
+	return [self syncBoardListsWithURL:[CMRPref BBSMenuURL]];
+}
+
+- (BOOL)syncBoardListsWithURL:(NSURL *)anURL
+{
+	BSURLDownload	*newDownload_;
+	NSString		*tmpDir_ = NSTemporaryDirectory();
+
+	if ([self isInProgress] || !tmpDir_) {
+		return NO;
+	}
+
+	newDownload_ = [[BSURLDownload alloc] initWithURL:anURL delegate:self destination:tmpDir_];
+	if (newDownload_) {
+		NSData *logMsg;
+
+		[self setMessage:[self localizedString:kBWTaskMsgKey]];
+		[[CMRTaskManager defaultManager] addTask:self];
+		UTILNotifyName(CMRTaskWillStartNotification);
+		[self setIsInProgress:YES];
+		m_currentDownload = newDownload_;
+
+		logMsg = [self encodedLocalizedStringForKey:@"BW_start at date %@" format:[[NSDate date] description]];
+		[self writeLogsToFileWithUTF8Data:logMsg];
+	} else {
+		return NO;
+	}
+
+	return YES;
+}
+
+- (NSString *)logFilePath
+{
+	NSString *logsPath = [[CMRFileManager defaultManager] userDomainLogsFolderPath];
+	if (!logsPath) return nil;
+
+	return [logsPath stringByAppendingPathComponent:kBWLogFileName];
+}
+
+#pragma mark Overrides
+- (id)init
+{
+	if (self = [super init]) {
+		NSString *lastSyncInfo;
+		NSDate *lastDate = [CMRPref lastSyncDate];
+		if (lastDate) {
+			lastSyncInfo = [[BSDateFormatter sharedDateFormatter] stringForObjectValue:lastDate];
+		} else {
+			lastSyncInfo = [self localizedString:@"Never Synced"];
+		}
+		[self setMessage:lastSyncInfo];
+	}
+	return self;
+}
+
+- (void)dealloc
 {
 	[m_bbsMenuPath release];
 	[m_progressMessage release];
 	m_currentDownload = nil;
+	m_delegate = nil;
 	[super dealloc];
 }
 
-+ (NSString *) localizableStringsTableName
++ (NSString *)localizableStringsTableName
 {
 	return kBWLocalizedStringsTableName;
 }
 
 #pragma mark CMRTask Protocol
-- (BOOL) isInProgress
+- (BOOL)isInProgress
 {
 	return m_isInProgress;
 }
 
-- (id) identifier
+- (void)setIsInProgress:(BOOL)flag
 {
-	return @"BoardWarrior_warrior";
+	m_isInProgress = flag;
 }
 
-- (NSString *) title
+- (id)identifier
 {
-	return [self localizedString: kBWTaskTitleKey];
+	return @"BoardWarrior_task";
 }
 
-- (NSString *) message
+- (NSString *)title
+{
+	return [self localizedString:kBWTaskTitleKey];
+}
+
+- (NSString *)message
 {
 	return m_progressMessage;
 }
 
-- (double) amount
+- (void)setMessage:(NSString *)aMessage
+{
+	[aMessage retain];
+	[m_progressMessage release];
+	m_progressMessage = aMessage;
+}
+
+- (double)amount
 {
 	return -1;
 }
 
-- (IBAction) cancel: (id) sender
+- (IBAction)cancel:(id)sender
 {
-	if (m_currentDownload != nil) {
-		[m_currentDownload cancel];
-	} else {
-		NSBeep();
-	}
+	// 当面、キャンセル不可。
+	NSBeep();
 }
+@end
 
-#pragma mark Accessors
+
+@implementation BoardWarrior(Private)
+/*
 - (double) expectedContentLength
 {
 	return m_expectedContentLength;
@@ -101,28 +181,20 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 {
 	return m_downloadedContentLength;
 }
-
-- (void) setMessage: (NSString *) progressMessage
-{
-	[progressMessage retain];
-	[m_progressMessage release];
-	m_progressMessage = progressMessage;
-}
-
-- (NSString *) bbsMenuPath
+*/
+- (NSString *)bbsMenuPath
 {
 	return m_bbsMenuPath;
 }
 
-- (void) setBbsMenuPath: (NSString *) filePath
+- (void)setBbsMenuPath:(NSString *)filePath
 {
 	[filePath retain];
 	[m_bbsMenuPath release];
 	m_bbsMenuPath = filePath;
 }
 
-#pragma mark Private Utilities
-- (BOOL) doHandler: (NSString *) handlerName inScript: (NSAppleScript *) appleScript withParameters: (NSArray *) params error: (NSDictionary **) errPtr
+- (BOOL)doHandler:(NSString *)handlerName inScript:(NSAppleScript *)appleScript withParameters:(NSArray *)params error:(NSDictionary **)errPtr
 {
 	int	i;
 	NSAppleEventDescriptor* parameters = [NSAppleEventDescriptor listDescriptor];
@@ -160,201 +232,189 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 	return YES;
 }
 
-- (NSData *) encodedLocalizedStringForKey: (NSString *) key format: (NSString *) format
+- (NSData *)encodedLocalizedStringForKey:(NSString *)key format:(NSString *)format
 {
-	NSString *str = [self localizedString: key];
-	
-	return [[NSString stringWithFormat: str, format] dataUsingEncoding: NSUTF8StringEncoding];
+	NSString *str = [self localizedString:key];
+
+	return [[NSString stringWithFormat:str, format] dataUsingEncoding:NSUTF8StringEncoding];
 }
 
-- (void) notifyCMRTaskDidFail
+- (BOOL)delegateRespondsToSelector:(SEL)selector
 {
-	[self setMessage: [self localizedString: kBWTaskMsgFailedKey]];
-	m_isInProgress = NO;
+	id delegate = [self delegate];
+	return (delegate && [delegate respondsToSelector:selector]);
+}
+
+- (void)notifyCMRTaskDidFail
+{
+	[self setMessage:[self localizedString:kBWTaskMsgFailedKey]];
+	[self setIsInProgress:NO];
 	UTILNotifyName(CMRTaskDidFinishNotification);
+	NSBeep();
 }
 
-- (NSArray *) parametersForHandler: (NSString *) handlerName
+- (NSArray *)parametersForHandler:(NSString *)handlerName
 {
 	NSBundle *bathyscaphe = [NSBundle mainBundle];
 	NSString *logFolderPath_ = [[CMRFileManager defaultManager] dataRootDirectoryPath];
 
-	if ([handlerName isEqualToString: @"make_default_list"]) {
-		NSString *soraToolPath_ = [bathyscaphe pathForResource: @"sora" ofType: @"pl"];
-		NSString *convertToolPath_ = [bathyscaphe pathForResource: @"SJIS2UTF8" ofType: @""];
-		return [NSArray arrayWithObjects: soraToolPath_, convertToolPath_, logFolderPath_, [self bbsMenuPath], nil];
+	if ([handlerName isEqualToString:@"make_default_list"]) {
+		NSString *soraToolPath_ = [bathyscaphe pathForResource:@"sora" ofType:@"pl"];
+		NSString *convertToolPath_ = [bathyscaphe pathForResource:@"SJIS2UTF8" ofType:@""];
+		return [NSArray arrayWithObjects:soraToolPath_, convertToolPath_, logFolderPath_, [self bbsMenuPath], nil];
 	} else {
-		NSString *rosettaToolPath_ = [bathyscaphe pathForResource: @"rosetta" ofType: @"pl"];
-		return [NSArray arrayWithObjects: rosettaToolPath_, logFolderPath_, [self bbsMenuPath], nil];
+		NSString *rosettaToolPath_ = [bathyscaphe pathForResource:@"rosetta" ofType:@"pl"];
+		return [NSArray arrayWithObjects:rosettaToolPath_, logFolderPath_, [self bbsMenuPath], nil];
 	}
 }
 
-- (void) doHandler: (NSString *) handlerName inScript: (NSAppleScript *) script
+- (BOOL)doHandler:(NSString *)handlerName inScript:(NSAppleScript *)script
 {
 	NSDictionary *errors_ = [NSDictionary dictionary];
-	NSArray *params_ = [self parametersForHandler: handlerName];
+	NSArray *params_ = [self parametersForHandler:handlerName];
 
-	if (![self doHandler: handlerName inScript: script withParameters: params_ error: &errors_]) {
-		NSDictionary *info_ = [NSDictionary dictionaryWithObject: [errors_ objectForKey:NSAppleScriptErrorBriefMessage]
-														  forKey: kBWInfoErrorStringKey];
-
+	if (![self doHandler:handlerName inScript:script withParameters:params_ error:&errors_]) {
 		NSString *errDescription_ = [errors_ objectForKey:NSAppleScriptErrorMessage];
-		[self writeLogsToFileWithUTF8Data: [self encodedLocalizedStringForKey: @"BW_sub_error %@" format: errDescription_]];
+		[self writeLogsToFileWithUTF8Data:[self encodedLocalizedStringForKey:@"BW_sub_error %@" format:errDescription_]];
 
 		[self notifyCMRTaskDidFail];
 
-		UTILNotifyInfo(BoardWarriorDidFailCreateDefaultListTaskNotification, info_);
-		return;
+		if ([self delegateRespondsToSelector:@selector(warrior:didFailSync:)] && errDescription_) {
+			NSDictionary *userInfo = [NSDictionary dictionaryWithObject:errDescription_ forKey:NSLocalizedDescriptionKey];
+			NSError *error = [NSError errorWithDomain:kBoardWarriorErrorDomain code:BWDidFailExecuteAppleScriptHandler userInfo:userInfo];
+			[[self delegate] warrior:self didFailSync:error];
+		}
+		return NO;
 	}
-	[self writeLogsToFileWithUTF8Data: [self encodedLocalizedStringForKey: @"BW_run %@" format: handlerName]];
+
+	[self writeLogsToFileWithUTF8Data:[self encodedLocalizedStringForKey:@"BW_run %@" format:handlerName]];
+	return YES;
 }
 
-- (NSURL *) fileURLWithResource: (NSString *) name ofType: (NSString *) extension
+- (NSURL *)fileURLWithResource:(NSString *)name ofType:(NSString *)extension
 {
 	NSBundle *bundle_ = [NSBundle mainBundle];
-	NSString *path_ = [bundle_ pathForResource: name ofType: extension];
+	NSString *path_ = [bundle_ pathForResource:name ofType:extension];
 	if (!path_) return nil;
 	
-	return [NSURL fileURLWithPath: path_];
+	return [NSURL fileURLWithPath:path_];
 }
 
-- (void) startAppleScriptTask
+- (void)startAppleScriptTask
 {
 	/* まず NSAppleScript インスタンスを生成 */
-	NSURL *url_ = [self fileURLWithResource: @"BoardWarrior" ofType: @"scpt"];
+	NSURL *url_ = [self fileURLWithResource:@"BoardWarrior" ofType:@"scpt"];
 	if (!url_) {
-		NSDictionary *hoge_ = [NSDictionary dictionaryWithObject: [self localizedString: @"BW_fail_init"]
-														  forKey: kBWInfoErrorStringKey];
-		[self writeLogsToFileWithUTF8Data: [self encodedLocalizedStringForKey: @"BW_fail_script1" format: @"BoardWarrior"]];
+		[self writeLogsToFileWithUTF8Data:[self encodedLocalizedStringForKey:@"BW_fail_script1" format:@"BoardWarrior"]];
 
 		[self notifyCMRTaskDidFail];
 
-		UTILNotifyInfo(BoardWarriorDidFailInitASNotification, hoge_);
+		if ([self delegateRespondsToSelector:@selector(warrior:didFailSync:)]) {
+			NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[self localizedString:@"BW_fail_init"] forKey:NSLocalizedDescriptionKey];
+			NSError *error = [NSError errorWithDomain:kBoardWarriorErrorDomain code:BWDidFailInitializeAppleScript userInfo:userInfo];
+			[[self delegate] warrior:self didFailSync:error];
+		}
 		return;
 	}
 
-	NSAppleScript *script_ = [[NSAppleScript alloc] initWithContentsOfURL: url_ error: NULL];
+	NSAppleScript *script_ = [[NSAppleScript alloc] initWithContentsOfURL:url_ error:NULL];
 	if (!script_) {
-		NSDictionary *hoge_ = [NSDictionary dictionaryWithObject: [self localizedString: @"BW_fail_init"]
-														  forKey: kBWInfoErrorStringKey];
-		[self writeLogsToFileWithUTF8Data: [self encodedLocalizedStringForKey: @"BW_fail_script2" format: @"BoardWarrior"]];
+		[self writeLogsToFileWithUTF8Data:[self encodedLocalizedStringForKey:@"BW_fail_script2" format:@"BoardWarrior"]];
 
 		[self notifyCMRTaskDidFail];
 
-		UTILNotifyInfo(BoardWarriorDidFailInitASNotification, hoge_);
+		if ([self delegateRespondsToSelector:@selector(warrior:didFailSync:)]) {
+			NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[self localizedString:@"BW_fail_init"] forKey:NSLocalizedDescriptionKey];
+			NSError *error = [NSError errorWithDomain:kBoardWarriorErrorDomain code:BWDidFailInitializeAppleScript userInfo:userInfo];
+			[[self delegate] warrior:self didFailSync:error];
+		}
 		return;
 	}
 
 	/* make_default_list */
-	UTILNotifyName(BoardWarriorWillStartCreateDefaultListTaskNotification);
-	[self doHandler: @"make_default_list" inScript: script_];
+	if (![self doHandler:@"make_default_list" inScript:script_]) {
+		[script_ release];
+		// delete bbsmenu.html
+		[[NSFileManager defaultManager] removeFileAtPath:[self bbsMenuPath] handler:nil];
+		[self setBbsMenuPath:nil];
+		return;
+	}
 
 	/* update_user_list */
-	UTILNotifyName(BoardWarriorWillStartSyncUserListTaskNotification);
-	[self doHandler: @"update_user_list" inScript: script_];
+	BOOL success = [self doHandler:@"update_user_list" inScript:script_];
 
 	[script_ release];
 
 	// delete bbsmenu.html
-	[[NSFileManager defaultManager] removeFileAtPath: [self bbsMenuPath] handler: nil];
-	[self setBbsMenuPath: nil];
+	[[NSFileManager defaultManager] removeFileAtPath:[self bbsMenuPath] handler:nil];
+	[self setBbsMenuPath:nil];
+
+	if (!success) return;
 
 	NSDate *date_ = [NSDate date];
-	[CMRPref setLastSyncDate: date_];
-	m_isInProgress = NO;
-	[self writeLogsToFileWithUTF8Data: [self encodedLocalizedStringForKey: @"BW_finish at date %@" format: [date_ description]]];
+	[CMRPref setLastSyncDate:date_];
+	[self setIsInProgress:NO];
+	[self writeLogsToFileWithUTF8Data:[self encodedLocalizedStringForKey:@"BW_finish at date %@" format:[date_ description]]];
 
-	[self setMessage: [self localizedString: kBWTaskMsgFinishedKey]];
+	[self setMessage:[self localizedString:kBWTaskMsgFinishedKey]];
 	UTILNotifyName(CMRTaskDidFinishNotification);
+	[self setMessage:[[BSDateFormatter sharedDateFormatter] stringForObjectValue:date_]];
 
-	UTILNotifyName(BoardWarriorDidFinishAllTaskNotification);
+	SystemSoundPlay(22); // Disc Burned
+
+	if ([self delegateRespondsToSelector:@selector(warriorDidFinishSyncing:)]) {
+		[[self delegate] warriorDidFinishSyncing:self];
+	}
 	[[CMRFileManager defaultManager] updateWatchedFiles]; 
 }
 
-#pragma mark Public Methods
-- (BOOL) syncBoardLists
+- (BOOL)createLogFileIfNeededAtPath:(NSString *)filePath
 {
-	return [self syncBoardListsWithURL: [CMRPref BBSMenuURL]];
-}
-
-- (BOOL) syncBoardListsWithURL: (NSURL *) anURL
-{
-	BSURLDownload	*newDownload_;
-	NSString		*tmpDir_ = NSTemporaryDirectory();
-
-	if ([self isInProgress] || tmpDir_ == nil) {
-		return NO;
-	}
-
-	newDownload_ = [[BSURLDownload alloc] initWithURL: anURL delegate: self destination: tmpDir_];
-	if (newDownload_) {
-		NSData *logMsg;
-
-		[self setMessage: [self localizedString: kBWTaskMsgKey]];
-		[[CMRTaskManager defaultManager] addTask: self];
-		UTILNotifyName(CMRTaskWillStartNotification);
-		m_isInProgress = YES;
-		m_currentDownload = newDownload_;
-
-		logMsg = [self encodedLocalizedStringForKey: @"BW_start at date %@" format: [[NSDate date] description]];
-		[self writeLogsToFileWithUTF8Data: logMsg];
+	BOOL	isDir;
+	NSFileManager *fm = [NSFileManager defaultManager];
+	if ([fm fileExistsAtPath:filePath isDirectory:&isDir] && !isDir) {
+		return YES;
 	} else {
-		return NO;
+		return [fm createFileAtPath:filePath contents:[NSData data] attributes:nil];
 	}
-	
-	return YES;
 }
 
-- (BOOL) writeLogsToFileWithUTF8Data: (NSData *) encodedData
+- (BOOL)writeLogsToFileWithUTF8Data:(NSData *)encodedData
 {
 	if (!encodedData) return NO;
+	NSString *logFilePath = [self logFilePath];
 
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-	BOOL	isDir;
-
-	if ([paths count] == 1) {
-		NSFileManager *fileManager = [NSFileManager defaultManager];
-		NSString *logsPath = [[paths objectAtIndex: 0] stringByAppendingPathComponent: kBWLogFolderName];
-		NSString *logFilePath = [logsPath stringByAppendingPathComponent: kBWLogFileName];
- 
-		if ([fileManager fileExistsAtPath: logsPath isDirectory: &isDir] && isDir) {
-			NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath: logFilePath];
-			
-			if (fileHandle) {
-				[fileHandle seekToEndOfFile];
-				[fileHandle writeData: encodedData];
-				[fileHandle closeFile];
-				return YES;
-			} else {
-				return [fileManager createFileAtPath: logFilePath contents: encodedData attributes: nil];
-			}
-		}
+	if (logFilePath && [self createLogFileIfNeededAtPath:logFilePath]) {
+		NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath:logFilePath];
+		
+		[fileHandle seekToEndOfFile];
+		[fileHandle writeData:encodedData];
+		[fileHandle closeFile];
+		return YES;
 	}
 	
 	return NO;
 }
 
 #pragma mark BSIPIDownload Delegate
-- (void)bsURLDownload: (BSURLDownload *)aDownload willDownloadContentOfSize:(double)expectedLength
+- (void)bsURLDownload:(BSURLDownload *)aDownload willDownloadContentOfSize:(double)expectedLength
 {
-	NSDictionary *info_ = [NSDictionary dictionaryWithObject: [NSNumber numberWithDouble: expectedLength] forKey: kBWInfoExpectedLengthKey];
+/*
 	m_expectedContentLength = expectedLength;
-
-	[self writeLogsToFileWithUTF8Data: [self encodedLocalizedStringForKey: @"BW_download from %@"
-																   format: [[aDownload URL] absoluteString]]];	
-	UTILNotifyInfo(BoardWarriorWillStartDownloadNotification, info_);
+*/
+	[self writeLogsToFileWithUTF8Data:[self encodedLocalizedStringForKey:@"BW_download from %@"
+																  format:[[aDownload URL] absoluteString]]];	
 }
-
+/*
 - (void)bsURLDownload:(BSURLDownload *)aDownload didDownloadContentOfSize:(double)downloadedLength
 {
 	m_downloadedContentLength = downloadedLength;
 }
-
+*/
 - (void)bsURLDownloadDidFinish:(BSURLDownload *)aDownload
 {
-	[self setBbsMenuPath: [aDownload downloadedFilePath]];
-	[self writeLogsToFileWithUTF8Data: [[self localizedString: @"BW_download finish"] dataUsingEncoding: NSUTF8StringEncoding]];
-	UTILNotifyName(BoardWarriorDidFinishDownloadNotification);
+	[self setBbsMenuPath:[aDownload downloadedFilePath]];
+	[self writeLogsToFileWithUTF8Data:[[self localizedString:@"BW_download finish"] dataUsingEncoding:NSUTF8StringEncoding]];
 
 	[aDownload release];
 	m_currentDownload = nil;
@@ -363,15 +423,15 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 
 - (void)bsURLDownload:(BSURLDownload *)aDownload didFailWithError:(NSError *)aError
 {
-	[self writeLogsToFileWithUTF8Data: [self encodedLocalizedStringForKey: @"BW_download fail %@" format: [aError description]]];
-
-	[aDownload release];
-	m_currentDownload = nil;
-	m_isInProgress = NO;
+	[self writeLogsToFileWithUTF8Data:[self encodedLocalizedStringForKey:@"BW_download fail %@" format:[aError description]]];
 
 	[self notifyCMRTaskDidFail];
 
-	NSDictionary *info_ = [NSDictionary dictionaryWithObject: @"Some error occurred while downloading BBSMenu." forKey: kBWInfoErrorStringKey];
-	UTILNotifyInfo(BoardWarriorDidFailDownloadNotification, info_);
+	if ([self delegateRespondsToSelector:@selector(warrior:didFailSync:)]) {
+		[[self delegate] warrior:self didFailSync:aError];
+	}
+
+	[aDownload release];
+	m_currentDownload = nil;
 }
 @end

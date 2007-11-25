@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.39 2007/11/15 15:35:24 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.40 2007/11/25 15:00:28 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -256,11 +256,12 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 }
 - (IBAction) changeUpdateSettings: (id) sender
 {
-	id prefs = [CMRPref sharedPreferencesPane];
+/*	id prefs = [CMRPref sharedPreferencesPane];
 	[prefs showWindow: sender];
 	if ([prefs respondsToSelector: @selector(setCurrentIdentifier:)]) {
 		[prefs setCurrentIdentifier: @"General"];
-	}
+	}*/
+	[[CMRPref sharedPreferencesPane] showPreferencesPaneWithIdentifier:PPGeneralPreferencesIdentifier];
 }
 
 - (IBAction)openAEDictionary:(id)sender
