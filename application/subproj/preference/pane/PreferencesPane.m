@@ -117,7 +117,8 @@ DefineConstStr(PPLinkPreferencesIdentifier, @"Link");
 
 - (void)showPreferencesPaneWithIdentifier:(NSString *)identifier
 {
-	NSLog(@"Hoge");
+	[self showWindow:self];
+	[self setCurrentIdentifier:identifier];
 }
 @end
 

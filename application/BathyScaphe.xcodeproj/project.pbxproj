@@ -1292,7 +1292,7 @@
 		F36067F8044D4DD500A80005 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
 		F3660E3A06C4C7DA00A92719 /* CMRAppDelegate_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CMRAppDelegate_p.h; sourceTree = "<group>"; };
 		F3660E3B06C4C7DA00A92719 /* CMRAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CMRAppDelegate.h; sourceTree = "<group>"; };
-		F3660E3C06C4C7DA00A92719 /* CMRAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CMRAppDelegate.m; sourceTree = "<group>"; };
+		F3660E3C06C4C7DA00A92719 /* CMRAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CMRAppDelegate.m; sourceTree = "<group>"; };
 		F3660E3D06C4C7DA00A92719 /* CMRAppDelegate+Menu.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "CMRAppDelegate+Menu.m"; sourceTree = "<group>"; };
 		F368973C05B08B540006D567 /* CMRMessageComposer.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRMessageComposer.m; sourceTree = "<group>"; };
 		F3689A2305B0A5D70006D567 /* CMRThreadMessageBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRThreadMessageBuffer.h; sourceTree = "<group>"; };
