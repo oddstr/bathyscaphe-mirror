@@ -1,3 +1,9 @@
+2007-11-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/BSDBThreadsListDBUpdateTask2.m
+		TEC を直接呼ぶのではなく CMXTextParser を経由して subject.txt をデコードするように
+		変更。
+	* application/Resources/Japanese.lproj/BathyScapheHelp/
+		ヘルプコンテンツのアップデート。
 2007-11-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/preference/SyncPaneController.m
 	* application/subproj/preference/Japanese.lproj/SyncPane.nib

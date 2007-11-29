@@ -1321,7 +1321,7 @@
 		F38262ED0513581100A80005 /* CMRTaskManager.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = CMRTaskManager.m; sourceTree = "<group>"; };
 		F38262EE0513581100A80005 /* CMRTaskManager_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRTaskManager_p.h; sourceTree = "<group>"; };
 		F38263000513585900A80005 /* CMXTextParser.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMXTextParser.h; sourceTree = "<group>"; };
-		F38263010513585900A80005 /* CMXTextParser.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMXTextParser.m; sourceTree = "<group>"; };
+		F38263010513585900A80005 /* CMXTextParser.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = CMXTextParser.m; sourceTree = "<group>"; };
 		F3826315051358E500A80005 /* CMXImageAttachmentCell.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMXImageAttachmentCell.h; sourceTree = "<group>"; };
 		F3826316051358E500A80005 /* CMXImageAttachmentCell.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMXImageAttachmentCell.m; sourceTree = "<group>"; };
 		F3826332051359B700A80005 /* CMXInternalMessaging.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMXInternalMessaging.h; sourceTree = "<group>"; };

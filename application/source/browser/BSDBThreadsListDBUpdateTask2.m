@@ -129,7 +129,7 @@ abort:
 		boardID, datString, nil];
 	cursor = [reservedSelectThreadTable cursorForBindValues : bindValues];
 	UTILRequireCondition(cursor, abort);
-	
+	if ([count unsignedIntValue] == 803) NSLog(@"CJECL %@",title);
 	if(![cursor rowCount]) {
 		// 初めての読み込み。データベースに登録。
 		
@@ -220,8 +220,7 @@ abort:
 		return;
 	}
 	enc = [handler subjectEncoding];
-	str = [NSString stringWithDataUsingTEC:subjectData
-								  encoding:enc];
+	str = [CMXTextParser stringWithData:subjectData CFEncoding:enc];//[NSString stringWithDataUsingTEC:subjectData encoding:enc];
 	// 行分割
 	lines = [str componentsSeparatedByNewline];	
 	
