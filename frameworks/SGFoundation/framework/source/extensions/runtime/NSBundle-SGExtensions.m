@@ -1,15 +1,13 @@
 //: NSBundle-SGExtensions.m
 /**
-  * $Id: NSBundle-SGExtensions.m,v 1.3 2006/02/01 17:39:08 tsawada2 Exp $
+  * $Id: NSBundle-SGExtensions.m,v 1.4 2007/11/30 01:01:17 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
   */
 
 #import "NSBundle-SGExtensions.h"
-#import "NSBundle+AppSupport.h"
 #import "SGFile+AppSupport.h"
-#import <AppKit/NSImage.h>
 #import <SGFoundation/SGFileRef.h>
 
 
