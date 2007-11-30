@@ -1,3 +1,10 @@
+2007-11-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/reply/Japanese.lproj/LoginWindow.nib
+		ダイアログの文面を修正。
+	* application/source/preferences/CMRPreferencesDefautValues.h
+		「必要なときに自動的に●ログインする」設定のデフォルト値を NO に修正。
+================================================= 1.6(v218) / Twincam Angel
+2007-11-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/board_default.plist
 		最新のものに更新。
 	* application/Resources/Japanese.lproj/BathyScapheHelp/sty/top.css
