@@ -1,3 +1,23 @@
+	* application/Resources/Japanese.lproj/board_default.plist
+		最新のものに更新。
+	* application/Resources/Japanese.lproj/BathyScapheHelp/sty/top.css
+		ほんのちょっと修正。
+	* frameworks/SGFoundation/framework/source/support/NSBundle+AppSupport.[h|m]
+	* frameworks/SGFoundation/framework/source/extensions/string/NSMutableString-XMLEntitySupport_imp.m
+	* frameworks/SGFoundation/framework/source/extensions/string/NSString+Japanese.[h|m]
+	* frameworks/SGFoundation/framework/source/extensions/string/NSString-Extensions.old.m
+	* frameworks/SGFoundation/framework/source/extensions/data/NSCoder-SGExtensions.[h|m]
+	* frameworks/SGFoundation/framework/source/extensions/data/NSData-SGExtensions.[h|m]
+	* frameworks/SGFoundation/framework/source/extensions/data/SGBase64.[c|h]
+	* frameworks/SGFoundation/framework/source/classes/keychain/
+	* frameworks/SGFoundation/framework/source/references/
+	* frameworks/SGFoundation/SGFoundation.pbproj
+	* frameworks/SGFoundation/performance/
+		[削除] かなり昔から未使用なので刈り込み。
+	* frameworks/SGFoundation/SGFoundation.xcodeproj
+		SGFoundation:
+		ビルド設定にミスがあったので修正。
+=================================================
 2007-11-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/browser/BSDBThreadsListDBUpdateTask2.m
 		TEC を直接呼ぶのではなく CMXTextParser を経由して subject.txt をデコードするように
