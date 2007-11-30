@@ -1,3 +1,4 @@
+================================================= 1.6(v128.1) / Twincam Angel / CVS Tag : v160_FINAL
 2007-11-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/reply/Japanese.lproj/LoginWindow.nib
 		ダイアログの文面を修正。
