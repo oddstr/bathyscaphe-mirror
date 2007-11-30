@@ -1,14 +1,13 @@
 //: NSImage-SGExtensions.m
 /**
-  * $Id: NSImage-SGExtensions.m,v 1.4 2007/10/29 05:54:46 tsawada2 Exp $
+  * $Id: NSImage-SGExtensions.m,v 1.5 2007/11/30 01:33:12 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
   */
 
 #import "NSImage-SGExtensions.h"
-//#import "SGAppKitFrameworkDefines.h"
-#import <SGFoundation/NSBundle+AppSupport.h>
+#import <SGFoundation/NSBundle-SGExtensions.h>
 #define SHOULD_FIX_BAD_SEARCH_RESOURCE_BEHAVIOUR	YES
 
 

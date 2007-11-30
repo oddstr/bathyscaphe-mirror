@@ -1,5 +1,5 @@
 /**
-  * $Id: SGTemplatesManager.m,v 1.1 2005/05/11 17:51:45 tsawada2 Exp $
+  * $Id: SGTemplatesManager.m,v 1.2 2007/11/30 01:33:12 tsawada2 Exp $
   * 
   * SGTemplatesManager.m
   *
@@ -10,7 +10,7 @@
 #import "UTILKit.h"
 #import <SGFoundation/SGFoundationAdditions.h>
 #import <SGFoundation/SGFile+AppSupport.h>
-#import <SGFoundation/NSBundle+AppSupport.h>
+#import <SGFoundation/NSBundle-SGExtensions.h>
 
 
 
