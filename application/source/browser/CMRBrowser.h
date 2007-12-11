@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.h,v 1.31 2007/11/13 02:16:16 tsawada2 Exp $
+  * $Id: CMRBrowser.h,v 1.32 2007/12/11 17:09:37 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -31,7 +31,7 @@ typedef enum _BSThreadDeletionType {
 	
 	IBOutlet NSOutlineView		*m_boardListTable;
 	IBOutlet id					m_splitterBtn;
-	IBOutlet id					m_brdListActMenuBtn;	
+	IBOutlet id					m_brdListActMenuBtn;
 	
 	IBOutlet NSMenu				*m_listContextualMenu;
 	IBOutlet NSMenu				*m_drawerContextualMenu;

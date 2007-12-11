@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.49 2007/10/31 20:54:23 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.50 2007/12/11 17:09:37 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -131,14 +131,14 @@ static NSDictionary *boardInfoWithFilepath(NSString *filepath)
     if ([[self threadIdentifier] isEqual : aThreadIdentifier])
     	return;
     
-    if (nil == [aThreadIdentifier BBSName])
+    if (nil == [aThreadIdentifier boardName])
     	return;
 	
 	documentPath_ = [aThreadIdentifier threadDocumentPath];
 	
 	if (![[self document] windowAlreadyExistsForPath : documentPath_]) {
 		boardInfo_ = [NSDictionary dictionaryWithObjectsAndKeys : 
-						[aThreadIdentifier BBSName] ,	ThreadPlistBoardNameKey,
+						[aThreadIdentifier boardName] ,	ThreadPlistBoardNameKey,
 						[aThreadIdentifier identifier],	ThreadPlistIdentifierKey,
 						nil];
 		[self setThreadContentWithFilePath : documentPath_

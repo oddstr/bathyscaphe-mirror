@@ -187,14 +187,21 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 - (void)updateURL:(NSURL *)anURL forBoardName:(NSString *)aName
 {
-	DatabaseManager *dbm = [DatabaseManager defaultManager];
+/*	DatabaseManager *dbm = [DatabaseManager defaultManager];
 	NSArray *ids;
 	unsigned boardID;
 	
 	ids = [dbm boardIDsForName:aName];
-	/* TODO 複数の場合の処理 */
+	// TODO 複数の場合の処理
 	boardID = [[ids objectAtIndex:0] unsignedIntValue];
 	[dbm moveBoardID:boardID toURLString:[anURL absoluteString]];
+	[[self userList] setIsEdited:YES];*/
+	id item = [self itemForName:aName];
+//	if (!item) return;
+	NSString	*newURLString = [anURL absoluteString];
+//	[[self defaultList] setURL:newURLString toItem:item];
+//	[[self userList] setURL:newURLString toItem:item];
+	[self editBoardItem:item newURLString:newURLString];
 }
 
 #pragma mark detect moved BBS

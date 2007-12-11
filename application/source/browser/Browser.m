@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.m,v 1.20 2007/10/10 00:44:07 tsawada2 Exp $
+  * $Id: Browser.m,v 1.21 2007/12/11 17:09:37 tsawada2 Exp $
   * BathyScaphe 
   *
   * Copyright 2005-2006 BathyScaphe Project.
@@ -15,7 +15,7 @@
 #import "CMRThreadAttributes.h"
 #import "BoardManager.h"
 #import "CMRReplyDocumentFileManager.h"
-
+#import "CMRFavoritesManager.h"
 
 @implementation Browser
 - (void) dealloc
@@ -123,6 +123,46 @@
 		} else {
 			NSBeep();
 			NSLog(@"Save failure - %@", savePath_);
+		}
+	}
+}
+
+- (IBAction)importFavorites:(id)sender
+{
+	NSOpenPanel	*panel_ = [NSOpenPanel openPanel];
+	int	resultCode;
+
+	[panel_ setCanChooseFiles:YES];
+	[panel_ setCanChooseDirectories:NO];
+	[panel_ setResolvesAliases:YES];
+	[panel_ setAllowsMultipleSelection:NO];
+	
+	resultCode = [panel_ runModalForTypes:[NSArray arrayWithObject:@"plist"]];
+	if (resultCode == NSOKButton) {
+		NSString *path = [panel_ filename];
+		if (![[CMRFavoritesManager defaultManager] importFavoritesFromFile:path]) {
+			NSBeep();
+			NSLog(@"Import failed - %@", path);
+		}
+	}
+}
+
+- (IBAction)exportFavorites:(id)sender
+{
+	NSSavePanel *savePanel_ = [NSSavePanel savePanel];
+	int			resultCode;
+
+	[savePanel_ setRequiredFileType:@"plist"];
+	[savePanel_ setCanCreateDirectories:YES];
+	[savePanel_ setCanSelectHiddenExtension:NO];
+
+	resultCode = [savePanel_ runModalForDirectory:nil file:@"ExportedFavorites.plist"];
+
+	if (resultCode == NSFileHandlingPanelOKButton) {
+		NSString *savePath_ = [savePanel_ filename];
+		if (![[CMRFavoritesManager defaultManager] exportFavoritesToFile:savePath_ atomically:YES]) {
+			NSBeep();
+			NSLog(@"Export failed - %@", savePath_);
 		}
 	}
 }

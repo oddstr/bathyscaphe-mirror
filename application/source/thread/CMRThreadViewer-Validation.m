@@ -1,5 +1,5 @@
 /*
-    $Id: CMRThreadViewer-Validation.m,v 1.34 2007/10/31 20:54:23 tsawada2 Exp $
+    $Id: CMRThreadViewer-Validation.m,v 1.35 2007/12/11 17:09:37 tsawada2 Exp $
     CMRThreadViewer-Action.m から独立
     Created at 2005-02-16 by tsawada2.
 */
@@ -45,9 +45,9 @@
 #pragma mark Action Menu
 
 
-- (IBAction) actionMenuHeader : (id) sender
+/*- (IBAction) actionMenuHeader : (id) sender
 {
-}
+}*/
 /*** レス属性 ***/
 static int messageMaskForTag(int tag)
 {
@@ -64,7 +64,7 @@ static int messageMaskForTag(int tag)
 	} 
 	return 0;
 }
-- (IBAction) clearMessageAttributes : (id) sender
+/*- (IBAction) clearMessageAttributes : (id) sender
 {
 	[[self threadLayout]
 		changeAllMessageAttributes : NO
@@ -75,10 +75,11 @@ static int messageMaskForTag(int tag)
 	[[self threadLayout]
 		changeAllMessageAttributes : YES
 							 flags : messageMaskForTag([sender tag])];
-}
+}*/
 - (IBAction) showMessageMatchesAttributes : (id) sender
 {
 	NSRange				indexRange_;
+	CMRThreadLayout		*layout = [self threadLayout];
 	NSAttributedString	*contents_;
 	NSPoint				location_;
 	unsigned			composingMask_;
@@ -89,16 +90,16 @@ static int messageMaskForTag(int tag)
 	attributeMask_ &= ~CMRBookmarkMask;
 	attributeMask_ &= ~CMRAsciiArtMask;
 	
-	indexRange_ = NSMakeRange(0, [[self threadLayout] firstUnlaidMessageIndex]);
+	indexRange_ = NSMakeRange(0, [layout firstUnlaidMessageIndex]);
 	if (0 == indexRange_.length)
 		return;
 	
-	contents_ = [[self threadLayout] contentsForIndexRange : indexRange_
+	contents_ = [layout contentsForIndexes:[NSIndexSet indexSetWithIndexesInRange:indexRange_]
 	 					 composingMask : composingMask_
 							   compose : YES
 						attributesMask : attributeMask_];
 	
-	if (nil == contents_ || 0 == [contents_ length]) {
+	if (!contents_ || ![contents_ length]) {
 		NSBeep();
 		return;
 	}
@@ -111,20 +112,17 @@ static int messageMaskForTag(int tag)
 
 #pragma mark Validation Helpers
 
-- (BOOL) validateActionMenuItem : (NSMenuItem *) theItem
+- (BOOL)validateActionMenuItem:(NSMenuItem *)theItem
 {
 	int			tag = [theItem tag];
-	SEL			action = [theItem action];
+//	SEL			action = [theItem action];
 	unsigned	mask;
-	
-//	if (@selector(runSpamFilter:) == action)
-//		return YES;
 	
 	mask = messageMaskForTag(tag);
 	if (mask != 0) {
 		unsigned	nMatches;		
 
-		nMatches = [[self threadLayout] numberOfMessageAttributes : mask];
+		nMatches = [[self threadLayout] numberOfMessageAttributes:mask];
 
 		{
 			NSString	*title_ = @"";
@@ -141,28 +139,28 @@ static int messageMaskForTag(int tag)
 			} else if (kActionInvisibleAbonedHeader == tag) {
 				key_ = @"ActionInvisibleAbonedHeaderFormat";
 			}
-			if (key_ != nil) {
+			if (key_) {
 				// ヘッダ
-				title_ = [self localizedString : key_];
-				title_ = [NSString stringWithFormat : title_, nMatches];
-				[theItem setTitle : title_];
+				title_ = [self localizedString:key_];
+				title_ = [NSString stringWithFormat:title_, nMatches];
+				[theItem setTitle:title_];
 			}
 		}
 		
-		if ( @selector(clearMessageAttributes:) == action || 
-			 @selector(showMessageMatchesAttributes:) == action )
-		{
+//		if ( @selector(clearMessageAttributes:) == action || 
+//			 @selector(showMessageMatchesAttributes:) == action )
+//		{
 			return (nMatches != 0);
-		}
+//		}
 		
 		// すべてのレスを変更
-		if (@selector(setOnMessageAttributes:) == action) {
+/*		if (@selector(setOnMessageAttributes:) == action) {
 			unsigned nReaded = [[self threadLayout] numberOfReadedMessages];
 			
 			if (0 == nReaded) return NO;
 			
 			return (nReaded > nMatches);
-		}
+		}*/
 	}
 	return NO;
 }
@@ -252,12 +250,13 @@ static int messageMaskForTag(int tag)
 {
 	SEL	action_ = [theItem action];
 
-	if ([theItem isKindOfClass: [NSMenuItem class]]) {
-		if (action_ == @selector(clearMessageAttributes:) || action_ == @selector(showMessageMatchesAttributes:) ||
-			action_ == @selector(setOnMessageAttributes:)) {
-			return [self validateActionMenuItem: (NSMenuItem *)theItem];
+//	if ([theItem isKindOfClass: [NSMenuItem class]]) {
+//		if (action_ == @selector(clearMessageAttributes:) || action_ == @selector(showMessageMatchesAttributes:) ||
+//			action_ == @selector(setOnMessageAttributes:)) {
+		if (action_ == @selector(showMessageMatchesAttributes:)) {
+			return [self validateActionMenuItem:(NSMenuItem *)theItem];
 		}
-	}
+//	}
 
 	// レス
 	if (action_ == @selector(reply:)) {

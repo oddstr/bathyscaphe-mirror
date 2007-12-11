@@ -1,3 +1,64 @@
+2007-12-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/bbs/BoardManager-BSAddition.m
+	* application/source/bbs/BoardManager-SettingTxt.m
+	* application/source/bbs/BoardManager.m
+	* application/source/bbs/BoardWarrior.m
+	* application/source/bbs/BoardListItem/ConcreteBoardListItem.m
+	* application/source/bbs/BoardListItem/SmartBoardList.m
+	* application/source/manager/DatabaseManager-DatabaseAccess.m
+		掲示板の URL を自分で書き換えても記憶されなかったり、サーバ移転で自動書き換えしても記憶されなかったり、
+		勝手に古い URL に戻ってしまう問題を解消するため悪戦苦闘。
+		- URL を書き換える時は userList と defaultList を常に両方書き換えるようにした。
+		- boardInfoHistoryTable からの探索は、場合によっては行わないようにしてみた。
+		-- -[DatabaseManager(DatabaseAccess) boardIDForURLStringExceptingHistory:] の追加。
+		- URL を書き換える方法が色々あるが、-[BoardManager(UserListEditorCore) editBoardItem:newURLString:] の呼び出しに
+		  統一して、保守性を向上させた。 
+	* application/source/bbs/BSBoardInfoInspector.m
+	* application/Resources/Japanese.lproj/BSBoardInfoInspector.nib
+		「掲示板オプション」パネルのインタフェースを見直した。
+		- 掲示板の URL を編集する方法を掲示板リストでのそれと同じ方法にした。
+		- 名無しさんの名前は追加／削除ボタンのみとし、「編集...」ボタンは廃止した。
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		「表示」＞「欄」を「表示項目」に名称変更（Leopard Mail マナー）。
+		「ファイル」＞「お気に入りを読み込む...」「お気に入りを書き出す...」を追加。
+	* application/source/browser/CMRFavoritesManager.m
+	* application/source/browser/Browser.m
+		お気に入りを読み込み／書き出しできるようにした。
+		今のところ、もっぱら「BSDataImporter でデータベースを再構築する前後のお気に入りバックアップ／リストア用」である。
+		即ち、
+		1. お気に入りを書き出す
+		2. BSDataImporter でデータベース再構築（→お気に入りは消えてしまう）
+		3. 再起動後、1. のお気に入りを読み込ませて復帰させる
+		しかしまだ不完全な部分もあり、1.6.1 正式版でどうするかは未定。
+	* application/Resources/Japanese.lproj/BSFavoritesProgressPanel.nib
+		[新規追加] お気に入りの読み込み／書き出し中に表示される進行状況パネル。
+	* application/source/object/CMRThreadSignature.m
+		ソースの整理と軽いリファクタリング。
+		- メソッド名の変更に伴い、該当メソッドを呼び出しているいくつかのソースファイルに修正が入っている。
+	* application/source/thread/CMRThreadLayout-MessageRange.m
+	* application/source/thread/CMRThreadViewer-Link.m
+	* application/source/thread/CMRThreadViewer-Validation.m
+		逆参照ポップアップは、スレッド全体からアンカーを含むレスを探すようにした（以前は、逆参照の対象レスより
+		後ろのレスからしか探していなかった）。また、CMRThreadLayout のコード整理。
+	* application/Resources/image/Action.tiff
+	* application/Resources/image/Action_Pressed.tiff
+	* application/Resources/image/AddBoard.tiff
+	* application/Resources/image/AddBoard_Pressed.tiff
+	* application/Resources/image/SplitterHandle.tiff
+		微妙に画像リソースを修正。
+	* application/source/view/BSTsuruPetaView.m
+		（SGAppKit 持ち）BSTsuruPetaView は、Spacer.tiff を敷き詰めるのではなくグラフィック関数で
+		色を塗るようにした。Spacer.tiff はターゲットから外した。
+	* application/source/window/CMRThreadViewerTbDelegate.m
+	* application/source/preferences/AppDefaults.m
+	* application/source/preferences/CMRPreferencesDefautValues.h
+		「戻る／進む」ボタンにポップアップメニューを付ける隠しオプション "DisablesHistoryButtonPopupMenu" を
+		廃止した（不安定なため）（参考：2007-09-16 の変更）。
+		また、以前に User Defaults から未使用になったエントリを削除する意図で書いたコードが正しく動作していなかった部分を
+		修正した。
+	* application/source/task/CMRTaskManager.h
+	* application/source/thread/CMRThreadViewer_p.h
+		CMRTask プロトコルの定義がどうたらと、ビルド時に警告が出ない書き方に改めた。
 ================================================= 1.6(v128.1) / Twincam Angel / CVS Tag : v160_FINAL
 2007-11-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/reply/Japanese.lproj/LoginWindow.nib

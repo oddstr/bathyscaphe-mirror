@@ -1,39 +1,35 @@
-/**
-  * $Id: CMRThreadSignature.h,v 1.4 2007/01/22 02:23:29 tsawada2 Exp $
-  * 
-  * CMRThreadSignature.h
-  *
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
-#import <SGFoundation/SGFoundation.h>
-#import <CocoMonar/CocoMonar.h>
+//
+//  CMRThreadSignature.h
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/12/09.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+  
+#import <Foundation/Foundation.h>
 #import "CMRHistoryObject.h"
-
-@class SGFileRef;
-
 
 @interface CMRThreadSignature : NSObject<NSCopying, CMRHistoryObject, CMRPropertyListCoding>
 {
-	NSString			*m_identifier;
-	NSString			*m_BBSName; // ’u‚«Š·‚¦
+	NSString	*m_identifier;
+	NSString	*m_boardName;
 }
-+ (id) threadSignatureFromFilepath : (NSString *) filepath;
-- (id) initFromFilepath : (NSString *) filepath;
 
-+ (id) threadSignatureWithIdentifier : (NSString *) anIdentifier BBSName : (NSString *) bbsName;
++ (id)threadSignatureFromFilepath:(NSString *)filepath;
+- (id)initFromFilepath:(NSString *)filepath;
 
-- (id) initWithIdentifier : (NSString *) anIdentifier
-				  BBSName : (NSString *) bbsName;
++ (id)threadSignatureWithIdentifier:(NSString *)identifier boardName:(NSString *)boardName;
+- (id)initWithIdentifier:(NSString *)identifier boardName:(NSString *)boardName;
 
-- (NSString *) identifier;
-- (NSString *) BBSName;
+- (NSString *)identifier;
+- (NSString *)boardName;
 
-- (NSString *) filepathExceptsExtention;
-- (NSString *) datFilename;
-- (NSString *) idxFileName;
+//- (NSString *)filepathExceptsExtention;
+- (NSString *)datFilename;
+- (NSString *)idxFileName;
 
-- (NSString *) localDATFilePath;
-- (NSString *) idxFilePath;
-- (NSString *) threadDocumentPath;
+//- (NSString *)localDATFilePath;
+//- (NSString *)idxFilePath;
+- (NSString *)threadDocumentPath;
 @end

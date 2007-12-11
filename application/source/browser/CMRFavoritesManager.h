@@ -1,51 +1,49 @@
-/**
-  * $Id: CMRFavoritesManager.h,v 1.11 2007/03/29 13:31:49 tsawada2 Exp $
-  *
-  * Copyright (c) 2005 BathyScaphe Project. All rights reserved.
-  */
+//
+//  CMRFavoritesManager.h
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/12/09.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
 
-#import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
+
 @class CMRThreadSignature;
 
-typedef enum {
+enum {
 	CMRFavoritesOperationNone,
 	CMRFavoritesOperationLink,
 	CMRFavoritesOperationRemove
-} CMRFavoritesOperation;
+};
+typedef unsigned int CMRFavoritesOperation;
 
 
 @interface CMRFavoritesManager : NSObject
 {
+	IBOutlet NSPanel	*m_progressPanel;
+	IBOutlet NSProgressIndicator	*m_progressBar;
 }
 + (id) defaultManager;
+
+- (CMRFavoritesOperation)availableOperationWithPath:(NSString *)filepath;
+- (CMRFavoritesOperation)availableOperationWithSignature:(CMRThreadSignature *)signature;
+
+- (BOOL)canCreateFavoriteLinkFromPath:(NSString *)filepath;
+- (BOOL)favoriteItemExistsOfThreadPath:(NSString *)filepath;
+- (BOOL)favoriteItemExistsOfThreadSignature:(CMRThreadSignature *)signature;
+
+- (BOOL)addFavoriteWithThread:(NSDictionary *)thread;
+- (BOOL)addFavoriteWithSignature:(CMRThreadSignature *)signature;
+
+- (BOOL)removeFromFavoritesWithFilePath:(NSString *)filepath;
+- (BOOL)removeFromFavoritesWithSignature:(CMRThreadSignature *)signature;
 @end
 
-
-@interface CMRFavoritesManager(Management)
-- (CMRFavoritesOperation) availableOperationWithPath : (NSString *) filepath;
-// Available in Starlight Breaker.
-- (CMRFavoritesOperation) availableOperationWithSignature: (CMRThreadSignature *) signature;
-
-- (BOOL) canCreateFavoriteLinkFromPath : (NSString *) filepath;
-- (BOOL) favoriteItemExistsOfThreadPath : (NSString *) filepath;
-
-// Available in Starlight Breaker.
-- (BOOL) favoriteItemExistsOfThreadSignature: (CMRThreadSignature *) signature;
-
-- (BOOL) addFavoriteWithThread : (NSDictionary *) thread;
-//- (BOOL) addFavoriteWithFilePath : (NSString *) filepath; // Deprecated.
-// Available in Starlight Breaker.
-- (BOOL) addFavoriteWithSignature: (CMRThreadSignature *) signature;
-
-//- (BOOL) removeFromFavoritesWithThread : (NSDictionary *) thread; // Deprecated.
-- (BOOL) removeFromFavoritesWithFilePath : (NSString *) filepath;
-// Available in Starlight Breaker.
-- (BOOL) removeFromFavoritesWithSignature : (CMRThreadSignature *) signature;
-
-// Deprecated in Starlight Breaker.
-//- (void) removeFromFavoritesWithPathArray : (NSArray *) pathArray_;
+@interface CMRFavoritesManager(ImportAndExport)
+- (BOOL)exportFavoritesToFile:(NSString *)filepath atomically:(BOOL)atomically;
+- (BOOL)importFavoritesFromFile:(NSString *)filepath;
 @end
-
 
 
 /**

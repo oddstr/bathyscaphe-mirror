@@ -167,10 +167,10 @@ static NSSegmentedControl *segmentedControlItemBase(void)
 	[segmentedControl setTarget:windowController];
 	[segmentedControl setAction:@selector(historySegmentedControlPushed:)];
 
-	if (![CMRPref disablesHistorySegCtrlMenu]) {
+/*	if (![CMRPref disablesHistorySegCtrlMenu]) {
 		[self setupMenuWithTitle:@"Back" delegate:windowController forSegmentedControl:segmentedControl segment:0];
 		[self setupMenuWithTitle:@"Forward" delegate:windowController forSegmentedControl:segmentedControl segment:1];
-	}
+	}*/
 
 	[[segmentedControl cell] setToolTip:[self localizedString:st_historySC_seg0_ToolTipKey] forSegment:0];
 	[[segmentedControl cell] setToolTip:[self localizedString:st_historySC_seg1_ToolTipKey] forSegment:1];

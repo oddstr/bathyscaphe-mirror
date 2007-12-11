@@ -10,7 +10,6 @@
 #import "CMRThreadPlistComposer.h"
 #import "CMR2chDATReader.h"
 #import "CMRThreadSignature.h"
-//#import "CMRBBSSignature.h"
 #import "CMRHostHandler.h"
 
 #import "BoardManager.h"

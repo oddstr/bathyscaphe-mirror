@@ -13,6 +13,7 @@
 #import "NSTableColumn+CMXAdditions.h"
 #import "CMRMainMenuManager.h"
 #import "AddBoardSheetController.h"
+#import "EditBoardSheetController.h"
 #import "CMRTextColumnCell.h"
 #import <SGAppKit/CMRPullDownIconBtn.h>
 #import <SGAppKit/BSIconAndTextCell.h>
@@ -436,12 +437,14 @@
 	
 	menuBase_ = [[self drawerContextualMenu] copy];
 	[menuBase_ insertItem:[NSMenuItem separatorItem] atIndex:0]; // dummy
+//	[[menuBase_ itemAtIndex:0] setHidden:NO];
 	tmp_ = [menuBase_ itemWithTag:kBLEditItemViaContMenuItemTag];
 	[tmp_ setTag:kBLEditItemViaMenubarItemTag];
 	tmp_ = [menuBase_ itemWithTag:kBLDeleteItemViaContMenuItemTag];
 	[tmp_ setTag:kBLDeleteItemViaMenubarItemTag];
 	[btnCell_ setMenu:menuBase_];
 	[menuBase_ release];
+	[btnCell_ setUsesItemFromMenu:NO];
 }
 
 #pragma mark Window, KeyLoop, and Search Menu
@@ -499,7 +502,6 @@
 
     [self setupThreadsListTable];
     [self setUpBoardListToolButtons];
-	
 	[self setupSearchField];
     [self setupFrameAutosaveName];
 	[self setupKeyLoops];

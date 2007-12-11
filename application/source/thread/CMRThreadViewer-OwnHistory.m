@@ -1,5 +1,5 @@
 /*
- * $Id: CMRThreadViewer-OwnHistory.m,v 1.14 2007/10/25 13:41:42 tsawada2 Exp $
+ * $Id: CMRThreadViewer-OwnHistory.m,v 1.15 2007/12/11 17:09:37 tsawada2 Exp $
  *
  * それぞれのスレッドビューア内での履歴（グローバルな履歴と一致するとは限らない）の管理と移動アクションのサポート
  * CMRThreadViewer.m から分割
@@ -234,7 +234,7 @@
 //		while (foo = [iter nextObject]) {
 		for (i=currentIndex; i>0; i--) {
 			foo = [hoge objectAtIndex:i-1];
-			NSString *bar = [dbManager threadTitleFromBoardName:[foo BBSName] threadIdentifier:[foo identifier]];
+			NSString *bar = [dbManager threadTitleFromBoardName:[foo boardName] threadIdentifier:[foo identifier]];
 //			[menu addItemWithTitle:bar action:@selector(historyMenuPerformBack:)keyEquivalent:@""];
 			item = [[NSMenuItem alloc] initWithTitle:bar action:@selector(historyMenuPerformGo:) keyEquivalent:@""];
 			[item setRepresentedObject:[NSNumber numberWithInt:(i-currentIndex-1)]];
@@ -256,7 +256,7 @@
 //		while (foo = [iter nextObject]) {
 		for (i=0; i<range.length; i++) {
 			foo = [hoge objectAtIndex:i];
-			NSString *bar = [dbManager threadTitleFromBoardName:[foo BBSName] threadIdentifier:[foo identifier]];
+			NSString *bar = [dbManager threadTitleFromBoardName:[foo boardName] threadIdentifier:[foo identifier]];
 			aho = [[NSMenuItem alloc] initWithTitle:bar action:@selector(historyMenuPerformGo:) keyEquivalent:@""];
 			[aho setRepresentedObject:[NSNumber numberWithInt:(i+1)]];
 //			[menu addItemWithTitle:bar action:@selector(historyMenuPerformForward:)keyEquivalent:@""];

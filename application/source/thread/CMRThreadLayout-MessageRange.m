@@ -75,13 +75,14 @@
 }
 - (NSAttributedString *) contentsAtIndex : (unsigned int) index
 {
-	NSRange		indexRange_;
+//	NSRange		indexRange_;
 	
-	indexRange_ = NSMakeRange(index, 1);
-	return [self contentsForIndexRange : indexRange_];
+//	indexRange_ = NSMakeRange(index, 1);
+//	return [self contentsForIndexRange : indexRange_];
+	return [self contentsForIndexes:[NSIndexSet indexSetWithIndex:index]];
 }
 
-- (BOOL) hasTemporaryInvisibleMessageInIndexRange : (NSRange) aRange
+/*- (BOOL) hasTemporaryInvisibleMessageInIndexRange : (NSRange) aRange
 {
 	CMRThreadMessage	*m;
 	unsigned			i;
@@ -92,8 +93,8 @@
 			return YES;
 	}
 	return NO;
-}
-- (NSRange) subrangeForIndexRange : (NSRange) aRange
+}*/
+/*- (NSRange) subrangeForIndexRange : (NSRange) aRange
 {
 	NSRange		startRng_;
 	NSRange		endRng_;
@@ -107,8 +108,8 @@
 	if (NSNotFound == endRng_.location) return endRng_;
 	
 	return NSUnionRange(startRng_, endRng_);
-}
-
+}*/
+/*
 - (NSAttributedString *) attributedSubstringForIndexRange : (NSRange) aRange
 {
 	NSRange		subrange_ = [self subrangeForIndexRange : aRange];
@@ -118,7 +119,7 @@
 	
 	return [[self textStorage] attributedSubstringFromRange : subrange_];
 }
-
+*/
 - (NSAttributedString *) contentsForIndexes : (NSIndexSet *) indexes
 			 					 composingMask : (UInt32 ) composingMask
 									   compose : (BOOL   ) doCompose
@@ -157,7 +158,7 @@
 	[composer_ release];
 	return [textBuffer_ autorelease];
 }
-
+/*
 - (NSAttributedString *) contentsForIndexRange : (NSRange) aRange
 			 					 composingMask : (UInt32 ) composingMask
 									   compose : (BOOL   ) doCompose
@@ -173,10 +174,10 @@
 	if ([self firstUnlaidMessageIndex] < NSMaxRange(aRange)) return nil;
 	
 	// ‚·‚Å‚É•\Ž¦Ï‚Ý
-/*
-	if (NO == [self hasTemporaryInvisibleMessageInIndexRange : aRange])
-		return [self attributedSubstringForIndexRange : aRange];
-*/
+//
+//	if (NO == [self hasTemporaryInvisibleMessageInIndexRange : aRange])
+//		return [self attributedSubstringForIndexRange : aRange];
+//
 	
 	composer_ = [[CMRAttributedMessageComposer alloc] init];
 	textBuffer_ = [[NSMutableAttributedString alloc] init];
@@ -192,8 +193,8 @@
 	}
 	[composer_ release];
 	return [textBuffer_ autorelease];
-}
-
+}*/
+/*
 - (NSAttributedString *) contentsForIndexRange : (NSRange) aRange
 								   targetIndex : (unsigned int ) messageIndex
 			 					 composingMask : (UInt32 ) composingMask
@@ -223,7 +224,36 @@
 	[composer_ release];
 	return [textBuffer_ autorelease];
 }
+*/
+- (NSAttributedString *)contentsForTargetIndex:(unsigned int)messageIndex
+								 composingMask:(UInt32)composingMask
+									   compose:(BOOL)doCompose
+								attributesMask:(UInt32)attributesMask
+{
+	CMRThreadMessage	*m;
+	unsigned	limit = [self firstUnlaidMessageIndex];
+	unsigned	i;
+	NSMutableAttributedString		*textBuffer_;
+	CMRAttributedMessageComposer	*composer_;
+	
+	if (limit == 0) return nil;
 
+	composer_ = [[CMRAttributedMessageComposer alloc] init];
+	textBuffer_ = [[NSMutableAttributedString alloc] init];
+	
+	[composer_ setAttributesMask:attributesMask];
+	[composer_ setComposingMask:composingMask compose:doCompose];
+	[composer_ setComposingTargetIndex: messageIndex];
+	[composer_ setContentsStorage:textBuffer_];
+	
+	for (i = 0; i < limit; i++) {
+		m = [[self messageBuffer] messageAtIndex:i];
+		[composer_ composeThreadMessage:m];
+	}
+	[composer_ release];
+	return [textBuffer_ autorelease];
+}
+/*
 - (NSAttributedString *) contentsForIndexRange : (NSRange) aRange
 {
 	if (kSpamFilterInvisibleAbonedBehavior == [CMRPref spamFilterBehavior]) {
@@ -238,7 +268,7 @@
 							attributesMask : (CMRLocalAbonedMask | CMRSpamMask)];
 	}
 }
-
+*/
 - (NSAttributedString *)contentsForIndexes:(NSIndexSet *)indexes
 {
 	if (kSpamFilterInvisibleAbonedBehavior == [CMRPref spamFilterBehavior]) {

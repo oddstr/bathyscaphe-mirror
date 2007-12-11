@@ -384,14 +384,8 @@ static inline NSString *urlPathExtension(NSURL *url)
 // Available in Starlight Breaker.
 - (void)threadView:(CMRThreadView *)aView reverseAnchorPopUp:(unsigned int)targetIndex locationHint:(NSPoint)location_
 {
-	NSRange				indexRange_;
-	NSAttributedString	*contents_;
-	
-	indexRange_ = NSMakeRange(targetIndex, [[self threadLayout] firstUnlaidMessageIndex] - targetIndex);
-	if (indexRange_.length == 0) return;
-	
-	contents_ = [[self threadLayout] contentsForIndexRange:indexRange_
-											   targetIndex:targetIndex
+	NSAttributedString *contents_;
+	contents_ = [[self threadLayout] contentsForTargetIndex:targetIndex
 											 composingMask:CMRInvisibleAbonedMask
 												   compose:NO
 											attributesMask:(CMRLocalAbonedMask|CMRSpamMask)];

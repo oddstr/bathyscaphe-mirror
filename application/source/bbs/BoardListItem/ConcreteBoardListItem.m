@@ -92,43 +92,29 @@ static ConcreteBoardListItem *_sharedInstance;
 		NSLog(@"block BBSPINK English board (%@ -- %@).",boardName,url);
 		return nil;
 	}
-	boardID = [dbm boardIDForURLString : url];
 
-	if (NSNotFound == boardID) {
-		NSArray *boardIDs = [dbm boardIDsForName: boardName];
-		if(!boardIDs || [boardIDs count] == 0) {
-			BOOL isOK = [dbm registerBoardName : boardName URLString : url];
-			boardID = [dbm boardIDForURLString : url];
+	boardID = [dbm boardIDForURLStringExceptingHistory:url];
+
+	if (NSNotFound == boardID) { // まだデータベースに存在しない板か、あるいはアドレスが変更になっている
+		NSArray *boardIDs = [dbm boardIDsForName: boardName]; // 板名から探す
+		if(!boardIDs || [boardIDs count] == 0) { // 板名でも見つからない→間違いなくまだ存在しない板
+			BOOL isOK = [dbm registerBoardName:boardName URLString:url];
+
+			boardID = [dbm boardIDForURLString:url];
 			if (!isOK || NSNotFound == boardID) {
 				goto failCreation;
 			}
 		} else if([boardIDs count] == 1) {
-			NSString *oldURL = [dbm urlStringForBoardID:[[boardIDs objectAtIndex:0] intValue]];
-			if(![oldURL isEqualTo:url]) {
-				[dbm moveBoardID:[[boardIDs objectAtIndex:0] intValue]
-					 toURLString:url];
-			}
+			boardID = [[boardIDs objectAtIndex:0] intValue];
+			[dbm moveBoardID:boardID toURLString:url];
 		} else {
 			// TODO 明らかにおかしい。
-			// 
-			NSString *oldURL = [dbm urlStringForBoardID:[[boardIDs objectAtIndex:0] intValue]];
-			if(![oldURL isEqualTo:url]) {
-				[dbm moveBoardID:[[boardIDs objectAtIndex:0] intValue]
-					 toURLString:url];
-			}
-		}
-	} else {
-		// 2007-11-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-		// URL の不一致をチェック
-		// 暫定処置
-		NSString *registeredUrl = [dbm urlStringForBoardID:boardID];
-		if (registeredUrl && ![registeredUrl isEqualToString:url]) {
-//			NSLog(@"%@, %@", registeredUrl, url);
+			boardID = [[boardIDs objectAtIndex:0] intValue];
 			[dbm moveBoardID:boardID toURLString:url];
 		}
 	}
-	
-	return [BoardListItem baordListItemWithBoradID : boardID];
+
+	return [BoardListItem baordListItemWithBoradID:boardID];
 		
 failCreation:
 	NSLog(@"Fail Import Board. %@", plist ) ;

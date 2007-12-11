@@ -187,7 +187,7 @@
 	NSString *path_ = [historyItem threadDocumentPath];
 	
 	info_ = [NSDictionary dictionaryWithObjectsAndKeys: 
-					[historyItem BBSName], ThreadPlistBoardNameKey, [historyItem identifier], ThreadPlistIdentifierKey, nil];
+					[historyItem boardName], ThreadPlistBoardNameKey, [historyItem identifier], ThreadPlistIdentifierKey, nil];
 	return [self showDocumentWithContentOfFile: path_ contentInfo: info_];	
 }
 

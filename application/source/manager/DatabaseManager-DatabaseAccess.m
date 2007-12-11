@@ -14,10 +14,43 @@ static NSMutableDictionary *boardIDNameCache = nil;
 static NSLock *boardIDNumberCacheLock = nil;
 
 @implementation DatabaseManager (DatabaseAccess)
+- (unsigned)boardIDForURLStringExceptingHistory:(NSString *)urlString
+{
+	NSMutableString *query;
+	NSString *prepareURL;
+	SQLiteDB *db;
+	id <SQLiteCursor> cursor;
+	id value;
+	
+	db = [self databaseForCurrentThread];
+	if (!db) {
+		return NSNotFound;
+	}
+	
+	prepareURL = [SQLiteDB prepareStringForQuery:urlString];
+	query = [NSMutableString stringWithFormat:@"SELECT %@ FROM %@", BoardIDColumn, BoardInfoTableName];
+	[query appendFormat:@"\n\tWHERE %@ = '%@'", BoardURLColumn, prepareURL];
+	cursor = [db performQuery:query];
+	
+	if (!cursor || [cursor rowCount] == 0) {
+		return NSNotFound;
+	}
+
+	value = [cursor valueForColumn:BoardIDColumn atRow:0];
+	if (!value) {
+		return NSNotFound;
+	}
+	if (![value respondsToSelector:@selector(intValue)]) {
+		NSLog (@"%@ is broken.", BoardInfoTableName);
+		return NSNotFound;
+	}
+
+	return (unsigned)[value intValue];
+}
 
 // return NSNotFound, if not registered.
-- (unsigned) boardIDForURLString : (NSString *) urlString
-{	
+- (unsigned)boardIDForURLString:(NSString *)urlString
+{
 	NSMutableString *query;
 	NSString *prepareURL;
 	SQLiteDB *db;
@@ -30,47 +63,47 @@ static NSLock *boardIDNumberCacheLock = nil;
 		return NSNotFound;
 	}
 	
-	prepareURL = [SQLiteDB prepareStringForQuery : urlString];
-	query = [NSMutableString stringWithFormat : @"SELECT %@ FROM %@", BoardIDColumn, BoardInfoTableName];
-	[query appendFormat : @"\n\tWHERE %@ = '%@'", BoardURLColumn, prepareURL];
-	cursor = [db performQuery : query];
+	prepareURL = [SQLiteDB prepareStringForQuery:urlString];
+	query = [NSMutableString stringWithFormat:@"SELECT %@ FROM %@", BoardIDColumn, BoardInfoTableName];
+	[query appendFormat:@"\n\tWHERE %@ = '%@'", BoardURLColumn, prepareURL];
+	cursor = [db performQuery:query];
 	
 	if (cursor && [cursor rowCount]) {
 		found = YES;
 	}
-	
+
 	if (!found) {
-		query = [NSMutableString stringWithFormat : @"SELECT %@ FROM %@", BoardIDColumn, BoardInfoHistoryTableName];
-		[query appendFormat : @"\n\tWHERE %@ = '%@'", BoardURLColumn, prepareURL];
-		cursor = [db performQuery : query];
+		query = [NSMutableString stringWithFormat:@"SELECT %@ FROM %@", BoardIDColumn, BoardInfoHistoryTableName];
+		[query appendFormat:@"\n\tWHERE %@ = '%@'", BoardURLColumn, prepareURL];
+		cursor = [db performQuery:query];
 		if (cursor && [cursor rowCount]) {
 			found = YES;
 		}
 	}
-	
+
 	if (!found) {
 		return NSNotFound;
 	}
-	
-	value = [cursor valueForColumn : BoardIDColumn atRow : 0];
+
+	value = [cursor valueForColumn:BoardIDColumn atRow:0];
 	if (!value) {
 		return NSNotFound;
 	}
-	if (![value respondsToSelector : @selector(intValue)]) {
+	if (![value respondsToSelector:@selector(intValue)]) {
 		NSLog (@"%@ or %@ is broken.", BoardInfoTableName, BoardInfoHistoryTableName );
 		return NSNotFound;
 	}
 	
 	return (unsigned)[value intValue];
 }
-- (NSString *) urlStringForBoardID : (unsigned) boardID
+
+- (NSString *)urlStringForBoardID:(unsigned)boardID
 {
 	NSMutableString *query;
 	NSURL *url;
 	SQLiteDB *db;
 	id <SQLiteCursor> cursor;
 	id value;
-	
 	
 	if (boardID == 0) return nil;
 	
@@ -79,25 +112,25 @@ static NSLock *boardIDNumberCacheLock = nil;
 		return nil;
 	}
 
-	query = [NSMutableString stringWithFormat : @"SELECT %@ FROM %@", BoardURLColumn, BoardInfoTableName];
-	[query appendFormat : @"\n\tWHERE %@ = %u", BoardIDColumn, boardID];
-	cursor = [db performQuery : query];
+	query = [NSMutableString stringWithFormat:@"SELECT %@ FROM %@", BoardURLColumn, BoardInfoTableName];
+	[query appendFormat:@"\n\tWHERE %@ = %u", BoardIDColumn, boardID];
+	cursor = [db performQuery:query];
 	
 	if (!cursor || ![cursor rowCount]) {
 		return nil;
 	}
-	
-	value = [cursor valueForColumn : BoardURLColumn atRow : 0];
+
+	value = [cursor valueForColumn:BoardURLColumn atRow:0];
 	if (!value) {
 		return nil;
 	}
-	
-	url = [NSURL URLWithString : value];
+
+	url = [NSURL URLWithString:value];
 	if (!url) {
 		NSLog(@"%@ or %@ is broken.", BoardInfoTableName, BoardInfoHistoryTableName);
 		return nil;
 	}
-	
+
 	return value;
 }
 // return nil, if not registered.
@@ -416,6 +449,28 @@ static NSLock *boardIDNumberCacheLock = nil;
  - (BOOL) registerThreadNamesAndThreadIdentifiers : (NSArray *) array
  intoBoardID : (unsigned) boardID;
  */
+- (BOOL)isThreadIdentifierRegistered:(NSString *)identifier onBoardID:(unsigned)boardID
+{
+	NSMutableString *query;
+	SQLiteDB *db;
+	id<SQLiteCursor> cursor;
+	
+	db = [self databaseForCurrentThread];
+	if (!db) {
+		return NO;
+	}
+	
+	query = [NSMutableString stringWithFormat : @"SELECT %@, %@, %@ FROM %@ WHERE %@ = %u AND %@ = %@",
+			ThreadStatusColumn, NumberOfAllColumn, NumberOfReadColumn,
+			ThreadInfoTableName,
+			BoardIDColumn, boardID, ThreadIDColumn, identifier];
+	
+	cursor = [db performQuery:query];
+	if (cursor && [cursor rowCount]) {
+		return YES;
+	}
+	return NO;
+}
 
 - (BOOL) isFavoriteThreadIdentifier : (NSString *) identifier
 						  onBoardID : (unsigned) boardID
@@ -482,31 +537,34 @@ static NSLock *boardIDNumberCacheLock = nil;
 	return ([db lastErrorID] == 0);
 }
 
-- (BOOL) registerThreadFromFilePath:(NSString *)filepath
+- (BOOL)registerThreadFromFilePath:(NSString *)filepath
 {
-	NSDictionary *hoge = [NSDictionary dictionaryWithContentsOfFile: filepath];
+	NSDictionary *hoge = [NSDictionary dictionaryWithContentsOfFile:filepath];
 	NSString *datNum, *title, *boardName;
-	id		date;
 	NSNumber *count;
+	id		date;
+	id		dateValue;
 	BOOL	result_;
 	
-	datNum = [hoge objectForKey: ThreadPlistIdentifierKey];
+	datNum = [hoge objectForKey:ThreadPlistIdentifierKey];
 	if (!datNum) return NO;
-	title = [hoge objectForKey: CMRThreadTitleKey];
+	title = [hoge objectForKey:CMRThreadTitleKey];
 	if (!title) return NO;
-	boardName = [hoge objectForKey: ThreadPlistBoardNameKey];
+	boardName = [hoge objectForKey:ThreadPlistBoardNameKey];
 	if (!boardName) return NO;
-	count = [NSNumber numberWithUnsignedInt: [[hoge objectForKey: ThreadPlistContentsKey] count]];
-	date = [hoge objectForKey: CMRThreadModifiedDateKey];
-	result_ = [[DatabaseManager defaultManager] insertThreadID: datNum
-														 title: title
-														 count: count
-														  date: ([date isKindOfClass: [NSDate class]] ? [NSNumber numberWithDouble:[date timeIntervalSince1970]]: [NSNull null])
-													   atBoard: boardName];
-	
+	count = [NSNumber numberWithUnsignedInt:[[hoge objectForKey: ThreadPlistContentsKey] count]];
+
+	date = [hoge objectForKey:CMRThreadModifiedDateKey];
+	if (date && [date isKindOfClass:[NSDate class]]) {
+		dateValue = [NSNumber numberWithDouble:[date timeIntervalSince1970]];
+	} else {
+		dateValue = [NSNull null];
+	}
+
+	result_ = [self insertThreadID:datNum title:title count:count date:dateValue atBoard:boardName];
+
 	return (result_ == 0);
 }
-
 
 - (NSString *) threadTitleFromBoardName:(NSString *)boadName threadIdentifier:(NSString *)identifier
 {
@@ -546,6 +604,7 @@ static NSLock *boardIDNumberCacheLock = nil;
 	
 	return title;
 }
+
 - (void)setLastWriteDate:(NSDate *)writeDate atBoardID:(unsigned)boardID threadIdentifier:(NSString *)identifier
 {
 	NSString *query;

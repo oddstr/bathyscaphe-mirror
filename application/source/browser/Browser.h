@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.h,v 1.5 2007/10/06 21:12:32 tsawada2 Exp $
+  * $Id: Browser.h,v 1.6 2007/12/11 17:09:37 tsawada2 Exp $
   * 
   * Browser.h
   *
@@ -19,6 +19,8 @@
 	@private
 	BSDBThreadList			*m_currentThreadsList;
 	NSString				*m_searchString;
+	IBOutlet	NSView	*m_contentView;
+	IBOutlet	NSMatrix	*m_formatChooser;
 }
 - (NSURL *) boardURL;
 

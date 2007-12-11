@@ -142,11 +142,6 @@ CMRBrowser *CMRMainBrowser = nil;
 	[self selectRowWithCurrentThread];
 }
 
-/*- (id) boardIdentifier
-{
-	return [CMRBBSSignature BBSSignatureWithName : [[self currentThreadsList] BBSName]];
-}*/
-
 - (NSString *)boardNameArrowingSecondSource
 {
 	NSString *firstSource = [self boardName];

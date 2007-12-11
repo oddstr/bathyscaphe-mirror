@@ -1,6 +1,6 @@
 //: CMRThreadLayout.h
 /**
-  * $Id: CMRThreadLayout.h,v 1.11 2007/11/20 04:21:35 tsawada2 Exp $
+  * $Id: CMRThreadLayout.h,v 1.12 2007/12/11 17:09:37 tsawada2 Exp $
   * 
   * CMRThreadLayout.h
   *
@@ -58,18 +58,18 @@
 - (BOOL) isCompleted;
 
 - (NSRange) rangeAtMessageIndex : (unsigned int) index;
-- (NSRange) subrangeForIndexRange : (NSRange) aRange;
+//- (NSRange) subrangeForIndexRange : (NSRange) aRange;
 
 - (unsigned int) messageIndexForRange : (NSRange) aRange;
 - (unsigned int) lastMessageIndexForRange : (NSRange) aRange;
 
 - (NSAttributedString *) contentsAtIndex : (unsigned int) index;
 // Deprecated... You should use NSIndexSet-based methods for Twincam Angel and later.
-- (NSAttributedString *) contentsForIndexRange : (NSRange) range;
+/*- (NSAttributedString *) contentsForIndexRange : (NSRange) range;
 - (NSAttributedString *) contentsForIndexRange : (NSRange) range
 			 					 composingMask : (UInt32 ) composingMask
 									   compose : (BOOL   ) doCompose
-								attributesMask : (UInt32 ) attributesMask;
+								attributesMask : (UInt32 ) attributesMask;*/
 
 // Available in Twincam Angel.
 - (NSAttributedString *)contentsForIndexes:(NSIndexSet *)indexes;
@@ -78,12 +78,17 @@
 								   compose:(BOOL)doCompose
 							attributesMask:(UInt32)attributesMask;
 
-// Available in Starlight Breaker.
-- (NSAttributedString *) contentsForIndexRange : (NSRange) aRange
+// Available in Starlight Breaker. Deprecated.
+/*- (NSAttributedString *) contentsForIndexRange : (NSRange) aRange
 								   targetIndex : (unsigned int ) messageIndex
 			 					 composingMask : (UInt32 ) composingMask
 									   compose : (BOOL   ) doCompose
-								attributesMask : (UInt32 ) attributesMask;
+								attributesMask : (UInt32 ) attributesMask;*/
+// For Reverse Anchor Popup. Available in BathyScaphe 1.6.1.
+- (NSAttributedString *)contentsForTargetIndex:(unsigned int)messageIndex
+								 composingMask:(UInt32)composingMask
+									   compose:(BOOL)doCompose
+								attributesMask:(UInt32)attributesMask;
 
 - (unsigned) numberOfMessagesPerOnTheFly;
 - (void) ensureMessageToBeVisibleAtIndex : (unsigned) anIndex;

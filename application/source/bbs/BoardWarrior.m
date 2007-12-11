@@ -13,8 +13,8 @@
 #import "AppDefaults.h"
 #import "BSDateFormatter.h"
 #import "CMRTaskManager.h"
+#import "BoardManager.h"
 #import <Carbon/Carbon.h>
-#import <OgreKit/OgreKit.h>
 
 NSString *const kBoardWarriorErrorDomain	= @"BoardWarriorErrorDomain";
 
@@ -302,6 +302,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 
 - (void)startAppleScriptTask
 {
+	BoardManager *bm = [BoardManager defaultManager];
+
 	/* まず NSAppleScript インスタンスを生成 */
 	NSURL *url_ = [self fileURLWithResource:@"BoardWarrior" ofType:@"scpt"];
 	if (!url_) {
@@ -365,7 +367,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 	if ([self delegateRespondsToSelector:@selector(warriorDidFinishSyncing:)]) {
 		[[self delegate] warriorDidFinishSyncing:self];
 	}
-	[[CMRFileManager defaultManager] updateWatchedFiles]; 
+//	[[CMRFileManager defaultManager] updateWatchedFiles];
+	[[bm defaultList] reloadBoardFile:[bm defaultBoardListPath]];
+	[[bm userList] reloadBoardFile:[bm userBoardListPath]];
 }
 
 - (BOOL)createLogFileIfNeededAtPath:(NSString *)filePath

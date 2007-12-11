@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.29 2007/11/15 13:21:51 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.30 2007/12/11 17:09:37 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -98,28 +98,32 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 {
 	NSUserDefaults *defaults_ = [self defaults];
 	// threadSearchOption
-	if ([defaults_ integerForKey: AppDefaultsThreadSearchOptionKey]) {
+	if ([defaults_ objectForKey: AppDefaultsThreadSearchOptionKey]) {
 		[defaults_ removeObjectForKey: AppDefaultsThreadSearchOptionKey];
 		NSLog(@"Unused key %@ removed.", AppDefaultsThreadSearchOptionKey);
 	}
 	// oldFavoritesUpdated
-	if ([defaults_ boolForKey: AppDefaultsIsFavImportedKey]) {
+	if ([defaults_ objectForKey: AppDefaultsIsFavImportedKey]) {
 		[defaults_ removeObjectForKey: AppDefaultsIsFavImportedKey];
 		NSLog(@"Unused key %@ removed.", AppDefaultsIsFavImportedKey);
 	}
 	// proxy
-	if ([defaults_ boolForKey: @"UsesBSsOwnProxySettings"]) {
+	if ([defaults_ objectForKey: @"UsesBSsOwnProxySettings"]) {
 		[defaults_ removeObjectForKey: @"UsesBSsOwnProxySettings"];
 		NSLog(@"Unused key UsesBSsOwnProxySettings removed.");
 	}
-	if ([defaults_ stringForKey: AppDefaultsProxyURLKey]) {
+	if ([defaults_ objectForKey: AppDefaultsProxyURLKey]) {
 		[defaults_ removeObjectForKey: AppDefaultsProxyURLKey];
 		NSLog(@"Unused key %@ removed.", AppDefaultsProxyURLKey);
 	}
-	if ([defaults_ integerForKey: AppDefaultsProxyPortKey]) {
+	if ([defaults_ objectForKey: AppDefaultsProxyPortKey]) {
 		[defaults_ removeObjectForKey: AppDefaultsProxyPortKey];
 		NSLog(@"Unused key %@ removed.", AppDefaultsProxyPortKey);
 	}	
+	if ([defaults_ objectForKey: @"DisablesHistoryButtonPopupMenu"]) {
+		[defaults_ removeObjectForKey: @"DisablesHistoryButtonPopupMenu"];
+		NSLog(@"Unused key DisablesHistoryButtonPopupMenu removed.");
+	}
 }
 
 - (void) loadThreadViewTheme
@@ -512,13 +516,13 @@ default_browserLastBoard:
 - (void) setMoveFocusToViewerWhenShowThreadAtRow: (BOOL) shouldMove
 {
 	[[self defaults] setBool: shouldMove forKey: AppDefaultsMoveFocusKey];
-}*/
+}
 
 - (BOOL)disablesHistorySegCtrlMenu
 {
 	return [[self defaults] boolForKey:@"DisablesHistoryButtonPopupMenu" defaultValue:DEFAULT_HISTORY_SEGCTRL_MENU];
 }
-
+*/
 - (NSTimeInterval)delayForAutoReloadAtWaking
 {
 	NSTimeInterval delay;

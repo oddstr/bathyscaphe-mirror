@@ -18,7 +18,7 @@
 	BOOL isEdited;
 }
 
-- (NSString *) defaultBoardListPath;
+//- (NSString *) defaultBoardListPath;
 
 - (BOOL) writeToFile : (NSString *) filepath atomically : (BOOL) flag;
 
@@ -49,4 +49,5 @@
 + (BOOL) isCategory : (id) item;
 + (BOOL) isFavorites : (id) item;
 
+- (void)reloadBoardFile:(NSString *)filepath;
 @end

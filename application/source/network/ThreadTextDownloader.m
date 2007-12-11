@@ -78,7 +78,7 @@ NSString *const CMRDownloaderUserInfoAdditionalInfoKey = @"AddtionalInfo";
 	NSURL			*boardURL_;
 	
 	instance_ = nil;
-	boardURL_ = [[BoardManager defaultManager] URLForBoardName : [signature BBSName]];
+	boardURL_ = [[BoardManager defaultManager] URLForBoardName : [signature boardName]];
 	UTILRequireCondition(boardURL_, return_instance);
 	
 	for (p = [[self class] classClusters]; *p != Nil; p++) {
@@ -226,7 +226,7 @@ return_instance:
 - (NSURL *)boardURL
 {
 	UTILAssertNotNil([self threadSignature]);
-	return [[BoardManager defaultManager] URLForBoardName:[[self threadSignature] BBSName]];
+	return [[BoardManager defaultManager] URLForBoardName:[[self threadSignature] boardName]];
 }
 
 - (NSURL *)resourceURLForWebBrowser
@@ -314,7 +314,7 @@ return_instance:
 {
 	NSDictionary	*localDict_ = [self localThreadsDict];
 	if (!localDict_) {
-		NSString *boardName = [[self threadSignature] BBSName];
+		NSString *boardName = [[self threadSignature] boardName];
 		if (boardName) {
 			return [[BoardManager defaultManager] allThreadsShouldAAThreadAtBoard:boardName];
 		} else {

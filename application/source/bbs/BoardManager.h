@@ -79,8 +79,8 @@
 - (NSArray*)defaultNoNameArrayForBoard:(NSString *)boardName;
 - (void)setDefaultNoNameArray:(NSArray *)array forBoard:(NSString *)boardName;
 - (void)addNoName:(NSString *)additionalNoName forBoard:(NSString *)boardName;
-- (void)removeNoName:(NSString *)removingNoName forBoard:(NSString *)boardName;
-- (void)exchangeNoName:(NSString *)oldName toNewValue:(NSString *)newName forBoard:(NSString *)boardName;
+//- (void)removeNoName:(NSString *)removingNoName forBoard:(NSString *)boardName;
+//- (void)exchangeNoName:(NSString *)oldName toNewValue:(NSString *)newName forBoard:(NSString *)boardName;
 
 /*!
     @method     askUserAboutDefaultNoNameForBoard:presetValue:
@@ -128,12 +128,7 @@
 - (BOOL)allThreadsShouldAAThreadAtBoard:(NSString *)boardName;
 - (void)setAllThreadsShouldAAThread:(BOOL)shouldAAThread atBoard:(NSString *)boardName;
 
-// Available in LittleWish and later.
-- (NSImage *)iconForBoard:(NSString *)boardName; // Read Only
-
-// Available in Twincam Angel and later. まぼろし
-//- (id)browserListColumnsForBoard:(NSString *)boardName;
-//- (void)setBrowserListColumns:(id)plist forBoard:(NSString *)boardName;
+- (id)itemForName:(NSString *)boardName;
 @end
 
 // Available in MeteorSweeper and later.
@@ -144,9 +139,7 @@
 @interface BoardManager(UserListEditorCore)
 - (BOOL)addCategoryOfName:(NSString *)name;
 - (BOOL)editBoardItem:(id)item newURLString:(NSString *)newURLString;
-- (BOOL)editBoardOfName:(NSString *)boardName newURLString:(NSString *)newURLString;
 - (BOOL)editCategoryItem:(id)item newName:(NSString *)newName;
-- (BOOL)editCategoryOfName:(NSString *)oldName newName:(NSString *)newName;
 - (BOOL)removeBoardItems:(NSArray *)boardItemsForRemoval;
 @end
 

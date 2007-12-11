@@ -129,7 +129,7 @@ abort:
 		boardID, datString, nil];
 	cursor = [reservedSelectThreadTable cursorForBindValues : bindValues];
 	UTILRequireCondition(cursor, abort);
-	if ([count unsignedIntValue] == 803) NSLog(@"CJECL %@",title);
+
 	if(![cursor rowCount]) {
 		// 初めての読み込み。データベースに登録。
 		

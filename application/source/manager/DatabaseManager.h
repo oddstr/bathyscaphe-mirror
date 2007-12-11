@@ -26,6 +26,9 @@
 
 // return NSNotFound, if not registered.
 - (unsigned) boardIDForURLString : (NSString *) urlString;
+- (unsigned)boardIDForURLStringExceptingHistory:(NSString *)urlString; // Do not search BoardInfoHistoryTable.
+
+
 	// return nil, if not registered.
 - (NSString *) urlStringForBoardID : (unsigned) boardID;
 	// return nil, if not registered.
@@ -56,6 +59,8 @@
 			    intoBoardID : (unsigned) boardID;
 - (BOOL) registerThreadNamesAndThreadIdentifiers : (NSArray *) array
 								     intoBoardID : (unsigned) boardID;*/
+// Added by tsawada2.
+- (BOOL)isThreadIdentifierRegistered:(NSString *)identifier onBoardID:(unsigned)boardID;
 
 - (BOOL) isFavoriteThreadIdentifier : (NSString *) identifier
 						  onBoardID : (unsigned) boardID;

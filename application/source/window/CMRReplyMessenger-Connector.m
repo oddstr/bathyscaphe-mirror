@@ -80,7 +80,7 @@
 
 - (id)threadIdentifier
 {
-	return [CMRThreadSignature threadSignatureWithIdentifier:[self formItemKey] BBSName:[self boardName]];
+	return [CMRThreadSignature threadSignatureWithIdentifier:[self formItemKey] boardName:[self boardName]];
 }
 @end
 

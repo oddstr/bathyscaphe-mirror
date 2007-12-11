@@ -1,70 +1,75 @@
-/**
-  * $Id: CMRThreadSignature.m,v 1.3 2005/12/10 12:39:44 tsawada2 Exp $
-  * 
-  * CMRThreadSignature.m
-  *
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
-#import "CMRThreadSignature_p.h"
+//
+//  CMRThreadSignature.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/12/09.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
+#import "CMRThreadSignature.h"
 #import "CMRDocumentFileManager.h"
+
+static NSString *const kPropertyListBBSIdentifierKey = @"BBS";
+static NSString *const kPropertyListDATIdentifierKey = @"DAT";
+
+
+@interface CMRThreadSignature(Private)
+- (void)setIdentifier:(NSString *)anIdentifier;
+- (void)setBoardName:(NSString *)name;
+@end
+
+
+@implementation CMRThreadSignature(Private)
+- (void)setIdentifier:(NSString *)anIdentifier
+{
+	[anIdentifier retain];
+	[m_identifier release];
+	m_identifier = anIdentifier;
+}
+
+- (void)setBoardName:(NSString *)name
+{
+	[name retain];
+	[m_boardName release];
+	m_boardName = name;
+}
+@end
 
 
 @implementation CMRThreadSignature
-//////////////////////////////////////////////////////////////////////
-/////////////////////// [ 初期化・後始末 ] ///////////////////////////
-//////////////////////////////////////////////////////////////////////
-+ (id) threadSignatureFromFilepath : (NSString *) filepath
++ (id)threadSignatureFromFilepath:(NSString *)filepath
 {
-	return [[[self alloc] initFromFilepath : filepath] autorelease];
-}
-- (id) initFromFilepath : (NSString *) filepath
-{
-	//CMRBBSSignature		*bbsSignature_;
-	NSString			*bbsName_;
-	NSString			*datIdentifier_;
-	
-	bbsName_ = [[CMRDocumentFileManager defaultManager] boardNameWithLogPath : filepath];
-	//bbsSignature_ = [CMRBBSSignature BBSSignatureWithName : bbsName_];
-	datIdentifier_ = [[CMRDocumentFileManager defaultManager]
-								datIdentifierWithLogPath : filepath];
-	return [self initWithIdentifier : datIdentifier_ BBSName : bbsName_];
-					   //BBSSignature : bbsSignature_];
+	return [[[self alloc] initFromFilepath:filepath] autorelease];
 }
 
-+ (id) threadSignatureWithIdentifier : (NSString *) anIdentifier
-//						BBSSignature : (CMRBBSSignature *) bbsSignature
-							 BBSName : (NSString *) bbsName
+- (id)initFromFilepath:(NSString *)filepath
 {
-	/*return [[[self alloc]  initWithIdentifier : anIdentifier
-								 BBSSignature : bbsSignature] autorelease];*/
-	return [[[self alloc] initWithIdentifier : anIdentifier
-									 BBSName : bbsName] autorelease];
+	NSString			*boardName;
+	NSString			*datIdentifier;
+	CMRDocumentFileManager	*dfm = [CMRDocumentFileManager defaultManager];
+
+	boardName = [dfm boardNameWithLogPath:filepath];
+	datIdentifier = [dfm datIdentifierWithLogPath:filepath];
+
+	return [self initWithIdentifier:datIdentifier boardName:boardName];
 }
-/*- (id) initWithIdentifier : (NSString        *) anIdentifier
-			 BBSSignature : (CMRBBSSignature *) bbsSignature
+
++ (id)threadSignatureWithIdentifier:(NSString *)identifier boardName:(NSString *)boardName
 {
-	if(nil == anIdentifier || nil == bbsSignature){
+	return [[[self alloc] initWithIdentifier:identifier boardName:boardName] autorelease];
+}
+
+- (id)initWithIdentifier:(NSString *)identifier boardName:(NSString *)boardName
+{
+	if (!identifier || !boardName) {
 		[self release];
 		return nil;
 	}
-	if(self = [self init]){
-		[self setIdentifier : anIdentifier];
-		[self setBBSSignature : bbsSignature];
-	}
-	return self;
-}*/
 
-- (id) initWithIdentifier : (NSString *) anIdentifier
-				  BBSName : (NSString *) bbsName
-{
-	if(nil == anIdentifier || nil == bbsName){
-		[self release];
-		return nil;
-	}
-	if(self = [self init]){
-		[self setIdentifier : anIdentifier];
-		[self setBBSName : bbsName];
+	if (self = [self init]) {
+		[self setIdentifier:identifier];
+		[self setBoardName:boardName];
 	}
 	return self;
 }
@@ -72,171 +77,141 @@
 - (void) dealloc
 {
 	[m_identifier release];
-	//[m_BBSSignature release];
-	[m_BBSName release];
+	[m_boardName release];
 	[super dealloc];
 }
-//////////////////////////////////////////////////////////////////////
-//////////////////// [ インスタンスメソッド ] ////////////////////////
-//////////////////////////////////////////////////////////////////////
-// NSObject
-- (unsigned) hash
+
+#pragma mark NSObject
+- (unsigned)hash
 {
-	//return [[self BBSSignature] hash] ^ [[self identifier] hash];
-	return [[self BBSName] hash] ^ [[self identifier] hash];
+	return [[self boardName] hash] ^ [[self identifier] hash];
 }
-- (BOOL) isEqual : (id) other
+
+- (BOOL)isEqual:(id)other
 {
-	if([super isEqual : other]) return YES;
+	if ([super isEqual:other]) return YES;
 	
-	if([other isKindOfClass : [self class]]){
+	if ([other isKindOfClass:[self class]]){
 		CMRThreadSignature	*other_ = other;
 		id					obj1, obj2;
 		BOOL				result = NO;
 		
 		obj1 = [self identifier];
 		obj2 = [other_ identifier];
-		result = (obj1 == obj2) ? YES : [obj1 isEqualToString : obj2];
-		if(NO == result) return NO;
+		result = (obj1 == obj2) ? YES : [obj1 isEqualToString:obj2];
+		if (!result) return NO;
 		
-		obj1 = [self BBSName];//[self BBSSignature];
-		obj2 = [other_ BBSName];//[other_ BBSSignature];
-		//result = (obj1 == obj2) ? YES : [obj1 isEqual : obj2];
-		result = (obj1 == obj2) ? YES : [obj1 isEqualToString : obj2];
-		
+		obj1 = [self boardName];
+		obj2 = [other_ boardName];
+		result = (obj1 == obj2) ? YES : [obj1 isEqualToString:obj2];
+
 		return result;
 	}
 	return NO;
 }
 
-- (NSString *) description
+- (NSString *)description
 {
-	return [NSString stringWithFormat : @"%@<identifier = %@, BBS = %@>",
-					NSStringFromClass([self class]),
-					[self identifier],[self BBSName]];
-					//[self BBSSignature]];
+	return [NSString stringWithFormat:@"%@<identifier = %@, boardName = %@>", NSStringFromClass([self class]), [self identifier], [self boardName]];
 }
 
-// CMRHistoryObject
-// 履歴の重複チェック
-- (BOOL) isHistoryEqual : (id) anObject
+#pragma mark CMRHistoryObject
+- (BOOL)isHistoryEqual:(id)anObject
 {
-	return [self isEqual : anObject];
+	return [self isEqual:anObject];
 }
 
-// NSCopying
-- (id) copyWithZone : (NSZone *) zone
+#pragma mark NSCopying
+- (id)copyWithZone:(NSZone *)zone
 {
 	return [self retain];
 }
-// CMRPropertyListCoding
-#define kPropertyListBBSIdentifierKey		@"BBS"
-#define kPropertyListDATIdentifierKey		@"DAT"
-+ (id) objectWithPropertyListRepresentation : (id) rep
+
+#pragma mark CMRPropertyListCoding
++ (id)objectWithPropertyListRepresentation:(id)rep
 {
-	//id			bbsSignature_;
 	NSString	*bbsSignature_;
 	NSString	*identifier_;
 	
-	if(NO == [rep isKindOfClass : [NSDictionary class]])
-		return nil;
+	if (![rep isKindOfClass:[NSDictionary class]]) return nil;
 	
-	bbsSignature_ = [rep objectForKey : kPropertyListBBSIdentifierKey];
-	//bbsSignature_ = [CMRBBSSignature objectWithPropertyListRepresentation : bbsSignature_];
-	if(nil == bbsSignature_)
-		return nil;
+	bbsSignature_ = [rep objectForKey:kPropertyListBBSIdentifierKey];
+	if (!bbsSignature_) return nil;
 	
-	identifier_ = [rep objectForKey : kPropertyListDATIdentifierKey];
-	if(nil == identifier_)
-		return nil;
+	identifier_ = [rep objectForKey:kPropertyListDATIdentifierKey];
+	if (!identifier_) return nil;
 	
-	return [[self class] threadSignatureWithIdentifier : identifier_ BBSName : bbsSignature_];
-										  //BBSSignature : bbsSignature_];
+	return [[self class] threadSignatureWithIdentifier:identifier_ boardName:bbsSignature_];
 }
-- (id) propertyListRepresentation
+
+- (id)propertyListRepresentation
 {
-	if(nil == [self identifier] || nil == [self BBSName])//BBSSignature])
+	if (![self identifier] || ![self boardName]) {
 		return [NSDictionary dictionary];
-	
-	return [NSDictionary dictionaryWithObjectsAndKeys :
+	}
+	return [NSDictionary dictionaryWithObjectsAndKeys:
 				[self identifier], kPropertyListDATIdentifierKey,
-				[self BBSName],//[[self BBSSignature] propertyListRepresentation],
-				kPropertyListBBSIdentifierKey,
-				nil];
+				[self boardName], kPropertyListBBSIdentifierKey,
+				NULL];
 }
 
-
-- (NSString *) identifier
+#pragma mark Accessors
+- (NSString *)identifier
 {
 	return m_identifier;
 }
-/*- (CMRBBSSignature *) BBSSignature
+
+- (NSString *)boardName
 {
-	return m_BBSSignature;
-}*/
-- (NSString *) BBSName
+	return m_boardName;
+}
+/*
+- (NSString *)filepathExceptsExtention
 {
-	//return [[self BBSSignature] name];
-	return m_BBSName;
+	NSString	*tmp_ = [[CMRDocumentFileManager defaultManager] directoryWithBoardName:[self boardName]];
+	return [tmp_ stringByAppendingPathComponent:[self identifier]];
+}
+*/
+- (NSString *)datFilename
+{
+	return [[self identifier] stringByAppendingPathExtension:CMRApp2chDATPathExtension];
 }
 
-- (NSString *) filepathExceptsExtention
+- (NSString *)idxFileName
 {
-	NSString	*tmp_ = [[CMRDocumentFileManager defaultManager] directoryWithBoardName : [self BBSName]];
-	return [tmp_ stringByAppendingPathComponent : [self identifier]];
-	//return [[[self BBSSignature] dataRootDirectoryPath] stringByAppendingPathComponent : [self identifier]];
+	return [[self identifier] stringByAppendingPathExtension:CMRApp2chIdxPathExtension];
 }
-- (NSString *) datFilename
+/*
+- (NSString *)localDATFilePath
 {
-	return [[self identifier] 
-				stringByAppendingPathExtension : CMRApp2chDATPathExtension];
+	return [[self filepathExceptsExtention] stringByAppendingPathExtension:CMRApp2chDATPathExtension];
 }
-- (NSString *) idxFileName
+
+- (NSString *)idxFilePath
 {
-	return [[self identifier] 
-				stringByAppendingPathExtension : CMRApp2chIdxPathExtension];
+	return [[self filepathExceptsExtention] stringByAppendingPathExtension:CMRApp2chIdxPathExtension];
 }
-- (NSString *) localDATFilePath
+*/
+- (NSString *)threadDocumentPath
 {
-	return [[self filepathExceptsExtention] 
-		stringByAppendingPathExtension : CMRApp2chDATPathExtension];
-}
-- (NSString *) idxFilePath
-{
-	return [[self filepathExceptsExtention] 
-		stringByAppendingPathExtension : CMRApp2chIdxPathExtension];
-}
-- (NSString *) threadDocumentPath
-{
-	NSString	*pathExtension_;
-	
-	pathExtension_ =
-		[[CMRDocumentFileManager defaultManager] threadDocumentFileExtention];
-	return [[self filepathExceptsExtention] 
-		stringByAppendingPathExtension : pathExtension_];
+	return [[CMRDocumentFileManager defaultManager] threadPathWithBoardName:[self boardName] datIdentifier:[self identifier]];
 }
 @end
 
 
-
-@implementation CMRThreadSignature(Private)
-/* Accessor for m_identifier */
-- (void) setIdentifier : (NSString *) anIdentifier
+@implementation CMRThreadSignature(Deprecated)
++ (id)threadSignatureWithIdentifier:(NSString *)anIdentifier BBSName:(NSString *)bbsName
 {
-	id tmp;
-	
-	tmp = m_identifier;
-	m_identifier = [anIdentifier retain];
-	[tmp release];
+	return [self threadSignatureWithIdentifier:anIdentifier boardName:bbsName];
 }
-/* Accessor for m_BBSSignature */
-//- (void) setBBSSignature : (CMRBBSSignature *) aBBSSignature
-- (void) setBBSName : (NSString *) aBBSName
+
+- (id)initWithIdentifier:(NSString *)anIdentifier BBSName:(NSString *)bbsName
 {
-	id tmp;
-	
-	tmp = m_BBSName;
-	m_BBSName = [aBBSName retain];
-	[tmp release];
+	return [self initWithIdentifier:anIdentifier BBSName:bbsName];
+}
+
+- (NSString *)BBSName
+{
+	return [self boardName];
 }
 @end

@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.57 2007/11/25 15:00:28 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.58 2007/12/11 17:09:37 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -63,7 +63,7 @@ typedef enum _BSAutoSyncIntervalType {
 // バイナリ形式でログを保存
 - (BOOL) saveThreadDocAsBinaryPlist;
 
-- (BOOL)disablesHistorySegCtrlMenu; // 暫定
+//- (BOOL)disablesHistorySegCtrlMenu; // 暫定
 
 - (BOOL) isOnlineMode;
 - (void) setIsOnlineMode : (BOOL) flag;

@@ -294,7 +294,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 - (void)setNoNameArrayAtBoardOfThread:(CMRThreadSignature *)aThread forDetecter:(CMRSamplingDetecter *)detecter
 {
 	BoardManager *bM_ = [BoardManager defaultManager];
-	NSString *boardName_ = [aThread BBSName];
+	NSString *boardName_ = [aThread boardName];
 
 	[detecter setNoNameArrayAtWorkingBoard:[bM_ defaultNoNameArrayForBoard:boardName_]];
 	[detecter setNanashiAllowedAtWorkingBoard:[bM_ allowsNanashiAtBoard:boardName_]];

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.24 2007/10/31 20:54:23 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.25 2007/12/11 17:09:37 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright (c) 2003, Takanori Ishikawa.
@@ -87,13 +87,6 @@
 - (NSString *) bbsIdentifier;
 - (NSArray *) cachedKeywords;
 - (void) setCachedKeywords: (NSArray *) array;
-//- (BOOL) isAAThread;
-//- (void) setAAThread : (BOOL) flag;
-// available in BathyScaphe 1.2 and later.
-//- (BOOL) isDatOchiThread;
-//- (void) setDatOchiThread : (BOOL) flag;
-//- (BOOL) isMarkedThread;
-//- (void) setMarkedThread : (BOOL) flag;
 
 // testing: BathyScaphe 1.5
 - (NSString *) boardNameArrowingSecondSource;
@@ -115,10 +108,7 @@
 - (IBAction) reloadThread : (id) sender;
 - (IBAction) reply : (id) sender;
 
-//- (IBAction) toggleAAThread : (id) sender; // Moved to CMRAbstructThreadDocument.
-
 - (IBAction) copyThreadAttributes : (id) sender;
-//- (IBAction) showThreadAttributes : (id) sender; // Moved to CMRAbstructThreadDocument.
 
 - (IBAction) copySelectedResURL : (id) sender;
 - (IBAction) reloadIfOnlineMode : (id) sender;
@@ -130,11 +120,6 @@
 - (IBAction) focus : (id) sender;
 // NOTE: It is a history item's action.
 - (IBAction) showThreadWithMenuItem : (id) sender;
-// available in SledgeHammer and later.
-//- (IBAction) orderFrontMainBrowser : (id) sender; // Moved to CMRAbstructThreadDocument.
-// available in Vita and later.
-//- (IBAction) toggleDatOchiThread : (id) sender; // Moved to CMRAbstructThreadDocument.
-//- (IBAction) toggleMarkedThread : (id) sender; // Moved to CMRAbstructThreadDocument.
 @end
 
 
@@ -203,7 +188,6 @@
 - (void) validateDeleteThreadItemTitle: (id) theItem;
 - (CMRFavoritesOperation) favoritesOperationForThreads: (NSArray *) threadsArray;
 - (BOOL) validateAddFavoritesItem: (id) theItem forOperation: (CMRFavoritesOperation) operation;
-//- (BOOL) validateUIItem : (id) theItem;
 @end
 
 

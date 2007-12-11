@@ -5,6 +5,7 @@
 #import "AppDefaults.h"
 #import "SmartBoardList.h"
 #import "BSBoardInfoInspector.h"
+#import "DatabaseManager.h"
 
 NSString *const BoardManagerDidFinishDetectingSettingTxtNotification = @"BoardManagerDidFinishDetectingSettingTxtNotification";
 
@@ -148,34 +149,17 @@ NSString *const BoardManagerDidFinishDetectingSettingTxtNotification = @"BoardMa
 	return YES;
 }
 
-- (BOOL) editBoardItem: (id) item newURLString: (NSString *)newURLString
+- (BOOL)editBoardItem:(id)item newURLString:(NSString *)newURLString
 {
-	if(!newURLString || !item) {
-		NSBeep();
-		return NO;
-	}
-	
-	[[BSBoardInfoInspector sharedInstance] willChangeValueForKey: @"boardURLAsString"];
-	[[self userList] setURL: newURLString toItem: item];
-	[[BSBoardInfoInspector sharedInstance] didChangeValueForKey: @"boardURLAsString"];
-	return YES;
-}
-
-- (BOOL) editBoardOfName: (NSString *) boardName newURLString: (NSString *) newURLString
-{
-	BoardListItem *newItem_;
-
-	if (!newURLString || !boardName) {
+	if (!newURLString || !item) {
 		NSBeep();
 		return NO;
 	}
 
-	newItem_ = [[self userList] itemForName: boardName ofType: BoardListBoardItem];
-	UTILAssertKindOfClass(newItem_, BoardListItem);
-
-	[[BSBoardInfoInspector sharedInstance] willChangeValueForKey: @"boardURLAsString"];
-	[[self userList] item: newItem_ setName: boardName setURL: newURLString];
-	[[BSBoardInfoInspector sharedInstance] didChangeValueForKey: @"boardURLAsString"];
+	[[BSBoardInfoInspector sharedInstance] willChangeValueForKey:@"boardURLAsString"];
+	[[self defaultList] setURL:newURLString toItem:item];
+	[[self userList] setURL:newURLString toItem:item];
+	[[BSBoardInfoInspector sharedInstance] didChangeValueForKey:@"boardURLAsString"];
 	return YES;
 }
 
@@ -200,37 +184,14 @@ NSString *const BoardManagerDidFinishDetectingSettingTxtNotification = @"BoardMa
 	return YES;
 }
 
-- (BOOL) editCategoryOfName: (NSString *) oldName newName: (NSString *) newName
-{
-	BoardListItem *newItem_;
-
-	if (!newName || !oldName) {
-		NSBeep();
-		return NO;
-	}
-
-	newItem_ = [[self userList] itemForName: oldName ofType: BoardListCategoryItem];
-	UTILAssertKindOfClass(newItem_, BoardListItem);
-
-	if ([[self userList] containsItemWithName : newName ofType : (BoardListFavoritesItem | BoardListCategoryItem)] &&
-		(NO == [oldName isEqualToString : newName]))
-	{
-		[self showSameNameExistsAlert: NSLocalizedString(@"So cannot change name.", @"So cannot change name.")];
-		return NO;
-	}
-
-	[[self userList] item: newItem_ setName: newName setURL: nil];
-	return YES;
-}
-
-- (BOOL) removeBoardItems: (NSArray *) boardItemsForRemoval
+- (BOOL)removeBoardItems:(NSArray *)boardItemsForRemoval
 {		
 	if (!boardItemsForRemoval || [boardItemsForRemoval count] == 0) return NO;
 	
 	NSEnumerator	*iter_ = [boardItemsForRemoval objectEnumerator];
 	id				eachItem;
 
-	while ((eachItem = [iter_ nextObject]) != nil) {
+	while (eachItem = [iter_ nextObject]) {
 		if (![BoardListItem isFavoriteItem:eachItem]) {
 			[[self userList] removeItem:eachItem];
 		}

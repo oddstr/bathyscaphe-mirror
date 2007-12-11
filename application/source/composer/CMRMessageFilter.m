@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMessageFilter.m,v 1.12 2007/09/04 07:45:43 tsawada2 Exp $
+  * $Id: CMRMessageFilter.m,v 1.13 2007/12/11 17:09:37 tsawada2 Exp $
   * 
   * CMRMessageFilter.m
   *
@@ -620,8 +620,8 @@ static int doDetectMessageAny_(
 	BOOL				Eq_b, Eq_t;
 	unsigned			mask = [m1 property];
 	
-	NSString			*b1 = [t1 BBSName];
-	NSString			*b2 = [t2 BBSName];
+	NSString			*b1 = [t1 boardName];
+	NSString			*b2 = [t2 boardName];
 	NSString			*s1, *s2;
 	
 	Eq_t = [t1 isEqual : t2];

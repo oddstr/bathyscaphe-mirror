@@ -40,7 +40,6 @@
 		876887C10B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 876887BD0B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.m */; };
 		876887C20B062DCE00150A36 /* BSTsuruPetaView.h in Headers */ = {isa = PBXBuildFile; fileRef = 876887BE0B062DCE00150A36 /* BSTsuruPetaView.h */; };
 		876887C30B062DCE00150A36 /* BSTsuruPetaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 876887BF0B062DCE00150A36 /* BSTsuruPetaView.m */; };
-		876887C90B062E5900150A36 /* Spacer.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 876887C80B062E5900150A36 /* Spacer.tiff */; };
 		878041DF0A52813D00979D68 /* BSLayoutManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 878041DD0A52813D00979D68 /* BSLayoutManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		878041E00A52813D00979D68 /* BSLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 878041DE0A52813D00979D68 /* BSLayoutManager.m */; };
 		879A36C60B62EF5800C58316 /* NSEvent-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 879A36C40B62EF5800C58316 /* NSEvent-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -127,7 +126,6 @@
 		876887BD0B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSTsuruPetaPopUpBtnCell.m; path = ../../application/source/view/BSTsuruPetaPopUpBtnCell.m; sourceTree = SOURCE_ROOT; };
 		876887BE0B062DCE00150A36 /* BSTsuruPetaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSTsuruPetaView.h; path = ../../application/source/view/BSTsuruPetaView.h; sourceTree = SOURCE_ROOT; };
 		876887BF0B062DCE00150A36 /* BSTsuruPetaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSTsuruPetaView.m; path = ../../application/source/view/BSTsuruPetaView.m; sourceTree = SOURCE_ROOT; };
-		876887C80B062E5900150A36 /* Spacer.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Spacer.tiff; path = ../../application/Resources/image/Spacer.tiff; sourceTree = SOURCE_ROOT; };
 		878041DD0A52813D00979D68 /* BSLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = BSLayoutManager.h; path = bathyscaphe/BSLayoutManager.h; sourceTree = "<group>"; };
 		878041DE0A52813D00979D68 /* BSLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; name = BSLayoutManager.m; path = bathyscaphe/BSLayoutManager.m; sourceTree = "<group>"; };
 		879A36C40B62EF5800C58316 /* NSEvent-SGExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSEvent-SGExtensions.h"; sourceTree = "<group>"; };
@@ -143,7 +141,7 @@
 		87D991A709922E6F006C5821 /* Action_Pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Action_Pressed.tiff; path = ../../application/Resources/image/Action_Pressed.tiff; sourceTree = SOURCE_ROOT; };
 		87D991A809922E6F006C5821 /* Action.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Action.tiff; path = ../../application/Resources/image/Action.tiff; sourceTree = SOURCE_ROOT; };
 		87D991AB09922E91006C5821 /* CMRPullDownIconBtn.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = CMRPullDownIconBtn.h; path = ../../application/source/browser/CMRPullDownIconBtn.h; sourceTree = SOURCE_ROOT; };
-		87D991AC09922E91006C5821 /* CMRPullDownIconBtn.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; name = CMRPullDownIconBtn.m; path = ../../application/source/browser/CMRPullDownIconBtn.m; sourceTree = SOURCE_ROOT; };
+		87D991AC09922E91006C5821 /* CMRPullDownIconBtn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CMRPullDownIconBtn.m; path = ../../application/source/browser/CMRPullDownIconBtn.m; sourceTree = SOURCE_ROOT; };
 		87E452A4085ED89D00F2ACB3 /* Info-SGAppKit.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-SGAppKit.plist"; sourceTree = "<group>"; };
 		87E452A5085ED89D00F2ACB3 /* SGAppKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SGAppKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F303886F0484C45700A80005 /* NSUserDefaults+SGAppKitExtensions.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSUserDefaults+SGAppKitExtensions.h"; sourceTree = "<group>"; };
@@ -259,7 +257,6 @@
 		089C1665FE841158C02AAC07 /* resource */ = {
 			isa = PBXGroup;
 			children = (
-				876887C80B062E5900150A36 /* Spacer.tiff */,
 				87D991A709922E6F006C5821 /* Action_Pressed.tiff */,
 				87D991A809922E6F006C5821 /* Action.tiff */,
 				8716081A098AA8DE00A27F63 /* browserSplitter.tiff */,
@@ -706,7 +703,6 @@
 				87160821098AA8DE00A27F63 /* browserSplitterVertical.tiff in Resources */,
 				87D991A909922E6F006C5821 /* Action_Pressed.tiff in Resources */,
 				87D991AA09922E6F006C5821 /* Action.tiff in Resources */,
-				876887C90B062E5900150A36 /* Spacer.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

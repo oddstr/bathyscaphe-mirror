@@ -423,14 +423,14 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 	
 	return item_;
 }
-- (NSImage *) iconForBoard : (NSString *) boardName
+/*- (NSImage *) iconForBoard : (NSString *) boardName
 {
 	// Future will be...
 	BoardListItem	*item_;
 	item_ = [self itemForName : boardName];
 	
 	return [item_ icon];
-}
+}*/
 
 - (BSBeLoginPolicyType) typeOfBeLoginPolicyForBoard : (NSString *) boardName
 {
@@ -561,7 +561,7 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 	[self setDefaultNoNameArray:tmpArray forBoard:boardName];
 	[tmpArray release];
 }
-
+/*
 - (void) removeNoName: (NSString *) removingNoName forBoard: (NSString *) boardName
 {
 	UTILAssertNotNil(removingNoName);
@@ -607,7 +607,7 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 	[self setDefaultNoNameArray:tmpSet_ forBoard:boardName];
 	[tmpSet_ release];
 }
-
+*/
 #pragma mark ReinforceII Addition
 - (BOOL) allowsNanashiAtBoard: (NSString *) boardName
 {

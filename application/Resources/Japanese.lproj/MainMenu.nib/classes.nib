@@ -55,6 +55,8 @@
 				<string>id</string>
 				<key>didAdjustSubviews</key>
 				<string>RBSplitView</string>
+				<key>showPreviewerPreferences</key>
+				<string>id</string>
 				<key>togglePreviewPanel</key>
 				<string>id</string>
 				<key>willAdjustSubviews</key>
@@ -108,6 +110,8 @@
 				<string>id</string>
 				<key>editBoardListItem</key>
 				<string>id</string>
+				<key>exportFavorites</key>
+				<string>id</string>
 				<key>extractUsingSelectedText</key>
 				<string>id</string>
 				<key>findAll</key>
@@ -127,6 +131,8 @@
 				<key>historyMenuPerformBack</key>
 				<string>id</string>
 				<key>historyMenuPerformForward</key>
+				<string>id</string>
+				<key>importFavorites</key>
 				<string>id</string>
 				<key>openBBSInBrowser</key>
 				<string>id</string>

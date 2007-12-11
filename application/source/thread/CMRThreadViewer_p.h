@@ -4,7 +4,6 @@
 #import "CMRStatusLineWindowController.h";
 #import "AppDefaults.h"
 
-#import "CMRBBSSignature.h"
 #import "CMRThreadSignature.h"
 #import "CMRThreadAttributes.h"
 #import "CMRThreadDocument.h"

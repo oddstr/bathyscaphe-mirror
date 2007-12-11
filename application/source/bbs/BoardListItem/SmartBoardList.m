@@ -3,7 +3,8 @@
 //  BathyScaphe
 //
 //  Created by Hori,Masaki on 05/07/18.
-//  Copyright 2005 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import "SmartBoardList.h"
@@ -12,18 +13,19 @@
 #import "CMRThreadSignature.h"
 #import "BoardManager.h"
 #import "AppDefaults.h"
+#import "UTILKit.h"
 
 @class BSBoardListView;
 
 @interface SmartBoardList(Private)
-- (void) registerFileManager : (NSString *) filepath;
+//- (void) registerFileManager : (NSString *) filepath;
 - (BOOL) synchronizeWithFile:(NSString *)filepath;
 - (void)registerNotification;
 - (void)unregisterNotification;
 @end
 
 @implementation SmartBoardList(Private)
-- (void) registerFileManager : (NSString *) filepath
+/*- (void) registerFileManager : (NSString *) filepath
 {
     SGFileLocation *f;
 	
@@ -41,27 +43,27 @@
 		listFilePath = [filepath copy];
 		[t release];
 	}
-}
-- (BOOL) synchronizeWithFile:(NSString *)filepath
+}*/
+- (BOOL)synchronizeWithFile:(NSString *)filepath
 {
 	id items;
 	
-	if(!filepath) return NO;
+	if (!filepath) return NO;
 	
-	items = [[BoardListItem alloc] initWithContentsOfFile : filepath];
-	if(!items) {
+	items = [[BoardListItem alloc] initWithContentsOfFile:filepath];
+	if (!items) {
 		return NO;
 	}
-	
-	if (![filepath isEqualTo : [[BoardManager defaultManager] defaultBoardListPath]]) {
+
+	if (![filepath isEqualToString:[[BoardManager defaultManager] defaultBoardListPath]]) {
 		id favorites;
 		
 		favorites = [BoardListItem favoritesItem];
 		if (favorites && [items isMutable]) {
-			[items insertItem : favorites atIndex : 0];
+			[items insertItem:favorites atIndex:0];
 		}
 	}
-	
+
 	id temp = topLevelItem;
 	topLevelItem = items;
 	[temp release];
@@ -73,45 +75,42 @@
 
 - (void)registerNotification
 {
-	id nc = [NSNotificationCenter defaultCenter];
-	
-	[nc addObserver:self
-		   selector:@selector(updateItem:)
-			   name:BoardListItemUpdateThreadsNotification
-			 object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(updateItem:)
+												 name:BoardListItemUpdateThreadsNotification
+											   object:nil];
 }
 
 - (void)unregisterNotification
 {
-	id nc = [NSNotificationCenter defaultCenter];
-	
-	[nc removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 @end
+
 
 @implementation SmartBoardList
 - (id)init
 {
-	if(self = [super init]) {
+	if (self = [super init]) {
 		topLevelItem = [[BoardListItem alloc] initWithFolderName:@"Top"];
 	}
 	
 	return self;
 }
-- (id) initWithContentsOfFile : (NSString *) path
+
+- (id)initWithContentsOfFile:(NSString *)path
 {
 	if (self = [super init]) {
-		
-		[self synchronizeWithFile: path];
-		[self registerFileManager:path];
+		[self synchronizeWithFile:path];
+//		[self registerFileManager:path];
 		isEdited = NO;
 		[self registerNotification];
 	}
-	
+
 	return self;
 }
 
-- (void) dealloc
+- (void)dealloc
 {
 	[self unregisterNotification];
 	[topLevelItem release];
@@ -119,145 +118,149 @@
 	
 	[super dealloc];
 }
-
+/*
 - (NSString *) defaultBoardListPath
 {
 	return [[BoardManager defaultManager] defaultBoardListPath];
 }
-
-- (BOOL) writeToFile : (NSString *) filepath
-		  atomically : (BOOL      ) flag
+*/
+- (BOOL)writeToFile:(NSString *)filepath atomically:(BOOL)flag
 {
 	id list = [topLevelItem plist];
-	if (nil == list) return NO;
-	
-	return [list writeToFile : filepath
-				  atomically : flag];
+	if (!list) return NO;
+
+	return [list writeToFile:filepath atomically:flag];
 }
 
-- (BOOL) isEdited
+- (BOOL)isEdited
 {
-//	NSLog (@"Board.plist content --> \n%@", topLevelItem ) ;
 	return isEdited;
 }
-- (void) setIsEdited : (BOOL) flag
+
+- (void)setIsEdited:(BOOL)flag
 {
 	isEdited = flag;
 }
+
 // 絶対変更不可
-- (NSArray *) boardItems
+- (NSArray *)boardItems
 {
 	return [topLevelItem items];
 }
-- (void) postBoardListDidChangeNotificationBoardEdited:(BOOL)flag
+
+- (void)postBoardListDidChangeNotificationBoardEdited:(BOOL)flag
 {
-	[self setIsEdited : flag];
-	[[NSNotificationCenter defaultCenter]
-			postNotificationName : CMRBBSListDidChangeNotification
-					      object : self];
-}
-- (void) postBoardListDidChangeNotification
-{
-	[self postBoardListDidChangeNotificationBoardEdited : YES];
+	[self setIsEdited:flag];
+	UTILNotifyName(CMRBBSListDidChangeNotification);
 }
 
-- (BOOL) containsItemWithName: (NSString     *) name
-					   ofType: (BoardListItemType) aType
+- (void)postBoardListDidChangeNotification
 {
-	if([name isEqualToString: CMXFavoritesDirectoryName]) return YES;
-	
-	id item = [topLevelItem itemForRepresentName: name ofType: aType deepSearch: YES];
-	
-	return item != nil;
+	[self postBoardListDidChangeNotificationBoardEdited:YES];
 }
 
-- (id) itemForName : (id) name
+- (BOOL)containsItemWithName:(NSString *)name ofType:(BoardListItemType)aType
 {
-	return [topLevelItem itemForRepresentName: name deepSearch : YES];
+	if ([name isEqualToString:CMXFavoritesDirectoryName]) return YES;
+
+	id item = [topLevelItem itemForRepresentName:name ofType:aType deepSearch:YES];
+
+	return (item != nil);
 }
 
-- (id) itemWithNameHavingPrefix : (id) prefix // tsawada2 2007-02-10 added, For Type-To-Select search.
+- (id)itemForName:(id)name
 {
-	return [topLevelItem itemWithRepresentNameHavingPrefix: prefix deepSearch: YES];
+	return [topLevelItem itemForRepresentName:name deepSearch:YES];
 }
 
-- (id) itemForName : (id) name ofType: (BoardListItemType) aType
+- (id)itemWithNameHavingPrefix:(id)prefix
 {
-	return [topLevelItem itemForRepresentName: name ofType:aType deepSearch : YES];
+	return [topLevelItem itemWithRepresentNameHavingPrefix:prefix deepSearch:YES];
 }
 
-- (void) item : (id) item
-      setName : (NSString     *) name
-       setURL : (NSString     *) url
+- (id)itemForName:(id)name ofType:(BoardListItemType)aType
+{
+	return [topLevelItem itemForRepresentName:name ofType:aType deepSearch:YES];
+}
+
+- (void)item:(id)item setName:(NSString *)name setURL:(NSString *)url
 {
 	[self setName:name toItem:item];
 	[self setURL:url toItem:item];
 }
-- (void) setName : (NSString *) name toItem : (id) item
+
+- (void)setName:(NSString *)name toItem:(id)item
 {
-	[item setRepresentName : name];
+	[item setRepresentName:name];
 	[self postBoardListDidChangeNotification];
 }
-- (void) setURL : (NSString *) urlString toItem : (id) item
+
+- (void)setURL:(NSString *)urlString toItem:(id)item
 {
 	if ([item hasURL]) {
-		[item setURLString : urlString];
+		[item setURLString:urlString];
 		[self postBoardListDidChangeNotification];
 	}
 }
-- (NSURL *) URLForBoardName : (id) name
+
+- (NSURL *)URLForBoardName:(id)name
 {
-	id item = [topLevelItem itemForName : name deepSearch : YES];
-	
+	id item = [topLevelItem itemForName:name deepSearch:YES];
+
 	if (item && [item hasURL]) {		
 		return [item url];
 	}
 	
 	return nil;
 }
-+ (BoardListItemType) typeForItem : (id) item
+
++ (BoardListItemType)typeForItem:(id)item
 {
-	return [BoardListItem typeForItem : item];
+	return [BoardListItem typeForItem:item];
 }
-+ (BOOL) isBoard : (id) item
+
++ (BOOL)isBoard:(id)item
 {
 	return [BoardListItem isBoardItem : item];
 }
-+ (BOOL) isCategory : (id) item
+
++ (BOOL)isCategory:(id)item
 {
-	return [BoardListItem isFolderItem : item];
-}
-+ (BOOL) isFavorites : (id) item
-{
-	return [BoardListItem isFavoriteItem : item];
+	return [BoardListItem isFolderItem:item];
 }
 
-- (BOOL) addItem : (id) item
-     afterObject : (id) target
++ (BOOL)isFavorites:(id)item
+{
+	return [BoardListItem isFavoriteItem:item];
+}
+
+- (BOOL)addItem:(id)item afterObject:(id)target
 {
 	UTILAssertKindOfClass(item, BoardListItem);
-	if(target) {
+	if (target) {
 		UTILAssertKindOfClass(target, BoardListItem);
 	}
-	
+
 	int type;
-	if( BoardListCategoryItem == [(BoardListItem *)item type]) {
+
+	if (BoardListCategoryItem == [(BoardListItem *)item type]) {
 		type = BoardListCategoryItem;
 	} else {
 		type = BoardListBoardItem | BoardListSmartBoardItem;
 	}
-	if ([topLevelItem itemForRepresentName : [item name] ofType : type deepSearch : YES]) return NO;
-	
+
+	if ([topLevelItem itemForRepresentName:[item name] ofType:type deepSearch:YES]) return NO;
+
 	if (!target) {
-		[topLevelItem addItem : item];
+		[topLevelItem addItem:item];
 		[self postBoardListDidChangeNotification];
 		return YES;
 	}
-	
+
 	NS_DURING
-		[topLevelItem insertItem : item afterItem : target deepSearch : YES];
+		[topLevelItem insertItem:item afterItem:target deepSearch:YES];
 	NS_HANDLER
-		if (![NSRangeException isEqualTo : [localException name]]) {
+		if (![NSRangeException isEqualTo:[localException name]]) {
 			[localException raise];
 		}
 		NS_VALUERETURN (NO, BOOL) ;
@@ -267,9 +270,10 @@
 	
 	return YES;
 }
-- (void) removeItem : (id) item
+
+- (void)removeItem:(id)item
 {
-	[topLevelItem removeItem : item deepSearch : YES];
+	[topLevelItem removeItem:item deepSearch:YES];
 	[self postBoardListDidChangeNotification];
 }
 
@@ -278,7 +282,13 @@
 	[self postBoardListDidChangeNotification];
 }
 
-- (void) didUpdateBoardFile:(NSNotification *) aNotification
+- (void)reloadBoardFile:(NSString *)filepath
+{
+	[self synchronizeWithFile:filepath];
+	[self postBoardListDidChangeNotificationBoardEdited:NO];
+}
+
+/*- (void) didUpdateBoardFile:(NSNotification *) aNotification
 {
     SGFileRef *f;
     NSString  *name;
@@ -299,24 +309,10 @@
     
     [self synchronizeWithFile: [f filepath]];
 	[self postBoardListDidChangeNotificationBoardEdited: NO];
-}
+}*/
 @end
-/*
-// 2007-09-01 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-// この処理はアウトラインビューの delegate で直接実行できるので、そちらに移管した。
-// (See CMRBrowser-Delegate.m)
-@implementation SmartBoardList (OutlineViewDelegate)
-- (void) outlineView : (NSOutlineView *) olv
-	willDisplayCell : (NSCell *) cell
-	 forTableColumn : (NSTableColumn *) tableColumn
-			   item : (id) item
-{
-	if ([[tableColumn identifier] isEqualToString : BoardPlistNameKey]) {
-		[cell setImage : [item icon]];
-	}
-}
-@end
-*/
+
+
 @implementation SmartBoardList (OutlineViewDataSorce)
 - (id) outlineView : (NSOutlineView *) outlineView child : (int) index ofItem : (id) item
 {
