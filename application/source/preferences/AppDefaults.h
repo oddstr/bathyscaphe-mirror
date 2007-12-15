@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.58 2007/12/11 17:09:37 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.59 2007/12/15 16:20:53 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -144,13 +144,13 @@ typedef enum _BSAutoSyncIntervalType {
 @interface AppDefaults(BackgroundColors)
 - (BOOL) browserSTableDrawsStriped;
 - (void) setBrowserSTableDrawsStriped : (BOOL) flag;
-- (NSColor *) browserSTableBackgroundColor;
-- (void) setBrowserSTableBackgroundColor : (NSColor *) color;
+- (NSColor *) threadsListBackgroundColor;
+- (void) setThreadsListBackgroundColor : (NSColor *) color;
 - (NSColor *) boardListBackgroundColor;
 - (void) setBoardListBackgroundColor : (NSColor *) color;
 - (NSColor *)boardListNonActiveBgColor;
+- (void)setBoardListNonActiveBgColor:(NSColor *)color;
 
-//- (NSColor *) threadViewerBackgroundColor;
 - (NSColor *) replyBackgroundColor;
 
 - (void) _loadBackgroundColors;

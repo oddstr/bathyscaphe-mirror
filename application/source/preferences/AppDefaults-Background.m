@@ -4,6 +4,7 @@
 static NSString *const AppDefaultsSTableBackgroundColorKey = @"ThreadsList BackgroundColor";
 static NSString *const AppDefaultsSTableDrawsStripedKey = @"ThreadsList Draws Striped";
 static NSString *const kPrefBoardListBackgroundColorKey	= @"BoardList BackgroundColor";
+static NSString *const kPrefBoardListNonActiveBgColorKey = @"BoardList BackgroundColor(NonActive)";
 
 @implementation AppDefaults(BackgroundColors)
 - (NSMutableDictionary *) backgroundColorDictionary
@@ -42,12 +43,12 @@ static NSString *const kPrefBoardListBackgroundColorKey	= @"BoardList Background
 }
 
 #pragma mark -
-- (NSColor *) browserSTableBackgroundColor
+- (NSColor *) threadsListBackgroundColor
 {
 	return [self backgroundColorForKey: AppDefaultsSTableBackgroundColorKey defaultColor: nil];
 }
 
-- (void) setBrowserSTableBackgroundColor : (NSColor *) color
+- (void) setThreadsListBackgroundColor : (NSColor *) color
 {
 	[self setBackgroundColor: color forKey: AppDefaultsSTableBackgroundColorKey];
 	[self setBrowserSTableDrawsStriped: NO]; //どうしてもカスタムカラーで塗るというなら、塗り分けは自動的に無効化する
@@ -66,7 +67,7 @@ static NSString *const kPrefBoardListBackgroundColorKey	= @"BoardList Background
 
 - (NSColor *) boardListBackgroundColor
 {
-	return [self backgroundColorForKey: kPrefBoardListBackgroundColorKey defaultColor: DEFAULT_BOARD_LIST_BG_COLOR];
+	return [self backgroundColorForKey: kPrefBoardListBackgroundColorKey defaultColor:DEFAULT_BOARD_LIST_BG_COLOR];
 }
 
 - (void) setBoardListBackgroundColor : (NSColor *) color
@@ -77,33 +78,20 @@ static NSString *const kPrefBoardListBackgroundColorKey	= @"BoardList Background
 
 - (NSColor *)boardListNonActiveBgColor
 {
-	static NSColor *hoge = nil;
-	if (!hoge) {
-		hoge = [[NSColor colorWithCalibratedRed:0.91 green:0.91 blue:0.91 alpha:1.0] retain];
-	}
-	return hoge;
-}
-/*
-- (NSColor *) threadViewerBackgroundColor
-{
-	return [[self threadViewTheme] backgroundColor];
+	return [self backgroundColorForKey:kPrefBoardListNonActiveBgColorKey defaultColor:DEFAULT_BOARD_LIST_NONACTIVE_BG_COLOR];
 }
 
-- (NSColor *) resPopUpBackgroundColor
+- (void)setBoardListNonActiveBgColor:(NSColor *)color
 {
-	return [[self threadViewTheme] popupBackgroundColorIgnoringAlpha];
+	[self setBackgroundColor:color forKey:kPrefBoardListNonActiveBgColorKey];
+	[self postLayoutSettingsUpdateNotification];
 }
-*/
+
 - (NSColor *) replyBackgroundColor
 {
 	return [[self threadViewTheme] replyBackgroundColor];
 }
-/*
-- (float) resPopUpBgAlphaValue
-{
-	return [[self threadViewTheme] popupBackgroundAlphaValue];
-}
-*/
+
 #pragma mark -
 - (void) _loadBackgroundColors
 {

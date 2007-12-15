@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate.m,v 1.41 2007/11/25 15:16:42 tsawada2 Exp $
+ * $Id: CMRAppDelegate.m,v 1.42 2007/12/15 16:20:53 tsawada2 Exp $
  * 
  * CMRAppDelegate.m
  *
@@ -11,8 +11,8 @@
 #import "CMRBrowser.h"
 #import "CMRThreadDocument.h"
 #import "TS2SoftwareUpdate.h"
-#import "CMRTrashbox.h"
-#import <SGAppKit/SGAppKit.h>
+//#import "CMRTrashbox.h"
+//#import <SGAppKit/SGAppKit.h>
 
 @class CMRDocumentController;
 
@@ -20,40 +20,39 @@ static NSString *const kOnlineItemKey = @"On Line";
 static NSString *const kOfflineItemKey = @"Off Line";
 static NSString *const kOnlineItemImageName = @"online";
 static NSString *const kOfflineItemImageName = @"offline";
-static NSString *const kRGBColorSpace = @"NSCalibratedRGBColorSpace";
 
 static NSString *const kSWCheckURLKey = @"System - Software Update Check URL";
 static NSString *const kSWDownloadURLKey = @"System - Software Update Download Page URL";
 
 @implementation CMRAppDelegate
-- (void) awakeFromNib
+- (void)awakeFromNib
 {
 	m_shouldCascadeBrowserWindow = YES;
     [self setupMenu];
 }
 
-- (void) dealloc
+- (void)dealloc
 {
 	[m_threadPath release];
 	[super dealloc];
 }
 
-- (BOOL) shouldCascadeBrowserWindow
+- (BOOL)shouldCascadeBrowserWindow
 {
 	return m_shouldCascadeBrowserWindow;
 }
 
-- (void) setShouldCascadeBrowserWindow: (BOOL) flag
+- (void)setShouldCascadeBrowserWindow:(BOOL)flag
 {
 	m_shouldCascadeBrowserWindow = flag;
 }
 
-- (NSString *) threadPath
+- (NSString *)threadPath
 {
 	return m_threadPath;
 }
 
-- (void) setThreadPath: (NSString *) aString
+- (void)setThreadPath:(NSString *)aString
 {
 	[aString retain];
 	[m_threadPath release];
@@ -61,34 +60,30 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 }
 
 #pragma mark IBAction
-
-- (IBAction) showPreferencesPane : (id) sender
+- (IBAction)showPreferencesPane:(id)sender
 {
-    [[CMRPref sharedPreferencesPane] showWindow : sender];
+    [[CMRPref sharedPreferencesPane] showWindow:sender];
 }
-- (IBAction) showStandardFindPanel : (id) sender
+/*
+- (IBAction) showStandardFindPanel:(id)sender
 {
-    [[TextFinder standardTextFinder] showWindow : sender];
+    [[TextFinder standardTextFinder] showWindow:sender];
 }
-- (IBAction) toggleOnlineMode : (id) sender
-{    
-/*    [NSApp sendAction : @selector(toggleOnlineMode:)
-                   to : CMRPref
-                 from : sender];*/
+*/
+- (IBAction)toggleOnlineMode:(id)sender
+{   
 	AppDefaults *defaults_ = CMRPref;
-	[defaults_ setIsOnlineMode: (NO == [defaults_ isOnlineMode])];
+	[defaults_ setIsOnlineMode:(![defaults_ isOnlineMode])];
 }
 
-- (IBAction) togglePreviewPanel : (id) sender
+- (IBAction)togglePreviewPanel:(id)sender
 {
-	[NSApp sendAction : @selector(togglePreviewPanel:)
-				   to : [CMRPref sharedImagePreviewer]
-				 from : sender];
+	[[CMRPref sharedImagePreviewer] togglePreviewPanel:sender];
 }
 
-- (IBAction) showTaskInfoPanel : (id) sender
+- (IBAction)showTaskInfoPanel:(id)sender
 {
-    [[CMRTaskManager defaultManager] showWindow : sender];
+    [[CMRTaskManager defaultManager] showWindow:sender];
 }
 
 // For Help Menu
@@ -175,11 +170,6 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 - (IBAction) miniaturizeAll : (id) sender
 {
 	[NSApp miniaturizeAll : sender];
-}
-
-- (IBAction) launchCMLF : (id) sender
-{
-//    [[NSWorkspace sharedWorkspace] launchApplication: [CMRPref helperAppPath]];
 }
 
 - (IBAction) runBoardWarrior: (id) sender
@@ -272,18 +262,6 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 - (BOOL) validateToolbarItem : (NSToolbarItem *) theItem
 {
 	SEL action_ = [theItem action];
-	if (action_ == @selector(launchCMLF:)) {
-/*		NSString	*name_ = [CMRPref helperAppDisplayName];
-
-		if (nil == name_) {
-			return NO;
-		} else {
-			[theItem setLabel : name_];
-			[theItem setPaletteLabel : name_];
-			return YES;
-		}*/
-		return NO;
-	}
 
 	if (action_ == @selector(toggleOnlineMode:)) {
 		NSString		*title_;
@@ -309,18 +287,7 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 {
 	SEL action_ = [theItem action];
 
-	if (action_ == @selector(launchCMLF:)) {
-/*		NSString	*name_ = [CMRPref helperAppDisplayName];
-
-		if (nil == name_) {
-			[theItem setTitle : [self localizedString : APP_MAINMENU_HELPER_NOTFOUND]];
-			return NO;
-		} else {
-			[theItem setTitle : name_];
-			return YES;
-		}*/
-		return NO;
-	} else if (action_ == @selector(closeAll:)) {
+	if (action_ == @selector(closeAll:)) {
 		return ([NSApp makeWindowsPerform : @selector(isVisible) inOrder : YES] != nil);
 	} else if (action_ == @selector(miniaturizeAll:)) {
 		return ([NSApp makeWindowsPerform : @selector(isNotMiniaturizedButCanMinimize) inOrder : YES] != nil);
@@ -406,100 +373,5 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 + (NSString *) localizableStringsTableName
 {
     return APP_MAINMENU_LOCALIZABLE_FILE_NAME;
-}
-@end
-
-#pragma mark -
-@implementation NSApplication(ScriptingSupport)
-- (BOOL) isOnlineMode
-{
-	return [CMRPref isOnlineMode];
-}
-- (void) setIsOnlineMode : (BOOL) flag
-{
-	[CMRPref setIsOnlineMode : flag];
-}
-
-- (NSArray *) browserTableViewColor
-{
-	float red,green,blue;
-	
-	NSColor *color_ = [CMRPref browserSTableBackgroundColor];
-		
-	[[color_ colorUsingColorSpaceName : kRGBColorSpace] getRed: &red green: &green blue: &blue alpha: NULL];
-
-	return [NSArray arrayWithObjects : [NSNumber numberWithFloat:red], [NSNumber numberWithFloat:green], [NSNumber numberWithFloat:blue], nil];
-}
-
-- (void) setBrowserTableViewColor : (NSArray *) colorValue;
-{
-	// colorValue 配列の要素数が 0 のときは、デフォルトのカラーに戻す。
-	// また、配列の要素数が 0,3 以外のときは何もしない。
-	if ([colorValue count] == 0) {
-		[CMRPref setBrowserSTableBackgroundColor: [NSColor whiteColor]];
-	} else if ([colorValue count] == 3) {
-		float red,green,blue;
-		red		= [[colorValue objectAtIndex : 0] floatValue];
-		green	= [[colorValue objectAtIndex : 1] floatValue];
-		blue	= [[colorValue objectAtIndex : 2] floatValue];
-	
-		if (red == 0 && green == 0 && blue == 0) {
-			[CMRPref setBrowserSTableBackgroundColor: [NSColor whiteColor]];
-		} else {
-			[CMRPref setBrowserSTableBackgroundColor : [NSColor colorWithCalibratedRed:red green:green blue:blue alpha:1.0]];
-		}
-	}
-}
-- (NSArray *) boardListColor
-{
-	float red,green,blue;
-	
-	NSColor *color_ = [CMRPref boardListBackgroundColor];		
-	[[color_ colorUsingColorSpaceName : kRGBColorSpace] getRed: &red green: &green blue: &blue alpha: NULL];
-
-	return [NSArray arrayWithObjects : [NSNumber numberWithFloat:red], [NSNumber numberWithFloat:green], [NSNumber numberWithFloat:blue], nil];
-}
-
-- (void) setBoardListColor : (NSArray *) colorValue;
-{
-	// colorValue 配列の要素数が 0 のときは、デフォルトのカラーに戻す。
-	// また、配列の要素数が 0,3 以外のときは何もしない。
-	if ([colorValue count] == 0) {
-		[CMRPref setBoardListBackgroundColor : nil];
-	} else if ([colorValue count] == 3) {
-		float red,green,blue;
-		red		= [[colorValue objectAtIndex : 0] floatValue];
-		green	= [[colorValue objectAtIndex : 1] floatValue];
-		blue	= [[colorValue objectAtIndex : 2] floatValue];
-
-		[CMRPref setBoardListBackgroundColor : [NSColor colorWithCalibratedRed:red green:green blue:blue alpha:1.0]];
-	}
-}
-
-- (void) handleOpenURLCommand : (NSScriptCommand *) command
-{
-	NSURL		*url_;
-	NSString	*urlstr_ = [command directParameter];
-	
-	if(!urlstr_ || [urlstr_ isEqualToString : @""])
-		return;
-	
-	url_ = [NSURL URLWithString : urlstr_];	
-	[[CMROpenURLManager defaultManager] openLocation : url_];
-}
-
-- (void)handleRemoveFromDBCommand:(NSScriptCommand *)command
-{
-	NSString *filePath_ = [command directParameter];
-	if (!filePath_ || [filePath_ isEqualToString:@""]) return;
-
-	NSNumber *number = [NSNumber numberWithInt:noErr];
-	NSNotification *notification = [NSNotification notificationWithName:CMRTrashboxDidPerformNotification
-																 object:[CMRTrashbox trash]
-															   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:number, kAppTrashUserInfoStatusKey,
-																							[NSArray arrayWithObject:filePath_], kAppTrashUserInfoFilesKey,
-																							[NSNumber numberWithBool:YES], kAppTrashUserInfoAfterFetchKey,
-																							NULL]];
-	if (notification) [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 @end

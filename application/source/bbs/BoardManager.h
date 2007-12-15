@@ -8,8 +8,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@class SmartBoardList;
+#import "SmartBoardList.h"
 
 @interface BoardManager : NSObject
 {

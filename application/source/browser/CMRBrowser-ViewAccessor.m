@@ -281,7 +281,7 @@
     [tv setUsesAlternatingRowBackgroundColors:dontDrawBgColor];
 	
 	if(!dontDrawBgColor) { // do draw bg color
-		[tv setBackgroundColor:[pref browserSTableBackgroundColor]];
+		[tv setBackgroundColor:[pref threadsListBackgroundColor]];
 	}
 
 	[tv setGridStyleMask:([pref threadsListDrawsGrid] ? NSTableViewSolidVerticalGridLineMask : NSTableViewGridNone)];

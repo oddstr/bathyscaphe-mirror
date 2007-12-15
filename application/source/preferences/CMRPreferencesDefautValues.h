@@ -1,7 +1,7 @@
 //
 // BathyScaphe
 // Preference Default Values List
-// For Twincam Angel
+// For Twincam Angel 1.6.1
 //
 
 // AppDefaults
@@ -80,6 +80,7 @@
 // Background
 #define DEFAULT_STABLE_DRAWS_STRIPED	NO
 #define DEFAULT_BOARD_LIST_BG_COLOR		[NSColor colorWithCalibratedRed:0.831 green:0.867 blue:0.902 alpha:1.0]
+#define DEFAULT_BOARD_LIST_NONACTIVE_BG_COLOR	[NSColor colorWithCalibratedRed:0.91 green:0.91 blue:0.91 alpha:1.0]
 #define DEFAULT_POPUP_BG_COLOR			[NSColor colorWithCalibratedHue : 0.14f saturation : 0.2f brightness : 1.0f alpha : 1.0f]
 #define DEFAULT_POPUP_BG_ALPHA			0.85
 #define DEFAULT_REPLY_BG_ALPHA			1.0

@@ -1,21 +1,14 @@
-/**
- * $Id: CMRAppDelegate.h,v 1.19 2007/10/10 00:44:07 tsawada2 Exp $
- * 
- * CMRAppDelegate.h
- *
- * Copyright (c) 2004 Takanori Ishikawa, (c) 2005-2006 tsawada2, All rights reserved.
- * See the file LICENSE for copying permission.
- */
+//
+//  CMRAppDelegate.h
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/12/16.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
 
 #import <Cocoa/Cocoa.h>
 
-
-/*!
- * @class       CMRAppDelegate
- * @abstract    NSApplication delegate, 
-                application scope action holder.
- * @discussion  
- */
 @interface CMRAppDelegate : NSObject
 {
 	@private
@@ -23,40 +16,37 @@
 	NSString *m_threadPath;
 }
 
-- (BOOL) shouldCascadeBrowserWindow;
-- (void) setShouldCascadeBrowserWindow: (BOOL) flag;
+- (BOOL)shouldCascadeBrowserWindow;
+- (void)setShouldCascadeBrowserWindow:(BOOL)flag;
 
-- (IBAction) showPreferencesPane : (id) sender;
-- (IBAction) showStandardFindPanel : (id) sender;
-- (IBAction) toggleOnlineMode : (id) sender;
+// Application Menu Action
+- (IBAction)checkForUpdate:(id)sender;
+- (IBAction)showPreferencesPane:(id)sender;
+- (IBAction)toggleOnlineMode:(id)sender;
+- (IBAction)resetApplication:(id)sender;
 
-- (IBAction) showTaskInfoPanel : (id) sender;
-- (IBAction) openURL : (id) sender;
-- (IBAction) resetApplication : (id) sender;
+// Windows Menu Action
+- (IBAction)miniaturizeAll:(id)sender;
+- (IBAction)togglePreviewPanel:(id)sender;
+- (IBAction)showTaskInfoPanel:(id)sender;
 
-- (IBAction) openURLPanel : (id) sender;
-//- (IBAction) launchCMLF : (id) sender;
+// Help Menu Action
+- (IBAction)openURL:(id)sender;
+- (IBAction)showAcknowledgment:(id)sender;
 
-// For History Menu
-- (IBAction) clearHistory : (id) sender;
-- (IBAction) showThreadFromHistoryMenu: (id) sender;
+// File Menu Action
+- (IBAction)openURLPanel:(id)sender;
+- (IBAction)closeAll:(id)sender;
 
-- (IBAction) showAcknowledgment : (id) sender;
+// History Menu Action
+- (IBAction)clearHistory:(id)sender;
+- (IBAction)showThreadFromHistoryMenu:(id)sender;
 
-// Available in GrafEisen and later.
-- (IBAction) closeAll : (id) sender;
-- (IBAction) miniaturizeAll : (id) sender;
+// Dock menu Action
+- (IBAction)startHEADCheckDirectly:(id)sender;
 
-- (IBAction) togglePreviewPanel : (id) sender;
-- (IBAction) runBoardWarrior: (id) sender;
+- (IBAction)runBoardWarrior:(id)sender;
+- (IBAction)openAEDictionary:(id)sender; // Available in Twincam Angel and later.
 
-// Available in Starlight Breaker.
-- (void) showThreadsListForBoard: (NSString *) boardName selectThread: (NSString *) path addToListIfNeeded: (BOOL) addToList;
-- (IBAction) checkForUpdate: (id) sender;
-
-// For Dock menu
-- (IBAction) startHEADCheckDirectly: (id) sender;
-
-// Available in Twincam Angel and later.
-- (IBAction)openAEDictionary:(id)sender;
+- (void)showThreadsListForBoard:(NSString *)boardName selectThread:(NSString *)path addToListIfNeeded:(BOOL)addToList;
 @end

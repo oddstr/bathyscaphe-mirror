@@ -1,3 +1,25 @@
+2007-12-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Makefile
+		ターゲット名を変更して、make で正しくビルドできるようにした。
+	* application/source/extensions/NSApplication+BSScriptingSupport.[h|m]
+		[新規追加] CMRAppDelegate.m に間借りしていた NSApplication のカテゴリ（AppleScriptサポート用）を別ファイルに独立。
+	* application/source/CMRAppDelegate.m
+	* application/source/preferences/CMRPreferencesDefautValues.h
+	* application/source/preferences/AppDefaults-Background.m
+	* application/Resources/BathyScaphe.scriptSuite
+	* application/Resources/BathyScaphe.scriptTerminology
+		掲示板リストの、ウインドウが main window でないときのカラーも AppleScript から変更できるようにした。
+		その他、ソースの整理、メソッド名の変更を少々。
+	* application/source/thread/CMRThreadViewer-Find.m
+	* application/source/thread/CMRThreadViewer-Validation.m
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		「編集」＞「検索」＞「検索...」の target を CMRAppDelegate から CMRThreadViewer に変更した。
+	* frameworks/SGFoundation/framework/source/classes/files/SGFileRef.m
+	* frameworks/CocoMonar/framework/src/CMRFileManager.m
+	* frameworks/SGFoundation/SGFoundation.xcodeproj
+		フレームワークの改良:
+		CMRFileManager@CocoMonar Framework と SGFileRef@SGFoundation の間で一部機能の配置換えを行った。
+		SGFoundation のビルド設定を見直し、AppKit をリンクしなくても正しくビルドできるようにした。不要なプロトコルを廃止した。
 2007-12-12 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/bbs/BoardManager-BSAddition.m
 	* application/source/bbs/BoardManager-SettingTxt.m

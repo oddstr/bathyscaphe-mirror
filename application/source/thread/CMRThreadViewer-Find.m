@@ -1,5 +1,5 @@
 /** 
-  * $Id: CMRThreadViewer-Find.m,v 1.18 2007/10/31 20:54:23 tsawada2 Exp $
+  * $Id: CMRThreadViewer-Find.m,v 1.19 2007/12/15 16:20:53 tsawada2 Exp $
   *
   * Copyright (c) 2003, Takanori Ishikawa.
   * CMRThreadViewer-Action.m から分割 - 2005-02-16 by tsawada2.
@@ -356,6 +356,11 @@ ErrNotFound:
 
 ErrNotFound:
 	return;
+}
+
+- (IBAction) showStandardFindPanel:(id)sender
+{
+    [[TextFinder standardTextFinder] showWindow:sender];
 }
 
 #pragma mark Extract, Hilite

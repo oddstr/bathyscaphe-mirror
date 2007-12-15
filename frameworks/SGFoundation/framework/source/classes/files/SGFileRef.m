@@ -1,5 +1,5 @@
 /**
- * $Id: SGFileRef.m,v 1.5 2007/10/20 02:21:29 tsawada2 Exp $
+ * $Id: SGFileRef.m,v 1.6 2007/12/15 16:20:53 tsawada2 Exp $
  * 
  * SGFileRef.m
  *
@@ -321,7 +321,25 @@ Errparent_nodeID:
 	return [self searchDirectoryInDomain:kUserDomain folderType:kDomainTopLevelFolderType willCreate:YES];
 }
 
++ (id)desktopFolder
+{
+	return [self searchDirectoryInDomain:kUserDomain folderType:kDesktopFolderType willCreate:NO];
+}
 
++ (id)downloadsFolder
+{
+	id tmp = [self searchDirectoryInDomain:kUserDomain folderType:'down' willCreate:NO];
+	if (tmp) {
+		return tmp;
+	} else {
+		return [self desktopFolder];
+	}
+}
+
++ (id)logsFolder
+{
+	return [self searchDirectoryInDomain:kUserDomain folderType:kLogsFolderType willCreate:NO];
+}
 
 - (id) parentFileReference
 {

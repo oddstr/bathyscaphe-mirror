@@ -1,5 +1,5 @@
 /*
-    $Id: CMRThreadViewer-Validation.m,v 1.35 2007/12/11 17:09:37 tsawada2 Exp $
+    $Id: CMRThreadViewer-Validation.m,v 1.36 2007/12/15 16:20:53 tsawada2 Exp $
     CMRThreadViewer-Action.m から独立
     Created at 2005-02-16 by tsawada2.
 */
@@ -301,7 +301,8 @@ static int messageMaskForTag(int tag)
 		return [self canScrollToMessage]; // とりあえず
 	
 	// 検索と文字の拡大／縮小
-	if (action_ == @selector(findNextText:)		||
+	if (action_ == @selector(showStandardFindPanel:) ||
+		action_ == @selector(findNextText:)		||
 	   action_ == @selector(findPreviousText:)	||
 	   action_ == @selector(findFirstText:)		||
 	   action_ == @selector(findAll:)			||

@@ -1,6 +1,6 @@
 //: CMRFileManager.m
 /**
-  * $Id: CMRFileManager.m,v 1.8 2007/11/25 15:00:28 tsawada2 Exp $
+  * $Id: CMRFileManager.m,v 1.9 2007/12/15 16:20:53 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -20,9 +20,9 @@
 // ----------------------------------------
 // N o t i f i c a t i o n s
 // ----------------------------------------
-NSString *const CMRFileManagerDidUpdateFileNotification = @"CMRFileManagerDidUpdateFileNotification";
+//NSString *const CMRFileManagerDidUpdateFileNotification = @"CMRFileManagerDidUpdateFileNotification";
 
-
+/*
 @interface CMRFileManagerWatchFile : NSObject
 {
     @private
@@ -35,8 +35,8 @@ NSString *const CMRFileManagerDidUpdateFileNotification = @"CMRFileManagerDidUpd
 - (NSDate *) lastDate;
 - (void) setLastDate : (NSDate *) aLastDate;
 
-@end
-
+@end*/
+/*
 @implementation CMRFileManagerWatchFile
 //
 // P R I V A T E 
@@ -101,7 +101,7 @@ NSString *const CMRFileManagerDidUpdateFileNotification = @"CMRFileManagerDidUpd
     [tmp release];
 }
 @end
-
+*/
 
 @implementation CMRFileManager
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
@@ -114,7 +114,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 			selector : @selector(applicationDidBecomeActive:)
 			name : NSApplicationDidBecomeActiveNotification
 			object : NSApp];
-        [self watchFileSet];  // allocate
+//        [self watchFileSet];  // allocate
 	}
 	return self;
 }
@@ -124,11 +124,11 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	
 	[m_dataRootDirectory release];
 	[m_dataRootDirectoryPath release];
-	[m_watchFiles release];
+//	[m_watchFiles release];
 	
 	[super dealloc];
 }
-
+/*
 - (void) addFileChangedObserver : (id              ) anObserver 
                        selector : (SEL             ) aSelector 
                        location : (SGFileLocation *) aFile
@@ -157,7 +157,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 {
     [self addFileChangedObserver:anObserver selector:aSelector location:[aFile fileLocation]];
 }
-
+*/
 
 - (NSString *) dataRootDirectoryPath
 {
@@ -234,7 +234,7 @@ NS_ENDHANDLER
 			? [fileRef_ filepath]
 			: [[support_ filepath] stringByAppendingPathComponent : aFileName];
 }
-
+/*
 static inline NSString *userDomainFolderPathForType(OSType folderType)
 {
     CFURLRef        folderURL;
@@ -257,31 +257,34 @@ static inline NSString *userDomainFolderPathForType(OSType folderType)
 	}
 	return returnPath;
 }
-
+*/
 - (NSString *)userDomainDesktopFolderPath
 {
-	return userDomainFolderPathForType(kDesktopFolderType);
+//	return userDomainFolderPathForType(kDesktopFolderType);
+	return [[SGFileRef desktopFolder] filepath];
 }
 
 - (NSString *)userDomainDownloadsFolderPath
 {
-	NSString *path = userDomainFolderPathForType('down'); // kDownloadsFolderType
+/*	NSString *path = userDomainFolderPathForType('down'); // kDownloadsFolderType
 	if (!path) {
 		path = userDomainFolderPathForType(kDesktopFolderType);
 	}
-	return path;
+	return path;*/
+	return [[SGFileRef downloadsFolder] filepath];
 }
 
 - (NSString *)userDomainLogsFolderPath
 {
-	return userDomainFolderPathForType(kLogsFolderType);
+//	return userDomainFolderPathForType(kLogsFolderType);
+	return [[SGFileRef logsFolder] filepath];
 }
 @end
 
 
 
 @implementation CMRFileManager(Cache)
-- (NSMutableSet *) watchFileSet
+/*- (NSMutableSet *) watchFileSet
 {
     if (nil == m_watchFiles) {
         m_watchFiles = [[NSMutableSet alloc] init];
@@ -320,7 +323,7 @@ static inline NSString *userDomainFolderPathForType(OSType folderType)
             [watchFile setLastDate : [[watchFile fileRef] modifiedDate]];
         }
     }
-}
+}*/
 - (void) updateDataRootDirectory
 {
 	[m_dataRootDirectory autorelease];
@@ -344,7 +347,7 @@ static inline NSString *userDomainFolderPathForType(OSType folderType)
 		NSApp);
 	
 	[self updateDataRootDirectory];
-	[self updateWatchedFiles];
+//	[self updateWatchedFiles];
 }
 @end
 

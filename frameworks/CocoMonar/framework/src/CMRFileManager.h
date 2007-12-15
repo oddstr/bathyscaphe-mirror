@@ -1,5 +1,5 @@
 /**
- * $Id: CMRFileManager.h,v 1.5 2007/11/25 15:00:28 tsawada2 Exp $
+ * $Id: CMRFileManager.h,v 1.6 2007/12/15 16:20:53 tsawada2 Exp $
  * 
  * CMRFileManager.h
  *
@@ -19,7 +19,7 @@
 	@private
 	SGFileRef      *m_dataRootDirectory;
 	NSString       *m_dataRootDirectoryPath;
-    NSMutableSet   *m_watchFiles;
+//    NSMutableSet   *m_watchFiles;
 }
 
 + (id) defaultManager;
@@ -41,12 +41,12 @@
  *
  * @see CMRFileManagerDidUpdateFileNotification
  */
-- (void) addFileChangedObserver : (id         ) anObserver 
+/*- (void) addFileChangedObserver : (id         ) anObserver 
                        selector : (SEL        ) aSelector 
                            file : (SGFileRef *) aFile;
 - (void) addFileChangedObserver : (id              ) anObserver 
                        selector : (SEL             ) aSelector 
-                       location : (SGFileLocation *) aFile;
+                       location : (SGFileLocation *) aFile;*/
 
 // CMRDocumentsDirectory
 - (NSString *) dataRootDirectoryPath;
@@ -81,8 +81,8 @@
 
 
 @interface CMRFileManager(Cache)
-- (NSMutableSet *) watchFileSet;
-- (void) updateWatchedFiles;
+//- (NSMutableSet *) watchFileSet;
+//- (void) updateWatchedFiles;
 - (void) updateDataRootDirectory;
 @end
 
@@ -103,8 +103,8 @@
  *   ------------------------------------------
  *   kCMRChangedFileRef    a SGFileRef instance
  */
-#define kCMRChangedFileRef @"CMRChangedFileRef"
-extern NSString *const CMRFileManagerDidUpdateFileNotification;
+//#define kCMRChangedFileRef @"CMRChangedFileRef"
+//extern NSString *const CMRFileManagerDidUpdateFileNotification;
 
 
 

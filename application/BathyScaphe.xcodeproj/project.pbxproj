@@ -110,6 +110,8 @@
 		875D98230A8A021E0061C86D /* CocoMonar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3924488043610AE00A80005 /* CocoMonar.framework */; };
 		875FF5C60C7FFA960034E371 /* BSTitleRulerAppearance.plist in Resources */ = {isa = PBXBuildFile; fileRef = 875FF5C50C7FFA960034E371 /* BSTitleRulerAppearance.plist */; };
 		8761BAA30B80D2F700120AA4 /* IndexingPopupper.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8761BAA20B80D2F700120AA4 /* IndexingPopupper.strings */; };
+		876747BD0D1412E4004AAC4E /* NSApplication+BSScriptingSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 876747BB0D1412E4004AAC4E /* NSApplication+BSScriptingSupport.h */; };
+		876747BE0D1412E4004AAC4E /* NSApplication+BSScriptingSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 876747BC0D1412E4004AAC4E /* NSApplication+BSScriptingSupport.m */; };
 		876AC0BC0BD48AC800238F9D /* SGAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244F5043610D600A80005 /* SGAppKit.framework */; };
 		87749E070A878F120008A679 /* HistoryFolder.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CD5090E970F007FF9C3 /* HistoryFolder.png */; };
 		87751824097818E7009D4A9C /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F36067F8044D4DD500A80005 /* ApplicationServices.framework */; };
@@ -941,6 +943,8 @@
 		876415700840A95000F66D78 /* AdvancedPrefController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdvancedPrefController.h; sourceTree = "<group>"; };
 		876415710840A95000F66D78 /* AdvancedPrefController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdvancedPrefController.m; sourceTree = "<group>"; };
 		876415810840AF5500F66D78 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/AdvancedPane.nib; sourceTree = "<group>"; };
+		876747BB0D1412E4004AAC4E /* NSApplication+BSScriptingSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSApplication+BSScriptingSupport.h"; sourceTree = "<group>"; };
+		876747BC0D1412E4004AAC4E /* NSApplication+BSScriptingSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSApplication+BSScriptingSupport.m"; sourceTree = "<group>"; };
 		87751A5809782B82009D4A9C /* BSIPIFullScreenController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIFullScreenController.h; sourceTree = "<group>"; };
 		87751A5909782B82009D4A9C /* BSIPIFullScreenController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIFullScreenController.m; sourceTree = "<group>"; };
 		87751A6209782DD7009D4A9C /* BSIPIFullScreenWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIFullScreenWindow.h; sourceTree = "<group>"; };
@@ -1271,7 +1275,7 @@
 		F36067F4044D4DB600A80005 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		F36067F8044D4DD500A80005 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
 		F3660E3A06C4C7DA00A92719 /* CMRAppDelegate_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CMRAppDelegate_p.h; sourceTree = "<group>"; };
-		F3660E3B06C4C7DA00A92719 /* CMRAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CMRAppDelegate.h; sourceTree = "<group>"; };
+		F3660E3B06C4C7DA00A92719 /* CMRAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CMRAppDelegate.h; sourceTree = "<group>"; };
 		F3660E3C06C4C7DA00A92719 /* CMRAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CMRAppDelegate.m; sourceTree = "<group>"; };
 		F3660E3D06C4C7DA00A92719 /* CMRAppDelegate+Menu.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "CMRAppDelegate+Menu.m"; sourceTree = "<group>"; };
 		F368973C05B08B540006D567 /* CMRMessageComposer.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRMessageComposer.m; sourceTree = "<group>"; };
@@ -1606,6 +1610,8 @@
 				872996540832556100CBD740 /* NSTableColumn+CMXAdditions.m */,
 				87BD61EE0865D0230080A7CA /* NSTableView+BSAdditions.h */,
 				87BD61EF0865D0230080A7CA /* NSTableView+BSAdditions.m */,
+				876747BB0D1412E4004AAC4E /* NSApplication+BSScriptingSupport.h */,
+				876747BC0D1412E4004AAC4E /* NSApplication+BSScriptingSupport.m */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
@@ -3135,6 +3141,7 @@
 				8752AACB0C6B60200078C6F4 /* BSNGExpression.h in Headers */,
 				87DF52DE0CC38F6C00D48893 /* BSLoggedInDATDownloader.h in Headers */,
 				87EF7E7B0CF975F900BEF039 /* BSPreferencesPaneInterface.h in Headers */,
+				876747BD0D1412E4004AAC4E /* NSApplication+BSScriptingSupport.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3783,6 +3790,7 @@
 				8703A2190C677D42008ED2B5 /* BSLinkDownloadManager.m in Sources */,
 				8752AACC0C6B60200078C6F4 /* BSNGExpression.m in Sources */,
 				87DF52DF0CC38F6C00D48893 /* BSLoggedInDATDownloader.m in Sources */,
+				876747BE0D1412E4004AAC4E /* NSApplication+BSScriptingSupport.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

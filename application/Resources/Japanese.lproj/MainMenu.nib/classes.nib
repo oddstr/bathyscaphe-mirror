@@ -235,8 +235,6 @@
 				<string>id</string>
 				<key>showPreferencesPane</key>
 				<string>id</string>
-				<key>showStandardFindPanel</key>
-				<string>id</string>
 				<key>showTaskInfoPanel</key>
 				<string>id</string>
 				<key>showThreadFromHistoryMenu</key>
