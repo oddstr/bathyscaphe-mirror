@@ -1,0 +1,11 @@
+﻿/* localized strings for Board List Editing */
+"Edit Board Msg" = "掲示板 “%@” の新しい URL を入力してください。";
+"Edit Category Msg" = "カテゴリ “%@” の新しい名前を入力してください。";
+"Add Category Msg" = "新しく追加するカテゴリの名前を入力してください。";
+
+"Browser Edit Drawer Item Help" = "掲示板リスト, 編集";
+
+"Validation Error 1" = "URL は http:// から始まっていなければなりません";
+"Validation Error 2" = "URL は / で終わっていなければなりません";
+"Validation Error 3" = "掲示板の名前が入力されていません";
+"Validation Error 4" = "URL が入力されていません";

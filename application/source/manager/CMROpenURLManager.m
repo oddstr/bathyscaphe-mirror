@@ -1,5 +1,5 @@
 //
-//  $Id: CMROpenURLManager.m,v 1.7 2007/09/04 07:45:43 tsawada2 Exp $
+//  $Id: CMROpenURLManager.m,v 1.8 2007/12/19 13:20:40 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by minamie on Sun Jan 25 2004.
@@ -152,8 +152,19 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	return NO;
 }
 
+#pragma mark AppleEvent Support
+- (void)handleGetURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent
+{
+    NSString	*urlStr_;
+    NSURL		*url_;
 
-/* Support Service Menu */
+    urlStr_ = [[event paramDescriptorForKeyword:keyDirectObject] stringValue];
+	url_ = [NSURL URLWithString:urlStr_];
+
+    [self openLocation:url_];
+}
+
+#pragma mark Service Menu Support
 - (void) _showAlertForViaService
 {
 	NSAlert *alert_;

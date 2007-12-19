@@ -132,6 +132,7 @@
 		8782A79E096FDBCE0099B65F /* BSIPIActionBtnTbItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 8782A79C096FDBCE0099B65F /* BSIPIActionBtnTbItem.h */; };
 		8782A79F096FDBCE0099B65F /* BSIPIActionBtnTbItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8782A79D096FDBCE0099B65F /* BSIPIActionBtnTbItem.m */; };
 		8784674D0CE873C100691232 /* BSIPILeopardSlideshowHelper.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8784673E0CE8739000691232 /* BSIPILeopardSlideshowHelper.plugin */; };
+		8785B7440D18F7B70081F4EB /* BoardListEditor.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8785B7430D18F7B70081F4EB /* BoardListEditor.strings */; };
 		878B4DBF0BB8D74E00829D2B /* BSNobiNobiToolbarItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 878B4DBD0BB8D74E00829D2B /* BSNobiNobiToolbarItem.h */; };
 		878B4DC00BB8D74E00829D2B /* BSNobiNobiToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 878B4DBE0BB8D74E00829D2B /* BSNobiNobiToolbarItem.m */; };
 		87956FCA0CE720F1004DBDB0 /* BSIPIArrayController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87956FC80CE720F1004DBDB0 /* BSIPIArrayController.h */; };
@@ -963,6 +964,7 @@
 		8782A79C096FDBCE0099B65F /* BSIPIActionBtnTbItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIActionBtnTbItem.h; sourceTree = "<group>"; };
 		8782A79D096FDBCE0099B65F /* BSIPIActionBtnTbItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIActionBtnTbItem.m; sourceTree = "<group>"; };
 		8784673E0CE8739000691232 /* BSIPILeopardSlideshowHelper.plugin */ = {isa = PBXFileReference; explicitFileType = "wrapper.plug-in"; name = BSIPILeopardSlideshowHelper.plugin; path = subproj/BSIPILeopardSlideshowHelper/build/Release/BSIPILeopardSlideshowHelper.plugin; sourceTree = SOURCE_ROOT; };
+		8785B7450D18F7BD0081F4EB /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/BoardListEditor.strings; sourceTree = "<group>"; };
 		878A7567088AA85B00539B6F /* HistoryBack.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = HistoryBack.tiff; sourceTree = "<group>"; };
 		878A7568088AA85B00539B6F /* HistoryForward.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = HistoryForward.tiff; sourceTree = "<group>"; };
 		878B4DBD0BB8D74E00829D2B /* BSNobiNobiToolbarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSNobiNobiToolbarItem.h; sourceTree = "<group>"; };
@@ -1276,7 +1278,7 @@
 		F36067F8044D4DD500A80005 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
 		F3660E3A06C4C7DA00A92719 /* CMRAppDelegate_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CMRAppDelegate_p.h; sourceTree = "<group>"; };
 		F3660E3B06C4C7DA00A92719 /* CMRAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CMRAppDelegate.h; sourceTree = "<group>"; };
-		F3660E3C06C4C7DA00A92719 /* CMRAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CMRAppDelegate.m; sourceTree = "<group>"; };
+		F3660E3C06C4C7DA00A92719 /* CMRAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CMRAppDelegate.m; sourceTree = "<group>"; };
 		F3660E3D06C4C7DA00A92719 /* CMRAppDelegate+Menu.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "CMRAppDelegate+Menu.m"; sourceTree = "<group>"; };
 		F368973C05B08B540006D567 /* CMRMessageComposer.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRMessageComposer.m; sourceTree = "<group>"; };
 		F3689A2305B0A5D70006D567 /* CMRThreadMessageBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRThreadMessageBuffer.h; sourceTree = "<group>"; };
@@ -1704,6 +1706,7 @@
 				872999540832618100CBD740 /* ThreadViewer.strings */,
 				8795B91E08E3A7E3005C7C5B /* ToolbarItems.strings */,
 				8761BAA20B80D2F700120AA4 /* IndexingPopupper.strings */,
+				8785B7430D18F7B70081F4EB /* BoardListEditor.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -3468,6 +3471,7 @@
 				87FC678A0C682E9A00A4C72C /* DownloadableLinkTypes.plist in Resources */,
 				875FF5C60C7FFA960034E371 /* BSTitleRulerAppearance.plist in Resources */,
 				873E6A6B0D0DBC4C004421F7 /* BSFavoritesProgressPanel.nib in Resources */,
+				8785B7440D18F7B70081F4EB /* BoardListEditor.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4163,6 +4167,14 @@
 				87764C5F0AB0399000507EBA /* Japanese */,
 			);
 			name = BoardWarrior.strings;
+			sourceTree = "<group>";
+		};
+		8785B7430D18F7B70081F4EB /* BoardListEditor.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8785B7450D18F7BD0081F4EB /* Japanese */,
+			);
+			name = BoardListEditor.strings;
 			sourceTree = "<group>";
 		};
 		8795B91E08E3A7E3005C7C5B /* ToolbarItems.strings */ = {

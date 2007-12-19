@@ -156,7 +156,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 
 - (IBAction)startDetect:(id)sender
 {
-	if ([BrdMgr startDownloadSettingTxtForBoard:[self currentTargetBoardName]]) {
+	if ([BrdMgr startDownloadSettingTxtForBoard:[self currentTargetBoardName] askIfOffline:NO]) {
 		[[NSNotificationCenter defaultCenter]
 			 addObserver:self
 				selector:@selector(boardManagerDidDetectSettingTxt:)

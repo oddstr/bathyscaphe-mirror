@@ -78,8 +78,6 @@
 		<dict>
 			<key>ACTIONS</key>
 			<dict>
-				<key>actionMenuHeader</key>
-				<string>id</string>
 				<key>addBoardListItem</key>
 				<string>id</string>
 				<key>addCategoryItem</key>
@@ -219,8 +217,6 @@
 				<string>id</string>
 				<key>closeAll</key>
 				<string>id</string>
-				<key>miniaturizeAll</key>
-				<string>id</string>
 				<key>openAEDictionary</key>
 				<string>id</string>
 				<key>openURL</key>
@@ -232,6 +228,8 @@
 				<key>runBoardWarrior</key>
 				<string>id</string>
 				<key>showAcknowledgment</key>
+				<string>id</string>
+				<key>showBoardFromHistoryMenu</key>
 				<string>id</string>
 				<key>showPreferencesPane</key>
 				<string>id</string>

@@ -1,5 +1,5 @@
 //
-//  $Id: AddBoardSheetController.h,v 1.6 2006/11/07 12:50:31 masakih Exp $
+//  $Id: AddBoardSheetController.h,v 1.7 2007/12/19 13:20:40 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/12.
@@ -23,6 +23,7 @@
 
 	IBOutlet NSTextFieldCell	*m_brdNameField;
 	IBOutlet NSTextFieldCell	*m_brdURLField;
+	IBOutlet NSTextField	*m_warningField;
 
 	IBOutlet NSButton		*m_OKButton;
 	IBOutlet NSButton		*m_cancelButton;

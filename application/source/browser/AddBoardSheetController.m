@@ -1,5 +1,5 @@
 //
-//  $Id: AddBoardSheetController.m,v 1.13 2007/04/28 17:59:13 tsawada2 Exp $
+//  $Id: AddBoardSheetController.m,v 1.14 2007/12/19 13:20:40 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/12.
@@ -280,6 +280,7 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 
 	[[self brdNameField] setStringValue : @""];
 	[[self brdURLField] setStringValue : @""];
+	[m_warningField setStringValue:@""];
 
 	[[self OKButton] setEnabled : NO];
 	
@@ -325,6 +326,7 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 		[[self OKButton] setEnabled : YES];
 		[[self brdNameField] setStringValue : @""];
 		[[self brdURLField] setStringValue : @""];
+		[m_warningField setStringValue:@""];
 	} else {
 		[[self OKButton] setEnabled : NO];
 	}
@@ -342,11 +344,33 @@ static NSString *const kABSContextInfoObjectKey				= @"object";
 
 - (void) controlTextDidChange : (NSNotification *) aNotification
 {
-	if (![[[self brdNameField] stringValue] isEqualToString : @""] && ![[[self brdURLField] stringValue] isEqualToString : @""]) {
+/*	if (![[[self brdNameField] stringValue] isEqualToString : @""] && ![[[self brdURLField] stringValue] isEqualToString : @""]) {
 		[[self OKButton] setEnabled : YES];
-	} else{
+	} else {
 		[[self OKButton] setEnabled : NO];
-	}
+	}*/
+	NSString *partialBoardName = [[self brdNameField] stringValue];
+	NSString *partialURL = [[self brdURLField] stringValue];
+
+	if ([partialBoardName isEqualToString:@""]) {
+		[m_warningField setStringValue:NSLocalizedStringFromTable(@"Validation Error 3", @"BoardListEditor", @"")];
+		[[self OKButton] setEnabled:NO];
+		return;
+	} else if ([partialURL isEqualToString:@""]) {
+		[m_warningField setStringValue:NSLocalizedStringFromTable(@"Validation Error 4", @"BoardListEditor", @"")];
+		[[self OKButton] setEnabled:NO];
+		return;
+	} else if (![partialURL hasPrefix:@"http://"]) {
+		[m_warningField setStringValue:NSLocalizedStringFromTable(@"Validation Error 1", @"BoardListEditor", @"")];
+		[[self OKButton] setEnabled:NO];
+		return;
+	} else if (![partialURL hasSuffix:@"/"]) {
+		[m_warningField setStringValue:NSLocalizedStringFromTable(@"Validation Error 2", @"BoardListEditor", @"")];
+		[[self OKButton] setEnabled:NO];
+		return;
+	}		
+	[m_warningField setStringValue:@""];
+	[[self OKButton] setEnabled:YES];
 }
 
 - (void) boardListDidChange : (NSNotification *) notification

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMainMenuManager.m,v 1.14 2007/09/04 07:45:43 tsawada2 Exp $
+  * $Id: CMRMainMenuManager.m,v 1.15 2007/12/19 13:20:40 tsawada2 Exp $
   * 
   * CMRMainMenuManager.m
   *
@@ -114,6 +114,15 @@ MENU_ACCESSER(scriptsMenuItem, SCRIPTS_MENU_TAG)
 	return (NSMenuItem*)[[[self browserMenuItem] submenu]
 				itemWithTag : BROWSER_FILTERING_TAG];
 }*/
+- (void)removeOpenRecentsMenuItem
+{
+	NSMenu *menu = [self fileMenu];
+	int openURLMenuItemIndex = [menu indexOfItemWithTarget:[NSApp delegate] andAction:@selector(openURLPanel:)];
+
+    if (openURLMenuItemIndex >= 0 && [[menu itemAtIndex:openURLMenuItemIndex+1] hasSubmenu]) {
+		[menu removeItemAtIndex:openURLMenuItemIndex+1];
+    }
+}
 @end
 
 

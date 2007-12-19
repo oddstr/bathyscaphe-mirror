@@ -132,7 +132,7 @@
 
 // Available in MeteorSweeper and later.
 @interface BoardManager(SettingTxtDetector)
-- (BOOL)startDownloadSettingTxtForBoard:(NSString *)boardName;
+- (BOOL)startDownloadSettingTxtForBoard:(NSString *)boardName askIfOffline:(BOOL)flag;
 @end
 
 @interface BoardManager(UserListEditorCore)

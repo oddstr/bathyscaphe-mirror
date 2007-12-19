@@ -1,20 +1,19 @@
-/**
- * $Id: CMRAppDelegate.m,v 1.42 2007/12/15 16:20:53 tsawada2 Exp $
- * 
- * CMRAppDelegate.m
- *
- * Copyright (c) 2004 Takanori Ishikawa, All rights reserved.
- * See the file LICENSE for copying permission.
- */
+//
+//  CMRAppDelegate.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/12/19.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import "CMRAppDelegate_p.h"
 #import "BoardWarrior.h"
 #import "CMRBrowser.h"
+#import "BoardListItem.h"
 #import "CMRThreadDocument.h"
 #import "TS2SoftwareUpdate.h"
-//#import "CMRTrashbox.h"
-//#import <SGAppKit/SGAppKit.h>
-
-@class CMRDocumentController;
+#import "CMRDocumentController.h"
 
 static NSString *const kOnlineItemKey = @"On Line";
 static NSString *const kOfflineItemKey = @"Off Line";
@@ -60,25 +59,31 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 }
 
 #pragma mark IBAction
+- (IBAction)checkForUpdate:(id)sender
+{
+	[[TS2SoftwareUpdate sharedInstance] startUpdateCheck:sender];
+}
+
 - (IBAction)showPreferencesPane:(id)sender
 {
-    [[CMRPref sharedPreferencesPane] showWindow:sender];
+	[NSApp sendAction:@selector(showWindow:) to:[CMRPref sharedPreferencesPane] from:sender];
 }
-/*
-- (IBAction) showStandardFindPanel:(id)sender
-{
-    [[TextFinder standardTextFinder] showWindow:sender];
-}
-*/
+
 - (IBAction)toggleOnlineMode:(id)sender
 {   
 	AppDefaults *defaults_ = CMRPref;
 	[defaults_ setIsOnlineMode:(![defaults_ isOnlineMode])];
 }
 
+- (IBAction)resetApplication:(id)sender
+{
+    CMRApplicationReset(self);
+}
+
 - (IBAction)togglePreviewPanel:(id)sender
 {
-	[[CMRPref sharedImagePreviewer] togglePreviewPanel:sender];
+	[NSApp sendAction:@selector(togglePreviewPanel:) to:[CMRPref sharedImagePreviewer] from:sender];
+//	[[CMRPref sharedImagePreviewer] togglePreviewPanel:sender];
 }
 
 - (IBAction)showTaskInfoPanel:(id)sender
@@ -87,60 +92,18 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 }
 
 // For Help Menu
-- (IBAction) openURL : (id) sender
+- (IBAction)openURL:(id)sender
 {
     NSURL *url;
     
     UTILAssertRespondsTo(sender, @selector(representedObject));
     if (url = [sender representedObject]) {
         UTILAssertKindOfClass(url, NSURL);
-        [[NSWorkspace sharedWorkspace] openURL : url];
+        [[NSWorkspace sharedWorkspace] openURL:url];
     }
 }
 
-// Application Reset Alert's help button delegate
-- (BOOL) alertShowHelp : (NSAlert *) alert
-{
-	[[NSHelpManager sharedHelpManager] openHelpAnchor : [alert helpAnchor]
-											   inBook : [NSBundle applicationHelpBookName]];
-	return YES;
-}
-
-- (IBAction) resetApplication : (id) sender
-{
-    CMRApplicationReset(self);
-}
-
-- (IBAction) openURLPanel : (id) sender
-{
-	if (NO == [NSApp isActive]) [NSApp activateIgnoringOtherApps: YES];
-	[[CMROpenURLManager defaultManager] askUserURL];
-}
-
-- (IBAction) clearHistory : (id) sender
-{
-	[[CMRHistoryManager defaultManager] removeAllItems];
-}
-
-- (IBAction) showThreadFromHistoryMenu: (id) sender
-{
-	if (NO == [sender isKindOfClass: [NSMenuItem class]]) return;
-
-	id historyItem = [sender representedObject];
-	id winController_ = [[NSApp mainWindow] windowController];
-
-	if (winController_ && [winController_ respondsToSelector: @selector(showThreadWithMenuItem:)]) {
-		if ([NSEvent currentCarbonModifierFlags] & NSCommandKeyMask) {
-			[CMRThreadDocument showDocumentWithHistoryItem: historyItem];
-		} else {
-			[winController_ showThreadWithMenuItem: sender];
-		}
-	} else {
-		[CMRThreadDocument showDocumentWithHistoryItem: historyItem];
-	}
-}
-
-- (IBAction) showAcknowledgment : (id) sender
+- (IBAction)showAcknowledgment:(id)sender
 {
 	NSBundle	*mainBundle;
     NSString	*fileName;
@@ -148,105 +111,81 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 	NSWorkspace	*ws = [NSWorkspace sharedWorkspace];
 
     mainBundle = [NSBundle mainBundle];
-    fileName = [mainBundle pathForResource : @"Acknowledgments" ofType : @"rtf"];
-	appName = [ws absolutePathForAppBundleWithIdentifier : @"com.apple.TextEdit"];
+    fileName = [mainBundle pathForResource:@"Acknowledgments" ofType:@"rtf"];
+	appName = [ws absolutePathForAppBundleWithIdentifier:@"com.apple.TextEdit"];
 	
-    [ws openFile : fileName withApplication : appName];
+    [ws openFile:fileName withApplication:appName];
 }
 
-- (IBAction) closeAll : (id) sender
+- (IBAction)openURLPanel:(id)sender
+{
+	if (![NSApp isActive]) [NSApp activateIgnoringOtherApps:YES];
+	[[CMROpenURLManager defaultManager] askUserURL];
+}
+
+- (IBAction)closeAll:(id)sender
 {
 	NSArray *allWindows = [NSApp windows];
 	if (!allWindows) return;
 	NSEnumerator	*iter = [allWindows objectEnumerator];
 	NSWindow		*window;
 	while (window = [iter nextObject]) {
-		if ([window isVisible] && NO == [window isSheet]) {
-			[window performClose: sender];
+		if ([window isVisible] && ![window isSheet]) {
+			[window performClose:sender];
 		}
 	}
 }
 
-- (IBAction) miniaturizeAll : (id) sender
+- (IBAction)clearHistory:(id)sender
 {
-	[NSApp miniaturizeAll : sender];
+	[[CMRHistoryManager defaultManager] removeAllItems];
 }
 
-- (IBAction) runBoardWarrior: (id) sender
+- (IBAction)showThreadFromHistoryMenu:(id)sender
 {
-	[[BoardWarrior warrior] syncBoardLists];
-}
+    UTILAssertRespondsTo(sender, @selector(representedObject));
 
-- (void) mainBrowserDidFinishShowThList : (NSNotification *) aNotification
-{
-	UTILAssertNotificationName(
-		aNotification,
-		CMRBrowserThListUpdateDelegateTaskDidFinishNotification);
+	id historyItem = [sender representedObject];
+	id winController = [[NSApp mainWindow] windowController];
 
-	[CMRMainBrowser selectRowWithThreadPath: [self threadPath]
-					   byExtendingSelection: NO
-							scrollToVisible: YES];
-
-	[[NSNotificationCenter defaultCenter] removeObserver: self
-													name: CMRBrowserThListUpdateDelegateTaskDidFinishNotification
-												  object: CMRMainBrowser];
-}
-
-- (void) showThreadsListForBoard: (NSString *) boardName selectThread: (NSString *) path addToListIfNeeded: (BOOL) addToList
-{
-	if (CMRMainBrowser != nil) {
-		[[CMRMainBrowser window] makeKeyAndOrderFront : self];
+	if (winController && [winController respondsToSelector:@selector(showThreadWithMenuItem:)]) {
+		if ([NSEvent currentCarbonModifierFlags] & NSCommandKeyMask) {
+			[CMRThreadDocument showDocumentWithHistoryItem:historyItem];
+		} else {
+			[winController showThreadWithMenuItem:sender];
+		}
 	} else {
-		[[CMRDocumentController sharedDocumentController] newDocument : self];
+		[CMRThreadDocument showDocumentWithHistoryItem:historyItem];
 	}
-
-	if (path) {
-		[self setThreadPath: path];
-		[[NSNotificationCenter defaultCenter] addObserver : self
-												 selector : @selector(mainBrowserDidFinishShowThList:)
-													 name : CMRBrowserThListUpdateDelegateTaskDidFinishNotification
-												   object : CMRMainBrowser];
-	}
-	// addBrdToUsrListIfNeeded ƒIƒvƒVƒ‡ƒ“‚Í“––Ê‚ÌŠÔ–³Ž‹ií‚É YES ˆµ‚¢‚Åj
-	[CMRMainBrowser selectRowWhoseNameIs: boardName]; // ‚±‚ÌŒ‹‰Ê‚Æ‚µ‚Ä outlineView ‚Ì selectionDidChange: ‚ªuŠmŽÀ‚Év
-													  // ŒÄ‚Ño‚³‚ê‚éŒÀ‚èA‚»‚±‚©‚ç showThreadsListForBoardName: ‚ªŒÄ‚Ño‚³‚ê‚é
 }
 
-- (IBAction) showBoardFromHistoryMenu: (id) sender
+- (IBAction)showBoardFromHistoryMenu:(id)sender
 {
-	if (NO == [sender isKindOfClass: [NSMenuItem class]]) return;
+    UTILAssertRespondsTo(sender, @selector(representedObject));
 
-	id boardListItem = [sender representedObject];
+	BoardListItem *boardListItem = [sender representedObject];
 	if (boardListItem && [boardListItem respondsToSelector: @selector(representName)]) {
-		[self showThreadsListForBoard: [boardListItem representName] selectThread: nil addToListIfNeeded: YES];
+		[self showThreadsListForBoard:[boardListItem representName] selectThread:nil addToListIfNeeded:YES];
 	}
 }
 
-- (IBAction) startHEADCheckDirectly: (id) sender
+- (IBAction)startHEADCheckDirectly:(id)sender
 {
 	BOOL	hasBeenOnline = [CMRPref isOnlineMode];
 
-	// ŠÈ’P‚Ì‚½‚ßA‚¢‚Á‚½‚ñƒIƒ“ƒ‰ƒCƒ“ƒ‚[ƒh‚ðØ‚é
-	if(hasBeenOnline) [self toggleOnlineMode: sender];
+	// ç°¡å˜ã®ãŸã‚ã€ã„ã£ãŸã‚“ã‚ªãƒ³ãƒ©ã‚¤ãƒ³ãƒ¢ãƒ¼ãƒ‰ã‚’åˆ‡ã‚‹
+	if (hasBeenOnline) [self toggleOnlineMode:sender];
 	
-	[self showThreadsListForBoard: CMXFavoritesDirectoryName selectThread: nil addToListIfNeeded: NO];
-	[CMRMainBrowser reloadThreadsList: sender];
+	[self showThreadsListForBoard:CMXFavoritesDirectoryName selectThread:nil addToListIfNeeded:NO];
+	[CMRMainBrowser reloadThreadsList:sender];
 
-	// •K—v‚È‚çƒIƒ“ƒ‰ƒCƒ“‚É•œ‹A
-	if(hasBeenOnline) [self toggleOnlineMode: sender];
+	// å¿…è¦ãªã‚‰ã‚ªãƒ³ãƒ©ã‚¤ãƒ³ã«å¾©å¸°
+	if (hasBeenOnline) [self toggleOnlineMode:sender];
 }
 
-- (IBAction) openWebSiteForUpdate: (id) sender
+- (IBAction)runBoardWarrior:(id)sender
 {
-	[[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString: SGTemplateResource(kSWDownloadURLKey)]];
-}
-- (IBAction) checkForUpdate: (id) sender
-{
-	[[TS2SoftwareUpdate sharedInstance] startUpdateCheck: sender];
-}
-- (IBAction) changeUpdateSettings: (id) sender
-{
-	[[CMRPref sharedPreferencesPane] showPreferencesPaneWithIdentifier:PPGeneralPreferencesIdentifier];
+	[[BoardWarrior warrior] syncBoardLists];
 }
 
 - (IBAction)openAEDictionary:(id)sender
@@ -258,119 +197,144 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 	}
 }
 
-#pragma mark validation
-- (BOOL) validateToolbarItem : (NSToolbarItem *) theItem
+// Application Reset Alert's help button delegate
+- (BOOL)alertShowHelp:(NSAlert *)alert
+{
+	[[NSHelpManager sharedHelpManager] openHelpAnchor:[alert helpAnchor] inBook:[NSBundle applicationHelpBookName]];
+	return YES;
+}
+
+- (void)mainBrowserDidFinishShowThList:(NSNotification *)aNotification
+{
+	UTILAssertNotificationName(
+		aNotification,
+		CMRBrowserThListUpdateDelegateTaskDidFinishNotification);
+
+	[CMRMainBrowser selectRowWithThreadPath:[self threadPath]
+					   byExtendingSelection:NO
+							scrollToVisible:YES];
+
+	[[NSNotificationCenter defaultCenter] removeObserver:self
+													name:CMRBrowserThListUpdateDelegateTaskDidFinishNotification
+												  object:CMRMainBrowser];
+}
+
+- (void)showThreadsListForBoard:(NSString *)boardName selectThread:(NSString *)path addToListIfNeeded:(BOOL)addToList
+{
+	if (CMRMainBrowser != nil) {
+		[[CMRMainBrowser window] makeKeyAndOrderFront:self];
+	} else {
+		[[CMRDocumentController sharedDocumentController] newDocument:self];
+	}
+
+	if (path) {
+		[self setThreadPath:path];
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(mainBrowserDidFinishShowThList:)
+													 name:CMRBrowserThListUpdateDelegateTaskDidFinishNotification
+												   object:CMRMainBrowser];
+	}
+	// addBrdToUsrListIfNeeded ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã¯å½“é¢ã®é–“ç„¡è¦–ï¼ˆå¸¸ã« YES æ‰±ã„ã§ï¼‰
+	[CMRMainBrowser selectRowWhoseNameIs:boardName]; // ã“ã®çµæžœã¨ã—ã¦ outlineView ã® selectionDidChange: ãŒã€Œç¢ºå®Ÿã«ã€
+													 // å‘¼ã³å‡ºã•ã‚Œã‚‹é™ã‚Šã€ãã“ã‹ã‚‰ showThreadsListForBoardName: ãŒå‘¼ã³å‡ºã•ã‚Œã‚‹
+}
+
+- (IBAction)openWebSiteForUpdate:(id)sender
+{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:SGTemplateResource(kSWDownloadURLKey)]];
+}
+
+- (IBAction) changeUpdateSettings:(id)sender
+{
+	[[CMRPref sharedPreferencesPane] showPreferencesPaneWithIdentifier:PPGeneralPreferencesIdentifier];
+}
+
+#pragma mark Validation
+- (BOOL)validateToolbarItem:(NSToolbarItem *)theItem
 {
 	SEL action_ = [theItem action];
 
 	if (action_ == @selector(toggleOnlineMode:)) {
+		BOOL			isOnline = [CMRPref isOnlineMode];
 		NSString		*title_;
 		NSImage			*image_;
 		
-		title_ = [CMRPref isOnlineMode]
-					? [self localizedString : kOnlineItemKey]
-					: [self localizedString : kOfflineItemKey];
-
-		image_ = [CMRPref isOnlineMode]
-					? [NSImage imageAppNamed : kOnlineItemImageName]
-					: [NSImage imageAppNamed : kOfflineItemImageName];
+		title_ = isOnline ? [self localizedString:kOnlineItemKey] : [self localizedString:kOfflineItemKey];
+		image_ = isOnline ? [NSImage imageAppNamed:kOnlineItemImageName] : [NSImage imageAppNamed:kOfflineItemImageName];
 		
-		[theItem setImage : image_];
-		[theItem setLabel : title_];
+		[theItem setImage:image_];
+		[theItem setLabel:title_];
 		return YES;
 	}
 
 	return YES;
 }
 
-- (BOOL) validateMenuItem : (NSMenuItem *) theItem
+- (BOOL)validateMenuItem:(NSMenuItem *)theItem
 {
 	SEL action_ = [theItem action];
 
 	if (action_ == @selector(closeAll:)) {
-		return ([NSApp makeWindowsPerform : @selector(isVisible) inOrder : YES] != nil);
-	} else if (action_ == @selector(miniaturizeAll:)) {
-		return ([NSApp makeWindowsPerform : @selector(isNotMiniaturizedButCanMinimize) inOrder : YES] != nil);
+		return ([NSApp makeWindowsPerform:@selector(isVisible) inOrder:YES] != nil);
 	} else if (action_ == @selector(togglePreviewPanel:)) {
 		id tmp_ = [CMRPref sharedImagePreviewer];
-		return [tmp_ respondsToSelector : @selector(togglePreviewPanel:)];
+		return [tmp_ respondsToSelector:@selector(togglePreviewPanel:)];
 	} else if (action_ == @selector(startHEADCheckDirectly:)) {
 		return [CMRPref canHEADCheck];
 	} else if (action_ == @selector(toggleOnlineMode:)) {
-		[theItem setState: [CMRPref isOnlineMode] ? NSOnState : NSOffState];
+		[theItem setState:[CMRPref isOnlineMode] ? NSOnState : NSOffState];
 		return YES;
 	}
 	return YES;
 }
 
-#pragma mark AppleEvent Support
-// Available in BathyScaphe 1.2 and later.
-- (void) handleGetURLEvent : (NSAppleEventDescriptor *) event withReplyEvent : (NSAppleEventDescriptor *) replyEvent
-{
-    NSString	*urlStr_;
-    NSURL		*url_;
-
-    urlStr_ = [[event paramDescriptorForKeyword : keyDirectObject] stringValue];
-	url_ = [NSURL URLWithString : urlStr_];
-
-	// scheme ‚Ìˆá‚¢ibathyscaphe: or http:j‚Í CMROpenURLManager ‚ª‹zŽû‚·‚é
-    [[CMROpenURLManager defaultManager] openLocation : url_];
-}
-
 #pragma mark NSApplication Delegates
-- (void) applicationWillFinishLaunching : (NSNotification *) aNotification
-// available in BathyScaphe 1.2 and later.
+- (void)applicationWillFinishLaunching:(NSNotification *)aNotification
 {
 	NSAppleEventManager	*aeMgr = [NSAppleEventManager sharedAppleEventManager];
-	
-	[aeMgr setEventHandler : self
-			   andSelector : @selector(handleGetURLEvent:withReplyEvent:)
-			 forEventClass : 'GURL'
-				andEventID : 'GURL']; // 'GURL' is different from 'gurl'
+
+	[aeMgr setEventHandler:[CMROpenURLManager defaultManager]
+			   andSelector:@selector(handleGetURLEvent:withReplyEvent:)
+			 forEventClass:'GURL'
+				andEventID:'GURL'];
 
 	TS2SoftwareUpdate *checker = [TS2SoftwareUpdate sharedInstance];
-	[checker setUpdateInfoURL: [NSURL URLWithString: SGTemplateResource(kSWCheckURLKey)]];
-	[checker setOpenPrefsSelector: @selector(changeUpdateSettings:)];
-	[checker setUpdateNowSelector: @selector(openWebSiteForUpdate:)];
+	[checker setUpdateInfoURL:[NSURL URLWithString:SGTemplateResource(kSWCheckURLKey)]];
+	[checker setOpenPrefsSelector:@selector(changeUpdateSettings:)];
+	[checker setUpdateNowSelector:@selector(openWebSiteForUpdate:)];
 }
 
-- (void) applicationDidFinishLaunching : (NSNotification *) aNotification
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-	CMRMainMenuManager *tmp = [CMRMainMenuManager defaultManager];
     /* Service menu */
-    [NSApp setServicesProvider : [CMROpenURLManager defaultManager]];
+    [NSApp setServicesProvider:[CMROpenURLManager defaultManager]];
 
 	/* Remove 'Open Recent' menu */
-	int openURLMenuItemIndex = [[tmp fileMenu] indexOfItemWithTarget : self andAction : @selector(openURLPanel:)];
-
-    if (openURLMenuItemIndex >= 0 && [[[tmp fileMenu] itemAtIndex : openURLMenuItemIndex+1] hasSubmenu])
-    {
-		[[tmp fileMenu] removeItemAtIndex : openURLMenuItemIndex+1];
-    }
+	[[CMRMainMenuManager defaultManager] removeOpenRecentsMenuItem];
 	
 	/* BoardWarrior Task */
 	if ([CMRPref isOnlineMode] && [CMRPref autoSyncBoardList]) {
 		NSDate *lastDate = [CMRPref lastSyncDate];
 		if (!lastDate || [[NSDate date] timeIntervalSinceDate: lastDate] > [CMRPref timeIntervalForAutoSyncPrefs]) {
-			[self runBoardWarrior: nil];
+			[self runBoardWarrior:nil];
 		}
 	}
 
-	if ([CMRPref isOnlineMode]) [[TS2SoftwareUpdate sharedInstance] startUpdateCheck: nil];
+	if ([CMRPref isOnlineMode]) [[TS2SoftwareUpdate sharedInstance] startUpdateCheck:nil];
 }
 
-- (BOOL) applicationShouldHandleReopen: (NSApplication *) theApplication hasVisibleWindows: (BOOL) flag
+- (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag
 {
-	if (NO == flag) {
+	if (!flag) {
 		m_shouldCascadeBrowserWindow = NO;
 	}
 	return YES;
 }
 @end
 
-#pragma mark -
+
 @implementation CMRAppDelegate(CMRLocalizableStringsOwner)
-+ (NSString *) localizableStringsTableName
++ (NSString *)localizableStringsTableName
 {
     return APP_MAINMENU_LOCALIZABLE_FILE_NAME;
 }

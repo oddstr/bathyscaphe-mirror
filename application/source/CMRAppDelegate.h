@@ -26,7 +26,6 @@
 - (IBAction)resetApplication:(id)sender;
 
 // Windows Menu Action
-- (IBAction)miniaturizeAll:(id)sender;
 - (IBAction)togglePreviewPanel:(id)sender;
 - (IBAction)showTaskInfoPanel:(id)sender;
 
@@ -41,6 +40,7 @@
 // History Menu Action
 - (IBAction)clearHistory:(id)sender;
 - (IBAction)showThreadFromHistoryMenu:(id)sender;
+- (IBAction)showBoardFromHistoryMenu:(id)sender;
 
 // Dock menu Action
 - (IBAction)startHEADCheckDirectly:(id)sender;

@@ -61,17 +61,20 @@ NSString *const BoardManagerDidFinishDetectingSettingTxtNotification = @"BoardMa
 	}
 }
 
-- (BOOL) startDownloadSettingTxtForBoard: (NSString *) boardName
+- (BOOL)startDownloadSettingTxtForBoard:(NSString *)boardName askIfOffline:(BOOL)flag
 {
 	const char *hs;
-	NSURL	*boardURL = [self URLForBoardName: boardName];
+	NSURL	*boardURL = [self URLForBoardName:boardName];
 	
 	hs = [[boardURL host] UTF8String];
 	
 	if (NULL == hs) return NO;
 	if (!is_2channel(hs)) return NO;	
 
-	return ([CMRPref isOnlineMode]) ? [self doDownloadSettingTxtForBoard: boardName] : [self askDownloadAndDetectNowForBoard: boardName];
+	if (![CMRPref isOnlineMode] && flag) {
+		return [self askDownloadAndDetectNowForBoard:boardName];
+	}
+	return [self doDownloadSettingTxtForBoard:boardName];
 }
 
 #pragma mark BSSettingTxtDetector Notifications

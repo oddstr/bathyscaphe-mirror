@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMainMenuManager.h,v 1.14 2007/09/04 07:45:43 tsawada2 Exp $
+  * $Id: CMRMainMenuManager.h,v 1.15 2007/12/19 13:20:40 tsawada2 Exp $
   * BathyScaphe
   *
   *
@@ -39,6 +39,8 @@
 //- (NSMenuItem *) browserArrangementMenuItem;
 - (NSMenuItem *) browserListColumnsMenuItem;
 //- (NSMenuItem *) browserStatusFilteringMenuItem; // available in Vita and later.
+
+- (void)removeOpenRecentsMenuItem;
 @end
 
 

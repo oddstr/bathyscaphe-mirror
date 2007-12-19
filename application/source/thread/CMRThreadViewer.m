@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.50 2007/12/11 17:09:37 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.51 2007/12/19 13:20:40 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -546,7 +546,7 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 
 	if ([mgr needToDetectNoNameForBoard: board]) {
 		//NSLog(@"CMRThreadViewer: noName is nil, so we start detecting SETTING.TXT");
-		if (NO == [mgr startDownloadSettingTxtForBoard: board]) {
+		if (NO == [mgr startDownloadSettingTxtForBoard:board askIfOffline:YES]) {
 			NSString *nameEntry = [self detectDefaultNoName];		
 			NSString *name = [mgr askUserAboutDefaultNoNameForBoard: board presetValue: nameEntry];
 			if (name) [mgr addNoName: name forBoard: board];
