@@ -1,3 +1,26 @@
+2007-12-19 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/AddBoardSheet.nib
+	* application/Resources/Japanese.lproj/EditBoardSheet.nib
+	* application/source/browser/AddBoardSheetController.m
+	* application/source/browser/EditBoardSheetController.m
+		掲示板の追加や削除時のインタフェースを少し改善し、不正な入力にはリアルタイムで警告を赤字で表示するようにした。
+		警告が出ているときは「OK」ボタンを押すことはできない。
+	* application/source/bbs/BSBoardInfoInspector.m
+	* application/source/bbs/BoardManager-SettingTxt.m
+	* application/source/thread/CMRThreadViewer.m
+		「掲示板オプション」パネルから「SETTING.TXT を解析」ボタンを押して解析しようとし、かつオフラインモードの場合、
+		不適切な確認ダイアログが表示されていた問題を修正。すぐに SETTING.TXT のダウンロードと解析を行うようにした。
+	* application/source/CMRAppDelegate.m
+	* application/source/manager/CMRMainMenuManager.m
+	* application/source/manager/CMROpenURLManager.m
+		CMRAppDelegate.m のソース整理、及び一部コードを CMRMainMenuManager や CMROpenURLManager に移動。
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		ターゲット／アクション接続の細かな見直し。
+	* application/Resources/Japanese.lproj/BoardListEditor.strings
+		[新規追加] ThreadViewer.strings から一部の内容を分離。
+	* application/source/extensions/NSApplication+BSScriptingSupport.[h|m]
+		[新規追加] CMRAppDelegate.m から AppleScript サポート部分を分離。
+=================================================
 2007-12-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Makefile
 		ターゲット名を変更して、make で正しくビルドできるようにした。
