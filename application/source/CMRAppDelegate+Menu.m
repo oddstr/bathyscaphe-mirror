@@ -1,5 +1,5 @@
 /**
- * $Id: CMRAppDelegate+Menu.m,v 1.16 2007/09/04 07:45:43 tsawada2 Exp $
+ * $Id: CMRAppDelegate+Menu.m,v 1.17 2007/12/24 14:29:08 tsawada2 Exp $
  * 
  * CMRAppDelegate+Menu.m
  *
@@ -8,6 +8,7 @@
  */
 #import "CMRAppDelegate_p.h"
 #import "BSScriptsMenuManager.h"
+#import "BSReplyTextTemplateManager.h"
 
 // ----------------------------------------
 // D e f i n e d
@@ -310,6 +311,7 @@ NSMenuItem    *menuItem_;
 
 	[[dm_ historyMenu] setDelegate:hm_];
 	[[dm_ boardHistoryMenu] setDelegate:hm_];
+	[[dm_ templatesMenu] setDelegate:[BSReplyTextTemplateManager defaultManager]];
 	[BSScriptsMenuManager setupScriptsMenu];
 }
 @end

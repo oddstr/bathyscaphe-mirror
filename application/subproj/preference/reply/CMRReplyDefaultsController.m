@@ -3,7 +3,8 @@
 //  BathyScaphe
 //
 //  Modified by Tsutomu Sawada on 06/09/08.
-//  Copyright 2006 BathyScaphe Project. All rights reserved.
+//  Copyright 2006-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import "CMRReplyDefaultsController.h"
@@ -17,62 +18,74 @@ static NSString *const kHelpKey		= @"Help_Reply";
 static NSString *const kReplyDefaultsControllerNibName = @"ReplySetting";
 
 @implementation CMRReplyDefaultsController
-- (NSString *) mainNibName
+- (NSString *)mainNibName
 {
 	return kReplyDefaultsControllerNibName;
 }
 
-- (void) dealloc
+- (void)dealloc
 {
 	[m_temporaryKoteHan release];
 	m_temporaryKoteHan = nil;
 	[super dealloc];
 }
 
-- (void) setupUIComponents
+- (void)setupUIComponents
 {
+	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_3) {
+		[gradientPlusButton setBezelStyle:NSSmallSquareBezelStyle];
+		[gradientMinusButton setBezelStyle:NSSmallSquareBezelStyle];
+	}
+
 	[self addKoteHanSheet];
 }
 
-#pragma mark -
-- (NSString *) temporaryKoteHan
+- (void)willUnselect
+{
+	[super willUnselect];
+	[[[self preferences] RTTManager] writeToFileNow];
+}
+
+#pragma mark Accessors
+- (NSString *)temporaryKoteHan
 {
 	return m_temporaryKoteHan;
 }
-- (void) setTemporaryKoteHan: (NSString *) someText
+
+- (void)setTemporaryKoteHan:(NSString *)someText
 {
 	[someText retain];
 	[m_temporaryKoteHan release];
 	m_temporaryKoteHan = someText;
 }
 
-- (NSPanel *) addKoteHanSheet
+- (NSPanel *)addKoteHanSheet
 {
 	return m_addKoteHanSheet;
 }
 
-- (NSTableView *) koteHanListTable
+- (NSTableView *)koteHanListTable
 {
 	return m_koteHanListTable;
 }
 
-- (IBAction) addKoteHan: (id) sender
+- (IBAction)addKoteHan:(id)sender
 {
-	[self setTemporaryKoteHan: nil];
+	[self setTemporaryKoteHan:nil];
 
-	[NSApp beginSheet: [self addKoteHanSheet]
-	   modalForWindow: [self window]
-	    modalDelegate: self
-	   didEndSelector: @selector(addKoteHanSheetDidEnd:returnCode:contextInfo:)
-		  contextInfo: nil];
+	[NSApp beginSheet:[self addKoteHanSheet]
+	   modalForWindow:[self window]
+	    modalDelegate:self
+	   didEndSelector:@selector(addKoteHanSheetDidEnd:returnCode:contextInfo:)
+		  contextInfo:nil];
 }
 
-- (IBAction) closeKoteHanSheet: (id) sender
+- (IBAction)closeKoteHanSheet:(id)sender
 {
-	[NSApp endSheet: [self addKoteHanSheet] returnCode: [sender tag]];
+	[NSApp endSheet:[self addKoteHanSheet] returnCode:[sender tag]];
 }
 
-- (void) addKoteHanSheetDidEnd: (NSWindow *) sheet returnCode: (int) returnCode contextInfo: (void *) contextInfo
+- (void)addKoteHanSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
 	if (returnCode == NSOKButton) {
 		NSMutableArray	*newKoteHanList = [[[self preferences] defaultKoteHanList] mutableCopy];
@@ -80,45 +93,65 @@ static NSString *const kReplyDefaultsControllerNibName = @"ReplySetting";
 			newKoteHanList = [[NSMutableArray alloc] init];
 		}
 
-		NSArray			*adds_ = [[self temporaryKoteHan] componentsSeparatedByString: @"\n"];
-		[newKoteHanList addObjectsFromArray: adds_];
-		[[self preferences] setDefaultKoteHanList: newKoteHanList];
+		NSArray			*adds_ = [[self temporaryKoteHan] componentsSeparatedByString:@"\n"];
+		[newKoteHanList addObjectsFromArray:adds_];
+		[[self preferences] setDefaultKoteHanList:newKoteHanList];
 		[newKoteHanList release];
 
 		unsigned int index_ = [[[self preferences] defaultKoteHanList] count] -1;
-		[[self koteHanListTable] selectRowIndexes: [NSIndexSet indexSetWithIndex: index_] byExtendingSelection: NO];
-		[[self koteHanListTable] scrollRowToVisible: index_];
+		[[self koteHanListTable] selectRowIndexes:[NSIndexSet indexSetWithIndex:index_] byExtendingSelection:NO];
+		[[self koteHanListTable] scrollRowToVisible:index_];
+	}
+
+	[sheet close];
+}
+
+#pragma mark NSTextView Delegate
+- (BOOL)textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector
+{
+	if (aSelector == @selector(insertTab:)) { // tab
+		[[self window] makeFirstResponder:[aTextView nextValidKeyView]];
+		return YES;
 	}
 	
-	[sheet close];
+	if (aSelector == @selector(insertBacktab:)) { // shift-tab
+		[[self window] makeFirstResponder:[aTextView previousValidKeyView]];
+		return YES;
+	}
+	
+	return NO;
 }
 @end
 
-#pragma mark -
+
 @implementation CMRReplyDefaultsController(Toolbar)
-- (NSString *) identifier
+- (NSString *)identifier
 {
 	return PPReplyDefaultIdentifier;
 }
-- (NSString *) helpKeyword
+
+- (NSString *)helpKeyword
 {
 	return PPLocalizedString(kHelpKey);
 }
-- (NSString *) label
+
+- (NSString *)label
 {
 	return PPLocalizedString(kLabelKey);
 }
-- (NSString *) paletteLabel
+
+- (NSString *)paletteLabel
 {
 	return PPLocalizedString(kLabelKey);
 }
-- (NSString *) toolTip
+
+- (NSString *)toolTip
 {
 	return PPLocalizedString(kToolTipKey);
 }
-- (NSString *) imageName
+
+- (NSString *)imageName
 {
 	return kImageName;
 }
 @end
-

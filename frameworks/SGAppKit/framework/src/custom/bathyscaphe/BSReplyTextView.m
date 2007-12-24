@@ -1,5 +1,5 @@
 //
-//  $Id: BSReplyTextView.m,v 1.2 2007/04/12 12:55:12 tsawada2 Exp $
+//  $Id: BSReplyTextView.m,v 1.3 2007/12/24 14:29:09 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/03/13.
@@ -10,40 +10,72 @@
 
 
 @implementation BSReplyTextView
-- (id) initWithFrame : (NSRect) inFrame textContainer : (NSTextContainer *) inTextContainer
+- (id)initWithFrame:(NSRect)inFrame textContainer:(NSTextContainer *)inTextContainer
 {
-    if (self = [super initWithFrame : inFrame textContainer : inTextContainer]) {
-		m_alphaValue = 1.0;
+    if (self = [super initWithFrame:inFrame textContainer:inTextContainer]) {
+		[self setAlphaValue:1.0];
 	}
 	return self;
 }
 
-- (float) alphaValue
+- (float)alphaValue
 {
 	return m_alphaValue;
 }
 
-- (void) setBackgroundColor : (NSColor *) opaqueColor withAlphaComponent : (float) alpha
+- (void)setAlphaValue:(float)floatValue
 {
-	NSColor	*actualColor = [opaqueColor colorWithAlphaComponent : alpha];
-	[self setBackgroundColor : actualColor];
+	m_alphaValue = floatValue;
 }
 
-- (void) setBackgroundColor : (NSColor *) aColor
+- (void)setBackgroundColor:(NSColor *)opaqueColor withAlphaComponent:(float)alpha
 {
-	if(aColor)
-		m_alphaValue = [aColor alphaComponent];
-
-	[[self window] setOpaque : (m_alphaValue < 1.0) ? NO : YES];
-	[super setBackgroundColor : aColor];
+	NSColor	*actualColor = [opaqueColor colorWithAlphaComponent:alpha];
+	[self setBackgroundColor:actualColor];
 }
 
-- (void) drawRect : (NSRect) aRect
+- (void)setBackgroundColor:(NSColor *)aColor
 {
-	[super drawRect : aRect];
+	if (aColor) {
+		[self setAlphaValue:[aColor alphaComponent]];
+	}
+	[[self window] setOpaque:([self alphaValue] < 1.0) ? NO : YES];
+	[super setBackgroundColor:aColor];
+}
+
+- (void)drawRect:(NSRect)aRect
+{
+	[super drawRect:aRect];
 	
-	if (m_alphaValue < 1.0) {
+	if ([self alphaValue] < 1.0) {
 		[[self window] invalidateShadow];
 	}
+}
+
+static inline BOOL delegateCheck(id delegate)
+{
+	if (!delegate) return NO;
+	if (![delegate respondsToSelector:@selector(availableCompletionPrefixesForTextView:)]) return NO;
+	if (![delegate respondsToSelector:@selector(textView:completedStringForCompletionPrefix:)]) return NO;
+	return YES;
+}
+
+- (NSArray *)completionsForPartialWordRange:(NSRange)charRange indexOfSelectedItem:(int *)index
+{
+	id delegate = [self delegate];
+	if (delegateCheck(delegate)) {
+		NSString *partialString = [[self string] substringWithRange:charRange];
+		NSArray *prefixes = [delegate availableCompletionPrefixesForTextView:self];
+
+		if (prefixes && [prefixes containsObject:partialString]) {
+			NSString *replacement = [delegate textView:self completedStringForCompletionPrefix:partialString];
+			if (replacement && [self shouldChangeTextInRange:charRange replacementString:replacement]) {
+				[self replaceCharactersInRange:charRange withString:replacement];
+				[self didChangeText];
+				return nil;
+			}
+		}
+	}
+	return [super completionsForPartialWordRange:charRange indexOfSelectedItem:index];
 }
 @end

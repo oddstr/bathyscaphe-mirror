@@ -1,13 +1,14 @@
-/**
-  * $Id: CMRReplyController-ViewAccessor.m,v 1.20 2007/11/20 17:48:11 tsawada2 Exp $
-  * 
-  * CMRReplyController-ViewAccessor.m
-  *
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  CMRReplyController-ViewAccessor.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/12/24.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import "CMRReplyController_p.h"
-#import "AppDefaults.h"
+#import "CMRReplyControllerTbDelegate.h"
 #import <SGAppKit/BSReplyTextView.h>
 #import <SGAppKit/BSLayoutManager.h>
 
@@ -18,22 +19,49 @@ static void *kReplySettingsContext = @"EternalBlaze";
 { 
 	return [CMRReplyControllerTbDelegate class];
 }
+
 - (NSString *)statusLineFrameAutosaveName 
 {
 	return APP_REPLY_STATUSLINE_IDENTIFIER;
 }
 
 #pragma mark Accessors
+- (NSComboBox *)nameComboBox
+{
+	return _nameComboBox;
+}
 
-- (NSComboBox *) nameComboBox{ return _nameComboBox; }
-- (NSTextField *) mailField { return _mailField; }
-- (NSTextView *) textView { return _textView; }
-- (NSScrollView *) scrollView { return _scrollView; }
-- (NSButton *) sageButton { return _sageButton; }
-- (NSButton *) deleteMailButton { return _deleteMailButton; }
+- (NSTextField *)mailField
+{
+	return _mailField;
+}
+
+- (NSTextView *)textView
+{
+	return _textView;
+}
+
+- (NSScrollView *)scrollView
+{
+	return _scrollView;
+}
+
+- (NSButton *)sageButton
+{
+	return _sageButton;
+}
+
+- (NSButton *)deleteMailButton
+{
+	return _deleteMailButton;
+}
+
+- (NSPopUpButton *)templateInsertionButton
+{
+	return m_templateInsertionButton;
+}
 
 #pragma mark UI SetUp
-
 - (void)updateTextView
 {
 	BSReplyTextView	*textView_ = (BSReplyTextView *)[self textView];
@@ -130,8 +158,8 @@ static void *kReplySettingsContext = @"EternalBlaze";
 
 	[view bind:@"font" toObject:CMRPref withKeyPath:@"threadViewTheme.replyFont" options:nil];
 
-	// textColor ‚¾‚¯•Ï‚¦‚é‚È‚ç KVB ‚Å‚à—Ç‚¢‚ªAˆê‚É insertionPointColor ‚à
-	// •Ï‚¦‚½‚¢‚Ì‚ÅAKVO ‚Ås‚­‚±‚Æ‚É‚·‚éB
+	// textColor ã ã‘å¤‰ãˆã‚‹ãªã‚‰ KVB ã§ã‚‚è‰¯ã„ãŒã€ä¸€ç·’ã« insertionPointColor ã‚‚
+	// å¤‰ãˆãŸã„ã®ã§ã€KVO ã§è¡Œãã“ã¨ã«ã™ã‚‹ã€‚
 	[CMRPref addObserver:self
 			  forKeyPath:@"threadViewTheme.replyColor"
 				 options:NSKeyValueObservingOptionNew
@@ -159,22 +187,42 @@ static void *kReplySettingsContext = @"EternalBlaze";
 	[[self window] useOptimizedDrawing:YES];
 }
 
-- (void)setupNameComboBox
+- (void)setupMailField
 {
-	[[self nameComboBox] setStringValue:[[self document] name]];
-	[[self nameComboBox] reloadData];
+	NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithBool:NO],@"NSAllowsEditingMultipleValuesSelection",
+									[NSNumber numberWithBool:YES], @"NSContinuouslyUpdatesValue",
+									[NSNumber numberWithBool:YES], @"NSRaisesForNotApplicableKeys", NULL];
+	[[self mailField] bind:@"value" toObject:[self document] withKeyPath:@"mail" options:dict];
+	[dict release];
 }
 
 - (void)setupButtons
 {
-	[[self sageButton] setEnabled:[self canInsertSage]];
-	[[self deleteMailButton] setEnabled:[self canDeleteMail]];
+	NSMenu		*menu;
+
+	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_3) {
+		[[self sageButton] setBezelStyle:NSSmallSquareBezelStyle];
+		[[self deleteMailButton] setBezelStyle:NSSmallSquareBezelStyle];
+	}
+
+	[[[self templateInsertionButton] cell] setUsesItemFromMenu:YES];
+
+	menu = [[self templateInsertionButton] menu];
+	[menu setDelegate:[BSReplyTextTemplateManager defaultManager]];
+
+	// Leopard
+	NSMenuItem	*item = [menu itemAtIndex:0];
+	if ([item respondsToSelector:@selector(setHidden:)]) {
+		[item setHidden:YES];
+	}
 }
 
 - (void)setupKeyLoops
 {
 	[[self nameComboBox] setNextKeyView:[self mailField]];
-	[[self mailField] setNextKeyView:[self textView]];
+	[[self mailField] setNextKeyView:[self sageButton]];
+	[[self sageButton] setNextKeyView:[self deleteMailButton]];
+	[[self deleteMailButton] setNextKeyView:[self textView]];
 	[[self textView] setNextKeyView:[self nameComboBox]];
 	[[self window] setInitialFirstResponder:[self textView]];
 	[[self window] makeFirstResponder:[self textView]];
@@ -182,30 +230,22 @@ static void *kReplySettingsContext = @"EternalBlaze";
 
 - (void) setupUIComponents
 {
-	NSMenuItem	*item;
-
 	[super setupUIComponents];
 
 	[self setupWindowFrameWithMessenger];
-	[self setupNameComboBox];
+
+	[[self nameComboBox] reloadData];
+	[self setupMailField];
+
 	[self setupButtons];
 	[self setupTextView];
 	[self setupKeyLoops];
-
-	[[m_templateInsertionButton cell] setUsesItemFromMenu:YES];
-	item = [[m_templateInsertionButton menu] itemAtIndex:0];
-
-	// Leopard
-	if ([item respondsToSelector:@selector(setHidden:)]) {
-		[item setHidden:YES];
-	}
 
 	[[NSNotificationCenter defaultCenter]
 			 addObserver:self
 			    selector:@selector(applicationUISettingsUpdated:)
 			        name:AppDefaultsLayoutSettingsUpdatedNotification
 			      object:CMRPref];
-	[self synchronizeDataFromMessenger];
 }
 @end
 
@@ -220,25 +260,16 @@ static void *kReplySettingsContext = @"EternalBlaze";
 	[self updateTextView];
 }
 
-- (void)controlTextDidChange:(NSNotification *)aNotification
-{
-	UTILAssertNotificationName(
-		aNotification,
-		NSControlTextDidChangeNotification);
-	
-	if ([aNotification object] == [self mailField]) [self setupButtons];
-}
-
 #pragma mark NSTextView Delegate
 - (BOOL)textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector
 {
 	if (aSelector == @selector(insertTab:)) { // tab
-		[[self window] makeFirstResponder:[self nameComboBox]];
+		[[self window] makeFirstResponder:[aTextView nextValidKeyView]];
 		return YES;
 	}
 	
 	if (aSelector == @selector(insertBacktab:)) { // shift-tab
-		[[self window] makeFirstResponder:[self mailField]];
+		[[self window] makeFirstResponder:[aTextView previousValidKeyView]];
 		return YES;
 	}
 	
@@ -247,16 +278,27 @@ static void *kReplySettingsContext = @"EternalBlaze";
 
 // GrafEisen Addition
 /* 2006-02-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	NSDocument ‚ğ "dirty" ‚Èó‘Ô‚É‚·‚é‚Ì‚ÍA’Êí NSDocument ©g‚É”C‚¹‚Ä‚¨‚¯‚Î‚æ‚¢‚Í‚¸B
-	‚µ‚©‚µAu‰º‘‚«‚Æ‚µ‚Ä•Û‘¶v‚µ‚½ŒãA–{•¶‚ğ’Ç‰Á^íœ‚È‚Ç‚µ‚Ä•ÒW‚µ‚Ä‚àA"dirty" ‚Èó‘Ô‚É‚È‚º‚©
-	‚È‚Á‚Ä‚­‚ê‚È‚¢BƒeƒLƒXƒg‚ğ‘I‘ğ‚µ‚ÄAíœ‚µ‚½‚è‚·‚é‚Æ "dirty" ‚É‚È‚é‚Ì‚¾‚ªc
-	‚»‚±‚Å‚±‚Ì delegate ‚ÅƒeƒLƒXƒg‚Ì’Ç‰Á^íœ‚ğ‚Â‚©‚Ü‚¦A‹­§“I‚É "dirty" ƒtƒ‰ƒO‚ğ—§‚Ä‚éB
-	’Pƒ‚Èó‹µ‚Å‚·ŒÀ‚è—Ç‚¢Š´‚¶‚Å“®‚­‚æ‚¤‚¾‚ªA‚µ‚Î‚ç‚­—lqŒ©‚ª•K—v‚©B
+	NSDocument ã‚’ "dirty" ãªçŠ¶æ…‹ã«ã™ã‚‹ã®ã¯ã€é€šå¸¸ NSDocument è‡ªèº«ã«ä»»ã›ã¦ãŠã‘ã°ã‚ˆã„ã¯ãšã€‚
+	ã—ã‹ã—ã€ã€Œä¸‹æ›¸ãã¨ã—ã¦ä¿å­˜ã€ã—ãŸå¾Œã€æœ¬æ–‡ã‚’è¿½åŠ ï¼å‰Šé™¤ãªã©ã—ã¦ç·¨é›†ã—ã¦ã‚‚ã€"dirty" ãªçŠ¶æ…‹ã«ãªãœã‹
+	ãªã£ã¦ãã‚Œãªã„ã€‚ãƒ†ã‚­ã‚¹ãƒˆã‚’é¸æŠã—ã¦ã€å‰Šé™¤ã—ãŸã‚Šã™ã‚‹ã¨ "dirty" ã«ãªã‚‹ã®ã ãŒâ€¦
+	ãã“ã§ã“ã® delegate ã§ãƒ†ã‚­ã‚¹ãƒˆã®è¿½åŠ ï¼å‰Šé™¤ã‚’ã¤ã‹ã¾ãˆã€å¼·åˆ¶çš„ã« "dirty" ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹ã€‚
+	å˜ç´”ãªçŠ¶æ³ã§è©¦ã™é™ã‚Šè‰¯ã„æ„Ÿã˜ã§å‹•ãã‚ˆã†ã ãŒã€ã—ã°ã‚‰ãæ§˜å­è¦‹ãŒå¿…è¦ã‹ã€‚
 */
 - (void)textDidChange:(NSNotification *)aNotification
 {
-	if(NO == [[self document] isDocumentEdited]) // "dirty" ‚Å‚È‚¢‚Æ‚«‚Ì‚İ updateChangeCount: ‚·‚éB
+	if (![[self document] isDocumentEdited]) { // "dirty" ã§ãªã„ã¨ãã®ã¿ updateChangeCount: ã™ã‚‹ã€‚
 		[[self document] updateChangeCount:NSChangeDone];
+	}
+}
+
+- (NSArray *)availableCompletionPrefixesForTextView:(NSTextView *)aTextView
+{
+	return [[[BSReplyTextTemplateManager defaultManager] templates] valueForKey:@"shortcutKeyword"];
+}
+
+- (NSString *)textView:(NSTextView *)aTextView completedStringForCompletionPrefix:(NSString *)prefix
+{
+	return [[BSReplyTextTemplateManager defaultManager] templateForShortcutKeyword:prefix];
 }
 
 #pragma mark NSComboBoxDataSource

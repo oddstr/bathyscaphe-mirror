@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMainMenuManager.m,v 1.15 2007/12/19 13:20:40 tsawada2 Exp $
+  * $Id: CMRMainMenuManager.m,v 1.16 2007/12/24 14:29:09 tsawada2 Exp $
   * 
   * CMRMainMenuManager.m
   *
@@ -68,6 +68,11 @@ MENU_ACCESSER(scriptsMenuItem, SCRIPTS_MENU_TAG)
 - (NSMenu *) fileMenu
 {
 	return [[self fileMenuItem] submenu];
+}
+
+- (NSMenu *)templatesMenu
+{
+	return [[[[self editMenuItem] submenu] itemWithTag:2001] submenu];
 }
 
 - (NSMenu *)threadContexualMenuTemplate

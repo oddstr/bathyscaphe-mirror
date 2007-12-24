@@ -11,6 +11,7 @@
 #import "BoardManager_p.h"
 #import "NoNameInputController.h"
 #import "DatabaseManager.h"
+#import "BSBoardInfoInspector.h"
 
 /* constants */
 // NND means 'NoNameDict'.
@@ -555,10 +556,15 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 	if (!tmpArrayBase) {
 		tmpArray = [[NSMutableArray alloc] initWithCapacity:1];
 	} else {
+		if ([tmpArrayBase containsObject:additionalNoName]) { // 既に登録されている
+			return;
+		}
 		tmpArray = [tmpArrayBase mutableCopy];
 	}
 	[tmpArray addObject:additionalNoName];
+	[[BSBoardInfoInspector sharedInstance] willChangeValueForKey:@"noNamesArray"];
 	[self setDefaultNoNameArray:tmpArray forBoard:boardName];
+	[[BSBoardInfoInspector sharedInstance] didChangeValueForKey:@"noNamesArray"];
 	[tmpArray release];
 }
 /*

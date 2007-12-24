@@ -491,7 +491,7 @@ BOOL isOptionKeyDown(void)
 
 - (void)threadDocumentDidToggleDatOchiStatus:(NSNotification *)aNotification
 {
-	NSString *path = [aNotification userInfo];
+	NSString *path = [[aNotification userInfo] objectForKey:@"path"];
 	unsigned int index = [[self currentThreadsList] indexOfThreadWithPath:path];
 	if (index != NSNotFound) [self synchronizeWithSearchField];
 }

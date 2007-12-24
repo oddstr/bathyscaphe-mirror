@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.28 2007/11/23 12:34:45 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.29 2007/12/24 14:29:09 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -125,6 +125,8 @@ static NSString *const kIPIPrefsNibFileNameKey	= @"BSIPIPreferences";
 
 - (IBAction)startFullscreen:(id)sender
 {
+	static BOOL	isBinded = NO;
+
 	if ([self useIKSlideShowOnLeopard]) {
 		NSString *helperBundleFullPath = [[[NSBundle mainBundle] builtInPlugInsPath] stringByAppendingPathComponent:@"BSIPILeopardSlideshowHelper.plugin"];
 		NSBundle *helperBundle = [NSBundle bundleWithPath:helperBundleFullPath];
@@ -145,8 +147,17 @@ static NSString *const kIPIPrefsNibFileNameKey	= @"BSIPIPreferences";
 		}
 
 		[[BSIPIFullScreenController sharedInstance] setDelegate:self];
-		[[BSIPIFullScreenController sharedInstance] setArrayController:[self tripleGreenCubes]];
 
+		if (!isBinded) {
+			[[BSIPIFullScreenController sharedInstance] bind:@"windowBackgroundColor"
+													toObject:self
+												 withKeyPath:@"fullScreenBgColorData"
+													 options:[NSDictionary dictionaryWithObject:NSUnarchiveFromDataTransformerName
+																						 forKey:@"NSValueTransformerName"]];
+			isBinded = YES;
+		}
+
+		[[BSIPIFullScreenController sharedInstance] setArrayController:[self tripleGreenCubes]];
 		[[BSIPIFullScreenController sharedInstance] startFullScreen:[[self window] screen]];
 	}
 }

@@ -1,1 +1,19 @@
-//:CMRReplyController_p.h#import "CMRReplyController.h"#import "CMRReplyControllerTbDelegate.h"#import "CMRReplyMessenger_p.h"#import "AppDefaults.h"#import "CMRThreadMessage.h"#import "CMRStatusLineWindowController.h"#import "CocoMonar_Prefix.h"#define APP_REPLY_STATUSLINE_IDENTIFIER	@"Reply Window"#define MESSENGER_TABLE_NAME			@"Messenger"#define kSendMessageStringKey			@"Send Message"#define kToolTipForNeededLogin		@"BeLoginOnNeededToolTip"#define kToolTipForTrivialLoginOff	@"BeLoginOffTrivialToolTip"#define kToolTipForCantLoginOn		@"BeLoginOffCantLoginToolTip"#define kToolTipForLoginOn			@"BeLoginOnToolTip"#define kToolTipForLoginOff			@"BeLoginOffToolTip"#define kLabelForLoginOn			@"Be Login On"#define kLabelForLoginOff			@"Be Login Off"#define kImageForLoginOn			@"beEnabled"#define kImageForLoginOff			@"beDisabled"@interface CMRReplyController(ActionSupport)- (BOOL) canInsertSage;- (BOOL) canDeleteMail;- (NSString *) stringByInsertingSageWithString : (NSString *) mail;@end//:CMRReplyController-ViewAccessor.m@interface CMRReplyController(View)- (NSComboBox *) nameComboBox;- (NSTextField *) mailField;- (NSTextView *) textView;- (NSScrollView *) scrollView;- (NSButton *) sageButton;- (NSButton *) deleteMailButton;- (void) setupTextView;- (void) setupWindowFrameWithMessenger;- (void) setupNameComboBox;- (void) setupButtons;- (void) setupKeyLoops;@end
+//
+//  CMRReplyController_p.h
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/12/24.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
+#import "CMRReplyController.h"
+#import "CocoMonar_Prefix.h"
+
+#import "CMRReplyMessenger.h"
+
+#import "AppDefaults.h"
+#import "BSReplyTextTemplateManager.h"
+
+
+#define APP_REPLY_STATUSLINE_IDENTIFIER	@"Reply Window"

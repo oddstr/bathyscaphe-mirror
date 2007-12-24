@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.59 2007/12/15 16:20:53 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.60 2007/12/24 14:29:09 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -14,7 +14,7 @@
 #import "BSPreferencesPaneInterface.h"
 
 @protocol w2chConnect, w2chAuthenticationStatus;
-@class BSThreadViewTheme, BoardWarrior;
+@class BSThreadViewTheme, BoardWarrior, BSReplyTextTemplateManager;
 /*!
  * @define      CMRPref
  * @discussion  グローバルな初期設定オブジェクト
@@ -90,6 +90,8 @@ typedef enum _BSAutoSyncIntervalType {
 /* Last Shown Board */
 - (NSString *) browserLastBoard;
 - (void) setBrowserLastBoard : (NSString *) boardName;
+
+- (BSReplyTextTemplateManager *)RTTManager;
 
 /* CometBlaster Additions */
 - (BOOL) informWhenDetectDatOchi;

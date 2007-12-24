@@ -23,7 +23,7 @@
 #define PPFontsAndColorsIdentifier		@"FontsAndColors"
 #define PPAccountSettingsIdentifier		@"AccountSettings"
 #define PPFilterPreferencesIdentifier	@"Filter"
-#define PPReplyDefaultIdentifier		@"RepltDefaults"
+#define PPReplyDefaultIdentifier		@"ReplyDefaults"
 #define PPAdvancedPreferencesIdentifier	@"Advanced"
 #define PPSoundsPreferencesIdentifier	@"Sounds"	// Available in BathyScaphe 1.2 and later.
 #define PPSyncPreferencesIdentifier		@"Sync"		// Available in BathyScaphe 1.3 and later.

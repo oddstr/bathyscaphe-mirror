@@ -25,6 +25,9 @@
 - (IBAction)toggleOnlineMode:(id)sender;
 - (IBAction)resetApplication:(id)sender;
 
+// Edit Menu Action
+- (IBAction)customizeTextTemplates:(id)sender;
+
 // Windows Menu Action
 - (IBAction)togglePreviewPanel:(id)sender;
 - (IBAction)showTaskInfoPanel:(id)sender;

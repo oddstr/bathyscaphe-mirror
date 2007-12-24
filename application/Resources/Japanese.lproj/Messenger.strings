@@ -38,5 +38,6 @@
 【再現手順】";
 "BugReportMarker" = "ここに不具合の内容を書いてください…";
 
-"CustomizeTemplateAlertTitle" = "Sorry, この機能は未実装のため利用できません。";
-"CustomizeTemplateAlertMsg" = "書き込みテンプレートは、現在 “不具合の報告” のみご利用いただけます。今後のアップデートで、ユーザによるテンプレートの追加が可能になる予定です。";
+"Bug Report" = "不具合の報告";
+"BugReporterDescription" = "このテンプレートは編集／削除できません。";
+"Customize Templates" = "テンプレートリストのカスタマイズ…";

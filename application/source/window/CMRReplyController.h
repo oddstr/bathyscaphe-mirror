@@ -23,18 +23,23 @@
 	IBOutlet NSScrollView		*_scrollView;
 	IBOutlet NSTextView			*_textView;
 }
-- (BOOL)isEndPost;
-- (NSPopUpButton *)templateInsertionButton;
 
 // working with NSDocument...
-- (void)synchronizeDataFromMessenger;
 - (void)synchronizeMessengerWithData;
 
 - (IBAction)insertSage:(id)sender;
 - (IBAction)deleteMail:(id)sender;
 - (IBAction)pasteAsQuotation:(id)sender;
-- (IBAction)toggleBeLogin:(id)sender;
-
 - (IBAction)insertTextTemplate:(id)sender;
-- (IBAction)customizeTextTemplates:(id)sender;
+@end
+
+
+@interface CMRReplyController(View)
+- (NSComboBox *)nameComboBox;
+- (NSTextField *)mailField;
+- (NSTextView *)textView;
+- (NSScrollView *)scrollView;
+- (NSButton *)sageButton;
+- (NSButton *)deleteMailButton;
+- (NSPopUpButton *)templateInsertionButton;
 @end

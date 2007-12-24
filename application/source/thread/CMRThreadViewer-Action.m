@@ -365,7 +365,7 @@
 	NSString		*contents_;
 	
 	// 引用
-	if ([[aMessenger replyMessage] length] != 0) return;
+//	if ([[aMessenger replyMessage] length] != 0) return;
 	
 	selectedRange_ = [[self textView] selectedRange];
 	if (0 == selectedRange_.length) return;
@@ -373,7 +373,7 @@
 	if (NSNotFound == index_) return;
 	
 	contents_ = [[[self textView] string] substringWithRange:selectedRange_];
-	[aMessenger setMessageContents:contents_ replyTo:index_];
+	[aMessenger append:contents_ quote:YES replyTo:index_];
 }
 
 - (IBAction)reply:(id)sender

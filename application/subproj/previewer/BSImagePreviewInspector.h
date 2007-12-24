@@ -89,6 +89,9 @@
 
 - (BOOL)useIKSlideShowOnLeopard;
 - (void)setUseIKSlideShowOnLeopard:(BOOL)flag;
+
+- (NSData *)fullScreenBgColorData;
+- (void)setFullScreenBgColorData:(NSData *)aColorData;
 @end
 
 @interface BSImagePreviewInspector(ToolbarAndUtils)

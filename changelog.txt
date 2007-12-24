@@ -1,4 +1,66 @@
+2007-12-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSImagePreviewInspector-Settings.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/BSIPIFullScreenController.m
+	* application/subproj/previewer/BSIPIPathTransformer.m
+	* application/subproj/previewer/Japanese.lproj/Localizable.strings
+	* application/subproj/previewer/Japanese.lproj/BSIPIPreferences.nib
+		プレビューインスペクタ（2.7.2 -> 2.7.3）：
+		- フルスクリーンの背景色を設定できるようにした。
+	* application/source/bbs/BoardManager-BSAddition.m
+	* application/source/browser/CMRBrowser-Delegate.m
+	* application/source/thread/CMRAbstructThreadDocument.m
+		細部の修正。
+	* application/subproj/preference/BSPreferencesPaneInterface.h
+		スペルミスがあったので修正。
+	* application/subproj/preference/reply/CMRReplyDefaultsController.m
+	* application/subproj/preference/Japanese.lproj/ReplySetting.nib
+		「書き込み」環境設定に「テンプレート」タブを追加し、テンプレートリストのカスタマイズを行えるようにした。
+		Cocoa binding 多用。
+	* application/source/preferences/AppDefaults.m
+		環境設定のプラグインから BSReplyTextTemplateManager へアクセスする入口を用意した。
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/window/CMRReplyMessenger-Connector.m
+	* application/source/window/CMRReplyMessenger.m
+	* application/source/window/CMRReplyController-ViewAccessor.m
+	* application/source/window/CMRReplyController.m
+	* application/Resources/Japanese.lproj/CMRReplyWindow.nib
+	* application/Resources/Japanese.lproj/Messenger.strings
+		CMRReplyMessenger <--> CMRReplyController 間の役割見直し。とくに CMRReplyController がスリム化された。
+		また、書き込みウインドウで Cocoa binding の利用箇所を増やしたことにより、コードを少々削減した。
+	* application/source/CMRAppDelegate.m
+		「テンプレートを挿入」メニューから「テンプレートリストのカスタマイズ...」を選んだときの action を CMRAppDelegate に追加した
+		（このアクションは書き込みウインドウが最前面に無くても利用できるので）。
+	* application/source/manager/CMRMainMenuManager.m
+	* application/source/CMRAppDelegate+Menu.m
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		「編集」＞「テンプレートを挿入」サブメニューを追加した。書き込みウインドウのツールバー項目である「テンプレートを挿入」
+		ポップアップボタンと同内容。
+	* application/source/window/BSReplyControllerValueTransformer.[h|m]
+		[新規追加] 書き込みウインドウでの Cocoa-binding で使用する NSValueTransformer のサブクラス。
+	* application/Resources/image/deleteMail2.tiff
+		[新規追加] 書き込みウインドウで使用する画像リソース。deleteMail.png の置き換え。
+	* application/subproj/preference/BSRTTArrayController.[h|m]
+		[新規追加] 「書き込み」環境設定の「テンプレート」タブ内で使用する、Drag and Drop をサポートするための NSArrayController サブクラス。
+	* application/source/manager/BSReplyTextTemplateManager.[h|m]
+		[新規追加] BSReplyTextTemplate を管理するクラス。ReplyTextTemplates.plist への読み書きなどを担当。
+		また、このファイルに居候して BSBugReportingTemplate クラス (BSReplyTextTemplate のサブクラス) のコード有り。
+		BSBugReportingTemplate は以前のバージョンの「不具合の報告」テンプレートを表すクラスで、CMRReplyController に書いてあったコードを
+		移植してきた。 
+	* application/source/manager/BSReplyTextTemplate.[h|m]
+		[新規追加] 書き込みテンプレートを表すオブジェクト。（主としてメニューアイテム用の）表示名、text-completion 用のキーワード、および
+		テンプレートの内容自体から成る。CMRPropertyListCoding プロトコル準拠。
+	* frameworks/SGAppKit/framework/src/custom/bathyscaphe/BSReplyTextView.m
+		SGAppKit:
+		BSReplyTextView クラスについて、completion 機能の拡張を行った（特定のキーワードに対する completion では、候補を表示せず
+		直接対応するテキストを挿入する機能を追加した）。
+	* frameworks/CocoMonar/framework/src/CMRFiles.h
+		CocoMonar Framework:
+		書き込み欄のテンプレートデータのファイル名（ReplyTextTemplates.plist）を定義した。
 2007-12-19 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/bbs/BoardManager-BSAddition.m
+		SETTING.TXT をスレッド読み込み時に解析した際、「掲示板オプション」パネルの表示にすぐに反映されないことがあった問題を修正。
+		また、同じ名無しさんを重複して追加することはしないようにした。
 	* application/Resources/Japanese.lproj/AddBoardSheet.nib
 	* application/Resources/Japanese.lproj/EditBoardSheet.nib
 	* application/source/browser/AddBoardSheetController.m

@@ -128,7 +128,8 @@ NSString *const CMRAbstractThreadDocumentDidToggleDatOchiNotification = @"CMRAbs
 		return;
 	
 	[[self threadAttributes] setIsDatOchiThread : flag];
-	UTILNotifyInfo(CMRAbstractThreadDocumentDidToggleDatOchiNotification, [[self threadAttributes] path]);
+	NSDictionary *foo = [NSDictionary dictionaryWithObject:[[self threadAttributes] path] forKey:@"path"];
+	UTILNotifyInfo(CMRAbstractThreadDocumentDidToggleDatOchiNotification, foo);
 }
 
 - (BOOL) isMarkedThread

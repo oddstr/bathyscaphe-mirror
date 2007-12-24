@@ -129,6 +129,7 @@ static NSString *const kInsertTemplateToolTipKey = @"InsertTemplate ToolTip";
 				kSaveAsDraftIdentifier,
 				kBeLoginIdentifier,
 				kInsertTemplateIdentifier,
+				NSToolbarShowFontsItemIdentifier,
 				NSToolbarSeparatorItemIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,
 				NSToolbarSpaceItemIdentifier,

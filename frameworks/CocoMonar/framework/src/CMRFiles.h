@@ -1,5 +1,5 @@
 /**
- * $Id: CMRFiles.h,v 1.3 2007/08/07 14:07:44 tsawada2 Exp $
+ * $Id: CMRFiles.h,v 1.4 2007/12/24 14:29:09 tsawada2 Exp $
  * 
  * CMRFiles.h
  *
@@ -17,6 +17,7 @@
 
 #define BSBoardPropertiesFile	@"BoardProperties.plist"
 #define BSDownloadableTypesFile	@"DownloadableLinkTypes.plist"
+#define BSReplyTextTemplatesFile	@"ReplyTextTemplates.plist"
 
 /*!
  * @abstract    

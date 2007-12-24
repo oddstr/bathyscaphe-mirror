@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.30 2007/12/11 17:09:37 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.31 2007/12/24 14:29:09 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -8,6 +8,7 @@
   */
 #import "AppDefaults_p.h"
 #import "TS2SoftwareUpdate.h"
+#import "BSReplyTextTemplateManager.h"
 
 NSString *const AppDefaultsWillSaveNotification = @"AppDefaultsWillSaveNotification";
 NSString *const AppDefaultsThreadViewThemeDidChangeNotification = @"AppDefaultsThreadViewThemeDidChangeNotification";
@@ -362,6 +363,11 @@ NS_ENDHANDLER
 	} else {
 		[[self defaults] setObject: anArray forKey: AppDefaultsDefaultKoteHanListKey];
 	}
+}
+
+- (BSReplyTextTemplateManager *)RTTManager
+{
+	return [BSReplyTextTemplateManager defaultManager];
 }
 
 #pragma mark Software Update Support

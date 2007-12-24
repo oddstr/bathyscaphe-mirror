@@ -9,13 +9,12 @@
 
 #import "CMRReplyMessenger_p.h"
 #import "CMRDocumentFileManager.h"
-#import "BoardManager.h"
+#import "CMRThreadSignature.h"
 
 NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessengerDidFinishPostingNotification";
 
 #define kNewline			@"\n"
 #define kQuotationMarksKey	@"quotation marks"
-
 
 @implementation CMRReplyMessenger
 - (void)dealloc
@@ -26,14 +25,6 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 	[super dealloc];
 }
 
-- (NSMutableDictionary *)mutableInfoDictionary
-{
-	if (!_attributes) {
-		_attributes = [[NSMutableDictionary alloc] init];
-	}
-	return _attributes;
-}
-
 - (void)replaceInfoDictionary:(NSDictionary *)newDict
 {
 	id		tmp;
@@ -41,50 +32,6 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 	tmp = _attributes;
 	_attributes = [newDict mutableCopy];
 	[tmp release];
-}
-
-- (NSDictionary *)textAttributes
-{
-	BSThreadViewTheme *theme = [CMRPref threadViewTheme];
-	return [NSDictionary dictionaryWithObjectsAndKeys:[theme replyFont], NSFontAttributeName, [theme replyColor], NSForegroundColorAttributeName, nil];
-}
-
-- (NSDictionary *)infoDictionary
-{
-	return [self mutableInfoDictionary];
-}
-
-- (void)setReplyMessage:(NSString *)aMessage
-{
-	[[self mutableInfoDictionary] setObject:aMessage forKey:ThreadPlistContentsMessageKey];
-}
-
-- (void)setName:(NSString *)aName
-{
-	[[self mutableInfoDictionary] setObject:aName forKey:ThreadPlistContentsNameKey];
-}
-
-- (void)setMail:(NSString *)aMail
-{
-	[[self mutableInfoDictionary] setObject:aMail forKey:ThreadPlistContentsMailKey];
-}
-
-- (void)setModifiedDate:(NSDate *)aModifiedDate
-{
-	[[self mutableInfoDictionary] setObject:aModifiedDate forKey:CMRThreadModifiedDateKey];
-}
-
-- (void)setWindowFrame:(NSRect)aWindowFrame
-{
-	[[self mutableInfoDictionary] setRect:aWindowFrame forKey:CMRThreadWindowFrameKey];
-}
-
-- (NSTextStorage *)textStorage
-{
-	if (!_textStorage) {
-		_textStorage = [[NSTextStorage alloc] init];
-	}
-	return _textStorage;
 }
 
 + (NSString *)stringByQuoted:(NSString *)string
@@ -119,15 +66,6 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 	return [quotation_ autorelease];
 }
 
-- (void)setMessageContents:(NSString *)aContents replyTo:(unsigned)anIndex
-{
-	[self append:aContents quote:YES replyTo:anIndex];
-}
-/* 
-	string  contents will be added
-	quote   quote this string
-	anIndex add anchor to index (no anchor if NSNotFound)
- */
 - (void)append:(NSString *)string quote:(BOOL)quote replyTo:(unsigned)anIndex
 {
 	id				textStorage_;
@@ -147,41 +85,12 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 	[textStorage_ beginEditing];
 	[textStorage_ appendString:string withAttributes:[self textAttributes]];
 	[textStorage_ endEditing];
+	[self updateChangeCount:NSChangeDone];
 }
 
-- (BOOL)isEndPost
+- (void)updateReplyMessage
 {
-	return _isEndPost;
-}
-
-- (void)setIsEndPost:(BOOL)anIsEndPost
-{
-	_isEndPost = anIsEndPost;
-}
-
-- (BOOL)shouldSendBeCookie
-{
-	return _shouldSendBeCookie;
-}
-
-- (void)setShouldSendBeCookie:(BOOL)sendBeCookie
-{
-	_shouldSendBeCookie = sendBeCookie;
-}
-
-#pragma mark NSDocument methods
-- (NSString *)displayName
-{
-	return [NSString stringWithFormat:[self localizedString:REPLY_MESSENGER_WINDOW_TITLE_FORMAT], [self formItemTitle]];
-}
-
-- (void)makeWindowControllers
-{
-	NSWindowController		*controller_;
-	
-	controller_ = [[CMRReplyController alloc] init];
-	[self addWindowController:controller_];
-	[controller_ release];
+	[self setReplyMessage:[[self textStorage] string]];
 }
 
 - (void)setUpBeLoginSetting
@@ -200,6 +109,101 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 	}
 
 	[self setShouldSendBeCookie:tmp];
+}
+
+#pragma mark Accessors
+- (NSTextStorage *)textStorage
+{
+	if (!_textStorage) {
+		_textStorage = [[NSTextStorage alloc] init];
+	}
+	return _textStorage;
+}
+
+- (NSDictionary *)textAttributes
+{
+	BSThreadViewTheme *theme = [CMRPref threadViewTheme];
+	return [NSDictionary dictionaryWithObjectsAndKeys:[theme replyFont], NSFontAttributeName, [theme replyColor], NSForegroundColorAttributeName, nil];
+}
+
+- (id)threadIdentifier
+{
+	return [CMRThreadSignature threadSignatureWithIdentifier:[self formItemKey] boardName:[self boardName]];
+}
+
+- (NSString *)datIdentifier
+{
+	return [self formItemKey];
+}
+
+- (NSURL *)boardURL
+{
+	return [[BoardManager defaultManager] URLForBoardName:[self boardName]];
+}
+
+- (NSURL *)targetURL
+{
+	return [[self class] targetURLWithBoardURL:[self boardURL]];
+}
+- (NSString *)boardName
+{
+	return [[self infoDictionary] objectForKey:ThreadPlistBoardNameKey];
+}
+
+- (NSString *)name
+{
+	return [[self infoDictionary] objectForKey:ThreadPlistContentsNameKey];
+}
+
+- (NSString *)mail
+{
+	return [[self infoDictionary] objectForKey:ThreadPlistContentsMailKey];
+}
+
+- (void)setMail:(NSString *)aMail
+{
+	[self setValueConsideringNilValue:aMail forPlistKey:ThreadPlistContentsMailKey];
+}
+
+- (NSDate *)modifiedDate
+{
+	id		modifiedDate_;
+	
+	modifiedDate_ = [[self infoDictionary] objectForKey:CMRThreadModifiedDateKey];
+	if (!modifiedDate_ || ![modifiedDate_ isKindOfClass:[NSDate class]]) {
+		return [NSDate date];
+	}
+	return modifiedDate_;
+}
+
+- (NSRect)windowFrame
+{
+	return [[self infoDictionary] rectForKey:CMRThreadWindowFrameKey];
+}
+
+- (void)setWindowFrame:(NSRect)aWindowFrame
+{
+	[[self mutableInfoDictionary] setRect:aWindowFrame forKey:CMRThreadWindowFrameKey];
+}
+
+- (BOOL)isEndPost
+{
+	return _isEndPost;
+}
+
+#pragma mark NSDocument methods
+- (NSString *)displayName
+{
+	return [NSString stringWithFormat:[self localizedString:REPLY_MESSENGER_WINDOW_TITLE_FORMAT], [self threadTitle]];
+}
+
+- (void)makeWindowControllers
+{
+	NSWindowController		*controller_;
+	
+	controller_ = [[CMRReplyController alloc] init];
+	[self addWindowController:controller_];
+	[controller_ release];
 }
 
 - (BOOL)readFromFile:(NSString *)fileName ofType:(NSString *)aType
@@ -221,11 +225,13 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 		}
 		
 		[self replaceInfoDictionary:dict_];
-		[self synchronizeWindowControllersFromDocument];
-
 		[self setUpBeLoginSetting];
 
-		return (dict_ != nil);
+		[[self textStorage] beginEditing];
+		[[self textStorage] appendString:[self replyMessage] withAttributes:[self textAttributes]];
+		[[self textStorage] endEditing];
+
+		return YES;//(dict_ != nil);
 	}
 	return NO;
 }
@@ -239,7 +245,7 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 		
 		[self synchronizeDocumentContentsWithWindowControllers];
 		if ([self isEndPost]) {
-			[self setReplyMessage:@""];
+			[self setReplyMessage:nil];
 		}
 		documentAttributeKeys_ = [CMRReplyDocumentFileManager documentAttributeKeys];
 		iter_ = [documentAttributeKeys_ objectEnumerator];
@@ -256,81 +262,6 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 @end
 
 
-@implementation CMRReplyMessenger(Attributes)
-- (NSString *)boardName
-{
-	return [[self infoDictionary] objectForKey:ThreadPlistBoardNameKey];
-}
-
-- (NSString *)formItemTitle
-{
-	return [self threadTitle];
-}
-
-- (NSString *)datIdentifier
-{
-	return [self formItemKey];
-}
-
-- (NSURL *)boardURL
-{
-	return [[BoardManager defaultManager] URLForBoardName:[self boardName]];
-}
-
-- (NSURL *)targetURL
-{
-	return [[self class] targetURLWithBoardURL:[self boardURL]];
-}
-
-- (void)synchronizeDocumentContentsWithWindowControllers
-{
-	CMRReplyController	*controller_;
-	
-	controller_ = [self replyControllerRespondsTo:@selector(synchronizeMessengerWithData)];
-	[controller_ synchronizeMessengerWithData];
-}
-
-- (void)synchronizeWindowControllersFromDocument
-{
-	CMRReplyController	*controller_;
-	
-	controller_ = [self replyControllerRespondsTo:@selector(synchronizeDataFromMessenger)];
-	[controller_ synchronizeDataFromMessenger];
-}
-
-- (NSString *)replyMessage
-{
-	return [[self infoDictionary] objectForKey:ThreadPlistContentsMessageKey];
-}
-
-- (NSString *)name
-{
-	return [[self infoDictionary] objectForKey:ThreadPlistContentsNameKey];
-}
-
-- (NSString *)mail
-{
-	return [[self infoDictionary] objectForKey:ThreadPlistContentsMailKey];
-}
-
-- (NSDate *)modifiedDate
-{
-	id		modifiedDate_;
-	
-	modifiedDate_ = [[self infoDictionary] objectForKey:CMRThreadModifiedDateKey];
-	if (!modifiedDate_ || ![modifiedDate_ isKindOfClass:[NSDate class]]) {
-		return [NSDate date];
-	}
-	return modifiedDate_;
-}
-
-- (NSRect)windowFrame
-{
-	return [[self infoDictionary] rectForKey:CMRThreadWindowFrameKey];
-}
-@end
-
-
 @implementation CMRReplyMessenger(ScriptingSupport)
 - (NSRange)selectedTextRange
 {
@@ -340,16 +271,21 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 
 - (void)setTextStorage:(id)text
 {
-	NSAttributedString *tmp_;
-    // NSAttributedString で渡された場合、一度書式を剥奪し、改めて書き込みウインドウのフォントとカラーを書式として付与する
-    if ([text isKindOfClass:[NSAttributedString class]]) {
-		NSString *tmpStr_ = [(NSAttributedString *)text string];
-		tmp_ = [[NSAttributedString alloc] initWithString:tmpStr_ attributes:[self textAttributes]];		
-    } else {
-		tmp_ = [[NSAttributedString alloc] initWithString:(NSString *)text attributes:[self textAttributes]];
-    }
+	NSTextStorage		*textStorage = [self textStorage];
+	NSAttributedString	*attrString;
+	NSString			*baseString;
 
-	[[self textStorage] replaceCharactersInRange:NSMakeRange(0, [[self textStorage] length]) withAttributedString:tmp_];
+	if ([text isKindOfClass:[NSAttributedString class]]) {
+		baseString = [(NSAttributedString *)text string];
+	} else {
+		baseString = text;
+	}
+
+	attrString = [[NSAttributedString alloc] initWithString:baseString attributes:[self textAttributes]];
+	[textStorage beginEditing];
+	[textStorage setAttributedString:attrString];
+	[textStorage endEditing];
+	[self updateChangeCount:NSChangeDone];
 }
 
 - (NSTextStorage *)selectedText
@@ -368,29 +304,28 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 	} else {
 		stringValue = (NSString *)text;
 	}
+	[[self textStorage] beginEditing];
 	[[self textStorage] replaceCharactersInRange:[self selectedTextRange] withString:stringValue];
+	[[self textStorage] endEditing];
+	[self updateChangeCount:NSChangeDone];
 }
 
 - (NSString *)targetURLAsString
 {
-	return [[self targetURL] stringValue];
+	return [[self targetURL] absoluteString];
 }
 @end
 
 
 @implementation CMRReplyMessenger(Action)
-- (void) sendMessage:(id)sender withHanaMogeraForms:(BOOL)withForms
-{
-	[self synchronizeDocumentContentsWithWindowControllers];
-	[self sendMessageWithContents:[self replyMessage]
-							 name:[self name]
-							 mail:[self mail]
-					   hanamogera:withForms];
-}
-
 - (IBAction)sendMessage:(id)sender
 {
-	[self sendMessage:sender withHanaMogeraForms:NO];
+	[self sendMessageWithHanaMogeraForms:NO];
+}
+
+- (IBAction)toggleBeLogin:(id)sender
+{
+	[self setShouldSendBeCookie:(![self shouldSendBeCookie])];
 }
 
 - (IBAction)revealInFinder:(id)sender
@@ -413,12 +348,75 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 	}
 }
 
+- (IBAction)reply:(id)sender
+{
+	if ([sender isKindOfClass:[NSMenuItem class]]) {
+		// すり替え
+		[self sendMessage:sender];
+	} else {
+		[super reply:sender];
+	}
+}
+
+#pragma mark UI Validation
+- (BOOL)validateToggleBeLoginItem:(NSToolbarItem *)theItem
+{
+	BSBeLoginPolicyType policy_ = [[BoardManager defaultManager] typeOfBeLoginPolicyForBoard:[self boardName]];
+	
+	switch(policy_) {
+		case BSBeLoginNoAccountOFF:
+		{
+			[theItem setImage:[NSImage imageAppNamed:kImageForLoginOff]];
+			[theItem setLabel:[self localizedString:kLabelForLoginOff]];
+			[theItem setToolTip:[self localizedString:kToolTipForCantLoginOn]];
+			return NO;
+		}
+		case BSBeLoginTriviallyOFF:
+		{
+			[theItem setImage:[NSImage imageAppNamed:kImageForLoginOff]];
+			[theItem setLabel:[self localizedString:kLabelForLoginOff]];
+			[theItem setToolTip:[self localizedString:kToolTipForTrivialLoginOff]];
+			return NO;
+		}
+		case BSBeLoginTriviallyNeeded:
+		{
+			[theItem setImage:[NSImage imageAppNamed:kImageForLoginOn]];
+			[theItem setLabel:[self localizedString:kLabelForLoginOn]];
+			[theItem setToolTip:[self localizedString:kToolTipForNeededLogin]];
+			return NO;
+		}
+		case BSBeLoginDecidedByUser: 
+		{
+			NSString				*title_, *tooltip_;
+			NSImage					*image_;
+		
+			if ([self shouldSendBeCookie]) {
+				title_ = [self localizedString:kLabelForLoginOn];
+				tooltip_ = [self localizedString:kToolTipForLoginOn];
+				image_ = [NSImage imageAppNamed:kImageForLoginOn];
+			} else {
+				title_ = [self localizedString:kLabelForLoginOff];
+				tooltip_ = [self localizedString:kToolTipForLoginOff];
+				image_ = [NSImage imageAppNamed:kImageForLoginOff];
+			}
+			[theItem setImage:image_];
+			[theItem setLabel:title_];
+			[theItem setToolTip:tooltip_];
+			return YES;
+		}
+	}
+	return NO;
+}
+
 - (BOOL)validateToolbarItem:(NSToolbarItem *)theItem
 {
 	SEL		action_ = [theItem action];
 	
+	if (action_ == @selector(toggleBeLogin:)) {
+		return [self validateToggleBeLoginItem:theItem];
+	}
 	if (action_ == @selector(sendMessage:)) {
-		return (![self isEndPost]);
+		return (![self isEndPost] && [[self textStorage] length]);
 	}
 	if (action_ == @selector(saveDocument:)) {
 		return ([self isDocumentEdited]);
@@ -430,8 +428,13 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 {
 	SEL action_ = [theItem action];
 
+	if (action_ == @selector(reply:)) {
+		[theItem setTitle:[self localizedString:@"Send Message"]];
+		return (![self isEndPost] && [[self textStorage] length]);
+	}
+
 	if (action_ == @selector(sendMessage:)) {
-		return (![self isEndPost]);
+		return (![self isEndPost] && [[self textStorage] length]);
 	}
 	
 	if(action_ == @selector(saveDocumentAs:)) {
@@ -459,7 +462,7 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 	NSString *statusStr_;
 	
 	if ([self isInProgress]) {
-		statusStr_ = [NSString stringWithFormat:[self localizedString:MESSENGER_SEND_MESSAGE], [self formItemTitle]];
+		statusStr_ = [NSString stringWithFormat:[self localizedString:MESSENGER_SEND_MESSAGE], [self threadTitle]];
 	} else {
 		statusStr_ = [self localizedString:MESSENGER_END_POST];
 	}
@@ -476,7 +479,6 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 	_isInProgress = isInProgress;
 }
 
-// from 0.0 to 100.0
 - (double)amount
 {
 	return -1;

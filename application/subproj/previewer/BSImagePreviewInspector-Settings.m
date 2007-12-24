@@ -24,6 +24,7 @@ static NSString *const kIPILastShownViewTagKey	= @"jp.tsawada2.BathyScaphe.Image
 static NSString *const kIPILeaveFailedTokenKey	= @"jp.tsawada2.BathyScaphe.ImagePreviewer:Leave Failed Tokens";
 static NSString *const kIPIFullScreenWheelAmountKey = @"jp.tsawada2.BathyScaphe.ImagePreviewer:FullScreen Wheel Amount";
 static NSString *const kIPIUseIKSlideShowOnLeopardKey = @"jp.tsawada2.BathyScaphe.ImagePreviewer:Use IKSlideShow On Leopard";
+static NSString *const kIPIFullScreenBgColorKey = @"jp.tsawada2.BathyScaphe.ImagePreviewer:FullScreen Bg Color";
 
 
 @implementation BSImagePreviewInspector(Settings)
@@ -153,5 +154,15 @@ static NSString *const kIPIUseIKSlideShowOnLeopardKey = @"jp.tsawada2.BathyScaph
 - (void)setUseIKSlideShowOnLeopard:(BOOL)flag
 {
 	[[self prefsDict] setBool:flag forKey:kIPIUseIKSlideShowOnLeopardKey];
+}
+
+- (NSData *)fullScreenBgColorData
+{
+	return [[self prefsDict] objectForKey:kIPIFullScreenBgColorKey defaultObject:[NSArchiver archivedDataWithRootObject:[NSColor blackColor]]];
+}
+
+- (void)setFullScreenBgColorData:(NSData *)aColorData
+{
+	[[self prefsDict] setObject:aColorData forKey:kIPIFullScreenBgColorKey];
 }
 @end

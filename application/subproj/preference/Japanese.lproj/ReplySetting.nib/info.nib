@@ -1,46 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>IBDocumentLocation</key>
-	<string>184 32 356 240 0 0 1280 832 </string>
-	<key>IBEditorPositions</key>
-	<dict>
-		<key>5</key>
-		<string>343 365 550 378 0 0 1280 832 </string>
-	</dict>
 	<key>IBFramework Version</key>
-	<string>446.1</string>
+	<string>629</string>
+	<key>IBLastKnownRelativeProjectPath</key>
+	<string>../../../../BathyScaphe.xcodeproj</string>
 	<key>IBOldestOS</key>
-	<integer>3</integer>
+	<integer>5</integer>
 	<key>IBOpenObjects</key>
-	<array>
-		<integer>84</integer>
-		<integer>5</integer>
-	</array>
+	<array/>
 	<key>IBSystem Version</key>
-	<string>8L127</string>
-	<key>IBUserGuides</key>
-	<dict>
-		<key>5</key>
-		<dict>
-			<key>guideLocations</key>
-			<array>
-				<string>Horizontal:195.000000</string>
-				<string>Vertical:265.000000</string>
-			</array>
-			<key>guidesLocked</key>
-			<false/>
-		</dict>
-		<key>84</key>
-		<dict>
-			<key>guideLocations</key>
-			<array>
-				<string>Horizontal:107.000000</string>
-			</array>
-			<key>guidesLocked</key>
-			<false/>
-		</dict>
-	</dict>
+	<string>9B18</string>
+	<key>targetFramework</key>
+	<string>IBCocoaFramework</string>
 </dict>
 </plist>

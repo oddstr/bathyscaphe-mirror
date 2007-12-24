@@ -12,6 +12,8 @@
 		8703A2180C677D42008ED2B5 /* BSLinkDownloadManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8703A2160C677D42008ED2B5 /* BSLinkDownloadManager.h */; };
 		8703A2190C677D42008ED2B5 /* BSLinkDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8703A2170C677D42008ED2B5 /* BSLinkDownloadManager.m */; };
 		870B1F4A0C15B8AA00AAB734 /* BoardWarrior.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 870B1F400C15B86200AAB734 /* BoardWarrior.scpt */; };
+		870BC7CE0D1CCDB100EE3687 /* BSRTTArrayController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87CA61AD0D1BAAE300B90B81 /* BSRTTArrayController.h */; };
+		870BC7CF0D1CCDB100EE3687 /* BSRTTArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CA61AE0D1BAAE300B90B81 /* BSRTTArrayController.m */; };
 		87160662098A338500A27F63 /* SoundsPaneController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87160660098A338500A27F63 /* SoundsPaneController.h */; };
 		87160663098A338500A27F63 /* SoundsPaneController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87160661098A338500A27F63 /* SoundsPaneController.m */; };
 		8716066D098A44AB00A27F63 /* SoundsPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8716066B098A44AB00A27F63 /* SoundsPane.nib */; };
@@ -94,6 +96,7 @@
 		8727F4C30A822EFB00E9C2F9 /* BSTagValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8727F4C10A822EFB00E9C2F9 /* BSTagValueTransformer.m */; };
 		872C32D00BB18CD10044890C /* ViewPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872C32CE0BB18CD10044890C /* ViewPane.nib */; };
 		872C33D70BB21AF00044890C /* ThreadViewerDefaultTheme.plist in Resources */ = {isa = PBXBuildFile; fileRef = 872C33D60BB21AF00044890C /* ThreadViewerDefaultTheme.plist */; };
+		87369D6A0D1D2CD500FBF754 /* deleteMail2.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87369D690D1D2CD500FBF754 /* deleteMail2.tiff */; };
 		873E6A6B0D0DBC4C004421F7 /* BSFavoritesProgressPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 873E6A690D0DBC4C004421F7 /* BSFavoritesProgressPanel.nib */; };
 		874344ED0B62ACD800422547 /* BSFontWell.h in Headers */ = {isa = PBXBuildFile; fileRef = 874344EB0B62ACD800422547 /* BSFontWell.h */; };
 		874344EE0B62ACD800422547 /* BSFontWell.m in Sources */ = {isa = PBXBuildFile; fileRef = 874344EC0B62ACD800422547 /* BSFontWell.m */; };
@@ -131,6 +134,8 @@
 		8782A764096FD2F40099B65F /* BSIPIImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8782A762096FD2F40099B65F /* BSIPIImageView.m */; };
 		8782A79E096FDBCE0099B65F /* BSIPIActionBtnTbItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 8782A79C096FDBCE0099B65F /* BSIPIActionBtnTbItem.h */; };
 		8782A79F096FDBCE0099B65F /* BSIPIActionBtnTbItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8782A79D096FDBCE0099B65F /* BSIPIActionBtnTbItem.m */; };
+		87844E270D1F5256007C17C8 /* BSReplyControllerValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 87844E250D1F5256007C17C8 /* BSReplyControllerValueTransformer.h */; };
+		87844E280D1F5256007C17C8 /* BSReplyControllerValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 87844E260D1F5256007C17C8 /* BSReplyControllerValueTransformer.m */; };
 		8784674D0CE873C100691232 /* BSIPILeopardSlideshowHelper.plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8784673E0CE8739000691232 /* BSIPILeopardSlideshowHelper.plugin */; };
 		8785B7440D18F7B70081F4EB /* BoardListEditor.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8785B7430D18F7B70081F4EB /* BoardListEditor.strings */; };
 		878B4DBF0BB8D74E00829D2B /* BSNobiNobiToolbarItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 878B4DBD0BB8D74E00829D2B /* BSNobiNobiToolbarItem.h */; };
@@ -175,6 +180,10 @@
 		87CDC3420CEB3ED0001AE526 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87CDC3410CEB3ED0001AE526 /* InfoPlist.strings */; };
 		87D32F230BAC1C6D002B6006 /* BSSearchOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D32F210BAC1C6D002B6006 /* BSSearchOptions.h */; };
 		87D32F240BAC1C6D002B6006 /* BSSearchOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D32F220BAC1C6D002B6006 /* BSSearchOptions.m */; };
+		87D4C7910D1A311B000553C1 /* BSReplyTextTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D4C78F0D1A311B000553C1 /* BSReplyTextTemplate.h */; };
+		87D4C7920D1A311B000553C1 /* BSReplyTextTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D4C7900D1A311B000553C1 /* BSReplyTextTemplate.m */; };
+		87D4C7960D1A38B9000553C1 /* BSReplyTextTemplateManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D4C7940D1A38B9000553C1 /* BSReplyTextTemplateManager.h */; };
+		87D4C7970D1A38B9000553C1 /* BSReplyTextTemplateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D4C7950D1A38B9000553C1 /* BSReplyTextTemplateManager.m */; };
 		87D6CB470CF6CC3A00CFEAC4 /* BSIPIPreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87D6CB450CF6CC3A00CFEAC4 /* BSIPIPreferences.nib */; };
 		87D6CB780CF6EC6700CFEAC4 /* BSPathExtensionFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D6CB760CF6EC6700CFEAC4 /* BSPathExtensionFormatter.h */; };
 		87D6CB790CF6EC6700CFEAC4 /* BSPathExtensionFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D6CB770CF6EC6700CFEAC4 /* BSPathExtensionFormatter.m */; };
@@ -380,7 +389,6 @@
 		F47362800AFF8758009B6189 /* age.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A06083261F200CBD740 /* age.png */; };
 		F47362810AFF8758009B6189 /* appIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 87299A07083261F200CBD740 /* appIcon.icns */; };
 		F47362820AFF8758009B6189 /* Board.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A0B083261F200CBD740 /* Board.png */; };
-		F47362840AFF8758009B6189 /* deleteMail.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A10083261F200CBD740 /* deleteMail.png */; };
 		F47362850AFF8758009B6189 /* DraggingBadge.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87299A11083261F200CBD740 /* DraggingBadge.tiff */; };
 		F47362860AFF8758009B6189 /* FavoritesItem.png in Resources */ = {isa = PBXBuildFile; fileRef = 87299A12083261F200CBD740 /* FavoritesItem.png */; };
 		F47362870AFF8758009B6189 /* Find.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87299A13083261F200CBD740 /* Find.tiff */; };
@@ -914,6 +922,7 @@
 		872C33D60BB21AF00044890C /* ThreadViewerDefaultTheme.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = ThreadViewerDefaultTheme.plist; sourceTree = "<group>"; };
 		873158DD0A9948B400854BD8 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSDockMenuItem.nib; sourceTree = "<group>"; };
 		8731733E0B2AFEE2003EA8C1 /* BSHostLivedoorHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSHostLivedoorHandler.m; sourceTree = "<group>"; };
+		87369D690D1D2CD500FBF754 /* deleteMail2.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = deleteMail2.tiff; sourceTree = "<group>"; };
 		873C0DCE08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRBrowser-BLEditor.m"; sourceTree = "<group>"; };
 		873E6A6A0D0DBC4C004421F7 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSFavoritesProgressPanel.nib; sourceTree = "<group>"; };
 		874344EB0B62ACD800422547 /* BSFontWell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSFontWell.h; path = ../IBPallete/BSFontWell/BSFontWell.h; sourceTree = SOURCE_ROOT; };
@@ -963,6 +972,8 @@
 		8782A762096FD2F40099B65F /* BSIPIImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIImageView.m; sourceTree = "<group>"; };
 		8782A79C096FDBCE0099B65F /* BSIPIActionBtnTbItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIActionBtnTbItem.h; sourceTree = "<group>"; };
 		8782A79D096FDBCE0099B65F /* BSIPIActionBtnTbItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIActionBtnTbItem.m; sourceTree = "<group>"; };
+		87844E250D1F5256007C17C8 /* BSReplyControllerValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSReplyControllerValueTransformer.h; sourceTree = "<group>"; };
+		87844E260D1F5256007C17C8 /* BSReplyControllerValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSReplyControllerValueTransformer.m; sourceTree = "<group>"; };
 		8784673E0CE8739000691232 /* BSIPILeopardSlideshowHelper.plugin */ = {isa = PBXFileReference; explicitFileType = "wrapper.plug-in"; name = BSIPILeopardSlideshowHelper.plugin; path = subproj/BSIPILeopardSlideshowHelper/build/Release/BSIPILeopardSlideshowHelper.plugin; sourceTree = SOURCE_ROOT; };
 		8785B7450D18F7BD0081F4EB /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/BoardListEditor.strings; sourceTree = "<group>"; };
 		878A7567088AA85B00539B6F /* HistoryBack.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = HistoryBack.tiff; sourceTree = "<group>"; };
@@ -1029,6 +1040,8 @@
 		87C4813E08FD05A300F91054 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/AddBoardSheet.nib; sourceTree = "<group>"; };
 		87C633C4087F53A60093559B /* AppDefaults-Deprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDefaults-Deprecated.h"; sourceTree = "<group>"; };
 		87C8FBDC09B3631800039203 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
+		87CA61AD0D1BAAE300B90B81 /* BSRTTArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSRTTArrayController.h; path = ../BSRTTArrayController.h; sourceTree = "<group>"; };
+		87CA61AE0D1BAAE300B90B81 /* BSRTTArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSRTTArrayController.m; path = ../BSRTTArrayController.m; sourceTree = "<group>"; };
 		87CC89580B198A7E003FB764 /* Loading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Loading.png; sourceTree = "<group>"; };
 		87CCC7AF0BB53DE500813E93 /* AppDefaults-Sounds.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-Sounds.m"; sourceTree = "<group>"; };
 		87CDC30C0CEB1B3D001AE526 /* LinkPrefController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkPrefController.h; sourceTree = "<group>"; };
@@ -1039,6 +1052,10 @@
 		87CF6469097A335D00DE8B16 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Japanese; path = Japanese.lproj/Acknowledgments.rtf; sourceTree = "<group>"; };
 		87D32F210BAC1C6D002B6006 /* BSSearchOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSSearchOptions.h; sourceTree = "<group>"; };
 		87D32F220BAC1C6D002B6006 /* BSSearchOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSSearchOptions.m; sourceTree = "<group>"; };
+		87D4C78F0D1A311B000553C1 /* BSReplyTextTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSReplyTextTemplate.h; sourceTree = "<group>"; };
+		87D4C7900D1A311B000553C1 /* BSReplyTextTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSReplyTextTemplate.m; sourceTree = "<group>"; };
+		87D4C7940D1A38B9000553C1 /* BSReplyTextTemplateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSReplyTextTemplateManager.h; sourceTree = "<group>"; };
+		87D4C7950D1A38B9000553C1 /* BSReplyTextTemplateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSReplyTextTemplateManager.m; sourceTree = "<group>"; };
 		87D6CB460CF6CC3A00CFEAC4 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSIPIPreferences.nib; sourceTree = "<group>"; };
 		87D6CB760CF6EC6700CFEAC4 /* BSPathExtensionFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSPathExtensionFormatter.h; sourceTree = "<group>"; };
 		87D6CB770CF6EC6700CFEAC4 /* BSPathExtensionFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSPathExtensionFormatter.m; sourceTree = "<group>"; };
@@ -1240,14 +1257,14 @@
 		F324DDBC04C698FB00A80005 /* ThreadsListTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreadsListTable.m; sourceTree = "<group>"; };
 		F324DDC204C698FB00A80005 /* CMRBrowserTbDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRBrowserTbDelegate.h; sourceTree = "<group>"; };
 		F324DDC304C698FB00A80005 /* CMRBrowserTbDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRBrowserTbDelegate.m; sourceTree = "<group>"; };
-		F324DDC904C698FB00A80005 /* CMRReplyController-ViewAccessor.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = "CMRReplyController-ViewAccessor.m"; sourceTree = "<group>"; };
+		F324DDC904C698FB00A80005 /* CMRReplyController-ViewAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRReplyController-ViewAccessor.m"; sourceTree = "<group>"; };
 		F324DDCA04C698FB00A80005 /* CMRReplyController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRReplyController.h; sourceTree = "<group>"; };
 		F324DDCB04C698FB00A80005 /* CMRReplyController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRReplyController.m; sourceTree = "<group>"; };
-		F324DDCC04C698FB00A80005 /* CMRReplyController_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRReplyController_p.h; sourceTree = "<group>"; };
+		F324DDCC04C698FB00A80005 /* CMRReplyController_p.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRReplyController_p.h; sourceTree = "<group>"; };
 		F324DDCD04C698FB00A80005 /* CMRReplyControllerTbDelegate.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRReplyControllerTbDelegate.h; sourceTree = "<group>"; };
 		F324DDCE04C698FB00A80005 /* CMRReplyControllerTbDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRReplyControllerTbDelegate.m; sourceTree = "<group>"; };
-		F324DDD104C698FB00A80005 /* CMRReplyMessenger.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRReplyMessenger.h; sourceTree = "<group>"; };
-		F324DDD204C698FB00A80005 /* CMRReplyMessenger.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRReplyMessenger.m; sourceTree = "<group>"; };
+		F324DDD104C698FB00A80005 /* CMRReplyMessenger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRReplyMessenger.h; sourceTree = "<group>"; };
+		F324DDD204C698FB00A80005 /* CMRReplyMessenger.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = CMRReplyMessenger.m; sourceTree = "<group>"; };
 		F324DDD304C698FB00A80005 /* CMRReplyMessenger_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRReplyMessenger_p.h; sourceTree = "<group>"; };
 		F324DDD404C698FB00A80005 /* CMRStatusLineWindowController.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRStatusLineWindowController.h; sourceTree = "<group>"; };
 		F324DDD504C698FB00A80005 /* CMRStatusLineWindowController.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRStatusLineWindowController.m; sourceTree = "<group>"; };
@@ -1714,6 +1731,7 @@
 		87299A02083261F200CBD740 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				87369D690D1D2CD500FBF754 /* deleteMail2.tiff */,
 				87E971E60B80A82300579603 /* Keywords.tiff */,
 				87E971E70B80A82300579603 /* Keywords_Pressed.tiff */,
 				8709CA7C0B06750B00525B8D /* FontBigger.tiff */,
@@ -1966,6 +1984,8 @@
 				F324DDCC04C698FB00A80005 /* CMRReplyController_p.h */,
 				F324DDCB04C698FB00A80005 /* CMRReplyController.m */,
 				F324DDC904C698FB00A80005 /* CMRReplyController-ViewAccessor.m */,
+				87844E250D1F5256007C17C8 /* BSReplyControllerValueTransformer.h */,
+				87844E260D1F5256007C17C8 /* BSReplyControllerValueTransformer.m */,
 			);
 			name = reply;
 			path = window;
@@ -2061,6 +2081,17 @@
 				87CDC3410CEB3ED0001AE526 /* InfoPlist.strings */,
 			);
 			path = previewer;
+			sourceTree = "<group>";
+		};
+		87CA622E0D1BC74D00B90B81 /* ReplyTextTemplate */ = {
+			isa = PBXGroup;
+			children = (
+				87D4C78F0D1A311B000553C1 /* BSReplyTextTemplate.h */,
+				87D4C7900D1A311B000553C1 /* BSReplyTextTemplate.m */,
+				87D4C7940D1A38B9000553C1 /* BSReplyTextTemplateManager.h */,
+				87D4C7950D1A38B9000553C1 /* BSReplyTextTemplateManager.m */,
+			);
+			name = ReplyTextTemplate;
 			sourceTree = "<group>";
 		};
 		87D64F9B0821140000C44651 /* Documents */ = {
@@ -2241,6 +2272,8 @@
 			children = (
 				F324DB6704C6959800A80005 /* CMRReplyDefaultsController.h */,
 				F324DB6804C6959800A80005 /* CMRReplyDefaultsController.m */,
+				87CA61AD0D1BAAE300B90B81 /* BSRTTArrayController.h */,
+				87CA61AE0D1BAAE300B90B81 /* BSRTTArrayController.m */,
 			);
 			name = Reply;
 			path = reply;
@@ -2411,6 +2444,7 @@
 				87D64F9C0821141D00C44651 /* Others */,
 				F3488FCD04CD431600A80005 /* trash */,
 				F3488FCC04CD430300A80005 /* cookie */,
+				87CA622E0D1BC74D00B90B81 /* ReplyTextTemplate */,
 			);
 			path = manager;
 			sourceTree = "<group>";
@@ -2901,6 +2935,7 @@
 				87D6CB780CF6EC6700CFEAC4 /* BSPathExtensionFormatter.h in Headers */,
 				87EF7E7A0CF975F900BEF039 /* BSPreferencesPaneInterface.h in Headers */,
 				87EF7F330CF9B14300BEF039 /* BoardWarrior.h in Headers */,
+				870BC7CE0D1CCDB100EE3687 /* BSRTTArrayController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3145,6 +3180,9 @@
 				87DF52DE0CC38F6C00D48893 /* BSLoggedInDATDownloader.h in Headers */,
 				87EF7E7B0CF975F900BEF039 /* BSPreferencesPaneInterface.h in Headers */,
 				876747BD0D1412E4004AAC4E /* NSApplication+BSScriptingSupport.h in Headers */,
+				87D4C7910D1A311B000553C1 /* BSReplyTextTemplate.h in Headers */,
+				87D4C7960D1A38B9000553C1 /* BSReplyTextTemplateManager.h in Headers */,
+				87844E270D1F5256007C17C8 /* BSReplyControllerValueTransformer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3380,7 +3418,6 @@
 				F47362800AFF8758009B6189 /* age.png in Resources */,
 				F47362810AFF8758009B6189 /* appIcon.icns in Resources */,
 				F47362820AFF8758009B6189 /* Board.png in Resources */,
-				F47362840AFF8758009B6189 /* deleteMail.png in Resources */,
 				F47362850AFF8758009B6189 /* DraggingBadge.tiff in Resources */,
 				F47362860AFF8758009B6189 /* FavoritesItem.png in Resources */,
 				F47362870AFF8758009B6189 /* Find.tiff in Resources */,
@@ -3472,6 +3509,7 @@
 				875FF5C60C7FFA960034E371 /* BSTitleRulerAppearance.plist in Resources */,
 				873E6A6B0D0DBC4C004421F7 /* BSFavoritesProgressPanel.nib in Resources */,
 				8785B7440D18F7B70081F4EB /* BoardListEditor.strings in Resources */,
+				87369D6A0D1D2CD500FBF754 /* deleteMail2.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3531,6 +3569,7 @@
 				8703A1E70C676A62008ED2B5 /* BSAdvancedPaneArrayController.m in Sources */,
 				87CDC30F0CEB1B3D001AE526 /* LinkPrefController.m in Sources */,
 				87D6CB790CF6EC6700CFEAC4 /* BSPathExtensionFormatter.m in Sources */,
+				870BC7CF0D1CCDB100EE3687 /* BSRTTArrayController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3795,6 +3834,9 @@
 				8752AACC0C6B60200078C6F4 /* BSNGExpression.m in Sources */,
 				87DF52DF0CC38F6C00D48893 /* BSLoggedInDATDownloader.m in Sources */,
 				876747BE0D1412E4004AAC4E /* NSApplication+BSScriptingSupport.m in Sources */,
+				87D4C7920D1A311B000553C1 /* BSReplyTextTemplate.m in Sources */,
+				87D4C7970D1A38B9000553C1 /* BSReplyTextTemplateManager.m in Sources */,
+				87844E280D1F5256007C17C8 /* BSReplyControllerValueTransformer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

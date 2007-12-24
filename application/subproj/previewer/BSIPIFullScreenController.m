@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIFullScreenController.m,v 1.13 2007/11/13 01:58:39 tsawada2 Exp $
+//  $Id: BSIPIFullScreenController.m,v 1.14 2007/12/24 14:29:09 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.
@@ -145,6 +145,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 	if (!NSEqualRects(curWinRect, curScreenRect)) {
 		[_fullScreenWindow setFrame:curScreenRect display:YES];
 	}
+	
+	[_fullScreenWindow setBackgroundColor:windowBackgroundColor];
 
 	// Quartz!
 	if (kCGErrorSuccess == CGAcquireDisplayFadeReservation(kCGMaxDisplayReservationInterval, &tokenPtr1)) {

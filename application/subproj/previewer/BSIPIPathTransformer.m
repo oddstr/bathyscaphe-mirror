@@ -1,9 +1,10 @@
 //
-//  $Id: BSIPIPathTransformer.m,v 1.2 2007/01/07 17:04:24 masakih Exp $
+//  $Id: BSIPIPathTransformer.m,v 1.3 2007/12/24 14:29:09 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/07/10.
-//  Copyright 2006 BathyScaphe Project. All rights reserved.
+//  Copyright 2006-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import "BSIPIPathTransformer.h"
@@ -31,6 +32,7 @@
     return [beforeObject lastPathComponent];
 }
 @end
+
 
 @implementation BSIPIImageIgnoringDPITransformer
 + (Class) transformedValueClass

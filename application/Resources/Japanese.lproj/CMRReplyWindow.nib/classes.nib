@@ -78,8 +78,6 @@
 		<dict>
 			<key>ACTIONS</key>
 			<dict>
-				<key>customizeTextTemplates</key>
-				<string>id</string>
 				<key>deleteMail</key>
 				<string>id</string>
 				<key>insertSage</key>

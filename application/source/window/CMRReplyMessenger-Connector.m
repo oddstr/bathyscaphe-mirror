@@ -13,6 +13,23 @@
 
 
 @implementation CMRReplyMessenger(Private)
+- (void)sendMessageWithHanaMogeraForms:(BOOL)withForms
+{
+	[self synchronizeDocumentContentsWithWindowControllers];
+	[self sendMessageWithContents:[self replyMessage]
+							 name:[self name]
+							 mail:[self mail]
+					   hanamogera:withForms];
+}
+
+- (void)synchronizeDocumentContentsWithWindowControllers
+{
+	CMRReplyController	*controller_;
+	
+	controller_ = [self replyControllerRespondsTo:@selector(synchronizeMessengerWithData)];
+	[controller_ synchronizeMessengerWithData];
+}
+
 + (NSURL *)targetURLWithBoardURL:(NSURL *)boardURL
 {
 	return [[CMRHostHandler hostHandlerForURL:boardURL] writeURLWithBoard:boardURL];
@@ -58,6 +75,29 @@
 	return nil;
 }
 
+- (void)setValueConsideringNilValue:(id)value forPlistKey:(NSString *)key
+{
+	if (!value) {
+		// 将来は removeObjectForKey: に変更するかもしれない
+		[[self mutableInfoDictionary] setObject:@"" forKey:key];
+	} else {
+		[[self mutableInfoDictionary] setObject:value forKey:key];
+	}
+}
+
+- (NSMutableDictionary *)mutableInfoDictionary
+{
+	if (!_attributes) {
+		_attributes = [[NSMutableDictionary alloc] init];
+	}
+	return _attributes;
+}
+
+- (NSDictionary *)infoDictionary
+{
+	return [self mutableInfoDictionary];
+}
+
 - (NSString *)threadTitle
 {
 	return [[self infoDictionary] objectForKey:CMRThreadTitleKey];
@@ -68,19 +108,49 @@
 	return [[self class] formItemBBSWithBoardURL:[self boardURL]];
 }
 
-- (NSString *)formItemDirectory
-{
-	return [[self class] formItemDirectoryWithBoardURL:[self boardURL]];
-}
-
 - (NSString *)formItemKey
 {
 	return [[self infoDictionary] objectForKey:ThreadPlistIdentifierKey];
 }
 
-- (id)threadIdentifier
+- (NSString *)formItemDirectory
 {
-	return [CMRThreadSignature threadSignatureWithIdentifier:[self formItemKey] boardName:[self boardName]];
+	return [[self class] formItemDirectoryWithBoardURL:[self boardURL]];
+}
+
+- (NSString *)replyMessage
+{
+	return [[self infoDictionary] objectForKey:ThreadPlistContentsMessageKey];
+}
+
+- (void)setReplyMessage:(NSString *)aMessage
+{
+	[self setValueConsideringNilValue:aMessage forPlistKey:ThreadPlistContentsMessageKey];
+}
+
+- (void)setName:(NSString *)aName
+{
+	[self setValueConsideringNilValue:aName forPlistKey:ThreadPlistContentsNameKey];
+}
+
+- (void)setModifiedDate:(NSDate *)aModifiedDate
+{
+	[[self mutableInfoDictionary] setObject:aModifiedDate forKey:CMRThreadModifiedDateKey];
+}
+
+- (void)setIsEndPost:(BOOL)anIsEndPost
+{
+	_isEndPost = anIsEndPost;
+}
+
+- (BOOL)shouldSendBeCookie
+{
+	return _shouldSendBeCookie;
+}
+
+- (void)setShouldSendBeCookie:(BOOL)sendBeCookie
+{
+	_shouldSendBeCookie = sendBeCookie;
 }
 @end
 
@@ -113,7 +183,7 @@
 - (void)cookieOrContributionCheckSheetDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
 	if (NSAlertFirstButtonReturn == returnCode) {
-		[self sendMessage:self withHanaMogeraForms:([self additionalForms] != nil)];
+		[self sendMessageWithHanaMogeraForms:([self additionalForms] != nil)];
 	}
 }
 
@@ -248,10 +318,10 @@ static inline NSString *removeObjectReplacementCharacter(NSString *str)
 	return newstr;
 }
 
-- (NSDictionary *)formDictionary:(NSString *)replyMessage name:(NSString *)name mail:(NSString *)mail
+/*- (NSDictionary *)formDictionary:(NSString *)replyMessage name:(NSString *)name mail:(NSString *)mail
 {
 	return [self formDictionary:replyMessage name:name mail:mail hanamogera:NO];
-}
+}*/
 
 - (NSDictionary *)formDictionary:(NSString *)replyMessage name:(NSString *)name mail:(NSString *)mail hanamogera:(BOOL)addForms
 {
@@ -312,12 +382,12 @@ static inline NSString *removeObjectReplacementCharacter(NSString *str)
 	}
 	return form_;
 }
-
+/*
 - (void)sendMessageWithContents:(NSString *)replyMessage name:(NSString *)name mail:(NSString *)mail
 {
 	[self sendMessageWithContents:replyMessage name:name mail:mail hanamogera:NO];
 }
-
+*/
 - (void)sendMessageWithContents:(NSString *)replyMessage name:(NSString *)name mail:(NSString *)mail hanamogera:(BOOL)addForms
 {
     id<w2chConnect>     connector_;

@@ -8,8 +8,21 @@
 //
 
 #import "CMRReplyController_p.h"
+#import "CMRThreadMessage.h"
+#import "BSReplyControllerValueTransformer.h"
 
 @implementation CMRReplyController
++ (void)initialize
+{
+	if (self == [CMRReplyController class]) {
+		id transformer = [[[BSNotNilOrEmptyValueTransformer alloc] init] autorelease];
+		[NSValueTransformer setValueTransformer:transformer forName:@"BSNotNilOrEmptyValueTransformer"];
+
+		id transformer2 = [[[BSNotContainsSAGEValueTransformer alloc] init] autorelease];
+		[NSValueTransformer setValueTransformer:transformer2 forName:@"BSNotContainsSAGEValueTransformer"];
+	}
+}
+
 - (id)init
 {
 	if (self = [super initWithWindowNibName:@"CMRReplyWindow"]) {
@@ -22,17 +35,13 @@
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[[self mailField] unbind:@"value"];
 	[[self textView] unbind:@"font"];
 	[CMRPref removeObserver:self forKeyPath:@"threadViewTheme.replyBackgroundColor"];
 	[CMRPref removeObserver:self forKeyPath:@"threadViewTheme.replyColor"];
 	[super dealloc];
 }
-
-- (NSPopUpButton *)templateInsertionButton
-{
-	return m_templateInsertionButton;
-}
-
+/*
 - (BOOL)isEndPost
 {
 	return [[self document] isEndPost];
@@ -42,34 +51,45 @@
 {
 	return [[self document] threadIdentifier];
 }
-
-#pragma mark Working with NSDocument
-- (void)synchronizeDataFromMessenger
-{
-	CMRReplyMessenger		*document_;
-	
-	document_ = [self document];
-	[[self nameComboBox] setStringValue:[document_ name]];
-	[[self mailField] setStringValue:[document_ mail]];
-	[[self textView] setString:[document_ replyMessage]];
-
-	[self setupButtons];
-}
-
+*/
+#pragma mark Working with CMRReplyMessenger
 - (void)synchronizeMessengerWithData
 {
-	CMRReplyMessenger		*document_;
+	NSWindow *window = [self window];
 	
-	document_ = [self document];
-	
-	[document_ setName:[[self nameComboBox] stringValue]];
-	[document_ setMail:[[self mailField] stringValue]];
-	[document_ setReplyMessage:[[self textView] string]];
-	[document_ setWindowFrame:[[self window] frame]];
+	if (![window makeFirstResponder:window]) {
+		[window endEditingFor:nil];
+	}
+
+	[[self document] updateReplyMessage];
+	[[self document] setWindowFrame:[window frame]];
 }
 
 #pragma mark IBActions
-// 「ウインドウの位置と領域を記憶」
+static inline NSString *stringByInsertingSageWithString(NSString *mail)
+{
+	NSMutableString		*newMail_;
+	NSRange				ageRange_;
+	
+	if (!mail || [mail length] == 0) {
+		return CMRThreadMessage_SAGE_String;
+	}
+	if ([mail containsString:CMRThreadMessage_SAGE_String]) {
+		return mail;
+	}
+	// --------- Insert sage or replace age ---------
+	newMail_ = [[mail mutableCopy] autorelease];
+	ageRange_ = [newMail_ rangeOfString:CMRThreadMessage_AGE_String];
+	
+	if (NSNotFound == ageRange_.location || ageRange_.length == 0) {
+		[newMail_ appendString:CMRThreadMessage_SAGE_String];
+	} else {
+		[newMail_ replaceCharactersInRange:ageRange_ withString:CMRThreadMessage_SAGE_String];
+	}
+	
+	return newMail_;
+}
+
 - (IBAction)saveAsDefaultFrame:(id)sender
 {
 	[CMRPref setReplyWindowDefaultFrameString:[[self window] stringWithSavedFrame]];
@@ -79,18 +99,13 @@
 {
 	NSString		*mail_;
 	
-	mail_ = [[self mailField] stringValue];
-	mail_ = [self stringByInsertingSageWithString:mail_];
-
-	[[self mailField] setStringValue:mail_];
-	[self setupButtons];
+	mail_ = [[self document] mail];
+	[[self document] setMail:stringByInsertingSageWithString(mail_)];
 }
 
 - (IBAction)deleteMail:(id)sender
 {
-	if (![self canDeleteMail]) return;
-	[[self mailField] setStringValue:@""];
-	[self setupButtons];
+	[[self document] setMail:nil];
 }
 
 - (IBAction)pasteAsQuotation:(id)sender
@@ -117,44 +132,17 @@
 	}
 }
 
-- (IBAction)reply:(id)sender
-{
-    if (![[self document] isEndPost]) {
-		[[self document] sendMessage:sender];
-	}
-}
-
-- (IBAction)toggleBeLogin:(id)sender
-{
-	[[self document] setShouldSendBeCookie:(NO == [[self document] shouldSendBeCookie])];
-}
-
-- (NSString *)bugReportingTemplate:(NSRangePointer)selectionRangePtr
-{
-	NSString *base = [self localizedString:@"BugReportTemplate"];
-	NSString *replacedString;
-	NSBundle	*bundle = [NSBundle mainBundle];
-	NSString *marker = [self localizedString:@"BugReportMarker"];
-	NSDictionary *dict = [[CMRPref installedPreviewerBundle] infoDictionary];
-
-	replacedString = [NSString stringWithFormat:base, 
-						[[NSProcessInfo processInfo] operatingSystemVersionString],
-						[bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
-						[bundle objectForInfoDictionaryKey:@"CFBundleVersion"],
-						[dict objectForKey:@"CFBundleIdentifier"],
-						[dict objectForKey:@"CFBundleShortVersionString"],
-						[dict objectForKey:@"CFBundleVersion"],
-						marker];
-
-	NSRange range = [replacedString rangeOfString:marker options:(NSLiteralSearch|NSBackwardsSearch)];
-	if (selectionRangePtr != NULL) *selectionRangePtr = range;
-	return replacedString;
-}
-
 - (IBAction)insertTextTemplate:(id)sender
 {
-	NSRange		newSelectionRange;
-	NSString	*templateString = [self bugReportingTemplate:NULL];
+	UTILAssertRespondsTo(sender, @selector(representedObject));
+
+	id	rep = [sender representedObject];
+	UTILAssertNotNil(rep);
+	UTILAssertKindOfClass(rep, NSString);
+
+	NSString	*templateString = [[BSReplyTextTemplateManager defaultManager] templateForDisplayName:rep];
+	if (!templateString) return;
+
 	NSTextView	*textView_ = [self textView];
 	NSRange		selectedTextRange_ = [textView_ selectedRange];
 
@@ -162,138 +150,18 @@
 		[textView_ replaceCharactersInRange:selectedTextRange_ withString:templateString];
 		[textView_ didChangeText];
 	}
-
-	newSelectionRange = [[textView_ string] rangeOfString:[self localizedString:@"BugReportMarker"] options:(NSLiteralSearch|NSBackwardsSearch)];
-	[textView_ setSelectedRange:newSelectionRange];
 }
 
-- (IBAction)customizeTextTemplates:(id)sender
-{
-	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-	[alert setAlertStyle:NSInformationalAlertStyle];
-	[alert setMessageText:[self localizedString:@"CustomizeTemplateAlertTitle"]];
-	[alert setInformativeText:[self localizedString:@"CustomizeTemplateAlertMsg"]];
-	[alert runModal];
-}
-
-#pragma mark Validation
-- (BOOL)validateToggleBeLoginItem:(NSToolbarItem *)theItem
-{
-	BSBeLoginPolicyType policy_ = [[BoardManager defaultManager] typeOfBeLoginPolicyForBoard:[[self document] boardName]];
-	
-	switch(policy_) {
-		case BSBeLoginNoAccountOFF:
-		{
-			[theItem setImage:[NSImage imageAppNamed:kImageForLoginOff]];
-			[theItem setLabel:[self localizedString:kLabelForLoginOff]];
-			[theItem setToolTip:[self localizedString:kToolTipForCantLoginOn]];
-			return NO;
-		}
-		case BSBeLoginTriviallyOFF:
-		{
-			[theItem setImage:[NSImage imageAppNamed:kImageForLoginOff]];
-			[theItem setLabel:[self localizedString:kLabelForLoginOff]];
-			[theItem setToolTip:[self localizedString:kToolTipForTrivialLoginOff]];
-			return NO;
-		}
-		case BSBeLoginTriviallyNeeded:
-		{
-			[theItem setImage:[NSImage imageAppNamed:kImageForLoginOn]];
-			[theItem setLabel:[self localizedString:kLabelForLoginOn]];
-			[theItem setToolTip:[self localizedString:kToolTipForNeededLogin]];
-			return NO;
-		}
-		case BSBeLoginDecidedByUser: 
-		{
-			NSString				*title_, *tooltip_;
-			NSImage					*image_;
-		
-			if ([[self document] shouldSendBeCookie]) {
-				title_ = [self localizedString:kLabelForLoginOn];
-				tooltip_ = [self localizedString:kToolTipForLoginOn];
-				image_ = [NSImage imageAppNamed:kImageForLoginOn];
-			} else {
-				title_ = [self localizedString:kLabelForLoginOff];
-				tooltip_ = [self localizedString:kToolTipForLoginOff];
-				image_ = [NSImage imageAppNamed:kImageForLoginOff];
-			}
-			[theItem setImage:image_];
-			[theItem setLabel:title_];
-			[theItem setToolTip:tooltip_];
-			return YES;
-		}
-	}
-	return NO;
-}
-
+#pragma mark UI Validation
 - (BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)theItem
 {
 	SEL action_ = [theItem action];
-	if (action_ == @selector(toggleBeLogin:)) {
-		return [self validateToggleBeLoginItem:(NSToolbarItem *)theItem];
-	} else if (action_ == @selector(pasteAsQuotation:)) {
-		return YES;
-	} else if (action_ == @selector(reply:)) { //「レス...」項目を「送信」として利用する。
-		NSString		*title_;
-		
-		title_ = [self localizedString:kSendMessageStringKey];
-		[theItem setTitle:title_];
-		
-		return YES;
+
+	if (action_ == @selector(pasteAsQuotation:)) {
+		NSPasteboard *pboard = [NSPasteboard generalPasteboard];
+		return [[pboard types] containsObject:NSStringPboardType];
 	}
 
 	return [super validateUserInterfaceItem:theItem];
-}
-@end
-
-
-@implementation CMRReplyController(ActionSupport)
-- (BOOL)canInsertSage
-{
-	NSString		*mail_;
-	
-	mail_ = [[self mailField] stringValue];
-	
-	return (NO == [mail_ containsString:CMRThreadMessage_SAGE_String]);
-}
-
-- (BOOL)canDeleteMail
-{
-	NSString		*mail_;
-	
-	mail_ = [[self mailField] stringValue];
-	return ([mail_ length] > 0);
-}
-
-- (NSString *)stringByInsertingSageWithString:(NSString *)mail
-{
-	NSMutableString		*newMail_;
-	NSRange				ageRange_;
-	
-	if (!mail || [mail length] == 0) {
-		return CMRThreadMessage_SAGE_String;
-	}
-	if ([mail containsString:CMRThreadMessage_SAGE_String]) {
-		return mail;
-	}
-	// --------- Insert sage or replace age ---------
-	newMail_ = [[mail mutableCopy] autorelease];
-	ageRange_ = [newMail_ rangeOfString:CMRThreadMessage_AGE_String];
-	
-	if (NSNotFound == ageRange_.location || ageRange_.length == 0) {
-		[newMail_ appendString:CMRThreadMessage_SAGE_String];
-	} else {
-		[newMail_ replaceCharactersInRange:ageRange_ withString:CMRThreadMessage_SAGE_String];
-	}
-	
-	return newMail_;
-}
-@end
-
-
-@implementation CMRReplyController(CMRLocalizableStringsOwner)
-+ (NSString *)localizableStringsTableName
-{
-	return MESSENGER_TABLE_NAME;
 }
 @end

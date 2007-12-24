@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMainMenuManager.h,v 1.15 2007/12/19 13:20:40 tsawada2 Exp $
+  * $Id: CMRMainMenuManager.h,v 1.16 2007/12/24 14:29:09 tsawada2 Exp $
   * BathyScaphe
   *
   *
@@ -28,6 +28,7 @@
 - (NSMenu *) historyMenu;
 - (NSMenu *) boardHistoryMenu; // Available in Starlight Breaker and later.
 - (NSMenu *) fileMenu;
+- (NSMenu *)templatesMenu; // Available in BathyScaphe 1.6.1 and later.
 
 - (NSMenu *)threadContexualMenuTemplate; // Available in Twincam Angel.
 @end

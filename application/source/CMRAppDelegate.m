@@ -80,6 +80,11 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
     CMRApplicationReset(self);
 }
 
+- (IBAction)customizeTextTemplates:(id)sender
+{
+	[[CMRPref sharedPreferencesPane] showPreferencesPaneWithIdentifier:PPReplyDefaultIdentifier];
+}
+
 - (IBAction)togglePreviewPanel:(id)sender
 {
 	[NSApp sendAction:@selector(togglePreviewPanel:) to:[CMRPref sharedImagePreviewer] from:sender];
