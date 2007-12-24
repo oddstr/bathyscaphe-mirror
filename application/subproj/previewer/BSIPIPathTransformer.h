@@ -7,7 +7,7 @@
 //  encoding="UTF-8"
 //
 
-#import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
 
 
 @interface BSIPIPathTransformer : NSValueTransformer {
