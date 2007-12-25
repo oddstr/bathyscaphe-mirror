@@ -12,19 +12,12 @@
 #import "CMRDocumentFileManager.h"
 #import <SGAppKit/NSImage-SGExtensions.h>
 
-@interface BSThreadListItemArray : NSArray
-{
-	id <SQLiteCursor> cursor;
-	id cache;
-}
-- (id)initWithCorsor:(id <SQLiteCursor>)cursor;
-@end
-
 static inline BOOL searchBoardIDAndThreadIDFromFilePath( unsigned *outBoardID, NSString **outThreadID, NSString *inFilePath );
 static inline NSImage *_statusImageWithStatusBSDB(ThreadStatus s);
 static inline NSArray *dateTypeKeys();
 static inline NSArray *numberTypeKeys();
 static inline NSArray *threadListIdentifiers();
+static inline BSThreadListItem *itemFromRow(id <SQLiteRow> row);
 
 static NSString *const BSThreadListItemErrorDomain = @"BSThreadListItemErrorDomain";
 #define BSThreadListItemClassMismatchError	1
@@ -40,11 +33,7 @@ static NSString *const BSThreadListItemErrorDomain = @"BSThreadListItemErrorDoma
 	return self;
 }
 
-+ (id)threadItemWithIdentifier:(NSString *)identifier boardID:(unsigned)boardID
-{
-	return [[[[self class] alloc] initWithIdentifier:identifier boardID:boardID] autorelease];
-}
-- (id)initWithIdentifier:(NSString *)identifier boardID:(unsigned)boardID
+- (id)initWithIdentifier:(NSString *)identifier boardID:(unsigned)boardID boardName:(NSString *)boardName
 {
 	if(self = [super init]) {
 		if(boardID == 0) {
@@ -53,11 +42,20 @@ static NSString *const BSThreadListItemErrorDomain = @"BSThreadListItemErrorDoma
 		}
 		
 		data = [[NSMutableDictionary alloc] init];
-		[data setObject:identifier forKey:ThreadIDColumn];
-		[data setObject:[NSNumber numberWithUnsignedInt:boardID] forKey:BoardIDColumn];
+		[data  setValue:identifier forKey:[ThreadIDColumn lowercaseString]];
+		[data setValue:[NSNumber numberWithUnsignedInt:boardID] forKey:[BoardIDColumn lowercaseString]];
+		if(boardName) [data setValue:boardName forKey:[BoardNameColumn lowercaseString]];
 	}
 	
 	return self;
+}
++ (id)threadItemWithIdentifier:(NSString *)identifier boardID:(unsigned)boardID
+{
+	return [[[[self class] alloc] initWithIdentifier:identifier boardID:boardID] autorelease];
+}
+- (id)initWithIdentifier:(NSString *)identifier boardID:(unsigned)boardID
+{
+	return [self initWithIdentifier:identifier boardID:boardID boardName:nil];
 }
 + (id)threadItemWithIdentifier:(NSString *)identifier boardName:(NSString *)boardName
 {
@@ -65,27 +63,12 @@ static NSString *const BSThreadListItemErrorDomain = @"BSThreadListItemErrorDoma
 }
 - (id)initWithIdentifier:(NSString *)identifier boardName:(NSString *)boardName
 {
-	if(self = [super init]) {
-		NSArray *boardIDs = [[DatabaseManager defaultManager] boardIDsForName:boardName];
-		unsigned boardID;
-		
-		if(!boardIDs) {
-			[self release];
-			return nil;
-		}
-		boardID = [[boardIDs objectAtIndex:0] intValue];
-		if(boardID == 0) {
-			[self release];
-			return nil;
-		}
-		
-		data = [[NSMutableDictionary alloc] init];
-		[data setObject:identifier forKey:ThreadIDColumn];
-		[data setObject:[NSNumber numberWithUnsignedInt:boardID] forKey:BoardIDColumn];
-		[data setObject:boardName forKey:BoardNameColumn];
-	}
+	NSArray *boardIDs = [[DatabaseManager defaultManager] boardIDsForName:boardName];
+	unsigned boardID;
 	
-	return self;
+	boardID = [[boardIDs objectAtIndex:0] intValue];
+	
+	return [self initWithIdentifier:identifier boardID:boardID boardName:boardName];
 }
 + (id)threadItemWithFilePath:(NSString *)path
 {
@@ -111,13 +94,32 @@ static NSString *const BSThreadListItemErrorDomain = @"BSThreadListItemErrorDoma
 
 + (NSArray *)threadItemArrayFromCursor:(id <SQLiteCursor>)cursor
 {
-	return [[[BSThreadListItemArray alloc] initWithCorsor:cursor] autorelease];
+//	return [[[BSThreadListItemArray alloc] initWithCorsor:cursor] autorelease];
+	
+	NSMutableArray *result;
+	unsigned i, count;
+	
+	count = [cursor rowCount];
+	result = [NSMutableArray arrayWithCapacity:count];
+	
+	for(i = 0; i < count; i++) {
+		id item = itemFromRow([cursor rowAtIndex:i]);
+		[result addObject:item];
+	}
+	
+	return result;
+}
+
+- (NSString *)description
+{
+	return [NSString stringWithFormat:@"%@ <%@(%d), %@(%d)>",
+		NSStringFromClass([self class]), [self boardName], [self boardID], [self threadName], [self identifier]];
 }
 
 #pragma mark## Accessor ##
 - (NSString *)identifier
 {
-	return [data objectForKey:ThreadIDColumn];
+	return [self cachedValueForKey:ThreadIDColumn];
 }
 - (NSString *)boardName
 {
@@ -125,7 +127,7 @@ static NSString *const BSThreadListItemErrorDomain = @"BSThreadListItemErrorDoma
 }
 - (unsigned)boardID
 {
-	return [[data objectForKey:BoardIDColumn] unsignedIntValue];
+	return [[self cachedValueForKey:BoardIDColumn] unsignedIntValue];
 }
 - (NSString *)threadName
 {
@@ -227,6 +229,30 @@ static NSString *const BSThreadListItemErrorDomain = @"BSThreadListItemErrorDoma
 	
 	return nil;
 }
+
+- (NSArray *)directAcceptKeys
+{
+	NSArray *array;
+	
+	array = [NSArray arrayWithObjects:
+			 BoardIDColumn,
+			 BoardNameColumn,
+			 ThreadNameColumn,
+			 NumberOfAllColumn,
+			 NumberOfReadColumn,
+			 ModifiedDateColumn,
+			 ThreadStatusColumn,
+			 ThreadAboneTypeColumn,
+			 ThreadLabelColumn,
+			 LastWrittenDateColumn,
+			 TempThreadThreadNumberColumn,
+			 IsDatOchiColumn,
+			 IsNewColumn,
+			 nil];
+	
+	return array;
+}
+
 - (id)valueForUndefinedKey:(NSString *)key
 {
 	// 例外が発生するとやっかいなのでオーバーライド
@@ -234,16 +260,15 @@ static NSString *const BSThreadListItemErrorDomain = @"BSThreadListItemErrorDoma
 }
 - (id)valueForKey:(NSString *)key
 {
-	id result = [data objectForKey:key];
+	id result = [self cachedValueForKey:key];
 	if(result == [NSNull null]) return nil;
 	if(result) return result;
 	
-	if([threadListIdentifiers() containsObject:key]) {
-		result = [self threadListValueForKey:key];
-		if(result) {
-			[data setObject:result forKey:key];
-			return result;
-		}
+	result = [self threadListValueForKey:key];
+	if(result) {
+//		[self setCachedValue:result forKey:key];
+		if(result == [NSNull null]) return nil;
+		return result;
 	}
 	
 	result = [[DatabaseManager defaultManager] valueForKey:key
@@ -252,9 +277,10 @@ static NSString *const BSThreadListItemErrorDomain = @"BSThreadListItemErrorDoma
 	
 	if(!result) {
 		NSLog(@"Can not find %@ for boardName(%@) threadID(%@)",
-			  key, [data objectForKey:BoardNameColumn], [self identifier]);
+			  key, [self cachedValueForKey:BoardNameColumn], [self identifier]);
 		result = [self valueForUndefinedKey:key];
 	} else if(result == [NSNull null]) {
+		[self setCachedValue:result forKey:key];
 		return nil;
 	}
 	
@@ -265,10 +291,50 @@ static NSString *const BSThreadListItemErrorDomain = @"BSThreadListItemErrorDoma
 	}
 	
 	if(result) {
-		[data setObject:result forKey:key];
+		[self setCachedValue:result forKey:key];
 	}
 	
 	return result;
+}
+- (void)setValue:(id)value forKey:(NSString *)key
+{
+	BOOL accepted = NO;
+	if([[self directAcceptKeys] containsObject:key]) {
+		accepted = YES;
+	}
+	
+	if(accepted) {
+		if([dateTypeKeys() containsObject:key] && ![value isKindOfClass:[NSDate class]]) {
+			if([value isKindOfClass:[NSString class]] || [value isKindOfClass:[NSNumber class]]) {
+				value = [NSDate dateWithTimeIntervalSince1970:[value doubleValue]];
+			}
+		}
+		[self setCachedValue:value forKey:key];
+	} else {
+		[super setValue:value forKey:key];
+	}
+}
+
+- (id) cachedValueForKey:(NSString *)key
+{
+	return [data valueForKey:[key lowercaseString]];
+}
+
+- (void) setCachedValue:(id)value forKey:(NSString *)key
+{
+	if([ThreadIDColumn isEqualToString:key]) return;
+	if([ThreadPlistIdentifierKey isEqualToString:key]) return;
+	
+	NSString *cacheKey = tableNameForKey(key);
+	if(cacheKey && ![CMRThreadStatusKey isEqualToString:key]) key = cacheKey;
+	
+	if([dateTypeKeys() containsObject:key] && ![value isKindOfClass:[NSDate class]]) {
+		if([value isKindOfClass:[NSString class]] || [value isKindOfClass:[NSNumber class]]) {
+			value = [NSDate dateWithTimeIntervalSince1970:[value doubleValue]];
+		}
+	}
+	
+	[data setValue:value forKey:[key lowercaseString]];
 }
 
 #pragma mark## Functions ##
@@ -282,6 +348,9 @@ static inline NSArray *dateTypeKeys()
 				result = [NSArray arrayWithObjects:
 					ModifiedDateColumn,
 					LastWrittenDateColumn,
+					
+					[ModifiedDateColumn lowercaseString],
+					[LastWrittenDateColumn lowercaseString],
 					nil];
 				[result retain];
 			}
@@ -302,6 +371,14 @@ static inline NSArray *numberTypeKeys()
 					NumberOfReadColumn,
 					NumberOfDifferenceColumn,
 					TempThreadThreadNumberColumn,
+					IsNewColumn,
+					
+					[NumberOfAllColumn lowercaseString],
+					[NumberOfReadColumn lowercaseString],
+					[NumberOfDifferenceColumn lowercaseString],
+					[TempThreadThreadNumberColumn lowercaseString],
+					[IsNewColumn lowercaseString],
+					
 					nil];
 				[result retain];
 			}
@@ -327,6 +404,7 @@ static inline NSArray *threadListIdentifiers()
 					CMRThreadModifiedDateKey,
 					ThreadPlistIdentifierKey,
 					ThreadPlistBoardNameKey,
+					IsNewColumn,
 					nil];
 				[result retain];
 			}
@@ -403,74 +481,6 @@ static inline NSImage *_statusImageWithStatusBSDB(ThreadStatus s)
 
 @end
 
-@implementation BSMutableThreadListItem
-- (NSArray *)directAcceptKeys
-{
-	NSArray *array;
-	
-	array = [NSArray arrayWithObjects:
-		BoardIDColumn,
-		BoardNameColumn,
-		ThreadNameColumn,
-		NumberOfAllColumn,
-		NumberOfReadColumn,
-		ModifiedDateColumn,
-		ThreadStatusColumn,
-		ThreadAboneTypeColumn,
-		ThreadLabelColumn,
-		LastWrittenDateColumn,
-		TempThreadThreadNumberColumn,
-		IsDatOchiColumn,
-		nil];
-	
-	return array;
-}
-
-- (void)setValue:(id)value forKey:(NSString *)key
-{
-	BOOL accepted = NO;
-	if([[self directAcceptKeys] containsObject:key]) {
-		accepted = YES;
-	}
-	
-	if(accepted) {
-		if([dateTypeKeys() containsObject:key] && ![value isKindOfClass:[NSDate class]]) {
-			if([value isKindOfClass:[NSString class]] || [value isKindOfClass:[NSNumber class]]) {
-				value = [NSDate dateWithTimeIntervalSince1970:[value doubleValue]];
-			}
-		}
-		[data setValue:value forKey:key];
-	} else {
-		[super setValue:value forKey:key];
-	}
-}
-// - (id)valueForUndefinedKey:(NSString *)key;
-// - (void)setValue:(id)value forUndefinedKey:(NSString *)key;
-// - (void)setNilValueForKey:(NSString *)key;
-@end
-
-@implementation BSThreadListItemArray
-- (id)initWithCorsor:(id <SQLiteCursor>)aCursor
-{
-	if(self = [super init]) {
-		cursor = [aCursor retain];
-		if(!cursor) {
-			[self release];
-			return nil;
-		}
-		cache = [[NSMutableDictionary alloc] init];
-	}
-	
-	return self;
-}
-- (void)dealloc
-{
-	[cursor release];
-	[cache release];
-	
-	[super dealloc];
-}
-
 static inline NSArray *mustContainsKeys()
 {
 	static NSArray *array = nil;
@@ -482,30 +492,17 @@ static inline NSArray *mustContainsKeys()
 			NumberOfReadColumn, ModifiedDateColumn, ThreadStatusColumn,
 			//		ThreadLabelColumn,
 			IsDatOchiColumn,
+			IsNewColumn,
 			nil];
 		[array retain];
 	}
 	
 	return array;
 }
-- (BOOL)checkAtIndex:(unsigned)index
-{
-	NSEnumerator *enume = [mustContainsKeys() objectEnumerator];
-	
-	NSArray *columns = [cursor columnNames];
-	id obj;
-	while(obj = [enume nextObject]) {
-		if(![columns containsObject:[obj lowercaseString]]) {
-			return NO;
-		}
-	}
-	
-	return YES;
-}
 static inline BSThreadListItem *itemFromRow(id <SQLiteRow> row)
 {
-	id item = [BSMutableThreadListItem threadItemWithIdentifier:[row valueForColumn:ThreadIDColumn]
-														  boardID:[[row valueForColumn:BoardIDColumn] unsignedIntValue]];
+	id item = [BSThreadListItem threadItemWithIdentifier:[row valueForColumn:ThreadIDColumn]
+												 boardID:[[row valueForColumn:BoardIDColumn] unsignedIntValue]];
 	
 	if(!item) return nil;
 	
@@ -525,33 +522,6 @@ static inline BSThreadListItem *itemFromRow(id <SQLiteRow> row)
 	
 	return item;
 }
-
-#pragma mark## primitive methods ##
-- (unsigned)count
-{
-	return [cursor rowCount];
-}
-- (id)objectAtIndex:(unsigned)index
-{
-	id cacheKey = [NSNumber numberWithUnsignedInt:index];
-	id item = [cache objectForKey:cacheKey];
-	if(item) {
-		return item;
-	}
-	
-	if(![self checkAtIndex:index]) {
-		return nil;
-	}
-	
-	item = itemFromRow([cursor rowAtIndex:index]);
-	if(item) {
-		[cache setObject:item forKey:cacheKey];
-	}
-	
-	return item;
-}
-@end
-
 
 unsigned indexOfIdentifier(NSArray *array, NSString *search)
 {

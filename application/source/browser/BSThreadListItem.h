@@ -43,10 +43,9 @@
 
 - (NSDictionary *)attribute;
 
-@end
+- (void) setCachedValue:(id)value forKey:(NSString *)key;
+- (id) cachedValueForKey:(NSString *)key;
 
-// this class response setValue:forKey: method.
-@interface BSMutableThreadListItem : BSThreadListItem
 @end
 
 

@@ -12,7 +12,8 @@
 
 @interface FavoritesBoardListItem : AbstractDBBoardListItem
 {
-	
+	id <SQLiteCursor> items;
+	BOOL dirty;
 }
 
 + (id) sharedInstance;

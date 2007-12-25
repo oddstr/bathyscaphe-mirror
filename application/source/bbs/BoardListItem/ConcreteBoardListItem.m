@@ -8,10 +8,13 @@
 
 #import "ConcreteBoardListItem.h"
 
+#import "FavoritesBoardListItem.h"
+#import "SmartBoardListItem.h"
+#import "FolderBoardListItem.h"
+#import "BoardBoardListItem.h"
+
 #import "DatabaseManager.h"
 
-
-@class FavoritesBoardListItem, SmartBoardListItem, FolderBoardListItem, BoardBoardListItem;
 
 static ConcreteBoardListItem *_sharedInstance;
 

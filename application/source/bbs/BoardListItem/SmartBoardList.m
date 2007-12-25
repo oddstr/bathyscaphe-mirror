@@ -8,6 +8,7 @@
 //
 
 #import "SmartBoardList.h"
+#import <SGAppkit/BSBoardListView.h>
 #import <CocoMonar/CMRPropertyKeys.h>
 #import "CMRFavoritesManager.h"
 #import "CMRThreadSignature.h"
@@ -15,7 +16,6 @@
 #import "AppDefaults.h"
 #import "UTILKit.h"
 
-@class BSBoardListView;
 
 @interface SmartBoardList(Private)
 //- (void) registerFileManager : (NSString *) filepath;

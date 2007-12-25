@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer.m,v 1.26 2007/10/26 14:09:10 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer.m,v 1.27 2007/12/25 12:00:29 masakih Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -594,7 +594,7 @@ static NSString *dateStringFromObject(id theDate, NSString *prefix)
 		return theDate;
 	
 	if ([theDate isKindOfClass: [NSDate class]]) {
-        NSLog(@"NSDate -> NSString");
+        UTILDebugWrite(@"NSDate -> NSString");
         CFStringRef			dayStrRef;
 
 		if (formatterRef == NULL) {

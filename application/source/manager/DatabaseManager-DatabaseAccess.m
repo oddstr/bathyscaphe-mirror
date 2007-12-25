@@ -296,6 +296,8 @@ static NSLock *boardIDNumberCacheLock = nil;
 	SQLiteDB	*database;
 	NSString	*query;
 
+	[self recache];
+	
 	database = [self databaseForCurrentThread];
 	if (!database) {
 		return NO;
@@ -400,6 +402,8 @@ static NSLock *boardIDNumberCacheLock = nil;
 	currentName = [self nameForBoardID : boardID];
 	if ([currentName isEqualTo : name]) return YES;
 	
+	[self recache];
+	
 	if(![db beginTransaction]) {
 		if([db lastErrorID] == 0) {
 			inTransactionBlock = YES;
@@ -486,10 +490,8 @@ static NSLock *boardIDNumberCacheLock = nil;
 		return NO;
 	}
 	
-	query = [NSMutableString stringWithFormat : @"SELECT count(*) FROM %@", FavoritesTableName];
-	[query appendFormat : @" WHERE %@ = %u", BoardIDColumn, boardID];
-	[query appendFormat : @" AND %@ LIKE '%@'", ThreadIDColumn, identifier];
-	
+	query = [NSMutableString stringWithFormat : @"SELECT count(*) FROM %@ WHERE %@ = %u AND %@ = %@ AND %@ = 1",
+		ThreadInfoTableName, BoardIDColumn, boardID, ThreadIDColumn, identifier, IsFavoriteColumn];
 	cursor = [db performQuery : query];
 	if (cursor && [cursor rowCount]) {
 		value = [cursor valueForColumn : @"count(*)" atRow : 0];
@@ -511,12 +513,29 @@ static NSLock *boardIDNumberCacheLock = nil;
 		return NO;
 	}
 	
-	query = [NSMutableString stringWithFormat : @"INSERT INTO %@", FavoritesTableName];
-	[query appendFormat : @" ( %@, %@ ) ", BoardIDColumn, ThreadIDColumn];
-	[query appendFormat : @" VALUES ( %u, %@ ) ", boardID, identifier];
-	[db performQuery : query];
+	if([db beginTransaction]) {
+		query = [NSString stringWithFormat : @"UPDATE %@ SET %@ = 1 WHERE %@ = %u AND %@ = %@",
+			ThreadInfoTableName, IsFavoriteColumn,
+			BoardIDColumn, boardID, ThreadIDColumn, identifier];
+		[db performQuery : query];
+		if([db lastErrorID] != 0) goto abort;
+		
+		query = [NSMutableString stringWithFormat : @"INSERT INTO %@", FavoritesTableName];
+		[query appendFormat : @" ( %@, %@ ) ", BoardIDColumn, ThreadIDColumn];
+		[query appendFormat : @" VALUES ( %u, %@ ) ", boardID, identifier];
+		[db performQuery : query];
+		if([db lastErrorID] != 0) goto abort;
+		
+		[db commitTransaction];
+	} else {
+		return NO;
+	}
 	
-	return ([db lastErrorID] == 0);
+	return YES;
+	
+abort:
+	[db rollbackTransaction];
+	return NO;
 }
 - (BOOL) removeFavoriteThreadIdentifier : (NSString *) identifier
 							  onBoardID : (unsigned) boardID
@@ -528,13 +547,30 @@ static NSLock *boardIDNumberCacheLock = nil;
 	if (!db) {
 		return NO;
 	}
-
-	query = [NSMutableString stringWithFormat : @"DELETE FROM %@", FavoritesTableName];
-	[query appendFormat : @" WHERE %@ = %u", BoardIDColumn, boardID];
-	[query appendFormat : @" AND %@ LIKE '%@'", ThreadIDColumn, identifier];
-	[db performQuery : query];
 	
-	return ([db lastErrorID] == 0);
+	if([db beginTransaction]) {
+		query = [NSString stringWithFormat : @"UPDATE %@ SET %@ = 0 WHERE %@ = %u AND %@ = %@",
+			ThreadInfoTableName, IsFavoriteColumn,
+			BoardIDColumn, boardID, ThreadIDColumn, identifier];
+		[db performQuery : query];
+		if([db lastErrorID] != 0) goto abort;
+		
+		query = [NSMutableString stringWithFormat : @"DELETE FROM %@", FavoritesTableName];
+		[query appendFormat : @" WHERE %@ = %u", BoardIDColumn, boardID];
+		[query appendFormat : @" AND %@ LIKE '%@'", ThreadIDColumn, identifier];
+		[db performQuery : query];
+		if([db lastErrorID] != 0) goto abort;
+		
+		[db commitTransaction];
+	} else {
+		return NO;
+	}
+	
+	return YES;
+	
+abort:
+	[db rollbackTransaction];
+	return NO;
 }
 
 - (BOOL)registerThreadFromFilePath:(NSString *)filepath
@@ -749,4 +785,14 @@ static NSLock *boardIDNumberCacheLock = nil;
 	}
 	return YES;
 }
+- (BOOL) recache
+{
+	[boardIDNumberCacheLock lock];
+	[boardIDNameCache release];
+	boardIDNameCache = [[NSMutableDictionary alloc] init];
+	[boardIDNumberCacheLock unlock];
+	
+	return YES;
+}
+	
 @end

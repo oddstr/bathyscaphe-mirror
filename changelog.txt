@@ -1,3 +1,34 @@
+2007-12-24 masakih <masakih@users.sourceforge.jp>
+	* application/source/manager/DatabaseManager.[h|m]:
+	* application/source/manager/DatabaseUpdater.m:
+		データベースファイルバージョンを5に。
+		BoardThreadInfoView を変更。
+		isCached, isUpdated, isNew, isHeadModified カラムを追加
+2007-12-23 masakih <masakih@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m:
+	* application/source/browser/BSThreadListUpdateTask.m:
+		ソートをsqlite側ではなく、Cocoa側でやるように変更。
+	* application/source/browser/BSThreadListItem.[h|m]:
+		データキャッシュが正しく行われていなかったため逆に足を引っ張っていた。
+		正しくキャッシュするように変更。
+	* application/source/manager/DatabaseManager-DatabaseAccess.m:
+	* application/source/manager/DatabaseManager.h:
+		boardId と boardName の対応マップをパージするメソッドの追加。
+	* application/source/bbs/BoardListItem/ConcreteBoardListItem.m:
+	* application/source/bbs/BoardListItem/SmartBoardList.m:
+		警告抑制。
+2007-12-19 masakih <masakih@users.sourceforge.jp>
+	* application/source/composer/CMRAttributedMessageComposer.m:
+		NSLog() が残っていたのでUTILDebugWrite()に変更。
+	* application/source/bbs/BoardListItem/FavoritesBoardListItem.[h|m]:
+		データベースファイルバージョン4にあわせて変更。
+		お気に入りをキャッシュするように変更。（ただし、未稼働）
+	* application/source/manager/DatabaseManager-DatabaseAccess.m:
+	* application/source/manager/DatabaseManager.[h|m]:
+	* application/source/manager/DatabaseUpdater.m:
+		データベースファイルバージョンを4に。
+		ThreadInfoTableにIsFavoriteカラムを追加し、お気に入りの表示の高速化。
+		FavoritesTableは並べ替え実装に必要と思われるので残留させている。
 2007-12-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/preference/BSRTTArrayController.m
 	* application/subproj/preference/Japanese.lproj/ReplySetting.nib

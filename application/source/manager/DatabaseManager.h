@@ -83,6 +83,9 @@
 				  count: (NSNumber *) count
 				   date: (id) date
 				atBoard: (NSString *) boardName;
+
+// キャッシュを放棄
+- (BOOL) recache;
 @end
 
 @interface DatabaseManager (CreateTable)
@@ -123,6 +126,7 @@ extern		NSString *ThreadAboneTypeColumn;
 extern		NSString *ThreadLabelColumn;
 extern		NSString *LastWrittenDateColumn;
 extern		NSString *IsDatOchiColumn;
+extern		NSString *IsFavoriteColumn;
 extern NSString *FavoritesTableName;
 // extern		NSString *BoardIDColumn;
 // extern		NSString *ThreadIDColumn;
@@ -130,18 +134,7 @@ extern NSString *BoardInfoHistoryTableName;
 // extern		NSString *BoardIDColumn;
 // extern		NSString *BoardNameColumn;
 // extern		NSString *BoardURLColumn;
-//extern NSString *ResponseTableName;
-//// extern		NSString *BoardIDColumn;
-//// extern		NSString *ThreadIDColumn;
-//extern		NSString *NumberColumn;
-//extern		NSString *MailColumn;
-//extern		NSString *DateColumn;
-//extern		NSString *IDColumn;
-//extern		NSString *HostColumn;
-//extern		NSString *BEColumn;
-//extern		NSString *ContentsColumn;
-//extern		NSString *ResAboneTypeColumn;
-//extern		NSString *ResLabelColumn;
+
 extern	NSString *VersionTableName;
 extern		NSString *VersionColumn;
 
@@ -155,4 +148,7 @@ extern		NSString *TempThreadThreadNumberColumn;
  */
 extern NSString *BoardThreadInfoViewName;
 extern		NSString *NumberOfDifferenceColumn;
-
+extern		NSString *IsCachedColumn;
+extern		NSString *IsUpdatedColumn;
+extern		NSString *IsNewColumn;
+extern		NSString *IsHeadModifiedColumn;

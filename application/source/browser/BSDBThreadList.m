@@ -203,6 +203,28 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 }
 
 #pragma mark## Sorting ##
+- (NSArray *)systemSortdescriptors
+{
+	if( [CMRPref collectByNew] ) {
+		return [NSArray arrayWithObject:
+				[[[NSSortDescriptor alloc] initWithKey:@"isnew"
+											 ascending:NO
+											  selector:@selector(numericCompare:)] autorelease]];
+	}
+	
+	return [NSArray array];
+}
+- (void)addSortDescriptorWithSystemSrotDescriptor:(NSSortDescriptor *)inDesc
+{
+	[self addSortDescriptor:inDesc];
+	
+	NSArray *systemSortDesc = [self systemSortdescriptors];
+	NSEnumerator *enums = [systemSortDesc reverseObjectEnumerator];
+	id s;
+	while(s=[enums nextObject]) {
+		[self addSortDescriptor:s];
+	}
+}
 - (id) sortKey
 {
 	return mSortKey;
@@ -220,7 +242,7 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 													  ascending:[self isAscending]
 													   selector:@selector(numericCompare:)] autorelease];
 		
-		[self addSortDescriptor:sortDescriptor];
+		[self addSortDescriptorWithSystemSrotDescriptor:sortDescriptor];
 	}
 }
 - (void) sortByKey : (NSString *) key
@@ -234,7 +256,11 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	}
 	
 	[self setSortKey:key];
-	[self updateCursor];
+	
+	@synchronized(mCursorLock) {
+		[mCursor autorelease];
+		mCursor = [[mCursor sortedArrayUsingDescriptors:[self sortDescriptors]] retain];
+	}
 }
 - (NSArray *)sortDescriptors
 {
@@ -247,14 +273,13 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	id temp = mSortDescriptors;
 	mSortDescriptors = [[NSMutableArray arrayWithArray:inDescs] retain];
 	[temp release];
-}
-- (void)setSortDescriptor:(NSSortDescriptor *)inDesc
-{
-	UTILAssertKindOfClass(inDesc, NSSortDescriptor);
 	
-	id temp = mSortDescriptors;
-	mSortDescriptors = [[NSMutableArray arrayWithObject:inDesc] retain];
-	[temp release];
+	NSArray *systemSortDesc = [self systemSortdescriptors];
+	NSEnumerator *enums = [systemSortDesc reverseObjectEnumerator];
+	id s;
+	while(s=[enums nextObject]) {
+		[self addSortDescriptor:s];
+	}
 }
 - (void)addSortDescriptor:(NSSortDescriptor *)inDesc
 {
@@ -313,7 +338,7 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	}
 	
 	if(newDesc) {
-		[self addSortDescriptor:newDesc];
+		[self addSortDescriptorWithSystemSrotDescriptor:newDesc];
 	}
 	
 	return;
@@ -351,8 +376,9 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 {
 	if(cursor) {
 		@synchronized(mCursorLock) {
+			NSArray *array = [BSThreadListItem threadItemArrayFromCursor:cursor];
 			[mCursor autorelease];
-			mCursor = [[BSThreadListItem threadItemArrayFromCursor:cursor] retain];
+			mCursor = [[array sortedArrayUsingDescriptors:[self sortDescriptors]] retain];
 			UTILDebugWrite1(@"cursor count -> %ld", [mCursor count]);
 		}
 	}

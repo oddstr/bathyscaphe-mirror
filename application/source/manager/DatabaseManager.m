@@ -34,7 +34,12 @@ NSString *ThreadAboneTypeColumn = @"threadAboneType";
 NSString *ThreadLabelColumn = @"threadLabel";
 NSString *LastWrittenDateColumn = @"lastWrittenDate";
 NSString *IsDatOchiColumn = @"isDatOchi";
+NSString *IsFavoriteColumn = @"IsFavorite";
 NSString *NumberOfDifferenceColumn = @"numberOfDifference";
+NSString *IsCachedColumn = @"isCached";
+NSString *IsUpdatedColumn = @"isUpdated";
+NSString *IsNewColumn = @"isNew";
+NSString *IsHeadModifiedColumn = @"isHeadModified";
 
 NSString *TempThreadNumberTableName = @"TempThreadNumber";
 NSString *TempThreadThreadNumberColumn = @"threadNumber";
@@ -42,7 +47,7 @@ NSString *TempThreadThreadNumberColumn = @"threadNumber";
 static NSString *ThreadDatabaseKey = @"ThreadDatabaseKey";
 
 //------ static ------//
-static long sDatabaseFileVersion = 3;
+static long sDatabaseFileVersion = 5;
 
 
 @implementation DatabaseManager
@@ -264,7 +269,8 @@ abort:
 		NumberOfAllColumn, NumberOfReadColumn,
 		ModifiedDateColumn, LastWrittenDateColumn, 
 		ThreadStatusColumn, ThreadAboneTypeColumn, ThreadLabelColumn,
-		IsDatOchiColumn, nil];
+		IsDatOchiColumn,
+		IsFavoriteColumn, nil];
 }
 - (NSArray *) threadInfoDataTypes
 {
@@ -272,6 +278,7 @@ abort:
 		QLNumber, QLNumber,
 		QLNumber, QLNumber,
 		QLNumber, QLNumber, QLNumber,
+		INTEGER_NOTNULL,
 		INTEGER_NOTNULL, nil];
 }
 
