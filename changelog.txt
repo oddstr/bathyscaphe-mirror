@@ -1,8 +1,14 @@
+2007-12-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/BSRTTArrayController.m
+	* application/subproj/preference/Japanese.lproj/ReplySetting.nib
+		「書き込み」環境設定：「テンプレート」タブのリストで、「＋」（追加）ボタンをクリックした際にすぐにテキストを入力できるよう、
+		BSRTTArrayController を BSAdvancedPaneArrayController のサブクラスにした。
+	* application/subproj/previewer/BSIPIPathTransformer.h
+		@import の誤りを修正。
 2007-12-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/previewer/BSImagePreviewInspector-Settings.m
 	* application/subproj/previewer/BSImagePreviewInspector.m
 	* application/subproj/previewer/BSIPIFullScreenController.m
-	* application/subproj/previewer/BSIPIPathTransformer.m
 	* application/subproj/previewer/Japanese.lproj/Localizable.strings
 	* application/subproj/previewer/Japanese.lproj/BSIPIPreferences.nib
 		プレビューインスペクタ（2.7.2 -> 2.7.3）：

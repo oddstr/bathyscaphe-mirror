@@ -7,11 +7,10 @@
 //  encoding="UTF-8"
 //
 
-#import <Cocoa/Cocoa.h>
+#import "BSAdvancedPaneArrayController.h"
 
+@interface BSRTTArrayController : BSAdvancedPaneArrayController {
 
-@interface BSRTTArrayController : NSArrayController {
-	IBOutlet NSTableView	*tableView;
 }
 
 @end

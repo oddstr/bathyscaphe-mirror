@@ -14,7 +14,7 @@ static NSString *const BSReplyTemplatePboardType = @"BSReplyTemplatePboardType";
 @implementation BSRTTArrayController
 - (void)awakeFromNib
 {
-	[tableView registerForDraggedTypes:[NSArray arrayWithObject:BSReplyTemplatePboardType]];
+	[[self tableView] registerForDraggedTypes:[NSArray arrayWithObject:BSReplyTemplatePboardType]];
 }
 
 - (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard*)pboard
@@ -40,7 +40,7 @@ static NSString *const BSReplyTemplatePboardType = @"BSReplyTemplatePboardType";
 				 proposedRow:(int)row
 	   proposedDropOperation:(NSTableViewDropOperation)op
 {
-	if ([info draggingSource] != tableView) {
+	if ([info draggingSource] != [self tableView]) {
 		return NSDragOperationNone;
     }
 
