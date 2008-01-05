@@ -13,53 +13,15 @@
 
 
 @implementation CMRReplyMessenger(Private)
-- (void)sendMessageWithHanaMogeraForms:(BOOL)withForms
+/*- (void)sendMessageWithHanaMogeraForms:(BOOL)withForms
 {
 	[self synchronizeDocumentContentsWithWindowControllers];
 	[self sendMessageWithContents:[self replyMessage]
 							 name:[self name]
 							 mail:[self mail]
 					   hanamogera:withForms];
-}
-
-- (void)synchronizeDocumentContentsWithWindowControllers
-{
-	CMRReplyController	*controller_;
-	
-	controller_ = [self replyControllerRespondsTo:@selector(synchronizeMessengerWithData)];
-	[controller_ synchronizeMessengerWithData];
-}
-
-+ (NSURL *)targetURLWithBoardURL:(NSURL *)boardURL
-{
-	return [[CMRHostHandler hostHandlerForURL:boardURL] writeURLWithBoard:boardURL];
-}
-
-+ (NSString *)formItemBBSWithBoardURL:(NSURL *)boardURL
-{
-	return [[boardURL path] lastPathComponent];
-}
-
-+ (NSString *)formItemDirectoryWithBoardURL:(NSURL *)boardURL
-{
-	return [[[boardURL path] stringByDeletingLastPathComponent] lastPathComponent];
-}
-
-- (NSDictionary *)additionalForms
-{
-	return _additionalForms;
-}
-
-- (void)setAdditionalForms:(NSDictionary *)anAdditionalForms
-{
-	[anAdditionalForms retain];
-	[_additionalForms release];
-	_additionalForms = anAdditionalForms;
-}
-@end
-
-
-@implementation CMRReplyMessenger(PrivateAccessor)
+//	[self startSendingMessage];
+}*/
 - (CMRReplyController *)replyControllerRespondsTo:(SEL)aSelector
 {
 	NSEnumerator		*iter_;
@@ -85,6 +47,35 @@
 	}
 }
 
+- (void)synchronizeDocumentContentsWithWindowControllers
+{
+	CMRReplyController	*controller_;
+	
+	controller_ = [self replyControllerRespondsTo:@selector(synchronizeMessengerWithData)];
+	[controller_ synchronizeMessengerWithData];
+
+	// reset undoManager
+	[[self undoManager] removeAllActions];
+}
+
++ (NSURL *)targetURLWithBoardURL:(NSURL *)boardURL
+{
+	return [[CMRHostHandler hostHandlerForURL:boardURL] writeURLWithBoard:boardURL];
+}
+
++ (NSString *)formItemBBSWithBoardURL:(NSURL *)boardURL
+{
+	return [[boardURL path] lastPathComponent];
+}
+
++ (NSString *)formItemDirectoryWithBoardURL:(NSURL *)boardURL
+{
+	return [[[boardURL path] stringByDeletingLastPathComponent] lastPathComponent];
+}
+@end
+
+
+@implementation CMRReplyMessenger(PrivateAccessor)
 - (NSMutableDictionary *)mutableInfoDictionary
 {
 	if (!_attributes) {
@@ -128,11 +119,6 @@
 	[self setValueConsideringNilValue:aMessage forPlistKey:ThreadPlistContentsMessageKey];
 }
 
-- (void)setName:(NSString *)aName
-{
-	[self setValueConsideringNilValue:aName forPlistKey:ThreadPlistContentsNameKey];
-}
-
 - (void)setModifiedDate:(NSDate *)aModifiedDate
 {
 	[[self mutableInfoDictionary] setObject:aModifiedDate forKey:CMRThreadModifiedDateKey];
@@ -151,6 +137,18 @@
 - (void)setShouldSendBeCookie:(BOOL)sendBeCookie
 {
 	_shouldSendBeCookie = sendBeCookie;
+}
+
+- (NSDictionary *)additionalForms
+{
+	return _additionalForms;
+}
+
+- (void)setAdditionalForms:(NSDictionary *)anAdditionalForms
+{
+	[anAdditionalForms retain];
+	[_additionalForms release];
+	_additionalForms = anAdditionalForms;
 }
 @end
 
@@ -183,7 +181,8 @@
 - (void)cookieOrContributionCheckSheetDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
 	if (NSAlertFirstButtonReturn == returnCode) {
-		[self sendMessageWithHanaMogeraForms:([self additionalForms] != nil)];
+//		[self sendMessageWithHanaMogeraForms:([self additionalForms] != nil)];
+		[self startSendingMessage];
 	}
 }
 
@@ -302,7 +301,7 @@ static inline NSString *labelForFieldName(NSString *key)
 @implementation CMRReplyMessenger(SendMeesage)
 // メール欄アイコン付きのレスをコピペするとメール欄アイコンが 0xfffc (Object Replacement Character だそうです) に変換されペーストされる。
 // これがURLエンコードできないため書き込みに失敗するので、これを削除する。
-static inline NSString *removeObjectReplacementCharacter(NSString *str)
+/*static inline NSString *removeObjectReplacementCharacter(NSString *str)
 {
 	return [str stringByReplaceCharacters:[NSString stringWithFormat:@"%C", 0xfffc] toString:@""];
 }
@@ -316,6 +315,16 @@ static inline NSString *removeObjectReplacementCharacter(NSString *str)
 	newstr = [newstr stringByReplaceCharacters:[NSString yenmark] toString:XML_YEN_ENTITY];
 	
 	return newstr;
+}*/
+static inline NSString *prepareStringForPosting(NSString *str)
+{
+	NSString *newString;
+
+	newString = [str stringByReplaceCharacters:[NSString stringWithFormat:@"%C", 0xfffc] toString:@""];
+	newString = [newString stringByReplaceCharacters:[NSString backslash] toString:[NSString yenmark]];
+	newString = [newString stringByReplaceCharacters:[NSString yenmark] toString:@"&yen;"];
+
+	return newString;
 }
 
 /*- (NSDictionary *)formDictionary:(NSString *)replyMessage name:(NSString *)name mail:(NSString *)mail
@@ -323,8 +332,21 @@ static inline NSString *removeObjectReplacementCharacter(NSString *str)
 	return [self formDictionary:replyMessage name:name mail:mail hanamogera:NO];
 }*/
 
-- (NSDictionary *)formDictionary:(NSString *)replyMessage name:(NSString *)name mail:(NSString *)mail hanamogera:(BOOL)addForms
+//- (NSDictionary *)formDictionary:(NSString *)replyMessage name:(NSString *)name mail:(NSString *)mail hanamogera:(BOOL)addForms
+/*
+static inline NSDictionary *formKeysForBoard(NSURL *boardURL)
 {
+	CMRHostHandler *handler = [CMRHostHandler hostHandlerForURL:boardURL];
+	if (!handler) return nil;
+	return [handler formKeyDictionary];
+}
+*/
+- (NSDictionary *)formDictionary
+{
+	NSString *name = [self name];
+	NSString *mail = [self mail];
+	NSString *replyMessage = [self replyMessage];
+
 	CMRHostHandler		*handler_;
 	NSDictionary		*formKeys_;
 	NSString			*key_;
@@ -338,6 +360,8 @@ static inline NSString *removeObjectReplacementCharacter(NSString *str)
 	handler_ = [CMRHostHandler hostHandlerForURL:[self boardURL]];
 	formKeys_ = [handler_ formKeyDictionary];
 	if (!formKeys_ || !handler_) {
+//	formKeys_ = formKeysForBoard([self boardURL]);
+//	if (!formKeys_) {
 		NSLog(@"Can't find hostHandler for %@", [[self boardURL] stringValue]);
 		return nil;
 	}
@@ -360,7 +384,8 @@ static inline NSString *removeObjectReplacementCharacter(NSString *str)
 
     // 本文のみ円記号とバッスラッシュを実体参照で置換する。
 	key_ = [formKeys_ stringForKey:CMRHostFormMessageKey];
-	[form_ setNoneNil:removeObjectReplacementCharacter([self stringByReplacingYenBackslashToEntity:replyMessage]) forKey:key_];
+//	[form_ setNoneNil:removeObjectReplacementCharacter([self stringByReplacingYenBackslashToEntity:replyMessage]) forKey:key_];
+	[form_ setNoneNil:prepareStringForPosting(replyMessage) forKey:key_];
 
 	key_ = [formKeys_ stringForKey:CMRHostFormBBSKey];
 	[form_ setNoneNil:[self formItemBBS] forKey:key_];
@@ -372,7 +397,7 @@ static inline NSString *removeObjectReplacementCharacter(NSString *str)
 	[form_ setNoneNil:time_ forKey:key_];
 
 	// for 2ch (after 2006-05-27, hana=mogera)
-	if (addForms && [self additionalForms]) {
+	if (/*addForms &&*/ [self additionalForms]) {
 		[form_ addEntriesFromDictionary:[self additionalForms]];
 	}
 	// for Jbbs_shita
@@ -388,13 +413,16 @@ static inline NSString *removeObjectReplacementCharacter(NSString *str)
 	[self sendMessageWithContents:replyMessage name:name mail:mail hanamogera:NO];
 }
 */
-- (void)sendMessageWithContents:(NSString *)replyMessage name:(NSString *)name mail:(NSString *)mail hanamogera:(BOOL)addForms
+//- (void)sendMessageWithContents:(NSString *)replyMessage name:(NSString *)name mail:(NSString *)mail hanamogera:(BOOL)addForms
+- (void)startSendingMessage
 {
     id<w2chConnect>     connector_;
     NSMutableDictionary *headers_;
     NSString            *referer_;
     NSString            *cookies_;
     NSDictionary        *formDictionary_;
+
+	[self synchronizeDocumentContentsWithWindowControllers];
 
     [self setIsEndPost:YES];
     headers_ = [NSMutableDictionary dictionary];
@@ -411,10 +439,11 @@ static inline NSString *removeObjectReplacementCharacter(NSString *str)
     //プラグインをロード
     connector_ = [CMRPref w2chConnectWithURL:[self targetURL] properties:headers_];
 	[connector_ setDelegate:self];
-    formDictionary_ = [self formDictionary:replyMessage name:name mail:mail hanamogera:addForms];
+//    formDictionary_ = [self formDictionary:replyMessage name:name mail:mail hanamogera:addForms];
+	formDictionary_ = [self formDictionary];
 
     UTILDebugWrite1(@"targetURL = %@", [[self targetURL] absoluteString]);
-    UTILDebugWrite2(@"name = %@, mail = %@", name, mail);
+    UTILDebugWrite2(@"name = %@, mail = %@", [self name], [self mail]);
     UTILDebugWrite1(@"referer = %@", referer_);
     UTILDebugWrite1(@"cookie = %@", cookies_);
     UTILDebugWrite1(@"formDictionary = %@", [formDictionary_ description]);

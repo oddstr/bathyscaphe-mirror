@@ -1,3 +1,18 @@
+2008-01-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/MainMenu.nib
+	* application/source/thread/CMRThreadViewer-MoveAction.m
+	* application/source/thread/CMRThreadViewer-Validation.m
+		「スレッド」＞「レスに移動」＞「指定日時のレス...」を追加。日時を（BSDatePicker を使って）指定すると、その日時以降の最初のレスに
+		スクロールする（見つからなければ単に Beep）。たまーに使い道がある。と思う（tsawada2 は使う必要があったので急遽実装した）。
+	* application/Resources/Japanese.lproj/BSTimeMachine.nib
+	* application/source/thread/BSTimeMachineController.[h|m]
+		[新規追加] 「スレッド」＞「レスに移動」＞「指定日時のレス...」で表示される日付入力用パネルの nib とそのコントローラ・クラス。
+	* application/source/window/CMRReplyMessenger-Connector.m
+	* application/source/window/CMRReplyMessenger.m
+	* application/source/window/CMRReplyController-ViewAccessor.m
+	* application/source/window/CMRReplyController.m
+		「下書きとして保存」するたびに、テキストビュー／テキストフィールドからフォーカスが外れる問題（v233 で混入）を修正。
+		その他、微調整。
 2007-12-24 masakih <masakih@users.sourceforge.jp>
 	* application/source/manager/DatabaseManager.[h|m]:
 	* application/source/manager/DatabaseUpdater.m:
@@ -29,6 +44,7 @@
 		データベースファイルバージョンを4に。
 		ThreadInfoTableにIsFavoriteカラムを追加し、お気に入りの表示の高速化。
 		FavoritesTableは並べ替え実装に必要と思われるので残留させている。
+=================================================
 2007-12-25 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/preference/BSRTTArrayController.m
 	* application/subproj/preference/Japanese.lproj/ReplySetting.nib

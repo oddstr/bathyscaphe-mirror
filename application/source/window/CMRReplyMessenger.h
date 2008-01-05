@@ -36,6 +36,7 @@
 - (NSString *)boardName;
 
 - (NSString *)name;
+- (void)setName:(NSString *)aName;
 - (NSString *)mail;
 - (void)setMail:(NSString *)aMail;
 - (NSDate *)modifiedDate;

@@ -187,11 +187,12 @@ static void *kReplySettingsContext = @"EternalBlaze";
 	[[self window] useOptimizedDrawing:YES];
 }
 
-- (void)setupMailField
+- (void)setupFields
 {
 	NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithBool:NO],@"NSAllowsEditingMultipleValuesSelection",
 									[NSNumber numberWithBool:YES], @"NSContinuouslyUpdatesValue",
 									[NSNumber numberWithBool:YES], @"NSRaisesForNotApplicableKeys", NULL];
+	[[self nameComboBox] bind:@"value" toObject:[self document] withKeyPath:@"name" options:dict];
 	[[self mailField] bind:@"value" toObject:[self document] withKeyPath:@"mail" options:dict];
 	[dict release];
 }
@@ -235,7 +236,7 @@ static void *kReplySettingsContext = @"EternalBlaze";
 	[self setupWindowFrameWithMessenger];
 
 	[[self nameComboBox] reloadData];
-	[self setupMailField];
+	[self setupFields];
 
 	[self setupButtons];
 	[self setupTextView];
@@ -284,12 +285,12 @@ static void *kReplySettingsContext = @"EternalBlaze";
 	そこでこの delegate でテキストの追加／削除をつかまえ、強制的に "dirty" フラグを立てる。
 	単純な状況で試す限り良い感じで動くようだが、しばらく様子見が必要か。
 */
-- (void)textDidChange:(NSNotification *)aNotification
+/*- (void)textDidChange:(NSNotification *)aNotification
 {
 	if (![[self document] isDocumentEdited]) { // "dirty" でないときのみ updateChangeCount: する。
 		[[self document] updateChangeCount:NSChangeDone];
 	}
-}
+}*/
 
 - (NSArray *)availableCompletionPrefixesForTextView:(NSTextView *)aTextView
 {

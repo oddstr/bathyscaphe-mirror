@@ -17,11 +17,11 @@
 	IBOutlet NSTextField		*_mailField;
 	IBOutlet NSButton			*_sageButton;
 	IBOutlet NSButton			*_deleteMailButton;
+	IBOutlet NSScrollView		*_scrollView;
 
 	IBOutlet NSPopUpButton		*m_templateInsertionButton;
 	
-	IBOutlet NSScrollView		*_scrollView;
-	IBOutlet NSTextView			*_textView;
+	NSTextView			*_textView;
 }
 
 // working with NSDocument...

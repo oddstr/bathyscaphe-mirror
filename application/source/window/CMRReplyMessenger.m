@@ -155,6 +155,11 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 	return [[self infoDictionary] objectForKey:ThreadPlistContentsNameKey];
 }
 
+- (void)setName:(NSString *)aName
+{
+	[self setValueConsideringNilValue:aName forPlistKey:ThreadPlistContentsNameKey];
+}
+
 - (NSString *)mail
 {
 	return [[self infoDictionary] objectForKey:ThreadPlistContentsMailKey];
@@ -217,7 +222,9 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 		documentAttributeKeys_ = [CMRReplyDocumentFileManager documentAttributeKeys];
 		iter_ = [documentAttributeKeys_ objectEnumerator];
 		dict_ = [NSDictionary dictionaryWithContentsOfFile:fileName];
-		
+
+		if (!dict_) return NO;
+
 		while (key_ = [iter_ nextObject]) {
 			if (![dict_ objectForKey:key_]) {
 				return NO;
@@ -231,7 +238,7 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 		[[self textStorage] appendString:[self replyMessage] withAttributes:[self textAttributes]];
 		[[self textStorage] endEditing];
 
-		return YES;//(dict_ != nil);
+		return YES;
 	}
 	return NO;
 }
@@ -320,7 +327,8 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 @implementation CMRReplyMessenger(Action)
 - (IBAction)sendMessage:(id)sender
 {
-	[self sendMessageWithHanaMogeraForms:NO];
+//	[self sendMessageWithHanaMogeraForms:NO];
+	[self startSendingMessage];
 }
 
 - (IBAction)toggleBeLogin:(id)sender
@@ -331,10 +339,10 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 - (IBAction)revealInFinder:(id)sender
 {
 	NSString *path = [self fileName];
-	if (!path) {
+/*	if (!path) {
 		NSBeep();
 		return;
-	}
+	}*/
 	[[NSWorkspace sharedWorkspace] selectFile:path inFileViewerRootedAtPath:[path stringByDeletingLastPathComponent]];
 }
 // override
@@ -353,8 +361,6 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 	if ([sender isKindOfClass:[NSMenuItem class]]) {
 		// ‚·‚è‘Ö‚¦
 		[self sendMessage:sender];
-	} else {
-		[super reply:sender];
 	}
 }
 
@@ -437,10 +443,15 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 		return (![self isEndPost] && [[self textStorage] length]);
 	}
 	
-	if(action_ == @selector(saveDocumentAs:)) {
+	if (action_ == @selector(saveDocumentAs:)) {
 		[theItem setTitle:[self localizedString:@"Save Menu Item"]];
 		return ([self isDocumentEdited]);
 	}
+	
+	if (action_ == @selector(revealInFinder:)) {
+		return ([self fileName]);
+	}
+
 	return [super validateMenuItem:theItem];
 }
 @end

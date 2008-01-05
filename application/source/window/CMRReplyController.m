@@ -36,6 +36,7 @@
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[[self mailField] unbind:@"value"];
+	[[self nameComboBox] unbind:@"value"];
 	[[self textView] unbind:@"font"];
 	[CMRPref removeObserver:self forKeyPath:@"threadViewTheme.replyBackgroundColor"];
 	[CMRPref removeObserver:self forKeyPath:@"threadViewTheme.replyColor"];
@@ -56,13 +57,15 @@
 - (void)synchronizeMessengerWithData
 {
 	NSWindow *window = [self window];
-	
-	if (![window makeFirstResponder:window]) {
-		[window endEditingFor:nil];
-	}
+	CMRReplyMessenger *document = [self document];
 
-	[[self document] updateReplyMessage];
-	[[self document] setWindowFrame:[window frame]];
+/*	if ([window firstResponder] != [self textView]) {
+		if (![window makeFirstResponder:window]) {
+			[window endEditingFor:nil];
+		}
+	}*/
+	[document updateReplyMessage];
+	[document setWindowFrame:[window frame]];
 }
 
 #pragma mark IBActions

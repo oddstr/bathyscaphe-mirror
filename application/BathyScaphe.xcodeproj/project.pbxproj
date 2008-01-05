@@ -20,6 +20,9 @@
 		871606AF098A646500A27F63 /* Sounds.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 871606AE098A646400A27F63 /* Sounds.tiff */; };
 		871607ED098AA42200A27F63 /* SyncPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = 871607EB098AA42200A27F63 /* SyncPane.nib */; };
 		87170A3E0BA3ED2000AF2E65 /* BSIndexingPopupper.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87170A3C0BA3ED2000AF2E65 /* BSIndexingPopupper.nib */; };
+		87187F100D2F5ADE00DE3EF5 /* BSTimeMachine.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87187F0E0D2F5ADE00DE3EF5 /* BSTimeMachine.nib */; };
+		87187F130D2F5AFA00DE3EF5 /* BSTimeMachineController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87187F110D2F5AFA00DE3EF5 /* BSTimeMachineController.h */; };
+		87187F140D2F5AFA00DE3EF5 /* BSTimeMachineController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87187F120D2F5AFA00DE3EF5 /* BSTimeMachineController.m */; };
 		871CA11608585F8100C3A044 /* PreferencesController.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DB3004C6959800A80005 /* PreferencesController.h */; };
 		871CA11708585F8100C3A044 /* AccountController.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DB3504C6959800A80005 /* AccountController.h */; };
 		871CA11908585F8100C3A044 /* FCController.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DB3B04C6959800A80005 /* FCController.h */; };
@@ -820,6 +823,9 @@
 		871607EC098AA42200A27F63 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/SyncPane.nib; sourceTree = "<group>"; };
 		871607EE098AA48400A27F63 /* Sync.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Sync.tiff; sourceTree = "<group>"; };
 		87170A3D0BA3ED2000AF2E65 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSIndexingPopupper.nib; sourceTree = "<group>"; };
+		87187F0F0D2F5ADE00DE3EF5 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSTimeMachine.nib; sourceTree = "<group>"; };
+		87187F110D2F5AFA00DE3EF5 /* BSTimeMachineController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSTimeMachineController.h; sourceTree = "<group>"; };
+		87187F120D2F5AFA00DE3EF5 /* BSTimeMachineController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSTimeMachineController.m; sourceTree = "<group>"; };
 		8718EFDC08D43F7D00FFAAEE /* NoNameInputController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoNameInputController.h; sourceTree = "<group>"; };
 		8718EFDD08D43F7D00FFAAEE /* NoNameInputController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoNameInputController.m; sourceTree = "<group>"; };
 		8719F069088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-OwnHistory.m"; sourceTree = "<group>"; };
@@ -1229,7 +1235,7 @@
 		F324DD6504C698FB00A80005 /* CMRThreadViewer-Action.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-Action.m"; sourceTree = "<group>"; };
 		F324DD6604C698FB00A80005 /* CMRThreadViewer-Contents.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-Contents.m"; sourceTree = "<group>"; };
 		F324DD6704C698FB00A80005 /* CMRThreadViewer-Download.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-Download.m"; sourceTree = "<group>"; };
-		F324DD6804C698FB00A80005 /* CMRThreadViewer-MoveAction.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-MoveAction.m"; sourceTree = "<group>"; };
+		F324DD6804C698FB00A80005 /* CMRThreadViewer-MoveAction.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-MoveAction.m"; sourceTree = "<group>"; };
 		F324DD6B04C698FB00A80005 /* CMRThreadViewer-ViewAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-ViewAccessor.m"; sourceTree = "<group>"; };
 		F324DD6C04C698FB00A80005 /* CMRThreadViewer.h */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.h; path = CMRThreadViewer.h; sourceTree = "<group>"; };
 		F324DD6D04C698FB00A80005 /* CMRThreadViewer.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = CMRThreadViewer.m; sourceTree = "<group>"; };
@@ -1265,7 +1271,7 @@
 		F324DDCE04C698FB00A80005 /* CMRReplyControllerTbDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRReplyControllerTbDelegate.m; sourceTree = "<group>"; };
 		F324DDD104C698FB00A80005 /* CMRReplyMessenger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRReplyMessenger.h; sourceTree = "<group>"; };
 		F324DDD204C698FB00A80005 /* CMRReplyMessenger.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = CMRReplyMessenger.m; sourceTree = "<group>"; };
-		F324DDD304C698FB00A80005 /* CMRReplyMessenger_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRReplyMessenger_p.h; sourceTree = "<group>"; };
+		F324DDD304C698FB00A80005 /* CMRReplyMessenger_p.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRReplyMessenger_p.h; sourceTree = "<group>"; };
 		F324DDD404C698FB00A80005 /* CMRStatusLineWindowController.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRStatusLineWindowController.h; sourceTree = "<group>"; };
 		F324DDD504C698FB00A80005 /* CMRStatusLineWindowController.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRStatusLineWindowController.m; sourceTree = "<group>"; };
 		F324DDD704C698FB00A80005 /* CMRThreadViewerTbDelegate.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadViewerTbDelegate.h; sourceTree = "<group>"; };
@@ -1666,6 +1672,7 @@
 		872998690832616D00CBD740 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				87187F0E0D2F5ADE00DE3EF5 /* BSTimeMachine.nib */,
 				873E6A690D0DBC4C004421F7 /* BSFavoritesProgressPanel.nib */,
 				870B1F400C15B86200AAB734 /* BoardWarrior.scpt */,
 				875FF5C50C7FFA960034E371 /* BSTitleRulerAppearance.plist */,
@@ -1952,6 +1959,8 @@
 				F33977B605087EBA00A80005 /* CMRThreadViewer-Link.m */,
 				875743F907C372F6006F3C68 /* CMRThreadViewer-Validation.m */,
 				8719F069088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m */,
+				87187F110D2F5AFA00DE3EF5 /* BSTimeMachineController.h */,
+				87187F120D2F5AFA00DE3EF5 /* BSTimeMachineController.m */,
 			);
 			name = ThreadViewer;
 			sourceTree = "<group>";
@@ -3183,6 +3192,7 @@
 				87D4C7910D1A311B000553C1 /* BSReplyTextTemplate.h in Headers */,
 				87D4C7960D1A38B9000553C1 /* BSReplyTextTemplateManager.h in Headers */,
 				87844E270D1F5256007C17C8 /* BSReplyControllerValueTransformer.h in Headers */,
+				87187F130D2F5AFA00DE3EF5 /* BSTimeMachineController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3510,6 +3520,7 @@
 				873E6A6B0D0DBC4C004421F7 /* BSFavoritesProgressPanel.nib in Resources */,
 				8785B7440D18F7B70081F4EB /* BoardListEditor.strings in Resources */,
 				87369D6A0D1D2CD500FBF754 /* deleteMail2.tiff in Resources */,
+				87187F100D2F5ADE00DE3EF5 /* BSTimeMachine.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3837,6 +3848,7 @@
 				87D4C7920D1A311B000553C1 /* BSReplyTextTemplate.m in Sources */,
 				87D4C7970D1A38B9000553C1 /* BSReplyTextTemplateManager.m in Sources */,
 				87844E280D1F5256007C17C8 /* BSReplyControllerValueTransformer.m in Sources */,
+				87187F140D2F5AFA00DE3EF5 /* BSTimeMachineController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3888,6 +3900,14 @@
 				87170A3D0BA3ED2000AF2E65 /* Japanese */,
 			);
 			name = BSIndexingPopupper.nib;
+			sourceTree = "<group>";
+		};
+		87187F0E0D2F5ADE00DE3EF5 /* BSTimeMachine.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				87187F0F0D2F5ADE00DE3EF5 /* Japanese */,
+			);
+			name = BSTimeMachine.nib;
 			sourceTree = "<group>";
 		};
 		8724A6DB09127E69009CC855 /* board_default.plist */ = {

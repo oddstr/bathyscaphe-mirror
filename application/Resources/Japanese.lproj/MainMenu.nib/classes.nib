@@ -192,6 +192,8 @@
 				<string>id</string>
 				<key>showStandardFindPanel</key>
 				<string>id</string>
+				<key>showTimeMachine</key>
+				<string>id</string>
 				<key>smallerText</key>
 				<string>id</string>
 				<key>toggleAAThread</key>
@@ -216,6 +218,8 @@
 				<key>clearHistory</key>
 				<string>id</string>
 				<key>closeAll</key>
+				<string>id</string>
+				<key>customizeTextTemplates</key>
 				<string>id</string>
 				<key>openAEDictionary</key>
 				<string>id</string>

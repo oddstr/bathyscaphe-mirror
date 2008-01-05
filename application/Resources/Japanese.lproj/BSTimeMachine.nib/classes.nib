@@ -68,6 +68,24 @@
 			<string>ObjC</string>
 		</dict>
 		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>endTimeMachine</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>BSTimeMachineController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>datePicker</key>
+				<string>BSDatePicker</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSWindowController</string>
+		</dict>
+		<dict>
 			<key>CLASS</key>
 			<string>NSWindow</string>
 			<key>LANGUAGE</key>
@@ -76,74 +94,33 @@
 			<string>NSResponder</string>
 		</dict>
 		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>deleteMail</key>
-				<string>id</string>
-				<key>insertSage</key>
-				<string>id</string>
-				<key>insertTextTemplate</key>
-				<string>id</string>
-				<key>pasteAsQuotation</key>
-				<string>id</string>
-			</dict>
 			<key>CLASS</key>
-			<string>CMRReplyController</string>
+			<string>BSDatePickerCell</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>_deleteMailButton</key>
-				<string>NSButton</string>
-				<key>_mailField</key>
-				<string>NSTextField</string>
-				<key>_nameComboBox</key>
-				<string>NSComboBox</string>
-				<key>_sageButton</key>
-				<string>NSButton</string>
-				<key>_scrollView</key>
-				<string>NSScrollView</string>
-				<key>m_templateInsertionButton</key>
-				<string>NSPopUpButton</string>
-			</dict>
 			<key>SUPERCLASS</key>
-			<string>CMRStatusLineWindowController</string>
+			<string>NSActionCell</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>BSDatePicker</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSControl</string>
 		</dict>
 		<dict>
 			<key>ACTIONS</key>
 			<dict>
-				<key>cancelCurrentTask</key>
-				<string>id</string>
-				<key>saveAsDefaultFrame</key>
+				<key>jumpToSpecificDate</key>
 				<string>id</string>
 			</dict>
-			<key>CLASS</key>
-			<string>CMRStatusLineWindowController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>m_toolbarDelegateImp</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSWindowController</string>
-		</dict>
-		<dict>
 			<key>CLASS</key>
 			<string>FirstResponder</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>BSWindow</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSWindow</string>
 		</dict>
 	</array>
 	<key>IBVersion</key>

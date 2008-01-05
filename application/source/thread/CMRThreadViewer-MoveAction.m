@@ -11,6 +11,7 @@
 #import "CMRThreadViewer_p.h"
 #import "CMRThreadLayout.h"
 #import "BSDateFormatter.h"
+#import "BSTimeMachineController.h"
 
 
 @implementation CMRThreadViewer(MoveActionSupport)
@@ -127,6 +128,23 @@
 	unsigned index_ = [[self threadLayout] messageIndexOfLaterDate: aDate];
 	if (index_ != NSNotFound) {
 		[[self threadLayout] scrollMessageAtIndex: index_];
+	} else {
+		NSBeep();
+	}
+}
+
+- (IBAction)showTimeMachine:(id)sender
+{
+    [[BSTimeMachineController sharedTimeMachine] showWindow:sender];
+}
+
+- (IBAction)jumpToSpecificDate:(id)sender
+{
+	NSDate *date = [[BSTimeMachineController sharedTimeMachine] currentDate];
+	unsigned index_ = [[self threadLayout] messageIndexOfLaterDate:date];
+	if (index_ != NSNotFound) {
+		[[self threadLayout] scrollMessageAtIndex:index_];
+		[[BSTimeMachineController sharedTimeMachine] endTimeMachine:self];
 	} else {
 		NSBeep();
 	}

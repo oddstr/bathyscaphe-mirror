@@ -1,10 +1,11 @@
-/*
- * $Id: CMRReplyMessenger_p.h,v 1.13 2007/12/24 14:29:09 tsawada2 Exp $
- * BathyScaphe
- *
- * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
- *
- */
+//
+//  CMRReplyMessenger_p.h
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/12/28.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
 
 #import "CMRReplyMessenger.h"
 #import "CocoMonar_Prefix.h"
@@ -22,8 +23,8 @@
 #import "CookieManager.h"
 
 
-#define    MESSENGER_REFERER_FORMAT		@"http://%@/%@/%@"
-#define    MESSENGER_REFERER_INDEX_HTML	@"index.html"
+#define MESSENGER_REFERER_FORMAT		@"http://%@/%@/%@"
+#define MESSENGER_REFERER_INDEX_HTML	@"index.html"
 //#define    MESSENGER_SHITARABA_REFERER	@"www.shitaraba.com/bbs"
 
 #define MESSENGER_TABLE_NAME					@"Messenger"
@@ -31,7 +32,7 @@
 #define MESSENGER_END_POST						@"EndPost"
 #define MESSENGER_ERROR_POST					@"ERROR Send Message"
 #define REPLY_MESSENGER_WINDOW_TITLE_FORMAT		@"Window Title"
-#define REPLY_MESSENGER_SUBMIT					@"submit"
+//#define REPLY_MESSENGER_SUBMIT					@"submit"
 
 #define kToolTipForNeededLogin		@"BeLoginOnNeededToolTip"
 #define kToolTipForTrivialLoginOff	@"BeLoginOffTrivialToolTip"
@@ -45,52 +46,28 @@
 #define kImageForLoginOn			@"beEnabled"
 #define kImageForLoginOff			@"beDisabled"
 
+
 @interface CMRReplyMessenger(Private)
-- (void) sendMessageWithHanaMogeraForms : (BOOL) withForms; // Available in CometBlaster and later.
+- (CMRReplyController *)replyControllerRespondsTo:(SEL)aSelector;
+- (void)setValueConsideringNilValue:(id)value forPlistKey:(NSString *)key;
+- (void)synchronizeDocumentContentsWithWindowControllers;
 
-- (void) synchronizeDocumentContentsWithWindowControllers;
-+ (NSURL *) targetURLWithBoardURL : (NSURL *) boardURL;
-+ (NSString *) formItemBBSWithBoardURL : (NSURL *) boardURL;
-+ (NSString *) formItemDirectoryWithBoardURL : (NSURL *) boardURL;
-
-// added in CometBlaster and later
-- (NSDictionary *) additionalForms;
-- (void) setAdditionalForms : (NSDictionary *) anAdditionalForms;
++ (NSURL *)targetURLWithBoardURL:(NSURL *)boardURL;
++ (NSString *)formItemBBSWithBoardURL:(NSURL *)boardURL;
++ (NSString *)formItemDirectoryWithBoardURL:(NSURL *)boardURL;
 @end
 
 
-
 @interface CMRReplyMessenger(SendMeesage)
-// Deprecated in CometBlaster and later. Use formDictionary:name:mail:hanamogera: instead.
-/*- (NSDictionary *) formDictionary : (NSString *) message
-                             name : (NSString *) name
-                             mail : (NSString *) mail;*/
+- (NSDictionary *)formDictionary;
+- (void)startSendingMessage;
 
-// Available in CometBlaster and later.
-- (NSDictionary *) formDictionary : (NSString *) replyMessage
-                             name : (NSString *) name
-                             mail : (NSString *) mail
-					   hanamogera : (BOOL) addForms;
-
-// Available in CometBlaster and later.
-- (void) sendMessageWithContents : (NSString *) replyMessage
-							name : (NSString *) name
-							mail : (NSString *) mail
-					  hanamogera : (BOOL ) addForms;
-
-// Deprecated in CometBlaster and later. Use sendMessageWithContents:name:mail:hanamogera: instead.
-/*- (void) sendMessageWithContents : (NSString *) message
-                            name : (NSString *) name
-                            mail : (NSString *) mail;*/
-
-- (NSString *) refererParameter;
-- (void) receiveCookiesWithResponse:(NSHTTPURLResponse *)response;
+- (NSString *)refererParameter;
+- (void)receiveCookiesWithResponse:(NSHTTPURLResponse *)response;
 @end
 
 
 @interface CMRReplyMessenger(PrivateAccessor)
-- (CMRReplyController *)replyControllerRespondsTo:(SEL)aSelector;
-- (void)setValueConsideringNilValue:(id)value forPlistKey:(NSString *)key;
 - (NSMutableDictionary *)mutableInfoDictionary;
 - (NSDictionary *)infoDictionary;
 - (NSString *)threadTitle;
@@ -101,9 +78,10 @@
 
 - (NSString *)replyMessage;
 - (void)setReplyMessage:(NSString *)aMessage;
-- (void)setName:(NSString *)aName;
 - (void)setModifiedDate:(NSDate *)aModifiedDate;
 - (void)setIsEndPost:(BOOL)flag;
 - (BOOL)shouldSendBeCookie;
 - (void)setShouldSendBeCookie:(BOOL)flag;
+- (NSDictionary *)additionalForms;
+- (void)setAdditionalForms:(NSDictionary *)anAdditionalForms;
 @end
