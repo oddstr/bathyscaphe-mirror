@@ -24,6 +24,8 @@
 "BeLoginOffCantLoginToolTip" = "環境設定で Be アカウントが設定されていないため、Be ログインは無効になっています。";
 
 "Save Menu Item" = "下書きとして保存";
+"setName_Undo_Name" = "名前欄への入力";
+"setMail_Undo_Mail" = "メール欄への入力";
 
 "FailedURLEncodingAlertMessage" = "%@に URL エンコードできない文字が含まれているため、書き込みできませんでした。";
 "FailedURLEncodingAlertInformative" = "内容を修正してやり直してみてください。";

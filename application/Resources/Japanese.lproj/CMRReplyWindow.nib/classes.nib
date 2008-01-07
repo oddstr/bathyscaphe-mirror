@@ -103,6 +103,8 @@
 				<string>NSButton</string>
 				<key>_scrollView</key>
 				<string>NSScrollView</string>
+				<key>m_controller</key>
+				<string>NSObjectController</string>
 				<key>m_templateInsertionButton</key>
 				<string>NSPopUpButton</string>
 			</dict>

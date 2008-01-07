@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Updated by Tsutomu Sawada on 07/10/15.
-//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -157,7 +157,12 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 
 - (void)setName:(NSString *)aName
 {
+	NSUndoManager	*undoManager = [self undoManager];
+	id tmp = [self name];
 	[self setValueConsideringNilValue:aName forPlistKey:ThreadPlistContentsNameKey];
+
+	[undoManager registerUndoWithTarget:self selector:@selector(setName:) object:tmp];
+	[undoManager setActionName:[self localizedString:@"setName_Undo_Name"]];
 }
 
 - (NSString *)mail
@@ -167,7 +172,12 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 
 - (void)setMail:(NSString *)aMail
 {
+	NSUndoManager	*undoManager = [self undoManager];
+	id tmp = [self mail];
 	[self setValueConsideringNilValue:aMail forPlistKey:ThreadPlistContentsMailKey];
+
+	[undoManager registerUndoWithTarget:self selector:@selector(setMail:) object:tmp];
+	[undoManager setActionName:[self localizedString:@"setMail_Undo_Name"]];
 }
 
 - (NSDate *)modifiedDate
@@ -327,7 +337,6 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 @implementation CMRReplyMessenger(Action)
 - (IBAction)sendMessage:(id)sender
 {
-//	[self sendMessageWithHanaMogeraForms:NO];
 	[self startSendingMessage];
 }
 
@@ -339,13 +348,9 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 - (IBAction)revealInFinder:(id)sender
 {
 	NSString *path = [self fileName];
-/*	if (!path) {
-		NSBeep();
-		return;
-	}*/
 	[[NSWorkspace sharedWorkspace] selectFile:path inFileViewerRootedAtPath:[path stringByDeletingLastPathComponent]];
 }
-// override
+
 - (IBAction)saveDocumentAs:(id)sender
 {
 	if ([sender isKindOfClass:[NSMenuItem class]]) {

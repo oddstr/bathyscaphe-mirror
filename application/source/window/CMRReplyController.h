@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Updated by Tsutomu Sawada on 07/11/05.
-//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -20,7 +20,8 @@
 	IBOutlet NSScrollView		*_scrollView;
 
 	IBOutlet NSPopUpButton		*m_templateInsertionButton;
-	
+	IBOutlet NSObjectController	*m_controller;
+
 	NSTextView			*_textView;
 }
 
@@ -42,4 +43,5 @@
 - (NSButton *)sageButton;
 - (NSButton *)deleteMailButton;
 - (NSPopUpButton *)templateInsertionButton;
+- (NSObjectController *)objectController;
 @end

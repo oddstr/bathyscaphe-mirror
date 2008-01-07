@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Updated by Tsutomu Sawada on 07/12/24.
-//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -59,6 +59,11 @@ static void *kReplySettingsContext = @"EternalBlaze";
 - (NSPopUpButton *)templateInsertionButton
 {
 	return m_templateInsertionButton;
+}
+
+- (NSObjectController *)objectController
+{
+	return m_controller;
 }
 
 #pragma mark UI SetUp
@@ -187,16 +192,6 @@ static void *kReplySettingsContext = @"EternalBlaze";
 	[[self window] useOptimizedDrawing:YES];
 }
 
-- (void)setupFields
-{
-	NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithBool:NO],@"NSAllowsEditingMultipleValuesSelection",
-									[NSNumber numberWithBool:YES], @"NSContinuouslyUpdatesValue",
-									[NSNumber numberWithBool:YES], @"NSRaisesForNotApplicableKeys", NULL];
-	[[self nameComboBox] bind:@"value" toObject:[self document] withKeyPath:@"name" options:dict];
-	[[self mailField] bind:@"value" toObject:[self document] withKeyPath:@"mail" options:dict];
-	[dict release];
-}
-
 - (void)setupButtons
 {
 	NSMenu		*menu;
@@ -236,7 +231,6 @@ static void *kReplySettingsContext = @"EternalBlaze";
 	[self setupWindowFrameWithMessenger];
 
 	[[self nameComboBox] reloadData];
-	[self setupFields];
 
 	[self setupButtons];
 	[self setupTextView];
@@ -276,21 +270,6 @@ static void *kReplySettingsContext = @"EternalBlaze";
 	
 	return NO;
 }
-
-// GrafEisen Addition
-/* 2006-02-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	NSDocument を "dirty" な状態にするのは、通常 NSDocument 自身に任せておけばよいはず。
-	しかし、「下書きとして保存」した後、本文を追加／削除などして編集しても、"dirty" な状態になぜか
-	なってくれない。テキストを選択して、削除したりすると "dirty" になるのだが…
-	そこでこの delegate でテキストの追加／削除をつかまえ、強制的に "dirty" フラグを立てる。
-	単純な状況で試す限り良い感じで動くようだが、しばらく様子見が必要か。
-*/
-/*- (void)textDidChange:(NSNotification *)aNotification
-{
-	if (![[self document] isDocumentEdited]) { // "dirty" でないときのみ updateChangeCount: する。
-		[[self document] updateChangeCount:NSChangeDone];
-	}
-}*/
 
 - (NSArray *)availableCompletionPrefixesForTextView:(NSTextView *)aTextView
 {

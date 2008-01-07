@@ -1,3 +1,13 @@
+2008-01-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/Messenger.strings
+	* application/Resources/Japanese.lproj/CMRReplyWindow.nib
+	* application/source/window/CMRReplyMessenger-Connector.m
+	* application/source/window/CMRReplyMessenger.m
+	* application/source/window/CMRReplyController-ViewAccessor.m
+	* application/source/window/CMRReplyController.m
+		2007-12-24 および 2008-01-05 の修正を行なっても、なお書き込みウインドウでの「取り消し」サポート、および NSDocument の
+		「dirty」（未保存）フラグの状態制御、そしてテキストフィールドのフォーカス制御についてスッキリした挙動が得られていなかった。
+		これを解決するためさらに各部を修正。ようやくまともになった（と思う）。
 2008-01-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/MainMenu.nib
 	* application/source/thread/CMRThreadViewer-MoveAction.m

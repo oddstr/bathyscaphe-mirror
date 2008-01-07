@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/07/04.
-//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -13,15 +13,6 @@
 
 
 @implementation CMRReplyMessenger(Private)
-/*- (void)sendMessageWithHanaMogeraForms:(BOOL)withForms
-{
-	[self synchronizeDocumentContentsWithWindowControllers];
-	[self sendMessageWithContents:[self replyMessage]
-							 name:[self name]
-							 mail:[self mail]
-					   hanamogera:withForms];
-//	[self startSendingMessage];
-}*/
 - (CMRReplyController *)replyControllerRespondsTo:(SEL)aSelector
 {
 	NSEnumerator		*iter_;
@@ -166,10 +157,9 @@
     [self setIsEndPost:NO]; //再送信を試みることができるように
 }
 
-- (void)didFinishPosting:(id<w2chConnect>)sender
+- (void)didFinishPosting
 {
 	[self didFinish];
-	[self receiveCookiesWithResponse:(NSHTTPURLResponse *)[sender response]];
     [self saveDocument:nil];
 
     [self close];
@@ -181,7 +171,6 @@
 - (void)cookieOrContributionCheckSheetDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
 	if (NSAlertFirstButtonReturn == returnCode) {
-//		[self sendMessageWithHanaMogeraForms:([self additionalForms] != nil)];
 		[self startSendingMessage];
 	}
 }
@@ -272,7 +261,8 @@ static inline NSString *labelForFieldName(NSString *key)
 
 - (void)connectorResourceDidFinishLoading:(id<w2chConnect>)sender
 {
-	[self didFinishPosting:sender];
+	[self receiveCookiesWithResponse:(NSHTTPURLResponse *)[sender response]];
+	[self didFinishPosting];
 }
 
 - (void)connectorResourceDidCancelLoading:(id<w2chConnect>)sender
@@ -301,21 +291,6 @@ static inline NSString *labelForFieldName(NSString *key)
 @implementation CMRReplyMessenger(SendMeesage)
 // メール欄アイコン付きのレスをコピペするとメール欄アイコンが 0xfffc (Object Replacement Character だそうです) に変換されペーストされる。
 // これがURLエンコードできないため書き込みに失敗するので、これを削除する。
-/*static inline NSString *removeObjectReplacementCharacter(NSString *str)
-{
-	return [str stringByReplaceCharacters:[NSString stringWithFormat:@"%C", 0xfffc] toString:@""];
-}
-
-#define XML_YEN_ENTITY		@"&yen;"
-- (NSString *)stringByReplacingYenBackslashToEntity:(NSString *)str
-{
-	NSString	*newstr = str;
-	
-	newstr = [newstr stringByReplaceCharacters:[NSString backslash] toString:[NSString yenmark]];
-	newstr = [newstr stringByReplaceCharacters:[NSString yenmark] toString:XML_YEN_ENTITY];
-	
-	return newstr;
-}*/
 static inline NSString *prepareStringForPosting(NSString *str)
 {
 	NSString *newString;
@@ -327,20 +302,6 @@ static inline NSString *prepareStringForPosting(NSString *str)
 	return newString;
 }
 
-/*- (NSDictionary *)formDictionary:(NSString *)replyMessage name:(NSString *)name mail:(NSString *)mail
-{
-	return [self formDictionary:replyMessage name:name mail:mail hanamogera:NO];
-}*/
-
-//- (NSDictionary *)formDictionary:(NSString *)replyMessage name:(NSString *)name mail:(NSString *)mail hanamogera:(BOOL)addForms
-/*
-static inline NSDictionary *formKeysForBoard(NSURL *boardURL)
-{
-	CMRHostHandler *handler = [CMRHostHandler hostHandlerForURL:boardURL];
-	if (!handler) return nil;
-	return [handler formKeyDictionary];
-}
-*/
 - (NSDictionary *)formDictionary
 {
 	NSString *name = [self name];
@@ -384,7 +345,6 @@ static inline NSDictionary *formKeysForBoard(NSURL *boardURL)
 
     // 本文のみ円記号とバッスラッシュを実体参照で置換する。
 	key_ = [formKeys_ stringForKey:CMRHostFormMessageKey];
-//	[form_ setNoneNil:removeObjectReplacementCharacter([self stringByReplacingYenBackslashToEntity:replyMessage]) forKey:key_];
 	[form_ setNoneNil:prepareStringForPosting(replyMessage) forKey:key_];
 
 	key_ = [formKeys_ stringForKey:CMRHostFormBBSKey];
@@ -397,7 +357,7 @@ static inline NSDictionary *formKeysForBoard(NSURL *boardURL)
 	[form_ setNoneNil:time_ forKey:key_];
 
 	// for 2ch (after 2006-05-27, hana=mogera)
-	if (/*addForms &&*/ [self additionalForms]) {
+	if ([self additionalForms]) {
 		[form_ addEntriesFromDictionary:[self additionalForms]];
 	}
 	// for Jbbs_shita
@@ -407,13 +367,7 @@ static inline NSDictionary *formKeysForBoard(NSURL *boardURL)
 	}
 	return form_;
 }
-/*
-- (void)sendMessageWithContents:(NSString *)replyMessage name:(NSString *)name mail:(NSString *)mail
-{
-	[self sendMessageWithContents:replyMessage name:name mail:mail hanamogera:NO];
-}
-*/
-//- (void)sendMessageWithContents:(NSString *)replyMessage name:(NSString *)name mail:(NSString *)mail hanamogera:(BOOL)addForms
+
 - (void)startSendingMessage
 {
     id<w2chConnect>     connector_;
@@ -439,7 +393,6 @@ static inline NSDictionary *formKeysForBoard(NSURL *boardURL)
     //プラグインをロード
     connector_ = [CMRPref w2chConnectWithURL:[self targetURL] properties:headers_];
 	[connector_ setDelegate:self];
-//    formDictionary_ = [self formDictionary:replyMessage name:name mail:mail hanamogera:addForms];
 	formDictionary_ = [self formDictionary];
 
     UTILDebugWrite1(@"targetURL = %@", [[self targetURL] absoluteString]);

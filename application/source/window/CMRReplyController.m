@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Updated by Tsutomu Sawada on 07/11/05.
-//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -35,37 +35,19 @@
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[[self mailField] unbind:@"value"];
-	[[self nameComboBox] unbind:@"value"];
 	[[self textView] unbind:@"font"];
 	[CMRPref removeObserver:self forKeyPath:@"threadViewTheme.replyBackgroundColor"];
 	[CMRPref removeObserver:self forKeyPath:@"threadViewTheme.replyColor"];
 	[super dealloc];
 }
-/*
-- (BOOL)isEndPost
-{
-	return [[self document] isEndPost];
-}
 
-- (id)threadIdentifier
-{
-	return [[self document] threadIdentifier];
-}
-*/
 #pragma mark Working with CMRReplyMessenger
 - (void)synchronizeMessengerWithData
 {
-	NSWindow *window = [self window];
 	CMRReplyMessenger *document = [self document];
 
-/*	if ([window firstResponder] != [self textView]) {
-		if (![window makeFirstResponder:window]) {
-			[window endEditingFor:nil];
-		}
-	}*/
 	[document updateReplyMessage];
-	[document setWindowFrame:[window frame]];
+	[document setWindowFrame:[[self window] frame]];
 }
 
 #pragma mark IBActions
