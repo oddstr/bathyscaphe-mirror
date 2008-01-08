@@ -1,3 +1,21 @@
+2008-01-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/InfoPlist.strings
+	* application/subproj/previewer/Japanese.lproj/InfoPlist.strings
+		(c) 2005-2007 を (c) 2005-2008 に順次更新していく。
+	* application/source/thread/CMRThreadViewer-Link.m
+	* application/subproj/preference/Japanese.lproj/LinkPreferences.nib
+		option キーを押しながら外部リンクをクリックすることで一時的に「リンク」環境設定の「外部リンクをクリックしたときの動作」を
+		逆転できる機能を廃止した。どうも Leopard で装飾キーを押しながらのリンククリックがキャッチできない感じなので。
+		コンテクストメニューで代替してください。
+ 	* application/source/threaddata/CMRThreadMessage-UndoSupport.m
+		[新規追加] ソースいじりの都合上別ファイル立てにした。
+	* application/source/thread/CMRThreadViewer.m
+	* application/source/threaddata/CMRThreadMessage.m
+	* application/source/threaddata/CMRThreadMessage_p.h
+	* application/source/view/CMRThreadView.m
+		レスの属性指定（via コンテクストメニュー or レス番クリックのメニュー）の「取り消し」をサポート。
+		- あるレスの「迷惑レス」指定を取り消しても、そこから連鎖的に迷惑レス認定されたレスは元に戻らない（どちらかというと仕様）。
+		- 複数のレスを同時に「透明あぼーん」したあとに取り消しても、一つのレスしか取り消しされない（原因不明）。レスの数だけ「取り消し」する必要有り。
 2008-01-07 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/Messenger.strings
 	* application/Resources/Japanese.lproj/CMRReplyWindow.nib

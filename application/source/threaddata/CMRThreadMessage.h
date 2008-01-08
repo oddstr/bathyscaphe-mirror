@@ -1,6 +1,6 @@
 //: CMRThreadMessage.h
 /**
-  * $Id: CMRThreadMessage.h,v 1.3 2006/02/02 13:00:47 tsawada2 Exp $
+  * $Id: CMRThreadMessage.h,v 1.4 2008/01/08 16:19:03 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -130,6 +130,14 @@
 - (void) setTemporaryInvisible : (BOOL) flag;
 @end
 
+
+@interface CMRThreadMessage(UndoSupport)
+- (void)setLocalAboned:(BOOL)flag undoManager:(NSUndoManager *)um;
+- (void)setInvisibleAboned:(BOOL)flag undoManager:(NSUndoManager *)um;
+- (void)setAsciiArt:(BOOL)flag undoManager:(NSUndoManager *)um;
+- (void)setHasBookmark:(BOOL)flag undoManager:(NSUndoManager *)um;
+- (void)setSpam:(BOOL)flag undoManager:(NSUndoManager *)um;
+@end
 
 
 @interface CMRThreadMessage(Private)

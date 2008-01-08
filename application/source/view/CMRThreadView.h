@@ -20,7 +20,7 @@
 	unsigned		m_lastCharIndex;		/* For -menuForEvent: */
 
 	BOOL			draggingHilited;
-	NSTimeInterval	draggingTimer;
+	NSTimeInterval	draggingTimer;	
 }
 
 // delegate's layout

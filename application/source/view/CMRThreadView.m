@@ -37,6 +37,13 @@ static NSString *mActionGetKeysForTag[] = {
 	return self;
 }
 
+- (void)dealloc
+{
+	NSUndoManager *undoManager = [[self window] undoManager];
+	[undoManager removeAllActions];
+	[super dealloc];
+}
+
 #pragma mark Drawing
 // ライブリサイズ中のレイアウト再計算を抑制する
 - (void)viewWillStartLiveResize
@@ -129,7 +136,7 @@ static inline NSEnumerator *indexEnumeratorWithIndexes(NSIndexSet *indexSet)
 	while ([indexSet getIndexes:&arrayElement maxCount:1 inIndexRange:&e] > 0) {
 		[array addObject:[NSNumber numberWithUnsignedInt:arrayElement]];
 	}
-	return [array objectEnumerator];
+	return [array reverseObjectEnumerator];
 }
 
 
@@ -459,31 +466,31 @@ NS_ENDHANDLER
 {
 	CMRThreadLayout		*layout = [self threadLayout];
 	CMRThreadMessage	*m;
-	
+	NSUndoManager		*um = [[self window] undoManager];
 	if (!layout || anIndex >= [layout numberOfReadedMessages]) return nil;
 	
 	m = [layout messageAtIndex:anIndex];
 	
 	switch (aSenderTag) {
 	case kLocalAboneTag:
-		[m setLocalAboned:![m isLocalAboned]];
+		[m setLocalAboned:![m isLocalAboned] undoManager:um];
 		break;
 	case kInvisibleAboneTag:
-		[m setInvisibleAboned:![m isInvisibleAboned]];
+		[m setInvisibleAboned:![m isInvisibleAboned] undoManager:um];
 		break;
 	case kAsciiArtTag:
-		[m setAsciiArt:![m isAsciiArt]];
+		[m setAsciiArt:![m isAsciiArt] undoManager:um];
 		break;
 	case kBookmarkTag:
 		/* 現バージョンでは複数のブックマークは利用しない */
-		[m setHasBookmark:![m hasBookmark]];
+		[m setHasBookmark:![m hasBookmark] undoManager:um];
 		break;
 	case kSpamTag:{
 		BOOL	isSpam_ = (NO == [m isSpam]);
 		// 迷惑レスを手動で設定した場合は
 		// フィルタに登録する
 		[self messageRegister:m registerFlag:isSpam_];
-		[m setSpam:isSpam_];
+		[m setSpam:isSpam_ undoManager:um];
 		break;
 	}
 	default :
@@ -605,7 +612,6 @@ NS_ENDHANDLER
 	if (([sender state] == NSOnState) || ![CMRPref showsPoofAnimationOnInvisibleAbone]) {
 		while (mIndex = [mIndexEnum_ nextObject]) {
 			UTILAssertRespondsTo(mIndex, @selector(unsignedIntValue));
-
 			[self toggleMessageAttributesAtIndex:[mIndex unsignedIntValue] senderTag:actionType];
 		}
 
@@ -615,7 +621,6 @@ NS_ENDHANDLER
 
 		while (mIndex = [mIndexEnum_ nextObject]) {
 			UTILAssertRespondsTo(mIndex, @selector(unsignedIntValue));
-
 			if ((actionType == kInvisibleAboneTag) && !poofDone) {
 				[self showPoofEffectForInvisibleAboneWithIndex:mIndex actionType:actionType];
 				poofDone = YES;

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.25 2007/12/11 17:09:37 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.26 2008/01/08 16:19:03 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright (c) 2003, Takanori Ishikawa.
@@ -25,7 +25,7 @@
 	
 	// Helper
 	CMRThreadLayout				*_layout;
-	
+	NSUndoManager	*m_undo;
 	// Interface
 	CMRIndexingStepper			*m_indexingStepper;
 	BSIndexingPopupper			*m_indexingPopupper;

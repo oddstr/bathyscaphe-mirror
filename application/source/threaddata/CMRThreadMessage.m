@@ -1,6 +1,6 @@
 //: CMRThreadMessage.m
 /**
-  * $Id: CMRThreadMessage.m,v 1.5 2006/09/02 11:41:01 masakih Exp $
+  * $Id: CMRThreadMessage.m,v 1.6 2008/01/08 16:19:03 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -466,7 +466,6 @@ static NSString *const kEmptyString = @"";
 {
 	[self setMessageAttributeFlag:ASCII_ART_FLAG on:flag];
 }
-
 // ブックマーク
 // Finder like label, 3bit unsigned integer value.
 - (BOOL) hasBookmark { return ([self bookmark] != 0); }

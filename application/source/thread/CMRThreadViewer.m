@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.51 2007/12/19 13:20:40 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.52 2008/01/08 16:19:03 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -62,7 +62,7 @@ NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEnd
 	[m_indexingStepper release];
 	[m_indexingPopupper release];
 	[m_componentsView release];
-
+	[m_undo release];
 	[_layout release];
 	[_history release];
 	[super dealloc];
@@ -799,6 +799,20 @@ NSString *kComposingNotificationNames[] = {
 
 
 @implementation CMRThreadViewer(NotificationPrivate)
+- (NSUndoManager *)ununundoManager
+{
+	if (!m_undo) {
+		m_undo = [[NSUndoManager alloc] init];
+	}
+	return m_undo;
+}
+
+- (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)sender
+{
+	//NSLog(@"Hoogeeeee");
+	return [self ununundoManager];
+}
+
 - (void)threadAttributesDidChangeAttributes:(NSNotification *)notification
 {
 	UTILAssertNotificationObject(
