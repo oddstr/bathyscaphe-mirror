@@ -1,12 +1,11 @@
 //:SGLinkCommand.m
+#import "CMRTask.h"
+#import "CMRTaskManager.h"
 #import "SGLinkCommand.h"
 #import "CocoMonar_Prefix.h"
 #import <SGAppKit/NSWorkspace-SGExtensions.h>
-//#import <SGNetwork/BSIPIDownload.h>
 #import "AppDefaults.h"
 
-#import "CMRTask.h"
-#import "CMRTaskManager.h"
 
 @implementation SGLinkCommand : SGFunctor
 - (id) link

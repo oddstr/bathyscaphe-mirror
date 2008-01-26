@@ -1,9 +1,9 @@
 //:SGLinkCommand.h
 #import <Cocoa/Cocoa.h>
 #import "SGFunctor.h"
+#import "CMRTask.h"
 
 @class BSURLDownload;
-@protocol CMRTask;
 
 @interface SGLinkCommand : SGFunctor
 - (id) link;

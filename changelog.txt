@@ -1,3 +1,13 @@
+2008-01-26 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/CMRThreadView.m
+		透明あぼーん時の poof effect の発生タイミング、位置、および大きさの変更により、体感軽快度を向上。
+		また、ソースの一部構造を見直して効率化。
+		さらに、2008-01-09 の「複数のレスを同時に「透明あぼーん」したあとに取り消しても、一つのレスしか取り消しされない」問題は解消した。
+	* application/source/thread/CMRThreadViewer-Link.m
+		option キーを押しながら外部リンクをクリックすることで一時的に「リンク」環境設定の「外部リンクをクリックしたときの動作」を
+		逆転できる機能を復活した。Leopard ではなく私の勘違いミス。
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		「ファイル」＞「お気に入りを読み込む...」「お気に入りを書き出す...」をいったん取り外した。
 2008-01-09 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/InfoPlist.strings
 	* application/subproj/previewer/Japanese.lproj/InfoPlist.strings

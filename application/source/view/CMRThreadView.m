@@ -136,9 +136,8 @@ static inline NSEnumerator *indexEnumeratorWithIndexes(NSIndexSet *indexSet)
 	while ([indexSet getIndexes:&arrayElement maxCount:1 inIndexRange:&e] > 0) {
 		[array addObject:[NSNumber numberWithUnsignedInt:arrayElement]];
 	}
-	return [array reverseObjectEnumerator];
+	return [array objectEnumerator];
 }
-
 
 - (NSIndexSet *)messageIndexesForRange:(NSRange)range_
 {
@@ -413,7 +412,7 @@ NS_ENDHANDLER
 }
 
 #pragma mark Message Menu Action
-- (NSEnumerator *)representedIndexEnumeratorWithSender:(id)sender
+- (NSIndexSet *)representedIndexesWithSender:(id)sender
 {
 	id	v = [sender representedObject];
 
@@ -422,7 +421,7 @@ NS_ENDHANDLER
 	} else {	// 通常はこっち (representedObject はしっかりセットしておくべし)
 		UTILAssertKindOfClass(v, NSIndexSet);
 	}
-	return indexEnumeratorWithIndexes(v);
+	return v;
 }
 
 // スパムフィルタへの登録
@@ -499,33 +498,6 @@ NS_ENDHANDLER
 	}
 	return m;
 }
-
-- (void)invisibleAbonePoofEffectDidEnd:(void *)contextInfo
-{
-	unsigned int	mIndexNum = [[(NSArray *)contextInfo objectAtIndex:0] unsignedIntValue];
-	int				actionType = [[(NSArray *)contextInfo objectAtIndex:1] intValue];
-
-	[self toggleMessageAttributesAtIndex:mIndexNum senderTag:actionType];
-	[(NSArray *)contextInfo release];
-}
-
-- (void)showPoofEffectForInvisibleAboneWithIndex:(NSNumber *)mIndex actionType:(int)actionType
-{
-	unsigned int mIndexNum = [mIndex unsignedIntValue];
-	NSArray	*info;
-
-	NSRange	range = [[self threadLayout] rangeAtMessageIndex:mIndexNum];
-
-	NSRect	rect = [self boundingRectForCharacterInRange:range];
-
-	NSPoint	point = NSMakePoint(NSMinX(rect), NSMinY(rect));
-
-	point = [self convertPoint:point toView:nil];
-	point = [[self window] convertBaseToScreen:point];
-
-	info = [[NSArray alloc] initWithObjects:mIndex, [NSNumber numberWithInt:actionType], nil];
-	NSShowAnimationEffect(NSAnimationEffectDisappearingItemDefault, point, NSZeroSize, self, @selector(invisibleAbonePoofEffectDidEnd:), info);
-}
 @end
 
 
@@ -589,48 +561,56 @@ NS_ENDHANDLER
 	id				delegate_ = [self delegate];
 	if (!delegate_ || ![delegate_ respondsToSelector:@selector(threadView:messageReply:)]) return;
 
-	NSEnumerator	*mIndexEnum_;
-	NSNumber		*mIndex;
+	NSIndexSet		*mIndexes;
 	NSRange			range_;
 	
-	mIndexEnum_ = [self representedIndexEnumeratorWithSender:sender];
-	mIndex = [mIndexEnum_ nextObject];
-	if (!mIndex) return;
+	mIndexes = [self representedIndexesWithSender:sender];
+	if (!mIndexes) return;
 	
-	range_ = NSMakeRange([mIndex unsignedIntValue], 1);
+	range_ = NSMakeRange([mIndexes firstIndex], 1);
 	[delegate_ threadView:self messageReply:range_];
+}
+
+- (NSPoint)pointForIndex:(unsigned int)messageIndex
+{
+	NSRange	range = [[self threadLayout] rangeAtMessageIndex:messageIndex];
+	NSRect	rect = [self boundingRectForCharacterInRange:range];
+	NSPoint	point = NSMakePoint(NSMidX(rect), NSMidY(rect));
+	point = [self convertPoint:point toView:nil];
+	point = [[self window] convertBaseToScreen:point];
+	return point;
+}
+
+static BOOL shouldPoof(int state, int actionType)
+{
+	if (state == NSOnState) return NO;
+	if (![CMRPref showsPoofAnimationOnInvisibleAbone]) return NO;
+
+	if (actionType == kInvisibleAboneTag) return YES;
+	if (actionType == kSpamTag && [CMRPref spamFilterBehavior] == kSpamFilterInvisibleAbonedBehavior) return YES;
+
+	return NO;
 }
 
 - (IBAction)changeMessageAttributes:(id)sender
 {
 	NSEnumerator	*mIndexEnum_;
 	NSNumber		*mIndex;
+	unsigned int	firstIndex;
 	int				actionType = [sender tag];
-	
-	mIndexEnum_ = [self representedIndexEnumeratorWithSender:sender];
+	NSIndexSet		*mIndexes = [self representedIndexesWithSender:sender];
 
-	if (([sender state] == NSOnState) || ![CMRPref showsPoofAnimationOnInvisibleAbone]) {
-		while (mIndex = [mIndexEnum_ nextObject]) {
-			UTILAssertRespondsTo(mIndex, @selector(unsignedIntValue));
-			[self toggleMessageAttributesAtIndex:[mIndex unsignedIntValue] senderTag:actionType];
-		}
+	if (!mIndexes) return;
+//	mIndexEnum_ = [self representedIndexEnumeratorWithSender:sender];
+	firstIndex = [mIndexes firstIndex];
+	mIndexEnum_ = indexEnumeratorWithIndexes(mIndexes);
 
-	} else {
+	while (mIndex = [mIndexEnum_ nextObject]) {
+		[self toggleMessageAttributesAtIndex:[mIndex unsignedIntValue] senderTag:actionType];
+	}
 
-		BOOL	poofDone = NO;
-
-		while (mIndex = [mIndexEnum_ nextObject]) {
-			UTILAssertRespondsTo(mIndex, @selector(unsignedIntValue));
-			if ((actionType == kInvisibleAboneTag) && !poofDone) {
-				[self showPoofEffectForInvisibleAboneWithIndex:mIndex actionType:actionType];
-				poofDone = YES;
-			} else if (([CMRPref spamFilterBehavior] == kSpamFilterInvisibleAbonedBehavior) && (actionType == kSpamTag) && !poofDone) {
-				[self showPoofEffectForInvisibleAboneWithIndex:mIndex actionType:actionType];
-				poofDone = YES;
-			} else {
-				[self toggleMessageAttributesAtIndex:[mIndex unsignedIntValue] senderTag:actionType];
-			}
-		}
+	if (shouldPoof([sender state], actionType)) {
+		NSShowAnimationEffect(NSAnimationEffectDisappearingItemDefault, [self pointForIndex:firstIndex], NSMakeSize(128,128), nil, NULL, nil);
 	}
 }
 
@@ -639,15 +619,11 @@ NS_ENDHANDLER
 	id				delegate_ = [self delegate];
 	if (!delegate_ || ![delegate_ respondsToSelector:@selector(threadView:reverseAnchorPopUp:locationHint:)]) return;
 
-	NSEnumerator	*mIndexEnum_;
-	NSNumber		*mIndex;
-	
-	mIndexEnum_ = [self representedIndexEnumeratorWithSender:sender];
-	mIndex = [mIndexEnum_ nextObject];
-	if (!mIndex) return;
-	
+	NSIndexSet		*mIndexes;
+	mIndexes = [self representedIndexesWithSender:sender];
+	if (!mIndexes) return;
 
-	unsigned int mIndexNum = [mIndex unsignedIntValue];
+	unsigned int mIndexNum = [mIndexes firstIndex];
 	NSRect  rect_ = [self boundingRectForMessageAtIndex:mIndexNum];
 	NSPoint	point_ = NSMakePoint(NSMinX(rect_), NSMinY(rect_));
 
@@ -749,11 +725,7 @@ NS_ENDHANDLER
 		
 		return [self setUpMessageActionMenuItem:theItem forIndexes:indexSet withAttributeName:mActionGetKeysForTag[tag]];
 	}
-/*	
-	if (action_ == @selector(previewLinksInSelection:)) {
-		return [[CMRPref sharedImagePreviewer] respondsToSelector:@selector(showImagesWithURLs:)];
-	}
-*/
+
 	return [super validateMenuItem:theItem];
 }
 @end

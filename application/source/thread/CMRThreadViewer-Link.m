@@ -265,25 +265,25 @@ static inline NSString *urlPathExtension(NSURL *url)
 - (BOOL)handleExternalLink:(id)aLink forView:(NSView *)aView
 {
 	BOOL			shouldPreviewWithNoModifierKey = [CMRPref previewLinkWithNoModifierKey];
-//	BOOL			isOptionKeyPressed;
+	BOOL			isOptionKeyPressed;
 	BOOL			isFileURL;
 	NSURL			*url = [NSURL URLWithLink:aLink];
-//	NSEvent			*theEvent;
+	NSEvent			*theEvent;
 	
-//	theEvent = [[aView window] currentEvent];
-//	UTILAssertNotNil(theEvent);
+	theEvent = [[aView window] currentEvent];
+	UTILAssertNotNil(theEvent);
 
-//	isOptionKeyPressed = ([theEvent modifierFlags] & NSAlternateKeyMask);
+	isOptionKeyPressed = (([theEvent modifierFlags] & NSAlternateKeyMask) == NSAlternateKeyMask);
 	isFileURL = [url isFileURL];
 
 	if (shouldPreviewWithNoModifierKey) {
-		if (/*!isOptionKeyPressed &&*/ !isFileURL) {
+		if (!isOptionKeyPressed && !isFileURL) {
 			if ([self previewOrDownloadURL:url]) return YES;
 		}
-/*	} else {
+	} else {
 		if (isOptionKeyPressed && !isFileURL) {
 			if ([self previewOrDownloadURL:url]) return YES;
-		}*/
+		}
 	}
 	return [[NSWorkspace sharedWorkspace] openURL:url inBackground:[CMRPref openInBg]];
 }
