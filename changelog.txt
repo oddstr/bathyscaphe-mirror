@@ -1,4 +1,10 @@
 2008-01-26 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/previewer/BSIPIToken.m
+	* application/subproj/previewer/Japanese.lproj/Localizable.strings
+		プレビューインスペクタ：
+		- イメージではないリソースが返ってきたときに（「404 Not Found」と書かれた html とか）、0*0 ピクセルのイメージが表示される
+		　問題を修正。ダウンロードの失敗と同等に処理するようにした。
+		- NSURLError の場合、エラーコードではなく localizedDescription を表示するようにした。
 	* application/source/view/CMRThreadView.m
 		透明あぼーん時の poof effect の発生タイミング、位置、および大きさの変更により、体感軽快度を向上。
 		また、ソースの一部構造を見直して効率化。

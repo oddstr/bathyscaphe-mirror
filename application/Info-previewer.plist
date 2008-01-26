@@ -23,9 +23,9 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>11</string>
+	<string>13</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>(c) 2005-2007 tsawada2.</string>
+	<string>(c) 2005-2008 tsawada2.</string>
 	<key>NSMainNibFile</key>
 	<string>BSImagePreviewInspector</string>
 	<key>NSPrincipalClass</key>
