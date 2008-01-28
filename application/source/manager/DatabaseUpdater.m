@@ -161,7 +161,8 @@ abort:
 		BoardIDColumn, ThreadIDColumn, FavoritesTableName];
 	result = [db cursorForSQL : query];
 	if ([db lastErrorID] != 0) goto abort;
-	if(!result) return YES;
+	if(!result) goto abort;
+	if([result rowCount] == 0) return YES;
 	
 	// お気に入りを ThreadInfoTable に登録
 	SQLiteReservedQuery *insertFav;
@@ -185,7 +186,7 @@ abort:
 	
 abort:
 	NSLog(@"Fail Database operation. Reson: \n%@", [db lastError]);
-	[db rollbackTransaction];
+//	[db rollbackTransaction];
 	return NO;
 }
 - (BOOL) updateDB
@@ -201,9 +202,11 @@ abort:
 		[db cursorForSQL : query];
 		if ([db lastErrorID] != 0) goto abort;
 		
-		if(![self restoreFavoriteOnDatabase : db]) goto abort;
+		isOK = [self restoreFavoriteOnDatabase : db];
+		if(!isOK) goto abort;
 		
-		if(![self updateVersion : 4 usingDB : db]) goto abort;
+		isOK = [self updateVersion : 4 usingDB : db];
+		if(!isOK) goto abort;
 		
 		[db commitTransaction];
 		[db save];
