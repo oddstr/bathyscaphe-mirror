@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.27 2007/09/16 19:02:17 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.28 2008/02/02 16:11:12 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -288,6 +288,19 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	UTILAssertNotNil(path_);
 
 	return path_;
+}
+
+- (NSString *)threadTitleAtRowIndex:(int )rowIndex inTableView:(NSTableView *)tableView
+{
+	NSString		*title_;
+	NSDictionary	*thread_;
+	
+	thread_ = [self threadAttributesAtRowIndex:rowIndex inTableView:tableView];
+	if(!thread_) return nil;
+	title_ = [CMRThreadAttributes threadTitleFromDictionary:thread_];
+	UTILAssertNotNil(title_);
+
+	return title_;
 }
 
 - (NSDictionary *)threadAttributesAtRowIndex:(int )rowIndex inTableView:(NSTableView *)tableView

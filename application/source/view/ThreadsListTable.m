@@ -11,6 +11,9 @@
 #import "CMRThreadsList.h"
 #import "AppDefaults.h"
 #import "NSIndexSet+BSAddition.h"
+#import "BSQuickLookPanelController.h"
+#import "BSQuickLookObject.h"
+#import "CMRThreadSignature.h"
 
 #import <SGAppKit/SGKeyBindingSupport.h>
 
@@ -312,6 +315,28 @@ Hope this helps...
 	[[NSWorkspace sharedWorkspace] selectFile:path inFileViewerRootedAtPath:[path stringByDeletingLastPathComponent]];
 }
 
+- (IBAction)quickLook:(id)sender
+{
+	id dataSource = [self dataSource];
+	if (!dataSource || ![dataSource respondsToSelector:@selector(threadFilePathAtRowIndex:inTableView:status:)]) {
+		NSBeep();
+		return;
+	}
+
+	BSQuickLookPanelController *qlc = [BSQuickLookPanelController sharedInstance];
+	[qlc showWindow:self];
+
+	if ([[qlc window] isVisible]) {
+		NSString *path = [dataSource threadFilePathAtRowIndex:[self selectedRow] inTableView:self status:NULL];
+		NSString *title = [dataSource threadTitleAtRowIndex:[self selectedRow] inTableView:self];
+
+		CMRThreadSignature *foo = [CMRThreadSignature threadSignatureFromFilepath:path];
+		BSQuickLookObject	*bar = [[BSQuickLookObject alloc] initWithThreadTitle:title signature:foo];
+		[[qlc objectController] setContent:bar];
+		[bar release];
+	}
+}
+
 - (BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)anItem
 {
 	SEL action = [anItem action];
@@ -325,7 +350,18 @@ Hope this helps...
 		ThreadStatus status;
 		[dataSource threadFilePathAtRowIndex:selectedRow inTableView:self status:&status];
 		return ((status & ThreadLogCachedStatus) > 0);
+	} else if (action == @selector(quickLook:)) {
+		return ([[self selectedRowIndexes] count] == 1);
 	}
 	return [super validateUserInterfaceItem:anItem];
+}
+
+- (BOOL)validateNSControlToolbarItem:(NSToolbarItem *)item
+{
+	SEL action = [(NSControl *)[item view] action];
+	if (action == @selector(quickLook:)) {
+		return ([[self selectedRowIndexes] count] == 1);
+	}
+	return YES;
 }
 @end

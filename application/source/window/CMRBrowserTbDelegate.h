@@ -12,6 +12,7 @@
 
 @interface CMRBrowserTbDelegate : CMRThreadViewerTbDelegate
 {
+	IBOutlet NSButton *m_quickLookToolbarItem;
 }
 @end
 

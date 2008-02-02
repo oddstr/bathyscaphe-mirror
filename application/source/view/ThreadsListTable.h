@@ -26,4 +26,6 @@
 
 // Available in Twincam Angel.
 - (IBAction)revealInFinder:(id)sender;
+// Available in SilverGull.
+- (IBAction)quickLook:(id)sender;
 @end

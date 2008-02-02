@@ -103,6 +103,11 @@
 		873E6A6B0D0DBC4C004421F7 /* BSFavoritesProgressPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 873E6A690D0DBC4C004421F7 /* BSFavoritesProgressPanel.nib */; };
 		874344ED0B62ACD800422547 /* BSFontWell.h in Headers */ = {isa = PBXBuildFile; fileRef = 874344EB0B62ACD800422547 /* BSFontWell.h */; };
 		874344EE0B62ACD800422547 /* BSFontWell.m in Sources */ = {isa = PBXBuildFile; fileRef = 874344EC0B62ACD800422547 /* BSFontWell.m */; };
+		874525360D546565009ECA02 /* BSQuickLookPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 874525340D546565009ECA02 /* BSQuickLookPanel.nib */; };
+		874525450D54668F009ECA02 /* BSQuickLookPanelController.h in Headers */ = {isa = PBXBuildFile; fileRef = 874525430D54668F009ECA02 /* BSQuickLookPanelController.h */; };
+		874525460D54668F009ECA02 /* BSQuickLookPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 874525440D54668F009ECA02 /* BSQuickLookPanelController.m */; };
+		874525780D547CDC009ECA02 /* BSQuickLookPanel.h in Headers */ = {isa = PBXBuildFile; fileRef = 874525760D547CDC009ECA02 /* BSQuickLookPanel.h */; };
+		874525790D547CDC009ECA02 /* BSQuickLookPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 874525770D547CDC009ECA02 /* BSQuickLookPanel.m */; };
 		8745CD290900DE9800A28AC0 /* BSImagePreviewerInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 8745CD280900DE9800A28AC0 /* BSImagePreviewerInterface.h */; };
 		874934C20BDB62180082F7BF /* ThemeEditor.nib in Resources */ = {isa = PBXBuildFile; fileRef = 874934C00BDB62180082F7BF /* ThemeEditor.nib */; };
 		874934D30BDB65C30082F7BF /* BSThemeEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 874934D10BDB65C30082F7BF /* BSThemeEditor.h */; };
@@ -119,6 +124,8 @@
 		876747BD0D1412E4004AAC4E /* NSApplication+BSScriptingSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 876747BB0D1412E4004AAC4E /* NSApplication+BSScriptingSupport.h */; };
 		876747BE0D1412E4004AAC4E /* NSApplication+BSScriptingSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 876747BC0D1412E4004AAC4E /* NSApplication+BSScriptingSupport.m */; };
 		876AC0BC0BD48AC800238F9D /* SGAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244F5043610D600A80005 /* SGAppKit.framework */; };
+		876FB8040D54B97A00F9853E /* BSNSControlTbItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 876FB8020D54B97A00F9853E /* BSNSControlTbItem.h */; };
+		876FB8050D54B97A00F9853E /* BSNSControlTbItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 876FB8030D54B97A00F9853E /* BSNSControlTbItem.m */; };
 		87749E070A878F120008A679 /* HistoryFolder.png in Resources */ = {isa = PBXBuildFile; fileRef = 87078CD5090E970F007FF9C3 /* HistoryFolder.png */; };
 		87751824097818E7009D4A9C /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F36067F8044D4DD500A80005 /* ApplicationServices.framework */; };
 		87751A5A09782B82009D4A9C /* BSIPIFullScreenController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87751A5809782B82009D4A9C /* BSIPIFullScreenController.h */; };
@@ -203,6 +210,9 @@
 		87DB9C7F0BA32CE00090090A /* SoftwareUpdate.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87DB9C7D0BA32CE00090090A /* SoftwareUpdate.strings */; };
 		87DBC6990A867C6D00A1C058 /* syncFail.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87DBC6970A867C6D00A1C058 /* syncFail.tiff */; };
 		87DBC69A0A867C6D00A1C058 /* syncFinish.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87DBC6980A867C6D00A1C058 /* syncFinish.tiff */; };
+		87DD8F8E0D5438020084FBDB /* BSQuickLookButton.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87DD8F8C0D5438020084FBDB /* BSQuickLookButton.nib */; };
+		87DD8F9C0D5458400084FBDB /* BSQuickLookObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 87DD8F9A0D5458400084FBDB /* BSQuickLookObject.h */; };
+		87DD8F9D0D5458400084FBDB /* BSQuickLookObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 87DD8F9B0D5458400084FBDB /* BSQuickLookObject.m */; };
 		87DF529D0CC380C600D48893 /* w2chReply_be2ch.h in Headers */ = {isa = PBXBuildFile; fileRef = 874F24FA080E716700EA2164 /* w2chReply_be2ch.h */; };
 		87DF529E0CC380C600D48893 /* w2chReply_be2ch.m in Sources */ = {isa = PBXBuildFile; fileRef = 874F24FB080E716700EA2164 /* w2chReply_be2ch.m */; };
 		87DF52DE0CC38F6C00D48893 /* BSLoggedInDATDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = 87DF52DC0CC38F6C00D48893 /* BSLoggedInDATDownloader.h */; };
@@ -934,6 +944,11 @@
 		873E6A6A0D0DBC4C004421F7 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSFavoritesProgressPanel.nib; sourceTree = "<group>"; };
 		874344EB0B62ACD800422547 /* BSFontWell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSFontWell.h; path = ../IBPallete/BSFontWell/BSFontWell.h; sourceTree = SOURCE_ROOT; };
 		874344EC0B62ACD800422547 /* BSFontWell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSFontWell.m; path = ../IBPallete/BSFontWell/BSFontWell.m; sourceTree = SOURCE_ROOT; };
+		874525350D546565009ECA02 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSQuickLookPanel.nib; sourceTree = "<group>"; };
+		874525430D54668F009ECA02 /* BSQuickLookPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSQuickLookPanelController.h; sourceTree = "<group>"; };
+		874525440D54668F009ECA02 /* BSQuickLookPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSQuickLookPanelController.m; sourceTree = "<group>"; };
+		874525760D547CDC009ECA02 /* BSQuickLookPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSQuickLookPanel.h; sourceTree = "<group>"; };
+		874525770D547CDC009ECA02 /* BSQuickLookPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSQuickLookPanel.m; sourceTree = "<group>"; };
 		8745CD280900DE9800A28AC0 /* BSImagePreviewerInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSImagePreviewerInterface.h; sourceTree = "<group>"; };
 		87464E3608643673000F0371 /* libRBSplitView.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libRBSplitView.a; sourceTree = "<group>"; };
 		87464E380864368F000F0371 /* RBSplitView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RBSplitView.h; path = ../RBSplitView.h; sourceTree = "<group>"; };
@@ -962,6 +977,8 @@
 		876415810840AF5500F66D78 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/AdvancedPane.nib; sourceTree = "<group>"; };
 		876747BB0D1412E4004AAC4E /* NSApplication+BSScriptingSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSApplication+BSScriptingSupport.h"; sourceTree = "<group>"; };
 		876747BC0D1412E4004AAC4E /* NSApplication+BSScriptingSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSApplication+BSScriptingSupport.m"; sourceTree = "<group>"; };
+		876FB8020D54B97A00F9853E /* BSNSControlTbItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSNSControlTbItem.h; sourceTree = "<group>"; };
+		876FB8030D54B97A00F9853E /* BSNSControlTbItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSNSControlTbItem.m; sourceTree = "<group>"; };
 		87751A5809782B82009D4A9C /* BSIPIFullScreenController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIFullScreenController.h; sourceTree = "<group>"; };
 		87751A5909782B82009D4A9C /* BSIPIFullScreenController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIFullScreenController.m; sourceTree = "<group>"; };
 		87751A6209782DD7009D4A9C /* BSIPIFullScreenWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIFullScreenWindow.h; sourceTree = "<group>"; };
@@ -1076,6 +1093,9 @@
 		87DB9C800BA32CEF0090090A /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/SoftwareUpdate.strings; sourceTree = "<group>"; };
 		87DBC6970A867C6D00A1C058 /* syncFail.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = syncFail.tiff; sourceTree = "<group>"; };
 		87DBC6980A867C6D00A1C058 /* syncFinish.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = syncFinish.tiff; sourceTree = "<group>"; };
+		87DD8F8D0D5438020084FBDB /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSQuickLookButton.nib; sourceTree = "<group>"; };
+		87DD8F9A0D5458400084FBDB /* BSQuickLookObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSQuickLookObject.h; sourceTree = "<group>"; };
+		87DD8F9B0D5458400084FBDB /* BSQuickLookObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSQuickLookObject.m; sourceTree = "<group>"; };
 		87DF52DC0CC38F6C00D48893 /* BSLoggedInDATDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSLoggedInDATDownloader.h; sourceTree = "<group>"; };
 		87DF52DD0CC38F6C00D48893 /* BSLoggedInDATDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSLoggedInDATDownloader.m; sourceTree = "<group>"; };
 		87DF8EA30CE7593700C43505 /* BSImagePreviewInspector-Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BSImagePreviewInspector-Settings.m"; sourceTree = "<group>"; };
@@ -1675,6 +1695,8 @@
 		872998690832616D00CBD740 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				874525340D546565009ECA02 /* BSQuickLookPanel.nib */,
+				87DD8F8C0D5438020084FBDB /* BSQuickLookButton.nib */,
 				87187F0E0D2F5ADE00DE3EF5 /* BSTimeMachine.nib */,
 				873E6A690D0DBC4C004421F7 /* BSFavoritesProgressPanel.nib */,
 				870B1F400C15B86200AAB734 /* BoardWarrior.scpt */,
@@ -2490,6 +2512,8 @@
 				87DB9C770BA32CA20090090A /* TS2SoftwareUpdate.m */,
 				F324DCD704C698FB00A80005 /* CMRThreadSignature.h */,
 				F324DCD804C698FB00A80005 /* CMRThreadSignature.m */,
+				87DD8F9A0D5458400084FBDB /* BSQuickLookObject.h */,
+				87DD8F9B0D5458400084FBDB /* BSQuickLookObject.m */,
 			);
 			path = object;
 			sourceTree = "<group>";
@@ -2554,6 +2578,8 @@
 				877AC2900B027447005365C0 /* CMRThreadView-Drop.m */,
 				878B4DBD0BB8D74E00829D2B /* BSNobiNobiToolbarItem.h */,
 				878B4DBE0BB8D74E00829D2B /* BSNobiNobiToolbarItem.m */,
+				876FB8020D54B97A00F9853E /* BSNSControlTbItem.h */,
+				876FB8030D54B97A00F9853E /* BSNSControlTbItem.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -2565,6 +2591,10 @@
 				F33E994B04C6A16800A80005 /* status line */,
 				879B0B910B6239EF00EFD6D0 /* BSThreadInfoPanelController.h */,
 				879B0B920B6239EF00EFD6D0 /* BSThreadInfoPanelController.m */,
+				874525430D54668F009ECA02 /* BSQuickLookPanelController.h */,
+				874525440D54668F009ECA02 /* BSQuickLookPanelController.m */,
+				874525760D547CDC009ECA02 /* BSQuickLookPanel.h */,
+				874525770D547CDC009ECA02 /* BSQuickLookPanel.m */,
 			);
 			path = window;
 			sourceTree = "<group>";
@@ -3196,6 +3226,10 @@
 				87D4C7960D1A38B9000553C1 /* BSReplyTextTemplateManager.h in Headers */,
 				87844E270D1F5256007C17C8 /* BSReplyControllerValueTransformer.h in Headers */,
 				87187F130D2F5AFA00DE3EF5 /* BSTimeMachineController.h in Headers */,
+				87DD8F9C0D5458400084FBDB /* BSQuickLookObject.h in Headers */,
+				874525450D54668F009ECA02 /* BSQuickLookPanelController.h in Headers */,
+				874525780D547CDC009ECA02 /* BSQuickLookPanel.h in Headers */,
+				876FB8040D54B97A00F9853E /* BSNSControlTbItem.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3524,6 +3558,8 @@
 				8785B7440D18F7B70081F4EB /* BoardListEditor.strings in Resources */,
 				87369D6A0D1D2CD500FBF754 /* deleteMail2.tiff in Resources */,
 				87187F100D2F5ADE00DE3EF5 /* BSTimeMachine.nib in Resources */,
+				87DD8F8E0D5438020084FBDB /* BSQuickLookButton.nib in Resources */,
+				874525360D546565009ECA02 /* BSQuickLookPanel.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3853,6 +3889,10 @@
 				87844E280D1F5256007C17C8 /* BSReplyControllerValueTransformer.m in Sources */,
 				87187F140D2F5AFA00DE3EF5 /* BSTimeMachineController.m in Sources */,
 				877FB0710D33A25300D8C87A /* CMRThreadMessage-UndoSupport.m in Sources */,
+				87DD8F9D0D5458400084FBDB /* BSQuickLookObject.m in Sources */,
+				874525460D54668F009ECA02 /* BSQuickLookPanelController.m in Sources */,
+				874525790D547CDC009ECA02 /* BSQuickLookPanel.m in Sources */,
+				876FB8050D54B97A00F9853E /* BSNSControlTbItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4195,6 +4235,14 @@
 			name = BSFavoritesProgressPanel.nib;
 			sourceTree = "<group>";
 		};
+		874525340D546565009ECA02 /* BSQuickLookPanel.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				874525350D546565009ECA02 /* Japanese */,
+			);
+			name = BSQuickLookPanel.nib;
+			sourceTree = "<group>";
+		};
 		874934C00BDB62180082F7BF /* ThemeEditor.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -4345,6 +4393,14 @@
 				87DB9C800BA32CEF0090090A /* Japanese */,
 			);
 			name = SoftwareUpdate.strings;
+			sourceTree = "<group>";
+		};
+		87DD8F8C0D5438020084FBDB /* BSQuickLookButton.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				87DD8F8D0D5438020084FBDB /* Japanese */,
+			);
+			name = BSQuickLookButton.nib;
 			sourceTree = "<group>";
 		};
 		F324DB4204C6959800A80005 /* AccountPane.nib */ = {

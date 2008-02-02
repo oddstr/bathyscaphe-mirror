@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRStatusLineWindowController.h,v 1.8 2007/09/04 07:45:43 tsawada2 Exp $
+  * $Id: CMRStatusLineWindowController.h,v 1.9 2008/02/02 16:11:12 tsawada2 Exp $
   * BathyScaphe
   *
   * ãå CMRStatusLineWindowController Ç∆ CMRToolbarWindowController Çìùçá
@@ -12,6 +12,7 @@
 #import "CocoMonar_Prefix.h"
 #import "CMRToolbarDelegate.h"
 #import "CMRStatusLine.h"
+#import "BSNSControlTbItem.h"
 
 @protocol CMRToolbarDelegate;
 

@@ -11,6 +11,7 @@
 #import "CMRToolbarDelegateImp_p.h"
 #import "CMRBrowser_p.h"
 #import "BSNobiNobiToolbarItem.h"
+#import "BSNSControlTbItem.h"
 
 // Reload Threads List
 static NSString *const st_reloadListItemIdentifier			= @"Reload List";
@@ -41,6 +42,12 @@ static NSString *const st_viewModeSwitcherItemIdentifier = @"Toggle View Mode";
 static NSString *const st_viewModeSwitcherItemLabelKey = @"Toggle View Mode Label";
 static NSString *const st_viewModeSwitcherItemPaletteLabelKey = @"Toggle View Mode Palette Label";
 static NSString *const st_viewModeSwitcherItemToolTipKey = @"Toggle View Mode ToolTip";
+
+// Quick Look
+// Testing...
+static NSString *const st_QLItemIdentifier = @"Quick Look";
+static NSString *const st_QLItemLabelKey = @"Quick Look Label";
+static NSString *const st_QLItemToolTipKey = @"Quick Look ToolTip";
 
 // Toolbar Identifier Constant
 static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
@@ -99,6 +106,14 @@ static NSString *const st_toolbar_identifier			= @"Browser Window Toolbar";
 									  target:nil];
 	[self setupNobiNobiToolbarItem:item_];
 
+	item_ = [self appendToolbarItemWithClass:[BSNSControlToolbarItem class] itemIdentifier:st_QLItemIdentifier
+						   localizedLabelKey:st_QLItemLabelKey
+					localizedPaletteLabelKey:st_QLItemLabelKey
+						 localizedToolTipKey:st_QLItemToolTipKey
+									  action:NULL
+									  target:nil];
+	[self setupQuickLookButton:item_];
+
 	item_ = [self appendToolbarItemWithItemIdentifier:st_COEItemIdentifier
 									localizedLabelKey:st_COEItemLabelKey
 							 localizedPaletteLabelKey:st_COEItemPaletteLabelKey
@@ -120,6 +135,20 @@ static NSMenuItem* searchToolbarItemMenuFormRep(NSString *labelText)
 	[menuItem_ setImage:[NSImage imageAppNamed:@"Find"]];
 
 	return [menuItem_ autorelease];
+}
+
+- (void)setupQuickLookButton:(NSToolbarItem *)anItem
+{
+	if (!m_quickLookToolbarItem) {
+		[NSBundle loadNibNamed:@"BSQuickLookButton" owner:self];
+	}
+
+	UTILAssertNotNil(m_quickLookToolbarItem);
+	NSSize size_ = [m_quickLookToolbarItem frame].size;
+
+	[anItem setView:m_quickLookToolbarItem];
+	[anItem setMinSize:size_];
+	[anItem setMaxSize:size_];
 }
 
 - (void)setupSearchToolbarItem:(NSToolbarItem *)anItem itemView:(NSView *)aView
@@ -225,6 +254,7 @@ static NSMenuItem* searchToolbarItemMenuFormRep(NSString *labelText)
 				[self historySegmentedControlIdentifier],
 				st_NobiNobiItemIdentifier,
 				st_viewModeSwitcherItemIdentifier,
+				st_QLItemIdentifier,
 				NSToolbarSeparatorItemIdentifier,
 				NSToolbarSpaceItemIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,

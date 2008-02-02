@@ -1,3 +1,46 @@
+2008-02-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	<<全般的な注意>>
+	本日追加の新機能「先頭のレスをクイックルック」について：
+	- スレの >>1 の本文だけをサッと HUD panel で表示します。
+	- 呼び出し方法：スレッド一覧で選択したスレッド（選択行は1行であること）に対して、
+	-- スペースバー
+	-- ツールバーの「クイックルック」ボタン
+	-- 「スレッド」＞「先頭のレスをクイックルック」
+	　で。
+	- この機能は、コア部分は Leopard specific なコードは全く用いていませんが、インタフェースは Leopard only な部品をいっぱい使いました。
+	　そういうわけで、Leopard で BathyScaphe を使用しているとき「のみ」この機能を利用可能にします。Tiger 以前では利用させません。
+	　しかし、今日のコミット時点ではまだ「Tiger 以前で利用させない」ための作業を行っていませんので、Tiger 以前の環境の人はご注意ください。
+	- あと、Leopard の「Quick Look」フレームワークとは一切関係ありません。
+	<<以上>>
+	* application/Resources/text/BrowserKeyBindings.plist
+		スレッド一覧のデフォルトのキーバインドに「スペースバーで quickLook:」を追加した。
+	* application/source/view/ThreadsListTable.m
+		スレッド一覧のテーブルビューに -(IBAction)quickLook:(id)sender; を実装した。つまり、スレッド一覧が first responder のとき「だけ」
+		「クイックルック」機能が利用可能になるということに注意せよ。
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		「スレッド」＞「先頭のレスをクイックルック」を追加。
+	* application/source/window/CMRBrowserTbDelegate.m
+		ブラウザウインドウのツールバーに「クイックルック」を追加できるようにした。
+		- 注意：今の時点では Tiger 以前のことを「わかってて無視」している。Leopard 以外ではブラウザウインドウのツールバーをカスタマイズしようと
+		　しないこと（後で片付けますので！）。つまり、「クイックルック」ツールバー項目は Leopard-only な部品を使っている訳で。
+	* application/source/object/BSQuickLookObject.[h|m]
+		[新規追加] スレッドの >>1 だけをさっと見る「クイックルック」機能の一部で、コアの部分。>>1 を dat から読んできたり、ログファイルがあるなら
+		そこから引っ張ってきたりする役割を持つ。
+		- 最低限のエラー処理はしたが、まだ荒削り。また、今の段階では 2ch 以外の掲示板を想定していないが、これも後でもう少し調整します。
+	* application/source/window/BSQuickLookPanel.[h|m]
+		[新規追加] スペースバーで performClose: できるようにするため「だけ」に用意した NSPanel サブクラス。
+	* application/Resources/Japanese.lproj/BSQuickLookPanel.nib
+	* application/source/window/BSQuickLookPanelController.[h|m]
+		[新規追加] スレッドの >>1 だけをさっと見る「クイックルック」機能の一部で、表示用の HUD パネルの nib とそのコントローラ。
+		- 注意：BSQuickLookPanel.nib は Interface Builder 3.0 用のフォーマットになっている上、Leopard-only なパーツを使っているので
+		　Tiger では開けません。
+	* application/Resources/Japanese.lproj/BSQuickLookButton.nib
+		[新規追加] 「クイックルック」ツールバー項目の中身を収めた nib。
+		- 注意：BSQuickLookButton.nib は Interface Builder 3.0 用のフォーマットになっている上、Leopard-only なパーツを使っているので
+		　Tiger では開けません。
+	* application/source/view/BSNSControlTbItem.[h|m]
+		[新規追加] NSControl を view item として持つツールバー項目を簡単に validation するための、NSToolbarItem のサブクラス。		
+=================================================
 2008-01-28 masakih <masakih@users.sourceforge.jp>
 	* application/source/manager/DatabaseUpdater.m:
 		データベースファイルバージョン3->4へのアップデート時の
