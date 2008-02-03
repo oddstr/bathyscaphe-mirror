@@ -20,9 +20,12 @@
 
 	id targetObject = [NSApp targetForAction:[(NSControl *)view action] to:[(NSControl *)view target] from:self];
 	if (targetObject && [targetObject respondsToSelector:@selector(validateNSControlToolbarItem:)]) {
-		[(NSControl *)view setEnabled:[targetObject validateNSControlToolbarItem:self]];
+		BOOL flag = [targetObject validateNSControlToolbarItem:self];
+		[(NSControl *)view setEnabled:flag];
+		[[self menuFormRepresentation] setEnabled:flag];
 	} else {
 		[(NSControl *)view setEnabled:NO];
+		[[self menuFormRepresentation] setEnabled:NO];
 	}
 }
 @end

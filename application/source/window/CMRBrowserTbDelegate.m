@@ -149,6 +149,11 @@ static NSMenuItem* searchToolbarItemMenuFormRep(NSString *labelText)
 	[anItem setView:m_quickLookToolbarItem];
 	[anItem setMinSize:size_];
 	[anItem setMaxSize:size_];
+
+	NSMenuItem *menuItem_ = [[NSMenuItem alloc] initWithTitle:[anItem label] action:@selector(quickLook:) keyEquivalent:@""];
+	[menuItem_ setTarget:nil];
+	[anItem setMenuFormRepresentation:menuItem_];
+	[menuItem_ release];
 }
 
 - (void)setupSearchToolbarItem:(NSToolbarItem *)anItem itemView:(NSView *)aView

@@ -25,12 +25,23 @@
 
 - (void)cancelLoading;
 
+- (NSURL *)boardURL;
+- (void)loadFromContentsOfFile;
+- (void)startDownloadingQLContent;
+- (NSString *)contentsWithData:(NSData *)theData;
+
 - (NSString *)threadTitle;
 - (CMRThreadSignature *)threadSignature;
 - (CMRThreadMessage *)threadMessage;
 
 - (BOOL)isLoading;
 - (NSError *)lastError;
+
+#pragma mark For Subclass
++ (BOOL)canInitWithURL:(NSURL *)url;
+- (NSURL *)resourceURL;
+- (NSURLRequest *)requestForDownloadingQLContent;
+- (CMRThreadMessage *)messageFromData;
 @end
 
 
@@ -44,6 +55,8 @@
 
 - (void)setIsLoading:(BOOL)flag;
 - (void)setLastError:(NSError *)error;
+
+- (CFStringEncoding)encodingForData;
 @end
 
 extern NSString *const BSQuickLookErrorDomain;

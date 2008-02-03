@@ -8,6 +8,8 @@
 //
 
 #import "BSQuickLookObject.h"
+#import "BS2chQuickLookObject.h"
+#import "BSHTMLQuickLookObject.h"
 #import "CMRThreadSignature.h"
 #import "CMRThreadMessage.h"
 #import "CMRHostHandler.h"
@@ -18,8 +20,77 @@
 NSString *const BSQuickLookErrorDomain = @"jp.tsawada2.BathyScaphe.BSQuickLookObject";
 
 @implementation BSQuickLookObject
++ (Class *)classClusters
+{
+	static Class classes[3] = {Nil, };
+	
+	if (Nil == classes[0]) {
+		classes[0] = [(id)[BS2chQuickLookObject class] retain];
+		classes[1] = [(id)[BSHTMLQuickLookObject class] retain];
+		classes[2] = Nil;
+	}
+	
+	return classes;
+}
+// do not release!
++ (id)allocWithZone:(NSZone *)zone
+{
+	if ([self isEqual:[BSQuickLookObject class]]) {
+		static id instance_;
+		
+		if (!instance_) {
+			instance_ = [super allocWithZone:zone];
+		}
+		return instance_;
+	}
+	return [super allocWithZone:zone];
+}
+
+//- (id)initWithThreadTitle:(NSString *)title signature:(CMRThreadSignature *)signature
+- (id)initClusterWithThreadTitle:(NSString *)title signature:(CMRThreadSignature *)signature
+{
+	if (self = [super init]) {
+		[self setThreadTitle:title];
+		[self setThreadSignature:signature];
+
+		if ([[NSFileManager defaultManager] fileExistsAtPath:[signature threadDocumentPath]]) {
+			[self loadFromContentsOfFile];
+		} else {
+			[self startDownloadingQLContent];
+		}
+	}
+	return self;
+}
+
+- (id)initWithThreadTitle:(NSString *)title signature:(CMRThreadSignature *)signature
+{
+	Class			*p;
+	id				instance_;
+	NSURL			*boardURL_;
+	
+	instance_ = nil;
+	boardURL_ = [[BoardManager defaultManager] URLForBoardName:[signature boardName]];
+	UTILRequireCondition(boardURL_, return_instance);
+	
+	for (p = [[self class] classClusters]; *p != Nil; p++) {
+		if ([*p canInitWithURL:boardURL_]) {
+			instance_ = [[*p alloc] initClusterWithThreadTitle:title signature:signature];
+			break;
+		}
+	}
+	
+return_instance:
+	return instance_;
+}
+
 - (void)dealloc
 {
+	NSAssert2(
+		NO == [(id)[self class] isEqual:(id)[BSQuickLookObject class]],
+		@"%@<%p> was place holder instance, do not release!!",
+		NSStringFromClass([BSQuickLookObject class]),
+		self);
+
 	[m_receivedData release];
 	m_receivedData = nil;
 
@@ -32,13 +103,9 @@ NSString *const BSQuickLookErrorDomain = @"jp.tsawada2.BathyScaphe.BSQuickLookOb
 	[super dealloc];
 }
 
-- (NSURL *)resourceURL
+- (NSURL *)boardURL
 {
-	CMRHostHandler	*handler_;
-	NSURL			*boardURL_ = [[BoardManager defaultManager] URLForBoardName:[[self threadSignature] boardName]];
-
-	handler_ = [CMRHostHandler hostHandlerForURL:boardURL_];
-	return [handler_ datURLWithBoard:boardURL_ datName:[[self threadSignature] datFilename]];
+	return [[BoardManager defaultManager] URLForBoardName:[[self threadSignature] boardName]];
 }
 
 - (void)loadFromContentsOfFile
@@ -64,35 +131,14 @@ NSString *const BSQuickLookErrorDomain = @"jp.tsawada2.BathyScaphe.BSQuickLookOb
 
 - (void)startDownloadingQLContent
 {
-	NSMutableURLRequest	*request;
 	NSURLConnection *connection;
-    request = [NSMutableURLRequest requestWithURL:[self resourceURL] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:15.0];
-    
-	[request setValue:[NSBundle monazillaUserAgent] forHTTPHeaderField:@"User-Agent"];
-	[request setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
-	[request setValue:@"bytes=0-4607" forHTTPHeaderField:@"Range"];
 
-	m_receivedData = [[NSMutableData alloc] initWithLength:4608];
+	m_receivedData = [[NSMutableData alloc] init];
 
-    connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    connection = [[NSURLConnection alloc] initWithRequest:[self requestForDownloadingQLContent] delegate:self];
 	[self setCurrentConnection:connection];
 	[connection release];
 	[self setIsLoading:YES];
-}
-
-- (id)initWithThreadTitle:(NSString *)title signature:(CMRThreadSignature *)signature
-{
-	if (self = [super init]) {
-		[self setThreadTitle:title];
-		[self setThreadSignature:signature];
-
-		if ([[NSFileManager defaultManager] fileExistsAtPath:[signature threadDocumentPath]]) {
-			[self loadFromContentsOfFile];
-		} else {
-			[self startDownloadingQLContent];
-		}
-	}
-	return self;
 }
 
 - (void)cancelLoading
@@ -127,26 +173,68 @@ NSString *const BSQuickLookErrorDomain = @"jp.tsawada2.BathyScaphe.BSQuickLookOb
 
 - (NSString *)contentsWithData:(NSData *)theData
 {
-//	CFStringEncoding	enc;
+	CFStringEncoding	enc;
 	NSString			*src = nil;
 
 	if (!theData || [theData length] == 0) return nil;
 	
-//	enc = [self CFEncodingForLoadedData];
-	src = [CMXTextParser stringWithData:theData CFEncoding:kCFStringEncodingDOSJapanese];
+	enc = [self encodingForData];
+	src = [CMXTextParser stringWithData:theData CFEncoding:enc];
 	
 	if (!src) {
-		NSLog(@"\n"
+/*		NSLog(@"\n"
 			@"*** WARNING ***\n\t"
 			@"Can't convert the bytes\n\t"
 			@"into Unicode characters(NSString). so retry TEC... "
 			@"CFEncoding:%@", 
-			(NSString*)CFStringConvertEncodingToIANACharSetName(kCFStringEncodingDOSJapanese));
+			(NSString*)CFStringConvertEncodingToIANACharSetName(kCFStringEncodingDOSJapanese));*/
 
-		src = [[NSString alloc] initWithDataUsingTEC:theData encoding:kCFStringEncodingDOSJapanese];
+		src = [[NSString alloc] initWithDataUsingTEC:theData encoding:enc];
 		[src autorelease];
 	}
 	return src;
+}
+
+#pragma mark For Subclass
++ (BOOL)canInitWithURL:(NSURL *)url
+{
+	UTILAbstractMethodInvoked;
+	return NO;
+}
+
+- (NSURL *)resourceURL
+{
+/*	CMRHostHandler	*handler_;
+	NSURL			*boardURL_ = [[BoardManager defaultManager] URLForBoardName:[[self threadSignature] boardName]];
+
+	handler_ = [CMRHostHandler hostHandlerForURL:boardURL_];
+	return [handler_ datURLWithBoard:boardURL_ datName:[[self threadSignature] datFilename]];*/
+	UTILAbstractMethodInvoked;
+	return nil;
+}
+
+- (NSURLRequest *)requestForDownloadingQLContent
+{
+/*	NSMutableURLRequest	*request;
+    request = [NSMutableURLRequest requestWithURL:[self resourceURL] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:15.0];
+    
+	[request setValue:[NSBundle monazillaUserAgent] forHTTPHeaderField:@"User-Agent"];
+	[request setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
+	[request setValue:@"bytes=0-4607" forHTTPHeaderField:@"Range"];
+
+	return request;*/
+	UTILAbstractMethodInvoked;
+	return nil;
+}
+
+- (CMRThreadMessage *)messageFromData
+{
+/*	NSString *s_string = [self contentsWithData:m_receivedData];
+	NSArray *bar = [s_string componentsSeparatedByString:@"\n"];
+	NSString *foo = [bar objectAtIndex:0];
+	return [CMXTextParser messageWithDATLine:foo];*/
+	UTILAbstractMethodInvoked;
+	return nil;
 }
 
 #pragma mark NSURLConnection Delegate
@@ -198,11 +286,8 @@ NSString *const BSQuickLookErrorDomain = @"jp.tsawada2.BathyScaphe.BSQuickLookOb
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-	NSString *s_string = [self contentsWithData:m_receivedData];
-	NSArray *bar = [s_string componentsSeparatedByString:@"\n"];
-	NSString *foo = [bar objectAtIndex:0];
     [self setCurrentConnection:nil];
-	[self setThreadMessage:[CMXTextParser messageWithDATLine:foo]]; 
+	[self setThreadMessage:[self messageFromData]]; 
 	[self setIsLoading:NO];
 }
 @end
@@ -252,5 +337,13 @@ NSString *const BSQuickLookErrorDomain = @"jp.tsawada2.BathyScaphe.BSQuickLookOb
 	[error retain];
 	[m_lastError release];
 	m_lastError = error;
+}
+
+- (CFStringEncoding)encodingForData
+{
+	CMRHostHandler	*handler_;
+	
+	handler_ = [CMRHostHandler hostHandlerForURL:[self boardURL]];
+	return handler_ ? [handler_ threadEncoding] : 0;
 }
 @end
