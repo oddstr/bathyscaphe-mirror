@@ -7,15 +7,9 @@
 //  encoding="UTF-8"
 //
 
-#import "BSQuickLookObject.h"
-#import "BS2chQuickLookObject.h"
-#import "BSHTMLQuickLookObject.h"
-#import "CMRThreadSignature.h"
-#import "CMRThreadMessage.h"
-#import "CMRHostHandler.h"
+#import "BSQuickLookObject_p.h"
+
 #import "BoardManager.h"
-#import "CMXTextParser.h"
-#import "CocoMonar_Prefix.h"
 
 NSString *const BSQuickLookErrorDomain = @"jp.tsawada2.BathyScaphe.BSQuickLookObject";
 
@@ -46,7 +40,6 @@ NSString *const BSQuickLookErrorDomain = @"jp.tsawada2.BathyScaphe.BSQuickLookOb
 	return [super allocWithZone:zone];
 }
 
-//- (id)initWithThreadTitle:(NSString *)title signature:(CMRThreadSignature *)signature
 - (id)initClusterWithThreadTitle:(NSString *)title signature:(CMRThreadSignature *)signature
 {
 	if (self = [super init]) {
@@ -108,40 +101,7 @@ return_instance:
 	return [[BoardManager defaultManager] URLForBoardName:[[self threadSignature] boardName]];
 }
 
-- (void)loadFromContentsOfFile
-{
-	NSDictionary *localDict;
-	CMRThreadMessage *bar;
-	[self setIsLoading:YES];
-	localDict = [NSDictionary dictionaryWithContentsOfFile:[[self threadSignature] threadDocumentPath]];
-
-	NSArray *array = [localDict objectForKey:ThreadPlistContentsKey];
-	NSDictionary *foo = [array objectAtIndex:0];
-
-	bar = [CMRThreadMessage objectWithPropertyListRepresentation:foo];
-	if (!bar) {
-		NSDictionary *dict = [NSDictionary dictionaryWithObject:NSLocalizedString(@"Quick Look DEKIMASEN 3",@"") forKey:NSLocalizedDescriptionKey];
-		NSError *error = [NSError errorWithDomain:BSQuickLookErrorDomain code:1001 userInfo:dict];
-		[self setLastError:error];
-	} else {
-		[self setThreadMessage:bar];
-	}
-	[self setIsLoading:NO];
-}
-
-- (void)startDownloadingQLContent
-{
-	NSURLConnection *connection;
-
-	m_receivedData = [[NSMutableData alloc] init];
-
-    connection = [[NSURLConnection alloc] initWithRequest:[self requestForDownloadingQLContent] delegate:self];
-	[self setCurrentConnection:connection];
-	[connection release];
-	[self setIsLoading:YES];
-}
-
-- (void)cancelLoading
+- (void)cancelDownloading
 {
 	[[self currentConnection] cancel];
 }
@@ -171,30 +131,6 @@ return_instance:
 	return m_lastError;
 }
 
-- (NSString *)contentsWithData:(NSData *)theData
-{
-	CFStringEncoding	enc;
-	NSString			*src = nil;
-
-	if (!theData || [theData length] == 0) return nil;
-	
-	enc = [self encodingForData];
-	src = [CMXTextParser stringWithData:theData CFEncoding:enc];
-	
-	if (!src) {
-/*		NSLog(@"\n"
-			@"*** WARNING ***\n\t"
-			@"Can't convert the bytes\n\t"
-			@"into Unicode characters(NSString). so retry TEC... "
-			@"CFEncoding:%@", 
-			(NSString*)CFStringConvertEncodingToIANACharSetName(kCFStringEncodingDOSJapanese));*/
-
-		src = [[NSString alloc] initWithDataUsingTEC:theData encoding:enc];
-		[src autorelease];
-	}
-	return src;
-}
-
 #pragma mark For Subclass
 + (BOOL)canInitWithURL:(NSURL *)url
 {
@@ -204,35 +140,18 @@ return_instance:
 
 - (NSURL *)resourceURL
 {
-/*	CMRHostHandler	*handler_;
-	NSURL			*boardURL_ = [[BoardManager defaultManager] URLForBoardName:[[self threadSignature] boardName]];
-
-	handler_ = [CMRHostHandler hostHandlerForURL:boardURL_];
-	return [handler_ datURLWithBoard:boardURL_ datName:[[self threadSignature] datFilename]];*/
 	UTILAbstractMethodInvoked;
 	return nil;
 }
 
 - (NSURLRequest *)requestForDownloadingQLContent
 {
-/*	NSMutableURLRequest	*request;
-    request = [NSMutableURLRequest requestWithURL:[self resourceURL] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:15.0];
-    
-	[request setValue:[NSBundle monazillaUserAgent] forHTTPHeaderField:@"User-Agent"];
-	[request setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
-	[request setValue:@"bytes=0-4607" forHTTPHeaderField:@"Range"];
-
-	return request;*/
 	UTILAbstractMethodInvoked;
 	return nil;
 }
 
-- (CMRThreadMessage *)messageFromData
+- (CMRThreadMessage *)threadMessageFromString:(NSString *)source
 {
-/*	NSString *s_string = [self contentsWithData:m_receivedData];
-	NSArray *bar = [s_string componentsSeparatedByString:@"\n"];
-	NSString *foo = [bar objectAtIndex:0];
-	return [CMXTextParser messageWithDATLine:foo];*/
 	UTILAbstractMethodInvoked;
 	return nil;
 }
@@ -287,7 +206,7 @@ return_instance:
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     [self setCurrentConnection:nil];
-	[self setThreadMessage:[self messageFromData]]; 
+	[self setThreadMessage:[self threadMessageFromReceivedData]];
 	[self setIsLoading:NO];
 }
 @end
@@ -345,5 +264,57 @@ return_instance:
 	
 	handler_ = [CMRHostHandler hostHandlerForURL:[self boardURL]];
 	return handler_ ? [handler_ threadEncoding] : 0;
+}
+
+- (void)loadFromContentsOfFile
+{
+	NSDictionary *localDict;
+	CMRThreadMessage *bar;
+	[self setIsLoading:YES];
+	localDict = [NSDictionary dictionaryWithContentsOfFile:[[self threadSignature] threadDocumentPath]];
+
+	NSArray *array = [localDict objectForKey:ThreadPlistContentsKey];
+	NSDictionary *foo = [array objectAtIndex:0];
+
+	bar = [CMRThreadMessage objectWithPropertyListRepresentation:foo];
+	if (!bar) {
+		NSDictionary *dict = [NSDictionary dictionaryWithObject:NSLocalizedString(@"Quick Look DEKIMASEN 3",@"") forKey:NSLocalizedDescriptionKey];
+		NSError *error = [NSError errorWithDomain:BSQuickLookErrorDomain code:1001 userInfo:dict];
+		[self setLastError:error];
+	} else {
+		[self setThreadMessage:bar];
+	}
+	[self setIsLoading:NO];
+}
+
+- (void)startDownloadingQLContent
+{
+	NSURLConnection *connection;
+
+	m_receivedData = [[NSMutableData alloc] init];
+
+    connection = [[NSURLConnection alloc] initWithRequest:[self requestForDownloadingQLContent] delegate:self];
+	[self setCurrentConnection:connection];
+	[connection release];
+	[self setIsLoading:YES];
+}
+
+- (CMRThreadMessage *)threadMessageFromReceivedData
+{
+	CFStringEncoding	enc;
+	NSString			*src = nil;
+
+	if (!m_receivedData || [m_receivedData length] == 0) return nil;
+	
+	enc = [self encodingForData];
+	src = [CMXTextParser stringWithData:m_receivedData CFEncoding:enc];
+	
+	if (!src) {
+		src = [[[NSString alloc] initWithDataUsingTEC:m_receivedData encoding:enc] autorelease];
+	}
+
+	if (!src) return nil;
+
+	return [self threadMessageFromString:src];
 }
 @end

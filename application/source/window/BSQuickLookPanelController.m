@@ -67,4 +67,10 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 		[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 	}
 }
+
+- (void)windowWillClose:(NSNotification *)aNotification
+{
+	NSObjectController *controller = [self objectController];
+	[controller setContent:nil];
+}
 @end

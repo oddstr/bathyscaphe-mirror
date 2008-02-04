@@ -7,11 +7,7 @@
 //  encoding="UTF-8"
 //
 
-#import "CocoMonar_Prefix.h"
-#import "BS2chQuickLookObject.h"
-#import "CMRThreadSignature.h"
-#import "CMRHostHandler.h"
-#import "CMXTextParser.h"
+#import "BSQuickLookObject_p.h"
 
 @implementation BS2chQuickLookObject
 + (BOOL)canInitWithURL:(NSURL *)url
@@ -19,7 +15,9 @@
 	CMRHostHandler	*handler_;
 
 	handler_ = [CMRHostHandler hostHandlerForURL:url];
-	return handler_ ? [handler_ canReadDATFile] : NO;
+	if (!handler_) return NO;
+
+	return [handler_ canReadDATFile];
 }
 
 - (NSURL *)resourceURL
@@ -43,11 +41,10 @@
 	return request;
 }
 
-- (CMRThreadMessage *)messageFromData
+- (CMRThreadMessage *)threadMessageFromString:(NSString *)source
 {
-	NSString *s_string = [self contentsWithData:m_receivedData];
-	NSArray *bar = [s_string componentsSeparatedByString:@"\n"];
-	NSString *foo = [bar objectAtIndex:0];
-	return [CMXTextParser messageWithDATLine:foo];
+	NSArray *datLines = [source componentsSeparatedByString:@"\n"];
+	NSString *datLine = [datLines objectAtIndex:0];
+	return [CMXTextParser messageWithDATLine:datLine];
 }
 @end

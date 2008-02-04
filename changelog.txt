@@ -1,4 +1,6 @@
 2008-02-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/object/BSQuickLookObject_p.h
+		[新規追加] ソース整理の関係で新規追加。
 	* application/Resources/Japanese.lproj/BSQuickLookPanel.nib
 	* application/source/window/BSQuickLookPanelController.m
 		HUD パネルを閉じたときに、BSQuickLookPanel.nib にある NSObjectController が保持している BSQuickLookObject を

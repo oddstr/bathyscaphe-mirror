@@ -229,6 +229,7 @@
 		87EF7F330CF9B14300BEF039 /* BoardWarrior.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D7F03B0A85136900623EA5 /* BoardWarrior.h */; };
 		87F3D5B20976921C00A1217A /* BSIPIHistoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 87F3D5B00976921C00A1217A /* BSIPIHistoryManager.h */; };
 		87F3D5B30976921C00A1217A /* BSIPIHistoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F3D5B10976921C00A1217A /* BSIPIHistoryManager.m */; };
+		87FBC1EF0D57676F0097660D /* BSQuickLookObject_p.h in Headers */ = {isa = PBXBuildFile; fileRef = 87FBC1EE0D57676F0097660D /* BSQuickLookObject_p.h */; };
 		87FC678A0C682E9A00A4C72C /* DownloadableLinkTypes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FC67890C682E9A00A4C72C /* DownloadableLinkTypes.plist */; };
 		F42BD5AB0C70B1F7000AE1F8 /* malloc.c in Sources */ = {isa = PBXBuildFile; fileRef = F42BD5A90C70B1F7000AE1F8 /* malloc.c */; };
 		F42BD5AF0C70B21F000AE1F8 /* vtab.c in Sources */ = {isa = PBXBuildFile; fileRef = F42BD5AD0C70B21F000AE1F8 /* vtab.c */; };
@@ -1120,6 +1121,7 @@
 		87F3D5B10976921C00A1217A /* BSIPIHistoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIHistoryManager.m; sourceTree = "<group>"; };
 		87F6214C0A906B890082E8DB /* BoardManager-SettingTxt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BoardManager-SettingTxt.m"; sourceTree = "<group>"; };
 		87F621A00A9186920082E8DB /* BoardManager-BSAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BoardManager-BSAddition.m"; sourceTree = "<group>"; };
+		87FBC1EE0D57676F0097660D /* BSQuickLookObject_p.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSQuickLookObject_p.h; sourceTree = "<group>"; };
 		87FC67890C682E9A00A4C72C /* DownloadableLinkTypes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = DownloadableLinkTypes.plist; sourceTree = "<group>"; };
 		87FECDE40840DDF100787C68 /* AdvancedPreferences.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AdvancedPreferences.tiff; sourceTree = "<group>"; };
 		E8894DD805C3A3A30004317F /* CMROpenURLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMROpenURLManager.h; sourceTree = "<group>"; };
@@ -1871,6 +1873,7 @@
 				87498F870D5587A300211C35 /* BS2chQuickLookObject.m */,
 				87498F900D55938600211C35 /* BSHTMLQuickLookObject.h */,
 				87498F910D55938600211C35 /* BSHTMLQuickLookObject.m */,
+				87FBC1EE0D57676F0097660D /* BSQuickLookObject_p.h */,
 			);
 			name = "Quick Look";
 			sourceTree = "<group>";
@@ -3252,6 +3255,7 @@
 				876FB8040D54B97A00F9853E /* BSNSControlTbItem.h in Headers */,
 				87498F880D5587A300211C35 /* BS2chQuickLookObject.h in Headers */,
 				87498F920D55938600211C35 /* BSHTMLQuickLookObject.h in Headers */,
+				87FBC1EF0D57676F0097660D /* BSQuickLookObject_p.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

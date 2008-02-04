@@ -23,12 +23,9 @@
 
 - (id)initWithThreadTitle:(NSString *)title signature:(CMRThreadSignature *)signature;
 
-- (void)cancelLoading;
+- (void)cancelDownloading;
 
 - (NSURL *)boardURL;
-- (void)loadFromContentsOfFile;
-- (void)startDownloadingQLContent;
-- (NSString *)contentsWithData:(NSData *)theData;
 
 - (NSString *)threadTitle;
 - (CMRThreadSignature *)threadSignature;
@@ -41,22 +38,8 @@
 + (BOOL)canInitWithURL:(NSURL *)url;
 - (NSURL *)resourceURL;
 - (NSURLRequest *)requestForDownloadingQLContent;
-- (CMRThreadMessage *)messageFromData;
+- (CMRThreadMessage *)threadMessageFromString:(NSString *)source;
 @end
 
-
-@interface BSQuickLookObject(PrivateAccessors)
-- (void)setThreadTitle:(NSString *)title;
-- (void)setThreadSignature:(CMRThreadSignature *)signature;
-- (void)setThreadMessage:(CMRThreadMessage *)message;
-
-- (NSURLConnection *)currentConnection;
-- (void)setCurrentConnection:(NSURLConnection *)connection;
-
-- (void)setIsLoading:(BOOL)flag;
-- (void)setLastError:(NSError *)error;
-
-- (CFStringEncoding)encodingForData;
-@end
 
 extern NSString *const BSQuickLookErrorDomain;

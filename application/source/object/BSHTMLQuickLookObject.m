@@ -7,10 +7,7 @@
 //  encoding="UTF-8"
 //
 
-#import "CocoMonar_Prefix.h"
-#import "BSHTMLQuickLookObject.h"
-#import "CMRHostHandler.h"
-#import "CMXTextParser.h"
+#import "BSQuickLookObject_p.h"
 
 @implementation BSHTMLQuickLookObject
 + (BOOL)canInitWithURL:(NSURL *)url
@@ -18,7 +15,9 @@
 	CMRHostHandler	*handler_;
 	
 	handler_ = [CMRHostHandler hostHandlerForURL:url];
-	return handler_ ? (NO == [handler_ canReadDATFile]) : NO;
+	if (!handler_) return NO;
+
+	return ![handler_ canReadDATFile];
 }
 
 - (NSURL *)resourceURL
@@ -27,11 +26,7 @@
 	NSURL			*boardURL_ = [self boardURL];
 
 	handler_ = [CMRHostHandler hostHandlerForURL:boardURL_];
-	return [handler_ rawmodeURLWithBoard:boardURL_
-								 datName:[[self threadSignature] identifier]
-								   start:1
-									 end:1
-								 nofirst:NO];
+	return [handler_ rawmodeURLWithBoard:boardURL_ datName:[[self threadSignature] identifier] start:1 end:1 nofirst:NO];
 }
 
 - (NSURLRequest *)requestForDownloadingQLContent
@@ -49,14 +44,13 @@
 	return request;
 }
 
-- (CMRThreadMessage *)messageFromData
+- (CMRThreadMessage *)threadMessageFromString:(NSString *)source
 {
-	NSString *inputSource_ = [self contentsWithData:m_receivedData];
 	CMRHostHandler *handler_ = [CMRHostHandler hostHandlerForURL:[self boardURL]];
-	NSMutableString *thread_ = [[[NSMutableString alloc] init] autorelease];
-	
-	thread_ = [handler_ parseHTML:inputSource_ with:thread_ count:0];
+	NSMutableString *datString = [[[NSMutableString alloc] init] autorelease];
 
-	return [CMXTextParser messageWithDATLine:thread_];
+	datString = [handler_ parseHTML:source with:datString count:0];
+
+	return [CMXTextParser messageWithDATLine:datString];
 }
 @end
