@@ -210,7 +210,17 @@ static NSMenuItem* searchToolbarItemMenuFormRep(NSString *labelText)
 
 - (NSArray *)unsupportedItemsArray
 {
-	return [[super unsupportedItemsArray] arrayByAddingObject:st_viewModeSwitcherItemIdentifier];
+	static NSArray *br_cachedArray = nil;
+	if (!br_cachedArray) {
+		// Leopard
+		if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {
+			br_cachedArray = [[[super unsupportedItemsArray] arrayByAddingObject:st_viewModeSwitcherItemIdentifier] retain];
+		} else {
+			NSArray *foo = [NSArray arrayWithObjects:st_viewModeSwitcherItemIdentifier, st_QLItemIdentifier, nil];
+			br_cachedArray = [[[super unsupportedItemsArray] arrayByAddingObjectsFromArray:foo] retain];
+		}
+	}
+	return br_cachedArray;
 }
 @end
 

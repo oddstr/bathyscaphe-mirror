@@ -317,23 +317,26 @@ Hope this helps...
 
 - (IBAction)quickLook:(id)sender
 {
-	id dataSource = [self dataSource];
-	if (!dataSource || ![dataSource respondsToSelector:@selector(threadFilePathAtRowIndex:inTableView:status:)]) {
-		NSBeep();
-		return;
-	}
+	// Leopard
+	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {	
+		id dataSource = [self dataSource];
+		if (!dataSource || ![dataSource respondsToSelector:@selector(threadFilePathAtRowIndex:inTableView:status:)]) {
+			NSBeep();
+			return;
+		}
 
-	BSQuickLookPanelController *qlc = [BSQuickLookPanelController sharedInstance];
-	[qlc showWindow:self];
+		BSQuickLookPanelController *qlc = [BSQuickLookPanelController sharedInstance];
+		[qlc showWindow:self];
 
-	if ([[qlc window] isVisible]) {
-		NSString *path = [dataSource threadFilePathAtRowIndex:[self selectedRow] inTableView:self status:NULL];
-		NSString *title = [dataSource threadTitleAtRowIndex:[self selectedRow] inTableView:self];
+		if ([[qlc window] isVisible]) {
+			NSString *path = [dataSource threadFilePathAtRowIndex:[self selectedRow] inTableView:self status:NULL];
+			NSString *title = [dataSource threadTitleAtRowIndex:[self selectedRow] inTableView:self];
 
-		CMRThreadSignature *foo = [CMRThreadSignature threadSignatureFromFilepath:path];
-		BSQuickLookObject	*bar = [[BSQuickLookObject alloc] initWithThreadTitle:title signature:foo];
-		[[qlc objectController] setContent:bar];
-		[bar release];
+			CMRThreadSignature *foo = [CMRThreadSignature threadSignatureFromFilepath:path];
+			BSQuickLookObject	*bar = [[BSQuickLookObject alloc] initWithThreadTitle:title signature:foo];
+			[[qlc objectController] setContent:bar];
+			[bar release];
+		}
 	}
 }
 

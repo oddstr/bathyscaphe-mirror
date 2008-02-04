@@ -316,6 +316,7 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 
 	/* Remove 'Open Recent' menu */
 	[[CMRMainMenuManager defaultManager] removeOpenRecentsMenuItem];
+	[[CMRMainMenuManager defaultManager] removeQuickLookMenuItemIfNeeded];
 	
 	/* BoardWarrior Task */
 	if ([CMRPref isOnlineMode] && [CMRPref autoSyncBoardList]) {

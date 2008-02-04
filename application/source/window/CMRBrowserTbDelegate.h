@@ -20,4 +20,5 @@
 - (void)setupSearchToolbarItem:(NSToolbarItem *)anItem itemView:(NSView *)aView;
 - (void)setupSwitcherToolbarItem:(NSToolbarItem *)anItem itemView:(NSView *)aView delegate:(id)delegate windowStyle:(unsigned int)styleMask;
 - (void)setupNobiNobiToolbarItem:(NSToolbarItem *)anItem;
+- (void)setupQuickLookButton:(NSToolbarItem *)anItem;
 @end

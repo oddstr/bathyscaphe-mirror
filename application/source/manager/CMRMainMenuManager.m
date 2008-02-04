@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMainMenuManager.m,v 1.16 2007/12/24 14:29:09 tsawada2 Exp $
+  * $Id: CMRMainMenuManager.m,v 1.17 2008/02/04 06:40:18 tsawada2 Exp $
   * 
   * CMRMainMenuManager.m
   *
@@ -127,6 +127,19 @@ MENU_ACCESSER(scriptsMenuItem, SCRIPTS_MENU_TAG)
     if (openURLMenuItemIndex >= 0 && [[menu itemAtIndex:openURLMenuItemIndex+1] hasSubmenu]) {
 		[menu removeItemAtIndex:openURLMenuItemIndex+1];
     }
+}
+
+- (void)removeQuickLookMenuItemIfNeeded
+{
+	// Leopard
+	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) return;
+
+	NSMenu *menu = [[self threadMenuItem] submenu];
+	int index = [menu indexOfItemWithTarget:nil andAction:@selector(quickLook:)];
+
+	if (index >= 0) {
+		[menu removeItemAtIndex:index];
+	}
 }
 @end
 

@@ -1,3 +1,10 @@
+2008-02-04 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/CMRAppDelegate.m
+	* application/source/manager/CMRMainMenuManager.m
+	* application/source/view/ThreadsListTable.m
+	* application/source/window/CMRBrowserTbDelegate.m
+		Tiger 以前では「クイックルック」を呼び出すインタフェース（ツールバーのボタン、メニュー項目）を表示しないようにした。
+		また、Tiger 以前では -[ThreadsListTable quickLook:] を呼び出しても何もしないようにした。
 2008-02-03 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/object/BS2chQuickLookObject.[h|m]
 	* application/source/object/BSHTMLQuickLookObject.[h|m]

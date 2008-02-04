@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.h,v 1.14 2007/10/06 21:12:32 tsawada2 Exp $
+  * $Id: CMRThreadsList.h,v 1.15 2008/02/04 06:40:18 tsawada2 Exp $
   * 
   * CMRThreadsList.h
   *
@@ -154,6 +154,7 @@ enum {
 							     status : (ThreadStatus *) status;
 - (NSDictionary *) threadAttributesAtRowIndex : (int          ) rowIndex
                                   inTableView : (NSTableView *) tableView;
+- (NSString *)threadTitleAtRowIndex:(int )rowIndex inTableView:(NSTableView *)tableView;
 
 - (unsigned int) indexOfThreadWithPath : (NSString *) filepath;
 @end
