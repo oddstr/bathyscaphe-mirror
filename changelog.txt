@@ -1,3 +1,8 @@
+2008-02-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/BSQuickLookPanel.nib
+	* application/source/window/BSQuickLookPanelController.m
+		HUD パネルを閉じたときに、BSQuickLookPanel.nib にある NSObjectController が保持している BSQuickLookObject を
+		release するようにした。
 2008-02-04 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/CMRAppDelegate.m
 	* application/source/manager/CMRMainMenuManager.m
