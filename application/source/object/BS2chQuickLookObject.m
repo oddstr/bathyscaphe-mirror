@@ -9,6 +9,8 @@
 
 #import "BSQuickLookObject_p.h"
 
+static NSString *const kBytesLimitKey = @"Browser - QuickLook2chBytesLimit";
+
 @implementation BS2chQuickLookObject
 + (BOOL)canInitWithURL:(NSURL *)url
 {
@@ -31,12 +33,20 @@
 
 - (NSURLRequest *)requestForDownloadingQLContent
 {
+	static NSString *templateValue = nil;
+	if (!templateValue) {
+		id templateResource = SGTemplateResource(kBytesLimitKey);
+		UTILAssertKindOfClass(templateResource, NSNumber);
+
+		templateValue = [[(NSNumber *)templateResource stringValue] retain];
+	}
+
 	NSMutableURLRequest	*request;
     request = [NSMutableURLRequest requestWithURL:[self resourceURL] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:15.0];
     
 	[request setValue:[NSBundle monazillaUserAgent] forHTTPHeaderField:@"User-Agent"];
 	[request setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
-	[request setValue:@"bytes=0-4095" forHTTPHeaderField:@"Range"];
+	[request setValue:[NSString stringWithFormat:@"bytes=0-%@",templateValue] forHTTPHeaderField:@"Range"];
 
 	return request;
 }

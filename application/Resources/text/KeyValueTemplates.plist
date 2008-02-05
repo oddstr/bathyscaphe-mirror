@@ -12,6 +12,8 @@
 	<string>openSelectedThreads:</string>
 	<key>Browser - ListViewInterCellSpacing</key>
 	<string>{3.0, 2.0}</string>
+	<key>Browser - QuickLook2chBytesLimit</key>
+	<integer>3071</integer>
 	<key>PopUp - BecomesKeyOnlyIfNeeded</key>
 	<integer>1</integer>
 	<key>PopUp - BorderType</key>

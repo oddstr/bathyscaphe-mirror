@@ -1,4 +1,9 @@
 2008-02-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/object/BS2chQuickLookObject.m
+	* application/Resources/text/KeyValueTemplates.plist
+		2ch の未取得スレッドを「クイックルック」するとき、何バイトデータを取得するかを設定できるよう、KeyValueTemplates.plist に
+		"Browser - QuickLook2chBytesLimit" キーを設けてその内容を読むようにした。現在デフォルト値は3071（3KB）。
+		- まちBBS、livedoorしたらばは rawmode.cgi で>>1の範囲だけを取得しにいくので、この値は使われない。
 	* application/source/object/BSQuickLookObject_p.h
 		[新規追加] ソース整理の関係で新規追加。
 	* application/Resources/Japanese.lproj/BSQuickLookPanel.nib
