@@ -224,7 +224,7 @@ static void *kReplySettingsContext = @"EternalBlaze";
 	[[self window] makeFirstResponder:[self textView]];
 }
 
-- (void) setupUIComponents
+- (void)setupUIComponents
 {
 	[super setupUIComponents];
 

@@ -20,6 +20,35 @@
 	return @"BSNewThreadWindow";
 }
 
+- (IBAction)saveAsDefaultFrame:(id)sender
+{
+	// Not Supported
+}
+
+- (BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)anItem
+{
+	SEL action_ = [anItem action];
+	if (action_ == @selector(saveAsDefaultFrame:)) {
+		return NO;
+	}
+
+	return [super validateUserInterfaceItem:anItem];
+}
+@end
+
+
+@implementation BSNewThreadController(View)
++ (Class)toolbarDelegateImpClass 
+{ 
+	return [BSNewThreadControllerTbDelegate class];
+}
+
+- (void)setupWindowFrameWithMessenger
+{
+	[self setWindowFrameAutosaveName:@"BathyScaphe:New Thread Window Autosave"];
+	[[self window] useOptimizedDrawing:YES];
+}
+
 - (void)setupKeyLoops
 {
 	[[self newThreadTitleField] setNextKeyView:[self nameComboBox]];
@@ -30,13 +59,5 @@
 	[[self textView] setNextKeyView:[self newThreadTitleField]];
 	[[self window] setInitialFirstResponder:[self newThreadTitleField]];
 	[[self window] makeFirstResponder:[self newThreadTitleField]];
-}
-@end
-
-
-@implementation BSNewThreadController(View)
-+ (Class)toolbarDelegateImpClass 
-{ 
-	return [BSNewThreadControllerTbDelegate class];
 }
 @end

@@ -1,3 +1,9 @@
+2008-02-11 tsawada2 <ben-sawa@td5.so-net.ne.jp.
+	* application/source/window/BSNewThreadController.m
+		新規スレッド作成ウインドウの frame autosave 周りを実装（CMRReplyController と違い、「ウインドウの位置とサイズを記憶」は使用できない）。
+	* application/source/window/BSNewThreadMessenger.m
+	* application/source/window/CMRReplyControllerTbDelegate.m
+		「ローカルルールを表示」はまだ機能未実装なので、配置不可（＠ツールバー）、選択不可（＠メニュー）にしておいた。
 2008-02-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/Browser.nib
 		スレッド一覧のコンテクストメニューに「先頭のレスをクイックルック」を追加。

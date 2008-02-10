@@ -51,6 +51,7 @@ NSString *const BSNewThreadMessengerDidFinishPostingNotification = @"jp.tsawada2
 	
 	controller_ = [[BSNewThreadController alloc] initWithWindowNibName:@"BSNewThreadWindow"];
 	[controller_ setShouldCloseDocument:YES];
+	[controller_ setShouldCascadeWindows:YES];
 	[self addWindowController:controller_];
 	[controller_ release];
 }
@@ -77,12 +78,12 @@ NSString *const BSNewThreadMessengerDidFinishPostingNotification = @"jp.tsawada2
 	[m_newThreadTitle release];
 	m_newThreadTitle = string;
 }
-
+/*
 - (IBAction)showLocalRules:(id)sender
 {
 	NSLog(@"Sorry, not implemented yet.");
 }
-
+*/
 - (BOOL)validateMenuItem:(NSMenuItem *)theItem
 {
 	SEL action_ = [theItem action];

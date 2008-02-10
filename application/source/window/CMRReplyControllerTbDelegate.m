@@ -143,7 +143,7 @@ static NSString *const kShowLocalRulesImageName = @"Emoticon";
 				kSendMessageIdentifier,
 				kSaveAsDraftIdentifier,
 				kBeLoginIdentifier,
-				kShowLocalRulesIdentifier,
+//				kShowLocalRulesIdentifier,
 				kInsertTemplateIdentifier,
 				NSToolbarShowFontsItemIdentifier,
 				NSToolbarSeparatorItemIdentifier,
@@ -170,7 +170,7 @@ static NSString *const kShowLocalRulesImageName = @"Emoticon";
 				NSToolbarSeparatorItemIdentifier,
 				kInsertTemplateIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,
-				kShowLocalRulesIdentifier,
+//				kShowLocalRulesIdentifier,
 				kBeLoginIdentifier,
 				nil];
 }
@@ -180,7 +180,7 @@ static NSString *const kShowLocalRulesImageName = @"Emoticon";
 	return [NSArray arrayWithObjects:
 				kSendMessageIdentifier,
 				kBeLoginIdentifier,
-				kShowLocalRulesIdentifier,
+//				kShowLocalRulesIdentifier,
 				kInsertTemplateIdentifier,
 				NSToolbarShowFontsItemIdentifier,
 				NSToolbarSeparatorItemIdentifier,
