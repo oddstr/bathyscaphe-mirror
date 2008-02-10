@@ -13,6 +13,7 @@
 
 
 static NSString *const kReplyWindowToolbarIdentifier = @"Reply Window Toolbar";
+static NSString *const kNewThreadWindowToolbarIdentifier = @"New Thread Window Toolbar";
 
 static NSString *const kSendMessageIdentifier	= @"sendMessage";
 static NSString *const kSendMessageLabelKey		= @"sendMessage Label";
@@ -35,6 +36,12 @@ static NSString *const kBeLoginImageName		= @"beEnabled";
 static NSString *const kInsertTemplateIdentifier = @"InsertTemplate";
 static NSString *const kInsertTemplateLabelKey = @"InsertTemplate Label";
 static NSString *const kInsertTemplateToolTipKey = @"InsertTemplate ToolTip";
+
+static NSString *const kShowLocalRulesIdentifier = @"ShowLocalRules";
+static NSString *const kShowLocalRulesLabelKey = @"ShowLocalRules Label";
+static NSString *const kShowLocalRulesPaletteLabelKey = @"ShowLocalRules Palette Label";
+static NSString *const kShowLocalRulesToolTipKey = @"ShowLocalRules ToolTip";
+static NSString *const kShowLocalRulesImageName = @"Emoticon";
 
 
 @implementation CMRReplyControllerTbDelegate
@@ -97,6 +104,14 @@ static NSString *const kInsertTemplateToolTipKey = @"InsertTemplate ToolTip";
 											   target:nil];
 	[item_ setImage:[NSImage imageAppNamed:kBeLoginImageName]];
 
+	item_ = [self appendToolbarItemWithItemIdentifier:kShowLocalRulesIdentifier
+									localizedLabelKey:kShowLocalRulesLabelKey
+							 localizedPaletteLabelKey:kShowLocalRulesPaletteLabelKey
+								  localizedToolTipKey:kShowLocalRulesToolTipKey
+											   action:@selector(showLocalRules:)
+											   target:nil];
+	[item_ setImage:[NSImage imageAppNamed:kShowLocalRulesImageName]];
+
 	item_ = [self appendToolbarItemWithItemIdentifier:kInsertTemplateIdentifier
 									localizedLabelKey:kInsertTemplateLabelKey
 							 localizedPaletteLabelKey:kInsertTemplateLabelKey
@@ -128,6 +143,44 @@ static NSString *const kInsertTemplateToolTipKey = @"InsertTemplate ToolTip";
 				kSendMessageIdentifier,
 				kSaveAsDraftIdentifier,
 				kBeLoginIdentifier,
+				kShowLocalRulesIdentifier,
+				kInsertTemplateIdentifier,
+				NSToolbarShowFontsItemIdentifier,
+				NSToolbarSeparatorItemIdentifier,
+				NSToolbarFlexibleSpaceItemIdentifier,
+				NSToolbarSpaceItemIdentifier,
+				nil];
+}
+@end
+
+
+@implementation BSNewThreadControllerTbDelegate
+- (NSString *)identifier
+{
+	return kNewThreadWindowToolbarIdentifier;
+}
+@end
+
+
+@implementation BSNewThreadControllerTbDelegate(NSToolbarDelegate)
+- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
+{
+	return [NSArray arrayWithObjects:
+				kSendMessageIdentifier,
+				NSToolbarSeparatorItemIdentifier,
+				kInsertTemplateIdentifier,
+				NSToolbarFlexibleSpaceItemIdentifier,
+				kShowLocalRulesIdentifier,
+				kBeLoginIdentifier,
+				nil];
+}
+
+- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
+{
+	return [NSArray arrayWithObjects:
+				kSendMessageIdentifier,
+				kBeLoginIdentifier,
+				kShowLocalRulesIdentifier,
 				kInsertTemplateIdentifier,
 				NSToolbarShowFontsItemIdentifier,
 				NSToolbarSeparatorItemIdentifier,

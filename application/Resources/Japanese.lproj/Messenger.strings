@@ -7,9 +7,13 @@
 "Try Again"				= "書き込む";
 "Cancel"				= "キャンセル";
 
+"ErrorAlertNoContributionInfoText" = "以下の理由により、書き込みできませんでした。";
+"ErrorAlertContributionInfoText" = "書き込みを行なう前に、以下の内容を確認してください。";
+
 "Reply Error Sheet Help Anchor" = "bs_reply_err_alert";
 
 "Window Title" = "Re: %@";
+"Window Title (New Thread)" = "%@ に新規スレッドを作成";
 "submit" = "書き込む";
 
 "quotation marks" = ">";
@@ -26,6 +30,7 @@
 "Save Menu Item" = "下書きとして保存";
 "setName_Undo_Name" = "名前欄への入力";
 "setMail_Undo_Mail" = "メール欄への入力";
+"setTitle_Undo_Title" = "タイトル欄への入力";
 
 "FailedURLEncodingAlertMessage" = "%@に URL エンコードできない文字が含まれているため、書き込みできませんでした。";
 "FailedURLEncodingAlertInformative" = "内容を修正してやり直してみてください。";

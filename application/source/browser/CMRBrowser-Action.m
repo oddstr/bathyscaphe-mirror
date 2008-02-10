@@ -1,11 +1,12 @@
-/**
-  * $Id: CMRBrowser-Action.m,v 1.65 2007/11/13 02:00:27 tsawada2 Exp $
-  * 
-  * CMRBrowser-Action.m
-  *
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  CMRBrowser-Action.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 08/02/10.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import "CMRBrowser_p.h"
 #import "CMRMainMenuManager.h"
 #import "CMRHistoryManager.h"
@@ -23,199 +24,200 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 	id	eachItem;
 	int index = -1;
 	while (eachItem = [iter_ nextObject]) {
-		// u•Â‚¶‚Ä‚¢‚éƒJƒeƒSƒŠv‚¾‚¯‚É‹»–¡‚ª‚ ‚é
+		// ã€Œé–‰ã˜ã¦ã„ã‚‹ã‚«ãƒ†ã‚´ãƒªã€ã ã‘ã«èˆˆå‘³ãŒã‚ã‚‹
 		if (NO == [SmartBoardList isCategory: eachItem] || NO == [(FolderBoardListItem *)eachItem hasChildren]) continue;
 
 		if (NO == [bLT isItemExpanded: eachItem]) [bLT expandItem: eachItem];
 
 		index = [bLT rowForItem: selected];
-		if (-1 != index) { // “–‚½‚èI
+		if (-1 != index) { // å½“ãŸã‚Šï¼
 			return index;
-		} else { // ƒJƒeƒSƒŠ“à‚ÌƒTƒuƒJƒeƒSƒŠ‚ğŠJ‚¢‚ÄŒŸ¸‚·‚é
+		} else { // ã‚«ãƒ†ã‚´ãƒªå†…ã®ã‚µãƒ–ã‚«ãƒ†ã‚´ãƒªã‚’é–‹ã„ã¦æ¤œæŸ»ã™ã‚‹
 			index = expandAndSelectItem(selected, [(FolderBoardListItem *)eachItem items], bLT);
-			if (-1 == index) // ‚±‚ÌƒJƒeƒSƒŠ‚Ì‚Ç‚ÌƒTƒuƒJƒeƒSƒŠ‚É‚àŒ©‚Â‚©‚ç‚È‚©‚Á‚½
-				[bLT collapseItem: eachItem]; // ‚±‚ÌƒJƒeƒSƒŠ‚Í•Â‚¶‚é
+			if (-1 == index) // ã“ã®ã‚«ãƒ†ã‚´ãƒªã®ã©ã®ã‚µãƒ–ã‚«ãƒ†ã‚´ãƒªã«ã‚‚è¦‹ã¤ã‹ã‚‰ãªã‹ã£ãŸ
+				[bLT collapseItem: eachItem]; // ã“ã®ã‚«ãƒ†ã‚´ãƒªã¯é–‰ã˜ã‚‹
 		}
 	}
 	return index;
 }
 
-- (int) searchRowForItemInDeep: (BoardListItem *) boardItem fromSource: (id) source forView: (NSOutlineView *) olView
+- (int)searchRowForItemInDeep:(BoardListItem *)boardItem inView:(NSOutlineView *)olView
 {
-	int	index = [olView rowForItem: boardItem];
+	int	index = [olView rowForItem:boardItem];
 	
 	if (index == -1) {
-		index = expandAndSelectItem(boardItem, source, olView);
+		index = expandAndSelectItem(boardItem, [(SmartBoardList *)[olView dataSource] boardItems], olView);
 	}
 	
 	return index;
 }
 
 #pragma mark -
-- (IBAction) focus : (id) sender
+- (IBAction)focus:(id)sender
 {
-    [[self window] makeFirstResponder : [[self threadsListTable] enclosingScrollView]];
+    [[self window] makeFirstResponder:[[self threadsListTable] enclosingScrollView]];
 }
 
-- (void) selectRowWhoseNameIs : (NSString *) brdname_
+- (void)selectRowWhoseNameIs:(NSString *)brdname_
 {
-	NSOutlineView	*bLT = [self boardListTable];
-    SmartBoardList       *source;
-	BoardListItem	*selected;
+	[self selectRowOfName:brdname_ forceReload:NO];
+}
+
+- (void)selectRowOfName:(NSString *)boardName forceReload:(BOOL)flag
+{
+	NSOutlineView	*outlineView = [self boardListTable];
+    SmartBoardList  *dataSource = [outlineView dataSource];
+	BoardListItem	*selectedItem;
     int				index;
 
-    source = (SmartBoardList *)[bLT dataSource];
-    
-    selected = [source itemForName : brdname_];
+	UTILAssertNotNil(dataSource);
 
-    if (nil == selected) { // Œf¦”Â‚ğ©“®“I‚É’Ç‰Á
-		SmartBoardList	*defaultList_ = [[BoardManager defaultManager] defaultList];
-		BoardListItem *willAdd_ = [defaultList_ itemForName: brdname_];
-		if(nil == willAdd_) {
-			NSLog(@"No BoardListItem for board %@ found.", brdname_);
+    selectedItem = [dataSource itemForName:boardName];
+
+    if (!selectedItem) { // å¿…è¦ãªã‚‰æ²ç¤ºæ¿ã‚’è‡ªå‹•çš„ã«è¿½åŠ 
+		SmartBoardList	*defaultList = [[BoardManager defaultManager] defaultList];
+		BoardListItem	*newItem = [defaultList itemForName:boardName];
+		if (!newItem) {
+			NSBeep();
+			NSLog(@"No BoardListItem for board %@ found.", boardName);
 			return;
 		} else {
-			[source addItem : willAdd_ afterObject : nil];
-			selected = [source itemForName : brdname_];
+			[dataSource addItem:newItem afterObject:nil];
+			selectedItem = [dataSource itemForName:boardName];
 		}
 	}
 
-	index = [self searchRowForItemInDeep: selected fromSource: [source boardItems] forView: bLT];	
+	index = [self searchRowForItemInDeep:selectedItem inView:outlineView];	
 	if (index == -1) return;
-	if ([bLT isRowSelected: index]) { // ‚·‚Å‚É‘I‘ğ‚µ‚½‚¢s‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚é
-		UTILNotifyName(CMRBrowserThListUpdateDelegateTaskDidFinishNotification);
+	if ([outlineView isRowSelected:index]) { // ã™ã§ã«é¸æŠã—ãŸã„è¡ŒãŒé¸æŠã•ã‚Œã¦ã„ã‚‹
+		if (flag) {
+			[self reloadThreadsList:self];
+		} else {
+			UTILNotifyName(CMRBrowserThListUpdateDelegateTaskDidFinishNotification);
+		}
 	} else {
-		[bLT selectRowIndexes: [NSIndexSet indexSetWithIndex: index] byExtendingSelection: NO];
+		[outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
 	}
-	[bLT scrollRowToVisible : index];
+
+	[outlineView scrollRowToVisible:index];
 }
 
-- (IBAction) reloadThreadsList : (id) sender
+- (IBAction)reloadThreadsList:(id)sender
 {
 	[[self document] reloadThreadsList];
-	
+
 	int row_ = [[self threadsListTable] selectedRow];
 	int mask_ = [CMRPref threadsListAutoscrollMask];
 	
 	if ((mask_ & CMRAutoscrollWhenTLUpdate) > 0 && row_ != -1){
-		// ƒŠƒXƒg‚Å‘I‘ğ‚³‚ê‚Ä‚¢‚é€–Ú‚Ü‚ÅƒXƒNƒ[ƒ‹
-		[[self threadsListTable] scrollRowToVisible : row_];
-	}else{
-		// ƒŠƒXƒg‚Ìæ“ª‚Ü‚ÅƒXƒNƒ[ƒ‹
-		[[self threadsListTable] scrollRowToVisible : 0];
+		// ãƒªã‚¹ãƒˆã§é¸æŠã•ã‚Œã¦ã„ã‚‹é …ç›®ã¾ã§ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«
+		[[self threadsListTable] scrollRowToVisible:row_];
+	} else {
+		// ãƒªã‚¹ãƒˆã®å…ˆé ­ã¾ã§ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«
+		[[self threadsListTable] scrollRowToVisible:0];
 	}
 }
 
-- (void) openThreadsInThreadWindow : (NSArray *) threads
+- (void)openThreadsInThreadWindow:(NSArray *)threads
 {
-	NSEnumerator		*Iter_;
-	NSDictionary		*thread_;
+	NSEnumerator	*iter_;
+	NSDictionary	*thread_;
+	NSString		*path_;
 	
-	Iter_ = [threads objectEnumerator];
-	while ((thread_ = [Iter_ nextObject])) {
-		NSString				*path_;
+	iter_ = [threads objectEnumerator];
+	while (thread_ = [iter_ nextObject]) {
 		
-		path_ = [CMRThreadAttributes pathFromDictionary : thread_];
-		if ([self shouldShowContents] && [path_ isEqualToString: [self path]]) {
+		path_ = [CMRThreadAttributes pathFromDictionary:thread_];
+		if ([self shouldShowContents] && [path_ isEqualToString:[self path]]) {
 			continue;
 		}
-		[CMRThreadDocument showDocumentWithContentOfFile : path_
-											 contentInfo : thread_];
+		[CMRThreadDocument showDocumentWithContentOfFile:path_ contentInfo:thread_];
 	}
 }
-- (NSArray *) targetThreadsForAction : (SEL) action
+
+- (NSArray *)targetThreadsForAction:(SEL)action
 {
 	// currentlly no use action.
 	NSEvent *event = [NSApp currentEvent];
 	NSPoint mouse = [event locationInWindow];
-	NSView *targetView = [[[self window] contentView] hitTest : mouse];
+	NSView *targetView = [[[self window] contentView] hitTest:mouse];
 	NSArray *result = nil;
 	//NSLog(@"%@", NSStringFromClass([targetView class]));
-	if ([targetView isKindOfClass : [m_threadsListTable class]] /*|| nil == targetView*/) {	// ƒXƒŒƒbƒhƒŠƒXƒg‚©‚ç
+	if ([targetView isKindOfClass:[m_threadsListTable class]] /*|| nil == targetView*/) {	// ã‚¹ãƒ¬ãƒƒãƒ‰ãƒªã‚¹ãƒˆã‹ã‚‰
 		result = [self selectedThreadsReallySelected];
 		if (0 == [result count]) {
-			if (nil == [self threadURL]) {
+			if (![self threadURL]) {
 				result = [NSArray empty];
 			}
 			result = [self selectedThreads];
 		}
-	} else if (nil == targetView) {
-		// ƒƒjƒ…[ƒo[‚à‚µ‚­‚ÍƒL[ƒCƒxƒ“ƒg‚©‚ç
-		// ‚ ‚é‚¢‚Íƒc[ƒ‹ƒo[ƒ{ƒ^ƒ“‚©‚ç
-		// ƒXƒŒƒbƒhƒŠƒXƒg‚ÉƒtƒH[ƒJƒX‚ª“–‚½‚Á‚Ä‚¢‚é‚©‚Ç‚¤‚©‚Å‘ÎÛ‚ğƒXƒCƒbƒ`‚·‚éB
+	} else if (!targetView) {
+		// ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒãƒ¼ã‚‚ã—ãã¯ã‚­ãƒ¼ã‚¤ãƒ™ãƒ³ãƒˆã‹ã‚‰
+		// ã‚ã‚‹ã„ã¯ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ãƒœã‚¿ãƒ³ã‹ã‚‰
+		// ã‚¹ãƒ¬ãƒƒãƒ‰ãƒªã‚¹ãƒˆã«ãƒ•ã‚©ãƒ¼ã‚«ã‚¹ãŒå½“ãŸã£ã¦ã„ã‚‹ã‹ã©ã†ã‹ã§å¯¾è±¡ã‚’ã‚¹ã‚¤ãƒƒãƒã™ã‚‹ã€‚
 		NSView *focusedView_ = (NSView *)[[self window] firstResponder];
 		if (focusedView_ == [self textView] || [self isIndexFieldFirstResponder]) {
-			// ƒtƒH[ƒJƒX‚ªƒXƒŒƒbƒh–{•¶—Ìˆæ‚É‚ ‚é
+			// ãƒ•ã‚©ãƒ¼ã‚«ã‚¹ãŒã‚¹ãƒ¬ãƒƒãƒ‰æœ¬æ–‡é ˜åŸŸã«ã‚ã‚‹
 			id selected = [self selectedThread];
 			if (nil == selected) {
 				result = [NSArray empty];
 			} else {
-				result = [NSArray arrayWithObject : selected];
+				result = [NSArray arrayWithObject:selected];
 			}
-		} else { // ƒtƒH[ƒJƒX‚ª‚»‚êˆÈŠO‚Ì—Ìˆæ‚É‚ ‚éFƒXƒŒƒbƒhƒŠƒXƒg‚Ì‘I‘ğ€–Ú‚ğ—Dæ
+		} else { // ãƒ•ã‚©ãƒ¼ã‚«ã‚¹ãŒãã‚Œä»¥å¤–ã®é ˜åŸŸã«ã‚ã‚‹ï¼šã‚¹ãƒ¬ãƒƒãƒ‰ãƒªã‚¹ãƒˆã®é¸æŠé …ç›®ã‚’å„ªå…ˆ
 			result = [self selectedThreadsReallySelected];
 			if (0 == [result count]) {
-				if (nil == [self threadURL]) {
+				if (![self threadURL]) {
 					result = [NSArray empty];
 				}
 				result = [self selectedThreads];
 			}
 		}	
-	} else { //@ƒXƒŒƒbƒh–{•¶—Ìˆæ‚©‚çB
+	} else { //ã€€ã‚¹ãƒ¬ãƒƒãƒ‰æœ¬æ–‡é ˜åŸŸã‹ã‚‰ã€‚
 		id selected = [self selectedThread];
-		if (nil == selected) {
+		if (!selected) {
 			result = [NSArray empty];
 		} else {
-			result = [NSArray arrayWithObject : selected];
+			result = [NSArray arrayWithObject:selected];
 		}
 	}
 	return result;
 }
 
-- (IBAction) openBBSInBrowser : (id) sender
+- (IBAction)openBBSInBrowser:(id)sender
 {
 	NSURL		*url_;
 	
 	url_ = [[self document] boardURL];
-	if (url_ != nil) {
-		[[NSWorkspace sharedWorkspace] openURL : url_ inBackGround : [CMRPref openInBg]];
+	if (url_) {
+		[[NSWorkspace sharedWorkspace] openURL:url_ inBackGround:[CMRPref openInBg]];
 	} else {
-		[super openBBSInBrowser : sender];
+		[super openBBSInBrowser:sender];
 	}
 }
-/*
-- (IBAction) openLogfile : (id) sender
+
+- (IBAction)openSelectedThreads:(id)sender
 {
-	[self openThreadsLogFiles :  [self targetThreadsForAction : _cmd]];
+	[self openThreadsInThreadWindow:[self targetThreadsForAction:_cmd]];
 }
-- (IBAction) openInBrowser : (id) sender
+
+- (IBAction)selectThread:(id)sender
 {
-	[self openThreadsInBrowser : [self targetThreadsForAction : _cmd]];
-}
-*/
-- (IBAction) openSelectedThreads : (id) sender
-{
-	[self openThreadsInThreadWindow : [self targetThreadsForAction : _cmd]];
-}
-- (IBAction) selectThread : (id) sender
-{
-	// “Á’è‚Ìƒ‚ƒfƒBƒtƒ@ƒCƒAEƒL[‚ª‰Ÿ‚³‚ê‚Ä‚¢‚é‚Æ‚«‚Í
-	// ƒNƒŠƒbƒN‚Å€–Ú‚ğ‘I‘ğ‚µ‚Ä‚àƒXƒŒƒbƒh‚ğ“Ç‚İ‚Ü‚È‚¢
-	if (isOptionKeyDown())
-		return;
+	// ç‰¹å®šã®ãƒ¢ãƒ‡ã‚£ãƒ•ã‚¡ã‚¤ã‚¢ãƒ»ã‚­ãƒ¼ãŒæŠ¼ã•ã‚Œã¦ã„ã‚‹ã¨ãã¯
+	// ã‚¯ãƒªãƒƒã‚¯ã§é …ç›®ã‚’é¸æŠã—ã¦ã‚‚ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’èª­ã¿è¾¼ã¾ãªã„
+	if (![self shouldShowContents] || isOptionKeyDown()) return;
 	
-	if (NO == [self shouldShowContents])
-		return;
-	
-	[self showSelectedThread : self];
+	[self showSelectedThread:self];
 }
-- (BOOL) shouldLoadThreadAtPath : (NSString *) filepath
+
+- (BOOL)shouldLoadThreadAtPath:(NSString *)filepath
 {
-	if (NO == [self shouldShowContents]) return NO;
+	if (![self shouldShowContents]) return NO;
 	
-	return (NO == [filepath isSameAsString : [self path]] || NO == [[NSFileManager defaultManager] fileExistsAtPath : filepath]);
+	return (![filepath isSameAsString:[self path]] || ![[NSFileManager defaultManager] fileExistsAtPath:filepath]);
 }
-- (void) showThreadAtRow : (int) rowIndex
+
+- (void)showThreadAtRow:(int)rowIndex
 {
 	NSTableView				*tbView_ = [self threadsListTable];
 	NSDictionary			*thread_;
@@ -227,42 +229,39 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 		[tbView_ numberOfRows],
 		rowIndex);
 	
-	thread_ = [[self currentThreadsList] 
-				threadAttributesAtRowIndex:rowIndex inTableView:tbView_];
-	path_ = [CMRThreadAttributes  pathFromDictionary : thread_];
+	thread_ = [[self currentThreadsList] threadAttributesAtRowIndex:rowIndex inTableView:tbView_];
+	path_ = [CMRThreadAttributes  pathFromDictionary:thread_];
 	
-	if ([self shouldLoadThreadAtPath : path_]) {
-		[self setThreadContentWithFilePath : path_
-								 boardInfo : thread_];
-		// ƒtƒH[ƒJƒX
+	if ([self shouldLoadThreadAtPath:path_]) {
+		[self setThreadContentWithFilePath:path_ boardInfo:thread_];
+		// ãƒ•ã‚©ãƒ¼ã‚«ã‚¹
 		//if ([CMRPref moveFocusToViewerWhenShowThreadAtRow]) {
-			[[self window] makeFirstResponder : [self textView]];
+			[[self window] makeFirstResponder:[self textView]];
 		//}
 		[self synchronizeWindowTitleWithDocumentName];
 	}
 }
 
-- (IBAction) showSelectedThread : (id) sender
+- (IBAction)showSelectedThread:(id)sender
 {
 	if (-1 == [[self threadsListTable] selectedRow]) return;
 	if ([[self threadsListTable] numberOfSelectedRows] != 1) return;
 	
-	[self showThreadAtRow : [[self threadsListTable] selectedRow]];
+	[self showThreadAtRow:[[self threadsListTable] selectedRow]];
 }
-
 
 /*
 	2005-06-06 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	Key Binding ‚Ì•Ö‹X‚ğ}‚é‚½‚ß‚¾‚¯‚Ìƒƒ\ƒbƒhB
-	return ƒL[‚É‘Î‰‚·‚éƒAƒNƒVƒ‡ƒ“‚É‚±‚ê‚ğw’è‚µ‚Ä‚¨‚­‚ÆA2ƒyƒCƒ“‚Ì‚Æ‚«A3ƒyƒCƒ“‚Ì‚Æ‚«
-	‚»‚ê‚¼‚ê‚É‰‚¶‚Ä©“®“I‚É“KØ‚È“®ìi•Ê‘‹‚ÅŠJ‚­A‰º•”‚É•\¦‚·‚éj‚ğŒÄ‚Ño‚¹‚é‚Æ‚¢‚¤dŠ|‚¯B
+	Key Binding ã®ä¾¿å®œã‚’å›³ã‚‹ãŸã‚ã ã‘ã®ãƒ¡ã‚½ãƒƒãƒ‰ã€‚
+	return ã‚­ãƒ¼ã«å¯¾å¿œã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã«ã“ã‚Œã‚’æŒ‡å®šã—ã¦ãŠãã¨ã€2ãƒšã‚¤ãƒ³ã®ã¨ãã€3ãƒšã‚¤ãƒ³ã®ã¨ã
+	ãã‚Œãã‚Œã«å¿œã˜ã¦è‡ªå‹•çš„ã«é©åˆ‡ãªå‹•ä½œï¼ˆåˆ¥çª“ã§é–‹ãã€ä¸‹éƒ¨ã«è¡¨ç¤ºã™ã‚‹ï¼‰ã‚’å‘¼ã³å‡ºã›ã‚‹ã¨ã„ã†ä»•æ›ã‘ã€‚
 */
-- (IBAction) showOrOpenSelectedThread : (id) sender
+- (IBAction)showOrOpenSelectedThread:(id)sender
 {
 	if ([self shouldShowContents]) {
-		[self showSelectedThread : sender];
+		[self showSelectedThread:sender];
 	} else {
-		[self openSelectedThreads : sender];
+		[self openSelectedThreads:sender];
 	}
 }
 
@@ -311,28 +310,28 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 }
 */
 #pragma mark History Menu
-- (IBAction) showThreadWithMenuItem : (id) sender
+- (IBAction)showThreadWithMenuItem:(id)sender
 {
-	// ‘¼‚Ì”Â‚ÌƒXƒŒƒbƒh‚ÉˆÚ“®‚·‚é‚±‚Æ‚ğl‚¦AƒXƒŒˆê——‚Å‚Ì‘I‘ğó‘Ô‚ğ‰ğœ‚µ‚Ä‚¨‚­
+	// ä»–ã®æ¿ã®ã‚¹ãƒ¬ãƒƒãƒ‰ã«ç§»å‹•ã™ã‚‹ã“ã¨ã‚’è€ƒãˆã€ã‚¹ãƒ¬ä¸€è¦§ã§ã®é¸æŠçŠ¶æ…‹ã‚’è§£é™¤ã—ã¦ãŠã
 	if ([self shouldShowContents]) {
-		[[self threadsListTable] deselectAll: nil];
-		[super showThreadWithMenuItem : sender];
+		[[self threadsListTable] deselectAll:nil];
+		[super showThreadWithMenuItem:sender];
 	} else {
 		id historyItem = nil;
 
-		if ([sender respondsToSelector : @selector(representedObject)]) {
+		if ([sender respondsToSelector:@selector(representedObject)]) {
 			id o = [sender representedObject];
 			historyItem = o;
 		}
-		
-		[CMRThreadDocument showDocumentWithHistoryItem: historyItem];	
+
+		[CMRThreadDocument showDocumentWithHistoryItem:historyItem];
 	}
 }
 
 #pragma mark Deletion
-- (BOOL) forceDeleteThreads: (NSArray *) threads
+- (BOOL)forceDeleteThreads:(NSArray *)threads
 {
-	NSMutableArray	*array_ = [NSMutableArray arrayWithCapacity: [threads count]];
+	NSMutableArray	*array_ = [NSMutableArray arrayWithCapacity:[threads count]];
 	NSArray			*arrayWithReplyFiles_;
 	NSEnumerator	*iter_ = [threads objectEnumerator];
 	NSFileManager	*fm = [NSFileManager defaultManager];
@@ -340,22 +339,22 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 	NSString		*path_;
 
 	while (eachItem_ = [iter_ nextObject]) {
-		path_ = [CMRThreadAttributes pathFromDictionary: eachItem_];
-		if ([fm fileExistsAtPath: path_]) {
-			[array_ addObject: path_];
+		path_ = [CMRThreadAttributes pathFromDictionary:eachItem_];
+		if ([fm fileExistsAtPath:path_]) {
+			[array_ addObject:path_];
 		} else {
 			NSLog(@"File does not exist (although we're going to remove it!)\n%@", path_);
 		}
 	}
 
-	arrayWithReplyFiles_ = [[CMRReplyDocumentFileManager defaultManager] replyDocumentFilesArrayWithLogsArray: array_];
-	return [[CMRTrashbox trash] performWithFiles: arrayWithReplyFiles_ fetchAfterDeletion: NO];
+	arrayWithReplyFiles_ = [[CMRReplyDocumentFileManager defaultManager] replyDocumentFilesArrayWithLogsArray:array_];
+	return [[CMRTrashbox trash] performWithFiles:arrayWithReplyFiles_ fetchAfterDeletion:NO];
 }
 
-- (void) _showDeletionAlertSheet : (id) sender
-						  ofType : (BSThreadDeletionType) aType
-					  allowRetry : (BOOL) allowRetry
-				   targetThreads : (NSArray *) threadsArray
+- (void)doShowDeletionAlertSheet:(id)sender
+						  ofType:(BSThreadDeletionType)aType
+					  allowRetry:(BOOL)allowRetry
+				   targetThreads:(NSArray *)threadsArray
 {
 	NSAlert		*alert_;
 	NSString	*title_;
@@ -366,19 +365,19 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 	switch(aType) {
 	case BSThreadAtViewerDeletionType:
 	{
-		NSString *tmp_ = [self localizedString : kDeleteThreadTitleKey];
-		NSString *threadTitle_ = [CMRThreadAttributes threadTitleFromDictionary : [threadsArray lastObject]];
-		title_ = [NSString stringWithFormat : tmp_, threadTitle_];
-		message_ = [self localizedString : kDeleteThreadMessageKey];
+		NSString *tmp_ = [self localizedString:kDeleteThreadTitleKey];
+		NSString *threadTitle_ = [CMRThreadAttributes threadTitleFromDictionary:[threadsArray lastObject]];
+		title_ = [NSString stringWithFormat:tmp_, threadTitle_];
+		message_ = [self localizedString:kDeleteThreadMessageKey];
 	}
 		break;
 	case BSThreadAtBrowserDeletionType:
-		title_ = [self localizedString : kBrowserDelThTitleKey];
-		message_ = [self localizedString : kBrowserDelThMsgKey];
+		title_ = [self localizedString:kBrowserDelThTitleKey];
+		message_ = [self localizedString:kBrowserDelThMsgKey];
 		break;
 	case BSThreadAtFavoritesDeletionType:
-		title_ = [self localizedString : kDeleteFavTitleKey];
-		message_ = [self localizedString : kDeleteFavMsgKey];
+		title_ = [self localizedString:kDeleteFavTitleKey];
+		message_ = [self localizedString:kDeleteFavMsgKey];
 		break;
 	default : 
 		title_ = @"Implementaion Error";
@@ -386,72 +385,71 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 		break;
 	}
 	
-	[alert_ setMessageText : title_];
-	[alert_ setInformativeText : message_];
-	[alert_ addButtonWithTitle : [self localizedString : kDeleteOKBtnKey]];
-	[alert_ addButtonWithTitle : [self localizedString : kDeleteCancelBtnKey]];
+	[alert_ setMessageText:title_];
+	[alert_ setInformativeText:message_];
+	[alert_ addButtonWithTitle:[self localizedString:kDeleteOKBtnKey]];
+	[alert_ addButtonWithTitle:[self localizedString:kDeleteCancelBtnKey]];
 	if (allowRetry) {
 		NSButton	*deleteAndReloadBtn_;
-		deleteAndReloadBtn_ = [alert_ addButtonWithTitle : [self localizedString : kDeleteAndReloadBtnKey]];
-		[deleteAndReloadBtn_ setKeyEquivalent : @"r"];
+		deleteAndReloadBtn_ = [alert_ addButtonWithTitle:[self localizedString:kDeleteAndReloadBtnKey]];
+		[deleteAndReloadBtn_ setKeyEquivalent:@"r"];
 	}
 
-	//NSBeep();
-	[alert_ beginSheetModalForWindow : [self window]
-					   modalDelegate : self
-					  didEndSelector : @selector(_threadDeletionSheetDidEnd:returnCode:contextInfo:)
-					     contextInfo : [threadsArray retain]];
+	[alert_ beginSheetModalForWindow:[self window]
+					   modalDelegate:self
+					  didEndSelector:@selector(_threadDeletionSheetDidEnd:returnCode:contextInfo:)
+					     contextInfo:[threadsArray retain]];
 }
 
-- (IBAction) deleteThread : (id) sender
+- (IBAction)deleteThread:(id)sender
 {
-	NSArray			*targets_ = [self targetThreadsForAction : _cmd];
+	NSArray			*targets_ = [self targetThreadsForAction:_cmd];
 	int				numOfSelected_ = [targets_ count];
-	
+
 	if (numOfSelected_ == 0) return;
 	
 	if (numOfSelected_ == 1) {
-		NSString *path_ = [CMRThreadAttributes pathFromDictionary : [targets_ lastObject]];
+		NSString *path_ = [CMRThreadAttributes pathFromDictionary:[targets_ lastObject]];
 		if ([CMRPref quietDeletion]) {
-			if (NO == [self forceDeleteThreadAtPath : path_ alsoReplyFile : YES]) {
+			if (![self forceDeleteThreadAtPath:path_ alsoReplyFile:YES]) {
 				NSBeep();
 				NSLog(@"Deletion failed : %@", path_);
 			}
 		} else {
-			[self _showDeletionAlertSheet : sender
-								   ofType : BSThreadAtViewerDeletionType
-							   allowRetry : ([CMRPref isOnlineMode] && [self shouldShowContents] && [[self path] isEqualToString : path_])
-							targetThreads : targets_];
+			[self doShowDeletionAlertSheet:sender
+									ofType:BSThreadAtViewerDeletionType
+								allowRetry:([CMRPref isOnlineMode] && [self shouldShowContents] && [[self path] isEqualToString:path_])
+							 targetThreads:targets_];
 		}
 	} else {
 		if ([CMRPref quietDeletion]) {
-			if (NO == [self forceDeleteThreads: targets_]) {
+			if (![self forceDeleteThreads:targets_]) {
 				NSBeep();
 				NSLog(@"CMRTrashbox returns some error.");
 			}			
 		} else {
-			[self _showDeletionAlertSheet : sender
-								   ofType : ([[self currentThreadsList] isFavorites] ? BSThreadAtFavoritesDeletionType
-																					 : BSThreadAtBrowserDeletionType)
-							   allowRetry : NO
-							targetThreads : targets_];
+			[self doShowDeletionAlertSheet:sender
+									ofType:([[self currentThreadsList] isFavorites] ? BSThreadAtFavoritesDeletionType
+																					: BSThreadAtBrowserDeletionType)
+								allowRetry:NO
+							 targetThreads:targets_];
 		}
 	}
 }
 
-- (void) _threadDeletionSheetDidEnd : (NSAlert *) alert
-						 returnCode : (int      ) returnCode
-						contextInfo : (void	   *) contextInfo
+- (void)_threadDeletionSheetDidEnd:(NSAlert *)alert
+						returnCode:(int)returnCode
+					   contextInfo:(void *)contextInfo
 {
 	if (returnCode == NSAlertFirstButtonReturn) {
-		if (NO == [self forceDeleteThreads: (NSArray *)contextInfo]) {
+		if (![self forceDeleteThreads:(NSArray *)contextInfo]) {
 			NSBeep();
 			NSLog(@"CMRTrashbox returns some error.");
 		}
 	} else if (returnCode == NSAlertThirdButtonReturn) {
 		id item_ = [(NSArray *)contextInfo lastObject];
-		NSString *path_ = [CMRThreadAttributes pathFromDictionary: item_];
-		if (NO == [self forceDeleteThreadAtPath: path_ alsoReplyFile: NO]) {
+		NSString *path_ = [CMRThreadAttributes pathFromDictionary:item_];
+		if (![self forceDeleteThreadAtPath:path_ alsoReplyFile:NO]) {
 			NSBeep();
 			NSLog(@"Deletion failed : %@, so reloading opreation has been canceled.", path_);
 		}
@@ -459,26 +457,23 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 }
 
 #pragma mark Filter, Search
-- (IBAction) selectFilteringMask : (id) sender
+- (IBAction)selectFilteringMask:(id)sender
 {
 	NSNumber	*represent_;
 	int			mask_;
 	
-	if (NO == [sender respondsToSelector : @selector(representedObject)]) {
-		UTILDebugWrite(@"Sender must respondsToSelector : -representedObject");
-		return;
-	}
-	
+	UTILAssertRespondsTo(sender,@selector(representedObject));	
+
 	represent_ = [sender representedObject];
 	UTILAssertKindOfClass(represent_, NSNumber);
 
 	mask_ = [represent_ unsignedIntValue];
-	[self changeThreadsFilteringMask : mask_];
+	[self changeThreadsFilteringMask:mask_];
 
 //	[[CMRMainMenuManager defaultManager] synchronizeStatusFilteringMenuItemState];
 }
 
-- (void) synchronizeWithSearchField
+- (void)synchronizeWithSearchField
 {
 	[[self document] searchThreadsInListWithCurrentSearchString];
 	[self synchronizeWindowTitleWithDocumentName];
@@ -486,7 +481,7 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 	[[self threadsListTable] reloadData];
 }
 
-- (IBAction) searchThread : (id) sender
+- (IBAction)searchThread:(id)sender
 {
 	[self synchronizeWithSearchField];
 }
@@ -535,7 +530,7 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 }
 
 #pragma mark View Menu
-- (IBAction) collapseOrExpandBoardList : (id) sender
+- (IBAction)collapseOrExpandBoardList:(id)sender
 {
 	RBSplitSubview	*tmp_;
 	
@@ -545,57 +540,60 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 	} else {
 		[tmp_ collapse];
 	}
-	// Leopard b’è‘Îô
+	// Leopard æš«å®šå¯¾ç­–
 	[[tmp_ splitView] adjustSubviews];
 }
 
 #pragma mark -
 
 /*
-NSTableView action, doubleAction ‚ÍƒJƒ‰ƒ€‚ÌƒNƒŠƒbƒN‚Å‚à
-”­¶‚·‚é‚Ì‚ÅAˆÈ‰º‚Ìƒƒ\ƒbƒh‚ÅƒtƒbƒN‚·‚éB
+NSTableView action, doubleAction ã¯ã‚«ãƒ©ãƒ ã®ã‚¯ãƒªãƒƒã‚¯ã§ã‚‚
+ç™ºç”Ÿã™ã‚‹ã®ã§ã€ä»¥ä¸‹ã®ãƒ¡ã‚½ãƒƒãƒ‰ã§ãƒ•ãƒƒã‚¯ã™ã‚‹ã€‚
 */
-- (IBAction) tableViewActionDispatch : (id        ) sender
-						   actionKey : (NSString *) aKey
-					   defaultAction : (SEL       ) defaultAction
+- (IBAction)tableViewActionDispatch:(id)sender actionKey:(NSString *)aKey defaultAction:(SEL)defaultAction
 {
-	SEL				action_;
-	
-	// ƒJƒ‰ƒ€‚ÌƒNƒŠƒbƒN
-	if (-1 == [[self threadsListTable] clickedRow])
-		return;
+	SEL action_;
 
-	// İ’è‚³‚ê‚½ƒAƒNƒVƒ‡ƒ“‚ÉƒfƒBƒXƒpƒbƒ`
+	// ã‚«ãƒ©ãƒ ã®ã‚¯ãƒªãƒƒã‚¯
+	if (-1 == [[self threadsListTable] clickedRow]) return;
+
+	// è¨­å®šã•ã‚ŒãŸã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã«ãƒ‡ã‚£ã‚¹ãƒ‘ãƒƒãƒ
 	action_ = SGTemplateSelector(aKey);
-	if (NULL == action_ || _cmd == action_)
+	if (NULL == action_ || _cmd == action_) {
 		action_ = defaultAction;
-	
+	}
 	[NSApp sendAction:action_ to:self from:sender];
 }
-- (IBAction) listViewAction : (id) sender
+
+- (IBAction)listViewAction:(id)sender
 {
-	[self tableViewActionDispatch : sender
-						actionKey : kThreadsListTableActionKey
-					defaultAction : @selector(selectThread:)];
+	[self tableViewActionDispatch:sender
+						actionKey:kThreadsListTableActionKey
+					defaultAction:@selector(selectThread:)];
 }
-- (IBAction) listViewDoubleAction : (id) sender
+
+- (IBAction)listViewDoubleAction:(id)sender
 {
-	[self tableViewActionDispatch : sender
-						actionKey : kThreadsListTableDoubleActionKey
-					defaultAction : @selector(openSelectedThreads:)];
+	[self tableViewActionDispatch:sender
+						actionKey:kThreadsListTableDoubleActionKey
+					defaultAction:@selector(openSelectedThreads:)];
 }
-- (IBAction) boardListViewDoubleAction : (id) sender
+
+- (IBAction)boardListViewDoubleAction:(id)sender
 {
 	UTILAssertKindOfClass(sender, NSOutlineView);
 
 	int	rowNum = [sender clickedRow];
 	if (-1 == rowNum) return;
 	
-	id item_ = [sender itemAtRow : rowNum];
+	id item_ = [sender itemAtRow:rowNum];
 
-	if ([sender isExpandable : item_]) {
-		if ([sender isItemExpanded : item_]) [sender collapseItem : item_];
-		else [sender expandItem : item_];
+	if ([sender isExpandable:item_]) {
+		if ([sender isItemExpanded:item_]) {
+			[sender collapseItem:item_];
+		} else {
+			[sender expandItem:item_];
+		}
 	}
 }	
 @end

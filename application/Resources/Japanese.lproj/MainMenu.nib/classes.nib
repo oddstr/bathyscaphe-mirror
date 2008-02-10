@@ -132,6 +132,8 @@
 				<string>id</string>
 				<key>importFavorites</key>
 				<string>id</string>
+				<key>newThread</key>
+				<string>id</string>
 				<key>openBBSInBrowser</key>
 				<string>id</string>
 				<key>openInBrowser</key>
@@ -186,6 +188,8 @@
 				<string>id</string>
 				<key>showDocumentInfo</key>
 				<string>id</string>
+				<key>showLocalRules</key>
+				<string>id</string>
 				<key>showMainBrowser</key>
 				<string>id</string>
 				<key>showMessageMatchesAttributes</key>
@@ -193,8 +197,6 @@
 				<key>showSearchThreadPanel</key>
 				<string>id</string>
 				<key>showStandardFindPanel</key>
-				<string>id</string>
-				<key>showTimeMachine</key>
 				<string>id</string>
 				<key>smallerText</key>
 				<string>id</string>

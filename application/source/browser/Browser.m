@@ -1,11 +1,12 @@
-/**
-  * $Id: Browser.m,v 1.21 2007/12/11 17:09:37 tsawada2 Exp $
-  * BathyScaphe 
-  *
-  * Copyright 2005-2006 BathyScaphe Project.
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  Browser.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 08/02/10.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import "Browser.h"
 
 #import "AppDefaults.h"
@@ -17,42 +18,41 @@
 #import "CMRReplyDocumentFileManager.h"
 #import "CMRFavoritesManager.h"
 
+#import "BSNewThreadMessenger.h"
+
 @implementation Browser
-- (void) dealloc
+- (void)dealloc
 {	
-	[[NSNotificationCenter defaultCenter] removeObserver : self];
-	[self setCurrentThreadsList : nil];
-	[self setThreadAttributes : nil];
-	[m_searchString release];
-	
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[self setCurrentThreadsList:nil];
+	[self setSearchString:nil];
+
 	[super dealloc];
 }
 
-- (NSURL *) boardURL
+- (NSURL *)boardURL
 {
 	return [[self currentThreadsList] boardURL];
 }
 
-- (BSDBThreadList *) currentThreadsList
+- (BSDBThreadList *)currentThreadsList
 {
 	return m_currentThreadsList;
 }
 
-- (void) setCurrentThreadsList : (BSDBThreadList *) aCurrentThreadsList
+- (void)setCurrentThreadsList:(BSDBThreadList *)aCurrentThreadsList
 {
-	id tmp;
-	
-	tmp = m_currentThreadsList;
-	m_currentThreadsList = [aCurrentThreadsList retain];
-	[tmp release];
+	[aCurrentThreadsList retain];
+	[m_currentThreadsList release];
+	m_currentThreadsList = aCurrentThreadsList;
 }
 
-- (NSString *) searchString
+- (NSString *)searchString
 {
 	return m_searchString;
 }
 
-- (void) setSearchString: (NSString *) text
+- (void)setSearchString:(NSString *)text
 {
 	[text retain];
 	[m_searchString release];
@@ -60,73 +60,70 @@
 }
 
 #pragma mark NSDocument
-
-- (void) makeWindowControllers
+- (void)makeWindowControllers
 {
 	CMRBrowser		*browser_;
 	
 	browser_ = [[CMRBrowser alloc] init];
-	[self addWindowController : browser_];
+	[self addWindowController:browser_];
 	[browser_ release];
 }
 
-- (NSString *) displayName
+- (NSString *)displayName
 {
 	BSDBThreadList		*list_;
-	
+
 	list_ = [self currentThreadsList];
 	return list_ ? [list_ boardName] : nil;
 }
 
-- (BOOL) readFromFile : (NSString *) fileName
-			   ofType : (NSString *) type
+- (BOOL)readFromFile:(NSString *)fileName ofType:(NSString *)type
 {
 	return YES;
 }
 
-- (BOOL) loadDataRepresentation : (NSData   *) data
-                         ofType : (NSString *) aType
+- (BOOL)loadDataRepresentation:(NSData *)data ofType:(NSString *)aType
 {
 	return NO;
 }
 
-- (NSData *) dataRepresentationOfType : (NSString *) aType
+- (NSData *)dataRepresentationOfType:(NSString *)aType
 {
 	return nil;
 }
 
-- (IBAction) saveDocumentAs : (id) sender
+- (IBAction)saveDocumentAs:(id)sender
 {
-	if ([self threadAttributes] == nil) return;
+	if (![self threadAttributes]) return;
 
 	NSFileManager	*fM_ = [NSFileManager defaultManager];
 	NSString *filePath_ = [[self threadAttributes] path];
-	if (filePath_ == nil || NO == [fM_ fileExistsAtPath: filePath_]) return;
+	if (!filePath_ || ![fM_ fileExistsAtPath:filePath_]) return;
 
 	NSSavePanel *savePanel_ = [NSSavePanel savePanel];
 	int			resultCode;
 
-	[savePanel_ setRequiredFileType : CMRThreadDocumentPathExtension];
-	[savePanel_ setCanCreateDirectories : YES];
-	[savePanel_ setCanSelectHiddenExtension : YES];
+	[savePanel_ setRequiredFileType:CMRThreadDocumentPathExtension];
+	[savePanel_ setCanCreateDirectories:YES];
+	[savePanel_ setCanSelectHiddenExtension:YES];
 
-	resultCode = [savePanel_ runModalForDirectory: nil file: [filePath_ lastPathComponent]];
+	resultCode = [savePanel_ runModalForDirectory:nil file:[filePath_ lastPathComponent]];
 
 	if (resultCode == NSFileHandlingPanelOKButton) {
 		NSString *savePath_ = [savePanel_ filename];
-		if ([fM_ copyPath: filePath_ toPath: savePath_ handler: nil]) {
+		if ([fM_ copyPath:filePath_ toPath:savePath_ handler:nil]) {
 			NSDate	*curDate_ = [NSDate date];
 			NSDictionary *tmp_;
-			tmp_ = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool: [savePanel_ isExtensionHidden]], NSFileExtensionHidden,
-															   curDate_, NSFileModificationDate, curDate_, NSFileCreationDate, NULL];
-			[fM_ changeFileAttributes: tmp_ atPath: savePath_];
+			tmp_ = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:[savePanel_ isExtensionHidden]], NSFileExtensionHidden,
+															  curDate_, NSFileModificationDate, curDate_, NSFileCreationDate, NULL];
+			[fM_ changeFileAttributes:tmp_ atPath:savePath_];
 		} else {
 			NSBeep();
 			NSLog(@"Save failure - %@", savePath_);
 		}
 	}
 }
-
+/*
 - (IBAction)importFavorites:(id)sender
 {
 	NSOpenPanel	*panel_ = [NSOpenPanel openPanel];
@@ -165,7 +162,7 @@
 			NSLog(@"Export failed - %@", savePath_);
 		}
 	}
-}
+}*/
 
 - (BOOL)validateMenuItem:(NSMenuItem *)theItem
 {
@@ -175,49 +172,45 @@
 		[theItem setTitle:NSLocalizedString(@"Save Menu Item Default", @"Save as...")];
 		return ([self threadAttributes] != nil);
 	} else if (action_ == @selector(cleanupDatochiFiles:)) {
-//		return ([self currentThreadsList] != nil);
 		return [BoardListItem isBoardItem:[[self currentThreadsList] boardListItem]] && ![self searchString];
 	}
 	return [super validateMenuItem:theItem];
 }
 
 #pragma mark ThreadsList
-
-- (void) reloadThreadsList
+- (void)reloadThreadsList
 {
 	[[self currentThreadsList] downloadThreadsList];
 }
 
-- (BOOL) searchThreadsInListWithCurrentSearchString
+- (BOOL)searchThreadsInListWithCurrentSearchString
 {
-	if(nil == [self currentThreadsList]) return NO;
+	if (![self currentThreadsList]) return NO;
 
-	return [[self currentThreadsList] filterByString: [self searchString]];
+	return [[self currentThreadsList] filterByString:[self searchString]];
 }
 
-- (BOOL) searchThreadsInListWithString : (NSString *) text
+- (BOOL)searchThreadsInListWithString:(NSString *)text
 {
-	if(nil == [self currentThreadsList]) return NO;
+	if (![self currentThreadsList]) return NO;
 
-	return [[self currentThreadsList] filterByString: text];
+	return [[self currentThreadsList] filterByString:text];
 }
 
-- (void) sortThreadsByKey : (NSString *) key
+- (void)sortThreadsByKey:(NSString *)key
 {
-	[[self currentThreadsList] sortByKey : key];
+	[[self currentThreadsList] sortByKey:key];
 }
 
-- (void) toggleThreadsListIsAscending
+- (void)toggleThreadsListIsAscending
 {
-	if(nil == [self currentThreadsList]) return;
 	[[self currentThreadsList] toggleIsAscending];
 }
 
-- (void) changeThreadsFilteringMask : (int) mask
+- (void)changeThreadsFilteringMask:(int)mask
 {
-	if(nil == [self currentThreadsList]) return;
-	[[self currentThreadsList] setFilteringMask : mask];
-	[[self currentThreadsList] filterByStatus : mask];
+	[[self currentThreadsList] setFilteringMask:mask];
+	[[self currentThreadsList] filterByStatus:mask];
 }
 
 - (IBAction)toggleThreadsListViewMode:(id)sender
@@ -245,6 +238,23 @@
 						contextInfo:NULL];
 }
 
+- (IBAction)newThread:(id)sender
+{
+	NSString				*boardName = [[self currentThreadsList] boardName];
+	BSNewThreadMessenger	*document;
+	NSDocumentController	*docController = [NSDocumentController sharedDocumentController];
+
+	UTILAssertNotNil(boardName);
+
+	document = [[BSNewThreadMessenger alloc] initWithBoardName:boardName];
+
+	if (document) {
+		[docController addDocument:document];
+		[document makeWindowControllers];
+		[document showWindows];
+	}
+}
+
 - (BOOL)removeDatochiFiles
 {
 	id threadsList = [self currentThreadsList];
@@ -262,7 +272,6 @@
 			if (![fm favoriteItemExistsOfThreadPath:filePath]) {
 				unsigned int index = [threadsList indexOfThreadWithPath:filePath];
 				if (index == NSNotFound) {
-	//				NSLog(@"%@", [filePath lastPathComponent]);
 					[array addObject:filePath];
 				}
 			}
@@ -283,47 +292,42 @@
 }
 @end
 
-#pragma mark -
 
 @implementation Browser(ScriptingSupport)
-- (NSTextStorage *) selectedText
+- (NSTextStorage *)selectedText
 {
-/*	NSAttributedString* attrString;
-	attrString = [[self textStorage] attributedSubstringFromRange:[[[[self windowControllers] lastObject] textView] selectedRange]];
-	NSTextStorage * storage = [[NSTextStorage alloc] initWithAttributedString:attrString];
-	return [storage autorelease];*/
 	return [super selectedText];
 }
 
-- (NSString *) boardURLAsString
+- (NSString *)boardURLAsString
 {
 	return [[self boardURL] stringValue];
 }
 
-- (NSString *) boardNameAsString
+- (NSString *)boardNameAsString
 {
 	return [[self currentThreadsList] boardName];
 }
 
-- (void) setBoardNameAsString : (NSString *) boardNameStr
+- (void)setBoardNameAsString:(NSString *)boardNameStr
 {
 	CMRBrowser *wc_ = [[self windowControllers] lastObject];
-	if (wc_ == nil) return;
+	if (!wc_) return;
 
-	[wc_ showThreadsListWithBoardName : boardNameStr];
-	[wc_ selectRowWhoseNameIs : boardNameStr];
+	[wc_ showThreadsListWithBoardName:boardNameStr];
+	[wc_ selectRowWhoseNameIs:boardNameStr];
 }
 
-- (void) handleReloadListCommand : (NSScriptCommand *) command
+- (void)handleReloadListCommand:(NSScriptCommand *)command
 {
 	[self reloadThreadsList];
 }
 
-- (void) handleReloadThreadCommand : (NSScriptCommand *) command
+- (void)handleReloadThreadCommand:(NSScriptCommand *)command
 {
 	CMRBrowser *wc_ = [[self windowControllers] lastObject];
-	if (wc_ == nil) return;
+	if (!wc_) return;
 
-	[wc_ reloadThread : nil];
+	[wc_ reloadThread:nil];
 }
 @end

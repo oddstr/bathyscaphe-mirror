@@ -242,7 +242,7 @@ BOOL isOptionKeyDown(void)
 		return nil;
 	}
 		
-    index = [self searchRowForItemInDeep:matchedItem fromSource:[source boardItems] forView:boardListView];
+    index = [self searchRowForItemInDeep:matchedItem inView:boardListView];
 	if (-1 == index) return nil;
 	return [NSIndexSet indexSetWithIndex:index];
 }

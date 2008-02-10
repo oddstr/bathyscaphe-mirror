@@ -58,6 +58,11 @@
 @end
 
 
+@interface CMRReplyMessenger(ConnectClient)
+- (void)didFinish;
+@end
+
+
 @interface CMRReplyMessenger(SendMeesage)
 - (NSDictionary *)formDictionary;
 - (void)startSendingMessage;

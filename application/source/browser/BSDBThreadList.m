@@ -11,7 +11,7 @@
 #import "CMRThreadsList_p.h"
 #import "missing.h"
 #import "BSDateFormatter.h"
-
+#import "CMRThreadSignature.h"
 #import "BSThreadListUpdateTask.h"
 #import "BSThreadsListOPTask.h"
 #import "BSBoardListItemHEADCheckTask.h"
@@ -472,6 +472,21 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	
 	return result;
 }
+
+- (CMRThreadSignature *)threadSignatureWithTitle:(NSString *)title
+{
+	BSThreadListItem *row;
+NSLog(@"titletitletitle %@",title);
+	@synchronized(mCursorLock) {
+		row = itemOfTitle(mCursor, title);
+	}
+	
+	if (!row) {NSLog(@"Hoge");
+	return nil;
+	}
+	return [CMRThreadSignature threadSignatureWithIdentifier:[row identifier] boardName:[self boardName]];		
+}
+
 
 - (int)numberOfRowsInTableView : (NSTableView *)tableView
 {

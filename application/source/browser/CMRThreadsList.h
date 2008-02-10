@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.h,v 1.15 2008/02/04 06:40:18 tsawada2 Exp $
+  * $Id: CMRThreadsList.h,v 1.16 2008/02/10 14:24:51 tsawada2 Exp $
   * 
   * CMRThreadsList.h
   *
@@ -11,6 +11,7 @@
 
 @class CMRDownloader;
 @class CMRThreadLayout;
+@class CMRThreadSignature;
 
 enum {
 	kValueTemplateDefaultType,
@@ -155,6 +156,8 @@ enum {
 - (NSDictionary *) threadAttributesAtRowIndex : (int          ) rowIndex
                                   inTableView : (NSTableView *) tableView;
 - (NSString *)threadTitleAtRowIndex:(int )rowIndex inTableView:(NSTableView *)tableView;
+
+- (CMRThreadSignature *)threadSignatureWithTitle:(NSString *)title; // Available in SilverGull and later.
 
 - (unsigned int) indexOfThreadWithPath : (NSString *) filepath;
 @end

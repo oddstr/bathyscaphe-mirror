@@ -7,6 +7,102 @@
 		<dict>
 			<key>ACTIONS</key>
 			<dict>
+				<key>addFavorites</key>
+				<string>id</string>
+				<key>copySelectedResURL</key>
+				<string>id</string>
+				<key>copyThreadAttributes</key>
+				<string>id</string>
+				<key>deleteThread</key>
+				<string>id</string>
+				<key>findAll</key>
+				<string>id</string>
+				<key>findAllByFilter</key>
+				<string>id</string>
+				<key>findFirstText</key>
+				<string>id</string>
+				<key>findNextText</key>
+				<string>id</string>
+				<key>findPreviousText</key>
+				<string>id</string>
+				<key>findTextInSelection</key>
+				<string>id</string>
+				<key>focus</key>
+				<string>id</string>
+				<key>historyMenuPerformBack</key>
+				<string>id</string>
+				<key>historyMenuPerformForward</key>
+				<string>id</string>
+				<key>openBBSInBrowser</key>
+				<string>id</string>
+				<key>openInBrowser</key>
+				<string>id</string>
+				<key>orderFrontMainBrowser</key>
+				<string>id</string>
+				<key>reloadIfOnlineMode</key>
+				<string>id</string>
+				<key>reloadThread</key>
+				<string>id</string>
+				<key>reply</key>
+				<string>id</string>
+				<key>runSpamFilter</key>
+				<string>id</string>
+				<key>scrollFirstMessage</key>
+				<string>id</string>
+				<key>scrollLastMessage</key>
+				<string>id</string>
+				<key>scrollNextBookmark</key>
+				<string>id</string>
+				<key>scrollNextMessage</key>
+				<string>id</string>
+				<key>scrollPrevMessage</key>
+				<string>id</string>
+				<key>scrollPreviousBookmark</key>
+				<string>id</string>
+				<key>scrollPreviousMessage</key>
+				<string>id</string>
+				<key>scrollToFirstTodayMessage</key>
+				<string>id</string>
+				<key>scrollToLastReadedIndex</key>
+				<string>id</string>
+				<key>scrollToLastUpdatedIndex</key>
+				<string>id</string>
+				<key>showThreadAttributes</key>
+				<string>id</string>
+				<key>showThreadWithMenuItem</key>
+				<string>id</string>
+				<key>toggleAAThread</key>
+				<string>id</string>
+				<key>toggleDatOchiThread</key>
+				<string>id</string>
+				<key>toggleMarkedThread</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>CMRThreadViewer</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>m_componentsView</key>
+				<string>NSView</string>
+				<key>m_containerView</key>
+				<string>NSView</string>
+				<key>m_navigationBar</key>
+				<string>NSView</string>
+				<key>m_scrollView</key>
+				<string>NSScrollView</string>
+				<key>m_textView</key>
+				<string>NSTextView</string>
+				<key>m_windowContentView</key>
+				<string>NSView</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>CMRStatusLineWindowController</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
 				<key>addBoardListItem</key>
 				<string>id</string>
 				<key>addCategoryItem</key>
@@ -146,6 +242,8 @@
 		<dict>
 			<key>ACTIONS</key>
 			<dict>
+				<key>quickLook</key>
+				<string>id</string>
 				<key>revealInFinder</key>
 				<string>id</string>
 			</dict>
@@ -232,6 +330,8 @@
 				<string>id</string>
 				<key>openThread</key>
 				<string>id</string>
+				<key>quickLook</key>
+				<string>id</string>
 				<key>reloadThread</key>
 				<string>id</string>
 				<key>reply</key>
@@ -271,102 +371,6 @@
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>NSView</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>addFavorites</key>
-				<string>id</string>
-				<key>copySelectedResURL</key>
-				<string>id</string>
-				<key>copyThreadAttributes</key>
-				<string>id</string>
-				<key>deleteThread</key>
-				<string>id</string>
-				<key>findAll</key>
-				<string>id</string>
-				<key>findAllByFilter</key>
-				<string>id</string>
-				<key>findFirstText</key>
-				<string>id</string>
-				<key>findNextText</key>
-				<string>id</string>
-				<key>findPreviousText</key>
-				<string>id</string>
-				<key>findTextInSelection</key>
-				<string>id</string>
-				<key>focus</key>
-				<string>id</string>
-				<key>historyMenuPerformBack</key>
-				<string>id</string>
-				<key>historyMenuPerformForward</key>
-				<string>id</string>
-				<key>openBBSInBrowser</key>
-				<string>id</string>
-				<key>openInBrowser</key>
-				<string>id</string>
-				<key>orderFrontMainBrowser</key>
-				<string>id</string>
-				<key>reloadIfOnlineMode</key>
-				<string>id</string>
-				<key>reloadThread</key>
-				<string>id</string>
-				<key>reply</key>
-				<string>id</string>
-				<key>runSpamFilter</key>
-				<string>id</string>
-				<key>scrollFirstMessage</key>
-				<string>id</string>
-				<key>scrollLastMessage</key>
-				<string>id</string>
-				<key>scrollNextBookmark</key>
-				<string>id</string>
-				<key>scrollNextMessage</key>
-				<string>id</string>
-				<key>scrollPrevMessage</key>
-				<string>id</string>
-				<key>scrollPreviousBookmark</key>
-				<string>id</string>
-				<key>scrollPreviousMessage</key>
-				<string>id</string>
-				<key>scrollToFirstTodayMessage</key>
-				<string>id</string>
-				<key>scrollToLastReadedIndex</key>
-				<string>id</string>
-				<key>scrollToLastUpdatedIndex</key>
-				<string>id</string>
-				<key>showThreadAttributes</key>
-				<string>id</string>
-				<key>showThreadWithMenuItem</key>
-				<string>id</string>
-				<key>toggleAAThread</key>
-				<string>id</string>
-				<key>toggleDatOchiThread</key>
-				<string>id</string>
-				<key>toggleMarkedThread</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>CMRThreadViewer</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>m_componentsView</key>
-				<string>NSView</string>
-				<key>m_containerView</key>
-				<string>NSView</string>
-				<key>m_navigationBar</key>
-				<string>NSView</string>
-				<key>m_scrollView</key>
-				<string>NSScrollView</string>
-				<key>m_textView</key>
-				<string>NSTextView</string>
-				<key>m_windowContentView</key>
-				<string>NSView</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>CMRStatusLineWindowController</string>
 		</dict>
 	</array>
 	<key>IBVersion</key>

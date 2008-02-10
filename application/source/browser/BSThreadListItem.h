@@ -50,4 +50,5 @@
 
 
 unsigned indexOfIdentifier(NSArray *array, NSString *identifier);
+BSThreadListItem *itemOfTitle(NSArray *array, NSString *searchTitle);
 

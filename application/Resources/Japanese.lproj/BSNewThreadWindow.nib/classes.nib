@@ -19,6 +19,19 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
+			<string>BSNewThreadController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>m_newThreadTitleField</key>
+				<string>NSTextField</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>CMRReplyController</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
 			<string>RBSplitView</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
@@ -39,22 +52,12 @@
 			<string>NSView</string>
 		</dict>
 		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>openHelp</key>
-				<string>id</string>
-			</dict>
 			<key>CLASS</key>
-			<string>PreferencesController</string>
+			<string>NSWindowController</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>_contentView</key>
-				<string>NSView</string>
-			</dict>
 			<key>SUPERCLASS</key>
-			<string>NSObject</string>
+			<string>NSResponder</string>
 		</dict>
 		<dict>
 			<key>ACTIONS</key>
@@ -86,19 +89,62 @@
 			<string>NSResponder</string>
 		</dict>
 		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>deleteMail</key>
+				<string>id</string>
+				<key>insertSage</key>
+				<string>id</string>
+				<key>insertTextTemplate</key>
+				<string>id</string>
+				<key>pasteAsQuotation</key>
+				<string>id</string>
+			</dict>
 			<key>CLASS</key>
-			<string>NSTableColumn</string>
+			<string>CMRReplyController</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>_deleteMailButton</key>
+				<string>NSButton</string>
+				<key>_mailField</key>
+				<string>NSTextField</string>
+				<key>_nameComboBox</key>
+				<string>NSComboBox</string>
+				<key>_sageButton</key>
+				<string>NSButton</string>
+				<key>_scrollView</key>
+				<string>NSScrollView</string>
+				<key>m_controller</key>
+				<string>NSObjectController</string>
+				<key>m_templateInsertionButton</key>
+				<string>NSPopUpButton</string>
+			</dict>
 			<key>SUPERCLASS</key>
-			<string>NSObject</string>
+			<string>CMRStatusLineWindowController</string>
 		</dict>
 		<dict>
 			<key>ACTIONS</key>
 			<dict>
-				<key></key>
+				<key>cancelCurrentTask</key>
+				<string>id</string>
+				<key>saveAsDefaultFrame</key>
 				<string>id</string>
 			</dict>
+			<key>CLASS</key>
+			<string>CMRStatusLineWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>m_toolbarDelegateImp</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSWindowController</string>
+		</dict>
+		<dict>
 			<key>CLASS</key>
 			<string>FirstResponder</string>
 			<key>LANGUAGE</key>
@@ -108,46 +154,11 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
-			<string>BSAdvancedPaneArrayController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>m_tableView</key>
-				<string>NSTableView</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSArrayController</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>closeDetailSheet</key>
-				<string>id</string>
-				<key>openDetailSheet</key>
-				<string>id</string>
-				<key>resetSpamDB</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>CMRFilterPrefController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>m_detailSheet</key>
-				<string>NSWindow</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>PreferencesController</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>NSTableView</string>
+			<string>BSWindow</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
-			<string>NSControl</string>
+			<string>NSWindow</string>
 		</dict>
 	</array>
 	<key>IBVersion</key>

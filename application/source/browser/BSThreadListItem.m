@@ -542,3 +542,27 @@ unsigned indexOfIdentifier(NSArray *array, NSString *search)
 	
 	return NSNotFound;
 }
+
+BSThreadListItem *itemOfTitle(NSArray *array, NSString *searchTitle)
+{
+	unsigned i, count;
+	id object;
+	NSString *title;
+	NSString *adjustedSearchTitle = [searchTitle stringByAppendingString:@" "];
+	
+	count = [array count];
+	if (count == 0) {//NSLog(@"Zero count");
+	return nil;
+	}
+	for (i = 0; i < count; i++ ) {
+		object = [array objectAtIndex:i];
+//		if ([object isKindOfClass:[BSThreadListItem class]]) NSLog(@"Class OK");
+		title = [object threadName];
+//		NSLog(@"title check: %@", title);
+		if ([adjustedSearchTitle isEqualToString:title]) {
+			return object;
+		}
+	}
+	
+	return nil;
+}

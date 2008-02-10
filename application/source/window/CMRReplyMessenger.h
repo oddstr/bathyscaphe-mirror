@@ -21,6 +21,9 @@
 	NSDictionary			*_additionalForms; // added in CometBlaster and later.
 }
 
+- (void)replaceInfoDictionary:(NSDictionary *)newDict;
+- (void)setUpBeLoginSetting;
+
 + (NSString *)stringByQuoted:(NSString *)string;
 
 - (void)append:(NSString *)string quote:(BOOL)quote replyTo:(unsigned int)anIndex;

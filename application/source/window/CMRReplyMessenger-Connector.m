@@ -10,6 +10,7 @@
 #import "CMRReplyMessenger_p.h"
 #import "CMRThreadSignature.h"
 #import "CMRHostHandler.h"
+#import "BSReplyAlertSheetController.h"
 
 
 @implementation CMRReplyMessenger(Private)
@@ -168,8 +169,9 @@
 }
 
 /* 書き込みエラー */
-- (void)cookieOrContributionCheckSheetDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)cookieOrContributionCheckSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
+	[[sheet windowController] autorelease];
 	if (NSAlertFirstButtonReturn == returnCode) {
 		[self startSendingMessage];
 	}
@@ -177,35 +179,40 @@
 
 - (void)beginErrorInformationalAlertSheet:(NSError *)error contribution:(BOOL)contribution
 {
+	NSString	*info;
+	NSString	*firstBtnLabel;
 	SEL			didEndSelector;
+
+	NSDictionary	*alertContent;
+	BSReplyAlertSheetController *alert;
+
 	NSString	*message_ = [[error userInfo] objectForKey:SG2chErrorMessageErrorKey];
-	NSArray		*lines_;
-	NSAlert		*alert_;
-	
-	didEndSelector = contribution ? @selector(cookieOrContributionCheckSheetDidEnd:returnCode:contextInfo:) : nil;
-	
-	// あまりにも長いエラーメッセージは切り詰める
-	lines_ = [message_ componentsSeparatedByNewline];
-	if ([lines_ count] > 10) {
-		lines_ = [lines_ subarrayWithRange:NSMakeRange(0, 10)];
-		message_ = [lines_ componentsJoinedByString:@"\n"];
-	}
+	NSString	*title = [[error userInfo] objectForKey:SG2chErrorTitleErrorKey];
+	NSString	*secondBtnLabel = [self localizedString:@"Cancel"];
 
-	alert_ = [[[NSAlert alloc] init] autorelease];
-	[alert_ setAlertStyle:NSInformationalAlertStyle];
-	[alert_ setMessageText:[[error userInfo] objectForKey:SG2chErrorTitleErrorKey]];
-	[alert_ setInformativeText:message_];
-	[alert_ setHelpAnchor:[self localizedString:@"Reply Error Sheet Help Anchor"]];
-	[alert_ setShowsHelp:YES];
-
-	[alert_ addButtonWithTitle:(contribution ? [self localizedString:@"Try Again"]:@"OK")];
 	if (contribution) {
-		[alert_ addButtonWithTitle:[self localizedString:@"Cancel"]];
+		info = [self localizedString:@"ErrorAlertContributionInfoText"];
+		firstBtnLabel = [self localizedString:@"Try Again"];
+		didEndSelector = @selector(cookieOrContributionCheckSheetDidEnd:returnCode:contextInfo:);
+	} else {
+		info = [self localizedString:@"ErrorAlertNoContributionInfoText"];
+		firstBtnLabel = @"OK";
+		didEndSelector = nil;
 	}
-	[alert_ beginSheetModalForWindow:[self windowForSheet]
-					   modalDelegate:(contribution ? self : nil)
-					  didEndSelector:didEndSelector
-					     contextInfo:nil];
+
+	alertContent = [NSDictionary dictionaryWithObjectsAndKeys:title, kAlertMessageTextKey, info, kAlertInformativeTextKey,
+						message_, kAlertAgreementTextKey, [NSNumber numberWithBool:contribution], kAlertIsContributionKey,
+						firstBtnLabel, kAlertFirstButtonLabelKey, secondBtnLabel, kAlertSecondButtonLabelKey, NULL];
+
+	alert = [[BSReplyAlertSheetController alloc] init];
+	[alert setAlertContent:alertContent];
+	[alert setHelpAnchor:[self localizedString:@"Reply Error Sheet Help Anchor"]];
+
+	[NSApp beginSheet:[alert window]
+	   modalForWindow:[self windowForSheet]
+		modalDelegate:(contribution ? self : nil)
+	   didEndSelector:didEndSelector
+		  contextInfo:nil];
 }
 
 - (BOOL)isCookieOrContributionCheckError:(NSError *)error
@@ -291,7 +298,7 @@ static inline NSString *labelForFieldName(NSString *key)
 @implementation CMRReplyMessenger(SendMeesage)
 // メール欄アイコン付きのレスをコピペするとメール欄アイコンが 0xfffc (Object Replacement Character だそうです) に変換されペーストされる。
 // これがURLエンコードできないため書き込みに失敗するので、これを削除する。
-static inline NSString *prepareStringForPosting(NSString *str)
+/*static inline*/ NSString *prepareStringForPosting(NSString *str)
 {
 	NSString *newString;
 

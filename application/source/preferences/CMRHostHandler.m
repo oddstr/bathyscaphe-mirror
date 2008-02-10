@@ -1,6 +1,6 @@
 //: CMRHostHandler.m
 /**
-  * $Id: CMRHostHandler.m,v 1.7 2007/10/20 02:21:29 tsawada2 Exp $
+  * $Id: CMRHostHandler.m,v 1.8 2008/02/10 14:24:51 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -530,7 +530,7 @@ ErrParse:
 #define kWriteCGIPropertiesKey		@"CGI - Write"
 #define kFormKeyDictKey				@"FormKeys"
 #define kWriteCGISubmitValueKey		@"submitValue"
-#define kWriteCGIMogeraValueKey		@"mogeraValue"
+#define kWriteCGISubmitNewThreadValueKey		@"submitValue_newThread"
 
 // write.cgi
 - (NSDictionary *) writeCGIProperties
@@ -561,6 +561,11 @@ ErrParse:
 - (NSString *) submitValue
 {
 	return [[self writeCGIProperties] stringForKey : kWriteCGISubmitValueKey];
+}
+
+- (NSString *)submitNewThreadValue
+{
+	return [[self writeCGIProperties] stringForKey:kWriteCGISubmitNewThreadValueKey];
 }
 @end
 

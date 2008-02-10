@@ -1,3 +1,57 @@
+2008-02-10 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/Browser.nib
+		スレッド一覧のコンテクストメニューに「先頭のレスをクイックルック」を追加。
+		- 手抜き実装のため、Tiger 以前でもこのメニュー項目は表示されてしまう（選んでも何も起きない）。
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		- 「スレッド」＞「レスに移動」＞「指定日時のレス…」を削除。
+		- 「ファイル」＞「新規ブラウザ」を「新規ブラウザウインドウ」に表記変更。
+		- 「掲示板」＞「ローカルルールを表示」を追加。
+		- 「ファイル」＞「新規スレッド…」を追加。
+	* application/Resources/Japanese.lproj/BSReplyAlertSheet.nib
+	* application/source/window/BSReplyAlertSheetController.[h|m]
+		[新規追加] 長い書き込みエラーのメッセージをスクロールビューで表示できるようにするための、NSWindowController サブクラス、
+			  および nib ファイル。
+	* application/Resources/Japanese.lproj/Messenger.strings
+	* application/source/window/CMRReplyMessenger-Connector.m
+		書き込みエラーの表示時に NSAlert ではなく BSReplyAlertSheetController を使うように変更。
+	* application/source/window/CMRReplyMessenger.m
+		サブクラスとの関係で微修正。
+	* application/Resources/image/Emoticon.tiff
+		[新規追加]「ローカルルールを表示」ツールバーボタンのアイコン。ルールを守って笑顔で書き込み。
+	* application/Resources/Japanese.lproj/Acknowledgments.rtf
+		Emoticon.tiff の使用に伴う内容追加。
+	* application/source/window/CMRReplyControllerTbDelegate.m
+	* application/Resources/Japanese.lproj/ToolbarItems.strings
+		BSNewThreadController 用にツールバーのデリゲートのサブクラス BSNewThreadControllerTbDelegate を作った。
+		これについては別ファイル立てにせず、CMRReplyControllerTbDelegate.m に同居している。
+		また、ツールバーに「ローカルルールを表示」ボタンを追加できるように準備した。
+	* application/source/browser/CMRThreadsList-DataSource.m
+	* application/source/browser/BSDBThreadList.m
+	* application/source/browser/BSThreadListItem.m
+		スレタイから CMRThreadSignature を得るためのメソッド・関数を追加した（スレ立て後にスレッドを自動的に開くために使う）。
+	* application/source/browser/Browser.m
+		スレ立て用の IBAction などを実装。
+	* application/source/preferences/CMRHostHandler.m
+	* application/Resources/text/HostProperties.plist
+		スレ立てに必要なパラメータを提供できるように拡張した。
+	* application/source/window/BSNewThreadController.[h|m]
+	* application/source/window/BSNewThreadMessenger.[h|m]
+	* application/Resources/Japanese.lproj/BSNewThreadWindow.nib
+		[新規追加] スレ立て用の、CMRReplyController サブクラスと、CMRReplyMessenger サブクラス、および nib ファイル。
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/browser/CMRBrowser-Delegate.m
+		微修正。
+	* application/source/thread/CMRThreadViewer-MoveAction.m
+	* application/source/thread/CMRThreadViewer-Validation.m
+		「指定日時のレスに移動」関連の部分をコメントアウト。
+		- BSTimeMachine.nib はターゲットから外した。
+	* application/source/composer/BSAsciiArtDetector.m
+	* application/source/preferences/AppDefaults-Filter.m
+	* application/source/preferences/CMRPreferencesDefautValues.h
+		「AA を迷惑レスとして扱う」ことができるようにした。
+	* application/subproj/preference/Japanese.lproj/FilterPreferences.nib
+		「AA を迷惑レスとして扱う」チェックボックスを追加。
+=================================================
 2008-02-05 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/object/BS2chQuickLookObject.m
 	* application/Resources/text/KeyValueTemplates.plist

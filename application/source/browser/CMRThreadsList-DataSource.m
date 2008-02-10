@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.28 2008/02/02 16:11:12 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.29 2008/02/10 14:24:51 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -313,6 +313,12 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 {
 	UTILAbstractMethodInvoked;
 	return 0;
+}
+
+- (CMRThreadSignature *)threadSignatureWithTitle:(NSString *)title
+{
+	UTILAbstractMethodInvoked;
+	return nil;
 }
 
 - (NSArray *)threadFilePathArrayWithRowIndexSet:(NSIndexSet *)anIndexSet inTableView:(NSTableView *)tableView

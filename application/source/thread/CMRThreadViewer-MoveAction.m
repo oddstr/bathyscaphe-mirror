@@ -11,7 +11,7 @@
 #import "CMRThreadViewer_p.h"
 #import "CMRThreadLayout.h"
 #import "BSDateFormatter.h"
-#import "BSTimeMachineController.h"
+//#import "BSTimeMachineController.h"
 
 
 @implementation CMRThreadViewer(MoveActionSupport)
@@ -132,7 +132,7 @@
 		NSBeep();
 	}
 }
-
+/*
 - (IBAction)showTimeMachine:(id)sender
 {
     [[BSTimeMachineController sharedTimeMachine] showWindow:sender];
@@ -148,7 +148,7 @@
 	} else {
 		NSBeep();
 	}
-}
+}*/
 @end
 
 

@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.h,v 1.6 2007/12/11 17:09:37 tsawada2 Exp $
+  * $Id: Browser.h,v 1.7 2008/02/10 14:24:51 tsawada2 Exp $
   * 
   * Browser.h
   *
@@ -19,8 +19,6 @@
 	@private
 	BSDBThreadList			*m_currentThreadsList;
 	NSString				*m_searchString;
-	IBOutlet	NSView	*m_contentView;
-	IBOutlet	NSMatrix	*m_formatChooser;
 }
 - (NSURL *) boardURL;
 
@@ -42,6 +40,7 @@
 
 - (IBAction)toggleThreadsListViewMode:(id)sender;
 - (IBAction)cleanupDatochiFiles:(id)sender;
+- (IBAction)newThread:(id)sender; // Available in SilverGull.
 @end
 
 /* for AppleScript */

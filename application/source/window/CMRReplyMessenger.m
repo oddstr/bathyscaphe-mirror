@@ -432,6 +432,11 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 	if (action_ == @selector(saveDocument:)) {
 		return ([self isDocumentEdited]);
 	}
+
+	if (action_ == @selector(showLocalRules:)) {
+		return YES;
+	}
+
 	return NO;
 }
 
@@ -455,6 +460,10 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 	
 	if (action_ == @selector(revealInFinder:)) {
 		return ([self fileName]);
+	}
+
+	if (action_ == @selector(showLocalRules:)) {
+		return YES;
 	}
 
 	return [super validateMenuItem:theItem];

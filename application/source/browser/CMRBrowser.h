@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.h,v 1.32 2007/12/11 17:09:37 tsawada2 Exp $
+  * $Id: CMRBrowser.h,v 1.33 2008/02/10 14:24:51 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -74,9 +74,11 @@ typedef enum _BSThreadDeletionType {
 // make threadsList view to be first responder;
 - (IBAction) focus : (id) sender;
 
-- (void) selectRowWhoseNameIs : (NSString *) brdname_;
-- (int) searchRowForItemInDeep: (BoardListItem *) boardItem fromSource: (id) source forView: (NSOutlineView *) olView;
+- (void) selectRowWhoseNameIs : (NSString *) brdname_; // Deprecated. Use -selectRowOfName:forceReload: instead.
+- (void)selectRowOfName:(NSString *)boardName forceReload:(BOOL)flag; // Available in SilverGull and later.
+- (int)searchRowForItemInDeep:(BoardListItem *)boardItem inView:(NSOutlineView *)olView; // Available in SilverGull and later.
 @end
+
 
 @interface CMRBrowser(BoardListEditor)
 - (IBAction)addBoardListItem:(id)sender;

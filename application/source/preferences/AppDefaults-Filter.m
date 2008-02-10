@@ -1,85 +1,58 @@
-/**
-  * $Id: AppDefaults-Filter.m,v 1.7 2007/10/11 00:07:52 tsawada2 Exp $
-  * 
-  * AppDefaults-Filter.m
-  *
-  * Copyright (c) 2003-2004 Takanori Ishikawa, All rights reserved.
-  * See the file LICENSE for copying permission.
-  */
+//
+// AppDefaults-Filter.m
+// BathyScaphe
+//
+// Updated by Tsutomu Sawada on 08/02/08.
+// Copyright 2006-2008 BathyScaphe Project. All rights reserved.
+// encoding="UTF-8"
+//
+
 #import "AppDefaults_p.h"
 #import "CMRSpamFilter.h"
 
-
-
-#define kPrefFilterDictKey				@"Preferences - Filter"
-#define kPrefSpamFilterEnabledKey		@"Spam Filter Enabled"
-#define kPrefUsesSpamMessageCorpusKey	@"Uses Spam Message Corpus"
-#define kPrefSpamFilterBehaviorKey		@"Spam Filter Behavior"
-#define kPrefAADEnabledKey				@"AA Detector Enabled"
+static NSString *const kPrefFilterDictKey = @"Preferences - Filter";
+static NSString *const kPrefSpamFilterEnabledKey = @"Spam Filter Enabled";
+static NSString *const kPrefUsesSpamMessageCorpusKey = @"Uses Spam Message Corpus";
+static NSString *const kPrefSpamFilterBehaviorKey = @"Spam Filter Behavior";
+static NSString	*const kPrefAADEnabledKey = @"AA Detector Enabled";
 static NSString *const kPrefOldNGWordsImportedKey = @"Old Format Corpus Imported";
+static NSString *const kPrefTreatsAAAsSpamKey = @"Treats AA as Spam";
 
 @implementation AppDefaults(Filter)
-- (NSMutableDictionary *) filterPrefs
+- (NSMutableDictionary *)filterPrefs
 {
-	if (nil == _dictFilter) {
+	if (!_dictFilter) {
 		NSDictionary	*dict_;
 		
-		dict_ = [[self defaults] dictionaryForKey : kPrefFilterDictKey];
+		dict_ = [[self defaults] dictionaryForKey:kPrefFilterDictKey];
 		_dictFilter = [dict_ mutableCopy];
-		if (nil == _dictFilter)
+		if (!_dictFilter) {
 			_dictFilter = [[NSMutableDictionary alloc] init];
+		}
 	}
 	
 	return _dictFilter;
 }
 
+- (BOOL)spamFilterEnabled
+{
+	return [[self filterPrefs] boolForKey:kPrefSpamFilterEnabledKey defaultValue:DEFAULT_SPAMFILTER_ENABLED];
+}
 
-/*** 迷惑レスフィルタ***/
-- (BOOL) spamFilterEnabled
+- (void)setSpamFilterEnabled:(BOOL)flag
 {
-	return [[self filterPrefs] 
-					 boolForKey : kPrefSpamFilterEnabledKey
-				   defaultValue : DEFAULT_SPAMFILTER_ENABLED];
+	[[self filterPrefs] setBool:flag forKey:kPrefSpamFilterEnabledKey];
 }
-- (void) setSpamFilterEnabled : (BOOL) flag
+
+- (BOOL)usesSpamMessageCorpus
 {
-	[[self filterPrefs] 
-			 setBool : flag
-			  forKey : kPrefSpamFilterEnabledKey];
+	return [[self filterPrefs] boolForKey:kPrefUsesSpamMessageCorpusKey defaultValue:DEFAULT_SPAMFILTER_USE_MSG_CORPUS];
 }
-// 本文中の語句もチェックする
-- (BOOL) usesSpamMessageCorpus
+
+- (void)setUsesSpamMessageCorpus:(BOOL)flag
 {
-	return [[self filterPrefs] 
-					 boolForKey : kPrefUsesSpamMessageCorpusKey
-				   defaultValue : DEFAULT_SPAMFILTER_USE_MSG_CORPUS];
+	[[self filterPrefs] setBool:flag forKey:kPrefUsesSpamMessageCorpusKey];
 }
-- (void) setUsesSpamMessageCorpus : (BOOL) flag
-{
-	[[self filterPrefs] 
-			 setBool : flag
-			  forKey : kPrefUsesSpamMessageCorpusKey];
-}
-/*- (NSString *) spamMessageCorpusStringRepresentation
-{
-	NSArray		*spamCorpus_;
-	
-	spamCorpus_ = [[CMRSpamFilter sharedInstance] spamCorpus];
-	if (nil == spamCorpus_ || 0 == [spamCorpus_ count])
-		return @"";
-	
-	return [spamCorpus_ componentsJoinedByString : @"\n"];
-}
-- (void) setUpSpamMessageCorpusWithString : (NSString *) aString
-{
-	NSArray		*spamCorpus_;
-	
-	spamCorpus_ = (nil == aString || 0 == [aString length])
-			? [NSArray array]
-			: [aString componentsSeparatedByNewline];
-	
-	[[CMRSpamFilter sharedInstance] setSpamCorpus : spamCorpus_];
-}*/
 
 - (NSMutableArray *)spamMessageCorpus
 {
@@ -93,7 +66,7 @@ static NSString *const kPrefOldNGWordsImportedKey = @"Old Format Corpus Imported
 
 - (BOOL)oldNGWordsImported
 {
-	return [[self filterPrefs] boolForKey:kPrefOldNGWordsImportedKey defaultValue:NO];
+	return [[self filterPrefs] boolForKey:kPrefOldNGWordsImportedKey defaultValue:DEFAULT_SPAMFILTER_OLD_NG_IMPORTED];
 }
 
 - (void)setOldNGWordsImported:(BOOL)imported
@@ -101,21 +74,17 @@ static NSString *const kPrefOldNGWordsImportedKey = @"Old Format Corpus Imported
 	[[self filterPrefs] setBool:imported forKey:kPrefOldNGWordsImportedKey];
 }
 
-// 迷惑レスを見つけたときの動作：
-- (int) spamFilterBehavior
+- (int)spamFilterBehavior
 {
-	return [[self filterPrefs] 
-				  integerForKey : kPrefSpamFilterBehaviorKey
-				   defaultValue : DEFAULT_SPAMFILTER_BEHAVIOR];
+	return [[self filterPrefs] integerForKey:kPrefSpamFilterBehaviorKey defaultValue:DEFAULT_SPAMFILTER_BEHAVIOR];
 }
-- (void) setSpamFilterBehavior : (int) mask
+
+- (void)setSpamFilterBehavior:(int)mask
 {
-	[[self filterPrefs] 
-			 setInteger : mask
-			     forKey : kPrefSpamFilterBehaviorKey];
+	[[self filterPrefs] setInteger:mask forKey:kPrefSpamFilterBehaviorKey];
 }
-// リセット
-- (void) resetSpamFilter
+
+- (void)resetSpamFilter
 {
 	[[CMRSpamFilter sharedInstance] resetSpamFilter];
 }
@@ -125,23 +94,34 @@ static NSString *const kPrefOldNGWordsImportedKey = @"Old Format Corpus Imported
 	[[CMRSpamFilter sharedInstance] setNeedsSaveToFiles:flag];
 }
 
-- (BOOL) asciiArtDetectorEnabled
+- (BOOL)asciiArtDetectorEnabled
 {
-	return [[self filterPrefs] boolForKey: kPrefAADEnabledKey defaultValue: DEFAULT_AAD_ENABLED];
-}
-- (void) setAsciiArtDetectorEnabled: (BOOL) flag
-{
-	[[self filterPrefs] setBool: flag forKey: kPrefAADEnabledKey];
+	return [[self filterPrefs] boolForKey:kPrefAADEnabledKey defaultValue:DEFAULT_AAD_ENABLED];
 }
 
-- (void) _loadFilter
+- (void)setAsciiArtDetectorEnabled:(BOOL)flag
+{
+	[[self filterPrefs] setBool:flag forKey:kPrefAADEnabledKey];
+}
+
+- (BOOL)treatsAsciiArtAsSpam
+{
+	return [[self filterPrefs] boolForKey:kPrefTreatsAAAsSpamKey defaultValue:DEFAULT_AAD_TRAET_AA_AS_SPAM];
+}
+
+- (void)setTreatsAsciiArtAsSpam:(BOOL)flag
+{
+	[[self filterPrefs] setBool:flag forKey:kPrefTreatsAAAsSpamKey];
+}
+
+- (void)_loadFilter
 {
 
 }
-- (BOOL) _saveFilter
+
+- (BOOL)_saveFilter
 {
-	[[self defaults] setObject : [self filterPrefs]
-						forKey : kPrefFilterDictKey];
+	[[self defaults] setObject:[self filterPrefs] forKey:kPrefFilterDictKey];
 	return YES;
 }
 @end

@@ -1,6 +1,6 @@
 //: CMRHostHandler.h
 /**
-  * $Id: CMRHostHandler.h,v 1.5 2007/01/07 17:04:23 masakih Exp $
+  * $Id: CMRHostHandler.h,v 1.6 2008/02/10 14:24:51 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -121,8 +121,11 @@ NOTE:
 #define CMRHostFormIDKey		@"key"
 #define CMRHostFormDirectoryKey	@"directory"
 #define CMRHostFormTimeKey		@"time"
+#define CMRHostFormSubjectKey	@"subject" // Available in SilverGull and later.
+
 - (NSDictionary *) formKeyDictionary;
 
 - (NSURL *) writeURLWithBoard : (NSURL *) boardURL;
 - (NSString *) submitValue;
+- (NSString *)submitNewThreadValue; // Available in SilverGull and later.
 @end

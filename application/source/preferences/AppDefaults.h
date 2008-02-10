@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.60 2007/12/24 14:29:09 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.61 2008/02/10 14:24:51 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -186,6 +186,10 @@ typedef enum _BSAutoSyncIntervalType {
 // AAD(Ascii Art Detector). Available in MeteorSweeper and later.
 - (BOOL) asciiArtDetectorEnabled;
 - (void) setAsciiArtDetectorEnabled: (BOOL) flag;
+
+// Available in SilverGull and later.
+- (BOOL)treatsAsciiArtAsSpam;
+- (void)setTreatsAsciiArtAsSpam:(BOOL)flag;
 
 - (void) _loadFilter;
 - (BOOL) _saveFilter;

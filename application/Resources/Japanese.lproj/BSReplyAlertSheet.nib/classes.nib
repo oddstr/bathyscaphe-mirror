@@ -39,22 +39,12 @@
 			<string>NSView</string>
 		</dict>
 		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>openHelp</key>
-				<string>id</string>
-			</dict>
 			<key>CLASS</key>
-			<string>PreferencesController</string>
+			<string>NSWindowController</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>_contentView</key>
-				<string>NSView</string>
-			</dict>
 			<key>SUPERCLASS</key>
-			<string>NSObject</string>
+			<string>NSResponder</string>
 		</dict>
 		<dict>
 			<key>ACTIONS</key>
@@ -86,68 +76,22 @@
 			<string>NSResponder</string>
 		</dict>
 		<dict>
-			<key>CLASS</key>
-			<string>NSTableColumn</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
 			<key>ACTIONS</key>
 			<dict>
-				<key></key>
+				<key>endSheetWithCodeAsTag</key>
 				<string>id</string>
 			</dict>
 			<key>CLASS</key>
-			<string>FirstResponder</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>BSAdvancedPaneArrayController</string>
+			<string>BSReplyAlertSheetController</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
 			<key>OUTLETS</key>
 			<dict>
-				<key>m_tableView</key>
-				<string>NSTableView</string>
+				<key>alertContentController</key>
+				<string>NSObjectController</string>
 			</dict>
 			<key>SUPERCLASS</key>
-			<string>NSArrayController</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>closeDetailSheet</key>
-				<string>id</string>
-				<key>openDetailSheet</key>
-				<string>id</string>
-				<key>resetSpamDB</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>CMRFilterPrefController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>m_detailSheet</key>
-				<string>NSWindow</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>PreferencesController</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>NSTableView</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSControl</string>
+			<string>NSWindowController</string>
 		</dict>
 	</array>
 	<key>IBVersion</key>
