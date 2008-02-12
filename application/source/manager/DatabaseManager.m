@@ -496,11 +496,16 @@ abort:
 	[indexies addObject:query];
 	if ([db beginTransaction]) {
 		id n = [NSNull null];
+		id defaultValues = [NSArray arrayWithObjects:n,n,n,n,n,n,n,n,n,n,@"0",@"0",nil];
+		id checkConstrains = [NSArray arrayWithObjects:n,n,n,n,n,n,n,n,n,n,
+							  [NSString stringWithFormat:@"%@ IN (0,1)", IsDatOchiColumn],
+							  [NSString stringWithFormat:@"%@ IN (0,1)", IsFavoriteColumn],
+							  nil];
 		isOK = [self createTable : ThreadInfoTableName
 						 columns : [self threadInfoColumns]
 					   dataTypes : [self threadInfoDataTypes]
-				   defaultValues : [NSArray arrayWithObjects:n,n,n,n,n,n,n,n,n,n,@"0",nil]
-				 checkConstrains : [NSArray arrayWithObjects:n,n,n,n,n,n,n,n,n,n,@"isDatOchi IN (0,1)",nil]
+				   defaultValues : defaultValues
+				 checkConstrains : checkConstrains
 					indexQueries : indexies];
 		if (!isOK) goto abort;
 		
