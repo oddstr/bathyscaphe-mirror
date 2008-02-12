@@ -178,7 +178,7 @@
 				<key>name</key>
 				<string>NAME</string>
 				<key>subject</key>
-				<string>subject</string>
+				<string>SUBJECT</string>
 				<key>submit</key>
 				<string>submit</string>
 				<key>time</key>
@@ -246,7 +246,7 @@
 				<key>name</key>
 				<string>NAME</string>
 				<key>subject</key>
-				<string>subject</string>
+				<string>SUBJECT</string>
 				<key>submit</key>
 				<string>submit</string>
 				<key>time</key>

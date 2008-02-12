@@ -173,6 +173,16 @@
 		return ([self threadAttributes] != nil);
 	} else if (action_ == @selector(cleanupDatochiFiles:)) {
 		return [BoardListItem isBoardItem:[[self currentThreadsList] boardListItem]] && ![self searchString];
+	} else if (action_ == @selector(showLocalRules:)) {
+		if ([BoardListItem isBoardItem:[[self currentThreadsList] boardListItem]]) {
+			BOOL	 isVisible = [[BoardManager defaultManager] isKeyWindowForBoardName:[self boardNameAsString]];
+			
+			[theItem setTitle:isVisible ? NSLocalizedString(@"Hide Local Rules", @"") : NSLocalizedString(@"Show Local Rules", @"")];
+			return YES;
+		} else {
+			[theItem setTitle:NSLocalizedString(@"Show Local Rules", @"")];
+			return NO;
+		}
 	}
 	return [super validateMenuItem:theItem];
 }

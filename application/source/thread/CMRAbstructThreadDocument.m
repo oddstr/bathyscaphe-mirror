@@ -12,6 +12,7 @@
 #import "CocoMonar_Prefix.h"
 #import "BSThreadInfoPanelController.h"
 #import "BSRelativeKeywordsCollector.h"
+#import "BoardManager.h"
 #import "missing.h"
 
 NSString *const CMRAbstractThreadDocumentDidToggleDatOchiNotification = @"CMRAbstractThreadDocumentDidToggleDatOchiNotification";
@@ -252,6 +253,12 @@ NSString *const CMRAbstractThreadDocumentDidToggleDatOchiNotification = @"CMRAbs
 		[winControllers makeObjectsPerformSelector: @selector(changeAllMessageAttributesWithAAFlag:)
 										withObject: [NSNumber numberWithBool: flag]];
 	}
+}
+
+- (IBAction)showLocalRules:(id)sender
+{
+	id foo = [[BoardManager defaultManager] localRulesPanelControllerForBoardName:[self boardNameAsString]];
+	[foo showWindow:self];
 }
 @end
 

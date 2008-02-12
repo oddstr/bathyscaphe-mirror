@@ -58,7 +58,10 @@ static NSString *const kShowLocalRulesImageName = @"Emoticon";
 	NSSize size_;
 	
 	[aView retain];
-
+	// Leopard
+	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {
+		[aView setBezelStyle:11/*NSTexturedRoundedBezelStyle*/];
+	}
 	[aView removeFromSuperviewWithoutNeedingDisplay];
 	[anItem setView:aView];
 	size_ = [aView frame].size;
@@ -143,7 +146,7 @@ static NSString *const kShowLocalRulesImageName = @"Emoticon";
 				kSendMessageIdentifier,
 				kSaveAsDraftIdentifier,
 				kBeLoginIdentifier,
-//				kShowLocalRulesIdentifier,
+				kShowLocalRulesIdentifier,
 				kInsertTemplateIdentifier,
 				NSToolbarShowFontsItemIdentifier,
 				NSToolbarSeparatorItemIdentifier,
@@ -170,7 +173,7 @@ static NSString *const kShowLocalRulesImageName = @"Emoticon";
 				NSToolbarSeparatorItemIdentifier,
 				kInsertTemplateIdentifier,
 				NSToolbarFlexibleSpaceItemIdentifier,
-//				kShowLocalRulesIdentifier,
+				kShowLocalRulesIdentifier,
 				kBeLoginIdentifier,
 				nil];
 }
@@ -180,7 +183,7 @@ static NSString *const kShowLocalRulesImageName = @"Emoticon";
 	return [NSArray arrayWithObjects:
 				kSendMessageIdentifier,
 				kBeLoginIdentifier,
-//				kShowLocalRulesIdentifier,
+				kShowLocalRulesIdentifier,
 				kInsertTemplateIdentifier,
 				NSToolbarShowFontsItemIdentifier,
 				NSToolbarSeparatorItemIdentifier,

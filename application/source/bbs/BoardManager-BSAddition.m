@@ -28,7 +28,7 @@ static NSString *const NNDAllowsNanashiKey	= @"AllowsNanashi";
 static NSString *const NNDBrowserListColumnsKey = @"TableColumns";
 
 
-@implementation BoardManager(BSAddition)
+@implementation BoardManager(BoardProperties)
 - (NSMutableDictionary *)noNameDict
 {
 	if (!_noNameDict) {

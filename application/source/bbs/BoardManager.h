@@ -10,6 +10,8 @@
 #import <Foundation/Foundation.h>
 #import "SmartBoardList.h"
 
+@class BSLocalRulesPanelController;
+
 @interface BoardManager : NSObject
 {
     @private
@@ -17,6 +19,7 @@
 	SmartBoardList			*_userList;
 
 	NSMutableDictionary		*_noNameDict;
+	NSMutableArray			*m_localRulesPanelControllers;
 }
 + (id)defaultManager;
 
@@ -113,7 +116,7 @@
 - (void) setAlwaysBeLogin:(BOOL)alwaysLogin atBoard:(NSString *)boardName;
 - (NSString *)defaultKotehanForBoard:(NSString *)boardName;
 - (void)setDefaultKotehan:(NSString *)aName forBoard:(NSString *)boardName;
-- (NSString *) defaultMailForBoard:(NSString *)boardName;
+- (NSString *)defaultMailForBoard:(NSString *)boardName;
 - (void)setDefaultMail:(NSString *)aString forBoard:(NSString *)boardName;
 
 // Available in LittleWish and later.
@@ -140,6 +143,12 @@
 - (BOOL)editBoardItem:(id)item newURLString:(NSString *)newURLString;
 - (BOOL)editCategoryItem:(id)item newName:(NSString *)newName;
 - (BOOL)removeBoardItems:(NSArray *)boardItemsForRemoval;
+@end
+
+// Available in SilverGull and later.
+@interface BoardManager(LocalRules)
+- (BSLocalRulesPanelController *)localRulesPanelControllerForBoardName:(NSString *)boardName;
+- (BOOL)isKeyWindowForBoardName:(NSString *)boardName;
 @end
 
 extern NSString *const CMRBBSManagerUserListDidChangeNotification;

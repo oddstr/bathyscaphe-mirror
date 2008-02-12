@@ -36,6 +36,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
+	[m_localRulesPanelControllers release];
     [_defaultList release];
     [_userList release];
 	[_noNameDict release];

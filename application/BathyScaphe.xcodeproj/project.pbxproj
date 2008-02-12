@@ -96,6 +96,12 @@
 		8727F4C30A822EFB00E9C2F9 /* BSTagValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8727F4C10A822EFB00E9C2F9 /* BSTagValueTransformer.m */; };
 		872C32D00BB18CD10044890C /* ViewPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872C32CE0BB18CD10044890C /* ViewPane.nib */; };
 		872C33D70BB21AF00044890C /* ThreadViewerDefaultTheme.plist in Resources */ = {isa = PBXBuildFile; fileRef = 872C33D60BB21AF00044890C /* ThreadViewerDefaultTheme.plist */; };
+		873245080D60275200CF1705 /* BSLocalRulesPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 873245060D60275200CF1705 /* BSLocalRulesPanel.nib */; };
+		873245240D60310F00CF1705 /* BSLocalRulesCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = 873245220D60310F00CF1705 /* BSLocalRulesCollector.h */; };
+		873245250D60310F00CF1705 /* BSLocalRulesCollector.m in Sources */ = {isa = PBXBuildFile; fileRef = 873245230D60310F00CF1705 /* BSLocalRulesCollector.m */; };
+		873245410D603C9A00CF1705 /* LocalRulesTemplate.html in Resources */ = {isa = PBXBuildFile; fileRef = 8732453F0D603C9A00CF1705 /* LocalRulesTemplate.html */; };
+		8732455B0D60407200CF1705 /* BSLocalRulesPanelController.h in Headers */ = {isa = PBXBuildFile; fileRef = 873245590D60407200CF1705 /* BSLocalRulesPanelController.h */; };
+		8732455C0D60407200CF1705 /* BSLocalRulesPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8732455A0D60407200CF1705 /* BSLocalRulesPanelController.m */; };
 		87369D6A0D1D2CD500FBF754 /* deleteMail2.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87369D690D1D2CD500FBF754 /* deleteMail2.tiff */; };
 		874338490D5ED9BE00AD3DC7 /* BSReplyAlertSheetController.h in Headers */ = {isa = PBXBuildFile; fileRef = 874338470D5ED9BE00AD3DC7 /* BSReplyAlertSheetController.h */; };
 		8743384A0D5ED9BE00AD3DC7 /* BSReplyAlertSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 874338480D5ED9BE00AD3DC7 /* BSReplyAlertSheetController.m */; };
@@ -948,6 +954,12 @@
 		872C33D60BB21AF00044890C /* ThreadViewerDefaultTheme.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = ThreadViewerDefaultTheme.plist; sourceTree = "<group>"; };
 		873158DD0A9948B400854BD8 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSDockMenuItem.nib; sourceTree = "<group>"; };
 		8731733E0B2AFEE2003EA8C1 /* BSHostLivedoorHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSHostLivedoorHandler.m; sourceTree = "<group>"; };
+		873245070D60275200CF1705 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSLocalRulesPanel.nib; sourceTree = "<group>"; };
+		873245220D60310F00CF1705 /* BSLocalRulesCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSLocalRulesCollector.h; sourceTree = "<group>"; };
+		873245230D60310F00CF1705 /* BSLocalRulesCollector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSLocalRulesCollector.m; sourceTree = "<group>"; };
+		873245400D603C9A00CF1705 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 2147486209; lastKnownFileType = text.html; name = Japanese; path = Japanese.lproj/LocalRulesTemplate.html; sourceTree = "<group>"; };
+		873245590D60407200CF1705 /* BSLocalRulesPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSLocalRulesPanelController.h; sourceTree = "<group>"; };
+		8732455A0D60407200CF1705 /* BSLocalRulesPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSLocalRulesPanelController.m; sourceTree = "<group>"; };
 		87369D690D1D2CD500FBF754 /* deleteMail2.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = deleteMail2.tiff; sourceTree = "<group>"; };
 		873C0DCE08FBE2AE00AF17F5 /* CMRBrowser-BLEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRBrowser-BLEditor.m"; sourceTree = "<group>"; };
 		874338470D5ED9BE00AD3DC7 /* BSReplyAlertSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSReplyAlertSheetController.h; sourceTree = "<group>"; };
@@ -1257,7 +1269,7 @@
 		F324DCE704C698FB00A80005 /* AppDefaults.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = AppDefaults.m; sourceTree = "<group>"; };
 		F324DCE804C698FB00A80005 /* AppDefaults_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = AppDefaults_p.h; sourceTree = "<group>"; };
 		F324DD3A04C698FB00A80005 /* CMRAbstructThreadDocument.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRAbstructThreadDocument.h; sourceTree = "<group>"; };
-		F324DD3B04C698FB00A80005 /* CMRAbstructThreadDocument.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRAbstructThreadDocument.m; sourceTree = "<group>"; };
+		F324DD3B04C698FB00A80005 /* CMRAbstructThreadDocument.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = CMRAbstructThreadDocument.m; sourceTree = "<group>"; };
 		F324DD4404C698FB00A80005 /* CMRThreadAttributes.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadAttributes.h; sourceTree = "<group>"; };
 		F324DD4504C698FB00A80005 /* CMRThreadAttributes.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = CMRThreadAttributes.m; sourceTree = "<group>"; };
 		F324DD4904C698FB00A80005 /* CMRThreadComposingTask.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadComposingTask.h; sourceTree = "<group>"; };
@@ -1717,6 +1729,8 @@
 		872998690832616D00CBD740 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8732453F0D603C9A00CF1705 /* LocalRulesTemplate.html */,
+				873245060D60275200CF1705 /* BSLocalRulesPanel.nib */,
 				874338510D5EDDB400AD3DC7 /* BSReplyAlertSheet.nib */,
 				877420640D5D71B100D1E91B /* BSNewThreadWindow.nib */,
 				874525340D546565009ECA02 /* BSQuickLookPanel.nib */,
@@ -2481,6 +2495,8 @@
 				8796FA410A9189D400DE3A90 /* BSSettingTxtDetector.m */,
 				87D7F03B0A85136900623EA5 /* BoardWarrior.h */,
 				87D7F03C0A85136900623EA5 /* BoardWarrior.m */,
+				873245220D60310F00CF1705 /* BSLocalRulesCollector.h */,
+				873245230D60310F00CF1705 /* BSLocalRulesCollector.m */,
 			);
 			path = bbs;
 			sourceTree = "<group>";
@@ -2637,6 +2653,8 @@
 				874525440D54668F009ECA02 /* BSQuickLookPanelController.m */,
 				874525760D547CDC009ECA02 /* BSQuickLookPanel.h */,
 				874525770D547CDC009ECA02 /* BSQuickLookPanel.m */,
+				873245590D60407200CF1705 /* BSLocalRulesPanelController.h */,
+				8732455A0D60407200CF1705 /* BSLocalRulesPanelController.m */,
 			);
 			path = window;
 			sourceTree = "<group>";
@@ -3277,6 +3295,8 @@
 				877420590D5D6FAF00D1E91B /* BSNewThreadMessenger.h in Headers */,
 				877420610D5D714600D1E91B /* BSNewThreadController.h in Headers */,
 				874338490D5ED9BE00AD3DC7 /* BSReplyAlertSheetController.h in Headers */,
+				873245240D60310F00CF1705 /* BSLocalRulesCollector.h in Headers */,
+				8732455B0D60407200CF1705 /* BSLocalRulesPanelController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3608,6 +3628,8 @@
 				877420660D5D71B100D1E91B /* BSNewThreadWindow.nib in Resources */,
 				877420B70D5DB1DA00D1E91B /* Emoticon.tiff in Resources */,
 				874338530D5EDDB400AD3DC7 /* BSReplyAlertSheet.nib in Resources */,
+				873245080D60275200CF1705 /* BSLocalRulesPanel.nib in Resources */,
+				873245410D603C9A00CF1705 /* LocalRulesTemplate.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3945,6 +3967,8 @@
 				8774205A0D5D6FAF00D1E91B /* BSNewThreadMessenger.m in Sources */,
 				877420620D5D714600D1E91B /* BSNewThreadController.m in Sources */,
 				8743384A0D5ED9BE00AD3DC7 /* BSReplyAlertSheetController.m in Sources */,
+				873245250D60310F00CF1705 /* BSLocalRulesCollector.m in Sources */,
+				8732455C0D60407200CF1705 /* BSLocalRulesPanelController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4269,6 +4293,22 @@
 				873158DD0A9948B400854BD8 /* Japanese */,
 			);
 			name = BSDockMenuItem.nib;
+			sourceTree = "<group>";
+		};
+		873245060D60275200CF1705 /* BSLocalRulesPanel.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				873245070D60275200CF1705 /* Japanese */,
+			);
+			name = BSLocalRulesPanel.nib;
+			sourceTree = "<group>";
+		};
+		8732453F0D603C9A00CF1705 /* LocalRulesTemplate.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				873245400D603C9A00CF1705 /* Japanese */,
+			);
+			name = LocalRulesTemplate.html;
 			sourceTree = "<group>";
 		};
 		874338510D5EDDB400AD3DC7 /* BSReplyAlertSheet.nib */ = {

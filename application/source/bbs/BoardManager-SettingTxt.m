@@ -6,6 +6,8 @@
 #import "SmartBoardList.h"
 #import "BSBoardInfoInspector.h"
 #import "DatabaseManager.h"
+#import "BSLocalRulesCollector.h"
+#import "BSLocalRulesPanelController.h"
 
 NSString *const BoardManagerDidFinishDetectingSettingTxtNotification = @"BoardManagerDidFinishDetectingSettingTxtNotification";
 
@@ -201,5 +203,79 @@ NSString *const BoardManagerDidFinishDetectingSettingTxtNotification = @"BoardMa
 	}
 
 	return YES;
+}
+@end
+
+
+@implementation BoardManager(LocalRules)
+- (NSMutableArray *)localRulesPanelControllers
+{
+	if (!m_localRulesPanelControllers) {
+		CFArrayCallBacks arrayCallBacks = kCFTypeArrayCallBacks;
+		arrayCallBacks.retain = NULL;
+		arrayCallBacks.release = NULL;
+		m_localRulesPanelControllers = (NSMutableArray *)CFArrayCreateMutable(NULL, 0, &arrayCallBacks);
+	}
+	return m_localRulesPanelControllers;
+}
+
+- (BSLocalRulesPanelController *)makeLocalRulesPanelControllerForBoardName:(NSString *)boardName
+{
+	BSLocalRulesPanelController *controller;
+	controller = [[BSLocalRulesPanelController alloc] init]; // Do not release!
+	
+	if (controller) {
+		BSLocalRulesCollector	*collector;
+
+		[[controller window] setDelegate:self];
+
+		collector = [[BSLocalRulesCollector alloc] initWithBoardName:boardName];
+		[[controller objectController] setContent:collector];
+		[collector release];
+
+		[[self localRulesPanelControllers] addObject:controller];
+	}
+
+	return controller;
+}
+
+- (BSLocalRulesPanelController *)localRulesPanelControllerForBoardName:(NSString *)boardName
+{
+	NSEnumerator	*iter;
+	BSLocalRulesPanelController *controller;
+
+	iter = [[self localRulesPanelControllers] objectEnumerator];
+	while (controller = [iter nextObject]) {
+		id collector = [[controller objectController] content];
+		if ([[collector boardName] isEqualToString:boardName]) {
+			return controller;
+		}
+	}
+
+	return [self makeLocalRulesPanelControllerForBoardName:boardName];
+}
+
+- (BOOL)isKeyWindowForBoardName:(NSString *)boardName
+{
+	NSEnumerator	*iter;
+	BSLocalRulesPanelController *controller;
+
+	iter = [[self localRulesPanelControllers] objectEnumerator];
+	while (controller = [iter nextObject]) {
+		id collector = [[controller objectController] content];
+		if ([[collector boardName] isEqualToString:boardName]) {
+			return [[controller window] isKeyWindow];
+		}
+	}
+	return NO;
+}
+
+- (void)windowWillClose:(NSNotification *)notification
+{
+	NSWindow *window = [notification object];
+	id windowController = [window windowController];
+
+	[[self localRulesPanelControllers] removeObjectIdenticalTo:windowController];
+	[windowController autorelease];
 }
 @end

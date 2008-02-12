@@ -78,12 +78,7 @@ NSString *const BSNewThreadMessengerDidFinishPostingNotification = @"jp.tsawada2
 	[m_newThreadTitle release];
 	m_newThreadTitle = string;
 }
-/*
-- (IBAction)showLocalRules:(id)sender
-{
-	NSLog(@"Sorry, not implemented yet.");
-}
-*/
+
 - (BOOL)validateMenuItem:(NSMenuItem *)theItem
 {
 	SEL action_ = [theItem action];

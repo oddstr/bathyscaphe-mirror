@@ -1,6 +1,34 @@
+2008-02-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/bbs/BoardManager-SettingTxt.m
+		ローカルルール・パネルを管理するメソッド群を追加した。
+	* application/source/browser/Browser.m
+	* application/source/thread/CMRAbstructThreadDocument.m
+	* application/source/window/BSNewThreadMessenger.m
+	* application/source/window/CMRReplyMessenger.m
+	* application/Resources/Japanese.lproj/Localizable.strings
+		「掲示板」＞「ローカルルールを表示／隠す」の IBAction や menu item validation を実装。
+	* application/source/window/CMRReplyControllerTbDelegate.m
+		書き込みウインドウ／新規スレッド作成ウインドウのツールバーに「ローカルルールを表示」を配置できるようにした。
+	* application/Resources/Japanese.lproj/BSLocalRulesPanel.nib
+	* application/source/window/BSLocalRulesPanelController.[h|m]
+		[新規追加] ローカルルールを表示するパネルのウインドウコントローラと nib。
+		Tiger 以降でしか使えない Cocoa binding を複数使用。Panther 禁止。
+	* application/source/bbs/BSLocalRulesCollector.[h|m]
+	* application/Resources/Japanese.lproj/LocalRulesTemplate.html
+		[新規追加] 板のローカルルールが書かれたファイル（head.txt）を取得し、LocalRulesTemplate.html と合成してローカルルールの
+		html を生成。RTF に直して NSTextView に提供するクラス。
+		一度取得したデータはログフォルダ内に「板名/LocalRules.rtf」ファイルとして保存され、キャッシュされる。
+	* frameworks/CocoMonar/framework/src/CMRDocumentTypes.[h|m]
+		CocoMonar framework: head.txt のファイル名を表す定数を追加した。
+	* application/Resources/Japanese.lproj/BSReplyAlertSheet.nib
+		レイアウトの調整。
+	* application/Resources/text/HostProperties.plist
+		まちBBSとlivedoorしたらばで、スレ立て時のパラメータ値に誤りがあったので修正。
+		- これだけでは不十分で、さらなる修正を後日行なう予定。つまり今日の時点ではまだスレ立て出来ないので注意。
 2008-02-12 masakih <masakih@users.sourceforge.jp>
 	* application/source/manager/DatabaseManager.m:
 		データベースの初期化に失敗していたのを直した。
+=================================================
 2008-02-11 tsawada2 <ben-sawa@td5.so-net.ne.jp.
 	* application/source/window/BSNewThreadController.m
 		新規スレッド作成ウインドウの frame autosave 周りを実装（CMRReplyController と違い、「ウインドウの位置とサイズを記憶」は使用できない）。

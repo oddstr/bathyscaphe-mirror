@@ -10,6 +10,8 @@
 #import "CMRReplyMessenger_p.h"
 #import "CMRDocumentFileManager.h"
 #import "CMRThreadSignature.h"
+//#import "BSLocalRulesCollector.h"
+//#import "BSLocalRulesPanelController.h"
 
 NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessengerDidFinishPostingNotification";
 
@@ -349,6 +351,23 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 {
 	NSString *path = [self fileName];
 	[[NSWorkspace sharedWorkspace] selectFile:path inFileViewerRootedAtPath:[path stringByDeletingLastPathComponent]];
+}
+
+- (IBAction)showLocalRules:(id)sender
+{
+//	NSLog(@"Sorry, not implemented yet.");
+/*	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_3) {	
+		BSLocalRulesPanelController *lrc = [[BSLocalRulesPanelController alloc] init];
+		[lrc showWindow:self];
+
+		if ([[lrc window] isVisible]) {
+			BSLocalRulesCollector	*hoge = [[BSLocalRulesCollector alloc] initWithBoardName:[self boardName]];
+			[[lrc objectController] setContent:hoge];
+			[hoge release];
+		}
+	}*/
+	NSWindowController *foo = [[BoardManager defaultManager] localRulesPanelControllerForBoardName:[self boardName]];
+	[foo showWindow:self];
 }
 
 - (IBAction)saveDocumentAs:(id)sender
