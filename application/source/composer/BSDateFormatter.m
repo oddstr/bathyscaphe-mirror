@@ -3,7 +3,8 @@
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/12/05.
-//  Copyright 2006 BathyScaphe Project. All rights reserved.
+//  Copyright 2006-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import "BSDateFormatter.h"
@@ -18,7 +19,7 @@ static NSTimeInterval	cacheTimer;
 
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedDateFormatter);
 
-- (NSString *) niceStringFromDate: (NSDate *) date
+- (NSString *)niceStringFromDate:(NSDate *)date
 {
 	static CFDateFormatterRef	timFmtRef;
 	static CFDateFormatterRef	dayFmtRef;
@@ -26,12 +27,12 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedDateFormatter);
 	NSString	*dayStr_ = nil;
 
 	NSDate	*today_ = AppGetBasicDataOfToday();
-	NSComparisonResult compareToday_ = [date compare: today_];
+	NSComparisonResult compareToday_ = [date compare:today_];
 
 	if (compareToday_ != NSOrderedAscending) {
 		dayStr_ = NSLocalizedString(@"Today", @"Today");
 	} else {
-		NSComparisonResult compareYesterday_ = [date compare: cachedYesterday];
+		NSComparisonResult compareYesterday_ = [date compare:cachedYesterday];
 
 		if (compareYesterday_ != NSOrderedAscending) {
 			dayStr_ = NSLocalizedString(@"Yesterday", @"Yesterday");
@@ -47,7 +48,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedDateFormatter);
 			dayStrRef = CFDateFormatterCreateStringWithDate(kCFAllocatorDefault, dayFmtRef, (CFDateRef)date);
 
 			if (dayStrRef != NULL) {
-				dayStr_ = [NSString stringWithString: (NSString *)dayStrRef];
+				dayStr_ = [NSString stringWithString:(NSString *)dayStrRef];
 				CFRelease(dayStrRef);
 			}
 		}
@@ -61,39 +62,39 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedDateFormatter);
 
 	CFStringRef			timStrRef = CFDateFormatterCreateStringWithDate(kCFAllocatorDefault, timFmtRef, (CFDateRef)date);
 
-	if (timStrRef == NULL)
+	if (timStrRef == NULL) {
 		return nil;
-
-	result_ = [NSString stringWithFormat: @"%@\t%@", dayStr_, (NSString *)timStrRef];
+	}
+	result_ = [NSString stringWithFormat:@"%@\t%@", dayStr_, (NSString *)timStrRef];
 
 	CFRelease(timStrRef);
 	
 	return result_;
 }
 
-- (NSString *) stringForObjectValue: (id) anObject
+- (NSString *)stringForObjectValue:(id)anObject
 {
-	if (NO == [anObject isKindOfClass: [NSDate class]])
+	if (![anObject isKindOfClass:[NSDate class]]) {
 		return nil;
-	
-	return [self niceStringFromDate: anObject];
+	}
+	return [self niceStringFromDate:anObject];
 }
 
-- (NSAttributedString *) attributedStringForObjectValue: (id) anObject withDefaultAttributes: (NSDictionary *) attributes
+- (NSAttributedString *)attributedStringForObjectValue:(id)anObject withDefaultAttributes:(NSDictionary *)attributes
 {
-	NSString *stringValue = [self stringForObjectValue: anObject];
-	if (stringValue == nil) return nil;
-	
-	return [[[NSAttributedString alloc] initWithString: stringValue attributes: attributes] autorelease];
+	NSString *stringValue = [self stringForObjectValue:anObject];
+	if (!stringValue) return nil;
+
+	return [[[NSAttributedString alloc] initWithString:stringValue attributes:attributes] autorelease];
 }
 
-- (BOOL) getObjectValue: (id *) anObject forString: (NSString *) string errorDescription: (NSString **) error
+- (BOOL)getObjectValue:(id *)anObject forString:(NSString *)string errorDescription:(NSString **)error
 {
 	*error = @"BSDateFormatter does not support reverse conversion.";
 	return NO;
 }
 
-- (NSDate *) baseDateOfToday
+- (NSDate *)baseDateOfToday
 {
 	return AppGetBasicDataOfToday();
 }
@@ -144,5 +145,40 @@ static NSDate * AppGetBasicDataOfToday()
 		[tomorrow_ release];
 	}
 	return cachedToday;
+}
+@end
+
+
+@implementation BSStringFromDateTransformer
++ (Class)transformedValueClass
+{
+    return [NSString class];
+}
+ 
++ (BOOL)allowsReverseTransformation
+{
+    return NO;
+}
+ 
+- (id)transformedValue:(id)beforeObject
+{
+	NSString	*stringValue = nil;
+
+	if (beforeObject) {
+		if ([beforeObject isKindOfClass:[NSDate class]]) {
+			NSMutableString *tmp = [[[BSDateFormatter sharedDateFormatter] niceStringFromDate:beforeObject] mutableCopy];
+			NSRange range = [tmp rangeOfString:@"\t" options:(NSLiteralSearch|NSBackwardsSearch)];
+			if (range.location != NSNotFound) {
+				[tmp replaceCharactersInRange:range withString:@" "];
+			}
+			stringValue = [NSString stringWithString:tmp];
+			[tmp release];
+		} else {
+			[NSException raise:NSInternalInconsistencyException
+						format:@"Value (%@) is not an instance of NSDate.", [beforeObject class]];
+		}
+	}
+
+	return stringValue;
 }
 @end

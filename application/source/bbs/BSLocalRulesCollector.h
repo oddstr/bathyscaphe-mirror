@@ -9,6 +9,12 @@
 
 #import <Cocoa/Cocoa.h>
 
+// Error Codes
+// これ以外に、http ステータスコードをそのままエラーコードとして返すこともある。
+enum {
+	BSLocalRulesCollectorErrorCannotReadFile = -101, /* LocalRules.rtf の読み込み失敗（注：この場合、自動的に再ダウンロードを試みる） */
+	BSLocalRulesCollectorErrorCannotCreateAttrString = -102, /* ダウンロードしたデータが無いか、データから NSAttributedString の生成に失敗 */
+};
 
 @interface BSLocalRulesCollector : NSObject {
 	NSString			*m_boardName;
@@ -24,6 +30,7 @@
 - (id)initWithBoardName:(NSString *)boardName;
 
 - (void)cancelDownloading;
+- (void)reload;
 
 - (NSURL *)boardURL;
 

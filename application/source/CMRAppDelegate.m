@@ -14,6 +14,7 @@
 #import "CMRThreadDocument.h"
 #import "TS2SoftwareUpdate.h"
 #import "CMRDocumentController.h"
+#import "BSDateFormatter.h"
 
 static NSString *const kOnlineItemKey = @"On Line";
 static NSString *const kOfflineItemKey = @"Off Line";
@@ -296,6 +297,7 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 #pragma mark NSApplication Delegates
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification
 {
+	BSStringFromDateTransformer *transformer;
 	NSAppleEventManager	*aeMgr = [NSAppleEventManager sharedAppleEventManager];
 
 	[aeMgr setEventHandler:[CMROpenURLManager defaultManager]
@@ -307,6 +309,9 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 	[checker setUpdateInfoURL:[NSURL URLWithString:SGTemplateResource(kSWCheckURLKey)]];
 	[checker setOpenPrefsSelector:@selector(changeUpdateSettings:)];
 	[checker setUpdateNowSelector:@selector(openWebSiteForUpdate:)];
+
+	transformer = [[[BSStringFromDateTransformer alloc] init] autorelease];
+	[NSValueTransformer setValueTransformer:transformer forName:@"BSStringFromDateTransformer"];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification

@@ -83,6 +83,17 @@ static NSString *const kInsertionPointMarker = @"%%%HEAD_TXT_CONTENT%%%";
 	[[self currentConnection] cancel];
 }
 
+- (void)reload
+{
+	if (m_receivedData) {
+		[m_receivedData release];
+		m_receivedData = nil;
+	}
+
+	[self setLastError:nil];
+	[self startDownloadingHeadTxt];
+}
+
 - (NSString *)boardName
 {
 	return m_boardName;
@@ -155,9 +166,20 @@ static NSString *const kInsertionPointMarker = @"%%%HEAD_TXT_CONTENT%%%";
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
+	NSAttributedString *attrStr;
+
 	[self setLastDate:[NSDate date]];
     [self setCurrentConnection:nil];
-	[self setLocalRulesAttrString:[self attrStringFromReceivedData]];
+
+	attrStr = [self attrStringFromReceivedData];
+	if (attrStr) {
+		[self setLocalRulesAttrString:attrStr];
+		[self setLastError:nil];
+	} else {
+		NSDictionary *dict = [NSDictionary dictionaryWithObject:NSLocalizedString(@"Can't get head.txt 4", @"") forKey:NSLocalizedDescriptionKey];
+		NSError *error = [NSError errorWithDomain:BSLocalRulesCollectorErrorDomain code:BSLocalRulesCollectorErrorCannotCreateAttrString userInfo:dict];
+		[self setLastError:error];
+	}
 	[self setIsLoading:NO];
 }
 @end
@@ -218,7 +240,9 @@ static NSString *const kInsertionPointMarker = @"%%%HEAD_TXT_CONTENT%%%";
 	attrStr = [[NSAttributedString alloc] initWithPath:[self cacheFilePath] documentAttributes:&docAttrs];
 	
 	if (!attrStr) {
-		NSLog(@"%@ of board %@ may be broken. So download again...", BSLocalRulesRTFFileName, [self boardName]);
+		NSDictionary *dict = [NSDictionary dictionaryWithObject:NSLocalizedString(@"Can't get head.txt 3", @"") forKey:NSLocalizedDescriptionKey];
+		NSError *error = [NSError errorWithDomain:BSLocalRulesCollectorErrorDomain code:BSLocalRulesCollectorErrorCannotReadFile userInfo:dict];
+		[self setLastError:error];
 		[self startDownloadingHeadTxt];
 		return;
 	} else {
@@ -226,6 +250,7 @@ static NSString *const kInsertionPointMarker = @"%%%HEAD_TXT_CONTENT%%%";
 		[self setLocalRulesAttrString:attrStr];
 		[attrStr release];
 	}
+	[self setLastError:nil];
 	[self setIsLoading:NO];
 }
 
@@ -298,8 +323,11 @@ static NSString *const kInsertionPointMarker = @"%%%HEAD_TXT_CONTENT%%%";
 	attrStr = [[NSAttributedString alloc] initWithHTML:finalData options:[self optionsDict] documentAttributes:NULL];
 	
 	if (!attrStr) return nil;
-	NSDictionary  *docAttr = [NSDictionary dictionaryWithObjectsAndKeys:[self lastDate], NSCreationTimeDocumentAttribute,
-		[NSString stringWithFormat:NSLocalizedString(@"DocTitleAttributeTemplate", nil), [self boardName]], NSTitleDocumentAttribute, NULL];
+	NSDictionary  *docAttr = [NSDictionary dictionaryWithObjectsAndKeys:[self lastDate],
+		@"NSCreationTimeDocumentAttribute"/*NSCreationTimeDocumentAttribute*/,
+		[NSString stringWithFormat:NSLocalizedString(@"DocTitleAttributeTemplate", nil), [self boardName]],
+		@"NSTitleDocumentAttribute"/*NSTitleDocumentAttribute*/,
+		NULL];
 	NSData *data = [attrStr RTFFromRange:NSMakeRange(0, [attrStr length]) documentAttributes:docAttr];
 	[data writeToFile:[self cacheFilePath] atomically:YES];
 	return [attrStr autorelease];

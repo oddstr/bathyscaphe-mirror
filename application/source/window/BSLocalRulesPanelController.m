@@ -26,6 +26,10 @@
 
 - (IBAction)reload:(id)sender
 {
+	id collector = [[self objectController] content];
+	if ([collector respondsToSelector:@selector(reload)]) {
+		[collector reload];
+	}
 }
 
 - (IBAction)showWindow:(id)sender

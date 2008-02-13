@@ -208,6 +208,11 @@ NSString *const BoardManagerDidFinishDetectingSettingTxtNotification = @"BoardMa
 
 
 @implementation BoardManager(LocalRules)
+- (BOOL)canUseLocalRulesPanel
+{
+	return (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_3);
+}
+
 - (NSMutableArray *)localRulesPanelControllers
 {
 	if (!m_localRulesPanelControllers) {

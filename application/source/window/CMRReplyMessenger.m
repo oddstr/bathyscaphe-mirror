@@ -453,7 +453,7 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 	}
 
 	if (action_ == @selector(showLocalRules:)) {
-		return YES;
+		return [[BoardManager defaultManager] canUseLocalRulesPanel];
 	}
 
 	return NO;
@@ -482,7 +482,12 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 	}
 
 	if (action_ == @selector(showLocalRules:)) {
+		BoardManager *bm = [BoardManager defaultManager];
+		if (![bm canUseLocalRulesPanel]) return NO;
+		[theItem setTitle:[bm isKeyWindowForBoardName:[self boardNameAsString]] ? NSLocalizedString(@"Hide Local Rules", @"")
+																				: NSLocalizedString(@"Show Local Rules", @"")];
 		return YES;
+//		return YES;
 	}
 
 	return [super validateMenuItem:theItem];

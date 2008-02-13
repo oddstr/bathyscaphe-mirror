@@ -1,4 +1,23 @@
 2008-02-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/window/CMRBrowserTbDelegate.m
+		Leopard 以前のシステムでも BSQuickLookButton.nib を読み込んでしまっていた問題を修正した。
+	* application/Resources/Japanese.lproj/MainMenu.nib
+		各種アプリケーションを参考に検討した結果、「ファイル」＞「新規スレッド...」のショートカットを command-option-N から command-shift-N に変更した。
+	* application/source/browser/Browser.m
+	* application/source/thread/CMRAbstructThreadDocument.m
+	* application/source/window/CMRReplyMessenger.m
+		「ローカルルールを表示／隠す」が Panther で使用できないよう、適切に menu item/toolbar item の validation を実装した。
+	* application/source/bbs/BSLocalRulesCollector.m
+	* application/source/window/BSLocalRulesPanelController.m
+	* application/Resources/Japanese.lproj/BSLocalRulesPanel.nib
+		ローカルルール・パネルの仕上げ。「再読み込み」ボタンが使えるようになり、ローカルルールの取得日時がパネル下部に表示されるようになり、
+		取得エラー時はメッセージがパネル下部に表示されるようになった。
+	* application/source/composer/BSDateFormatter.m
+	* application/source/CMRAppDelegate.m
+		BSDateFormatter.[h|m] に居候して、NSValueTransformer のサブクラス BSStringFromDateTransformer を書いた。
+		色々な所で利用できるよう、-applicationWillFinishLaunching: のタイミングで登録するようにした。
+		今はローカルルール・パネルでのみ使用している。
+2008-02-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/bbs/BoardManager-SettingTxt.m
 		ローカルルール・パネルを管理するメソッド群を追加した。
 	* application/source/browser/Browser.m
@@ -9,6 +28,7 @@
 		「掲示板」＞「ローカルルールを表示／隠す」の IBAction や menu item validation を実装。
 	* application/source/window/CMRReplyControllerTbDelegate.m
 		書き込みウインドウ／新規スレッド作成ウインドウのツールバーに「ローカルルールを表示」を配置できるようにした。
+		また、「テンプレートを挿入」ツールバー項目の NSPopUpButton は、Leopard では NSTexturedRoundedBezelStyle を使用するようにした。
 	* application/Resources/Japanese.lproj/BSLocalRulesPanel.nib
 	* application/source/window/BSLocalRulesPanelController.[h|m]
 		[新規追加] ローカルルールを表示するパネルのウインドウコントローラと nib。

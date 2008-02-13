@@ -139,21 +139,24 @@ static NSMenuItem* searchToolbarItemMenuFormRep(NSString *labelText)
 
 - (void)setupQuickLookButton:(NSToolbarItem *)anItem
 {
-	if (!m_quickLookToolbarItem) {
-		[NSBundle loadNibNamed:@"BSQuickLookButton" owner:self];
+	// Leopard
+	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {	
+		if (!m_quickLookToolbarItem) {
+			[NSBundle loadNibNamed:@"BSQuickLookButton" owner:self];
+		}
+
+		UTILAssertNotNil(m_quickLookToolbarItem);
+		NSSize size_ = [m_quickLookToolbarItem frame].size;
+
+		[anItem setView:m_quickLookToolbarItem];
+		[anItem setMinSize:size_];
+		[anItem setMaxSize:size_];
+
+		NSMenuItem *menuItem_ = [[NSMenuItem alloc] initWithTitle:[anItem label] action:@selector(quickLook:) keyEquivalent:@""];
+		[menuItem_ setTarget:nil];
+		[anItem setMenuFormRepresentation:menuItem_];
+		[menuItem_ release];
 	}
-
-	UTILAssertNotNil(m_quickLookToolbarItem);
-	NSSize size_ = [m_quickLookToolbarItem frame].size;
-
-	[anItem setView:m_quickLookToolbarItem];
-	[anItem setMinSize:size_];
-	[anItem setMaxSize:size_];
-
-	NSMenuItem *menuItem_ = [[NSMenuItem alloc] initWithTitle:[anItem label] action:@selector(quickLook:) keyEquivalent:@""];
-	[menuItem_ setTarget:nil];
-	[anItem setMenuFormRepresentation:menuItem_];
-	[menuItem_ release];
 }
 
 - (void)setupSearchToolbarItem:(NSToolbarItem *)anItem itemView:(NSView *)aView
