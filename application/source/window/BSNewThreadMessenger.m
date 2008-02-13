@@ -92,6 +92,14 @@ NSString *const BSNewThreadMessengerDidFinishPostingNotification = @"jp.tsawada2
 @end
 
 
+@implementation BSNewThreadMessenger(Private)
++ (NSURL *)targetURLWithBoardURL:(NSURL *)boardURL
+{
+	return [[CMRHostHandler hostHandlerForURL:boardURL] newThreadWriteURLWithBoard:boardURL];
+}
+@end
+
+
 @implementation BSNewThreadMessenger(ConnectClient)
 - (void)mainBrowserDidFinishReloadingThList:(NSNotification *)notification
 {

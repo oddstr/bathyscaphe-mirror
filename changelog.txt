@@ -1,3 +1,11 @@
+2008-02-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer.m
+		「表示」環境設定で「AA フォントを自動的に適用する」が「切」になっていると、「迷惑レス」環境設定で「AA を迷惑レスとして扱う」を「入」にしても
+		動作しない問題を修正。
+	* application/source/preferences/BSHostLivedoorHandler.m
+	* application/source/preferences/CMRHostHandler.m
+	* application/source/window/BSNewThreadMessenger.m
+		livedoorしたらばでスレ立てが出来ない問題を修正（未検証だが理論的には多分OK）。まちBBSは自信が無い。これでいけるように見えるのだけど…
 2008-02-13 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/window/CMRBrowserTbDelegate.m
 		Leopard 以前のシステムでも BSQuickLookButton.nib を読み込んでしまっていた問題を修正した。

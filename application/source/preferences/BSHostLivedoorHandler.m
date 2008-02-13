@@ -267,3 +267,18 @@ NS_ENDHANDLER
 	return thread;
 }
 @end
+
+
+@implementation BSHostLivedoorHandler(WriteCGI)
+- (NSURL *)newThreadWriteURLWithBoard:(NSURL *)boardURL
+{
+	NSURL *foo = [self writeURLWithBoard:boardURL];
+	if (!foo) return nil;
+
+//	NSString *scheme = [foo scheme];
+	NSString *host = [foo host];
+	NSString *path = [foo path];
+	NSString *newURL = [NSString stringWithFormat:@"http://%@%@%@/new/", host, path, [boardURL path]];
+	return [NSURL URLWithString:newURL];
+}
+@end

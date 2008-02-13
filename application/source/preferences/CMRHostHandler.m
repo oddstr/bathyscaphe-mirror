@@ -1,6 +1,6 @@
 //: CMRHostHandler.m
 /**
-  * $Id: CMRHostHandler.m,v 1.8 2008/02/10 14:24:51 tsawada2 Exp $
+  * $Id: CMRHostHandler.m,v 1.9 2008/02/13 15:22:20 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -558,6 +558,12 @@ ErrParse:
 	
 	return nil;
 }
+
+- (NSURL *)newThreadWriteURLWithBoard:(NSURL *)boardURL
+{
+	return [self writeURLWithBoard:boardURL];
+}
+
 - (NSString *) submitValue
 {
 	return [[self writeCGIProperties] stringForKey : kWriteCGISubmitValueKey];

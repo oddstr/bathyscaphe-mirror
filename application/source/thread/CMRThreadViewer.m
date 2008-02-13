@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.52 2008/01/08 16:19:03 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.53 2008/02/13 15:22:20 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -283,7 +283,7 @@ cancel, if this method returns NO.
 	if ([(CMRThreadDocument *)[self document] isAAThread]) {
 		[aMessageBuffer changeAllMessageAttributes:YES flags:CMRAsciiArtMask];
 	} else {
-		if ([CMRPref asciiArtDetectorEnabled]) {
+		if ([CMRPref asciiArtDetectorEnabled] || [CMRPref treatsAsciiArtAsSpam]) {
 			[[BSAsciiArtDetector sharedInstance] runDetectorWithMessages: aMessageBuffer with: threadID];
 		}
 	}

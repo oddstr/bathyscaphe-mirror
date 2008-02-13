@@ -2071,10 +2071,7 @@
 				F324DDC904C698FB00A80005 /* CMRReplyController-ViewAccessor.m */,
 				87844E250D1F5256007C17C8 /* BSReplyControllerValueTransformer.h */,
 				87844E260D1F5256007C17C8 /* BSReplyControllerValueTransformer.m */,
-				877420570D5D6FAF00D1E91B /* BSNewThreadMessenger.h */,
-				877420580D5D6FAF00D1E91B /* BSNewThreadMessenger.m */,
-				8774205F0D5D714600D1E91B /* BSNewThreadController.h */,
-				877420600D5D714600D1E91B /* BSNewThreadController.m */,
+				87C3236B0D631F8000B7F589 /* new thread */,
 				874338470D5ED9BE00AD3DC7 /* BSReplyAlertSheetController.h */,
 				874338480D5ED9BE00AD3DC7 /* BSReplyAlertSheetController.m */,
 			);
@@ -2172,6 +2169,17 @@
 				87CDC3410CEB3ED0001AE526 /* InfoPlist.strings */,
 			);
 			path = previewer;
+			sourceTree = "<group>";
+		};
+		87C3236B0D631F8000B7F589 /* new thread */ = {
+			isa = PBXGroup;
+			children = (
+				877420570D5D6FAF00D1E91B /* BSNewThreadMessenger.h */,
+				877420580D5D6FAF00D1E91B /* BSNewThreadMessenger.m */,
+				8774205F0D5D714600D1E91B /* BSNewThreadController.h */,
+				877420600D5D714600D1E91B /* BSNewThreadController.m */,
+			);
+			name = "new thread";
 			sourceTree = "<group>";
 		};
 		87CA622E0D1BC74D00B90B81 /* ReplyTextTemplate */ = {
