@@ -37,7 +37,7 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 {
 	self = [super init];
 	if (self) {
-		[self setBBSName : [item name]];
+//		[self setBBSName : [item name]];
 		[self setBoardListItem:item];
 		
 //		[self filterByStatusWithoutUpdateList:[CMRPref browserStatusFilteringMask]];
@@ -49,7 +49,7 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	
 	return self;
 }
-- (id) initWithBBSName : (NSString *) boardName
+/*- (id) initWithBBSName : (NSString *) boardName
 {
 	BoardListItem *item;
 	
@@ -67,14 +67,14 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 			return nil;
 		}
 		
-		/* TODO 複数あった場合の処理 */
+		// TODO 複数あった場合の処理
 		
 		boardID = [[boardIDs objectAtIndex : 0] unsignedIntValue];
 		item = [BoardListItem baordListItemWithBoradID : boardID];
 	}
 	
 	return [self initWithBoardListItem : item];
-}
+}*/
 + (id)threadListWithBoardListItem : (BoardListItem *) item
 {
 	return [[[self alloc] initWithBoardListItem : item] autorelease];
@@ -100,7 +100,7 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	
 	[mSortDescriptors release];
 	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
+//	[[NSNotificationCenter defaultCenter] removeObserver:self]; // super で call されるので ok
 	
 	[super dealloc];
 }
@@ -170,11 +170,11 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 }
 - (NSString *) boardName
 {
-	if (mBoardListItem) {
+//	if (mBoardListItem) {
 		return [mBoardListItem name];
-	}
+//	}
 	
-	return [super boardName];
+//	return [super boardName];
 }
 
 - (unsigned) numberOfThreads
@@ -476,17 +476,16 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 - (CMRThreadSignature *)threadSignatureWithTitle:(NSString *)title
 {
 	BSThreadListItem *row;
-NSLog(@"titletitletitle %@",title);
+
 	@synchronized(mCursorLock) {
 		row = itemOfTitle(mCursor, title);
 	}
 	
-	if (!row) {NSLog(@"Hoge");
-	return nil;
+	if (!row) {
+		return nil;
 	}
 	return [CMRThreadSignature threadSignatureWithIdentifier:[row identifier] boardName:[self boardName]];		
 }
-
 
 - (int)numberOfRowsInTableView : (NSTableView *)tableView
 {
@@ -542,6 +541,7 @@ NSLog(@"titletitletitle %@",title);
 	
 	return result;
 }
+
 - (id)            tableView : (NSTableView   *) aTableView
   objectValueForTableColumn : (NSTableColumn *) aTableColumn
                         row : (int            ) rowIndex
@@ -569,7 +569,6 @@ NSLog(@"titletitletitle %@",title);
 	
 	UTILNotifyName(CMRThreadsListDidChangeNotification);
 }
-
 
 - (void) postListDidUpdateNotification : (int) mask;
 {

@@ -14,8 +14,9 @@
 #import "BSQuickLookPanelController.h"
 #import "BSQuickLookObject.h"
 #import "CMRThreadSignature.h"
-
+#import "CMRThreadAttributes.h"
 #import <SGAppKit/SGKeyBindingSupport.h>
+#import <SGAppKit/NSWorkspace-SGExtensions.h>
 
 static NSString *const kBrowserKeyBindingsFile = @"BrowserKeyBindings.plist";
 
@@ -315,6 +316,32 @@ Hope this helps...
 	[[NSWorkspace sharedWorkspace] selectFile:path inFileViewerRootedAtPath:[path stringByDeletingLastPathComponent]];
 }
 
+- (IBAction)openInBrowser:(id)sender
+{
+	id dataSource = [self dataSource];
+	if (!dataSource || ![dataSource respondsToSelector:@selector(threadAttributesAtRowIndex:inTableView:)]) {
+		NSBeep();
+		return;
+	}
+
+	NSIndexSet		*rows = [self selectedRowIndexes];
+	NSMutableArray	*urls = [NSMutableArray arrayWithCapacity:[rows count]];
+
+	unsigned int	element;
+	NSDictionary	*dict;
+	NSURL			*url;
+	int				size = [rows lastIndex]+1;
+	NSRange			e = NSMakeRange(0, size);
+
+	while ([rows getIndexes:&element maxCount:1 inIndexRange:&e] > 0) {
+		dict = [dataSource threadAttributesAtRowIndex:element inTableView:self];
+		url = [CMRThreadAttributes threadURLWithDefaultParameterFromDictionary:dict];
+		if (url) [urls addObject:url];
+	}
+
+	[[NSWorkspace sharedWorkspace] openURLs:urls inBackground:[CMRPref openInBg]];
+}
+
 - (IBAction)quickLook:(id)sender
 {
 	// Leopard
@@ -355,6 +382,8 @@ Hope this helps...
 		return ((status & ThreadLogCachedStatus) > 0);
 	} else if (action == @selector(quickLook:)) {
 		return ([[self selectedRowIndexes] count] == 1);
+	} else if (action == @selector(openInBrowser:)) {
+		return ([[self selectedRowIndexes] count] > 0);
 	}
 	return [super validateUserInterfaceItem:anItem];
 }

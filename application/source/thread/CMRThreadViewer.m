@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.53 2008/02/13 15:22:20 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.54 2008/02/15 15:41:58 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -225,9 +225,9 @@ FileNotExistsAutoReloadIfNeeded:
 	
 	{
 		NSString *bName_;
-		bName_ = [self boardNameArrowingSecondSource];
+		bName_ = [self boardName];
 		
-		if ([[BoardManager defaultManager] allThreadsShouldAAThreadAtBoard : bName_])
+		if (bName_ && [[BoardManager defaultManager] allThreadsShouldAAThreadAtBoard : bName_])
 			[(CMRThreadDocument *)[self document] setIsAAThread : YES];
 		[self updateKeywordsCache];
 	}
@@ -541,7 +541,7 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 	BoardManager		*mgr = [BoardManager defaultManager];
 	NSString			*board;
 
-	board = [self boardNameArrowingSecondSource];
+	board = [self boardName];
 	if (!board) return;
 
 	if ([mgr needToDetectNoNameForBoard: board]) {
@@ -576,10 +576,6 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 - (NSString *)boardName
 {
 	return [[self threadAttributes] boardName];
-}
-- (NSString *)boardNameArrowingSecondSource // subclass should override this method
-{
-	return [self boardName];
 }
 
 - (NSURL *)boardURL

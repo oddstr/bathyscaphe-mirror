@@ -92,6 +92,7 @@
 		871CA17908585FD200C3A044 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		871CA17A08585FD200C3A044 /* CocoMonar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3924488043610AE00A80005 /* CocoMonar.framework */; };
 		871CA17B08585FD200C3A044 /* SGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FA043610EB00A80005 /* SGFoundation.framework */; };
+		871F26470D645140006F479E /* RBSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87464E380864368F000F0371 /* RBSplitView.h */; };
 		8727F4C20A822EFB00E9C2F9 /* BSTagValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 8727F4C00A822EFB00E9C2F9 /* BSTagValueTransformer.h */; };
 		8727F4C30A822EFB00E9C2F9 /* BSTagValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8727F4C10A822EFB00E9C2F9 /* BSTagValueTransformer.m */; };
 		872C32D00BB18CD10044890C /* ViewPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872C32CE0BB18CD10044890C /* ViewPane.nib */; };
@@ -374,7 +375,6 @@
 		F473624A0AFF8758009B6189 /* CMXPopUpWindowController_p.h in Headers */ = {isa = PBXBuildFile; fileRef = 8729971708325E2500CBD740 /* CMXPopUpWindowController_p.h */; };
 		F473624B0AFF8758009B6189 /* CMXPopUpWindowManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8729971808325E2500CBD740 /* CMXPopUpWindowManager.h */; };
 		F473624C0AFF8758009B6189 /* BSScriptsMenuManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F49CCDF30849B87500835BE3 /* BSScriptsMenuManager.h */; };
-		F473624D0AFF8758009B6189 /* RBSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87464E380864368F000F0371 /* RBSplitView.h */; };
 		F473624E0AFF8758009B6189 /* RBSplitSubview.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB791F0864401A00ED8757 /* RBSplitSubview.h */; };
 		F473624F0AFF8758009B6189 /* NSTableView+BSAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BD61EE0865D0230080A7CA /* NSTableView+BSAdditions.h */; };
 		F47362510AFF8758009B6189 /* NoNameInputController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8718EFDC08D43F7D00FFAAEE /* NoNameInputController.h */; };
@@ -1268,14 +1268,14 @@
 		F324DCE604C698FB00A80005 /* AppDefaults.h */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.h; path = AppDefaults.h; sourceTree = "<group>"; };
 		F324DCE704C698FB00A80005 /* AppDefaults.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = AppDefaults.m; sourceTree = "<group>"; };
 		F324DCE804C698FB00A80005 /* AppDefaults_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = AppDefaults_p.h; sourceTree = "<group>"; };
-		F324DD3A04C698FB00A80005 /* CMRAbstructThreadDocument.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRAbstructThreadDocument.h; sourceTree = "<group>"; };
-		F324DD3B04C698FB00A80005 /* CMRAbstructThreadDocument.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = CMRAbstructThreadDocument.m; sourceTree = "<group>"; };
+		F324DD3A04C698FB00A80005 /* CMRAbstructThreadDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRAbstructThreadDocument.h; sourceTree = "<group>"; };
+		F324DD3B04C698FB00A80005 /* CMRAbstructThreadDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRAbstructThreadDocument.m; sourceTree = "<group>"; };
 		F324DD4404C698FB00A80005 /* CMRThreadAttributes.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadAttributes.h; sourceTree = "<group>"; };
 		F324DD4504C698FB00A80005 /* CMRThreadAttributes.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = CMRThreadAttributes.m; sourceTree = "<group>"; };
 		F324DD4904C698FB00A80005 /* CMRThreadComposingTask.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadComposingTask.h; sourceTree = "<group>"; };
 		F324DD4A04C698FB00A80005 /* CMRThreadComposingTask.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRThreadComposingTask.m; sourceTree = "<group>"; };
 		F324DD4C04C698FB00A80005 /* CMRThreadDocument.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadDocument.h; sourceTree = "<group>"; };
-		F324DD4D04C698FB00A80005 /* CMRThreadDocument.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRThreadDocument.m; sourceTree = "<group>"; };
+		F324DD4D04C698FB00A80005 /* CMRThreadDocument.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = CMRThreadDocument.m; sourceTree = "<group>"; };
 		F324DD4F04C698FB00A80005 /* CMRThreadDownloadTask.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadDownloadTask.h; sourceTree = "<group>"; };
 		F324DD5004C698FB00A80005 /* CMRThreadDownloadTask.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRThreadDownloadTask.m; sourceTree = "<group>"; };
 		F324DD5104C698FB00A80005 /* CMRThreadDownloadTask_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadDownloadTask_p.h; sourceTree = "<group>"; };
@@ -3238,7 +3238,6 @@
 				F473624A0AFF8758009B6189 /* CMXPopUpWindowController_p.h in Headers */,
 				F473624B0AFF8758009B6189 /* CMXPopUpWindowManager.h in Headers */,
 				F473624C0AFF8758009B6189 /* BSScriptsMenuManager.h in Headers */,
-				F473624D0AFF8758009B6189 /* RBSplitView.h in Headers */,
 				F473624E0AFF8758009B6189 /* RBSplitSubview.h in Headers */,
 				F473624F0AFF8758009B6189 /* NSTableView+BSAdditions.h in Headers */,
 				F47362510AFF8758009B6189 /* NoNameInputController.h in Headers */,
@@ -3305,6 +3304,7 @@
 				874338490D5ED9BE00AD3DC7 /* BSReplyAlertSheetController.h in Headers */,
 				873245240D60310F00CF1705 /* BSLocalRulesCollector.h in Headers */,
 				8732455B0D60407200CF1705 /* BSLocalRulesPanelController.h in Headers */,
+				871F26470D645140006F479E /* RBSplitView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

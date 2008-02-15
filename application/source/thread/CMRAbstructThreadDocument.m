@@ -6,18 +6,21 @@
   * @author Takanori Ishikawa
   * @author http://www15.big.or.jp/~takanori/
   * @version 1.0.9a2 (03/01/20  4:59:59 PM)
-  *
+  * encoding="UTF-8"
   */
 #import "CMRAbstructThreadDocument_p.h"
 #import "CocoMonar_Prefix.h"
 #import "BSThreadInfoPanelController.h"
 #import "BSRelativeKeywordsCollector.h"
 #import "BoardManager.h"
+#import "BSBoardInfoInspector.h"
+#import <SGAppKit/NSWorkspace-SGExtensions.h>
+#import "AppDefaults.h"
 #import "missing.h"
 
 NSString *const CMRAbstractThreadDocumentDidToggleDatOchiNotification = @"CMRAbstractThreadDocumentDidToggleDatOchiNotification";
 
-@implementation CMRAbstructThreadDocument
+@implementation CMRAbstructThreadDocument(WillBeDeprecated)
 - (void) replace : (CMRThreadAttributes *) oldAttributes
 			with : (CMRThreadAttributes *) newAttributes
 {
@@ -29,13 +32,13 @@ NSString *const CMRAbstractThreadDocumentDidToggleDatOchiNotification = @"CMRAbs
 - (BOOL) windowAlreadyExistsForPath : (NSString *) filePath
 {
 	/* 2005-09-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	‚±‚Ìƒƒ\ƒbƒh‚ÍƒXƒŒƒbƒh‚ð—š—ðƒƒjƒ…[‚È‚Ç‚©‚çØ‚è‘Ö‚¦‚é’¼‘O‚ÉŒÄ‚Î‚ê‚éB
-	ƒpƒ‰ƒ[ƒ^‚É‚ÍA‚±‚ê‚©‚çØ‚è‘Ö‚¦‚æ‚¤‚Æ‚µ‚Ä‚¢‚éiØ‚è‘Ö‚¦æ‚ÌjƒXƒŒƒbƒh‚Ìƒtƒ@ƒCƒ‹ƒpƒX‚ð—^‚¦‚éB
+	ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã¯ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’å±¥æ­´ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãªã©ã‹ã‚‰åˆ‡ã‚Šæ›¿ãˆã‚‹ç›´å‰ã«å‘¼ã°ã‚Œã‚‹ã€‚
+	ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã«ã¯ã€ã“ã‚Œã‹ã‚‰åˆ‡ã‚Šæ›¿ãˆã‚ˆã†ã¨ã—ã¦ã„ã‚‹ï¼ˆåˆ‡ã‚Šæ›¿ãˆå…ˆã®ï¼‰ã‚¹ãƒ¬ãƒƒãƒ‰ã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’ä¸Žãˆã‚‹ã€‚
 	
-	ƒtƒ@ƒCƒ‹ƒpƒX‚ðŠî‚É NSDocument ‚ð’T‚·BŒ©‚Â‚©‚ê‚ÎA‚à‚¤‚»‚ÌƒhƒLƒ…ƒƒ“ƒg‚ªŠJ‚©‚ê‚Ä‚¢‚é–ó‚¾‚©‚çA
-	Ø‚è‘Ö‚¦‚ð’†Ž~‚µA‚©‚í‚è‚É‚»‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÌƒEƒCƒ“ƒhƒE‚ðƒAƒNƒeƒBƒu‚ÉB
+	ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’åŸºã« NSDocument ã‚’æŽ¢ã™ã€‚è¦‹ã¤ã‹ã‚Œã°ã€ã‚‚ã†ãã®ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆãŒé–‹ã‹ã‚Œã¦ã„ã‚‹è¨³ã ã‹ã‚‰ã€
+	åˆ‡ã‚Šæ›¿ãˆã‚’ä¸­æ­¢ã—ã€ã‹ã‚ã‚Šã«ãã®ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã‚’ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã«ã€‚
 	
-	Œ©‚Â‚©‚ç‚È‚¯‚ê‚ÎAØ‚è‘Ö‚¦‚Ì‹–‰ÂAreturn YES;B*/
+	è¦‹ã¤ã‹ã‚‰ãªã‘ã‚Œã°ã€åˆ‡ã‚Šæ›¿ãˆã®è¨±å¯ã€return YES;ã€‚*/
 	NSDocumentController	*dc_;
 	NSDocument				*document_;
 	
@@ -51,32 +54,35 @@ NSString *const CMRAbstractThreadDocumentDidToggleDatOchiNotification = @"CMRAbs
 		return YES;
 	}
 }
+@end
 
+
+@implementation CMRAbstructThreadDocument
 #pragma mark Accessors
-- (NSTextStorage *) textStorage
+- (NSTextStorage *)textStorage
 {
-	if(nil == _textStorage) {
+	if (!_textStorage) {
 		_textStorage = [[NSTextStorage alloc] init];
 	}
 	return _textStorage;
 }
-- (void) setTextStorage : (NSTextStorage *) aTextStorage
+
+- (void)setTextStorage:(NSTextStorage *)aTextStorage
 {
-	id		tmp;
-	
-	tmp = _textStorage;
-	_textStorage = [aTextStorage retain];
-	[tmp release];
+	[aTextStorage retain];
+	[_textStorage release];
+	_textStorage = aTextStorage;
 }
 
-- (CMRThreadAttributes *) threadAttributes
+- (CMRThreadAttributes *)threadAttributes
 {
 	return _threadAttributes;
 }
-- (void) setThreadAttributes : (CMRThreadAttributes *) newAttributes
+
+- (void)setThreadAttributes:(CMRThreadAttributes *)newAttributes
 {
 	CMRThreadAttributes		*oldAttributes_;
-	
+
 	oldAttributes_ = _threadAttributes;
 	_threadAttributes = [newAttributes retain];	
 	
@@ -84,69 +90,73 @@ NSString *const CMRAbstractThreadDocumentDidToggleDatOchiNotification = @"CMRAbs
 	
 	[oldAttributes_ release];
 }
-- (NSArray *) cachedKeywords
+
+- (NSArray *)cachedKeywords
 {
 	return m_keywords;
 }
-- (void) setCachedKeywords: (NSArray *) array
+
+- (void)setCachedKeywords:(NSArray *)array
 {
 	[array retain];
 	[m_keywords release];
 	m_keywords = array;
 }
-- (BSRelativeKeywordsCollector *) keywordsCollector
+
+- (BSRelativeKeywordsCollector *)keywordsCollector
 {
-	if (m_collector == nil) {
+	if (!m_collector) {
 		m_collector = [[BSRelativeKeywordsCollector alloc] init];
 	}
 	return m_collector;
 }
-- (BOOL) isAAThread
+
+- (BOOL)isAAThread
 {
 	return [[self threadAttributes] isAAThread];
 }
-- (void) setIsAAThread : (BOOL) flag
+
+- (void)setIsAAThread:(BOOL)flag
 {
-	if ([self isAAThread] == flag)
-		return;
-	
+	if ([self isAAThread] == flag) return;
+
 	NSArray *winControllers;
 	[[self threadAttributes] setIsAAThread : flag];
 	winControllers = [self windowControllers];
 	if ([winControllers count] > 0) {
-		[winControllers makeObjectsPerformSelector: @selector(changeAllMessageAttributesWithAAFlag:)
-										withObject: [NSNumber numberWithBool: flag]];
+		[winControllers makeObjectsPerformSelector:@selector(changeAllMessageAttributesWithAAFlag:)
+										withObject:[NSNumber numberWithBool:flag]];
 	}
 }
 
-- (BOOL) isDatOchiThread
+- (BOOL)isDatOchiThread
 {
 	return [[self threadAttributes] isDatOchiThread];
 }
-- (void) setIsDatOchiThread : (BOOL) flag
+
+- (void)setIsDatOchiThread:(BOOL)flag
 {
-	if ([self isDatOchiThread] == flag)
-		return;
+	if ([self isDatOchiThread] == flag) return;
 	
-	[[self threadAttributes] setIsDatOchiThread : flag];
+	[[self threadAttributes] setIsDatOchiThread:flag];
 	NSDictionary *foo = [NSDictionary dictionaryWithObject:[[self threadAttributes] path] forKey:@"path"];
 	UTILNotifyInfo(CMRAbstractThreadDocumentDidToggleDatOchiNotification, foo);
 }
 
-- (BOOL) isMarkedThread
+- (BOOL)isMarkedThread
 {
 	return [[self threadAttributes] isMarkedThread];
 }
-- (void) setIsMarkedThread : (BOOL) flag
+
+- (void)setIsMarkedThread:(BOOL)flag
 {
-	if ([self isMarkedThread] == flag)
-		return;
+	if ([self isMarkedThread] == flag) return;
 	
-	[[self threadAttributes] setIsMarkedThread : flag];
+	[[self threadAttributes] setIsMarkedThread:flag];
 }
 
 #pragma mark Override
-- (void) dealloc
+- (void)dealloc
 {
 	[m_collector release];
 	[m_keywords release];
@@ -155,7 +165,7 @@ NSString *const CMRAbstractThreadDocumentDidToggleDatOchiNotification = @"CMRAbs
 	[super dealloc];
 }
 
-- (void) removeWindowController : (NSWindowController *) windowController
+- (void)removeWindowController:(NSWindowController *)windowController
 {
 	NSEnumerator		*iter_;
 	NSWindowController	*controller_;
@@ -163,23 +173,23 @@ NSString *const CMRAbstractThreadDocumentDidToggleDatOchiNotification = @"CMRAbs
 	
 	selector_ = @selector(document:willRemoveController:);
 	iter_ = [[self windowControllers] objectEnumerator];
-	
+
 	while(controller_ = [iter_ nextObject]){
-		if(NO == [controller_ respondsToSelector : selector_])
-			continue;
+		if (![controller_ respondsToSelector:selector_]) continue;
 		
 		[controller_ document:self willRemoveController:windowController];
 	}
+
 	if ([[self keywordsCollector] delegate] == windowController) {
 //		NSLog(@"ThreadViewer - document's delegate is self, but self is going to dealloc, so set delegate to nil.");
-		[[self keywordsCollector] setDelegate: nil];
+		[[self keywordsCollector] setDelegate:nil];
 	}
 
-	[super removeWindowController : windowController];
+	[super removeWindowController:windowController];
 }
 
 #pragma mark Validation
-- (BOOL) validateUserInterfaceItem: (id <NSObject, NSValidatedUserInterfaceItem>) theItem
+- (BOOL)validateUserInterfaceItem:(id<NSObject, NSValidatedUserInterfaceItem>)theItem
 {
 	SEL action_;
 
@@ -189,17 +199,17 @@ NSString *const CMRAbstractThreadDocumentDidToggleDatOchiNotification = @"CMRAbs
 		return ([self threadAttributes] != nil);
 	}
 
-	if (action_ == @selector(saveDocumentAs:) && [theItem respondsToSelector: @selector(setTitle:)]) {
+	if (action_ == @selector(saveDocumentAs:) && [theItem respondsToSelector:@selector(setTitle:)]) {
 		[theItem setTitle : NSLocalizedString(@"Save Menu Item Default", @"Save as...")];
 	} else if (action_ == @selector(toggleAAThread:)) {
 		if ([self threadAttributes] == nil) return NO;
-		if ([theItem respondsToSelector: @selector(setState:)]) [theItem setState: ([self isAAThread] ? NSOnState : NSOffState)];
+		if ([theItem respondsToSelector:@selector(setState:)]) [theItem setState:([self isAAThread] ? NSOnState : NSOffState)];
 	} else if (action_ == @selector(toggleMarkedThread:)) {
 		if ([self threadAttributes] == nil) return NO;
-		if ([theItem respondsToSelector: @selector(setState:)]) [theItem setState: ([self isMarkedThread] ? NSOnState : NSOffState)];
+		if ([theItem respondsToSelector:@selector(setState:)]) [theItem setState:([self isMarkedThread] ? NSOnState : NSOffState)];
 	} else if (action_ == @selector(toggleDatOchiThread:)) {
 		if ([self threadAttributes] == nil) return NO;
-		if ([theItem respondsToSelector: @selector(setState:)]) [theItem setState: ([self isDatOchiThread] ? NSOnState : NSOffState)];
+		if ([theItem respondsToSelector:@selector(setState:)]) [theItem setState:([self isDatOchiThread] ? NSOnState : NSOffState)];
 	} else if (action_ == @selector(showLocalRules:)) {
 		BoardManager *bm = [BoardManager defaultManager];
 		if (![bm canUseLocalRulesPanel]) return NO;
@@ -208,23 +218,25 @@ NSString *const CMRAbstractThreadDocumentDidToggleDatOchiNotification = @"CMRAbs
 																					: NSLocalizedString(@"Show Local Rules", @"")];
 		}
 		return YES;
+	} else if (action_ == @selector(openInBrowser:)) {
+		return ([self threadAttributes] != nil);
 	}
-	return [super validateUserInterfaceItem: theItem];
+	return [super validateUserInterfaceItem:theItem];
 }
 
 #pragma mark IBActions
-- (IBAction) showDocumentInfo: (id) sender
+- (IBAction)showDocumentInfo:(id)sender
 {
-	[[BSThreadInfoPanelController sharedInstance] showWindow: sender];
+	[[BSThreadInfoPanelController sharedInstance] showWindow:sender];
 }
 
-- (IBAction) showMainBrowser: (id) sender
+- (IBAction)showMainBrowser:(id)sender
 {
 	CMRThreadAttributes *attr_ = [self threadAttributes];
 	NSString *boardName_ = [attr_ boardName];
 	if(!boardName_) return; 
 
-	[[NSApp delegate] showThreadsListForBoard: boardName_ selectThread: [attr_ path] addToListIfNeeded: YES];
+	[[NSApp delegate] showThreadsListForBoard:boardName_ selectThread:[attr_ path] addToListIfNeeded:YES];
 }
 
 - (IBAction)revealInFinder:(id)sender
@@ -237,29 +249,29 @@ NSString *const CMRAbstractThreadDocumentDidToggleDatOchiNotification = @"CMRAbs
 	[[NSWorkspace sharedWorkspace] selectFile:path inFileViewerRootedAtPath:[path stringByDeletingLastPathComponent]];
 }
 
-- (IBAction) toggleAAThread: (id) sender
+- (IBAction)toggleAAThread:(id)sender
 {
-	[self setIsAAThread: ![self isAAThread]];
+	[self setIsAAThread:![self isAAThread]];
 }
 
-- (IBAction) toggleDatOchiThread: (id) sender
+- (IBAction)toggleDatOchiThread:(id)sender
 {
-	[self setIsDatOchiThread: ![self isDatOchiThread]];
+	[self setIsDatOchiThread:![self isDatOchiThread]];
 }
 
-- (IBAction) toggleMarkedThread: (id) sender
+- (IBAction)toggleMarkedThread:(id)sender
 {
-	[self setIsMarkedThread: ![self isMarkedThread]];
+	[self setIsMarkedThread:![self isMarkedThread]];
 }
 
-- (IBAction) toggleAAThreadFromInfoPanel: (id) sender
+- (IBAction)toggleAAThreadFromInfoPanel:(id)sender
 {
 	NSArray *winControllers;
 	BOOL	flag = [self isAAThread];
 	winControllers = [self windowControllers];
 	if ([winControllers count] > 0) {
-		[winControllers makeObjectsPerformSelector: @selector(changeAllMessageAttributesWithAAFlag:)
-										withObject: [NSNumber numberWithBool: flag]];
+		[winControllers makeObjectsPerformSelector:@selector(changeAllMessageAttributesWithAAFlag:)
+										withObject:[NSNumber numberWithBool:flag]];
 	}
 }
 
@@ -268,11 +280,17 @@ NSString *const CMRAbstractThreadDocumentDidToggleDatOchiNotification = @"CMRAbs
 	id foo = [[BoardManager defaultManager] localRulesPanelControllerForBoardName:[self boardNameAsString]];
 	[foo showWindow:self];
 }
+
+- (IBAction)openInBrowser:(id)sender
+{
+	NSURL *url = [CMRThreadAttributes threadURLWithDefaultParameterFromDictionary:[[self threadAttributes] dictionaryRepresentation]];
+	[[NSWorkspace sharedWorkspace] openURL:url inBackground:[CMRPref openInBg]];
+}
 @end
 
-#pragma mark -
+
 @implementation CMRAbstructThreadDocument(ScriptingSupport)
-- (NSTextStorage *) selectedText
+- (NSTextStorage *)selectedText
 {
 	NSAttributedString* attrString;
 	attrString = [[self textStorage] attributedSubstringFromRange:[[[[self windowControllers] lastObject] textView] selectedRange]];
@@ -280,30 +298,33 @@ NSString *const CMRAbstractThreadDocumentDidToggleDatOchiNotification = @"CMRAbs
 	return [storage autorelease];
 }
 
-- (NSDictionary *) threadAttrDict
+- (NSDictionary *)threadAttrDict
 {
 	return [[self threadAttributes] dictionaryRepresentation];
 }
-- (NSString *) threadTitleAsString
+
+- (NSString *)threadTitleAsString
 {
 	return [[self threadAttributes] threadTitle];
 }
 
-- (NSString *) threadURLAsString
+- (NSString *)threadURLAsString
 {
 	return [[[self threadAttributes] threadURL] stringValue];
 }
-- (NSString *) boardNameAsString
+
+- (NSString *)boardNameAsString
 {
 	return [[self threadAttributes] boardName];
 }
-- (NSString *) boardURLAsString
+
+- (NSString *)boardURLAsString
 {
 	return [[[self threadAttributes] boardURL] stringValue];
 }
 
 - (void)handleReloadThreadCommand:(NSScriptCommand*)command
 {
-	[[[self windowControllers] lastObject] reloadThread : nil];
+	[[[self windowControllers] lastObject] reloadThread:nil];
 }
 @end

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.m,v 1.21 2007/10/06 21:12:32 tsawada2 Exp $
+  * $Id: CMRThreadsList.m,v 1.22 2008/02/15 15:41:58 tsawada2 Exp $
   * 
   * CMRThreadsList.m
   *
@@ -22,7 +22,7 @@ NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserIn
 
 
 @implementation CMRThreadsList
-+ (id) threadsListWithBBSName : (NSString *) boardName
+/*+ (id) threadsListWithBBSName : (NSString *) boardName
 {
 	return [[[self alloc] initWithBBSName : boardName] autorelease];
 }
@@ -47,7 +47,7 @@ NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserIn
 {
 	return [self initConcreateWithBBSName : boardName];
 }
-
+*/
 - (id) init
 {
 	if(self = [super init]){
@@ -60,7 +60,7 @@ NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserIn
 {
 	[self removeFromNotificationCenter];
 	
-	[_BBSName release];
+//	[_BBSName release];
 	[_worker release];
 	[_threads release];
 	[_filteredThreads release];
@@ -100,7 +100,7 @@ NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserIn
 								   inTableView : tableView];
 	return [[CMRFavoritesManager defaultManager] addFavoriteWithThread : thread_];
 }*/
-+ (NSString *) objectValueForBoardInfoFormatKey
+/*+ (NSString *) objectValueForBoardInfoFormatKey
 {
 //	return @"Board Info Format";
 	static NSString *base_ = nil;
@@ -120,7 +120,7 @@ NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserIn
 	format_ = [[self class] objectValueForBoardInfoFormatKey];
 	[tmp appendFormat : format_, [self numberOfThreads]];
 	return tmp;
-}
+}*/
 - (void) doLoadThreadsList : (CMRThreadLayout *) worker
 {
 	UTILAbstractMethodInvoked;
@@ -133,7 +133,7 @@ NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserIn
 @end
 
 
-
+/*
 @implementation CMRThreadsList(PrivateAccessor)
 - (void) setBBSName : (NSString *) boardName
 {
@@ -144,7 +144,7 @@ NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserIn
 	[tmp release];
 }
 @end
-
+*/
 
 
 @implementation CMRThreadsList(AccessingList)
@@ -224,13 +224,15 @@ NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserIn
 
 
 @implementation CMRThreadsList(Attributes)
-- (NSString *) BBSName
+/*- (NSString *) BBSName
 {
 	return _BBSName;
-}
-- (NSString *) boardName
+}*/
+- (NSString *)boardName
 {
-	return [self BBSName];
+//	return [self BBSName];
+	UTILAbstractMethodInvoked;
+	return nil;
 }
 - (NSString *) threadsListPath
 {

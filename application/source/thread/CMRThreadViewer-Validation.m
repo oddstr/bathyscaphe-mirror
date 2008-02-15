@@ -1,5 +1,5 @@
 /*
-    $Id: CMRThreadViewer-Validation.m,v 1.38 2008/02/10 14:24:51 tsawada2 Exp $
+    $Id: CMRThreadViewer-Validation.m,v 1.39 2008/02/15 15:41:58 tsawada2 Exp $
     CMRThreadViewer-Action.m から独立
     Created at 2005-02-16 by tsawada2.
 */
@@ -347,9 +347,9 @@ static int messageMaskForTag(int tag)
 	if (action_ == @selector(reloadThread:))
 		return ([self threadAttributes] && ![(CMRThreadDocument *)[self document] isDatOchiThread]);
 	
-	if (action_ == @selector(openInBrowser:)) {
+/*	if (action_ == @selector(openInBrowser:)) {
 		return ([[self selectedThreadsReallySelected] count] || [self threadURL]);
-	}
+	}*/
 
 	return [super validateUserInterfaceItem: theItem];
 }

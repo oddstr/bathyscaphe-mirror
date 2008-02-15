@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.26 2008/01/08 16:19:03 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.27 2008/02/15 15:41:58 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright (c) 2003, Takanori Ishikawa.
@@ -87,11 +87,7 @@
 - (NSString *) bbsIdentifier;
 - (NSArray *) cachedKeywords;
 - (void) setCachedKeywords: (NSArray *) array;
-
-// testing: BathyScaphe 1.5
-- (NSString *) boardNameArrowingSecondSource;
 @end
-
 
 
 @interface CMRThreadViewer(Action)
@@ -112,7 +108,7 @@
 
 - (IBAction) copySelectedResURL : (id) sender;
 - (IBAction) reloadIfOnlineMode : (id) sender;
-- (IBAction) openInBrowser : (id) sender;
+//- (IBAction) openInBrowser : (id) sender;
 - (IBAction) openBBSInBrowser : (id) sender;
 - (IBAction) addFavorites : (id) sender;
 

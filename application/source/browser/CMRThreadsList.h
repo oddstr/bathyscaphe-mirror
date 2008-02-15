@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.h,v 1.16 2008/02/10 14:24:51 tsawada2 Exp $
+  * $Id: CMRThreadsList.h,v 1.17 2008/02/15 15:41:58 tsawada2 Exp $
   * 
   * CMRThreadsList.h
   *
@@ -22,7 +22,7 @@ enum {
 
 @interface CMRThreadsList : NSObject 
 {
-	NSString				*_BBSName;
+//	NSString				*_BBSName;
 	CMRThreadLayout			*_worker;
 	
 	NSMutableArray			*_threads;
@@ -31,8 +31,8 @@ enum {
 	BOOL		_isAscending;
 }
 
-- (id) initWithBBSName : (NSString *) boardName;
-+ (id) threadsListWithBBSName : (NSString *) boardName;
+//- (id) initWithBBSName : (NSString *) boardName;
+//+ (id) threadsListWithBBSName : (NSString *) boardName;
 
 /**
   * 
@@ -53,14 +53,14 @@ enum {
 //- (BOOL) addFavoriteAtRowIndex : (int          ) rowIndex
 //				   inTableView : (NSTableView *) tableView;
 
-- (id) objectValueForBoardInfo;
+//- (id) objectValueForBoardInfo;
 @end
 
-
+/*
 @interface CMRThreadsList(PrivateAccessor)
 - (void) setBBSName : (NSString *) boardName;
 @end
-
+*/
 
 @interface CMRThreadsList(CleanUp)
 - (void) cleanUpItemsToBeRemoved : (NSArray *) files;
@@ -92,7 +92,7 @@ enum {
 
  
 @interface CMRThreadsList(Attributes)
-- (NSString *) BBSName;
+//- (NSString *) BBSName;
 - (NSString *) boardName;
 //- (NSString *) threadsListPath; // Deprecated in Twincam Angel and later.
 - (NSURL *) boardURL;
@@ -104,26 +104,26 @@ enum {
 
 
 @interface CMRThreadsList(Filter)
-- (void) filterByDisplayingThreadAtPath : (NSString *) filepath;
+//- (void) filterByDisplayingThreadAtPath : (NSString *) filepath;
 - (void) filterByStatus : (int) status;
 
 // Available in MeteorSweeper.
 - (BOOL) filterByString: (NSString *) searchString;
 
-- (NSArray *) _arrayWithStatus : (ThreadStatus    ) status
+/*- (NSArray *) _arrayWithStatus : (ThreadStatus    ) status
                fromSortedArray : (NSMutableArray *) array
-			     subarrayRange : (NSRangePointer  ) aRange;
+			     subarrayRange : (NSRangePointer  ) aRange;*/
 @end
 
 
 
 @interface CMRThreadsList(SearchThreads)
 - (NSMutableDictionary *) seachThreadByPath : (NSString *) filepath;
-- (NSMutableDictionary *) seachThreadByPath : (NSString *) filepath
-									inArray : (NSArray  *) array;
+//- (NSMutableDictionary *) seachThreadByPath : (NSString *) filepath
+//									inArray : (NSArray  *) array;
 
 // Added in TestaRossa and later.
-- (NSArray *) _searchThreadsInArray : (NSArray *) array context : (NSString *) context;
+//- (NSArray *) _searchThreadsInArray : (NSArray *) array context : (NSString *) context;
 @end
 
 
@@ -178,9 +178,9 @@ enum {
 
 
 @interface CMRThreadsList(ListImport)
-+ (void) clearAttributes : (NSMutableDictionary *) attributes;
+//+ (void) clearAttributes : (NSMutableDictionary *) attributes;
 + (NSMutableDictionary *) attributesForThreadsListWithContentsOfFile : (NSString *) path;
-+ (id) threadsListTemplateWithPath : (NSString *) path;
+//+ (id) threadsListTemplateWithPath : (NSString *) path;
 @end
 
 // Notification

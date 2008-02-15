@@ -110,12 +110,11 @@ extern NSString *const CMRThreadViewerRunSpamFilterNotification;
 @interface CMRThreadViewer(ActionSupport)
 - (CMRReplyMessenger *)replyMessenger;
 - (void) addMessenger : (CMRReplyMessenger *) aMessenger;
-//- (CMRReplyMessenger *) messenger : (BOOL) create;
 - (void) replyMessengerDidFinishPosting : (NSNotification *) aNotification;
 - (void) removeMessenger : (CMRReplyMessenger *) aMessenger;
 
 - (void) openThreadsInThreadWindow : (NSArray *) threads;
-- (void) openThreadsInBrowser : (NSArray *) threads;
+//- (void) openThreadsInBrowser : (NSArray *) threads;
 @end
 
 

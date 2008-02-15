@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Updated by Tsutomu Sawada on 07/12/24.
-//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -52,7 +52,9 @@
 @interface CMRReplyMessenger(Action)
 - (IBAction)sendMessage:(id)sender;
 - (IBAction)toggleBeLogin:(id)sender;
-- (IBAction)revealInFinder:(id)sender; // Available in Twincam Angel.
+- (IBAction)revealInFinder:(id)sender; // Available in Twincam Angel and later.
+- (IBAction)showLocalRules:(id)sender; // Available in SilverGull and later.
+- (IBAction)openBBSInBrowser:(id)sender; // Available in SilverGull and later.
 @end
 
 

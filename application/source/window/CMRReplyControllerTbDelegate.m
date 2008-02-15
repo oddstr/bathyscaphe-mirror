@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Updated by Tsutomu Sawada on 07/08/05.
-//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -50,6 +50,24 @@ static NSString *const kShowLocalRulesImageName = @"Emoticon";
 	return kReplyWindowToolbarIdentifier;
 }
 @end
+
+
+@implementation CMRReplyControllerTbDelegate(Private)
+- (NSArray *)unsupportedItemsArray
+{
+	static NSArray *re_cachedArray = nil;
+
+	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_3) {
+		return [super unsupportedItemsArray];
+	}
+
+	if (!re_cachedArray) {
+		re_cachedArray = [[[super unsupportedItemsArray] arrayByAddingObject:kShowLocalRulesIdentifier] retain];
+	}
+	return re_cachedArray;
+}
+@end
+
 
 @implementation CMRReplyControllerTbDelegate(Protected)
 - (void)setupInsertTemplateItem:(NSToolbarItem *)anItem itemView:(NSPopUpButton *)aView
@@ -109,7 +127,7 @@ static NSString *const kShowLocalRulesImageName = @"Emoticon";
 
 	item_ = [self appendToolbarItemWithItemIdentifier:kShowLocalRulesIdentifier
 									localizedLabelKey:kShowLocalRulesLabelKey
-							 localizedPaletteLabelKey:kShowLocalRulesPaletteLabelKey
+							 localizedPaletteLabelKey:kShowLocalRulesLabelKey
 								  localizedToolTipKey:kShowLocalRulesToolTipKey
 											   action:@selector(showLocalRules:)
 											   target:nil];
@@ -172,8 +190,8 @@ static NSString *const kShowLocalRulesImageName = @"Emoticon";
 				kSendMessageIdentifier,
 				NSToolbarSeparatorItemIdentifier,
 				kInsertTemplateIdentifier,
-				NSToolbarFlexibleSpaceItemIdentifier,
 				kShowLocalRulesIdentifier,
+				NSToolbarFlexibleSpaceItemIdentifier,
 				kBeLoginIdentifier,
 				nil];
 }

@@ -1,3 +1,29 @@
+2008-02-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/bbs/BSBoardInfoInspector.m
+	* application/source/browser/BSDBThreadList.m
+	* application/source/browser/CMRBrowser-List.m
+		微修正。
+	* application/source/browser/Browser.m
+	* application/source/browser/CMRBrowser.m
+		ウインドウタイトルの表示コードを整理。基本的に Browser (NSDocument) の -displayName で済ませてしまうようにした。
+	* application/source/browser/CMRThreadsList.h
+	* application/source/browser/CMRThreadsList.m
+	* application/source/thread/CMRThreadViewer.m
+		ソースの整理と不要なヘッダ宣言のコメントアウト推進。
+	* application/source/thread/CMRAbstructThreadDocument.m
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/thread/CMRThreadViewer-Validation.m
+		-openInBrowser: アクションを CMRThreadViewer(NSWindowController) から CMRAbstructThreadDocument(NSDocument) に持ち替えた。
+	* application/source/view/ThreadsListTable.m
+		-openInBrowser:（Web ブラウザで開く）のアクションをここにも書いた。responder chain の仕組みを使って 3ペイン時の target 振り分けを
+		行なう際により簡潔に処理できる。
+	* application/source/window/CMRReplyControllerTbDelegate.m
+		「ローカルルールを表示」ツールバー項目は -[NSToolbarItem palettelabel] と -[NSToolbarItem label] で違う文字列をセットしていたが、
+		これが原因で描画に不具合が発生するケースが確認されたため、とりあえず両方とも同じ文字列にした。
+	* application/source/window/CMRReplyMessenger.m
+		1st responder が CMRReplyMessenger (or its subclass) のとき、「掲示板」＞「ローカルルールを表示」の menu item validation が
+		不適切だった問題を修正。
+=================================================
 2008-02-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadViewer.m
 		「表示」環境設定で「AA フォントを自動的に適用する」が「切」になっていると、「迷惑レス」環境設定で「AA を迷惑レスとして扱う」を「入」にしても

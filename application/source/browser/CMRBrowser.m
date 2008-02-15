@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Updated by Tsutomu Sawada on 07/08/26.
-//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -62,25 +62,8 @@ CMRBrowser *CMRMainBrowser = nil;
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName
 {
-	NSString		*threadTitle_ = [[[self currentThreadsList] objectValueForBoardInfo] stringValue];
-
-	if ([[self document] searchString]) {
-		/* 2005-09-28 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-		   検索結果を表示している間は、それを優先し、ウインドウタイトルの変更を抑制する。*/
-		/* 2006-12-14 masakih <masakih@users.sourceforge.jp>
-		   ではここで検索結果を表示してしまえばいい。 */
-		unsigned foundNum = [[self currentThreadsList] numberOfFilteredThreads];
-		
-		if (0 == foundNum) {
-			threadTitle_ = [self localizedString:kSearchListNotFoundKey];
-		} else {
-			threadTitle_ = [NSString stringWithFormat:[self localizedString:kSearchListResultKey], foundNum];
-		}
-	}
-	
-	if (!threadTitle_) return displayName;
-	
-	return [NSString stringWithFormat:@"%@ (%@)", displayName, threadTitle_];
+	// スーパークラス（CMRThreadViewer）が行なっている処理は CMRBrowser では不要なので、単に displayName を返す。
+	return displayName;
 }
 
 - (void)exchangeOrDisposeMainBrowser
@@ -142,16 +125,6 @@ CMRBrowser *CMRMainBrowser = nil;
 	[self selectRowWithCurrentThread];
 }
 
-- (NSString *)boardNameArrowingSecondSource
-{
-	NSString *firstSource = [self boardName];
-	if(firstSource)
-		return firstSource;
-
-	NSString *secondSource = [[self currentThreadsList] BBSName];
-	return secondSource;
-}
-
 - (void)document:(NSDocument *)aDocument willRemoveController:(NSWindowController *)aController
 {
 	[self setCurrentThreadsList:nil];
@@ -170,7 +143,7 @@ CMRBrowser *CMRMainBrowser = nil;
 
 - (IBAction)showBoardInspectorPanel:(id)sender
 {
-	NSString *board = [[self currentThreadsList] BBSName];
+	NSString *board = [[self currentThreadsList] boardName];
 	if (board) [[BSBoardInfoInspector sharedInstance] showInspectorForTargetBoard:board];
 }
 @end

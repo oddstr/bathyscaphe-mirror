@@ -1,76 +1,74 @@
-//:CMRAbstructThreadDocument.h
-/**
-  *
-  * ƒXƒŒƒbƒh‚Ì‘—Þi’ŠÛƒNƒ‰ƒXj
-  *
-  * @author Takanori Ishikawa
-  * @author http://www15.big.or.jp/~takanori/
-  * @version 1.0.9a2 (03/01/20  4:51:51 PM)
-  *
-  */
+//
+//  CMRAbstructThreadDocument.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 08/02/14.
+//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import <Cocoa/Cocoa.h>
 
 @class CMRThreadAttributes;
 @class BSRelativeKeywordsCollector;
 
-
-@interface CMRAbstructThreadDocument : NSDocument
-{
+@interface CMRAbstructThreadDocument : NSDocument {
 	CMRThreadAttributes			*_threadAttributes;
 	NSTextStorage				*_textStorage;
-	NSArray				*m_keywords;
+	NSArray						*m_keywords;
 	BSRelativeKeywordsCollector	*m_collector;
 }
 
-- (CMRThreadAttributes *) threadAttributes;
-- (void) setThreadAttributes : (CMRThreadAttributes *) attributes;
-- (BOOL) isAAThread;
-- (void) setIsAAThread: (BOOL) flag;
-- (BOOL) isDatOchiThread;
-- (void) setIsDatOchiThread: (BOOL) flag;
-- (BOOL) isMarkedThread;
-- (void) setIsMarkedThread: (BOOL) flag;
-- (NSArray *) cachedKeywords;
-- (void) setCachedKeywords: (NSArray *) array;
+- (CMRThreadAttributes *)threadAttributes;
+- (void)setThreadAttributes:(CMRThreadAttributes *)attributes;
+- (BOOL)isAAThread;
+- (void)setIsAAThread:(BOOL)flag;
+- (BOOL)isDatOchiThread;
+- (void)setIsDatOchiThread:(BOOL)flag;
+- (BOOL)isMarkedThread;
+- (void)setIsMarkedThread:(BOOL)flag;
+- (NSArray *)cachedKeywords;
+- (void)setCachedKeywords:(NSArray *)array;
 - (BSRelativeKeywordsCollector *) keywordsCollector;
 /**
   *
-  * ƒXƒŒƒbƒh‚ªØ‚è‘Ö‚í‚é‚Æ‚«A
-  * ƒTƒuƒNƒ‰ƒX‘¤‚É’ñ‹Ÿ‚³‚ê‚éƒtƒbƒN
-  * ‚±‚ê‚ªŒÄ‚Î‚ê‚é‚Æ‚«‚ÍV‚µ‚¢CMRThreadAttributes
-  * ‚Í‚·‚Å‚ÉƒCƒ“ƒXƒ^ƒ“ƒX•Ï”‚Å•ÛŽ‚³‚ê‚Ä‚¢‚é
+  * ã‚¹ãƒ¬ãƒƒãƒ‰ãŒåˆ‡ã‚Šæ›¿ã‚ã‚‹ã¨ãã€
+  * ã‚µãƒ–ã‚¯ãƒ©ã‚¹å´ã«æä¾›ã•ã‚Œã‚‹ãƒ•ãƒƒã‚¯
+  * ã“ã‚ŒãŒå‘¼ã°ã‚Œã‚‹ã¨ãã¯æ–°ã—ã„CMRThreadAttributes
+  * ã¯ã™ã§ã«ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°ã§ä¿æŒã•ã‚Œã¦ã„ã‚‹
   *
   */
-- (void) replace : (CMRThreadAttributes *) oldAttrs
-			with : (CMRThreadAttributes *) newAttrs;
+// Deprecated... Use NSDocument's -setDocument hook future, I wonder...
+//- (void) replace : (CMRThreadAttributes *) oldAttrs
+//			with : (CMRThreadAttributes *) newAttrs;
 
-- (NSTextStorage *) textStorage;
-- (void) setTextStorage : (NSTextStorage *) aTextStorage;
+- (NSTextStorage *)textStorage;
+- (void)setTextStorage:(NSTextStorage *)aTextStorage;
 
-- (BOOL) windowAlreadyExistsForPath : (NSString *) filePath;
+// Deprecated...
+//- (BOOL) windowAlreadyExistsForPath : (NSString *) filePath;
 
-// NSWindowController ‚©‚ç NSDocument ‚Ö‚Ì Action Ž‚¿‘Ö‚¦i‚â‚è‚â‚·‚¢‚à‚Ì‚©‚ç‚â‚Á‚Ä‚¢‚­j
+// IBActions
 // Available in Starlight Breaker.
-- (IBAction) showDocumentInfo: (id) sender;
-- (IBAction) showMainBrowser: (id) sender;
-- (IBAction) toggleAAThread: (id) sender;
-- (IBAction) toggleDatOchiThread: (id) sender;
-- (IBAction) toggleMarkedThread: (id) sender;
-- (IBAction) toggleAAThreadFromInfoPanel: (id) sender;
-
-// Available in Twincam Angel.
-- (IBAction)revealInFinder:(id)sender;
+- (IBAction)showDocumentInfo:(id)sender;
+- (IBAction)showMainBrowser:(id)sender;
+- (IBAction)toggleAAThread:(id)sender;
+- (IBAction)toggleDatOchiThread:(id)sender;
+- (IBAction)toggleMarkedThread:(id)sender;
+- (IBAction)toggleAAThreadFromInfoPanel:(id)sender;
+- (IBAction)revealInFinder:(id)sender; // Available in Twincam Angel and later.
+- (IBAction)openInBrowser:(id)sender; // Available in SilverGull and later.
 @end
 
 /* for AppleScript */
 @interface CMRAbstructThreadDocument(ScriptingSupport)
-- (NSTextStorage *) selectedText;
+- (NSTextStorage *)selectedText;
 
-- (NSDictionary *) threadAttrDict;
-- (NSString *) threadTitleAsString;
-- (NSString *) threadURLAsString;
-- (NSString *) boardNameAsString;
-- (NSString *) boardURLAsString;
+- (NSDictionary *)threadAttrDict;
+- (NSString *)threadTitleAsString;
+- (NSString *)threadURLAsString;
+- (NSString *)boardNameAsString;
+- (NSString *)boardURLAsString;
 
 - (void)handleReloadThreadCommand:(NSScriptCommand*)command;
 @end

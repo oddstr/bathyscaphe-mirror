@@ -292,7 +292,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 
 	if ([winController_ respondsToSelector:@selector(currentThreadsList)]) {
 		NSString *tmp_;
-		tmp_ = [[winController_ currentThreadsList] BBSName];
+		tmp_ = [[winController_ currentThreadsList] boardName];
 		if (!tmp_) return;
 		[self setCurrentTargetBoardName:tmp_];
 		[[self window] update];

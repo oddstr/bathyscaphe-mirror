@@ -96,7 +96,10 @@
 
 - (void)showThreadsListWithBoardName:(NSString *)boardName
 {
-	[self showThreadList:[BSDBThreadList threadsListWithBBSName:boardName] forceReload:NO];
+//	[self showThreadList:[BSDBThreadList threadsListWithBBSName:boardName] forceReload:NO];
+	id item = [[BoardManager defaultManager] itemForName:boardName];
+	if (!item) return;
+	[self showThreadsListForBoard:item];
 }
 
 - (void)showThreadsListForBoard:(id)board

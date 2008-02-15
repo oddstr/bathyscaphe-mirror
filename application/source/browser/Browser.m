@@ -71,10 +71,28 @@
 
 - (NSString *)displayName
 {
-	BSDBThreadList		*list_;
+	static NSString *base_ = nil;
+	if (!base_) {
+		base_ = [NSLocalizedStringFromTable(@"Board Info Format", @"ThreadsList", @"") retain];
+	}
 
-	list_ = [self currentThreadsList];
-	return list_ ? [list_ boardName] : nil;
+	BSDBThreadList		*list_ = [self currentThreadsList];
+	if (!list_) return [super displayName];
+	NSString *foo;
+
+	if ([self searchString]) {
+		unsigned foundNum = [list_ numberOfFilteredThreads];
+		
+		if (0 == foundNum) {
+			foo = NSLocalizedStringFromTable(kSearchListNotFoundKey, @"ThreadViewer", @"");//[self localizedString:kSearchListNotFoundKey];
+		} else {
+			foo = [NSString stringWithFormat:NSLocalizedStringFromTable(kSearchListResultKey, @"ThreadViewer", @""), foundNum];
+		}
+	} else {
+		foo = [NSString stringWithFormat:base_, [list_ numberOfThreads]];
+	}
+
+	return [NSString stringWithFormat:@"%@ (%@)", [list_ boardName], foo];
 }
 
 - (BOOL)readFromFile:(NSString *)fileName ofType:(NSString *)type

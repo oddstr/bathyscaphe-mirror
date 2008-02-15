@@ -51,28 +51,6 @@
 	return nil;
 }
 
-/*- (CMRReplyMessenger *)messenger:(BOOL)create
-{
-	NSDocumentController		*docc_;
-	CMRReplyDocumentFileManager	*replyMgr_;
-	CMRReplyMessenger			*document_;
-	NSString					*reppath_;
-	
-	docc_ = [NSDocumentController sharedDocumentController];
-	replyMgr_ = [CMRReplyDocumentFileManager defaultManager];
-	reppath_ = [replyMgr_ replyDocumentFilepathWithLogPath : [self path]];
-	document_ = [docc_ documentForFileName:reppath_];
-
-	if (document_ || !create) {
-		return document_;
-	}
-
-	[replyMgr_ createDocumentFileIfNeededAtPath:reppath_ contentInfo:[self selectedThread]];
-
-	document_ = [docc_ openDocumentWithContentsOfFile:reppath_ display:YES];
-	return document_;
-}*/
-
 - (void)addMessenger:(CMRReplyMessenger *)aMessenger
 {
 	[[NSNotificationCenter defaultCenter]
@@ -113,7 +91,7 @@
 {
 	// subclass should override this method
 }
-
+/*
 - (void)openThreadsInBrowser:(NSArray *)threads
 {
 	NSEnumerator		*Iter_;
@@ -125,7 +103,7 @@
 		url_ = [CMRThreadAttributes threadURLWithDefaultParameterFromDictionary:threadAttributes_];
 		[[NSWorkspace sharedWorkspace] openURL:url_ inBackground:[CMRPref openInBg]];
 	}
-}
+}*/
 @end
 
 
@@ -378,34 +356,6 @@
 
 - (IBAction)reply:(id)sender
 {
-/*	NSEnumerator		*iter_;
-	NSArray				*selectedThreads_;
-	NSDictionary		*threadAttributes_;
-	
-	selectedThreads_ = [self selectedThreads];
-	iter_ = [selectedThreads_ objectEnumerator];
-	while ((threadAttributes_ = [iter_ nextObject])) {
-		CMRReplyMessenger		*document_;
-		NSDocumentController	*docc_;
-		NSString				*filepath_;
-		NSString				*reppath_;
-		
-		docc_ = [NSDocumentController sharedDocumentController];
-		filepath_ =  [CMRThreadAttributes pathFromDictionary:threadAttributes_];
-		reppath_ = [[CMRReplyDocumentFileManager defaultManager]
-						replyDocumentFilepathWithLogPath:filepath_];
-		document_ = [docc_ documentForFileName:reppath_];
-		if (document_) {
-			[document_ showWindows];
-			continue;
-		}
-
-		if ([filepath_ isSameAsString:[self path]]) {
-			document_ = [self messenger:YES];
-			[self addMessenger:document_];
-			[self quoteWithMessenger:document_];
-		}
-	}*/
 	if (![self path]) return;
 	CMRReplyMessenger *document = [self replyMessenger];
 
@@ -416,7 +366,6 @@
 	}
 
 	[document showWindows];
-//	[self addMessenger:document];
 	[self quoteWithMessenger:document];
 }
 
@@ -433,12 +382,12 @@
 		[[NSWorkspace sharedWorkspace] openURL:boardURL_ inBackGround:[CMRPref openInBg]];
 	}
 }
-
+/*
 - (IBAction)openInBrowser:(id)sender
 {
 	[self openThreadsInBrowser:[self targetThreadsForAction:_cmd]];
 }
-
+*/
 - (IBAction)addFavorites:(id)sender
 {
 	NSEnumerator			*Iter_;
@@ -561,11 +510,8 @@
 
 - (IBAction)showBoardInspectorPanel:(id)sender
 {
-	NSString			*board;
-	
-	board = [self boardNameArrowingSecondSource];
-
-	[[BSBoardInfoInspector sharedInstance] showInspectorForTargetBoard:board];
+	NSString *board = [self boardName];
+	if (board) [[BSBoardInfoInspector sharedInstance] showInspectorForTargetBoard:board];
 }
 
 - (IBAction)extractUsingSelectedText:(id)sender

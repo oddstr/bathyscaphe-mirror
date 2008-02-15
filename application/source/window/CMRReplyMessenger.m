@@ -8,10 +8,9 @@
 //
 
 #import "CMRReplyMessenger_p.h"
+#import <SGAppKit/NSWorkspace-SGExtensions.h>
 #import "CMRDocumentFileManager.h"
 #import "CMRThreadSignature.h"
-//#import "BSLocalRulesCollector.h"
-//#import "BSLocalRulesPanelController.h"
 
 NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessengerDidFinishPostingNotification";
 
@@ -353,19 +352,13 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 	[[NSWorkspace sharedWorkspace] selectFile:path inFileViewerRootedAtPath:[path stringByDeletingLastPathComponent]];
 }
 
+- (IBAction)openBBSInBrowser:(id)sender
+{
+	[[NSWorkspace sharedWorkspace] openURL:[self boardURL] inBackground:[CMRPref openInBg]];
+}
+
 - (IBAction)showLocalRules:(id)sender
 {
-//	NSLog(@"Sorry, not implemented yet.");
-/*	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_3) {	
-		BSLocalRulesPanelController *lrc = [[BSLocalRulesPanelController alloc] init];
-		[lrc showWindow:self];
-
-		if ([[lrc window] isVisible]) {
-			BSLocalRulesCollector	*hoge = [[BSLocalRulesCollector alloc] initWithBoardName:[self boardName]];
-			[[lrc objectController] setContent:hoge];
-			[hoge release];
-		}
-	}*/
 	NSWindowController *foo = [[BoardManager defaultManager] localRulesPanelControllerForBoardName:[self boardName]];
 	[foo showWindow:self];
 }
@@ -448,12 +441,13 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 	if (action_ == @selector(sendMessage:)) {
 		return (![self isEndPost] && [[self textStorage] length]);
 	}
+
 	if (action_ == @selector(saveDocument:)) {
-		return ([self isDocumentEdited]);
+		return [self isDocumentEdited];
 	}
 
 	if (action_ == @selector(showLocalRules:)) {
-		return [[BoardManager defaultManager] canUseLocalRulesPanel];
+		return YES;
 	}
 
 	return NO;
@@ -467,27 +461,30 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 		[theItem setTitle:[self localizedString:@"Send Message"]];
 		return (![self isEndPost] && [[self textStorage] length]);
 	}
-
+/*
 	if (action_ == @selector(sendMessage:)) {
 		return (![self isEndPost] && [[self textStorage] length]);
 	}
-	
+*/	
 	if (action_ == @selector(saveDocumentAs:)) {
 		[theItem setTitle:[self localizedString:@"Save Menu Item"]];
-		return ([self isDocumentEdited]);
+		return [self isDocumentEdited];
 	}
 	
 	if (action_ == @selector(revealInFinder:)) {
 		return ([self fileName]);
 	}
+	
+	if (action_ == @selector(openBBSInBrowser:)) {
+		return YES;
+	}
 
 	if (action_ == @selector(showLocalRules:)) {
 		BoardManager *bm = [BoardManager defaultManager];
 		if (![bm canUseLocalRulesPanel]) return NO;
-		[theItem setTitle:[bm isKeyWindowForBoardName:[self boardNameAsString]] ? NSLocalizedString(@"Hide Local Rules", @"")
-																				: NSLocalizedString(@"Show Local Rules", @"")];
+		[theItem setTitle:[bm isKeyWindowForBoardName:[self boardName]] ? NSLocalizedString(@"Hide Local Rules", @"")
+																		: NSLocalizedString(@"Show Local Rules", @"")];
 		return YES;
-//		return YES;
 	}
 
 	return [super validateMenuItem:theItem];
