@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Updated by Tsutomu Sawada on 07/10/13.
-//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -317,17 +317,16 @@
 }
 
 #pragma mark Other IBActions
-/* NOTE: It is a history item's action. */	 
-- (IBAction)showThreadWithMenuItem:(id)sender
+- (IBAction)showThreadFromHistoryMenu:(id)sender // Overrides CMRAppDelegate's one.
 {
-	id historyItem = nil;
+	UTILAssertRespondsTo(sender, @selector(representedObject));
 
-	if ([sender respondsToSelector:@selector(representedObject)]) {
-		id o = [sender representedObject];
-		historyItem = o;
+	if (![self shouldShowContents] || ([NSEvent currentCarbonModifierFlags] & NSCommandKeyMask)) {
+		// 新規ウインドウで開くべし。CMRAppDelegate に転送。
+		[[NSApp delegate] showThreadFromHistoryMenu:sender];
+		return;
 	}
-
-	[self setThreadContentWithThreadIdentifier:historyItem];
+	[self setThreadContentWithThreadIdentifier:[sender representedObject]];
 }
 
 // Save window frame

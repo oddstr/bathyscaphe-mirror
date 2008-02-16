@@ -587,11 +587,11 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 {
 	return [[[[BSThreadListItem threadItemWithFilePath:filePath] attribute] mutableCopy] autorelease];
 }
-- (NSMutableDictionary *)seachThreadByPath : (NSString *)filePath
+/*- (NSMutableDictionary *)seachThreadByPath : (NSString *)filePath
 {
 	return [[self class] attributesForThreadsListWithContentsOfFile:filePath];
 }
-
+*/
 @end
 
 @implementation BSDBThreadList (ToBeRefactoring)

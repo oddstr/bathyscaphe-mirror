@@ -143,8 +143,10 @@
 	if (!threadTitle) threadTitle = @"";
 
 	if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-		[(CMRAbstructThreadDocument *)[self document] setIsDatOchiThread:YES];
-		[self informDatOchiWithTitleRulerIfNeeded];
+		if ([[self threadIdentifier] isEqual:[downloader identifier]]) {
+			[(CMRAbstructThreadDocument *)[self document] setIsDatOchiThread:YES];
+			[self informDatOchiWithTitleRulerIfNeeded];
+		}
 		return;
 	}
 
@@ -181,8 +183,10 @@
 	if (resCount < 1001) {
 		[self beginNotFoundAlertSheetWithDownloader:downloader];
 	} else {
-		[(CMRAbstructThreadDocument *)[self document] setIsDatOchiThread:YES];
-		[self informDatOchiWithTitleRulerIfNeeded];
+		if ([[self threadIdentifier] isEqual:[downloader identifier]]) {
+			[(CMRAbstructThreadDocument *)[self document] setIsDatOchiThread:YES];
+			[self informDatOchiWithTitleRulerIfNeeded];
+		}
 	}
 }
 

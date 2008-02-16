@@ -1,20 +1,111 @@
-{
-    IBClasses = (
-        {
-            CLASS = BSIPIFullScreenController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                "_baseWindow" = NSWindow; 
-                "_imageView" = NSImageView; 
-                "_statusField" = NSTextField; 
-                "m_delegate" = id; 
-                "m_noMoreField" = NSTextField; 
-            }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {CLASS = BSIPIHUDTextField; LANGUAGE = ObjC; SUPERCLASS = NSTextField; }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {CLASS = NSObject; LANGUAGE = ObjC; }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>openScriptsDirectory</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>NSApplication</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>RBSplitView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>RBSplitSubview</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>RBSplitSubview</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>connectorResourceDidCancelLoading</key>
+				<string>id</string>
+				<key>connectorResourceDidFinishLoading</key>
+				<string>id</string>
+				<key>didAdjustSubviews</key>
+				<string>RBSplitView</string>
+				<key>showPreviewerPreferences</key>
+				<string>id</string>
+				<key>togglePreviewPanel</key>
+				<string>id</string>
+				<key>willAdjustSubviews</key>
+				<string>RBSplitView</string>
+			</dict>
+			<key>CLASS</key>
+			<string>NSObject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>BSIPIFullScreenController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>_baseWindow</key>
+				<string>NSWindow</string>
+				<key>_imageView</key>
+				<string>NSImageView</string>
+				<key>_statusField</key>
+				<string>NSTextField</string>
+				<key>m_delegate</key>
+				<string>id</string>
+				<key>m_noMoreField</key>
+				<string>NSTextField</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>BSIPIHUDTextField</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSTextField</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSWindow</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>

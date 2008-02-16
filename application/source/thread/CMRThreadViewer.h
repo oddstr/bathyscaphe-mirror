@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.27 2008/02/15 15:41:58 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.28 2008/02/16 13:49:05 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright (c) 2003, Takanori Ishikawa.
@@ -115,7 +115,8 @@
 // make text area to be first responder
 - (IBAction) focus : (id) sender;
 // NOTE: It is a history item's action.
-- (IBAction) showThreadWithMenuItem : (id) sender;
+//- (IBAction) showThreadWithMenuItem : (id) sender;
+- (IBAction)showThreadFromHistoryMenu:(id)sender; // Overrides CMRAppDelegate's one.
 @end
 
 

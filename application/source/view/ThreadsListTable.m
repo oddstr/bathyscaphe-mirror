@@ -48,7 +48,39 @@ static NSString *const kBrowserKeyBindingsFile = @"BrowserKeyBindings.plist";
 	
 	return [super dragImageForRowsWithIndexes:dragRows tableColumns:tableColumns event:dragEvent offset:dragImageOffset];
 }
-	
+
+- (NSArray *)attributesArrayForSelectedRowsExceptingPath:(NSString *)exceptingPath
+{
+	id dataSource = [self dataSource];
+	if (!dataSource || ![dataSource respondsToSelector:@selector(threadAttributesAtRowIndex:inTableView:)]) {
+		NSBeep();
+		return;
+	}
+
+	NSIndexSet		*rows = [self selectedRowIndexes];
+	unsigned int	count = [rows count];
+	if (count == 0) return nil;
+
+	NSMutableArray	*mutableArray = [[NSMutableArray alloc] initWithCapacity:count];
+	NSArray			*resultArray;
+
+	unsigned int	element;
+	NSDictionary	*dict;
+	NSString		*threadPath;
+	int				size = [rows lastIndex]+1;
+	NSRange			e = NSMakeRange(0, size);
+
+	while ([rows getIndexes:&element maxCount:1 inIndexRange:&e] > 0) {
+		dict = [dataSource threadAttributesAtRowIndex:element inTableView:self];
+		threadPath = [CMRThreadAttributes pathFromDictionary:dict];
+		if (![threadPath isEqualToString:exceptingPath]) [mutableArray addObject:dict];
+	}
+
+	resultArray = [[NSArray alloc] initWithArray:mutableArray];
+	[mutableArray release];
+	return [resultArray autorelease];
+}
+
 #pragma mark Events
 + (SGKeyBindingSupport *)keyBindingSupport
 {

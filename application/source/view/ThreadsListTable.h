@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Updated by Tsutomu Sawada on 07/10/30.
-//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -14,6 +14,8 @@
 	@private
 	NSArray	*allColumns;	// added in ShortCircuit and later.
 }
+
+- (NSArray *)attributesArrayForSelectedRowsExceptingPath:(NSString *)exceptingPath; // Available in SilverGull and later.
 
 // ShortCircuit Additions
 - (NSObject<NSCoding> *)columnState;

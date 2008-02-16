@@ -309,23 +309,13 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 	[[self textView] scrollPageUp: sender];
 }
 */
-#pragma mark History Menu
-- (IBAction)showThreadWithMenuItem:(id)sender
+- (IBAction)showThreadFromHistoryMenu:(id)sender
 {
 	// 他の板のスレッドに移動することを考え、スレ一覧での選択状態を解除しておく
 	if ([self shouldShowContents]) {
 		[[self threadsListTable] deselectAll:nil];
-		[super showThreadWithMenuItem:sender];
-	} else {
-		id historyItem = nil;
-
-		if ([sender respondsToSelector:@selector(representedObject)]) {
-			id o = [sender representedObject];
-			historyItem = o;
-		}
-
-		[CMRThreadDocument showDocumentWithHistoryItem:historyItem];
 	}
+	[super showThreadFromHistoryMenu:sender];
 }
 
 #pragma mark Deletion

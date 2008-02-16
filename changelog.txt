@@ -1,4 +1,16 @@
 2008-02-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadViewer-Download.m
+		間違ったスレッドに「dat 落ち」印がつく可能性があった部分を修正。
+	* application/subproj/previewer/Japanese.lproj/BSIPIFullScreen.nib
+	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
+		プレビューインスペクタ：
+		- フルスクリーン表示時の進捗状況表示用 NSTextField を BSIPIHUDTextField に変更して視認性を向上。
+		- コンテクストメニューの「イメージを別名で保存…」NSMenuItem の
+		  alternating menu item 属性を解除。
+	* application/source/CMRAppDelegate.m
+	* application/source/browser/CMRBrowser-Action.m
+	* application/source/thread/CMRThreadViewer-Action.m
+		履歴メニューからスレッドを開く処理の実装方法を変更。
 	* application/source/bbs/BSBoardInfoInspector.m
 	* application/source/browser/BSDBThreadList.m
 	* application/source/browser/CMRBrowser-List.m
@@ -23,6 +35,7 @@
 	* application/source/window/CMRReplyMessenger.m
 		1st responder が CMRReplyMessenger (or its subclass) のとき、「掲示板」＞「ローカルルールを表示」の menu item validation が
 		不適切だった問題を修正。
+		あと、書き込みウインドウ（または新規スレッド作成ウインドウ）でも「掲示板」＞「掲示板を Web ブラウザで開く」が使えるようにした。
 =================================================
 2008-02-14 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadViewer.m

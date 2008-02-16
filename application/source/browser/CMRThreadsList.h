@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.h,v 1.17 2008/02/15 15:41:58 tsawada2 Exp $
+  * $Id: CMRThreadsList.h,v 1.18 2008/02/16 13:49:05 tsawada2 Exp $
   * 
   * CMRThreadsList.h
   *
@@ -116,7 +116,7 @@ enum {
 @end
 
 
-
+/*
 @interface CMRThreadsList(SearchThreads)
 - (NSMutableDictionary *) seachThreadByPath : (NSString *) filepath;
 //- (NSMutableDictionary *) seachThreadByPath : (NSString *) filepath
@@ -125,7 +125,7 @@ enum {
 // Added in TestaRossa and later.
 //- (NSArray *) _searchThreadsInArray : (NSArray *) array context : (NSString *) context;
 @end
-
+*/
 
 
 @interface CMRThreadsList(DataSource)

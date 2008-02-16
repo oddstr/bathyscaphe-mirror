@@ -149,20 +149,8 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 
 - (IBAction)showThreadFromHistoryMenu:(id)sender
 {
-    UTILAssertRespondsTo(sender, @selector(representedObject));
-
-	id historyItem = [sender representedObject];
-	id winController = [[NSApp mainWindow] windowController];
-
-	if (winController && [winController respondsToSelector:@selector(showThreadWithMenuItem:)]) {
-		if ([NSEvent currentCarbonModifierFlags] & NSCommandKeyMask) {
-			[CMRThreadDocument showDocumentWithHistoryItem:historyItem];
-		} else {
-			[winController showThreadWithMenuItem:sender];
-		}
-	} else {
-		[CMRThreadDocument showDocumentWithHistoryItem:historyItem];
-	}
+	UTILAssertRespondsTo(sender, @selector(representedObject));
+	[CMRThreadDocument showDocumentWithHistoryItem:[sender representedObject]];
 }
 
 - (IBAction)showBoardFromHistoryMenu:(id)sender
