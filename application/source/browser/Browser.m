@@ -193,7 +193,6 @@
 		return [BoardListItem isBoardItem:[[self currentThreadsList] boardListItem]] && ![self searchString];
 	} else if (action_ == @selector(showLocalRules:)) {
 		BoardManager *bm = [BoardManager defaultManager];
-		if (![bm canUseLocalRulesPanel]) return NO;
 		if ([BoardListItem isBoardItem:[[self currentThreadsList] boardListItem]]) {
 			BOOL	 isVisible = [bm isKeyWindowForBoardName:[self boardNameAsString]];
 			

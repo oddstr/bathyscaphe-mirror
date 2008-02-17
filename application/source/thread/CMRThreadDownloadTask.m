@@ -19,11 +19,10 @@
 - (void) doExecuteWithLayout : (CMRThreadLayout *) layout
 {
 //	[CMRMainMessenger target : _threadViewer
-//			 performSelector : @selector(startDownload_veryPrivate)
+//			 performSelector : @selector(reloadThread)
 //				  withResult : YES];
-	[CMRMainMessenger target : _threadViewer
-			 performSelector : @selector(reloadThread)
-				  withResult : YES];
+// 2008-02-18
+	[_threadViewer performSelectorOnMainThread:@selector(reloadThread) withObject:nil waitUntilDone:YES];
 }
 
 

@@ -481,7 +481,6 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 
 	if (action_ == @selector(showLocalRules:)) {
 		BoardManager *bm = [BoardManager defaultManager];
-		if (![bm canUseLocalRulesPanel]) return NO;
 		[theItem setTitle:[bm isKeyWindowForBoardName:[self boardName]] ? NSLocalizedString(@"Hide Local Rules", @"")
 																		: NSLocalizedString(@"Show Local Rules", @"")];
 		return YES;

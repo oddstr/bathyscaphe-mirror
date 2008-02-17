@@ -1,11 +1,12 @@
-/**
-  * $Id: CMRThreadComposingTask.m,v 1.3 2007/01/07 17:04:23 masakih Exp $
-  * 
-  * CMRThreadComposingTask.m
-  *
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  CMRThreadComposingTask.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 08/02/18.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import "CMRThreadComposingTask_p.h"
 #import "CMRThreadMessageBuffer.h"
 #import "CMRThreadMessage.h"
@@ -16,30 +17,31 @@
 #define DEBUG_COMPOSING_TIME	0
 #define MARKED_RANGE_LENGTH		5
 
-NSString *const CMRThreadComposingDidFinishNotification = @"CMRThreadComposingDidFinishNotification";
-//NSString *const CMRThreadComposingCallbackNotification = @"CMRThreadComposingCallbackNotification";
-
+//NSString *const CMRThreadComposingDidFinishNotification = @"CMRThreadComposingDidFinishNotification";
 
 
 @implementation CMRThreadComposingTask
-+ (id) taskWithThreadReader : (CMRThreadContentsReader *) aReader
-{
-	return [[[self alloc] initWithThreadReader : aReader] autorelease];
-}
-- (id) init
+- (id)init
 {
 	if (self = [super init]) {
-		[self setCallbackIndex : NSNotFound];
+		[self setCallbackIndex:NSNotFound];
 	}
 	return self;
 }
-- (id) initWithThreadReader : (CMRThreadContentsReader *) aReader
+
++ (id)taskWithThreadReader:(CMRThreadContentsReader *)aReader
 {
-	if (self = [self init]) 
-		[self setReader : aReader];
-	
+	return [[[self alloc] initWithThreadReader:aReader] autorelease];
+}
+
+- (id)initWithThreadReader:(CMRThreadContentsReader *)aReader
+{
+	if (self = [self init]) {
+		[self setReader:aReader];
+	}
 	return self;
 }
+
 - (void) dealloc
 {
 	[_threadTitle release];
@@ -49,98 +51,111 @@ NSString *const CMRThreadComposingDidFinishNotification = @"CMRThreadComposingDi
 	[super dealloc];
 }
 
-// CMRTask:
-- (NSString *) threadTitle
+#pragma mark Accessors
+- (NSString *)threadTitle
 {
-	return (_threadTitle != nil) 
-		? _threadTitle
-		: [[[self reader] threadAttributes] objectForKey : CMRThreadTitleKey];
+	return _threadTitle ? _threadTitle : [[[self reader] threadAttributes] objectForKey:CMRThreadTitleKey];
 }
 
-- (void) setThreadTitle : (NSString *) aThreadTitle
+- (void)setThreadTitle:(NSString *)aThreadTitle
 {
-	id		tmp;
-	
-	tmp = _threadTitle;
-	_threadTitle = [aThreadTitle retain];
-	[tmp release];
-}
-- (NSString *) titleFormat
-{
-	return [self localizedString : @"%@ Converting..."];
-}
-- (NSString *) title
-{
-	return (nil == [self titleFormat]) ? [self threadTitle]
-			: [NSString stringWithFormat : 
-				[self titleFormat],
-				[self threadTitle]];
-}
-- (NSString *) messageFormat;
-{
-	return [self localizedString : @"Now Converting..."];
-}
-- (NSString *) messageInProgress;
-{
-	return (nil == [self messageFormat])
-			? [self title]
-			: [NSString stringWithFormat : 
-					[self messageFormat], [self threadTitle]];
+	[aThreadTitle retain];
+	[_threadTitle release];
+	_threadTitle = aThreadTitle;
 }
 
-- (double) amount
-{
-	return (0 == _didComposedCount || 0 == _willComposeLength)
-			? -1
-			: (double)_didComposedCount / _willComposeLength * 100.0;
-}
-- (unsigned int) callbackIndex
+- (unsigned int)callbackIndex
 {
 	return _callbackIndex;
 }
-- (void) setCallbackIndex : (unsigned int) aCallbackIndex
+
+- (void) setCallbackIndex:(unsigned int)aCallbackIndex
 {
 	_callbackIndex = aCallbackIndex;
 }
 
-/*- (void) postCallbackIndexNotification
+- (CMRThreadContentsReader *)reader
 {
-	[self checkIsInterrupted];
-	if ([self callbackIndex] != NSNotFound) {
-		[CMRMainMessenger postNotificationName : 
-					CMRThreadComposingCallbackNotification
-							object : self];
-		[self setCallbackIndex : NSNotFound];
-	}
-	[self checkIsInterrupted];
-}*/
-// í«â¡ÇµÇƒÅAÉoÉbÉtÉ@Çè¡ãé
-- (void) performsAppendingTextFromBuffer : (NSMutableAttributedString *) aTextBuffer
+	return _reader;
+}
+
+- (void)setReader:(CMRThreadContentsReader *)aReader
+{
+	[aReader retain];
+	[_reader release];
+	_reader = aReader;
+}
+
+- (id)delegate
+{
+	return _delegate;
+}
+
+- (void)setDelegate:(id)aDelegate
+{
+	_delegate = aDelegate;
+}
+
+#pragma mark CMRTask Protocol (and more)
+- (NSString *)titleFormat
+{
+	return [self localizedString:@"%@ Converting..."];
+}
+
+- (NSString *)messageFormat
+{
+	return [self localizedString:@"Now Converting..."];
+}
+
+- (NSString *)title
+{
+	return [NSString stringWithFormat:[self titleFormat], [self threadTitle]];
+}
+- (NSString *)messageInProgress
+{
+	return [NSString stringWithFormat:[self messageFormat], [self threadTitle]];
+}
+
+- (double)amount
+{
+	if (_didComposedCount < 1 || _willComposeLength < 1) return -1;
+	
+	return (double)_didComposedCount / _willComposeLength * 100.0;
+}
+
+#pragma mark Others
+- (void)postInterruptedNotification // Overriden 2008-02-18
+{
+	[[self delegate] performSelectorOnMainThread:@selector(threadTaskDidInterrupt:) withObject:self waitUntilDone:YES];
+}
+
+// ËøΩÂä†„Åó„Å¶„ÄÅ„Éê„ÉÉ„Éï„Ç°„ÇíÊ∂àÂéª
+- (void)performsAppendingTextFromBuffer:(NSMutableAttributedString *)aTextBuffer
 {
 	[self checkIsInterrupted];
 	if (aTextBuffer && [aTextBuffer length]) {
-		
-		[aTextBuffer fixAttributesInRange : [aTextBuffer range]];
-		[CMRMainMessenger target : [[self layout] textStorage]
+		[aTextBuffer fixAttributesInRange:[aTextBuffer range]];
+/*		[CMRMainMessenger target : [[self layout] textStorage]
 				 performSelector : @selector(appendAttributedString:)
 					  withObject : aTextBuffer
 					  withResult : YES];
-		[aTextBuffer deleteCharactersInRange : [aTextBuffer range]];
+		// 2008-02-18 */
+		[[[self layout] textStorage] performSelectorOnMainThread:@selector(appendAttributedString:) withObject:aTextBuffer waitUntilDone:YES];
+		[aTextBuffer deleteCharactersInRange:[aTextBuffer range]];
 	}
 	[self checkIsInterrupted];
 }
 
-- (void) synchronizeTemporaryInvisible : (CMRThreadMessageBuffer *) aBuffer
+- (void)synchronizeTemporaryInvisible:(CMRThreadMessageBuffer *)aBuffer
 {
-	NSRange		markedRange_   = kNFRange;
+	NSRange		markedRange_ = kNFRange;
 	unsigned	index_ = [self callbackIndex];
 	
-	[aBuffer synchronizeVisibleRange : [[self reader] visibleRange]];
-	index_ = [aBuffer indexOfMessageWithIndex : index_];
+	[aBuffer synchronizeVisibleRange:[[self reader] visibleRange]];
+	index_ = [aBuffer indexOfMessageWithIndex:index_];
 	if (NSNotFound == index_) return;
 	
-	if (NO == [[aBuffer messageAtIndex : index_] isTemporaryInvisible])
-		return;
+	if (![[aBuffer messageAtIndex:index_] isTemporaryInvisible]) return;
 	
 	markedRange_.location = index_;
 	markedRange_.location = (markedRange_.location > MARKED_RANGE_LENGTH)
@@ -150,7 +165,7 @@ NSString *const CMRThreadComposingDidFinishNotification = @"CMRThreadComposingDi
 	markedRange_ = NSIntersectionRange(markedRange_, NSMakeRange(0, [aBuffer count]));
 	
 	[aBuffer setTemporaryInvisible:NO inRange:markedRange_];
-	
+
 #if 0
 	UTILMethodLog;
 	UTILDescUnsignedInt(index_);
@@ -158,26 +173,18 @@ NSString *const CMRThreadComposingDidFinishNotification = @"CMRThreadComposingDi
 #endif
 }
 
-- (id) delegate
+- (BOOL)delegateWillCompleteMessages:(CMRThreadMessageBuffer *)aMessageBuffer
 {
-	return _delegate;
-}
-- (void) setDelegate : (id) aDelegate
-{
-	_delegate = aDelegate;
-}
-- (BOOL) delegate_willCompleteMessages : (CMRThreadMessageBuffer *) aMessageBuffer
-{
-	id		delegate_ = [self delegate];
-	
-	if (delegate_ && [delegate_ respondsToSelector:@selector(threadComposingTask:willCompleteMessages:)])
-	{
+	id delegate_ = [self delegate];
+
+	if (delegate_ && [delegate_ respondsToSelector:@selector(threadComposingTask:willCompleteMessages:)]) {
 		return [delegate_ threadComposingTask:self willCompleteMessages:aMessageBuffer];
 	}
 	
 	return YES;
 }
-- (void) doExecuteWithLayoutImp : (CMRThreadLayout *) theLayout
+
+- (void)doExecuteWithLayoutImp:(CMRThreadLayout *)theLayout
 {
 	CMRThreadMessageBuffer			*buffer_;
 	CMRThreadContentsReader			*reader_;
@@ -195,82 +202,77 @@ NSString *const CMRThreadComposingDidFinishNotification = @"CMRThreadComposingDi
 	buffer_ = [[CMRThreadMessageBuffer alloc] init];
 	reader_ = [[self reader] retain];
 	UTILAssertNotNil(reader_);
-	
+
 	// compose message chain
-	[reader_ composeWithComposer : buffer_];
-	if (0 == nMessages_)
-		[self synchronizeTemporaryInvisible : buffer_];
-	
+	[reader_ composeWithComposer:buffer_];
+	if (0 == nMessages_) {
+		[self synchronizeTemporaryInvisible:buffer_];
+	}
 	// Delegate
-	if (NO == [self delegate_willCompleteMessages : buffer_]) {
+	if (![self delegateWillCompleteMessages:buffer_]) {
 		[reader_ release];
 		[buffer_ release];
 		
 		// cancel: raise exception.
-		[self setIsInterrupted : YES];
+		[self setIsInterrupted:YES];
 		[self checkIsInterrupted];
 	}
-	
-	[theLayout addMessagesFromBuffer : buffer_];
-	
+
+	[theLayout addMessagesFromBuffer:buffer_];
+
 	// compose text storage
 	composer_ = [[CMRAttributedMessageComposer alloc] init];
 	textBuffer_ = [[NSMutableAttributedString alloc] init];
-	[composer_ setContentsStorage : textBuffer_];
-	
+	[composer_ setContentsStorage:textBuffer_];
+
 	iter_ = [[buffer_ messages] objectEnumerator];
 	_didComposedCount = 0;
 	while (m = [iter_ nextObject]) {
 		_didComposedCount++;
 		
-		/* è»ó™Ç≥ÇÍÇΩÉåÉX */
+		// ÁúÅÁï•„Åï„Çå„Åü„É¨„Çπ
 		if ([m isTemporaryInvisible]) {
 			if (NSNotFound == ellipsisIndex) {
 				ellipsisIndex = [m index];
 			}
 		} else {
 			if (ellipsisIndex != NSNotFound) {
-				[theLayout insertEllipsisProxyAttachment:textBuffer_ 
-					atIndex:[textBuffer_ length]
-					fromIndex:ellipsisIndex toIndex:[m index]-1];
+				[theLayout insertEllipsisProxyAttachment:textBuffer_ atIndex:[textBuffer_ length] fromIndex:ellipsisIndex toIndex:[m index]-1];
 			}
 			ellipsisIndex = NSNotFound;
 		}
-		
+
 		mesRange_ = NSMakeRange([textBuffer_ length], 0);
-		[composer_ composeThreadMessage : m];
+		[composer_ composeThreadMessage:m];
 		mesRange_.length = [textBuffer_ length] - mesRange_.location;
-		/* îÕàÕÇï‚ê≥ÅA addMessageRange: ÇÕíºóÒâªÇ≥ÇÍÇƒÇ¢ÇÈ */
+
+		// ÁØÑÂõ≤„ÇíË£úÊ≠£„ÄÅ addMessageRange: „ÅØÁõ¥ÂàóÂåñ„Åï„Çå„Å¶„ÅÑ„Çã
 		mesRange_.location += textLength_;
-		[theLayout addMessageRange : mesRange_];
-		/* àÍíËÇÃÉåÉXêîñàÇ…ÉåÉCÉAÉEÉg */
+		[theLayout addMessageRange:mesRange_];
+
+		// ‰∏ÄÂÆö„ÅÆ„É¨„ÇπÊï∞ÊØé„Å´„É¨„Ç§„Ç¢„Ç¶„Éà
 		if (0 == (_didComposedCount % NMESSAGES_PER_LAYOUT)) {
-			[self performsAppendingTextFromBuffer : textBuffer_];
+			[self performsAppendingTextFromBuffer:textBuffer_];
 			textLength_ = [textStorage_ length];
-			// ÉRÅ[ÉãÉoÉbÉN
-//			if ([m index] >= [self callbackIndex])
-//				[self postCallbackIndexNotification];
 		}
 	}
-	
+
 	if (ellipsisIndex != NSNotFound) {
-		[theLayout insertEllipsisProxyAttachment:textBuffer_ 
-			atIndex:[textBuffer_ length]
-			fromIndex:ellipsisIndex toIndex:[[buffer_ lastMessage] index]];
+		[theLayout insertEllipsisProxyAttachment:textBuffer_ atIndex:[textBuffer_ length] fromIndex:ellipsisIndex toIndex:[[buffer_ lastMessage] index]];
 	}
-	[self performsAppendingTextFromBuffer : textBuffer_];
-//	[self postCallbackIndexNotification];
+	[self performsAppendingTextFromBuffer:textBuffer_];
 	
-	
-	[CMRMainMessenger postNotificationName : CMRThreadComposingDidFinishNotification
-									object : self];
+/*	[CMRMainMessenger postNotificationName:CMRThreadComposingDidFinishNotification object:self];
+	// 2008-02-18 */
+	[[self delegate] performSelectorOnMainThread:@selector(threadComposingDidFinish:) withObject:self waitUntilDone:NO];
+
 	[textBuffer_ release];
 	[composer_ release];
 	[reader_ release];
 	[buffer_ release];
 }
 
-- (void) doExecuteWithLayout : (CMRThreadLayout *) theLayout
+- (void)doExecuteWithLayout:(CMRThreadLayout *)theLayout
 {
 #if DEBUG_COMPOSING_TIME
 	NSDate			*before;
@@ -278,24 +280,11 @@ NSString *const CMRThreadComposingDidFinishNotification = @"CMRThreadComposingDi
 	before = [NSDate date];
 #endif
 	
-	[self doExecuteWithLayoutImp : theLayout];
+	[self doExecuteWithLayoutImp:theLayout];
 
 #if DEBUG_COMPOSING_TIME
-	elapsed = [[NSDate date] timeIntervalSinceDate : before];
+	elapsed = [[NSDate date] timeIntervalSinceDate:before];
 	NSLog(@"used %.2f seconds", elapsed);
 #endif
-}
-
-- (CMRThreadContentsReader *) reader
-{
-	return _reader;
-}
-- (void) setReader : (CMRThreadContentsReader *) aReader
-{
-	id		tmp;
-	
-	tmp = _reader;
-	_reader = [aReader retain];
-	[tmp release];
 }
 @end

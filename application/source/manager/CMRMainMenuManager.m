@@ -1,16 +1,15 @@
-/**
-  * $Id: CMRMainMenuManager.m,v 1.17 2008/02/04 06:40:18 tsawada2 Exp $
-  * 
-  * CMRMainMenuManager.m
-  *
-  * Copyright (c) 2004 Takanori Ishikawa, All rights reserved.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  CMRMainMenuManager.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 08/02/18.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
 
 #import "CMRMainMenuManager.h"
-
 #import "CocoMonar_Prefix.h"
-//#import "AppDefaults.h"
+
 
 #define		APPLICATION_MENU_TAG	0
 #define		FILE_MENU_TAG			1
@@ -23,12 +22,11 @@
 #define		SCRIPTS_MENU_TAG		8
 #define		HISTORY_MENU_TAG		9
 
-#define		FILE_ONLINEMODE_TAG		1
-//#define		BROWSER_ARRANGEMENT_TAG	1
 #define		BROWSER_COLUMNS_TAG		2
 #define		HISTORY_INSERT_MARKER	1001
 #define		HISTORY_SUB_MARKER		1002
-#define		BROWSER_FILTERING_TAG	3
+//#define		BROWSER_FILTERING_TAG	3
+#define		TEMPLATES_SUB_MARKER	2001
 
 #define		THREAD_CONTEXTUAL_MASK	5000
 
@@ -49,30 +47,31 @@ MENU_ACCESSER(windowMenuItem, WINDOW_MENU_TAG)
 MENU_ACCESSER(helpMenuItem, HELP_MENU_TAG)
 MENU_ACCESSER(scriptsMenuItem, SCRIPTS_MENU_TAG)
 
-
 #undef MENU_ACCESSER
 
-- (int) historyItemInsertionIndex
+- (int)historyItemInsertionIndex
 {
-	return ([[[self historyMenuItem] submenu] indexOfItemWithTag : HISTORY_INSERT_MARKER]+1);
+	return ([[[self historyMenuItem] submenu] indexOfItemWithTag:HISTORY_INSERT_MARKER]+1);
 }
 
-- (NSMenu *) historyMenu
+- (NSMenu *)historyMenu
 {
 	return [[self historyMenuItem] submenu];
 }
-- (NSMenu *) boardHistoryMenu
+
+- (NSMenu *)boardHistoryMenu
 {
-	return [[[[self historyMenuItem] submenu] itemWithTag: HISTORY_SUB_MARKER] submenu];
+	return [[[[self historyMenuItem] submenu] itemWithTag:HISTORY_SUB_MARKER] submenu];
 }
-- (NSMenu *) fileMenu
+
+- (NSMenu *)fileMenu
 {
 	return [[self fileMenuItem] submenu];
 }
 
 - (NSMenu *)templatesMenu
 {
-	return [[[[self editMenuItem] submenu] itemWithTag:2001] submenu];
+	return [[[[self editMenuItem] submenu] itemWithTag:TEMPLATES_SUB_MARKER] submenu];
 }
 
 - (NSMenu *)threadContexualMenuTemplate
@@ -98,27 +97,18 @@ MENU_ACCESSER(scriptsMenuItem, SCRIPTS_MENU_TAG)
 @end
 
 
-
 @implementation CMRMainMenuManager(CMRApp)
-/*- (NSMenuItem *) isOnlineModeMenuItem
+- (NSMenuItem *)browserListColumnsMenuItem
 {
-	return (NSMenuItem*)[[[self applicationMenuItem] submenu] itemWithTag : FILE_ONLINEMODE_TAG];
-}*/
-/*- (NSMenuItem *) browserArrangementMenuItem
-{
-	return (NSMenuItem*)[[[self browserMenuItem] submenu] 
-				itemWithTag : BROWSER_ARRANGEMENT_TAG];
-}*/
-- (NSMenuItem *) browserListColumnsMenuItem
-{
-	return (NSMenuItem*)[[[self browserMenuItem] submenu] 
-				itemWithTag : BROWSER_COLUMNS_TAG];
+	return (NSMenuItem*)[[[self browserMenuItem] submenu] itemWithTag:BROWSER_COLUMNS_TAG];
 }
-/*- (NSMenuItem *) browserStatusFilteringMenuItem
+/*
+- (NSMenuItem *) browserStatusFilteringMenuItem
 {
 	return (NSMenuItem*)[[[self browserMenuItem] submenu]
 				itemWithTag : BROWSER_FILTERING_TAG];
-}*/
+}
+*/
 - (void)removeOpenRecentsMenuItem
 {
 	NSMenu *menu = [self fileMenu];
@@ -141,45 +131,22 @@ MENU_ACCESSER(scriptsMenuItem, SCRIPTS_MENU_TAG)
 		[menu removeItemAtIndex:index];
 	}
 }
-@end
 
-
-
-/*@implementation CMRMainMenuManager(SynchronizeWithDefaults)
-- (void) synchronizeBrowserArrangementMenuItemState
+- (void)removeShowLocalRulesMenuItemIfNeeded
 {
-	NSMenu			*browserArrangementSubmenu_;
-	NSEnumerator	*itemIter_;
-	NSMenuItem		*item_;
-	
-	browserArrangementSubmenu_ = [[self browserArrangementMenuItem] submenu];
-	UTILAssertNotNil(
-		browserArrangementSubmenu_);
-	
-	itemIter_ = [[browserArrangementSubmenu_ itemArray] objectEnumerator];
-	while (item_ = [itemIter_ nextObject]) {
-		BOOL		state_;
-		NSNumber	*represent_;
-		
-		represent_ = [item_ representedObject];
-		UTILAssertKindOfClass(represent_, NSNumber);
-		
-		state_ = [CMRPref isSplitViewVertical];
-		state_ = (state_ == [represent_ boolValue]);
-		[item_ setState : (state_ ? NSOnState : NSOffState)];
+	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_3) return;
+
+	NSMenu *menu = [[self BBSMenuItem] submenu];
+	int index = [menu indexOfItemWithTarget:nil andAction:@selector(showLocalRules:)];
+
+	if (index >= 0) {
+		[menu removeItemAtIndex:index];
 	}
 }
-- (void) synchronizeIsOnlineModeMenuItemState
-{
-	NSMenuItem	*menuItem_;
-	BOOL		isOnlineMode_;
-	
-	menuItem_ = [self isOnlineModeMenuItem];
-	
-	UTILAssertNotNil(menuItem_);
-	isOnlineMode_ = [CMRPref isOnlineMode];	
-	[menuItem_ setState : isOnlineMode_ ? NSOnState : NSOffState];
-}
+@end
+
+/*
+@implementation CMRMainMenuManager(SynchronizeWithDefaults)
 - (void) synchronizeStatusFilteringMenuItemState
 {
 	NSMenu			*browserFilteringSubmenu_;

@@ -147,7 +147,6 @@
 
 // Available in SilverGull and later.
 @interface BoardManager(LocalRules)
-- (BOOL)canUseLocalRulesPanel; // LocalRulesPanel can use only Tiger and later.
 - (BSLocalRulesPanelController *)localRulesPanelControllerForBoardName:(NSString *)boardName;
 - (BOOL)isKeyWindowForBoardName:(NSString *)boardName;
 @end

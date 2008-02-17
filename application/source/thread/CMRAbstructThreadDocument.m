@@ -212,7 +212,6 @@ NSString *const CMRAbstractThreadDocumentDidToggleDatOchiNotification = @"CMRAbs
 		if ([theItem respondsToSelector:@selector(setState:)]) [theItem setState:([self isDatOchiThread] ? NSOnState : NSOffState)];
 	} else if (action_ == @selector(showLocalRules:)) {
 		BoardManager *bm = [BoardManager defaultManager];
-		if (![bm canUseLocalRulesPanel]) return NO;
 		if ([theItem respondsToSelector:@selector(setTitle:)]) {
 			[theItem setTitle:[bm isKeyWindowForBoardName:[self boardNameAsString]] ? NSLocalizedString(@"Hide Local Rules", @"")
 																					: NSLocalizedString(@"Show Local Rules", @"")];

@@ -56,7 +56,10 @@ static NSString *mActionGetKeysForTag[] = {
 {
 	[(BSLayoutManager *)[self layoutManager] setTextContainerInLiveResize:NO];
 	[[self layoutManager] textContainerChangedGeometry:[self textContainer]];
-	[self setNeedsDisplay:YES];
+	// Leopard では必要なさそう
+	if (!(floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4)) {
+		[self setNeedsDisplay:YES];
+	}
 	[super viewDidEndLiveResize];
 }
 	

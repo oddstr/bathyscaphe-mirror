@@ -1,3 +1,24 @@
+2008-02-18 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadComposingTask.m
+	* application/source/thread/CMRThreadDownloadTask.m
+	* application/source/thread/CMRThreadFileLoadingTask.m
+	* application/source/thread/CMRThreadLayoutTask.m
+	* application/source/thread/CMRThreadViewer.m
+	* application/source/view/CMRThreadView.m
+		スレッドの内容表示時に使用されるすべての task（CMRThreadほげほげTask）について、CMRMainMessenger を用いてスレッド間のメッセージ
+		受け渡しをしていた部分をすべて -[NSObject performSelectorOnMainThread:withObject:waitUntilDone:] を使って実行するように
+		変更した。この変更は安定性の向上と、CMRMainMessenger (-> SGInternalMessenger) への依存率低下を目指して行なったものだが、
+		動作検証を慎重に行なう必要がある（取りあえず手元では安定しているように見えるが）。
+		CMRTaskManager への通知のポストも performSelectorOnMainThread:withObject:waitUntilDone: で行なうようにしたので、
+		ナビゲーションバーの描画が今までと少し違って見えるかもしれない。
+	* application/source/CMRAppDelegate.m
+	* application/source/bbs/BoardManager-SettingTxt.m
+	* application/source/browser/Browser.m
+	* application/source/manager/CMRMainMenuManager.m
+	* application/source/thread/CMRAbstructThreadDocument.m
+	* application/source/window/CMRReplyMessenger.m
+		「掲示板」＞「ローカルルールを表示」メニュー項目は Mac OS X 10.3.9 では表示させないようにした。これに伴い、Menu item の
+		validation を簡素化した。
 2008-02-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/Japanese.lproj/BSLocalRulesPanel.nib
 	* application/source/bbs/BSLocalRulesCollector.m

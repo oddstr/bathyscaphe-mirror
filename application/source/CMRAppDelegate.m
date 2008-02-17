@@ -72,8 +72,7 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 
 - (IBAction)toggleOnlineMode:(id)sender
 {   
-	AppDefaults *defaults_ = CMRPref;
-	[defaults_ setIsOnlineMode:(![defaults_ isOnlineMode])];
+	[CMRPref setIsOnlineMode:(![CMRPref isOnlineMode])];
 }
 
 - (IBAction)resetApplication:(id)sender
@@ -89,7 +88,6 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 - (IBAction)togglePreviewPanel:(id)sender
 {
 	[NSApp sendAction:@selector(togglePreviewPanel:) to:[CMRPref sharedImagePreviewer] from:sender];
-//	[[CMRPref sharedImagePreviewer] togglePreviewPanel:sender];
 }
 
 - (IBAction)showTaskInfoPanel:(id)sender
@@ -304,22 +302,26 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+	AppDefaults *defaults_ = CMRPref;
+
     /* Service menu */
     [NSApp setServicesProvider:[CMROpenURLManager defaultManager]];
 
 	/* Remove 'Open Recent' menu */
-	[[CMRMainMenuManager defaultManager] removeOpenRecentsMenuItem];
-	[[CMRMainMenuManager defaultManager] removeQuickLookMenuItemIfNeeded];
+	CMRMainMenuManager *menuManager = [CMRMainMenuManager defaultManager];
+	[menuManager removeOpenRecentsMenuItem];
+	[menuManager removeQuickLookMenuItemIfNeeded];
+	[menuManager removeShowLocalRulesMenuItemIfNeeded];
 	
 	/* BoardWarrior Task */
-	if ([CMRPref isOnlineMode] && [CMRPref autoSyncBoardList]) {
-		NSDate *lastDate = [CMRPref lastSyncDate];
-		if (!lastDate || [[NSDate date] timeIntervalSinceDate: lastDate] > [CMRPref timeIntervalForAutoSyncPrefs]) {
+	if ([defaults_ isOnlineMode] && [defaults_ autoSyncBoardList]) {
+		NSDate *lastDate = [defaults_ lastSyncDate];
+		if (!lastDate || [[NSDate date] timeIntervalSinceDate: lastDate] > [defaults_ timeIntervalForAutoSyncPrefs]) {
 			[self runBoardWarrior:nil];
 		}
 	}
 
-	if ([CMRPref isOnlineMode]) [[TS2SoftwareUpdate sharedInstance] startUpdateCheck:nil];
+	if ([defaults_ isOnlineMode]) [[TS2SoftwareUpdate sharedInstance] startUpdateCheck:nil];
 }
 
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag

@@ -1,42 +1,45 @@
-/**
-  * $Id: CMRThreadFileLoadingTask.m,v 1.2 2006/11/05 12:53:48 tsawada2 Exp $
-  * 
-  * CMRThreadFileLoadingTask.m
-  *
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  CMRThreadFileLoadingTask.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 08/02/18.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import "CMRThreadFileLoadingTask.h"
 #import "CMRThreadComposingTask_p.h"
 #import "CMRThreadLayout.h"
 #import "CMRThreadDictReader.h"
 
-NSString *const CMRThreadFileLoadingTaskDidLoadAttributesNotification = @"CMRThreadFileLoadingTaskDidLoadAttributesNotification";
-
-
+//NSString *const CMRThreadFileLoadingTaskDidLoadAttributesNotification = @"CMRThreadFileLoadingTaskDidLoadAttributesNotification";
 
 @implementation CMRThreadFileLoadingTask
-+ (id) taskWithFilepath : (NSString *) filepath
++ (id)taskWithFilepath:(NSString *)filepath
 {
-	return [[[self alloc] initWithFilepath : filepath] autorelease];
+	return [[[self alloc] initWithFilepath:filepath] autorelease];
 }
-- (id) initWithFilepath : (NSString *) filepath
+
+- (id)initWithFilepath:(NSString *)filepath
 {
 	if (self = [super init]) {
-		[self setFilepath : filepath];
+		[self setFilepath:filepath];
 	}
 	return self;
 }
-- (void) dealloc
+
+- (void)dealloc
 {
 	[_filepath release];
 	[super dealloc];
 }
-- (NSString *) filepath
+
+- (NSString *)filepath
 {
 	return _filepath;
 }
-- (void) setFilepath : (NSString *) aFilepath
+
+- (void)setFilepath:(NSString *)aFilepath
 {
 	id		tmp;
 	
@@ -45,50 +48,57 @@ NSString *const CMRThreadFileLoadingTaskDidLoadAttributesNotification = @"CMRThr
 	[tmp release];
 }
 
-// CMRThreadLayoutTask:
-- (void) doExecuteWithLayout : (CMRThreadLayout *) layout
+- (BOOL)delegateWillCompleteMessages:(CMRThreadMessageBuffer *)aMessageBuffer
+{
+	return YES;
+}
+
+- (void)doExecuteWithLayout:(CMRThreadLayout *)layout
 {
 	CMRThreadDictReader		*reader_;
-	NSNotification			*notification_;
+//	NSNotification			*notification_;
 	NSDictionary			*dict_;
 	
-	reader_ = [CMRThreadDictReader readerWithContentsOfFile : [self filepath]];
-	[reader_ setNextMessageIndex : 0];
+	reader_ = [CMRThreadDictReader readerWithContentsOfFile:[self filepath]];
+	[reader_ setNextMessageIndex:0];
 	[self checkIsInterrupted];
 	
-	// Ç±Ç±Ç≈Åuç≈å„Ç…ì«ÇÒÇæÉåÉXÅvÇ»Ç«ÇÃëÆê´Çê›íËÇ∑ÇÈÇÃÇ≈ÅA
-	// ìØä˙ÉÅÉbÉZÅ[ÉWÉìÉOÇ™ïKóv
+	// „Åì„Åì„Åß„ÄåÊúÄÂæå„Å´Ë™≠„Çì„Å†„É¨„Çπ„Äç„Å™„Å©„ÅÆÂ±ûÊÄß„ÇíË®≠ÂÆö„Åô„Çã„ÅÆ„Åß„ÄÅ
+	// ÂêåÊúü„É°„ÉÉ„Çª„Éº„Ç∏„É≥„Ç∞„ÅåÂøÖË¶Å
 	dict_ = [[reader_ threadAttributes] retain];
-	notification_ = [NSNotification notificationWithName : 
+/*	notification_ = [NSNotification notificationWithName : 
 						CMRThreadFileLoadingTaskDidLoadAttributesNotification
 									  object : self
 									userInfo : dict_];
 	[CMRMainMessenger postNotification:notification_ synchronized:YES];
+	// 2008-02-18 */
+	unsigned int foo = [dict_ unsignedIntForKey:CMRThreadLastReadedIndexKey defaultValue:NSNotFound];
+	[[self delegate] performSelectorOnMainThread:@selector(threadFileLoadingTaskDidLoadFile:) withObject:dict_ waitUntilDone:YES];
 	[dict_ release];
 	
 	// --------- Start Composing ---------
-	[super setReader : reader_];
-	[super doExecuteWithLayout : layout];
+	[self setCallbackIndex:foo]; // 2008-02-18
+	[self setReader:reader_];
+	[super doExecuteWithLayout:layout];
 }
 
-- (NSString *) threadTitle
+- (NSString *)threadTitle
 {
-	return [super threadTitle]
-		? [super threadTitle]
-		: [[self filepath] lastPathComponent];
+	return [[self filepath] lastPathComponent];
 }
-- (NSString *) titleFormat
+
+- (NSString *)titleFormat
 {
-	return [self localizedString : @"%@ Loading..."];
+	return [self localizedString:@"%@ Loading..."];
 }
-- (NSString *) messageFormat;
+
+- (NSString *)messageFormat
 {
-	return [self localizedString : @"Now Loading..."];
+	return [self localizedString:@"Now Loading..."];
 }
-- (NSString *) messageInProgress;
+
+- (NSString *)messageInProgress
 {
-	return [self messageFormat] 
-		? [NSString stringWithFormat : [self messageFormat], [[self filepath] lastPathComponent]]
-		: [self filepath];
+	return [NSString stringWithFormat:[self messageFormat], [self threadTitle]];
 }
 @end

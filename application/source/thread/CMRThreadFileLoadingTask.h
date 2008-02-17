@@ -29,4 +29,4 @@
 
 // ファイルからスレッドの情報を読み込んだ
 // userInfo : スレッドの情報
-extern NSString *const CMRThreadFileLoadingTaskDidLoadAttributesNotification;
+//extern NSString *const CMRThreadFileLoadingTaskDidLoadAttributesNotification;

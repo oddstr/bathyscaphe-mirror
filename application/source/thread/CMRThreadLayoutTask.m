@@ -57,14 +57,24 @@
 	_identifier = [anIdentifier retain];
 	[tmp release];
 }
+
+- (void)postInterruptedNotification
+{
+	[[NSNotificationCenter defaultCenter] postNotificationName:CMRThreadTaskInterruptedNotification object:self];
+}
+
 - (void) executeWithLayout : (CMRThreadLayout *) layout
 {
-	[CMRMainMessenger target : [CMRTaskManager defaultManager]
-		performSelector : @selector(addTask:)
-			 withObject : self
-			 withResult : YES];
-	[CMRMainMessenger postNotificationName : CMRTaskWillStartNotification
-									object : self];
+//	[CMRMainMessenger target : [CMRTaskManager defaultManager]
+//		performSelector : @selector(addTask:)
+//			 withObject : self
+//			 withResult : YES];
+// 2008-02-18
+	[[CMRTaskManager defaultManager] performSelectorOnMainThread:@selector(addTask:) withObject:self waitUntilDone:YES];
+//	[CMRMainMessenger postNotificationName : CMRTaskWillStartNotification
+//									object : self];
+	NSNotification *notification = [NSNotification notificationWithName:CMRTaskWillStartNotification object:self];
+	[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:notification waitUntilDone:NO];
 	
 	@try{
 //		@synchronized([layout textStorage]) {
@@ -82,9 +92,10 @@
 			// 別スレッドで実行されても問題ないかは
 			// 受け取り側の処理に依存
 			// 
-			[[NSNotificationCenter defaultCenter]
-				postNotificationName : CMRThreadTaskInterruptedNotification
-							  object : self];
+//			[[NSNotificationCenter defaultCenter]
+//				postNotificationName : CMRThreadTaskInterruptedNotification
+//							  object : self];
+			[self postInterruptedNotification];
 		}else{
 			NSLog(@"%@ - %@", name_, localException);
 		}
@@ -93,8 +104,10 @@
 	}
 	@finally {
 		[self setDidFinished : YES];
-		[CMRMainMessenger postNotificationName : CMRTaskDidFinishNotification
-										object : self];
+//		[CMRMainMessenger postNotificationName : CMRTaskDidFinishNotification
+//										object : self];
+		notification = [NSNotification notificationWithName:CMRTaskDidFinishNotification object:self];
+		[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:notification waitUntilDone:NO];
 	}
 }
 - (void) doExecuteWithLayout : (CMRThreadLayout *) layout
@@ -190,8 +203,9 @@
 }
 - (void) doExecuteWithLayout : (CMRThreadLayout *) layout
 {
-	[CMRMainMessenger target : layout
-			 performSelector : @selector(doDeleteAllMessages)
-				  withResult : YES];
+//	[CMRMainMessenger target : layout
+//			 performSelector : @selector(doDeleteAllMessages)
+//				  withResult : YES];
+	[layout performSelectorOnMainThread:@selector(doDeleteAllMessages) withObject:nil waitUntilDone:YES];
 }
 @end

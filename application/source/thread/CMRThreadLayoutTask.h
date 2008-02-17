@@ -61,6 +61,7 @@
 - (NSString *) messageInProgress;
 - (void) doExecuteWithLayout : (CMRThreadLayout *) layout;
 - (void) finalizeWhenInterrupted;
+- (void)postInterruptedNotification;
 @end
 
 

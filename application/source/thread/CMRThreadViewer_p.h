@@ -89,14 +89,14 @@ extern NSString *const CMRThreadViewerRunSpamFilterNotification;
 @end
 
 
-
+/*
 @interface CMRThreadViewer(ThreadTaskNotification)
 - (id) identifierForThreadTask;
 
 - (void) registerComposingNotification : (id) task;
 - (void) removeFromComposingNotification : (id) task;
 @end
-
+*/
 
 
 @interface CMRThreadViewer(ThreadDataNotification)

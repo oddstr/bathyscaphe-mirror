@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.54 2008/02/15 15:41:58 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.55 2008/02/17 20:20:18 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -96,6 +96,7 @@ NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEnd
 	
 	[self removeFromNotificationCenter];
 	[self removeMessenger:nil];
+//	[CMRPopUpMgr closePopUpWindowForOwner:self];
 
 	[self disposeThreadAttributes:[self threadAttributes]];
 	[[self threadLayout] disposeLayoutContext];
@@ -206,12 +207,14 @@ static NSDictionary *boardInfoWithFilepath(NSString *filepath)
 	
 	task_ = [CMRThreadFileLoadingTask taskWithFilepath : actualPath_];
 	[task_ setIdentifier : actualPath_];
-	[[NSNotificationCenter defaultCenter]
+// 2008-02-18
+	[task_ setDelegate:self];
+/*	[[NSNotificationCenter defaultCenter]
 			addObserver : self
 			selector : @selector(threadFileLoadingTaskDidLoadFile:)
 			name : CMRThreadFileLoadingTaskDidLoadAttributesNotification
-			object : task_];
-	[self registerComposingNotification : task_];
+			object : task_];*/
+//	[self registerComposingNotification : task_];
 	
 	[[self threadLayout] clear];
 	[[self threadLayout] push : task_];
@@ -302,7 +305,7 @@ cancel, if this method returns NO.
 	
 	[task_ setDelegate : self];
 	
-	[self registerComposingNotification : task_];
+//	[self registerComposingNotification : task_];
 	[[self threadLayout] push : task_];
 }
 
@@ -369,12 +372,13 @@ cancel, if this method returns NO.
 /*
 CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 */
-- (void) threadFileLoadingTaskDidLoadFile : (NSNotification *) aNotification
+// 2008-02-18
+//- (void) threadFileLoadingTaskDidLoadFile : (NSNotification *) aNotification
+- (void)threadFileLoadingTaskDidLoadFile:(id)threadAttributes
 {
-	id				task_;
+//	id				task_;
 	NSDictionary	*attributes_;
-	
-	UTILAssertNotificationName(
+/*	UTILAssertNotificationName(
 		aNotification,
 		CMRThreadFileLoadingTaskDidLoadAttributesNotification);
 	
@@ -386,9 +390,10 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 			removeObserver : self
 			name : CMRThreadFileLoadingTaskDidLoadAttributesNotification
 			object : task_];
-	
-	attributes_ = [aNotification userInfo];
-	if (attributes_ != nil) {
+*/	
+//	attributes_ = [aNotification userInfo];
+	attributes_ = (NSDictionary *)threadAttributes;
+	if (attributes_) {
 		// 
 		// ファイルの読み込みが終了したので、
 		// 記録されていたスレッドの情報で
@@ -397,19 +402,19 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 		// 
 		// また、この時点でウィンドウの領域なども設定する。
 		//
-		[[self threadAttributes] addEntriesFromDictionary : attributes_];
+		[[self threadAttributes] addEntriesFromDictionary:attributes_];
 		[self synchronizeLayoutAttributes];
 	}
-	if (NO == [[self window] isVisible])
-		[self showWindow : self];
-	
+	if (![[self window] isVisible]) {
+		[self showWindow:self];
+	}
 	[self didChangeThread];
-	UTILAssertRespondsTo(task_, @selector(setCallbackIndex:));
-	[task_ setCallbackIndex : [[self threadAttributes] lastIndex]];
+//	UTILAssertRespondsTo(task_, @selector(setCallbackIndex:));
+//	[task_ setCallbackIndex : [[self threadAttributes] lastIndex]];
 }
 
 // CMRThreadComposingDidFinishNotification
-- (void) threadComposingDidFinished : (NSNotification *) aNotification
+/*- (void) threadComposingDidFinished : (NSNotification *) aNotification
 {
 	id			object_;
 	unsigned	nReaded = NSNotFound;
@@ -431,7 +436,7 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
     if (nReaded > nLoaded)
 		[[self threadAttributes] setNumberOfLoadedMessages : nReaded];
 	
-	/* update any conditions */
+	// update any conditions
 	[self updateIndexField];
 	[self setInvalidate : NO];
 	
@@ -466,34 +471,89 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 	// この時点では WorkerThread が動いており、
 	// プログレス・バーもそのままなので少し遅らせる
 	[self performSelector: @selector(setupDefaultNoNameIfNeeded) withObject: nil afterDelay: 1.0];
+}*/
+// 2008-02-18
+- (void)threadComposingDidFinish:(id)sender
+{
+	unsigned	nReaded = NSNotFound;
+	unsigned	nLoaded = NSNotFound;
+
+	UTILAssertNotNil(sender);
+
+	// レイアウトの終了
+	// 読み込んだレス数を更新
+	nReaded = [[self threadLayout] numberOfReadedMessages];
+	nLoaded = [[self threadAttributes] numberOfLoadedMessages];
+	
+    if (nReaded > nLoaded)
+		[[self threadAttributes] setNumberOfLoadedMessages:nReaded];
+	
+	/* update any conditions */
+	[self updateIndexField];
+	[self setInvalidate:NO];
+	
+	if ([sender isKindOfClass:[CMRThreadFileLoadingTask class]]) {
+		// 
+		// ファイルからの読み込み、変換が終了
+		// すでにレイアウトのタスクを開始したので、
+		// オンラインモードなら更新する
+		//
+		[self scrollToLastReadedIndex:self]; // その前に最後に読んだ位置までスクロールさせておく
+
+		if(![(CMRThreadDocument *)[self document] isDatOchiThread]) {
+			if (![self changeThemeTaskIsInProgress]) {
+				[self updateKeywordsCache];
+				[self reloadIfOnlineMode:self];
+			} else {
+				[self performSelector:@selector(updateLayoutSettings) withObject:nil afterDelay:0.5];
+				[self setChangeThemeTaskIsInProgress:NO];
+			}
+		}
+	} else {
+		if ([CMRPref scrollToLastUpdated] && [self canScrollToLastUpdatedMessage])
+			[self scrollToLastUpdatedIndex:self];
+	}
+    // remove from lock
+    [[CMRNetGrobalLock sharedInstance] remove:[self threadIdentifier]];
+
+	// 2005-11-24 オンザフライクラッシュ対策
+	[[self window] invalidateCursorRectsForView:[[[self threadLayout] scrollView] contentView]];
+	
+	// まだ名無しさんが決定していなければ決定
+	// この時点では WorkerThread が動いており、
+	// プログレス・バーもそのままなので少し遅らせる
+	[self performSelector:@selector(setupDefaultNoNameIfNeeded) withObject:nil afterDelay:1.0];
 }
 
 // CMRThreadTaskInterruptedNotification
-- (void) threadTaskInterrupted : (NSNotification *) aNotification
+//- (void) threadTaskInterrupted : (NSNotification *) aNotification
+- (void)threadTaskDidInterrupt:(id)sender
 {
-	id			object_;
+//	id			object_;
 	id			identifier_;
 	
-	UTILAssertNotificationName(
-		aNotification,
-		CMRThreadTaskInterruptedNotification);
+//	UTILAssertNotificationName(
+//		aNotification,
+//		CMRThreadTaskInterruptedNotification);
 	
-	object_ = [aNotification object];
+//	object_ = [aNotification object];
 	
 	// 
 	// チェックの後でもいい。
 	// 
-	[self removeFromComposingNotification : object_];
-	if (NO == [object_ respondsToSelector : @selector(identifier)])
+//	[self removeFromComposingNotification : object_];
+//	if (NO == [object_ respondsToSelector : @selector(identifier)])
+	if (![sender respondsToSelector:@selector(identifier)])
 		return;
 	
-	identifier_ = [object_ identifier];
+//	identifier_ = [object_ identifier];
+	identifier_ = [sender identifier];
 	
-	if (NO == [[self identifierForThreadTask] isEqual : identifier_])
-		return;
+//	if (![[self identifierForThreadTask] isEqual:identifier_]) return;
+	if (![[self path] isEqual:identifier_]) return;
 	
-    [[CMRNetGrobalLock sharedInstance] remove : identifier_];
-	[self setInvalidate : YES];
+    [[CMRNetGrobalLock sharedInstance] remove:identifier_];
+	[self setInvalidate:YES];
 }
 
 
@@ -617,8 +677,7 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 }
 @end
 
-#pragma mark -
-
+/*
 @implementation CMRThreadViewer(ThreadTaskNotification)
 - (id) identifierForThreadTask
 {
@@ -655,7 +714,7 @@ NSString *kComposingNotificationNames[] = {
 		[nc removeObserver:self name:*p object:task];
 }
 @end
-
+*/
 
 
 @implementation CMRThreadViewer(SelectingThreads)
@@ -805,7 +864,6 @@ NSString *kComposingNotificationNames[] = {
 
 - (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)sender
 {
-	//NSLog(@"Hoogeeeee");
 	return [self ununundoManager];
 }
 
