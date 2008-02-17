@@ -2,7 +2,9 @@
 "Not Found %@"	= "%@ をダウンロードできませんでした。";
 
 "Board Info Format" = "%u 件のスレッド";
-"Favorite Info Format" = "%u 件のお気に入り";
+
+"Search Thread Result" = "%u 件見つかりました";
+"Search Thread Not Found" = "見つかりません";
 
 "So could not add to your Boards List." = "同じ名前の掲示板を重複して登録することはできません。よって、掲示板を追加できませんでした。";
 

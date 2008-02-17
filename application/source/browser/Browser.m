@@ -84,9 +84,9 @@
 		unsigned foundNum = [list_ numberOfFilteredThreads];
 		
 		if (0 == foundNum) {
-			foo = NSLocalizedStringFromTable(kSearchListNotFoundKey, @"ThreadViewer", @"");//[self localizedString:kSearchListNotFoundKey];
+			foo = NSLocalizedStringFromTable(kSearchListNotFoundKey, @"ThreadsList", @"");//[self localizedString:kSearchListNotFoundKey];
 		} else {
-			foo = [NSString stringWithFormat:NSLocalizedStringFromTable(kSearchListResultKey, @"ThreadViewer", @""), foundNum];
+			foo = [NSString stringWithFormat:NSLocalizedStringFromTable(kSearchListResultKey, @"ThreadsList", @""), foundNum];
 		}
 	} else {
 		foo = [NSString stringWithFormat:base_, [list_ numberOfThreads]];
@@ -203,6 +203,8 @@
 			[theItem setTitle:NSLocalizedString(@"Show Local Rules", @"")];
 			return NO;
 		}
+	} else if (action_ == @selector(newThread:)) {
+		return [BoardListItem isBoardItem:[[self currentThreadsList] boardListItem]];
 	}
 	return [super validateMenuItem:theItem];
 }

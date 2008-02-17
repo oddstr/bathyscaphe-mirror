@@ -8,7 +8,7 @@
 //
 
 #import "BSLocalRulesPanelController.h"
-
+#import "BSLocalRulesCollector.h"
 
 @implementation BSLocalRulesPanelController
 - (id) init
@@ -19,15 +19,36 @@
 	return self;
 }
 
+- (void)dealloc
+{
+	[[self textView] unbind:@"attributedString"];
+	[super dealloc];
+}
+
 - (NSObjectController *)objectController
 {
 	return m_objectController;
 }
 
+- (NSTextView *)textView
+{
+	return m_textView;
+}
+
+- (void)setObjectControllerContent:(id)contentObject bindToTextView:(BOOL)flag
+{
+	[[self objectController] setContent:contentObject];
+	if ([contentObject isKindOfClass:[BSLocalRulesCollector class]] && flag) {
+		NSDictionary *dict = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO]
+														 forKey:@"NSConditionallySetsEditable"/*NSConditionallySetsEditableBindingOption*/];
+		[[self textView] bind:@"attributedString" toObject:[self objectController] withKeyPath:@"selection.localRulesAttrString" options:dict];
+	}
+}
+
 - (IBAction)reload:(id)sender
 {
 	id collector = [[self objectController] content];
-	if ([collector respondsToSelector:@selector(reload)]) {
+	if ([collector isKindOfClass:[BSLocalRulesCollector class]]) {
 		[collector reload];
 	}
 }

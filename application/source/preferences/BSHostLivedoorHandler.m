@@ -1,54 +1,56 @@
-/**
-  * BSHostLivedoorHandler.m
-  * BathyScaphe
-  *
-  * Written by Tsutomu Sawada on 06/12/09.
-  * Copyright 2006 BathyScpahe Project. All rights reserved.
-  */
+//
+//  BSHostLivedoorHandler.m
+//  BathyScaphe
+//
+//  Written by Tsutomu Sawada on 06/12/09.
+//  Copyright 2006-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
 
 #import "CMRHostHandler_p.h"
 #import "CMXTextParser.h"
 
+// for debugging only
+#define UTIL_DEBUGGING    0
+#import "UTILDebugging.h"
+
 #define READ_URL_FORMAT_SHITARABA	@"%@/%@/%s/%@/"
 
 @implementation BSHostLivedoorHandler
-+ (BOOL) canHandleURL : (NSURL *) anURL
++ (BOOL)canHandleURL:(NSURL *)anURL
 {
 	const char *hostName_ = [[anURL host] UTF8String];
-         if ( NULL == hostName_ ) return NO;
-	return is_jbbs_shita( hostName_ );
+
+	if (NULL == hostName_) return NO;
+	return is_jbbs_shita(hostName_);
 }
 
-- (NSDictionary *) properties
+- (NSDictionary *)properties
 {
 	return CMRHostPropertiesForKey(@"jbbs_livedoor");
 }
 
-- (NSURL *) boardURLWithURL : (NSURL    *) anURL
-						bbs : (NSString *) bbs;
+- (NSURL *)boardURLWithURL:(NSURL *)anURL bbs:(NSString *)bbs
 {
 	NSString	*absolute_;
 	NSArray		*paths_;
 	
 	paths_ = [[anURL path] pathComponents];
-	if ([paths_ count] < 2)
+	if ([paths_ count] < 2) {
 		return nil;
+	}
+	absolute_ = [NSString stringWithFormat:@"http://%@/%@/%@/", [anURL host], bbs, [paths_ objectAtIndex:1]];
 	
-	absolute_ = [NSString stringWithFormat :
-					@"http://%@/%@/%@/",
-					[anURL host],
-					bbs,
-					[paths_ objectAtIndex : 1]];
-	
-	return [NSURL URLWithString : absolute_];
+	return [NSURL URLWithString:absolute_];
 }
-- (NSString *) makeURLStringWithBoard : (NSURL *) boardURL datName : (NSString *) datName
+
+- (NSString *)makeURLStringWithBoard:(NSURL *)boardURL datName:(NSString *)datName
 {
 	NSString		*absolute_;
 	const char		*bbs_ = NULL;
 	NSURL			*location_;
 	NSDictionary	*properties_;
-	
+
 	UTILRequireCondition(boardURL && datName, ErrReadURL);
 
 	location_ = [self readURLWithBoard:boardURL];
@@ -60,10 +62,10 @@
 	CMRGetHostCStringFromBoardURL(boardURL, &bbs_);
 	UTILRequireCondition(bbs_, ErrReadURL);
 
-	absolute_ = [NSString stringWithFormat :
+	absolute_ = [NSString stringWithFormat:
 					READ_URL_FORMAT_SHITARABA,
 					[location_ absoluteString],
-					[[[boardURL path] pathComponents] objectAtIndex : 1],
+					[[[boardURL path] pathComponents] objectAtIndex:1],
 					bbs_,
 					datName];
 
@@ -72,79 +74,71 @@ ErrReadURL:
 	return nil;
 }
 
-- (NSURL *) readURLWithBoard : (NSURL    *) boardURL
-                     datName : (NSString *) datName
+- (NSURL *)readURLWithBoard:(NSURL *)boardURL datName:(NSString *)datName
 {
 	NSString		*absolute_;
 	NSURL			*location_;
 
-	absolute_ = [self makeURLStringWithBoard : boardURL datName : datName];
+	absolute_ = [self makeURLStringWithBoard:boardURL datName:datName];
 	UTILRequireCondition(absolute_, ErrReadURL);
 	
-	location_ = [NSURL URLWithString : absolute_];
-	
+	location_ = [NSURL URLWithString:absolute_];
+
 	return location_;
 	
 ErrReadURL:
 	return nil;
 }
 
-- (NSURL *) readURLWithBoard : (NSURL    *) boardURL
-                     datName : (NSString *) datName
-				 latestCount : (int) count
+- (NSURL *)readURLWithBoard:(NSURL *)boardURL datName:(NSString *)datName latestCount:(int)count
 {
 	NSString	*base_;
-	base_ = [self makeURLStringWithBoard : boardURL datName : datName];
-	if (base_ == nil)
-		return nil;
+	base_ = [self makeURLStringWithBoard:boardURL datName:datName];
+	if (!base_) return nil;
 
-	return [NSURL URLWithString : [base_ stringByAppendingFormat : @"l%i", count]];
+	return [NSURL URLWithString:[base_ stringByAppendingFormat:@"l%i", count]];
 }
 
-- (NSURL *) readURLWithBoard : (NSURL    *) boardURL
-                     datName : (NSString *) datName
-				   headCount : (int) count
+- (NSURL *)readURLWithBoard:(NSURL *)boardURL datName:(NSString *)datName headCount:(int)count
 {
 	NSString	*base_;
-	base_ = [self makeURLStringWithBoard : boardURL datName : datName];
-	if (base_ == nil)
-		return nil;
+	base_ = [self makeURLStringWithBoard:boardURL datName:datName];
+	if (!base_) return nil;
 
-	return [NSURL URLWithString : [base_ stringByAppendingFormat : @"-%i", count]];
+	return [NSURL URLWithString:[base_ stringByAppendingFormat:@"-%i", count]];
 }
 
-- (NSURL *) readURLWithBoard : (NSURL    *) boardURL
-                     datName : (NSString *) datName
-					   start : (unsigned  ) startIndex
-					     end : (unsigned  ) endIndex
-					 nofirst : (BOOL      ) nofirst
+- (NSURL *)readURLWithBoard:(NSURL *)boardURL
+					datName:(NSString *)datName
+					  start:(unsigned)startIndex
+						end:(unsigned)endIndex
+					nofirst:(BOOL)nofirst
 {
 	id				tmp;
 	NSURL			*location_;
 	NSString		*base_;
 
-	base_ = [self makeURLStringWithBoard : boardURL datName : datName];
+	base_ = [self makeURLStringWithBoard:boardURL datName:datName];
 	UTILRequireCondition(base_, ErrReadURL);
 	tmp = SGTemporaryString();
-	[tmp setString : base_];
+	[tmp setString:base_];
 
-	if (startIndex != NSNotFound)
-		[tmp appendFormat : @"%u", startIndex];
-
+	if (startIndex != NSNotFound) {
+		[tmp appendFormat:@"%u", startIndex];
+	}
 	if (nofirst) {
-			[tmp appendString : @"n-"];
+			[tmp appendString:@"n-"];
 	} else {
-		[tmp appendString: @"-"];
+		[tmp appendString:@"-"];
 	}
-	
-	
+
 	if (endIndex != NSNotFound && endIndex != startIndex) {
-		if (NSNotFound == startIndex)
-			[tmp appendString : @"1-"];
-		
-		[tmp appendFormat : @"%u", endIndex];
+		if (NSNotFound == startIndex) {
+			[tmp appendString:@"1-"];
+		}
+		[tmp appendFormat:@"%u", endIndex];
 	}
-	location_ = [NSURL URLWithString : tmp];
+	location_ = [NSURL URLWithString:tmp];
 	
 	return location_;
 	
@@ -152,47 +146,47 @@ ErrReadURL:
 	return nil;
 }
 
-- (NSURL *) rawmodeURLWithBoard: (NSURL    *) boardURL
-						datName: (NSString *) datName
-						  start: (unsigned  ) startIndex
-							end: (unsigned  ) endIndex
-						nofirst: (BOOL      ) nofirst
+- (NSURL *)rawmodeURLWithBoard:(NSURL *)boardURL
+					   datName:(NSString *)datName
+						 start:(unsigned)startIndex
+						   end:(unsigned)endIndex
+					   nofirst:(BOOL)nofirst
 {
-	NSURL	*url_ = [self readURLWithBoard: boardURL datName: datName start: startIndex end: NSNotFound nofirst: nofirst];
+	NSURL	*url_ = [self readURLWithBoard:boardURL datName:datName start:startIndex end:NSNotFound nofirst:nofirst];
 	if (!url_) return nil;
 
 	NSMutableString	*tmp = [[url_ absoluteString] mutableCopy];
-	[tmp replaceOccurrencesOfString: @"read.cgi" withString: @"rawmode.cgi" options: NSLiteralSearch range: NSMakeRange(0, [tmp length])];
-	
-	NSURL	*newURL_ = [NSURL URLWithString: tmp];
+	[tmp replaceOccurrencesOfString:@"read.cgi" withString:@"rawmode.cgi" options:NSLiteralSearch range:NSMakeRange(0, [tmp length])];
+
+	NSURL	*newURL_ = [NSURL URLWithString:tmp];
 	[tmp release];
-	
+
 	return newURL_;
 }
 
 #pragma mark HTML Parser
-- (NSString *) convertObjectsToExtraFields: (NSArray *) components
+- (NSString *)convertObjectsToExtraFields:(NSArray *)components
 {
     NSMutableString *tmp = [NSMutableString string];
     NSString    *idOrHost;
 
-    [tmp appendString: [components objectAtIndex: 3]]; // Date
+    [tmp appendString:[components objectAtIndex:3]]; // Date
 
-    idOrHost = [components objectAtIndex: 6]; // ID or HOST
+    idOrHost = [components objectAtIndex:6]; // ID or HOST
 
-    if (NO == [idOrHost isEqualToString: @""]) {
+    if (![idOrHost isEqualToString:@""]) {
         unsigned length_ = [idOrHost length];
 
-        [tmp appendString: (length_ < 11) ? @" ID:" : @" HOST:"];
-        [tmp appendString: idOrHost];
+        [tmp appendString:(length_ < 11) ? @" ID:" : @" HOST:"];
+        [tmp appendString:idOrHost];
     }
     
     return tmp;
 }
 
-- (void) addDatLine: (NSArray *) components with: (id) thread count: (unsigned *) pLoadedCount
+- (void)addDatLine:(NSArray *)components with:(id)thread count:(unsigned *)pLoadedCount
 {
-    unsigned actualIndex = [[components objectAtIndex: 0] intValue];
+    unsigned actualIndex = [[components objectAtIndex:0] intValue];
 
     if (actualIndex == 0) return;
 
@@ -200,30 +194,28 @@ ErrReadURL:
 		unsigned	i;
 
         // 適当に行を詰める
-        NSLog(@"Invisible Abone Occurred(%u)", actualIndex);
+		UTIL_DEBUG_WRITE1(@"Invisible Abone Occurred(%u)", actualIndex);
         for (i = *pLoadedCount +1; i < actualIndex; i++) {
-            [thread appendString : @"<><><><>\n"];
+            [thread appendString:@"<><><><>\n"];
         }
     }
 
 	*pLoadedCount = actualIndex;
 
-    NSString *extraFields = [self convertObjectsToExtraFields: components];
+    NSString *extraFields = [self convertObjectsToExtraFields:components];
 
-    NSString *tmp_ = [NSString stringWithFormat: @"%@<>%@<>%@<>%@<>\n",
-                                                 [components objectAtIndex: 1],
-                                                 [components objectAtIndex: 2],
-                                                 extraFields,
-                                                 [components objectAtIndex: 4]];
+    NSString *tmp_ = [NSString stringWithFormat:@"%@<>%@<>%@<>%@<>\n",
+												[components objectAtIndex:1],
+												[components objectAtIndex:2],
+												extraFields,
+												[components objectAtIndex:4]];
 
-    [thread appendString: tmp_];
+    [thread appendString:tmp_];
 }
 
-- (id) parseHTML : (NSString *) inputSource
-			with : (id        ) thread
-		   count : (unsigned  ) loadedCount
+- (id)parseHTML:(NSString *)inputSource with:(id)thread count:(unsigned)loadedCount
 {
-    NSArray *eachLineArray_ = [inputSource componentsSeparatedByString: @"\n"];
+    NSArray *eachLineArray_ = [inputSource componentsSeparatedByString:@"\n"];
     NSEnumerator    *iter_ = [eachLineArray_ objectEnumerator];
     NSString        *eachLine_;
     BOOL            titleParsed_ = NO;
@@ -231,39 +223,36 @@ ErrReadURL:
 
 NS_DURING
     while (eachLine_ = [iter_ nextObject]) {
-        NSArray *components_ = [eachLine_ componentsSeparatedByString: @"<>"];
+        NSArray *components_ = [eachLine_ componentsSeparatedByString:@"<>"];
         /* sample
         レス番号<>名前<>メール欄<>日付<>本文<>スレタイ（最初のレスのみ）<>ID
         3<>名無しさん<><>2006/08/10(木) 23:36:41<>ぬるぽ<><>ZCWPDDtE
         */
         
-        [self addDatLine: components_ with: thread count: &parsedCount];
+        [self addDatLine:components_ with:thread count:&parsedCount];
         
-        if (NO == titleParsed_) {
-            NSString *title_ = [components_ objectAtIndex: 5];
-            if (NO == [title_ isEqualToString: @""]) {
-		      NSRange		found;
-		
-		      found = [thread rangeOfString: @"\n"];
-		      if (found.length != 0) {
-			     [thread insertString: title_ atIndex: found.location];
-		      }
+        if (!titleParsed_) {
+            NSString *title_ = [components_ objectAtIndex:5];
+            if (![title_ isEqualToString:@""]) {
+				NSRange		found;
+
+				found = [thread rangeOfString:@"\n"];
+				if (found.length != 0) {
+					[thread insertString:title_ atIndex:found.location];
+				}
             }
             titleParsed_ = YES;
         }
-		
-//		parsedCount++;
-    }
+	}
 	
 NS_HANDLER
 	UTILCatchException(XmlPullParserException) {
 		NSLog(@"***LOCAL_EXCEPTION***%@", localException);
-		
 	} else {
 		[localException raise];
 	}
-NS_ENDHANDLER
-	
+
+NS_ENDHANDLER	
 	return thread;
 }
 @end
@@ -275,7 +264,6 @@ NS_ENDHANDLER
 	NSURL *foo = [self writeURLWithBoard:boardURL];
 	if (!foo) return nil;
 
-//	NSString *scheme = [foo scheme];
 	NSString *host = [foo host];
 	NSString *path = [foo path];
 	NSString *newURL = [NSString stringWithFormat:@"http://%@%@%@/new/", host, path, [boardURL path]];

@@ -1,3 +1,29 @@
+2008-02-17 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/BSLocalRulesPanel.nib
+	* application/source/bbs/BSLocalRulesCollector.m
+	* application/source/bbs/BoardManager-SettingTxt.m
+	* application/source/window/BSLocalRulesPanelController.m
+		「ローカルルールを表示」に関して、Tiger での問題を回避するために以下の対策を実施した：
+		- nib ファイルであらかじめ NSTextView の attributedString にバインディングしておくことはしない。
+		- 替わりに、コード中で NSObjectController に setContent: してから、バインディングを確立するようにした。
+		- さらに、BSLocalRulesCollector の init 時に localRulesAttrString にダミーの NSAttributedString をセットし、
+		　nil の状態でバインドされることのないようにした。
+		さらに、ローカルルールを取得できない時のエラーメッセージの表示を見直した。
+	* application/source/browser/Browser.m
+		お気に入りやスマート掲示板を表示中にも「ファイル」＞「新規スレッド…」が選択できていたのを修正。
+	* application/source/preferences/BSHostLivedoorHandler.m
+	* application/source/preferences/CMRHostHTMLHandler.m
+	* application/source/preferences/CMRHostHandler.m
+	* application/source/preferences/CMRHostHandler_p.h
+		CMRMachibbsaHandler を CMRMachibbsHandler にスペル修正。また、このサブクラスの implementation 部を
+		CMRHostHandler.m から CMRHostHTMLHandler.m に移動させた。
+		また、CMRHostHTMLHandler.m と BSHostLivedoorHandler.m で一部の NSLog() を UTIL_DEBUG_WRITE1() に変更した。
+	* application/Resources/Japanese.lproj/Localizable.strings
+	* application/Resources/Japanese.lproj/ThreadViewer.strings
+	* application/Resources/Japanese.lproj/ThreadsList.strings
+	* application/Resources/Japanese.lproj/ToolbarItems.strings
+		ローカライズ文字列の一部見直しと、使われなくなった文字列を削除。また、一部の文字列を ThreadViewer.strings から
+		ThreadsList.strings へ移動。
 2008-02-16 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadViewer-Download.m
 		間違ったスレッドに「dat 落ち」印がつく可能性があった部分を修正。

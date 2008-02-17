@@ -235,7 +235,8 @@ NSString *const BoardManagerDidFinishDetectingSettingTxtNotification = @"BoardMa
 		[[controller window] setDelegate:self];
 
 		collector = [[BSLocalRulesCollector alloc] initWithBoardName:boardName];
-		[[controller objectController] setContent:collector];
+//		[[controller objectController] setContent:collector];
+		[controller setObjectControllerContent:collector bindToTextView:YES];
 		[collector release];
 
 		[[self localRulesPanelControllers] addObject:controller];

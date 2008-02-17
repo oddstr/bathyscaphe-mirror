@@ -89,6 +89,8 @@
 			<dict>
 				<key>m_objectController</key>
 				<string>NSObjectController</string>
+				<key>m_textView</key>
+				<string>NSTextView</string>
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSWindowController</string>

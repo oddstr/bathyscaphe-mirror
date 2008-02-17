@@ -1,6 +1,6 @@
 //: CMRHostHandler.m
 /**
-  * $Id: CMRHostHandler.m,v 1.9 2008/02/13 15:22:20 tsawada2 Exp $
+  * $Id: CMRHostHandler.m,v 1.10 2008/02/17 13:25:09 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -53,11 +53,10 @@
 
 + (void) registerAllKnownHostHandlerClasses
 {
-	[self registerHostHandlerClass : [CMR2channelBeHandler class]];
+//	[self registerHostHandlerClass : [CMR2channelBeHandler class]];
 	[self registerHostHandlerClass : [CMR2channelHandler class]];
-//	[self registerHostHandlerClass : [CMRShitarabaHandler class]];
 	[self registerHostHandlerClass : [BSHostLivedoorHandler class]];
-	[self registerHostHandlerClass : [CMRMachibbsaHandler class]];
+	[self registerHostHandlerClass : [CMRMachibbsHandler class]];
 
 	// 上記以外 = 2channel互換
 	// datの改行を<br>にしていない板などが存在するので、サポートやめ
@@ -590,7 +589,7 @@ ErrParse:
 
 
 // ２ちゃんねる
-@implementation CMR2channelHandler// : CMRHostHandler
+@implementation CMR2channelHandler
 + (BOOL) canHandleURL : (NSURL *) anURL
 {
 	const char *hs = [[anURL host] UTF8String];
@@ -730,9 +729,9 @@ ErrReadURL:
 	return YES;
 }
 @end
-
+/*
 // Be@2ch
-@implementation CMR2channelBeHandler// : CMR2channelHandler
+@implementation CMR2channelBeHandler
 + (BOOL) canHandleURL : (NSURL *) anURL
 {
 	const char *hs = [[anURL host] UTF8String];
@@ -747,42 +746,4 @@ ErrReadURL:
 	return CMRHostPropertiesForKey(@"Be@2channel");
 }
 @end
-
-
-// したらば
-/*@implementation CMRShitarabaHandler : CMRHostHandler
-+ (BOOL) canHandleURL : (NSURL *) anURL
-{
-	const char *hostName_ = [[anURL host] UTF8String];
-         if ( NULL == hostName_ ) return NO;
-	return is_shitaraba( hostName_ );
-}
-- (NSDictionary *) properties
-{
-	return CMRHostPropertiesForKey(@"shitaraba");
-}
-@end*/
-
-@implementation CMRMachibbsaHandler
-+ (BOOL) canHandleURL : (NSURL *) anURL
-{
-	const char *hostName_ = [[anURL host] UTF8String];
-         if ( NULL == hostName_ ) return NO;
-	return is_machi( hostName_ );
-}
-- (NSDictionary *) properties
-{
-	return CMRHostPropertiesForKey(@"machibbs");
-}
-- (NSURL *) readURLWithBoard : (NSURL    *) boardURL
-                     datName : (NSString *) datName
-				 latestCount : (int) count
-{
-	NSString	*base_;
-	base_ = [self makeURLStringWithBoard : boardURL datName : datName];
-	if (base_ == nil)
-		return nil;
-
-	return [NSURL URLWithString : [base_ stringByAppendingFormat : @"&LAST=%i", count]];
-}
-@end
+*/

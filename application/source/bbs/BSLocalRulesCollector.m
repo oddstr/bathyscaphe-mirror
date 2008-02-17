@@ -48,6 +48,9 @@ static NSString *const kInsertionPointMarker = @"%%%HEAD_TXT_CONTENT%%%";
 {
 	if (self = [super init]) {
 		BOOL	isDir;
+		NSAttributedString *dummyAttrStr = [[NSAttributedString alloc] initWithString:@" "];
+		[self setLocalRulesAttrString:dummyAttrStr];
+		[dummyAttrStr release];
 		[self setBoardName:boardName];
 
 		if ([[NSFileManager defaultManager] fileExistsAtPath:[self cacheFilePath] isDirectory:&isDir] && !isDir) {
@@ -126,7 +129,7 @@ static NSString *const kInsertionPointMarker = @"%%%HEAD_TXT_CONTENT%%%";
 
 	[connection cancel];
 	[self setCurrentConnection:nil];
-	NSDictionary *dict = [NSDictionary dictionaryWithObject:NSLocalizedString(@"Can't get head.txt 1", @"") forKey:NSLocalizedDescriptionKey];
+	NSDictionary *dict = [NSDictionary dictionaryWithObject:NSLocalizedString(@"Can't get head.txt", @"") forKey:NSLocalizedDescriptionKey];
 	NSError *error = [NSError errorWithDomain:BSLocalRulesCollectorErrorDomain code:[(NSHTTPURLResponse *)redirectResponse statusCode] userInfo:dict];
 	[self setLastError:error];
 	[self setIsLoading:NO];
@@ -144,7 +147,7 @@ static NSString *const kInsertionPointMarker = @"%%%HEAD_TXT_CONTENT%%%";
     default:
 		[connection cancel];
 		[self setCurrentConnection:nil];
-		NSDictionary *dict = [NSDictionary dictionaryWithObject:NSLocalizedString(@"Can't get head.txt 2", @"") forKey:NSLocalizedDescriptionKey];
+		NSDictionary *dict = [NSDictionary dictionaryWithObject:NSLocalizedString(@"Can't get head.txt", @"") forKey:NSLocalizedDescriptionKey];
 		NSError *error = [NSError errorWithDomain:BSLocalRulesCollectorErrorDomain code:status userInfo:dict];
 		[self setLastError:error];
 		[self setIsLoading:NO];
@@ -176,7 +179,7 @@ static NSString *const kInsertionPointMarker = @"%%%HEAD_TXT_CONTENT%%%";
 		[self setLocalRulesAttrString:attrStr];
 		[self setLastError:nil];
 	} else {
-		NSDictionary *dict = [NSDictionary dictionaryWithObject:NSLocalizedString(@"Can't get head.txt 4", @"") forKey:NSLocalizedDescriptionKey];
+		NSDictionary *dict = [NSDictionary dictionaryWithObject:NSLocalizedString(@"Can't get head.txt", @"") forKey:NSLocalizedDescriptionKey];
 		NSError *error = [NSError errorWithDomain:BSLocalRulesCollectorErrorDomain code:BSLocalRulesCollectorErrorCannotCreateAttrString userInfo:dict];
 		[self setLastError:error];
 	}
@@ -240,9 +243,9 @@ static NSString *const kInsertionPointMarker = @"%%%HEAD_TXT_CONTENT%%%";
 	attrStr = [[NSAttributedString alloc] initWithPath:[self cacheFilePath] documentAttributes:&docAttrs];
 	
 	if (!attrStr) {
-		NSDictionary *dict = [NSDictionary dictionaryWithObject:NSLocalizedString(@"Can't get head.txt 3", @"") forKey:NSLocalizedDescriptionKey];
-		NSError *error = [NSError errorWithDomain:BSLocalRulesCollectorErrorDomain code:BSLocalRulesCollectorErrorCannotReadFile userInfo:dict];
-		[self setLastError:error];
+//		NSDictionary *dict = [NSDictionary dictionaryWithObject:NSLocalizedString(@"Can't get head.txt 3", @"") forKey:NSLocalizedDescriptionKey];
+//		NSError *error = [NSError errorWithDomain:BSLocalRulesCollectorErrorDomain code:BSLocalRulesCollectorErrorCannotReadFile userInfo:dict];
+//		[self setLastError:error];
 		[self startDownloadingHeadTxt];
 		return;
 	} else {

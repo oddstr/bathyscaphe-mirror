@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRHostHTMLHandler.m,v 1.6 2007/01/07 17:04:23 masakih Exp $
+  * $Id: CMRHostHTMLHandler.m,v 1.7 2008/02/17 13:25:09 tsawada2 Exp $
   * 
   * CMRHostHTMLHandler.m
   *
@@ -37,7 +37,7 @@
 #define kBrBrTag		@"HTML - MsgSuffixBrTag"
 
 
-@implementation CMRHostHTMLHandler : CMRHostHandler
+@implementation CMRHostHTMLHandler
 - (NSURL *) rawmodeURLWithBoard: (NSURL    *) boardURL
 						datName: (NSString *) datName
 						  start: (unsigned  ) startIndex
@@ -153,7 +153,7 @@ str = @"ê·ÇÒéq  <><> 2003/09/01(åé) 20:00:12 ID:Bc0TyiNc [ ntt2-ppp758.tokyo.san
 					unsigned	i;
 					
 					// ìKìñÇ…çsÇãlÇﬂÇÈ
-					NSLog(@"Invisible Abone Occurred(%u)", index_);
+					UTIL_DEBUG_WRITE1(@"Invisible Abone Occurred(%u)", index_);
 					for (i = *indexp +1; i < index_; i++)
 						[thread appendString : @"<><><><>\n"];
 				}
@@ -359,5 +359,30 @@ NS_HANDLER
 NS_ENDHANDLER
 	
 	return thread;
+}
+@end
+
+
+@implementation CMRMachibbsHandler
++ (BOOL) canHandleURL : (NSURL *) anURL
+{
+	const char *hostName_ = [[anURL host] UTF8String];
+         if ( NULL == hostName_ ) return NO;
+	return is_machi( hostName_ );
+}
+- (NSDictionary *) properties
+{
+	return CMRHostPropertiesForKey(@"machibbs");
+}
+- (NSURL *) readURLWithBoard : (NSURL    *) boardURL
+                     datName : (NSString *) datName
+				 latestCount : (int) count
+{
+	NSString	*base_;
+	base_ = [self makeURLStringWithBoard : boardURL datName : datName];
+	if (base_ == nil)
+		return nil;
+
+	return [NSURL URLWithString : [base_ stringByAppendingFormat : @"&LAST=%i", count]];
 }
 @end

@@ -12,8 +12,12 @@
 
 @interface BSLocalRulesPanelController : NSWindowController {
 	IBOutlet NSObjectController *m_objectController;
+	IBOutlet NSTextView			*m_textView;
 }
 - (NSObjectController *)objectController;
+- (NSTextView *)textView;
+
+- (void)setObjectControllerContent:(id)contentObject bindToTextView:(BOOL)flag;
 
 - (IBAction)reload:(id)sender;
 @end
