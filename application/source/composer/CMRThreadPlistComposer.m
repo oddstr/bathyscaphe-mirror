@@ -101,9 +101,10 @@ static unsigned int current_index_;
 }
 - (void) composeDate : (CMRThreadMessage *) aMessage
 {
-	id date_ = [aMessage date];
-	if (date_ == nil) return;
-	if ([date_ isKindOfClass : [NSDate class]]) {
+//	id date_ = [aMessage date];
+//	if (date_ == nil) return;
+/*	if ([date_ isKindOfClass : [NSDate class]]) {
+		NSLog(@"A");
 		double	sec_, sec2_;
 		int		milliSec_int;
 
@@ -111,34 +112,36 @@ static unsigned int current_index_;
 		milliSec_int = (modf(sec_, &sec2_))*1000;
 		if (milliSec_int != 0)
 			[[self dictionary] setInteger : milliSec_int forKey : ThreadPlistContentsMilliSecKey];
-	}
+	}*/
 
-	[self addNewEntry : date_ forKey : ThreadPlistContentsDateKey];
-	[self addNewEntry : [aMessage dateRepresentation] forKey : ThreadPlistContentsDateRepKey];
+//	[self addNewEntry : date_ forKey : ThreadPlistContentsDateKey];
+	[self addNewEntry:[aMessage date] forKey:ThreadPlistContentsDateKey];
+	[self addNewEntry:[aMessage dateRepresentation] forKey:ThreadPlistContentsDateRepKey];
 }
-- (void) composeDatePrefix : (CMRThreadMessage *) aMessage
+/*
+- (void)composeDatePrefix:(CMRThreadMessage *)aMessage
 {
 	[self addNewEntry:[aMessage datePrefix] forKey:ThreadPlistContentsDatePrefixKey];
 }
-- (void) composeID : (CMRThreadMessage *) aMessage
+*/
+- (void)composeID:(CMRThreadMessage *)aMessage
 {
 	[self addNewEntry:[aMessage IDString] forKey:ThreadPlistContentsIDKey];
 }
-- (void) composeBeProfile : (CMRThreadMessage *) aMessage
+
+- (void)composeBeProfile:(CMRThreadMessage *)aMessage
 {
 	[self addNewEntry:[aMessage beProfile] forKey:ThreadPlistContentsBeProfileKey];
 }
-- (void) composeHost : (CMRThreadMessage *) aMessage
+
+- (void)composeHost:(CMRThreadMessage *)aMessage
 {
-	NSString	*host = [aMessage host];
-	
-	if (nil == host) return;
-	[self addNewEntry:host forKey:CMRThreadContentsHostKey];
+	[self addNewEntry:[aMessage host] forKey:CMRThreadContentsHostKey];
 }
-- (void) composeMessage : (CMRThreadMessage *) aMessage
+
+- (void)composeMessage:(CMRThreadMessage *)aMessage
 {
-	[self addNewEntry : [aMessage messageSource] 
-			   forKey : ThreadPlistContentsMessageKey];
+	[self addNewEntry:[aMessage messageSource] forKey:ThreadPlistContentsMessageKey];
 }
 
 - (id) getMessages
@@ -159,13 +162,13 @@ static unsigned int current_index_;
               forKey : (NSString *) key
 {
 	UTILAssertNotNil(key);
-	// for debug only.
+#if UTIL_DEBUGGING
 	if (nil == obj) {
 		
 		UTIL_DEBUG_WRITE2(@"Can't create field\"%@\" at index:%u",
 			key, current_index_);
 	}
-	
+#endif	
 	[[self dictionary] setNoneNil:obj forKey:key];
 }
 

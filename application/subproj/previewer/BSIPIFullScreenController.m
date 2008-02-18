@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIFullScreenController.m,v 1.14 2007/12/24 14:29:09 tsawada2 Exp $
+//  $Id: BSIPIFullScreenController.m,v 1.15 2008/02/18 23:17:36 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.
@@ -117,6 +117,18 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 	return displayPatternDict;
 }
 
+- (NSColor *)suitableTextColorForBackground
+{
+	float r,g,b;
+	float distanceWhite, distanceBlack;
+	NSColor *color = [windowBackgroundColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+	[color getRed:&r green:&g blue:&b alpha:NULL];
+	distanceBlack = fabs(r) + fabs(g) + fabs(b);
+	distanceWhite = fabs(r - 1.0) + fabs(g - 1.0) + fabs(b - 1.0);
+
+	return (distanceBlack < distanceWhite) ? [NSColor whiteColor] : [NSColor blackColor];
+}
+
 - (void)startFullScreen
 {
 	[self startFullScreen:[NSScreen mainScreen]];
@@ -147,6 +159,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 	}
 	
 	[_fullScreenWindow setBackgroundColor:windowBackgroundColor];
+	[_statusField setTextColor:[self suitableTextColorForBackground]];
 
 	// Quartz!
 	if (kCGErrorSuccess == CGAcquireDisplayFadeReservation(kCGMaxDisplayReservationInterval, &tokenPtr1)) {

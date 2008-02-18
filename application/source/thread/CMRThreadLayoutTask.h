@@ -6,7 +6,7 @@
   * @author Takanori Ishikawa
   * @author http://www15.big.or.jp/~takanori/
   * @version 1.0.0d1 (03/01/16  11:56:40 PM)
-  *
+  * encoding="UTF-8"
   */
 #import <Foundation/Foundation.h>
 #import "CocoMonar_Prefix.h"
@@ -19,7 +19,7 @@
 @protocol CMRThreadLayoutTask <NSObject, CMRTask, CMXRunnable>
 /**
   * @exception CMRThreadTaskInterruptedException
-  *            ƒLƒƒƒ“ƒZƒ‹‚â—\Šú‚µ‚È‚¢ó‹µ‚É‚æ‚èI—¹‚µ‚½B
+  *            ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã‚„äºˆæœŸã—ãªã„çŠ¶æ³ã«ã‚ˆã‚Šçµ‚äº†ã—ãŸã€‚
   */
 - (void) executeWithLayout : (CMRThreadLayout *) layout;
 @end
@@ -29,7 +29,8 @@
 @interface CMRThreadLayoutConcreateTask : NSObject<CMRThreadLayoutTask>
 {
 	BOOL		_isInterrupted;
-	BOOL		_didFinished;
+//	BOOL		_didFinished;
+	BOOL		_isInProgress;
 	
 	id			_identifier;
 	CMRThreadLayout	*_layout;
@@ -48,14 +49,15 @@
 - (void) setIsInterrupted : (BOOL) anIsInterrupted;
 /**
   * @exception CMRThreadTaskInterruptedException
-  *            [self isInterrupted] == YES‚È‚ç—áŠO‚ğ”­¶
+  *            [self isInterrupted] == YESãªã‚‰ä¾‹å¤–ã‚’ç™ºç”Ÿ
   */
 - (void) checkIsInterrupted;
-- (BOOL) didFinished;
-- (void) setDidFinished : (BOOL) aDidFinished;
+// Deprecated. Use -isInProgress, -setIsInProgress: instead.
+//- (BOOL) didFinished;
+//- (void) setDidFinished : (BOOL) aDidFinished;
 /**
   * 
-  * ˆÈ‰º‚Ìƒƒ\ƒbƒh‚ÍƒTƒuƒNƒ‰ƒX‚É’ñ‹Ÿ
+  * ä»¥ä¸‹ã®ãƒ¡ã‚½ãƒƒãƒ‰ã¯ã‚µãƒ–ã‚¯ãƒ©ã‚¹ã«æä¾›
   * 
   */
 - (NSString *) messageInProgress;

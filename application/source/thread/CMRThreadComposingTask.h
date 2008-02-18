@@ -14,7 +14,7 @@
 @class CMRThreadMessageBuffer;
 
 @interface CMRThreadComposingTask : CMRThreadLayoutConcreateTask {
-	@private
+@private
 	CMRThreadContentsReader	*_reader;
 
 	unsigned				_willComposeLength;
@@ -35,6 +35,9 @@
 - (void)setThreadTitle:(NSString *)aThreadTitle;
 - (CMRThreadContentsReader *)reader;
 - (void)setReader:(CMRThreadContentsReader *)aReader;
+
+- (unsigned)willComposeLength;
+- (void)setWillComposeLength:(unsigned)length;
 
 /* 0-based */
 - (unsigned int)callbackIndex;

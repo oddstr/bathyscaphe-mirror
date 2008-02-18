@@ -1,4 +1,36 @@
+2008-02-19 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/thread/CMRThreadComposingTask.m
+	* application/source/thread/CMRThreadFileLoadingTask.m
+	* application/source/thread/CMRThreadLayoutTask.m
+		ソースの整理。また、プログレスインジケータが出来るだけ床屋さんスタイルではなく棒グラフスタイルで表示できるよう、
+		データをしっかり提供するようにした。
+	* application/source/manager/CMRDocumentController.m
+	* application/source/thread/CMRAbstructThreadDocument.m
+	* application/source/thread/CMRThreadDocument.m
+	* application/source/thread/CMRThreadViewer.m
+		同じスレッドを同時に複数のウインドウで開いてしまうことが無いよう、対策を強化した。
+		- 今までの方法には不十分な部分があり、チェックをすり抜けてしまうことがあった。
+		- 判定部分を CMRDocumentController に移動させ、CMRThreadViewer.m や CMRThreadDocument.m から呼び出すように整理した。
+	* application/source/composer/CMRAttributedMessageComposer.m
+	* application/source/composer/CMRMessageComposer.[h|m]
+	* application/source/composer/CMRThreadDictReader.m
+	* application/source/composer/CMRThreadPlistComposer.m
+	* application/source/composer/CMXTextParser.m
+	* application/source/threaddata/CMRThreadMessage.[h|m]
+		二年ほど前に一時的に対応していた、特殊な日付表記（「皇紀xxxx年」とか「エロゲ暦xx年」など）と、VIP などでの 100分の一秒単位の秒数について、
+		それぞれの個別のデータとしてのログファイルへの記録を終了することにした。
+		即ち、ログファイルの ThreadPlistContentsDatePrefixKey（@"DatePrefix"）、ThreadPlistContentsMilliSecKey（@"MilliSec"）は
+		今後読み書きしない。これらのエントリが存在するログファイルを BathyScaphe 1.6.1 以降で開いて閉じると、これらのエントリは失われる。
+		これらのデータの記録を終了しても、日付の文字列としての表現（ThreadPlistContentsDateRepKey、@"DateRepresentation"）がスレッドの
+		表示時に使われるため、問題は無いし、多くのユーザはこの変更を意識する必要は無いだろう。
+	* application/Resources/Japanese.lproj/CMRTaskDescription.strings
 2008-02-18 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/view/popup/CMXPopUpWindowController.m
+		ロックされたポップアップをクローズボタンをクリックして閉じた時は、poof animation を表示しないようにした。
+	* application/subproj/previewer/BSIPIFullScreenController.m
+	* application/subproj/previewer/Japanese.lproj/BSIPIFullScreen.nib
+		プレビューインスペクタ：2008-02-17 の変更（フルスクリーン表示時の進捗状況表示用 NSTextField を BSIPIHUDTextField に変更）をやめ、
+		背景色に応じて進捗状況表示用 NSTextField の文字色を黒または白にセットして視認性を確保するように変更した。
 	* application/source/thread/CMRThreadComposingTask.m
 	* application/source/thread/CMRThreadDownloadTask.m
 	* application/source/thread/CMRThreadFileLoadingTask.m

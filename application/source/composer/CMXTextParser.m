@@ -1,5 +1,5 @@
 /**
-  * $Id: CMXTextParser.m,v 1.25 2007/10/20 02:21:29 tsawada2 Exp $
+  * $Id: CMXTextParser.m,v 1.26 2008/02/18 23:17:36 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -558,9 +558,9 @@ static BOOL divideField(NSString *field, NSString **datePart, NSString **milliSe
 	NSString *tmpPrefix = nil;
     if (prefixMatch) {
 		tmpPrefix = [prefixMatch substringAtIndex: 1];
-		[aMessage setDatePrefix: tmpPrefix];
-		NSRange cutRange = [prefixMatch rangeOfSubstringAtIndex: 1];
-		field = [field substringFromIndex: NSMaxRange(cutRange)+1];
+//		[aMessage setDatePrefix: tmpPrefix];
+		NSRange cutRange = [prefixMatch rangeOfSubstringAtIndex:1];
+		field = [field substringFromIndex:NSMaxRange(cutRange)+1];
     }
 
     //
@@ -824,21 +824,18 @@ static BOOL _parseExtraField(NSString *extraField, CMRThreadMessage *aMessage)
 static BOOL _parseDateExtraField(NSString *dateExtra, CMRThreadMessage *aMessage)
 {
 	NSString		*datePart_ = nil;
-	NSString		*milliSecPart_ = nil;
+//	NSString		*milliSecPart_ = nil;
 	NSString		*extraPart_ = nil;
 
 	if (nil == dateExtra || 0 == [dateExtra length]) return YES;
 
-	divideField(dateExtra, &datePart_, &milliSecPart_, &extraPart_, aMessage);
+//	divideField(dateExtra, &datePart_, &milliSecPart_, &extraPart_, aMessage);
+	divideField(dateExtra, &datePart_, NULL, &extraPart_, aMessage);
 
 	if (datePart_) {
 		id date_;	
-//		NSMutableString *tmpDatePart_ = [datePart_ mutableCopy];
-//		
-//		CFStringTrimWhitespace((CFMutableStringRef)tmpDatePart_);
-
-//		date_ = dateWith2chDateString(tmpDatePart_);
-		date_ = dateWith2chDateString(datePart_, milliSecPart_);
+//		date_ = dateWith2chDateString(datePart_, milliSecPart_);
+		date_ = dateWith2chDateString(datePart_, nil);
 
 		if (nil == date_) {
 			NSLog(@"Can't Convert '%@' to Date.", datePart_);

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadDictReader.m,v 1.2 2006/01/05 14:16:44 tsawada2 Exp $
+  * $Id: CMRThreadDictReader.m,v 1.3 2008/02/18 23:17:36 tsawada2 Exp $
   * 
   * CMRThreadDictReader.m
   *
@@ -114,15 +114,15 @@ END_ATTRIBUTES:
 	[message_ setName : OBJECT_KEY(ThreadPlistContentsNameKey)];
 	[message_ setMail : OBJECT_KEY(ThreadPlistContentsMailKey)];
 	date_ = OBJECT_KEY(ThreadPlistContentsDateKey);
-	if ([date_ isKindOfClass : [NSDate class]]) {
+/*	if ([date_ isKindOfClass : [NSDate class]]) {
 		int					milliSec_;
 		milliSec_ = [messageDict_ integerForKey : ThreadPlistContentsMilliSecKey];
 		if (milliSec_ != 0) {
 			date_ = [date_ addTimeInterval : (milliSec_ * 0.001)];
 		}
-	}
+	}*/
 	[message_ setDate : date_];
-	[message_ setDatePrefix : OBJECT_KEY(ThreadPlistContentsDatePrefixKey)];
+//	[message_ setDatePrefix : OBJECT_KEY(ThreadPlistContentsDatePrefixKey)];
 	[message_ setIDString : OBJECT_KEY(ThreadPlistContentsIDKey)];
 	[message_ setBeProfile : OBJECT_KEY(ThreadPlistContentsBeProfileKey)];
 	[message_ setHost : OBJECT_KEY(CMRThreadContentsHostKey)];

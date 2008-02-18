@@ -1,35 +1,50 @@
-//:NSDocumentController_CMRExtensions.m
-/**
-  *
-  * 
-  *
-  * @author Takanori Ishikawa
-  * @author http://www15.big.or.jp/~takanori/
-  * @version 1.0.0d1 (02/09/15  10:55:57 PM)
-  *
-  */
+//
+//  CMRDocumentController.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 08/02/19.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import "CMRDocumentController.h"
-//#import "CocoMonar_Prefix.h"
-//#import "CMRReplyDocumentFileManager.h"
-//#import "CMRBrowser.h"
-// Deprecatd in TestaRossa and later, because of performance issue.
-// this method was used in CMRDocumentFileManage.m and CMRReplyDocumentFileManager.m
-/*@implementation NSDocumentController(CMRExtensions)
-- (NSString *) firstFileExtensionFromType:(NSString *) documentTypeName
-{
-	NSArray		*fileExtensions_;
-	
-	fileExtensions_ = [self fileExtensionsFromType : documentTypeName];
-	if(nil == fileExtensions_ || 0 == [fileExtensions_ count])
-		return nil;
-	
-	return [fileExtensions_ objectAtIndex : 0];
-}
-@end*/
 
 @implementation CMRDocumentController
-- (void) noteNewRecentDocumentURL : (NSURL *) aURL
+// Will be removed after saying good-bye to Panther.
+- (void)noteNewRecentDocumentURL:(NSURL *)aURL
 {
-	// block!
+
+}
+/*
+// For future use... after saying good-bye to Panther.
+- (unsigned int)maximumRecentDocumentCount
+{
+	return 0;
+}
+*/
+
+- (NSDocument *)documentAlreadyOpenForURL:(NSURL *)absoluteDocumentURL
+{
+	// 将来は NSURL-base に書き換えるべき
+	NSArray			*documents;
+	NSEnumerator	*iter;
+	NSDocument		*document;
+	NSString		*fileName;
+	NSString		*documentPath;
+
+	if (![absoluteDocumentURL isFileURL]) return nil;
+	documentPath = [absoluteDocumentURL path];
+
+	documents = [self documents];
+	iter = [documents objectEnumerator];
+
+	while (document = [iter nextObject]) {
+		fileName = [document fileName];
+//		fileName = [[document fileURL] path];
+		if (fileName && [fileName isEqualToString:documentPath]) {
+			return document;
+		}
+	}
+	return nil;
 }
 @end

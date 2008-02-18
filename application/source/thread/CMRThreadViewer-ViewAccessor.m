@@ -295,6 +295,8 @@
 	
 	/* LayoutManager */
 	layout = [[BSLayoutManager alloc] init];
+	// Leopard Test...
+//	[layout setAllowsNonContiguousLayout:YES];
 	[[self threadContent] addLayoutManager:layout];
 	[layout release];
 	

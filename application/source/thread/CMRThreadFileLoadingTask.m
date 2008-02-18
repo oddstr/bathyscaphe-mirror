@@ -79,6 +79,7 @@
 	// --------- Start Composing ---------
 	[self setCallbackIndex:foo]; // 2008-02-18
 	[self setReader:reader_];
+//	[self setWillComposeLength:[reader_ numberOfMessages]];
 	[super doExecuteWithLayout:layout];
 }
 

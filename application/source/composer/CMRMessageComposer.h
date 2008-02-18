@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMessageComposer.h,v 1.2 2007/01/22 02:23:29 tsawada2 Exp $
+  * $Id: CMRMessageComposer.h,v 1.3 2008/02/18 23:17:36 tsawada2 Exp $
   * 
   * CMRMessageComposer.h
   *
@@ -28,7 +28,7 @@
 - (void) composeName : (CMRThreadMessage *) aMessage;
 - (void) composeMail : (CMRThreadMessage *) aMessage;
 - (void) composeDate : (CMRThreadMessage *) aMessage;
-- (void) composeDatePrefix : (CMRThreadMessage *) aMessage;
+//- (void) composeDatePrefix : (CMRThreadMessage *) aMessage;
 - (void) composeID : (CMRThreadMessage *) aMessage;
 - (void) composeBeProfile : (CMRThreadMessage *) aMessage;
 - (void) composeHost : (CMRThreadMessage *) aMessage;

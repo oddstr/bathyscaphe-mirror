@@ -3,7 +3,8 @@
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 07/01/27.
-//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import <Cocoa/Cocoa.h>
@@ -12,9 +13,10 @@
 @class CMRThreadViewer;
 @class CMRThreadSignature;
 
-@interface CMRThreadDocument: CMRAbstructThreadDocument
-- (id) initWithThreadViewer: (CMRThreadViewer *) viewer;
+@interface CMRThreadDocument: CMRAbstructThreadDocument {
+}
+- (id)initWithThreadViewer:(CMRThreadViewer *)viewer;
 
-+ (BOOL) showDocumentWithContentOfFile: (NSString *) filepath contentInfo: (NSDictionary *) contentInfo;
-+ (BOOL) showDocumentWithHistoryItem: (CMRThreadSignature *) historyItem;
++ (BOOL)showDocumentWithHistoryItem:(CMRThreadSignature *)historyItem;
++ (BOOL)showDocumentWithContentOfFile:(NSString *)filepath contentInfo:(NSDictionary *)contentInfo;
 @end

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer.m,v 1.27 2007/12/25 12:00:29 masakih Exp $
+  * $Id: CMRAttributedMessageComposer.m,v 1.28 2008/02/18 23:17:36 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -299,7 +299,8 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 			[tmp setString : dateRep];
 		}
 	} else {
-		[tmp setString: dateStringFromObject([aMessage date], [aMessage datePrefix])];
+//		[tmp setString: dateStringFromObject([aMessage date], [aMessage datePrefix])];
+		[tmp setString: dateStringFromObject([aMessage date], nil)];
 	}
 
 	simpleAppendFieldItem([self contentsStorage], FIELD_DATE, tmp);

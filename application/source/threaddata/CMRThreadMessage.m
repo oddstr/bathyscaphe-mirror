@@ -1,6 +1,6 @@
 //: CMRThreadMessage.m
 /**
-  * $Id: CMRThreadMessage.m,v 1.6 2008/01/08 16:19:03 tsawada2 Exp $
+  * $Id: CMRThreadMessage.m,v 1.7 2008/02/18 23:17:36 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -57,7 +57,7 @@ NSString *const CMRThreadMessage_SAGE_String	= @"sage";
 	[_name release];
 	[_mail release];
 	[_date release];
-	[_datePrefix release];
+//	[_datePrefix release];
 	[_beProfile release];
 	[_dateRepresentation release];
 	[_IDString release];
@@ -75,13 +75,13 @@ NSString *const CMRThreadMessage_SAGE_String	= @"sage";
 		return NO;
 	}
 	
-	int	milliSec_;
+//	int	milliSec_;
 
 	[self setIndex : [rep unsignedIntForKey : ThreadPlistContentsIndexKey]];
 	[self setName : [rep stringForKey : ThreadPlistContentsNameKey]];
 	[self setMail : [rep stringForKey : ThreadPlistContentsMailKey]];
 	[self setDate : [rep objectForKey : ThreadPlistContentsDateKey]];
-	[self setDatePrefix : [rep objectForKey : ThreadPlistContentsDatePrefixKey]];
+//	[self setDatePrefix : [rep objectForKey : ThreadPlistContentsDatePrefixKey]];
 	[self setDateRepresentation : [rep objectForKey : ThreadPlistContentsDateRepKey]];
 	[self setIDString : [rep stringForKey : ThreadPlistContentsIDKey]];
 	[self setBeProfile : [rep objectForKey : ThreadPlistContentsBeProfileKey]];
@@ -92,9 +92,9 @@ NSString *const CMRThreadMessage_SAGE_String	= @"sage";
 		[CMRThreadMessageAttributes objectWithPropertyListRepresentation :
 			[rep objectForKey : CMRThreadContentsHostKey]]];
 
-	milliSec_ = [rep integerForKey : ThreadPlistContentsMilliSecKey];
-	if (milliSec_ != 0)
-		[[self date] addTimeInterval : (double)(milliSec_ / 1000)];
+//	milliSec_ = [rep integerForKey : ThreadPlistContentsMilliSecKey];
+//	if (milliSec_ != 0)
+//		[[self date] addTimeInterval : (double)(milliSec_ / 1000)];
 	
 	return YES;
 }
@@ -124,7 +124,7 @@ NSString *const CMRThreadMessage_SAGE_String	= @"sage";
 
 	if(date_ != nil) {
 		[rep setObject : date_ forKey : ThreadPlistContentsDateKey];
-		if ([date_ isKindOfClass : [NSDate class]]) {
+/*		if ([date_ isKindOfClass : [NSDate class]]) {
 		double	sec_, sec2_;
 		int		milliSec_int;
 
@@ -132,10 +132,10 @@ NSString *const CMRThreadMessage_SAGE_String	= @"sage";
 		milliSec_int = (modf(sec_, &sec2_))*1000;
 		if (milliSec_int != 0)
 			[rep setInteger : milliSec_int forKey : ThreadPlistContentsMilliSecKey];
-		}
+		}*/
 	}
 
-	[rep setNoneNil:[self datePrefix] forKey:ThreadPlistContentsDatePrefixKey];
+//	[rep setNoneNil:[self datePrefix] forKey:ThreadPlistContentsDatePrefixKey];
 	[rep setNoneNil:[self IDString] forKey:ThreadPlistContentsIDKey];
 	[rep setNoneNil : [self dateRepresentation] forKey : ThreadPlistContentsDateRepKey];
 	[rep setNoneNil:[self beProfile] forKey:ThreadPlistContentsBeProfileKey];
@@ -188,11 +188,11 @@ NSString *const CMRThreadMessage_SAGE_String	= @"sage";
 	v = [[self date] copyWithZone : aZone];
 	[tmp setDate : v];
 	[v release];
-	
+/*	
 	v = [[self datePrefix] copyWithZone : aZone];
 	[tmp setDatePrefix : v];
 	[v release];
-
+*/
 	v = [[self beProfile] copyWithZone : aZone];
 	[tmp setBeProfile : v];
 	[v release];
@@ -216,7 +216,7 @@ NSString *const CMRThreadMessage_SAGE_String	= @"sage";
 	v = [[self dateRepresentation] copyWithZone : aZone];
 	[tmp setDateRepresentation : v];
 	[v release];
-	//[tmp setIDString:[self IDString] host:[self host]];
+
 	return tmp;
 }
 
@@ -276,7 +276,7 @@ NSString *const CMRThreadMessage_SAGE_String	= @"sage";
 	// “ú•t‚¯‚ª‚ ‚é‚±‚Æ‚ÉˆË‘¶
 	[self setAboned : (nil == _date)];
 }
-- (NSString *) datePrefix
+/*- (NSString *) datePrefix
 {
 	return _datePrefix;
 }
@@ -287,7 +287,7 @@ NSString *const CMRThreadMessage_SAGE_String	= @"sage";
 	tmp = _datePrefix;
 	_datePrefix = [aPrefix retain];
 	[tmp release];
-}
+}*/
 - (NSArray *) beProfile
 {
 	return _beProfile;

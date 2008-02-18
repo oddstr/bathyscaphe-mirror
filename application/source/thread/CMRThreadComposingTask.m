@@ -74,6 +74,16 @@
 	_callbackIndex = aCallbackIndex;
 }
 
+- (unsigned)willComposeLength
+{
+	return _willComposeLength;
+}
+
+- (void)setWillComposeLength:(unsigned)length
+{
+	_willComposeLength = length;
+}
+
 - (CMRThreadContentsReader *)reader
 {
 	return _reader;
@@ -203,6 +213,8 @@
 	reader_ = [[self reader] retain];
 	UTILAssertNotNil(reader_);
 
+	[self setWillComposeLength:[reader_ numberOfMessages]];
+
 	// compose message chain
 	[reader_ composeWithComposer:buffer_];
 	if (0 == nMessages_) {
@@ -261,7 +273,7 @@
 		[theLayout insertEllipsisProxyAttachment:textBuffer_ atIndex:[textBuffer_ length] fromIndex:ellipsisIndex toIndex:[[buffer_ lastMessage] index]];
 	}
 	[self performsAppendingTextFromBuffer:textBuffer_];
-	
+	_didComposedCount = _willComposeLength;
 /*	[CMRMainMessenger postNotificationName:CMRThreadComposingDidFinishNotification object:self];
 	// 2008-02-18 */
 	[[self delegate] performSelectorOnMainThread:@selector(threadComposingDidFinish:) withObject:self waitUntilDone:NO];

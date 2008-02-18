@@ -27,6 +27,7 @@
 - (void)setTextStorage:(NSTextStorage *)aTextStorage;
 - (void)setTitlebar:(BSPopUpTitlebar *)aTitlebar;
 
+- (void)restoreLockedPopUp:(BOOL)shouldPoof;
 - (void)restoreLockedPopUp;
 - (void)setupLockedPopUp;
 @end

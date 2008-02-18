@@ -1,221 +1,171 @@
-//:CMRThreadDocument.m
-/**
-  *
-  * @see CMRThreadViewer.h
-  * @see CMRThreadAttributes.h
-  *
-  * @author Takanori Ishikawa
-  * @author http://www15.big.or.jp/~takanori/
-  * @version 1.0.0d1 (02/09/09  10:30:19 PM)
-  *
-  */
-#import "CMRThreadDocument_p.h"
+//
+//  CMRThreadDocument.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 08/02/19.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
 
-
+#import "CMRThreadDocument.h"
+#import "CMRAbstructThreadDocument_p.h"
+#import "CMRThreadViewer_p.h"
 
 @implementation CMRThreadDocument
-- (id) initWithThreadViewer : (CMRThreadViewer *) viewer
+- (id)initWithThreadViewer:(CMRThreadViewer *)viewer
 {
-	if(self = [self init]){
-		[self addWindowController : viewer];
+	if (self = [self init]) {
+		[self addWindowController:viewer];
 	}
 	return self;
 }
 
 #pragma mark -
-- (NSString *) fileType
+- (NSString *)fileType
 {
 	return CMRThreadDocumentType;
 }
-- (NSString *) fileName
+
+- (NSString *)fileName
 {
-	NSString		*fileName_;
-	
-	fileName_ = [[self threadAttributes] path];
-	if(nil == fileName_)
-		return [super fileName];
-	
-	return fileName_;
+	NSString		*fileName_ = [[self threadAttributes] path];
+	return fileName_ ? fileName_ : [super fileName];
 }
 
-- (void) replace : (CMRThreadAttributes *) oldAttrs
-			with : (CMRThreadAttributes *) newAttrs
-{
-
-	if(nil == newAttrs)
-		return;
-	// Å‹ßg‚Á‚½€–Úc‚ÍA‚à‚¤—v‚ç‚È‚¢‚©‚ç’Ê’m‚µ‚È‚­‚Ä‚à‚¢‚¢‚¾‚ë‚¤c
-	//[[NSDocumentController sharedDocumentController]
-	//			noteNewRecentDocument : self];
-	{
-		/* 2005-09-15 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-		—š—ğƒƒjƒ…[‚ğg‚Á‚ÄƒXƒŒƒbƒh‚ğØ‚è‘Ö‚¦‚Ä‚¢‚é‚ÆAwindowController ‚Æ document ‚Ì‘Î‰‚É‚Æ‚è‚í‚¯
-		’ˆÓ‚ğ•¥‚¤•K—v‚ªo‚Ä‚­‚éB
-		
-		ƒEƒCƒ“ƒhƒEA‚ÅƒXƒŒƒbƒh foo ‚ğAƒEƒCƒ“ƒhƒEB‚ÅƒXƒŒƒbƒh bar ‚ğŠJ‚¢‚Ä‚¨‚èAƒEƒCƒ“ƒhƒE B ‚ªƒL[ƒEƒCƒ“ƒhƒE‚¾‚Æ
-		‚µ‚æ‚¤B‚±‚±‚ÅAu—š—ğvƒƒjƒ…[‚©‚çƒXƒŒƒbƒh foo ‚ğ‘I‘ğ‚·‚é‚ÆAƒEƒCƒ“ƒhƒE B ‚Ì“à—e‚ª foo ‚É“ü‚ê‘Ö‚í‚éB
-		‚µ‚©‚µAƒEƒCƒ“ƒhƒEA‚Å‚à foo ‚ª•\¦‚³‚ê‚½‚Ü‚Ü‚Å‚ ‚éB“¯‚¶ƒXƒŒƒbƒh‚ª•¡”‚ÌƒEƒCƒ“ƒhƒE‚Å•\¦‚³‚ê‚Ä‚µ‚Ü‚¤B
-		Œ»İ‚Ì BathyScaphe ‚Å‚ÍA‚±‚Ìó‘Ô‚Å‚ÍƒŒƒX”Ô‚¸‚ê‚È‚Ç‚Ìƒgƒ‰ƒuƒ‹‚ª”­¶‚µ‚â‚·‚­‚È‚èŠëŒ¯B
-		
-		‚±‚ê‚ğ–h‚®‚½‚ßAƒXƒŒƒbƒhØ‚è‘Ö‚¦‚É document ‚Ì fileName ‚ğØ‚è‘Ö‚¦Œã‚ÌƒXƒŒƒbƒh‚Ì‚»‚ê‚É‚µ‚Á‚©‚è set ‚·‚éB
-		‚±‚ê‚Æ windowAlreadyExistsForPath: ‚Å‚Ìƒ`ƒFƒbƒN‚É‚æ‚èAƒXƒŒƒbƒh foo ‚ğ‘I‘ğ‚µ‚½‚ÉƒEƒCƒ“ƒhƒE B ‚Ì“à—e‚ğ
-		“ü‚ê‘Ö‚¦‚¸‚ÉAƒEƒCƒ“ƒhƒEA‚ğè‘O‚É‚Á‚Ä‚­‚é‚æ‚¤‚É‚·‚éB
-		*/
-		
-		NSString *tmp_ = [newAttrs path];
-		[self setFileName : tmp_];
-	}
-}
-
-
-
-- (void) makeWindowControllers
+- (void)makeWindowControllers
 {
 	CMRThreadViewer		*viewer_;
 	
 	viewer_ = [[CMRThreadViewer alloc] init];
-	[self addWindowController : viewer_];
-	[viewer_ setThreadContentWithFilePath : [self fileName]
-								boardInfo : nil];
-	
+	[self addWindowController:viewer_];
+	[viewer_ setThreadContentWithFilePath:[self fileName] boardInfo:nil];
 	[viewer_ release];
 }
 
-- (BOOL) copyFileIfNeeded: (NSString *) filepath toPath: (NSString **) newpath
+- (BOOL)copyFileIfNeeded:(NSString *)filepath toPath:(NSString **)newpath
 {
 	// 2007-03-29 tsawada2<ben-sawa@td5.so-net.ne.jp>
-	// ƒƒOƒtƒHƒ‹ƒ_ˆÈŠO‚ÌêŠ‚É‚ ‚éƒtƒ@ƒCƒ‹‚ğŠJ‚­‚Æ‚«‚ÍA
-	// ‚¢‚Á‚½‚ñƒƒOƒtƒHƒ‹ƒ_‚ÉƒRƒs[‚µ‚ÄA‚»‚ê‚ğŠJ‚­‚±‚Æ‚É‚µ‚Ä‚İ‚éB
-	//
-
+	// ãƒ­ã‚°ãƒ•ã‚©ãƒ«ãƒ€ä»¥å¤–ã®å ´æ‰€ã«ã‚ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ãã¨ãã¯ã€
+	// ã„ã£ãŸã‚“ãƒ­ã‚°ãƒ•ã‚©ãƒ«ãƒ€ã«ã‚³ãƒ”ãƒ¼ã—ã¦ã€ãã‚Œã‚’é–‹ãã“ã¨ã«ã—ã¦ã¿ã‚‹ã€‚
 	NSString *folderPath = [[filepath stringByDeletingLastPathComponent] stringByDeletingLastPathComponent];
 	NSString *logFolderPath = [[CMRFileManager defaultManager] dataRootDirectoryPath];
 
-	if ([folderPath isEqualToString: logFolderPath]) {
+	if ([folderPath isEqualToString:logFolderPath]) {
 		// No need to copy
-		if (newpath != NULL) *newpath = filepath;//[self setFileName: ddd];
+		if (newpath != NULL) *newpath = filepath;
 		return YES;
 	}
 
 	NSDictionary	*fileContents_;
-	NSString *boardName;
-	NSString *datNumber;
+	NSString		*boardName;
+	NSString		*datNumber;
 	NSFileManager *fm = [NSFileManager defaultManager];
 
-	fileContents_ = [NSDictionary dictionaryWithContentsOfFile: filepath];
-	if(nil == fileContents_) return NO;
-	boardName = [fileContents_ objectForKey: ThreadPlistBoardNameKey];
-	if (nil == boardName) return NO;
-	datNumber = [fileContents_ objectForKey: ThreadPlistIdentifierKey];
-	if (nil == datNumber || [datNumber intValue] < 1) return NO;
+	fileContents_ = [NSDictionary dictionaryWithContentsOfFile:filepath];
+	if (!fileContents_) return NO;
+	boardName = [fileContents_ objectForKey:ThreadPlistBoardNameKey];
+	if (!boardName) return NO;
+	datNumber = [fileContents_ objectForKey:ThreadPlistIdentifierKey];
+	if (!datNumber || [datNumber intValue] < 1) return NO;
 
 	NSString *fileName = [filepath lastPathComponent];
-	NSString *newLocationFolder = [logFolderPath stringByAppendingPathComponent: boardName];
-	NSString *newLocationFile = [newLocationFolder stringByAppendingPathComponent: datNumber];//fileName];
-	newLocationFile = [newLocationFile stringByAppendingPathExtension: @"thread"];
+	NSString *newLocationFolder = [logFolderPath stringByAppendingPathComponent:boardName];
+	NSString *newLocationFile = [newLocationFolder stringByAppendingPathComponent:datNumber];
+	newLocationFile = [newLocationFile stringByAppendingPathExtension:@"thread"];
 
-	if ([fm fileExistsAtPath: newLocationFile]) {
+	if ([fm fileExistsAtPath:newLocationFile]) {
 		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-		[alert setAlertStyle: NSCriticalAlertStyle];
-		[alert setMessageText: [NSString stringWithFormat: NSLocalizedString(@"CantCopyErrMsg", @""), fileName]];
-		[alert setInformativeText: NSLocalizedString(@"CantCopyBecauseAlreadyExists", @"")];
-		[alert addButtonWithTitle: NSLocalizedString(@"Cancel", @"")];
-		[alert addButtonWithTitle: NSLocalizedString(@"Proceed", @"")];
+		[alert setAlertStyle:NSCriticalAlertStyle];
+		[alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"CantCopyErrMsg", @""), fileName]];
+		[alert setInformativeText:NSLocalizedString(@"CantCopyBecauseAlreadyExists", @"")];
+		[alert addButtonWithTitle:NSLocalizedString(@"Cancel", @"")];
+		[alert addButtonWithTitle:NSLocalizedString(@"Proceed", @"")];
 		if ([alert runModal] == NSAlertSecondButtonReturn) {
-			[fm removeFileAtPath: newLocationFile handler: nil];
+			[fm removeFileAtPath:newLocationFile handler:nil];
 		} else {
 			return NO;
 		}
 	}
 
-	if ([fm copyPath:filepath toPath: newLocationFile handler:nil]) {
-		if (newpath != NULL) *newpath = newLocationFile;//[self setFileName: ddd];
+	if ([fm copyPath:filepath toPath:newLocationFile handler:nil]) {
+		if (newpath != NULL) *newpath = newLocationFile;
 		return YES;
 	}
 	return NO;
 }
 
-- (BOOL) readFromFile : (NSString *) filepath
-			   ofType : (NSString *) type
+- (BOOL)readFromFile:(NSString *)filepath ofType:(NSString *)type
 {
-	if([type isEqualToString : CMRThreadDocumentType]){
+	if ([type isEqualToString:CMRThreadDocumentType]) {
 		NSString *newFilePath = nil;
-		[self setFileType : CMRThreadDocumentType];
+		[self setFileType:CMRThreadDocumentType];
 
-		if ([self copyFileIfNeeded: filepath toPath: &newFilePath]) {
-			[self setFileName: newFilePath];
+		if ([self copyFileIfNeeded:filepath toPath:&newFilePath]) {
+			[self setFileName:newFilePath];
 			return YES;
 		}
 	}
 	return NO;
 }
 
-- (BOOL) loadDataRepresentation : (NSData   *) data
-                         ofType : (NSString *) aType
+- (BOOL)loadDataRepresentation:(NSData *)data ofType:(NSString *)aType
 {
 	return NO;
 }
 
-
-- (BOOL) writeToFile : (NSString *) fileName
-              ofType : (NSString *) type;
-{	
-	if([type isEqualToString : CMRThreadDocumentType]){
+- (BOOL)writeToFile:(NSString *)fileName ofType:(NSString *)type
+{
+	if ([type isEqualToString:CMRThreadDocumentType]) {
 		NSDictionary	*fileContents_;
 
-		// ƒƒO‘—Ş‚ÌƒtƒH[ƒ}ƒbƒg‚È‚çŒ³‚Ìƒ\[ƒX‚ğ“Ç‚İ‚İA
-		// ’P‚É•Ê‚ÌêŠ‚É•Û‘¶‚·‚éB
-		fileContents_ = 
-			[NSDictionary dictionaryWithContentsOfFile : [self fileName]];
-		if(nil == fileContents_) return NO;
-		
+		// ãƒ­ã‚°æ›¸é¡ã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆãªã‚‰å…ƒã®ã‚½ãƒ¼ã‚¹ã‚’èª­ã¿è¾¼ã¿ã€
+		// å˜ã«åˆ¥ã®å ´æ‰€ã«ä¿å­˜ã™ã‚‹ã€‚
+		fileContents_ = [NSDictionary dictionaryWithContentsOfFile:[self fileName]];
+		if (!fileContents_) return NO;
+
 		return [fileContents_ writeToFile:fileName atomically:YES];
 	}
-	
+
 	return [super writeToFile:fileName ofType:type];
 }
 
-- (NSData *) dataRepresentationOfType : (NSString *) aType
+- (NSData *)dataRepresentationOfType:(NSString *)aType
 {
 	return nil;
 }
 
 #pragma mark -
-+ (BOOL) showDocumentWithHistoryItem: (CMRThreadSignature *) historyItem
++ (BOOL)showDocumentWithHistoryItem:(CMRThreadSignature *)historyItem
 {
 	NSDictionary	*info_;
-	NSString *path_ = [historyItem threadDocumentPath];
+	NSString		*path_ = [historyItem threadDocumentPath];
 	
-	info_ = [NSDictionary dictionaryWithObjectsAndKeys: 
-					[historyItem boardName], ThreadPlistBoardNameKey, [historyItem identifier], ThreadPlistIdentifierKey, nil];
-	return [self showDocumentWithContentOfFile: path_ contentInfo: info_];	
+	info_ = [NSDictionary dictionaryWithObjectsAndKeys:[historyItem boardName], ThreadPlistBoardNameKey,
+													   [historyItem identifier], ThreadPlistIdentifierKey, nil];
+	return [self showDocumentWithContentOfFile:path_ contentInfo:info_];	
 }
 
-+ (BOOL) showDocumentWithContentOfFile : (NSString     *) filepath
-						   contentInfo : (NSDictionary *) contentInfo
++ (BOOL)showDocumentWithContentOfFile:(NSString *)filepath contentInfo:(NSDictionary *)contentInfo
 {
-	NSDocumentController	*dc_;
-	NSDocument				*document_;
+	CMRDocumentController	*docController = [CMRDocumentController sharedDocumentController];
+	NSDocument				*document;
+	CMRThreadViewer			*viewer;
+
+	if (!filepath || !contentInfo) return NO;
 	
-	if(nil == filepath || nil == contentInfo) return NO;
-	
-	dc_ = [NSDocumentController sharedDocumentController];
-	document_ = [dc_ documentForFileName : filepath];
-	
-	if(nil == document_){
-		CMRThreadViewer			*viewer_;
-		
-		viewer_ = [[CMRThreadViewer alloc] init];
-		document_ = [[self alloc] initWithThreadViewer : viewer_];
-		[document_ setFileName : filepath];
-		[dc_ addDocument : document_];
-		[viewer_ setThreadContentWithFilePath : filepath
-									boardInfo : contentInfo];
-		[viewer_ release];
-		[document_ release];
-	} else {
-		[document_ showWindows];
+	document = [docController documentAlreadyOpenForURL:[NSURL fileURLWithPath:filepath]];
+	if (document) {
+		[document showWindows];
+		return YES;
 	}
+
+	viewer = [[CMRThreadViewer alloc] init];
+	document = [[self alloc] initWithThreadViewer:viewer];
+	[document setFileName:filepath];
+	[docController addDocument:document];
+	[viewer setThreadContentWithFilePath:filepath boardInfo:contentInfo];
+	[viewer release];
+	[document release];
 	
 	return YES;
 }

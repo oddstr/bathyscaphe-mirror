@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMessageComposer.m,v 1.1 2005/05/11 17:51:04 tsawada2 Exp $
+  * $Id: CMRMessageComposer.m,v 1.2 2008/02/18 23:17:36 tsawada2 Exp $
   * 
   * CMRMessageComposer.m
   *
@@ -20,7 +20,7 @@
 	[self composeName : aMessage];
 	[self composeMail : aMessage];
 	[self composeDate : aMessage];
-	[self composeDatePrefix : aMessage];
+//	[self composeDatePrefix : aMessage];
 	[self composeID : aMessage];
 	[self composeBeProfile : aMessage];
 	[self composeHost : aMessage];
@@ -38,7 +38,7 @@
 - (void) composeName : (CMRThreadMessage *) aMessage{ ; }
 - (void) composeMail : (CMRThreadMessage *) aMessage{ ; }
 - (void) composeDate : (CMRThreadMessage *) aMessage{ ; }
-- (void) composeDatePrefix : (CMRThreadMessage *) aMessage{ ; }
+//- (void) composeDatePrefix : (CMRThreadMessage *) aMessage{ ; }
 - (void) composeID : (CMRThreadMessage *) aMessage{ ; }
 - (void) composeBeProfile : (CMRThreadMessage *) aMessage{ ; }
 - (void) composeHost : (CMRThreadMessage *) aMessage{ ; }

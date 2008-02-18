@@ -1,23 +1,18 @@
-//:NSDocumentController_CMRExtensions.h
-/**
-  *
-  * 
-  *
-  * @author Takanori Ishikawa
-  * @author http://www15.big.or.jp/~takanori/
-  * @version 1.0.0d1 (02/09/15  10:55:07 PM)
-  *
-  */
+//
+//  CMRDocumentController.h
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 08/02/19.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import <Foundation/Foundation.h>
 #import <AppKit/NSDocumentController.h>
 
-// Deprecated in TestaRossa and later.
-/*@interface NSDocumentController(CMRExtensions)
-- (NSString *) firstFileExtensionFromType:(NSString *) documentTypeName;
-@end*/
-
-
-
 @interface CMRDocumentController : NSDocumentController {
 }
+
+// Returns nil if no document for absoluteDocumentURL is open.
+- (NSDocument *)documentAlreadyOpenForURL:(NSURL *)absoluteDocumentURL; // Available in SilverGull and later.
 @end

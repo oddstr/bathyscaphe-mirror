@@ -16,6 +16,7 @@
 #import "CMRTrashbox.h"
 #import "CMRTaskManager.h"
 #import "CMRDocumentFileManager.h"
+#import "CMRDocumentController.h"
 #import "CMRHostHandler.h"
 
 @class CMRReplyMessenger;

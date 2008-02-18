@@ -144,7 +144,7 @@
 - (void)myPerformClose:(id)sender
 {
 	// Call from BSPopUpTitlebar's close button.
-	[self restoreLockedPopUp];
+	[self restoreLockedPopUp:NO];
 }
 
 - (BOOL)canPopUpWindow
@@ -275,24 +275,25 @@
 }
 
 #pragma mark Popup Locking
-- (void)restoreLockedPopUp
+- (void)restoreLockedPopUp:(BOOL)shouldPoof
 {
-//	NSSize scrollViewSize;
-	NSRect frame_ = [[self window] frame];
+	NSRect frame_;
 	NSPoint poofLocation;
-
-//	scrollViewSize = [[self scrollView] frame].size;
-//	scrollViewSize.height += TITLEBAR_HEIGHT;
+	frame_ = [[self window] frame];
 	poofLocation = NSMakePoint(NSMidX(frame_), NSMidY(frame_));
 
 	[[self window] setMovableByWindowBackground:NO];
 	[[self titlebar] setHidden:YES];
-//	[[self scrollView] setFrameSize:scrollViewSize];
 
 	[self updateBGColor];
 
 	[self close];
-	NSShowAnimationEffect(NSAnimationEffectDisappearingItemDefault, poofLocation, NSMakeSize(128,128), nil, NULL, nil);
+	if (shouldPoof) NSShowAnimationEffect(NSAnimationEffectDisappearingItemDefault, poofLocation, NSMakeSize(128,128), nil, NULL, nil);
+}
+
+- (void)restoreLockedPopUp
+{
+	[self restoreLockedPopUp:YES];
 }
 
 - (void)setupLockedPopUp

@@ -1,6 +1,6 @@
 //: CMRThreadMessage.h
 /**
-  * $Id: CMRThreadMessage.h,v 1.4 2008/01/08 16:19:03 tsawada2 Exp $
+  * $Id: CMRThreadMessage.h,v 1.5 2008/02/18 23:17:36 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -17,7 +17,7 @@
 	NSString		*_mail;
 	
 	id				_date;
-	NSString		*_datePrefix;
+//	NSString		*_datePrefix;
 	NSString		*_dateRepresentation; // may be nil in old log
 	
 	NSArray			*_beProfile;
@@ -41,8 +41,8 @@
 - (void) setDate : (id) aDate;
 
 // Humm...
-- (NSString *) datePrefix;
-- (void) setDatePrefix : (NSString *) aPrefix;
+//- (NSString *) datePrefix;
+//- (void) setDatePrefix : (NSString *) aPrefix;
 
 - (NSString *) dateRepresentation;
 - (void) setDateRepresentation : (NSString *) aRep;

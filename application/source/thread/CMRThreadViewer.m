@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.55 2008/02/17 20:20:18 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.56 2008/02/18 23:17:36 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -120,31 +120,32 @@ static NSDictionary *boardInfoWithFilepath(NSString *filepath)
 						dat_,	ThreadPlistIdentifierKey,
 						nil];
 }
-- (void) setThreadContentWithThreadIdentifier : (id  ) aThreadIdentifier
-							  noteHistoryList : (int ) relativeIndex
+
+- (void)setThreadContentWithThreadIdentifier:(id)aThreadIdentifier noteHistoryList:(int)relativeIndex
 {
-    NSString		*documentPath_;
-    NSDictionary	*boardInfo_;
+    NSString		*documentPath;
+	NSURL			*fileURL;
+	NSDocument		*document;
+
+    if (![aThreadIdentifier isKindOfClass:[CMRThreadSignature class]]) return;
     
-    if (NO == [aThreadIdentifier isKindOfClass : [CMRThreadSignature class]])
-    	return;
+    if ([[self threadIdentifier] isEqual:aThreadIdentifier]) return;
     
-    if ([[self threadIdentifier] isEqual : aThreadIdentifier])
-    	return;
-    
-    if (nil == [aThreadIdentifier boardName])
-    	return;
+    if (![aThreadIdentifier boardName]) return;
 	
-	documentPath_ = [aThreadIdentifier threadDocumentPath];
-	
-	if (![[self document] windowAlreadyExistsForPath : documentPath_]) {
-		boardInfo_ = [NSDictionary dictionaryWithObjectsAndKeys : 
-						[aThreadIdentifier boardName] ,	ThreadPlistBoardNameKey,
-						[aThreadIdentifier identifier],	ThreadPlistIdentifierKey,
-						nil];
-		[self setThreadContentWithFilePath : documentPath_
-								 boardInfo : boardInfo_
-						   noteHistoryList : relativeIndex];
+	documentPath = [aThreadIdentifier threadDocumentPath];
+	fileURL = [NSURL fileURLWithPath:documentPath];	
+	document = [[CMRDocumentController sharedDocumentController] documentAlreadyOpenForURL:fileURL];
+
+	if (document) {
+		[document showWindows];
+		return;
+	} else {
+		NSDictionary	*boardInfo;	
+		boardInfo = [NSDictionary dictionaryWithObjectsAndKeys:[aThreadIdentifier boardName], ThreadPlistBoardNameKey,
+															   [aThreadIdentifier identifier], ThreadPlistIdentifierKey, NULL];
+
+		[self setThreadContentWithFilePath:documentPath boardInfo:boardInfo noteHistoryList:relativeIndex];
 	}
 }
 
@@ -517,8 +518,8 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
     [[CMRNetGrobalLock sharedInstance] remove:[self threadIdentifier]];
 
 	// 2005-11-24 オンザフライクラッシュ対策
-	[[self window] invalidateCursorRectsForView:[[[self threadLayout] scrollView] contentView]];
-	
+	[[self window] invalidateCursorRectsForView:[[self scrollView] contentView]];
+
 	// まだ名無しさんが決定していなければ決定
 	// この時点では WorkerThread が動いており、
 	// プログレス・バーもそのままなので少し遅らせる

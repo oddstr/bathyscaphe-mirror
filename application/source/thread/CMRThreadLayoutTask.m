@@ -65,21 +65,21 @@
 
 - (void) executeWithLayout : (CMRThreadLayout *) layout
 {
-//	[CMRMainMessenger target : [CMRTaskManager defaultManager]
-//		performSelector : @selector(addTask:)
-//			 withObject : self
-//			 withResult : YES];
-// 2008-02-18
+/*	[CMRMainMessenger target : [CMRTaskManager defaultManager]
+		performSelector : @selector(addTask:)
+			 withObject : self
+			 withResult : YES];
+	// 2008-02-18 */
 	[[CMRTaskManager defaultManager] performSelectorOnMainThread:@selector(addTask:) withObject:self waitUntilDone:YES];
-//	[CMRMainMessenger postNotificationName : CMRTaskWillStartNotification
-//									object : self];
+/*	[CMRMainMessenger postNotificationName : CMRTaskWillStartNotification
+									object : self];
+	// 2008-02-18 */
 	NSNotification *notification = [NSNotification notificationWithName:CMRTaskWillStartNotification object:self];
 	[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:notification waitUntilDone:NO];
-	
+	[self setIsInProgress:YES];
+
 	@try{
-//		@synchronized([layout textStorage]) {
-		[self doExecuteWithLayout : layout];
-//		}
+		[self doExecuteWithLayout:layout];
 	}
 	@catch(NSException *localException) {
 		NSString		*name_;
@@ -92,9 +92,10 @@
 			// 別スレッドで実行されても問題ないかは
 			// 受け取り側の処理に依存
 			// 
-//			[[NSNotificationCenter defaultCenter]
-//				postNotificationName : CMRThreadTaskInterruptedNotification
-//							  object : self];
+/*			[[NSNotificationCenter defaultCenter]
+				postNotificationName : CMRThreadTaskInterruptedNotification
+							  object : self];
+			// 2008-02-18 */
 			[self postInterruptedNotification];
 		}else{
 			NSLog(@"%@ - %@", name_, localException);
@@ -103,9 +104,11 @@
 		@throw;
 	}
 	@finally {
-		[self setDidFinished : YES];
-//		[CMRMainMessenger postNotificationName : CMRTaskDidFinishNotification
-//										object : self];
+//		[self setDidFinished : YES];
+		[self setIsInProgress:NO];
+/*		[CMRMainMessenger postNotificationName : CMRTaskDidFinishNotification
+										object : self];
+		// 2008-02-18 */
 		notification = [NSNotification notificationWithName:CMRTaskDidFinishNotification object:self];
 		[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:notification waitUntilDone:NO];
 	}
@@ -127,7 +130,7 @@
 - (void) setIsInterrupted : (BOOL) anIsInterrupted
 {
 	_isInterrupted = anIsInterrupted;
-	[self setDidFinished : YES];
+//	[self setDidFinished : YES];
 }
 /**
   * @exception CMRThreadTaskInterruptedException
@@ -140,7 +143,7 @@
 					format : [self identifier]];
 	}
 }
-- (BOOL) didFinished
+/*- (BOOL) didFinished
 {
 	return _didFinished;
 }
@@ -148,7 +151,7 @@
 {
 	_didFinished = aDidFinished;
 }
-
+*/
 
 - (void) run
 {
@@ -177,8 +180,15 @@
 
 - (BOOL) isInProgress
 {
-	return (NO == [self isInterrupted] && NO == [self didFinished]);
+//	return (NO == [self isInterrupted] && NO == [self didFinished]);
+	return _isInProgress;
 }
+
+- (void)setIsInProgress:(BOOL)isInProgress
+{
+	_isInProgress = isInProgress;
+}
+
 - (double) amount
 {
 	return -1;
@@ -195,17 +205,18 @@
 @end
 
 
-
 @implementation CMRThreadClearTask
-- (NSString *) identifier
+- (NSString *)identifier
 {
 	return nil;
 }
-- (void) doExecuteWithLayout : (CMRThreadLayout *) layout
+
+- (void)doExecuteWithLayout:(CMRThreadLayout *)layout
 {
-//	[CMRMainMessenger target : layout
-//			 performSelector : @selector(doDeleteAllMessages)
-//				  withResult : YES];
+/*	[CMRMainMessenger target : layout
+			 performSelector : @selector(doDeleteAllMessages)
+				  withResult : YES];
+	// 2008-02-18 */
 	[layout performSelectorOnMainThread:@selector(doDeleteAllMessages) withObject:nil waitUntilDone:YES];
 }
 @end
