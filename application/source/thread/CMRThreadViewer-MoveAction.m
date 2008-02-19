@@ -32,7 +32,7 @@
 		index_ = 0;
 		minValue_ = 0;
 	} else {
-		index_ = [[self threadLayout] messageIndexForDocuemntVisibleRect];
+		index_ = [[self threadLayout] firstMessageIndexForDocumentVisibleRect];
 		if (index_ == NSNotFound) index_ = 0;
 		
 		index_++;

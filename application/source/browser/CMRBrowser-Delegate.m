@@ -410,13 +410,13 @@ BOOL isOptionKeyDown(void)
 		   selector:@selector(threadDocumentDidToggleDatOchiStatus:)
 			   name:CMRAbstractThreadDocumentDidToggleDatOchiNotification
 			 object:nil];
-
+/*
 	[[[NSWorkspace sharedWorkspace] notificationCenter]
 	     addObserver:self
 	        selector:@selector(sleepDidEnd:)
 	            name:NSWorkspaceDidWakeNotification
 	          object:nil];
-
+*/
 	[super registerToNotificationCenter];
 }
 
@@ -426,12 +426,12 @@ BOOL isOptionKeyDown(void)
 	[nc removeObserver:self name:CMRAbstractThreadDocumentDidToggleDatOchiNotification object:nil];
 	[nc removeObserver:self name:ThreadsListDownloaderShouldRetryUpdateNotification object:nil];
 	[nc removeObserver:self name:CMRBBSManagerUserListDidChangeNotification object:[BoardManager defaultManager]];
-
+/*
 	[[[NSWorkspace sharedWorkspace] notificationCenter]
 	  removeObserver:self
 	            name:NSWorkspaceDidWakeNotification
 	          object:nil];
-
+*/
 	[super removeFromNotificationCenter];
 }
 
@@ -463,15 +463,19 @@ BOOL isOptionKeyDown(void)
 	}
 }
 
-- (void)cleanUpItemsToBeRemoved:(NSArray *)files
+- (void)cleanUpItemsToBeRemoved:(NSArray *)files willReload:(BOOL)flag
 {
-//	if ([files containsObject:[self path]]) {
-		[self synchronizeWithSearchField];
-		[self selectCurrentThreadWithMask:[CMRPref threadsListAutoscrollMask]];
-//	}
+	[self synchronizeWithSearchField];
+	[self selectCurrentThreadWithMask:[CMRPref threadsListAutoscrollMask]];
+
+	if (!flag) {
+		BSTitleRulerView *ruler = (BSTitleRulerView *)[[self scrollView] horizontalRulerView];
+		[ruler setTitleStr:NSLocalizedString(@"titleRuler default title", @"Startup Message")];
+		[ruler setPathStr:nil];
+	}
 
 	if ([[self superclass] instancesRespondToSelector:_cmd]) {
-		[super cleanUpItemsToBeRemoved:files];
+		[super cleanUpItemsToBeRemoved:files willReload:flag];
 	}
 }
 
@@ -499,11 +503,18 @@ BOOL isOptionKeyDown(void)
 // Added in InnocentStarter.
 - (void)sleepDidEnd:(NSNotification *)aNotification
 {
-	if ([CMRPref isOnlineMode] && [CMRPref autoReloadListWhenWake] && ![[self currentThreadsList] isFavorites]) {
-//		id value = SGTemplateResource(kThreadsListReloadDelayKey);
-//		UTILAssertKindOfClass(value, NSNumber);
-//		NSTimeInterval delay = [value doubleValue];
-		NSTimeInterval delay = [CMRPref delayForAutoReloadAtWaking];
+//	if ([CMRPref isOnlineMode] && [CMRPref autoReloadListWhenWake] && [BoardListItem isBoardItem:[[self currentThreadsList] boardListItem]]) {
+//		NSTimeInterval delay = [CMRPref delayForAutoReloadAtWaking];
+//		[self performSelector:@selector(reloadThreadsList:) withObject:nil afterDelay:delay];
+//	}
+	if (![CMRPref isOnlineMode]) return;
+	NSTimeInterval delay = [CMRPref delayForAutoReloadAtWaking];
+
+	if ([CMRPref autoReloadViewerWhenWake] && [self shouldShowContents] && [self threadAttributes]) {
+		[self performSelector:@selector(reloadThread:) withObject:nil afterDelay:delay];
+	}
+
+	if ([CMRPref autoReloadListWhenWake] && [BoardListItem isBoardItem:[[self currentThreadsList] boardListItem]]) {
 		[self performSelector:@selector(reloadThreadsList:) withObject:nil afterDelay:delay];
 	}
 }

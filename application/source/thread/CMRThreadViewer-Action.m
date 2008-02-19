@@ -546,7 +546,7 @@
 	NSClipView *clipView_ = [[self scrollView] contentView];
 	NSTextView *textView_ = [self textView];
 
-	unsigned int curIndex = [[self threadLayout] messageIndexForDocuemntVisibleRect];
+	unsigned int curIndex = [[self threadLayout] firstMessageIndexForDocumentVisibleRect];
 
 	NSSize	curBoundsSize = [clipView_ bounds].size;	
 	NSSize	curFrameSize = [textView_ frame].size;
@@ -567,12 +567,12 @@
 
 - (IBAction)biggerText:(id)sender
 {
-	[self scaleTextView: 0.8];
+	[self scaleTextView:0.8];
 }
 
 - (IBAction)smallerText:(id)sender
 {
-	[self scaleTextView: 1.25];
+	[self scaleTextView:1.25];
 }
 
 - (IBAction)scaleSegmentedControlPushed:(id)sender

@@ -297,7 +297,7 @@
 	layout = [[BSLayoutManager alloc] init];
 	// Leopard Test...
 //	[layout setAllowsNonContiguousLayout:YES];
-	[[self threadContent] addLayoutManager:layout];
+	[[(CMRThreadDocument *)[self document] textStorage] addLayoutManager:layout];
 	[layout release];
 	
 	/* TextContainer */
@@ -390,7 +390,11 @@
 	if (NSEqualRects(NSZeroRect, frame_)) {
 		return;
 	}
+	if (NSEqualRects(frame_, [[self window] frame])) {
+		return;
+	}
 	[[self window] setFrame:frame_ display:YES];
+	[self synchronizeWindowTitleWithDocumentName];
 }
 @end
 

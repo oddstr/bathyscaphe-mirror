@@ -152,3 +152,6 @@ extern		NSString *IsCachedColumn;
 extern		NSString *IsUpdatedColumn;
 extern		NSString *IsNewColumn;
 extern		NSString *IsHeadModifiedColumn;
+
+// Added by tsawada2 (2008-02-19)
+extern NSString *const DatabaseDidFinishUpdateDownloadedOrDeletedThreadInfoNotification;

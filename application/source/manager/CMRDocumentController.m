@@ -8,6 +8,7 @@
 //
 
 #import "CMRDocumentController.h"
+#import "Browser.h"
 
 @implementation CMRDocumentController
 // Will be removed after saying good-bye to Panther.
@@ -41,6 +42,9 @@
 	while (document = [iter nextObject]) {
 		fileName = [document fileName];
 //		fileName = [[document fileURL] path];
+		if (!fileName && [document isKindOfClass:[Browser class]]) {
+			fileName = [[(Browser *)document threadAttributes] path];
+		}
 		if (fileName && [fileName isEqualToString:documentPath]) {
 			return document;
 		}

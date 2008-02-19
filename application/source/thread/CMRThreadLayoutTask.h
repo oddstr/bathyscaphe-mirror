@@ -69,5 +69,9 @@
 
 
 /* subclasses */
-@interface CMRThreadClearTask : CMRThreadLayoutConcreateTask
+@interface CMRThreadClearTask : CMRThreadLayoutConcreateTask {
+	id	_delegate;
+}
+- (id)delegate;
+- (void)setDelegate:(id)aDelegate;
 @end

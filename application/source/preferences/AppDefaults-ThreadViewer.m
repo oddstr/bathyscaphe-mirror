@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults-ThreadViewer.m,v 1.10 2007/10/30 02:31:58 tsawada2 Exp $
+  * $Id: AppDefaults-ThreadViewer.m,v 1.11 2008/02/19 15:22:53 tsawada2 Exp $
   * 
   * AppDefaults-ThreadViewer.m
   *
@@ -29,6 +29,8 @@ static NSString *const kPrefTrackingTimeKey = @"Mousedown Tracking Time";
 static NSString *const kPrefScroll2LUKey = @"ScrollToLastUpdatedHeader";
 
 static NSString *const kPrefLinkDownloaderDestKey = @"LinkDownloaderDestination";
+
+static NSString *const kTVAutoReloadWhenWakeKey = @"Reload When Wake (Viewer)";
 
 @implementation AppDefaults(ThreadViewerSettings)
 - (NSMutableDictionary *) threadViewerDefaultsDictionary
@@ -267,6 +269,17 @@ static NSString *const kPrefLinkDownloaderDestKey = @"LinkDownloaderDestination"
 - (NSArray *)linkDownloaderAutoopenTypes
 {
 	return [[self linkDownloaderDictArray] valueForKey:@"autoopen"];
+}
+
+#pragma mark SilverGull Additions
+- (BOOL)autoReloadViewerWhenWake
+{
+	return [[self threadViewerDefaultsDictionary] boolForKey:kTVAutoReloadWhenWakeKey defaultValue:NO];
+}
+
+- (void)setAutoReloadViewerWhenWake:(BOOL)flag
+{
+	[[self threadViewerDefaultsDictionary] setBool:flag forKey:kTVAutoReloadWhenWakeKey];
 }
 
 #pragma mark -

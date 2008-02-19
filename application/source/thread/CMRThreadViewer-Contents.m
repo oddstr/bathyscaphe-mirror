@@ -1,116 +1,99 @@
-/**
-  * $Id: CMRThreadViewer-Contents.m,v 1.11 2007/09/04 07:45:43 tsawada2 Exp $
-  * 
-  * CMRThreadViewer-Contents.m
-  *
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  CMRThreadViewer-Contents.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 08/02/19.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
 
 #import "CMRThreadViewer_p.h"
-#import "CMRThreadLayout.h"
 #import "CMRThreadVisibleRange.h"
 #import "BSRelativeKeywordsCollector.h"
 
 @implementation CMRThreadViewer(ThreadContents)
-- (BOOL) shouldShowContents
+- (BOOL)shouldShowContents
 {
 	return YES;
 }
-- (BOOL) shouldSaveThreadDataAttributes
+
+- (BOOL)shouldSaveThreadDataAttributes
 {
-	return ([self shouldShowContents] && (NO == [self isInvalidate]));
+	return ([self shouldShowContents] && (![self isInvalidate]));
 }
-- (BOOL) shouldLoadWindowFrameUsingCache
+
+- (BOOL)shouldLoadWindowFrameUsingCache
 {
 	return YES;
 }
-- (BOOL) canGenarateContents
+
+- (BOOL)canGenarateContents
 {
-	return (NO == [self isInvalidate]);
+	return (![self isInvalidate]);
 }
-- (BOOL) checkCanGenarateContents
+
+- (BOOL)checkCanGenarateContents
 {
-	if([self canGenarateContents])
-		return YES;
-	
-	NSBeginAlertSheet(
-		[self localizedString : APP_TVIEWER_INVALID_THREAD_TITLE],
-		[self localizedString : APP_TVIEWER_DO_RELOAD_LABEL],
-		[self localizedString : APP_TVIEWER_NOT_RELOAD_LABEL],
-		nil,
-		[self window],
-		self,
-		@selector(threadStatusInvalidateSheetDidEnd:returnCode:contextInfo:),
-		NULL,
-		nil,
-		[self localizedString : APP_TVIEWER_INVALID_THREAD_MSG_FMT],
-		[self title] ? [self title] : @"",
-		[self path] ? [self path] : @"");
-	
+	if ([self canGenarateContents]) return YES;
+
+	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	NSString *informativeText;
+
+	informativeText = [NSString stringWithFormat:[self localizedString:APP_TVIEWER_INVALID_THREAD_MSG_FMT],
+		([self title] ? [self title] : @""), ([self path] ? [self path] : @"")];
+
+	[alert setAlertStyle:NSWarningAlertStyle];
+	[alert setMessageText:[self localizedString:APP_TVIEWER_INVALID_THREAD_TITLE]];
+	[alert setInformativeText:informativeText];
+	[alert addButtonWithTitle:[self localizedString:APP_TVIEWER_DO_RELOAD_LABEL]];
+	[alert addButtonWithTitle:[self localizedString:APP_TVIEWER_NOT_RELOAD_LABEL]];
+
+	[alert beginSheetModalForWindow:[self window]
+					  modalDelegate:self
+					 didEndSelector:@selector(threadStatusInvalidateAlertDidEnd:returnCode:contextInfo:)
+						contextInfo:nil];	
 	return NO;
 }
-- (void) threadStatusInvalidateSheetDidEnd : (NSWindow *) sheet
-								returnCode : (int       ) returnCode
-							   contextInfo : (void     *) contextInfo
+
+- (void)threadStatusInvalidateAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
 	switch(returnCode){
-	case NSAlertDefaultReturn:
-		[self loadFromContentsOfFile : [self path]];
-		break;
-	case NSAlertAlternateReturn:
-		break;
-	case NSAlertOtherReturn:
-		break;
-	case NSAlertErrorReturn:
+	case NSAlertFirstButtonReturn:
+		[self loadFromContentsOfFile:[self path]];
 		break;
 	default:
-		UTILUnknownSwitchCase(returnCode);
 		break;
-	}
-	
+	}	
 }
 
-- (NSTextStorage *) threadContent
-{
-	return [(CMRThreadDocument*)[self document] textStorage];
-}
-- (void) setThreadAttributes : (CMRThreadAttributes *) newAttrs
+- (void)setThreadAttributes:(CMRThreadAttributes *)newAttrs
 {
 	id		tmp;
-	
-	tmp = [self threadAttributes];
-	if(tmp == newAttrs) return;
 
-	[self disposeThreadAttributes : tmp];
-	[[self document] setThreadAttributes : newAttrs];
-	[self registerThreadAttributes : newAttrs];
+	tmp = [self threadAttributes];
+	if (tmp == newAttrs) return;
+
+	[self disposeThreadAttributes];//:tmp];
+	[[self document] setThreadAttributes:newAttrs];
+	[self registerThreadAttributes:newAttrs];
 }
 
-- (void) disposeThreadAttributes : (CMRThreadAttributes *) oldAttrs
+- (void)disposeThreadAttributes//:(CMRThreadAttributes *)oldAttrs
 {
-	if(nil == oldAttrs) return;
-	
-	[[NSNotificationCenter defaultCenter]
-			 removeObserver : self
-					   name : CMRThreadAttributesDidChangeNotification
-					 object : oldAttrs];
-	
+	CMRThreadAttributes *oldAttrs = [self threadAttributes];
+	if (!oldAttrs) return;
+
+	[oldAttrs removeObserver:self forKeyPath:@"visibleRange"];
+//	[oldAttrs removeObserver:self forKeyPath:@"windowFrame"];
 	[self threadWillClose];
 }
 
-- (void) registerThreadAttributes : (CMRThreadAttributes *) newAttrs
+- (void)registerThreadAttributes:(CMRThreadAttributes *)newAttrs
 {
-	NSNotificationCenter		*center_;
-	
-	if(nil == newAttrs) return;
+	if (!newAttrs) return;
 
-
-	center_ = [NSNotificationCenter defaultCenter];
-	[center_ addObserver : self
-		        selector : @selector(threadAttributesDidChangeAttributes:)
-		            name : CMRThreadAttributesDidChangeNotification
-	              object : newAttrs];
+//	[newAttrs addObserver:self forKeyPath:@"windowFrame" options:NSKeyValueObservingOptionNew context:kThreadViewerAttrContext];
+	[newAttrs addObserver:self forKeyPath:@"visibleRange" options:NSKeyValueObservingOptionNew context:kThreadViewerAttrContext];
 	[self synchronizeAttributes];
 }
 
@@ -123,7 +106,7 @@
 
 - (void)collector:(BSRelativeKeywordsCollector *)aCollector didFailWithError:(NSError *)error
 {
-	NSLog(@"BSRKC - ERROR! %i", [error code]);
+//	NSLog(@"BSRKC - ERROR! %i", [error code]);
 	[self setCachedKeywords:[NSArray array]];
 }
 
@@ -145,23 +128,22 @@
 @end
 
 
-
 @implementation CMRThreadViewer(ThreadAttributesNotification)
-- (void) synchronizeVisibleRange
+- (void)synchronizeVisibleRange
 {
-	[[self indexingPopupper] setVisibleRange: [[self threadAttributes] visibleRange]];
+	[[self indexingPopupper] setVisibleRange:[[self threadAttributes] visibleRange]];
 }
-- (void) synchronizeAttributes
+
+- (void)synchronizeAttributes
 {
-//	[self willChangeValueForKey: @"threadAttributes"];
 	[self window];
 	[self synchronizeVisibleRange];
 	[self synchronizeWindowTitleWithDocumentName];
-//	[self didChangeValueForKey: @"threadAttributes"];
 }
-- (void) synchronizeLayoutAttributes
+
+- (void)synchronizeLayoutAttributes
 {
-	if([self shouldLoadWindowFrameUsingCache]){
+	if ([self shouldLoadWindowFrameUsingCache]) {
 		[self setWindowFrameUsingCache];
 	}
 }

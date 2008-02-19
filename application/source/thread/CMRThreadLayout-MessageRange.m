@@ -502,12 +502,12 @@
 - (unsigned) nextVisibleMessageIndex
 {
 	return [self nextVisibleMessageIndexOfIndex : 
-				[self messageIndexForDocuemntVisibleRect]];
+				[self firstMessageIndexForDocumentVisibleRect]];
 }
 - (unsigned) previousVisibleMessageIndex
 {
 	return [self previousVisibleMessageIndexOfIndex : 
-				[self messageIndexForDocuemntVisibleRect]];
+				[self firstMessageIndexForDocumentVisibleRect]];
 }
 
 static UInt32 attributeMaskForVisibleMessageIndexDetection()
@@ -536,12 +536,12 @@ static UInt32 attributeMaskForVisibleMessageIndexDetection()
 - (unsigned) nextBookmarkIndex
 {
 	return [self nextBookmarkIndexOfIndex : 
-				[self messageIndexForDocuemntVisibleRect]];
+				[self firstMessageIndexForDocumentVisibleRect]];
 }
 - (unsigned) previousBookmarkIndex
 {
 	return [self previousBookmarkIndexOfIndex : 
-				[self messageIndexForDocuemntVisibleRect]];
+				[self firstMessageIndexForDocumentVisibleRect]];
 }
 - (unsigned int) nextBookmarkIndexOfIndex : (unsigned int) anIndex
 {

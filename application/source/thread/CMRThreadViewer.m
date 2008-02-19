@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.m,v 1.56 2008/02/18 23:17:36 tsawada2 Exp $
+  * $Id: CMRThreadViewer.m,v 1.57 2008/02/19 15:22:53 tsawada2 Exp $
   * 
   * CMRThreadViewer.m
   *
@@ -35,6 +35,8 @@ NSString *const CMRThreadViewerDidChangeThreadNotification  = @"CMRThreadViewerD
 
 NSString *const BSThreadViewerWillStartFindingNotification = @"BSThreadViewerWillStartFindingNotification";
 NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEndFindingNotification";
+
+void *kThreadViewerAttrContext = @"Lucky_Channel";
 
 @implementation CMRThreadViewer
 - (id)init
@@ -96,9 +98,9 @@ NSString *const BSThreadViewerDidEndFindingNotification = @"BSThreadViewerDidEnd
 	
 	[self removeFromNotificationCenter];
 	[self removeMessenger:nil];
-//	[CMRPopUpMgr closePopUpWindowForOwner:self];
+	[CMRPopUpMgr closePopUpWindowForOwner:self];
 
-	[self disposeThreadAttributes:[self threadAttributes]];
+	[self disposeThreadAttributes];//:[self threadAttributes]];
 	[[self threadLayout] disposeLayoutContext];
 }
 
@@ -206,19 +208,19 @@ static NSDictionary *boardInfoWithFilepath(NSString *filepath)
 	
 	// --------- Create New File Task ---------
 	
-	task_ = [CMRThreadFileLoadingTask taskWithFilepath : actualPath_];
-	[task_ setIdentifier : actualPath_];
-// 2008-02-18
-	[task_ setDelegate:self];
+	task_ = [CMRThreadFileLoadingTask taskWithFilepath:actualPath_];
+	[task_ setIdentifier:actualPath_];
 /*	[[NSNotificationCenter defaultCenter]
 			addObserver : self
 			selector : @selector(threadFileLoadingTaskDidLoadFile:)
 			name : CMRThreadFileLoadingTaskDidLoadAttributesNotification
-			object : task_];*/
-//	[self registerComposingNotification : task_];
+			object : task_];
+	[self registerComposingNotification : task_];
+	// 2008-02-18 */
+	[task_ setDelegate:self];
 	
 	[[self threadLayout] clear];
-	[[self threadLayout] push : task_];
+	[[self threadLayout] push:task_];
 	
 	return;
 	
@@ -354,11 +356,16 @@ cancel, if this method returns NO.
     [layout_ setMessagesEdited : YES];
 }
 
+#pragma mark auxiliary
+- (BOOL)isInvalidate
+{
+	return _flags.invalidate != 0;
+}
 
-
-/*** auxiliary ***/
-- (BOOL) isInvalidate { return _flags.invalidate != 0; }
-- (void) setInvalidate : (BOOL) flag { _flags.invalidate = flag ? 1 : 0; }
+- (void)setInvalidate:(BOOL)flag
+{
+	_flags.invalidate = flag ? 1 : 0;
+}
 
 - (BOOL)changeThemeTaskIsInProgress
 {
@@ -377,9 +384,8 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 //- (void) threadFileLoadingTaskDidLoadFile : (NSNotification *) aNotification
 - (void)threadFileLoadingTaskDidLoadFile:(id)threadAttributes
 {
-//	id				task_;
-	NSDictionary	*attributes_;
-/*	UTILAssertNotificationName(
+/*	id				task_;
+	UTILAssertNotificationName(
 		aNotification,
 		CMRThreadFileLoadingTaskDidLoadAttributesNotification);
 	
@@ -391,8 +397,10 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 			removeObserver : self
 			name : CMRThreadFileLoadingTaskDidLoadAttributesNotification
 			object : task_];
-*/	
-//	attributes_ = [aNotification userInfo];
+
+	attributes_ = [aNotification userInfo];
+	// 2008-02-18 */
+	NSDictionary	*attributes_;
 	attributes_ = (NSDictionary *)threadAttributes;
 	if (attributes_) {
 		// 
@@ -400,7 +408,7 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 		// 記録されていたスレッドの情報で
 		// データを更新する。
 		// 更にCMRThreadDataDidChangeAttributesNotificationが通知されるはず。
-		// 
+		// (2008-02-19 追記：もはや通知されないが、-addEntriesFromDictionary: で KVO の通知が飛んでくる）。
 		// また、この時点でウィンドウの領域なども設定する。
 		//
 		[[self threadAttributes] addEntriesFromDictionary:attributes_];
@@ -410,8 +418,8 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 		[self showWindow:self];
 	}
 	[self didChangeThread];
-//	UTILAssertRespondsTo(task_, @selector(setCallbackIndex:));
-//	[task_ setCallbackIndex : [[self threadAttributes] lastIndex]];
+/*	UTILAssertRespondsTo(task_, @selector(setCallbackIndex:));
+	[task_ setCallbackIndex : [[self threadAttributes] lastIndex]];*/
 }
 
 // CMRThreadComposingDidFinishNotification
@@ -519,6 +527,7 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 
 	// 2005-11-24 オンザフライクラッシュ対策
 	[[self window] invalidateCursorRectsForView:[[self scrollView] contentView]];
+	[self synchronizeWindowTitleWithDocumentName]; // 2008-02-19 added
 
 	// まだ名無しさんが決定していなければ決定
 	// この時点では WorkerThread が動いており、
@@ -530,27 +539,28 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 //- (void) threadTaskInterrupted : (NSNotification *) aNotification
 - (void)threadTaskDidInterrupt:(id)sender
 {
-//	id			object_;
-	id			identifier_;
+/*	id			object_;
 	
-//	UTILAssertNotificationName(
-//		aNotification,
-//		CMRThreadTaskInterruptedNotification);
+	UTILAssertNotificationName(
+		aNotification,
+		CMRThreadTaskInterruptedNotification);
 	
-//	object_ = [aNotification object];
+	object_ = [aNotification object];
 	
 	// 
 	// チェックの後でもいい。
 	// 
-//	[self removeFromComposingNotification : object_];
-//	if (NO == [object_ respondsToSelector : @selector(identifier)])
+	[self removeFromComposingNotification : object_];
+	if (NO == [object_ respondsToSelector : @selector(identifier)])
+	// 2008-02-18 */
+	id			identifier_;
 	if (![sender respondsToSelector:@selector(identifier)])
 		return;
 	
-//	identifier_ = [object_ identifier];
-	identifier_ = [sender identifier];
-	
-//	if (![[self identifierForThreadTask] isEqual:identifier_]) return;
+/*	identifier_ = [object_ identifier];
+	if (![[self identifierForThreadTask] isEqual:identifier_]) return;
+	// 2008-02-18 */
+	identifier_ = [sender identifier];	
 	if (![[self path] isEqual:identifier_]) return;
 	
     [[CMRNetGrobalLock sharedInstance] remove:identifier_];
@@ -568,27 +578,42 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 	return _layout;
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+	if (context == kThreadViewerAttrContext && object == [self threadAttributes] && [keyPath isEqualToString:@"visibleRange"]) {
+//	if (context == kThreadViewerAttrContext && object == [self threadAttributes]) {
+//		if ([keyPath isEqualToString:@"visibleRange"]) {
+			[self synchronizeVisibleRange];
+/*		} else if ([keyPath isEqualToString:@"windowFrame"]) {
+//			[self window];
+			[self synchronizeLayoutAttributes];
+			[self synchronizeWindowTitleWithDocumentName];
+		}*/
+	} else {
+		[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+	}
+}
+
 #pragma mark Detecting Nanashi-san
-- (NSString *) detectDefaultNoName
+- (NSString *)detectDefaultNoName
 {
 	NSEnumerator	*iter_;
 	id				item;
 	NSCountedSet	*nameSet;
 	NSString		*name = nil;
-	
+
 	nameSet = [[NSCountedSet alloc] init];
 	iter_ = [[self threadLayout] messageEnumerator];
 	while (item = [iter_ nextObject]) {
-		
-		if ([item isAboned] || nil == [item name])
+		if ([item isAboned] || ![item name]) {
 			continue;
-		
-		[nameSet addObject : [item name]];
+		}
+		[nameSet addObject:[item name]];
 	}
 	
 	iter_ = [nameSet objectEnumerator];
 	while (item = [iter_ nextObject]) {
-		if (nil == name || [nameSet countForObject : item] > [nameSet countForObject : name])
+		if (!name || [nameSet countForObject:item] > [nameSet countForObject:name])
 			name = item;
 	}
 	
@@ -597,7 +622,8 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 	
 	return name ? [name autorelease] : @"";
 }
-- (void) setupDefaultNoNameIfNeeded
+
+- (void)setupDefaultNoNameIfNeeded
 {
 	BoardManager		*mgr = [BoardManager defaultManager];
 	NSString			*board;
@@ -605,12 +631,11 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 	board = [self boardName];
 	if (!board) return;
 
-	if ([mgr needToDetectNoNameForBoard: board]) {
-		//NSLog(@"CMRThreadViewer: noName is nil, so we start detecting SETTING.TXT");
-		if (NO == [mgr startDownloadSettingTxtForBoard:board askIfOffline:YES]) {
+	if ([mgr needToDetectNoNameForBoard:board]) {
+		if (![mgr startDownloadSettingTxtForBoard:board askIfOffline:YES]) {
 			NSString *nameEntry = [self detectDefaultNoName];		
-			NSString *name = [mgr askUserAboutDefaultNoNameForBoard: board presetValue: nameEntry];
-			if (name) [mgr addNoName: name forBoard: board];
+			NSString *name = [mgr askUserAboutDefaultNoNameForBoard:board presetValue:nameEntry];
+			if (name) [mgr addNoName:name forBoard:board];
 		}
 	}
 }
@@ -717,43 +742,40 @@ NSString *kComposingNotificationNames[] = {
 @end
 */
 
-
 @implementation CMRThreadViewer(SelectingThreads)
-- (unsigned int) numberOfSelectedThreads
+- (unsigned int)numberOfSelectedThreads
 {
-	return (nil == [self threadAttributes]) ? 0 : 1;
+	return (![self threadAttributes]) ? 0 : 1;
 }
-- (NSDictionary *) selectedThread
+
+- (NSDictionary *)selectedThread
 {
 	NSMutableDictionary		*dict_;
 	CMRThreadAttributes		*attributes_;
 	
 	attributes_ = [self threadAttributes];
-	if (nil == attributes_) return nil;
+	if (!attributes_) return nil;
 	
 	dict_ = [NSMutableDictionary dictionary];
-	[dict_ setNoneNil : [attributes_ threadTitle]
-			   forKey : CMRThreadTitleKey];
-	[dict_ setNoneNil : [attributes_ path]
-			   forKey : CMRThreadLogFilepathKey];
-	[dict_ setNoneNil : [attributes_ datIdentifier]
-						 forKey : ThreadPlistIdentifierKey];
-	[dict_ setNoneNil : [attributes_ boardName]
-			   forKey : ThreadPlistBoardNameKey];
+	[dict_ setNoneNil:[attributes_ threadTitle] forKey:CMRThreadTitleKey];
+	[dict_ setNoneNil:[attributes_ path] forKey:CMRThreadLogFilepathKey];
+	[dict_ setNoneNil:[attributes_ datIdentifier] forKey:ThreadPlistIdentifierKey];
+	[dict_ setNoneNil:[attributes_ boardName] forKey:ThreadPlistBoardNameKey];
 	
 	return dict_;
 }
-- (NSArray *) selectedThreads
+
+- (NSArray *)selectedThreads
 {
 	NSDictionary	*selected_;
 	
 	selected_ = [self selectedThread];
-	if (nil == selected_)
-		return [NSArray empty];
+	if (!selected_) return [NSArray empty];
 	
-	return [NSArray arrayWithObject : selected_];
+	return [NSArray arrayWithObject:selected_];
 }
-- (NSArray *) selectedThreadsReallySelected
+
+- (NSArray *)selectedThreadsReallySelected
 {
 	//subclass should override this method
 	return [self selectedThreads];
@@ -761,39 +783,37 @@ NSString *kComposingNotificationNames[] = {
 @end
 
 
-
 @implementation CMRThreadViewer(SaveAttributes)
-- (void) threadWillClose
+- (void)threadWillClose
 {
-	[CMRPopUpMgr closePopUpWindowForOwner:self];
-	if ([self shouldSaveThreadDataAttributes]) 
-		[self synchronize];
+//	[CMRPopUpMgr closePopUpWindowForOwner:self];
+	if ([self shouldSaveThreadDataAttributes]) [self synchronize];
 }
 
-- (BOOL) synchronize
+- (BOOL)synchronize
 {
 	NSString				*filepath_ = [self path];
 	NSMutableDictionary		*mdict_;
 	BOOL					attrEdited_, mesEdited_;
-	
+
 	[self saveWindowFrame];
 	[self saveLastIndex];
 	
 	attrEdited_ = [[self threadAttributes] needsToUpdateLogFile];
 	mesEdited_ = [[self threadLayout] isMessagesEdited];
-	if (NO == attrEdited_ && NO == mesEdited_) {
+	if (!attrEdited_ && !mesEdited_) {
 		UTIL_DEBUG_WRITE(@"Not need to synchronize");
 		return YES;
 	}
 	
-	mdict_ = [NSMutableDictionary dictionaryWithContentsOfFile : filepath_];
-	if (nil == mdict_) return NO;
+	mdict_ = [NSMutableDictionary dictionaryWithContentsOfFile:filepath_];
+	if (!mdict_) return NO;
 	
 	if (attrEdited_) {
-		[[self threadAttributes] writeAttributes : mdict_];
-		[[self threadAttributes] setNeedsToUpdateLogFile : NO];
+		[[self threadAttributes] writeAttributes:mdict_];
+		[[self threadAttributes] setNeedsToUpdateLogFile:NO];
 	}
-	
+
 	if (mesEdited_) {
 		NSMutableArray			*newArray_;
 		CMRThreadPlistComposer	*composer_;
@@ -802,26 +822,27 @@ NSString *kComposingNotificationNames[] = {
 		CMRThreadMessage		*m;
 		
 		newArray_ = [[NSMutableArray alloc] init];
-		composer_ = [[CMRThreadPlistComposer alloc] initWithThreadsArray : newArray_];
+		composer_ = [[CMRThreadPlistComposer alloc] initWithThreadsArray:newArray_];
 		mBuffer_ = [[self threadLayout] messageBuffer];
 		UTIL_DEBUG_WRITE1(@"compose messages count=%u", [mBuffer_ count]);
 		
 		iter = [[mBuffer_ messages] objectEnumerator];
 		while (m = [iter nextObject]) {
-			[composer_ composeThreadMessage : m];
+			[composer_ composeThreadMessage:m];
 		}
 		
 		[mdict_ setObject:newArray_ forKey:ThreadPlistContentsKey];
 		
-		[newArray_ release];
 		[composer_ release];
-		[[self threadLayout] setMessagesEdited : NO];
+		[newArray_ release];
+
+		[[self threadLayout] setMessagesEdited:NO];
 	}
+
 	if ([CMRPref saveThreadDocAsBinaryPlist]) {
 		NSData *data_;
-		NSString *errStr;
-		data_ = [NSPropertyListSerialization dataFromPropertyList:mdict_
-							format:NSPropertyListBinaryFormat_v1_0 errorDescription:&errStr];
+//		NSString *errStr;
+		data_ = [NSPropertyListSerialization dataFromPropertyList:mdict_ format:NSPropertyListBinaryFormat_v1_0 errorDescription:NULL];//&errStr];
 
 		if (!data_) return NO;
 		return [data_ writeToFile:filepath_ atomically:YES];
@@ -830,32 +851,33 @@ NSString *kComposingNotificationNames[] = {
 	}
 }
 
-- (void) saveWindowFrame
+- (void)saveWindowFrame
 {
-	if (nil == [self threadAttributes]) return;
-	if (NO == [self shouldLoadWindowFrameUsingCache]) return;
+	if (![self threadAttributes]) return;
+	if (![self shouldLoadWindowFrameUsingCache]) return;
 	
-	[[self threadAttributes] setWindowFrame : [[self window] frame]];
+	[[self threadAttributes] setWindowFrame:[[self window] frame]];
 }
-- (void) saveLastIndex
+
+- (void)saveLastIndex
 {
 	unsigned	idx;
 
-	idx = [[self threadLayout] messageIndexForDocuemntVisibleRect];
+//	idx = [[self threadLayout] messageIndexForDocuemntVisibleRect];
+	idx = [[self threadLayout] lastMessageIndexForDocumentVisibleRect];
 	if ([[self threadLayout] isInProgress]) {
 		NSLog(@"*** REPORT ***\n  "
 		@" Since the layout is in progress,"
 		@" didn't save last readed index(%u).", idx);
 		return;
 	}
-	[[self threadAttributes] setLastIndex : idx];
+	[[self threadAttributes] setLastIndex:idx];
 }
 @end
 
 
-
 @implementation CMRThreadViewer(NotificationPrivate)
-- (NSUndoManager *)ununundoManager
+- (NSUndoManager *)myUndoManager
 {
 	if (!m_undo) {
 		m_undo = [[NSUndoManager alloc] init];
@@ -865,9 +887,9 @@ NSString *kComposingNotificationNames[] = {
 
 - (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)sender
 {
-	return [self ununundoManager];
+	return [self myUndoManager];
 }
-
+/*
 - (void)threadAttributesDidChangeAttributes:(NSNotification *)notification
 {
 	UTILAssertNotificationObject(
@@ -879,28 +901,34 @@ NSString *kComposingNotificationNames[] = {
 	
 	[self synchronizeAttributes];
 }
-
+*/
 - (void)appDefaultsLayoutSettingsUpdated:(NSNotification *)notification
 {
-	UTILAssertNotificationName(
-		notification,
-		AppDefaultsLayoutSettingsUpdatedNotification);
-	UTILAssertNotificationObject(
-		notification,
-		CMRPref);
+	UTILAssertNotificationName(notification, AppDefaultsLayoutSettingsUpdatedNotification);
+	UTILAssertNotificationObject(notification, CMRPref);
 
 	if (![self textView]) return;
 	[self updateLayoutSettings];
 	[[self scrollView] setNeedsDisplay:YES];
 }
 
-- (void)cleanUpItemsToBeRemoved:(NSArray *)files
+- (void)cleanUpItemsToBeRemoved:(NSArray *)files willReload:(BOOL)flag
 {
-//	if (![files containsObject:[self path]]) return;
-	[[self threadLayout] clear];
-	[[self threadAttributes] setLastIndex:NSNotFound];
-	[self synchronizeAttributes];
+	if (flag) {
+		[[self threadLayout] clear];//:self];
+		[[self threadAttributes] setLastIndex:NSNotFound];
+		[self synchronizeAttributes];
+//		[[self window] invalidateCursorRectsForView:[self textView]];
+//		[[self textView] setNeedsDisplay:YES];
+//		[self updateIndexField];
+	} else {
+		[[self threadLayout] clear:self];
+	}
+}
 
+- (void)threadClearTaskDidFinish:(id<CMRThreadLayoutTask>)task
+{
+	[self setThreadAttributes:nil];
 	[[self window] invalidateCursorRectsForView:[self textView]];
 	[[self textView] setNeedsDisplay:YES];
 	[self updateIndexField];
@@ -913,12 +941,8 @@ NSString *kComposingNotificationNames[] = {
 	NSNumber	*reload_;
 	BOOL		shouldReload_;
 	
-	UTILAssertNotificationName(
-		notification,
-		CMRTrashboxDidPerformNotification);
-	UTILAssertNotificationObject(
-		notification,
-		[CMRTrashbox trash]);
+	UTILAssertNotificationName(notification, CMRTrashboxDidPerformNotification);
+	UTILAssertNotificationObject(notification, [CMRTrashbox trash]);
 	
 	err_ = [[notification userInfo] objectForKey:kAppTrashUserInfoStatusKey];
 	if (!err_) return;
@@ -933,57 +957,82 @@ NSString *kComposingNotificationNames[] = {
 	UTILAssertKindOfClass(reload_, NSNumber);
 	shouldReload_ = [reload_ boolValue];
 
-	[self cleanUpItemsToBeRemoved:files_];
+	[self cleanUpItemsToBeRemoved:files_ willReload:shouldReload_];
 	if (shouldReload_) {
 		[self loadFromContentsOfFile:[files_ objectAtIndex:0]];
+	}
+}
+
+- (void)sleepDidEnd:(NSNotification *)aNotification
+{
+	if (![CMRPref isOnlineMode]) return;
+	NSTimeInterval delay = [CMRPref delayForAutoReloadAtWaking];
+
+	if ([CMRPref autoReloadViewerWhenWake] && [self threadAttributes]) {
+		[self performSelector:@selector(reloadThread:) withObject:nil afterDelay:delay];
 	}
 }
 
 - (void)registerToNotificationCenter
 {
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-	[nc addObserver: self
-		   selector: @selector(appDefaultsLayoutSettingsUpdated:)
-			   name: AppDefaultsLayoutSettingsUpdatedNotification
-			 object: CMRPref];
-	[nc addObserver: self
-	       selector: @selector(trashDidPerformNotification:)
-			   name: CMRTrashboxDidPerformNotification
-			 object: [CMRTrashbox trash]];
-	[nc addObserver: self
-		   selector: @selector(applicationDidReset:)
-			   name: CMRApplicationDidResetNotification
-			 object: nil];
-	[nc addObserver: self
-		   selector: @selector(threadViewerRunSpamFilter:)
-			   name: CMRThreadViewerRunSpamFilterNotification
-	         object: nil];
+	[nc addObserver:self
+		   selector:@selector(appDefaultsLayoutSettingsUpdated:)
+			   name:AppDefaultsLayoutSettingsUpdatedNotification
+			 object:CMRPref];
+	[nc addObserver:self
+	       selector:@selector(trashDidPerformNotification:)
+			   name:CMRTrashboxDidPerformNotification
+			 object:[CMRTrashbox trash]];
+	[nc addObserver:self
+		   selector:@selector(applicationDidReset:)
+			   name:CMRApplicationDidResetNotification
+			 object:nil];
+	[nc addObserver:self
+		   selector:@selector(threadViewerRunSpamFilter:)
+			   name:CMRThreadViewerRunSpamFilterNotification
+	         object:nil];
 	[nc addObserver:self
 		   selector:@selector(threadViewThemeDidChange:)
 			   name:AppDefaultsThreadViewThemeDidChangeNotification
 			 object:CMRPref];
+
+	[[[NSWorkspace sharedWorkspace] notificationCenter]
+	     addObserver:self
+	        selector:@selector(sleepDidEnd:)
+	            name:NSWorkspaceDidWakeNotification
+	          object:nil];
+
 	[super registerToNotificationCenter];
 }
-- (void) removeFromNotificationCenter
+
+- (void)removeFromNotificationCenter
 {
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-	[nc removeObserver: self
-				  name: AppDefaultsLayoutSettingsUpdatedNotification
-				object: CMRPref];
-	[nc removeObserver: self
-				  name: CMRTrashboxDidPerformNotification
-				object: [CMRTrashbox trash]];
-	[nc removeObserver: self
-				  name: CMRApplicationDidResetNotification
-				object: nil];
-	[nc removeObserver: self
-				  name: CMRThreadViewerRunSpamFilterNotification
-				object: nil];
+
+	[[[NSWorkspace sharedWorkspace] notificationCenter]
+	  removeObserver:self
+	            name:NSWorkspaceDidWakeNotification
+	          object:nil];
+
+	[nc removeObserver:self
+				  name:AppDefaultsLayoutSettingsUpdatedNotification
+				object:CMRPref];
+	[nc removeObserver:self
+				  name:CMRTrashboxDidPerformNotification
+				object:[CMRTrashbox trash]];
+	[nc removeObserver:self
+				  name:CMRApplicationDidResetNotification
+				object:nil];
+	[nc removeObserver:self
+				  name:CMRThreadViewerRunSpamFilterNotification
+				object:nil];
 	[nc removeObserver:self
 				  name:AppDefaultsThreadViewThemeDidChangeNotification
 				object:CMRPref];
 	[super removeFromNotificationCenter];
 }
+
 + (NSString *)localizableStringsTableName
 {
 	return APP_TVIEW_LOCALIZABLE_FILE;

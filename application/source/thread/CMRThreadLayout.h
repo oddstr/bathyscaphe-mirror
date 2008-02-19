@@ -1,6 +1,6 @@
 //: CMRThreadLayout.h
 /**
-  * $Id: CMRThreadLayout.h,v 1.12 2007/12/11 17:09:37 tsawada2 Exp $
+  * $Id: CMRThreadLayout.h,v 1.13 2008/02/19 15:22:53 tsawada2 Exp $
   * 
   * CMRThreadLayout.h
   *
@@ -42,6 +42,7 @@
 
 // delete contents, properties
 - (void) clear;
+- (void)clear:(id)object; // Available in SilverGull and later.
 - (void) disposeLayoutContext;
 
 - (BOOL) isMessagesEdited;
@@ -123,7 +124,11 @@
 
 
 @interface CMRThreadLayout(DocuemntVisibleRect)
-- (unsigned int) messageIndexForDocuemntVisibleRect;
+// Deprecated. Use -firstMessageIndexForDocumentVisibleRect or -lastMessageIndexForDocumentVisibleRect instead.
+//- (unsigned int) messageIndexForDocuemntVisibleRect;
+- (unsigned int)firstMessageIndexForDocumentVisibleRect;
+- (unsigned int)lastMessageIndexForDocumentVisibleRect;
+
 - (void) scrollMessageAtIndex : (unsigned) anIndex;
 - (IBAction) scrollToLastUpdatedIndex : (id) sender;
 @end

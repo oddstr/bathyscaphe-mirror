@@ -1,3 +1,32 @@
+2008-02-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/browser/CMRBrowser-Delegate.m
+	* application/source/preferences/AppDefaults-ThreadViewer.m
+	* application/source/preferences/AppDefaults.h
+	* application/subproj/preference/Japanese.lproj/AdvancedPane.nib
+		スリープを解除したとき、スレッド一覧だけでなく「開いているスレッド」も自動更新できるようにした。
+		-「詳細」環境設定にある。デフォルトでは切になっている。
+	* application/source/browser/Browser.m
+	* application/source/manager/DatabaseManager-Notifications.m
+		スレのダウンロード及び削除に伴うデータベース更新後の、現在のスレッドリストの update を、DatabaseManager が（強引な方法で）
+		直接行なうのではなく、通知を飛ばして Browser クラスで処理させるようにした。
+	* application/source/thread/CMRThreadViewer.m
+	* application/source/thread/CMRThreadViewer-Contents.m
+	* application/source/thread/CMRThreadAttributes.[h|m]
+	* application/source/thread/CMRThreadViewer-ViewAccessor.m
+	* application/source/thread/CMRThreadLayout-MessageRange.m
+	* application/source/thread/CMRThreadLayout.m
+		NSNotification による通知を廃止し、デリゲートまたは KVO で処理するようにした。その他、スレッドを開いたり読み込んだりする際の
+		処理を細かく見直した。
+		また、3ペインで表示中のスレッドを削除した際は、CMRBrowser に保持されているそのスレの CMRThreadAttributes を nil にセットする
+		ようにした。
+	* application/source/manager/CMRDocumentController.m
+		2008-02-19 の「同じスレッドを同時に複数のウインドウで開いてしまうことが無いよう、対策を強化」にまだ抜け道があったので
+		修正した。
+	* application/source/thread/CMRThreadLayoutTask.m
+	* application/source/thread/CMRThreadViewer-Action.m
+	* application/source/thread/CMRThreadViewer-MoveAction.m
+	* application/source/view/ThreadsListTable.m
+		微修正。
 2008-02-19 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/source/thread/CMRThreadComposingTask.m
 	* application/source/thread/CMRThreadFileLoadingTask.m

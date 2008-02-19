@@ -54,8 +54,9 @@ extern NSString *const CMRThreadViewerRunSpamFilterNotification;
 
 
 @interface CMRThreadViewer(NotificationPrivate)
-- (void) cleanUpItemsToBeRemoved : (NSArray *) files;
-- (void) threadAttributesDidChangeAttributes : (NSNotification *) notification;
+//- (void) cleanUpItemsToBeRemoved : (NSArray *) files;
+- (void)cleanUpItemsToBeRemoved:(NSArray *)files willReload:(BOOL)flag;
+//- (void) threadAttributesDidChangeAttributes : (NSNotification *) notification;
 - (void) appDefaultsLayoutSettingsUpdated : (NSNotification *) notification;
 - (void) trashDidPerformNotification : (NSNotification *) notification;
 @end
@@ -69,9 +70,8 @@ extern NSString *const CMRThreadViewerRunSpamFilterNotification;
 - (BOOL) canGenarateContents;
 - (BOOL) checkCanGenarateContents;
 
-- (NSTextStorage *) threadContent;
 - (void) setThreadAttributes : (CMRThreadAttributes *) aThreadData;
-- (void) disposeThreadAttributes : (CMRThreadAttributes *) oldThread;
+- (void)disposeThreadAttributes;// : (CMRThreadAttributes *) oldThread;
 - (void) registerThreadAttributes : (CMRThreadAttributes *) newThread;
 
 - (void) updateKeywordsCache; // Available in Starlight Breaker.

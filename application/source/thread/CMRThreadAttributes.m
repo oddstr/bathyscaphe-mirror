@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadAttributes.m,v 1.10 2007/12/11 17:09:37 tsawada2 Exp $
+  * $Id: CMRThreadAttributes.m,v 1.11 2008/02/19 15:22:53 tsawada2 Exp $
   * 
   * CMRThreadAttributes.m
   *
@@ -17,8 +17,8 @@
 
 
 
-NSString *const CMRThreadAttributesDidChangeNotification = 
-					@"CMRThreadAttributesDidChangeNotification";
+//NSString *const CMRThreadAttributesDidChangeNotification = 
+//					@"CMRThreadAttributesDidChangeNotification";
 
 
 
@@ -50,18 +50,22 @@ NSString *const CMRThreadAttributesDidChangeNotification =
 	return [self getMutableAttributes];
 }
 
-- (void) notifyDidChangeAttributes
+/*- (void) notifyDidChangeAttributes
 {
+//	[self willChangeValueForKey:@"self"];
 	[[NSNotificationCenter defaultCenter]
 		postNotificationName : CMRThreadAttributesDidChangeNotification
 					  object : self
 					userInfo : [self getMutableAttributes]];
-}
+//	[self didChangeValueForKey:@"self"];
+}*/
 - (void) addEntriesFromDictionary : (NSDictionary *) newAttrs
 {
 	if (nil == newAttrs || 0 == [newAttrs count])
 		return;
 	// Ç±ÇÃóÖóÒÇÕâΩÇ∆Ç©ÇµÇΩÇ¢Åc
+	[self willChangeValueForKey:@"windowFrame"];
+	[self willChangeValueForKey:@"visibleRange"];
 	[self willChangeValueForKey: @"threadTitle"];
 	[self willChangeValueForKey: @"displaySize"];
 	[self willChangeValueForKey: @"displayPath"];
@@ -79,7 +83,9 @@ NSString *const CMRThreadAttributesDidChangeNotification =
 	[self didChangeValueForKey: @"displayPath"];
 	[self didChangeValueForKey: @"displaySize"];
 	[self didChangeValueForKey: @"threadTitle"];
-	[self notifyDidChangeAttributes];
+	[self didChangeValueForKey:@"visibleRange"];
+	[self didChangeValueForKey:@"windowFrame"];
+//	[self notifyDidChangeAttributes];
 }
 
 - (CMRThreadSignature *) threadSignature
@@ -208,7 +214,7 @@ NSString *const CMRThreadAttributesDidChangeNotification =
 	
 	[[self getMutableAttributes] setRect : newFrame
 						forKey : CMRThreadWindowFrameKey];
-	[self notifyDidChangeAttributes];
+//	[self notifyDidChangeAttributes];
 	[self setNeedsToUpdateLogFile : YES];
 }
 
@@ -273,7 +279,7 @@ NSString *const CMRThreadAttributesDidChangeNotification =
 		if ([newRep isEqual : v]) return;
 		[mdict_ setObject:newRep forKey:CMRThreadVisibleRangeKey];
 	}
-	[self notifyDidChangeAttributes];
+//	[self notifyDidChangeAttributes];
 	[self setNeedsToUpdateLogFile : YES];
 }
 

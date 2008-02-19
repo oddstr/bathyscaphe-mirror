@@ -206,6 +206,22 @@
 
 
 @implementation CMRThreadClearTask
+- (void)dealloc
+{
+	[self setDelegate:nil];
+	[super dealloc];
+}
+
+- (id)delegate
+{
+	return _delegate;
+}
+
+- (void)setDelegate:(id)aDelegate
+{
+	_delegate = aDelegate;
+}
+
 - (NSString *)identifier
 {
 	return nil;
@@ -218,5 +234,6 @@
 				  withResult : YES];
 	// 2008-02-18 */
 	[layout performSelectorOnMainThread:@selector(doDeleteAllMessages) withObject:nil waitUntilDone:YES];
+	[[self delegate] performSelectorOnMainThread:@selector(threadClearTaskDidFinish:) withObject:self waitUntilDone:NO];
 }
 @end

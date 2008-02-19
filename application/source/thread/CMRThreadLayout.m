@@ -1,6 +1,6 @@
 //: CMRThreadLayout.m
 /**
-  * $Id: CMRThreadLayout.m,v 1.16 2007/10/13 16:43:35 tsawada2 Exp $
+  * $Id: CMRThreadLayout.m,v 1.17 2008/02/19 15:22:53 tsawada2 Exp $
   * 
   * CMRThreadLayout.m
   *
@@ -108,6 +108,13 @@
 {
 	[_worker removeAll : self];
 	[self push : [[[CMRThreadClearTask alloc] init] autorelease]];
+}
+- (void)clear:(id)object
+{
+	[_worker removeAll:self];
+	CMRThreadClearTask *task = [[[CMRThreadClearTask alloc] init] autorelease];
+	[task setDelegate:object];
+	[self push:task];
 }
 - (void) disposeLayoutContext
 {
@@ -361,7 +368,7 @@
 
 
 @implementation CMRThreadLayout(DocuemntVisibleRect)
-- (unsigned int) messageIndexForDocuemntVisibleRect
+- (unsigned int)firstMessageIndexForDocumentVisibleRect
 {
 	NSRange visibleRange_;
 	
@@ -377,6 +384,26 @@
 	}
 	
 	return [self messageIndexForRange : visibleRange_];
+}
+
+- (unsigned int)lastMessageIndexForDocumentVisibleRect
+{
+	NSRange visibleRange_;
+	
+	visibleRange_ = [[self textView] characterRangeForDocumentVisibleRect];
+	
+	if (visibleRange_.length > 1) {
+	  visibleRange_.location += 1;
+	  visibleRange_.length -= 1;
+	}
+	
+	return [self lastMessageIndexForRange:visibleRange_];
+}
+
+- (unsigned int) messageIndexForDocuemntVisibleRect
+{
+	// Deprecated. Use -firstMessageIndexForDocumentVisibleRect or -lastMessageIndexForDocumentVisibleRect instead.
+	return [self firstMessageIndexForDocumentVisibleRect];
 }
 
 - (void) scrollMessageWithRange : (NSRange) aRange

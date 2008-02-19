@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadAttributes.h,v 1.8 2007/12/11 17:09:37 tsawada2 Exp $
+  * $Id: CMRThreadAttributes.h,v 1.9 2008/02/19 15:22:53 tsawada2 Exp $
   * 
   * CMRThreadAttributes.h
   *
@@ -103,4 +103,4 @@
 
 
 
-extern NSString *const CMRThreadAttributesDidChangeNotification;
+//extern NSString *const CMRThreadAttributesDidChangeNotification;

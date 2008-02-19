@@ -54,7 +54,7 @@ static NSString *const kBrowserKeyBindingsFile = @"BrowserKeyBindings.plist";
 	id dataSource = [self dataSource];
 	if (!dataSource || ![dataSource respondsToSelector:@selector(threadAttributesAtRowIndex:inTableView:)]) {
 		NSBeep();
-		return;
+		return nil;
 	}
 
 	NSIndexSet		*rows = [self selectedRowIndexes];

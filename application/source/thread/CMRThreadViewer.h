@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadViewer.h,v 1.28 2008/02/16 13:49:05 tsawada2 Exp $
+  * $Id: CMRThreadViewer.h,v 1.29 2008/02/19 15:22:53 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright (c) 2003, Takanori Ishikawa.
@@ -209,3 +209,5 @@ extern NSString *const CMRThreadViewerDidChangeThreadNotification;
 
 extern NSString *const BSThreadViewerWillStartFindingNotification;
 extern NSString *const BSThreadViewerDidEndFindingNotification;
+
+extern void *kThreadViewerAttrContext;

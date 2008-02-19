@@ -17,10 +17,26 @@
 #import "BoardManager.h"
 #import "CMRReplyDocumentFileManager.h"
 #import "CMRFavoritesManager.h"
-
+#import "DatabaseManager.h"
 #import "BSNewThreadMessenger.h"
 
 @implementation Browser
+- (id)init
+{
+	if (self = [super init]) {
+		[[NSNotificationCenter defaultCenter] addObserver:self
+			selector:@selector(updateThreadsListNow:)
+				name:DatabaseDidFinishUpdateDownloadedOrDeletedThreadInfoNotification
+			  object:[DatabaseManager defaultManager]];
+	}
+	return self;
+}
+
+- (void)updateThreadsListNow:(NSNotification *)notification
+{
+	[[self currentThreadsList] updateCursor];
+}
+
 - (void)dealloc
 {	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
