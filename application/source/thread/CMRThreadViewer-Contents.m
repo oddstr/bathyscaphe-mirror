@@ -73,18 +73,17 @@
 	tmp = [self threadAttributes];
 	if (tmp == newAttrs) return;
 
-	[self disposeThreadAttributes];//:tmp];
+	[self disposeThreadAttributes];
 	[[self document] setThreadAttributes:newAttrs];
 	[self registerThreadAttributes:newAttrs];
 }
 
-- (void)disposeThreadAttributes//:(CMRThreadAttributes *)oldAttrs
+- (void)disposeThreadAttributes
 {
 	CMRThreadAttributes *oldAttrs = [self threadAttributes];
 	if (!oldAttrs) return;
 
 	[oldAttrs removeObserver:self forKeyPath:@"visibleRange"];
-//	[oldAttrs removeObserver:self forKeyPath:@"windowFrame"];
 	[self threadWillClose];
 }
 
@@ -92,7 +91,6 @@
 {
 	if (!newAttrs) return;
 
-//	[newAttrs addObserver:self forKeyPath:@"windowFrame" options:NSKeyValueObservingOptionNew context:kThreadViewerAttrContext];
 	[newAttrs addObserver:self forKeyPath:@"visibleRange" options:NSKeyValueObservingOptionNew context:kThreadViewerAttrContext];
 	[self synchronizeAttributes];
 }
@@ -106,7 +104,6 @@
 
 - (void)collector:(BSRelativeKeywordsCollector *)aCollector didFailWithError:(NSError *)error
 {
-//	NSLog(@"BSRKC - ERROR! %i", [error code]);
 	[self setCachedKeywords:[NSArray array]];
 }
 

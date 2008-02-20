@@ -11,7 +11,6 @@
 #import "ThreadTextDownloader.h"
 #import "CMRDocumentFileManager.h"
 #import "CMRTrashbox.h"
-//#import "Browser.h"
 #import "CMRReplyMessenger.h"
 
 NSString *const DatabaseDidFinishUpdateDownloadedOrDeletedThreadInfoNotification = @"DatabaseDidFinishUpdateDownloadedOrDeletedThreadInfoNotification";
@@ -19,23 +18,21 @@ NSString *const DatabaseDidFinishUpdateDownloadedOrDeletedThreadInfoNotification
 @implementation DatabaseManager(Notifications)
 -(void)registNotifications
 {
-	[[NSNotificationCenter defaultCenter]
+/*	[[NSNotificationCenter defaultCenter]
 			 addObserver : self
 				selector : @selector(downloaderTextUpdatedNotified:)
 					name : ThreadTextDownloaderUpdatedNotification
-				  object : nil];
+				  object : nil];*/
+	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+	[nc addObserver:self
+		   selector:@selector(cleanUpItemsToBeRemoved:)
+			   name:CMRTrashboxDidPerformNotification
+			 object:[CMRTrashbox trash]];
 	
-	[[NSNotificationCenter defaultCenter]
-			 addObserver : self
-				selector : @selector(cleanUpItemsToBeRemoved:)
-					name : CMRTrashboxDidPerformNotification
-				  object : [CMRTrashbox trash]];
-	
-	[[NSNotificationCenter defaultCenter]
-			 addObserver : self
-				selector : @selector(finishWriteMesssage:)
-					name : CMRReplyMessengerDidFinishPostingNotification
-				  object : nil];
+	[nc addObserver:self
+		   selector:@selector(finishWriteMesssage:)
+			   name:CMRReplyMessengerDidFinishPostingNotification
+			 object:nil];
 }
 
 #pragma mark ## Notification (Moved From BSDBThreadList) ##
@@ -82,11 +79,12 @@ NSString *const DatabaseDidFinishUpdateDownloadedOrDeletedThreadInfoNotification
 	return YES;
 }
 
-- (void)downloaderTextUpdatedNotified:(NSNotification *)notification
+//- (void)downloaderTextUpdatedNotified:(NSNotification *)notification
+- (void)threadTextDownloader:(CMRDownloader *)downloader didUpdateWithContents:(NSDictionary *)userInfo
 {
-	CMRDownloader			*downloader_;
-	NSDictionary			*userInfo_;
 	NSDictionary			*newContents_;
+/*	CMRDownloader			*downloader_;
+	NSDictionary			*userInfo_;
 
 	UTILAssertNotificationName(notification, ThreadTextDownloaderUpdatedNotification);
 	
@@ -94,9 +92,13 @@ NSString *const DatabaseDidFinishUpdateDownloadedOrDeletedThreadInfoNotification
 	UTILAssertKindOfClass(downloader_, CMRDownloader);
 	
 	userInfo_ = [notification userInfo];
-	UTILAssertNotNil(userInfo_);
+	UTILAssertNotNil(userInfo_);*/
 	
-	newContents_ = [userInfo_ objectForKey:CMRDownloaderUserInfoContentsKey];
+	UTILAssertKindOfClass(downloader, CMRDownloader);
+	UTILAssertNotNil(userInfo);
+	UTILAssertKindOfClass(userInfo, NSDictionary);
+
+	newContents_ = [userInfo objectForKey:CMRDownloaderUserInfoContentsKey];
 	UTILAssertKindOfClass(newContents_, NSDictionary);
 	
 	do {
@@ -107,7 +109,7 @@ NSString *const DatabaseDidFinishUpdateDownloadedOrDeletedThreadInfoNotification
 		NSArray		*messages_;
 		NSDate *modDate = [newContents_ objectForKey:CMRThreadModifiedDateKey];
 		
-		int baordID = 0;
+		int boardID = 0;
 		NSString *threadID;
 		
 		db = [self databaseForCurrentThread];
@@ -116,7 +118,8 @@ NSString *const DatabaseDidFinishUpdateDownloadedOrDeletedThreadInfoNotification
 		messages_ = [newContents_ objectForKey:ThreadPlistContentsKey];
 		cnt_ = (messages_ != nil) ? [messages_ count] : 0;
 
-		if (![self searchBoardID:&baordID threadID:&threadID fromFilePath:[downloader_ filePathToWrite]]) {
+//		if (![self searchBoardID:&baordID threadID:&threadID fromFilePath:[downloader_ filePathToWrite]]) {
+		if (![self searchBoardID:&boardID threadID:&threadID fromFilePath:[downloader filePathToWrite]]) {
 			break;
 		}
 
@@ -127,7 +130,7 @@ NSString *const DatabaseDidFinishUpdateDownloadedOrDeletedThreadInfoNotification
 			ThreadStatusColumn, ThreadLogCachedStatus,
 			ModifiedDateColumn, [modDate timeIntervalSince1970]];
 		[sql appendFormat:@"WHERE %@ = %u AND %@ = %@",
-			BoardIDColumn, baordID, ThreadIDColumn, threadID];
+			BoardIDColumn, boardID, ThreadIDColumn, threadID];
 		
 		[db cursorForSQL:sql];
 		

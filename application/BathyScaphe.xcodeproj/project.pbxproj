@@ -1254,7 +1254,7 @@
 		F324DCBE04C698FB00A80005 /* CMRDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRDownloader.m; sourceTree = "<group>"; };
 		F324DCBF04C698FB00A80005 /* CMRDownloader_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRDownloader_p.h; sourceTree = "<group>"; };
 		F324DCC704C698FB00A80005 /* ThreadTextDownloader.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = ThreadTextDownloader.h; sourceTree = "<group>"; };
-		F324DCC804C698FB00A80005 /* ThreadTextDownloader.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = ThreadTextDownloader.m; sourceTree = "<group>"; };
+		F324DCC804C698FB00A80005 /* ThreadTextDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreadTextDownloader.m; sourceTree = "<group>"; };
 		F324DCC904C698FB00A80005 /* ThreadTextDownloader_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = ThreadTextDownloader_p.h; sourceTree = "<group>"; };
 		F324DCD704C698FB00A80005 /* CMRThreadSignature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRThreadSignature.h; sourceTree = "<group>"; };
 		F324DCD804C698FB00A80005 /* CMRThreadSignature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRThreadSignature.m; sourceTree = "<group>"; };

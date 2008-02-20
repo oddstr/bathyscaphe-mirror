@@ -10,6 +10,7 @@
 
 #import <SQLiteDB.h>
 
+@class CMRDownloader;
 
 @interface DatabaseManager : NSObject
 + (id) defaultManager;
@@ -103,6 +104,10 @@
 	 - (BOOL) createFavThraedInfoView;
 	 */
 - (BOOL) createBoardThreadInfoView;
+@end
+
+@interface DatabaseManager(Notifications)
+- (void)threadTextDownloader:(CMRDownloader *)downloader didUpdateWithContents:(NSDictionary *)userInfo;
 @end
 
 // スレッド一覧テーブルカラムのIDからデータベース上のテーブル名を取得。

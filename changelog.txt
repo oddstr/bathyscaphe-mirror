@@ -1,4 +1,9 @@
 2008-02-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/source/manager/DatabaseManager-Notifications.m
+	* application/source/manager/DatabaseManager.h
+	* application/source/network/ThreadTextDownloader.m
+		スレッドをダウンロードした時のデータベースの更新も、Notification ではなく DatabaseManager を直接叩いて処理するようにした。
+		- DatabaseManager 以外に Notification を観察する人がいないので、わざわざ Notification を使う必要が無い。
 	* application/source/browser/CMRBrowser-Delegate.m
 	* application/source/preferences/AppDefaults-ThreadViewer.m
 	* application/source/preferences/AppDefaults.h
