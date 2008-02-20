@@ -447,6 +447,7 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 	}
 
 	if (action_ == @selector(showLocalRules:)) {
+		[theItem setLabel:NSLocalizedStringFromTable(@"ShowLocalRules Label", @"ToolbarItems", nil)];
 		return YES;
 	}
 

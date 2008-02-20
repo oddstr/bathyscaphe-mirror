@@ -1,4 +1,16 @@
 2008-02-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/subproj/preference/Japanese.lproj/SyncPane.nib
+		とりあえずレイアウトを変更し、ステータスメッセージが見切れないようにした。
+	* application/Resources/Japanese.lproj/board_default.plist
+		最新のものに更新。
+	* application/source/view/CMRThreadView.m
+		透明あぼーん時の poof 発生タイミングを再び「実際にテキストが消える前」に戻した。（cf. 2008-01-26）
+	* application/source/window/CMRReplyMessenger.m
+		「ローカルルールを表示」ツールバー項目の label が、どういうわけか勝手に -validateMenuItem: の内容に汚染されてしまう（-validateToolbarItem: では
+		label をいじっていないのに、-validateMenuItem: で変更した menuItem の title が反映されてしまう）。気持ち悪いので強制的に -validateToolbarItem:
+		で -setLabel: を呼んで label を修正してやるッ！
+	* application/Resources/Japanese.lproj/Acknowledgments.rtf
+		内容を一部編集。
 	* application/source/manager/DatabaseManager-Notifications.m
 	* application/source/manager/DatabaseManager.h
 	* application/source/network/ThreadTextDownloader.m

@@ -608,12 +608,12 @@ static BOOL shouldPoof(int state, int actionType)
 	firstIndex = [mIndexes firstIndex];
 	mIndexEnum_ = indexEnumeratorWithIndexes(mIndexes);
 
-	while (mIndex = [mIndexEnum_ nextObject]) {
-		[self toggleMessageAttributesAtIndex:[mIndex unsignedIntValue] senderTag:actionType];
-	}
-
 	if (shouldPoof([sender state], actionType)) {
 		NSShowAnimationEffect(NSAnimationEffectDisappearingItemDefault, [self pointForIndex:firstIndex], NSMakeSize(128,128), nil, NULL, nil);
+	}
+
+	while (mIndex = [mIndexEnum_ nextObject]) {
+		[self toggleMessageAttributesAtIndex:[mIndex unsignedIntValue] senderTag:actionType];
 	}
 }
 
