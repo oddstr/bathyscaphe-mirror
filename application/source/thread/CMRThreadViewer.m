@@ -1,11 +1,12 @@
-/**
-  * $Id: CMRThreadViewer.m,v 1.57 2008/02/19 15:22:53 tsawada2 Exp $
-  * 
-  * CMRThreadViewer.m
-  *
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  CMRThreadViewer.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 08/02/24.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import "CMRThreadViewer_p.h"
 
 #import "CMRThreadFileLoadingTask.h"
@@ -100,11 +101,11 @@ void *kThreadViewerAttrContext = @"Lucky_Channel";
 	[self removeMessenger:nil];
 	[CMRPopUpMgr closePopUpWindowForOwner:self];
 
-	[self disposeThreadAttributes];//:[self threadAttributes]];
+	[self disposeThreadAttributes];
 	[[self threadLayout] disposeLayoutContext];
 }
 
-// CMRThreadViewer:
+#pragma mark Loading Thread
 static NSDictionary *boardInfoWithFilepath(NSString *filepath)
 {
 	NSString				*dat_;
@@ -151,61 +152,56 @@ static NSDictionary *boardInfoWithFilepath(NSString *filepath)
 	}
 }
 
-- (void) setThreadContentWithFilePath : (NSString     *) filepath
-                            boardInfo : (NSDictionary *) boardInfo
-					  noteHistoryList : (int           ) relativeIndex
+- (void)setThreadContentWithFilePath:(NSString *)filepath boardInfo:(NSDictionary *)boardInfo noteHistoryList:(int)relativeIndex
 {
 	CMRThreadAttributes		*attrs_;
 	
-	// Browser‚Ìê‡AƒXƒŒƒbƒh•\¦•”•ª‚ğ•Â‚¶‚Ä‚¢‚½ê‡‚Í
-	// ƒXƒŒƒbƒh‚ğ‚¢‚¿‚¢‚¿“Ç‚İ‚Ü‚È‚¢B
-	if (NO == [self shouldShowContents])
-		return;
+	// Browserã®å ´åˆã€ã‚¹ãƒ¬ãƒƒãƒ‰è¡¨ç¤ºéƒ¨åˆ†ã‚’é–‰ã˜ã¦ã„ãŸå ´åˆã¯
+	// ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’ã„ã¡ã„ã¡èª­ã¿è¾¼ã¾ãªã„ã€‚
+	if (![self shouldShowContents]) return;
 
-	if (nil == boardInfo || 0 == [boardInfo count])
+	if (!boardInfo || [boardInfo count] == 0) {
 		boardInfo = boardInfoWithFilepath(filepath);
-	
+	}
 	// 
-	// loadFromContentsOfFile:‚ÅŒ»İ•\¦‚µ‚Ä‚¢‚é“à—e‚Í
-	// Á‹‚³‚ê‚é‚Ì‚ÅAÅŒã‚É“Ç‚ñ‚¾ƒŒƒX”Ô†‚È‚Ç‚Í‚±‚±‚Å•Û‘¶‚µ‚Ä‚¨‚­B
-	// V‚µ‚¢CMRThreadAttributes‚ğ“o˜^‚·‚é‚ÆthreadWillClose‚ªŒÄ‚Î‚êA
-	// ‘®«‚ğ‘‚«–ß‚·iƒ‚©‚È‚è–³‘ÊjB
+	// loadFromContentsOfFile:ã§ç¾åœ¨è¡¨ç¤ºã—ã¦ã„ã‚‹å†…å®¹ã¯
+	// æ¶ˆå»ã•ã‚Œã‚‹ã®ã§ã€æœ€å¾Œã«èª­ã‚“ã ãƒ¬ã‚¹ç•ªå·ãªã©ã¯ã“ã“ã§ä¿å­˜ã—ã¦ãŠãã€‚
+	// æ–°ã—ã„CMRThreadAttributesã‚’ç™»éŒ²ã™ã‚‹ã¨threadWillCloseãŒå‘¼ã°ã‚Œã€
+	// å±æ€§ã‚’æ›¸ãæˆ»ã™ï¼ˆï¼œã‹ãªã‚Šç„¡é§„ï¼‰ã€‚
 	// 
-	attrs_ = [[CMRThreadAttributes alloc] initWithDictionary : boardInfo];
-	[self setThreadAttributes : attrs_];
+	attrs_ = [[CMRThreadAttributes alloc] initWithDictionary:boardInfo];
+	[self setThreadAttributes:attrs_];
 	[attrs_ release];
 	
-	// ©g‚ÌŠÇ—‚·‚é—š—ğ‚É“o˜^A‚Ü‚½‚ÍˆÚ“®
-	[self noteHistoryThreadChanged : relativeIndex];
-	[self loadFromContentsOfFile : filepath];
+	// è‡ªèº«ã®ç®¡ç†ã™ã‚‹å±¥æ­´ã«ç™»éŒ²ã€ã¾ãŸã¯ç§»å‹•
+	[self noteHistoryThreadChanged:relativeIndex];
+	[self loadFromContentsOfFile:filepath];
 }
 
-- (void) setThreadContentWithThreadIdentifier : (id) aThreadIdentifier
+- (void)setThreadContentWithThreadIdentifier:(id)aThreadIdentifier
 {
     [self setThreadContentWithThreadIdentifier:aThreadIdentifier noteHistoryList:0];
 }
-- (void) setThreadContentWithFilePath : (NSString     *) filepath
-                            boardInfo : (NSDictionary *) boardInfo
+
+- (void)setThreadContentWithFilePath:(NSString *)filepath boardInfo:(NSDictionary *)boardInfo
 {
     [self setThreadContentWithFilePath:filepath boardInfo:boardInfo noteHistoryList:0];
 }
 
-- (void) loadFromContentsOfFile : (NSString *) filepath
+- (void)loadFromContentsOfFile:(NSString *)filepath
 {
 	SGFileRef			*fileRef_;
 	NSString			*actualPath_;
 	CMRThreadFileLoadingTask	*task_;
 	
-	fileRef_ = [SGFileRef fileRefWithPath : filepath];
+	fileRef_ = [SGFileRef fileRefWithPath:filepath];
 	actualPath_ = [fileRef_ pathContentResolvingLinkIfNeeded];
 	
 	// 
-	// ƒtƒ@ƒCƒ‹QÆ‚Í‘¶İ‚µ‚È‚¢ƒtƒ@ƒCƒ‹‚É‚Íì‚ç‚ê‚È‚¢
+	// ãƒ•ã‚¡ã‚¤ãƒ«å‚ç…§ã¯å­˜åœ¨ã—ãªã„ãƒ•ã‚¡ã‚¤ãƒ«ã«ã¯ä½œã‚‰ã‚Œãªã„
 	// 
-	UTILRequireCondition(
-		actualPath_ != nil,
-		FileNotExistsAutoReloadIfNeeded);
-	
+	UTILRequireCondition(actualPath_ != nil, FileNotExistsAutoReloadIfNeeded);
+
 	// --------- Create New File Task ---------
 	
 	task_ = [CMRThreadFileLoadingTask taskWithFilepath:actualPath_];
@@ -226,20 +222,20 @@ static NSDictionary *boardInfoWithFilepath(NSString *filepath)
 	
 	
 FileNotExistsAutoReloadIfNeeded:
-	if (NO == [[self window] isVisible])
-		[self showWindow : self];
+	if (![[self window] isVisible]) [self showWindow:self];
 	
 	{
 		NSString *bName_;
 		bName_ = [self boardName];
 		
-		if (bName_ && [[BoardManager defaultManager] allThreadsShouldAAThreadAtBoard : bName_])
-			[(CMRThreadDocument *)[self document] setIsAAThread : YES];
+		if (bName_ && [[BoardManager defaultManager] allThreadsShouldAAThreadAtBoard:bName_]) {
+			[(CMRThreadDocument *)[self document] setIsAAThread:YES];
+		}
 		[self updateKeywordsCache];
 	}
 	[self didChangeThread];
 	[[self threadLayout] clear];
-	[self reloadIfOnlineMode : self];
+	[self reloadIfOnlineMode:self];
 }
 
 - (void)didChangeThread
@@ -266,14 +262,13 @@ this delegate method would be performed on worker's thread.
 
 cancel, if this method returns NO.
 */
-- (BOOL) threadComposingTask : (CMRThreadComposingTask *) aTask
-		willCompleteMessages : (CMRThreadMessageBuffer *) aMessageBuffer
+- (BOOL)threadComposingTask:(CMRThreadComposingTask *)aTask willCompleteMessages:(CMRThreadMessageBuffer *)aMessageBuffer
 {
 	CMRThreadSignature		*threadID;
 	
 	threadID = [aTask identifier];
 	UTILAssertKindOfClass(threadID, CMRThreadSignature);
-	NSAssert2([[self threadIdentifier] isEqual : threadID],
+	NSAssert2([[self threadIdentifier] isEqual:threadID],
 			@"implementation error. unexpected delegation.\n"
 			@"[self threadIdentifier] = %@ but\n"
 			@"[task identifier] = %@",
@@ -281,57 +276,53 @@ cancel, if this method returns NO.
 	
 	// SpamFilter
 	if ([CMRPref spamFilterEnabled]) {
-		[[CMRSpamFilter sharedInstance]
-			runFilterWithMessages : aMessageBuffer
-							 with : threadID];
+		[[CMRSpamFilter sharedInstance] runFilterWithMessages:aMessageBuffer with:threadID];
 	}
 	// AA
 	if ([(CMRThreadDocument *)[self document] isAAThread]) {
 		[aMessageBuffer changeAllMessageAttributes:YES flags:CMRAsciiArtMask];
 	} else {
 		if ([CMRPref asciiArtDetectorEnabled] || [CMRPref treatsAsciiArtAsSpam]) {
-			[[BSAsciiArtDetector sharedInstance] runDetectorWithMessages: aMessageBuffer with: threadID];
+			[[BSAsciiArtDetector sharedInstance] runDetectorWithMessages:aMessageBuffer with:threadID];
 		}
 	}
-	// Delegate
-	//[aTask setDelegate : nil];
+
 	return YES;
 }
-- (void) pushComposingTaskWithThreadReader : (CMRThreadContentsReader *) aReader
+
+- (void)pushComposingTaskWithThreadReader:(CMRThreadContentsReader *)aReader
 {
 	CMRThreadComposingTask		*task_;
 	
-	task_ = [CMRThreadComposingTask taskWithThreadReader : aReader];
+	task_ = [CMRThreadComposingTask taskWithThreadReader:aReader];
 
-	[task_ setThreadTitle : [self title]];
-	[task_ setIdentifier : [self threadIdentifier]];
+	[task_ setThreadTitle:[self title]];
+	[task_ setIdentifier:[self threadIdentifier]];
 	
-	[task_ setDelegate : self];
+	[task_ setDelegate:self];
 	
 //	[self registerComposingNotification : task_];
-	[[self threadLayout] push : task_];
+	[[self threadLayout] push:task_];
 }
 
-- (void) composeDATContents : (NSString           *) datContents
-            threadSignature : (CMRThreadSignature *) aSignature
-                  nextIndex : (unsigned int        ) aNextIndex
+- (void)composeDATContents:(NSString *)datContents threadSignature:(CMRThreadSignature *)aSignature nextIndex:(unsigned int)aNextIndex
 {
     CMR2chDATReader *reader;
     unsigned         nMessages;
 	CMRThreadLayout	*layout_ = [self threadLayout];
     
     // can't process by downloader while viewer execute.
-    [[CMRNetGrobalLock sharedInstance] add : aSignature];
+    [[CMRNetGrobalLock sharedInstance] add:aSignature];
     
     nMessages = [layout_ numberOfReadedMessages];
     // check unexpected contetns
-    if (NO == [[self threadIdentifier] isEqual : aSignature]) {
+    if (![[self threadIdentifier] isEqual:aSignature]) {
         NSLog(@"Unexpected contents:\n"
             @"  thread:  %@\n"
             @"  arrived: %@", [self threadIdentifier], aSignature);
         return;
     }
-	// 2005-11-26 —lqŒ©’†
+	// 2005-11-26 æ§˜å­è¦‹ä¸­
     if ((aNextIndex != nMessages) && (aNextIndex != NSNotFound)) {
         NSLog(@"Unexpected sequence:\n"
             @"  expected: %u\n"
@@ -339,48 +330,23 @@ cancel, if this method returns NO.
         return;
     }
     
-    reader = [CMR2chDATReader readerWithContents : datContents];
-    if (nil == reader) return;
-    [reader setNextMessageIndex : aNextIndex];
+    reader = [CMR2chDATReader readerWithContents:datContents];
+    if (!reader) return;
+    [reader setNextMessageIndex:aNextIndex];
 
     // updates title, created date, etc...
-    if ([[self threadAttributes] needsToBeUpdatedFromLoadedContents])
-        [[self threadAttributes] addEntriesFromDictionary : [reader threadAttributes]];
-
+    if ([[self threadAttributes] needsToBeUpdatedFromLoadedContents]) {
+        [[self threadAttributes] addEntriesFromDictionary:[reader threadAttributes]];
+	}
     // inserts tag for new arrival messages.
     if (nMessages > 0) {
-        [layout_ push : [CMRThreadUpdatedHeaderTask taskWithIndentifier : [self path]]];
+        [layout_ push:[CMRThreadUpdatedHeaderTask taskWithIndentifier:[self path]]];
     }
     
-    [self pushComposingTaskWithThreadReader: reader];
-    [layout_ setMessagesEdited : YES];
+    [self pushComposingTaskWithThreadReader:reader];
+    [layout_ setMessagesEdited:YES];
 }
 
-#pragma mark auxiliary
-- (BOOL)isInvalidate
-{
-	return _flags.invalidate != 0;
-}
-
-- (void)setInvalidate:(BOOL)flag
-{
-	_flags.invalidate = flag ? 1 : 0;
-}
-
-- (BOOL)changeThemeTaskIsInProgress
-{
-	return _flags.themechangeing != 0;
-}
-
-- (void)setChangeThemeTaskIsInProgress:(BOOL)flag
-{
-	_flags.themechangeing = flag ? 1 : 0;
-}
-
-/*
-CMRThreadFileLoadingTaskDidLoadAttributesNotification:
-*/
-// 2008-02-18
 //- (void) threadFileLoadingTaskDidLoadFile : (NSNotification *) aNotification
 - (void)threadFileLoadingTaskDidLoadFile:(id)threadAttributes
 {
@@ -404,12 +370,12 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 	attributes_ = (NSDictionary *)threadAttributes;
 	if (attributes_) {
 		// 
-		// ƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ‚ªI—¹‚µ‚½‚Ì‚ÅA
-		// ‹L˜^‚³‚ê‚Ä‚¢‚½ƒXƒŒƒbƒh‚Ìî•ñ‚Å
-		// ƒf[ƒ^‚ğXV‚·‚éB
-		// X‚ÉCMRThreadDataDidChangeAttributesNotification‚ª’Ê’m‚³‚ê‚é‚Í‚¸B
-		// (2008-02-19 ’Ç‹LF‚à‚Í‚â’Ê’m‚³‚ê‚È‚¢‚ªA-addEntriesFromDictionary: ‚Å KVO ‚Ì’Ê’m‚ª”ò‚ñ‚Å‚­‚éjB
-		// ‚Ü‚½A‚±‚Ì“_‚ÅƒEƒBƒ“ƒhƒE‚Ì—Ìˆæ‚È‚Ç‚àİ’è‚·‚éB
+		// ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿ãŒçµ‚äº†ã—ãŸã®ã§ã€
+		// è¨˜éŒ²ã•ã‚Œã¦ã„ãŸã‚¹ãƒ¬ãƒƒãƒ‰ã®æƒ…å ±ã§
+		// ãƒ‡ãƒ¼ã‚¿ã‚’æ›´æ–°ã™ã‚‹ã€‚
+		// æ›´ã«CMRThreadDataDidChangeAttributesNotificationãŒé€šçŸ¥ã•ã‚Œã‚‹ã¯ãšã€‚
+		// (2008-02-19 è¿½è¨˜ï¼šã‚‚ã¯ã‚„é€šçŸ¥ã•ã‚Œãªã„ãŒã€-addEntriesFromDictionary: ã§ KVO ã®é€šçŸ¥ãŒé£›ã‚“ã§ãã‚‹ï¼‰ã€‚
+		// ã¾ãŸã€ã“ã®æ™‚ç‚¹ã§ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®é ˜åŸŸãªã©ã‚‚è¨­å®šã™ã‚‹ã€‚
 		//
 		[[self threadAttributes] addEntriesFromDictionary:attributes_];
 		[self synchronizeLayoutAttributes];
@@ -422,8 +388,8 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 	[task_ setCallbackIndex : [[self threadAttributes] lastIndex]];*/
 }
 
-// CMRThreadComposingDidFinishNotification
-/*- (void) threadComposingDidFinished : (NSNotification *) aNotification
+/* CMRThreadComposingDidFinishNotification
+- (void) threadComposingDidFinished : (NSNotification *) aNotification
 {
 	id			object_;
 	unsigned	nReaded = NSNotFound;
@@ -437,8 +403,8 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 	
 	[self removeFromComposingNotification : object_];
 	
-	// ƒŒƒCƒAƒEƒg‚ÌI—¹
-	// “Ç‚İ‚ñ‚¾ƒŒƒX”‚ğXV
+	// ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã®çµ‚äº†
+	// èª­ã¿è¾¼ã‚“ã ãƒ¬ã‚¹æ•°ã‚’æ›´æ–°
 	nReaded = [[self threadLayout] numberOfReadedMessages];
 	nLoaded = [[self threadAttributes] numberOfLoadedMessages];
 	
@@ -451,11 +417,11 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 	
 	if ([object_ isKindOfClass : [CMRThreadFileLoadingTask class]]) {
 		// 
-		// ƒtƒ@ƒCƒ‹‚©‚ç‚Ì“Ç‚İ‚İA•ÏŠ·‚ªI—¹
-		// ‚·‚Å‚ÉƒŒƒCƒAƒEƒg‚Ìƒ^ƒXƒN‚ğŠJn‚µ‚½‚Ì‚ÅA
-		// ƒIƒ“ƒ‰ƒCƒ“ƒ‚[ƒh‚È‚çXV‚·‚é
+		// ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã®èª­ã¿è¾¼ã¿ã€å¤‰æ›ãŒçµ‚äº†
+		// ã™ã§ã«ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã®ã‚¿ã‚¹ã‚¯ã‚’é–‹å§‹ã—ãŸã®ã§ã€
+		// ã‚ªãƒ³ãƒ©ã‚¤ãƒ³ãƒ¢ãƒ¼ãƒ‰ãªã‚‰æ›´æ–°ã™ã‚‹
 		//
-		[self scrollToLastReadedIndex : self]; // ‚»‚Ì‘O‚ÉÅŒã‚É“Ç‚ñ‚¾ˆÊ’u‚Ü‚ÅƒXƒNƒ[ƒ‹‚³‚¹‚Ä‚¨‚­
+		[self scrollToLastReadedIndex : self]; // ãã®å‰ã«æœ€å¾Œã«èª­ã‚“ã ä½ç½®ã¾ã§ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ã•ã›ã¦ãŠã
 
 		if(![(CMRThreadDocument *)[self document] isDatOchiThread]) {
 			if (![self changeThemeTaskIsInProgress]) {
@@ -473,15 +439,15 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
     // remove from lock
     [[CMRNetGrobalLock sharedInstance] remove : [self threadIdentifier]];
 
-	// 2005-11-24 ƒIƒ“ƒUƒtƒ‰ƒCƒNƒ‰ƒbƒVƒ…‘Îô
+	// 2005-11-24 ã‚ªãƒ³ã‚¶ãƒ•ãƒ©ã‚¤ã‚¯ãƒ©ãƒƒã‚·ãƒ¥å¯¾ç­–
 	[[self window] invalidateCursorRectsForView : [[[self threadLayout] scrollView] contentView]];
 	
-	// ‚Ü‚¾–¼–³‚µ‚³‚ñ‚ªŒˆ’è‚µ‚Ä‚¢‚È‚¯‚ê‚ÎŒˆ’è
-	// ‚±‚Ì“_‚Å‚Í WorkerThread ‚ª“®‚¢‚Ä‚¨‚èA
-	// ƒvƒƒOƒŒƒXEƒo[‚à‚»‚Ì‚Ü‚Ü‚È‚Ì‚Å­‚µ’x‚ç‚¹‚é
+	// ã¾ã åç„¡ã—ã•ã‚“ãŒæ±ºå®šã—ã¦ã„ãªã‘ã‚Œã°æ±ºå®š
+	// ã“ã®æ™‚ç‚¹ã§ã¯ WorkerThread ãŒå‹•ã„ã¦ãŠã‚Šã€
+	// ãƒ—ãƒ­ã‚°ãƒ¬ã‚¹ãƒ»ãƒãƒ¼ã‚‚ãã®ã¾ã¾ãªã®ã§å°‘ã—é…ã‚‰ã›ã‚‹
 	[self performSelector: @selector(setupDefaultNoNameIfNeeded) withObject: nil afterDelay: 1.0];
-}*/
-// 2008-02-18
+}
+// 2008-02-18 */
 - (void)threadComposingDidFinish:(id)sender
 {
 	unsigned	nReaded = NSNotFound;
@@ -489,8 +455,8 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 
 	UTILAssertNotNil(sender);
 
-	// ƒŒƒCƒAƒEƒg‚ÌI—¹
-	// “Ç‚İ‚ñ‚¾ƒŒƒX”‚ğXV
+	// ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã®çµ‚äº†
+	// èª­ã¿è¾¼ã‚“ã ãƒ¬ã‚¹æ•°ã‚’æ›´æ–°
 	nReaded = [[self threadLayout] numberOfReadedMessages];
 	nLoaded = [[self threadAttributes] numberOfLoadedMessages];
 	
@@ -503,11 +469,11 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 	
 	if ([sender isKindOfClass:[CMRThreadFileLoadingTask class]]) {
 		// 
-		// ƒtƒ@ƒCƒ‹‚©‚ç‚Ì“Ç‚İ‚İA•ÏŠ·‚ªI—¹
-		// ‚·‚Å‚ÉƒŒƒCƒAƒEƒg‚Ìƒ^ƒXƒN‚ğŠJn‚µ‚½‚Ì‚ÅA
-		// ƒIƒ“ƒ‰ƒCƒ“ƒ‚[ƒh‚È‚çXV‚·‚é
+		// ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã®èª­ã¿è¾¼ã¿ã€å¤‰æ›ãŒçµ‚äº†
+		// ã™ã§ã«ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã®ã‚¿ã‚¹ã‚¯ã‚’é–‹å§‹ã—ãŸã®ã§ã€
+		// ã‚ªãƒ³ãƒ©ã‚¤ãƒ³ãƒ¢ãƒ¼ãƒ‰ãªã‚‰æ›´æ–°ã™ã‚‹
 		//
-		[self scrollToLastReadedIndex:self]; // ‚»‚Ì‘O‚ÉÅŒã‚É“Ç‚ñ‚¾ˆÊ’u‚Ü‚ÅƒXƒNƒ[ƒ‹‚³‚¹‚Ä‚¨‚­
+		[self scrollToLastReadedIndex:self]; // ãã®å‰ã«æœ€å¾Œã«èª­ã‚“ã ä½ç½®ã¾ã§ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ã•ã›ã¦ãŠã
 
 		if(![(CMRThreadDocument *)[self document] isDatOchiThread]) {
 			if (![self changeThemeTaskIsInProgress]) {
@@ -525,13 +491,13 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
     // remove from lock
     [[CMRNetGrobalLock sharedInstance] remove:[self threadIdentifier]];
 
-	// 2005-11-24 ƒIƒ“ƒUƒtƒ‰ƒCƒNƒ‰ƒbƒVƒ…‘Îô
+	// 2005-11-24 ã‚ªãƒ³ã‚¶ãƒ•ãƒ©ã‚¤ã‚¯ãƒ©ãƒƒã‚·ãƒ¥å¯¾ç­–
 	[[self window] invalidateCursorRectsForView:[[self scrollView] contentView]];
 	[self synchronizeWindowTitleWithDocumentName]; // 2008-02-19 added
 
-	// ‚Ü‚¾–¼–³‚µ‚³‚ñ‚ªŒˆ’è‚µ‚Ä‚¢‚È‚¯‚ê‚ÎŒˆ’è
-	// ‚±‚Ì“_‚Å‚Í WorkerThread ‚ª“®‚¢‚Ä‚¨‚èA
-	// ƒvƒƒOƒŒƒXEƒo[‚à‚»‚Ì‚Ü‚Ü‚È‚Ì‚Å­‚µ’x‚ç‚¹‚é
+	// ã¾ã åç„¡ã—ã•ã‚“ãŒæ±ºå®šã—ã¦ã„ãªã‘ã‚Œã°æ±ºå®š
+	// ã“ã®æ™‚ç‚¹ã§ã¯ WorkerThread ãŒå‹•ã„ã¦ãŠã‚Šã€
+	// ãƒ—ãƒ­ã‚°ãƒ¬ã‚¹ãƒ»ãƒãƒ¼ã‚‚ãã®ã¾ã¾ãªã®ã§å°‘ã—é…ã‚‰ã›ã‚‹
 	[self performSelector:@selector(setupDefaultNoNameIfNeeded) withObject:nil afterDelay:1.0];
 }
 
@@ -548,14 +514,13 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 	object_ = [aNotification object];
 	
 	// 
-	// ƒ`ƒFƒbƒN‚ÌŒã‚Å‚à‚¢‚¢B
+	// ãƒã‚§ãƒƒã‚¯ã®å¾Œã§ã‚‚ã„ã„ã€‚
 	// 
 	[self removeFromComposingNotification : object_];
 	if (NO == [object_ respondsToSelector : @selector(identifier)])
 	// 2008-02-18 */
 	id			identifier_;
-	if (![sender respondsToSelector:@selector(identifier)])
-		return;
+	if (![sender respondsToSelector:@selector(identifier)]) return;
 	
 /*	identifier_ = [object_ identifier];
 	if (![[self identifierForThreadTask] isEqual:identifier_]) return;
@@ -567,12 +532,11 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 	[self setInvalidate:YES];
 }
 
-
 - (CMRThreadLayout *)threadLayout
 {
 	if (!_layout) {
 		_layout = [[CMRThreadLayout alloc] initWithTextView:[self textView]];
-		// ƒ[ƒJ[ƒXƒŒƒbƒh‚ğŠJn
+		// ãƒ¯ãƒ¼ã‚«ãƒ¼ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’é–‹å§‹
 		[_layout run];
 	}
 	return _layout;
@@ -581,14 +545,7 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
 	if (context == kThreadViewerAttrContext && object == [self threadAttributes] && [keyPath isEqualToString:@"visibleRange"]) {
-//	if (context == kThreadViewerAttrContext && object == [self threadAttributes]) {
-//		if ([keyPath isEqualToString:@"visibleRange"]) {
-			[self synchronizeVisibleRange];
-/*		} else if ([keyPath isEqualToString:@"windowFrame"]) {
-//			[self window];
-			[self synchronizeLayoutAttributes];
-			[self synchronizeWindowTitleWithDocumentName];
-		}*/
+		[self synchronizeVisibleRange];
 	} else {
 		[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 	}
@@ -641,6 +598,26 @@ CMRThreadFileLoadingTaskDidLoadAttributesNotification:
 }
 
 #pragma mark Accessors
+- (BOOL)isInvalidate
+{
+	return _flags.invalidate != 0;
+}
+
+- (void)setInvalidate:(BOOL)flag
+{
+	_flags.invalidate = flag ? 1 : 0;
+}
+
+- (BOOL)changeThemeTaskIsInProgress
+{
+	return _flags.themechangeing != 0;
+}
+
+- (void)setChangeThemeTaskIsInProgress:(BOOL)flag
+{
+	_flags.themechangeing = flag ? 1 : 0;
+}
+
 - (CMRThreadAttributes *)threadAttributes
 {
 	return [(CMRThreadDocument*)[self document] threadAttributes];
@@ -841,8 +818,7 @@ NSString *kComposingNotificationNames[] = {
 
 	if ([CMRPref saveThreadDocAsBinaryPlist]) {
 		NSData *data_;
-//		NSString *errStr;
-		data_ = [NSPropertyListSerialization dataFromPropertyList:mdict_ format:NSPropertyListBinaryFormat_v1_0 errorDescription:NULL];//&errStr];
+		data_ = [NSPropertyListSerialization dataFromPropertyList:mdict_ format:NSPropertyListBinaryFormat_v1_0 errorDescription:NULL];
 
 		if (!data_) return NO;
 		return [data_ writeToFile:filepath_ atomically:YES];
@@ -863,8 +839,11 @@ NSString *kComposingNotificationNames[] = {
 {
 	unsigned	idx;
 
-//	idx = [[self threadLayout] messageIndexForDocuemntVisibleRect];
-	idx = [[self threadLayout] lastMessageIndexForDocumentVisibleRect];
+	if ([CMRPref oldMessageScrollingBehavior]) {
+		idx = [[self threadLayout] firstMessageIndexForDocumentVisibleRect];
+	} else {
+		idx = [[self threadLayout] lastMessageIndexForDocumentVisibleRect];
+	}
 	if ([[self threadLayout] isInProgress]) {
 		NSLog(@"*** REPORT ***\n  "
 		@" Since the layout is in progress,"
@@ -915,12 +894,12 @@ NSString *kComposingNotificationNames[] = {
 - (void)cleanUpItemsToBeRemoved:(NSArray *)files willReload:(BOOL)flag
 {
 	if (flag) {
-		[[self threadLayout] clear];//:self];
+		[[self threadLayout] clear];
 		[[self threadAttributes] setLastIndex:NSNotFound];
 		[self synchronizeAttributes];
-//		[[self window] invalidateCursorRectsForView:[self textView]];
-//		[[self textView] setNeedsDisplay:YES];
-//		[self updateIndexField];
+/*		[[self window] invalidateCursorRectsForView:[self textView]];
+		[[self textView] setNeedsDisplay:YES];
+		[self updateIndexField];*/
 	} else {
 		[[self threadLayout] clear:self];
 	}

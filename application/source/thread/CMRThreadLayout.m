@@ -1,6 +1,6 @@
 //: CMRThreadLayout.m
 /**
-  * $Id: CMRThreadLayout.m,v 1.17 2008/02/19 15:22:53 tsawada2 Exp $
+  * $Id: CMRThreadLayout.m,v 1.18 2008/02/24 14:16:08 tsawada2 Exp $
   * 
   * CMRThreadLayout.m
   *
@@ -396,8 +396,10 @@
 	  visibleRange_.location += 1;
 	  visibleRange_.length -= 1;
 	}
-	
-	return [self lastMessageIndexForRange:visibleRange_];
+
+// Ç∆ÇËÇ†Ç¶Ç∏ÇÃèCê≥ÅA1.6.2 à»ç~Ç≈Ç‡Ç¡Ç∆Ç´ÇøÇÒÇ∆
+	return [self lastMessageIndexForRangeSilverGull:visibleRange_];
+//	return [self lastMessageIndexForRange:visibleRange_];
 }
 
 - (unsigned int) messageIndexForDocuemntVisibleRect

@@ -53,6 +53,30 @@
 	}
 	return NSNotFound;
 }
+- (unsigned int)lastMessageIndexForRangeSilverGull:(NSRange)aRange
+{
+	unsigned				index_;
+//	SGBaseRangeEnumerator	*rangeIter_;
+	
+	index_ = [[self messageRanges] count] -1;
+//	rangeIter_ = [[self messageRanges] reverseEnumerator];
+//	while ([rangeIter_ hasNext] && index_ >= 0) {
+		NSRange		mesRng_;
+		NSRange		intersection_;
+		
+//		mesRng_ = [rangeIter_ next];
+		mesRng_ = [[self messageRanges] last];
+		intersection_ = NSIntersectionRange(mesRng_, aRange);
+		if (NSMaxRange(intersection_) == NSMaxRange(mesRng_)) {
+			return index_;
+		}
+//		if (intersection_.length != 0)
+//			return index_;
+		
+//		index_--;
+//	}
+	return [self messageIndexForRange:aRange];
+}
 - (unsigned int) lastMessageIndexForRange : (NSRange) aRange
 {
 	unsigned				index_;

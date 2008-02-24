@@ -1,3 +1,13 @@
+2008-02-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/image/lastUpdatedHeader.png
+		差し替え。
+	* application/source/thread/CMRThreadLayout-MessageRange.m
+	* application/source/thread/CMRThreadLayout.m
+	* application/source/thread/CMRThreadViewer.m
+		最後に読んだ位置までスクロールする際の問題を暫定的に修正。
+	* application/Resources/Japanese.lproj/BSReplyAlertSheet.nib
+		アラートのボタンに対するショートカットキーが、二度押さないと効かない問題を修正（たぶん）。
+=================================================
 2008-02-20 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/preference/Japanese.lproj/SyncPane.nib
 		とりあえずレイアウトを変更し、ステータスメッセージが見切れないようにした。
