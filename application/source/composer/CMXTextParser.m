@@ -1,5 +1,5 @@
 /**
-  * $Id: CMXTextParser.m,v 1.26 2008/02/18 23:17:36 tsawada2 Exp $
+  * $Id: CMXTextParser.m,v 1.27 2008/02/25 17:53:32 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -225,10 +225,12 @@ FASE_DELETE:
 
 + (void) convertMessageSourceToCachedMessage : (NSMutableString *) aSource
 {
+@synchronized([CMXTextParser class]) {
 	htmlConvertBreakLineTag(aSource);
 	[aSource replaceCharacters:[NSString backslash] toString:[NSString yenmark]];
 	htmlConvertDeleteAllTagElements(aSource);
 	[self replaceEntityReferenceWithString : aSource];
+}
 }
 
 + (NSArray *) messageArrayWithDATContents : (NSString  *) DATContens

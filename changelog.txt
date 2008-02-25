@@ -1,6 +1,24 @@
+2008-02-26 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* application/Resources/Japanese.lproj/BathyScapheHelp/
+		ヘルプコンテンツの更新。
+	* application/source/composer/CMXTextParser.m
+		+[CMXTextParser convertMessageSourceToCachedMessage:] の中身を @synchronized() でくくった。複数のスレを同時に開こうとしたとき、
+		このメソッドの同時呼び出しは巡り巡って(*) Oniguruma の onig_new_deluxe() の同時呼び出しを行なうリスクが高い。Oniguruma はスレッドセーフでは
+		ない状態でコンパイルされているので、ここでクラッシュするリスクが高い。
+		それを回避するための暫定処置。
+		(*) 巡り合わせ：
+			onig_new_deluxe
+			-[OGRegularExpression initWithString:options:syntax:escapeCharacter:]
+			+[OGRegularExpression regularExpressionWithString:options:]
+			-[NSMutableString(OgreKitAdditions) replaceOccurrencesOfRegularExpressionString:withString:options:range:]
+			htmlConvertBreakLineTag (CMXTextParser.m:123)
+			+[CMXTextParser convertMessageSourceToCachedMessage:] (CMXTextParser.m:229)
+		- 本来、OgreKit ないし Oniguruma の方で対策をとった方が良いのだが、とりあえず… 
+	* application/subproj/reply/Japanese.lproj/Localizable.strings
+		「エラーメッセージが悪い。」と言われたので。暫定修正。
 2008-02-24 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/Resources/image/lastUpdatedHeader.png
-		差し替え。
+		差し替え。今までより濃い色だが、これは HUD Window と同じ配色だね。同じにする深い意味はないけど。
 	* application/source/thread/CMRThreadLayout-MessageRange.m
 	* application/source/thread/CMRThreadLayout.m
 	* application/source/thread/CMRThreadViewer.m
