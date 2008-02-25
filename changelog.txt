@@ -1,4 +1,8 @@
 2008-02-26 tsawada2 <ben-sawa@td5.so-net.ne.jp>
+	* frameworks/SGAppKit/framework/src/custom/BSTitleRulerAppearance.[h|m]
+		SGAppKit 1.7.6:
+		スレッドタイトルバーのカラーを設定するツールを作る際などに、グラデーションの起点色と終点色にそれぞれ直接 key-value-binding できた方が楽そうなので
+		そのために追加のアクセサメソッドを仕込んでおいた。
 	* application/Resources/Japanese.lproj/BathyScapheHelp/
 		ヘルプコンテンツの更新。
 	* application/source/composer/CMXTextParser.m

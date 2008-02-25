@@ -3,7 +3,7 @@
 //  SGAppKit (BathyScaphe)
 //
 //  Created by Tsutomu Sawada on 07/08/25.
-//  Copyright 2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2007-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -29,6 +29,21 @@
 - (NSArray *)inactiveColors;
 - (void)setInactiveColors:(NSArray *)colorsArray;
 
+#pragma mark -
+- (NSColor *)activeBlueStartColor;
+- (void)setActiveBlueStartColor:(NSColor *)color;
+- (NSColor *)activeBlueEndColor;
+- (void)setActiveBlueEndColor:(NSColor *)color;
+- (NSColor *)activeGraphiteStartColor;
+- (void)setActiveGraphiteStartColor:(NSColor *)color;
+- (NSColor *)activeGraphiteEndColor;
+- (void)setActiveGraphiteEndColor:(NSColor *)color;
+- (NSColor *)inactiveStartColor;
+- (void)setInactiveStartColor:(NSColor *)color;
+- (NSColor *)inactiveEndColor;
+- (void)setInactiveEndColor:(NSColor *)color;
+
+#pragma mark -
 - (NSColor *)infoColor;
 - (void)setInfoColor:(NSColor *)color;
 - (NSColor *)infoBackgroundColor;

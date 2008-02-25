@@ -3,7 +3,7 @@
 //  SGAppKit (BathyScaphe)
 //
 //  Created by Tsutomu Sawada on 07/08/25.
-//  Copyright 2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2007-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -60,6 +60,86 @@
 	m_inactiveColors = colorsArray;
 }
 
+#pragma mark -
+- (NSColor *)activeBlueStartColor
+{
+	return [[self activeBlueColors] objectAtIndex:0];
+}
+
+- (void)setActiveBlueStartColor:(NSColor *)color
+{
+	NSAssert(color, @"color is nil!");
+	NSColor *anotherColor = [[self activeBlueColors] objectAtIndex:1];
+	NSArray *newArray = [NSArray arrayWithObjects:color, anotherColor, nil];
+	[self setActiveBlueColors:newArray];
+}
+	
+- (NSColor *)activeBlueEndColor
+{
+	return [[self activeBlueColors] objectAtIndex:1];
+}
+
+- (void)setActiveBlueEndColor:(NSColor *)color
+{
+	NSAssert(color, @"color is nil!");
+	NSColor *anotherColor = [[self activeBlueColors] objectAtIndex:0];
+	NSArray *newArray = [NSArray arrayWithObjects:anotherColor, color, nil];
+	[self setActiveBlueColors:newArray];
+}
+	
+- (NSColor *)activeGraphiteStartColor
+{
+	return [[self activeGraphiteColors] objectAtIndex:0];
+}
+
+- (void)setActiveGraphiteStartColor:(NSColor *)color
+{
+	NSAssert(color, @"color is nil!");
+	NSColor *anotherColor = [[self activeGraphiteColors] objectAtIndex:1];
+	NSArray *newArray = [NSArray arrayWithObjects:color, anotherColor, nil];
+	[self setActiveGraphiteColors:newArray];
+}
+	
+- (NSColor *)activeGraphiteEndColor
+{
+	return [[self activeGraphiteColors] objectAtIndex:1];
+}
+
+- (void)setActiveGraphiteEndColor:(NSColor *)color
+{
+	NSAssert(color, @"color is nil!");
+	NSColor *anotherColor = [[self activeGraphiteColors] objectAtIndex:0];
+	NSArray *newArray = [NSArray arrayWithObjects:anotherColor, color, nil];
+	[self setActiveGraphiteColors:newArray];
+}
+	
+- (NSColor *)inactiveStartColor
+{
+	return [[self inactiveColors] objectAtIndex:0];
+}
+
+- (void)setInactiveStartColor:(NSColor *)color
+{
+	NSAssert(color, @"color is nil!");
+	NSColor *anotherColor = [[self inactiveColors] objectAtIndex:1];
+	NSArray *newArray = [NSArray arrayWithObjects:color, anotherColor, nil];
+	[self setInactiveColors:newArray];
+}
+	
+- (NSColor *)inactiveEndColor
+{
+	return [[self inactiveColors] objectAtIndex:1];
+}
+
+- (void)setInactiveEndColor:(NSColor *)color
+{
+	NSAssert(color, @"color is nil!");
+	NSColor *anotherColor = [[self inactiveColors] objectAtIndex:0];
+	NSArray *newArray = [NSArray arrayWithObjects:anotherColor, color, nil];
+	[self setInactiveColors:newArray];
+}
+
+#pragma mark -
 - (NSColor *)infoColor
 {
 	return m_infoTextColor;
