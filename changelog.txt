@@ -1,3 +1,4 @@
+================================================= 1.6.1(v271) / SilverGull / CVS Tag : v161_FINAL
 2008-02-26 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* frameworks/SGAppKit/framework/src/custom/BSTitleRulerAppearance.[h|m]
 		SGAppKit 1.7.6:
@@ -655,7 +656,7 @@
 	* application/source/task/CMRTaskManager.h
 	* application/source/thread/CMRThreadViewer_p.h
 		CMRTask プロトコルの定義がどうたらと、ビルド時に警告が出ない書き方に改めた。
-================================================= 1.6(v128.1) / Twincam Angel / CVS Tag : v160_FINAL
+================================================= 1.6(v218.1) / Twincam Angel / CVS Tag : v160_FINAL
 2007-11-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
 	* application/subproj/reply/Japanese.lproj/LoginWindow.nib
 		ダイアログの文面を修正。
