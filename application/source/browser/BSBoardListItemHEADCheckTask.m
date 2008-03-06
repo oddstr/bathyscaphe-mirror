@@ -64,22 +64,34 @@ static BOOL shouldCheckItemHeader(id dict);
 - (void)setAmountString:(NSString *)str
 {
 	id temp = amountString;
-	amountString = [str retain];
+	@synchronized(self) {
+		amountString = [str retain];
+	}
 	[temp release];
 }
 - (NSString *)amountString
 {
-	return amountString;
+	id result;
+	@synchronized(self) {
+		result = [[amountString retain] autorelease];
+	}
+	return result;
 }
 - (void)setDescString:(NSString *)str
 {
 	id temp = descString;
-	descString = [str retain];
+	@synchronized(self) {
+		descString = [str retain];
+	}
 	[temp release];
 }
 - (NSString *)descString
 {
-	return descString;
+	id result;
+	@synchronized(self) {
+		result = [[descString retain] autorelease];
+	}
+	return result;
 }
 - (NSString *) messageInProgress
 {
