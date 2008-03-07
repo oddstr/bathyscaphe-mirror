@@ -217,8 +217,6 @@
 		87D8FBBC0B52575800CCB933 /* FontBigger.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8709CA7C0B06750B00525B8D /* FontBigger.tiff */; };
 		87D8FBBD0B52575900CCB933 /* FontSmaller.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8709CA7D0B06750B00525B8D /* FontSmaller.tiff */; };
 		87D8FBC10B5257ED00CCB933 /* CMRThreadView-Drop.m in Sources */ = {isa = PBXBuildFile; fileRef = 877AC2900B027447005365C0 /* CMRThreadView-Drop.m */; };
-		87D8FBC30B52587800CCB933 /* NSIndexSet+BSAddition.h in Headers */ = {isa = PBXBuildFile; fileRef = 87B803000B0ED4980001339F /* NSIndexSet+BSAddition.h */; };
-		87D8FBC40B52587900CCB933 /* NSIndexSet+BSAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 87B802FF0B0ED4980001339F /* NSIndexSet+BSAddition.m */; };
 		87DA14300BE64C9800A81387 /* BSIPIHUDTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = 87DA142E0BE64C9800A81387 /* BSIPIHUDTextField.h */; };
 		87DA14310BE64C9800A81387 /* BSIPIHUDTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 87DA142F0BE64C9800A81387 /* BSIPIHUDTextField.m */; };
 		87DB9C780BA32CA20090090A /* TS2SoftwareUpdate.h in Headers */ = {isa = PBXBuildFile; fileRef = 87DB9C760BA32CA20090090A /* TS2SoftwareUpdate.h */; };
@@ -375,7 +373,6 @@
 		F473624B0AFF8758009B6189 /* CMXPopUpWindowManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8729971808325E2500CBD740 /* CMXPopUpWindowManager.h */; };
 		F473624C0AFF8758009B6189 /* BSScriptsMenuManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F49CCDF30849B87500835BE3 /* BSScriptsMenuManager.h */; };
 		F473624E0AFF8758009B6189 /* RBSplitSubview.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB791F0864401A00ED8757 /* RBSplitSubview.h */; };
-		F473624F0AFF8758009B6189 /* NSTableView+BSAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BD61EE0865D0230080A7CA /* NSTableView+BSAdditions.h */; };
 		F47362510AFF8758009B6189 /* NoNameInputController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8718EFDC08D43F7D00FFAAEE /* NoNameInputController.h */; };
 		F47362520AFF8758009B6189 /* BSBoardInfoInspector.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BF52C908F789D400998C4E /* BSBoardInfoInspector.h */; };
 		F47362530AFF8758009B6189 /* BSImagePreviewerInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 8745CD280900DE9800A28AC0 /* BSImagePreviewerInterface.h */; };
@@ -604,7 +601,6 @@
 		F47363610AFF8758009B6189 /* CMXPopUpWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8729971608325E2500CBD740 /* CMXPopUpWindowController.m */; };
 		F47363620AFF8758009B6189 /* CMXPopUpWindowManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8729971908325E2500CBD740 /* CMXPopUpWindowManager.m */; };
 		F47363630AFF8758009B6189 /* BSScriptsMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F49CCDF40849B87500835BE3 /* BSScriptsMenuManager.m */; };
-		F47363640AFF8758009B6189 /* NSTableView+BSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BD61EF0865D0230080A7CA /* NSTableView+BSAdditions.m */; };
 		F47363650AFF8758009B6189 /* CMRReplyMessenger-Connector.m in Sources */ = {isa = PBXBuildFile; fileRef = 8709E6530879713D009A65FC /* CMRReplyMessenger-Connector.m */; };
 		F47363670AFF8758009B6189 /* CMRThreadViewer-OwnHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 8719F069088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m */; };
 		F47363690AFF8758009B6189 /* NoNameInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8718EFDD08D43F7D00FFAAEE /* NoNameInputController.m */; };
@@ -1060,6 +1056,7 @@
 		87AF6D0007425DC0001D08ED /* remove_pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = remove_pressed.tiff; sourceTree = "<group>"; };
 		87B19D7C08FB7C4100D15053 /* AddBoard_Pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AddBoard_Pressed.tiff; sourceTree = "<group>"; };
 		87B19D7D08FB7C4100D15053 /* AddBoard.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AddBoard.tiff; sourceTree = "<group>"; };
+		87B619690D74F3F600581B83 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		87B652980840625F008AE2BE /* SendMessage.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SendMessage.tiff; sourceTree = "<group>"; };
 		87B802FF0B0ED4980001339F /* NSIndexSet+BSAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSIndexSet+BSAddition.m"; sourceTree = "<group>"; };
 		87B803000B0ED4980001339F /* NSIndexSet+BSAddition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSIndexSet+BSAddition.h"; sourceTree = "<group>"; };
@@ -1632,6 +1629,7 @@
 		2A37F4C3FDCFA73011CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				87B619690D74F3F600581B83 /* QuartzCore.framework */,
 				F472216D0B26EF8F004FAD24 /* OgreKit.framework */,
 				F411449E09D6EE6C00DDF200 /* CoreFoundation.framework */,
 				87C8FBDC09B3631800039203 /* Security.framework */,
@@ -2264,6 +2262,18 @@
 			name = Attributes;
 			sourceTree = "<group>";
 		};
+		87EE08BF0D811D1B002C3CDC /* host handlers */ = {
+			isa = PBXGroup;
+			children = (
+				F358F4B904DE227900A80005 /* CMRHostHandler.h */,
+				F358F4BD04DE23BC00A80005 /* CMRHostHandler_p.h */,
+				F358F4BA04DE227900A80005 /* CMRHostHandler.m */,
+				F3B609F80509EDBF00A80005 /* CMRHostHTMLHandler.m */,
+				8731733E0B2AFEE2003EA8C1 /* BSHostLivedoorHandler.m */,
+			);
+			name = "host handlers";
+			sourceTree = "<group>";
+		};
 		F30FC4E604CBFA3B00A80005 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -2587,11 +2597,7 @@
 			isa = PBXGroup;
 			children = (
 				F358F4B804DE224500A80005 /* default */,
-				F358F4B904DE227900A80005 /* CMRHostHandler.h */,
-				F358F4BD04DE23BC00A80005 /* CMRHostHandler_p.h */,
-				F358F4BA04DE227900A80005 /* CMRHostHandler.m */,
-				F3B609F80509EDBF00A80005 /* CMRHostHTMLHandler.m */,
-				8731733E0B2AFEE2003EA8C1 /* BSHostLivedoorHandler.m */,
+				87EE08BF0D811D1B002C3CDC /* host handlers */,
 			);
 			path = preferences;
 			sourceTree = "<group>";
@@ -3237,7 +3243,6 @@
 				F473624B0AFF8758009B6189 /* CMXPopUpWindowManager.h in Headers */,
 				F473624C0AFF8758009B6189 /* BSScriptsMenuManager.h in Headers */,
 				F473624E0AFF8758009B6189 /* RBSplitSubview.h in Headers */,
-				F473624F0AFF8758009B6189 /* NSTableView+BSAdditions.h in Headers */,
 				F47362510AFF8758009B6189 /* NoNameInputController.h in Headers */,
 				F47362520AFF8758009B6189 /* BSBoardInfoInspector.h in Headers */,
 				F47362530AFF8758009B6189 /* BSImagePreviewerInterface.h in Headers */,
@@ -3272,7 +3277,6 @@
 				F4FEFC0F0AFFA9920099853B /* BSDatePickerCell.h in Headers */,
 				F474D8570B514A510071A03C /* BSDateFormatter.h in Headers */,
 				F474D8610B514AA30071A03C /* CMRMessageSample.h in Headers */,
-				87D8FBC30B52587800CCB933 /* NSIndexSet+BSAddition.h in Headers */,
 				879B0B930B6239EF00EFD6D0 /* BSThreadInfoPanelController.h in Headers */,
 				F467955B0B74CD40001B0001 /* DatabaseUpdater.h in Headers */,
 				87A9F7DB0B7FB71700404C81 /* BSRelativeKeywordsCollector.h in Headers */,
@@ -3898,7 +3902,6 @@
 				F47363610AFF8758009B6189 /* CMXPopUpWindowController.m in Sources */,
 				F47363620AFF8758009B6189 /* CMXPopUpWindowManager.m in Sources */,
 				F47363630AFF8758009B6189 /* BSScriptsMenuManager.m in Sources */,
-				F47363640AFF8758009B6189 /* NSTableView+BSAdditions.m in Sources */,
 				F47363650AFF8758009B6189 /* CMRReplyMessenger-Connector.m in Sources */,
 				F47363670AFF8758009B6189 /* CMRThreadViewer-OwnHistory.m in Sources */,
 				F47363690AFF8758009B6189 /* NoNameInputController.m in Sources */,
@@ -3942,7 +3945,6 @@
 				F474D8590B514A5E0071A03C /* BSHostLivedoorHandler.m in Sources */,
 				F474D8600B514AA20071A03C /* CMRMessageSample.m in Sources */,
 				87D8FBC10B5257ED00CCB933 /* CMRThreadView-Drop.m in Sources */,
-				87D8FBC40B52587900CCB933 /* NSIndexSet+BSAddition.m in Sources */,
 				879B0B940B6239EF00EFD6D0 /* BSThreadInfoPanelController.m in Sources */,
 				878088D00B6C773700027091 /* CMRThreadsList-DragDropOp.m in Sources */,
 				F467955C0B74CD40001B0001 /* DatabaseUpdater.m in Sources */,
@@ -4840,7 +4842,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
@@ -4856,7 +4858,7 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G4;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Deployment;
@@ -4865,7 +4867,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Default;

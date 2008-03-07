@@ -3,39 +3,36 @@
 //  BathyScaphe
 //
 //  Updated by Tsutomu Sawada on 07/10/30.
-//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
 #import "ThreadsListTable.h"
 #import "CMRThreadsList.h"
 #import "AppDefaults.h"
-#import "NSIndexSet+BSAddition.h"
-#import "BSQuickLookPanelController.h"
-#import "BSQuickLookObject.h"
-#import "CMRThreadSignature.h"
-#import "CMRThreadAttributes.h"
 #import <SGAppKit/SGKeyBindingSupport.h>
-#import <SGAppKit/NSWorkspace-SGExtensions.h>
 
 static NSString *const kBrowserKeyBindingsFile = @"BrowserKeyBindings.plist";
 
 @implementation ThreadsListTable
-#pragma mark Drag Image
-// Panther. Deprecated.
-- (NSImage *)dragImageForRows:(NSArray *)dragRows
-						event:(NSEvent *)dragEvent
-			  dragImageOffset:(NSPointPointer)dragImageOffset
+#pragma mark Drag & Drop
+- (NSDragOperation)draggingSourceOperationMaskForLocal:(BOOL)isLocal
 {
-	id	dataSource = [self dataSource];
-	if (dataSource && [dataSource respondsToSelector:@selector(dragImageForRowIndexes:inTableView:offset:)]) {
-		return [dataSource dragImageForRowIndexes:[NSIndexSet rowIndexesWithRows:dragRows] inTableView:self offset:dragImageOffset];
-	}
-	
-	return [super dragImageForRows:dragRows event:dragEvent dragImageOffset:dragImageOffset];
+	if (isLocal) return NSDragOperationEvery;
+
+	return (NSDragOperationCopy|NSDragOperationDelete|NSDragOperationLink);
 }
 
-// For Tiger or later
+- (void)draggedImage:(NSImage *)anImage endedAt:(NSPoint)aPoint operation:(NSDragOperation)operation
+{
+	id	source;
+
+	source = [self dataSource];
+	if (source && [source respondsToSelector:@selector(tableView:didEndDragging:)]) {
+		[source tableView:self didEndDragging:operation];
+	}
+}
+
 - (NSImage *)dragImageForRowsWithIndexes:(NSIndexSet *)dragRows
 							tableColumns:(NSArray *)tableColumns
 								   event:(NSEvent *)dragEvent
@@ -49,36 +46,16 @@ static NSString *const kBrowserKeyBindingsFile = @"BrowserKeyBindings.plist";
 	return [super dragImageForRowsWithIndexes:dragRows tableColumns:tableColumns event:dragEvent offset:dragImageOffset];
 }
 
+#pragma mark (For Future Use)
 - (NSArray *)attributesArrayForSelectedRowsExceptingPath:(NSString *)exceptingPath
 {
 	id dataSource = [self dataSource];
-	if (!dataSource || ![dataSource respondsToSelector:@selector(threadAttributesAtRowIndex:inTableView:)]) {
+	if (!dataSource || ![dataSource respondsToSelector:@selector(tableView:threadAttibutesArrayAtRowIndexes:exceptingPath:)]) {
 		NSBeep();
 		return nil;
 	}
 
-	NSIndexSet		*rows = [self selectedRowIndexes];
-	unsigned int	count = [rows count];
-	if (count == 0) return nil;
-
-	NSMutableArray	*mutableArray = [[NSMutableArray alloc] initWithCapacity:count];
-	NSArray			*resultArray;
-
-	unsigned int	element;
-	NSDictionary	*dict;
-	NSString		*threadPath;
-	int				size = [rows lastIndex]+1;
-	NSRange			e = NSMakeRange(0, size);
-
-	while ([rows getIndexes:&element maxCount:1 inIndexRange:&e] > 0) {
-		dict = [dataSource threadAttributesAtRowIndex:element inTableView:self];
-		threadPath = [CMRThreadAttributes pathFromDictionary:dict];
-		if (![threadPath isEqualToString:exceptingPath]) [mutableArray addObject:dict];
-	}
-
-	resultArray = [[NSArray alloc] initWithArray:mutableArray];
-	[mutableArray release];
-	return [resultArray autorelease];
+	return [dataSource tableView:self threadAttibutesArrayAtRowIndexes:[self selectedRowIndexes] exceptingPath:exceptingPath];
 }
 
 #pragma mark Events
@@ -339,39 +316,21 @@ Hope this helps...
 - (IBAction)revealInFinder:(id)sender
 {
 	id dataSource = [self dataSource];
-	if (!dataSource || ![dataSource respondsToSelector:@selector(threadFilePathAtRowIndex:inTableView:status:)]) {
+	if (!dataSource || ![dataSource respondsToSelector:@selector(tableView:revealFilesAtRowIndexes:)]) {
 		NSBeep();
 		return;
 	}
-
-	NSString *path = [dataSource threadFilePathAtRowIndex:[self selectedRow] inTableView:self status:NULL];
-	[[NSWorkspace sharedWorkspace] selectFile:path inFileViewerRootedAtPath:[path stringByDeletingLastPathComponent]];
+	[dataSource tableView:self revealFilesAtRowIndexes:[self selectedRowIndexes]];
 }
 
 - (IBAction)openInBrowser:(id)sender
 {
 	id dataSource = [self dataSource];
-	if (!dataSource || ![dataSource respondsToSelector:@selector(threadAttributesAtRowIndex:inTableView:)]) {
+	if (!dataSource || ![dataSource respondsToSelector:@selector(tableView:openURLsAtRowIndexes:)]) {
 		NSBeep();
 		return;
 	}
-
-	NSIndexSet		*rows = [self selectedRowIndexes];
-	NSMutableArray	*urls = [NSMutableArray arrayWithCapacity:[rows count]];
-
-	unsigned int	element;
-	NSDictionary	*dict;
-	NSURL			*url;
-	int				size = [rows lastIndex]+1;
-	NSRange			e = NSMakeRange(0, size);
-
-	while ([rows getIndexes:&element maxCount:1 inIndexRange:&e] > 0) {
-		dict = [dataSource threadAttributesAtRowIndex:element inTableView:self];
-		url = [CMRThreadAttributes threadURLWithDefaultParameterFromDictionary:dict];
-		if (url) [urls addObject:url];
-	}
-
-	[[NSWorkspace sharedWorkspace] openURLs:urls inBackground:[CMRPref openInBg]];
+	[dataSource tableView:self openURLsAtRowIndexes:[self selectedRowIndexes]];
 }
 
 - (IBAction)quickLook:(id)sender
@@ -379,26 +338,15 @@ Hope this helps...
 	// Leopard
 	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {	
 		id dataSource = [self dataSource];
-		if (!dataSource || ![dataSource respondsToSelector:@selector(threadFilePathAtRowIndex:inTableView:status:)]) {
+		if (!dataSource || ![dataSource respondsToSelector:@selector(tableView:quickLookAtRowIndexes:)]) {
 			NSBeep();
 			return;
 		}
-
-		BSQuickLookPanelController *qlc = [BSQuickLookPanelController sharedInstance];
-		[qlc showWindow:self];
-
-		if ([[qlc window] isVisible]) {
-			NSString *path = [dataSource threadFilePathAtRowIndex:[self selectedRow] inTableView:self status:NULL];
-			NSString *title = [dataSource threadTitleAtRowIndex:[self selectedRow] inTableView:self];
-
-			CMRThreadSignature *foo = [CMRThreadSignature threadSignatureFromFilepath:path];
-			BSQuickLookObject	*bar = [[BSQuickLookObject alloc] initWithThreadTitle:title signature:foo];
-			[[qlc objectController] setContent:bar];
-			[bar release];
-		}
+		[dataSource tableView:self quickLookAtRowIndexes:[self selectedRowIndexes]];
 	}
 }
 
+#pragma mark Validations
 - (BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)anItem
 {
 	SEL action = [anItem action];

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.29 2008/02/10 14:24:51 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.30 2008/03/07 15:13:43 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -8,7 +8,8 @@
   */
 #import "CMRThreadsList_p.h"
 #import "CMRThreadSignature.h"
-#import "NSIndexSet+BSAddition.h"
+#import "BSQuickLookPanelController.h"
+#import "BSQuickLookObject.h"
 #import "BSDateFormatter.h"
 #import "DatabaseManager.h"
 
@@ -202,11 +203,11 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 
 #pragma mark Drag and Drop support
 // Deprecated in Mac OS X 10.4 and later.
-- (BOOL)tableView:(NSTableView *)tableView writeRows:(NSArray *)rows toPasteboard:(NSPasteboard *)pboard
+/*- (BOOL)tableView:(NSTableView *)tableView writeRows:(NSArray *)rows toPasteboard:(NSPasteboard *)pboard
 {
 	NSIndexSet *indexSet = [NSIndexSet rowIndexesWithRows:rows];
 	return [self tableView:tableView writeRowsWithIndexes:indexSet toPasteboard:pboard];
-}
+}*/
 
 - (BOOL)tableView:(NSTableView *)tableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard
 {
@@ -321,20 +322,87 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	return nil;
 }
 
-- (NSArray *)threadFilePathArrayWithRowIndexSet:(NSIndexSet *)anIndexSet inTableView:(NSTableView *)tableView
+- (NSArray *)tableView:(NSTableView *)aTableView threadAttibutesArrayAtRowIndexes:(NSIndexSet *)rowIndexes exceptingPath:(NSString *)filepath
 {
-	NSMutableArray	*pathArray_ = [NSMutableArray array];
-	unsigned int	arrayElement;
-	int				size = [anIndexSet lastIndex]+1;
+	unsigned int	count = [rowIndexes count];
+	if (count == 0) return nil;
+
+	NSMutableArray	*mutableArray = [[NSMutableArray alloc] initWithCapacity:count];
+	NSArray			*resultArray;
+
+	unsigned int	element;
+	NSDictionary	*dict;
+	NSString		*threadPath;
+	int				size = [rowIndexes lastIndex]+1;
 	NSRange			e = NSMakeRange(0, size);
 
-	while ([anIndexSet getIndexes:&arrayElement maxCount:1 inIndexRange:&e] > 0) {
+	while ([rowIndexes getIndexes:&element maxCount:1 inIndexRange:&e] > 0) {
+		dict = [self threadAttributesAtRowIndex:element inTableView:aTableView];
+		threadPath = [CMRThreadAttributes pathFromDictionary:dict];
+		if (![threadPath isEqualToString:filepath]) [mutableArray addObject:dict];
+	}
+
+	resultArray = [[NSArray alloc] initWithArray:mutableArray];
+	[mutableArray release];
+	return [resultArray autorelease];
+}
+
+- (NSArray *)tableView:(NSTableView *)aTableView threadFilePathsArrayAtRowIndexes:(NSIndexSet *)rowIndexes
+{
+	NSMutableArray	*pathArray_ = [NSMutableArray arrayWithCapacity:[rowIndexes count]];
+	unsigned int	arrayElement;
+	int				size = [rowIndexes lastIndex]+1;
+	NSRange			e = NSMakeRange(0, size);
+
+	while ([rowIndexes getIndexes:&arrayElement maxCount:1 inIndexRange:&e] > 0) {
 		NSString	*path_;
-		path_ = [self threadFilePathAtRowIndex:arrayElement inTableView:tableView status:NULL];
+		path_ = [self threadFilePathAtRowIndex:arrayElement inTableView:aTableView status:NULL];
 		[pathArray_ addObject:path_];
 	}
 
 	return pathArray_;
+}
+
+- (void)tableView:(NSTableView *)aTableView revealFilesAtRowIndexes:(NSIndexSet *)rowIndexes
+{
+	NSArray *filePaths = [self tableView:aTableView threadFilePathsArrayAtRowIndexes:rowIndexes];
+	[[NSWorkspace sharedWorkspace] revealFilesInFinder:filePaths];
+}
+
+- (void)tableView:(NSTableView *)aTableView quickLookAtRowIndexes:(NSIndexSet *)rowIndexes
+{
+	unsigned int rowIndex = [rowIndexes firstIndex];
+	BSQuickLookPanelController *qlc = [BSQuickLookPanelController sharedInstance];
+	[qlc showWindow:self];
+
+	if ([[qlc window] isVisible]) {
+		NSString *path = [self threadFilePathAtRowIndex:rowIndex inTableView:aTableView status:NULL];
+		NSString *title = [self threadTitleAtRowIndex:rowIndex inTableView:aTableView];
+
+		CMRThreadSignature *foo = [CMRThreadSignature threadSignatureFromFilepath:path];
+		BSQuickLookObject	*bar = [[BSQuickLookObject alloc] initWithThreadTitle:title signature:foo];
+		[[qlc objectController] setContent:bar];
+		[bar release];
+	}
+}
+
+- (void)tableView:(NSTableView *)aTableView openURLsAtRowIndexes:(NSIndexSet *)rowIndexes
+{
+	NSMutableArray	*urls = [NSMutableArray arrayWithCapacity:[rowIndexes count]];
+
+	unsigned int	element;
+	NSDictionary	*dict;
+	NSURL			*url;
+	int				size = [rowIndexes lastIndex]+1;
+	NSRange			e = NSMakeRange(0, size);
+
+	while ([rowIndexes getIndexes:&element maxCount:1 inIndexRange:&e] > 0) {
+		dict = [self threadAttributesAtRowIndex:element inTableView:aTableView];
+		url = [CMRThreadAttributes threadURLWithDefaultParameterFromDictionary:dict];
+		if (url) [urls addObject:url];
+	}
+
+	[[NSWorkspace sharedWorkspace] openURLs:urls inBackground:[CMRPref openInBg]];
 }
 
 #pragma mark NSDraggingSource
@@ -350,21 +418,20 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	[alert addButtonWithTitle:[self localizedString:@"DragDropTrashCancel"]];
 	return ([alert runModal] == NSAlertFirstButtonReturn);
 }
-
+/*
 - (unsigned int)draggingSourceOperationMaskForLocal:(BOOL)localFlag
 {
 	if (localFlag) return NSDragOperationEvery;
 
 	return (NSDragOperationCopy|NSDragOperationDelete|NSDragOperationLink);
 }
-
-- (void)draggedImage:(NSImage *)anImage endedAt:(NSPoint )aPoint operation:(NSDragOperation)operation
+*/
+- (void)tableView:(NSTableView *)aTableView didEndDragging:(NSDragOperation)operation
 {
 	NSPasteboard	*pboard_;
-	NSArray			*filenames_;
 
 	// 「ゴミ箱」への移動でなければ終わり
-	if(NO == (NSDragOperationDelete & operation)) {
+	if (NO == (NSDragOperationDelete & operation)) {
 		return;
 	}
 
@@ -374,8 +441,8 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	}
 
 	if ([self userWantsToMoveToTrash]) {
-		filenames_ = [pboard_ propertyListForType:NSFilenamesPboardType];
-		[self tableView:nil removeFiles:filenames_ delFavIfNecessary:YES];
+		NSArray	*files = [pboard_ propertyListForType:NSFilenamesPboardType];
+		[self tableView:aTableView removeFiles:files delFavIfNecessary:YES];
 	}
 }
 @end

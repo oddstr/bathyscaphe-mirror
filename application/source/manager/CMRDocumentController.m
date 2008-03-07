@@ -11,18 +11,16 @@
 #import "Browser.h"
 
 @implementation CMRDocumentController
-// Will be removed after saying good-bye to Panther.
 - (void)noteNewRecentDocumentURL:(NSURL *)aURL
 {
-
+	// ブロックして、アップルメニューの「最近使った項目」への追加を抑制する
 }
-/*
-// For future use... after saying good-bye to Panther.
+
 - (unsigned int)maximumRecentDocumentCount
 {
+	// BathyScaphe の「ファイル」＞「最近使った書類」サブメニューの生成を抑制する
 	return 0;
 }
-*/
 
 - (NSDocument *)documentAlreadyOpenForURL:(NSURL *)absoluteDocumentURL
 {
@@ -40,8 +38,7 @@
 	iter = [documents objectEnumerator];
 
 	while (document = [iter nextObject]) {
-		fileName = [document fileName];
-//		fileName = [[document fileURL] path];
+		fileName = [[document fileURL] path];
 		if (!fileName && [document isKindOfClass:[Browser class]]) {
 			fileName = [[(Browser *)document threadAttributes] path];
 		}

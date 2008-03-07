@@ -94,46 +94,49 @@
 	return NO;
 }
 
-- (BOOL)readFromFile:(NSString *)filepath ofType:(NSString *)type
+//- (BOOL)readFromFile:(NSString *)filepath ofType:(NSString *)type
+- (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
-	if ([type isEqualToString:CMRThreadDocumentType]) {
+	if ([typeName isEqualToString:CMRThreadDocumentType]) {
 		NSString *newFilePath = nil;
 		[self setFileType:CMRThreadDocumentType];
 
-		if ([self copyFileIfNeeded:filepath toPath:&newFilePath]) {
-			[self setFileName:newFilePath];
+		if ([self copyFileIfNeeded:[absoluteURL path] toPath:&newFilePath]) {
+//			[self setFileName:newFilePath];
+			[self setFileURL:[NSURL fileURLWithPath:newFilePath]];
 			return YES;
 		}
 	}
 	return NO;
 }
-
+/*
 - (BOOL)loadDataRepresentation:(NSData *)data ofType:(NSString *)aType
 {
 	return NO;
 }
-
-- (BOOL)writeToFile:(NSString *)fileName ofType:(NSString *)type
+*/
+//- (BOOL)writeToFile:(NSString *)fileName ofType:(NSString *)type
+- (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
-	if ([type isEqualToString:CMRThreadDocumentType]) {
+	if ([typeName isEqualToString:CMRThreadDocumentType]) {
 		NSDictionary	*fileContents_;
 
 		// ログ書類のフォーマットなら元のソースを読み込み、
 		// 単に別の場所に保存する。
-		fileContents_ = [NSDictionary dictionaryWithContentsOfFile:[self fileName]];
+		fileContents_ = [NSDictionary dictionaryWithContentsOfURL:[self fileURL]];
 		if (!fileContents_) return NO;
 
-		return [fileContents_ writeToFile:fileName atomically:YES];
+		return [fileContents_ writeToURL:absoluteURL atomically:YES];//:fileName atomically:YES];
 	}
 
-	return [super writeToFile:fileName ofType:type];
+	return [super writeToURL:absoluteURL ofType:typeName error:outError];
 }
-
+/*
 - (NSData *)dataRepresentationOfType:(NSString *)aType
 {
 	return nil;
 }
-
+*/
 #pragma mark -
 + (BOOL)showDocumentWithHistoryItem:(CMRThreadSignature *)historyItem
 {

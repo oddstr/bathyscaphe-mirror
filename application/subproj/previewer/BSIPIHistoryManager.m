@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIHistoryManager.m,v 1.9 2007/11/13 01:58:39 tsawada2 Exp $
+//  $Id: BSIPIHistoryManager.m,v 1.10 2008/03/07 15:13:43 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/12.
@@ -161,7 +161,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 
 - (NSArray *) cachedTokensArrayAtIndexes: (NSIndexSet *) indexes
 {
-	if (indexes == nil) return nil;
+/*	if (indexes == nil) return nil;
 	
 	NSMutableArray *array = [NSMutableArray array];
 
@@ -174,7 +174,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 		[array addObject: [[self tokensArray] objectAtIndex: index]];
 	}
 
-	return array;
+	return array;*/
+	if (!indexes) return nil;
+	return [[self tokensArray] objectsAtIndexes:indexes];
 }
 
 - (BOOL) cachedTokensArrayContainsNotNullObjectAtIndexes: (NSIndexSet *) indexes

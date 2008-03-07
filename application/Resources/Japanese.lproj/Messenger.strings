@@ -38,6 +38,10 @@
 "FailedURLEncodingmailFieldLabel" = "メール欄";
 "FailedURLEncodingMESSAGEFieldLabel" = "本文";
 
+"CantReadDocErr_Reason_201" = "必要な内容の一部がファイルから失われているため、下書き書類を開けませんでした。";
+"CantReadDocErr_Suggestion_20x" = "ファイル %@ を削除してから、やり直してみてください。";
+"CantReadDocErr_Reason_202" = "下書き書類を開けませんでした。ファイルが空か、内容が壊れています。";
+
 "BugReportTemplate" = "【Mac OS X】%@
 【BathyScaphe】%@ (%@)
 【プレビュープラグイン】%@ (%@/%@)

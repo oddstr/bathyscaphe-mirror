@@ -183,8 +183,9 @@ static void *kReplySettingsContext = @"EternalBlaze";
 	if (NSEqualRects(NSZeroRect, windowFrame_)) {
 		NSString	*fs;
 		
-		if (fs = [CMRPref replyWindowDefaultFrameString]) 
+		if (fs = [CMRPref replyWindowDefaultFrameString]) {
 			[[self window] setFrameFromString:fs];
+		}
 	} else {
 		[[self window] setFrame:windowFrame_ display:YES];
 	}
@@ -195,12 +196,12 @@ static void *kReplySettingsContext = @"EternalBlaze";
 - (void)setupButtons
 {
 	NSMenu		*menu;
-
+/*
 	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_3) {
 		[[self sageButton] setBezelStyle:NSSmallSquareBezelStyle];
 		[[self deleteMailButton] setBezelStyle:NSSmallSquareBezelStyle];
 	}
-
+*/
 	[[[self templateInsertionButton] cell] setUsesItemFromMenu:YES];
 
 	menu = [[self templateInsertionButton] menu];

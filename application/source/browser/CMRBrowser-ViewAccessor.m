@@ -366,6 +366,8 @@
 
 	// D & D
     [blt registerForDraggedTypes:[NSArray arrayWithObjects:CMRBBSListItemsPboardType, NSFilenamesPboardType, nil]];
+	[blt setDraggingSourceOperationMask:(NSDragOperationCopy | NSDragOperationGeneric | NSDragOperationMove) forLocal:YES];
+	[blt setDraggingSourceOperationMask:NSDragOperationGeneric forLocal:NO];
 
     [blt setDataSource:[[BoardManager defaultManager] userList]];
     [blt setDelegate:self];

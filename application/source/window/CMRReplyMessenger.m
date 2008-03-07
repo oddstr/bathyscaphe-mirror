@@ -222,9 +222,10 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 	[controller_ release];
 }
 
-- (BOOL)readFromFile:(NSString *)fileName ofType:(NSString *)aType
+//- (BOOL)readFromFile:(NSString *)fileName ofType:(NSString *)aType
+- (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
-	if ([aType isEqualToString:CMRReplyDocumentType]) {
+	if ([typeName isEqualToString:CMRReplyDocumentType]) {
 		NSDictionary		*dict_;
 		NSArray				*documentAttributeKeys_;
 		NSEnumerator		*iter_;
@@ -232,12 +233,19 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 		
 		documentAttributeKeys_ = [CMRReplyDocumentFileManager documentAttributeKeys];
 		iter_ = [documentAttributeKeys_ objectEnumerator];
-		dict_ = [NSDictionary dictionaryWithContentsOfFile:fileName];
+//		dict_ = [NSDictionary dictionaryWithContentsOfFile:fileName];
+		dict_ = [NSDictionary dictionaryWithContentsOfURL:absoluteURL];
 
 		if (!dict_) return NO;
 
 		while (key_ = [iter_ nextObject]) {
 			if (![dict_ objectForKey:key_]) {
+				NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+					[self localizedString:@"CantReadDocErr_Reason_201"], NSLocalizedDescriptionKey,
+					[NSString stringWithFormat:[self localizedString:@"CantReadDocErr_Suggestion_20x"], [absoluteURL path]],
+						NSLocalizedRecoverySuggestionErrorKey,
+					absoluteURL, NSURLErrorKey, NULL];
+				*outError = [NSError errorWithDomain:BSBathyScapheErrorDomain code:BSDocumentReadRequiredAttrNotFoundError userInfo:userInfo];
 				return NO;
 			}
 		}
@@ -254,9 +262,10 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 	return NO;
 }
 
-- (BOOL)writeToFile:(NSString *)fileName ofType:(NSString *)type
+//- (BOOL)writeToFile:(NSString *)fileName ofType:(NSString *)type
+- (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
-	if ([type isEqualToString:CMRReplyDocumentType]) {
+	if ([typeName isEqualToString:CMRReplyDocumentType]) {
 		NSArray				*documentAttributeKeys_;
 		NSEnumerator		*iter_;
 		NSString			*key_;
@@ -269,11 +278,17 @@ NSString *const CMRReplyMessengerDidFinishPostingNotification = @"CMRReplyMessen
 		iter_ = [documentAttributeKeys_ objectEnumerator];
 		
 		while (key_ = [iter_ nextObject]) {
-			if (![[self infoDictionary] objectForKey:key_])
+			if (![[self infoDictionary] objectForKey:key_]) {
+				if (outError != NULL) {
+					NSDictionary *userInfo = [NSDictionary dictionary];
+					outError = [NSError errorWithDomain:BSBathyScapheErrorDomain code:BSDocumentWriteRequiredAttrNotFoundError userInfo:userInfo];
+				}
 				return NO;
+			}
 		}
 
-		return [[self infoDictionary] writeToFile:fileName atomically:YES];
+//		return [[self infoDictionary] writeToFile:fileName atomically:YES];
+		return [[self infoDictionary] writeToURL:absoluteURL atomically:YES];
 	}
 	return NO;
 }

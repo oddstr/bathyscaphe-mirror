@@ -57,6 +57,10 @@
 				<string>RBSplitView</string>
 				<key>showPreviewerPreferences</key>
 				<string>id</string>
+				<key>threadComposingDidFinish</key>
+				<string>id</string>
+				<key>threadTaskDidInterrupt</key>
+				<string>id</string>
 				<key>togglePreviewPanel</key>
 				<string>id</string>
 				<key>willAdjustSubviews</key>
@@ -138,14 +142,6 @@
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>BSWindow</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSWindow</string>
 		</dict>
 	</array>
 	<key>IBVersion</key>

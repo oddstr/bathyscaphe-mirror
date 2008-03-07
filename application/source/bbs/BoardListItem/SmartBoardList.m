@@ -556,7 +556,7 @@ not_writtable:
 	return NO;
 }
 @end
-
+/*
 @implementation SmartBoardList (NSDraggingSource)
 - (unsigned int) draggingSourceOperationMaskForLocal : (BOOL) localFlag
 {
@@ -566,3 +566,4 @@ not_writtable:
 	return NSDragOperationGeneric;
 }
 @end
+*/

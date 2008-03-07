@@ -81,12 +81,12 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 - (void)awakeFromNib
 {
 	[[self window] setFrameAutosaveName:BIIFrameAutoSaveNameKey];
-
+/*
 	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_3) {
 		[[self addNoNameBtn] setBezelStyle:NSSmallSquareBezelStyle];
 		[[self removeNoNameBtn] setBezelStyle:NSSmallSquareBezelStyle];
 		[[self editBoardURLButton] setBezelStyle:NSRoundRectBezelStyle];
-	}
+	}*/
 }
 
 - (void) showInspectorForTargetBoard : (NSString *) boardName

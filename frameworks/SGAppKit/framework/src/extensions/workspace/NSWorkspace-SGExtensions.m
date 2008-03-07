@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Updated by Tsutomu Sawada on 07/10/25.
-//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -52,7 +52,7 @@ OSErr createFilesDesc(AEDescList *targetListDescPtr, NSArray *pathsArray)
 	return noErr;
 }
 
-- (BOOL)moveFilesToTrash:(NSArray *)filePaths
+- (BOOL)sendAppleEventOfClass:(AEEventClass)theAEEventClass eventID:(AEEventID)theAEEventID withFiles:(NSArray *)filePaths
 {
 	OSErr			err;
 	AppleEvent		event, reply;
@@ -75,8 +75,8 @@ OSErr createFilesDesc(AEDescList *targetListDescPtr, NSArray *pathsArray)
 	UTILRequireCondition(noErr == err, bail);
 	
 	err = AECreateAppleEvent(
-			kAECoreSuite,
-			kAEDelete,
+			theAEEventClass,
+			theAEEventID,
 			&finderAddress,
 			kAutoGenerateReturnID,
 			kAnyTransactionID,
@@ -115,6 +115,45 @@ bail:
 	AEDisposeDesc(&finderAddress);
 	AEDisposeDesc(&reply);
 	
+	return (err == noErr);
+}
+
+- (BOOL)moveFilesToTrash:(NSArray *)filePaths
+{
+	return [self sendAppleEventOfClass:kAECoreSuite eventID:kAEDelete withFiles:filePaths];
+}
+
+- (BOOL)revealFilesInFinder:(NSArray *)filePaths
+{
+	if (![self sendAppleEventOfClass:kAEMiscStandards eventID:kAEMakeObjectsVisible withFiles:filePaths]) {
+		return NO;
+	}
+	return [self activateAppWithBundleIdentifier:FINDER_IDENTIFIER];
+}
+
+- (BOOL)activateAppWithBundleIdentifier:(NSString *)bundleIdentifier
+{
+	if (!bundleIdentifier) return NO;
+	const char		*bundleIdentifierStr = [bundleIdentifier UTF8String];
+	NSAppleEventDescriptor *targetDesc;
+	NSAppleEventDescriptor *appleEvent;
+	OSStatus err;
+
+	bundleIdentifierStr = [bundleIdentifier UTF8String];
+	targetDesc = [NSAppleEventDescriptor descriptorWithDescriptorType:typeApplicationBundleID
+																bytes:bundleIdentifierStr
+															   length:strlen(bundleIdentifierStr)];
+	if(!targetDesc) return NO;
+
+	appleEvent = [NSAppleEventDescriptor appleEventWithEventClass:kAEMiscStandards
+														  eventID:kAEActivate
+												 targetDescriptor:targetDesc
+														 returnID:kAutoGenerateReturnID
+													transactionID:kAnyTransactionID];
+	if(!appleEvent) return NO;
+
+	err = AESendMessage([appleEvent aeDesc], NULL, kAECanInteract, kAEDefaultTimeout);
+
 	return (err == noErr);
 }
 

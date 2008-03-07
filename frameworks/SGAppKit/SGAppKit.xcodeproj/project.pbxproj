@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		870904740A43DF7A00636062 /* BSReplyTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 870904720A43DF7A00636062 /* BSReplyTextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		870904750A43DF7A00636062 /* BSReplyTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 870904730A43DF7A00636062 /* BSReplyTextView.m */; };
-		870904780A43DF9F00636062 /* BSWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 870904760A43DF9F00636062 /* BSWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		870904790A43DF9F00636062 /* BSWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 870904770A43DF9F00636062 /* BSWindow.m */; };
 		8709047C0A43DFB000636062 /* BSSegmentedControlTbItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 8709047A0A43DFB000636062 /* BSSegmentedControlTbItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8709047D0A43DFB000636062 /* BSSegmentedControlTbItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8709047B0A43DFB000636062 /* BSSegmentedControlTbItem.m */; };
 		870904800A43DFBC00636062 /* IndexField.h in Headers */ = {isa = PBXBuildFile; fileRef = 8709047E0A43DFBC00636062 /* IndexField.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -633,7 +631,6 @@
 				87D29C3809913620007D26B4 /* BSIconAndTextCell.h in Headers */,
 				87D991AD09922E91006C5821 /* CMRPullDownIconBtn.h in Headers */,
 				870904740A43DF7A00636062 /* BSReplyTextView.h in Headers */,
-				870904780A43DF9F00636062 /* BSWindow.h in Headers */,
 				8709047C0A43DFB000636062 /* BSSegmentedControlTbItem.h in Headers */,
 				870904800A43DFBC00636062 /* IndexField.h in Headers */,
 				878041DF0A52813D00979D68 /* BSLayoutManager.h in Headers */,
@@ -740,7 +737,6 @@
 				87D29C3909913620007D26B4 /* BSIconAndTextCell.m in Sources */,
 				87D991AE09922E91006C5821 /* CMRPullDownIconBtn.m in Sources */,
 				870904750A43DF7A00636062 /* BSReplyTextView.m in Sources */,
-				870904790A43DF9F00636062 /* BSWindow.m in Sources */,
 				8709047D0A43DFB000636062 /* BSSegmentedControlTbItem.m in Sources */,
 				870904810A43DFBC00636062 /* IndexField.m in Sources */,
 				878041E00A52813D00979D68 /* BSLayoutManager.m in Sources */,
@@ -787,7 +783,7 @@
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Deployment;
@@ -819,10 +815,7 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0x31960000,
-				);
+				PREBINDING = YES;
 				PRODUCT_NAME = SGAppKit;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost";
@@ -852,10 +845,7 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0x31960000,
-				);
+				PREBINDING = YES;
 				PRODUCT_NAME = SGAppKit;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost";
@@ -878,10 +868,7 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0x31960000,
-				);
+				PREBINDING = YES;
 				PRODUCT_NAME = SGAppKit;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost";

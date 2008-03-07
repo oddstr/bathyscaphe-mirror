@@ -1,3 +1,56 @@
+2008-03-08 tsawada2 <tsawada2@users.sourceforge.jp>
+	* frameworks/CocoMonar/framework/src/BathyScapheErrors.[h|m]
+		CocoMonar Framework:
+		[新規追加] BathyScaphe で用いられるエラードメイン、エラーコードの定数をここに記述することにした。たぶん内容は今後も増える。
+	* frameworks/CocoMonar/English.lproj/InfoPlist.strings
+	* frameworks/SGAppKit/framework/resource/English.lproj/InfoPlist.strings
+		(c)2005-2007 から 2005-2008 へ。または、バージョン文字列の変更。
+	* frameworks/CocoMonar/framework/src/CMRFRWKCommon.h
+		BathyScapheErrors.h の import。
+	* application/BathyScaphe.xcodeproj/project.pbxproj
+	* frameworks/CocoMonar/CMF.xcodeproj/project.pbxproj
+	* frameworks/SGAppKit/SGAppKit.xcodeproj/project.pbxproj
+		Mac OS デプロイメントターゲットを 10.4 に引き上げ。
+	* application/Resources/Japanese.lproj/Messenger.strings
+	* application/Resources/Japanese.lproj/BSBoardInfoInspector.nib
+	* application/Resources/Japanese.lproj/BSNewThreadWindow.nib
+	* application/Resources/Japanese.lproj/Browser.nib
+	* application/Resources/Japanese.lproj/CMRReplyWindow.nib
+	* application/Resources/Japanese.lproj/CMRThreadViewer.nib
+		Mac OS X v10.3.9 に遠慮して、nib ファイルで 10.4 以降のみ利用可能な Window style mask や Button bezel style を
+		適用せず、-awakeFromNib: でコードから設定していたのを止めた！ポリシーは「nib でセットできることは nib で済ませておく」。
+		とくに BSWindow はやめて NSWindow に戻した。もう必要ないので。
+	* application/Resources/Japanese.lproj/MainMenu.nib
+	* application/source/CMRAppDelegate.m
+	* application/source/manager/CMRDocumentController.m
+		「ファイル」＞「最近使った書類」サブメニューを表示しないための方法を Mac OS X v10.4 以降での標準的な手法に改めた。
+		その他、Mac OS X v10.4 以降にふさわしいコードに一部修正。
+	* application/source/bbs/BSBoardInfoInspector.m
+	* application/source/bbs/BSLocalRulesCollector.m
+		Mac OS X v10.4 以降にふさわしいコードに一部修正。
+	* application/source/bbs/BoardListItem/SmartBoardList.m
+	* application/source/browser/Browser.m
+	* application/source/thread/CMRThreadDocument.m
+	* application/source/window/CMRReplyMessenger.m
+	* application/source/thread/CMRThreadViewer-Action.m
+		NSDocument 周りのメソッドを Mac OS X v10.4 以降で推奨されるものに更新（まだ途中）。
+		document が読み込めない（開けない）ときのエラー処理を強化（アラートの表示など）。
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+		NSTableView+BSAddition.[h|m] をターゲットから外した。それに伴う変更。
+	* application/source/browser/CMRThreadsList-DataSource.m
+	* application/source/browser/CMRThreadsList.m
+	* application/source/view/ThreadsListTable.m
+		ThreadsListTable.m に記述されていたコードの大部分を、より適切な場所と思われる CMRThreadsList-DataSource.m に持ち替えた。
+		その他、CMRThreadsList ではメソッド名の変更や追加、廃止を少々。
+	* application/source/window/CMRReplyController-ViewAccessor.m
+	* application/subproj/previewer/BSIPIHistoryManager.m
+		Mac OS X v10.4 以降では -[NSArray objectsAtIndexes:] が使えるので喜んで使用。
+	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
+		何を変えた訳でもないが、ちょっといじってたら変更されたことになってしまった ;-b
+	* frameworks/SGAppKit/framework/src/SGAppKit.h
+		BSWindow クラスは外した。もう必要ないので。
+	* frameworks/SGAppKit/framework/src/extensions/workspace/NSWorkspace-SGExtensions.m
+		AppleEvent 経由で activate および reveal in Finder を行うメソッドを追加した。
 2008-03-06 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSBoardListItemHEADCheckTask.m:
 		情報文字列の取得／設定をスレッドセーフにした。

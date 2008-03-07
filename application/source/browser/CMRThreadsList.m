@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.m,v 1.22 2008/02/15 15:41:58 tsawada2 Exp $
+  * $Id: CMRThreadsList.m,v 1.23 2008/03/07 15:13:43 tsawada2 Exp $
   * 
   * CMRThreadsList.m
   *
@@ -12,7 +12,7 @@
 #import "BoardManager.h"
 #import "CMRDocumentFileManager.h"
 #import "CMRReplyDocumentFileManager.h"
-#import "NSIndexSet+BSAddition.h"
+//#import "NSIndexSet+BSAddition.h"
 #import "missing.h"
 
 
@@ -263,7 +263,7 @@ NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserIn
 {
 	UTILAbstractMethodInvoked;
 }
-
+/*
 - (BOOL) tableView : (NSTableView *) tableView
 	   removeItems : (NSArray	  *) rows
  delFavIfNecessary : (BOOL         ) flag
@@ -271,13 +271,13 @@ NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserIn
 	NSIndexSet	*indexSet = [NSIndexSet rowIndexesWithRows: rows];
 	return [self tableView: tableView removeIndexSet: indexSet delFavIfNecessary: flag];
 }
-
+*/
 - (BOOL) tableView : (NSTableView	*) tableView
 	removeIndexSet : (NSIndexSet	*) indexSet
  delFavIfNecessary : (BOOL			 ) flag
 {
 	NSArray	*pathArray_;
-	pathArray_ = [self threadFilePathArrayWithRowIndexSet : indexSet inTableView : tableView];
+	pathArray_ = [self tableView:tableView threadFilePathsArrayAtRowIndexes:indexSet];
 
 	return [self tableView : tableView removeFiles : pathArray_ delFavIfNecessary : flag];
 }

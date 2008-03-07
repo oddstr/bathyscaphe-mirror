@@ -3,7 +3,7 @@
 //  BathyScaphe (SGAppKit)
 //
 //  Updated by Tsutomu Sawada on 07/10/25.
-//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -14,6 +14,12 @@
 @interface NSWorkspace(BSExtensions)
 // Tell Finder to move files to Trash - AppleEvent Wrapper
 - (BOOL)moveFilesToTrash:(NSArray *)filePaths;
+
+// Tell Finder to reveal files - AppleEvent Wrapper
+- (BOOL)revealFilesInFinder:(NSArray *)filePaths; // Available in BathyScaphe 1.6.2 and later.
+// Activate Application - AppleEvent Wrapper
+// NOTE: This method does nothing if the target application is not running (unlike AppleScript's "tell application Foo to activate".)
+- (BOOL)activateAppWithBundleIdentifier:(NSString *)bundleIdentifier; // Available in BathyScaphe 1.6.2 and later.
 
 // Deprecated. Use -openURL:inBackground: instead.
 - (BOOL)openURL:(NSURL *)url_ inBackGround:(BOOL)inBG;

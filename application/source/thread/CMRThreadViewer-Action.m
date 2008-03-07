@@ -31,22 +31,28 @@
 {
 	UTILAssertNotNil([self path]);
 	CMRReplyMessenger *document;
+	NSURL	*replyDocURL;
+	NSError *error;
 
 	NSDocumentController *docController = [NSDocumentController sharedDocumentController];
 	CMRReplyDocumentFileManager *replyDocManager = [CMRReplyDocumentFileManager defaultManager];
 
 	NSString *replyDocPath = [replyDocManager replyDocumentFilepathWithLogPath:[self path]];
+	replyDocURL = [NSURL fileURLWithPath:replyDocPath];
 
-	document = [docController documentForFileName:replyDocPath];
+	document = [docController documentForURL:replyDocURL];
 	if (document) return document;
 
 	[replyDocManager createDocumentFileIfNeededAtPath:replyDocPath contentInfo:[self selectedThread]];
-	document = [docController openDocumentWithContentsOfFile:replyDocPath display:YES];
+	document = [docController openDocumentWithContentsOfURL:replyDocURL display:YES error:&error];
 	if (document) {
 		[self addMessenger:document];
 		return document;
 	}
-
+	if (error) {
+		NSAlert *alert = [NSAlert alertWithError:error];
+		[alert runModal];
+	}
 	// Error while creating CMRReplyMessenger instance.
 	return nil;
 }
@@ -91,19 +97,6 @@
 {
 	// subclass should override this method
 }
-/*
-- (void)openThreadsInBrowser:(NSArray *)threads
-{
-	NSEnumerator		*Iter_;
-	NSDictionary		*threadAttributes_;
-	
-	Iter_ = [threads objectEnumerator];
-	while (threadAttributes_ = [Iter_ nextObject]) {
-		NSURL	*url_;
-		url_ = [CMRThreadAttributes threadURLWithDefaultParameterFromDictionary:threadAttributes_];
-		[[NSWorkspace sharedWorkspace] openURL:url_ inBackground:[CMRPref openInBg]];
-	}
-}*/
 @end
 
 
@@ -358,11 +351,7 @@
 	if (![self path]) return;
 	CMRReplyMessenger *document = [self replyMessenger];
 
-	if (!document) {
-		NSBeep();
-		NSLog(@"ERROR! CMRThreadViewer: -reply: Can't create CMRReplyMessenger instance.");
-		return;
-	}
+	if (!document) return;
 
 	[document showWindows];
 	[self quoteWithMessenger:document];
@@ -381,12 +370,7 @@
 		[[NSWorkspace sharedWorkspace] openURL:boardURL_ inBackGround:[CMRPref openInBg]];
 	}
 }
-/*
-- (IBAction)openInBrowser:(id)sender
-{
-	[self openThreadsInBrowser:[self targetThreadsForAction:_cmd]];
-}
-*/
+
 - (IBAction)addFavorites:(id)sender
 {
 	NSEnumerator			*Iter_;

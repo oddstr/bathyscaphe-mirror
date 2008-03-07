@@ -110,7 +110,7 @@
 
 	return [NSString stringWithFormat:@"%@ (%@)", [list_ boardName], foo];
 }
-
+/*
 - (BOOL)readFromFile:(NSString *)fileName ofType:(NSString *)type
 {
 	return YES;
@@ -125,7 +125,7 @@
 {
 	return nil;
 }
-
+*/
 - (IBAction)saveDocumentAs:(id)sender
 {
 	if (![self threadAttributes]) return;

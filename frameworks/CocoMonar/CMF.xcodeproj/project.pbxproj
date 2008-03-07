@@ -20,6 +20,8 @@
 		87E8CE7709911B3700703486 /* CMRThreadUserStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 87E8CE7409911B3700703486 /* CMRThreadUserStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87E8CE7809911B3700703486 /* CMRThreadUserStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 87E8CE7509911B3700703486 /* CMRThreadUserStatus.m */; };
 		87E8CE7D09911B5B00703486 /* CMRThreadUserStatusMask.h in Headers */ = {isa = PBXBuildFile; fileRef = 87E8CE7C09911B5B00703486 /* CMRThreadUserStatusMask.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87EE091A0D812618002C3CDC /* BathyScapheErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 87EE09180D812618002C3CDC /* BathyScapheErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		87EE091B0D812618002C3CDC /* BathyScapheErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 87EE09190D812618002C3CDC /* BathyScapheErrors.m */; };
 		87F57053086E5217002A18AD /* CMRAppTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B756F50508BD6C00A80005 /* CMRAppTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87F57054086E5217002A18AD /* CMRDocumentTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B756F60508BD6C00A80005 /* CMRDocumentTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87F57055086E5217002A18AD /* CMRFRWKCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B756F80508BD6C00A80005 /* CMRFRWKCommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -67,6 +69,8 @@
 		87E8CE7409911B3700703486 /* CMRThreadUserStatus.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = CMRThreadUserStatus.h; path = ../../application/source/threaddata/CMRThreadUserStatus.h; sourceTree = SOURCE_ROOT; };
 		87E8CE7509911B3700703486 /* CMRThreadUserStatus.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; name = CMRThreadUserStatus.m; path = ../../application/source/threaddata/CMRThreadUserStatus.m; sourceTree = SOURCE_ROOT; };
 		87E8CE7C09911B5B00703486 /* CMRThreadUserStatusMask.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = CMRThreadUserStatusMask.h; path = ../../application/source/threaddata/CMRThreadUserStatusMask.h; sourceTree = SOURCE_ROOT; };
+		87EE09180D812618002C3CDC /* BathyScapheErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BathyScapheErrors.h; sourceTree = "<group>"; };
+		87EE09190D812618002C3CDC /* BathyScapheErrors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BathyScapheErrors.m; sourceTree = "<group>"; };
 		87F5707B086E5217002A18AD /* Info-CMF.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-CMF.plist"; sourceTree = "<group>"; };
 		87F5707C086E5217002A18AD /* CocoMonar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CocoMonar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3354EAA05D39D260073CD71 /* UTILAssertion.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = UTILAssertion.h; sourceTree = "<group>"; };
@@ -188,6 +192,8 @@
 		F3B756F30508BD6C00A80005 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				87EE09180D812618002C3CDC /* BathyScapheErrors.h */,
+				87EE09190D812618002C3CDC /* BathyScapheErrors.m */,
 				87E1152F0BB2D78500F3E2E1 /* BSThreadViewTheme.h */,
 				87E115300BB2D78500F3E2E1 /* BSThreadViewTheme.m */,
 				F3B757050508BD6C00A80005 /* CocoMonar.h */,
@@ -278,6 +284,7 @@
 				87D29C850991388F007D26B4 /* CMRThreadMessageAttributes.h in Headers */,
 				87D29C870991388F007D26B4 /* CMRThreadMessageAttributesMask.h in Headers */,
 				87E115310BB2D78500F3E2E1 /* BSThreadViewTheme.h in Headers */,
+				87EE091A0D812618002C3CDC /* BathyScapheErrors.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,6 +369,7 @@
 				87E8CE7809911B3700703486 /* CMRThreadUserStatus.m in Sources */,
 				87D29C860991388F007D26B4 /* CMRThreadMessageAttributes.m in Sources */,
 				87E115320BB2D78500F3E2E1 /* BSThreadViewTheme.m in Sources */,
+				87EE091B0D812618002C3CDC /* BathyScapheErrors.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -481,7 +489,7 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Deployment;

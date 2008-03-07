@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.h,v 1.18 2008/02/16 13:49:05 tsawada2 Exp $
+  * $Id: CMRThreadsList.h,v 1.19 2008/03/07 15:13:43 tsawada2 Exp $
   * 
   * CMRThreadsList.h
   *
@@ -130,11 +130,9 @@ enum {
 
 @interface CMRThreadsList(DataSource)
 + (void) resetDataSourceTemplates;
-// Available in ReinforceII.
 + (void) resetDataSourceTemplateForColumnIdentifier: (NSString *) identifier width: (float) loc;
 + (void) resetDataSourceTemplateForDateColumn;
 
-//+ (NSDictionary *)newThreadCreatedDateAttrTemplate;
 + (NSDictionary *)threadCreatedDateAttrTemplate;
 + (NSDictionary *)threadModifiedDateAttrTemplate;
 + (NSDictionary *)threadLastWrittenDateAttrTemplate;
@@ -143,10 +141,6 @@ enum {
 				   forType : (int) aType;
 
 
-- (NSArray *) threadFilePathArrayWithRowIndexSet : (NSIndexSet	*) anIndexSet
-									 inTableView : (NSTableView	*) tableView;
-
-//- (ThreadStatus) threadStatusForThread : (NSDictionary *) aThread;
 - (id) objectValueForIdentifier : (NSString *) identifier
 					threadArray : (NSArray  *) threadArray
 						atIndex : (int       ) index;
@@ -160,6 +154,14 @@ enum {
 - (CMRThreadSignature *)threadSignatureWithTitle:(NSString *)title; // Available in SilverGull and later.
 
 - (unsigned int) indexOfThreadWithPath : (NSString *) filepath;
+
+- (NSArray *)tableView:(NSTableView *)aTableView threadFilePathsArrayAtRowIndexes:(NSIndexSet *)rowIndexes;
+- (NSArray *)tableView:(NSTableView *)aTableView threadAttibutesArrayAtRowIndexes:(NSIndexSet *)rowIndexes exceptingPath:(NSString *)filepath;
+
+- (void)tableView:(NSTableView *)aTableView didEndDragging:(NSDragOperation)operation; // Available in BathyScaphe 1.6.2 and later.
+- (void)tableView:(NSTableView *)aTableView revealFilesAtRowIndexes:(NSIndexSet *)rowIndexes;
+- (void)tableView:(NSTableView *)aTableView quickLookAtRowIndexes:(NSIndexSet *)rowIndexes;
+- (void)tableView:(NSTableView *)aTableView openURLsAtRowIndexes:(NSIndexSet *)rowIndexes;
 @end
 
 @interface CMRThreadsList(DraggingImage)

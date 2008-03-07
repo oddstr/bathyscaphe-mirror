@@ -284,10 +284,8 @@ static NSString *const kInsertionPointMarker = @"%%%HEAD_TXT_CONTENT%%%";
 // Mac OS X 10.4 以降限定にすれば定数が使えるのになぁ… 10.3 のために仕方なく
 - (NSDictionary *)optionsDict
 {
-	NSArray *keys = [NSArray arrayWithObjects:@"BaseURL"/*NSBaseURLDocumentOption*/, @"DocumentType"/*NSDocumentTypeDocumentOption*/, 
-											 @"CharacterEncoding"/*NSCharacterEncodingDocumentOption*/, @"UseWebKit"/*Tiger 以降では不要*/, nil];
-	NSArray *values = [NSArray arrayWithObjects:[self boardURL], NSHTMLTextDocumentType,
-											[NSNumber numberWithUnsignedInt:NSShiftJISStringEncoding], [NSNumber numberWithBool:YES], nil];
+	NSArray *keys = [NSArray arrayWithObjects:NSBaseURLDocumentOption, NSDocumentTypeDocumentOption, NSCharacterEncodingDocumentOption, nil];
+	NSArray *values = [NSArray arrayWithObjects:[self boardURL], NSHTMLTextDocumentType, [NSNumber numberWithUnsignedInt:NSShiftJISStringEncoding], nil];
 	return [NSDictionary dictionaryWithObjects:values forKeys:keys];
 }
 
@@ -327,9 +325,9 @@ static NSString *const kInsertionPointMarker = @"%%%HEAD_TXT_CONTENT%%%";
 	
 	if (!attrStr) return nil;
 	NSDictionary  *docAttr = [NSDictionary dictionaryWithObjectsAndKeys:[self lastDate],
-		@"NSCreationTimeDocumentAttribute"/*NSCreationTimeDocumentAttribute*/,
+		NSCreationTimeDocumentAttribute,
 		[NSString stringWithFormat:NSLocalizedString(@"DocTitleAttributeTemplate", nil), [self boardName]],
-		@"NSTitleDocumentAttribute"/*NSTitleDocumentAttribute*/,
+		NSTitleDocumentAttribute,
 		NULL];
 	NSData *data = [attrStr RTFFromRange:NSMakeRange(0, [attrStr length]) documentAttributes:docAttr];
 	[data writeToFile:[self cacheFilePath] atomically:YES];
