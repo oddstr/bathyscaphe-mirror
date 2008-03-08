@@ -1375,7 +1375,7 @@
 		F38262E50513581100A80005 /* CMRTask.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRTask.h; sourceTree = "<group>"; };
 		F38262E60513581100A80005 /* CMRTask.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRTask.m; sourceTree = "<group>"; };
 		F38262E70513581100A80005 /* CMRTaskItemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRTaskItemController.h; sourceTree = "<group>"; };
-		F38262E80513581100A80005 /* CMRTaskItemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRTaskItemController.m; sourceTree = "<group>"; };
+		F38262E80513581100A80005 /* CMRTaskItemController.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = CMRTaskItemController.m; sourceTree = "<group>"; };
 		F38262E90513581100A80005 /* CMRTaskItemController_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRTaskItemController_p.h; sourceTree = "<group>"; };
 		F38262EA0513581100A80005 /* CMRTaskManager-Management.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = "CMRTaskManager-Management.m"; sourceTree = "<group>"; };
 		F38262EC0513581100A80005 /* CMRTaskManager.h */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.h; path = CMRTaskManager.h; sourceTree = "<group>"; };

@@ -1,135 +1,192 @@
-//: SGContainerTableView.m
-/**
-  * $Id: SGContainerTableView.m,v 1.3 2007/11/23 20:16:20 tsawada2 Exp $
-  * 
-  * Copyright (c) 2001-2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  SGContainerTableView.m
+//  SGAppKit (BathyScaphe)
+//
+//  Updated by Tsutomu Sawada on 08/03/08.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
 
 #import "SGContainerTableView.h"
 #import "UTILKit.h"
 
-
 @interface SGContainerTableView(Private)
-- (void) loadSubviews;
-- (void) layoutSubviews;
+- (NSView *)containerViewAtRow:(int)rowIndex;
+- (void)loadSubviews;
+- (void)layoutSubviews;
 @end
 
 
-
 @implementation SGContainerTableView
-- (BOOL) isFlipped
+- (id)initWithFrame:(NSRect)frame
+{
+    if (self = [super initWithFrame:frame]) {
+		[self setGridStyleMask:NSTableViewSolidHorizontalGridLineMask];
+		[self setBackgroundColor:[NSColor whiteColor]];
+	}
+    return self;
+}
+
+- (void)dealloc
+{
+	[self setBackgroundColor:nil];
+	[super dealloc];
+}
+
+- (BOOL)isOpaque
 {
 	return YES;
 }
 
-- (id) dataSource
+- (BOOL)isFlipped
+{
+	return YES;
+}
+
+- (id)dataSource
 {
 	return m_dataSource;
 }
-- (void) setDataSource : (id) aDataSource
+
+- (void)setDataSource:(id)aDataSource
 {
 	m_dataSource = aDataSource;
-	if(nil == m_dataSource) return;
+	if (!m_dataSource) return;
 	[self reloadData];
 }
-- (NSBorderType) borderType
+
+- (unsigned int)gridStyleMask
 {
-	return _borderType;
+	return m_gridStyleMask;
 }
-- (void) setBorderType : (NSBorderType) aBorderType
+
+- (void)setGridStyleMask:(unsigned int)gridType
 {
-	_borderType = aBorderType;
+	m_gridStyleMask = gridType;
 }
-- (void) drawRect : (NSRect) clipRect
+
+- (NSColor *)backgroundColor
 {
-	[super drawRect : clipRect];
-	
-//	if(NSNoBorder == [self borderType])
-//		return;
-	
-//	[[NSColor grayColor] set];
-//	NSFrameRect([self bounds]);
-	[[NSColor gridColor] set];
+	return m_bgColor;
+}
+
+- (void)setBackgroundColor:(NSColor *)aColor
+{
+	[aColor retain];
+	[m_bgColor release];
+	m_bgColor = aColor;
+}
+
+- (void)drawBackgroundInClipRect:(NSRect)clipRect
+{
+	[[self backgroundColor] set];
+	NSRectFill(clipRect);
+}
+
+- (void)drawGridInClipRect:(NSRect)aRect
+{
+	NSRect viewBoundsRect = [self bounds];
+	NSRect rowBoundsRect;
+	NSRect gridRect;
+	NSArray *rows = [self subviews];
+
 	int	i;
-	NSRect foo = [self bounds];
-	int n = [[self subviews] count];
-	float amount = 0;
-	for (i=0; i<n; i++) {
-		float dY = NSHeight([[[self subviews] objectAtIndex:i] bounds]);
-		amount += dY;
-		NSFrameRect(NSMakeRect(foo.origin.x, amount, foo.size.width, 1.0));
+	int n = [rows count];
+
+	float amount = -1;
+	float height;
+
+	[[NSColor gridColor] set];
+
+	for (i = 0; i < n; i++) {
+		rowBoundsRect = [[rows objectAtIndex:i] bounds];
+		height = NSHeight(rowBoundsRect);
+		amount += height;
+		gridRect = NSMakeRect(viewBoundsRect.origin.x, amount, viewBoundsRect.size.width, 1.0);
+		gridRect = NSIntersectionRect(gridRect, aRect);
+		NSRectFill(gridRect);
 	}
 }
 
-- (void) reloadData
+- (void)drawRect:(NSRect)clipRect
+{
+	unsigned int mask = [self gridStyleMask];
+
+	[self drawBackgroundInClipRect:clipRect];
+
+	if (mask & NSTableViewSolidHorizontalGridLineMask) {
+		[self drawGridInClipRect:clipRect];
+	}
+}
+
+- (void)reloadData
 {
 	[self loadSubviews];
 	[self layoutSubviews];
 }
 
-- (int) numberOfRows
+- (int)numberOfRows
 {
-	id		dataSource_;
-	SEL		sel_ = @selector(numberOfRowsInContainerTableView:);
-	
-	dataSource_ = [self dataSource];
-	if(nil == dataSource_ || NO == [dataSource_ respondsToSelector : sel_])
+	id		dataSource = [self dataSource];
+
+	if (!dataSource || ![dataSource respondsToSelector:@selector(numberOfRowsInContainerTableView:)]) {
 		return 0;
-	return [[self dataSource] numberOfRowsInContainerTableView : self];
-}
-- (NSView *) containerViewAtRow : (int) rowIndex
-{
-	id		dataSource_;
-	SEL		sel_ = @selector(containerTableView:viewAtRow:);
-	
-	dataSource_ = [self dataSource];
-	if(nil == dataSource_ || NO == [dataSource_ respondsToSelector : sel_])
-		return nil;
-	return [[self dataSource] containerTableView:self viewAtRow:rowIndex];
+	}
+
+	return [dataSource numberOfRowsInContainerTableView:self];
 }
 
-- (NSRect) rectOfRow : (int) rowIndex
+- (NSRect)rectOfRow:(int)rowIndex
 {
-	if(rowIndex >= [self numberOfRows]) return NSZeroRect;
-	UTILAssertNotNil([self containerViewAtRow : rowIndex]);
-	return [[self containerViewAtRow : rowIndex] frame];
-}
-- (void) scrollRowToVisible : (int) rowIndex
-{
-	NSRect		rectOfRow_;
-	
-	rectOfRow_ = [self rectOfRow : rowIndex];
-	if(NSEqualRects(NSZeroRect, rectOfRow_)) return;
-	
-	[self scrollRectToVisible : rectOfRow_];
+	if (rowIndex >= [self numberOfRows]) return NSZeroRect;
+	UTILAssertNotNil([self containerViewAtRow:rowIndex]);
+	return [[self containerViewAtRow:rowIndex] frame];
 }
 
+- (void)scrollRowToVisible:(int)rowIndex
+{
+	NSRect		rectOfRow;
+
+	rectOfRow = [self rectOfRow:rowIndex];
+	if (NSEqualRects(NSZeroRect, rectOfRow)) return;
+
+	[self scrollRectToVisible:rectOfRow];
+}
 @end
 
 
-
 @implementation SGContainerTableView(Private)
-- (void) layoutSubviews
+- (NSView *)containerViewAtRow:(int)rowIndex
+{
+	id		dataSource = [self dataSource];
+
+	if (!dataSource || ![dataSource respondsToSelector:@selector(containerTableView:viewAtRow:)]) {
+		return nil;
+	}
+	return [dataSource containerTableView:self viewAtRow:rowIndex];
+}
+
+- (void)layoutSubviews
 {
 	NSRect	subviewFrame;
 	NSRect	vbounds_;
-	BOOL	windowAutoDisplayed_;
+	BOOL	savedFlag;
+	NSWindow	*window = [self window];
 	
 	vbounds_ = [self bounds];
 	
-	windowAutoDisplayed_ = [[self window] isAutodisplay];
-	[[self window] setAutodisplay : NO];
-	[[self window] disableFlushWindow];
-	
-	NS_DURING
+	savedFlag = [window isAutodisplay];
+	[window setAutodisplay:NO];
+	[window disableFlushWindow];
+
+	@try {
 		NSEnumerator	*iter_;
 		NSView			*subview_;
 		
 		iter_ = [[self subviews] objectEnumerator];
-		while(subview_ = [iter_ nextObject]){
+		while (subview_ = [iter_ nextObject]) {
 			float viewHeight;
-			
+
 			subviewFrame = [subview_ frame];
 			viewHeight = NSHeight(subviewFrame);
 			subviewFrame = NSMakeRect(
@@ -137,23 +194,25 @@
 								NSMaxY(vbounds_) - viewHeight,
 								NSWidth(vbounds_),
 								viewHeight);
-			[subview_ setFrame: subviewFrame];
-			viewHeight = NSHeight(subviewFrame);
+			[subview_ setFrame:subviewFrame];
+//			viewHeight = NSHeight(subviewFrame);
 			vbounds_.size.height -= viewHeight;
 		}
-	NS_HANDLER
-		NSLog(@"Exception raised during[%@ %@]: %@",
-					NSStringFromClass([self class]),
-					NSStringFromSelector(_cmd),
-					localException);
-		[localException raise];
-	NS_ENDHANDLER
-	
-	[[self window] setAutodisplay : windowAutoDisplayed_];
-	[[self window] setViewsNeedDisplay : windowAutoDisplayed_];
-	[[self window] enableFlushWindow];
+	}
+	@catch(NSException *localException) {
+		NSLog(@"Exception raised during[%@ %@]: %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd), localException);
+//		[localException raise];
+		@throw;
+	}
+	@finally {
+		[window enableFlushWindow];
+		[window setAutodisplay:savedFlag];
+//		[[self window] setViewsNeedDisplay:windowAutoDisplayed_];
+//		[[self window] enableFlushWindow];
+	}
 }
-- (void) loadSubviews
+
+- (void)loadSubviews
 {
 	NSView		*prev_ = nil;
 	int			i,cnt;
@@ -166,37 +225,36 @@
 	newsize_.height = 0.0f;
 	
 	cnt = [self numberOfRows];
+	[[self subviews] makeObjectsPerformSelector:@selector(removeFromSuperviewWithoutNeedingDisplay)];
 	
-	// ç≈èâÇ…DataSourceÇ©ÇÁï‘Ç≥ÇÍÇÈViewÇèáî‘í ÇËÇ…ï¿Ç—èIÇ¶ÇÍÇŒÅA
-	// écÇËÇÕÇ∑Ç≈Ç…ìoò^Ç≥ÇÍÇƒÇ¢Ç»Ç¢View
+	// ÊúÄÂàù„Å´DataSource„Åã„ÇâËøî„Åï„Çå„ÇãView„ÇíÈ†ÜÁï™ÈÄö„Çä„Å´‰∏¶„Å≥ÁµÇ„Åà„Çå„Å∞„ÄÅ
+	// ÊÆã„Çä„ÅØ„Åô„Åß„Å´ÁôªÈå≤„Åï„Çå„Å¶„ÅÑ„Å™„ÅÑView
 	for(i = 0; i < cnt; i++){
-		subview_ = [self containerViewAtRow : i];
-		if(nil == subview_) continue;
+		subview_ = [self containerViewAtRow:i];
+		if (!subview_) continue;
 		
 		newsize_.height += NSHeight([subview_ frame]);
-		[self addSubview : subview_
-			  positioned : NSWindowBelow
-			  relativeTo : prev_];
+		[self addSubview:subview_ positioned:NSWindowBelow relativeTo:prev_];
 		prev_ = subview_;
 	}
-	for(i = [[self subviews] count] -1; i >= cnt; i--){
+/*	for(i = [[self subviews] count] -1; i >= cnt; i--){
 		subview_ = [[self subviews] objectAtIndex : i];
 		[subview_ removeFromSuperviewWithoutNeedingDisplay];
-	}
+	}*/
 	
 	autoresizesSubviews_ = [self autoresizesSubviews];
-	[self setAutoresizesSubviews : NO];
+	[self setAutoresizesSubviews:NO];
 	
 	newFrame_ = [self frame];
-	if(NO == [[self superview] isFlipped]){
+	if (![[self superview] isFlipped]) {
 		float		diff;
-		
+
 		diff = NSHeight(newFrame_) - newsize_.height;
 		newFrame_.origin.y += diff;
 	}
 	newFrame_.size = newsize_;
 	
-	[self setFrame : newFrame_];
-	[self setAutoresizesSubviews : autoresizesSubviews_];
+	[self setFrame:newFrame_];
+	[self setAutoresizesSubviews:autoresizesSubviews_];
 }
 @end

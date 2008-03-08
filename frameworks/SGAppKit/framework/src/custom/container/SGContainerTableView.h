@@ -1,39 +1,43 @@
-//: SGContainerTableView.h
-/**
-  * $Id: SGContainerTableView.h,v 1.2 2007/10/29 05:54:46 tsawada2 Exp $
-  * 
-  * Copyright (c) 2001-2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  SGContainerTableView.h
+//  SGAppKit (BathyScaphe)
+//
+//  Updated by Tsutomu Sawada on 08/03/08.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
 
 #import <Cocoa/Cocoa.h>
 
-
-@interface SGContainerTableView : NSView
-{
+@interface SGContainerTableView : NSView {
 	@private
 	id				m_dataSource;
-	NSBorderType	_borderType;
+	unsigned int	m_gridStyleMask;
+	NSColor			*m_bgColor;
 }
-- (id) dataSource;
-- (void) setDataSource : (id) aDataSource;
-- (NSBorderType) borderType;
-- (void) setBorderType : (NSBorderType) aBorderType;
 
-- (void) reloadData;
+- (id)dataSource;
+- (void)setDataSource:(id)aDataSource;
 
-- (int) numberOfRows;
-- (NSView *) containerViewAtRow : (int) rowIndex;
+- (unsigned int)gridStyleMask;
+- (void)setGridStyleMask:(unsigned int)gridType;
 
-- (NSRect) rectOfRow : (int) rowIndex;
-- (void) scrollRowToVisible : (int) rowIndex;
+- (NSColor *)backgroundColor;
+- (void)setBackgroundColor:(NSColor *)aColor;
+
+- (void)reloadData;
+
+- (int)numberOfRows;
+- (NSRect)rectOfRow:(int)rowIndex;
+
+- (void)scrollRowToVisible:(int)rowIndex;
+
+- (void)drawBackgroundInClipRect:(NSRect)clipRect;
+- (void)drawGridInClipRect:(NSRect)aRect;
 @end
 
 
-
-
 @interface NSObject(SGContainerTableViewDataSource)
-- (int) numberOfRowsInContainerTableView : (SGContainerTableView *) tbView;
-- (NSView *) containerTableView : (SGContainerTableView *) tbView
-                      viewAtRow : (int                   ) rowIndex;
+- (int)numberOfRowsInContainerTableView:(SGContainerTableView *)aContainerTableView;
+- (NSView *)containerTableView:(SGContainerTableView *)aContainerTableView viewAtRow:(int)rowIndex;
 @end

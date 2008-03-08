@@ -95,7 +95,6 @@
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		08FB77B4FE84181DC02AAC07 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; name = main.c; path = src/main.c; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		870904720A43DF7A00636062 /* BSReplyTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSReplyTextView.h; path = bathyscaphe/BSReplyTextView.h; sourceTree = "<group>"; };
 		870904730A43DF7A00636062 /* BSReplyTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSReplyTextView.m; path = bathyscaphe/BSReplyTextView.m; sourceTree = "<group>"; };
@@ -144,8 +143,6 @@
 		87E452A5085ED89D00F2ACB3 /* SGAppKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SGAppKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F303886F0484C45700A80005 /* NSUserDefaults+SGAppKitExtensions.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSUserDefaults+SGAppKitExtensions.h"; sourceTree = "<group>"; };
 		F30388700484C45700A80005 /* NSUserDefaults+SGAppKitExtensions.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSUserDefaults+SGAppKitExtensions.m"; sourceTree = "<group>"; };
-		F391134D03D6A7EC00A80002 /* NSColor-SGExtensions.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSColor-SGExtensions.h"; sourceTree = "<group>"; };
-		F391134E03D6A7EC00A80002 /* NSColor-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSColor-SGExtensions.m"; sourceTree = "<group>"; };
 		F3BF095A0627A581009DAAFE /* UTILAssertion.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = UTILAssertion.h; sourceTree = "<group>"; };
 		F3BF095B0627A581009DAAFE /* UTILDebugging.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = UTILDebugging.h; sourceTree = "<group>"; };
 		F3BF095C0627A581009DAAFE /* UTILDescription.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = UTILDescription.h; sourceTree = "<group>"; };
@@ -163,48 +160,26 @@
 		F515D14D02DB28B201A80002 /* SGAppKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = SGAppKit.h; path = src/SGAppKit.h; sourceTree = "<group>"; };
 		F523B0C7037C028C01A80002 /* NSWorkspace-SGExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSWorkspace-SGExtensions.h"; sourceTree = "<group>"; };
 		F523B0C8037C028C01A80002 /* NSWorkspace-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSWorkspace-SGExtensions.m"; sourceTree = "<group>"; };
-		F523B0C9037C028C01A80002 /* NSWorkspace-SGExtensions_p.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSWorkspace-SGExtensions_p.h"; sourceTree = "<group>"; };
 		F523B0CD037C02E601A80002 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
 		F523B0CF037C02F501A80002 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
-		F545F23F036F807501A80002 /* NSMatrix-SGExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSMatrix-SGExtensions.h"; sourceTree = "<group>"; };
-		F545F240036F807501A80002 /* NSMatrix-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSMatrix-SGExtensions.m"; sourceTree = "<group>"; };
-		F545F243036F80A501A80002 /* NSMatrix-SGExtensions_p.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSMatrix-SGExtensions_p.h"; sourceTree = "<group>"; };
 		F576919303811AE001A80002 /* NSTextView-SGExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSTextView-SGExtensions.h"; sourceTree = "<group>"; };
 		F576919403811AE001A80002 /* NSTextView-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSTextView-SGExtensions.m"; sourceTree = "<group>"; };
-		F576919503811AE001A80002 /* NSTextView-SGExtensions_p.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSTextView-SGExtensions_p.h"; sourceTree = "<group>"; };
 		F57753950373B06001A80002 /* NSImage-SGExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSImage-SGExtensions.h"; sourceTree = "<group>"; };
 		F57753960373B06001A80002 /* NSImage-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSImage-SGExtensions.m"; sourceTree = "<group>"; };
-		F577539C0373B14901A80002 /* NSView-SGExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSView-SGExtensions.h"; sourceTree = "<group>"; };
-		F577539D0373B14901A80002 /* NSView-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSView-SGExtensions.m"; sourceTree = "<group>"; };
-		F577539E0373B14901A80002 /* NSView-SGExtensions_p.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSView-SGExtensions_p.h"; sourceTree = "<group>"; };
 		F57D5E05037B6D8601A80002 /* SGContainerTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SGContainerTableView.h; sourceTree = "<group>"; };
-		F57D5E06037B6D8601A80002 /* SGContainerTableView.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SGContainerTableView.m; sourceTree = "<group>"; };
-		F57D5E12037B6DE401A80002 /* NSMenu-SGExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSMenu-SGExtensions.h"; sourceTree = "<group>"; };
-		F57D5E13037B6DE401A80002 /* NSMenu-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSMenu-SGExtensions.m"; sourceTree = "<group>"; };
-		F57D5E14037B6DE401A80002 /* NSMenu-SGExtensions_p.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSMenu-SGExtensions_p.h"; sourceTree = "<group>"; };
+		F57D5E06037B6D8601A80002 /* SGContainerTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SGContainerTableView.m; sourceTree = "<group>"; };
 		F57D5E16037B6DE401A80002 /* NSScrollView-SGExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSScrollView-SGExtensions.h"; sourceTree = "<group>"; };
 		F57D5E17037B6DE401A80002 /* NSScrollView-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSScrollView-SGExtensions.m"; sourceTree = "<group>"; };
-		F57D5E18037B6DE401A80002 /* NSScrollView-SGExtensions_p.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSScrollView-SGExtensions_p.h"; sourceTree = "<group>"; };
 		F57D5E1A037B6DE401A80002 /* NSToolbar-SGExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSToolbar-SGExtensions.h"; sourceTree = "<group>"; };
 		F57D5E1B037B6DE401A80002 /* NSToolbar-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSToolbar-SGExtensions.m"; sourceTree = "<group>"; };
-		F57D5E1C037B6DE401A80002 /* NSToolbar-SGExtensions_p.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSToolbar-SGExtensions_p.h"; sourceTree = "<group>"; };
 		F57D5E1E037B6DE401A80002 /* NSWindow-SGExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSWindow-SGExtensions.h"; sourceTree = "<group>"; };
 		F57D5E1F037B6DE401A80002 /* NSWindow-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSWindow-SGExtensions.m"; sourceTree = "<group>"; };
-		F57D5E20037B6DE401A80002 /* NSWindow-SGExtensions_p.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSWindow-SGExtensions_p.h"; sourceTree = "<group>"; };
-		F57D6222037B875801A80002 /* SGAppKitFrameworkDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SGAppKitFrameworkDefines.h; sourceTree = "<group>"; };
-		F58144E4037B01BB01A80002 /* NSBrowserCell-SGExtensions_p.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSBrowserCell-SGExtensions_p.h"; sourceTree = "<group>"; };
-		F58144E5037B01BB01A80002 /* NSBrowserCell-SGExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSBrowserCell-SGExtensions.h"; sourceTree = "<group>"; };
-		F58144E6037B01BB01A80002 /* NSBrowserCell-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSBrowserCell-SGExtensions.m"; sourceTree = "<group>"; };
-		F58144EA037B01E001A80002 /* NSCell-SGExtensions_p.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSCell-SGExtensions_p.h"; sourceTree = "<group>"; };
 		F58144EB037B01E001A80002 /* NSCell-SGExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSCell-SGExtensions.h"; sourceTree = "<group>"; };
 		F58144EC037B01E001A80002 /* NSCell-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSCell-SGExtensions.m"; sourceTree = "<group>"; };
-		F581BD1F037BA85D01A80002 /* NSTextField-SGExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSTextField-SGExtensions.h"; sourceTree = "<group>"; };
-		F581BD20037BA85D01A80002 /* NSTextField-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSTextField-SGExtensions.m"; sourceTree = "<group>"; };
 		F5823B6D037D2CC001A80002 /* NSControl-SGExtensions.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSControl-SGExtensions.h"; sourceTree = "<group>"; };
 		F5823B6E037D2CC001A80002 /* NSControl-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSControl-SGExtensions.m"; sourceTree = "<group>"; };
 		F5AC4BB00378150501A80002 /* NSPasteboard-SGExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSPasteboard-SGExtensions.h"; sourceTree = "<group>"; };
-		F5AC4BB10378150501A80002 /* NSPasteboard-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSPasteboard-SGExtensions.m"; sourceTree = "<group>"; };
-		F5EBEC07037927CA01A80002 /* SGAppKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = SGAppKit.m; path = src/SGAppKit.m; sourceTree = "<group>"; };
+		F5AC4BB10378150501A80002 /* NSPasteboard-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSPasteboard-SGExtensions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -262,7 +237,6 @@
 				8716081C098AA8DE00A27F63 /* browserSplitterDimpleVertical.tiff */,
 				8716081D098AA8DE00A27F63 /* browserSplitterVertical.tiff */,
 				F3C928CD04DC0E5400A80005 /* SGKeybindingMacros.plist */,
-				F581BD30037BABD901A80002 /* images */,
 				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
 			);
 			path = resource;
@@ -296,15 +270,6 @@
 				F30388700484C45700A80005 /* NSUserDefaults+SGAppKitExtensions.m */,
 			);
 			path = userdefaults;
-			sourceTree = "<group>";
-		};
-		F391134C03D6A7C200A80002 /* color */ = {
-			isa = PBXGroup;
-			children = (
-				F391134D03D6A7EC00A80002 /* NSColor-SGExtensions.h */,
-				F391134E03D6A7EC00A80002 /* NSColor-SGExtensions.m */,
-			);
-			path = color;
 			sourceTree = "<group>";
 		};
 		F3BF09570627A581009DAAFE /* misc */ = {
@@ -355,7 +320,6 @@
 			isa = PBXGroup;
 			children = (
 				F523B0C7037C028C01A80002 /* NSWorkspace-SGExtensions.h */,
-				F523B0C9037C028C01A80002 /* NSWorkspace-SGExtensions_p.h */,
 				F523B0C8037C028C01A80002 /* NSWorkspace-SGExtensions.m */,
 			);
 			path = workspace;
@@ -367,17 +331,12 @@
 				87D971BE098761FA009C1F73 /* NSLayoutManager+CMXAdditions.h */,
 				87D971BF098761FA009C1F73 /* NSLayoutManager+CMXAdditions.m */,
 				F58144E3037B019A01A80002 /* cell */,
-				F391134C03D6A7C200A80002 /* color */,
 				F5823B6C037D2CC001A80002 /* control */,
 				F5AC4BAF037814E401A80002 /* pasteboard */,
-				F577539B0373B14901A80002 /* view */,
 				F57753940373B06001A80002 /* image */,
-				F545F23E036F804701A80002 /* matrices */,
-				F57D5E11037B6DE401A80002 /* menu */,
 				F57D5E15037B6DE401A80002 /* scrollview */,
 				F576919103811AE001A80002 /* textview */,
 				F57D5E19037B6DE401A80002 /* toolbar */,
-				F581BD1E037BA85D01A80002 /* textfield */,
 				F303886E0484C37900A80005 /* userdefaults */,
 				F57D5E1D037B6DE401A80002 /* window */,
 				F523B0C6037C028C01A80002 /* workspace */,
@@ -388,21 +347,10 @@
 			path = src/extensions;
 			sourceTree = "<group>";
 		};
-		F545F23E036F804701A80002 /* matrices */ = {
-			isa = PBXGroup;
-			children = (
-				F545F23F036F807501A80002 /* NSMatrix-SGExtensions.h */,
-				F545F243036F80A501A80002 /* NSMatrix-SGExtensions_p.h */,
-				F545F240036F807501A80002 /* NSMatrix-SGExtensions.m */,
-			);
-			path = matrices;
-			sourceTree = "<group>";
-		};
 		F576919103811AE001A80002 /* textview */ = {
 			isa = PBXGroup;
 			children = (
 				F576919303811AE001A80002 /* NSTextView-SGExtensions.h */,
-				F576919503811AE001A80002 /* NSTextView-SGExtensions_p.h */,
 				F576919403811AE001A80002 /* NSTextView-SGExtensions.m */,
 			);
 			path = textview;
@@ -415,16 +363,6 @@
 				F57753960373B06001A80002 /* NSImage-SGExtensions.m */,
 			);
 			path = image;
-			sourceTree = "<group>";
-		};
-		F577539B0373B14901A80002 /* view */ = {
-			isa = PBXGroup;
-			children = (
-				F577539C0373B14901A80002 /* NSView-SGExtensions.h */,
-				F577539E0373B14901A80002 /* NSView-SGExtensions_p.h */,
-				F577539D0373B14901A80002 /* NSView-SGExtensions.m */,
-			);
-			path = view;
 			sourceTree = "<group>";
 		};
 		F57BBEE00377FA7001A80002 /* custom */ = {
@@ -477,21 +415,10 @@
 			path = container;
 			sourceTree = "<group>";
 		};
-		F57D5E11037B6DE401A80002 /* menu */ = {
-			isa = PBXGroup;
-			children = (
-				F57D5E12037B6DE401A80002 /* NSMenu-SGExtensions.h */,
-				F57D5E14037B6DE401A80002 /* NSMenu-SGExtensions_p.h */,
-				F57D5E13037B6DE401A80002 /* NSMenu-SGExtensions.m */,
-			);
-			path = menu;
-			sourceTree = "<group>";
-		};
 		F57D5E15037B6DE401A80002 /* scrollview */ = {
 			isa = PBXGroup;
 			children = (
 				F57D5E16037B6DE401A80002 /* NSScrollView-SGExtensions.h */,
-				F57D5E18037B6DE401A80002 /* NSScrollView-SGExtensions_p.h */,
 				F57D5E17037B6DE401A80002 /* NSScrollView-SGExtensions.m */,
 			);
 			path = scrollview;
@@ -501,7 +428,6 @@
 			isa = PBXGroup;
 			children = (
 				F57D5E1A037B6DE401A80002 /* NSToolbar-SGExtensions.h */,
-				F57D5E1C037B6DE401A80002 /* NSToolbar-SGExtensions_p.h */,
 				F57D5E1B037B6DE401A80002 /* NSToolbar-SGExtensions.m */,
 			);
 			path = toolbar;
@@ -511,56 +437,18 @@
 			isa = PBXGroup;
 			children = (
 				F57D5E1E037B6DE401A80002 /* NSWindow-SGExtensions.h */,
-				F57D5E20037B6DE401A80002 /* NSWindow-SGExtensions_p.h */,
 				F57D5E1F037B6DE401A80002 /* NSWindow-SGExtensions.m */,
 			);
 			path = window;
-			sourceTree = "<group>";
-		};
-		F57D621F037B865801A80002 /* private */ = {
-			isa = PBXGroup;
-			children = (
-				F57D6222037B875801A80002 /* SGAppKitFrameworkDefines.h */,
-			);
-			name = private;
-			path = src/private;
 			sourceTree = "<group>";
 		};
 		F58144E3037B019A01A80002 /* cell */ = {
 			isa = PBXGroup;
 			children = (
 				F58144EB037B01E001A80002 /* NSCell-SGExtensions.h */,
-				F58144EA037B01E001A80002 /* NSCell-SGExtensions_p.h */,
 				F58144EC037B01E001A80002 /* NSCell-SGExtensions.m */,
-				F58144E5037B01BB01A80002 /* NSBrowserCell-SGExtensions.h */,
-				F58144E4037B01BB01A80002 /* NSBrowserCell-SGExtensions_p.h */,
-				F58144E6037B01BB01A80002 /* NSBrowserCell-SGExtensions.m */,
 			);
 			path = cell;
-			sourceTree = "<group>";
-		};
-		F581BD1E037BA85D01A80002 /* textfield */ = {
-			isa = PBXGroup;
-			children = (
-				F581BD1F037BA85D01A80002 /* NSTextField-SGExtensions.h */,
-				F581BD20037BA85D01A80002 /* NSTextField-SGExtensions.m */,
-			);
-			path = textfield;
-			sourceTree = "<group>";
-		};
-		F581BD30037BABD901A80002 /* images */ = {
-			isa = PBXGroup;
-			children = (
-				F581BD31037BABD901A80002 /* background */,
-			);
-			path = images;
-			sourceTree = "<group>";
-		};
-		F581BD31037BABD901A80002 /* background */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = background;
 			sourceTree = "<group>";
 		};
 		F5823B6C037D2CC001A80002 /* control */ = {
@@ -585,9 +473,6 @@
 			isa = PBXGroup;
 			children = (
 				F515D14D02DB28B201A80002 /* SGAppKit.h */,
-				F5EBEC07037927CA01A80002 /* SGAppKit.m */,
-				08FB77B4FE84181DC02AAC07 /* main.c */,
-				F57D621F037B865801A80002 /* private */,
 				F3FB8B7804459A1000A80005 /* Event Handling */,
 				F545F23D036F804701A80002 /* extensions */,
 				F57BBEE00377FA7001A80002 /* custom */,

@@ -3,7 +3,8 @@
 //  BathyScaphe "Twincam Angel"
 //
 //  Created by Tsutomu Sawada on 07/07/29.
-//  Copyright 2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2007-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import <Cocoa/Cocoa.h>

@@ -3,23 +3,21 @@
 //  BathyScaphe "Twincam Angel"
 //
 //  Created by Tsutomu Sawada on 07/07/29.
-//  Copyright 2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2007-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import "BSPopUpTitlebar.h"
 #import <SGAppKit/NSBezierPath_AMShading.h>
-//#import <Carbon/Carbon.h>
 
 @implementation BSPopUpTitlebar
 #pragma mark Overrides - Init, dealloc, and properties
-- (id)initWithFrame:(NSRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code here.
+- (id)initWithFrame:(NSRect)frame
+{
+    if (self = [super initWithFrame:frame]) {
 		m_closeButton = [NSWindow standardWindowButton:NSWindowCloseButton forStyleMask:NSUtilityWindowMask];
 		if (m_closeButton) {
 			[self addSubview:m_closeButton];
-			[m_closeButton setTarget:[[self window] windowController]];
 			[m_closeButton setFrameOrigin:NSMakePoint(5,1)];
 		}
 		m_isPressed = NO;
@@ -60,6 +58,7 @@
 		NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 		[nc addObserver:self selector:@selector(windowOrderChanged:) name:NSWindowDidBecomeKeyNotification object:newWindow];
 		[nc addObserver:self selector:@selector(windowOrderChanged:) name:NSWindowDidResignKeyNotification object:newWindow];
+		[[self closeButton] setTarget:[newWindow windowController]];
 	}
 }
 
@@ -85,29 +84,38 @@
 	}
 	return m_isPressed ? cachedEndColorPressed : cachedEndColor;
 }
-/*
-- (NSString *)titleStringWithTruncatingIfNeededOfWidth:(float)width font:(ThemeFontID)fontID
-{
-	NSMutableString *tmp;
-	OSStatus err;
-
-	tmp= [[self title] mutableCopy];
-	if (!tmp) return nil;
-
-	err = TruncateThemeText((CFMutableStringRef)tmp, fontID, kThemeStateActive, width, truncMiddle, NULL);
-	if (err != noErr) {
-		NSLog(@"TruncateThemeText failed with error %d", err);
-	}
-	return [tmp autorelease];
-}
 
 - (NSDictionary *)titleTextAttributes
 {
-	return nil; // Unimplemented yet.
+	static NSDictionary *cachedAttributes = nil;
+	static NSDictionary *cachedAttributesDisabled = nil;
+	if (!cachedAttributes) {
+		NSArray *objects, *objectsDisabled;
+		NSArray *keys;
+		NSMutableParagraphStyle *style;
+		NSFont	*font;
+
+		style = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
+		[style setLineBreakMode:NSLineBreakByTruncatingMiddle];
+
+		font = [NSFont paletteFontOfSize:0];
+
+		keys = [NSArray arrayWithObjects:NSFontAttributeName, NSForegroundColorAttributeName, NSParagraphStyleAttributeName, nil];
+
+		objects = [[NSArray alloc] initWithObjects:font, [NSColor controlTextColor], style, nil];
+		objectsDisabled = [[NSArray alloc] initWithObjects:font, [NSColor disabledControlTextColor], style, nil];
+		
+		cachedAttributes = [[NSDictionary alloc] initWithObjects:objects forKeys:keys];
+		cachedAttributesDisabled = [[NSDictionary alloc] initWithObjects:objectsDisabled forKeys:keys];
+
+		[objects release];
+		[objectsDisabled release];
+	}
+	return [[self window] isKeyWindow] ? cachedAttributes : cachedAttributesDisabled;
 }
-*/
-- (void)drawRect:(NSRect)rect {
-    // Drawing code here.
+
+- (void)drawRect:(NSRect)rect
+{
 	NSRect lineRect;
 
 	lineRect = NSMakeRect(rect.origin.x, rect.origin.y, rect.size.width, 1.0);
@@ -119,11 +127,10 @@
 		[[NSColor windowBackgroundColor] set];
 		NSRectFill(rect);
 	}
-/*	if ([self title]) {
-		float width = [self bounds].size.width - 48;
-		NSString *str = [self titleStringWithTruncatingIfNeededOfWidth:width font:kThemeUtilityWindowTitleFont];
-		[str drawAtPoint:NSMakePoint(24,1) withAttributes:[self titleTextAttributes]];
-	}*/
+	if ([self title]) {
+		NSRect titleRect = NSMakeRect(rect.origin.x + 24, rect.origin.y, rect.size.width - 29, rect.size.height);
+		[[self title] drawWithRect:titleRect options:NSStringDrawingUsesLineFragmentOrigin attributes:[self titleTextAttributes]];
+	}
 	[[NSColor windowFrameColor] set];
 	NSRectFill(lineRect);
 }
