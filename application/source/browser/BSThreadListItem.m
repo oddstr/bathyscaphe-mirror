@@ -23,6 +23,9 @@ static NSString *const BSThreadListItemErrorDomain = @"BSThreadListItemErrorDoma
 #define BSThreadListItemClassMismatchError	1
 #define BSThreadListItemStatusMismatchError	2
 
+
+NSString *IkioiColumnIdentifier = @"Ikioi";
+
 @implementation BSThreadListItem
 
 - (id)init
@@ -184,6 +187,31 @@ static NSString *const BSThreadListItemErrorDomain = @"BSThreadListItemErrorDoma
 	return [self valueForKey:TempThreadThreadNumberColumn];
 }
 
+// ($res *60 * 60 * 24) / (time() - $key)
+- (NSNumber *)ikioi
+{
+	id result;
+	
+	result = [self cachedValueForKey:IkioiColumnIdentifier];
+	if(result) return result;
+	
+	int res = [[self responseNumber] intValue];
+	double createDateTime = [[self creationDate] timeIntervalSince1970];
+	
+	double currentDateTime = [[NSDate dateWithTimeIntervalSinceNow:0.0] timeIntervalSince1970];
+	
+	double dateTime = currentDateTime - createDateTime;
+	if(dateTime == 0) return nil;
+	
+	double ikioi = (res * 60 * 60 * 24) / dateTime;
+	
+//	result = [NSNumber numberWithDouble:ikioi];
+	result = [NSString stringWithFormat:@"%.1f", ikioi];
+	[self setCachedValue:result forKey:IkioiColumnIdentifier];
+	
+	return result;
+}
+
 - (NSImage *)statusImage
 {
 	return _statusImageWithStatusBSDB([self status]);
@@ -225,6 +253,8 @@ static NSString *const BSThreadListItemErrorDomain = @"BSThreadListItemErrorDoma
 		return [self creationDate];
 	} else if([key isEqualToString:ThreadPlistBoardNameKey]) {
 		return [self boardName];
+	} else if([key isEqualToString:IkioiColumnIdentifier]) {
+		return [self ikioi];
 	}
 	
 	return nil;
@@ -372,12 +402,14 @@ static inline NSArray *numberTypeKeys()
 					NumberOfDifferenceColumn,
 					TempThreadThreadNumberColumn,
 					IsNewColumn,
+//					IkioiColumnIdentifier,
 					
 					[NumberOfAllColumn lowercaseString],
 					[NumberOfReadColumn lowercaseString],
 					[NumberOfDifferenceColumn lowercaseString],
 					[TempThreadThreadNumberColumn lowercaseString],
 					[IsNewColumn lowercaseString],
+//					[IkioiColumnIdentifier lowercaseString],
 					
 					nil];
 				[result retain];
@@ -405,6 +437,7 @@ static inline NSArray *threadListIdentifiers()
 					ThreadPlistIdentifierKey,
 					ThreadPlistBoardNameKey,
 					IsNewColumn,
+					IkioiColumnIdentifier,
 					nil];
 				[result retain];
 			}

@@ -1,3 +1,10 @@
+2008-03-22 masakih <masakih@users.sourceforge.jp>
+	* application/Resources/Japanese.lproj/browserListColumns.plist:
+	* application/source/browser/BSThreadListItem.m:
+	* application/source/manager/DatabaseManager.m:
+		勢いを付けた。
+	* application/source/browser/BSThreadListUpdateTask.m:
+		いらない部分をばっさり削除した。
 2008-03-09 tsawada2 <tsawada2@users.sourceforge.jp>
 	* application/source/view/BSTsuruPetaView.[h|m]
 		(SGAppKit) BSTsuruPetaView クラス：ソースの整理。

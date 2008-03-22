@@ -697,6 +697,8 @@ NSString *tableNameForKey( NSString *sortKey )
 		sortCol = BoardNameColumn;
 	} else if ([sortKey isEqualTo : LastWrittenDateColumn]) {
 		sortCol = LastWrittenDateColumn;
+	} else if ([sortKey isEqualTo : @"Ikioi"]) {
+		return sortKey;
 	}
 	
 	return [sortCol lowercaseString];

@@ -114,67 +114,11 @@ static inline NSString *whereClauseFromSearchString(NSString *searchString)
 	return clause;
 }
 
-enum {
-	kNewerThreadType,	// 新着検索
-	kOlderThreadType,	// 非新着検索
-	kAllThreadType,		// 全部！
-};
-
-// filter 処理と
-// 新着のみもしくは非新着のみもしくはすべてのスレッドをDBから取得するための
-// WHERE句を生成。
-static inline NSString *conditionFromStatusAndType( int status, int type )
-{
-	NSMutableString *result = [NSMutableString string];
-	NSString *brankOrAnd = @"";
-	
-	if(status & ThreadLogCachedStatus && 
-	   (type == kOlderThreadType || !(status & ThreadNewCreatedStatus))) {
-		// 新着/既得スレッドで且つ既得分表示 もしくは　既得スレッド
-		[result appendFormat : @"NOT %@ IS NULL\n", NumberOfReadColumn];
-		brankOrAnd = @" AND ";
-	} else if(status & ThreadNoCacheStatus) {
-		// 未取得スレッド
-		[result appendFormat : @"%@ IS NULL\n", NumberOfReadColumn];
-		brankOrAnd = @" AND ";
-	} else if(status & ThreadNewCreatedStatus && type == kOlderThreadType) {
-		// 新着スレッドで且つ既得分表示。あり得ない boardID を指定し、要素数を0にする
-		[result appendFormat : @"%@ < 0\n",BoardIDColumn];
-		brankOrAnd = @" AND ";
-	} else if ((status == ~ThreadNoCacheStatus) && type == kAllThreadType) {
-		// 新着スレッドを常に最上位にソート「しない」かつ「新着／既得スレッド」
-		[result appendFormat:@"%@ > %u\n", ThreadStatusColumn, ThreadNoCacheStatus];
-	} else if ((status == (ThreadNewCreatedStatus ^ ThreadNoCacheStatus)) && type == kAllThreadType) {
-		// 新着スレッドを常に最上位にソート「しない」かつ「新着スレッド」
-		[result appendFormat:@"%@ = %u\n", ThreadStatusColumn, ThreadNewCreatedStatus];
-	}
-
-	switch(type) {
-		case kNewerThreadType:	
-			[result appendFormat : @"%@%@ = %u\n", 
-				brankOrAnd, ThreadStatusColumn, ThreadNewCreatedStatus];
-			break;
-		case kOlderThreadType:
-			[result appendFormat : @"%@%@ != %u\n", 
-				brankOrAnd, ThreadStatusColumn, ThreadNewCreatedStatus];
-			break;
-		case kAllThreadType:
-			// Do nothing.
-			break;
-		default:
-			UTILUnknownCSwitchCase(type);
-			break;
-	}
-	
-	return result;
-}
-- (NSString *) sqlForListForType : (int) type
+- (NSString *) sqlForList
 {
 	NSString *targetTable = [[target boardListItem] query];
 	NSMutableString *sql;
-	NSString *whereOrAnd = @" WHERE ";
 	NSString *searchCondition;
-	NSString *filterCondition;
 	
 	sql = [NSMutableString stringWithFormat : @"SELECT * FROM (%@) ",targetTable];
 	
@@ -182,13 +126,7 @@ static inline NSString *conditionFromStatusAndType( int status, int type )
 		searchCondition = whereClauseFromSearchString([target searchString]);
 		if (searchCondition) {
 			[sql appendString : searchCondition];
-			whereOrAnd = @" AND ";
 		}
-	}
-	
-	filterCondition = conditionFromStatusAndType( [target status], type);
-	if(filterCondition && [filterCondition length] != 0) {
-		[sql appendFormat : @"%@ %@\n", whereOrAnd, filterCondition];
 	}
 	
 	return sql;
@@ -212,7 +150,7 @@ static inline NSString *conditionFromStatusAndType( int status, int type )
 	
 	UTILAssertNotNil(db);
 	
-	sql = [self sqlForListForType : kAllThreadType];
+	sql = [self sqlForList];
 	if(userCanceled) goto final;
 	result = [db cursorForSQL : sql];
 	if ([db lastErrorID] != 0) {
