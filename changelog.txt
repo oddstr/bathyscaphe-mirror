@@ -1,3 +1,7 @@
+2008-03-28 masakih <masakih@users.sourceforge.jp>
+	* Makefile:
+	* application/subproj/BSIPILeopardSlideshowHelper/Makefile:
+		BSIPILeopardSlideshowHelper用のMakefileとターゲットを追加。
 2008-03-22 masakih <masakih@users.sourceforge.jp>
 	* application/Resources/Japanese.lproj/browserListColumns.plist:
 	* application/source/browser/BSThreadListItem.m:

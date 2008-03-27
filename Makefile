@@ -5,9 +5,11 @@
 PROJECT_ROOT	= $(CURDIR)
 
 APPLICATION_ROOT = $(PROJECT_ROOT)/application
-# SUBPROJECTS_ROOT = $(APPLICATION_ROOT)/subproj
+SUBPROJECTS_ROOT = $(APPLICATION_ROOT)/subproj
 FRAMEWORK_ROOT	= $(PROJECT_ROOT)/frameworks
 IBPALLETE = $(PROJECT_ROOT)/IBPallete
+BSIPILeopardSlideshowHelper_Plugin = $(SUBPROJECTS_ROOT)/BSIPILeopardSlideshowHelper
+
 
 DARWIN_VER = $(shell uname -r | sed -e 's/\..*//')
 ENABLE_MDI = $(shell if [ $(DARWIN_VER) -ge 8 ] ;then echo YES ;fi)
@@ -33,7 +35,7 @@ clean-bathyscaphe:
 
 
 # make components
-components: frameworks $(MAKE_MDI)
+components: frameworks $(MAKE_MDI) BSIPILeopardSlideshowHelper
 
 frameworks: 
 	cd $(FRAMEWORK_ROOT) && $(MAKE) all
@@ -46,6 +48,10 @@ mdimporter:
 
 makemdidir:
 	mkdir -p $(DUMMY_MDI_DIR)
+
+BSIPILeopardSlideshowHelper:
+	cd $(BSIPILeopardSlideshowHelper_Plugin) && $(MAKE) $@
+
 
 # cleaning compoments
 clean-components: clean-frameworks clean-$(MAKE_MDI)
@@ -61,6 +67,9 @@ clean-mdimporter:
 
 clean-makemdidir:
 	rm -fr $(DUMMY_MDI_DIR)
+
+clean-BSIPILeopardSlideshowHelper:
+	cd $(BSIPILeopardSlideshowHelper_Plugin) && $(MAKE) $@
 
 # make IBPalletes
 ibpallete:
