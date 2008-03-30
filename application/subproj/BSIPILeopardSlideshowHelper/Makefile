@@ -15,6 +15,9 @@ else
 	Target = Check_Plugin
 endif
 
+
+.PHONY:Build_Plugin Check_Plugin clean-Build_Plugin clean-Check_Plugin
+
 all: BSIPILeopardSlideshowHelper
 
 clean: clean-BSIPILeopardSlideshowHelper

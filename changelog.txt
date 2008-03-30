@@ -1,3 +1,6 @@
+2008-03-31 masakih <masakih@users.sourceforge.jp>
+	* application/subproj/BSIPILeopardSlideshowHelper/Makefile:
+		ビルドできてなかったので修正した。
 2008-03-30 masakih <masakih@users.sourceforge.jp>
 	* Makefile:
 		clean-BSIPILeopardSlideshowHelperをcleanターゲットに入れるのを忘れていたので修正した。
