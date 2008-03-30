@@ -54,7 +54,7 @@ BSIPILeopardSlideshowHelper:
 
 
 # cleaning compoments
-clean-components: clean-frameworks clean-$(MAKE_MDI)
+clean-components: clean-frameworks clean-$(MAKE_MDI) clean-BSIPILeopardSlideshowHelper
 
 clean-frameworks:
 	cd $(FRAMEWORK_ROOT) && $(MAKE) clean

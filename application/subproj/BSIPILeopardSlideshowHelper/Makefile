@@ -8,25 +8,21 @@ BUILD_DIR = build
 PLUGIN_PATH=build/Release/BSIPILeopardSlideshowHelper.plugin
 
 DARWIN_VER = $(shell uname -r | sed -e 's/\..*//')
-LEOPARD_OR_GREATER = $(shell if [ $(DARWIN_VER) -ge 9 ] ;then echo YES ;fi)
-ifeq ($(LEOPARD_OR_GREATER), YES) 
+LEOPARD_OR_LATER = $(shell if [ $(DARWIN_VER) -ge 9 ] ;then echo YES ;fi)
+ifeq ($(LEOPARD_OR_LATER), YES) 
 	Target = Build_Plugin
 else
 	Target = Check_Plugin
 endif
 
-all:
-	@echo you must specify target name.
+all: BSIPILeopardSlideshowHelper
 
-clean:
-	@echo you must specify target name.
+clean: clean-BSIPILeopardSlideshowHelper
 
 
-BSIPILeopardSlideshowHelper:
-	$(MAKE) $(Target)
+BSIPILeopardSlideshowHelper: $(Target)
 
-clean-BSIPILeopardSlideshowHelper:
-	$(MAKE) clean-$(Target)
+clean-BSIPILeopardSlideshowHelper: clean-$(Target)
 
 Build_Plugin:
 	$(PBXBUILD) -configuration Release
@@ -34,16 +30,16 @@ Build_Plugin:
 Check_Plugin:
 	@if [ ! -d $(PLUGIN_PATH) ] ; then \
 echo ; \
-echo "/**********************************************/"; \
-echo "/*****             CAUTION             ********/"; \
-echo "/**********************************************/"; \
+echo "/***********************************************/"; \
+echo "/*******          C A U T I O N          *******/"; \
+echo "/***********************************************/"; \
 echo ; \
 echo "You MUST get BSIPILeopardSlideshowHelper.plugin."; \
 echo "Visit this site and download BSIPILeopardSlideshowHelper.plugin."; \
 echo ; \
 echo "http://sourceforge.jp/projects/bathyscaphe/files/"; \
 echo ; \
-echo "/**********************************************/"; \
+echo "/***********************************************/"; \
 echo ; \
 exit 1; \
 fi
