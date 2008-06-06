@@ -1,3 +1,8 @@
+2008-06-07 masakih <masakih@users.sourceforge.jp>
+	* application/source/manager/DatabaseManager-Notifications.m:
+	* application/source/manager/DatabaseManager.m:
+		optionキーを押しながら終了すると、databaseに対してVACUUMを実行するようにした。
+		暫定機能。
 2008-06-06 masakih <masakih@users.sourceforge.jp>
 	* application/Resources/text/KeyValueTemplates.plist:
 		System - Delete Unused Thread Informationsのデフォルト値 YES(Boolean)を設定。

@@ -13,6 +13,8 @@
 #import "CMRTrashbox.h"
 #import "CMRReplyMessenger.h"
 
+#import <Carbon/Carbon.h>
+
 NSString *const DatabaseDidFinishUpdateDownloadedOrDeletedThreadInfoNotification = @"DatabaseDidFinishUpdateDownloadedOrDeletedThreadInfoNotification";
 
 @implementation DatabaseManager(Notifications)
@@ -33,6 +35,11 @@ NSString *const DatabaseDidFinishUpdateDownloadedOrDeletedThreadInfoNotification
 		   selector:@selector(finishWriteMesssage:)
 			   name:CMRReplyMessengerDidFinishPostingNotification
 			 object:nil];
+	
+	[nc addObserver:self
+		   selector:@selector(applicationWillTerminate:)
+			   name:NSApplicationWillTerminateNotification
+			 object:NSApp];
 }
 
 #pragma mark ## Notification (Moved From BSDBThreadList) ##
@@ -213,5 +220,25 @@ NSString *const DatabaseDidFinishUpdateDownloadedOrDeletedThreadInfoNotification
 	int boardID = [[boardIDs objectAtIndex:0] intValue];
 	
 	[self setLastWriteDate:writeDate atBoardID:boardID threadIdentifier:threadID];
+}
+
+- (void)applicationWillTerminate:(NSNotification *)notification
+{
+	//	NSEvent *event = [NSApp currentEvent];
+	//	int isAltKey = [event modifierFlags] & NSAlternateKeyMask;
+	//	if(!isAltKey) return;
+	KeyMap m;
+	long lm;
+	GetKeys(m);
+#if TARGET_RT_LITTLE_ENDIAN
+	lm = EndianU32_LtoB(m[1].bigEndianValue);
+#else
+	lm = m[1];
+#endif
+	if((lm & 0x4) != 0x4/*option key*/) return;
+	
+	UTILDebugWrite(@"START VACUUM");
+	[[self databaseForCurrentThread] performQuery:@"VACUUM"];
+	UTILDebugWrite(@"END VACUUM");
 }
 @end

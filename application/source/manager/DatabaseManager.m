@@ -82,20 +82,6 @@ extern void setSQLiteZone(NSZone *zone);
 	
 	return _instance;
 }
-
-- (id) init
-{
-	self = [super init];
-	
-	id nc = [NSNotificationCenter defaultCenter];
-	[nc addObserver:self
-		   selector:@selector(applicationWillTerminate:)
-			   name:NSApplicationWillTerminateNotification
-			 object:NSApp];
-	
-	return self;
-}
-
 - (void) dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver: self];
@@ -271,28 +257,6 @@ abort:
 	}
 	
 	return result;
-}
-
-#pragma mark## Notifications ##
-#import <Carbon/Carbon.h>
-- (void)applicationWillTerminate:(NSNotification *)notification
-{
-	//	NSEvent *event = [NSApp currentEvent];
-	//	int isAltKey = [event modifierFlags] & NSAlternateKeyMask;
-	//	if(!isAltKey) return;
-	KeyMap m;
-	long lm;
-	GetKeys(m);
-#if TARGET_RT_LITTLE_ENDIAN
-	lm = EndianU32_LtoB(m[1].bigEndianValue);
-#else
-	lm = m[1];
-#endif
-	if((lm & 0x4) != 0x4/*option key*/) return;
-	
-	UTILDebugWrite(@"START VACUUM");
-	[[self databaseForCurrentThread] performQuery:@"VACUUM"];
-	UTILDebugWrite(@"END VACUUM");
 }
 
 @end
