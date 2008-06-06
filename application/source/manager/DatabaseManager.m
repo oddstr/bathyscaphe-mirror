@@ -11,6 +11,8 @@
 #import "SQLiteDB.h"
 #import "DatabaseUpdater.h"
 
+#import "AppDefaults.h"
+
 NSString *FavoritesTableName = @"Favorites";
 NSString *BoardInfoTableName = @"BoardInfo";
 NSString *ThreadInfoTableName = @"ThreadInfo";
@@ -75,9 +77,23 @@ extern void setSQLiteZone(NSZone *zone);
 		if([_instance respondsToSelector:@selector(registNotifications)]) {
 			[_instance performSelector:@selector(registNotifications)];
 		}
+		[self setupDatabase];
 	}
 	
 	return _instance;
+}
+
+- (id) init
+{
+	self = [super init];
+	
+	id nc = [NSNotificationCenter defaultCenter];
+	[nc addObserver:self
+		   selector:@selector(applicationWillTerminate:)
+			   name:NSApplicationWillTerminateNotification
+			 object:NSApp];
+	
+	return self;
 }
 
 - (void) dealloc
@@ -155,7 +171,7 @@ abort:
 	
 	return NO;
 }
-	
+
 + (void) checkDatabaseFileVersion
 {
 	[DatabaseUpdater updateFrom : [self currentDatabaseFileVersion] to : sDatabaseFileVersion];
@@ -191,6 +207,25 @@ abort:
 	return [self setVersion : sDatabaseFileVersion];
 }
 
++ (void)setupCacheSize
+{
+	SQLiteDB *db = [[DatabaseManager defaultManager] databaseForCurrentThread];
+	
+	if (!db) return;
+	
+	int cacheSize = [SGTemplateResource(@"System - SQLite Cache Size") intValue];
+	UTILDebugWrite1(@"Try set sqlite cache size to %d", cacheSize);
+	if(cacheSize <= 0) return;
+	
+	[db performQuery:[NSString stringWithFormat : @"PRAGMA cache_size = %d;", cacheSize]];
+	if([db lastErrorID] != noErr) {
+		UTILDebugWrite1(@"Abort PRAGMA chach_size.\n Reson %@", [db lastError]);
+		return;
+	}
+	
+	UTILDebugWrite1(@"Set sqlite cache size to %d", cacheSize);
+}	
+
 + (void) setupDatabase
 {
 	if([self mustCreateTables]) {
@@ -198,6 +233,8 @@ abort:
 	} else {
 		[self checkDatabaseFileVersion];
 	}
+	
+	[self setupCacheSize];
 }
 
 - (NSString *) databasePath
@@ -234,6 +271,28 @@ abort:
 	}
 	
 	return result;
+}
+
+#pragma mark## Notifications ##
+#import <Carbon/Carbon.h>
+- (void)applicationWillTerminate:(NSNotification *)notification
+{
+	//	NSEvent *event = [NSApp currentEvent];
+	//	int isAltKey = [event modifierFlags] & NSAlternateKeyMask;
+	//	if(!isAltKey) return;
+	KeyMap m;
+	long lm;
+	GetKeys(m);
+#if TARGET_RT_LITTLE_ENDIAN
+	lm = EndianU32_LtoB(m[1].bigEndianValue);
+#else
+	lm = m[1];
+#endif
+	if((lm & 0x4) != 0x4/*option key*/) return;
+	
+	UTILDebugWrite(@"START VACUUM");
+	[[self databaseForCurrentThread] performQuery:@"VACUUM"];
+	UTILDebugWrite(@"END VACUUM");
 }
 
 @end

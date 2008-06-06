@@ -185,6 +185,36 @@ abort:
 abort:
 	return NO;
 }
+- (void) deleteUnusedInfomations:(SQLiteDB *)db
+{
+	BOOL isDelete = SGTemplateBool(@"System - Delete Unused Thread Informations");
+	if(!isDelete) return;
+	
+	if (db && [db beginTransaction]) {
+		// 不要なデータを削除
+		//		NSLog(@"START DELETING");
+		NSString *query = [NSString stringWithFormat:
+						   @"DELETE FROM %@ "
+						   @"WHERE "
+						   @"%@ = %@ AND "
+						   @"%@ IS NULL AND "
+						   @"%@ NOT IN "
+						   @"(SELECT %@ FROM %@ WHERE %@ = %@)"
+						   ,
+						   ThreadInfoTableName, 
+						   BoardIDColumn, boardID, 
+						   NumberOfReadColumn, 
+						   ThreadIDColumn, 
+						   ThreadIDColumn, TempThreadNumberTableName, BoardIDColumn, boardID];
+		[db performQuery:query];
+		if ([db lastErrorID] != 0) {
+			NSLog(@"Fail Delete. ErrorID -> %d. Reson: %@", [db lastErrorID], [db lastError] );
+		}
+		//		NSLog(@"	%d row(s) deleted.", sqlite3_changes([db rowDatabase]));
+		[db commitTransaction];
+		//		NSLog(@"END DELETEING");
+	}
+}
 - (void) run
 {
 	NSString *str;
@@ -238,11 +268,15 @@ abort:
 		if(isInterrupted) goto abort;
 		
 		// スレッド番号用テーブルをクリア
+//		NSLog(@"START CLEAR TEMP DATA");
 		id query = [NSString stringWithFormat : @"DELETE FROM %@ WHERE %@ = %@",
 			TempThreadNumberTableName,
 			BoardIDColumn, boardID];
 		[db performQuery : query];
+//		NSLog(@"	%d row(s) deleted.", sqlite3_changes([db rowDatabase]));
+//		NSLog(@"END CLEAR TEMP DATA");
 		
+//		NSLog(@"START REGISTER THREADS");
 		for( count = [lines count], i = 0; i < count; i++ ) {
 			if(isInterrupted) goto abort;
 			
@@ -259,17 +293,19 @@ abort:
 			[CMXTextParser replaceEntityReferenceWithString:title];
 			
 			// DB に投入
-			if(NO == [self updateDB:db
-								 ID:datString
-							  title:title
-							  count:[NSNumber numberWithUnsignedInt:[numString intValue]]
-							  index:[NSNumber numberWithUnsignedInt:i+1]]) {
+			if(![self updateDB:db
+							ID:datString
+						 title:title
+						 count:[NSNumber numberWithUnsignedInt:[numString intValue]]
+						 index:[NSNumber numberWithUnsignedInt:i+1]]) {
 				goto abort;
 			}
 		}
-		
 		[db commitTransaction];
+//		NSLog(@"END REGISTER THREADS");
 	}
+	
+	[self deleteUnusedInfomations:db];
 	
 	[self postNotificationWithName:BSDBThreadsListDBUpdateTask2DidFinishNotification];
 	

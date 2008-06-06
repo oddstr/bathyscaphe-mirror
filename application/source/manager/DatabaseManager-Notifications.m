@@ -168,23 +168,27 @@ NSString *const DatabaseDidFinishUpdateDownloadedOrDeletedThreadInfoNotification
 			
 			if ([self searchBoardID:&boardID threadID:&threadID fromFilePath:path]) {
 				query = [NSString stringWithFormat:
-					@"UPDATE %@\n"
-					@"SET %@ = NULL,\n"
-					@"%@ = NULL,\n"
-					@"%@ = %d,\n"
-					@"%@ = NULL,\n"
-					@"%@ = NULL\n"
-					@"WHERE %@ = %d\n"
-					@"AND %@ = %@",
-					ThreadInfoTableName,
-					NumberOfReadColumn,
-					ModifiedDateColumn,
-					ThreadStatusColumn, ThreadNoCacheStatus,
-					ThreadAboneTypeColumn,
-					ThreadLabelColumn,
-					BoardIDColumn, boardID,
-					ThreadIDColumn, threadID];
-
+						 @"UPDATE %@\n"
+						 @"SET %@ = NULL,\n"
+						 @"%@ = NULL,\n"
+						 @"%@ = %d,\n"
+						 @"%@ = NULL,\n"
+						 @"%@ = NULL,\n"
+						 @"%@ = 0,\n"
+						 @"%@ = 0\n"
+						 @"WHERE %@ = %d\n"
+						 @"AND %@ = %@",
+						 ThreadInfoTableName,
+						 NumberOfReadColumn,
+						 ModifiedDateColumn,
+						 ThreadStatusColumn, ThreadNoCacheStatus,
+						 ThreadAboneTypeColumn,
+						 ThreadLabelColumn,
+						 IsDatOchiColumn,
+						 IsFavoriteColumn,
+						 BoardIDColumn, boardID,
+						 ThreadIDColumn, threadID];
+				
 				[db performQuery:query];
 			}
 			

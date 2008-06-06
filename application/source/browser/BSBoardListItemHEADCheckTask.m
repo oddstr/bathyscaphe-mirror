@@ -95,10 +95,13 @@ static BOOL shouldCheckItemHeader(id dict);
 }
 - (NSString *) messageInProgress
 {
-	if([self descString] && [self amountString]) {
-		return [NSString stringWithFormat:@"%@ (%@)", [self descString], [self amountString]];
-	} else if([self descString]) {
-		return [self descString];
+	NSString *descStr = [self descString];
+	NSString *amountStr = [self amountString];
+	
+	if(descStr && amountStr) {
+		return [NSString stringWithFormat:@"%@ (%@)", descStr, amountStr];
+	} else if(descStr) {
+		return descStr;
 	}
 	return [NSString stringWithFormat:NSLocalizedStringFromTable(@"ProgressBoardListItemHEADCheck.", @"ThreadsList", @"")];
 }
@@ -124,7 +127,6 @@ static BOOL shouldCheckItemHeader(id dict);
 	NSEnumerator *threadsEnum;
 	id thread;
 	NSMutableArray *updatedThreads = [NSMutableArray array];
-	id nsnull = [NSNull null];
 	
 //	[self checkHOGE];
 	
@@ -132,9 +134,10 @@ static BOOL shouldCheckItemHeader(id dict);
 	int numberOfFinishCheck = 0;
 	int numberOfSkip = 0;
 	int numberOFChecked = 0; // HEAD を送信した回数
-	NSString *hage = NSLocalizedStringFromTable(@"%d/%d (%d skiped)", @"ThreadsList", @"");
+	NSString *amoutFormat = NSLocalizedStringFromTable(@"%d/%d (%d skiped)", @"ThreadsList", @"");
 
-	[self setAmountString:[NSString stringWithFormat:hage, numberOfFinishCheck, numberOfAllTarget, numberOfSkip]];
+	[self setAmountString:[NSString stringWithFormat:amoutFormat,
+						   numberOfFinishCheck, numberOfAllTarget, numberOfSkip]];
 	[self setDescString:NSLocalizedStringFromTable(@"Checking thread", @"ThreadsList", @"")];
 	
 	threadsEnum = [threads objectEnumerator];
@@ -144,11 +147,10 @@ static BOOL shouldCheckItemHeader(id dict);
 		id dl;
 		id response;
 		id newMod;
-		
-		NSString *fuga = NSLocalizedStringFromTable(@"%d/%d (%d skiped)", @"ThreadsList", @"");
-		
+				
 		[self checkIsInterrupted];
-		[self setAmountString:[NSString stringWithFormat:fuga, ++numberOfFinishCheck, numberOfAllTarget, numberOfSkip]];
+		[self setAmountString:[NSString stringWithFormat:amoutFormat,
+							   ++numberOfFinishCheck, numberOfAllTarget, numberOfSkip]];
 		
 		if(!shouldCheckItemHeader(thread)) {
 			[pool release];
@@ -159,17 +161,6 @@ static BOOL shouldCheckItemHeader(id dict);
 		NSString *boardName = [thread valueForColumn:BoardNameColumn];
 		NSString *threadID = [thread valueForColumn:ThreadIDColumn];
 		NSString *modDate = [thread valueForColumn:ModifiedDateColumn];
-		
-		if(!boardName || !threadID  || !modDate) {
-			[pool release];
-			numberOfSkip++;
-			continue;
-		}
-		if(boardName == nsnull || threadID == nsnull || modDate == nsnull) {
-			[pool release];
-			numberOfSkip++;
-			continue;
-		}
 		
 		NSURL *url = urlForBoardNameAndThredID(boardName, threadID);
 		dl = [self sendHEADMethod:url];
@@ -189,14 +180,11 @@ static BOOL shouldCheckItemHeader(id dict);
 	[self updateDB:updatedThreads];
 	
 	numberOFChecked = numberOfAllTarget - numberOfSkip;
-//	[self playFinishSoundIsUpdate:numberOFChecked != 0];
 	[self playFinishSoundIsUpdate:([updatedThreads count] > 0)];
 	
-//	double interval_ = numberOFChecked * 20.0;
-	if(numberOFChecked > 0) //interval_ != 0) {
+	if(numberOFChecked > 0) {
 		[CMRPref setLastHEADCheckedDate : [NSDate date]];
-//		[CMRPref setHEADCheckTimeInterval : ((interval_ < 300.0) ? 300.0 : interval_)];
-//	}
+	}
 	
 	[targetList updateCursor];
 	
@@ -216,9 +204,11 @@ static BOOL shouldCheckItemHeader(id dict);
 	
 	if(db && [db beginTransaction]) {
 		NSString *query = [NSString stringWithFormat:
-			@"SELECT %@, %@, %@, %@, %@, %@ FROM (%@)",
-			BoardIDColumn, BoardNameColumn, ThreadIDColumn, NumberOfAllColumn, ThreadStatusColumn, ModifiedDateColumn,
-			table];
+						   @"SELECT %@, %@, %@, %@, %@, %@, %@ FROM (%@)",
+						   BoardIDColumn, BoardNameColumn, ThreadIDColumn,
+						   NumberOfAllColumn, ThreadStatusColumn, ModifiedDateColumn,
+						   IsDatOchiColumn, 
+						   table];
 		
 		id cursor = [db cursorForSQL:query];
 		if(!cursor) goto abort;
@@ -308,6 +298,10 @@ static BOOL shouldCheckItemHeader(id dict)
 {
 	id obj;
 	int s;
+	id nsnull = [NSNull null];
+	
+	obj = [dict valueForColumn:IsDatOchiColumn];
+	if(!obj || [obj boolValue]) return NO;
 	
 	obj = [dict valueForColumn:NumberOfAllColumn];
 	if(!obj || [obj intValue] > 1000) return NO;
@@ -317,6 +311,15 @@ static BOOL shouldCheckItemHeader(id dict)
 	
 	s = [obj intValue];
 	if( !(s | ThreadLogCachedStatus)) return NO;
+	
+	obj = [dict valueForColumn:BoardNameColumn];
+	if(!obj || obj == nsnull) return NO;
+	
+	obj = [dict valueForColumn:ThreadIDColumn];
+	if(!obj || obj == nsnull) return NO;
+	
+	obj = [dict valueForColumn:ModifiedDateColumn];
+	if(!obj || obj == nsnull) return NO;
 	
 	return YES;
 }

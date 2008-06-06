@@ -1,3 +1,29 @@
+2008-06-06 masakih <masakih@users.sourceforge.jp>
+	* application/Resources/text/KeyValueTemplates.plist:
+		System - Delete Unused Thread Informationsのデフォルト値 YES(Boolean)を設定。
+		System - SQLite Cache Sizeのデフォルト値 0(Number)を設定。
+	* application/source/main.m:
+	* application/source/manager/DatabaseManager.m:
+		SQLiteが用いるキャッシュサイズを変更できるようにした。
+		KeyValueTemplates.plistのSystem - SQLite Cache Size
+		の値を用いてキャッシュサイズを決定する。
+		0以下の場合はSQLiteの規定値(2000)を使用。
+	* application/source/browser/BSBoardListItemHEADCheckTask.m:
+		HEADCheckでdat落ちしたスレッドを対象から外すようにした。
+		ついでに、効率を若干犠牲にして読みやすく変更。
+	* application/source/browser/BSDBThreadsListDBUpdateTask2.m:
+		掲示板更新時に不要なデータをデータベースから削除するようにした。
+		不要なデータとは、未読であり且つdat落ちしたスレッドのデータである。
+		KeyValueTemplates.plistのSystem - Delete Unused Thread Informations
+		の値を用いてデータの削除の可否を判別する。
+	* application/source/browser/BSThreadListItem.m:
+		nilをNSMutabuleArrayに投入しようとして例外を投げてしまう可能性があった箇所を修正。
+	* application/source/manager/DatabaseManager-Notifications.m:
+		ログ削除時にdat落ちフラグ(isDatOchi)とお気に入りフラグ(isFavorite)もリセットするようにした。
+	* application/subproj/BSIPILeopardSlideshowHelper/Makefile:
+		ビルドできてなかったので修正した。
+	* application/source/manager/SQLiteDB.m:
+		デバッグ用出力がNSLogで出力されていたのでUTILDebugWriteに変更した。
 2008-03-31 masakih <masakih@users.sourceforge.jp>
 	* application/subproj/BSIPILeopardSlideshowHelper/Makefile:
 		ビルドできてなかったので修正した。

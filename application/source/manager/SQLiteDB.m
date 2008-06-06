@@ -167,13 +167,13 @@ int progressHandler(void *obj)
 	int result = NO;
 	
 	if (mDatabase) {
-		NSLog(@"Start Closing database.");
+		UTILDebugWrite(@"Start Closing database.");
 		do {
 			result = sqlite3_close(mDatabase);
 		} while (result == SQLITE_BUSY);
 		mDatabase = NULL;
 		
-		NSLog(@"End Closing database.");
+		UTILDebugWrite(@"End Closing database.");
 	}
 	
 	_isOpen = NO;

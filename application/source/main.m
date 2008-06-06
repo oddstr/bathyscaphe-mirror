@@ -40,8 +40,8 @@ void CMXServicesInit(void)
 	//[CMRFavoritesManager defaultManager];
     [CMRNetGrobalLock sharedInstance];
 
-	[DatabaseManager defaultManager];
-	[DatabaseManager setupDatabase];
+//	[DatabaseManager defaultManager];
+//	[DatabaseManager setupDatabase];
     
     // Inter-thread messaging
     CMRMainThread = [NSThread currentThread];

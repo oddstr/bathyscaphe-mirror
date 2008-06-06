@@ -107,6 +107,10 @@ NSString *IkioiColumnIdentifier = @"Ikioi";
 	
 	for(i = 0; i < count; i++) {
 		id item = itemFromRow([cursor rowAtIndex:i]);
+		if(!item) {
+			NSLog(@"BSThreadListItem (item is nil.)");
+			continue;
+		}
 		[result addObject:item];
 	}
 	

@@ -16,7 +16,7 @@ else
 endif
 
 
-.PHONY:Build_Plugin Check_Plugin clean-Build_Plugin clean-Check_Plugin
+.PHONY:BSIPILeopardSlideshowHelper Build_Plugin Check_Plugin clean-Build_Plugin clean-Check_Plugin
 
 all: BSIPILeopardSlideshowHelper
 
