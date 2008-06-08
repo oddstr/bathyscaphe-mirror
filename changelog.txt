@@ -1,4 +1,20 @@
 2008-06-08 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/source/manager/CMRDocumentController.m
+		ファイルパス（NSString）をファイル URL（NSURL）ベースで取り扱うように修正。
+	* application/source/manager/CMRDocumentFileManager.[h|m]
+		ログファイルをコピーするユーティリティメソッドを追加。
+	* application/source/manager/CMRReplyDocumentFileManager.[h|m]
+		ソースの整理。
+	* application/source/manager/CMRTrashbox.[h|m]
+	* application/source/manager/DatabaseManager-Notifications.m
+		DatabaseManager と CMRTrashBox の間のやり取りを NSNotification を介してではなく、
+		直接 CMRTrashBox が DatabaseManager のメソッドを呼ぶようにした（どちらも
+		singleton なのでそれで間に合うはず）。
+	* application/source/manager/Cookie.m
+		NSCalendarDate ではなく BSHTTPDateFormatter を使うように変更。
+	* application/source/manager/DatabaseManager-DatabaseAccess.m
+		すでにデータベースに登録されているスレッドに対して -insertThreadID:title:count:date:atBoard: を
+		呼んだ場合、新しい情報で UPDATE するようにした。
 	* frameworks/CocoMonar/CMF.xcodeproj/project.pbxproj
 		CocoMonar Framework:
 	* frameworks/CocoMonar/framework/src/CMRFRWKCommon.h
