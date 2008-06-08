@@ -25,6 +25,9 @@
 		87170A1E0BA3E93300AF2E65 /* NSWindow-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F57D5E1F037B6DE401A80002 /* NSWindow-SGExtensions.m */; };
 		8734B3DC0B919232002AACF5 /* NSBezierPath_AMShading.h in Headers */ = {isa = PBXBuildFile; fileRef = 8734B3DA0B919231002AACF5 /* NSBezierPath_AMShading.h */; settings = {ATTRIBUTES = (); }; };
 		8734B3DD0B919232002AACF5 /* NSBezierPath_AMShading.m in Sources */ = {isa = PBXBuildFile; fileRef = 8734B3DB0B919231002AACF5 /* NSBezierPath_AMShading.m */; };
+		8737F4B90DFBD4BC0055B442 /* NSAppleScript-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8737F4B70DFBD4BC0055B442 /* NSAppleScript-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8737F4BA0DFBD4BC0055B442 /* NSAppleScript-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8737F4B80DFBD4BC0055B442 /* NSAppleScript-SGExtensions.m */; };
+		8737F4C00DFBD7BC0055B442 /* attachFinderComment.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 8737F4AE0DFBD42B0055B442 /* attachFinderComment.scpt */; };
 		8751C4760862204100998A38 /* SGContainerTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = F57D5E05037B6D8601A80002 /* SGContainerTableView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8751C4770862204200998A38 /* SGContainerTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F57D5E06037B6D8601A80002 /* SGContainerTableView.m */; };
 		875FF4FE0C7FE9E00034E371 /* BSTitleRulerAppearance.h in Headers */ = {isa = PBXBuildFile; fileRef = 875FF4FC0C7FE9E00034E371 /* BSTitleRulerAppearance.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -114,6 +117,9 @@
 		8716081D098AA8DE00A27F63 /* browserSplitterVertical.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = browserSplitterVertical.tiff; path = images/browserSplitterVertical.tiff; sourceTree = "<group>"; };
 		8734B3DA0B919231002AACF5 /* NSBezierPath_AMShading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSBezierPath_AMShading.h; sourceTree = "<group>"; };
 		8734B3DB0B919231002AACF5 /* NSBezierPath_AMShading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSBezierPath_AMShading.m; sourceTree = "<group>"; };
+		8737F4AE0DFBD42B0055B442 /* attachFinderComment.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; path = attachFinderComment.scpt; sourceTree = "<group>"; };
+		8737F4B70DFBD4BC0055B442 /* NSAppleScript-SGExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAppleScript-SGExtensions.h"; sourceTree = "<group>"; };
+		8737F4B80DFBD4BC0055B442 /* NSAppleScript-SGExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAppleScript-SGExtensions.m"; sourceTree = "<group>"; };
 		875FF4FC0C7FE9E00034E371 /* BSTitleRulerAppearance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSTitleRulerAppearance.h; sourceTree = "<group>"; };
 		875FF4FD0C7FE9E00034E371 /* BSTitleRulerAppearance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSTitleRulerAppearance.m; sourceTree = "<group>"; };
 		875FF5420C7FF3AC0034E371 /* BSTitleRulerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSTitleRulerView.h; path = ../../application/source/browser/BSTitleRulerView.h; sourceTree = SOURCE_ROOT; };
@@ -230,6 +236,7 @@
 		089C1665FE841158C02AAC07 /* resource */ = {
 			isa = PBXGroup;
 			children = (
+				8737F4AE0DFBD42B0055B442 /* attachFinderComment.scpt */,
 				87D991A709922E6F006C5821 /* Action_Pressed.tiff */,
 				87D991A809922E6F006C5821 /* Action.tiff */,
 				8716081A098AA8DE00A27F63 /* browserSplitter.tiff */,
@@ -342,6 +349,8 @@
 				F523B0C6037C028C01A80002 /* workspace */,
 				879A36C40B62EF5800C58316 /* NSEvent-SGExtensions.h */,
 				879A36C50B62EF5800C58316 /* NSEvent-SGExtensions.m */,
+				8737F4B70DFBD4BC0055B442 /* NSAppleScript-SGExtensions.h */,
+				8737F4B80DFBD4BC0055B442 /* NSAppleScript-SGExtensions.m */,
 			);
 			name = extensions;
 			path = src/extensions;
@@ -528,6 +537,7 @@
 				87BD0BC30C5C5A87001C6697 /* BSPopUpTitlebar.h in Headers */,
 				875FF4FE0C7FE9E00034E371 /* BSTitleRulerAppearance.h in Headers */,
 				875FF5440C7FF3AC0034E371 /* BSTitleRulerView.h in Headers */,
+				8737F4B90DFBD4BC0055B442 /* NSAppleScript-SGExtensions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -585,6 +595,7 @@
 				87160821098AA8DE00A27F63 /* browserSplitterVertical.tiff in Resources */,
 				87D991A909922E6F006C5821 /* Action_Pressed.tiff in Resources */,
 				87D991AA09922E6F006C5821 /* Action.tiff in Resources */,
+				8737F4C00DFBD7BC0055B442 /* attachFinderComment.scpt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -634,6 +645,7 @@
 				87BD0BC40C5C5A87001C6697 /* BSPopUpTitlebar.m in Sources */,
 				875FF4FF0C7FE9E10034E371 /* BSTitleRulerAppearance.m in Sources */,
 				875FF5450C7FF3AC0034E371 /* BSTitleRulerView.m in Sources */,
+				8737F4BA0DFBD4BC0055B442 /* NSAppleScript-SGExtensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,6 +14,7 @@
 #import "BSDateFormatter.h"
 #import "CMRTaskManager.h"
 #import "BoardManager.h"
+#import <SGAppKit/NSAppleScript-SGExtensions.h>
 #import <Carbon/Carbon.h>
 
 NSString *const kBoardWarriorErrorDomain	= @"BoardWarriorErrorDomain";
@@ -194,7 +195,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 	m_bbsMenuPath = filePath;
 }
 
-- (BOOL)doHandler:(NSString *)handlerName inScript:(NSAppleScript *)appleScript withParameters:(NSArray *)params error:(NSDictionary **)errPtr
+/*- (BOOL)doHandler:(NSString *)handlerName inScript:(NSAppleScript *)appleScript withParameters:(NSArray *)params error:(NSDictionary **)errPtr
 {
 	int	i;
 	NSAppleEventDescriptor* parameters = [NSAppleEventDescriptor listDescriptor];
@@ -230,7 +231,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 		return NO;
 	}
 	return YES;
-}
+}*/
 
 - (NSData *)encodedLocalizedStringForKey:(NSString *)key format:(NSString *)format
 {
@@ -273,7 +274,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(warrior);
 	NSDictionary *errors_ = [NSDictionary dictionary];
 	NSArray *params_ = [self parametersForHandler:handlerName];
 
-	if (![self doHandler:handlerName inScript:script withParameters:params_ error:&errors_]) {
+//	if (![self doHandler:handlerName inScript:script withParameters:params_ error:&errors_]) {
+	if (![script doHandler:handlerName withParameters:params_ error:&errors_]) {
 		NSString *errDescription_ = [errors_ objectForKey:NSAppleScriptErrorMessage];
 		[self writeLogsToFileWithUTF8Data:[self encodedLocalizedStringForKey:@"BW_sub_error %@" format:errDescription_]];
 

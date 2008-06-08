@@ -75,6 +75,7 @@
 	if (self = [super initWithObject:obj]) {
 		m_expectLength = 0;
 		m_downloadedLength = 0;
+		m_amount = -1.0;
 	}
 	return self;
 }
@@ -111,7 +112,7 @@
 
 	if (m_expectLength > 0) {
 		NSString *template;
-		double rate;
+		double rate, hoge;
 		if (m_expectLength > 1024*1024) {
 			template = NSLocalizedStringFromTable(@"Downloading Message M", @"CMRTaskDescription", @"");
 			rate = 1024*1024;
@@ -120,15 +121,17 @@
 			rate = 1024;
 		}
 		[self setMessage:[NSString stringWithFormat:template, m_downloadedLength/rate, m_expectLength/rate]];
+		hoge = m_downloadedLength/m_expectLength*100.0;
+		if (hoge >= 0 && hoge <= 100.0) [self setAmount:hoge];
 	}
-
-//	UTILNotifyName(CMRTaskWillProgressNotification);
 }
 
 - (void)bsURLDownloadDidFinish:(BSURLDownload *)aDownload
 {
 	NSString *template;
 	double rate;
+
+	[[NSWorkspace sharedWorkspace] attachComment:[[self URLValue] absoluteString] toFile:[aDownload downloadedFilePath]];
 
 	NSString *ext = [[[self stringValue] componentsSeparatedByString:@"."] lastObject];
 	unsigned hoge = [[CMRPref linkDownloaderExtensionTypes] indexOfObject:ext];
@@ -235,10 +238,16 @@
 
 - (double)amount
 {
-	if (m_expectLength == 0) return -1;
+/*	if (m_expectLength == 0) return -1;
 	double hoge = m_downloadedLength/m_expectLength*100.0;
 	if (hoge >= 0 && hoge <= 100.0) return hoge;
-	return -1;
+	return -1;*/
+	return m_amount;
+}
+
+- (void)setAmount:(double)doubleValue
+{
+	m_amount = doubleValue;
 }
 
 - (IBAction)cancel:(id)sender

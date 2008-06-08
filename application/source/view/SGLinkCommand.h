@@ -32,9 +32,9 @@
 	double m_expectLength;
 	double m_downloadedLength;
 	NSString *m_message;
+	double m_amount;
 }
 
 - (BSURLDownload *)currentDownload;
 - (void)setCurrentDownload:(BSURLDownload *)download;
-- (void)setMessage:(NSString *)string;
 @end

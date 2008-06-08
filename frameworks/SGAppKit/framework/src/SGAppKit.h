@@ -1,6 +1,6 @@
 //: SGAppKit.h
 /**
-  * $Id: SGAppKit.h,v 1.19 2008/03/07 15:13:43 tsawada2 Exp $
+  * $Id: SGAppKit.h,v 1.20 2008/06/08 10:32:05 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -25,6 +25,7 @@
 #import <SGAppKit/NSWindow-SGExtensions.h>
 #import <SGAppKit/NSWorkspace-SGExtensions.h>
 #import <SGAppKit/NSUserDefaults+SGAppKitExtensions.h>
+#import <SGAppKit/NSAppleScript-SGExtensions.h>
 
 #import <SGAppKit/SGContainerTableView.h>
 
@@ -34,7 +35,6 @@
 #import <SGAppKit/BSBoardListView.h>
 #import <SGAppKit/CMRPullDownIconBtn.h>
 #import <SGAppKit/BSReplyTextView.h>
-//#import <SGAppKit/BSWindow.h>
 #import <SGAppKit/BSSegmentedControlTbItem.h>
 #import <SGAppKit/BSTitleRulerView.h>
 #import <SGAppKit/BSTitleRulerAppearance.h>

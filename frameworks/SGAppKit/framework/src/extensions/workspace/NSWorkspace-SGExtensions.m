@@ -8,9 +8,13 @@
 //
 
 #import "NSWorkspace-SGExtensions.h"
+#import <SGAppKit/NSAppleScript-SGExtensions.h>
 #import "UTILKit.h"
 
+static NSString *const kAppleScriptFile = @"attachFinderComment";
+
 #define FINDER_IDENTIFIER	@"com.apple.finder"
+#define ATTACH_COMMENT_HANDLER_NAME	@"attachComment"
 
 @implementation NSWorkspace(BSExtensions)
 #pragma mark Move To Trash
@@ -155,6 +159,23 @@ bail:
 	err = AESendMessage([appleEvent aeDesc], NULL, kAECanInteract, kAEDefaultTimeout);
 
 	return (err == noErr);
+}
+
+- (BOOL)attachComment:(NSString *)comment toFile:(NSString *)filePath
+{
+	NSString		*hfsPath;
+	NSAppleScript	*script;
+
+	CFURLRef fileURL = CFURLCreateWithFileSystemPath(NULL, (CFStringRef)filePath, kCFURLPOSIXPathStyle, false);
+	hfsPath = (NSString *)CFURLCopyFileSystemPath(fileURL, kCFURLHFSPathStyle);
+	CFRelease(fileURL);
+
+	NSBundle *bundle = [NSBundle bundleWithIdentifier:@"com.steam_gadget.SGAppKit"];
+	NSString *scriptPath = [bundle pathForResource:kAppleScriptFile ofType:@"scpt"];
+
+	script = [[[NSAppleScript alloc] initWithContentsOfURL:[NSURL fileURLWithPath:scriptPath] error:NULL] autorelease];
+
+	return [script doHandler:ATTACH_COMMENT_HANDLER_NAME withParameters:[NSArray arrayWithObjects:hfsPath, comment, nil] error:NULL];
 }
 
 #pragma mark Opening URL(s)
