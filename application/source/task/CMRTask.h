@@ -1,1 +1,48 @@
-//: CMRTask.h/**  * $Id: CMRTask.h,v 1.2 2007/09/04 07:45:43 tsawada2 Exp $  *   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.  * See the file LICENSE for copying permission.  */#import <Foundation/Foundation.h>#import <AppKit/NSNibDeclarations.h>@protocol CMRTask<NSObject>/*! * @method      identifier * @abstract    ¯•Êq * @discussion   * * TaskManager‚ªŒÂX‚ğ¯•Ê‚·‚é‚½‚ß‚ÌˆêˆÓ‚ÈƒIƒuƒWƒFƒNƒg * nil‚ğ•Ô‚·‚Æƒ}ƒl[ƒWƒƒ‚É“o˜^‚³‚ê‚È‚¢B * ’Êí‚Í•¶š—ñ‚ğ•Ô‚·B * * @result      ¯•Êq‚Æ‚È‚éƒIƒuƒWƒFƒNƒg */- (id) identifier;- (NSString *) title;- (NSString *) message;- (BOOL) isInProgress;// from 0.0 to 100.0 (or -1: Indeterminate)- (double) amount;- (IBAction) cancel : (id) sender;@end@interface NSObject(CMRTaskInformalProtocol)- (void)setTitle:(NSString *)title;- (void)setMessage:(NSString *)msg;- (void)setIsInProgress:(BOOL)isInProgress;- (void)setAmount:(double)doubleValue;@end// Notification Name.extern NSString *const CMRTaskWillStartNotification;extern NSString *const CMRTaskDidFinishNotification;extern NSString *const CMRTaskWillProgressNotification;
+//
+//  CMRTask.h
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 08/03/18.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
+#import <Foundation/Foundation.h>
+#import <AppKit/NSNibDeclarations.h>
+
+
+@protocol CMRTask<NSObject>
+/*!
+ * @method      identifier
+ * @abstract    è­˜åˆ¥å­
+ * @discussion  
+ *
+ * CMRTaskManager ãŒå€‹ã€…ã‚’è­˜åˆ¥ã™ã‚‹ãŸã‚ã®ä¸€æ„ãªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+ * nil ã‚’è¿”ã™ã¨ CMRTaskManager ã«ç™»éŒ²ã•ã‚Œãªã„ã€‚
+ * é€šå¸¸ã¯æ–‡å­—åˆ—ã‚’è¿”ã™ã€‚
+ *
+ * @result      è­˜åˆ¥å­ã¨ãªã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+ */
+- (id)identifier;
+
+// BathyScaphe ã§ã¯ Cocoa Binding ã‚„ KVO ã‚’å¤šç”¨ã™ã‚‹ã®ã§ã€-setTitle:/-setMessage:/-setIsInProgress:/-setAmount: ã®å®Ÿè£…ã‚‚å¼·ãæ¨å¥¨ã€‚
+- (NSString *)title;
+- (NSString *)message;
+- (BOOL)isInProgress;
+
+// from 0.0 to 100.0 (or -1: Indeterminate)
+- (double)amount;
+- (IBAction)cancel:(id)sender;
+@end
+
+
+@interface NSObject(CMRTaskInformalProtocol)
+- (void)setTitle:(NSString *)title;
+- (void)setMessage:(NSString *)msg;
+- (void)setIsInProgress:(BOOL)isInProgress;
+- (void)setAmount:(double)doubleValue;
+@end
+
+// Notification Name.
+extern NSString *const CMRTaskWillStartNotification;
+extern NSString *const CMRTaskDidFinishNotification;

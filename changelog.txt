@@ -1,5 +1,21 @@
 2008-06-08 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/source/task/BSTaskItemValueTransformer.[h|m]
+		[新規追加] binding しやすくするための Value Transformer。
+	* application/source/task/CMRTask.[h|m]
+	* application/source/task/CMRTaskItemController.[h|m]
+	* application/source/task/CMRTaskItemController_p.h
+	* application/source/task/CMRTaskManager-Management.m
+	* application/source/task/CMRTaskManager.[h|m]
+	* application/source/task/CMRTaskManager_p.h
 	* application/Resources/Japanese.lproj/CMRTaskDescription.strings
+		CMRTask 周りの改良：
+		- CMRTask プロトコルに準拠するオブジェクトは、今後自らの進行状況をすべて KVO で捉えられるよう
+		　にすべきである。即ち、-setMessage:, -setAmount:, -setTitle: などを実装して、タスクの
+		　進行状況を KVO や binding で知ることができるようにしなければならない。
+		- 上記変更に伴い、CMRTaskWillProgressNotification はもはや発行／使用されない。
+		　CMRTaskManager はもはやこの通知を利用しない。ステータスバーやプログレスバーの表示内容は
+		　タスクに binding され、自動的に更新される。
+		CMRTaskManager はかなりシンプルにした。
 	* application/Resources/Japanese.lproj/Downloader.strings
 	* application/Resources/Japanese.lproj/Localizable.strings
 	* application/Resources/Japanese.lproj/ThreadViewer.strings

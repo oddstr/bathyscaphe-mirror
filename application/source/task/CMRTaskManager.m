@@ -1,159 +1,117 @@
-//: CMRTaskManager.m
-/**
-  * $Id: CMRTaskManager.m,v 1.6 2006/04/11 17:31:21 masakih Exp $
-  * 
-  * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  CMRTaskManager.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 08/03/18.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
 
 #import "CMRTaskManager_p.h"
-#define DEFAULT_TASKPANEL_AUTOSAVE_NAME	@"BathyScaphe:TaskManager Panel AutoSave"
+#import "BSTaskItemValueTransformer.h"
+
+#define DEFAULT_TASKPANEL_AUTOSAVE_NAME		@"BathyScaphe:TaskManager Panel AutoSave"
 
 @implementation CMRTaskManager
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
-- (id) init
+- (id)init
 {
-	if(self = [self initWithWindowNibName : APP_TASK_MANAGER_NIB_NAME]){
-		// ...
+	if (self = [self initWithWindowNibName:APP_TASK_MANAGER_NIB_NAME]) {
+		id transformer = [[[BSTaskItemValueTransformer alloc] init] autorelease];
+		[NSValueTransformer setValueTransformer:transformer forName:@"BSTaskItemValueTransformer"];
 	}
 	return self;
 }
-- (void) dealloc
+
+- (void)dealloc
 {
-	[[NSNotificationCenter defaultCenter] removeObserver : self];
-	
-	[_notificationTimer invalidate];
-	[_notificationTimer release];
-	_notificationTimer = nil;
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	[_tasksInProgress release];
 	[_taskItemControllers release];
 	[_controllerMapping release];
+
+	// nib top-level object
+	[_arrayController release];
+	_arrayController = nil;
+
 	[super dealloc];
 }
-- (void) awakeFromNib
+
+- (void)awakeFromNib
 {
-	[(NSPanel*)[self window] setFloatingPanel : NO];
-	[(NSPanel*)[self window] setBecomesKeyOnlyIfNeeded : YES];
-	[(NSPanel*)[self window] setFrameAutosaveName : DEFAULT_TASKPANEL_AUTOSAVE_NAME];
+	[(NSPanel*)[self window] setFloatingPanel:NO];
+	[(NSPanel*)[self window] setBecomesKeyOnlyIfNeeded:YES];
+	[[self window] setFrameAutosaveName:DEFAULT_TASKPANEL_AUTOSAVE_NAME];
 }
 
-// Window Management
-- (void) windowDidLoad
+- (void)windowDidLoad
 {
 	[self setupUIComponents];
 }
 
-// CMRTaskManager:
-- (void) addTask : (id<CMRTask>) aTask
+- (void)addTask:(id<CMRTask>)aTask
 {
 	CMRTaskItemController	*controller_;
 	
 	UTILAssertNotNilArgument(aTask, @"Task Object");
-	if(NO == [self shouldRegisterTask : aTask])
-		return;
+	if (![self shouldRegisterTask:aTask]) return;
 	
-	controller_ = [[CMRTaskItemController alloc] initWithTask : aTask];
-	[self addTaskItemController : controller_];
+	controller_ = [[CMRTaskItemController alloc] initWithTask:aTask];
+	[self addTaskItemController:controller_];
 	[controller_ release];
 	
-	[[self taskContainerView] reloadData];
-	[self taskContainerViewScrollLastRowToVisible];
-	
 	// 
-	// 通知を再度、ブロードキャストするために
+	// 騾夂衍繧貞�榊ｺｦ縲√ヶ繝ｭ繝ｼ繝峨く繝｣繧ｹ繝医☆繧九◆繧√↓
 	// 
 	[self registerNotificationWithTask : aTask];
 }
 
 #pragma mark CMRTask protocol
-
-- (NSString *) identifier
-{
-	return nil;
-}
-- (NSString *) title
+- (NSString *)identifier
 {
 	return nil;
 }
 
-- (NSString *) message
+- (NSString *)title
 {
 	return nil;
 }
 
-- (BOOL) isInProgress
+- (NSString *)message
 {
-	NSArray			*allTasks_;
-	NSEnumerator	*iter_;
-	id<CMRTask>		task_;
-	
-	allTasks_ = [self tasksInProgress];
-	if(nil == allTasks_ || 0 == [allTasks_ count]) return NO;
-	
-	iter_ = [allTasks_ objectEnumerator];
-	while(task_ = [iter_ nextObject]){
-		UTILAssertConformsTo(
-			[task_ class],
-			@protocol(CMRTask));
-		if([task_ isInProgress]) 
-			return YES;
-	}
-	
-	return NO;
+	return nil;
 }
-// 全体の平均を返す。
-- (double) amount
+
+- (BOOL)isInProgress
 {
-	double			amount_ = 0.0;
-	NSArray			*allTasks_;
-	NSEnumerator	*iter_;
-	id<CMRTask>		task_;
-	
-	allTasks_ = [self tasksInProgress];
-	
-	if(nil == allTasks_ || 0 == [allTasks_ count]) goto error_amount;
-	iter_ = [allTasks_ objectEnumerator];
-	while(task_ = [iter_ nextObject]){
-		double	other_;
-		
-		UTILAssertConformsTo(
-			[task_ class],
-			@protocol(CMRTask));
-		if(NO == [task_ isInProgress])
-			continue;
-		other_ = [task_ amount];
-		if(other_ < 0) continue;
-		
-		amount_ += other_;
-	}
-	if(0.0 == amount_) goto error_amount;
-	
-	return (double)(amount_/(double)[allTasks_ count]);
-	
-	error_amount:{
-		return -1.0;
-	}
+	return ([[self tasksInProgress] count] > 0);
+}
+
+- (double)amount
+{
+	return -1;
 }
 
 #pragma mark IBActions
-
-- (IBAction) showWindow : (id) sender
+- (IBAction)showWindow:(id)sender
 {
-	// toggle-Action : すでにパネルが表示されているときは、パネルを閉じる
-	if ([[self window] isVisible]) {
-		[[self window] orderOut : sender];
-	} else {
-		[super showWindow : sender];
+	// toggle-Action : 縺吶〒縺ｫ繝代ロ繝ｫ縺瑚｡ｨ遉ｺ縺輔ｌ縺ｦ縺�繧九→縺阪�ｯ縲√ヱ繝阪Ν繧帝哩縺倥ｋ
+	if (![self isWindowLoaded] || ![[self window] isVisible]) {
+		[super showWindow:sender];
 		[self taskContainerViewScrollLastRowToVisible];
+	} else {
+		[[self window] orderOut:sender];
 	}
 }
-- (IBAction) cancel : (id) sender
+
+- (IBAction)cancel:(id)sender
 {
-	[[[self tasksInProgress] lastObject] cancel : sender];
+	[[[self tasksInProgress] lastObject] cancel:sender];
 }
-- (IBAction) scrollLastRowToVisible : (id) sender
+
+- (IBAction)scrollLastRowToVisible:(id)sender
 {
 	[self taskContainerViewScrollLastRowToVisible];
 }
@@ -161,29 +119,36 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 
 @implementation CMRTaskManager(ViewAccessor)
-- (NSScrollView *) scrollView
+- (NSScrollView *)scrollView
 {
 	return [[self taskContainerView] enclosingScrollView];
 }
 
-- (SGContainerTableView *) taskContainerView
+- (SGContainerTableView *)taskContainerView
 {
 	return _taskContainerView;
 }
 
-- (void) taskContainerViewScrollLastRowToVisible
+- (NSArrayController *)tasksArrayController
 {
-	[[self taskContainerView] 
-		scrollRowToVisible : [[self taskItemControllers] count] -1];
+	return _arrayController;
 }
 
-- (void) setupTaskContainerView
+- (void)taskContainerViewScrollLastRowToVisible
+{
+	int count = [[self taskContainerView] numberOfRows];
+	if (count > 0) {
+		[[self taskContainerView] scrollRowToVisible:(count - 1)];
+	}
+}
+
+- (void)setupTaskContainerView
 {
 	UTILAssertNotNil([self taskContainerView]);
-	[[self taskContainerView] setDataSource : self];
+	[[self taskContainerView] setDataSource:self];
 }
 
-- (void) setupUIComponents
+- (void)setupUIComponents
 {
 	[self setupTaskContainerView];
 }
@@ -191,23 +156,20 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 
 @implementation CMRTaskManager(SGContainerTableViewDataSource)
-- (int) numberOfRowsInContainerTableView : (SGContainerTableView *) tbView
+- (int)numberOfRowsInContainerTableView:(SGContainerTableView *)tbView
 {
-	int			cnt = [[self taskItemControllers] count];
-	
-	return cnt;
+	return [[self taskItemControllers] count];
 }
-- (NSView *) containerTableView : (SGContainerTableView *) tbView
-                      viewAtRow : (int                   ) rowIndex
+
+- (NSView *)containerTableView:(SGContainerTableView *)tbView viewAtRow:(int)rowIndex
 {
 	id			controller_;
 	NSView		*view_;
 	
-	controller_ = [[self taskItemControllers] objectAtIndex : rowIndex];
-	UTILAssertNotNil(controller_);
+	controller_ = [[self taskItemControllers] objectAtIndex:rowIndex];
+	UTILAssertRespondsTo(controller_, @selector(contentView));
 	view_ = [controller_ contentView];
-	UTILAssertNotNil(view_);
-	
+	UTILAssertNotNil(view_);	
 	return view_;
 }
 @end

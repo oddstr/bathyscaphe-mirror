@@ -1,49 +1,47 @@
-//: CMRTaskManager.h
-/**
-  * $Id: CMRTaskManager.h,v 1.2 2007/12/11 17:09:37 tsawada2 Exp $
-  * 
-  * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  CMRTaskManager.h
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 08/03/18.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
 
 /*!
  * @header     CMRTaskManager
  * @discussion Application Task Manager
  */
 
-#import <Foundation/Foundation.h>
-#import <AppKit/NSNibDeclarations.h>
-#import <AppKit/NSWindowController.h>
+#import <Cocoa/Cocoa.h>
 #import "CMRTask.h"
-
-@class		CMRTaskItemController;
-@class		SGContainerTableView;
-
 
 /*!
  * @class       CMRTaskManager
- * @abstract    Šeƒ^ƒXƒN‚Ìisó‹µ‚ğŠÇ—‚·‚éƒ}ƒl[ƒWƒƒ
+ * @abstract    å„ã‚¿ã‚¹ã‚¯ã®é€²è¡ŒçŠ¶æ³ã‚’ç®¡ç†ã™ã‚‹ãƒãƒãƒ¼ã‚¸ãƒ£
  * @discussion  
  *
- * ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌŠeƒ^ƒXƒNiXVì‹Æ‚È‚Çj‚ÍCMRTaskManager‚É“o˜^‚·‚é
- * ‚±‚Æ‚Å‚»‚ê‚ç‚Ìisó‹µ‚ğƒ†[ƒU‚É‹Šo“I‚É•ñ‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B
+ * ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®å„ã‚¿ã‚¹ã‚¯ï¼ˆæ›´æ–°ä½œæ¥­ãªã©ï¼‰ã¯CMRTaskManagerã«ç™»éŒ²ã™ã‚‹
+ * ã“ã¨ã§ãã‚Œã‚‰ã®é€²è¡ŒçŠ¶æ³ã‚’ãƒ¦ãƒ¼ã‚¶ã«è¦–è¦šçš„ã«å ±å‘Šã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ã€‚
  */
-@interface CMRTaskManager : NSWindowController<CMRTask>
-{
+
+@class		SGContainerTableView;
+
+@interface CMRTaskManager : NSWindowController<CMRTask> {
 	@private
 	NSMutableArray					*_tasksInProgress;
 	NSMutableArray					*_taskItemControllers;
 	NSMutableDictionary				*_controllerMapping;
 	
 	IBOutlet SGContainerTableView	*_taskContainerView;
+	IBOutlet NSArrayController		*_arrayController;
 	
 	NSTimer		*_notificationTimer;
 }
-+ (id) defaultManager;
 
-- (void) addTask : (id<CMRTask>) aTask;
++ (id)defaultManager;
 
-- (IBAction) showWindow : (id) sender;
-- (IBAction) cancel : (id) sender;
-- (IBAction) scrollLastRowToVisible : (id) sender;
+- (void)addTask:(id<CMRTask>)aTask;
+
+- (IBAction)cancel:(id)sender;
+- (IBAction)scrollLastRowToVisible:(id)sender;
 @end
