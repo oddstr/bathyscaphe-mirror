@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.h,v 1.19 2008/03/07 15:13:43 tsawada2 Exp $
+  * $Id: CMRThreadsList.h,v 1.20 2008/06/08 05:36:04 tsawada2 Exp $
   * 
   * CMRThreadsList.h
   *
@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "CocoMonar_Prefix.h"
 
-@class CMRDownloader;
+//@class CMRDownloader;
 @class CMRThreadLayout;
 @class CMRThreadSignature;
 
@@ -65,12 +65,17 @@ enum {
 @interface CMRThreadsList(CleanUp)
 - (void) cleanUpItemsToBeRemoved : (NSArray *) files;
 
-- (BOOL) tableView : (NSTableView	*) tableView
-	removeIndexSet : (NSIndexSet	*) indexSet
- delFavIfNecessary : (BOOL			 ) flag;
+//- (BOOL) tableView : (NSTableView	*) tableView
+//	removeIndexSet : (NSIndexSet	*) indexSet
+// delFavIfNecessary : (BOOL			 ) flag;
+
+// Available in BathyScaphe 1.6.2 and later.
+//- (BOOL)tableView:(NSTableView *)tableView removeFilesAtRowIndexes:(NSIndexSet *)rowIndexes ask:(BOOL)flag;
+
 - (BOOL) tableView : (NSTableView	*) tableView
 	   removeFiles : (NSArray		*) files
  delFavIfNecessary : (BOOL			 ) flag;
+- (BOOL)removeDatochiFiles;
 @end
 
 

@@ -16,7 +16,7 @@
 #import "CMRThreadAttributes.h"
 #import "BoardManager.h"
 #import "CMRReplyDocumentFileManager.h"
-#import "CMRFavoritesManager.h"
+//#import "CMRFavoritesManager.h"
 #import "DatabaseManager.h"
 #import "BSNewThreadMessenger.h"
 
@@ -301,7 +301,7 @@
 		[document showWindows];
 	}
 }
-
+/*
 - (BOOL)removeDatochiFiles
 {
 	id threadsList = [self currentThreadsList];
@@ -330,11 +330,12 @@
 	NSArray	*alsoReplyFiles_ = [[CMRReplyDocumentFileManager defaultManager] replyDocumentFilesArrayWithLogsArray:array];
 	return [[CMRTrashbox trash] performWithFiles:alsoReplyFiles_ fetchAfterDeletion:NO];
 }
-
+*/
 - (void)cleanupDatochiFilesAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
 	if (returnCode == NSAlertFirstButtonReturn) {
-		[self removeDatochiFiles];
+//		[self removeDatochiFiles];
+		[[self currentThreadsList] removeDatochiFiles];
 	}
 }
 @end

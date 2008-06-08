@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.30 2008/03/07 15:13:43 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.31 2008/06/08 05:36:04 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -339,7 +339,7 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	while ([rowIndexes getIndexes:&element maxCount:1 inIndexRange:&e] > 0) {
 		dict = [self threadAttributesAtRowIndex:element inTableView:aTableView];
 		threadPath = [CMRThreadAttributes pathFromDictionary:dict];
-		if (![threadPath isEqualToString:filepath]) [mutableArray addObject:dict];
+		if (!filepath || ![threadPath isEqualToString:filepath]) [mutableArray addObject:dict];
 	}
 
 	resultArray = [[NSArray alloc] initWithArray:mutableArray];

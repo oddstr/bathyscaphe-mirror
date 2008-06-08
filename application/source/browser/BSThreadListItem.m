@@ -24,8 +24,6 @@ static NSString *const BSThreadListItemErrorDomain = @"BSThreadListItemErrorDoma
 #define BSThreadListItemStatusMismatchError	2
 
 
-NSString *IkioiColumnIdentifier = @"Ikioi";
-
 @implementation BSThreadListItem
 
 - (id)init
@@ -196,7 +194,7 @@ NSString *IkioiColumnIdentifier = @"Ikioi";
 {
 	id result;
 	
-	result = [self cachedValueForKey:IkioiColumnIdentifier];
+	result = [self cachedValueForKey:BSThreadEnergyKey];
 	if(result) return result;
 	
 	int res = [[self responseNumber] intValue];
@@ -208,10 +206,10 @@ NSString *IkioiColumnIdentifier = @"Ikioi";
 	if(dateTime == 0) return nil;
 	
 	double ikioi = (res * 60 * 60 * 24) / dateTime;
-	
-//	result = [NSNumber numberWithDouble:ikioi];
-	result = [NSString stringWithFormat:@"%.1f", ikioi];
-	[self setCachedValue:result forKey:IkioiColumnIdentifier];
+
+	result = [NSNumber numberWithDouble:ikioi];
+//	result = [NSString stringWithFormat:@"%.1f", ikioi];
+	[self setCachedValue:result forKey:BSThreadEnergyKey];
 	
 	return result;
 }
@@ -257,7 +255,7 @@ NSString *IkioiColumnIdentifier = @"Ikioi";
 		return [self creationDate];
 	} else if([key isEqualToString:ThreadPlistBoardNameKey]) {
 		return [self boardName];
-	} else if([key isEqualToString:IkioiColumnIdentifier]) {
+	} else if([key isEqualToString:BSThreadEnergyKey]) {
 		return [self ikioi];
 	}
 	
@@ -406,14 +404,14 @@ static inline NSArray *numberTypeKeys()
 					NumberOfDifferenceColumn,
 					TempThreadThreadNumberColumn,
 					IsNewColumn,
-//					IkioiColumnIdentifier,
+//					BSThreadEnergyKey,
 					
 					[NumberOfAllColumn lowercaseString],
 					[NumberOfReadColumn lowercaseString],
 					[NumberOfDifferenceColumn lowercaseString],
 					[TempThreadThreadNumberColumn lowercaseString],
 					[IsNewColumn lowercaseString],
-//					[IkioiColumnIdentifier lowercaseString],
+//					[BSThreadEnergyKey lowercaseString],
 					
 					nil];
 				[result retain];
@@ -441,7 +439,7 @@ static inline NSArray *threadListIdentifiers()
 					ThreadPlistIdentifierKey,
 					ThreadPlistBoardNameKey,
 					IsNewColumn,
-					IkioiColumnIdentifier,
+					BSThreadEnergyKey,
 					nil];
 				[result retain];
 			}

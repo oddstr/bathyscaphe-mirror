@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRTextColumnCell.h,v 1.2 2007/02/21 10:50:53 tsawada2 Exp $
+  * $Id: CMRTextColumnCell.h,v 1.3 2008/06/08 05:36:04 tsawada2 Exp $
   * 
   * CMRTextColumnCell.h
   *
@@ -13,4 +13,7 @@
 @end
 
 @interface CMRRightAlignedTextColumnCell: CMRTextColumnCell
+@end
+
+@interface BSIkioiCell:NSLevelIndicatorCell
 @end

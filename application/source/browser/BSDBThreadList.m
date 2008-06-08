@@ -513,6 +513,15 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 		if(!result || result == [NSNull null]) {
 			result = [NSNumber numberWithInt:index + 1];
 		}
+	} else if ([identifier isEqualTo:BSThreadEnergyKey]) {
+//		return [row valueForKey:identifier];
+		result = [row valueForKey:identifier];
+		if ([result isKindOfClass:[NSNumber class]]) {
+			double ikioi = [result doubleValue];
+			ikioi = log(ikioi); // 対数を取る事で、勢いのむらを少なくする
+			if (ikioi < 0) ikioi = 0;
+			return [NSNumber numberWithDouble:ikioi];
+		}
 	} else {
 		result = [row valueForKey : identifier];
 	}

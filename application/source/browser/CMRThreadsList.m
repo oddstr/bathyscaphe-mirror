@@ -1,20 +1,18 @@
-/**
-  * $Id: CMRThreadsList.m,v 1.23 2008/03/07 15:13:43 tsawada2 Exp $
-  * 
-  * CMRThreadsList.m
-  *
-  * Copyright (c) 2003, Takanori Ishikawa, and 2005-2006, BathyScaphe Project.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  CMRThreadsList.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 07/03/18.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
 
 #import "CMRThreadsList_p.h"
 #import "CMRThreadLayout.h"
 #import "BoardManager.h"
 #import "CMRDocumentFileManager.h"
 #import "CMRReplyDocumentFileManager.h"
-//#import "NSIndexSet+BSAddition.h"
 #import "missing.h"
-
 
 NSString *const CMRThreadsListDidUpdateNotification = @"ThreadsListDidUpdateNotification";
 NSString *const CMRThreadsListDidChangeNotification = @"ThreadsListDidChangeNotification";
@@ -22,35 +20,9 @@ NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserIn
 
 
 @implementation CMRThreadsList
-/*+ (id) threadsListWithBBSName : (NSString *) boardName
+- (id)init
 {
-	return [[[self alloc] initWithBBSName : boardName] autorelease];
-}
-
-- (id) initConcreateWithBBSName : (NSString *) boardName
-{
-	NSURL		*boardURL_;
-	
-	boardURL_ = [[BoardManager defaultManager] URLForBoardName : boardName];
-	if(nil == boardURL_){
-		[self autorelease];
-		return nil;
-	}
-	
-	if(self = [self init]){
-		[self setBBSName : boardName];
-	}
-	return self;
-}
-
-- (id) initWithBBSName : (NSString *) boardName
-{
-	return [self initConcreateWithBBSName : boardName];
-}
-*/
-- (id) init
-{
-	if(self = [super init]){
+	if (self = [super init]) {
 		[self registerToNotificationCenter];
 	}
 	return self;
@@ -60,71 +32,43 @@ NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserIn
 {
 	[self removeFromNotificationCenter];
 	
-//	[_BBSName release];
-	[_worker release];
-	[_threads release];
+	[self setWorker:nil];
+	[self setThreads:nil];
 	[_filteredThreads release];
-//	[_threadsInfo release];
+	_filteredThreads = nil;
+
 	[super dealloc];
 }
 
-// CMRThreadsList:
-- (void) startLoadingThreadsList : (CMRThreadLayout *) worker
+- (void)startLoadingThreadsList:(CMRThreadLayout *)worker
 {
-	[self doLoadThreadsList : worker];
+	[self doLoadThreadsList:worker];
 }
-- (CMRThreadLayout *) worker
+
+- (CMRThreadLayout *)worker
 {
 	return _worker;
 }
-- (void) setWorker : (CMRThreadLayout *) aWorker
+
+- (void)setWorker:(CMRThreadLayout *)aWorker
 {
-	id		tmp;
-	
-	tmp = _worker;
-	_worker = [aWorker retain];
-	[tmp release];
+	[aWorker retain];
+	[_worker release];
+	_worker = aWorker;
 }
 
-- (BOOL) isFavorites
+#pragma mark Abstract Methods
+- (BOOL)isFavorites
 {
 	UTILAbstractMethodInvoked;
 	return NO;
 }
-/*- (BOOL) addFavoriteAtRowIndex : (int          ) rowIndex
-				   inTableView : (NSTableView *) tableView
-{
-	NSDictionary *thread_;
-	
-	thread_ = [self threadAttributesAtRowIndex : rowIndex
-								   inTableView : tableView];
-	return [[CMRFavoritesManager defaultManager] addFavoriteWithThread : thread_];
-}*/
-/*+ (NSString *) objectValueForBoardInfoFormatKey
-{
-//	return @"Board Info Format";
-	static NSString *base_ = nil;
-	if (base_ == nil) {
-		base_ = [NSLocalizedStringFromTable(@"Board Info Format", @"ThreadsList", @"") retain];
-	}
-	return base_;
-}
 
-- (id) objectValueForBoardInfo
-{
-	NSString	*format_;
-	id			tmp;
-	
-	tmp = SGTemporaryString();
-//	format_ = [self localizedString : [[self class] objectValueForBoardInfoFormatKey]];
-	format_ = [[self class] objectValueForBoardInfoFormatKey];
-	[tmp appendFormat : format_, [self numberOfThreads]];
-	return tmp;
-}*/
-- (void) doLoadThreadsList : (CMRThreadLayout *) worker
+- (void)doLoadThreadsList:(CMRThreadLayout *)worker
 {
 	UTILAbstractMethodInvoked;
 }
+
 - (BOOL)isSmartItem
 {
 	UTILAbstractMethodInvoked;
@@ -133,176 +77,187 @@ NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserIn
 @end
 
 
-/*
-@implementation CMRThreadsList(PrivateAccessor)
-- (void) setBBSName : (NSString *) boardName
-{
-	id		tmp;
-	
-	tmp = _BBSName;
-	_BBSName = [boardName retain];
-	[tmp release];
-}
-@end
-*/
-
-
 @implementation CMRThreadsList(AccessingList)
-- (NSMutableArray *) threads
+- (NSMutableArray *)threads
 {
 	return _threads;
 }
-- (void) setThreads : (NSMutableArray *) aThreads
+
+- (void)setThreads:(NSMutableArray *)aThreads
 {
-	id tmp_;
-	
-	tmp_ = _threads;
-	_threads = [aThreads retain];
-	[tmp_ release];
+	[aThreads retain];
+	[_threads release];
+	_threads = aThreads;
 }
 
-- (NSMutableArray *) filteredThreads
+- (NSMutableArray *)filteredThreads
 {
-	if(nil == _filteredThreads) {
-		[self filterByStatus : [self filteringMask]];
+	if (!_filteredThreads) {
+		[self filterByStatus:[self filteringMask]];
 	} else if ([_filteredThreads count] == 0) {
 		return nil;
 	}
+
 	return _filteredThreads;
 }
-/*- (void) setFilteredThreads : (NSMutableArray *) aFilteredThreads
+/*
+- (void)setFilteredThreads:(NSMutableArray *)aFilteredThreads
 {
 	id tmp = _filteredThreads;
 	[self _filteredThreadsLock];
 	_filteredThreads = [aFilteredThreads retain];
 	[self _filteredThreadsUnlock];
 	[tmp release];
-}*/
-- (int) filteringMask
+}
+*/
+- (int)filteringMask
 {
 //	return [CMRPref browserStatusFilteringMask];
 	return 0;
 }
-- (void) setFilteringMask : (int) mask
+
+- (void)setFilteringMask:(int)mask
 {
 //	[CMRPref setBrowserStatusFilteringMask : mask];
 	NSLog(@"WARNING: CMRThreadsList's -setFilteringMask: is Deprecated.");
 }
-/* Accessor for _isAscending */
-- (BOOL) isAscending
+
+- (BOOL)isAscending
 {
 	return _isAscending;
 }
-- (void) setIsAscending : (BOOL) flag
+
+- (void)setIsAscending:(BOOL)flag
 {
 	_isAscending = flag;
 }
-/* Accessor for _threadsInfo */
-/*- (NSMutableDictionary *) threadsInfo
+
+- (void)toggleIsAscending
 {
-	if(nil == _threadsInfo){
-		_threadsInfo = [[NSMutableDictionary alloc] init];
-	}
-	return _threadsInfo;
+	[self setIsAscending:(![self isAscending])];
 }
-- (void) setThreadsInfo : (NSMutableDictionary *) aThreadsInfo
-{
-	[aThreadsInfo retain];
-	[_threadsInfo release];
-	_threadsInfo = aThreadsInfo;
-}*/
-- (void) toggleIsAscending
-{
-	[self setIsAscending : (NO == [self isAscending])];
-}
-- (void) sortByKey : (NSString *) key
+
+#pragma mark Abstract Method
+- (void)sortByKey:(NSString *)key
 {
 	UTILAbstractMethodInvoked;
 }
 @end
-
 
 
 @implementation CMRThreadsList(Attributes)
-/*- (NSString *) BBSName
+- (NSString *)threadsListPath
 {
-	return _BBSName;
-}*/
-- (NSString *)boardName
-{
-//	return [self BBSName];
-	UTILAbstractMethodInvoked;
-	return nil;
-}
-- (NSString *) threadsListPath
-{
-	//return [[self BBSSignature] threadsListPlistPath];
-//	return [[CMRDocumentFileManager defaultManager] threadsListPathWithBoardName : [self boardName]];
 	NSLog(@"WARNING! CMRThreadsList's -threadsListPath has been deprecated.");
 	return nil;
 }
-- (NSURL *) boardURL
+
+- (NSURL *)boardURL
 {
-	return [[BoardManager defaultManager] URLForBoardName : [self boardName]];
+	return [[BoardManager defaultManager] URLForBoardName:[self boardName]];
 }
 
-- (unsigned) numberOfThreads
+- (unsigned)numberOfThreads
 {
-	if(nil == [self threads]) return 0;
+	if (![self threads]) return 0;
 	return [[self threads] count];
 }
-- (unsigned) numberOfFilteredThreads
+
+- (unsigned)numberOfFilteredThreads
 {
-	if(nil == [self filteredThreads]) return 0;
+	if (![self filteredThreads]) return 0;
 	return [[self filteredThreads] count];
+}
+
+#pragma mark Abstract Method
+- (NSString *)boardName
+{
+	UTILAbstractMethodInvoked;
+	return nil;
 }
 @end
 
+
 @implementation CMRThreadsList(CleanUp)
-- (void) cleanUpItemsToBeRemoved : (NSArray *) files
+/*- (BOOL)tableView:(NSTableView *)tableView removeFilesAtRowIndexes:(NSIndexSet *)rowIndexes ask:(BOOL)flag
 {
-	UTILAbstractMethodInvoked;
+	NSArray	*files = [self tableView:tableView threadFilePathsArrayAtRowIndexes:rowIndexes];
+	if (flag) {
+		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+		[alert setAlertStyle:NSWarningAlertStyle];
+		[alert setMessageText:@"Are yot sure you want to delete selected thread(s)?"];
+		[alert setInformativeText:@"Log file(s) will be moved to Trash."];
+		[alert addButtonWithTitle:@"Delete"];
+		[alert addButtonWithTitle:@"Cancel"];
+		
+		[alert beginSheetModalForWindow:[tableView window]
+						  modalDelegate:self
+						 didEndSelector:@selector(removeFilesConfirmingDidEnd:returnCode:contextInfo:)
+							contextInfo:[files retain]];
+		return YES;
+	}
+	return [self tableView:tableView removeFiles:files delFavIfNecessary:YES];
 }
-/*
-- (BOOL) tableView : (NSTableView *) tableView
-	   removeItems : (NSArray	  *) rows
- delFavIfNecessary : (BOOL         ) flag
+
+- (void)removeFilesConfirmingDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
-	NSIndexSet	*indexSet = [NSIndexSet rowIndexesWithRows: rows];
-	return [self tableView: tableView removeIndexSet: indexSet delFavIfNecessary: flag];
+	if (returnCode == NSAlertFirstButtonReturn) {
+		[self tableView:nil removeFiles:(NSArray *)contextInfo delFavIfNecessary:YES];
+	}
+	[(id)contextInfo release];
 }
 */
-- (BOOL) tableView : (NSTableView	*) tableView
-	removeIndexSet : (NSIndexSet	*) indexSet
- delFavIfNecessary : (BOOL			 ) flag
-{
-	NSArray	*pathArray_;
-	pathArray_ = [self tableView:tableView threadFilePathsArrayAtRowIndexes:indexSet];
-
-	return [self tableView : tableView removeFiles : pathArray_ delFavIfNecessary : flag];
-}
-
-- (BOOL) tableView : (NSTableView	*) tableView
-	   removeFiles : (NSArray		*) files
- delFavIfNecessary : (BOOL			 ) flag
+- (BOOL)tableView:(NSTableView *)tableView removeFiles:(NSArray *)files delFavIfNecessary:(BOOL)flag
 {
 	BOOL tmp;
 
-	if(flag) {
+	if (flag) {
 		NSArray	*alsoReplyFiles_;
 
-		alsoReplyFiles_ = [[CMRReplyDocumentFileManager defaultManager] replyDocumentFilesArrayWithLogsArray : files];
-		tmp = [[CMRTrashbox trash] performWithFiles : alsoReplyFiles_ fetchAfterDeletion: NO];
+		alsoReplyFiles_ = [[CMRReplyDocumentFileManager defaultManager] replyDocumentFilesArrayWithLogsArray:files];
+		tmp = [[CMRTrashbox trash] performWithFiles:alsoReplyFiles_ fetchAfterDeletion:NO];
 	} else {
-		tmp = [[CMRTrashbox trash] performWithFiles : files fetchAfterDeletion: YES];
+		tmp = [[CMRTrashbox trash] performWithFiles:files fetchAfterDeletion:YES];
 	}
-	
+
 	return tmp;
+}
+
+- (BOOL)removeDatochiFiles
+{
+	NSMutableArray	*array = [NSMutableArray array];
+
+	NSString *folderPath = [[CMRDocumentFileManager defaultManager] directoryWithBoardName:[self boardName]];
+	NSDirectoryEnumerator *iter = [[NSFileManager defaultManager] enumeratorAtPath:folderPath];
+	CMRFavoritesManager *fm = [CMRFavoritesManager defaultManager];
+	NSString	*fileName, *filePath;
+	while (fileName = [iter nextObject]) {
+		if ([[fileName pathExtension] isEqualToString:@"thread"]) {
+			filePath = [folderPath stringByAppendingPathComponent:fileName];
+			if (![fm favoriteItemExistsOfThreadPath:filePath]) {
+				unsigned int index = [self indexOfThreadWithPath:filePath];
+				if (index == NSNotFound) {
+					[array addObject:filePath];
+				}
+			}
+		}
+	}
+
+	if ([array count] == 0) return YES;
+
+	return [self tableView:nil removeFiles:array delFavIfNecessary:YES];
+}
+
+#pragma mark Abstract Method
+- (void)cleanUpItemsToBeRemoved:(NSArray *)files
+{
+	UTILAbstractMethodInvoked;
 }
 @end
 
+
 @implementation CMRThreadsList(CMRLocalizableStringsOwner)
-+ (NSString *) localizableStringsTableName
++ (NSString *)localizableStringsTableName
 {
 	return APP_TLIST_LOCALIZABLE_FILE;
 }

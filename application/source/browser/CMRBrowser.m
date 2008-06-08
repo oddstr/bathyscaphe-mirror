@@ -9,7 +9,6 @@
 
 #import "CMRBrowser_p.h"
 #import "BSBoardInfoInspector.h"
-#import "CMRAppDelegate.h"
 
 NSString *const CMRBrowserDidChangeBoardNotification = @"CMRBrowserDidChangeBoardNotification";
 NSString *const CMRBrowserThListUpdateDelegateTaskDidFinishNotification = @"CMRBrThListUpdateDelgTaskDidFinishNotification";
@@ -27,19 +26,9 @@ CMRBrowser *CMRMainBrowser = nil;
 - (id)init
 {
 	if (self = [super init]) {
-		CMRAppDelegate *delegate = (CMRAppDelegate *)[NSApp delegate];
-
-		if([delegate shouldCascadeBrowserWindow]) {
-			[self setShouldCascadeWindows:YES];
-		} else {
-			[self setShouldCascadeWindows:NO];
-			[delegate setShouldCascadeBrowserWindow:YES];
-		}
-
 		if (!CMRMainBrowser) {
 			CMRMainBrowser = self;
 		}
-
 		[CMRPref addObserver:self forKeyPath:kObservingKey options:NSKeyValueObservingOptionNew context:kBrowserContext];
 	}
 	return self;
@@ -66,10 +55,16 @@ CMRBrowser *CMRMainBrowser = nil;
 	return displayName;
 }
 
+- (BOOL)shouldCascadeWindows
+{
+	return (CMRMainBrowser != nil);
+}
+
 - (void)exchangeOrDisposeMainBrowser
 {
 	NSArray *curWindows = [NSApp orderedWindows];
 	if (!curWindows || [curWindows count] == 0) {
+		// Dispose...
 		CMRMainBrowser = nil;
 		return;
 	}
@@ -77,7 +72,7 @@ CMRBrowser *CMRMainBrowser = nil;
 	NSEnumerator *iter_ = [curWindows objectEnumerator];
 	NSWindow *eachItem;
 	
-	while ((eachItem = [iter_ nextObject]) != nil) {
+	while (eachItem = [iter_ nextObject]) {
 		NSWindowController *winController = [eachItem windowController];
 
 		if (winController == self) {
@@ -85,14 +80,15 @@ CMRBrowser *CMRMainBrowser = nil;
 		}
 
 		if ([winController isKindOfClass:[self class]]) {
+			// exchange...
 			CMRMainBrowser = (CMRBrowser *)winController;
 			break;
 		}
 	}
 
+	// Dispose...
 	if (CMRMainBrowser == self) {
 		CMRMainBrowser = nil;
-		[(CMRAppDelegate *)[NSApp delegate] setShouldCascadeBrowserWindow:NO];
 	}
 }
 
@@ -219,9 +215,9 @@ static BOOL threadDictionaryCompare(NSDictionary *dict1, NSDictionary *dict2)
 	return threads_;
 }
 
-- (NSArray *) selectedThreadsReallySelected
+- (NSArray *)selectedThreadsReallySelected
 {
-	ThreadsListTable	*table_ = [self threadsListTable];
+/*	ThreadsListTable	*table_ = [self threadsListTable];
 	NSEnumerator	*indexIter_;
 	NSMutableArray	*threads_;
 	NSNumber		*indexNum_;
@@ -251,6 +247,14 @@ static BOOL threadDictionaryCompare(NSDictionary *dict1, NSDictionary *dict2)
 		[threads_ addObject : threadAttr_];
 	}
 	
-	return threads_;
+	return threads_;*/
+	NSTableView *tableView = [self threadsListTable];
+	NSIndexSet	*selectedRows = [tableView selectedRowIndexes];
+	CMRThreadsList	*threadsList = [self currentThreadsList];
+	if (!threadsList || !selectedRows || [selectedRows count] == 0) {
+		return [NSArray array];
+	}
+
+	return [threadsList tableView:tableView threadAttibutesArrayAtRowIndexes:selectedRows exceptingPath:nil];
 }
 @end

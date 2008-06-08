@@ -214,6 +214,7 @@ fail:
 {
 	[m_targetList updateCursor];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[super finalizeWhenInterrupted]; // 2008-03-11
 }
 	
 - (void)dlDidFinishDownloadNotification:(id)notification

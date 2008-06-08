@@ -16,11 +16,11 @@
 @interface BSDownloadTask : CMRThreadLayoutConcreateTask
 {
 	NSURL *m_targetURL;
-	BOOL m_isFinished;
+//	BOOL m_isFinished;
 	
 	double	m_contLength;
 	double	m_currentLength;
-	double	m_taskAmount;
+//	double	m_taskAmount;
 
 	NSMutableData *receivedData;
 	NSURLConnection *con;

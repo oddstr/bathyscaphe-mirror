@@ -3,7 +3,8 @@
 //  BathyScaphe
 //
 //  Created by Hori,Masaki on 06/08/06.
-//  Copyright 2006 BathyScaphe Project. All rights reserved.
+//  Copyright 2006-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import "BSDownloadTask.h"
@@ -29,6 +30,7 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 	if(self = [super init]) {
 		//
 		[self setURL:url];
+		[self setIsInProgress:YES];
 	}
 	
 	return self;
@@ -147,7 +149,8 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 		return;
 	}
 	
-	while(!m_isFinished) {
+//	while(!m_isFinished) {
+	while ([self isInProgress]) {
 		id pool = [[NSAutoreleasePool alloc] init];
 		@try {
 			[loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
@@ -180,7 +183,7 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 {
 	return NSLocalizedStringFromTable(@"Download.", @"Downloader", @"");
 }
-
+/*
 - (NSString *) messageInProgress
 {
 	return [NSString stringWithFormat:NSLocalizedStringFromTable(@"Download url(%@) (%.0fk of %.0fk)", @"Downloader", @""),
@@ -195,7 +198,7 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 - (void)setAmount:(double)doubleValue
 {
 	m_taskAmount = doubleValue;
-}
+}*/
 @end
 
 
@@ -277,6 +280,8 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 	if ([self contLength] != -1) {
 		double bar = [self currentLength]/[self contLength]*100.0;
 		[self setAmount:bar];
+		[self setMessage:[NSString stringWithFormat:NSLocalizedStringFromTable(@"Download url(%@) (%.0fk of %.0fk)", @"Downloader", @""),
+									  [[self url] path], (float)[self currentLength]/1024, (float)[self contLength]/1024]];
 	}
 }
 
@@ -291,7 +296,8 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 	// abort
 	id userInfo = [[error retain] autorelease];
 	[[NSNotificationCenter defaultCenter] postNotificationName:BSDownloadTaskFailDownloadNotification object:self userInfo:userInfo];
-	m_isFinished = YES;
+//	m_isFinished = YES;
+	[self setIsInProgress:NO];
 }
 @end
 
@@ -304,7 +310,8 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 	nc = [NSNotificationCenter defaultCenter];
 	[nc postNotificationName:name object:self];
 	
-	m_isFinished = YES;
+//	m_isFinished = YES;
+	[self setIsInProgress:NO];
 }
 
 - (void)postNotificaionWithResponse:(NSURLResponse *)response
@@ -318,7 +325,8 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 					nil];
 	[nc postNotificationName:BSDownloadTaskAbortDownloadNotification object:self userInfo:info];
 
-	m_isFinished = YES;
+//	m_isFinished = YES;
+	[self setIsInProgress:NO];
 }
 
 - (void)postNotificaionWithResponseDontFinish:(NSURLResponse *)response

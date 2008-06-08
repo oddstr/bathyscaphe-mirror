@@ -19,7 +19,6 @@
 #import <SGAppKit/BSIconAndTextCell.h>
 #import "BSBoardInfoInspector.h"
 
-@class CMRBrowserTbDelegate;
 
 @implementation CMRBrowser(ViewAccessor)
 - (CMRThreadViewer *)threadViewer
@@ -202,6 +201,15 @@
     if ([CMRThreadStatusKey isEqualToString:[column identifier]]) {
         [self setupStatusColumnWithTableColumn:column];
         return;
+    } else if ([BSThreadEnergyKey isEqualToString:[column identifier]]) {
+		BSIkioiCell *cell = [[BSIkioiCell alloc] initWithLevelIndicatorStyle:NSRelevancyLevelIndicatorStyle];
+		[cell setMaxValue:10.0];
+		[cell setMinValue:0.0];
+		[cell setEditable:NO];
+		[cell setEnabled:NO]; // Tiger
+		[column setDataCell:cell];
+		[cell release];
+        return;
     }
 
 	Class	cellClass;
@@ -228,7 +236,7 @@
 @implementation CMRBrowser(ViewInitializer)
 + (Class)toolbarDelegateImpClass
 {
-    return [CMRBrowserTbDelegate class];
+    return NSClassFromString(@"CMRBrowserTbDelegate");
 }
 
 - (NSString *)statusLineFrameAutosaveName
