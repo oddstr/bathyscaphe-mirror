@@ -19,12 +19,13 @@ static NSTimeInterval	cacheTimer;
 
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedDateFormatter);
 
-- (NSString *)niceStringFromDate:(NSDate *)date
+- (NSString *)niceStringFromDate:(NSDate *)date useTab:(BOOL)flag
 {
 	static CFDateFormatterRef	timFmtRef;
 	static CFDateFormatterRef	dayFmtRef;
 	NSString	*result_ = nil;
 	NSString	*dayStr_ = nil;
+	NSString	*format;
 
 	NSDate	*today_ = AppGetBasicDataOfToday();
 	NSComparisonResult compareToday_ = [date compare:today_];
@@ -65,7 +66,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedDateFormatter);
 	if (timStrRef == NULL) {
 		return nil;
 	}
-	result_ = [NSString stringWithFormat:@"%@\t%@", dayStr_, (NSString *)timStrRef];
+	format = flag ? @"%@\t%@" : @"%@ %@";
+	result_ = [NSString stringWithFormat:format, dayStr_, (NSString *)timStrRef];
 
 	CFRelease(timStrRef);
 	
@@ -77,12 +79,15 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedDateFormatter);
 	if (![anObject isKindOfClass:[NSDate class]]) {
 		return nil;
 	}
-	return [self niceStringFromDate:anObject];
+	return [self niceStringFromDate:anObject useTab:NO];
 }
 
 - (NSAttributedString *)attributedStringForObjectValue:(id)anObject withDefaultAttributes:(NSDictionary *)attributes
 {
-	NSString *stringValue = [self stringForObjectValue:anObject];
+	if (![anObject isKindOfClass:[NSDate class]]) {
+		return nil;
+	}
+	NSString *stringValue = [self niceStringFromDate:anObject useTab:YES];
 	if (!stringValue) return nil;
 
 	return [[[NSAttributedString alloc] initWithString:stringValue attributes:attributes] autorelease];
@@ -99,8 +104,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedDateFormatter);
 	return AppGetBasicDataOfToday();
 }
 
-#pragma mark Will be deprecated in the Future
-static NSCalendarDate *AppGetTodayCalendarDate(int *year, unsigned *month, unsigned *day)
+#pragma mark Date Calculation
+/*static NSCalendarDate *AppGetTodayCalendarDate(int *year, unsigned *month, unsigned *day)
 {
 	NSCalendarDate *today_;
 	int year_;
@@ -118,23 +123,25 @@ static NSCalendarDate *AppGetTodayCalendarDate(int *year, unsigned *month, unsig
 	
 	return today_;
 }
-
-static NSDate * AppGetBasicDataOfToday()
+*/
+static NSDate *AppGetBasicDataOfToday()
 {
-	if (cachedToday == nil || [[NSDate date] timeIntervalSinceDate: cachedToday] > cacheTimer) {
-		int year_;
+	if (!cachedToday || [[NSDate date] timeIntervalSinceDate:cachedToday] > cacheTimer) {
+/*		int year_;
 		unsigned int month_;
 		unsigned int day_;
-		NSTimeZone	*timeZone_ = [NSTimeZone localTimeZone];
-		NSCalendarDate	*tomorrow_;
+		NSTimeZone	*timeZone_ = [NSTimeZone localTimeZone];*/
+		NSDate	*tomorrow_;
 		
-		if(cachedToday) {
-			[cachedToday release]; cachedToday = nil;
+		if (cachedToday) {
+			[cachedToday release];
+			cachedToday = nil;
 		}
-		if(cachedYesterday) {
-			[cachedYesterday release]; cachedYesterday = nil;
+		if (cachedYesterday) {
+			[cachedYesterday release];
+			cachedYesterday = nil;
 		}
-
+/*
 		AppGetTodayCalendarDate(&year_, &month_, &day_);
 			
 		cachedToday = [[NSCalendarDate alloc] initWithYear: year_ month: month_ day: day_ hour: 0 minute: 0 second: 0 timeZone: timeZone_];
@@ -142,7 +149,17 @@ static NSDate * AppGetBasicDataOfToday()
 		
 		tomorrow_ = [[NSCalendarDate alloc] initWithYear: year_ month: month_ day: (day_+1) hour: 0 minute: 0 second: 0 timeZone: timeZone_];
 		cacheTimer = [tomorrow_ timeIntervalSinceNow];
-		[tomorrow_ release];
+		[tomorrow_ release];*/
+		NSCalendar *calendar = [NSCalendar currentCalendar];
+		NSDateComponents *components = [calendar components:(NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit) fromDate:[NSDate date]];
+		[components setHour:0];
+		[components setMinute:0];
+		[components setSecond:0];
+		cachedToday = [[calendar dateFromComponents:components] retain];
+
+		cachedYesterday = [[cachedToday addTimeInterval:(-60*60*24)] retain];
+		tomorrow_ = [cachedToday addTimeInterval:(60*60*24)];
+		cacheTimer = [tomorrow_ timeIntervalSinceNow];
 	}
 	return cachedToday;
 }
@@ -166,13 +183,7 @@ static NSDate * AppGetBasicDataOfToday()
 
 	if (beforeObject) {
 		if ([beforeObject isKindOfClass:[NSDate class]]) {
-			NSMutableString *tmp = [[[BSDateFormatter sharedDateFormatter] niceStringFromDate:beforeObject] mutableCopy];
-			NSRange range = [tmp rangeOfString:@"\t" options:(NSLiteralSearch|NSBackwardsSearch)];
-			if (range.location != NSNotFound) {
-				[tmp replaceCharactersInRange:range withString:@" "];
-			}
-			stringValue = [NSString stringWithString:tmp];
-			[tmp release];
+			stringValue = [[BSDateFormatter sharedDateFormatter] niceStringFromDate:beforeObject useTab:NO];
 		} else {
 			[NSException raise:NSInternalInconsistencyException
 						format:@"Value (%@) is not an instance of NSDate.", [beforeObject class]];

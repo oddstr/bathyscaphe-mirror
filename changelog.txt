@@ -1,4 +1,6 @@
 2008-06-08 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/source/composer/BSDateFormatter.m
+		NSCalendarDate ではなく NSCalendar + NSDate を使用するようにした。
 	* application/subproj/reply/account/w2chAuthenticater.[h|m]
 		●ログインしてから 24時間以上経過した場合、自動的に●ログインし直すようにした。
 	* application/source/manager/CMRDocumentController.m
