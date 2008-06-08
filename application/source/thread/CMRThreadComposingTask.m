@@ -38,6 +38,7 @@
 {
 	if (self = [self init]) {
 		[self setReader:aReader];
+		[self setThreadTitle:[[aReader threadAttributes] objectForKey:CMRThreadTitleKey]];
 	}
 	return self;
 }
@@ -54,7 +55,7 @@
 #pragma mark Accessors
 - (NSString *)threadTitle
 {
-	return _threadTitle ? _threadTitle : [[[self reader] threadAttributes] objectForKey:CMRThreadTitleKey];
+	return _threadTitle;// ? _threadTitle : [[[self reader] threadAttributes] objectForKey:CMRThreadTitleKey];
 }
 
 - (void)setThreadTitle:(NSString *)aThreadTitle
@@ -62,6 +63,7 @@
 	[aThreadTitle retain];
 	[_threadTitle release];
 	_threadTitle = aThreadTitle;
+	if (aThreadTitle) [self setMessage:[NSString stringWithFormat:[self messageFormat], aThreadTitle]];
 }
 
 - (unsigned int)callbackIndex
@@ -121,7 +123,7 @@
 {
 	return [NSString stringWithFormat:[self titleFormat], [self threadTitle]];
 }
-- (NSString *)messageInProgress
+/*- (NSString *)messageInProgress
 {
 	return [NSString stringWithFormat:[self messageFormat], [self threadTitle]];
 }
@@ -132,7 +134,7 @@
 	
 	return (double)_didComposedCount / _willComposeLength * 100.0;
 }
-
+*/
 #pragma mark Others
 - (void)postInterruptedNotification // Overriden 2008-02-18
 {
@@ -239,9 +241,10 @@
 
 	iter_ = [[buffer_ messages] objectEnumerator];
 	_didComposedCount = 0;
+	[self setAmount:0];
 	while (m = [iter_ nextObject]) {
 		_didComposedCount++;
-		
+		[self setAmount:((double)_didComposedCount / _willComposeLength * 100.0)];
 		// 省略されたレス
 		if ([m isTemporaryInvisible]) {
 			if (NSNotFound == ellipsisIndex) {
@@ -274,6 +277,7 @@
 	}
 	[self performsAppendingTextFromBuffer:textBuffer_];
 	_didComposedCount = _willComposeLength;
+	[self setAmount:100.0];
 /*	[CMRMainMessenger postNotificationName:CMRThreadComposingDidFinishNotification object:self];
 	// 2008-02-18 */
 	[[self delegate] performSelectorOnMainThread:@selector(threadComposingDidFinish:) withObject:self waitUntilDone:NO];

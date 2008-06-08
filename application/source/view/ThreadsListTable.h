@@ -9,15 +9,14 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface ThreadsListTable : NSTableView
-{
+@interface ThreadsListTable : NSTableView {
 	@private
-	NSArray	*allColumns;	// added in ShortCircuit and later.
+	NSArray	*allColumns;
 }
 
 - (NSArray *)attributesArrayForSelectedRowsExceptingPath:(NSString *)exceptingPath; // Available in SilverGull and later.
 
-// ShortCircuit Additions
+// Saving Column State
 - (NSObject<NSCoding> *)columnState;
 - (void)restoreColumnState:(NSObject *)columnState;
 - (void)setColumnWithIdentifier:(id)identifier visible:(BOOL)visible;
@@ -26,8 +25,11 @@
 - (void)removeAllColumns;
 - (void)setInitialState;
 
-// Available in Twincam Angel.
-- (IBAction)revealInFinder:(id)sender;
-// Available in SilverGull.
-- (IBAction)quickLook:(id)sender;
+// IBActions
+- (IBAction)scrollRowToTop:(id)sender;
+- (IBAction)scrollRowToEnd:(id)sender;
+- (IBAction)openInBrowser:(id)sender;
+
+- (IBAction)revealInFinder:(id)sender; // Available in Twincam Angel and later.
+- (IBAction)quickLook:(id)sender; // Available in SilverGull and later.
 @end

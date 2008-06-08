@@ -42,11 +42,11 @@
 {
 	UTILAssertNotNilArgument(cell, @"NSButtonCell");
 	
-	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_3) {
+/*	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_3) {
 		[cell setBezelStyle: NSSmallSquareBezelStyle]; // Tiger or later
 	} else {
 		[cell setBezelStyle: NSShadowlessSquareBezelStyle];
-	}
+	}*/
 	if (imageName != nil) {
 		[cell setImage: [NSImage imageAppNamed: imageName]];
 	}

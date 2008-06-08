@@ -308,11 +308,21 @@ Hope this helps...
 	[self scrollRowToVisible:0];
 }
 
-- (IBAction) scrollRowToEnd:(id)sender
+- (IBAction)scrollRowToEnd:(id)sender
 {
 	[self scrollRowToVisible:([self numberOfRows]-1)];
 }
-
+/*
+- (IBAction)deleteThread:(id)sender
+{
+	id dataSource = [self dataSource];
+	if (!dataSource || ![dataSource respondsToSelector:@selector(tableView:removeFilesAtRowIndexes:ask:)]) {
+		NSBeep();
+		return;
+	}
+	[dataSource tableView:self removeFilesAtRowIndexes:[self selectedRowIndexes] ask:(![CMRPref quietDeletion])];
+}
+*/
 - (IBAction)revealInFinder:(id)sender
 {
 	id dataSource = [self dataSource];
@@ -351,10 +361,12 @@ Hope this helps...
 {
 	SEL action = [anItem action];
 	if (action == @selector(revealInFinder:)) {
+//	if (action == @selector(revealInFinder:) || action == @selector(deleteThread:)) {
 		int selectedRow = [self selectedRow];
 		id dataSource = [self dataSource];
 
 		if (selectedRow == -1) return NO;
+//		if (!dataSource) return NO;
 		if (!dataSource || ![dataSource respondsToSelector:@selector(threadFilePathAtRowIndex:inTableView:status:)]) return NO;
 
 		ThreadStatus status;

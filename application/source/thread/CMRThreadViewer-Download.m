@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Updated by Tsutomu Sawada on 07/08/23.
-//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -72,7 +72,7 @@
 	userInfo = [notification userInfo];
 	UTILAssertNotNil(userInfo);
 
-	downloader = [notification object];
+	downloader = [[notification object] retain];
 	contents = [userInfo objectForKey:CMRDownloaderUserInfoContentsKey];
 	UTILAssertKindOfClass(downloader, ThreadTextDownloader);
 	UTILAssertKindOfClass(contents, NSString);
@@ -85,37 +85,29 @@
 
 	[[self threadAttributes] addEntriesFromDictionary:[userInfo objectForKey:CMRDownloaderUserInfoAdditionalInfoKey]];
 	[self composeDATContents:contents threadSignature:[downloader identifier] nextIndex:[downloader nextIndex]];
+	[downloader autorelease];
 }
 
 #pragma mark After Download (Some Error)
 - (void)threadTextDownloaderInvalidPerticalContents:(NSNotification *)notification
 {
 	ThreadTextDownloader	*downloader;
-	NSString				*threadTitle = @"";
 	
 	UTILAssertNotificationName(notification, ThreadTextDownloaderInvalidPerticalContentsNotification);
 
 	downloader = [[notification object] retain];
 	UTILAssertKindOfClass(downloader, ThreadTextDownloader);
 
-	threadTitle = [downloader threadTitle];
-
 	[self removeFromNotificationCeterWithDownloader:downloader];
 
-	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-	[alert setAlertStyle:NSWarningAlertStyle];
-	[alert setMessageText:[self localizedString:APP_TVIEWER_INVALID_PERT_TITLE]];
-	[alert setInformativeText:[NSString stringWithFormat:[self localizedString:APP_TVIEWER_INVALID_PERT_MSG_FMT], threadTitle]];
-	[alert addButtonWithTitle:[self localizedString:APP_TVIEWER_DEL_AND_RETRY_LABEL]];
-	[alert addButtonWithTitle:[self localizedString:APP_TVIEWER_NOT_DELETE_LABEL]];
-	[alert addButtonWithTitle:[self localizedString:APP_TVIEWER_DELETE_LABEL]];
+	NSAlert *alert = [NSAlert alertWithError:[[notification userInfo] objectForKey:@"Error"]];
 	[alert setShowsHelp:YES];
 	[alert setHelpAnchor:[self localizedString:kInvalidPerticalContentsHelpKeywordKey]];
 	[alert setDelegate:self];
 	[alert beginSheetModalForWindow:[self window]
 					  modalDelegate:self
 					 didEndSelector:@selector(threadInvalidParticalContentsSheetDidEnd:returnCode:contextInfo:)
-						contextInfo:[downloader retain]];
+						contextInfo:downloader];
 }
 
 - (void)informDatOchiWithTitleRulerIfNeeded
@@ -131,61 +123,43 @@
 	}
 }
 
-- (void)beginNotFoundAlertSheetWithDownloader:(ThreadTextDownloader *)downloader
+- (void)beginNotFoundAlertSheetWithDownloader:(ThreadTextDownloader *)downloader error:(NSError *)error
 {
-	NSURL		*threadURL;
 	NSString	*filePath;
-	NSString	*threadTitle;
-
-	threadURL = [downloader threadURL];
 	filePath = [downloader filePathToWrite];
-	threadTitle = [downloader threadTitle];
-	if (!threadTitle) threadTitle = @"";
 
 	if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
 		if ([[self threadIdentifier] isEqual:[downloader identifier]]) {
 			[(CMRAbstructThreadDocument *)[self document] setIsDatOchiThread:YES];
 			[self informDatOchiWithTitleRulerIfNeeded];
 		}
+		[downloader autorelease];
 		return;
 	}
 
-	const char *hs;
-	hs = [[threadURL host] UTF8String];
+	NSAlert *alert = [NSAlert alertWithError:error];
 
-	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-	NSString *title = [NSString stringWithFormat:[self localizedString:kNotFoundTitleKey], threadTitle];
-	NSString *info;
-	[alert setAlertStyle:NSWarningAlertStyle];
-	[alert setMessageText:title];
-	[alert addButtonWithTitle:[self localizedString:kNotFoundCancelLabelKey]];
-	if (hs != NULL && is_2channel(hs)) {
-		[alert addButtonWithTitle:[self localizedString:kNotFoundMaruLabelKey]];
-		info = [NSString stringWithFormat:[self localizedString:kNotFoundMessageFormatKey], [threadURL absoluteString]];
-	} else {
-		info = [NSString stringWithFormat:[self localizedString:kNotFoundMessageFormat2Key], [threadURL absoluteString]];
-	}
-	[alert setInformativeText:info];
 	[alert setShowsHelp:YES];
 	[alert setHelpAnchor:[self localizedString:kNotFoundHelpKeywordKey]];
 	[alert setDelegate:self];
 	[alert beginSheetModalForWindow:[self window]
 					  modalDelegate:self
 					 didEndSelector:@selector(threadNotFoundSheetDidEnd:returnCode:contextInfo:)
-						contextInfo:[downloader retain]];
+						contextInfo:downloader];
 }
 
-- (void)validateWhetherDatOchiWithDownloader:(ThreadTextDownloader *)downloader
+- (void)validateWhetherDatOchiWithDownloader:(ThreadTextDownloader *)downloader error:(NSError *)error
 {
 	unsigned	resCount;
 	resCount = [downloader nextIndex];
 
 	if (resCount < 1001) {
-		[self beginNotFoundAlertSheetWithDownloader:downloader];
+		[self beginNotFoundAlertSheetWithDownloader:downloader error:error];
 	} else {
 		if ([[self threadIdentifier] isEqual:[downloader identifier]]) {
 			[(CMRAbstructThreadDocument *)[self document] setIsDatOchiThread:YES];
 			[self informDatOchiWithTitleRulerIfNeeded];
+			[downloader autorelease];
 		}
 	}
 }
@@ -196,12 +170,12 @@
 	
 	UTILAssertNotificationName(notification, CMRDATDownloaderDidDetectDatOchiNotification);
 		
-	downloader = [notification object];
+	downloader = [[notification object] retain];
 	UTILAssertKindOfClass(downloader, CMRDATDownloader);
 
 	[self removeFromNotificationCeterWithDownloader:downloader];
 
-	[self validateWhetherDatOchiWithDownloader:downloader];
+	[self validateWhetherDatOchiWithDownloader:downloader error:[[notification userInfo] objectForKey:@"Error"]];
 }
 
 - (BOOL)alertShowHelp:(NSAlert *)alert
@@ -229,9 +203,9 @@
 	}
 	case NSAlertSecondButtonReturn: // Cancel
 		break;
-	case NSAlertThirdButtonReturn: // Delete only
+/*	case NSAlertThirdButtonReturn: // Delete only
 		[self forceDeleteThreadAtPath:path alsoReplyFile:YES];
-		break;
+		break;*/
 	default:
 		UTILUnknownSwitchCase(returnCode);
 		break;
@@ -239,7 +213,7 @@
 	[downloader autorelease];
 }
 
-- (void) threadNotFoundSheetDidEnd:(NSAlert *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)threadNotFoundSheetDidEnd:(NSAlert *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
 	id	downloader;
 	downloader = (id)contextInfo;
@@ -285,7 +259,7 @@
 	userInfo = [notification userInfo];
 	UTILAssertNotNil(userInfo);
 
-	downloader = [notification object];
+	downloader = [[notification object] retain];
 	contents = [userInfo objectForKey:CMRDownloaderUserInfoContentsKey];
 	UTILAssertKindOfClass(downloader, BSLoggedInDATDownloader);
 	UTILAssertKindOfClass(contents, NSString);
@@ -300,5 +274,6 @@
 	[(CMRAbstructThreadDocument *)[self document] setIsDatOchiThread:YES];
 
 	[self composeDATContents:contents threadSignature:[downloader identifier] nextIndex:[downloader nextIndex]];
+	[downloader autorelease];
 }
 @end

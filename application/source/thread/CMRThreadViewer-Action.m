@@ -37,7 +37,7 @@
 	NSDocumentController *docController = [NSDocumentController sharedDocumentController];
 	CMRReplyDocumentFileManager *replyDocManager = [CMRReplyDocumentFileManager defaultManager];
 
-	NSString *replyDocPath = [replyDocManager replyDocumentFilepathWithLogPath:[self path]];
+	NSString *replyDocPath = [replyDocManager replyDocumentFilepathWithLogPath:[self path] createIfNeeded:YES];
 	replyDocURL = [NSURL fileURLWithPath:replyDocPath];
 
 	document = [docController documentForURL:replyDocURL];
@@ -150,6 +150,7 @@
 	task = [[CMRThreadDownloadTask alloc] initWithThreadViewer:self];
 	[[self threadLayout] push:task];
 	[task release];
+//	[self reloadThread];
 }
 
 #pragma mark Copy Thread Info

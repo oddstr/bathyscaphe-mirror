@@ -10,6 +10,7 @@
 #import "CMRThreadDocument.h"
 #import "CMRAbstructThreadDocument_p.h"
 #import "CMRThreadViewer_p.h"
+#import "DatabaseManager.h"
 
 @implementation CMRThreadDocument
 - (id)initWithThreadViewer:(CMRThreadViewer *)viewer
@@ -26,10 +27,12 @@
 	return CMRThreadDocumentType;
 }
 
-- (NSString *)fileName
+- (NSURL *)fileURL
 {
-	NSString		*fileName_ = [[self threadAttributes] path];
-	return fileName_ ? fileName_ : [super fileName];
+	NSString		*path = [[self threadAttributes] path];
+	if (!path) return [super fileURL];
+
+	return [NSURL fileURLWithPath:path];
 }
 
 - (void)makeWindowControllers
@@ -38,84 +41,53 @@
 	
 	viewer_ = [[CMRThreadViewer alloc] init];
 	[self addWindowController:viewer_];
-	[viewer_ setThreadContentWithFilePath:[self fileName] boardInfo:nil];
+	[viewer_ setThreadContentWithFilePath:[[self fileURL] path] boardInfo:nil];
 	[viewer_ release];
 }
 
-- (BOOL)copyFileIfNeeded:(NSString *)filepath toPath:(NSString **)newpath
+- (BOOL)copyFileURL:(NSURL *)absoluteURL toURL:(NSURL **)newURL error:(NSError **)outError
 {
 	// 2007-03-29 tsawada2<ben-sawa@td5.so-net.ne.jp>
 	// ログフォルダ以外の場所にあるファイルを開くときは、
 	// いったんログフォルダにコピーして、それを開くことにしてみる。
-	NSString *folderPath = [[filepath stringByDeletingLastPathComponent] stringByDeletingLastPathComponent];
-	NSString *logFolderPath = [[CMRFileManager defaultManager] dataRootDirectoryPath];
+	NSDictionary *dict = [NSDictionary dictionaryWithContentsOfURL:absoluteURL];
+	if (!dict) return NO;
 
-	if ([folderPath isEqualToString:logFolderPath]) {
-		// No need to copy
-		if (newpath != NULL) *newpath = filepath;
+	NSString *boardName, *datNumber;
+	boardName = [dict objectForKey:ThreadPlistBoardNameKey];
+	datNumber = [dict objectForKey:ThreadPlistIdentifierKey];
+	if (!boardName || !datNumber) return NO;
+	if ([datNumber intValue] < 1) return NO;
+	NSURL *url = nil;
+	BOOL result = [[CMRDocumentFileManager defaultManager] forceCopyLogFile:absoluteURL boardName:boardName datIdentifier:datNumber destination:&url];
+
+	if (result) {
+		[[DatabaseManager defaultManager] registerThreadFromFilePath:[url path]];
+		if (newURL != NULL) *newURL = url;
 		return YES;
 	}
 
-	NSDictionary	*fileContents_;
-	NSString		*boardName;
-	NSString		*datNumber;
-	NSFileManager *fm = [NSFileManager defaultManager];
-
-	fileContents_ = [NSDictionary dictionaryWithContentsOfFile:filepath];
-	if (!fileContents_) return NO;
-	boardName = [fileContents_ objectForKey:ThreadPlistBoardNameKey];
-	if (!boardName) return NO;
-	datNumber = [fileContents_ objectForKey:ThreadPlistIdentifierKey];
-	if (!datNumber || [datNumber intValue] < 1) return NO;
-
-	NSString *fileName = [filepath lastPathComponent];
-	NSString *newLocationFolder = [logFolderPath stringByAppendingPathComponent:boardName];
-	NSString *newLocationFile = [newLocationFolder stringByAppendingPathComponent:datNumber];
-	newLocationFile = [newLocationFile stringByAppendingPathExtension:@"thread"];
-
-	if ([fm fileExistsAtPath:newLocationFile]) {
-		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-		[alert setAlertStyle:NSCriticalAlertStyle];
-		[alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"CantCopyErrMsg", @""), fileName]];
-		[alert setInformativeText:NSLocalizedString(@"CantCopyBecauseAlreadyExists", @"")];
-		[alert addButtonWithTitle:NSLocalizedString(@"Cancel", @"")];
-		[alert addButtonWithTitle:NSLocalizedString(@"Proceed", @"")];
-		if ([alert runModal] == NSAlertSecondButtonReturn) {
-			[fm removeFileAtPath:newLocationFile handler:nil];
-		} else {
-			return NO;
-		}
-	}
-
-	if ([fm copyPath:filepath toPath:newLocationFile handler:nil]) {
-		if (newpath != NULL) *newpath = newLocationFile;
-		return YES;
-	}
 	return NO;
 }
 
-//- (BOOL)readFromFile:(NSString *)filepath ofType:(NSString *)type
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
 	if ([typeName isEqualToString:CMRThreadDocumentType]) {
-		NSString *newFilePath = nil;
 		[self setFileType:CMRThreadDocumentType];
 
-		if ([self copyFileIfNeeded:[absoluteURL path] toPath:&newFilePath]) {
-//			[self setFileName:newFilePath];
-			[self setFileURL:[NSURL fileURLWithPath:newFilePath]];
+		if ([[CMRDocumentFileManager defaultManager] isInLogFolder:absoluteURL]) {
 			return YES;
+		} else {
+			NSURL *newFileURL = nil;
+			if ([self copyFileURL:absoluteURL toURL:&newFileURL error:outError]) {
+				[self setFileURL:newFileURL];
+				return YES;
+			}
 		}
 	}
 	return NO;
 }
-/*
-- (BOOL)loadDataRepresentation:(NSData *)data ofType:(NSString *)aType
-{
-	return NO;
-}
-*/
-//- (BOOL)writeToFile:(NSString *)fileName ofType:(NSString *)type
+
 - (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
 	if ([typeName isEqualToString:CMRThreadDocumentType]) {
@@ -126,17 +98,12 @@
 		fileContents_ = [NSDictionary dictionaryWithContentsOfURL:[self fileURL]];
 		if (!fileContents_) return NO;
 
-		return [fileContents_ writeToURL:absoluteURL atomically:YES];//:fileName atomically:YES];
+		return [fileContents_ writeToURL:absoluteURL atomically:YES];
 	}
 
 	return [super writeToURL:absoluteURL ofType:typeName error:outError];
 }
-/*
-- (NSData *)dataRepresentationOfType:(NSString *)aType
-{
-	return nil;
-}
-*/
+
 #pragma mark -
 + (BOOL)showDocumentWithHistoryItem:(CMRThreadSignature *)historyItem
 {

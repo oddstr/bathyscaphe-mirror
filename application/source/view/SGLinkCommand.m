@@ -122,7 +122,7 @@
 		[self setMessage:[NSString stringWithFormat:template, m_downloadedLength/rate, m_expectLength/rate]];
 	}
 
-	UTILNotifyName(CMRTaskWillProgressNotification);
+//	UTILNotifyName(CMRTaskWillProgressNotification);
 }
 
 - (void)bsURLDownloadDidFinish:(BSURLDownload *)aDownload

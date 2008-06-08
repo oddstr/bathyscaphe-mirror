@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Updated by Tsutomu Sawada on 07/08/12.
-//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -16,6 +16,7 @@
 #import <SGAppKit/BSLayoutManager.h>
 #import <SGAppKit/BSTitleRulerAppearance.h>
 #import "CMRThreadFileLoadingTask.h"
+#import "BSNavigationStatusLine.h"
 
 // for debugging only
 #define UTIL_DEBUGGING		0
@@ -44,18 +45,22 @@
 
 - (BSIndexingPopupper *)indexingPopupper
 {
-	if (!m_indexingPopupper) {
+/*	if (!m_indexingPopupper) {
 		m_indexingPopupper = [[BSIndexingPopupper alloc] init];
 	}
-	return m_indexingPopupper;
+	return m_indexingPopupper;*/
+
+	return [(BSNavigationStatusLine *)[self statusLine] indexingPopupper];
 }
 
 - (CMRIndexingStepper *)indexingStepper
 {
-	if (!m_indexingStepper) {
+/*	if (!m_indexingStepper) {
 		m_indexingStepper = [[CMRIndexingStepper alloc] init];
 	}
-	return m_indexingStepper;
+	return m_indexingStepper;*/
+
+	return [(BSNavigationStatusLine *)[self statusLine] indexingStepper];
 }
 
 - (NSView *)navigationBar
@@ -144,6 +149,11 @@
 	return APP_TVIEW_STATUSLINE_IDENTIFIER;
 }
 
++ (Class) statusLineClass
+{
+	return [BSNavigationStatusLine class];
+}
+
 #pragma mark Title Ruler
 + (BOOL)shouldShowTitleRulerView
 {
@@ -193,11 +203,13 @@
 }
 
 #pragma mark NavigationBar
-- (void)layoutNavigationBarComponents
+/*- (void)layoutNavigationBarComponents
 {
 	NSView	*popupperView, *stepperView, *statusLineView;
 	NSRect	idxStepperFrame, scrollViewFrame, idxPopupperFrame, statusBarFrame;
 	NSPoint origin_;
+
+	[[self statusLine] statusLineViewDidMoveToWindow];
 
 	popupperView = [[self indexingPopupper] contentView];
 	stepperView = [[self indexingStepper] contentView];
@@ -212,7 +224,6 @@
 
 	statusBarFrame.origin = origin_;
 	statusBarFrame.size.width = NSWidth(scrollViewFrame) - [NSScroller scrollerWidth];
-	[statusLineView setFrame: statusBarFrame];
 
 	idxPopupperFrame.origin = origin_;
 	idxPopupperFrame.size.width = statusBarFrame.size.width - NSWidth(idxStepperFrame);
@@ -221,24 +232,33 @@
 	origin_.x += NSWidth(idxPopupperFrame);
 	origin_.y += 1.0;
 	[stepperView setFrameOrigin:origin_];
-}
+}*/
 
 - (void)setupNavigationBar
 {
+	NSView *superView = [[self navigationBar] superview];
+	NSRect curFrame = [[self navigationBar] frame];
+
 	[[self indexingPopupper] setDelegate:self];
 	[[self indexingStepper] setDelegate:self];
 
+	[m_navigationBar retain];
+	[superView replaceSubview:[self navigationBar] with:[[self statusLine] statusLineView]];
+	[m_navigationBar release];
+	m_navigationBar = [[self statusLine] statusLineView];
+	[[self navigationBar] setFrame:curFrame];
+/*
 	[[self navigationBar] addSubview:[[self indexingStepper] contentView]];
 	[[self navigationBar] addSubview:[[self indexingPopupper] contentView]];	
-	[[self navigationBar] addSubview:[[self statusLine] statusLineView]];
-	
-	[self layoutNavigationBarComponents];
+*/	
+	[[self statusLine] statusLineViewDidMoveToWindow];
+//	[self layoutNavigationBarComponents];
 }
-
-- (void)statusLineDidShowTheirViews:(CMRStatusLine *)statusLine
+/*
+- (void)statusLineWillShowTheirViews:(CMRStatusLine *)statusLine
 {
 	if ([self statusLine] != statusLine) {
-		NSLog(@"WARNING: statusLineDidShowTheirViews");
+		NSLog(@"WARNING: statusLineWillShowTheirViews");
 		return;
 	}
 
@@ -247,7 +267,6 @@
 		[[[self indexingPopupper] contentView] setHidden:YES];
 	}
 
-	[[self navigationBar] setNeedsDisplayInRect:[[[self statusLine] statusLineView] frame]];	
 }
 
 - (void)statusLineDidHideTheirViews:(CMRStatusLine *)statusLine
@@ -259,9 +278,11 @@
 	if ([self shouldShowContents]) {
 		[[[self indexingStepper] contentView] setHidden:NO];
 		[[[self indexingPopupper] contentView] setHidden:NO];
+	} else {
+	[[self navigationBar] setNeedsDisplay:YES];
 	}
 }
-
+*/
 #pragma mark Others
 - (void)setupScrollView
 {

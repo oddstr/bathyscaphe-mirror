@@ -42,6 +42,9 @@
 /* 0-based */
 - (unsigned int)callbackIndex;
 - (void)setCallbackIndex:(unsigned int)aCallbackIndex;
+
+- (NSString *)titleFormat;
+- (NSString *)messageFormat;
 @end
 
 

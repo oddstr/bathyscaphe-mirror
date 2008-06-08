@@ -24,6 +24,7 @@
 {
 	if (self = [super init]) {
 		[self setFilepath:filepath];
+		[self setThreadTitle:[filepath lastPathComponent]];
 	}
 	return self;
 }
@@ -82,12 +83,12 @@
 //	[self setWillComposeLength:[reader_ numberOfMessages]];
 	[super doExecuteWithLayout:layout];
 }
-
+/*
 - (NSString *)threadTitle
 {
 	return [[self filepath] lastPathComponent];
 }
-
+*/
 - (NSString *)titleFormat
 {
 	return [self localizedString:@"%@ Loading..."];
@@ -97,9 +98,9 @@
 {
 	return [self localizedString:@"Now Loading..."];
 }
-
+/*
 - (NSString *)messageInProgress
 {
 	return [NSString stringWithFormat:[self messageFormat], [self threadTitle]];
-}
+}*/
 @end

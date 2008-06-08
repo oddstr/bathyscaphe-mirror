@@ -1,6 +1,6 @@
 //: CMXImageAttachmentCell.m
 /**
-  * $Id: CMXImageAttachmentCell.m,v 1.1 2005/05/11 17:51:08 tsawada2 Exp $
+  * $Id: CMXImageAttachmentCell.m,v 1.2 2008/06/08 04:58:46 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -87,7 +87,7 @@
 	}
 	
 	cellFrame_.origin.y += yOffset_;
-	
+
 	return cellFrame_;
 }
 @end

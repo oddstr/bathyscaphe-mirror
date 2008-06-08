@@ -1,66 +1,49 @@
-/**
-  * $Id: CMRStatusLine.h,v 1.6 2006/09/02 11:41:01 masakih Exp $
-  * 
-  * CMRStatusLine.h
-  *
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  CMRStatusLine.h
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 08/03/14.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
 
 #import <Cocoa/Cocoa.h>
 
 @protocol CMRTask;
+@class BSStatusLineView;
 
-@interface CMRStatusLine : NSObject
-{
-	//NSWindow						*_window;
+@interface CMRStatusLine : NSObject {
 	NSString						*_identifier;
 	id								_delegate;
 	
-	IBOutlet NSView					*_statusLineView;
-	IBOutlet NSTextField			*_statusTextField;
+	IBOutlet BSStatusLineView		*_statusLineView;
+//	IBOutlet NSTextField			*_statusTextField;
 	IBOutlet NSProgressIndicator	*_progressIndicator;
+	IBOutlet NSObjectController		*_objectController;
 }
 
-- (id) initWithIdentifier : (NSString *) identifier;
+- (id)initWithIdentifier:(NSString *)identifier;
 
-- (NSString *) identifier;
-- (void) setIdentifier : (NSString *) anIdentifier;
+- (NSString *)identifier;
+- (void)setIdentifier:(NSString *)anIdentifier;
 
-- (id) delegate;
-- (void) setDelegate : (id) aDelegate;
-/*
-- (NSWindow *) window;
-- (void) setWindow : (NSWindow *) aWindow
-		   visible : (BOOL) shown;
-- (void) setWindow : (NSWindow *) aWindow;
-
-- (BOOL) isVisible;
-- (void) setVisible : (BOOL) shown
-            animate : (BOOL) isAnimate;
-*/
-- (void) setInfoText : (id) aText;
+- (id)delegate;
+- (void)setDelegate:(id)aDelegate;
 
 // Action
-- (IBAction) cancel : (id) sender;
-//- (IBAction) toggleStatusLineShown : (id) sender;
+- (IBAction)cancel:(id)sender;
 
-// User defaults
-//- (NSString *) userDefaultsKeyWithKey : (NSString *) key;
-//- (NSString *) statusLineShownUserDefaultsKey;
+- (BSStatusLineView *)statusLineView;
 
-// NSUserDefaults / NSMutableDictionary ...
-//- (id) preferencesObject;
-
-- (NSView *) statusLineView;
-- (NSTextField *) statusTextField;
-- (NSProgressIndicator *) progressIndicator;
-
-- (void) setupUIComponents;
-- (void) updateStatusLineWithTask : (id<CMRTask>) aTask;
+- (void)setupUIComponents;
+- (void)statusLineViewDidMoveToWindow;
+- (void)updateUIComponentsOnTaskStarting;
+- (void)updateUIComponentsOnTaskFinishing;
 @end
 
-@interface NSObject(CMRStatusLineDelegateAddition)
-- (void) statusLineDidShowTheirViews: (CMRStatusLine *) statusLine;
-- (void) statusLineDidHideTheirViews: (CMRStatusLine *) statusLine;
+
+@interface CMRStatusLine(Private)
+//- (NSTextField *)statusTextField;
+- (NSProgressIndicator *)progressIndicator;
+- (NSObjectController *)taskObjectController;
 @end

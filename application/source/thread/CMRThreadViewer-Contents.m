@@ -10,6 +10,7 @@
 #import "CMRThreadViewer_p.h"
 #import "CMRThreadVisibleRange.h"
 #import "BSRelativeKeywordsCollector.h"
+#import "CMRHistoryManager.h"
 
 @implementation CMRThreadViewer(ThreadContents)
 - (BOOL)shouldShowContents
@@ -93,6 +94,17 @@
 
 	[newAttrs addObserver:self forKeyPath:@"visibleRange" options:NSKeyValueObservingOptionNew context:kThreadViewerAttrContext];
 	[self synchronizeAttributes];
+}
+
+- (void)addThreadTitleToHistory
+{
+	NSString *title_ = [self title];
+	UTILAssertNotNil(title_);
+
+	id identifier = [self threadIdentifier];
+	UTILAssertNotNil(identifier);
+
+	[[CMRHistoryManager defaultManager] addItemWithTitle:title_ type:CMRHistoryThreadEntryType object:identifier];
 }
 
 #pragma mark Keywords Support (Starlight Breaker Additions)
