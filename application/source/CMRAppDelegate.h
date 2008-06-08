@@ -12,12 +12,8 @@
 @interface CMRAppDelegate : NSObject
 {
 	@private
-	BOOL	m_shouldCascadeBrowserWindow;
 	NSString *m_threadPath;
 }
-
-- (BOOL)shouldCascadeBrowserWindow;
-- (void)setShouldCascadeBrowserWindow:(BOOL)flag;
 
 // Application Menu Action
 - (IBAction)checkForUpdate:(id)sender;

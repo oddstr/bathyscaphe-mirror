@@ -27,24 +27,7 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 @implementation CMRAppDelegate
 - (void)awakeFromNib
 {
-	m_shouldCascadeBrowserWindow = YES;
     [self setupMenu];
-}
-
-- (void)dealloc
-{
-	[m_threadPath release];
-	[super dealloc];
-}
-
-- (BOOL)shouldCascadeBrowserWindow
-{
-	return m_shouldCascadeBrowserWindow;
-}
-
-- (void)setShouldCascadeBrowserWindow:(BOOL)flag
-{
-	m_shouldCascadeBrowserWindow = flag;
 }
 
 - (NSString *)threadPath
@@ -57,6 +40,12 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 	[aString retain];
 	[m_threadPath release];
 	m_threadPath = aString;
+}
+
+- (void)dealloc
+{
+	[self setThreadPath:nil];
+	[super dealloc];
 }
 
 #pragma mark IBAction
@@ -213,8 +202,8 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 
 - (void)showThreadsListForBoard:(NSString *)boardName selectThread:(NSString *)path addToListIfNeeded:(BOOL)addToList
 {
-	if (CMRMainBrowser != nil) {
-		[[CMRMainBrowser window] makeKeyAndOrderFront:self];
+	if (CMRMainBrowser) {
+		[CMRMainBrowser showWindow:self];
 	} else {
 		[[CMRDocumentController sharedDocumentController] newDocument:self];
 	}
@@ -311,7 +300,6 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 	CMRMainMenuManager *menuManager = [CMRMainMenuManager defaultManager];
 //	[menuManager removeOpenRecentsMenuItem];
 	[menuManager removeQuickLookMenuItemIfNeeded];
-//	[menuManager removeShowLocalRulesMenuItemIfNeeded];
 	
 	/* BoardWarrior Task */
 	if ([defaults_ isOnlineMode] && [defaults_ autoSyncBoardList]) {
@@ -322,14 +310,6 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 	}
 
 	if ([defaults_ isOnlineMode]) [[TS2SoftwareUpdate sharedInstance] startUpdateCheck:nil];
-}
-
-- (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag
-{
-	if (!flag) {
-		m_shouldCascadeBrowserWindow = NO;
-	}
-	return YES;
 }
 @end
 
