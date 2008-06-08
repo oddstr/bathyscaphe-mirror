@@ -725,7 +725,6 @@ static NSDictionary *boardInfoWithFilepath(NSString *filepath)
 
 - (void)threadClearTaskDidFinish:(id<CMRThreadLayoutTask>)task
 {
-	NSLog(@"threadClearTaskDidFinish: called");
 	[self setThreadAttributes:nil];
 	[[self window] invalidateCursorRectsForView:[self textView]];
 	[[self textView] setNeedsDisplay:YES];
@@ -734,7 +733,6 @@ static NSDictionary *boardInfoWithFilepath(NSString *filepath)
 
 - (void)trashDidPerformNotification:(NSNotification *)notification
 {
-	NSLog(@"trashDidPerformNotification: called");
 	NSArray		*files_;
 	NSNumber	*err_;
 	NSNumber	*reload_;
