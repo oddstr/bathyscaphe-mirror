@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIHistoryManager.m,v 1.10 2008/03/07 15:13:43 tsawada2 Exp $
+//  $Id: BSIPIHistoryManager.m,v 1.11 2008/06/08 12:37:15 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/12.
@@ -303,10 +303,23 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 	}
 }
 
-- (void) copyCachedFileForTokenAtIndexes: (NSIndexSet *) indexes intoFolder: (NSString *) folderPath
+- (void)copyCachedFileForTokenAtIndexes:(NSIndexSet *)indexes intoFolder:(NSString *)folderPath
 {
-	NSArray	*tokenArray = [self cachedTokensArrayAtIndexes: indexes];
-	
+	NSArray	*tokenArray = [self cachedTokensArrayAtIndexes:indexes];
+	if (!tokenArray || [tokenArray count] == 0) return;
+
+	NSEnumerator	*iter_ = [tokenArray objectEnumerator];
+	BSIPIToken		*eachToken;
+
+	while (eachToken = [iter_ nextObject]) {
+		NSString *path = [eachToken downloadedFilePath];
+		if (!path) continue;
+		NSString *urlString = [[eachToken sourceURL] absoluteString];
+		NSString *destPath = [folderPath stringByAppendingPathComponent:[path lastPathComponent]];
+		[self copyCachedFileForPath:path toPath:destPath];
+		if (urlString) [[NSWorkspace sharedWorkspace] attachComment:urlString toFile:destPath];
+	}
+/*	
 	if (tokenArray != nil) {
 		NSArray *pathArray = [tokenArray valueForKey: @"downloadedFilePath"];
 		NSEnumerator *iter_ = [pathArray objectEnumerator];
@@ -316,7 +329,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 			if ([eachPath isEqual: [NSNull null]]) continue;
 			[self copyCachedFileForPath: eachPath toPath: [folderPath stringByAppendingPathComponent: [eachPath lastPathComponent]]];
 		}
-	}
+	}*/
 }
 
 - (BOOL) copyCachedFileForPath: (NSString *) cacheFilePath toPath: (NSString *) copiedFilePath

@@ -1,4 +1,7 @@
 2008-06-08 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/subproj/previewer/BSIPIHistoryManager.m
+		プレビューインスペクタ（2.7.5）：
+		- イメージを保存する際、ファイルの Finder コメントにダウンロード元の URL を記入するようにした。
 	* application/source/view/SGLinkCommand.m
 		リンク先のファイルをダウンロードしているとき、プログレスインジケータの表示が適切に更新されなくなっていたので修正。
 	* application/source/bbs/BoardWarrior.m
