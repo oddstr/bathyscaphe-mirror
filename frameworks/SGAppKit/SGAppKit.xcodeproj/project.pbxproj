@@ -36,7 +36,7 @@
 		876887B20B062D5000150A36 /* NSToolbar-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F57D5E1B037B6DE401A80002 /* NSToolbar-SGExtensions.m */; };
 		876887C00B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 876887BC0B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		876887C10B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 876887BD0B062DCE00150A36 /* BSTsuruPetaPopUpBtnCell.m */; };
-		876887C20B062DCE00150A36 /* BSTsuruPetaView.h in Headers */ = {isa = PBXBuildFile; fileRef = 876887BE0B062DCE00150A36 /* BSTsuruPetaView.h */; };
+		876887C20B062DCE00150A36 /* BSTsuruPetaView.h in Headers */ = {isa = PBXBuildFile; fileRef = 876887BE0B062DCE00150A36 /* BSTsuruPetaView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		876887C30B062DCE00150A36 /* BSTsuruPetaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 876887BF0B062DCE00150A36 /* BSTsuruPetaView.m */; };
 		878041DF0A52813D00979D68 /* BSLayoutManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 878041DD0A52813D00979D68 /* BSLayoutManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		878041E00A52813D00979D68 /* BSLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 878041DE0A52813D00979D68 /* BSLayoutManager.m */; };

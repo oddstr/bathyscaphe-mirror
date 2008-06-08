@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8700413A0D952ACA00A0C2FF /* BSHTTPDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 870041380D952ACA00A0C2FF /* BSHTTPDateFormatter.m */; };
+		8700413B0D952ACA00A0C2FF /* BSHTTPDateFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 870041390D952ACA00A0C2FF /* BSHTTPDateFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87D29C850991388F007D26B4 /* CMRThreadMessageAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D29C810991388F007D26B4 /* CMRThreadMessageAttributes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87D29C860991388F007D26B4 /* CMRThreadMessageAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D29C820991388F007D26B4 /* CMRThreadMessageAttributes.m */; };
 		87D29C870991388F007D26B4 /* CMRThreadMessageAttributesMask.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D29C830991388F007D26B4 /* CMRThreadMessageAttributesMask.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -56,6 +58,8 @@
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		870041380D952ACA00A0C2FF /* BSHTTPDateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSHTTPDateFormatter.m; sourceTree = "<group>"; };
+		870041390D952ACA00A0C2FF /* BSHTTPDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSHTTPDateFormatter.h; sourceTree = "<group>"; };
 		87D29C810991388F007D26B4 /* CMRThreadMessageAttributes.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = CMRThreadMessageAttributes.h; path = ../../application/source/threaddata/CMRThreadMessageAttributes.h; sourceTree = SOURCE_ROOT; };
 		87D29C820991388F007D26B4 /* CMRThreadMessageAttributes.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; name = CMRThreadMessageAttributes.m; path = ../../application/source/threaddata/CMRThreadMessageAttributes.m; sourceTree = SOURCE_ROOT; };
 		87D29C830991388F007D26B4 /* CMRThreadMessageAttributesMask.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = CMRThreadMessageAttributesMask.h; path = ../../application/source/threaddata/CMRThreadMessageAttributesMask.h; sourceTree = SOURCE_ROOT; };
@@ -92,8 +96,8 @@
 		F3B756FB0508BD6C00A80005 /* CMRHostTypes.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRHostTypes.m; sourceTree = "<group>"; };
 		F3B756FC0508BD6C00A80005 /* CMRLocalizableStringsOwner.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRLocalizableStringsOwner.h; sourceTree = "<group>"; };
 		F3B756FD0508BD6C00A80005 /* CMRLocalizableStringsOwner.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRLocalizableStringsOwner.m; sourceTree = "<group>"; };
-		F3B756FE0508BD6C00A80005 /* CMRPropertyKeys.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRPropertyKeys.h; sourceTree = "<group>"; };
-		F3B756FF0508BD6C00A80005 /* CMRPropertyKeys.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRPropertyKeys.m; sourceTree = "<group>"; };
+		F3B756FE0508BD6C00A80005 /* CMRPropertyKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRPropertyKeys.h; sourceTree = "<group>"; };
+		F3B756FF0508BD6C00A80005 /* CMRPropertyKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRPropertyKeys.m; sourceTree = "<group>"; };
 		F3B757000508BD6C00A80005 /* CMRPropertyListCoding.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRPropertyListCoding.h; sourceTree = "<group>"; };
 		F3B757010508BD6C00A80005 /* CMRResourceFileReader.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRResourceFileReader.h; sourceTree = "<group>"; };
 		F3B757020508BD6C00A80005 /* CMRResourceFileReader.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRResourceFileReader.m; sourceTree = "<group>"; };
@@ -208,6 +212,8 @@
 		F3B7571E0508BDE600A80005 /* common */ = {
 			isa = PBXGroup;
 			children = (
+				870041380D952ACA00A0C2FF /* BSHTTPDateFormatter.m */,
+				870041390D952ACA00A0C2FF /* BSHTTPDateFormatter.h */,
 				87D29C810991388F007D26B4 /* CMRThreadMessageAttributes.h */,
 				87D29C820991388F007D26B4 /* CMRThreadMessageAttributes.m */,
 				87D29C830991388F007D26B4 /* CMRThreadMessageAttributesMask.h */,
@@ -285,6 +291,7 @@
 				87D29C870991388F007D26B4 /* CMRThreadMessageAttributesMask.h in Headers */,
 				87E115310BB2D78500F3E2E1 /* BSThreadViewTheme.h in Headers */,
 				87EE091A0D812618002C3CDC /* BathyScapheErrors.h in Headers */,
+				8700413B0D952ACA00A0C2FF /* BSHTTPDateFormatter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,6 +377,7 @@
 				87D29C860991388F007D26B4 /* CMRThreadMessageAttributes.m in Sources */,
 				87E115320BB2D78500F3E2E1 /* BSThreadViewTheme.m in Sources */,
 				87EE091B0D812618002C3CDC /* BathyScapheErrors.m in Sources */,
+				8700413A0D952ACA00A0C2FF /* BSHTTPDateFormatter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

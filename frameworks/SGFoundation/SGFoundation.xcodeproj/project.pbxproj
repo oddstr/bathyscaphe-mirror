@@ -20,7 +20,6 @@
 		874A34D3086E21EF004E7805 /* SGFoundationClasses.h in Headers */ = {isa = PBXBuildFile; fileRef = F38A939B03C617F200A80002 /* SGFoundationClasses.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A34D4086E21EF004E7805 /* SGFoundationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = F38A939D03C6183700A80002 /* SGFoundationAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A34D5086E21EF004E7805 /* PrivateDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = F5DCF408037FEE3C01A80002 /* PrivateDefines.h */; };
-		874A34D7086E21EF004E7805 /* NSCalendarDate-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F5996C590379014401A80002 /* NSCalendarDate-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A34D8086E21EF004E7805 /* NSDate-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F5996C5B0379014401A80002 /* NSDate-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A34D9086E21EF004E7805 /* NSDictionary-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F5996C5E0379014401A80002 /* NSDictionary-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A34DA086E21EF004E7805 /* NSMutableDictionary-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F5996C610379014401A80002 /* NSMutableDictionary-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -58,7 +57,6 @@
 		874A3513086E21EF004E7805 /* UtkError.h in Headers */ = {isa = PBXBuildFile; fileRef = 878DB8610832758A0086BC97 /* UtkError.h */; };
 		874A3515086E21EF004E7805 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		874A3516086E21EF004E7805 /* xml_entities.plist in Resources */ = {isa = PBXBuildFile; fileRef = F5D6D5E1037E77FB01A80002 /* xml_entities.plist */; };
-		874A3519086E21EF004E7805 /* NSCalendarDate-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F5996C5A0379014401A80002 /* NSCalendarDate-SGExtensions.m */; };
 		874A351A086E21EF004E7805 /* NSDate-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F5996C5C0379014401A80002 /* NSDate-SGExtensions.m */; };
 		874A351B086E21EF004E7805 /* NSDictionary-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F5996C5F0379014401A80002 /* NSDictionary-SGExtensions.m */; };
 		874A351C086E21EF004E7805 /* NSMutableDictionary-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F5996C620379014401A80002 /* NSMutableDictionary-SGExtensions.m */; };
@@ -1016,7 +1014,6 @@
 				874A34D3086E21EF004E7805 /* SGFoundationClasses.h in Headers */,
 				874A34D4086E21EF004E7805 /* SGFoundationAdditions.h in Headers */,
 				874A34D5086E21EF004E7805 /* PrivateDefines.h in Headers */,
-				874A34D7086E21EF004E7805 /* NSCalendarDate-SGExtensions.h in Headers */,
 				874A34D8086E21EF004E7805 /* NSDate-SGExtensions.h in Headers */,
 				874A34D9086E21EF004E7805 /* NSDictionary-SGExtensions.h in Headers */,
 				874A34DA086E21EF004E7805 /* NSMutableDictionary-SGExtensions.h in Headers */,
@@ -1175,7 +1172,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				874A3519086E21EF004E7805 /* NSCalendarDate-SGExtensions.m in Sources */,
 				874A351A086E21EF004E7805 /* NSDate-SGExtensions.m in Sources */,
 				874A351B086E21EF004E7805 /* NSDictionary-SGExtensions.m in Sources */,
 				874A351C086E21EF004E7805 /* NSMutableDictionary-SGExtensions.m in Sources */,

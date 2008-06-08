@@ -1,6 +1,6 @@
 //: SGFoundationAdditions.h
 /**
-  * $Id: SGFoundationAdditions.h,v 1.4 2007/11/30 01:01:17 tsawada2 Exp $
+  * $Id: SGFoundationAdditions.h,v 1.5 2008/06/08 03:29:46 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -12,7 +12,7 @@
 #import <SGFoundation/NSMutableAttributedString-SGExtensions.h>
 
 #import <SGFoundation/NSDate-SGExtensions.h>
-#import <SGFoundation/NSCalendarDate-SGExtensions.h>
+//#import <SGFoundation/NSCalendarDate-SGExtensions.h>
 #import <SGFoundation/NSArray-SGExtensions.h>
 #import <SGFoundation/NSDictionary-SGExtensions.h>
 #import <SGFoundation/NSMutableDictionary-SGExtensions.h>

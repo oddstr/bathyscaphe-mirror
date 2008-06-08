@@ -1,3 +1,19 @@
+2008-06-08 tsawada2 <tsawada2@users.sourceforge.jp>
+	* frameworks/CocoMonar/CMF.xcodeproj/project.pbxproj
+		CocoMonar Framework:
+	* frameworks/CocoMonar/framework/src/CMRFRWKCommon.h
+		BSHTTPDateFormatter.h をインポート。
+	* frameworks/CocoMonar/framework/src/BSHTTPDateFormatter.[h|m]
+		[新規追加] NSDateFormatter のサブクラスで、RFC 1123 フォーマットの日付文字列を
+		NSDate に変換する用途に特化したもの。Mac OS X v10.4 以降での動作を前提としている。
+	* frameworks/CocoMonar/framework/src/BathyScapheErrors.h
+		DAT ダウンロード時のエラーを NSError で表現するにあたり、追加のエラーコードを列挙した。
+	* frameworks/CocoMonar/framework/src/CMRPropertyKeys.[h|m]
+		「勢い」を表す定数 BSThreadEnergyKey を定義した。
+	* frameworks/SGFoundation/SGFoundation.xcodeproj/project.pbxproj
+		SGFoundation:
+	* frameworks/SGFoundation/framework/source/extensions/SGFoundationAdditions.h
+		NSCalendarDate-SGExtension.[h|m] を使用停止とし、ヘッダから外した。
 2008-06-07 masakih <masakih@users.sourceforge.jp>
 	* application/source/manager/DatabaseManager-Notifications.m:
 	* application/source/manager/DatabaseManager.m:

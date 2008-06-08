@@ -1,9 +1,10 @@
 //: CMRPropertyKeys.m
 /**
-  * $Id: CMRPropertyKeys.m,v 1.3 2007/01/07 17:04:24 masakih Exp $
+  * $Id: CMRPropertyKeys.m,v 1.4 2008/06/08 03:29:46 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
+  * encoding="UTF-8"
   */
 
 #import "CMRPropertyKeys.h"
@@ -20,9 +21,8 @@ NSString *const ThreadPlistContentsBeProfileKey = @"BeProfileLink";
 NSString *const ThreadPlistContentsMessageKey	= @"Message";
 NSString *const CMRThreadContentsStatusKey		= @"Status";
 NSString *const CMRThreadContentsHostKey		= @"Host";
-NSString *const ThreadPlistContentsMilliSecKey  = @"MilliSec"; // available in BathyScaphe 1.1.3 and later.
-NSString *const ThreadPlistContentsDateRepKey  = @"DateRepresentation"; // available in BathyScaphe 1.1.3 and later.
-
+NSString *const ThreadPlistContentsMilliSecKey  = @"MilliSec";
+NSString *const ThreadPlistContentsDateRepKey  = @"DateRepresentation";
 
 NSString *const ThreadPlistContentsKey			= @"Contents";
 NSString *const ThreadPlistLengthKey			= @"Length";
@@ -43,7 +43,7 @@ NSString *const CMRThreadStatusKey				= @"Status";
 NSString *const CMRThreadCreatedDateKey			= @"CreatedDate";
 NSString *const CMRThreadModifiedDateKey		= @"ModifiedDate";
 
-
+NSString *const BSThreadEnergyKey = @"Ikioi";
 
 //board.plist
 NSString *const BoardPlistURLKey		= @"URL";
@@ -54,7 +54,7 @@ NSString *const BoardPlistNameKey		= @"Name";
 
 //PboardTypes
 NSString *const CMRBBSListItemsPboardType = @"CMRBBSListItemsPboardType";
-NSString *const CMRFavoritesItemsPboardType = @"CMRFavoritesItemsPboardType";
+//NSString *const CMRFavoritesItemsPboardType = @"CMRFavoritesItemsPboardType";
 NSString *const BSThreadItemsPboardType = @"BSThreadItemsPboardType";
 NSString *const BSFavoritesIndexSetPboardType = @"BSFavoritesIndexSetPboardType";
 
@@ -67,22 +67,15 @@ NSString *const CMRApplicationWillResetNotification = @"CMRApplicationWillResetN
 NSString *const CMRApplicationDidResetNotification = @"CMRApplicationDidResetNotification";
 
 @implementation NSBundle(UserAgentString)
-+ (NSString *) applicationUserAgent
++ (NSString *)applicationUserAgent
 {
-	return [NSString stringWithFormat :
-						@"%@/%@",
-						[NSBundle applicationName],
-						[NSBundle applicationVersion]];
+	return [NSString stringWithFormat:@"%@/%@", [NSBundle applicationName], [NSBundle applicationVersion]];
 }
 
-+ (NSString *) monazillaUserAgent
++ (NSString *)monazillaUserAgent
 {
 	const long	dolibVersion_ = (1 << 16);
 		
-	return [NSString stringWithFormat :
-					@"Monazilla/%d.%02d (%@)",
-					dolibVersion_ >> 16,
-					dolibVersion_ & 0xffff,
-					[self applicationUserAgent]];
+	return [NSString stringWithFormat:@"Monazilla/%d.%02d (%@)", dolibVersion_ >> 16, dolibVersion_ & 0xffff, [self applicationUserAgent]];
 }
 @end

@@ -19,6 +19,10 @@ enum {
 
 	BSDocumentWriteRequiredAttrNotFoundError = 501, // 書類に書き込むべき必須な内容が欠落
 	BSDocumentWriteNoDataError = 502, // 書類に書き込むべき内容がまったく無い
+
+	// Downloader Errors
+	BSDATDownloaderThreadNotFoundError = 404, // そんな板orスレッドないです（DAT 落ち？）
+	BSThreadTextDownloaderInvalidPartialContentsError = 416, // ダウンロードしたデータが不完全
 };
 
 extern NSString *const BSBathyScapheErrorDomain;

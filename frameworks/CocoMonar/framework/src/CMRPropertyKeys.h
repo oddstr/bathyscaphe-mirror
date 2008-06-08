@@ -1,9 +1,10 @@
 //: CMRPropertyKeys.h
 /**
-  * $Id: CMRPropertyKeys.h,v 1.3 2007/01/07 17:04:24 masakih Exp $
+  * $Id: CMRPropertyKeys.h,v 1.4 2008/06/08 03:29:46 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
+  * encoding="UTF-8"
   */
 
 #import <Foundation/Foundation.h>
@@ -29,7 +30,7 @@ extern NSString *const ThreadPlistContentsMessageKey;
 extern NSString *const ThreadPlistContentsBeProfileKey;
 extern NSString *const CMRThreadContentsStatusKey;		// NSNumber
 extern NSString *const CMRThreadContentsHostKey;
-extern NSString *const ThreadPlistContentsMilliSecKey; // integer (0-999) available in BathyScaphe 1.1.3 and later
+extern NSString *const ThreadPlistContentsMilliSecKey; // Deprecated in BathyScaphe 1.6.2 and later.
 extern NSString *const ThreadPlistContentsDateRepKey;
 
 
@@ -48,9 +49,11 @@ extern NSString *const CMRThreadStatusKey;
 extern NSString *const CMRThreadCreatedDateKey;
 extern NSString *const CMRThreadModifiedDateKey;
 
+extern NSString *const BSThreadEnergyKey; // Available in BathyScaphe 1.6.2 and later.
+
 
 extern NSString *const CMRBBSListItemsPboardType;
-extern NSString *const CMRFavoritesItemsPboardType; // Deprecated in ReinforceII and later.
+//extern NSString *const CMRFavoritesItemsPboardType; // Deprecated in ReinforceII and later.
 extern NSString *const CMRAttributeInnerLinkScheme;
 
 extern NSString *const BSFavoritesIndexSetPboardType; // Available in ReinforceII and later.
@@ -72,6 +75,6 @@ extern NSString *const BSThreadItemsPboardType; // Available in ReinforceII and 
 
 // Available in ReinforceII and later.
 @interface NSBundle(UserAgentString)
-+ (NSString *) applicationUserAgent; // e.g. "BathyScaphe/277.5"
-+ (NSString *) monazillaUserAgent; // e.g. "Monazilla(1.00) BathyScaphe/277.5"
++ (NSString *)applicationUserAgent; // e.g. "BathyScaphe/277.5"
++ (NSString *)monazillaUserAgent; // e.g. "Monazilla(1.00) BathyScaphe/277.5"
 @end
