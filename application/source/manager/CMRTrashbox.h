@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRTrashbox.h,v 1.3 2006/11/05 12:53:48 tsawada2 Exp $
+  * $Id: CMRTrashbox.h,v 1.4 2008/06/08 03:51:33 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project, all rights reserved.
@@ -11,10 +11,10 @@
 
 @interface CMRTrashbox : NSObject
 + (id) trash;
-@end
+//@end
 
-@interface CMRTrashbox(FileOperation)
-- (BOOL) performWithFiles : (NSArray *) filenames; // Deprecated. Use performWithFiles:fetchAfterDeletion: instead.
+//@interface CMRTrashbox(FileOperation)
+//- (BOOL) performWithFiles : (NSArray *) filenames; // Deprecated. Use performWithFiles:fetchAfterDeletion: instead.
 
 /* NOTE
    performWithFiles:fetchAfterDeletion: メソッド自体が、削除したファイルの再取得を行う訳ではない。
@@ -24,7 +24,7 @@
 - (BOOL) performWithFiles: (NSArray *) filenames fetchAfterDeletion: (BOOL) shouldFetch; // Available in MeteorSweeper.
 @end
 
-extern NSString *const CMRTrashboxWillPerformNotification;
+//extern NSString *const CMRTrashboxWillPerformNotification;
 extern NSString *const CMRTrashboxDidPerformNotification;
 
 extern NSString *const kAppTrashUserInfoFilesKey;

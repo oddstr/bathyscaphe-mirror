@@ -1,41 +1,35 @@
-//:CMRDocumentFileManager.m
-/**
-  *
-  * @see AppDefaults.h
-  *
-  * @author Takanori Ishikawa
-  * @author http://www15.big.or.jp/~takanori/
-  * @version 1.0.0d1 (02/09/15  9:47:47 PM)
-  *
-  */
+//
+//  CMRDocumentFileManager.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 08/03/17.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import "CMRDocumentFileManager.h"
-
 #import "CocoMonar_Prefix.h"
-#import "AppDefaults.h"
-//#import "CMRDocumentController.h"
-
-
 
 @implementation CMRDocumentFileManager
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
-- (NSString *) threadDocumentFileExtention
+- (NSString *)threadDocumentFileExtention
 {
-	// TestaRossa
-	return @"thread";//[[NSDocumentController sharedDocumentController]
-						//	firstFileExtensionFromType : CMRThreadDocumentType];
+	return @"thread";
+//	return [[NSDocumentController sharedDocumentController] firstFileExtensionFromType:CMRThreadDocumentType];
 }
 
-- (NSString *) datIdentifierWithLogPath : (NSString *) filepath
+- (NSString *)datIdentifierWithLogPath:(NSString *)filepath
 {
 	return [[filepath lastPathComponent] stringByDeletingPathExtension];
 }
-- (NSString *) boardNameWithLogPath : (NSString *) filepath
+
+- (NSString *)boardNameWithLogPath:(NSString *)filepath
 {
 	NSString		*boardName_;
 	CFMutableStringRef			normalized;
 	
-	if(!filepath) return nil;
+	if (!filepath) return nil;
 	
 	boardName_ = [filepath stringByDeletingLastPathComponent];
 	boardName_ = [boardName_ lastPathComponent];
@@ -46,48 +40,65 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	return (NSString *)normalized;
 }
 
-- (NSString *) threadPathWithBoardName : (NSString *) boardName
-                         datIdentifier : (NSString *) datIdentifier
+- (NSString *)threadPathWithBoardName:(NSString *)boardName datIdentifier:(NSString *)datIdentifier
 {
 	NSString		*filepath_;
 	
-	if(nil == boardName || nil == datIdentifier)
-		return nil;
+	if (!boardName || !datIdentifier) return nil;
 
-	filepath_ = [self directoryWithBoardName : boardName];
-	filepath_ = [filepath_ stringByAppendingPathComponent : datIdentifier];
+	filepath_ = [self directoryWithBoardName:boardName];
+	filepath_ = [filepath_ stringByAppendingPathComponent:datIdentifier];
 	filepath_ = [filepath_ stringByDeletingPathExtension];
 
-	return [filepath_ stringByAppendingPathExtension : 
-						[self threadDocumentFileExtention]];
+	return [filepath_ stringByAppendingPathExtension:[self threadDocumentFileExtention]];
 }
 
-
-
-/*- (NSString *) threadsListPathWithBoardName : (NSString *) boardName
+- (BOOL)isInLogFolder:(NSURL *)absoluteURL
 {
-	return [[self directoryWithBoardName : boardName] 
-			   stringByAppendingPathComponent : CMRThreadsListPlistFileName];
-}*/
+	SGFileRef *logFileLoc = [SGFileRef fileRefWithFileURL:absoluteURL];
+	SGFileRef *parentParentLoc = [[logFileLoc parentFileReference] parentFileReference];
+	if (!parentParentLoc) return NO;
 
-- (SGFileRef *) ensureDirectoryExistsWithBoardName : (NSString *) boardName
+	SGFileRef *logFolderLoc = [[CMRFileManager defaultManager] dataRootDirectory];
+
+	return ([parentParentLoc isEqual:logFolderLoc]);
+}
+
+- (BOOL)forceCopyLogFile:(NSURL *)absoluteURL boardName:(NSString *)boardName datIdentifier:(NSString *)datIdentifier destination:(NSURL **)outURL
+{
+	char	*target;
+	OSStatus err;
+
+	err = FSPathCopyObjectSync(
+			[[absoluteURL path] fileSystemRepresentation],
+			[[self directoryWithBoardName:boardName] fileSystemRepresentation],
+			(CFStringRef)[datIdentifier stringByAppendingPathExtension:[self threadDocumentFileExtention]],
+			&target,
+			(kFSFileOperationDefaultOptions|kFSFileOperationOverwrite)
+		  );
+
+	if (err != noErr) return NO;
+
+	if (outURL != NULL) {
+		*outURL = [NSURL fileURLWithPath:[[NSFileManager defaultManager] stringWithFileSystemRepresentation:target length:strlen(target)]];
+	}
+	return YES;
+}
+
+- (SGFileRef *)ensureDirectoryExistsWithBoardName:(NSString *)boardName
 {
 	SGFileRef	*f;
 	
-	if(nil == boardName || [boardName isEmpty])
-		return nil;
+	if (!boardName || [boardName isEmpty]) return nil;
 	
 	f = [[CMRFileManager defaultManager] dataRootDirectory];
 	f = [f fileRefWithChildName:boardName createDirectory:YES];
 	
 	return f;
 }
-- (NSString *) directoryWithBoardName : (NSString *) boardName
+
+- (NSString *)directoryWithBoardName:(NSString *)boardName
 {
-//	NSString	*filepath_;
-//	
-//	filepath_ = [[CMRFileManager defaultManager] dataRootDirectoryPath];
-//	return [filepath_ stringByAppendingPathComponent : boardName];
 	return [[self ensureDirectoryExistsWithBoardName:boardName] filepath];
 }
 @end

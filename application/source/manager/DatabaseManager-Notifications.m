@@ -26,11 +26,11 @@ NSString *const DatabaseDidFinishUpdateDownloadedOrDeletedThreadInfoNotification
 					name : ThreadTextDownloaderUpdatedNotification
 				  object : nil];*/
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-	[nc addObserver:self
+/*	[nc addObserver:self
 		   selector:@selector(cleanUpItemsToBeRemoved:)
 			   name:CMRTrashboxDidPerformNotification
 			 object:[CMRTrashbox trash]];
-	
+*/	
 	[nc addObserver:self
 		   selector:@selector(finishWriteMesssage:)
 			   name:CMRReplyMessengerDidFinishPostingNotification
@@ -149,9 +149,10 @@ NSString *const DatabaseDidFinishUpdateDownloadedOrDeletedThreadInfoNotification
 	} while (NO);
 }
 
-- (void)cleanUpItemsToBeRemoved:(NSNotification *)aNotification
+//- (void)cleanUpItemsToBeRemoved:(NSNotification *)aNotification
+- (void)cleanUpItemsWhichHasBeenRemoved:(NSArray *)files
 {
-	NSNumber *err_;
+/*	NSNumber *err_;
 	NSArray *files;
 	
 	err_ = [[aNotification userInfo] objectForKey:kAppTrashUserInfoStatusKey];
@@ -160,7 +161,7 @@ NSString *const DatabaseDidFinishUpdateDownloadedOrDeletedThreadInfoNotification
 	if ([err_ intValue] != noErr) return;
 
 	files = [[aNotification userInfo] objectForKey:kAppTrashUserInfoFilesKey];
-
+*/
 	SQLiteDB *db = [self databaseForCurrentThread];
 	NSString *query;
 	

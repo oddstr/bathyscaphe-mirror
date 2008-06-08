@@ -108,6 +108,7 @@
 
 @interface DatabaseManager(Notifications)
 - (void)threadTextDownloader:(CMRDownloader *)downloader didUpdateWithContents:(NSDictionary *)userInfo;
+- (void)cleanUpItemsWhichHasBeenRemoved:(NSArray *)files;
 @end
 
 // スレッド一覧テーブルカラムのIDからデータベース上のテーブル名を取得。

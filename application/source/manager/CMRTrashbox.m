@@ -1,10 +1,17 @@
-//:CMRTrashbox.m
+//
+//  CMRTrashbox.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 08/03/21.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import "CMRTrashbox.h"
 #import "CocoMonar_Prefix.h"
 #import <SGAppKit/SGAppKit.h>
+#import "DatabaseManager.h"
 
-// Constants
-NSString *const CMRTrashboxWillPerformNotification	= @"CMRTrashboxWillPerformNotification";
 NSString *const CMRTrashboxDidPerformNotification	= @"CMRTrashboxDidPerformNotification";
 
 NSString *const kAppTrashUserInfoFilesKey		= @"Files";
@@ -13,42 +20,28 @@ NSString *const kAppTrashUserInfoAfterFetchKey  = @"Fetch";
 
 @implementation CMRTrashbox
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(trash);
-@end
 
-
-@implementation CMRTrashbox(FileOperation)
-- (BOOL) performWithFiles: (NSArray *) filenames
+- (BOOL)performWithFiles:(NSArray *)filenames fetchAfterDeletion:(BOOL)shouldFetch
 {
-	return [self performWithFiles: filenames fetchAfterDeletion: NO];
-}
+	BOOL				isSucceeded;
+	NSMutableDictionary	*info;
+	OSErr				err;
+	
+	if (!filenames || [filenames count] == 0) return NO;
+	
+	isSucceeded = [[NSWorkspace sharedWorkspace] moveFilesToTrash:filenames];
+	err = isSucceeded ? noErr : -1;
 
-- (BOOL) performWithFiles: (NSArray *) filenames fetchAfterDeletion: (BOOL) shouldFetch
-{
-	BOOL				isSucceeded_;
-	NSMutableDictionary	*info_;
-	NSNumber			*fetch_;
-	OSErr				error_;
-	
-	if(nil == filenames || 0 == [filenames count]) return NO;
-	
-	fetch_ = [NSNumber numberWithBool: shouldFetch];
-	
-	info_ = [NSMutableDictionary dictionaryWithObjectsAndKeys: filenames, kAppTrashUserInfoFilesKey,
-															   fetch_, kAppTrashUserInfoAfterFetchKey, NULL];
-	UTILNotifyInfo(
-		CMRTrashboxWillPerformNotification,
-		info_);
-	
-	isSucceeded_ = [[NSWorkspace sharedWorkspace] moveFilesToTrash : filenames];
-	error_ = isSucceeded_ ? noErr : -1;
+	info = [NSDictionary dictionaryWithObjectsAndKeys:filenames, kAppTrashUserInfoFilesKey,
+		[NSNumber numberWithBool:shouldFetch], kAppTrashUserInfoAfterFetchKey, 
+		[NSNumber numberWithInt:err], kAppTrashUserInfoStatusKey, NULL];
 
-	[info_ setObject : [NSNumber numberWithInt : error_]
-			  forKey : kAppTrashUserInfoStatusKey];
+	if (isSucceeded) [[DatabaseManager defaultManager] cleanUpItemsWhichHasBeenRemoved:filenames];
 
 	UTILNotifyInfo(
 		CMRTrashboxDidPerformNotification,
-		info_);
+		info);
 	
-	return isSucceeded_;
+	return isSucceeded;
 }
 @end

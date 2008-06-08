@@ -24,7 +24,6 @@
 
 - (NSDocument *)documentAlreadyOpenForURL:(NSURL *)absoluteDocumentURL
 {
-	// 将来は NSURL-base に書き換えるべき
 	NSArray			*documents;
 	NSEnumerator	*iter;
 	NSDocument		*document;

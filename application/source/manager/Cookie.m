@@ -1,6 +1,6 @@
 //:Cookie.m
 #import "Cookie.h"
-
+#import <CocoMonar/BSHTTPDateFormatter.h>
 
 
 //////////////////////////////////////////////////////////////////////
@@ -268,7 +268,8 @@
 - (NSDate *) expiresDate
 {
 	if(nil == [self expires]) return nil;
-	return [NSCalendarDate dateWithHTTPTimeRepresentation : [self expires]];
+//	return [NSCalendarDate dateWithHTTPTimeRepresentation : [self expires]];
+	return [[BSHTTPDateFormatter sharedHTTPDateFormatter] dateFromString:[self expires]];
 }
 
 //クッキーの設定

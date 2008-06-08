@@ -763,6 +763,29 @@ abort:
 	boardID = [boardIDs objectAtIndex: 0];
 
 	SQLiteDB *db = [self databaseForCurrentThread];
+
+	if ([self isThreadIdentifierRegistered:datString onBoardID:[boardID unsignedIntValue]]) {
+		NSMutableString *sql;
+
+		sql = [NSMutableString stringWithFormat:@"UPDATE %@ ", ThreadInfoTableName];
+		[sql appendFormat:@"SET %@ = %u, %@ = %u, %@ = %u, %@ = %.0lf ",
+			NumberOfAllColumn, count,
+			NumberOfReadColumn, count,
+			ThreadStatusColumn, ThreadLogCachedStatus,
+			ModifiedDateColumn, date];
+		[sql appendFormat:@"WHERE %@ = %u AND %@ = %@",
+			BoardIDColumn, [boardID unsignedIntValue], ThreadIDColumn, datString];
+		
+		[db cursorForSQL:sql];
+		
+		if ([db lastErrorID] != 0) {
+			NSLog(@"Fail to update. Reason: %@", [db lastError] );
+			return NO;
+		}
+
+		[self makeThreadsListsUpdateCursor];
+		return YES;
+	}
 	
 	if (db && [db beginTransaction]) {
 		// reservedInsert

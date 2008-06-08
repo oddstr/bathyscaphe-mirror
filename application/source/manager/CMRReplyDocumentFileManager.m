@@ -1,36 +1,28 @@
-//:CMRReplyDocumentFileManager.m
-/**
-  *
-  * @see AppDefaults.h
-  * @see CMRThreadAttributes.h
-  *
-  * @author Takanori Ishikawa
-  * @author http://www15.big.or.jp/~takanori/
-  * @version 1.0.0d1 (02/09/15  9:47:47 PM)
-  *
-  */
+//
+//  CMRReplyDocumentFileManager.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 08/03/22.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import "CMRReplyDocumentFileManager.h"
 #import "CocoMonar_Prefix.h"
 #import "CMRDocumentFileManager.h"
-
 #import "CMRThreadAttributes.h"
 #import "BoardManager.h"
-
-#import <AppKit/NSDocumentController.h>
+//#import <AppKit/NSDocumentController.h>
 
 #define REPLY_MESSENGER_DOCUMENT_FOLDER_NAME	@"reply"
 
 
 @implementation CMRReplyDocumentFileManager
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager)
-@end
 
-
-
-@implementation CMRReplyDocumentFileManager(DocumentTypes)
-+ (NSArray *) documentAttributeKeys
++ (NSArray *)documentAttributeKeys
 {
-	return [NSArray arrayWithObjects :
+	return [NSArray arrayWithObjects:
 		ThreadPlistBoardNameKey,
 		CMRThreadTitleKey,
 		ThreadPlistIdentifierKey,
@@ -41,121 +33,119 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager)
 		CMRThreadModifiedDateKey,
 		nil];
 }
-- (BOOL) replyDocumentFileExistsAtPath : (NSString *) path
+
+- (BOOL)replyDocumentFileExistsAtPath:(NSString *)path
 {
-	BOOL	isDirectory_;
+	BOOL	isDir;
 	
-	if([[NSFileManager defaultManager] fileExistsAtPath : path
-											isDirectory : &isDirectory_]){
-		return (NO == isDirectory_);
+	if ([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
+		return (!isDir);
 	}
 	return NO;
 }
-- (BOOL) createDocumentFileIfNeededAtPath : (NSString     *) filepath
-                              contentInfo : (NSDictionary *) contentInfo
+
+- (BOOL)createDocumentFileIfNeededAtPath:(NSString *)filepath contentInfo:(NSDictionary *)contentInfo
 {
-	NSArray				*requireKeys_;	// èëóﬁÇ…ãLò^Ç∑ÇÈëÆê´ÇÃÉLÅ[
+	NSArray				*requireKeys_;	// Êõ∏È°û„Å´Ë®òÈå≤„Åô„ÇãÂ±ûÊÄß„ÅÆ„Ç≠„Éº
 	NSEnumerator		*iter_;
 	NSString			*key_;
+	NSString			*datIdentifier_;
 	NSMutableDictionary	*fileContents_;
 	
 	UTILAssertNotNilArgument(filepath, @"filepath");
 	UTILAssertNotNilArgument(contentInfo, @"contentInfo");
-	if([self replyDocumentFileExistsAtPath : filepath])
-		return YES;
+
+	if ([self replyDocumentFileExistsAtPath:filepath]) return YES;
 	
 	fileContents_ = [NSMutableDictionary dictionary];
-	
-	
-	requireKeys_ = [NSArray arrayWithObjects :
-		ThreadPlistBoardNameKey,
-		CMRThreadTitleKey,
-		nil];
-	
+		
+	requireKeys_ = [NSArray arrayWithObjects:ThreadPlistBoardNameKey, CMRThreadTitleKey, nil];
 	
 	iter_ = [[[self class] documentAttributeKeys] objectEnumerator];
-	while(key_ = [iter_ nextObject]){
+	while (key_ = [iter_ nextObject]) {
 		id				value_;
 		
-		if([requireKeys_ containsObject : key_]){
-			value_ = [contentInfo objectForKey : key_];
+		if ([requireKeys_ containsObject:key_]){
+			value_ = [contentInfo objectForKey:key_];
 			UTILAssertNotNil(value_);
-		}else{
+		} else {
 			value_ = @"";
 		}
-		[fileContents_ setObject : value_
-						  forKey : key_];
+		[fileContents_ setObject:value_ forKey:key_];
 	}
-	{
-		NSString		*datIdentifier_;
 		
-		datIdentifier_ = [CMRThreadAttributes identifierFromDictionary:contentInfo];
-		[fileContents_ setNoneNil : datIdentifier_
-						   forKey : ThreadPlistIdentifierKey];
-	}
+	datIdentifier_ = [CMRThreadAttributes identifierFromDictionary:contentInfo];
+	[fileContents_ setNoneNil:datIdentifier_ forKey:ThreadPlistIdentifierKey];
+
 	BoardManager		*bm_;
 	NSString			*board_;
 	bm_ = [BoardManager defaultManager];
-	board_ = [contentInfo objectForKey : ThreadPlistBoardNameKey];
+	board_ = [contentInfo objectForKey:ThreadPlistBoardNameKey];
 
-	[fileContents_ setObject : [bm_ defaultKotehanForBoard : board_]
-					  forKey : ThreadPlistContentsNameKey];
-	[fileContents_ setObject : [bm_ defaultMailForBoard : board_]
-					  forKey : ThreadPlistContentsMailKey];
+	[fileContents_ setObject:[bm_ defaultKotehanForBoard:board_] forKey:ThreadPlistContentsNameKey];
+	[fileContents_ setObject:[bm_ defaultMailForBoard:board_] forKey:ThreadPlistContentsMailKey];
 	
 	return [fileContents_ writeToFile:filepath atomically:YES];
 }
 
-- (NSString *) replyDocumentDirectoryWithBoardName : (NSString *) boardName
+- (NSString *)replyDocumentDirectoryWithBoardName:(NSString *)boardName createIfNeeded:(BOOL)flag
 {
-	SGFileRef *logFolderRef = [[CMRDocumentFileManager defaultManager] ensureDirectoryExistsWithBoardName : boardName];
-	SGFileRef *replyFolderRef = [logFolderRef fileRefWithChildName: REPLY_MESSENGER_DOCUMENT_FOLDER_NAME createDirectory:YES];
-	return [replyFolderRef filepath];
+	SGFileRef *logFolderRef = [[CMRDocumentFileManager defaultManager] ensureDirectoryExistsWithBoardName:boardName];
+	SGFileRef *replyFolderRef = [logFolderRef fileRefWithChildName:REPLY_MESSENGER_DOCUMENT_FOLDER_NAME createDirectory:flag];
+	return replyFolderRef ? [replyFolderRef filepath] : nil;
 }
-- (NSString *) replyDocumentFileExtention
+
+- (NSString *)replyDocumentFileExtention
 {
-	// TestaRossa
-	return @"cmreply";//[[NSDocumentController sharedDocumentController]
-						//	firstFileExtensionFromType : CMRReplyDocumentType];
+	return @"cmreply";
+//	[[NSDocumentController sharedDocumentController] firstFileExtensionFromType:CMRReplyDocumentType];
 }
-- (NSString *) replyDocumentFilepathWithLogPath : (NSString *) filepath
+
+- (NSString *)replyDocumentFilepathWithLogPath:(NSString *)filepath createIfNeeded:(BOOL)flag
 {
 	NSString		*path_;
 	NSString		*boardName_;
 	NSString		*datIdentifier_;
+	CMRDocumentFileManager	*docManager = [CMRDocumentFileManager defaultManager];
 	
-	boardName_ = [[CMRDocumentFileManager defaultManager] boardNameWithLogPath : filepath];
-	path_ = [self replyDocumentDirectoryWithBoardName : boardName_];
+	boardName_ = [docManager boardNameWithLogPath:filepath];
+	path_ = [self replyDocumentDirectoryWithBoardName:boardName_ createIfNeeded:flag];
 	
-	if(nil == path_) return nil;
+	if (!path_) return nil; // flag „Åå NO „Åß„ÄÅreply „Éï„Ç©„É´„ÉÄ„ÅåÂ≠òÂú®„Åó„Å™„ÅÑÂ†¥Âêà„Å™„Å©
 	
-	datIdentifier_ = [[CMRDocumentFileManager defaultManager]
-						datIdentifierWithLogPath : filepath];
-	path_ = [path_ stringByAppendingPathComponent : datIdentifier_];
-	path_ = [path_ stringByAppendingPathExtension : 
-						[self replyDocumentFileExtention]];
-	
+	datIdentifier_ = [docManager datIdentifierWithLogPath:filepath];
+	path_ = [path_ stringByAppendingPathComponent:datIdentifier_];
+	path_ = [path_ stringByAppendingPathExtension:[self replyDocumentFileExtention]];
+
 	return path_;
 }
-
-// ÉçÉOÉtÉ@ÉCÉãÉpÉXÇÃîzóÒÇìnÇ∑Ç∆ÅAÇªÇÍÇ…â∫èëÇ´ÉtÉ@ÉCÉãÅië∂ç›Ç∑ÇÍÇŒÅjÇÃÉpÉXÇí«â¡ÇµÇΩîzóÒÇï‘Ç∑
-- (NSArray *) replyDocumentFilesArrayWithLogsArray : (NSArray *) logfiles
+/*
+- (NSURL *)replyDocumentURLWithLogURL:(NSURL *)absoluteURL
 {
-	NSEnumerator		*iter_;
-	NSMutableArray		*pathArray_;
-	NSString			*path_;
+	if (!absoluteURL || ![absoluteURL isFileURL]) return nil;
+
+	NSString *path = [absoluteURL path];
+	NSString *replyPath = [self replyDocumentFilepathWithLogPath:path createIfNeeded:YES];
+	if (!path) return nil;
+	return [NSURL fileURLWithPath:path];
+}
+*/
+// „É≠„Ç∞„Éï„Ç°„Ç§„É´„Éë„Çπ„ÅÆÈÖçÂàó„ÇíÊ∏°„Åô„Å®„ÄÅ„Åù„Çå„Å´‰∏ãÊõ∏„Åç„Éï„Ç°„Ç§„É´ÔºàÂ≠òÂú®„Åô„Çå„Å∞Ôºâ„ÅÆ„Éë„Çπ„ÇíËøΩÂä†„Åó„ÅüÈÖçÂàó„ÇíËøî„Åô
+- (NSArray *)replyDocumentFilesArrayWithLogsArray:(NSArray *)logfiles
+{
+	NSEnumerator	*iter_;
+	NSMutableArray	*pathArray_;
+	NSString		*path_;
+	NSString		*replyPath_;
 	
 	iter_ = [logfiles objectEnumerator];
-	pathArray_ = [NSMutableArray array];
+	pathArray_ = [NSMutableArray arrayWithArray:logfiles];
 
-	while ((path_ = [iter_ nextObject]) != nil) {
-		NSString		*replyPath_;
-		
-		[pathArray_ addObject : path_];
-		
-		replyPath_ = [self replyDocumentFilepathWithLogPath : path_];
-		if([self replyDocumentFileExistsAtPath : replyPath_])
-			[pathArray_ addObject : replyPath_];
+	while (path_ = [iter_ nextObject]) {		
+		replyPath_ = [self replyDocumentFilepathWithLogPath:path_ createIfNeeded:NO];
+		if (replyPath_ && [self replyDocumentFileExistsAtPath:replyPath_]) {
+			[pathArray_ addObject:replyPath_];
+		}
 	}
 	
 	return pathArray_;

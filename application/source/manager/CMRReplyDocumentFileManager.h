@@ -1,34 +1,27 @@
-//:CMRReplyDocumentFileManager.h
-/**
-  *
-  * 
-  *
-  * @author  Takanori Ishikawa
-  * @author  http://www15.big.or.jp/~takanori/
-  * @version Sun Sep 15 2002
-  *
-  */
+//
+//  CMRReplyDocumentFileManager.h
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 08/03/22.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import <Foundation/Foundation.h>
 
-
-@interface CMRReplyDocumentFileManager : NSObject
-{
+@interface CMRReplyDocumentFileManager : NSObject {
 
 }
-+ (id) defaultManager;
-@end
++ (id)defaultManager;
 
++ (NSArray *)documentAttributeKeys;
 
+- (BOOL)replyDocumentFileExistsAtPath:(NSString *)path;
+- (BOOL)createDocumentFileIfNeededAtPath:(NSString *)filepath contentInfo:(NSDictionary *)contentInfo;
 
-@interface CMRReplyDocumentFileManager(DocumentTypes)
-+ (NSArray *) documentAttributeKeys;
-- (BOOL) replyDocumentFileExistsAtPath : (NSString *) path;
-- (BOOL) createDocumentFileIfNeededAtPath : (NSString     *) filepath
-                              contentInfo : (NSDictionary *) contentInfo;
+- (NSString *)replyDocumentFileExtention;
+- (NSString *)replyDocumentDirectoryWithBoardName:(NSString *)boardName createIfNeeded:(BOOL)flag;
+- (NSString *)replyDocumentFilepathWithLogPath:(NSString *)filepath createIfNeeded:(BOOL)flag;
 
-- (NSString *) replyDocumentFileExtention;
-- (NSString *) replyDocumentDirectoryWithBoardName : (NSString *) boardName;
-- (NSString *) replyDocumentFilepathWithLogPath : (NSString *) filepath;
-
-- (NSArray *) replyDocumentFilesArrayWithLogsArray : (NSArray *) logfiles;
+- (NSArray *)replyDocumentFilesArrayWithLogsArray:(NSArray *)logfiles;
 @end
