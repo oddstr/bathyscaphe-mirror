@@ -65,7 +65,9 @@ static BOOL shouldCheckItemHeader(id dict);
 {
 	id temp = amountString;
 	@synchronized(self) {
+		[self willChangeValueForKey:@"message"];
 		amountString = [str retain];
+		[self didChangeValueForKey:@"message"];
 	}
 	[temp release];
 }
@@ -81,7 +83,9 @@ static BOOL shouldCheckItemHeader(id dict);
 {
 	id temp = descString;
 	@synchronized(self) {
+		[self willChangeValueForKey:@"message"];
 		descString = [str retain];
+		[self didChangeValueForKey:@"message"];
 	}
 	[temp release];
 }
@@ -93,7 +97,8 @@ static BOOL shouldCheckItemHeader(id dict);
 	}
 	return result;
 }
-- (NSString *) messageInProgress
+- (NSString *)message
+//- (NSString *) messageInProgress
 {
 	NSString *descStr = [self descString];
 	NSString *amountStr = [self amountString];
@@ -168,7 +173,8 @@ static BOOL shouldCheckItemHeader(id dict);
 		
 		if([response statusCode] == 200) {
 			newMod = [[response allHeaderFields] objectForKey:BSFavHEADerLMKey];
-			NSCalendarDate	*dateLastMod = [NSCalendarDate dateWithHTTPTimeRepresentation : newMod];
+//			NSCalendarDate	*dateLastMod = [NSCalendarDate dateWithHTTPTimeRepresentation : newMod];
+			NSDate *dateLastMod = [[BSHTTPDateFormatter sharedHTTPDateFormatter] dateFromString:newMod];
 			NSDate *prevMod = [NSDate dateWithTimeIntervalSince1970:[modDate intValue]];
 			if([dateLastMod isAfterDate:prevMod]) {
 				[updatedThreads addObject:thread];

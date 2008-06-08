@@ -259,7 +259,6 @@
 			 performSelector : @selector(doDeleteAllMessages)
 				  withResult : YES];
 	// 2008-02-18 */
-	NSLog(@"CMRThreadLayoutTask - doExecuteLayout: called");
 	[layout performSelectorOnMainThread:@selector(doDeleteAllMessages) withObject:nil waitUntilDone:YES];
 	[[self delegate] performSelectorOnMainThread:@selector(threadClearTaskDidFinish:) withObject:self waitUntilDone:YES];
 }

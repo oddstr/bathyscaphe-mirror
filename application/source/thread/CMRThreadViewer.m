@@ -203,7 +203,6 @@ static NSDictionary *boardInfoWithFilepath(NSString *filepath)
 
 - (void)loadFromContentsOfFile:(NSString *)filepath
 {
-	NSLog(@"loadFromContentsOfFile: called");
 	SGFileRef			*fileRef_;
 	NSString			*actualPath_;
 	
@@ -214,10 +213,10 @@ static NSDictionary *boardInfoWithFilepath(NSString *filepath)
 	// ファイル参照は存在しないファイルには作られない
 	// 
 	if (!actualPath_) {
-		NSLog(@"actualPath check -- FILE NOT EXISTS");
+//		NSLog(@"actualPath check -- FILE NOT EXISTS");
 		[self fileNotExistsAutoReloadIfNeeded];
 	} else {
-		NSLog(@"actualPath check -- FILE DOES EXIST");
+//		NSLog(@"actualPath check -- FILE DOES EXIST");
 		CMRThreadFileLoadingTask	*task_;
 		task_ = [CMRThreadFileLoadingTask taskWithFilepath:actualPath_];
 		[task_ setIdentifier:actualPath_];

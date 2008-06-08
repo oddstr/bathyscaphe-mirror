@@ -35,6 +35,7 @@
 	* application/source/thread/CMRThreadFileLoadingTask.m
 	* application/source/thread/CMRThreadLayoutTask.m
 		CMRTask 関連：KVO 対応。
+		- BSBoardListItemHEADCheckTask.m については NSCalendarDate ではなく BSHTTPDateFormatter を使うようにもした。
 	* application/source/thread/CMRThreadDocument.m
 		ソースの整理と、NSURL ベースに一部書き換え（CMRDocumentFileManager.m の変更点とも関連）。
 	* application/source/thread/CMRThreadViewer-Action.m
@@ -45,7 +46,6 @@
 		- 未取得のスレッドをオフラインモードで開き（このとき、空白のウインドウが開く）、それから「スレッドを更新」
 		して内容を取得したとき。
 		- 未取得のスレッドを（オンラインでも）既存のスレッドウインドウにドラッグ＆ドロップして表示させたとき。
-
 	* application/source/thread/CMRThreadViewer-Download.m
 		不要な retain の解消、エラー処理の見直しなど。
 		-「あぼーんで再取得が必要です」および「dat 落ちっぽいです、●で取得してみる？」のエラーについては、 	

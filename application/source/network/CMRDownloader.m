@@ -220,7 +220,6 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 {
 	NSURLConnection *con;
 	NSURL			*resourceURL = [self resourceURL];
-	NSLog(@"loadInBakground cakked");
 	
 	/* check */
 	if ([[CMRNetGrobalLock sharedInstance] has:resourceURL]) {
@@ -315,7 +314,6 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
     NSHTTPURLResponse *http = (NSHTTPURLResponse *)response;
 	int status = [http statusCode];
 	m_expectedLength = [http expectedContentLength];
-	NSLog(@"expected length: %.2f", m_expectedLength);
 	UTIL_DEBUG_WRITE1(@"HTTP Status: %i", status);
 
 	[self synchronizeServerClock:http];
@@ -363,14 +361,12 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-	NSLog(@"connection:didReceiveData:");
 	double foo = -1;
 	[[self resourceData] appendData:data];
 	if (m_expectedLength != -1) {
 		foo = [[self resourceData] length]/m_expectedLength*100.0;
 		if (foo > 100.0) foo = 100.0;
 	}
-	NSLog(@"%.2f", foo);
 	[self setAmount:foo];
 }
 
