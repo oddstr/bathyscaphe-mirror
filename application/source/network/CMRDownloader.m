@@ -1,9 +1,9 @@
 //
 //  CMRDownloader.m
-//  BathyScaphe "Twincam Angel"
+//  BathyScaphe
 //
 //  Updated by Tsutomu Sawada on 07/07/22.
-//  Copyright 2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2007-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -57,7 +57,7 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 	defaultHeaders_ = [[self class] defaultRequestHeaders];
 	UTILAssertNotNil(defaultHeaders_);
 	
-	[self setupRequestHeaders : defaultHeaders_];
+	[self setupRequestHeaders:defaultHeaders_];
 	return defaultHeaders_;
 }
 
@@ -147,10 +147,12 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 
 - (void)cancelDownloadWithInvalidPartial
 {
+	// Subclass should override this method.
 }
 
 - (void)cancelDownloadWithDetectingDatOchi
 {
+	// Subclass should override this method.
 }
 @end
 
@@ -218,6 +220,7 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 {
 	NSURLConnection *con;
 	NSURL			*resourceURL = [self resourceURL];
+	NSLog(@"loadInBakground cakked");
 	
 	/* check */
 	if ([[CMRNetGrobalLock sharedInstance] has:resourceURL]) {
@@ -238,7 +241,6 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 //	[self retain];
 	[self setCurrentConnector:con];
 	/* -------------- */
-	
 	[self postTaskWillStartNotification];
 }
 
@@ -247,14 +249,13 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 	NSURL			*resourceURL = [self resourceURL];
 	
 	[self setIsInProgress:NO];
-	[self postTaskDidFinishNotification];
 
     [[CMRNetGrobalLock sharedInstance] remove:resourceURL];
 
 	[self setCurrentConnector:nil];
 	[self setResourceData:nil];
 
-//	[self autorelease];
+	[self postTaskDidFinishNotification];
 }
 
 - (BOOL)dataProcess:(NSData *)resourceData withConnector:(NSURLConnection *)connector
@@ -275,33 +276,25 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 	[self didFinishLoading];
 }
 
-- (void) cancelDownloadWithPostingNotificationName:(NSString *)name
-{
-//	[self retain];
-	UTILNotifyName(name);
-//	[self autorelease];
-}
-
 /* synchronize computer time with server. */
 - (void)synchronizeServerClock:(NSHTTPURLResponse *)response
 {
-//	NSLog(@"-[CMRDownloader synchrozineServerClock:] called.");
 	UTILAssertKindOfClass(response, NSHTTPURLResponse);
-
+	CMRServerClock *clock = [CMRServerClock sharedInstance];
 	NSString *dateString;
 	NSDate *date;
 
 	dateString = [[response allHeaderFields] stringForKey:HTTP_DATE_KEY];
-	date = [NSCalendarDate dateWithHTTPTimeRepresentation:dateString];
+	date = [[BSHTTPDateFormatter sharedHTTPDateFormatter] dateFromString:dateString];
 
-	[[CMRServerClock sharedInstance] updateClock:date forURL:[response URL]];
-	[[CMRServerClock sharedInstance] setLastAccessedDate:date forURL:[self resourceURL]];
+	[clock updateClock:date forURL:[response URL]];
+	[clock setLastAccessedDate:date forURL:[self resourceURL]];
 }
 @end
 
 
 @implementation CMRDownloader(NSURLConnectionDelegate)
-// Leopard ‘Îô
+// Leopard
 - (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse
 {
 	if (!redirectResponse) {
@@ -310,8 +303,9 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 	if ([(NSHTTPURLResponse *)redirectResponse statusCode] == 302) {
 		[connection cancel];
 		[self setMessage:[self localizedDetectingDatOchiString]];
-		[self didFinishLoading];
 		[self cancelDownloadWithDetectingDatOchi];
+
+		[self didFinishLoading];
 	}
 	return nil;
 }
@@ -321,6 +315,7 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
     NSHTTPURLResponse *http = (NSHTTPURLResponse *)response;
 	int status = [http statusCode];
 	m_expectedLength = [http expectedContentLength];
+	NSLog(@"expected length: %.2f", m_expectedLength);
 	UTIL_DEBUG_WRITE1(@"HTTP Status: %i", status);
 
 	[self synchronizeServerClock:http];
@@ -333,23 +328,27 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 	case 302:
 		[connection cancel];
 		[self setMessage:[self localizedDetectingDatOchiString]];
-		[self didFinishLoading];
 		[self cancelDownloadWithDetectingDatOchi];
+
+		[self didFinishLoading];
 		break;
     case 304:
 		[connection cancel];
 		[self setMessage:[self localizedNotModifiedString]];
+
 		[self didFinishLoading];
 		break;
 	case 416:
 		[connection cancel];
 		[self setMessage:[self localizedCanceledString]];
-		[self didFinishLoading];
 		[self cancelDownloadWithInvalidPartial];
+
+		[self didFinishLoading];
 		break;
 	default:
 		[connection cancel];
 		[self setMessage:[self localizedCanceledString]];
+
 		[self didFinishLoading];
         break;
     }
@@ -364,12 +363,14 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
+	NSLog(@"connection:didReceiveData:");
 	double foo = -1;
 	[[self resourceData] appendData:data];
 	if (m_expectedLength != -1) {
 		foo = [[self resourceData] length]/m_expectedLength*100.0;
 		if (foo > 100.0) foo = 100.0;
 	}
+	NSLog(@"%.2f", foo);
 	[self setAmount:foo];
 }
 

@@ -50,7 +50,6 @@
 @end
 
 extern NSString *const ThreadTextDownloaderDidFinishLoadingNotification;
-//extern NSString *const ThreadTextDownloaderUpdatedNotification;
 // some messages has beed aboned?
 extern NSString *const ThreadTextDownloaderInvalidPerticalContentsNotification;
 

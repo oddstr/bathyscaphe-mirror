@@ -18,7 +18,6 @@
 
 
 NSString *const ThreadTextDownloaderDidFinishLoadingNotification = @"ThreadTextDownloaderDidFinishLoadingNotification";
-//NSString *const ThreadTextDownloaderUpdatedNotification = @"ThreadTextIsUpdated";
 NSString *const ThreadTextDownloaderInvalidPerticalContentsNotification = @"ThreadTextDownloaderInvalidPerticalContentsNotification";
 NSString *const CMRDownloaderUserInfoAdditionalInfoKey = @"AddtionalInfo";
 
@@ -89,7 +88,6 @@ NSString *const CMRDownloaderUserInfoAdditionalInfoKey = @"AddtionalInfo";
 	}
 	
 return_instance:
-	// [self release];
 	return instance_;
 }
 
@@ -206,9 +204,21 @@ return_instance:
 }
 
 // To cancel any background loading, cause partial contents was invalid.
-- (void) cancelDownloadWithInvalidPartial
+- (void)cancelDownloadWithInvalidPartial
 {
-	[self cancelDownloadWithPostingNotificationName:ThreadTextDownloaderInvalidPerticalContentsNotification];
+	NSArray			*recoveryOptions;
+	NSDictionary	*dict;
+	NSError			*error;
+
+	recoveryOptions = [NSArray arrayWithObjects:[self localizedString:@"PartialContentsRetry"], [self localizedString:@"ErrorRecoveryCancel"], nil];
+	dict = [NSDictionary dictionaryWithObjectsAndKeys:
+				recoveryOptions, NSLocalizedRecoveryOptionsErrorKey,
+				[NSString stringWithFormat:[self localizedString:@"PartialContentsDescription"], [self threadTitle]], NSLocalizedDescriptionKey,
+				[self localizedString:@"PartialContentsSuggestion"], NSLocalizedRecoverySuggestionErrorKey,
+				NULL];
+
+	error = [NSError errorWithDomain:BSBathyScapheErrorDomain code:BSThreadTextDownloaderInvalidPartialContentsError userInfo:dict];
+	UTILNotifyInfo3(ThreadTextDownloaderInvalidPerticalContentsNotification, error, @"Error");
 }
 
 #pragma mark CMRDownloader
@@ -248,9 +258,8 @@ return_instance:
 					[self identifier],	CMRDownloaderUserInfoIdentifierKey,
 					additionalInfo,		CMRDownloaderUserInfoAdditionalInfoKey,
 					nil];
-	UTILNotifyInfo(
-		ThreadTextDownloaderDidFinishLoadingNotification,
-		userInfo_);
+
+	UTILNotifyInfo(ThreadTextDownloaderDidFinishLoadingNotification, userInfo_);
 }
 
 - (void)postUpdatedNotificationWithContents:(NSDictionary *)logContents
@@ -262,9 +271,7 @@ return_instance:
 					[self resourceURL],		CMRDownloaderUserInfoResourceURLKey,
 					[self identifier],		CMRDownloaderUserInfoIdentifierKey,
 					nil];
-/*	UTILNotifyInfo(
-		ThreadTextDownloaderUpdatedNotification,
-		userInfo_);*/
+
 	[[DatabaseManager defaultManager] threadTextDownloader:self didUpdateWithContents:userInfo_];
 }
 
@@ -403,14 +410,16 @@ return_instance:
 - (void)synchronizeServerClock:(NSHTTPURLResponse *)response
 {
 	[super synchronizeServerClock:response];
-
 	NSString *dateString2;
 	NSDate *date2;
 
 	dateString2 = [[response allHeaderFields] stringForKey:HTTP_LAST_MODIFIED_KEY];
-	date2 = [NSCalendarDate dateWithHTTPTimeRepresentation:dateString2];
+	if (!dateString2) {
+		dateString2 = [[response allHeaderFields] stringForKey:@"Date"];
+	}
+	date2 = [[BSHTTPDateFormatter sharedHTTPDateFormatter] dateFromString:dateString2];
 
-	[self setLastDate:date2];
+	if (date2) [self setLastDate:date2];
 }
 @end
 

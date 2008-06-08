@@ -53,7 +53,18 @@ NSString *const CMRDATDownloaderDidDetectDatOchiNotification = @"CMRDATDownloade
 
 - (void)cancelDownloadWithDetectingDatOchi
 {
-	[self cancelDownloadWithPostingNotificationName:CMRDATDownloaderDidDetectDatOchiNotification];
+	NSArray			*recoveryOptions;
+	NSDictionary	*dict;
+	NSError			*error;
+
+	recoveryOptions = [NSArray arrayWithObjects:[self localizedString:@"ErrorRecoveryCancel"], [self localizedString:@"DatOchiRetry"], nil];
+	dict = [NSDictionary dictionaryWithObjectsAndKeys:
+				recoveryOptions, NSLocalizedRecoveryOptionsErrorKey,
+				[NSString stringWithFormat:[self localizedString:@"DatOchiDescription"], [self threadTitle]], NSLocalizedDescriptionKey,
+				[self localizedString:@"DatOchiSuggestion"], NSLocalizedRecoverySuggestionErrorKey,
+				NULL];
+	error = [NSError errorWithDomain:BSBathyScapheErrorDomain code:BSDATDownloaderThreadNotFoundError userInfo:dict];
+	UTILNotifyInfo3(CMRDATDownloaderDidDetectDatOchiNotification, error, @"Error");
 }
 @end
 

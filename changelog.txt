@@ -1,4 +1,53 @@
 2008-06-08 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/source/network/CMRDATDownloader.m
+	* application/source/network/CMRDownloader.m
+	* application/source/network/ThreadTextDownloader.m
+		CMRDownloader とそのサブクラス：
+		- HTTP Status code 302, 416 のエラーについては適切な NSError を生成して CMRThreadViewer に
+		　渡すようにした。
+		- NSCalendarDate ではなく BSHTTPDateFormatter を使うようにした。
+		- メモリ管理を見直した。
+		- その他、微修正。
+	* application/source/thread/CMRThreadComposingTask.m
+	* application/source/thread/CMRThreadFileLoadingTask.m
+	* application/source/thread/CMRThreadLayoutTask.m
+		CMRTask 関連：KVO 対応。
+	* application/source/thread/CMRThreadDocument.m
+		ソースの整理と、NSURL ベースに一部書き換え（CMRDocumentFileManager.m の変更点とも関連）。
+	* application/source/thread/CMRThreadViewer-Action.m
+		微修正。
+	* application/source/thread/CMRThreadViewer-Contents.m
+	* application/source/thread/CMRThreadViewer.m
+		以下のような場合に、「履歴」メニューにスレッドが登録されなかった問題を修正した。
+		- 未取得のスレッドをオフラインモードで開き（このとき、空白のウインドウが開く）、それから「スレッドを更新」
+		して内容を取得したとき。
+		- 未取得のスレッドを（オンラインでも）既存のスレッドウインドウにドラッグ＆ドロップして表示させたとき。
+
+	* application/source/thread/CMRThreadViewer-Download.m
+		不要な retain の解消、エラー処理の見直しなど。
+		-「あぼーんで再取得が必要です」および「dat 落ちっぽいです、●で取得してみる？」のエラーについては、 	
+		　CMRDownloader 側で NSError オブジェクトを生成。CMRThreadViewer ではその NSError から
+		　+[NSAlert alertWithError:] でアラート生成、という方法を使うようにしてみた。
+	* application/source/thread/CMRThreadViewer-ViewAccessor.m
+		ナビゲーションバーのセットアップは BSNavigaionStatusLine クラスに任せて、見通しを良くした。
+	* application/source/view/BSNavigationStatusLine.[h|m]
+		[新規追加] CMRStatusLine のサブクラスで、BSIndexingPopupper と CMRIndexingStepper を
+		インスタンス変数に持つ。
+	* application/source/view/BSStatusLineView.[h|m]
+		[新規追加] BSTsuruPetaView のサブクラスで、ステータスメッセージを表示する機能を持つ。
+		- BSTsuruPetaView 上に NSTextField を配置してメッセージを表示すれば良さそうなものだが、
+		Binding で NSTextField にメッセージをセットすると何故か描画時にゴミが残るので、TsuruPetaView に
+		直接描画するためにこのクラスを作った。
+	* application/source/view/CMRStatusLine.[h|m]
+		ソースの整理と軽量化。
+	* application/source/view/CMXImageAttachmentCell.m
+		実際には何も修正されていないが、何故か変更扱いに。
+	* application/source/view/SGLinkCommand.m
+		CMRTaskWillProgressNotification はもう発行しない。
+	* application/source/view/ThreadsListTable.[h|m]
+		微修正。
+	* application/source/CMRAppDelegate.[h|m]
+		ブラウザウインドウのカスケード処理は CMRBrowser 側でやるようにしたので、不要になった部分を削除した。
 	* application/source/task/BSTaskItemValueTransformer.[h|m]
 		[新規追加] binding しやすくするための Value Transformer。
 	* application/source/task/CMRTask.[h|m]
@@ -30,6 +79,7 @@
 		（していたつもりなのだが、できていなかったので、改めて修正…nib で responder chain をがっちり
 		指定してやった。これで解決したかどうか？）。
 	* application/Resources/Japanese.lproj/CMRIndexingStepper.nib
+	* application/source/view/CMRIndexingStepper-ViewAccessor.m
 		Mac OS X v10.3.9 に遠慮する必要はなくなったので、Button の bezelStyle を最初から
 		NSSmallSquareBezelStyle に指定した。
 	* application/Resources/Japanese.lproj/CMRStatusView.nib

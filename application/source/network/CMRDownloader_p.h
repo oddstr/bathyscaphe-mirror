@@ -45,7 +45,6 @@
 
 @interface CMRDownloader(ResourceManagement)
 - (void)cancelDownload;
-- (void)cancelDownloadWithPostingNotificationName:(NSString *)name;
 - (void)synchronizeServerClock:(NSHTTPURLResponse *)response;
 @end
 
