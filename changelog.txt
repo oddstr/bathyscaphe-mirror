@@ -1,4 +1,25 @@
 2008-06-08 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/source/browser/BSThreadsListOPTask.m
+		微修正。
+	* application/source/browser/Browser.m
+	* application/source/browser/CMRThreadsList.m
+		-[Browser removeDatochiFiles] は CMRThreadsList クラスに移した。
+	* application/source/browser/BSDBThreadList.m
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/source/browser/CMRTextColumnCell.m
+		「勢い」カラムの表示には NSLevelIndicatorCell を用いるようにしてみた。
+		ただし、そのまま NSLevelIndicatorCell を用いるとセルのサイズいっぱいに描画されて見苦しいので、
+		サブクラス BSIkioiCell を CMRTextColumnCell.m に記述して用意し、適切にマージンを取って描画するように。
+		また、勢いの値は対数を取ってから NSLevelIndicatorCell に渡すようにして、勢いのあるスレとないスレの差が
+		（表示上）極端に開き過ぎないようにしている。
+	* application/source/browser/CMRBrowser.m
+		- ブラウザウインドウのカスケード処理周りを改良した。
+		- -selectedThreadsReallySelected メソッドのコアを CMRThreadsList クラスに移した。
+	* application/source/browser/CMRThreadsList-DataSource.m
+		微修正。		
+	* application/source/browser/BSThreadListItem.m
+		勢いを NSNumber のまま扱うようにした（表示時に NSLevelIndicatorCell に渡すため）。
+		定数 IkioiColumnIdentifier を、CocoMonar Framework で用意した BSThreadEnergyKey に置き換えた。
 	* application/source/network/CMRDATDownloader.m
 	* application/source/network/CMRDownloader.m
 	* application/source/network/ThreadTextDownloader.m
@@ -8,6 +29,8 @@
 		- NSCalendarDate ではなく BSHTTPDateFormatter を使うようにした。
 		- メモリ管理を見直した。
 		- その他、微修正。
+	* application/source/browser/BSBoardListItemHEADCheckTask.m
+	* application/source/browser/BSDownloadTask.m
 	* application/source/thread/CMRThreadComposingTask.m
 	* application/source/thread/CMRThreadFileLoadingTask.m
 	* application/source/thread/CMRThreadLayoutTask.m

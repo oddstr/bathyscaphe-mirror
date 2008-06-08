@@ -93,6 +93,8 @@
 		871CA17A08585FD200C3A044 /* CocoMonar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3924488043610AE00A80005 /* CocoMonar.framework */; };
 		871CA17B08585FD200C3A044 /* SGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FA043610EB00A80005 /* SGFoundation.framework */; };
 		871F26470D645140006F479E /* RBSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87464E380864368F000F0371 /* RBSplitView.h */; };
+		872229040D86CC4100279CB4 /* BSTaskItemValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 872229020D86CC4100279CB4 /* BSTaskItemValueTransformer.h */; };
+		872229050D86CC4100279CB4 /* BSTaskItemValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 872229030D86CC4100279CB4 /* BSTaskItemValueTransformer.m */; };
 		8727F4C20A822EFB00E9C2F9 /* BSTagValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 8727F4C00A822EFB00E9C2F9 /* BSTagValueTransformer.h */; };
 		8727F4C30A822EFB00E9C2F9 /* BSTagValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8727F4C10A822EFB00E9C2F9 /* BSTagValueTransformer.m */; };
 		872C32D00BB18CD10044890C /* ViewPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872C32CE0BB18CD10044890C /* ViewPane.nib */; };
@@ -115,6 +117,7 @@
 		874525780D547CDC009ECA02 /* BSQuickLookPanel.h in Headers */ = {isa = PBXBuildFile; fileRef = 874525760D547CDC009ECA02 /* BSQuickLookPanel.h */; };
 		874525790D547CDC009ECA02 /* BSQuickLookPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 874525770D547CDC009ECA02 /* BSQuickLookPanel.m */; };
 		8745CD290900DE9800A28AC0 /* BSImagePreviewerInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 8745CD280900DE9800A28AC0 /* BSImagePreviewerInterface.h */; };
+		874802B80DCDF26500689F5A /* BSStatusLineView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87FB61CF0D8AC3FD00861DD8 /* BSStatusLineView.h */; };
 		874934C20BDB62180082F7BF /* ThemeEditor.nib in Resources */ = {isa = PBXBuildFile; fileRef = 874934C00BDB62180082F7BF /* ThemeEditor.nib */; };
 		874934D30BDB65C30082F7BF /* BSThemeEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 874934D10BDB65C30082F7BF /* BSThemeEditor.h */; };
 		874934D40BDB65C30082F7BF /* BSThemeEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 874934D20BDB65C30082F7BF /* BSThemeEditor.m */; };
@@ -126,6 +129,8 @@
 		874A691D0B9DCFC500BB8FA7 /* BSVisibleRangePopUpBtnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 874A691B0B9DCFC500BB8FA7 /* BSVisibleRangePopUpBtnCell.m */; };
 		8752AACB0C6B60200078C6F4 /* BSNGExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 8752AAC90C6B60200078C6F4 /* BSNGExpression.h */; };
 		8752AACC0C6B60200078C6F4 /* BSNGExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 8752AACA0C6B60200078C6F4 /* BSNGExpression.m */; };
+		8752E6FA0DCED3000054AB99 /* BSNavigationStatusLine.h in Headers */ = {isa = PBXBuildFile; fileRef = 874802AF0DCDEAB400689F5A /* BSNavigationStatusLine.h */; };
+		8752E6FB0DCED3010054AB99 /* BSNavigationStatusLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 874802B00DCDEAB400689F5A /* BSNavigationStatusLine.m */; };
 		875D98200A8A02180061C86D /* SGAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244F5043610D600A80005 /* SGAppKit.framework */; };
 		875D98210A8A02190061C86D /* SGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FA043610EB00A80005 /* SGFoundation.framework */; };
 		875D98230A8A021E0061C86D /* CocoMonar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3924488043610AE00A80005 /* CocoMonar.framework */; };
@@ -227,6 +232,9 @@
 		87DD8F8E0D5438020084FBDB /* BSQuickLookButton.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87DD8F8C0D5438020084FBDB /* BSQuickLookButton.nib */; };
 		87DD8F9C0D5458400084FBDB /* BSQuickLookObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 87DD8F9A0D5458400084FBDB /* BSQuickLookObject.h */; };
 		87DD8F9D0D5458400084FBDB /* BSQuickLookObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 87DD8F9B0D5458400084FBDB /* BSQuickLookObject.m */; };
+		87DD97F70DDF41310000F2D5 /* CMRThreadDownloadTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD4F04C698FB00A80005 /* CMRThreadDownloadTask.h */; };
+		87DD97F80DDF41320000F2D5 /* CMRThreadDownloadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD5004C698FB00A80005 /* CMRThreadDownloadTask.m */; };
+		87DD97F90DDF41320000F2D5 /* CMRThreadDownloadTask_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD5104C698FB00A80005 /* CMRThreadDownloadTask_p.h */; };
 		87DF529D0CC380C600D48893 /* w2chReply_be2ch.h in Headers */ = {isa = PBXBuildFile; fileRef = 874F24FA080E716700EA2164 /* w2chReply_be2ch.h */; };
 		87DF529E0CC380C600D48893 /* w2chReply_be2ch.m in Sources */ = {isa = PBXBuildFile; fileRef = 874F24FB080E716700EA2164 /* w2chReply_be2ch.m */; };
 		87DF52DE0CC38F6C00D48893 /* BSLoggedInDATDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = 87DF52DC0CC38F6C00D48893 /* BSLoggedInDATDownloader.h */; };
@@ -239,6 +247,7 @@
 		87EF7F330CF9B14300BEF039 /* BoardWarrior.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D7F03B0A85136900623EA5 /* BoardWarrior.h */; };
 		87F3D5B20976921C00A1217A /* BSIPIHistoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 87F3D5B00976921C00A1217A /* BSIPIHistoryManager.h */; };
 		87F3D5B30976921C00A1217A /* BSIPIHistoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F3D5B10976921C00A1217A /* BSIPIHistoryManager.m */; };
+		87FB61D20D8AC3FD00861DD8 /* BSStatusLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87FB61D00D8AC3FD00861DD8 /* BSStatusLineView.m */; };
 		87FBC1EF0D57676F0097660D /* BSQuickLookObject_p.h in Headers */ = {isa = PBXBuildFile; fileRef = 87FBC1EE0D57676F0097660D /* BSQuickLookObject_p.h */; };
 		87FC678A0C682E9A00A4C72C /* DownloadableLinkTypes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FC67890C682E9A00A4C72C /* DownloadableLinkTypes.plist */; };
 		F42BD5AB0C70B1F7000AE1F8 /* malloc.c in Sources */ = {isa = PBXBuildFile; fileRef = F42BD5A90C70B1F7000AE1F8 /* malloc.c */; };
@@ -286,8 +295,6 @@
 		F47361E90AFF8758009B6189 /* CMRThreadAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD4404C698FB00A80005 /* CMRThreadAttributes.h */; };
 		F47361EA0AFF8758009B6189 /* CMRThreadComposingTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD4904C698FB00A80005 /* CMRThreadComposingTask.h */; };
 		F47361EB0AFF8758009B6189 /* CMRThreadDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD4C04C698FB00A80005 /* CMRThreadDocument.h */; };
-		F47361EC0AFF8758009B6189 /* CMRThreadDownloadTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD4F04C698FB00A80005 /* CMRThreadDownloadTask.h */; };
-		F47361ED0AFF8758009B6189 /* CMRThreadDownloadTask_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD5104C698FB00A80005 /* CMRThreadDownloadTask_p.h */; };
 		F47361EE0AFF8758009B6189 /* CMRThreadFileLoadingTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD5204C698FB00A80005 /* CMRThreadFileLoadingTask.h */; };
 		F47361EF0AFF8758009B6189 /* CMRThreadLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD5904C698FB00A80005 /* CMRThreadLayout.h */; };
 		F47361F00AFF8758009B6189 /* CMRThreadLayoutTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F324DD5C04C698FB00A80005 /* CMRThreadLayoutTask.h */; };
@@ -334,7 +341,6 @@
 		F47362210AFF8758009B6189 /* CocoMonar_Prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = F38262C10513577300A80005 /* CocoMonar_Prefix.h */; };
 		F47362220AFF8758009B6189 /* CMRTask.h in Headers */ = {isa = PBXBuildFile; fileRef = F38262E50513581100A80005 /* CMRTask.h */; };
 		F47362230AFF8758009B6189 /* CMRTaskItemController.h in Headers */ = {isa = PBXBuildFile; fileRef = F38262E70513581100A80005 /* CMRTaskItemController.h */; };
-		F47362240AFF8758009B6189 /* CMRTaskItemController_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F38262E90513581100A80005 /* CMRTaskItemController_p.h */; };
 		F47362250AFF8758009B6189 /* CMRTaskManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F38262EC0513581100A80005 /* CMRTaskManager.h */; };
 		F47362260AFF8758009B6189 /* CMRTaskManager_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F38262EE0513581100A80005 /* CMRTaskManager_p.h */; };
 		F47362280AFF8758009B6189 /* CMXTextParser.h in Headers */ = {isa = PBXBuildFile; fileRef = F38263000513585900A80005 /* CMXTextParser.h */; };
@@ -529,7 +535,6 @@
 		F47363120AFF8758009B6189 /* CMRThreadAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD4504C698FB00A80005 /* CMRThreadAttributes.m */; };
 		F47363130AFF8758009B6189 /* CMRThreadComposingTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD4A04C698FB00A80005 /* CMRThreadComposingTask.m */; };
 		F47363140AFF8758009B6189 /* CMRThreadDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD4D04C698FB00A80005 /* CMRThreadDocument.m */; };
-		F47363150AFF8758009B6189 /* CMRThreadDownloadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD5004C698FB00A80005 /* CMRThreadDownloadTask.m */; };
 		F47363160AFF8758009B6189 /* CMRThreadFileLoadingTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD5304C698FB00A80005 /* CMRThreadFileLoadingTask.m */; };
 		F47363170AFF8758009B6189 /* CMRThreadLayout-MessageRange.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD5804C698FB00A80005 /* CMRThreadLayout-MessageRange.m */; };
 		F47363180AFF8758009B6189 /* CMRThreadLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DD5A04C698FB00A80005 /* CMRThreadLayout.m */; };
@@ -854,6 +859,8 @@
 		871CA15608585F8100C3A044 /* PreferencesPane.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreferencesPane.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		871CA18208585FD200C3A044 /* Info-reply.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Info-reply.plist"; path = "../../Info-reply.plist"; sourceTree = "<group>"; };
 		871CA18308585FD200C3A044 /* 2chConnector.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = 2chConnector.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		872229020D86CC4100279CB4 /* BSTaskItemValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSTaskItemValueTransformer.h; sourceTree = "<group>"; };
+		872229030D86CC4100279CB4 /* BSTaskItemValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSTaskItemValueTransformer.m; sourceTree = "<group>"; };
 		8724A6DC09127E69009CC855 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Japanese; path = Japanese.lproj/board_default.plist; sourceTree = "<group>"; };
 		8727F4C00A822EFB00E9C2F9 /* BSTagValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSTagValueTransformer.h; sourceTree = "<group>"; };
 		8727F4C10A822EFB00E9C2F9 /* BSTagValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSTagValueTransformer.m; sourceTree = "<group>"; };
@@ -970,6 +977,8 @@
 		8745CD280900DE9800A28AC0 /* BSImagePreviewerInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSImagePreviewerInterface.h; sourceTree = "<group>"; };
 		87464E3608643673000F0371 /* libRBSplitView.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libRBSplitView.a; sourceTree = "<group>"; };
 		87464E380864368F000F0371 /* RBSplitView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RBSplitView.h; path = ../RBSplitView.h; sourceTree = "<group>"; };
+		874802AF0DCDEAB400689F5A /* BSNavigationStatusLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSNavigationStatusLine.h; sourceTree = "<group>"; };
+		874802B00DCDEAB400689F5A /* BSNavigationStatusLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSNavigationStatusLine.m; sourceTree = "<group>"; };
 		874934C10BDB62180082F7BF /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/ThemeEditor.nib; sourceTree = "<group>"; };
 		874934D10BDB65C30082F7BF /* BSThemeEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSThemeEditor.h; sourceTree = "<group>"; };
 		874934D20BDB65C30082F7BF /* BSThemeEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSThemeEditor.m; sourceTree = "<group>"; };
@@ -1141,6 +1150,8 @@
 		87F3D5B10976921C00A1217A /* BSIPIHistoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIHistoryManager.m; sourceTree = "<group>"; };
 		87F6214C0A906B890082E8DB /* BoardManager-SettingTxt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BoardManager-SettingTxt.m"; sourceTree = "<group>"; };
 		87F621A00A9186920082E8DB /* BoardManager-BSAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BoardManager-BSAddition.m"; sourceTree = "<group>"; };
+		87FB61CF0D8AC3FD00861DD8 /* BSStatusLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSStatusLineView.h; sourceTree = "<group>"; };
+		87FB61D00D8AC3FD00861DD8 /* BSStatusLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSStatusLineView.m; sourceTree = "<group>"; };
 		87FBC1EE0D57676F0097660D /* BSQuickLookObject_p.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSQuickLookObject_p.h; sourceTree = "<group>"; };
 		87FC67890C682E9A00A4C72C /* DownloadableLinkTypes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = DownloadableLinkTypes.plist; sourceTree = "<group>"; };
 		87FECDE40840DDF100787C68 /* AdvancedPreferences.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AdvancedPreferences.tiff; sourceTree = "<group>"; };
@@ -1209,7 +1220,7 @@
 		F324DC3E04C698FA00A80005 /* CMRFavoritesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRFavoritesManager.m; sourceTree = "<group>"; };
 		F324DC4004C698FA00A80005 /* CMRThreadsList-DataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadsList-DataSource.m"; sourceTree = "<group>"; };
 		F324DC4804C698FA00A80005 /* CMRThreadsList.h */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.h; path = CMRThreadsList.h; sourceTree = "<group>"; };
-		F324DC4904C698FA00A80005 /* CMRThreadsList.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRThreadsList.m; sourceTree = "<group>"; };
+		F324DC4904C698FA00A80005 /* CMRThreadsList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRThreadsList.m; sourceTree = "<group>"; };
 		F324DC4A04C698FA00A80005 /* CMRThreadsList_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadsList_p.h; sourceTree = "<group>"; };
 		F324DC5A04C698FA00A80005 /* CMR2chDATReader.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMR2chDATReader.h; sourceTree = "<group>"; };
 		F324DC5B04C698FA00A80005 /* CMR2chDATReader.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMR2chDATReader.m; sourceTree = "<group>"; };
@@ -1229,21 +1240,21 @@
 		F324DC8504C698FA00A80005 /* main.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F324DC9104C698FA00A80005 /* CMRDocumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRDocumentController.h; sourceTree = "<group>"; };
 		F324DC9204C698FA00A80005 /* CMRDocumentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRDocumentController.m; sourceTree = "<group>"; };
-		F324DC9304C698FA00A80005 /* CMRDocumentFileManager.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRDocumentFileManager.h; sourceTree = "<group>"; };
+		F324DC9304C698FA00A80005 /* CMRDocumentFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRDocumentFileManager.h; sourceTree = "<group>"; };
 		F324DC9404C698FA00A80005 /* CMRDocumentFileManager.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRDocumentFileManager.m; sourceTree = "<group>"; };
 		F324DC9604C698FA00A80005 /* CMRKeychainManager.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRKeychainManager.h; sourceTree = "<group>"; };
 		F324DC9704C698FA00A80005 /* CMRKeychainManager.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRKeychainManager.m; sourceTree = "<group>"; };
 		F324DC9D04C698FA00A80005 /* CMRMainMenuManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRMainMenuManager.h; sourceTree = "<group>"; };
 		F324DC9E04C698FA00A80005 /* CMRMainMenuManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRMainMenuManager.m; sourceTree = "<group>"; };
-		F324DCA004C698FA00A80005 /* CMRReplyDocumentFileManager.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRReplyDocumentFileManager.h; sourceTree = "<group>"; };
-		F324DCA104C698FA00A80005 /* CMRReplyDocumentFileManager.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRReplyDocumentFileManager.m; sourceTree = "<group>"; };
+		F324DCA004C698FA00A80005 /* CMRReplyDocumentFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRReplyDocumentFileManager.h; sourceTree = "<group>"; };
+		F324DCA104C698FA00A80005 /* CMRReplyDocumentFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRReplyDocumentFileManager.m; sourceTree = "<group>"; };
 		F324DCA304C698FA00A80005 /* CMRServerClock.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRServerClock.h; sourceTree = "<group>"; };
 		F324DCA404C698FA00A80005 /* CMRServerClock.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRServerClock.m; sourceTree = "<group>"; };
 		F324DCA504C698FA00A80005 /* CMRServerClock_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRServerClock_p.h; sourceTree = "<group>"; };
-		F324DCB004C698FA00A80005 /* CMRTrashbox.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRTrashbox.h; sourceTree = "<group>"; };
-		F324DCB104C698FB00A80005 /* CMRTrashbox.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRTrashbox.m; sourceTree = "<group>"; };
+		F324DCB004C698FA00A80005 /* CMRTrashbox.h */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.h; path = CMRTrashbox.h; sourceTree = "<group>"; };
+		F324DCB104C698FB00A80005 /* CMRTrashbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRTrashbox.m; sourceTree = "<group>"; };
 		F324DCB304C698FB00A80005 /* Cookie.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = Cookie.h; sourceTree = "<group>"; };
-		F324DCB404C698FB00A80005 /* Cookie.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = Cookie.m; sourceTree = "<group>"; };
+		F324DCB404C698FB00A80005 /* Cookie.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = Cookie.m; sourceTree = "<group>"; };
 		F324DCB504C698FB00A80005 /* CookieManager.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CookieManager.h; sourceTree = "<group>"; };
 		F324DCB604C698FB00A80005 /* CookieManager.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CookieManager.m; sourceTree = "<group>"; };
 		F324DCBC04C698FB00A80005 /* CMRDownloader-Task.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "CMRDownloader-Task.m"; sourceTree = "<group>"; };
@@ -1281,7 +1292,7 @@
 		F324DD5904C698FB00A80005 /* CMRThreadLayout.h */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.h; path = CMRThreadLayout.h; sourceTree = "<group>"; };
 		F324DD5A04C698FB00A80005 /* CMRThreadLayout.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CMRThreadLayout.m; sourceTree = "<group>"; };
 		F324DD5C04C698FB00A80005 /* CMRThreadLayoutTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRThreadLayoutTask.h; sourceTree = "<group>"; };
-		F324DD5D04C698FB00A80005 /* CMRThreadLayoutTask.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = CMRThreadLayoutTask.m; sourceTree = "<group>"; };
+		F324DD5D04C698FB00A80005 /* CMRThreadLayoutTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRThreadLayoutTask.m; sourceTree = "<group>"; };
 		F324DD5E04C698FB00A80005 /* CMRThreadLinkProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRThreadLinkProcessor.h; sourceTree = "<group>"; };
 		F324DD5F04C698FB00A80005 /* CMRThreadLinkProcessor.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = CMRThreadLinkProcessor.m; sourceTree = "<group>"; };
 		F324DD6504C698FB00A80005 /* CMRThreadViewer-Action.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-Action.m"; sourceTree = "<group>"; };
@@ -1300,8 +1311,8 @@
 		F324DD9604C698FB00A80005 /* CMRIndexingStepper.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRIndexingStepper.h; sourceTree = "<group>"; };
 		F324DD9704C698FB00A80005 /* CMRIndexingStepper.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRIndexingStepper.m; sourceTree = "<group>"; };
 		F324DD9804C698FB00A80005 /* CMRIndexingStepper_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRIndexingStepper_p.h; sourceTree = "<group>"; };
-		F324DDA304C698FB00A80005 /* CMRStatusLine.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRStatusLine.h; sourceTree = "<group>"; };
-		F324DDA404C698FB00A80005 /* CMRStatusLine.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRStatusLine.m; sourceTree = "<group>"; };
+		F324DDA304C698FB00A80005 /* CMRStatusLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRStatusLine.h; sourceTree = "<group>"; };
+		F324DDA404C698FB00A80005 /* CMRStatusLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRStatusLine.m; sourceTree = "<group>"; };
 		F324DDA804C698FB00A80005 /* SGContextHelpPanel.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = SGContextHelpPanel.h; sourceTree = "<group>"; };
 		F324DDA904C698FB00A80005 /* SGContextHelpPanel.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = SGContextHelpPanel.m; sourceTree = "<group>"; };
 		F324DDAE04C698FB00A80005 /* SGFunctor.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = SGFunctor.h; sourceTree = "<group>"; };
@@ -1372,15 +1383,14 @@
 		F376F1FE05D3A805000452AB /* UTILKit.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = UTILKit.h; path = ../misc/utilkit/UTILKit.h; sourceTree = SOURCE_ROOT; };
 		F379B59F04F1BB8D000E3011 /* AppearancePreferences.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AppearancePreferences.tiff; sourceTree = "<group>"; };
 		F38262C10513577300A80005 /* CocoMonar_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CocoMonar_Prefix.h; sourceTree = "<group>"; };
-		F38262E50513581100A80005 /* CMRTask.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRTask.h; sourceTree = "<group>"; };
-		F38262E60513581100A80005 /* CMRTask.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRTask.m; sourceTree = "<group>"; };
+		F38262E50513581100A80005 /* CMRTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRTask.h; sourceTree = "<group>"; };
+		F38262E60513581100A80005 /* CMRTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRTask.m; sourceTree = "<group>"; };
 		F38262E70513581100A80005 /* CMRTaskItemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRTaskItemController.h; sourceTree = "<group>"; };
-		F38262E80513581100A80005 /* CMRTaskItemController.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = CMRTaskItemController.m; sourceTree = "<group>"; };
-		F38262E90513581100A80005 /* CMRTaskItemController_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRTaskItemController_p.h; sourceTree = "<group>"; };
-		F38262EA0513581100A80005 /* CMRTaskManager-Management.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = "CMRTaskManager-Management.m"; sourceTree = "<group>"; };
-		F38262EC0513581100A80005 /* CMRTaskManager.h */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.h; path = CMRTaskManager.h; sourceTree = "<group>"; };
-		F38262ED0513581100A80005 /* CMRTaskManager.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = CMRTaskManager.m; sourceTree = "<group>"; };
-		F38262EE0513581100A80005 /* CMRTaskManager_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRTaskManager_p.h; sourceTree = "<group>"; };
+		F38262E80513581100A80005 /* CMRTaskItemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRTaskItemController.m; sourceTree = "<group>"; };
+		F38262EA0513581100A80005 /* CMRTaskManager-Management.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRTaskManager-Management.m"; sourceTree = "<group>"; };
+		F38262EC0513581100A80005 /* CMRTaskManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRTaskManager.h; sourceTree = "<group>"; };
+		F38262ED0513581100A80005 /* CMRTaskManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRTaskManager.m; sourceTree = "<group>"; };
+		F38262EE0513581100A80005 /* CMRTaskManager_p.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRTaskManager_p.h; sourceTree = "<group>"; };
 		F38263000513585900A80005 /* CMXTextParser.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMXTextParser.h; sourceTree = "<group>"; };
 		F38263010513585900A80005 /* CMXTextParser.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = CMXTextParser.m; sourceTree = "<group>"; };
 		F3826315051358E500A80005 /* CMXImageAttachmentCell.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMXImageAttachmentCell.h; sourceTree = "<group>"; };
@@ -1402,7 +1412,6 @@
 		F39244FA043610EB00A80005 /* SGFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SGFoundation.framework; path = ../frameworks/SGFoundation/build/Deployment/SGFoundation.framework; sourceTree = SOURCE_ROOT; };
 		F3959F0C04D3050600A80005 /* CMRAbstructThreadDocument_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRAbstructThreadDocument_p.h; sourceTree = "<group>"; };
 		F3959F0D04D3050600A80005 /* CMRThreadComposingTask_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadComposingTask_p.h; sourceTree = "<group>"; };
-		F3959F0E04D3050600A80005 /* CMRThreadDocument_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadDocument_p.h; sourceTree = "<group>"; };
 		F3959F1004D3050600A80005 /* CMRThreadLayout_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadLayout_p.h; sourceTree = "<group>"; };
 		F3B609F80509EDBF00A80005 /* CMRHostHTMLHandler.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRHostHTMLHandler.m; sourceTree = "<group>"; };
 		F3BA419E05B605BF00D03A0D /* CMRAttachmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRAttachmentCell.h; sourceTree = "<group>"; };
@@ -2537,7 +2546,6 @@
 				F3FF60F505BCCF7C00BDEBFA /* Filter */,
 				F368966A05B088DA0006D567 /* Composer */,
 				F368966705B088C20006D567 /* Reader & Wrapper */,
-				F368966405B0889A0006D567 /* Subject */,
 				87E63BE70B247FA500290BB7 /* BSDateFormatter.h */,
 				87E63BE80B247FA500290BB7 /* BSDateFormatter.m */,
 			);
@@ -2708,6 +2716,10 @@
 			children = (
 				F324DDA304C698FB00A80005 /* CMRStatusLine.h */,
 				F324DDA404C698FB00A80005 /* CMRStatusLine.m */,
+				87FB61CF0D8AC3FD00861DD8 /* BSStatusLineView.h */,
+				87FB61D00D8AC3FD00861DD8 /* BSStatusLineView.m */,
+				874802AF0DCDEAB400689F5A /* BSNavigationStatusLine.h */,
+				874802B00DCDEAB400689F5A /* BSNavigationStatusLine.m */,
 			);
 			name = statusLine;
 			sourceTree = "<group>";
@@ -2785,13 +2797,6 @@
 			name = "Attributed Template";
 			sourceTree = "<group>";
 		};
-		F368966405B0889A0006D567 /* Subject */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Subject;
-			sourceTree = "<group>";
-		};
 		F368966705B088C20006D567 /* Reader & Wrapper */ = {
 			isa = PBXGroup;
 			children = (
@@ -2833,7 +2838,6 @@
 				F3959F0C04D3050600A80005 /* CMRAbstructThreadDocument_p.h */,
 				F324DD3B04C698FB00A80005 /* CMRAbstructThreadDocument.m */,
 				F324DD4C04C698FB00A80005 /* CMRThreadDocument.h */,
-				F3959F0E04D3050600A80005 /* CMRThreadDocument_p.h */,
 				F324DD4D04C698FB00A80005 /* CMRThreadDocument.m */,
 			);
 			name = document;
@@ -2849,8 +2853,9 @@
 				F38262ED0513581100A80005 /* CMRTaskManager.m */,
 				F38262EA0513581100A80005 /* CMRTaskManager-Management.m */,
 				F38262E70513581100A80005 /* CMRTaskItemController.h */,
-				F38262E90513581100A80005 /* CMRTaskItemController_p.h */,
 				F38262E80513581100A80005 /* CMRTaskItemController.m */,
+				872229020D86CC4100279CB4 /* BSTaskItemValueTransformer.h */,
+				872229030D86CC4100279CB4 /* BSTaskItemValueTransformer.m */,
 			);
 			name = task;
 			path = ../task;
@@ -3156,8 +3161,6 @@
 				F47361E90AFF8758009B6189 /* CMRThreadAttributes.h in Headers */,
 				F47361EA0AFF8758009B6189 /* CMRThreadComposingTask.h in Headers */,
 				F47361EB0AFF8758009B6189 /* CMRThreadDocument.h in Headers */,
-				F47361EC0AFF8758009B6189 /* CMRThreadDownloadTask.h in Headers */,
-				F47361ED0AFF8758009B6189 /* CMRThreadDownloadTask_p.h in Headers */,
 				F47361EE0AFF8758009B6189 /* CMRThreadFileLoadingTask.h in Headers */,
 				F47361EF0AFF8758009B6189 /* CMRThreadLayout.h in Headers */,
 				F47361F00AFF8758009B6189 /* CMRThreadLayoutTask.h in Headers */,
@@ -3204,7 +3207,6 @@
 				F47362210AFF8758009B6189 /* CocoMonar_Prefix.h in Headers */,
 				F47362220AFF8758009B6189 /* CMRTask.h in Headers */,
 				F47362230AFF8758009B6189 /* CMRTaskItemController.h in Headers */,
-				F47362240AFF8758009B6189 /* CMRTaskItemController_p.h in Headers */,
 				F47362250AFF8758009B6189 /* CMRTaskManager.h in Headers */,
 				F47362260AFF8758009B6189 /* CMRTaskManager_p.h in Headers */,
 				F47362280AFF8758009B6189 /* CMXTextParser.h in Headers */,
@@ -3307,6 +3309,11 @@
 				873245240D60310F00CF1705 /* BSLocalRulesCollector.h in Headers */,
 				8732455B0D60407200CF1705 /* BSLocalRulesPanelController.h in Headers */,
 				871F26470D645140006F479E /* RBSplitView.h in Headers */,
+				872229040D86CC4100279CB4 /* BSTaskItemValueTransformer.h in Headers */,
+				874802B80DCDF26500689F5A /* BSStatusLineView.h in Headers */,
+				8752E6FA0DCED3000054AB99 /* BSNavigationStatusLine.h in Headers */,
+				87DD97F70DDF41310000F2D5 /* CMRThreadDownloadTask.h in Headers */,
+				87DD97F90DDF41320000F2D5 /* CMRThreadDownloadTask_p.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3830,7 +3837,6 @@
 				F47363120AFF8758009B6189 /* CMRThreadAttributes.m in Sources */,
 				F47363130AFF8758009B6189 /* CMRThreadComposingTask.m in Sources */,
 				F47363140AFF8758009B6189 /* CMRThreadDocument.m in Sources */,
-				F47363150AFF8758009B6189 /* CMRThreadDownloadTask.m in Sources */,
 				F47363160AFF8758009B6189 /* CMRThreadFileLoadingTask.m in Sources */,
 				F47363170AFF8758009B6189 /* CMRThreadLayout-MessageRange.m in Sources */,
 				F47363180AFF8758009B6189 /* CMRThreadLayout.m in Sources */,
@@ -3977,6 +3983,10 @@
 				8743384A0D5ED9BE00AD3DC7 /* BSReplyAlertSheetController.m in Sources */,
 				873245250D60310F00CF1705 /* BSLocalRulesCollector.m in Sources */,
 				8732455C0D60407200CF1705 /* BSLocalRulesPanelController.m in Sources */,
+				872229050D86CC4100279CB4 /* BSTaskItemValueTransformer.m in Sources */,
+				87FB61D20D8AC3FD00861DD8 /* BSStatusLineView.m in Sources */,
+				8752E6FB0DCED3010054AB99 /* BSNavigationStatusLine.m in Sources */,
+				87DD97F80DDF41320000F2D5 /* CMRThreadDownloadTask.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
