@@ -256,7 +256,9 @@ error_params_invalid: {
 #pragma mark Accessors
 - (NSString *)sessionID
 {
-	if (!m_sessionID) {
+	// 2008-04-29 tsawada2
+	// セッションIDの取得から24時間以上経過している場合は、再ログインを試みる
+	if (!m_sessionID || fabs([_lastLoggedInDate timeIntervalSinceNow]) > 60*60*24) {
 		[self invalidate];
 	}
 	return m_sessionID;
@@ -264,6 +266,12 @@ error_params_invalid: {
 
 - (void)setSessionID:(NSString *)aSessionID
 {
+	if (!aSessionID) {
+		[_lastLoggedInDate release];
+		_lastLoggedInDate = nil;
+	} else {
+		_lastLoggedInDate = [[NSDate date] retain];
+	}
 	[aSessionID retain];
 	[m_sessionID release];
 	m_sessionID = aSessionID;

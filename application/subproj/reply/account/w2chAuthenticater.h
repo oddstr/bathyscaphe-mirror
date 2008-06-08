@@ -18,6 +18,8 @@
 	
 	int 						m_recentStatusCode;
 	w2chAuthenticaterErrorType	m_recentErrorType;
+@private
+	NSDate	*_lastLoggedInDate;
 }
 + (id) defaultAuthenticater;
 
