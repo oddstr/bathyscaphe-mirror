@@ -26,7 +26,7 @@
 "Updating database" = "データベースを更新中";
 "Reseting new threads status." = "ステータスを再設定中";
 "Collecting infomation of thread" = "スレッドの情報を収集中";
-"%d/%d (%d skiped)" = "%d/%d 件完了 -- %d 件のスレッドはスキップされました";
+"%d/%d (%d skiped)" = "%d/%d 件完了 — %d 件のスレッドはスキップされました";
 "Checking thread" = "チェック中...";
 "ProgressBoardListItemHEADCheck." = "更新チェックを実行中";
 "Checking SmartBoard(%@)." = "スマート掲示板 “%@” の更新チェック";

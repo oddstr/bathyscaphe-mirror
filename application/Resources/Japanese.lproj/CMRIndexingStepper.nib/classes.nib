@@ -1,22 +1,122 @@
-{
-    IBClasses = (
-        {
-            ACTIONS = {decrement = id; increment = id; max = id; min = id; updated = id; }; 
-            CLASS = CMRIndexingStepper; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                "m_delegate" = id; 
-                "m_frameView" = NSView; 
-                "m_indexField" = IndexField; 
-                "m_moveForNextMatrix" = NSMatrix; 
-                "m_moveForPrevMatrix" = NSMatrix; 
-                "m_moveUpdatedButton" = NSButton; 
-            }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {CLASS = IndexField; LANGUAGE = ObjC; SUPERCLASS = NSTextField; }, 
-        {CLASS = NSObject; LANGUAGE = ObjC; }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>decrement</key>
+				<string>id</string>
+				<key>increment</key>
+				<string>id</string>
+				<key>max</key>
+				<string>id</string>
+				<key>min</key>
+				<string>id</string>
+				<key>updated</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>CMRIndexingStepper</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>m_delegate</key>
+				<string>id</string>
+				<key>m_frameView</key>
+				<string>NSView</string>
+				<key>m_indexField</key>
+				<string>IndexField</string>
+				<key>m_moveForNextMatrix</key>
+				<string>NSMatrix</string>
+				<key>m_moveForPrevMatrix</key>
+				<string>NSMatrix</string>
+				<key>m_moveUpdatedButton</key>
+				<string>NSButton</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>openScriptsDirectory</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>NSApplication</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>RBSplitView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>RBSplitSubview</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>RBSplitSubview</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>connectorResourceDidCancelLoading</key>
+				<string>id</string>
+				<key>connectorResourceDidFinishLoading</key>
+				<string>id</string>
+				<key>didAdjustSubviews</key>
+				<string>RBSplitView</string>
+				<key>showPreviewerPreferences</key>
+				<string>id</string>
+				<key>threadComposingDidFinish</key>
+				<string>id</string>
+				<key>threadTaskDidInterrupt</key>
+				<string>id</string>
+				<key>togglePreviewPanel</key>
+				<string>id</string>
+				<key>willAdjustSubviews</key>
+				<string>RBSplitView</string>
+			</dict>
+			<key>CLASS</key>
+			<string>NSObject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>IndexField</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSTextField</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>

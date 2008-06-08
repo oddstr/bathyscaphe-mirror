@@ -1,8 +1,31 @@
 2008-06-08 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/Resources/Japanese.lproj/CMRTaskDescription.strings
+	* application/Resources/Japanese.lproj/Downloader.strings
+	* application/Resources/Japanese.lproj/Localizable.strings
+	* application/Resources/Japanese.lproj/ThreadViewer.strings
+	* application/Resources/Japanese.lproj/ThreadsList.strings
+		メッセージの修正や、記述場所の変更。
+		- ThreadViewer.strings に書かれていたエラーメッセージの一部が Downloader.strings に移動。
+		　これはエラー処理自体が、一部 CMRThreadViewer から CMRDownloader('s subclass) に移動
+		　したことによる。
+		- ほかにもごちょごちょ。
+	* application/Resources/Japanese.lproj/BSReplyAlertSheet.nib
+		書き込み時の「クッキー確認」アラートで、return キーを二度押さないと認識されない問題を修正
+		（していたつもりなのだが、できていなかったので、改めて修正…nib で responder chain をがっちり
+		指定してやった。これで解決したかどうか？）。
+	* application/Resources/Japanese.lproj/CMRIndexingStepper.nib
+		Mac OS X v10.3.9 に遠慮する必要はなくなったので、Button の bezelStyle を最初から
+		NSSmallSquareBezelStyle に指定した。
+	* application/Resources/Japanese.lproj/CMRStatusView.nib
+	* application/Resources/Japanese.lproj/CMRTaskItem.nib
+	* application/Resources/Japanese.lproj/CMRTaskManager.nib
+		ステータスバー、および「進行状況」表示の方法見直しに伴う変更。binding を多用するようになった。
 	* application/source/composer/BSDateFormatter.m
 		NSCalendarDate ではなく NSCalendar + NSDate を使用するようにした。
 	* application/subproj/reply/account/w2chAuthenticater.[h|m]
 		●ログインしてから 24時間以上経過した場合、自動的に●ログインし直すようにした。
+		- ●ログインのセッションIDの取得時刻を保持し、24時間以上前に取得されたものである場合は
+		　自動的に再ログインして新しいセッションIDを取得するようにした。
 	* application/source/manager/CMRDocumentController.m
 		ファイルパス（NSString）をファイル URL（NSURL）ベースで取り扱うように修正。
 	* application/source/manager/CMRDocumentFileManager.[h|m]

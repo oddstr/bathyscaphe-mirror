@@ -20,6 +20,8 @@
 			<string>ObjC</string>
 			<key>OUTLETS</key>
 			<dict>
+				<key>_arrayController</key>
+				<string>NSArrayController</string>
 				<key>_taskContainerView</key>
 				<string>SGContainerTableView</string>
 			</dict>
@@ -78,6 +80,10 @@
 				<key>didAdjustSubviews</key>
 				<string>RBSplitView</string>
 				<key>showPreviewerPreferences</key>
+				<string>id</string>
+				<key>threadComposingDidFinish</key>
+				<string>id</string>
+				<key>threadTaskDidInterrupt</key>
 				<string>id</string>
 				<key>togglePreviewPanel</key>
 				<string>id</string>

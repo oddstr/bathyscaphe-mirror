@@ -11,5 +11,16 @@
 "Couldnt_Load_Data_Msg" = "%@ からデータを取得できませんでした。";
 
 /* BSDownloadTask */
-"Download url(%@) (%.0fk of %.0fk)" = "%@ からダウンロード中...（%.0f KB / %.0f KB）";
+"Download url(%@) (%.0fk of %.0fk)" = "%@ をダウンロード中...（%.0f KB / %.0f KB）";
 "Download." = "ダウンロード";
+
+/* Error Recovery Options */
+"PartialContentsDescription" = "スレッド “%@” で一部のレスが削除（あぼーん）された可能性があります。";
+"PartialContentsSuggestion" = "新着レスを取得するためには、いったんログを削除して再取得する必要があります。";
+
+"DatOchiDescription" = "スレッド “%@” は Dat 落ちしたか、URL が間違っている可能性があります。";
+"DatOchiSuggestion" = "● アカウントをお持ちの場合は、● を使ってログの取得を試みることもできます。";
+
+"ErrorRecoveryCancel" = "キャンセル";
+"PartialContentsRetry" = "削除して再取得";
+"DatOchiRetry" = "● ログインして取得";
