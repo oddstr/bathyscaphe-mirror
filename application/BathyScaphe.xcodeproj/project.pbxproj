@@ -1232,8 +1232,8 @@
 		F324DC6804C698FA00A80005 /* CMRMessageAttributesStyling.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRMessageAttributesStyling.h; sourceTree = "<group>"; };
 		F324DC6904C698FA00A80005 /* CMRMessageAttributesStyling.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRMessageAttributesStyling.m; sourceTree = "<group>"; };
 		F324DC6A04C698FA00A80005 /* CMRMessageAttributesTemplate.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRMessageAttributesTemplate.h; sourceTree = "<group>"; };
-		F324DC6B04C698FA00A80005 /* CMRMessageAttributesTemplate.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = CMRMessageAttributesTemplate.m; sourceTree = "<group>"; };
-		F324DC6C04C698FA00A80005 /* CMRMessageAttributesTemplate_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRMessageAttributesTemplate_p.h; sourceTree = "<group>"; };
+		F324DC6B04C698FA00A80005 /* CMRMessageAttributesTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRMessageAttributesTemplate.m; sourceTree = "<group>"; };
+		F324DC6C04C698FA00A80005 /* CMRMessageAttributesTemplate_p.h */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.h; path = CMRMessageAttributesTemplate_p.h; sourceTree = "<group>"; };
 		F324DC6D04C698FA00A80005 /* CMRMessageComposer.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRMessageComposer.h; sourceTree = "<group>"; };
 		F324DC7604C698FA00A80005 /* CMRThreadPlistComposer.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadPlistComposer.h; sourceTree = "<group>"; };
 		F324DC7704C698FA00A80005 /* CMRThreadPlistComposer.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = CMRThreadPlistComposer.m; sourceTree = "<group>"; };

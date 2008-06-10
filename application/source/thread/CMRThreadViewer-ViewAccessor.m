@@ -45,21 +45,11 @@
 
 - (BSIndexingPopupper *)indexingPopupper
 {
-/*	if (!m_indexingPopupper) {
-		m_indexingPopupper = [[BSIndexingPopupper alloc] init];
-	}
-	return m_indexingPopupper;*/
-
 	return [(BSNavigationStatusLine *)[self statusLine] indexingPopupper];
 }
 
 - (CMRIndexingStepper *)indexingStepper
 {
-/*	if (!m_indexingStepper) {
-		m_indexingStepper = [[CMRIndexingStepper alloc] init];
-	}
-	return m_indexingStepper;*/
-
 	return [(BSNavigationStatusLine *)[self statusLine] indexingStepper];
 }
 
@@ -203,37 +193,6 @@
 }
 
 #pragma mark NavigationBar
-/*- (void)layoutNavigationBarComponents
-{
-	NSView	*popupperView, *stepperView, *statusLineView;
-	NSRect	idxStepperFrame, scrollViewFrame, idxPopupperFrame, statusBarFrame;
-	NSPoint origin_;
-
-	[[self statusLine] statusLineViewDidMoveToWindow];
-
-	popupperView = [[self indexingPopupper] contentView];
-	stepperView = [[self indexingStepper] contentView];
-	statusLineView = [[self statusLine] statusLineView];
-
-	scrollViewFrame = [[self navigationBar] frame];
-	idxStepperFrame = [stepperView frame];
-	idxPopupperFrame = [popupperView frame];
-	statusBarFrame = [statusLineView frame];
-
-	origin_ = scrollViewFrame.origin;
-
-	statusBarFrame.origin = origin_;
-	statusBarFrame.size.width = NSWidth(scrollViewFrame) - [NSScroller scrollerWidth];
-
-	idxPopupperFrame.origin = origin_;
-	idxPopupperFrame.size.width = statusBarFrame.size.width - NSWidth(idxStepperFrame);
-	[popupperView setFrame:idxPopupperFrame];
-
-	origin_.x += NSWidth(idxPopupperFrame);
-	origin_.y += 1.0;
-	[stepperView setFrameOrigin:origin_];
-}*/
-
 - (void)setupNavigationBar
 {
 	NSView *superView = [[self navigationBar] superview];
@@ -247,42 +206,10 @@
 	[m_navigationBar release];
 	m_navigationBar = [[self statusLine] statusLineView];
 	[[self navigationBar] setFrame:curFrame];
-/*
-	[[self navigationBar] addSubview:[[self indexingStepper] contentView]];
-	[[self navigationBar] addSubview:[[self indexingPopupper] contentView]];	
-*/	
+
 	[[self statusLine] statusLineViewDidMoveToWindow];
-//	[self layoutNavigationBarComponents];
-}
-/*
-- (void)statusLineWillShowTheirViews:(CMRStatusLine *)statusLine
-{
-	if ([self statusLine] != statusLine) {
-		NSLog(@"WARNING: statusLineWillShowTheirViews");
-		return;
-	}
-
-	if ([self shouldShowContents]) {
-		[[[self indexingStepper] contentView] setHidden:YES];
-		[[[self indexingPopupper] contentView] setHidden:YES];
-	}
-
 }
 
-- (void)statusLineDidHideTheirViews:(CMRStatusLine *)statusLine
-{
-	if ([self statusLine] != statusLine || [[self threadLayout] isInProgress]) {
-		return;
-	}
-	
-	if ([self shouldShowContents]) {
-		[[[self indexingStepper] contentView] setHidden:NO];
-		[[[self indexingPopupper] contentView] setHidden:NO];
-	} else {
-	[[self navigationBar] setNeedsDisplay:YES];
-	}
-}
-*/
 #pragma mark Others
 - (void)setupScrollView
 {

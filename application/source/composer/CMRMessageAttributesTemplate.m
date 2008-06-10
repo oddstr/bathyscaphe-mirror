@@ -1,53 +1,54 @@
-//:CMRMessageAttributesTemplate.m
-/**
-  *
-  * @see AppDefaults.h
-  *
-  * @author Takanori Ishikawa
-  * @author http://www15.big.or.jp/~takanori/
-  * @version 1.0.0d1 (02/09/06  0:08:36 AM)
-  *
-  */
+//
+//  CMRMessageAttributesTemplate.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 08/06/09.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import "CMRMessageAttributesTemplate_p.h"
 #import "CocoMonar_Prefix.h"
 #import "CMXImageAttachmentCell.h"
 #import "CMRAttachmentCell.h"
 
 static void *kContext = @"Look Mom, No Tabs!";
+static NSNumber *underlineStyleWithBoolValue(BOOL hasUnderline);
 
 @implementation CMRMessageAttributesTemplate
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 
-- (id) init
+- (id)init
 {
 	if (self = [super init]) {
-		[CMRPref addObserver: self forKeyPath: @"threadViewTheme" options: NSKeyValueObservingOptionNew context: kContext];
+		[CMRPref addObserver:self forKeyPath:@"threadViewTheme" options:NSKeyValueObservingOptionNew context:kContext];
 	}
 	return self;
 }
 
-+ (NSDictionary *) defaultAttributes
++ (NSDictionary *)defaultAttributes
 {
 	static NSDictionary *st_defaultAttributes;
 	
-	if(nil == st_defaultAttributes){
-		NSAttributedString		*temp_;
-		NSDictionary			*attrs_;
+	if (!st_defaultAttributes) {
+		NSAttributedString		*dummy;
+		NSDictionary			*attrs;
 		
-		temp_ = [[NSAttributedString alloc] initWithString : @"a"];
-		attrs_ = [temp_ attributesAtIndex:([temp_ length] -1) effectiveRange:NULL];
-		[temp_ release];
-		temp_ = nil;
+		dummy = [[NSAttributedString alloc] initWithString:@"a"];
+		attrs = [dummy attributesAtIndex:0 effectiveRange:NULL];
+		[dummy release];
+		dummy = nil;
 		
-		if(nil == attrs_)
-			attrs_ = [NSDictionary dictionary];
-		
-		st_defaultAttributes = [attrs_ copy];
+		if (!attrs) {
+			attrs = [NSDictionary dictionary];
+		}
+		st_defaultAttributes = [attrs copy];
 	}
+
 	return st_defaultAttributes;
 }
 
-- (void) dealloc
+- (void)dealloc
 {
 	[_messageAttributesForAnchor release];
 	[_messageAttributesForName release];
@@ -57,202 +58,184 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 	[_messageAttributesForBeProfileLink release];
 	[_messageAttributesForHost release];
 
-	[CMRPref removeObserver: self forKeyPath: @"threadViewTheme"]; 
+	[CMRPref removeObserver:self forKeyPath:@"threadViewTheme"]; 
 	
 	[super dealloc];
 }
 
 #pragma mark CMRMessageAttributesStylist
-
-/* ÉAÉìÉJÅ[ÇÃèëéÆ */
-- (NSDictionary *) attributesForAnchor
+/* „Ç¢„É≥„Ç´„Éº„ÅÆÊõ∏Âºè */
+- (NSDictionary *)attributesForAnchor
 {
 	return [self messageAttributesForAnchor];
 }
 
-/* ñºëOóìÇÃèëéÆ */
-- (NSDictionary *) attributesForName
+/* ÂêçÂâçÊ¨Ñ„ÅÆÊõ∏Âºè */
+- (NSDictionary *)attributesForName
 {
 	return [self messageAttributesForName];
 }
 
-/* çÄñ⁄ñºÇÃèëéÆ */
-- (NSDictionary *) attributesForItemName
+/* È†ÖÁõÆÂêç„ÅÆÊõ∏Âºè */
+- (NSDictionary *)attributesForItemName
 {
 	return [self messageAttributesForTitle];
 }
 
-/* ñ{ï∂ÇÃèëéÆ */
-- (NSDictionary *) attributesForMessage
+/* Êú¨Êñá„ÅÆÊõ∏Âºè */
+- (NSDictionary *)attributesForMessage
 {
 	return [self messageAttributes];
 }
 
-/* ïWèÄÇÃèëéÆ */
-- (NSDictionary *) attributesForText
+/* Ê®ôÊ∫ñ„ÅÆÊõ∏Âºè */
+- (NSDictionary *)attributesForText
 {
 	return [self messageAttributesForText];
 }
-- (NSDictionary *) attributesForBeProfileLink
+
+- (NSDictionary *)attributesForBeProfileLink
 {
 	return [self messageAttributesForBeProfileLink];
 }
-- (NSDictionary *) attributesForHost
+
+- (NSDictionary *)attributesForHost
 {
 	return [self messageAttributesForHost];
 }
 
 #pragma mark Text Attachments
-- (NSAttributedString *) mailAttachmentStringWithMail : (NSString *) address
+- (NSAttributedString *)mailAttachmentStringWithMail:(NSString *)address
 {
 	NSAttributedString			*attachment_;
 	NSString					*address_;
 	
 	address_ = [address stringByStriped];
-	if(nil == address_ || 0 == [address_ length]) return nil;
+	if (!address_ || [address_ length] == 0) return nil;
 	
-	if([address_ isEqualToString : CMRThreadMessage_AGE_String]){
+	if ([address_ isEqualToString:CMRThreadMessage_AGE_String]) {
 		attachment_ = [self ageImageAttachmentString];
-	}else if([address_ isEqualToString : CMRThreadMessage_SAGE_String]){
+	} else if ([address_ isEqualToString:CMRThreadMessage_SAGE_String]) {
 		attachment_ = [self sageImageAttachmentString];
-	}else{
+	} else {
 		NSMutableAttributedString	*attrs_;
 		NSMutableString				*mstr_;
 		NSRange						rng_;
 		
 		attrs_ = [self mailImageAttachmentString];
 		rng_ = NSMakeRange(0, [attrs_ length]);
-		mstr_ = [[NSMutableString allocWithZone : nil] initWithString : @"mailto:"];
-		[mstr_ appendString : address_];
-		[attrs_ addAttribute : NSLinkAttributeName
-					   value : mstr_
-					   range : rng_];
-		attachment_ = [[attrs_ copyWithZone : nil] autorelease];
+		mstr_ = [[NSMutableString alloc] initWithString:@"mailto:"];
+		[mstr_ appendString:address_];
+		[attrs_ addAttribute:NSLinkAttributeName
+					   value:mstr_
+					   range:rng_];
+		attachment_ = [[attrs_ copy] autorelease];
 		[mstr_ release];
 	}
 	return attachment_;
 }
 
-- (NSAttributedString *) lastUpdatedHeaderAttachment
+- (NSAttributedString *)lastUpdatedHeaderAttachment
 {
 	static NSAttributedString	*st_lastUpdatedHeaderAttachment;
 	/* 2005-09-30 tsawada2 <ben-sawa@td5.so-net.ne.jp>
-	   è„â∫ÇÃó]îíïtâ¡ÇÇ±Ç±Ç…à⁄ÇµÇΩïæäQÇ∆ÇµÇƒÅAó]îíÇÃílÇïœçXÇµÇƒÇ‡Ç∑ÇÆÇ…îΩâfÇ≥ÇÍÇ»Ç¢ñ‚ëËÇ™ïÇè„ÇµÇΩÅB
-	   ÇøÇ·ÇÒÇ∆îΩâfÇ≥ÇπÇÈÇΩÇﬂÅAÇ≈Ç´ÇÈÇæÇØè≠Ç»Ç¢ïâíSÇ≈ó]îíílÇÃïœâªÇÉLÉÉÉbÉ`ÇµÇƒÅA static Ç» st_lastUpdatedHeaderAttachment Ç
-	   çXêVÇ∑ÇÈÅB
+	   ‰∏ä‰∏ã„ÅÆ‰ΩôÁôΩ‰ªòÂä†„Çí„Åì„Åì„Å´Áßª„Åó„ÅüÂºäÂÆ≥„Å®„Åó„Å¶„ÄÅ‰ΩôÁôΩ„ÅÆÂÄ§„ÇíÂ§âÊõ¥„Åó„Å¶„ÇÇ„Åô„Åê„Å´ÂèçÊò†„Åï„Çå„Å™„ÅÑÂïèÈ°å„ÅåÊµÆ‰∏ä„Åó„Åü„ÄÇ
+	   „Å°„ÇÉ„Çì„Å®ÂèçÊò†„Åï„Åõ„Çã„Åü„ÇÅ„ÄÅ„Åß„Åç„Çã„Å†„ÅëÂ∞ë„Å™„ÅÑË≤†ÊãÖ„Åß‰ΩôÁôΩÂÄ§„ÅÆÂ§âÂåñ„Çí„Ç≠„É£„ÉÉ„ÉÅ„Åó„Å¶„ÄÅ static „Å™ st_lastUpdatedHeaderAttachment „Çí
+	   Êõ¥Êñ∞„Åô„Çã„ÄÇ
 	*/
-	static float				st_spacingBeforeMemory; //è„ó]îíÇÃílÇãLâØÇµÇƒÇ®Ç≠
+	static float				st_spacingBeforeMemory; //‰∏ä‰ΩôÁôΩ„ÅÆÂÄ§„ÇíË®òÊÜ∂„Åó„Å¶„Åä„Åè
 	
-	float	tmp_ = [CMRPref msgIdxSpacingBefore]; // ç≈êVÇÃè„ó]îíílÇéÊìæ
+	float	tmp_ = [CMRPref msgIdxSpacingBefore]; // ÊúÄÊñ∞„ÅÆ‰∏ä‰ΩôÁôΩÂÄ§„ÇíÂèñÂæó
 	
-	if (nil == st_spacingBeforeMemory) //èââÒ
-		st_spacingBeforeMemory = tmp_;//ç≈êVÇÃílÇì¸ÇÍÇƒÇ®Ç≠
+	if (!st_spacingBeforeMemory) //ÂàùÂõû
+		st_spacingBeforeMemory = tmp_;//ÊúÄÊñ∞„ÅÆÂÄ§„ÇíÂÖ•„Çå„Å¶„Åä„Åè
 	
-	if (st_spacingBeforeMemory != tmp_) { // ãLâØÇµÇƒÇ¢ÇÈílÇ∆ç≈êVÇÃílÇ™àŸÇ»ÇÈÇ»ÇÁ
-		//NSLog(@"PrefValue was changed, so reset st_lastUpdatedHeaderAttachment");
-		st_spacingBeforeMemory = tmp_; // ç≈êVÇÃílÇãLâØÇµíºÇ∑
-		st_lastUpdatedHeaderAttachment = nil; // st_lastUpdatedHeaderAttachment ÇÉäÉZÉbÉgÇµÇƒÅAâ∫Ç≈çÏÇËíºÇµÇƒÇ‡ÇÁÇ§
+	if (st_spacingBeforeMemory != tmp_) { // Ë®òÊÜ∂„Åó„Å¶„ÅÑ„ÇãÂÄ§„Å®ÊúÄÊñ∞„ÅÆÂÄ§„ÅåÁï∞„Å™„Çã„Å™„Çâ
+		st_spacingBeforeMemory = tmp_; // ÊúÄÊñ∞„ÅÆÂÄ§„ÇíË®òÊÜ∂„ÅóÁõ¥„Åô
+		st_lastUpdatedHeaderAttachment = nil; // st_lastUpdatedHeaderAttachment „Çí„É™„Çª„ÉÉ„Éà„Åó„Å¶„ÄÅ‰∏ã„Åß‰Ωú„ÇäÁõ¥„Åó„Å¶„ÇÇ„Çâ„ÅÜ
 	}
 	
-	if(nil == st_lastUpdatedHeaderAttachment){
+	if (!st_lastUpdatedHeaderAttachment) {
 		NSAttributedString				*attachment_;
 		NSMutableAttributedString		*mattachment_;
 		
-		attachment_ = [self attachmentAttributedStringWithImageFile : kUpdatedHeaderImageName];
-		mattachment_ = [attachment_ mutableCopyWithZone : nil];
-		[mattachment_ appendString : @"\n"
-					withAttributes : [NSDictionary empty]];
-		// è„â∫ÇÃó]îíÇïtâ¡
-		[mattachment_ addAttributes : [NSDictionary dictionaryWithObject : 
-										 [self indexParagraphStyleWithSpacingBefore : st_spacingBeforeMemory
-																	andSpacingAfter : 0.0]
-																  forKey : NSParagraphStyleAttributeName]
-																   range : NSMakeRange(0,[mattachment_ length])];
+		attachment_ = [self attachmentAttributedStringWithImageFile:kUpdatedHeaderImageName];
+		mattachment_ = [attachment_ mutableCopy];
+		[mattachment_ appendString:@"\n" withAttributes:[NSDictionary empty]];
+		// ‰∏ä‰∏ã„ÅÆ‰ΩôÁôΩ„Çí‰ªòÂä†
+		[mattachment_ addAttribute:NSParagraphStyleAttributeName
+							 value:[self indexParagraphStyleWithSpacingBefore:st_spacingBeforeMemory andSpacingAfter:0.0]
+							 range:NSMakeRange(0, [mattachment_ length])];
 
-		st_lastUpdatedHeaderAttachment = [mattachment_ copyWithZone : nil];
+		st_lastUpdatedHeaderAttachment = [mattachment_ copy];
 		[mattachment_ release];
 	}
-	if(nil == st_lastUpdatedHeaderAttachment){
+
+	if (!st_lastUpdatedHeaderAttachment){
 		st_lastUpdatedHeaderAttachment = [[NSAttributedString alloc] init];
 	}
 	return st_lastUpdatedHeaderAttachment;
 }
 
-/* è»ó™Ç≥ÇÍÇΩÉåÉXÇ™Ç†ÇËÇ‹Ç∑ */
-- (NSTextAttachment *) ellipsisProxyAttachmentWithName : (NSString *) aName
-											 mouseDown : (NSString *) mouseDownImg
-											 mouseOver : (NSString *) mouseOverImg
+/* ÁúÅÁï•„Åï„Çå„Åü„É¨„Çπ„Åå„ÅÇ„Çä„Åæ„Åô */
+static NSTextAttachment *ellipsisProxyAttachment(NSString *buttonName, NSString *mouseDownImageName, NSString *mouseOverImageName)
 {
-	NSImage				*img;
-	NSTextAttachment	*attachment_;
-	CMRAttachmentCell	*cell_;
+	NSTextAttachment	*attachment = [[NSTextAttachment alloc] init];
+	CMRAttachmentCell	*cell;
+
+	cell = [[CMRAttachmentCell alloc] initImageCell:[NSImage imageAppNamed:buttonName]];
+	[cell setMouseDownImage:[NSImage imageAppNamed:mouseDownImageName]];
+	[cell setMouseOverImage:[NSImage imageAppNamed:mouseOverImageName]];
+
+	[attachment setAttachmentCell:cell];
+	[cell release];
 	
-	attachment_ =  [[NSTextAttachment alloc] init];
-	
-	img = [NSImage imageAppNamed : aName];
-	cell_ = [[CMRAttachmentCell alloc] initImageCell : img];
-	img = [NSImage imageAppNamed : mouseDownImg];
-	[cell_ setMouseDownImage : img];
-	img = [NSImage imageAppNamed : mouseOverImg];
-	[cell_ setMouseOverImage : img];
-	
-	[attachment_ setAttachmentCell : cell_];
-	// 2005-09-30 Ç±ÇÃ retain í«â¡Ç≈ÉNÉâÉbÉVÉÖÇµÇ»Ç≠Ç»ÇÈÇ∆ÇÕÅAÇ¢Ç‚ÇÕÇ‚ÅA
-	// 268@CocoMonar 24th(actually 25th) thread éÅÇÃÉAÉhÉoÉCÉXÅiåÉÇµÇ≠ thxÅjÅB
-	//[attachment_ retain];
-	[cell_ release];
-	
-	return [attachment_ autorelease];
+	return [attachment autorelease];
 }
-- (NSTextAttachment *) ellipsisProxyAttachment
+
+- (NSTextAttachment *)ellipsisProxyAttachment
 {
-	return [self ellipsisProxyAttachmentWithName : kEllipsisProxyImage
-					mouseDown:kEllipsisMouseDownImage 
-					mouseOver:kEllipsisMouseOverImage];
+	return ellipsisProxyAttachment(kEllipsisProxyImage, kEllipsisMouseDownImage, kEllipsisMouseOverImage);
 }
-- (NSTextAttachment *) ellipsisDownProxyAttachment
+
+- (NSTextAttachment *)ellipsisDownProxyAttachment
 {
-	return [self ellipsisProxyAttachmentWithName : kEllipsisDownProxyImage
-					mouseDown:kEllipsisDownMouseDownImage 
-					mouseOver:kEllipsisDownMouseOverImage];
+	return ellipsisProxyAttachment(kEllipsisDownProxyImage, kEllipsisDownMouseDownImage, kEllipsisDownMouseOverImage);
 }
-- (NSTextAttachment *) ellipsisUpProxyAttachment
+
+- (NSTextAttachment *)ellipsisUpProxyAttachment
 {
-	return [self ellipsisProxyAttachmentWithName : kEllipsisUpProxyImage
-					mouseDown:kEllipsisUpMouseDownImage 
-					mouseOver:kEllipsisUpMouseOverImage];
+	return ellipsisProxyAttachment(kEllipsisUpProxyImage, kEllipsisUpMouseDownImage, kEllipsisUpMouseOverImage);
 }
 @end
 
-#pragma mark -
 
 @implementation CMRMessageAttributesTemplate(Attributes)
-- (void) setMessageHeadIndent : (float) anIndent
+- (void)setMessageHeadIndent:(float)anIndent
 {
-	[self setAttributeInDictionary : [self messageAttributes]
-					 attributeName : NSParagraphStyleAttributeName
-							 value : [self messageParagraphStyleWithIndent : anIndent]];
+	[self setAttributeInDictionary:[self messageAttributes]
+					 attributeName:NSParagraphStyleAttributeName
+							 value:[self messageParagraphStyleWithIndent:anIndent]];
 }
 
-- (void) setMessageIdxSpacingBefore : (float) beforeValue andSpacingAfter : (float) afterValue
+- (void) setMessageIdxSpacingBefore:(float)beforeValue andSpacingAfter:(float)afterValue
 {
-	[self setAttributeInDictionary : [self messageAttributesForText]
-					 attributeName : NSParagraphStyleAttributeName
-							 value : [self indexParagraphStyleWithSpacingBefore : beforeValue andSpacingAfter : afterValue]];
+	[self setAttributeInDictionary:[self messageAttributesForText]
+					 attributeName:NSParagraphStyleAttributeName
+							 value:[self indexParagraphStyleWithSpacingBefore:beforeValue andSpacingAfter:afterValue]];
 }
 
-- (void) setHasAnchorUnderline : (BOOL) flag
+- (void)setHasAnchorUnderline:(BOOL)flag
 {
-	[self setAttributeInDictionary : [self messageAttributesForAnchor]
-					 attributeName : NSUnderlineStyleAttributeName
-							 value : [self underlineStyleWithBool : flag]];
+	[self setAttributeInDictionary:[self messageAttributesForAnchor]
+					 attributeName:NSUnderlineStyleAttributeName
+							 value:underlineStyleWithBoolValue(flag)];
 }
 @end
-
 
 
 @implementation CMRMessageAttributesTemplate(AttachmentTemplate)
-- (NSAttributedString *) attachmentAttributedStringWithImageFile : (NSString *) anImageName
+- (NSAttributedString *)attachmentAttributedStringWithImageFile:(NSString *)anImageName
 {
 	NSImage						*image_;
 	NSTextAttachment			*attachment_;
@@ -264,159 +247,158 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 		anImageName && NO == [anImageName isEmpty],
 		ErrCreateAttachment);
 	
-	image_ = [NSImage imageAppNamed : anImageName];
+	image_ = [NSImage imageAppNamed:anImageName];
 	UTILRequireCondition(image_, ErrCreateAttachment);
 	
-	// âÊëúÉäÉ\Å[ÉXÇNSTextAttachmentÇ…Ç∑ÇÈÅB
-	// Text Attachment CellÇÃê›íË
+	// ÁîªÂÉè„É™„ÇΩ„Éº„Çπ„ÇíNSTextAttachment„Å´„Åô„Çã„ÄÇ
+	// Text Attachment Cell„ÅÆË®≠ÂÆö
 	attachment_ =  [[NSTextAttachment alloc] init];
-	cell_ = [[CMXImageAttachmentCell alloc] initImageCell : image_];
+	cell_ = [[CMXImageAttachmentCell alloc] initImageCell:image_];
 	alignment_ = SGTemplateResource(kMailIconAlignment);
 	UTILAssertKindOfClass(alignment_, NSNumber);
-	[cell_ setImageAlignment : [alignment_ intValue]];
+	[cell_ setImageAlignment:[alignment_ intValue]];
 	
-	[attachment_ setAttachmentCell : cell_];
+	[attachment_ setAttachmentCell:cell_];
 	[cell_ release];
 	
 	UTILRequireCondition(attachment_ && cell_, ErrCreateAttachment);
 	
-	attrs_ = [NSAttributedString attributedStringWithAttachment : attachment_];
+	attrs_ = [NSAttributedString attributedStringWithAttachment:attachment_];
 	[attachment_ release];
 	UTILRequireCondition(attrs_, ErrCreateAttachment);
 	
 ErrCreateAttachment:
-
 	return attrs_;
 }
 
 /**
-  * ÉÅÅ[ÉãÉAÉhÉåÉXÇ÷ÇÃÉäÉìÉNÇé¶Ç∑ÉAÉ^ÉbÉ`ÉÅÉìÉgÇä‹ÇﬁèëéÆÇ¬Ç´ï∂éöóÒÇï‘Ç∑ÅB
+  * „É°„Éº„É´„Ç¢„Éâ„É¨„Çπ„Å∏„ÅÆ„É™„É≥„ÇØ„ÇíÁ§∫„Åô„Ç¢„Çø„ÉÉ„ÉÅ„É°„É≥„Éà„ÇíÂê´„ÇÄÊõ∏Âºè„Å§„ÅçÊñáÂ≠óÂàó„ÇíËøî„Åô„ÄÇ
   * 
-  * @return     ÉÅÅ[ÉãÉAÉhÉåÉXÇ÷ÇÃÉäÉìÉNÇé¶Ç∑ÉAÉ^ÉbÉ`ÉÅÉìÉgÇä‹ÇﬁèëéÆÇ¬Ç´ï∂éöóÒ
+  * @return     „É°„Éº„É´„Ç¢„Éâ„É¨„Çπ„Å∏„ÅÆ„É™„É≥„ÇØ„ÇíÁ§∫„Åô„Ç¢„Çø„ÉÉ„ÉÅ„É°„É≥„Éà„ÇíÂê´„ÇÄÊõ∏Âºè„Å§„ÅçÊñáÂ≠óÂàó
   */
-- (NSMutableAttributedString *) mailImageAttachmentString
+- (NSMutableAttributedString *)mailImageAttachmentString
 {
-	static NSMutableAttributedString *st_mailAttachmentAttrs;		//ÉAÉ^ÉbÉ`ÉÅÉìÉg
+	static NSMutableAttributedString *st_mailAttachmentAttrs;		//„Ç¢„Çø„ÉÉ„ÉÅ„É°„É≥„Éà
 	
-	if(nil == st_mailAttachmentAttrs){
-		NSAttributedString	*attrs_ = nil;				// èëéÆÇ¬Ç´ï∂éöóÒ
+	if (!st_mailAttachmentAttrs) {
+		NSAttributedString	*attrs_ = nil;				// Êõ∏Âºè„Å§„ÅçÊñáÂ≠óÂàó
 		
-		attrs_ = [self attachmentAttributedStringWithImageFile : kMailImageFileName];
-		st_mailAttachmentAttrs = [attrs_ mutableCopyWithZone : nil];
+		attrs_ = [self attachmentAttributedStringWithImageFile:kMailImageFileName];
+		st_mailAttachmentAttrs = [attrs_ mutableCopy];
 	}
-	if(nil == st_mailAttachmentAttrs){
+
+	if (!st_mailAttachmentAttrs) {
 		NSString *mailStr_;
 		
-		// ÉäÉ\Å[ÉXÇ÷ÇÃÉpÉXÇéÊìæÇ≈Ç´Ç»Ç©Ç¡ÇΩèÍçáÇÕ
-		// í èÌÇÃï∂éöÇ≈ë„ópÇ∑ÇÈÅB
-		mailStr_ = [NSString stringWithCharacter : 0x25a0];		//Å°
-		st_mailAttachmentAttrs 
-		  = [[NSMutableAttributedString allocWithZone : nil]
-									   initWithString : mailStr_];
+		// „É™„ÇΩ„Éº„Çπ„Å∏„ÅÆ„Éë„Çπ„ÇíÂèñÂæó„Åß„Åç„Å™„Åã„Å£„ÅüÂ†¥Âêà„ÅØ
+		// ÈÄöÂ∏∏„ÅÆÊñáÂ≠ó„Åß‰ª£Áî®„Åô„Çã„ÄÇ
+		mailStr_ = [NSString stringWithCharacter:0x25a0];		//‚ñ†
+		st_mailAttachmentAttrs = [[NSMutableAttributedString alloc] initWithString:mailStr_];
 	}
 	return st_mailAttachmentAttrs;
 }
 
-- (NSAttributedString *) ageImageAttachmentString
+- (NSAttributedString *)ageImageAttachmentString
 {
-	static NSAttributedString *st_mailAttachmentAttrs;		//ÉAÉ^ÉbÉ`ÉÅÉìÉg
+	static NSAttributedString *st_mailAttachmentAttrs;		//„Ç¢„Çø„ÉÉ„ÉÅ„É°„É≥„Éà
 	
-	if(nil == st_mailAttachmentAttrs){
-		NSAttributedString	*attrs_ = nil;				// èëéÆÇ¬Ç´ï∂éöóÒ
+	if (!st_mailAttachmentAttrs) {
+		NSAttributedString	*attrs_ = nil;				// Êõ∏Âºè„Å§„ÅçÊñáÂ≠óÂàó
 		
-		attrs_ = [self attachmentAttributedStringWithImageFile : kAgeImageFileName];
-		st_mailAttachmentAttrs = [attrs_ copyWithZone : nil];
+		attrs_ = [self attachmentAttributedStringWithImageFile:kAgeImageFileName];
+		st_mailAttachmentAttrs = [attrs_ copy];
 	}
-	if(nil == st_mailAttachmentAttrs){
-		// ÉäÉ\Å[ÉXÇ÷ÇÃÉpÉXÇéÊìæÇ≈Ç´Ç»Ç©Ç¡ÇΩèÍçáÇÕ
-		// í èÌÇÃï∂éöÇ≈ë„ópÇ∑ÇÈÅB
-		st_mailAttachmentAttrs = [[NSAttributedString allocWithZone : nil]
-														initWithString : @"(+)"];
-	}
-	return st_mailAttachmentAttrs;
-}
-- (NSAttributedString *) sageImageAttachmentString
-{
-	static NSAttributedString *st_mailAttachmentAttrs;		//ÉAÉ^ÉbÉ`ÉÅÉìÉg
 	
-	if(nil == st_mailAttachmentAttrs){
-		NSAttributedString	*attrs_ = nil;				// èëéÆÇ¬Ç´ï∂éöóÒ
-		
-		attrs_ = [self attachmentAttributedStringWithImageFile : kSageImageFileName];
-		st_mailAttachmentAttrs = [attrs_ copyWithZone : nil];
-	}
-	if(nil == st_mailAttachmentAttrs){
-		// ÉäÉ\Å[ÉXÇ÷ÇÃÉpÉXÇéÊìæÇ≈Ç´Ç»Ç©Ç¡ÇΩèÍçáÇÕ
-		// í èÌÇÃï∂éöÇ≈ë„ópÇ∑ÇÈÅB
-		st_mailAttachmentAttrs = [[NSAttributedString allocWithZone : nil]
-														initWithString : @"(-)"];
+	if (!st_mailAttachmentAttrs) {
+		// „É™„ÇΩ„Éº„Çπ„Å∏„ÅÆ„Éë„Çπ„ÇíÂèñÂæó„Åß„Åç„Å™„Åã„Å£„ÅüÂ†¥Âêà„ÅØ
+		// ÈÄöÂ∏∏„ÅÆÊñáÂ≠ó„Åß‰ª£Áî®„Åô„Çã„ÄÇ
+		st_mailAttachmentAttrs = [[NSAttributedString alloc] initWithString:@"(+)"];
 	}
 	return st_mailAttachmentAttrs;
 }
 
+- (NSAttributedString *)sageImageAttachmentString
+{
+	static NSAttributedString *st_mailAttachmentAttrs;		//„Ç¢„Çø„ÉÉ„ÉÅ„É°„É≥„Éà
+	
+	if (!st_mailAttachmentAttrs) {
+		NSAttributedString	*attrs_ = nil;				// Êõ∏Âºè„Å§„ÅçÊñáÂ≠óÂàó
+
+		attrs_ = [self attachmentAttributedStringWithImageFile:kSageImageFileName];
+		st_mailAttachmentAttrs = [attrs_ copy];
+	}
+
+	if (!st_mailAttachmentAttrs) {
+		// „É™„ÇΩ„Éº„Çπ„Å∏„ÅÆ„Éë„Çπ„ÇíÂèñÂæó„Åß„Åç„Å™„Åã„Å£„ÅüÂ†¥Âêà„ÅØ
+		// ÈÄöÂ∏∏„ÅÆÊñáÂ≠ó„Åß‰ª£Áî®„Åô„Çã„ÄÇ
+		st_mailAttachmentAttrs = [[NSAttributedString alloc] initWithString:@"(-)"];
+	}
+	return st_mailAttachmentAttrs;
+}
 @end
 
 
-
 @implementation CMRMessageAttributesTemplate(Private)
-- (void) setAttributeInDictionary : (NSMutableDictionary *) dict
-                    attributeName : (NSString            *) name
-                            value : (id                   ) value
+static NSNumber *underlineStyleWithBoolValue(BOOL hasUnderline)
 {
-	if(nil == dict || nil == name) return;
+	static NSNumber *singleNum = nil;
+	static NSNumber *noneNum = nil;
+	if (!singleNum || !noneNum) {
+		singleNum = [[NSNumber alloc] initWithInt:NSUnderlineStyleSingle];
+		noneNum = [[NSNumber alloc] initWithInt:NSUnderlineStyleNone];
+	}
+
+	return hasUnderline ? singleNum : noneNum;
+}
+
+- (void)setAttributeInDictionary:(NSMutableDictionary *)dict attributeName:(NSString *)name value:(id)value
+{
+	if (!dict || !name) return;
 	
-	if(nil == value){
-		[dict removeObjectForKey : name];
-	}else{
-		[dict setObject : value
-				 forKey : name];
+	if (!value) {
+		[dict removeObjectForKey:name];
+	} else {
+		[dict setObject:value forKey:name];
 	}
 }
 
-- (NSNumber *) underlineStyleWithBool : (BOOL) hasUnderline
-{
-	// 2005-09-09 tsawada2 : Mac OS X 10.3 à»ëOÇ∆ÇÕå›ä∑ê´Ç™Ç»Ç¢ÇÃÇ≈íçà”
-	return hasUnderline ? [NSNumber numberWithInt : NSUnderlineStyleSingle] : [NSNumber numberWithInt : NSUnderlineStyleNone];
-}
-
-- (NSParagraphStyle *) messageParagraphStyleWithIndent : (float) anIndent
-{
-	NSMutableParagraphStyle *paraStyle_;
-	
-	paraStyle_ = 
-	  [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
-	[paraStyle_ setFirstLineHeadIndent : anIndent];
-	[paraStyle_ setHeadIndent : anIndent];
-	
-	return [paraStyle_ autorelease];
-}
-
-- (NSParagraphStyle *) indexParagraphStyleWithSpacingBefore : (float) beforeSpace
-											andSpacingAfter : (float) afterSpace
+- (NSParagraphStyle *)messageParagraphStyleWithIndent:(float)anIndent
 {
 	NSMutableParagraphStyle *paraStyle_;
 	
 	paraStyle_ = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
-	[paraStyle_ setParagraphSpacing : afterSpace];
-	[paraStyle_ setParagraphSpacingBefore : beforeSpace];	// Note: available in Mac OS X 10.3 or later.
+	[paraStyle_ setFirstLineHeadIndent:anIndent];
+	[paraStyle_ setHeadIndent:anIndent];
+	
+	return [paraStyle_ autorelease];
+}
+
+- (NSParagraphStyle *)indexParagraphStyleWithSpacingBefore:(float)beforeSpace
+										   andSpacingAfter:(float)afterSpace
+{
+	NSMutableParagraphStyle *paraStyle_;
+	
+	paraStyle_ = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+	[paraStyle_ setParagraphSpacing:afterSpace];
+	[paraStyle_ setParagraphSpacingBefore:beforeSpace];	// Note: available in Mac OS X 10.3 or later.
 	
 	return [paraStyle_ autorelease];
 }
 
 #pragma mark Accessors
 /* Accessor for _messageAttributesForAnchor */
-- (NSMutableDictionary *) messageAttributesForAnchor
+- (NSMutableDictionary *)messageAttributesForAnchor
 {
-	if(nil == _messageAttributesForAnchor){		
-		_messageAttributesForAnchor = [[[self class] defaultAttributes] mutableCopyWithZone : nil];
+	if (!_messageAttributesForAnchor) {		
+		_messageAttributesForAnchor = [[[self class] defaultAttributes] mutableCopyWithZone:nil];
 
-		[self setAttributeInDictionary : _messageAttributesForAnchor
-						 attributeName : NSForegroundColorAttributeName
-								 value : [[CMRPref threadViewTheme] linkColor]];
+		[self setAttributeInDictionary:_messageAttributesForAnchor
+						 attributeName:NSForegroundColorAttributeName
+								 value:[[CMRPref threadViewTheme] linkColor]];
 		
-		[self setAttributeInDictionary : _messageAttributesForAnchor
-						 attributeName : NSUnderlineStyleAttributeName
-								 value : [self underlineStyleWithBool : [CMRPref hasMessageAnchorUnderline]]];
+		[self setAttributeInDictionary:_messageAttributesForAnchor
+						 attributeName:NSUnderlineStyleAttributeName
+								 value:underlineStyleWithBoolValue([CMRPref hasMessageAnchorUnderline])];
 
 		// Leopard
 		if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {
@@ -429,130 +411,129 @@ ErrCreateAttachment:
 }
 
 /* Accessor for _messageAttributesForName */
-- (NSMutableDictionary *) messageAttributesForName
+- (NSMutableDictionary *)messageAttributesForName
 {
-	if(nil == _messageAttributesForName){
-		_messageAttributesForName = [[[self class] defaultAttributes] mutableCopyWithZone : nil];
+	if (!_messageAttributesForName) {
+		_messageAttributesForName = [[[self class] defaultAttributes] mutableCopyWithZone:nil];
 
-		[self setAttributeInDictionary : _messageAttributesForName
-						 attributeName : NSForegroundColorAttributeName
-								 value : [[CMRPref threadViewTheme] nameColor]];
-		// ÉtÉHÉìÉgÇÕïWèÄÉeÉLÉXÉgÇ∆ìØÇ∂ÅB
-		[self setAttributeInDictionary : _messageAttributesForName
-						 attributeName : NSFontAttributeName
-								 value : [[CMRPref threadViewTheme] baseFont]];
-		[self setAttributeInDictionary : _messageAttributesForName
-						 attributeName : BSMessageKeyAttributeName
-								 value : @"name"];
+		[self setAttributeInDictionary:_messageAttributesForName
+						 attributeName:NSForegroundColorAttributeName
+								 value:[[CMRPref threadViewTheme] nameColor]];
+		// „Éï„Ç©„É≥„Éà„ÅØÊ®ôÊ∫ñ„ÉÜ„Ç≠„Çπ„Éà„Å®Âêå„Åò„ÄÇ
+		[self setAttributeInDictionary:_messageAttributesForName
+						 attributeName:NSFontAttributeName
+								 value:[[CMRPref threadViewTheme] baseFont]];
+		[self setAttributeInDictionary:_messageAttributesForName
+						 attributeName:BSMessageKeyAttributeName
+								 value:@"name"];
 	}
 	return _messageAttributesForName;
 }
 
 /* Accessor for _messageAttributesForTitle */
-- (NSMutableDictionary *) messageAttributesForTitle
+- (NSMutableDictionary *)messageAttributesForTitle
 {
-	if(nil == _messageAttributesForTitle){
-		_messageAttributesForTitle = [[[self class] defaultAttributes] mutableCopyWithZone : nil];
+	if (!_messageAttributesForTitle) {
+		_messageAttributesForTitle = [[[self class] defaultAttributes] mutableCopyWithZone:nil];
 
-		[self setAttributeInDictionary : _messageAttributesForTitle
-						 attributeName : NSForegroundColorAttributeName
-								 value : [[CMRPref threadViewTheme] titleColor]];
-		[self setAttributeInDictionary : _messageAttributesForTitle
-						 attributeName : NSFontAttributeName
-								 value : [[CMRPref threadViewTheme] titleFont]];
+		[self setAttributeInDictionary:_messageAttributesForTitle
+						 attributeName:NSForegroundColorAttributeName
+								 value:[[CMRPref threadViewTheme] titleColor]];
+		[self setAttributeInDictionary:_messageAttributesForTitle
+						 attributeName:NSFontAttributeName
+								 value:[[CMRPref threadViewTheme] titleFont]];
 	}
 	return _messageAttributesForTitle;
 }
 
 /* Accessor for _messageAttributes */
-- (NSMutableDictionary *) messageAttributes
+- (NSMutableDictionary *)messageAttributes
 {
-	if(nil == _messageAttributes){
+	if (!_messageAttributes) {
 		float					indent_;
 		NSParagraphStyle		*messageParagraphStyle_;
 		
 		indent_ = [CMRPref messageHeadIndent];
-		messageParagraphStyle_ = [self messageParagraphStyleWithIndent : indent_];
+		messageParagraphStyle_ = [self messageParagraphStyleWithIndent:indent_];
 		
-		_messageAttributes = [[[self class] defaultAttributes] mutableCopyWithZone : nil];
+		_messageAttributes = [[[self class] defaultAttributes] mutableCopyWithZone:nil];
 
-		[self setAttributeInDictionary : _messageAttributes
-						 attributeName : NSParagraphStyleAttributeName
-								 value : messageParagraphStyle_];
-		[self setAttributeInDictionary : _messageAttributes
-						 attributeName : NSForegroundColorAttributeName
-								 value : [[CMRPref threadViewTheme] messageColor]];
-		[self setAttributeInDictionary : _messageAttributes
-						 attributeName : NSFontAttributeName
-								 value : [[CMRPref threadViewTheme] messageFont]];
+		[self setAttributeInDictionary:_messageAttributes
+						 attributeName:NSParagraphStyleAttributeName
+								 value:messageParagraphStyle_];
+		[self setAttributeInDictionary:_messageAttributes
+						 attributeName:NSForegroundColorAttributeName
+								 value:[[CMRPref threadViewTheme] messageColor]];
+		[self setAttributeInDictionary:_messageAttributes
+						 attributeName:NSFontAttributeName
+								 value:[[CMRPref threadViewTheme] messageFont]];
 	}
 	return _messageAttributes;
 }
 
 /* Accessor for _messageAttributesForText */
-- (NSMutableDictionary *) messageAttributesForText
+- (NSMutableDictionary *)messageAttributesForText
 {
-	if(nil == _messageAttributesForText){
-		_messageAttributesForText = [[[self class] defaultAttributes] mutableCopyWithZone : nil];
+	if (!_messageAttributesForText) {
+		_messageAttributesForText = [[[self class] defaultAttributes] mutableCopyWithZone:nil];
 		
-		[self setAttributeInDictionary : _messageAttributesForText
-						 attributeName : NSParagraphStyleAttributeName
-								 value : [self indexParagraphStyleWithSpacingBefore : [CMRPref msgIdxSpacingBefore]
-																	andSpacingAfter : [CMRPref msgIdxSpacingAfter]]];
-		[self setAttributeInDictionary : _messageAttributesForText
-						 attributeName : NSFontAttributeName
-								 value : [[CMRPref threadViewTheme] baseFont]];
-		[self setAttributeInDictionary : _messageAttributesForText
-						 attributeName : NSForegroundColorAttributeName
-								 value : [[CMRPref threadViewTheme] baseColor]];
+		[self setAttributeInDictionary:_messageAttributesForText
+						 attributeName:NSParagraphStyleAttributeName
+								 value:[self indexParagraphStyleWithSpacingBefore:[CMRPref msgIdxSpacingBefore]
+																  andSpacingAfter:[CMRPref msgIdxSpacingAfter]]];
+		[self setAttributeInDictionary:_messageAttributesForText
+						 attributeName:NSFontAttributeName
+								 value:[[CMRPref threadViewTheme] baseFont]];
+		[self setAttributeInDictionary:_messageAttributesForText
+						 attributeName:NSForegroundColorAttributeName
+								 value:[[CMRPref threadViewTheme] baseColor]];
 	}
 	return _messageAttributesForText;
 }
 
-- (NSMutableDictionary *) messageAttributesForBeProfileLink
+- (NSMutableDictionary *)messageAttributesForBeProfileLink
 {
-	if(nil == _messageAttributesForBeProfileLink){
-		_messageAttributesForBeProfileLink = [[[self class] defaultAttributes] mutableCopyWithZone : nil];
+	if (!_messageAttributesForBeProfileLink) {
+		_messageAttributesForBeProfileLink = [[[self class] defaultAttributes] mutableCopyWithZone:nil];
 
-		[self setAttributeInDictionary : _messageAttributesForBeProfileLink
-						 attributeName : NSFontAttributeName
-								 value : [[CMRPref threadViewTheme] beFont]];
+		[self setAttributeInDictionary:_messageAttributesForBeProfileLink
+						 attributeName:NSFontAttributeName
+								 value:[[CMRPref threadViewTheme] beFont]];
 	}
 	return _messageAttributesForBeProfileLink;
 }
 
-- (NSMutableDictionary *) messageAttributesForHost
+- (NSMutableDictionary *)messageAttributesForHost
 {
-	if(nil == _messageAttributesForHost){
-		_messageAttributesForHost = [[[self class] defaultAttributes] mutableCopyWithZone : nil];
+	if (!_messageAttributesForHost) {
+		_messageAttributesForHost = [[[self class] defaultAttributes] mutableCopyWithZone:nil];
 
-		[self setAttributeInDictionary : _messageAttributesForHost
-						 attributeName : NSForegroundColorAttributeName
-								 value : [[CMRPref threadViewTheme] hostColor]];
-		[self setAttributeInDictionary : _messageAttributesForHost
-						 attributeName : NSFontAttributeName
-								 value : [[CMRPref threadViewTheme] hostFont]];
+		[self setAttributeInDictionary:_messageAttributesForHost
+						 attributeName:NSForegroundColorAttributeName
+								 value:[[CMRPref threadViewTheme] hostColor]];
+		[self setAttributeInDictionary:_messageAttributesForHost
+						 attributeName:NSFontAttributeName
+								 value:[[CMRPref threadViewTheme] hostFont]];
 	}
 	return _messageAttributesForHost;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-	if (context == kContext && object == CMRPref && [keyPath isEqualToString: @"threadViewTheme"]) {
-//		NSLog(@"Resetting message attributes...");
+	if (context == kContext && object == CMRPref && [keyPath isEqualToString:@"threadViewTheme"]) {
 		[_messageAttributesForAnchor release];
 		_messageAttributesForAnchor = nil;
 		[_messageAttributesForName release];
-		_messageAttributesForName = nil;	//ñºëOÇÃèëéÆ
-		[_messageAttributesForTitle release];	//çÄñ⁄ÇÃÉ^ÉCÉgÉãèëéÆ
+		_messageAttributesForName = nil;	//ÂêçÂâç„ÅÆÊõ∏Âºè
+		[_messageAttributesForTitle release];	//È†ÖÁõÆ„ÅÆ„Çø„Ç§„Éà„É´Êõ∏Âºè
 		_messageAttributesForTitle = nil;
 		[_messageAttributesForText release];
-		_messageAttributesForText = nil;	//ïWèÄÇÃèëéÆ
-		[_messageAttributes release];			//ÉÅÉbÉZÅ[ÉWÇÃèëéÆ
+		_messageAttributesForText = nil;	//Ê®ôÊ∫ñ„ÅÆÊõ∏Âºè
+		[_messageAttributes release];			//„É°„ÉÉ„Çª„Éº„Ç∏„ÅÆÊõ∏Âºè
 		_messageAttributes = nil;
 		[_messageAttributesForBeProfileLink release];
-		_messageAttributesForBeProfileLink = nil;	//Be ÉvÉçÉtÉBÅ[ÉãÉäÉìÉNÇÃèëéÆ
-		[_messageAttributesForHost release];	//HostÇÃèëéÆ
+		_messageAttributesForBeProfileLink = nil;	//Be „Éó„É≠„Éï„Ç£„Éº„É´„É™„É≥„ÇØ„ÅÆÊõ∏Âºè
+		[_messageAttributesForHost release];	//Host„ÅÆÊõ∏Âºè
 		_messageAttributesForHost = nil;
 	}
 }

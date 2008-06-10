@@ -1,3 +1,8 @@
+2008-06-11 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/source/composer/CMRMessageAttributesTemplate.m
+		一部メソッドを関数化。
+	* application/source/composer/CMRMessageSample.m
+		迷惑レスのサンプルに「サンプルとして（はじめて）収集した日付」を属性として持たせるようにした。
 2008-06-08 tsawada2 <tsawada2@users.sourceforge.jp>
 	* application/subproj/previewer/BSIPIHistoryManager.m
 		プレビューインスペクタ（2.7.5）：

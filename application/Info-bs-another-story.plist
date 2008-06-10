@@ -54,7 +54,7 @@
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
-	<string>BathyScaphe</string>
+	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleHelpBookFolder</key>
 	<string>BathyScapheHelp</string>
 	<key>CFBundleHelpBookName</key>
@@ -85,9 +85,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>302</string>
-	<key>LSMinimumSystemVersion</key>
-	<string>10.4.0</string>
+	<string>303.1</string>
 	<key>NSAppleScriptEnabled</key>
 	<true/>
 	<key>NSMainNibFile</key>

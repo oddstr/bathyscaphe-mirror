@@ -756,7 +756,6 @@ static NSDictionary *boardInfoWithFilepath(NSString *filepath)
 
 	[self cleanUpItemsToBeRemoved:files_ willReload:shouldReload_];
 	if (shouldReload_) {
-		NSLog(@"shoulfReload_ flag check - OK!");
 		[self loadFromContentsOfFile:[files_ objectAtIndex:0]];
 	}
 }
