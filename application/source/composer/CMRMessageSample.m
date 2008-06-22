@@ -157,7 +157,11 @@
 
 	// tsawada2 2008-06-09:dateのない古いプロパティリストレプリゼンテーションにはどう対応するか？
 	v = [rep objectForKey:kDateKey];
-	if (v && [v isKindOfClass:[NSDate class]]) [self setSampledDate:v];
+	if (v && [v isKindOfClass:[NSDate class]]) {
+		[self setSampledDate:v];
+	} else {
+		[self setSampledDate:[NSDate date]];
+	}
 	return YES;
 }
 

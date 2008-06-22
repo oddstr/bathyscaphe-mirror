@@ -110,14 +110,14 @@ CMRBrowser *CMRMainBrowser = nil;
 
 - (void)didChangeThread
 {
-	NSString *threadTitleAndBoardName;
-	BSTitleRulerView *ruler = (BSTitleRulerView *)[[self scrollView] horizontalRulerView];
+/*	NSString *threadTitleAndBoardName;
+	BSTitleRulerView *ruler = (BSTitleRulerView *)[[self scrollView] horizontalRulerView];*/
 	// 履歴メニューから選択した可能性もあるので、
 	// 表示したスレッドを一覧でも選択させる
 	[super didChangeThread];
-	threadTitleAndBoardName = [self titleForTitleBar];
+/*	threadTitleAndBoardName = [self titleForTitleBar];
 	[ruler setTitleStr:(threadTitleAndBoardName ? threadTitleAndBoardName : @"")];
-	[ruler setPathStr:[self path]];
+	[ruler setPathStr:[self path]];*/
 	[self selectRowWithCurrentThread];
 }
 
@@ -145,15 +145,31 @@ CMRBrowser *CMRMainBrowser = nil;
 @end
 
 
+@implementation CMRBrowser(ThreadContents)
+- (void)addThreadTitleToHistory
+{
+	NSString *threadTitleAndBoardName;
+	BSTitleRulerView *ruler = (BSTitleRulerView *)[[self scrollView] horizontalRulerView];
+
+	[super addThreadTitleToHistory];
+
+	threadTitleAndBoardName = [self titleForTitleBar];
+	[ruler setTitleStr:(threadTitleAndBoardName ? threadTitleAndBoardName : @"")];
+	[ruler setPathStr:[self path]];
+}
+@end
+
 
 @implementation CMRBrowser(SelectingThreads)
-- (unsigned int) numberOfSelectedThreads
+- (unsigned int)numberOfSelectedThreads
 {
+	unsigned int count = [[self threadsListTable] numberOfSelectedRows];
+
 	// 選択していないが表示している
-	if (0 == [[self threadsListTable] numberOfSelectedRows] && [self shouldShowContents])
+	if ((count == 0) && [self shouldShowContents]) {
 		return [super numberOfSelectedThreads];
-	
-	return [[self threadsListTable] numberOfSelectedRows];
+	}
+	return count;
 }
 
 
@@ -164,23 +180,24 @@ static BOOL threadDictionaryCompare(NSDictionary *dict1, NSDictionary *dict2)
 	BOOL				result = NO;
 	
 	if (dict1 == dict2) return YES;
-	if (nil == dict1 || nil == dict2) return NO;
+	if (!dict1 || !dict2) return NO;
 	
-	brdName1 = [CMRThreadAttributes boardNameFromDictionary : dict1];
-	dat1 = [CMRThreadAttributes identifierFromDictionary : dict1];
+	brdName1 = [CMRThreadAttributes boardNameFromDictionary:dict1];
+	brdName2 = [CMRThreadAttributes boardNameFromDictionary:dict2];
+
+	result = brdName1 ? [brdName1 isEqualToString:brdName2] : (nil == brdName2);
+	if (!result) return NO;
+
+	dat1 = [CMRThreadAttributes identifierFromDictionary:dict1];
+	dat2 = [CMRThreadAttributes identifierFromDictionary:dict2];
 	
-	brdName2 = [CMRThreadAttributes boardNameFromDictionary : dict2];
-	dat2 = [CMRThreadAttributes identifierFromDictionary : dict2];
-	
-	result = brdName1 ? [brdName1 isEqualToString : brdName2] : nil == brdName2;
-	if (NO == result) return NO;
-	
-	result = dat1 ? [dat1 isEqualToString : dat2] : nil == dat2;
-	if (NO == result) return NO;
+	result = dat1 ? [dat1 isEqualToString:dat2] : (nil == dat2);
+//	if (!result) return NO;
 	
 	return result;
 }
-- (NSArray *) selectedThreads
+
+- (NSArray *)selectedThreads
 {
 	NSEnumerator	*indexIter_;
 	NSMutableArray	*threads_;
@@ -194,24 +211,22 @@ static BOOL threadDictionaryCompare(NSDictionary *dict1, NSDictionary *dict2)
 	
 	threads_ = [NSMutableArray array];
 	indexIter_ = [[self threadsListTable] selectedRowEnumerator];
-	while ((indexNum_ = [indexIter_ nextObject])) {
+
+	while (indexNum_ = [indexIter_ nextObject]) {
 		unsigned int		rowIndex_;
 		NSDictionary		*thread_;
 		
 		rowIndex_ = [indexNum_ unsignedIntValue];
-		thread_ = [[self currentThreadsList]
-					threadAttributesAtRowIndex : rowIndex_ 
-								   inTableView : [self threadsListTable]];
-		if (nil == thread_) 
-			continue;
-		if (threadDictionaryCompare(selected_, thread_))
-			selectedItemAdded_ = YES;
+		thread_ = [[self currentThreadsList] threadAttributesAtRowIndex:rowIndex_ inTableView:[self threadsListTable]];
+		if (!thread_) continue;
+
+		if (threadDictionaryCompare(selected_, thread_)) selectedItemAdded_ = YES;
 		
-		[threads_ addObject : thread_];
+		[threads_ addObject:thread_];
 	}
-	if (NO == selectedItemAdded_ && selected_ != nil)
-		[threads_ addObject : selected_];
-	
+
+	if (!selectedItemAdded_ && selected_) [threads_ addObject:selected_];
+
 	return threads_;
 }
 

@@ -1,3 +1,20 @@
+2008-06-22 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/source/browser/CMRBrowser.m
+		スレッドタイトルバーの更新タイミングを変更し、
+		http://pc11.2ch.net/test/read.cgi/mac/1211029333/330 で報告された問題を解決。
+		（以下、転載）
+		>330 名前: 名称未設定 投稿日: 2008/06/13(金) 18:32:40 ID: rtiZHCAC0 
+		>【Mac OS X】Version 10.4.11（Build 8S165）
+		>【BathyScaphe】1.6.1 (271)
+		>【プレビュープラグイン】jp.tsawada2.bathyscaphe.ImagePreviewer (2.7.3/15)
+		>【不具合の内容】 スレッドタイトルバーにタイトルが表示されない
+		>【再現手順】
+		>1. 3ペインでスレッドを表示させる
+		>2. 表示されたスレッドを削除する
+		>3. メニューバーの「履歴」から、削除したスレッドを取得する
+		>4. レスは表示されるが、スレッドタイトルバーにタイトルが表示されない
+	* application/source/browser/CMRThreadsList.m
+		ソース整理を少々。
 2008-06-22 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSDBThreadList.m:
 		不要なコメントを消去。

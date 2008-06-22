@@ -85,7 +85,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>303.1</string>
+	<string>305</string>
 	<key>NSAppleScriptEnabled</key>
 	<true/>
 	<key>NSMainNibFile</key>

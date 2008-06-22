@@ -28,7 +28,7 @@ NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserIn
 	return self;
 }
 
-- (void) dealloc
+- (void)dealloc
 {
 	[self removeFromNotificationCenter];
 	
@@ -146,12 +146,6 @@ NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserIn
 
 
 @implementation CMRThreadsList(Attributes)
-- (NSString *)threadsListPath
-{
-	NSLog(@"WARNING! CMRThreadsList's -threadsListPath has been deprecated.");
-	return nil;
-}
-
 - (NSURL *)boardURL
 {
 	return [[BoardManager defaultManager] URLForBoardName:[self boardName]];

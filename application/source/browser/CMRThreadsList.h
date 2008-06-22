@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.h,v 1.20 2008/06/08 05:36:04 tsawada2 Exp $
+  * $Id: CMRThreadsList.h,v 1.21 2008/06/22 14:57:44 tsawada2 Exp $
   * 
   * CMRThreadsList.h
   *
@@ -99,7 +99,6 @@ enum {
 @interface CMRThreadsList(Attributes)
 //- (NSString *) BBSName;
 - (NSString *) boardName;
-//- (NSString *) threadsListPath; // Deprecated in Twincam Angel and later.
 - (NSURL *) boardURL;
 
 - (unsigned) numberOfThreads;
