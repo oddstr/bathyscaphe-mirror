@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRMessageFilter.m,v 1.13 2007/12/11 17:09:37 tsawada2 Exp $
+  * $Id: CMRMessageFilter.m,v 1.14 2008/06/22 15:57:57 tsawada2 Exp $
   * 
   * CMRMessageFilter.m
   *
@@ -694,7 +694,7 @@ static int doDetectMessageAny_(
 }
 
 // 設定されていないID や よくある名前等は比較対象にしない
-static BOOL checkMailIsNonSignificant_(NSString *mail)
+/*static BOOL checkMailIsNonSignificant_(NSString *mail)
 {
 	NSCharacterSet	*cset;
 	
@@ -716,8 +716,32 @@ static BOOL checkMailIsNonSignificant_(NSString *mail)
 	}
 		
 	return NO;
+}*/
+static BOOL checkMailIsNonSignificant_(NSString *mail)
+{
+	NSCharacterSet	*cset;
+	NSScanner	*scanner;
+	
+	if (!mail || [mail length] == 0 || 
+		[mail isEqualToString:CMRThreadMessage_SAGE_String] ||
+		[mail isEqualToString:CMRThreadMessage_AGE_String] ||
+		[mail isEqualToString:@"0"]) {
+		UTIL_DEBUG_WRITE1(@"mail:%@ was nonsignificant.", mail);
+		return YES;
+	}
+	
+	// 数字のみ
+	cset = [NSCharacterSet decimalDigitCharacterSet];
+	scanner = [NSScanner localizedScannerWithString:mail];
+	if ([scanner scanCharactersFromSet:cset intoString:NULL]) {
+		if ([scanner scanLocation] == [[scanner string] length]) {
+			UTIL_DEBUG_WRITE1(@"mail:%@ was decimalDigits, so nonsignificant.", mail);
+			return YES;
+		}
+	}
+		
+	return NO;
 }
-
 
 // 名前欄のチェック
 static BOOL checkNameIsNonSignificant_(NSString *name)

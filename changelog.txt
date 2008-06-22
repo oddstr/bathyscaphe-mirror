@@ -1,3 +1,6 @@
+2008-06-23 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/source/composer/CMRMessageFilter.m
+		一部関数の内部を修正。迷惑レスフィルタは中期的に大改良が必要だな……現状はどうして動いているのか不思議なくらい。
 2008-06-22 tsawada2 <tsawada2@users.sourceforge.jp>
 	* application/source/browser/CMRBrowser.m
 		スレッドタイトルバーの更新タイミングを変更し、
