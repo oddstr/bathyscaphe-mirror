@@ -202,10 +202,10 @@ static NSString *const BSThreadListItemErrorDomain = @"BSThreadListItemErrorDoma
 	
 	double currentDateTime = [[NSDate dateWithTimeIntervalSinceNow:0.0] timeIntervalSince1970];
 	
-	double dateTime = currentDateTime - createDateTime;
-	if(dateTime == 0) return nil;
+	double deltaTime = currentDateTime - createDateTime;
+	if(deltaTime == 0) return nil;
 	
-	double ikioi = (res * 60 * 60 * 24) / dateTime;
+	double ikioi = (res * 60 * 60 * 24) / deltaTime;
 
 	result = [NSNumber numberWithDouble:ikioi];
 //	result = [NSString stringWithFormat:@"%.1f", ikioi];

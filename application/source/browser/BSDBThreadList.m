@@ -37,10 +37,8 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 {
 	self = [super init];
 	if (self) {
-//		[self setBBSName : [item name]];
 		[self setBoardListItem:item];
 		
-//		[self filterByStatusWithoutUpdateList:[CMRPref browserStatusFilteringMask]];
 		[self filterByStatusWithoutUpdateList:0];
 		
 		mCursorLock = [[NSLock alloc] init];
@@ -49,32 +47,6 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	
 	return self;
 }
-/*- (id) initWithBBSName : (NSString *) boardName
-{
-	BoardListItem *item;
-	
-	UTILAssertNotNilArgument(boardName, @"boardName");
-	
-	if ([boardName isEqualTo : CMXFavoritesDirectoryName]) {
-		item = [BoardListItem favoritesItem];
-	} else {
-		NSArray *boardIDs;
-		unsigned boardID;
-		
-		boardIDs = [[DatabaseManager defaultManager] boardIDsForName : boardName];
-		if (!boardIDs || ![boardIDs count]) {
-			NSLog(@"Not found board named %@", boardName);
-			return nil;
-		}
-		
-		// TODO 複数あった場合の処理
-		
-		boardID = [[boardIDs objectAtIndex : 0] unsignedIntValue];
-		item = [BoardListItem baordListItemWithBoradID : boardID];
-	}
-	
-	return [self initWithBoardListItem : item];
-}*/
 + (id)threadListWithBoardListItem : (BoardListItem *) item
 {
 	return [[[self alloc] initWithBoardListItem : item] autorelease];
@@ -99,9 +71,7 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	[mTaskLock release];
 	
 	[mSortDescriptors release];
-	
-//	[[NSNotificationCenter defaultCenter] removeObserver:self]; // super で call されるので ok
-	
+		
 	[super dealloc];
 }
 

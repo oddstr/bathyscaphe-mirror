@@ -192,7 +192,7 @@ abort:
 	
 	if (db && [db beginTransaction]) {
 		// 不要なデータを削除
-		//		NSLog(@"START DELETING");
+		UTILDebugWrite(@"START DELETING");
 		NSString *query = [NSString stringWithFormat:
 						   @"DELETE FROM %@ "
 						   @"WHERE "
@@ -210,9 +210,9 @@ abort:
 		if ([db lastErrorID] != 0) {
 			NSLog(@"Fail Delete. ErrorID -> %d. Reson: %@", [db lastErrorID], [db lastError] );
 		}
-		//		NSLog(@"	%d row(s) deleted.", sqlite3_changes([db rowDatabase]));
+		UTILDebugWrite1(@"	%d row(s) deleted.", sqlite3_changes([db rowDatabase]));
 		[db commitTransaction];
-		//		NSLog(@"END DELETEING");
+		UTILDebugWrite(@"END DELETEING");
 	}
 }
 - (void) run
@@ -268,15 +268,15 @@ abort:
 		if(isInterrupted) goto abort;
 		
 		// スレッド番号用テーブルをクリア
-//		NSLog(@"START CLEAR TEMP DATA");
+		UTILDebugWrite(@"START CLEAR TEMP DATA");
 		id query = [NSString stringWithFormat : @"DELETE FROM %@ WHERE %@ = %@",
 			TempThreadNumberTableName,
 			BoardIDColumn, boardID];
 		[db performQuery : query];
-//		NSLog(@"	%d row(s) deleted.", sqlite3_changes([db rowDatabase]));
-//		NSLog(@"END CLEAR TEMP DATA");
+		UTILDebugWrite1(@"	%d row(s) deleted.", sqlite3_changes([db rowDatabase]));
+		UTILDebugWrite(@"END CLEAR TEMP DATA");
 		
-//		NSLog(@"START REGISTER THREADS");
+		UTILDebugWrite(@"START REGISTER THREADS");
 		for( count = [lines count], i = 0; i < count; i++ ) {
 			if(isInterrupted) goto abort;
 			
@@ -302,7 +302,7 @@ abort:
 			}
 		}
 		[db commitTransaction];
-//		NSLog(@"END REGISTER THREADS");
+		UTILDebugWrite(@"END REGISTER THREADS");
 	}
 	
 	[self deleteUnusedInfomations:db];
