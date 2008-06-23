@@ -255,7 +255,8 @@ static NSString *const BSThreadListItemErrorDomain = @"BSThreadListItemErrorDoma
 		return [self creationDate];
 	} else if([key isEqualToString:ThreadPlistBoardNameKey]) {
 		return [self boardName];
-	} else if([key isEqualToString:BSThreadEnergyKey]) {
+	} else if([key isEqualToString:BSThreadEnergyKey]
+		|| [key isEqualToString:[BSThreadEnergyKey lowercaseString]] ) {
 		return [self ikioi];
 	}
 	
