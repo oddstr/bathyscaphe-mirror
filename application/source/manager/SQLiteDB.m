@@ -625,6 +625,8 @@ id<SQLiteMutableCursor> cursorFromSTMT(sqlite3_stmt *stmt)
 		debug_log("create statment %s\n", [sqlString UTF8String]);
 	}
 	
+	debug_log("#### CREATE RESERVED STATMENT ####\n");
+	
 	return self;
 	
 fail :
@@ -635,6 +637,8 @@ fail :
 - (void) dealloc
 {
 	sqlite3_finalize(m_stmt);
+	
+	debug_log("#### DELETE RESERVED STATMENT ####\n");
 	
 	[super dealloc];
 }
