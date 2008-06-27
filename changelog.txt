@@ -1,3 +1,7 @@
+2008-06-28 masakih <masakih@users.sourceforge.jp>
+	* application/source/manager/SQLiteDB.m:
+		今後のため、sqlite_close()の試行回数の上限を1000回に定め、
+		それ以上掛かる場合はログを吐いて諦めるように修正。
 2008-06-25 masakih <masakih@users.sourceforge.jp>
 	* application/source/browser/BSThreadsListOPTask.m:
 		メインウインドウを閉じると暴走するバグを解消。
