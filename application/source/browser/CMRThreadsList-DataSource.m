@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList-DataSource.m,v 1.31 2008/06/08 05:36:04 tsawada2 Exp $
+  * $Id: CMRThreadsList-DataSource.m,v 1.32 2008/06/28 09:13:32 tsawada2 Exp $
   * 
   * CMRThreadsList-DataSource.m
   *
@@ -189,11 +189,11 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	return 0;
 }
 
-- (id)objectValueForIdentifier:(NSString *)identifier threadArray:(NSArray  *)threadArray atIndex:(int )index
+/*- (id)objectValueForIdentifier:(NSString *)identifier threadArray:(NSArray  *)threadArray atIndex:(int )index
 {
 	UTILAbstractMethodInvoked;
 	return nil;
-}
+}*/
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int )rowIndex
 {

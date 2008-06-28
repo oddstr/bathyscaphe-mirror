@@ -450,6 +450,7 @@ static inline NSString *labelForFieldName(NSString *key)
 
 	cookies = [headers objectForKey:HTTP_SET_COOKIE_HEADER_KEY];
 	if (!cookies || [cookies length] == 0) return;
+	NSLog(@"CHECK\n%@",cookies);
 
 	[[CookieManager defaultManager] addCookies:cookies fromServer:[[response URL] host]];
 }

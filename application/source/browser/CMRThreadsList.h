@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.h,v 1.21 2008/06/22 14:57:44 tsawada2 Exp $
+  * $Id: CMRThreadsList.h,v 1.22 2008/06/28 09:13:32 tsawada2 Exp $
   * 
   * CMRThreadsList.h
   *
@@ -145,9 +145,9 @@ enum {
 				   forType : (int) aType;
 
 
-- (id) objectValueForIdentifier : (NSString *) identifier
+/*- (id) objectValueForIdentifier : (NSString *) identifier
 					threadArray : (NSArray  *) threadArray
-						atIndex : (int       ) index;
+						atIndex : (int       ) index;*/
 - (NSString *) threadFilePathAtRowIndex : (int          ) rowIndex
                             inTableView : (NSTableView *) tableView
 							     status : (ThreadStatus *) status;

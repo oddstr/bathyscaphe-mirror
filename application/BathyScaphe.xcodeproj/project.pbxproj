@@ -92,6 +92,8 @@
 		871CA17908585FD200C3A044 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		871CA17A08585FD200C3A044 /* CocoMonar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3924488043610AE00A80005 /* CocoMonar.framework */; };
 		871CA17B08585FD200C3A044 /* SGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FA043610EB00A80005 /* SGFoundation.framework */; };
+		871EEA440E161606007E2972 /* BSIkioiNumberFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 871EEA420E161606007E2972 /* BSIkioiNumberFormatter.h */; };
+		871EEA450E161606007E2972 /* BSIkioiNumberFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 871EEA430E161606007E2972 /* BSIkioiNumberFormatter.m */; };
 		871F26470D645140006F479E /* RBSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 87464E380864368F000F0371 /* RBSplitView.h */; };
 		872229040D86CC4100279CB4 /* BSTaskItemValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 872229020D86CC4100279CB4 /* BSTaskItemValueTransformer.h */; };
 		872229050D86CC4100279CB4 /* BSTaskItemValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 872229030D86CC4100279CB4 /* BSTaskItemValueTransformer.m */; };
@@ -859,6 +861,8 @@
 		871CA15608585F8100C3A044 /* PreferencesPane.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreferencesPane.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		871CA18208585FD200C3A044 /* Info-reply.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Info-reply.plist"; path = "../../Info-reply.plist"; sourceTree = "<group>"; };
 		871CA18308585FD200C3A044 /* 2chConnector.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = 2chConnector.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		871EEA420E161606007E2972 /* BSIkioiNumberFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIkioiNumberFormatter.h; sourceTree = "<group>"; };
+		871EEA430E161606007E2972 /* BSIkioiNumberFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIkioiNumberFormatter.m; sourceTree = "<group>"; };
 		872229020D86CC4100279CB4 /* BSTaskItemValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSTaskItemValueTransformer.h; sourceTree = "<group>"; };
 		872229030D86CC4100279CB4 /* BSTaskItemValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSTaskItemValueTransformer.m; sourceTree = "<group>"; };
 		8724A6DC09127E69009CC855 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Japanese; path = Japanese.lproj/board_default.plist; sourceTree = "<group>"; };
@@ -1270,7 +1274,7 @@
 		F324DCDE04C698FB00A80005 /* AppDefaults-Background.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-Background.m"; sourceTree = "<group>"; };
 		F324DCDF04C698FB00A80005 /* AppDefaults-Bundle.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-Bundle.m"; sourceTree = "<group>"; };
 		F324DCE004C698FB00A80005 /* AppDefaults-FontColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-FontColor.m"; sourceTree = "<group>"; };
-		F324DCE304C698FB00A80005 /* AppDefaults-ThreadsList.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-ThreadsList.m"; sourceTree = "<group>"; };
+		F324DCE304C698FB00A80005 /* AppDefaults-ThreadsList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-ThreadsList.m"; sourceTree = "<group>"; };
 		F324DCE404C698FB00A80005 /* AppDefaults-ThreadViewer.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-ThreadViewer.m"; sourceTree = "<group>"; };
 		F324DCE604C698FB00A80005 /* AppDefaults.h */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.h; path = AppDefaults.h; sourceTree = "<group>"; };
 		F324DCE704C698FB00A80005 /* AppDefaults.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = AppDefaults.m; sourceTree = "<group>"; };
@@ -2541,6 +2545,8 @@
 		F324DC5804C698FA00A80005 /* composer */ = {
 			isa = PBXGroup;
 			children = (
+				871EEA420E161606007E2972 /* BSIkioiNumberFormatter.h */,
+				871EEA430E161606007E2972 /* BSIkioiNumberFormatter.m */,
 				F38263000513585900A80005 /* CMXTextParser.h */,
 				F38263010513585900A80005 /* CMXTextParser.m */,
 				F3FF60F505BCCF7C00BDEBFA /* Filter */,
@@ -3314,6 +3320,7 @@
 				8752E6FA0DCED3000054AB99 /* BSNavigationStatusLine.h in Headers */,
 				87DD97F70DDF41310000F2D5 /* CMRThreadDownloadTask.h in Headers */,
 				87DD97F90DDF41320000F2D5 /* CMRThreadDownloadTask_p.h in Headers */,
+				871EEA440E161606007E2972 /* BSIkioiNumberFormatter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3987,6 +3994,7 @@
 				87FB61D20D8AC3FD00861DD8 /* BSStatusLineView.m in Sources */,
 				8752E6FB0DCED3010054AB99 /* BSNavigationStatusLine.m in Sources */,
 				87DD97F80DDF41320000F2D5 /* CMRThreadDownloadTask.m in Sources */,
+				871EEA450E161606007E2972 /* BSIkioiNumberFormatter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

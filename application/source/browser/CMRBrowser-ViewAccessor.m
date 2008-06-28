@@ -201,7 +201,7 @@
     if ([CMRThreadStatusKey isEqualToString:[column identifier]]) {
         [self setupStatusColumnWithTableColumn:column];
         return;
-    } else if ([BSThreadEnergyKey isEqualToString:[column identifier]]) {
+    } else if ([BSThreadEnergyKey isEqualToString:[column identifier]] && [CMRPref energyUsesLevelIndicator]) {
 		BSIkioiCell *cell = [[BSIkioiCell alloc] initWithLevelIndicatorStyle:NSRelevancyLevelIndicatorStyle];
 		[cell setMaxValue:10.0];
 		[cell setMinValue:0.0];

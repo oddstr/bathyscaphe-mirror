@@ -1,6 +1,5 @@
 //:Cookie.m
 #import "Cookie.h"
-#import <CocoMonar/BSHTTPDateFormatter.h>
 
 
 //////////////////////////////////////////////////////////////////////
@@ -258,6 +257,24 @@
 	return dict_;
 }
 
++ (NSDateFormatter *)cookieDateFormatter
+{
+	static NSDateFormatter *cachedFormatter = nil;
+	if (!cachedFormatter) {
+		NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
+		cachedFormatter = [[NSDateFormatter alloc] init];
+		[cachedFormatter setFormatterBehavior:NSDateFormatterBehavior10_4]; // to make the intent clear
+
+		[cachedFormatter setDateStyle:NSDateFormatterNoStyle];
+		[cachedFormatter setTimeStyle:NSDateFormatterNoStyle];
+		[cachedFormatter setDateFormat:@"EEEE, dd-MMM-yyyy HH:mm:ss 'GMT'"];
+
+		[cachedFormatter setLocale:locale];
+		[cachedFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+		[locale release];
+	}
+	return cachedFormatter;
+}
 
 //:アクセサ
 /**
@@ -265,11 +282,10 @@
   * 
   * @return     有効期限
   */
-- (NSDate *) expiresDate
+- (NSDate *)expiresDate
 {
-	if(nil == [self expires]) return nil;
-//	return [NSCalendarDate dateWithHTTPTimeRepresentation : [self expires]];
-	return [[BSHTTPDateFormatter sharedHTTPDateFormatter] dateFromString:[self expires]];
+	if (![self expires]) return nil;
+	return [[[self class] cookieDateFormatter] dateFromString:[self expires]];
 }
 
 //クッキーの設定

@@ -1,18 +1,16 @@
-//:AppDefaults-ThreadsList.m
-/**
-  *
-  * ƒXƒŒƒbƒhˆê——‚ÉŠÖ‚·‚éÝ’è‚ð‚Ü‚Æ‚ß‚½ƒJƒeƒSƒŠB
-  *
-  * @version 1.0.0d6 (02/01/14  6:53:29 PM)
-  *
-  */
+//
+// AppDefaults-ThreadsList.m
+// BathyScaphe
+//
+// Updated by Tsutomu Sawada on 08/06/28.
+// Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+// encoding="UTF-8"
+//
 
 #import "AppDefaults_p.h"
 
-
 static NSString *const AppDefaultsThreadsListSettingsKey = @"Preferences - ThreadsListSettings";
 static NSString *const AppDefaultsThreadsListAutoscrollMaskKey = @"Selection Holding Mask";
-static NSString *const AppDefaultsTLIgnoreTitleCharactersKey = @"Ignore Characters";
 
 static NSString *const AppDefaultsTLAutoReloadWhenWakeKey = @"Reload When Wake";
 
@@ -21,68 +19,49 @@ static NSString *const AppDefaultsTLHEADCheckIntervalKey = @"HEADCheck Interval"
 
 static NSString *const AppDefaultsTLViewModeKey = @"View Mode";
 
-// ˆÈ‰º‚Í User Defaults ’¼‰º‚Éì¬‚³‚ê‚é key
+// ä»¥ä¸‹ã¯ User Defaults ç›´ä¸‹ã«ä½œæˆã•ã‚Œã‚‹ key
 static NSString *const AppDefaultsUseIncrementalSearchKey = @"UseIncrementalSearch";
-static NSString *const AppDefaultsTRViewTextUsesBlackColorKey = @"ThreadTitleBarTextUsesBlackColor";
+//static NSString *const AppDefaultsTRViewTextUsesBlackColorKey = @"ThreadTitleBarTextUsesBlackColor";
 static NSString *const AppDefaultsTLTableColumnStateKey = @"ThreadsListTable Columns Manualsave";
-
+static NSString *const AppDefaultsUsesLevelIndicatorKey = @"UsesLevelIndicator";
 
 
 @implementation AppDefaults(ThreadsListSettings)
-- (NSMutableDictionary *) threadsListSettingsDictionary
+- (NSMutableDictionary *)threadsListSettingsDictionary
 {
-	if(nil == m_threadsListDictionary){
+	if (!m_threadsListDictionary) {
 		NSDictionary	*dict_;
-		
-		dict_ = [[self defaults] 
-					dictionaryForKey : AppDefaultsThreadsListSettingsKey];
+
+		dict_ = [[self defaults] dictionaryForKey:AppDefaultsThreadsListSettingsKey];
 		m_threadsListDictionary = [dict_ mutableCopy];
 	}
 	
-	if(nil == m_threadsListDictionary)
+	if (!m_threadsListDictionary) {
 		m_threadsListDictionary = [[NSMutableDictionary alloc] init];
-	
+	}
 	return m_threadsListDictionary;
 }
 
-- (int) threadsListAutoscrollMask
+- (int)threadsListAutoscrollMask
 {
-	return [[self threadsListSettingsDictionary]
-				 integerForKey : AppDefaultsThreadsListAutoscrollMaskKey
-				  defaultValue : DEFAULT_TLSEL_HOLDING_MASK];
-}
-- (void) setThreadsListAutoscrollMask : (int) mask
-{
-	[[self threadsListSettingsDictionary]
-		setInteger : mask
-			forKey : AppDefaultsThreadsListAutoscrollMaskKey];
+	return [[self threadsListSettingsDictionary] integerForKey:AppDefaultsThreadsListAutoscrollMaskKey defaultValue:DEFAULT_TLSEL_HOLDING_MASK];
 }
 
-- (BOOL) useIncrementalSearch
+- (void)setThreadsListAutoscrollMask:(int)mask
 {
-	return [[self defaults]
-					boolForKey : AppDefaultsUseIncrementalSearchKey
-				  defaultValue : DEFAULT_TL_INCREMENTAL_SEARCH];
+	[[self threadsListSettingsDictionary] setInteger:mask forKey:AppDefaultsThreadsListAutoscrollMaskKey];
 }
-- (void) setUseIncrementalSearch : (BOOL) TorF
-{
-	[[self defaults]
-			setBool : TorF
-			 forKey : AppDefaultsUseIncrementalSearchKey];
-}
-/*#pragma mark PrincessBride Additions
-- (BOOL) titleRulerViewTextUsesBlackColor
-{
-	return [[self defaults] boolForKey : AppDefaultsTRViewTextUsesBlackColorKey
-						  defaultValue : DEFAULT_TITLERULER_TEXT_BLACK];
-}
-- (void) setTitleRulerViewTextUsesBlackColor : (BOOL) usesBlackColor
-{
-	[[self defaults] setBool : usesBlackColor
-					  forKey : AppDefaultsTRViewTextUsesBlackColorKey];
-}*/
 
-#pragma mark ShortCircuit Additions
+- (BOOL)useIncrementalSearch
+{
+	return [[self defaults] boolForKey:AppDefaultsUseIncrementalSearchKey defaultValue:DEFAULT_TL_INCREMENTAL_SEARCH];
+}
+
+- (void)setUseIncrementalSearch:(BOOL)TorF
+{
+	[[self defaults] setBool:TorF forKey:AppDefaultsUseIncrementalSearchKey];
+}
+
 static id AppDefaults_defaultBrowserListColumns(void)
 {
 	static NSArray *cachedDefaultArray = nil;
@@ -100,7 +79,7 @@ static id AppDefaults_defaultBrowserListColumns(void)
 	return cachedDefaultArray;
 }
 
-- (id) threadsListTableColumnState
+- (id)threadsListTableColumnState
 {
 	id storedValue = [[self defaults] objectForKey:AppDefaultsTLTableColumnStateKey];
 	if (storedValue) {
@@ -109,73 +88,64 @@ static id AppDefaults_defaultBrowserListColumns(void)
 		return AppDefaults_defaultBrowserListColumns();
 	}
 }
-- (void) setThreadsListTableColumnState : (id) aColumnState
+
+- (void)setThreadsListTableColumnState:(id)aColumnState
 {
-	[[self defaults] setObject : aColumnState
-						forKey : AppDefaultsTLTableColumnStateKey];
+	[[self defaults] setObject:aColumnState forKey:AppDefaultsTLTableColumnStateKey];
 }
 
-#pragma mark InnocentStarter Additions
-- (BOOL) autoReloadListWhenWake
+- (BOOL)autoReloadListWhenWake
 {
-	return [[self threadsListSettingsDictionary] boolForKey : AppDefaultsTLAutoReloadWhenWakeKey
-											   defaultValue : DEFAULT_TL_AUTORELOAD_WHEN_WAKE];
-}
-- (void) setAutoReloadListWhenWake : (BOOL) doReload
-{
-	[[self threadsListSettingsDictionary] setBool : doReload
-										   forKey : AppDefaultsTLAutoReloadWhenWakeKey];
+	return [[self threadsListSettingsDictionary] boolForKey:AppDefaultsTLAutoReloadWhenWakeKey defaultValue:DEFAULT_TL_AUTORELOAD_WHEN_WAKE];
 }
 
-#pragma mark RainbowJerk Additions
-- (NSDate *) lastHEADCheckedDate
+- (void)setAutoReloadListWhenWake:(BOOL)doReload
 {
-	id tmp_ = [[self threadsListSettingsDictionary] objectForKey : AppDefaultsTLLastHEADCheckedDateKey];
-	if (!tmp_ || NO == [tmp_ isKindOfClass: [NSDate class]]) return nil;
+	[[self threadsListSettingsDictionary] setBool:doReload forKey:AppDefaultsTLAutoReloadWhenWakeKey];
+}
+
+- (NSDate *)lastHEADCheckedDate
+{
+	id tmp_ = [[self threadsListSettingsDictionary] objectForKey:AppDefaultsTLLastHEADCheckedDateKey];
+	if (!tmp_ || ![tmp_ isKindOfClass:[NSDate class]]) return nil;
 	return tmp_;
 }
-- (void) setLastHEADCheckedDate : (NSDate *) date
+
+- (void)setLastHEADCheckedDate:(NSDate *)date
 {
-	[[self threadsListSettingsDictionary] setObject : date
-											 forKey : AppDefaultsTLLastHEADCheckedDateKey];
+	[[self threadsListSettingsDictionary] setObject:date forKey:AppDefaultsTLLastHEADCheckedDateKey];
 }
 
-- (BOOL) canHEADCheck
+- (BOOL)canHEADCheck
 {
 	NSDate *baseDate_ = [self lastHEADCheckedDate];
 	if (!baseDate_) return YES;
 
 	NSDate *curDate_ = [NSDate date];
-	NSDate *nextDate_ = [[[NSDate alloc] initWithTimeInterval: DEFAULT_HEADCHECK_INTERVAL sinceDate: baseDate_] autorelease];
-	return ([curDate_ compare: nextDate_] != NSOrderedAscending);
-/*	
-	NSTimeInterval interval_ = [[NSDate date] timeIntervalSinceDate : baseDate_];
-	return (interval_ > [self HEADCheckTimeInterval]);*/
+	NSDate *nextDate_ = [[[NSDate alloc] initWithTimeInterval:DEFAULT_HEADCHECK_INTERVAL sinceDate:baseDate_] autorelease];
+	return ([curDate_ compare:nextDate_] != NSOrderedAscending);
 }
 
-#pragma mark GrafEisen Addition
-- (NSTimeInterval) HEADCheckTimeInterval
+- (NSTimeInterval)HEADCheckTimeInterval
 {
-	return [[self threadsListSettingsDictionary] doubleForKey : AppDefaultsTLHEADCheckIntervalKey
-												 defaultValue : DEFAULT_HEADCHECK_INTERVAL];
+	return [[self threadsListSettingsDictionary] doubleForKey:AppDefaultsTLHEADCheckIntervalKey defaultValue:DEFAULT_HEADCHECK_INTERVAL];
 }
 
-- (void) setHEADCheckTimeInterval : (NSTimeInterval) interval
+- (void)setHEADCheckTimeInterval:(NSTimeInterval)interval
 {
-	[[self threadsListSettingsDictionary] setDouble : interval
-											 forKey : AppDefaultsTLHEADCheckIntervalKey];
+	[[self threadsListSettingsDictionary] setDouble:interval forKey:AppDefaultsTLHEADCheckIntervalKey];
 }
 
-- (NSDate *) nextHEADCheckAvailableDate
+- (NSDate *)nextHEADCheckAvailableDate
 {
 	NSDate *baseDate_ = [self lastHEADCheckedDate];
-	if (!baseDate_)
+	if (!baseDate_) {
 		return [NSDate date];
-	else
-		return [baseDate_ addTimeInterval : [self HEADCheckTimeInterval]];
+	} else {
+		return [baseDate_ addTimeInterval:[self HEADCheckTimeInterval]];
+	}
 }
 
-#pragma mark Twincam Angel Additions
 - (BSThreadsListViewModeType)threadsListViewMode
 {
 	return [[self threadsListSettingsDictionary] integerForKey:AppDefaultsTLViewModeKey defaultValue:DEFAULT_TL_VIEW_MODE];
@@ -186,21 +156,35 @@ static id AppDefaults_defaultBrowserListColumns(void)
 	[[self threadsListSettingsDictionary] setInteger:type forKey:AppDefaultsTLViewModeKey];
 }
 
-#pragma mark -
-
-- (void) _loadThreadsListSettings
+- (BOOL)energyUsesLevelIndicator
 {
+//	return [[self defaults] boolForKey:AppDefaultsUsesLevelIndicatorKey defaultValue:DEFAULT_IKIOI_USES_LEVELINDICATOR];
+	return (PFlags.usesLevelIndicator != 0);
 }
 
-- (BOOL) _saveThreadsListSettings
+- (void)setEnergyUsesLevelIndicator:(BOOL)flag
+{
+	[[self defaults] setBool:flag forKey:AppDefaultsUsesLevelIndicatorKey];
+	PFlags.usesLevelIndicator = flag ? 1 : 0;
+}
+
+#pragma mark -
+- (void)_loadThreadsListSettings
+{
+	BOOL	flag_;
+	
+	flag_ = [[self defaults] boolForKey:AppDefaultsUsesLevelIndicatorKey defaultValue:DEFAULT_IKIOI_USES_LEVELINDICATOR];
+	[self setEnergyUsesLevelIndicator:flag_];
+}
+
+- (BOOL)_saveThreadsListSettings
 {
 	NSDictionary			*dict_;
 	
 	dict_ = [self threadsListSettingsDictionary];
 	
 	UTILAssertNotNil(dict_);
-	[[self defaults] setObject : dict_
-						forKey : AppDefaultsThreadsListSettingsKey];
+	[[self defaults] setObject:dict_ forKey:AppDefaultsThreadsListSettingsKey];
 	return YES;
 }
 @end
