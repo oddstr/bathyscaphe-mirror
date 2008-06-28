@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIHistoryManager.m,v 1.11 2008/06/08 12:37:15 tsawada2 Exp $
+//  $Id: BSIPIHistoryManager.m,v 1.12 2008/06/28 14:18:12 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/12.
@@ -317,7 +317,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 		NSString *urlString = [[eachToken sourceURL] absoluteString];
 		NSString *destPath = [folderPath stringByAppendingPathComponent:[path lastPathComponent]];
 		[self copyCachedFileForPath:path toPath:destPath];
-		if (urlString) [[NSWorkspace sharedWorkspace] attachComment:urlString toFile:destPath];
+		// 2008-06-28 いったん外す
+//		if (urlString) [[NSWorkspace sharedWorkspace] attachComment:urlString toFile:destPath];
 	}
 /*	
 	if (tokenArray != nil) {

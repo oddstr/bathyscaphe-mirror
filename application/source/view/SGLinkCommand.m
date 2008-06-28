@@ -130,8 +130,8 @@
 {
 	NSString *template;
 	double rate;
-
-	[[NSWorkspace sharedWorkspace] attachComment:[[self URLValue] absoluteString] toFile:[aDownload downloadedFilePath]];
+//	2008-06-28 ‚¢‚Á‚½‚ñŠO‚·
+//	[[NSWorkspace sharedWorkspace] attachComment:[[self URLValue] absoluteString] toFile:[aDownload downloadedFilePath]];
 
 	NSString *ext = [[[self stringValue] componentsSeparatedByString:@"."] lastObject];
 	unsigned hoge = [[CMRPref linkDownloaderExtensionTypes] indexOfObject:ext];

@@ -1,4 +1,10 @@
 2008-06-28 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/source/view/SGLinkCommand.m
+	* application/subproj/previewer/BSIPIHistoryManager.m
+		ダウンロードしたファイルの Finder コメントに URL を記入する機能をいったん取り外した。
+		ちょっと練り直したいので。
+	* frameworks/SGAppKit/framework/resource/attachFinderComment.scpt
+		Finder コメントが既に記入されている場合、そのコメントを消さないようにした。
 	* application/source/composer/BSIkioiNumberFormatter.[h|m]
 		[新規追加] NSNumberFormatter のサブクラスで、勢いの数値を適当なフォーマットに変換して表示するためのもの。
 	* application/source/browser/BSDBThreadList.m
