@@ -173,7 +173,7 @@ int progressHandler(void *obj)
 		do {
 			result = sqlite3_close(mDatabase);
 			count++;
-		} while (result == SQLITE_BUSY || count < challengeTime);
+		} while (result == SQLITE_BUSY && count < challengeTime);
 		if(count == challengeTime) {
 			NSLog(@"give up! can not close database.");
 		}

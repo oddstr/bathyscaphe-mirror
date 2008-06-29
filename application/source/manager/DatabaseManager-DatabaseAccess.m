@@ -534,6 +534,7 @@ static NSLock *boardIDNumberCacheLock = nil;
 	return YES;
 	
 abort:
+	NSLog(@"FAIL append Favorote. Reson : %@", [db lastError]);
 	[db rollbackTransaction];
 	return NO;
 }
@@ -557,7 +558,7 @@ abort:
 		
 		query = [NSMutableString stringWithFormat : @"DELETE FROM %@", FavoritesTableName];
 		[query appendFormat : @" WHERE %@ = %u", BoardIDColumn, boardID];
-		[query appendFormat : @" AND %@ LIKE '%@'", ThreadIDColumn, identifier];
+		[query appendFormat : @" AND %@ = %@", ThreadIDColumn, identifier];
 		[db performQuery : query];
 		if([db lastErrorID] != 0) goto abort;
 		
@@ -569,6 +570,7 @@ abort:
 	return YES;
 	
 abort:
+	NSLog(@"FAIL delete Favorote. Reson : %@", [db lastError]);
 	[db rollbackTransaction];
 	return NO;
 }

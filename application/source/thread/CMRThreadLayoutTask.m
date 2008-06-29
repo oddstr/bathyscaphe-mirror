@@ -178,14 +178,19 @@
 }*/
 - (NSString *)message
 {
-/*	if([self isInProgress]) 
-		return [self messageInProgress];
-	
-	if([self isInterrupted])
-		return [self localizedString : @"Cancel"];
-	
-	return [self localizedString : @"Did Finish"];*/
-	return m_statusMsg;
+	/*	if([self isInProgress]) 
+	 return [self messageInProgress];
+	 
+	 if([self isInterrupted])
+	 return [self localizedString : @"Cancel"];
+	 
+	 return [self localizedString : @"Did Finish"];*/
+	//	return m_statusMsg;
+	NSString *result;
+	@synchronized(self) {
+		result = [[m_statusMsg retain] autorelease];
+	}
+	return result;
 }
 
 - (void)setMessage:(NSString *)msg

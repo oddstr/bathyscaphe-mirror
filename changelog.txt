@@ -1,3 +1,13 @@
+2008-06-29 masakih <masakih@users.sourceforge.jp>
+	* application/source/manager/DatabaseManager-DatabaseAccess.m:
+		デバッグ出力追加。
+	* application/source/manager/DatabaseManager-Notifications.m:
+		ログ削除時にFavoritesテーブルの更新を忘れていた。
+	* application/source/manager/SQLiteDB.m:
+		先の変更のloop条件を間違えていた。
+	* application/source/thread/CMRThreadLayoutTask.m:
+		-[CMRThreadLayoutTask message] でブロック処理。
+		これでダメならやり方変える必要があると思われる。
 2008-06-28 tsawada2 <tsawada2@users.sourceforge.jp>
 	* application/source/view/SGLinkCommand.m
 	* application/subproj/previewer/BSIPIHistoryManager.m

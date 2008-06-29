@@ -198,6 +198,17 @@ NSString *const DatabaseDidFinishUpdateDownloadedOrDeletedThreadInfoNotification
 						 ThreadIDColumn, threadID];
 				
 				[db performQuery:query];
+				if([db lastErrorID] != 0) goto abort;
+				
+				query = [NSMutableString stringWithFormat:
+						 @"DELETE FROM %@"
+						 @" WHERE %@ = %u"
+						 @" AND %@ = %@",
+						 FavoritesTableName,
+						 BoardIDColumn, boardID,
+						 ThreadIDColumn, threadID];
+				[db performQuery : query];
+				if([db lastErrorID] != 0) goto abort;
 			}
 			
 		}
@@ -205,6 +216,12 @@ NSString *const DatabaseDidFinishUpdateDownloadedOrDeletedThreadInfoNotification
 	}
 	
 	[self makeThreadsListsUpdateCursor];
+	
+	return;
+	
+abort:
+	NSLog(@"FAIL delete threadInfo. Reson : %@", [db lastError]);
+	[db rollbackTransaction];
 }
 
 - (void)finishWriteMesssage:(NSNotification *)aNotification
