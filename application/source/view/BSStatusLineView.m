@@ -59,24 +59,32 @@
 - (void)drawRect:(NSRect)rect
 {
 	[super drawRect:rect];
-
-	if ([self messageText]) {
+	
+	NSString *messageText = [self messageText];
+	if (messageText) {
 		NSRect msgRect = NSMakeRect(rect.origin.x + 5, rect.origin.y, rect.size.width - [self rightMargin], rect.size.height - 5);
-		[[self messageText] drawWithRect:msgRect options:NSStringDrawingUsesLineFragmentOrigin attributes:[self titleTextAttributes]];
+		[messageText drawWithRect:msgRect options:NSStringDrawingUsesLineFragmentOrigin attributes:[self titleTextAttributes]];
 	}
 }
 
 - (NSString *)messageText
 {
-	return m_messageText;
+	NSString *result;
+	
+	@synchronized(self) {
+		result = [[m_messageText retain] autorelease];
+	}
+	return result;
 }
 
 - (void)setMessageText:(NSString *)aString
 {
-	[aString retain];
-	[m_messageText release];
-	m_messageText = aString;
-
+	@synchronized(self) {
+		[aString retain];
+		[m_messageText release];
+		m_messageText = aString;
+	}
+	
 	[self setNeedsDisplay:YES];
 }
 
