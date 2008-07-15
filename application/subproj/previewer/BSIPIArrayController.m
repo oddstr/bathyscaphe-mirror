@@ -16,6 +16,11 @@
 	[self removeObjects:[self arrangedObjects]];
 }
 
+- (void)selectFirst:(id)sender
+{
+	[self setSelectionIndex:0];
+}
+
 - (void)selectLast:(id)sender
 {
 	[self setSelectionIndex:[[self arrangedObjects] count]-1];

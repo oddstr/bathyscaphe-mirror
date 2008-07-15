@@ -1,9 +1,9 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.29 2007/12/24 14:29:09 tsawada2 Exp $
+//  $Id: BSImagePreviewInspector.m,v 1.30 2008/07/15 14:04:03 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
-//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -165,7 +165,8 @@ static NSString *const kIPIPrefsNibFileNameKey	= @"BSIPIPreferences";
 - (IBAction)saveImage:(id)sender
 {
 	[[self historyManager] copyCachedFileForTokenAtIndexes:[[self tripleGreenCubes] selectionIndexes]
-												intoFolder:[self saveDirectory]];
+												intoFolder:[self saveDirectory]
+									   attachFinderComment:[self attachFinderComment]];
 }
 
 - (IBAction)saveImageAs:(id)sender
@@ -359,6 +360,16 @@ static NSString *const kIPIPrefsNibFileNameKey	= @"BSIPIPreferences";
 	return NO;
 }
 
+- (NSString *)tableView:(NSTableView *)aTableView
+		 toolTipForCell:(NSCell *)aCell
+				   rect:(NSRectPointer)rect
+			tableColumn:(NSTableColumn *)aTableColumn
+					row:(int)row
+		  mouseLocation:(NSPoint)mouseLocation
+{
+	return [[self historyManager] toolTipStringAtIndex:row];
+}
+
 #pragma mark NSTabView Delegate
 - (void)tabView:(NSTabView *)tabView willSelectTabViewItem:(NSTabViewItem *)tabViewItem
 {
@@ -384,28 +395,52 @@ static NSString *const kIPIPrefsNibFileNameKey	= @"BSIPIPreferences";
 
 - (BOOL)imageView:(BSIPIImageView *)aImageView shouldPerformKeyEquivalent:(NSEvent *)theEvent
 {
-	NSString	*pressedKey = [theEvent charactersIgnoringModifiers];
-	int whichKey_ = [theEvent keyCode];
 	BSIPIArrayController *controller = [self tripleGreenCubes];
+	int modFlags = [theEvent modifierFlags];
 
-	if (whichKey_ == 51) { // delete key
-		[controller remove:aImageView];
-		return YES;
-	}
+	if (modFlags & NSNumericPadKeyMask) { // arrow keys have this mask
+		NSString	*pressedKey = [theEvent charactersIgnoringModifiers];
+		unichar		keyChar = 0;
+
+		unsigned int length = [pressedKey length];
+		if (length != 1) {
+			return NO;
+		}
+
+		keyChar = [pressedKey characterAtIndex:0];
+
+		if (keyChar == NSLeftArrowFunctionKey) {
+			if (modFlags & NSAlternateKeyMask) {
+				[controller selectFirst:aImageView];
+				return YES;
+			} else if ([controller canSelectPrevious]) {
+				[controller selectPrevious:aImageView];
+				return YES;
+			}
+		}
+		
+		if (keyChar == NSRightArrowFunctionKey) {
+			if (modFlags & NSAlternateKeyMask) {
+				[controller selectLast:aImageView];
+				return YES;
+			} else if ([controller canSelectNext]) {
+				[controller selectNext:aImageView];
+				return YES;
+			}
+		}
 	
-	if ((whichKey_ == 36) && [aImageView image]) { // return key
-		[self startFullscreen:aImageView];
-		return YES;
-	}
-	
-	if ([pressedKey isEqualToString:[NSString stringWithFormat:@"%C", NSLeftArrowFunctionKey]] && [controller canSelectPrevious]) {
-		[controller selectPrevious:aImageView];
-		return YES;
-	}
-	
-	if ([pressedKey isEqualToString:[NSString stringWithFormat:@"%C", NSRightArrowFunctionKey]] && [controller canSelectNext]) {
-		[controller selectNext:aImageView];
-		return YES;
+	} else {
+		int whichKey_ = [theEvent keyCode];
+
+		if (whichKey_ == 51) { // delete key
+			[controller remove:aImageView];
+			return YES;
+		}
+
+		if ((whichKey_ == 36) && [aImageView image]) { // return key
+			[self startFullscreen:aImageView];
+			return YES;
+		}
 	}
 	return NO;
 }

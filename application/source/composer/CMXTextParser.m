@@ -1,5 +1,5 @@
 /**
-  * $Id: CMXTextParser.m,v 1.27 2008/02/25 17:53:32 tsawada2 Exp $
+  * $Id: CMXTextParser.m,v 1.28 2008/07/15 14:04:03 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -756,10 +756,11 @@ static BOOL _parseExtraField(NSString *extraField, CMRThreadMessage *aMessage)
 		2005-06-18 追加：公式p2 からの投稿区別記号「P」が加わった。
 		2005-07-31 追加：「o」もあるのか。知らなかった。
 		2006-03-22 追加：「Q」も加わったらしい。
+		2008-07-15 追加：「i」で iPhone 3G からの投稿らしい。
 	*/
 	if (length_ == 1) {
 		if (clientCodeSet == nil)
-			clientCodeSet = [[NSSet alloc] initWithObjects : @"0", @"O", @"P", @"o", @"Q", nil];
+			clientCodeSet = [[NSSet alloc] initWithObjects : @"0", @"O", @"P", @"o", @"Q", @"i", nil];
 
 		if ([clientCodeSet containsObject : extraField]) {
 			[aMessage setHost : extraField];

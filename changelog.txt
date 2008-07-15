@@ -1,3 +1,21 @@
+2008-07-15 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/source/composer/CMXTextParser.m
+		内部処理時に末尾 i の投稿（iPhone からの投稿）を認識するようにした。
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/BSImagePreviewInspector-Settings.m
+	* application/subproj/previewer/BSIPIHistoryManager.m
+	* application/subproj/previewer/BSIPIFullScreenController.m
+	* application/subproj/previewer/BSIPIArrayController.m
+	* application/subproj/previewer/BSIPIToken.m
+	* application/subproj/previewer/Japanese.lproj/BSIPIPreferences.nib
+	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
+	プレビューインスペクタ（2.7.5 -> 2.8）：
+	- jpeg イメージの Exif データが取得できた時は、ツールチップで抜粋を表示するようにした。
+	イメージ・ビューとリスト・ビューで有効。「焦点距離、F値、シャッタースピード、ISO設定感度」を表示する。
+	- イメージ・ビューとフルスクリーン表示時に、option+←／→ キーで最初／最後のイメージに移動するようにした。
+	- Mac OS X v10.4 以降にふさわしいコードに一部書き換えた。
+	- イメージのダウンロード元 URL を Spotlight コメントに記入する機能を復活させ、かつ、「プレビューインスペクタの環境設定」
+	　から入／切出来るようにした（デフォルトは切）。 
 2008-07-02 masakih <masakih@users.sourceforge.jp>
 	* application/source/view/BSStatusLineView.m:
 		m_messageTextをマルチスレッヂングに対し保護。

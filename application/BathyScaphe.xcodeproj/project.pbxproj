@@ -815,7 +815,7 @@
 
 /* Begin PBXFileReference section */
 		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		87016395082BE67200AEFDD0 /* Info-bathyscaphe.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-bathyscaphe.plist"; sourceTree = "<group>"; };
+		87016395082BE67200AEFDD0 /* Info-bathyscaphe.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-bathyscaphe.plist"; sourceTree = "<group>"; };
 		8703A1E40C676A62008ED2B5 /* BSAdvancedPaneArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSAdvancedPaneArrayController.h; sourceTree = "<group>"; };
 		8703A1E50C676A62008ED2B5 /* BSAdvancedPaneArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSAdvancedPaneArrayController.m; sourceTree = "<group>"; };
 		8703A2160C677D42008ED2B5 /* BSLinkDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSLinkDownloadManager.h; sourceTree = "<group>"; };
@@ -857,15 +857,15 @@
 		8718EFDC08D43F7D00FFAAEE /* NoNameInputController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoNameInputController.h; sourceTree = "<group>"; };
 		8718EFDD08D43F7D00FFAAEE /* NoNameInputController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoNameInputController.m; sourceTree = "<group>"; };
 		8719F069088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-OwnHistory.m"; sourceTree = "<group>"; };
-		871CA15508585F8100C3A044 /* Info-preferences.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Info-preferences.plist"; path = "../../Info-preferences.plist"; sourceTree = "<group>"; };
+		871CA15508585F8100C3A044 /* Info-preferences.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-preferences.plist"; path = "../../Info-preferences.plist"; sourceTree = "<group>"; };
 		871CA15608585F8100C3A044 /* PreferencesPane.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreferencesPane.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
-		871CA18208585FD200C3A044 /* Info-reply.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Info-reply.plist"; path = "../../Info-reply.plist"; sourceTree = "<group>"; };
+		871CA18208585FD200C3A044 /* Info-reply.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-reply.plist"; path = "../../Info-reply.plist"; sourceTree = "<group>"; };
 		871CA18308585FD200C3A044 /* 2chConnector.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = 2chConnector.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		871EEA420E161606007E2972 /* BSIkioiNumberFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIkioiNumberFormatter.h; sourceTree = "<group>"; };
 		871EEA430E161606007E2972 /* BSIkioiNumberFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIkioiNumberFormatter.m; sourceTree = "<group>"; };
 		872229020D86CC4100279CB4 /* BSTaskItemValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSTaskItemValueTransformer.h; sourceTree = "<group>"; };
 		872229030D86CC4100279CB4 /* BSTaskItemValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSTaskItemValueTransformer.m; sourceTree = "<group>"; };
-		8724A6DC09127E69009CC855 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Japanese; path = Japanese.lproj/board_default.plist; sourceTree = "<group>"; };
+		8724A6DC09127E69009CC855 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.bplist; name = Japanese; path = Japanese.lproj/board_default.plist; sourceTree = "<group>"; };
 		8727F4C00A822EFB00E9C2F9 /* BSTagValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSTagValueTransformer.h; sourceTree = "<group>"; };
 		8727F4C10A822EFB00E9C2F9 /* BSTagValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSTagValueTransformer.m; sourceTree = "<group>"; };
 		872996530832556100CBD740 /* NSTableColumn+CMXAdditions.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = "NSTableColumn+CMXAdditions.h"; sourceTree = "<group>"; };
@@ -886,7 +886,7 @@
 		8729971908325E2500CBD740 /* CMXPopUpWindowManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMXPopUpWindowManager.m; sourceTree = "<group>"; };
 		8729995A0832618700CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/AlertPanel.strings; sourceTree = "<group>"; };
 		8729995D0832618700CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/Browser.nib; sourceTree = "<group>"; };
-		8729995E0832618700CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Japanese; path = Japanese.lproj/browserListColumns.plist; sourceTree = "<group>"; };
+		8729995E0832618700CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Japanese; path = Japanese.lproj/browserListColumns.plist; sourceTree = "<group>"; };
 		872999600832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/CMRIndexingStepper.nib; sourceTree = "<group>"; };
 		872999620832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/CMRNoNameInput.nib; sourceTree = "<group>"; };
 		872999630832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/CMROpenURL.nib; sourceTree = "<group>"; };
@@ -948,13 +948,13 @@
 		87299A38083261F200CBD740 /* Status_newThread.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Status_newThread.png; sourceTree = "<group>"; };
 		87299A39083261F200CBD740 /* Status_updated.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Status_updated.png; sourceTree = "<group>"; };
 		87299A3C083261F200CBD740 /* ThreadDocument.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = ThreadDocument.icns; sourceTree = "<group>"; };
-		87299AF60832622100CBD740 /* BrowserKeyBindings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = BrowserKeyBindings.plist; sourceTree = "<group>"; };
-		87299AF80832622100CBD740 /* firstVisibleNumbers.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = firstVisibleNumbers.plist; sourceTree = "<group>"; };
-		87299AFC0832622200CBD740 /* HostProperties.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = HostProperties.plist; sourceTree = "<group>"; };
-		87299B010832622200CBD740 /* KeyValueTemplates.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = KeyValueTemplates.plist; sourceTree = "<group>"; };
-		87299B020832622200CBD740 /* lastVisibleNumbers.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = lastVisibleNumbers.plist; sourceTree = "<group>"; };
-		87299B060832622200CBD740 /* ThreadKeyBindings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ThreadKeyBindings.plist; sourceTree = "<group>"; };
-		87299B070832622200CBD740 /* URLBookmarks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = URLBookmarks.plist; sourceTree = "<group>"; };
+		87299AF60832622100CBD740 /* BrowserKeyBindings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BrowserKeyBindings.plist; sourceTree = "<group>"; };
+		87299AF80832622100CBD740 /* firstVisibleNumbers.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = firstVisibleNumbers.plist; sourceTree = "<group>"; };
+		87299AFC0832622200CBD740 /* HostProperties.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = HostProperties.plist; sourceTree = "<group>"; };
+		87299B010832622200CBD740 /* KeyValueTemplates.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = KeyValueTemplates.plist; sourceTree = "<group>"; };
+		87299B020832622200CBD740 /* lastVisibleNumbers.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = lastVisibleNumbers.plist; sourceTree = "<group>"; };
+		87299B060832622200CBD740 /* ThreadKeyBindings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ThreadKeyBindings.plist; sourceTree = "<group>"; };
+		87299B070832622200CBD740 /* URLBookmarks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = URLBookmarks.plist; sourceTree = "<group>"; };
 		87299C09083266F700CBD740 /* BathyScaphe.mdimporter */ = {isa = PBXFileReference; explicitFileType = "wrapper.plug-in"; name = BathyScaphe.mdimporter; path = ../metadataimporter/BathyScaphe/build/Deployment/BathyScaphe.mdimporter; sourceTree = SOURCE_ROOT; };
 		872C32CF0BB18CD10044890C /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/ViewPane.nib; sourceTree = "<group>"; };
 		872C33D60BB21AF00044890C /* ThreadViewerDefaultTheme.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = ThreadViewerDefaultTheme.plist; sourceTree = "<group>"; };
@@ -1092,7 +1092,7 @@
 		87C2032908FF3F81006DC42C /* BSImagePreviewInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSImagePreviewInspector.h; sourceTree = "<group>"; };
 		87C2032A08FF3F81006DC42C /* BSImagePreviewInspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSImagePreviewInspector.m; sourceTree = "<group>"; };
 		87C2032C08FF3F81006DC42C /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSImagePreviewInspector.nib; sourceTree = "<group>"; };
-		87C2033B08FF40B8006DC42C /* Info-previewer.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Info-previewer.plist"; sourceTree = SOURCE_ROOT; };
+		87C2033B08FF40B8006DC42C /* Info-previewer.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-previewer.plist"; sourceTree = SOURCE_ROOT; };
 		87C2E1A40A68E3C100E40698 /* BSImagePreviewInspector-View.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BSImagePreviewInspector-View.m"; sourceTree = "<group>"; };
 		87C397790A61600F0095AD06 /* BSIPIPathTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIPathTransformer.h; sourceTree = "<group>"; };
 		87C3977A0A61600F0095AD06 /* BSIPIPathTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIPathTransformer.m; sourceTree = "<group>"; };
@@ -1536,8 +1536,8 @@
 		F4EFF93B0BB672D800DF90C6 /* BSThreadListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSThreadListItem.m; sourceTree = "<group>"; };
 		F4FEFB400AFF9CD90099853B /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/SmartBoardItemEditor.nib; sourceTree = "<group>"; };
 		F4FEFB430AFF9CE80099853B /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/SmartBLIEditorComponents.nib; sourceTree = "<group>"; };
-		F4FEFB460AFF9CFC0099853B /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Japanese; path = Japanese.lproj/ConditionTypes.plist; sourceTree = "<group>"; };
-		F4FEFB490AFF9D0B0099853B /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Japanese; path = Japanese.lproj/CriteriaSpecifications.plist; sourceTree = "<group>"; };
+		F4FEFB460AFF9CFC0099853B /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Japanese; path = Japanese.lproj/ConditionTypes.plist; sourceTree = "<group>"; };
+		F4FEFB490AFF9D0B0099853B /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Japanese; path = Japanese.lproj/CriteriaSpecifications.plist; sourceTree = "<group>"; };
 		F4FEFC090AFFA9920099853B /* BSDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSDatePicker.h; path = ../IBPallete/BSDatePicker/BSDatePicker.h; sourceTree = SOURCE_ROOT; };
 		F4FEFC0A0AFFA9920099853B /* BSDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSDatePicker.m; path = ../IBPallete/BSDatePicker/BSDatePicker.m; sourceTree = SOURCE_ROOT; };
 		F4FEFC0B0AFFA9920099853B /* BSDatePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSDatePickerCell.h; path = ../IBPallete/BSDatePicker/BSDatePickerCell.h; sourceTree = SOURCE_ROOT; };

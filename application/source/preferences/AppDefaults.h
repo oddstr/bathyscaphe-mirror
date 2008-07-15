@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.63 2008/06/28 09:13:32 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.64 2008/07/15 14:04:03 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -116,10 +116,6 @@ typedef enum _BSAutoSyncIntervalType {
 - (void) setBrowserStatusFilteringMask : (int) mask;
 - (BOOL) collectByNew;
 - (void) setCollectByNew : (BOOL) flag;
-
-/* Available in BathyScaphe 1.6.2 and later. */
-- (BOOL)energyUsesLevelIndicator;
-- (void)setEnergyUsesLevelIndicator:(BOOL)flag;
 
 #pragma mark Contents Search
 /* Search option */
@@ -294,6 +290,10 @@ typedef enum _BSAutoSyncIntervalType {
 /* Twincam Angel Additions */
 - (BSThreadsListViewModeType)threadsListViewMode;
 - (void)setThreadsListViewMode:(BSThreadsListViewModeType)type;
+
+/* Available in BathyScaphe 1.6.2 and later. */
+- (BOOL)energyUsesLevelIndicator;
+- (void)setEnergyUsesLevelIndicator:(BOOL)flag;
 
 - (void) _loadThreadsListSettings;
 - (BOOL) _saveThreadsListSettings;

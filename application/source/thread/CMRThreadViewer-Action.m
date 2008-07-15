@@ -368,7 +368,7 @@
 		NSURL			*boardURL_;
 		
 		boardURL_ =  [CMRThreadAttributes boardURLFromDictionary:threadAttributes_];
-		[[NSWorkspace sharedWorkspace] openURL:boardURL_ inBackGround:[CMRPref openInBg]];
+		[[NSWorkspace sharedWorkspace] openURL:boardURL_ inBackground:[CMRPref openInBg]];
 	}
 }
 

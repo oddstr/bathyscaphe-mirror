@@ -92,6 +92,9 @@
 
 - (NSData *)fullScreenBgColorData;
 - (void)setFullScreenBgColorData:(NSData *)aColorData;
+
+- (BOOL)attachFinderComment;
+- (void)setAttachFinderComment:(BOOL)flag;
 @end
 
 @interface BSImagePreviewInspector(ToolbarAndUtils)

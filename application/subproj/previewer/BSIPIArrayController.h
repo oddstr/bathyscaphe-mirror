@@ -7,12 +7,13 @@
 //  encoding="UTF-8"
 //
 
-#import <Cocoa/Cocoa.h>
+#import <AppKit/NSArrayController.h>
 
 
 @interface BSIPIArrayController : NSArrayController {
 
 }
 - (void)removeAll:(id)sender;
+- (void)selectFirst:(id)sender;
 - (void)selectLast:(id)sender;
 @end

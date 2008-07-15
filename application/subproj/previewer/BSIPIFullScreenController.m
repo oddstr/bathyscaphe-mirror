@@ -1,14 +1,15 @@
 //
-//  $Id: BSIPIFullScreenController.m,v 1.15 2008/02/18 23:17:36 tsawada2 Exp $
-//  BathyScaphe
+//  BSIPIFullScreenController.m
+//  BathyScaphe Preview Inspector
 //
 //  Created by Tsutomu Sawada on 06/01/14.
-//  Copyright 2006 BathyScaphe Project. All rights reserved.
+//  Copyright 2006-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
 #import "BSIPIFullScreenController.h"
 #import "BSIPIPathTransformer.h"
+#import "BSIPIArrayController.h"
 #import <Carbon/Carbon.h>
 #import <ApplicationServices/ApplicationServices.h>
 #import <CocoMonar/CMRSingletonObject.h>
@@ -22,9 +23,6 @@
 @end
 
 @implementation BSIPIFullScreenController
-static NSString *g_leftArrowKey;
-static NSString *g_rightArrowKey;
-
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)	
 
 - (id)init
@@ -32,9 +30,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 	if (self = [super init]) {
 		id transformer = [[[BSIPIImageIgnoringDPITransformer alloc] init] autorelease];
 		[NSValueTransformer setValueTransformer:transformer forName:@"BSIPIImageIgnoringDPITransformer"];
-
-		g_leftArrowKey = [[NSString alloc] initWithFormat:@"%C", NSLeftArrowFunctionKey];
-		g_rightArrowKey = [[NSString alloc] initWithFormat:@"%C", NSRightArrowFunctionKey];
 
 		[NSBundle loadNibNamed:@"BSIPIFullScreen" owner:self];
 	}
@@ -86,12 +81,11 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 	[super dealloc];
 }
 
-// NSValueTransformerNameBindingOption = @"NSValueTransformerName"
 - (NSDictionary *)cachedBindingOptionDict
 {
 	static NSDictionary *imageTransformerDict = nil;
 	if (!imageTransformerDict) {
-		imageTransformerDict = [[NSDictionary alloc] initWithObjectsAndKeys:@"BSIPIImageIgnoringDPITransformer", @"NSValueTransformerName", NULL];
+		imageTransformerDict = [[NSDictionary alloc] initWithObjectsAndKeys:@"BSIPIImageIgnoringDPITransformer", NSValueTransformerNameBindingOption, NULL];
 	}
 	return imageTransformerDict;
 }
@@ -100,7 +94,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 {
 	static NSDictionary *notNilTransformerDict = nil;
 	if (!notNilTransformerDict) {
-		notNilTransformerDict = [[NSDictionary alloc] initWithObjectsAndKeys:NSIsNotNilTransformerName, @"NSValueTransformerName", NULL];
+		notNilTransformerDict = [[NSDictionary alloc] initWithObjectsAndKeys:NSIsNotNilTransformerName, NSValueTransformerNameBindingOption, NULL];
 	}
 	return notNilTransformerDict;
 }
@@ -112,7 +106,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 		NSString *key = @"%{value2}@\nCan't show image: %{value1}@";
 		NSString *pattern = [[NSBundle bundleForClass:[self class]] localizedStringForKey:key value:key table:nil];
 		
-		displayPatternDict = [[NSDictionary alloc] initWithObjectsAndKeys:pattern, @"NSDisplayPattern", NULL];
+		displayPatternDict = [[NSDictionary alloc] initWithObjectsAndKeys:pattern, NSDisplayPatternBindingOption, NULL];
 	}
 	return displayPatternDict;
 }
@@ -247,11 +241,14 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 	}
 }
 
-- (BOOL)fullScreenShowPrevImage:(NSWindow *)window
+- (BOOL)fullScreenShowPrevImage:(NSWindow *)window modifierFlags:(int)flags
 {
-	NSArrayController *controller = [self arrayController];
+	BSIPIArrayController *controller = (BSIPIArrayController *)[self arrayController];
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
-	if ([controller canSelectPrevious]) {
+	if (flags & NSAlternateKeyMask) {
+		[m_noMoreField setHidden:YES];
+		[controller selectFirst:window];
+	} else if ([controller canSelectPrevious]) {
 		[m_noMoreField setHidden:YES];
 		[controller selectPrevious:window];
 	} else {
@@ -263,11 +260,14 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 	return YES;
 }
 
-- (BOOL)fullScreenShowNextImage:(NSWindow *)window
+- (BOOL)fullScreenShowNextImage:(NSWindow *)window modifierFlags:(int)flags
 {
-	NSArrayController *controller = [self arrayController];
+	BSIPIArrayController *controller = (BSIPIArrayController *)[self arrayController];
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
-	if ([controller canSelectNext]) {
+	if (flags & NSAlternateKeyMask) {
+		[m_noMoreField setHidden:YES];
+		[controller selectLast:window];
+	} else if ([controller canSelectNext]) {
 		[m_noMoreField setHidden:YES];
 		[controller selectNext:window];
 	} else {
@@ -303,28 +303,35 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 #pragma mark Delegates
 - (BOOL)handlesKeyDown:(NSEvent *)keyDown inWindow:(NSWindow *)window
 {
-    //	We could also check for the Escape key by testing
-    //		[[keyDown characters] isEqualToString: @"\033"]
-	NSString	*pressedKey = [keyDown charactersIgnoringModifiers];
-	unsigned short	keyCode = [keyDown keyCode];
-	
-	if ([pressedKey isEqualToString:g_leftArrowKey]) {
-		return [self fullScreenShowPrevImage:window];
-	}
-	
-	if ([pressedKey isEqualToString:g_rightArrowKey]) {
-		return [self fullScreenShowNextImage:window];
-	}
-	
-	if ([pressedKey isEqualToString:@"s"]) {
-		return [self fullScreenSaveImage:window];
-	}
-	
-	if (keyCode == 51) { // delete key
-		SystemSoundPlay(15);
-		[[self arrayController] remove:window];
-		[self endFullScreen];
-		return YES;
+	int modFlags = [keyDown modifierFlags];
+
+	if (modFlags & NSNumericPadKeyMask) { // arrow keys have this mask
+		NSString	*pressedKey = [keyDown charactersIgnoringModifiers];
+		unichar		keyChar = 0;
+
+		unsigned int length = [pressedKey length];
+		if (length != 1) {
+			return NO;
+		}
+
+		keyChar = [pressedKey characterAtIndex:0];
+
+		if (keyChar == NSLeftArrowFunctionKey) {
+			return [self fullScreenShowPrevImage:window modifierFlags:modFlags];
+		}
+		
+		if (keyChar == NSRightArrowFunctionKey) {
+			return [self fullScreenShowNextImage:window modifierFlags:modFlags];
+		}
+	} else {
+		int whichKey_ = [keyDown keyCode];
+
+		if (whichKey_ == 51) { // delete key
+			SystemSoundPlay(15);
+			[[self arrayController] remove:window];
+			[self endFullScreen];
+			return YES;
+		}
 	}
 
 	[self endFullScreen];
@@ -344,11 +351,11 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 	float threshold = [[self delegate] fullScreenWheelAmount];
 
 	if (dY < -1*threshold) { // 下回転で次のイメージへ
-		return [self fullScreenShowNextImage:window];
+		return [self fullScreenShowNextImage:window modifierFlags:[scrollWheel modifierFlags]];
 	}
 
 	if (dY > threshold) { // 上回転で前のイメージへ
-		return [self fullScreenShowPrevImage:window];
+		return [self fullScreenShowPrevImage:window modifierFlags:[scrollWheel modifierFlags]];
 	}
 
 	return YES;

@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIHistoryManager.m,v 1.12 2008/06/28 14:18:12 tsawada2 Exp $
+//  $Id: BSIPIHistoryManager.m,v 1.13 2008/07/15 14:04:03 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/12.
@@ -144,19 +144,19 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 {
 	return [self searchCachedTokenBy: [self arrayOfURLs] forKey: anURL];
 }
-/*
-- (BSIPIToken *) cachedTokenAtIndex: (unsigned) index
+
+- (BSIPIToken *)cachedTokenAtIndex:(unsigned)index
 {
 	if (index == NSNotFound) return nil;
-	return [[self tokensArray] objectAtIndex: index];
+	return [[self tokensArray] objectAtIndex:index];
 }
-*/
-- (unsigned) cachedTokenIndexForURL: (NSURL *) anURL
+
+- (unsigned)cachedTokenIndexForURL:(NSURL *)anURL
 {
-	if (nil == [self arrayOfURLs]) {
+	if (![self arrayOfURLs]) {
 		return NSNotFound;
 	}
-	return [[self arrayOfURLs] indexOfObject: anURL];
+	return [[self arrayOfURLs] indexOfObject:anURL];
 }
 
 - (NSArray *) cachedTokensArrayAtIndexes: (NSIndexSet *) indexes
@@ -303,7 +303,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 	}
 }
 
-- (void)copyCachedFileForTokenAtIndexes:(NSIndexSet *)indexes intoFolder:(NSString *)folderPath
+- (void)copyCachedFileForTokenAtIndexes:(NSIndexSet *)indexes intoFolder:(NSString *)folderPath attachFinderComment:(BOOL)flag
 {
 	NSArray	*tokenArray = [self cachedTokensArrayAtIndexes:indexes];
 	if (!tokenArray || [tokenArray count] == 0) return;
@@ -314,11 +314,13 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 	while (eachToken = [iter_ nextObject]) {
 		NSString *path = [eachToken downloadedFilePath];
 		if (!path) continue;
-		NSString *urlString = [[eachToken sourceURL] absoluteString];
 		NSString *destPath = [folderPath stringByAppendingPathComponent:[path lastPathComponent]];
 		[self copyCachedFileForPath:path toPath:destPath];
-		// 2008-06-28 いったん外す
-//		if (urlString) [[NSWorkspace sharedWorkspace] attachComment:urlString toFile:destPath];
+
+		if (flag) {
+			NSString *urlString = [[eachToken sourceURL] absoluteString];
+			if (urlString) [[NSWorkspace sharedWorkspace] attachComment:urlString toFile:destPath];
+		}
 	}
 /*	
 	if (tokenArray != nil) {
@@ -403,6 +405,11 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 	}
 
 	return additionalArray_;
+}
+
+- (NSString *)toolTipStringAtIndex:(unsigned int)index
+{
+	return [[self cachedTokenAtIndex:index] exifInfoString];
 }
 
 - (BOOL) appendDataForTokenAtIndexes: (NSIndexSet *) indexes

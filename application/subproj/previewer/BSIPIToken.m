@@ -1,6 +1,6 @@
 //
 //  BSIPIToken.m
-//  BathyScaphe ImagePreviewer 2.5
+//  BathyScaphe ImagePreviewer 2.8
 //
 //  Created by Tsutomu Sawada on 06/11/26.
 //  Copyright 2006 BathyScaphe Project. All rights reserved.
@@ -9,6 +9,7 @@
 
 #import "BSIPIToken.h"
 #import <SGAppKit/NSWorkspace-SGExtensions.h>
+#import <ApplicationServices/ApplicationServices.h>
 
 NSString *const BSIPITokenDownloadErrorNotification = @"BSIPITokenDownloadErrorNotification";
 
@@ -32,6 +33,28 @@ NSString *const BSIPITokenDownloadErrorNotification = @"BSIPITokenDownloadErrorN
 	return loadingImage;
 }
 
+- (NSString *)createExifInfoStringFromImageRep:(NSBitmapImageRep *)imageRep
+{
+	NSDictionary *dict = [imageRep valueForProperty:NSImageEXIFData];
+	if (!dict) return nil;
+
+	NSString *focalLengthStr, *fNumberStr, *exposureTimeStr, *isoSpeedStr;
+
+	NSNumber *focalLengthObj = [dict objectForKey:(NSString *)kCGImagePropertyExifFocalLength];
+	focalLengthStr = focalLengthObj ? [focalLengthObj stringValue] : @"(N/A)";
+
+	NSNumber *fNumberObj = [dict objectForKey:(NSString *)kCGImagePropertyExifFNumber];
+	fNumberStr = fNumberObj ? [fNumberObj stringValue] : @"(N/A)";
+
+	NSNumber *exposureTimeObj = (NSNumber *)[dict objectForKey:(NSString *)kCGImagePropertyExifExposureTime];
+	exposureTimeStr = exposureTimeObj ? [NSString stringWithFormat:@"1/%.0f", (1/[exposureTimeObj floatValue])] : @"(N/A)";
+	
+	NSArray *isoSpeedObj = [dict objectForKey:(NSString *)kCGImagePropertyExifISOSpeedRatings];
+	isoSpeedStr = isoSpeedObj ? [[isoSpeedObj objectAtIndex:0] stringValue] : @"(N/A)";
+
+	return [NSString stringWithFormat:@"%@mm, F%@, %@, ISO%@", focalLengthStr, fNumberStr, exposureTimeStr, isoSpeedStr];
+}
+
 - (BOOL)createThumbnailAndCalcImgSizeForPath:(NSString *)filePath
 {
 	float initX, initY, thumbX;
@@ -40,6 +63,11 @@ NSString *const BSIPITokenDownloadErrorNotification = @"BSIPITokenDownloadErrorN
 		[self setStatusMessage:[self localizedStrForKey:@"Can't get imageRep"]];
 		[self setThumbnail:[[NSWorkspace sharedWorkspace] systemIconForType:kQuestionMarkIcon]];
 		return NO;
+	} else {
+		if ([imageRep_ isKindOfClass:[NSBitmapImageRep class]]) {
+			NSString *str = [self createExifInfoStringFromImageRep:(NSBitmapImageRep *)imageRep_];
+			[self setExifInfoString:str];
+		}
 	}
 	initX = [imageRep_ pixelsWide];
 	initY = [imageRep_ pixelsHigh];
@@ -139,6 +167,18 @@ NSString *const BSIPITokenDownloadErrorNotification = @"BSIPITokenDownloadErrorN
 	[aString retain];
 	[ipit_statusMsg release];
 	ipit_statusMsg = aString;
+}
+
+- (NSString *)exifInfoString
+{
+	return ipit_exifInfoStr;
+}
+
+- (void)setExifInfoString:(NSString *)aString
+{
+	[aString retain];
+	[ipit_exifInfoStr release];
+	ipit_exifInfoStr = aString;
 }
 
 - (BSURLDownload *)currentDownload
@@ -242,7 +282,6 @@ NSString *const BSIPITokenDownloadErrorNotification = @"BSIPITokenDownloadErrorN
 
 - (BOOL)bsURLDownload:(BSURLDownload *)aDownload shouldRedirectToURL:(NSURL *)newURL
 {
-//	NSString	*extension = [[[newURL path] pathExtension] lowercaseString];
 	CFStringRef extensionRef = CFURLCopyPathExtension((CFURLRef)newURL);
 	if (!extensionRef) {
 		return NO;
@@ -250,7 +289,6 @@ NSString *const BSIPITokenDownloadErrorNotification = @"BSIPITokenDownloadErrorN
 
 	NSString *extension = [(NSString *)extensionRef lowercaseString];
 	CFRelease(extensionRef);
-//	if(!extension) return NO;
 		
 	return [[NSImage imageFileTypes] containsObject:extension];
 }
@@ -270,7 +308,6 @@ NSString *const BSIPITokenDownloadErrorNotification = @"BSIPITokenDownloadErrorN
 {
 	NSBeep();
 
-//	[self setStatusMessage: [NSString stringWithFormat: [self localizedStrForKey: @"Download Error (%i)"], [aError code]]];
 	[self setStatusMessage:[aError localizedDescription]];
 	[self setThumbnail:[[NSWorkspace sharedWorkspace] systemIconForType:kAlertCautionIcon]];
 	[self setCurrentDownload:nil];

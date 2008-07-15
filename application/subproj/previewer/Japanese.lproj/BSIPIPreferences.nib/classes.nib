@@ -51,6 +51,10 @@
 				<string>id</string>
 				<key>showPreviewerPreferences</key>
 				<string>id</string>
+				<key>threadComposingDidFinish</key>
+				<string>id</string>
+				<key>threadTaskDidInterrupt</key>
+				<string>id</string>
 				<key>togglePreviewPanel</key>
 				<string>id</string>
 				<key>willAdjustSubviews</key>
