@@ -284,7 +284,9 @@ static NSMenuItem* searchToolbarItemMenuFormRep(NSString *labelText)
 	NSToolbarItem *item = [[notification userInfo] objectForKey:@"item"];
 	if ([[item itemIdentifier] isEqualToString:st_NobiNobiItemIdentifier]) {
 		CMRBrowser *browser = CMRMainBrowser;
+		UTILAssertNotNil(browser);
 		float	width = [[browser boardListSubView] dimension];
+		if (width <= 0) NSLog(@"WARNING!");
 		NSSize size_ = NSMakeSize(width-8, 22);
 		[item setMinSize:size_];
 		[item setMaxSize:size_];

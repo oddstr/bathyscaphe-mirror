@@ -1,6 +1,16 @@
+2008-07-17 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/source/browser/CMRBrowser.m
+		Mac OS X v10.4.x で、2008-06-08 の更新に含まれる「ブラウザウインドウのカスケード処理を見直した」際の問題により、
+		カスケード処理がうまくいかなくなっていた問題に対処。
+		- これは、2008-06-08 以降、ウインドウのカスケード処理の一部を -[CMRBrowser dealloc] 時に実行していた
+		　ことが関係していると思われる。Mac OS X v10.5 では、10.4.x 以前と -[NSWindowController dealloc] 周りの
+		　挙動が変更（というか、NSWindowContoller のバグが修正された）ため、10.5 では正しく動作していても
+		　10.4 では意図通りに処理が呼び出されなかったものと思われる。このへんをごちゃごちゃ直したつもり。
+	* application/source/composer/CMXTextParser.m
+		内部処理時にID末尾 I の投稿（iPhone WiFi からの投稿）を認識するようにした。
 2008-07-15 tsawada2 <tsawada2@users.sourceforge.jp>
 	* application/source/composer/CMXTextParser.m
-		内部処理時に末尾 i の投稿（iPhone からの投稿）を認識するようにした。
+		内部処理時にID末尾 i の投稿（iPhone 3G からの投稿）を認識するようにした。
 	* application/subproj/previewer/BSImagePreviewInspector.m
 	* application/subproj/previewer/BSImagePreviewInspector-Settings.m
 	* application/subproj/previewer/BSIPIHistoryManager.m
@@ -29,6 +39,7 @@
 	* application/source/thread/CMRThreadLayoutTask.m:
 		-[CMRThreadLayoutTask message] でブロック処理。
 		これでダメならやり方変える必要があると思われる。
+=================================================
 2008-06-28 tsawada2 <tsawada2@users.sourceforge.jp>
 	* application/source/view/SGLinkCommand.m
 	* application/subproj/previewer/BSIPIHistoryManager.m

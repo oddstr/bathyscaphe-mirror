@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRBrowser.h,v 1.33 2008/02/10 14:24:51 tsawada2 Exp $
+  * $Id: CMRBrowser.h,v 1.34 2008/07/17 14:13:51 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -48,7 +48,14 @@ typedef enum _BSThreadDeletionType {
     // its enclosing scroll view
     id topSubview;
     id bottomSubview;
+
+	/* 2008-07-17 tsawada2
+	   Mac OS X v10.4.x Ç≈ÅAwindow cascading Ç™Ç§Ç‹Ç≠Ç¢Ç≠ÇÊÇ§Ç…Ç∑ÇÈçHïv
+	*/
+	BOOL	m_isClosing;
 }
+
+- (BOOL)isClosing;
 @end
 
 

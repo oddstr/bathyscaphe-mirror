@@ -29,6 +29,7 @@ CMRBrowser *CMRMainBrowser = nil;
 		if (!CMRMainBrowser) {
 			CMRMainBrowser = self;
 		}
+		m_isClosing = NO;
 		[CMRPref addObserver:self forKeyPath:kObservingKey options:NSKeyValueObservingOptionNew context:kBrowserContext];
 	}
 	return self;
@@ -60,6 +61,8 @@ CMRBrowser *CMRMainBrowser = nil;
 	return (CMRMainBrowser != nil);
 }
 
+#pragma mark -
+#pragma mark Window Cascading
 - (void)exchangeOrDisposeMainBrowser
 {
 	NSArray *curWindows = [NSApp orderedWindows];
@@ -79,7 +82,7 @@ CMRBrowser *CMRMainBrowser = nil;
 			continue;
 		}
 
-		if ([winController isKindOfClass:[self class]]) {
+		if ([winController isKindOfClass:[self class]] && ![(CMRBrowser *)winController isClosing]) {
 			// exchange...
 			CMRMainBrowser = (CMRBrowser *)winController;
 			break;
@@ -92,15 +95,39 @@ CMRBrowser *CMRMainBrowser = nil;
 	}
 }
 
+- (BOOL)isClosing
+{
+	return m_isClosing;
+}
+
+- (BOOL)windowShouldClose:(id)window
+{
+	m_isClosing = YES;
+	return YES;
+}
+
+- (void)windowWillClose:(NSNotification *)notification
+{
+	if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_4) {
+		[CMRPref removeObserver:self forKeyPath:kObservingKey];
+
+		// dispose main browser...
+		if (CMRMainBrowser == self) {
+			[self exchangeOrDisposeMainBrowser];
+		}
+	}
+}
+
 - (void)dealloc
 {
-	[CMRPref removeObserver:self forKeyPath:@"isSplitViewVertical"]; 
+	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {
+		[CMRPref removeObserver:self forKeyPath:kObservingKey]; 
 
-	// dispose main browser...
-	if (CMRMainBrowser == self) {
-		[self exchangeOrDisposeMainBrowser];
+		// dispose main browser...
+		if (CMRMainBrowser == self) {
+			[self exchangeOrDisposeMainBrowser];
+		}
 	}
-
 	[m_addBoardSheetController release];
 	[m_editBoardSheetController release];
 	[[[self scrollView] horizontalRulerView] release];
@@ -108,16 +135,12 @@ CMRBrowser *CMRMainBrowser = nil;
 	[super dealloc];
 }
 
+#pragma mark -
 - (void)didChangeThread
 {
-/*	NSString *threadTitleAndBoardName;
-	BSTitleRulerView *ruler = (BSTitleRulerView *)[[self scrollView] horizontalRulerView];*/
+	[super didChangeThread];
 	// 履歴メニューから選択した可能性もあるので、
 	// 表示したスレッドを一覧でも選択させる
-	[super didChangeThread];
-/*	threadTitleAndBoardName = [self titleForTitleBar];
-	[ruler setTitleStr:(threadTitleAndBoardName ? threadTitleAndBoardName : @"")];
-	[ruler setPathStr:[self path]];*/
 	[self selectRowWithCurrentThread];
 }
 
