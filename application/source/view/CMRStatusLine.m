@@ -12,28 +12,10 @@
 #import "CMRTask.h"
 #import "CMRTaskManager.h"
 #import "BSTaskItemValueTransformer.h"
-#import "missing.h"
-@class CMRDownloader;
+
 #define kLoadNibName				@"CMRStatusView"
 
 static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
-
-@implementation CMRStatusLine(Private)
-/*- (NSTextField *)statusTextField
-{
-    return _statusTextField;
-}
-*/
-- (NSProgressIndicator *)progressIndicator
-{
-    return _progressIndicator;
-}
-
-- (NSObjectController *)taskObjectController
-{
-	return _objectController;
-}
-@end
 
 
 @implementation CMRStatusLine
@@ -53,20 +35,20 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 			[self release];
 			return nil;
 		}
-		[self registerToNotificationCenter];
 	}
 	return self;
 }
 
 - (void)awakeFromNib
 {
+	[[self taskObjectController] bind:@"content" toObject:[CMRTaskManager defaultManager] withKeyPath:@"currentTask" options:nil];
 	[self setupUIComponents];
 }
 
 - (void)dealloc
 {
 	[[self statusLineView] unbind:@"messageText"];
-	[self removeFromNotificationCenter];
+	[[self taskObjectController] unbind:@"content"];
 	[self setIdentifier:nil];
 
 	// nib top-level objects
@@ -104,6 +86,16 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
     return _statusLineView;
 }
 
+- (NSProgressIndicator *)progressIndicator
+{
+    return _progressIndicator;
+}
+
+- (NSObjectController *)taskObjectController
+{
+	return _objectController;
+}
+
 - (NSString *)identifier
 {
 	return _identifier;
@@ -130,52 +122,5 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 - (IBAction)cancel:(id)sender
 {
 	[[CMRTaskManager defaultManager] cancel:sender];
-}
-
-#pragma mark Notifications
-- (void)registerToNotificationCenter
-{
-	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self selector:@selector(taskWillStartNotification:) name:CMRTaskWillStartNotification object:nil];
-    [nc addObserver:self selector:@selector(taskDidFinishNotification:) name:CMRTaskDidFinishNotification object:nil];
-    [super registerToNotificationCenter];
-}
-
-- (void)removeFromNotificationCenter
-{
-	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc removeObserver:self name:CMRTaskWillStartNotification object:nil];
-    [nc removeObserver:self name:CMRTaskDidFinishNotification object:nil];
-    [super removeFromNotificationCenter];
-}
-
-- (void)updateUIComponentsOnTaskStarting
-{
-	[[self progressIndicator] setHidden:NO];
-}
-
-- (void)updateUIComponentsOnTaskFinishing
-{
-	[[self progressIndicator] setHidden:YES];
-}
-
-- (void)taskWillStartNotification:(NSNotification *)theNotification
-{
-	UTILAssertNotificationName(theNotification, CMRTaskWillStartNotification);
-	id task = [theNotification object];
-	UTILAssertConformsTo(task, @protocol(CMRTask));
-
-	[[self taskObjectController] setContent:task];
-	[self updateUIComponentsOnTaskStarting];
-}
-
-- (void)taskDidFinishNotification:(NSNotification *)theNotification
-{
-	UTILAssertNotificationName(theNotification, CMRTaskDidFinishNotification);
-	id task = [theNotification object];
-	UTILAssertConformsTo(task, @protocol(CMRTask));
-	
-	[[self taskObjectController] setContent:nil];
-	[self updateUIComponentsOnTaskFinishing];
 }
 @end

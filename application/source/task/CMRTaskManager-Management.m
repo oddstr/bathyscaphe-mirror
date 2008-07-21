@@ -46,6 +46,7 @@
 	object_ = [aNotification object];
 	UTILAssertConformsTo(object_, @protocol(CMRTask));
 	[self addTaskInProgress:object_];
+	[self setCurrentTask:object_];
 }
 
 - (void)taskDidFinishProcessing:(NSNotification *)aNotification
@@ -60,6 +61,7 @@
 	UTILAssertConformsTo(object_, @protocol(CMRTask));
 	
 	[self removeFromNotificationWithTask:object_];
+	[self setCurrentTask:nil];
 	[self removeTask:object_];
 }
 

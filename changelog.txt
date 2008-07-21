@@ -1,4 +1,12 @@
 2008-07-21 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/source/task/CMRTaskManager.m
+	* application/source/view/CMRStatusLine.m
+	* application/source/view/BSNavigationStatusLine.m
+	* application/Resources/Japanese.lproj/CMRStatusView.nib
+		CMRTaskManager と CMRStatusLine 周りをさらに見直し、Cocoa Binding をさらに多用するようにした。
+		CMRTaskWillStartNotification/CMRTaskDidFinishNotification は、もはや CMRTaskManager でしか観察されない。
+		ナビゲーションバーの描画は、新設の -[CMRTaskManager currentTask] との Binding によって制御される。
+		少なくとも Leopard 上では、以前より滑らかな挙動が得られている。コード量もさらに削減できた。
 	* application/source/view/SGLinkCommand.m
 	* application/source/preferences/AppDefaults-ThreadViewer.m
 		「リンク先のファイルをダウンロード」機能で、ダウンロード元の URL をファイルの Spotlight コメントに設定する機能を

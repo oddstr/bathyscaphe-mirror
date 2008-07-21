@@ -35,7 +35,8 @@
 	IBOutlet SGContainerTableView	*_taskContainerView;
 	IBOutlet NSArrayController		*_arrayController;
 	
-	NSTimer		*_notificationTimer;
+//	NSTimer		*_notificationTimer;
+	id<CMRTask>		m_currentTask;
 }
 
 + (id)defaultManager;
@@ -44,4 +45,8 @@
 
 - (IBAction)cancel:(id)sender;
 - (IBAction)scrollLastRowToVisible:(id)sender;
+
+// For KVO
+- (id<CMRTask>)currentTask;
+- (void)setCurrentTask:(id<CMRTask>)aTask;
 @end

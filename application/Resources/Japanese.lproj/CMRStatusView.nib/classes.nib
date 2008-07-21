@@ -90,7 +90,7 @@
 				<key>_progressIndicator</key>
 				<string>NSProgressIndicator</string>
 				<key>_statusLineView</key>
-				<string>NSView</string>
+				<string>BSStatusLineView</string>
 				<key>_statusTextField</key>
 				<string>NSTextField</string>
 			</dict>

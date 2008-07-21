@@ -27,6 +27,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+
+	[self setCurrentTask:nil];
 	
 	[_tasksInProgress release];
 	[_taskItemControllers release];
@@ -114,6 +116,17 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 - (IBAction)scrollLastRowToVisible:(id)sender
 {
 	[self taskContainerViewScrollLastRowToVisible];
+}
+
+#pragma mark For KVO
+- (id<CMRTask>)currentTask
+{
+	return m_currentTask;
+}
+
+- (void)setCurrentTask:(id<CMRTask>)aTask
+{
+	m_currentTask = aTask;
 }
 @end
 

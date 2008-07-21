@@ -71,41 +71,40 @@
 	[super setupUIComponents];
 
 	[[self statusLineView] addSubview:[[self indexingStepper] contentView]];
-	[[self statusLineView] addSubview:[[self indexingPopupper] contentView]];	
+	[[self statusLineView] addSubview:[[self indexingPopupper] contentView]];
+
+	[[[self indexingStepper] contentView] bind:@"hidden" toObject:[self taskObjectController] withKeyPath:@"selection.isInProgress" options:nil];
+	[[[self indexingPopupper] contentView] bind:@"hidden" toObject:[self taskObjectController] withKeyPath:@"selection.isInProgress" options:nil];
+
+	[[[self indexingStepper] contentView] bind:@"hidden2" toObject:self withKeyPath:@"shouldShowNavigator" options:nil];
+	[[[self indexingPopupper] contentView] bind:@"hidden2" toObject:self withKeyPath:@"shouldShowNavigator" options:nil];
 	
 	[self layoutNavigatorComponents];
 }
 
+- (BOOL)shouldShowNavigator
+{
+	id delegate = [self delegate];
+	if (delegate && [delegate respondsToSelector:@selector(shouldShowContents)]) {
+		return ![delegate shouldShowContents];
+	}
+	
+	return NO;
+}
+
 - (void)dealloc
 {
+	NSView *stepperView = [[self indexingStepper] contentView];
+	NSView *popupperView = [[self indexingPopupper] contentView];
+	[stepperView unbind:@"hidden2"];
+	[stepperView unbind:@"hidden"];
+	[popupperView unbind:@"hidden2"];
+	[popupperView unbind:@"hidden"];
+
 	[m_indexingStepper release];
 	m_indexingStepper = nil;
 	[m_indexingPopupper release];
 	m_indexingPopupper = nil;
 	[super dealloc];
-}
-
-- (void)updateUIComponentsOnTaskStarting
-{
-	id delegate = [self delegate];
-
-	if (delegate && [delegate respondsToSelector:@selector(shouldShowContents)] && [delegate shouldShowContents]) {
-		[[[self indexingStepper] contentView] setHidden:YES];
-		[[[self indexingPopupper] contentView] setHidden:YES];
-	}
-
-	[super updateUIComponentsOnTaskStarting];
-}
-
-- (void)updateUIComponentsOnTaskFinishing
-{
-	id delegate = [self delegate];
-
-	[super updateUIComponentsOnTaskFinishing];
-	
-	if (delegate && [delegate respondsToSelector:@selector(shouldShowContents)] && [delegate shouldShowContents]) {
-		[[[self indexingStepper] contentView] setHidden:NO];
-		[[[self indexingPopupper] contentView] setHidden:NO];
-	}
 }
 @end

@@ -17,7 +17,6 @@
 	id								_delegate;
 	
 	IBOutlet BSStatusLineView		*_statusLineView;
-//	IBOutlet NSTextField			*_statusTextField;
 	IBOutlet NSProgressIndicator	*_progressIndicator;
 	IBOutlet NSObjectController		*_objectController;
 }
@@ -34,16 +33,9 @@
 - (IBAction)cancel:(id)sender;
 
 - (BSStatusLineView *)statusLineView;
+- (NSProgressIndicator *)progressIndicator;
+- (NSObjectController *)taskObjectController;
 
 - (void)setupUIComponents;
 - (void)statusLineViewDidMoveToWindow;
-- (void)updateUIComponentsOnTaskStarting;
-- (void)updateUIComponentsOnTaskFinishing;
-@end
-
-
-@interface CMRStatusLine(Private)
-//- (NSTextField *)statusTextField;
-- (NSProgressIndicator *)progressIndicator;
-- (NSObjectController *)taskObjectController;
 @end
