@@ -75,7 +75,7 @@
 		87E8CE7C09911B5B00703486 /* CMRThreadUserStatusMask.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = CMRThreadUserStatusMask.h; path = ../../application/source/threaddata/CMRThreadUserStatusMask.h; sourceTree = SOURCE_ROOT; };
 		87EE09180D812618002C3CDC /* BathyScapheErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BathyScapheErrors.h; sourceTree = "<group>"; };
 		87EE09190D812618002C3CDC /* BathyScapheErrors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BathyScapheErrors.m; sourceTree = "<group>"; };
-		87F5707B086E5217002A18AD /* Info-CMF.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-CMF.plist"; sourceTree = "<group>"; };
+		87F5707B086E5217002A18AD /* Info-CMF.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-CMF.plist"; sourceTree = "<group>"; };
 		87F5707C086E5217002A18AD /* CocoMonar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CocoMonar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3354EAA05D39D260073CD71 /* UTILAssertion.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = UTILAssertion.h; sourceTree = "<group>"; };
 		F3354EAB05D39D260073CD71 /* UTILDebugging.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = UTILDebugging.h; sourceTree = "<group>"; };

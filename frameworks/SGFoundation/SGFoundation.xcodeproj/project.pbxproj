@@ -203,7 +203,7 @@
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		874A3554086E21F0004E7805 /* Info-SGFoundation.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-SGFoundation.plist"; sourceTree = "<group>"; };
+		874A3554086E21F0004E7805 /* Info-SGFoundation.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-SGFoundation.plist"; sourceTree = "<group>"; };
 		874A3555086E21F0004E7805 /* SGFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SGFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8768FDF10CD3A17B0020BBBE /* BSURLDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSURLDownload.h; sourceTree = "<group>"; };
 		8768FDF20CD3A17B0020BBBE /* BSURLDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSURLDownload.m; sourceTree = "<group>"; };
@@ -1282,7 +1282,6 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -1311,7 +1310,7 @@
 					"/Users/takanori/Development/Tools/ObjcUnit 1.2/ObjcUnit/build",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				OPTIMIZATION_CFLAGS = "-O2";
+				GCC_OPTIMIZATION_LEVEL = 2;
 				OTHER_CFLAGS = (
 					"-DUTIL_BLOCK_DEBUG_WRITE",
 					"-DNS_BLOCK_ASSERTIONS",

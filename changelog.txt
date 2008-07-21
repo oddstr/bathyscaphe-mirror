@@ -1,4 +1,14 @@
 2008-07-21 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/source/threaddata/CMRThreadMessage.m
+		なぜか CMRThreadContentsStatusKey を CMRThreadContentsHostKey と間違えている箇所を見つけたので修正。
+	* application/source/composer/CMRAttributedMessageComposer.m
+		微修正。
+	* frameworks/CocoMonar/CMF.pbproj
+	* frameworks/CocoMonar/framework/Resources/*
+		[削除] 未使用につき削除。
+	* application/subproj/preference/Japanese.lproj/LinkPreferences.nib
+		「とりあえず」ダウンロード元 URL をファイルの Spotlight コメントに設定するかどうかのチェックボックスを
+		「リンク」環境設定に押し込んだ。このレイアウトは強引なので、必ず後で修正する。
 	* application/source/task/CMRTaskManager.m
 	* application/source/view/CMRStatusLine.m
 	* application/source/view/BSNavigationStatusLine.m

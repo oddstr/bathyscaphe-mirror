@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer.m,v 1.28 2008/02/18 23:17:36 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer.m,v 1.29 2008/07/21 09:04:13 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -164,45 +164,45 @@ static BOOL messageIsLocalAboned_(CMRThreadMessage *aMessage)
 	[aMessage setFlags : flags_];
 }
 
-- (void) composeIndex : (CMRThreadMessage *) aMessage
+- (void)composeIndex:(CMRThreadMessage *)aMessage
 {
-	NSString					*indexFormat;
+	static NSString				*indexFormat = nil;
 	NSMutableAttributedString	*ms = [self contentsStorage];
 	NSMutableString				*label_;
 	NSRange						mRange_;
+	unsigned int				index;
 	
-	indexFormat = SGTemplateResource(kThreadIndexFormatKey);
-	if (nil == indexFormat)
-		indexFormat = @"%u";
+	if (!indexFormat) {
+		indexFormat = SGTemplateResource(kThreadIndexFormatKey);
+		if (!indexFormat)
+			indexFormat = @"%u";
+	}
 	
+	index = [aMessage index];
 	label_ = SGTemporaryString();
-	[label_ appendFormat : indexFormat, [aMessage index] +1];
+	[label_ appendFormat:indexFormat, index+1];
 	
 	mRange_.location = [ms length];
 	[ms appendString:label_ withAttributes:[ATTR_TEMPLATE attributesForText]];
 	mRange_.length = [ms length] - mRange_.location;
 	
-	[ms addAttribute : CMRMessageIndexAttributeName
-			   value : [NSNumber numberWithUnsignedInt : [aMessage index]]
-			   range : mRange_];
+	[ms addAttribute:CMRMessageIndexAttributeName value:[NSNumber numberWithUnsignedInt:index] range:mRange_];
 
 	// Leopard
 	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {
 		[ms addAttribute:NSCursorAttributeName value:[NSCursor pointingHandCursor] range:mRange_];
 	}
 
-	/* 現バージョンではブックマークはフォントを変更するのみ */
+	/* ブックマークはフォントと色を変更 */
 	if ([aMessage hasBookmark]) {
-		[ms applyFontTraits : (NSBoldFontMask|NSItalicFontMask)
-					  range : mRange_];
-		[ms addAttribute: NSForegroundColorAttributeName value: [[CMRPref threadViewTheme] bookmarkColor] range: mRange_]; // 色も変えよう
+		[ms applyFontTraits:(NSBoldFontMask|NSItalicFontMask) range:mRange_];
+		[ms addAttribute:NSForegroundColorAttributeName value:[[CMRPref threadViewTheme] bookmarkColor] range: mRange_];
 	}
 /*
 2004-01-22 Takanori Ishikawa <takanori@gd5.so-net.ne.jp>
 レス番号にリンクをはると、ポップアップしたレスの内容が大きすぎる場合、
 番号が隠れてしまい、メニューを表示できなくなる。
 */
-	
 	appendWhiteSpaceSeparator(ms);
 }
 

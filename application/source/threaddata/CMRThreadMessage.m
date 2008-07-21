@@ -1,6 +1,6 @@
 //: CMRThreadMessage.m
 /**
-  * $Id: CMRThreadMessage.m,v 1.7 2008/02/18 23:17:36 tsawada2 Exp $
+  * $Id: CMRThreadMessage.m,v 1.8 2008/07/21 09:04:13 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.
   * See the file LICENSE for copying permission.
@@ -90,7 +90,7 @@ NSString *const CMRThreadMessage_SAGE_String	= @"sage";
 	
 	[self setMessageAttributes :
 		[CMRThreadMessageAttributes objectWithPropertyListRepresentation :
-			[rep objectForKey : CMRThreadContentsHostKey]]];
+			[rep objectForKey : CMRThreadContentsStatusKey]]];
 
 //	milliSec_ = [rep integerForKey : ThreadPlistContentsMilliSecKey];
 //	if (milliSec_ != 0)

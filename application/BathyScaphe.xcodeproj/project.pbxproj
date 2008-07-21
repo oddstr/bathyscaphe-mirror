@@ -870,7 +870,7 @@
 		8727F4C10A822EFB00E9C2F9 /* BSTagValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSTagValueTransformer.m; sourceTree = "<group>"; };
 		872996530832556100CBD740 /* NSTableColumn+CMXAdditions.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = "NSTableColumn+CMXAdditions.h"; sourceTree = "<group>"; };
 		872996540832556100CBD740 /* NSTableColumn+CMXAdditions.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "NSTableColumn+CMXAdditions.m"; sourceTree = "<group>"; };
-		872996720832561E00CBD740 /* CMRThreadMessage.h */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.h; path = CMRThreadMessage.h; sourceTree = "<group>"; };
+		872996720832561E00CBD740 /* CMRThreadMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRThreadMessage.h; sourceTree = "<group>"; };
 		872996730832561E00CBD740 /* CMRThreadMessage.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = CMRThreadMessage.m; sourceTree = "<group>"; };
 		872996740832561E00CBD740 /* CMRThreadMessage_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadMessage_p.h; sourceTree = "<group>"; };
 		8729967C0832561E00CBD740 /* CMRThreadVisibleRange.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadVisibleRange.h; sourceTree = "<group>"; };
