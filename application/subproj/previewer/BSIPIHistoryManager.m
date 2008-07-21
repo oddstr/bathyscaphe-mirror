@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIHistoryManager.m,v 1.13 2008/07/15 14:04:03 tsawada2 Exp $
+//  $Id: BSIPIHistoryManager.m,v 1.14 2008/07/21 01:00:05 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/12.
@@ -409,7 +409,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 
 - (NSString *)toolTipStringAtIndex:(unsigned int)index
 {
-	return [[self cachedTokenAtIndex:index] exifInfoString];
+	NSString *string = [[self cachedTokenAtIndex:index] exifInfoString];
+	return string ? string : [[NSBundle bundleForClass:[self class]] localizedStringForKey:@"No Exif data available" value:@"" table:nil];
 }
 
 - (BOOL) appendDataForTokenAtIndexes: (NSIndexSet *) indexes

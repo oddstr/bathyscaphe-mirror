@@ -33,26 +33,58 @@ NSString *const BSIPITokenDownloadErrorNotification = @"BSIPITokenDownloadErrorN
 	return loadingImage;
 }
 
-- (NSString *)createExifInfoStringFromImageRep:(NSBitmapImageRep *)imageRep
+- (NSString *)createExifInfoStringFromMetaData:(NSDictionary *)dict
 {
-	NSDictionary *dict = [imageRep valueForProperty:NSImageEXIFData];
-	if (!dict) return nil;
+	NSMutableArray *array = [NSMutableArray arrayWithCapacity:6];
+	NSDictionary *exifDict, *tiffDict;
 
-	NSString *focalLengthStr, *fNumberStr, *exposureTimeStr, *isoSpeedStr;
-
-	NSNumber *focalLengthObj = [dict objectForKey:(NSString *)kCGImagePropertyExifFocalLength];
-	focalLengthStr = focalLengthObj ? [focalLengthObj stringValue] : @"(N/A)";
-
-	NSNumber *fNumberObj = [dict objectForKey:(NSString *)kCGImagePropertyExifFNumber];
-	fNumberStr = fNumberObj ? [fNumberObj stringValue] : @"(N/A)";
-
-	NSNumber *exposureTimeObj = (NSNumber *)[dict objectForKey:(NSString *)kCGImagePropertyExifExposureTime];
-	exposureTimeStr = exposureTimeObj ? [NSString stringWithFormat:@"1/%.0f", (1/[exposureTimeObj floatValue])] : @"(N/A)";
+	exifDict = [dict objectForKey:(NSString *)kCGImagePropertyExifDictionary];
+	tiffDict = [dict objectForKey:(NSString *)kCGImagePropertyTIFFDictionary];
 	
-	NSArray *isoSpeedObj = [dict objectForKey:(NSString *)kCGImagePropertyExifISOSpeedRatings];
-	isoSpeedStr = isoSpeedObj ? [[isoSpeedObj objectAtIndex:0] stringValue] : @"(N/A)";
+	if (exifDict && [exifDict count] > 0) {
+		NSString *focalLengthStr, *fNumberStr, *exposureTimeStr, *isoSpeedStr, *focalLen35mmStr;
 
-	return [NSString stringWithFormat:@"%@mm, F%@, %@, ISO%@", focalLengthStr, fNumberStr, exposureTimeStr, isoSpeedStr];
+		NSNumber *focalLengthObj = [exifDict objectForKey:(NSString *)kCGImagePropertyExifFocalLength];
+		if (focalLengthObj) {
+			focalLengthStr = [NSString stringWithFormat:@"%@mm", [focalLengthObj stringValue]];
+			[array addObject:focalLengthStr];
+		}
+/*
+		NSNumber *focalLen35mmObj = [exifDict objectForKey:(NSString *)kCGImagePropertyExifFocalLenIn35mmFilm];
+		if (focalLen35mmObj) {
+			focalLen35mmStr = [NSString stringWithFormat:@"(%@mm in 35mm)", [focalLen35mmObj stringValue]];
+			[array addObject:focalLen35mmStr];
+		}
+*/
+		NSNumber *fNumberObj = [exifDict objectForKey:(NSString *)kCGImagePropertyExifFNumber];
+		if (fNumberObj) {
+			fNumberStr = [NSString stringWithFormat:@"F%@", [fNumberObj stringValue]];
+			[array addObject:fNumberStr];
+		}
+
+		NSNumber *exposureTimeObj = (NSNumber *)[exifDict objectForKey:(NSString *)kCGImagePropertyExifExposureTime];
+		if (exposureTimeObj) {
+			exposureTimeStr = [NSString stringWithFormat:@"1/%.0f", (1/[exposureTimeObj floatValue])];
+			[array addObject:exposureTimeStr];
+		}
+		
+		NSArray *isoSpeedObj = [exifDict objectForKey:(NSString *)kCGImagePropertyExifISOSpeedRatings];
+		if (isoSpeedObj && [isoSpeedObj count] > 0) {
+			isoSpeedStr = [NSString stringWithFormat: @"IS0%@", [[isoSpeedObj objectAtIndex:0] stringValue]];
+			[array addObject:isoSpeedStr];
+		}
+	}
+	
+	if (tiffDict && [tiffDict count] > 0) {
+		NSString *cameraNameStr, *cameraMakerStr;
+		cameraNameStr = [tiffDict objectForKey:(NSString *)kCGImagePropertyTIFFModel];
+		if (cameraNameStr) [array addObject:[NSString stringWithFormat:@"\n%@", cameraNameStr]];
+		
+		cameraMakerStr = [tiffDict objectForKey:(NSString *)kCGImagePropertyTIFFMake];
+		if (cameraMakerStr) [array addObject:cameraMakerStr];
+	}
+	
+	return ([array count] > 0) ? [array componentsJoinedByString:@", "] : nil;
 }
 
 - (BOOL)createThumbnailAndCalcImgSizeForPath:(NSString *)filePath
@@ -65,8 +97,13 @@ NSString *const BSIPITokenDownloadErrorNotification = @"BSIPITokenDownloadErrorN
 		return NO;
 	} else {
 		if ([imageRep_ isKindOfClass:[NSBitmapImageRep class]]) {
-			NSString *str = [self createExifInfoStringFromImageRep:(NSBitmapImageRep *)imageRep_];
-			[self setExifInfoString:str];
+			CGImageSourceRef cgImage;
+			NSDictionary *metaDataDict;
+			cgImage = CGImageSourceCreateWithURL((CFURLRef)[NSURL fileURLWithPath:filePath], NULL);
+			metaDataDict = (NSDictionary *)CGImageSourceCopyPropertiesAtIndex(cgImage, 0, NULL);
+			if (metaDataDict) {
+				[self setExifInfoString:[self createExifInfoStringFromMetaData:metaDataDict]];
+			}
 		}
 	}
 	initX = [imageRep_ pixelsWide];

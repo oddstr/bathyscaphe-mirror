@@ -1,5 +1,5 @@
 //
-//  $Id: BSImagePreviewInspector.m,v 1.30 2008/07/15 14:04:03 tsawada2 Exp $
+//  BSImagePreviewInspector.m
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 05/10/10.
@@ -153,7 +153,7 @@ static NSString *const kIPIPrefsNibFileNameKey	= @"BSIPIPreferences";
 													toObject:self
 												 withKeyPath:@"fullScreenBgColorData"
 													 options:[NSDictionary dictionaryWithObject:NSUnarchiveFromDataTransformerName
-																						 forKey:@"NSValueTransformerName"]];
+																						 forKey:NSValueTransformerNameBindingOption]];
 			isBinded = YES;
 		}
 

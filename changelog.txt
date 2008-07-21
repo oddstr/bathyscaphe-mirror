@@ -1,3 +1,16 @@
+2008-07-21 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/source/view/SGLinkCommand.m
+	* application/source/preferences/AppDefaults-ThreadViewer.m
+		「リンク先のファイルをダウンロード」機能で、ダウンロード元の URL をファイルの Spotlight コメントに設定する機能を
+		（入／切出来るようにした上で）復帰させた。デフォルトは「切」。
+		ただし、まだ「環境設定」にインタフェースを用意していない（後日やる）。
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/BSIPIToken.m
+	* application/subproj/previewer/Japanese.lproj/Localizable.strings
+		プレビューインスペクタ：
+		ツールチップで表示する Exif データ内容の拡充と方法の見直し。
+		また、リスト・ビューで Exif データが無い項目に対して、ツールチップが表示されなかったのを、「Exif データがありません」
+		と表示されるようにした（イメージ・ビューと挙動を合わせた）。
 2008-07-17 tsawada2 <tsawada2@users.sourceforge.jp>
 	* application/source/browser/CMRBrowser.m
 		Mac OS X v10.4.x で、2008-06-08 の更新に含まれる「ブラウザウインドウのカスケード処理を見直した」際の問題により、

@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.64 2008/07/15 14:04:03 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.65 2008/07/21 01:00:05 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -370,6 +370,9 @@ typedef enum _BSAutoSyncIntervalType {
 - (void)setLinkDownloaderDictArray:(NSMutableArray *)array;
 - (NSArray *)linkDownloaderExtensionTypes;
 - (NSArray *)linkDownloaderAutoopenTypes;
+
+- (BOOL)linkDownloaderAttachURLToComment;
+- (void)setLinkDownloaderAttachURLToComment:(BOOL)flag;
 
 /* SilverGull Additions */
 - (BOOL)autoReloadViewerWhenWake;
