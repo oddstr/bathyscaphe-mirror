@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIFullScreenController.h,v 1.9 2007/12/24 14:29:09 tsawada2 Exp $
+//  $Id: BSIPIFullScreenController.h,v 1.10 2008/08/10 15:07:35 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.
@@ -15,7 +15,9 @@
 	IBOutlet NSImageView	*_imageView;
 	IBOutlet NSTextField	*_statusField;
 	IBOutlet NSTextField	*m_noMoreField;
+	IBOutlet NSView			*m_imageInfoView;
 	NSColor					*windowBackgroundColor;
+	NSViewAnimation			*m_animation;
 
 	// Do not retain/release
 	id						m_delegate;

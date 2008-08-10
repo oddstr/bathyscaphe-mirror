@@ -78,6 +78,8 @@
 				<string>NSTextField</string>
 				<key>m_delegate</key>
 				<string>id</string>
+				<key>m_imageInfoView</key>
+				<string>NSView</string>
 				<key>m_noMoreField</key>
 				<string>NSTextField</string>
 			</dict>
@@ -107,6 +109,14 @@
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>BSIPIHUDView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
 		</dict>
 	</array>
 	<key>IBVersion</key>

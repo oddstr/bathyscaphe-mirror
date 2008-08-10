@@ -1,3 +1,36 @@
+2008-08-11 tsawada2 <tsawada2@users.sourceforge.jp>
+	プレビューインスペクタの改良：
+	* application/subproj/previewer/BSIPIArrayController.m
+		BSIPIArrayController をターゲットとする IBAction の validation を、誤って
+		BSImagePreviewInspector でやろうとしていたのを修正。
+	* application/subproj/previewer/BSIPIFullScreenController.m
+	* application/subproj/previewer/Japanese.lproj/BSIPIFullScreen.nib
+		フルスクリーン表示中に、「i」キーを押して Exif データを表示／隠すことができるようにした。
+		画面の左下に HUD っぽいビューで表示される。
+		また、一部のショートカットキーが効かなくなっていた問題を修正。
+	* application/subproj/previewer/BSIPIHUDView.[h|m]
+		[新規追加] フルスクリーン表示中の Exif データ表示で使用する、NSView のサブクラス。
+	* application/subproj/previewer/BSIPIImageView.m
+		イメージビューの背景を好きな色で塗りつぶせる機能を追加した。
+	* application/subproj/previewer/BSIPITextFieldCell.m
+		描画方法を修正し、リスト・ビューでツールチップの反応領域が狭かった問題を解決。
+	* application/subproj/previewer/BSIPIToken.m
+		Exif データで、撮影日付も取得するようにした。また、カメラ機種名の取得時に、余分な空白を
+		削ぎ落とすようにした。
+	* application/subproj/previewer/BSImagePreviewInspector-Tb.m
+		ツールバー項目の validation を tag に基づいて行なうようにした。
+		Leopard では「保存」ボタンのアイコンを別デザインのものに変えるようにした。
+	* application/subproj/previewer/BSImagePreviewInspector-View.m
+		イメージビューのフォーカスリングを描かないようにした。
+	* application/subproj/previewer/BSImagePreviewInspector.m
+		イメージビューのショートカットキーがより確実に動作するようにした。
+	* application/subproj/previewer/Exif.tiff
+		[新規追加] フルスクリーン表示中の Exif データ表示で使用する、画像リソース。
+	* application/subproj/previewer/Save_Leopard.tiff
+		[新規追加] Leopard でのみツールバーで使用される画像リソース。
+	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
+		最近の Apple のスタイルに合わせ、イメージ・ビューやテーブル・ビューをウインドウの境界いっぱいに配置した。
+=================================================
 2008-07-21 tsawada2 <tsawada2@users.sourceforge.jp>
 	* application/source/threaddata/CMRThreadMessage.m
 		なぜか CMRThreadContentsStatusKey を CMRThreadContentsHostKey と間違えている箇所を見つけたので修正。

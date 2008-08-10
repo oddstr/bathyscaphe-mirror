@@ -398,50 +398,48 @@ static NSString *const kIPIPrefsNibFileNameKey	= @"BSIPIPreferences";
 	BSIPIArrayController *controller = [self tripleGreenCubes];
 	int modFlags = [theEvent modifierFlags];
 
-	if (modFlags & NSNumericPadKeyMask) { // arrow keys have this mask
-		NSString	*pressedKey = [theEvent charactersIgnoringModifiers];
-		unichar		keyChar = 0;
+	NSString	*pressedKey = [theEvent charactersIgnoringModifiers];
+	unichar		keyChar = 0;
 
-		unsigned int length = [pressedKey length];
-		if (length != 1) {
-			return NO;
-		}
+	unsigned int length = [pressedKey length];
+	if (length != 1) {
+		return NO;
+	}
 
-		keyChar = [pressedKey characterAtIndex:0];
+	keyChar = [pressedKey characterAtIndex:0];
 
-		if (keyChar == NSLeftArrowFunctionKey) {
-			if (modFlags & NSAlternateKeyMask) {
-				[controller selectFirst:aImageView];
-				return YES;
-			} else if ([controller canSelectPrevious]) {
-				[controller selectPrevious:aImageView];
-				return YES;
-			}
-		}
-		
-		if (keyChar == NSRightArrowFunctionKey) {
-			if (modFlags & NSAlternateKeyMask) {
-				[controller selectLast:aImageView];
-				return YES;
-			} else if ([controller canSelectNext]) {
-				[controller selectNext:aImageView];
-				return YES;
-			}
-		}
-	
-	} else {
-		int whichKey_ = [theEvent keyCode];
-
-		if (whichKey_ == 51) { // delete key
-			[controller remove:aImageView];
+	if (keyChar == NSLeftArrowFunctionKey) {
+		if (modFlags & NSAlternateKeyMask) {
+			[controller selectFirst:aImageView];
+			return YES;
+		} else if ([controller canSelectPrevious]) {
+			[controller selectPrevious:aImageView];
 			return YES;
 		}
+	}
+	
+	if (keyChar == NSRightArrowFunctionKey) {
+		if (modFlags & NSAlternateKeyMask) {
+			[controller selectLast:aImageView];
+			return YES;
+		} else if ([controller canSelectNext]) {
+			[controller selectNext:aImageView];
+			return YES;
+		}
+	}
+	
+	if (keyChar == NSDeleteCharacter) {
+		[controller remove:aImageView];
+		return YES;
+	}
 
-		if ((whichKey_ == 36) && [aImageView image]) { // return key
+	if (keyChar == NSCarriageReturnCharacter) {
+		if ([aImageView image]) {
 			[self startFullscreen:aImageView];
 			return YES;
 		}
 	}
+
 	return NO;
 }
 @end

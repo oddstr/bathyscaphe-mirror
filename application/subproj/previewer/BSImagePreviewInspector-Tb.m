@@ -1,16 +1,15 @@
-/*
- * $Id: BSImagePreviewInspector-Tb.m,v 1.19 2007/11/15 13:18:49 tsawada2 Exp $
- * BathyScaphe
- *
- * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
- */
+//
+//  BSImagePreviewInspector-Tb.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 08/08/03.
+//  Copyright 2006-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
 
 #import "BSImagePreviewInspector.h"
-#import "BSIPIActionBtnTbItem.h"
-#import "BSIPIToken.h"
 #import <SGAppKit/BSSegmentedControlTbItem.h>
 #import <SGAppKit/NSWorkspace-SGExtensions.h>
-#import <CocoMonar/CMRFileManager.h>
 
 static NSString *const kIPITbActionBtnId		= @"Actions";
 static NSString *const kIPITbSettingsBtnId		= @"Settings";
@@ -27,212 +26,181 @@ static NSString *const kIPIToobarId				= @"jp.tsawada2.BathyScaphe.ImagePreviewe
 
 @implementation BSImagePreviewInspector(ToolbarAndUtils)
 #pragma mark Utilities
-- (NSString *) localizedStrForKey : (NSString *) key
+- (NSString *)localizedStrForKey:(NSString *)key
 {
-	NSBundle *selfBundle = [NSBundle bundleForClass : [self class]];
-	return [selfBundle localizedStringForKey : key value : key table : nil];
+	NSBundle *selfBundle = [NSBundle bundleForClass:[self class]];
+	return [selfBundle localizedStringForKey:key value:key table:nil];
 }
 
-- (NSImage *) imageResourceWithName : (NSString *) name
+- (NSImage *)imageResourceWithName:(NSString *)name
 {
-	NSBundle *bundle_;
-	NSString *filepath_;
-	bundle_ = [NSBundle bundleForClass : [self class]];
-	filepath_ = [bundle_ pathForImageResource : name];
+	NSBundle *selfBundle = [NSBundle bundleForClass:[self class]];
+	NSString *path;
+	path = [selfBundle pathForImageResource:name];
 	
-	if(nil == filepath_) return nil;
+	if (!path) return nil;
 	
-	return [[[NSImage alloc] initWithContentsOfFile : filepath_] autorelease];
+	return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
 }
 
-#pragma mark Toolbars	
-- (void) setupToolbar
+- (NSToolbarItem *)tbItemForId:(NSString *)identifier
+						 label:(NSString *)label
+				  paletteLabel:(NSString *)pLabel
+					   toolTip:(NSString *)toolTip
+						action:(SEL)action
 {
-    NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier: kIPIToobarId] autorelease];
-    
-    [toolbar setAllowsUserCustomization: YES];
-    [toolbar setAutosavesConfiguration: YES];
-    [toolbar setDisplayMode: NSToolbarDisplayModeIconOnly];
-	[toolbar setSizeMode : NSToolbarSizeModeSmall];
-    
-    [toolbar setDelegate: self];
-    
-    [[self window] setToolbar: toolbar];
+	NSToolbarItem *item = [[[NSToolbarItem alloc] initWithItemIdentifier:identifier] autorelease];
+	[item setLabel:[self localizedStrForKey:label]];
+	[item setPaletteLabel:[self localizedStrForKey:pLabel]];
+	[item setToolTip:[self localizedStrForKey:toolTip]];
+	[item setTarget:self];
+	if (action != NULL) [item setAction:action];
+	return item;
 }
 
-- (NSToolbarItem *) toolbar : (NSToolbar *) toolbar
-	  itemForItemIdentifier : (NSString *) itemIdent
-  willBeInsertedIntoToolbar : (BOOL) willBeInserted
+#pragma mark Toolbars
+- (void)setupToolbar
 {
-    NSToolbarItem *toolbarItem = nil;
-    
-    if ([itemIdent isEqual: kIPITbSettingsBtnId]) {
-        toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdent] autorelease];
-		
-		[toolbarItem setLabel: [self localizedStrForKey : @"Settings"]];
-		[toolbarItem setPaletteLabel: [self localizedStrForKey : @"Settings"]];
-		[toolbarItem setToolTip: [self localizedStrForKey : @"SettingsTip"]];
-		[toolbarItem setImage: [self imageResourceWithName: @"Settings"]];
-		
-		[toolbarItem setTarget: self];
-		[toolbarItem setAction: @selector(showPreviewerPreferences:)];
+    NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:kIPIToobarId] autorelease];
 
-	} else if ([itemIdent isEqual: kIPITbCancelBtnId]) {
-        toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdent] autorelease];
-	
-		[toolbarItem setLabel: [self localizedStrForKey : @"Stop"]];
-		[toolbarItem setPaletteLabel: [self localizedStrForKey : @"Stop/Save"]];
-		[toolbarItem setToolTip: [self localizedStrForKey : @"StopTip"]];
-		[toolbarItem setImage: [NSImage imageNamed: @"stopSign"]];
-		
-		[toolbarItem setTarget: self];
-		[toolbarItem setAction: @selector(cancelDownload:)];
+    [toolbar setAllowsUserCustomization:YES];
+    [toolbar setAutosavesConfiguration:YES];
+    [toolbar setDisplayMode:NSToolbarDisplayModeIconOnly];
+	[toolbar setSizeMode:NSToolbarSizeModeSmall];
+    
+    [toolbar setDelegate:self];
+    
+    [[self window] setToolbar:toolbar];
+}
+
+- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdent willBeInsertedIntoToolbar:(BOOL)willBeInserted
+{
+    NSToolbarItem *item = nil;
+
+    if ([itemIdent isEqual:kIPITbSettingsBtnId]) {
+        item = [self tbItemForId:itemIdent label:@"Settings" paletteLabel:@"Settings" toolTip:@"SettingsTip" action:@selector(showPreviewerPreferences:)];
+		[item setImage:[self imageResourceWithName:@"Settings"]];
+
+	} else if ([itemIdent isEqual:kIPITbCancelBtnId]) {
+        item = [self tbItemForId:itemIdent label:@"Stop" paletteLabel:@"Stop/Save" toolTip:@"StopTip" action:@selector(cancelDownload:)];
+		[item setImage:[NSImage imageNamed:@"stopSign"]];
+		[item setTag:574];
 
 	} else if ([itemIdent isEqual:kIPITbSaveBtnId]) {
-        toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:itemIdent] autorelease];
+        item = [self tbItemForId:itemIdent label:@"Save" paletteLabel:@"Save" toolTip:@"SaveTip" action:@selector(saveImage:)];
+		if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {
+			[item setImage:[self imageResourceWithName:@"Save_Leopard"]];
+		} else {
+			[item setImage:[self imageResourceWithName:@"Save"]];
+		}
+		[item setTag:575];
 
-		[toolbarItem setLabel:[self localizedStrForKey:@"Save"]];
-		[toolbarItem setPaletteLabel:[self localizedStrForKey:@"Save"]];
-		[toolbarItem setToolTip:[self localizedStrForKey:@"SaveTip"]];
-		[toolbarItem setImage:[self imageResourceWithName:@"Save"]];
-		
-		[toolbarItem setTarget:self];
-		[toolbarItem setAction:@selector(saveImage:)];
+	} else if ([itemIdent isEqual:kIPITbPreviewBtnId]) {
+		item = [self tbItemForId:itemIdent label:@"Preview" paletteLabel:@"OpenWithPreview" toolTip:@"PreviewTip" action:@selector(openImageWithPreviewApp:)];
+		NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
+		NSString *previewPath = [workspace absolutePathForAppBundleWithIdentifier:@"com.apple.Preview"];
+		[item setImage:[workspace iconForFile:previewPath]];
+		[item setTag:575];
+	
+	} else if ([itemIdent isEqual:kIPITbFullscreenBtnId]) {
+		item = [self tbItemForId:itemIdent label:@"FullScreen" paletteLabel:@"StartFullScreen" toolTip:@"FullScreenTip" action:@selector(startFullscreen:)];
+		[item setImage:[self imageResourceWithName:@"FullScreen"]];
+		[item setTag:573];
+	
+	} else if ([itemIdent isEqual:kIPITbBrowserBtnId]) {
+        item = [self tbItemForId:itemIdent label:@"Browser" paletteLabel:@"OpenWithBrowser" toolTip:@"BrowserTip" action:@selector(openImage:)];
+		[item setImage:[[NSWorkspace sharedWorkspace] iconForDefaultWebBrowser]];
+		[item setTag:573];
+	
+	} else if ([itemIdent isEqual:kIPITbDeleteBtnId]) {
+		item = [self tbItemForId:itemIdent label:@"Delete" paletteLabel:@"Delete" toolTip:@"DeleteTip" action:@selector(remove:)];
+		[item setTarget:[self tripleGreenCubes]];
+		[item setImage:[[NSWorkspace sharedWorkspace] systemIconForType:kToolbarDeleteIcon]];
 
-	} else if ([itemIdent isEqual: kIPITbPreviewBtnId]) {
-		NSString *previewPath = [[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier : @"com.apple.Preview"];
-        toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdent] autorelease];
-	
-		[toolbarItem setLabel: [self localizedStrForKey : @"Preview"]];
-		[toolbarItem setPaletteLabel: [self localizedStrForKey : @"OpenWithPreview"]];
-		[toolbarItem setToolTip: [self localizedStrForKey : @"PreviewTip"]];
-		[toolbarItem setImage: [[NSWorkspace sharedWorkspace] iconForFile : previewPath]];
+    } else if([itemIdent isEqual:kIPITbActionBtnId]) {
+		item = [self tbItemForId:itemIdent label:@"Actions" paletteLabel:@"Actions" toolTip:@"ActionsTip" action:NULL];
+
+		NSSize		size;
+		NSView		*actionBtn;
+		NSMenuItem	*menuFormRep;
+		NSMenu		*menuFormRepSubmenu;
+
+		actionBtn = [[self actionBtn] retain];
 		
-		[toolbarItem setTarget: self];
-		[toolbarItem setAction: @selector(openImageWithPreviewApp:)];
-	
-	} else if ([itemIdent isEqual: kIPITbFullscreenBtnId]) {
-        toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdent] autorelease];
-	
-		[toolbarItem setLabel: [self localizedStrForKey : @"FullScreen"]];
-		[toolbarItem setPaletteLabel: [self localizedStrForKey : @"StartFullScreen"]];
-		[toolbarItem setToolTip: [self localizedStrForKey : @"FullScreenTip"]];
-		[toolbarItem setImage: [self imageResourceWithName: @"FullScreen"]];
-		
-		[toolbarItem setTarget: self];
-		[toolbarItem setAction: @selector(startFullscreen:)];
-	
-	} else if ([itemIdent isEqual: kIPITbBrowserBtnId]) {
-        toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdent] autorelease];
-	
-		[toolbarItem setLabel: [self localizedStrForKey : @"Browser"]];
-		[toolbarItem setPaletteLabel: [self localizedStrForKey : @"OpenWithBrowser"]];
-		[toolbarItem setToolTip: [self localizedStrForKey : @"BrowserTip"]];
-		[toolbarItem setImage: [[NSWorkspace sharedWorkspace] iconForDefaultWebBrowser]];
-		
-		[toolbarItem setTarget: self];
-		[toolbarItem setAction: @selector(openImage:)];
-	
-	} else if ([itemIdent isEqual: kIPITbDeleteBtnId]) {
-        toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdent] autorelease];
-	
-		[toolbarItem setLabel: [self localizedStrForKey : @"Delete"]];
-		[toolbarItem setPaletteLabel: [self localizedStrForKey : @"Delete"]];
-		[toolbarItem setToolTip: [self localizedStrForKey : @"DeleteTip"]];
-		[toolbarItem setImage: [[NSWorkspace sharedWorkspace] systemIconForType: kToolbarDeleteIcon]];
-		
-		[toolbarItem setTarget:[self tripleGreenCubes]];// self];
-		[toolbarItem setAction:@selector(remove:)];// @selector(deleteCachedImage:)];
-	
-    } else if([itemIdent isEqual: kIPITbActionBtnId]) {
+		menuFormRep = [[[NSMenuItem alloc] initWithTitle:[self localizedStrForKey:@"Actions"] action:NULL keyEquivalent:@""] autorelease];
+		[menuFormRep setImage:[self imageResourceWithName:@"Gear"]];
+
+		menuFormRepSubmenu = [[[self actionBtn] menu] copy];
+		[menuFormRepSubmenu removeItemAtIndex:0];
+		[menuFormRep setSubmenu:[menuFormRepSubmenu autorelease]];
+
+		[item setView:actionBtn];
+		[item setMenuFormRepresentation:menuFormRep];
+		size = [actionBtn bounds].size;
+		[item setMinSize:size];
+		[item setMaxSize:size];
+
+    } else if ([itemIdent isEqual:kIPITbNaviBtnId]) {
 		NSSize	size_;
 		NSView	*tmp_;
 		NSMenuItem	*attachMenuItem_;
-		NSMenu		*attachMenu_;
-        toolbarItem = [[[BSIPIActionBtnTbItem alloc] initWithItemIdentifier: itemIdent] autorelease];
-
-		[toolbarItem setLabel: [self localizedStrForKey : @"Actions"]];
-		[toolbarItem setPaletteLabel: [self localizedStrForKey : @"Actions"]];
-		[toolbarItem setToolTip: [self localizedStrForKey : @"ActionsTip"]];
-
-		tmp_ = [[self actionBtn] retain]; // 2006-02-24 added
+		item = [[[BSSegmentedControlTbItem alloc] initWithItemIdentifier:itemIdent] autorelease];
 		
-		attachMenuItem_ = [[[NSMenuItem alloc] initWithTitle:[self localizedStrForKey:@"Actions"] action:NULL keyEquivalent:@""] autorelease];
-		[attachMenuItem_ setImage : [self imageResourceWithName: @"Gear"]];
-		attachMenu_ = [[[self actionBtn] menu] copy];
-		[attachMenu_ removeItemAtIndex: 0];
-		[attachMenuItem_ setSubmenu: [attachMenu_ autorelease]];
-
-		[toolbarItem setView: tmp_];
-		[toolbarItem setMenuFormRepresentation: attachMenuItem_];
-		size_ = [tmp_ bounds].size;
-		[toolbarItem setMinSize: size_];
-		[toolbarItem setMaxSize: size_];
-
-		[toolbarItem setTarget : self];
-		[(BSIPIActionBtnTbItem *)toolbarItem setDelegate: self]; // 2006-07-05 added
-
-    } else if ([itemIdent isEqual: kIPITbNaviBtnId]) {
-		NSSize	size_;
-		NSView	*tmp_;
-		NSMenuItem	*attachMenuItem_;
-		toolbarItem = [[[BSSegmentedControlTbItem alloc] initWithItemIdentifier: itemIdent] autorelease];
-		
-		[toolbarItem setLabel: [self localizedStrForKey: @"History"]];
-		[toolbarItem setPaletteLabel: [self localizedStrForKey: @"History"]];
-		[toolbarItem setToolTip: [self localizedStrForKey: @"HistoryTip"]];
+		[item setLabel:[self localizedStrForKey:@"History"]];
+		[item setPaletteLabel:[self localizedStrForKey:@"History"]];
+		[item setToolTip:[self localizedStrForKey:@"HistoryTip"]];
 		
 		tmp_ = [[self cacheNavigationControl] retain];
 		
-		attachMenuItem_ = [[[NSMenuItem alloc] initWithTitle: [self localizedStrForKey: @"HistoryTextOnly"]
-													  action: NULL
-											   keyEquivalent: @""] autorelease];
-		[attachMenuItem_ setImage: [self imageResourceWithName: @"HistoryFolder"]];
-		[attachMenuItem_ setSubmenu: [self cacheNaviMenuFormRep]];
+		attachMenuItem_ = [[[NSMenuItem alloc] initWithTitle:[self localizedStrForKey:@"HistoryTextOnly"]
+													  action:NULL
+											   keyEquivalent:@""] autorelease];
+		[attachMenuItem_ setImage:[self imageResourceWithName:@"HistoryFolder"]];
+		[attachMenuItem_ setSubmenu:[self cacheNaviMenuFormRep]];
 		
-		[toolbarItem setView: tmp_];
-		[toolbarItem setMenuFormRepresentation: attachMenuItem_];
+		[item setView:tmp_];
+		[item setMenuFormRepresentation:attachMenuItem_];
 		size_ = [tmp_ bounds].size;
-		[toolbarItem setMinSize: size_];
-		[toolbarItem setMaxSize: size_];
-		[(BSSegmentedControlTbItem *)toolbarItem setDelegate: self];
+		[item setMinSize:size_];
+		[item setMaxSize:size_];
+		[(BSSegmentedControlTbItem *)item setDelegate:self];
 		
-    } else if ([itemIdent isEqual: kIPITbPaneBtnId]) {
+    } else if ([itemIdent isEqual:kIPITbPaneBtnId]) {
 		NSSize	size_;
 		NSView	*tmp_;
 		NSMenuItem	*attachMenuItem_;
-		toolbarItem = [[[BSSegmentedControlTbItem alloc] initWithItemIdentifier: itemIdent] autorelease];
+		item = [[[BSSegmentedControlTbItem alloc] initWithItemIdentifier:itemIdent] autorelease];
 		
-		[toolbarItem setLabel: [self localizedStrForKey: @"Panes"]];
-		[toolbarItem setPaletteLabel: [self localizedStrForKey: @"Panes"]];
-		[toolbarItem setToolTip: [self localizedStrForKey: @"PanesTip"]];
+		[item setLabel:[self localizedStrForKey:@"Panes"]];
+		[item setPaletteLabel:[self localizedStrForKey:@"Panes"]];
+		[item setToolTip:[self localizedStrForKey:@"PanesTip"]];
 		
 		tmp_ = [[self paneChangeBtn] retain];
-		attachMenuItem_ = [[[NSMenuItem alloc] initWithTitle: [self localizedStrForKey : @"PanesTextOnly"]
-													  action: @selector(changePane:)
-											   keyEquivalent: @""] autorelease];
-		[attachMenuItem_ setTarget: self];
-		[attachMenuItem_ setImage : [self imageResourceWithName: @"imageView"]];
+		attachMenuItem_ = [[[NSMenuItem alloc] initWithTitle:[self localizedStrForKey:@"PanesTextOnly"]
+													  action:@selector(changePane:)
+											   keyEquivalent:@""] autorelease];
+		[attachMenuItem_ setTarget:self];
+		[attachMenuItem_ setImage:[self imageResourceWithName:@"imageView"]];
 											   
-		[toolbarItem setView: tmp_];
-		[toolbarItem setMenuFormRepresentation: attachMenuItem_];
+		[item setView:tmp_];
+		[item setMenuFormRepresentation:attachMenuItem_];
 		size_ = [tmp_ bounds].size;
-		[toolbarItem setMinSize: size_];
-		[toolbarItem setMaxSize: size_];
-		[(BSSegmentedControlTbItem *)toolbarItem setDelegate: self];
+		[item setMinSize:size_];
+		[item setMaxSize:size_];
+		[(BSSegmentedControlTbItem *)item setDelegate:self];
 
 	}
 
-    return toolbarItem;
+    return item;
 }
 
-- (NSArray *) toolbarDefaultItemIdentifiers : (NSToolbar *) toolbar
+- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
 {
-    return [NSArray arrayWithObjects: kIPITbNaviBtnId, kIPITbPaneBtnId, kIPITbActionBtnId, NSToolbarFlexibleSpaceItemIdentifier,
-									  kIPITbCancelBtnId, kIPITbSaveBtnId, nil];
+    return [NSArray arrayWithObjects:kIPITbNaviBtnId, kIPITbPaneBtnId, kIPITbActionBtnId, NSToolbarFlexibleSpaceItemIdentifier,
+									 kIPITbCancelBtnId, kIPITbSaveBtnId, nil];
 }
 
-- (NSArray *) toolbarAllowedItemIdentifiers : (NSToolbar *) toolbar
+- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
 {
     return [NSArray arrayWithObjects:kIPITbNaviBtnId, kIPITbPaneBtnId, kIPITbActionBtnId, kIPITbCancelBtnId, kIPITbDeleteBtnId,
 									 kIPITbSaveBtnId, kIPITbBrowserBtnId, kIPITbPreviewBtnId, kIPITbFullscreenBtnId, kIPITbSettingsBtnId,
@@ -241,46 +209,36 @@ static NSString *const kIPIToobarId				= @"jp.tsawada2.BathyScaphe.ImagePreviewe
 }
 
 #pragma mark Validation
-- (BOOL) validateToolbarItem : (NSToolbarItem *) toolbarItem
+- (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem
 {
-	NSString *identifier_ = [toolbarItem itemIdentifier];
 	NSArrayController	*cube_ = [self tripleGreenCubes];
-	
-	if ([identifier_ isEqualToString: kIPITbDeleteBtnId]) {
-		return [cube_ canRemove];
-	}
+	int tag_ = [toolbarItem tag];
 
 	NSIndexSet	*indexes = [cube_ selectionIndexes];
 	BOOL		selected = ([indexes count] > 0);
 
-	if ([identifier_ isEqualToString:kIPITbBrowserBtnId] || [identifier_ isEqualToString:kIPITbFullscreenBtnId]) {
+	if (tag_ == 573) {
 		return selected;
-	} else if ([identifier_ isEqualToString:kIPITbCancelBtnId]) {
+	} else if (tag_ == 575) {
+		return (selected && [[BSIPIHistoryManager sharedManager] cachedTokensArrayContainsNotNullObjectAtIndexes:indexes]);
+	} else if (tag_ == 574) {
 		if (!selected) return NO;
 		BSIPIHistoryManager *manager = [BSIPIHistoryManager sharedManager];
 		if ([manager cachedTokensArrayContainsDownloadingTokenAtIndexes:indexes]) {
-			[toolbarItem setLabel : [self localizedStrForKey : @"Stop"]];
-			[toolbarItem setToolTip: [self localizedStrForKey : @"StopTip"]];
-			[toolbarItem setImage: [NSImage imageNamed: @"stopSign"]];
-			[toolbarItem setTarget : self];
-			[toolbarItem setAction : @selector(cancelDownload:)];
+			[toolbarItem setLabel:[self localizedStrForKey:@"Stop"]];
+			[toolbarItem setToolTip:[self localizedStrForKey:@"StopTip"]];
+			[toolbarItem setImage:[NSImage imageNamed:@"stopSign"]];
+			[toolbarItem setAction:@selector(cancelDownload:)];
 		} else {
 			[toolbarItem setLabel:[self localizedStrForKey:@"Retry"]];
 			[toolbarItem setToolTip:[self localizedStrForKey:@"RetryTip"]];
-			[toolbarItem setImage:[NSImage imageNamed: @"ReloadThread"]];
-			[toolbarItem setTarget:self];
+			[toolbarItem setImage:[NSImage imageNamed:@"ReloadThread"]];
 			[toolbarItem setAction:@selector(retryDownload:)];
 		}
 		return YES;
-	} else if ([identifier_ isEqualToString:kIPITbPreviewBtnId] || [identifier_ isEqualToString:kIPITbSaveBtnId]) {
-		return (selected && [[BSIPIHistoryManager sharedManager] cachedTokensArrayContainsNotNullObjectAtIndexes:indexes]);
 	}
-    return YES;
-}
 
-- (BOOL) validateActionBtnTbItem: (BSIPIActionBtnTbItem *) aTbItem
-{
-	return YES;
+    return YES;
 }
 
 // action button's menu
@@ -301,11 +259,11 @@ static NSString *const kIPIToobarId				= @"jp.tsawada2.BathyScaphe.ImagePreviewe
 		if (!selected) return NO;
 		BSIPIHistoryManager *manager = [BSIPIHistoryManager sharedManager];
 		if ([manager cachedTokensArrayContainsDownloadingTokenAtIndexes:indexes]) {
-			[menuItem setTitle: [self localizedStrForKey: @"StopMenu"]];
-			[menuItem setAction: @selector(cancelDownload:)];
+			[menuItem setTitle:[self localizedStrForKey: @"StopMenu"]];
+			[menuItem setAction:@selector(cancelDownload:)];
 		} else {
-			[menuItem setTitle: [self localizedStrForKey: @"RetryMenu"]];
-			[menuItem setAction: @selector(retryDownload:)];
+			[menuItem setTitle:[self localizedStrForKey: @"RetryMenu"]];
+			[menuItem setAction:@selector(retryDownload:)];
 		}
 		return YES;
 	}
@@ -313,7 +271,7 @@ static NSString *const kIPIToobarId				= @"jp.tsawada2.BathyScaphe.ImagePreviewe
 	return YES;
 }
 
-- (BOOL) segCtrlTbItem:(BSSegmentedControlTbItem *)item validateSegment:(int)segment
+- (BOOL)segCtrlTbItem:(BSSegmentedControlTbItem *)item validateSegment:(int)segment
 {
 	if ([item view] == [self paneChangeBtn]) return YES;
 

@@ -32,23 +32,45 @@ NSString *const BSIPITokenDownloadErrorNotification = @"BSIPITokenDownloadErrorN
 	}
 	return loadingImage;
 }
+/*
++ (NSDateFormatter *)exifDateFormatter
+{
+	static NSDateFormatter *formatter = nil;
+	if (!formatter) {
+		formatter = [[NSDateFormatter alloc] init];
+		[formatter setFormatterBehavior:NSDateFormatterBehavior10_4];  // to make the intent clear
 
+		[formatter setDateStyle:NSDateFormatterNoStyle];
+		[formatter setTimeStyle:NSDateFormatterNoStyle];
+		[formatter setDateFormat:@"yyyy:MM:dd HH:mm:ss"];
+	}
+	return formatter;
+}
+*/
 - (NSString *)createExifInfoStringFromMetaData:(NSDictionary *)dict
 {
-	NSMutableArray *array = [NSMutableArray arrayWithCapacity:6];
+	NSMutableArray *array = [NSMutableArray arrayWithCapacity:7];
 	NSDictionary *exifDict, *tiffDict;
 
 	exifDict = [dict objectForKey:(NSString *)kCGImagePropertyExifDictionary];
 	tiffDict = [dict objectForKey:(NSString *)kCGImagePropertyTIFFDictionary];
 	
 	if (exifDict && [exifDict count] > 0) {
-		NSString *focalLengthStr, *fNumberStr, *exposureTimeStr, *isoSpeedStr, *focalLen35mmStr;
+		NSString *focalLengthStr, *fNumberStr, *exposureTimeStr, *isoSpeedStr, *dateTimeStr;
+
+		dateTimeStr = [exifDict objectForKey:(NSString *)kCGImagePropertyExifDateTimeOriginal];
+		if (dateTimeStr) {
+//		NSDate *date = [[[self class] exifDateFormatter] dateFromString:foo];
+//		NSLog(@"Check %@", date);
+			[array addObject:dateTimeStr];
+		}
 
 		NSNumber *focalLengthObj = [exifDict objectForKey:(NSString *)kCGImagePropertyExifFocalLength];
 		if (focalLengthObj) {
 			focalLengthStr = [NSString stringWithFormat:@"%@mm", [focalLengthObj stringValue]];
 			[array addObject:focalLengthStr];
 		}
+		
 /*
 		NSNumber *focalLen35mmObj = [exifDict objectForKey:(NSString *)kCGImagePropertyExifFocalLenIn35mmFilm];
 		if (focalLen35mmObj) {
@@ -78,7 +100,12 @@ NSString *const BSIPITokenDownloadErrorNotification = @"BSIPITokenDownloadErrorN
 	if (tiffDict && [tiffDict count] > 0) {
 		NSString *cameraNameStr, *cameraMakerStr;
 		cameraNameStr = [tiffDict objectForKey:(NSString *)kCGImagePropertyTIFFModel];
-		if (cameraNameStr) [array addObject:[NSString stringWithFormat:@"\n%@", cameraNameStr]];
+		if (cameraNameStr) {
+			CFMutableStringRef hoge = (CFMutableStringRef)[[cameraNameStr mutableCopy] autorelease];
+			CFStringTrimWhitespace(hoge);
+			cameraNameStr = [NSString stringWithString:(NSMutableString *)hoge];
+			[array addObject:[NSString stringWithFormat:@"\n%@", cameraNameStr]];
+		}
 		
 		cameraMakerStr = [tiffDict objectForKey:(NSString *)kCGImagePropertyTIFFMake];
 		if (cameraMakerStr) [array addObject:cameraMakerStr];

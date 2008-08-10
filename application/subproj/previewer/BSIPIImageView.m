@@ -1,35 +1,53 @@
 //
-//  $Id: BSIPIImageView.m,v 1.6 2007/03/03 09:23:27 tsawada2 Exp $
+//  BSIPIImageView.m
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/07.
-//  Copyright 2006 BathyScaphe Project. All rights reserved.
+//  Copyright 2006-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import "BSIPIImageView.h"
 
-// フォーカスリングを描いてくれる NSImageCell
-@interface BSIPIImageCell: NSImageCell
-{
-}
-- (void) copyAttributesFromCell: (NSImageCell *) baseCell;
-@end
 
 @implementation BSIPIImageCell
-+ (NSFocusRingType) defaultFocusRingType
++ (NSFocusRingType)defaultFocusRingType
 {
     return NSFocusRingTypeExterior;
 }
 
-- (void) copyAttributesFromCell: (NSImageCell *) baseCell
+- (void)dealloc
 {
-	[self setImageAlignment: [baseCell imageAlignment]];
-	[self setImageFrameStyle: [baseCell imageFrameStyle]];
-	[self setImageScaling: [baseCell imageScaling]];
+	[self setBackgroundColor:nil];
+	[super dealloc];
+}
+
+- (void)copyAttributesFromCell:(NSImageCell *)baseCell
+{
+	[self setImageAlignment:[baseCell imageAlignment]];
+	[self setImageFrameStyle:[baseCell imageFrameStyle]];
+	[self setImageScaling:[baseCell imageScaling]];
+	if ([baseCell isKindOfClass:[BSIPIImageCell class]]) {
+		[self setBackgroundColor:[(BSIPIImageCell *)baseCell backgroundColor]];
+	}
+}
+
+- (NSColor *)backgroundColor
+{
+	return bsIPIImageCell_bgColor;
+}
+
+- (void)setBackgroundColor:(NSColor *)color
+{
+	[color retain];
+	[bsIPIImageCell_bgColor release];
+	bsIPIImageCell_bgColor = color;
+	
+	[[self controlView] setNeedsDisplay:YES];
 }
 
 // 少しだけ丸みを帯びた四角形
-- (NSBezierPath *) calcRoundedRectForRect: (NSRect) bgRect
+- (NSBezierPath *)calcRoundedRectForRect:(NSRect)bgRect
 {
     int minX = NSMinX(bgRect);
     int midX = NSMidX(bgRect);
@@ -65,45 +83,64 @@
     return bgPath;
 }
 
-- (void) drawInteriorWithFrame: (NSRect) cellFrame inView: (NSView *) controlView
+- (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
-    [super drawInteriorWithFrame: cellFrame inView: controlView];
-	// NSFocusRingTypeNone が指定されているなら、描かない
-    if ([self focusRingType] == NSFocusRingTypeNone) return;
+	NSColor *color = [self backgroundColor];
+	if (color) {
+		[color set];
+		NSRectFill(cellFrame);
+	}
+	
+    [super drawInteriorWithFrame:cellFrame inView:controlView];
 
-	if ([self showsFirstResponder]) {
+    if ([self focusRingType] != NSFocusRingTypeNone && [self showsFirstResponder]) {
 		[NSGraphicsContext saveGraphicsState];
 		NSSetFocusRingStyle(NSFocusRingOnly);
-		[[self calcRoundedRectForRect: cellFrame] fill];
+		[[self calcRoundedRectForRect:cellFrame] fill];
 		[NSGraphicsContext restoreGraphicsState];
 	}
 }
 @end
 
 #pragma mark -
-
 @implementation BSIPIImageView
-- (void) awakeFromNib
+- (void)awakeFromNib
 {
 	BSIPIImageCell *cell_ = [[BSIPIImageCell alloc] init];
-	[cell_ copyAttributesFromCell: [self cell]];
-	[self setCell: cell_];
+	[cell_ copyAttributesFromCell:[self cell]];
+	[self setCell:cell_];
 	[cell_ release];
 }
 
-- (id) delegate
+- (id)delegate
 {
 	return bsIPIImageView_delegate;
 }
 
-- (void) setDelegate: (id) aDelegate
+- (void)setDelegate:(id)aDelegate
 {
 	bsIPIImageView_delegate = aDelegate;
 }
 
-- (void) dealloc
+- (NSColor *)backgroundColor
 {
-	[self setDelegate: nil];
+	if ([[self cell] isKindOfClass:[BSIPIImageCell class]]) {
+		return [(BSIPIImageCell *)[self cell] backgroundColor];
+	}
+	
+	return nil;
+}
+
+- (void)setBackgroundColor:(NSColor *)color
+{
+	if ([[self cell] isKindOfClass:[BSIPIImageCell class]]) {
+		[(BSIPIImageCell *)[self cell] setBackgroundColor:color];
+	}
+}
+
+- (void)dealloc
+{
+	[self setDelegate:nil];
 	[super dealloc];
 }
 
@@ -118,13 +155,13 @@
 	float dx, dy;
 	dx = targetSize.width / originalSize.width;
 	dy = targetSize.height / originalSize.height;
-	if(dx > dy) {
+	if (dx > dy) {
 		dx = dy;
 	} else {
 		dy = dx;
 	}
 	// オリジナルより大きくしない。
-	if(dx > 1) {
+	if (dx > 1) {
 		dx = dy = 1;
 	}
 	
@@ -132,7 +169,7 @@
 	
 	float offsetX, offsetY;
 	
-	switch([self imageAlignment]) {
+	switch ([self imageAlignment]) {
 		case NSImageAlignCenter:
 		case NSImageAlignTop:
 		case NSImageAlignBottom:
@@ -150,7 +187,7 @@
 			break;
 	}
 	
-	switch([self imageAlignment]) {
+	switch ([self imageAlignment]) {
 		case NSImageAlignCenter:
 		case NSImageAlignLeft:
 		case NSImageAlignRight:
@@ -170,6 +207,7 @@
 	
 	return NSMakeRect(offsetX, offsetY, imageSize.width, imageSize.height);
 }
+
 - (NSSize)fitSizeForDragging
 {
 	return [self draggingImageRect].size;
@@ -183,7 +221,7 @@
 	[[self image] drawAtPoint:NSZeroPoint
 					 fromRect:NSZeroRect
 					operation:NSCompositeCopy
-					 fraction:0.7];//0.5];
+					 fraction:0.75];
 	[image unlockFocus];
 	
 	[image setScalesWhenResized:YES];
@@ -193,28 +231,28 @@
 }
 
 /* マウスが四方に delta 移動するまでドラッグを開始しない */
-- (void) dragImageFileWithEvent: (NSEvent *)theEvent
+- (void)dragImageFileWithEvent:(NSEvent *)theEvent
 {
 	NSRect koreguraiHaNotDragRect;
 	NSPoint clickPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	const float delta = 5;
 	
-	koreguraiHaNotDragRect = NSMakeRect( clickPoint.x - delta / 2.0, clickPoint.y - delta / 2.0, delta, delta );
+	koreguraiHaNotDragRect = NSMakeRect(clickPoint.x - delta / 2.0, clickPoint.y - delta / 2.0, delta, delta);
 	
-	while( YES ) {
+	while (YES) {
 		NSPoint mouse;
-		theEvent = [NSApp nextEventMatchingMask:NSLeftMouseUpMask | NSLeftMouseDraggedMask
+		theEvent = [NSApp nextEventMatchingMask:(NSLeftMouseUpMask|NSLeftMouseDraggedMask)
 									  untilDate:[NSDate distantFuture]
 										 inMode:NSEventTrackingRunLoopMode
 										dequeue:YES];
-		if( [theEvent type] == NSLeftMouseUp ) {
-			if (([theEvent clickCount] == 2) && [[self delegate] respondsToSelector: @selector(imageView:mouseDoubleClicked:)]) {
-				[[self delegate] imageView: self mouseDoubleClicked: theEvent];
+		if ([theEvent type] == NSLeftMouseUp) {
+			if (([theEvent clickCount] == 2) && [[self delegate] respondsToSelector:@selector(imageView:mouseDoubleClicked:)]) {
+				[[self delegate] imageView:self mouseDoubleClicked:theEvent];
 			}
 			break;
 		}
 		mouse = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-		if( !NSMouseInRect( mouse, koreguraiHaNotDragRect, [self isFlipped] ) ) {
+		if (!NSMouseInRect(mouse, koreguraiHaNotDragRect, [self isFlipped])) {
 			NSImage *image;
 			NSPoint imageLoc;
 			NSPasteboard *pb;
@@ -222,11 +260,11 @@
 			
 			pb = [NSPasteboard pasteboardWithName:NSDragPboard];
 
-			[[self delegate] imageView: self writeSomethingToPasteboard: pb];
+			[[self delegate] imageView:self writeSomethingToPasteboard:pb];
 			
 			image = [self imageForDragging];
 			imageLoc = [self draggingImageRect].origin;
-			offset = NSMakeSize( mouse.x - clickPoint.x, mouse.y - clickPoint.y );
+			offset = NSMakeSize(mouse.x - clickPoint.x, mouse.y - clickPoint.y);
 			
 			[self dragImage:image
 						 at:imageLoc
@@ -241,40 +279,42 @@
 	}
 }
 		
-- (void) mouseDown : (NSEvent *) theEvent
+- (void)mouseDown:(NSEvent *)theEvent
 {
-	if ([self image] != nil && [[self delegate] respondsToSelector: @selector(imageView:writeSomethingToPasteboard:)]) {
-        [self dragImageFileWithEvent: theEvent];
+	id delegate = [self delegate];
+	if ([self image] && delegate && [delegate respondsToSelector:@selector(imageView:writeSomethingToPasteboard:)]) {
+        [self dragImageFileWithEvent:theEvent];
 	} else {
-		[super mouseDown : theEvent];
+		[super mouseDown:theEvent];
 	}
 }
 
 // キーウインドウにしなくてもドラッグを開始できるように
-- (BOOL) acceptsFirstMouse : (NSEvent *) theEvent
+- (BOOL)acceptsFirstMouse:(NSEvent *)theEvent
 {
-	return([self image] != nil);
+	return ([self image] != nil);
 }
 
 #pragma mark Perform Key Equivalent
-- (BOOL) needsPanelToBecomeKey
+- (BOOL)needsPanelToBecomeKey
 {
 	return YES;
 }
 
-- (BOOL) acceptsFirstResponder
+- (BOOL)acceptsFirstResponder
 {
 	return YES;
 }
 
-- (BOOL) performKeyEquivalent: (NSEvent *) theEvent
+- (BOOL)performKeyEquivalent:(NSEvent *)theEvent
 {
 	if ([theEvent type] == NSKeyDown) { // keyUp で二重に呼び出されるのを防ぐ
-		if([self delegate] && [[self delegate] respondsToSelector: @selector(imageView:shouldPerformKeyEquivalent:)]) {
-			return [[self delegate] imageView: self shouldPerformKeyEquivalent: theEvent];
+		id delegate = [self delegate];
+		if(delegate && [delegate respondsToSelector:@selector(imageView:shouldPerformKeyEquivalent:)]) {
+			return [delegate imageView:self shouldPerformKeyEquivalent:theEvent];
 		}
 	}
 
-	return [super performKeyEquivalent: theEvent];
+	return [super performKeyEquivalent:theEvent];
 }
 @end

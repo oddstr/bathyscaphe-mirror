@@ -33,4 +33,12 @@
 	}
 	return [super validateMenuItem:menuItem];
 }
+
+- (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem
+{
+	if ([toolbarItem action] == @selector(remove:)) {
+		return [self canRemove];
+	}
+	return [super validateToolbarItem:toolbarItem];
+}
 @end

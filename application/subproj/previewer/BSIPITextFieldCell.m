@@ -1,17 +1,19 @@
 //
-//  $Id: BSIPITextFieldCell.m,v 1.1 2006/07/26 16:28:25 tsawada2 Exp $
+//  BSIPITextFieldCell.m
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/07/10.
-//  Copyright 2006 BathyScaphe Project. All rights reserved.
+//  Copyright 2006-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import "BSIPITextFieldCell.h"
 
 
 @implementation BSIPITextFieldCell
-- (NSRect) drawingRectForBounds: (NSRect) theRect
+- (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
-	return NSInsetRect([super drawingRectForBounds: theRect], 0, 10.0);
+	NSRect newRect = NSInsetRect(cellFrame, 0, 10.0);
+	[super drawInteriorWithFrame:newRect inView:controlView];
 }
 @end

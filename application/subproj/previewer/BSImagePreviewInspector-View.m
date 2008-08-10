@@ -1,9 +1,9 @@
 //
-//  $Id: BSImagePreviewInspector-View.m,v 1.11 2007/11/23 12:34:45 tsawada2 Exp $
+//  BSImagePreviewInspector-View.m
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/07/15.
-//  Copyright 2006 BathyScaphe Project. All rights reserved.
+//  Copyright 2006-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -109,15 +109,18 @@ static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInsp
 
 	[[self paneChangeBtn] setLabel:nil forSegment:0];
 	[[self paneChangeBtn] setLabel:nil forSegment:1];
+
 	[[self cacheNavigationControl] setLabel:nil forSegment:0];
 	[[self cacheNavigationControl] setLabel:nil forSegment:1];
 	
+	[(BSIPIImageView *)[self imageView] setFocusRingType:NSFocusRingTypeNone];
 	[(BSIPIImageView *)[self imageView] setDelegate:self];
-
+	[(BSIPIImageView *)[self imageView] setBackgroundColor:[NSColor blackColor]];
+	
 	int	tabIndex = [self preferredView];
-	if (tabIndex == -1)
+	if (tabIndex == -1) {
 		tabIndex = [self lastShownViewTag];
-
+	}
 	[[self tabView] selectTabViewItemAtIndex:tabIndex];
 	[[self paneChangeBtn] setSelectedSegment:tabIndex];
 }

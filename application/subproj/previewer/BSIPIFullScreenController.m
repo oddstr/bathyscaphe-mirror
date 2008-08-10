@@ -13,9 +13,8 @@
 #import <Carbon/Carbon.h>
 #import <ApplicationServices/ApplicationServices.h>
 #import <CocoMonar/CMRSingletonObject.h>
+#import "BSIPIFSInfoController.h"
 
-
-@class BSIPIFullScreenWindow;
 
 @interface NSObject(FullScreenDelegateMethodsStub)
 - (void)saveImage:(id)sender;
@@ -40,7 +39,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 {
 	NSView	*contentView;
 
-    _fullScreenWindow = [[BSIPIFullScreenWindow alloc] initWithContentRect:[[_baseWindow contentView] frame]
+    _fullScreenWindow = [[NSClassFromString(@"BSIPIFullScreenWindow") alloc] initWithContentRect:[[_baseWindow contentView] frame]
 																 styleMask:NSBorderlessWindowMask
 																   backing:[_baseWindow backingType]
 																	 defer:NO];
@@ -300,38 +299,71 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 	[m_noMoreField setHidden:YES];
 }
 
+- (void)toggleInfoViewHidden:(BOOL)flag
+{
+	NSDictionary *dict;
+
+	if (!m_animation) {
+		m_animation = [[NSViewAnimation alloc] initWithViewAnimations:nil];
+	}
+	
+	if (flag) { // hide
+		dict = [NSDictionary dictionaryWithObjectsAndKeys:m_imageInfoView, NSViewAnimationTargetKey,
+			NSViewAnimationFadeOutEffect, NSViewAnimationEffectKey, NULL];
+	} else {
+		dict = [NSDictionary dictionaryWithObjectsAndKeys:m_imageInfoView, NSViewAnimationTargetKey,
+			NSViewAnimationFadeInEffect, NSViewAnimationEffectKey, NULL];
+	}
+	
+	[m_animation setViewAnimations:[NSArray arrayWithObject:dict]];
+	[m_animation setDuration:0.5];
+	[m_animation startAnimation];
+}
+
 #pragma mark Delegates
 - (BOOL)handlesKeyDown:(NSEvent *)keyDown inWindow:(NSWindow *)window
 {
 	int modFlags = [keyDown modifierFlags];
 
-	if (modFlags & NSNumericPadKeyMask) { // arrow keys have this mask
-		NSString	*pressedKey = [keyDown charactersIgnoringModifiers];
-		unichar		keyChar = 0;
+	NSString	*pressedKey = [keyDown charactersIgnoringModifiers];
+	unichar		keyChar = 0;
 
-		unsigned int length = [pressedKey length];
-		if (length != 1) {
-			return NO;
+	unsigned int length = [pressedKey length];
+	if (length != 1) {
+		return NO;
+	}
+
+	keyChar = [pressedKey characterAtIndex:0];
+
+	if (keyChar == NSLeftArrowFunctionKey) {
+		return [self fullScreenShowPrevImage:window modifierFlags:modFlags];
+	}
+	
+	if (keyChar == NSRightArrowFunctionKey) {
+		return [self fullScreenShowNextImage:window modifierFlags:modFlags];
+	}
+	
+	if (keyChar == 'i') {
+		if ([m_imageInfoView window] != _fullScreenWindow) {
+			[[_fullScreenWindow contentView] addSubview:m_imageInfoView];
+			[m_imageInfoView setFrameOrigin:NSMakePoint(10,10)];
+			[m_imageInfoView setHidden:YES];
 		}
+		[self toggleInfoViewHidden:![m_imageInfoView isHidden]];
+		return YES;
+	}
+	
+	if (keyChar == 's') {
+		return [self fullScreenSaveImage:window];
+	}
 
-		keyChar = [pressedKey characterAtIndex:0];
-
-		if (keyChar == NSLeftArrowFunctionKey) {
-			return [self fullScreenShowPrevImage:window modifierFlags:modFlags];
-		}
-		
-		if (keyChar == NSRightArrowFunctionKey) {
-			return [self fullScreenShowNextImage:window modifierFlags:modFlags];
-		}
-	} else {
-		int whichKey_ = [keyDown keyCode];
-
-		if (whichKey_ == 51) { // delete key
+	if (keyChar == NSDeleteCharacter) {
+//		if ((modFlags & NSDeviceIndependentModifierFlagsMask) == 0) {
 			SystemSoundPlay(15);
 			[[self arrayController] remove:window];
 			[self endFullScreen];
 			return YES;
-		}
+//		}
 	}
 
 	[self endFullScreen];
