@@ -88,7 +88,7 @@ static NSString *const kIPIToobarId				= @"jp.tsawada2.BathyScaphe.ImagePreviewe
 
 	} else if ([itemIdent isEqual:kIPITbSaveBtnId]) {
         item = [self tbItemForId:itemIdent label:@"Save" paletteLabel:@"Save" toolTip:@"SaveTip" action:@selector(saveImage:)];
-		if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {
+		if (floor(NSAppKitVersionNumber) > 824) {
 			[item setImage:[self imageResourceWithName:@"Save_Leopard"]];
 		} else {
 			[item setImage:[self imageResourceWithName:@"Save"]];

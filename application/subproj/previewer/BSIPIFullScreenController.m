@@ -13,7 +13,6 @@
 #import <Carbon/Carbon.h>
 #import <ApplicationServices/ApplicationServices.h>
 #import <CocoMonar/CMRSingletonObject.h>
-#import "BSIPIFSInfoController.h"
 
 
 @interface NSObject(FullScreenDelegateMethodsStub)

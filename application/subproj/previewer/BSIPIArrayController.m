@@ -8,6 +8,7 @@
 //
 
 #import "BSIPIArrayController.h"
+#import <AppKit/NSToolbarItem.h>
 
 
 @implementation BSIPIArrayController
