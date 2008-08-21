@@ -363,7 +363,7 @@
 	if (!wc_) return;
 
 	[wc_ showThreadsListWithBoardName:boardNameStr];
-	[wc_ selectRowWhoseNameIs:boardNameStr];
+	[wc_ selectRowOfName:boardNameStr forceReload:NO];
 }
 
 - (void)handleReloadListCommand:(NSScriptCommand *)command

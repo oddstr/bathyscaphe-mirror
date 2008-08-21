@@ -406,7 +406,7 @@
 {
 	NSString *lastBoard = [CMRPref browserLastBoard];
 	if (lastBoard) {
-		[self selectRowWhoseNameIs:lastBoard];
+		[self selectRowOfName:lastBoard forceReload:NO];
 	}
 
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:kSelectLastBBSNotification object:self];

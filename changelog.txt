@@ -1,3 +1,9 @@
+2008-08-22 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/source/browser/CMRBrowser.m
+		ブラウザウインドウのカスケード処理を三たび修正。
+		というか、よく考えたら何もごちゃごちゃやる必要はないじゃないか。
+		CMRBrowser クラスは NSWindow(Controller)の frame Auto-Save に委ねているのだから、
+		setShouldCascadeWindow:YES で常時良きに計らってくれるんじゃないのか。
 2008-08-21 tsawada2 <tsawada2@users.sourceforge.jp>
 	* application/source/network/ThreadTextDownloader.m
 	* application/source/manager/DatabaseManager-Notifications.m

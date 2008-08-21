@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Updated by Tsutomu Sawada on 07/12/16.
-//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -12,7 +12,7 @@
 @interface CMRAppDelegate : NSObject
 {
 	@private
-	NSString *m_threadPath;
+	NSString	*m_threadPath;
 }
 
 // Application Menu Action

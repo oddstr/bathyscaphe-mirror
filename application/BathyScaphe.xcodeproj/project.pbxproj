@@ -1223,7 +1223,7 @@
 		F324DC3604C698FA00A80005 /* CMRBrowser-List.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRBrowser-List.m"; sourceTree = "<group>"; };
 		F324DC3804C698FA00A80005 /* CMRBrowser-Validation.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = "CMRBrowser-Validation.m"; sourceTree = "<group>"; };
 		F324DC3904C698FA00A80005 /* CMRBrowser-ViewAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRBrowser-ViewAccessor.m"; sourceTree = "<group>"; };
-		F324DC3A04C698FA00A80005 /* CMRBrowser.h */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.h; path = CMRBrowser.h; sourceTree = "<group>"; };
+		F324DC3A04C698FA00A80005 /* CMRBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRBrowser.h; sourceTree = "<group>"; };
 		F324DC3B04C698FA00A80005 /* CMRBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRBrowser.m; sourceTree = "<group>"; };
 		F324DC3C04C698FA00A80005 /* CMRBrowser_p.h */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.h; path = CMRBrowser_p.h; sourceTree = "<group>"; };
 		F324DC3D04C698FA00A80005 /* CMRFavoritesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRFavoritesManager.h; sourceTree = "<group>"; };

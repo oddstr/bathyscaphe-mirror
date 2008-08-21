@@ -26,10 +26,12 @@ CMRBrowser *CMRMainBrowser = nil;
 - (id)init
 {
 	if (self = [super init]) {
+		[self setShouldCascadeWindows:YES];
+		
 		if (!CMRMainBrowser) {
 			CMRMainBrowser = self;
 		}
-		m_isClosing = NO;
+
 		[CMRPref addObserver:self forKeyPath:kObservingKey options:NSKeyValueObservingOptionNew context:kBrowserContext];
 	}
 	return self;
@@ -56,13 +58,7 @@ CMRBrowser *CMRMainBrowser = nil;
 	return displayName;
 }
 
-- (BOOL)shouldCascadeWindows
-{
-	return (CMRMainBrowser != nil);
-}
-
 #pragma mark -
-#pragma mark Window Cascading
 - (void)exchangeOrDisposeMainBrowser
 {
 	NSArray *curWindows = [NSApp orderedWindows];
@@ -82,7 +78,7 @@ CMRBrowser *CMRMainBrowser = nil;
 			continue;
 		}
 
-		if ([winController isKindOfClass:[self class]] && ![(CMRBrowser *)winController isClosing]) {
+		if ([winController isKindOfClass:[self class]]) {
 			// exchange...
 			CMRMainBrowser = (CMRBrowser *)winController;
 			break;
@@ -95,39 +91,15 @@ CMRBrowser *CMRMainBrowser = nil;
 	}
 }
 
-- (BOOL)isClosing
-{
-	return m_isClosing;
-}
-
-- (BOOL)windowShouldClose:(id)window
-{
-	m_isClosing = YES;
-	return YES;
-}
-
-- (void)windowWillClose:(NSNotification *)notification
-{
-	if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_4) {
-		[CMRPref removeObserver:self forKeyPath:kObservingKey];
-
-		// dispose main browser...
-		if (CMRMainBrowser == self) {
-			[self exchangeOrDisposeMainBrowser];
-		}
-	}
-}
-
 - (void)dealloc
 {
-	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {
-		[CMRPref removeObserver:self forKeyPath:kObservingKey]; 
+	[CMRPref removeObserver:self forKeyPath:kObservingKey]; 
 
-		// dispose main browser...
-		if (CMRMainBrowser == self) {
-			[self exchangeOrDisposeMainBrowser];
-		}
+	// dispose main browser...
+	if (CMRMainBrowser == self) {
+		[self exchangeOrDisposeMainBrowser];
 	}
+
 	[m_addBoardSheetController release];
 	[m_editBoardSheetController release];
 	[[[self scrollView] horizontalRulerView] release];
@@ -215,7 +187,6 @@ static BOOL threadDictionaryCompare(NSDictionary *dict1, NSDictionary *dict2)
 	dat2 = [CMRThreadAttributes identifierFromDictionary:dict2];
 	
 	result = dat1 ? [dat1 isEqualToString:dat2] : (nil == dat2);
-//	if (!result) return NO;
 	
 	return result;
 }
@@ -255,37 +226,6 @@ static BOOL threadDictionaryCompare(NSDictionary *dict1, NSDictionary *dict2)
 
 - (NSArray *)selectedThreadsReallySelected
 {
-/*	ThreadsListTable	*table_ = [self threadsListTable];
-	NSEnumerator	*indexIter_;
-	NSMutableArray	*threads_;
-	NSNumber		*indexNum_;
-	BSDBThreadList	*threadsList_;
-	
-	// 選択していないが表示しているかもしれない
-	// しかし、このメソッドは「真に選択されている」ものしか返さない(see selectedThreads)
-	
-	threads_ = [NSMutableArray array];
-	indexIter_ = [table_ selectedRowEnumerator];
-	threadsList_ = [self currentThreadsList];
-
-	if (threadsList_ == nil)
-		return threads_;
-
-	while ((indexNum_ = [indexIter_ nextObject])) {
-		unsigned int		rowIndex_;
-		NSDictionary		*threadAttr_;
-		
-		rowIndex_ = [indexNum_ unsignedIntValue];
-		threadAttr_ = [threadsList_ threadAttributesAtRowIndex : rowIndex_ 
-												   inTableView : table_];
-
-		if (nil == threadAttr_)
-			continue;
-		
-		[threads_ addObject : threadAttr_];
-	}
-	
-	return threads_;*/
 	NSTableView *tableView = [self threadsListTable];
 	NSIndexSet	*selectedRows = [tableView selectedRowIndexes];
 	CMRThreadsList	*threadsList = [self currentThreadsList];

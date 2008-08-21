@@ -1,9 +1,12 @@
-/**
-  * $Id: CMRBrowser.h,v 1.34 2008/07/17 14:13:51 tsawada2 Exp $
-  * BathyScaphe
-  *
-  * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
-  */
+//
+//  CMRBrowser.h
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 08/08/21.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import <Cocoa/Cocoa.h>
 #import "RBSplitView.h"
 #import "CMRThreadViewer.h"
@@ -21,8 +24,7 @@ typedef enum _BSThreadDeletionType {
 	BSThreadAtViewerDeletionType	= 2	
 } BSThreadDeletionType;
 
-@interface CMRBrowser : CMRThreadViewer
-{
+@interface CMRBrowser : CMRThreadViewer {
 	IBOutlet RBSplitSubview		*m_boardListSubView;
 
 	IBOutlet BSKFSplitView		*m_splitView;
@@ -48,40 +50,29 @@ typedef enum _BSThreadDeletionType {
     // its enclosing scroll view
     id topSubview;
     id bottomSubview;
-
-	/* 2008-07-17 tsawada2
-	   Mac OS X v10.4.x Ç≈ÅAwindow cascading Ç™Ç§Ç‹Ç≠Ç¢Ç≠ÇÊÇ§Ç…Ç∑ÇÈçHïv
-	*/
-	BOOL	m_isClosing;
 }
-
-- (BOOL)isClosing;
 @end
-
 
 
 @interface CMRBrowser(Action)
 // KeyBinding...
-- (IBAction) openSelectedThreads : (id) sender;
-- (IBAction) selectThread : (id) sender;
-- (IBAction) showSelectedThread : (id) sender;
-- (IBAction) reloadThreadsList : (id) sender;
-- (IBAction) showOrOpenSelectedThread : (id) sender;
+- (IBAction)openSelectedThreads:(id)sender;
+- (IBAction)selectThread:(id)sender;
+- (IBAction)showSelectedThread:(id)sender;
+- (IBAction)reloadThreadsList:(id)sender;
+- (IBAction)showOrOpenSelectedThread:(id)sender;
+- (IBAction)selectFilteringMask:(id)sender;
 
-- (IBAction) selectFilteringMask : (id) sender;
+- (void)synchronizeWithSearchField;
 
-- (void) synchronizeWithSearchField;
+- (IBAction)searchThread:(id)sender;
+- (IBAction)showSearchThreadPanel:(id)sender;
 
-- (IBAction) searchThread : (id) sender;
-- (IBAction) showSearchThreadPanel : (id) sender;
-
-//- (IBAction) changeBrowserArrangement : (id) sender;
-- (IBAction) collapseOrExpandBoardList : (id) sender;
+- (IBAction)collapseOrExpandBoardList:(id)sender;
 
 // make threadsList view to be first responder;
-- (IBAction) focus : (id) sender;
+- (IBAction)focus:(id)sender;
 
-- (void) selectRowWhoseNameIs : (NSString *) brdname_; // Deprecated. Use -selectRowOfName:forceReload: instead.
 - (void)selectRowOfName:(NSString *)boardName forceReload:(BOOL)flag; // Available in SilverGull and later.
 - (int)searchRowForItemInDeep:(BoardListItem *)boardItem inView:(NSOutlineView *)olView; // Available in SilverGull and later.
 @end
@@ -98,19 +89,17 @@ typedef enum _BSThreadDeletionType {
 
 //:CMRBrowser-List.m
 @interface CMRBrowser(List)
-- (void) changeThreadsFilteringMask : (int) aMask;
+- (void)changeThreadsFilteringMask:(int)aMask;
 
-- (BSDBThreadList *) currentThreadsList;
-- (void) setCurrentThreadsList : (BSDBThreadList *) newList;
+- (BSDBThreadList *)currentThreadsList;
+- (void)setCurrentThreadsList:(BSDBThreadList *)newList;
 
-- (void) showThreadsListForBoard : (id) board;
-- (void) showThreadsListForBoard : (id) board forceReload: (BOOL) force;
-- (void) showThreadsListWithBoardName : (NSString *) boardName;
+- (void)showThreadsListForBoard:(id)board;
+- (void)showThreadsListForBoard:(id)board forceReload:(BOOL)force;
+- (void)showThreadsListWithBoardName:(NSString *)boardName;
 
 // available in Levantine
-- (unsigned) selectRowWithThreadPath : (NSString *) filepath
-                byExtendingSelection : (BOOL ) flag
-					 scrollToVisible : (BOOL ) scroll;
+- (unsigned)selectRowWithThreadPath:(NSString *)filepath byExtendingSelection:(BOOL)flag scrollToVisible:(BOOL)scroll;
 @end
 
 extern NSString *const CMRBrowserDidChangeBoardNotification;

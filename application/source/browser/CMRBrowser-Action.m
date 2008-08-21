@@ -58,11 +58,6 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
     [[self window] makeFirstResponder:[[self threadsListTable] enclosingScrollView]];
 }
 
-- (void)selectRowWhoseNameIs:(NSString *)brdname_
-{
-	[self selectRowOfName:brdname_ forceReload:NO];
-}
-
 - (void)selectRowOfName:(NSString *)boardName forceReload:(BOOL)flag
 {
 	NSOutlineView	*outlineView = [self boardListTable];

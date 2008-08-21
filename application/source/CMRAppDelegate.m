@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Updated by Tsutomu Sawada on 07/12/19.
-//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -216,7 +216,7 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 												   object:CMRMainBrowser];
 	}
 	// addBrdToUsrListIfNeeded オプションは当面の間無視（常に YES 扱いで）
-	[CMRMainBrowser selectRowWhoseNameIs:boardName]; // この結果として outlineView の selectionDidChange: が「確実に」
+	[CMRMainBrowser selectRowOfName:boardName forceReload:NO]; // この結果として outlineView の selectionDidChange: が「確実に」
 													 // 呼び出される限り、そこから showThreadsListForBoardName: が呼び出される
 }
 
@@ -296,10 +296,8 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
     /* Service menu */
     [NSApp setServicesProvider:[CMROpenURLManager defaultManager]];
 
-	/* Remove 'Open Recent' menu */
-	CMRMainMenuManager *menuManager = [CMRMainMenuManager defaultManager];
-//	[menuManager removeOpenRecentsMenuItem];
-	[menuManager removeQuickLookMenuItemIfNeeded];
+	/* Remove 'Quick Look' menu */
+	[[CMRMainMenuManager defaultManager] removeQuickLookMenuItemIfNeeded];
 	
 	/* BoardWarrior Task */
 	if ([defaults_ isOnlineMode] && [defaults_ autoSyncBoardList]) {
