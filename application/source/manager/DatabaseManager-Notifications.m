@@ -4,6 +4,7 @@
 //
 //  Created by Hori,Masaki on 07/06/26.
 //  Copyright 2007 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import "DatabaseManager.h"
@@ -20,17 +21,8 @@ NSString *const DatabaseDidFinishUpdateDownloadedOrDeletedThreadInfoNotification
 @implementation DatabaseManager(Notifications)
 -(void)registNotifications
 {
-/*	[[NSNotificationCenter defaultCenter]
-			 addObserver : self
-				selector : @selector(downloaderTextUpdatedNotified:)
-					name : ThreadTextDownloaderUpdatedNotification
-				  object : nil];*/
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-/*	[nc addObserver:self
-		   selector:@selector(cleanUpItemsToBeRemoved:)
-			   name:CMRTrashboxDidPerformNotification
-			 object:[CMRTrashbox trash]];
-*/	
+
 	[nc addObserver:self
 		   selector:@selector(finishWriteMesssage:)
 			   name:CMRReplyMessengerDidFinishPostingNotification
@@ -45,16 +37,6 @@ NSString *const DatabaseDidFinishUpdateDownloadedOrDeletedThreadInfoNotification
 #pragma mark ## Notification (Moved From BSDBThreadList) ##
 - (void)makeThreadsListsUpdateCursor
 {
-/*	NSArray *docs = [NSApp orderedDocuments];
-	NSEnumerator *iter_ = [docs objectEnumerator];
-	id	eachDoc;
-	while (eachDoc = [iter_ nextObject]) {
-		if ([eachDoc isMemberOfClass: [Browser class]]) {
-			//			[[(Browser *)eachDoc currentThreadsList] updateCursor];
-			// Why this works well?
-			[[(Browser *)eachDoc currentThreadsList] performSelector: @selector(updateCursor) withObject: nil afterDelay: 0.0];
-		}
-	}*/
 	NSNotification *notification = [NSNotification notificationWithName:DatabaseDidFinishUpdateDownloadedOrDeletedThreadInfoNotification object:self];
 	[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:notification waitUntilDone:NO];
 }
@@ -86,35 +68,24 @@ NSString *const DatabaseDidFinishUpdateDownloadedOrDeletedThreadInfoNotification
 	return YES;
 }
 
-//- (void)downloaderTextUpdatedNotified:(NSNotification *)notification
-- (void)threadTextDownloader:(CMRDownloader *)downloader didUpdateWithContents:(NSDictionary *)userInfo
+- (void)threadTextDownloader:(ThreadTextDownloader *)downloader didUpdateWithContents:(NSDictionary *)userInfo
 {
-	NSDictionary			*newContents_;
-/*	CMRDownloader			*downloader_;
-	NSDictionary			*userInfo_;
-
-	UTILAssertNotificationName(notification, ThreadTextDownloaderUpdatedNotification);
+	CMRThreadSignature	*signature;
 	
-	downloader_ = [notification object];
-	UTILAssertKindOfClass(downloader_, CMRDownloader);
-	
-	userInfo_ = [notification userInfo];
-	UTILAssertNotNil(userInfo_);*/
-	
-	UTILAssertKindOfClass(downloader, CMRDownloader);
+	UTILAssertKindOfClass(downloader, ThreadTextDownloader);
 	UTILAssertNotNil(userInfo);
 	UTILAssertKindOfClass(userInfo, NSDictionary);
 
-	newContents_ = [userInfo objectForKey:CMRDownloaderUserInfoContentsKey];
-	UTILAssertKindOfClass(newContents_, NSDictionary);
-	
+	signature = [downloader threadSignature];
+	UTILAssertNotNil(signature);
+
 	do {
 		SQLiteDB *db;
 		NSMutableString *sql;
+		NSArray *boardIDs;
 		
-		int		cnt_;
-		NSArray		*messages_;
-		NSDate *modDate = [newContents_ objectForKey:CMRThreadModifiedDateKey];
+		NSDate *modDate = [userInfo objectForKey:@"ttd_date"];
+		unsigned int count = [[userInfo objectForKey:@"ttd_count"] unsignedIntValue];
 		
 		int boardID = 0;
 		NSString *threadID;
@@ -122,18 +93,18 @@ NSString *const DatabaseDidFinishUpdateDownloadedOrDeletedThreadInfoNotification
 		db = [self databaseForCurrentThread];
 		if (!db) break;
 
-		messages_ = [newContents_ objectForKey:ThreadPlistContentsKey];
-		cnt_ = (messages_ != nil) ? [messages_ count] : 0;
+		threadID = [signature identifier];
+		
+		boardIDs = [self boardIDsForName:[signature boardName]];
+		if (!boardIDs || [boardIDs count] == 0) break;
+		
+		boardID = [[boardIDs objectAtIndex:0] intValue];
 
-//		if (![self searchBoardID:&baordID threadID:&threadID fromFilePath:[downloader_ filePathToWrite]]) {
-		if (![self searchBoardID:&boardID threadID:&threadID fromFilePath:[downloader filePathToWrite]]) {
-			break;
-		}
 
 		sql = [NSMutableString stringWithFormat:@"UPDATE %@ ", ThreadInfoTableName];
 		[sql appendFormat:@"SET %@ = %u, %@ = %u, %@ = %u, %@ = %.0lf ",
-			NumberOfAllColumn, cnt_,
-			NumberOfReadColumn, cnt_,
+			NumberOfAllColumn, count,
+			NumberOfReadColumn, count,
 			ThreadStatusColumn, ThreadLogCachedStatus,
 			ModifiedDateColumn, [modDate timeIntervalSince1970]];
 		[sql appendFormat:@"WHERE %@ = %u AND %@ = %@",

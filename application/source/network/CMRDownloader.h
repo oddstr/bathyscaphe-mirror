@@ -45,7 +45,7 @@ extern NSString *const CMRDownloaderNotFoundNotification;
 
 // UserInfo
 #define CMRDownloaderUserInfoContentsKey		@"Contents"
-#define CMRDownloaderUserInfoResourceURLKey		@"ResourceURL"
-#define CMRDownloaderUserInfoIdentifierKey		@"Identifier"
+//#define CMRDownloaderUserInfoResourceURLKey		@"ResourceURL"
+//#define CMRDownloaderUserInfoIdentifierKey		@"Identifier"
 // for thread only.
 #define CMRDownloaderUserInfoNextIndexKey		@"NextIndex"

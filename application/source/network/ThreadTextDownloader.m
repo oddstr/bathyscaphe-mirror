@@ -254,25 +254,34 @@ return_instance:
 	
 	userInfo_ = [NSDictionary dictionaryWithObjectsAndKeys:
 					datContents,		CMRDownloaderUserInfoContentsKey,
-					[self resourceURL],	CMRDownloaderUserInfoResourceURLKey,
-					[self identifier],	CMRDownloaderUserInfoIdentifierKey,
+//					[self resourceURL],	CMRDownloaderUserInfoResourceURLKey,
+//					[self identifier],	CMRDownloaderUserInfoIdentifierKey,
 					additionalInfo,		CMRDownloaderUserInfoAdditionalInfoKey,
 					nil];
 
 	UTILNotifyInfo(ThreadTextDownloaderDidFinishLoadingNotification, userInfo_);
 }
 
-- (void)postUpdatedNotificationWithContents:(NSDictionary *)logContents
+- (void)updateDatabaseWithContents:(NSDictionary *)logContents
 {
-	NSDictionary	*userInfo_;
+	NSMutableDictionary	*userInfo = [NSMutableDictionary dictionaryWithCapacity:2];
 	
-	userInfo_ = [NSDictionary dictionaryWithObjectsAndKeys:
+/*	userInfo_ = [NSDictionary dictionaryWithObjectsAndKeys:
 					logContents,			CMRDownloaderUserInfoContentsKey,
 					[self resourceURL],		CMRDownloaderUserInfoResourceURLKey,
 					[self identifier],		CMRDownloaderUserInfoIdentifierKey,
-					nil];
+					nil];*/
+	NSArray *messages;
+	unsigned int count;
+	NSDate *modDate;
+	messages = [logContents objectForKey:ThreadPlistContentsKey];
+	count = messages ? [messages count] : 0;
+	[userInfo setObject:[NSNumber numberWithUnsignedInt:count] forKey:@"ttd_count"];
 
-	[[DatabaseManager defaultManager] threadTextDownloader:self didUpdateWithContents:userInfo_];
+	modDate = [logContents objectForKey:CMRThreadModifiedDateKey];
+	if (modDate) [userInfo setObject:modDate forKey:@"ttd_date"];
+	
+	[[DatabaseManager defaultManager] threadTextDownloader:self didUpdateWithContents:userInfo];
 }
 
 - (BOOL)synchronizeLocalDataWithContents:(NSString *)datContents
@@ -314,7 +323,7 @@ return_instance:
 		result = [thread writeToFile:[self filePathToWrite] atomically:YES];
 	}
 
-    [self postUpdatedNotificationWithContents:thread];
+    [self updateDatabaseWithContents:thread];
     [self postDATFinishedNotificationWithContents:datContents additionalInfo:info_];
 
     return result;
@@ -345,8 +354,8 @@ return_instance:
 	NSDictionary			*localThread_;
 	NSMutableDictionary		*newThread_;
 	NSMutableArray			*messages_;
-	CMRDocumentFileManager	*dfm;
-	NSString				*filePath_;
+//	CMRDocumentFileManager	*dfm;
+//	NSString				*filePath_;
 	
 	id<CMRMessageComposer>	composer_;
 	CMR2chDATReader			*reader_;
@@ -395,12 +404,14 @@ return_instance:
 
 	[newThread_ setNoneNil:[self lastDate] forKey:CMRThreadModifiedDateKey];
 	[newThread_ setNoneNil:messages_ forKey:ThreadPlistContentsKey];
-	
+/*	
 	dfm = [CMRDocumentFileManager defaultManager];
 	filePath_ = [self filePathToWrite];
 	[newThread_ setNoneNil:[dfm boardNameWithLogPath:filePath_] forKey:ThreadPlistBoardNameKey];
 	[newThread_ setNoneNil:[dfm datIdentifierWithLogPath:filePath_] forKey:ThreadPlistIdentifierKey];
-	
+*/
+	[newThread_ setNoneNil:[[self threadSignature] boardName] forKey:ThreadPlistBoardNameKey];
+	[newThread_ setNoneNil:[[self threadSignature] identifier] forKey:ThreadPlistIdentifierKey];
 	return newThread_;
 }
 @end

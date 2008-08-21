@@ -1,3 +1,12 @@
+2008-08-21 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/source/network/ThreadTextDownloader.m
+	* application/source/manager/DatabaseManager-Notifications.m
+		ThreadTextDownloader の処理を少し改良した。
+	* application/source/browser/CMRBrowser-BLEditor.m
+		掲示板リストから、選択されている項目以外の項目を（Control-クリックで）削除した時は、
+		できるだけ選択されている項目の選択状態を維持するようにした。
+	* application/Resources/Japanese.lproj/BSLocalRulesPanel.nib
+		ボタンのベゼルスタイルを変更した。
 2008-08-11 tsawada2 <tsawada2@users.sourceforge.jp>
 	プレビューインスペクタの改良：
 	* application/subproj/previewer/BSIPIArrayController.m

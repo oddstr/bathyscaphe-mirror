@@ -10,7 +10,7 @@
 
 #import <SQLiteDB.h>
 
-@class CMRDownloader;
+@class ThreadTextDownloader;
 
 @interface DatabaseManager : NSObject
 + (id) defaultManager;
@@ -107,7 +107,8 @@
 @end
 
 @interface DatabaseManager(Notifications)
-- (void)threadTextDownloader:(CMRDownloader *)downloader didUpdateWithContents:(NSDictionary *)userInfo;
+- (void)makeThreadsListsUpdateCursor;
+- (void)threadTextDownloader:(ThreadTextDownloader *)downloader didUpdateWithContents:(NSDictionary *)userInfo;
 - (void)cleanUpItemsWhichHasBeenRemoved:(NSArray *)files;
 @end
 

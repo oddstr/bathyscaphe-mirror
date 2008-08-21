@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-BLEditor.m,v 1.21 2007/10/29 05:54:46 tsawada2 Exp $
+ * $Id: CMRBrowser-BLEditor.m,v 1.22 2008/08/21 06:48:19 tsawada2 Exp $
  * BathyScaphe
  * CMRBrowser-Action.m, CMRBrowser-ViewAccessor.m から分割
  *
@@ -142,6 +142,17 @@ static NSString *const kRemoveDrawerItemMsgKey		= @"Browser Del Board Items Mess
 						 contextInfo:indexSet_];
 }
 
+- (BOOL)reselectBoard:(id)boardListItem
+{
+	if (!boardListItem) return NO;
+
+	int index = [[self boardListTable] rowForItem:boardListItem];
+	if (index == -1) return NO;
+	
+	[[self boardListTable] selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
+	return YES;
+}
+
 - (void)boardItemsDeletionSheetDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(id)contextInfo
 {
 	UTILAssertKindOfClass(contextInfo, NSIndexSet);
@@ -164,6 +175,9 @@ static NSString *const kRemoveDrawerItemMsgKey		= @"Browser Del Board Items Mess
 		}
 
 		[[BoardManager defaultManager] removeBoardItems:boardItemsForRemoving];
+		
+		id currentBoardItem = [[self currentThreadsList] boardListItem];
+		[self reselectBoard:currentBoardItem];
 	}
 	[contextInfo release];
 }

@@ -115,7 +115,7 @@ static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInsp
 	
 	[(BSIPIImageView *)[self imageView] setFocusRingType:NSFocusRingTypeNone];
 	[(BSIPIImageView *)[self imageView] setDelegate:self];
-	[(BSIPIImageView *)[self imageView] setBackgroundColor:[NSColor blackColor]];
+	[(BSIPIImageView *)[self imageView] setBackgroundColor:[NSColor lightGrayColor]];
 	
 	int	tabIndex = [self preferredView];
 	if (tabIndex == -1) {
