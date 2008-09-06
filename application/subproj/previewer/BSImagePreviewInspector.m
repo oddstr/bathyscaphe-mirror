@@ -13,6 +13,8 @@
 #import "BSIPIPathTransformer.h"
 #import "BSIPIImageView.h"
 #import "BSIPIToken.h"
+#import "BSIPIDefaults.h"
+#import "BSIPIPreferencesController.h"
 #import <CocoMonar/CMRPropertyKeys.h>
 
 @class BSIPITableView;
@@ -26,7 +28,8 @@ static NSString *const kIPIPrefsNibFileNameKey	= @"BSIPIPreferences";
 {
 	if (self = [super initWithWindowNibName:kIPINibFileNameKey]) {
 		NSNotificationCenter	*dnc = [NSNotificationCenter defaultCenter];
-		[self setPreferences:prefs];
+
+		[[BSIPIDefaults sharedIPIDefaults] setAppDefaults:prefs];
 
 		id transformer = [[[BSIPIPathTransformer alloc] init] autorelease];
 		[NSValueTransformer setValueTransformer:transformer forName:@"BSIPIPathTransformer"];
@@ -56,20 +59,21 @@ static NSString *const kIPIPrefsNibFileNameKey	= @"BSIPIPreferences";
 
 - (void)dealloc
 {
+	[[BSIPIDefaults sharedIPIDefaults] removeObserver:self forKeyPath:@"alphaValue"];
+	[[BSIPIDefaults sharedIPIDefaults] removeObserver:self forKeyPath:@"floating"];
+	[[BSIPIDefaults sharedIPIDefaults] removeObserver:self forKeyPath:@"alwaysBecomeKey"];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[_preferences release];
 	[super dealloc];
 }
 
 - (AppDefaults *)preferences
 {
-	return _preferences;
+	return nil;
 }
+
 - (void)setPreferences:(AppDefaults *)prefs
 {
-	[prefs retain];
-	[_preferences release];
-	_preferences = prefs;
+	;
 }
 
 - (id)historyManager
@@ -81,7 +85,7 @@ static NSString *const kIPIPrefsNibFileNameKey	= @"BSIPIPreferences";
 {
 	if ([[self window] isVisible]) {
 		// orderOut: では windowWillClose: はもちろん呼ばれない。
-		if ([self resetWhenHide]) [[self tripleGreenCubes] setSelectionIndex:NSNotFound];
+		if ([[BSIPIDefaults sharedIPIDefaults] resetWhenHide]) [[self tripleGreenCubes] setSelectionIndex:NSNotFound];
 		[[self window] orderOut:sender];
 	} else {
 		[self showWindow:sender];
@@ -91,13 +95,7 @@ static NSString *const kIPIPrefsNibFileNameKey	= @"BSIPIPreferences";
 #pragma mark Actions
 - (IBAction)showPreviewerPreferences:(id)sender
 {
-	if (![self settingsPanel]) {
-		[NSBundle loadNibNamed:kIPIPrefsNibFileNameKey owner:self];
-	}
-
-	[self updateDirectoryChooser];
-	[[self settingsPanel] center];
-	[[self settingsPanel] makeKeyAndOrderFront:sender];
+	[[BSIPIPreferencesController sharedPreferencesController] showWindow:sender];
 }
 
 - (IBAction)forceRunTbCustomizationPalette:(id)sender
@@ -127,7 +125,7 @@ static NSString *const kIPIPrefsNibFileNameKey	= @"BSIPIPreferences";
 {
 	static BOOL	isBinded = NO;
 
-	if ([self useIKSlideShowOnLeopard]) {
+	if ([[BSIPIDefaults sharedIPIDefaults] useIKSlideShowOnLeopard]) {
 		NSString *helperBundleFullPath = [[[NSBundle mainBundle] builtInPlugInsPath] stringByAppendingPathComponent:@"BSIPILeopardSlideshowHelper.plugin"];
 		NSBundle *helperBundle = [NSBundle bundleWithPath:helperBundleFullPath];
 		if (!helperBundle) {
@@ -150,7 +148,7 @@ static NSString *const kIPIPrefsNibFileNameKey	= @"BSIPIPreferences";
 
 		if (!isBinded) {
 			[[BSIPIFullScreenController sharedInstance] bind:@"windowBackgroundColor"
-													toObject:self
+													toObject:[BSIPIDefaults sharedIPIDefaults]
 												 withKeyPath:@"fullScreenBgColorData"
 													 options:[NSDictionary dictionaryWithObject:NSUnarchiveFromDataTransformerName
 																						 forKey:NSValueTransformerNameBindingOption]];
@@ -165,8 +163,8 @@ static NSString *const kIPIPrefsNibFileNameKey	= @"BSIPIPreferences";
 - (IBAction)saveImage:(id)sender
 {
 	[[self historyManager] copyCachedFileForTokenAtIndexes:[[self tripleGreenCubes] selectionIndexes]
-												intoFolder:[self saveDirectory]
-									   attachFinderComment:[self attachFinderComment]];
+												intoFolder:[[BSIPIDefaults sharedIPIDefaults] saveDirectory]
+									   attachFinderComment:[[BSIPIDefaults sharedIPIDefaults] attachFinderComment]];
 }
 
 - (IBAction)saveImageAs:(id)sender
@@ -280,6 +278,9 @@ static NSString *const kIPIPrefsNibFileNameKey	= @"BSIPIPreferences";
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {		
 	[[self historyManager] flushCache];
+	[[BSIPIDefaults sharedIPIDefaults] removeObserver:self forKeyPath:@"alphaValue"];
+	[[BSIPIDefaults sharedIPIDefaults] removeObserver:self forKeyPath:@"floating"];
+	[[BSIPIDefaults sharedIPIDefaults] removeObserver:self forKeyPath:@"alwaysBecomeKey"];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -291,18 +292,18 @@ static NSString *const kIPIPrefsNibFileNameKey	= @"BSIPIPreferences";
 - (void)keyWindowChanged:(NSNotification *)aNotification
 {
 	NSWindow	*window = [self window];
-	if([self opaqueWhenKey] && [window isVisible]) {
+	if([[BSIPIDefaults sharedIPIDefaults] opaqueWhenKey] && [window isVisible]) {
 		if([aNotification object] == window) {
 			[window setAlphaValue:1.0];
 		} else {
-			[window setAlphaValue:[self alphaValue]];
+			[window setAlphaValue:[[BSIPIDefaults sharedIPIDefaults] alphaValue]];
 		}
 	}
 }
 
 - (void)windowWillClose:(NSNotification *)aNotification
 {
-	if ([self resetWhenHide]) [[self tripleGreenCubes] setSelectionIndex:NSNotFound];
+	if ([[BSIPIDefaults sharedIPIDefaults] resetWhenHide]) [[self tripleGreenCubes] setSelectionIndex:NSNotFound];
 }
 
 - (void)windowWillBeginSheet:(NSNotification *)aNotification
@@ -329,7 +330,7 @@ static NSString *const kIPIPrefsNibFileNameKey	= @"BSIPIPreferences";
 
 - (void)tokenDidFailDownload:(NSNotification *)aNotification
 {
-	if (![self leaveFailedToken]) {
+	if (![[BSIPIDefaults sharedIPIDefaults] leaveFailedToken]) {
 		[[self tripleGreenCubes] removeObject:[aNotification object]];
 		[[self tripleGreenCubes] setSelectionIndex:NSNotFound];
 	}
@@ -377,7 +378,7 @@ static NSString *const kIPIPrefsNibFileNameKey	= @"BSIPIPreferences";
 	if ([tmp_ count] > 1) {
 		[[self tripleGreenCubes] setSelectionIndex:[tmp_ firstIndex]];
 	}
-	[self setLastShownViewTag:[tabView indexOfTabViewItem:tabViewItem]];
+	[[BSIPIDefaults sharedIPIDefaults] setLastShownViewTag:[tabView indexOfTabViewItem:tabViewItem]];
 }
 
 #pragma mark BSIPIImageView Delegate

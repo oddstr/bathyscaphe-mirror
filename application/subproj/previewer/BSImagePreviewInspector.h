@@ -26,14 +26,7 @@
 	IBOutlet NSMenu					*m_cacheNaviMenuFormRep;
 	IBOutlet BSIPIArrayController	*m_tripleGreenCubes;
 
-	// BSIPIPreferences.nib
-	IBOutlet NSPanel				*m_settingsPanel;
-	IBOutlet NSPopUpButton			*m_directoryChooser;
-	IBOutlet NSSegmentedControl		*m_preferredViewSelector;
-	IBOutlet NSMatrix				*m_fullScreenSettingMatrix;
-
 	@private
-	AppDefaults		*_preferences;
 	BOOL			m_shouldRestoreKeyWindow;
 }
 
@@ -56,52 +49,13 @@
 - (IBAction)forceRunTbCustomizationPalette:(id)sender;
 @end
 
-@interface BSImagePreviewInspector(Settings)
-- (BOOL)alwaysBecomeKey;
-- (void)setAlwaysBecomeKey:(BOOL)alwaysKey;
-
-- (NSString *)saveDirectory;
-- (void)setSaveDirectory:(NSString *)aString;
-
-- (float)alphaValue;
-- (void)setAlphaValue:(float)newValue;
-
-- (BOOL)opaqueWhenKey;
-- (void)setOpaqueWhenKey:(BOOL)opaqueWhenKey;
-
-- (BOOL)resetWhenHide;
-- (void)setResetWhenHide:(BOOL)reset;
-
-- (BOOL)floating;
-- (void)setFloating:(BOOL)floatOrNot;
-
-- (int)preferredView;
-- (void)setPreferredView:(int)aType;
-
-- (int)lastShownViewTag;
-- (void)setLastShownViewTag:(int)aTag;
-
-- (BOOL)leaveFailedToken;
-- (void)setLeaveFailedToken:(BOOL)leave;
-
-- (float)fullScreenWheelAmount;
-- (void)setFullScreenWheelAmount:(float)floatValue;
-
-- (BOOL)useIKSlideShowOnLeopard;
-- (void)setUseIKSlideShowOnLeopard:(BOOL)flag;
-
-- (NSData *)fullScreenBgColorData;
-- (void)setFullScreenBgColorData:(NSData *)aColorData;
-
-- (BOOL)attachFinderComment;
-- (void)setAttachFinderComment:(BOOL)flag;
-@end
 
 @interface BSImagePreviewInspector(ToolbarAndUtils)
 - (NSString *)localizedStrForKey:(NSString *)key;
 - (NSImage *)imageResourceWithName:(NSString *)name;
 - (void)setupToolbar;
 @end
+
 
 @interface BSImagePreviewInspector(ViewAccessor)
 - (NSTextField *)infoField;
@@ -114,15 +68,4 @@
 - (NSTableColumn *)nameColumn;
 - (NSMenu *)cacheNaviMenuFormRep;
 - (BSIPIArrayController *)tripleGreenCubes;
-@end
-
-@interface BSImagePreviewInspector(Preferences)
-- (IBAction)openOpenPanel:(id)sender;
-
-- (NSPanel *)settingsPanel;
-- (NSPopUpButton *)directoryChooser;
-- (NSSegmentedControl *)preferredViewSelector;
-- (NSMatrix *)fullScreenSettingMatrix;
-
-- (void)updateDirectoryChooser;
 @end

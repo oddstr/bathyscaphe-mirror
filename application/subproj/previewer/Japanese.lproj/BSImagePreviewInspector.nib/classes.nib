@@ -136,10 +136,6 @@
 				<string>NSSegmentedControl</string>
 				<key>m_cacheNaviMenuFormRep</key>
 				<string>NSMenu</string>
-				<key>m_directoryChooser</key>
-				<string>NSPopUpButton</string>
-				<key>m_fullScreenSettingMatrix</key>
-				<string>NSMatrix</string>
 				<key>m_imageView</key>
 				<string>NSImageView</string>
 				<key>m_infoField</key>
@@ -148,12 +144,8 @@
 				<string>NSTableColumn</string>
 				<key>m_paneChangeBtn</key>
 				<string>NSSegmentedControl</string>
-				<key>m_preferredViewSelector</key>
-				<string>NSSegmentedControl</string>
 				<key>m_progIndicator</key>
 				<string>NSProgressIndicator</string>
-				<key>m_settingsPanel</key>
-				<string>NSPanel</string>
 				<key>m_tabView</key>
 				<string>NSTabView</string>
 				<key>m_tripleGreenCubes</key>

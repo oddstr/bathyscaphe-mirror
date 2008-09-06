@@ -11,7 +11,6 @@
 		8703A1E70C676A62008ED2B5 /* BSAdvancedPaneArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8703A1E50C676A62008ED2B5 /* BSAdvancedPaneArrayController.m */; };
 		8703A2180C677D42008ED2B5 /* BSLinkDownloadManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8703A2160C677D42008ED2B5 /* BSLinkDownloadManager.h */; };
 		8703A2190C677D42008ED2B5 /* BSLinkDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8703A2170C677D42008ED2B5 /* BSLinkDownloadManager.m */; };
-		8705EEA60E45D1F400FC7F5F /* Exif.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8705EEA50E45D1F400FC7F5F /* Exif.tiff */; };
 		8705EEC80E460CCD00FC7F5F /* BSIPIHUDView.h in Headers */ = {isa = PBXBuildFile; fileRef = 8705EEC60E460CCD00FC7F5F /* BSIPIHUDView.h */; };
 		8705EEC90E460CCD00FC7F5F /* BSIPIHUDView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8705EEC70E460CCD00FC7F5F /* BSIPIHUDView.m */; };
 		870B1F4A0C15B8AA00AAB734 /* BoardWarrior.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 870B1F400C15B86200AAB734 /* BoardWarrior.scpt */; };
@@ -226,8 +225,6 @@
 		87D8FBBC0B52575800CCB933 /* FontBigger.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8709CA7C0B06750B00525B8D /* FontBigger.tiff */; };
 		87D8FBBD0B52575900CCB933 /* FontSmaller.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8709CA7D0B06750B00525B8D /* FontSmaller.tiff */; };
 		87D8FBC10B5257ED00CCB933 /* CMRThreadView-Drop.m in Sources */ = {isa = PBXBuildFile; fileRef = 877AC2900B027447005365C0 /* CMRThreadView-Drop.m */; };
-		87DA14300BE64C9800A81387 /* BSIPIHUDTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = 87DA142E0BE64C9800A81387 /* BSIPIHUDTextField.h */; };
-		87DA14310BE64C9800A81387 /* BSIPIHUDTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 87DA142F0BE64C9800A81387 /* BSIPIHUDTextField.m */; };
 		87DB9C780BA32CA20090090A /* TS2SoftwareUpdate.h in Headers */ = {isa = PBXBuildFile; fileRef = 87DB9C760BA32CA20090090A /* TS2SoftwareUpdate.h */; };
 		87DB9C790BA32CA20090090A /* TS2SoftwareUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 87DB9C770BA32CA20090090A /* TS2SoftwareUpdate.m */; };
 		87DB9C7F0BA32CE00090090A /* SoftwareUpdate.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87DB9C7D0BA32CE00090090A /* SoftwareUpdate.strings */; };
@@ -243,7 +240,6 @@
 		87DF529E0CC380C600D48893 /* w2chReply_be2ch.m in Sources */ = {isa = PBXBuildFile; fileRef = 874F24FB080E716700EA2164 /* w2chReply_be2ch.m */; };
 		87DF52DE0CC38F6C00D48893 /* BSLoggedInDATDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = 87DF52DC0CC38F6C00D48893 /* BSLoggedInDATDownloader.h */; };
 		87DF52DF0CC38F6C00D48893 /* BSLoggedInDATDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 87DF52DD0CC38F6C00D48893 /* BSLoggedInDATDownloader.m */; };
-		87DF8EA40CE7593700C43505 /* BSImagePreviewInspector-Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 87DF8EA30CE7593700C43505 /* BSImagePreviewInspector-Settings.m */; };
 		87E971E80B80A82300579603 /* Keywords.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87E971E60B80A82300579603 /* Keywords.tiff */; };
 		87E971E90B80A82300579603 /* Keywords_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87E971E70B80A82300579603 /* Keywords_Pressed.tiff */; };
 		87EF7E7A0CF975F900BEF039 /* BSPreferencesPaneInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 87EF7E790CF975F900BEF039 /* BSPreferencesPaneInterface.h */; };
@@ -251,9 +247,14 @@
 		87EF7F330CF9B14300BEF039 /* BoardWarrior.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D7F03B0A85136900623EA5 /* BoardWarrior.h */; };
 		87F3D5B20976921C00A1217A /* BSIPIHistoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 87F3D5B00976921C00A1217A /* BSIPIHistoryManager.h */; };
 		87F3D5B30976921C00A1217A /* BSIPIHistoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F3D5B10976921C00A1217A /* BSIPIHistoryManager.m */; };
+		87FA20B30E6A7C1F00984EF7 /* BSIPIDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = 87FA20B10E6A7C1F00984EF7 /* BSIPIDefaults.h */; };
+		87FA20B40E6A7C1F00984EF7 /* BSIPIDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 87FA20B20E6A7C1F00984EF7 /* BSIPIDefaults.m */; };
+		87FA20D90E6A831200984EF7 /* BSIPIPreferencesController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87FA20D70E6A831200984EF7 /* BSIPIPreferencesController.h */; };
+		87FA20DA0E6A831200984EF7 /* BSIPIPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87FA20D80E6A831200984EF7 /* BSIPIPreferencesController.m */; };
 		87FB61D20D8AC3FD00861DD8 /* BSStatusLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87FB61D00D8AC3FD00861DD8 /* BSStatusLineView.m */; };
 		87FBC1EF0D57676F0097660D /* BSQuickLookObject_p.h in Headers */ = {isa = PBXBuildFile; fileRef = 87FBC1EE0D57676F0097660D /* BSQuickLookObject_p.h */; };
 		87FC678A0C682E9A00A4C72C /* DownloadableLinkTypes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FC67890C682E9A00A4C72C /* DownloadableLinkTypes.plist */; };
+		87FE04980E69C0CB001CD0FF /* Exif16.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87FE04960E69C0CB001CD0FF /* Exif16.tiff */; };
 		F42BD5AB0C70B1F7000AE1F8 /* malloc.c in Sources */ = {isa = PBXBuildFile; fileRef = F42BD5A90C70B1F7000AE1F8 /* malloc.c */; };
 		F42BD5AF0C70B21F000AE1F8 /* vtab.c in Sources */ = {isa = PBXBuildFile; fileRef = F42BD5AD0C70B21F000AE1F8 /* vtab.c */; };
 		F42BD5B80C70B279000AE1F8 /* legacy.c in Sources */ = {isa = PBXBuildFile; fileRef = F47A66660AFF7EFA00EB5137 /* legacy.c */; };
@@ -822,7 +823,6 @@
 		8703A1E50C676A62008ED2B5 /* BSAdvancedPaneArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSAdvancedPaneArrayController.m; sourceTree = "<group>"; };
 		8703A2160C677D42008ED2B5 /* BSLinkDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSLinkDownloadManager.h; sourceTree = "<group>"; };
 		8703A2170C677D42008ED2B5 /* BSLinkDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSLinkDownloadManager.m; sourceTree = "<group>"; };
-		8705EEA50E45D1F400FC7F5F /* Exif.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Exif.tiff; sourceTree = "<group>"; };
 		8705EEC60E460CCD00FC7F5F /* BSIPIHUDView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIHUDView.h; sourceTree = "<group>"; };
 		8705EEC70E460CCD00FC7F5F /* BSIPIHUDView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIHUDView.m; sourceTree = "<group>"; };
 		87078CD1090E970F007FF9C3 /* beDisabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beDisabled.png; sourceTree = "<group>"; };
@@ -1160,10 +1160,15 @@
 		87F3D5B10976921C00A1217A /* BSIPIHistoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIHistoryManager.m; sourceTree = "<group>"; };
 		87F6214C0A906B890082E8DB /* BoardManager-SettingTxt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BoardManager-SettingTxt.m"; sourceTree = "<group>"; };
 		87F621A00A9186920082E8DB /* BoardManager-BSAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BoardManager-BSAddition.m"; sourceTree = "<group>"; };
+		87FA20B10E6A7C1F00984EF7 /* BSIPIDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIDefaults.h; sourceTree = "<group>"; };
+		87FA20B20E6A7C1F00984EF7 /* BSIPIDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIDefaults.m; sourceTree = "<group>"; };
+		87FA20D70E6A831200984EF7 /* BSIPIPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIPreferencesController.h; sourceTree = "<group>"; };
+		87FA20D80E6A831200984EF7 /* BSIPIPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIPreferencesController.m; sourceTree = "<group>"; };
 		87FB61CF0D8AC3FD00861DD8 /* BSStatusLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSStatusLineView.h; sourceTree = "<group>"; };
 		87FB61D00D8AC3FD00861DD8 /* BSStatusLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSStatusLineView.m; sourceTree = "<group>"; };
 		87FBC1EE0D57676F0097660D /* BSQuickLookObject_p.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSQuickLookObject_p.h; sourceTree = "<group>"; };
 		87FC67890C682E9A00A4C72C /* DownloadableLinkTypes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = DownloadableLinkTypes.plist; sourceTree = "<group>"; };
+		87FE04960E69C0CB001CD0FF /* Exif16.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Exif16.tiff; sourceTree = "<group>"; };
 		87FECDE40840DDF100787C68 /* AdvancedPreferences.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AdvancedPreferences.tiff; sourceTree = "<group>"; };
 		E8894DD805C3A3A30004317F /* CMROpenURLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMROpenURLManager.h; sourceTree = "<group>"; };
 		E8894DD905C3A3A30004317F /* CMROpenURLManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMROpenURLManager.m; sourceTree = "<group>"; };
@@ -1949,7 +1954,7 @@
 		875342560A663FDF009C0205 /* picts */ = {
 			isa = PBXGroup;
 			children = (
-				8705EEA50E45D1F400FC7F5F /* Exif.tiff */,
+				87FE04960E69C0CB001CD0FF /* Exif16.tiff */,
 				870BD8650E44DB63008AB02D /* Save_Leopard.tiff */,
 				87CC89580B198A7E003FB764 /* Loading.png */,
 				87C398270A6181590095AD06 /* IPIHistoryBack.tiff */,
@@ -2074,6 +2079,8 @@
 				87751A5909782B82009D4A9C /* BSIPIFullScreenController.m */,
 				87F3D5B00976921C00A1217A /* BSIPIHistoryManager.h */,
 				87F3D5B10976921C00A1217A /* BSIPIHistoryManager.m */,
+				87FA20D70E6A831200984EF7 /* BSIPIPreferencesController.h */,
+				87FA20D80E6A831200984EF7 /* BSIPIPreferencesController.m */,
 			);
 			name = core;
 			sourceTree = "<group>";
@@ -2170,6 +2177,8 @@
 			children = (
 				87BB87870B195B4E00472D3F /* BSIPIToken.h */,
 				87BB87880B195B4E00472D3F /* BSIPIToken.m */,
+				87FA20B10E6A7C1F00984EF7 /* BSIPIDefaults.h */,
+				87FA20B20E6A7C1F00984EF7 /* BSIPIDefaults.m */,
 			);
 			name = objects;
 			sourceTree = "<group>";
@@ -3112,9 +3121,10 @@
 				87C397900A6164E30095AD06 /* BSIPITextFieldCell.h in Headers */,
 				87C397F20A6171AB0095AD06 /* BSIPITableView.h in Headers */,
 				87BB87890B195B4E00472D3F /* BSIPIToken.h in Headers */,
-				87DA14300BE64C9800A81387 /* BSIPIHUDTextField.h in Headers */,
 				87956FCA0CE720F1004DBDB0 /* BSIPIArrayController.h in Headers */,
 				8705EEC80E460CCD00FC7F5F /* BSIPIHUDView.h in Headers */,
+				87FA20B30E6A7C1F00984EF7 /* BSIPIDefaults.h in Headers */,
+				87FA20D90E6A831200984EF7 /* BSIPIPreferencesController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3528,7 +3538,7 @@
 				87CDC3420CEB3ED0001AE526 /* InfoPlist.strings in Resources */,
 				87D6CB470CF6CC3A00CFEAC4 /* BSIPIPreferences.nib in Resources */,
 				870BD8660E44DB63008AB02D /* Save_Leopard.tiff in Resources */,
-				8705EEA60E45D1F400FC7F5F /* Exif.tiff in Resources */,
+				87FE04980E69C0CB001CD0FF /* Exif16.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3759,10 +3769,10 @@
 				87C397F30A6171AB0095AD06 /* BSIPITableView.m in Sources */,
 				87C2E1A50A68E3C100E40698 /* BSImagePreviewInspector-View.m in Sources */,
 				87BB878A0B195B4E00472D3F /* BSIPIToken.m in Sources */,
-				87DA14310BE64C9800A81387 /* BSIPIHUDTextField.m in Sources */,
 				87956FCB0CE720F2004DBDB0 /* BSIPIArrayController.m in Sources */,
-				87DF8EA40CE7593700C43505 /* BSImagePreviewInspector-Settings.m in Sources */,
 				8705EEC90E460CCD00FC7F5F /* BSIPIHUDView.m in Sources */,
+				87FA20B40E6A7C1F00984EF7 /* BSIPIDefaults.m in Sources */,
+				87FA20DA0E6A831200984EF7 /* BSIPIPreferencesController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

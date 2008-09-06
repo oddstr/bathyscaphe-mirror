@@ -74,25 +74,19 @@
 				<string>NSWindow</string>
 				<key>_imageView</key>
 				<string>NSImageView</string>
-				<key>_statusField</key>
-				<string>NSTextField</string>
 				<key>m_delegate</key>
 				<string>id</string>
 				<key>m_imageInfoView</key>
 				<string>NSView</string>
 				<key>m_noMoreField</key>
 				<string>NSTextField</string>
+				<key>m_noMoreView</key>
+				<string>NSView</string>
+				<key>m_statusField</key>
+				<string>NSTextField</string>
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>BSIPIHUDTextField</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSTextField</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>

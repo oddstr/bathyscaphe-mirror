@@ -10,6 +10,7 @@
 #import "BSIPIFullScreenController.h"
 #import "BSIPIPathTransformer.h"
 #import "BSIPIArrayController.h"
+#import "BSIPIDefaults.h"
 #import <Carbon/Carbon.h>
 #import <ApplicationServices/ApplicationServices.h>
 #import <CocoMonar/CMRSingletonObject.h>
@@ -19,6 +20,7 @@
 - (void)saveImage:(id)sender;
 - (float)fullScreenWheelAmount;
 @end
+
 
 @implementation BSIPIFullScreenController
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)	
@@ -79,36 +81,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 	[super dealloc];
 }
 
-- (NSDictionary *)cachedBindingOptionDict
-{
-	static NSDictionary *imageTransformerDict = nil;
-	if (!imageTransformerDict) {
-		imageTransformerDict = [[NSDictionary alloc] initWithObjectsAndKeys:@"BSIPIImageIgnoringDPITransformer", NSValueTransformerNameBindingOption, NULL];
-	}
-	return imageTransformerDict;
-}
-
-- (NSDictionary *)cachedBindingOptDictForStatusField
-{
-	static NSDictionary *notNilTransformerDict = nil;
-	if (!notNilTransformerDict) {
-		notNilTransformerDict = [[NSDictionary alloc] initWithObjectsAndKeys:NSIsNotNilTransformerName, NSValueTransformerNameBindingOption, NULL];
-	}
-	return notNilTransformerDict;
-}
-
-- (NSDictionary *)cachedBindingOptDictForStatusMsg
-{
-	static NSDictionary *displayPatternDict = nil;
-	if (!displayPatternDict) {
-		NSString *key = @"%{value2}@\nCan't show image: %{value1}@";
-		NSString *pattern = [[NSBundle bundleForClass:[self class]] localizedStringForKey:key value:key table:nil];
-		
-		displayPatternDict = [[NSDictionary alloc] initWithObjectsAndKeys:pattern, NSDisplayPatternBindingOption, NULL];
-	}
-	return displayPatternDict;
-}
-
 - (NSColor *)suitableTextColorForBackground
 {
 	float r,g,b;
@@ -151,7 +123,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 	}
 	
 	[_fullScreenWindow setBackgroundColor:windowBackgroundColor];
-	[_statusField setTextColor:[self suitableTextColorForBackground]];
+	[m_statusField setTextColor:[self suitableTextColorForBackground]];
 
 	// Quartz!
 	if (kCGErrorSuccess == CGAcquireDisplayFadeReservation(kCGMaxDisplayReservationInterval, &tokenPtr1)) {
@@ -166,26 +138,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 
 		CGReleaseDisplayFadeReservation(tokenPtr1);
 	}
-
-	[_imageView bind:@"value"
-			toObject:[self arrayController]
-		 withKeyPath:@"selection.downloadedFilePath"
-			 options:[self cachedBindingOptionDict]];
-
-	[_statusField bind:@"hidden"
-			  toObject:[self arrayController]
-		   withKeyPath:@"selection.downloadedFilePath"
-			   options:[self cachedBindingOptDictForStatusField]];
-
-	[_statusField bind:@"displayPatternValue1"
-			  toObject:[self arrayController]
-		   withKeyPath:@"selection.statusMessage"
-			   options:[self cachedBindingOptDictForStatusMsg]];
-
-	[_statusField bind:@"displayPatternValue2"
-			  toObject:[self arrayController]
-		   withKeyPath:@"selection.sourceURL"
-			   options:nil];
 
     [_fullScreenWindow makeKeyAndOrderFront:nil];
 	
@@ -224,15 +176,11 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 		CGReleaseDisplayFadeReservation(tokenPtr);
 	}
     [_fullScreenWindow orderOut:nil];
-	[_imageView unbind:@"value"];
-	[_statusField unbind:@"displayPatternValue2"];
-	[_statusField unbind:@"displayPatternValue1"];
-	[_statusField unbind:@"hidden"];
 
 	SetSystemUIMode(kUIModeNormal, 0);
 
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
-	[m_noMoreField setHidden:YES];
+	[m_noMoreView setHidden:YES];
 
 	if ([[self delegate] respondsToSelector:@selector(fullScreenDidEnd:)]) {
 		[[self delegate] fullScreenDidEnd:_fullScreenWindow];
@@ -244,15 +192,16 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 	BSIPIArrayController *controller = (BSIPIArrayController *)[self arrayController];
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
 	if (flags & NSAlternateKeyMask) {
-		[m_noMoreField setHidden:YES];
+		[m_noMoreView setHidden:YES];
 		[controller selectFirst:window];
 	} else if ([controller canSelectPrevious]) {
-		[m_noMoreField setHidden:YES];
+		[m_noMoreView setHidden:YES];
 		[controller selectPrevious:window];
 	} else {
 		NSString *msg = [[NSBundle bundleForClass:[self class]] localizedStringForKey:@"No Prev Image" value:@"Localized String Not Found" table:nil];
 		[m_noMoreField setStringValue:msg];
-		[m_noMoreField setHidden:NO];
+		[m_noMoreView setNeedsDisplay:YES];
+		[m_noMoreView setHidden:NO];
 		[self performSelector:@selector(restoreNoMoreField) withObject:nil afterDelay:3.0];
 	}
 	return YES;
@@ -263,15 +212,16 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 	BSIPIArrayController *controller = (BSIPIArrayController *)[self arrayController];
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
 	if (flags & NSAlternateKeyMask) {
-		[m_noMoreField setHidden:YES];
+		[m_noMoreView setHidden:YES];
 		[controller selectLast:window];
 	} else if ([controller canSelectNext]) {
-		[m_noMoreField setHidden:YES];
+		[m_noMoreView setHidden:YES];
 		[controller selectNext:window];
 	} else {
 		NSString *msg = [[NSBundle bundleForClass:[self class]] localizedStringForKey:@"No Next Image" value:@"Localized String Not Found" table:nil];
 		[m_noMoreField setStringValue:msg];
-		[m_noMoreField setHidden:NO];
+		[m_noMoreView setNeedsDisplay:YES];
+		[m_noMoreView setHidden:NO];
 		[self performSelector:@selector(restoreNoMoreField) withObject:nil afterDelay:3.0];
 	}
 	return YES;
@@ -286,7 +236,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 		[NSObject cancelPreviousPerformRequestsWithTarget:self];
 		NSString *msg = [[NSBundle bundleForClass:[self class]] localizedStringForKey:@"Image Saved" value:@"Localized String Not Found" table:nil];
 		[m_noMoreField setStringValue:msg];
-		[m_noMoreField setHidden:NO];
+		[m_noMoreView setNeedsDisplay:YES];
+		[m_noMoreView setHidden:NO];
 		[self performSelector:@selector(restoreNoMoreField) withObject:nil afterDelay:3.0];
 		return YES;
 	}
@@ -295,7 +246,11 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 
 - (void)restoreNoMoreField
 {
-	[m_noMoreField setHidden:YES];
+	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:m_noMoreView, NSViewAnimationTargetKey,
+			NSViewAnimationFadeOutEffect, NSViewAnimationEffectKey, NULL];
+	NSArray *array = [NSArray arrayWithObject:dict];
+	NSViewAnimation *anime = [[[NSViewAnimation alloc] initWithViewAnimations:array] autorelease];
+	[anime startAnimation];
 }
 
 - (void)toggleInfoViewHidden:(BOOL)flag
@@ -379,7 +334,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 - (BOOL)handlesScrollWheel:(NSEvent *)scrollWheel inWindow:(NSWindow *)window
 {
 	float dY = [scrollWheel deltaY];
-	float threshold = [[self delegate] fullScreenWheelAmount];
+	float threshold = [[BSIPIDefaults sharedIPIDefaults] fullScreenWheelAmount];
 
 	if (dY < -1*threshold) { // 下回転で次のイメージへ
 		return [self fullScreenShowNextImage:window modifierFlags:[scrollWheel modifierFlags]];

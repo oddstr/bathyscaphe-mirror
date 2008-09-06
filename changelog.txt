@@ -1,3 +1,28 @@
+2008-09-07 tsawada2 <tsawada2@users.sourceforge.jp>
+	プレビューインスペクタの改良：
+	* application/subproj/previewer/BSIPIDefaults.[h|m]
+		[新規追加] BSImagePreviewInspector クラスから環境設定周りのコードを別クラスに分離。
+	* application/subproj/previewer/BSIPIPreferencesController.[h|m]
+		[新規追加] BSImagePreviewInspector クラスから環境設定パネル周りのコードを
+		別クラスに分離。
+	* application/subproj/previewer/Exif16.tiff
+		[新規追加] プレビューインスペクタで用いる画像リソース。
+	* application/subproj/previewer/Exif.tiff
+		[削除] 削除。
+	* application/subproj/previewer/Japanese.lproj/BSIPIFullScreen.nib
+	* application/subproj/previewer/BSIPIFullScreenController.m
+	* application/subproj/previewer/Japanese.lproj/Localizable.strings
+		フルスクリーン表示中の情報表示インタフェースを見直し。また、Binding をコード中ではなく
+		nib であらかじめ設定しておくようにした。
+	* application/subproj/previewer/BSIPIHUDView.m
+	* application/subproj/previewer/BSIPIToken.m
+		微修正。
+	* application/subproj/previewer/BSImagePreviewInspector-View.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+	* application/subproj/previewer/Japanese.lproj/BSIPIPreferences.nib
+	* application/subproj/previewer/Japanese.lproj/BSImagePreviewInspector.nib
+		BSImagePreviewInspector クラスの一部を別クラスに分離させる内部構造変更。
+		機能／外観的には何も変わっていない。
 2008-08-22 tsawada2 <tsawada2@users.sourceforge.jp>
 	* application/source/browser/CMRBrowser.m
 		ブラウザウインドウのカスケード処理を三たび修正。

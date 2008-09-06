@@ -104,7 +104,7 @@ NSString *const BSIPITokenDownloadErrorNotification = @"BSIPITokenDownloadErrorN
 			CFMutableStringRef hoge = (CFMutableStringRef)[[cameraNameStr mutableCopy] autorelease];
 			CFStringTrimWhitespace(hoge);
 			cameraNameStr = [NSString stringWithString:(NSMutableString *)hoge];
-			[array addObject:[NSString stringWithFormat:@"\n%@", cameraNameStr]];
+			[array addObject:[NSString stringWithFormat:@"%@", cameraNameStr]];
 		}
 		
 		cameraMakerStr = [tiffDict objectForKey:(NSString *)kCGImagePropertyTIFFMake];

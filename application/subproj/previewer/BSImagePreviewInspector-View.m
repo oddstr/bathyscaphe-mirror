@@ -10,6 +10,7 @@
 #import "BSImagePreviewInspector.h"
 #import "BSIPITextFieldCell.h"
 #import "BSIPIImageView.h"
+#import "BSIPIDefaults.h"
 #import <SGAppKit/NSCell-SGExtensions.h>
 
 static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInspector Panel Autosave";
@@ -72,10 +73,14 @@ static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInsp
 
 	[window_ setFrameAutosaveName:kIPIFrameAutoSaveNameKey];
 	[window_ setDelegate:self];
-	[(NSPanel *)window_ setBecomesKeyOnlyIfNeeded:(![self alwaysBecomeKey])];
-	[(NSPanel *)window_ setFloatingPanel:[self floating]];
-	[window_ setAlphaValue:[self alphaValue]];
+	[(NSPanel *)window_ setBecomesKeyOnlyIfNeeded:(![[BSIPIDefaults sharedIPIDefaults] alwaysBecomeKey])];
+	[(NSPanel *)window_ setFloatingPanel:[[BSIPIDefaults sharedIPIDefaults] floating]];
+	[window_ setAlphaValue:[[BSIPIDefaults sharedIPIDefaults] alphaValue]];
 	[window_ useOptimizedDrawing:YES];
+	
+	[[BSIPIDefaults sharedIPIDefaults] addObserver:self forKeyPath:@"alwaysBecomeKey" options:NSKeyValueObservingOptionNew context:kBSIPIDefaultsContext];
+	[[BSIPIDefaults sharedIPIDefaults] addObserver:self forKeyPath:@"floating" options:NSKeyValueObservingOptionNew context:kBSIPIDefaultsContext];
+	[[BSIPIDefaults sharedIPIDefaults] addObserver:self forKeyPath:@"alphaValue" options:NSKeyValueObservingOptionNew context:kBSIPIDefaultsContext];
 }
 
 - (void)setupTableView
@@ -117,9 +122,9 @@ static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInsp
 	[(BSIPIImageView *)[self imageView] setDelegate:self];
 	[(BSIPIImageView *)[self imageView] setBackgroundColor:[NSColor lightGrayColor]];
 	
-	int	tabIndex = [self preferredView];
+	int	tabIndex = [[BSIPIDefaults sharedIPIDefaults] preferredView];
 	if (tabIndex == -1) {
-		tabIndex = [self lastShownViewTag];
+		tabIndex = [[BSIPIDefaults sharedIPIDefaults] lastShownViewTag];
 	}
 	[[self tabView] selectTabViewItemAtIndex:tabIndex];
 	[[self paneChangeBtn] setSelectedSegment:tabIndex];
@@ -132,88 +137,24 @@ static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInsp
 	[self setupControls];
 	[self setupToolbar];
 }
-@end
 
-@implementation BSImagePreviewInspector(Preferences)
-- (NSPanel *)settingsPanel
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-	return m_settingsPanel;
-}
-
-- (NSPopUpButton *)directoryChooser
-{
-	return m_directoryChooser;
-}
-
-- (NSSegmentedControl *)preferredViewSelector
-{
-	return m_preferredViewSelector;
-}
-
-- (NSMatrix *)fullScreenSettingMatrix
-{
-	return m_fullScreenSettingMatrix;
-}
-
-- (void)didEndChooseFolderSheet:(NSOpenPanel *)panel_ returnCode:(int)returnCode contextInfo:(void *)contextInfo
-{
-	if (returnCode == NSOKButton) {
-		[self setSaveDirectory:[panel_ directory]];
+	if (context == kBSIPIDefaultsContext) {
+		if ([keyPath isEqualToString:@"alwaysBecomeKey"]) {
+			BOOL newFlag = [change boolForKey:NSKeyValueChangeNewKey];
+			[(NSPanel *)[self window] setBecomesKeyOnlyIfNeeded:!newFlag];
+			return;
+		} else if ([keyPath isEqualToString:@"floating"]) {
+			BOOL newFlag = [change boolForKey:NSKeyValueChangeNewKey];
+			[(NSPanel *)[self window] setFloatingPanel:newFlag];
+			return;
+		} else if ([keyPath isEqualToString:@"alphaValue"]) {
+			float newValue = [change floatForKey:NSKeyValueChangeNewKey];
+			[[self window] setAlphaValue:newValue];
+			return;
+		}
 	}
-	[self updateDirectoryChooser];
-}
-
-- (IBAction)openOpenPanel:(id)sender
-{
-	NSOpenPanel	*panel_ = [NSOpenPanel openPanel];
-	[panel_ setCanChooseFiles:NO];
-	[panel_ setCanChooseDirectories:YES];
-	[panel_ setResolvesAliases:YES];
-	[panel_ setAllowsMultipleSelection:NO];
-	[panel_ beginSheetForDirectory:nil
-							  file:nil
-							 types:nil
-					modalForWindow:[self settingsPanel]
-					 modalDelegate:self
-					didEndSelector:@selector(didEndChooseFolderSheet:returnCode:contextInfo:)
-					   contextInfo:nil];
-}
-
-static NSImage *bsIPI_iconForPath(NSString *sourcePath)
-{
-	NSImage	*icon_ = [[NSWorkspace sharedWorkspace] iconForFile:sourcePath];
-	[icon_ setSize:NSMakeSize(16, 16)];
-	return icon_;
-}
-
-- (void)updateDirectoryChooser
-{
-	NSString	*fullPathTip = [self saveDirectory];
-	NSString	*title = [[NSFileManager defaultManager] displayNameAtPath:fullPathTip];
-	NSMenuItem	*theItem = [[self directoryChooser] itemAtIndex:0];
-	
-	[theItem setTitle:title];
-	[theItem setToolTip:fullPathTip];
-	[theItem setImage:bsIPI_iconForPath(fullPathTip)];
-
-	[[self directoryChooser] selectItem:nil];
-	[[self directoryChooser] synchronizeTitleAndSelectedItem];
-}
-
-- (void)setupSettingsPanel
-{
-	if (floor(NSAppKitVersionNumber) <= 824) {
-		[[self fullScreenSettingMatrix] setEnabled:NO];
-	}
-
-	[[self preferredViewSelector] setLabel:nil forSegment:0];
-	[[self preferredViewSelector] setLabel:nil forSegment:1];
-}
-
-- (void)awakeFromNib
-{
-	if ([self settingsPanel]) {
-		[self setupSettingsPanel];
-	}
+	[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 @end

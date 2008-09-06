@@ -39,6 +39,14 @@
 			<string>NSView</string>
 		</dict>
 		<dict>
+			<key>CLASS</key>
+			<string>NSWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
 			<key>ACTIONS</key>
 			<dict>
 				<key>connectorResourceDidCancelLoading</key>
@@ -83,6 +91,30 @@
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>openOpenPanel</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>BSIPIPreferencesController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>m_defaultsController</key>
+				<string>NSObjectController</string>
+				<key>m_directoryChooser</key>
+				<string>NSPopUpButton</string>
+				<key>m_fullScreenSettingMatrix</key>
+				<string>NSMatrix</string>
+				<key>m_preferredViewSelector</key>
+				<string>NSSegmentedControl</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSWindowController</string>
 		</dict>
 	</array>
 	<key>IBVersion</key>

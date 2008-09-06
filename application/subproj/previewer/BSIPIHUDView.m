@@ -84,5 +84,6 @@
 	}
 	[g_HUDBgColor set];
 	[[self calcRoundedRectForRect:rect] fill];
+	[super drawRect:rect];
 }
 @end
