@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.65 2008/07/21 01:00:05 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.66 2008/10/12 16:49:15 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -14,7 +14,7 @@
 #import "BSPreferencesPaneInterface.h"
 
 @protocol w2chConnect, w2chAuthenticationStatus;
-@class BSThreadViewTheme, BoardWarrior, BSReplyTextTemplateManager;
+@class BSThreadViewTheme, BoardWarrior, BSReplyTextTemplateManager, CMRThreadVisibleRange;
 /*!
  * @define      CMRPref
  * @discussion  グローバルな初期設定オブジェクト
@@ -43,6 +43,8 @@ typedef enum _BSAutoSyncIntervalType {
 	BSThreadViewTheme		*m_threadViewTheme;
 
 	NSBundle			*m_installedPreviewer; // Not retained.
+
+	CMRThreadVisibleRange	*m_defaultVisibleRange;
 	
 	// 頻繁にアクセスされる可能性のある変数
 	struct {
@@ -108,14 +110,18 @@ typedef enum _BSAutoSyncIntervalType {
 
 #pragma mark ThreadsList Sorting
 /* Sort */
-- (NSString *) browserSortColumnIdentifier;
+// Deprecated in BathyScaphe 1.6.2.
+/*- (NSString *) browserSortColumnIdentifier;
 - (void) setBrowserSortColumnIdentifier : (NSString *) identifier;
 - (BOOL) browserSortAscending;
 - (void) setBrowserSortAscending : (BOOL) isAscending;
 - (int) browserStatusFilteringMask;
-- (void) setBrowserStatusFilteringMask : (int) mask;
-- (BOOL) collectByNew;
-- (void) setCollectByNew : (BOOL) flag;
+- (void) setBrowserStatusFilteringMask : (int) mask;*/
+- (BOOL)collectByNew;
+- (void)setCollectByNew:(BOOL)flag;
+// Available in BathyScaphe 1.6.2 and later.
+- (NSArray *)threadsListSortDescriptors;
+- (void)setThreadsListSortDescriptors:(NSArray *)desc;
 
 #pragma mark Contents Search
 /* Search option */
@@ -321,8 +327,8 @@ typedef enum _BSAutoSyncIntervalType {
 - (void) setShowsAllMessagesWhenDownloaded : (BOOL) flag;
 
 /* オンザフライ読み込み */
-- (unsigned) onTheFlyCompositionAttributes;
-- (void) setOnTheFlyCompositionAttributes : (unsigned) value;
+//- (unsigned) onTheFlyCompositionAttributes;
+//- (void) setOnTheFlyCompositionAttributes : (unsigned) value;
 
 /* 「ウインドウの位置と領域を記憶」 */
 - (NSString *) windowDefaultFrameString;
@@ -377,6 +383,11 @@ typedef enum _BSAutoSyncIntervalType {
 /* SilverGull Additions */
 - (BOOL)autoReloadViewerWhenWake;
 - (void)setAutoReloadViewerWhenWake:(BOOL)flag;
+
+/* Tenori Tiger Addition */
+- (CMRThreadVisibleRange *)defaultVisibleRange;
+- (BOOL)showsSAAPIcon;
+- (void)setShowsSAAPIcon:(BOOL)flag;
 
 - (void) _loadThreadViewerSettings;
 - (BOOL) _saveThreadViewerSettings;

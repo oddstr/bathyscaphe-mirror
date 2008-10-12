@@ -41,9 +41,7 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 {
 	if (self = [super init]) {
 		[self setBoardListItem:item];
-		
-		[self filterByStatusWithoutUpdateList:0];
-		
+
 		mCursorLock = [[NSLock alloc] init];
 		mTaskLock = [[NSLock alloc] init];
 	}
@@ -64,8 +62,6 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	mCursorLock = nil;
 	[mBoardListItem release];
 	mBoardListItem = nil;
-	[mSortKey release];
-	mSortKey = nil;
 	[mSearchString release];
 	mSearchString = nil;
 	
@@ -76,6 +72,7 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	[mTaskLock release];
 	
 	[mSortDescriptors release];
+	mSortDescriptors = nil;
 
 	[super dealloc];
 }
@@ -120,9 +117,6 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	id temp = mBoardListItem;
 	mBoardListItem = [item retain];
 	[temp release];
-	
-	temp = [[BoardManager defaultManager] sortDescriptorsForBoard:[self boardName]];
-	[self setSortDescriptors:temp];	
 }
 
 - (BOOL)isFavorites
@@ -145,11 +139,6 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	return mSearchString;
 }
 
-- (ThreadStatus)status
-{
-	return mStatus;
-}
-
 - (NSString *)boardName
 {
 	return [mBoardListItem name];
@@ -168,7 +157,7 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 
 - (unsigned)numberOfFilteredThreads
 {
-	return [self numberOfThreads];
+	return [[self filteredThreads] count];
 }
 
 - (BSThreadsListViewModeType)viewMode
@@ -182,73 +171,44 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 }
 
 #pragma mark## Sorting ##
-- (NSArray *)systemSortdescriptors
+- (NSArray *)adjustedSortDescriptors
 {
-	if ([CMRPref collectByNew]) {
-		return [NSArray arrayWithObject:
-				[[[NSSortDescriptor alloc] initWithKey:@"isnew"
-											 ascending:NO
-											  selector:@selector(numericCompare:)] autorelease]];
-	}
-	
-	return [NSArray array];
-}
+	static NSSortDescriptor *cachedDescriptor = nil;
 
-- (void)addSortDescriptorWithSystemSortDescriptor:(NSSortDescriptor *)inDesc
-{
-	[self addSortDescriptor:inDesc];
-	
-	NSArray *systemSortDesc = [self systemSortdescriptors];
-	NSEnumerator *enums = [systemSortDesc reverseObjectEnumerator];
-	id s;
-	while (s = [enums nextObject]) {
-		[self addSortDescriptor:s];
+	if (![CMRPref collectByNew]) {
+		return [self sortDescriptors];
+	} else {
+		if (!cachedDescriptor) {
+			cachedDescriptor = [[NSSortDescriptor alloc] initWithKey:@"isnew" ascending:NO selector:@selector(numericCompare:)];
+		}
+
+		NSMutableArray *newArray = [[self sortDescriptors] mutableCopy];
+		[newArray insertObject:cachedDescriptor atIndex:0];
+		return [newArray autorelease];
 	}
 }
 
-- (id)sortKey
-{
-	return mSortKey;
-}
-
-- (void)setSortKey:(NSString *)key
-{
-	id tmp = mSortKey;
-	mSortKey = [key retain];
-	[tmp release];
-	
-	{
-		id sortDescriptor;
-		
-		sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:tableNameForKey(mSortKey)
-													  ascending:[self isAscending]
-													   selector:@selector(numericCompare:)] autorelease];
-		
-		[self addSortDescriptorWithSystemSortDescriptor:sortDescriptor];
-	}
-}
-
-- (void)sortByKey:(NSString *)key
+- (void)sortByDescriptors
 {
 	// お気に入りとスマートボードではindexは飾り
 	// TODO 要変更
 	if ([self isFavorites] || [self isSmartItem]) {
-		if([key isEqualTo:CMRThreadSubjectIndexKey]) {
+		if ([[(NSSortDescriptor *)[[self sortDescriptors] objectAtIndex:0] key] isEqualToString:CMRThreadSubjectIndexKey]) {
 			return;
 		}
 	}
 
-	[self setSortKey:key];
 	
 	@synchronized(mCursorLock) {
 		[mCursor autorelease];
-		mCursor = [[mCursor sortedArrayUsingDescriptors:[self sortDescriptors]] retain];
+		mCursor = [[mCursor sortedArrayUsingDescriptors:[self adjustedSortDescriptors]] retain];
+		[self updateFilteredThreadsIfNeeded];
 	}
 }
 
 - (NSArray *)sortDescriptors
 {
-	return [NSArray arrayWithArray:mSortDescriptors];
+	return mSortDescriptors;
 }
 
 - (void)setSortDescriptors:(NSArray *)inDescs
@@ -256,80 +216,8 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	UTILAssertKindOfClass(inDescs, NSArray);
 	
 	id temp = mSortDescriptors;
-	mSortDescriptors = [[NSMutableArray arrayWithArray:inDescs] retain];
+	mSortDescriptors = [inDescs retain];
 	[temp release];
-	
-	NSArray *systemSortDesc = [self systemSortdescriptors];
-	NSEnumerator *enums = [systemSortDesc reverseObjectEnumerator];
-	id s;
-	while (s = [enums nextObject]) {
-		[self addSortDescriptor:s];
-	}
-}
-
-- (void)addSortDescriptor:(NSSortDescriptor *)inDesc
-{
-	UTILAssertKindOfClass(inDesc, NSSortDescriptor);
-	
-	if (!mSortDescriptors) {
-		mSortDescriptors = [[NSMutableArray array] retain];
-	}
-	
-	// remove sortdescriptor has same key.
-	id key = [inDesc key];
-	int i, c; id o;
-	for (i = 0, c = [mSortDescriptors count]; i < c; i++) {
-		o = [mSortDescriptors objectAtIndex:i];
-		
-		if ([key isEqual:[o key]]) {
-			[mSortDescriptors removeObjectAtIndex:i];
-			break;
-		}
-	}
-	
-	[mSortDescriptors insertObject:inDesc atIndex:0];
-}
-
-- (BOOL)isAscendingForKey:(NSString *)key
-{
-	id enume;
-	NSSortDescriptor *sortDesc;
-	NSString *sortKey = tableNameForKey(key);
-	
-	if (!sortKey) return NO;
-	
-	enume = [mSortDescriptors objectEnumerator];
-	while (sortDesc = [enume nextObject]) {
-		if ([sortKey isEqualTo:[sortDesc key]]) {
-			return [sortDesc ascending];
-		}
-	}
-	
-	return NO;
-}
-
-- (void)toggleIsAscendingForKey:(NSString *)key
-{
-	id enume;
-	NSSortDescriptor *sortDesc;
-	NSSortDescriptor *newDesc = nil;
-	NSString *sortKey = tableNameForKey(key);
-	
-	if (!sortKey) return;
-	
-	enume = [mSortDescriptors objectEnumerator];
-	while (sortDesc = [enume nextObject]) {
-		if ([sortKey isEqualTo:[sortDesc key]]) {
-			newDesc = [sortDesc reversedSortDescriptor];
-			break;
-		}
-	}
-	
-	if (newDesc) {
-		[self addSortDescriptorWithSystemSortDescriptor:newDesc];
-	}
-	
-	return;
 }
 
 #pragma mark## Thread item operations ##
@@ -366,8 +254,9 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 		@synchronized(mCursorLock) {
 			NSArray *array = [BSThreadListItem threadItemArrayFromCursor:cursor];
 			[mCursor autorelease];
-			mCursor = [[array sortedArrayUsingDescriptors:[self sortDescriptors]] retain];
+			mCursor = [[array sortedArrayUsingDescriptors:[self adjustedSortDescriptors]] retain];
 			UTILDebugWrite1(@"cursor count -> %ld", [mCursor count]);
+			[self updateFilteredThreadsIfNeeded];
 		}
 	}
 	
@@ -391,26 +280,25 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 }
 
 #pragma mark## Filter ##
+- (void)updateFilteredThreadsIfNeeded
+{
+	if (mSearchString && [mSearchString length] > 0) {
+		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"threadName CONTAINS[cd] %@", mSearchString];
+		[self setFilteredThreads:[mCursor filteredArrayUsingPredicate:predicate]];
+	} else {
+		[self setFilteredThreads:mCursor];
+	}
+	UTILDebugWrite1(@"filteredThreads count -> %ld", [[self filteredThreads] count]);
+}
+
 - (BOOL)filterByString:(NSString *)string
 {
 	id tmp = mSearchString;
 	mSearchString = [string retain];
 	[tmp release];
 	
-	[self updateCursor];
-	
+	[self updateFilteredThreadsIfNeeded];
 	return YES;
-}
-
-- (void)filterByStatusWithoutUpdateList:(int)status
-{
-	mStatus = status;
-}
-
-- (void)filterByStatus:(int)status
-{
-	[self filterByStatusWithoutUpdateList:status];
-	[self updateCursor];
 }
 
 #pragma mark## DataSource ##
@@ -444,23 +332,32 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	BSThreadListItem *row;
 	
 	@synchronized(mCursorLock) {
-		row = [[[mCursor objectAtIndex:rowIndex] retain] autorelease];
+		row = [[[[self filteredThreads] objectAtIndex:rowIndex] retain] autorelease];
 	}
 	
 	return [row attribute];
 }
 
-- (unsigned int)indexOfThreadWithPath:(NSString *)filepath
+- (unsigned int)indexOfThreadWithPath:(NSString *)filepath ignoreFilter:(BOOL)ignores
 {
 	unsigned result;
 	CMRDocumentFileManager *dfm = [CMRDocumentFileManager defaultManager];
 	NSString *identifier = [dfm datIdentifierWithLogPath:filepath];
 	
 	@synchronized(mCursorLock) {
-		result = indexOfIdentifier(mCursor, identifier);
+		if (ignores) {
+			result = indexOfIdentifier(mCursor, identifier);
+		} else {
+			result = indexOfIdentifier([self filteredThreads], identifier);
+		}
 	}
 	
 	return result;
+}
+
+- (unsigned int)indexOfThreadWithPath:(NSString *)filepath
+{
+	return [self indexOfThreadWithPath:filepath ignoreFilter:NO];
 }
 
 - (CMRThreadSignature *)threadSignatureWithTitle:(NSString *)title
@@ -491,7 +388,7 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	ThreadStatus s;
 	
 	@synchronized(mCursorLock) {
-		row = [[[mCursor objectAtIndex:index] retain] autorelease];
+		row = [[[_filteredThreads objectAtIndex:index] retain] autorelease];
 	}
 	
 	s = [row status];
@@ -554,8 +451,17 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	return [self objectValueForIdentifier:identifier_ atIndex:rowIndex];
 }
 
+- (void)tableView:(NSTableView *)aTableView sortDescriptorsDidChange:(NSArray *)oldDescriptors
+{
+	UTILDebugWrite(@"Received tableView:sortDescriptorsDidChange: message");
+
+	[self setSortDescriptors:[aTableView sortDescriptors]];
+	[self sortByDescriptors];
+	[aTableView reloadData];
+}
+
 #pragma mark## Notification ##
-- (void)favoritesManagerDidChange:(id)notification
+- (void)favoritesManagerDidChange:(NSNotification *)notification
 {
 	UTILAssertNotificationObject(
 								 notification,

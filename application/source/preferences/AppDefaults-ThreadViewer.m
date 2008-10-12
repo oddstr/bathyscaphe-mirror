@@ -1,15 +1,17 @@
-/**
-  * $Id: AppDefaults-ThreadViewer.m,v 1.12 2008/07/21 01:00:05 tsawada2 Exp $
-  * 
-  * AppDefaults-ThreadViewer.m
-  *
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+// AppDefaults-ThreadsViewer.m
+// BathyScaphe
+//
+// Updated by Tsutomu Sawada on 08/09/28.
+// Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+// encoding="UTF-8"
+//
+
 #import "AppDefaults_p.h"
 
 #import "CMRThreadVisibleRange.h"
 #import "BSLinkDownloadManager.h"
+#import "BSBeSAAPAnchorComposer.h"
 
 #define kPrefThreadViewerWindowFrameKey		@"Default Window Frame"
 #define kPrefReplyWindowFrameKey			@"Default Reply Window Frame"
@@ -32,214 +34,181 @@ static NSString *const kPrefLinkDownloaderDestKey = @"LinkDownloaderDestination"
 static NSString *const kPrefLinkDownloaderCommentKey = @"LinkDownloaderAttachURLToComment";
 
 static NSString *const kTVAutoReloadWhenWakeKey = @"Reload When Wake (Viewer)";
+static NSString *const kTVDefaultVisibleRangeKey = @"VisibleRange";
+static NSString *const kPrefSAAPIconShownKey = @"SAAP Icon Shown";
 
 @implementation AppDefaults(ThreadViewerSettings)
-- (NSMutableDictionary *) threadViewerDefaultsDictionary
+- (NSMutableDictionary *)threadViewerDefaultsDictionary
 {
-	if (nil == m_threadViewerDictionary) {
+	if (!m_threadViewerDictionary) {
 		NSDictionary	*dict_;
 		
-		dict_ = [[self defaults] dictionaryForKey : kPrefThreadViewerSettingsKey];
+		dict_ = [[self defaults] dictionaryForKey:kPrefThreadViewerSettingsKey];
 		m_threadViewerDictionary = [dict_ mutableCopy];
 	}
 	
-	if (nil == m_threadViewerDictionary)
+	if (!m_threadViewerDictionary) {
 		m_threadViewerDictionary = [[NSMutableDictionary alloc] init];
-	
+	}
 	return m_threadViewerDictionary;
 }
 
-/* ÉXÉåÉbÉhÇÉ_ÉEÉìÉçÅ[ÉhÇµÇΩÇ∆Ç´ÇÕÇ∑Ç◊Çƒï\é¶Ç∑ÇÈ */
-- (BOOL) showsAllMessagesWhenDownloaded
+/* „Çπ„É¨„ÉÉ„Éâ„Çí„ÉÄ„Ç¶„É≥„É≠„Éº„Éâ„Åó„Åü„Å®„Åç„ÅØ„Åô„Åπ„Å¶Ë°®Á§∫„Åô„Çã */
+- (BOOL)showsAllMessagesWhenDownloaded
 {
-	return [[self threadViewerDefaultsDictionary] 
-				boolForKey:kPrefShowsAllWhenDownloadedKey]; 
-}
-- (void) setShowsAllMessagesWhenDownloaded : (BOOL) flag
-{
-	[[self threadViewerDefaultsDictionary]
-		setBool:flag forKey:kPrefShowsAllWhenDownloadedKey];
+	return [[self threadViewerDefaultsDictionary] boolForKey:kPrefShowsAllWhenDownloadedKey defaultValue:DEFAULT_TV_SHOWS_ALL_WHEN_DOWNLOADED];
 }
 
-/* ÉIÉìÉUÉtÉâÉCì«Ç›çûÇ› */
-- (unsigned) onTheFlyCompositionAttributes
+- (void)setShowsAllMessagesWhenDownloaded:(BOOL)flag
 {
-	return 0;
-}
-- (void) setOnTheFlyCompositionAttributes : (unsigned) value
-{
+	[[self threadViewerDefaultsDictionary] setBool:flag forKey:kPrefShowsAllWhenDownloadedKey];
 }
 
-
-/* ÅuÉEÉCÉìÉhÉEÇÃà íuÇ∆óÃàÊÇãLâØÅv */
-- (NSString *) windowDefaultFrameString
+/* „Äå„Ç¶„Ç§„É≥„Éâ„Ç¶„ÅÆ‰ΩçÁΩÆ„Å®È†òÂüü„ÇíË®òÊÜ∂„Äç */
+- (NSString *)windowDefaultFrameString
 {
-	return [[self threadViewerDefaultsDictionary]
-				  stringForKey : kPrefThreadViewerWindowFrameKey];
+	return [[self threadViewerDefaultsDictionary] stringForKey:kPrefThreadViewerWindowFrameKey];
 }
-- (void) setWindowDefaultFrameString : (NSString *) aString
+
+- (void)setWindowDefaultFrameString:(NSString *)aString
 {
-	if (nil == aString) {
-		[[self threadViewerDefaultsDictionary] 
-			removeObjectForKey : kPrefThreadViewerWindowFrameKey];
+	if (!aString) {
+		[[self threadViewerDefaultsDictionary] removeObjectForKey:kPrefThreadViewerWindowFrameKey];
 	} else {
-		[[self threadViewerDefaultsDictionary]
-					  setObject :aString
-					  forKey : kPrefThreadViewerWindowFrameKey];
-	}
-}
-- (NSString *) replyWindowDefaultFrameString
-{
-	return [[self threadViewerDefaultsDictionary]
-				  stringForKey : kPrefReplyWindowFrameKey];
-}
-- (void) setReplyWindowDefaultFrameString : (NSString *) aString
-{
-	if (nil == aString) {
-		[[self threadViewerDefaultsDictionary] 
-			removeObjectForKey : kPrefReplyWindowFrameKey];
-	} else {
-		[[self threadViewerDefaultsDictionary]
-					  setObject :aString
-					  forKey : kPrefReplyWindowFrameKey];
+		[[self threadViewerDefaultsDictionary] setObject:aString forKey:kPrefThreadViewerWindowFrameKey];
 	}
 }
 
-- (int) threadViewerLinkType
+- (NSString *)replyWindowDefaultFrameString
 {
-	return [[self threadViewerDefaultsDictionary]
-				  integerForKey : kPrefThreadViewerLinkTypeKey
-				   defaultValue : DEFAULT_THREAD_VIEWER_LINK_TYPE];
-}
-- (void) setThreadViewerLinkType : (int) aType
-{
-	[[self threadViewerDefaultsDictionary]
-			setInteger : aType
-				forKey : kPrefThreadViewerLinkTypeKey];
+	return [[self threadViewerDefaultsDictionary] stringForKey:kPrefReplyWindowFrameKey];
 }
 
-// ÉÅÅ[ÉãÉAÉhÉåÉX
-- (BOOL) mailAttachmentShown
+- (void)setReplyWindowDefaultFrameString:(NSString *)aString
+{
+	if (!aString) {
+		[[self threadViewerDefaultsDictionary] removeObjectForKey:kPrefReplyWindowFrameKey];
+	} else {
+		[[self threadViewerDefaultsDictionary] setObject:aString forKey:kPrefReplyWindowFrameKey];
+	}
+}
+
+- (int)threadViewerLinkType
+{
+	return [[self threadViewerDefaultsDictionary] integerForKey:kPrefThreadViewerLinkTypeKey defaultValue:DEFAULT_THREAD_VIEWER_LINK_TYPE];
+}
+
+- (void)setThreadViewerLinkType:(int)aType
+{
+	[[self threadViewerDefaultsDictionary] setInteger:aType forKey:kPrefThreadViewerLinkTypeKey];
+}
+
+// „É°„Éº„É´„Ç¢„Éâ„É¨„Çπ
+- (BOOL)mailAttachmentShown
 {
 	return (PFlags.mailAttachmentShown != 0);
 }
-- (void) setMailAttachmentShown : (BOOL) flag
+
+- (void)setMailAttachmentShown:(BOOL)flag
 {
-	[[self threadViewerDefaultsDictionary]
-			   setBool : flag
-				forKey : kPrefMailAttachmentShownKey];
+	[[self threadViewerDefaultsDictionary] setBool:flag forKey:kPrefMailAttachmentShownKey];
 	
 	PFlags.mailAttachmentShown = flag ? 1 : 0;
 }
-- (BOOL) mailAddressShown
+
+- (BOOL)mailAddressShown
 {
 	return (PFlags.mailAddressShown != 0);
 }
-- (void) setMailAddressShown : (BOOL) flag
+
+- (void)setMailAddressShown:(BOOL)flag
 {
-	[[self threadViewerDefaultsDictionary]
-			   setBool : flag
-				forKey : kPrefMailAddressShownKey];
+	[[self threadViewerDefaultsDictionary] setBool:flag forKey:kPrefMailAddressShownKey];
 	
 	PFlags.mailAddressShown = flag ? 1 : 0;
 }
 
-- (int) openInBrowserType
+- (int)openInBrowserType
 {
-	return [[self threadViewerDefaultsDictionary]
-				  integerForKey : kPrefOpenInBrowserTypeKey
-				   defaultValue : DEFAULT_OPEN_IN_BROWSER_TYPE];
-}
-- (void) setOpenInBrowserType : (int) aType
-{
-	[[self threadViewerDefaultsDictionary]
-			setInteger : aType
-				forKey : kPrefOpenInBrowserTypeKey];
+	return [[self threadViewerDefaultsDictionary] integerForKey:kPrefOpenInBrowserTypeKey defaultValue:DEFAULT_OPEN_IN_BROWSER_TYPE];
 }
 
-#pragma mark SledgeHammer Additions
-- (BOOL) showsPoofAnimationOnInvisibleAbone
+- (void)setOpenInBrowserType:(int)aType
 {
-	// Terminal Ç»Ç«Ç©ÇÁïœçXÇµÇ‚Ç∑Ç¢ÇÊÇ§Ç…ÅAÇ±ÇÃÉGÉìÉgÉäÇÕÉgÉbÉvÉåÉxÉãÇ…çÏÇÈ
-	return [[self defaults] boolForKey : kPrefShowsPoofAnimationKey
-						  defaultValue : DEFAULT_SHOWS_POOF_ON_ABONE];
+	[[self threadViewerDefaultsDictionary] setInteger:aType forKey:kPrefOpenInBrowserTypeKey];
 }
 
-- (void) setShowsPoofAnimationOnInvisibleAbone : (BOOL) showsPoof;
+- (BOOL)showsPoofAnimationOnInvisibleAbone
 {
-	[[self defaults] setBool : showsPoof
-					  forKey : kPrefShowsPoofAnimationKey];
+	// Terminal „Å™„Å©„Åã„ÇâÂ§âÊõ¥„Åó„ÇÑ„Åô„ÅÑ„Çà„ÅÜ„Å´„ÄÅ„Åì„ÅÆ„Ç®„É≥„Éà„É™„ÅØ„Éà„ÉÉ„Éó„É¨„Éô„É´„Å´‰Ωú„Çã
+	return [[self defaults] boolForKey:kPrefShowsPoofAnimationKey defaultValue:DEFAULT_SHOWS_POOF_ON_ABONE];
 }
 
-#pragma mark ShortCircuit Additions
-- (void) _resetDefaultVisibleRange
+- (void)setShowsPoofAnimationOnInvisibleAbone:(BOOL)showsPoof
 {
-	[CMRThreadVisibleRange setDefaultVisibleRange :
-				[CMRThreadVisibleRange visibleRangeWithFirstVisibleLength : [self firstVisibleCount]
-														lastVisibleLength : [self lastVisibleCount]]];
+	[[self defaults] setBool:showsPoof forKey:kPrefShowsPoofAnimationKey];
 }
 
-- (unsigned int) firstVisibleCount
+- (CMRThreadVisibleRange *)defaultVisibleRange
 {
-	return [[self threadViewerDefaultsDictionary] unsignedIntForKey : kPrefFirstVisibleKey
-													   defaultValue : DEFAULT_TV_FIRST_VISIBLE];
+	if (!m_defaultVisibleRange) {
+		m_defaultVisibleRange = [[CMRThreadVisibleRange alloc] initWithFirstVisibleLength:DEFAULT_TV_FIRST_VISIBLE
+																		lastVisibleLength:DEFAULT_TV_LAST_VISIBLE];
+	}
+	return m_defaultVisibleRange;
 }
 
-- (void) setFirstVisibleCount : (unsigned int) aValue
+- (unsigned int)firstVisibleCount
 {
-	[[self threadViewerDefaultsDictionary] setUnsignedInt : aValue
-												   forKey : kPrefFirstVisibleKey];
-	[self _resetDefaultVisibleRange];
+	return [m_defaultVisibleRange firstVisibleLength];
 }
 
-- (unsigned int) lastVisibleCount
+- (void)setFirstVisibleCount:(unsigned int)aValue
 {
-	return [[self threadViewerDefaultsDictionary] unsignedIntForKey : kPrefLastVisibleKey
-													   defaultValue : DEFAULT_TV_LAST_VISIBLE];
-}
-- (void) setLastVisibleCount : (unsigned int) aValue;
-{
-	[[self threadViewerDefaultsDictionary] setUnsignedInt : aValue
-												   forKey : kPrefLastVisibleKey];
-	[self _resetDefaultVisibleRange];
+	[m_defaultVisibleRange setFirstVisibleLength:aValue];
 }
 
-#pragma mark SecondFlight Additions
-- (BOOL) previewLinkWithNoModifierKey
+- (unsigned int)lastVisibleCount
 {
-	return [[self defaults] boolForKey : kPrefPreviewLinkDirectlyKey
-						  defaultValue : DEFAULT_TV_PREVIEW_WITH_NO_MODIFIER];
+	return [m_defaultVisibleRange lastVisibleLength];
 }
 
-- (void) setPreviewLinkWithNoModifierKey : (BOOL) previewDirectly
+- (void)setLastVisibleCount:(unsigned int)aValue
 {
-	[[self defaults] setBool : previewDirectly
-					  forKey : kPrefPreviewLinkDirectlyKey];
+	[m_defaultVisibleRange setLastVisibleLength:aValue];
 }
 
-#pragma mark InnocentStarter Additions
-- (float) mouseDownTrackingTime
+- (BOOL)previewLinkWithNoModifierKey
 {
-	return [[self threadViewerDefaultsDictionary] floatForKey : kPrefTrackingTimeKey
-												 defaultValue : DEFAULT_TV_MOUSEDOWN_TIME];
-}
-- (void) setMouseDownTrackingTime : (float) aValue
-{
-	[[self threadViewerDefaultsDictionary] setFloat : aValue forKey : kPrefTrackingTimeKey];
+	return [[self defaults] boolForKey:kPrefPreviewLinkDirectlyKey defaultValue:DEFAULT_TV_PREVIEW_WITH_NO_MODIFIER];
 }
 
-#pragma mark Vita Additions
-- (BOOL) scrollToLastUpdated
+- (void)setPreviewLinkWithNoModifierKey:(BOOL)previewDirectly
 {
-	return [[self threadViewerDefaultsDictionary] boolForKey : kPrefScroll2LUKey
-												defaultValue : DEFAULT_TV_SCROLL_TO_NEW];
-}
-- (void) setScrollToLastUpdated : (BOOL) flag
-{
-	[[self threadViewerDefaultsDictionary] setBool : flag forKey : kPrefScroll2LUKey];
+	[[self defaults] setBool:previewDirectly forKey:kPrefPreviewLinkDirectlyKey];
 }
 
-#pragma mark Twincam Angel Additions
+- (float)mouseDownTrackingTime
+{
+	return [[self threadViewerDefaultsDictionary] floatForKey:kPrefTrackingTimeKey defaultValue:DEFAULT_TV_MOUSEDOWN_TIME];
+}
+
+- (void)setMouseDownTrackingTime:(float)aValue
+{
+	[[self threadViewerDefaultsDictionary] setFloat:aValue forKey:kPrefTrackingTimeKey];
+}
+
+- (BOOL)scrollToLastUpdated
+{
+	return [[self threadViewerDefaultsDictionary] boolForKey:kPrefScroll2LUKey defaultValue:DEFAULT_TV_SCROLL_TO_NEW];
+}
+
+- (void)setScrollToLastUpdated:(BOOL)flag
+{
+	[[self threadViewerDefaultsDictionary] setBool:flag forKey:kPrefScroll2LUKey];
+}
+
+#pragma mark Link Downloader
 - (NSString *)linkDownloaderDestination
 {
 	BOOL	isDir;
@@ -247,26 +216,30 @@ static NSString *const kTVAutoReloadWhenWakeKey = @"Reload When Wake (Viewer)";
 	if (path && [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] && isDir) {
 		return path;
 	} else {
-//		return [[CMRFileManager defaultManager] userDomainDesktopFolderPath];
 		return [[CMRFileManager defaultManager] userDomainDownloadsFolderPath];
 	}
 }
+
 - (void)setLinkDownloaderDestination:(NSString *)path
 {
 	[[self threadViewerDefaultsDictionary] setObject:path forKey:kPrefLinkDownloaderDestKey];
 }
+
 - (NSMutableArray *)linkDownloaderDictArray
 {
 	return [[BSLinkDownloadManager defaultManager] downloadableTypes];
 }
+
 - (void)setLinkDownloaderDictArray:(NSMutableArray *)array
 {
 	[[BSLinkDownloadManager defaultManager] setDownloadableTypes:array];
 }
+
 - (NSArray *)linkDownloaderExtensionTypes
 {
 	return [[self linkDownloaderDictArray] valueForKey:@"extension"];
 }
+
 - (NSArray *)linkDownloaderAutoopenTypes
 {
 	return [[self linkDownloaderDictArray] valueForKey:@"autoopen"];
@@ -274,7 +247,7 @@ static NSString *const kTVAutoReloadWhenWakeKey = @"Reload When Wake (Viewer)";
 
 - (BOOL)linkDownloaderAttachURLToComment
 {
-	return [[self threadViewerDefaultsDictionary] boolForKey:kPrefLinkDownloaderCommentKey defaultValue:NO];
+	return [[self threadViewerDefaultsDictionary] boolForKey:kPrefLinkDownloaderCommentKey defaultValue:DEFAULT_LINK_DOWNLOADER_ATTACH_COMMENT];
 }
 
 - (void)setLinkDownloaderAttachURLToComment:(BOOL)flag
@@ -285,7 +258,7 @@ static NSString *const kTVAutoReloadWhenWakeKey = @"Reload When Wake (Viewer)";
 #pragma mark SilverGull Additions
 - (BOOL)autoReloadViewerWhenWake
 {
-	return [[self threadViewerDefaultsDictionary] boolForKey:kTVAutoReloadWhenWakeKey defaultValue:NO];
+	return [[self threadViewerDefaultsDictionary] boolForKey:kTVAutoReloadWhenWakeKey defaultValue:DEFAULT_TV_AUTORELOAD_WHEN_WAKE];
 }
 
 - (void)setAutoReloadViewerWhenWake:(BOOL)flag
@@ -293,30 +266,57 @@ static NSString *const kTVAutoReloadWhenWakeKey = @"Reload When Wake (Viewer)";
 	[[self threadViewerDefaultsDictionary] setBool:flag forKey:kTVAutoReloadWhenWakeKey];
 }
 
-#pragma mark -
-- (void) _loadThreadViewerSettings
+#pragma mark Tenori Tiger Additions
+- (BOOL)showsSAAPIcon
 {
+	return [[self threadViewerDefaultsDictionary] boolForKey:kPrefSAAPIconShownKey defaultValue:DEFAULT_TV_SAAP_ICON_SHOWN];
+}
+
+- (void)setShowsSAAPIcon:(BOOL)flag
+{
+	[[self threadViewerDefaultsDictionary] setBool:flag forKey:kPrefSAAPIconShownKey];
+	[BSBeSAAPAnchorComposer setShowsSAAPIcon:flag];
+}
+
+#pragma mark -
+- (void)_loadThreadViewerSettings
+{
+	NSMutableDictionary *dict_ = [self threadViewerDefaultsDictionary];
 	BOOL	flag_;
 	
-	flag_ = [[self threadViewerDefaultsDictionary]
-				     boolForKey : kPrefMailAttachmentShownKey
-				   defaultValue : kPreferencesDefault_MailAttachmentShown];
-	[self setMailAttachmentShown : flag_];
-	flag_ = [[self threadViewerDefaultsDictionary]
-				     boolForKey : kPrefMailAddressShownKey
-				   defaultValue : kPreferencesDefault_MailAddressShown];
-	[self setMailAddressShown : flag_];
+	flag_ = [dict_ boolForKey:kPrefMailAttachmentShownKey defaultValue:kPreferencesDefault_MailAttachmentShown];
+	[self setMailAttachmentShown:flag_];
+	flag_ = [dict_ boolForKey:kPrefMailAddressShownKey defaultValue:kPreferencesDefault_MailAddressShown];
+	[self setMailAddressShown:flag_];
 
+	id plist = [dict_ objectForKey:kTVDefaultVisibleRangeKey];
+	if (plist) {
+		CMRThreadVisibleRange *tmp = [[CMRThreadVisibleRange alloc] initWithPropertyListRepresentation:plist];
+		if (tmp) {
+			m_defaultVisibleRange = tmp;
+			// Clean-up deprecated keys if needed
+			[dict_ removeObjectsForKeys:[NSArray arrayWithObjects:kPrefFirstVisibleKey, kPrefLastVisibleKey, nil]];
+		}
+	} else {
+		unsigned int first = [dict_ unsignedIntForKey:kPrefFirstVisibleKey defaultValue:DEFAULT_TV_FIRST_VISIBLE];
+		unsigned int last = [dict_ unsignedIntForKey:kPrefLastVisibleKey defaultValue:DEFAULT_TV_LAST_VISIBLE];
+		m_defaultVisibleRange = [[CMRThreadVisibleRange alloc] initWithFirstVisibleLength:first lastVisibleLength:last];
+	}
 }
-- (BOOL) _saveThreadViewerSettings
+
+- (BOOL)_saveThreadViewerSettings
 {
-	NSDictionary			*dict_;
-	
+	NSMutableDictionary			*dict_;
 	dict_ = [self threadViewerDefaultsDictionary];
-	
 	UTILAssertNotNil(dict_);
-	[[self defaults] setObject : dict_
-						forKey : kPrefThreadViewerSettingsKey];
+
+	id plistRep = [m_defaultVisibleRange propertyListRepresentation];
+	if (plistRep) {
+		[dict_ setObject:plistRep forKey:kTVDefaultVisibleRangeKey];
+	}
+
+	[[self defaults] setObject:dict_ forKey:kPrefThreadViewerSettingsKey];
+
 	[[BSLinkDownloadManager defaultManager] writeToFileNow];
 	return YES;
 }

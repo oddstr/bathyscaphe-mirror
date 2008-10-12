@@ -186,6 +186,8 @@
 		87A474FA0A85684200FC13E6 /* SyncPaneController.m in Sources */ = {isa = PBXBuildFile; fileRef = 871607E5098A9A8700A27F63 /* SyncPaneController.m */; };
 		87A9F7DB0B7FB71700404C81 /* BSRelativeKeywordsCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = 87A9F7D90B7FB71600404C81 /* BSRelativeKeywordsCollector.h */; };
 		87A9F7DC0B7FB71700404C81 /* BSRelativeKeywordsCollector.m in Sources */ = {isa = PBXBuildFile; fileRef = 87A9F7DA0B7FB71600404C81 /* BSRelativeKeywordsCollector.m */; };
+		87AD785C0EA22FC700D37F4B /* BSBeSAAPAnchorComposer.h in Headers */ = {isa = PBXBuildFile; fileRef = 87AD785A0EA22FC700D37F4B /* BSBeSAAPAnchorComposer.h */; };
+		87AD785D0EA22FC700D37F4B /* BSBeSAAPAnchorComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = 87AD785B0EA22FC700D37F4B /* BSBeSAAPAnchorComposer.m */; };
 		87BB87890B195B4E00472D3F /* BSIPIToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BB87870B195B4E00472D3F /* BSIPIToken.h */; };
 		87BB878A0B195B4E00472D3F /* BSIPIToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BB87880B195B4E00472D3F /* BSIPIToken.m */; };
 		87BC003E0C5F3A5C00870646 /* CMXPopUpWindowController+View.m in Sources */ = {isa = PBXBuildFile; fileRef = 87BC003D0C5F3A5B00870646 /* CMXPopUpWindowController+View.m */; };
@@ -874,13 +876,13 @@
 		8724A6DC09127E69009CC855 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.bplist; name = Japanese; path = Japanese.lproj/board_default.plist; sourceTree = "<group>"; };
 		8727F4C00A822EFB00E9C2F9 /* BSTagValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSTagValueTransformer.h; sourceTree = "<group>"; };
 		8727F4C10A822EFB00E9C2F9 /* BSTagValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSTagValueTransformer.m; sourceTree = "<group>"; };
-		872996530832556100CBD740 /* NSTableColumn+CMXAdditions.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = "NSTableColumn+CMXAdditions.h"; sourceTree = "<group>"; };
-		872996540832556100CBD740 /* NSTableColumn+CMXAdditions.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "NSTableColumn+CMXAdditions.m"; sourceTree = "<group>"; };
+		872996530832556100CBD740 /* NSTableColumn+CMXAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTableColumn+CMXAdditions.h"; sourceTree = "<group>"; };
+		872996540832556100CBD740 /* NSTableColumn+CMXAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTableColumn+CMXAdditions.m"; sourceTree = "<group>"; };
 		872996720832561E00CBD740 /* CMRThreadMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRThreadMessage.h; sourceTree = "<group>"; };
 		872996730832561E00CBD740 /* CMRThreadMessage.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = CMRThreadMessage.m; sourceTree = "<group>"; };
 		872996740832561E00CBD740 /* CMRThreadMessage_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadMessage_p.h; sourceTree = "<group>"; };
-		8729967C0832561E00CBD740 /* CMRThreadVisibleRange.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadVisibleRange.h; sourceTree = "<group>"; };
-		8729967D0832561E00CBD740 /* CMRThreadVisibleRange.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRThreadVisibleRange.m; sourceTree = "<group>"; };
+		8729967C0832561E00CBD740 /* CMRThreadVisibleRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRThreadVisibleRange.h; sourceTree = "<group>"; };
+		8729967D0832561E00CBD740 /* CMRThreadVisibleRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRThreadVisibleRange.m; sourceTree = "<group>"; };
 		872996FF08325B3000CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = subproj/reply/Japanese.lproj/LoginWindow.nib; sourceTree = SOURCE_ROOT; };
 		8729970208325B3E00CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = subproj/reply/Japanese.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
 		8729970C08325BBB00CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1069,6 +1071,8 @@
 		879B0B920B6239EF00EFD6D0 /* BSThreadInfoPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSThreadInfoPanelController.m; sourceTree = "<group>"; };
 		87A9F7D90B7FB71600404C81 /* BSRelativeKeywordsCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSRelativeKeywordsCollector.h; sourceTree = "<group>"; };
 		87A9F7DA0B7FB71600404C81 /* BSRelativeKeywordsCollector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSRelativeKeywordsCollector.m; sourceTree = "<group>"; };
+		87AD785A0EA22FC700D37F4B /* BSBeSAAPAnchorComposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSBeSAAPAnchorComposer.h; sourceTree = "<group>"; };
+		87AD785B0EA22FC700D37F4B /* BSBeSAAPAnchorComposer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSBeSAAPAnchorComposer.m; sourceTree = "<group>"; };
 		87AF6CFD07425DC0001D08ED /* add_idle.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = add_idle.tiff; sourceTree = "<group>"; };
 		87AF6CFE07425DC0001D08ED /* add_pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = add_pressed.tiff; sourceTree = "<group>"; };
 		87AF6CFF07425DC0001D08ED /* remove_idle.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = remove_idle.tiff; sourceTree = "<group>"; };
@@ -1239,7 +1243,7 @@
 		F324DC4A04C698FA00A80005 /* CMRThreadsList_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadsList_p.h; sourceTree = "<group>"; };
 		F324DC5A04C698FA00A80005 /* CMR2chDATReader.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMR2chDATReader.h; sourceTree = "<group>"; };
 		F324DC5B04C698FA00A80005 /* CMR2chDATReader.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMR2chDATReader.m; sourceTree = "<group>"; };
-		F324DC6104C698FA00A80005 /* CMRAttributedMessageComposer-Anchor.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "CMRAttributedMessageComposer-Anchor.m"; sourceTree = "<group>"; };
+		F324DC6104C698FA00A80005 /* CMRAttributedMessageComposer-Anchor.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = "CMRAttributedMessageComposer-Anchor.m"; sourceTree = "<group>"; };
 		F324DC6204C698FA00A80005 /* CMRAttributedMessageComposer-Convert.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = "CMRAttributedMessageComposer-Convert.m"; sourceTree = "<group>"; };
 		F324DC6304C698FA00A80005 /* CMRAttributedMessageComposer.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRAttributedMessageComposer.h; sourceTree = "<group>"; };
 		F324DC6404C698FA00A80005 /* CMRAttributedMessageComposer.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = CMRAttributedMessageComposer.m; sourceTree = "<group>"; };
@@ -1286,7 +1290,7 @@
 		F324DCDF04C698FB00A80005 /* AppDefaults-Bundle.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-Bundle.m"; sourceTree = "<group>"; };
 		F324DCE004C698FB00A80005 /* AppDefaults-FontColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-FontColor.m"; sourceTree = "<group>"; };
 		F324DCE304C698FB00A80005 /* AppDefaults-ThreadsList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-ThreadsList.m"; sourceTree = "<group>"; };
-		F324DCE404C698FB00A80005 /* AppDefaults-ThreadViewer.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-ThreadViewer.m"; sourceTree = "<group>"; };
+		F324DCE404C698FB00A80005 /* AppDefaults-ThreadViewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-ThreadViewer.m"; sourceTree = "<group>"; };
 		F324DCE604C698FB00A80005 /* AppDefaults.h */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.h; path = AppDefaults.h; sourceTree = "<group>"; };
 		F324DCE704C698FB00A80005 /* AppDefaults.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = AppDefaults.m; sourceTree = "<group>"; };
 		F324DCE804C698FB00A80005 /* AppDefaults_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = AppDefaults_p.h; sourceTree = "<group>"; };
@@ -2852,6 +2856,8 @@
 				F324DC7704C698FA00A80005 /* CMRThreadPlistComposer.m */,
 				F3689A2305B0A5D70006D567 /* CMRThreadMessageBuffer.h */,
 				F3689A2405B0A5D70006D567 /* CMRThreadMessageBuffer.m */,
+				87AD785A0EA22FC700D37F4B /* BSBeSAAPAnchorComposer.h */,
+				87AD785B0EA22FC700D37F4B /* BSBeSAAPAnchorComposer.m */,
 			);
 			name = Composer;
 			sourceTree = "<group>";
@@ -3341,6 +3347,7 @@
 				87DD97F70DDF41310000F2D5 /* CMRThreadDownloadTask.h in Headers */,
 				87DD97F90DDF41320000F2D5 /* CMRThreadDownloadTask_p.h in Headers */,
 				871EEA440E161606007E2972 /* BSIkioiNumberFormatter.h in Headers */,
+				87AD785C0EA22FC700D37F4B /* BSBeSAAPAnchorComposer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4017,6 +4024,7 @@
 				8752E6FB0DCED3010054AB99 /* BSNavigationStatusLine.m in Sources */,
 				87DD97F80DDF41320000F2D5 /* CMRThreadDownloadTask.m in Sources */,
 				871EEA450E161606007E2972 /* BSIkioiNumberFormatter.m in Sources */,
+				87AD785D0EA22FC700D37F4B /* BSBeSAAPAnchorComposer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

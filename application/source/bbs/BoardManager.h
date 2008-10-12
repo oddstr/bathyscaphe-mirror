@@ -101,10 +101,10 @@
 - (void)setAllowsNanashi:(BOOL)allows atBoard:(NSString *)boardName;
 
 #pragma mark Sorting
-- (NSString *)sortColumnForBoard:(NSString *)boardName;
+/*- (NSString *)sortColumnForBoard:(NSString *)boardName;
 - (void)setSortColumn:(NSString *)anIdentifier forBoard:(NSString *)boardName;
 - (BOOL) sortColumnIsAscendingAtBoard:(NSString *)boardName;
-- (void) setSortColumnIsAscending:(BOOL)isAscending atBoard:(NSString *) boardName;
+- (void) setSortColumnIsAscending:(BOOL)isAscending atBoard:(NSString *) boardName;*/
 
 // Available in Starlight Breaker and later.
 - (NSArray *)sortDescriptorsForBoard:(NSString *)boardName;

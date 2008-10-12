@@ -1,11 +1,12 @@
-/**
-  * $Id: CMRThreadsList-DataSource.m,v 1.32 2008/06/28 09:13:32 tsawada2 Exp $
-  * 
-  * CMRThreadsList-DataSource.m
-  *
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  CMRThreadsList-DataSource.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 08/10/04.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import "CMRThreadsList_p.h"
 #import "CMRThreadSignature.h"
 #import "BSQuickLookPanelController.h"
@@ -23,35 +24,30 @@ static NSMutableDictionary *kThreadCreatedDateAttrTemplate;
 static NSMutableDictionary *kThreadModifiedDateAttrTemplate;
 static NSMutableDictionary *kThreadLastWrittenDateAttrTemplate;
 
-static NSMutableParagraphStyle	*pStyleForDateColumnWithWidth (float tabWidth)
+static NSMutableParagraphStyle *pStyleForDateColumnWithWidth(float tabWidth)
 {
 	NSMutableParagraphStyle *style_;
-    NSTextTab	*tab_ = [[NSTextTab alloc] initWithType: NSRightTabStopType location: tabWidth];
+    NSTextTab	*tab_ = [[NSTextTab alloc] initWithType:NSRightTabStopType location:tabWidth];
 	
 	style_ = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-	[style_ setLineBreakMode : NSLineBreakByClipping];
-	[style_ setTabStops: [NSArray array]];
-    [style_ addTabStop: tab_];
+	[style_ setLineBreakMode:NSLineBreakByClipping];
+	[style_ setTabStops:[NSArray array]];
+    [style_ addTabStop:tab_];
 	[tab_ release];
 
 	return [style_ autorelease];
 }
 
-+ (void) resetDataSourceTemplateForDateColumn
++ (void)resetDataSourceTemplateForDateColumn
 {
-	if (kThreadCreatedDateAttrTemplate == nil
-		|| kThreadModifiedDateAttrTemplate == nil
-		|| kThreadLastWrittenDateAttrTemplate == nil) {
-		
+	if (!kThreadCreatedDateAttrTemplate || !kThreadModifiedDateAttrTemplate || !kThreadLastWrittenDateAttrTemplate) {
 		kThreadCreatedDateAttrTemplate = [[NSMutableDictionary alloc] init];
 		kThreadModifiedDateAttrTemplate = [[NSMutableDictionary alloc] init];
 		kThreadLastWrittenDateAttrTemplate = [[NSMutableDictionary alloc] init];
-	} else {
-		// do nothing.
 	}
 }
 
-+ (void) resetDataSourceTemplateForColumnIdentifier: (NSString *) identifier width: (float) loc
++ (void)resetDataSourceTemplateForColumnIdentifier:(NSString *)identifier width:(float)loc
 {
     static float cachedLoc1 = 0;
     static float cachedLoc2 = 0;
@@ -59,49 +55,49 @@ static NSMutableParagraphStyle	*pStyleForDateColumnWithWidth (float tabWidth)
 
 	[self resetDataSourceTemplateForDateColumn];
 
-    if ([identifier isEqualToString: ThreadPlistIdentifierKey]) {
+    if ([identifier isEqualToString:ThreadPlistIdentifierKey]) {
         if (cachedLoc1 == 0 || loc != cachedLoc1) {
             cachedLoc1 = loc;
 			NSParagraphStyle	*ps = pStyleForDateColumnWithWidth(cachedLoc1);
 
-			[kThreadCreatedDateAttrTemplate setObject: ps forKey: NSParagraphStyleAttributeName];
+			[kThreadCreatedDateAttrTemplate setObject:ps forKey:NSParagraphStyleAttributeName];
 		}
-    } else if ([identifier isEqualToString: CMRThreadModifiedDateKey]) {
+    } else if ([identifier isEqualToString:CMRThreadModifiedDateKey]) {
         if (cachedLoc2 == 0 || loc != cachedLoc2) {
             cachedLoc2 = loc;
 			NSParagraphStyle	*ps2 = pStyleForDateColumnWithWidth(cachedLoc2);
 
-			[kThreadModifiedDateAttrTemplate setObject: ps2 forKey: NSParagraphStyleAttributeName];
+			[kThreadModifiedDateAttrTemplate setObject:ps2 forKey:NSParagraphStyleAttributeName];
 		}
-	} else if ([identifier isEqualToString: LastWrittenDateColumn]) {
+	} else if ([identifier isEqualToString:LastWrittenDateColumn]) {
         if (cachedLoc3 == 0 || loc != cachedLoc3) {
             cachedLoc3 = loc;
 			NSParagraphStyle	*ps3 = pStyleForDateColumnWithWidth(cachedLoc3);
 			
-			[kThreadLastWrittenDateAttrTemplate setObject: ps3 forKey: NSParagraphStyleAttributeName];
+			[kThreadLastWrittenDateAttrTemplate setObject:ps3 forKey:NSParagraphStyleAttributeName];
 		}
 	}
 }
 
-+ (void) resetDataSourceTemplates
++ (void)resetDataSourceTemplates
 {
 	// default object value:
-	kThreadAttrTemplate = [[NSDictionary alloc] initWithObjectsAndKeys :
+	kThreadAttrTemplate = [[NSDictionary alloc] initWithObjectsAndKeys:
 							[CMRPref threadsListFont], NSFontAttributeName,
 							[CMRPref threadsListColor], NSForegroundColorAttributeName,
-							nil];
+							NULL];
 
 	// New Arrival thread:
-	kNewThreadAttrTemplate = [[NSDictionary alloc] initWithObjectsAndKeys :
+	kNewThreadAttrTemplate = [[NSDictionary alloc] initWithObjectsAndKeys:
 								[CMRPref threadsListNewThreadFont], NSFontAttributeName,
 								[CMRPref threadsListNewThreadColor], NSForegroundColorAttributeName,
-								nil];
+								NULL];
 
 	// Dat Ochi thread:
-	kDatOchiThreadAttrTemplate = [[NSDictionary alloc] initWithObjectsAndKeys :
+	kDatOchiThreadAttrTemplate = [[NSDictionary alloc] initWithObjectsAndKeys:
 								[CMRPref threadsListDatOchiThreadFont], NSFontAttributeName,
 								[CMRPref threadsListDatOchiThreadColor], NSForegroundColorAttributeName,
-								nil];
+								NULL];
 }
 
 /* TODO その場しのぎ。本来はNSMutableDictionaryをNSDictionaryに変換して返すべきだが、速度的に現実的ではない。*/
@@ -109,52 +105,49 @@ static NSMutableParagraphStyle	*pStyleForDateColumnWithWidth (float tabWidth)
 {
 	return kThreadCreatedDateAttrTemplate;
 }
+
 + (NSDictionary *)threadModifiedDateAttrTemplate
 {
 	return kThreadModifiedDateAttrTemplate;
 }
+
 + (NSDictionary *)threadLastWrittenDateAttrTemplate
 {
 	return kThreadLastWrittenDateAttrTemplate;
 }
 
-+ (id) objectValueTemplate : (id ) aValue
-				   forType : (int) aType
++ (id)objectValueTemplate:(id)aValue forType:(int)aType
 {
 	id		temp = nil;
 	NSRange	range;
 	
-	if(nil == aValue || [aValue isKindOfClass : [NSImage class]])
+	if (!aValue || [aValue isKindOfClass:[NSImage class]]) {
 		return aValue;
-	
-	if([aValue isKindOfClass : [NSAttributedString class]]) {
+	}
+	if ([aValue isKindOfClass:[NSAttributedString class]]) {
 		if([aValue respondsToSelector:@selector(addAttributes:range:)]) {
 			temp = [aValue retain];
 		} else {
 			temp = [aValue mutableCopy];
 		}
 	} else {
-		temp = [[NSMutableAttributedString alloc] initWithString : [aValue stringValue]];
+		temp = [[NSMutableAttributedString alloc] initWithString:[aValue stringValue]];
 	}
 	
-	if (nil == kNewThreadAttrTemplate
-		|| nil == kThreadAttrTemplate
-		|| nil == kDatOchiThreadAttrTemplate)
+	if (!kNewThreadAttrTemplate || !kThreadAttrTemplate || !kDatOchiThreadAttrTemplate) {
 		[self resetDataSourceTemplates];
-	
+	}
+
 	range = NSMakeRange(0,[temp length]);
-	switch(aType){
+	switch (aType) {
 	case kValueTemplateDefaultType:
-		[temp addAttributes : kThreadAttrTemplate
-					  range : range];
+		[temp addAttributes:kThreadAttrTemplate range:range];
 		break;
 	case kValueTemplateNewArrivalType:
-		[temp addAttributes : kNewThreadAttrTemplate
-					  range : range];
+		[temp addAttributes:kNewThreadAttrTemplate range:range];
 		break;
 	case kValueTemplateDatOchiType:
-		[temp addAttributes : kDatOchiThreadAttrTemplate
-					  range : range];
+		[temp addAttributes:kDatOchiThreadAttrTemplate range:range];
 		break;
 	default :
 		UTILUnknownSwitchCase(aType);
@@ -163,51 +156,19 @@ static NSMutableParagraphStyle	*pStyleForDateColumnWithWidth (float tabWidth)
 	
 	return [temp autorelease];	
 }
-/*
-- (NSArray *) threadsForTableView : (NSTableView *) tableView
-{
-	return [self filteredThreads];
-}
 
-static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
-{
-	if(!aThread) return ThreadNoCacheStatus;
-
-	NSNumber *statusNum_;
-	statusNum_ = [aThread objectForKey : CMRThreadStatusKey];
-	return [statusNum_ unsignedIntValue];
-}
-
-- (ThreadStatus) threadStatusForThread : (NSDictionary *) aThread
-{
-	return _threadStatusForThread(aThread);
-}
-*/
+#pragma mark NSTableDataSource
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView
 {
 	UTILAbstractMethodInvoked;
 	return 0;
 }
 
-/*- (id)objectValueForIdentifier:(NSString *)identifier threadArray:(NSArray  *)threadArray atIndex:(int )index
-{
-	UTILAbstractMethodInvoked;
-	return nil;
-}*/
-
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int )rowIndex
 {
 	UTILAbstractMethodInvoked;
 	return nil;
 }
-
-#pragma mark Drag and Drop support
-// Deprecated in Mac OS X 10.4 and later.
-/*- (BOOL)tableView:(NSTableView *)tableView writeRows:(NSArray *)rows toPasteboard:(NSPasteboard *)pboard
-{
-	NSIndexSet *indexSet = [NSIndexSet rowIndexesWithRows:rows];
-	return [self tableView:tableView writeRowsWithIndexes:indexSet toPasteboard:pboard];
-}*/
 
 - (BOOL)tableView:(NSTableView *)tableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard
 {
@@ -221,7 +182,7 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	filenames_ = [NSMutableArray arrayWithCapacity:numOfRows];
 	urls_ = [NSMutableArray arrayWithCapacity:numOfRows];
 	thSigs_ = [NSMutableArray arrayWithCapacity:numOfRows];
-	indexRange = NSMakeRange(0, [rowIndexes lastIndex]+1);
+	indexRange = NSMakeRange(0, [rowIndexes lastIndex] + 1);
 	tmp_ = SGTemporaryString();
 
 	while ([rowIndexes getIndexes:&index_ maxCount:1 inIndexRange:&indexRange] > 0) {
@@ -241,22 +202,22 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 		[urls_ addObject:url_];
         [thSigs_ addObject:[[CMRThreadSignature threadSignatureFromFilepath:path_] propertyListRepresentation]];		
 
-		if([[NSFileManager defaultManager] fileExistsAtPath:path_]){
+		if ([[NSFileManager defaultManager] fileExistsAtPath:path_]) {
 			[filenames_ addObject:path_];
 		}
 	}
 
-	if([filenames_ count] > 0){
+	if ([filenames_ count] > 0) {
 		types_ = [NSArray arrayWithObjects:NSURLPboardType, NSStringPboardType, NSFilenamesPboardType, BSThreadItemsPboardType, nil];
-	}else if([tmp_ length] > 0){
+	} else if ([tmp_ length] > 0) {
 		types_ = [NSArray arrayWithObjects:NSURLPboardType, NSStringPboardType, BSThreadItemsPboardType, nil];
-	}else{
+	} else {
 		return NO;
 	}
 	
 	[pboard declareTypes:types_ owner:NSApp];
 
-	if([filenames_ count] > 0){
+	if ([filenames_ count] > 0) {
         [pboard setPropertyList:filenames_ forType:NSFilenamesPboardType];
 	}
 
@@ -269,14 +230,14 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 }
 
 #pragma mark Getting Thread Attributes
-- (NSString *)threadFilePathAtRowIndex:(int )rowIndex inTableView:(NSTableView *)tableView status:(ThreadStatus *)status
+- (NSString *)threadFilePathAtRowIndex:(int)rowIndex inTableView:(NSTableView *)tableView status:(ThreadStatus *)status
 {
 	NSString		*path_;
 	NSDictionary	*thread_;
 	
 	thread_ = [self threadAttributesAtRowIndex:rowIndex inTableView:tableView];
-	if(!thread_) return nil;
-	if(status != NULL){
+	if (!thread_) return nil;
+	if (status != NULL) {
 		NSNumber *stNum_;
 		
 		stNum_ = [thread_ objectForKey:CMRThreadStatusKey];
@@ -291,26 +252,32 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	return path_;
 }
 
-- (NSString *)threadTitleAtRowIndex:(int )rowIndex inTableView:(NSTableView *)tableView
+- (NSString *)threadTitleAtRowIndex:(int)rowIndex inTableView:(NSTableView *)tableView
 {
 	NSString		*title_;
 	NSDictionary	*thread_;
 	
 	thread_ = [self threadAttributesAtRowIndex:rowIndex inTableView:tableView];
-	if(!thread_) return nil;
+	if (!thread_) return nil;
 	title_ = [CMRThreadAttributes threadTitleFromDictionary:thread_];
 	UTILAssertNotNil(title_);
 
 	return title_;
 }
 
-- (NSDictionary *)threadAttributesAtRowIndex:(int )rowIndex inTableView:(NSTableView *)tableView
+- (NSDictionary *)threadAttributesAtRowIndex:(int)rowIndex inTableView:(NSTableView *)tableView
 {
 	UTILAbstractMethodInvoked;
 	return nil;
 }
 
 - (unsigned int)indexOfThreadWithPath:(NSString *)filepath
+{
+	UTILAbstractMethodInvoked;
+	return 0;
+}
+
+- (unsigned int)indexOfThreadWithPath:(NSString *)filepath ignoreFilter:(BOOL)ignores
 {
 	UTILAbstractMethodInvoked;
 	return 0;
@@ -418,14 +385,7 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	[alert addButtonWithTitle:[self localizedString:@"DragDropTrashCancel"]];
 	return ([alert runModal] == NSAlertFirstButtonReturn);
 }
-/*
-- (unsigned int)draggingSourceOperationMaskForLocal:(BOOL)localFlag
-{
-	if (localFlag) return NSDragOperationEvery;
 
-	return (NSDragOperationCopy|NSDragOperationDelete|NSDragOperationLink);
-}
-*/
 - (void)tableView:(NSTableView *)aTableView didEndDragging:(NSDragOperation)operation
 {
 	NSPasteboard	*pboard_;
@@ -436,7 +396,7 @@ static ThreadStatus _threadStatusForThread(NSDictionary *aThread)
 	}
 
 	pboard_ = [NSPasteboard pasteboardWithName:NSDragPboard];
-	if(![[pboard_ types] containsObject:NSFilenamesPboardType]) {
+	if (![[pboard_ types] containsObject:NSFilenamesPboardType]) {
 		return;
 	}
 

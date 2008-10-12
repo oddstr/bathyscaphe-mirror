@@ -14,13 +14,6 @@
 #import "BoardManager.h"
 
 @implementation CMRBrowser(List)
-- (void)changeThreadsFilteringMask:(int)mask
-{
-	[[self document] changeThreadsFilteringMask:mask];
-	[[self threadsListTable] reloadData];
-	[self synchronizeWindowTitleWithDocumentName];
-}
-
 - (BSDBThreadList *)currentThreadsList
 {
 	return [[self document] currentThreadsList];
@@ -57,9 +50,6 @@
 - (void)showThreadList:(id)threadList forceReload:(BOOL)force
 {
 	NSString	*boardName;
-	NSString	*sortColumnIdentifier_;
-	BOOL		isAscending_;
-//	id			newColumnState;
 	
 	if (!threadList) return;
 	if (!force && [[[self currentThreadsList] boardListItem] isEqual:[threadList boardListItem]]) {
@@ -71,20 +61,19 @@
 	NSTableView *table = [self threadsListTable];
 	[table deselectAll:nil];
 	[table setDataSource:nil];
-/*
-	newColumnState = [[BoardManager defaultManager] browserListColumnsForBoard:[threadList boardName]];
-	if (newColumnState) {
-		[[self threadsListTable] restoreColumnState:newColumnState];
-		[self updateTableColumnsMenu];
-	}
-*/
+
 	[self setCurrentThreadsList:threadList];
 
 	// sort column change
 	boardName = [threadList boardName];
-	sortColumnIdentifier_ = [[BoardManager defaultManager] sortColumnForBoard: boardName];
-	isAscending_ = [threadList isAscendingForKey:sortColumnIdentifier_];
-	[self changeHighLightedTableColumnTo:sortColumnIdentifier_ isAscending:isAscending_];
+	NSArray *foo = [table sortDescriptors];
+	NSArray *bar = [[BoardManager defaultManager] sortDescriptorsForBoard:boardName];
+	[table setSortDescriptors:[[BoardManager defaultManager] sortDescriptorsForBoard:boardName]];
+	// SortDescriptors が変わらない時は tableView:sortDescriptorsDidChange: が呼ばれない。
+	// これは困るので、無理矢理呼ぶ。
+	if ([foo isEqualToArray:bar]) {
+		[[table dataSource] tableView:table sortDescriptorsDidChange:foo];
+	}
 
 	[self synchronizeWindowTitleWithDocumentName];
 	[[self window] makeFirstResponder:table];
@@ -96,7 +85,6 @@
 
 - (void)showThreadsListWithBoardName:(NSString *)boardName
 {
-//	[self showThreadList:[BSDBThreadList threadsListWithBBSName:boardName] forceReload:NO];
 	id item = [[BoardManager defaultManager] itemForName:boardName];
 	if (!item) return;
 	[self showThreadsListForBoard:item];
@@ -126,7 +114,7 @@
 
 
 @implementation CMRBrowser(Table)
-static NSImage *fnc_indicatorImageWithDirection(BOOL isAscending)
+/*static NSImage *fnc_indicatorImageWithDirection(BOOL isAscending)
 {
 	return isAscending ? [NSImage imageNamed:@"NSAscendingSortIndicator"]
 					   : [NSImage imageNamed:@"NSDescendingSortIndicator"]; 
@@ -153,7 +141,7 @@ static NSImage *fnc_indicatorImageWithDirection(BOOL isAscending)
 		[tableView_ setHighlightedTableColumn:newColumn_];
 	}
 }
-
+*/
 /**
   * 現在、表示しているスレッドを再選択。
   * 引数maskに設定した値が初期設定で設定されていなければ選択しても、

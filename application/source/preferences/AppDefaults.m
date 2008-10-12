@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.31 2007/12/24 14:29:09 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.32 2008/10/12 16:49:15 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -8,6 +8,7 @@
   */
 #import "AppDefaults_p.h"
 #import "TS2SoftwareUpdate.h"
+#import "DatabaseManager.h" -- tableNameForKey()
 #import "BSReplyTextTemplateManager.h"
 
 NSString *const AppDefaultsWillSaveNotification = @"AppDefaultsWillSaveNotification";
@@ -48,6 +49,8 @@ static NSString *const AppDefaultsContentsSearchTargetKey = @"Contents Search Ta
 #define AppDefaultsProxyURLKey				@"ProxyURL"
 #define AppDefaultsProxyPortKey				@"ProxyPort"
 
+static NSString *const AppDefaultsTLSortDescriptorsKey = @"ThreadsList Sort Descriptors";
+
 static NSString *const AppDefaultsUseCustomThemeKey = @"Use Custom ThreadViewTheme";
 static NSString *const AppDefaultsThemeFileNameKey = @"ThreadViewTheme FileName";
 static NSString *const AppDefaultsDefaultThemeFileNameKey = @"ThreadViewerDefaultTheme"; // + ".plist"
@@ -75,6 +78,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 - (void) dealloc
 {
 	m_installedPreviewer = nil;
+	[m_defaultVisibleRange release];
 	[m_backgroundColorDictionary release];
 	[m_threadsListDictionary release];
 	[m_threadViewerDictionary release];
@@ -410,7 +414,7 @@ default_browserLastBoard:
 	[[self defaults] setObject : boardName
 						forKey : AppDefaultsBrowserLastBoardKey];
 }
-
+/*
 - (NSString *) browserSortColumnIdentifier
 {
 	NSString	*key_;
@@ -439,6 +443,38 @@ default_browserLastBoard:
 {
 	[[self defaults] setBool:isAscending forKey:AppDefaultsBrowserSortAscendingKey];
 }
+*/
+- (NSArray *)threadsListSortDescriptors
+{
+	NSArray *descs = nil;
+	id obj = [[self defaults] objectForKey:AppDefaultsTLSortDescriptorsKey];
+	if (obj && [obj isKindOfClass:[NSData class]]) {
+		@try {
+			descs = [NSKeyedUnarchiver unarchiveObjectWithData:obj];
+		}
+		@catch (NSException *e) {
+			NSLog(@"Warning: -[AppDefaults threadsListSortDescriptors]: The data is corrupted.");
+		} 
+	}
+
+	if (!descs) {
+		NSSortDescriptor *desc1
+			= [[NSSortDescriptor alloc] initWithKey:tableNameForKey(CMRThreadStatusKey) ascending:NO selector:@selector(numericCompare:)];
+		NSSortDescriptor *desc2
+			= [[NSSortDescriptor alloc] initWithKey:tableNameForKey(CMRThreadSubjectIndexKey) ascending:YES selector:@selector(numericCompare:)];
+		descs = [NSArray arrayWithObjects:desc1, desc2, nil];
+		[desc1 release];
+		[desc2 release];
+	}
+
+	return descs;
+}
+
+- (void)setThreadsListSortDescriptors:(NSArray *)desc
+{
+	NSData *data = [NSKeyedArchiver archivedDataWithRootObject:desc];
+	[[self defaults] setObject:data forKey:AppDefaultsTLSortDescriptorsKey];
+}
 
 - (BOOL) collectByNew
 {
@@ -450,7 +486,7 @@ default_browserLastBoard:
 	[[self defaults] setBool:flag forKey:AppDefaultsListCollectByNewKey];
 }
 
-
+/*
 - (int) browserStatusFilteringMask
 {
 		return [[self defaults] integerForKey : AppDefaultsBrowserStatusFilteringMaskKey
@@ -460,7 +496,7 @@ default_browserLastBoard:
 {
 	[[self defaults] setInteger:mask forKey:AppDefaultsBrowserStatusFilteringMaskKey];
 }
-
+*/
 #pragma mark Hidden Options
 - (int) maxCountForThreadsHistory
 {

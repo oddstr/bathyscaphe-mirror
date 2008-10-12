@@ -62,7 +62,7 @@ NSString *BSThreadListUpdateTaskDidFinishNotification = @"BSThreadListUpdateTask
 }
 
 #pragma mark-
-
+/*
 static inline NSArray *componentsSeparatedByWhiteSpace(NSString *string)
 {
 	NSMutableArray *result = [NSMutableArray array];
@@ -113,22 +113,22 @@ static inline NSString *whereClauseFromSearchString(NSString *searchString)
 	
 	return clause;
 }
-
+*/
 - (NSString *) sqlForList
 {
 	NSString *targetTable = [[target boardListItem] query];
 	NSMutableString *sql;
-	NSString *searchCondition;
+//	NSString *searchCondition;
 	
 	sql = [NSMutableString stringWithFormat : @"SELECT * FROM (%@) ",targetTable];
-	
+/*	
 	if ([target searchString] && ![[target searchString] isEmpty]) {
 		searchCondition = whereClauseFromSearchString([target searchString]);
 		if (searchCondition) {
 			[sql appendString : searchCondition];
 		}
 	}
-	
+*/	
 	return sql;
 }
 - (id)cursor
@@ -183,6 +183,7 @@ final:
 	return [self compare:string options:NSNumericSearch];
 }
 @end
+
 @implementation NSNumber(BSThreadListUpdateTaskAddition)
 - (NSComparisonResult)numericCompare:(id)obj
 {

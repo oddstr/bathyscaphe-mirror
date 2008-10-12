@@ -61,7 +61,6 @@ typedef enum _BSThreadDeletionType {
 - (IBAction)showSelectedThread:(id)sender;
 - (IBAction)reloadThreadsList:(id)sender;
 - (IBAction)showOrOpenSelectedThread:(id)sender;
-- (IBAction)selectFilteringMask:(id)sender;
 
 - (void)synchronizeWithSearchField;
 
@@ -89,8 +88,6 @@ typedef enum _BSThreadDeletionType {
 
 //:CMRBrowser-List.m
 @interface CMRBrowser(List)
-- (void)changeThreadsFilteringMask:(int)aMask;
-
 - (BSDBThreadList *)currentThreadsList;
 - (void)setCurrentThreadsList:(BSDBThreadList *)newList;
 

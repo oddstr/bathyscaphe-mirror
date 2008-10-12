@@ -1,5 +1,5 @@
 /**
-  * $Id: CMR2chDATReader.m,v 1.2 2005/07/16 07:04:44 tsawada2 Exp $
+  * $Id: CMR2chDATReader.m,v 1.3 2008/10/12 16:49:15 tsawada2 Exp $
   * 
   * CMR2chDATReader.m
   *
@@ -96,7 +96,7 @@
 // override
 - (CMRThreadVisibleRange *) visibleRange;
 {
-	return [CMRPref showsAllMessagesWhenDownloaded] ? nil : [CMRThreadVisibleRange defaultVisibleRange];
+	return [CMRPref showsAllMessagesWhenDownloaded] ? nil : [CMRPref defaultVisibleRange];
 }
 - (unsigned int) numberOfMessages
 {

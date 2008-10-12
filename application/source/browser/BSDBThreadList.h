@@ -3,7 +3,8 @@
 //  BathyScaphe
 //
 //  Created by Hori,Masaki on 05/07/19.
-//  Copyright 2005 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import <Cocoa/Cocoa.h>
@@ -21,9 +22,9 @@
 		
 	BoardListItem *mBoardListItem;
 	
-	NSString *mSortKey;
+//	NSString *mSortKey;
 	NSString *mSearchString;
-	ThreadStatus mStatus;
+//	ThreadStatus mStatus;
 	BSThreadsListViewModeType mViewMode;
 	
 	NSLock *mCursorLock;
@@ -33,23 +34,24 @@
 	
 	id<CMRThreadLayoutTask> mUpdateTask;
 	
-	id mSortDescriptors;
+	NSArray *mSortDescriptors;
 }
 
-- (id) initWithBoardListItem : (BoardListItem *)item;
-+ (id) threadListWithBoardListItem : (BoardListItem *)item;
+- (id)initWithBoardListItem:(BoardListItem *)item;
++ (id)threadListWithBoardListItem:(BoardListItem *)item;
 
 - (void)setBoardListItem:(BoardListItem *)item;
-- (id) boardListItem;
-- (id) searchString;
-- (id) sortKey;
+- (id)boardListItem;
+- (id)searchString;
+//- (id) sortKey;
 - (NSArray *)sortDescriptors;
-- (BOOL)isAscendingForKey:(NSString *)key;
-- (void)toggleIsAscendingForKey:(NSString *)key;
-- (ThreadStatus) status;
+- (void)setSortDescriptors:(NSArray *)inDescs;
+//- (BOOL)isAscendingForKey:(NSString *)key;
+//- (void)toggleIsAscendingForKey:(NSString *)key;
+//- (ThreadStatus) status;
 
-- (void) updateCursor;
-
+- (void)updateCursor;
+- (void)updateFilteredThreadsIfNeeded;
 - (BSThreadsListViewModeType)viewMode;
 - (void)setViewMode:(BSThreadsListViewModeType)mode;
 @end

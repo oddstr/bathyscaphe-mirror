@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.h,v 1.22 2008/06/28 09:13:32 tsawada2 Exp $
+  * $Id: CMRThreadsList.h,v 1.23 2008/10/12 16:49:15 tsawada2 Exp $
   * 
   * CMRThreadsList.h
   *
@@ -83,15 +83,15 @@ enum {
 - (NSMutableArray *) threads;
 - (void) setThreads : (NSMutableArray *) aThreads;
 - (NSMutableArray *) filteredThreads;
-//- (void) setFilteredThreads : (NSMutableArray *) aFilteredThreads;
-- (int) filteringMask;
-- (void) setFilteringMask : (int) mask;
-- (BOOL) isAscending;
-- (void) setIsAscending : (BOOL)  flag;
+- (void) setFilteredThreads : (NSArray *) aFilteredThreads;
+//- (int) filteringMask;
+//- (void) setFilteringMask : (int) mask;
+//- (BOOL) isAscending;
+//- (void) setIsAscending : (BOOL)  flag;
 //- (NSMutableDictionary *) threadsInfo;
 //- (void) setThreadsInfo : (NSMutableDictionary *) aThreadsInfo;
-- (void) toggleIsAscending;
-- (void) sortByKey : (NSString *) key;
+//- (void) toggleIsAscending;
+//- (void) sortByKey : (NSString *) key;
 @end
 
 
@@ -109,7 +109,7 @@ enum {
 
 @interface CMRThreadsList(Filter)
 //- (void) filterByDisplayingThreadAtPath : (NSString *) filepath;
-- (void) filterByStatus : (int) status;
+//- (void) filterByStatus : (int) status;
 
 // Available in MeteorSweeper.
 - (BOOL) filterByString: (NSString *) searchString;
@@ -157,7 +157,8 @@ enum {
 
 - (CMRThreadSignature *)threadSignatureWithTitle:(NSString *)title; // Available in SilverGull and later.
 
-- (unsigned int) indexOfThreadWithPath : (NSString *) filepath;
+- (unsigned int)indexOfThreadWithPath:(NSString *)filepath;
+- (unsigned int)indexOfThreadWithPath:(NSString *)filepath ignoreFilter:(BOOL)ignores; // Available in BathyScaphe 1.6.2 and later.
 
 - (NSArray *)tableView:(NSTableView *)aTableView threadFilePathsArrayAtRowIndexes:(NSIndexSet *)rowIndexes;
 - (NSArray *)tableView:(NSTableView *)aTableView threadAttibutesArrayAtRowIndexes:(NSIndexSet *)rowIndexes exceptingPath:(NSString *)filepath;

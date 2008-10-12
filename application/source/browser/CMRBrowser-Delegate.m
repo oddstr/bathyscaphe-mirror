@@ -220,8 +220,6 @@ BOOL isOptionKeyDown(void)
 
 - (void)outlineView:(NSOutlineView *)olv willDisplayCell:(NSCell *)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
-	// 自身のデータソースにデリゲートメソッドを処理させる（ようにしていたが、もうその必要はなさそうだ）。
-//	[[olv dataSource] outlineView : olv willDisplayCell : cell forTableColumn : tableColumn item : item];
 	if ([[tableColumn identifier] isEqualToString:BoardPlistNameKey]) {
 		[cell setImage:[item icon]];
 	}
@@ -250,16 +248,15 @@ BOOL isOptionKeyDown(void)
 #pragma mark NSTableView Delegate
 - (void)tableView:(NSTableView *)tableView didClickTableColumn:(NSTableColumn *)tableColumn
 {
-	NSString		*theId_;
-	NSString		*currentBoard_;
-	BSDBThreadList	*currentList_;
+	static BOOL hasOptionClicked = NO;
+	BoardManager *bm = [BoardManager defaultManager];
+	NSString *boardName = [[self currentThreadsList] boardName];
 
-	BoardManager	*bm_ = [BoardManager defaultManager];
-	
-	theId_ = [tableColumn identifier];
-	currentList_ = [self currentThreadsList];
-	currentBoard_ = [currentList_ boardName];
-	
+	// Sort:
+	// カラムヘッダをクリックしたとき、まず
+	// -[NSObject(NSTableDataSource) tableView:sortDescriptorsDidChange:] が送られ、
+	// その後で -[NSObject(NSTableViewDelegate) tableView:didClickTableColumn:] が送られる。
+
 	// Sort:
 	// Mac OS標準的ソート変更 (Finderのリスト表示参照)
 	// ソートの向きは各カラムごとに保存されており、
@@ -267,54 +264,68 @@ BOOL isOptionKeyDown(void)
 	// 保存されている向きでソートされる。
 	// 既にハイライトされているヘッダをクリックした場合は
 	// 昇順／降順の切り替えと見なす。
-	if (tableColumn == [tableView highlightedTableColumn]) {
-		[currentList_ toggleIsAscendingForKey:theId_];
-		[bm_ setSortColumnIsAscending:[currentList_ isAscending] atBoard:currentBoard_];
-	}
-		
-	// 実際のソート
-	// 保存されている向きに戻す。
-	[currentList_ setIsAscending:[currentList_ isAscendingForKey:theId_]];
-	[currentList_ sortByKey:theId_];
-	
-	// カラムヘッダの描画を更新
-	[self changeHighLightedTableColumnTo:theId_ isAscending:[currentList_ isAscending]];
 
-	[bm_ setSortColumn:theId_ forBoard:currentBoard_];
-	[bm_ setSortDescriptors:[currentList_ sortDescriptors] forBoard:currentBoard_];
-
+	// Sort:
 	// option キーを押しながらヘッダをクリックした場合は、変更後の設定を CMRPref に保存する（グローバルな設定の変更）。
+	// ただし、option キーを押しながらクリックした場合、sortDescriptorDidChange: は呼ばれない。
+	// それどころか、カラムのハイライトも更新されない。
+	// 仕方がないので、option キーを押しながらクリックされた場合は、
+	// ここでダミーのクリックイベントをもう一度発生させ、通常のカラムヘッダクリックをシミュレートする。
+	// ダミーイベントによってもう一度 -tableView:didClickTableColumn: が発生するので、
+	// そこで必要な処理を行なう。
 	if (isOptionKeyDown()) {
-		[CMRPref setBrowserSortColumnIdentifier:theId_];
-		[CMRPref setBrowserSortAscending:[currentList_ isAscending]];
+		NSEvent *dummyEvent = [NSApp currentEvent];
+		hasOptionClicked = YES;
+		// このへん、Thousand のコード（THTableHeaderView.m）を参考にした
+		NSEvent *downEvent = [NSEvent mouseEventWithType:NSLeftMouseDown
+												location:[dummyEvent locationInWindow]
+										   modifierFlags:0
+											   timestamp:[dummyEvent timestamp]
+											windowNumber:[dummyEvent windowNumber]
+												 context:[dummyEvent context]
+											 eventNumber:[dummyEvent eventNumber]+1
+											  clickCount:1
+											    pressure:1.0];
+		NSEvent *upEvent = [NSEvent mouseEventWithType:NSLeftMouseUp
+											  location:[dummyEvent locationInWindow]
+										 modifierFlags:0
+											 timestamp:[dummyEvent timestamp]
+										  windowNumber:[dummyEvent windowNumber]
+											   context:[dummyEvent context]
+										   eventNumber:[dummyEvent eventNumber]+2
+										    clickCount:1
+											  pressure:1.0];
+		[NSApp postEvent:upEvent atStart:NO];
+		[NSApp postEvent:downEvent atStart:YES];
+
+		return;
+	}
+
+	// 設定の保存
+	[bm setSortDescriptors:[tableView sortDescriptors] forBoard:boardName];
+
+	if (hasOptionClicked) {
+		[CMRPref setThreadsListSortDescriptors:[tableView sortDescriptors]];
+		hasOptionClicked = NO;
 	}
 
 	[self selectCurrentThreadWithMask:CMRAutoscrollWhenTLSort];
-	[tableView reloadData];
+
+	UTILDebugWrite(@"Catch tableView:didClickTableColumn:");
 }
 
 - (void)saveBrowserListColumnState:(NSTableView *)targetTableView
 {
-//	NSString *boardName = [[self currentThreadsList] boardName];
-//	if (!boardName) return;
-
-//	if (isOptionKeyDown()) {
-		[CMRPref setThreadsListTableColumnState:[targetTableView columnState]];
-//		[[BoardManager defaultManager] setBrowserListColumns:nil forBoard:boardName]; // Remove Custom Settings.
-//	} else {
-//		[[BoardManager defaultManager] setBrowserListColumns:[targetTableView columnState] forBoard:boardName];
-//	}
+	[CMRPref setThreadsListTableColumnState:[targetTableView columnState]];
 }
 
 - (void)tableViewColumnDidMove:(NSNotification *)aNotification
 {
-//	NSLog(@"Received %@", [aNotification name]);
 	[self saveBrowserListColumnState:[aNotification object]];
 }
 
 - (void)tableViewColumnDidResize:(NSNotification *)aNotification
 {
-//	NSLog(@"Received %@", [aNotification name]);
 	[self saveBrowserListColumnState:[aNotification object]];
 }
 
@@ -497,7 +508,7 @@ BOOL isOptionKeyDown(void)
 {
 	NSString *path = [[aNotification userInfo] objectForKey:@"path"];
 	unsigned int index = [[self currentThreadsList] indexOfThreadWithPath:path];
-	if (index != NSNotFound) [self synchronizeWithSearchField];
+	if (index != NSNotFound) [[self currentThreadsList] updateCursor];//[self synchronizeWithSearchField];
 }
 
 // Added in InnocentStarter.

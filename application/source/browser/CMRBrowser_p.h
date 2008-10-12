@@ -70,8 +70,6 @@
 
 
 @interface CMRBrowser(Table)
-- (void)changeHighLightedTableColumnTo:(NSString *)columnIdentifier_ isAscending:(BOOL)isAscending;
-
 /* ‘I‘ð‚Å‚«‚È‚¯‚ê‚Î -1 */
 - (unsigned)selectCurrentThreadWithMask:(int)mask;
 - (unsigned)selectRowWithCurrentThread;

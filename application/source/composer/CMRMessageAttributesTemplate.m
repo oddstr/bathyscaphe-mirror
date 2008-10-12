@@ -11,6 +11,7 @@
 #import "CocoMonar_Prefix.h"
 #import "CMXImageAttachmentCell.h"
 #import "CMRAttachmentCell.h"
+#import "BSBeSAAPAnchorComposer.h"
 
 static void *kContext = @"Look Mom, No Tabs!";
 static NSNumber *underlineStyleWithBoolValue(BOOL hasUnderline);
@@ -22,6 +23,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedTemplate);
 {
 	if (self = [super init]) {
 		[CMRPref addObserver:self forKeyPath:@"threadViewTheme" options:NSKeyValueObservingOptionNew context:kContext];
+		[BSBeSAAPAnchorComposer setShowsSAAPIcon:[CMRPref showsSAAPIcon]];
 	}
 	return self;
 }

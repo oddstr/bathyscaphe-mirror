@@ -34,8 +34,9 @@ NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserIn
 	
 	[self setWorker:nil];
 	[self setThreads:nil];
-	[_filteredThreads release];
-	_filteredThreads = nil;
+//	[_filteredThreads release];
+//	_filteredThreads = nil;
+	[self setFilteredThreads:nil];
 
 	[super dealloc];
 }
@@ -92,33 +93,31 @@ NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserIn
 
 - (NSMutableArray *)filteredThreads
 {
-	if (!_filteredThreads) {
+/*	if (!_filteredThreads) {
 		[self filterByStatus:[self filteringMask]];
 	} else if ([_filteredThreads count] == 0) {
 		return nil;
-	}
+	}*/
 
 	return _filteredThreads;
 }
-/*
-- (void)setFilteredThreads:(NSMutableArray *)aFilteredThreads
+
+- (void)setFilteredThreads:(NSArray *)aFilteredThreads
 {
 	id tmp = _filteredThreads;
-	[self _filteredThreadsLock];
+//	[self _filteredThreadsLock];
 	_filteredThreads = [aFilteredThreads retain];
-	[self _filteredThreadsUnlock];
+//	[self _filteredThreadsUnlock];
 	[tmp release];
 }
-*/
+
 - (int)filteringMask
 {
-//	return [CMRPref browserStatusFilteringMask];
 	return 0;
 }
 
 - (void)setFilteringMask:(int)mask
 {
-//	[CMRPref setBrowserStatusFilteringMask : mask];
 	NSLog(@"WARNING: CMRThreadsList's -setFilteringMask: is Deprecated.");
 }
 
@@ -229,7 +228,7 @@ NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserIn
 		if ([[fileName pathExtension] isEqualToString:@"thread"]) {
 			filePath = [folderPath stringByAppendingPathComponent:fileName];
 			if (![fm favoriteItemExistsOfThreadPath:filePath]) {
-				unsigned int index = [self indexOfThreadWithPath:filePath];
+				unsigned int index = [self indexOfThreadWithPath:filePath ignoreFilter:YES];
 				if (index == NSNotFound) {
 					[array addObject:filePath];
 				}

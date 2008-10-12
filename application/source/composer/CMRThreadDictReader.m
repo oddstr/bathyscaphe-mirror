@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadDictReader.m,v 1.3 2008/02/18 23:17:36 tsawada2 Exp $
+  * $Id: CMRThreadDictReader.m,v 1.4 2008/10/12 16:49:15 tsawada2 Exp $
   * 
   * CMRThreadDictReader.m
   *
@@ -11,7 +11,7 @@
 #import "CMRThreadVisibleRange.h"
 #import "CocoMonar_Prefix.h"
 #import "CMRMessageComposer.h"
-
+#import "AppDefaults.h"
 
 
 @implementation CMRThreadDictReader
@@ -43,7 +43,7 @@
 	range_ = [CMRThreadVisibleRange objectWithPropertyListRepresentation : 
 				[[self threadAttributes] objectForKey:CMRThreadVisibleRangeKey]];
 	
-	return range_ ? range_ : [CMRThreadVisibleRange defaultVisibleRange];
+	return  range_ ? range_ : [CMRPref defaultVisibleRange];
 }
 - (unsigned int) numberOfMessages
 {

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadAttributes.m,v 1.11 2008/02/19 15:22:53 tsawada2 Exp $
+  * $Id: CMRThreadAttributes.m,v 1.12 2008/10/12 16:49:15 tsawada2 Exp $
   * 
   * CMRThreadAttributes.m
   *
@@ -259,7 +259,8 @@
 	return range_;
 	
 	not_found_entry:{
-		return [CMRThreadVisibleRange defaultVisibleRange];
+//		return [CMRThreadVisibleRange defaultVisibleRange];
+		return [CMRPref defaultVisibleRange];
 	}
 }
 - (void) setVisibleRange : (CMRThreadVisibleRange *) newRange

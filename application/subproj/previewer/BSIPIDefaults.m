@@ -9,7 +9,9 @@
 
 #import "BSIPIDefaults.h"
 #import "BSImagePreviewerInterface.h"
-#import <CocoMonar/CMRSingletonObject.h>
+#import <SGFoundation/NSDictionary-SGExtensions.h>
+#import <SGFoundation/NSMutableDictionary-SGExtensions.h>
+#import <CocoMonar/CocoMonar.h>
 
 
 void *kBSIPIDefaultsContext = @"KVOBSIPIDefaultsContext";

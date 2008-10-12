@@ -281,7 +281,7 @@ NSString *BSDownloadTaskFailDownloadNotification = @"BSDownloadTaskFailDownloadN
 		double bar = [self currentLength]/[self contLength]*100.0;
 		[self setAmount:bar];
 		[self setMessage:[NSString stringWithFormat:NSLocalizedStringFromTable(@"Download url(%@) (%.0fk of %.0fk)", @"Downloader", @""),
-									  [[self url] path], (float)[self currentLength]/1024, (float)[self contLength]/1024]];
+									  [[self url] absoluteString], (float)[self currentLength]/1024, (float)[self contLength]/1024]];
 	}
 }
 

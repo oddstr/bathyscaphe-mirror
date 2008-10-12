@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Modified by Tsutomu Sawada on 06/09/08.
-//  Copyright 2006-2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2006-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -32,11 +32,6 @@ static NSString *const kReplyDefaultsControllerNibName = @"ReplySetting";
 
 - (void)setupUIComponents
 {
-	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_3) {
-		[gradientPlusButton setBezelStyle:NSSmallSquareBezelStyle];
-		[gradientMinusButton setBezelStyle:NSSmallSquareBezelStyle];
-	}
-
 	[self addKoteHanSheet];
 }
 

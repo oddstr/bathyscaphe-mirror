@@ -16,7 +16,6 @@
 #import "CMRThreadAttributes.h"
 #import "BoardManager.h"
 #import "CMRReplyDocumentFileManager.h"
-//#import "CMRFavoritesManager.h"
 #import "DatabaseManager.h"
 #import "BSNewThreadMessenger.h"
 
@@ -100,7 +99,7 @@
 		unsigned foundNum = [list_ numberOfFilteredThreads];
 		
 		if (0 == foundNum) {
-			foo = NSLocalizedStringFromTable(kSearchListNotFoundKey, @"ThreadsList", @"");//[self localizedString:kSearchListNotFoundKey];
+			foo = NSLocalizedStringFromTable(kSearchListNotFoundKey, @"ThreadsList", @"");
 		} else {
 			foo = [NSString stringWithFormat:NSLocalizedStringFromTable(kSearchListResultKey, @"ThreadsList", @""), foundNum];
 		}
@@ -236,7 +235,7 @@
 
 	return [[self currentThreadsList] filterByString:[self searchString]];
 }
-
+/*
 - (BOOL)searchThreadsInListWithString:(NSString *)text
 {
 	if (![self currentThreadsList]) return NO;
@@ -258,7 +257,7 @@
 {
 	[[self currentThreadsList] setFilteringMask:mask];
 	[[self currentThreadsList] filterByStatus:mask];
-}
+}*/
 
 - (IBAction)toggleThreadsListViewMode:(id)sender
 {
@@ -301,40 +300,10 @@
 		[document showWindows];
 	}
 }
-/*
-- (BOOL)removeDatochiFiles
-{
-	id threadsList = [self currentThreadsList];
-	if (!threadsList) return YES;
 
-	NSMutableArray	*array = [NSMutableArray array];
-
-	NSString *folderPath = [[CMRDocumentFileManager defaultManager] directoryWithBoardName:[threadsList boardName]];
-	NSDirectoryEnumerator *iter = [[NSFileManager defaultManager] enumeratorAtPath:folderPath];
-	CMRFavoritesManager *fm = [CMRFavoritesManager defaultManager];
-	NSString	*fileName, *filePath;
-	while (fileName = [iter nextObject]) {
-		if ([[fileName pathExtension] isEqualToString:@"thread"]) {
-			filePath = [folderPath stringByAppendingPathComponent:fileName];
-			if (![fm favoriteItemExistsOfThreadPath:filePath]) {
-				unsigned int index = [threadsList indexOfThreadWithPath:filePath];
-				if (index == NSNotFound) {
-					[array addObject:filePath];
-				}
-			}
-		}
-	}
-
-	if ([array count] == 0) return YES;
-
-	NSArray	*alsoReplyFiles_ = [[CMRReplyDocumentFileManager defaultManager] replyDocumentFilesArrayWithLogsArray:array];
-	return [[CMRTrashbox trash] performWithFiles:alsoReplyFiles_ fetchAfterDeletion:NO];
-}
-*/
 - (void)cleanupDatochiFilesAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
 	if (returnCode == NSAlertFirstButtonReturn) {
-//		[self removeDatochiFiles];
 		[[self currentThreadsList] removeDatochiFiles];
 	}
 }

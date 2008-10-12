@@ -484,7 +484,7 @@ static inline NSString *urlPathExtension(NSURL *url)
 	// "cmonar:", "mailto:", "cmbe:" をフィルタ
 	static NSArray *cachedLinkSchemes = nil;
 	if (!cachedLinkSchemes) {
-		cachedLinkSchemes = [[NSArray alloc] initWithObjects:CMRAttributeInnerLinkScheme, CMRAttributesBeProfileLinkScheme, @"mailto", nil];
+		cachedLinkSchemes = [[NSArray alloc] initWithObjects:CMRAttributeInnerLinkScheme, CMRAttributesBeProfileLinkScheme, @"mailto", @"sssp", nil];
 	}
 	return cachedLinkSchemes;
 }

@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer-Anchor.m,v 1.4 2007/04/13 12:31:41 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer-Anchor.m,v 1.5 2008/10/12 16:49:15 tsawada2 Exp $
   * 
   * CMRAttributedMessageComposer-Anchor.m
   *
@@ -8,7 +8,7 @@
   */
 #import "CMRAttributedMessageComposer_p.h"
 
-
+#import "BSBeSAAPAnchorComposer.h"
 
 // URL文字列をスキャン
 static BOOL scanURLCharactersFallDown(NSScanner *scanner, NSMutableString *stringBuffer);
@@ -180,7 +180,7 @@ static NSString *const kW3LinkURLString          = @"www.";
 static NSString *const kURLDefaultProtocol       = @"http";
 static NSString *const kURLHTTPSProtocol         = @"https";
 	
-- (void) makeOuterLinkAnchor : (NSMutableAttributedString *) theMessage
+- (void)makeOuterLinkAnchor:(NSMutableAttributedString *)theMessage
 {
     NSScanner *scanner_ = nil;
     NSString *content_ = [theMessage string];
@@ -190,34 +190,35 @@ static NSString *const kURLHTTPSProtocol         = @"https";
     NSRange searchRange_;
     NSMutableString *anchor_;
     unsigned int scanIndex_;
+
+	BSBeSAAPAnchorComposer *helper = nil;
     
-    if (nil == theMessage || 0 == length_)
-        return;
-    
-    scanner_ = [[NSScanner alloc] initWithString : content_];
-    [scanner_ setCharactersToBeSkipped : nil];
-    
+    if (!theMessage || length_ == 0) {
+		return;
+    }
+
+    scanner_ = [[NSScanner alloc] initWithString:content_];
+    [scanner_ setCharactersToBeSkipped:nil];
     
     // www.foo.com/...
     searchRange_ = NSMakeRange(0, length_);
-    [scanner_ setScanLocation : 0];
-    while ((linkRange_ = [content_ rangeOfString : kW3LinkURLString
-                                        options : NSLiteralSearch
-                                          range : searchRange_]).length != 0) {
+    [scanner_ setScanLocation:0];
+    while ((linkRange_ = [content_ rangeOfString:kW3LinkURLString options:NSLiteralSearch range:searchRange_]).length != 0) {
         scanIndex_ = NSMaxRange(linkRange_);
         searchRange_.location = scanIndex_;
         searchRange_.length = (length_ - searchRange_.location);
-        if (scanIndex_ != 0 && '/' == [content_ characterAtIndex:linkRange_.location -1])
+        if (scanIndex_ != 0 && '/' == [content_ characterAtIndex:linkRange_.location -1]) {
             continue;
-        
-        [scanner_ setScanLocation : scanIndex_];
-        if ([scanner_ isAtEnd]) break;
-        
+        }
+        [scanner_ setScanLocation:scanIndex_];
+        if ([scanner_ isAtEnd]) {
+			break;
+        }
         // URL文字列
-        anchor_ = [[@"http://www." mutableCopyWithZone : nil] autorelease];
-        if (NO == scanURLCharactersFallDown(scanner_, anchor_))
+		anchor_ = [NSMutableString stringWithString:@"http://www."];
+        if (!scanURLCharactersFallDown(scanner_, anchor_)) {
             continue;
-        
+        }
         // 次の検索範囲の指定（2）
         scanIndex_ = [scanner_ scanLocation];
         searchRange_.location = scanIndex_;
@@ -225,12 +226,7 @@ static NSString *const kURLHTTPSProtocol         = @"https";
         // リンクを設定する範囲の指定
         linkRange_.length = (scanIndex_ - linkRange_.location);
 
-		// 2005-09-08 リンク書式の付与は TextView に任せ、ここでは書式をセットしない        
-        //[theMessage addAttributes : [ATTR_TEMPLATE attributesForAnchor]
-        //                    range : linkRange_];
-        [theMessage addAttribute : NSLinkAttributeName
-                         value : anchor_
-                         range : linkRange_];
+        [theMessage addAttribute:NSLinkAttributeName value:anchor_ range:linkRange_];
     }
 
     // http://..., ttp://..., etc
@@ -282,31 +278,29 @@ static NSString *const kURLHTTPSProtocol         = @"https";
             scanIndex_ = prtRng_.location;
             
 EndInsertString:
-            [anchor_ insertString : protocol_
-                          atIndex : 0];
+            [anchor_ insertString:protocol_ atIndex:0];
             
             linkRange_.length += (linkRange_.location - scanIndex_);
             linkRange_.location = scanIndex_;
         } else {
-            if (NO == [scanner_ scanString:kW3LinkURLString intoString:NULL]) {
+            if (![scanner_ scanString:kW3LinkURLString intoString:NULL]) {
                 // 次の検索範囲の指定（1）
                 scanIndex_ = [scanner_ scanLocation];
                 searchRange_.location = scanIndex_;
                 searchRange_.length = (length_ - searchRange_.location);
                 continue;
             }
+
             linkRange_.length += [kW3LinkURLString length];
-            [anchor_ appendString : kW3LinkURLString];
-            [anchor_ insertString : kURLDefaultProtocol
-                          atIndex : 0];
-            
+            [anchor_ appendString:kW3LinkURLString];
+            [anchor_ insertString:kURLDefaultProtocol atIndex:0];
         }
         
         // この時点で
         // (xxxx)://www., または http:// 
         
         scanIndex_ = NSMaxRange(linkRange_);
-        [scanner_ setScanLocation : scanIndex_];
+        [scanner_ setScanLocation:scanIndex_];
         if ([scanner_ isAtEnd]) break;
         
         // 次の検索範囲の指定（1）
@@ -314,7 +308,7 @@ EndInsertString:
         searchRange_.location = scanIndex_;
         searchRange_.length = (length_ - searchRange_.location);
         
-        if (NO == scanURLCharactersFallDown(scanner_, anchor_))
+        if (!scanURLCharactersFallDown(scanner_, anchor_))
             continue;
         
         // 次の検索範囲の指定（2）
@@ -324,13 +318,18 @@ EndInsertString:
         // リンクを設定する範囲の指定
         linkRange_.length = (scanIndex_ - linkRange_.location);
         
-		// 2005-09-08 リンク書式の付与は TextView に任せ、ここでは書式をセットしない
-        //[theMessage addAttributes : [ATTR_TEMPLATE attributesForAnchor]
-        //                    range : linkRange_];
-        [theMessage addAttribute : NSLinkAttributeName
-                         value : anchor_
-                         range : linkRange_];
+		if ([anchor_ hasPrefix:@"sssp://"]) {
+			helper = [[BSBeSAAPAnchorComposer alloc] initWithRange:linkRange_ saapLinkString:anchor_];
+		} else {
+			[theMessage addAttribute:NSLinkAttributeName value:anchor_ range:linkRange_];
+		}
     }
+
+	if (helper) {
+		[helper composeSAAPAnchorIfNeeded:theMessage];
+		[helper release];
+		helper = nil;
+	}
 
     [scanner_ release];
 }
@@ -390,10 +389,11 @@ static BOOL scanURLCharactersFallDown(NSScanner *scanner, NSMutableString *strin
 			fdSURLs_++;
 		}
 		
-		if (NO == [scanner scanCharactersFromSet:cset_ intoString:&scanned_])
+		if (![scanner scanCharactersFromSet:cset_ intoString:&scanned_]) {
 			break;
-		
-		[stringBuffer appendString : scanned_];
+		}
+
+		[stringBuffer appendString:scanned_];
 		scanResult_ = YES;
 	}
 	

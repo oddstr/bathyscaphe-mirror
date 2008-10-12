@@ -1,3 +1,64 @@
+2008-10-13 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/source/composer/BSBeSAAPAnchorComposer.[h|m]
+		[新規追加] Be の saap:// アイコンを表示するクラス。
+		いや、CMRAttributedMessageComposer に埋め込んで全然良い機能なのだが、
+		CMRAttributedMessageComposer クラスが嫌いなので、別クラスに仕立てた。
+		そうは言っても CMRAttributedMessageComposer からのみ呼び出されて仕事をする。
+	* application/Resources/Japanese.lproj/browserListColumns.plist
+	* application/source/extensions/NSTableColumn+CMXAdditions.m
+		スレッド一覧のカラムを定義したプロパティリストファイルについて、以下のように変更：
+		- resizableキー（値：boolean）を廃止し、resizingMaskキー（値：integer）を新設。
+		- sortDescriptor protoType キー（値：dictionary）を新設。この dictionary にはさらに
+		　keyPath, ascending, selector の各キーがあり、要するにここにカラムの sortDescriptorProtoType
+		　がプロパティリストとして定義されている。
+	* application/source/bbs/BoardManager-BSAddition.m
+		BoardProperties.plist から今までの SortDescriptors 情報は読み込まないようにした。
+		新しく NSData 形式で SortDescriptors を読み書きするようになった。
+		また、sortColumnForBoard:, isAscendingAtBoard: 系のメソッドは廃止した。
+	* application/source/browser/BSDBThreadList.m
+	* application/source/browser/BSDownloadTask.m
+	* application/source/browser/BSThreadListUpdateTask.m
+		スレッド一覧のフィルタリングは -[NSArray filteredArrayUsingPredicate:] を使って行なうようにした。
+		ソート処理を SortDescriptors を使う方法に一本化し、不要なメソッドを削除した。
+	* application/source/browser/Browser.m
+	* application/source/browser/CMRBrowser-Validation.m
+	* application/source/browser/CMRBrowser-Action.m
+		不要なメソッドまたはコードを削除した。
+	* application/source/browser/CMRBrowser-List.m
+	* application/source/browser/CMRBrowser-Delegate.m
+		カラムのハイライト処理などで、不要になったコードを削除した。
+	* application/source/browser/CMRThreadsList-DataSource.m
+	* application/source/browser/CMRThreadsList.m
+		BSDBThreadList に合わせて修正。
+	* application/source/composer/CMRAttributedMessageComposer-Anchor.m
+		Be の saap:// リンクの処理を追加した。
+	* application/source/composer/CMRMessageAttributesTemplate.m
+	* application/source/preferences/AppDefaults-ThreadViewer.m
+	* application/source/preferences/CMRPreferencesDefautValues.h
+	* application/subproj/preference/Japanese.lproj/AdvancedPane.nib
+		Be の saap:// リンクのアイコンを表示するかどうかの設定が出来るようにした。
+	* application/source/preferences/AppDefaults.m
+		デフォルトのソートカラムの設定を NSSortDescriptor の Array で提供するようにした。
+2008-09-08 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+	* application/source/browser/BSDownloadTask.m
+	* application/source/browser/Browser.m
+		細部の修整。
+	* application/source/composer/CMR2chDATReader.m
+	* application/source/composer/CMRThreadDictReader.m
+	* application/source/thread/CMRThreadAttributes.m
+	* application/source/preferences/AppDefaults-ThreadViewer.m
+	* application/source/threaddata/CMRThreadVisibleRange.m
+		デフォルトの visible range について、AppDefaults クラスとの役割分担を見直し。
+	* application/subproj/preference/Japanese.lproj/LinkPreferences.nib
+	* application/subproj/preference/Japanese.lproj/ReplySetting.nib
+	* application/subproj/preference/reply/CMRReplyDefaultsController.m
+		ボタンのベゼルスタイルで Mac OS X v10.3.9 に配慮していた部分を削除。はじめから nib で
+		設定できる嬉しさ。
+	* application/subproj/previewer/BSIPIDefaults.m
+	* application/subproj/previewer/BSImagePreviewInspector-View.m
+		イメージ・ビューの背景色を調整。
+		また、ウインドウ周りの設定項目については、KVO で設定変更が速やかに反映されるようにした。
 2008-09-07 tsawada2 <tsawada2@users.sourceforge.jp>
 	プレビューインスペクタの改良：
 	* application/subproj/previewer/BSIPIDefaults.[h|m]

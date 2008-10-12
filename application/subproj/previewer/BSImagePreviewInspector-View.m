@@ -11,6 +11,8 @@
 #import "BSIPITextFieldCell.h"
 #import "BSIPIImageView.h"
 #import "BSIPIDefaults.h"
+#import <SGFoundation/NSDictionary-SGExtensions.h>
+#import <SGFoundation/NSMutableDictionary-SGExtensions.h>
 #import <SGAppKit/NSCell-SGExtensions.h>
 
 static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInspector Panel Autosave";

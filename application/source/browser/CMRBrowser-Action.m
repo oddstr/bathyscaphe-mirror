@@ -442,7 +442,7 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 }
 
 #pragma mark Filter, Search
-- (IBAction)selectFilteringMask:(id)sender
+/*- (IBAction)selectFilteringMask:(id)sender
 {
 	NSNumber	*represent_;
 	int			mask_;
@@ -456,7 +456,7 @@ static int expandAndSelectItem(BoardListItem *selected, NSArray *anArray, NSOutl
 	[self changeThreadsFilteringMask:mask_];
 
 //	[[CMRMainMenuManager defaultManager] synchronizeStatusFilteringMenuItemState];
-}
+}*/
 
 - (void)synchronizeWithSearchField
 {

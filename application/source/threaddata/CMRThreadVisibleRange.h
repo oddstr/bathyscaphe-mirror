@@ -1,66 +1,66 @@
-//: CMRThreadVisibleRange.h
-/**
-  * $Id: CMRThreadVisibleRange.h,v 1.2 2007/01/22 02:23:29 tsawada2 Exp $
-  * 
-  * Copyright (c) 2001-2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  CMRThreadVisibleRange.h
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 08/09/23.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
 
 #import <SGFoundation/SGFoundation.h>
 #import <CocoMonar/CocoMonar.h>
 
-
 /*!
  * @class       CMRThreadVisibleRange
- * @abstract    ï\é¶ÉåÉXêî
- * @discussion  ï\é¶ÉåÉXêîÇéwíËÇ∑ÇÈÉIÉuÉWÉFÉNÉg
+ * @abstract    Ë°®Á§∫„É¨„ÇπÊï∞
+ * @discussion  Ë°®Á§∫„É¨„ÇπÊï∞„ÇíÊåáÂÆö„Åô„Çã„Ç™„Éñ„Ç∏„Çß„ÇØ„Éà
  */
-@interface CMRThreadVisibleRange : NSObject<NSCopying, CMRPropertyListCoding>
-{
+@interface CMRThreadVisibleRange : NSObject<NSCopying, CMRPropertyListCoding> {
 	unsigned		_firstVisibleLength;
 	unsigned		_lastVisibleLength;
 }
 
-+ (CMRThreadVisibleRange *) defaultVisibleRange;
-+ (void) setDefaultVisibleRange : (CMRThreadVisibleRange *) newVRange;
++ (id)visibleRangeWithFirstVisibleLength:(unsigned)aFirstVisibleLength
+					   lastVisibleLength:(unsigned)aLastVisibleLength;
+- (id)initWithFirstVisibleLength:(unsigned)aFirstVisibleLength
+			   lastVisibleLength:(unsigned)aLastVisibleLength;
 
-+ (id) visibleRangeWithFirstVisibleLength : (unsigned) aFirstVisibleLength
-						lastVisibleLength : (unsigned) aLastVisibleLength;
-- (id) initWithFirstVisibleLength : (unsigned) aFirstVisibleLength
-				lastVisibleLength : (unsigned) aLastVisibleLength;
+- (NSDictionary *)dictionaryRepresentation;
+- (BOOL)initializeFromDictionaryRepresentation:(NSDictionary *)rep;
 
-+ (id) visibleRangeWithUInt32Representation : (UInt32) uint32Value;
-- (id) initWithUInt32Representation : (UInt32) uint32Value;
+- (BOOL)isShownAll;
+- (BOOL)isEmpty;
 
-+ (id) objectWithPropertyListRepresentation : (id) rep;
-- (id) initWithPropertyListRepresentation : (id) rep;
-
-- (id) propertyListRepresentation;
-- (BOOL) initializeFromPropertyListRepresentation : (id) rep;
-
-- (NSDictionary *) dictionaryRepresentation;
-- (UInt32) UInt32Representation;
-- (NSString *) stringRepresentation;
-
-- (BOOL) initializeFromDictionaryRepresentation : (NSDictionary *) rep;
-- (BOOL) initializeFromStringRepresentation : (NSString *) s;
-- (BOOL) initializeFromUInt32Representation : (UInt32) n;
-
-- (BOOL) isShownAll;
-- (BOOL) isEmpty;
-
-- (unsigned) firstVisibleLength;
-- (unsigned) lastVisibleLength;
-- (unsigned) visibleLength;
+- (unsigned)firstVisibleLength;
+- (void)setFirstVisibleLength:(unsigned)aFirstVisibleLength;
+- (unsigned)lastVisibleLength;
+- (void)setLastVisibleLength:(unsigned)aLastVisibleLength;
+- (unsigned)visibleLength;
 @end
 
 
-
 /*!
- * @enum       ï\é¶ÉåÉXêî
- * @discussion ï\é¶ÉåÉXêîÇÃÇ§ÇøÅAâΩÇÁÇ©ÇÃÉtÉâÉO
- * @constant   CMRThreadShowAll, Ç∑Ç◊ÇƒÇï\é¶
+ * @enum       Ë°®Á§∫„É¨„ÇπÊï∞
+ * @discussion Ë°®Á§∫„É¨„ÇπÊï∞„ÅÆ„ÅÜ„Å°„ÄÅ‰Ωï„Çâ„Åã„ÅÆ„Éï„É©„Ç∞
+ * @constant   CMRThreadShowAll, „Åô„Åπ„Å¶„ÇíË°®Á§∫
  */
 enum {
 	CMRThreadShowAll = NSNotFound,
 };
+
+
+/*
+@interface CMRThreadVisibleRange(Deprecated)
++ (CMRThreadVisibleRange *)defaultVisibleRange;
++ (void)setDefaultVisibleRange:(CMRThreadVisibleRange *)newVRange;
+
++ (id)visibleRangeWithUInt32Representation:(UInt32)uint32Value;
+- (id)initWithUInt32Representation:(UInt32)uint32Value;
+
+- (UInt32)UInt32Representation;
+- (NSString *)stringRepresentation;
+
+- (BOOL)initializeFromStringRepresentation:(NSString *)s;
+- (BOOL)initializeFromUInt32Representation:(UInt32)n;
+@end
+*/

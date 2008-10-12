@@ -27,6 +27,9 @@ static NSString *const NNDBeLoginPolicyTypeKey = @"BeLoginPolicy";
 static NSString *const NNDAllowsNanashiKey	= @"AllowsNanashi";
 static NSString *const NNDBrowserListColumnsKey = @"TableColumns";
 
+// Available in Tenori Tiger and later.
+static NSString *const NNDTenoriTigerSortDescsKey = @"SortDescriptors_TT";
+
 
 @implementation BoardManager(BoardProperties)
 - (NSMutableDictionary *)noNameDict
@@ -228,7 +231,7 @@ static NSString *const NNDBrowserListColumnsKey = @"TableColumns";
 }
 
 #pragma mark Sorting
-- (NSString *) sortColumnForBoard : (NSString *) boardName
+/*- (NSString *) sortColumnForBoard : (NSString *) boardName
 {
 	return [self stringValueForBoard: boardName
 	                             key: NNDSortColumnKey
@@ -252,15 +255,16 @@ static NSString *const NNDBrowserListColumnsKey = @"TableColumns";
 						  atBoard : (NSString *) boardName;
 {
     [self setBoolValue: isAscending forKey: NNDIsAscendingKey atBoard: boardName];
-}
+}*/
 
 // 1.4 or 1.5 addition
 // NSSortDescriptor は NSDictionary に分解されて保存されている。
-static inline NSDictionary *dctionaryFromSortDescriptor(NSSortDescriptor *sortDescriptor)
+/*static inline NSDictionary *dctionaryFromSortDescriptor(NSSortDescriptor *sortDescriptor)
 {
 	return [NSDictionary dictionaryWithObjectsAndKeys:
 		[NSNumber numberWithBool:[sortDescriptor ascending]], NNDIsAscendingKey,
 		[sortDescriptor key], NNDSortColumnKey,
+		NSStringFromSelector([sortDescriptor selector]), @"selector",
 		nil];
 }
 static NSArray *plistArrayFromSortDescriptors(NSArray *sortDescriptors)
@@ -288,25 +292,36 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 		
 		sortDescriptor = [[NSSortDescriptor alloc] initWithKey:[obj valueForKey:NNDSortColumnKey]
 													 ascending:[[obj valueForKey:NNDIsAscendingKey] boolValue]
-													  selector:@selector(numericCompare:)];
+													  selector:NSSelectorFromString([obj valueForKey:@"selector"])];
 		[result addObject:sortDescriptor];
 		[sortDescriptor release];
 	}
 	
 	return result;
-}
-- (NSArray *) sortDescriptorsForBoard : (NSString *) boardName
+}*/
+- (NSArray *)sortDescriptorsForBoard:(NSString *)boardName
 {
-	NSArray *array;
-	NSSortDescriptor *sortDescriptor;
+	NSArray *array = nil;
+
+	id obj = [self valueForBoard:boardName key:NNDTenoriTigerSortDescsKey defaultValue:nil];
+	if (obj && [obj isKindOfClass:[NSData class]]) {
+		@try {
+			array = [NSKeyedUnarchiver unarchiveObjectWithData:obj];
+		}
+		@catch (NSException *e) {
+			NSLog(@"Warning: -[BoardManager sortDescriptorsForBoard]: (Board:%@) The data is corrupted.", boardName);
+		}
+	}
+
+//	NSSortDescriptor *sortDescriptor;
 	
-	array = [self valueForBoard: boardName
+/*	array = [self valueForBoard: boardName
 							key: NNDSortDescriptors
-				   defaultValue: nil];
+				   defaultValue: nil];*/
 	
 	// ここでデフォルトを生成。
 	if(!array) {
-		NSMutableArray *result = [NSMutableArray array];
+/*		NSMutableArray *result = [NSMutableArray array];
 //		id key = [CMRPref browserSortColumnIdentifier];
 //		BOOL asc = [CMRPref browserSortAscending];
 		id key = [self sortColumnForBoard:boardName]; // 古い設定からのコンバートも考慮
@@ -325,18 +340,21 @@ static NSArray *sortDescriptorsFromPlistArray(NSArray *plist)
 			[result addObject:sortDescriptor];
 		}
 		
-		return result;
+		return result;*/
+		return [CMRPref threadsListSortDescriptors];
 	}
 	
-	return sortDescriptorsFromPlistArray(array);
+//	return sortDescriptorsFromPlistArray(array);
+	return array;
 }
 
-- (void) setSortDescriptors : (NSArray *) sortDescriptors
-				   forBoard : (NSString *) boardName
+- (void)setSortDescriptors:(NSArray *)sortDescriptors forBoard:(NSString *)boardName
 {
-	[self setValue: plistArrayFromSortDescriptors(sortDescriptors)
+/*	[self setValue: plistArrayFromSortDescriptors(sortDescriptors)
 			forKey: NNDSortDescriptors
-		   atBoard: boardName];
+		   atBoard: boardName];*/
+	NSData *data = [NSKeyedArchiver archivedDataWithRootObject:sortDescriptors];
+	[self setValue:data forKey:NNDTenoriTigerSortDescsKey atBoard:boardName];
 }
 
 #pragma mark (SledgeHammer Addition)

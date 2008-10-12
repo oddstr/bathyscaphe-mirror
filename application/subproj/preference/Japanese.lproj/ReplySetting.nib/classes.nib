@@ -67,6 +67,10 @@
 				<string>RBSplitView</string>
 				<key>showPreviewerPreferences</key>
 				<string>id</string>
+				<key>threadComposingDidFinish</key>
+				<string>id</string>
+				<key>threadTaskDidInterrupt</key>
+				<string>id</string>
 				<key>togglePreviewPanel</key>
 				<string>id</string>
 				<key>willAdjustSubviews</key>
@@ -144,10 +148,6 @@
 			<string>ObjC</string>
 			<key>OUTLETS</key>
 			<dict>
-				<key>gradientMinusButton</key>
-				<string>NSButton</string>
-				<key>gradientPlusButton</key>
-				<string>NSButton</string>
 				<key>m_addKoteHanSheet</key>
 				<string>NSPanel</string>
 				<key>m_koteHanListTable</key>

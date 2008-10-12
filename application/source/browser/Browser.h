@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.h,v 1.7 2008/02/10 14:24:51 tsawada2 Exp $
+  * $Id: Browser.h,v 1.8 2008/10/12 16:49:15 tsawada2 Exp $
   * 
   * Browser.h
   *
@@ -28,11 +28,11 @@
 - (void) reloadThreadsList;
 
 
-- (BOOL) searchThreadsInListWithString : (NSString *) text;
-- (void) sortThreadsByKey : (NSString *) key;
+//- (BOOL) searchThreadsInListWithString : (NSString *) text;
+//- (void) sortThreadsByKey : (NSString *) key;
 
-- (void) toggleThreadsListIsAscending;
-- (void) changeThreadsFilteringMask : (int) mask;
+//- (void) toggleThreadsListIsAscending;
+//- (void) changeThreadsFilteringMask : (int) mask;
 
 - (NSString *) searchString;
 - (void) setSearchString: (NSString *) text;

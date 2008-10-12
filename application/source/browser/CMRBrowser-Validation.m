@@ -1,5 +1,5 @@
 /*
- * $Id: CMRBrowser-Validation.m,v 1.31 2007/10/31 20:54:23 tsawada2 Exp $
+ * $Id: CMRBrowser-Validation.m,v 1.32 2008/10/12 16:49:15 tsawada2 Exp $
  * BathyScaphe
  *
  * Copyright 2005 BathyScaphe Project. All rights reserved.
@@ -27,7 +27,7 @@
 	id fieldEditor = [window fieldEditor:NO forObject:nil];
 	if (!fieldEditor) return NO;
 
-	return ([[[window firstResponder] delegate] isKindOfClass:[IndexField class]]);
+	return ([[(NSTextView *)[window firstResponder] delegate] isKindOfClass:[IndexField class]]);
 }
 
 - (BOOL) validateDeleteThreadItemsEnabling: (NSArray *) threads
@@ -136,9 +136,9 @@
 
 	SEL action_ = [theItem action];
 
-	if(action_ == @selector(selectFilteringMask:)) {
+/*	if(action_ == @selector(selectFilteringMask:)) {
 		return ([self currentThreadsList] != nil);
-	} else if(action_ == @selector(showSearchThreadPanel:)) {
+	} else*/ if(action_ == @selector(showSearchThreadPanel:)) {
 		return ([self currentThreadsList] != nil);
 	} else if(action_ == @selector(chooseColumn:)) {
 		return ([self currentThreadsList] != nil);
