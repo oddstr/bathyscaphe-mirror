@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.66 2008/10/12 16:49:15 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.67 2008/11/01 18:56:16 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -110,13 +110,6 @@ typedef enum _BSAutoSyncIntervalType {
 
 #pragma mark ThreadsList Sorting
 /* Sort */
-// Deprecated in BathyScaphe 1.6.2.
-/*- (NSString *) browserSortColumnIdentifier;
-- (void) setBrowserSortColumnIdentifier : (NSString *) identifier;
-- (BOOL) browserSortAscending;
-- (void) setBrowserSortAscending : (BOOL) isAscending;
-- (int) browserStatusFilteringMask;
-- (void) setBrowserStatusFilteringMask : (int) mask;*/
 - (BOOL)collectByNew;
 - (void)setCollectByNew:(BOOL)flag;
 // Available in BathyScaphe 1.6.2 and later.
@@ -325,10 +318,6 @@ typedef enum _BSAutoSyncIntervalType {
 /* スレッドをダウンロードしたときはすべて表示する */
 - (BOOL) showsAllMessagesWhenDownloaded;
 - (void) setShowsAllMessagesWhenDownloaded : (BOOL) flag;
-
-/* オンザフライ読み込み */
-//- (unsigned) onTheFlyCompositionAttributes;
-//- (void) setOnTheFlyCompositionAttributes : (unsigned) value;
 
 /* 「ウインドウの位置と領域を記憶」 */
 - (NSString *) windowDefaultFrameString;

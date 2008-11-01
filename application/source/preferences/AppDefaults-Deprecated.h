@@ -222,6 +222,19 @@
 //- (NSColor *) resPopUpBackgroundColor;
 //- (float) resPopUpBgAlphaValue;
 
+// Deprecated in BathyScaphe 1.6.2.
+/*- (NSString *) browserSortColumnIdentifier;
+- (void) setBrowserSortColumnIdentifier : (NSString *) identifier;
+- (BOOL) browserSortAscending;
+- (void) setBrowserSortAscending : (BOOL) isAscending;
+- (int) browserStatusFilteringMask;
+- (void) setBrowserStatusFilteringMask : (int) mask;*/
+
+
+/* オンザフライ読み込み */
+// ずっと未使用。今となっては目的、意図は不明。
+//- (unsigned) onTheFlyCompositionAttributes;
+//- (void) setOnTheFlyCompositionAttributes : (unsigned) value;
 
 
 // Constants
