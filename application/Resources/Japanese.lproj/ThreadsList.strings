@@ -1,7 +1,11 @@
 "Not Found"		= "そんな板 or スレッドないです。";
 "Not Found %@"	= "%@ をダウンロードできませんでした。";
 
-"Board Info Format" = "%u 件のスレッド";
+"Browser Title (Thread Mode)" = "%u 件のスレッド";
+"Browser Title (Log Mode)" = "%u 件のログ";
+
+"Toggle View Mode To Log" = "ログ一覧に切り替え";
+"Toggle View Mode To Thread" = "スレッド一覧に切り替え";
 
 "Search Thread Result" = "%u 件見つかりました";
 "Search Thread Not Found" = "見つかりません";
@@ -37,3 +41,8 @@
 /* Browser */
 "CleanupDatochiFilesAlert(BoardName %@)" = "掲示板 “%@” の dat 落ちしたスレッドのログファイルを、ゴミ箱に移動してもよろしいですか？";
 "CleanupDatochiFilesMessage" = "スレッド一覧に無いスレッドはすべて dat 落ちしたものと見なします。ただし、“お気に入り” に登録されているスレッドのログファイルは削除されません。";
+
+"RebuildThreadsListAlert(BoardName %@)" = "掲示板 “%@” のスレッド一覧データベースを再構築してもよろしいですか？";
+"RebuildThreadsListMessage" = "スレッドのステータスやレス数などの情報が正しくない場合に、この操作を実行すると問題を解決できる可能性があります。";
+
+"RebuildingEndAlert" = "データベースの再構築が完了しました。";
