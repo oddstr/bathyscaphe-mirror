@@ -1,9 +1,9 @@
 //
-//  PreferencesPane.h
+//  PreferencesPane-Toolbar.m
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 07/11/15.
-//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -20,17 +20,6 @@ static NSString *const PPToolbarIdentifier = @"PreferencesPane Toolbar";
 	}
 	return _toolbarItems;
 }
-
-
-/**
-  * 引数itemIdentifierで指定されたツールバーの項目を返す。
-  * 重複する項目もありえるので、コピーを作成すること。
-  * 
-  * @param    toolbar         ツールバー
-  * @param    itemIdentifier  識別子
-  * @param    flag            項目が追加される場合はYES
-  * @return                   ツールバーの項目
-  */
 
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar
 	 itemForItemIdentifier:(NSString  *)itemIdentifier
@@ -79,7 +68,7 @@ static NSString *const PPToolbarIdentifier = @"PreferencesPane Toolbar";
 	
 	iter_ = [[self controllers] objectEnumerator];
 
-	while(controller_ = [iter_ nextObject]){
+	while (controller_ = [iter_ nextObject]) {
 		if(![controller_ identifier]) continue;
 		
 		tbItem_ = [controller_ makeToolbarItem];
@@ -98,8 +87,6 @@ static NSString *const PPToolbarIdentifier = @"PreferencesPane Toolbar";
 	[[self window] setToolbar:toolbar_];
 	[toolbar_ release];
 
-	if ([[self window] respondsToSelector:@selector(setShowsToolbarButton:)]) {
-		[[self window] setShowsToolbarButton:NO];
-	}
+	[[self window] setShowsToolbarButton:NO];
 }
 @end

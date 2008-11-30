@@ -3,7 +3,8 @@
 //  BathyScaphe
 //
 //  Created by Hori,Masaki on 06/08/06.
-//  Copyright 2006 BathyScaphe Project. All rights reserved.
+//  Copyright 2006-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import "BSDBThreadsListDBUpdateTask2.h"
@@ -13,7 +14,7 @@
 #import "DatabaseManager.h"
 #import "CMRHostHandler.h"
 #import "CMXTextParser.h"
-
+#import "CMRDocumentFileManager.h"
 
 NSString *BSDBThreadsListDBUpdateTask2DidFinishNotification = @"BSDBThreadsListDBUpdateTask2DidFinishNotification";
 
@@ -34,6 +35,7 @@ static inline id nilIfObjectIsNSNull( id obj )
 	if(self = [super init]) {
 		[self setBBSName:name];
 		subjectData = [data retain];
+		isRebuilding = NO;
 		
 		if(!boardID) {
 			[self release];
@@ -43,6 +45,17 @@ static inline id nilIfObjectIsNSNull( id obj )
 	
 	return self;
 }
+
+- (BOOL)isRebuilding
+{
+	return isRebuilding;
+}
+
+- (void)setRebuilding:(BOOL)flag
+{
+	isRebuilding = flag;
+}
+
 - (void)dealloc
 {
 	[subjectData release];
@@ -215,6 +228,20 @@ abort:
 		UTILDebugWrite(@"END DELETEING");
 	}
 }
+
+- (void)insertOrUpdateFromLogFiles
+{
+	NSString *folderPath = [[CMRDocumentFileManager defaultManager] directoryWithBoardName:bbsName];
+	NSDirectoryEnumerator *iter = [[NSFileManager defaultManager] enumeratorAtPath:folderPath];
+	NSString	*fileName, *filePath;
+	while (fileName = [iter nextObject]) {
+		if ([[fileName pathExtension] isEqualToString:@"thread"]) {
+			filePath = [folderPath stringByAppendingPathComponent:fileName];
+			[[DatabaseManager defaultManager] registerThreadFromFilePath:filePath needsDisplay:NO];
+		}
+	}
+}
+
 - (void) run
 {
 	NSString *str;
@@ -304,8 +331,13 @@ abort:
 		[db commitTransaction];
 		UTILDebugWrite(@"END REGISTER THREADS");
 	}
-	
-	[self deleteUnusedInfomations:db];
+
+	if (isRebuilding) {
+		[self insertOrUpdateFromLogFiles];
+		isRebuilding = NO;
+	} else {
+		[self deleteUnusedInfomations:db];
+	}
 	
 	[self postNotificationWithName:BSDBThreadsListDBUpdateTask2DidFinishNotification];
 	

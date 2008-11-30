@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Updated by Tsutomu Sawada on 07/12/09.
-//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -38,11 +38,6 @@ typedef unsigned int CMRFavoritesOperation;
 
 - (BOOL)removeFromFavoritesWithFilePath:(NSString *)filepath;
 - (BOOL)removeFromFavoritesWithSignature:(CMRThreadSignature *)signature;
-@end
-
-@interface CMRFavoritesManager(ImportAndExport)
-- (BOOL)exportFavoritesToFile:(NSString *)filepath atomically:(BOOL)atomically;
-- (BOOL)importFavoritesFromFile:(NSString *)filepath;
 @end
 
 

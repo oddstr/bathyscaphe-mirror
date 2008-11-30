@@ -1,5 +1,5 @@
 /**
-  * $Id: Browser.h,v 1.8 2008/10/12 16:49:15 tsawada2 Exp $
+  * $Id: Browser.h,v 1.9 2008/11/30 15:51:33 tsawada2 Exp $
   * 
   * Browser.h
   *
@@ -40,6 +40,7 @@
 
 - (IBAction)toggleThreadsListViewMode:(id)sender;
 - (IBAction)cleanupDatochiFiles:(id)sender;
+- (IBAction)rebuildThreadsList:(id)sender; // Available in Tenori Tiger.
 - (IBAction)newThread:(id)sender; // Available in SilverGull.
 @end
 

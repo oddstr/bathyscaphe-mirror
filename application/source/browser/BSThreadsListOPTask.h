@@ -3,7 +3,8 @@
 //  BathyScaphe
 //
 //  Created by Hori,Masaki on 06/08/06.
-//  Copyright 2006 BathyScaphe Project. All rights reserved.
+//  Copyright 2006-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import <Cocoa/Cocoa.h>
@@ -29,10 +30,11 @@
 	
 	NSData *m_downloadData;
 	NSError *m_downloadError;
+	BOOL	isRebuilding;
 }
 
 + (id)taskWithThreadList:(BSDBThreadList *)list forceDownload:(BOOL)forceDL;
-- (id)initWithThreadList:(BSDBThreadList *)list forceDownload:(BOOL)forceDL;
+- (id)initWithThreadList:(BSDBThreadList *)list forceDownload:(BOOL)forceDL rebuild:(BOOL)flag;
 
 - (void)setBoardName:(NSString *)name;
 - (NSString *)boardName;

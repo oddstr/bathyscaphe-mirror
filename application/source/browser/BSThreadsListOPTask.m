@@ -3,7 +3,8 @@
 //  BathyScaphe
 //
 //  Created by Hori,Masaki on 06/08/06.
-//  Copyright 2006 BathyScaphe Project. All rights reserved.
+//  Copyright 2006-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import "BSThreadsListOPTask.h"
@@ -27,16 +28,17 @@ NSString *const ThreadsListDownloaderShouldRetryUpdateNotification = @"ThreadsLi
 @implementation BSThreadsListOPTask
 + (id)taskWithThreadList:(BSDBThreadList *)list forceDownload:(BOOL)forceDownload
 {
-	return [[[[self class] alloc] initWithThreadList:list forceDownload:forceDownload] autorelease];
+	return [[[[self class] alloc] initWithThreadList:list forceDownload:forceDownload rebuild:NO] autorelease];
 }
 
-- (id)initWithThreadList:(BSDBThreadList *)list forceDownload:(BOOL)forceDownload
+- (id)initWithThreadList:(BSDBThreadList *)list forceDownload:(BOOL)forceDownload rebuild:(BOOL)flag
 {
 	if(self = [super init]) {
 		m_targetList = list; //[list retain];
 		m_forceDL = forceDownload;
+		isRebuilding = flag;
 		[self setBoardName:[list boardName]];
-		
+
 		if(![self boardName]) goto fail;
 	}
 	
@@ -191,10 +193,11 @@ fail:
 		if(m_downloadData && [m_downloadData length] != 0) {
 			dbupTask = [BSDBThreadsListDBUpdateTask2 taskWithBBSName:bbsName
 																data:m_downloadData];
-			[[NSNotificationCenter defaultCenter] addObserver:self
+			[dbupTask setRebuilding:isRebuilding];
+/*			[[NSNotificationCenter defaultCenter] addObserver:self
 													 selector:@selector(dbloadDidFinishUpdateDBNotification:)
 														 name:BSDBThreadsListDBUpdateTask2DidFinishNotification
-													   object:dbupTask];
+													   object:dbupTask];*/
 			[dbupTask run];
 			
 			[self checkIsInterrupted];
@@ -238,10 +241,10 @@ fail:
 {
 	m_downloadData = nil;
 }
-- (void)dbloadDidFinishUpdateDBNotification:(id)notification
+/*- (void)dbloadDidFinishUpdateDBNotification:(id)notification
 {
 	//
-}
+}*/
 
 #pragma mark-
 - (id)identifier

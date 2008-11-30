@@ -1,3 +1,72 @@
+2008-12-01 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/subproj/preference/pane/PreferencesPane-Toolbar.m
+		Panther 対策のコードを削除。
+	* frameworks/SGAppKit/framework/src/custom/bathyscaphe/BSBoardListView.(h|m)
+		掲示板リストの選択項目の色を、ブルー／グラファイトによって変えるように改良。
+	* frameworks/SGAppKit/framework/src/SGAppKit.h
+		NSScrollView のカテゴリを import しなくなった。
+	* application/source/CMRAppDelegate.m
+	* application/source/manager/DatabaseManager-Notifications.m
+		データベースのバキューム機能について、option キーが押されているかの検知部を
+		CMRAppDelegate に移した。
+	* application/source/browser/BSDBThreadList.(h|m)
+	* application/source/browser/BSDBThreadsListDBUpdateTask2.(h|m)
+	* application/source/browser/BSThreadListUpdateTask.m
+	* application/source/browser/BSThreadsListOPTask.(h|m)
+	* application/source/browser/Browser.(h|m)
+	* application/source/browser/CMRBrowser.m
+	* application/source/browser/CMRFavoritesManager.(h|m)
+	* application/source/browser/CMRThreadsList.(h|m)
+		「ログ一覧」モードへの切り替え機能の追加、および、データベースの再構築機能の追加。
+	* application/source/manager/DatabaseManager-DatabaseAccess.m
+	* application/source/manager/DatabaseManager.h
+		データベースへのログファイル情報の挿入部分などを手直し。また、未使用のコードを削除。
+	* application/source/composer/CMRAttributedMessageComposer.m
+	* application/source/thread/CMRThreadLinkProcessor.m
+	* application/source/view/popup/CMXPopUpWindowController+View.m
+		微修正。
+	* application/source/browser/CMRBrowser-Validation.m
+	* application/source/window/CMRBrowserTbDelegate.m
+		しばらく隠されていた「表示モードの切り替え」ツールバー項目を使用可能にした。
+	* application/source/bbs/BoardList.h
+	* application/source/bbs/BoardList.m
+	* application/source/bbs/BoardList-OVDataSource.m
+	* application/source/composer/CMRSubjectReader.h	* application/source/composer/CMRSubjectReader.m	* application/source/composer/CMRThreadSubjectComposer.h	* application/source/composer/CMRThreadSubjectComposer.m
+	* application/source/extensions/NSIndexSet+BSAddition.h	* application/source/extensions/NSIndexSet+BSAddition.m	* application/source/extensions/NSTableView+BSAdditions.h	* application/source/extensions/NSTableView+BSAdditions.m
+	* application/source/network/ThreadsListDownloader.h	* application/source/network/ThreadsListDownloader.m
+	* application/source/object/CMRBBSSignature.h	* application/source/object/CMRBBSSignature.m	* application/source/object/CMRThreadSignature_p.h
+	* application/source/preferences/AppDefaults-Alert.m	* application/source/preferences/AppDefaults-LibPath.m	* application/source/preferences/CMXTemplateKeys.h
+	* application/source/thread/CMRThreadDocument_p.h
+		[削除] 未使用になっていたのでリポジトリからも削除。
+	* application/Resources/Japanese.lproj/CMRBrowser.nib
+	* application/Resources/Japanese.lproj/CMRBrowser.nib/*.nib
+		[新規追加] Browser.nib を Interface Builder 3 フォーマットに更新したので、
+		混乱しないようファイル名を別にした。
+	* application/Resources/Japanese.lproj/Browser.nib/*.nib
+		[削除] CMRBrowser.nib に置き換え、リポジトリから削除。
+	* application/Resources/Japanese.lproj/CMRAccessorySheet.nib/*.nib
+	* application/Resources/Japanese.lproj/BSTimeMachine.nib/*.nib
+	* application/Resources/Japanese.lproj/BSFavoritesProgressPanel.nib/*.nib
+		[削除] 未使用になっていたのでリポジトリからも削除。
+2008-10-19 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/source/browser/BSFavoritesHEADCheckTask.h
+	* application/source/browser/BSFavoritesHEADCheckTask.m
+	* application/source/browser/w2chFavoriteItemList.m
+	* application/source/browser/CMRAccessorySheetController.h
+	* application/source/browser/CMRAccessorySheetController.m
+	* application/source/browser/CMRThreadsList-Download.m
+	* application/source/browser/CMRThreadsList-Filter.m
+	* application/source/browser/CMRThreadsList-listImport.m
+	* application/source/browser/CMRThreadsList-Notification.m
+	* application/source/browser/CMRThreadsList-Remove.m
+	* application/source/browser/CMRThreadsListReadFileTask_p.h
+	* application/source/browser/CMRThreadsListReadFileTask.h
+	* application/source/browser/CMRThreadsListReadFileTask.m
+	* application/source/browser/CMRThreadsUpdateListTask_p.h
+	* application/source/browser/CMRThreadsUpdateListTask.h
+	* application/source/browser/CMRThreadsUpdateListTask.m
+		[削除] 未使用になっていたのでリポジトリから削除。
+=================================================
 2008-10-13 tsawada2 <tsawada2@users.sourceforge.jp>
 	* application/source/composer/BSBeSAAPAnchorComposer.[h|m]
 		[新規追加] Be の saap:// アイコンを表示するクラス。

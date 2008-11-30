@@ -1,9 +1,9 @@
 //
-//  $Id: BSBoardListView.m,v 1.8 2007/10/29 05:54:46 tsawada2 Exp $
-//  BathyScaphe
+//  BSBoardListView.m
+//  SGAppKit (BathyScaphe)
 //
 //  Created by Tsutomu Sawada on 05/09/20.
-//  Copyright 2005 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
 //
 
 #import "BSBoardListView.h"
@@ -14,6 +14,54 @@
 #define useLog 0
 
 @implementation BSBoardListView
+static NSArray *activeFirstResponderColors;
+static NSArray *activeNo1stResponderColors;
+static NSArray *nonActiveColors;
+
++ (void)initialize
+{
+	if (self == [BSBoardListView class]) {
+		[self resetColors];
+		nonActiveColors = [[NSArray alloc] initWithObjects:
+							[NSColor colorWithDeviceRed:0.592 green:0.592 blue:0.592 alpha:1.0],
+							[NSColor colorWithDeviceRed:0.541 green:0.541 blue:0.541 alpha:1.0],
+							[NSColor colorWithDeviceRed:0.71 green:0.71 blue:0.71 alpha:1.0],
+							[NSColor colorWithDeviceRed:0.549 green:0.549 blue:0.549 alpha:1.0],
+							nil];
+	}
+}
+
++ (void)resetColors
+{
+	if ([NSColor currentControlTint] == NSGraphiteControlTint) {
+		activeFirstResponderColors = [[NSArray alloc] initWithObjects:
+			[NSColor colorWithDeviceRed:0.408 green:0.471 blue:0.549 alpha:1.0],
+			[NSColor colorWithDeviceRed:0.251 green:0.341 blue:0.439 alpha:1.0],
+			[NSColor colorWithDeviceRed:0.510 green:0.576 blue:0.651 alpha:1.0],
+			[NSColor colorWithDeviceRed:0.267 green:0.357 blue:0.451 alpha:1.0],
+			nil];
+		activeNo1stResponderColors = [[NSArray alloc] initWithObjects:
+			[NSColor colorWithDeviceRed:0.584 green:0.600 blue:0.690 alpha:1.0],
+			[NSColor colorWithDeviceRed:0.494 green:0.557 blue:0.627 alpha:1.0],
+			[NSColor colorWithDeviceRed:0.667 green:0.718 blue:0.769 alpha:1.0],
+			[NSColor colorWithDeviceRed:0.506 green:0.569 blue:0.635 alpha:1.0],
+			nil];	
+	} else {
+		activeFirstResponderColors = [[NSArray alloc] initWithObjects:
+			[NSColor colorWithDeviceRed:0.271 green:0.502 blue:0.784 alpha:1.0],
+			[NSColor colorWithDeviceRed:0.082 green:0.325 blue:0.667 alpha:1.0],
+			[NSColor colorWithDeviceRed:0.361 green:0.576 blue:0.835 alpha:1.0],
+			[NSColor colorWithDeviceRed:0.102 green:0.345 blue:0.678 alpha:1.0],
+			nil];
+		activeNo1stResponderColors = [[NSArray alloc] initWithObjects:
+			[NSColor colorWithDeviceRed:0.569 green:0.627 blue:0.753 alpha:1.0],
+			[NSColor colorWithDeviceRed:0.435 green:0.51 blue:0.607 alpha:1.0],
+			[NSColor colorWithDeviceRed:0.635 green:0.694 blue:0.812 alpha:1.0],
+			[NSColor colorWithDeviceRed:0.447 green:0.522 blue:0.675 alpha:1.0],
+			nil];
+	}
+}
+
 - (int)semiSelectedRow
 {
 	return m_semiSelectedRow;
@@ -31,13 +79,18 @@
 	isInstalledTextInputEvent = NO;
 	isFindBegin = NO;
 	isUsingInputWindow = NO;
-	resetTimer = nil;  
+	resetTimer = nil;
+	
+	[[NSNotificationCenter defaultCenter]
+		addObserver:self selector:@selector(systemColorDidChange:) name:NSSystemColorsDidChangeNotification object:nil];
 
 	[self setSemiSelectedRow:-1];
 }
 
 - (void)dealloc
 {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+
 	if (isInstalledTextInputEvent) {
 		OSStatus err = RemoveEventHandler(textInputEventHandler);
 		if (err != noErr) {
@@ -51,6 +104,11 @@
 }
 
 #pragma mark Custom highlight drawing
+- (void)systemColorDidChange:(NSNotification *)aNotification
+{
+	[[self class] resetColors];
+}
+
 - (void)highlightSelectionInClipRect:(NSRect)clipRect
 {	
 	NSColor *topLineColor, *bottomLineColor, *gradientStartColor, *gradientEndColor;
@@ -58,22 +116,30 @@
 	if ([[self window] isMainWindow]) {
 		if ([[self window] firstResponder] == self) {
 /*
-			// Finder Style
+			// Tiger Finder Style
 			topLineColor = [NSColor colorWithCalibratedRed:(61.0/255.0) green:(123.0/255.0) blue:(218.0/255.0) alpha:1.0];
 			bottomLineColor = [NSColor colorWithCalibratedRed:(31.0/255.0) green:(92.0/255.0) blue:(207.0/255.0) alpha:1.0];
 			gradientStartColor = [NSColor colorWithCalibratedRed:(89.0/255.0) green:(153.0/255.0) blue:(209.0/255.0) alpha:1.0];
 			gradientEndColor = [NSColor colorWithCalibratedRed:(33.0/255.0) green:(94.0/255.0) blue:(208.0/255.0) alpha:1.0];
 */
 			// Tiger Mail Style
-			topLineColor = [NSColor colorWithDeviceRed:0.271 green:0.502 blue:0.784 alpha:1.0];
+/*			topLineColor = [NSColor colorWithDeviceRed:0.271 green:0.502 blue:0.784 alpha:1.0];
 			bottomLineColor = [NSColor colorWithDeviceRed:0.082 green:0.325 blue:0.667 alpha:1.0];
 			gradientStartColor = [NSColor colorWithDeviceRed:0.361 green:0.576 blue:0.835 alpha:1.0];
-			gradientEndColor = [NSColor colorWithDeviceRed:0.102 green:0.345 blue:0.678 alpha:1.0];
+			gradientEndColor = [NSColor colorWithDeviceRed:0.102 green:0.345 blue:0.678 alpha:1.0];*/
+			topLineColor = [activeFirstResponderColors objectAtIndex:0];
+			bottomLineColor = [activeFirstResponderColors objectAtIndex:1];
+			gradientStartColor = [activeFirstResponderColors objectAtIndex:2];
+			gradientEndColor = [activeFirstResponderColors objectAtIndex:3];
 		} else {
-			topLineColor = [NSColor colorWithDeviceRed:0.569 green:0.627 blue:0.753 alpha:1.0];
+/*			topLineColor = [NSColor colorWithDeviceRed:0.569 green:0.627 blue:0.753 alpha:1.0];
 			bottomLineColor = [NSColor colorWithDeviceRed:0.435 green:0.51 blue:0.607 alpha:1.0];
 			gradientStartColor = [NSColor colorWithDeviceRed:0.635 green:0.694 blue:0.812 alpha:1.0];
-			gradientEndColor = [NSColor colorWithDeviceRed:0.447 green:0.522 blue:0.675 alpha:1.0];
+			gradientEndColor = [NSColor colorWithDeviceRed:0.447 green:0.522 blue:0.675 alpha:1.0];*/
+			topLineColor = [activeNo1stResponderColors objectAtIndex:0];
+			bottomLineColor = [activeNo1stResponderColors objectAtIndex:1];
+			gradientStartColor = [activeNo1stResponderColors objectAtIndex:2];
+			gradientEndColor = [activeNo1stResponderColors objectAtIndex:3];
 		}
 	} else {
 /*
@@ -82,10 +148,14 @@
 		gradientStartColor = [NSColor colorWithDeviceRed:(168.0/255.0) green:(183.0/255.0) blue:(205.0/255.0) alpha:1.0];
 		gradientEndColor = [NSColor colorWithDeviceRed:(157.0/255.0) green:(174.0/255.0) blue:(199.0/255.0) alpha:1.0];
 */
-		topLineColor = [NSColor colorWithDeviceRed:0.592 green:0.592 blue:0.592 alpha:1.0];
+/*		topLineColor = [NSColor colorWithDeviceRed:0.592 green:0.592 blue:0.592 alpha:1.0];
 		bottomLineColor = [NSColor colorWithDeviceRed:0.541 green:0.541 blue:0.541 alpha:1.0];
 		gradientStartColor = [NSColor colorWithDeviceRed:0.71 green:0.71 blue:0.71 alpha:1.0];
-		gradientEndColor = [NSColor colorWithDeviceRed:0.549 green:0.549 blue:0.549 alpha:1.0];
+		gradientEndColor = [NSColor colorWithDeviceRed:0.549 green:0.549 blue:0.549 alpha:1.0];*/
+		topLineColor = [nonActiveColors objectAtIndex:0];
+		bottomLineColor = [nonActiveColors objectAtIndex:1];
+		gradientStartColor = [nonActiveColors objectAtIndex:2];
+		gradientEndColor = [nonActiveColors objectAtIndex:3];
 	}
 	
 	NSIndexSet *selRows = [self selectedRowIndexes];
@@ -129,7 +199,7 @@
 {
 	// erase the border
 	[self setNeedsDisplayInRect:[self rectOfRow:[self semiSelectedRow]]];
-	[[NSNotificationCenter defaultCenter] removeObserver:self];	
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSMenuDidEndTrackingNotification object:nil];	
 }
 
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent
@@ -173,15 +243,10 @@ static OSStatus inputText(EventHandlerCallRef nextHandler, EventRef theEvent, vo
 #if useLog    
 	NSLog(@"inputText");
 #endif
-	FourCharCode unicodeConstant = typeUnicodeText; // Panther.
-
-	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_3) {
-		unicodeConstant = 'ut16'; // typeUTF16ExternalRepresentation. For Tiger and later.
-	}
 	UInt32 dataSize;
-	OSStatus err = GetEventParameter(theEvent, kEventParamTextInputSendText, unicodeConstant, NULL, 0, &dataSize, NULL);
+	OSStatus err = GetEventParameter(theEvent, kEventParamTextInputSendText, typeUTF16ExternalRepresentation, NULL, 0, &dataSize, NULL);
 	UniChar *dataPtr = (UniChar *)malloc(dataSize);
-	err = GetEventParameter(theEvent, kEventParamTextInputSendText, unicodeConstant, NULL, dataSize, NULL, dataPtr);
+	err = GetEventParameter(theEvent, kEventParamTextInputSendText, typeUTF16ExternalRepresentation, NULL, dataSize, NULL, dataPtr);
 	NSString *aString =[[NSString alloc] initWithBytes:dataPtr length:dataSize encoding:NSUnicodeStringEncoding];
 	[(id)userData insertTextInputSendText:aString];
 	free(dataPtr);
@@ -414,11 +479,11 @@ bail:
 	id			delegate_ = [self delegate];
 	NSIndexSet	*indexes = nil;
 
-	if (delegate_ && [delegate_ respondsToSelector: @selector(outlineView:findForString:)]) {
-		indexes = [delegate_ outlineView: self findForString: aString];
+	if (delegate_ && [delegate_ respondsToSelector:@selector(outlineView:findForString:)]) {
+		indexes = [delegate_ outlineView:self findForString:aString];
 	}
-	if (indexes != nil) {
-		[self selectRowIndexes: indexes byExtendingSelection: NO];
+	if (indexes) {
+		[self selectRowIndexes:indexes byExtendingSelection:NO];
 	}
 }
 @end

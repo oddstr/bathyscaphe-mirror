@@ -3,23 +3,25 @@
 //  BathyScaphe
 //
 //  Created by Hori,Masaki on 06/03/29.
-//  Copyright 2006 BathyScaphe Project. All rights reserved.
+//  Copyright 2006-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import "BSThreadListUpdateTask.h"
 #import "BSDBThreadList.h"
 #import "BoardListItem.h"
+#import "BoardBoardListItem.h"
 #import "DatabaseManager.h"
 #import "AppDefaults.h"
 
 NSString *BSThreadListUpdateTaskDidFinishNotification = @"BSThreadListUpdateTaskDidFinishNotification";
 
 @implementation BSThreadListUpdateTask
-
 + (id)taskWithBSDBThreadList:(BSDBThreadList *)threadList
 {
 	return [[[[self class] alloc] initWithBSDBThreadList:threadList] autorelease];
 }
+
 - (id)initWithBSDBThreadList:(BSDBThreadList *)threadList
 {
 	if(self = [super init]) {
@@ -32,6 +34,7 @@ NSString *BSThreadListUpdateTaskDidFinishNotification = @"BSThreadListUpdateTask
 	
 	return self;
 }
+
 - (void)dealloc
 {
 	[cursor release];
@@ -39,29 +42,30 @@ NSString *BSThreadListUpdateTaskDidFinishNotification = @"BSThreadListUpdateTask
 	[super dealloc];
 }
 
-- (id) identifier
+- (id)identifier
 {
 	return [NSValue valueWithPointer:self];
 }
 
-- (NSString *) title
+- (NSString *)title
 {
 	return bbsName;
 }
-- (NSString *) messageInProgress
+
+- (NSString *)messageInProgress
 {
 	return [NSString stringWithFormat:
 		NSLocalizedStringFromTable(@"Updating Thread(%@)", @"ThreadsList", @""),
 		bbsName];
 }
 
-- (IBAction) cancel : (id) sender
+- (IBAction)cancel:(id)sender
 {
 	userCanceled = YES;
 	target = nil;
 }
 
-#pragma mark-
+#pragma mark -
 /*
 static inline NSArray *componentsSeparatedByWhiteSpace(NSString *string)
 {
@@ -114,34 +118,34 @@ static inline NSString *whereClauseFromSearchString(NSString *searchString)
 	return clause;
 }
 */
-- (NSString *) sqlForList
+- (NSString *)sqlForList
 {
-	NSString *targetTable = [[target boardListItem] query];
 	NSMutableString *sql;
-//	NSString *searchCondition;
+	BoardListItem *boardItem = [target boardListItem];
 	
-	sql = [NSMutableString stringWithFormat : @"SELECT * FROM (%@) ",targetTable];
-/*	
-	if ([target searchString] && ![[target searchString] isEmpty]) {
-		searchCondition = whereClauseFromSearchString([target searchString]);
-		if (searchCondition) {
-			[sql appendString : searchCondition];
-		}
+	if ([BoardListItem isBoardItem:boardItem] && [CMRPref threadsListViewMode] == BSThreadsListShowsStoredLogFiles) {
+		sql = [NSMutableString stringWithFormat:@"SELECT * FROM %@ WHERE %@ = %u AND %@ > 0",
+				BoardThreadInfoViewName, BoardIDColumn, [(BoardBoardListItem *)boardItem boardID], NumberOfReadColumn];
+	} else {
+		NSString *targetTable = [boardItem query];
+		sql = [NSMutableString stringWithFormat : @"SELECT * FROM (%@) ",targetTable];
 	}
-*/	
 	return sql;
 }
+
 - (id)cursor
 {
 	return cursor;
 }
-- (void) setCursor:(id)new
+
+- (void)setCursor:(id)new
 {
 	id temp = cursor;
 	cursor = [new retain];
 	[temp release];
 }
-- (void) doExecuteWithLayout : (CMRThreadLayout *) layout
+
+- (void)doExecuteWithLayout:(CMRThreadLayout *)layout
 {
 	id <SQLiteMutableCursor> result = nil;
 		
@@ -156,26 +160,25 @@ static inline NSString *whereClauseFromSearchString(NSString *searchString)
 	if ([db lastErrorID] != 0) {
 		NSLog(@"sql error on %s line %d.\n\tReason   : %@", __FILE__, __LINE__, [db lastError]);
 		result = nil;
-	}	
-	
+	}
+
 final:
 	[self setCursor:result];
 	[self postTaskDidFinishNotification];
 }
-
 @end
 
-@implementation BSThreadListUpdateTask(Notification)
 
-- (void) postTaskDidFinishNotification
+@implementation BSThreadListUpdateTask(Notification)
+- (void)postTaskDidFinishNotification
 {
 	NSNotificationCenter	*nc_;
 		
 	nc_ = [NSNotificationCenter defaultCenter];
-	[nc_ postNotificationName : BSThreadListUpdateTaskDidFinishNotification
-					   object : self];
+	[nc_ postNotificationName:BSThreadListUpdateTaskDidFinishNotification object:self];
 }
 @end
+
 
 @implementation NSString(BSThreadListUpdateTaskAddition)
 - (NSComparisonResult)numericCompare:(NSString *)string
@@ -184,12 +187,15 @@ final:
 }
 @end
 
+
 @implementation NSNumber(BSThreadListUpdateTaskAddition)
 - (NSComparisonResult)numericCompare:(id)obj
 {
 	return [self compare:obj];
 }
 @end
+
+
 @implementation NSDate(BSThreadListUpdateTaskAddition)
 - (NSComparisonResult)numericCompare:(id)obj
 {

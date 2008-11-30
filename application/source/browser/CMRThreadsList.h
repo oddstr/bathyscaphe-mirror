@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.h,v 1.23 2008/10/12 16:49:15 tsawada2 Exp $
+  * $Id: CMRThreadsList.h,v 1.24 2008/11/30 15:51:33 tsawada2 Exp $
   * 
   * CMRThreadsList.h
   *
@@ -9,7 +9,6 @@
 #import <Cocoa/Cocoa.h>
 #import "CocoMonar_Prefix.h"
 
-//@class CMRDownloader;
 @class CMRThreadLayout;
 @class CMRThreadSignature;
 
@@ -22,18 +21,11 @@ enum {
 
 @interface CMRThreadsList : NSObject 
 {
-//	NSString				*_BBSName;
 	CMRThreadLayout			*_worker;
 	
 	NSMutableArray			*_threads;
 	NSMutableArray			*_filteredThreads;
-
-	BOOL		_isAscending;
 }
-
-//- (id) initWithBBSName : (NSString *) boardName;
-//+ (id) threadsListWithBBSName : (NSString *) boardName;
-
 /**
   * 
   * 読み込みを開始。
@@ -41,119 +33,68 @@ enum {
   * workerを保持する。
   * 
   */
-- (void) startLoadingThreadsList : (CMRThreadLayout *) worker;
-- (void) doLoadThreadsList : (CMRThreadLayout *) worker;
-- (CMRThreadLayout *) worker;
-- (void) setWorker : (CMRThreadLayout *) aWorker;
+- (void)startLoadingThreadsList:(CMRThreadLayout *)worker;
+- (void)doLoadThreadsList:(CMRThreadLayout *)worker;
+- (CMRThreadLayout *)worker;
+- (void)setWorker:(CMRThreadLayout *)aWorker;
 
-- (BOOL) isFavorites;
+- (BOOL)isFavorites;
 - (BOOL)isSmartItem;
+- (BOOL)isBoard; // Available in Tenori Tiger.
 
-// Now unused, so deprecated in Twincam Angel. 
-//- (BOOL) addFavoriteAtRowIndex : (int          ) rowIndex
-//				   inTableView : (NSTableView *) tableView;
-
-//- (id) objectValueForBoardInfo;
+- (void)rebuildThreadsList; // Available in Tenori Tiger.
 @end
 
-/*
-@interface CMRThreadsList(PrivateAccessor)
-- (void) setBBSName : (NSString *) boardName;
-@end
-*/
 
 @interface CMRThreadsList(CleanUp)
-- (void) cleanUpItemsToBeRemoved : (NSArray *) files;
-
-//- (BOOL) tableView : (NSTableView	*) tableView
-//	removeIndexSet : (NSIndexSet	*) indexSet
-// delFavIfNecessary : (BOOL			 ) flag;
+- (void)cleanUpItemsToBeRemoved:(NSArray *)files;
 
 // Available in BathyScaphe 1.6.2 and later.
 //- (BOOL)tableView:(NSTableView *)tableView removeFilesAtRowIndexes:(NSIndexSet *)rowIndexes ask:(BOOL)flag;
 
-- (BOOL) tableView : (NSTableView	*) tableView
-	   removeFiles : (NSArray		*) files
- delFavIfNecessary : (BOOL			 ) flag;
+- (BOOL)tableView:(NSTableView *)tableView removeFiles:(NSArray *)files delFavIfNecessary:(BOOL)flag;
 - (BOOL)removeDatochiFiles;
 @end
 
 
 @interface CMRThreadsList(AccessingList)
-- (NSMutableArray *) threads;
-- (void) setThreads : (NSMutableArray *) aThreads;
-- (NSMutableArray *) filteredThreads;
-- (void) setFilteredThreads : (NSArray *) aFilteredThreads;
-//- (int) filteringMask;
-//- (void) setFilteringMask : (int) mask;
-//- (BOOL) isAscending;
-//- (void) setIsAscending : (BOOL)  flag;
-//- (NSMutableDictionary *) threadsInfo;
-//- (void) setThreadsInfo : (NSMutableDictionary *) aThreadsInfo;
-//- (void) toggleIsAscending;
-//- (void) sortByKey : (NSString *) key;
+- (NSMutableArray *)threads;
+- (void)setThreads:(NSMutableArray *)aThreads;
+- (NSMutableArray *)filteredThreads;
+- (void)setFilteredThreads:(NSArray *)aFilteredThreads;
 @end
-
 
  
 @interface CMRThreadsList(Attributes)
-//- (NSString *) BBSName;
-- (NSString *) boardName;
-- (NSURL *) boardURL;
+- (NSString *)boardName;
+- (NSURL *)boardURL;
 
-- (unsigned) numberOfThreads;
-- (unsigned) numberOfFilteredThreads;
+- (unsigned)numberOfThreads;
+- (unsigned)numberOfFilteredThreads;
 @end
 
 
 
 @interface CMRThreadsList(Filter)
-//- (void) filterByDisplayingThreadAtPath : (NSString *) filepath;
-//- (void) filterByStatus : (int) status;
-
 // Available in MeteorSweeper.
-- (BOOL) filterByString: (NSString *) searchString;
-
-/*- (NSArray *) _arrayWithStatus : (ThreadStatus    ) status
-               fromSortedArray : (NSMutableArray *) array
-			     subarrayRange : (NSRangePointer  ) aRange;*/
+- (BOOL)filterByString:(NSString *)searchString;
 @end
-
-
-/*
-@interface CMRThreadsList(SearchThreads)
-- (NSMutableDictionary *) seachThreadByPath : (NSString *) filepath;
-//- (NSMutableDictionary *) seachThreadByPath : (NSString *) filepath
-//									inArray : (NSArray  *) array;
-
-// Added in TestaRossa and later.
-//- (NSArray *) _searchThreadsInArray : (NSArray *) array context : (NSString *) context;
-@end
-*/
 
 
 @interface CMRThreadsList(DataSource)
-+ (void) resetDataSourceTemplates;
-+ (void) resetDataSourceTemplateForColumnIdentifier: (NSString *) identifier width: (float) loc;
-+ (void) resetDataSourceTemplateForDateColumn;
++ (void)resetDataSourceTemplates;
++ (void)resetDataSourceTemplateForColumnIdentifier:(NSString *)identifier width:(float)loc;
++ (void)resetDataSourceTemplateForDateColumn;
 
 + (NSDictionary *)threadCreatedDateAttrTemplate;
 + (NSDictionary *)threadModifiedDateAttrTemplate;
 + (NSDictionary *)threadLastWrittenDateAttrTemplate;
 
-+ (id) objectValueTemplate : (id ) aValue
-				   forType : (int) aType;
++ (id)objectValueTemplate:(id)aValue forType:(int)aType;
 
-
-/*- (id) objectValueForIdentifier : (NSString *) identifier
-					threadArray : (NSArray  *) threadArray
-						atIndex : (int       ) index;*/
-- (NSString *) threadFilePathAtRowIndex : (int          ) rowIndex
-                            inTableView : (NSTableView *) tableView
-							     status : (ThreadStatus *) status;
-- (NSDictionary *) threadAttributesAtRowIndex : (int          ) rowIndex
-                                  inTableView : (NSTableView *) tableView;
-- (NSString *)threadTitleAtRowIndex:(int )rowIndex inTableView:(NSTableView *)tableView;
+- (NSString *)threadFilePathAtRowIndex:(int)rowIndex inTableView:(NSTableView *)tableView status:(ThreadStatus *)status;
+- (NSDictionary *)threadAttributesAtRowIndex:(int)rowIndex inTableView:(NSTableView *)tableView;
+- (NSString *)threadTitleAtRowIndex:(int)rowIndex inTableView:(NSTableView *)tableView;
 
 - (CMRThreadSignature *)threadSignatureWithTitle:(NSString *)title; // Available in SilverGull and later.
 
@@ -170,24 +111,19 @@ enum {
 @end
 
 @interface CMRThreadsList(DraggingImage)
-- (NSImage *) dragImageForRowIndexes: (NSIndexSet *) rowIndexes
-						 inTableView: (NSTableView *) tableView
-							  offset: (NSPointPointer) dragImageOffset;
+- (NSImage *)dragImageForRowIndexes:(NSIndexSet *)rowIndexes
+						inTableView:(NSTableView *)tableView
+							 offset:(NSPointPointer)dragImageOffset;
 @end
 
 
 @interface CMRThreadsList(Download)
-- (void) downloadThreadsList;
-- (void) postListDidUpdateNotification : (int) mask;
+- (void)downloadThreadsList;
 @end
 
 
-
-
 @interface CMRThreadsList(ListImport)
-//+ (void) clearAttributes : (NSMutableDictionary *) attributes;
-+ (NSMutableDictionary *) attributesForThreadsListWithContentsOfFile : (NSString *) path;
-//+ (id) threadsListTemplateWithPath : (NSString *) path;
++ (NSMutableDictionary *)attributesForThreadsListWithContentsOfFile:(NSString *)path;
 @end
 
 // Notification

@@ -61,7 +61,6 @@
 		87E45259085ED89D00F2ACB3 /* NSImage-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F57753950373B06001A80002 /* NSImage-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87E4525C085ED89D00F2ACB3 /* NSPasteboard-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F5AC4BB00378150501A80002 /* NSPasteboard-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87E4525F085ED89D00F2ACB3 /* NSCell-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F58144EB037B01E001A80002 /* NSCell-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		87E45263085ED89D00F2ACB3 /* NSScrollView-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F57D5E16037B6DE401A80002 /* NSScrollView-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87E4526B085ED89D00F2ACB3 /* NSWorkspace-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F523B0C7037C028C01A80002 /* NSWorkspace-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87E4526D085ED89D00F2ACB3 /* NSControl-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F5823B6D037D2CC001A80002 /* NSControl-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87E45271085ED89D00F2ACB3 /* NSTextView-SGExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = F576919303811AE001A80002 /* NSTextView-SGExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -82,7 +81,6 @@
 		87E45286085ED89D00F2ACB3 /* NSImage-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F57753960373B06001A80002 /* NSImage-SGExtensions.m */; };
 		87E45288085ED89D00F2ACB3 /* NSPasteboard-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F5AC4BB10378150501A80002 /* NSPasteboard-SGExtensions.m */; };
 		87E4528B085ED89D00F2ACB3 /* NSCell-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F58144EC037B01E001A80002 /* NSCell-SGExtensions.m */; };
-		87E4528D085ED89D00F2ACB3 /* NSScrollView-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F57D5E17037B6DE401A80002 /* NSScrollView-SGExtensions.m */; };
 		87E45291085ED89D00F2ACB3 /* NSWorkspace-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F523B0C8037C028C01A80002 /* NSWorkspace-SGExtensions.m */; };
 		87E45292085ED89D00F2ACB3 /* NSControl-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F5823B6E037D2CC001A80002 /* NSControl-SGExtensions.m */; };
 		87E45295085ED89D00F2ACB3 /* NSTextView-SGExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F576919403811AE001A80002 /* NSTextView-SGExtensions.m */; };
@@ -145,7 +143,7 @@
 		87D991A809922E6F006C5821 /* Action.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Action.tiff; path = ../../application/Resources/image/Action.tiff; sourceTree = SOURCE_ROOT; };
 		87D991AB09922E91006C5821 /* CMRPullDownIconBtn.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; name = CMRPullDownIconBtn.h; path = ../../application/source/browser/CMRPullDownIconBtn.h; sourceTree = SOURCE_ROOT; };
 		87D991AC09922E91006C5821 /* CMRPullDownIconBtn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CMRPullDownIconBtn.m; path = ../../application/source/browser/CMRPullDownIconBtn.m; sourceTree = SOURCE_ROOT; };
-		87E452A4085ED89D00F2ACB3 /* Info-SGAppKit.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-SGAppKit.plist"; sourceTree = "<group>"; };
+		87E452A4085ED89D00F2ACB3 /* Info-SGAppKit.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-SGAppKit.plist"; sourceTree = "<group>"; };
 		87E452A5085ED89D00F2ACB3 /* SGAppKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SGAppKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F303886F0484C45700A80005 /* NSUserDefaults+SGAppKitExtensions.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSUserDefaults+SGAppKitExtensions.h"; sourceTree = "<group>"; };
 		F30388700484C45700A80005 /* NSUserDefaults+SGAppKitExtensions.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSUserDefaults+SGAppKitExtensions.m"; sourceTree = "<group>"; };
@@ -501,7 +499,6 @@
 				87E45259085ED89D00F2ACB3 /* NSImage-SGExtensions.h in Headers */,
 				87E4525C085ED89D00F2ACB3 /* NSPasteboard-SGExtensions.h in Headers */,
 				87E4525F085ED89D00F2ACB3 /* NSCell-SGExtensions.h in Headers */,
-				87E45263085ED89D00F2ACB3 /* NSScrollView-SGExtensions.h in Headers */,
 				87E4526B085ED89D00F2ACB3 /* NSWorkspace-SGExtensions.h in Headers */,
 				87E4526D085ED89D00F2ACB3 /* NSControl-SGExtensions.h in Headers */,
 				87E45271085ED89D00F2ACB3 /* NSTextView-SGExtensions.h in Headers */,
@@ -619,7 +616,6 @@
 				87E45286085ED89D00F2ACB3 /* NSImage-SGExtensions.m in Sources */,
 				87E45288085ED89D00F2ACB3 /* NSPasteboard-SGExtensions.m in Sources */,
 				87E4528B085ED89D00F2ACB3 /* NSCell-SGExtensions.m in Sources */,
-				87E4528D085ED89D00F2ACB3 /* NSScrollView-SGExtensions.m in Sources */,
 				87E45291085ED89D00F2ACB3 /* NSWorkspace-SGExtensions.m in Sources */,
 				87E45292085ED89D00F2ACB3 /* NSControl-SGExtensions.m in Sources */,
 				87E45295085ED89D00F2ACB3 /* NSTextView-SGExtensions.m in Sources */,

@@ -136,6 +136,7 @@
 		8752AACC0C6B60200078C6F4 /* BSNGExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 8752AACA0C6B60200078C6F4 /* BSNGExpression.m */; };
 		8752E6FA0DCED3000054AB99 /* BSNavigationStatusLine.h in Headers */ = {isa = PBXBuildFile; fileRef = 874802AF0DCDEAB400689F5A /* BSNavigationStatusLine.h */; };
 		8752E6FB0DCED3010054AB99 /* BSNavigationStatusLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 874802B00DCDEAB400689F5A /* BSNavigationStatusLine.m */; };
+		87554BF10EE2CF1600EA2D90 /* CMRBrowser.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87554BEF0EE2CF1600EA2D90 /* CMRBrowser.nib */; };
 		875D98200A8A02180061C86D /* SGAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244F5043610D600A80005 /* SGAppKit.framework */; };
 		875D98210A8A02190061C86D /* SGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F39244FA043610EB00A80005 /* SGFoundation.framework */; };
 		875D98230A8A021E0061C86D /* CocoMonar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3924488043610AE00A80005 /* CocoMonar.framework */; };
@@ -397,7 +398,6 @@
 		F473625E0AFF8758009B6189 /* EditBoardSheetController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87BD58DE0AAC551100F6412D /* EditBoardSheetController.h */; };
 		F473625F0AFF8758009B6189 /* BSAsciiArtDetector.h in Headers */ = {isa = PBXBuildFile; fileRef = 8763716F0AB3455E005D5996 /* BSAsciiArtDetector.h */; };
 		F47362620AFF8758009B6189 /* AlertPanel.strings in Resources */ = {isa = PBXBuildFile; fileRef = 872998E20832617E00CBD740 /* AlertPanel.strings */; };
-		F47362630AFF8758009B6189 /* Browser.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872998EB0832617F00CBD740 /* Browser.nib */; };
 		F47362640AFF8758009B6189 /* browserListColumns.plist in Resources */ = {isa = PBXBuildFile; fileRef = 872998EE0832617F00CBD740 /* browserListColumns.plist */; };
 		F47362660AFF8758009B6189 /* CMRIndexingStepper.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872998F40832617F00CBD740 /* CMRIndexingStepper.nib */; };
 		F47362670AFF8758009B6189 /* CMRNoNameInput.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872998FA0832617F00CBD740 /* CMRNoNameInput.nib */; };
@@ -893,7 +893,6 @@
 		8729971808325E2500CBD740 /* CMXPopUpWindowManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMXPopUpWindowManager.h; sourceTree = "<group>"; };
 		8729971908325E2500CBD740 /* CMXPopUpWindowManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMXPopUpWindowManager.m; sourceTree = "<group>"; };
 		8729995A0832618700CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/AlertPanel.strings; sourceTree = "<group>"; };
-		8729995D0832618700CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/Browser.nib; sourceTree = "<group>"; };
 		8729995E0832618700CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Japanese; path = Japanese.lproj/browserListColumns.plist; sourceTree = "<group>"; };
 		872999600832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/CMRIndexingStepper.nib; sourceTree = "<group>"; };
 		872999620832618800CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/CMRNoNameInput.nib; sourceTree = "<group>"; };
@@ -1006,6 +1005,7 @@
 		87517BAE0864BE33002DA082 /* Spacer.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Spacer.tiff; sourceTree = "<group>"; };
 		8752AAC90C6B60200078C6F4 /* BSNGExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSNGExpression.h; sourceTree = "<group>"; };
 		8752AACA0C6B60200078C6F4 /* BSNGExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSNGExpression.m; sourceTree = "<group>"; };
+		87554BF00EE2CF1600EA2D90 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Resources/Japanese.lproj/CMRBrowser.nib; sourceTree = "<group>"; };
 		875743F907C372F6006F3C68 /* CMRThreadViewer-Validation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-Validation.m"; sourceTree = "<group>"; };
 		8757441407C37772006F3C68 /* CMRThreadViewer-Find.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-Find.m"; sourceTree = "<group>"; };
 		875FF5C50C7FFA960034E371 /* BSTitleRulerAppearance.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = BSTitleRulerAppearance.plist; sourceTree = "<group>"; };
@@ -1081,8 +1081,6 @@
 		87B19D7D08FB7C4100D15053 /* AddBoard.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AddBoard.tiff; sourceTree = "<group>"; };
 		87B619690D74F3F600581B83 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		87B652980840625F008AE2BE /* SendMessage.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SendMessage.tiff; sourceTree = "<group>"; };
-		87B802FF0B0ED4980001339F /* NSIndexSet+BSAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSIndexSet+BSAddition.m"; sourceTree = "<group>"; };
-		87B803000B0ED4980001339F /* NSIndexSet+BSAddition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSIndexSet+BSAddition.h"; sourceTree = "<group>"; };
 		87BB791F0864401A00ED8757 /* RBSplitSubview.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RBSplitSubview.h; path = ../RBSplitSubview.h; sourceTree = "<group>"; };
 		87BB87870B195B4E00472D3F /* BSIPIToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIToken.h; sourceTree = "<group>"; };
 		87BB87880B195B4E00472D3F /* BSIPIToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIToken.m; sourceTree = "<group>"; };
@@ -1091,8 +1089,6 @@
 		87BD58DE0AAC551100F6412D /* EditBoardSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditBoardSheetController.h; sourceTree = "<group>"; };
 		87BD58DF0AAC551100F6412D /* EditBoardSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditBoardSheetController.m; sourceTree = "<group>"; };
 		87BD58E80AAC58D700F6412D /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/EditBoardSheet.nib; sourceTree = "<group>"; };
-		87BD61EE0865D0230080A7CA /* NSTableView+BSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTableView+BSAdditions.h"; sourceTree = "<group>"; };
-		87BD61EF0865D0230080A7CA /* NSTableView+BSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTableView+BSAdditions.m"; sourceTree = "<group>"; };
 		87BE9EA00912F54D00D2F339 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
 		87BF52C908F789D400998C4E /* BSBoardInfoInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSBoardInfoInspector.h; sourceTree = "<group>"; };
 		87BF52CA08F789D400998C4E /* BSBoardInfoInspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSBoardInfoInspector.m; sourceTree = "<group>"; };
@@ -1708,14 +1704,10 @@
 		8729964C0832556100CBD740 /* extensions */ = {
 			isa = PBXGroup;
 			children = (
-				87B802FF0B0ED4980001339F /* NSIndexSet+BSAddition.m */,
-				87B803000B0ED4980001339F /* NSIndexSet+BSAddition.h */,
 				F324DD8704C698FB00A80005 /* missing.h */,
 				F324DD8804C698FB00A80005 /* missing.m */,
 				872996530832556100CBD740 /* NSTableColumn+CMXAdditions.h */,
 				872996540832556100CBD740 /* NSTableColumn+CMXAdditions.m */,
-				87BD61EE0865D0230080A7CA /* NSTableView+BSAdditions.h */,
-				87BD61EF0865D0230080A7CA /* NSTableView+BSAdditions.m */,
 				876747BB0D1412E4004AAC4E /* NSApplication+BSScriptingSupport.h */,
 				876747BC0D1412E4004AAC4E /* NSApplication+BSScriptingSupport.m */,
 			);
@@ -1779,7 +1771,7 @@
 				87299AF50832622100CBD740 /* text */,
 				87299A02083261F200CBD740 /* image */,
 				87BF7CA40840423900CC7D7C /* BathyScapheHelp */,
-				872998EB0832617F00CBD740 /* Browser.nib */,
+				87554BEF0EE2CF1600EA2D90 /* CMRBrowser.nib */,
 				872998F40832617F00CBD740 /* CMRIndexingStepper.nib */,
 				872998FA0832617F00CBD740 /* CMRNoNameInput.nib */,
 				872998FD0832617F00CBD740 /* CMROpenURL.nib */,
@@ -3554,7 +3546,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F47362620AFF8758009B6189 /* AlertPanel.strings in Resources */,
-				F47362630AFF8758009B6189 /* Browser.nib in Resources */,
 				F47362640AFF8758009B6189 /* browserListColumns.plist in Resources */,
 				F47362660AFF8758009B6189 /* CMRIndexingStepper.nib in Resources */,
 				F47362670AFF8758009B6189 /* CMRNoNameInput.nib in Resources */,
@@ -3683,6 +3674,7 @@
 				874338530D5EDDB400AD3DC7 /* BSReplyAlertSheet.nib in Resources */,
 				873245080D60275200CF1705 /* BSLocalRulesPanel.nib in Resources */,
 				873245410D603C9A00CF1705 /* LocalRulesTemplate.html in Resources */,
+				87554BF10EE2CF1600EA2D90 /* CMRBrowser.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4119,14 +4111,6 @@
 			name = AlertPanel.strings;
 			sourceTree = "<group>";
 		};
-		872998EB0832617F00CBD740 /* Browser.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8729995D0832618700CBD740 /* Japanese */,
-			);
-			name = Browser.nib;
-			sourceTree = "<group>";
-		};
 		872998EE0832617F00CBD740 /* browserListColumns.plist */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -4389,6 +4373,15 @@
 				874934C10BDB62180082F7BF /* Japanese */,
 			);
 			name = ThemeEditor.nib;
+			sourceTree = "<group>";
+		};
+		87554BEF0EE2CF1600EA2D90 /* CMRBrowser.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				87554BF00EE2CF1600EA2D90 /* Japanese */,
+			);
+			name = CMRBrowser.nib;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		8761BAA20B80D2F700120AA4 /* IndexingPopupper.strings */ = {

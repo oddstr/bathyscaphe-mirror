@@ -27,7 +27,6 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 @interface BSDBThreadList(Private)
 - (void)setSortDescriptors:(NSArray *)inDescs;
 - (void)addSortDescriptor:(NSSortDescriptor *)inDesc;
-- (void)filterByStatusWithoutUpdateList:(int)status;
 @end
 
 
@@ -129,6 +128,11 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	return [BoardListItem isSmartItem:[self boardListItem]];
 }
 
+- (BOOL)isBoard
+{
+	return [BoardListItem isBoardItem:[self boardListItem]];
+}
+
 - (id)boardListItem
 {
 	return mBoardListItem;
@@ -158,16 +162,6 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 - (unsigned)numberOfFilteredThreads
 {
 	return [[self filteredThreads] count];
-}
-
-- (BSThreadsListViewModeType)viewMode
-{
-	return mViewMode;
-}
-
-- (void)setViewMode:(BSThreadsListViewModeType)mode
-{
-	mViewMode = mode;
 }
 
 #pragma mark## Sorting ##
@@ -471,18 +465,6 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	UTILNotifyName(CMRThreadsListDidChangeNotification);
 }
 
-- (void)postListDidUpdateNotification:(int)mask
-{
-	id		obj_;
-	
-	obj_ = [NSNumber numberWithUnsignedInt:mask];
-	UTILNotifyInfo3(
-					CMRThreadsListDidUpdateNotification,
-					obj_,
-					ThreadsListUserInfoSelectionHoldingMaskKey);
-	UTILNotifyName(CMRThreadsListDidChangeNotification);
-}
-
 #pragma mark## SearchThread ##
 + (NSMutableDictionary *)attributesForThreadsListWithContentsOfFile:(NSString *)filePath
 {
@@ -492,7 +474,7 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 
 @implementation BSDBThreadList(ToBeRefactoring)
 #pragma mark## Download ##
-- (void)loadAndDownloadThreadsList:(CMRThreadLayout *)worker forceDownload:(BOOL)forceDL
+- (void)loadAndDownloadThreadsList:(CMRThreadLayout *)worker forceDownload:(BOOL)forceDL rebuild:(BOOL)flag
 {
 	//　既に起動中の更新タスクを強制終了させる
 	[mTaskLock lock];
@@ -516,7 +498,7 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 		}
 	} else {
 		[mTaskLock lock];
-		mTask = [[BSThreadsListOPTask alloc] initWithThreadList:self forceDownload:forceDL];
+		mTask = [[BSThreadsListOPTask alloc] initWithThreadList:self forceDownload:forceDL rebuild:flag];
 		[worker push:mTask];
 		[mTaskLock unlock];
 	}
@@ -525,11 +507,21 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 - (void)doLoadThreadsList:(CMRThreadLayout *)worker
 {
 	[self setWorker:worker]; // ????
-	[self loadAndDownloadThreadsList:worker forceDownload:NO];
+	[self loadAndDownloadThreadsList:worker forceDownload:NO rebuild:NO];
 }
 
 - (void)downloadThreadsList
 {
-	[self loadAndDownloadThreadsList:[self worker] forceDownload:YES];
+	[self loadAndDownloadThreadsList:[self worker] forceDownload:YES rebuild:NO];
+}
+
+- (void)rebuildThreadsList
+{
+	unsigned boardId = [[self boardListItem] boardID];
+	if (![[DatabaseManager defaultManager] deleteAllRecordsOfBoard:boardId]) {
+		return;
+	}
+
+	[self loadAndDownloadThreadsList:[self worker] forceDownload:YES rebuild:YES];
 }
 @end

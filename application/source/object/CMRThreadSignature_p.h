@@ -1,1 +1,0 @@
-//:CMRThreadSignature_p.h#import "CMRThreadSignature.h"#import "CocoMonar_Prefix.h"@interface CMRThreadSignature(Private)/* Accessor for m_identifier */- (void) setIdentifier : (NSString *) anIdentifier;- (void) setBBSName : (NSString *) aBBSName;@end

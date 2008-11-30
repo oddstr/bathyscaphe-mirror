@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadLinkProcessor.m,v 1.6 2007/11/20 04:21:35 tsawada2 Exp $
+  * $Id: CMRThreadLinkProcessor.m,v 1.7 2008/11/30 15:51:33 tsawada2 Exp $
   * 
   * CMRThreadLinkProcessor.m
   *
@@ -22,7 +22,7 @@
 
 
 /* ‘SŠp”Žš --> ”¼Šp”Žš */
-static NSString *decimalDigitStringJpanese2Ascii(NSString *str);
+//static NSString *decimalDigitStringJpanese2Ascii(NSString *str);
 static void scanResLinkElement_(NSString *str, NSMutableIndexSet *buffer);
 
 
@@ -169,7 +169,7 @@ RetMessageLink:
 }
 @end
 
-
+/*
 static NSString *decimalDigitStringJpanese2Ascii(NSString *str)
 {
 	NSCharacterSet	*numSet_ = [NSCharacterSet numberCharacterSet_JP];
@@ -208,7 +208,7 @@ static NSString *decimalDigitStringJpanese2Ascii(NSString *str)
 	
 	return result_;
 }
-
+*/
 /*
 A - B ==> {A, B-A}
 A - B - C ==> {A, 1}, {B, 1}, {C, 1}, 
@@ -223,8 +223,10 @@ static void scanResLinkElement_(NSString *str, NSMutableIndexSet *buffer)
 	NSMutableIndexSet	*tmpIndexes = [NSMutableIndexSet indexSet];
 	
 	UTIL_DEBUG_FUNCTION;
-	str = decimalDigitStringJpanese2Ascii(str);
-	tmp = [NSMutableString stringWithString:str];
+//	str = decimalDigitStringJpanese2Ascii(str);
+//	tmp = [NSMutableString stringWithString:str];
+	tmp = [[NSMutableString alloc] initWithString:str];
+	CFStringTransform((CFMutableStringRef)tmp, NULL, kCFStringTransformFullwidthHalfwidth, false);
 	UTIL_DEBUG_WRITE1(@"string: %@", tmp);
 
 	[tmp replaceCharactersInSet:[NSCharacterSet innerLinkRangeCharacterSet] toString:@" "];
@@ -232,7 +234,7 @@ static void scanResLinkElement_(NSString *str, NSMutableIndexSet *buffer)
 	
 	NSScanner	*scan = [NSScanner scannerWithString:tmp];
 	int			idx = 0;
-
+	[tmp release];
 	[scan setCharactersToBeSkipped:[NSCharacterSet whitespaceCharacterSet]];
 	while (1) {
 		if (![scan scanInt:&idx])

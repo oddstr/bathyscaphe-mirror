@@ -3,7 +3,8 @@
 //  BathyScaphe
 //
 //  Created by Hori,Masaki on 05/07/17.
-//  Copyright 2005 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import "DatabaseManager.h"
@@ -291,7 +292,7 @@ static NSLock *boardIDNumberCacheLock = nil;
 	return ([db lastErrorID] == 0);
 }
 
-- (BOOL)deleteBoardOfBoardID:(unsigned)boardID
+/*- (BOOL)deleteBoardOfBoardID:(unsigned)boardID
 {
 	SQLiteDB	*database;
 	NSString	*query;
@@ -307,7 +308,7 @@ static NSLock *boardIDNumberCacheLock = nil;
 	[database performQuery:query];
 
 	return ([database lastErrorID] == 0);
-}
+}*/
 
 /*
  - (BOOL) registerBoardNamesAndURLs : (NSArray *) array;
@@ -455,24 +456,33 @@ static NSLock *boardIDNumberCacheLock = nil;
  */
 - (BOOL)isThreadIdentifierRegistered:(NSString *)identifier onBoardID:(unsigned)boardID
 {
-	NSMutableString *query;
-	SQLiteDB *db;
-	id<SQLiteCursor> cursor;
+	return [self isThreadIdentifierRegistered:identifier onBoardID:boardID numberOfAll:NULL];
+}
+
+- (BOOL)isThreadIdentifierRegistered:(NSString *)identifier onBoardID:(unsigned)boardID numberOfAll:(unsigned int *)number
+{
+	SQLiteDB *db = [self databaseForCurrentThread];
 	
-	db = [self databaseForCurrentThread];
 	if (!db) {
 		return NO;
 	}
-	
-	query = [NSMutableString stringWithFormat : @"SELECT %@, %@, %@ FROM %@ WHERE %@ = %u AND %@ = %@",
-			ThreadStatusColumn, NumberOfAllColumn, NumberOfReadColumn,
-			ThreadInfoTableName,
-			BoardIDColumn, boardID, ThreadIDColumn, identifier];
-	
+
+	NSString *query;
+	id<SQLiteCursor> cursor;	
+	query = [NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@ = %u AND %@ = %@",
+				NumberOfAllColumn, ThreadInfoTableName, BoardIDColumn, boardID, ThreadIDColumn, identifier];
 	cursor = [db performQuery:query];
-	if (cursor && [cursor rowCount]) {
+
+	if (cursor && ([cursor rowCount] > 0)) {
+		if (number != NULL) {
+			id value = [cursor valueForColumn:NumberOfAllColumn atRow:0];
+			if ([value isKindOfClass:[NSString class]]) {
+				*number = [value intValue];
+			}
+		}
 		return YES;
 	}
+
 	return NO;
 }
 
@@ -577,12 +587,19 @@ abort:
 
 - (BOOL)registerThreadFromFilePath:(NSString *)filepath
 {
+	return [self registerThreadFromFilePath:filepath needsDisplay:YES];
+}
+
+- (BOOL)registerThreadFromFilePath:(NSString *)filepath needsDisplay:(BOOL)flag
+{
 	NSDictionary *hoge = [NSDictionary dictionaryWithContentsOfFile:filepath];
 	NSString *datNum, *title, *boardName;
-	NSNumber *count;
-	id		date;
-	id		dateValue;
-	BOOL	result_;
+	unsigned count;
+	NSDate *date;
+	CMRThreadUserStatus	*s;
+	id rep;
+	unsigned boardID;
+	BOOL	isDatOchi;
 	
 	datNum = [hoge objectForKey:ThreadPlistIdentifierKey];
 	if (!datNum) return NO;
@@ -590,18 +607,26 @@ abort:
 	if (!title) return NO;
 	boardName = [hoge objectForKey:ThreadPlistBoardNameKey];
 	if (!boardName) return NO;
-	count = [NSNumber numberWithUnsignedInt:[[hoge objectForKey: ThreadPlistContentsKey] count]];
+	count = [[hoge objectForKey: ThreadPlistContentsKey] count];
+	
+	rep = [hoge objectForKey:CMRThreadUserStatusKey];
+	s = [CMRThreadUserStatus objectWithPropertyListRepresentation:rep];
+	isDatOchi = (s ? [s isDatOchiThread] : NO);
 
 	date = [hoge objectForKey:CMRThreadModifiedDateKey];
-	if (date && [date isKindOfClass:[NSDate class]]) {
-		dateValue = [NSNumber numberWithDouble:[date timeIntervalSince1970]];
-	} else {
-		dateValue = [NSNull null];
+
+	NSArray *boardIDs = [self boardIDsForName:boardName];
+	if (!boardIDs || [boardIDs count] == 0) {
+		NSLog(@"board %@ is not registered.");
+		return NO;
 	}
+	boardID = [[boardIDs objectAtIndex:0] unsignedIntValue];
 
-	result_ = [self insertThreadID:datNum title:title count:count date:dateValue atBoard:boardName];
-
-	return (result_ == 0);
+	if ([self insertThreadOfIdentifier:datNum title:title count:count date:date isDatOchi:isDatOchi atBoard:boardID] && flag) {
+		[self makeThreadsListsUpdateCursor];
+		return YES;
+	}
+	return NO;
 }
 
 - (NSString *) threadTitleFromBoardName:(NSString *)boadName threadIdentifier:(NSString *)identifier
@@ -743,74 +768,101 @@ abort:
 }
 
 #pragma mark Testing...
-- (BOOL) insertThreadID: (NSString *) datString
-				  title: (NSString *) title
-				  count: (NSNumber *) count
-				   date: (id) date
-				atBoard: (NSString *) boardName
+static NSString *escapeQuotes(NSString *str)
 {
-	NSArray	*boardIDs;
-	id boardID;
-	NSArray *bindValues;
-	NSString *query;
-	SQLiteReservedQuery *reservedInsert;
+	NSRange range = [str rangeOfString:@"'" options:NSLiteralSearch];
+	if (range.location == NSNotFound) {
+		return str;
+	} else {
+		NSMutableString *newStr = [str mutableCopy];
+		[newStr replaceOccurrencesOfString:@"'" withString:@"''" options:NSLiteralSearch range:NSMakeRange(0, [newStr length])];
+		return [newStr autorelease];
+	}
+}
 
-	// boardID の取得
-	boardIDs = [self boardIDsForName: boardName];
-	if (!boardIDs) {
-		NSLog(@"Board Not Registered! Please add board %@, and try again.", boardName);
+- (BOOL)isRegisteredWithFavoritesTable:(NSString *)identifier atBoard:(unsigned)boardID
+{
+	SQLiteDB *db = [self databaseForCurrentThread];
+	if (!db) {
+		return NO;
+	}
+	NSString *query = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@ = %u AND %@ = %@",
+							FavoritesTableName, BoardIDColumn, boardID, ThreadIDColumn, identifier];
+	id<SQLiteCursor> cursor;
+	cursor = [db cursorForSQL:query];
+	if (cursor && [cursor rowCount]) {
+		return YES;
+	}
+	return NO;
+}
+
+- (BOOL)insertThreadOfIdentifier:(NSString *)identifier
+						   title:(NSString *)title
+						   count:(unsigned)count
+						    date:(NSDate *)date
+					   isDatOchi:(BOOL)flag
+						 atBoard:(unsigned)boardID
+{
+	SQLiteDB *db = [self databaseForCurrentThread];
+	if (!db) {
 		return NO;
 	}
 
-	boardID = [boardIDs objectAtIndex: 0];
+	double interval = 0;
+	if (date && [date isKindOfClass:[NSDate class]]) {
+		interval = [date timeIntervalSince1970];
+	}
 
-	SQLiteDB *db = [self databaseForCurrentThread];
+	unsigned int number = 0;
+	ThreadStatus status = ThreadLogCachedStatus;
+	NSMutableString *sql;
+	BOOL isFavorite = [self isRegisteredWithFavoritesTable:identifier atBoard:boardID];
 
-	if ([self isThreadIdentifierRegistered:datString onBoardID:[boardID unsignedIntValue]]) {
-		NSMutableString *sql;
+	if ([self isThreadIdentifierRegistered:identifier onBoardID:boardID numberOfAll:&number]) {
+		if (number < count) {
+			number = count;
+		} else if (number > count) {
+			status = ThreadUpdatedStatus;
+		}
 
 		sql = [NSMutableString stringWithFormat:@"UPDATE %@ ", ThreadInfoTableName];
-		[sql appendFormat:@"SET %@ = %u, %@ = %u, %@ = %u, %@ = %.0lf ",
-			NumberOfAllColumn, count,
+		[sql appendFormat:@"SET %@ = %u, %@ = %u, %@ = %u, %@ = %.0lf, %@ = %u, %@ = %u ",
+			NumberOfAllColumn, number,
 			NumberOfReadColumn, count,
-			ThreadStatusColumn, ThreadLogCachedStatus,
-			ModifiedDateColumn, date];
+			ThreadStatusColumn, status,
+			ModifiedDateColumn, interval,
+			IsFavoriteColumn, (isFavorite ? 1 : 0),
+			IsDatOchiColumn, (flag ? 1 : 0)];
 		[sql appendFormat:@"WHERE %@ = %u AND %@ = %@",
-			BoardIDColumn, [boardID unsignedIntValue], ThreadIDColumn, datString];
+			BoardIDColumn, boardID, ThreadIDColumn, identifier];
 		
 		[db cursorForSQL:sql];
 		
 		if ([db lastErrorID] != 0) {
-			NSLog(@"Fail to update. Reason: %@", [db lastError] );
+			NSLog(@"Fail to update. Reason: %@", [db lastError]);
 			return NO;
 		}
 
-		[self makeThreadsListsUpdateCursor];
-		return YES;
-	}
-	
-	if (db && [db beginTransaction]) {
-		// reservedInsert
-		// スレッド登録用
-		query = [NSString stringWithFormat: @"INSERT INTO %@ ( %@, %@, %@, %@, %@, %@, %@ ) VALUES ( ?, ?, ?, ?, ?, ?, %d )",
+	} else {
+		sql = [NSString stringWithFormat:@"INSERT INTO %@ ( %@, %@, %@, %@, %@, %@, %@, %@, %@ ) VALUES ( %u, %@, '%@', %u, %u, %.0lf, %u, %u, %u)",
 			ThreadInfoTableName,
-			BoardIDColumn, ThreadIDColumn, ThreadNameColumn, NumberOfAllColumn, NumberOfReadColumn, ModifiedDateColumn, ThreadStatusColumn,
-			ThreadLogCachedStatus];
-		reservedInsert = [db reservedQuery: query];
-
-		// 初めての読み込み。データベースに登録。		
-		bindValues = [NSArray arrayWithObjects: boardID, datString, title, count, count, date, nil];
-		[reservedInsert cursorForBindValues: bindValues];
+			BoardIDColumn, ThreadIDColumn, ThreadNameColumn, NumberOfAllColumn, NumberOfReadColumn, ModifiedDateColumn, ThreadStatusColumn, IsFavoriteColumn,
+			IsDatOchiColumn,
+			boardID, identifier, escapeQuotes(title), count, count, interval, status, (isFavorite ? 1 : 0),
+			(flag ? 1 : 0)];
+		[db cursorForSQL:sql];
 
 		if ([db lastErrorID] != 0) {
 			NSLog(@"Fail Insert. ErrorID -> %d. Reson: %@", [db lastErrorID], [db lastError]);
+			return NO;
 		}
 
-		[db commitTransaction];
 	}
+
 	return YES;
 }
-- (BOOL) recache
+
+- (BOOL)recache
 {
 	[boardIDNumberCacheLock lock];
 	[boardIDNameCache release];
@@ -819,5 +871,18 @@ abort:
 	
 	return YES;
 }
-	
+
+- (BOOL)deleteAllRecordsOfBoard:(unsigned)boardID
+{
+	SQLiteDB *db = [self databaseForCurrentThread];
+	NSString *query = [NSString stringWithFormat:
+		@"DELETE FROM %@ WHERE %@ = %u", ThreadInfoTableName, BoardIDColumn, boardID];
+	if (!db) return NO;
+	[db cursorForSQL:query];
+	if ([db lastErrorID] != 0) {
+		NSLog(@"Fail deleteAllRecordsOfBoard:%u. Reason: %@ (ErrorID -> %d)", boardID, [db lastError], [db lastErrorID]);
+		return NO;
+	}
+	return YES;
+}
 @end

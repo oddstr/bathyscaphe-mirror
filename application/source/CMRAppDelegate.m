@@ -15,6 +15,7 @@
 #import "TS2SoftwareUpdate.h"
 #import "CMRDocumentController.h"
 #import "BSDateFormatter.h"
+#import "DatabaseManager.h"
 
 static NSString *const kOnlineItemKey = @"On Line";
 static NSString *const kOfflineItemKey = @"Off Line";
@@ -308,6 +309,21 @@ static NSString *const kSWDownloadURLKey = @"System - Software Update Download P
 	}
 
 	if ([defaults_ isOnlineMode]) [[TS2SoftwareUpdate sharedInstance] startUpdateCheck:nil];
+}
+
+- (void)applicationWillTerminate:(NSNotification *)aNotification
+{
+	KeyMap m;
+	long lm;
+	GetKeys(m);
+#if TARGET_RT_LITTLE_ENDIAN
+	lm = EndianU32_LtoB(m[1].bigEndianValue);
+#else
+	lm = m[1];
+#endif
+	if((lm & 0x4) != 0x4/*option key*/) return;
+
+	[[DatabaseManager defaultManager] doVacuum];
 }
 @end
 

@@ -19,15 +19,10 @@
 @interface BSDBThreadList : CMRThreadsList
 {
 	id mCursor;
+	NSLock *mCursorLock;
 		
 	BoardListItem *mBoardListItem;
-	
-//	NSString *mSortKey;
 	NSString *mSearchString;
-//	ThreadStatus mStatus;
-	BSThreadsListViewModeType mViewMode;
-	
-	NSLock *mCursorLock;
 	
 	id<CMRThreadLayoutTask> mTask;
 	NSLock *mTaskLock;
@@ -42,18 +37,13 @@
 
 - (void)setBoardListItem:(BoardListItem *)item;
 - (id)boardListItem;
+
 - (id)searchString;
-//- (id) sortKey;
 - (NSArray *)sortDescriptors;
 - (void)setSortDescriptors:(NSArray *)inDescs;
-//- (BOOL)isAscendingForKey:(NSString *)key;
-//- (void)toggleIsAscendingForKey:(NSString *)key;
-//- (ThreadStatus) status;
 
 - (void)updateCursor;
 - (void)updateFilteredThreadsIfNeeded;
-- (BSThreadsListViewModeType)viewMode;
-- (void)setViewMode:(BSThreadsListViewModeType)mode;
 @end
 
 extern NSString *BSDBThreadListDidFinishUpdateNotification;

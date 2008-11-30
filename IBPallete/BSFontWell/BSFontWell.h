@@ -1,16 +1,15 @@
-/* encoding="UTF-8"
- *
- * BSFontWell.h
- * BathyScaphe
- *
- * Copyright 2005-2007 BathyScaphe Project. All rights reserved.
- * Last Update: 2007-01-14
- */
+//
+//  BSFontWell.h
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 08/11/02.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
 
 #import <Cocoa/Cocoa.h>
 
-@interface BSFontWell: NSButton
-{
+@interface BSFontWell: NSButton {
     @private
     NSFont		*m_actualFont;
 	id			m_controller;
@@ -18,18 +17,19 @@
 	id			m_delegate;
 }
 
-- (NSFont *) fontValue;
-- (void) setFontValue: (NSFont *) aFont;
+- (NSFont *)fontValue;
+- (void)setFontValue:(NSFont *)aFont;
 
-- (void) activate;
-- (void) deactivate;
+- (void)activate;
+- (void)deactivate;
 
-- (id) delegate;
-- (void) setDelegate: (id) anObject;
+- (id)delegate;
+- (void)setDelegate:(id)anObject;
 @end
 
+
 @interface NSObject(BSFontWellDelegate)
-- (void) fontValueDidChange: (NSNotification *) aNotification;
+- (void)fontValueDidChange:(NSNotification *)aNotification;
 @end
 
 extern NSString *const BSFontValueDidChangeNotification;

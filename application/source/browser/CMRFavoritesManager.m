@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Updated by Tsutomu Sawada on 07/12/09.
-//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -20,14 +20,6 @@
 
 NSString *const CMRFavoritesManagerDidLinkFavoritesNotification = @"CMRFavoritesManagerDidLinkFavoritesNotification";
 NSString *const CMRFavoritesManagerDidRemoveFavoritesNotification = @"CMRFavoritesManagerDidRemoveFavoritesNotification";
-
-static NSString *const kFavIdKey = @"identifier";
-static NSString *const kFavBoardNameKey = @"boardName";
-static NSString *const kFavStatusKey = @"status";
-static NSString *const kFavDatOchiKey = @"isDatOchi";
-
-static NSString *const kFavFileVersionKey = @"CMRFavoritesManager_Version";
-static NSString *const kFavFileDataKey = @"Data";
 
 @implementation CMRFavoritesManager
 APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
@@ -90,9 +82,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	
 	if (!identifier || !boardIDs) return CMRFavoritesOperationNone;
 	
-	/* TODO 
-		複数存在する場合の処理
-*/
+	/* TODO 複数存在する場合の処理 */
 	unsigned boardID;
 	boardID = [[boardIDs objectAtIndex:0] unsignedIntValue];
 	
@@ -132,16 +122,14 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 
 	if (!identifier || !boardIDs ) return CMRFavoritesOperationNone;
 
-	/* TODO 
-		複数存在する場合の処理
-*/
+	/* TODO 複数存在する場合の処理 */
 	unsigned boardID;
 	boardID = [[boardIDs objectAtIndex:0] unsignedIntValue];
 	
 	BOOL isFavorite;
 	isFavorite = [[DatabaseManager defaultManager] isFavoriteThreadIdentifier:identifier onBoardID:boardID];
 
-	if (boolPtr != NULL) *boolPtr = [[DatabaseManager defaultManager] isThreadIdentifierRegistered:identifier onBoardID:boardID];
+	if (boolPtr != NULL) *boolPtr = [[DatabaseManager defaultManager] isThreadIdentifierRegistered:identifier onBoardID:boardID numberOfAll:NULL];
 	
 	return isFavorite ? CMRFavoritesOperationRemove : CMRFavoritesOperationLink;
 }
@@ -249,127 +237,5 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	if (!signature) return NO;
 
 	return [self removeFavoriteWithThread:[signature identifier] ofBoard:[signature boardName]];
-}
-@end
-
-
-@implementation CMRFavoritesManager(ImportAndExport)
-- (NSPanel *)progressPanel
-{
-	if (!m_progressPanel) {
-		[NSBundle loadNibNamed:@"BSFavoritesProgressPanel" owner:self];
-	}
-	return m_progressPanel;
-}
-
-- (BOOL)exportFavoritesToFile:(NSString *)filepath atomically:(BOOL)atomically
-{
-	SQLiteDB *db;
-	id<SQLiteCursor> cursor;
-	unsigned rowCount;
-
-	NSMutableArray		*exportingArray;
-	NSArray				*threadListItems;
-	BSThreadListItem	*eachItem;
-	NSEnumerator		*iter;
-	NSDictionary		*dict;
-	NSDictionary		*exportingDict;
-
-	NSMutableString *query = [NSMutableString string];
-	[query appendFormat:@"SELECT * FROM %@ AS a\n", BoardThreadInfoViewName];
-	[query appendFormat:@"WHERE EXISTS (SELECT %@ FROM %@ AS b WHERE a.%@ = b.%@ AND a.%@ = b.%@)",
-		ThreadIDColumn, FavoritesTableName, ThreadIDColumn, ThreadIDColumn, BoardIDColumn, BoardIDColumn];
-
-	db = [[DatabaseManager defaultManager] databaseForCurrentThread];
-	if (!db) {
-		return NO;
-	}
-
-//	NSPanel *panel = [self progressPanel];
-	NSModalSession foo = [NSApp beginModalSessionForWindow:[self progressPanel]];
-	[NSApp runModalSession:foo];
-	[m_progressBar setIndeterminate:YES];
-	[m_progressBar startAnimation:self];
-
-	cursor = [db performQuery:query];
-	
-	if (!cursor) {
-		[NSApp endModalSession:foo];
-	[[self progressPanel] orderOut:nil];
-		return NO;
-	}
-	
-	rowCount = [cursor rowCount];
-	if (rowCount == 0 || [cursor columnCount] == 0) {
-		[NSApp endModalSession:foo];
-	[[self progressPanel] orderOut:nil];
-		return NO;
-	}
-
-	[m_progressBar setMaxValue:(double)rowCount];
-	[m_progressBar setDoubleValue:0];
-	[m_progressBar stopAnimation:self];
-	[m_progressBar setIndeterminate:NO];
-	exportingArray = [NSMutableArray arrayWithCapacity:rowCount];
-	threadListItems = [BSThreadListItem threadItemArrayFromCursor:cursor];
-
-	iter = [threadListItems objectEnumerator];
-	while (eachItem = [iter nextObject]) {
-		dict = [NSDictionary dictionaryWithObjectsAndKeys:[eachItem identifier], kFavIdKey,
-														  [eachItem boardName], kFavBoardNameKey,
-														  [NSNumber numberWithUnsignedInt:[eachItem status]], kFavStatusKey,
-														  [NSNumber numberWithBool:[eachItem isDatOchi]], kFavDatOchiKey,
-														  NULL];
-		if (dict) [exportingArray addObject:dict];
-		[m_progressBar setDoubleValue:([m_progressBar doubleValue]+1)];
-	}
-
-	exportingDict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[[self class] version]], kFavFileVersionKey,
-															   exportingArray, kFavFileDataKey,
-															   NULL];
-	BOOL	hoge = [exportingDict writeToFile:filepath atomically:atomically];
-	[NSApp endModalSession:foo];
-	[[self progressPanel] orderOut:nil];
-	return hoge;//[exportingDict writeToFile:filepath atomically:atomically];
-}
-
-- (BOOL)importFavoritesFromFile:(NSString *)filepath
-{
-	NSDictionary	*dict = [NSDictionary dictionaryWithContentsOfFile:filepath];
-	if (!dict) return NO;
-
-	id	version = [dict objectForKey:kFavFileVersionKey];
-	if (!version || ![version isKindOfClass:[NSNumber class]]) return NO;
-
-	int verInt = [version intValue];
-	if (verInt != 1) return NO;
-	
-	NSArray *array = [dict arrayForKey:kFavFileDataKey];
-	if (!array) return NO;
-
-	NSEnumerator	*iter = [array objectEnumerator];
-	DatabaseManager	*dbm = [DatabaseManager defaultManager];
-	NSDictionary	*eachItem;
-
-	NSString *identifier;
-	NSString *boardName;
-	CMRThreadSignature	*sign;
-	BOOL		isRegistered;
-
-	while (eachItem = [iter nextObject]) {
-		identifier = [eachItem objectForKey:kFavIdKey];
-		boardName = [eachItem objectForKey:kFavBoardNameKey];
-		sign = [CMRThreadSignature threadSignatureWithIdentifier:identifier boardName:boardName];
-		if (![self favoriteItemExistsOfThreadSignature:sign registeredToDatabase:&isRegistered]) {
-			if (!isRegistered) {
-				NSString *threadPath = [sign threadDocumentPath];
-				[dbm registerThreadFromFilePath:threadPath];
-			}
-			[self addFavoriteWithSignature:sign];
-		} else {
-			NSLog(@"Skipped importing %@ (already exists)", identifier);
-		}
-	}
-	return YES;
 }
 @end

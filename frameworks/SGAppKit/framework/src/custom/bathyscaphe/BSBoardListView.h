@@ -1,9 +1,9 @@
 //
-//  $Id: BSBoardListView.h,v 1.6 2007/10/29 05:54:46 tsawada2 Exp $
-//  BathyScaphe
+//  BSBoardListView.h
+//  SGAppKit (BathyScaphe)
 //
 //  Created by Tsutomu Sawada on 05/09/20.
-//  Copyright 2005 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
@@ -21,6 +21,8 @@
 	NSTimer *resetTimer;
 	EventHandlerRef textInputEventHandler;
 }
+
++ (void)resetColors;
 
 - (int)semiSelectedRow;
 @end
@@ -41,5 +43,5 @@
 @end
 
 @interface NSObject(BSBoardListViewTTSDelegate)
-- (NSIndexSet *) outlineView: (BSBoardListView *) boardListView findForString: (NSString *) typedString;
+- (NSIndexSet *)outlineView:(BSBoardListView *)boardListView findForString:(NSString *)typedString;
 @end

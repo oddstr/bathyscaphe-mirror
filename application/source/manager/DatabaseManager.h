@@ -47,7 +47,7 @@
 //- (BOOL) registerBoardNamesAndURLs : (NSArray *) array;
 
 // Added by tsawada2.
-- (BOOL)deleteBoardOfBoardID:(unsigned)boardID;
+//- (BOOL)deleteBoardOfBoardID:(unsigned)boardID;
 
 - (BOOL) moveBoardID : (unsigned) boardID
 	     toURLString : (NSString *) urlString;
@@ -62,6 +62,7 @@
 								     intoBoardID : (unsigned) boardID;*/
 // Added by tsawada2.
 - (BOOL)isThreadIdentifierRegistered:(NSString *)identifier onBoardID:(unsigned)boardID;
+- (BOOL)isThreadIdentifierRegistered:(NSString *)identifier onBoardID:(unsigned)boardID numberOfAll:(unsigned int *)number;
 
 - (BOOL) isFavoriteThreadIdentifier : (NSString *) identifier
 						  onBoardID : (unsigned) boardID;
@@ -70,7 +71,8 @@
 - (BOOL) removeFavoriteThreadIdentifier : (NSString *) identifier
 							  onBoardID : (unsigned) boardID;
 
-- (BOOL) registerThreadFromFilePath:(NSString *)filepath;
+- (BOOL)registerThreadFromFilePath:(NSString *)filepath;
+- (BOOL)registerThreadFromFilePath:(NSString *)filepath needsDisplay:(BOOL)flag; // Available in Tenori Tiger.
 
 
 //
@@ -78,13 +80,15 @@
 
 - (void)setLastWriteDate:(NSDate *)writeDate atBoardID:(unsigned)boardID threadIdentifier:(NSString *)threadID;
 
-// [Bug 10077] を強引に解消するための暫定的な実装 (by tsawada2)
-- (BOOL) insertThreadID: (NSString *) datString
-				  title: (NSString *) title
-				  count: (NSNumber *) count
-				   date: (id) date
-				atBoard: (NSString *) boardName;
+// Available in Tenori Tiger.
+- (BOOL)insertThreadOfIdentifier:(NSString *)identifier
+						   title:(NSString *)title
+						   count:(unsigned)count
+						    date:(NSDate *)date
+					   isDatOchi:(BOOL)flag
+						 atBoard:(unsigned)boardID;
 
+- (BOOL)deleteAllRecordsOfBoard:(unsigned)boardID; // Available in Tenori Tiger.
 // キャッシュを放棄
 - (BOOL) recache;
 @end
@@ -110,6 +114,7 @@
 - (void)makeThreadsListsUpdateCursor;
 - (void)threadTextDownloader:(ThreadTextDownloader *)downloader didUpdateWithContents:(NSDictionary *)userInfo;
 - (void)cleanUpItemsWhichHasBeenRemoved:(NSArray *)files;
+- (void)doVacuum;
 @end
 
 // スレッド一覧テーブルカラムのIDからデータベース上のテーブル名を取得。

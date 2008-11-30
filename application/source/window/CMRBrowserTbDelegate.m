@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Updated by Tsutomu Sawada on 07/07/27.
-//  Copyright 2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2007-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -186,7 +186,6 @@ static NSMenuItem* searchToolbarItemMenuFormRep(NSString *labelText)
 	NSSize size_;
 
 	[aView retain];
-
 	[aView removeFromSuperviewWithoutNeedingDisplay];	
 	[anItem setView:aView];
 		
@@ -214,14 +213,13 @@ static NSMenuItem* searchToolbarItemMenuFormRep(NSString *labelText)
 - (NSArray *)unsupportedItemsArray
 {
 	static NSArray *br_cachedArray = nil;
+
+	if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {
+		return [super unsupportedItemsArray];
+	}
+	// Tiger
 	if (!br_cachedArray) {
-		// Leopard
-		if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_4) {
-			br_cachedArray = [[[super unsupportedItemsArray] arrayByAddingObject:st_viewModeSwitcherItemIdentifier] retain];
-		} else {
-			NSArray *foo = [NSArray arrayWithObjects:st_viewModeSwitcherItemIdentifier, st_QLItemIdentifier, nil];
-			br_cachedArray = [[[super unsupportedItemsArray] arrayByAddingObjectsFromArray:foo] retain];
-		}
+		br_cachedArray = [[[super unsupportedItemsArray] arrayByAddingObject:st_QLItemIdentifier] retain];
 	}
 	return br_cachedArray;
 }
@@ -290,16 +288,6 @@ static NSMenuItem* searchToolbarItemMenuFormRep(NSString *labelText)
 		NSSize size_ = NSMakeSize(width-8, 22);
 		[item setMinSize:size_];
 		[item setMaxSize:size_];
-	} else if ([[item itemIdentifier] isEqualToString:st_viewModeSwitcherItemIdentifier]) {
-		[[item view] bind:@"selectedTag" toObject:CMRPref withKeyPath:@"threadsListViewMode" options:nil];
-	}
-}
-
-- (void)toolbarDidRemoveItem:(NSNotification *)notification
-{
-	NSToolbarItem *item = [[notification userInfo] objectForKey:@"item"];
-	if ([[item itemIdentifier] isEqualToString:st_viewModeSwitcherItemIdentifier]) {
-		[[item view] unbind:@"selectedTag"];
 	}
 }
 @end

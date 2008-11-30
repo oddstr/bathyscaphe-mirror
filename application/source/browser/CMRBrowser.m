@@ -49,7 +49,7 @@ CMRBrowser *CMRMainBrowser = nil;
 
 - (NSString *)windowNibName
 {
-	return @"Browser";
+	return @"CMRBrowser";
 }
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName

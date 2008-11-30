@@ -317,7 +317,12 @@
 	fixRect_.size.width += textInset_.width * 2;
 	
 	textViewSize_ = fixRect_.size;
-	scrollViewSize_ = [scrollView_ frameSizeForContentSize:textViewSize_];
+//	scrollViewSize_ = [scrollView_ frameSizeForContentSize:textViewSize_];
+	// 2008-11-23
+	scrollViewSize_ = [[scrollView_ class] frameSizeForContentSize:textViewSize_
+											 hasHorizontalScroller:NO
+											   hasVerticalScroller:[scrollView_ hasVerticalScroller]
+														borderType:[scrollView_ borderType]];
 
 	if (scrollViewSize_.width > maxSize_.width) {
 		scrollViewSize_.width = maxSize_.width;

@@ -34,8 +34,6 @@ NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserIn
 	
 	[self setWorker:nil];
 	[self setThreads:nil];
-//	[_filteredThreads release];
-//	_filteredThreads = nil;
 	[self setFilteredThreads:nil];
 
 	[super dealloc];
@@ -75,6 +73,17 @@ NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserIn
 	UTILAbstractMethodInvoked;
 	return NO;
 }
+
+- (BOOL)isBoard
+{
+	UTILAbstractMethodInvoked;
+	return YES;
+}
+
+- (void)rebuildThreadsList
+{
+	UTILAbstractMethodInvoked;
+}
 @end
 
 
@@ -93,53 +102,14 @@ NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserIn
 
 - (NSMutableArray *)filteredThreads
 {
-/*	if (!_filteredThreads) {
-		[self filterByStatus:[self filteringMask]];
-	} else if ([_filteredThreads count] == 0) {
-		return nil;
-	}*/
-
 	return _filteredThreads;
 }
 
 - (void)setFilteredThreads:(NSArray *)aFilteredThreads
 {
-	id tmp = _filteredThreads;
-//	[self _filteredThreadsLock];
-	_filteredThreads = [aFilteredThreads retain];
-//	[self _filteredThreadsUnlock];
-	[tmp release];
-}
-
-- (int)filteringMask
-{
-	return 0;
-}
-
-- (void)setFilteringMask:(int)mask
-{
-	NSLog(@"WARNING: CMRThreadsList's -setFilteringMask: is Deprecated.");
-}
-
-- (BOOL)isAscending
-{
-	return _isAscending;
-}
-
-- (void)setIsAscending:(BOOL)flag
-{
-	_isAscending = flag;
-}
-
-- (void)toggleIsAscending
-{
-	[self setIsAscending:(![self isAscending])];
-}
-
-#pragma mark Abstract Method
-- (void)sortByKey:(NSString *)key
-{
-	UTILAbstractMethodInvoked;
+	[aFilteredThreads retain];
+	[_filteredThreads release];
+	_filteredThreads = aFilteredThreads;
 }
 @end
 
@@ -152,13 +122,17 @@ NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserIn
 
 - (unsigned)numberOfThreads
 {
-	if (![self threads]) return 0;
+	if (![self threads]) {
+		return 0;
+	}
 	return [[self threads] count];
 }
 
 - (unsigned)numberOfFilteredThreads
 {
-	if (![self filteredThreads]) return 0;
+	if (![self filteredThreads]) {
+		return 0;
+	}
 	return [[self filteredThreads] count];
 }
 

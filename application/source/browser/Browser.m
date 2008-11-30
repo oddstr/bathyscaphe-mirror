@@ -74,6 +74,17 @@
 	m_searchString = text;
 }
 
+- (unsigned int)threadsListViewMode
+{
+	return [CMRPref threadsListViewMode];
+}
+
+- (void)setThreadsListViewMode:(unsigned int)type
+{
+	[CMRPref setThreadsListViewMode:type];
+	[[self currentThreadsList] updateCursor];
+}
+
 #pragma mark NSDocument
 - (void)makeWindowControllers
 {
@@ -86,10 +97,10 @@
 
 - (NSString *)displayName
 {
-	static NSString *base_ = nil;
+/*	static NSString *base_ = nil;
 	if (!base_) {
 		base_ = [NSLocalizedStringFromTable(@"Board Info Format", @"ThreadsList", @"") retain];
-	}
+	}*/
 
 	BSDBThreadList		*list_ = [self currentThreadsList];
 	if (!list_) return [super displayName];
@@ -104,27 +115,19 @@
 			foo = [NSString stringWithFormat:NSLocalizedStringFromTable(kSearchListResultKey, @"ThreadsList", @""), foundNum];
 		}
 	} else {
+		NSString *base_ = NSLocalizedStringFromTable(@"Browser Title (Thread Mode)", @"ThreadsList", @"");
+		if ([[self currentThreadsList] isBoard]) {
+			BSThreadsListViewModeType type = [self threadsListViewMode];
+			if (type == BSThreadsListShowsStoredLogFiles) {
+				base_ = NSLocalizedStringFromTable(@"Browser Title (Log Mode)", @"ThreadsList", @"");
+			}
+		}
 		foo = [NSString stringWithFormat:base_, [list_ numberOfThreads]];
 	}
 
 	return [NSString stringWithFormat:@"%@ (%@)", [list_ boardName], foo];
 }
-/*
-- (BOOL)readFromFile:(NSString *)fileName ofType:(NSString *)type
-{
-	return YES;
-}
 
-- (BOOL)loadDataRepresentation:(NSData *)data ofType:(NSString *)aType
-{
-	return NO;
-}
-
-- (NSData *)dataRepresentationOfType:(NSString *)aType
-{
-	return nil;
-}
-*/
 - (IBAction)saveDocumentAs:(id)sender
 {
 	if (![self threadAttributes]) return;
@@ -156,46 +159,6 @@
 		}
 	}
 }
-/*
-- (IBAction)importFavorites:(id)sender
-{
-	NSOpenPanel	*panel_ = [NSOpenPanel openPanel];
-	int	resultCode;
-
-	[panel_ setCanChooseFiles:YES];
-	[panel_ setCanChooseDirectories:NO];
-	[panel_ setResolvesAliases:YES];
-	[panel_ setAllowsMultipleSelection:NO];
-	
-	resultCode = [panel_ runModalForTypes:[NSArray arrayWithObject:@"plist"]];
-	if (resultCode == NSOKButton) {
-		NSString *path = [panel_ filename];
-		if (![[CMRFavoritesManager defaultManager] importFavoritesFromFile:path]) {
-			NSBeep();
-			NSLog(@"Import failed - %@", path);
-		}
-	}
-}
-
-- (IBAction)exportFavorites:(id)sender
-{
-	NSSavePanel *savePanel_ = [NSSavePanel savePanel];
-	int			resultCode;
-
-	[savePanel_ setRequiredFileType:@"plist"];
-	[savePanel_ setCanCreateDirectories:YES];
-	[savePanel_ setCanSelectHiddenExtension:NO];
-
-	resultCode = [savePanel_ runModalForDirectory:nil file:@"ExportedFavorites.plist"];
-
-	if (resultCode == NSFileHandlingPanelOKButton) {
-		NSString *savePath_ = [savePanel_ filename];
-		if (![[CMRFavoritesManager defaultManager] exportFavoritesToFile:savePath_ atomically:YES]) {
-			NSBeep();
-			NSLog(@"Export failed - %@", savePath_);
-		}
-	}
-}*/
 
 - (BOOL)validateMenuItem:(NSMenuItem *)theItem
 {
@@ -205,10 +168,10 @@
 		[theItem setTitle:NSLocalizedString(@"Save Menu Item Default", @"Save as...")];
 		return ([self threadAttributes] != nil);
 	} else if (action_ == @selector(cleanupDatochiFiles:)) {
-		return [BoardListItem isBoardItem:[[self currentThreadsList] boardListItem]] && ![self searchString];
+		return [[self currentThreadsList] isBoard] && ([self threadsListViewMode] == BSThreadsListShowsLiveThreads) && ![self searchString];
 	} else if (action_ == @selector(showLocalRules:)) {
 		BoardManager *bm = [BoardManager defaultManager];
-		if ([BoardListItem isBoardItem:[[self currentThreadsList] boardListItem]]) {
+		if ([[self currentThreadsList] isBoard]) {
 			BOOL	 isVisible = [bm isKeyWindowForBoardName:[self boardNameAsString]];
 			
 			[theItem setTitle:isVisible ? NSLocalizedString(@"Hide Local Rules", @"") : NSLocalizedString(@"Show Local Rules", @"")];
@@ -217,8 +180,19 @@
 			[theItem setTitle:NSLocalizedString(@"Show Local Rules", @"")];
 			return NO;
 		}
-	} else if (action_ == @selector(newThread:)) {
-		return [BoardListItem isBoardItem:[[self currentThreadsList] boardListItem]];
+	} else if (action_ == @selector(newThread:) || action_ == @selector(rebuildThreadsList:)) {
+		return [[self currentThreadsList] isBoard];
+	} else if (action_ == @selector(toggleThreadsListViewMode:)) {
+		if (![[self currentThreadsList] isBoard]) {
+			return NO;
+		}
+		BSThreadsListViewModeType type = [self threadsListViewMode];
+		if (type == BSThreadsListShowsLiveThreads) {
+			[theItem setTitle:NSLocalizedStringFromTable(@"Toggle View Mode To Log", @"ThreadsList", @"")];
+		} else {
+			[theItem setTitle:NSLocalizedStringFromTable(@"Toggle View Mode To Thread", @"ThreadsList", @"")];
+		}
+		return YES;
 	}
 	return [super validateMenuItem:theItem];
 }
@@ -235,38 +209,17 @@
 
 	return [[self currentThreadsList] filterByString:[self searchString]];
 }
-/*
-- (BOOL)searchThreadsInListWithString:(NSString *)text
-{
-	if (![self currentThreadsList]) return NO;
-
-	return [[self currentThreadsList] filterByString:text];
-}
-
-- (void)sortThreadsByKey:(NSString *)key
-{
-	[[self currentThreadsList] sortByKey:key];
-}
-
-- (void)toggleThreadsListIsAscending
-{
-	[[self currentThreadsList] toggleIsAscending];
-}
-
-- (void)changeThreadsFilteringMask:(int)mask
-{
-	[[self currentThreadsList] setFilteringMask:mask];
-	[[self currentThreadsList] filterByStatus:mask];
-}*/
 
 - (IBAction)toggleThreadsListViewMode:(id)sender
 {
-	AppDefaults *pref = CMRPref;
-	BSThreadsListViewModeType	newMode;
-
-	newMode = ([pref threadsListViewMode] == BSThreadsListShowsLiveThreads) ? BSThreadsListShowsStoredLogFiles : BSThreadsListShowsLiveThreads;
-	[pref setThreadsListViewMode:newMode];
-	[[self currentThreadsList] setViewMode:newMode];
+	BSThreadsListViewModeType newType;
+	BSThreadsListViewModeType type = [self threadsListViewMode];
+	if (type == BSThreadsListShowsLiveThreads) {
+		newType = BSThreadsListShowsStoredLogFiles;
+	} else {
+		newType = BSThreadsListShowsLiveThreads;
+	}
+	[self setThreadsListViewMode:newType];
 }
 
 - (IBAction)cleanupDatochiFiles:(id)sender
@@ -301,11 +254,44 @@
 	}
 }
 
+- (IBAction)rebuildThreadsList:(id)sender
+{
+	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	[alert setAlertStyle:NSCriticalAlertStyle];
+	[alert setMessageText:[NSString stringWithFormat:NSLocalizedStringFromTable(@"RebuildThreadsListAlert(BoardName %@)", @"ThreadsList", nil),
+													 [[self currentThreadsList] boardName]]];
+	[alert setInformativeText:NSLocalizedStringFromTable(@"RebuildThreadsListMessage", @"ThreadsList", nil)];
+	[alert addButtonWithTitle:NSLocalizedStringFromTable(@"DragDropTrashOK", @"ThreadsList", nil)];
+	[alert addButtonWithTitle:NSLocalizedStringFromTable(@"DragDropTrashCancel", @"ThreadsList", nil)];
+	[alert beginSheetModalForWindow:[self windowForSheet]
+					  modalDelegate:self
+					 didEndSelector:@selector(rebuildThreadsListAlertDidEnd:returnCode:contextInfo:)
+						contextInfo:NULL];
+}
+
 - (void)cleanupDatochiFilesAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
 	if (returnCode == NSAlertFirstButtonReturn) {
 		[[self currentThreadsList] removeDatochiFiles];
 	}
+}
+
+- (void)rebuildThreadsListAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+	if (returnCode == NSAlertFirstButtonReturn) {
+		[[NSNotificationCenter defaultCenter]
+			addObserver:self selector:@selector(rebuildingDidEnd:) name:BSDBThreadListDidFinishUpdateNotification object:[self currentThreadsList]];
+		[[self currentThreadsList] rebuildThreadsList];
+	}
+}
+
+- (void)rebuildingDidEnd:(NSNotification *)notification
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:BSDBThreadListDidFinishUpdateNotification object:nil];
+	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	[alert setAlertStyle:NSInformationalAlertStyle];
+	[alert setMessageText:NSLocalizedStringFromTable(@"RebuildingEndAlert", @"ThreadsList", nil)];
+	[alert beginSheetModalForWindow:[self windowForSheet] modalDelegate:self didEndSelector:NULL contextInfo:NULL];
 }
 @end
 

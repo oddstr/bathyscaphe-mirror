@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer.m,v 1.29 2008/07/21 09:04:13 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer.m,v 1.30 2008/11/30 15:51:33 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -22,7 +22,7 @@
 //#define kThreadDateFormatKey		@"Thread - DateDescription" // No longer used. (Starlight Breaker)
 
 static NSString *dateStringFromObject(id theDate, NSString *prefix);
-static void appendFiledTitle(NSMutableAttributedString *buffer, NSString *title);
+static void appendFieldTitle(NSMutableAttributedString *buffer, NSString *title);
 static void appendWhiteSpaceSeparator(NSMutableAttributedString *buffer);
 
 #define LOCALIZED_STR(aKey)	NSLocalizedStringFromTable(aKey, kLocalizedFilename, nil)
@@ -219,7 +219,7 @@ static BOOL messageIsLocalAboned_(CMRThreadMessage *aMessage)
 	}
 	
 	ms = [self contentsStorage];
-	appendFiledTitle(ms, FIELD_NAME);
+	appendFieldTitle(ms, FIELD_NAME);
 	
 	if (name != nil && NO == [name isEmpty]) {
 		if (NO == [[_nameCache string] isEqualToString : name]) {
@@ -259,7 +259,7 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 {
 	if (nil == item || 0 == [item length]) return;
 	
-	appendFiledTitle(ms, title);
+	appendFieldTitle(ms, title);
 	[ms appendString:item withAttributes:[ATTR_TEMPLATE attributesForText]];
 
 	appendWhiteSpaceSeparator(ms);
@@ -335,7 +335,7 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 	NSMutableAttributedString	*ms = [self contentsStorage];
 	NSRange						idRange;
 	
-	appendFiledTitle(ms, FIELD_ID);
+	appendFieldTitle(ms, FIELD_ID);
 	
 	idRange.location = [ms length];
 	[ms appendString : idStr withAttributes : [ATTR_TEMPLATE attributesForText]];
@@ -575,7 +575,7 @@ ErrComposeHost:
 
 	appendWhiteSpaceSeparator(ms);
 
-	appendFiledTitle(ms, FIELD_MAIL);
+	appendFieldTitle(ms, FIELD_MAIL);
 
 	mail = [[NSMutableAttributedString alloc] initWithString: address attributes: [ATTR_TEMPLATE attributesForText]];
 	[mail addAttribute: BSMessageKeyAttributeName value: @"mail" range: NSMakeRange(0, [address length])];
@@ -627,7 +627,7 @@ static void appendWhiteSpaceSeparator(NSMutableAttributedString *buffer)
 	[buffer appendAttributedString : wSS];
 }
 
-static void appendFiledTitle(NSMutableAttributedString *buffer, NSString *title)
+static void appendFieldTitle(NSMutableAttributedString *buffer, NSString *title)
 {
 	static NSString *fieldSeparator = nil;
 	static NSMutableString	*tmp = nil;
