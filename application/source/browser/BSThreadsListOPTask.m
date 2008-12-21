@@ -20,9 +20,6 @@
 #import "BoardManager.h"
 #import "CMRHostHandler.h"
 
-
-#import "ThreadsListDownloader.h"
-
 NSString *const ThreadsListDownloaderShouldRetryUpdateNotification = @"ThreadsListDownloaderShouldRetryUpdateNotification";
 
 @implementation BSThreadsListOPTask

@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>ImagePreviewer</string>
 	<key>CFBundleGetInfoString</key>
-	<string>Preview Inspector 2.8</string>
+	<string>Preview Inspector 2.8.1</string>
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
@@ -19,11 +19,11 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.8</string>
+	<string>2.8.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>41</string>
+	<string>46</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>© 2005-2008 tsawada2 &amp; BathyScaphe Project.</string>
 	<key>NSMainNibFile</key>

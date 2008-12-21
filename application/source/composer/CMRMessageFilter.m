@@ -1,19 +1,19 @@
-/**
-  * $Id: CMRMessageFilter.m,v 1.14 2008/06/22 15:57:57 tsawada2 Exp $
-  * 
-  * CMRMessageFilter.m
-  *
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  CMRMessageFilter.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 08/12/06.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import "CMRMessageFilter.h"
-//#import "CocoMonar_Prefix.h"
 #import "CMRThreadMessage.h"
 #import "CMRThreadSignature.h"
 #import "CMXTextParser.h"
-
 #import "BSNGExpression.h"
 #import <OgreKit/OgreKit.h>
+
 // for debugging only
 #define UTIL_DEBUGGING		0
 #import "UTILDebugging.h"
@@ -30,7 +30,7 @@ static int doDetectMessageAny_(
 				CMRThreadSignature	*t2,	// target
 				NSArray *noNamesArray);
 
-// ê›íËÇ≥ÇÍÇƒÇ¢Ç»Ç¢ID Ç‚ ÇÊÇ≠Ç†ÇÈñºëOìôÇÕî‰ärëŒè€Ç…ÇµÇ»Ç¢
+// Ë®≠ÂÆö„Åï„Çå„Å¶„ÅÑ„Å™„ÅÑID „ÇÑ „Çà„Åè„ÅÇ„ÇãÂêçÂâçÁ≠â„ÅØÊØîËºÉÂØæË±°„Å´„Åó„Å™„ÅÑ
 static BOOL checkMailIsNonSignificant_(NSString *mail);
 static BOOL checkNameIsNonSignificant_(NSString *name);
 static BOOL checkIDIsNonSignificant_(NSString *idStr_);
@@ -44,6 +44,7 @@ static BOOL checkNameHasResLink_(NSString *name);
 	return NO;
 }
 @end
+
 
 @implementation CMRSamplingDetecter
 - (SGBaseCArrayWrapper *)samples
@@ -114,7 +115,7 @@ static BOOL checkNameHasResLink_(NSString *name);
 {
 	return [[[self alloc] initWithPropertyListRepresentation:rep] autorelease];
 }
-
+/*
 static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 {
 	UInt32		mc1 = [arg1 matchedCount];
@@ -127,7 +128,7 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	else
 		return NSOrderedDescending;
 }
-
+*/
 - (NSArray *)sampleArrayByCompacting
 {
 	NSEnumerator			*iter_;
@@ -139,13 +140,17 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 
 	while (item_ = [iter_ nextObject]) {
 		if ([compacted_ containsObject:item_]) {
-			// èdï°Ç∑ÇÈóvëf
+			// ÈáçË§á„Åô„ÇãË¶ÅÁ¥†
 			continue;
 		}
 		[compacted_ addObject:item_];
 	}
 	
-	[compacted_ sortUsingFunction:compareAsMatchedCount_ context:NULL];
+	NSSortDescriptor *desc = [[NSSortDescriptor alloc] initWithKey:@"matchedCount" ascending:NO];
+	NSArray *descs = [NSArray arrayWithObject:desc];
+	[desc release];
+	[compacted_ sortUsingDescriptors:descs];
+//	[compacted_ sortUsingFunction:compareAsMatchedCount_ context:NULL];
 
 	return compacted_;
 }
@@ -304,7 +309,7 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	CMRMessageSample	*mSample;
 	NSArray				*mSet = [self noNameArrayAtWorkingBoard];
 	int					i;
-	// àÍívÇ∑ÇÈÇ‡ÇÃÇÇ∑Ç◊ÇƒéÊÇËèúÇ≠
+	// ‰∏ÄËá¥„Åô„Çã„ÇÇ„ÅÆ„Çí„Åô„Åπ„Å¶Âèñ„ÇäÈô§„Åè
 	for (i = [mArray count] -1; i >= 0; i--) {
 		mSample = SGBaseCArrayWrapperObjectAtIndex(mArray, i);
 		if (detectMessageAny_(mSample, aMessage, aThread, mSet)) {
@@ -340,27 +345,9 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	NSArray *NGExpressions = [self NGExpressionsForTargetMask:mask];
 	NSEnumerator *iter = [NGExpressions objectEnumerator];
 	BSNGExpression	*NGExp;
-
-//	OgreSyntax syntax;
 	OGRegularExpression *regExp;
 
 	while (NGExp = [iter nextObject]) {
-/*		if ([NGExp isRegularExpression] && [NGExp validAsRegularExpression]) {
-			syntax = OgreRubySyntax;
-		} else {
-			syntax = OgreSimpleMatchingSyntax;
-		}
-
-		regexp = [[OGRegularExpression alloc] initWithString:[NGExp expression]
-													 options:OgreNoneOption
-													  syntax:syntax
-											 escapeCharacter:OgreBackslashCharacter];
-
-		if ([regexp matchInString:source]) {
-			[regexp release];
-			return YES;
-		}
-		[regexp release];*/
 		if (regExp = [NGExp OGRegExpInstance]) {
 			if ([regExp matchInString:source]) return YES;
 		} else {
@@ -377,7 +364,7 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	NSMutableString *name_, *mail_, *message_;
 	NSString	*field;
 
-	// ñºëO
+	// ÂêçÂâç
 	field = [aMessage name];
 	if (!checkNameIsNonSignificant_(field)) {
 		if (![self nanashiAllowedAtWorkingBoard] || ![[self noNameArrayAtWorkingBoard] containsObject:field]) {
@@ -389,7 +376,7 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 		}
 	}
 
-	// ÉÅÅ[Éã
+	// „É°„Éº„É´
 	field = [aMessage mail];
 	if (!checkMailIsNonSignificant_(field)) {
 		mail_ = [[field mutableCopy] autorelease];
@@ -399,7 +386,7 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 		}
 	}
 	
-	// ñ{ï∂
+	// Êú¨Êñá
 	field = [aMessage messageSource];
 	message_ = [[field mutableCopy] autorelease];
 	[CMXTextParser convertMessageSourceToCachedMessage:message_];
@@ -410,8 +397,7 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	return NO;
 }
 
-- (BOOL) detectMessage : (CMRThreadMessage   *) aMessage
-			      with : (CMRThreadSignature *) aThread
+- (BOOL)detectMessage:(CMRThreadMessage *)aMessage with:(CMRThreadSignature *)aThread
 {
 	SGBaseCArrayWrapper	*sampleArray = [self samples];
 
@@ -422,10 +408,10 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	id cache[4];
 	
 	// ----------------------------------------
-	// à»â∫ÇÃçÄñ⁄Ç≈ÉLÉÉÉbÉVÉÖÇ©ÇÁóDêÊìIÇ…î‰är
+	// ‰ª•‰∏ã„ÅÆÈ†ÖÁõÆ„Åß„Ç≠„É£„ÉÉ„Ç∑„É•„Åã„ÇâÂÑ™ÂÖàÁöÑ„Å´ÊØîËºÉ
 	// { ID, Host, Name, Thread ID }
 	// ----------------------------------------
-	/* key Çê›íË */
+	/* key „ÇíË®≠ÂÆö */
 	cache[0] = [aMessage IDString];
 	cache[1] = [aMessage host];
 	cache[2] = [aMessage name];
@@ -447,7 +433,7 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 			return YES;
 	}
 
-	// åÍãÂèWçáÇ∆î‰är
+	// Ë™ûÂè•ÈõÜÂêà„Å®ÊØîËºÉ
 	if ([self detectMessageUsingCorpus:aMessage])
 		return YES;
 	
@@ -455,25 +441,25 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 }
 
 /*
-ñ≥éãÉäÉXÉgÅF
-ÉÅÅ[ÉãóìÅF"sage", "age", "0"
-ñºëOÅFÉåÉXÉäÉìÉNÅAî¬ÇÃñºñ≥Çµ
+ÁÑ°Ë¶ñ„É™„Çπ„ÉàÔºö
+„É°„Éº„É´Ê¨ÑÔºö"sage", "age", "0"
+ÂêçÂâçÔºö„É¨„Çπ„É™„É≥„ÇØ„ÄÅÊùø„ÅÆÂêçÁÑ°„Åó
 
 
-ÅiIDÅjî¬Ç∆ ID Ç™àÍív
-ÅiñºëOÅjÉTÉìÉvÉãÇ…ìØÇ∂ñºëOÇ™ï°êîÇ†ÇËÅAID Ç™àŸÇ»ÇÈèÍçáÇÕñºëOÇégópÇ∑ÇÈ
-ÅiÉÅÅ[ÉãóìÅjñºëOÇ‡IDÇ‡ñ≥éãÇ∑ÇÈèÍçáÇÕçló∂Ç∑ÇÈ
-Åiñ{ï∂Åjì‡óeÇ™àÍív
+ÔºàIDÔºâÊùø„Å® ID „Åå‰∏ÄËá¥
+ÔºàÂêçÂâçÔºâ„Çµ„É≥„Éó„É´„Å´Âêå„ÅòÂêçÂâç„ÅåË§áÊï∞„ÅÇ„Çä„ÄÅID „ÅåÁï∞„Å™„ÇãÂ†¥Âêà„ÅØÂêçÂâç„Çí‰ΩøÁî®„Åô„Çã
+Ôºà„É°„Éº„É´Ê¨ÑÔºâÂêçÂâç„ÇÇID„ÇÇÁÑ°Ë¶ñ„Åô„ÇãÂ†¥Âêà„ÅØËÄÉÊÖÆ„Åô„Çã
+ÔºàÊú¨ÊñáÔºâÂÜÖÂÆπ„Åå‰∏ÄËá¥
 
-@param sample í«â¡ó\íËÇÃÉTÉìÉvÉã
-@param table  Ç±ÇÍÇ‹Ç≈í«â¡Ç≥ÇÍÇΩÉTÉìÉvÉãÇÃé´èëÅB
-			Å@ÉLÅ[ÇÕñºëOÇ©IDÅiÉGÉìÉeÉBÉeÉBâåàìôÇÕÇµÇ»Ç¢Åj
+@param sample ËøΩÂä†‰∫àÂÆö„ÅÆ„Çµ„É≥„Éó„É´
+@param table  „Åì„Çå„Åæ„ÅßËøΩÂä†„Åï„Çå„Åü„Çµ„É≥„Éó„É´„ÅÆËæûÊõ∏„ÄÇ
+			„ÄÄ„Ç≠„Éº„ÅØÂêçÂâç„ÅãIDÔºà„Ç®„É≥„ÉÜ„Ç£„ÉÜ„Ç£Ëß£Ê±∫Á≠â„ÅØ„Åó„Å™„ÅÑÔºâ
 */
-- (void) setupAppendingSampleForSample: (CMRMessageSample *) sample table: (NSMutableDictionary *) table
+- (void)setupAppendingSampleForSample:(CMRMessageSample *)sample table:(NSMutableDictionary *)table
 {
 	CMRThreadMessage	*m = [sample message];
 	CMRThreadSignature	*threadIdentifier = [sample threadIdentifier];
-	unsigned			sign;		// çló∂Ç∑ÇÈçÄñ⁄ÇÃÉtÉâÉO
+	unsigned			sign;		// ËÄÉÊÖÆ„Åô„ÇãÈ†ÖÁõÆ„ÅÆ„Éï„É©„Ç∞
 	NSString			*s;
 	id					tmp;
 	CMRThreadMessage	*tmp_m;
@@ -482,7 +468,7 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	UTILCAssertNotNil(sample);
 	UTILCAssertNotNil(table);
 	
-	// äÓñ{ìIÇ…ÉÅÅ[ÉãóìÇ∆ÉzÉXÉgÅAñºëOóìÅiÉXÉåÉbÉhå¿íËÅjÇÕñ≥éãÇ∑ÇÈ
+	// Âü∫Êú¨ÁöÑ„Å´„É°„Éº„É´Ê¨Ñ„Å®„Éõ„Çπ„Éà„ÄÅÂêçÂâçÊ¨ÑÔºà„Çπ„É¨„ÉÉ„ÉâÈôêÂÆöÔºâ„ÅØÁÑ°Ë¶ñ„Åô„Çã
 	sign = kSampleAsAny;
 	sign &= ~kSampleAsMailMask;
 	sign &= ~kSampleAsHostMask;
@@ -493,10 +479,10 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	tmpString = [m IDString];
 
 	if (!tmpString || checkIDIsNonSignificant_([tmpString stringByStriped])) {
-	   // ID Ç™Ç»Ç¢Ç©ÅAèdóvÇ≈Ç»Ç¢ÅBID Çñ≥éãÅB
+	   // ID „Åå„Å™„ÅÑ„Åã„ÄÅÈáçË¶Å„Åß„Å™„ÅÑ„ÄÇID „ÇíÁÑ°Ë¶ñ„ÄÇ
 		sign &= ~kSampleAsIDMask; 
 	} else {
-		// ID Ç≈ìoò^
+		// ID „ÅßÁôªÈå≤
 		[table setObject:sample forKey:tmpString];
 	}
 
@@ -504,35 +490,35 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 	tmpString = [m host];
 	s = [tmpString stringByStriped];
 	if ([s length] > 0) {
-		// Host Ç≈ìoò^
+		// Host „ÅßÁôªÈå≤
 		sign |= kSampleAsHostMask; 
 		[table setObject:sample forKey:tmpString];
 	}
 	
 	/* Name */
-	// ÉGÉìÉeÉBÉeÉBéQè∆ÇâåàÇµÅAñºëOÇê≥ãKâª
+	// „Ç®„É≥„ÉÜ„Ç£„ÉÜ„Ç£ÂèÇÁÖß„ÇíËß£Ê±∫„Åó„ÄÅÂêçÂâç„ÇíÊ≠£Ë¶èÂåñ
 	tmpString = [m name];
 //	s = [tmpString stringByReplaceEntityReference];
 
 //    if (!s) sign &= ~kSampleAsNameMask;
 
 //	if (![self nanashiAllowedAtWorkingBoard] || [[self noNameArrayAtWorkingBoard] containsObject:s]) {
-    	// î¬ÇÃñºñ≥ÇµÇ∆ìØÇ∂ñºëOÅBÇ‹ÇΩÇÕî¬ÇÃñºñ≥ÇµÇ∆ìØÇ∂ñºëOÇ≈ÇÕÇ»Ç¢Ç™ÅAÇ±ÇÃî¬Ç≈ÇÕñºëOóìïKê{ÅBñ≥éãÅB
+    	// Êùø„ÅÆÂêçÁÑ°„Åó„Å®Âêå„ÅòÂêçÂâç„ÄÇ„Åæ„Åü„ÅØÊùø„ÅÆÂêçÁÑ°„Åó„Å®Âêå„ÅòÂêçÂâç„Åß„ÅØ„Å™„ÅÑ„Åå„ÄÅ„Åì„ÅÆÊùø„Åß„ÅØÂêçÂâçÊ¨ÑÂøÖÈ†à„ÄÇÁÑ°Ë¶ñ„ÄÇ
 //	    sign &= ~kSampleAsNameMask;
 //	} else {
 	if (![self nanashiAllowedAtWorkingBoard] || [[self noNameArrayAtWorkingBoard] containsObject:tmpString]) {
 		sign &= ~kSampleAsNameMask;
 	} else {
-		// ñºëOÇÃï∂éöóÒÇ≈åüèÿ
+		// ÂêçÂâç„ÅÆÊñáÂ≠óÂàó„ÅßÊ§úË®º
 		s = [tmpString stringByReplaceEntityReference];
 		s = [s stringByStriped];
 		if (checkNameIsNonSignificant_(s)) {
-            // èdóvÇ≈Ç»Ç¢ñºëO
+            // ÈáçË¶Å„Åß„Å™„ÅÑÂêçÂâç
 			sign &= ~kSampleAsNameMask;
 		} else if (checkNameHasResLink_(s)) {
-			// ÉåÉXÇ÷ÇÃÉäÉìÉN
-			// ìØàÍÉXÉåÉbÉhè„Ç≈Ç–Ç∆Ç¬ëOÇ…ìoò^Ç≥ÇÍÇƒÇ¢ÇÍÇŒ
-			// ÉXÉåÉbÉhÉçÅ[ÉJÉãÇ≈çló∂Ç∑ÇÈ
+			// „É¨„Çπ„Å∏„ÅÆ„É™„É≥„ÇØ
+			// Âêå‰∏Ä„Çπ„É¨„ÉÉ„Éâ‰∏ä„Åß„Å≤„Å®„Å§Ââç„Å´ÁôªÈå≤„Åï„Çå„Å¶„ÅÑ„Çå„Å∞
+			// „Çπ„É¨„ÉÉ„Éâ„É≠„Éº„Ç´„É´„ÅßËÄÉÊÖÆ„Åô„Çã
 			sign &= ~kSampleAsNameMask;
 			
 			tmp = [table objectForKey : threadIdentifier];
@@ -542,18 +528,18 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 					sign |= kSampleAsThreadLocalMask;
 				}
 			} else if (threadIdentifier) {
-				// ÉXÉåÉbÉh Ç≈ìoò^
+				// „Çπ„É¨„ÉÉ„Éâ „ÅßÁôªÈå≤
 				[table setObject:sample forKey:threadIdentifier];
 			}
 		}
 	}
 
-    // Ç±Ç±Ç‹Ç≈ÇÃÉtÉBÉãÉ^ÉäÉìÉOÇ≈ñºëOÇçló∂Ç©ÇÁäOÇµÇ´ÇÍÇƒÇ¢Ç»Ç¢
+    // „Åì„Åì„Åæ„Åß„ÅÆ„Éï„Ç£„É´„Çø„É™„É≥„Ç∞„ÅßÂêçÂâç„ÇíËÄÉÊÖÆ„Åã„ÇâÂ§ñ„Åó„Åç„Çå„Å¶„ÅÑ„Å™„ÅÑ
 	if ((sign & kSampleAsNameMask) != 0) {
 		if ((sign & kSampleAsIDMask) || (sign & kSampleAsHostMask)) {
-			// Ç∑Ç≈Ç…àÍìxñºëOÇ≈ìoò^Ç≥ÇÍÇƒÇ®ÇËÅAÇ©Ç¬
-			// ID/Host Ç™àŸÇ»ÇÈÅiÇ‹ÇΩÇÕ ID/Host Ç™Ç»Ç¢ÅjèÍçáÇ…ÅA
-			// ñºëOÇ≈ìoò^
+			// „Åô„Åß„Å´‰∏ÄÂ∫¶ÂêçÂâç„ÅßÁôªÈå≤„Åï„Çå„Å¶„Åä„Çä„ÄÅ„Åã„Å§
+			// ID/Host „ÅåÁï∞„Å™„ÇãÔºà„Åæ„Åü„ÅØ ID/Host „Åå„Å™„ÅÑÔºâÂ†¥Âêà„Å´„ÄÅ
+			// ÂêçÂâç„ÅßÁôªÈå≤
 			
 			sign &= ~kSampleAsNameMask;
 			tmp = [table objectForKey : tmpString];
@@ -571,24 +557,24 @@ static int compareAsMatchedCount_(id arg1, id arg2, void *info)
 					[table setObject:sample forKey:tmpString];
 				}
 			} else {
-				// ñºëOÇ≈ìoò^
+				// ÂêçÂâç„ÅßÁôªÈå≤
 				[table setObject:sample forKey:tmpString];
 			}
 		} else {
-			// ID Ç‡ Host Ç‡Ç»Ç¢ÇÃÇ≈ÅAñºëOÇ≈ìoò^
+			// ID „ÇÇ Host „ÇÇ„Å™„ÅÑ„ÅÆ„Åß„ÄÅÂêçÂâç„ÅßÁôªÈå≤
 			sign |= kSampleAsNameMask;
 			[table setObject:sample forKey:tmpString];
 		}
 	} else {
 		if (0 == (sign & kSampleAsIDMask)) {
 			/* Name */
-			// ñºëOÇ‡IDÇ‡égÇ¶Ç»Ç¢èÍçáÇÃÇ›
-			// ÉÅÅ[ÉãóìÇÃï∂éöóÒÇ≈åüèÿ
+			// ÂêçÂâç„ÇÇID„ÇÇ‰Ωø„Åà„Å™„ÅÑÂ†¥Âêà„ÅÆ„Åø
+			// „É°„Éº„É´Ê¨Ñ„ÅÆÊñáÂ≠óÂàó„ÅßÊ§úË®º
 			s = [[[m mail] stringByReplaceEntityReference] stringByStriped];
 			if (!checkMailIsNonSignificant_(s)) {
 				sign |= kSampleAsMailMask;
 //			} else {
-				// IDÅAñºëOÅAÉÅÅ[ÉãóìÅAÇ¢Ç∏ÇÍÇ≈Ç‡ãÊï Ç≈Ç´Ç»Ç¢
+				// ID„ÄÅÂêçÂâç„ÄÅ„É°„Éº„É´Ê¨Ñ„ÄÅ„ÅÑ„Åö„Çå„Åß„ÇÇÂå∫Âà•„Åß„Åç„Å™„ÅÑ
 			}
 		}
 	}
@@ -610,6 +596,7 @@ static int detectMessageAny_(CMRMessageSample *s, CMRThreadMessage *m, CMRThread
 	}
 	return match;
 }
+
 static int doDetectMessageAny_(
 				CMRThreadMessage	*m1,	// sample
 				CMRThreadSignature	*t1,	// sample
@@ -627,13 +614,13 @@ static int doDetectMessageAny_(
 	Eq_t = [t1 isEqual : t2];
 	Eq_b = (NO == Eq_t) ? [b1 isEqualToString : b2] : YES;
 
-	if (Eq_b) { // ìØàÍî¬ÅAID Ç‹ÇΩÇÕ Host ÇÃàÍívÇÉ`ÉFÉbÉNÅiìØàÍî¬Ç≈Ç»Ç¢Ç»ÇÁ IDÅAHost ÇÕå©ÇÈâ¬î\ê´Ç™Ç»Ç¢ÅjÅiÉXÉåå¿íËñºëOÇ‡Åj
+	if (Eq_b) { // Âêå‰∏ÄÊùø„ÄÅID „Åæ„Åü„ÅØ Host „ÅÆ‰∏ÄËá¥„Çí„ÉÅ„Çß„ÉÉ„ÇØÔºàÂêå‰∏ÄÊùø„Åß„Å™„ÅÑ„Å™„Çâ ID„ÄÅHost „ÅØË¶ã„ÇãÂèØËÉΩÊÄß„Åå„Å™„ÅÑÔºâÔºà„Çπ„É¨ÈôêÂÆöÂêçÂâç„ÇÇÔºâ
 		if (kSampleAsIDMask & mask) {
 			s1 = [m1 IDString];
 			s2 = [m2 IDString];
 			
 			if ([s1 isEqualToString : s2]) {
-				// ìØàÍî¬Ç≈Ç©Ç¬ÅAID Ç™àÍív
+				// Âêå‰∏ÄÊùø„Åß„Åã„Å§„ÄÅID „Åå‰∏ÄËá¥
 				return kSampleAsIDMask;
 			}
 		}
@@ -642,27 +629,27 @@ static int doDetectMessageAny_(
 			s1 = [m1 host];
 
 			if ([s1 length] > 1 && [s1 isEqualToString : [m2 host]]) {
-				// ìØàÍî¬Ç≈Ç©Ç¬ÅAHost Ç™àÍív
-				// 2005-02-13 èCê≥ÅFìØàÍî¬Ç≈Ç©Ç¬ÅAHost Ç™ìÒï∂éöà»è„ÅAÇ©Ç¬ÅAHost Ç™àÍív
-				// ågë—ÅEPC ãÊï ÇÃ0,oëŒçÙ
+				// Âêå‰∏ÄÊùø„Åß„Åã„Å§„ÄÅHost „Åå‰∏ÄËá¥
+				// 2005-02-13 ‰øÆÊ≠£ÔºöÂêå‰∏ÄÊùø„Åß„Åã„Å§„ÄÅHost „Åå‰∫åÊñáÂ≠ó‰ª•‰∏ä„ÄÅ„Åã„Å§„ÄÅHost „Åå‰∏ÄËá¥
+				// Êê∫Â∏Ø„ÉªPC Âå∫Âà•„ÅÆ0,oÂØæÁ≠ñ
 				return kSampleAsHostMask;
 			}
 		}
 	
-		// ñºëOÅiÉXÉåÉbÉhå¿íËÅj// ìñëRÅAìØàÍî¬
+		// ÂêçÂâçÔºà„Çπ„É¨„ÉÉ„ÉâÈôêÂÆöÔºâ// ÂΩìÁÑ∂„ÄÅÂêå‰∏ÄÊùø
 		if (kSampleAsThreadLocalMask & mask) { 
 			if (Eq_t) {
 				s1 = [m1 name];
 				s2 = [m2 name];
 				
 				if ([s1 isEqualToString : s2]) {
-					// ìØàÍÉXÉåÉbÉhÇ≈Ç©Ç¬ñºëOÇ™àÍív
+					// Âêå‰∏Ä„Çπ„É¨„ÉÉ„Éâ„Åß„Åã„Å§ÂêçÂâç„Åå‰∏ÄËá¥
 					return kSampleAsThreadLocalMask;
 				}
 			}
 		}
 	}
-	// ñºëO
+	// ÂêçÂâç
 	if (kSampleAsNameMask & mask) { 
 		s2 = [m2 name];
 //		if (NO == [noNamesSet containsObject: s2]) {
@@ -673,7 +660,7 @@ static int doDetectMessageAny_(
 		}
 	}
 	
-	// ÉÅÅ[Éãóì
+	// „É°„Éº„É´Ê¨Ñ
 	if (kSampleAsMailMask & mask) { 
 		s1 = [m1 mail];
 		s2 = [m2 mail];
@@ -682,7 +669,7 @@ static int doDetectMessageAny_(
 		}
 	}
 	
-	// ñ{ï∂
+	// Êú¨Êñá
 	if (kSampleAsMessageMask & mask) { 
 		s1 = [m1 messageSource];
 		s2 = [m2 messageSource];
@@ -693,7 +680,7 @@ static int doDetectMessageAny_(
 	return 0;
 }
 
-// ê›íËÇ≥ÇÍÇƒÇ¢Ç»Ç¢ID Ç‚ ÇÊÇ≠Ç†ÇÈñºëOìôÇÕî‰ärëŒè€Ç…ÇµÇ»Ç¢
+// Ë®≠ÂÆö„Åï„Çå„Å¶„ÅÑ„Å™„ÅÑID „ÇÑ „Çà„Åè„ÅÇ„ÇãÂêçÂâçÁ≠â„ÅØÊØîËºÉÂØæË±°„Å´„Åó„Å™„ÅÑ
 /*static BOOL checkMailIsNonSignificant_(NSString *mail)
 {
 	NSCharacterSet	*cset;
@@ -707,7 +694,7 @@ static int doDetectMessageAny_(
 		return YES;
 	}
 	
-	// êîéöÇÃÇ›
+	// Êï∞Â≠ó„ÅÆ„Åø
 	cset = [NSCharacterSet decimalDigitCharacterSet];
 	if (NSEqualRanges([mail rangeOfCharacterFromSet:cset], [mail range])) {
 		UTIL_DEBUG_WRITE1(
@@ -730,7 +717,7 @@ static BOOL checkMailIsNonSignificant_(NSString *mail)
 		return YES;
 	}
 	
-	// êîéöÇÃÇ›
+	// Êï∞Â≠ó„ÅÆ„Åø
 	cset = [NSCharacterSet decimalDigitCharacterSet];
 	scanner = [NSScanner localizedScannerWithString:mail];
 	if ([scanner scanCharactersFromSet:cset intoString:NULL]) {
@@ -743,7 +730,7 @@ static BOOL checkMailIsNonSignificant_(NSString *mail)
 	return NO;
 }
 
-// ñºëOóìÇÃÉ`ÉFÉbÉN
+// ÂêçÂâçÊ¨Ñ„ÅÆ„ÉÅ„Çß„ÉÉ„ÇØ
 static BOOL checkNameIsNonSignificant_(NSString *name)
 {
 	if (nil == name || 0 == [name length]) {
@@ -754,10 +741,10 @@ static BOOL checkNameIsNonSignificant_(NSString *name)
 	return NO;
 }
 
-// ID óìÇÃÉ`ÉFÉbÉN
+// ID Ê¨Ñ„ÅÆ„ÉÅ„Çß„ÉÉ„ÇØ
 static BOOL checkIDIsNonSignificant_(NSString *idStr_)
 {
-	// ID Ç™ 0 or 1ï∂éöÅAÇ‹ÇΩÇÕÅu???ÅvÇ≈énÇ‹ÇÈÇ∆Ç´
+	// ID „Åå 0 or 1ÊñáÂ≠ó„ÄÅ„Åæ„Åü„ÅØ„Äå???„Äç„ÅßÂßã„Åæ„Çã„Å®„Åç
 	if (nil == idStr_ || 2 > [idStr_ length] || [idStr_ hasPrefix : @"???"]) 
 	{
 		UTIL_DEBUG_WRITE1(@"ID:%@ was nonsignificant.", idStr_);
@@ -773,7 +760,7 @@ static BOOL checkNameHasResLink_(NSString *name)
 	NSCharacterSet	*cset;
 	NSCharacterSet	*whiteCset = [NSCharacterSet whitespaceCharacterSet];
 	
-	// >> xx: ÉåÉXÇ÷ÇÃÉäÉìÉNÇ‡ñ≥éãÇ∑ÇÈ
+	// >> xx: „É¨„Çπ„Å∏„ÅÆ„É™„É≥„ÇØ„ÇÇÁÑ°Ë¶ñ„Åô„Çã
 	scanner = [NSScanner scannerWithString : name];
 	cset = [NSCharacterSet innerLinkPrefixCharacterSet];
 	[scanner scanCharactersFromSet:cset intoString:NULL];

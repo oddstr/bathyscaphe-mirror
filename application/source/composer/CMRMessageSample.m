@@ -43,6 +43,11 @@
 	[super dealloc];
 }
 
+- (NSString *)description
+{
+	return [[self sampledDate] description];
+}
+
 - (BOOL)isEqual:(id)anObject
 {
 	CMRThreadMessage	*m1, *m2;

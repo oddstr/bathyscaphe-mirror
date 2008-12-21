@@ -1,5 +1,5 @@
 //
-//  $Id: BSIPIHistoryManager.m,v 1.14 2008/07/21 01:00:05 tsawada2 Exp $
+//  $Id: BSIPIHistoryManager.m,v 1.15 2008/12/21 16:53:14 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/12.
@@ -319,7 +319,10 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 
 		if (flag) {
 			NSString *urlString = [[eachToken sourceURL] absoluteString];
-			if (urlString) [[NSWorkspace sharedWorkspace] attachComment:urlString toFile:destPath];
+			if (urlString) {
+			//[[NSWorkspace sharedWorkspace] attachComment:urlString toFile:destPath];
+				[UKXattrMetadataStore setObject:[NSArray arrayWithObject:urlString] forKey:@"com.apple.metadata:kMDItemWhereFroms" atPath:destPath traverseLink:NO];
+			}
 		}
 	}
 /*	

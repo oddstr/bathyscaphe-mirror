@@ -1,5 +1,5 @@
 //
-//  $Id: SoundsPaneController.m,v 1.2 2006/04/11 17:31:21 masakih Exp $
+//  $Id: SoundsPaneController.m,v 1.3 2008/12/21 16:53:13 tsawada2 Exp $
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/27.
@@ -66,10 +66,14 @@ static BOOL addFileListsToMenu(NSMenu *menu_, short ofWhichDomain)
 	[[self soundForHEADCheckNewArrivedBtn] setMenu : menu_];
 	[[[self soundForHEADCheckNewArrivedBtn] menu] setTitle : @"setHEADCheckNewArrivedSound:"];
 
-	[[self soundForHEADCheckNoUpdateBtn] setMenu : [menu_ copy]];
+	NSMenu *menu2 = [menu_ copy];
+	[[self soundForHEADCheckNoUpdateBtn] setMenu:menu2];
+	[menu2 release];
 	[[[self soundForHEADCheckNoUpdateBtn] menu] setTitle : @"setHEADCheckNoUpdateSound:"];
 
-	[[self soundForReplyDidFinishBtn] setMenu : [menu_ copy]];
+	NSMenu *menu3 = [menu_ copy];
+	[[self soundForReplyDidFinishBtn] setMenu:menu3];
+	[menu3 release];
 	[[[self soundForReplyDidFinishBtn] menu] setTitle : @"setReplyDidFinishSound:"];
 }
 

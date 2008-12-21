@@ -164,7 +164,7 @@ static NSString *const kIPIPrefsNibFileNameKey	= @"BSIPIPreferences";
 {
 	[[self historyManager] copyCachedFileForTokenAtIndexes:[[self tripleGreenCubes] selectionIndexes]
 												intoFolder:[[BSIPIDefaults sharedIPIDefaults] saveDirectory]
-									   attachFinderComment:[[BSIPIDefaults sharedIPIDefaults] attachFinderComment]];
+									   attachFinderComment:YES]; //[[BSIPIDefaults sharedIPIDefaults] attachFinderComment]];
 }
 
 - (IBAction)saveImageAs:(id)sender
@@ -241,7 +241,7 @@ static NSString *const kIPIPrefsNibFileNameKey	= @"BSIPIPreferences";
 	NSEnumerator	*iter = [urls objectEnumerator];
 	BSIPIArrayController *controller = [self tripleGreenCubes];
 	NSURL			*url;
-	unsigned		index;
+	unsigned		index = NSNotFound;
 
 	[controller setSelectsInsertedObjects:NO];
 	while (url = [iter nextObject]) {
@@ -310,12 +310,15 @@ static NSString *const kIPIPrefsNibFileNameKey	= @"BSIPIPreferences";
 {
 	NSWindow *window_ = [aNotification object];
 	m_shouldRestoreKeyWindow = [window_ isKeyWindow];
+	[window_ setAlphaValue:1.0];
 }
 
 - (void)windowDidEndSheet:(NSNotification *)aNotification
 {
+	NSWindow *window_ = [aNotification object];
+	[window_ setAlphaValue:[[BSIPIDefaults sharedIPIDefaults] alphaValue]];
 	if (m_shouldRestoreKeyWindow) {
-		[[aNotification object] makeKeyWindow];
+		[window_ makeKeyWindow];
 	}
 	m_shouldRestoreKeyWindow = NO;
 }

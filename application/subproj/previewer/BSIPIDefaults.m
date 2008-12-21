@@ -178,13 +178,13 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedIPIDefaults);
 	[[self prefsDict] setObject:aColorData forKey:kIPIFullScreenBgColorKey];
 }
 
-- (BOOL)attachFinderComment
-{
-	return [[self prefsDict] boolForKey:kIPIAttachFinderCommentKey defaultValue:NO];
-}
-
-- (void)setAttachFinderComment:(BOOL)flag
-{
-	[[self prefsDict] setBool:flag forKey:kIPIAttachFinderCommentKey];
-}
+//- (BOOL)attachFinderComment
+//{
+//	return [[self prefsDict] boolForKey:kIPIAttachFinderCommentKey defaultValue:NO];
+//}
+//
+//- (void)setAttachFinderComment:(BOOL)flag
+//{
+//	[[self prefsDict] setBool:flag forKey:kIPIAttachFinderCommentKey];
+//}
 @end

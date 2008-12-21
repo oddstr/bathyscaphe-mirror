@@ -52,6 +52,7 @@
 	BSThemeEditor *editor = [self themeEditor];
 
 	[[editor themeGreenCube] setContent: content];
+	[content release];
 	[editor beginSheetModalForWindow: [self window] modalDelegate: self contextInfo: NULL];
 }
 

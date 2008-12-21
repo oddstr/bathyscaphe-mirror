@@ -89,6 +89,8 @@
 		8768FDF30CD3A17B0020BBBE /* BSURLDownload.h in Headers */ = {isa = PBXBuildFile; fileRef = 8768FDF10CD3A17B0020BBBE /* BSURLDownload.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8768FDF40CD3A17C0020BBBE /* BSURLDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 8768FDF20CD3A17B0020BBBE /* BSURLDownload.m */; };
 		8768FE020CD3A6170020BBBE /* SGHTTPDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 8768FE010CD3A6170020BBBE /* SGHTTPDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		878CF9830EFD452B0044A4F1 /* UKXattrMetadataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 878CF9810EFD452B0044A4F1 /* UKXattrMetadataStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		878CF9840EFD452B0044A4F1 /* UKXattrMetadataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 878CF9820EFD452B0044A4F1 /* UKXattrMetadataStore.m */; };
 		87D2F4080CFF92EE00FF0827 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0867D69BFE84028FC02AAC07 /* Foundation.framework */; };
 		87EA10530CD35F4000BAEBB2 /* SGBaseQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = F39603A4043EE2E800A80005 /* SGBaseQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87EA10540CD35F4000BAEBB2 /* SGBaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = F39603A5043EE2E800A80005 /* SGBaseQueue.m */; };
@@ -208,6 +210,8 @@
 		8768FDF10CD3A17B0020BBBE /* BSURLDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSURLDownload.h; sourceTree = "<group>"; };
 		8768FDF20CD3A17B0020BBBE /* BSURLDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSURLDownload.m; sourceTree = "<group>"; };
 		8768FE010CD3A6170020BBBE /* SGHTTPDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGHTTPDefines.h; sourceTree = "<group>"; };
+		878CF9810EFD452B0044A4F1 /* UKXattrMetadataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UKXattrMetadataStore.h; sourceTree = "<group>"; };
+		878CF9820EFD452B0044A4F1 /* UKXattrMetadataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UKXattrMetadataStore.m; sourceTree = "<group>"; };
 		878DB85D0832758A0086BC97 /* Utk.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = Utk.h; sourceTree = "<group>"; };
 		878DB85E0832758A0086BC97 /* UtkAssertion.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = UtkAssertion.h; sourceTree = "<group>"; };
 		878DB85F0832758A0086BC97 /* UtkDebugging.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = UtkDebugging.h; sourceTree = "<group>"; };
@@ -945,6 +949,8 @@
 		F5996CB90379020601A80002 /* files */ = {
 			isa = PBXGroup;
 			children = (
+				878CF9810EFD452B0044A4F1 /* UKXattrMetadataStore.h */,
+				878CF9820EFD452B0044A4F1 /* UKXattrMetadataStore.m */,
 				F5996CBA0379020601A80002 /* MoreFilesX.h */,
 				87C7292A082BA2D200AC9AE1 /* MoreFilesX.c */,
 				F30ED6A20510AFC700A80005 /* SGFile+AppSupport.h */,
@@ -1055,6 +1061,7 @@
 				87EA10A90CD37C5100BAEBB2 /* SGNSR.h in Headers */,
 				8768FDF30CD3A17B0020BBBE /* BSURLDownload.h in Headers */,
 				8768FE020CD3A6170020BBBE /* SGHTTPDefines.h in Headers */,
+				878CF9830EFD452B0044A4F1 /* UKXattrMetadataStore.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1201,6 +1208,7 @@
 				87EA10540CD35F4000BAEBB2 /* SGBaseQueue.m in Sources */,
 				87EA10AA0CD37C5200BAEBB2 /* SGFoundationUtils.m in Sources */,
 				8768FDF40CD3A17C0020BBBE /* BSURLDownload.m in Sources */,
+				878CF9840EFD452B0044A4F1 /* UKXattrMetadataStore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

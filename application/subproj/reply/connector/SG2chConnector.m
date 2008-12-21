@@ -54,7 +54,7 @@
 		[headers_ addEntriesFromDictionary:properties];
 		
 		if (![self isRequestHeadersComplete:headers_]) {
-			[self autorelease];
+			[self release];
 			return nil;
 		}
 

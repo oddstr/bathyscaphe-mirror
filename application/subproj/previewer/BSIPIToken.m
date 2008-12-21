@@ -3,7 +3,7 @@
 //  BathyScaphe ImagePreviewer 2.8
 //
 //  Created by Tsutomu Sawada on 06/11/26.
-//  Copyright 2006 BathyScaphe Project. All rights reserved.
+//  Copyright 2006-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -130,6 +130,7 @@ NSString *const BSIPITokenDownloadErrorNotification = @"BSIPITokenDownloadErrorN
 			metaDataDict = (NSDictionary *)CGImageSourceCopyPropertiesAtIndex(cgImage, 0, NULL);
 			if (metaDataDict) {
 				[self setExifInfoString:[self createExifInfoStringFromMetaData:metaDataDict]];
+				[metaDataDict release];
 			}
 		}
 	}

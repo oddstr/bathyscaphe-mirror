@@ -33,8 +33,16 @@
 	double m_downloadedLength;
 	NSString *m_message;
 	double m_amount;
+
+	NSDictionary *m_refererThreadInfo;
 }
 
 - (BSURLDownload *)currentDownload;
 - (void)setCurrentDownload:(BSURLDownload *)download;
+
+- (NSDictionary *)refererThreadInfo;
+- (void)setRefererThreadInfo:(NSDictionary *)dict;
 @end
+
+extern NSString *const kRefererTitleKey;
+extern NSString *const kRefererURLKey;

@@ -1,3 +1,34 @@
+2008-12-22 tsawada2 <tsawada2@users.sourceforge.jp>
+	* frameworks/SGFoundation/framework/source/classes/files/UKXattrMetadataStore.h
+	* frameworks/SGFoundation/framework/source/classes/files/UKXattrMetadataStore.m
+		[新規追加] from <http://www.zathras.de>
+	* frameworks/SGFoundation/framework/source/classes/SGFoundationClasses.h
+		UKXattrMetadataStore を SGFoundation フレームワークに追加した。
+	* application/Resources/Japanese.lproj/Acknowledgments.rtf
+		UKXattrMetadataStore に関する記述を追加。
+	* application/source/composer/CMRMessageFilter.m
+		重複するサンプルを取り除く方法を変更。
+	* application/source/composer/CMRMessageSample.m
+		デバッグ用に description メソッドを実装。
+	* application/source/thread/CMRThreadViewer-Link.m
+	* application/source/view/SGLinkCommand.m
+	* application/subproj/preference/Japanese.lproj/LinkPreferences.nib
+	* application/subproj/previewer/BSIPIDefaults.m
+	* application/subproj/previewer/BSIPIHistoryManager.m
+	* application/subproj/previewer/Japanese.lproj/BSIPIPreferences.nib
+		ダウンロードしたファイルや、プレビューしたイメージの URL を Spotlight コメントに
+		追加するのは止めて、拡張属性（extend attribute）の com.apple.Metadata.kMDItemWhereFroms
+		に書き込むようにした。Tiger でも Leopard でも書き込まれると思うが、Tiger でそれが
+		Spotlight にきちんと読み取られるのかどうかは不明…。もちろん、Leopard では Spotlight でばっちり。
+		このために UKXattrMetadataStore を使用。また、Spotlight コメントに設定するかどうかの設定は廃止。	
+	* application/subproj/preference/font_color/FCController.m
+	* application/subproj/preference/SoundsPaneController.m
+	* application/subproj/previewer/BSIPIToken.m
+　		メモリリークを修正。
+	* application/subproj/previewer/BSImagePreviewInspector.m
+		プレビューインスペクタが半透明で表示されている場合に、シートを表示するときは一時的に不透明に
+		戻すようにした。
+=================================================
 2008-12-01 tsawada2 <tsawada2@users.sourceforge.jp>
 	* application/subproj/preference/pane/PreferencesPane-Toolbar.m
 		Panther 対策のコードを削除。

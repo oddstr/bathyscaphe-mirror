@@ -253,6 +253,7 @@ static inline NSString *urlPathExtension(NSURL *url)
 
 	if (linkExtension && [extensions containsObject:linkExtension]) {
 		SGDownloadLinkCommand *dlCmd = [SGDownloadLinkCommand functorWithObject:[url absoluteString]];
+		[dlCmd setRefererThreadInfo:[NSDictionary dictionaryWithObjectsAndKeys:[self title], kRefererTitleKey, [[self threadURL] absoluteString], kRefererURLKey, NULL]];
 		[dlCmd execute:self];
 		return YES;
 	}

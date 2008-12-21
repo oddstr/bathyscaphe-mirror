@@ -6,6 +6,8 @@
 #import <SGAppKit/NSWorkspace-SGExtensions.h>
 #import "AppDefaults.h"
 
+NSString *const kRefererURLKey = @"URL";
+NSString *const kRefererTitleKey = @"Title";
 
 @implementation SGLinkCommand : SGFunctor
 - (id) link
@@ -76,12 +78,14 @@
 		m_expectLength = 0;
 		m_downloadedLength = 0;
 		m_amount = -1.0;
+		m_refererThreadInfo = nil;
 	}
 	return self;
 }
 
 - (void)dealloc
 {
+	[self setRefererThreadInfo:nil];
 	[self setMessage:nil];
 	[self setCurrentDownload:nil];
 	[super dealloc];
@@ -130,8 +134,12 @@
 {
 	NSString *template;
 	double rate;
-	if ([CMRPref linkDownloaderAttachURLToComment]) {
+/*	if ([CMRPref linkDownloaderAttachURLToComment]) {
 		[[NSWorkspace sharedWorkspace] attachComment:[[self URLValue] absoluteString] toFile:[aDownload downloadedFilePath]];
+	}*/
+	if ([self refererThreadInfo]) {
+		NSArray *array = [NSArray arrayWithObjects:[[self URLValue] absoluteString], [[self refererThreadInfo] objectForKey:kRefererURLKey], nil];
+		[UKXattrMetadataStore setObject:array forKey:@"com.apple.metadata:kMDItemWhereFroms" atPath:[aDownload downloadedFilePath] traverseLink:NO];
 	}
 	NSString *ext = [[[self stringValue] componentsSeparatedByString:@"."] lastObject];
 	unsigned hoge = [[CMRPref linkDownloaderExtensionTypes] indexOfObject:ext];
@@ -205,6 +213,18 @@
 	[download retain];
 	[m_currentDownload release];
 	m_currentDownload = download;
+}
+
+- (NSDictionary *)refererThreadInfo
+{
+	return m_refererThreadInfo;
+}
+
+- (void)setRefererThreadInfo:(NSDictionary *)dict
+{
+	[dict retain];
+	[m_refererThreadInfo release];
+	m_refererThreadInfo = dict;
 }
 
 - (void)setMessage:(NSString *)string

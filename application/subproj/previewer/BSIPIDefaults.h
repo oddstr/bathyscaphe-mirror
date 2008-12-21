@@ -57,8 +57,8 @@
 - (NSData *)fullScreenBgColorData;
 - (void)setFullScreenBgColorData:(NSData *)aColorData;
 
-- (BOOL)attachFinderComment;
-- (void)setAttachFinderComment:(BOOL)flag;
+//- (BOOL)attachFinderComment;
+//- (void)setAttachFinderComment:(BOOL)flag;
 @end
 
 // For KVO
