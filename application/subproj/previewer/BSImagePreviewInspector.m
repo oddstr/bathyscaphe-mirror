@@ -163,8 +163,7 @@ static NSString *const kIPIPrefsNibFileNameKey	= @"BSIPIPreferences";
 - (IBAction)saveImage:(id)sender
 {
 	[[self historyManager] copyCachedFileForTokenAtIndexes:[[self tripleGreenCubes] selectionIndexes]
-												intoFolder:[[BSIPIDefaults sharedIPIDefaults] saveDirectory]
-									   attachFinderComment:YES]; //[[BSIPIDefaults sharedIPIDefaults] attachFinderComment]];
+												intoFolder:[[BSIPIDefaults sharedIPIDefaults] saveDirectory]];
 }
 
 - (IBAction)saveImageAs:(id)sender

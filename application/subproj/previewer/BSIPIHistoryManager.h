@@ -49,7 +49,7 @@
 - (void)makeTokensRetryDownloadAtIndexes:(NSIndexSet *)indexes; // Available in 2.6.1 and later.
 
 - (void)openCachedFileForTokenAtIndexesWithPreviewApp:(NSIndexSet *)indexes;
-- (void)copyCachedFileForTokenAtIndexes:(NSIndexSet *)indexes intoFolder:(NSString *)folderPath attachFinderComment:(BOOL)flag;
+- (void)copyCachedFileForTokenAtIndexes:(NSIndexSet *)indexes intoFolder:(NSString *)folderPath;
 
 - (BOOL)copyCachedFileForPath:(NSString *)cacheFilePath toPath:(NSString *)copiedFilePath;
 

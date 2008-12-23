@@ -1,4 +1,8 @@
 2008-12-24 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/subproj/previewer/BSIPIHistoryManager.m
+	* application/subproj/previewer/BSIPIToken.m
+		イメージをドラッグ＆ドロップで保存した際や、「別名で保存...」した際に kMDItemWhereFroms 拡張属性
+		の値がファイルに記入されない問題を修正。
 	* frameworks/SGAppKit/framework/src/extensions/workspace/NSWorkspace-SGExtensions.m
 		Spotlight コメントをファイルに付加するメソッドを廃止した。
 	* application/source/bbs/BoardListItem/SmartBoardList.m

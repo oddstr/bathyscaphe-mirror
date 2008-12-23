@@ -8,6 +8,7 @@
 //
 
 #import "BSIPIToken.h"
+#import <SGFoundation/UKXattrMetadataStore.h>
 #import <SGAppKit/NSWorkspace-SGExtensions.h>
 #import <ApplicationServices/ApplicationServices.h>
 
@@ -148,6 +149,12 @@ NSString *const BSIPITokenDownloadErrorNotification = @"BSIPITokenDownloadErrorN
 
 	[self setThumbnail:image_];
 	[image_ release];
+
+	[UKXattrMetadataStore setObject:[NSArray arrayWithObject:[[self sourceURL] absoluteString]]
+							 forKey:@"com.apple.metadata:kMDItemWhereFroms"
+							 atPath:filePath
+					   traverseLink:NO];
+
 	return YES;
 }
 

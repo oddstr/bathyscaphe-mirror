@@ -1,9 +1,10 @@
 //
-//  $Id: BSIPIHistoryManager.m,v 1.15 2008/12/21 16:53:14 tsawada2 Exp $
+//  BSIPIHistoryManager.m
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/12.
-//  Copyright 2006 BathyScaphe Project. All rights reserved.
+//  Copyright 2006-2008 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import "BSIPIHistoryManager.h"
@@ -161,20 +162,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 
 - (NSArray *) cachedTokensArrayAtIndexes: (NSIndexSet *) indexes
 {
-/*	if (indexes == nil) return nil;
-	
-	NSMutableArray *array = [NSMutableArray array];
-
-	unsigned int	index;
-	unsigned int	size = [indexes lastIndex]+1;
-	NSRange			e = NSMakeRange(0, size);
-
-	while ([indexes getIndexes: &index maxCount: 1 inIndexRange: &e] > 0)
-	{
-		[array addObject: [[self tokensArray] objectAtIndex: index]];
-	}
-
-	return array;*/
 	if (!indexes) return nil;
 	return [[self tokensArray] objectsAtIndexes:indexes];
 }
@@ -303,7 +290,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 	}
 }
 
-- (void)copyCachedFileForTokenAtIndexes:(NSIndexSet *)indexes intoFolder:(NSString *)folderPath attachFinderComment:(BOOL)flag
+- (void)copyCachedFileForTokenAtIndexes:(NSIndexSet *)indexes intoFolder:(NSString *)folderPath
 {
 	NSArray	*tokenArray = [self cachedTokensArrayAtIndexes:indexes];
 	if (!tokenArray || [tokenArray count] == 0) return;
@@ -316,26 +303,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 		if (!path) continue;
 		NSString *destPath = [folderPath stringByAppendingPathComponent:[path lastPathComponent]];
 		[self copyCachedFileForPath:path toPath:destPath];
-
-		if (flag) {
-			NSString *urlString = [[eachToken sourceURL] absoluteString];
-			if (urlString) {
-			//[[NSWorkspace sharedWorkspace] attachComment:urlString toFile:destPath];
-				[UKXattrMetadataStore setObject:[NSArray arrayWithObject:urlString] forKey:@"com.apple.metadata:kMDItemWhereFroms" atPath:destPath traverseLink:NO];
-			}
-		}
 	}
-/*	
-	if (tokenArray != nil) {
-		NSArray *pathArray = [tokenArray valueForKey: @"downloadedFilePath"];
-		NSEnumerator *iter_ = [pathArray objectEnumerator];
-		NSString	*eachPath;
-		
-		while (eachPath = [iter_ nextObject]) {
-			if ([eachPath isEqual: [NSNull null]]) continue;
-			[self copyCachedFileForPath: eachPath toPath: [folderPath stringByAppendingPathComponent: [eachPath lastPathComponent]]];
-		}
-	}*/
 }
 
 - (BOOL) copyCachedFileForPath: (NSString *) cacheFilePath toPath: (NSString *) copiedFilePath
@@ -350,43 +318,42 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 	return YES;
 }
 
-- (void) saveCachedFileForTokenAtIndex: (unsigned) index savePanelAttachToWindow: (NSWindow *) aWindow
+- (void)saveCachedFileForTokenAtIndex:(unsigned)index savePanelAttachToWindow:(NSWindow *)aWindow
 {
 	if (index == NSNotFound) return;
-//	BSIPIToken	*aToken = [self cachedTokenAtIndex: index];
-//	if (aToken == nil) return;
 	BSIPIToken	*aToken = [self objectInTokensArrayAtIndex:index];
 	NSString	*filePath_ = [aToken downloadedFilePath];
-	if (filePath_ == nil) return;
+	if (!filePath_) return;
 
 	NSString	*extension_ = [filePath_ pathExtension];
 
 	NSSavePanel *sP = [NSSavePanel savePanel];
-	[sP setRequiredFileType: ([extension_ isEqualToString: @""] ? nil : extension_)];
-	[sP setAllowsOtherFileTypes: YES];
-	[sP setCanCreateDirectories: YES];
-	[sP setCanSelectHiddenExtension: YES];
+	[sP setRequiredFileType:([extension_ isEqualToString:@""] ? nil : extension_)];
+	[sP setAllowsOtherFileTypes:YES];
+	[sP setCanCreateDirectories:YES];
+	[sP setCanSelectHiddenExtension:YES];
 
-	[sP beginSheetForDirectory : nil
-						  file : [filePath_ lastPathComponent]
-				modalForWindow : aWindow
-				 modalDelegate : self
-				didEndSelector : @selector(savePanelDidEnd:returnCode:contextInfo:)
-				   contextInfo : filePath_];
+	[sP beginSheetForDirectory:nil
+						  file:[filePath_ lastPathComponent]
+				modalForWindow:aWindow
+				 modalDelegate:self
+				didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:)
+				   contextInfo:[aToken retain]];
 }
 
-- (void) savePanelDidEnd: (NSSavePanel *) sheet returnCode: (int) returnCode contextInfo: (void *) contextInfo
+- (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
 	if (returnCode == NSOKButton) {
 		NSString *savePath = [sheet filename];
-		if ([self copyCachedFileForPath: (NSString *)contextInfo toPath: savePath]) {
+		if ([self copyCachedFileForPath:[(BSIPIToken *)contextInfo downloadedFilePath] toPath:savePath]) {
 			NSDictionary *tmpDict;
-			tmpDict = [NSDictionary dictionaryWithObject: [NSNumber numberWithBool: [sheet isExtensionHidden]]
-												  forKey: NSFileExtensionHidden];
+			tmpDict = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:[sheet isExtensionHidden]]
+												  forKey:NSFileExtensionHidden];
 
-			[[NSFileManager defaultManager] changeFileAttributes: tmpDict atPath: savePath];
+			[[NSFileManager defaultManager] changeFileAttributes:tmpDict atPath:savePath];
 		}
 	}
+	[(BSIPIToken *)contextInfo release];
 }
 
 #pragma mark NSTableDataSource
@@ -424,7 +391,6 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedManager)
 	NSArray		*urlArray_ = [tokens_ valueForKey: @"sourceURL"];
 	NSString	*joinedURLString_ = [[urlArray_ valueForKey: @"absoluteString"] componentsJoinedByString: @"\n"];
 	
-//	NSURL		*url_ = [[self cachedTokenAtIndex: [indexes firstIndex]] sourceURL];
 	NSURL		*url_ = [[self objectInTokensArrayAtIndex:[indexes firstIndex]] sourceURL];
 
 	[pboard declareTypes: [self arrayForDeclaringTypes] owner: nil];
