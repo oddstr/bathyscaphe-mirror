@@ -8,13 +8,13 @@
 //
 
 #import "NSWorkspace-SGExtensions.h"
-#import <SGAppKit/NSAppleScript-SGExtensions.h>
+//#import <SGAppKit/NSAppleScript-SGExtensions.h>
 #import "UTILKit.h"
 
-static NSString *const kAppleScriptFile = @"attachFinderComment";
+//static NSString *const kAppleScriptFile = @"attachFinderComment";
 
 #define FINDER_IDENTIFIER	@"com.apple.finder"
-#define ATTACH_COMMENT_HANDLER_NAME	@"attachComment"
+//#define ATTACH_COMMENT_HANDLER_NAME	@"attachComment"
 
 @implementation NSWorkspace(BSExtensions)
 #pragma mark Move To Trash
@@ -160,7 +160,7 @@ bail:
 
 	return (err == noErr);
 }
-
+/*
 - (BOOL)attachComment:(NSString *)comment toFile:(NSString *)filePath
 {
 	NSString		*hfsPath;
@@ -177,7 +177,7 @@ bail:
 
 	return [script doHandler:ATTACH_COMMENT_HANDLER_NAME withParameters:[NSArray arrayWithObjects:hfsPath, comment, nil] error:NULL];
 }
-
+*/
 #pragma mark Opening URL(s)
 - (BOOL)openURLs:(NSArray *)urls inBackground:(BOOL)flag;
 {

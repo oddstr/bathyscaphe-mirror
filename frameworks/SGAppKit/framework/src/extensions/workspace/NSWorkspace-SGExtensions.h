@@ -20,8 +20,8 @@
 // Activate Application - AppleEvent Wrapper
 // NOTE: This method does nothing if the target application is not running (unlike AppleScript's "tell application Foo to activate".)
 - (BOOL)activateAppWithBundleIdentifier:(NSString *)bundleIdentifier; // Available in BathyScaphe 1.6.2 and later.
-
-- (BOOL)attachComment:(NSString *)comment toFile:(NSString *)filePath; // Available in BathyScaphe 1.6.2 and later.
+// Deprecated in 1.6.2 final release. Use UKXattrMetadataStore Class instead.
+//- (BOOL)attachComment:(NSString *)comment toFile:(NSString *)filePath; // Available in BathyScaphe 1.6.2 and later.
 
 // Deprecated. Use -openURL:inBackground: instead.
 - (BOOL)openURL:(NSURL *)url_ inBackGround:(BOOL)inBG;

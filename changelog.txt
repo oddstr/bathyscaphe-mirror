@@ -1,3 +1,9 @@
+2008-12-24 tsawada2 <tsawada2@users.sourceforge.jp>
+	* frameworks/SGAppKit/framework/src/extensions/workspace/NSWorkspace-SGExtensions.m
+		Spotlight コメントをファイルに付加するメソッドを廃止した。
+	* application/source/bbs/BoardListItem/SmartBoardList.m
+		掲示板リスト項目をドラッグ＆ドロップする際、ドロップ先の妥当性チェックを強化した
+		（カテゴリ項目を自分自身の内部にドロップできないようにした）。
 2008-12-22 tsawada2 <tsawada2@users.sourceforge.jp>
 	* frameworks/SGFoundation/framework/source/classes/files/UKXattrMetadataStore.h
 	* frameworks/SGFoundation/framework/source/classes/files/UKXattrMetadataStore.m

@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Created by Hori,Masaki on 05/07/18.
-//  Copyright 2005-2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -314,23 +314,24 @@
 
 
 @implementation SmartBoardList (OutlineViewDataSorce)
-- (id) outlineView : (NSOutlineView *) outlineView child : (int) index ofItem : (id) item
+- (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item
 {
 	id result = nil;
 	
-	if (nil == item ) {
-		result = [topLevelItem itemAtIndex : index];
+	if (!item) {
+		result = [topLevelItem itemAtIndex:index];
 	} else if ([item hasChildren]) {
-		result = [item itemAtIndex : index];
+		result = [item itemAtIndex:index];
 	}
-	
+
 	return result;
 }
-- (BOOL) outlineView : (NSOutlineView *) outlineView isItemExpandable : (id) item
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
 	BOOL result = NO;
 	
-	if (nil == item) {
+	if (!item) {
 		result = YES;
 	} else if ([item hasChildren]) {
 		result = YES;
@@ -338,11 +339,12 @@
 	
 	return result;
 }
-- (int) outlineView : (NSOutlineView *) outlineView numberOfChildrenOfItem : (id) item
+
+- (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
 	int result = 0;
 	
-	if (nil == item) {
+	if (!item) {
 		result = [topLevelItem numberOfItem];
 	} else if ([item hasChildren]) {
 		result = [item numberOfItem];
@@ -352,35 +354,36 @@
 }
 
 // 掲示板リストだけでなく、「掲示板の追加」シートでも呼び出される
-- (id) outlineView: (NSOutlineView *) outlineView objectValueForTableColumn: (NSTableColumn *) tableColumn byItem: (id) item
+- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
 {
-	if ([BoardPlistNameKey isEqualTo : [tableColumn identifier]]) {
+	if ([BoardPlistNameKey isEqualToString:[tableColumn identifier]]) {
         id obj = [item representName];
 		if (!obj) {
 			UTILDebugWrite(@"can not get represent name.");
 			return nil;
 		}
-		if ([outlineView isKindOfClass: [BSBoardListView class]]) {
-			NSAttributedString *string = [[NSAttributedString alloc] initWithString: obj attributes: [CMRPref boardListTextAttributes]];
-			return [string autorelease];
+		if ([outlineView isKindOfClass:[BSBoardListView class]]) {
+			return [[[NSAttributedString alloc] initWithString:obj attributes:[CMRPref boardListTextAttributes]] autorelease];
 		} else { // 「掲示板の追加」シートでは attributed string ではなくただの string で返す
 			return obj;
 		}
-	} else if ([BoardPlistURLKey isEqualToString: [tableColumn identifier]] && [item hasURL]) { // URL カラムは「掲示板の追加」シートのみ
+	} else if ([BoardPlistURLKey isEqualToString:[tableColumn identifier]] && [item hasURL]) { // URL カラムは「掲示板の追加」シートのみ
 		return [[item url] absoluteString];
 	} else {
 		return nil;
 	}
 }
-	
-- (id) outlineView : (NSOutlineView *) outlineView itemForPersistentObject : (id) object
+
+- (id)outlineView:(NSOutlineView *)outlineView itemForPersistentObject:(id)object
 {
-	return [topLevelItem itemForRepresentName: object deepSearch:YES];
+	return [topLevelItem itemForRepresentName:object deepSearch:YES];
 }
-- (id) outlineView : (NSOutlineView *) outlineView persistentObjectForItem : (id) item
+
+- (id)outlineView:(NSOutlineView *)outlineView persistentObjectForItem:(id)item
 {
 	return [item representName];
 }
+
 - (BOOL) outlineView : (NSOutlineView *) outlineView
           writeItems : (NSArray       *) items
         toPasteboard : (NSPasteboard  *) pboard
@@ -512,58 +515,66 @@ not_writtable:
 		return NO;
 	}
 }
-- (NSDragOperation) outlineView : (NSOutlineView     *) outlineView
-                   validateDrop : (id <NSDraggingInfo>) info
-                   proposedItem : (id                 ) item
-             proposedChildIndex : (int                ) index;
+
+- (NSDragOperation)outlineView:(NSOutlineView *)outlineView validateDrop:(id<NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(int)index
 {
 	NSPasteboard *pboard_ = [info draggingPasteboard];
+	NSString *type = [pboard_ availableTypeFromArray:[NSArray arrayWithObjects:BSThreadItemsPboardType, CMRBBSListItemsPboardType, nil]];
 
-	if ([pboard_ availableTypeFromArray: [NSArray arrayWithObjects: BSThreadItemsPboardType, nil]] != nil) {
+	if (!type) {
+		return NSDragOperationNone;
+	}
+
+	if ([type isEqualToString:BSThreadItemsPboardType]) { // スレッド（お気に入りへの追加）
 		NSArray			*threadSignatures_;
 		NSEnumerator	*iter_;
 		id<CMRPropertyListCoding>	plistRep_;
 		CMRFavoritesManager	*fM = [CMRFavoritesManager defaultManager];
 		CMRThreadSignature	*signature_;
 
-		threadSignatures_ = [pboard_ propertyListForType: BSThreadItemsPboardType];
+		threadSignatures_ = [pboard_ propertyListForType:BSThreadItemsPboardType];
 		iter_ = [threadSignatures_ objectEnumerator];
 		while (plistRep_ = [iter_ nextObject]) {
-			signature_ = [CMRThreadSignature objectWithPropertyListRepresentation: plistRep_];
-			if (NO == [fM favoriteItemExistsOfThreadSignature: signature_]) {
-				[outlineView setDropItem: [BoardListItem favoritesItem] dropChildIndex: NSOutlineViewDropOnItemIndex];
+			signature_ = [CMRThreadSignature objectWithPropertyListRepresentation:plistRep_];
+			if (![fM favoriteItemExistsOfThreadSignature:signature_]) {
+				[outlineView setDropItem:[BoardListItem favoritesItem] dropChildIndex:NSOutlineViewDropOnItemIndex];
 				return NSDragOperationCopy;
 			}
 		}
 		return NSDragOperationNone;
+	} else { // 掲示板リスト項目
+		if (!item) {
+			return (index > 0) ? NSDragOperationMove : NSDragOperationNone; // 「お気に入り」の上に他のリスト項目はドロップできない
+		}
+		
+		if (![BoardListItem isFolderItem:item]) { // フォルダでない項目が親というのはおかしい
+			return NSDragOperationNone;
+		}
+
+		NSArray *blItems = [[pboard_ propertyListForType:CMRBBSListItemsPboardType] propertyList];
+		NSEnumerator *iter = [blItems objectEnumerator];
+		id obj;
+		id foo;
+		while (obj = [iter nextObject]) {
+			foo = [BoardListItem baordListItemFromPlist:obj];
+			if ([item isEqual:foo]) { // 自分自身の内部にドロップしようとしている
+				return NSDragOperationNone;
+			} else if ([foo parentForItem:item]) { // 自分自身の内部にあるカテゴリの中にドロップしようとしている
+				return NSDragOperationNone;
+			}
+		}
+		return NSDragOperationMove;
 	}
 
-	if (index == 0) return NSDragOperationNone; // 「お気に入り」の上に他のリスト項目をドロップさせない
-	if(item != nil && index < 0 &&  NO == [BoardListItem isFolderItem : item]){
-		return NSDragOperationNone;
-	}
-	return NSDragOperationMove;
-	
+	return NSDragOperationNone;	
 }
-- (BOOL) outlineView : (NSOutlineView *) outlineView
-             addItem : (id             ) item
-           afterItem : (id             ) pointingItem
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView addItem:(id)item afterItem:(id)pointingItem
 {
-	if([self addItem : item afterObject : pointingItem]){
+	if ([self addItem:item afterObject:pointingItem]) {
 		[outlineView reloadData];
 		return YES;
 	}
 	return NO;
 }
 @end
-/*
-@implementation SmartBoardList (NSDraggingSource)
-- (unsigned int) draggingSourceOperationMaskForLocal : (BOOL) localFlag
-{
-	if(localFlag)
-		return (NSDragOperationCopy | NSDragOperationGeneric | NSDragOperationMove);
-	
-	return NSDragOperationGeneric;
-}
-@end
-*/
