@@ -1,3 +1,8 @@
+2008-12-27 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/subproj/previewer/BSImagePreviewInspector-View.m
+	* application/subproj/previewer/BSImagePreviewInspector.m
+		KVO の登録タイミングを -windowDidLoad: から -initWithPreferences: に変更。そうしないと
+		-dealloc: 時の -removeObserver: でコンソールにエラーメッセージが吐かれることがあるため。
 2008-12-24 tsawada2 <tsawada2@users.sourceforge.jp>
 	* application/subproj/previewer/BSIPIHistoryManager.m
 	* application/subproj/previewer/BSIPIToken.m
@@ -28,8 +33,8 @@
 	* application/subproj/previewer/Japanese.lproj/BSIPIPreferences.nib
 		ダウンロードしたファイルや、プレビューしたイメージの URL を Spotlight コメントに
 		追加するのは止めて、拡張属性（extend attribute）の com.apple.Metadata.kMDItemWhereFroms
-		に書き込むようにした。Tiger でも Leopard でも書き込まれると思うが、Tiger でそれが
-		Spotlight にきちんと読み取られるのかどうかは不明…。もちろん、Leopard では Spotlight でばっちり。
+		に書き込むようにした。Tiger でも Leopard でも書き込まれると思うが、Tiger では、残念ながらこれは
+		Spotlight のメタデータとしては使用されないであろう。もちろん、Leopard では Spotlight でばっちり。
 		このために UKXattrMetadataStore を使用。また、Spotlight コメントに設定するかどうかの設定は廃止。	
 	* application/subproj/preference/font_color/FCController.m
 	* application/subproj/preference/SoundsPaneController.m
@@ -72,11 +77,22 @@
 	* application/source/bbs/BoardList.h
 	* application/source/bbs/BoardList.m
 	* application/source/bbs/BoardList-OVDataSource.m
-	* application/source/composer/CMRSubjectReader.h	* application/source/composer/CMRSubjectReader.m	* application/source/composer/CMRThreadSubjectComposer.h	* application/source/composer/CMRThreadSubjectComposer.m
-	* application/source/extensions/NSIndexSet+BSAddition.h	* application/source/extensions/NSIndexSet+BSAddition.m	* application/source/extensions/NSTableView+BSAdditions.h	* application/source/extensions/NSTableView+BSAdditions.m
-	* application/source/network/ThreadsListDownloader.h	* application/source/network/ThreadsListDownloader.m
-	* application/source/object/CMRBBSSignature.h	* application/source/object/CMRBBSSignature.m	* application/source/object/CMRThreadSignature_p.h
-	* application/source/preferences/AppDefaults-Alert.m	* application/source/preferences/AppDefaults-LibPath.m	* application/source/preferences/CMXTemplateKeys.h
+	* application/source/composer/CMRSubjectReader.h
+	* application/source/composer/CMRSubjectReader.m
+	* application/source/composer/CMRThreadSubjectComposer.h
+	* application/source/composer/CMRThreadSubjectComposer.m
+	* application/source/extensions/NSIndexSet+BSAddition.h
+	* application/source/extensions/NSIndexSet+BSAddition.m
+	* application/source/extensions/NSTableView+BSAdditions.h
+	* application/source/extensions/NSTableView+BSAdditions.m
+	* application/source/network/ThreadsListDownloader.h
+	* application/source/network/ThreadsListDownloader.m
+	* application/source/object/CMRBBSSignature.h
+	* application/source/object/CMRBBSSignature.m
+	* application/source/object/CMRThreadSignature_p.h
+	* application/source/preferences/AppDefaults-Alert.m
+	* application/source/preferences/AppDefaults-LibPath.m
+	* application/source/preferences/CMXTemplateKeys.h
 	* application/source/thread/CMRThreadDocument_p.h
 		[削除] 未使用になっていたのでリポジトリからも削除。
 	* application/Resources/Japanese.lproj/CMRBrowser.nib

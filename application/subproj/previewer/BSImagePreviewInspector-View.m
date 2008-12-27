@@ -78,11 +78,7 @@ static NSString *const kIPIFrameAutoSaveNameKey	= @"BathyScaphe:ImagePreviewInsp
 	[(NSPanel *)window_ setBecomesKeyOnlyIfNeeded:(![[BSIPIDefaults sharedIPIDefaults] alwaysBecomeKey])];
 	[(NSPanel *)window_ setFloatingPanel:[[BSIPIDefaults sharedIPIDefaults] floating]];
 	[window_ setAlphaValue:[[BSIPIDefaults sharedIPIDefaults] alphaValue]];
-	[window_ useOptimizedDrawing:YES];
-	
-	[[BSIPIDefaults sharedIPIDefaults] addObserver:self forKeyPath:@"alwaysBecomeKey" options:NSKeyValueObservingOptionNew context:kBSIPIDefaultsContext];
-	[[BSIPIDefaults sharedIPIDefaults] addObserver:self forKeyPath:@"floating" options:NSKeyValueObservingOptionNew context:kBSIPIDefaultsContext];
-	[[BSIPIDefaults sharedIPIDefaults] addObserver:self forKeyPath:@"alphaValue" options:NSKeyValueObservingOptionNew context:kBSIPIDefaultsContext];
+	[window_ useOptimizedDrawing:YES];	
 }
 
 - (void)setupTableView

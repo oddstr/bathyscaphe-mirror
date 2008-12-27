@@ -53,6 +53,10 @@ static NSString *const kIPIPrefsNibFileNameKey	= @"BSIPIPreferences";
 				selector:@selector(tokenDidFailDownload:)
 					name:BSIPITokenDownloadErrorNotification
 				  object:nil];
+
+		[[BSIPIDefaults sharedIPIDefaults] addObserver:self forKeyPath:@"alwaysBecomeKey" options:NSKeyValueObservingOptionNew context:kBSIPIDefaultsContext];
+		[[BSIPIDefaults sharedIPIDefaults] addObserver:self forKeyPath:@"floating" options:NSKeyValueObservingOptionNew context:kBSIPIDefaultsContext];
+		[[BSIPIDefaults sharedIPIDefaults] addObserver:self forKeyPath:@"alphaValue" options:NSKeyValueObservingOptionNew context:kBSIPIDefaultsContext];
 	}
 	return self;
 }
