@@ -25,7 +25,7 @@
 	<key>CFBundleVersion</key>
 	<string>50</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>© 2005-2008 tsawada2 &amp; BathyScaphe Project.</string>
+	<string>© 2005-2009 tsawada2 &amp; BathyScaphe Project.</string>
 	<key>NSMainNibFile</key>
 	<string>BSImagePreviewInspector</string>
 	<key>NSPrincipalClass</key>

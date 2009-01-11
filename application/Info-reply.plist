@@ -22,6 +22,8 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>3</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>© 2005-2009 tsawada2 &amp; BathyScaphe Project.</string>
 	<key>NSPrincipalClass</key>
 	<string>SG2chConnector</string>
 </dict>
