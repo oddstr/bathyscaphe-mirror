@@ -1,3 +1,25 @@
+2009-01-12 tsawada2 <tsawada2@users.sourceforge.jp>
+	* subproj/preference/font_color/BSThemePreView.(h|m)
+		[新規追加] テーマをプレビューするビュー。「表示」環境設定で使用予定。まだ作成途中。
+	* subproj/preference/Japanese.lproj/ThemeEditor.nib
+	* subproj/preference/Japanese.lproj/ViewPane.nib
+	* subproj/preference/font_color/FCController.m
+		「表示」環境設定を改造中。テーマの選択インタフェースを変更予定。
+	* application/source/network/CMRDownloader.m
+		エラーログを抑制した。
+	* application/source/window/CMRBrowserTbDelegate.m
+		「表示モードの切り替え」ツールバー項目が、「テキストのみ」モードでも動作するようにした。
+	* application/subproj/preference/SyncPaneController.m
+	* application/subproj/preference/Japanese.lproj/SyncPane.nib/classes.nib
+		「同期」環境設定で、同期のログが無いときは「同期のログを表示」ボタンを淡色表示にするようにした。
+	* application/subproj/previewer/Japanese.lproj/BSIPIPreferences.nib
+		プレビューインスペクタの環境設定パネルで、ほとんどのラベルに「Mixed」というツールチップが表示される
+		問題を修正。
+	* application/subproj/previewer/Japanese.lproj/InfoPlist.strings
+	* application/Resources/Japanese.lproj/InfoPlist.strings および、各種 Info.plist
+		コピーライト表記の変更（2008→2009）。
+	* application/subproj/reply/Japanese.lproj/InfoPlist.strings
+		[削除] 不要になったので削除した。
 2008-12-27 tsawada2 <tsawada2@users.sourceforge.jp>
 	* application/subproj/previewer/BSImagePreviewInspector-View.m
 	* application/subproj/previewer/BSImagePreviewInspector.m
