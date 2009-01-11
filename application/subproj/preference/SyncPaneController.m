@@ -22,10 +22,17 @@
 	return @"SyncPane";
 }
 
+- (void)updateOpenLogButton
+{
+	NSString *filePath = [[[self preferences] sharedBoardWarrior] logFilePath];
+	[[self openLogButton] setEnabled:(filePath && [[NSFileManager defaultManager] fileExistsAtPath:filePath])];
+}
+
 - (void)updateUIComponents
 {
 	[[self statusIconView] setHidden:YES];
 	[[self comboBox] setStringValue:[[[self preferences] BBSMenuURL] absoluteString]];
+	[self updateOpenLogButton];
 }
 
 - (void)setupUIComponents
@@ -56,6 +63,11 @@
 	return m_statusIconView;
 }
 
+- (NSButton *)openLogButton
+{
+	return m_openLogButton;
+}
+
 - (IBAction)startSync:(id)sender
 {
 	BoardWarrior *warrior = [[self preferences] sharedBoardWarrior];
@@ -82,7 +94,7 @@
 - (IBAction)openLogFile:(id)sender
 {
 	NSString *filePath = [[[self preferences] sharedBoardWarrior] logFilePath];
-	if (!filePath) return;
+	if (!filePath || ![[NSFileManager defaultManager] fileExistsAtPath:filePath]) return;
 
 	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
 	NSString *appPath = [ws absolutePathForAppBundleWithIdentifier:@"com.apple.Console"];
@@ -95,6 +107,7 @@
 {
 	[[self statusIconView] setImage:[self imageResourceWithName:@"syncFail"]];
 	[[self statusIconView] setHidden:NO];
+	[self updateOpenLogButton];
 	[warrior setDelegate:nil];
 }
 
@@ -103,6 +116,7 @@
 	[warrior setDelegate:nil];
 	[[self statusIconView] setImage:[self imageResourceWithName:@"syncFinish"]];
 	[[self statusIconView] setHidden:NO];
+	[self updateOpenLogButton];
 }
 @end
 

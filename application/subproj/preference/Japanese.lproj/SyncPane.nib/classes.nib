@@ -99,6 +99,8 @@
 			<dict>
 				<key>m_comboBox</key>
 				<string>NSComboBox</string>
+				<key>m_openLogButton</key>
+				<string>NSButton</string>
 				<key>m_statusIconView</key>
 				<string>NSImageView</string>
 			</dict>
