@@ -372,28 +372,29 @@ NSString *const CMRDownloaderNotFoundNotification	= @"CMRDownloaderNotFoundNotif
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-	NSString *title_;
+//	NSString *title_;
 	NSString *msg_;
 	NSAlert *alert_;
 
-	title_ = [error localizedDescription];
-	if (!title_ || [title_ length] == 0) {
-		title_ = @"Download Error Occurred";
-	}
+//	title_ = [error localizedDescription];
+//	if (!title_ || [title_ length] == 0) {
+//		title_ = @"Download Error Occurred";
+//	}
 	msg_ = [NSString stringWithFormat:[self localizedString:APP_DOWNLOADER_FAIL_LOADING_FMT],[[self resourceURLForWebBrowser] absoluteString]];
 
-	NSLog(
+/*	NSLog(
 		@"<Downloader %p> in %@"
 		@"----------------------------------------\n"
 		@"  Sender = %@ \n"
 		@"  Reason = %@",
 		self, NSStringFromSelector(_cmd),
-		connection, [error description]);
+		connection, [error description]);*/
 
-	alert_ = [[[NSAlert alloc] init] autorelease];
-	[alert_ setAlertStyle:NSWarningAlertStyle];
+//	alert_ = [[[NSAlert alloc] init] autorelease];
+	alert_ = [NSAlert alertWithError:error];
+//	[alert_ setAlertStyle:NSWarningAlertStyle];
 	[alert_ setInformativeText:msg_];
-	[alert_ setMessageText:title_];
+//	[alert_ setMessageText:title_];
 	[alert_ runModal];
 
 	[self setMessage:[self localizedErrorString]];	

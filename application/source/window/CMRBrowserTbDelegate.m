@@ -184,11 +184,16 @@ static NSMenuItem* searchToolbarItemMenuFormRep(NSString *labelText)
 - (void)setupSwitcherToolbarItem:(NSToolbarItem *)anItem itemView:(NSView *)aView delegate:(id)delegate windowStyle:(unsigned int)styleMask
 {
 	NSSize size_;
+	NSMenuItem *menuFormRep;
+
+	menuFormRep = [[NSMenuItem alloc] initWithTitle:[anItem label] action:@selector(toggleThreadsListViewMode:) keyEquivalent:@""];
 
 	[aView retain];
 	[aView removeFromSuperviewWithoutNeedingDisplay];	
 	[anItem setView:aView];
-		
+	[anItem setMenuFormRepresentation:menuFormRep];
+	[menuFormRep release];
+
 	size_ = [aView bounds].size;
 	if (styleMask & NSTexturedBackgroundWindowMask || styleMask & NSUnifiedTitleAndToolbarWindowMask) size_.height += 1;
 	[anItem setMinSize:size_];
