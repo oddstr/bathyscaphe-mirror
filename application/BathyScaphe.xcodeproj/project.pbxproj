@@ -83,7 +83,6 @@
 		871CA16A08585FD200C3A044 /* login.png in Resources */ = {isa = PBXBuildFile; fileRef = F324DBEF04C6965500A80005 /* login.png */; };
 		871CA16B08585FD200C3A044 /* ReplyErrorCode.plist in Resources */ = {isa = PBXBuildFile; fileRef = F327C17B04D528F100A80005 /* ReplyErrorCode.plist */; };
 		871CA16C08585FD200C3A044 /* LoginWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 872996FD08325B2B00CBD740 /* LoginWindow.nib */; };
-		871CA16D08585FD200C3A044 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8729970008325B3500CBD740 /* InfoPlist.strings */; };
 		871CA16E08585FD200C3A044 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8729970A08325BB300CBD740 /* Localizable.strings */; };
 		871CA17008585FD200C3A044 /* LoginController-VAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DBC204C6965500A80005 /* LoginController-VAccessor.m */; };
 		871CA17108585FD200C3A044 /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DBC404C6965500A80005 /* LoginController.m */; };
@@ -179,6 +178,9 @@
 		87956FCA0CE720F1004DBDB0 /* BSIPIArrayController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87956FC80CE720F1004DBDB0 /* BSIPIArrayController.h */; };
 		87956FCB0CE720F2004DBDB0 /* BSIPIArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87956FC90CE720F1004DBDB0 /* BSIPIArrayController.m */; };
 		879653F10BCE48BE0079EDFE /* AppDefaults-FCConvert.m in Sources */ = {isa = PBXBuildFile; fileRef = 879653F00BCE48BE0079EDFE /* AppDefaults-FCConvert.m */; };
+		879784D60F188D3F00FA0B51 /* Info-reply.plist in Resources */ = {isa = PBXBuildFile; fileRef = 879784D50F188D3F00FA0B51 /* Info-reply.plist */; };
+		8797854A0F1A331A00FA0B51 /* BSThemePreView.h in Headers */ = {isa = PBXBuildFile; fileRef = 879785480F1A331A00FA0B51 /* BSThemePreView.h */; };
+		8797854B0F1A331A00FA0B51 /* BSThemePreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 879785490F1A331A00FA0B51 /* BSThemePreView.m */; };
 		879B0B8C0B6237A400EFD6D0 /* BSThreadInfoPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 879B0B8A0B6237A400EFD6D0 /* BSThreadInfoPanel.nib */; };
 		879B0B930B6239EF00EFD6D0 /* BSThreadInfoPanelController.h in Headers */ = {isa = PBXBuildFile; fileRef = 879B0B910B6239EF00EFD6D0 /* BSThreadInfoPanelController.h */; };
 		879B0B940B6239EF00EFD6D0 /* BSThreadInfoPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 879B0B920B6239EF00EFD6D0 /* BSThreadInfoPanelController.m */; };
@@ -867,7 +869,6 @@
 		8719F069088A1892008FD8D7 /* CMRThreadViewer-OwnHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRThreadViewer-OwnHistory.m"; sourceTree = "<group>"; };
 		871CA15508585F8100C3A044 /* Info-preferences.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-preferences.plist"; path = "../../Info-preferences.plist"; sourceTree = "<group>"; };
 		871CA15608585F8100C3A044 /* PreferencesPane.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreferencesPane.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
-		871CA18208585FD200C3A044 /* Info-reply.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-reply.plist"; path = "../../Info-reply.plist"; sourceTree = "<group>"; };
 		871CA18308585FD200C3A044 /* 2chConnector.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = 2chConnector.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		871EEA420E161606007E2972 /* BSIkioiNumberFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIkioiNumberFormatter.h; sourceTree = "<group>"; };
 		871EEA430E161606007E2972 /* BSIkioiNumberFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIkioiNumberFormatter.m; sourceTree = "<group>"; };
@@ -884,7 +885,6 @@
 		8729967C0832561E00CBD740 /* CMRThreadVisibleRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRThreadVisibleRange.h; sourceTree = "<group>"; };
 		8729967D0832561E00CBD740 /* CMRThreadVisibleRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRThreadVisibleRange.m; sourceTree = "<group>"; };
 		872996FF08325B3000CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = subproj/reply/Japanese.lproj/LoginWindow.nib; sourceTree = SOURCE_ROOT; };
-		8729970208325B3E00CBD740 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = subproj/reply/Japanese.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
 		8729970C08325BBB00CBD740 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8729971208325E2500CBD740 /* CMXPopUpOwner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMXPopUpOwner.h; sourceTree = "<group>"; };
 		8729971508325E2500CBD740 /* CMXPopUpWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMXPopUpWindowController.h; sourceTree = "<group>"; };
@@ -1066,6 +1066,9 @@
 		879653F00BCE48BE0079EDFE /* AppDefaults-FCConvert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDefaults-FCConvert.m"; sourceTree = "<group>"; };
 		8796FA400A9189D400DE3A90 /* BSSettingTxtDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSSettingTxtDetector.h; sourceTree = "<group>"; };
 		8796FA410A9189D400DE3A90 /* BSSettingTxtDetector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSSettingTxtDetector.m; sourceTree = "<group>"; };
+		879784D50F188D3F00FA0B51 /* Info-reply.plist */ = {isa = PBXFileReference; explicitFileType = text.plist.xml; fileEncoding = 4; name = "Info-reply.plist"; path = "../../Info-reply.plist"; sourceTree = "<group>"; };
+		879785480F1A331A00FA0B51 /* BSThemePreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSThemePreView.h; sourceTree = "<group>"; };
+		879785490F1A331A00FA0B51 /* BSThemePreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSThemePreView.m; sourceTree = "<group>"; };
 		879B0B8B0B6237A400EFD6D0 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSThreadInfoPanel.nib; sourceTree = "<group>"; };
 		879B0B910B6239EF00EFD6D0 /* BSThreadInfoPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSThreadInfoPanelController.h; sourceTree = "<group>"; };
 		879B0B920B6239EF00EFD6D0 /* BSThreadInfoPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSThreadInfoPanelController.m; sourceTree = "<group>"; };
@@ -2386,6 +2389,8 @@
 				F324DB3C04C6959800A80005 /* FCController.m */,
 				874934D10BDB65C30082F7BF /* BSThemeEditor.h */,
 				874934D20BDB65C30082F7BF /* BSThemeEditor.m */,
+				879785480F1A331A00FA0B51 /* BSThemePreView.h */,
+				879785490F1A331A00FA0B51 /* BSThemePreView.m */,
 			);
 			name = Appearance;
 			path = font_color;
@@ -2439,7 +2444,7 @@
 		F324DBBF04C6965500A80005 /* reply */ = {
 			isa = PBXGroup;
 			children = (
-				871CA18208585FD200C3A044 /* Info-reply.plist */,
+				879784D50F188D3F00FA0B51 /* Info-reply.plist */,
 				F324DBF004C6965500A80005 /* URLConnector_Prefix.h */,
 				F324DBC104C6965500A80005 /* account */,
 				F324DBC904C6965500A80005 /* connector */,
@@ -2493,7 +2498,6 @@
 			isa = PBXGroup;
 			children = (
 				872996FD08325B2B00CBD740 /* LoginWindow.nib */,
-				8729970008325B3500CBD740 /* InfoPlist.strings */,
 				F324DBEF04C6965500A80005 /* login.png */,
 				8729970A08325BB300CBD740 /* Localizable.strings */,
 				F327C17B04D528F100A80005 /* ReplyErrorCode.plist */,
@@ -3079,6 +3083,7 @@
 				87EF7E7A0CF975F900BEF039 /* BSPreferencesPaneInterface.h in Headers */,
 				87EF7F330CF9B14300BEF039 /* BoardWarrior.h in Headers */,
 				870BC7CE0D1CCDB100EE3687 /* BSRTTArrayController.h in Headers */,
+				8797854A0F1A331A00FA0B51 /* BSThemePreView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3512,8 +3517,8 @@
 				871CA16A08585FD200C3A044 /* login.png in Resources */,
 				871CA16B08585FD200C3A044 /* ReplyErrorCode.plist in Resources */,
 				871CA16C08585FD200C3A044 /* LoginWindow.nib in Resources */,
-				871CA16D08585FD200C3A044 /* InfoPlist.strings in Resources */,
 				871CA16E08585FD200C3A044 /* Localizable.strings in Resources */,
+				879784D60F188D3F00FA0B51 /* Info-reply.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3735,6 +3740,7 @@
 				87CDC30F0CEB1B3D001AE526 /* LinkPrefController.m in Sources */,
 				87D6CB790CF6EC6700CFEAC4 /* BSPathExtensionFormatter.m in Sources */,
 				870BC7CF0D1CCDB100EE3687 /* BSRTTArrayController.m in Sources */,
+				8797854B0F1A331A00FA0B51 /* BSThemePreView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4084,14 +4090,6 @@
 				872996FF08325B3000CBD740 /* Japanese */,
 			);
 			name = LoginWindow.nib;
-			sourceTree = "<group>";
-		};
-		8729970008325B3500CBD740 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8729970208325B3E00CBD740 /* Japanese */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		8729970A08325BB300CBD740 /* Localizable.strings */ = {

@@ -2,6 +2,7 @@
 #import "PreferencePanes_Prefix.h"
 #import <SGAppKit/NSEvent-SGExtensions.h>
 #import "BSThemeEditor.h"
+#import "BSThemePreView.h"
 
 #define kLabelKey		@"Appearance Label"
 #define kToolTipKey		@"Appearance ToolTip"
@@ -35,6 +36,11 @@
 	return m_themesChooser;
 }
 
+- (NSTableView *)themesList
+{
+	return m_themesList;
+}
+
 #pragma mark IBActions
 - (IBAction) fixRowHeightToFont : (id) sender
 {
@@ -46,7 +52,12 @@
 	[[self preferences] fixBoardListRowHeightToFontSize];
 }
 
-- (IBAction) editCustomTheme: (id) sender
+- (IBAction)newTheme:(id)sender
+{
+	NSLog(@"Sorry, unimplemented yet.");
+}
+
+- (IBAction)editCustomTheme:(id)sender
 {
 	BSThreadViewTheme *content = [[[self preferences] threadViewTheme] copy];
 	BSThemeEditor *editor = [self themeEditor];
@@ -136,7 +147,7 @@
 	}
 }
 
-- (void) tryDeleteTheme: (id) sender
+- (IBAction)tryDeleteTheme:(id)sender
 {
 	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 	NSString *fileName = [sender representedObject];
@@ -209,6 +220,35 @@
 	}
 
 	[chooser_ synchronizeTitleAndSelectedItem];
+	[[self themesList] reloadData];
+	[m_preView setTheme:[[self preferences] threadViewTheme]];
+}
+
+#pragma mark NSTableView Delegate
+- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+{
+	return [[[self preferences] installedThemes] count];
+}
+
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+{
+	if ([[aTableColumn identifier] isEqualToString:@"Identifier"]) {
+		return [[[[self preferences] installedThemes] objectAtIndex:rowIndex] valueForKey:[aTableColumn identifier]];
+	}
+//	return [NSNumber numberWithBool:(rowIndex == 0 ? YES : NO)];
+	NSString *fileNameForRow = [[[[self preferences] installedThemes] objectAtIndex:rowIndex] valueForKey:@"FileName"];
+	return [NSNumber numberWithBool:[fileNameForRow isEqualToString:[[self preferences] themeFileName]]];
+}
+
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+{
+	NSLog(@"Hoge");
+	NSString *fileNameForRow = [[[[self preferences] installedThemes] objectAtIndex:rowIndex] valueForKey:@"FileName"];
+	if (![fileNameForRow isEqualToString:[[self preferences] themeFileName]]) {
+		[[self preferences] setThemeFileName:fileNameForRow];
+		[self updateUIComponents];
+		[m_preView display];
+	}
 }
 @end
 

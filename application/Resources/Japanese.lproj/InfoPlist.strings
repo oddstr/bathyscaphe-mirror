@@ -1,5 +1,5 @@
 /* Localized versions of Info.plist keys */
-NSHumanReadableCopyright = "Copyright © 2005-2008 tsawada2 & BathyScaphe Project, All Rights Reserved.";
+NSHumanReadableCopyright = "Copyright © 2005-2009 tsawada2 & BathyScaphe Project, All Rights Reserved.";
 
 /* Help */
 CFBundleHelpBookName = "BathyScaphe ヘルプ";
