@@ -1,9 +1,39 @@
+2009-02-02 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/source/preferences/AppDefaults.m
+		「表示」環境設定でのテーマ関連のインタフェース仕様変更に伴い、必要な変更を行った。
+	* application/subproj/preference/Japanese.lproj/AdvancedPane.nib
+		暫定的に配置していた「Be の saap:// アイコンを表示する」チェックボックスを取り除いた
+		（「表示」環境設定に移動した）。
+	* application/subproj/preference/Japanese.lproj/FilterPreferences.nib/classes.nib
+	* application/subproj/preference/Japanese.lproj/ReplySetting.nib/info.nib
+		「＋」「ー」ボタンを画像ではなく Gradient Button に変更した（Mac OS X v10.3.9 に気兼ねする
+		必要がなくなったので）。
+	* application/subproj/preference/Japanese.lproj/GeneralPreferences.nib
+		「Mail 欄の内容：」ラジオボタンを取り除いた（「表示」環境設定に移動した）。
+	* application/subproj/preference/Japanese.lproj/ThemeEditor.nib
+	* application/subproj/preference/Japanese.lproj/ViewPane.nib
+	* application/Resources/Japanese.lproj/Localizable.strings
+	* application/subproj/preference/Japanese.lproj/Localizable.strings
+	* application/subproj/preference/font_color/BSThemeEditor.m
+	* application/subproj/preference/font_color/BSThemePreView.m
+	* application/subproj/preference/font_color/FCController.m
+		「表示」環境設定の改良：
+		- テーマの選択、追加、削除のインタフェースを大幅に変更。
+		- カスタム・テーマの取り扱いを変更。
+		- テーマのプレビューを実装。
+		などなど。
+	* application/subproj/previewer/BSIPIFullScreenController.m
+	* application/subproj/previewer/BSIPIFullScreenWindow.(h|m)
+		プレビューインスペクタ（2.8.2）：
+		フルスクリーン時にスワイプで前／次のイメージへ移動する試みを実装（未検証）。
+	* application/subproj/preference/rsrc/themePreview.plist
+		[新規追加] テーマをプレビューするためのサンプルデータ。BSThemePreView が使用。
 2009-01-12 tsawada2 <tsawada2@users.sourceforge.jp>
-	* subproj/preference/font_color/BSThemePreView.(h|m)
+	* application/subproj/preference/font_color/BSThemePreView.(h|m)
 		[新規追加] テーマをプレビューするビュー。「表示」環境設定で使用予定。まだ作成途中。
-	* subproj/preference/Japanese.lproj/ThemeEditor.nib
-	* subproj/preference/Japanese.lproj/ViewPane.nib
-	* subproj/preference/font_color/FCController.m
+	* application/subproj/preference/Japanese.lproj/ThemeEditor.nib
+	* application/subproj/preference/Japanese.lproj/ViewPane.nib
+	* application/subproj/preference/font_color/FCController.m
 		「表示」環境設定を改造中。テーマの選択インタフェースを変更予定。
 	* application/source/network/CMRDownloader.m
 		エラーログを抑制した。
