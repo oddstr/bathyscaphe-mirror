@@ -1,5 +1,5 @@
 /**
-  * $Id: FCController.h,v 1.12 2009/01/11 15:15:34 tsawada2 Exp $
+  * $Id: FCController.h,v 1.13 2009/02/01 13:46:07 tsawada2 Exp $
   * 
   * FCController.h
   *
@@ -13,27 +13,36 @@
 
 @interface FCController : PreferencesController
 {	
-	IBOutlet NSPopUpButton	*m_themesChooser;
 	IBOutlet NSTableView	*m_themesList;
 	IBOutlet BSThemePreView *m_preView;
 	BSThemeEditor			*m_themeEditor;
+
+	IBOutlet NSTextField	*m_themeNameField;
+	IBOutlet NSTextField	*m_themeStatusField;
+	IBOutlet NSButton		*m_deleteBtn;
 }
 
-- (NSPopUpButton *) themesChooser;
 - (NSTableView *)themesList;
-- (BSThemeEditor *) themeEditor;
+- (BSThemeEditor *)themeEditor;
+- (BSThemePreView *)preView;
+- (NSTextField *)themeNameField;
+- (NSTextField *)themeStatusField;
+- (NSButton *)deleteButton;
 
 - (IBAction) fixRowHeightToFont : (id) sender;
 - (IBAction) fixRowHeightToFontOfBoardList : (id) sender;
 
-- (IBAction) chooseDefaultTheme: (id) sender;
-- (IBAction) chooseTheme: (id) sender;
+//- (IBAction) chooseDefaultTheme: (id) sender;
+//- (IBAction) chooseTheme: (id) sender;
 - (IBAction) editCustomTheme: (id) sender;
 
 - (IBAction)newTheme:(id)sender;
+// Vita Additions
+- (int) mailFieldOption;
+- (void) setMailFieldOption : (int) selectedTag;
 
 // Private
 - (void) deleteTheme: (NSString *) fileName;
 - (IBAction)tryDeleteTheme:(id)sender;
-- (void) addMenuItemOfTitle: (NSString *) identifier representedObject: (NSString *) filepath atIndex: (unsigned int) index;
+//- (void) addMenuItemOfTitle: (NSString *) identifier representedObject: (NSString *) filepath atIndex: (unsigned int) index;
 @end

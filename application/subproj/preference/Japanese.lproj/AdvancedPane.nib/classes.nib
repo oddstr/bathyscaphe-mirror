@@ -83,19 +83,6 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
-			<string>NSWindow</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSResponder</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key></key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
 			<string>FirstResponder</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
@@ -103,30 +90,10 @@
 			<string>NSObject</string>
 		</dict>
 		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>chooseDestination</key>
-				<string>id</string>
-				<key>closeSheet</key>
-				<string>id</string>
-				<key>openPreviewerPrefs</key>
-				<string>id</string>
-				<key>openSheet</key>
-				<string>id</string>
-			</dict>
 			<key>CLASS</key>
 			<string>AdvancedPrefController</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>m_dlFolderBtn</key>
-				<string>NSPopUpButton</string>
-				<key>m_extensionsEditor</key>
-				<string>NSPanel</string>
-				<key>m_openSheetBtn</key>
-				<string>NSButton</string>
-			</dict>
 			<key>SUPERCLASS</key>
 			<string>PreferencesController</string>
 		</dict>

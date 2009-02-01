@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 07/04/22.
-//  Copyright 2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2007-2009 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -24,7 +24,7 @@
 - (void) dealloc
 {
 	m_delegate = nil;
-	[m_saveThemeIdentifier release];
+	[self setSaveThemeIdentifier:nil];
 	[super dealloc];
 }
 
@@ -51,9 +51,26 @@
 	m_saveThemeIdentifier = aString;
 }
 
-- (NSPanel *) themeNamePanel
+- (BOOL)isNewTheme
 {
-	return m_themeNameSheet;
+	return m_isNewTheme;
+}
+
+- (void)setIsNewTheme:(BOOL)flag
+{
+	m_isNewTheme = flag;
+}
+
+- (NSString *)themeFileName
+{
+	return m_fileName;
+}
+
+- (void)setThemeFileName:(NSString *)filename
+{
+	[filename retain];
+	[m_fileName release];
+	m_fileName = filename;
 }
 
 - (NSObjectController *) themeGreenCube
@@ -62,12 +79,24 @@
 }
 
 #pragma mark Utilities
-- (BOOL) checkIfOverlappingThemeIdentifier
+- (BOOL)checkIfOverlappingThemeIdentifier
 {
-	NSArray *identifiers = [[[[self delegate] preferences] installedThemes] valueForKey: @"Identifier"];
-	if (!identifiers || NO == [identifiers containsObject: [self saveThemeIdentifier]]) { // 重複していない
+	if ([[self saveThemeIdentifier] isEqualToString:[[[self themeGreenCube] content] identifier]]) {
+		return YES;
+	}
+
+	NSArray *array = [[[self delegate] preferences] installedThemes];
+	NSArray *identifiers = [array valueForKey: @"Identifier"];
+	if (!identifiers || ![identifiers containsObject: [self saveThemeIdentifier]]) { // 重複していない
 		return YES;
 	} else {
+		if ([self isNewTheme]) {
+			return NO;
+		}
+		unsigned int idx = [[array valueForKey:@"FileName"] indexOfObject:[self themeFileName]];
+		if (idx == NSNotFound) { // 重複していない
+			return YES;
+		}
 		return NO;
 	}
 }
@@ -84,6 +113,31 @@
 	}
 }
 
+- (BOOL) saveThemeCore
+{
+	NSString *fileName;
+	id	content = [[self themeGreenCube] content];
+//	NSString *foo = [self fileNameForIdentifier:[content identifier]];
+
+	if ([self themeFileName]) {
+		fileName = [self themeFileName];
+	} else {
+		fileName = [NSString stringWithFormat: @"UserTheme%.0f.plist", [[NSDate date] timeIntervalSince1970]];
+		[self setThemeFileName:fileName];
+	}
+	NSString *filePath = [[[self delegate] preferences] createFullPathFromThemeFileName: fileName];
+
+	[content setIdentifier: [self saveThemeIdentifier]];
+	if ([content writeToFile: filePath atomically: YES]) {
+//		[[self delegate] addAndSelectSavedThemeOfTitle: [self saveThemeIdentifier] fileName: fileName];
+		return YES;
+	} else {
+		NSBeep();
+		NSLog(@"Failed to save theme file %@", filePath);
+		return NO;
+	}
+}
+
 - (void) showOverlappingThemeIdAlert
 {
 	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
@@ -94,63 +148,46 @@
 	[alert setInformativeText: PPLocalizedString(@"overlappingThemeIdAlertMsg")];
 	[alert addButtonWithTitle: PPLocalizedString(@"overlappingThemeIdBtn1")];
 	[alert addButtonWithTitle: PPLocalizedString(@"overlappingThemeIdBtn2")];
-	[alert addButtonWithTitle: PPLocalizedString(@"overlappingThemeIdBtn3")];
-	[alert beginSheetModalForWindow: [self themeNamePanel]
-					  modalDelegate: self
-					 didEndSelector: @selector(overlappingThemeNameAlertDidEnd:returnCode:contextInfo:)
-						contextInfo: NULL];
+	if ([alert runModal] == NSAlertFirstButtonReturn) {
+		if ([self saveThemeCore]) {
+			[NSApp endSheet:[self window] returnCode:NSOKButton];
+		}
+	};
 }
 
-- (BOOL) saveThemeCore
-{
-	id	content = [[self themeGreenCube] content];
-
-	NSString *fileName = [NSString stringWithFormat: @"UserTheme%.0f.plist", [[NSDate date] timeIntervalSince1970]];
-	NSString *filePath = [[[self delegate] preferences] createFullPathFromThemeFileName: fileName];
-
-	[content setIdentifier: [self saveThemeIdentifier]];
-	if ([content writeToFile: filePath atomically: YES]) {
-		[[self delegate] addAndSelectSavedThemeOfTitle: [self saveThemeIdentifier] fileName: fileName];
-		return YES;
-	} else {
-		NSBeep();
-		NSLog(@"Failed to save theme file %@", filePath);
-		return NO;
-	}
-}
-
-- (void) doSaveOperation
+/*- (void) doSaveOperation
 {
 	int myReturnCode = 3;
-	[[self themeNamePanel] close];
+//	[[self themeNamePanel] close];
 	if (NO == [self saveThemeCore]) {
 		myReturnCode = NSCancelButton;
 	}
 	[NSApp endSheet: [self window] returnCode: myReturnCode];
-}
+}*/
 
 #pragma mark IBActions
 - (IBAction) closePanelAndUseTagForReturnCode: (id) sender
 {
-	NSWindow *theWindow = [sender window];
+/*	NSWindow *theWindow = [sender window];
 
 	if (theWindow == [self window]) {
-		[NSApp endSheet: theWindow returnCode: [sender tag]];
-	} else if (theWindow == [self themeNamePanel]) {
+		[NSApp endSheet: theWindow returnCode: [sender tag]];*/
+/*	} else if (theWindow == [self themeNamePanel]) {
 		[NSApp stopModalWithCode: [sender tag]];
 		if ([sender tag] == NSCancelButton) {
 			[theWindow close];
-		}
-	}
+		}*/
+//	}
+	[NSApp endSheet:[self window] returnCode:NSCancelButton];
 }
 
 - (IBAction) saveTheme: (id) sender
 {
-	int returnCode = [NSApp runModalForWindow: m_themeNameSheet];
-	if (returnCode == NSCancelButton) return;
+//	int returnCode = [NSApp runModalForWindow: m_themeNameSheet];
+//	if (returnCode == NSCancelButton) return;
 
-	if ([self checkIfOverlappingThemeIdentifier]) {
-		[self doSaveOperation];
+	if ([self checkIfOverlappingThemeIdentifier] && [self saveThemeCore]) {
+		[NSApp endSheet:[self window] returnCode:NSOKButton];
 	} else {
 		[self showOverlappingThemeIdAlert];
 	}
@@ -163,7 +200,7 @@
 }
 
 
-- (void) overlappingThemeNameAlertDidEnd: (NSAlert *) alert returnCode: (int) returnCode contextInfo: (void *) contextInfo
+/*- (void) overlappingThemeNameAlertDidEnd: (NSAlert *) alert returnCode: (int) returnCode contextInfo: (void *) contextInfo
 {
 	if (returnCode == NSAlertFirstButtonReturn) { // changeName
 		[self setSaveThemeIdentifier: nil];
@@ -190,10 +227,10 @@
 			NSBeep();
 			NSLog(@"Can't find fileName from Identifier %@", [self saveThemeIdentifier]);
 		}
-		[[self themeNamePanel] close];
+//		[[self themeNamePanel] close];
 		[NSApp endSheet: [self window] returnCode: 3];
 	}
-}
+}*/
 
 #pragma mark Public
 - (void) beginSheetModalForWindow: (NSWindow *) window

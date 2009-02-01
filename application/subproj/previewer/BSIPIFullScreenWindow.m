@@ -1,9 +1,10 @@
 //
-//  $Id: BSIPIFullScreenWindow.m,v 1.6 2007/02/24 11:45:27 tsawada2 Exp $
+//  BSIPIFullScreenWindow.m
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 06/01/14.
-//  Copyright 2006 BathyScaphe Project. All rights reserved.
+//  Copyright 2006-2009 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
 //
 
 #import "BSIPIFullScreenWindow.h"
@@ -54,6 +55,12 @@
 	if (type_ == NSLeftMouseDown) {
 		if ([delegate_ respondsToSelector: @selector(handlesMouseDown:inWindow:)])
 			[delegate_ handlesMouseDown: theEvent inWindow: self];
+	}
+	//  Offer swipe events to the delegate (?)
+	if (type_ == 31) {
+		if ([delegate_ respondsToSelector:@selector(handlesSwipe:inWindow:)]) {
+			[delegate_ handlesSwipe:theEvent inWindow:self];
+		}
 	}
     //  Delegate wasn't interested, so do the usual routing.
     [super sendEvent: theEvent];

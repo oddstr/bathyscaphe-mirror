@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.32 2008/10/12 16:49:15 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.33 2009/02/01 13:46:07 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -131,11 +131,34 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 	}
 }
 
-- (void) loadThreadViewTheme
+- (void)convertOldCustomThemeSettings
+{
+	NSString *customThemeFile = [self customThemeFilePath];
+	BOOL isDir = NO;
+	if ([[NSFileManager defaultManager] fileExistsAtPath:customThemeFile isDirectory:&isDir] && !isDir) {
+		NSString *newName = NSLocalizedString(@"Copied Custom Theme File", @"");
+		NSString *newPath = [self createFullPathFromThemeFileName:newName];
+		if ([[NSFileManager defaultManager] copyPath:customThemeFile toPath:newPath handler:nil]) {
+			BSThreadViewTheme *newTheme = [[BSThreadViewTheme alloc] initWithContentsOfFile:newPath];
+			[newTheme setIdentifier:NSLocalizedString(@"Old Custom Theme", @"")];
+			[newTheme writeToFile:newPath atomically:YES];
+			[newTheme release];
+
+			[[self defaults] setObject:newName forKey:AppDefaultsThemeFileNameKey];
+		} else {
+			[[self defaults] removeObjectForKey:AppDefaultsThemeFileNameKey];
+		}
+	} else {
+		[[self defaults] removeObjectForKey:AppDefaultsThemeFileNameKey];
+	}
+	[[self defaults] removeObjectForKey:AppDefaultsUseCustomThemeKey];
+}
+
+- (void)loadThreadViewTheme
 {
 	NSString *themeFileName = [self themeFileName];
 	NSString *finalFilePath = nil;
-	if (!themeFileName) {
+/*	if (!themeFileName) {
 		if ([self usesCustomTheme] && [[NSFileManager defaultManager] fileExistsAtPath: [self customThemeFilePath]]) {
 			finalFilePath = [self customThemeFilePath];
 		}
@@ -143,13 +166,21 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 		if ([[NSFileManager defaultManager] fileExistsAtPath: [self createFullPathFromThemeFileName: themeFileName]]) {
 			finalFilePath = [self createFullPathFromThemeFileName: themeFileName];
 		}
-	}
-	if (!finalFilePath) {
-		finalFilePath = [[NSBundle mainBundle] pathForResource: AppDefaultsDefaultThemeFileNameKey ofType: @"plist"];
+	}*/
+	if (themeFileName) {
+		BOOL isDir = NO;
+		NSString *checkPath = [self createFullPathFromThemeFileName:themeFileName];
+		if ([[NSFileManager defaultManager] fileExistsAtPath:checkPath isDirectory:&isDir] && !isDir) {
+			finalFilePath = checkPath;
+		}
 	}
 
-	BSThreadViewTheme *defaultTheme = [[BSThreadViewTheme alloc] initWithContentsOfFile: finalFilePath];
-	[self setThreadViewTheme: defaultTheme];
+	if (!finalFilePath) {
+		finalFilePath = [self defaultThemeFilePath];
+	}
+
+	BSThreadViewTheme *defaultTheme = [[BSThreadViewTheme alloc] initWithContentsOfFile:finalFilePath];
+	[self setThreadViewTheme:defaultTheme];
 	[defaultTheme release];
 }
 
@@ -163,6 +194,10 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 
 	if (NO == [[self defaults] boolForKey: AppDefaultsOldFontsAndColorsConvertedKey])
 		[self convertOldFCToThemeFile];
+
+	if ([[self defaults] boolForKey: AppDefaultsUseCustomThemeKey]) {
+		[self convertOldCustomThemeSettings];
+	}
 
 	[self loadThreadViewTheme];
 
@@ -595,13 +630,16 @@ default_browserLastBoard:
 }
 - (void) setThreadViewTheme: (BSThreadViewTheme *) aTheme
 {
-//	NSLog(@"setThreadViewTheme: called");
 	[aTheme retain];
 	[m_threadViewTheme release];
 	m_threadViewTheme = aTheme;
 	UTILNotifyName(AppDefaultsThreadViewThemeDidChangeNotification);
 }
 
+- (NSString *)defaultThemeFilePath
+{
+	return [[NSBundle mainBundle] pathForResource:AppDefaultsDefaultThemeFileNameKey ofType:@"plist"];
+}
 - (NSString *) customThemeFilePath
 {
 	NSString *dirPath = [[[CMRFileManager defaultManager] supportDirectoryWithName : BSThemesDirectory] filepath];
@@ -623,8 +661,9 @@ default_browserLastBoard:
 //	NSLog(@"setThemeFileName: called");
 	if (fileName == nil) {
 		[[self defaults] removeObjectForKey: AppDefaultsThemeFileNameKey];
-		filePath = ([self usesCustomTheme]) ? [self customThemeFilePath]
-											: [[NSBundle mainBundle] pathForResource: AppDefaultsDefaultThemeFileNameKey ofType: @"plist"];
+//		filePath = ([self usesCustomTheme]) ? [self customThemeFilePath]
+//											: [[NSBundle mainBundle] pathForResource: AppDefaultsDefaultThemeFileNameKey ofType: @"plist"];
+		filePath = [self defaultThemeFilePath];
 	} else {
 		[[self defaults] setObject: fileName forKey: AppDefaultsThemeFileNameKey];
 		filePath = [self createFullPathFromThemeFileName: fileName];
@@ -636,17 +675,18 @@ default_browserLastBoard:
 
 - (BOOL) usesCustomTheme
 {
-	return [[self defaults] boolForKey: AppDefaultsUseCustomThemeKey]; // default is NO.
+	return NO; //[[self defaults] boolForKey: AppDefaultsUseCustomThemeKey]; // default is NO.
 }
 - (void) setUsesCustomTheme: (BOOL) use
 {
-	[[self defaults] setBool: use forKey: AppDefaultsUseCustomThemeKey];
+	//[[self defaults] setBool: use forKey: AppDefaultsUseCustomThemeKey];
 }
 
 - (NSArray *) installedThemes
 {
 	NSString *themeDir = [[[CMRFileManager defaultManager] supportDirectoryWithName: BSThemesDirectory] filepath];
 	NSMutableArray *tmp = [NSMutableArray array];
+	[tmp addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSNull null], @"FileName", NSLocalizedString(@"Default Theme", @""), @"Identifier", NULL]];
 
 	if (themeDir) {
 		NSDirectoryEnumerator *tmpEnum = [[NSFileManager defaultManager] enumeratorAtPath : themeDir];
@@ -667,5 +707,44 @@ default_browserLastBoard:
 		}
 	}
 	return (NSArray *)tmp;
+}
+
+- (void)getInstalledThemeIds:(NSMutableArray **)idsPtr fileNames:(NSMutableArray **)fileNamesPtr
+{
+	BOOL flag1 = (fileNamesPtr != NULL);
+	BOOL flag2 = (idsPtr != NULL);
+	NSString *themeDir = [[[CMRFileManager defaultManager] supportDirectoryWithName:BSThemesDirectory] filepath];
+	if (flag1) {
+		[*fileNamesPtr addObject:[NSNull null]];
+	}
+	if (flag2) {
+		[*idsPtr addObject:NSLocalizedString(@"Default Theme", @"")];
+	}
+
+	if (themeDir) {
+		NSDirectoryEnumerator *iter = [[NSFileManager defaultManager] enumeratorAtPath:themeDir];
+		NSString *file, *fullPath;
+		while (file = [iter nextObject]) {
+			if ([[file pathExtension] isEqualToString:@"plist"]) {
+				fullPath = [themeDir stringByAppendingPathComponent:file];
+				BSThreadViewTheme *theme = [[BSThreadViewTheme alloc] initWithContentsOfFile:fullPath];
+				if (!theme) {
+					continue;
+				}
+				NSString *id_ = [theme identifier];
+				if ([id_ isEqualToString:kThreadViewThemeCustomThemeIdentifier]) {
+					[theme release];
+					continue;
+				}
+				if (flag1) {
+					[*fileNamesPtr addObject:file];
+				}
+				if (flag2) {
+					[*idsPtr addObject:id_];
+				}
+				[theme release];
+			}
+		}
+	}
 }
 @end

@@ -13,6 +13,7 @@
 		8703A2190C677D42008ED2B5 /* BSLinkDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8703A2170C677D42008ED2B5 /* BSLinkDownloadManager.m */; };
 		8705EEC80E460CCD00FC7F5F /* BSIPIHUDView.h in Headers */ = {isa = PBXBuildFile; fileRef = 8705EEC60E460CCD00FC7F5F /* BSIPIHUDView.h */; };
 		8705EEC90E460CCD00FC7F5F /* BSIPIHUDView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8705EEC70E460CCD00FC7F5F /* BSIPIHUDView.m */; };
+		87061BD80F349EDA00EF7A18 /* themePreview.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87061BD70F349EDA00EF7A18 /* themePreview.plist */; };
 		870B1F4A0C15B8AA00AAB734 /* BoardWarrior.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 870B1F400C15B86200AAB734 /* BoardWarrior.scpt */; };
 		870BC7CE0D1CCDB100EE3687 /* BSRTTArrayController.h in Headers */ = {isa = PBXBuildFile; fileRef = 87CA61AD0D1BAAE300B90B81 /* BSRTTArrayController.h */; };
 		870BC7CF0D1CCDB100EE3687 /* BSRTTArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CA61AE0D1BAAE300B90B81 /* BSRTTArrayController.m */; };
@@ -46,10 +47,6 @@
 		871CA13108585F8100C3A044 /* AppearancePreferences.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F379B59F04F1BB8D000E3011 /* AppearancePreferences.tiff */; };
 		871CA13208585F8100C3A044 /* FilterPreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = F33AE22805BE525A002448CC /* FilterPreferences.nib */; };
 		871CA13308585F8100C3A044 /* FilterPreferences.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F33AE22B05BE53B9002448CC /* FilterPreferences.tiff */; };
-		871CA13408585F8100C3A044 /* add_idle.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87AF6CFD07425DC0001D08ED /* add_idle.tiff */; };
-		871CA13508585F8100C3A044 /* add_pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87AF6CFE07425DC0001D08ED /* add_pressed.tiff */; };
-		871CA13608585F8100C3A044 /* remove_idle.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87AF6CFF07425DC0001D08ED /* remove_idle.tiff */; };
-		871CA13708585F8100C3A044 /* remove_pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87AF6D0007425DC0001D08ED /* remove_pressed.tiff */; };
 		871CA13808585F8100C3A044 /* AdvancedPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8764157F0840AF4F00F66D78 /* AdvancedPane.nib */; };
 		871CA13908585F8100C3A044 /* AdvancedPreferences.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87FECDE40840DDF100787C68 /* AdvancedPreferences.tiff */; };
 		871CA13C08585F8100C3A044 /* PreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F324DB3104C6959800A80005 /* PreferencesController.m */; };
@@ -829,6 +826,7 @@
 		8703A2170C677D42008ED2B5 /* BSLinkDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSLinkDownloadManager.m; sourceTree = "<group>"; };
 		8705EEC60E460CCD00FC7F5F /* BSIPIHUDView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSIPIHUDView.h; sourceTree = "<group>"; };
 		8705EEC70E460CCD00FC7F5F /* BSIPIHUDView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSIPIHUDView.m; sourceTree = "<group>"; };
+		87061BD70F349EDA00EF7A18 /* themePreview.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = themePreview.plist; path = rsrc/themePreview.plist; sourceTree = "<group>"; };
 		87078CD1090E970F007FF9C3 /* beDisabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beDisabled.png; sourceTree = "<group>"; };
 		87078CD2090E970F007FF9C3 /* beEnabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beEnabled.png; sourceTree = "<group>"; };
 		87078CD3090E970F007FF9C3 /* BoardList.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BoardList.png; sourceTree = "<group>"; };
@@ -1191,7 +1189,7 @@
 		F324DB3604C6959800A80005 /* AccountController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountController.m; sourceTree = "<group>"; };
 		F324DB3704C6959800A80005 /* AccountController_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = AccountController_p.h; sourceTree = "<group>"; };
 		F324DB3B04C6959800A80005 /* FCController.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = FCController.h; sourceTree = "<group>"; };
-		F324DB3C04C6959800A80005 /* FCController.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = FCController.m; sourceTree = "<group>"; };
+		F324DB3C04C6959800A80005 /* FCController.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = FCController.m; sourceTree = "<group>"; };
 		F324DB4304C6959800A80005 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/AccountPane.nib; sourceTree = "<group>"; };
 		F324DB4D04C6959800A80005 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/PreferencesPane.nib; sourceTree = "<group>"; };
 		F324DB4F04C6959800A80005 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/ReplySetting.nib; sourceTree = "<group>"; };
@@ -2308,6 +2306,7 @@
 		F30FC4E604CBFA3B00A80005 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				87061BD70F349EDA00EF7A18 /* themePreview.plist */,
 				F324DB6A04C6959800A80005 /* rsrc */,
 				F326A71E04F0BAAF00BB46D1 /* Localizable.strings */,
 				F324DB4C04C6959800A80005 /* PreferencesPane.nib */,
@@ -3491,10 +3490,6 @@
 				871CA13108585F8100C3A044 /* AppearancePreferences.tiff in Resources */,
 				871CA13208585F8100C3A044 /* FilterPreferences.nib in Resources */,
 				871CA13308585F8100C3A044 /* FilterPreferences.tiff in Resources */,
-				871CA13408585F8100C3A044 /* add_idle.tiff in Resources */,
-				871CA13508585F8100C3A044 /* add_pressed.tiff in Resources */,
-				871CA13608585F8100C3A044 /* remove_idle.tiff in Resources */,
-				871CA13708585F8100C3A044 /* remove_pressed.tiff in Resources */,
 				871CA13808585F8100C3A044 /* AdvancedPane.nib in Resources */,
 				871CA13908585F8100C3A044 /* AdvancedPreferences.tiff in Resources */,
 				8716066D098A44AB00A27F63 /* SoundsPane.nib in Resources */,
@@ -3507,6 +3502,7 @@
 				874934C20BDB62180082F7BF /* ThemeEditor.nib in Resources */,
 				87CDC31A0CEB1FE5001AE526 /* LinkPreferences.nib in Resources */,
 				87CDC32A0CEB229A001AE526 /* LinkPreferences.tiff in Resources */,
+				87061BD80F349EDA00EF7A18 /* themePreview.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

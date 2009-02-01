@@ -80,8 +80,6 @@
 				<string>id</string>
 				<key>saveTheme</key>
 				<string>id</string>
-				<key>stopModalAndValidateIdentifier</key>
-				<string>id</string>
 			</dict>
 			<key>CLASS</key>
 			<string>BSThemeEditor</string>
@@ -93,8 +91,6 @@
 				<string>id</string>
 				<key>m_themeGreenCube</key>
 				<string>NSObjectController</string>
-				<key>m_themeNameSheet</key>
-				<string>NSPanel</string>
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSWindowController</string>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>Date</key>
+		<date>2009-01-31T14:54:00Z</date>
+		<key>DateRepresentation</key>
+		<string>2009/01/31(土) 23:54:00</string>
+		<key>ID</key>
+		<string>tOrADorA0</string>
+		<key>Mail</key>
+		<string>sage</string>
+		<key>Message</key>
+		<string>    サンプルテキスト</string>
+		<key>Name</key>
+		<string>名無しさん</string>
+		<key>Status</key>
+		<integer>8388608</integer>
+	</dict>
+	<dict>
+		<key>Date</key>
+		<date>2009-02-01T08:06:00Z</date>
+		<key>DateRepresentation</key>
+		<string>2009/02/01(日) 17:06:00</string>
+		<key>ID</key>
+		<string>MArihOrI0</string>
+		<key>Mail</key>
+		<string>sage</string>
+		<key>Message</key>
+		<string>    (,,ﾟДﾟ)（´∀｀　）</string>
+		<key>Name</key>
+		<string>◆AASample</string>
+		<key>Status</key>
+		<integer>8388608</integer>
+	</dict>
+</array>
+</plist>

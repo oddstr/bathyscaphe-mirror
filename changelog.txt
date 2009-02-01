@@ -20,6 +20,7 @@
 		コピーライト表記の変更（2008→2009）。
 	* application/subproj/reply/Japanese.lproj/InfoPlist.strings
 		[削除] 不要になったので削除した。
+=================================================
 2008-12-27 tsawada2 <tsawada2@users.sourceforge.jp>
 	* application/subproj/previewer/BSImagePreviewInspector-View.m
 	* application/subproj/previewer/BSImagePreviewInspector.m

@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.67 2008/11/01 18:56:16 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.68 2009/02/01 13:46:07 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -299,18 +299,21 @@ typedef enum _BSAutoSyncIntervalType {
 @end
 
 @interface AppDefaults(ThreadViewTheme)
-- (BSThreadViewTheme *) threadViewTheme;
-- (void) setThreadViewTheme: (BSThreadViewTheme *) aTheme;
+- (BSThreadViewTheme *)threadViewTheme;
+- (void)setThreadViewTheme:(BSThreadViewTheme *)aTheme;
 
-- (NSString *) customThemeFilePath;
-- (NSString *) createFullPathFromThemeFileName: (NSString *) fileName;
+- (NSString *)customThemeFilePath;
+- (NSString *)defaultThemeFilePath; // Available in Tenori Tiger and later.
+- (NSString *)createFullPathFromThemeFileName:(NSString *)fileName;
 
-- (NSString *) themeFileName;
-- (void) setThemeFileName: (NSString *) fileName;
-- (BOOL) usesCustomTheme;
-- (void) setUsesCustomTheme: (BOOL) use;
+- (NSString *)themeFileName;
+- (void)setThemeFileName:(NSString *)fileName;
+// Deprecated in Tenori Tiger and later.
+//- (BOOL) usesCustomTheme;
+//- (void) setUsesCustomTheme: (BOOL) use;
 
-- (NSArray *) installedThemes;
+- (NSArray *)installedThemes;
+- (void)getInstalledThemeIds:(NSMutableArray **)idsPtr fileNames:(NSMutableArray **)fileNamesPtr; // Available in Tenori Tiger and later.
 @end
 
 
