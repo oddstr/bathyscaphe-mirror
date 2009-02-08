@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.33 2009/02/01 13:46:07 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.34 2009/02/08 17:38:11 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -651,10 +651,20 @@ default_browserLastBoard:
 	return [dirPath stringByAppendingPathComponent: fileName];
 }
 
-- (NSString *) themeFileName
+- (NSString *)themeFileName
 {
-	return [[self defaults] stringForKey: AppDefaultsThemeFileNameKey]; // may be nil.
+//	return [[self defaults] stringForKey: AppDefaultsThemeFileNameKey]; // may be nil.
+	NSString *recordedFileName = [[self defaults] stringForKey:AppDefaultsThemeFileNameKey];
+	if (recordedFileName) {
+		BOOL	isDir;
+		if ([[NSFileManager defaultManager] fileExistsAtPath:[self createFullPathFromThemeFileName:recordedFileName] isDirectory:&isDir]
+				&& !isDir) {
+			return recordedFileName;
+		}
+	}
+	return nil;
 }
+
 - (void) setThemeFileName: (NSString *) fileName
 {
 	NSString *filePath;

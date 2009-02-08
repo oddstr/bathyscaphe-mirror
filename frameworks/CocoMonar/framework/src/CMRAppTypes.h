@@ -1,6 +1,6 @@
 //: CMRAppTypes.h
 /**
-  * $Id: CMRAppTypes.h,v 1.5 2007/07/27 10:26:40 tsawada2 Exp $
+  * $Id: CMRAppTypes.h,v 1.6 2009/02/08 17:38:11 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
@@ -33,6 +33,7 @@ enum {
 	CMRAutoscrollWhenTLUpdate     = 1,
 	CMRAutoscrollWhenTLSort       = 1 << 1,
 	CMRAutoscrollWhenThreadUpdate = 1 << 2,
+	CMRAutoscrollWhenTLVMChange   = 1 << 3, // Available in Tenori Tiger.
 	CMRAutoscrollAny			  = 0xffffffffU
 };
 

@@ -1,3 +1,16 @@
+2009-02-09 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/Resources/Japanese.lproj/Acknowledgments.rtf
+		コピーライトを更新。
+	* application/source/preferences/AppDefaults.m
+	* application/subproj/preference/font_color/FCController.m
+		テーマフォルダが未作成だったり見つからない場合の処理を改善した。
+	* application/subproj/previewer/BSIPIFullScreenController.m
+		スワイプの向きと前／次への移動の向きを間違えている気がするのでリリース前に修正しておいた。
+	* frameworks/CocoMonar/Info-CMF.plist
+	* frameworks/CocoMonar/English.lproj/InfoPlist.strings
+	* frameworks/CocoMonar/framework/src/CMRAppTypes.h
+	* application/source/preferences/CMRPreferencesDefautValues.h
+		将来に備えて、列挙子定義を追加。それに伴い、CocoMonar Framework のビルド番号更新。
 2009-02-02 tsawada2 <tsawada2@users.sourceforge.jp>
 	* application/source/preferences/AppDefaults.m
 		「表示」環境設定でのテーマ関連のインタフェース仕様変更に伴い、必要な変更を行った。

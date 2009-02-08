@@ -81,8 +81,6 @@
 		F3354EAB05D39D260073CD71 /* UTILDebugging.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = UTILDebugging.h; sourceTree = "<group>"; };
 		F3354EAC05D39D260073CD71 /* UTILDescription.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = UTILDescription.h; sourceTree = "<group>"; };
 		F3354EAD05D39D260073CD71 /* UTILKit.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = UTILKit.h; sourceTree = "<group>"; };
-		F37CD4C305089F5700A80005 /* megabbs.txt */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = text; name = megabbs.txt; path = framework/Resources/megabbs.txt; sourceTree = "<group>"; };
-		F37CD4C405089F5700A80005 /* pathinfo.txt */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = text; name = pathinfo.txt; path = framework/Resources/pathinfo.txt; sourceTree = "<group>"; };
 		F3A5E3AC0436BEF700A80005 /* SGFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SGFoundation.framework; path = ../SGFoundation/build/Deployment/SGFoundation.framework; sourceTree = SOURCE_ROOT; };
 		F3B02DAE0509F1D600A80005 /* CMRFileManager.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRFileManager.h; sourceTree = "<group>"; };
 		F3B02DAF0509F1D600A80005 /* CMRFileManager.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = CMRFileManager.m; sourceTree = "<group>"; };
@@ -157,8 +155,6 @@
 				87E8CDFE0991186000703486 /* innerLinkRangeCharacters.txt */,
 				87E8CDFF0991186000703486 /* innerLinkSeparaterCharacters.txt */,
 				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
-				F37CD4C305089F5700A80005 /* megabbs.txt */,
-				F37CD4C405089F5700A80005 /* pathinfo.txt */,
 			);
 			name = Resources;
 			sourceTree = SOURCE_ROOT;

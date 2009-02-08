@@ -263,6 +263,7 @@
 	[[self themesList] setDoubleAction:@selector(themeDoubleClicked:)];
 	[self updateUIComponents];
 	[self selectCurrentTheme];
+	[[self deleteButton] setEnabled:([[self themesList] selectedRow] != 0)];
 }
 
 - (void)updateUIComponents
