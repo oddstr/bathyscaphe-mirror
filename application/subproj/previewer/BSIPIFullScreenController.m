@@ -352,9 +352,9 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance)
 	float dX = [event deltaX];
 	
 	if (dX == 1.0) { // 右へスワイプ？
-		return [self fullScreenShowNextImage:window modifierFlags:[event modifierFlags]];
-	} else if (dX == -1.0) { // 左へスワイプ？
 		return [self fullScreenShowPrevImage:window modifierFlags:[event modifierFlags]];
+	} else if (dX == -1.0) { // 左へスワイプ？
+		return [self fullScreenShowNextImage:window modifierFlags:[event modifierFlags]];
 	}
 
 	return YES;

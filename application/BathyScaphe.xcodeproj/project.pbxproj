@@ -352,12 +352,7 @@
 		F47362260AFF8758009B6189 /* CMRTaskManager_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F38262EE0513581100A80005 /* CMRTaskManager_p.h */; };
 		F47362280AFF8758009B6189 /* CMXTextParser.h in Headers */ = {isa = PBXBuildFile; fileRef = F38263000513585900A80005 /* CMXTextParser.h */; };
 		F47362290AFF8758009B6189 /* CMXImageAttachmentCell.h in Headers */ = {isa = PBXBuildFile; fileRef = F3826315051358E500A80005 /* CMXImageAttachmentCell.h */; };
-		F473622A0AFF8758009B6189 /* CMXInternalMessaging.h in Headers */ = {isa = PBXBuildFile; fileRef = F3826332051359B700A80005 /* CMXInternalMessaging.h */; };
-		F473622B0AFF8758009B6189 /* CMXInternalMessaging_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F3826333051359B700A80005 /* CMXInternalMessaging_p.h */; };
 		F473622C0AFF8758009B6189 /* CMXWorkerContext.h in Headers */ = {isa = PBXBuildFile; fileRef = F3826334051359B700A80005 /* CMXWorkerContext.h */; };
-		F473622D0AFF8758009B6189 /* SGInternalMessenger.h in Headers */ = {isa = PBXBuildFile; fileRef = F3826336051359B700A80005 /* SGInternalMessenger.h */; };
-		F473622E0AFF8758009B6189 /* SGInternalMessenger_p.h in Headers */ = {isa = PBXBuildFile; fileRef = F3826338051359B700A80005 /* SGInternalMessenger_p.h */; };
-		F473622F0AFF8758009B6189 /* SGRunLoopMessenger.h in Headers */ = {isa = PBXBuildFile; fileRef = F382633C051359B700A80005 /* SGRunLoopMessenger.h */; };
 		F47362300AFF8758009B6189 /* CMRBBSListTemplateKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = F34E37C9050743B600A80005 /* CMRBBSListTemplateKeys.h */; };
 		F47362310AFF8758009B6189 /* CMRExports.h in Headers */ = {isa = PBXBuildFile; fileRef = F32165FE0529CB2B00A80005 /* CMRExports.h */; };
 		F47362320AFF8758009B6189 /* CMRThreadMessageBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F3689A2305B0A5D70006D567 /* CMRThreadMessageBuffer.h */; };
@@ -587,8 +582,6 @@
 		F47363460AFF8758009B6189 /* CMXTextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F38263010513585900A80005 /* CMXTextParser.m */; };
 		F47363470AFF8758009B6189 /* CMXImageAttachmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F3826316051358E500A80005 /* CMXImageAttachmentCell.m */; };
 		F47363480AFF8758009B6189 /* CMXWorkerContext.m in Sources */ = {isa = PBXBuildFile; fileRef = F3826335051359B700A80005 /* CMXWorkerContext.m */; };
-		F47363490AFF8758009B6189 /* SGInternalMessenger.m in Sources */ = {isa = PBXBuildFile; fileRef = F3826337051359B700A80005 /* SGInternalMessenger.m */; };
-		F473634A0AFF8758009B6189 /* SGRunLoopMessenger.m in Sources */ = {isa = PBXBuildFile; fileRef = F382633D051359B700A80005 /* SGRunLoopMessenger.m */; };
 		F473634B0AFF8758009B6189 /* SGHTMLView-Link.m in Sources */ = {isa = PBXBuildFile; fileRef = F336E13B0567EE450016AB2D /* SGHTMLView-Link.m */; };
 		F473634C0AFF8758009B6189 /* CMRMessageComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = F368973C05B08B540006D567 /* CMRMessageComposer.m */; };
 		F473634D0AFF8758009B6189 /* CMRThreadMessageBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = F3689A2405B0A5D70006D567 /* CMRThreadMessageBuffer.m */; };
@@ -1180,7 +1173,7 @@
 		F31D7F9704D2F00E003EEDDD /* CMRThreadUpdatedHeaderTask.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRThreadUpdatedHeaderTask.m; sourceTree = "<group>"; };
 		F31D7FAB04D2F0A1003EEDDD /* CMRThreadDictReader.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadDictReader.h; sourceTree = "<group>"; };
 		F31D7FAC04D2F0A1003EEDDD /* CMRThreadDictReader.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRThreadDictReader.m; sourceTree = "<group>"; };
-		F32165FE0529CB2B00A80005 /* CMRExports.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRExports.h; sourceTree = "<group>"; };
+		F32165FE0529CB2B00A80005 /* CMRExports.h */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.h; path = CMRExports.h; sourceTree = "<group>"; };
 		F322F7FB050BA07D00A80005 /* CMRPreferencesDefautValues.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRPreferencesDefautValues.h; sourceTree = "<group>"; };
 		F324DB3004C6959800A80005 /* PreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = PreferencesController.h; sourceTree = "<group>"; };
 		F324DB3104C6959800A80005 /* PreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = PreferencesController.m; sourceTree = "<group>"; };
@@ -1253,7 +1246,7 @@
 		F324DC6D04C698FA00A80005 /* CMRMessageComposer.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRMessageComposer.h; sourceTree = "<group>"; };
 		F324DC7604C698FA00A80005 /* CMRThreadPlistComposer.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadPlistComposer.h; sourceTree = "<group>"; };
 		F324DC7704C698FA00A80005 /* CMRThreadPlistComposer.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = CMRThreadPlistComposer.m; sourceTree = "<group>"; };
-		F324DC8504C698FA00A80005 /* main.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F324DC8504C698FA00A80005 /* main.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F324DC9104C698FA00A80005 /* CMRDocumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRDocumentController.h; sourceTree = "<group>"; };
 		F324DC9204C698FA00A80005 /* CMRDocumentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRDocumentController.m; sourceTree = "<group>"; };
 		F324DC9304C698FA00A80005 /* CMRDocumentFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRDocumentFileManager.h; sourceTree = "<group>"; };
@@ -3239,12 +3232,7 @@
 				F47362260AFF8758009B6189 /* CMRTaskManager_p.h in Headers */,
 				F47362280AFF8758009B6189 /* CMXTextParser.h in Headers */,
 				F47362290AFF8758009B6189 /* CMXImageAttachmentCell.h in Headers */,
-				F473622A0AFF8758009B6189 /* CMXInternalMessaging.h in Headers */,
-				F473622B0AFF8758009B6189 /* CMXInternalMessaging_p.h in Headers */,
 				F473622C0AFF8758009B6189 /* CMXWorkerContext.h in Headers */,
-				F473622D0AFF8758009B6189 /* SGInternalMessenger.h in Headers */,
-				F473622E0AFF8758009B6189 /* SGInternalMessenger_p.h in Headers */,
-				F473622F0AFF8758009B6189 /* SGRunLoopMessenger.h in Headers */,
 				F47362300AFF8758009B6189 /* CMRBBSListTemplateKeys.h in Headers */,
 				F47362310AFF8758009B6189 /* CMRExports.h in Headers */,
 				F47362320AFF8758009B6189 /* CMRThreadMessageBuffer.h in Headers */,
@@ -3913,8 +3901,6 @@
 				F47363460AFF8758009B6189 /* CMXTextParser.m in Sources */,
 				F47363470AFF8758009B6189 /* CMXImageAttachmentCell.m in Sources */,
 				F47363480AFF8758009B6189 /* CMXWorkerContext.m in Sources */,
-				F47363490AFF8758009B6189 /* SGInternalMessenger.m in Sources */,
-				F473634A0AFF8758009B6189 /* SGRunLoopMessenger.m in Sources */,
 				F473634B0AFF8758009B6189 /* SGHTMLView-Link.m in Sources */,
 				F473634C0AFF8758009B6189 /* CMRMessageComposer.m in Sources */,
 				F473634D0AFF8758009B6189 /* CMRThreadMessageBuffer.m in Sources */,

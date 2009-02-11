@@ -2,7 +2,9 @@
 
 
 #import "CocoMonar_Prefix.h"
-#import "CMXInternalMessaging.h"
+//#import "CMXInternalMessaging.h"
+#import "NDRunLoopMessenger.h"
+
 #import "RBSplitView.h"
 #import "CookieManager.h"
 #import "CMRHistoryManager.h"
@@ -44,9 +46,9 @@ void CMXServicesInit(void)
 //	[DatabaseManager setupDatabase];
     
     // Inter-thread messaging
-    CMRMainThread = [NSThread currentThread];
-    CMRMainRunLoop = [NSRunLoop currentRunLoop];
-    CMRMainMessenger = [SGInternalMessenger currentMessenger];    
+//    CMRMainThread = [NSThread currentThread];
+//    CMRMainRunLoop = [NSRunLoop currentRunLoop];
+//    CMRMainMessenger = [SGInternalMessenger currentMessenger];
     [pool_ release];
 }
 

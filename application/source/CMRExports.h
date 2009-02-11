@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRExports.h,v 1.11 2007/10/26 14:09:09 tsawada2 Exp $
+  * $Id: CMRExports.h,v 1.12 2009/02/11 14:49:59 tsawada2 Exp $
   * 
   * CMRExports.h
   *
@@ -20,15 +20,15 @@ extern "C" {
 #endif
 
 
-@class SGInternalMessenger;
-@class CMRBrowser;
+//@class SGInternalMessenger;
+@class CMRBrowser, NDRunLoopMessenger;
 // main browser
 extern CMRBrowser			*CMRMainBrowser;
 
 // main thread & runLoop...
-extern NSThread				*CMRMainThread;
-extern NSRunLoop			*CMRMainRunLoop;
-extern SGInternalMessenger	*CMRMainMessenger;
+//extern NSThread				*CMRMainThread;
+//extern NSRunLoop			*CMRMainRunLoop;
+//extern SGInternalMessenger	*CMRMainMessenger;
 
 extern void CMRApplicationReset(id sender);
 

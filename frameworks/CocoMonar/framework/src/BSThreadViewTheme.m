@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 07/03/22.
-//  Copyright 2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2007-2009 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -69,6 +69,12 @@ NSString *const kThreadViewThemeCustomThemeIdentifier = @"jp.tsawada2.BathyScaph
 {
 	NSData *data = [NSKeyedArchiver archivedDataWithRootObject: self];
 	return [data writeToFile: filePath atomically: atomically];
+}
+
+- (BOOL)writeToFile:(NSString *)filePath options:(unsigned int)mask error:(NSError **)errorPtr
+{
+	NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self];
+	return [data writeToFile:filePath options:mask error:errorPtr];
 }
 
 + (void) initialize

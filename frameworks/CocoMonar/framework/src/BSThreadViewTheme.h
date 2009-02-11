@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 07/03/22.
-//  Copyright 2007 BathyScaphe Project. All rights reserved.
+//  Copyright 2007-2009 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -22,6 +22,7 @@
 - (id) initWithIdentifier: (NSString *) aString;
 - (id) initWithContentsOfFile: (NSString *) filePath;
 - (BOOL) writeToFile: (NSString *) filePath atomically: (BOOL) atomically;
+- (BOOL)writeToFile:(NSString *)filePath options:(unsigned int)mask error:(NSError **)errorPtr; // Available in Tenori Tiger.
 
 - (NSString *) identifier;
 - (void) setIdentifier: (NSString *) aString;

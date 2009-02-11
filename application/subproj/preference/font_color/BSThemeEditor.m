@@ -13,38 +13,39 @@
 
 @implementation BSThemeEditor
 #pragma mark Overrides
-- (id) init
+- (id)init
 {
-	if (self = [super initWithWindowNibName: @"ThemeEditor"]) {
+	if (self = [super initWithWindowNibName:@"ThemeEditor"]) {
 		[self window];
 	}
 	return self;
 }
 
-- (void) dealloc
+- (void)dealloc
 {
 	m_delegate = nil;
 	[self setSaveThemeIdentifier:nil];
+	[self setThemeFileName:nil];
 	[super dealloc];
 }
 
 #pragma mark Accessors
-- (id) delegate
+- (id)delegate
 {
 	return m_delegate;
 }
 
-- (void) setDelegate: (id) aDelegate
+- (void)setDelegate:(id)aDelegate
 {
 	m_delegate = aDelegate;
 }
 
-- (NSString *) saveThemeIdentifier
+- (NSString *)saveThemeIdentifier
 {
 	return m_saveThemeIdentifier;
 }
 
-- (void) setSaveThemeIdentifier: (NSString *) aString
+- (void)setSaveThemeIdentifier:(NSString *)aString
 {
 	[aString retain];
 	[m_saveThemeIdentifier release];
@@ -73,7 +74,7 @@
 	m_fileName = filename;
 }
 
-- (NSObjectController *) themeGreenCube
+- (NSObjectController *)themeGreenCube
 {
 	return m_themeGreenCube;
 }
@@ -85,15 +86,17 @@
 		return YES;
 	}
 
-	NSArray *array = [[[self delegate] preferences] installedThemes];
-	NSArray *identifiers = [array valueForKey: @"Identifier"];
-	if (!identifiers || ![identifiers containsObject: [self saveThemeIdentifier]]) { // 重複していない
+	NSMutableArray *identifiers = [NSMutableArray array];
+	NSMutableArray *fileNames = [NSMutableArray array];
+	[[[self delegate] preferences] getInstalledThemeIds:&identifiers fileNames:&fileNames];
+
+	if (![identifiers containsObject:[self saveThemeIdentifier]]) { // 重複していない
 		return YES;
 	} else {
 		if ([self isNewTheme]) {
 			return NO;
 		}
-		unsigned int idx = [[array valueForKey:@"FileName"] indexOfObject:[self themeFileName]];
+		unsigned int idx = [fileNames indexOfObject:[self themeFileName]];
 		if (idx == NSNotFound) { // 重複していない
 			return YES;
 		}
@@ -101,152 +104,100 @@
 	}
 }
 
-- (NSString *) fileNameForIdentifier: (NSString *) identifier
+- (NSString *)fileNameForIdentifier:(NSString *)identifier
 {
-	NSArray *array = [[[self delegate] preferences] installedThemes];
-	NSArray *ids = [array valueForKey: @"Identifier"];
-	unsigned idx = [ids indexOfObject: identifier];
+	NSMutableArray *ids = [NSMutableArray array];
+	NSMutableArray *fileNames = [NSMutableArray array];
+	[[[self delegate] preferences] getInstalledThemeIds:&ids fileNames:&fileNames];
+
+	unsigned idx = [ids indexOfObject:identifier];
 	if (idx != NSNotFound) {
-		return [[array valueForKey: @"FileName"] objectAtIndex: idx];
+		return [fileNames objectAtIndex:idx];
 	} else {
 		return nil;
 	}
 }
 
-- (BOOL) saveThemeCore
+- (BOOL)saveThemeCore
 {
 	NSString *fileName;
 	id	content = [[self themeGreenCube] content];
-//	NSString *foo = [self fileNameForIdentifier:[content identifier]];
 
 	if ([self themeFileName]) {
 		fileName = [self themeFileName];
 	} else {
-		fileName = [NSString stringWithFormat: @"UserTheme%.0f.plist", [[NSDate date] timeIntervalSince1970]];
+		fileName = [NSString stringWithFormat:@"UserTheme%.0f.plist", [[NSDate date] timeIntervalSince1970]];
 		[self setThemeFileName:fileName];
 	}
-	NSString *filePath = [[[self delegate] preferences] createFullPathFromThemeFileName: fileName];
+	NSString *filePath = [[[self delegate] preferences] createFullPathFromThemeFileName:fileName];
 
-	[content setIdentifier: [self saveThemeIdentifier]];
-	if ([content writeToFile: filePath atomically: YES]) {
-//		[[self delegate] addAndSelectSavedThemeOfTitle: [self saveThemeIdentifier] fileName: fileName];
+	[content setIdentifier:[self saveThemeIdentifier]];
+	NSError *theError;
+	if ([content writeToFile:filePath options:NSAtomicWrite error:&theError]) {
 		return YES;
 	} else {
-		NSBeep();
-		NSLog(@"Failed to save theme file %@", filePath);
+		[[NSAlert alertWithError:theError] runModal];
 		return NO;
 	}
 }
 
-- (void) showOverlappingThemeIdAlert
+- (void)showOverlappingThemeIdAlert
 {
 	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 	NSString *saveIdentifier = [self saveThemeIdentifier];
 
-	[alert setAlertStyle: NSWarningAlertStyle];
-	[alert setMessageText: [NSString stringWithFormat: PPLocalizedString(@"overlappingThemeIdAlertTitle"), saveIdentifier]];
-	[alert setInformativeText: PPLocalizedString(@"overlappingThemeIdAlertMsg")];
-	[alert addButtonWithTitle: PPLocalizedString(@"overlappingThemeIdBtn1")];
-	[alert addButtonWithTitle: PPLocalizedString(@"overlappingThemeIdBtn2")];
+	[alert setAlertStyle:NSWarningAlertStyle];
+	[alert setMessageText:[NSString stringWithFormat: PPLocalizedString(@"overlappingThemeIdAlertTitle"), saveIdentifier]];
+	[alert setInformativeText:PPLocalizedString(@"overlappingThemeIdAlertMsg")];
+	[alert addButtonWithTitle:PPLocalizedString(@"overlappingThemeIdBtn1")];
+	[alert addButtonWithTitle:PPLocalizedString(@"overlappingThemeIdBtn2")];
 	if ([alert runModal] == NSAlertFirstButtonReturn) {
 		if ([self saveThemeCore]) {
 			[NSApp endSheet:[self window] returnCode:NSOKButton];
 		}
-	};
+	}
 }
 
-/*- (void) doSaveOperation
-{
-	int myReturnCode = 3;
-//	[[self themeNamePanel] close];
-	if (NO == [self saveThemeCore]) {
-		myReturnCode = NSCancelButton;
-	}
-	[NSApp endSheet: [self window] returnCode: myReturnCode];
-}*/
-
 #pragma mark IBActions
-- (IBAction) closePanelAndUseTagForReturnCode: (id) sender
+- (IBAction)closePanelAndUseTagForReturnCode:(id)sender
 {
-/*	NSWindow *theWindow = [sender window];
-
-	if (theWindow == [self window]) {
-		[NSApp endSheet: theWindow returnCode: [sender tag]];*/
-/*	} else if (theWindow == [self themeNamePanel]) {
-		[NSApp stopModalWithCode: [sender tag]];
-		if ([sender tag] == NSCancelButton) {
-			[theWindow close];
-		}*/
-//	}
 	[NSApp endSheet:[self window] returnCode:NSCancelButton];
 }
 
-- (IBAction) saveTheme: (id) sender
+- (IBAction)saveTheme:(id)sender
 {
-//	int returnCode = [NSApp runModalForWindow: m_themeNameSheet];
-//	if (returnCode == NSCancelButton) return;
+	[[self themeGreenCube] commitEditing];
 
-	if ([self checkIfOverlappingThemeIdentifier] && [self saveThemeCore]) {
-		[NSApp endSheet:[self window] returnCode:NSOKButton];
+	if ([self checkIfOverlappingThemeIdentifier]) {
+		if ([self saveThemeCore]) {
+			[NSApp endSheet:[self window] returnCode:NSOKButton];
+		}
 	} else {
 		[self showOverlappingThemeIdAlert];
 	}
 }
 
-- (IBAction) openHelpForEditingCustomTheme: (id) sender
+- (IBAction)openHelpForEditingCustomTheme:(id)sender
 {
-	[[NSHelpManager sharedHelpManager] openHelpAnchor : PPLocalizedString(@"Help_View_Edit_Custom_Theme")
-											   inBook : [NSBundle applicationHelpBookName]];
+	[[NSHelpManager sharedHelpManager] openHelpAnchor:PPLocalizedString(@"Help_View_Edit_Custom_Theme")
+											   inBook:[NSBundle applicationHelpBookName]];
 }
 
-
-/*- (void) overlappingThemeNameAlertDidEnd: (NSAlert *) alert returnCode: (int) returnCode contextInfo: (void *) contextInfo
-{
-	if (returnCode == NSAlertFirstButtonReturn) { // changeName
-		[self setSaveThemeIdentifier: nil];
-		[[alert window] orderOut: nil];
-		[self saveTheme: nil];
-		return;
-	} else if (returnCode == NSAlertSecondButtonReturn) { // keep name
-		[[alert window] orderOut: nil];
-		[self doSaveOperation];
-	} else { // overWrite
-		[[alert window] orderOut: nil];
-		id	content = [[self themeGreenCube] content];
-		// identifier から上書きすべきファイル名を逆引きして
-		NSString *fileName = [self fileNameForIdentifier: [self saveThemeIdentifier]];
-		// 上書き保存
-		if (fileName) {
-			AppDefaults *prefs = [[self delegate] preferences];
-			NSString *fullPath = [prefs createFullPathFromThemeFileName: fileName];
-			[content setIdentifier: [self saveThemeIdentifier]];
-			[content writeToFile: fullPath atomically: YES];
-			[prefs setUsesCustomTheme: NO];
-			[prefs setThemeFileName: fileName];
-		} else {
-			NSBeep();
-			NSLog(@"Can't find fileName from Identifier %@", [self saveThemeIdentifier]);
-		}
-//		[[self themeNamePanel] close];
-		[NSApp endSheet: [self window] returnCode: 3];
-	}
-}*/
-
 #pragma mark Public
-- (void) beginSheetModalForWindow: (NSWindow *) window
-					modalDelegate: (id) delegate
-					  contextInfo: (void *) contextInfo
+- (void)beginSheetModalForWindow:(NSWindow *)window
+				   modalDelegate:(id)delegate
+					 contextInfo:(void *)contextInfo
 {
-	[NSApp beginSheet: [self window]
-	   modalForWindow: window
-		modalDelegate: delegate
-	   didEndSelector: @selector(themeEditSheetDidEnd:returnCode:contextInfo:) 
-		  contextInfo: contextInfo];
+	[NSApp beginSheet:[self window]
+	   modalForWindow:window
+		modalDelegate:delegate
+	   didEndSelector:@selector(themeEditSheetDidEnd:returnCode:contextInfo:) 
+		  contextInfo:contextInfo];
 }
 
 #pragma mark NSFontPanel Validation
-- (unsigned int) validModesForFontPanel : (NSFontPanel *) fontPanel
+- (unsigned int)validModesForFontPanel:(NSFontPanel *)fontPanel
 {
-	return [[self delegate] validModesForFontPanel: fontPanel];
+	return [[self delegate] validModesForFontPanel:fontPanel];
 }
 @end

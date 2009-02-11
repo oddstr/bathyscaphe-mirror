@@ -264,7 +264,7 @@
 		F38D52F30444DDA5006F39E1 /* TestSGFileRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestSGFileRef.h; sourceTree = "<group>"; };
 		F38D52F40444DDA5006F39E1 /* TestSGFileRef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestSGFileRef.m; sourceTree = "<group>"; };
 		F39603A4043EE2E800A80005 /* SGBaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SGBaseQueue.h; sourceTree = "<group>"; };
-		F39603A5043EE2E800A80005 /* SGBaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SGBaseQueue.m; sourceTree = "<group>"; };
+		F39603A5043EE2E800A80005 /* SGBaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SGBaseQueue.m; sourceTree = "<group>"; };
 		F39603A8043EE56B00A80005 /* TestSGBaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestSGBaseQueue.h; sourceTree = "<group>"; };
 		F39603A9043EE56B00A80005 /* TestSGBaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestSGBaseQueue.m; sourceTree = "<group>"; };
 		F3962D6904860DCC00A80005 /* TestNSRString.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = TestNSRString.h; sourceTree = "<group>"; };

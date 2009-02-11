@@ -1,6 +1,7 @@
 #import "FCController.h"
 #import "PreferencePanes_Prefix.h"
 #import <SGAppKit/NSEvent-SGExtensions.h>
+#import <SGAppKit/NSWorkspace-SGExtensions.h>
 #import "BSThemeEditor.h"
 #import "BSThemePreView.h"
 
@@ -127,6 +128,18 @@
 	[editor setIsNewTheme:NO];
 	[editor setThemeFileName:fileName];
 	[editor beginSheetModalForWindow: [self window] modalDelegate: self contextInfo: NULL];
+}
+
+- (IBAction)revealInFinder:(id)sender
+{
+	// 現在リストで選択されているテーマを下地にする
+	int selectedRow = [[self themesList] selectedRow];
+	NSString *filePath;
+	NSMutableArray *array = [NSMutableArray array];
+	[[self preferences] getInstalledThemeIds:NULL fileNames:&array];
+	NSString *fileName = [array objectAtIndex:selectedRow];
+	filePath = [[self preferences] createFullPathFromThemeFileName:fileName];
+	[[NSWorkspace sharedWorkspace] revealFilesInFinder:[NSArray arrayWithObject:filePath]];
 }
 
 #pragma mark Delegate Methods
@@ -353,6 +366,14 @@
 			[[self themeStatusField] setStringValue:PPLocalizedString(@"themeStatusYes")];
 		}
 	}
+}
+
+- (BOOL)validateUserInterfaceItem:(id < NSValidatedUserInterfaceItem >)anItem
+{
+	if ([anItem action] == @selector(revealInFinder:)) {
+		return [[self themesList] selectedRow] > 0;
+	}
+	return YES;
 }
 
 - (int) mailFieldOption
