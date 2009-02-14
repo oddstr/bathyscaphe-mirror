@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Updated by Tsutomu Sawada on 08/03/14.
-//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2009 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -27,29 +27,26 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 	}
 }
 
-- (id)initWithIdentifier:(NSString *)identifier
+//- (id)initWithIdentifier:(NSString *)identifier
+- (id)initWithDelegate:(id)delegate
 {
 	if (self = [super init]) {
-		[self setIdentifier:identifier];
+//		[self setIdentifier:identifier];
+
 		if (![NSBundle loadNibNamed:kLoadNibName owner:self]) {
 			[self release];
 			return nil;
 		}
+		[self setDelegate:delegate];
+		[[self taskObjectController] bind:@"content" toObject:[CMRTaskManager defaultManager] withKeyPath:@"currentTask" options:nil];
 	}
 	return self;
 }
 
-- (void)awakeFromNib
-{
-	[[self taskObjectController] bind:@"content" toObject:[CMRTaskManager defaultManager] withKeyPath:@"currentTask" options:nil];
-	[self setupUIComponents];
-}
-
 - (void)dealloc
 {
-	[[self statusLineView] unbind:@"messageText"];
-	[[self taskObjectController] unbind:@"content"];
-	[self setIdentifier:nil];
+//	[self setIdentifier:nil];
+	[self setDelegate:nil];
 
 	// nib top-level objects
 	[_statusLineView release];
@@ -70,8 +67,15 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 	[[self statusLineView] bind:@"messageText" toObject:[self taskObjectController] withKeyPath:@"selection.message" options:nil];
 }
 
+- (void)statusLineWillRemoveFromWindow
+{
+	[[self statusLineView] unbind:@"messageText"];
+	[[self taskObjectController] unbind:@"content"];
+}
+
 - (void)statusLineViewDidMoveToWindow
 {
+	[self setupUIComponents];
 	BOOL indicatorShown = [[[self statusLineView] window] showsResizeIndicator];
 	if (!indicatorShown) return;
 
@@ -95,7 +99,7 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 {
 	return _objectController;
 }
-
+/*
 - (NSString *)identifier
 {
 	return _identifier;
@@ -107,7 +111,7 @@ static NSString *const CMRStatusLineShownKey = @"Status Line Visibility";
 	[_identifier release];
 	_identifier = anIdentifier;
 }
-
+*/
 - (id)delegate
 {
 	return _delegate;

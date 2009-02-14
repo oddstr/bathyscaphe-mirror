@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Updated by Tsutomu Sawada on 08/03/10.
-//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2009 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -13,7 +13,7 @@
 
 @interface CMRTaskItemController : NSObject {
 	IBOutlet NSView					*_contentView;
-	IBOutlet NSProgressIndicator	*_indicator;
+	IBOutlet NSObjectController		*m_taskController;
 	
 	id<CMRTask>						_task;
 }
@@ -22,8 +22,7 @@
 
 - (IBAction)stop:(id)sender;
 - (id<CMRTask>)task;
-- (void)setTask:(id<CMRTask>)aTask;
 
 - (NSView *)contentView;
-- (NSProgressIndicator *)indicator;
+- (NSObjectController *)taskController;
 @end

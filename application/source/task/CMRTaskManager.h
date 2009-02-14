@@ -33,7 +33,7 @@
 	NSMutableDictionary				*_controllerMapping;
 	
 	IBOutlet SGContainerTableView	*_taskContainerView;
-	IBOutlet NSArrayController		*_arrayController;
+//	IBOutlet NSArrayController		*_arrayController;
 	
 //	NSTimer		*_notificationTimer;
 	id<CMRTask>		m_currentTask;

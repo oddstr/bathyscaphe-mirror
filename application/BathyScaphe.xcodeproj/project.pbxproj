@@ -1345,7 +1345,7 @@
 		F324DDD204C698FB00A80005 /* CMRReplyMessenger.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = CMRReplyMessenger.m; sourceTree = "<group>"; };
 		F324DDD304C698FB00A80005 /* CMRReplyMessenger_p.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRReplyMessenger_p.h; sourceTree = "<group>"; };
 		F324DDD404C698FB00A80005 /* CMRStatusLineWindowController.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRStatusLineWindowController.h; sourceTree = "<group>"; };
-		F324DDD504C698FB00A80005 /* CMRStatusLineWindowController.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMRStatusLineWindowController.m; sourceTree = "<group>"; };
+		F324DDD504C698FB00A80005 /* CMRStatusLineWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRStatusLineWindowController.m; sourceTree = "<group>"; };
 		F324DDD704C698FB00A80005 /* CMRThreadViewerTbDelegate.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRThreadViewerTbDelegate.h; sourceTree = "<group>"; };
 		F324DDD804C698FB00A80005 /* CMRThreadViewerTbDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRThreadViewerTbDelegate.m; sourceTree = "<group>"; };
 		F324DDDA04C698FB00A80005 /* CMRToolbarDelegate.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMRToolbarDelegate.h; sourceTree = "<group>"; };
@@ -1407,7 +1407,7 @@
 		F3826332051359B700A80005 /* CMXInternalMessaging.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMXInternalMessaging.h; sourceTree = "<group>"; };
 		F3826333051359B700A80005 /* CMXInternalMessaging_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMXInternalMessaging_p.h; sourceTree = "<group>"; };
 		F3826334051359B700A80005 /* CMXWorkerContext.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = CMXWorkerContext.h; sourceTree = "<group>"; };
-		F3826335051359B700A80005 /* CMXWorkerContext.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = CMXWorkerContext.m; sourceTree = "<group>"; };
+		F3826335051359B700A80005 /* CMXWorkerContext.m */ = {isa = PBXFileReference; fileEncoding = 2147483649; lastKnownFileType = sourcecode.c.objc; path = CMXWorkerContext.m; sourceTree = "<group>"; };
 		F3826336051359B700A80005 /* SGInternalMessenger.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = SGInternalMessenger.h; sourceTree = "<group>"; };
 		F3826337051359B700A80005 /* SGInternalMessenger.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = SGInternalMessenger.m; sourceTree = "<group>"; };
 		F3826338051359B700A80005 /* SGInternalMessenger_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = SGInternalMessenger_p.h; sourceTree = "<group>"; };

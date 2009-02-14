@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Created by Tsutomu Sawada on 08/05/04.
-//  Copyright 2008 BathyScaphe Project. All rights reserved.
+//  Copyright 2008-2009 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -92,13 +92,22 @@
 	return NO;
 }
 
-- (void)dealloc
+- (void)statusLineWillRemoveFromWindow
 {
 	NSView *stepperView = [[self indexingStepper] contentView];
 	NSView *popupperView = [[self indexingPopupper] contentView];
 	[stepperView unbind:@"hidden2"];
-	[stepperView unbind:@"hidden"];
 	[popupperView unbind:@"hidden2"];
+	[super statusLineWillRemoveFromWindow];
+}
+
+- (void)dealloc
+{
+	NSView *stepperView = [[self indexingStepper] contentView];
+	NSView *popupperView = [[self indexingPopupper] contentView];
+//	[stepperView unbind:@"hidden2"];
+	[stepperView unbind:@"hidden"];
+//	[popupperView unbind:@"hidden2"];
 	[popupperView unbind:@"hidden"];
 
 	[m_indexingStepper release];

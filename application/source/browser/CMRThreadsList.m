@@ -14,7 +14,7 @@
 #import "CMRReplyDocumentFileManager.h"
 #import "missing.h"
 
-NSString *const CMRThreadsListDidUpdateNotification = @"ThreadsListDidUpdateNotification";
+//NSString *const CMRThreadsListDidUpdateNotification = @"ThreadsListDidUpdateNotification";
 NSString *const CMRThreadsListDidChangeNotification = @"ThreadsListDidChangeNotification";
 NSString *const ThreadsListUserInfoSelectionHoldingMaskKey = @"ThreadsListUserInfoSelectionHoldingMaskKey";
 

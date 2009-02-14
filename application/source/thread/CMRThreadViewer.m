@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Updated by Tsutomu Sawada on 08/02/24.
-//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2009 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -15,7 +15,6 @@
 #import "CMR2chDATReader.h"
 #import "CMRThreadMessageBufferReader.h"
 #import "CMRThreadMessageBuffer.h"
-//#import "CMRDownloader.h"
 #import "ThreadTextDownloader.h"
 #import "CMXPopUpWindowManager.h"
 #import "BoardManager.h"

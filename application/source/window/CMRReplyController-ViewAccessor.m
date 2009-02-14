@@ -20,10 +20,10 @@ static void *kReplySettingsContext = @"EternalBlaze";
 	return [CMRReplyControllerTbDelegate class];
 }
 
-- (NSString *)statusLineFrameAutosaveName 
+/*- (NSString *)statusLineFrameAutosaveName 
 {
 	return APP_REPLY_STATUSLINE_IDENTIFIER;
-}
+}*/
 
 #pragma mark Accessors
 - (NSComboBox *)nameComboBox

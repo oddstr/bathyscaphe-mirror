@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRStatusLineWindowController.h,v 1.9 2008/02/02 16:11:12 tsawada2 Exp $
+  * $Id: CMRStatusLineWindowController.h,v 1.10 2009/02/14 18:46:15 tsawada2 Exp $
   * BathyScaphe
   *
   * ãå CMRStatusLineWindowController Ç∆ CMRToolbarWindowController Çìùçá
@@ -39,7 +39,7 @@
 - (void) setupUIComponents;
 
 + (Class) statusLineClass;
-- (NSString *) statusLineFrameAutosaveName;
+//- (NSString *) statusLineFrameAutosaveName;
 - (void) setupStatusLine;
 - (CMRStatusLine *) statusLine;
 @end

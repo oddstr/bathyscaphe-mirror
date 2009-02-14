@@ -20,10 +20,10 @@
 			<string>ObjC</string>
 			<key>OUTLETS</key>
 			<dict>
-				<key>_arrayController</key>
-				<string>NSArrayController</string>
 				<key>_taskContainerView</key>
 				<string>SGContainerTableView</string>
+				<key>m_currentTask</key>
+				<string>id</string>
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSWindowController</string>

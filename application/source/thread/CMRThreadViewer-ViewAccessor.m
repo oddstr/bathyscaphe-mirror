@@ -134,10 +134,10 @@
 	return [CMRThreadViewerTbDelegate class];
 }
 
-- (NSString *)statusLineFrameAutosaveName
+/*- (NSString *)statusLineFrameAutosaveName
 {
 	return APP_TVIEW_STATUSLINE_IDENTIFIER;
-}
+}*/
 
 + (Class) statusLineClass
 {
@@ -206,7 +206,6 @@
 	[m_navigationBar release];
 	m_navigationBar = [[self statusLine] statusLineView];
 	[[self navigationBar] setFrame:curFrame];
-
 	[[self statusLine] statusLineViewDidMoveToWindow];
 }
 

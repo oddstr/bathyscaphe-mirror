@@ -223,10 +223,8 @@
 	
 	newsize_ = [self bounds].size;
 	newsize_.height = 0.0f;
-	
 	cnt = [self numberOfRows];
 	[[self subviews] makeObjectsPerformSelector:@selector(removeFromSuperviewWithoutNeedingDisplay)];
-	
 	// 最初にDataSourceから返されるViewを順番通りに並び終えれば、
 	// 残りはすでに登録されていないView
 	for(i = 0; i < cnt; i++){

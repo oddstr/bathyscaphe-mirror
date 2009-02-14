@@ -76,8 +76,6 @@
 			<dict>
 				<key>cancel</key>
 				<string>id</string>
-				<key>toggleStatusLineShown</key>
-				<string>id</string>
 			</dict>
 			<key>CLASS</key>
 			<string>CMRStatusLine</string>
@@ -91,8 +89,6 @@
 				<string>NSProgressIndicator</string>
 				<key>_statusLineView</key>
 				<string>BSStatusLineView</string>
-				<key>_statusTextField</key>
-				<string>NSTextField</string>
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSObject</string>

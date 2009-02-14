@@ -32,7 +32,10 @@
 	[[self controllerMapping] removeObjectForKey:[aTask identifier]];
 
 	[[self taskItemControllers] removeObject:controller_];
-	[[self taskContainerView] reloadData];
+//	if ([self isWindowLoaded] && [[self window] isVisible]) {
+//		[[self taskContainerView] reloadData];
+	[[self taskContainerView] performSelector:@selector(reloadData) withObject:nil afterDelay:0.1];
+//	}
 }
 
 - (void)taskWillStartProcessing:(NSNotification *)aNotification
@@ -148,7 +151,10 @@
 	// タスクが終わり次第削除する。
 	// 
 	[[self controllerMapping] setObject:newController forKey:[task_ identifier]];
-
-	[[self taskContainerView] reloadData];
+//NSLog(@"HOHOHOHOHOHO");
+//	if ([self isWindowLoaded] && [[self window] isVisible]) {
+//		[[self taskContainerView] reloadData];
+		[[self taskContainerView] performSelector:@selector(reloadData) withObject:nil afterDelay:0.05];
+//	}
 }
 @end

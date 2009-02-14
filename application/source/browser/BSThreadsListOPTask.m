@@ -188,8 +188,8 @@ fail:
 		
 		[self checkIsInterrupted];
 		if(m_downloadData && [m_downloadData length] != 0) {
-			dbupTask = [BSDBThreadsListDBUpdateTask2 taskWithBBSName:bbsName
-																data:m_downloadData];
+			dbupTask = [[BSDBThreadsListDBUpdateTask2 taskWithBBSName:bbsName
+																data:m_downloadData] retain];
 			[dbupTask setRebuilding:isRebuilding];
 /*			[[NSNotificationCenter defaultCenter] addObserver:self
 													 selector:@selector(dbloadDidFinishUpdateDBNotification:)

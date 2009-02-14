@@ -280,14 +280,16 @@
 {
 	if (returnCode == NSAlertFirstButtonReturn) {
 		[[NSNotificationCenter defaultCenter]
-			addObserver:self selector:@selector(rebuildingDidEnd:) name:BSDBThreadListDidFinishUpdateNotification object:[self currentThreadsList]];
+			addObserver:self selector:@selector(rebuildingDidEnd:) name:CMRThreadsListDidChangeNotification object:[self currentThreadsList]];
+//			addObserver:self selector:@selector(rebuildingDidEnd:) name:BSDBThreadListDidFinishUpdateNotification object:[self currentThreadsList]];
 		[[self currentThreadsList] rebuildThreadsList];
 	}
 }
 
 - (void)rebuildingDidEnd:(NSNotification *)notification
 {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:BSDBThreadListDidFinishUpdateNotification object:nil];
+//	[[NSNotificationCenter defaultCenter] removeObserver:self name:BSDBThreadListDidFinishUpdateNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:CMRThreadsListDidChangeNotification object:nil];
 	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 	[alert setAlertStyle:NSInformationalAlertStyle];
 	[alert setMessageText:NSLocalizedStringFromTable(@"RebuildingEndAlert", @"ThreadsList", nil)];

@@ -239,10 +239,10 @@
     return NSClassFromString(@"CMRBrowserTbDelegate");
 }
 
-- (NSString *)statusLineFrameAutosaveName
+/*- (NSString *)statusLineFrameAutosaveName
 {
     return APP_BROWSER_STATUSLINE_IDENTIFIER;
-}
+}*/
 
 + (BOOL)shouldShowTitleRulerView
 {

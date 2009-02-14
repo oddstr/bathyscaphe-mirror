@@ -1,33 +1,35 @@
-/**
-  * $Id: CMRStatusLineWindowController.m,v 1.13 2007/04/19 14:13:43 tsawada2 Exp $
-  * BathyScaphe
-  *
-  * ãå CMRStatusLineWindowController Ç∆ CMRToolbarWindowController Çìùçá
-  * Copyright 2006 BathyScaphe Project. All rights reserved.
-  *
-  */
+//
+//  CMRStatusLineWindowController.m
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 09/02/14.
+//  Copyright 2006-2009 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
 
 #import "CMRStatusLineWindowController.h"
 #import "CMRTask.h"
 #import "CMRTaskManager.h"
 
 @implementation CMRStatusLineWindowController
-- (void) dealloc
+- (void)dealloc
 {
-	[m_statusLine setDelegate: nil];
+	[m_statusLine statusLineWillRemoveFromWindow];
 	[m_statusLine release];
+	m_statusLine = nil;
 	[m_toolbarDelegateImp release];
+	m_toolbarDelegateImp = nil;
 	[super dealloc];
 }
 
-+ (Class) toolbarDelegateImpClass
++ (Class)toolbarDelegateImpClass
 {
 	return Nil;
 }
 
-- (id<CMRToolbarDelegate>) toolbarDelegate
+- (id<CMRToolbarDelegate>)toolbarDelegate
 {
-	if(nil == m_toolbarDelegateImp){
+	if (!m_toolbarDelegateImp) {
 		Class		class_;
 		
 		class_ = [[self class] toolbarDelegateImpClass];
@@ -38,37 +40,33 @@
 	return m_toolbarDelegateImp;
 }
 
-// board / thread signature for historyManager .etc
-- (id) boardIdentifier
-{
-	UTILAbstractMethodInvoked;
-	return nil;
-}
-- (id) threadIdentifier
+// thread signature for historyManager .etc
+- (id)threadIdentifier
 {
 	UTILAbstractMethodInvoked;
 	return nil;
 }
 
 // Keybinding support
-- (void) selectNextKeyView : (id) sender
+- (void)selectNextKeyView:(id)sender
 {
-	[[self window] selectNextKeyView : sender];
+	[[self window] selectNextKeyView:sender];
 }
-- (void) selectPreviousKeyView : (id) sender
+
+- (void)selectPreviousKeyView:(id)sender
 {
-	[[self window] selectPreviousKeyView : sender];
+	[[self window] selectPreviousKeyView:sender];
 }
 
 // Window Management
-- (void) windowDidLoad
+- (void)windowDidLoad
 {
 	[super windowDidLoad];
-	[[self window] setAutodisplay : NO];
-	[[self window] setViewsNeedDisplay : NO];
+	[[self window] setAutodisplay:NO];
+	[[self window] setViewsNeedDisplay:NO];
 	[self setupUIComponents];
-	[[self window] setViewsNeedDisplay : YES];
-	[[self window] setAutodisplay : YES];
+	[[self window] setViewsNeedDisplay:YES];
+	[[self window] setAutodisplay:YES];
 }
 /*
 - (BOOL) validateMenuItem : (NSMenuItem *) theItem
@@ -78,7 +76,7 @@
 	if (nil == theItem) return NO;
 	action_ = [theItem action];
 	
-	// ÅuÉEÉCÉìÉhÉEÇÃà íuÇ∆óÃàÊÇãLâØÅv
+	// „Äå„Ç¶„Ç§„É≥„Éâ„Ç¶„ÅÆ‰ΩçÁΩÆ„Å®È†òÂüü„ÇíË®òÊÜ∂„Äç
 	if (action_ == @selector(saveAsDefaultFrame:)) {
 		return YES;
 	}
@@ -106,7 +104,7 @@
 	}
 }
 */
-- (BOOL) validateUserInterfaceItem: (id <NSValidatedUserInterfaceItem>) anItem
+- (BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)anItem
 {
 	SEL action_ = [anItem action];
 	if (action_ == @selector(cancelCurrentTask:)) {
@@ -117,48 +115,50 @@
 }
 @end
 
+
 @implementation CMRStatusLineWindowController(ViewInitializer)
-- (void) setupUIComponents
+- (void)setupUIComponents
 {
-	[[self toolbarDelegate] attachToolbarWithWindow : [self window]];
-	[[self window] setDelegate : self];
+	[[self toolbarDelegate] attachToolbarWithWindow:[self window]];
+	[[self window] setDelegate:self];
 	[self setupStatusLine];
 }
 
-+ (Class) statusLineClass
++ (Class)statusLineClass
 {
 	return [CMRStatusLine class];
 }
-
+/*
 - (NSString *) statusLineFrameAutosaveName
 {
 	UTILAbstractMethodInvoked;
 	return nil;
 }
-
-- (void) setupStatusLine
+*/
+- (void)setupStatusLine
 {
 	UTILAssertNotNil([self statusLine]);
 }
 
-- (CMRStatusLine *) statusLine
+- (CMRStatusLine *)statusLine
 {
-	if (nil == m_statusLine) {
-		m_statusLine = [[[[self class] statusLineClass] alloc] initWithIdentifier: [self statusLineFrameAutosaveName]];
-		[m_statusLine setDelegate : self];
+	if (!m_statusLine) {
+		m_statusLine = [[[[self class] statusLineClass] alloc] initWithDelegate:self];
 	}
 	return m_statusLine;
 }
 @end
 
+
 @implementation CMRStatusLineWindowController(Action)
-// ÅuÉEÉCÉìÉhÉEÇÃà íuÇ∆óÃàÊÇãLâØÅv
-- (IBAction) saveAsDefaultFrame : (id) sender;
+// „Äå„Ç¶„Ç§„É≥„Éâ„Ç¶„ÅÆ‰ΩçÁΩÆ„Å®È†òÂüü„ÇíË®òÊÜ∂„Äç
+- (IBAction)saveAsDefaultFrame:(id)sender
 {
 	UTILAbstractMethodInvoked;
 }
-- (IBAction) cancelCurrentTask : (id) sender;
+
+- (IBAction)cancelCurrentTask:(id)sender
 {
-	[[CMRTaskManager defaultManager] cancel : sender];
+	[[CMRTaskManager defaultManager] cancel:sender];
 }
 @end

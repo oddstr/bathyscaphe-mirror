@@ -230,7 +230,8 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 			mUpdateTask = nil;
 		} 
 		{
-			mUpdateTask = [[BSThreadListUpdateTask taskWithBSDBThreadList:self] retain];
+//			mUpdateTask = [[BSThreadListUpdateTask taskWithBSDBThreadList:self] retain];
+			mUpdateTask = [[BSThreadListUpdateTask alloc] initWithBSDBThreadList:self];
 			
 			[[NSNotificationCenter defaultCenter]
 			addObserver:self
@@ -255,7 +256,7 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 	}
 	
 	UTILNotifyName(CMRThreadsListDidChangeNotification);
-	UTILNotifyName(BSDBThreadListDidFinishUpdateNotification);
+//	UTILNotifyName(BSDBThreadListDidFinishUpdateNotification);
 }
 
 - (void)didFinishCreateCursor:(id)notification
@@ -462,7 +463,7 @@ NSString *BSDBThreadListDidFinishUpdateNotification = @"BSDBThreadListDidFinishU
 								 [CMRFavoritesManager defaultManager]);
 	[self updateCursor];
 	
-	UTILNotifyName(CMRThreadsListDidChangeNotification);
+//	UTILNotifyName(CMRThreadsListDidChangeNotification);
 }
 
 #pragma mark## SearchThread ##

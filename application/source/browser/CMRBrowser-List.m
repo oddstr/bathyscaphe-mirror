@@ -26,10 +26,10 @@
 							  selector:@selector(threadsListDidChange:)
 		 				   oldDelegate:oldList
 		 				   newDelegate:newList];
-	[self exchangeNotificationObserver:BSDBThreadListDidFinishUpdateNotification
+/*	[self exchangeNotificationObserver:BSDBThreadListDidFinishUpdateNotification
 							  selector:@selector(reselectThreadIfNeeded:)
 						   oldDelegate:oldList
-						   newDelegate:newList];
+						   newDelegate:newList];*/
 
 	[[self threadsListTable] setDataSource:newList];
 	[[self document] setCurrentThreadsList:newList];

@@ -496,6 +496,7 @@ BOOL isOptionKeyDown(void)
 
 	[[self threadsListTable] reloadData];
 	[self synchronizeWindowTitleWithDocumentName];
+	[self reselectThreadIfNeeded:notification];
 	UTILNotifyName(CMRBrowserThListUpdateDelegateTaskDidFinishNotification);
 }
 

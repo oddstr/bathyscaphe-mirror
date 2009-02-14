@@ -35,8 +35,8 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 	[_controllerMapping release];
 
 	// nib top-level object
-	[_arrayController release];
-	_arrayController = nil;
+//	[_arrayController release];
+//	_arrayController = nil;
 
 	[super dealloc];
 }
@@ -141,12 +141,12 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(defaultManager);
 {
 	return _taskContainerView;
 }
-
+/*
 - (NSArrayController *)tasksArrayController
 {
 	return _arrayController;
 }
-
+*/
 - (void)taskContainerViewScrollLastRowToVisible
 {
 	int count = [[self taskContainerView] numberOfRows];

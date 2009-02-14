@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Updated by Tsutomu Sawada on 08/03/10.
-//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2009 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -17,7 +17,7 @@
 - (id)initWithTask:(id<CMRTask>)aTask
 {
 	if (self = [self init]) {
-		[self setTask:aTask];
+		_task = [aTask retain];
 	}
 	return self;
 }
@@ -25,28 +25,31 @@
 - (id)init
 {
 	if (self = [super init]) {
-		if (![NSBundle loadNibNamed:APP_TASK_ITEM_CONTROLLER_NIB_NAME owner:self]) {
-			NSLog(@"%@ failed loadNibNamed:%@", NSStringFromClass([self class]), APP_TASK_ITEM_CONTROLLER_NIB_NAME);
-			[self autorelease];
-		}
+		;
 	}
 	return self;
 }
 
 - (void)dealloc
 {
-	[self setTask:nil];
-
-	// nib top-level object
+	// nib top-level objects
+	[[self taskController] setContent:nil];
+	[m_taskController release];
+	m_taskController = nil;
 	[_contentView release];
 	_contentView = nil;
+
+	[_task release];
+	_task = nil;
 
 	[super dealloc];
 }
 
 - (IBAction)stop:(id)sender
 {
-	if ([[self task] isInProgress]) [[self task] cancel:sender];
+	if ([[self task] isInProgress]) {
+		[[self task] cancel:sender];
+	}
 }
 
 - (id<CMRTask>)task
@@ -54,20 +57,20 @@
 	return _task;
 }
 
-- (void)setTask:(id<CMRTask>)aTask
-{
-	[aTask retain];
-	[_task release];
-	_task = aTask;
-}
-
 - (NSView *)contentView
 {
+	if (!_contentView) {
+		if ([NSBundle loadNibNamed:APP_TASK_ITEM_CONTROLLER_NIB_NAME owner:self]) {
+			[[self taskController] setContent:[self task]];
+		} else {
+			NSLog(@"%@ failed loadNibNamed:%@", NSStringFromClass([self class]), APP_TASK_ITEM_CONTROLLER_NIB_NAME);
+		}
+	}
 	return _contentView;
 }
 
-- (NSProgressIndicator *)indicator
+- (NSObjectController *)taskController
 {
-	return _indicator;
+	return m_taskController;
 }
 @end

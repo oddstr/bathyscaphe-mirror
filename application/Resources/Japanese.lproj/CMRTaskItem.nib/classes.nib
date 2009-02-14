@@ -85,8 +85,8 @@
 			<dict>
 				<key>_contentView</key>
 				<string>NSView</string>
-				<key>_indicator</key>
-				<string>NSProgressIndicator</string>
+				<key>m_taskController</key>
+				<string>NSObjectController</string>
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSObject</string>

@@ -263,3 +263,6 @@
 
 // be-2ch Info
 //#define APP_BE2CH_REGISTRATION_PAGE_KEY		@"System - be2ch Register URL"
+
+//#define DEFAULT_HELPER_APP			@"CMLogBuccaneer.app"
+//#define DEFAULT_HISTORY_SEGCTRL_MENU		YES

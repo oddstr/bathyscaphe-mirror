@@ -1,3 +1,56 @@
+2009-02-15 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/source/browser/BSDBThreadList.m
+	* application/source/browser/BSThreadsListOPTask.m
+		メモリ管理の修正。
+	* application/source/browser/CMRBrowser-Delegate.m
+	* application/source/browser/CMRBrowser-List.m
+	* application/source/browser/CMRThreadsList.m
+		役割が重複する Notification を整理。
+	* application/source/messaging/CMXWorkerContext.m
+		SGBaseQueue の替わりに SGThreadsafeBaseQueue にしてみた。
+		意味があるのかどうかは、微妙？
+	* application/source/main.m
+	* application/source/thread/CMRThreadLayoutTask.m
+	* application/source/thread/CMRThreadViewer.m
+	* application/source/browser/Browser.m
+	* application/source/preferences/AppDefaults-Deprecated.h
+	* application/source/preferences/AppDefaults.m
+	* application/source/preferences/CMRPreferencesDefautValues.h
+		微修正。	
+	* application/Resources/Japanese.lproj/CMRStatusView.nib
+	* application/Resources/Japanese.lproj/CMRTaskItem.nib
+	* application/Resources/Japanese.lproj/CMRTaskManager.nib
+	* application/source/task/CMRTaskItemController.m
+	* application/source/task/CMRTaskManager-Management.m
+	* application/source/task/CMRTaskManager.m
+	* application/source/view/BSNavigationStatusLine.m
+	* application/source/view/CMRStatusLine.m
+		Cocoa Binding 周りでメモリリークが発生していたので、それを回避するために様々な修正。
+	* application/source/browser/CMRBrowser-ViewAccessor.m
+	* application/source/thread/CMRThreadViewer-ViewAccessor.m
+	* application/source/window/CMRReplyController-ViewAccessor.m
+	* application/source/window/CMRStatusLineWindowController.(h|m)
+		ステータス行オブジェクトがきちんと release されるよう、各部の修正。
+		同時に、使われなくなっていたインスタンス変数やメソッドを整理。各サブクラスにも対応する変更。
+2009-02-12 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/Resources/Japanese.lproj/CMRTaskItem.nib
+		直接 File's owner に Binding せず、間に NSObjectController を挟むようにした。
+	* application/subproj/previewer/BSIPIFullScreenController.m
+		スワイプの向きと前／次への移動の向きを最初の実装に戻した。
+	* application/subproj/preference/font_color/BSThemeEditor.m
+		テーマエディタで「OK」をクリックしたあと、commitEditing: を呼んで編集内容を確定させるようにした。
+		ほか、コードの整理。
+	* frameworks/CocoMonar/framework/src/BSThreadViewTheme.m
+		ファイル書き込み時のエラーを NSError で取得できるよう、メソッドを追加した。
+	* application/subproj/preference/font_color/FCController.m
+		選択されたテーマに対して、「ファイル」＞「Finder に表示」が利用できるようにした
+		（デフォルト・テーマを除く）。
+	* application/source/main.m
+	* application/source/CMRExports.h
+	* application/source/messaging/CMXWorkerContext.m
+		CMXInternalMessaging, SGInternalMessenger, および SGRunLoopMessenger はもう使用されて
+		いないので、import や初期化を行なっている箇所から全て削除した。
+=================================================
 2009-02-09 tsawada2 <tsawada2@users.sourceforge.jp>
 	* application/Resources/Japanese.lproj/Acknowledgments.rtf
 		コピーライトを更新。

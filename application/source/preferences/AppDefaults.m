@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.m,v 1.34 2009/02/08 17:38:11 tsawada2 Exp $
+  * $Id: AppDefaults.m,v 1.35 2009/02/14 18:46:15 tsawada2 Exp $
   * 
   * AppDefaults.m
   *
@@ -134,7 +134,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 - (void)convertOldCustomThemeSettings
 {
 	NSString *customThemeFile = [self customThemeFilePath];
-	BOOL isDir = NO;
+	BOOL isDir;
 	if ([[NSFileManager defaultManager] fileExistsAtPath:customThemeFile isDirectory:&isDir] && !isDir) {
 		NSString *newName = NSLocalizedString(@"Copied Custom Theme File", @"");
 		NSString *newPath = [self createFullPathFromThemeFileName:newName];
@@ -168,7 +168,7 @@ APP_SINGLETON_FACTORY_METHOD_IMPLEMENTATION(sharedInstance);
 		}
 	}*/
 	if (themeFileName) {
-		BOOL isDir = NO;
+		BOOL isDir;
 		NSString *checkPath = [self createFullPathFromThemeFileName:themeFileName];
 		if ([[NSFileManager defaultManager] fileExistsAtPath:checkPath isDirectory:&isDir] && !isDir) {
 			finalFilePath = checkPath;

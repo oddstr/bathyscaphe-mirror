@@ -1,7 +1,7 @@
 //
 // BathyScaphe
 // Preference Default Values List
-// For Twincam Angel 1.6.1
+// For Tenori Tiger 1.6.2
 //
 
 // AppDefaults
@@ -17,7 +17,6 @@
 #define DEFAULT_INFORM_WHEN_DAT_OCHI		YES
 #define DEFAULT_OLD_SCROLLING				NO
 #define DEFAULT_USE_BINARY_FORMAT			NO
-//#define DEFAULT_HISTORY_SEGCTRL_MENU		YES
 
 // FontsAndColor
 #define DEFAULT_MESSAGE_ANCHOR_HAS_UNDERLINE	YES
@@ -62,7 +61,6 @@
 #define DEFAULT_USE_KEYCHAIN			NO
 
 // Bundle
-#define DEFAULT_HELPER_APP			@"CMLogBuccaneer.app"
 #define DEFAULT_BW_BBSMENU_URL		@"http://azlucky.s25.xrea.com/2chboard/bbsmenu2.html"
 #define DEFAULT_BW_AUTOSYNC			NO
 #define DEFAULT_BW_SYNC_INTERVAL	BSAutoSyncByWeek
@@ -76,7 +74,7 @@
 #define DEFAULT_AAD_TRAET_AA_AS_SPAM		NO
 
 // ThreadsList
-#define DEFAULT_TLSEL_HOLDING_MASK			CMRAutoscrollWhenTLVMChange
+#define DEFAULT_TLSEL_HOLDING_MASK			CMRAutoscrollNone
 #define DEFAULT_TL_INCREMENTAL_SEARCH		YES
 #define DEFAULT_IKIOI_USES_LEVELINDICATOR	YES
 #define DEFAULT_TL_AUTORELOAD_WHEN_WAKE		NO

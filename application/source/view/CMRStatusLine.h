@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Updated by Tsutomu Sawada on 08/03/14.
-//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2009 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -13,7 +13,7 @@
 @class BSStatusLineView;
 
 @interface CMRStatusLine : NSObject {
-	NSString						*_identifier;
+//	NSString						*_identifier;
 	id								_delegate;
 	
 	IBOutlet BSStatusLineView		*_statusLineView;
@@ -21,10 +21,11 @@
 	IBOutlet NSObjectController		*_objectController;
 }
 
-- (id)initWithIdentifier:(NSString *)identifier;
+//- (id)initWithIdentifier:(NSString *)identifier;
+- (id)initWithDelegate:(id)delegate;
 
-- (NSString *)identifier;
-- (void)setIdentifier:(NSString *)anIdentifier;
+//- (NSString *)identifier;
+//- (void)setIdentifier:(NSString *)anIdentifier;
 
 - (id)delegate;
 - (void)setDelegate:(id)aDelegate;
@@ -38,4 +39,5 @@
 
 - (void)setupUIComponents;
 - (void)statusLineViewDidMoveToWindow;
+- (void)statusLineWillRemoveFromWindow;
 @end

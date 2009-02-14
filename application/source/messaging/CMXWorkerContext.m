@@ -1,14 +1,14 @@
 //: CMXWorkerContext.m
 /**
-  * $Id: CMXWorkerContext.m,v 1.1 2005/05/11 17:51:05 tsawada2 Exp $
+  * $Id: CMXWorkerContext.m,v 1.2 2009/02/14 18:46:15 tsawada2 Exp $
   * 
   * Copyright (c) 2001-2003, Takanori Ishikawa.  All rights reserved.
   * See the file LICENSE for copying permission.
   */
 
 #import "CMXWorkerContext.h"
-#import "CMXInternalMessaging.h"
-#import "CMXInternalMessaging_p.h"
+//#import "CMXInternalMessaging.h"
+//#import "CMXInternalMessaging_p.h"
 
 #import <AppKit/NSApplication.h>
 
@@ -307,7 +307,8 @@ enum {
 - (id<SGBaseQueue>) workQueue
 {
 	if (nil == _workQueue)
-		_workQueue = [[SGBaseQueue alloc] init];
+//		_workQueue = [[SGBaseQueue alloc] init];
+		_workQueue = [[SGBaseThreadSafeQueue alloc] init];
 	
 	return _workQueue;
 }

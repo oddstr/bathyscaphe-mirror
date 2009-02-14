@@ -37,6 +37,7 @@
 
 - (void)dealloc
 {
+//	NSLog(@"-dealloc Called (%@)", NSStringFromClass([self class]));
 	[self setMessage:nil];
 	[self setIdentifier:nil];
 	[self setLayout:nil];

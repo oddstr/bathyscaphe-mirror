@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRThreadsList.h,v 1.24 2008/11/30 15:51:33 tsawada2 Exp $
+  * $Id: CMRThreadsList.h,v 1.25 2009/02/14 18:46:15 tsawada2 Exp $
   * 
   * CMRThreadsList.h
   *
@@ -127,6 +127,6 @@ enum {
 @end
 
 // Notification
-extern NSString *const CMRThreadsListDidUpdateNotification;
+//extern NSString *const CMRThreadsListDidUpdateNotification;
 extern NSString *const CMRThreadsListDidChangeNotification;
 extern NSString *const ThreadsListUserInfoSelectionHoldingMaskKey;
