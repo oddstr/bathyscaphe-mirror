@@ -1,5 +1,5 @@
 /**
-  * $Id: AppDefaults.h,v 1.68 2009/02/01 13:46:07 tsawada2 Exp $
+  * $Id: AppDefaults.h,v 1.69 2009/02/16 15:35:33 tsawada2 Exp $
   * 
   * AppDefaults.h
   *
@@ -282,9 +282,9 @@ typedef enum _BSAutoSyncIntervalType {
 - (BOOL) canHEADCheck;
 
 /* GrafEisen Additions */
-- (NSTimeInterval) HEADCheckTimeInterval;
-- (void) setHEADCheckTimeInterval : (NSTimeInterval) interval;
-- (NSDate *) nextHEADCheckAvailableDate;
+//- (NSTimeInterval) HEADCheckTimeInterval;
+//- (void) setHEADCheckTimeInterval : (NSTimeInterval) interval;
+//- (NSDate *) nextHEADCheckAvailableDate;
 
 /* Twincam Angel Additions */
 - (BSThreadsListViewModeType)threadsListViewMode;

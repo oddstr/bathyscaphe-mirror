@@ -3,7 +3,7 @@
 // BathyScaphe
 //
 // Updated by Tsutomu Sawada on 08/06/28.
-// Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+// Copyright 2005-2009 BathyScaphe Project. All rights reserved.
 // encoding="UTF-8"
 //
 
@@ -15,7 +15,7 @@ static NSString *const AppDefaultsThreadsListAutoscrollMaskKey = @"Selection Hol
 static NSString *const AppDefaultsTLAutoReloadWhenWakeKey = @"Reload When Wake";
 
 static NSString *const AppDefaultsTLLastHEADCheckedDateKey = @"Last HEADCheck";
-static NSString *const AppDefaultsTLHEADCheckIntervalKey = @"HEADCheck Interval";
+static NSString *const AppDefaultsTLHEADCheckIntervalKey = @"HEADCheck Interval"; // Deprecated in Tenori Tiger.
 
 static NSString *const AppDefaultsTLViewModeKey = @"View Mode";
 
@@ -34,6 +34,8 @@ static NSString *const AppDefaultsUsesLevelIndicatorKey = @"UsesLevelIndicator";
 
 		dict_ = [[self defaults] dictionaryForKey:AppDefaultsThreadsListSettingsKey];
 		m_threadsListDictionary = [dict_ mutableCopy];
+		// Clean-up deprecated key (if exists)
+		[m_threadsListDictionary removeObjectForKey:AppDefaultsTLHEADCheckIntervalKey];
 	}
 	
 	if (!m_threadsListDictionary) {
@@ -113,19 +115,33 @@ static id AppDefaults_defaultBrowserListColumns(void)
 
 - (void)setLastHEADCheckedDate:(NSDate *)date
 {
-	[[self threadsListSettingsDictionary] setObject:date forKey:AppDefaultsTLLastHEADCheckedDateKey];
+	if (!date) {
+		[[self threadsListSettingsDictionary] removeObjectForKey:AppDefaultsTLLastHEADCheckedDateKey];
+	} else {
+		[[self threadsListSettingsDictionary] setObject:date forKey:AppDefaultsTLLastHEADCheckedDateKey];
+	}
 }
 
 - (BOOL)canHEADCheck
 {
 	NSDate *baseDate_ = [self lastHEADCheckedDate];
-	if (!baseDate_) return YES;
-
-	NSDate *curDate_ = [NSDate date];
-	NSDate *nextDate_ = [[[NSDate alloc] initWithTimeInterval:DEFAULT_HEADCHECK_INTERVAL sinceDate:baseDate_] autorelease];
-	return ([curDate_ compare:nextDate_] != NSOrderedAscending);
+	if (!baseDate_) {
+		return YES;
+	} else {
+		NSTimeInterval interval = [baseDate_ timeIntervalSinceNow];
+		double absInterval = fabs(interval);
+		if (absInterval > DEFAULT_HEADCHECK_INTERVAL) { // プラスマイナス5分以上
+			[self setLastHEADCheckedDate:nil]; // 忘れる
+			return YES;
+		} else {
+			return NO;
+		}
+	}
+//	NSDate *curDate_ = [NSDate date];
+//	NSDate *nextDate_ = [[[NSDate alloc] initWithTimeInterval:DEFAULT_HEADCHECK_INTERVAL sinceDate:baseDate_] autorelease];
+//	return ([curDate_ compare:nextDate_] != NSOrderedAscending);
 }
-
+/*
 - (NSTimeInterval)HEADCheckTimeInterval
 {
 	return [[self threadsListSettingsDictionary] doubleForKey:AppDefaultsTLHEADCheckIntervalKey defaultValue:DEFAULT_HEADCHECK_INTERVAL];
@@ -145,7 +161,7 @@ static id AppDefaults_defaultBrowserListColumns(void)
 		return [baseDate_ addTimeInterval:[self HEADCheckTimeInterval]];
 	}
 }
-
+*/
 - (BSThreadsListViewModeType)threadsListViewMode
 {
 	return [[self threadsListSettingsDictionary] integerForKey:AppDefaultsTLViewModeKey defaultValue:DEFAULT_TL_VIEW_MODE];

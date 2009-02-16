@@ -178,6 +178,7 @@
 		879784D60F188D3F00FA0B51 /* Info-reply.plist in Resources */ = {isa = PBXBuildFile; fileRef = 879784D50F188D3F00FA0B51 /* Info-reply.plist */; };
 		8797854A0F1A331A00FA0B51 /* BSThemePreView.h in Headers */ = {isa = PBXBuildFile; fileRef = 879785480F1A331A00FA0B51 /* BSThemePreView.h */; };
 		8797854B0F1A331A00FA0B51 /* BSThemePreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 879785490F1A331A00FA0B51 /* BSThemePreView.m */; };
+		87995ACE0F485A6200517C67 /* BSModalStatusWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 87995ACC0F485A6200517C67 /* BSModalStatusWindow.nib */; };
 		879B0B8C0B6237A400EFD6D0 /* BSThreadInfoPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 879B0B8A0B6237A400EFD6D0 /* BSThreadInfoPanel.nib */; };
 		879B0B930B6239EF00EFD6D0 /* BSThreadInfoPanelController.h in Headers */ = {isa = PBXBuildFile; fileRef = 879B0B910B6239EF00EFD6D0 /* BSThreadInfoPanelController.h */; };
 		879B0B940B6239EF00EFD6D0 /* BSThreadInfoPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 879B0B920B6239EF00EFD6D0 /* BSThreadInfoPanelController.m */; };
@@ -1060,6 +1061,7 @@
 		879784D50F188D3F00FA0B51 /* Info-reply.plist */ = {isa = PBXFileReference; explicitFileType = text.plist.xml; fileEncoding = 4; name = "Info-reply.plist"; path = "../../Info-reply.plist"; sourceTree = "<group>"; };
 		879785480F1A331A00FA0B51 /* BSThemePreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSThemePreView.h; sourceTree = "<group>"; };
 		879785490F1A331A00FA0B51 /* BSThemePreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSThemePreView.m; sourceTree = "<group>"; };
+		87995ACD0F485A6200517C67 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Resources/Japanese.lproj/BSModalStatusWindow.nib; sourceTree = "<group>"; };
 		879B0B8B0B6237A400EFD6D0 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BSThreadInfoPanel.nib; sourceTree = "<group>"; };
 		879B0B910B6239EF00EFD6D0 /* BSThreadInfoPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSThreadInfoPanelController.h; sourceTree = "<group>"; };
 		879B0B920B6239EF00EFD6D0 /* BSThreadInfoPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSThreadInfoPanelController.m; sourceTree = "<group>"; };
@@ -1215,7 +1217,7 @@
 		F324DBF004C6965500A80005 /* URLConnector_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = URLConnector_Prefix.h; sourceTree = "<group>"; };
 		F324DC2704C698FA00A80005 /* BoardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardManager.h; sourceTree = "<group>"; };
 		F324DC2904C698FA00A80005 /* BoardManager_p.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = BoardManager_p.h; sourceTree = "<group>"; };
-		F324DC2D04C698FA00A80005 /* Browser.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = Browser.h; sourceTree = "<group>"; };
+		F324DC2D04C698FA00A80005 /* Browser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Browser.h; sourceTree = "<group>"; };
 		F324DC2E04C698FA00A80005 /* Browser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Browser.m; sourceTree = "<group>"; };
 		F324DC3404C698FA00A80005 /* CMRBrowser-Action.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRBrowser-Action.m"; sourceTree = "<group>"; };
 		F324DC3504C698FA00A80005 /* CMRBrowser-Delegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMRBrowser-Delegate.m"; sourceTree = "<group>"; };
@@ -1640,6 +1642,7 @@
 				87016395082BE67200AEFDD0 /* Info-bathyscaphe.plist */,
 				8784673E0CE8739000691232 /* BSIPILeopardSlideshowHelper.plugin */,
 				87299C09083266F700CBD740 /* BathyScaphe.mdimporter */,
+				87995ACC0F485A6200517C67 /* BSModalStatusWindow.nib */,
 			);
 			name = iTteyoshi002;
 			sourceTree = "<group>";
@@ -3664,6 +3667,7 @@
 				873245080D60275200CF1705 /* BSLocalRulesPanel.nib in Resources */,
 				873245410D603C9A00CF1705 /* LocalRulesTemplate.html in Resources */,
 				87554BF10EE2CF1600EA2D90 /* CMRBrowser.nib in Resources */,
+				87995ACE0F485A6200517C67 /* BSModalStatusWindow.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4418,6 +4422,14 @@
 				8795B92008E3A7EC005C7C5B /* Japanese */,
 			);
 			name = ToolbarItems.strings;
+			sourceTree = "<group>";
+		};
+		87995ACC0F485A6200517C67 /* BSModalStatusWindow.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				87995ACD0F485A6200517C67 /* Japanese */,
+			);
+			name = BSModalStatusWindow.nib;
 			sourceTree = "<group>";
 		};
 		879B0B8A0B6237A400EFD6D0 /* BSThreadInfoPanel.nib */ = {

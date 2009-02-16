@@ -1,3 +1,13 @@
+2009-02-17 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/source/browser/Browser.m
+		データベースの再構築中にモーダルウインドウを表示し、ユーザが再構築が完了していないのに
+		BathyScaphe の各部を操作することがないようにした。
+	* application/Resources/Japanese.lproj/BSModalStatusWindow.nib
+		[新規追加] データベースの再構築中に表示するモーダルウインドウ用の nib ファイル。
+2009-02-15 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/source/preferences/AppDefaults-ThreadsList.m
+		HEADCheck の制限時間内かどうかの判定処理を修正した。
+=================================================
 2009-02-15 tsawada2 <tsawada2@users.sourceforge.jp>
 	* application/source/browser/BSDBThreadList.m
 	* application/source/browser/BSThreadsListOPTask.m

@@ -3,7 +3,7 @@
 //  BathyScaphe
 //
 //  Updated by Tsutomu Sawada on 08/02/10.
-//  Copyright 2005-2008 BathyScaphe Project. All rights reserved.
+//  Copyright 2005-2009 BathyScaphe Project. All rights reserved.
 //  encoding="UTF-8"
 //
 
@@ -97,11 +97,6 @@
 
 - (NSString *)displayName
 {
-/*	static NSString *base_ = nil;
-	if (!base_) {
-		base_ = [NSLocalizedStringFromTable(@"Board Info Format", @"ThreadsList", @"") retain];
-	}*/
-
 	BSDBThreadList		*list_ = [self currentThreadsList];
 	if (!list_) return [super displayName];
 	NSString *foo;
@@ -278,18 +273,38 @@
 
 - (void)rebuildThreadsListAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
-	if (returnCode == NSAlertFirstButtonReturn) {
-		[[NSNotificationCenter defaultCenter]
-			addObserver:self selector:@selector(rebuildingDidEnd:) name:CMRThreadsListDidChangeNotification object:[self currentThreadsList]];
-//			addObserver:self selector:@selector(rebuildingDidEnd:) name:BSDBThreadListDidFinishUpdateNotification object:[self currentThreadsList]];
-		[[self currentThreadsList] rebuildThreadsList];
+	if (returnCode != NSAlertFirstButtonReturn) {
+		// Canceled. Nothing to do.
+		return;
 	}
+
+	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+	[nc addObserver:self selector:@selector(rebuildingDidEnd:) name:CMRThreadsListDidChangeNotification object:[self currentThreadsList]];
+
+	if (!m_modalWindow) {
+		[NSBundle loadNibNamed:@"BSModalStatusWindow" owner:self];
+	}
+
+	[[alert window] orderOut:nil];
+
+	NSModalSession session = [NSApp beginModalSessionForWindow:m_modalWindow];
+	[m_fakeIndicator startAnimation:nil];
+	[[self currentThreadsList] rebuildThreadsList];
+	while (1) {
+		if ([NSApp runModalSession:session] != NSRunContinuesResponse) {
+			break;
+		}
+	}
+	[m_fakeIndicator stopAnimation:nil];
+	[NSApp endModalSession:session];
 }
 
 - (void)rebuildingDidEnd:(NSNotification *)notification
 {
-//	[[NSNotificationCenter defaultCenter] removeObserver:self name:BSDBThreadListDidFinishUpdateNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:CMRThreadsListDidChangeNotification object:nil];
+	[NSApp abortModal];
+	[m_modalWindow orderOut:nil];
+
 	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 	[alert setAlertStyle:NSInformationalAlertStyle];
 	[alert setMessageText:NSLocalizedStringFromTable(@"RebuildingEndAlert", @"ThreadsList", nil)];

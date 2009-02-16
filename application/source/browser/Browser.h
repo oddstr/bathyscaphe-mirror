@@ -1,42 +1,40 @@
-/**
-  * $Id: Browser.h,v 1.9 2008/11/30 15:51:33 tsawada2 Exp $
-  * 
-  * Browser.h
-  *
-  * Copyright (c) 2003, Takanori Ishikawa.
-  * See the file LICENSE for copying permission.
-  */
+//
+//  Browser.h
+//  BathyScaphe
+//
+//  Updated by Tsutomu Sawada on 09/02/17.
+//  Copyright 2005-2009 BathyScaphe Project. All rights reserved.
+//  encoding="UTF-8"
+//
+
 #import <Cocoa/Cocoa.h>
 #import "CocoMonar_Prefix.h"
 #import "CMRAbstructThreadDocument.h"
 
 @class CMRThreadsList, BSDBThreadList;
 
-
-
-@interface Browser : CMRAbstructThreadDocument
-{
+@interface Browser : CMRAbstructThreadDocument {
 	@private
 	BSDBThreadList			*m_currentThreadsList;
 	NSString				*m_searchString;
+
+	// Tenori Tiger Additions
+	// データベース再構築中のモーダルパネル
+	IBOutlet NSProgressIndicator	*m_fakeIndicator;
+	IBOutlet NSWindow				*m_modalWindow;
 }
-- (NSURL *) boardURL;
 
-- (BSDBThreadList *) currentThreadsList;
-- (void) setCurrentThreadsList : (BSDBThreadList *) newList;
+- (NSURL *)boardURL;
 
-- (void) reloadThreadsList;
+- (BSDBThreadList *)currentThreadsList;
+- (void)setCurrentThreadsList:(BSDBThreadList *)newList;
 
+- (void)reloadThreadsList;
 
-//- (BOOL) searchThreadsInListWithString : (NSString *) text;
-//- (void) sortThreadsByKey : (NSString *) key;
+- (NSString *)searchString;
+- (void)setSearchString:(NSString *)text;
 
-//- (void) toggleThreadsListIsAscending;
-//- (void) changeThreadsFilteringMask : (int) mask;
-
-- (NSString *) searchString;
-- (void) setSearchString: (NSString *) text;
-- (BOOL) searchThreadsInListWithCurrentSearchString;
+- (BOOL)searchThreadsInListWithCurrentSearchString;
 
 - (IBAction)toggleThreadsListViewMode:(id)sender;
 - (IBAction)cleanupDatochiFiles:(id)sender;
@@ -46,10 +44,10 @@
 
 /* for AppleScript */
 @interface Browser(ScriptingSupport)
-- (NSString *) boardURLAsString;
+- (NSString *)boardURLAsString;
 
-- (NSString *) boardNameAsString;
-- (void) setBoardNameAsString : (NSString *) boardNameStr;
+- (NSString *)boardNameAsString;
+- (void)setBoardNameAsString:(NSString *)boardNameStr;
 
 - (void)handleReloadListCommand:(NSScriptCommand*)command;
 - (void)handleReloadThreadCommand:(NSScriptCommand*)command;
