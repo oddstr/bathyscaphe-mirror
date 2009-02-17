@@ -1,3 +1,18 @@
+2009-02-17 masakih <masakih@users.sourceforge.jp>
+	* application/source/manager/DatabaseManager.m:
+	* application/source/manager/SQLiteDB.h:
+	* application/source/manager/SQLiteDB.m:
+		SQlite用NSZoneが正しく設定されていなかったのを修正。
+	* application/source/bbs/BoardListItem/SmartBLIEditorHelper.m:
+		スマート掲示板の編集時にBSDatePickerの値が正しく設定されていなかったのを修正。
+	* application/BathyScaphe.xcodeproj/project.pbxproj:
+		afpアクセス可能にするため、SQLITE_ENABLE_LOCKING_STYLE=1を有効にした。
+	* application/source/manager/DatabaseManager-DatabaseAccess.m:
+		何カ所かでデータベースアクセス失敗時にエラーを出すようにした
+	* application/source/manager/SQLiteDB.m:
+		valueForSTMT()にもgive upする機構を付けた。
+	* misc/sqlite/*:
+		sqliteをversion 3.5.9 に更新。
 2009-02-17 tsawada2 <tsawada2@users.sourceforge.jp>
 	* application/source/browser/Browser.m
 		データベースの再構築中にモーダルウインドウを表示し、ユーザが再構築が完了していないのに

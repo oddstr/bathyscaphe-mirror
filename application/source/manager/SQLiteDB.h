@@ -43,6 +43,10 @@
 	BOOL _transaction;
 }
 
+#ifdef USE_NSZONE_MALLOC
++ (NSZone *)allocateZone;
+#endif
+
 - (id) initWithDatabasePath : (NSString *) path;
 
 + (NSString *) prepareStringForQuery : (NSString *) inString;

@@ -54,26 +54,29 @@ static long sDatabaseFileVersion = 5;
 
 @implementation DatabaseManager
 
+static NSZone *allocateZone = NULL;
+
 #ifdef USE_NSZONE_MALLOC
 extern void setSQLiteZone(NSZone *zone);
+
++ (void)initialize
+{
+	BOOL isFirst = YES;
+	
+	if(isFirst) {
+		isFirst = NO;
+		
+		allocateZone = [SQLiteDB allocateZone];
+	}
+}
 #endif
+
 + (id) defaultManager
 {
 	static id _instance = nil;
 	
 	if (!_instance) {
-#ifdef USE_NSZONE_MALLOC
-		NSZone *zone;
-		
-		zone = NSCreateZone(NSPageSize(), NSPageSize(), NO);
-		NSAssert(zone, @"Can NOT allocate zone.");
-		
-		NSSetZoneName(zone, @"DatabaseManager Zone");
-		setSQLiteZone(zone);
-		_instance = [[self allocWithZone : zone] init];
-#else
-		_instance = [[self alloc] init];
-#endif		
+		_instance = [[self allocWithZone : allocateZone] init];
 		if([_instance respondsToSelector:@selector(registNotifications)]) {
 			[_instance performSelector:@selector(registNotifications)];
 		}

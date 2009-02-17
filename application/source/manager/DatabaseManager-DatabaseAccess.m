@@ -258,6 +258,8 @@ static NSLock *boardIDNumberCacheLock = nil;
 
 - (BOOL) registerBoardName : (NSString *) name URLString : (NSString *) urlString
 {
+	BOOL result = NO;
+	
 	NSMutableString *query;
 	NSString *prepareName;
 	NSString *prepareURL;
@@ -289,25 +291,34 @@ static NSLock *boardIDNumberCacheLock = nil;
 		BoardIDColumn, BoardInfoTableName, prepareName, prepareURL];
 	[db performQuery : query];
 	
-	return ([db lastErrorID] == 0);
+	result = ([db lastErrorID] == 0);
+	if(!result) {
+		NSLog(@"Fail registerBoard.\nReson: %@", [db lastError]);
+	}
+	return result;
 }
 
 /*- (BOOL)deleteBoardOfBoardID:(unsigned)boardID
 {
-	SQLiteDB	*database;
+	SQLiteDB	*db;
 	NSString	*query;
 
 	[self recache];
 	
-	database = [self databaseForCurrentThread];
-	if (!database) {
+	db = [self databaseForCurrentThread];
+	if (!db) {
 		return NO;
 	}
 
 	query = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ = %u", BoardInfoTableName, BoardIDColumn, boardID];
-	[database performQuery:query];
+	[db performQuery:query];
 
-	return ([database lastErrorID] == 0);
+	BOOL result = ([db lastErrorID] == 0);
+	if(!result) {
+		NSLog(@"Fail deleteBoard.\nReson: %@", [db lastError]);
+	}
+	return result;
+}
 }*/
 
 /*

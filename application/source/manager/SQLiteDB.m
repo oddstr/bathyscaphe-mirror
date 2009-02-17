@@ -73,6 +73,32 @@ int progressHandler(void *obj)
 	return SQLITE_OK;
 }
 
+
+
+static NSZone *allocateZone = NULL;
++ (NSZone *)allocateZone
+{
+	return allocateZone;
+}
+#ifdef USE_NSZONE_MALLOC
+extern void setSQLiteZone(NSZone *zone);
+
++ (void)initialize
+{
+	BOOL isFirst = YES;
+	
+	if(isFirst) {
+		isFirst = NO;
+		
+		allocateZone = NSCreateZone(NSPageSize(), NSPageSize(), NO);
+		NSAssert(allocateZone, @"Can NOT allocate zone.");
+		
+		NSSetZoneName(allocateZone, @"SQLite Zone");
+		setSQLiteZone(allocateZone);
+	}
+}
+#endif
+
 + (NSString *) prepareStringForQuery : (NSString *) inString
 {
 	NSString *str;
@@ -269,6 +295,7 @@ NSArray *valuesForSTMT(sqlite3_stmt *stmt, NSArray *culumns)
 								  &kCFTypeArrayCallBacks);
 	if(!values) return nil;
 	
+	int busyCount = 0;
 	do {
 		BOOL updateCursor = NO;
 		
@@ -276,18 +303,22 @@ NSArray *valuesForSTMT(sqlite3_stmt *stmt, NSArray *culumns)
 		
 		switch (result) {
 			case SQLITE_BUSY :
+				busyCount++;
 				break;
 			case SQLITE_OK :
 			case SQLITE_DONE :
 				finishFetch = YES;
+				busyCount = 0;
 				break;
 			case SQLITE_ROW :
 				updateCursor = YES;
+				busyCount = 0;
 				break;
 			case SQLITE_SCHEMA:
 				continue;
 			default :
 				//				sqlite3_finalize(stmt);
+				CFRelease(values);
 				return nil;
 				break;
 		}
@@ -297,6 +328,12 @@ NSArray *valuesForSTMT(sqlite3_stmt *stmt, NSArray *culumns)
 			if (dict) {
 				CFArrayAppendValue(values, dict);
 			}
+		}
+		
+		if(busyCount>1000) {
+			fprintf(stderr, "Give up! sqlite3_step() return SQLITE_BUSY thousand times.\n");
+			CFRelease(values);
+			return nil;
 		}
 		
 	} while (!finishFetch);

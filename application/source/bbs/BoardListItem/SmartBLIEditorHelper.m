@@ -754,7 +754,7 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 			if(tag == [subview tag]) return subview;
 		}
 	}
-	
+		
 	return nil;
 }
 
@@ -810,7 +810,7 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 			strValue = [field stringValue];
 			if([strValue length] != 0) {
 				NSTimeInterval t = [field epoch];
-				value1 = [NSNumber numberWithInt:t];
+				value1 = [NSNumber numberWithDouble:t];
 			}
 		} else {
 			//
@@ -1286,6 +1286,21 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 	
 	return YES;
 }
+- (BOOL)setAbsoluteDateValueFromCondition:(SmartCondition *)condition
+{
+	NSNumber *v1 = [condition value];
+	NSNumber *v2 = [condition value2];	
+			
+	id valueCtrl = [self uiItemForTag:dateExpressionFieldTag];
+	[valueCtrl setDate:[NSCalendarDate dateWithTimeIntervalSince1970:[v1 doubleValue]]];
+	
+	if(v2) {
+		valueCtrl = [self uiItemForTag:dateExpression2FieldTag];
+		[valueCtrl setDate:[NSCalendarDate dateWithTimeIntervalSince1970:[v2 doubleValue]]];
+	}
+	
+	return YES;
+}
 
 - (BOOL)buildAHelperFromSmartCondition:(SmartCondition *)condition
 {
@@ -1329,6 +1344,9 @@ static inline void moveViewLeftSideViewOnSuperView( NSView *target, NSView *left
 	
 	if([condition isKindOfClass:[RelativeDateLiveCondition class]]) {
 		return [self setRelaviceDateValueFromCondition:condition];
+	}
+	if([condition isKindOfClass:[AbsoluteDateLiveCondition class]]) {
+		return [self setAbsoluteDateValueFromCondition:condition];
 	}
 	
 	valueCtrlTag = [self valueFieldTagFromCondition:condition];

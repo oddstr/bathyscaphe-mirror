@@ -257,6 +257,13 @@
 		87FB61D20D8AC3FD00861DD8 /* BSStatusLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87FB61D00D8AC3FD00861DD8 /* BSStatusLineView.m */; };
 		87FBC1EF0D57676F0097660D /* BSQuickLookObject_p.h in Headers */ = {isa = PBXBuildFile; fileRef = 87FBC1EE0D57676F0097660D /* BSQuickLookObject_p.h */; };
 		87FC678A0C682E9A00A4C72C /* DownloadableLinkTypes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FC67890C682E9A00A4C72C /* DownloadableLinkTypes.plist */; };
+		F42A958D0E22521B00F96C29 /* bitvec.c in Sources */ = {isa = PBXBuildFile; fileRef = F42A95860E22521B00F96C29 /* bitvec.c */; };
+		F42A958E0E22521B00F96C29 /* btmutex.c in Sources */ = {isa = PBXBuildFile; fileRef = F42A95870E22521B00F96C29 /* btmutex.c */; };
+		F42A958F0E22521B00F96C29 /* fault.c in Sources */ = {isa = PBXBuildFile; fileRef = F42A95880E22521B00F96C29 /* fault.c */; };
+		F42A95900E22521B00F96C29 /* loadext.c in Sources */ = {isa = PBXBuildFile; fileRef = F42A95890E22521B00F96C29 /* loadext.c */; };
+		F42A95910E22521B00F96C29 /* mem1.c in Sources */ = {isa = PBXBuildFile; fileRef = F42A958A0E22521B00F96C29 /* mem1.c */; };
+		F42A95920E22521B00F96C29 /* mutex.c in Sources */ = {isa = PBXBuildFile; fileRef = F42A958B0E22521B00F96C29 /* mutex.c */; };
+		F42A95930E22521B00F96C29 /* mutex_unix.c in Sources */ = {isa = PBXBuildFile; fileRef = F42A958C0E22521B00F96C29 /* mutex_unix.c */; };
 		87FE04980E69C0CB001CD0FF /* Exif16.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87FE04960E69C0CB001CD0FF /* Exif16.tiff */; };
 		F42BD5AB0C70B1F7000AE1F8 /* malloc.c in Sources */ = {isa = PBXBuildFile; fileRef = F42BD5A90C70B1F7000AE1F8 /* malloc.c */; };
 		F42BD5AF0C70B21F000AE1F8 /* vtab.c in Sources */ = {isa = PBXBuildFile; fileRef = F42BD5AD0C70B21F000AE1F8 /* vtab.c */; };
@@ -1446,6 +1453,13 @@
 		F41308B80A8E27A400740620 /* BSThreadsListOPTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSThreadsListOPTask.h; sourceTree = "<group>"; };
 		F41308B90A8E27A400740620 /* BSThreadsListOPTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSThreadsListOPTask.m; sourceTree = "<group>"; };
 		F424609808462452000803EA /* Scripts.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Scripts.tiff; sourceTree = "<group>"; };
+		F42A95860E22521B00F96C29 /* bitvec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bitvec.c; sourceTree = "<group>"; };
+		F42A95870E22521B00F96C29 /* btmutex.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = btmutex.c; sourceTree = "<group>"; };
+		F42A95880E22521B00F96C29 /* fault.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fault.c; sourceTree = "<group>"; };
+		F42A95890E22521B00F96C29 /* loadext.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = loadext.c; sourceTree = "<group>"; };
+		F42A958A0E22521B00F96C29 /* mem1.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; path = mem1.c; sourceTree = "<group>"; };
+		F42A958B0E22521B00F96C29 /* mutex.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mutex.c; sourceTree = "<group>"; };
+		F42A958C0E22521B00F96C29 /* mutex_unix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mutex_unix.c; sourceTree = "<group>"; };
 		F42BD5A90C70B1F7000AE1F8 /* malloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = malloc.c; path = ../misc/sqlite/malloc.c; sourceTree = SOURCE_ROOT; };
 		F42BD5AD0C70B21F000AE1F8 /* vtab.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vtab.c; sourceTree = "<group>"; };
 		F42BD6290C70C109000AE1F8 /* btreeInt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = btreeInt.h; sourceTree = "<group>"; };
@@ -1476,7 +1490,7 @@
 		F47A66680AFF7EFA00EB5137 /* opcodes.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = opcodes.c; path = ../misc/sqlite/opcodes.c; sourceTree = SOURCE_ROOT; };
 		F47A66690AFF7EFA00EB5137 /* opcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = opcodes.h; path = ../misc/sqlite/opcodes.h; sourceTree = SOURCE_ROOT; };
 		F47A666A0AFF7EFA00EB5137 /* os_common.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = os_common.h; path = ../misc/sqlite/os_common.h; sourceTree = SOURCE_ROOT; };
-		F47A666B0AFF7EFA00EB5137 /* os_unix.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = os_unix.c; path = ../misc/sqlite/os_unix.c; sourceTree = SOURCE_ROOT; };
+		F47A666B0AFF7EFA00EB5137 /* os_unix.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = os_unix.c; path = ../misc/sqlite/os_unix.c; sourceTree = SOURCE_ROOT; };
 		F47A666C0AFF7EFA00EB5137 /* os.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = os.c; path = ../misc/sqlite/os.c; sourceTree = SOURCE_ROOT; };
 		F47A666D0AFF7EFA00EB5137 /* os.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = os.h; path = ../misc/sqlite/os.h; sourceTree = SOURCE_ROOT; };
 		F47A666E0AFF7EFA00EB5137 /* pager.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pager.c; path = ../misc/sqlite/pager.c; sourceTree = SOURCE_ROOT; };
@@ -2961,6 +2975,13 @@
 		F47A664A0AFF7EC700EB5137 /* sqlite */ = {
 			isa = PBXGroup;
 			children = (
+				F42A95860E22521B00F96C29 /* bitvec.c */,
+				F42A95870E22521B00F96C29 /* btmutex.c */,
+				F42A95880E22521B00F96C29 /* fault.c */,
+				F42A95890E22521B00F96C29 /* loadext.c */,
+				F42A958A0E22521B00F96C29 /* mem1.c */,
+				F42A958B0E22521B00F96C29 /* mutex.c */,
+				F42A958C0E22521B00F96C29 /* mutex_unix.c */,
 				F42BD6290C70C109000AE1F8 /* btreeInt.h */,
 				F42BD5AD0C70B21F000AE1F8 /* vtab.c */,
 				F42BD5A90C70B1F7000AE1F8 /* malloc.c */,
@@ -3813,6 +3834,13 @@
 				F42BD5AF0C70B21F000AE1F8 /* vtab.c in Sources */,
 				F42BD5B80C70B279000AE1F8 /* legacy.c in Sources */,
 				F42BD5C50C70B29E000AE1F8 /* opcodes.c in Sources */,
+				F42A958D0E22521B00F96C29 /* bitvec.c in Sources */,
+				F42A958E0E22521B00F96C29 /* btmutex.c in Sources */,
+				F42A958F0E22521B00F96C29 /* fault.c in Sources */,
+				F42A95900E22521B00F96C29 /* loadext.c in Sources */,
+				F42A95910E22521B00F96C29 /* mem1.c in Sources */,
+				F42A95920E22521B00F96C29 /* mutex.c in Sources */,
+				F42A95930E22521B00F96C29 /* mutex_unix.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4915,6 +4943,7 @@
 				GCC_MODEL_TUNING = "";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
+					"SQLITE_ENABLE_LOCKING_STYLE=1",
 					"SQLITE_OMIT_INCRBLOB=1",
 					"SQLITE_OMIT_UTF16=1",
 					"SQLITE_OMIT_AUTHORIZATION=1",
@@ -4943,6 +4972,7 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
+					"SQLITE_ENABLE_LOCKING_STYLE=1",
 					"SQLITE_OMIT_INCRBLOB=1",
 					"SQLITE_OMIT_UTF16=1",
 					"SQLITE_OMIT_AUTHORIZATION=1",
@@ -4969,6 +4999,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
+					"SQLITE_ENABLE_LOCKING_STYLE=1",
 					"SQLITE_OMIT_INCRBLOB=1",
 					"SQLITE_OMIT_UTF16=1",
 					"SQLITE_OMIT_AUTHORIZATION=1",
