@@ -225,7 +225,7 @@
 			<key>nofirst</key>
 			<string>NOFIRST</string>
 			<key>relativePath</key>
-			<string>../bbs/read.pl</string>
+			<string>../bbs/read.cgi</string>
 			<key>start</key>
 			<string>START</string>
 			<key>true</key>

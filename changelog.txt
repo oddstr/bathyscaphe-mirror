@@ -1,3 +1,10 @@
+2009-03-01 tsawada2 <tsawada2@users.sourceforge.jp>
+	* application/source/composer/CMRAttributedMessageComposer.m
+		-[NSAttributedString initWithHTML:〜] メソッドは使用しないようにした。
+	* application/Resources/Japanese.lproj/board_default.plist
+		最新のものに更新。
+	* application/Resources/text/HostProperties.plist
+		まちBBSの定義を修正。
 2009-02-17 masakih <masakih@users.sourceforge.jp>
 	* application/source/manager/DatabaseManager.m:
 	* application/source/manager/SQLiteDB.h:

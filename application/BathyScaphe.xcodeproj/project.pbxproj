@@ -257,6 +257,7 @@
 		87FB61D20D8AC3FD00861DD8 /* BSStatusLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87FB61D00D8AC3FD00861DD8 /* BSStatusLineView.m */; };
 		87FBC1EF0D57676F0097660D /* BSQuickLookObject_p.h in Headers */ = {isa = PBXBuildFile; fileRef = 87FBC1EE0D57676F0097660D /* BSQuickLookObject_p.h */; };
 		87FC678A0C682E9A00A4C72C /* DownloadableLinkTypes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FC67890C682E9A00A4C72C /* DownloadableLinkTypes.plist */; };
+		87FE04980E69C0CB001CD0FF /* Exif16.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87FE04960E69C0CB001CD0FF /* Exif16.tiff */; };
 		F42A958D0E22521B00F96C29 /* bitvec.c in Sources */ = {isa = PBXBuildFile; fileRef = F42A95860E22521B00F96C29 /* bitvec.c */; };
 		F42A958E0E22521B00F96C29 /* btmutex.c in Sources */ = {isa = PBXBuildFile; fileRef = F42A95870E22521B00F96C29 /* btmutex.c */; };
 		F42A958F0E22521B00F96C29 /* fault.c in Sources */ = {isa = PBXBuildFile; fileRef = F42A95880E22521B00F96C29 /* fault.c */; };
@@ -264,7 +265,6 @@
 		F42A95910E22521B00F96C29 /* mem1.c in Sources */ = {isa = PBXBuildFile; fileRef = F42A958A0E22521B00F96C29 /* mem1.c */; };
 		F42A95920E22521B00F96C29 /* mutex.c in Sources */ = {isa = PBXBuildFile; fileRef = F42A958B0E22521B00F96C29 /* mutex.c */; };
 		F42A95930E22521B00F96C29 /* mutex_unix.c in Sources */ = {isa = PBXBuildFile; fileRef = F42A958C0E22521B00F96C29 /* mutex_unix.c */; };
-		87FE04980E69C0CB001CD0FF /* Exif16.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 87FE04960E69C0CB001CD0FF /* Exif16.tiff */; };
 		F42BD5AB0C70B1F7000AE1F8 /* malloc.c in Sources */ = {isa = PBXBuildFile; fileRef = F42BD5A90C70B1F7000AE1F8 /* malloc.c */; };
 		F42BD5AF0C70B21F000AE1F8 /* vtab.c in Sources */ = {isa = PBXBuildFile; fileRef = F42BD5AD0C70B21F000AE1F8 /* vtab.c */; };
 		F42BD5B80C70B279000AE1F8 /* legacy.c in Sources */ = {isa = PBXBuildFile; fileRef = F47A66660AFF7EFA00EB5137 /* legacy.c */; };
@@ -1656,7 +1656,6 @@
 				87016395082BE67200AEFDD0 /* Info-bathyscaphe.plist */,
 				8784673E0CE8739000691232 /* BSIPILeopardSlideshowHelper.plugin */,
 				87299C09083266F700CBD740 /* BathyScaphe.mdimporter */,
-				87995ACC0F485A6200517C67 /* BSModalStatusWindow.nib */,
 			);
 			name = iTteyoshi002;
 			sourceTree = "<group>";
@@ -1802,6 +1801,7 @@
 				87C4813D08FD05A300F91054 /* AddBoardSheet.nib */,
 				87BD58E70AAC58D700F6412D /* EditBoardSheet.nib */,
 				879B0B8A0B6237A400EFD6D0 /* BSThreadInfoPanel.nib */,
+				87995ACC0F485A6200517C67 /* BSModalStatusWindow.nib */,
 				F4D8CB660B33021C00B8FDB7 /* SmartBoardListItemEditor.strings */,
 				872998E20832617E00CBD740 /* AlertPanel.strings */,
 				872998EE0832617F00CBD740 /* browserListColumns.plist */,
@@ -4458,6 +4458,7 @@
 				87995ACD0F485A6200517C67 /* Japanese */,
 			);
 			name = BSModalStatusWindow.nib;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		879B0B8A0B6237A400EFD6D0 /* BSThreadInfoPanel.nib */ = {

@@ -275,6 +275,16 @@ static NSString *const kIPIPrefsNibFileNameKey	= @"BSIPIPreferences";
 	CFRelease(extensionRef);
 
 	return [[NSImage imageFileTypes] containsObject:extension];
+/*	NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:anURL cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:10.0];
+	[req setHTTPMethod:@"HEAD"];
+	NSURLResponse *rep;
+	NSError *err;
+	if ([NSURLConnection sendSynchronousRequest:req returningResponse:&rep error:&err]) {
+		return [[rep MIMEType] hasPrefix:@"image"];
+	} else {
+		[[NSAlert alertWithError:err] runModal];
+		return NO;
+	}*/
 }
 
 #pragma mark Notifications

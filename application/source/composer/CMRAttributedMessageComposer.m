@@ -1,5 +1,5 @@
 /**
-  * $Id: CMRAttributedMessageComposer.m,v 1.30 2008/11/30 15:51:33 tsawada2 Exp $
+  * $Id: CMRAttributedMessageComposer.m,v 1.31 2009/02/28 15:50:04 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -281,22 +281,17 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 	dateRep = [aMessage dateRepresentation];
 
 	if (dateRep) {
-		NSRange	anchor_ = [dateRep rangeOfString : @"<a href=" options : (NSCaseInsensitiveSearch|NSLiteralSearch)];
+		NSRange	anchor_ = [dateRep rangeOfString:@"<a href=\"http://2ch.se/\">" options:(NSCaseInsensitiveSearch|NSLiteralSearch)];
 		if (anchor_.length != 0) {
 			NSRange anchorEnd_;
+			NSRange foo;
 			anchorEnd_ = [dateRep rangeOfString : @"</a>" options: (NSCaseInsensitiveSearch|NSLiteralSearch|NSBackwardsSearch)];
-			
-			if (anchorEnd_.length != 0) {
-				anchor_.length = anchorEnd_.location - anchor_.location + anchorEnd_.length;
-	
-				anchorStr = [dateRep substringWithRange : anchor_];
-
-				[tmp setString : [dateRep substringToIndex : anchor_.location]];
-			} else {
-				[tmp setString : dateRep];
-			}
+			foo.location = NSMaxRange(anchor_);
+			foo.length = anchorEnd_.location - NSMaxRange(anchor_);
+			anchorStr = [dateRep substringWithRange:foo];
+			[tmp setString:[dateRep substringToIndex:anchor_.location]];
 		} else {
-			[tmp setString : dateRep];
+			[tmp setString:dateRep];
 		}
 	} else {
 //		[tmp setString: dateStringFromObject([aMessage date], [aMessage datePrefix])];
@@ -306,16 +301,18 @@ static void simpleAppendFieldItem(NSMutableAttributedString *ms, NSString *title
 	simpleAppendFieldItem([self contentsStorage], FIELD_DATE, tmp);
 
 	if (anchorStr) {
-		NSDictionary *attr_ = nil;
-		NSData *data_ = [anchorStr dataUsingEncoding : NSUnicodeStringEncoding];
+//		NSDictionary *attr_ = nil;
+//		NSData *data_ = [anchorStr dataUsingEncoding : NSUnicodeStringEncoding];
 
-		NSMutableAttributedString *result_ = [[NSMutableAttributedString alloc] initWithHTML: data_ documentAttributes: &attr_];
-		if(!result_) return;
+//		NSMutableAttributedString *result_ = [[NSMutableAttributedString alloc] initWithHTML: data_ documentAttributes: &attr_];
+		NSMutableAttributedString *result_ = [[NSMutableAttributedString alloc] initWithString:anchorStr];
+//		if(!result_) return;
 
 		NSRange	anchorRange = NSMakeRange(0, [result_ length]);
 		NSMutableAttributedString	*contentsStorage_ = [self contentsStorage];
 
-		[result_ removeAttribute : NSUnderlineStyleAttributeName range : anchorRange];
+//		[result_ removeAttribute : NSUnderlineStyleAttributeName range : anchorRange];
+		[result_ addAttribute:NSLinkAttributeName value:[NSURL URLWithString:@"http://2ch.se/"]];
 		[result_ addAttributes : [ATTR_TEMPLATE attributesForText] range : anchorRange];
 
 		[contentsStorage_ insertAttributedString:result_ atIndex: ([contentsStorage_ length] -1)];

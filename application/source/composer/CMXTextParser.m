@@ -1,5 +1,5 @@
 /**
-  * $Id: CMXTextParser.m,v 1.29 2008/07/17 14:13:51 tsawada2 Exp $
+  * $Id: CMXTextParser.m,v 1.30 2009/02/28 15:50:04 tsawada2 Exp $
   * BathyScaphe
   *
   * Copyright 2005-2006 BathyScaphe Project. All rights reserved.
@@ -572,7 +572,6 @@ static BOOL divideField(NSString *field, NSString **datePart, NSString **milliSe
 	OGRegularExpressionMatch *match = [regExp matchInString: field];
 	if (match) {
 		NSString *tmpDate, *tmpMilliSec, *tmpStock, *tmpExtra, *dateRep;
-		
 		tmpDate = [match substringAtIndex: 1];
 		tmpMilliSec = [match substringAtIndex: 2];
 		tmpStock = [match substringAtIndex: 3];
